@@ -102,7 +102,7 @@ sheet_object_line_new (gboolean is_arrow)
 {
 	SheetObjectGraphic *sog;
 
-	sog = gtk_type_new (SHEET_OBJECT_GRAPHIC_TYPE);
+	sog = g_object_new (SHEET_OBJECT_GRAPHIC_TYPE, NULL);
 	sog->type = is_arrow ? SHEET_OBJECT_ARROW : SHEET_OBJECT_LINE;
 
 	return SHEET_OBJECT (sog);
@@ -242,7 +242,7 @@ sheet_object_graphic_clone (SheetObject const *so, Sheet *sheet)
 	g_return_val_if_fail (IS_SHEET_OBJECT_GRAPHIC (so), NULL);
 	sog = SHEET_OBJECT_GRAPHIC (so);
 
-	new_sog = SHEET_OBJECT_GRAPHIC (gtk_type_new (GTK_OBJECT_TYPE (sog)));
+	new_sog = g_object_new (GTK_OBJECT_TYPE (sog), NULL);
 
 	new_sog->type  = sog->type;
 	new_sog->width = sog->width;
@@ -646,7 +646,7 @@ sheet_object_box_new (gboolean is_oval)
 	SheetObjectFilled *sof;
 	SheetObjectGraphic *sog;
 
-	sof = gtk_type_new (SHEET_OBJECT_FILLED_TYPE);
+	sof = g_object_new (SHEET_OBJECT_FILLED_TYPE, NULL);
 
 	sog = SHEET_OBJECT_GRAPHIC (sof);
 	sog->type = is_oval ? SHEET_OBJECT_OVAL : SHEET_OBJECT_BOX;

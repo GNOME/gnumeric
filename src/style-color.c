@@ -161,10 +161,10 @@ gnumeric_color_init (void)
 	gdk_color_white (colormap, &gs_white);
 	gdk_color_black (colormap, &gs_black);
 
-	e_color_alloc_name ("gray78",  &gs_light_gray);
-	e_color_alloc_name ("gray20",  &gs_dark_gray);
-	e_color_alloc_name ("red",     &gs_red);
-	e_color_alloc_name ("lavender",&gs_lavender);
+	e_color_alloc_name (NULL, "gray78",  &gs_light_gray);
+	e_color_alloc_name (NULL, "gray20",  &gs_dark_gray);
+	e_color_alloc_name (NULL, "red",     &gs_red);
+	e_color_alloc_name (NULL, "lavender",&gs_lavender);
 
 	style_color_hash  = g_hash_table_new (color_hash, color_equal);
 

@@ -505,9 +505,12 @@ item_edit_destroy (GtkObject *o)
 	item_edit_cursor_blink_stop (item_edit);
 	entry_destroy_feedback_range (item_edit);
 
-	gtk_signal_disconnect (GTK_OBJECT (entry), item_edit->signal_changed);
-	gtk_signal_disconnect (GTK_OBJECT (entry), item_edit->signal_key_press);
-	gtk_signal_disconnect (GTK_OBJECT (entry), item_edit->signal_button_press);
+	if (item_edit->signal_changed != 0) {
+		gtk_signal_disconnect (GTK_OBJECT (entry), item_edit->signal_changed);
+		gtk_signal_disconnect (GTK_OBJECT (entry), item_edit->signal_key_press);
+		gtk_signal_disconnect (GTK_OBJECT (entry), item_edit->signal_button_press);
+		item_edit->signal_changed = 0;
+	}
 
 	if (GTK_OBJECT_CLASS (item_edit_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (item_edit_parent_class)->destroy)(o);

@@ -274,7 +274,7 @@ dialog_destroy (GtkObject *w, GoalSeekState  *state)
 	}
 	
 	if (state->gui != NULL) {
-		gtk_object_unref (GTK_OBJECT (state->gui));
+		g_object_unref (G_OBJECT (state->gui));
 		state->gui = NULL;
 	}
 

@@ -41,8 +41,7 @@
 #include "item-acetate.h"
 #include "item-bar.h"
 #include "item-cursor.h"
-#include "widgets/gnumeric-vscrollbar.h"
-#include "widgets/gnumeric-hscrollbar.h"
+#include "item-acetate.h"
 #include "widgets/gnumeric-expr-entry.h"
 
 #include <libgnome/gnome-i18n.h>
@@ -201,10 +200,13 @@ scg_setup_group_buttons (SheetControlGUI *scg, unsigned max_outline,
 		g_free (tmp);
 	}
 
-	style = gtk_style_new ();
-	gdk_font_unref (style->font);
-	style->font = item_bar_normal_font (ib);
-	gdk_font_ref (style->font);
+	{
+		StyleFont const *sf = item_bar_normal_font (ib);
+		style = gtk_style_new ();
+		if (style->font_desc)
+			pango_font_description_free (style->font_desc);
+		style->font_desc = pango_font_description_copy (sf->pango.desc);
+	}
 
 	/* size all of the button so things work after a zoom */
 	for (i = 0 ; i < btns->len ; i++) {
@@ -598,7 +600,7 @@ cb_table_destroy (GtkObject *table, SheetControlGUI *scg)
 	for (i = scg->active_panes; i-- > 0 ; )
 		scg->pane[i].gcanvas = NULL;
 
-	gtk_object_unref (GTK_OBJECT (scg));
+	g_object_unref (G_OBJECT (scg));
 }
 
 static void
@@ -1059,7 +1061,7 @@ sheet_control_gui_new (Sheet *sheet)
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
-	scg = gtk_type_new (sheet_control_gui_get_type ());
+	scg = g_object_new (sheet_control_gui_get_type (), NULL);
 
 	scg->active_panes = 1;
 	i = sizeof (scg->control_points)/sizeof(GnomeCanvasItem *);
@@ -1120,14 +1122,16 @@ sheet_control_gui_new (Sheet *sheet)
 	/* Scroll bars and their adjustments */
 	scg->va = gtk_adjustment_new (0., 0., 1, 1., 1., 1.);
 	scg->ha = gtk_adjustment_new (0., 0., 1, 1., 1., 1.);
-	scg->vs = gnumeric_vscrollbar_new (GTK_ADJUSTMENT (scg->va));
-	scg->hs = gnumeric_hscrollbar_new (GTK_ADJUSTMENT (scg->ha));
+	scg->vs = gtk_vscrollbar_new (GTK_ADJUSTMENT (scg->va));
+	scg->hs = gtk_hscrollbar_new (GTK_ADJUSTMENT (scg->ha));
+#if 0
 	gtk_signal_connect (GTK_OBJECT (scg->vs), "offset_changed",
 		GTK_SIGNAL_FUNC (vertical_scroll_offset_changed),
 		scg);
 	gtk_signal_connect (GTK_OBJECT (scg->hs), "offset_changed",
 		GTK_SIGNAL_FUNC (horizontal_scroll_offset_changed),
 		scg);
+#endif
 
 	scg->table = GTK_TABLE (gtk_table_new (4, 4, FALSE));
 	gtk_object_set_data (GTK_OBJECT (scg->table), SHEET_CONTROL_KEY, scg);
@@ -1159,7 +1163,7 @@ sheet_control_gui_new (Sheet *sheet)
 }
 
 static void
-scg_destroy (GtkObject *object)
+scg_finalize (GObject *object)
 {
 	SheetControlGUI *scg = SHEET_CONTROL_GUI (object);
 	SheetControl *sc = (SheetControl *) scg;
@@ -1172,8 +1176,8 @@ scg_destroy (GtkObject *object)
 	
 	/* FIXME : Should we be pedantic and clear the control points ? */
 
-	if (GTK_OBJECT_CLASS (scg_parent_class)->destroy)
-		(*GTK_OBJECT_CLASS (scg_parent_class)->destroy)(object);
+	if (G_OBJECT_CLASS (scg_parent_class)->finalize)
+		(*G_OBJECT_CLASS (scg_parent_class)->finalize)(object);
 }
 
 static void
@@ -1277,15 +1281,10 @@ scg_adjust_preferences (SheetControl *sc)
 StyleFont *
 scg_get_style_font (Sheet const *sheet, MStyle const *mstyle)
 {
-	/* Scale the font size by the average scaling factor for the
-	 * display.  72dpi is base size
-	 */
-	double const res  = application_dpi_to_pixels ();
-
 	/* When previewing sheet can == NULL */
 	double const zoom = (sheet) ? sheet->last_zoom_factor_used : 1.;
 
-	return mstyle_get_font (mstyle, zoom * res);
+	return mstyle_get_font (mstyle, zoom);
 }
 
 /***************************************************************************/
@@ -1546,7 +1545,7 @@ scg_mode_clear (SheetControlGUI *scg)
 	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), FALSE);
 
 	if (scg->new_object != NULL) {
-		gtk_object_unref (GTK_OBJECT (scg->new_object));
+		g_object_unref (G_OBJECT (scg->new_object));
 		scg->new_object = NULL;
 	}
 	scg_object_stop_editing (scg, scg->current_object);
@@ -2848,14 +2847,14 @@ scg_special_cursor_bound_set (SheetControlGUI *scg, Range const *r)
 }
 
 static void
-scg_class_init (GtkObjectClass *object_class)
+scg_class_init (GObjectClass *object_class)
 {
 	SheetControlClass *sc_class = SHEET_CONTROL_CLASS (object_class);
 
 	g_return_if_fail (sc_class != NULL);
 	
 	scg_parent_class = gtk_type_class (sheet_control_get_type ());
-	object_class->destroy = scg_destroy;
+	object_class->finalize = scg_finalize;
 
 	sc_class->resize                 = scg_resize;
 	sc_class->set_zoom_factor        = scg_set_zoom_factor;

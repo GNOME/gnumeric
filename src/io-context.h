@@ -19,7 +19,7 @@ typedef enum {
 	WB_PROGRESS_ALL    = (WB_PROGRESS_CELLS)
 } WbProgressElements;
 
-GtkType   io_context_get_type (void);
+GType      io_context_get_type (void);
 IOContext *gnumeric_io_context_new        (WorkbookControl *wbc);
 
 /*

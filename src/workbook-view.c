@@ -57,12 +57,7 @@ enum {
 
 /* WorkbookView signals */
 enum {
-	SHEET_ENTERED,
 	LAST_SIGNAL
-};
-
-static gint workbook_view_signals [LAST_SIGNAL] = {
-	0, /* SHEET_ENTERED */
 };
 
 Workbook *
@@ -118,31 +113,26 @@ wb_view_sheet_add (WorkbookView *wbv, Sheet *new_sheet)
 }
 
 void
-wb_view_set_attribute_list (WorkbookView *wbv, GList *list)
+wb_view_set_attribute (WorkbookView *wbv, char const *name,
+		       char const *value)
 {
-	GList *l;
+	gboolean res;
 
 	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
+	g_return_if_fail (name != NULL);
+	g_return_if_fail (value != NULL);
 
-	for (l = list; l != NULL; l = l->next) {
-		gtk_object_arg_set (GTK_OBJECT (wbv), l->data, NULL);
-	}
-}
-
-GtkArg *
-wb_view_get_attributev (WorkbookView *wbv, guint *n_args)
-{
-	GtkArg *args;
-	guint num;
-
-	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), NULL);
-
-	args = gtk_object_query_args (WORKBOOK_VIEW_TYPE, NULL, &num);
-	gtk_object_getv (GTK_OBJECT (wbv), num, args);
-
-	*n_args = num;
-
-	return args;
+	res = !strcmp (value, "TRUE");
+	if (!strcmp (name , "WorkbookView::show_horizontal_scrollbar"))
+		wbv->show_horizontal_scrollbar = res;
+	else if (!strcmp (name , "WorkbookView::show_vertical_scrollbar"))
+		wbv->show_vertical_scrollbar = res;
+	else if (!strcmp (name , "WorkbookView::show_notebook_tabs"))
+		wbv->show_notebook_tabs = res;
+	else if (!strcmp (name , "WorkbookView::do_auto_completion"))
+		wbv->do_auto_completion = res;
+	else
+		g_warning ("WorkbookView unknown arg '%s'", name);
 }
 
 void
@@ -289,13 +279,6 @@ wb_view_edit_line_set (WorkbookView *wbv, WorkbookControl *optional_wbc)
 		} else
 			text = g_strdup ("");
 
-		/* FIXME : This does not belong here.  */
-		/* This is intended for screen reading software etc. */
-		gtk_signal_emit_by_name (GTK_OBJECT (sheet->workbook), "cell_changed",
-					 sheet, text,
-					 sheet->edit_pos.col,
-					 sheet->edit_pos.row);
-
 		if (optional_wbc == NULL) {
 			WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control,
 				wb_control_edit_line_set (control, text););
@@ -379,56 +362,6 @@ wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display)
 	wb_view_auto_expr_value_display (wbv);
 }
 
-static void
-wb_view_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
-{
-	WorkbookView *wbv = WORKBOOK_VIEW (object);
-
-	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
-
-	switch (arg_id) {
-	case ARG_VIEW_HSCROLLBAR:
-		wbv->show_horizontal_scrollbar = GTK_VALUE_BOOL (*arg);
-		break;
-	case ARG_VIEW_VSCROLLBAR:
-		wbv->show_vertical_scrollbar = GTK_VALUE_BOOL (*arg);
-		break;
-	case ARG_VIEW_TABS:
-		wbv->show_notebook_tabs = GTK_VALUE_BOOL (*arg);
-		break;
-	case ARG_VIEW_DO_AUTO_COMPLETION:
-		wbv->do_auto_completion = GTK_VALUE_BOOL (*arg);
-		break;
-	}
-	wb_view_prefs_update (wbv);
-}
-
-static void
-wb_view_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
-{
-	WorkbookView *wbv = WORKBOOK_VIEW (object);
-
-	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
-
-	switch (arg_id) {
-	case ARG_VIEW_HSCROLLBAR:
-		GTK_VALUE_BOOL (*arg) = wbv->show_horizontal_scrollbar;
-		break;
-
-	case ARG_VIEW_VSCROLLBAR:
-		GTK_VALUE_BOOL (*arg) = wbv->show_vertical_scrollbar;
-		break;
-
-	case ARG_VIEW_TABS:
-		GTK_VALUE_BOOL (*arg) = wbv->show_notebook_tabs;
-		break;
-
-	case ARG_VIEW_DO_AUTO_COMPLETION:
-		GTK_VALUE_BOOL (*arg) = wbv->do_auto_completion;
-		break;
-	}
-}
-
 void
 wb_view_attach_control (WorkbookView *wbv, WorkbookControl *wbc)
 {
@@ -462,9 +395,9 @@ wb_view_detach_control (WorkbookControl *wbc)
 	wbc->wb_view = NULL;
 }
 
-static GtkObjectClass *parent_class;
+static GObjectClass *parent_class;
 static void
-wb_view_destroy (GtkObject *object)
+wb_view_finalize (GObject *object)
 {
 	WorkbookView *wbv = WORKBOOK_VIEW (object);
 
@@ -489,16 +422,15 @@ wb_view_destroy (GtkObject *object)
 		workbook_detach_view (wbv);
 
 	if (wbv->wb_controls != NULL) {
-		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control,
-	        {
+		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control, {
 			wb_view_detach_control (control);
-			gtk_object_unref (GTK_OBJECT (control));
+			g_object_unref (G_OBJECT (control));
 		});
 		if (wbv->wb_controls != NULL)
 			g_warning ("Unexpected left over controls");
 	}
 
-	GTK_OBJECT_CLASS (parent_class)->destroy (object);
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 void
@@ -531,52 +463,26 @@ workbook_view_init (WorkbookView *wbv, Workbook *opt_wb)
 }
 
 static void
-workbook_view_class_init (GtkObjectClass *object_class)
+workbook_view_class_init (GObjectClass *klass)
 {
-	WorkbookViewClass *wbc_class = WORKBOOK_VIEW_CLASS (object_class);
+	WorkbookViewClass *wbc_class = WORKBOOK_VIEW_CLASS (klass);
 
 	g_return_if_fail (wbc_class != NULL);
 
-	parent_class = gtk_type_class (gtk_object_get_type ());
+	parent_class = g_type_class_peek (G_TYPE_OBJECT);
 
-	object_class->set_arg = wb_view_set_arg;
-	object_class->get_arg = wb_view_get_arg;
-	object_class->destroy = wb_view_destroy;
-	gtk_object_add_arg_type ("WorkbookView::show_horizontal_scrollbar",
-				 GTK_TYPE_BOOL, GTK_ARG_READWRITE,
-				 ARG_VIEW_HSCROLLBAR);
-	gtk_object_add_arg_type ("WorkbookView::show_vertical_scrollbar",
-				 GTK_TYPE_BOOL, GTK_ARG_READWRITE,
-				 ARG_VIEW_VSCROLLBAR);
-	gtk_object_add_arg_type ("WorkbookView::show_notebook_tabs",
-				 GTK_TYPE_BOOL, GTK_ARG_READWRITE,
-				 ARG_VIEW_TABS);
-	gtk_object_add_arg_type ("WorkbookView::do_auto_completion",
-				 GTK_TYPE_BOOL, GTK_ARG_READWRITE,
-				 ARG_VIEW_DO_AUTO_COMPLETION);
-
-	workbook_view_signals [SHEET_ENTERED] =
-		gtk_signal_new (
-			"sheet_entered",
-			GTK_RUN_LAST,
-			object_class->type,
-			GTK_SIGNAL_OFFSET (WorkbookViewClass,
-					   sheet_entered),
-			gtk_marshal_NONE__POINTER,
-			GTK_TYPE_NONE,
-			1,
-			GTK_TYPE_POINTER);
+	klass->finalize = wb_view_finalize;
 }
 
 E_MAKE_TYPE (workbook_view, "WorkbookView", WorkbookView,
-	     workbook_view_class_init, NULL, GTK_TYPE_OBJECT);
+	     workbook_view_class_init, NULL, G_TYPE_OBJECT);
 
 WorkbookView *
 workbook_view_new (Workbook *optional_wb)
 {
 	WorkbookView *view;
 
-	view = gtk_type_new (workbook_view_get_type ());
+	view = g_object_new (WORKBOOK_VIEW_TYPE, NULL);
 	workbook_view_init (view, optional_wb);
 	return view;
 }
@@ -616,7 +522,7 @@ wb_view_save_as (WorkbookView *wbv, WorkbookControl *wbc,
 		gnumeric_io_error_display (io_context);
 		success = FALSE;
 	}
-	gtk_object_unref (GTK_OBJECT (io_context));
+	g_object_unref (G_OBJECT (io_context));
 
 	return success;
 }
@@ -661,7 +567,7 @@ wb_view_save (WorkbookView *wbv, WorkbookControl *wbc)
 		gnumeric_io_error_display (io_context);
 		success = FALSE;
 	}
-	gtk_object_unref (GTK_OBJECT (io_context));
+	g_object_unref (G_OBJECT (io_context));
 
 	return success;
 }
@@ -708,7 +614,7 @@ wb_view_open_custom (WorkbookView *wbv, WorkbookControl *wbc,
 	g_return_val_if_fail (fo == NULL || IS_GNUM_FILE_OPENER (fo), FALSE);
 	g_return_val_if_fail (file_name != NULL, FALSE);
 
-	if (g_file_test (file_name, G_FILE_TEST_ISFILE)) {
+	if (g_file_test (file_name, G_FILE_TEST_IS_REGULAR)) {
 		IOContext *io_context = gnumeric_io_context_new (wbc);
 		wb_control_menu_state_sensitivity (wbc, FALSE);
 
@@ -746,19 +652,18 @@ wb_view_open_custom (WorkbookView *wbv, WorkbookControl *wbc,
 			if (!gnumeric_io_error_occurred (io_context)) {
 				workbook_set_dirty (new_wb, FALSE);
 			} else {
-				gtk_object_destroy (GTK_OBJECT (new_wb));
+				g_object_unref (G_OBJECT (new_wb));
 				new_wb = NULL;
 				new_wbv = NULL;
 			}
 		} else
 			gnumeric_io_error_read (io_context, _("Unsupported file format."));
 
-		if (gnumeric_io_error_occurred (io_context)) {
+		if (gnumeric_io_error_occurred (io_context))
 			gnumeric_io_error_display (io_context);
-		}
 
 		wb_control_menu_state_sensitivity (wbc, TRUE);
-		gtk_object_unref (GTK_OBJECT (io_context));
+		g_object_unref (G_OBJECT (io_context));
 	} else {
 		new_wb = workbook_new_with_sheets (1);
 		new_wbv = workbook_view_new (new_wb);
@@ -772,7 +677,7 @@ wb_view_open_custom (WorkbookView *wbv, WorkbookControl *wbc,
 
 		old_wb = wb_control_workbook (wbc);
 		if (workbook_is_pristine (old_wb)) {
-			gtk_object_ref (GTK_OBJECT (wbc));
+			g_object_ref (G_OBJECT (wbc));
 			workbook_unref (old_wb);
 			workbook_control_set_view (wbc, new_wbv, NULL);
 			workbook_control_init_state (wbc);

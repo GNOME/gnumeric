@@ -9,9 +9,9 @@
  * Container for Bonobo objects
  */
 #define SHEET_OBJECT_CONTAINER_TYPE     (sheet_object_container_get_type ())
-#define SHEET_OBJECT_CONTAINER(obj)     (GTK_CHECK_CAST((obj), SHEET_OBJECT_CONTAINER_TYPE, SheetObjectContainer))
-#define SHEET_OBJECT_CONTAINER_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), SHEET_OBJECT_CONTAINER_TYPE, SheetObjectContainerClass))
-#define IS_SHEET_OBJECT_CONTAINER(o)    (GTK_CHECK_TYPE((o), SHEET_OBJECT_CONTAINER_TYPE))
+#define SHEET_OBJECT_CONTAINER(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_OBJECT_CONTAINER_TYPE, SheetObjectContainer))
+#define SHEET_OBJECT_CONTAINER_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), SHEET_OBJECT_CONTAINER_TYPE, SheetObjectContainerClass))
+#define IS_SHEET_OBJECT_CONTAINER(o)    (G_TYPE_CHECK_INSTANCE_TYPE((o), SHEET_OBJECT_CONTAINER_TYPE))
 
 typedef struct {
 	SheetObjectBonobo  parent_object;

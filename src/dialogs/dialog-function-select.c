@@ -246,7 +246,7 @@ dialog_function_select (WorkbookControlGUI *wbcg)
 
 	fd = dialog_function_select_impl (wbcg, gui);
 
-	gtk_object_unref (GTK_OBJECT (gui));
+	g_object_unref (G_OBJECT (gui));
 
 	return fd;
 }

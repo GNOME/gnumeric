@@ -21,19 +21,19 @@
 #include <gal/util/e-util.h>
 #include <string.h>
 
-#define SEARCH_STEPS 50
-#define PARENT_TYPE (complete_get_type ())
+#define SEARCH_STEPS	50
 
-static GtkObjectClass *parent_class;
+#define PARENT_TYPE 	COMPLETE_TYPE
+static GObjectClass *parent_class;
 
 static void
-complete_sheet_finalize (GtkObject *object)
+complete_sheet_finalize (GObject *object)
 {
 	CompleteSheet *cs = COMPLETE_SHEET (object);
 	if (cs->current != NULL) {
-	g_free (cs->current);
+		g_free (cs->current);
 		cs->current = NULL;
-}
+	}
 	parent_class->finalize (object);
 }
 
@@ -111,14 +111,14 @@ complete_sheet_search_iteration (Complete *complete)
 }
 
 static void
-complete_sheet_class_init (GtkObjectClass *object_class)
+complete_sheet_class_init (GObjectClass *object_class)
 {
 	CompleteClass *auto_complete_class = (CompleteClass *) object_class;
 
 	object_class->finalize = complete_sheet_finalize;
 	auto_complete_class->search_iteration = complete_sheet_search_iteration;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_peek (PARENT_TYPE);
 }
 
 Complete *
@@ -129,7 +129,7 @@ complete_sheet_new (Sheet *sheet, int col, int row, CompleteMatchNotifyFn notify
 	 */
 	CompleteSheet *cs;
 
-	cs = gtk_type_new (complete_sheet_get_type ());
+	cs = g_object_new (COMPLETE_SHEET_TYPE, NULL);
 	complete_construct (COMPLETE (cs), notify, notify_closure);
 
 	cs->sheet = sheet;

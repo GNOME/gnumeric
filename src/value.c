@@ -15,13 +15,13 @@
 #include "parse-util.h"
 #include "style.h"
 #include "format.h"
-#include "portability.h"
 #include "str.h"
 #include "mathfunc.h"
 
 #include <stdlib.h>
 #include <errno.h>
 #include <math.h>
+#include <string.h>
 #include <libgnome/gnome-i18n.h>
 
 Value *

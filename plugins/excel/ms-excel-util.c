@@ -521,65 +521,6 @@ excel_iconv (excel_iconv_t handle,
 	return 0;
 }
 
-/*
- * This is cut & pasted from glib 1.3
- *
- * We need it only for iso-8859-1 converter and it will be
- * abandoned, if glib 2.0 or any other unicode library will
- * be introduced.
- */
-
-static int
-g_unichar_to_utf8 (gint c, gchar *outbuf)
-{
-  size_t len = 0;
-  int first;
-  int i;
-
-  if (c < 0x80)
-    {
-      first = 0;
-      len = 1;
-    }
-  else if (c < 0x800)
-    {
-      first = 0xc0;
-      len = 2;
-    }
-  else if (c < 0x10000)
-    {
-      first = 0xe0;
-      len = 3;
-    }
-   else if (c < 0x200000)
-    {
-      first = 0xf0;
-      len = 4;
-    }
-  else if (c < 0x4000000)
-    {
-      first = 0xf8;
-      len = 5;
-    }
-  else
-    {
-      first = 0xfc;
-      len = 6;
-    }
-
-  if (outbuf)
-    {
-      for (i = len - 1; i > 0; --i)
-	{
-	  outbuf[i] = (c & 0x3f) | 0x80;
-	  c >>= 6;
-	}
-      outbuf[0] = c | first;
-    }
-
-  return len;
-}
-
 size_t
 excel_wcstombs (char *outbuf, wchar_t *wcs, size_t length)
 {

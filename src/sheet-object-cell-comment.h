@@ -4,9 +4,9 @@
 #include "sheet-object.h"
 
 #define CELL_COMMENT_TYPE     (cell_comment_get_type ())
-#define CELL_COMMENT(obj)     (GTK_CHECK_CAST((obj), CELL_COMMENT_TYPE, CellComment))
-#define CELL_COMMENT_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CELL_COMMENT_TYPE, CellCommentClass))
-#define IS_CELL_COMMENT(o)    (GTK_CHECK_TYPE((o), CELL_COMMENT_TYPE))
+#define CELL_COMMENT(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), CELL_COMMENT_TYPE, CellComment))
+#define CELL_COMMENT_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), CELL_COMMENT_TYPE, CellCommentClass))
+#define IS_CELL_COMMENT(o)    (G_TYPE_CHECK_INSTANCE_TYPE((o), CELL_COMMENT_TYPE))
 
 GtkType	     cell_comment_get_type (void);
 

@@ -224,7 +224,7 @@ stf_export_dialog_druid_page_previous (GnomeDruidPage *page, GnomeDruid *druid, 
 	stf_export_dialog_set_initial_keyboard_focus (druid_data);
 
 	if (newpos == DPG_SHEET)
-		gnome_druid_set_buttons_sensitive (druid, FALSE, TRUE, TRUE);
+		gnome_druid_set_buttons_sensitive (druid, FALSE, TRUE, TRUE, TRUE);
 	else
 		gtk_widget_grab_default (druid_data->druid->next);
 
@@ -298,7 +298,7 @@ stf_export_dialog_attach_page_signals (GladeXML *gui, StfE_DruidData_t *druid_da
 
 	druid_data->active_page  = DPG_SHEET;
 
-	gnome_druid_set_buttons_sensitive (druid_data->druid, FALSE, TRUE, TRUE);
+	gnome_druid_set_buttons_sensitive (druid_data->druid, FALSE, TRUE, TRUE, TRUE);
 
 	/* Signals for individual pages */
 
@@ -429,7 +429,7 @@ stf_export_dialog (WorkbookControlGUI *wbcg, Workbook *wb)
 	stf_export_dialog_format_page_cleanup (druid_data.format_page_data);
 
 	gtk_widget_destroy (GTK_WIDGET (druid_data.window));
-	gtk_object_unref (GTK_OBJECT (gui));
+	g_object_unref (G_OBJECT (gui));
 
 	return dialogresult;
 }

@@ -115,42 +115,37 @@ typedef struct {
  * gnome_app_find_menu_pos returns the position *after* the menu item given.
  * bonobo_ui_handler_menu_get_pos returns the position *of* the menu item.
  */
-static MenuPos
-history_menu_locate_separator (WorkbookControlGUI *wbcg)
+static void
+history_menu_locate_separator (WorkbookControlGUI *wbcg, MenuPos *res)
 {
-	MenuPos ret;
 /*
  * xgettext:
  * This string must translate to exactly the same strings as the
  * 'Print Preview...' item in the
  * 'File' menu
  */
-	char const * menu_name = _("File/Print Preview...");
-	ret.menu = gnome_app_find_menu_pos (GNOME_APP (wbcg->toplevel)->menubar,
-					    menu_name, &ret.pos);
-	return ret;
+	char const *menu_name = _("_File/Print Pre_view...");
+	res->menu = gnome_app_find_menu_pos (GNOME_APP (wbcg->toplevel)->menubar,
+					    menu_name, &res->pos);
+	if (res->menu == NULL)
+		g_warning ("Probable mis-translation. '%s' : was not found. "
+			   "Does this match the '_File/Print Pre_view...' menu exactly ?",
+			   menu_name);
 }
 
 /* Insert the history separator. Return its position.  */
-static MenuPos
-history_menu_insert_separator (WorkbookControlGUI *wbcg)
+static void
+history_menu_insert_separator (WorkbookControlGUI *wbcg, MenuPos *res)
 {
-	MenuPos ret;
-
 	GtkWidget *item;
-	char const * menu_name = _("File/Print Preview");
 
-	ret = history_menu_locate_separator (wbcg);
-	if (ret.menu != NULL) {
+	history_menu_locate_separator (wbcg, res);
+	if (res->menu != NULL) {
 		item = gtk_menu_item_new ();
 		gtk_widget_show (item);
-		gtk_menu_shell_insert (GTK_MENU_SHELL (ret.menu), item, ret.pos);
+		gtk_menu_shell_insert (GTK_MENU_SHELL (res->menu), item, res->pos);
 		gtk_widget_set_sensitive(item, FALSE);
-	} else
-		g_warning ("Probable mis-translation. '%s' : was not found. "
-			   "Does this match the 'File/Print Preview' menu exactly ?",
-			   menu_name);
-	return ret;
+	}
 }
 
 /*
@@ -306,7 +301,7 @@ history_menu_setup (WorkbookControlGUI *wbcg, GList *name_list)
 	MenuPos   mp;
 
 	/* Insert separator and get its position */
-	mp = history_menu_insert_separator (wbcg);
+	history_menu_insert_separator (wbcg, &mp);
 	(mp.pos)++;
 	/* Insert the items */
 	history_menu_insert_items (wbcg, name_list, &mp);
@@ -328,7 +323,7 @@ history_control_fill (WorkbookControl *control, GList *name_list, gboolean need_
 		else {
 #ifndef ENABLE_BONOBO
 			MenuPos mp;
-			mp = history_menu_locate_separator (wbcg);
+			history_menu_locate_separator (wbcg, &mp);
 			(mp.pos)++;
 			/* Insert the items */
 			history_menu_insert_items (wbcg, name_list, &mp);

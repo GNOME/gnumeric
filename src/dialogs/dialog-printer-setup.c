@@ -108,8 +108,8 @@ typedef struct {
 
 	GList *conversion_listeners;
 
-	const GnomePaper *paper;
-	const GnomePaper *current_paper;
+	GnomePrintPaper const *paper;
+	GnomePrintPaper const *current_paper;
 	PrintOrientation orientation;
 	PrintOrientation current_orientation;
 
@@ -202,10 +202,11 @@ spin_button_set_bound (GtkSpinButton *spin, double space_to_grow,
 static double
 get_paper_pswidth (PrinterSetupState *state)
 {
+	g_return_val_if_fail (state->paper != NULL, 1.);
 	if (state->orientation == PRINT_ORIENT_VERTICAL)
-		return gnome_paper_pswidth (state->paper);
+		return state->paper->width;
 	else
-		return gnome_paper_psheight (state->paper);
+		return state->paper->height;
 }
 
 /**
@@ -217,10 +218,11 @@ get_paper_pswidth (PrinterSetupState *state)
 static double
 get_paper_psheight (PrinterSetupState *state)
 {
+	g_return_val_if_fail (state->paper != NULL, 1.);
 	if (state->orientation == PRINT_ORIENT_VERTICAL)
-		return gnome_paper_psheight (state->paper);
+		return state->paper->height;
 	else
-		return gnome_paper_pswidth (state->paper);
+		return state->paper->width;
 }
 
 /**
@@ -759,10 +761,10 @@ unit_editor_configure (UnitInfo *target, PrinterSetupState *state,
 	cbdata->target = target;
 	gtk_signal_connect (
 		GTK_OBJECT (target->spin), "focus_in_event",
-		unit_activated, cbdata);
+		GTK_SIGNAL_FUNC (unit_activated), cbdata);
 	gtk_signal_connect (
 		GTK_OBJECT (target->spin), "focus_out_event",
-		unit_deactivated, cbdata);
+		GTK_SIGNAL_FUNC (unit_deactivated), cbdata);
 	gtk_signal_connect_full (
 		GTK_OBJECT (target->spin), "changed",
 		GTK_SIGNAL_FUNC (unit_changed),
@@ -987,7 +989,9 @@ fill_hf (PrinterSetupState *state, GtkOptionMenu *om, GtkSignalFunc callback, gb
 	li = gtk_menu_item_new_with_label (res);
 	gtk_widget_show (li);
 	gtk_container_add (GTK_CONTAINER (menu), li);
-	gtk_signal_connect (GTK_OBJECT (li), "activate", header ? do_header_customize : do_footer_customize, state);
+	gtk_signal_connect (GTK_OBJECT (li), "activate", header
+			    ? GTK_SIGNAL_FUNC (do_header_customize)
+			    : GTK_SIGNAL_FUNC (do_footer_customize), state);
 	g_free (res);
 
 	gtk_option_menu_set_menu (om, menu);
@@ -1456,7 +1460,7 @@ static void
 paper_size_changed (GtkEntry *entry, PrinterSetupState *state)
 {
 	char const *text = gtk_entry_get_text (entry);
-	state->paper = gnome_paper_with_name (text);
+	state->paper = gnome_print_paper_get_by_name (text);
 	canvas_update (state);
 }
 
@@ -1530,18 +1534,21 @@ do_setup_page (PrinterSetupState *state)
 	paper_size_combo =
 		GTK_COMBO (glade_xml_get_widget (gui, "paper-size-combo"));
 	gtk_combo_set_value_in_list (paper_size_combo, TRUE, 0);
-	gtk_combo_set_popdown_strings (paper_size_combo,
-				       gnome_paper_name_list ());
+	{
+		GList *sizes = gnome_print_paper_get_list ();
+		gtk_combo_set_popdown_strings (paper_size_combo, sizes);
+		gnome_print_paper_free_list (sizes);
+	}
 	gtk_signal_connect (GTK_OBJECT (paper_size_combo->entry), "changed",
-			    paper_size_changed, state);
+			    GTK_SIGNAL_FUNC (paper_size_changed), state);
 	gnumeric_combo_enters (GTK_WINDOW (state->dialog), paper_size_combo);
 
 	if (state->pi->paper == NULL)
-		state->pi->paper = gnome_paper_with_name (gnome_paper_name_default ());
+		state->pi->paper = gnome_print_paper_get_default ();
 	state->paper = state->pi->paper;
 
 	gtk_entry_set_text (GTK_ENTRY (paper_size_combo->entry),
-			    gnome_paper_name (state->pi->paper));
+			    state->pi->paper->name);
 	first_page_combo =
 		GTK_COMBO (glade_xml_get_widget (gui, "first-page-combo"));
 	gnumeric_combo_enters (GTK_WINDOW (state->dialog), first_page_combo);
@@ -1682,7 +1689,7 @@ printer_setup_state_new (WorkbookControlGUI *wbcg, Sheet *sheet)
 static void
 printer_setup_state_free (PrinterSetupState *state)
 {
-	gtk_object_unref (GTK_OBJECT (state->gui));
+	g_object_unref (G_OBJECT (state->gui));
 
 	print_hf_free (state->header);
 	print_hf_free (state->footer);
@@ -1724,8 +1731,8 @@ do_fetch_page (PrinterSetupState *state)
 	w = glade_xml_get_widget (gui, "paper-size-combo");
 	t = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (w)->entry));
 
-	if (gnome_paper_with_name (t) != NULL)
-		state->pi->paper = gnome_paper_with_name (t);
+	if (gnome_print_paper_get_by_name (t) != NULL)
+		state->pi->paper = gnome_print_paper_get_by_name (t);
 }
 
 static PrintUnit

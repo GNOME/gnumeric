@@ -278,10 +278,10 @@ print_info_new (void)
 
 	s = gnome_config_get_string ("paper=none");
 	if (strcmp (s, "none") != 0)
-		pi->paper = gnome_paper_with_name (s);
+		pi->paper = gnome_print_paper_get_by_name (s);
 
 	if (pi->paper == NULL)
-		pi->paper = gnome_paper_with_name (gnome_paper_name_default ());
+		pi->paper = gnome_print_paper_get_default ();
 	g_free (s);
 
 	pi->center_horizontally       = gnome_config_get_bool ("center_horizontally=false");
@@ -390,7 +390,7 @@ print_info_save (PrintInformation *pi)
 	gnome_config_set_float ("scale_percent", pi->scaling.percentage);
 	gnome_config_set_int ("scale_width", pi->scaling.dim.cols);
 	gnome_config_set_int ("scale_height", pi->scaling.dim.rows);
-	gnome_config_set_string ("paper", gnome_paper_name (pi->paper));
+	gnome_config_set_string ("paper", pi->paper->name);
 
 	save_margin ("margin_top", &pi->margins.top);
 	save_margin ("margin_bottom", &pi->margins.bottom);
@@ -747,7 +747,7 @@ print_info_copy (PrintInformation *src_pi)
 	dst_pi->footer = print_hf_copy (src_pi->footer);
 
 	/* Paper */
-	dst_pi->paper = gnome_paper_with_name (gnome_paper_name (src_pi->paper));
+	dst_pi->paper = gnome_print_paper_get_by_name (src_pi->paper->name);
 
 	/* Repeat Range */
 	dst_pi->repeat_top  = src_pi->repeat_top;

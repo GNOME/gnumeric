@@ -236,7 +236,7 @@ loop:
 	        /* Canceled */
 		if (v != -1)
 			gtk_object_destroy (GTK_OBJECT (dia));
-		gtk_object_unref (GTK_OBJECT (gui));
+		g_object_unref (G_OBJECT (gui));
 		return;
 	}
 
@@ -328,7 +328,7 @@ loop:
 	}
 
 	if (v != -1) {
-	        gtk_object_unref (GTK_OBJECT (gui));
+	        g_object_unref (G_OBJECT (gui));
 		gtk_object_destroy (GTK_OBJECT (dia));
 	}
 }

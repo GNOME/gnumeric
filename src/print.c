@@ -25,18 +25,13 @@
 #include "application.h"
 #include "sheet-style.h"
 #include "ranges.h"
+#include "style.h"
 
-#include <glib.h>
 #include <libgnome/gnome-i18n.h>
-#include <libgnome/gnome-paper.h>
-#include <libgnomeui/libgnomeui.h>
-#include <libgnomeprint/gnome-printer.h>
-#include <libgnomeprint/gnome-print.h>
-#include <libgnomeprint/gnome-printer-dialog.h>
-#include <libgnomeprint/gnome-print-copies.h>
 #include <libgnomeprint/gnome-print-master.h>
-#include <libgnomeprint/gnome-print-master-preview.h>
-#include <libgnomeprint/gnome-print-dialog.h>
+#include <libgnomeprint/gnome-print-config.h>
+#include <libgnomeprintui/gnome-print-master-preview.h>
+#include <libgnomeprintui/gnome-print-dialog.h>
 
 #ifdef ENABLE_BONOBO
 #	include <bonobo/bonobo-print-client.h>
@@ -1015,6 +1010,7 @@ workbook_print_all (PrintJobInfo *pj, Workbook *wb)
 static PrintJobInfo *
 print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
 {
+	GnomeFontFace *face;
 	PrintJobInfo *pj;
 	PrintMargins *pm = &sheet->print_info->margins;
 	int width, height;
@@ -1038,8 +1034,8 @@ print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
 	pj->current_output_sheet = 0;
 
 	/* Precompute information */
-	width  = gnome_paper_pswidth  (pj->pi->paper);
-	height = gnome_paper_psheight (pj->pi->paper);
+	width  = pj->pi->paper->width;
+	height = pj->pi->paper->height;
 
 	if (pj->pi->orientation == PRINT_ORIENT_HORIZONTAL) {
 		pj->width = height;
@@ -1061,7 +1057,9 @@ print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
 	pj->render_info->sheet = sheet;
 	pj->render_info->page = 1;
 
-	pj->decoration_font = gnome_font_new ("Helvetica", 12);
+	face = gnome_font_face_find (DEFAULT_FONT);
+	pj->decoration_font = gnome_font_face_get_font_default (face, 12.);
+	gnome_font_face_unref (face);
 
 	return pj;
 }
@@ -1079,11 +1077,13 @@ void
 sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 	     gboolean preview, PrintRange default_range)
 {
+#if 0
 	GnomePrinter *printer = NULL;
 	PrintJobInfo *pj;
 	GnomePrintDialog *gpd;
 	GnomePrintMaster *gpm;
 	GnomePrintMasterPreview *pmp;
+	GnomePrintConfig *print_config;
 	int copies = 1;
 	int collate = FALSE;
  	int first = 1;
@@ -1107,6 +1107,8 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 			GNOME_PRINT_RANGE_SELECTION|GNOME_PRINT_RANGE_RANGE,
 			1, workbook_sheet_count(sheet->workbook),
 			_("Act_ive sheet"), _("S_heets"));
+#warning FIXME
+#if 0
 		gnome_dialog_set_default (GNOME_DIALOG (gpd),
 					  GNOME_PRINT_PRINT);
 		switch (gnumeric_dialog_run (wbcg, GNOME_DIALOG(gpd))) {
@@ -1121,7 +1123,9 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 			gnome_dialog_close (GNOME_DIALOG (gpd));
 			return;
 		}
+#endif
 		gnome_print_dialog_get_copies (gpd, &copies, &collate);
+		print_config = gnome_print_config_default ();
 		printer = gnome_print_dialog_get_printer (gpd);
 		range = gnome_print_dialog_get_range_page (gpd, &first, &end);
 		gnome_dialog_close (GNOME_DIALOG (gpd));
@@ -1148,12 +1152,14 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 		pj->end_page = end-1;
 	}
 
-	gpm = gnome_print_master_new ();
 	gnome_print_master_set_paper (gpm, pj->pi->paper);
 	if (printer)
-		gnome_print_master_set_printer(gpm, printer);
-	gnome_print_master_set_copies(gpm, copies, collate);
-	pj->print_context = gnome_print_master_get_context(gpm);
+		gnome_print_master_set_printer (gpm, printer);
+	gnome_print_config_set_int (print_config, GNOME_PRINT_KEY_NUM_COPIES, copies);
+	gnome_print_config_set_boolean (print_config, GNOME_PRINT_KEY_COLLATE, collate);
+
+	gpm = gnome_print_master_new_from_config (print_config);
+	pj->print_context = gnome_print_master_get_context (gpm);
 
 	/* perform actual printing */
 	switch (pj->range) {
@@ -1197,4 +1203,5 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 	}
 	gtk_object_unref (GTK_OBJECT (gpm));
   	print_job_info_destroy (pj);
+#endif
 }

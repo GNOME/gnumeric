@@ -75,8 +75,6 @@ char *gnumeric_lib_dir = GNUMERIC_LIBDIR;
 char *gnumeric_data_dir = GNUMERIC_DATADIR;
 char *x_geometry;
 
-poptContext ctx;
-
 const struct poptOption
 gnumeric_popt_options[] = {
 	{ "version", 'v', POPT_ARG_NONE, &gnumeric_show_version, 0,
@@ -172,9 +170,10 @@ gnumeric_check_for_components (void)
 int
 main (int argc, char *argv [])
 {
+	poptContext ctx;
 	gboolean opened_workbook = FALSE;
 	WorkbookControl *wbc;
-	const char *gnumeric_binary = argv[0];
+	char const *gnumeric_binary = argv[0];
 
 	/* Make stdout line buffered - we only use it for debug info */
 	setvbuf (stdout, NULL, _IOLBF, 0);
@@ -187,7 +186,7 @@ main (int argc, char *argv [])
 	 */
 	setlocale (LC_ALL, "");
 
-	gnumeric_arg_parse (argc, argv);
+	ctx = gnumeric_arg_parse (argc, argv);
 
 	if (gnumeric_show_version) {
 		printf (_("gnumeric version '%s'\ndatadir := '%s'\nlibdir := '%s'\n"),
@@ -270,9 +269,6 @@ main (int argc, char *argv [])
 			handle_paint_events ();
 		}
 	}
-
-	if (ctx)
-		poptFreeContext (ctx);
 
 	/* If we were intentionally short circuited exit now */
 	if (!initial_workbook_open_complete && !immediate_exit_flag) {

@@ -35,22 +35,15 @@ gnumeric_dialog_question_yes_no (WorkbookControlGUI *wbcg,
                                  const gchar *message,
                                  gboolean default_answer)
 {
-	GtkWidget *dialog, *default_button;
+	GtkWidget *dialog = gtk_message_dialog_new (wb_control_gui_toplevel (wbcg),
+		GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_NO_SEPARATOR,
+		GTK_MESSAGE_QUESTION,
+		GTK_BUTTONS_YES_NO,
+		message);
+	gtk_dialog_set_default_response (GTK_DIALOG (dialog),
+		default_answer ? GTK_RESPONSE_YES : GTK_RESPONSE_NO);
 
-	dialog = gnome_message_box_new (
-	         message,
-	         GNOME_MESSAGE_BOX_QUESTION,
-	         GNOME_STOCK_BUTTON_YES,
-	         GNOME_STOCK_BUTTON_NO,
-	         NULL);
-	if (default_answer) {
-		default_button = (GtkWidget *) GNOME_DIALOG (dialog)->buttons->data;
-	} else {
-		default_button = (GtkWidget *) GNOME_DIALOG (dialog)->buttons->next->data;
-	}
-	gtk_widget_grab_focus (default_button);
-
-	return gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog)) == 0;
+	return gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_YES;
 }
 
 static void
@@ -64,13 +57,13 @@ static void
 fsel_handle_ok (GtkWidget *widget, gboolean *result)
 {
 	GtkFileSelection *fsel;
-	gchar *file_name;
+	gchar const *file_name;
 
 	fsel = GTK_FILE_SELECTION (gtk_widget_get_ancestor (widget, GTK_TYPE_FILE_SELECTION));
 	file_name = gtk_file_selection_get_filename (fsel);
 
 	/* Change into directory if that's what user selected */
-	if (g_file_test (file_name, G_FILE_TEST_ISDIR)) {
+	if (g_file_test (file_name, G_FILE_TEST_IS_DIR)) {
 		gint name_len;
 		gchar *dir_name;
 
@@ -215,7 +208,7 @@ on_close (GnomeDialog *dialog,
 static void
 connect_to_parent_close (GnomeDialog *dialog, DialogRunInfo *run_info)
 {
-	if (GNOME_IS_DIALOG(run_info->parent_toplevel)) {
+	if (GNOME_IS_DIALOG (run_info->parent_toplevel)) {
 		run_info->parent_close_id =
 			gtk_signal_connect
 			(GTK_OBJECT (run_info->parent_toplevel),
@@ -250,10 +243,10 @@ void
 gnumeric_dialog_show (WorkbookControlGUI *wbcg, GnomeDialog *dialog,
 		      gboolean click_closes, gboolean close_with_parent)
 {
+#if 0
 	GtkWindow *parent = wb_control_gui_toplevel (wbcg);
 	DialogRunInfo *run_info = NULL;
-
-	g_return_if_fail(GNOME_IS_DIALOG(dialog));
+	g_return_if_fail (GNOME_IS_DIALOG (dialog));
 	if (parent != NULL) {
 		run_info = g_new0 (DialogRunInfo, 1);
 		run_info->parent_toplevel =
@@ -267,9 +260,10 @@ gnumeric_dialog_show (WorkbookControlGUI *wbcg, GnomeDialog *dialog,
 	}
 
 	gnome_dialog_set_close (GNOME_DIALOG (dialog), click_closes);
+#endif
 
-	if ( ! GTK_WIDGET_VISIBLE(GTK_WIDGET(dialog)) )	/* Pop up the dialog */
-		gtk_widget_show(GTK_WIDGET(dialog));
+	if (!GTK_WIDGET_VISIBLE (GTK_WIDGET (dialog)))	/* Pop up the dialog */
+		gtk_widget_show (GTK_WIDGET (dialog));
 }
 
 static GtkCTreeNode *
@@ -311,7 +305,6 @@ gnumeric_error_info_dialog_show_full (WorkbookControlGUI *wbcg, ErrorInfo *error
 	GtkWidget *dialog;
 	GtkWidget *scrolled_window, *ctree;
 	GtkCTreeNode *main_ctree_node;
-	GtkWidget *dialog_action_area;
 	GtkWidget *button_close;
 
 	g_return_if_fail (error != NULL);
@@ -331,9 +324,13 @@ gnumeric_error_info_dialog_show_full (WorkbookControlGUI *wbcg, ErrorInfo *error
 	gtk_widget_show_all (GTK_WIDGET (scrolled_window));
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), scrolled_window, TRUE, TRUE, 0);
 
+#warning why are we mucking with the dialog button layout directly ?
+#if 0
+	GtkWidget *dialog_action_area;
 	dialog_action_area = GNOME_DIALOG (dialog)->action_area;
 	gtk_button_box_set_layout (GTK_BUTTON_BOX (dialog_action_area), GTK_BUTTONBOX_END);
 	gtk_button_box_set_spacing (GTK_BUTTON_BOX (dialog_action_area), 8);
+#endif
 
 	gnome_dialog_append_button (GNOME_DIALOG (dialog), GNOME_STOCK_BUTTON_CLOSE);
 	button_close = GTK_WIDGET (g_list_last (GNOME_DIALOG (dialog)->buttons)->data);
@@ -412,6 +409,8 @@ gnumeric_set_transient (WorkbookControlGUI *wbcg, GtkWindow *window)
 	toplevel = wb_control_gui_toplevel (wbcg);
 	gtk_window_set_transient_for (window, toplevel);
 
+#warning what replaces these ?
+#if 0
 	gtk_window_set_position(window,
 				gnome_preferences_get_dialog_position());
 	if (gnome_preferences_get_dialog_centered()) {
@@ -438,6 +437,7 @@ gnumeric_set_transient (WorkbookControlGUI *wbcg, GtkWindow *window)
 
 		gtk_widget_set_uposition(GTK_WIDGET(window), dialog_x, dialog_y);
 	}
+#endif
 }
 
 typedef struct {
@@ -448,11 +448,9 @@ typedef struct {
 static void
 cb_remove_object_data (GtkWidget *w, KeyedDialogContext *ctxt)
 {
-	g_return_if_fail (
-		gtk_object_get_data (
-			GTK_OBJECT (ctxt->wbcg), ctxt->key) != NULL);
+	g_return_if_fail (g_object_get_data (G_OBJECT (ctxt->wbcg), ctxt->key));
 
-	gtk_object_remove_data (GTK_OBJECT (ctxt->wbcg), ctxt->key);
+	g_object_set_data (G_OBJECT (ctxt->wbcg), ctxt->key, NULL);
 	g_free (ctxt);
 }
 
@@ -481,7 +479,7 @@ gnumeric_keyed_dialog (WorkbookControlGUI *wbcg, GtkWindow *dialog, const char *
 	ctxt = g_new (KeyedDialogContext, 1);
 	ctxt->wbcg = wbcg;
 	ctxt->key  = key;
-	gtk_object_set_data (GTK_OBJECT (wbcg), key, dialog);
+	g_object_set_data (G_OBJECT (wbcg), key, dialog);
 
 	gtk_signal_connect (
 		GTK_OBJECT (dialog), "destroy",
@@ -506,7 +504,7 @@ gnumeric_dialog_raise_if_exists (WorkbookControlGUI *wbcg, char *key)
 	g_return_val_if_fail (key != NULL, FALSE);
 
 	/* Ensure we only pop up one copy per workbook */
-	dialog = gtk_object_get_data (GTK_OBJECT (wbcg), key);
+	dialog = g_object_get_data (G_OBJECT (wbcg), key);
 	if (dialog && GTK_IS_WINDOW (dialog)) {
 		gdk_window_raise (dialog->window);
 		return TRUE;
@@ -672,22 +670,13 @@ kill_popup_menu (GtkWidget *widget, GtkMenu *menu)
 }
 
 void
-gnumeric_auto_kill_popup_menu_on_hide (GtkMenu *menu)
-{
-	g_return_if_fail (menu != NULL);
-	g_return_if_fail (GTK_IS_MENU (menu));
-
-	gtk_signal_connect (GTK_OBJECT (menu), "hide",
-			    GTK_SIGNAL_FUNC (kill_popup_menu), menu);
-}
-
-void
 gnumeric_popup_menu (GtkMenu *menu, GdkEventButton *event)
 {
 	g_return_if_fail (menu != NULL);
 	g_return_if_fail (GTK_IS_MENU (menu));
 
-	gnumeric_auto_kill_popup_menu_on_hide (menu);
+	gtk_signal_connect (GTK_OBJECT (menu), "hide",
+		GTK_SIGNAL_FUNC (kill_popup_menu), menu);
 
 	/* Do NOT pass the button used to create the menu.
 	 * instead pass 0.  Otherwise bringing up a menu with
@@ -812,7 +801,7 @@ gnumeric_create_tooltip (void)
 
 		for (i = 5; --i >= 0 ; ) {
 			rc_style->color_flags[i] = GTK_RC_BG;
-			e_color_alloc_name ("LightYellow",  &rc_style->bg[i]);
+			e_color_alloc_name (NULL, "LightYellow",  &rc_style->bg[i]);
 		}
 	}
 
@@ -859,7 +848,7 @@ gnumeric_glade_xml_new (WorkbookControlGUI *wbcg, char const * gladefile)
 	GladeXML *gui;
 	char *d = gnumeric_sys_glade_dir ();
 	char *f = g_concat_dir_and_file (d, gladefile);
-	gui = glade_xml_new (f, NULL);
+	gui = glade_xml_new (f, NULL, "gnumeric");
 
 	/* Onlt report errors if the context is non-null */
 	if (gui == NULL && wbcg != NULL) {
@@ -952,47 +941,24 @@ gnumeric_create_popup_menu_list (GSList *elements,
 			continue;
 
 		if (name != NULL && *name != '\0') {
-			/* ICK ! There should be a utility routine for this in gnome or gtk */
-			GtkWidget *label;
-			guint label_accel;
-
-			label = gtk_accel_label_new ("");
-			label_accel = gtk_label_parse_uline (
-				GTK_LABEL (label), _(name));
-
-			gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
-			gtk_widget_show (label);
-
-			item = gtk_pixmap_menu_item_new	();
-			gtk_container_add (GTK_CONTAINER (item), label);
-
-			if (label_accel != GDK_VoidSymbol) {
-				gtk_widget_add_accelerator (
-					item,
-					"activate_item",
-					gtk_menu_ensure_uline_accel_group (GTK_MENU (menu)),
-					label_accel, 0,
-					GTK_ACCEL_LOCKED);
-			}
-
+			item = gtk_image_menu_item_new_with_mnemonic (_(name));
 			if (element->sensitive_filter != 0 &&
 			    (element->sensitive_filter & sensitive_filter))
 				gtk_widget_set_sensitive (GTK_WIDGET (item), FALSE);
+			if (pix_name != NULL) {
+				GtkWidget *image = gtk_image_new_from_stock (pix_name,
+                                        GTK_ICON_SIZE_MENU);
+				gtk_widget_show (image);
+				gtk_image_menu_item_set_image (
+					GTK_IMAGE_MENU_ITEM (item),
+					image);
+			}
 		} else {
+			/* seperator */
 			item = gtk_menu_item_new ();
 			gtk_widget_set_sensitive (item, FALSE);
 		}
 
-
-		if (pix_name != NULL) {
-			GtkWidget *pixmap =
-				gnome_stock_pixmap_widget (GTK_WIDGET (item),
-							   pix_name);
-			gtk_widget_show (pixmap);
-			gtk_pixmap_menu_item_set_pixmap (
-				GTK_PIXMAP_MENU_ITEM (item),
-				pixmap);
-		}
 		if (element->index != 0) {
 			gtk_signal_connect (
 				GTK_OBJECT (item), "activate",
@@ -1052,22 +1018,19 @@ gnumeric_toolbar_new (WorkbookControlGUI *wbcg,
 		      gint offset)
 {
 	GnomeApp *app = GNOME_APP (wbcg->toplevel);
-	GnomeDockItemBehavior behavior;
 	GtkWidget *tbar;
 
 	g_return_val_if_fail (info != NULL, NULL);
 
-	tbar = gtk_toolbar_new (GTK_ORIENTATION_HORIZONTAL, GTK_TOOLBAR_ICONS);
+	tbar = gtk_toolbar_new ();
+	gtk_toolbar_set_orientation (GTK_TOOLBAR (tbar), GTK_ORIENTATION_HORIZONTAL);
 	gnome_app_fill_toolbar_with_data (GTK_TOOLBAR (tbar), info,
 		app->accel_group, wbcg);
 
-	behavior = GNOME_DOCK_ITEM_BEH_NORMAL;
-	if (!gnome_preferences_get_toolbar_detachable ())
-		behavior |= GNOME_DOCK_ITEM_BEH_LOCKED;
-
 	gnome_app_add_toolbar (GNOME_APP (wbcg->toplevel), GTK_TOOLBAR (tbar),
-		name, behavior, GNOME_DOCK_TOP,
+		name, BONOBO_DOCK_ITEM_BEH_NORMAL, BONOBO_DOCK_TOP,
 		band_num, band_position, offset);
+	gtk_toolbar_set_style (GTK_TOOLBAR (tbar), GTK_TOOLBAR_ICONS);
 
 	return tbar;
 }
@@ -1106,13 +1069,8 @@ gnumeric_toolbar_get_widget (GtkToolbar *toolbar, int pos)
 void
 gnumeric_help_display (char const *link)
 {
-	GnomeHelpMenuEntry help_ref;
-
         g_return_if_fail (link != NULL);
-
-	help_ref.name = "gnumeric";
-	help_ref.path = (char *)link;
-	gnome_help_display (NULL, &help_ref);
+	gnome_help_display ("gnumeric", link, NULL);
 }
 
 static void

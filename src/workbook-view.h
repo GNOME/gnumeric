@@ -3,10 +3,10 @@
 
 #include "gnumeric.h"
 #include "file.h"
-#include <gtk/gtkobject.h>
+#include <glib-object.h>
 
 struct _WorkbookView {
-	GtkObject  gtk_object;
+	GObject  gtk_object;
 
 	Workbook *wb;
 	GPtrArray *wb_controls;
@@ -35,17 +35,17 @@ struct _WorkbookView {
 };
 
 typedef struct {
-	GtkObjectClass   gtk_object_class;
+	GObjectClass   gtk_object_class;
 	void (*sheet_entered) (Sheet *sheet);
 } WorkbookViewClass;
 
 #define WORKBOOK_VIEW_TYPE     (workbook_view_get_type ())
-#define WORKBOOK_VIEW(obj)     (GTK_CHECK_CAST ((obj), WORKBOOK_VIEW_TYPE, WorkbookView))
-#define IS_WORKBOOK_VIEW(o)    (GTK_CHECK_TYPE ((o), WORKBOOK_VIEW_TYPE))
-#define WORKBOOK_VIEW_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), WORKBOOK_VIEW_TYPE, WorkbookViewClass))
+#define WORKBOOK_VIEW(obj)     (G_TYPE_CHECK_INSTANCE_CAST ((obj), WORKBOOK_VIEW_TYPE, WorkbookView))
+#define WORKBOOK_VIEW_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), WORKBOOK_VIEW_TYPE, WorkbookViewClass))
+#define IS_WORKBOOK_VIEW(o)    (G_TYPE_CHECK_INSTANCE_TYPE ((o), WORKBOOK_VIEW_TYPE))
 
 /* Lifecycle */
-GtkType		 workbook_view_get_type	  (void);
+GType		 workbook_view_get_type	  (void);
 WorkbookView	*workbook_view_new	  (Workbook *optional_workbook);
 void             workbook_view_init       (WorkbookView *wbv,
 					   Workbook *optional_workbook);
@@ -59,8 +59,8 @@ void		 wb_view_sheet_focus	  (WorkbookView *wbv, Sheet *sheet);
 void		 wb_view_sheet_add	  (WorkbookView *wbv, Sheet *new_sheet);
 
 /* Manipulation */
-GtkArg		*wb_view_get_attributev	  (WorkbookView *wbv, guint *n_args);
-void         wb_view_set_attribute_list (WorkbookView *wbv, GList *list);
+void         	 wb_view_set_attribute	  (WorkbookView *wbv, char const *name,
+					   char const *value);
 void		 wb_view_preferred_size	  (WorkbookView *wbv,
 					   int w_pixels, int h_pixels);
 void		 wb_view_prefs_update	  (WorkbookView *wbv);

@@ -35,13 +35,15 @@ summary_get (GladeXML *gui, SummaryInfo *sin)
 #endif
 		else { /* FIXME: OK so far, but what if it isn't editable ? */
 			if (lp == SUMMARY_I_COMMENTS) {
-				char *txt = gtk_editable_get_chars (GTK_EDITABLE (w),
-							      0, gtk_text_get_length (GTK_TEXT (w)));
-				sit = summary_item_new_string (summary_item_name[lp], txt);
-				g_free (txt);
+				GtkTextBuffer *buf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (2));
+				GtkTextIter    start, end;
+				gtk_text_buffer_get_start_iter (buf, &start);
+				gtk_text_buffer_get_end_iter (buf, &end);
+				sit = summary_item_new_string (summary_item_name[lp],
+					gtk_text_buffer_get_text (buf, &start, &end, FALSE), FALSE);
 			} else {
 				const char *txt = gtk_entry_get_text (GTK_ENTRY (w));
-				sit = summary_item_new_string (summary_item_name[lp], txt);
+				sit = summary_item_new_string (summary_item_name[lp], txt, TRUE);
 			}
 
 			summary_info_add (sin, sit);
@@ -114,7 +116,7 @@ dialog_summary_update (WorkbookControlGUI *wbcg, SummaryInfo *sin)
 					      GTK_EDITABLE (entry));
 	}
 	comments = glade_xml_get_widget (gui, "glade_comments");
-	gtk_text_set_word_wrap (GTK_TEXT (comments), TRUE);
+	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (comments), GTK_WRAP_WORD);
 
 	summary_put (gui, sin);
 
@@ -125,7 +127,7 @@ dialog_summary_update (WorkbookControlGUI *wbcg, SummaryInfo *sin)
 	if (v != -1)
 		gtk_object_destroy (GTK_OBJECT (dia));
 
-	gtk_object_unref (GTK_OBJECT (gui));
+	g_object_unref (G_OBJECT (gui));
 
 #if SUMMARY_DEBUG > 0
 	printf ("After update:\n");

@@ -29,7 +29,6 @@
 #include "clipboard.h"
 
 #include <libgnome/gnome-i18n.h>
-#include <libgnome/gnome-mime.h>
 #ifdef ENABLE_BONOBO
 #  include "sheet-object-container.h"
 #endif
@@ -421,9 +420,12 @@ gnm_canvas_key_release (GtkWidget *widget, GdkEventKey *event)
 static gint
 gnm_canvas_focus_in (GtkWidget *widget, GdkEventFocus *event)
 {
+#warning IM disabled
+#if 0
 	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (widget);
 	if (gcanvas->ic)
 		gdk_im_begin (gcanvas->ic, gcanvas->simple.canvas.layout.bin_window);
+#endif
 	return (*GTK_WIDGET_CLASS (gcanvas_parent_class)->focus_in_event)(widget, event);
 }
 
@@ -431,7 +433,10 @@ gnm_canvas_focus_in (GtkWidget *widget, GdkEventFocus *event)
 static gint
 gnm_canvas_focus_out (GtkWidget *widget, GdkEventFocus *event)
 {
+#warning IM disabled
+#if 0
 	gdk_im_end ();
+#endif
 	return (*GTK_WIDGET_CLASS (gcanvas_parent_class)->focus_out_event)(widget, event);
 }
 
@@ -486,7 +491,12 @@ gnm_canvas_filenames_dropped (GtkWidget        *widget,
 	SheetControl *sc = (SheetControl *) gcanvas->simple.scg;
 	WorkbookControl *wbc = sc->wbc;
 
+#warning IM disabled
+#if 0
 	names = gnome_uri_list_extract_filenames ((char *)selection_data->data);
+#else
+	names = NULL;
+#endif
 
 	for (tmp_list = names; tmp_list != NULL; tmp_list = tmp_list->next) {
 		gchar *file_name = tmp_list->data;
@@ -513,12 +523,14 @@ gnm_canvas_filenames_dropped (GtkWidget        *widget,
 static void
 gnm_canvas_realize (GtkWidget *widget)
 {
+	if (GTK_WIDGET_CLASS (gcanvas_parent_class)->realize)
+		(*GTK_WIDGET_CLASS (gcanvas_parent_class)->realize)(widget);
+
+#warning IM disabled
+#if 0
 	gint width, height;
 	GdkWindow *window;
 	GnumericCanvas *gcanvas;
-
-	if (GTK_WIDGET_CLASS (gcanvas_parent_class)->realize)
-		(*GTK_WIDGET_CLASS (gcanvas_parent_class)->realize)(widget);
 
 	window = widget->window;
 	gdk_window_set_back_pixmap (GTK_LAYOUT (widget)->bin_window, NULL, FALSE);
@@ -573,6 +585,7 @@ gnm_canvas_realize (GtkWidget *widget)
 		} else
 			g_warning ("Can't create input context.");
 	}
+#endif
 }
 
 static void
@@ -583,6 +596,8 @@ gnm_canvas_unrealize (GtkWidget *widget)
 	gcanvas = GNUMERIC_CANVAS (widget);
 	g_return_if_fail (gcanvas != NULL);
 
+#warning IM disabled
+#if 0
 	if (gcanvas->ic) {
 		gdk_ic_destroy (gcanvas->ic);
 		gcanvas->ic = NULL;
@@ -591,6 +606,7 @@ gnm_canvas_unrealize (GtkWidget *widget)
 		gdk_ic_attr_destroy (gcanvas->ic_attr);
 		gcanvas->ic_attr = NULL;
 	}
+#endif
 
 	(*GTK_WIDGET_CLASS (gcanvas_parent_class)->unrealize)(widget);
 }
@@ -634,8 +650,11 @@ gnm_canvas_init (GnumericCanvas *gcanvas)
 {
 	GnomeCanvas *canvas = GNOME_CANVAS (gcanvas);
 
+#warning IM disabled
+#if 0
 	gcanvas->ic = NULL;
 	gcanvas->ic_attr = NULL;
+#endif
 	gcanvas->first.col = gcanvas->last_full.col = gcanvas->last_visible.col = 0;
 	gcanvas->first.row = gcanvas->last_full.row = gcanvas->last_visible.row = 0;
 	gcanvas->first_offset.col = 0;

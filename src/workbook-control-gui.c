@@ -1127,7 +1127,7 @@ wbcg_progress_set (CommandContext *cc, gfloat val)
 #ifdef ENABLE_BONOBO
 	gtk_progress_bar_update (GTK_PROGRESS_BAR (wbcg->progress_bar), val);
 #else
-	gnome_appbar_set_progress (wbcg->appbar, val);
+	gnome_appbar_set_progress_percentage (wbcg->appbar, val);
 #endif
 }
 
@@ -1313,7 +1313,7 @@ wbcg_close_control (WorkbookControlGUI *wbcg)
 	/* If something is still using the control
 	 * eg progress meter for a new book
 	 */
-	if (GTK_OBJECT (wbcg)->ref_count > 1)
+	if (G_OBJECT (wbcg)->ref_count > 1)
 		return TRUE;
 
 	/* This is the last control */
@@ -1327,9 +1327,9 @@ wbcg_close_control (WorkbookControlGUI *wbcg)
 		if (wb->wb_views->len <= 1)
 			return workbook_close_if_user_permits (wbcg, wb_view, TRUE) == 0;
 
-		gtk_object_unref (GTK_OBJECT (wb_view));
+		g_object_unref (G_OBJECT (wb_view));
 	} else
-		gtk_object_unref (GTK_OBJECT (wbcg));
+		g_object_unref (G_OBJECT (wbcg));
 
 	return FALSE;
 }
@@ -2603,21 +2603,18 @@ static GnomeUIInfo workbook_menu_file [] = {
 
 	GNOMEUIINFO_MENU_OPEN_ITEM (cb_file_open, NULL),
 	GNOMEUIINFO_ITEM_STOCK (N_("_Import..."), N_("Imports a file"),
-				cb_file_import, GNOME_STOCK_MENU_OPEN),
+				cb_file_import, GTK_STOCK_OPEN),
 	GNOMEUIINFO_ITEM_STOCK (N_("_Save..."), N_("Save"),
-				cb_file_save,
-				"Menu_Gnumeric_Save"),
+				cb_file_save, GTK_STOCK_SAVE),
 	GNOMEUIINFO_ITEM_STOCK (N_("Save _As..."), N_("Save with a new name or format"),
-				cb_file_save_as,
-				"Menu_Gnumeric_SaveAs"),
+				cb_file_save_as, GTK_STOCK_SAVE_AS),
 
 	GNOMEUIINFO_SEPARATOR,
 
 	GNOMEUIINFO_MENU_PRINT_SETUP_ITEM (cb_file_print_setup, NULL),
 	GNOMEUIINFO_MENU_PRINT_ITEM (cb_file_print, NULL),
 	GNOMEUIINFO_ITEM_STOCK (N_("Print Pre_view..."), N_("Print Preview"),
-				cb_file_print_preview,
-				"Menu_Gnumeric_PrintPreview"),
+				cb_file_print_preview, GTK_STOCK_PRINT_PREVIEW),
 
 	GNOMEUIINFO_SEPARATOR,
 
@@ -2722,26 +2719,26 @@ static GnomeUIInfo workbook_menu_edit_sheet [] = {
 static GnomeUIInfo workbook_menu_edit [] = {
 	{ GNOME_APP_UI_ITEM, N_("_Undo"),
 		N_("Undo the last action"), cb_edit_undo, NULL, NULL,
-		GNOME_APP_PIXMAP_STOCK, "Menu_Gnumeric_Undo",
+		GNOME_APP_PIXMAP_STOCK, GTK_STOCK_UNDO,
 		'z', GDK_CONTROL_MASK },
 	{ GNOME_APP_UI_ITEM, N_("_Redo"),
 		N_("Redo the undone action"), cb_edit_redo, NULL, NULL,
-		GNOME_APP_PIXMAP_STOCK, "Menu_Gnumeric_Redo",
+		GNOME_APP_PIXMAP_STOCK, GTK_STOCK_REDO,
 		'r', GDK_CONTROL_MASK },
 
 	GNOMEUIINFO_SEPARATOR,
 
 	{ GNOME_APP_UI_ITEM, N_("Cu_t"),
 		N_("Cut the selection"), cb_edit_cut, NULL, NULL,
-		GNOME_APP_PIXMAP_STOCK, "Menu_Gnumeric_Cut",
+		GNOME_APP_PIXMAP_STOCK, GTK_STOCK_CUT,
 		'x', GDK_CONTROL_MASK },
 	{ GNOME_APP_UI_ITEM, N_("_Copy"),
 		N_("Copy the selection"), cb_edit_copy, NULL, NULL,
-		GNOME_APP_PIXMAP_STOCK, "Menu_Gnumeric_Copy",
+		GNOME_APP_PIXMAP_STOCK, GTK_STOCK_COPY,
 		'c', GDK_CONTROL_MASK },
 	{ GNOME_APP_UI_ITEM, N_("_Paste"),
 		N_("Paste the clipboard"), cb_edit_paste, NULL, NULL,
-		GNOME_APP_PIXMAP_STOCK, "Menu_Gnumeric_Paste",
+		GNOME_APP_PIXMAP_STOCK, GTK_STOCK_PASTE,
 		'v', GDK_CONTROL_MASK },
 
 	GNOMEUIINFO_ITEM_NONE (N_("P_aste special..."),
@@ -2767,13 +2764,13 @@ static GnomeUIInfo workbook_menu_edit [] = {
 		  N_("Search for some text"),
 	          cb_edit_search,
 		  NULL, NULL,
-		  GNOME_APP_PIXMAP_STOCK, "Menu_Gnumeric_Search", GDK_F7, 0 },
+		  GNOME_APP_PIXMAP_STOCK, GTK_STOCK_FIND, GDK_F7, 0 },
 
 	{ GNOME_APP_UI_ITEM, N_("Search and Replace..."),
 		  N_("Search for some text and replace it with something else"),
 	          cb_edit_search_replace,
 		  NULL, NULL,
-		  GNOME_APP_PIXMAP_STOCK, "Menu_Gnumeric_SearchAndReplace", GDK_F6, 0 },
+		  GNOME_APP_PIXMAP_STOCK, GTK_STOCK_FIND_AND_REPLACE, GDK_F6, 0 },
 
 	{ GNOME_APP_UI_ITEM, N_("_Goto cell..."),
 		  N_("Jump to a specified cell"),
@@ -3140,7 +3137,7 @@ static GnomeUIInfo workbook_menu_data_filter [] = {
 static GnomeUIInfo workbook_menu_data [] = {
 	GNOMEUIINFO_ITEM_STOCK (N_("_Sort"),
 		N_("Sorts the selected region."),
-		cb_data_sort, "Menu_Gnumeric_SortAscending"),
+		cb_data_sort, GTK_STOCK_SORT_ASCENDING),
 	GNOMEUIINFO_SUBTREE(N_("_Filter"), workbook_menu_data_filter),
 	GNOMEUIINFO_ITEM_NONE (N_("_Validate..."),
 		N_("Validate input with preset criteria"),
@@ -3177,44 +3174,44 @@ static GnomeUIInfo workbook_menu [] = {
 static GnomeUIInfo workbook_standard_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("New"), N_("Creates a new workbook"),
-		cb_file_new, GNOME_STOCK_PIXMAP_NEW),
+		cb_file_new, GTK_STOCK_NEW),
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Open"), N_("Opens an existing workbook"),
-		cb_file_open, GNOME_STOCK_PIXMAP_OPEN),
+		cb_file_open, GTK_STOCK_OPEN),
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Save"), N_("Saves the workbook"),
-		cb_file_save, "Gnumeric_Save"),
+		cb_file_save, GTK_STOCK_SAVE),
 
 	GNOMEUIINFO_SEPARATOR,
 
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Print"), N_("Prints the workbook"),
-		cb_file_print, GNOME_STOCK_PIXMAP_PRINT),
+		cb_file_print, GTK_STOCK_PRINT),
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Print Preview"), N_("Print Preview"),
-		cb_file_print_preview, "Gnumeric_PrintPreview"),
+		cb_file_print_preview, GTK_STOCK_PRINT_PREVIEW),
 
 	GNOMEUIINFO_SEPARATOR,
 
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Cut"), N_("Cuts the selection to the clipboard"),
-		cb_edit_cut, "Gnumeric_Cut"),
+		cb_edit_cut, GTK_STOCK_CUT),
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Copy"), N_("Copies the selection to the clipboard"),
-		cb_edit_copy, "Gnumeric_Copy"),
+		cb_edit_copy, GTK_STOCK_COPY),
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Paste"), N_("Pastes the clipboard"),
-		cb_edit_paste, "Gnumeric_Paste"),
+		cb_edit_paste, GTK_STOCK_PASTE),
 
 	GNOMEUIINFO_SEPARATOR,
 
 #if 0
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Undo"), N_("Undo the operation"),
-		cb_edit_undo, GNOME_STOCK_PIXMAP_UNDO),
+		cb_edit_undo, GTK_STOCK_UNDO),
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Redo"), N_("Redo the operation"),
-		cb_edit_redo, GNOME_STOCK_PIXMAP_REDO),
+		cb_edit_redo, GTK_STOCK_REDO),
 #else
 #define TB_UNDO_POS 11
 #define TB_REDO_POS 12
@@ -3231,10 +3228,10 @@ static GnomeUIInfo workbook_standard_toolbar [] = {
 
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Sort Ascending"), N_("Sorts the selected region in ascending order based on the first column selected."),
-		cb_sort_ascending, "Gnumeric_SortAscending"),
+		cb_sort_ascending, GTK_STOCK_SORT_ASCENDING),
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Sort Descending"), N_("Sorts the selected region in descending order based on the first column selected."),
-		cb_sort_descending, "Gnumeric_SortDescending"),
+		cb_sort_descending, GTK_STOCK_SORT_DESCENDING),
 
 	GNOMEUIINFO_END
 };
@@ -3389,15 +3386,13 @@ workbook_create_standard_toolbar (WorkbookControlGUI *wbcg)
 
 	/* Zoom combo box */
 	zoom = wbcg->zoom_entry = gnm_combo_text_new (NULL);
-	if (!gnome_preferences_get_toolbar_relief_btn ())
-		gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (zoom), GTK_RELIEF_NONE);
 	entry = GNM_COMBO_TEXT (zoom)->entry;
 	gtk_signal_connect (GTK_OBJECT (zoom), "entry_changed",
 			    GTK_SIGNAL_FUNC (cb_change_zoom), wbcg);
 	gtk_combo_box_set_title (GTK_COMBO_BOX (zoom), _("Zoom"));
 
 	/* Set a reasonable default width */
-	len = gdk_string_measure (entry->style->font, "%10000");
+	len = gdk_string_measure (gtk_style_get_font (entry->style), "%10000");
 	gtk_widget_set_usize (entry, len, 0);
 
 	/* Preset values */
@@ -3405,18 +3400,14 @@ workbook_create_standard_toolbar (WorkbookControlGUI *wbcg)
 		gnm_combo_text_add_item (GNM_COMBO_TEXT (zoom), preset_zoom[i]);
 
 	/* Undo dropdown list */
-	undo = wbcg->undo_combo = gtk_combo_stack_new ("Gnumeric_Undo", TRUE);
+	undo = wbcg->undo_combo = gtk_combo_stack_new (GTK_STOCK_UNDO, TRUE);
 	gtk_combo_box_set_title (GTK_COMBO_BOX (undo), _("Undo"));
-	if (!gnome_preferences_get_toolbar_relief_btn ())
-		gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (undo), GTK_RELIEF_NONE);
 	gtk_signal_connect (GTK_OBJECT (undo), "pop",
 			    (GtkSignalFunc) cb_undo_combo, wbcg);
 
 	/* Redo dropdown list */
-	redo = wbcg->redo_combo = gtk_combo_stack_new ("Gnumeric_Redo", TRUE);
+	redo = wbcg->redo_combo = gtk_combo_stack_new (GTK_STOCK_REDO, TRUE);
 	gtk_combo_box_set_title (GTK_COMBO_BOX (redo), _("Redo"));
-	if (!gnome_preferences_get_toolbar_relief_btn ())
-		gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (redo), GTK_RELIEF_NONE);
 	gtk_signal_connect (GTK_OBJECT (redo), "pop",
 			    (GtkSignalFunc) cb_redo_combo, wbcg);
 
@@ -3515,12 +3506,9 @@ cb_autofunction (GtkWidget *widget, WorkbookControlGUI *wbcg)
 
 static GtkWidget *
 edit_area_button (WorkbookControlGUI *wbcg, gboolean sensitive,
-		  GtkSignalFunc func, char const *pixmap)
+		  GtkSignalFunc func, char const *stock_id)
 {
-	GtkWidget *button = gtk_button_new ();
-	GtkWidget *pix = gnome_stock_pixmap_widget_new (
-		GTK_WIDGET (wbcg->toplevel), pixmap);
-	gtk_container_add (GTK_CONTAINER (button), pix);
+	GtkWidget *button = gtk_button_new_from_stock (stock_id);
 	if (!sensitive)
 		gtk_widget_set_sensitive (button, FALSE);
 	GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
@@ -3698,7 +3686,7 @@ wbcg_destroy (GtkObject *obj)
 
 	gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel), NULL);
 
-	if (!GTK_OBJECT_DESTROYED (GTK_OBJECT (wbcg->toplevel)))
+	if (wbcg->toplevel != NULL)
 		gtk_object_destroy (GTK_OBJECT (wbcg->toplevel));
 
 	GTK_OBJECT_CLASS (parent_class)->destroy (obj);
@@ -3882,7 +3870,7 @@ workbook_setup_auto_calc (WorkbookControlGUI *wbcg)
 	GTK_WIDGET_UNSET_FLAGS (tmp, GTK_CAN_FOCUS);
 	gtk_widget_ensure_style (tmp);
 	gtk_widget_set_usize (tmp,
-		gdk_text_measure (tmp->style->font, "W", 1) * 15, -1);
+		gdk_text_measure (gtk_style_get_font (tmp->style), "W", 1) * 15, -1);
 	gtk_signal_connect (GTK_OBJECT (tmp), "button_press_event",
 			    GTK_SIGNAL_FUNC (cb_select_auto_expr), wbcg);
 	frame1 = gtk_frame_new (NULL);
@@ -3892,7 +3880,7 @@ workbook_setup_auto_calc (WorkbookControlGUI *wbcg)
 	wbcg->status_text = tmp = gtk_label_new ("");
 	gtk_widget_ensure_style (tmp);
 	gtk_widget_set_usize (tmp,
-		gdk_text_measure (tmp->style->font, "W", 1) * 15, -1);
+		gdk_text_measure (gtk_style_get_font (tmp->style), "W", 1) * 15, -1);
 	frame2 = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame2), GTK_SHADOW_IN);
 	gtk_container_add (GTK_CONTAINER (frame2), tmp);
@@ -4463,7 +4451,7 @@ workbook_control_gui_new (WorkbookView *optional_view, Workbook *wb)
 	WorkbookControlGUI *wbcg;
 	WorkbookControl    *wbc;
 
-	wbcg = gtk_type_new (workbook_control_gui_get_type ());
+	wbcg = g_object_new (workbook_control_gui_get_type (), NULL);
 	wbc = WORKBOOK_CONTROL (wbcg);
 	workbook_control_gui_init (wbcg, optional_view, wb);
 

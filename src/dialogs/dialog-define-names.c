@@ -460,7 +460,7 @@ cb_name_guru_destroy (GtkObject *w, NameGuruState *state)
 	wbcg_edit_detach_guru (state->wbcg);
 
 	if (state->gui != NULL) {
-		gtk_object_unref (GTK_OBJECT (state->gui));
+		g_object_unref (G_OBJECT (state->gui));
 		state->gui = NULL;
 	}
 

@@ -2,8 +2,6 @@
 #define GNUMERIC_H
 
 #include <glib.h>
-/* not really needed here, but it makes porting to 2.0 cleaner */
-#include <libgnome/gnome-defs.h>
 
 #define SHEET_MAX_ROWS		(64 * 1024)	/* 0 - 65535 inclusive */
 #define SHEET_MAX_COLS		256		/* 0 - 255 inclusive */
@@ -124,8 +122,5 @@ typedef enum _SpanCalcFlags {
 } SpanCalcFlags;
 
 typedef struct _SearchReplace           SearchReplace;
-
-/* simplify porting to gtk-2 */
-#define	G_OBJECT_GET_CLASS(obj) (GTK_OBJECT(obj)->klass)
 
 #endif /* GNUMERIC_H */

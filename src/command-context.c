@@ -152,4 +152,4 @@ command_context_pop_err_template (CommandContext *context)
 }
 
 E_MAKE_TYPE (command_context, "CommandContext", CommandContext,
-	     NULL, NULL, GTK_TYPE_OBJECT)
+	     NULL, NULL, G_TYPE_OBJECT)

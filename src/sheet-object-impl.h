@@ -12,7 +12,7 @@ typedef enum {
 } SheetObjectAction;
 
 struct _SheetObject {
-	GtkObject          parent_object;
+	GObject            parent_object;
 	SheetObjectAction  type;
 	Sheet             *sheet;
 	GList             *realized_list;
@@ -21,7 +21,7 @@ struct _SheetObject {
 };
 
 typedef struct {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 
 	/* Virtual methods */
 	gboolean (*remove_from_sheet) (SheetObject	*sheet_object);
@@ -55,6 +55,7 @@ typedef struct {
 				      Sheet *sheet);
 						
 	double	 default_width_pts, default_height_pts;
+	gboolean stipple_border;
 	gboolean rubber_band_directly; /* If false, we draw a rectangle where
 					* the object is going to be layed out
 					* If true, we draw the object while

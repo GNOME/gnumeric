@@ -45,9 +45,9 @@ sheet_object_bonobo_destroy (GtkObject *object)
 {
 	SheetObjectBonobo *sob = SHEET_OBJECT_BONOBO (object);
 
-	if (sob->client_site != NULL) {
-		bonobo_object_unref (BONOBO_OBJECT (sob->client_site));
-		sob->client_site = NULL;
+	if (sob->control_frame != NULL) {
+		bonobo_object_unref (BONOBO_OBJECT (sob->control_frame));
+		sob->control_frame = NULL;
 	}
 
 	if (sob->object_server != NULL) {
@@ -331,18 +331,18 @@ E_MAKE_TYPE (sheet_object_bonobo, "SheetObjectBonobo", SheetObjectBonobo,
 
 SheetObjectBonobo *
 sheet_object_bonobo_construct (SheetObjectBonobo   *sob,
-			       BonoboItemContainer *container,
+			       Bonobo_UIContainer *container,
 			       char const *object_id)
 {
 	g_return_val_if_fail (IS_SHEET_OBJECT_BONOBO (sob), NULL);
 
 	sob->object_id     = NULL;
 	sob->object_server = NULL;
-	sob->client_site = bonobo_client_site_new (container);
+	sob->control_frame = bonobo_control_frame_new (container);
 	if (object_id != NULL &&
 	    !sheet_object_bonobo_set_object_iid (sob, object_id)) {
-		bonobo_object_unref (BONOBO_OBJECT (sob->client_site));
-		sob->client_site = NULL;
+		bonobo_object_unref (BONOBO_OBJECT (sob->control_frame));
+		sob->control_frame = NULL;
 		return NULL;
 	}
 
@@ -398,7 +398,7 @@ sheet_object_bonobo_set_server (SheetObjectBonobo *sob,
 	g_return_val_if_fail (sob->object_server == NULL, FALSE);
 	g_return_val_if_fail (BONOBO_IS_OBJECT_CLIENT (server), FALSE);
 
-	if (!bonobo_client_site_bind_embeddable (sob->client_site, server))
+	if (!bonobo_client_site_bind_embeddable (sob->control_frame, server))
 		return FALSE;
 
 	bonobo_object_ref (BONOBO_OBJECT (server));

@@ -26,7 +26,7 @@
 
 #include <gal/util/e-util.h>
 
-#define SC_CLASS(o) SHEET_CONTROL_CLASS ((o)->object.klass)
+#define SC_CLASS(o) SHEET_CONTROL_CLASS (G_OBJECT_GET_CLASS (o))
 #define SC_VIRTUAL_FULL(func, handle, arglist, call)		\
 void sc_ ## func arglist				        \
 {								\
@@ -42,25 +42,25 @@ void sc_ ## func arglist				        \
 
 /*****************************************************************************/
 
-static GtkObjectClass *parent_class;
+static GObjectClass *parent_class;
 
 static void
-sc_destroy (GtkObject *obj)
+sc_finalize (GObject *obj)
 {
 	/* Commented out until needed */
 	/* SheetControl *sc = SHEET_CONTROL (obj); */ 
-	GTK_OBJECT_CLASS (parent_class)->destroy (obj);
+	G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
 static void
-sc_class_init (GtkObjectClass *object_class)
+sc_class_init (GObjectClass *object_class)
 {
-	parent_class = gtk_type_class (gtk_object_get_type ());
-	object_class->destroy = sc_destroy;
+	parent_class = g_type_class_peek (G_TYPE_OBJECT);
+	object_class->finalize = sc_finalize;
 }
 
 E_MAKE_TYPE (sheet_control, "SheetControl", SheetControl,
-	     sc_class_init, NULL, GTK_TYPE_OBJECT);
+	     sc_class_init, NULL, G_TYPE_OBJECT);
 
 WorkbookControl *
 sc_wbc (SheetControl const *sc)

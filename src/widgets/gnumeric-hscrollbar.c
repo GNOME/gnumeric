@@ -136,9 +136,6 @@ gnumeric_hscrollbar_class_init (GnumericHScrollbarClass *klass)
 				GTK_SIGNAL_OFFSET (GnumericHScrollbarClass, offset_changed),
 				gtk_marshal_NONE__INT_INT,
 				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
-
-
-	gtk_object_class_add_signals (object_class, hscrollbar_signals, LAST_SIGNAL);
 }
 
 GtkWidget *

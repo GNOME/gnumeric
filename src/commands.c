@@ -100,15 +100,15 @@
 /******************************************************************/
 
 #define GNUMERIC_COMMAND_TYPE        (gnumeric_command_get_type ())
-#define GNUMERIC_COMMAND(o)          (GTK_CHECK_CAST ((o), GNUMERIC_COMMAND_TYPE, GnumericCommand))
-#define GNUMERIC_COMMAND_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), GNUMERIC_COMMAND_TYPE, GnumericCommandClass))
-#define IS_GNUMERIC_COMMAND(o)       (GTK_CHECK_TYPE ((o), GNUMERIC_COMMAND_TYPE))
-#define IS_GNUMERIC_COMMAND_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), GNUMERIC_COMMAND_TYPE))
+#define GNUMERIC_COMMAND(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GNUMERIC_COMMAND_TYPE, GnumericCommand))
+#define GNUMERIC_COMMAND_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GNUMERIC_COMMAND_TYPE, GnumericCommandClass))
+#define IS_GNUMERIC_COMMAND(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNUMERIC_COMMAND_TYPE))
+#define IS_GNUMERIC_COMMAND_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GNUMERIC_COMMAND_TYPE))
 #define CMD_CLASS(o)		     GNUMERIC_COMMAND_CLASS (G_OBJECT_GET_CLASS(cmd))
 
 typedef struct
 {
-	GtkObject parent;
+	GObject parent;
 	Sheet *sheet;			/* primary sheet associated with op */
 	int size;                       /* See truncate_undo_info.  */
 	char const *cmd_descriptor;	/* A string to put in the menu */
@@ -118,20 +118,20 @@ typedef gboolean (* UndoCmd)(GnumericCommand *this, WorkbookControl *wbc);
 typedef gboolean (* RedoCmd)(GnumericCommand *this, WorkbookControl *wbc);
 
 typedef struct {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 
 	UndoCmd		undo_cmd;
 	RedoCmd		redo_cmd;
 } GnumericCommandClass;
 
 static E_MAKE_TYPE (gnumeric_command, "GnumericCommand", GnumericCommand,
-		    NULL, NULL, GTK_TYPE_OBJECT);
+		    NULL, NULL, G_TYPE_OBJECT);
 
-/* Store the real GtkObject dtor pointer */
-static void (* gtk_object_dtor) (GtkObject *object) = NULL;
+/* Store the real GObject dtor pointer */
+static void (* g_object_dtor) (GObject *object) = NULL;
 
 static void
-gnumeric_command_destroy (GtkObject *obj)
+gnumeric_command_finalize (GObject *obj)
 {
 	GnumericCommand *cmd = GNUMERIC_COMMAND (obj);
 
@@ -141,8 +141,8 @@ gnumeric_command_destroy (GtkObject *obj)
 	g_free ((gchar *)cmd->cmd_descriptor);
 
 	/* Call the base class dtor */
-	g_return_if_fail (gtk_object_dtor);
-	(*gtk_object_dtor) (obj);
+	g_return_if_fail (g_object_dtor);
+	(*g_object_dtor) (obj);
 }
 
 #define GNUMERIC_MAKE_COMMAND(type, func)				\
@@ -151,15 +151,15 @@ func ## _undo (GnumericCommand *me, WorkbookControl *wbc);		\
 static gboolean								\
 func ## _redo (GnumericCommand *me, WorkbookControl *wbc);		\
 static void								\
-func ## _destroy (GtkObject *object);					\
+func ## _finalize (GObject *object);					\
 static void								\
 func ## _class_init (GnumericCommandClass * const parent)		\
 {									\
 	parent->undo_cmd = (UndoCmd)& func ## _undo;			\
 	parent->redo_cmd = (RedoCmd)& func ## _redo;			\
-	if (gtk_object_dtor == NULL)					\
-		gtk_object_dtor = parent->parent_class.destroy;		\
-	parent->parent_class.destroy = & func ## _destroy;		\
+	if (g_object_dtor == NULL)					\
+		g_object_dtor = parent->parent_class.finalize;		\
+	parent->parent_class.finalize = & func ## _finalize;		\
 }									\
 typedef struct {							\
 	GnumericCommandClass cmd;					\
@@ -392,11 +392,11 @@ void
 command_list_release (GSList *cmd_list)
 {
 	while (cmd_list != NULL) {
-		GtkObject *cmd = GTK_OBJECT (cmd_list->data);
+		GObject *cmd = G_OBJECT (cmd_list->data);
 
 		g_return_if_fail (cmd != NULL);
 
-		gtk_object_unref (cmd);
+		g_object_unref (cmd);
 		cmd_list = g_slist_remove (cmd_list, cmd_list->data);
 	}
 }
@@ -483,7 +483,7 @@ truncate_undo_info (Workbook *wb)
  * @cmd : The new command to add.
  */
 static void
-command_register_undo (WorkbookControl *wbc, GtkObject *obj)
+command_register_undo (WorkbookControl *wbc, GObject *obj)
 {
 	Workbook *wb;
 	GnumericCommand *cmd;
@@ -524,7 +524,7 @@ command_register_undo (WorkbookControl *wbc, GtkObject *obj)
  * returns : TRUE if there was an error.
  */
 static gboolean
-command_push_undo (WorkbookControl *wbc, GtkObject *obj)
+command_push_undo (WorkbookControl *wbc, GObject *obj)
 {
 	gboolean trouble;
 	GnumericCommand *cmd;
@@ -545,7 +545,7 @@ command_push_undo (WorkbookControl *wbc, GtkObject *obj)
 	if (!trouble)
 		command_register_undo (wbc, obj);
 	else
-		gtk_object_unref (obj);
+		g_object_unref (obj);
 
 	return trouble;
 }
@@ -553,7 +553,7 @@ command_push_undo (WorkbookControl *wbc, GtkObject *obj)
 /******************************************************************/
 
 #define CMD_SET_TEXT_TYPE        (cmd_set_text_get_type ())
-#define CMD_SET_TEXT(o)          (GTK_CHECK_CAST ((o), CMD_SET_TEXT_TYPE, CmdSetText))
+#define CMD_SET_TEXT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_SET_TEXT_TYPE, CmdSetText))
 
 typedef struct
 {
@@ -609,14 +609,14 @@ cmd_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static void
-cmd_set_text_destroy (GtkObject *cmd)
+cmd_set_text_finalize (GObject *cmd)
 {
 	CmdSetText *me = CMD_SET_TEXT (cmd);
 	if (me->text != NULL) {
 		g_free (me->text);
 		me->text = NULL;
 	}
-	gnumeric_command_destroy (cmd);
+	gnumeric_command_finalize (cmd);
 }
 
 gboolean
@@ -624,7 +624,7 @@ cmd_set_text (WorkbookControl *wbc,
 	      Sheet *sheet, CellPos const *pos,
 	      const char *new_text)
 {
-	GtkObject *obj;
+	GObject *obj;
 	CmdSetText *me;
 	gchar *pad = "";
 	gchar *text, *corrected_text, *tmp, c = '\0';
@@ -643,7 +643,7 @@ cmd_set_text (WorkbookControl *wbc,
 
 	corrected_text = autocorrect_tool (new_text);
 
-	obj = gtk_type_new (CMD_SET_TEXT_TYPE);
+	obj = g_object_new (CMD_SET_TEXT_TYPE, NULL);
 	me = CMD_SET_TEXT (obj);
 
 	/* Store the specs for the object */
@@ -689,7 +689,7 @@ cmd_set_text (WorkbookControl *wbc,
 /******************************************************************/
 
 #define CMD_AREA_SET_TEXT_TYPE        (cmd_area_set_text_get_type ())
-#define CMD_AREA_SET_TEXT(o)          (GTK_CHECK_CAST ((o), CMD_AREA_SET_TEXT_TYPE, CmdAreaSetText))
+#define CMD_AREA_SET_TEXT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_AREA_SET_TEXT_TYPE, CmdAreaSetText))
 
 typedef struct
 {
@@ -801,7 +801,7 @@ cmd_area_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	return FALSE;
 }
 static void
-cmd_area_set_text_destroy (GtkObject *cmd)
+cmd_area_set_text_finalize (GObject *cmd)
 {
 	CmdAreaSetText *me = CMD_AREA_SET_TEXT (cmd);
 
@@ -816,18 +816,18 @@ cmd_area_set_text_destroy (GtkObject *cmd)
 	range_fragment_free (me->selection);
 	me->selection = NULL;
 
-	gnumeric_command_destroy (cmd);
+	gnumeric_command_finalize (cmd);
 }
 
 gboolean
 cmd_area_set_text (WorkbookControl *wbc, ParsePos const *pos,
 		   char const *new_text, gboolean as_array)
 {
-	GtkObject *obj;
+	GObject *obj;
 	CmdAreaSetText *me;
 	gchar *text, *pad = "";
 
-	obj = gtk_type_new (CMD_AREA_SET_TEXT_TYPE);
+	obj = g_object_new (CMD_AREA_SET_TEXT_TYPE, NULL);
 	me = CMD_AREA_SET_TEXT (obj);
 
 	/* Store the specs for the object */
@@ -859,7 +859,7 @@ cmd_area_set_text (WorkbookControl *wbc, ParsePos const *pos,
 /******************************************************************/
 
 #define CMD_INS_DEL_COLROW_TYPE        (cmd_ins_del_colrow_get_type ())
-#define CMD_INS_DEL_COLROW(o)          (GTK_CHECK_CAST ((o), CMD_INS_DEL_COLROW_TYPE, CmdInsDelColRow))
+#define CMD_INS_DEL_COLROW(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_INS_DEL_COLROW_TYPE, CmdInsDelColRow))
 
 typedef struct
 {
@@ -1033,7 +1033,7 @@ cmd_ins_del_colrow_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static void
-cmd_ins_del_colrow_destroy (GtkObject *cmd)
+cmd_ins_del_colrow_finalize (GObject *cmd)
 {
 	CmdInsDelColRow *me = CMD_INS_DEL_COLROW (cmd);
 
@@ -1049,7 +1049,7 @@ cmd_ins_del_colrow_destroy (GtkObject *cmd)
 		workbook_expr_unrelocate_free (me->reloc_storage);
 		me->reloc_storage = NULL;
 	}
-	gnumeric_command_destroy (cmd);
+	gnumeric_command_finalize (cmd);
 }
 
 static gboolean
@@ -1058,12 +1058,12 @@ cmd_ins_del_colrow (WorkbookControl *wbc,
 		     gboolean is_cols, gboolean is_insert,
 		     char const * descriptor, int index, int count)
 {
-	GtkObject *obj;
+	GObject *obj;
 	CmdInsDelColRow *me;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
-	obj = gtk_type_new (CMD_INS_DEL_COLROW_TYPE);
+	obj = g_object_new (CMD_INS_DEL_COLROW_TYPE, NULL);
 	me = CMD_INS_DEL_COLROW (obj);
 
 	/* Store the specs for the object */
@@ -1148,7 +1148,7 @@ cmd_delete_rows (WorkbookControl *wbc,
 /******************************************************************/
 
 #define CMD_CLEAR_TYPE        (cmd_clear_get_type ())
-#define CMD_CLEAR(o)          (GTK_CHECK_CAST ((o), CMD_CLEAR_TYPE, CmdClear))
+#define CMD_CLEAR(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_CLEAR_TYPE, CmdClear))
 
 typedef struct
 {
@@ -1236,7 +1236,7 @@ cmd_clear_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static void
-cmd_clear_destroy (GtkObject *cmd)
+cmd_clear_finalize (GObject *cmd)
 {
 	CmdClear *me = CMD_CLEAR (cmd);
 
@@ -1249,13 +1249,13 @@ cmd_clear_destroy (GtkObject *cmd)
 	range_fragment_free (me->selection);
 	me->selection = NULL;
 
-	gnumeric_command_destroy (cmd);
+	gnumeric_command_finalize (cmd);
 }
 
 gboolean
 cmd_clear_selection (WorkbookControl *wbc, Sheet *sheet, int clear_flags)
 {
-	GtkObject *obj;
+	GObject *obj;
 	CmdClear *me;
 	GString *names, *types;
 	int paste_flags;
@@ -1275,7 +1275,7 @@ cmd_clear_selection (WorkbookControl *wbc, Sheet *sheet, int clear_flags)
 		}
 	}
 
-	obj = gtk_type_new (CMD_CLEAR_TYPE);
+	obj = g_object_new (CMD_CLEAR_TYPE, NULL);
 	me = CMD_CLEAR (obj);
 
 	/* Store the specs for the object */
@@ -1333,7 +1333,7 @@ cmd_clear_selection (WorkbookControl *wbc, Sheet *sheet, int clear_flags)
 /******************************************************************/
 
 #define CMD_FORMAT_TYPE        (cmd_format_get_type ())
-#define CMD_FORMAT(o)          (GTK_CHECK_CAST ((o), CMD_FORMAT_TYPE, CmdFormat))
+#define CMD_FORMAT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_FORMAT_TYPE, CmdFormat))
 
 typedef struct {
 	CellPos pos;
@@ -1410,7 +1410,7 @@ cmd_format_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static void
-cmd_format_destroy (GtkObject *cmd)
+cmd_format_finalize (GObject *cmd)
 {
 	CmdFormat *me = CMD_FORMAT (cmd);
 	int        i;
@@ -1443,7 +1443,7 @@ cmd_format_destroy (GtkObject *cmd)
 	range_fragment_free (me->selection);
 	me->selection = NULL;
 
-	gnumeric_command_destroy (cmd);
+	gnumeric_command_finalize (cmd);
 }
 
 /**
@@ -1466,13 +1466,13 @@ cmd_format (WorkbookControl *wbc, Sheet *sheet,
 	    MStyle *style, StyleBorder **borders,
 	    char const *opt_translated_name)
 {
-	GtkObject *obj;
+	GObject *obj;
 	CmdFormat *me;
 	GSList    *l;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
-	obj = gtk_type_new (CMD_FORMAT_TYPE);
+	obj = g_object_new (CMD_FORMAT_TYPE, NULL);
 	me = CMD_FORMAT (obj);
 
 	me->sheet      = sheet;
@@ -1528,7 +1528,7 @@ cmd_format (WorkbookControl *wbc, Sheet *sheet,
 /******************************************************************/
 
 #define CMD_RENAME_SHEET_TYPE        (cmd_rename_sheet_get_type ())
-#define CMD_RENAME_SHEET(o)          (GTK_CHECK_CAST ((o), CMD_RENAME_SHEET_TYPE, CmdRenameSheet))
+#define CMD_RENAME_SHEET(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_RENAME_SHEET_TYPE, CmdRenameSheet))
 
 typedef struct
 {
@@ -1562,26 +1562,26 @@ cmd_rename_sheet_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 				      me->old_name, me->new_name);
 }
 static void
-cmd_rename_sheet_destroy (GtkObject *cmd)
+cmd_rename_sheet_finalize (GObject *cmd)
 {
 	CmdRenameSheet *me = CMD_RENAME_SHEET (cmd);
 
 	me->wb = NULL;
 	g_free (me->old_name);
 	g_free (me->new_name);
-	gnumeric_command_destroy (cmd);
+	gnumeric_command_finalize (cmd);
 }
 
 gboolean
 cmd_rename_sheet (WorkbookControl *wbc, const char *old_name, const char *new_name)
 {
-	GtkObject *obj;
+	GObject *obj;
 	CmdRenameSheet *me;
 	Workbook *wb = wb_control_workbook (wbc);
 
 	g_return_val_if_fail (wb != NULL, TRUE);
 
-	obj = gtk_type_new (CMD_RENAME_SHEET_TYPE);
+	obj = g_object_new (CMD_RENAME_SHEET_TYPE, NULL);
 	me = CMD_RENAME_SHEET (obj);
 
 	/* Store the specs for the object */
@@ -1601,7 +1601,7 @@ cmd_rename_sheet (WorkbookControl *wbc, const char *old_name, const char *new_na
 /******************************************************************/
 
 #define CMD_SET_DATE_TIME_TYPE        (cmd_set_date_time_get_type ())
-#define CMD_SET_DATE_TIME(o)          (GTK_CHECK_CAST ((o), CMD_SET_DATE_TIME_TYPE, CmdSetDateTime))
+#define CMD_SET_DATE_TIME(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_SET_DATE_TIME_TYPE, CmdSetDateTime))
 
 typedef struct
 {
@@ -1677,7 +1677,7 @@ cmd_set_date_time_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static void
-cmd_set_date_time_destroy (GtkObject *cmd)
+cmd_set_date_time_finalize (GObject *cmd)
 {
 	CmdSetDateTime *me = CMD_SET_DATE_TIME (cmd);
 
@@ -1685,14 +1685,14 @@ cmd_set_date_time_destroy (GtkObject *cmd)
 		g_free (me->contents);
 		me->contents = NULL;
 	}
-	gnumeric_command_destroy (cmd);
+	gnumeric_command_finalize (cmd);
 }
 
 gboolean
 cmd_set_date_time (WorkbookControl *wbc,
 		   Sheet *sheet, CellPos const *pos, gboolean is_date)
 {
-	GtkObject *obj;
+	GObject *obj;
 	CmdSetDateTime *me;
 	Cell const *cell;
 
@@ -1706,7 +1706,7 @@ cmd_set_date_time (WorkbookControl *wbc,
 		return TRUE;
 	}
 
-	obj = gtk_type_new (CMD_SET_DATE_TIME_TYPE);
+	obj = g_object_new (CMD_SET_DATE_TIME_TYPE, NULL);
 	me = CMD_SET_DATE_TIME (obj);
 
 	/* Store the specs for the object */
@@ -1730,7 +1730,7 @@ cmd_set_date_time (WorkbookControl *wbc,
 /******************************************************************/
 
 #define CMD_RESIZE_COLROW_TYPE        (cmd_resize_colrow_get_type ())
-#define CMD_RESIZE_COLROW(o)          (GTK_CHECK_CAST ((o), CMD_RESIZE_COLROW_TYPE, CmdResizeColRow))
+#define CMD_RESIZE_COLROW(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_RESIZE_COLROW_TYPE, CmdResizeColRow))
 
 typedef struct
 {
@@ -1779,7 +1779,7 @@ cmd_resize_colrow_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	return FALSE;
 }
 static void
-cmd_resize_colrow_destroy (GtkObject *cmd)
+cmd_resize_colrow_finalize (GObject *cmd)
 {
 	CmdResizeColRow *me = CMD_RESIZE_COLROW (cmd);
 
@@ -1789,7 +1789,7 @@ cmd_resize_colrow_destroy (GtkObject *cmd)
 	if (me->saved_sizes)
 		me->saved_sizes = colrow_state_group_destroy (me->saved_sizes);
 
-	gnumeric_command_destroy (cmd);
+	gnumeric_command_finalize (cmd);
 }
 
 gboolean
@@ -1797,14 +1797,14 @@ cmd_resize_colrow (WorkbookControl *wbc, Sheet *sheet,
 		   gboolean is_cols, ColRowIndexList *selection,
 		   int new_size)
 {
-	GtkObject *obj;
+	GObject *obj;
 	CmdResizeColRow *me;
 	GString *list;
 	gboolean is_single;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
-	obj = gtk_type_new (CMD_RESIZE_COLROW_TYPE);
+	obj = g_object_new (CMD_RESIZE_COLROW_TYPE, NULL);
 	me = CMD_RESIZE_COLROW (obj);
 
 	/* Store the specs for the object */
@@ -1856,7 +1856,7 @@ cmd_resize_colrow (WorkbookControl *wbc, Sheet *sheet,
 /******************************************************************/
 
 #define CMD_SORT_TYPE        (cmd_sort_get_type ())
-#define CMD_SORT(o)          (GTK_CHECK_CAST ((o), CMD_SORT_TYPE, CmdSort))
+#define CMD_SORT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_SORT_TYPE, CmdSort))
 
 typedef struct
 {
@@ -1870,7 +1870,7 @@ typedef struct
 GNUMERIC_MAKE_COMMAND (CmdSort, cmd_sort);
 
 static void
-cmd_sort_destroy (GtkObject *cmd)
+cmd_sort_finalize (GObject *cmd)
 {
 	CmdSort *me = CMD_SORT (cmd);
 
@@ -1887,7 +1887,7 @@ cmd_sort_destroy (GtkObject *cmd)
 		me->inv = NULL;
 	}
 
-	gnumeric_command_destroy (cmd);
+	gnumeric_command_finalize (cmd);
 }
 
 static gboolean
@@ -1922,7 +1922,7 @@ cmd_sort_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 gboolean
 cmd_sort (WorkbookControl *wbc, SortData *data)
 {
-	GtkObject *obj;
+	GObject *obj;
 	CmdSort *me;
 	char *desc;
 
@@ -1935,7 +1935,7 @@ cmd_sort (WorkbookControl *wbc, SortData *data)
 		return TRUE;
 	}
 
-	obj = gtk_type_new (CMD_SORT_TYPE);
+	obj = g_object_new (CMD_SORT_TYPE, NULL);
 	me = CMD_SORT (obj);
 
 	me->data = data;
@@ -1953,7 +1953,7 @@ cmd_sort (WorkbookControl *wbc, SortData *data)
 /******************************************************************/
 
 #define CMD_COLROW_HIDE_TYPE        (cmd_colrow_hide_get_type ())
-#define CMD_COLROW_HIDE(o)          (GTK_CHECK_CAST ((o), CMD_COLROW_HIDE_TYPE, CmdColRowHide))
+#define CMD_COLROW_HIDE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_COLROW_HIDE_TYPE, CmdColRowHide))
 
 typedef struct
 {
@@ -2029,23 +2029,23 @@ cmd_colrow_hide_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static void
-cmd_colrow_hide_destroy (GtkObject *cmd)
+cmd_colrow_hide_finalize (GObject *cmd)
 {
 	CmdColRowHide *me = CMD_COLROW_HIDE (cmd);
 	me->elements = colrow_vis_list_destroy (me->elements);
-	gnumeric_command_destroy (cmd);
+	gnumeric_command_finalize (cmd);
 }
 
 gboolean
 cmd_colrow_hide_selection (WorkbookControl *wbc, Sheet *sheet,
 			   gboolean is_cols, gboolean visible)
 {
-	GtkObject *obj;
+	GObject *obj;
 	CmdColRowHide *me;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
-	obj = gtk_type_new (CMD_COLROW_HIDE_TYPE);
+	obj = g_object_new (CMD_COLROW_HIDE_TYPE, NULL);
 	me = CMD_COLROW_HIDE (obj);
 
 	me->sheet = sheet;
@@ -2067,7 +2067,7 @@ gboolean
 cmd_colrow_outline_change (WorkbookControl *wbc, Sheet *sheet,
 			   gboolean is_cols, int index, int depth)
 {
-	GtkObject *obj;
+	GObject *obj;
 	CmdColRowHide *me;
 	ColRowInfo const *cri;
 	int first = -1, last = -1;
@@ -2126,7 +2126,7 @@ cmd_colrow_outline_change (WorkbookControl *wbc, Sheet *sheet,
 	if (first < 0 || last < 0)
 		return TRUE;
 
-	obj = gtk_type_new (CMD_COLROW_HIDE_TYPE);
+	obj = g_object_new (CMD_COLROW_HIDE_TYPE, NULL);
 	me = CMD_COLROW_HIDE (obj);
 
 	me->sheet = sheet;
@@ -2148,7 +2148,7 @@ cmd_colrow_outline_change (WorkbookControl *wbc, Sheet *sheet,
 /******************************************************************/
 
 #define CMD_GROUP_TYPE        (cmd_group_get_type ())
-#define CMD_GROUP(o)          (GTK_CHECK_CAST ((o), CMD_GROUP_TYPE, CmdGroup))
+#define CMD_GROUP(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_GROUP_TYPE, CmdGroup))
 
 typedef struct
 {
@@ -2183,22 +2183,22 @@ cmd_group_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static void
-cmd_group_destroy (GtkObject *cmd)
+cmd_group_finalize (GObject *cmd)
 {
-	gnumeric_command_destroy (cmd);
+	gnumeric_command_finalize (cmd);
 }
 
 gboolean
 cmd_group (WorkbookControl *wbc, Sheet *sheet,
 	   gboolean is_cols, gboolean group)
 {
-	GtkObject *obj;
+	GObject *obj;
 	CmdGroup *me;
 
 	g_return_val_if_fail (wbc != NULL, TRUE);
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
-	obj = gtk_type_new (CMD_GROUP_TYPE);
+	obj = g_object_new (CMD_GROUP_TYPE, NULL);
 	me = CMD_GROUP (obj);
 
 	me->sheet = sheet;
@@ -2214,7 +2214,7 @@ cmd_group (WorkbookControl *wbc, Sheet *sheet,
 			gnumeric_error_system (COMMAND_CONTEXT (wbc), is_cols
 					       ? _("Those columns are not grouped, you can't ungroup them")
 					       : _("Those rows are not grouped, you can't ungroup them"));
-		cmd_group_destroy (GTK_OBJECT (me));
+		cmd_group_finalize (G_OBJECT (me));
 		return TRUE;
 	}
 
@@ -2236,7 +2236,7 @@ cmd_group (WorkbookControl *wbc, Sheet *sheet,
 /******************************************************************/
 
 #define CMD_PASTE_CUT_TYPE        (cmd_paste_cut_get_type ())
-#define CMD_PASTE_CUT(o)          (GTK_CHECK_CAST ((o), CMD_PASTE_CUT_TYPE, CmdPasteCut))
+#define CMD_PASTE_CUT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_PASTE_CUT_TYPE, CmdPasteCut))
 
 typedef struct
 {
@@ -2397,7 +2397,7 @@ cmd_paste_cut_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static void
-cmd_paste_cut_destroy (GtkObject *cmd)
+cmd_paste_cut_finalize (GObject *cmd)
 {
 	CmdPasteCut *me = CMD_PASTE_CUT (cmd);
 
@@ -2413,14 +2413,14 @@ cmd_paste_cut_destroy (GtkObject *cmd)
 		workbook_expr_unrelocate_free (me->reloc_storage);
 		me->reloc_storage = NULL;
 	}
-	gnumeric_command_destroy (cmd);
+	gnumeric_command_finalize (cmd);
 }
 
 gboolean
 cmd_paste_cut (WorkbookControl *wbc, ExprRelocateInfo const *info,
 	       gboolean move_selection, char *descriptor)
 {
-	GtkObject *obj;
+	GObject *obj;
 	CmdPasteCut *me;
 	Range r;
 
@@ -2455,7 +2455,7 @@ cmd_paste_cut (WorkbookControl *wbc, ExprRelocateInfo const *info,
 		return TRUE;
 	}
 
-	obj = gtk_type_new (CMD_PASTE_CUT_TYPE);
+	obj = g_object_new (CMD_PASTE_CUT_TYPE, NULL);
 	me = CMD_PASTE_CUT (obj);
 
 	/* Store the specs for the object */
@@ -2488,7 +2488,7 @@ cmd_paste_cut (WorkbookControl *wbc, ExprRelocateInfo const *info,
 /******************************************************************/
 
 #define CMD_PASTE_COPY_TYPE        (cmd_paste_copy_get_type ())
-#define CMD_PASTE_COPY(o)          (GTK_CHECK_CAST ((o), CMD_PASTE_COPY_TYPE, CmdPasteCopy))
+#define CMD_PASTE_COPY(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_PASTE_COPY_TYPE, CmdPasteCopy))
 
 typedef struct
 {
@@ -2564,7 +2564,7 @@ cmd_paste_copy_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static void
-cmd_paste_copy_destroy (GtkObject *cmd)
+cmd_paste_copy_finalize (GObject *cmd)
 {
 	CmdPasteCopy *me = CMD_PASTE_COPY (cmd);
 
@@ -2575,20 +2575,20 @@ cmd_paste_copy_destroy (GtkObject *cmd)
 			cellregion_free (me->content);
 		me->content = NULL;
 	}
-	gnumeric_command_destroy (cmd);
+	gnumeric_command_finalize (cmd);
 }
 
 gboolean
 cmd_paste_copy (WorkbookControl *wbc,
 		PasteTarget const *pt, CellRegion *content)
 {
-	GtkObject *obj;
+	GObject *obj;
 	CmdPasteCopy *me;
 
 	g_return_val_if_fail (pt != NULL, TRUE);
 	g_return_val_if_fail (IS_SHEET (pt->sheet), TRUE);
 
-	obj = gtk_type_new (CMD_PASTE_COPY_TYPE);
+	obj = g_object_new (CMD_PASTE_COPY_TYPE, NULL);
 	me = CMD_PASTE_COPY (obj);
 
 	/* Store the specs for the object */
@@ -2651,14 +2651,14 @@ cmd_paste_copy (WorkbookControl *wbc,
 		gnumeric_error_invalid (COMMAND_CONTEXT (wbc),
 					me->parent.cmd_descriptor,
 					_("is beyond sheet boundaries"));
-		gtk_object_destroy (GTK_OBJECT (me));
+		g_object_unref (G_OBJECT (me));
 		return TRUE;
 	}
 
 	/* Check array subdivision & merged regions */
 	if (sheet_range_splits_region (pt->sheet, &me->dst.range,
 				       NULL, wbc, me->parent.cmd_descriptor)) {
-		gtk_object_destroy (GTK_OBJECT (me));
+		g_object_unref (G_OBJECT (me));
 		return TRUE;
 	}
 
@@ -2669,7 +2669,7 @@ cmd_paste_copy (WorkbookControl *wbc,
 /******************************************************************/
 
 #define CMD_AUTOFILL_TYPE        (cmd_autofill_get_type ())
-#define CMD_AUTOFILL(o)          (GTK_CHECK_CAST ((o), CMD_AUTOFILL_TYPE, CmdAutofill))
+#define CMD_AUTOFILL(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_AUTOFILL_TYPE, CmdAutofill))
 
 typedef struct
 {
@@ -2762,7 +2762,7 @@ cmd_autofill_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static void
-cmd_autofill_destroy (GtkObject *cmd)
+cmd_autofill_finalize (GObject *cmd)
 {
 	CmdAutofill *me = CMD_AUTOFILL (cmd);
 
@@ -2770,7 +2770,7 @@ cmd_autofill_destroy (GtkObject *cmd)
 		cellregion_free (me->content);
 		me->content = NULL;
 	}
-	gnumeric_command_destroy (cmd);
+	gnumeric_command_finalize (cmd);
 }
 
 gboolean
@@ -2780,7 +2780,7 @@ cmd_autofill (WorkbookControl *wbc, Sheet *sheet,
 	      int w, int h, int end_col, int end_row,
 	      gboolean inverse_autofill)
 {
-	GtkObject *obj;
+	GObject *obj;
 	CmdAutofill *me;
 	Range target, src;
 
@@ -2827,7 +2827,7 @@ cmd_autofill (WorkbookControl *wbc, Sheet *sheet,
 	    sheet_range_splits_region (sheet, &src, NULL, wbc, _("Autofill")))
 		return TRUE;
 
-	obj = gtk_type_new (CMD_AUTOFILL_TYPE);
+	obj = g_object_new (CMD_AUTOFILL_TYPE, NULL);
 	me = CMD_AUTOFILL (obj);
 
 	/* Store the specs for the object */
@@ -2857,7 +2857,7 @@ cmd_autofill (WorkbookControl *wbc, Sheet *sheet,
 /******************************************************************/
 
 #define CMD_AUTOFORMAT_TYPE        (cmd_autoformat_get_type ())
-#define CMD_AUTOFORMAT(o)          (GTK_CHECK_CAST ((o), CMD_AUTOFORMAT_TYPE, CmdAutoFormat))
+#define CMD_AUTOFORMAT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_AUTOFORMAT_TYPE, CmdAutoFormat))
 
 typedef struct {
 	CellPos pos;
@@ -2919,7 +2919,7 @@ cmd_autoformat_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static void
-cmd_autoformat_destroy (GtkObject *cmd)
+cmd_autoformat_finalize (GObject *cmd)
 {
 	CmdAutoFormat *me = CMD_AUTOFORMAT (cmd);
 
@@ -2943,7 +2943,7 @@ cmd_autoformat_destroy (GtkObject *cmd)
 
 	format_template_free (me->ft);
 
-	gnumeric_command_destroy (cmd);
+	gnumeric_command_finalize (cmd);
 }
 
 /**
@@ -2957,7 +2957,7 @@ cmd_autoformat_destroy (GtkObject *cmd)
 gboolean
 cmd_autoformat (WorkbookControl *wbc, Sheet *sheet, FormatTemplate *ft)
 {
-	GtkObject *obj;
+	GObject *obj;
 	CmdAutoFormat *me;
 	GString   *names;
 	GSList    *l;
@@ -2970,7 +2970,7 @@ cmd_autoformat (WorkbookControl *wbc, Sheet *sheet, FormatTemplate *ft)
 		return TRUE;
 	}
 
-	obj = gtk_type_new (CMD_AUTOFORMAT_TYPE);
+	obj = g_object_new (CMD_AUTOFORMAT_TYPE, NULL);
 	me = CMD_AUTOFORMAT (obj);
 
 	me->sheet     = sheet;
@@ -3011,7 +3011,7 @@ cmd_autoformat (WorkbookControl *wbc, Sheet *sheet, FormatTemplate *ft)
 /******************************************************************/
 
 #define CMD_UNMERGE_CELLS_TYPE        (cmd_unmerge_cells_get_type ())
-#define CMD_UNMERGE_CELLS(o)          (GTK_CHECK_CAST ((o), CMD_UNMERGE_CELLS_TYPE, CmdUnmergeCells))
+#define CMD_UNMERGE_CELLS(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_UNMERGE_CELLS_TYPE, CmdUnmergeCells))
 
 typedef struct {
 	GnumericCommand parent;
@@ -3072,7 +3072,7 @@ cmd_unmerge_cells_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static void
-cmd_unmerge_cells_destroy (GtkObject *cmd)
+cmd_unmerge_cells_finalize (GObject *cmd)
 {
 	CmdUnmergeCells *me = CMD_UNMERGE_CELLS (cmd);
 
@@ -3085,7 +3085,7 @@ cmd_unmerge_cells_destroy (GtkObject *cmd)
 		me->ranges = NULL;
 	}
 
-	gnumeric_command_destroy (cmd);
+	gnumeric_command_finalize (cmd);
 }
 
 /**
@@ -3097,13 +3097,13 @@ cmd_unmerge_cells_destroy (GtkObject *cmd)
 gboolean
 cmd_unmerge_cells (WorkbookControl *wbc, Sheet *sheet, GSList const *selection)
 {
-	GtkObject *obj;
+	GObject *obj;
 	CmdUnmergeCells *me;
 	GString *names;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
-	obj = gtk_type_new (CMD_UNMERGE_CELLS_TYPE);
+	obj = g_object_new (CMD_UNMERGE_CELLS_TYPE, NULL);
 	me = CMD_UNMERGE_CELLS (obj);
 
 	me->parent.sheet = sheet;
@@ -3124,7 +3124,7 @@ cmd_unmerge_cells (WorkbookControl *wbc, Sheet *sheet, GSList const *selection)
 	}
 
 	if (me->ranges->len <= 0) {
-		gtk_object_destroy (GTK_OBJECT (me));
+		g_object_unref (G_OBJECT (me));
 		return TRUE;
 	}
 
@@ -3135,7 +3135,7 @@ cmd_unmerge_cells (WorkbookControl *wbc, Sheet *sheet, GSList const *selection)
 /******************************************************************/
 
 #define CMD_MERGE_CELLS_TYPE        (cmd_merge_cells_get_type ())
-#define CMD_MERGE_CELLS(o)          (GTK_CHECK_CAST ((o), CMD_MERGE_CELLS_TYPE, CmdMergeCells))
+#define CMD_MERGE_CELLS(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_MERGE_CELLS_TYPE, CmdMergeCells))
 
 typedef struct {
 	GnumericCommand parent;
@@ -3207,7 +3207,7 @@ cmd_merge_cells_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static void
-cmd_merge_cells_destroy (GtkObject *cmd)
+cmd_merge_cells_finalize (GObject *cmd)
 {
 	CmdMergeCells *me = CMD_MERGE_CELLS (cmd);
 
@@ -3223,7 +3223,7 @@ cmd_merge_cells_destroy (GtkObject *cmd)
 		me->ranges = NULL;
 	}
 
-	gnumeric_command_destroy (cmd);
+	gnumeric_command_finalize (cmd);
 }
 
 /**
@@ -3235,13 +3235,13 @@ cmd_merge_cells_destroy (GtkObject *cmd)
 gboolean
 cmd_merge_cells (WorkbookControl *wbc, Sheet *sheet, GSList const *selection)
 {
-	GtkObject *obj;
+	GObject *obj;
 	CmdMergeCells *me;
 	GString *names;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
-	obj = gtk_type_new (CMD_MERGE_CELLS_TYPE);
+	obj = g_object_new (CMD_MERGE_CELLS_TYPE, NULL);
 	me = CMD_MERGE_CELLS (obj);
 
 	me->parent.sheet = sheet;
@@ -3265,7 +3265,7 @@ cmd_merge_cells (WorkbookControl *wbc, Sheet *sheet, GSList const *selection)
 	}
 
 	if (me->ranges->len <= 0) {
-		gtk_object_destroy (GTK_OBJECT (me));
+		g_object_unref (G_OBJECT (me));
 		return TRUE;
 	}
 
@@ -3276,7 +3276,7 @@ cmd_merge_cells (WorkbookControl *wbc, Sheet *sheet, GSList const *selection)
 /******************************************************************/
 
 #define CMD_SEARCH_REPLACE_TYPE		(cmd_search_replace_get_type())
-#define CMD_SEARCH_REPLACE(o)		(GTK_CHECK_CAST ((o), CMD_SEARCH_REPLACE_TYPE, CmdSearchReplace))
+#define CMD_SEARCH_REPLACE(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_SEARCH_REPLACE_TYPE, CmdSearchReplace))
 
 typedef struct
 {
@@ -3580,7 +3580,7 @@ cmd_search_replace_do (CmdSearchReplace *me, Workbook *wb,
 
 
 static void
-cmd_search_replace_destroy (GtkObject *cmd)
+cmd_search_replace_finalize (GObject *cmd)
 {
 	CmdSearchReplace *me = CMD_SEARCH_REPLACE (cmd);
 	GList *tmp;
@@ -3608,19 +3608,19 @@ cmd_search_replace_destroy (GtkObject *cmd)
 	g_list_free (me->cells);
 	search_replace_free (me->sr);
 
-	gnumeric_command_destroy (cmd);
+	gnumeric_command_finalize (cmd);
 }
 
 gboolean
 cmd_search_replace (WorkbookControl *wbc, Sheet *sheet, SearchReplace *sr)
 {
-	GtkObject *obj;
+	GObject *obj;
 	CmdSearchReplace *me;
 	Workbook *wb = wb_control_workbook (wbc);
 
 	g_return_val_if_fail (sr != NULL, TRUE);
 
-	obj = gtk_type_new (CMD_SEARCH_REPLACE_TYPE);
+	obj = g_object_new (CMD_SEARCH_REPLACE_TYPE, NULL);
 	me = CMD_SEARCH_REPLACE (obj);
 
 	me->cells = NULL;
@@ -3632,7 +3632,7 @@ cmd_search_replace (WorkbookControl *wbc, Sheet *sheet, SearchReplace *sr)
 
 	if (cmd_search_replace_do (me, wb, sheet, TRUE)) {
 		/* There was an error and nothing was done.  */
-		gtk_object_unref (obj);
+		g_object_unref (obj);
 		return TRUE;
 	}
 
@@ -3647,7 +3647,7 @@ cmd_search_replace (WorkbookControl *wbc, Sheet *sheet, SearchReplace *sr)
 /******************************************************************/
 
 #define CMD_COLROW_STD_SIZE_TYPE        (cmd_colrow_std_size_get_type ())
-#define CMD_COLROW_STD_SIZE(o)          (GTK_CHECK_CAST ((o), CMD_COLROW_STD_SIZE_TYPE, CmdColRowStdSize))
+#define CMD_COLROW_STD_SIZE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_COLROW_STD_SIZE_TYPE, CmdColRowStdSize))
 
 typedef struct
 {
@@ -3698,21 +3698,21 @@ cmd_colrow_std_size_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	return FALSE;
 }
 static void
-cmd_colrow_std_size_destroy (GtkObject *cmd)
+cmd_colrow_std_size_finalize (GObject *cmd)
 {
-	gnumeric_command_destroy (cmd);
+	gnumeric_command_finalize (cmd);
 }
 
 gboolean
 cmd_colrow_std_size (WorkbookControl *wbc, Sheet *sheet,
 		     gboolean is_cols, double new_default)
 {
-	GtkObject *obj;
+	GObject *obj;
 	CmdColRowStdSize *me;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
-	obj = gtk_type_new (CMD_COLROW_STD_SIZE_TYPE);
+	obj = g_object_new (CMD_COLROW_STD_SIZE_TYPE, NULL);
 	me = CMD_COLROW_STD_SIZE (obj);
 
 	/* Store the specs for the object */
@@ -3734,7 +3734,7 @@ cmd_colrow_std_size (WorkbookControl *wbc, Sheet *sheet,
 /******************************************************************/
 
 #define CMD_CONSOLIDATE_TYPE        (cmd_consolidate_get_type ())
-#define CMD_CONSOLIDATE(o)          (GTK_CHECK_CAST ((o), CMD_CONSOLIDATE_TYPE, CmdConsolidate))
+#define CMD_CONSOLIDATE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_CONSOLIDATE_TYPE, CmdConsolidate))
 
 typedef struct
 {
@@ -3781,7 +3781,7 @@ cmd_consolidate_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	return FALSE;
 }
 static void
-cmd_consolidate_destroy (GtkObject *cmd)
+cmd_consolidate_finalize (GObject *cmd)
 {
 	CmdConsolidate *me = CMD_CONSOLIDATE (cmd);
 
@@ -3791,18 +3791,18 @@ cmd_consolidate_destroy (GtkObject *cmd)
 	if (me->old_content)
 		cellregion_free (me->old_content);
 
-	gnumeric_command_destroy (cmd);
+	gnumeric_command_finalize (cmd);
 }
 
 gboolean
 cmd_consolidate (WorkbookControl *wbc, Consolidate *cs)
 {
-	GtkObject *obj;
+	GObject *obj;
 	CmdConsolidate *me;
 
 	g_return_val_if_fail (cs != NULL, TRUE);
 
-	obj = gtk_type_new (CMD_CONSOLIDATE_TYPE);
+	obj = g_object_new (CMD_CONSOLIDATE_TYPE, NULL);
 	me = CMD_CONSOLIDATE (obj);
 
 	/* Store the specs for the object */
@@ -3820,7 +3820,7 @@ cmd_consolidate (WorkbookControl *wbc, Consolidate *cs)
 /******************************************************************/
 
 #define CMD_ZOOM_TYPE        (cmd_zoom_get_type ())
-#define CMD_ZOOM(o)     (GTK_CHECK_CAST ((o), CMD_ZOOM_TYPE, CmdZoom))
+#define CMD_ZOOM(o)     (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_ZOOM_TYPE, CmdZoom))
 
 typedef struct
 {
@@ -3872,7 +3872,7 @@ cmd_zoom_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static void
-cmd_zoom_destroy (GtkObject *cmd)
+cmd_zoom_finalize (GObject *cmd)
 {
 	CmdZoom *me = CMD_ZOOM (cmd);
 
@@ -3881,13 +3881,13 @@ cmd_zoom_destroy (GtkObject *cmd)
 	if (me->old_factors)
 		g_free (me->old_factors);
 
-	gnumeric_command_destroy (cmd);
+	gnumeric_command_finalize (cmd);
 }
 
 gboolean
 cmd_zoom (WorkbookControl *wbc, GSList *sheets, double factor)
 {
-	GtkObject *obj;
+	GObject *obj;
 	CmdZoom *me;
 	GString *namelist;
 	GSList *l;
@@ -3896,7 +3896,7 @@ cmd_zoom (WorkbookControl *wbc, GSList *sheets, double factor)
 	g_return_val_if_fail (wbc != NULL, TRUE);
 	g_return_val_if_fail (sheets != NULL, TRUE);
 
-	obj = gtk_type_new (CMD_ZOOM_TYPE);
+	obj = g_object_new (CMD_ZOOM_TYPE, NULL);
 	me = CMD_ZOOM (obj);
 
 	/* Store the specs for the object */
@@ -3936,7 +3936,7 @@ cmd_zoom (WorkbookControl *wbc, GSList *sheets, double factor)
 /******************************************************************/
 
 #define CMD_OBJECT_INSERT_TYPE (cmd_object_insert_get_type ())
-#define CMD_OBJECT_INSERT(o)   (GTK_CHECK_CAST ((o), CMD_OBJECT_INSERT_TYPE, CmdObjectInsert))
+#define CMD_OBJECT_INSERT(o)   (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_OBJECT_INSERT_TYPE, CmdObjectInsert))
 
 typedef struct
 {
@@ -3967,30 +3967,30 @@ cmd_object_insert_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static void
-cmd_object_insert_destroy (GtkObject *cmd)
+cmd_object_insert_finalize (GObject *cmd)
 {
 	CmdObjectInsert *me = CMD_OBJECT_INSERT (cmd);
 
-	gtk_object_unref (GTK_OBJECT (me->so));
+	g_object_unref (G_OBJECT (me->so));
 
-	gnumeric_command_destroy (cmd);
+	gnumeric_command_finalize (cmd);
 }
 
 gboolean
 cmd_object_insert (WorkbookControl *wbc, SheetObject *so, Sheet *sheet)
 {
-	GtkObject *object;
+	GObject *object;
 	CmdObjectInsert *me;
 
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (IS_SHEET_OBJECT (so), TRUE);
 
-	object = gtk_type_new (CMD_OBJECT_INSERT_TYPE);
+	object = g_object_new (CMD_OBJECT_INSERT_TYPE, NULL);
 	me = CMD_OBJECT_INSERT (object);
 
 	me->so = so;
-	gtk_object_ref (GTK_OBJECT (so));
+	g_object_ref (G_OBJECT (so));
 
 	me->parent.sheet = sheet;
 	me->parent.size = 1;
@@ -4002,7 +4002,7 @@ cmd_object_insert (WorkbookControl *wbc, SheetObject *so, Sheet *sheet)
 /******************************************************************/
 
 #define CMD_OBJECT_DELETE_TYPE (cmd_object_delete_get_type ())
-#define CMD_OBJECT_DELETE(o)   (GTK_CHECK_CAST ((o), CMD_OBJECT_DELETE_TYPE, CmdObjectDelete))
+#define CMD_OBJECT_DELETE(o)   (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_OBJECT_DELETE_TYPE, CmdObjectDelete))
 
 typedef struct
 {
@@ -4029,26 +4029,26 @@ cmd_object_delete_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static void
-cmd_object_delete_destroy (GtkObject *cmd)
+cmd_object_delete_finalize (GObject *cmd)
 {
 	CmdObjectDelete *me = CMD_OBJECT_DELETE (cmd);
-	gtk_object_unref (GTK_OBJECT (me->so));
-	gnumeric_command_destroy (cmd);
+	g_object_unref (G_OBJECT (me->so));
+	gnumeric_command_finalize (cmd);
 }
 
 gboolean
 cmd_object_delete (WorkbookControl *wbc, SheetObject *so)
 {
-	GtkObject *object;
+	GObject *object;
 	CmdObjectDelete *me;
 
 	g_return_val_if_fail (IS_SHEET_OBJECT (so), TRUE);
 
-	object = gtk_type_new (CMD_OBJECT_DELETE_TYPE);
+	object = g_object_new (CMD_OBJECT_DELETE_TYPE, NULL);
 	me = CMD_OBJECT_DELETE (object);
 
 	me->so = so;
-	gtk_object_ref (GTK_OBJECT (so));
+	g_object_ref (G_OBJECT (so));
 
 	me->parent.sheet = sheet_object_get_sheet (so);
 	me->parent.size = 1;
@@ -4060,7 +4060,7 @@ cmd_object_delete (WorkbookControl *wbc, SheetObject *so)
 /******************************************************************/
 
 #define CMD_OBJECT_MOVE_TYPE (cmd_object_move_get_type ())
-#define CMD_OBJECT_MOVE(o)   (GTK_CHECK_CAST ((o), CMD_OBJECT_MOVE_TYPE, CmdObjectMove))
+#define CMD_OBJECT_MOVE(o)   (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_OBJECT_MOVE_TYPE, CmdObjectMove))
 
 typedef struct
 {
@@ -4099,18 +4099,18 @@ cmd_object_move_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static void
-cmd_object_move_destroy (GtkObject *cmd)
+cmd_object_move_finalize (GObject *cmd)
 {
 	CmdObjectMove *me = CMD_OBJECT_MOVE (cmd);
-	gtk_object_unref (GTK_OBJECT (me->so));
-	gnumeric_command_destroy (cmd);
+	g_object_unref (G_OBJECT (me->so));
+	gnumeric_command_finalize (cmd);
 }
 
 gboolean
 cmd_object_move (WorkbookControl *wbc, SheetObject *so,
 		 SheetObjectAnchor const *old_anchor, gboolean is_resize)
 {
-	GtkObject *object;
+	GObject *object;
 	CmdObjectMove *me;
 
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
@@ -4121,12 +4121,12 @@ cmd_object_move (WorkbookControl *wbc, SheetObject *so,
 	 * already happened.
 	 */
 
-	object = gtk_type_new (CMD_OBJECT_MOVE_TYPE);
+	object = g_object_new (CMD_OBJECT_MOVE_TYPE, NULL);
 	me = CMD_OBJECT_MOVE (object);
 
 	me->first_time = TRUE;
 	me->so = so;
-	gtk_object_ref (GTK_OBJECT (so));
+	g_object_ref (G_OBJECT (so));
 
 	sheet_object_anchor_cpy (&me->anchor, old_anchor);
 

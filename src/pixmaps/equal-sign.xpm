@@ -1,5 +1,5 @@
 /* XPM */
-static char * equal_sign_xpm[] = {
+static char const * equal_sign_xpm[] = {
 "24 24 2 1",
 " 	c None",
 ".	c #000000",

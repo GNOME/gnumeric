@@ -30,7 +30,6 @@
 #include <format.h>
 #include <number-match.h>
 #include <value.h>
-#include "../portability.h"
 
 /******************************************************************************************************************
  * BASIC DRAWING FUNCTIONS

@@ -110,7 +110,7 @@ typedef struct {
 	GtkMenuItem    *new, *edit, *remove_current;
 
 	GtkEntry       *info_name, *info_author, *info_cat;
-	GtkText        *info_descr;
+	GtkTextView    *info_descr;
 
 	GtkCheckMenuItem *number, *border, *font, *patterns, *alignment;
 
@@ -859,7 +859,7 @@ dialog_autoformat (WorkbookControlGUI *wbcg)
 	info->info_name   = GTK_ENTRY (glade_xml_get_widget (gui, "format_info_name"));
 	info->info_author = GTK_ENTRY (glade_xml_get_widget (gui, "format_info_author"));
 	info->info_cat    = GTK_ENTRY (glade_xml_get_widget (gui, "format_info_cat"));
-	info->info_descr  = GTK_TEXT  (glade_xml_get_widget (gui, "format_info_descr"));
+	info->info_descr  = GTK_TEXT_VIEW (glade_xml_get_widget (gui, "format_info_descr"));
 
 	info->ok     = GTK_BUTTON (glade_xml_get_widget (gui, "format_ok"));
 	info->cancel = GTK_BUTTON (glade_xml_get_widget (gui, "format_cancel"));
@@ -1011,7 +1011,7 @@ dialog_autoformat (WorkbookControlGUI *wbcg)
 	category_group_list_free (info->category_groups);
 
 	gtk_widget_destroy (GTK_WIDGET (info->dialog));
-	gtk_object_unref (GTK_OBJECT (gui));
+	g_object_unref (G_OBJECT (gui));
 
 	g_free (info);
 }

@@ -2878,7 +2878,7 @@ sheet_destroy (Sheet *sheet)
 		for (ptr = objs; ptr != NULL ; ptr = ptr->next) {
 			SheetObject *so = SHEET_OBJECT (ptr->data);
 			if (so != NULL)
-				gtk_object_unref (GTK_OBJECT (so));
+				g_object_unref (G_OBJECT (so));
 		}
 		g_list_free (objs);
 		if (sheet->sheet_objects != NULL)

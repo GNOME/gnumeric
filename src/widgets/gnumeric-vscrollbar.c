@@ -138,8 +138,6 @@ gnumeric_vscrollbar_class_init (GnumericVScrollbarClass *klass)
 				GTK_SIGNAL_OFFSET (GnumericVScrollbarClass, offset_changed),
 				gtk_marshal_NONE__INT_INT,
 				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
-
-	gtk_object_class_add_signals (object_class, vscrollbar_signals, LAST_SIGNAL);
 }
 
 GtkWidget *

@@ -26,7 +26,7 @@ dialog_about (WorkbookControlGUI *wbcg)
 {
         GtkWidget *about, *hbox;
 
-        const gchar *authors[] = {
+        gchar const *authors[] = {
 		N_("Miguel de Icaza, creator."),
 		N_("Jody Goldberg, maintainer."),
 		N_("Sean Atkinson, functions and X-Base importing."),
@@ -47,7 +47,6 @@ dialog_about (WorkbookControlGUI *wbcg)
 		N_("Jukka-Pekka Iivonen, numerous functions and tools."),
 		N_("Jakub Jelinek, Gnumeric hacker."),
 		N_("Chris Lahey, number format engine."),
-		N_("Adrian Likins, documentation, debugging."),
 		N_("Takashi Matsuda, original text plugin."),
 		N_("Michael Meeks, Excel and OLE2 importing."),
 		N_("Lutz Muller, SheetObject improvements"),
@@ -65,6 +64,16 @@ dialog_about (WorkbookControlGUI *wbcg)
 		NULL
 	};
 
+        gchar const *documenters[] = {
+		"Kevin Breit",
+		"Thomas Canty",
+		"Adrian Custer",
+		"Adrian Likins",
+		"Aaron Weber",
+		"Alexander Kirillov",
+		NULL
+	};
+
 #ifdef ENABLE_NLS
 	{
  	    int i;
@@ -79,10 +88,11 @@ dialog_about (WorkbookControlGUI *wbcg)
 		return;
 
         about = gnome_about_new (_("Gnumeric"), VERSION,
-				 _("(C) 1998-2001 Miguel de Icaza"),
-				 authors,
-				 NULL,
-				 "gnome-gnumeric.png");
+				 _("(C) 1998-2000 Miguel de Icaza, 2001-2002 Jody Goldberg"),
+				 _("A production ready spreadsheet"),
+				 authors, documenters,
+				 "",
+				 gdk_pixbuf_new_from_file ("gnome-gnumeric.png", NULL));
 
 	hbox = gtk_hbox_new (TRUE, 0);
 	{

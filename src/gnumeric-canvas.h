@@ -21,9 +21,11 @@ struct _GnumericCanvas {
 	GnomeCanvasGroup *anted_group;
 	GnomeCanvasGroup *object_group;
 
+#if 0
 	/* Input context for dead key support */
 	GdkIC     *ic;
 	GdkICAttr *ic_attr;
+#endif
 
 	/* Sliding scroll */
 	GnumericCanvasSlideHandler slide_handler;

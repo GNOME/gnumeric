@@ -132,89 +132,20 @@ xml_parse_ctx_destroy (XmlParseContext *ctxt)
 
 /* ------------------------------------------------------------------------- */
 
-/*
- * Internal stuff: xml helper functions.
- */
-
-static void
-xml_arg_set (GtkArg *arg, const gchar *string)
-{
-	switch (arg->type) {
-	case GTK_TYPE_CHAR:
-		GTK_VALUE_CHAR (*arg) = string[0];
-		break;
-	case GTK_TYPE_UCHAR:
-		GTK_VALUE_UCHAR (*arg) = string[0];
-		break;
-	case GTK_TYPE_BOOL:
-		if (!strcmp (string, "TRUE"))
-			GTK_VALUE_BOOL (*arg) = TRUE;
-		else
-			GTK_VALUE_BOOL (*arg) = FALSE;
-		break;
-	case GTK_TYPE_INT:
-		GTK_VALUE_INT (*arg) = atoi (string);
-		break;
-	case GTK_TYPE_UINT:
-		GTK_VALUE_UINT (*arg) = atoi (string);
-		break;
-	case GTK_TYPE_LONG:
-		GTK_VALUE_LONG (*arg) = atol (string);
-		break;
-	case GTK_TYPE_ULONG:
-		GTK_VALUE_ULONG (*arg) = atol (string);
-		break;
-	case GTK_TYPE_FLOAT:
-		GTK_VALUE_FLOAT (*arg) = atof (string);
-		break;
-	case GTK_TYPE_DOUBLE:
-		GTK_VALUE_DOUBLE (*arg) = atof (string);
-		break;
-	case GTK_TYPE_STRING:
-		GTK_VALUE_STRING (*arg) = g_strdup (string);
-		break;
-	}
-}
-
-static char *
-xml_arg_get (GtkArg *arg)
-{
-	switch (arg->type) {
-	case GTK_TYPE_CHAR:
-		return g_strdup (&GTK_VALUE_CHAR (*arg));
-	case GTK_TYPE_UCHAR:
-		return g_strdup ((gchar *)&GTK_VALUE_UCHAR (*arg));
-	case GTK_TYPE_BOOL:
-		if (GTK_VALUE_BOOL (*arg))
-			return g_strdup ("TRUE");
-		else
-			return g_strdup ("FALSE");
-	case GTK_TYPE_INT:
-		return g_strdup_printf("%i", GTK_VALUE_INT (*arg));
-	case GTK_TYPE_UINT:
-		return g_strdup_printf("%u", GTK_VALUE_UINT (*arg));
-	case GTK_TYPE_LONG:
-		return g_strdup_printf("%li", GTK_VALUE_LONG (*arg));
-	case GTK_TYPE_ULONG:
-		return g_strdup_printf("%lu", GTK_VALUE_ULONG (*arg));
-	case GTK_TYPE_FLOAT:
-		return g_strdup_printf("%f", GTK_VALUE_FLOAT (*arg));
-	case GTK_TYPE_DOUBLE:
-		return g_strdup_printf("%f", GTK_VALUE_DOUBLE (*arg));
-	case GTK_TYPE_STRING:
-		return g_strdup (GTK_VALUE_STRING (*arg));
-	}
-
-	return NULL;
-}
-
 /* Get an xmlChar * value for a node carried as an attibute
  * result must be xmlFree
  */
 xmlChar *
 xml_node_get_cstr (xmlNodePtr node, char const *name)
 {
-	return name ? xmlGetProp (node, (xmlChar *)name) : xmlNodeGetContent (node);
+	if (name != NULL)
+		return xmlGetProp (node, (xmlChar *)name);
+	/* in libxml1 <foo/> would return NULL
+	 * in libxml2 <foo/> would return ""
+	 */
+	if (node->xmlChildrenNode != NULL)
+		return xmlNodeGetContent (node);
+	return NULL;
 }
 void
 xml_node_set_cstr (xmlNodePtr node, char const *name, char const *val)
@@ -434,7 +365,7 @@ xml_read_selection_info (XmlParseContext *ctxt, xmlNodePtr tree)
 
 	sheet_selection_reset (sheet);
 	for (sel = selections->xmlChildrenNode; sel; sel = sel->next)
-		if (xml_node_get_range (sel, &r))
+		if (!xmlIsBlankNode (sel) && xml_node_get_range (sel, &r))
 			sheet_selection_add_range (sheet,
 						   r.start.col, r.start.row,
 						   r.start.col, r.start.row,
@@ -730,7 +661,8 @@ xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree,
 		ParseError  perr;
 		ParsePos    pp;
 
-		if (name->name == NULL || strcmp (name->name, "Name"))
+		if (xmlIsBlankNode (name) ||
+		    name->name == NULL || strcmp (name->name, "Name"))
 			continue;
 
 		id = e_xml_get_child_by_name (name, (xmlChar *)"name");
@@ -739,13 +671,13 @@ xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree,
 
 		g_return_if_fail (id != NULL && expr != NULL);
 
-		name_str = xmlNodeGetContent (id);
-		expr_str = (char *)xmlNodeGetContent (expr);
+		name_str = xml_node_get_cstr (id, NULL);
+		expr_str = (char *)xml_node_get_cstr (expr, NULL);
 		g_return_if_fail (name_str != NULL && expr_str != NULL);
 
 		parse_pos_init (&pp, wb, sheet, 0, 0);
 		if (position != NULL) {
-			xmlChar *pos_txt = xmlNodeGetContent (position);
+			xmlChar *pos_txt = xml_node_get_cstr (position, NULL);
 			if (pos_txt != NULL) {
 				CellRef tmp;
 				char const *res = cellref_a1_get (&tmp, (char *)pos_txt, &pp.eval);
@@ -824,27 +756,27 @@ xml_read_summary (XmlParseContext *ctxt, xmlNodePtr tree, SummaryInfo *summary_i
 	g_return_if_fail (tree != NULL);
 	g_return_if_fail (summary_info != NULL);
 
-	child = tree->xmlChildrenNode;
-	while (child) {
-		char *name = NULL;
-
-		if (child->name && !strcmp (child->name, "Item")) {
+	for (child = tree->xmlChildrenNode; child != NULL ; child = child->next)
+		if (!xmlIsBlankNode (child) && child->name && !strcmp (child->name, "Item")) {
 			xmlNodePtr bits;
+			char *name = NULL;
 
-			bits = child->xmlChildrenNode;
-			while (bits) {
+			for (bits = child->xmlChildrenNode; bits != NULL ; bits = bits->next) {
 				SummaryItem *sit = NULL;
 
+				if (xmlIsBlankNode (bits))
+					continue;
+
 				if (!strcmp (bits->name, "name")) {
-					name = (char *)xmlNodeGetContent (bits);
+					name = (char *)xml_node_get_cstr (bits, NULL);
 				} else {
 					char *txt;
 					g_return_if_fail (name);
 
-					txt = (char *)xmlNodeGetContent (bits);
+					txt = (char *)xml_node_get_cstr (bits, NULL);
 					if (txt != NULL){
 						if (!strcmp (bits->name, "val-string"))
-							sit = summary_item_new_string (name, txt);
+							sit = summary_item_new_string (name, txt, TRUE);
 						else if (!strcmp (bits->name, "val-int"))
 							sit = summary_item_new_int (name, atoi (txt));
 
@@ -853,15 +785,12 @@ xml_read_summary (XmlParseContext *ctxt, xmlNodePtr tree, SummaryInfo *summary_i
 						xmlFree (txt);
 					}
 				}
-				bits = bits->next;
+			}
+			if (name) {
+				xmlFree (name);
+				name = NULL;
 			}
 		}
-		if (name){
-			xmlFree (name);
-			name = NULL;
-		}
-		child = child->next;
-	}
 }
 
 static void
@@ -913,137 +842,65 @@ xml_node_get_print_hf (xmlNodePtr node, PrintHF *hf)
 }
 
 static void
-xml_write_attribute (XmlParseContext *ctxt, xmlNodePtr attr, GtkArg *arg)
+xml_write_attribute (xmlNode *parent, char const *name, char const *value)
 {
-	xmlChar *tstr, *str;
+	xmlNodePtr attr = xmlNewChild (parent, parent->ns, "Attribute", NULL);
 
-	switch (arg->type) {
-	case GTK_TYPE_CHAR:
-	case GTK_TYPE_UCHAR:
-	case GTK_TYPE_BOOL:
-	case GTK_TYPE_INT:
-	case GTK_TYPE_UINT:
-	case GTK_TYPE_LONG:
-	case GTK_TYPE_ULONG:
-	case GTK_TYPE_FLOAT:
-	case GTK_TYPE_DOUBLE:
-	case GTK_TYPE_STRING:
-		str = (xmlChar *)xml_arg_get (arg);
-		tstr = xmlEncodeEntitiesReentrant (ctxt->doc, str);
-		xmlNewChild (attr, ctxt->ns, (xmlChar *)"value", tstr);
-		if (tstr) {
-			xmlFree (tstr);
-		}
-		g_free (str);
-		break;
-	}
+	/* backwards compatibility with 1.0.x which uses gtk-1.2 GTK_TYPE_BOOLEAN */
+	xmlNewChild (attr, attr->ns, "type", "4");
+	xmlNewChild (attr, attr->ns, "name", name);
+	xmlNewChild (attr, attr->ns, "value", value);
 }
 
 static xmlNodePtr
-xml_write_attributes (XmlParseContext *ctxt, guint n_args, GtkArg *args)
+xml_write_wbv_attributes (XmlParseContext *ctxt, WorkbookView *wbv)
 {
-	xmlNodePtr attributes;
-	guint i;
-
-	attributes = xmlNewDocNode (ctxt->doc, ctxt->ns, (xmlChar *)"Attributes", NULL);
-
-	for (i = 0; i < n_args; args++, i++) {
-		xmlNodePtr type, attr = xmlNewChild (attributes, ctxt->ns, (xmlChar *)"Attribute", NULL);
-		xmlChar *tstr = xmlEncodeEntitiesReentrant (ctxt->doc, (xmlChar *)args->name);
-
-		xmlNewChild (attr, ctxt->ns, (xmlChar *)"name", tstr);
-		if (tstr)
-			xmlFree (tstr);
-
-		type = xmlNewChild (attr, ctxt->ns, (xmlChar *)"type", NULL);
-		xml_node_set_int (type, NULL, args->type);
-
-		xml_write_attribute (ctxt, attr, args);
-	}
-
+	xmlNodePtr attributes = xmlNewDocNode (ctxt->doc, ctxt->ns, "Attributes", NULL);
+	xml_write_attribute (attributes, "WorkbookView::show_horizontal_scrollbar",
+		wbv->show_horizontal_scrollbar ? "TRUE" : "FALSE");
+	xml_write_attribute (attributes, "WorkbookView::show_vertical_scrollbar",
+		wbv->show_vertical_scrollbar ? "TRUE" : "FALSE");
+	xml_write_attribute (attributes, "WorkbookView::show_notebook_tabs",
+		wbv->show_notebook_tabs ? "TRUE" : "FALSE");
+	xml_write_attribute (attributes, "WorkbookView::do_auto_completion",
+		wbv->do_auto_completion ? "TRUE" : "FALSE");
 	return attributes;
 }
 
 static void
-xml_free_arg_list (GList *list)
+xml_read_wbv_attributes (XmlParseContext *ctxt, WorkbookView *wbv, xmlNodePtr tree)
 {
-	while (list) {
-		GtkArg *arg = list->data;
-		if (arg) {
-			g_free (arg->name);
-			gtk_arg_free (arg, FALSE);
-		}
-		list = list->next;
-	}
-}
+	xmlNode *attr, *tmp;
+	char *name, *value;
 
-static void
-xml_read_attribute (XmlParseContext *ctxt, xmlNodePtr attr, GtkArg *arg)
-{
-	xmlNodePtr val;
-	xmlChar *value;
+	for (attr = tree->xmlChildrenNode; attr ; attr = attr->next) {
+		if (xmlIsBlankNode (attr) ||
+		    attr->name == NULL || strcmp (attr->name, "Attribute"))
+			continue;
 
-	switch (arg->type) {
-	case GTK_TYPE_CHAR:
-	case GTK_TYPE_UCHAR:
-	case GTK_TYPE_BOOL:
-	case GTK_TYPE_INT:
-	case GTK_TYPE_UINT:
-	case GTK_TYPE_LONG:
-	case GTK_TYPE_ULONG:
-	case GTK_TYPE_FLOAT:
-	case GTK_TYPE_DOUBLE:
-	case GTK_TYPE_STRING:
-		val = e_xml_get_child_by_name (attr, (xmlChar *)"value");
-		if (val) {
-			value = xmlNodeGetContent (val);
-			xml_arg_set (arg, (gchar *)value);
+		tmp = e_xml_get_child_by_name (attr, "name");
+		if (tmp == NULL)
+			continue;
+		name = xml_node_get_cstr (tmp, NULL);
+		if (name == NULL)
+			continue;
 
-			if (value){
-				xmlFree (value);
-			}
-		}
-		break;
-	}
-}
-
-static void
-xml_read_attributes (XmlParseContext *ctxt, xmlNodePtr tree, GList **list)
-{
-	xmlNodePtr child, subchild;
-	GtkArg *arg;
-
-	g_return_if_fail (ctxt != NULL);
-	g_return_if_fail (tree != NULL);
-
-	child = tree->xmlChildrenNode;
-	while (child) {
-		xmlChar *name = NULL;
-		int type = 0;
-
-		if (child->name && !strcmp (child->name, "Attribute")) {
-
-			subchild = e_xml_get_child_by_name (child, (xmlChar *)"name");
-			if (subchild) {
-				name = xmlNodeGetContent (subchild);
-			}
-
-			xml_node_get_int (child, "type", &type);
-
-			if (name && type) {
-				arg = gtk_arg_new (type);
-				arg->name = g_strdup ((gchar *)name);
-				xml_read_attribute (ctxt, child, arg);
-
-				*list = g_list_prepend (*list, arg);
-			}
-		}
-		if (name){
+		tmp = e_xml_get_child_by_name (attr, "value");
+		if (tmp == NULL) {
 			xmlFree (name);
-			name = NULL;
+			continue;
 		}
-		child = child->next;
+		value = xml_node_get_cstr (tmp, NULL);
+		if (value == NULL) {
+			xmlFree (name);
+			continue;
+		}
+
+		wb_view_set_attribute (wbv, name, value);
+		xmlFree (name);
+		xmlFree (value);
 	}
+	wb_view_prefs_update (wbv);
 }
 
 static xmlNodePtr
@@ -1123,7 +980,7 @@ xml_write_print_info (XmlParseContext *ctxt, PrintInformation *pi)
 	xml_node_set_print_hf (cur, "Header", pi->header);
 	xml_node_set_print_hf (cur, "Footer", pi->footer);
 
-	xmlNewChild (cur, ctxt->ns, (xmlChar *)"paper", (xmlChar *)gnome_paper_name (pi->paper));
+	xmlNewChild (cur, ctxt->ns, (xmlChar *)"paper", (xmlChar *)pi->paper->name);
 
 	return cur;
 }
@@ -1303,9 +1160,9 @@ xml_read_print_info (XmlParseContext *ctxt, xmlNodePtr tree)
 		xml_node_get_print_hf (child, pi->footer);
 
 	if ((child = e_xml_get_child_by_name (tree, (xmlChar *)"paper"))) {
-		char *txt = (char *)xmlNodeGetContent (child);
-		pi->paper = gnome_paper_with_name (txt);
-		xmlFree (txt);
+		char *name = (char *)xmlNodeGetContent (child);
+		pi->paper = gnome_print_paper_get_by_name (name);
+		xmlFree (name);
 	}
 }
 
@@ -1416,8 +1273,10 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 		xmlFree (prop);
 	}
 
-	child = tree->xmlChildrenNode;
-	while (child != NULL) {
+	for (child = tree->xmlChildrenNode; child != NULL ; child = child->next) {
+		if (xmlIsBlankNode (child))
+			continue;
+
 		if (!strcmp (child->name, "Font")) {
 			char *font;
 			double size_pts = 14;
@@ -1438,7 +1297,7 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 			if (xml_node_get_int (child, "StrikeThrough", &t))
 				mstyle_set_font_strike (mstyle, t ? TRUE : FALSE);
 
-			font = (char *)xmlNodeGetContent (child);
+			font = (char *)xml_node_get_cstr (child, NULL);
 			if (font) {
 				if (*font == '-')
 					style_font_read_from_x11 (mstyle, font);
@@ -1478,7 +1337,7 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 			parse_pos_init (&pp, ctxt->wb, ctxt->sheet, 0, 0);
 			e_node = e_xml_get_child_by_name (child, (xmlChar *)"Expression0");
 			if (e_node != NULL) {
-				char *content = (char *)xmlNodeGetContent (e_node);
+				char *content = (char *)xml_node_get_cstr (e_node, NULL);
 				if (content != NULL) {
 					expr0 = expr_parse_str_simple (content, &pp);
 					xmlFree (content);
@@ -1486,7 +1345,7 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 			}
 			e_node = e_xml_get_child_by_name (child, (xmlChar *)"Expression1");
 			if (e_node != NULL) {
-				char *content = (char *)xmlNodeGetContent (e_node);
+				char *content = (char *)xml_node_get_cstr (e_node, NULL);
 				if (content != NULL) {
 					expr1 = expr_parse_str_simple (content, &pp);
 					xmlFree (content);
@@ -1503,7 +1362,6 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 			fprintf (stderr, "xml_read_style: unknown type '%s'\n",
 				 child->name);
 		}
-		child = child->next;
 	}
 
 	return mstyle;
@@ -1545,8 +1403,8 @@ xml_read_style_region_ex (XmlParseContext *ctxt, xmlNodePtr tree, Range *range)
 		return NULL;
 	}
 	xml_node_get_range (tree, range);
-	child = tree->xmlChildrenNode;
 
+	child = e_xml_get_child_by_name (tree, (xmlChar *)"Style");
 	if (child)
 		style = xml_read_style (ctxt, child);
 
@@ -1870,6 +1728,8 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 
 	if (ctxt->version < GNUM_XML_V10)
 		for (child = tree->xmlChildrenNode; child != NULL ; child = child->next) {
+			if (xmlIsBlankNode (child))
+				continue;
 			/*
 			 * This style code is a gross anachronism that slugs performance
 			 * in the common case this data won't exist. In the long term all
@@ -1882,7 +1742,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 					sheet_style_set_pos (ctxt->sheet, col, row, mstyle);
 			/* This is a pre version 1.0.3 file */
 			} else if (!strcmp (child->name, "Content")) {
-				content = (char *)xmlNodeGetContent (child);
+				content = (char *)xml_node_get_cstr (child, NULL);
 
 				/* Is this a post 0.52 array */
 				if (ctxt->version == GNUM_XML_V3) {
@@ -2374,15 +2234,16 @@ xml_read_merged_regions (XmlParseContext const *ctxt, xmlNodePtr sheet)
 	if (container == NULL)
 		return;
 
-	for (region = container->xmlChildrenNode; region; region = region->next) {
-		char *content = (char *)xmlNodeGetContent (region);
-		Range r;
-		if (content != NULL) {
-			if (parse_range (content, &r))
-				sheet_merge_add (NULL, ctxt->sheet, &r, FALSE);
-			xmlFree (content);
+	for (region = container->xmlChildrenNode; region; region = region->next)
+		if (!xmlIsBlankNode (region)) {
+			char *content = (char *)xml_node_get_cstr (region, NULL);
+			Range r;
+			if (content != NULL) {
+				if (parse_range (content, &r))
+					sheet_merge_add (NULL, ctxt->sheet, &r, FALSE);
+				xmlFree (content);
+			}
 		}
-	}
 }
 
 static void
@@ -2395,10 +2256,11 @@ xml_read_styles (XmlParseContext *ctxt, xmlNodePtr tree)
 	if (child == NULL)
 		return;
 
-	for (regions = child->xmlChildrenNode; regions != NULL; regions = regions->next) {
-		xml_read_style_region (ctxt, regions);
-		count_io_progress_update (ctxt->io_context, 1);
-	}
+	for (regions = child->xmlChildrenNode; regions != NULL; regions = regions->next)
+		if (!xmlIsBlankNode (regions)) {
+			xml_read_style_region (ctxt, regions);
+			count_io_progress_update (ctxt->io_context, 1);
+		}
 }
 
 /*
@@ -2434,7 +2296,9 @@ static void
 xml_read_cols_info (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	xmlNodePtr cols, col;
-	double tmp;
+	double size_pts, tmp;
+	ColRowInfo *info;
+	int count, pos;
 	Sheet *sheet = ctxt->sheet;
 
 	cols = e_xml_get_child_by_name (tree, (xmlChar *)"Cols");
@@ -2444,27 +2308,26 @@ xml_read_cols_info (XmlParseContext *ctxt, xmlNodePtr tree)
 	if (xml_node_get_double (cols, "DefaultSizePts", &tmp))
 		sheet_col_set_default_size_pts (sheet, tmp);
 
-	for (col = cols->xmlChildrenNode; col; col = col->next) {
-		double size_pts;
-		ColRowInfo *info;
-		int count, pos;
+	for (col = cols->xmlChildrenNode; col; col = col->next)
+		if (!xmlIsBlankNode (col)) {
+			info = sheet_col_new (sheet);
+			count = xml_read_colrow_info (ctxt, col, info, &size_pts);
+			sheet_col_add (sheet, info);
+			sheet_col_set_size_pts (ctxt->sheet, info->pos, size_pts, info->hard_size);
 
-		info = sheet_col_new (sheet);
-		count = xml_read_colrow_info (ctxt, col, info, &size_pts);
-		sheet_col_add (sheet, info);
-		sheet_col_set_size_pts (ctxt->sheet, info->pos, size_pts, info->hard_size);
-
-		/* resize flags are already set only need to copy the sizes */
-		for (pos = info->pos ; --count > 0 ; )
-			colrow_copy (sheet_col_fetch (ctxt->sheet, ++pos), info);
-	}
+			/* resize flags are already set only need to copy the sizes */
+			for (pos = info->pos ; --count > 0 ; )
+				colrow_copy (sheet_col_fetch (ctxt->sheet, ++pos), info);
+		}
 }
 
 static void
 xml_read_rows_info (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	xmlNodePtr rows, row;
-	double tmp;
+	double size_pts, tmp;
+	ColRowInfo *info;
+	int count, pos;
 	Sheet *sheet = ctxt->sheet;
 
 	rows = e_xml_get_child_by_name (tree, (xmlChar *)"Rows");
@@ -2474,26 +2337,25 @@ xml_read_rows_info (XmlParseContext *ctxt, xmlNodePtr tree)
 	if (xml_node_get_double (rows, "DefaultSizePts", &tmp))
 		sheet_row_set_default_size_pts (sheet, tmp);
 
-	for (row = rows->xmlChildrenNode; row; row = row->next){
-		double size_pts;
-		ColRowInfo *info;
-		int count, pos;
+	for (row = rows->xmlChildrenNode; row; row = row->next)
+		if (!xmlIsBlankNode (row)) {
+			info = sheet_row_new (sheet);
+			count = xml_read_colrow_info (ctxt, row, info, &size_pts);
+			sheet_row_add (sheet, info);
+			sheet_row_set_size_pts (ctxt->sheet, info->pos, size_pts, info->hard_size);
 
-		info = sheet_row_new (sheet);
-		count = xml_read_colrow_info (ctxt, row, info, &size_pts);
-		sheet_row_add (sheet, info);
-		sheet_row_set_size_pts (ctxt->sheet, info->pos, size_pts, info->hard_size);
-
-		/* resize flags are already set only need to copy the sizes */
-		for (pos = info->pos ; --count > 0 ; )
-			colrow_copy (sheet_row_fetch (ctxt->sheet, ++pos), info);
-	}
+			/* resize flags are already set only need to copy the sizes */
+			for (pos = info->pos ; --count > 0 ; )
+				colrow_copy (sheet_row_fetch (ctxt->sheet, ++pos), info);
+		}
 }
 
 static void
 xml_read_cell_styles (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	xmlNodePtr styles, child;
+	MStyle *mstyle;
+	int style_idx;
 
 	ctxt->style_table = g_hash_table_new (g_direct_hash, g_direct_equal);
 
@@ -2502,10 +2364,8 @@ xml_read_cell_styles (XmlParseContext *ctxt, xmlNodePtr tree)
 		return;
 
 	for (styles = child->xmlChildrenNode; styles; styles = styles->next) {
-		MStyle *mstyle;
-		int style_idx;
-
-		if (xml_node_get_int (styles, "No", &style_idx)) {
+		if (!xmlIsBlankNode (styles) &&
+		    xml_node_get_int (styles, "No", &style_idx)) {
 			mstyle = xml_read_style (ctxt, styles);
 			g_hash_table_insert (
 				ctxt->style_table,
@@ -2544,7 +2404,6 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 			 "xml_sheet_read: invalid element type %s, 'Sheet' expected\n",
 			 tree->name);
 	}
-	child = tree->xmlChildrenNode;
 
 	/*
 	 * Get the name of the sheet.  If it does exist, use the existing
@@ -2593,23 +2452,27 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 	xml_read_merged_regions (ctxt, tree);
 	xml_read_selection_info (ctxt, tree);
 
+#warning this looks wrong
+	child = tree->xmlChildrenNode;
 	xml_read_names (ctxt, child, NULL, sheet);
 
 	child = e_xml_get_child_by_name (tree, (xmlChar *)"Objects");
 	if (child != NULL) {
 		xmlNodePtr object = child->xmlChildrenNode;
 		for (; object != NULL ; object = object->next)
-			sheet_object_read_xml (ctxt, object);
+			if (!xmlIsBlankNode (object))
+				sheet_object_read_xml (ctxt, object);
 	}
 
 	child = e_xml_get_child_by_name (tree, (xmlChar *)"Cells");
 	if (child != NULL) {
 		xmlNodePtr cell;
 
-		for (cell = child->xmlChildrenNode; cell != NULL ; cell = cell->next) {
-			xml_read_cell (ctxt, cell);
-			count_io_progress_update (ctxt->io_context, 1);
-		}
+		for (cell = child->xmlChildrenNode; cell != NULL ; cell = cell->next)
+			if (!xmlIsBlankNode (cell)) {
+				xml_read_cell (ctxt, cell);
+				count_io_progress_update (ctxt->io_context, 1);
+			}
 	}
 
 	xml_read_solver (ctxt, tree);
@@ -2699,7 +2562,7 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree,
 	}
 
 	child = e_xml_get_child_by_name (tree, (xmlChar *)"Content");
-	content = xmlNodeGetContent ((child != NULL) ? child : tree);
+	content = xml_node_get_cstr ((child != NULL) ? child : tree, NULL);
 	if (content != NULL) {
 		if (is_post_52_array) {
 			ExprTree *expr;
@@ -2819,29 +2682,32 @@ xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, guchar *buffer, int len
 
 	l = e_xml_get_child_by_name (clipboard, (xmlChar *)"Styles");
 	if (l != NULL)
-		for (l = l->xmlChildrenNode; l != NULL ; l = l->next) {
-			StyleRegion *sr = g_new (StyleRegion, 1);
-			sr->style = xml_read_style_region_ex (ctxt, l, &sr->range);
-			cr->styles = g_slist_prepend (cr->styles, sr);
-		}
+		for (l = l->xmlChildrenNode; l != NULL ; l = l->next)
+			if (!xmlIsBlankNode (l)) {
+				StyleRegion *sr = g_new (StyleRegion, 1);
+				sr->style = xml_read_style_region_ex (ctxt, l, &sr->range);
+				cr->styles = g_slist_prepend (cr->styles, sr);
+			}
 
 	l = e_xml_get_child_by_name (clipboard, (xmlChar *)"MergedRegions");
 	if (l != NULL)
-		for (l = l->xmlChildrenNode; l != NULL ; l = l->next) {
-			char *content = (char *)xmlNodeGetContent (l);
-			Range r;
-			if (content != NULL) {
-				if (parse_range (content, &r))
-					cr->merged = g_slist_prepend (cr->merged,
-						range_dup (&r));
-				xmlFree (content);
+		for (l = l->xmlChildrenNode; l != NULL ; l = l->next)
+			if (!xmlIsBlankNode (l)) {
+				char *content = (char *)xmlNodeGetContent (l);
+				Range r;
+				if (content != NULL) {
+					if (parse_range (content, &r))
+						cr->merged = g_slist_prepend (cr->merged,
+									      range_dup (&r));
+					xmlFree (content);
+				}
 			}
-		}
 
 	l = e_xml_get_child_by_name (clipboard, (xmlChar *)"Cells");
 	if (l != NULL)
 		for (l = l->xmlChildrenNode; l != NULL ; l = l->next)
-			xml_read_cell_copy (ctxt, l, cr, sheet);
+			if (!xmlIsBlankNode (l))
+				xml_read_cell_copy (ctxt, l, cr, sheet);
 
 	xml_parse_ctx_destroy (ctxt);
 	xmlFreeDoc (doc);
@@ -2973,8 +2839,6 @@ xml_workbook_write (XmlParseContext *ctxt, WorkbookView *wb_view)
 {
 	xmlNodePtr cur;
 	xmlNodePtr child;
-	GtkArg *args;
-	guint n_args;
 	GList *sheets, *sheets0;
 	char *old_num_locale, *old_monetary_locale, *old_msg_locale;
 	Workbook *wb = wb_view_workbook (wb_view);
@@ -3006,11 +2870,9 @@ xml_workbook_write (XmlParseContext *ctxt, WorkbookView *wb_view)
 	old_msg_locale = g_strdup (textdomain (NULL));
 	textdomain ("C");
 
-	args = wb_view_get_attributev (wb_view, &n_args);
-	child = xml_write_attributes (ctxt, n_args, args);
+	child = xml_write_wbv_attributes (ctxt, wb_view);
 	if (child)
 		xmlAddChild (cur, child);
-	g_free (args);
 
 	child = xml_write_summary (ctxt, wb->summary_info);
 	if (child)
@@ -3151,7 +3013,6 @@ xml_workbook_read (IOContext *context, WorkbookView *wb_view,
 	Sheet *sheet;
 	xmlNodePtr child, c;
 	char *old_num_locale, *old_monetary_locale, *old_msg_locale;
-	GList *list = NULL;
 	Workbook *wb = wb_view_workbook (wb_view);
 
 	if (strcmp (tree->name, "Workbook")){
@@ -3196,7 +3057,8 @@ xml_workbook_read (IOContext *context, WorkbookView *wb_view,
 	 * handled
 	 */
 	for (c = child->xmlChildrenNode; c != NULL ; c = c->next)
-		xml_sheet_create (ctxt, c);
+		if (!xmlIsBlankNode (c))
+			xml_sheet_create (ctxt, c);
 
 	/*
 	 * Now read names which can have inter-sheet references
@@ -3214,21 +3076,16 @@ xml_workbook_read (IOContext *context, WorkbookView *wb_view,
 	count_io_progress_set (context, xml_read_workbook_n_elements (child),
 	                       N_ELEMENTS_BETWEEN_UPDATES);
 	ctxt->io_context = context;
-	c = child->xmlChildrenNode;
-	while (c != NULL) {
-		sheet = xml_sheet_read (ctxt, c);
-		c = c->next;
-	}
+	for (c = child->xmlChildrenNode; c != NULL ; c = c->next)
+		if (!xmlIsBlankNode (c))
+			sheet = xml_sheet_read (ctxt, c);
+
 	io_progress_unset (context);
 	io_progress_range_pop (context);
 
-	child = e_xml_get_child_by_name (tree, (xmlChar *)"Attributes");
-	if (child && ctxt->version >= GNUM_XML_V5) {
-		xml_read_attributes (ctxt, child, &list);
-		wb_view_set_attribute_list (wb_view, list);
-		xml_free_arg_list (list);
-		g_list_free (list);
-	}
+	child = e_xml_get_child_by_name (tree, "Attributes");
+	if (child && ctxt->version >= GNUM_XML_V5)
+		xml_read_wbv_attributes (ctxt, wb_view, child);
 
 	child = e_xml_get_child_by_name (tree, (xmlChar *)"UIData");
 	if (child) {

@@ -9,7 +9,6 @@
 #include "gnumeric.h"
 #include "plugin-service.h"
 
-#include "portability.h"
 #include "workbook.h"
 #include "workbook-view.h"
 #include "func.h"
@@ -23,7 +22,6 @@
 #include <glib.h>
 #include <libxml/tree.h>
 #include <libxml/xmlmemory.h>
-#include <libgnome/libgnome.h>
 #include <gal/util/e-xml-utils.h>
 #include <gal/util/e-util.h>
 

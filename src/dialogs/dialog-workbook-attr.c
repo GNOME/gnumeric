@@ -107,7 +107,7 @@ cb_attr_dialog_dialog_destroy (GtkObject *w, AttrState *state)
 
 	gtk_signal_disconnect (GTK_OBJECT (box->notebook),
 			       state->page_signal);
-	gtk_object_unref (GTK_OBJECT (state->gui));
+	g_object_unref (G_OBJECT (state->gui));
 	g_free (state);
 
 	return FALSE;

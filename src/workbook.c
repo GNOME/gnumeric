@@ -32,6 +32,7 @@
 #include "file.h"
 #include "io-context.h"
 #include "gutils.h"
+#include "gui-gtkmarshalers.h"
 
 #ifdef ENABLE_BONOBO
 #include <bonobo/bonobo-persist-file.h>
@@ -44,17 +45,7 @@
 #include <ctype.h>
 #include <stdlib.h>
 
-static GtkObjectClass *workbook_parent_class;
-
-/* Workbook signals */
-enum {
-	CELL_CHANGED,
-	LAST_SIGNAL
-};
-
-static guint workbook_signals [LAST_SIGNAL] = {
-	0, /* CELL_CHANGED */
-};
+static GObjectClass *workbook_parent_class;
 
 /*
  * We introduced numbers in front of the the history file names for two
@@ -117,7 +108,7 @@ cb_saver_destroy_event (GtkObject *obj, gpointer *data)
 }
 
 static void
-workbook_destroy (GtkObject *wb_object)
+workbook_finalize (GObject *wb_object)
 {
 	Workbook *wb = WORKBOOK (wb_object);
 	GList *sheets, *ptr;
@@ -180,10 +171,9 @@ workbook_destroy (GtkObject *wb_object)
 	 */
 	/* Get rid of all the views */
 	if (wb->wb_views != NULL) {
-		WORKBOOK_FOREACH_VIEW (wb, view,
-		{
+		WORKBOOK_FOREACH_VIEW (wb, view, {
 			workbook_detach_view (view);
-			gtk_object_unref (GTK_OBJECT (view));
+			g_object_unref (G_OBJECT (view));
 		});
 		if (wb->wb_views != NULL)
 			g_warning ("Unexpected left over views");
@@ -210,7 +200,7 @@ workbook_destroy (GtkObject *wb_object)
 		application_history_write_config ();
 		gtk_main_quit ();
 	}
-	GTK_OBJECT_CLASS (workbook_parent_class)->destroy (wb_object);
+	G_OBJECT_CLASS (workbook_parent_class)->finalize (wb_object);
 }
 
 static void
@@ -362,7 +352,7 @@ workbook_bonobo_setup (Workbook *wb)
 #endif
 
 static void
-workbook_init (GtkObject *object)
+workbook_init (GObject *object)
 {
 	Workbook *wb = WORKBOOK (object);
 
@@ -395,30 +385,11 @@ workbook_init (GtkObject *object)
 }
 
 static void
-workbook_class_init (GtkObjectClass *object_class)
+workbook_class_init (GObjectClass *object_class)
 {
-	workbook_parent_class = gtk_type_class (gtk_object_get_type ());
+	workbook_parent_class = g_type_class_peek (G_TYPE_OBJECT);
 
-	/*
-	 * WARNING :
-	 * This is a preliminary hook used by screen reading software,
-	 * etc.  The signal does NOT trigger for all cell changes and
-	 * should be used with care.
-	 */
-	workbook_signals [CELL_CHANGED] =
-		gtk_signal_new (
-			"cell_changed",
-			GTK_RUN_LAST,
-			object_class->type,
-			GTK_SIGNAL_OFFSET (WorkbookClass,
-					   cell_changed),
-			gtk_marshal_NONE__POINTER_POINTER_INT_INT,
-			GTK_TYPE_NONE,
-			1,
-			GTK_TYPE_POINTER);
-	gtk_object_class_add_signals (object_class, workbook_signals, LAST_SIGNAL);
-
-	object_class->destroy = workbook_destroy;
+	object_class->finalize = workbook_finalize;
 }
 
 /**
@@ -441,7 +412,7 @@ workbook_new (void)
 	if (extension == NULL)
 		extension = "gnumeric";
 
-	wb = gtk_type_new (workbook_get_type ());
+	wb = g_object_new (WORKBOOK_TYPE, NULL);
 
 	/* Assign a default name */
 	do {
@@ -755,7 +726,7 @@ workbook_calc_spans (Workbook *wb, SpanCalcFlags const flags)
 void
 workbook_unref (Workbook *wb)
 {
-	gtk_object_unref (GTK_OBJECT (wb));
+	g_object_unref (G_OBJECT (wb));
 }
 
 /**
@@ -1251,4 +1222,4 @@ workbook_sheet_rename (WorkbookControl *wbc,
 
 E_MAKE_TYPE (workbook, "Workbook", Workbook,
 	     workbook_class_init, workbook_init,
-	     GTK_TYPE_OBJECT);
+	     G_TYPE_OBJECT);

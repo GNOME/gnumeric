@@ -34,7 +34,6 @@
 #include "style-border.h"
 #include "style-color.h"
 #include "pattern.h"
-#include "portability.h"
 #include "commands.h"
 
 #include <gal/util/e-util.h>

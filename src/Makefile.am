@@ -2,13 +2,15 @@
 # Gnumeric's Makefile.
 # Author: Miguel de Icaza (miguel@kernel.org)
 
-SUBDIRS = dialogs functions widgets
+SUBDIRS = dialogs functions pixmaps widgets
 
 bin_PROGRAMS = gnumeric
 #noinst_PROGRAMS = number-match
 
 INCLUDES = 								\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 			\
+	-DGNUMERIC_PREFIX=\""$(gnumeric_prefix)"\"			\
+	-DGNUMERIC_SYSCONFDIR=\""$(sysconfdir)"\"			\
 	-DGNUMERIC_DATADIR=\""$(gnumeric_datadir)"\"			\
 	-DGNUMERIC_LIBDIR=\""$(gnumeric_libdir)"\"			\
 	-DGNOME_ICONDIR=\""$(datadir)/pixmaps"\"			\
@@ -145,7 +147,6 @@ GNUMERIC_BASE =					\
 	plugin-util.h				\
 	plugin.c				\
 	plugin.h				\
-	portability.h				\
 	position.c				\
 	position.h				\
 	preview-grid.c				\
@@ -243,7 +244,9 @@ GNUMERIC_BASE =					\
 	xml-io.h				\
 	xml-io-version.h			\
 	xml-io-autoft.c				\
-	xml-io-autoft.h
+	xml-io-autoft.h				\
+	gui-gtkmarshalers.h			\
+	gui-gtkmarshalers.c
 
 # TODO : split the bonobo and corba tests one day
 GNUMERIC_CORBA = 				\
@@ -253,8 +256,6 @@ GNUMERIC_CORBA = 				\
 GNUMERIC_BONOBO = 				\
 	bonobo-io.c				\
 	bonobo-io.h				\
-	embeddable-grid.c			\
-	embeddable-grid.h			\
 	gnumeric-graph.c			\
 	gnumeric-graph.h			\
 	sheet-object-bonobo.c			\
@@ -262,14 +263,17 @@ GNUMERIC_BONOBO = 				\
 	sheet-object-container.c		\
 	sheet-object-container.h		\
 	sheet-object-item.c			\
-	sheet-object-item.h			\
-	$(GNUMERIC_CORBA)
+	sheet-object-item.h
+	# $(GNUMERIC_CORBA)
+	# embeddable-grid.c			
+	# embeddable-grid.h			
 
-if BONOBO
+if WITH_BONOBO
 gnumeric_SOURCES =				\
 	$(GNUMERIC_BASE)			\
-	corba-args.c				\
-	$(GNUMERIC_BONOBO)
+	$(GNUMERIC_BONOBO)			\
+	normal-args.c
+	# corba-args.c (use normal for now)
 
 gnumeric_LDADD =				\
 	$(gnumeric_app_libs)			\
@@ -294,14 +298,18 @@ gnumeric_app_libs =				\
 	widgets/libwidgets.a			\
 	functions/libfunctions.a
 
+noinst_HEADERS = gui-gtkmarshalers.h
+
+gui-gtkmarshalers.h : gui-gtkmarshalers.list $(GLIB_GENMARSHAL)
+	$(GLIB_GENMARSHAL) $< --header --prefix=gnm_ > $@
+gui-gtkmarshalers.c : gui-gtkmarshalers.list $(GLIB_GENMARSHAL)
+	$(GLIB_GENMARSHAL) $< --body --prefix=gnm_ > $@
+
 # include conditional files to ensure everything gets distributed no matter
 # what the build
-EXTRA_DIST = portability.h.in GNOME_Gnumeric.xml \
+EXTRA_DIST = GNOME_Gnumeric.xml \
 	    normal-args.c corba-args.c		 \
 	    $(GNUMERIC_BONOBO)
-dist-hook:
-	-mkdir $(distdir)/pixmaps
-	cp $(srcdir)/pixmaps/*.xpm $(distdir)/pixmaps
 
 #number_match_SOURCES = number-match.c  formats.c dates.c number-match-test.c
 

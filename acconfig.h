@@ -1,5 +1,9 @@
 #undef PACKAGE
+#undef GETTEXT_PACKAGE
 #undef VERSION
+#undef GNUMERIC_VERSION
+#undef GNUMERIC_PREFIX
+
 #undef HAVE_LIBSM
 #undef ENABLE_NLS
 #undef HAVE_CATGETS
@@ -18,9 +22,5 @@
 #undef ENABLE_GNOME
 #undef HAVE_PSPELL
 #undef ENABLE_EVOLUTION
-
-#undef GNUMERIC_VERSION
-
-#undef USE_WM_ICONS
 
 @BOTTOM@

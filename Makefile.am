@@ -1,4 +1,4 @@
-SUBDIRS = . intl po macros idl src plugins doc icons templates tools omf-install
+SUBDIRS = . po idl src plugins doc icons templates tools omf-install
 
 XML_I18N_XML_KIND = --pass-through
 
@@ -20,16 +20,16 @@ appicon_DATA = gnome-gnumeric.png \
 Applicationsdir = $(datadir)/gnome/apps/Applications
 Applications_in_files = gnumeric.desktop.in
 Applications_DATA = gnumeric.desktop
-@XML_I18N_MERGE_DESKTOP_RULE@
+@INTLTOOL_DESKTOP_RULE@
 gnewdir = $(datadir)/mc/templates
 gnew_in_files = gnumeric.desktop.in
 gnew_DATA = gnumeric.desktop
-@XML_I18N_MERGE_DESKTOP_RULE@
+@INTLTOOL_DESKTOP_RULE@
 
 Mimedir = $(datadir)/mime-info
 Mime_DATA = gnumeric.keys gnumeric.mime
 
-@XML_I18N_MERGE_OAF_RULE@
+@INTLTOOL_OAF_RULE@
 
 oafdir = $(datadir)/oaf
 oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
@@ -40,12 +40,12 @@ EXTRA_DIST = \
 	gnumeric.keys.in gnumeric.mime $(appicon_DATA) 			\
 	gnumeric.xsd							\
 	README HACKING NEWS BEVERAGES BUGS MAINTAINERS AUTHORS $(change_logs)	\
-	xml-i18n-extract.in	\
-	xml-i18n-merge.in	\
-	xml-i18n-update.in	\
+	intltool-extract.in	\
+	intltool-merge.in	\
+	intltool-update.in	\
 	$(oaf_in_files)
 
-if BONOBO
+if WITH_BONOBO
 gnumeric_version="$(VERSION)-bonobo"
 else
 gnumeric_version="$(VERSION)"

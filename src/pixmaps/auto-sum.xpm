@@ -1,5 +1,5 @@
 /* XPM */
-static char * auto_sum_xpm[] = {
+static char const * auto_sum_xpm[] = {
 "24 24 43 1",
 " 	c None",
 ".	c #000000",

@@ -52,7 +52,7 @@ dialog_autosave_prompt (WorkbookControlGUI *wbcg)
 	v = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dia));
 	if (v != -1)
 		gtk_object_destroy (GTK_OBJECT (dia));
-	gtk_object_unref (GTK_OBJECT (gui));
+	g_object_unref (G_OBJECT (gui));
 
 	if (v == 0)
 		return TRUE;
@@ -133,6 +133,6 @@ loop:
 	if (v != -1)
 		gtk_object_destroy (GTK_OBJECT (dia));
 
-	gtk_object_unref (GTK_OBJECT (gui));
+	g_object_unref (G_OBJECT (gui));
 }
 

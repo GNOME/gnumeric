@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.71\n"
-"POT-Creation-Date: 2002-01-21 23:04-0500\n"
+"POT-Creation-Date: 2002-01-22 02:21-0500\n"
 "PO-Revision-Date: 2001-09-30 16:07+0200\n"
 "Last-Translator: Softcatalà <tradgnome@softcatala.org>\n"
 "Language-Team: Catalan <linux@softcatala.org>\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: gnumeric.desktop.in.h:1 src/dialogs/dialog-about.c:81
+#: gnumeric.desktop.in.h:1 src/dialogs/dialog-about.c:90
 #: src/functions/fn-sheet.c:143
 msgid "Gnumeric"
 msgstr "Gnumeric"
@@ -262,28 +262,28 @@ msgid ""
 "opt_bs_gamma"
 msgstr ""
 
-#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4524
-#: plugins/mps/mps.c:579 src/xml-io.c:3378
+#: plugins/dif/dif.c:76 plugins/excel/ms-excel-read.c:4524
+#: plugins/mps/mps.c:578 src/xml-io.c:3235
 msgid "Reading file..."
 msgstr "S'està llegint el fitxer..."
 
-#: plugins/dif/dif.c:246
+#: plugins/dif/dif.c:245
 #, c-format
 msgid "Syntax error at line %d. Ignoring."
 msgstr "S'ha produït un error de sintaxi a la línia %d. S'està ignorant."
 
-#: plugins/dif/dif.c:283
+#: plugins/dif/dif.c:282
 #, c-format
 msgid "Unknown data value \"%s\" at line %d. Ignoring."
 msgstr ""
 "Es desconeix el valor de la dada \"%s\" a la línia %d. S'està ignorant."
 
-#: plugins/dif/dif.c:290
+#: plugins/dif/dif.c:289
 #, c-format
 msgid "Unknown value type %d at line %d. Ignoring."
 msgstr "Es desconeix el tipus del valor %d a la línia %d. S'està ignorant."
 
-#: plugins/dif/dif.c:299
+#: plugins/dif/dif.c:298
 #, c-format
 msgid ""
 "DIF file has more than the maximum number of rows %d. Ignoring remaining "
@@ -292,7 +292,7 @@ msgstr ""
 "El fitxer DIF conté més que el nombre màxim de files %d. S'ignoren les files "
 "restants."
 
-#: plugins/dif/dif.c:303
+#: plugins/dif/dif.c:302
 #, c-format
 msgid ""
 "DIF file has more than the maximum number of columns %d. Ignoring remaining "
@@ -301,28 +301,28 @@ msgstr ""
 "El fitxer DIF conté més que el nombre màxim de columnes %d. S'ignoren les "
 "columnes restants."
 
-#: plugins/dif/dif.c:315
+#: plugins/dif/dif.c:314
 #, c-format
 msgid "Unexpected end of file at line %d while reading header."
 msgstr ""
 "S'ha trobat un final de fitxer no esperat a la línia %d en llegir la "
 "capçalera."
 
-#: plugins/dif/dif.c:319
+#: plugins/dif/dif.c:318
 #, c-format
 msgid "Unexpected end of file at line %d while reading data."
 msgstr ""
 "S'ha trobat un final de fitxer no esperat a la línia %d en llegir dades."
 
-#: plugins/dif/dif.c:335
+#: plugins/dif/dif.c:334
 msgid "Error while reading DIF file."
 msgstr "S'ha produït un error en llegir el fitxer DIF."
 
-#: plugins/dif/dif.c:366
+#: plugins/dif/dif.c:365
 msgid "Cannot get default sheet."
 msgstr "No es pot aconseguir el full per defecte."
 
-#: plugins/dif/dif.c:398
+#: plugins/dif/dif.c:397
 msgid "Error while saving DIF file."
 msgstr "S'ha produït un error en desar el fitxer DIF."
 
@@ -530,7 +530,7 @@ msgstr ""
 # src/functions/fn-information.c:772 src/functions/fn-information.c:837
 # src/functions/fn-logical.c:194 src/functions/fn-lookup.c:469
 # src/functions/fn-lookup.c:580 src/functions/fn-string.c:343
-#: plugins/guile/plugin.c:67 src/func.c:806 src/functions/fn-information.c:697
+#: plugins/guile/plugin.c:67 src/func.c:805 src/functions/fn-information.c:697
 #: src/functions/fn-information.c:768 src/functions/fn-information.c:796
 #: src/functions/fn-information.c:823 src/functions/fn-information.c:874
 #: src/functions/fn-information.c:904 src/functions/fn-information.c:971
@@ -624,17 +624,17 @@ msgstr "Lotus 123"
 msgid "Lotus 123 (*.wk1)"
 msgstr "Lotus 123"
 
-#: plugins/mps/mps.c:276
+#: plugins/mps/mps.c:275
 msgid "Program Name"
 msgstr ""
 
-#: plugins/mps/mps.c:282
+#: plugins/mps/mps.c:281
 #, fuzzy
 msgid "Objective Value"
 msgstr "Objectiu"
 
 #. Print 'Status'.
-#: plugins/mps/mps.c:293
+#: plugins/mps/mps.c:292
 #, fuzzy
 msgid "Feasible"
 msgstr "Fallada"
@@ -643,13 +643,13 @@ msgstr "Fallada"
 #. * Add objective function stuff into the sheet.
 #.
 #. Print 'Objective function:'
-#: plugins/mps/mps.c:308
+#: plugins/mps/mps.c:307
 #, fuzzy
 msgid "Objective function:"
 msgstr "Objectiu"
 
 #. Print 'Current values'
-#: plugins/mps/mps.c:311
+#: plugins/mps/mps.c:310
 #, fuzzy
 msgid "Current values"
 msgstr "Dades _actuals"
@@ -658,66 +658,66 @@ msgstr "Dades _actuals"
 #. * Add constraints into the sheet.
 #.
 #. Print 'Constraints:'.
-#: plugins/mps/mps.c:332
+#: plugins/mps/mps.c:331
 #, fuzzy
 msgid "Constraints:"
 msgstr "Restriccions"
 
 #. Print constraint titles.
-#: plugins/mps/mps.c:335 src/dialogs/plugin-manager.glade.h:10
+#: plugins/mps/mps.c:334 src/dialogs/plugin-manager.glade.h:10
 #: src/format-template.c:510 src/solver-lp.c:898 src/solver-lp.c:922
 #: src/solver-lp.c:955 src/solver-lp.c:1049 src/solver-lp.c:1096
 #: src/workbook-control.c:233
 msgid "Name"
 msgstr "Nom"
 
-#: plugins/mps/mps.c:339 src/dialogs/plugin-manager.glade.h:12
+#: plugins/mps/mps.c:338 src/dialogs/plugin-manager.glade.h:12
 #: src/solver-lp.c:1050 src/solver-lp.c:1097
 msgid "Value"
 msgstr "Valor"
 
-#: plugins/mps/mps.c:340
+#: plugins/mps/mps.c:339
 #, fuzzy
 msgid "Type"
 msgstr "_Tipus"
 
-#: plugins/mps/mps.c:341
+#: plugins/mps/mps.c:340
 msgid "RHS"
 msgstr ""
 
-#: plugins/mps/mps.c:342 src/solver-lp.c:959
+#: plugins/mps/mps.c:341 src/solver-lp.c:959
 msgid "Slack"
 msgstr "Fluix"
 
-#: plugins/mps/mps.c:343 src/solver-lp.c:958
+#: plugins/mps/mps.c:342 src/solver-lp.c:958
 msgid "Status"
 msgstr "Estat"
 
-#: plugins/mps/mps.c:1127
+#: plugins/mps/mps.c:1126
 msgid "Problem name was not defined in the file."
 msgstr ""
 
-#: plugins/mps/mps.c:1130
+#: plugins/mps/mps.c:1129
 #, fuzzy
 msgid "Invalid ROWS section in the file."
 msgstr "$-specification invàlida en el reemplaçament"
 
-#: plugins/mps/mps.c:1133
+#: plugins/mps/mps.c:1132
 #, fuzzy
 msgid "Invalid COLUMNS section in the file."
 msgstr "$-specification invàlida en el reemplaçament"
 
-#: plugins/mps/mps.c:1136
+#: plugins/mps/mps.c:1135
 #, fuzzy
 msgid "Invalid RHS section in the file."
 msgstr "$-specification invàlida en el reemplaçament"
 
-#: plugins/mps/mps.c:1139
+#: plugins/mps/mps.c:1138
 #, fuzzy
 msgid "Invalid BOUNDS section in the file."
 msgstr "$-specification invàlida en el reemplaçament"
 
-#: plugins/mps/mps.c:1155
+#: plugins/mps/mps.c:1154
 #, fuzzy
 msgid "Error while reading MPS file."
 msgstr "S'ha produït un error en llegir el fitxer."
@@ -1275,11 +1275,11 @@ msgstr "XML EXPERIMENTAL"
 msgid "The next generation sax based xml I/O subsystem"
 msgstr "La nova generació de subsistema d'E/S xml basat en sax"
 
-#: plugins/xml_sax/xml-sax-read.c:2173
+#: plugins/xml_sax/xml-sax-read.c:2086
 msgid "xmlCreateFileParserCtxt () failed."
 msgstr "S'ha fallat a xmlCreateFileParserCtxt ()."
 
-#: plugins/xml_sax/xml-sax-read.c:2182
+#: plugins/xml_sax/xml-sax-read.c:2095
 msgid "XML document not well formed!"
 msgstr "No s'ha format bé el document XML!"
 
@@ -1287,11 +1287,11 @@ msgstr "No s'ha format bé el document XML!"
 msgid "About this application"
 msgstr "Sobre aquesta aplicació"
 
-#: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:3101
+#: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:3098
 msgid "Add an outline group"
 msgstr "Afegeix un grup de contorn"
 
-#: src/GNOME_Gnumeric.xml.h:3 src/workbook-control-gui.c:3131
+#: src/GNOME_Gnumeric.xml.h:3 src/workbook-control-gui.c:3128
 #, fuzzy
 msgid "Advanced _Filter..."
 msgstr "Filtre avançat"
@@ -1308,31 +1308,31 @@ msgstr "Alinea els continguts a l'esquerra i incrementa el sagnat"
 msgid "Arrow"
 msgstr "Fletxa"
 
-#: src/GNOME_Gnumeric.xml.h:7 src/workbook-control-gui.c:3069
+#: src/GNOME_Gnumeric.xml.h:7 src/workbook-control-gui.c:3066
 msgid "Auto _Correct..."
 msgstr "_Corregeix automàticament..."
 
-#: src/GNOME_Gnumeric.xml.h:8 src/workbook-control-gui.c:2684
+#: src/GNOME_Gnumeric.xml.h:8 src/workbook-control-gui.c:2681
 #, fuzzy
 msgid "Auto_fill"
 msgstr "Omple automàticament"
 
-#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:2685
+#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:2682
 #, fuzzy
 msgid "Automatically fill the current selection"
 msgstr "Realitza una correcció ortogràfica simple automàticament"
 
-#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:3070
+#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:3067
 msgid "Automatically perform simple spell checking"
 msgstr "Realitza una correcció ortogràfica simple automàticament"
 
-#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:3073
+#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:3070
 msgid "Automatically save the current document at regular intervals"
 msgstr "Desa el document actual a intervals regulars actualment"
 
 #: src/GNOME_Gnumeric.xml.h:12 src/dialogs/cell-format.glade.h:15
-#: src/dialogs/dialog-cell-format.c:2577 src/workbook-format-toolbar.c:819
-#: src/workbook-format-toolbar.c:875
+#: src/dialogs/dialog-cell-format.c:2579 src/workbook-format-toolbar.c:806
+#: src/workbook-format-toolbar.c:862
 msgid "Background"
 msgstr "Fons"
 
@@ -1341,8 +1341,8 @@ msgstr "Fons"
 msgid "Bold"
 msgstr "Negreta"
 
-#: src/GNOME_Gnumeric.xml.h:14 src/workbook-format-toolbar.c:807
-#: src/workbook-format-toolbar.c:872
+#: src/GNOME_Gnumeric.xml.h:14 src/workbook-format-toolbar.c:794
+#: src/workbook-format-toolbar.c:859
 msgid "Borders"
 msgstr "Vores"
 
@@ -1351,15 +1351,15 @@ msgstr "Vores"
 msgid "Button"
 msgstr "Botó"
 
-#: src/GNOME_Gnumeric.xml.h:16 src/workbook-control-gui.c:2852
+#: src/GNOME_Gnumeric.xml.h:16 src/workbook-control-gui.c:2849
 msgid "C_ells..."
 msgstr "C_el·les"
 
-#: src/GNOME_Gnumeric.xml.h:17 src/workbook-control-gui.c:2753
+#: src/GNOME_Gnumeric.xml.h:17 src/workbook-control-gui.c:2750
 msgid "C_lear"
 msgstr "S_uprimeix"
 
-#: src/GNOME_Gnumeric.xml.h:18 src/workbook-control-gui.c:2956
+#: src/GNOME_Gnumeric.xml.h:18 src/workbook-control-gui.c:2953
 msgid "C_olumn"
 msgstr "C_olumna"
 
@@ -1379,24 +1379,24 @@ msgstr "Centra a través de les cel·les seleccionades"
 msgid "Centers the text in each selection"
 msgstr "Centra el text a cada selecció"
 
-#: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:2890
+#: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:2887
 msgid "Change height of the selected rows"
 msgstr "Canvia l'alçada de les files seleccionades"
 
-#: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:2883
+#: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:2880
 msgid "Change the default column width"
 msgstr "Canvia l'amplada de la columna per defecte"
 
-#: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:2902
+#: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:2899
 msgid "Change the default row height"
 msgstr "Canvia l'alçada de la fila per defecte"
 
-#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:2711
-#: src/workbook-control-gui.c:2912
+#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:2708
+#: src/workbook-control-gui.c:2909
 msgid "Change the order the sheets are displayed"
 msgstr "Canvia l'ordre en què es mostren els fulls"
 
-#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:2871
+#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:2868
 msgid "Change width of the selected columns"
 msgstr "Canvia l'amplada de les columnes seleccionades"
 
@@ -1404,19 +1404,19 @@ msgstr "Canvia l'amplada de les columnes seleccionades"
 msgid "Checkbox"
 msgstr "Quadre de verificació"
 
-#: src/GNOME_Gnumeric.xml.h:29 src/workbook-control-gui.c:2645
+#: src/GNOME_Gnumeric.xml.h:29 src/workbook-control-gui.c:2642
 msgid "Clear the selected cells' comments"
 msgstr "Suprimeix els comentaris de les cel·les seleccionades"
 
-#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:2648
+#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:2645
 msgid "Clear the selected cells' contents"
 msgstr "Suprimeix els continguts de les cel·les seleccionades"
 
-#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:2642
+#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:2639
 msgid "Clear the selected cells' formats"
 msgstr "Suprimeix els formats de les cel·les seleccionades"
 
-#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:2639
+#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:2636
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr ""
 "Suprimeix els formats, comentaris i continguts de les cel·les seleccionades"
@@ -1426,16 +1426,16 @@ msgid "Close the current file"
 msgstr "Tanca el fitxer actual"
 
 #: src/GNOME_Gnumeric.xml.h:34 src/dialogs/print.glade.h:4
-#: src/workbook-control-gui.c:2644
+#: src/workbook-control-gui.c:2641
 msgid "Co_mments"
 msgstr "Co_mentaris"
 
-#: src/GNOME_Gnumeric.xml.h:35 src/workbook-control-gui.c:3028
+#: src/GNOME_Gnumeric.xml.h:35 src/workbook-control-gui.c:3025
 #, fuzzy
 msgid "Co_variance"
 msgstr "Covariança"
 
-#: src/GNOME_Gnumeric.xml.h:36 src/workbook-control-gui.c:3095
+#: src/GNOME_Gnumeric.xml.h:36 src/workbook-control-gui.c:3092
 msgid "Collapse an outline group"
 msgstr "Redueix un grup de contorn"
 
@@ -1443,29 +1443,29 @@ msgstr "Redueix un grup de contorn"
 msgid "Combo Box"
 msgstr "Quadre Combinat"
 
-#: src/GNOME_Gnumeric.xml.h:38 src/workbook-control-gui.c:3000
+#: src/GNOME_Gnumeric.xml.h:38 src/workbook-control-gui.c:2997
 msgid "Comparing two population means for two paired samples.: t-test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:39 src/workbook-control-gui.c:3004
+#: src/GNOME_Gnumeric.xml.h:39 src/workbook-control-gui.c:3001
 msgid ""
 "Comparing two population means for two unpaired samples from pop. with equal "
 "var.: t-test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:40 src/workbook-control-gui.c:3009
+#: src/GNOME_Gnumeric.xml.h:40 src/workbook-control-gui.c:3006
 msgid ""
 "Comparing two population means for two unpaired samples from pop. with "
 "unequal var.: t-test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:3014
+#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:3011
 msgid ""
 "Comparing two population means from pop. with known varinces or using a "
 "large sample: z- test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3056
+#: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3053
 #, fuzzy
 msgid "Comparing two population variances"
 msgstr "Variança combinada"
@@ -1475,12 +1475,12 @@ msgstr "Variança combinada"
 msgid "Configure toolbars"
 msgstr "Configura"
 
-#: src/GNOME_Gnumeric.xml.h:44 src/workbook-control-gui.c:3149
+#: src/GNOME_Gnumeric.xml.h:44 src/workbook-control-gui.c:3146
 msgid "Consolidate regions using a function"
 msgstr "Consolida les regions usant una funció"
 
 #: src/GNOME_Gnumeric.xml.h:45 src/selection.c:497
-#: src/workbook-control-gui.c:3203
+#: src/workbook-control-gui.c:3200
 msgid "Copy"
 msgstr "Copia"
 
@@ -1488,12 +1488,12 @@ msgstr "Copia"
 msgid "Copy the current selection to the clipboard"
 msgstr "Copia la selecció actual al porta-retalls"
 
-#: src/GNOME_Gnumeric.xml.h:47 src/workbook-control-gui.c:2739
+#: src/GNOME_Gnumeric.xml.h:47 src/workbook-control-gui.c:2736
 msgid "Copy the selection"
 msgstr "Copia la selecció"
 
 #: src/GNOME_Gnumeric.xml.h:48 src/dialogs/covariance.glade.h:2
-#: src/workbook-control-gui.c:3029
+#: src/workbook-control-gui.c:3026
 msgid "Covariance"
 msgstr "Covariança"
 
@@ -1525,7 +1525,7 @@ msgstr "Crea una línia"
 msgid "Create a list"
 msgstr "Crea una llista"
 
-#: src/GNOME_Gnumeric.xml.h:56 src/workbook-control-gui.c:2795
+#: src/GNOME_Gnumeric.xml.h:56 src/workbook-control-gui.c:2792
 msgid "Create a new shared view of the workbook"
 msgstr "Crea una nova vista compartida del llibre de treball"
 
@@ -1533,7 +1533,7 @@ msgstr "Crea una nova vista compartida del llibre de treball"
 msgid "Create a new spreadsheet"
 msgstr "Crea un nou full de difusió"
 
-#: src/GNOME_Gnumeric.xml.h:58 src/workbook-control-gui.c:2798
+#: src/GNOME_Gnumeric.xml.h:58 src/workbook-control-gui.c:2795
 msgid "Create a new unshared view of the workbook"
 msgstr "Crea una nova vista no compartida del llibre de treball"
 
@@ -1554,27 +1554,27 @@ msgstr "Crea un marc"
 msgid "Create an arrow"
 msgstr "Crea una fletxa"
 
-#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1392
-#: src/workbook-control-gui.c:2734
+#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1391
+#: src/workbook-control-gui.c:2731
 msgid "Cu_t"
 msgstr "Tall_a"
 
 #. Default <Ctrl-;> (control semi-colon) to insert the current date
-#: src/GNOME_Gnumeric.xml.h:64 src/workbook-control-gui.c:2816
+#: src/GNOME_Gnumeric.xml.h:64 src/workbook-control-gui.c:2813
 msgid "Current _date"
 msgstr "Dades _actuals"
 
 #. Default <Ctrl-:> (control colon) to insert the current time
-#: src/GNOME_Gnumeric.xml.h:65 src/workbook-control-gui.c:2822
+#: src/GNOME_Gnumeric.xml.h:65 src/workbook-control-gui.c:2819
 msgid "Current _time"
 msgstr "Hora _actual"
 
 #: src/GNOME_Gnumeric.xml.h:66 src/selection.c:523 src/selection.c:526
-#: src/workbook-control-gui.c:3200
+#: src/workbook-control-gui.c:3197
 msgid "Cut"
 msgstr "Retalla"
 
-#: src/GNOME_Gnumeric.xml.h:67 src/workbook-control-gui.c:2735
+#: src/GNOME_Gnumeric.xml.h:67 src/workbook-control-gui.c:2732
 msgid "Cut the selection"
 msgstr "Retalla la selecció"
 
@@ -1591,15 +1591,15 @@ msgstr "Redueix la Precisió"
 msgid "Decreases the number of decimals displayed"
 msgstr "Disminueix el nombre de decimals a visualitzar"
 
-#: src/GNOME_Gnumeric.xml.h:71 src/workbook-control-gui.c:2917
+#: src/GNOME_Gnumeric.xml.h:71 src/workbook-control-gui.c:2914
 msgid "Display _Formulas"
 msgstr "Mostra les _fórmules"
 
-#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:3110
+#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:3107
 msgid "Display _Outlines"
 msgstr "Mostra els _Contorns"
 
-#: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:2918
+#: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:2915
 msgid "Display the value of a formula or the formula itself"
 msgstr "Visualitza el valor d'una fórmula o la mateixa fórmula"
 
@@ -1619,29 +1619,29 @@ msgstr "S_urt"
 msgid "Edit a formula in the current cell"
 msgstr "Edita una fórmula a la cel·la actual"
 
-#: src/GNOME_Gnumeric.xml.h:78 src/workbook-control-gui.c:2625
+#: src/GNOME_Gnumeric.xml.h:78 src/workbook-control-gui.c:2622
 #, fuzzy
 msgid "Edit descriptive information"
 msgstr "Informació extra"
 
-#: src/GNOME_Gnumeric.xml.h:79 src/workbook-control-gui.c:2831
+#: src/GNOME_Gnumeric.xml.h:79 src/workbook-control-gui.c:2828
 msgid "Edit sheet and workbook names"
 msgstr "Edita els noms del full i del llibre de treball"
 
-#: src/GNOME_Gnumeric.xml.h:80 src/workbook-control-gui.c:2909
+#: src/GNOME_Gnumeric.xml.h:80 src/workbook-control-gui.c:2906
 msgid "Edit the name of the current sheet"
 msgstr "Edita el nom del full actual"
 
-#: src/GNOME_Gnumeric.xml.h:81 src/workbook-control-gui.c:2861
+#: src/GNOME_Gnumeric.xml.h:81 src/workbook-control-gui.c:2858
 msgid "Edit the selected cell's comment"
 msgstr "Edita el comentari de les cel·les seleccionades"
 
-#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:2874
+#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:2871
 msgid "Ensure columns are just wide enough to display content"
 msgstr ""
 "Assegura't que les columnes són prou amples per visualitzar el contingut"
 
-#: src/GNOME_Gnumeric.xml.h:83 src/workbook-control-gui.c:2893
+#: src/GNOME_Gnumeric.xml.h:83 src/workbook-control-gui.c:2890
 msgid "Ensure rows are just tall enough to display content"
 msgstr "Assegura't que les files són prou altes per visualitzar el contingut"
 
@@ -1649,49 +1649,49 @@ msgstr "Assegura't que les files són prou altes per visualitzar el contingut"
 msgid "Exit the program"
 msgstr "Surt del programa"
 
-#: src/GNOME_Gnumeric.xml.h:85 src/workbook-control-gui.c:2987
+#: src/GNOME_Gnumeric.xml.h:85 src/workbook-control-gui.c:2984
 #, fuzzy
 msgid "Exponential smoothing"
 msgstr "Exponencial"
 
-#: src/GNOME_Gnumeric.xml.h:86 src/workbook-control-gui.c:3035
+#: src/GNOME_Gnumeric.xml.h:86 src/workbook-control-gui.c:3032
 #, fuzzy
 msgid "F_orecasting"
 msgstr "F_ormat"
 
-#: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:3170
+#: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:3167
 msgid "F_ormat"
 msgstr "F_ormat"
 
-#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:3132
+#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:3129
 msgid "Filter data with given criteria"
 msgstr "Filtra les dades a partir dels criteris donats"
 
 #: src/GNOME_Gnumeric.xml.h:89 src/dialogs/cell-format.glade.h:39
-#: src/workbook-format-toolbar.c:758
+#: src/workbook-format-toolbar.c:754
 msgid "Font"
 msgstr "Tipus de lletra"
 
-#: src/GNOME_Gnumeric.xml.h:90 src/workbook-format-toolbar.c:869
+#: src/GNOME_Gnumeric.xml.h:90 src/workbook-format-toolbar.c:856
 msgid "Font Size"
 msgstr "Mida de la lletra"
 
 #: src/GNOME_Gnumeric.xml.h:91 src/workbook-format-toolbar.c:409
-#: src/workbook-format-toolbar.c:867
+#: src/workbook-format-toolbar.c:854
 msgid "Font selector"
 msgstr "Selector de tipus de lletra"
 
-#: src/GNOME_Gnumeric.xml.h:92 src/dialogs/dialog-cell-format.c:2572
-#: src/workbook-format-toolbar.c:844 src/workbook-format-toolbar.c:878
+#: src/GNOME_Gnumeric.xml.h:92 src/dialogs/dialog-cell-format.c:2574
+#: src/workbook-format-toolbar.c:831 src/workbook-format-toolbar.c:865
 msgid "Foreground"
 msgstr "Primer pla"
 
-#: src/GNOME_Gnumeric.xml.h:93 src/workbook-control-gui.c:2961
+#: src/GNOME_Gnumeric.xml.h:93 src/workbook-control-gui.c:2958
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Formata una regió de cel·les seguint un patró predefinit"
 
 #: src/GNOME_Gnumeric.xml.h:94 src/analysis-tools.c:4078
-#: src/dialogs/fourier-analysis.glade.h:2 src/workbook-control-gui.c:3038
+#: src/dialogs/fourier-analysis.glade.h:2 src/workbook-control-gui.c:3035
 msgid "Fourier Analysis"
 msgstr "Anàlisi de Fourier"
 
@@ -1704,7 +1704,7 @@ msgstr "Marc"
 msgid "Function Guru"
 msgstr "Funció per a Experts"
 
-#: src/GNOME_Gnumeric.xml.h:97 src/workbook-control-gui.c:2691
+#: src/GNOME_Gnumeric.xml.h:97 src/workbook-control-gui.c:2688
 msgid "Generate random numbers of a selection of distributions"
 msgstr ""
 
@@ -1712,7 +1712,7 @@ msgstr ""
 msgid "Graph Guru"
 msgstr "Gràfic per a Experts"
 
-#: src/GNOME_Gnumeric.xml.h:99 src/workbook-control-gui.c:2889
+#: src/GNOME_Gnumeric.xml.h:99 src/workbook-control-gui.c:2886
 msgid "H_eight..."
 msgstr "_Alçada..."
 
@@ -1720,7 +1720,7 @@ msgstr "_Alçada..."
 msgid "Hide _Column Headers"
 msgstr "Oculta les Capçaleres de les _Columnes"
 
-#: src/GNOME_Gnumeric.xml.h:101 src/workbook-control-gui.c:2929
+#: src/GNOME_Gnumeric.xml.h:101 src/workbook-control-gui.c:2926
 msgid "Hide _Gridlines"
 msgstr "Oculta les _línies de quadrícula"
 
@@ -1728,15 +1728,15 @@ msgstr "Oculta les _línies de quadrícula"
 msgid "Hide _Row Headers"
 msgstr "Oculta les Capçaleres de les _Files"
 
-#: src/GNOME_Gnumeric.xml.h:103 src/workbook-control-gui.c:2923
+#: src/GNOME_Gnumeric.xml.h:103 src/workbook-control-gui.c:2920
 msgid "Hide _Zeros"
 msgstr "Oculta els _zeros"
 
-#: src/GNOME_Gnumeric.xml.h:104 src/workbook-control-gui.c:2877
+#: src/GNOME_Gnumeric.xml.h:104 src/workbook-control-gui.c:2874
 msgid "Hide the selected columns"
 msgstr "Amaga les columnes seleccionades"
 
-#: src/GNOME_Gnumeric.xml.h:105 src/workbook-control-gui.c:2896
+#: src/GNOME_Gnumeric.xml.h:105 src/workbook-control-gui.c:2893
 msgid "Hide the selected rows"
 msgstr "Amaga les files seleccionades"
 
@@ -1766,11 +1766,11 @@ msgid "Insert Shaped Component"
 msgstr "Insereix un Element amb Forma"
 
 #: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:484
-#: src/workbook-control-gui.c:2703
+#: src/workbook-control-gui.c:2700
 msgid "Insert a new sheet"
 msgstr "Insereix un nou full"
 
-#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:2844
+#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:2841
 msgid "Insert a new spreadsheet"
 msgstr "Insereix en un nou full de difusió"
 
@@ -1782,23 +1782,23 @@ msgstr "Insereix un element amb forma al full de difusió"
 msgid "Insert an object into the spreadsheet"
 msgstr "Insereix un objecte al full de difusió"
 
-#: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:2853
+#: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:2850
 msgid "Insert new cells"
 msgstr "Insereix noves cel·les"
 
-#: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:2850
+#: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:2847
 msgid "Insert new columns"
 msgstr "Insereix noves columnes"
 
-#: src/GNOME_Gnumeric.xml.h:118 src/workbook-control-gui.c:2847
+#: src/GNOME_Gnumeric.xml.h:118 src/workbook-control-gui.c:2844
 msgid "Insert new rows"
 msgstr "Insereix noves files"
 
-#: src/GNOME_Gnumeric.xml.h:119 src/workbook-control-gui.c:2817
+#: src/GNOME_Gnumeric.xml.h:119 src/workbook-control-gui.c:2814
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Insereix les dades actuals a les cel·les seleccionades"
 
-#: src/GNOME_Gnumeric.xml.h:120 src/workbook-control-gui.c:2823
+#: src/GNOME_Gnumeric.xml.h:120 src/workbook-control-gui.c:2820
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Insereix l'hora actual a les cel·les seleccionades"
 
@@ -1815,7 +1815,7 @@ msgstr "Insereix un objecte Bonobo"
 msgid "Invoke the graph guru to create a graph"
 msgstr "Invoca l'expert en gràfics per crear un gràfic"
 
-#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:2715
+#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:2712
 msgid "Irrevocably remove an entire sheet"
 msgstr "Suprimeix un full sencer irrevocablement"
 
@@ -1823,17 +1823,17 @@ msgstr "Suprimeix un full sencer irrevocablement"
 msgid "Italicize"
 msgstr "Posa en cursiva"
 
-#: src/GNOME_Gnumeric.xml.h:126 src/workbook-control-gui.c:3079
+#: src/GNOME_Gnumeric.xml.h:126 src/workbook-control-gui.c:3076
 msgid "Iteratively recalculate to find a target value"
 msgstr "Recalcula iterativament per trobar un valor de destinació"
 
-#: src/GNOME_Gnumeric.xml.h:127 src/workbook-control-gui.c:3083
+#: src/GNOME_Gnumeric.xml.h:127 src/workbook-control-gui.c:3080
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr ""
 "Recalcula iterativament les restriccions per acostar-se a un valor de "
 "destinació"
 
-#: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:2779
+#: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:2776
 msgid "Jump to a specified cell"
 msgstr "Salta a una cel·la específica"
 
@@ -1864,19 +1864,19 @@ msgstr "Llista"
 msgid "Lock or unlock the top left cols/rows"
 msgstr "Blocar o no blocar la columna esquerra i la primera fila"
 
-#: src/GNOME_Gnumeric.xml.h:135 src/workbook-control-gui.c:2699
+#: src/GNOME_Gnumeric.xml.h:135 src/workbook-control-gui.c:2696
 msgid "Make a copy of the current sheet"
 msgstr "Fes una còpia del full actual"
 
-#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:2688
+#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:2685
 msgid "Make a table of a cell's value as a function of other cells"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:2880
+#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:2877
 msgid "Make any hidden columns in the selection visible"
 msgstr "Fes visible a la selecció qualsevol columna amagada"
 
-#: src/GNOME_Gnumeric.xml.h:138 src/workbook-control-gui.c:2899
+#: src/GNOME_Gnumeric.xml.h:138 src/workbook-control-gui.c:2896
 msgid "Make any hidden rows in the selection visible"
 msgstr "Fes visible a la selecció qualsevol fila amagada"
 
@@ -1905,11 +1905,11 @@ msgstr "Fusiona"
 msgid "Merge a range of cells"
 msgstr "Fusiona un abast de cel·les"
 
-#: src/GNOME_Gnumeric.xml.h:145 src/workbook-control-gui.c:2953
+#: src/GNOME_Gnumeric.xml.h:145 src/workbook-control-gui.c:2950
 msgid "Modify the formatting of the selected cells"
 msgstr "Modifica el format de les cel·les seleccionades"
 
-#: src/GNOME_Gnumeric.xml.h:146 src/workbook-control-gui.c:2965
+#: src/GNOME_Gnumeric.xml.h:146 src/workbook-control-gui.c:2962
 msgid "Modify the workbook attributes"
 msgstr "Modifica els atributs d'un llibre de treball"
 
@@ -1917,28 +1917,28 @@ msgstr "Modifica els atributs d'un llibre de treball"
 msgid "Money"
 msgstr "Diners"
 
-#: src/GNOME_Gnumeric.xml.h:148 src/workbook-control-gui.c:2991
+#: src/GNOME_Gnumeric.xml.h:148 src/workbook-control-gui.c:2988
 #, fuzzy
 msgid "Moving average"
 msgstr "Mitjana mòbil"
 
-#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:3179
+#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:3176
 msgid "New"
 msgstr "Nou"
 
-#: src/GNOME_Gnumeric.xml.h:150 src/workbook-control-gui.c:2794
+#: src/GNOME_Gnumeric.xml.h:150 src/workbook-control-gui.c:2791
 msgid "New _Shared"
 msgstr "Nou _compartit"
 
-#: src/GNOME_Gnumeric.xml.h:151 src/workbook-control-gui.c:2797
+#: src/GNOME_Gnumeric.xml.h:151 src/workbook-control-gui.c:2794
 msgid "New _Unshared"
 msgstr "Nou _no compartit"
 
-#: src/GNOME_Gnumeric.xml.h:152 src/workbook-control-gui.c:2975
+#: src/GNOME_Gnumeric.xml.h:152 src/workbook-control-gui.c:2972
 msgid "One Factor Analysis of Variance"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:3182
+#: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:3179
 msgid "Open"
 msgstr "Obre"
 
@@ -1950,11 +1950,11 @@ msgstr "Obre un full de difusió"
 msgid "Open an existing workbook"
 msgstr "Obre un llibre de treball existent"
 
-#: src/GNOME_Gnumeric.xml.h:156 src/workbook-control-gui.c:3116
+#: src/GNOME_Gnumeric.xml.h:156 src/workbook-control-gui.c:3113
 msgid "Outlines _Below"
 msgstr "Contorns a _sota"
 
-#: src/GNOME_Gnumeric.xml.h:157 src/workbook-control-gui.c:3122
+#: src/GNOME_Gnumeric.xml.h:157 src/workbook-control-gui.c:3119
 msgid "Outlines _Right"
 msgstr "Contorns _Dreta"
 
@@ -1966,17 +1966,17 @@ msgstr "Oval"
 msgid "P_aste Special..."
 msgstr "E_nganxa de forma Especial..."
 
-#: src/GNOME_Gnumeric.xml.h:160 src/workbook-control-gui.c:2624
+#: src/GNOME_Gnumeric.xml.h:160 src/workbook-control-gui.c:2621
 #, fuzzy
 msgid "P_roperties..."
 msgstr "Opcions..."
 
 #: src/GNOME_Gnumeric.xml.h:161 src/cmd-edit.c:344
-#: src/workbook-control-gui.c:3206
+#: src/workbook-control-gui.c:3203
 msgid "Paste"
 msgstr "Enganxa"
 
-#: src/GNOME_Gnumeric.xml.h:162 src/workbook-control-gui.c:2743
+#: src/GNOME_Gnumeric.xml.h:162 src/workbook-control-gui.c:2740
 msgid "Paste the clipboard"
 msgstr "Enganxa el porta-retalls"
 
@@ -1985,11 +1985,11 @@ msgid "Paste the contents of the clipboard or cut buffer"
 msgstr ""
 "Enganxa els continguts del porta-retalls o retalla la memòria intermèdia"
 
-#: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:2748
+#: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:2745
 msgid "Paste with optional filters and transformations"
 msgstr "Enganxa amb filtres i transformacions opcionals"
 
-#: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:3026
+#: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:3023
 msgid "Pearson Correlation"
 msgstr "Correlació de Pearson"
 
@@ -1998,22 +1998,22 @@ msgstr "Correlació de Pearson"
 msgid "Percent"
 msgstr "Percent"
 
-#: src/GNOME_Gnumeric.xml.h:167 src/workbook-control-gui.c:3050
+#: src/GNOME_Gnumeric.xml.h:167 src/workbook-control-gui.c:3047
 msgid "Periodic and random samples"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:168 src/dialogs/print.glade.h:16
-#: src/workbook-control-gui.c:3191
+#: src/workbook-control-gui.c:3188
 msgid "Print"
 msgstr "Imprimeix"
 
-#: src/GNOME_Gnumeric.xml.h:169 src/workbook-control-gui.c:2618
+#: src/GNOME_Gnumeric.xml.h:169 src/workbook-control-gui.c:2616
 #, fuzzy
 msgid "Print Pre_view..."
 msgstr "Exe_mple d'Impressió"
 
-#: src/GNOME_Gnumeric.xml.h:170 src/workbook-control-gui.c:2618
-#: src/workbook-control-gui.c:3194
+#: src/GNOME_Gnumeric.xml.h:170 src/workbook-control-gui.c:2616
+#: src/workbook-control-gui.c:3191
 msgid "Print Preview"
 msgstr "Exemple d'Impressió"
 
@@ -2022,7 +2022,7 @@ msgstr "Exemple d'Impressió"
 msgid "Print S_etup..."
 msgstr "C_onfiguració d'Impressió"
 
-#: src/GNOME_Gnumeric.xml.h:172 src/dialogs/print.glade.h:18 src/print.c:1185
+#: src/GNOME_Gnumeric.xml.h:172 src/dialogs/print.glade.h:18 src/print.c:1191
 msgid "Print preview"
 msgstr "Imprimeix la visualització prèvia"
 
@@ -2043,13 +2043,13 @@ msgstr "Botó de ràdio"
 msgid "Ranks and _Percentiles"
 msgstr "Abast i percentil"
 
-#: src/GNOME_Gnumeric.xml.h:177 src/workbook-control-gui.c:3044
+#: src/GNOME_Gnumeric.xml.h:177 src/workbook-control-gui.c:3041
 #, fuzzy
 msgid "Ranks, placements and percentiles"
 msgstr "Abast i percentil"
 
-#: src/GNOME_Gnumeric.xml.h:178 src/workbook-control-gui.c:2710
-#: src/workbook-control-gui.c:2911
+#: src/GNOME_Gnumeric.xml.h:178 src/workbook-control-gui.c:2707
+#: src/workbook-control-gui.c:2908
 msgid "Re-_Order Sheets..."
 msgstr "Torna a _ordenar els fulls..."
 
@@ -2057,15 +2057,15 @@ msgstr "Torna a _ordenar els fulls..."
 msgid "Re-_Order..."
 msgstr "Torna a _ordenar..."
 
-#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:2706
+#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:2703
 msgid "Re_name..."
 msgstr "Ca_nvia el nom..."
 
-#: src/GNOME_Gnumeric.xml.h:181 src/workbook-control-gui.c:2783
+#: src/GNOME_Gnumeric.xml.h:181 src/workbook-control-gui.c:2780
 msgid "Recalculate"
 msgstr "Recalcula"
 
-#: src/GNOME_Gnumeric.xml.h:182 src/workbook-control-gui.c:2784
+#: src/GNOME_Gnumeric.xml.h:182 src/workbook-control-gui.c:2781
 msgid "Recalculate the spreadsheet"
 msgstr "Recalcula el full de difusió"
 
@@ -2073,16 +2073,16 @@ msgstr "Recalcula el full de difusió"
 msgid "Rectangle"
 msgstr "Rectangle"
 
-#: src/GNOME_Gnumeric.xml.h:184 src/workbook-control-gui.c:2728
+#: src/GNOME_Gnumeric.xml.h:184 src/workbook-control-gui.c:2725
 msgid "Redo the undone action"
 msgstr "Refés l'acció desfeta"
 
-#: src/GNOME_Gnumeric.xml.h:185 src/workbook-control-gui.c:3047
+#: src/GNOME_Gnumeric.xml.h:185 src/workbook-control-gui.c:3044
 #, fuzzy
 msgid "Regression Analysis"
 msgstr "Estadístiques de regressió"
 
-#: src/GNOME_Gnumeric.xml.h:186 src/workbook-control-gui.c:3104
+#: src/GNOME_Gnumeric.xml.h:186 src/workbook-control-gui.c:3101
 msgid "Remove an outline group"
 msgstr "Suprimeix el grup de contorn"
 
@@ -2090,7 +2090,7 @@ msgstr "Suprimeix el grup de contorn"
 msgid "Remove selected cells, shifting others into their place"
 msgstr "Suprimeix les cel·les seleccionades, desplaçant les altres al seu lloc"
 
-#: src/GNOME_Gnumeric.xml.h:188 src/workbook-control-gui.c:2707
+#: src/GNOME_Gnumeric.xml.h:188 src/workbook-control-gui.c:2704
 msgid "Rename the current sheet"
 msgstr "Canvia el nom del full actual"
 
@@ -2103,20 +2103,20 @@ msgstr "Dreta"
 msgid "Right justifies the contents of each cell"
 msgstr "Justifica a la dreta el contingut de cada cel·la"
 
-#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:2760
+#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:2757
 msgid "S_heet"
 msgstr "_Full"
 
-#: src/GNOME_Gnumeric.xml.h:192 src/workbook-control-gui.c:2864
+#: src/GNOME_Gnumeric.xml.h:192 src/workbook-control-gui.c:2861
 msgid "S_pecial"
 msgstr "Es_pecial"
 
 #: src/GNOME_Gnumeric.xml.h:193 src/workbook-control-gui.c:2607
-#: src/workbook-control-gui.c:3185
+#: src/workbook-control-gui.c:3182
 msgid "Save"
 msgstr "Desa"
 
-#: src/GNOME_Gnumeric.xml.h:194 src/workbook-control-gui.c:2610
+#: src/GNOME_Gnumeric.xml.h:194 src/workbook-control-gui.c:2609
 #, fuzzy
 msgid "Save _As..."
 msgstr "_Anomena i Desa"
@@ -2138,45 +2138,45 @@ msgstr "Desa el llibre de treball actual"
 msgid "Scrollbar"
 msgstr "Barres de desplaçament"
 
-#: src/GNOME_Gnumeric.xml.h:199 src/workbook-control-gui.c:2772
+#: src/GNOME_Gnumeric.xml.h:199 src/workbook-control-gui.c:2769
 msgid "Search and Replace..."
 msgstr "Cerca i reemplaça..."
 
-#: src/GNOME_Gnumeric.xml.h:200 src/workbook-control-gui.c:2767
+#: src/GNOME_Gnumeric.xml.h:200 src/workbook-control-gui.c:2764
 #, fuzzy
 msgid "Search for some text"
 msgstr "Cerca"
 
-#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:2773
+#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:2770
 msgid "Search for some text and replace it with something else"
 msgstr "Cerca un text i reemplaça'l amb una altra cosa"
 
-#: src/GNOME_Gnumeric.xml.h:202 src/workbook-control-gui.c:2766
+#: src/GNOME_Gnumeric.xml.h:202 src/workbook-control-gui.c:2763
 #, fuzzy
 msgid "Search..."
 msgstr "Cerca"
 
-#: src/GNOME_Gnumeric.xml.h:203 src/workbook-control-gui.c:2671
+#: src/GNOME_Gnumeric.xml.h:203 src/workbook-control-gui.c:2668
 msgid "Select Arra_y"
 msgstr "Selecciona una matri_u"
 
-#: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:2656
+#: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:2653
 msgid "Select _All"
 msgstr "Selecciona-ho _tot"
 
-#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2666
+#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2663
 msgid "Select _Column"
 msgstr "Selecciona una _columna"
 
-#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:2676
+#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:2673
 msgid "Select _Depends"
 msgstr "Selecciona _dependències"
 
-#: src/GNOME_Gnumeric.xml.h:207 src/workbook-control-gui.c:2661
+#: src/GNOME_Gnumeric.xml.h:207 src/workbook-control-gui.c:2658
 msgid "Select _Row"
 msgstr "Selecciona una _fila"
 
-#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:2657
+#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:2654
 msgid "Select all cells in the spreadsheet"
 msgstr "Selecciona totes les cel·les del full de difusió"
 
@@ -2185,15 +2185,15 @@ msgid "Select all the cells that depend on the current edit cell"
 msgstr ""
 "Selecciona totes les cel·les que depenen de la cel·la que s'està editant"
 
-#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:2672
+#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:2669
 msgid "Select an array of cells"
 msgstr "Selecciona una matriu de cel·les"
 
-#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:2667
+#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:2664
 msgid "Select an entire column"
 msgstr "Selecciona una columna completa"
 
-#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:2662
+#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:2659
 msgid "Select an entire row"
 msgstr "Selecciona una fila completa"
 
@@ -2215,11 +2215,11 @@ msgstr "Defineix el format de les cel·les seleccionades com a percentatge"
 msgid "Setup the page settings for your current printer"
 msgstr "Configura els paràmetres de pàgina per a la impressora"
 
-#: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:3233
+#: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:3230
 msgid "Sort Ascending"
 msgstr "Ordena de forma ascendent"
 
-#: src/GNOME_Gnumeric.xml.h:218 src/workbook-control-gui.c:3236
+#: src/GNOME_Gnumeric.xml.h:218 src/workbook-control-gui.c:3233
 msgid "Sort Descending"
 msgstr "Ordena de forma descendent"
 
@@ -2251,14 +2251,14 @@ msgstr "Divideix"
 msgid "Split merged ranges of cells"
 msgstr "Divideix els abasts fusionats de les cel·les"
 
-#: src/GNOME_Gnumeric.xml.h:224 src/workbook-control-gui.c:3088
+#: src/GNOME_Gnumeric.xml.h:224 src/workbook-control-gui.c:3085
 #, fuzzy
 msgid "Statistical Anal_ysis"
 msgstr "Anàlisi de dades"
 
 #: src/GNOME_Gnumeric.xml.h:225 src/dialogs/consolidate.glade.h:19
-#: src/workbook-control-gui.c:3226 src/workbook-control-gui.c:3844
-#: src/workbook-view.c:518
+#: src/workbook-control-gui.c:3223 src/workbook-control-gui.c:3832
+#: src/workbook-view.c:450
 msgid "Sum"
 msgstr "Suma"
 
@@ -2270,48 +2270,48 @@ msgstr "Suma a la cel·la actual"
 msgid "Thousand separator"
 msgstr "Separador de milers"
 
-#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:2936
+#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:2933
 msgid "Toggle whether or not to display column headers"
 msgstr "Commuta la visualització o no de les capçaleres de les columnes"
 
-#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:2930
+#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:2927
 msgid "Toggle whether or not to display gridlines"
 msgstr "Commuta la visualització o no les línies de la graella"
 
-#: src/GNOME_Gnumeric.xml.h:230 src/workbook-control-gui.c:3111
+#: src/GNOME_Gnumeric.xml.h:230 src/workbook-control-gui.c:3108
 msgid "Toggle whether or not to display outline groups"
 msgstr "Commuta la visualització o no dels grups de contorn"
 
-#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:2942
+#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:2939
 msgid "Toggle whether or not to display row headers"
 msgstr "Commuta la visualització o no de les capçaleres de les files"
 
-#: src/GNOME_Gnumeric.xml.h:232 src/workbook-control-gui.c:2924
+#: src/GNOME_Gnumeric.xml.h:232 src/workbook-control-gui.c:2921
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr "Commuta la visualització o no dels zeros com a buits"
 
-#: src/GNOME_Gnumeric.xml.h:233 src/workbook-control-gui.c:3123
+#: src/GNOME_Gnumeric.xml.h:233 src/workbook-control-gui.c:3120
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr ""
 "Commuta la visualització o no dels contorns de les columnes a l'esquerra o "
 "la dreta"
 
-#: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:3117
+#: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:3114
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr ""
 "Commuta la visualització o no els contorns de les files a dalt o a baix de "
 "tot"
 
-#: src/GNOME_Gnumeric.xml.h:235 src/workbook-control-gui.c:2978
+#: src/GNOME_Gnumeric.xml.h:235 src/workbook-control-gui.c:2975
 msgid "Two Factor Analysis of Variance"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:236 src/workbook-control-gui.c:3053
+#: src/GNOME_Gnumeric.xml.h:236 src/workbook-control-gui.c:3050
 #, fuzzy
 msgid "Two _Means"
 msgstr "_Mitjana:"
 
-#: src/GNOME_Gnumeric.xml.h:237 src/workbook-control-gui.c:3098
+#: src/GNOME_Gnumeric.xml.h:237 src/workbook-control-gui.c:3095
 msgid "Uncollapse an outline group"
 msgstr "Amplia el grup de contorn"
 
@@ -2323,36 +2323,36 @@ msgstr "Subratlla"
 msgid "Underlines the text"
 msgstr "Subratlla el text"
 
-#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:2724
+#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:2721
 msgid "Undo the last action"
 msgstr "Desfés l'última acció"
 
-#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:3003
+#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:3000
 msgid "Unpaired Samples, E_qual Var.: T-Test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:3008
+#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:3005
 msgid "Unpaired Samples, _Unequal Var.: T-Test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:3146
+#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:3143
 msgid "Validate input with preset criteria"
 msgstr "Valida l'entrada amb els criteris donats"
 
-#: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:3041
+#: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:3038
 msgid "Various frequency tables"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:3032
+#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:3029
 #, fuzzy
 msgid "Various summary statistics"
 msgstr "Estadístiques de resum"
 
-#: src/GNOME_Gnumeric.xml.h:246 src/workbook-control-gui.c:2804
+#: src/GNOME_Gnumeric.xml.h:246 src/workbook-control-gui.c:2801
 msgid "Zoom the spreadsheet in or out"
 msgstr "Augmenta o redueix el zoom al full de difusió"
 
-#: src/GNOME_Gnumeric.xml.h:247 src/workbook-control-gui.c:3023
+#: src/GNOME_Gnumeric.xml.h:247 src/workbook-control-gui.c:3020
 #, fuzzy
 msgid "_ANOVA"
 msgstr "ANOVA"
@@ -2361,29 +2361,29 @@ msgstr "ANOVA"
 msgid "_About..."
 msgstr "_Sobre..."
 
-#: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:2860
+#: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:2857
 msgid "_Add / Modify comment..."
 msgstr "_Afegeix / Modifica un comentari..."
 
-#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:2638
+#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:2635
 msgid "_All"
 msgstr "_Tot"
 
-#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:3072
+#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:3069
 msgid "_Auto Save..."
 msgstr "Desa _automàticament..."
 
-#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:2873
-#: src/workbook-control-gui.c:2892
+#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:2870
+#: src/workbook-control-gui.c:2889
 msgid "_Auto fit selection"
 msgstr "_Ajusta automàticament la selecció"
 
-#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:2960
+#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:2957
 msgid "_Autoformat..."
 msgstr "_Autoformatatge..."
 
 #. Default <Ctrl-1> invoke the format dialog
-#: src/GNOME_Gnumeric.xml.h:254 src/workbook-control-gui.c:2952
+#: src/GNOME_Gnumeric.xml.h:254 src/workbook-control-gui.c:2949
 msgid "_Cells..."
 msgstr "_Cel·les..."
 
@@ -2401,47 +2401,47 @@ msgstr "_Tanca"
 #: src/dialogs/fourier-analysis.glade.h:8 src/dialogs/histogram.glade.h:21
 #: src/dialogs/moving-averages.glade.h:9 src/dialogs/rank.glade.h:10
 #: src/dialogs/regression.glade.h:10 src/dialogs/sampling.glade.h:13
-#: src/workbook-control-gui.c:2849
+#: src/workbook-control-gui.c:2846
 msgid "_Columns"
 msgstr "_Columnes"
 
-#: src/GNOME_Gnumeric.xml.h:258 src/workbook-control-gui.c:3148
+#: src/GNOME_Gnumeric.xml.h:258 src/workbook-control-gui.c:3145
 msgid "_Consolidate..."
 msgstr "_Consolida..."
 
-#: src/GNOME_Gnumeric.xml.h:259 src/workbook-control-gui.c:2647
+#: src/GNOME_Gnumeric.xml.h:259 src/workbook-control-gui.c:2644
 msgid "_Content"
 msgstr "_Contingut"
 
 #: src/GNOME_Gnumeric.xml.h:260 src/item-cursor.c:1030
-#: src/sheet-control-gui.c:1394 src/workbook-control-gui.c:2738
+#: src/sheet-control-gui.c:1393 src/workbook-control-gui.c:2735
 msgid "_Copy"
 msgstr "_Copia"
 
-#: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:3025
+#: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:3022
 #, fuzzy
 msgid "_Correlation"
 msgstr "Correlació"
 
-#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:3172
+#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:3169
 msgid "_Data"
 msgstr "_Dades"
 
-#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:2830
+#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:2827
 msgid "_Define..."
 msgstr "_Defineix..."
 
-#: src/GNOME_Gnumeric.xml.h:264 src/sheet-control-gui.c:1412
-#: src/workbook-control-gui.c:2755
+#: src/GNOME_Gnumeric.xml.h:264 src/sheet-control-gui.c:1411
+#: src/workbook-control-gui.c:2752
 msgid "_Delete..."
 msgstr "_Suprimeix"
 
-#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:3031
+#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:3028
 #, fuzzy
 msgid "_Descriptive Statistics"
 msgstr "Estadístiques descriptives"
 
-#: src/GNOME_Gnumeric.xml.h:266 src/workbook-control-gui.c:2698
+#: src/GNOME_Gnumeric.xml.h:266 src/workbook-control-gui.c:2695
 msgid "_Duplicate"
 msgstr "_Duplica"
 
@@ -2449,7 +2449,7 @@ msgstr "_Duplica"
 msgid "_Edit"
 msgstr "_Edita"
 
-#: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:2986
+#: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:2983
 #, fuzzy
 msgid "_Exponential Smoothing"
 msgstr "Exponencial"
@@ -2459,34 +2459,34 @@ msgid "_File"
 msgstr "_Fitxer"
 
 #: src/GNOME_Gnumeric.xml.h:270 src/dialogs/cell-format.glade.h:109
-#: src/workbook-control-gui.c:2764
+#: src/workbook-control-gui.c:2761
 msgid "_Fill"
 msgstr "_Omple"
 
-#: src/GNOME_Gnumeric.xml.h:271 src/workbook-control-gui.c:3144
+#: src/GNOME_Gnumeric.xml.h:271 src/workbook-control-gui.c:3141
 #, fuzzy
 msgid "_Filter"
 msgstr "_Fitxer"
 
-#: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:2641
+#: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:2638
 msgid "_Formats"
 msgstr "_Formats"
 
-#: src/GNOME_Gnumeric.xml.h:273 src/workbook-control-gui.c:3037
+#: src/GNOME_Gnumeric.xml.h:273 src/workbook-control-gui.c:3034
 #, fuzzy
 msgid "_Fourier Analysis"
 msgstr "Anàlisi de Fourier"
 
 #: src/GNOME_Gnumeric.xml.h:274 src/workbook-control-gui.c:970
-#: src/workbook-control-gui.c:2806
+#: src/workbook-control-gui.c:2803
 msgid "_Freeze Panes"
 msgstr "_Congela les subfinestres"
 
-#: src/GNOME_Gnumeric.xml.h:275 src/workbook-control-gui.c:3078
+#: src/GNOME_Gnumeric.xml.h:275 src/workbook-control-gui.c:3075
 msgid "_Goal Seek..."
 msgstr "_Objectiu de cerca..."
 
-#: src/GNOME_Gnumeric.xml.h:276 src/workbook-control-gui.c:2778
+#: src/GNOME_Gnumeric.xml.h:276 src/workbook-control-gui.c:2775
 msgid "_Goto cell..."
 msgstr "_Vés a la cel·la..."
 
@@ -2499,7 +2499,7 @@ msgstr "_Grup"
 msgid "_Group"
 msgstr "_Grup"
 
-#: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:3154
+#: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:3151
 msgid "_Group and Outline"
 msgstr "_Grup i Contorn"
 
@@ -2507,17 +2507,17 @@ msgstr "_Grup i Contorn"
 msgid "_Help"
 msgstr "_Ajuda"
 
-#: src/GNOME_Gnumeric.xml.h:281 src/sheet-control-gui.c:1435
-#: src/sheet-control-gui.c:1443 src/workbook-control-gui.c:2876
-#: src/workbook-control-gui.c:2895
+#: src/GNOME_Gnumeric.xml.h:281 src/sheet-control-gui.c:1434
+#: src/sheet-control-gui.c:1442 src/workbook-control-gui.c:2873
+#: src/workbook-control-gui.c:2892
 msgid "_Hide"
 msgstr "_Oculta"
 
-#: src/GNOME_Gnumeric.xml.h:282 src/workbook-control-gui.c:3094
+#: src/GNOME_Gnumeric.xml.h:282 src/workbook-control-gui.c:3091
 msgid "_Hide Detail"
 msgstr "_Amaga el Detall"
 
-#: src/GNOME_Gnumeric.xml.h:283 src/workbook-control-gui.c:3040
+#: src/GNOME_Gnumeric.xml.h:283 src/workbook-control-gui.c:3037
 #, fuzzy
 msgid "_Histogram"
 msgstr "Histograma"
@@ -2526,8 +2526,8 @@ msgstr "Histograma"
 msgid "_Import..."
 msgstr "_Importa..."
 
-#: src/GNOME_Gnumeric.xml.h:285 src/workbook-control-gui.c:2702
-#: src/workbook-control-gui.c:3169
+#: src/GNOME_Gnumeric.xml.h:285 src/workbook-control-gui.c:2699
+#: src/workbook-control-gui.c:3166
 msgid "_Insert"
 msgstr "_Insereix"
 
@@ -2535,16 +2535,16 @@ msgstr "_Insereix"
 msgid "_Insert new"
 msgstr "_Insereix nou"
 
-#: src/GNOME_Gnumeric.xml.h:287 src/workbook-control-gui.c:3013
+#: src/GNOME_Gnumeric.xml.h:287 src/workbook-control-gui.c:3010
 msgid "_Known Variances or Large Sample: Z-Test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:288 src/workbook-control-gui.c:2990
+#: src/GNOME_Gnumeric.xml.h:288 src/workbook-control-gui.c:2987
 #, fuzzy
 msgid "_Moving Average"
 msgstr "Mitjana mòbil"
 
-#: src/GNOME_Gnumeric.xml.h:289 src/workbook-control-gui.c:2858
+#: src/GNOME_Gnumeric.xml.h:289 src/workbook-control-gui.c:2855
 msgid "_Name"
 msgstr "_Nom"
 
@@ -2557,7 +2557,7 @@ msgstr "_Nou"
 msgid "_Object..."
 msgstr "_Objecte"
 
-#: src/GNOME_Gnumeric.xml.h:292 src/workbook-control-gui.c:2974
+#: src/GNOME_Gnumeric.xml.h:292 src/workbook-control-gui.c:2971
 #, fuzzy
 msgid "_One Factor"
 msgstr "Anova d'un factor"
@@ -2567,16 +2567,16 @@ msgstr "Anova d'un factor"
 msgid "_Open..."
 msgstr "Obre"
 
-#: src/GNOME_Gnumeric.xml.h:294 src/workbook-control-gui.c:2999
+#: src/GNOME_Gnumeric.xml.h:294 src/workbook-control-gui.c:2996
 msgid "_Paired Samples: T-Test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:295 src/sheet-control-gui.c:1396
-#: src/workbook-control-gui.c:2742
+#: src/GNOME_Gnumeric.xml.h:295 src/sheet-control-gui.c:1395
+#: src/workbook-control-gui.c:2739
 msgid "_Paste"
 msgstr "_Enganxa"
 
-#: src/GNOME_Gnumeric.xml.h:296 src/workbook-control-gui.c:3063
+#: src/GNOME_Gnumeric.xml.h:296 src/workbook-control-gui.c:3060
 msgid "_Plug-ins..."
 msgstr "_Connectors..."
 
@@ -2585,27 +2585,27 @@ msgstr "_Connectors..."
 msgid "_Print..."
 msgstr "_Imprimeix"
 
-#: src/GNOME_Gnumeric.xml.h:298 src/workbook-control-gui.c:2690
+#: src/GNOME_Gnumeric.xml.h:298 src/workbook-control-gui.c:2687
 #, fuzzy
 msgid "_Random Generator..."
 msgstr "Generador de nombres aleatoris"
 
 #: src/GNOME_Gnumeric.xml.h:299 src/workbook-control-gui.c:1036
-#: src/workbook-control-gui.c:2727
+#: src/workbook-control-gui.c:2724
 msgid "_Redo"
 msgstr "_Refés"
 
-#: src/GNOME_Gnumeric.xml.h:300 src/workbook-control-gui.c:3046
+#: src/GNOME_Gnumeric.xml.h:300 src/workbook-control-gui.c:3043
 #, fuzzy
 msgid "_Regression"
 msgstr "Regressió"
 
 #: src/GNOME_Gnumeric.xml.h:301 src/dialogs/autocorrect.glade.h:12
-#: src/dialogs/dialog-stf.glade.h:66 src/workbook-control-gui.c:2714
+#: src/dialogs/dialog-stf.glade.h:66 src/workbook-control-gui.c:2711
 msgid "_Remove"
 msgstr "_Suprimeix"
 
-#: src/GNOME_Gnumeric.xml.h:302 src/workbook-control-gui.c:2957
+#: src/GNOME_Gnumeric.xml.h:302 src/workbook-control-gui.c:2954
 msgid "_Row"
 msgstr "_Fila"
 
@@ -2615,11 +2615,11 @@ msgstr "_Fila"
 #: src/dialogs/fourier-analysis.glade.h:13
 #: src/dialogs/moving-averages.glade.h:14 src/dialogs/rank.glade.h:15
 #: src/dialogs/regression.glade.h:15 src/dialogs/sampling.glade.h:20
-#: src/workbook-control-gui.c:2846
+#: src/workbook-control-gui.c:2843
 msgid "_Rows"
 msgstr "_Files"
 
-#: src/GNOME_Gnumeric.xml.h:304 src/workbook-control-gui.c:3049
+#: src/GNOME_Gnumeric.xml.h:304 src/workbook-control-gui.c:3046
 #, fuzzy
 msgid "_Sampling"
 msgstr "Mostreig"
@@ -2628,7 +2628,7 @@ msgstr "Mostreig"
 msgid "_Save"
 msgstr "_Desa"
 
-#: src/GNOME_Gnumeric.xml.h:306 src/workbook-control-gui.c:2762
+#: src/GNOME_Gnumeric.xml.h:306 src/workbook-control-gui.c:2759
 msgid "_Select"
 msgstr "_Selecciona..."
 
@@ -2637,16 +2637,16 @@ msgstr "_Selecciona..."
 msgid "_Shaped Object"
 msgstr "_Objecte"
 
-#: src/GNOME_Gnumeric.xml.h:308 src/workbook-control-gui.c:2843
-#: src/workbook-control-gui.c:2958
+#: src/GNOME_Gnumeric.xml.h:308 src/workbook-control-gui.c:2840
+#: src/workbook-control-gui.c:2955
 msgid "_Sheet"
 msgstr "_Full"
 
-#: src/GNOME_Gnumeric.xml.h:309 src/workbook-control-gui.c:3097
+#: src/GNOME_Gnumeric.xml.h:309 src/workbook-control-gui.c:3094
 msgid "_Show Detail"
 msgstr "_Mostra el Detall"
 
-#: src/GNOME_Gnumeric.xml.h:310 src/workbook-control-gui.c:3082
+#: src/GNOME_Gnumeric.xml.h:310 src/workbook-control-gui.c:3079
 msgid "_Solver..."
 msgstr "_Solucionador..."
 
@@ -2654,15 +2654,15 @@ msgstr "_Solucionador..."
 msgid "_Sort..."
 msgstr "_Ordena..."
 
-#: src/GNOME_Gnumeric.xml.h:312 src/workbook-control-gui.c:2901
+#: src/GNOME_Gnumeric.xml.h:312 src/workbook-control-gui.c:2898
 msgid "_Standard Height"
 msgstr "_Alçada patró"
 
-#: src/GNOME_Gnumeric.xml.h:313 src/workbook-control-gui.c:2882
+#: src/GNOME_Gnumeric.xml.h:313 src/workbook-control-gui.c:2879
 msgid "_Standard Width"
 msgstr "_Amplada patró"
 
-#: src/GNOME_Gnumeric.xml.h:314 src/workbook-control-gui.c:2687
+#: src/GNOME_Gnumeric.xml.h:314 src/workbook-control-gui.c:2684
 msgid "_Tabulate Dependency..."
 msgstr ""
 
@@ -2671,21 +2671,21 @@ msgstr ""
 msgid "_Toolbars..."
 msgstr "_Eines"
 
-#: src/GNOME_Gnumeric.xml.h:316 src/workbook-control-gui.c:3171
+#: src/GNOME_Gnumeric.xml.h:316 src/workbook-control-gui.c:3168
 msgid "_Tools"
 msgstr "_Eines"
 
-#: src/GNOME_Gnumeric.xml.h:317 src/workbook-control-gui.c:2977
+#: src/GNOME_Gnumeric.xml.h:317 src/workbook-control-gui.c:2974
 #, fuzzy
 msgid "_Two Factor"
 msgstr "_Fracció"
 
-#: src/GNOME_Gnumeric.xml.h:318 src/workbook-control-gui.c:3055
+#: src/GNOME_Gnumeric.xml.h:318 src/workbook-control-gui.c:3052
 msgid "_Two Variances: FTest"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:319 src/workbook-control-gui.c:1035
-#: src/workbook-control-gui.c:2723
+#: src/workbook-control-gui.c:2720
 msgid "_Undo"
 msgstr "_Desfés"
 
@@ -2693,13 +2693,13 @@ msgstr "_Desfés"
 msgid "_Ungroup"
 msgstr "_Desagrupa"
 
-#: src/GNOME_Gnumeric.xml.h:321 src/sheet-control-gui.c:1437
-#: src/sheet-control-gui.c:1445 src/workbook-control-gui.c:2879
-#: src/workbook-control-gui.c:2898
+#: src/GNOME_Gnumeric.xml.h:321 src/sheet-control-gui.c:1436
+#: src/sheet-control-gui.c:1444 src/workbook-control-gui.c:2876
+#: src/workbook-control-gui.c:2895
 msgid "_Unhide"
 msgstr "_Mostra"
 
-#: src/GNOME_Gnumeric.xml.h:322 src/workbook-control-gui.c:3145
+#: src/GNOME_Gnumeric.xml.h:322 src/workbook-control-gui.c:3142
 msgid "_Validate..."
 msgstr "_Valida..."
 
@@ -2707,15 +2707,15 @@ msgstr "_Valida..."
 msgid "_View"
 msgstr "_Visualitza"
 
-#: src/GNOME_Gnumeric.xml.h:324 src/workbook-control-gui.c:2870
+#: src/GNOME_Gnumeric.xml.h:324 src/workbook-control-gui.c:2867
 msgid "_Width..."
 msgstr "_Amplada..."
 
-#: src/GNOME_Gnumeric.xml.h:325 src/workbook-control-gui.c:2964
+#: src/GNOME_Gnumeric.xml.h:325 src/workbook-control-gui.c:2961
 msgid "_Workbook..."
 msgstr "_Llibre de treball"
 
-#: src/GNOME_Gnumeric.xml.h:326 src/workbook-control-gui.c:2803
+#: src/GNOME_Gnumeric.xml.h:326 src/workbook-control-gui.c:2800
 msgid "_Zoom..."
 msgstr "_Zoom..."
 
@@ -3053,7 +3053,7 @@ msgstr "Gener"
 msgid "Error '%s' opening workbook stream"
 msgstr "Error '%s' en obrir el corrent del llibre de treball"
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3401
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3258
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Fitxer xml no vàlid. Està buit l'arbre ?"
 
@@ -3978,7 +3978,7 @@ msgstr "val !=límit                 (no és igual a)"
 msgid "Background Color"
 msgstr "Color de fons"
 
-#: src/dialogs/cell-format.glade.h:17 src/dialogs/dialog-cell-format.c:2567
+#: src/dialogs/cell-format.glade.h:17 src/dialogs/dialog-cell-format.c:2569
 msgid "Border"
 msgstr "Contorn"
 
@@ -4015,7 +4015,7 @@ msgstr "Color :"
 msgid "Control"
 msgstr "Control"
 
-#: src/dialogs/cell-format.glade.h:26 src/dialogs/dialog-cell-format.c:2106
+#: src/dialogs/cell-format.glade.h:26 src/dialogs/dialog-cell-format.c:2108
 #, fuzzy
 msgid "Criteria"
 msgstr "C_riteri de abast:"
@@ -4058,8 +4058,8 @@ msgstr "Línia diagonal"
 msgid "Display the value exactly as it was entered"
 msgstr "Mostra el valor tal i com es va introduir"
 
-#: src/dialogs/cell-format.glade.h:36 src/dialogs/dialog-cell-format.c:1303
-#: src/dialogs/dialog-cell-format.c:1363
+#: src/dialogs/cell-format.glade.h:36 src/dialogs/dialog-cell-format.c:1305
+#: src/dialogs/dialog-cell-format.c:1365
 msgid "Double"
 msgstr "Doble"
 
@@ -4147,8 +4147,8 @@ msgstr "Missat_ge :"
 msgid "Negative number:"
 msgstr "Nombre _negatiu:"
 
-#: src/dialogs/cell-format.glade.h:58 src/dialogs/dialog-cell-format.c:1305
-#: src/dialogs/dialog-cell-format.c:1361 src/dialogs/dialog-paste-special.c:34
+#: src/dialogs/cell-format.glade.h:58 src/dialogs/dialog-cell-format.c:1307
+#: src/dialogs/dialog-cell-format.c:1363 src/dialogs/dialog-paste-special.c:34
 msgid "None"
 msgstr "Cap"
 
@@ -4156,8 +4156,8 @@ msgstr "Cap"
 msgid "None          (silently accept invalid input)"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:60 src/dialogs/dialog-formula-guru.c:432
-#: src/dialogs/dialog-search.c:126
+#: src/dialogs/cell-format.glade.h:60 src/dialogs/dialog-formula-guru.c:435
+#: src/dialogs/dialog-search.c:129
 msgid "Number"
 msgstr "Nombre"
 
@@ -4174,7 +4174,7 @@ msgstr "Orientació"
 msgid "Outline"
 msgstr "Contorn"
 
-#: src/dialogs/cell-format.glade.h:64 src/dialogs/dialog-cell-format.c:2582
+#: src/dialogs/cell-format.glade.h:64 src/dialogs/dialog-cell-format.c:2584
 msgid "Pattern"
 msgstr "Patró"
 
@@ -4203,8 +4203,8 @@ msgid "Shrin_k to fit"
 msgstr "_Encongeix fins que encaixi"
 
 #. There must be a better way than this
-#: src/dialogs/cell-format.glade.h:73 src/dialogs/dialog-cell-format.c:1301
-#: src/dialogs/dialog-cell-format.c:1362
+#: src/dialogs/cell-format.glade.h:73 src/dialogs/dialog-cell-format.c:1303
+#: src/dialogs/dialog-cell-format.c:1364
 msgid "Single"
 msgstr "Simple"
 
@@ -4493,12 +4493,12 @@ msgstr "Suprimeix"
 msgid "Selection has"
 msgstr "La sel·lecció té"
 
-#: src/dialogs/cell-sort.glade.h:7 src/dialogs/dialog-cell-sort.c:503
+#: src/dialogs/cell-sort.glade.h:7 src/dialogs/dialog-cell-sort.c:502
 #: src/workbook-control-gui.c:2481
 msgid "Sort"
 msgstr "Ordena"
 
-#: src/dialogs/cell-sort.glade.h:8 src/dialogs/dialog-cell-sort.c:574
+#: src/dialogs/cell-sort.glade.h:8 src/dialogs/dialog-cell-sort.c:573
 msgid "Sort by"
 msgstr "Ordena segons"
 
@@ -4543,7 +4543,7 @@ msgstr "_Amplada de la columna (pts):"
 msgid "Add the entered area to the list of source areas"
 msgstr "Afegeix l'àrea entrada a la llista d'àrees origen"
 
-#: src/dialogs/consolidate.glade.h:2 src/workbook-control-gui.c:3847
+#: src/dialogs/consolidate.glade.h:2 src/workbook-control-gui.c:3835
 msgid "Average"
 msgstr "Mitjana"
 
@@ -4555,7 +4555,7 @@ msgstr "C_opia les etiquetes"
 msgid "Clear the list of source areas"
 msgstr "Esborra la llista d'àrees origen"
 
-#: src/dialogs/consolidate.glade.h:5 src/workbook-control-gui.c:3848
+#: src/dialogs/consolidate.glade.h:5 src/workbook-control-gui.c:3836
 msgid "Count"
 msgstr "Compta"
 
@@ -4587,11 +4587,11 @@ msgstr "En la fila _superior"
 msgid "Labels"
 msgstr "Etiquetes"
 
-#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3846
+#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3834
 msgid "Max"
 msgstr "Màxim"
 
-#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3845
+#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3833
 msgid "Min"
 msgstr "Mínim"
 
@@ -4663,7 +4663,7 @@ msgstr "_Posa :"
 msgid "Correlation"
 msgstr "Correlació"
 
-#: src/dialogs/delete-cells.glade.h:1 src/sheet-object.c:92
+#: src/dialogs/delete-cells.glade.h:1
 msgid "Delete"
 msgstr "Suprimeix"
 
@@ -4787,74 +4787,76 @@ msgid "Chris Lahey, number format engine."
 msgstr "Chris Lahey, motor de format de nombres."
 
 #: src/dialogs/dialog-about.c:50
-msgid "Adrian Likins, documentation, debugging."
-msgstr "Adrian Likins, documentació, depuració."
-
-#: src/dialogs/dialog-about.c:51
 msgid "Takashi Matsuda, original text plugin."
 msgstr "Takashi Matsuda, connector de text original."
 
-#: src/dialogs/dialog-about.c:52
+#: src/dialogs/dialog-about.c:51
 msgid "Michael Meeks, Excel and OLE2 importing."
 msgstr "Michael Meeks, importació d'Excel i OLE2."
 
-#: src/dialogs/dialog-about.c:53
+#: src/dialogs/dialog-about.c:52
 msgid "Lutz Muller, SheetObject improvements"
 msgstr ""
 
-#: src/dialogs/dialog-about.c:54
+#: src/dialogs/dialog-about.c:53
 msgid "Federico M. Quintero, canvas support."
 msgstr "Federico M. Quinetro, suport per a la superfície de treball."
 
-#: src/dialogs/dialog-about.c:55
+#: src/dialogs/dialog-about.c:54
 msgid "Mark Probst, Guile support."
 msgstr "Mark Probst, suport per Guile."
 
-#: src/dialogs/dialog-about.c:56
+#: src/dialogs/dialog-about.c:55
 msgid "Rasca, HTML, troff, LaTeX exporters."
 msgstr "Rasca, exportadors de HTML, troff i LaTeX."
 
-#: src/dialogs/dialog-about.c:57
+#: src/dialogs/dialog-about.c:56
 msgid "Vincent Renardias, original CSV support, French localization."
 msgstr "Vincent Renardias, suport de CSV original, localització al francès."
 
-#: src/dialogs/dialog-about.c:58
+#: src/dialogs/dialog-about.c:57
 msgid "Ariel Rios, Guile support."
 msgstr "Ariel Rios, suport per Guile."
 
-#: src/dialogs/dialog-about.c:59
+#: src/dialogs/dialog-about.c:58
 msgid "Arturo Tena, OLE support."
 msgstr "Artuno Tena, suport per l'OLE."
 
-#: src/dialogs/dialog-about.c:60
+#: src/dialogs/dialog-about.c:59
 msgid "Almer S. Tigelaar, Gnumeric hacker."
 msgstr "Almer S. Tigelaar, expert en Gnumeric."
 
-#: src/dialogs/dialog-about.c:61
+#: src/dialogs/dialog-about.c:60
 msgid "Bruno Unna, Excel bits."
 msgstr "Bruno Unna, parts d'Excel."
 
-#: src/dialogs/dialog-about.c:62
+#: src/dialogs/dialog-about.c:61
 msgid "Daniel Veillard, XML support."
 msgstr "Daniel Veillard, suport de XML."
 
-#: src/dialogs/dialog-about.c:63
+#: src/dialogs/dialog-about.c:62
 msgid "Vladimir Vuksan, financial functions."
 msgstr "Vladimir Vuksan, funcions financeres."
 
-#: src/dialogs/dialog-about.c:64
+#: src/dialogs/dialog-about.c:63
 msgid "Morten Welinder, Gnumeric hacker."
 msgstr "Morten Welinder, expert en Gnumeric."
 
-#: src/dialogs/dialog-about.c:82
-msgid "(C) 1998-2001 Miguel de Icaza"
+#: src/dialogs/dialog-about.c:91
+#, fuzzy
+msgid "(C) 1998-2000 Miguel de Icaza, 2001-2002 Jody Goldberg"
 msgstr "(C) 1998-2001 Miguel de Icaza"
 
-#: src/dialogs/dialog-about.c:90
+#: src/dialogs/dialog-about.c:92
+#, fuzzy
+msgid "A production ready spreadsheet"
+msgstr "Obre un full de difusió"
+
+#: src/dialogs/dialog-about.c:100
 msgid "Gnumeric Home Page"
 msgstr "Pàgina inicial de Gnumeric"
 
-#: src/dialogs/dialog-about.c:96
+#: src/dialogs/dialog-about.c:106
 msgid "Contract Support"
 msgstr "Suport per al contracte"
 
@@ -5342,40 +5344,40 @@ msgstr "_);("
 msgid "_);[Red]("
 msgstr "_);[Vermell]("
 
-#: src/dialogs/dialog-cell-format.c:2105
+#: src/dialogs/dialog-cell-format.c:2107
 #, fuzzy
 msgid "Source"
 msgstr "Àrees origen"
 
-#: src/dialogs/dialog-cell-format.c:2118 src/dialogs/dialog-cell-format.c:2125
+#: src/dialogs/dialog-cell-format.c:2120 src/dialogs/dialog-cell-format.c:2127
 #: src/sheet-object-widget.c:801
 #, fuzzy
 msgid "Min :"
 msgstr "Mínim"
 
-#: src/dialogs/dialog-cell-format.c:2119 src/dialogs/dialog-cell-format.c:2128
+#: src/dialogs/dialog-cell-format.c:2121 src/dialogs/dialog-cell-format.c:2130
 #: src/sheet-object-widget.c:805
 #, fuzzy
 msgid "Max :"
 msgstr "Màxim"
 
-#: src/dialogs/dialog-cell-format.c:2122
+#: src/dialogs/dialog-cell-format.c:2124
 msgid "Value :"
 msgstr "Valor :"
 
-#: src/dialogs/dialog-cell-format.c:2501
+#: src/dialogs/dialog-cell-format.c:2503
 msgid "Format Cells"
 msgstr "Formata cel·les"
 
 # src/functions/fn-information.c:308 src/workbook-format-toolbar.c:649
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: src/dialogs/dialog-cell-format.c:2567 src/dialogs/dialog-cell-format.c:2572
-#: src/dialogs/dialog-cell-format.c:2582 src/functions/fn-information.c:429
-#: src/workbook-format-toolbar.c:837
+#: src/dialogs/dialog-cell-format.c:2569 src/dialogs/dialog-cell-format.c:2574
+#: src/dialogs/dialog-cell-format.c:2584 src/functions/fn-information.c:429
+#: src/workbook-format-toolbar.c:824
 msgid "Automatic"
 msgstr "Automàtic"
 
-#: src/dialogs/dialog-cell-format.c:2577 src/workbook-format-toolbar.c:812
+#: src/dialogs/dialog-cell-format.c:2579 src/workbook-format-toolbar.c:799
 msgid "Clear Background"
 msgstr "Buida el fons"
 
@@ -5392,40 +5394,36 @@ msgstr "Ascendent"
 msgid "Descending"
 msgstr "Descendent"
 
-#: src/dialogs/dialog-cell-sort.c:221
-msgid "Advanced..."
-msgstr "Avançat..."
-
-#: src/dialogs/dialog-cell-sort.c:323
+#: src/dialogs/dialog-cell-sort.c:321
 msgid "Column must be within range"
 msgstr "La columna ha d'estar dins del abast"
 
-#: src/dialogs/dialog-cell-sort.c:324
+#: src/dialogs/dialog-cell-sort.c:322
 msgid "Row must be within range"
 msgstr "La fila ha d'estar dins del abast"
 
-#: src/dialogs/dialog-cell-sort.c:332
+#: src/dialogs/dialog-cell-sort.c:330
 msgid "First column must be valid"
 msgstr "La primera columna ha de ser vàlida"
 
-#: src/dialogs/dialog-cell-sort.c:333
+#: src/dialogs/dialog-cell-sort.c:331
 msgid "First row must be valid"
 msgstr "La primera fila ha de ser vàlida"
 
-#: src/dialogs/dialog-cell-sort.c:372
+#: src/dialogs/dialog-cell-sort.c:371
 msgid "At least one clause is required."
 msgstr "Es requereix almenys una clàusula."
 
-#: src/dialogs/dialog-cell-sort.c:381
+#: src/dialogs/dialog-cell-sort.c:380
 msgid "Can't add more than the selection length."
 msgstr "No es pot afegir més que la llargada de la sel·lecció."
 
-#: src/dialogs/dialog-cell-sort.c:384
+#: src/dialogs/dialog-cell-sort.c:383
 msgid "Maximum number of clauses has been reached."
 msgstr "S'ha assolit el nombre màxim de clàusules."
 
-#: src/dialogs/dialog-cell-sort.c:387 src/dialogs/dialog-cell-sort.c:390
-#: src/dialogs/dialog-cell-sort.c:573
+#: src/dialogs/dialog-cell-sort.c:386 src/dialogs/dialog-cell-sort.c:389
+#: src/dialogs/dialog-cell-sort.c:572
 msgid "then by"
 msgstr "llavors per"
 
@@ -5460,37 +5458,37 @@ msgstr "No es pot redefinir un nom integrat."
 msgid "Could not create the Name Guru."
 msgstr "No s'ha pogut crear el Name Guru."
 
-#: src/dialogs/dialog-formula-guru.c:424
+#: src/dialogs/dialog-formula-guru.c:427
 #, c-format
 msgid "Value%d"
 msgstr "Valor%d"
 
-#: src/dialogs/dialog-formula-guru.c:431 src/dialogs/dialog-search.c:122
+#: src/dialogs/dialog-formula-guru.c:434 src/dialogs/dialog-search.c:125
 #: src/functions/fn-string.c:1217
 msgid "String"
 msgstr "Cadena de caràcters"
 
-#: src/dialogs/dialog-formula-guru.c:433
+#: src/dialogs/dialog-formula-guru.c:436
 msgid "Boolean"
 msgstr "Boleà"
 
-#: src/dialogs/dialog-formula-guru.c:434
+#: src/dialogs/dialog-formula-guru.c:437
 msgid "Range"
 msgstr "Abast"
 
-#: src/dialogs/dialog-formula-guru.c:435
+#: src/dialogs/dialog-formula-guru.c:438
 msgid "Array"
 msgstr "Matriu"
 
-#: src/dialogs/dialog-formula-guru.c:436
+#: src/dialogs/dialog-formula-guru.c:439
 msgid "Range/Array"
 msgstr "Abast/Matriu"
 
-#: src/dialogs/dialog-formula-guru.c:437
+#: src/dialogs/dialog-formula-guru.c:440
 msgid "Scalar"
 msgstr "Escalar"
 
-#: src/dialogs/dialog-formula-guru.c:439
+#: src/dialogs/dialog-formula-guru.c:442
 msgid "Any"
 msgstr "Qualsevol"
 
@@ -5705,54 +5703,54 @@ msgstr "%s [a la memòria]"
 msgid "%s[marked for deactivation]"
 msgstr "%s [marcat per a la desactivació]"
 
-#: src/dialogs/dialog-plugin-manager.c:620
+#: src/dialogs/dialog-plugin-manager.c:615
 msgid "Plugin list"
 msgstr "Llista de connectors"
 
-#: src/dialogs/dialog-plugin-manager.c:623
+#: src/dialogs/dialog-plugin-manager.c:618
 msgid "Plugin details"
 msgstr "Detalls del connector"
 
-#: src/dialogs/dialog-printer-setup.c:984
-#: src/dialogs/dialog-printer-setup.c:1112
+#: src/dialogs/dialog-printer-setup.c:986
+#: src/dialogs/dialog-printer-setup.c:1116
 #, fuzzy
 msgid "Customize header"
 msgstr "Personalitza la _capçalera"
 
-#: src/dialogs/dialog-printer-setup.c:986
-#: src/dialogs/dialog-printer-setup.c:1118
+#: src/dialogs/dialog-printer-setup.c:988
+#: src/dialogs/dialog-printer-setup.c:1122
 #, fuzzy
 msgid "Customize footer"
 msgstr "Personalitza el _peu de pàgina"
 
-#: src/dialogs/dialog-printer-setup.c:1111
+#: src/dialogs/dialog-printer-setup.c:1115
 msgid "Custom header configuration"
 msgstr "Configuració de la capçalera personalitzada"
 
-#: src/dialogs/dialog-printer-setup.c:1117
+#: src/dialogs/dialog-printer-setup.c:1121
 msgid "Custom footer configuration"
 msgstr "Configuració del peu de pàgina personalitzat"
 
-#: src/dialogs/dialog-search-replace.c:141 src/dialogs/dialog-search.c:356
+#: src/dialogs/dialog-search-replace.c:141 src/dialogs/dialog-search.c:359
 msgid "You must select some cell types to search."
 msgstr "Heu de seleccionar algun tipus de cel·la per cercar."
 
-#: src/dialogs/dialog-search.c:120
+#: src/dialogs/dialog-search.c:123
 #, fuzzy
 msgid "Expression"
 msgstr "Expressions"
 
-#: src/dialogs/dialog-search.c:124
+#: src/dialogs/dialog-search.c:127
 #, fuzzy
 msgid "Integer"
 msgstr "Intercepta"
 
-#: src/dialogs/dialog-search.c:128
+#: src/dialogs/dialog-search.c:131
 #, fuzzy
 msgid "Other value"
 msgstr "Altres valors"
 
-#: src/dialogs/dialog-search.c:130
+#: src/dialogs/dialog-search.c:133
 #, fuzzy
 msgid "Comment"
 msgstr "Comentaris"
@@ -5978,7 +5976,7 @@ msgstr "Dades (de %s)"
 #. * The name of the default font for this locale.
 #. * Preferably something with the correct encoding.
 #.
-#: src/dialogs/dialog-stf-preview.c:617 src/style.c:89
+#: src/dialogs/dialog-stf-preview.c:616 src/style.c:97
 msgid "fixed"
 msgstr ""
 
@@ -6348,8 +6346,8 @@ msgstr "Augment"
 msgid "Sheets"
 msgstr "Fulls"
 
-#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:3397
-#: src/workbook-control-gui.c:3439
+#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:3392
+#: src/workbook-control-gui.c:3430
 msgid "Zoom"
 msgstr "Zoom"
 
@@ -6873,7 +6871,7 @@ msgstr "Escala"
 
 # src/functions/fn-sheet.c:104
 #: src/dialogs/print.glade.h:23 src/functions/fn-sheet.c:141
-#: src/workbook.c:1065 src/xml-io.c:3086
+#: src/workbook.c:1036 src/xml-io.c:2948
 msgid "Sheet"
 msgstr "Full"
 
@@ -7727,12 +7725,12 @@ msgstr "S'ha produït un error en llegir el fitxer temporal."
 msgid "Exception occurred while saving to stream."
 msgstr "S'ha produït una excepció en desar a un flux."
 
-#: src/file.c:495
+#: src/file.c:498
 #, fuzzy
 msgid "Saving over old files of this type is disabled for safety."
 msgstr "S'ha deshabilitat l'opció desar sobre fitxers antics per seguretat"
 
-#: src/file.c:497
+#: src/file.c:500
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
@@ -7810,1357 +7808,1353 @@ msgstr "CADENA"
 #. Must stay in this order
 #. GBP
 #. JPY
-#. Be careful with fonts. This uses iso_8859_15 rather than
-#. * the more common iso_8859_1 Not many fonts have a correct
-#. * Euro symbol here.
-#.
 #. EUR
 #. The first column has three letter acronyms
 #. * for each currency.  They MUST start with '[$'
 #. * The second column has the long names of the currencies.
 #.
-#: src/formats.c:261
+#: src/formats.c:256
 msgid "[$ADP]"
 msgstr "[$ADP]"
 
-#: src/formats.c:261
+#: src/formats.c:256
 msgid "Andorran peseta"
 msgstr "Pesseta andorrana"
 
-#: src/formats.c:262
+#: src/formats.c:257
 msgid "[$AED]"
 msgstr "[$AED]"
 
-#: src/formats.c:262
+#: src/formats.c:257
 msgid "UAE dirham"
 msgstr "Dirham dels EAU"
 
-#: src/formats.c:263
+#: src/formats.c:258
 msgid "[$AFA]"
 msgstr "[$AFA]"
 
-#: src/formats.c:263
+#: src/formats.c:258
 msgid "Afghanistan afghani"
 msgstr "Afgani afganès"
 
-#: src/formats.c:264
+#: src/formats.c:259
 msgid "[$ALL]"
 msgstr "[$ALL]"
 
-#: src/formats.c:264
+#: src/formats.c:259
 msgid "Albanian lek"
 msgstr "Lek albanès"
 
-#: src/formats.c:265
+#: src/formats.c:260
 msgid "[$ANG]"
 msgstr "[$ANG]"
 
-#: src/formats.c:265
+#: src/formats.c:260
 msgid "Netherlands Antillian guilder"
 msgstr "Guilder de les Antilles Holandeses"
 
-#: src/formats.c:266
+#: src/formats.c:261
 msgid "[$AON]"
 msgstr "[$AON]"
 
-#: src/formats.c:266
+#: src/formats.c:261
 msgid "Angolan new kwanza"
 msgstr "Nou kwanza d'Angola"
 
-#: src/formats.c:267
+#: src/formats.c:262
 msgid "[$ARA]"
 msgstr "[$ARA]"
 
-#: src/formats.c:267
+#: src/formats.c:262
 #, fuzzy
 msgid "Argentine peso"
 msgstr "Austral argentí"
 
-#: src/formats.c:268
+#: src/formats.c:263
 msgid "[$ATS]"
 msgstr "[$ATS]"
 
-#: src/formats.c:268
+#: src/formats.c:263
 msgid "Austrian schilling"
 msgstr "Schilling austríac"
 
-#: src/formats.c:269
+#: src/formats.c:264
 msgid "[$AUD]"
 msgstr "[$AUD]"
 
-#: src/formats.c:269
+#: src/formats.c:264
 msgid "Australian dollar"
 msgstr "Dòlar australià"
 
-#: src/formats.c:270
+#: src/formats.c:265
 msgid "[$AWG]"
 msgstr "[$AWG]"
 
-#: src/formats.c:270
+#: src/formats.c:265
 msgid "Aruban guilder"
 msgstr "Guilder d'Aruba"
 
-#: src/formats.c:271
+#: src/formats.c:266
 msgid "[$BBD]"
 msgstr "[$BBD]"
 
-#: src/formats.c:271
+#: src/formats.c:266
 msgid "Barbados dollar"
 msgstr "Dòlar de les Barbados"
 
-#: src/formats.c:272
+#: src/formats.c:267
 msgid "[$BDT]"
 msgstr "[$BDT]"
 
-#: src/formats.c:272
+#: src/formats.c:267
 msgid "Bangladeshi taka"
 msgstr "Taka de Bangla Desh"
 
-#: src/formats.c:273
+#: src/formats.c:268
 msgid "[$BEF]"
 msgstr "[$BEF]"
 
-#: src/formats.c:273
+#: src/formats.c:268
 msgid "Belgian franc"
 msgstr "Franc belga"
 
-#: src/formats.c:274
+#: src/formats.c:269
 msgid "[$BGL]"
 msgstr "[$BGL]"
 
-#: src/formats.c:274
+#: src/formats.c:269
 msgid "Bulgarian lev"
 msgstr "Lev de Bulgària"
 
-#: src/formats.c:275
+#: src/formats.c:270
 msgid "[$BHD]"
 msgstr "[$BHD]"
 
-#: src/formats.c:275
+#: src/formats.c:270
 msgid "Bahraini dinar"
 msgstr "Dinar de Bahrain"
 
-#: src/formats.c:276
+#: src/formats.c:271
 msgid "[$BIF]"
 msgstr "[$BIF]"
 
-#: src/formats.c:276
+#: src/formats.c:271
 msgid "Burundi franc"
 msgstr "Franc de Burundi"
 
-#: src/formats.c:277
+#: src/formats.c:272
 msgid "[$BMD]"
 msgstr "[$BMD]"
 
-#: src/formats.c:277
+#: src/formats.c:272
 msgid "Bermudian dollar"
 msgstr "Dòlar de les Bermudes"
 
-#: src/formats.c:278
+#: src/formats.c:273
 msgid "[$BND]"
 msgstr "[$BND]"
 
-#: src/formats.c:278
+#: src/formats.c:273
 msgid "Brunei dollar"
 msgstr "Dòlar de Brunei"
 
-#: src/formats.c:279
+#: src/formats.c:274
 msgid "[$BOB]"
 msgstr "[$BOB]"
 
-#: src/formats.c:279
+#: src/formats.c:274
 msgid "Bolivian boliviano"
 msgstr "Boliviano de Bolívia"
 
-#: src/formats.c:280
+#: src/formats.c:275
 msgid "[$BRE]"
 msgstr "[$BRE]"
 
-#: src/formats.c:280
+#: src/formats.c:275
 #, fuzzy
 msgid "Brazilian real"
 msgstr "Cruzeiro brasiler"
 
-#: src/formats.c:281
+#: src/formats.c:276
 msgid "[$BSD]"
 msgstr "[$BSD]"
 
-#: src/formats.c:281
+#: src/formats.c:276
 msgid "Bahamian dollar"
 msgstr "Dòlar de les Bahames"
 
-#: src/formats.c:282
+#: src/formats.c:277
 msgid "[$BTN]"
 msgstr "[$BTN]"
 
-#: src/formats.c:282
+#: src/formats.c:277
 msgid "Bhutan ngultrum"
 msgstr "Ngultrum de Bhutan"
 
-#: src/formats.c:283
+#: src/formats.c:278
 msgid "[$BWP]"
 msgstr "[$BWP]"
 
-#: src/formats.c:283
+#: src/formats.c:278
 msgid "Botswanian pula"
 msgstr "Pula de Botswana"
 
-#: src/formats.c:284
+#: src/formats.c:279
 msgid "[$BYB]"
 msgstr "[$BYB]"
 
-#: src/formats.c:284
+#: src/formats.c:279
 msgid "Belarussian ruble"
 msgstr "Ruble de Bielorússia"
 
-#: src/formats.c:285
+#: src/formats.c:280
 msgid "[$BZD]"
 msgstr "[$BZD]"
 
-#: src/formats.c:285
+#: src/formats.c:280
 msgid "Belize dollar"
 msgstr "Dòlar de Belize"
 
-#: src/formats.c:286
+#: src/formats.c:281
 msgid "[$CAD]"
 msgstr "[$CAD]"
 
-#: src/formats.c:286
+#: src/formats.c:281
 msgid "Canadian dollar"
 msgstr "Dòlar canadenc"
 
-#: src/formats.c:287
+#: src/formats.c:282
 msgid "[$CHF]"
 msgstr "[$CHF]"
 
-#: src/formats.c:287
+#: src/formats.c:282
 msgid "Swiss franc"
 msgstr "Franc suïs"
 
-#: src/formats.c:288
+#: src/formats.c:283
 msgid "[$CLP]"
 msgstr "[$CLP]"
 
-#: src/formats.c:288
+#: src/formats.c:283
 msgid "Chilean peso"
 msgstr "Peso xilè"
 
-#: src/formats.c:289
+#: src/formats.c:284
 msgid "[$CNY]"
 msgstr "[$CNY]"
 
-#: src/formats.c:289
+#: src/formats.c:284
 msgid "Chinese yuan renminbi"
 msgstr "Yuan renminbi xinès"
 
-#: src/formats.c:290
+#: src/formats.c:285
 msgid "[$COP]"
 msgstr "[$COP]"
 
-#: src/formats.c:290
+#: src/formats.c:285
 msgid "Colombian peso"
 msgstr "Peso colombià"
 
-#: src/formats.c:291
+#: src/formats.c:286
 msgid "[$CRC]"
 msgstr "[$CRC]"
 
-#: src/formats.c:291
+#: src/formats.c:286
 msgid "Costa Rican colon"
 msgstr "Colon de Costa Rica"
 
-#: src/formats.c:292
+#: src/formats.c:287
 msgid "[$CSK]"
 msgstr "[$CSK]"
 
-#: src/formats.c:292
+#: src/formats.c:287
 msgid "Czech Koruna"
 msgstr "Corona Txeca"
 
-#: src/formats.c:293
+#: src/formats.c:288
 msgid "[$CUP]"
 msgstr "[$CUP]"
 
-#: src/formats.c:293
+#: src/formats.c:288
 msgid "Cuban peso"
 msgstr "Peso cubà"
 
-#: src/formats.c:294
+#: src/formats.c:289
 msgid "[$CVE]"
 msgstr "[$CVE]"
 
-#: src/formats.c:294
+#: src/formats.c:289
 msgid "Cape Verde escudo"
 msgstr "Escut de Cap Verd"
 
-#: src/formats.c:295
+#: src/formats.c:290
 msgid "[$CYP]"
 msgstr "[$CYP]"
 
-#: src/formats.c:295
+#: src/formats.c:290
 msgid "Cyprus pound"
 msgstr "Lliura de Xipre"
 
-#: src/formats.c:296
+#: src/formats.c:291
 msgid "[$DEM]"
 msgstr "[$DEM]"
 
-#: src/formats.c:296
+#: src/formats.c:291
 msgid "Deutsche mark"
 msgstr "Marc alemany"
 
-#: src/formats.c:297
+#: src/formats.c:292
 msgid "[$DJF]"
 msgstr "[$DJF]"
 
-#: src/formats.c:297
+#: src/formats.c:292
 msgid "Djibouti franc"
 msgstr "Franc de Djibouti"
 
-#: src/formats.c:298
+#: src/formats.c:293
 msgid "[$DKK]"
 msgstr "[$DKK]"
 
-#: src/formats.c:298
+#: src/formats.c:293
 msgid "Danish krone"
 msgstr "Corona danesa"
 
-#: src/formats.c:299
+#: src/formats.c:294
 msgid "[$DOP]"
 msgstr "[$DOP]"
 
-#: src/formats.c:299
+#: src/formats.c:294
 msgid "Dominican peso"
 msgstr "Peso dominicà"
 
-#: src/formats.c:300
+#: src/formats.c:295
 msgid "[$DZD]"
 msgstr "[$DZD]"
 
-#: src/formats.c:300
+#: src/formats.c:295
 msgid "Algerian dinar"
 msgstr "Dinar algerià"
 
-#: src/formats.c:301
+#: src/formats.c:296
 msgid "[$ECS]"
 msgstr "[$ECS]"
 
-#: src/formats.c:301
+#: src/formats.c:296
 msgid "Ecuador sucre"
 msgstr "Sucre d'Equador"
 
-#: src/formats.c:302
+#: src/formats.c:297
 msgid "[$EGP]"
 msgstr "[$EGP]"
 
-#: src/formats.c:302
+#: src/formats.c:297
 msgid "Egyptian pound"
 msgstr "Lliura egipcia"
 
-#: src/formats.c:303
+#: src/formats.c:298
 msgid "[$ESP]"
 msgstr "[$ESP]"
 
-#: src/formats.c:303
+#: src/formats.c:298
 msgid "Spanish peseta"
 msgstr "Pesseta espanyola"
 
-#: src/formats.c:304
+#: src/formats.c:299
 msgid "[$ETB]"
 msgstr "[$ETB]"
 
-#: src/formats.c:304
+#: src/formats.c:299
 msgid "Ethiopian birr"
 msgstr "Birr d'Etiòpia"
 
-#: src/formats.c:305
+#: src/formats.c:300
 msgid "[$EUR]"
 msgstr "[$EUR]"
 
-#: src/formats.c:305
+#: src/formats.c:300
 msgid "Euro"
 msgstr "Euro"
 
-#: src/formats.c:306
+#: src/formats.c:301
 msgid "[$FIM]"
 msgstr "[$FIM]"
 
-#: src/formats.c:306
+#: src/formats.c:301
 msgid "Finnish markka"
 msgstr "Markka finlandès"
 
-#: src/formats.c:307
+#: src/formats.c:302
 msgid "[$FJD]"
 msgstr "[$FJD]"
 
-#: src/formats.c:307
+#: src/formats.c:302
 msgid "Fiji dollar"
 msgstr "Dòlar de Fiji"
 
-#: src/formats.c:308
+#: src/formats.c:303
 msgid "[$FKP]"
 msgstr "[$FKP]"
 
-#: src/formats.c:308
+#: src/formats.c:303
 msgid "Falkland Islands pound"
 msgstr "Lliura de les Illes Falkland"
 
-#: src/formats.c:309
+#: src/formats.c:304
 msgid "[$FRF]"
 msgstr "[$FRF]"
 
-#: src/formats.c:309
+#: src/formats.c:304
 msgid "French franc"
 msgstr "Franc francès"
 
-#: src/formats.c:310
+#: src/formats.c:305
 msgid "[$GBP]"
 msgstr "[$GBP]"
 
-#: src/formats.c:310
+#: src/formats.c:305
 msgid "UK pound sterling"
 msgstr "Lliura esterlina"
 
-#: src/formats.c:311
+#: src/formats.c:306
 msgid "[$GHC]"
 msgstr "[$GHC]"
 
-#: src/formats.c:311
+#: src/formats.c:306
 msgid "Ghanaian cedi"
 msgstr "Cedi de Ghana"
 
-#: src/formats.c:312
+#: src/formats.c:307
 msgid "[$GIP]"
 msgstr "[$GIP]"
 
-#: src/formats.c:312
+#: src/formats.c:307
 msgid "Gibraltar pound"
 msgstr "Lliura de Gibraltar"
 
-#: src/formats.c:313
+#: src/formats.c:308
 msgid "[$GMD]"
 msgstr "[$GMD]"
 
-#: src/formats.c:313
+#: src/formats.c:308
 msgid "Gambian dalasi"
 msgstr "Dalasi de Gàmbia"
 
-#: src/formats.c:314
+#: src/formats.c:309
 msgid "[$GNF]"
 msgstr "[$GNF]"
 
-#: src/formats.c:314
+#: src/formats.c:309
 msgid "Guinea franc"
 msgstr "Franc de Guinea"
 
-#: src/formats.c:315
+#: src/formats.c:310
 msgid "[$GRD]"
 msgstr "[$GRD]"
 
-#: src/formats.c:315
+#: src/formats.c:310
 msgid "Greek drachma"
 msgstr "Dracma grec"
 
-#: src/formats.c:316
+#: src/formats.c:311
 msgid "[$GTQ]"
 msgstr "[$GTQ]"
 
-#: src/formats.c:316
+#: src/formats.c:311
 msgid "Guatemalan quetzal"
 msgstr "Quetzal de Guatemala"
 
-#: src/formats.c:317
+#: src/formats.c:312
 msgid "[$GWP]"
 msgstr "[$GWP]"
 
-#: src/formats.c:317
+#: src/formats.c:312
 msgid "Guinea-Bissau peso"
 msgstr "Peso de Guinea Bissau"
 
-#: src/formats.c:318
+#: src/formats.c:313
 msgid "[$GYD]"
 msgstr "[$GYD]"
 
-#: src/formats.c:318
+#: src/formats.c:313
 msgid "Guyanan dollar"
 msgstr "Dòlar de Guaiana"
 
-#: src/formats.c:319
+#: src/formats.c:314
 msgid "[$HKD]"
 msgstr "[$HKD]"
 
-#: src/formats.c:319
+#: src/formats.c:314
 msgid "Hong Kong dollar"
 msgstr "Dòlar de Hong Kong"
 
-#: src/formats.c:320
+#: src/formats.c:315
 msgid "[$HNL]"
 msgstr "[$HNL]"
 
-#: src/formats.c:320
+#: src/formats.c:315
 msgid "Honduran lempira"
 msgstr "Lempira d'Hondures"
 
-#: src/formats.c:321
+#: src/formats.c:316
 msgid "[$HRK]"
 msgstr "[$HRK]"
 
-#: src/formats.c:321
+#: src/formats.c:316
 msgid "Croatian kuna"
 msgstr "Kuna croata"
 
-#: src/formats.c:322
+#: src/formats.c:317
 msgid "[$HTG]"
 msgstr "[$HTG]"
 
-#: src/formats.c:322
+#: src/formats.c:317
 msgid "Haitian gourde"
 msgstr "Gourde d'Haití"
 
-#: src/formats.c:323
+#: src/formats.c:318
 msgid "[$HUF]"
 msgstr "[$HUF]"
 
-#: src/formats.c:323
+#: src/formats.c:318
 msgid "Hungarian forint"
 msgstr "Florí d'Hungria"
 
-#: src/formats.c:324
+#: src/formats.c:319
 msgid "[$IDR]"
 msgstr "[$IDR]"
 
-#: src/formats.c:324
+#: src/formats.c:319
 msgid "Indonesian rupiah"
 msgstr "Rúpia d'Indonèsia"
 
-#: src/formats.c:325
+#: src/formats.c:320
 msgid "[$IEP]"
 msgstr "[$IEP]"
 
-#: src/formats.c:325
+#: src/formats.c:320
 msgid "Irish punt"
 msgstr "Punt irlandès"
 
-#: src/formats.c:326
+#: src/formats.c:321
 msgid "[$IEX]"
 msgstr "[$IEX]"
 
-#: src/formats.c:326
+#: src/formats.c:321
 msgid "Irish pence ***"
 msgstr "Penic *** irlandès"
 
-#: src/formats.c:327
+#: src/formats.c:322
 msgid "[$ILS]"
 msgstr "[$ILS]"
 
-#: src/formats.c:327
+#: src/formats.c:322
 msgid "Israeli shekel"
 msgstr "Shekel isrealià"
 
-#: src/formats.c:328
+#: src/formats.c:323
 msgid "[$INR]"
 msgstr "[$INR]"
 
-#: src/formats.c:328
+#: src/formats.c:323
 msgid "Indian rupee"
 msgstr "Rúpia índia"
 
-#: src/formats.c:329
+#: src/formats.c:324
 msgid "[$IQD]"
 msgstr "[$IQD]"
 
-#: src/formats.c:329
+#: src/formats.c:324
 msgid "Iraqi dinar"
 msgstr "Dinar iraquià"
 
-#: src/formats.c:330
+#: src/formats.c:325
 msgid "[$IRR]"
 msgstr "[$IRR]"
 
-#: src/formats.c:330
+#: src/formats.c:325
 msgid "Iranian rial"
 msgstr "Rial iranià"
 
-#: src/formats.c:331
+#: src/formats.c:326
 msgid "[$ISK]"
 msgstr "[$ISK]"
 
-#: src/formats.c:331
+#: src/formats.c:326
 msgid "Iceland krona"
 msgstr "Corona d'Islàndia"
 
-#: src/formats.c:332
+#: src/formats.c:327
 msgid "[$ITL]"
 msgstr "[$ITL]"
 
-#: src/formats.c:332
+#: src/formats.c:327
 msgid "Italian lira"
 msgstr "Lira italiana"
 
-#: src/formats.c:333
+#: src/formats.c:328
 msgid "[$JMD]"
 msgstr "[$JMD]"
 
-#: src/formats.c:333
+#: src/formats.c:328
 msgid "Jamaican dollar"
 msgstr "Dòlar Jamaicà"
 
-#: src/formats.c:334
+#: src/formats.c:329
 msgid "[$JOD]"
 msgstr "[$JOD]"
 
-#: src/formats.c:334
+#: src/formats.c:329
 msgid "Jordanian dinar"
 msgstr "Dinar de Jordània"
 
-#: src/formats.c:335
+#: src/formats.c:330
 msgid "[$JPY]"
 msgstr "[$JPY]"
 
-#: src/formats.c:335
+#: src/formats.c:330
 msgid "Japanese yen"
 msgstr "Ien japonès"
 
-#: src/formats.c:336
+#: src/formats.c:331
 msgid "[$KES]"
 msgstr "[$KES]"
 
-#: src/formats.c:336
+#: src/formats.c:331
 msgid "Kenyan shilling"
 msgstr "Shilling de Kènia"
 
-#: src/formats.c:337
+#: src/formats.c:332
 msgid "[$KHR]"
 msgstr "[$KHR]"
 
-#: src/formats.c:337
+#: src/formats.c:332
 msgid "Kampuchean riel"
 msgstr "Riel de Cambotja"
 
-#: src/formats.c:338
+#: src/formats.c:333
 msgid "[$KMF]"
 msgstr "[$KMF]"
 
-#: src/formats.c:338
+#: src/formats.c:333
 msgid "Comoros franc"
 msgstr "Franc de Comoros"
 
-#: src/formats.c:339
+#: src/formats.c:334
 msgid "[$KPW]"
 msgstr "[$KPW]"
 
-#: src/formats.c:339
+#: src/formats.c:334
 msgid "North Korean won"
 msgstr "Won de Corea del Nord"
 
-#: src/formats.c:340
+#: src/formats.c:335
 msgid "[$KRW]"
 msgstr "[$KRW]"
 
-#: src/formats.c:340
+#: src/formats.c:335
 msgid "Republic of Korea won"
 msgstr "Won de la República de Corea"
 
-#: src/formats.c:341
+#: src/formats.c:336
 msgid "[$KWD]"
 msgstr "[$KWD]"
 
-#: src/formats.c:341
+#: src/formats.c:336
 msgid "Kuwaiti dinar"
 msgstr "Dinar de Kuwait"
 
-#: src/formats.c:342
+#: src/formats.c:337
 msgid "[$KYD]"
 msgstr "[$KYD]"
 
-#: src/formats.c:342
+#: src/formats.c:337
 msgid "Cayman Islands dollar"
 msgstr "Dòlar de les Illes Caiman"
 
-#: src/formats.c:343
+#: src/formats.c:338
 msgid "[$LAK]"
 msgstr "[$LAK]"
 
-#: src/formats.c:343
+#: src/formats.c:338
 msgid "Lao kip"
 msgstr "Kip de Laos"
 
-#: src/formats.c:344
+#: src/formats.c:339
 msgid "[$LBP]"
 msgstr "[$LBP]"
 
-#: src/formats.c:344
+#: src/formats.c:339
 msgid "Lebanese pound"
 msgstr "Lliura libanesa"
 
-#: src/formats.c:345
+#: src/formats.c:340
 msgid "[$LKR]"
 msgstr "[$LKR]"
 
-#: src/formats.c:345
+#: src/formats.c:340
 msgid "Sri Lanka rupee"
 msgstr "Rúpia de Sri Lanka"
 
-#: src/formats.c:346
+#: src/formats.c:341
 msgid "[$LRD]"
 msgstr "[$LRD]"
 
-#: src/formats.c:346
+#: src/formats.c:341
 msgid "Liberian dollar"
 msgstr "Dòlar de Libèria"
 
-#: src/formats.c:347
+#: src/formats.c:342
 msgid "[$LSL]"
 msgstr "[$LSL]"
 
-#: src/formats.c:347
+#: src/formats.c:342
 msgid "Lesotho loti"
 msgstr "Loti de Lesotho"
 
-#: src/formats.c:348
+#: src/formats.c:343
 msgid "[$LUF]"
 msgstr "[$LUF]"
 
-#: src/formats.c:348
+#: src/formats.c:343
 msgid "Luxembourg franc"
 msgstr "Franc de Luxemburg"
 
-#: src/formats.c:349
+#: src/formats.c:344
 msgid "[$LYD]"
 msgstr "[$LYD]"
 
-#: src/formats.c:349
+#: src/formats.c:344
 msgid "Libyan dinar"
 msgstr "Dinar libi"
 
-#: src/formats.c:350
+#: src/formats.c:345
 msgid "[$MAD]"
 msgstr "[$MAD]"
 
-#: src/formats.c:350
+#: src/formats.c:345
 msgid "Moroccan dirham"
 msgstr "Dirham del Marroc"
 
-#: src/formats.c:351
+#: src/formats.c:346
 msgid "[$MDL]"
 msgstr "[$MDL]"
 
-#: src/formats.c:351
+#: src/formats.c:346
 msgid "Moldovan leu"
 msgstr "Leu de Moldàvia"
 
-#: src/formats.c:352
+#: src/formats.c:347
 msgid "[$MGF]"
 msgstr "[$MGF]"
 
-#: src/formats.c:352
+#: src/formats.c:347
 msgid "Malagasy franc"
 msgstr "Franc malgaix"
 
-#: src/formats.c:353
+#: src/formats.c:348
 msgid "[$MLF]"
 msgstr "[$MLF]"
 
-#: src/formats.c:353
+#: src/formats.c:348
 msgid "Mali franc"
 msgstr "Franc de Mali"
 
-#: src/formats.c:354
+#: src/formats.c:349
 msgid "[$MMK]"
 msgstr "[$MMK]"
 
-#: src/formats.c:354
+#: src/formats.c:349
 msgid "Myanmar kyat"
 msgstr "Kyat de Myanmar"
 
-#: src/formats.c:355
+#: src/formats.c:350
 msgid "[$MNT]"
 msgstr "[$MNT]"
 
-#: src/formats.c:355
+#: src/formats.c:350
 msgid "Mongolian tugrik"
 msgstr "Tugrik de Mongòlia"
 
-#: src/formats.c:356
+#: src/formats.c:351
 msgid "[$MOP]"
 msgstr "[$MOP]"
 
-#: src/formats.c:356
+#: src/formats.c:351
 msgid "Macau pataca"
 msgstr "Pataca de Macau"
 
-#: src/formats.c:357
+#: src/formats.c:352
 msgid "[$MRO]"
 msgstr "[$MRO]"
 
-#: src/formats.c:357
+#: src/formats.c:352
 msgid "Mauritanian ouguiya"
 msgstr "Ouguiya de Mauritània"
 
-#: src/formats.c:358
+#: src/formats.c:353
 msgid "[$MTL]"
 msgstr "[$MTL]"
 
-#: src/formats.c:358
+#: src/formats.c:353
 msgid "Maltese lira"
 msgstr "Lira de Malta"
 
-#: src/formats.c:359
+#: src/formats.c:354
 msgid "[$MUR]"
 msgstr "[$MUR]"
 
-#: src/formats.c:359
+#: src/formats.c:354
 msgid "Mauritius rupee"
 msgstr "Rúpia de les Maurici"
 
-#: src/formats.c:360
+#: src/formats.c:355
 msgid "[$MVR]"
 msgstr "[$MVR]"
 
-#: src/formats.c:360
+#: src/formats.c:355
 msgid "Maldive rupee"
 msgstr "Rúpia de les Maldives"
 
-#: src/formats.c:361
+#: src/formats.c:356
 msgid "[$MWK]"
 msgstr "[$MWK]"
 
-#: src/formats.c:361
+#: src/formats.c:356
 msgid "Malawi kwacha"
 msgstr "Kwacha de Malawi"
 
-#: src/formats.c:362
+#: src/formats.c:357
 msgid "[$MXP]"
 msgstr "[$MXP]"
 
-#: src/formats.c:362
+#: src/formats.c:357
 msgid "Mexican peso"
 msgstr "Peso mexicà"
 
-#: src/formats.c:363
+#: src/formats.c:358
 msgid "[$MYR]"
 msgstr "[$MYR]"
 
-#: src/formats.c:363
+#: src/formats.c:358
 msgid "Malaysian ringgit"
 msgstr "Ringgit de Malàisia"
 
-#: src/formats.c:364
+#: src/formats.c:359
 msgid "[$MZM]"
 msgstr "[$MZM]"
 
-#: src/formats.c:364
+#: src/formats.c:359
 msgid "Mozambique metical"
 msgstr "Metical de Moçambic"
 
-#: src/formats.c:365
+#: src/formats.c:360
 msgid "[$NGN]"
 msgstr "[$NGN]"
 
-#: src/formats.c:365
+#: src/formats.c:360
 msgid "Nigerian naira"
 msgstr "Naira de Nigèria"
 
-#: src/formats.c:366
+#: src/formats.c:361
 msgid "[$NIO]"
 msgstr "[$NIO]"
 
-#: src/formats.c:366
+#: src/formats.c:361
 msgid "Nicaraguan cordoba oro"
 msgstr "Cordoba oro de Nicaràgua"
 
-#: src/formats.c:367
+#: src/formats.c:362
 msgid "[$NLG]"
 msgstr "[$NLG]"
 
-#: src/formats.c:367
+#: src/formats.c:362
 msgid "Netherlands guilder"
 msgstr "Guilder holandesa"
 
-#: src/formats.c:368
+#: src/formats.c:363
 msgid "[$NOK]"
 msgstr "[$NOK]"
 
-#: src/formats.c:368
+#: src/formats.c:363
 msgid "Norwegian krone"
 msgstr "Corona noruega"
 
-#: src/formats.c:369
+#: src/formats.c:364
 msgid "[$NPR]"
 msgstr "[$NPR]"
 
-#: src/formats.c:369
+#: src/formats.c:364
 msgid "Nepalese rupee"
 msgstr "Rúpia del Nepal"
 
-#: src/formats.c:370
+#: src/formats.c:365
 msgid "[$NZD]"
 msgstr "[$NZD]"
 
-#: src/formats.c:370
+#: src/formats.c:365
 msgid "New Zealand dollar"
 msgstr "Dòlar de Nova Zelanda"
 
-#: src/formats.c:371
+#: src/formats.c:366
 msgid "[$OMR]"
 msgstr "[$OMR]"
 
-#: src/formats.c:371
+#: src/formats.c:366
 msgid "Rial Omani"
 msgstr "Omani de Rial"
 
-#: src/formats.c:372
+#: src/formats.c:367
 msgid "[$PAB]"
 msgstr "[$PAB]"
 
-#: src/formats.c:372
+#: src/formats.c:367
 msgid "Panamanian balboa"
 msgstr "Balboa de Panamà"
 
-#: src/formats.c:373
+#: src/formats.c:368
 msgid "[$PEI]"
 msgstr "[$PEI]"
 
-#: src/formats.c:373
+#: src/formats.c:368
 msgid "Peruvian inti"
 msgstr "Inti del Perú"
 
-#: src/formats.c:374
+#: src/formats.c:369
 msgid "[$PGK]"
 msgstr "[$PGK]"
 
-#: src/formats.c:374
+#: src/formats.c:369
 msgid "Papua New Guinea kina"
 msgstr "Kina de Papua Nova Guinea"
 
-#: src/formats.c:375
+#: src/formats.c:370
 msgid "[$PHP]"
 msgstr "[$PHP]"
 
-#: src/formats.c:375
+#: src/formats.c:370
 msgid "Philippino peso"
 msgstr "Peso filipí"
 
-#: src/formats.c:376
+#: src/formats.c:371
 msgid "[$PKR]"
 msgstr "[$PKP]"
 
-#: src/formats.c:376
+#: src/formats.c:371
 msgid "Pakistan rupee"
 msgstr "Rúpia del Paquistan"
 
-#: src/formats.c:377
+#: src/formats.c:372
 msgid "[$PLZ]"
 msgstr "[$PLZ]"
 
-#: src/formats.c:377
+#: src/formats.c:372
 msgid "Polish zloty"
 msgstr "Zloti polonès"
 
-#: src/formats.c:378
+#: src/formats.c:373
 msgid "[$PTE]"
 msgstr "[$PTE]"
 
-#: src/formats.c:378
+#: src/formats.c:373
 msgid "Portuguese escudo"
 msgstr "Escut portuguès"
 
-#: src/formats.c:379
+#: src/formats.c:374
 msgid "[$PYG]"
 msgstr "[$PYG]"
 
-#: src/formats.c:379
+#: src/formats.c:374
 msgid "Paraguay guarani"
 msgstr "Guarani del Paraguai"
 
-#: src/formats.c:380
+#: src/formats.c:375
 msgid "[$QAR]"
 msgstr "[$QAR]"
 
-#: src/formats.c:380
+#: src/formats.c:375
 msgid "Qatari rial"
 msgstr "Rial de Qatari"
 
-#: src/formats.c:381
+#: src/formats.c:376
 msgid "[$ROL]"
 msgstr "[$ROL]"
 
-#: src/formats.c:381
+#: src/formats.c:376
 msgid "Romanian leu"
 msgstr "Leu de Romania"
 
-#: src/formats.c:382
+#: src/formats.c:377
 #, fuzzy
 msgid "[$RUR]"
 msgstr "[$EUR]"
 
-#: src/formats.c:382
+#: src/formats.c:377
 #, fuzzy
 msgid "Russian ruble"
 msgstr "Ruble de Bielorússia"
 
-#: src/formats.c:383
+#: src/formats.c:378
 msgid "[$RWF]"
 msgstr "[$RWF]"
 
-#: src/formats.c:383
+#: src/formats.c:378
 msgid "Rwanda franc"
 msgstr "Franc de Ruanda"
 
-#: src/formats.c:384
+#: src/formats.c:379
 msgid "[$SAR]"
 msgstr "[$SAR]"
 
-#: src/formats.c:384
+#: src/formats.c:379
 msgid "Saudi Arabian riyal"
 msgstr "Rial d'Arabia Saudita"
 
-#: src/formats.c:385
+#: src/formats.c:380
 msgid "[$SBD]"
 msgstr "[$SBD]"
 
-#: src/formats.c:385
+#: src/formats.c:380
 msgid "Solomon Islands dollar"
 msgstr "Dòlar de les illes Salomó"
 
-#: src/formats.c:386
+#: src/formats.c:381
 msgid "[$SCR]"
 msgstr "[$SCR]"
 
-#: src/formats.c:386
+#: src/formats.c:381
 msgid "Seychelles rupee"
 msgstr "Rúpia de les Seixelles"
 
-#: src/formats.c:387
+#: src/formats.c:382
 msgid "[$SDP]"
 msgstr "[$SDP]"
 
-#: src/formats.c:387
+#: src/formats.c:382
 msgid "Sudanese pound"
 msgstr "Lliura sudanesa"
 
-#: src/formats.c:388
+#: src/formats.c:383
 msgid "[$SEK]"
 msgstr "[$SEK]"
 
-#: src/formats.c:388
+#: src/formats.c:383
 msgid "Swedish krona"
 msgstr "Corona sueca"
 
-#: src/formats.c:389
+#: src/formats.c:384
 msgid "[$SGD]"
 msgstr "[$SGD]"
 
-#: src/formats.c:389
+#: src/formats.c:384
 msgid "Singapore dollar"
 msgstr "Dòlar de Singapur"
 
-#: src/formats.c:390
+#: src/formats.c:385
 msgid "[$SHP]"
 msgstr "[$SHP]"
 
-#: src/formats.c:390
+#: src/formats.c:385
 msgid "St.Helena pound"
 msgstr "Lliura de Sta. Helena"
 
-#: src/formats.c:391
+#: src/formats.c:386
 msgid "[$SIT]"
 msgstr "[$SIT]"
 
-#: src/formats.c:391
+#: src/formats.c:386
 msgid "Slovenia tolar"
 msgstr "Tòlar d'Eslovènia"
 
-#: src/formats.c:392
+#: src/formats.c:387
 msgid "[$SLL]"
 msgstr "[$SLL]"
 
-#: src/formats.c:392
+#: src/formats.c:387
 msgid "Sierra Leone leone"
 msgstr "Leone de Sierra Leone"
 
-#: src/formats.c:393
+#: src/formats.c:388
 msgid "[$SOS]"
 msgstr "[$SOS]"
 
-#: src/formats.c:393
+#: src/formats.c:388
 msgid "Somali shilling"
 msgstr "Shilling de Somàlia"
 
-#: src/formats.c:394
+#: src/formats.c:389
 msgid "[$SRG]"
 msgstr "[$SRG]"
 
-#: src/formats.c:394
+#: src/formats.c:389
 msgid "Suriname guilder"
 msgstr "Guilder de Surinam"
 
-#: src/formats.c:395
+#: src/formats.c:390
 msgid "[$STD]"
 msgstr "[$STD]"
 
-#: src/formats.c:395
+#: src/formats.c:390
 msgid "Sao Tome and Principe dobra"
 msgstr "Dobra de Sao Tomé i Príncipe"
 
-#: src/formats.c:396
+#: src/formats.c:391
 msgid "[$SUR]"
 msgstr "[$SUR]"
 
-#: src/formats.c:396
+#: src/formats.c:391
 msgid "USSR rouble"
 msgstr "Rubla russa"
 
-#: src/formats.c:397
+#: src/formats.c:392
 msgid "[$SVC]"
 msgstr "[$SVC]"
 
-#: src/formats.c:397
+#: src/formats.c:392
 msgid "El Salvador colon"
 msgstr "Colon del Salvador"
 
-#: src/formats.c:398
+#: src/formats.c:393
 msgid "[$SYP]"
 msgstr "[$SYP]"
 
-#: src/formats.c:398
+#: src/formats.c:393
 msgid "Syrian pound"
 msgstr "Lliura de Síria"
 
-#: src/formats.c:399
+#: src/formats.c:394
 msgid "[$SZL]"
 msgstr "[$SZL]"
 
-#: src/formats.c:399
+#: src/formats.c:394
 msgid "Swaziland lilangeni"
 msgstr "Swaziland lilangeni"
 
-#: src/formats.c:400
+#: src/formats.c:395
 msgid "[$THB]"
 msgstr "[$THB]"
 
-#: src/formats.c:400
+#: src/formats.c:395
 msgid "Thai baht"
 msgstr "Baht de Tailàndia"
 
-#: src/formats.c:401
+#: src/formats.c:396
 msgid "[$TND]"
 msgstr "[$TND]"
 
-#: src/formats.c:401
+#: src/formats.c:396
 msgid "Tunisian dinar"
 msgstr "Dinar de Tuníssia"
 
-#: src/formats.c:402
+#: src/formats.c:397
 msgid "[$TOP]"
 msgstr "[$TOP]"
 
-#: src/formats.c:402
+#: src/formats.c:397
 msgid "Tongan pa'anga"
 msgstr "Pa'anga de tonga"
 
-#: src/formats.c:403
+#: src/formats.c:398
 msgid "[$TPE]"
 msgstr "[$TPE]"
 
-#: src/formats.c:403
+#: src/formats.c:398
 msgid "East Timor escudo"
 msgstr "Escut de Timor Oriental"
 
-#: src/formats.c:404
+#: src/formats.c:399
 msgid "[$TRL]"
 msgstr "[$TRL]"
 
-#: src/formats.c:404
+#: src/formats.c:399
 msgid "Turkish lira"
 msgstr "Lira turca"
 
-#: src/formats.c:405
+#: src/formats.c:400
 msgid "[$TTD]"
 msgstr "[$TTD]"
 
-#: src/formats.c:405
+#: src/formats.c:400
 msgid "Trinidad and Tobago dollar"
 msgstr "Dòlar de Trinitat i Tobago"
 
-#: src/formats.c:406
+#: src/formats.c:401
 msgid "[$TWD]"
 msgstr "[$TWD]"
 
-#: src/formats.c:406
+#: src/formats.c:401
 msgid "New Taiwan dollar"
 msgstr "Nou dòlar de Taiwan"
 
-#: src/formats.c:407
+#: src/formats.c:402
 msgid "[$TZS]"
 msgstr "[$TZS]"
 
-#: src/formats.c:407
+#: src/formats.c:402
 msgid "Tanzanian shilling"
 msgstr "Shilling de Tanzània"
 
-#: src/formats.c:408
+#: src/formats.c:403
 msgid "[$UAH]"
 msgstr "[$UAH]"
 
-#: src/formats.c:408
+#: src/formats.c:403
 msgid "Ukrainian hryvnia"
 msgstr "Hryvnia d'Ucraïna"
 
-#: src/formats.c:409
+#: src/formats.c:404
 msgid "[$UGX]"
 msgstr "[$UGX]"
 
-#: src/formats.c:409
+#: src/formats.c:404
 msgid "Ugandan shilling"
 msgstr "Shilling d'Uganda"
 
-#: src/formats.c:410
+#: src/formats.c:405
 msgid "[$USD]"
 msgstr "[$USD]"
 
-#: src/formats.c:410
+#: src/formats.c:405
 msgid "US dollar"
 msgstr "Dòlar dels EU"
 
-#: src/formats.c:411
+#: src/formats.c:406
 msgid "[$UYP]"
 msgstr "[$UYP]"
 
-#: src/formats.c:411
+#: src/formats.c:406
 msgid "Uruguayan peso"
 msgstr "Peso d'Uganda"
 
-#: src/formats.c:412
+#: src/formats.c:407
 msgid "[$VEB]"
 msgstr "[$VEB]"
 
-#: src/formats.c:412
+#: src/formats.c:407
 msgid "Venezuelan bolivar"
 msgstr "Bolívar veneçolà"
 
-#: src/formats.c:413
+#: src/formats.c:408
 msgid "[$VND]"
 msgstr "[$VND]"
 
-#: src/formats.c:413
+#: src/formats.c:408
 msgid "Vietnamese dong"
 msgstr "Dong del Vietnam"
 
-#: src/formats.c:414
+#: src/formats.c:409
 msgid "[$VUV]"
 msgstr "[$VUV]"
 
-#: src/formats.c:414
+#: src/formats.c:409
 msgid "Vanuatu vatu"
 msgstr "Vatu de Vanuatu"
 
-#: src/formats.c:415
+#: src/formats.c:410
 msgid "[$WST]"
 msgstr "[$WST]"
 
-#: src/formats.c:415
+#: src/formats.c:410
 msgid "Samoan tala"
 msgstr "Tala de Samoa"
 
-#: src/formats.c:416
+#: src/formats.c:411
 msgid "[$XCD]"
 msgstr "[$XCD]"
 
-#: src/formats.c:416
+#: src/formats.c:411
 msgid "East Caribbean dollar"
 msgstr "Dòlar del Carib Oriental"
 
-#: src/formats.c:417
+#: src/formats.c:412
 msgid "[$XEU]"
 msgstr "[$XEU]"
 
-#: src/formats.c:417
+#: src/formats.c:412
 msgid "European currency unit"
 msgstr "Euro"
 
-#: src/formats.c:418
+#: src/formats.c:413
 msgid "[$YDD]"
 msgstr "[$YDD]"
 
-#: src/formats.c:418
+#: src/formats.c:413
 msgid "Democratic Yemeni dinar"
 msgstr "Dinar del Iemen Democràtic"
 
-#: src/formats.c:419
+#: src/formats.c:414
 msgid "[$YER]"
 msgstr "[$YER]"
 
-#: src/formats.c:419
+#: src/formats.c:414
 msgid "Yemeni rial"
 msgstr "Rial del Iemen"
 
-#: src/formats.c:420
+#: src/formats.c:415
 msgid "[$YUN]"
 msgstr "[$YUN]"
 
-#: src/formats.c:420
+#: src/formats.c:415
 msgid "New Yugoslavia dinar"
 msgstr "Dinar de Nova Iugoslàvia"
 
-#: src/formats.c:421
+#: src/formats.c:416
 msgid "[$ZAL]"
 msgstr "[$ZAL]"
 
-#: src/formats.c:421
+#: src/formats.c:416
 msgid "South African rand funds code"
 msgstr "South African rand funds code"
 
-#: src/formats.c:422
+#: src/formats.c:417
 msgid "[$ZAR]"
 msgstr "[$ZAR]"
 
-#: src/formats.c:422
+#: src/formats.c:417
 msgid "South African rand"
 msgstr "Rand sudàfricà"
 
-#: src/formats.c:423
+#: src/formats.c:418
 msgid "[$ZMK]"
 msgstr "[$ZMK]"
 
-#: src/formats.c:423
+#: src/formats.c:418
 msgid "Zambian kwacha"
 msgstr "Kwacha de Zàmbia"
 
-#: src/formats.c:424
+#: src/formats.c:419
 msgid "[$ZRZ]"
 msgstr "[$ZRZ]"
 
-#: src/formats.c:424
+#: src/formats.c:419
 msgid "Zaire Zaire"
 msgstr "Zaire del Zaire"
 
-#: src/formats.c:425
+#: src/formats.c:420
 msgid "[$ZWD]"
 msgstr "[$ZWD]"
 
-#: src/formats.c:425
+#: src/formats.c:420
 msgid "Zimbabwe dollar"
 msgstr "Dòlar de Zimbabwe"
 
-#: src/formats.c:557
+#: src/formats.c:552
 msgid "[Red]"
 msgstr "[Red]"
 
-#: src/func.c:127
+#: src/func.c:126
 #, c-format
 msgid "Cannot create file %s\n"
 msgstr "No es pot crear el fitxer %s\n"
 
-#: src/func.c:284
+#: src/func.c:283
 msgid "Function implementation not available."
 msgstr "Funció d'implementació no disponible"
 
-#: src/func.c:500
+#: src/func.c:499
 msgid "Unknown Function"
 msgstr "Funció desconeguda"
 
-#: src/func.c:853
+#: src/func.c:852
 msgid "Function does not exist"
 msgstr "Funció inexistent"
 
@@ -19442,35 +19436,35 @@ msgstr ""
 "\n"
 "@SEEALSO=FIND"
 
-#: src/gnumeric-canvas.c:87
+#: src/gnumeric-canvas.c:86
 msgid "Format as Number"
 msgstr "Format com a número"
 
-#: src/gnumeric-canvas.c:91
+#: src/gnumeric-canvas.c:90
 msgid "Format as Currency"
 msgstr "Format com a Moneda"
 
-#: src/gnumeric-canvas.c:95 src/workbook-format-toolbar.c:311
+#: src/gnumeric-canvas.c:94 src/workbook-format-toolbar.c:311
 msgid "Format as Percentage"
 msgstr "Format com el Percentatge"
 
-#: src/gnumeric-canvas.c:99
+#: src/gnumeric-canvas.c:98
 msgid "Format as Scientific"
 msgstr "Format científic"
 
-#: src/gnumeric-canvas.c:103
+#: src/gnumeric-canvas.c:102
 msgid "Format as Date"
 msgstr "Format de Data"
 
-#: src/gnumeric-canvas.c:107
+#: src/gnumeric-canvas.c:106
 msgid "Format as Time"
 msgstr "Format d'hora"
 
-#: src/gnumeric-canvas.c:111
+#: src/gnumeric-canvas.c:110
 msgid "Format as alternative Number"
 msgstr "Format com a número alternatiu"
 
-#: src/gnumeric-canvas.c:504
+#: src/gnumeric-canvas.c:514
 #, c-format
 msgid "File \"%s\" has unknown format."
 msgstr "El fitxer \"%s\" té un format desconegut."
@@ -19572,19 +19566,19 @@ msgstr "Carrega fitxer"
 msgid "Which file format would you like?"
 msgstr "Quin format de fitxer desitgeu?"
 
-#: src/gui-util.c:287
+#: src/gui-util.c:281
 msgid "Multiple errors"
 msgstr "Errors múltiples"
 
-#: src/gui-util.c:319
+#: src/gui-util.c:312
 msgid "Detailed error message"
 msgstr "Missatge d'error detallat"
 
-#: src/gui-util.c:376
+#: src/gui-util.c:373
 msgid "Show details"
 msgstr "Mostra els detalls"
 
-#: src/gui-util.c:866
+#: src/gui-util.c:855
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "No es pot obrir el fitxer '%s'"
@@ -19595,25 +19589,21 @@ msgstr "No es pot obrir el fitxer '%s'"
 #. * 'Print Preview...' item in the
 #. * 'File' menu
 #.
-#: src/history.c:128
+#: src/history.c:127
 #, fuzzy
-msgid "File/Print Preview..."
+msgid "_File/Print Pre_view..."
 msgstr "Previsualitza la Impressió/el Fitxer"
 
-#: src/history.c:141
-msgid "File/Print Preview"
-msgstr "Previsualitza la Impressió/el Fitxer"
-
-#: src/history.c:230
+#: src/history.c:225
 msgid "File/"
 msgstr "Fitxer/"
 
-#: src/item-bar.c:618
+#: src/item-bar.c:629
 #, c-format
 msgid "Width: %.2f pts (%d pixels)"
 msgstr "Amplada: %.2f pts (%d píxels)"
 
-#: src/item-bar.c:621
+#: src/item-bar.c:632
 #, c-format
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "Alçada: %.2f pts (%d píxels)"
@@ -19660,63 +19650,63 @@ msgstr "Canvia a la dre_ta i mou"
 msgid "C_ancel"
 msgstr "C_ancel·la"
 
-#: src/main.c:83
+#: src/main.c:81
 msgid "Display Gnumeric's version"
 msgstr "Mostra la versió de Gnumeric"
 
-#: src/main.c:85
+#: src/main.c:83
 msgid "Set the root library directory"
 msgstr "Especifica el directori arrel de la llibreria"
 
-#: src/main.c:87
+#: src/main.c:85
 msgid "Adjust the root data directory"
 msgstr "Ajusta el directori arrel de les dades"
 
-#: src/main.c:90
+#: src/main.c:88
 msgid "Dumps the function definitions"
 msgstr "Mostra les definicions de funcions"
 
-#: src/main.c:90
+#: src/main.c:88
 msgid "FILE"
 msgstr "FITXER"
 
-#: src/main.c:93
+#: src/main.c:91
 msgid "Enables some debugging functions"
 msgstr "Habilita algunes funcions de depuració"
 
-#: src/main.c:93 src/main.c:96 src/main.c:98
+#: src/main.c:91 src/main.c:94 src/main.c:96
 msgid "LEVEL"
 msgstr "NIVELL"
 
-#: src/main.c:96
+#: src/main.c:94
 msgid "Enables some dependency related debugging functions"
 msgstr ""
 "Habilita algunes dependències relacionades amb la depuració de funcions"
 
-#: src/main.c:98
+#: src/main.c:96
 msgid "Enables some print debugging behavior"
 msgstr "Habilita alguns comportaments de depuració de la impressió"
 
-#: src/main.c:102
+#: src/main.c:100
 msgid "Enables extra consistency checking while reading ole files"
 msgstr ""
 "Habilita la comprovació extra de consistència mentre es llegeixen fitxers ole"
 
-#: src/main.c:106
+#: src/main.c:104
 msgid "Specify the size and location of the initial window"
 msgstr ""
 
-#: src/main.c:106
+#: src/main.c:104
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr ""
 
-#: src/main.c:110
+#: src/main.c:108
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr ""
 "Sortir immediatament després de carregar els llibres seleccionats (útil per "
 "a proves)."
 
-#: src/main.c:139
+#: src/main.c:137
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -19740,7 +19730,7 @@ msgstr ""
 "\n"
 "-- L'equip del Gnumeric."
 
-#: src/main.c:193
+#: src/main.c:192
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -19751,11 +19741,11 @@ msgstr ""
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 
-#: src/main.c:245
+#: src/main.c:244
 msgid "Could not initialize Workbook factory"
 msgstr "No s'ha pogut inicialitzar el creador de llibres de treball"
 
-#: src/main.c:249
+#: src/main.c:248
 msgid "Could not initialize EmbeddableGrid factory"
 msgstr "No s'ha pogut inicialitzar el creador de graelles incrustables"
 
@@ -19791,63 +19781,63 @@ msgstr "#N/A"
 msgid "#RECALC!"
 msgstr "#RECALC!"
 
-#: src/parser.y:350
+#: src/parser.y:349
 #, fuzzy
 msgid "Sheet name is required"
 msgstr "Es requereix almenys una clàusula."
 
-#: src/parser.y:460
+#: src/parser.y:459
 #, fuzzy, c-format
 msgid "Name '%s' does not exist in sheet '%s'"
 msgstr "L'expressió '%s' no existeix en el full '%s'"
 
 # src/functions/fn-information.c:317
-#: src/parser.y:482
+#: src/parser.y:481
 #, fuzzy, c-format
 msgid "Unknown workbook '%s'"
 msgstr "Full desconegut '%s'"
 
-#: src/parser.y:494
+#: src/parser.y:493
 #, fuzzy, c-format
 msgid "Name '%s' does not exist in workbook '%s'"
 msgstr "L'expressió '%s' no existeix en el full '%s'"
 
 # src/functions/fn-information.c:317
-#: src/parser.y:519 src/parser.y:542
+#: src/parser.y:518 src/parser.y:541
 #, c-format
 msgid "Unknown sheet '%s'"
 msgstr "Full desconegut '%s'"
 
-#: src/parser.y:650 src/parser.y:664
+#: src/parser.y:649 src/parser.y:663
 #, fuzzy, c-format
 msgid "The character %c cannot be used to separate array elements"
 msgstr "El caràcter %c no es pot usar per a separar elements de matriu"
 
-#: src/parser.y:825 src/parser.y:835 src/parser.y:868
+#: src/parser.y:824 src/parser.y:834 src/parser.y:867
 msgid "The number is out of range"
 msgstr "El número està fora d'abast"
 
-#: src/parser.y:896
+#: src/parser.y:895
 msgid "Could not find matching closing quote"
 msgstr "No s'ha pogut trobar les cometes de tancament corresponents"
 
-#: src/parser.y:1062
+#: src/parser.y:1061
 msgid "Multiple expressions are not supported in this context"
 msgstr ""
 
-#: src/parser.y:1084
+#: src/parser.y:1083
 msgid "Could not find matching opening parenthesis"
 msgstr "No s'ha pogut trobar el parèntesi d'obertura corresponent"
 
-#: src/parser.y:1088
+#: src/parser.y:1087
 msgid "Could not find matching closing parenthesis"
 msgstr "No s'ha pogut trobar el parèntesi de tancament corresponent"
 
-#: src/parser.y:1092
+#: src/parser.y:1091
 msgid "Invalid expression"
 msgstr "Expressió no vàlida"
 
-#: src/parser.y:1097
+#: src/parser.y:1096
 #, c-format
 msgid "Unexpected token %c"
 msgstr "S'ha trobat un senyal inesperat %c"
@@ -19929,58 +19919,58 @@ msgstr "El carregador no permet el servei."
 msgid "Error while loading plugin."
 msgstr "S'ha produït un error mentre es carregava el connector."
 
-#: src/plugin-service.c:125
+#: src/plugin-service.c:123
 msgid "Initializing function inside plugin returned error."
 msgstr "La funció d'inicialització dins del connector ha tornat un error."
 
-#: src/plugin-service.c:130 src/plugin-service.c:1076
-#: src/plugin-service.c:1304
+#: src/plugin-service.c:128 src/plugin-service.c:1074
+#: src/plugin-service.c:1302
 msgid "Error while loading plugin service."
 msgstr "S'ha produït un error en carregar el servei del connector."
 
-#: src/plugin-service.c:164
+#: src/plugin-service.c:162
 msgid "Cleanup function inside plugin returned error."
 msgstr "La funció de neteja dins del connector ha tornat un error."
 
-#: src/plugin-service.c:303
+#: src/plugin-service.c:301
 msgid "Error while reading file."
 msgstr "S'ha produït un error en llegir el fitxer."
 
-#: src/plugin-service.c:480
+#: src/plugin-service.c:478
 msgid "File opener has no id"
 msgstr "L'obridor de fitxers no té cap identificador."
 
-#: src/plugin-service.c:483
+#: src/plugin-service.c:481
 #, c-format
 msgid "File opener with id=\"%s\" has no description"
 msgstr "L'obridor de fitxers amb id=\"%s\" no té cap descripció"
 
-#: src/plugin-service.c:613
+#: src/plugin-service.c:611
 msgid "Error while saving file."
 msgstr "S'ha produït un error en desar el fitxer."
 
-#: src/plugin-service.c:712
+#: src/plugin-service.c:710
 msgid "File saver has no id"
 msgstr "El desador de fitxers no té identificador"
 
-#: src/plugin-service.c:715
+#: src/plugin-service.c:713
 #, c-format
 msgid "File saver with id=\"%s\" has no description"
 msgstr "El desador de fitxers amb id=\"%s\" no té descripció"
 
-#: src/plugin-service.c:867
+#: src/plugin-service.c:865
 msgid "Missing function group id."
 msgstr "Identificador del grup de funció absent"
 
-#: src/plugin-service.c:872 src/plugin-service.c:877
+#: src/plugin-service.c:870 src/plugin-service.c:875
 msgid "Missing function category name."
 msgstr "Nom de la categoria de la funció absent"
 
-#: src/plugin-service.c:1036
+#: src/plugin-service.c:1034
 msgid "Missing loader id."
 msgstr "L'identificador del carregador és absent."
 
-#: src/plugin-service.c:1199
+#: src/plugin-service.c:1197
 #, c-format
 msgid "Error while reading service of type \"%s\"."
 msgstr "S'han produït un error en llegir els serveis del tipus\"%s\"."
@@ -20014,7 +20004,7 @@ msgstr "S'ha produït un error en obrir el fitxer \"%s\" per llegir-lo."
 msgid "Unable to mmap the file."
 msgstr "No s'ha pogut fer el mapatge a memòria (mmap) el fitxer."
 
-#: src/plugin-util.c:318 src/xml-io.c:3367
+#: src/plugin-util.c:318 src/xml-io.c:3224
 msgid "Cannot get file size."
 msgstr "No es pot aconseguir la mida del fitxer."
 
@@ -20223,11 +20213,11 @@ msgid "time"
 msgstr "hora"
 
 #. Note: we cannot have spaces in page numbers.
-#: src/print.c:596
+#: src/print.c:591
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: src/print.c:991
+#: src/print.c:986
 msgid "Print Region"
 msgstr "Imprimeix Regió"
 
@@ -20243,7 +20233,7 @@ msgstr "Full act_iu"
 msgid "S_heets"
 msgstr "_Fulls"
 
-#: src/print.c:1195
+#: src/print.c:1201
 msgid "Printing failed"
 msgstr "Ha fallat la impressió"
 
@@ -20279,17 +20269,17 @@ msgstr "Barra inclinada negra de cua invàlida en el reemplaçament."
 msgid "cannot be performed with multiple ranges selected"
 msgstr "No es pot realitzar amb seleccions d'àmbit múltiples"
 
-#: src/sheet-control-gui.c:555
+#: src/sheet-control-gui.c:557
 #, c-format
 msgid "Row: %s"
 msgstr "Fila: %s"
 
-#: src/sheet-control-gui.c:570
+#: src/sheet-control-gui.c:572
 #, c-format
 msgid "Column: %s"
 msgstr "Columna: %s"
 
-#: src/sheet-control-gui.c:1398
+#: src/sheet-control-gui.c:1397
 msgid "Paste _Special"
 msgstr "Enganxa_especial"
 
@@ -20300,41 +20290,41 @@ msgstr "Enganxa_especial"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1410
+#: src/sheet-control-gui.c:1409
 msgid "_Insert..."
 msgstr "_Insereix..."
 
-#: src/sheet-control-gui.c:1414
+#: src/sheet-control-gui.c:1413
 msgid "_Insert Column(s)"
 msgstr "_Insereix columna(es)"
 
-#: src/sheet-control-gui.c:1416
+#: src/sheet-control-gui.c:1415
 msgid "_Delete Column(s)"
 msgstr "_Suprimeix columna(es)"
 
-#: src/sheet-control-gui.c:1418
+#: src/sheet-control-gui.c:1417
 msgid "_Insert Row(s)"
 msgstr "_Insereix fila(es)"
 
-#: src/sheet-control-gui.c:1420
+#: src/sheet-control-gui.c:1419
 msgid "_Delete Row(s)"
 msgstr "_Suprimeix fila(es)"
 
-#: src/sheet-control-gui.c:1423
+#: src/sheet-control-gui.c:1422
 msgid "Clear Co_ntents"
 msgstr "Buida Co_ntingut"
 
-#: src/sheet-control-gui.c:1429
+#: src/sheet-control-gui.c:1428
 msgid "_Format Cells..."
 msgstr "_Format de cel·les..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1433
+#: src/sheet-control-gui.c:1432
 msgid "Column _Width..."
 msgstr "Amplada de _Columna..."
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1441
+#: src/sheet-control-gui.c:1440
 msgid "_Row Height..."
 msgstr "_Alçada de columna..."
 
@@ -20448,11 +20438,6 @@ msgstr "Quadre de verificació Configura"
 #: src/sheet-object-widget.c:1264
 msgid "Label :"
 msgstr "Etiqueta :"
-
-#: src/sheet-object.c:86
-#, fuzzy
-msgid "Properties..."
-msgstr "Opcions..."
 
 #: src/sheet.c:2128
 msgid "Target region contains merged cells"
@@ -20639,11 +20624,11 @@ msgstr "Importació de fitxers de text (csv per defecte)"
 msgid "Text File Export (*.csv)"
 msgstr "Exportació de fitxers de text (*.csv)"
 
-#: src/style.c:265 src/style.c:267
+#: src/style.c:284 src/style.c:286
 msgid "<Has not been set>"
 msgstr "<No s'ha especificat>"
 
-#: src/style.c:270
+#: src/style.c:289
 #, fuzzy, c-format
 msgid ""
 "Gnumeric failed to find a suitable default font.\n"
@@ -20690,12 +20675,12 @@ msgstr ""
 "\n"
 "Gràcies -- L'equip Gnumeric\n"
 
-#: src/style.c:290
+#: src/style.c:309
 #, fuzzy
 msgid "Your fontmap2 file does not have a valid entry for Helvetica."
 msgstr "El fitxer de mapa de fonts no té una entrada vàlida per Helvetica"
 
-#: src/style.c:291
+#: src/style.c:310
 #, fuzzy
 msgid "Your fontmap2 file could not be found in the expected location."
 msgstr "No es pot trobar el fitxer de mapa de fonts a la ubicació esperada."
@@ -20805,13 +20790,13 @@ msgstr "Res"
 msgid "Un_freeze Panes"
 msgstr "des_Congela les subfinestres"
 
-#: src/workbook-control-gui.c:1032 src/workbook-control-gui.c:3213
-#: src/workbook-control-gui.c:3409 src/workbook-control-gui.c:3433
+#: src/workbook-control-gui.c:1032 src/workbook-control-gui.c:3210
+#: src/workbook-control-gui.c:3404 src/workbook-control-gui.c:3424
 msgid "Undo"
 msgstr "Desfés"
 
-#: src/workbook-control-gui.c:1033 src/workbook-control-gui.c:3216
-#: src/workbook-control-gui.c:3417 src/workbook-control-gui.c:3436
+#: src/workbook-control-gui.c:1033 src/workbook-control-gui.c:3213
+#: src/workbook-control-gui.c:3410 src/workbook-control-gui.c:3427
 msgid "Redo"
 msgstr "Refés"
 
@@ -20907,121 +20892,121 @@ msgstr "No es pot crear l'objecte del tipus '%s'"
 msgid "_Save..."
 msgstr "_Solucionador..."
 
-#: src/workbook-control-gui.c:2610
+#: src/workbook-control-gui.c:2609
 msgid "Save with a new name or format"
 msgstr ""
 
-#: src/workbook-control-gui.c:2677
+#: src/workbook-control-gui.c:2674
 msgid "Select all the cells that depend on the current edit cell."
 msgstr ""
 "Selecciona totes les cel·les que depenen de la cel·la que s'està editant"
 
-#: src/workbook-control-gui.c:2747
+#: src/workbook-control-gui.c:2744
 msgid "P_aste special..."
 msgstr "_Enganxa de forma especial..."
 
-#: src/workbook-control-gui.c:2756
+#: src/workbook-control-gui.c:2753
 msgid "Remove selected cells, shifting other into their place"
 msgstr "Suprimeix les cel·les seleccionades, desplaçant les altres al seu lloc"
 
-#: src/workbook-control-gui.c:2807
+#: src/workbook-control-gui.c:2804
 msgid "Freeze the top left of the sheet"
 msgstr "Atura la part esquerra de dalt del full"
 
-#: src/workbook-control-gui.c:2835
+#: src/workbook-control-gui.c:2832
 msgid "_Auto generate names..."
 msgstr "_Genera els noms automàticament..."
 
-#: src/workbook-control-gui.c:2836
+#: src/workbook-control-gui.c:2833
 msgid "Use the current selection to create names"
 msgstr "Utilitza la selecció actual per crear els noms"
 
-#: src/workbook-control-gui.c:2908
+#: src/workbook-control-gui.c:2905
 msgid "_Change name"
 msgstr "_Canvia el nom"
 
-#: src/workbook-control-gui.c:2935
+#: src/workbook-control-gui.c:2932
 msgid "Hide _Column Header"
 msgstr "Oculta les capçaleres de _columna"
 
-#: src/workbook-control-gui.c:2941
+#: src/workbook-control-gui.c:2938
 msgid "Hide _Row Header"
 msgstr "Oculta les capçaleres de _fila"
 
-#: src/workbook-control-gui.c:3043
+#: src/workbook-control-gui.c:3040
 #, fuzzy
 msgid "Ranks And _Percentiles"
 msgstr "Abast i percentil"
 
-#: src/workbook-control-gui.c:3064
+#: src/workbook-control-gui.c:3061
 msgid "Manage available plugin modules."
 msgstr "Gestiona els mòduls de connectors disponibles"
 
-#: src/workbook-control-gui.c:3100
+#: src/workbook-control-gui.c:3097
 msgid "_Group..."
 msgstr "_Grup..."
 
-#: src/workbook-control-gui.c:3103
+#: src/workbook-control-gui.c:3100
 msgid "_Ungroup..."
 msgstr "_Desagrupa..."
 
-#: src/workbook-control-gui.c:3141
+#: src/workbook-control-gui.c:3138
 msgid "_Sort"
 msgstr "_Ordena"
 
-#: src/workbook-control-gui.c:3142
+#: src/workbook-control-gui.c:3139
 msgid "Sorts the selected region."
 msgstr "Ordena la regió selecció"
 
-#: src/workbook-control-gui.c:3179
+#: src/workbook-control-gui.c:3176
 msgid "Creates a new workbook"
 msgstr "Crea un nou llibre de treball"
 
-#: src/workbook-control-gui.c:3182
+#: src/workbook-control-gui.c:3179
 msgid "Opens an existing workbook"
 msgstr "Obre un llibre de treball existent"
 
-#: src/workbook-control-gui.c:3185
+#: src/workbook-control-gui.c:3182
 msgid "Saves the workbook"
 msgstr "Desa el llibre de treball"
 
-#: src/workbook-control-gui.c:3191
+#: src/workbook-control-gui.c:3188
 msgid "Prints the workbook"
 msgstr "Imprimeix el llibre de treball"
 
-#: src/workbook-control-gui.c:3200
+#: src/workbook-control-gui.c:3197
 msgid "Cuts the selection to the clipboard"
 msgstr "Retalla la selecció al porta-retalls"
 
-#: src/workbook-control-gui.c:3203
+#: src/workbook-control-gui.c:3200
 msgid "Copies the selection to the clipboard"
 msgstr "Copia la selecció al porta-retalls"
 
-#: src/workbook-control-gui.c:3206
+#: src/workbook-control-gui.c:3203
 msgid "Pastes the clipboard"
 msgstr "Enganxa el porta-retalls"
 
-#: src/workbook-control-gui.c:3213
+#: src/workbook-control-gui.c:3210
 msgid "Undo the operation"
 msgstr "Desfés l'operació"
 
-#: src/workbook-control-gui.c:3216
+#: src/workbook-control-gui.c:3213
 msgid "Redo the operation"
 msgstr "Refés l'operació"
 
-#: src/workbook-control-gui.c:3226
+#: src/workbook-control-gui.c:3223
 msgid "Sum into the current cell."
 msgstr "Suma a la cel·la actual."
 
-#: src/workbook-control-gui.c:3229
+#: src/workbook-control-gui.c:3226
 msgid "Function"
 msgstr "Funció"
 
-#: src/workbook-control-gui.c:3229
+#: src/workbook-control-gui.c:3226
 msgid "Edit a function in the current cell."
 msgstr "Edita una funció a la cel·la actual"
 
-#: src/workbook-control-gui.c:3233
+#: src/workbook-control-gui.c:3230
 msgid ""
 "Sorts the selected region in ascending order based on the first column "
 "selected."
@@ -21029,7 +21014,7 @@ msgstr ""
 "Ordena la regió seleccionada en ordre ascendent basant-se en la primera "
 "columna seleccionada."
 
-#: src/workbook-control-gui.c:3236
+#: src/workbook-control-gui.c:3233
 msgid ""
 "Sorts the selected region in descending order based on the first column "
 "selected."
@@ -21037,29 +21022,29 @@ msgstr ""
 "Ordena la regió seleccionada en ordre descendent basant-se en la primera "
 "columna seleccionada."
 
-#: src/workbook-control-gui.c:4176
+#: src/workbook-control-gui.c:4164
 msgid "Send"
 msgstr "Envia"
 
-#: src/workbook-control-gui.c:4176
+#: src/workbook-control-gui.c:4164
 msgid "Send the current file in email"
 msgstr "Envia el fitxer actual per correu electrònic"
 
-#: src/workbook-control-gui.c:4379
+#: src/workbook-control-gui.c:4367
 #, fuzzy
 msgid "Re-Edit"
 msgstr "_Edita"
 
-#: src/workbook-control-gui.c:4379 src/workbook-control-gui.c:4385
+#: src/workbook-control-gui.c:4367 src/workbook-control-gui.c:4373
 #, fuzzy
 msgid "Discard"
 msgstr "Discret"
 
-#: src/workbook-control-gui.c:4385
+#: src/workbook-control-gui.c:4373
 msgid "Accept"
 msgstr ""
 
-#: src/workbook-control-gui.c:4390
+#: src/workbook-control-gui.c:4378
 msgid "Ok"
 msgstr ""
 
@@ -21071,12 +21056,12 @@ msgstr "Defineix el nom"
 msgid "Address"
 msgstr "Adreça"
 
-#: src/workbook-edit.c:117
+#: src/workbook-edit.c:116
 #, fuzzy
 msgid "Edit Expression"
 msgstr "Expressions"
 
-#: src/workbook-edit.c:117
+#: src/workbook-edit.c:116
 #, fuzzy
 msgid "Discard Expression"
 msgstr "Expressions"
@@ -21214,7 +21199,7 @@ msgstr "Part superior i part inferior gruixuda"
 msgid "Set Borders"
 msgstr "Estableix les Vores"
 
-#: src/workbook-format-toolbar.c:785
+#: src/workbook-format-toolbar.c:775
 msgid "Size"
 msgstr "Talla"
 
@@ -21279,41 +21264,41 @@ msgstr "Elipse"
 msgid "Creates an ellipse object"
 msgstr "Crea un objecte d'elipse"
 
-#: src/workbook-view.c:236
+#: src/workbook-view.c:226
 #, fuzzy, c-format
 msgid "%dR x %dC"
 msgstr "%dLx%dC"
 
-#: src/workbook-view.c:377
+#: src/workbook-view.c:360
 msgid "Internal ERROR"
 msgstr "ERROR intern"
 
-#: src/workbook-view.c:655
+#: src/workbook-view.c:561
 msgid "Default file saver is not available."
 msgstr "El fitxer de desament per defecte no està disponible."
 
-#: src/workbook-view.c:744
+#: src/workbook-view.c:650
 msgid "No sheets in workbook."
 msgstr "No hi ha cap full en el llibre de treball"
 
-#: src/workbook-view.c:754
+#: src/workbook-view.c:660
 msgid "Unsupported file format."
 msgstr "Format de fitxer no implementat"
 
-#: src/workbook.c:448
+#: src/workbook.c:419
 #, c-format
 msgid "Book%d.%s"
 msgstr "llibre%d.%s"
 
-#: src/workbook.c:1220
+#: src/workbook.c:1191
 msgid "Sheet name"
 msgstr "Nom del full"
 
-#: src/workbook.c:1221
+#: src/workbook.c:1192
 msgid "must have at least 1 letter"
 msgstr "es necessita almenys 1 lletra"
 
-#: src/workbook.c:1234
+#: src/workbook.c:1205
 msgid "There is already a sheet named"
 msgstr "Ja hi ha un full amb el nom"
 
@@ -21332,12 +21317,12 @@ msgstr ""
 "S'ha produït un error en intentar construir l'arbre des del fitxer de "
 "plantilles d'autoformatatge"
 
-#: src/xml-io.c:2799
+#: src/xml-io.c:2662
 #, fuzzy
 msgid "Unparsable xml in clipboard"
 msgstr "Enganxa el porta-retalls"
 
-#: src/xml-io.c:2806
+#: src/xml-io.c:2669
 #, fuzzy
 msgid "Clipboard is in unknown format"
 msgstr "El fitxer \"%s\" té un format desconegut."
@@ -21345,22 +21330,35 @@ msgstr "El fitxer \"%s\" té un format desconegut."
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3212
+#: src/xml-io.c:3074
 #, fuzzy
 msgid "Processing file..."
 msgstr "S'està analitzant el fitxer XML..."
 
-#: src/xml-io.c:3375
+#: src/xml-io.c:3232
 msgid "Not enough memory to create zlib decompression state."
 msgstr "No hi ha memòria suficient per a crear l'estat de descompressió zlib"
 
-#: src/xml-io.c:3410
+#: src/xml-io.c:3267
 msgid "Is not an Gnumeric Workbook file"
 msgstr "No és un fitxer de llibre de treball del Gnumeric"
 
-#: src/xml-io.c:3467
+#: src/xml-io.c:3324
 msgid "Gnumeric XML file format"
 msgstr "Format de fitxer Gnumeric XML"
+
+#~ msgid "Adrian Likins, documentation, debugging."
+#~ msgstr "Adrian Likins, documentació, depuració."
+
+#~ msgid "Advanced..."
+#~ msgstr "Avançat..."
+
+#~ msgid "File/Print Preview"
+#~ msgstr "Previsualitza la Impressió/el Fitxer"
+
+#, fuzzy
+#~ msgid "Properties..."
+#~ msgstr "Opcions..."
 
 #~ msgid "Statistical methods"
 #~ msgstr "Mètodes estadístics"

@@ -123,7 +123,7 @@ formula_guru_free (FormulaGuruState *state)
 	}
 
 	if (state->gui != NULL) {
-		gtk_object_unref (GTK_OBJECT (state->gui));
+		g_object_unref (G_OBJECT (state->gui));
 		state->gui = NULL;
 	}
 
@@ -183,6 +183,8 @@ formula_guru_set_expr (FormulaGuruState *state, int index, gboolean set_text)
 	if (set_text)
 		gtk_entry_set_text (GTK_ENTRY (entry), str->str);
 
+#warning do we still need this ?
+#if 0
 	/*
 	 * ICK!
 	 * This is necessary until Gtk-1.4.
@@ -192,6 +194,7 @@ formula_guru_set_expr (FormulaGuruState *state, int index, gboolean set_text)
 	 */
 	gtk_entry_set_position (GTK_ENTRY (entry), pos);
 	gtk_editable_changed (GTK_EDITABLE (entry));
+#endif
 
 	g_string_free (str, TRUE);
 }

@@ -28,7 +28,7 @@ sheet_object_item_new_view (SheetObject *so, SheetControlGUI *scg)
 	GnomeCanvasItem *so_view = NULL;
 
 	so_view = bonobo_client_site_new_item (
-		SHEET_OBJECT_BONOBO (so)->client_site,
+		SHEET_OBJECT_BONOBO (so)->control_frame,
 		bonobo_ui_component_get_container (scg->wbcg->uic),
 		gcanvas->object_group);
 

@@ -275,7 +275,7 @@ stf_dialog_druid_page_previous (GnomeDruidPage *page, GnomeDruid *druid, DruidPa
 	}
 
 	if (newpos == DPG_MAIN)
-		gnome_druid_set_buttons_sensitive (druid, FALSE, TRUE, TRUE);
+		gnome_druid_set_buttons_sensitive (druid, FALSE, TRUE, TRUE, TRUE);
 
         nextpage = stf_dialog_druid_position_to_page (data, newpos);
 	if (!nextpage) {
@@ -288,7 +288,7 @@ stf_dialog_druid_page_previous (GnomeDruidPage *page, GnomeDruid *druid, DruidPa
 
 	stf_dialog_set_initial_keyboard_focus (data);
 	if (newpos == DPG_MAIN)
-		gnome_druid_set_buttons_sensitive (druid, FALSE, TRUE, TRUE);
+		gnome_druid_set_buttons_sensitive (druid, FALSE, TRUE, TRUE, TRUE);
 	else
 		gtk_widget_grab_default (data->druid->next);
 	return TRUE;
@@ -374,7 +374,7 @@ stf_dialog_attach_page_signals (GladeXML *gui, DruidPageData_t *pagedata)
 /*	pagedata->stop_page   = GNOME_DRUID_PAGE (glade_xml_get_widget (gui, "stop_page"));*/
 
 	pagedata->position  = DPG_MAIN;
-	gnome_druid_set_buttons_sensitive (pagedata->druid, FALSE, TRUE, TRUE);
+	gnome_druid_set_buttons_sensitive (pagedata->druid, FALSE, TRUE, TRUE, TRUE);
 
 	/* Signals for individual pages */
 
@@ -594,7 +594,7 @@ stf_dialog (WorkbookControlGUI *wbcg, const char *filename, const char *data)
 	stf_dialog_format_page_cleanup (&pagedata);
 
 	gtk_widget_destroy (GTK_WIDGET (pagedata.window));
-	gtk_object_unref (GTK_OBJECT (gui));
+	g_object_unref (G_OBJECT (gui));
 
 	return dialogresult;
 }

@@ -17,6 +17,7 @@
 #include "value.h"
 
 #include "gui-util.h"
+#include "mathfunc.h"
 
 #include <glib.h>
 #include <string.h>
@@ -35,18 +36,18 @@ StyleFont *gnumeric_default_bold_font;
 StyleFont *gnumeric_default_italic_font;
 
 StyleFont *
-style_font_new_simple (const char *font_name, double size, double scale,
+style_font_new_simple (char const *font_name, double size_pts, double scale,
 		       gboolean bold, gboolean italic)
 {
 	StyleFont *font;
 	StyleFont key;
 
 	g_return_val_if_fail (font_name != NULL, NULL);
-	g_return_val_if_fail (size != 0, NULL);
+	g_return_val_if_fail (size_pts != 0, NULL);
 
 	/* This cast does not mean we will change the name.  */
 	key.font_name = (char *)font_name;
-	key.size      = size;
+	key.size_pts  = size_pts;
 	key.is_bold   = bold;
 	key.is_italic = italic;
 	key.scale     = scale;
@@ -60,27 +61,34 @@ style_font_new_simple (const char *font_name, double size, double scale,
 
 		font = g_new0 (StyleFont, 1);
 		font->font_name = g_strdup (font_name);
-		font->size      = size;
+		font->size_pts  = size_pts;
 		font->scale     = scale;
 		font->is_bold   = bold;
 		font->is_italic = italic;
 		/* One reference for the cache, one for the caller. */
 		font->ref_count = 2;
 
-		font->dfont = gnome_get_display_font (
-			font_name,
-			bold ? GNOME_FONT_BOLD : GNOME_FONT_BOOK,
-			italic,
-			size, scale);
+		font->pango.desc = pango_font_description_new ();
+		pango_font_description_set_family (font->pango.desc, font_name);
+		pango_font_description_set_weight (font->pango.desc,
+			bold ? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL);
+		pango_font_description_set_style (font->pango.desc,
+			italic ? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL);
+		pango_font_description_set_size (font->pango.desc,
+			size_pts*scale * PANGO_SCALE);
 
-		if (!font->dfont) {
+		font->pango.font = pango_context_load_font (gdk_pango_context_get (),
+			font->pango.desc);
+		if (font->pango.font == NULL) {
 			g_hash_table_insert (style_font_negative_hash,
 					     font, font);
 			return NULL;
 		}
+		font->pango.metrics = pango_font_get_metrics (font->pango.font,
+			gtk_get_default_language ());
 
 		/* Worst case scenario */
-		font->gdk_font = gnome_display_font_get_gdk_font (font->dfont);
+		font->gdk_font = gdk_font_from_description (font->pango.desc);
 		if (font->gdk_font == NULL)
 			/* xgettext:
 			 * The name of the default font for this locale.
@@ -89,12 +97,6 @@ style_font_new_simple (const char *font_name, double size, double scale,
 			font->gdk_font = gdk_fontset_load (_("fixed"));
 		else
 			gdk_font_ref (font->gdk_font);
-
-		font->font = gnome_font_new_closest (
-			font_name,
-			bold ? GNOME_FONT_BOLD : GNOME_FONT_BOOK,
-			italic,
-			size);
 
 		/* FIXME : how does one get the width of the
 		 * widest character used to display numbers?
@@ -105,9 +107,13 @@ style_font_new_simple (const char *font_name, double size, double scale,
 		font->approx_width.pixels = font->gdk_font
 			? gdk_string_width (font->gdk_font, "4444444444") / 10.
 			: 1.;
-		font->approx_width.pts = font->font
+#warning FIXME
+		font->approx_width.pts = font->approx_width.pixels;
+#if 0
+		    font->font
 			? gnome_font_get_width_string (font->font, "4444444444") / 10.
 			: 1.;
+#endif
 
 		g_hash_table_insert (style_font_hash, font, font);
 	}
@@ -123,15 +129,15 @@ style_font_new_simple (const char *font_name, double size, double scale,
 }
 
 StyleFont *
-style_font_new (const char *font_name, double size, double scale,
+style_font_new (char const *font_name, double size_pts, double scale,
 		gboolean bold, gboolean italic)
 {
 	StyleFont *font;
 
 	g_return_val_if_fail (font_name != NULL, NULL);
-	g_return_val_if_fail (size != 0, NULL);
+	g_return_val_if_fail (size_pts != 0, NULL);
 
-	font = style_font_new_simple (font_name, size, scale, bold, italic);
+	font = style_font_new_simple (font_name, size_pts, scale, bold, italic);
 	if (!font){
 		if (bold)
 			font = gnumeric_default_bold_font;
@@ -158,7 +164,7 @@ style_font_get_height (StyleFont const * const sf)
 {
 	g_return_val_if_fail (sf != NULL, 0);
 
-	return gnome_display_font_height (sf->dfont);
+	return sf->gdk_font->ascent + sf->gdk_font->descent;
 }
 
 /**
@@ -206,8 +212,22 @@ style_font_unref (StyleFont *sf)
 	if (sf->ref_count != 0)
 		return;
 
-	gtk_object_unref (GTK_OBJECT (sf->font));
-	gdk_font_unref (sf->gdk_font);
+	if (sf->pango.desc != NULL) {
+		pango_font_description_free (sf->pango.desc);
+		sf->pango.desc = NULL;
+	}
+	if (sf->pango.font != NULL) {
+		g_object_unref (G_OBJECT (sf->pango.font));
+		sf->pango.font = NULL;
+		if (sf->pango.metrics != NULL) {
+			pango_font_metrics_unref (sf->pango.metrics);
+			sf->pango.metrics = NULL;
+		}
+	}
+	if (sf->gdk_font != NULL) {
+		gdk_font_unref (sf->gdk_font);
+		sf->gdk_font = NULL;
+	}
 
 	g_hash_table_remove (style_font_hash, sf);
 	g_free (sf->font_name);
@@ -220,10 +240,10 @@ style_font_unref (StyleFont *sf)
 gint
 style_font_equal (gconstpointer v, gconstpointer v2)
 {
-	const StyleFont *k1 = (const StyleFont *) v;
-	const StyleFont *k2 = (const StyleFont *) v2;
+	StyleFont const *k1 = (StyleFont const *) v;
+	StyleFont const *k2 = (StyleFont const *) v2;
 
-	if (k1->size != k2->size)
+	if (k1->size_pts != k2->size_pts)
 		return 0;
 
 	if (k1->is_bold != k2->is_bold)
@@ -239,21 +259,20 @@ style_font_equal (gconstpointer v, gconstpointer v2)
 guint
 style_font_hash_func (gconstpointer v)
 {
-	const StyleFont *k = (const StyleFont *) v;
+	StyleFont const *k = (StyleFont const *) v;
 
-	return k->size + g_str_hash (k->font_name);
+	return k->size_pts + g_str_hash (k->font_name);
 }
 
 static void
 font_init (void)
 {
-	double const scale  = application_dpi_to_pixels ();
 	gnumeric_default_font = style_font_new_simple (DEFAULT_FONT, DEFAULT_SIZE,
-						       scale, FALSE, FALSE);
+						       1., FALSE, FALSE);
 
 	if (!gnumeric_default_font) {
-		const char *lc_all = getenv ("LC_ALL");
-		const char *lang = getenv ("LANG");
+		char const *lc_all = getenv ("LC_ALL");
+		char const *lang = getenv ("LANG");
 		char *msg;
 		char *fontmap_fn = gnome_datadir_file ("fonts/fontmap2");
 		gboolean exists = (fontmap_fn != NULL);
@@ -300,7 +319,7 @@ font_init (void)
 	 * Load bold font
 	 */
 	gnumeric_default_bold_font = style_font_new_simple (
-		DEFAULT_FONT, DEFAULT_SIZE, scale, TRUE, FALSE);
+		DEFAULT_FONT, DEFAULT_SIZE, 1., TRUE, FALSE);
 	if (gnumeric_default_bold_font == NULL){
 	    gnumeric_default_bold_font = gnumeric_default_font;
 	    style_font_ref (gnumeric_default_bold_font);
@@ -310,7 +329,7 @@ font_init (void)
 	 * Load italic font
 	 */
 	gnumeric_default_italic_font = style_font_new_simple (
-		DEFAULT_FONT, DEFAULT_SIZE, scale, FALSE, TRUE);
+		DEFAULT_FONT, DEFAULT_SIZE, 1., FALSE, TRUE);
 	if (gnumeric_default_italic_font == NULL){
 		gnumeric_default_italic_font = gnumeric_default_font;
 		style_font_ref (gnumeric_default_italic_font);

@@ -148,7 +148,7 @@ dialog_cell_sort_adv (GtkWidget *widget, OrderBox *orderbox)
 	rb2    = glade_xml_get_widget (gui, "cell_sort_adv_text");
 	if (!dialog || !check || !rb1 || !rb2) {
 		g_warning ("Corrupt file " GLADE_FILE "\n");
-		gtk_object_unref (GTK_OBJECT (gui));
+		g_object_unref (G_OBJECT (gui));
 		return;
 	}
 
@@ -169,7 +169,7 @@ dialog_cell_sort_adv (GtkWidget *widget, OrderBox *orderbox)
 
 	if (btn != -1)
 		gtk_object_destroy (GTK_OBJECT (dialog));
-	gtk_object_unref (GTK_OBJECT (gui));
+	g_object_unref (G_OBJECT (gui));
 }
 
 /* Order boxes */
@@ -216,10 +216,8 @@ order_box_new (GtkWidget * parent, const gchar *frame_text,
 	orderbox->cs = FALSE;
 	orderbox->val = TRUE;
 
-	{
-		GtkWidget *pm = gnome_stock_new_with_icon (GNOME_STOCK_PIXMAP_PROPERTIES);
-		orderbox->adv_button = gnome_pixmap_button (pm, _("Advanced..."));
-	}
+	/* Advanced button */
+	orderbox->adv_button = gtk_button_new_from_stock (GTK_STOCK_PROPERTIES);
 
 	gtk_box_pack_start (GTK_BOX (hbox), orderbox->adv_button,
 			    FALSE, FALSE, 0);
@@ -363,8 +361,9 @@ dialog_cell_sort_del_clause (SortFlow *sf)
 		sf->num_clause--;
 		order_box_remove  (sf->clauses[sf->num_clause]);
 		order_box_destroy (sf->clauses[sf->num_clause]);
-/* FIXME: bit nasty ! */
+/* FIXME: bit nasty !
 		gtk_container_queue_resize (GTK_CONTAINER (sf->dialog));
+ * */
 		gtk_widget_show_all (sf->dialog);
 		sf->clauses[sf->num_clause] = NULL;
 	} else
@@ -547,7 +546,7 @@ dialog_cell_sort (WorkbookControlGUI *wbcg, Sheet *sheet)
 	rb2   = glade_xml_get_widget (gui, "cell_sort_col_rb");
 	if (!sort_flow.dialog || !table || !check || !rb1 || !rb2) {
 		g_warning ("Corrupt file cell-sort.glade\n");
-		gtk_object_unref (GTK_OBJECT (gui));
+		g_object_unref (G_OBJECT (gui));
 		return;
 	}
 
@@ -622,5 +621,5 @@ dialog_cell_sort (WorkbookControlGUI *wbcg, Sheet *sheet)
 	e_free_string_list (sort_flow.rownames_plain);
 	e_free_string_list (sort_flow.rownames_header);
 
-	gtk_object_unref (GTK_OBJECT (gui));
+	g_object_unref (G_OBJECT (gui));
 }

@@ -72,7 +72,7 @@ command_context_corba_new (void)
 {
 	WorkbookControlCorba *wbcc;
 
-	wbcc = gtk_type_new (workbook_control_corba_get_type ());
+	wbcc = g_object_new (workbook_control_corba_get_type (), NULL);
 
 	return COMMAND_CONTEXT (wbcc);
 }

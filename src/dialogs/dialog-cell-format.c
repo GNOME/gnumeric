@@ -175,8 +175,8 @@ typedef struct _FormatState
 			GtkLabel      *msg_label;
 			GtkOptionMenu *action;
 			GtkEntry      *title;
-			GtkText       *msg;
-			GnomePixmap   *image;
+			GtkTextView   *msg;
+			GtkImage      *image;
 		} error;
 		gboolean changed;
 	} validation;
@@ -186,7 +186,7 @@ typedef struct _FormatState
 		GtkLabel        *title_label;
 		GtkLabel        *msg_label;
 		GtkEntry        *title;
-		GtkText         *msg;
+		GtkTextView     *msg;
 	} input_msg;
 
 	void (*dialog_changed) (gpointer user_data);
@@ -773,7 +773,9 @@ cb_format_entry (GtkEditable *w, FormatState *state)
 		state->format.spec = fmt;
 		mstyle_set_format_text (state->result, fmt);
 		fmt_dialog_changed (state);
+		state->enable_edit = FALSE;
 		draw_format_preview (state);
+		state->enable_edit = TRUE;
 	} else
 		g_free (fmt);
 }
@@ -840,12 +842,12 @@ cb_format_negative_form_selected (GtkCList *clist, gint row, gint column,
 static gint
 funny_currency_order (gconstpointer _a, gconstpointer _b)
 {
-	const char *a = (const char *)_a;
-	const char *b = (const char *)_b;
+	char const *a = (char const *)_a;
+	char const *b = (char const *)_b;
 
 	/* One letter versions?  */
-	gboolean a1 = (a[0] && a[1] == 0);
-	gboolean b1 = (b[0] && b[1] == 0);
+	gboolean a1 = (a[0] && *(g_utf8_next_char(a)) == '\0');
+	gboolean b1 = (b[0] && *(g_utf8_next_char(b)) == '\0');
 
 	if (a1) {
 		if (b1) {
@@ -2083,7 +2085,7 @@ cb_validation_error_action_deactivate (GtkMenuShell *ignored, FormatState *state
 	     	if (s != NULL) {
 			s = gnome_pixmap_file (s);
 			g_return_if_fail (s != NULL);
-			gnome_pixmap_load_file (state->validation.error.image, s);
+			gtk_image_set_from_file (state->validation.error.image, s);
 			g_free (s);
 		}
 		gtk_widget_show (GTK_WIDGET (state->validation.error.image));
@@ -2184,7 +2186,7 @@ fmt_dialog_init_validation_expr_entry (FormatState *state, ExprEntry *entry,
 }
 
 static void
-cb_validation_rebuild (GtkWidget *ignored, FormatState *state)
+cb_validation_rebuild (void *ignored, FormatState *state)
 {
 	validation_rebuild_validation (state);
 }
@@ -2207,11 +2209,11 @@ fmt_dialog_init_validation_page (FormatState *state)
 	state->validation.error.msg_label    = GTK_LABEL       (glade_xml_get_widget (state->gui, "validation_error_msg_label"));
 	state->validation.error.action       = GTK_OPTION_MENU (glade_xml_get_widget (state->gui, "validation_error_action"));
 	state->validation.error.title        = GTK_ENTRY       (glade_xml_get_widget (state->gui, "validation_error_title"));
-	state->validation.error.msg          = GTK_TEXT        (glade_xml_get_widget (state->gui, "validation_error_msg"));
-	state->validation.error.image        = GNOME_PIXMAP    (glade_xml_get_widget (state->gui, "validation_error_image"));
+	state->validation.error.msg          = GTK_TEXT_VIEW   (glade_xml_get_widget (state->gui, "validation_error_msg"));
+	state->validation.error.image        = GTK_IMAGE       (glade_xml_get_widget (state->gui, "validation_error_image"));
 
 	gnome_dialog_editable_enters (GNOME_DIALOG (state->dialog), GTK_EDITABLE (state->validation.error.title));
-	gnome_dialog_editable_enters (GNOME_DIALOG (state->dialog), GTK_EDITABLE (state->validation.error.msg));
+
 
 	gtk_signal_connect (GTK_OBJECT (gtk_option_menu_get_menu (state->validation.constraint_type)), "deactivate",
 			    GTK_SIGNAL_FUNC (cb_validation_sensitivity), state);
@@ -2229,8 +2231,8 @@ fmt_dialog_init_validation_page (FormatState *state)
 			    GTK_SIGNAL_FUNC (cb_validation_rebuild), state);
 	gtk_signal_connect (GTK_OBJECT (state->validation.error.title), "changed",
 			    GTK_SIGNAL_FUNC (cb_validation_rebuild), state);
-	gtk_signal_connect (GTK_OBJECT (state->validation.error.msg), "changed",
-			    GTK_SIGNAL_FUNC (cb_validation_rebuild), state);
+	g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (state->validation.error.msg)), "changed",
+			  G_CALLBACK (cb_validation_rebuild), state);
 
 	/* Initialize */
 	if (mstyle_is_element_set (state->style, MSTYLE_VALIDATION) &&
@@ -2294,7 +2296,7 @@ fmt_dialog_init_input_msg_page (FormatState *state)
 	state->input_msg.title_label = GTK_LABEL         (glade_xml_get_widget (state->gui, "input_msg_title_label"));
 	state->input_msg.msg_label   = GTK_LABEL         (glade_xml_get_widget (state->gui, "input_msg_msg_label"));
 	state->input_msg.title       = GTK_ENTRY         (glade_xml_get_widget (state->gui, "input_msg_title"));
-	state->input_msg.msg         = GTK_TEXT          (glade_xml_get_widget (state->gui, "input_msg_msg"));
+	state->input_msg.msg         = GTK_TEXT_VIEW     (glade_xml_get_widget (state->gui, "input_msg_msg"));
 
 	gnome_dialog_editable_enters (GNOME_DIALOG (state->dialog), GTK_EDITABLE (state->input_msg.title));
 	gnome_dialog_editable_enters (GNOME_DIALOG (state->dialog), GTK_EDITABLE (state->input_msg.msg));
@@ -2345,7 +2347,7 @@ cb_fmt_dialog_dialog_destroy (GtkObject *unused, FormatState *state)
 	mstyle_unref (state->back.style);
 	mstyle_unref (state->style);
 	mstyle_unref (state->result);
-	gtk_object_unref (GTK_OBJECT (state->gui));
+	g_object_unref (G_OBJECT (state->gui));
 	g_free (state);
 	return FALSE;
 }

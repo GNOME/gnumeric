@@ -245,14 +245,9 @@ CurrencySymbol const currency_symbols[] =
 {
 	{ "", "None" },	/* These first four elements */
 	{ "$", "$" },	/* Must stay in this order */
-	{ "£", "£" },	/* GBP */
-	{ "¥", "¥" },	/* JPY */
-
-	/* Be careful with fonts. This uses iso_8859_15 rather than
-	 * the more common iso_8859_1 Not many fonts have a correct
-	 * Euro symbol here.
-	 */
-	{ "¤", "¤" },	/* EUR */
+	{ "Â£", "Â£" },	/* GBP */
+	{ "Â¥", "Â¥" },	/* JPY */
+	{ "â‚¬", "â‚¬" },	/* EUR */
 
 	/* The first column has three letter acronyms
 	 * for each currency.  They MUST start with '[$'

@@ -4,7 +4,7 @@ INCLUDES = 						\
 	-I$(top_srcdir)					\
 	$(GNUMERIC_CFLAGS)
 
-if BONOBO
+if WITH_BONOBO
 noinst_LIBRARIES = libGnumericIDL.a
 endif
 
@@ -34,18 +34,18 @@ libGnumericIDL_a_SOURCES =		\
 	$(EVOLUTION_GENERATED)
 
 stamp_Gnumeric_idl : $(srcdir)/GNOME_Gnumeric.idl 
-	$(ORBIT_IDL) -I$(srcdir) $(IDL_FLAGS) $< && touch $@
+	$(ORBIT_IDL) -I$(srcdir) $< && touch $@
 
 $(GNUMERIC_GENERATED): stamp_Gnumeric_idl
 
 stamp_Gnumeric_Graph_idl : $(srcdir)/GNOME_Gnumeric_Graph.idl
-	$(ORBIT_IDL) -I$(srcdir) $(IDL_FLAGS) $< && touch $@
+	$(ORBIT_IDL) -I$(srcdir) $< && touch $@
 
 $(GNUMERIC_GRAPH_GENERATED): stamp_Gnumeric_Graph_idl
 
 if ENABLE_EVOLUTION
 stamp_evolution_idl :
-	$(ORBIT_IDL) $(IDL_FLAGS) `$(GNOME_CONFIG) --datadir`/idl/Evolution-Composer.idl && touch $@
+	$(ORBIT_IDL) `$(GNOME_CONFIG) --datadir`/idl/Evolution-Composer.idl && touch $@
 
 $(EVOLUTION_GENERATED) : stamp_evolution_idl
 

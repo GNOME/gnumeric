@@ -7,7 +7,6 @@
  */
 
 #include <Bonobo.idl>
-#include <oaf-factory.idl>
 
 module GNOME {
 	module Gnumeric {
@@ -248,13 +247,6 @@ module GNOME {
 				    out long col, out long row);
 		};
 
-		//
-		// Interfaces for embedding Gnumeric with Bonobo
-		//
-		interface WorkbookFactory : GNOME::ObjectFactory {
-			Workbook read (in string filename);
-		};
-		
 		interface Grid : Bonobo::Embeddable {
 			Sheet get_sheet ();
 			

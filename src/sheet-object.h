@@ -43,8 +43,8 @@ struct _SheetObjectAnchor {
 };
 
 #define SHEET_OBJECT_TYPE     (sheet_object_get_type ())
-#define SHEET_OBJECT(obj)     (GTK_CHECK_CAST((obj), SHEET_OBJECT_TYPE, SheetObject))
-#define IS_SHEET_OBJECT(o)    (GTK_CHECK_TYPE((o), SHEET_OBJECT_TYPE))
+#define SHEET_OBJECT(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_OBJECT_TYPE, SheetObject))
+#define IS_SHEET_OBJECT(o)    (G_TYPE_CHECK_INSTANCE_TYPE((o), SHEET_OBJECT_TYPE))
 GtkType sheet_object_get_type (void);
 
 void	     sheet_object_register	   (void);

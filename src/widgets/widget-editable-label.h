@@ -1,7 +1,7 @@
 #ifndef GNUMERIC_WIDGET_EDITABLE_LABEL_H
 #define GNUMERIC_WIDGET_EDITABLE_LABEL_H
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #include <gtk/gtkwidget.h>
 
@@ -17,6 +17,6 @@ void        editable_label_set_text  (EditableLabel *el, char const *text);
 char const *editable_label_get_text  (EditableLabel const *el);
 void        editable_label_set_color (EditableLabel *el, StyleColor *color);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* GNUMERIC_WIDGET_EDITABLE_LABEL_H */

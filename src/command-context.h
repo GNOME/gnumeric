@@ -3,13 +3,13 @@
 
 #include "gnumeric.h"
 #include "error-info.h"
-#include <gtk/gtkobject.h>
+#include <glib-object.h>
 
 #define COMMAND_CONTEXT_TYPE        (command_context_get_type ())
-#define COMMAND_CONTEXT(o)          (GTK_CHECK_CAST ((o), COMMAND_CONTEXT_TYPE, CommandContext))
-#define IS_COMMAND_CONTEXT(o)       (GTK_CHECK_TYPE ((o), COMMAND_CONTEXT_TYPE))
+#define COMMAND_CONTEXT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), COMMAND_CONTEXT_TYPE, CommandContext))
+#define IS_COMMAND_CONTEXT(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), COMMAND_CONTEXT_TYPE))
 
-GtkType   command_context_get_type (void);
+GType   command_context_get_type (void);
 
 /*
  * These are the exceptions that can arise.

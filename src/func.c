@@ -11,7 +11,6 @@
 #include "gnumeric.h"
 #include "func.h"
 
-#include "portability.h"
 #include "parse-util.h"
 #include "eval.h"
 #include "cell.h"

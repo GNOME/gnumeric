@@ -78,7 +78,7 @@ SummaryItem *summary_item_new_boolean (const gchar *name, gboolean i);
 SummaryItem *summary_item_new_short   (const gchar *name, gshort i);
 SummaryItem *summary_item_new_int     (const gchar *name, gint i);
 SummaryItem *summary_item_new_time    (const gchar *name, GTimeVal t);
-SummaryItem *summary_item_new_string  (const gchar *name, const gchar *string);
+SummaryItem *summary_item_new_string  (const gchar *name, const gchar *string, gboolean copy);
 char        *summary_item_as_text     (const SummaryItem *sit);
 
 struct _SummaryInfo {

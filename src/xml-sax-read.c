@@ -134,14 +134,6 @@ xml_sax_attr_int (xmlChar const * const *attrs, char const *name, int *res)
 }
 
 static gboolean
-xml_sax_int (xmlChar const *chars, int *res)
-{
-	char *end;
-	*res = strtol ((gchar *)chars, &end, 10);
-	return *end == '\0';
-}
-
-static gboolean
 xml_sax_attr_cellpos (xmlChar const * const *attrs, char const *name, CellPos *val)
 {
 	CellPos tmp;
@@ -437,9 +429,7 @@ typedef struct _XMLSaxParseState
 	struct {
 		char *name;
 		char *value;
-		int   type;
 	} attribute;
-	GList *attributes;
 
 	/* Only valid when parsing wb or sheet names */
 	struct {
@@ -590,78 +580,16 @@ xml_sax_wb_view (XMLSaxParseState *state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_arg_set (GtkArg *arg, gchar *string)
-{
-	switch (arg->type) {
-	case GTK_TYPE_CHAR:
-		GTK_VALUE_CHAR (*arg) = string[0];
-		break;
-	case GTK_TYPE_UCHAR:
-		GTK_VALUE_UCHAR (*arg) = string[0];
-		break;
-	case GTK_TYPE_BOOL:
-		if (!strcmp (string, "TRUE"))
-			GTK_VALUE_BOOL (*arg) = TRUE;
-		else
-			GTK_VALUE_BOOL (*arg) = FALSE;
-		break;
-	case GTK_TYPE_INT:
-		GTK_VALUE_INT (*arg) = atoi (string);
-		break;
-	case GTK_TYPE_UINT:
-		GTK_VALUE_UINT (*arg) = atoi (string);
-		break;
-	case GTK_TYPE_LONG:
-		GTK_VALUE_LONG (*arg) = atol (string);
-		break;
-	case GTK_TYPE_ULONG:
-		GTK_VALUE_ULONG (*arg) = atol (string);
-		break;
-	case GTK_TYPE_FLOAT:
-		GTK_VALUE_FLOAT (*arg) = atof (string);
-		break;
-	case GTK_TYPE_DOUBLE:
-		GTK_VALUE_DOUBLE (*arg) = atof (string);
-		break;
-	case GTK_TYPE_STRING:
-		GTK_VALUE_STRING (*arg) = g_strdup (string);
-		break;
-	}
-}
-
-static void
 xml_sax_finish_parse_wb_attr (XMLSaxParseState *state)
 {
-	GtkArg *arg;
-
 	g_return_if_fail (state->attribute.name != NULL);
 	g_return_if_fail (state->attribute.value != NULL);
-	g_return_if_fail (state->attribute.type >= 0);
 
-	arg = gtk_arg_new (state->attribute.type);
-	arg->name = state->attribute.name;
-	xml_sax_arg_set (arg, state->attribute.value);
-	state->attributes = g_list_prepend (state->attributes, arg);
+	wb_view_set_attribute (state->wb_view,
+		state->attribute.name, state->attribute.value);
 
-	state->attribute.type = -1;
-	g_free (state->attribute.value);
-	state->attribute.value = NULL;
-	state->attribute.name = NULL;
-}
-
-static void
-xml_sax_free_arg_list (GList *start)
-{
-	GList *list = start;
-	while (list) {
-		GtkArg *arg = list->data;
-		if (arg) {
-			g_free (arg->name);
-			gtk_arg_free (arg, FALSE);
-		}
-		list = list->next;
-	}
-	g_list_free (start);
+	g_free (state->attribute.value);	state->attribute.value = NULL;
+	g_free (state->attribute.name);		state->attribute.name = NULL;
 }
 
 static void
@@ -681,13 +609,8 @@ xml_sax_attr_elem (XMLSaxParseState *state)
 		state->attribute.value = g_strndup (content, len);
 		break;
 
-	case STATE_WB_ATTRIBUTES_ELEM_TYPE :
-	{
-		int type;
-		if (xml_sax_int ((xmlChar *)content, &type))
-			state->attribute.type = type;
+	case STATE_WB_ATTRIBUTES_ELEM_TYPE : /* ignore */
 		break;
-	}
 
 	default :
 		g_assert_not_reached ();
@@ -1919,12 +1842,6 @@ xml_sax_end_element (XMLSaxParseState *state, const xmlChar *name)
 		xml_sax_finish_parse_wb_attr (state);
 		break;
 
-	case STATE_WB_ATTRIBUTES :
-		wb_view_set_attribute_list (state->wb_view, state->attributes);
-		xml_sax_free_arg_list (state->attributes);
-		state->attributes = NULL;
-		break;
-
 	case STATE_SHEET_SELECTIONS :
 		xml_sax_selection_end (state);
 		break;
@@ -1939,7 +1856,6 @@ xml_sax_end_element (XMLSaxParseState *state, const xmlChar *name)
 		break;
 
 	case STATE_WB_ATTRIBUTES_ELEM_NAME :
-	case STATE_WB_ATTRIBUTES_ELEM_TYPE :
 	case STATE_WB_ATTRIBUTES_ELEM_VALUE :
 		xml_sax_attr_elem (state);
 		g_string_truncate (state->content, 0);
@@ -2037,7 +1953,6 @@ xml_sax_characters (XMLSaxParseState *state, const xmlChar *chars, int len)
 {
 	switch (state->state) {
 	case STATE_WB_ATTRIBUTES_ELEM_NAME :
-	case STATE_WB_ATTRIBUTES_ELEM_TYPE :
 	case STATE_WB_ATTRIBUTES_ELEM_VALUE :
 	case STATE_WB_SUMMARY_ITEM_NAME :
 	case STATE_WB_SUMMARY_ITEM_VALUE_INT :
@@ -2093,8 +2008,6 @@ xml_sax_start_document (XMLSaxParseState *state)
 	state->content = g_string_sized_new (128);
 
 	state->attribute.name = state->attribute.value = NULL;
-	state->attribute.type = -1;
-	state->attributes = NULL;
 
 	state->name.name = state->name.value = state->name.position = NULL;
 

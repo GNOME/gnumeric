@@ -18,7 +18,7 @@ else
 PERL_DIR =
 endif
 
-if GUILE
+if WITH_GUILE
 GUILE_DIR = guile
 else
 GUILE_DIR =

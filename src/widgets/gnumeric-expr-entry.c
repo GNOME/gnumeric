@@ -47,7 +47,6 @@ struct _GnumericExprEntry {
 	SheetControlGUI *scg;
 	GnumericExprEntryFlags flags;
 	int freeze_count;
-	guint id_cb_scg_destroy;
 	Sheet *target_sheet;
 	Rangesel rangesel;
 };
@@ -279,6 +278,28 @@ gnumeric_expr_entry_rangesel_stop (GnumericExprEntry *expr_entry,
 		reset_rangesel (expr_entry);
 }
 
+/***************************************************************************/
+
+static void
+cb_scg_destroy (GnumericExprEntry *gee, SheetControlGUI *scg)
+{
+	g_return_if_fail (scg == gee->scg);
+
+	reset_rangesel (gee);
+	gee->scg = NULL;
+	gee->target_sheet = NULL;
+}
+	
+static void
+gee_detach_scg (GnumericExprEntry *gee)
+{
+	if (gee->scg != NULL) {
+		  g_object_weak_unref (G_OBJECT (gee->scg),
+			(GWeakNotify) cb_scg_destroy, gee);
+		  gee->scg = NULL;
+	}
+}
+
 /**
  * gnumeric_expr_entry_end_of_drag:
  * @gee :
@@ -298,12 +319,7 @@ gnumeric_expr_entry_end_of_drag	(GnumericExprEntry *gee)
 static void
 gnumeric_expr_entry_destroy (GtkObject *object)
 {
-	GnumericExprEntry *expr_entry = GNUMERIC_EXPR_ENTRY (object);
-
-	if (expr_entry->scg)
-		gtk_signal_disconnect (GTK_OBJECT (expr_entry->scg),
-				       expr_entry->id_cb_scg_destroy);
-
+	gee_detach_scg (GNUMERIC_EXPR_ENTRY (object));
 	GTK_OBJECT_CLASS (gnumeric_expr_entry_parent_class)->destroy (object);
 }
 
@@ -446,12 +462,10 @@ gnumeric_expr_entry_class_init (GtkObjectClass *object_class)
 		gtk_signal_new (
 			"rangesel_drag_finished",
 			GTK_RUN_LAST,
-			object_class->type,
+			GTK_CLASS_TYPE (object_class),
 			GTK_SIGNAL_OFFSET (GnumericExprEntryClass, rangesel_drag_finished),
 			gtk_marshal_NONE__NONE,
 			GTK_TYPE_NONE, 0);
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 E_MAKE_TYPE (gnumeric_expr_entry, "GnumericExprEntry", GnumericExprEntry,
@@ -501,13 +515,6 @@ gnumeric_expr_entry_thaw (GnumericExprEntry *expr_entry)
 		update_rangesel_text (expr_entry);
 }
 
-static void
-cb_scg_destroy (SheetControlGUI *scg, GnumericExprEntry *expr_entry)
-{
-	g_return_if_fail (scg == expr_entry->scg);
-	gnumeric_expr_entry_set_scg (expr_entry, NULL);	
-}
-	
 /**
  * gnumeric_expr_entry_set_flags:
  * @expr_entry: a #GnumericExprEntry
@@ -549,31 +556,23 @@ gnumeric_expr_entry_set_flags (GnumericExprEntry *ee,
  * destroyed.
  **/
 void
-gnumeric_expr_entry_set_scg (GnumericExprEntry *expr_entry,
+gnumeric_expr_entry_set_scg (GnumericExprEntry *gee,
 			     SheetControlGUI *scg)
 {
-	g_return_if_fail (IS_GNUMERIC_EXPR_ENTRY (expr_entry));
-	g_return_if_fail (scg == NULL ||IS_SHEET_CONTROL_GUI (scg));
+	g_return_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee));
+	g_return_if_fail (scg == NULL || IS_SHEET_CONTROL_GUI (scg));
 
-	if ((expr_entry->flags & GNUM_EE_SINGLE_RANGE) ||
-	    scg != expr_entry->scg)
-		reset_rangesel (expr_entry);
+	if ((gee->flags & GNUM_EE_SINGLE_RANGE) || scg != gee->scg)
+		reset_rangesel (gee);
 
-	if (expr_entry->scg)
-		gtk_signal_disconnect (GTK_OBJECT (expr_entry->scg),
-				       expr_entry->id_cb_scg_destroy);
-
+	gee_detach_scg (gee);
+	gee->scg = scg;
 	if (scg) {
-		expr_entry->id_cb_scg_destroy
-			= gtk_signal_connect (
-				GTK_OBJECT (scg), "destroy",
-				GTK_SIGNAL_FUNC (cb_scg_destroy), expr_entry);
-
-		expr_entry->target_sheet = sc_sheet (SHEET_CONTROL (scg));
+		g_object_weak_ref (G_OBJECT (gee->scg),
+				   (GWeakNotify) cb_scg_destroy, gee);
+		gee->target_sheet = sc_sheet (SHEET_CONTROL (scg));
 	} else
-		expr_entry->target_sheet = NULL;
-
-	expr_entry->scg = scg;
+		gee->target_sheet = NULL;
 }
 
 /**

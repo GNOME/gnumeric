@@ -100,5 +100,5 @@ dialog_delete_cells (WorkbookControlGUI *wbcg, Sheet *sheet)
 	/* Wrapper to ensure the libglade object gets removed on error */
 	dialog_delete_cells_impl (wbcg, gui, sheet, sel);
 
-	gtk_object_unref (GTK_OBJECT (gui));
+	g_object_unref (G_OBJECT (gui));
 }

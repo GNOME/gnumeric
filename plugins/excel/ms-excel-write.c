@@ -954,7 +954,7 @@ excel_font_to_string (const ExcelFont *f)
 	static char buf[96];
 	guint nused;
 
-	nused = snprintf (buf, sizeof buf, "%s, %g", sf->font_name, sf->size);
+	nused = snprintf (buf, sizeof buf, "%s, %g", sf->font_name, sf->size_pts);
 
 	if (nused < sizeof buf && sf->is_bold)
 		nused += snprintf (buf + nused, sizeof buf - nused, ", %s",
@@ -1184,7 +1184,7 @@ write_font (BiffPut *bp, ExcelWorkbook *wb, const ExcelFont *f)
 {
 	guint8 data[64];
 	StyleFont  *sf  = f->style_font;
-	guint32 size  = sf->size * 20;
+	guint32 size_pts  = sf->size_pts * 20;
 	guint16 grbit = 0;
 	guint16 color = palette_get_index (wb, f->color);
 
@@ -1207,7 +1207,7 @@ write_font (BiffPut *bp, ExcelWorkbook *wb, const ExcelFont *f)
 		boldstyle = 0x2bc;
 
 	ms_biff_put_var_next (bp, BIFF_FONT);
-	MS_OLE_SET_GUINT16 (data + 0, size);
+	MS_OLE_SET_GUINT16 (data + 0, size_pts);
 	MS_OLE_SET_GUINT16 (data + 2, grbit);
 	MS_OLE_SET_GUINT16 (data + 4, color);
 	MS_OLE_SET_GUINT16 (data + 6, boldstyle);
@@ -2931,23 +2931,23 @@ init_base_char_width_for_write (ExcelSheet *esheet)
 	ExcelFont *f = NULL;
 	/* default to Arial 10 */
 	char *name = "Arial";
-	double size = 20.* 10.;
+	double size_pts = 20.* 10.;
 
 	if (esheet && esheet->wb
 	    && esheet->wb->xf && esheet->wb->xf->default_style) {
 		f = excel_font_new (esheet->wb->xf->default_style);
 		if (f) {
 			name = f->style_font->font_name;
-			size = f->style_font->size * 20.;
+			size_pts = f->style_font->size_pts * 20.;
 			excel_font_free (f);
 		}
 	}
 
-	d (1, printf ("Font for column sizing: %s %.1f\n", name, size););
+	d (1, printf ("Font for column sizing: %s %.1f\n", name, size_pts););
 	esheet->base_char_width =
-		lookup_font_base_char_width_new (name, size, FALSE);
+		lookup_font_base_char_width_new (name, size_pts, FALSE);
 	esheet->base_char_width_default =
-		lookup_font_base_char_width_new (name, size, TRUE);
+		lookup_font_base_char_width_new (name, size_pts, TRUE);
 }
 
 /**

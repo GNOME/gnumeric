@@ -23,7 +23,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "portability.h"
 #include "cell.h"
 #include "sheet.h"
 #include "value.h"

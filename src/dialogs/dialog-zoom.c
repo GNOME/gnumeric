@@ -179,5 +179,5 @@ dialog_zoom (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	dialog_zoom_impl (wbcg, sheet, gui);
 
-	gtk_object_unref (GTK_OBJECT (gui));
+	g_object_unref (G_OBJECT (gui));
 }

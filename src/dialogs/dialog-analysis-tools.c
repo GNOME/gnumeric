@@ -728,7 +728,7 @@ tool_destroy (GtkObject *w, GenericToolState  *state)
 	wbcg_edit_detach_guru (state->wbcg);
 
 	if (state->gui != NULL) {
-		gtk_object_unref (GTK_OBJECT (state->gui));
+		g_object_unref (G_OBJECT (state->gui));
 		state->gui = NULL;
 	}
 
@@ -4464,5 +4464,3 @@ dialog_anova_two_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 /**********************************************/
 /*  End of ANOVA (Two Factor) tool code */
 /**********************************************/
-
-

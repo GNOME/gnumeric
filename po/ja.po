@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0.3\n"
-"POT-Creation-Date: 2002-01-21 23:04-0500\n"
+"POT-Creation-Date: 2002-01-22 02:21-0500\n"
 "PO-Revision-Date: 2002-01-22 00:50+0900\n"
 "Last-Translator: Takeshi Aihana <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=euc-jp\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: gnumeric.desktop.in.h:1 src/dialogs/dialog-about.c:81
+#: gnumeric.desktop.in.h:1 src/dialogs/dialog-about.c:90
 #: src/functions/fn-sheet.c:143
 msgid "Gnumeric"
 msgstr "Gnumeric"
@@ -261,59 +261,59 @@ msgid ""
 "opt_bs_gamma"
 msgstr ""
 
-#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4524
-#: plugins/mps/mps.c:579 src/xml-io.c:3378
+#: plugins/dif/dif.c:76 plugins/excel/ms-excel-read.c:4524
+#: plugins/mps/mps.c:578 src/xml-io.c:3235
 msgid "Reading file..."
 msgstr "ファイルの読み込み中..."
 
-#: plugins/dif/dif.c:246
+#: plugins/dif/dif.c:245
 #, c-format
 msgid "Syntax error at line %d. Ignoring."
 msgstr "%d 行に文法エラーがあります。無視します。"
 
-#: plugins/dif/dif.c:283
+#: plugins/dif/dif.c:282
 #, c-format
 msgid "Unknown data value \"%s\" at line %d. Ignoring."
 msgstr "不明なデータ値 \"%s\" が %d 行にあります。無視します。"
 
-#: plugins/dif/dif.c:290
+#: plugins/dif/dif.c:289
 #, c-format
 msgid "Unknown value type %d at line %d. Ignoring."
 msgstr "不明なデータ型 %d が %d 行にあります。無視します。"
 
-#: plugins/dif/dif.c:299
+#: plugins/dif/dif.c:298
 #, c-format
 msgid ""
 "DIF file has more than the maximum number of rows %d. Ignoring remaining "
 "rows."
 msgstr "DIF ファイルは最大列数 %d を越えています。残りの列を無視します。"
 
-#: plugins/dif/dif.c:303
+#: plugins/dif/dif.c:302
 #, c-format
 msgid ""
 "DIF file has more than the maximum number of columns %d. Ignoring remaining "
 "columns."
 msgstr "DIF ファイルは最大列数 %d を越えています。残りの列を無視します。"
 
-#: plugins/dif/dif.c:315
+#: plugins/dif/dif.c:314
 #, c-format
 msgid "Unexpected end of file at line %d while reading header."
 msgstr "ヘッダの読み込み中に %d 行で予期しない終了があります。"
 
-#: plugins/dif/dif.c:319
+#: plugins/dif/dif.c:318
 #, c-format
 msgid "Unexpected end of file at line %d while reading data."
 msgstr "データの読み込み中に %d 行で予期しない終了があります。"
 
-#: plugins/dif/dif.c:335
+#: plugins/dif/dif.c:334
 msgid "Error while reading DIF file."
 msgstr "DIF ファイルの読み込み中にエラーが発生しました。"
 
-#: plugins/dif/dif.c:366
+#: plugins/dif/dif.c:365
 msgid "Cannot get default sheet."
 msgstr "デフォルトシートが取得できません"
 
-#: plugins/dif/dif.c:398
+#: plugins/dif/dif.c:397
 msgid "Error while saving DIF file."
 msgstr "DIF ファイルの保存中にエラーが発生しました。"
 
@@ -505,7 +505,7 @@ msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr ""
 ".po ファイルの中にある GNOME 用語を保存するためのサポートを提供します。"
 
-#: plugins/guile/plugin.c:67 src/func.c:806 src/functions/fn-information.c:697
+#: plugins/guile/plugin.c:67 src/func.c:805 src/functions/fn-information.c:697
 #: src/functions/fn-information.c:768 src/functions/fn-information.c:796
 #: src/functions/fn-information.c:823 src/functions/fn-information.c:874
 #: src/functions/fn-information.c:904 src/functions/fn-information.c:971
@@ -591,16 +591,16 @@ msgstr "Lotus 123"
 msgid "Lotus 123 (*.wk1)"
 msgstr "Lotus 123 (*.wk1)"
 
-#: plugins/mps/mps.c:276
+#: plugins/mps/mps.c:275
 msgid "Program Name"
 msgstr "プログラム名"
 
-#: plugins/mps/mps.c:282
+#: plugins/mps/mps.c:281
 msgid "Objective Value"
 msgstr "オブジェクティブ値"
 
 #. Print 'Status'.
-#: plugins/mps/mps.c:293
+#: plugins/mps/mps.c:292
 msgid "Feasible"
 msgstr "実行可能"
 
@@ -608,12 +608,12 @@ msgstr "実行可能"
 #. * Add objective function stuff into the sheet.
 #.
 #. Print 'Objective function:'
-#: plugins/mps/mps.c:308
+#: plugins/mps/mps.c:307
 msgid "Objective function:"
 msgstr "オブジェクティブ関数:"
 
 #. Print 'Current values'
-#: plugins/mps/mps.c:311
+#: plugins/mps/mps.c:310
 msgid "Current values"
 msgstr "現在の値"
 
@@ -621,60 +621,60 @@ msgstr "現在の値"
 #. * Add constraints into the sheet.
 #.
 #. Print 'Constraints:'.
-#: plugins/mps/mps.c:332
+#: plugins/mps/mps.c:331
 msgid "Constraints:"
 msgstr "制約条件:"
 
 #. Print constraint titles.
-#: plugins/mps/mps.c:335 src/dialogs/plugin-manager.glade.h:10
+#: plugins/mps/mps.c:334 src/dialogs/plugin-manager.glade.h:10
 #: src/format-template.c:510 src/solver-lp.c:898 src/solver-lp.c:922
 #: src/solver-lp.c:955 src/solver-lp.c:1049 src/solver-lp.c:1096
 #: src/workbook-control.c:233
 msgid "Name"
 msgstr "名前"
 
-#: plugins/mps/mps.c:339 src/dialogs/plugin-manager.glade.h:12
+#: plugins/mps/mps.c:338 src/dialogs/plugin-manager.glade.h:12
 #: src/solver-lp.c:1050 src/solver-lp.c:1097
 msgid "Value"
 msgstr "値"
 
-#: plugins/mps/mps.c:340
+#: plugins/mps/mps.c:339
 msgid "Type"
 msgstr "型"
 
-#: plugins/mps/mps.c:341
+#: plugins/mps/mps.c:340
 msgid "RHS"
 msgstr "RHS"
 
-#: plugins/mps/mps.c:342 src/solver-lp.c:959
+#: plugins/mps/mps.c:341 src/solver-lp.c:959
 msgid "Slack"
 msgstr "Slack"
 
-#: plugins/mps/mps.c:343 src/solver-lp.c:958
+#: plugins/mps/mps.c:342 src/solver-lp.c:958
 msgid "Status"
 msgstr "状態"
 
-#: plugins/mps/mps.c:1127
+#: plugins/mps/mps.c:1126
 msgid "Problem name was not defined in the file."
 msgstr "ファイルの中でプログラム名が定義されていません。"
 
-#: plugins/mps/mps.c:1130
+#: plugins/mps/mps.c:1129
 msgid "Invalid ROWS section in the file."
 msgstr "ファイルの中に不正な行があります。"
 
-#: plugins/mps/mps.c:1133
+#: plugins/mps/mps.c:1132
 msgid "Invalid COLUMNS section in the file."
 msgstr "ファイルの中に不正な桁があります。"
 
-#: plugins/mps/mps.c:1136
+#: plugins/mps/mps.c:1135
 msgid "Invalid RHS section in the file."
 msgstr "ファイルの中に不正な RHS があります。"
 
-#: plugins/mps/mps.c:1139
+#: plugins/mps/mps.c:1138
 msgid "Invalid BOUNDS section in the file."
 msgstr "ファイルの中に不正な領域があります。"
 
-#: plugins/mps/mps.c:1155
+#: plugins/mps/mps.c:1154
 msgid "Error while reading MPS file."
 msgstr "MPS ファイルの読み込み中にエラーが発生しました。"
 
@@ -1205,11 +1205,11 @@ msgstr "[試験的] XML ベースの SAX"
 msgid "The next generation sax based xml I/O subsystem"
 msgstr "XML I/O サブシステムに対応した次世代 SAX です"
 
-#: plugins/xml_sax/xml-sax-read.c:2173
+#: plugins/xml_sax/xml-sax-read.c:2086
 msgid "xmlCreateFileParserCtxt () failed."
 msgstr "xmlCreateFileParserCtxt () に失敗しました。"
 
-#: plugins/xml_sax/xml-sax-read.c:2182
+#: plugins/xml_sax/xml-sax-read.c:2095
 msgid "XML document not well formed!"
 msgstr "XML 文書がウエルフォーム形式ではありません！"
 
@@ -1217,11 +1217,11 @@ msgstr "XML 文書がウエルフォーム形式ではありません！"
 msgid "About this application"
 msgstr "このアプリケーションについて"
 
-#: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:3101
+#: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:3098
 msgid "Add an outline group"
 msgstr "アウトライン・グループを追加します"
 
-#: src/GNOME_Gnumeric.xml.h:3 src/workbook-control-gui.c:3131
+#: src/GNOME_Gnumeric.xml.h:3 src/workbook-control-gui.c:3128
 msgid "Advanced _Filter..."
 msgstr "高度なフィルタ(_F)..."
 
@@ -1237,29 +1237,29 @@ msgstr "左側の内容を調整してインデントを増やします"
 msgid "Arrow"
 msgstr "矢印"
 
-#: src/GNOME_Gnumeric.xml.h:7 src/workbook-control-gui.c:3069
+#: src/GNOME_Gnumeric.xml.h:7 src/workbook-control-gui.c:3066
 msgid "Auto _Correct..."
 msgstr "自動訂正...(_C)"
 
-#: src/GNOME_Gnumeric.xml.h:8 src/workbook-control-gui.c:2684
+#: src/GNOME_Gnumeric.xml.h:8 src/workbook-control-gui.c:2681
 msgid "Auto_fill"
 msgstr "自動で埋める(_F)"
 
-#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:2685
+#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:2682
 msgid "Automatically fill the current selection"
 msgstr "選択したオブジェクトを自動的に塗りつぶします"
 
-#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:3070
+#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:3067
 msgid "Automatically perform simple spell checking"
 msgstr "自動的に簡単なスペルチェックを行います"
 
-#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:3073
+#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:3070
 msgid "Automatically save the current document at regular intervals"
 msgstr "一定間隔で現在の文書を自動的に保存します"
 
 #: src/GNOME_Gnumeric.xml.h:12 src/dialogs/cell-format.glade.h:15
-#: src/dialogs/dialog-cell-format.c:2577 src/workbook-format-toolbar.c:819
-#: src/workbook-format-toolbar.c:875
+#: src/dialogs/dialog-cell-format.c:2579 src/workbook-format-toolbar.c:806
+#: src/workbook-format-toolbar.c:862
 msgid "Background"
 msgstr "背景"
 
@@ -1268,8 +1268,8 @@ msgstr "背景"
 msgid "Bold"
 msgstr "ボールド"
 
-#: src/GNOME_Gnumeric.xml.h:14 src/workbook-format-toolbar.c:807
-#: src/workbook-format-toolbar.c:872
+#: src/GNOME_Gnumeric.xml.h:14 src/workbook-format-toolbar.c:794
+#: src/workbook-format-toolbar.c:859
 msgid "Borders"
 msgstr "罫線"
 
@@ -1278,15 +1278,15 @@ msgstr "罫線"
 msgid "Button"
 msgstr "ボタン"
 
-#: src/GNOME_Gnumeric.xml.h:16 src/workbook-control-gui.c:2852
+#: src/GNOME_Gnumeric.xml.h:16 src/workbook-control-gui.c:2849
 msgid "C_ells..."
 msgstr "セル(_E)..."
 
-#: src/GNOME_Gnumeric.xml.h:17 src/workbook-control-gui.c:2753
+#: src/GNOME_Gnumeric.xml.h:17 src/workbook-control-gui.c:2750
 msgid "C_lear"
 msgstr "消去(_L)"
 
-#: src/GNOME_Gnumeric.xml.h:18 src/workbook-control-gui.c:2956
+#: src/GNOME_Gnumeric.xml.h:18 src/workbook-control-gui.c:2953
 msgid "C_olumn"
 msgstr "列(_O)"
 
@@ -1306,24 +1306,24 @@ msgstr "選択したセルを中央揃えにします"
 msgid "Centers the text in each selection"
 msgstr "セルの内容をそれぞれ中央揃えにします"
 
-#: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:2890
+#: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:2887
 msgid "Change height of the selected rows"
 msgstr "選択した行の高さを変更します"
 
-#: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:2883
+#: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:2880
 msgid "Change the default column width"
 msgstr "デフォルトの列幅を変更します"
 
-#: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:2902
+#: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:2899
 msgid "Change the default row height"
 msgstr "デフォルトの行の高さを変更します"
 
-#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:2711
-#: src/workbook-control-gui.c:2912
+#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:2708
+#: src/workbook-control-gui.c:2909
 msgid "Change the order the sheets are displayed"
 msgstr "シートが表示される順序を変更"
 
-#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:2871
+#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:2868
 msgid "Change width of the selected columns"
 msgstr "選択した列の幅を変更します"
 
@@ -1331,19 +1331,19 @@ msgstr "選択した列の幅を変更します"
 msgid "Checkbox"
 msgstr "チェックボックス"
 
-#: src/GNOME_Gnumeric.xml.h:29 src/workbook-control-gui.c:2645
+#: src/GNOME_Gnumeric.xml.h:29 src/workbook-control-gui.c:2642
 msgid "Clear the selected cells' comments"
 msgstr "選択されたセルのコメントを消去します"
 
-#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:2648
+#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:2645
 msgid "Clear the selected cells' contents"
 msgstr "選択されたセルの内容を消去します"
 
-#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:2642
+#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:2639
 msgid "Clear the selected cells' formats"
 msgstr "選択されたセルの書式を消去します"
 
-#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:2639
+#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:2636
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "選択されたセルの書式、コメント、その内容を消去します"
 
@@ -1352,15 +1352,15 @@ msgid "Close the current file"
 msgstr "現在のファイルを閉じます"
 
 #: src/GNOME_Gnumeric.xml.h:34 src/dialogs/print.glade.h:4
-#: src/workbook-control-gui.c:2644
+#: src/workbook-control-gui.c:2641
 msgid "Co_mments"
 msgstr "注釈(_M)"
 
-#: src/GNOME_Gnumeric.xml.h:35 src/workbook-control-gui.c:3028
+#: src/GNOME_Gnumeric.xml.h:35 src/workbook-control-gui.c:3025
 msgid "Co_variance"
 msgstr "共分散(_V)"
 
-#: src/GNOME_Gnumeric.xml.h:36 src/workbook-control-gui.c:3095
+#: src/GNOME_Gnumeric.xml.h:36 src/workbook-control-gui.c:3092
 msgid "Collapse an outline group"
 msgstr "外側のグループを畳みます"
 
@@ -1368,12 +1368,12 @@ msgstr "外側のグループを畳みます"
 msgid "Combo Box"
 msgstr "コンボボックス"
 
-#: src/GNOME_Gnumeric.xml.h:38 src/workbook-control-gui.c:3000
+#: src/GNOME_Gnumeric.xml.h:38 src/workbook-control-gui.c:2997
 msgid "Comparing two population means for two paired samples.: t-test"
 msgstr ""
 "二つの母集団の比較は二組の対のサンプルを比較することを意味します: t-検定"
 
-#: src/GNOME_Gnumeric.xml.h:39 src/workbook-control-gui.c:3004
+#: src/GNOME_Gnumeric.xml.h:39 src/workbook-control-gui.c:3001
 msgid ""
 "Comparing two population means for two unpaired samples from pop. with equal "
 "var.: t-test"
@@ -1381,7 +1381,7 @@ msgstr ""
 "二つの母集団の比較は二組の対でないサンプルを等しい変化量で比較することを意味"
 "します: t-検定"
 
-#: src/GNOME_Gnumeric.xml.h:40 src/workbook-control-gui.c:3009
+#: src/GNOME_Gnumeric.xml.h:40 src/workbook-control-gui.c:3006
 msgid ""
 "Comparing two population means for two unpaired samples from pop. with "
 "unequal var.: t-test"
@@ -1389,7 +1389,7 @@ msgstr ""
 "二つの母集団の比較は二組の対でないサンプルを等しくない変化量で比較することを"
 "意味します: t-検定"
 
-#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:3014
+#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:3011
 msgid ""
 "Comparing two population means from pop. with known varinces or using a "
 "large sample: z- test"
@@ -1397,7 +1397,7 @@ msgstr ""
 "二つの母集団の比較は既知の変化量または大きいサンプルを使って比較することを意"
 "味します: z-検定"
 
-#: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3056
+#: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3053
 msgid "Comparing two population variances"
 msgstr "二つの母集団変化量の比較"
 
@@ -1405,12 +1405,12 @@ msgstr "二つの母集団変化量の比較"
 msgid "Configure toolbars"
 msgstr "ツールバーを設定します"
 
-#: src/GNOME_Gnumeric.xml.h:44 src/workbook-control-gui.c:3149
+#: src/GNOME_Gnumeric.xml.h:44 src/workbook-control-gui.c:3146
 msgid "Consolidate regions using a function"
 msgstr "関数を使用して選択範囲を合成します"
 
 #: src/GNOME_Gnumeric.xml.h:45 src/selection.c:497
-#: src/workbook-control-gui.c:3203
+#: src/workbook-control-gui.c:3200
 msgid "Copy"
 msgstr "コピー"
 
@@ -1418,12 +1418,12 @@ msgstr "コピー"
 msgid "Copy the current selection to the clipboard"
 msgstr "選択範囲をクリップボードにコピーします"
 
-#: src/GNOME_Gnumeric.xml.h:47 src/workbook-control-gui.c:2739
+#: src/GNOME_Gnumeric.xml.h:47 src/workbook-control-gui.c:2736
 msgid "Copy the selection"
 msgstr "選択範囲をコピーします"
 
 #: src/GNOME_Gnumeric.xml.h:48 src/dialogs/covariance.glade.h:2
-#: src/workbook-control-gui.c:3029
+#: src/workbook-control-gui.c:3026
 msgid "Covariance"
 msgstr "共分散"
 
@@ -1455,7 +1455,7 @@ msgstr "線の作成"
 msgid "Create a list"
 msgstr "リストの作成"
 
-#: src/GNOME_Gnumeric.xml.h:56 src/workbook-control-gui.c:2795
+#: src/GNOME_Gnumeric.xml.h:56 src/workbook-control-gui.c:2792
 msgid "Create a new shared view of the workbook"
 msgstr "ワークブックの新規シェアードビューを作成します"
 
@@ -1463,7 +1463,7 @@ msgstr "ワークブックの新規シェアードビューを作成します"
 msgid "Create a new spreadsheet"
 msgstr "新規にスプレッドシートを作成します"
 
-#: src/GNOME_Gnumeric.xml.h:58 src/workbook-control-gui.c:2798
+#: src/GNOME_Gnumeric.xml.h:58 src/workbook-control-gui.c:2795
 msgid "Create a new unshared view of the workbook"
 msgstr "ワークブックの新規アンシェアードビューを作成します"
 
@@ -1483,27 +1483,27 @@ msgstr "スクロールバーの作成"
 msgid "Create an arrow"
 msgstr "矢印オブジェクトの作成"
 
-#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1392
-#: src/workbook-control-gui.c:2734
+#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1391
+#: src/workbook-control-gui.c:2731
 msgid "Cu_t"
 msgstr "切り取り(_T)"
 
 #. Default <Ctrl-;> (control semi-colon) to insert the current date
-#: src/GNOME_Gnumeric.xml.h:64 src/workbook-control-gui.c:2816
+#: src/GNOME_Gnumeric.xml.h:64 src/workbook-control-gui.c:2813
 msgid "Current _date"
 msgstr "現在の日付(_D)"
 
 #. Default <Ctrl-:> (control colon) to insert the current time
-#: src/GNOME_Gnumeric.xml.h:65 src/workbook-control-gui.c:2822
+#: src/GNOME_Gnumeric.xml.h:65 src/workbook-control-gui.c:2819
 msgid "Current _time"
 msgstr "現在時刻(_T)"
 
 #: src/GNOME_Gnumeric.xml.h:66 src/selection.c:523 src/selection.c:526
-#: src/workbook-control-gui.c:3200
+#: src/workbook-control-gui.c:3197
 msgid "Cut"
 msgstr "切り取り"
 
-#: src/GNOME_Gnumeric.xml.h:67 src/workbook-control-gui.c:2735
+#: src/GNOME_Gnumeric.xml.h:67 src/workbook-control-gui.c:2732
 msgid "Cut the selection"
 msgstr "選択範囲を切り取ります"
 
@@ -1520,15 +1520,15 @@ msgstr "精度の緩和"
 msgid "Decreases the number of decimals displayed"
 msgstr "表示される小数点以下の列を減らす"
 
-#: src/GNOME_Gnumeric.xml.h:71 src/workbook-control-gui.c:2917
+#: src/GNOME_Gnumeric.xml.h:71 src/workbook-control-gui.c:2914
 msgid "Display _Formulas"
 msgstr "公式を表示する(_F)"
 
-#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:3110
+#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:3107
 msgid "Display _Outlines"
 msgstr "アウトラインを表示する(_O)"
 
-#: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:2918
+#: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:2915
 msgid "Display the value of a formula or the formula itself"
 msgstr "式の値または式の表示/非表示を切り替えます"
 
@@ -1548,27 +1548,27 @@ msgstr "終了(_X)"
 msgid "Edit a formula in the current cell"
 msgstr "現在のセルの関数を編集します"
 
-#: src/GNOME_Gnumeric.xml.h:78 src/workbook-control-gui.c:2625
+#: src/GNOME_Gnumeric.xml.h:78 src/workbook-control-gui.c:2622
 msgid "Edit descriptive information"
 msgstr "情報の編集"
 
-#: src/GNOME_Gnumeric.xml.h:79 src/workbook-control-gui.c:2831
+#: src/GNOME_Gnumeric.xml.h:79 src/workbook-control-gui.c:2828
 msgid "Edit sheet and workbook names"
 msgstr "シートとワークブック名を編集します"
 
-#: src/GNOME_Gnumeric.xml.h:80 src/workbook-control-gui.c:2909
+#: src/GNOME_Gnumeric.xml.h:80 src/workbook-control-gui.c:2906
 msgid "Edit the name of the current sheet"
 msgstr "現在のシートの名前を編集します"
 
-#: src/GNOME_Gnumeric.xml.h:81 src/workbook-control-gui.c:2861
+#: src/GNOME_Gnumeric.xml.h:81 src/workbook-control-gui.c:2858
 msgid "Edit the selected cell's comment"
 msgstr "セルの注釈を編集します"
 
-#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:2874
+#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:2871
 msgid "Ensure columns are just wide enough to display content"
 msgstr "内容を全て表示できるように列の幅を調整します"
 
-#: src/GNOME_Gnumeric.xml.h:83 src/workbook-control-gui.c:2893
+#: src/GNOME_Gnumeric.xml.h:83 src/workbook-control-gui.c:2890
 msgid "Ensure rows are just tall enough to display content"
 msgstr "内容を全て表示できるように行の高さを調整します"
 
@@ -1576,47 +1576,47 @@ msgstr "内容を全て表示できるように行の高さを調整します"
 msgid "Exit the program"
 msgstr "プログラムを終了します"
 
-#: src/GNOME_Gnumeric.xml.h:85 src/workbook-control-gui.c:2987
+#: src/GNOME_Gnumeric.xml.h:85 src/workbook-control-gui.c:2984
 msgid "Exponential smoothing"
 msgstr "指数のスムーズ化"
 
-#: src/GNOME_Gnumeric.xml.h:86 src/workbook-control-gui.c:3035
+#: src/GNOME_Gnumeric.xml.h:86 src/workbook-control-gui.c:3032
 msgid "F_orecasting"
 msgstr "予測(_O)"
 
-#: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:3170
+#: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:3167
 msgid "F_ormat"
 msgstr "フォーマット(_O)"
 
-#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:3132
+#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:3129
 msgid "Filter data with given criteria"
 msgstr "指定された条件でデータをフィルタリングします"
 
 #: src/GNOME_Gnumeric.xml.h:89 src/dialogs/cell-format.glade.h:39
-#: src/workbook-format-toolbar.c:758
+#: src/workbook-format-toolbar.c:754
 msgid "Font"
 msgstr "フォント"
 
-#: src/GNOME_Gnumeric.xml.h:90 src/workbook-format-toolbar.c:869
+#: src/GNOME_Gnumeric.xml.h:90 src/workbook-format-toolbar.c:856
 msgid "Font Size"
 msgstr "フォントのサイズを変更します"
 
 #: src/GNOME_Gnumeric.xml.h:91 src/workbook-format-toolbar.c:409
-#: src/workbook-format-toolbar.c:867
+#: src/workbook-format-toolbar.c:854
 msgid "Font selector"
 msgstr "フォントを変更します"
 
-#: src/GNOME_Gnumeric.xml.h:92 src/dialogs/dialog-cell-format.c:2572
-#: src/workbook-format-toolbar.c:844 src/workbook-format-toolbar.c:878
+#: src/GNOME_Gnumeric.xml.h:92 src/dialogs/dialog-cell-format.c:2574
+#: src/workbook-format-toolbar.c:831 src/workbook-format-toolbar.c:865
 msgid "Foreground"
 msgstr "背景"
 
-#: src/GNOME_Gnumeric.xml.h:93 src/workbook-control-gui.c:2961
+#: src/GNOME_Gnumeric.xml.h:93 src/workbook-control-gui.c:2958
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "先にに定義されたテンプレートをセルの書式に適用します"
 
 #: src/GNOME_Gnumeric.xml.h:94 src/analysis-tools.c:4078
-#: src/dialogs/fourier-analysis.glade.h:2 src/workbook-control-gui.c:3038
+#: src/dialogs/fourier-analysis.glade.h:2 src/workbook-control-gui.c:3035
 msgid "Fourier Analysis"
 msgstr "フーリエ解析"
 
@@ -1629,7 +1629,7 @@ msgstr "フレーム"
 msgid "Function Guru"
 msgstr "関数Guru"
 
-#: src/GNOME_Gnumeric.xml.h:97 src/workbook-control-gui.c:2691
+#: src/GNOME_Gnumeric.xml.h:97 src/workbook-control-gui.c:2688
 msgid "Generate random numbers of a selection of distributions"
 msgstr "ディストリビューションの選択範囲の乱数を生成します"
 
@@ -1637,7 +1637,7 @@ msgstr "ディストリビューションの選択範囲の乱数を生成します"
 msgid "Graph Guru"
 msgstr "グラフ Guru"
 
-#: src/GNOME_Gnumeric.xml.h:99 src/workbook-control-gui.c:2889
+#: src/GNOME_Gnumeric.xml.h:99 src/workbook-control-gui.c:2886
 msgid "H_eight..."
 msgstr "高さ(_E)..."
 
@@ -1645,7 +1645,7 @@ msgstr "高さ(_E)..."
 msgid "Hide _Column Headers"
 msgstr "列ヘッダを隠す(_C)"
 
-#: src/GNOME_Gnumeric.xml.h:101 src/workbook-control-gui.c:2929
+#: src/GNOME_Gnumeric.xml.h:101 src/workbook-control-gui.c:2926
 msgid "Hide _Gridlines"
 msgstr "網線を隠す(_G)"
 
@@ -1653,15 +1653,15 @@ msgstr "網線を隠す(_G)"
 msgid "Hide _Row Headers"
 msgstr "行ヘッダを隠す(_R)"
 
-#: src/GNOME_Gnumeric.xml.h:103 src/workbook-control-gui.c:2923
+#: src/GNOME_Gnumeric.xml.h:103 src/workbook-control-gui.c:2920
 msgid "Hide _Zeros"
 msgstr "零を隠す(_Z)"
 
-#: src/GNOME_Gnumeric.xml.h:104 src/workbook-control-gui.c:2877
+#: src/GNOME_Gnumeric.xml.h:104 src/workbook-control-gui.c:2874
 msgid "Hide the selected columns"
 msgstr "選択された列を隠します"
 
-#: src/GNOME_Gnumeric.xml.h:105 src/workbook-control-gui.c:2896
+#: src/GNOME_Gnumeric.xml.h:105 src/workbook-control-gui.c:2893
 msgid "Hide the selected rows"
 msgstr "選択された行を隠します"
 
@@ -1691,11 +1691,11 @@ msgid "Insert Shaped Component"
 msgstr "シェープコンポーネントを挿入します"
 
 #: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:484
-#: src/workbook-control-gui.c:2703
+#: src/workbook-control-gui.c:2700
 msgid "Insert a new sheet"
 msgstr "新しいシートを挿入します"
 
-#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:2844
+#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:2841
 msgid "Insert a new spreadsheet"
 msgstr "新規にスプレッドシートを作成します"
 
@@ -1707,23 +1707,23 @@ msgstr "シェープコンポーネントをスプレッドシートに挿入します"
 msgid "Insert an object into the spreadsheet"
 msgstr "オブジェクトをスプレッドシートに挿入します"
 
-#: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:2853
+#: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:2850
 msgid "Insert new cells"
 msgstr "新規にセルを挿入します"
 
-#: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:2850
+#: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:2847
 msgid "Insert new columns"
 msgstr "新規に列を挿入します"
 
-#: src/GNOME_Gnumeric.xml.h:118 src/workbook-control-gui.c:2847
+#: src/GNOME_Gnumeric.xml.h:118 src/workbook-control-gui.c:2844
 msgid "Insert new rows"
 msgstr "新規に行を挿入します"
 
-#: src/GNOME_Gnumeric.xml.h:119 src/workbook-control-gui.c:2817
+#: src/GNOME_Gnumeric.xml.h:119 src/workbook-control-gui.c:2814
 msgid "Insert the current date into the selected cell(s)"
 msgstr "選択されたセルに現在の日付を挿入します"
 
-#: src/GNOME_Gnumeric.xml.h:120 src/workbook-control-gui.c:2823
+#: src/GNOME_Gnumeric.xml.h:120 src/workbook-control-gui.c:2820
 msgid "Insert the current time into the selected cell(s)"
 msgstr "選択したセルに現在時刻を挿入します"
 
@@ -1739,7 +1739,7 @@ msgstr "矩形 Bonobo オブジェクトを挿入します"
 msgid "Invoke the graph guru to create a graph"
 msgstr "グラフ Guru でグラフを作成します"
 
-#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:2715
+#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:2712
 msgid "Irrevocably remove an entire sheet"
 msgstr "シート全体を削除します。元には戻せません。"
 
@@ -1747,15 +1747,15 @@ msgstr "シート全体を削除します。元には戻せません。"
 msgid "Italicize"
 msgstr "イタリックにする"
 
-#: src/GNOME_Gnumeric.xml.h:126 src/workbook-control-gui.c:3079
+#: src/GNOME_Gnumeric.xml.h:126 src/workbook-control-gui.c:3076
 msgid "Iteratively recalculate to find a target value"
 msgstr "再計算を繰り返し、最適解を見つけます"
 
-#: src/GNOME_Gnumeric.xml.h:127 src/workbook-control-gui.c:3083
+#: src/GNOME_Gnumeric.xml.h:127 src/workbook-control-gui.c:3080
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr "制約条件で再計算を繰り返し、最適解に近づけます"
 
-#: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:2779
+#: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:2776
 msgid "Jump to a specified cell"
 msgstr "特定のセルへ移動します"
 
@@ -1786,19 +1786,19 @@ msgstr "リスト"
 msgid "Lock or unlock the top left cols/rows"
 msgstr "左上のセルのロック/ロック解除を切り替えます"
 
-#: src/GNOME_Gnumeric.xml.h:135 src/workbook-control-gui.c:2699
+#: src/GNOME_Gnumeric.xml.h:135 src/workbook-control-gui.c:2696
 msgid "Make a copy of the current sheet"
 msgstr "現在のシートのコピーを作成します"
 
-#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:2688
+#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:2685
 msgid "Make a table of a cell's value as a function of other cells"
 msgstr "セル値のテーブルを他のセルの関数として扱います"
 
-#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:2880
+#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:2877
 msgid "Make any hidden columns in the selection visible"
 msgstr "選択範囲の非表示の列を表示します"
 
-#: src/GNOME_Gnumeric.xml.h:138 src/workbook-control-gui.c:2899
+#: src/GNOME_Gnumeric.xml.h:138 src/workbook-control-gui.c:2896
 msgid "Make any hidden rows in the selection visible"
 msgstr "選択範囲の非表示の行を表示します"
 
@@ -1827,11 +1827,11 @@ msgstr "結合"
 msgid "Merge a range of cells"
 msgstr "選択したセルを結合します"
 
-#: src/GNOME_Gnumeric.xml.h:145 src/workbook-control-gui.c:2953
+#: src/GNOME_Gnumeric.xml.h:145 src/workbook-control-gui.c:2950
 msgid "Modify the formatting of the selected cells"
 msgstr "選択されたセルの書式を変更します"
 
-#: src/GNOME_Gnumeric.xml.h:146 src/workbook-control-gui.c:2965
+#: src/GNOME_Gnumeric.xml.h:146 src/workbook-control-gui.c:2962
 msgid "Modify the workbook attributes"
 msgstr "ワークブックの属性を変更します"
 
@@ -1839,27 +1839,27 @@ msgstr "ワークブックの属性を変更します"
 msgid "Money"
 msgstr "金額"
 
-#: src/GNOME_Gnumeric.xml.h:148 src/workbook-control-gui.c:2991
+#: src/GNOME_Gnumeric.xml.h:148 src/workbook-control-gui.c:2988
 msgid "Moving average"
 msgstr "移動平均"
 
-#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:3179
+#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:3176
 msgid "New"
 msgstr "新規"
 
-#: src/GNOME_Gnumeric.xml.h:150 src/workbook-control-gui.c:2794
+#: src/GNOME_Gnumeric.xml.h:150 src/workbook-control-gui.c:2791
 msgid "New _Shared"
 msgstr "新規シェアード(_S)"
 
-#: src/GNOME_Gnumeric.xml.h:151 src/workbook-control-gui.c:2797
+#: src/GNOME_Gnumeric.xml.h:151 src/workbook-control-gui.c:2794
 msgid "New _Unshared"
 msgstr "新規アンシェアード(_U)"
 
-#: src/GNOME_Gnumeric.xml.h:152 src/workbook-control-gui.c:2975
+#: src/GNOME_Gnumeric.xml.h:152 src/workbook-control-gui.c:2972
 msgid "One Factor Analysis of Variance"
 msgstr "変化量の一要素の解析"
 
-#: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:3182
+#: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:3179
 msgid "Open"
 msgstr "開く"
 
@@ -1871,11 +1871,11 @@ msgstr "スプレッドシートを開きます"
 msgid "Open an existing workbook"
 msgstr "既存のワークブックを開きます"
 
-#: src/GNOME_Gnumeric.xml.h:156 src/workbook-control-gui.c:3116
+#: src/GNOME_Gnumeric.xml.h:156 src/workbook-control-gui.c:3113
 msgid "Outlines _Below"
 msgstr "下のアウトライン(_B)"
 
-#: src/GNOME_Gnumeric.xml.h:157 src/workbook-control-gui.c:3122
+#: src/GNOME_Gnumeric.xml.h:157 src/workbook-control-gui.c:3119
 msgid "Outlines _Right"
 msgstr "右のアウトライン(_R)"
 
@@ -1887,16 +1887,16 @@ msgstr "楕円"
 msgid "P_aste Special..."
 msgstr "特殊貼り付け(_A)..."
 
-#: src/GNOME_Gnumeric.xml.h:160 src/workbook-control-gui.c:2624
+#: src/GNOME_Gnumeric.xml.h:160 src/workbook-control-gui.c:2621
 msgid "P_roperties..."
 msgstr "プロパティ(_R)..."
 
 #: src/GNOME_Gnumeric.xml.h:161 src/cmd-edit.c:344
-#: src/workbook-control-gui.c:3206
+#: src/workbook-control-gui.c:3203
 msgid "Paste"
 msgstr "貼付け"
 
-#: src/GNOME_Gnumeric.xml.h:162 src/workbook-control-gui.c:2743
+#: src/GNOME_Gnumeric.xml.h:162 src/workbook-control-gui.c:2740
 msgid "Paste the clipboard"
 msgstr "クリップボードから貼付けます"
 
@@ -1904,11 +1904,11 @@ msgstr "クリップボードから貼付けます"
 msgid "Paste the contents of the clipboard or cut buffer"
 msgstr "クリップボードの内容やカットバッファを貼り付けます"
 
-#: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:2748
+#: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:2745
 msgid "Paste with optional filters and transformations"
 msgstr "オプションのフィルタを使って変換して貼り付けます"
 
-#: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:3026
+#: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:3023
 msgid "Pearson Correlation"
 msgstr "ピアソン相関"
 
@@ -1917,21 +1917,21 @@ msgstr "ピアソン相関"
 msgid "Percent"
 msgstr "パーセント"
 
-#: src/GNOME_Gnumeric.xml.h:167 src/workbook-control-gui.c:3050
+#: src/GNOME_Gnumeric.xml.h:167 src/workbook-control-gui.c:3047
 msgid "Periodic and random samples"
 msgstr "周期的/ランダムなサンプル"
 
 #: src/GNOME_Gnumeric.xml.h:168 src/dialogs/print.glade.h:16
-#: src/workbook-control-gui.c:3191
+#: src/workbook-control-gui.c:3188
 msgid "Print"
 msgstr "印刷"
 
-#: src/GNOME_Gnumeric.xml.h:169 src/workbook-control-gui.c:2618
+#: src/GNOME_Gnumeric.xml.h:169 src/workbook-control-gui.c:2616
 msgid "Print Pre_view..."
 msgstr "印刷プレビュー(_V)..."
 
-#: src/GNOME_Gnumeric.xml.h:170 src/workbook-control-gui.c:2618
-#: src/workbook-control-gui.c:3194
+#: src/GNOME_Gnumeric.xml.h:170 src/workbook-control-gui.c:2616
+#: src/workbook-control-gui.c:3191
 msgid "Print Preview"
 msgstr "印刷プレビューを表示します"
 
@@ -1939,7 +1939,7 @@ msgstr "印刷プレビューを表示します"
 msgid "Print S_etup..."
 msgstr "印刷設定(_E)..."
 
-#: src/GNOME_Gnumeric.xml.h:172 src/dialogs/print.glade.h:18 src/print.c:1185
+#: src/GNOME_Gnumeric.xml.h:172 src/dialogs/print.glade.h:18 src/print.c:1191
 msgid "Print preview"
 msgstr "印刷プレビュー"
 
@@ -1959,12 +1959,12 @@ msgstr "ラジオボタン"
 msgid "Ranks and _Percentiles"
 msgstr "階数と百分位数(_P)"
 
-#: src/GNOME_Gnumeric.xml.h:177 src/workbook-control-gui.c:3044
+#: src/GNOME_Gnumeric.xml.h:177 src/workbook-control-gui.c:3041
 msgid "Ranks, placements and percentiles"
 msgstr "階数と百分位数"
 
-#: src/GNOME_Gnumeric.xml.h:178 src/workbook-control-gui.c:2710
-#: src/workbook-control-gui.c:2911
+#: src/GNOME_Gnumeric.xml.h:178 src/workbook-control-gui.c:2707
+#: src/workbook-control-gui.c:2908
 msgid "Re-_Order Sheets..."
 msgstr "シートの再並び替え(_O)"
 
@@ -1972,15 +1972,15 @@ msgstr "シートの再並び替え(_O)"
 msgid "Re-_Order..."
 msgstr "再並び替え(_O)..."
 
-#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:2706
+#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:2703
 msgid "Re_name..."
 msgstr "名前変更(_N)..."
 
-#: src/GNOME_Gnumeric.xml.h:181 src/workbook-control-gui.c:2783
+#: src/GNOME_Gnumeric.xml.h:181 src/workbook-control-gui.c:2780
 msgid "Recalculate"
 msgstr "再計算(_R)"
 
-#: src/GNOME_Gnumeric.xml.h:182 src/workbook-control-gui.c:2784
+#: src/GNOME_Gnumeric.xml.h:182 src/workbook-control-gui.c:2781
 msgid "Recalculate the spreadsheet"
 msgstr "表を再計算します"
 
@@ -1988,15 +1988,15 @@ msgstr "表を再計算します"
 msgid "Rectangle"
 msgstr "矩形"
 
-#: src/GNOME_Gnumeric.xml.h:184 src/workbook-control-gui.c:2728
+#: src/GNOME_Gnumeric.xml.h:184 src/workbook-control-gui.c:2725
 msgid "Redo the undone action"
 msgstr "元に戻した操作をやり直します"
 
-#: src/GNOME_Gnumeric.xml.h:185 src/workbook-control-gui.c:3047
+#: src/GNOME_Gnumeric.xml.h:185 src/workbook-control-gui.c:3044
 msgid "Regression Analysis"
 msgstr "回帰分析"
 
-#: src/GNOME_Gnumeric.xml.h:186 src/workbook-control-gui.c:3104
+#: src/GNOME_Gnumeric.xml.h:186 src/workbook-control-gui.c:3101
 msgid "Remove an outline group"
 msgstr "外側のグループを削除します"
 
@@ -2004,7 +2004,7 @@ msgstr "外側のグループを削除します"
 msgid "Remove selected cells, shifting others into their place"
 msgstr "選択されたセルを削除して、その場所に他のセルをずらします"
 
-#: src/GNOME_Gnumeric.xml.h:188 src/workbook-control-gui.c:2707
+#: src/GNOME_Gnumeric.xml.h:188 src/workbook-control-gui.c:2704
 msgid "Rename the current sheet"
 msgstr "現在のシート名を変更します"
 
@@ -2017,20 +2017,20 @@ msgstr "右"
 msgid "Right justifies the contents of each cell"
 msgstr "セルの内容をそれぞれ右揃えにします"
 
-#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:2760
+#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:2757
 msgid "S_heet"
 msgstr "シート(_H)"
 
-#: src/GNOME_Gnumeric.xml.h:192 src/workbook-control-gui.c:2864
+#: src/GNOME_Gnumeric.xml.h:192 src/workbook-control-gui.c:2861
 msgid "S_pecial"
 msgstr "特別(_P)"
 
 #: src/GNOME_Gnumeric.xml.h:193 src/workbook-control-gui.c:2607
-#: src/workbook-control-gui.c:3185
+#: src/workbook-control-gui.c:3182
 msgid "Save"
 msgstr "保存"
 
-#: src/GNOME_Gnumeric.xml.h:194 src/workbook-control-gui.c:2610
+#: src/GNOME_Gnumeric.xml.h:194 src/workbook-control-gui.c:2609
 msgid "Save _As..."
 msgstr "名前を付けて保存(_A)..."
 
@@ -2050,43 +2050,43 @@ msgstr "ワークブックを保存します"
 msgid "Scrollbar"
 msgstr "スクロールバー"
 
-#: src/GNOME_Gnumeric.xml.h:199 src/workbook-control-gui.c:2772
+#: src/GNOME_Gnumeric.xml.h:199 src/workbook-control-gui.c:2769
 msgid "Search and Replace..."
 msgstr "検索と置換..."
 
-#: src/GNOME_Gnumeric.xml.h:200 src/workbook-control-gui.c:2767
+#: src/GNOME_Gnumeric.xml.h:200 src/workbook-control-gui.c:2764
 msgid "Search for some text"
 msgstr "幾つかの文を検索します"
 
-#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:2773
+#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:2770
 msgid "Search for some text and replace it with something else"
 msgstr "テキストの検索と何か別のものでそのテキストを置換します"
 
-#: src/GNOME_Gnumeric.xml.h:202 src/workbook-control-gui.c:2766
+#: src/GNOME_Gnumeric.xml.h:202 src/workbook-control-gui.c:2763
 msgid "Search..."
 msgstr "検索..."
 
-#: src/GNOME_Gnumeric.xml.h:203 src/workbook-control-gui.c:2671
+#: src/GNOME_Gnumeric.xml.h:203 src/workbook-control-gui.c:2668
 msgid "Select Arra_y"
 msgstr "配列を選択(_Y)"
 
-#: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:2656
+#: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:2653
 msgid "Select _All"
 msgstr "全て選択(_A)"
 
-#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2666
+#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2663
 msgid "Select _Column"
 msgstr "列の選択(_C)"
 
-#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:2676
+#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:2673
 msgid "Select _Depends"
 msgstr "依存セルの選択(_D)"
 
-#: src/GNOME_Gnumeric.xml.h:207 src/workbook-control-gui.c:2661
+#: src/GNOME_Gnumeric.xml.h:207 src/workbook-control-gui.c:2658
 msgid "Select _Row"
 msgstr "行の選択(_R)"
 
-#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:2657
+#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:2654
 msgid "Select all cells in the spreadsheet"
 msgstr "スプレッドシート中の全てのセルを選択します"
 
@@ -2094,15 +2094,15 @@ msgstr "スプレッドシート中の全てのセルを選択します"
 msgid "Select all the cells that depend on the current edit cell"
 msgstr "現在編集中のセルに依存するセルを全て選択します"
 
-#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:2672
+#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:2669
 msgid "Select an array of cells"
 msgstr "セル配列を選択します"
 
-#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:2667
+#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:2664
 msgid "Select an entire column"
 msgstr "列全体を選択します"
 
-#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:2662
+#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:2659
 msgid "Select an entire row"
 msgstr "行全体を選択します"
 
@@ -2122,11 +2122,11 @@ msgstr "選択されているセルの形式をパーセントにする"
 msgid "Setup the page settings for your current printer"
 msgstr "プリンタにあわせてページを設定します"
 
-#: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:3233
+#: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:3230
 msgid "Sort Ascending"
 msgstr "昇順に並べ替え"
 
-#: src/GNOME_Gnumeric.xml.h:218 src/workbook-control-gui.c:3236
+#: src/GNOME_Gnumeric.xml.h:218 src/workbook-control-gui.c:3233
 msgid "Sort Descending"
 msgstr "降順に並べ替え"
 
@@ -2154,13 +2154,13 @@ msgstr "分割"
 msgid "Split merged ranges of cells"
 msgstr "結合したセルを分割します"
 
-#: src/GNOME_Gnumeric.xml.h:224 src/workbook-control-gui.c:3088
+#: src/GNOME_Gnumeric.xml.h:224 src/workbook-control-gui.c:3085
 msgid "Statistical Anal_ysis"
 msgstr "統計学的手法(_Y)"
 
 #: src/GNOME_Gnumeric.xml.h:225 src/dialogs/consolidate.glade.h:19
-#: src/workbook-control-gui.c:3226 src/workbook-control-gui.c:3844
-#: src/workbook-view.c:518
+#: src/workbook-control-gui.c:3223 src/workbook-control-gui.c:3832
+#: src/workbook-view.c:450
 msgid "Sum"
 msgstr "合計"
 
@@ -2172,43 +2172,43 @@ msgstr "現在のセルに総和を挿入します"
 msgid "Thousand separator"
 msgstr "1000ごとのカンマ"
 
-#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:2936
+#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:2933
 msgid "Toggle whether or not to display column headers"
 msgstr "列のヘッダの表示/非表示を切替えます"
 
-#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:2930
+#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:2927
 msgid "Toggle whether or not to display gridlines"
 msgstr "グリッドラインの表示/非表示を切替えます"
 
-#: src/GNOME_Gnumeric.xml.h:230 src/workbook-control-gui.c:3111
+#: src/GNOME_Gnumeric.xml.h:230 src/workbook-control-gui.c:3108
 msgid "Toggle whether or not to display outline groups"
 msgstr "アウトライン・グループの表示/非表示を切り替えます"
 
-#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:2942
+#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:2939
 msgid "Toggle whether or not to display row headers"
 msgstr "行のヘッダの表示/非表示を切替えます"
 
-#: src/GNOME_Gnumeric.xml.h:232 src/workbook-control-gui.c:2924
+#: src/GNOME_Gnumeric.xml.h:232 src/workbook-control-gui.c:2921
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr "ゼロをブランクとして表示/非表示を切替えます"
 
-#: src/GNOME_Gnumeric.xml.h:233 src/workbook-control-gui.c:3123
+#: src/GNOME_Gnumeric.xml.h:233 src/workbook-control-gui.c:3120
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr "左/右の列のアウトラインの表示/非表示を切り替えます"
 
-#: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:3117
+#: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:3114
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr "上/下の行のアウトラインの表示/非表示を切り替えます"
 
-#: src/GNOME_Gnumeric.xml.h:235 src/workbook-control-gui.c:2978
+#: src/GNOME_Gnumeric.xml.h:235 src/workbook-control-gui.c:2975
 msgid "Two Factor Analysis of Variance"
 msgstr "変化量の二要素の解析"
 
-#: src/GNOME_Gnumeric.xml.h:236 src/workbook-control-gui.c:3053
+#: src/GNOME_Gnumeric.xml.h:236 src/workbook-control-gui.c:3050
 msgid "Two _Means"
 msgstr "二つの平均(_M)"
 
-#: src/GNOME_Gnumeric.xml.h:237 src/workbook-control-gui.c:3098
+#: src/GNOME_Gnumeric.xml.h:237 src/workbook-control-gui.c:3095
 msgid "Uncollapse an outline group"
 msgstr "外側のグループを展開します"
 
@@ -2220,35 +2220,35 @@ msgstr "下線"
 msgid "Underlines the text"
 msgstr "文字に下線を付加します"
 
-#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:2724
+#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:2721
 msgid "Undo the last action"
 msgstr "直前の操作を取り消します"
 
-#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:3003
+#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:3000
 msgid "Unpaired Samples, E_qual Var.: T-Test"
 msgstr "対でないサンプル、変化量は等しい: T-検定(_Q)"
 
-#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:3008
+#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:3005
 msgid "Unpaired Samples, _Unequal Var.: T-Test"
 msgstr "対でないサンプル、変化量は等しい: T-検定(_U)"
 
-#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:3146
+#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:3143
 msgid "Validate input with preset criteria"
 msgstr "プレセット基準で入力を検証します"
 
-#: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:3041
+#: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:3038
 msgid "Various frequency tables"
 msgstr "様々な周期テーブル"
 
-#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:3032
+#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:3029
 msgid "Various summary statistics"
 msgstr "様々なサマリ統計"
 
-#: src/GNOME_Gnumeric.xml.h:246 src/workbook-control-gui.c:2804
+#: src/GNOME_Gnumeric.xml.h:246 src/workbook-control-gui.c:2801
 msgid "Zoom the spreadsheet in or out"
 msgstr "表の拡大/縮小を行います"
 
-#: src/GNOME_Gnumeric.xml.h:247 src/workbook-control-gui.c:3023
+#: src/GNOME_Gnumeric.xml.h:247 src/workbook-control-gui.c:3020
 msgid "_ANOVA"
 msgstr "ANOVA(_A)"
 
@@ -2256,29 +2256,29 @@ msgstr "ANOVA(_A)"
 msgid "_About..."
 msgstr "情報(_A)..."
 
-#: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:2860
+#: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:2857
 msgid "_Add / Modify comment..."
 msgstr "注釈の追加(_A)/変更..."
 
-#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:2638
+#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:2635
 msgid "_All"
 msgstr "全て(_A)"
 
-#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:3072
+#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:3069
 msgid "_Auto Save..."
 msgstr "自動保存(_A)..."
 
-#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:2873
-#: src/workbook-control-gui.c:2892
+#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:2870
+#: src/workbook-control-gui.c:2889
 msgid "_Auto fit selection"
 msgstr "選択部分の自動フィット(_A)"
 
-#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:2960
+#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:2957
 msgid "_Autoformat..."
 msgstr "自動書式設定(_A)"
 
 #. Default <Ctrl-1> invoke the format dialog
-#: src/GNOME_Gnumeric.xml.h:254 src/workbook-control-gui.c:2952
+#: src/GNOME_Gnumeric.xml.h:254 src/workbook-control-gui.c:2949
 msgid "_Cells..."
 msgstr "セル(_C)..."
 
@@ -2296,45 +2296,45 @@ msgstr "閉じる(_C)"
 #: src/dialogs/fourier-analysis.glade.h:8 src/dialogs/histogram.glade.h:21
 #: src/dialogs/moving-averages.glade.h:9 src/dialogs/rank.glade.h:10
 #: src/dialogs/regression.glade.h:10 src/dialogs/sampling.glade.h:13
-#: src/workbook-control-gui.c:2849
+#: src/workbook-control-gui.c:2846
 msgid "_Columns"
 msgstr "列(_C)"
 
-#: src/GNOME_Gnumeric.xml.h:258 src/workbook-control-gui.c:3148
+#: src/GNOME_Gnumeric.xml.h:258 src/workbook-control-gui.c:3145
 msgid "_Consolidate..."
 msgstr "合成(_C)..."
 
-#: src/GNOME_Gnumeric.xml.h:259 src/workbook-control-gui.c:2647
+#: src/GNOME_Gnumeric.xml.h:259 src/workbook-control-gui.c:2644
 msgid "_Content"
 msgstr "内容(_C)"
 
 #: src/GNOME_Gnumeric.xml.h:260 src/item-cursor.c:1030
-#: src/sheet-control-gui.c:1394 src/workbook-control-gui.c:2738
+#: src/sheet-control-gui.c:1393 src/workbook-control-gui.c:2735
 msgid "_Copy"
 msgstr "コピー(_C)"
 
-#: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:3025
+#: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:3022
 msgid "_Correlation"
 msgstr "相関(_C)"
 
-#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:3172
+#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:3169
 msgid "_Data"
 msgstr "データ(_D)"
 
-#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:2830
+#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:2827
 msgid "_Define..."
 msgstr "定義(_D)..."
 
-#: src/GNOME_Gnumeric.xml.h:264 src/sheet-control-gui.c:1412
-#: src/workbook-control-gui.c:2755
+#: src/GNOME_Gnumeric.xml.h:264 src/sheet-control-gui.c:1411
+#: src/workbook-control-gui.c:2752
 msgid "_Delete..."
 msgstr "削除(_D)..."
 
-#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:3031
+#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:3028
 msgid "_Descriptive Statistics"
 msgstr "記述統計(_D)"
 
-#: src/GNOME_Gnumeric.xml.h:266 src/workbook-control-gui.c:2698
+#: src/GNOME_Gnumeric.xml.h:266 src/workbook-control-gui.c:2695
 msgid "_Duplicate"
 msgstr "複製(_D)"
 
@@ -2342,7 +2342,7 @@ msgstr "複製(_D)"
 msgid "_Edit"
 msgstr "編集(_E)"
 
-#: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:2986
+#: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:2983
 msgid "_Exponential Smoothing"
 msgstr "指数のスムーズ化(_E)"
 
@@ -2351,32 +2351,32 @@ msgid "_File"
 msgstr "ファイル(_F)"
 
 #: src/GNOME_Gnumeric.xml.h:270 src/dialogs/cell-format.glade.h:109
-#: src/workbook-control-gui.c:2764
+#: src/workbook-control-gui.c:2761
 msgid "_Fill"
 msgstr "繰り返し(_F)"
 
-#: src/GNOME_Gnumeric.xml.h:271 src/workbook-control-gui.c:3144
+#: src/GNOME_Gnumeric.xml.h:271 src/workbook-control-gui.c:3141
 msgid "_Filter"
 msgstr "フィルタ(_F)"
 
-#: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:2641
+#: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:2638
 msgid "_Formats"
 msgstr "書式設定(_F)"
 
-#: src/GNOME_Gnumeric.xml.h:273 src/workbook-control-gui.c:3037
+#: src/GNOME_Gnumeric.xml.h:273 src/workbook-control-gui.c:3034
 msgid "_Fourier Analysis"
 msgstr "フーリエ解析(_F)"
 
 #: src/GNOME_Gnumeric.xml.h:274 src/workbook-control-gui.c:970
-#: src/workbook-control-gui.c:2806
+#: src/workbook-control-gui.c:2803
 msgid "_Freeze Panes"
 msgstr "ペインの圧縮(_F)"
 
-#: src/GNOME_Gnumeric.xml.h:275 src/workbook-control-gui.c:3078
+#: src/GNOME_Gnumeric.xml.h:275 src/workbook-control-gui.c:3075
 msgid "_Goal Seek..."
 msgstr "目標探索(_G)..."
 
-#: src/GNOME_Gnumeric.xml.h:276 src/workbook-control-gui.c:2778
+#: src/GNOME_Gnumeric.xml.h:276 src/workbook-control-gui.c:2775
 msgid "_Goto cell..."
 msgstr "セルに移動(_G)..."
 
@@ -2388,7 +2388,7 @@ msgstr "グラフ(_G)..."
 msgid "_Group"
 msgstr "グループ化(_G)"
 
-#: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:3154
+#: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:3151
 msgid "_Group and Outline"
 msgstr "グループとアウトライン(_G)"
 
@@ -2396,17 +2396,17 @@ msgstr "グループとアウトライン(_G)"
 msgid "_Help"
 msgstr "ヘルプ(_H)"
 
-#: src/GNOME_Gnumeric.xml.h:281 src/sheet-control-gui.c:1435
-#: src/sheet-control-gui.c:1443 src/workbook-control-gui.c:2876
-#: src/workbook-control-gui.c:2895
+#: src/GNOME_Gnumeric.xml.h:281 src/sheet-control-gui.c:1434
+#: src/sheet-control-gui.c:1442 src/workbook-control-gui.c:2873
+#: src/workbook-control-gui.c:2892
 msgid "_Hide"
 msgstr "隠す(_H)"
 
-#: src/GNOME_Gnumeric.xml.h:282 src/workbook-control-gui.c:3094
+#: src/GNOME_Gnumeric.xml.h:282 src/workbook-control-gui.c:3091
 msgid "_Hide Detail"
 msgstr "詳細を隠す"
 
-#: src/GNOME_Gnumeric.xml.h:283 src/workbook-control-gui.c:3040
+#: src/GNOME_Gnumeric.xml.h:283 src/workbook-control-gui.c:3037
 msgid "_Histogram"
 msgstr "ヒストグラム(_H)"
 
@@ -2414,8 +2414,8 @@ msgstr "ヒストグラム(_H)"
 msgid "_Import..."
 msgstr "インポート(_I)..."
 
-#: src/GNOME_Gnumeric.xml.h:285 src/workbook-control-gui.c:2702
-#: src/workbook-control-gui.c:3169
+#: src/GNOME_Gnumeric.xml.h:285 src/workbook-control-gui.c:2699
+#: src/workbook-control-gui.c:3166
 msgid "_Insert"
 msgstr "挿入(_I)"
 
@@ -2423,15 +2423,15 @@ msgstr "挿入(_I)"
 msgid "_Insert new"
 msgstr "新規に挿入(_I)"
 
-#: src/GNOME_Gnumeric.xml.h:287 src/workbook-control-gui.c:3013
+#: src/GNOME_Gnumeric.xml.h:287 src/workbook-control-gui.c:3010
 msgid "_Known Variances or Large Sample: Z-Test"
 msgstr "既知の変化量または大きいサンプル: Z-検定(_K)"
 
-#: src/GNOME_Gnumeric.xml.h:288 src/workbook-control-gui.c:2990
+#: src/GNOME_Gnumeric.xml.h:288 src/workbook-control-gui.c:2987
 msgid "_Moving Average"
 msgstr "移動平均(_M)"
 
-#: src/GNOME_Gnumeric.xml.h:289 src/workbook-control-gui.c:2858
+#: src/GNOME_Gnumeric.xml.h:289 src/workbook-control-gui.c:2855
 msgid "_Name"
 msgstr "名前(_N)"
 
@@ -2443,7 +2443,7 @@ msgstr "新規(_N)"
 msgid "_Object..."
 msgstr "オブジェクト(_O)..."
 
-#: src/GNOME_Gnumeric.xml.h:292 src/workbook-control-gui.c:2974
+#: src/GNOME_Gnumeric.xml.h:292 src/workbook-control-gui.c:2971
 msgid "_One Factor"
 msgstr "一次元配置(_O)"
 
@@ -2451,16 +2451,16 @@ msgstr "一次元配置(_O)"
 msgid "_Open..."
 msgstr "開く(_O)..."
 
-#: src/GNOME_Gnumeric.xml.h:294 src/workbook-control-gui.c:2999
+#: src/GNOME_Gnumeric.xml.h:294 src/workbook-control-gui.c:2996
 msgid "_Paired Samples: T-Test"
 msgstr "対のサンプル: T-検定(_P)"
 
-#: src/GNOME_Gnumeric.xml.h:295 src/sheet-control-gui.c:1396
-#: src/workbook-control-gui.c:2742
+#: src/GNOME_Gnumeric.xml.h:295 src/sheet-control-gui.c:1395
+#: src/workbook-control-gui.c:2739
 msgid "_Paste"
 msgstr "貼付け(_P)"
 
-#: src/GNOME_Gnumeric.xml.h:296 src/workbook-control-gui.c:3063
+#: src/GNOME_Gnumeric.xml.h:296 src/workbook-control-gui.c:3060
 msgid "_Plug-ins..."
 msgstr "プラグイン(_P)..."
 
@@ -2468,25 +2468,25 @@ msgstr "プラグイン(_P)..."
 msgid "_Print..."
 msgstr "印刷(_P)..."
 
-#: src/GNOME_Gnumeric.xml.h:298 src/workbook-control-gui.c:2690
+#: src/GNOME_Gnumeric.xml.h:298 src/workbook-control-gui.c:2687
 msgid "_Random Generator..."
 msgstr "乱数生成(_R)..."
 
 #: src/GNOME_Gnumeric.xml.h:299 src/workbook-control-gui.c:1036
-#: src/workbook-control-gui.c:2727
+#: src/workbook-control-gui.c:2724
 msgid "_Redo"
 msgstr "やり直し(_R)"
 
-#: src/GNOME_Gnumeric.xml.h:300 src/workbook-control-gui.c:3046
+#: src/GNOME_Gnumeric.xml.h:300 src/workbook-control-gui.c:3043
 msgid "_Regression"
 msgstr "回帰(_R)"
 
 #: src/GNOME_Gnumeric.xml.h:301 src/dialogs/autocorrect.glade.h:12
-#: src/dialogs/dialog-stf.glade.h:66 src/workbook-control-gui.c:2714
+#: src/dialogs/dialog-stf.glade.h:66 src/workbook-control-gui.c:2711
 msgid "_Remove"
 msgstr "削除(_R)"
 
-#: src/GNOME_Gnumeric.xml.h:302 src/workbook-control-gui.c:2957
+#: src/GNOME_Gnumeric.xml.h:302 src/workbook-control-gui.c:2954
 msgid "_Row"
 msgstr "行(_R)"
 
@@ -2496,11 +2496,11 @@ msgstr "行(_R)"
 #: src/dialogs/fourier-analysis.glade.h:13
 #: src/dialogs/moving-averages.glade.h:14 src/dialogs/rank.glade.h:15
 #: src/dialogs/regression.glade.h:15 src/dialogs/sampling.glade.h:20
-#: src/workbook-control-gui.c:2846
+#: src/workbook-control-gui.c:2843
 msgid "_Rows"
 msgstr "行(_R)"
 
-#: src/GNOME_Gnumeric.xml.h:304 src/workbook-control-gui.c:3049
+#: src/GNOME_Gnumeric.xml.h:304 src/workbook-control-gui.c:3046
 msgid "_Sampling"
 msgstr "サンプリング(_S)"
 
@@ -2508,7 +2508,7 @@ msgstr "サンプリング(_S)"
 msgid "_Save"
 msgstr "保存(_S)"
 
-#: src/GNOME_Gnumeric.xml.h:306 src/workbook-control-gui.c:2762
+#: src/GNOME_Gnumeric.xml.h:306 src/workbook-control-gui.c:2759
 msgid "_Select"
 msgstr "選択(_S)"
 
@@ -2516,16 +2516,16 @@ msgstr "選択(_S)"
 msgid "_Shaped Object"
 msgstr "矩形オブジェクト(_S)"
 
-#: src/GNOME_Gnumeric.xml.h:308 src/workbook-control-gui.c:2843
-#: src/workbook-control-gui.c:2958
+#: src/GNOME_Gnumeric.xml.h:308 src/workbook-control-gui.c:2840
+#: src/workbook-control-gui.c:2955
 msgid "_Sheet"
 msgstr "シート(_S)"
 
-#: src/GNOME_Gnumeric.xml.h:309 src/workbook-control-gui.c:3097
+#: src/GNOME_Gnumeric.xml.h:309 src/workbook-control-gui.c:3094
 msgid "_Show Detail"
 msgstr "詳細の表示(_S)"
 
-#: src/GNOME_Gnumeric.xml.h:310 src/workbook-control-gui.c:3082
+#: src/GNOME_Gnumeric.xml.h:310 src/workbook-control-gui.c:3079
 msgid "_Solver..."
 msgstr "ソルバ(_S)..."
 
@@ -2533,15 +2533,15 @@ msgstr "ソルバ(_S)..."
 msgid "_Sort..."
 msgstr "並べ替え(_S)..."
 
-#: src/GNOME_Gnumeric.xml.h:312 src/workbook-control-gui.c:2901
+#: src/GNOME_Gnumeric.xml.h:312 src/workbook-control-gui.c:2898
 msgid "_Standard Height"
 msgstr "標準の高さ(_S)"
 
-#: src/GNOME_Gnumeric.xml.h:313 src/workbook-control-gui.c:2882
+#: src/GNOME_Gnumeric.xml.h:313 src/workbook-control-gui.c:2879
 msgid "_Standard Width"
 msgstr "標準の幅 (_S)"
 
-#: src/GNOME_Gnumeric.xml.h:314 src/workbook-control-gui.c:2687
+#: src/GNOME_Gnumeric.xml.h:314 src/workbook-control-gui.c:2684
 msgid "_Tabulate Dependency..."
 msgstr "依存関係を表にする(_T)..."
 
@@ -2549,20 +2549,20 @@ msgstr "依存関係を表にする(_T)..."
 msgid "_Toolbars..."
 msgstr "ツールバー(_T)..."
 
-#: src/GNOME_Gnumeric.xml.h:316 src/workbook-control-gui.c:3171
+#: src/GNOME_Gnumeric.xml.h:316 src/workbook-control-gui.c:3168
 msgid "_Tools"
 msgstr "ツール(_T)"
 
-#: src/GNOME_Gnumeric.xml.h:317 src/workbook-control-gui.c:2977
+#: src/GNOME_Gnumeric.xml.h:317 src/workbook-control-gui.c:2974
 msgid "_Two Factor"
 msgstr "二次元配置(_T)"
 
-#: src/GNOME_Gnumeric.xml.h:318 src/workbook-control-gui.c:3055
+#: src/GNOME_Gnumeric.xml.h:318 src/workbook-control-gui.c:3052
 msgid "_Two Variances: FTest"
 msgstr "二つの変化量: F-検定(_T)"
 
 #: src/GNOME_Gnumeric.xml.h:319 src/workbook-control-gui.c:1035
-#: src/workbook-control-gui.c:2723
+#: src/workbook-control-gui.c:2720
 msgid "_Undo"
 msgstr "元に戻す(_U)"
 
@@ -2570,13 +2570,13 @@ msgstr "元に戻す(_U)"
 msgid "_Ungroup"
 msgstr "グループ化解除(_U)"
 
-#: src/GNOME_Gnumeric.xml.h:321 src/sheet-control-gui.c:1437
-#: src/sheet-control-gui.c:1445 src/workbook-control-gui.c:2879
-#: src/workbook-control-gui.c:2898
+#: src/GNOME_Gnumeric.xml.h:321 src/sheet-control-gui.c:1436
+#: src/sheet-control-gui.c:1444 src/workbook-control-gui.c:2876
+#: src/workbook-control-gui.c:2895
 msgid "_Unhide"
 msgstr "出す(_U)"
 
-#: src/GNOME_Gnumeric.xml.h:322 src/workbook-control-gui.c:3145
+#: src/GNOME_Gnumeric.xml.h:322 src/workbook-control-gui.c:3142
 msgid "_Validate..."
 msgstr "検証(_V)..."
 
@@ -2584,15 +2584,15 @@ msgstr "検証(_V)..."
 msgid "_View"
 msgstr "表示(_V)"
 
-#: src/GNOME_Gnumeric.xml.h:324 src/workbook-control-gui.c:2870
+#: src/GNOME_Gnumeric.xml.h:324 src/workbook-control-gui.c:2867
 msgid "_Width..."
 msgstr "幅(_W)..."
 
-#: src/GNOME_Gnumeric.xml.h:325 src/workbook-control-gui.c:2964
+#: src/GNOME_Gnumeric.xml.h:325 src/workbook-control-gui.c:2961
 msgid "_Workbook..."
 msgstr "ワークブック(_W)..."
 
-#: src/GNOME_Gnumeric.xml.h:326 src/workbook-control-gui.c:2803
+#: src/GNOME_Gnumeric.xml.h:326 src/workbook-control-gui.c:2800
 msgid "_Zoom..."
 msgstr "ズーム(_Z)..."
 
@@ -2916,7 +2916,7 @@ msgstr "虚数"
 msgid "Error '%s' opening workbook stream"
 msgstr "ワークブックストリームを開くときにエラー '%s' が発生しました"
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3401
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3258
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "不正な xml ファイルです。ツリーは空ですか？"
 
@@ -3828,7 +3828,7 @@ msgstr "何か値                     (検証なし)"
 msgid "Background Color"
 msgstr "背景色"
 
-#: src/dialogs/cell-format.glade.h:17 src/dialogs/dialog-cell-format.c:2567
+#: src/dialogs/cell-format.glade.h:17 src/dialogs/dialog-cell-format.c:2569
 msgid "Border"
 msgstr "罫線"
 
@@ -3864,7 +3864,7 @@ msgstr "色 :"
 msgid "Control"
 msgstr "文字の制御"
 
-#: src/dialogs/cell-format.glade.h:26 src/dialogs/dialog-cell-format.c:2106
+#: src/dialogs/cell-format.glade.h:26 src/dialogs/dialog-cell-format.c:2108
 msgid "Criteria"
 msgstr "条件"
 
@@ -3906,8 +3906,8 @@ msgstr "左下がり斜線の縞"
 msgid "Display the value exactly as it was entered"
 msgstr "入力された通りに値を表示します"
 
-#: src/dialogs/cell-format.glade.h:36 src/dialogs/dialog-cell-format.c:1303
-#: src/dialogs/dialog-cell-format.c:1363
+#: src/dialogs/cell-format.glade.h:36 src/dialogs/dialog-cell-format.c:1305
+#: src/dialogs/dialog-cell-format.c:1365
 msgid "Double"
 msgstr "二重"
 
@@ -3985,8 +3985,8 @@ msgstr "メッセージ :"
 msgid "Negative number:"
 msgstr "負の数:"
 
-#: src/dialogs/cell-format.glade.h:58 src/dialogs/dialog-cell-format.c:1305
-#: src/dialogs/dialog-cell-format.c:1361 src/dialogs/dialog-paste-special.c:34
+#: src/dialogs/cell-format.glade.h:58 src/dialogs/dialog-cell-format.c:1307
+#: src/dialogs/dialog-cell-format.c:1363 src/dialogs/dialog-paste-special.c:34
 msgid "None"
 msgstr "なし"
 
@@ -3994,8 +3994,8 @@ msgstr "なし"
 msgid "None          (silently accept invalid input)"
 msgstr "なし         (不正な入力を黙って受け入れます)"
 
-#: src/dialogs/cell-format.glade.h:60 src/dialogs/dialog-formula-guru.c:432
-#: src/dialogs/dialog-search.c:126
+#: src/dialogs/cell-format.glade.h:60 src/dialogs/dialog-formula-guru.c:435
+#: src/dialogs/dialog-search.c:129
 msgid "Number"
 msgstr "数値"
 
@@ -4011,7 +4011,7 @@ msgstr "方向"
 msgid "Outline"
 msgstr "外枠"
 
-#: src/dialogs/cell-format.glade.h:64 src/dialogs/dialog-cell-format.c:2582
+#: src/dialogs/cell-format.glade.h:64 src/dialogs/dialog-cell-format.c:2584
 msgid "Pattern"
 msgstr "パターン"
 
@@ -4040,8 +4040,8 @@ msgid "Shrin_k to fit"
 msgstr "セルに合わせて縮小"
 
 #. There must be a better way than this
-#: src/dialogs/cell-format.glade.h:73 src/dialogs/dialog-cell-format.c:1301
-#: src/dialogs/dialog-cell-format.c:1362
+#: src/dialogs/cell-format.glade.h:73 src/dialogs/dialog-cell-format.c:1303
+#: src/dialogs/dialog-cell-format.c:1364
 msgid "Single"
 msgstr "一重"
 
@@ -4321,12 +4321,12 @@ msgstr "削除"
 msgid "Selection has"
 msgstr "選択範囲"
 
-#: src/dialogs/cell-sort.glade.h:7 src/dialogs/dialog-cell-sort.c:503
+#: src/dialogs/cell-sort.glade.h:7 src/dialogs/dialog-cell-sort.c:502
 #: src/workbook-control-gui.c:2481
 msgid "Sort"
 msgstr "並べ替え"
 
-#: src/dialogs/cell-sort.glade.h:8 src/dialogs/dialog-cell-sort.c:574
+#: src/dialogs/cell-sort.glade.h:8 src/dialogs/dialog-cell-sort.c:573
 msgid "Sort by"
 msgstr "並べ替え方法"
 
@@ -4366,7 +4366,7 @@ msgstr "列の幅(pts)(_C):"
 msgid "Add the entered area to the list of source areas"
 msgstr "入力フィールドをソースの一覧に追加"
 
-#: src/dialogs/consolidate.glade.h:2 src/workbook-control-gui.c:3847
+#: src/dialogs/consolidate.glade.h:2 src/workbook-control-gui.c:3835
 msgid "Average"
 msgstr "算術平均値"
 
@@ -4378,7 +4378,7 @@ msgstr "ラベルのコピー(_O)"
 msgid "Clear the list of source areas"
 msgstr "ソース領域の一覧をクリアします"
 
-#: src/dialogs/consolidate.glade.h:5 src/workbook-control-gui.c:3848
+#: src/dialogs/consolidate.glade.h:5 src/workbook-control-gui.c:3836
 msgid "Count"
 msgstr "回数"
 
@@ -4410,11 +4410,11 @@ msgstr "最上行の中(_T)"
 msgid "Labels"
 msgstr "ラベル"
 
-#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3846
+#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3834
 msgid "Max"
 msgstr "最大"
 
-#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3845
+#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3833
 msgid "Min"
 msgstr "最小"
 
@@ -4486,7 +4486,7 @@ msgstr "付ける(_P) :"
 msgid "Correlation"
 msgstr "相関"
 
-#: src/dialogs/delete-cells.glade.h:1 src/sheet-object.c:92
+#: src/dialogs/delete-cells.glade.h:1
 msgid "Delete"
 msgstr "削除"
 
@@ -4606,75 +4606,77 @@ msgid "Chris Lahey, number format engine."
 msgstr "Chris Lahey, 数値フォーマットエンジンを担当。"
 
 #: src/dialogs/dialog-about.c:50
-msgid "Adrian Likins, documentation, debugging."
-msgstr "Adrian Likins, 文書、デバッグを担当。"
-
-#: src/dialogs/dialog-about.c:51
 msgid "Takashi Matsuda, original text plugin."
 msgstr "松田 孝史、オリジナルのテキストプラグインを担当。"
 
-#: src/dialogs/dialog-about.c:52
+#: src/dialogs/dialog-about.c:51
 msgid "Michael Meeks, Excel and OLE2 importing."
 msgstr "Michael Meeks, ExcelとOLE2の取り込みを担当。"
 
-#: src/dialogs/dialog-about.c:53
+#: src/dialogs/dialog-about.c:52
 msgid "Lutz Muller, SheetObject improvements"
 msgstr "Lutz Muller, SheetObject の改良担当。"
 
-#: src/dialogs/dialog-about.c:54
+#: src/dialogs/dialog-about.c:53
 msgid "Federico M. Quintero, canvas support."
 msgstr "Federico Mena, Canvas サポートを担当。"
 
-#: src/dialogs/dialog-about.c:55
+#: src/dialogs/dialog-about.c:54
 msgid "Mark Probst, Guile support."
 msgstr "Mark Probst, Guileサポートを担当。"
 
-#: src/dialogs/dialog-about.c:56
+#: src/dialogs/dialog-about.c:55
 msgid "Rasca, HTML, troff, LaTeX exporters."
 msgstr "Rasca, HTML, troff, LaTeX の生成を担当。"
 
-#: src/dialogs/dialog-about.c:57
+#: src/dialogs/dialog-about.c:56
 msgid "Vincent Renardias, original CSV support, French localization."
 msgstr ""
 "Vincent Renardias, CSV サポートの原作、フランス語へのポーティング担当。"
 
-#: src/dialogs/dialog-about.c:58
+#: src/dialogs/dialog-about.c:57
 msgid "Ariel Rios, Guile support."
 msgstr "Ariel Rios, Guile サポートを担当。"
 
-#: src/dialogs/dialog-about.c:59
+#: src/dialogs/dialog-about.c:58
 msgid "Arturo Tena, OLE support."
 msgstr "Arturo Tena, Canvasサポートを担当。"
 
-#: src/dialogs/dialog-about.c:60
+#: src/dialogs/dialog-about.c:59
 msgid "Almer S. Tigelaar, Gnumeric hacker."
 msgstr "Almer S. Tigelaar, Gnumeric ハッカー。"
 
-#: src/dialogs/dialog-about.c:61
+#: src/dialogs/dialog-about.c:60
 msgid "Bruno Unna, Excel bits."
 msgstr "Bruno Unna, Excel を少し。"
 
-#: src/dialogs/dialog-about.c:62
+#: src/dialogs/dialog-about.c:61
 msgid "Daniel Veillard, XML support."
 msgstr "Daniel Veillard, XML サポートを担当。"
 
-#: src/dialogs/dialog-about.c:63
+#: src/dialogs/dialog-about.c:62
 msgid "Vladimir Vuksan, financial functions."
 msgstr "Vladimir Vuksan, 金融関数を担当。"
 
-#: src/dialogs/dialog-about.c:64
+#: src/dialogs/dialog-about.c:63
 msgid "Morten Welinder, Gnumeric hacker."
 msgstr "Morten Welinder, Gnumeric ハッカー。"
 
-#: src/dialogs/dialog-about.c:82
-msgid "(C) 1998-2001 Miguel de Icaza"
+#: src/dialogs/dialog-about.c:91
+#, fuzzy
+msgid "(C) 1998-2000 Miguel de Icaza, 2001-2002 Jody Goldberg"
 msgstr "(C) 1998-2001 Miguel de Icaza"
 
-#: src/dialogs/dialog-about.c:90
+#: src/dialogs/dialog-about.c:92
+#, fuzzy
+msgid "A production ready spreadsheet"
+msgstr "スプレッドシートを開きます"
+
+#: src/dialogs/dialog-about.c:100
 msgid "Gnumeric Home Page"
 msgstr "Gnumeric ホームページ"
 
-#: src/dialogs/dialog-about.c:96
+#: src/dialogs/dialog-about.c:106
 msgid "Contract Support"
 msgstr "サポート"
 
@@ -5136,36 +5138,36 @@ msgstr "_);("
 msgid "_);[Red]("
 msgstr "_);[Red]("
 
-#: src/dialogs/dialog-cell-format.c:2105
+#: src/dialogs/dialog-cell-format.c:2107
 msgid "Source"
 msgstr "ソース"
 
-#: src/dialogs/dialog-cell-format.c:2118 src/dialogs/dialog-cell-format.c:2125
+#: src/dialogs/dialog-cell-format.c:2120 src/dialogs/dialog-cell-format.c:2127
 #: src/sheet-object-widget.c:801
 msgid "Min :"
 msgstr "最小 :"
 
-#: src/dialogs/dialog-cell-format.c:2119 src/dialogs/dialog-cell-format.c:2128
+#: src/dialogs/dialog-cell-format.c:2121 src/dialogs/dialog-cell-format.c:2130
 #: src/sheet-object-widget.c:805
 msgid "Max :"
 msgstr "最大 :"
 
-#: src/dialogs/dialog-cell-format.c:2122
+#: src/dialogs/dialog-cell-format.c:2124
 msgid "Value :"
 msgstr "値 :"
 
-#: src/dialogs/dialog-cell-format.c:2501
+#: src/dialogs/dialog-cell-format.c:2503
 msgid "Format Cells"
 msgstr "セルの書式設定"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: src/dialogs/dialog-cell-format.c:2567 src/dialogs/dialog-cell-format.c:2572
-#: src/dialogs/dialog-cell-format.c:2582 src/functions/fn-information.c:429
-#: src/workbook-format-toolbar.c:837
+#: src/dialogs/dialog-cell-format.c:2569 src/dialogs/dialog-cell-format.c:2574
+#: src/dialogs/dialog-cell-format.c:2584 src/functions/fn-information.c:429
+#: src/workbook-format-toolbar.c:824
 msgid "Automatic"
 msgstr "自動"
 
-#: src/dialogs/dialog-cell-format.c:2577 src/workbook-format-toolbar.c:812
+#: src/dialogs/dialog-cell-format.c:2579 src/workbook-format-toolbar.c:799
 msgid "Clear Background"
 msgstr "背景を消去"
 
@@ -5182,40 +5184,36 @@ msgstr "昇順"
 msgid "Descending"
 msgstr "降順"
 
-#: src/dialogs/dialog-cell-sort.c:221
-msgid "Advanced..."
-msgstr "高度..."
-
-#: src/dialogs/dialog-cell-sort.c:323
+#: src/dialogs/dialog-cell-sort.c:321
 msgid "Column must be within range"
 msgstr "列を範囲内にして下さい"
 
-#: src/dialogs/dialog-cell-sort.c:324
+#: src/dialogs/dialog-cell-sort.c:322
 msgid "Row must be within range"
 msgstr "行を範囲内にして下さい"
 
-#: src/dialogs/dialog-cell-sort.c:332
+#: src/dialogs/dialog-cell-sort.c:330
 msgid "First column must be valid"
 msgstr "最初の列が正しくなければなりません"
 
-#: src/dialogs/dialog-cell-sort.c:333
+#: src/dialogs/dialog-cell-sort.c:331
 msgid "First row must be valid"
 msgstr "最初の行が正しくなければなりません"
 
-#: src/dialogs/dialog-cell-sort.c:372
+#: src/dialogs/dialog-cell-sort.c:371
 msgid "At least one clause is required."
 msgstr "少なくとも1項目必要です。"
 
-#: src/dialogs/dialog-cell-sort.c:381
+#: src/dialogs/dialog-cell-sort.c:380
 msgid "Can't add more than the selection length."
 msgstr "選択長以上は追加できません。"
 
-#: src/dialogs/dialog-cell-sort.c:384
+#: src/dialogs/dialog-cell-sort.c:383
 msgid "Maximum number of clauses has been reached."
 msgstr "項目の最大数に到達しました。"
 
-#: src/dialogs/dialog-cell-sort.c:387 src/dialogs/dialog-cell-sort.c:390
-#: src/dialogs/dialog-cell-sort.c:573
+#: src/dialogs/dialog-cell-sort.c:386 src/dialogs/dialog-cell-sort.c:389
+#: src/dialogs/dialog-cell-sort.c:572
 msgid "then by"
 msgstr "次に"
 
@@ -5250,37 +5248,37 @@ msgstr "ビルトイン名を再定義できません"
 msgid "Could not create the Name Guru."
 msgstr "Name Guruを作成できませんでした。"
 
-#: src/dialogs/dialog-formula-guru.c:424
+#: src/dialogs/dialog-formula-guru.c:427
 #, c-format
 msgid "Value%d"
 msgstr "値 %d"
 
-#: src/dialogs/dialog-formula-guru.c:431 src/dialogs/dialog-search.c:122
+#: src/dialogs/dialog-formula-guru.c:434 src/dialogs/dialog-search.c:125
 #: src/functions/fn-string.c:1217
 msgid "String"
 msgstr "文字列"
 
-#: src/dialogs/dialog-formula-guru.c:433
+#: src/dialogs/dialog-formula-guru.c:436
 msgid "Boolean"
 msgstr "論理値"
 
-#: src/dialogs/dialog-formula-guru.c:434
+#: src/dialogs/dialog-formula-guru.c:437
 msgid "Range"
 msgstr "範囲"
 
-#: src/dialogs/dialog-formula-guru.c:435
+#: src/dialogs/dialog-formula-guru.c:438
 msgid "Array"
 msgstr "配列"
 
-#: src/dialogs/dialog-formula-guru.c:436
+#: src/dialogs/dialog-formula-guru.c:439
 msgid "Range/Array"
 msgstr "範囲/配列"
 
-#: src/dialogs/dialog-formula-guru.c:437
+#: src/dialogs/dialog-formula-guru.c:440
 msgid "Scalar"
 msgstr "スカラ"
 
-#: src/dialogs/dialog-formula-guru.c:439
+#: src/dialogs/dialog-formula-guru.c:442
 msgid "Any"
 msgstr "任意"
 
@@ -5481,49 +5479,49 @@ msgstr "%s[メモリ内]"
 msgid "%s[marked for deactivation]"
 msgstr "%s[無効マーク付与済み]"
 
-#: src/dialogs/dialog-plugin-manager.c:620
+#: src/dialogs/dialog-plugin-manager.c:615
 msgid "Plugin list"
 msgstr "プラグイン一覧"
 
-#: src/dialogs/dialog-plugin-manager.c:623
+#: src/dialogs/dialog-plugin-manager.c:618
 msgid "Plugin details"
 msgstr "プラグイン詳細"
 
-#: src/dialogs/dialog-printer-setup.c:984
-#: src/dialogs/dialog-printer-setup.c:1112
+#: src/dialogs/dialog-printer-setup.c:986
+#: src/dialogs/dialog-printer-setup.c:1116
 msgid "Customize header"
 msgstr "ヘッダのカスタマイズ"
 
-#: src/dialogs/dialog-printer-setup.c:986
-#: src/dialogs/dialog-printer-setup.c:1118
+#: src/dialogs/dialog-printer-setup.c:988
+#: src/dialogs/dialog-printer-setup.c:1122
 msgid "Customize footer"
 msgstr "フッタのカスタマイズ"
 
-#: src/dialogs/dialog-printer-setup.c:1111
+#: src/dialogs/dialog-printer-setup.c:1115
 msgid "Custom header configuration"
 msgstr "カスタムヘッダの配置"
 
-#: src/dialogs/dialog-printer-setup.c:1117
+#: src/dialogs/dialog-printer-setup.c:1121
 msgid "Custom footer configuration"
 msgstr "カスタムフッタの配置"
 
-#: src/dialogs/dialog-search-replace.c:141 src/dialogs/dialog-search.c:356
+#: src/dialogs/dialog-search-replace.c:141 src/dialogs/dialog-search.c:359
 msgid "You must select some cell types to search."
 msgstr "検索するセルの種類を選択する必要があります。"
 
-#: src/dialogs/dialog-search.c:120
+#: src/dialogs/dialog-search.c:123
 msgid "Expression"
 msgstr "数式"
 
-#: src/dialogs/dialog-search.c:124
+#: src/dialogs/dialog-search.c:127
 msgid "Integer"
 msgstr "整数"
 
-#: src/dialogs/dialog-search.c:128
+#: src/dialogs/dialog-search.c:131
 msgid "Other value"
 msgstr "他の値"
 
-#: src/dialogs/dialog-search.c:130
+#: src/dialogs/dialog-search.c:133
 msgid "Comment"
 msgstr "注釈"
 
@@ -5747,7 +5745,7 @@ msgstr "データ (%s から)"
 #. * The name of the default font for this locale.
 #. * Preferably something with the correct encoding.
 #.
-#: src/dialogs/dialog-stf-preview.c:617 src/style.c:89
+#: src/dialogs/dialog-stf-preview.c:616 src/style.c:97
 msgid "fixed"
 msgstr ""
 "-adobe-helvetica-medium-r-normal-*-14-*-*-*-p-*-*,-alias-fixed-medium-r-"
@@ -6102,8 +6100,8 @@ msgstr "倍率"
 msgid "Sheets"
 msgstr "シート"
 
-#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:3397
-#: src/workbook-control-gui.c:3439
+#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:3392
+#: src/workbook-control-gui.c:3430
 msgid "Zoom"
 msgstr "ズーム"
 
@@ -6575,7 +6573,7 @@ msgid "Scale"
 msgstr "拡大"
 
 #: src/dialogs/print.glade.h:23 src/functions/fn-sheet.c:141
-#: src/workbook.c:1065 src/xml-io.c:3086
+#: src/workbook.c:1036 src/xml-io.c:2948
 msgid "Sheet"
 msgstr "シート"
 
@@ -7348,11 +7346,11 @@ msgstr "テンポラリファイルの読み込み中にエラーが発生しました。"
 msgid "Exception occurred while saving to stream."
 msgstr "ストリームに保存中に例外が発生しました。"
 
-#: src/file.c:495
+#: src/file.c:498
 msgid "Saving over old files of this type is disabled for safety."
 msgstr "この形式の古いファイルを保存してしまうと、安全性が損なわれます。"
 
-#: src/file.c:497
+#: src/file.c:500
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
@@ -7427,1353 +7425,1349 @@ msgstr "配列"
 #. Must stay in this order
 #. GBP
 #. JPY
-#. Be careful with fonts. This uses iso_8859_15 rather than
-#. * the more common iso_8859_1 Not many fonts have a correct
-#. * Euro symbol here.
-#.
 #. EUR
 #. The first column has three letter acronyms
 #. * for each currency.  They MUST start with '[$'
 #. * The second column has the long names of the currencies.
 #.
-#: src/formats.c:261
+#: src/formats.c:256
 msgid "[$ADP]"
 msgstr "[$ADP]"
 
-#: src/formats.c:261
+#: src/formats.c:256
 msgid "Andorran peseta"
 msgstr "アンドラ・ペセタ"
 
-#: src/formats.c:262
+#: src/formats.c:257
 msgid "[$AED]"
 msgstr "[$AED]"
 
-#: src/formats.c:262
+#: src/formats.c:257
 msgid "UAE dirham"
 msgstr "UAEディルハム"
 
-#: src/formats.c:263
+#: src/formats.c:258
 msgid "[$AFA]"
 msgstr "[$AFA]"
 
-#: src/formats.c:263
+#: src/formats.c:258
 msgid "Afghanistan afghani"
 msgstr "アフガニスタン・アフガニー"
 
-#: src/formats.c:264
+#: src/formats.c:259
 msgid "[$ALL]"
 msgstr "[$ALL]"
 
-#: src/formats.c:264
+#: src/formats.c:259
 msgid "Albanian lek"
 msgstr "アルバニア・レク"
 
-#: src/formats.c:265
+#: src/formats.c:260
 msgid "[$ANG]"
 msgstr "[$ANG]"
 
-#: src/formats.c:265
+#: src/formats.c:260
 msgid "Netherlands Antillian guilder"
 msgstr "オランダ領アンティル・ギルダー"
 
-#: src/formats.c:266
+#: src/formats.c:261
 msgid "[$AON]"
 msgstr "[$AON]"
 
-#: src/formats.c:266
+#: src/formats.c:261
 msgid "Angolan new kwanza"
 msgstr "アンゴラ・クワンザ"
 
-#: src/formats.c:267
+#: src/formats.c:262
 msgid "[$ARA]"
 msgstr "[$ARA]"
 
-#: src/formats.c:267
+#: src/formats.c:262
 msgid "Argentine peso"
 msgstr "アルゼンチン・ペソ"
 
-#: src/formats.c:268
+#: src/formats.c:263
 msgid "[$ATS]"
 msgstr "[$ATS]"
 
-#: src/formats.c:268
+#: src/formats.c:263
 msgid "Austrian schilling"
 msgstr "オーストリア・シリング"
 
-#: src/formats.c:269
+#: src/formats.c:264
 msgid "[$AUD]"
 msgstr "[$AUD]"
 
-#: src/formats.c:269
+#: src/formats.c:264
 msgid "Australian dollar"
 msgstr "オーストラリア・ドル"
 
-#: src/formats.c:270
+#: src/formats.c:265
 msgid "[$AWG]"
 msgstr "[$AWG]"
 
-#: src/formats.c:270
+#: src/formats.c:265
 msgid "Aruban guilder"
 msgstr "アルバ・ギルダー"
 
-#: src/formats.c:271
+#: src/formats.c:266
 msgid "[$BBD]"
 msgstr "[$BBD]"
 
-#: src/formats.c:271
+#: src/formats.c:266
 msgid "Barbados dollar"
 msgstr "バルバドス・ドル"
 
-#: src/formats.c:272
+#: src/formats.c:267
 msgid "[$BDT]"
 msgstr "[$BDT]"
 
-#: src/formats.c:272
+#: src/formats.c:267
 msgid "Bangladeshi taka"
 msgstr "バングラデシュ・タカ"
 
-#: src/formats.c:273
+#: src/formats.c:268
 msgid "[$BEF]"
 msgstr "[$BEF]"
 
-#: src/formats.c:273
+#: src/formats.c:268
 msgid "Belgian franc"
 msgstr "ベルギー・フラン"
 
-#: src/formats.c:274
+#: src/formats.c:269
 msgid "[$BGL]"
 msgstr "[$BGL]"
 
-#: src/formats.c:274
+#: src/formats.c:269
 msgid "Bulgarian lev"
 msgstr "ブルガリア・レフ"
 
-#: src/formats.c:275
+#: src/formats.c:270
 msgid "[$BHD]"
 msgstr "[$BHD]"
 
-#: src/formats.c:275
+#: src/formats.c:270
 msgid "Bahraini dinar"
 msgstr "バーレーン・ディナール"
 
-#: src/formats.c:276
+#: src/formats.c:271
 msgid "[$BIF]"
 msgstr "[$BIF]"
 
-#: src/formats.c:276
+#: src/formats.c:271
 msgid "Burundi franc"
 msgstr "ブルンジ・フラン"
 
-#: src/formats.c:277
+#: src/formats.c:272
 msgid "[$BMD]"
 msgstr "[$BMD]"
 
-#: src/formats.c:277
+#: src/formats.c:272
 msgid "Bermudian dollar"
 msgstr "バーミューダ・ドル"
 
-#: src/formats.c:278
+#: src/formats.c:273
 msgid "[$BND]"
 msgstr "[$BND]"
 
-#: src/formats.c:278
+#: src/formats.c:273
 msgid "Brunei dollar"
 msgstr "ブルネイ・ドル"
 
-#: src/formats.c:279
+#: src/formats.c:274
 msgid "[$BOB]"
 msgstr "[$BOB]"
 
-#: src/formats.c:279
+#: src/formats.c:274
 msgid "Bolivian boliviano"
 msgstr "ボリビア・ボリビアーノ"
 
-#: src/formats.c:280
+#: src/formats.c:275
 msgid "[$BRE]"
 msgstr "[$BRE]"
 
-#: src/formats.c:280
+#: src/formats.c:275
 msgid "Brazilian real"
 msgstr "ブラジル・リアル"
 
-#: src/formats.c:281
+#: src/formats.c:276
 msgid "[$BSD]"
 msgstr "[$BSD]"
 
-#: src/formats.c:281
+#: src/formats.c:276
 msgid "Bahamian dollar"
 msgstr "バハマ・ドル"
 
-#: src/formats.c:282
+#: src/formats.c:277
 msgid "[$BTN]"
 msgstr "[$BTN]"
 
-#: src/formats.c:282
+#: src/formats.c:277
 msgid "Bhutan ngultrum"
 msgstr "ブータン・ニュルタム"
 
-#: src/formats.c:283
+#: src/formats.c:278
 msgid "[$BWP]"
 msgstr "[$BWP]"
 
-#: src/formats.c:283
+#: src/formats.c:278
 msgid "Botswanian pula"
 msgstr "ボツワナ・プラ"
 
-#: src/formats.c:284
+#: src/formats.c:279
 msgid "[$BYB]"
 msgstr "[$BYB]"
 
-#: src/formats.c:284
+#: src/formats.c:279
 msgid "Belarussian ruble"
 msgstr "ベラルーシ・ルーブル"
 
-#: src/formats.c:285
+#: src/formats.c:280
 msgid "[$BZD]"
 msgstr "[$BZD]"
 
-#: src/formats.c:285
+#: src/formats.c:280
 msgid "Belize dollar"
 msgstr "ベリーズ・ドル"
 
-#: src/formats.c:286
+#: src/formats.c:281
 msgid "[$CAD]"
 msgstr "[$CAD]"
 
-#: src/formats.c:286
+#: src/formats.c:281
 msgid "Canadian dollar"
 msgstr "カナダ・ドル"
 
-#: src/formats.c:287
+#: src/formats.c:282
 msgid "[$CHF]"
 msgstr "[$CHF]"
 
-#: src/formats.c:287
+#: src/formats.c:282
 msgid "Swiss franc"
 msgstr "スイス・フラン"
 
-#: src/formats.c:288
+#: src/formats.c:283
 msgid "[$CLP]"
 msgstr "[$CLP]"
 
-#: src/formats.c:288
+#: src/formats.c:283
 msgid "Chilean peso"
 msgstr "チリ・ペソ"
 
-#: src/formats.c:289
+#: src/formats.c:284
 msgid "[$CNY]"
 msgstr "[$CNY]"
 
-#: src/formats.c:289
+#: src/formats.c:284
 msgid "Chinese yuan renminbi"
 msgstr "中国元"
 
-#: src/formats.c:290
+#: src/formats.c:285
 msgid "[$COP]"
 msgstr "[$COP]"
 
-#: src/formats.c:290
+#: src/formats.c:285
 msgid "Colombian peso"
 msgstr "コロンビア・ペソ"
 
-#: src/formats.c:291
+#: src/formats.c:286
 msgid "[$CRC]"
 msgstr "[$CRC]"
 
-#: src/formats.c:291
+#: src/formats.c:286
 msgid "Costa Rican colon"
 msgstr "コスタリカ・コロン"
 
-#: src/formats.c:292
+#: src/formats.c:287
 msgid "[$CSK]"
 msgstr "[$CSK]"
 
-#: src/formats.c:292
+#: src/formats.c:287
 msgid "Czech Koruna"
 msgstr "チェコ・クローナ"
 
-#: src/formats.c:293
+#: src/formats.c:288
 msgid "[$CUP]"
 msgstr "[$CUP]"
 
-#: src/formats.c:293
+#: src/formats.c:288
 msgid "Cuban peso"
 msgstr "キューバ・ペソ"
 
-#: src/formats.c:294
+#: src/formats.c:289
 msgid "[$CVE]"
 msgstr "[$CVE]"
 
-#: src/formats.c:294
+#: src/formats.c:289
 msgid "Cape Verde escudo"
 msgstr "カーボベルデ・エスクード"
 
-#: src/formats.c:295
+#: src/formats.c:290
 msgid "[$CYP]"
 msgstr "[$CYP]"
 
-#: src/formats.c:295
+#: src/formats.c:290
 msgid "Cyprus pound"
 msgstr "キプロス・ポンド"
 
-#: src/formats.c:296
+#: src/formats.c:291
 msgid "[$DEM]"
 msgstr "[$DEM]"
 
-#: src/formats.c:296
+#: src/formats.c:291
 msgid "Deutsche mark"
 msgstr "ドイツ・マルク"
 
-#: src/formats.c:297
+#: src/formats.c:292
 msgid "[$DJF]"
 msgstr "[$DJF]"
 
-#: src/formats.c:297
+#: src/formats.c:292
 msgid "Djibouti franc"
 msgstr "ジブチ・フラン"
 
-#: src/formats.c:298
+#: src/formats.c:293
 msgid "[$DKK]"
 msgstr "[$DKK]"
 
-#: src/formats.c:298
+#: src/formats.c:293
 msgid "Danish krone"
 msgstr "デンマーク・クローネ"
 
-#: src/formats.c:299
+#: src/formats.c:294
 msgid "[$DOP]"
 msgstr "[$DOP]"
 
-#: src/formats.c:299
+#: src/formats.c:294
 msgid "Dominican peso"
 msgstr "ドミニカ・ペソ"
 
-#: src/formats.c:300
+#: src/formats.c:295
 msgid "[$DZD]"
 msgstr "[$DZD]"
 
-#: src/formats.c:300
+#: src/formats.c:295
 msgid "Algerian dinar"
 msgstr "アルジェリア・ディナール"
 
-#: src/formats.c:301
+#: src/formats.c:296
 msgid "[$ECS]"
 msgstr "[$ECS]"
 
-#: src/formats.c:301
+#: src/formats.c:296
 msgid "Ecuador sucre"
 msgstr "エクアドル・スクレ"
 
-#: src/formats.c:302
+#: src/formats.c:297
 msgid "[$EGP]"
 msgstr "[$EGP]"
 
-#: src/formats.c:302
+#: src/formats.c:297
 msgid "Egyptian pound"
 msgstr "エジプト・ポンド"
 
-#: src/formats.c:303
+#: src/formats.c:298
 msgid "[$ESP]"
 msgstr "[$ESP]"
 
-#: src/formats.c:303
+#: src/formats.c:298
 msgid "Spanish peseta"
 msgstr "スペイン・ペセタ"
 
-#: src/formats.c:304
+#: src/formats.c:299
 msgid "[$ETB]"
 msgstr "[$ETB]"
 
-#: src/formats.c:304
+#: src/formats.c:299
 msgid "Ethiopian birr"
 msgstr "エチオピア・ブル"
 
-#: src/formats.c:305
+#: src/formats.c:300
 msgid "[$EUR]"
 msgstr "[$EUR]"
 
-#: src/formats.c:305
+#: src/formats.c:300
 msgid "Euro"
 msgstr "ユーロ"
 
-#: src/formats.c:306
+#: src/formats.c:301
 msgid "[$FIM]"
 msgstr "[$FIM]"
 
-#: src/formats.c:306
+#: src/formats.c:301
 msgid "Finnish markka"
 msgstr "フィンランド・マルカ"
 
-#: src/formats.c:307
+#: src/formats.c:302
 msgid "[$FJD]"
 msgstr "[$FJD]"
 
-#: src/formats.c:307
+#: src/formats.c:302
 msgid "Fiji dollar"
 msgstr "フィージー・ドル"
 
-#: src/formats.c:308
+#: src/formats.c:303
 msgid "[$FKP]"
 msgstr "[$FKP]"
 
-#: src/formats.c:308
+#: src/formats.c:303
 msgid "Falkland Islands pound"
 msgstr "フォークランド諸島・ポンド"
 
-#: src/formats.c:309
+#: src/formats.c:304
 msgid "[$FRF]"
 msgstr "[$FRF]"
 
-#: src/formats.c:309
+#: src/formats.c:304
 msgid "French franc"
 msgstr "フランス・フラン"
 
-#: src/formats.c:310
+#: src/formats.c:305
 msgid "[$GBP]"
 msgstr "[$GBP]"
 
-#: src/formats.c:310
+#: src/formats.c:305
 msgid "UK pound sterling"
 msgstr "イギリス・ポンド"
 
-#: src/formats.c:311
+#: src/formats.c:306
 msgid "[$GHC]"
 msgstr "[$GHC]"
 
-#: src/formats.c:311
+#: src/formats.c:306
 msgid "Ghanaian cedi"
 msgstr "ガーナ・セディ"
 
-#: src/formats.c:312
+#: src/formats.c:307
 msgid "[$GIP]"
 msgstr "[$GIP]"
 
-#: src/formats.c:312
+#: src/formats.c:307
 msgid "Gibraltar pound"
 msgstr "ジブラルタル・ポンド"
 
-#: src/formats.c:313
+#: src/formats.c:308
 msgid "[$GMD]"
 msgstr "[$GMD]"
 
-#: src/formats.c:313
+#: src/formats.c:308
 msgid "Gambian dalasi"
 msgstr "ガンビア・ダラス"
 
-#: src/formats.c:314
+#: src/formats.c:309
 msgid "[$GNF]"
 msgstr "[$GNF]"
 
-#: src/formats.c:314
+#: src/formats.c:309
 msgid "Guinea franc"
 msgstr "ギニア・フラン"
 
-#: src/formats.c:315
+#: src/formats.c:310
 msgid "[$GRD]"
 msgstr "[$GRD]"
 
-#: src/formats.c:315
+#: src/formats.c:310
 msgid "Greek drachma"
 msgstr "ギリシャ・ドラクマ"
 
-#: src/formats.c:316
+#: src/formats.c:311
 msgid "[$GTQ]"
 msgstr "[$GTQ]"
 
-#: src/formats.c:316
+#: src/formats.c:311
 msgid "Guatemalan quetzal"
 msgstr "グアテマラ・ケツァル"
 
-#: src/formats.c:317
+#: src/formats.c:312
 msgid "[$GWP]"
 msgstr "[$GWP]"
 
-#: src/formats.c:317
+#: src/formats.c:312
 msgid "Guinea-Bissau peso"
 msgstr "ギニア-ビサウ・ペソ"
 
-#: src/formats.c:318
+#: src/formats.c:313
 msgid "[$GYD]"
 msgstr "[$GYD]"
 
-#: src/formats.c:318
+#: src/formats.c:313
 msgid "Guyanan dollar"
 msgstr "ギアナ・ドル"
 
-#: src/formats.c:319
+#: src/formats.c:314
 msgid "[$HKD]"
 msgstr "[$HKD]"
 
-#: src/formats.c:319
+#: src/formats.c:314
 msgid "Hong Kong dollar"
 msgstr "香港ドル"
 
-#: src/formats.c:320
+#: src/formats.c:315
 msgid "[$HNL]"
 msgstr "[$HNL]"
 
-#: src/formats.c:320
+#: src/formats.c:315
 msgid "Honduran lempira"
 msgstr "ホンジュラス・レンピラ"
 
-#: src/formats.c:321
+#: src/formats.c:316
 msgid "[$HRK]"
 msgstr "[$HRK]"
 
-#: src/formats.c:321
+#: src/formats.c:316
 msgid "Croatian kuna"
 msgstr "クロアチア・クーナ"
 
-#: src/formats.c:322
+#: src/formats.c:317
 msgid "[$HTG]"
 msgstr "[$HTG]"
 
-#: src/formats.c:322
+#: src/formats.c:317
 msgid "Haitian gourde"
 msgstr "ハイチ・グールド"
 
-#: src/formats.c:323
+#: src/formats.c:318
 msgid "[$HUF]"
 msgstr "[$HUF]"
 
-#: src/formats.c:323
+#: src/formats.c:318
 msgid "Hungarian forint"
 msgstr "ハンガリー・フォリント"
 
-#: src/formats.c:324
+#: src/formats.c:319
 msgid "[$IDR]"
 msgstr "[$IDR]"
 
-#: src/formats.c:324
+#: src/formats.c:319
 msgid "Indonesian rupiah"
 msgstr "インドネシア・ルピア"
 
-#: src/formats.c:325
+#: src/formats.c:320
 msgid "[$IEP]"
 msgstr "[$IEP]"
 
-#: src/formats.c:325
+#: src/formats.c:320
 msgid "Irish punt"
 msgstr "アイルランド・プント"
 
-#: src/formats.c:326
+#: src/formats.c:321
 msgid "[$IEX]"
 msgstr "[$IEX]"
 
-#: src/formats.c:326
+#: src/formats.c:321
 msgid "Irish pence ***"
 msgstr "アイルランド・ペンス"
 
-#: src/formats.c:327
+#: src/formats.c:322
 msgid "[$ILS]"
 msgstr "[$ILS]"
 
-#: src/formats.c:327
+#: src/formats.c:322
 msgid "Israeli shekel"
 msgstr "イスラエル・シェケル"
 
-#: src/formats.c:328
+#: src/formats.c:323
 msgid "[$INR]"
 msgstr "[$INR]"
 
-#: src/formats.c:328
+#: src/formats.c:323
 msgid "Indian rupee"
 msgstr "インド・ルピー"
 
-#: src/formats.c:329
+#: src/formats.c:324
 msgid "[$IQD]"
 msgstr "[$IQD]"
 
-#: src/formats.c:329
+#: src/formats.c:324
 msgid "Iraqi dinar"
 msgstr "イラク・ディナール"
 
-#: src/formats.c:330
+#: src/formats.c:325
 msgid "[$IRR]"
 msgstr "[$IRR]"
 
-#: src/formats.c:330
+#: src/formats.c:325
 msgid "Iranian rial"
 msgstr "イラン・リアル"
 
-#: src/formats.c:331
+#: src/formats.c:326
 msgid "[$ISK]"
 msgstr "[$ISK]"
 
-#: src/formats.c:331
+#: src/formats.c:326
 msgid "Iceland krona"
 msgstr "アイスランド・クローナ"
 
-#: src/formats.c:332
+#: src/formats.c:327
 msgid "[$ITL]"
 msgstr "[$ITL]"
 
-#: src/formats.c:332
+#: src/formats.c:327
 msgid "Italian lira"
 msgstr "イタリア・リラ"
 
-#: src/formats.c:333
+#: src/formats.c:328
 msgid "[$JMD]"
 msgstr "[$JMD]"
 
-#: src/formats.c:333
+#: src/formats.c:328
 msgid "Jamaican dollar"
 msgstr "ジャマイカ・ドル"
 
-#: src/formats.c:334
+#: src/formats.c:329
 msgid "[$JOD]"
 msgstr "[$JOD]"
 
-#: src/formats.c:334
+#: src/formats.c:329
 msgid "Jordanian dinar"
 msgstr "ヨルダン・ディナール"
 
-#: src/formats.c:335
+#: src/formats.c:330
 msgid "[$JPY]"
 msgstr "[$JPY]"
 
-#: src/formats.c:335
+#: src/formats.c:330
 msgid "Japanese yen"
 msgstr "日本円"
 
-#: src/formats.c:336
+#: src/formats.c:331
 msgid "[$KES]"
 msgstr "[$KES]"
 
-#: src/formats.c:336
+#: src/formats.c:331
 msgid "Kenyan shilling"
 msgstr "ケニア・シリング"
 
-#: src/formats.c:337
+#: src/formats.c:332
 msgid "[$KHR]"
 msgstr "[$KHR]"
 
-#: src/formats.c:337
+#: src/formats.c:332
 msgid "Kampuchean riel"
 msgstr "カンボジア・リエル"
 
-#: src/formats.c:338
+#: src/formats.c:333
 msgid "[$KMF]"
 msgstr "[$KMF]"
 
-#: src/formats.c:338
+#: src/formats.c:333
 msgid "Comoros franc"
 msgstr "コモロ・フラン"
 
-#: src/formats.c:339
+#: src/formats.c:334
 msgid "[$KPW]"
 msgstr "[$KPW]"
 
-#: src/formats.c:339
+#: src/formats.c:334
 msgid "North Korean won"
 msgstr "北朝鮮ウォン"
 
-#: src/formats.c:340
+#: src/formats.c:335
 msgid "[$KRW]"
 msgstr "[$KRW]"
 
-#: src/formats.c:340
+#: src/formats.c:335
 msgid "Republic of Korea won"
 msgstr "韓国ウォン"
 
-#: src/formats.c:341
+#: src/formats.c:336
 msgid "[$KWD]"
 msgstr "[$KWD]"
 
-#: src/formats.c:341
+#: src/formats.c:336
 msgid "Kuwaiti dinar"
 msgstr "クウェート・ディナール"
 
-#: src/formats.c:342
+#: src/formats.c:337
 msgid "[$KYD]"
 msgstr "[$KYD]"
 
-#: src/formats.c:342
+#: src/formats.c:337
 msgid "Cayman Islands dollar"
 msgstr "ケイマン諸島・ドル"
 
-#: src/formats.c:343
+#: src/formats.c:338
 msgid "[$LAK]"
 msgstr "[$LAK]"
 
-#: src/formats.c:343
+#: src/formats.c:338
 msgid "Lao kip"
 msgstr "ラオス・キープ"
 
-#: src/formats.c:344
+#: src/formats.c:339
 msgid "[$LBP]"
 msgstr "[$LBP]"
 
-#: src/formats.c:344
+#: src/formats.c:339
 msgid "Lebanese pound"
 msgstr "レバノン・ポンド"
 
-#: src/formats.c:345
+#: src/formats.c:340
 msgid "[$LKR]"
 msgstr "[$LKR]"
 
-#: src/formats.c:345
+#: src/formats.c:340
 msgid "Sri Lanka rupee"
 msgstr "スリランカ・ルピー"
 
-#: src/formats.c:346
+#: src/formats.c:341
 msgid "[$LRD]"
 msgstr "[$LRD]"
 
-#: src/formats.c:346
+#: src/formats.c:341
 msgid "Liberian dollar"
 msgstr "リベリア・ドル"
 
-#: src/formats.c:347
+#: src/formats.c:342
 msgid "[$LSL]"
 msgstr "[$LSL]"
 
-#: src/formats.c:347
+#: src/formats.c:342
 msgid "Lesotho loti"
 msgstr "レソト・ロチ"
 
-#: src/formats.c:348
+#: src/formats.c:343
 msgid "[$LUF]"
 msgstr "[$LUF]"
 
-#: src/formats.c:348
+#: src/formats.c:343
 msgid "Luxembourg franc"
 msgstr "ルクセンブルグ・フラン"
 
-#: src/formats.c:349
+#: src/formats.c:344
 msgid "[$LYD]"
 msgstr "[$LYD]"
 
-#: src/formats.c:349
+#: src/formats.c:344
 msgid "Libyan dinar"
 msgstr "リビア・ディナール"
 
-#: src/formats.c:350
+#: src/formats.c:345
 msgid "[$MAD]"
 msgstr "[$MAD]"
 
-#: src/formats.c:350
+#: src/formats.c:345
 msgid "Moroccan dirham"
 msgstr "モロッコ・ディルハム"
 
-#: src/formats.c:351
+#: src/formats.c:346
 msgid "[$MDL]"
 msgstr "[$MDL]"
 
-#: src/formats.c:351
+#: src/formats.c:346
 msgid "Moldovan leu"
 msgstr "モルドバ・レイ"
 
-#: src/formats.c:352
+#: src/formats.c:347
 msgid "[$MGF]"
 msgstr "[$MGF]"
 
-#: src/formats.c:352
+#: src/formats.c:347
 msgid "Malagasy franc"
 msgstr "マラガシー・フラン"
 
-#: src/formats.c:353
+#: src/formats.c:348
 msgid "[$MLF]"
 msgstr "[$MLF]"
 
-#: src/formats.c:353
+#: src/formats.c:348
 msgid "Mali franc"
 msgstr "マリ・フラン"
 
-#: src/formats.c:354
+#: src/formats.c:349
 msgid "[$MMK]"
 msgstr "[$MMK]"
 
-#: src/formats.c:354
+#: src/formats.c:349
 msgid "Myanmar kyat"
 msgstr "ミャンマー・キャト"
 
-#: src/formats.c:355
+#: src/formats.c:350
 msgid "[$MNT]"
 msgstr "[$MNT]"
 
-#: src/formats.c:355
+#: src/formats.c:350
 msgid "Mongolian tugrik"
 msgstr "モンゴル・トゥグリク"
 
-#: src/formats.c:356
+#: src/formats.c:351
 msgid "[$MOP]"
 msgstr "[$MOP]"
 
-#: src/formats.c:356
+#: src/formats.c:351
 msgid "Macau pataca"
 msgstr "マカオ・パタカ"
 
-#: src/formats.c:357
+#: src/formats.c:352
 msgid "[$MRO]"
 msgstr "[$MRO]"
 
-#: src/formats.c:357
+#: src/formats.c:352
 msgid "Mauritanian ouguiya"
 msgstr "モーリタニア・ウギア"
 
-#: src/formats.c:358
+#: src/formats.c:353
 msgid "[$MTL]"
 msgstr "[$MTL]"
 
-#: src/formats.c:358
+#: src/formats.c:353
 msgid "Maltese lira"
 msgstr "マルタ島・リラ"
 
-#: src/formats.c:359
+#: src/formats.c:354
 msgid "[$MUR]"
 msgstr "[$MUR]"
 
-#: src/formats.c:359
+#: src/formats.c:354
 msgid "Mauritius rupee"
 msgstr "モーリシャス・ルピー"
 
-#: src/formats.c:360
+#: src/formats.c:355
 msgid "[$MVR]"
 msgstr "[$MVR]"
 
-#: src/formats.c:360
+#: src/formats.c:355
 msgid "Maldive rupee"
 msgstr "モルディブ・ルピー"
 
-#: src/formats.c:361
+#: src/formats.c:356
 msgid "[$MWK]"
 msgstr "[$MWK]"
 
-#: src/formats.c:361
+#: src/formats.c:356
 msgid "Malawi kwacha"
 msgstr "マラウィ・クワチャ"
 
-#: src/formats.c:362
+#: src/formats.c:357
 msgid "[$MXP]"
 msgstr "[$MXP]"
 
-#: src/formats.c:362
+#: src/formats.c:357
 msgid "Mexican peso"
 msgstr "メキシコ・ペソ"
 
-#: src/formats.c:363
+#: src/formats.c:358
 msgid "[$MYR]"
 msgstr "[$MYR]"
 
-#: src/formats.c:363
+#: src/formats.c:358
 msgid "Malaysian ringgit"
 msgstr "マレーシア・リンギット"
 
-#: src/formats.c:364
+#: src/formats.c:359
 msgid "[$MZM]"
 msgstr "[$MZM]"
 
-#: src/formats.c:364
+#: src/formats.c:359
 msgid "Mozambique metical"
 msgstr "モザンビーク・メティカル"
 
-#: src/formats.c:365
+#: src/formats.c:360
 msgid "[$NGN]"
 msgstr "[$NGN]"
 
-#: src/formats.c:365
+#: src/formats.c:360
 msgid "Nigerian naira"
 msgstr "ナイジェリア・ナイラ"
 
-#: src/formats.c:366
+#: src/formats.c:361
 msgid "[$NIO]"
 msgstr "[$NIO]"
 
-#: src/formats.c:366
+#: src/formats.c:361
 msgid "Nicaraguan cordoba oro"
 msgstr "ニカラグア・コルドバ=オロ"
 
-#: src/formats.c:367
+#: src/formats.c:362
 msgid "[$NLG]"
 msgstr "[$NLG]"
 
-#: src/formats.c:367
+#: src/formats.c:362
 msgid "Netherlands guilder"
 msgstr "オランダ・ギルダー"
 
-#: src/formats.c:368
+#: src/formats.c:363
 msgid "[$NOK]"
 msgstr "[$NOK]"
 
-#: src/formats.c:368
+#: src/formats.c:363
 msgid "Norwegian krone"
 msgstr "ノルウェー・クローネ"
 
-#: src/formats.c:369
+#: src/formats.c:364
 msgid "[$NPR]"
 msgstr "[$NPR]"
 
-#: src/formats.c:369
+#: src/formats.c:364
 msgid "Nepalese rupee"
 msgstr "ネパール・ルピー"
 
-#: src/formats.c:370
+#: src/formats.c:365
 msgid "[$NZD]"
 msgstr "[$NZD]"
 
-#: src/formats.c:370
+#: src/formats.c:365
 msgid "New Zealand dollar"
 msgstr "ニュージーランド・ドル"
 
-#: src/formats.c:371
+#: src/formats.c:366
 msgid "[$OMR]"
 msgstr "[$OMR]"
 
-#: src/formats.c:371
+#: src/formats.c:366
 msgid "Rial Omani"
 msgstr "オマーン・リアル"
 
-#: src/formats.c:372
+#: src/formats.c:367
 msgid "[$PAB]"
 msgstr "[$PAB]"
 
-#: src/formats.c:372
+#: src/formats.c:367
 msgid "Panamanian balboa"
 msgstr "パナマ・バルボア"
 
-#: src/formats.c:373
+#: src/formats.c:368
 msgid "[$PEI]"
 msgstr "[$PEI]"
 
-#: src/formats.c:373
+#: src/formats.c:368
 msgid "Peruvian inti"
 msgstr "ペルー・ヌエボ=ソル"
 
-#: src/formats.c:374
+#: src/formats.c:369
 msgid "[$PGK]"
 msgstr "[$PGK]"
 
-#: src/formats.c:374
+#: src/formats.c:369
 msgid "Papua New Guinea kina"
 msgstr "パプア=ニュー=ギニア・キナ"
 
-#: src/formats.c:375
+#: src/formats.c:370
 msgid "[$PHP]"
 msgstr "[$PHP]"
 
-#: src/formats.c:375
+#: src/formats.c:370
 msgid "Philippino peso"
 msgstr "フィリピン・ペソ"
 
-#: src/formats.c:376
+#: src/formats.c:371
 msgid "[$PKR]"
 msgstr "[$PKR]"
 
-#: src/formats.c:376
+#: src/formats.c:371
 msgid "Pakistan rupee"
 msgstr "パキスタン・ルピー"
 
-#: src/formats.c:377
+#: src/formats.c:372
 msgid "[$PLZ]"
 msgstr "[$PLZ]"
 
-#: src/formats.c:377
+#: src/formats.c:372
 msgid "Polish zloty"
 msgstr "ポーランド・ズオチ"
 
-#: src/formats.c:378
+#: src/formats.c:373
 msgid "[$PTE]"
 msgstr "[$PTE]"
 
-#: src/formats.c:378
+#: src/formats.c:373
 msgid "Portuguese escudo"
 msgstr "ポルトガル・エスクード"
 
-#: src/formats.c:379
+#: src/formats.c:374
 msgid "[$PYG]"
 msgstr "[$PYG]"
 
-#: src/formats.c:379
+#: src/formats.c:374
 msgid "Paraguay guarani"
 msgstr "パラグアイ・グアラニー"
 
-#: src/formats.c:380
+#: src/formats.c:375
 msgid "[$QAR]"
 msgstr "[$QAR]"
 
-#: src/formats.c:380
+#: src/formats.c:375
 msgid "Qatari rial"
 msgstr "カタール・リアル"
 
-#: src/formats.c:381
+#: src/formats.c:376
 msgid "[$ROL]"
 msgstr "[$ROL]"
 
-#: src/formats.c:381
+#: src/formats.c:376
 msgid "Romanian leu"
 msgstr "ルーマニア・レイ"
 
-#: src/formats.c:382
+#: src/formats.c:377
 msgid "[$RUR]"
 msgstr "[$RUR]"
 
-#: src/formats.c:382
+#: src/formats.c:377
 msgid "Russian ruble"
 msgstr "ロシア・ルーブル"
 
-#: src/formats.c:383
+#: src/formats.c:378
 msgid "[$RWF]"
 msgstr "[$RWF]"
 
-#: src/formats.c:383
+#: src/formats.c:378
 msgid "Rwanda franc"
 msgstr "ルワンダ・フラン"
 
-#: src/formats.c:384
+#: src/formats.c:379
 msgid "[$SAR]"
 msgstr "[$SAR]"
 
-#: src/formats.c:384
+#: src/formats.c:379
 msgid "Saudi Arabian riyal"
 msgstr "サウジアラビア・リヤル"
 
-#: src/formats.c:385
+#: src/formats.c:380
 msgid "[$SBD]"
 msgstr "[$SBD]"
 
-#: src/formats.c:385
+#: src/formats.c:380
 msgid "Solomon Islands dollar"
 msgstr "ソロモン諸島・ドル"
 
-#: src/formats.c:386
+#: src/formats.c:381
 msgid "[$SCR]"
 msgstr "[$SCR]"
 
-#: src/formats.c:386
+#: src/formats.c:381
 msgid "Seychelles rupee"
 msgstr "セイシェル・ルピー"
 
-#: src/formats.c:387
+#: src/formats.c:382
 msgid "[$SDP]"
 msgstr "[$SDP]"
 
-#: src/formats.c:387
+#: src/formats.c:382
 msgid "Sudanese pound"
 msgstr "スーダン・ポンド"
 
-#: src/formats.c:388
+#: src/formats.c:383
 msgid "[$SEK]"
 msgstr "[$SEK]"
 
-#: src/formats.c:388
+#: src/formats.c:383
 msgid "Swedish krona"
 msgstr "スウェーデン・クローナ"
 
-#: src/formats.c:389
+#: src/formats.c:384
 msgid "[$SGD]"
 msgstr "[$SGD]"
 
-#: src/formats.c:389
+#: src/formats.c:384
 msgid "Singapore dollar"
 msgstr "シンガポール・ドル"
 
-#: src/formats.c:390
+#: src/formats.c:385
 msgid "[$SHP]"
 msgstr "[$SHP]"
 
-#: src/formats.c:390
+#: src/formats.c:385
 msgid "St.Helena pound"
 msgstr "セントヘレナ・ドル"
 
-#: src/formats.c:391
+#: src/formats.c:386
 msgid "[$SIT]"
 msgstr "[$SIT]"
 
-#: src/formats.c:391
+#: src/formats.c:386
 msgid "Slovenia tolar"
 msgstr "スロベニア トラー"
 
-#: src/formats.c:392
+#: src/formats.c:387
 msgid "[$SLL]"
 msgstr "[$SLL]"
 
-#: src/formats.c:392
+#: src/formats.c:387
 msgid "Sierra Leone leone"
 msgstr "シエラレオネ・レオネ"
 
-#: src/formats.c:393
+#: src/formats.c:388
 msgid "[$SOS]"
 msgstr "[$SOS]"
 
-#: src/formats.c:393
+#: src/formats.c:388
 msgid "Somali shilling"
 msgstr "ソマリア・シリング"
 
-#: src/formats.c:394
+#: src/formats.c:389
 msgid "[$SRG]"
 msgstr "[$SRG]"
 
-#: src/formats.c:394
+#: src/formats.c:389
 msgid "Suriname guilder"
 msgstr "スリナム・ギルダー"
 
-#: src/formats.c:395
+#: src/formats.c:390
 msgid "[$STD]"
 msgstr "[$STD]"
 
-#: src/formats.c:395
+#: src/formats.c:390
 msgid "Sao Tome and Principe dobra"
 msgstr "サントメ=プリンチペ・ドブラ"
 
-#: src/formats.c:396
+#: src/formats.c:391
 msgid "[$SUR]"
 msgstr "[$SUR]"
 
-#: src/formats.c:396
+#: src/formats.c:391
 msgid "USSR rouble"
 msgstr "ロシア・ルーブル"
 
-#: src/formats.c:397
+#: src/formats.c:392
 msgid "[$SVC]"
 msgstr "[$SVC]"
 
-#: src/formats.c:397
+#: src/formats.c:392
 msgid "El Salvador colon"
 msgstr "エルサルバドル・コロン"
 
-#: src/formats.c:398
+#: src/formats.c:393
 msgid "[$SYP]"
 msgstr "[$SYP]"
 
-#: src/formats.c:398
+#: src/formats.c:393
 msgid "Syrian pound"
 msgstr "シリア・ポンド"
 
-#: src/formats.c:399
+#: src/formats.c:394
 msgid "[$SZL]"
 msgstr "[$SZL]"
 
-#: src/formats.c:399
+#: src/formats.c:394
 msgid "Swaziland lilangeni"
 msgstr "スワジランド・リランジェニンド"
 
-#: src/formats.c:400
+#: src/formats.c:395
 msgid "[$THB]"
 msgstr "[$THB]"
 
-#: src/formats.c:400
+#: src/formats.c:395
 msgid "Thai baht"
 msgstr "タイ・バーツ"
 
-#: src/formats.c:401
+#: src/formats.c:396
 msgid "[$TND]"
 msgstr "[$TND]"
 
-#: src/formats.c:401
+#: src/formats.c:396
 msgid "Tunisian dinar"
 msgstr "チュニジア・ディナール"
 
-#: src/formats.c:402
+#: src/formats.c:397
 msgid "[$TOP]"
 msgstr "[$TOP]"
 
-#: src/formats.c:402
+#: src/formats.c:397
 msgid "Tongan pa'anga"
 msgstr "トンガ・パ=アンガ"
 
-#: src/formats.c:403
+#: src/formats.c:398
 msgid "[$TPE]"
 msgstr "[$TPE]"
 
-#: src/formats.c:403
+#: src/formats.c:398
 msgid "East Timor escudo"
 msgstr "東チモール・エスクード"
 
-#: src/formats.c:404
+#: src/formats.c:399
 msgid "[$TRL]"
 msgstr "[$TRL]"
 
-#: src/formats.c:404
+#: src/formats.c:399
 msgid "Turkish lira"
 msgstr "トルコリラ"
 
-#: src/formats.c:405
+#: src/formats.c:400
 msgid "[$TTD]"
 msgstr "[$TTD]"
 
-#: src/formats.c:405
+#: src/formats.c:400
 msgid "Trinidad and Tobago dollar"
 msgstr "トリニダード=トバゴ・ドル"
 
-#: src/formats.c:406
+#: src/formats.c:401
 msgid "[$TWD]"
 msgstr "[$TWD]"
 
-#: src/formats.c:406
+#: src/formats.c:401
 msgid "New Taiwan dollar"
 msgstr "台湾ドル"
 
-#: src/formats.c:407
+#: src/formats.c:402
 msgid "[$TZS]"
 msgstr "[$TZS]"
 
-#: src/formats.c:407
+#: src/formats.c:402
 msgid "Tanzanian shilling"
 msgstr "タンザニア・シリング"
 
-#: src/formats.c:408
+#: src/formats.c:403
 msgid "[$UAH]"
 msgstr "[$UAH]"
 
-#: src/formats.c:408
+#: src/formats.c:403
 msgid "Ukrainian hryvnia"
 msgstr "ウクライナ・グリブナ"
 
-#: src/formats.c:409
+#: src/formats.c:404
 msgid "[$UGX]"
 msgstr "[$UGX]"
 
-#: src/formats.c:409
+#: src/formats.c:404
 msgid "Ugandan shilling"
 msgstr "ウガンダ・シリング"
 
-#: src/formats.c:410
+#: src/formats.c:405
 msgid "[$USD]"
 msgstr "[$USD]"
 
-#: src/formats.c:410
+#: src/formats.c:405
 msgid "US dollar"
 msgstr "米ドル"
 
-#: src/formats.c:411
+#: src/formats.c:406
 msgid "[$UYP]"
 msgstr "[$UYP]"
 
-#: src/formats.c:411
+#: src/formats.c:406
 msgid "Uruguayan peso"
 msgstr "ウルグアイ・ペソ"
 
-#: src/formats.c:412
+#: src/formats.c:407
 msgid "[$VEB]"
 msgstr "[$VEB]"
 
-#: src/formats.c:412
+#: src/formats.c:407
 msgid "Venezuelan bolivar"
 msgstr "ベネズエラ・ボリバル"
 
-#: src/formats.c:413
+#: src/formats.c:408
 msgid "[$VND]"
 msgstr "[$VND]"
 
-#: src/formats.c:413
+#: src/formats.c:408
 msgid "Vietnamese dong"
 msgstr "ベトナム・ドン"
 
-#: src/formats.c:414
+#: src/formats.c:409
 msgid "[$VUV]"
 msgstr "[$VUV]"
 
-#: src/formats.c:414
+#: src/formats.c:409
 msgid "Vanuatu vatu"
 msgstr "バヌアツ・バツ"
 
-#: src/formats.c:415
+#: src/formats.c:410
 msgid "[$WST]"
 msgstr "[$WST]"
 
-#: src/formats.c:415
+#: src/formats.c:410
 msgid "Samoan tala"
 msgstr "サモア・タラ"
 
-#: src/formats.c:416
+#: src/formats.c:411
 msgid "[$XCD]"
 msgstr "[$XCD]"
 
-#: src/formats.c:416
+#: src/formats.c:411
 msgid "East Caribbean dollar"
 msgstr "東カリブ・ドル"
 
-#: src/formats.c:417
+#: src/formats.c:412
 msgid "[$XEU]"
 msgstr "[$XEU]"
 
-#: src/formats.c:417
+#: src/formats.c:412
 msgid "European currency unit"
 msgstr "ヨーロッパ通貨単位"
 
-#: src/formats.c:418
+#: src/formats.c:413
 msgid "[$YDD]"
 msgstr "[$YDD]"
 
-#: src/formats.c:418
+#: src/formats.c:413
 msgid "Democratic Yemeni dinar"
 msgstr "民主イエメン・ディナール"
 
-#: src/formats.c:419
+#: src/formats.c:414
 msgid "[$YER]"
 msgstr "[$YER]"
 
-#: src/formats.c:419
+#: src/formats.c:414
 msgid "Yemeni rial"
 msgstr "イエメン・リアル"
 
-#: src/formats.c:420
+#: src/formats.c:415
 msgid "[$YUN]"
 msgstr "[$YUN]"
 
-#: src/formats.c:420
+#: src/formats.c:415
 msgid "New Yugoslavia dinar"
 msgstr "ユーゴスラビア・ディナール"
 
-#: src/formats.c:421
+#: src/formats.c:416
 msgid "[$ZAL]"
 msgstr "[$ZAL]"
 
-#: src/formats.c:421
+#: src/formats.c:416
 msgid "South African rand funds code"
 msgstr "南アフリカ・ランド・基金コード"
 
-#: src/formats.c:422
+#: src/formats.c:417
 msgid "[$ZAR]"
 msgstr "[$ZAR]"
 
-#: src/formats.c:422
+#: src/formats.c:417
 msgid "South African rand"
 msgstr "南アフリカ・ランド"
 
-#: src/formats.c:423
+#: src/formats.c:418
 msgid "[$ZMK]"
 msgstr "[$ZMK]"
 
-#: src/formats.c:423
+#: src/formats.c:418
 msgid "Zambian kwacha"
 msgstr "ザンビア・クワチャ"
 
-#: src/formats.c:424
+#: src/formats.c:419
 msgid "[$ZRZ]"
 msgstr "[$ZRZ]"
 
-#: src/formats.c:424
+#: src/formats.c:419
 msgid "Zaire Zaire"
 msgstr "ザイール・ザイール"
 
-#: src/formats.c:425
+#: src/formats.c:420
 msgid "[$ZWD]"
 msgstr "[$ZWD]"
 
-#: src/formats.c:425
+#: src/formats.c:420
 msgid "Zimbabwe dollar"
 msgstr "ジンバブエ・ドル"
 
-#: src/formats.c:557
+#: src/formats.c:552
 msgid "[Red]"
 msgstr "[Red]"
 
-#: src/func.c:127
+#: src/func.c:126
 #, c-format
 msgid "Cannot create file %s\n"
 msgstr "ファイル %s を作成できません\n"
 
-#: src/func.c:284
+#: src/func.c:283
 msgid "Function implementation not available."
 msgstr "関数の実装が有効ではありません。"
 
-#: src/func.c:500
+#: src/func.c:499
 msgid "Unknown Function"
 msgstr "不明な関数"
 
-#: src/func.c:853
+#: src/func.c:852
 msgid "Function does not exist"
 msgstr "関数がありません"
 
@@ -18698,35 +18692,35 @@ msgstr ""
 "\n"
 "@SEEALSO=FIND"
 
-#: src/gnumeric-canvas.c:87
+#: src/gnumeric-canvas.c:86
 msgid "Format as Number"
 msgstr "数字の書式"
 
-#: src/gnumeric-canvas.c:91
+#: src/gnumeric-canvas.c:90
 msgid "Format as Currency"
 msgstr "通貨の書式"
 
-#: src/gnumeric-canvas.c:95 src/workbook-format-toolbar.c:311
+#: src/gnumeric-canvas.c:94 src/workbook-format-toolbar.c:311
 msgid "Format as Percentage"
 msgstr "百分率の書式"
 
-#: src/gnumeric-canvas.c:99
+#: src/gnumeric-canvas.c:98
 msgid "Format as Scientific"
 msgstr "科学技術の書式"
 
-#: src/gnumeric-canvas.c:103
+#: src/gnumeric-canvas.c:102
 msgid "Format as Date"
 msgstr "日付の書式"
 
-#: src/gnumeric-canvas.c:107
+#: src/gnumeric-canvas.c:106
 msgid "Format as Time"
 msgstr "時刻の書式"
 
-#: src/gnumeric-canvas.c:111
+#: src/gnumeric-canvas.c:110
 msgid "Format as alternative Number"
 msgstr "選択値の書式"
 
-#: src/gnumeric-canvas.c:504
+#: src/gnumeric-canvas.c:514
 #, c-format
 msgid "File \"%s\" has unknown format."
 msgstr "ファイル \"%s\" は不明な書式です。"
@@ -18822,19 +18816,19 @@ msgstr "ファイルを読み込みます"
 msgid "Which file format would you like?"
 msgstr "どのファイル書式にしますか？"
 
-#: src/gui-util.c:287
+#: src/gui-util.c:281
 msgid "Multiple errors"
 msgstr "乗算エラー"
 
-#: src/gui-util.c:319
+#: src/gui-util.c:312
 msgid "Detailed error message"
 msgstr "詳細なエラーメッセージ"
 
-#: src/gui-util.c:376
+#: src/gui-util.c:373
 msgid "Show details"
 msgstr "詳細の表示"
 
-#: src/gui-util.c:866
+#: src/gui-util.c:855
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "ファイル'%s'を開けません"
@@ -18845,24 +18839,21 @@ msgstr "ファイル'%s'を開けません"
 #. * 'Print Preview...' item in the
 #. * 'File' menu
 #.
-#: src/history.c:128
-msgid "File/Print Preview..."
+#: src/history.c:127
+#, fuzzy
+msgid "_File/Print Pre_view..."
 msgstr "ファイル(_F)/印刷プレビュー..."
 
-#: src/history.c:141
-msgid "File/Print Preview"
-msgstr "ファイル(_F)/印刷プレビュー"
-
-#: src/history.c:230
+#: src/history.c:225
 msgid "File/"
 msgstr "ファイル(_F)/"
 
-#: src/item-bar.c:618
+#: src/item-bar.c:629
 #, c-format
 msgid "Width: %.2f pts (%d pixels)"
 msgstr "幅: %.2f pts (%d ピクセル)"
 
-#: src/item-bar.c:621
+#: src/item-bar.c:632
 #, c-format
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "高さ: %.2f pts (%d ピクセル)"
@@ -18908,59 +18899,59 @@ msgstr "セルを右にずらして移動(_T)"
 msgid "C_ancel"
 msgstr "キャンセル(_A)"
 
-#: src/main.c:83
+#: src/main.c:81
 msgid "Display Gnumeric's version"
 msgstr "Gnumeric のバージョンを表示"
 
-#: src/main.c:85
+#: src/main.c:83
 msgid "Set the root library directory"
 msgstr "ライブラリディレクトリの root を設定"
 
-#: src/main.c:87
+#: src/main.c:85
 msgid "Adjust the root data directory"
 msgstr "データディレクトリの root を調節"
 
-#: src/main.c:90
+#: src/main.c:88
 msgid "Dumps the function definitions"
 msgstr "関数定義をダンプ"
 
-#: src/main.c:90
+#: src/main.c:88
 msgid "FILE"
 msgstr "ファイル"
 
-#: src/main.c:93
+#: src/main.c:91
 msgid "Enables some debugging functions"
 msgstr "デバッグ関数を有効にする"
 
-#: src/main.c:93 src/main.c:96 src/main.c:98
+#: src/main.c:91 src/main.c:94 src/main.c:96
 msgid "LEVEL"
 msgstr "レベル"
 
-#: src/main.c:96
+#: src/main.c:94
 msgid "Enables some dependency related debugging functions"
 msgstr "依存関係に関連するデバッグ関数を有効にする"
 
-#: src/main.c:98
+#: src/main.c:96
 msgid "Enables some print debugging behavior"
 msgstr "印刷のデバッグ状況を有効にする"
 
-#: src/main.c:102
+#: src/main.c:100
 msgid "Enables extra consistency checking while reading ole files"
 msgstr "oleファイルの読込中に矛盾がないかのチェックを有効にする"
 
-#: src/main.c:106
+#: src/main.c:104
 msgid "Specify the size and location of the initial window"
 msgstr "指定したサイズと位置でウィンドウを起動する"
 
-#: src/main.c:106
+#: src/main.c:104
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "幅x高さ+X座標+Y座標"
 
-#: src/main.c:110
+#: src/main.c:108
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr "選択されたブックをロード後即座に終了する(テスト時に便利です)。"
 
-#: src/main.c:139
+#: src/main.c:137
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -18984,7 +18975,7 @@ msgstr ""
 "\n"
 "-- Gnumeric チーム。"
 
-#: src/main.c:193
+#: src/main.c:192
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -18995,11 +18986,11 @@ msgstr ""
 "データディレクトリ := '%s'\n"
 "ライブラリディレクトリ := '%s'\n"
 
-#: src/main.c:245
+#: src/main.c:244
 msgid "Could not initialize Workbook factory"
 msgstr "ワークブックファクトリを初期化できませんでした"
 
-#: src/main.c:249
+#: src/main.c:248
 msgid "Could not initialize EmbeddableGrid factory"
 msgstr "埋め込みグリッドファクトリを初期化できませんでした"
 
@@ -19035,60 +19026,60 @@ msgstr "#N/A"
 msgid "#RECALC!"
 msgstr "#RECALC!"
 
-#: src/parser.y:350
+#: src/parser.y:349
 msgid "Sheet name is required"
 msgstr "シート名が必要"
 
-#: src/parser.y:460
+#: src/parser.y:459
 #, c-format
 msgid "Name '%s' does not exist in sheet '%s'"
 msgstr "名前 '%s' はシート '%s' 上に存在しません"
 
-#: src/parser.y:482
+#: src/parser.y:481
 #, c-format
 msgid "Unknown workbook '%s'"
 msgstr "不明な ワークブック '%s' です"
 
-#: src/parser.y:494
+#: src/parser.y:493
 #, c-format
 msgid "Name '%s' does not exist in workbook '%s'"
 msgstr "名前 '%s' はワークブック '%s' 上に存在しません"
 
-#: src/parser.y:519 src/parser.y:542
+#: src/parser.y:518 src/parser.y:541
 #, c-format
 msgid "Unknown sheet '%s'"
 msgstr "不明なシート '%s' です"
 
-#: src/parser.y:650 src/parser.y:664
+#: src/parser.y:649 src/parser.y:663
 #, c-format
 msgid "The character %c cannot be used to separate array elements"
 msgstr "文字 %c は配列要素の分離記号として使用することは出来ません"
 
-#: src/parser.y:825 src/parser.y:835 src/parser.y:868
+#: src/parser.y:824 src/parser.y:834 src/parser.y:867
 msgid "The number is out of range"
 msgstr "有効範囲を越えています"
 
-#: src/parser.y:896
+#: src/parser.y:895
 msgid "Could not find matching closing quote"
 msgstr "一致する閉じ括弧が見つかりませんでした"
 
-#: src/parser.y:1062
+#: src/parser.y:1061
 msgid "Multiple expressions are not supported in this context"
 msgstr "このコンテキストでは多重式はサポートしていません"
 
-#: src/parser.y:1084
+#: src/parser.y:1083
 msgid "Could not find matching opening parenthesis"
 msgstr "一致する開き括弧が見つかりませんでした"
 
-#: src/parser.y:1088
+#: src/parser.y:1087
 msgid "Could not find matching closing parenthesis"
 msgstr "一致する閉じ丸括弧が見つかりませんでした"
 
-#: src/parser.y:1092
+#: src/parser.y:1091
 msgid "Invalid expression"
 msgstr "不正な正規表現です"
 
-#: src/parser.y:1097
+#: src/parser.y:1096
 #, c-format
 msgid "Unexpected token %c"
 msgstr "予期しないトークン %c"
@@ -19172,58 +19163,58 @@ msgstr "ローダーがサポートしていないサービスです。"
 msgid "Error while loading plugin."
 msgstr "プラグインの読み込み中にエラーが発生しました。"
 
-#: src/plugin-service.c:125
+#: src/plugin-service.c:123
 msgid "Initializing function inside plugin returned error."
 msgstr "プラグイン内の関数の初期化でエラーが返されました。"
 
-#: src/plugin-service.c:130 src/plugin-service.c:1076
-#: src/plugin-service.c:1304
+#: src/plugin-service.c:128 src/plugin-service.c:1074
+#: src/plugin-service.c:1302
 msgid "Error while loading plugin service."
 msgstr "プラグイン・サービスの読み込み中にエラーが発生しました。"
 
-#: src/plugin-service.c:164
+#: src/plugin-service.c:162
 msgid "Cleanup function inside plugin returned error."
 msgstr "プラグイン無いの関数のクリンナップでエラーが返されました。"
 
-#: src/plugin-service.c:303
+#: src/plugin-service.c:301
 msgid "Error while reading file."
 msgstr "ファイルの読み込み中にエラーが発生しました。"
 
-#: src/plugin-service.c:480
+#: src/plugin-service.c:478
 msgid "File opener has no id"
 msgstr "ファイル・オープンナーに ID がありません。"
 
-#: src/plugin-service.c:483
+#: src/plugin-service.c:481
 #, c-format
 msgid "File opener with id=\"%s\" has no description"
 msgstr "ID=\"%s\" のファイルオープンナーには説明がありません"
 
-#: src/plugin-service.c:613
+#: src/plugin-service.c:611
 msgid "Error while saving file."
 msgstr "ファイルセーバーに ID がありません。"
 
-#: src/plugin-service.c:712
+#: src/plugin-service.c:710
 msgid "File saver has no id"
 msgstr "ファイルサーバーには ID がありません"
 
-#: src/plugin-service.c:715
+#: src/plugin-service.c:713
 #, c-format
 msgid "File saver with id=\"%s\" has no description"
 msgstr "ID=\"%s\" のファイルサーバーには説明がありません"
 
-#: src/plugin-service.c:867
+#: src/plugin-service.c:865
 msgid "Missing function group id."
 msgstr "関数のグループID がありません。"
 
-#: src/plugin-service.c:872 src/plugin-service.c:877
+#: src/plugin-service.c:870 src/plugin-service.c:875
 msgid "Missing function category name."
 msgstr "関数のカテゴリ名がありません。"
 
-#: src/plugin-service.c:1036
+#: src/plugin-service.c:1034
 msgid "Missing loader id."
 msgstr "ローダー ID が見当たりません。"
 
-#: src/plugin-service.c:1199
+#: src/plugin-service.c:1197
 #, c-format
 msgid "Error while reading service of type \"%s\"."
 msgstr "\"%s\" 型のサービスの読み込み中にエラーが発生しました。"
@@ -19257,7 +19248,7 @@ msgstr "ファイル \"%s\" を読み込みでオープン中にエラーが発生しました。"
 msgid "Unable to mmap the file."
 msgstr "ファイルを mmap できません。"
 
-#: src/plugin-util.c:318 src/xml-io.c:3367
+#: src/plugin-util.c:318 src/xml-io.c:3224
 msgid "Cannot get file size."
 msgstr "ファイルサイズを取得できません。"
 
@@ -19452,11 +19443,11 @@ msgid "time"
 msgstr "時間"
 
 #. Note: we cannot have spaces in page numbers.
-#: src/print.c:596
+#: src/print.c:591
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: src/print.c:991
+#: src/print.c:986
 msgid "Print Region"
 msgstr "印刷範囲"
 
@@ -19472,7 +19463,7 @@ msgstr "有効なシート(_I)"
 msgid "S_heets"
 msgstr "シート(_H)"
 
-#: src/print.c:1195
+#: src/print.c:1201
 msgid "Printing failed"
 msgstr "印刷に失敗しました"
 
@@ -19508,17 +19499,17 @@ msgstr "置換する中に不正なバックスラッシュ '\\' があります。"
 msgid "cannot be performed with multiple ranges selected"
 msgstr "複数選択のもとで実行できません"
 
-#: src/sheet-control-gui.c:555
+#: src/sheet-control-gui.c:557
 #, c-format
 msgid "Row: %s"
 msgstr "行: %s"
 
-#: src/sheet-control-gui.c:570
+#: src/sheet-control-gui.c:572
 #, c-format
 msgid "Column: %s"
 msgstr "列: %s"
 
-#: src/sheet-control-gui.c:1398
+#: src/sheet-control-gui.c:1397
 msgid "Paste _Special"
 msgstr "特別貼り付け(_S)"
 
@@ -19529,41 +19520,41 @@ msgstr "特別貼り付け(_S)"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1410
+#: src/sheet-control-gui.c:1409
 msgid "_Insert..."
 msgstr "挿入(_I)..."
 
-#: src/sheet-control-gui.c:1414
+#: src/sheet-control-gui.c:1413
 msgid "_Insert Column(s)"
 msgstr "列を挿入(_I)"
 
-#: src/sheet-control-gui.c:1416
+#: src/sheet-control-gui.c:1415
 msgid "_Delete Column(s)"
 msgstr "列を削除(_D)"
 
-#: src/sheet-control-gui.c:1418
+#: src/sheet-control-gui.c:1417
 msgid "_Insert Row(s)"
 msgstr "行を挿入(_I)"
 
-#: src/sheet-control-gui.c:1420
+#: src/sheet-control-gui.c:1419
 msgid "_Delete Row(s)"
 msgstr "行を削除(_D)"
 
-#: src/sheet-control-gui.c:1423
+#: src/sheet-control-gui.c:1422
 msgid "Clear Co_ntents"
 msgstr "内容を消去(_N)"
 
-#: src/sheet-control-gui.c:1429
+#: src/sheet-control-gui.c:1428
 msgid "_Format Cells..."
 msgstr "セルの書式設定(_F)..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1433
+#: src/sheet-control-gui.c:1432
 msgid "Column _Width..."
 msgstr "列の幅(_W)..."
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1441
+#: src/sheet-control-gui.c:1440
 msgid "_Row Height..."
 msgstr "行の高さ(_R)..."
 
@@ -19665,10 +19656,6 @@ msgstr "チェックボックス設定"
 #: src/sheet-object-widget.c:1264
 msgid "Label :"
 msgstr "ラベル :"
-
-#: src/sheet-object.c:86
-msgid "Properties..."
-msgstr "プロパティ..."
 
 #: src/sheet.c:2128
 msgid "Target region contains merged cells"
@@ -19852,11 +19839,11 @@ msgstr "テキストファイルのインポート (デフォルト csv)"
 msgid "Text File Export (*.csv)"
 msgstr "テキストファイルのエクスポート (*.csv)"
 
-#: src/style.c:265 src/style.c:267
+#: src/style.c:284 src/style.c:286
 msgid "<Has not been set>"
 msgstr "<まだ設定されていません>"
 
-#: src/style.c:270
+#: src/style.c:289
 #, c-format
 msgid ""
 "Gnumeric failed to find a suitable default font.\n"
@@ -19903,11 +19890,11 @@ msgstr ""
 "\n"
 "ご協力に感謝いたします -- Gnumeric チーム\n"
 
-#: src/style.c:290
+#: src/style.c:309
 msgid "Your fontmap2 file does not have a valid entry for Helvetica."
 msgstr "fontmap2 ファイルには Helvetica に対する適当なエントリがありません。"
 
-#: src/style.c:291
+#: src/style.c:310
 msgid "Your fontmap2 file could not be found in the expected location."
 msgstr "fontmap2 ファイルが指定された場所に見つかりませんでした。"
 
@@ -20016,13 +20003,13 @@ msgstr "なし"
 msgid "Un_freeze Panes"
 msgstr "未解凍のペイン(_F)"
 
-#: src/workbook-control-gui.c:1032 src/workbook-control-gui.c:3213
-#: src/workbook-control-gui.c:3409 src/workbook-control-gui.c:3433
+#: src/workbook-control-gui.c:1032 src/workbook-control-gui.c:3210
+#: src/workbook-control-gui.c:3404 src/workbook-control-gui.c:3424
 msgid "Undo"
 msgstr "元に戻す"
 
-#: src/workbook-control-gui.c:1033 src/workbook-control-gui.c:3216
-#: src/workbook-control-gui.c:3417 src/workbook-control-gui.c:3436
+#: src/workbook-control-gui.c:1033 src/workbook-control-gui.c:3213
+#: src/workbook-control-gui.c:3410 src/workbook-control-gui.c:3427
 msgid "Redo"
 msgstr "もう一度"
 
@@ -20116,151 +20103,151 @@ msgstr "タイプ '%s'のオブジェクトを作成できません "
 msgid "_Save..."
 msgstr "保存(_S)..."
 
-#: src/workbook-control-gui.c:2610
+#: src/workbook-control-gui.c:2609
 msgid "Save with a new name or format"
 msgstr "新しい名前または書式で保存します"
 
-#: src/workbook-control-gui.c:2677
+#: src/workbook-control-gui.c:2674
 msgid "Select all the cells that depend on the current edit cell."
 msgstr "現在編集中のセルに依存するセルをすべて選択"
 
-#: src/workbook-control-gui.c:2747
+#: src/workbook-control-gui.c:2744
 msgid "P_aste special..."
 msgstr "特殊貼り付け(_A)..."
 
-#: src/workbook-control-gui.c:2756
+#: src/workbook-control-gui.c:2753
 msgid "Remove selected cells, shifting other into their place"
 msgstr "選択されたセルを削除し、その場所に他セルをずらす"
 
-#: src/workbook-control-gui.c:2807
+#: src/workbook-control-gui.c:2804
 msgid "Freeze the top left of the sheet"
 msgstr "シートの左上を固定します"
 
-#: src/workbook-control-gui.c:2835
+#: src/workbook-control-gui.c:2832
 msgid "_Auto generate names..."
 msgstr "名前の自動生成(_A)..."
 
-#: src/workbook-control-gui.c:2836
+#: src/workbook-control-gui.c:2833
 msgid "Use the current selection to create names"
 msgstr "名前の生成のために現在選択しているものを使用する"
 
-#: src/workbook-control-gui.c:2908
+#: src/workbook-control-gui.c:2905
 msgid "_Change name"
 msgstr "名前を変更(_C)"
 
-#: src/workbook-control-gui.c:2935
+#: src/workbook-control-gui.c:2932
 msgid "Hide _Column Header"
 msgstr "列ヘッダを隠す(_C)"
 
-#: src/workbook-control-gui.c:2941
+#: src/workbook-control-gui.c:2938
 msgid "Hide _Row Header"
 msgstr "行ヘッダを隠す(_R)"
 
-#: src/workbook-control-gui.c:3043
+#: src/workbook-control-gui.c:3040
 msgid "Ranks And _Percentiles"
 msgstr "階数と百分位数(_P)"
 
-#: src/workbook-control-gui.c:3064
+#: src/workbook-control-gui.c:3061
 msgid "Manage available plugin modules."
 msgstr "有効なプラグインの管理を行います"
 
-#: src/workbook-control-gui.c:3100
+#: src/workbook-control-gui.c:3097
 msgid "_Group..."
 msgstr "グループ化(_G)..."
 
-#: src/workbook-control-gui.c:3103
+#: src/workbook-control-gui.c:3100
 msgid "_Ungroup..."
 msgstr "グループ化解除(_U)..."
 
-#: src/workbook-control-gui.c:3141
+#: src/workbook-control-gui.c:3138
 msgid "_Sort"
 msgstr "並べ替え(_S)"
 
-#: src/workbook-control-gui.c:3142
+#: src/workbook-control-gui.c:3139
 msgid "Sorts the selected region."
 msgstr "選択された範囲の並べ替え"
 
-#: src/workbook-control-gui.c:3179
+#: src/workbook-control-gui.c:3176
 msgid "Creates a new workbook"
 msgstr "ワークブックの新規作成"
 
-#: src/workbook-control-gui.c:3182
+#: src/workbook-control-gui.c:3179
 msgid "Opens an existing workbook"
 msgstr "既存のワークブックを開く"
 
-#: src/workbook-control-gui.c:3185
+#: src/workbook-control-gui.c:3182
 msgid "Saves the workbook"
 msgstr "ワークブックを保存"
 
-#: src/workbook-control-gui.c:3191
+#: src/workbook-control-gui.c:3188
 msgid "Prints the workbook"
 msgstr "ワークブックを印刷"
 
-#: src/workbook-control-gui.c:3200
+#: src/workbook-control-gui.c:3197
 msgid "Cuts the selection to the clipboard"
 msgstr "選択部分をクリップボードにカット"
 
-#: src/workbook-control-gui.c:3203
+#: src/workbook-control-gui.c:3200
 msgid "Copies the selection to the clipboard"
 msgstr "選択部分をクリップボードにコピー"
 
-#: src/workbook-control-gui.c:3206
+#: src/workbook-control-gui.c:3203
 msgid "Pastes the clipboard"
 msgstr "クリップボードから貼付け"
 
-#: src/workbook-control-gui.c:3213
+#: src/workbook-control-gui.c:3210
 msgid "Undo the operation"
 msgstr "操作を取り消します"
 
-#: src/workbook-control-gui.c:3216
+#: src/workbook-control-gui.c:3213
 msgid "Redo the operation"
 msgstr "操作をやり直します"
 
-#: src/workbook-control-gui.c:3226
+#: src/workbook-control-gui.c:3223
 msgid "Sum into the current cell."
 msgstr "現在のセルで総和をとる。"
 
-#: src/workbook-control-gui.c:3229
+#: src/workbook-control-gui.c:3226
 msgid "Function"
 msgstr "関数"
 
-#: src/workbook-control-gui.c:3229
+#: src/workbook-control-gui.c:3226
 msgid "Edit a function in the current cell."
 msgstr "現在のセルで関数を編集する。"
 
-#: src/workbook-control-gui.c:3233
+#: src/workbook-control-gui.c:3230
 msgid ""
 "Sorts the selected region in ascending order based on the first column "
 "selected."
 msgstr "選択された最初の列にもとづいて選択範囲を昇順に並べ替えます"
 
-#: src/workbook-control-gui.c:3236
+#: src/workbook-control-gui.c:3233
 msgid ""
 "Sorts the selected region in descending order based on the first column "
 "selected."
 msgstr "選択された最初の列にもとづいて選択範囲を降順に並べ替えます"
 
-#: src/workbook-control-gui.c:4176
+#: src/workbook-control-gui.c:4164
 msgid "Send"
 msgstr "送信"
 
-#: src/workbook-control-gui.c:4176
+#: src/workbook-control-gui.c:4164
 msgid "Send the current file in email"
 msgstr "現在のファイルを E-メールで送信します"
 
-#: src/workbook-control-gui.c:4379
+#: src/workbook-control-gui.c:4367
 msgid "Re-Edit"
 msgstr "再編集"
 
-#: src/workbook-control-gui.c:4379 src/workbook-control-gui.c:4385
+#: src/workbook-control-gui.c:4367 src/workbook-control-gui.c:4373
 msgid "Discard"
 msgstr "破棄"
 
-#: src/workbook-control-gui.c:4385
+#: src/workbook-control-gui.c:4373
 msgid "Accept"
 msgstr "受諾"
 
-#: src/workbook-control-gui.c:4390
+#: src/workbook-control-gui.c:4378
 msgid "Ok"
 msgstr "OK"
 
@@ -20272,11 +20259,11 @@ msgstr "定義名"
 msgid "Address"
 msgstr "アドレス"
 
-#: src/workbook-edit.c:117
+#: src/workbook-edit.c:116
 msgid "Edit Expression"
 msgstr "数式の編集"
 
-#: src/workbook-edit.c:117
+#: src/workbook-edit.c:116
 msgid "Discard Expression"
 msgstr "数式の破棄"
 
@@ -20412,7 +20399,7 @@ msgstr "上罫線と太下罫線"
 msgid "Set Borders"
 msgstr "罫線のセット"
 
-#: src/workbook-format-toolbar.c:785
+#: src/workbook-format-toolbar.c:775
 msgid "Size"
 msgstr "サイズ"
 
@@ -20476,41 +20463,41 @@ msgstr "楕円"
 msgid "Creates an ellipse object"
 msgstr "楕円オブジェクトを作成します"
 
-#: src/workbook-view.c:236
+#: src/workbook-view.c:226
 #, c-format
 msgid "%dR x %dC"
 msgstr "%dR x %dC"
 
-#: src/workbook-view.c:377
+#: src/workbook-view.c:360
 msgid "Internal ERROR"
 msgstr "内部エラーです"
 
-#: src/workbook-view.c:655
+#: src/workbook-view.c:561
 msgid "Default file saver is not available."
 msgstr "デフォルトのファイルセーバーは無効です。"
 
-#: src/workbook-view.c:744
+#: src/workbook-view.c:650
 msgid "No sheets in workbook."
 msgstr "ワークブックにシートがありません。"
 
-#: src/workbook-view.c:754
+#: src/workbook-view.c:660
 msgid "Unsupported file format."
 msgstr "未サポートのファイル書式です。"
 
-#: src/workbook.c:448
+#: src/workbook.c:419
 #, c-format
 msgid "Book%d.%s"
 msgstr "Book%d.%s"
 
-#: src/workbook.c:1220
+#: src/workbook.c:1191
 msgid "Sheet name"
 msgstr "シート名"
 
-#: src/workbook.c:1221
+#: src/workbook.c:1192
 msgid "must have at least 1 letter"
 msgstr "少なくとも1文字はなければなりません"
 
-#: src/workbook.c:1234
+#: src/workbook.c:1205
 msgid "There is already a sheet named"
 msgstr "その名前のシートは既にあります"
 
@@ -20526,29 +20513,41 @@ msgstr "自動書式のテンプレートファイルではありません"
 msgid "Error while trying to build tree from autoformat template file"
 msgstr "自動書式テンプレートからツリーの構築中にエラー"
 
-#: src/xml-io.c:2799
+#: src/xml-io.c:2662
 msgid "Unparsable xml in clipboard"
 msgstr "クリップボードの中に解析不可の XML があります"
 
-#: src/xml-io.c:2806
+#: src/xml-io.c:2669
 msgid "Clipboard is in unknown format"
 msgstr "クリップボードは不明な書式の中にあります"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3212
+#: src/xml-io.c:3074
 msgid "Processing file..."
 msgstr "ファイルの解析中..."
 
-#: src/xml-io.c:3375
+#: src/xml-io.c:3232
 msgid "Not enough memory to create zlib decompression state."
 msgstr "zlib で解凍状況を生成するためのメモリが足りません。"
 
-#: src/xml-io.c:3410
+#: src/xml-io.c:3267
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Gnumericワークブックファイルではありません"
 
-#: src/xml-io.c:3467
+#: src/xml-io.c:3324
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML ファイル形式"
+
+#~ msgid "Adrian Likins, documentation, debugging."
+#~ msgstr "Adrian Likins, 文書、デバッグを担当。"
+
+#~ msgid "Advanced..."
+#~ msgstr "高度..."
+
+#~ msgid "File/Print Preview"
+#~ msgstr "ファイル(_F)/印刷プレビュー"
+
+#~ msgid "Properties..."
+#~ msgstr "プロパティ..."

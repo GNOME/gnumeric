@@ -36,7 +36,7 @@
 #include <gal/util/e-util.h>
 #include <libgnome/gnome-i18n.h>
 
-#define WBC_CLASS(o) WORKBOOK_CONTROL_CLASS ((o)->context.gtk_object.klass)
+#define WBC_CLASS(o) WORKBOOK_CONTROL_CLASS (G_OBJECT_GET_CLASS (o))
 #define WBC_VIRTUAL_FULL(func, handle, arglist, call)		\
 void wb_control_ ## func arglist				\
 {								\

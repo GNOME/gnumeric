@@ -24,12 +24,15 @@
 #include <widgets/gnumeric-expr-entry.h>
 #include <gal/widgets/e-cursors.h>
 #include <gal/widgets/e-unicode.h>
-#include <gal/util/e-unicode-i18n.h>
 #include <gal/e-table/e-table-simple.h>
 #include <gal/e-table/e-table.h>
 #include <gal/e-table/e-table-scrolled.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
+
+#warning FIXME
+/*#include <gal/util/e-unicode-i18n.h>*/
+#define U_(x)	_(x)
 
 #define SEARCH_KEY "search-dialog"
 
@@ -206,7 +209,7 @@ free_state (DialogState *dd)
 	search_filter_matching_free (dd->matches);
 	clear_strings (dd);
 	g_hash_table_destroy (dd->e_table_strings);
-	gtk_object_unref (GTK_OBJECT (dd->gui));
+	g_object_unref (G_OBJECT (dd->gui));
 	gtk_object_unref (GTK_OBJECT (dd->e_table_model));
 	memset (dd, 0, sizeof (*dd));
 	g_free (dd);
@@ -465,8 +468,12 @@ dialog_search (WorkbookControlGUI *wbcg)
 
 	/* Load the contents of the search in the gnome-entry. */
 	gentry = glade_xml_get_widget (gui, "search_entry");
-	gnome_entry_set_history_id (GNOME_ENTRY (gentry), "search_entry");
-	gnome_entry_load_history (GNOME_ENTRY (gentry));
+	{
+		GValue val = {0, };
+		g_value_init (&val, G_TYPE_STRING);
+		g_value_set_static_string (&val, "search_entry");
+		g_object_set_property (G_OBJECT (gentry), "history_id", &val);
+	}
 
 	dd->prev_button = glade_xml_get_widget (gui, "prev_button");
 	dd->next_button = glade_xml_get_widget (gui, "next_button");

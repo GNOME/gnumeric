@@ -40,18 +40,21 @@ typedef enum _StyleOrientation {
 } StyleOrientation;
 
 struct _StyleFont {
-	int                ref_count;
-	char              *font_name;
-	float             size;
-	float             scale;
+	int	 ref_count;
+	char	*font_name;
+	float	 size_pts;
+	float	 scale;
 	struct {
-	    float pixels;   /* this does not belong here */
-	    float pts;
+		float pixels;   /* this does not belong here */
+		float pts;
 	} approx_width;
+	struct {
+		PangoFont	  	*font;
+		PangoFontDescription	*desc;
+		PangoFontMetrics	*metrics;
+	} pango;
 
-	GnomeDisplayFont  *dfont;
-	GnomeFont         *font;
-	GdkFont		  *gdk_font;
+	GdkFont	*gdk_font;
 
 	unsigned int is_bold:1;
 	unsigned int is_italic:1;
@@ -61,10 +64,10 @@ void           style_init  	      (void);
 void	       style_shutdown         (void);
 
 StyleFont     *style_font_new         (const char *font_name,
-				       double size, double scale,
+				       double size_pts, double scale,
 				       gboolean bold, gboolean italic);
 StyleFont     *style_font_new_simple  (const char *font_name,
-				       double size, double scale,
+				       double size_pts, double scale,
 				       gboolean bold, gboolean italic);
 GdkFont       *style_font_gdk_font    (StyleFont const *sf);
 int            style_font_get_height  (StyleFont const *sf);

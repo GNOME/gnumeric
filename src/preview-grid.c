@@ -29,13 +29,13 @@
 #include "cell-draw.h"
 #include "colrow.h"
 #include "pattern.h"
-#include "portability.h"
 #include "mstyle.h"
 #include "rendered-value.h"
 #include "sheet-style.h"
 #include "style-border.h"
 #include "style-color.h"
 #include "value.h"
+#include "gui-gtkmarshalers.h"
 
 #include <gal/util/e-util.h>
 
@@ -94,46 +94,32 @@ typedef gpointer (*GtkSignal_POINTER__INT_INT) (GtkObject * object,
 						gint arg1,
 						gint arg2,
 						gpointer user_data);
-static void
-marshal_POINTER__INT_INT (GtkObject * object, GtkSignalFunc func,
-				 gpointer func_data, GtkArg * args)
-{
-	GtkSignal_POINTER__INT_INT rfunc;
-	gpointer *rval;
-	rval = GTK_RETLOC_POINTER (args[2]);
-	rfunc = (GtkSignal_POINTER__INT_INT) func;
-	*rval = (*rfunc) (object,
-			  GTK_VALUE_INT (args[0]),
-			  GTK_VALUE_INT (args[1]),
-			  func_data);
-}
-
 /*****************************************************************************/
 
 static int
 pg_get_row_height (PreviewGrid *pg, int const row)
 {
-	int height = pg->def.row_height;
+	int height;
 	
-	g_return_val_if_fail (pg != NULL, 0);
-	g_return_val_if_fail (row >= 0 && row < SHEET_MAX_ROWS, 0);
+	g_return_val_if_fail (row >= 0 && row < SHEET_MAX_ROWS, 1);
 
 	gtk_signal_emit (GTK_OBJECT (pg), pg_signals [GET_ROW_HEIGHT], row, &height);
-
-	return height;
+	if (height > 0)
+		return height;
+	return pg->def.row_height;
 }
 
 static int
 pg_get_col_width (PreviewGrid *pg, int const col)
 {
-	int width = pg->def.col_width;
+	int width;
 	
-	g_return_val_if_fail (pg != NULL, 0);
-	g_return_val_if_fail (col >= 0 && col < SHEET_MAX_COLS, 0);
+	g_return_val_if_fail (col >= 0 && col < SHEET_MAX_COLS, 1);
 
 	gtk_signal_emit (GTK_OBJECT (pg), pg_signals [GET_COL_WIDTH], col, &width);
-
-	return width;
+	if (width > 0)
+		return width;
+	return pg->def.col_width;
 }
 
 /**
@@ -631,12 +617,12 @@ preview_grid_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 static void
 preview_grid_class_init (PreviewGridClass *preview_grid_class)
 {
-	GtkObjectClass  *object_class;
+	GtkObjectClass  *klass;
 	GnomeCanvasItemClass *item_class;
 
 	preview_grid_parent_class = gtk_type_class (gnome_canvas_item_get_type ());
 
-	object_class = (GtkObjectClass *) preview_grid_class;
+	klass = (GtkObjectClass *) preview_grid_class;
 	item_class = (GnomeCanvasItemClass *) preview_grid_class;
 
 	/* Manipulation */
@@ -647,8 +633,8 @@ preview_grid_class_init (PreviewGridClass *preview_grid_class)
 	gtk_object_add_arg_type ("PreviewGrid::DefaultColWidth", GTK_TYPE_INT,
 				 GTK_ARG_WRITABLE, ARG_DEFAULT_COL_WIDTH);
 
-	object_class->set_arg = preview_grid_set_arg;
-	object_class->destroy = preview_grid_destroy;
+	klass->set_arg = preview_grid_set_arg;
+	klass->destroy = preview_grid_destroy;
 
 	/* GnomeCanvasItem method overrides */
 	item_class->update      = preview_grid_update;
@@ -658,46 +644,39 @@ preview_grid_class_init (PreviewGridClass *preview_grid_class)
 	item_class->draw        = preview_grid_draw;
 	item_class->point       = preview_grid_point;
 
-	/* Turn of translate and event handlers
-	item_class->translate   = preview_grid_translate;
-	item_class->event       = preview_grid_event;
-	*/
-
 	/* Create all the signals */
 	pg_signals [GET_ROW_HEIGHT] =
 		gtk_signal_new (
 			"get_row_height",
 			GTK_RUN_LAST,
-			object_class->type,
+			GTK_CLASS_TYPE (klass),
 			GTK_SIGNAL_OFFSET (PreviewGridClass, get_row_height),
-			gtk_marshal_INT__INT,
+			gnm__INT__INT,
 			GTK_TYPE_INT, 1, GTK_TYPE_INT);
 	pg_signals [GET_COL_WIDTH] =
 		gtk_signal_new (
 			"get_col_width",
 			GTK_RUN_LAST,
-			object_class->type,
+			GTK_CLASS_TYPE (klass),
 			GTK_SIGNAL_OFFSET (PreviewGridClass, get_col_width),
-			gtk_marshal_INT__INT,
+			gnm__INT__INT,
 			GTK_TYPE_INT, 1, GTK_TYPE_INT);
 	pg_signals [GET_CELL_STYLE] =
 		gtk_signal_new (
 			"get_cell_style",
 			GTK_RUN_LAST,
-			object_class->type,
+			GTK_CLASS_TYPE (klass),
 			GTK_SIGNAL_OFFSET (PreviewGridClass, get_cell_value),
-			marshal_POINTER__INT_INT,
+			gnm__POINTER__INT_INT,
 			GTK_TYPE_POINTER, 2, GTK_TYPE_INT, GTK_TYPE_INT);
 	pg_signals [GET_CELL_VALUE] =
 		gtk_signal_new (
 			"get_cell_value",
 			GTK_RUN_LAST,
-			object_class->type,
+			GTK_CLASS_TYPE (klass),
 			GTK_SIGNAL_OFFSET (PreviewGridClass, get_cell_value),
-			marshal_POINTER__INT_INT,
+			gnm__POINTER__INT_INT,
 			GTK_TYPE_POINTER, 2, GTK_TYPE_INT, GTK_TYPE_INT);
-
-	gtk_object_class_add_signals (object_class, pg_signals, LAST_SIGNAL);
 }
 
 E_MAKE_TYPE (preview_grid, "PreviewGrid", PreviewGrid,

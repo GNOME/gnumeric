@@ -29,7 +29,6 @@
 #include "dates.h"
 #include "value.h"
 #include "parse-util.h"
-#include "portability.h"
 #include "datetime.h"
 #include "mathfunc.h"
 #include "str.h"
@@ -38,6 +37,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <locale.h>
 #include <ctype.h>
+#include <string.h>
 #include <stdio.h>
 #include <errno.h>
 #include <stdlib.h>

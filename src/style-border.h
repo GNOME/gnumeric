@@ -2,6 +2,7 @@
 #define GNUMERIC_STYLE_BORDER_H
 
 #include "gnumeric.h"
+#include <gdk/gdkgc.h>
 #include <libgnomeprint/gnome-print.h>
 
 typedef enum {

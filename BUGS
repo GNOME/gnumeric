@@ -161,6 +161,10 @@ Long term breakage
     : An optional stippled trim would be a nice addition for components to
       indicate that you can click there for a menu.
 
+- Add a warning when attempting to save using the suffix from a different saver.
+  eg saving .gnumeric as foo.xls
+- Can we probe for .gzipped files to catch the misnaming ?
+
 Dialogs
 -------
 - Function selector

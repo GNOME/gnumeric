@@ -31,7 +31,6 @@
 #include "style.h"
 #include "style-border.h"
 #include "cell.h"
-#include "portability.h"
 
 typedef union _CellTile CellTile;
 struct _SheetStyleData {

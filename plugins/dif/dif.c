@@ -15,7 +15,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "portability.h"
 #include "cell.h"
 #include "sheet.h"
 #include "value.h"

@@ -4,14 +4,14 @@
 #include "sheet-control.h"
 
 struct _SheetControl {
-	GtkObject object;
+	GObject object;
 
 	Sheet          	*sheet;
 	WorkbookControl *wbc;
 };
 
 typedef struct {
-	GtkObjectClass   object_class;
+	GObjectClass   object_class;
 
 	void (*init_state) (SheetControl *sc);
 
@@ -40,6 +40,6 @@ typedef struct {
 					 int start, int end);
 } SheetControlClass;
 
-#define SHEET_CONTROL_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), SHEET_CONTROL_TYPE, SheetControlClass))
+#define SHEET_CONTROL_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), SHEET_CONTROL_TYPE, SheetControlClass))
 
 #endif /* GNUMERIC_SHEET_CONTROL_PRIV_H */

@@ -264,7 +264,7 @@ fs_init (FontSelector *fs)
 	GtkWidget *toplevel;
 	GtkWidget *old_parent;
 
-	fs->gui = glade_xml_new (GNUMERIC_GLADEDIR "/font-sel.glade", NULL);
+	fs->gui = glade_xml_new (GNUMERIC_GLADEDIR "/font-sel.glade", NULL, "gnumeric");
 	if (!fs->gui) {
 		g_warning ("Could not load font-sel.glade");
                 return;
@@ -335,7 +335,7 @@ fs_destroy (GtkObject *object)
 	}
 
 	if (fs->gui) {
-		gtk_object_unref (GTK_OBJECT (fs->gui));
+		g_object_unref (G_OBJECT (fs->gui));
 		fs->gui = NULL;
 	}
 
@@ -343,9 +343,9 @@ fs_destroy (GtkObject *object)
 }
 
 static void
-fs_class_init (GtkObjectClass *Class)
+fs_class_init (GtkObjectClass *klass)
 {
-	Class->destroy = fs_destroy;
+	klass->destroy = fs_destroy;
 
 	fs_parent_class = gtk_type_class (gtk_hbox_get_type ());
 
@@ -353,12 +353,10 @@ fs_class_init (GtkObjectClass *Class)
 		gtk_signal_new (
 			"font_changed",
 			GTK_RUN_LAST,
-			Class->type,
+			GTK_CLASS_TYPE (klass),
 			GTK_SIGNAL_OFFSET (FontSelectorClass, font_changed),
 			gtk_marshal_NONE__POINTER,
 			GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
-
-	gtk_object_class_add_signals (Class, fs_signals, LAST_SIGNAL);
 }
 
 GtkType

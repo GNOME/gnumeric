@@ -13,7 +13,7 @@
 #include <style-color.h>
 
 #include <gtk/gtkentry.h>
-#include <libgnomeui/gnome-canvas.h>
+#include <libgnomecanvas/gnome-canvas.h>
 #include <libgnomeui/libgnomeui.h>
 #include <gdk/gdkkeysyms.h>
 
@@ -92,7 +92,7 @@ el_edit_sync (El *el)
 	char const *text;
 
 	text = gtk_entry_get_text (entry);
-	font = widget->style->font;
+	font = gtk_style_get_font (widget->style);
 
 	el_change_text (el, text);
 
@@ -246,7 +246,7 @@ el_size_request (GtkWidget *widget, GtkRequisition *requisition)
 	}
 
 	/* The widget is realized, and we have a text item inside */
-	font = widget->style->font;
+	font = gtk_style_get_font (widget->style);
 	text = GNOME_CANVAS_TEXT (el->text_item)->text;
 
 	requisition->width = gdk_string_measure (font, text) + MARGIN * 2;
@@ -322,21 +322,21 @@ el_realize(GtkWidget *widget)
 		(*GTK_WIDGET_CLASS (el_parent_class)->realize) (widget);
 
 	editable_label_set_color (el, el->color);
-	gnome_canvas_item_set (GNOME_CANVAS_ITEM (el->text_item),
-		"font_gdk", widget->style->font,
+	gnome_canvas_item_set (GNOME_CANVAS_ITEM (EL (widget)->text_item),
+		"font_desc", widget->style->font_desc,
 		NULL);
 }
 
 static void
-el_class_init (ElClass *Class)
+el_class_init (ElClass *klass)
 {
 	GtkObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 	GnomeCanvasClass *canvas_class;
 
-	object_class = (GtkObjectClass *) Class;
-	widget_class = (GtkWidgetClass *) Class;
-	canvas_class = (GnomeCanvasClass *) Class;
+	object_class = (GtkObjectClass *) klass;
+	widget_class = (GtkWidgetClass *) klass;
+	canvas_class = (GnomeCanvasClass *) klass;
 
 	el_parent_class = gtk_type_class (gnome_canvas_get_type ());
 
@@ -351,7 +351,7 @@ el_class_init (ElClass *Class)
 		gtk_signal_new (
 			"text_changed",
 			GTK_RUN_LAST,
-			object_class->type,
+			GTK_CLASS_TYPE (klass),
 			GTK_SIGNAL_OFFSET (EditableLabelClass, text_changed),
 			gtk_marshal_BOOL__POINTER,
 			GTK_TYPE_BOOL, 1, GTK_TYPE_POINTER);
@@ -359,12 +359,10 @@ el_class_init (ElClass *Class)
 		gtk_signal_new (
 			"editing_stopped",
 			GTK_RUN_LAST,
-			object_class->type,
+			GTK_CLASS_TYPE (klass),
 			GTK_SIGNAL_OFFSET (EditableLabelClass, editing_stopped),
 			gtk_marshal_NONE__NONE,
 			GTK_TYPE_NONE, 0);
-
-	gtk_object_class_add_signals (object_class, el_signals, LAST_SIGNAL);
 }
 
 static void

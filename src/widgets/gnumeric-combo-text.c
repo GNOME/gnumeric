@@ -238,27 +238,25 @@ gnm_combo_text_destroy (GtkObject *object)
 }
 
 static void
-gnm_combo_text_class_init (GtkObjectClass *object_class)
+gnm_combo_text_class_init (GtkObjectClass *klass)
 {
-	object_class->destroy = &gnm_combo_text_destroy;
+	klass->destroy = &gnm_combo_text_destroy;
 	gnm_combo_text_parent_class = gtk_type_class (gtk_combo_box_get_type ());
 
 	combo_text_signals [SELECTION_CHANGED] =
 		gtk_signal_new ("selection_changed",
 				GTK_RUN_LAST,
-				object_class->type,
+				GTK_CLASS_TYPE (klass),
 				GTK_SIGNAL_OFFSET (GnmComboTextClass, selection_changed),
 				gtk_marshal_BOOL__POINTER,
 				GTK_TYPE_BOOL, 1, GTK_TYPE_POINTER);
 	combo_text_signals [ENTRY_CHANGED] =
 		gtk_signal_new ("entry_changed",
 				GTK_RUN_LAST,
-				object_class->type,
+				GTK_CLASS_TYPE (klass),
 				GTK_SIGNAL_OFFSET (GnmComboTextClass, entry_changed),
 				gtk_marshal_BOOL__POINTER,
 				GTK_TYPE_BOOL, 1, GTK_TYPE_POINTER);
-
-	gtk_object_class_add_signals (object_class, combo_text_signals, LAST_SIGNAL);
 }
 
 /**

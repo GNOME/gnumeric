@@ -1,7 +1,7 @@
 #ifndef GNUMERIC_IO_CONTEXT_PRIV_H
 #define GNUMERIC_IO_CONTEXT_PRIV_H
 
-#include <gtk/gtkobject.h>
+#include <glib-object.h>
 #include "io-context.h"
 #include "workbook-control.h"
 #include "error-info.h"
@@ -50,7 +50,7 @@ typedef struct {
 } ProgressRange;
 
 struct _IOContext {
-	GtkObject parent;
+	GObject parent;
 
 	WorkbookControl *impl;
 	ErrorInfo *error_info;
@@ -64,7 +64,7 @@ struct _IOContext {
 };
 
 struct _IOContextClass {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 };
 
 #endif /* GNUMERIC_IO_CONTEXT_PRIV_H */

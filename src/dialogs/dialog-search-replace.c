@@ -163,7 +163,7 @@ static void
 dialog_destroy (GtkWidget *widget, DialogState *dd)
 {
 	GladeXML *gui = dd->gui;
-	gtk_object_unref (GTK_OBJECT (gui));
+	g_object_unref (G_OBJECT (gui));
 	wbcg_edit_detach_guru (dd->wbcg);
 	memset (dd, 0, sizeof (*dd));
 	g_free (dd);
@@ -234,14 +234,18 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
 
 	/* Load the contents of both gnome-entry's. */
-	gentry = glade_xml_get_widget (gui, "search_entry");
-	gnome_entry_set_history_id (GNOME_ENTRY (gentry), "search_entry");
-	gnome_entry_load_history (GNOME_ENTRY (gentry));
+	{
+		GValue val = {0, };
+		g_value_init (&val, G_TYPE_STRING);
 
-	gentry = glade_xml_get_widget (gui, "replace_entry");
-	gnome_entry_set_history_id (GNOME_ENTRY (gentry), "replace_entry");
-	gnome_entry_load_history (GNOME_ENTRY (gentry));
+		gentry = glade_xml_get_widget (gui, "search_entry");
+		g_value_set_static_string (&val, "search_entry");
+		g_object_set_property (G_OBJECT (gentry), "history_id", &val);
 
+		gentry = glade_xml_get_widget (gui, "replace_entry");
+		g_value_set_static_string (&val, "replace_entry");
+		g_object_set_property (G_OBJECT (gentry), "history_id", &val);
+	}
 
 	dd->rangetext = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (wbcg));
 	gnumeric_expr_entry_set_flags (dd->rangetext, 0, GNUM_EE_MASK);

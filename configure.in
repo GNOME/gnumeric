@@ -1,8 +1,12 @@
 AC_INIT(src/gnumeric.h)
 
 AM_CONFIG_HEADER(gnumeric-config.h)
-AM_INIT_AUTOMAKE(gnumeric,1.0.4)
+AM_INIT_AUTOMAKE(gnumeric,1.1.0)
+
 AM_MAINTAINER_MODE
+
+GNOME_COMMON_INIT
+GNOME_PLATFORM_GNOME_2(yes, force)
 
 # Make --disable-static the default
 AC_DISABLE_STATIC
@@ -10,13 +14,31 @@ AC_DISABLE_STATIC
 AC_ISC_POSIX
 AC_PROG_CC
 AC_PROG_YACC
-AM_PROG_LEX
+AM_PROG_LIBTOOL
+AC_PROG_INTLTOOL
+AM_PROG_LIBTOOL
 AC_STDC_HEADERS
 AC_ARG_PROGRAM
-AM_PROG_LIBTOOL
 
-GNOME_INIT
-AM_PATH_GTK(1.2.7)
+PKG_CHECK_MODULES(GNUMERIC,[
+glib-2.0 >= 1.3.10
+gtk+-2.0 >= 1.3.10
+gal-2.0 >= 0.0.0
+libgnome-2.0 >= 1.105.0
+libgnomeui-2.0 >= 1.106.0
+libbonobo-2.0 >= 1.106.0
+libbonoboui-2.0 >= 1.106.0
+libgnomeprint-2.0 >= 1.106.0
+libgnomeprintui-2.0 >= 1.106.0
+libglade-2.0 >= 1.99.4
+libxml-2.0 >= 2.4.12
+libole2-2.0 >= 1.3.0
+])
+AC_SUBST(GNUMERIC_LIBS)
+AC_SUBST(GNUMERIC_CFLAGS)
+
+AC_PATH_PROG(GLIB_GENMARSHAL, glib-genmarshal)
+AC_PATH_PROG(GDK_PIXBUF_CSOURCE, gdk-pixbuf-csource)
 
 ## this should come after `AC_PROG_CC'
 GNOME_COMPILE_WARNINGS
@@ -60,28 +82,6 @@ else
 	AC_MSG_RESULT($need_bsd)
 fi
 
-GNOME_X_CHECKS
-GNOME_XML_CHECK
-
-dnl
-dnl alloca tests
-dnl
-dnl with autoconf 2.50 and later, the cache value changed,
-dnl so we test against both possible cache values -- if either of them
-dnl are yes, then we know we have a usable alloca.h
-dnl
-AC_FUNC_ALLOCA
-if test X"$ac_cv_header_alloca_h" = X"yes" \
-	|| test X"$ac_cv_working_alloca_h" = X"yes" ; then
-        GNUMERIC_HAVE_ALLOCA_H=1
-else
-        GNUMERIC_HAVE_ALLOCA_H=0
-fi
-AC_SUBST(GNUMERIC_HAVE_ALLOCA_H)
-
-AC_SUBST(QTTHREADS_LIB)
-AC_SUBST(TERMCAP_LIB)
-AC_SUBST(READLINE_LIB)
 AC_SUBST(GUILE_LIBS)
 AC_SUBST(GUILE_INCS)
 guile_msg='not requested'
@@ -89,7 +89,7 @@ guile_msg='not requested'
 #check for guile 1.5
 try_guile=true
 guile_msg="no"
-build_guile=false
+with_guile=false
 AC_ARG_WITH(guile,
 	[--{with,without}-guile   Compile with Guile support or without it],
 	if test x$withval = xno; then
@@ -104,20 +104,16 @@ if $try_guile; then
 	else
 	        AC_MSG_RESULT(found)
 		guile_msg="yes"
-		build_guile=true
+		with_guile=true
 	fi
 	
 fi
 
-AM_CONDITIONAL(HAVE_GUILE, $build_guile)
+AM_CONDITIONAL(WITH_GUILE, $with_guile)
 
-if $build_guile; then
+if $with_guile; then
 	GNOME_CHECK_GUILE
 fi
-
-AC_SUBST(CFLAGS)
-AC_SUBST(CPPFLAGS)
-AC_SUBST(LDFLAGS)
 
 dnl **************************************************
 dnl * psiconv support
@@ -141,17 +137,36 @@ if test "$want_psiconv" = "yes"; then
 	AM_CONDITIONAL(WITH_PSICONV,$with_psiconv)
 fi
 
+dnl **************************************************
+dnl stolen from gtk+
+AC_MSG_CHECKING(whether make is GNU Make)
+STRIP_BEGIN=
+STRIP_END=
+if $ac_make --version 2>/dev/null | grep '^GNU Make ' >/dev/null ; then
+	STRIP_BEGIN='$(strip $(STRIP_DUMMY)'
+	STRIP_END=')'
+	AC_MSG_RESULT(yes)
+else
+	AC_MSG_RESULT(no)
+fi
+STRIP_DUMMY=
+AC_SUBST(STRIP_DUMMY)
+AC_SUBST(STRIP_BEGIN)
+AC_SUBST(STRIP_END)
 
 dnl **************************************************
 dnl * internationalization support
 dnl **************************************************
-dnl 
 dnl
 dnl Check doc/translating.sgml for a description of how to translate
 dnl and why we have so many translations.
 dnl
 ALL_LINGUAS="ca cs da de en_AU en_CA en_GB el es et fi fr ga gl hr hu it ja ko nl nn no pl pt pt_BR ro ru sk sv tr uk zh_CN zh_TW"
-AM_GNOME_GETTEXT
+GETTEXT_PACKAGE=gnumeric
+AC_SUBST(GETTEXT_PACKAGE)
+AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE")
+AM_GLIB_GNU_GETTEXT
+
 # AM_GNOME_GETTEXT above substs $DATADIRNAME
 # this is the directory where the *.{mo,gmo} files are installed
 gnomelocaledir='${prefix}/${DATADIRNAME}/locale'
@@ -193,35 +208,6 @@ AC_CHECK_HEADERS(langinfo.h)
 dnl we need iconv for translating to/from locale's charset when
 dnl reading/writing Excel files
 AC_CHECK_HEADERS(iconv.h)
-
-dnl **************************************************
-dnl * ORBit support
-dnl **************************************************
-GNOMEGNORBA_LIBS="$GNOMEGNORBA_LIBS"
-AC_SUBST(GNOMEGNORBA_LIBS)
-
-dnl ******************************
-dnl gnome-xml checking
-dnl ******************************
-AC_MSG_CHECKING(for libxml (aka gnome-xml) libraries 1.8.14 <= version < 2.0.0	)
-if xml-config --libs > /dev/null 2>&1; then 
-    verstxt=`xml-config --version`
-    vers=`echo "$verstxt" | sed -e "s/libxml //" | \
-	awk -F. '{ printf "%d", ($1 * 1000 + $2) * 1000 + $3;}'`
-    if test "$vers" -ge 1008014; then
-	if test "$vers" -lt 2000000; then
-	    AC_MSG_RESULT($marker_ok found $verstxt)
-	else
-	    AC_MSG_RESULT($marker_fail found unsupported $verstxt)
-	    AC_MSG_ERROR(This version of Gnumeric does not support libxml (aka gnome-xml) 2.x.x yet.)
-	fi
-    else
-        AC_MSG_RESULT($marker_fail found only $verstxt)
-	AC_MSG_ERROR(You need at least libxml (aka gnome-xml) 1.8.14)
-    fi
-else
-    AC_MSG_RESULT($marker_fail not found)
-fi
 
 dnl **************************************************
 dnl * Check for Perl
@@ -327,79 +313,17 @@ else
 	AM_CONDITIONAL(WITH_PYTHON, false)
 fi
 
-dnl Check for libole2
-AC_MSG_CHECKING(for libole2 >= 0.2.4						)
-libole2_ok=no
-if gnome-config --libs libole2 > /dev/null 2>&1; then
-	verstxt=`gnome-config --modversion libole2`
-	vers=`echo "$verstxt" | sed -e "s/^libole2-//" | \
-		awk -F. '{ printf "%d", $1 * 10000 + $2 * 100 + $3; }'`
-	if test "$vers" -ge 204; then
-		AC_MSG_RESULT($marker_ok found $verstxt)
-		libole2_ok=yes
-	else
-		AC_MSG_RESULT($marker_fail found only $verstxt)
-	fi
-else
-	AC_MSG_RESULT($marker_fail not found)
-fi
-if test "$libole2_ok" = no; then
-	AC_MSG_ERROR(This version of gnumeric requires an external
-libole2 library the latest version can be obtained from
-ftp://ftp.gnome.org/pub/GNOME/unstable/sources/libole2/
-
-)
-fi
-unset libole2_ok
-
-
-dnl ******************************
-dnl Check for Bonobo
-dnl ******************************
-try_bonobo=true
-bonobo=
-bonobo_msg=no
-bonobo_suffix=
-have_bonobo=false
+enable_bonobo=true
+bonobo_msg=yes
 AC_ARG_WITH(bonobo,
-	[--{with,without}-bonobo   Compile with Bonobo support or without it],
-	if test x$withval = xno; then
-		try_bonobo=false
+	[--{with,without}-bonobo   Use the bonobo UI routines],
+	if test "x$withval" = xno; then
+		enable_bonobo=false
+		bonobo_msg=disabled
 	fi
 )
-
-if $try_bonobo; then
-	AC_MSG_CHECKING(for Bonobo >= 1.0.9						)
-	if gnome-config --libs bonobo > /dev/null 2>&1; then
-		verstxt=`gnome-config --modversion bonobo`
-		vers=`echo "$verstxt" | sed -e "s/^bonobo-//" | \
-			awk -F. '{ printf "%d", ($1 * 1000 + $2) * 1000 + $3;}'`
-	else
-		verstxt="-"
-		vers=0
-	fi
-
-	if test "$vers" -ge 1000009; then
-		AC_MSG_RESULT($marker_ok found $verstxt)
-		AM_PATH_OAF(0.6.2,,AC_MSG_ERROR([OAF not found or too old]))
-		if test x"$OAF_CFLAGS" != "x" ; then
-			AC_DEFINE(ENABLE_BONOBO)
-			have_bonobo=true
-			bonobo=bonobox_print
-			bonobo_msg=yes
-			bonobo_suffix=-bonobo
-		fi
-	else
-		if test "$vers" -eq 0; then
-			AC_MSG_RESULT($marker_no not found)
-		else
-			AC_MSG_RESULT($marker_no found only $verstxt)
-		fi
-	fi
-fi
-gnumeric_bonobo_enabled=$bonobo_msg
-AM_CONDITIONAL(BONOBO, $have_bonobo)
-
+gnumeric_bonobo_enabled=$enable_bonobo
+AM_CONDITIONAL(WITH_BONOBO, $enable_bonobo)
 
 dnl **************************************************
 dnl * Config defaults (Must be after bonobo)
@@ -415,6 +339,7 @@ gnumeric_autoformatdir="${gnumeric_datadir}/autoformat-templates"
 
 dnl Export to gnumeric-config.h
 AC_DEFINE_UNQUOTED(GNUMERIC_VERSION, "$gnumeric_version")
+AC_DEFINE_UNQUOTED(GNUMERIC_PREFIX,  "$gnumeric_prefix")
 
 AC_SUBST(gnumeric_prefix)
 AC_SUBST(gnumeric_exec_prefix)
@@ -426,156 +351,10 @@ AC_SUBST(gnumeric_gladedir)
 AC_SUBST(gnumeric_autoformatdir)
 AC_SUBST(gnumeric_bonobo_enabled)
 
-dnl ******************************
-dnl Check for GB
-dnl ******************************
-try_gb=true
-gb=
-gb_msg=no
 have_gb=false
-GB_CFLAGS=
-GB_LIBS=
-AC_ARG_WITH(gb,
-	[--{with,without}-gb       Compile with Gb support or without it],
-	if test x$withval = xno; then
-		try_gb=false
-	fi
-)
-
-if $try_gb; then
-	AC_MSG_CHECKING(for Gb == 0.0.17						)
-	if gnome-config --libs gb > /dev/null 2>&1; then
-		verstxt=`gnome-config --modversion gb 2>/dev/null`
-		vers=`echo "$verstxt" | awk -F. '{ printf "%d", $1 * 10000 + $2 * 100 + $3; }'`
-		if test "$vers" -eq 000017; then
-			AC_MSG_RESULT($marker_ok found $verstxt)
-			AC_DEFINE(ENABLE_GB)
-			GB_LIBS=`gnome-config --libs gb`
-			GB_CFLAGS=`gnome-config --cflags gb`
-			have_gb=true
-			gb=gb
-			gb_msg=yes
-		else
-			AC_MSG_RESULT($marker_no found only $verstxt)
-		fi
-	else
-		AC_MSG_RESULT($marker_no not found)
-	fi
-fi
 AM_CONDITIONAL(WITH_GB, $have_gb)
 AC_SUBST(GB_CFLAGS)
 AC_SUBST(GB_LIBS)
-
-
-dnl ******************************
-dnl GnomePrint checking
-dnl ******************************
-AC_MSG_CHECKING(for GnomePrint libraries >= 0.29				)
-gnomeprint_ok=no
-if gnome-config --libs print > /dev/null 2>&1; then 
-    verstxt=`gnome-config --modversion print`
-    vers=`echo "$verstxt" | sed -e "s/gnome-print-//" -e 's/cvs$//' -e 's/pre$//' | \
-        awk -F. '{ printf "%d", $1 * 1000 + $2;}'`
-    if test "$vers" -ge 29; then
-	AC_MSG_RESULT($marker_ok found $verstxt)
-	gnomeprint_ok=yes
-    else
-        AC_MSG_RESULT($marker_fail found only $verstxt)
-    fi
-else
-    AC_MSG_RESULT($marker_fail not found)
-fi
-if test "$gnomeprint_ok" = no; then
-    AC_MSG_ERROR(You need at least gnome-print-0.29 for this version of Gnumeric)
-fi
-unset gnomeprint_ok
-
-
-dnl ******************************
-dnl LibGlade checking
-dnl ******************************
-AC_MSG_CHECKING(for Glade libraries >= 0.16					)
-libglade_ok=no
-if gnome-config --libs libglade > /dev/null 2>&1; then 
-    verstxt=`gnome-config --modversion libglade`
-    vers=`echo "$verstxt" | awk -F. '{ printf "%d", $1 * 1000 + $2;}'`
-    if test "$vers" -ge 16; then
-	AC_MSG_RESULT($marker_ok found $verstxt)
-	libglade_ok=yes
-    else
-        AC_MSG_RESULT($marker_fail found only $verstxt)
-    fi
-else
-    AC_MSG_RESULT($marker_fail not found)
-fi
-if test "$libglade_ok" = no; then
-    AC_MSG_ERROR(You need at least libglade 0.16 for this version of Gnumeric)
-fi
-unset libglade_ok
-
-
-dnl ******************************
-dnl Gnome App Lib checking
-dnl ******************************
-AC_MSG_CHECKING(for Gnome App libraries (GAL) >= 0.16				)
-gal_ok=no
-if gnome-config --libs gal > /dev/null 2>&1; then 
-    verstxt=`gnome-config --modversion gal`
-    vers=`echo "$verstxt" | sed -e "s/gal-//" -e 's/cvs$//' -e 's/pre$//' | \
-	awk -F. '{ printf "%d", $1*1000000 + $2*10000 + $3*100 + $4; }'`
-    if test "$vers" -ge 160000; then
-	AC_MSG_RESULT($marker_ok found $verstxt)
-	gal_ok=yes
-    else
-        AC_MSG_RESULT($marker_fail found only $verstxt)
-    fi
-else
-    AC_MSG_RESULT($marker_fail not found)
-fi
-if test "$gal_ok" = no; then
-    AC_MSG_ERROR(You need at least GNOME Application libs 0.16 for this version of Gnumeric)
-fi
-unset gal_ok
-
-
-dnl ****************
-dnl Check for pspell
-dnl ****************
-dnl
-dnl try_pspell=true
-dnl have_pspell=false
-dnl pspell_msg=no
-PSPELL_LIBS=""
-dnl 
-dnl AC_ARG_WITH(pspell,
-dnl 	[--{with,without}-pspell    Compile with Pspell support or without it],
-dnl 	if test x$withval = xno; then
-dnl 		try_pspell=false
-dnl 	fi
-dnl 	if test x$withval = xyes; then
-dnl 		try_pspell=true
-dnl 	fi
-dnl )
-dnl 
-dnl if $try_pspell; then
-dnl 	AC_PATH_PROG(PSPELL_CONFIG,pspell-config,no)
-dnl 	AC_MSG_CHECKING([for pspell])
-dnl 	if test "$PSPELL_CONFIG" = no; then
-dnl 		AC_MSG_RESULT(not found)
-dnl 	else
-dnl 		pspell_ver=`$PSPELL_CONFIG version 2>/dev/null`
-dnl 		AC_MSG_RESULT([found ($pspell_ver)])
-dnl 
-dnl 		AC_CHECK_LIB(pspell, new_pspell_config, have_pspell=true)
-dnl 		if test x$have_pspell = xtrue; then
-dnl 			AC_DEFINE(HAVE_PSPELL)
-dnl 			PSPELL_LIBS="-lpspell"
-dnl 			pspell_msg=yes
-dnl 		fi
-dnl 	fi
-dnl fi
-AC_SUBST(PSPELL_LIBS)
-dnl AM_CONDITIONAL(HAVE_PSPELL, $have_pspell)
 
 dnl ******************************
 dnl Check for Evolution
@@ -589,7 +368,7 @@ AC_ARG_WITH(evolution,
 	fi
 )
 if test x"$have_bonobo" = "xtrue" -a x"$try_evolution" = "xtrue" ; then
-	path_to_composer_idl=`gnome-config --datadir`/idl/Evolution-Composer.idl
+	path_to_composer_idl=`pkg-config --datadir`/idl/Evolution-Composer.idl
 	AC_CHECK_FILE($path_to_composer_idl, evolution=yes, evolution=no)
 fi
 AM_CONDITIONAL(ENABLE_EVOLUTION, test x"$evolution" = "xyes")
@@ -610,32 +389,12 @@ dnl	if test x$withval = xyes; then
 dnl		try_applix_shelf=true
 dnl	fi
 dnl)
-dnl ***************************************
-dnl Check for gnome-libs which supports wm icons
-dnl ***************************************
-CFLAGS_save=$CFLAGS
-LIBS_save=$LIBS
-CFLAGS=`gnome-config --cflags gnomeui`
-LIBS=`gnome-config --libs gnomeui`
-use_wm_icons=false
-AC_CHECK_LIB(gnomeui, gnome_window_icon_set_default_from_file, use_wm_icons=true)
-if test x$use_wm_icons = xtrue; then
-	AC_DEFINE(USE_WM_ICONS)
-fi
-CFLAGS=$CFLAGS_save
-LIBS=$LIBS_save
 
-dnl ***************************************
-
-dnl IDL flags for non-standard prefixes
-if $have_bonobo; then
-	IDL_FLAGS="`gnome-config --cflags idl`"
-	for path in `echo $GNOME_PATH | awk 'BEGIN { RS = ":"; } { print;}'`; do
-		IDL_FLAGS="$IDL_FLAGS -I$path/share/idl"
-	done
-fi
-AC_SUBST(IDL_FLAGS)
-
+ORBIT="`$PKG_CONFIG --variable=orbit_idl ORBit-2.0`"
+BONOBO_IDL_DIR="`$PKG_CONFIG --variable=idldir libbonobo-2.0`"
+BONOBO_ACTIVATION_IDL_DIR="`$PKG_CONFIG --variable=idldir bonobo-activation-2.0`"
+ORBIT_IDL="${ORBIT} -I${BONOBO_IDL_DIR} -I${BONOBO_ACTIVATION_IDL_DIR}"
+AC_SUBST(ORBIT_IDL)
 dnl ****************************
 dnl Check for libgda
 dnl ****************************
@@ -674,13 +433,6 @@ AM_CONDITIONAL(WITH_GDA, $have_gda)
 AC_SUBST(GDA_CFLAGS)
 AC_SUBST(GDA_LIBS)
 
-GNUMERIC_LIBS=`gnome-config --libs gnomeui print libglade $bonobo libole2 gal gdk_pixbuf`
-GNUMERIC_CFLAGS=`gnome-config --cflags gnomeui print libglade $bonobo libole2 gal gdk_pixbuf`
-AC_SUBST(GNUMERIC_LIBS)
-AC_SUBST(GNUMERIC_CFLAGS)
-
-AM_CONDITIONAL(LIBOLE2_PUBLIC_LIBRARY, false)
-
 AM_CONDITIONAL(WITH_PLAN_PERFECT, false)
 
 dnl ====================================
@@ -703,13 +455,13 @@ AC_OUTPUT([
 gnumeric.spec
 Makefile
 src/Makefile
-src/portability.h
 icons/Makefile
 idl/Makefile
 src/Makefile
 src/dialogs/Makefile
-src/widgets/Makefile
 src/functions/Makefile
+src/pixmaps/Makefile
+src/widgets/Makefile
 doc/Makefile
 doc/C/Makefile
 plugins/Makefile
@@ -737,13 +489,11 @@ plugins/plan-perfect/Makefile
 plugins/gda/Makefile
 plugins/psiconv/Makefile
 plugins/mps/Makefile
-intl/Makefile
 po/Makefile.in
 templates/Makefile
 templates/english/Makefile
 templates/autoformat/Makefile
 tools/Makefile
-macros/Makefile
 stamp.h
 ])
 
@@ -757,15 +507,5 @@ Configuration:
 
 	Bonobo Support:		${bonobo_msg}
 	Guile Support:		${guile_msg}
-	Evolution Support:      $evolution
-	GB Support:		${gb_msg}
+	Evolution Support:      ${evolution}
 "
-
-if $have_gb; then
-	echo "
-	Gnome Basic is extremely API unstable; it is likely
-that gnumeric will only build with the single version
-mentioned in configure.in, if at all. It is possible, but
-unlikely, that Gnome Basic contains security vulnerabilities.
-"
-fi

@@ -159,7 +159,7 @@ typedef struct {
 	          *button_install_plugin;
 	GtkCheckButton *checkbutton_install_new;
 	GtkEntry *entry_name, *entry_directory, *entry_id;
-	GtkText *text_description;
+	GtkTextView *text_description;
 	GtkCList *clist_extra_info;
 	gchar *current_plugin_id;
 } PluginManagerGUI;
@@ -514,7 +514,7 @@ static void
 update_plugin_details_view (PluginManagerGUI *pm_gui)
 {
 	PluginInfo *pinfo;
-	gint txt_len, txt_pos;
+	gint txt_pos;
 	gint n_extra_info_items, i;
 	GList *extra_info_keys, *extra_info_values, *lkey, *lvalue;
 
@@ -525,10 +525,8 @@ update_plugin_details_view (PluginManagerGUI *pm_gui)
 		gtk_entry_set_text (pm_gui->entry_name, plugin_info_peek_name (pinfo));
 		gtk_entry_set_text (pm_gui->entry_directory, plugin_info_peek_dir_name (pinfo));
 		gtk_entry_set_text (pm_gui->entry_id, plugin_info_peek_id (pinfo));
-		txt_len = gtk_text_get_length (pm_gui->text_description);
-		if (txt_len > 0) {
-			gtk_editable_delete_text (GTK_EDITABLE (pm_gui->text_description), 0, txt_len);
-		}
+		gtk_editable_delete_text (GTK_EDITABLE (pm_gui->text_description), 0, -1);
+
 		txt_pos = 0;
 		gtk_editable_insert_text (GTK_EDITABLE (pm_gui->text_description),
 		                          plugin_info_peek_description (pinfo),
@@ -556,10 +554,7 @@ update_plugin_details_view (PluginManagerGUI *pm_gui)
 		gtk_entry_set_text (pm_gui->entry_name, "");
 		gtk_entry_set_text (pm_gui->entry_directory, "");
 		gtk_entry_set_text (pm_gui->entry_id, "");
-		txt_len = gtk_text_get_length (pm_gui->text_description);
-		if (txt_len > 0) {
-			gtk_editable_delete_text (GTK_EDITABLE (pm_gui->text_description), 0, txt_len);
-		}
+		gtk_editable_delete_text (GTK_EDITABLE (pm_gui->text_description), 0, -1);
 		gtk_clist_clear (pm_gui->clist_extra_info);
 	}
 }
@@ -589,7 +584,7 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 	pm_gui->checkbutton_install_new = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "checkbutton_install_new"));
 	pm_gui->entry_name = GTK_ENTRY (glade_xml_get_widget (gui, "entry_name"));
 	pm_gui->entry_directory = GTK_ENTRY (glade_xml_get_widget (gui, "entry_directory"));
-	pm_gui->text_description = GTK_TEXT (glade_xml_get_widget (gui, "text_description"));
+	pm_gui->text_description = GTK_TEXT_VIEW (glade_xml_get_widget (gui, "text_description"));
 	pm_gui->entry_id = GTK_ENTRY (glade_xml_get_widget (gui, "entry_id"));
 	pm_gui->clist_extra_info = GTK_CLIST (glade_xml_get_widget (gui, "clist_extra_info"));
 	page_plugin_list = glade_xml_get_widget (gui, "page_plugin_list");
@@ -635,5 +630,5 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 	g_free (pm_gui->current_plugin_id);
 	g_free (pm_gui);
 
-	gtk_object_unref (GTK_OBJECT (gui));
+	g_object_unref (G_OBJECT (gui));
 }

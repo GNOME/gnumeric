@@ -149,7 +149,7 @@ can_try_save_to (WorkbookControlGUI *wbcg, const char *name)
 	if (name == NULL || name[0] == '\0') {
 		result = FALSE;
 	} else if (name [strlen (name) - 1] == '/' ||
-	    g_file_test (name, G_FILE_TEST_ISDIR)) {
+	    g_file_test (name, G_FILE_TEST_IS_DIR)) {
 		msg = g_strdup_printf (_("%s\nis a directory name"), name);
 		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR, msg);
 		g_free (msg);

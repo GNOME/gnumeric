@@ -504,7 +504,7 @@ graph_guru_state_destroy (GraphGuruState *state)
 	}
 
 	if (state->gui != NULL) {
-		gtk_object_unref (GTK_OBJECT (state->gui));
+		g_object_unref (G_OBJECT (state->gui));
 		state->gui = NULL;
 	}
 

@@ -1,3 +1,55 @@
+2002-01-23  Jody Goldberg <jody@gnome.org>
+
+	* src/history.c : tidy up a mite.
+
+	* src/gui-util.c : Some initial conversions to gnome2.  Needs work.
+
+	* src/gui-file.c (can_try_save_to) : Use the new glib2 file utilities.
+
+	* src/gnumeric.h : remove the gnome-1.4 compatibility shims.
+
+	* src/gnumeric-pane.c (gnumeric_pane_realized) : renamed to be
+	  consistent.
+
+	* src/gnumeric-graph.c (bonobo_activation_exception_id) : renamed from
+	  oaf_exception_id.
+	(gnm_graph_setup) : begin conversion to bonobo-activation.
+
+	* src/gnumeric-canvas.c : disable the IM support for now.
+
+	* src/formats.c (currency_symbols) : pound, yen, euro -> utf8.
+
+	* src/format.c : no need for portability.h
+	* src/func.c : ditto.
+
+	* src/file.c (gnum_file_saver_setup) : disable mime for now.
+
+	* src/command-context.c : Inherit directly from GObject.
+	* src/commands.c : ditto.
+	* src/complete-sheet.c : ditto.
+	* src/complete.c : ditto.
+
+	* src/application.c : convert to new stock icon management.
+
+	* src/Makefile.am : remove portability.h.
+	  Add pixmaps subdir.
+	  Build marshallers.
+
+	* Makefile.am : Convert to intltool.
+	* acconfig.h : Convert to gnome2 gettext format.
+	* .cvsignore : Convert to intltool, and remove the Conf file.
+	* src/.cvsignore : Update.
+	* autogen.sh : Convert to gnome2.
+	* configure.in : Rough conversion to gnome2.  We'll need to re-enable
+	  the plugins.
+
+	* idl/GNOME_Gnumeric.idl : Delete an unused interface.
+	* idl/Makefile.am (dist) : update.
+
+	* plugins/Makefile.am :  Use WITH_GUILE rather than just GUILE to be
+	  consistent.
+	* plugins/*/Makefile.am : Convert to intltool.
+
 2002-01-22  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-autofill.c (autofill_create_fill_items) : Use

@@ -2,7 +2,7 @@
 #define GNUMERIC_STYLE_COLOR_H
 
 #include "gnumeric.h"
-#include <gdk/gdktypes.h>
+#include <gdk/gdkcolor.h>
 
 struct _StyleColor {
 	GdkColor color;

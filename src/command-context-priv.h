@@ -2,16 +2,14 @@
 #define GNUMERIC_COMMAND_CONTEXT_PRIV_H
 
 #include "command-context.h"
-#include "error-info.h"
-#include <gtk/gtkobject.h>
 
 struct _CommandContext {
-	GtkObject gtk_object;
+	GObject g_object;
 	GSList *template_list;
 };
 
 typedef struct {
-	GtkObjectClass gtk_object_class;
+	GObjectClass g_object_class;
 
 	void (*progress_set)         (CommandContext *context, gfloat val);
 	void (*progress_message_set) (CommandContext *context, gchar const *msg);
@@ -28,7 +26,7 @@ typedef struct {
 	} error;
 } CommandContextClass;
 
-#define COMMAND_CONTEXT_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), COMMAND_CONTEXT_TYPE, CommandContextClass))
-#define IS_COMMAND_CONTEXT_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), COMMAND_CONTEXT_TYPE))
+#define COMMAND_CONTEXT_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), COMMAND_CONTEXT_TYPE, CommandContextClass))
+#define IS_COMMAND_CONTEXT_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), COMMAND_CONTEXT_TYPE))
 
 #endif /* GNUMERIC_COMMAND_CONTEXT_PRIV_H */

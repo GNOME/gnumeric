@@ -50,11 +50,10 @@ wbcg_auto_complete_destroy (WorkbookControlGUI *wbcg)
 		wbcg->edit_line.signal_changed = -1;
 	}
 
-	if (wbcg->auto_complete){
-		gtk_object_unref (GTK_OBJECT (wbcg->auto_complete));
+	if (wbcg->auto_complete != NULL) {
+		g_object_unref (G_OBJECT (wbcg->auto_complete));
 		wbcg->auto_complete = NULL;
-	} else
-		g_assert (wbcg->auto_complete == NULL);
+	}
 
 	wbcg->auto_completing = FALSE;
 

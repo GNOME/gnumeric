@@ -3,7 +3,7 @@
 #
 iconsdir = $(datadir)/pixmaps/gnumeric
 
-if BONOBO
+if WITH_BONOBO
 gnumeric_version="$(VERSION)-bonobo"
 libdialogs_a_SOURCES =	$(base_files) dialog-graph-guru.c
 else

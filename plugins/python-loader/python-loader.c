@@ -154,17 +154,17 @@ gnumeric_plugin_loader_python_load (GnumericPluginLoader *loader, ErrorInfo **re
 	}	
 
 	for (file_ext = python_file_extensions; *file_ext != NULL; file_ext++) {
-		gchar *file_name;
-
-		file_name = g_strconcat (
-		            plugin_info_peek_dir_name (loader->plugin), PATH_SEP_STR,
-		            loader_python->module_name, ".", *file_ext, NULL);
-		if (!g_file_exists (file_name)) {
-			g_free (file_name);
-		} else {
-			full_module_file_name = file_name;
+		gchar *file_name = g_strconcat (
+			loader_python->module_name, ".", *file_ext, NULL);
+		gchar *path = g_build_filename (
+			plugin_info_peek_dir_name (loader->plugin),
+			file_name);
+		g_free (file_name);
+		if (g_file_test (path, G_FILE_TEST_EXISTS)) {
+			full_module_file_name = path;
 			break;
-		}
+		} else
+			g_free (path);
 	}
 	if (full_module_file_name == NULL) {
 		*ret_error = error_info_new_printf (

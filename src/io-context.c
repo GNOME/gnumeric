@@ -42,7 +42,7 @@ io_context_init (IOContext *io_context)
 }
 
 static void
-io_context_destroy (GtkObject *obj)
+io_context_finalize (GObject *obj)
 {
 	IOContext *io_context;
 
@@ -52,20 +52,20 @@ io_context_destroy (GtkObject *obj)
 	error_info_free (io_context->error_info);
 	gnumeric_progress_set (COMMAND_CONTEXT (io_context->impl), 0.0);
 	gnumeric_progress_message_set (COMMAND_CONTEXT (io_context->impl), NULL);
-	gtk_object_unref (GTK_OBJECT (io_context->impl));
+	g_object_unref (G_OBJECT (io_context->impl));
 
-	GTK_OBJECT_CLASS (gtk_type_class (GTK_TYPE_OBJECT))->destroy (obj);
+	G_OBJECT_CLASS (g_type_class_peek (G_TYPE_OBJECT))->finalize (obj);
 }
 
 static void
 io_context_class_init (IOContextClass *klass)
 {
-	GTK_OBJECT_CLASS (klass)->destroy = io_context_destroy;
+	G_OBJECT_CLASS (klass)->finalize = io_context_finalize;
 }
 
 E_MAKE_TYPE (io_context, "GnumIOContext", IOContext, \
              io_context_class_init, io_context_init, \
-             GTK_TYPE_OBJECT)
+             G_TYPE_OBJECT)
 
 IOContext *
 gnumeric_io_context_new (WorkbookControl *wbc)
@@ -74,9 +74,9 @@ gnumeric_io_context_new (WorkbookControl *wbc)
 
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), NULL);
 
-	io_context = IO_CONTEXT (gtk_type_new (TYPE_IO_CONTEXT));
+	io_context = g_object_new (TYPE_IO_CONTEXT, NULL);
 	io_context->impl = wbc;
-	gtk_object_ref (GTK_OBJECT (wbc));
+	g_object_ref (G_OBJECT (io_context->impl));
 
 	return io_context;
 }

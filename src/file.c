@@ -367,15 +367,18 @@ gnum_file_saver_setup (GnumFileSaver *fs, const gchar *id,
                        FileFormatLevel level,
                        GnumFileSaverSaveFunc save_func)
 {
-	gchar *tmp;
-
 	g_return_if_fail (IS_GNUM_FILE_SAVER (fs));
 
 	fs->id = g_strdup (id);
-	tmp = g_strdup_printf ("SomeFile.%s", extension);
-	fs->mime_type = gnome_mime_type_or_default (tmp,
-					"application/application/x-gnumeric");
+	fs->mime_type = NULL;
+
+#warning mime disabled
+#if 0
+	gchar *tmp = g_strdup_printf ("SomeFile.%s", extension);
+	gnome_mime_type_or_default (tmp,
+	    "application/application/x-gnumeric");
 	g_free (tmp);
+#endif
 	fs->extension = g_strdup (extension);
 	fs->description = g_strdup (description);
 	fs->format_level = level;

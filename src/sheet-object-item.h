@@ -10,9 +10,9 @@
  * SheetObjec for Canvas-based Bonobo items.
  */
 #define SHEET_OBJECT_ITEM_TYPE     (sheet_object_item_get_type ())
-#define SHEET_OBJECT_ITEM(obj)     (GTK_CHECK_CAST((obj), SHEET_OBJECT_ITEM_TYPE, SheetObjectItem))
-#define SHEET_OBJECT_ITEM_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), SHEET_OBJECT_ITEM_TYPE, SheetObjectItemClass))
-#define IS_SHEET_OBJECT_ITEM(o)    (GTK_CHECK_TYPE((o), SHEET_OBJECT_ITEM_TYPE))
+#define SHEET_OBJECT_ITEM(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_OBJECT_ITEM_TYPE, SheetObjectItem))
+#define SHEET_OBJECT_ITEM_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), SHEET_OBJECT_ITEM_TYPE, SheetObjectItemClass))
+#define IS_SHEET_OBJECT_ITEM(o)    (G_TYPE_CHECK_INSTANCE_TYPE((o), SHEET_OBJECT_ITEM_TYPE))
 
 typedef struct {
 	SheetObjectBonobo parent_object;

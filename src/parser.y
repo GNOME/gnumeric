@@ -23,7 +23,6 @@
 #include "gutils.h"
 #include "auto-format.h"
 #include "style.h"
-#include "portability.h"
 #include "str.h"
 
 #include <ctype.h>

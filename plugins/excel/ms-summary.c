@@ -81,21 +81,20 @@ static const mapping_t excel_to_gnum_mapping[] =
 	{ MS_OLE_SUMMARY_LINKSDIRTY,   MS_OLE_PS_DOCUMENT_SUMMARY_INFO,  SUMMARY_I_LINKSDIRTY }
 };
 
-#define EXCEL_TO_GNUM_MAPPING_COUNT \
-	((int)(sizeof (excel_to_gnum_mapping) / sizeof (excel_to_gnum_mapping[0])))
+#define EXCEL_TO_GNUM_MAPPING_COUNT	G_N_ELEMENTS (excel_to_gnum_mapping)
 
-
-/*static SummaryItemBuiltin
+#if 0
+static SummaryItemBuiltin
 excel_to_gnumeric (guint32 type)
 {
 	gint i;
-	for (i = 0; i < sizeof (excel_to_gnum_mapping)/sizeof(mapping_t); i++) {
+	for (i = 0; i < EXCEL_TO_GNUM_MAPPING_COUNT ; i++) {
 		if (excel_to_gnum_mapping[i].excel == type)
 			return excel_to_gnum_mapping[i].gnumeric;
 	}
 	return SUMMARY_I_MAX;
-}*/
-
+}
+#endif
 
 /**
  *  sum_name_to_excel
@@ -136,11 +135,11 @@ sum_name_to_excel (const gchar *name, MsOleSummaryPID *pid, MsOlePropertySetID p
 static void
 read_summary_items (SummaryInfo *sin, MsOleSummary *si, MsOlePropertySetID psid)
 {
-	gint         i;
 	SummaryItem *sit;
 	gboolean     ok;
+	unsigned     i;
 
-	for (i = 0; i < EXCEL_TO_GNUM_MAPPING_COUNT; i++) {
+	for (i = 0 ; i < EXCEL_TO_GNUM_MAPPING_COUNT; i++) {
 		if (excel_to_gnum_mapping[i].ps_id == psid) {
 			MsOleSummaryPID  p = excel_to_gnum_mapping[i].excel;
 			gchar           *name;
@@ -177,9 +176,7 @@ read_summary_items (SummaryInfo *sin, MsOleSummary *si, MsOlePropertySetID psid)
 					g_free (inbuf);
 					g_free (val);
 					
-					sit = summary_item_new_string (name, ans);
-
-					g_free (ans);
+					sit = summary_item_new_string (name, ans, FALSE);
 				}
 				break;
 			}

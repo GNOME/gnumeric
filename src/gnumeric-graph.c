@@ -139,10 +139,9 @@ gnm_graph_vector_seq_scalar (GnmGraphVector *vector)
 	Value *v = vector->value;
 
 	eval_pos_init_dep (&pos, &vector->dep);
-	len = (v == NULL) ? 1 :
-		(vector->is_column
-			? value_area_get_height (&pos, v)
-			: value_area_get_width (&pos, v));
+	len = (v == NULL) ? 1 : (vector->is_column
+		? value_area_get_height (&pos, v)
+		: value_area_get_width (&pos, v));
 
 	values = GNOME_Gnumeric_Scalar_Seq__alloc ();
 	values->_length = values->_maximum = len;
@@ -177,8 +176,7 @@ gnm_graph_vector_seq_string (GnmGraphVector *vector)
 	Value *v = vector->value;
 
 	eval_pos_init_dep (&pos, &vector->dep);
-	len = (v == NULL) ? 1 :
-		(vector->is_column
+	len = (v == NULL) ? 1 : (vector->is_column
 		   ? value_area_get_height (&pos, v)
 		   : value_area_get_width (&pos, v));
 	values = GNOME_Gnumeric_String_Seq__alloc ();
@@ -713,23 +711,18 @@ gnm_graph_add_vector (GnmGraph *graph, ExprTree *expr,
 }
 
 static char *
-oaf_exception_id (CORBA_Environment *ev)
+bonobo_activation_exception_id (CORBA_Environment *ev)
 {
         if (ev->_major == CORBA_USER_EXCEPTION) {
-                if (!strcmp (ev->_repo_id, "IDL:OAF/GeneralError:1.0")) {
+                if (!strcmp (ev->_id, "IDL:Bonobo/GeneralError:1.0")) {
                         OAF_GeneralError *err = ev->_params;
-                        
-                        if (!err || !err->description) {
-                                return "No general exception error message";
-                        } else {
-                                return err->description;
-                        }
-                } else {
+                        if (err != NULL && err->description != NULL)
+				return err->description;
+			return "No general exception error message";
+                } else
                         return ev->_repo_id;
-                }
-        } else {
+        } else
                 return CORBA_exception_id (ev);
-        }
 }
 
 static gboolean
@@ -740,13 +733,13 @@ gnm_graph_setup (GnmGraph *graph, Workbook *wb)
 
 	CORBA_exception_init (&ev);
 
-	o = (Bonobo_Unknown)oaf_activate ("repo_ids.has('" MANAGER_OAF "')",
-					  NULL, 0, NULL, &ev);
+	o = bonobo_activation_activate ("repo_ids.has('" MANAGER_OAF "')",
+		NULL, 0, NULL, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION || o == CORBA_OBJECT_NIL) {
 		g_warning ("'%s' : while attempting to activate a graphing component.\n"
-			   "oaf-run-query \"repo_ids.has('" MANAGER_OAF "')\"\nshould return a value.",
-			   oaf_exception_id (&ev));
+			   "bonobo-activation-run-query \"repo_ids.has('" MANAGER_OAF "')\"\nshould return a value.",
+			   bonobo_activation_exception_id (&ev));
 		graph = NULL;
 	} else {
 		graph->manager = Bonobo_Unknown_queryInterface (o, MANAGER_OAF, &ev);

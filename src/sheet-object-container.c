@@ -55,7 +55,7 @@ sheet_object_container_new_view (SheetObject *so, SheetControlGUI *scg)
 	soc = SHEET_OBJECT_CONTAINER (so);
 
 	view_frame = bonobo_client_site_new_view_full (
-		SHEET_OBJECT_BONOBO (so)->client_site,
+		SHEET_OBJECT_BONOBO (so)->control_frame,
 		bonobo_ui_component_get_container (wbcg->uic), FALSE, FALSE);
 	if (!view_frame) {
 		g_warning ("Component died");
@@ -152,7 +152,7 @@ sheet_object_container_new (Workbook *wb)
 SheetObject *
 sheet_object_container_new_object (Workbook *wb, char const *object_id)
 {
-	SheetObjectContainer *c = gtk_type_new (SHEET_OBJECT_CONTAINER_TYPE);
+	SheetObjectContainer *c = g_object_new (SHEET_OBJECT_CONTAINER_TYPE, NULL);
 	if (!sheet_object_bonobo_construct (
 		SHEET_OBJECT_BONOBO (c), wb->priv->bonobo_container, object_id)) {
 		gtk_object_destroy (GTK_OBJECT (c));

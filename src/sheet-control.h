@@ -2,13 +2,13 @@
 #define GNUMERIC_SHEET_CONTROL_H
 
 #include "gnumeric.h"
-#include <gtk/gtkobject.h>
+#include <glib-object.h>
 
 #define SHEET_CONTROL_TYPE	(sheet_control_get_type ())
-#define SHEET_CONTROL(obj)	(GTK_CHECK_CAST ((obj), SHEET_CONTROL_TYPE, SheetControl))
-#define IS_SHEET_CONTROL(o)	(GTK_CHECK_TYPE ((o), SHEET_CONTROL_TYPE))
+#define SHEET_CONTROL(obj)	(G_TYPE_CHECK_INSTANCE_CAST ((obj), SHEET_CONTROL_TYPE, SheetControl))
+#define IS_SHEET_CONTROL(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), SHEET_CONTROL_TYPE))
 
-GtkType sheet_control_get_type	(void);
+GType sheet_control_get_type	(void);
 
 WorkbookControl *sc_wbc		(SheetControl const *sc);
 Sheet		*sc_sheet	(SheetControl const *sc);

@@ -52,6 +52,11 @@ struct _ItemBar {
 	int		 colrow_being_resized;
 	int		 colrow_resize_size;
 	int		 resize_start_pos;
+
+	struct {
+		PangoItem	 *item;
+		PangoGlyphString *glyphs;
+	} pango;
 };
 
 typedef struct {
@@ -98,15 +103,14 @@ item_bar_calc_size (ItemBar *ib)
 {
 	Sheet const *sheet = ((SheetControl *) ib->gcanvas->simple.scg)->sheet;
 	double const zoom_factor = sheet->last_zoom_factor_used;
-	double const res  = application_dpi_to_pixels ();
 
 	/* ref before unref */
 	StyleFont * const normal_font =
 		style_font_new_simple (DEFAULT_FONT, DEFAULT_SIZE,
-				       res*zoom_factor, FALSE, FALSE);
+				       zoom_factor, FALSE, FALSE);
 	StyleFont * const bold_font =
 		style_font_new_simple (DEFAULT_FONT, DEFAULT_SIZE,
-				       res*zoom_factor, TRUE, FALSE);
+				       zoom_factor, TRUE, FALSE);
 
 	/* Now that we have the new fonts unref the old ones */
 	ib_fonts_unref (ib);
@@ -114,6 +118,11 @@ item_bar_calc_size (ItemBar *ib)
 	/* And finish up by assigning the new fonts. */
 	ib->normal_font = normal_font;
 	ib->bold_font = bold_font;
+
+	ib->pango.item->analysis.font = g_object_ref (normal_font->pango.font);
+	ib->pango.item->analysis.shape_engine =
+		pango_font_find_shaper (normal_font->pango.font, 
+			pango_language_from_string ("C"), 'A');
 
 	/* Use the size of the bold header font to size the free dimensions No
 	 * need to zoom, the size of the font takes that into consideration.
@@ -134,10 +143,10 @@ item_bar_calc_size (ItemBar *ib)
 		(ib->is_col_header ? ib->cell_height : ib->cell_width);
 }
 
-GdkFont *
+StyleFont const *
 item_bar_normal_font (ItemBar const *ib)
 {
-	return style_font_gdk_font (ib->normal_font);
+	return ib->normal_font;
 }
 
 int
@@ -223,47 +232,49 @@ ib_draw_cell (ItemBar const * const ib,
 	      GdkDrawable *drawable, ColRowSelectionType const type,
 	      char const * const str, GdkRectangle * rect)
 {
-	GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (ib)->canvas);
-	GdkFont *font;
-	GdkGC *gc;
-	int len, texth, shadow;
+	GtkWidget	*canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (ib)->canvas);
+	GdkGC 		*gc;
+	StyleFont	*font;
+	PangoRectangle   size;
+	int shadow, ascent;
 
-	switch (type){
+	switch (type) {
 	default:
 	case COL_ROW_NO_SELECTION:
 		shadow = GTK_SHADOW_OUT;
 		gc = canvas->style->bg_gc [GTK_STATE_ACTIVE];
-		font = style_font_gdk_font (ib->normal_font);
+		font = ib->normal_font;
 		break;
 
 	case COL_ROW_PARTIAL_SELECTION:
 		shadow = GTK_SHADOW_OUT;
 		gc = canvas->style->dark_gc [GTK_STATE_PRELIGHT];
-		font = style_font_gdk_font (ib->bold_font);
+		font = ib->bold_font;
 		break;
 
 	case COL_ROW_FULL_SELECTION:
 		shadow = GTK_SHADOW_IN;
 		gc = canvas->style->dark_gc [GTK_STATE_NORMAL];
-		font = style_font_gdk_font (ib->bold_font);
+		font = ib->bold_font;
 		break;
 	}
-
-	len = gdk_string_width (font, str);
-
 	g_return_if_fail (font != NULL);
-
-	texth = font->ascent + font->descent;
+	g_return_if_fail (font->pango.font != NULL);
+	g_return_if_fail (font->pango.metrics != NULL);
 
 	gdk_draw_rectangle (drawable, gc, TRUE,
 			    rect->x + 1, rect->y + 1, rect->width-2, rect->height-2);
 	gtk_draw_shadow (canvas->style, drawable, GTK_STATE_NORMAL, shadow,
 			 rect->x, rect->y, rect->width, rect->height);
 	gdk_gc_set_clip_rectangle (ib->text_gc, rect);
-	gdk_draw_string (drawable, font, ib->text_gc,
-			 rect->x + (rect->width - len) / 2,
-			 rect->y + (rect->height - texth) / 2 + font->ascent + 1,
-			 str);
+
+	ascent = PANGO_PIXELS (pango_font_metrics_get_ascent (font->pango.metrics));
+	pango_shape (str, strlen (str), &(ib->pango.item->analysis), ib->pango.glyphs);
+	pango_glyph_string_extents (ib->pango.glyphs, font->pango.font, NULL, &size);
+	gdk_draw_glyphs (drawable, ib->text_gc, font->pango.font,
+		rect->x + (rect->width - PANGO_PIXELS (size.width)) / 2,
+		rect->y + (rect->height - PANGO_PIXELS (size.height)) / 2 + ascent + 1,
+		ib->pango.glyphs);
 }
 
 int
@@ -897,13 +908,22 @@ item_bar_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 static void
 item_bar_destroy (GtkObject *object)
 {
-	ItemBar *bar = ITEM_BAR (object);
+	ItemBar *ib = ITEM_BAR (object);
 
-	ib_fonts_unref (bar);
+	ib_fonts_unref (ib);
 
-	if (bar->tip) {
-		gtk_object_unref (GTK_OBJECT (bar->tip));
-		bar->tip = NULL;
+	if (ib->tip) {
+		gtk_object_unref (GTK_OBJECT (ib->tip));
+		ib->tip = NULL;
+	}
+
+	if (ib->pango.glyphs != NULL) {
+		pango_glyph_string_free (ib->pango.glyphs);
+		ib->pango.glyphs = NULL;
+	}
+	if (ib->pango.item != NULL) {
+		pango_item_free (ib->pango.item);
+		ib->pango.item = NULL;
 	}
 
 	if (GTK_OBJECT_CLASS (item_bar_parent_class)->destroy)
@@ -932,6 +952,8 @@ item_bar_init (ItemBar *ib)
 
 	ib->colrow_being_resized = -1;
 	ib->has_resize_guides = FALSE;
+	ib->pango.item   = pango_item_new ();
+	ib->pango.glyphs = pango_glyph_string_new ();
 }
 
 static void

@@ -235,7 +235,7 @@ cell_comment_clone (SheetObject const *so, Sheet *sheet)
 	CellComment *comment = CELL_COMMENT (so);
 	CellComment *new_comment;
 
-	new_comment = gtk_type_new (CELL_COMMENT_TYPE);
+	new_comment = g_object_new (CELL_COMMENT_TYPE, NULL);
 
 	new_comment->author = comment->author ? g_strdup (comment->author) : NULL;
 	new_comment->text   = comment->text   ? g_strdup (comment->text) : NULL;
@@ -322,7 +322,7 @@ cell_set_comment (Sheet *sheet, CellPos const *pos,
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (pos != NULL, NULL);
 
-	cc = gtk_type_new (CELL_COMMENT_TYPE);
+	cc = g_object_new (CELL_COMMENT_TYPE, NULL);
 	cc->author = author ? g_strdup (author) : NULL;
 	cc->text = text ? g_strdup (text) : NULL;
 

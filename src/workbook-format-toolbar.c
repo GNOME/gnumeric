@@ -746,12 +746,8 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 	bonobo_ui_component_add_verb_list_with_data (wbcg->uic, verbs, wbcg);
 #endif
 
-	/*
-	 * Create a font name selector
-	 */
+	/* font name selector */
 	fontsel = wbcg->font_name_selector = gtk_combo_text_new (TRUE);
-	if (!gnome_preferences_get_toolbar_relief_btn ())
-		gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (fontsel), GTK_RELIEF_NONE);
 	entry = GTK_COMBO_TEXT (fontsel)->entry;
 	gtk_signal_connect (GTK_OBJECT (entry), "activate",
 			    GTK_SIGNAL_FUNC (change_font_in_selection_cmd), wbcg);
@@ -761,7 +757,7 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 	len = 0;
 	for (l = gnumeric_font_family_list; l; l = l->next) {
 		if (l->data) {	/* Don't include empty fonts in list. */
-			int tmp = gdk_string_measure (entry->style->font,
+			int tmp = gdk_string_measure (gtk_style_get_font (entry->style),
 						      l->data);
 			if (tmp > len)
 				len = tmp;
@@ -769,16 +765,10 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 						l->data, l->data);
 		}
 	}
-
-	/* Set a reasonable default width */
 	gtk_widget_set_usize (entry, len, 0);
 
-	/*
-	 * Create the font size control
-	 */
+	/* font size selector */
 	fontsize = wbcg->font_size_selector = gtk_combo_text_new (TRUE);
-	if (!gnome_preferences_get_toolbar_relief_btn ())
-		gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (fontsize), GTK_RELIEF_NONE);
 	entry = GTK_COMBO_TEXT (fontsize)->entry;
 	gtk_signal_connect (GTK_OBJECT (entry), "activate",
 			    GTK_SIGNAL_FUNC (change_font_size_in_selection_cmd), wbcg);
@@ -789,13 +779,10 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 			    "%d", gnumeric_point_sizes [i]);
 		gtk_combo_text_add_item(GTK_COMBO_TEXT (fontsize), buffer, buffer);
 	}
+	gtk_widget_set_usize (entry,
+		gdk_string_measure (gtk_style_get_font (entry->style), "888"), 0);
 
-	/* Set a reasonable default width */
-	gtk_widget_set_usize (entry, gdk_string_measure (entry->style->font, "888"), 0);
-
-	/*
-	 * Create the border combo box.
-	 */
+	/* Border combo box */
 	border_combo = pixmap_combo_new (border_combo_info, 3, 4);
 
 	/* default to none */

@@ -313,9 +313,9 @@ g_slist_free_custom (GSList *list, GFreeFunc free_func)
 gint
 g_lang_score_in_lang_list (gchar *lang, GList *lang_list)
 {
-	if (lang_list == NULL) {
-		lang_list = gnome_i18n_get_language_list ("LC_MESSAGES");
-	}
+	if (lang_list == NULL)
+		lang_list = (GList *)gnome_i18n_get_language_list ("LC_MESSAGES");
+
 	if (lang == NULL) {
 		return g_list_length (lang_list);
 	} else {

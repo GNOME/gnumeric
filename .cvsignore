@@ -21,10 +21,9 @@ gnumeric.keys
 gnumeric.spec
 gnumeric.desktop
 gnumeric.desktop.in
-gnumericConf.sh
 ID
 tags
-xml-i18n-*
-intl
-ABOUT-NLS
+intltool-extract*
+intltool-merge*
+intltool-update*
 GNOME_Gnumeric.oaf

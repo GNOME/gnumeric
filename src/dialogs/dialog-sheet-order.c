@@ -299,5 +299,5 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
                 return;
 
 	dialog_sheet_order_impl (wbcg, gui);
-	gtk_object_unref (GTK_OBJECT (gui));
+	g_object_unref (G_OBJECT (gui));
 }

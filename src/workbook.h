@@ -2,19 +2,19 @@
 #define GNUMERIC_WORKBOOK_H
 
 #define WORKBOOK_TYPE        (workbook_get_type ())
-#define WORKBOOK(o)          (GTK_CHECK_CAST ((o), WORKBOOK_TYPE, Workbook))
-#define WORKBOOK_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), WORKBOOK_TYPE, WorkbookClass))
-#define IS_WORKBOOK(o)       (GTK_CHECK_TYPE ((o), WORKBOOK_TYPE))
-#define IS_WORKBOOK_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), WORKBOOK_TYPE))
+#define WORKBOOK(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), WORKBOOK_TYPE, Workbook))
+#define WORKBOOK_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), WORKBOOK_TYPE, WorkbookClass))
+#define IS_WORKBOOK(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), WORKBOOK_TYPE))
+#define IS_WORKBOOK_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), WORKBOOK_TYPE))
 
 #include "gnumeric.h"
 #include "summary.h"
 #include "file.h"
-#include <gtk/gtkobject.h>
+#include <glib-object.h>
 
 typedef struct _WorkbookPrivate WorkbookPrivate;
 struct _Workbook {
-	GtkObject  gtk_object;
+	GObject  gtk_object;
 
 	GPtrArray *wb_views;
 
@@ -56,14 +56,14 @@ struct _Workbook {
 };
 
 typedef struct {
-	GtkObjectClass   gtk_parent_class;
+	GObjectClass   gtk_parent_class;
 
 	/* Signals */
 	void (*cell_changed)  (Sheet *sheet, char *contents,
 			       int col, int row);
 } WorkbookClass;
 
-GtkType     workbook_get_type            (void);
+GType       workbook_get_type            (void);
 Workbook   *workbook_new                 (void);
 Workbook   *workbook_new_with_sheets     (int sheet_count);
 void	    workbook_unref		 (Workbook *wb);

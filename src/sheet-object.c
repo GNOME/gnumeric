@@ -35,8 +35,6 @@
 #define	SO_VIEW_SHEET_CONTROL_KEY	"SheetControl"
 #define	SO_VIEW_OBJECT_KEY		"SheetObject"
 
-static GtkObjectClass *sheet_object_parent_class;
-
 static void
 cb_sheet_object_remove (GtkWidget *widget, GtkObject *so_view)
 {
@@ -51,7 +49,7 @@ cb_sheet_object_remove (GtkWidget *widget, GtkObject *so_view)
 	sheet = sc_sheet (SHEET_CONTROL (scg));
 
 	cmd_object_delete (wbc, so);
-	gtk_object_unref (GTK_OBJECT (so));
+	g_object_unref (G_OBJECT (so));
 }
 
 static void
@@ -82,14 +80,13 @@ sheet_object_populate_menu (SheetObject *so,
 {
 	GtkWidget *item;
 	if (SO_CLASS(so)->user_config != NULL) {
-		item = gnome_stock_menu_item (GNOME_STOCK_MENU_PROP,
-					      _("Properties..."));
+		item = gtk_image_menu_item_new_from_stock (GTK_STOCK_PROPERTIES, NULL);
 		gtk_signal_connect (GTK_OBJECT (item), "activate",
 				    GTK_SIGNAL_FUNC (cb_sheet_object_configure), obj_view);
 		gtk_menu_append (menu, item);
 	}
 
-	item = gnome_stock_menu_item (GNOME_STOCK_MENU_CLOSE, _("Delete"));
+	item = gtk_image_menu_item_new_from_stock (GTK_STOCK_DELETE, NULL);
 	gtk_menu_append (menu, item);
 	gtk_signal_connect (GTK_OBJECT (item), "activate",
 			    GTK_SIGNAL_FUNC (cb_sheet_object_remove), obj_view);
@@ -139,8 +136,9 @@ sheet_objects_max_extent (Sheet *sheet)
 }
 
 static void
-sheet_object_destroy (GtkObject *object)
+sheet_object_finalize (GObject *object)
 {
+	GObjectClass *parent;
 	SheetObject *so = SHEET_OBJECT (object);
 
 	g_return_if_fail (so != NULL);
@@ -162,7 +160,10 @@ sheet_object_destroy (GtkObject *object)
 			sheet_objects_max_extent (so->sheet);
 		so->sheet = NULL;
 	}
-	(*sheet_object_parent_class->destroy)(object);
+
+	parent = g_type_class_peek (G_TYPE_OBJECT);
+	if (parent != NULL && parent->finalize != NULL)
+		(*parent->finalize)(object);
 }
 
 static void
@@ -187,17 +188,16 @@ sheet_object_init (GtkObject *object)
 }
 
 static void
-sheet_object_class_init (GtkObjectClass *object_class)
+sheet_object_class_init (GObjectClass *object_class)
 {
 	SheetObjectClass *sheet_object_class = SHEET_OBJECT_CLASS (object_class);
 
-	sheet_object_parent_class = gtk_type_class (gtk_object_get_type ());
-
-	object_class->destroy = sheet_object_destroy;
+	object_class->finalize = sheet_object_finalize;
 	sheet_object_class->update_bounds        = NULL;
 	sheet_object_class->populate_menu        = sheet_object_populate_menu;
 	sheet_object_class->print                = NULL;
 	sheet_object_class->user_config          = NULL;
+	sheet_object_class->stipple_border	 = FALSE;
 	sheet_object_class->rubber_band_directly = FALSE;
 
 	/* Provide some defaults (derived classes may want to override) */
@@ -207,7 +207,7 @@ sheet_object_class_init (GtkObjectClass *object_class)
 
 E_MAKE_TYPE (sheet_object, "SheetObject", SheetObject,
 	     sheet_object_class_init, sheet_object_init,
-	     GTK_TYPE_OBJECT);
+	     G_TYPE_OBJECT);
 
 SheetObject *
 sheet_object_view_obj (GtkObject *view)
@@ -371,7 +371,7 @@ sheet_object_view_destroyed (GtkObject *view, SheetObject *so)
 
 	so->realized_list = g_list_remove (so->realized_list, view);
 	gtk_object_remove_data	(view, SO_VIEW_SHEET_CONTROL_KEY);
-	gtk_object_unref (GTK_OBJECT (scg));
+	g_object_unref (G_OBJECT (scg));
 }
 
 /*
@@ -395,7 +395,7 @@ sheet_object_new_view (SheetObject *so, SheetControlGUI *scg)
 	/* Store some useful information */
 	gtk_object_set_data (GTK_OBJECT (view), SO_VIEW_OBJECT_KEY, so);
 	gtk_object_set_data (GTK_OBJECT (view), SO_VIEW_SHEET_CONTROL_KEY, scg);
-	gtk_object_ref (GTK_OBJECT (scg));
+	g_object_ref (G_OBJECT (scg));
 
 	gtk_signal_connect (GTK_OBJECT (view), "destroy",
 			    GTK_SIGNAL_FUNC (sheet_object_view_destroyed), so);
@@ -448,7 +448,7 @@ sheet_object_read_xml (XmlParseContext const *ctxt, xmlNodePtr tree)
 	} else if (!strcmp (tree->name, "Line")){
 		so = sheet_object_line_new (FALSE);
 	} else {
-		obj = gtk_object_new (gtk_type_from_name ((gchar *)tree->name), NULL);
+		obj = g_object_new (g_type_from_name ((gchar *)tree->name), NULL);
 		if (!obj)
 			return (NULL);
 	
@@ -457,7 +457,7 @@ sheet_object_read_xml (XmlParseContext const *ctxt, xmlNodePtr tree)
 
 	if (SO_CLASS (so)->read_xml &&
 	    SO_CLASS (so)->read_xml (so, ctxt, tree)) {
-		gtk_object_destroy (GTK_OBJECT (so));
+		g_object_unref (G_OBJECT (so));
 		return NULL;
 	}
 

@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * application.c: Manage the data common to all workbooks
  *
@@ -16,99 +17,10 @@
 #include "sheet.h"
 #include "sheet-private.h"
 #include "auto-correct.h"
-
-#include "pixmaps/menu-print-preview.xpm"
-#include "pixmaps/print-preview.xpm"
-#include "pixmaps/sort-descending.xpm"
-#include "pixmaps/auto-sum.xpm"
-#include "pixmaps/equal-sign.xpm"
-#include "pixmaps/function_selector.xpm"
-
-#include "pixmaps/label.xpm"
-#include "pixmaps/frame.xpm"
-#include "pixmaps/button.xpm"
-#include "pixmaps/vscrollbar.xpm"
-#include "pixmaps/checkbutton.xpm"
-#include "pixmaps/radiobutton.xpm"
-#include "pixmaps/list.xpm"
-#include "pixmaps/combo.xpm"
-
-#include "pixmaps/rect.xpm"
-#include "pixmaps/line.xpm"
-#include "pixmaps/arrow.xpm"
-#include "pixmaps/oval.xpm"
-
-#include "pixmaps/money.xpm"
-#include "pixmaps/percent.xpm"
-#include "pixmaps/thousands.xpm"
-#include "pixmaps/add_decimals.xpm"
-#include "pixmaps/remove_decimals.xpm"
-
-#include "pixmaps/16_save.xpm"
-#include "pixmaps/16_save_as.xpm"
-#include "pixmaps/16_search.xpm"
-#include "pixmaps/16_search_and_replace.xpm"
-#include "pixmaps/16_cut.xpm"
-#include "pixmaps/16_copy.xpm"
-#include "pixmaps/16_paste.xpm"
-#include "pixmaps/16_undo.xpm"
-#include "pixmaps/16_redo.xpm"
-#include "pixmaps/16_add_column.xpm"
-#include "pixmaps/16_add_comment.xpm"
-#include "pixmaps/16_add_row.xpm"
-#include "pixmaps/16_cell_height.xpm"
-#include "pixmaps/16_cell_width.xpm"
-#include "pixmaps/16_center_across_selection.xpm"
-#include "pixmaps/16_delete_column.xpm"
-#include "pixmaps/16_delete_comment.xpm"
-#include "pixmaps/16_delete_row.xpm"
-#include "pixmaps/16_edit_comment.xpm"
-#include "pixmaps/16_hide_column.xpm"
-#include "pixmaps/16_hide_row.xpm"
-#include "pixmaps/16_insert_component.xpm"
-#include "pixmaps/16_insert_shaped_component.xpm"
-#include "pixmaps/16_graph_guru.xpm"
-#include "pixmaps/16_merge_cells.xpm"
-#include "pixmaps/16_split_cells.xpm"
-#include "pixmaps/16_sort_ascending.xpm"
-#include "pixmaps/16_unhide_column.xpm"
-#include "pixmaps/16_unhide_row.xpm"
-#include "pixmaps/16_group.xpm"
-#include "pixmaps/16_ungroup.xpm"
-#include "pixmaps/16_show_detail.xpm"
-#include "pixmaps/16_hide_detail.xpm"
-
-#include "pixmaps/24_save.xpm"
-#include "pixmaps/24_cut.xpm"
-#include "pixmaps/24_copy.xpm"
-#include "pixmaps/24_paste.xpm"
-#include "pixmaps/24_undo.xpm"
-#include "pixmaps/24_redo.xpm"
-#include "pixmaps/24_add_column.xpm"
-#include "pixmaps/24_add_row.xpm"
-#include "pixmaps/24_cell_height.xpm"
-#include "pixmaps/24_cell_width.xpm"
-#include "pixmaps/24_center_across_selection.xpm"
-#include "pixmaps/24_delete_column.xpm"
-#include "pixmaps/24_delete_row.xpm"
-#include "pixmaps/24_hide_column.xpm"
-#include "pixmaps/24_hide_row.xpm"
-#include "pixmaps/24_insert_component.xpm"
-#include "pixmaps/24_insert_shaped_component.xpm"
-#include "pixmaps/24_graph_guru.xpm"
-#include "pixmaps/24_merge_cells.xpm"
-#include "pixmaps/24_split_cells.xpm"
-#include "pixmaps/24_sort_ascending.xpm"
-#include "pixmaps/24_unhide_column.xpm"
-#include "pixmaps/24_unhide_row.xpm"
-#include "pixmaps/24_group.xpm"
-#include "pixmaps/24_ungroup.xpm"
-#include "pixmaps/24_show_detail.xpm"
-#include "pixmaps/24_hide_detail.xpm"
+#include "pixmaps/gnumeric-stock-pixbufs.h"
 
 #include <gtk/gtk.h>
 #include <libgnome/gnome-config.h>
-#include <libgnomeui/gnome-stock.h>
 
 typedef struct
 {
@@ -130,6 +42,35 @@ typedef struct
 
 static GnumericApplication app;
 
+static void
+add_icon (GtkIconFactory *factory,
+	  guchar const   *scalable_data,
+	  guchar const   *sized_data,
+	  gchar const    *stock_id)
+{
+	GtkIconSet *set = gtk_icon_set_new ();
+	GtkIconSource *src = gtk_icon_source_new ();
+
+	if (scalable_data != NULL) {
+		gtk_icon_source_set_size_wildcarded (src, TRUE);
+		gtk_icon_source_set_pixbuf (src,
+			gdk_pixbuf_new_from_inline (-1, scalable_data, FALSE, NULL));
+		gtk_icon_set_add_source (set, src);	/* copies the src */
+	}
+  
+	if (sized_data != NULL) {
+		gtk_icon_source_set_size (src, GTK_ICON_SIZE_MENU);
+		gtk_icon_source_set_size_wildcarded (src, FALSE);
+		gtk_icon_source_set_pixbuf (src,
+			gdk_pixbuf_new_from_inline (-1, sized_data, FALSE, NULL));
+		gtk_icon_set_add_source (set, src);	/* copies the src */
+	}
+
+	gtk_icon_factory_add (factory, stock_id, set);	/* keeps reference to set */
+	gtk_icon_set_unref (set);
+	gtk_icon_source_free (src);
+}
+
 /**
  * application_init:
  *
@@ -140,118 +81,64 @@ void
 application_init (void)
 {
 	static struct GnumericStockPixmap{
-		int width, height;
-		char const * const name;
-		gchar **xpm_data;
-	} const entry_names [] = {
-		{ 16, 16, "Menu_Gnumeric_Save", i16_save_xpm },
-		{ 16, 16, "Menu_Gnumeric_SaveAs", i16_save_as_xpm },
-		{ 16, 16, "Menu_Gnumeric_Search", i16_search },
-		{ 16, 16, "Menu_Gnumeric_SearchAndReplace", i16_search_and_replace },
-		{ 16, 16, "Menu_Gnumeric_PrintPreview", menu_print_preview_xpm },
-		{ 16, 16, "Menu_Gnumeric_InsertComponent", i16_insert_component_xpm },
-		{ 16, 16, "Menu_Gnumeric_InsertShapedComponent", i16_insert_shaped_component_xpm },
-		{ 16, 16, "Menu_Gnumeric_GraphGuru", i16_graph_guru_xpm },
-
-		{ 16, 16, "Menu_Gnumeric_Cut", i16_cut_xpm },
-		{ 16, 16, "Menu_Gnumeric_Copy", i16_copy_xpm },
-		{ 16, 16, "Menu_Gnumeric_Paste", i16_paste_xpm },
-		{ 16, 16, "Menu_Gnumeric_Undo", i16_undo_xpm },
-		{ 16, 16, "Menu_Gnumeric_Redo", i16_redo_xpm },
-		{ 16, 16, "Menu_Gnumeric_CommentAdd", i16_add_comment_xpm },
-		{ 16, 16, "Menu_Gnumeric_CommentDelete", i16_delete_comment_xpm },
-		{ 16, 16, "Menu_Gnumeric_CommentEdit", i16_edit_comment_xpm },
-		{ 16, 16, "Menu_Gnumeric_ColumnAdd", i16_add_column_xpm },
-		{ 16, 16, "Menu_Gnumeric_ColumnDelete", i16_delete_column_xpm },
-		{ 16, 16, "Menu_Gnumeric_ColumnSize", i16_cell_width_xpm },
-		{ 16, 16, "Menu_Gnumeric_ColumnHide", i16_hide_column_xpm },
-		{ 16, 16, "Menu_Gnumeric_ColumnUnhide", i16_unhide_column_xpm },
-		{ 16, 16, "Menu_Gnumeric_RowAdd", i16_add_row_xpm },
-		{ 16, 16, "Menu_Gnumeric_RowDelete", i16_delete_row_xpm },
-		{ 16, 16, "Menu_Gnumeric_RowSize", i16_cell_height_xpm },
-		{ 16, 16, "Menu_Gnumeric_RowHide", i16_hide_row_xpm },
-		{ 16, 16, "Menu_Gnumeric_RowUnhide", i16_unhide_row_xpm },
-		{ 16, 16, "Menu_Gnumeric_MergeCells", i16_merge_cells_xpm },
-		{ 16, 16, "Menu_Gnumeric_SplitCells", i16_split_cells_xpm },
-		{ 16, 16, "Menu_Gnumeric_SortAscending", i16_sort_ascending_xpm },
-		{ 16, 16, "Menu_Gnumeric_CenterAcrossSelection", i16_center_across_selection_xpm },
-		{ 16, 16, "Menu_Gnumeric_ShowDetail", i16_show_detail_xpm },
-		{ 16, 16, "Menu_Gnumeric_HideDetail", i16_hide_detail_xpm },
-		{ 16, 16, "Menu_Gnumeric_Group", i16_group_xpm },
-		{ 16, 16, "Menu_Gnumeric_Ungroup", i16_ungroup_xpm },
-
-		{ 24, 24, "Gnumeric_PrintPreview", print_preview_xpm },
-		{ 24, 24, "Gnumeric_InsertComponent", i24_insert_component_xpm },
-		{ 24, 24, "Gnumeric_InsertShapedComponent", i24_insert_shaped_component_xpm },
-		{ 24, 24, "Gnumeric_GraphGuru", i24_graph_guru_xpm },
-#if 0
-		{ 24, 24, "Gnumeric_CommentAdd", i24_add_comment_xpm },
-		{ 24, 24, "Gnumeric_CommentDelete", i24_delete_comment_xpm },
-		{ 24, 24, "Gnumeric_CommentEdit", i24_edit_comment_xpm },
-#endif
-		{ 24, 24, "Gnumeric_Save", i24_save_xpm },
-		{ 24, 24, "Gnumeric_Cut", i24_cut_xpm },
-		{ 24, 24, "Gnumeric_Copy", i24_copy_xpm },
-		{ 24, 24, "Gnumeric_Paste", i24_paste_xpm },
-		{ 24, 24, "Gnumeric_Undo", i24_undo_xpm },
-		{ 24, 24, "Gnumeric_Redo", i24_redo_xpm },
-		{ 24, 24, "Gnumeric_ColumnAdd", i24_add_column_xpm },
-		{ 24, 24, "Gnumeric_ColumnDelete", i24_delete_column_xpm },
-		{ 24, 24, "Gnumeric_ColumnSize", i24_cell_width_xpm },
-		{ 24, 24, "Gnumeric_ColumnHide", i24_hide_column_xpm },
-		{ 24, 24, "Gnumeric_ColumnUnhide", i24_unhide_column_xpm },
-		{ 24, 24, "Gnumeric_RowAdd", i24_add_row_xpm },
-		{ 24, 24, "Gnumeric_RowDelete", i24_delete_row_xpm },
-		{ 24, 24, "Gnumeric_RowSize", i24_cell_height_xpm },
-		{ 24, 24, "Gnumeric_RowHide", i24_hide_row_xpm },
-		{ 24, 24, "Gnumeric_RowUnhide", i24_unhide_row_xpm },
-		{ 24, 24, "Gnumeric_MergeCells", i24_merge_cells_xpm },
-		{ 24, 24, "Gnumeric_SplitCells", i24_split_cells_xpm },
-		{ 24, 24, "Gnumeric_SortAscending", i24_sort_ascending_xpm },
-		{ 24, 24, "Gnumeric_CenterAcrossSelection", i24_center_across_selection_xpm },
-		{ 24, 24, "Gnumeric_ShowDetail", i24_show_detail_xpm },
-		{ 24, 24, "Gnumeric_HideDetail", i24_hide_detail_xpm },
-		{ 24, 24, "Gnumeric_Group", i24_group_xpm },
-		{ 24, 24, "Gnumeric_Ungroup", i24_ungroup_xpm },
-
-		{ 24, 24, "Gnumeric_SortDescending", sort_descending_xpm },
-		{ 24, 24, "Gnumeric_AutoSum", auto_sum_xpm },
-		{ 24, 24, "Gnumeric_EqualSign", equal_sign_xpm },
-		{ 24, 24, "Gnumeric_FormulaGuru", formula_guru_xpm },
-
-		{ 24, 21, "Gnumeric_FormatAsMoney", money_xpm },
-		{ 24, 21, "Gnumeric_FormatAsPercent", percent_xpm },
-		{ 24, 21, "Gnumeric_FormatThousandSeperator", thousands_xpm },
-		{ 24, 21, "Gnumeric_FormatAddPrecision", add_decimals_xpm },
-		{ 24, 21, "Gnumeric_FormatRemovePrecision", remove_decimals_xpm },
-
-		{ 21, 21, "Gnumeric_Label", label_xpm },
-		{ 21, 21, "Gnumeric_Frame", frame_xpm },
-		{ 21, 21, "Gnumeric_Button", button_xpm },
-		{ 21, 21, "Gnumeric_Scrollbar", vscrollbar_xpm },
-		{ 21, 21, "Gnumeric_Checkbutton", checkbutton_xpm },
-		{ 21, 21, "Gnumeric_Radiobutton", radiobutton_xpm },
-		{ 21, 21, "Gnumeric_List", list_xpm },
-		{ 21, 21, "Gnumeric_Combo", combo_xpm },
-		{ 21, 21, "Gnumeric_Line", line_xpm },
-		{ 21, 21, "Gnumeric_Arrow", arrow_xpm },
-		{ 21, 21, "Gnumeric_Rectangle", rect_xpm },
-		{ 21, 21, "Gnumeric_Oval", oval_xpm },
-
-		{ 0, 0, NULL, NULL}
+		guchar const   *scalable_data;
+		guchar const   *sized_data;
+		gchar const    *stock_id;
+	} const entry [] = {
+		{ gnm_24_add_column,			gnm_16_add_column,		"Gnumeric_AddColumn" },
+		{ gnm_24_add_row,			gnm_16_add_row,			"Gnumeric_AddRow" },
+		{ gnm_24_cell_height,			gnm_16_cell_height,		"Gnumeric_CellHeight" },
+		{ gnm_24_cell_width,			gnm_16_cell_width,		"Gnumeric_CellWidth" },
+		{ gnm_24_center_across_selection,	gnm_16_center_across_selection,	"Gnumeric_CenterAcrossSelection" },
+		{ gnm_24_delete_column,			gnm_16_delete_column,		"Gnumeric_DeleteColumn" },
+		{ gnm_24_delete_row,			gnm_16_delete_row,		"Gnumeric_DeleteRow" },
+		{ gnm_24_graph_guru,			gnm_16_graph_guru,		"Gnumeric_GraphGuru" },
+		{ gnm_24_group,				gnm_16_group,			"Gnumeric_Group" },
+		{ gnm_24_hide_column,			gnm_16_hide_column,		"Gnumeric_HideColumn" },
+		{ gnm_24_hide_detail,			gnm_16_hide_detail,		"Gnumeric_HideDetail" },
+		{ gnm_24_hide_row,			gnm_16_hide_row,		"Gnumeric_HideRow" },
+		{ gnm_24_insert_component,		gnm_16_insert_component,	"Gnumeric_InsertComponent" },
+		{ gnm_24_insert_shaped_component,	gnm_16_insert_shaped_component,	"Gnumeric_InsertShaped_component" },
+		{ gnm_24_merge_cells,			gnm_16_merge_cells,		"Gnumeric_MergeCells" },
+		{ gnm_24_show_detail,			gnm_16_show_detail,		"Gnumeric_ShowDetail" },
+		{ gnm_24_split_cells,			gnm_16_split_cells,		"Gnumeric_SplitCells" },
+		{ gnm_24_ungroup,			gnm_16_ungroup,			"Gnumeric_Ungroup" },
+		{ gnm_24_unhide_column,			gnm_16_unhide_column,		"Gnumeric_UnhideColumn" },
+		{ gnm_24_unhide_row,			gnm_16_unhide_row,		"Gnumeric_UnhideRow" },
+		{ NULL,					gnm_16_add_comment,		"Gnumeric_AddComment" },
+		{ NULL,					gnm_16_delete_comment,		"Gnumeric_DeleteComment" },
+		{ NULL,					gnm_16_edit_comment,		"Gnumeric_EditComment" },
+		{ gnm_arrow,				NULL,				"Gnumeric_Arrow" },
+		{ gnm_bucket,				NULL,				"Gnumeric_Bucket" },
+		{ gnm_button,				NULL,				"Gnumeric_Button" },
+		{ gnm_vscrollbar,			NULL,				"Gnumeric_Scrollbar" },
+		{ gnm_checkbutton,			NULL,				"Gnumeric_Checkbutton" },
+		{ gnm_combo,				NULL,				"Gnumeric_Combo" },
+		{ gnm_radiobutton,			NULL,				"Gnumeric_Radiobutton" },
+		{ gnm_frame,				NULL,				"Gnumeric_Frame" },
+		{ gnm_label,				NULL,				"Gnumeric_Label" },
+		{ gnm_line,				NULL,				"Gnumeric_Line" },
+		{ gnm_list,				NULL,				"Gnumeric_List" },
+		{ gnm_oval,				NULL,				"Gnumeric_Oval" },
+		{ gnm_equal,				NULL,				"Gnumeric_Equal" },
+		{ gnm_font,				NULL,				"Gnumeric_Font" },
+		{ gnm_rect,				NULL,				"Gnumeric_Rectangle" },
+		{ gnm_auto,				NULL,				"Gnumeric_AutoSum" },
+		{ gnm_function_selector,		NULL,				"Gnumeric_FormulaGuru" },
+		{ gnm_percent,				NULL,				"Gnumeric_FormatAsPercent" },
+		{ gnm_money,				NULL,				"Gnumeric_FormatAsMoney" },
+		{ gnm_add_decimals,			NULL,				"Gnumeric_FormatAddPrecision" },
+		{ gnm_remove_decimals,			NULL,				"Gnumeric_FormatRemovePrecision" },
+		{ gnm_thousand,				NULL,				"Gnumeric_FormatThousandSeperator" },
 	};
-	static GnomeStockPixmapEntry entry[sizeof(entry_names)/sizeof(struct GnumericStockPixmap)-1];
+	unsigned i = 0;
+	GtkIconFactory *factory = gtk_icon_factory_new ();
 
-	int i = 0;
-
-	for (i = 0; entry_names[i].name != NULL ; i++) {
-		entry[i].data.type = GNOME_STOCK_PIXMAP_TYPE_DATA;
-		entry[i].data.width = entry_names[i].width;
-		entry[i].data.height = entry_names[i].height;
-		entry[i].data.xpm_data = entry_names[i].xpm_data;
-		gnome_stock_pixmap_register (entry_names[i].name,
-					     GNOME_STOCK_PIXMAP_REGULAR, entry + i);
-	}
+	for (i = 0; i < G_N_ELEMENTS (entry) ; i++)
+		add_icon (factory, entry[i].scalable_data,
+			  entry[i].sized_data, entry[i].stock_id);
+	gtk_icon_factory_add_default (factory);
+	g_object_unref (G_OBJECT (factory));
 
 	app.clipboard_copied_contents = NULL;
 	app.clipboard_sheet = NULL;

@@ -22,7 +22,7 @@
 #include "ranges.h"
 
 static void
-canvas_bar_realized (GtkWidget *widget, gpointer ignored)
+gnumeric_pane_realized (GtkWidget *widget, gpointer ignored)
 {
 	gdk_window_set_back_pixmap (GTK_LAYOUT (widget)->bin_window, NULL, FALSE);
 }
@@ -63,7 +63,7 @@ gnumeric_pane_header_init (GnumericPane *pane, SheetControlGUI *scg,
 #endif
 
 	gtk_signal_connect (GTK_OBJECT (canvas), "realize",
-		canvas_bar_realized, NULL);
+		GTK_SIGNAL_FUNC (gnumeric_pane_realized), NULL);
 }
 
 void
