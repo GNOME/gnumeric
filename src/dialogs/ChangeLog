@@ -1,5 +1,9 @@
 2003-08-06  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	* dialog-sheet-order.c (cb_ok_clicked): fix typo
+
+2003-08-06  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* dao-gui-utils.c (parse_output): do not set sheet_idx
 
 2003-08-06  Andreas J. Guelzow  <aguelzow@taliesin.ca>

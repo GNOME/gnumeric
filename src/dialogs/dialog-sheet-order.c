@@ -621,7 +621,7 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 			if (lock_changed) {
 				protection_changed = g_slist_prepend 
 					(protection_changed,
-					 GINT_TO_POINTER (this_sheet));
+					 GINT_TO_POINTER (this_sheet_idx));
 				new_locks = g_slist_prepend 
 					(new_locks,
 					 GINT_TO_POINTER (is_locked));
