@@ -1,6 +1,19 @@
 2000-05-19  Jody Goldberg <jgoldberg@home.com>
 
 	* src/cell.c (cell_copy) : Ref the format if one exists.
+	(cell_set_format) : Apply the format to a NEW style, not the current
+	   style which may be say .... the DEFAULT!!!
+
+	* src/sheet.c (sheet_update) : Update cursor positions when visibility
+	  changes.
+	(sheet_clear_region) : When clearing formats we need to update the
+	  spans and sizes of the contents.
+	(sheet_update_cursor_pos) : New function.
+	(sheet_row_col_visible) : changing the status of a row/col changes visibility.
+
+	* src/sheet-view.c (sheet_view_update_cursor_pos) : New function split
+	  out from sheet_view_set_zoom_factor.
+	(sheet_view_set_zoom_factor) : Use sheet_view_update_cursor_pos.
 
 	* src/colrow.c (cb_set_row_height) : Only set the height if it
 	  changed.

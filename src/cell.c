@@ -737,7 +737,7 @@ cell_get_format (Cell const *cell)
 void
 cell_set_format (Cell *cell, char const *format)
 {
-	MStyle * mstyle = cell_get_mstyle (cell);
+	MStyle *mstyle = mstyle_new ();
 
 	g_return_if_fail (mstyle != NULL);
 
