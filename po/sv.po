@@ -8,11 +8,12 @@
 # ' översätts med \"
 # Inga särskrivningar
 # Översätt INTE m/d/y/h/s i tidsangivelser än. Det funkar inte. Samma sak med decimaltecken.
+# [Red] i formatkoderna är en färgkod och ska INTE översättas. Inte nu heller. Sluta då.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 0.43\n"
-"POT-Creation-Date: 2000-05-14 01:02+0200\n"
+"Project-Id-Version: gnumeric 0.53\n"
+"POT-Creation-Date: 2000-05-14 16:26+0200\n"
 "PO-Revision-Date: 1999-12-01 11:00+0100\n"
 "Last-Translator: Andreas Hyden <a.hyden@cyberpoint.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -22,25 +23,23 @@ msgstr ""
 
 #: graph/main.c:48
 msgid "I could not initialize Bonobo"
-msgstr "Jag kunde inte initialisera Bonobo"
+msgstr "Kunde inte initialisera Bonobo"
 
 #: graph/sample.c:206
-#, fuzzy
 msgid "Chart type"
-msgstr "Klistra in"
+msgstr "Graftyp"
 
 #: graph/sample.c:207
 msgid "Plot mode"
-msgstr "Plott-läge"
+msgstr "Plottläge"
 
 #: graph/sample.c:208
-#, fuzzy
 msgid "Col/bar mode"
-msgstr "Ta bort kanter"
+msgstr "Kolumn/stapel-läge"
 
 #: graph/sample.c:209
 msgid "Direction mode"
-msgstr "Riktingsläge"
+msgstr "Riktningsläge"
 
 #: graph/sample.c:210
 msgid "Line mode"
@@ -48,12 +47,11 @@ msgstr "Linjeläge"
 
 #: graph/sample.c:211
 msgid "Scatter mode"
-msgstr ""
+msgstr "Datapunktsläge"
 
 #: graph/sample.c:212
-#, fuzzy
 msgid "Scatter connection"
-msgstr "Mitten:"
+msgstr "Sammankoppling av datapunker"
 
 #.
 #. * Add Sheet
@@ -75,11 +73,11 @@ msgstr "Kan inte öppna mmap-filen"
 
 #: plugins/dif/dif.c:422
 msgid "Data Interchange Format (DIF) import"
-msgstr ""
+msgstr "Data Interchange Format (DIF) import"
 
 #: plugins/dif/dif.c:425
 msgid "Data Interchange Format (*.dif)"
-msgstr ""
+msgstr "Data Interchange Format (*.dif)"
 
 #: plugins/excel/boot.c:116
 msgid "Saving over old files disabled for safety"
@@ -116,7 +114,7 @@ msgstr "Lösenordsskyddade arbetsböcker stöds inte än."
 
 #: plugins/excel/ms-excel-read.c:4033
 msgid "Unable to locate valid MS Excel workbook"
-msgstr ""
+msgstr "Kunde inte hitta en giltig MS Excel-arbetsbok" 
 
 #: plugins/excel/ms-excel-write.c:3374
 msgid "Too many rows for this format"
@@ -197,9 +195,8 @@ msgid "Undefined scheme function"
 msgstr "Oidentifierad schema-funktion"
 
 #: plugins/guile/plugin.c:314
-#, fuzzy
 msgid "Could not evaluate argument"
-msgstr "Ogiltigt argument"
+msgstr "Kunde inte evaluera argument"
 
 #: plugins/guile/plugin.c:482
 msgid "Gnumeric has not been compiled with support for guile."
@@ -369,6 +366,7 @@ msgid "GNU Oleo (*.oleo) file format"
 msgstr "GNU Oleo-filformat (*.oleo)"
 
 #: plugins/plan-perfect/pln.c:715
+#, c-format
 msgid ""
 "Invalid PLN file has more than the maximum\n"
 "number of %s %d"
@@ -557,22 +555,21 @@ msgid "Gnumeric Support page"
 msgstr "Gnumerics supportsida"
 
 #: src/analysis-tools.c:357
-#, fuzzy
 msgid "Correlations"
-msgstr "Korrelation"
+msgstr "Korrelationer"
 
 #: src/analysis-tools.c:380 src/analysis-tools.c:537 src/analysis-tools.c:696
 #: src/analysis-tools.c:812 src/analysis-tools.c:834 src/analysis-tools.c:860
 #: src/analysis-tools.c:2338 src/analysis-tools.c:2488
 #: src/analysis-tools.c:2671
+#, c-format
 msgid "Column %d"
 msgstr "Kolumn %s"
 
 #: src/analysis-tools.c:409 src/analysis-tools.c:566 src/analysis-tools.c:2368
 #: src/analysis-tools.c:2514 src/analysis-tools.c:2693
-#, fuzzy, c-format
 msgid "Row %d"
-msgstr "Rad: %d"
+msgstr "Rad %d"
 
 #: src/analysis-tools.c:432 src/analysis-tools.c:588 src/analysis-tools.c:764
 #: src/analysis-tools.c:772 src/analysis-tools.c:2134
@@ -581,9 +578,8 @@ msgid "#N/A"
 msgstr "#N/A"
 
 #: src/analysis-tools.c:511
-#, fuzzy
 msgid "Covariances"
-msgstr "Kovarians"
+msgstr "Kovarianser"
 
 #: src/analysis-tools.c:692 src/dialogs/dialog-analysis-tools.c:313
 msgid "Summary Statistics"
@@ -609,22 +605,20 @@ msgid "Mode"
 msgstr "Läge"
 
 #: src/analysis-tools.c:704
-#, fuzzy
 msgid "Standard Deviation"
-msgstr "Standardavvikelse = "
+msgstr "Standardavvikelse"
 
 #: src/analysis-tools.c:705
-#, fuzzy
 msgid "Sample Variance"
-msgstr "Exempeltillägg"
+msgstr "Stickprovsvarians"
 
 #: src/analysis-tools.c:706
 msgid "Kurtosis"
-msgstr ""
+msgstr "Kurtosis"
 
 #: src/analysis-tools.c:707
 msgid "Skewness"
-msgstr ""
+msgstr "Skevhet"
 
 #: src/analysis-tools.c:708 src/dialogs/dialog-function-wizard.c:210
 msgid "Range"
@@ -649,19 +643,16 @@ msgid "Count"
 msgstr "Räkna"
 
 #: src/analysis-tools.c:805
-#, fuzzy
 msgid "Confidence Level"
-msgstr "Konfidensnivå:"
+msgstr "Konfidensnivå"
 
 #: src/analysis-tools.c:819
-#, fuzzy
 msgid "Confidence Level (%g%%)"
-msgstr "Konfidensnivå:"
+msgstr "Konfidensnivå (%g%%)"
 
 #: src/analysis-tools.c:831
-#, fuzzy
 msgid "Kth Largest"
-msgstr "K:te största:"
+msgstr "K:te största"
 
 #: src/analysis-tools.c:845
 #, c-format
@@ -673,6 +664,7 @@ msgid "Kth Smallest"
 msgstr "K:te minsta"
 
 #: src/analysis-tools.c:871
+#, c-format
 msgid "Smallest (%d)"
 msgstr "Minsta (%d)"
 
@@ -698,9 +690,8 @@ msgid "Variable 2"
 msgstr "Variabel 2"
 
 #: src/analysis-tools.c:1099
-#, fuzzy
 msgid "Known Variance"
-msgstr "Kovarians"
+msgstr "Känd varians"
 
 #: src/analysis-tools.c:1100 src/analysis-tools.c:1230
 #: src/analysis-tools.c:1387 src/analysis-tools.c:1523
@@ -710,9 +701,8 @@ msgstr "Observationer"
 
 #: src/analysis-tools.c:1101 src/analysis-tools.c:1232
 #: src/analysis-tools.c:1389 src/analysis-tools.c:1524
-#, fuzzy
 msgid "Hypothesized Mean Difference"
-msgstr "Trolig standard-differens:"
+msgstr "Trolig standard-differens"
 
 #: src/analysis-tools.c:1102
 msgid "z"
@@ -736,21 +726,18 @@ msgstr ""
 
 #: src/analysis-tools.c:1200 src/analysis-tools.c:1354
 #: src/analysis-tools.c:1490
-#, fuzzy
 msgid "t-Test"
-msgstr "Text"
+msgstr "t-Test"
 
 #: src/analysis-tools.c:1229 src/analysis-tools.c:1386
 #: src/analysis-tools.c:1522 src/analysis-tools.c:1659
 #: src/analysis-tools.c:2473 src/analysis-tools.c:2663
-#, fuzzy
 msgid "Variance"
-msgstr "Kovarians"
+msgstr "Varians"
 
 #: src/analysis-tools.c:1231
-#, fuzzy
 msgid "Pearson Correlation"
-msgstr "Korrelation"
+msgstr "Pearson-korrelation"
 
 #: src/analysis-tools.c:1233 src/analysis-tools.c:1390
 #: src/analysis-tools.c:1525 src/analysis-tools.c:1661
@@ -826,34 +813,32 @@ msgstr "Regression"
 
 #: src/analysis-tools.c:1994
 msgid "SUMMARY OUTPUT"
-msgstr ""
+msgstr "SAMMANFATTNING UTDATA"
 
 #: src/analysis-tools.c:1996
-#, fuzzy
 msgid "Regression Statistics"
-msgstr "Deskriptiv statistik"
+msgstr "Regressionsstatistik"
 
 #: src/analysis-tools.c:1997
-#, fuzzy
 msgid "Multiple R"
-msgstr "Multiplicera"
+msgstr "Multipel R"
 
 #: src/analysis-tools.c:1998
 msgid "R Square"
-msgstr ""
+msgstr "R kvadratisk"
 
 #: src/analysis-tools.c:1999
 msgid "Adjusted R Square"
-msgstr ""
+msgstr "Justerad R kvadratisk"
 
 #: src/analysis-tools.c:2003 src/analysis-tools.c:2552
 #: src/analysis-tools.c:2765
 msgid "ANOVA"
-msgstr ""
+msgstr "ANOVA"
 
 #: src/analysis-tools.c:2005
 msgid "Residual"
-msgstr ""
+msgstr "Residual"
 
 #: src/analysis-tools.c:2006 src/analysis-tools.c:2562
 #: src/analysis-tools.c:2776
@@ -865,9 +850,8 @@ msgid "Intercept"
 msgstr ""
 
 #: src/analysis-tools.c:2011
-#, fuzzy, c-format
 msgid "X Variable %d"
-msgstr "Intervall för variabel 1:"
+msgstr "X variabel %d"
 
 #: src/analysis-tools.c:2016 src/analysis-tools.c:2554
 #: src/analysis-tools.c:2767
@@ -884,9 +868,8 @@ msgid "Significance F"
 msgstr ""
 
 #: src/analysis-tools.c:2021
-#, fuzzy
 msgid "Coefficients"
-msgstr "Kommentarer"
+msgstr "Koefficienter"
 
 #: src/analysis-tools.c:2024 src/analysis-tools.c:2558
 #: src/analysis-tools.c:2771
@@ -896,12 +879,12 @@ msgstr "P-värde"
 #: src/analysis-tools.c:2026
 #, c-format
 msgid "Lower 95%"
-msgstr "Sänk 95%"
+msgstr "Understa 95%"
 
 #: src/analysis-tools.c:2027
 #, c-format
 msgid "Upper 95%"
-msgstr "Höj 95%"
+msgstr "Översta 95%"
 
 #: src/analysis-tools.c:2247
 msgid "Moving Averages"
@@ -912,14 +895,12 @@ msgid "Ranks"
 msgstr "Områden"
 
 #: src/analysis-tools.c:2327 src/analysis-tools.c:2356
-#, fuzzy
 msgid "Point"
-msgstr "Skriv ut"
+msgstr "Punkt"
 
 #: src/analysis-tools.c:2341 src/analysis-tools.c:2371
-#, fuzzy
 msgid "Rank"
-msgstr "Område"
+msgstr "Rang"
 
 #: src/analysis-tools.c:2342 src/analysis-tools.c:2372
 #: src/workbook-format-toolbar.c:339
@@ -928,7 +909,7 @@ msgstr "Procent"
 
 #: src/analysis-tools.c:2462 src/analysis-tools.c:2653
 msgid "Anova"
-msgstr ""
+msgstr "Anova"
 
 #: src/analysis-tools.c:2467 src/dialogs/analysis-tools.glade.h:52
 #: src/dialogs/dialog-analysis-tools.c:81
@@ -949,7 +930,7 @@ msgstr "Medelvärde"
 
 #: src/analysis-tools.c:2553 src/analysis-tools.c:2766
 msgid "Source of Variation"
-msgstr ""
+msgstr "Källa till variation"
 
 #: src/analysis-tools.c:2559 src/analysis-tools.c:2772
 msgid "F critical"
@@ -988,11 +969,11 @@ msgstr "Fel vid förhandskonvertering av urklippsdata"
 
 #: src/clipboard.c:245
 msgid "This data on the clipboard does not seem to be valid text"
-msgstr "Den här datan i urklipp verkar inte vara giltig text"
+msgstr "Data i urklipp verkar inte vara giltig text"
 
 #: src/clipboard.c:260
 msgid "Parse error while trying to parse data into cellregion"
-msgstr ""
+msgstr "Fel uppstod under parsning av data till cellområde"
 
 #: src/command-context-gui.c:48 src/gnumeric-util.c:24
 msgid "You cannot change part of an array."
@@ -1006,9 +987,9 @@ msgstr "Mata in \"%s%s\" i %s"
 
 # detta står i sammanhanget Ångra: "blabla"
 #: src/commands.c:592
-#, fuzzy, c-format
+#, c-format
 msgid "Typing \"%s%s\""
-msgstr "Mata in \"%s%s\" i %s"
+msgstr "Mata in \"%s%s\""
 
 #: src/commands.c:778
 #, c-format
@@ -1032,6 +1013,7 @@ msgstr "Infoga %d rader före %d"
 
 #. col_name uses a static buffer
 #: src/commands.c:804
+#, c-format
 msgid "Deleting %d columns %s:"
 msgstr "Ta bort %d kolumner %s:"
 
@@ -1041,6 +1023,7 @@ msgid "Deleting column %s"
 msgstr "Ta bort kolumnen %s"
 
 #: src/commands.c:819
+#, c-format
 msgid "Deleting %d rows %d:%d"
 msgstr "Ta bort %d rader %d:%d"
 
@@ -1300,7 +1283,7 @@ msgstr "Åtgärd"
 
 #: src/dialogs/advanced-filter.glade.h:9
 msgid "_Filter in-place"
-msgstr ""
+msgstr "_Filtrera på plats"
 
 #: src/dialogs/advanced-filter.glade.h:10
 msgid "_Copy to a new location"
@@ -1316,19 +1299,19 @@ msgstr "Kopiera till en ny arbetsbok"
 
 #: src/dialogs/advanced-filter.glade.h:13
 msgid "C_riteria range:"
-msgstr ""
+msgstr "Kriterieområde:"
 
 #: src/dialogs/advanced-filter.glade.h:14
 msgid "C_opy to:        "
-msgstr "K_opiera till:"
+msgstr "K_opiera till:   "
 
 #: src/dialogs/advanced-filter.glade.h:15
 msgid "_List range:     "
-msgstr ""
+msgstr "_Listområde:     "
 
 #: src/dialogs/advanced-filter.glade.h:16
 msgid "_Unique records only"
-msgstr ""
+msgstr "Endast _unika fält"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1357,9 +1340,8 @@ msgid "Input"
 msgstr "Indata"
 
 #: src/dialogs/analysis-tools.glade.h:11 src/dialogs/analysis-tools.glade.h:25
-#, fuzzy
 msgid "_Labels in First Row"
-msgstr "Rubriker för första raden"
+msgstr "_Rubriker på första raden"
 
 #: src/dialogs/analysis-tools.glade.h:12 src/dialogs/analysis-tools.glade.h:24
 #: src/dialogs/analysis-tools.glade.h:33 src/dialogs/analysis-tools.glade.h:46
@@ -1369,15 +1351,13 @@ msgstr "_Alpha:"
 
 #: src/dialogs/analysis-tools.glade.h:13 src/dialogs/analysis-tools.glade.h:22
 #: src/dialogs/analysis-tools.glade.h:35 src/dialogs/analysis-tools.glade.h:44
-#, fuzzy
 msgid "Va_riable 2 Range:"
-msgstr "Intervall för variabel 2:"
+msgstr "Inte_rvall för variabel 2:"
 
 #: src/dialogs/analysis-tools.glade.h:14 src/dialogs/analysis-tools.glade.h:23
 #: src/dialogs/analysis-tools.glade.h:36 src/dialogs/analysis-tools.glade.h:43
-#, fuzzy
 msgid "_Variable 1 Range:"
-msgstr "Intervall för variabel 1:"
+msgstr "_Intervall för variabel 1:"
 
 #: src/dialogs/analysis-tools.glade.h:15 src/dialogs/analysis-tools.glade.h:26
 #: src/dialogs/analysis-tools.glade.h:37 src/dialogs/analysis-tools.glade.h:48
@@ -1422,29 +1402,27 @@ msgstr "F-Test: två stickprov för medelvärde"
 
 #: src/dialogs/analysis-tools.glade.h:21 src/dialogs/analysis-tools.glade.h:34
 #: src/dialogs/analysis-tools.glade.h:45
-#, fuzzy
 msgid "_Hypothesized Mean Difference:"
-msgstr "Trolig standard-differens:"
+msgstr "Trolig medelvärdesdifferens:"
 
 #: src/dialogs/analysis-tools.glade.h:30
 msgid "T-Test: Assuming Equal Variances"
-msgstr ""
+msgstr "T-Test: antar lika varianser"
 
 #: src/dialogs/analysis-tools.glade.h:32 src/dialogs/analysis-tools.glade.h:47
 #: src/dialogs/analysis-tools.glade.h:75
-#, fuzzy
 msgid "_Labels in First Row           "
-msgstr "Rubriker för första raden"
+msgstr "_Rubriker på första raden      "
 
 #: src/dialogs/analysis-tools.glade.h:41
 msgid "T-Test: Assuming Unequal Variances"
-msgstr ""
+msgstr "T-Test: antar olika varianser"
 
 #: src/dialogs/analysis-tools.glade.h:54 src/dialogs/analysis-tools.glade.h:85
 #: src/dialogs/analysis-tools.glade.h:96
 #: src/dialogs/analysis-tools.glade.h:107
 msgid " _Input Range: "
-msgstr "_Indataområde:"
+msgstr "_Indataområde: "
 
 #: src/dialogs/analysis-tools.glade.h:55 src/dialogs/analysis-tools.glade.h:86
 #: src/dialogs/analysis-tools.glade.h:100
@@ -1461,35 +1439,30 @@ msgstr "_Rader"
 #: src/dialogs/analysis-tools.glade.h:58 src/dialogs/analysis-tools.glade.h:88
 #: src/dialogs/analysis-tools.glade.h:98
 #: src/dialogs/analysis-tools.glade.h:109
-#, fuzzy
 msgid "_Labels"
-msgstr "Rubriker"
+msgstr "_Rubriker"
 
 #: src/dialogs/analysis-tools.glade.h:59 src/dialogs/analysis-tools.glade.h:89
 #: src/dialogs/analysis-tools.glade.h:97
 #: src/dialogs/analysis-tools.glade.h:108
-#, fuzzy
 msgid "Grouped by:"
 msgstr "Grupperad efter:"
 
 #: src/dialogs/analysis-tools.glade.h:61
-#, fuzzy
 msgid "_Output Range: "
-msgstr "Utdataområde: "
+msgstr "_Utdataområde: "
 
 #: src/dialogs/analysis-tools.glade.h:62
 msgid "_New Sheet     "
 msgstr "_Nytt blad     "
 
 #: src/dialogs/analysis-tools.glade.h:66
-#, fuzzy
 msgid "_Labels      "
-msgstr "Rubriker"
+msgstr "_Rubriker    "
 
 #: src/dialogs/analysis-tools.glade.h:68 src/dialogs/analysis-tools.glade.h:77
-#, fuzzy
 msgid "_Input Range:"
-msgstr "Indataområde:"
+msgstr "_Indataområde:"
 
 #: src/dialogs/analysis-tools.glade.h:73
 #: src/dialogs/dialog-analysis-tools.c:93
@@ -1534,7 +1507,7 @@ msgstr "A_ntal variabler:"
 
 #: src/dialogs/analysis-tools.glade.h:119
 msgid "Numbe_r of samples:"
-msgstr ""
+msgstr "Antal prov:"
 
 #: src/dialogs/analysis-tools.glade.h:121
 msgid "N_ew sheet"
@@ -1559,7 +1532,7 @@ msgstr "Autorätta undantag"
 
 #: src/dialogs/autocorrect-exceptions.glade.h:8
 msgid "_Do not capitalize after:"
-msgstr ""
+msgstr "_Inför inte stor bokstav efter:"
 
 #: src/dialogs/autocorrect-exceptions.glade.h:9 src/dialogs/solver.glade.h:25
 msgid "_Add"
@@ -1591,7 +1564,7 @@ msgstr "Ta bort"
 
 #: src/dialogs/autocorrect-exceptions.glade.h:15
 msgid "_INitial CApitals"
-msgstr ""
+msgstr "_STora BOkstäver i början"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1604,7 +1577,7 @@ msgstr "Autorätta"
 
 #: src/dialogs/autocorrect.glade.h:8
 msgid "Correct _TWo INitial CApitals                           "
-msgstr ""
+msgstr "Rätta _TVå STora bokstäver i början                     "
 
 #: src/dialogs/autocorrect.glade.h:9
 msgid "_Exceptions..."
@@ -1612,19 +1585,19 @@ msgstr "Undantag..."
 
 #: src/dialogs/autocorrect.glade.h:10
 msgid "Capitalize _first letter of sentence"
-msgstr ""
+msgstr "Inför stor bokstav i början av meningar"
 
 #: src/dialogs/autocorrect.glade.h:11
 msgid "Capitalize _names of days"
-msgstr ""
+msgstr "Inför stor bokstav på veckodagsnamn"
 
 #: src/dialogs/autocorrect.glade.h:12
 msgid "Correct accidental use of _cAPS LOCK key"
-msgstr ""
+msgstr "Rätta felaktigt användande av _cAPS LOCK"
 
 #: src/dialogs/autocorrect.glade.h:13
 msgid "_Replace text when typed"
-msgstr ""
+msgstr "_Ersätt text när den skrivs"
 
 #: src/dialogs/autocorrect.glade.h:14
 msgid "Re_place:"
@@ -1822,11 +1795,11 @@ msgstr "_Radbryt text"
 
 #: src/dialogs/cell-format.glade.h:48
 msgid "Shrin_k to fit"
-msgstr ""
+msgstr "Krymp tills det passar"
 
 #: src/dialogs/cell-format.glade.h:49
 msgid "_Merge Cells"
-msgstr ""
+msgstr "_Slå ihop celler"
 
 #: src/dialogs/cell-format.glade.h:50 src/dialogs/print.glade.h:8
 msgid "Orientation"
@@ -2056,9 +2029,8 @@ msgid "Solid"
 msgstr "Helfylld"
 
 #: src/dialogs/cell-format.glade.h:117
-#, fuzzy
 msgid "Bricks"
-msgstr "Bakåt"
+msgstr "Tegelstenar"
 
 #: src/dialogs/cell-format.glade.h:118
 msgid "Large Circles"
@@ -2070,7 +2042,7 @@ msgstr ""
 
 #: src/dialogs/cell-format.glade.h:120
 msgid "Semi Circles"
-msgstr ""
+msgstr "Halvcirklar"
 
 #: src/dialogs/cell-format.glade.h:121
 msgid "Small Circles"
@@ -2148,7 +2120,7 @@ msgstr "Poster är"
 
 #: src/dialogs/cell-sort.glade.h:20
 msgid "Case sensitive"
-msgstr ""
+msgstr "Stora/små bokstäver spelar roll"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -2193,26 +2165,23 @@ msgid "Delete _column(s)"
 msgstr "Ta bort _kolumn(er)"
 
 #: src/dialogs/dialog-advanced-filter.c:237
-#, fuzzy
 msgid "You should introduce a valid cell names in 'List Range:'"
-msgstr "Du måste ange ett giltigt cellnamn i \"Område:\""
+msgstr "Du måste ange ett giltigt cellnamn i \"Listområde:\""
 
 #: src/dialogs/dialog-advanced-filter.c:251
-#, fuzzy
 msgid "You should introduce a valid cell names in 'Criteria Range:'"
-msgstr "Du måste ange ett giltigt cellnamn i \"Område:\""
+msgstr "Du måste ange ett giltigt cellnamn i \"Kriterieområde:\""
 
 #: src/dialogs/dialog-advanced-filter.c:270
-#, fuzzy
 msgid "You should introduce a valid cell range in 'Copy To:'"
-msgstr "Du måste ange ett giltigt cellnamn i \"Område:\""
+msgstr "Du måste ange ett giltigt cellnamn i \"Kopiera till:\""
 
 #: src/dialogs/dialog-advanced-filter.c:315
-#, fuzzy
 msgid ""
 "You should introduce the same number of columns in the `List Range' and in "
 "`Criteria Range:'"
-msgstr "Du måste ange ett giltigt cellnamn i \"I området:\""
+msgstr "Du måste ange samma antal kolumner i \"Listområde\" som i "
+"\"Kriterieområde\""
 
 #: src/dialogs/dialog-analysis-tools.c:89
 #: src/dialogs/dialog-analysis-tools.c:909
@@ -2246,9 +2215,8 @@ msgid "Discrete"
 msgstr "Diskret"
 
 #: src/dialogs/dialog-analysis-tools.c:117
-#, fuzzy
 msgid "_Value and probability input range:"
-msgstr "Indataområde, värde och sannolikhet:"
+msgstr "Indataområde, _värde och sannolikhet:"
 
 #: src/dialogs/dialog-analysis-tools.c:119
 #: src/widgets/widget-font-selector.c:129
@@ -2256,32 +2224,28 @@ msgid "Normal"
 msgstr "Normal"
 
 #: src/dialogs/dialog-analysis-tools.c:119
-#, fuzzy
 msgid "_Mean:"
-msgstr "Medelvårde = "
+msgstr "_Medelvårde:"
 
 #: src/dialogs/dialog-analysis-tools.c:119
-#, fuzzy
 msgid "_Standard deviation:"
-msgstr "Standardavvikelse = "
+msgstr "_Standardavvikelse:"
 
 #: src/dialogs/dialog-analysis-tools.c:121
 msgid "Poisson"
 msgstr "Poisson"
 
 #: src/dialogs/dialog-analysis-tools.c:121
-#, fuzzy
 msgid "_Lambda:"
-msgstr "Lamba"
+msgstr "_Lamba:"
 
 #: src/dialogs/dialog-analysis-tools.c:123
 msgid "Exponential"
 msgstr "Exponentiell"
 
 #: src/dialogs/dialog-analysis-tools.c:123
-#, fuzzy
 msgid "_b value:"
-msgstr "Till värde:"
+msgstr "_b-värde:"
 
 #: src/dialogs/dialog-analysis-tools.c:125
 msgid "Binomial"
@@ -2294,9 +2258,8 @@ msgid "_p value:"
 msgstr "_p-värde:"
 
 #: src/dialogs/dialog-analysis-tools.c:125
-#, fuzzy
 msgid "N_umber of trials"
-msgstr "Antal variabler:"
+msgstr "Antal försök"
 
 #: src/dialogs/dialog-analysis-tools.c:127
 msgid "Negative Binomial"
@@ -2304,7 +2267,7 @@ msgstr "Negativ binomial"
 
 #: src/dialogs/dialog-analysis-tools.c:128
 msgid "N_umber of failures"
-msgstr "Antal mi_sslyckanden:"
+msgstr "Antal mi_sslyckanden"
 
 #: src/dialogs/dialog-analysis-tools.c:130
 msgid "Bernoulli"
@@ -2315,13 +2278,12 @@ msgid "Uniform"
 msgstr "Likafördelad"
 
 #: src/dialogs/dialog-analysis-tools.c:132
-#, fuzzy
 msgid "_Lower bound:"
-msgstr "Förgrund"
+msgstr "Nedre gräns:"
 
 #: src/dialogs/dialog-analysis-tools.c:132
 msgid "_Upper bound:"
-msgstr ""
+msgstr "_Övre gräns:"
 
 #: src/dialogs/dialog-analysis-tools.c:315
 msgid "Confidence Level for Mean"
@@ -2358,9 +2320,8 @@ msgstr "Periodisk"
 
 #: src/dialogs/dialog-analysis-tools.c:491
 #: src/dialogs/dialog-analysis-tools.c:645
-#, fuzzy
 msgid "You should introduce a valid cell range in 'Input Range:'"
-msgstr "Du måste ange ett giltigt cellnamn i \"I området:\""
+msgstr "Du måste ange ett giltigt cellområde i \"Indataområde:\""
 
 #: src/dialogs/dialog-analysis-tools.c:523
 msgid "New Sheet"
@@ -2470,12 +2431,11 @@ msgid "You should introduce a valid cell range in 'Variable 2:'"
 msgstr "Du måste ange ett giltigt cellnamn i \"Variabel 2:\""
 
 #: src/dialogs/dialog-analysis-tools.c:1915
-#, fuzzy
 msgid ""
 "You should introduce a valid cell range in 'Value and probability input "
 "Range:'"
 msgstr ""
-"Du måste ange ett giltigt cellnamn i \"Indata, värde och sannolikhet:\""
+"Du måste ange ett giltigt cellnamn i \"Område, värde och sannolikhet:\""
 
 #: src/dialogs/dialog-analysis-tools.c:1992
 msgid "Input Y Range:"
@@ -2508,9 +2468,8 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/dialog-autosave.c:136
-#, fuzzy
 msgid "You should introduce a proper number of minutes in the entry."
-msgstr "Du måste ange ett giltigt cellnamn i \"Sätt cell\""
+msgstr "Du måste ange antal minuter."
 
 #: src/dialogs/dialog-cell-comment.c:27
 msgid "Cell comment"
@@ -2518,7 +2477,7 @@ msgstr "Cellkommentar"
 
 #: src/dialogs/dialog-cell-format.c:401
 msgid ";[Red]"
-msgstr ";[Röd]"
+msgstr ";[Red]"
 
 #: src/dialogs/dialog-cell-format.c:403
 msgid "_);("
@@ -2526,7 +2485,7 @@ msgstr "_);("
 
 #: src/dialogs/dialog-cell-format.c:405
 msgid "_);[Red]("
-msgstr "_);[Röd]("
+msgstr "_);[Red]("
 
 #. There must be a better way than this
 #: src/dialogs/dialog-cell-format.c:1195 src/dialogs/dialog-cell-format.c:1262
@@ -2840,9 +2799,8 @@ msgid "Are you sure you want to cancel?"
 msgstr "Är du säker på att du vill avbryta?"
 
 #: src/dialogs/dialog-stf-export.c:382 src/dialogs/dialog-stf.c:525
-#, fuzzy, c-format
 msgid "Missing %s file"
-msgstr "Apostrof saknas"
+msgstr "Saknad fil %s"
 
 #: src/dialogs/dialog-stf-format-page.c:167
 #: src/dialogs/dialog-stf-format-page.c:359
@@ -2851,9 +2809,8 @@ msgstr "Anpassad"
 
 #: src/dialogs/dialog-stf-main-page.c:85
 #: src/dialogs/dialog-stf-main-page.c:196
-#, fuzzy, c-format
 msgid "%d lines to import"
-msgstr "Utskriftsrubriker"
+msgstr "%d rader att importera"
 
 #: src/dialogs/dialog-stf-main-page.c:200
 #, c-format
@@ -2894,9 +2851,8 @@ msgid "_50 %"
 msgstr "_50 %"
 
 #: src/dialogs/dialog-zoom.glade.h:18
-#, fuzzy, no-c-format
 msgid "_25 %"
-msgstr "_25%"
+msgstr "_25 %"
 
 #: src/dialogs/dialog-zoom.glade.h:20
 #, no-c-format
@@ -3263,9 +3219,8 @@ msgstr "_Höger, sedan nedåt"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/row-height.glade.h:7
-#, fuzzy
 msgid "Row height"
-msgstr "_Radhöjd:"
+msgstr "Radhöjd:"
 
 #: src/dialogs/row-height.glade.h:8
 msgid "_Row height:"
@@ -3277,9 +3232,8 @@ msgstr "_Radhöjd:"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/sheet-rename.glade.h:7
-#, fuzzy
 msgid "Rename sheet"
-msgstr "Byt namn på detta blad"
+msgstr "Byt namn på blad"
 
 #: src/dialogs/sheet-rename.glade.h:8
 msgid "Enter new _sheet name:"
@@ -3291,17 +3245,16 @@ msgstr "Ange nytt namn för _bladet:"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/solver-options.glade.h:7
-#, fuzzy
 msgid "Solver Options"
-msgstr "_Alternativ"
+msgstr "_Alternativ för lösaren"
 
 #: src/dialogs/solver-options.glade.h:8
 msgid "Assume _Linear Model"
-msgstr ""
+msgstr "Antag _linjär modell"
 
 #: src/dialogs/solver-options.glade.h:9
 msgid "Assume _Non-Negative"
-msgstr ""
+msgstr "Antag _icke-negativ"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3385,14 +3338,12 @@ msgid "Reports:"
 msgstr ""
 
 #: src/dialogs/solver.glade.h:31
-#, fuzzy
 msgid "_Answer"
-msgstr "_Infoga"
+msgstr "_Svar"
 
 #: src/dialogs/solver.glade.h:32
-#, fuzzy
 msgid "_Sensitivity"
-msgstr "_Matematik"
+msgstr "_Känslighet"
 
 #: src/dialogs/solver.glade.h:33
 msgid "_Limits"
@@ -3400,11 +3351,11 @@ msgstr "_Gränser"
 
 #: src/dialogs/solver.glade.h:34
 msgid "_Keep Solver Solution"
-msgstr ""
+msgstr "_Behåll lösningen"
 
 #: src/dialogs/solver.glade.h:35
 msgid "_Restore Original Values"
-msgstr ""
+msgstr "_Återställ originalvärden"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3412,9 +3363,8 @@ msgstr ""
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/summary.glade.h:7
-#, fuzzy
 msgid "Summary"
-msgstr "Sammanfattning..."
+msgstr "Sammanfattning"
 
 #: src/dialogs/summary.glade.h:8
 msgid "Title"
@@ -3454,34 +3404,28 @@ msgstr "Företag"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/workbook-attr.glade.h:7
-#, fuzzy
 msgid "Scrollbars"
-msgstr "USA-dollar"
+msgstr "Rullningslister"
 
 #: src/dialogs/workbook-attr.glade.h:8
-#, fuzzy
 msgid "Horizontal Scrollbar"
-msgstr "Vågräta ränder"
+msgstr "Vågrät rullningslist"
 
 #: src/dialogs/workbook-attr.glade.h:9
-#, fuzzy
 msgid "Vertical Scrollbar"
-msgstr "Lodräta ränder"
+msgstr "Lodräta rullningslist"
 
 #: src/dialogs/workbook-attr.glade.h:10
-#, fuzzy
 msgid "Notebook"
-msgstr "Ny arbetsbok"
+msgstr "Anteckningsbok"
 
 #: src/dialogs/workbook-attr.glade.h:11
-#, fuzzy
 msgid "Tabs"
-msgstr "Rubriker"
+msgstr "Flikar"
 
 #: src/dialogs/workbook-attr.glade.h:12
-#, fuzzy
 msgid "View"
-msgstr "_Vy"
+msgstr "Visa"
 
 #: src/embeddable-grid.c:166
 msgid "Embedded Sheet"
@@ -3583,11 +3527,10 @@ msgid ""
 msgstr ""
 
 #: src/file.c:619
-#, fuzzy
 msgid ""
 "Sorry, there are no file savers loaded,\n"
 "I cannot save"
-msgstr "Det finns inga filsparare, kan inte spara"
+msgstr "Det finns inga filsparare,\nkan inte spara"
 
 #: src/file.c:635 src/file.c:718
 msgid ""
@@ -4071,7 +4014,7 @@ msgstr "[$BOB]"
 
 #: src/formats.c:182
 msgid "Bolivian boliviano"
-msgstr ""
+msgstr "Bolivianska boliviano"
 
 #: src/formats.c:183
 msgid "[$BRE]"
@@ -4087,7 +4030,7 @@ msgstr "[$BSD]"
 
 #: src/formats.c:184
 msgid "Bahamian dollar"
-msgstr ""
+msgstr "Bahamska dollar"
 
 #: src/formats.c:185
 msgid "[$BTN]"
@@ -4103,12 +4046,11 @@ msgstr "[$BWP]"
 
 #: src/formats.c:186
 msgid "Botswanian pula"
-msgstr ""
+msgstr "Botswanska pula"
 
 #: src/formats.c:187
-#, fuzzy
 msgid "[$BYB]"
-msgstr "[$BBD]"
+msgstr "[$BYD]"
 
 #: src/formats.c:187
 msgid "Belarussian ruble"
@@ -4120,7 +4062,7 @@ msgstr "[$BZD]"
 
 #: src/formats.c:188
 msgid "Belize dollar"
-msgstr ""
+msgstr "Belizedollar"
 
 #: src/formats.c:189
 msgid "[$CAD]"
@@ -4144,7 +4086,7 @@ msgstr "[$CLP]"
 
 #: src/formats.c:191
 msgid "Chilean peso"
-msgstr ""
+msgstr "Chilenska peso"
 
 #: src/formats.c:192
 msgid "[$CNY]"
@@ -4152,7 +4094,7 @@ msgstr "[$CNY]"
 
 #: src/formats.c:192
 msgid "Chinese yuan renminbi"
-msgstr ""
+msgstr "Kinesiska yuan renminbi"
 
 #: src/formats.c:193
 msgid "[$COP]"
@@ -4160,7 +4102,7 @@ msgstr "[$COP]"
 
 #: src/formats.c:193
 msgid "Colombian peso"
-msgstr ""
+msgstr "Colombianska peso"
 
 #: src/formats.c:194
 msgid "[$CRC]"
@@ -4176,7 +4118,7 @@ msgstr "[$CSK]"
 
 #: src/formats.c:195
 msgid "Czech Koruna"
-msgstr ""
+msgstr "Tjeckiska koruna"
 
 #: src/formats.c:196
 msgid "[$CUP]"
@@ -4200,7 +4142,7 @@ msgstr "[$CYP]"
 
 #: src/formats.c:198
 msgid "Cyprus pound"
-msgstr ""
+msgstr "Cypriska pund"
 
 #: src/formats.c:199
 msgid "[$DEM]"
@@ -4232,7 +4174,7 @@ msgstr "[$DOP]"
 
 #: src/formats.c:202
 msgid "Dominican peso"
-msgstr ""
+msgstr "Dominikanska peso"
 
 #: src/formats.c:203
 msgid "[$DZD]"
@@ -4275,13 +4217,12 @@ msgid "Ethiopian birr"
 msgstr ""
 
 #: src/formats.c:208
-#, fuzzy
 msgid "[$EUR]"
-msgstr "[$MUR]"
+msgstr "[$EUR]"
 
 #: src/formats.c:208
 msgid "Euro"
-msgstr ""
+msgstr "Euro"
 
 #: src/formats.c:209
 msgid "[$FIM]"
@@ -4404,13 +4345,12 @@ msgid "Honduran lempira"
 msgstr ""
 
 #: src/formats.c:224
-#, fuzzy
 msgid "[$HRK]"
-msgstr "[$HKD]"
+msgstr "[$HRK]"
 
 #: src/formats.c:224
 msgid "Croatian kuna"
-msgstr ""
+msgstr "Kroatiska kuna"
 
 #: src/formats.c:225
 msgid "[$HTG]"
@@ -4645,9 +4585,8 @@ msgid "Moroccan dirham"
 msgstr ""
 
 #: src/formats.c:254
-#, fuzzy
 msgid "[$MDL]"
-msgstr "[$BMD]"
+msgstr "[$MDL]"
 
 #: src/formats.c:254
 msgid "Moldovan leu"
@@ -5086,14 +5025,12 @@ msgid "Tanzanian shilling"
 msgstr ""
 
 #: src/formats.c:309
-#, fuzzy
 msgid "[$UAH]"
-msgstr "[$ADP]"
+msgstr "[$UAH]"
 
 #: src/formats.c:309
-#, fuzzy
 msgid "Ukrainian hryvnia"
-msgstr "Iranska rial"
+msgstr "Ukrainska hryvnia"
 
 #: src/formats.c:310
 msgid "[$UGX]"
@@ -5101,7 +5038,7 @@ msgstr "[$UGX]"
 
 #: src/formats.c:310
 msgid "Ugandan shilling"
-msgstr ""
+msgstr "Ugandska shilling"
 
 #: src/formats.c:311
 msgid "[$USD]"
@@ -5165,7 +5102,7 @@ msgstr "[$XEU]"
 
 #: src/formats.c:318
 msgid "European currency unit"
-msgstr ""
+msgstr "Gemensamma europeiska valutan"
 
 #: src/formats.c:319
 msgid "[$YDD]"
@@ -7052,7 +6989,6 @@ msgstr ""
 "@SEEALSO=PV"
 
 #: src/functions/fn-financial.c:691
-#, fuzzy
 msgid ""
 "@FUNCTION=DB\n"
 "@SYNTAX=DB(cost,salvage,life,period[,month])\n"
@@ -7076,10 +7012,9 @@ msgstr ""
 "avskrivningen. Om @månad utelämnas, antas antalet vara 12 månader.\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=DDB,SLN,SYD,VDB"
+"@SEEALSO=DDB,SLN,SYD"
 
 #: src/functions/fn-financial.c:745
-#, fuzzy
 msgid ""
 "@FUNCTION=DDB\n"
 "@SYNTAX=DDB(cost,salvage,life,period[,factor])\n"
@@ -7105,7 +7040,7 @@ msgstr ""
 "värdet 2 (dubbel degressiv avskrivning).\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=SLN,SYD,VDB"
+"@SEEALSO=SLN,SYD"
 
 #: src/functions/fn-financial.c:793
 msgid ""
@@ -8727,7 +8662,6 @@ msgstr ""
 "@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:345
-#, fuzzy
 msgid ""
 "@FUNCTION=ASINH\n"
 "@SYNTAX=ASINH(x)\n"
@@ -8743,14 +8677,13 @@ msgstr ""
 "@FUNCTION=ASINH\n"
 "@SYNTAX=ASINH(x)\n"
 "@DESCRIPTION=ASINH beräknar inversen till sinus hyperbolicus av @x; det vill "
-"säga det värde vars SINH är @x. Om @x är mindre än 1.0, returnerar ASINH "
-"felet NUM! Denna funktion är kompatibel med Excel.\n"
+"säga det värde vars SINH är @x. Denna funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
-"ASINH(0.5) är lika med 0.481212. ASINH(1.0) är lika med 0.881374.\n"
+"ASINH(0.5) är lika med 0.481212.\n"
+"ASINH(1.0) är lika med 0.881374.\n"
 "@SEEALSO=ASIN, ACOSH, SIN, COS, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:369
-#, fuzzy
 msgid ""
 "@FUNCTION=ATAN\n"
 "@SYNTAX=ATAN(x)\n"
@@ -8769,11 +8702,12 @@ msgstr ""
 "tangens är @x. Resultatet ges i radianer. Denna funktion är kompatibel med "
 "Excel.\n"
 "@EXAMPLES=\n"
+"ATAN(0.5) är lika med 0,463648.\n"
+"ATAN(1) är lika med 0,785398.\n"
 "\n"
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:394
-#, fuzzy
 msgid ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
@@ -8793,11 +8727,12 @@ msgstr ""
 "säga det värde vars tanh är @x. Om absolutvärdet av @x är större än 1.0, "
 "returnerar ATANH felvärdet NUM! Denna funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
-"ATANH(0.5) är lika med 0.549306. ATANH(0.8) är lika med 1.098612.\n"
+"ATANH(0.5) är lika med 0.549306.\n"
+"ATANH(0.8) är lika med 1.098612.\n"
+"\n"
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:426
-#, fuzzy
 msgid ""
 "@FUNCTION=ATAN2\n"
 "@SYNTAX=ATAN2(b1,b2)\n"
@@ -8819,11 +8754,12 @@ msgstr ""
 "kvadrant resultatet ska ligga i. Resultatet ges i radianer. Denna funktion "
 "är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
-"ATAN2(0.5,1.0) är lika med 1.107149. ATAN2(-0.5,2.0) är lika med 1.815775.\n"
+"ATAN2(0.5,1.0) är lika med 1.107149.\n"
+"ATAN2(-0.5,2.0) är lika med 1.815775.\n"
+"\n"
 "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:454
-#, fuzzy
 msgid ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
@@ -8841,8 +8777,10 @@ msgstr ""
 "@DESCRIPTION=Funktionen CEIL avrundar @x uppåt till närmsta heltal.\n"
 "Denna funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
-"CEIL(0.4) är lika med 1. CEIL(-1.1) är lika med -1. CEIL(-2.9) är lika med "
-"-2.\n"
+"CEIL(0.4) är lika med 1.\n"
+"CEIL(-1.1) är lika med -1.\n"
+"CEIL(-2.9) är lika med -2.\n"
+"\n"
 "@SEEALSO=ABS, FLOOR, INT"
 
 #: src/functions/fn-math.c:478
@@ -8899,7 +8837,6 @@ msgstr ""
 "@SEEALSO=COUNTIF,SUM"
 
 #: src/functions/fn-math.c:721
-#, fuzzy
 msgid ""
 "@FUNCTION=CEILING\n"
 "@SYNTAX=CEILING(x,significance)\n"
@@ -8922,7 +8859,9 @@ msgstr ""
 "Om @x och @significance har olika tecken, returneras felet #NUM!. Denna "
 "funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
-"CEILING(2.43,1) är lika med 3. CEILING(123.123,3) är lika med 126.\n"
+"CEILING(2.43,1) är lika med 3.\n"
+"CEILING(123.123,3) är lika med 126.\n"
+"\n"
 "@SEEALSO=CEIL"
 
 #: src/functions/fn-math.c:762
@@ -8948,7 +8887,6 @@ msgstr ""
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 
 #: src/functions/fn-math.c:786
-#, fuzzy
 msgid ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
@@ -8967,7 +8905,9 @@ msgstr ""
 "matematisk såsom (exp(@x) + exp(-@x)) / 2. @x anges i radianer. Denna "
 "funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
-"COSH(0.5) är lika med 1.127626.COSH(1) är lika med 1.543081.\n"
+"COSH(0.5) är lika med 1.127626.\n"
+"COSH(1) är lika med 1.543081.\n"
+"\n"
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 
 #: src/functions/fn-math.c:811
@@ -9399,7 +9339,6 @@ msgstr ""
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
 #: src/functions/fn-math.c:1454
-#, fuzzy
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -9419,7 +9358,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "SQRT(2) är lika med 1.4142136.\n"
 "\n"
-"@SEEALSO=POW"
+"@SEEALSO=POWER"
 
 #: src/functions/fn-math.c:1482
 msgid ""
@@ -10151,7 +10090,6 @@ msgstr ""
 "@SEEALSO=COUNT,SUM"
 
 #: src/functions/fn-math.c:3014
-#, fuzzy
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
@@ -11938,7 +11876,6 @@ msgid "Statistics"
 msgstr "Statistik"
 
 #: src/functions/fn-string.c:23
-#, fuzzy
 msgid ""
 "@FUNCTION=CHAR\n"
 "@SYNTAX=CHAR(x)\n"
@@ -11951,6 +11888,9 @@ msgstr ""
 "@FUNCTION=CHAR\n"
 "@SYNTAX=CHAR(x)\n"
 "@DESCRIPTION=Returnerar ASCII-tecknet som representeras av talet @x.\n"
+"@EXAMPLES=\n"
+"CHAR(65) är lika med A.\n"
+"\n"
 "@SEEALSO=CODE"
 
 #: src/functions/fn-string.c:49
@@ -12156,7 +12096,6 @@ msgid "Invalid argument"
 msgstr "Ogiltigt argument"
 
 #: src/functions/fn-string.c:416
-#, fuzzy
 msgid ""
 "@FUNCTION=CLEAN\n"
 "@SYNTAX=CLEAN(string)\n"
@@ -12428,23 +12367,20 @@ msgstr ""
 "@SEEALSO=FIND"
 
 #: src/gnumeric-util.c:602
-#, fuzzy, c-format
 msgid "Unable to open file '%s'"
-msgstr "kan inte öppna modulfilen: "
+msgstr "Kan inte öppna filen \"%s\""
 
 #: src/history.c:104
 msgid "/File/"
-msgstr ""
+msgstr "/Arkiv/"
 
 #: src/history.c:136 src/history.c:158
-#, fuzzy
 msgid "File/Print preview"
 msgstr "Förhandsgranskning"
 
 #: src/history.c:204
-#, fuzzy
 msgid "File/"
-msgstr "Titel"
+msgstr "Arkiv/"
 
 #: src/item-bar.c:480
 #, c-format
@@ -12645,9 +12581,8 @@ msgid "Error while closing file, error : %s"
 msgstr ""
 
 #: src/plugin-util.c:178
-#, fuzzy, c-format
 msgid "Unable to mmap the file, error : %s"
-msgstr "Kan inte minnesmappa (mmap) filen"
+msgstr "Kan inte minnesmappa (mmap) filen, fel: %s"
 
 #: src/plugin.c:65
 #, c-format
@@ -12764,9 +12699,8 @@ msgstr "tid"
 
 #. Note: we cannot have spaces in page numbers.
 #: src/print.c:366
-#, fuzzy
 msgid "&[PAGE]"
-msgstr "Sida &[PAGE]"
+msgstr "&[PAGE]"
 
 #: src/print.c:793 src/workbook.c:1853
 msgid "Selection must be a single range"
@@ -12777,23 +12711,20 @@ msgid "Print Sheets"
 msgstr "Skriv ut blad"
 
 #: src/print.c:909
-#, fuzzy
 msgid "Act_ive sheet"
-msgstr "Aktiva blad"
+msgstr "Aktivt blad"
 
 #: src/print.c:909
-#, fuzzy
 msgid "S_heets"
-msgstr "Blad"
+msgstr "_Blad"
 
 #: src/print.c:987 src/workbook.c:1137 src/workbook.c:1458
 msgid "Print preview"
 msgstr "Förhandsgranskning"
 
 #: src/selection.c:149
-#, fuzzy, c-format
 msgid "The command `%s' cannot be performed with multiple selections"
-msgstr "' kan inte utföras med multipla markeringar"
+msgstr "Kommandot \"%s\" kan inte utföras med flera markeringade områden"
 
 #. FIXME FIXME : disable copying part of an array
 #: src/selection.c:628
@@ -12827,9 +12758,8 @@ msgstr "Knapp"
 
 #: src/sheet-object.c:769 src/sheet-object.c:772 src/workbook.c:1105
 #: src/workbook.c:1108
-#, fuzzy
 msgid "Select an object to add"
-msgstr "Välj ett objekt"
+msgstr "Välj ett objekt att lägga till"
 
 #: src/sheet-view.c:461
 #, c-format
@@ -12855,61 +12785,53 @@ msgid "I was unable to the bind object"
 msgstr "Kunde inte binda objektet"
 
 #: src/solver-lp.c:889
-#, fuzzy
 msgid "Answer Report"
-msgstr "_Infoga"
+msgstr "Svarsrapport"
 
 #: src/solver-lp.c:890
-#, fuzzy
 msgid "Gnumeric Solver Answer Report"
-msgstr "Parametrar för Gnumeric problemlösning"
+msgstr "Svarsrapport för Gnumeric problemlösning"
 
 #: src/solver-lp.c:894
 msgid "Target Cell (Maximize)"
-msgstr ""
+msgstr "Målcell (maximera)"
 
 #: src/solver-lp.c:896
 msgid "Target Cell (Minimize)"
-msgstr ""
+msgstr "Målcell (minimera)"
 
 #: src/solver-lp.c:898 src/solver-lp.c:925 src/solver-lp.c:960
 #: src/solver-lp.c:1058 src/solver-lp.c:1110
-#, fuzzy
 msgid "Name"
-msgstr "Namnlös"
+msgstr "Namn"
 
 #: src/solver-lp.c:899 src/solver-lp.c:926
 msgid "Original Value"
-msgstr ""
+msgstr "Originalvärde"
 
 #: src/solver-lp.c:900 src/solver-lp.c:927
-#, fuzzy
 msgid "Final Value"
-msgstr "b-värde"
+msgstr "Slutvärde"
 
 #: src/solver-lp.c:923 src/solver-lp.c:1051
 msgid "Adjustable Cells"
-msgstr ""
+msgstr "Justerbara celler"
 
 #: src/solver-lp.c:958 src/solver-lp.c:1101
-#, fuzzy
 msgid "Constraints"
-msgstr "Lägg till restriktion"
+msgstr "Restriktioner"
 
 #: src/solver-lp.c:961
-#, fuzzy
 msgid "Cell Value"
-msgstr "b-värde"
+msgstr "Cellvärde"
 
 #: src/solver-lp.c:962
-#, fuzzy
 msgid "Formula"
-msgstr "Formler"
+msgstr "Formel"
 
 #: src/solver-lp.c:963
-#, fuzzy
 msgid "Status"
-msgstr "Statistik"
+msgstr "Status"
 
 #: src/solver-lp.c:964
 #, fuzzy
@@ -12917,33 +12839,28 @@ msgid "Slack"
 msgstr "svart"
 
 #: src/solver-lp.c:1012
-#, fuzzy
 msgid "Binding"
-msgstr "Stigande"
+msgstr "Bindande"
 
 #: src/solver-lp.c:1014
-#, fuzzy
 msgid "Not Binding"
-msgstr "Sortera stigande"
+msgstr "Icke bindande"
 
 #: src/solver-lp.c:1049
-#, fuzzy
 msgid "Sensitivity Report"
-msgstr "_Matematik"
+msgstr "Känslighetsrapport"
 
 #: src/solver-lp.c:1050
-#, fuzzy
 msgid "Gnumeric Solver Sensitivity Report"
-msgstr "Parametrar för Gnumeric problemlösning"
+msgstr "Känslighetsrapport för Gnumeric problemlösning"
 
 #: src/solver-lp.c:1052 src/solver-lp.c:1103
-#, fuzzy
 msgid "Final"
-msgstr "Finansiella"
+msgstr "Slutgiltigt"
 
 #: src/solver-lp.c:1053
 msgid "Reduced"
-msgstr ""
+msgstr "Minskad"
 
 #: src/solver-lp.c:1054
 #, fuzzy
@@ -12956,69 +12873,64 @@ msgid "Allowable"
 msgstr ""
 
 #: src/solver-lp.c:1060
-#, fuzzy
 msgid "Cost"
-msgstr "Räkna"
+msgstr "Kostnad"
 
 #: src/solver-lp.c:1061
 msgid "Coefficient"
-msgstr ""
+msgstr "Koeeficient"
 
 #: src/solver-lp.c:1062 src/solver-lp.c:1114
 msgid "Increase"
-msgstr ""
+msgstr "Öka"
 
 #: src/solver-lp.c:1063 src/solver-lp.c:1115
-#, fuzzy
 msgid "Decrease"
-msgstr "December"
+msgstr "Minska"
 
 #: src/solver-lp.c:1104
 msgid "Shadow"
-msgstr ""
+msgstr "Skugga"
 
 #: src/solver-lp.c:1105
-#, fuzzy
 msgid "Constraint"
-msgstr "Lägg till restriktion"
+msgstr "Restriktion"
 
 #: src/solver-lp.c:1112
-#, fuzzy
 msgid "Price"
-msgstr "Förhandsgranskning"
+msgstr "Pris"
 
 #: src/solver-lp.c:1113
 msgid "R.H. Side"
-msgstr ""
+msgstr "Höger sida"
 
 #: src/stf.c:122
 msgid "Error while trying to memory map file"
-msgstr ""
+msgstr "Fel uppstod under skrivning till minnesmapp"
 
 #: src/stf.c:132
 msgid "Error while trying to pre-convert file"
-msgstr ""
+msgstr "Fel uppstop under förkonvertering"
 
 #: src/stf.c:143
 msgid "This file does not seem to be a valid text file"
-msgstr ""
+msgstr "Filen verkar inte vara en giltig textfil"
 
 #: src/stf.c:171
 msgid "Parse error while trying to parse data into sheet"
-msgstr ""
+msgstr "Fel uppstod under parsning av data"
 
 #: src/stf.c:300
 msgid "Error while trying to write csv file"
-msgstr ""
+msgstr "Fel uppstod under skrivning av csv-fil"
 
 #: src/stf.c:325
 msgid "Text File import"
-msgstr ""
+msgstr "Import av textfil"
 
 #: src/stf.c:328
-#, fuzzy
 msgid "Text File Export (*.csv)"
-msgstr "LaTeX-filformat (*.tex)"
+msgstr "Textformatsexport (*.csv)"
 
 #: src/style.c:435
 msgid ""
@@ -13062,9 +12974,8 @@ msgid "#NUM!"
 msgstr "#NUM!"
 
 #: src/value-sheet.c:422
-#, fuzzy
 msgid "#RECALC!"
-msgstr "#REF!"
+msgstr "#RECALC!"
 
 #: src/value.c:562
 msgid "Terminate"
@@ -13357,9 +13268,8 @@ msgid "Font selector"
 msgstr "Typsnittsväljare"
 
 #: src/workbook-format-toolbar.c:607
-#, fuzzy
 msgid "Size"
-msgstr "Storlek:"
+msgstr "Storlek"
 
 #: src/workbook-format-toolbar.c:621
 msgid "Font Size"
@@ -13381,9 +13291,8 @@ msgid "Foreground"
 msgstr "Förgrund"
 
 #: src/workbook-view.c:59
-#, fuzzy
 msgid "Nothing"
-msgstr "Sträng"
+msgstr "Ingenting"
 
 #. FIXME : How to avoid hard coding the menu name here.
 #: src/workbook-view.c:79 src/workbook-view.c:83 src/workbook.c:1476
@@ -13395,9 +13304,8 @@ msgid "Redo"
 msgstr "Gör om"
 
 #: src/workbook-view.c:116
-#, fuzzy
 msgid " : Gnumeric"
-msgstr "Gnumeric"
+msgstr " : Gnumeric"
 
 #: src/workbook.c:530
 msgid "Warning"
@@ -13481,13 +13389,12 @@ msgid "Clear the selected cells' contents"
 msgstr "Ta bort markerade cellers innehåll"
 
 #: src/workbook.c:1182
-#, fuzzy
 msgid "P_aste special..."
-msgstr "Klistra in special"
+msgstr "K_listra in special..."
 
 #: src/workbook.c:1183
 msgid "Paste with optional filters and transformations"
-msgstr ""
+msgstr "Klistra in med filter och transformationer"
 
 #: src/workbook.c:1186
 msgid "C_lear"
@@ -13495,15 +13402,15 @@ msgstr "_Ta bort"
 
 #: src/workbook.c:1189
 msgid "Remove selected cells, shifting other into their place"
-msgstr ""
+msgstr "Ta bort markerade celler, och skifta in andra celler"
 
 #: src/workbook.c:1191
 msgid "De_lete Sheet"
-msgstr "Ta bort blad"
+msgstr "Ta _bort blad"
 
 #: src/workbook.c:1192
 msgid "Irrevocably remove an entire sheet"
-msgstr ""
+msgstr "Ta bort ett blad, oåterkalleligen"
 
 #. Default <Ctrl-A> to be select all
 #: src/workbook.c:1198
@@ -13709,7 +13616,7 @@ msgstr "_Målsökning..."
 
 #: src/workbook.c:1390
 msgid "Iteratively recalculate to find a target value"
-msgstr ""
+msgstr "Upprepa beräkningar för att hitta en målvärde"
 
 #: src/workbook.c:1392
 msgid "_Solver..."
@@ -13717,16 +13624,15 @@ msgstr "_Problemlösare..."
 
 #: src/workbook.c:1393
 msgid "Iteratively recalculate with constraints to approach a target value"
-msgstr ""
+msgstr "Upprepa beräkningar med vissa restriktioner för att närma sig ett målvärde"
 
 #: src/workbook.c:1398
 msgid "_Data Analysis..."
 msgstr "_Dataanalys..."
 
 #: src/workbook.c:1399
-#, fuzzy
 msgid "Statistical methods."
-msgstr "Statistik"
+msgstr "Statistika metoder"
 
 #: src/workbook.c:1407
 msgid "_Sort..."
@@ -13809,27 +13715,24 @@ msgid "Pastes the clipboard"
 msgstr "Klistrar in från urklipp"
 
 #: src/workbook.c:1476
-#, fuzzy
 msgid "Undo the operation"
-msgstr "Okänd operator"
+msgstr "Ångra kommandot"
 
 #: src/workbook.c:1479
-#, fuzzy
 msgid "Redo the operation"
-msgstr "Slumptalsgenerering"
+msgstr "Gör om kommandot"
 
 #: src/workbook.c:1485
 msgid "Sum into the current cell."
-msgstr ""
+msgstr "Summa i nuvarande cell."
 
 #: src/workbook.c:1489
-#, fuzzy
 msgid "Function"
-msgstr "Åtgärd"
+msgstr "Function"
 
 #: src/workbook.c:1489
 msgid "Edit a function in the current cell."
-msgstr ""
+msgstr "Ändra en function i nuvarand cell."
 
 #: src/workbook.c:1494
 msgid "Sort Ascending"
@@ -13840,6 +13743,8 @@ msgid ""
 "Sorts the selected region in ascending order based on the first column "
 "selected."
 msgstr ""
+"Sortera det markerade området i stigande ordning, utgående från den "
+"först markerade kolumnen." 
 
 #: src/workbook.c:1497
 msgid "Sort Descending"
@@ -13850,6 +13755,8 @@ msgid ""
 "Sorts the selected region in descending order based on the first column "
 "selected."
 msgstr ""
+"Sortera det markerade området i sjunkande ordning, utgående från den "
+"först markerade kolumnen." 
 
 #: src/workbook.c:1504
 msgid "Creates a graphic"
@@ -13857,7 +13764,7 @@ msgstr "Skapar en graf"
 
 #: src/workbook.c:1504
 msgid "Invokes the graphic wizard to create a graphic"
-msgstr ""
+msgstr "Startar en graf-wizard för att skapa en graf"
 
 #: src/workbook.c:1507
 msgid "Insert Object"
@@ -13933,18 +13840,17 @@ msgid "Book%d.gnumeric"
 msgstr "Bok%d.gnumeric"
 
 #: src/workbook.c:2741
-#, fuzzy
 msgid "Sheet name"
-msgstr "Blad 1"
+msgstr "Bladnamn"
 
 #: src/workbook.c:2742
 msgid "must have at least 1 letter"
-msgstr ""
+msgstr "måste ha åtminstone 1 bokstav"
 
+# Duplicate som i att det redan finns
 #: src/workbook.c:2749
-#, fuzzy
 msgid "Duplicate Sheet name"
-msgstr "Ta bort blad"
+msgstr "Upptaget bladnamn"
 
 #: src/workbook.c:2900
 msgid "Add another sheet"
@@ -13959,21 +13865,20 @@ msgid "Rename this sheet"
 msgstr "Byt namn på detta blad"
 
 #: src/workbook.c:2903
-#, fuzzy
 msgid "Re-order sheets"
 msgstr "Ändra ordning på blad"
 
 #: src/xml-io.c:3134
 msgid "Invalid xml clipboard data. Tree is empty ?"
-msgstr ""
+msgstr "Ogiltig xmldata i klippboken. Är trädet tomt?"
 
 #: src/xml-io.c:3175
 msgid "Invalid xml file. Tree is empty ?"
-msgstr ""
+msgstr "Ogiltig xmlfil, är trädet tomt?"
 
 #: src/xml-io.c:3189
 msgid "Is not an Workbook file"
-msgstr ""
+msgstr "Är inte en arbetsboksfil"
 
 #: src/xml-io.c:3254
 msgid "Gnumeric XML file format"
@@ -14037,69 +13942,64 @@ msgid "Stacked lines with markers, 100%.  FIXME: Add nice explanation"
 msgstr ""
 
 #: wizards/graphics/graphic-type.c:190
-#, fuzzy
 msgid "Scatter points"
-msgstr "punkter"
+msgstr "Datapunkter"
 
 #: wizards/graphics/graphic-type.c:207
 msgid "Scatter points connected with lines"
-msgstr ""
+msgstr "Datapunkter sammankopplade med linjer"
 
 #: wizards/graphics/graphic-type.c:224
 msgid "Scatter data connected with lines"
-msgstr ""
+msgstr "Datapunkter sammankopplade med linjer"
 
 #: wizards/graphics/graphic-type.c:245
 msgid "Area 1: FIXME add nice description"
-msgstr ""
+msgstr "Area 1: FIXME"
 
 #: wizards/graphics/graphic-type.c:257
 msgid "Stacked area.  FIXME: add nic description"
-msgstr ""
+msgstr "Stacked area. FIXME"
 
 #: wizards/graphics/graphic-type.c:270
 msgid "Stacked Area, 100%.  FIXME: add nice description"
-msgstr ""
+msgstr "Stacked Area, 100%.  FIXME: add nice description"
 
 #: wizards/graphics/graphic-type.c:289
-#, fuzzy
 msgid "Column"
-msgstr "Kolumner"
+msgstr "Kolumn"
 
 #: wizards/graphics/graphic-type.c:290
 msgid "Bar"
-msgstr ""
+msgstr "Stapel"
 
 #: wizards/graphics/graphic-type.c:291
-#, fuzzy
 msgid "Lines"
-msgstr "Linje"
+msgstr "Linjer"
 
 #: wizards/graphics/graphic-type.c:292
-#, fuzzy
 msgid "Scatter"
-msgstr "Mönster"
+msgstr "Datapunkter"
 
 #: wizards/graphics/graphic-type.c:293
-#, fuzzy
 msgid "Areas"
-msgstr "Fält"
+msgstr "Områden"
 
 #: wizards/graphics/main.c:85
 msgid "Step 1 of 3: Select graphic type"
-msgstr ""
+msgstr "Steg 1 av 3: Välj graftyp"
 
 #: wizards/graphics/main.c:88
 msgid "Step 2 of 3: Select data ranges"
-msgstr ""
+msgstr "Steg 2 av 3: Välj dataområden"
 
 #: wizards/graphics/main.c:91
 msgid "Step 3 of 3: Customize graphic"
-msgstr ""
+msgstr "Steg 3 av 3: Anpassa grafen"
 
 #: wizards/graphics/main.c:174
 msgid "Unable to launch the graphics service"
-msgstr ""
+msgstr "Kunde inte starta grafservicen"
 
 #~ msgid "Lotus (*.wk1) file format"
 #~ msgstr "Lotus-filformat (*.wk1)"
