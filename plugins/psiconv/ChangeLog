@@ -1,3 +1,16 @@
+2004-08-17  Jon K Hellan  <hellan@acm.org>
+
+	* psiconv-read.c (psi_new_string): Change type of data argument to
+	psiconv_ucs2 
+	(cellref_init): Rename to p_cellref_init because of name collision.
+	(set_layout, parse_subexpr, expr_new_from_formula, add_cell):
+	Minor fixes to shut up warnings.
+	(add_workbook): Initialize iconv.
+	(psiconv_file_to_buffer): Rename to psiconv_stream_to_buffer and
+	take input from libgsf.
+	(psiconv_read, psiconv_read_header): Updates to recent psiconv and
+	cleanups.
+	
 2004-07-19  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.3.1

@@ -58,11 +58,11 @@ typedef struct {
 
 
 static GnmValue *
-psi_new_string (PsiState *state, gchar const *data)
+psi_new_string (PsiState *state, psiconv_ucs2 const *data)
 {
 	return value_new_string_nocopy (
-		g_convert_with_iconv (data, -1, state->converter,
-				      NULL, NULL, NULL));
+		g_convert_with_iconv ((gchar const *) data, -1, 
+				      state->converter, NULL, NULL, NULL));
 }
 
 
@@ -80,9 +80,9 @@ append_zeros (char *s, int n)
 
 
 static GnmCellRef *
-cellref_init (GnmCellRef *res,
-	      int row, gboolean row_abs,
-	      int col, gboolean col_abs)
+p_cellref_init (GnmCellRef *res,
+		int row, gboolean row_abs,
+		int col, gboolean col_abs)
 {
 	res->sheet = NULL;
 	res->row = row;
@@ -202,7 +202,8 @@ set_layout(GnmStyle * style,const psiconv_sheet_cell_layout psi_layout)
 	                      psi_layout->character->underline?TRUE:FALSE);
 	mstyle_set_font_strike(style,
 	                       psi_layout->character->strikethrough?TRUE:FALSE);
-	mstyle_set_font_name(style,psi_layout->character->font->name);
+	mstyle_set_font_name(style,
+			     (const char *) psi_layout->character->font->name);
 	color = get_color(psi_layout->character->color);
 	if (color)
 		mstyle_set_color(style,MSTYLE_COLOR_FORE,color);
@@ -258,15 +259,14 @@ value_new_from_psi_cell(PsiState *state, const psiconv_sheet_cell psi_cell)
 	return NULL;
 }
 
-static GnmExpr *
+static GnmExpr const *
 parse_subexpr(PsiState *state, const psiconv_formula psi_formula)
 {
 	int nrargs=0; /* -1 for variable */
 	int kind=-1; /* 0 for dat, 1 for operator, 2 for formula, 3 for special,
 	               -1 for unknown */
 	psiconv_formula psi_form1,psi_form2;
-	GnmExpr *expr1=NULL,*expr2=NULL;
-	GnmCellRef *cr1=NULL,*cr2=NULL;
+	GnmExpr const *expr1=NULL,*expr2=NULL;
 
 	switch(psi_formula->type) {
 		/* Translates values */
@@ -314,8 +314,8 @@ parse_subexpr(PsiState *state, const psiconv_formula psi_formula)
 	/*	case psiconv_formula_mark_opsep: */
 	/*	case psiconv_formula_mark_opend: */
 		default:
-	/*		kind = -1; */
-	/*		break;     */
+			kind = -1;
+			break;
 	}
 
 	if (kind == -1) {
@@ -332,17 +332,19 @@ parse_subexpr(PsiState *state, const psiconv_formula psi_formula)
 			v = value_new_int(psi_formula->data.dat_int);
 			break;
 		case psiconv_formula_dat_string:
+			/* FIXME: Unicode problem. 
+			   See PsiState - state->converter is unintialized */
 			v = psi_new_string(state, psi_formula->data.dat_string);
 			break;
 		case psiconv_formula_dat_cellblock: {
 			GnmCellRef cr1, cr2;
 
-			cellref_init (&cr1,
+			p_cellref_init (&cr1,
 				psi_formula->data.dat_cellblock.first.row.offset,
 				psi_formula->data.dat_cellblock.first.row.absolute,
 				psi_formula->data.dat_cellblock.first.column.offset,
 				psi_formula->data.dat_cellblock.first.column.absolute);
-			cellref_init (&cr2,
+			p_cellref_init (&cr2,
 				psi_formula->data.dat_cellblock.last.row.offset,
 				psi_formula->data.dat_cellblock.last.row.absolute,
 				psi_formula->data.dat_cellblock.last.column.offset,
@@ -352,6 +354,7 @@ parse_subexpr(PsiState *state, const psiconv_formula psi_formula)
 			break;
 		}
 		default:
+			break;
 		}
 		if (!v)
 			return NULL;
@@ -410,7 +413,7 @@ parse_subexpr(PsiState *state, const psiconv_formula psi_formula)
 		switch(psi_formula->type) {
 		case psiconv_formula_dat_cellref: {
 			GnmCellRef cr;
-			return gnm_expr_new_cellref (cellref_init (&cr,
+			return gnm_expr_new_cellref (p_cellref_init (&cr,
 				psi_formula->data.dat_cellref.row.offset,
 			        psi_formula->data.dat_cellref.row.absolute,
 			        psi_formula->data.dat_cellref.column.offset,
@@ -423,13 +426,14 @@ parse_subexpr(PsiState *state, const psiconv_formula psi_formula)
 				return NULL;
 			return parse_subexpr(state, psi_form1);
 		default:
+			break;
 		}
 	}
 
 	return NULL;
 }
 
-static GnmExpr *
+static GnmExpr const *
 expr_new_from_formula (PsiState *state,
 		       const psiconv_sheet_cell psi_cell,
 		       const psiconv_formula_list psi_formulas)
@@ -447,8 +451,7 @@ add_cell (PsiState *state, Sheet *sheet, const psiconv_sheet_cell psi_cell,
 {
 	GnmCell *cell;
 	GnmValue *val;
-	GnmExpr *expr;
-	psiconv_formula psi_formula;
+	GnmExpr const *expr = NULL;
 
 	cell = sheet_cell_fetch (sheet, psi_cell->column, psi_cell->row);
 	if (!cell)
@@ -464,14 +467,14 @@ add_cell (PsiState *state, Sheet *sheet, const psiconv_sheet_cell psi_cell,
 		 * How does it store a user entered date ?
 		 */
 		if (val != NULL)
-			cell_set_expr_and_value (cell, expr, val, NULL, TRUE);
+			cell_set_expr_and_value (cell, expr, val, TRUE);
 		else
-			cell_set_expr (cell, expr, NULL);
+			cell_set_expr (cell, expr);
 	} else if (val != NULL) {
 		/* TODO : is there a notion of parse format ?
 		 * How does it store a user entered date ?
 		 */
-		cell_set_value (cell, val, NULL);
+		cell_set_value (cell, val);
 	} else {
 		/* TODO : send this warning to iocontext with details of
 		 * which sheet and cell.
@@ -540,16 +543,24 @@ add_workbook(Workbook *wb, psiconv_sheet_workbook_section psi_workbook)
 {
 	psiconv_u32 i;
 	psiconv_sheet_worksheet psi_worksheet;
+	PsiState state;
+
+	state.converter = g_iconv_open ("UTF-8", "UCS-2");
+	if (state.converter == (GIConv) -1) {
+		g_message ("g_iconv_open failed");
+		return;
+	}
 
 	/* TODO: Perhaps add formulas and share them? */
 	for (i = 0; i < psiconv_list_length(psi_workbook->worksheets); i++) {
 		/* If psiconv_list_get fails, something is very wrong... */
 		if ((psi_worksheet = psiconv_list_get
 		                                 (psi_workbook->worksheets,i)))
-			add_worksheet(state, wb,psi_worksheet,i,
+			add_worksheet(&state, wb,psi_worksheet,i,
 			              psi_workbook->formulas);
 	}
 
+	g_iconv_close (state.converter);
 	workbook_queue_all_recalc (wb);
 }
 
@@ -563,64 +574,104 @@ add_sheetfile(Workbook *wb, psiconv_sheet_f psi_file)
 
 
 static psiconv_buffer
-psiconv_file_to_buffer (GsfInput *input)
+psiconv_stream_to_buffer (GsfInput *input, int maxlen)
 {
 	psiconv_buffer buf;
+	gsf_off_t size;
+	int len;
 
-	if (!file) {
+	if (!input)
 		return NULL;
-	}
-	if (!(buf = psiconv_buffer_new())) {
+	if ((buf = psiconv_buffer_new()) == NULL)
 		return NULL;
-	}
-#warning BROKEN BROKEN BROKEN someone using this library needs to supply a way to read from GsfInputs
-	if (psiconv_buffer_fread_all(buf,file)) {
+	if (gsf_input_seek (input, 0, G_SEEK_SET) == TRUE) {
 		psiconv_buffer_free(buf);
 		return NULL;
 	}
+
+	size = gsf_input_size (input);
+	if (maxlen > 0 && size > maxlen)
+		size = maxlen;
+	for (; size > 0 ; size -= len) {
+		guint8 const *chunk;
+		int   i;
+
+		len = MIN (4096, size);
+		chunk = gsf_input_read (input, len, NULL);
+		if (chunk == NULL)
+			break;
+		for (i = 0; i<len; i++) {
+			if (psiconv_buffer_add(buf, chunk[i]) != 0) {
+				psiconv_buffer_free(buf);
+				return NULL;
+			}
+		}
+	}
+		
 	return buf;
 }
 
 void
 psiconv_read (IOContext *io_context, Workbook *wb, GsfInput *input)
 {
-	psiconv_buffer buf;
-	psiconv_file psi_file;
+	psiconv_buffer buf ;
+	psiconv_config config   = NULL;
+	psiconv_file   psi_file = NULL;
 
-	if (!(buf = psiconv_file_to_buffer (input))) {
+	if ((buf = psiconv_stream_to_buffer (input, -1)) == NULL) {
 		gnumeric_io_error_info_set (io_context,
 		                            error_info_new_str(_("Error while reading psiconv file.")));
-		return;
+		goto out;
 	}
 
-	/* For temporary debugging purposes */
-	/* psiconv_verbosity = PSICONV_VERB_DEBUG; */
-
-	if (psiconv_parse(buf,&psi_file)) {
+	if ((config = psiconv_config_default()) == NULL)
+		goto out;
+	psiconv_config_read(NULL,&config);
+	if (psiconv_parse(config, buf,&psi_file) != 0 || psi_file == NULL) {
 		gnumeric_io_error_info_set (io_context,
-		                            error_info_new_str(_("Error while parsing psiconv file.")));
-		psiconv_buffer_free(buf);
-		return;
+		                            error_info_new_str(_("Error while parsing Psion file.")));
+		goto out;
 	}
 
-	psiconv_buffer_free(buf);
+	if (psi_file->type == psiconv_sheet_file)
+		add_sheetfile(wb,psi_file->file);
+	else
+		gnumeric_io_error_info_set (io_context,
+		                            error_info_new_str(_("This Psion file is not a Sheet file.")));
+		
 
-	add_sheetfile(wb,psi_file->file);
-
-	psiconv_free_file(psi_file);
+out:
+	if (config)
+		psiconv_config_free(config);
+	if (buf)
+		psiconv_buffer_free(buf);
+	if (psi_file)
+		psiconv_free_file(psi_file);
 }
 
 gboolean
 psiconv_read_header (GsfInput *input)
 {
-	gboolean res;
-	psiconv_buffer buf;
+	gboolean res = FALSE;
+	psiconv_buffer buf = NULL;
+	psiconv_config config;
 
-	if (!(buf = psiconv_file_to_buffer (input)))
-		return FALSE;
+	if ((config = psiconv_config_default()) == NULL)
+		goto out;
+	psiconv_config_read(NULL,&config);
+	config->verbosity = PSICONV_VERB_DEBUG;
 
-	res =  psiconv_file_type(buf,NULL,NULL) == psiconv_sheet_file;
-	psiconv_buffer_free(buf);
+	if ((buf = psiconv_stream_to_buffer (input, 1024)) == NULL)
+		goto out;
+
+	if (psiconv_file_type(config, buf,NULL,NULL) == psiconv_sheet_file)
+		res = TRUE;
+
+out:
+	if (config)
+		psiconv_config_free(config);
+	if (buf)
+		psiconv_buffer_free(buf);
 	return res;
 }
 
