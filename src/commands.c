@@ -226,7 +226,7 @@ undo_global_range_name (Sheet *sheet, Range const *range)
 }
 
 /**
- * checks whetehr the cells are effectively locked
+ * checks whether the cells are effectively locked
  *
  * static gboolean cmd_cell_range_is_locked_effective
  *
@@ -262,7 +262,7 @@ cmd_cell_range_is_locked_effective (Sheet *sheet, Range *range,
 }
 
 /**
- * checks whetehr the cells are effectively locked
+ * checks whether the cells are effectively locked
  *
  * static gboolean cmd_dao_is_locked_effective
  *
