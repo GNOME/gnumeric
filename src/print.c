@@ -235,6 +235,21 @@ print_footers (PrintJobInfo *pj)
 }
 
 static void
+setup_rotation (PrintJobInfo *pj)
+{
+	double affine [6];
+
+	if (pj->pi->orientation == PRINT_ORIENT_VERTICAL)
+		return;
+	
+	art_affine_rotate (affine, 90.0);
+	gnome_print_concat (pj->print_context, affine);
+
+	art_affine_translate (affine, 0, -pj->height);
+	gnome_print_concat (pj->print_context, affine);
+}
+
+static void
 print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row, PrintJobInfo *pj)
 {
 	PrintMargins *margins = &pj->pi->margins;
@@ -247,6 +262,9 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 
 	print_height = sheet_row_get_unit_distance (sheet, start_row, end_row+1);
 
+	if (pj->pi->orientation == PRINT_ORIENT_HORIZONTAL)
+		setup_rotation (pj);
+	
 	if (pj->pi->center_vertically){
 		if (pj->pi->print_titles)
 			print_height += sheet->default_row_style.units;
@@ -558,21 +576,6 @@ print_job_info_destroy (PrintJobInfo *pj)
 	g_free (pj);
 }
 
-static void
-setup_rotation (PrintJobInfo *pj)
-{
-	double affine [6];
-
-	if (pj->pi->orientation == PRINT_ORIENT_VERTICAL)
-		return;
-	
-	art_affine_rotate (affine, 90.0);
-	gnome_print_concat (pj->print_context, affine);
-
-	art_affine_translate (affine, 0, -pj->height);
-	gnome_print_concat (pj->print_context, affine);
-}
-
 void
 sheet_print (Sheet *sheet, gboolean preview,
 	     PrintRange default_range)
@@ -607,9 +610,6 @@ sheet_print (Sheet *sheet, gboolean preview,
 			printer, gnome_paper_name (pj->pi->paper));
 	}
 
-	if (pj->pi->orientation == PRINT_ORIENT_HORIZONTAL)
-		setup_rotation (pj);
-	
 	for (i = 0; i < loop; i++) {
 		switch (pj->range) {
 
