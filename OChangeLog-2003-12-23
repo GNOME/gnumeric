@@ -1,3 +1,21 @@
+2002-09-23  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-view.c (sv_update) : see if there is a named expression that
+	  matches the selection.
+	* src/workbook-view.c (wb_view_selection_desc) : ditto.
+	* src/expr-name.c (sheet_names_check) : new.
+
+	* src/parse-util.c (cellref_a1_get) : add bound check for columns too.
+
+	* src/func.c (function_call_with_list) : silence some pointless
+	  warnings.
+	* src/workbook-control-gui.c (workbook_menu_edit) : fix cut-n-paste-o.
+	(cb_statusbox_focus) : Clear selection on focus out.  I'd like to
+	  select everything on focus in, but gtkentry is not thrilled with
+	  that.
+	* src/workbook-control-gui.c (workbook_setup_edit_area) : connect
+	  cb_status_box_focus.
+
 2002-09-22  Jon K Hellan  <hellan@acm.org>
 
 	* src/func.c (function_dump_defs): Re-enable function doc dumping.

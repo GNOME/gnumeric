@@ -546,7 +546,10 @@ sv_update (SheetView *sv)
 	if (sv->edit_pos_changed.location) {
 		sv->edit_pos_changed.location = FALSE;
 		if (wb_view_cur_sheet_view (sv->wbv) == sv) {
-			char const *new_pos = cell_pos_name (&sv->edit_pos);
+			char const *new_pos = sheet_names_check (sv->sheet,
+				selection_first_range (sv, NULL, NULL));
+			if (new_pos == NULL)
+				new_pos = cell_pos_name (&sv->edit_pos);
 			SHEET_VIEW_FOREACH_CONTROL (sv, sc,
 				wb_control_selection_descr_set (sc_wbc (sc), new_pos););
 		}

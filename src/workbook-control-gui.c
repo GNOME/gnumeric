@@ -3057,7 +3057,8 @@ static GnomeUIInfo workbook_menu_edit [] = {
 	{ GNOME_APP_UI_ITEM, N_("_Goto cell..."),
 		  N_("Jump to a specified cell"),
 		  cb_edit_goto,
-		  GNOME_APP_PIXMAP_STOCK, GTK_STOCK_JUMP_TO, 0, 0, GDK_F5, 0 },
+		  NULL, NULL,
+		  GNOME_APP_PIXMAP_STOCK, GTK_STOCK_JUMP_TO, GDK_F5, 0 },
 
 	{ GNOME_APP_UI_ITEM, N_("Recalculate"),
 		  N_("Recalculate the spreadsheet"),
@@ -3795,11 +3796,21 @@ cb_editline_focus_in (GtkWidget *w, GdkEventFocus *event,
 }
 
 static void
-wb_jump_to_cell (GtkEntry *entry, WorkbookControlGUI *wbcg)
+cb_statusbox_activate (GtkEntry *entry, WorkbookControlGUI *wbcg)
 {
-	wb_control_parse_and_jump (WORKBOOK_CONTROL (wbcg), gtk_entry_get_text (entry));
+	wb_control_parse_and_jump (WORKBOOK_CONTROL (wbcg),
+		gtk_entry_get_text (entry));
 	wbcg_focus_cur_scg (wbcg);
 }
+static gboolean
+cb_statusbox_focus (GtkEntry *entry, GdkEventFocus *event,
+		    WorkbookControlGUI *wbcg)
+{
+	gtk_editable_select_region (GTK_EDITABLE (entry), 0, 0);
+	return FALSE;
+}
+
+/******************************************************************************/
 
 static Value *
 cb_share_a_cell (Sheet *sheet, int col, int row, Cell *cell, gpointer _es)
@@ -3945,10 +3956,14 @@ workbook_setup_edit_area (WorkbookControlGUI *wbcg)
 		"focus-in-event",
 		G_CALLBACK (cb_editline_focus_in), wbcg);
 
-	/* Do signal setup for the status input line */
+	/* status box */
 	g_signal_connect (G_OBJECT (wbcg->selection_descriptor),
 		"activate",
-		G_CALLBACK (wb_jump_to_cell), wbcg);
+		G_CALLBACK (cb_statusbox_activate), wbcg);
+	g_signal_connect (G_OBJECT (wbcg->selection_descriptor),
+		"focus-out-event",
+		G_CALLBACK (cb_statusbox_focus), wbcg);
+
 	gtk_widget_show_all (box2);
 }
 

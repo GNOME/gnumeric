@@ -292,7 +292,7 @@ name_guru_populate_list (NameGuruState *state)
 	gtk_list_clear_items (state->list, 0, -1);
 
 	g_list_free (state->expr_names);
-	state->expr_names = sheet_get_available_names (state->sheet);
+	state->expr_names = sheet_names_get_available (state->sheet);
 
 	list = GTK_CONTAINER (state->list);
 	for (names = state->expr_names ; names != NULL ; names = g_list_next (names)) {

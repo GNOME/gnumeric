@@ -44,6 +44,7 @@ void expr_name_list_destroy (GList **names);
 void expr_name_init       (void);
 void expr_name_shutdown   (void);
 
-GList *sheet_get_available_names (Sheet const *sheet);
+GList	   *sheet_names_get_available (Sheet const *sheet);
+char const *sheet_names_check	      (Sheet const *sheet, Range const *r);
 
 #endif /* GNUMERIC_EXPR_NAME_H */

@@ -22,6 +22,7 @@
 #include "expr-impl.h"
 #include "str.h"
 #include "sheet.h"
+#include "ranges.h"
 #include "sheet-style.h"
 
 #include <gdk/gdkkeysyms.h>
@@ -638,7 +639,7 @@ expr_name_shutdown (void)
 
 /******************************************************************************/
 /**
- * sheet_get_available_names :
+ * sheet_names_get_available :
  * A convenience routine to get the list of names associated with @sheet and its
  * workbook.
  *
@@ -646,7 +647,7 @@ expr_name_shutdown (void)
  * Names in the list do NOT have additional references added.
  */
 GList *
-sheet_get_available_names (Sheet const *sheet)
+sheet_names_get_available (Sheet const *sheet)
 {
 	GList *l = NULL;
 
@@ -656,3 +657,61 @@ sheet_get_available_names (Sheet const *sheet)
 	return g_list_concat (l, g_list_copy (sheet->workbook->names));
 }
 
+static char const *
+namelist_check (GList *ptr, Sheet const *sheet, Range const *r)
+{
+	Value *v;
+	GnmNamedExpr *nexpr;
+
+	for (; ptr != NULL ; ptr = ptr->next) {
+		nexpr = ptr->data;
+		if (!nexpr->active || nexpr->builtin)
+			continue;
+		v = gnm_expr_get_range (nexpr->t.expr_tree);
+		if (v != NULL) {
+			if (v->type == VALUE_CELLRANGE) {
+				RangeRef const *ref = &v->v_range.cell;
+				if (!ref->a.col_relative &&
+				    !ref->a.row_relative &&
+				    !ref->b.col_relative &&
+				    !ref->b.row_relative &&
+				    eval_sheet (ref->a.sheet, sheet) == sheet &&
+				    eval_sheet (ref->b.sheet, sheet) == sheet &&
+				    MIN (ref->a.col, ref->b.col) == r->start.col &&
+				    MAX (ref->a.col, ref->b.col) == r->end.col &&
+				    MIN (ref->a.row, ref->b.row) == r->start.row &&
+				    MAX (ref->a.row, ref->b.row) == r->end.row) {
+					value_release (v);
+					return nexpr->name->str;
+				}
+			}
+			value_release (v);
+		}
+	}
+	return NULL;
+}
+
+/**
+ * sheet_names_check :
+ * @sheet :
+ * @r :
+ *
+ * Returns a constant string if @sheet!@r is the target of a named range.
+ * Preference is given to workbook scope over sheet.
+ **/
+char const *
+sheet_names_check (Sheet const *sheet, Range const *r)
+{
+	char const *res;
+	Range tmp;
+
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+	g_return_val_if_fail (r != NULL, NULL);
+
+	tmp = *r;
+	range_normalize (&tmp);
+	res = namelist_check (sheet->workbook->names, sheet, &tmp);
+	if (res != NULL)
+		return res;
+	return namelist_check (sheet->names, sheet, &tmp);
+}

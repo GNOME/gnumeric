@@ -261,6 +261,8 @@ cellref_a1_get (CellRef *out, char const *in, CellPos const *pos)
 		col = (col + 1) * ('Z' - 'A' + 1) + toupper (uc) - 'A';
 		in++;
 	}
+	if (col >= SHEET_MAX_COLS)
+		return NULL;
 
 	/* Try to parse a row */
 	if (*in == '$') {

@@ -239,9 +239,11 @@ wb_view_selection_desc (WorkbookView *wbv, gboolean use_pos,
 
 		if (use_pos || range_is_singleton (r) ||
 		    (NULL != (m = sheet_merge_is_corner (sv->sheet, &r->start)) &&
-		     range_equal (r, m)))
-			sel_descr = cell_pos_name (&r->start);
-		else
+		     range_equal (r, m))) {
+			sel_descr = sheet_names_check (sv->sheet, r);
+			if (sel_descr == NULL)
+				sel_descr = cell_pos_name (&r->start);
+		} else
 			snprintf (buffer, sizeof (buffer), _("%dR x %dC"),
 				  r->end.row - r->start.row + 1,
 				  r->end.col - r->start.col + 1);

@@ -739,9 +739,9 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 			 GnmExprEvalFlags flags)
 {
 	FunctionDefinition const *fn_def;
-	int	  argc, i, optional, iter_count, iter_width, iter_height;
+	int	  argc, i, optional, iter_count, iter_width = 0, iter_height = 0;
 	char	  arg_type;
-	Value	 *tmp, **args;
+	Value	 **args, *tmp = NULL;
 	GnmExpr  *expr;
 	int 	 *iter_item = NULL;
 
