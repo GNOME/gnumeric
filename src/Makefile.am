@@ -105,6 +105,8 @@ GNUMERIC_BASE_SOURCES =				\
 	item-grid.c				\
 	item-grid.h				\
 	main.h					\
+	mathfunc.c				\
+	mathfunc.h				\
 	number-match.c				\
 	number-match.h				\
 	numbers.h				\

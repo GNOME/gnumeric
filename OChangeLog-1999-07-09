@@ -1,5 +1,32 @@
 1999-05-25  Morten Welinder  <terra@diku.dk>
 
+	* src/mathfunc.c, src/mathfunc.h: New files, mostly taken from the
+ 	R package.  (It's a GPL'ed gold mine.)
+
+	* src/*.c: Use <math.h>, not "math.h".
+
+	* src/utils.c (random_normal): Use qnorm, not inv_phi.
+
+	* src/fn-stat.c: Move all R code to mathfunc.c
+	Change all uses to phi to pnorm.
+	(gnumeric_normsinv): Use qnorm.
+	(gnumeric_confidence): Use qnorm.
+	(normsinv): Superseded by qnorm.
+	(help_lognormdist): Fix.
+	(gnumeric_lognormdist): Fix domain.
+	(gnumeric_lognormdist): Use plnorm.
+	(gnumeric_loginv): Use qlnorm.
+	(gnumeric_norminv): Use qnorm.
+	(gnumeric_tinv): Use qt.
+	(gnumeric_fdist): Use qf.
+	(gnumeric_gammainv): Use qgamma.
+	(gnumeric_chiinv): Use qchisq.
+
+	* src/Makefile.am (GNUMERIC_BASE_SOURCES): Add mathfunc.c and
+ 	mathfunc.h.
+
+1999-05-25  Morten Welinder  <terra@diku.dk>
+
 	* src/fn-string.c (gnumeric_code): Handle compilers for which the
  	"char" type is signed.
 

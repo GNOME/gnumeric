@@ -8,7 +8,7 @@
 #include <config.h>
 #include <gnome.h>
 #include <ctype.h>
-#include "math.h"
+#include <math.h>
 #include "numbers.h"
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"

@@ -14,6 +14,7 @@
 #include <ctype.h>
 #include <gnome.h>
 #include "numbers.h"
+#include "mathfunc.h"
 #include "symbol.h"
 #include "str.h"
 #include "expr.h"
@@ -318,41 +319,10 @@ random_01 (void)
 }
 
 /*
- * Inverse of phi in fn-stat.c
- */
-static double
-inv_phi (double p)
-{
-	double n, d;
-
-	n = 3.321838958688251e-13 +
-		p * (7.288531846813834e-09 +
-		     p * (1.587281649308100e-05 +
-			  p * (4.837481463050555e-03 +
-			       p * (2.220020756154365e-01 +
-				    p * (1.064775942464714e+00 +
-					 p * (-2.860384543179446e+00 +
-					      p * (-3.922138485976291e-01)))))));
-
-	d = -7.680547552825736e-14 +
-		p * (-1.993318382731444e-09 +
-		     p * (-5.122948250742077e-06 +
-			  p * (-1.924970983095964e-03 +
-			       p * (-1.209782803791000e-01 +
-				    p * (-1.240727302298919e+00 +
-					 p * (-8.866611986842328e-01 +
-					      p * (1.000000000000000e+00)))))));
-
-	return n / d;
-}
-
-
-
-/*
  * Generate a N(0,1) distributed number.
  */
 double
 random_normal (void)
 {
-	return inv_phi (random_01 ());
+	return qnorm (random_01 (), 0, 1);
 }
