@@ -1,3 +1,12 @@
+2002-03-08  Jakub Steiner <jimmac@ximian.com>
+
+	* icons/down-right.png, icons/right-down.png: pretty gnome2 icons
+	* src/pixmaps/percent.png: 
+	* src/pixmaps/money.png: 
+	* src/pixmaps/list.png: 
+	* src/pixmaps/combo.png, src/pixmaps/Makefile.am: replace xpm
+	  with a PNG (removed combo.xpm)
+
 2002-03-08  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : add sample_datasource

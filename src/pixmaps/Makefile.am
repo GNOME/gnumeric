@@ -29,8 +29,8 @@ IMAGES = @STRIP_BEGIN@ 						\
 	\
 	add_decimals.xpm	\
 	remove_decimals.xpm	\
-	money.xpm		\
-	percent.xpm		\
+	money.png		\
+	percent.png		\
 	thousands.xpm		\
 	\
 	auto-sum.xpm		\
@@ -47,10 +47,10 @@ IMAGES = @STRIP_BEGIN@ 						\
 	\
 	button.xpm		\
 	object_checkbox_24.png 	\
-	combo.xpm		\
+	combo.png		\
 	object_frame_24.png 	\
 	object_label_24.png 	\
-	list.xpm		\
+	list.png		\
 	radiobutton.xpm		\
 	object_scrollbar_24.png \
 	\
