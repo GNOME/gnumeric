@@ -269,25 +269,136 @@ html_read_table (htmlNodePtr cur, htmlDocPtr doc, WorkbookView *wb_view,
 	}
 }
 
+/* Element types which imply that we are inside a table */
+static const char *table_start_elt_types[] = {
+	"caption",
+	"col",
+	"colgroup",
+	"tbody",
+	"tfoot",
+	"thead",
+	"tr",
+	NULL
+};
+
+/* Element types which imply that we are inside a row */
+static const char *row_start_elt_types[] = {
+	"td",
+	"th",
+	NULL
+};
+
+/* Element types which occur inside tables and rows, but also outside */
+static const char *cont_elt_types[] = {
+	"del",
+	"ins",
+	NULL
+};
+
+static gboolean 
+is_elt_type (htmlNodePtr ptr, const char** types)
+{
+	const char **p;
+	gboolean ret = FALSE;
+
+	for (p = types; *p; p++)
+		if (xmlStrEqual (ptr->name, (xmlChar *)(*p))) {
+			ret = TRUE;
+			break;
+		}
+
+	return ret;
+}
+
+static gboolean
+starts_inferred_table (htmlNodePtr ptr)
+{
+	return ((ptr->type == XML_ELEMENT_NODE) &&
+		is_elt_type (ptr, table_start_elt_types));
+}
+
+static gboolean
+ends_inferred_table (htmlNodePtr ptr)
+{
+	return ((ptr->type == XML_ELEMENT_NODE) &&
+		!(is_elt_type (ptr, table_start_elt_types) ||
+		  is_elt_type (ptr, cont_elt_types)));
+}
+
+static gboolean
+starts_inferred_row (htmlNodePtr ptr)
+{
+	return ((ptr->type == XML_ELEMENT_NODE) &&
+		is_elt_type (ptr, row_start_elt_types));
+}
+
+static gboolean
+ends_inferred_row (htmlNodePtr ptr)
+{
+	return ((ptr->type == XML_ELEMENT_NODE) &&
+		!(is_elt_type (ptr, row_start_elt_types) ||
+		  is_elt_type (ptr, cont_elt_types)));
+}
+
+/*
+ * Handles incomplete html fragments as may occur on the clipboard,
+ * e.g. a <td> without <tr> and <table> in front of it.  
+ */
 static void
 html_search_for_tables (htmlNodePtr cur, htmlDocPtr doc,
 			WorkbookView *wb_view, GnmHtmlTableCtxt *tc)
 {
-    if (cur == NULL) {
-        xmlGenericError(xmlGenericErrorContext,
-		"htmlNodeDumpFormatOutput : node == NULL\n");
-	return;
-    }
+	htmlNodePtr ptr;
 
-    if (cur->type == XML_ELEMENT_NODE) {
-	    htmlNodePtr ptr;
-	    if (xmlStrEqual (cur->name, (xmlChar *)"table")) {
-		    html_read_table (cur, doc, wb_view, tc);
-	    } else {
-		    for (ptr = cur->children; ptr != NULL ; ptr = ptr->next)
-			    html_search_for_tables (ptr, doc, wb_view, tc);
-	    }
-    }
+	if (cur == NULL) {
+		xmlGenericError(xmlGenericErrorContext,
+				"htmlNodeDumpFormatOutput : node == NULL\n");
+		return;
+	}
+	
+	if (cur->type != XML_ELEMENT_NODE)
+		return;
+	
+	if (xmlStrEqual (cur->name, (xmlChar *)"table")) {
+		html_read_table (cur, doc, wb_view, tc);
+	} else if (starts_inferred_table (cur) || starts_inferred_row (cur)) {
+		htmlNodePtr tnode = xmlNewNode (NULL, "table");
+	
+		/* Link in a table node */
+		xmlAddPrevSibling (cur, tnode);
+		if (starts_inferred_row (cur)) {
+			htmlNodePtr rnode   = xmlNewNode (NULL, "tr");
+
+			/* Link in a row node */
+			xmlAddChild (tnode, rnode);
+			/* Make following elements children of the row node,
+			 * until we meet one which isn't legal in a row. */
+			while ((ptr = tnode->next) != NULL) {
+				if (ends_inferred_row (ptr))
+					break;
+				xmlUnlinkNode (ptr);
+				xmlAddChild (rnode, ptr);
+			}
+		}
+		/* Make following elements children of the row node,
+		 * until we meet one which isn't legal in a table. */
+		while ((ptr = tnode->next) != NULL) {
+			if (ends_inferred_table (ptr))
+				break;
+			xmlUnlinkNode (ptr);
+			xmlAddChild (tnode, ptr);
+		}
+		html_read_table (tnode, doc, wb_view, tc);
+	} else {
+		for (ptr = cur->children; ptr != NULL ; ptr = ptr->next) {
+			html_search_for_tables (ptr, doc, wb_view, tc);
+			/* ptr may now have been pushed down in the tree, 
+			 * if so, ptr->next is not the right pointer to 
+			 * follow */
+			while (ptr->parent != cur)
+				ptr = ptr->parent;
+		}
+	}
 }
 
 void

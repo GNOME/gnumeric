@@ -1,3 +1,12 @@
+2003-07-06  Jon K Hellan  <hellan@acm.org>
+
+	* html_read.c (is_elt_type, starts_inferred_table,
+	ends_inferred_table, starts_inferred_row, ends_inferred_row): New
+	functions. Helpers for handling incomplete html fragments.
+	(html_search_for_tables): Handle incomplete html fragments,
+	usually from the clipboard. e.g. a <td> without <tr> and <table>
+	in front of it.
+
 2003-06-30  Jon K Hellan  <hellan@acm.org>
 
 	* html_read.c: See yesterday. Now actually commit it.
