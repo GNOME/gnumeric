@@ -31,8 +31,9 @@ typedef enum {
 	DEPENDENT_TYPE_MASK	  = 0x00000fff,
 } DependentFlags;
 
-#define DEPENDENT_TYPE(dep) ((dep)->flags & DEPENDENT_TYPE_MASK)
-#define DEPENDENT_IS_CELL(dep) (DEPENDENT_TYPE(dep) == DEPENDENT_CELL)
+#define dependent_type(dep)		((dep)->flags & DEPENDENT_TYPE_MASK)
+#define dependent_is_cell(dep)		(dependent_type (dep) == DEPENDENT_CELL)
+#define dependent_needs_recalc(dep)	(dep->flags & DEPENDENT_NEEDS_RECALC)
 
 struct _DependencyContainer {
 	Dependent *dependent_list;

@@ -194,13 +194,12 @@ style_condition_eval (StyleCondition *sc, Value *val)
 		 * Apparantly no eval has been done yet, so
 		 * we'll have to force it.
 		 */
-		if (!scl->val) {
-			style_condition_dep_eval (&scl->dep);
-			if (!scl->val) {
-				g_warning ("Style Condition without expression");
-				return FALSE;
-			}
+		if (scl->val == NULL) {
+			g_return_val_if_fail (dependent_needs_recalc (&scl->dep), FALSE);
+			dependent_eval (&sc->dep);
+			g_return_val_if_fail (scl->val != NULL, FALSE);
 		}
+
 
 		vc = value_compare (val, scl->val, TRUE);
 		

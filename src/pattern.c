@@ -125,7 +125,7 @@ gnumeric_background_set_gc (MStyle const *mstyle, GdkGC *gc,
 
 		if (pattern > 1) {
 			StyleColor *pat_col =
-				mstyle_get_color (mstyle, MSTYLE_COLOR_PATTERN);
+			mstyle_get_color (mstyle, MSTYLE_COLOR_PATTERN);
 			g_return_val_if_fail (pat_col != NULL, FALSE);
 
 			gdk_gc_set_fill (gc, GDK_OPAQUE_STIPPLED);
@@ -148,40 +148,73 @@ gnumeric_background_set_gc (MStyle const *mstyle, GdkGC *gc,
 	return FALSE;
 }
 
+/*
+ * gnumeric_background_set_pc : Set up a GnomePrintContext to paint the
+ *                              background of a cell when printing.
+ * return : TRUE if there is a background to paint.
+ */
 gboolean
 gnumeric_background_set_pc (MStyle const *mstyle, GnomePrintContext *context)
 {
 	int pattern;
 
-	/*
-	 * Draw the background if the PATTERN is non 0
-	 * Draw a stipple too if the pattern is > 1
-	 */
 	if (!mstyle_is_element_set (mstyle, MSTYLE_PATTERN))
 		return FALSE;
 	pattern = mstyle_get_pattern (mstyle);
+
 	if (pattern > 0) {
 		StyleColor *back_col =
 			mstyle_get_color (mstyle, MSTYLE_COLOR_BACK);
 
 		g_return_val_if_fail (back_col != NULL, FALSE);
 
-		gnome_print_setrgbcolor (context,
-					 back_col->red   / (double) 0xffff,
-					 back_col->green / (double) 0xffff,
-					 back_col->blue  / (double) 0xffff);
-
+		/* Support printing grey scale patterns.
+		 * This effectively applies a brightness threshold to get
+		 * the desired results.
+		 * The array used provides good real-life results. 
+		 * The true_grey array is theoretically correct but doesn't
+		 * distinguish the shades clearly. 
+		 *
+		 * Note: The first element of the grey array isn't used.
+		 *
+		 * FIXME: This code assumes the pattern colour is black, which
+		 * is normally true (gnumeric selects it automatically).
+		 * But correctly we should mix the pattern color against
+		 * the background color. We handle the easy (pattern == 24)
+		 * case below.
+		 */
+		if (pattern >= 1 && pattern <= 6) {
+			static double const grey[] = { 1.0, 1.0, .30, .45, .60, .75, .90};
 #if 0
-		/* Support grey scale patterns.  FIXME how to do the rest ? */
-		if (pattern >= 1 && pattern <= 5) {
-			static double const gray[] = { 1., .75, .50, .25, .125, .0625 };
+			static double const true_grey[] = { 1.0, 1.0, .0625, .125, .25, .50, .75};
+#endif
 
-			/* FIXME : why no support for setgray in gnome-print ? */
+			gnome_print_setrgbcolor (context,
+			 back_col->red * grey[pattern]    / (double) 0xffff,
+			 back_col->green * grey[pattern]  / (double) 0xffff,
+			 back_col->blue * grey[pattern]   / (double) 0xffff);
 		}
 
+		/* This is a special case where the user has selected 
+		 * 'foreground solid', so we need to paint it the pattern
+		 * color.
+		 */
+		if (pattern == 24) {
+			StyleColor *pat_col =
+			mstyle_get_color (mstyle, MSTYLE_COLOR_PATTERN);
+			g_return_val_if_fail (pat_col != NULL, FALSE);
+
+			gnome_print_setrgbcolor (context,
+				pat_col->red   / (double) 0xffff,
+				pat_col->green / (double) 0xffff,
+				pat_col->blue  / (double) 0xffff);
+
+		}
+#if 0
+		/* FIXME: How to do the other patterns? */
 		if (pattern > 1) {
 			StyleColor *pat_col =
-				mstyle_get_color (mstyle, MSTYLE_COLOR_PATTERN);
+			mstyle_get_color (mstyle, MSTYLE_COLOR_PATTERN);
 			g_return_val_if_fail (pat_col != NULL, FALSE);
 
 			gdk_gc_set_fill (gc, GDK_OPAQUE_STIPPLED);

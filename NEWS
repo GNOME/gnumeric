@@ -2,10 +2,16 @@
 Gnumeric 0.71
 
 Jody:
+	* Enable XL import for graphs.
+	* Add simple bucketing of range dependencies.
+	* Add minor formating extension.
+	* Cleanup the DOM based xml import/export utilities.
+	* Remove irritating frame around bonobo objects.
+	* Improve sheet object menus.
+	* What eval queue?
 	* bump bonobo req to 1.0.8 to fix the memory problem.
 	* bump the gnome-print req to 0.29 in an effort to decrease
 	  the number of problems with gnome-print installs.
-	* What eval queue?
 
 Jukka:
 	* MPS importer plugin implemented.  Reads a linear program in MPS
@@ -18,6 +24,9 @@ Morten:
 	* Eliminate deep recursion during dependency dirtying.
 	* Fix the python and python-loader modules.  (Work around mind-
 	  boggling bug in python.  Again.)
+
+Wayne Schuller:
+	* Support gray scale patterns when printing.
 
 Zbigniew:
 	* Support for translations in plugin.xml files using xml-i18n-tools

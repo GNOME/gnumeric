@@ -103,7 +103,7 @@ dependent_type_register (DependentClass const *klass)
 void
 dependent_set_expr (Dependent *dep, ExprTree *expr)
 {
-	int const t = DEPENDENT_TYPE (dep);
+	int const t = dependent_type (dep);
 
 	if (t == DEPENDENT_CELL) {
 		/*
@@ -180,7 +180,7 @@ dependent_queue_recalc_list (GSList *list)
 		work = work->next;
 		g_slist_free_1 (list);
 
-		if (DEPENDENT_IS_CELL (dep)) {
+		if (dependent_is_cell (dep)) {
 			GSList *deps = cell_list_deps (DEP_TO_CELL (dep));
 			GSList *waste = NULL;
 			GSList *next;
@@ -906,7 +906,7 @@ sheet_region_queue_recalc (Sheet const *sheet, Range const *r)
 		/* mark the contained depends dirty non recursively */
 		SHEET_FOREACH_DEPENDENT (sheet, dep, {
 			Cell *cell = DEP_TO_CELL (dep);
-			if (DEPENDENT_IS_CELL (dep) &&
+			if (dependent_is_cell (dep) &&
 			    range_contains (r, cell->pos.col, cell->pos.row))
 				dependent_queue_recalc (dep);
 		});
@@ -1072,7 +1072,7 @@ void
 dependent_eval (Dependent *dep)
 {
 	if (dep->flags & DEPENDENT_NEEDS_RECALC) {
-		int const t = DEPENDENT_TYPE (dep);
+		int const t = dependent_type (dep);
 
 		if (t != DEPENDENT_CELL) {
 			DependentClass *klass = g_ptr_array_index (dep_classes, t);
@@ -1239,7 +1239,7 @@ dependent_debug_name (Dependent const *dep, FILE *out)
 	else
 		g_warning ("Invalid dep, missing sheet");
 
-	t = DEPENDENT_TYPE (dep);
+	t = dependent_type (dep);
 	if (t != DEPENDENT_CELL) {
 		DependentClass *klass = g_ptr_array_index (dep_classes, t);
 
