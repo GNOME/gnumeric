@@ -1,4 +1,6 @@
-1999-10-23  Jody Goldberg <jgoldberg@home.com>
+1999-10-24  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-style.c (sheet_style_attach) : reference the style object.
 
 	* src/mstyle.c (mstyle_elements_equal) : Correct the loop.
 

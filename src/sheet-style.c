@@ -127,7 +127,7 @@ sheet_style_cache_add (Sheet *sheet, int col, int row,
  * @sheet: the sheet
  * @col: col &
  * @row: reference of cell to optimise round.
- * 
+ *
  * This optimizes style usage for this cell,
  * if this shows in your profile, you are doing
  * your style setting incorrectly, use ranges
@@ -165,7 +165,7 @@ sheet_style_attach_single (Sheet *sheet, int col, int row,
  * sheet_style_optimize:
  * @sheet: The sheet
  * @range: The range containing optimizable StyleRegions.
- * 
+ *
  * This routine merges similar styles in the Range.
  * since this function is not only slow, but memory
  * intensive it should be used wisely & sparingly and
@@ -173,7 +173,7 @@ sheet_style_attach_single (Sheet *sheet, int col, int row,
  *
  * FIXME: This routine has space for some serious
  *        optimization.
- * 
+ *
  **/
 void
 sheet_style_optimize (Sheet *sheet, Range range)
@@ -200,7 +200,7 @@ sheet_style_optimize (Sheet *sheet, Range range)
 		}
 		len++;
 	}
-       
+
 	if (STYLE_DEBUG)
 		g_warning ("there are %d overlaps out of %d = %g%%",
 			   overlapping, len, (double)((1.0 * overlapping) / len));
@@ -212,7 +212,7 @@ sheet_style_optimize (Sheet *sheet, Range range)
 
 		StyleRegion *sra = a->data;
 		GList       *b;
-		
+
 		b = a->next;
 		while (b) {
 			StyleRegion *srb = b->data;
@@ -231,7 +231,7 @@ sheet_style_optimize (Sheet *sheet, Range range)
 			 */
 			if (range_equal (&sra->range, &srb->range)) {
 				MStyle *tmp;
-				
+
 				if (STYLE_DEBUG)
 					printf ("testme: Two equal ranges, merged\n");
 
@@ -260,15 +260,15 @@ sheet_style_optimize (Sheet *sheet, Range range)
 		 * Cull adjacent identical Style ranges.
 		 */
 		for (a = style_list; a; a = a->next) {
-			
+
 			StyleRegion *sra = a->data;
 			GList       *b;
-			
+
 			b = a->next;
 			while (b) {
 				StyleRegion *srb = b->data;
 				GList *next = g_list_next (b);
-				
+
 				if (STYLE_DEBUG) {
 					printf ("Compare adjacent iteration: ");
 					range_dump (&sra->range);
@@ -276,22 +276,22 @@ sheet_style_optimize (Sheet *sheet, Range range)
 					range_dump (&srb->range);
 					printf ("\n");
 				}
-				
+
 				if (range_adjacent (&sra->range, &srb->range)) {
 					if (mstyle_equal  ( sra->style,  srb->style)) {
 						if (STYLE_DEBUG)
 							printf ("testme: Merging two ranges\n");
-						
+
 						sra->range = range_merge (&sra->range, &srb->range);
 						style_list = g_list_remove (style_list, srb);
 						STYLE_LIST (sheet) = g_list_remove (STYLE_LIST (sheet), srb);
-						
+
 						mstyle_unref (srb->style);
 						g_free (srb);
 					} else if (STYLE_DEBUG)
 						printf ("Regions adjacent but not equal\n");
 				}
-				
+
 				b = next;
 			}
 		}
@@ -308,7 +308,7 @@ sheet_style_optimize (Sheet *sheet, Range range)
  * @sheet: The sheet to attach to
  * @range: the range to attach to
  * @style: the style to attach.
- * 
+ *
  *  This routine applies a set of style elements in 'style' to
  * a range in a sheet. This function needs some clever optimization
  * the current code is grossly simplistic.
@@ -340,7 +340,8 @@ sheet_style_attach (Sheet  *sheet, Range range,
 	sr = g_new (StyleRegion, 1);
 	sr->range = range;
 	sr->style = mstyle;
-	
+	mstyle_ref (mstyle);
+
 	STYLE_LIST (sheet) = g_list_prepend (STYLE_LIST (sheet), sr);
 
 	if (STYLE_DEBUG) {
@@ -351,7 +352,7 @@ sheet_style_attach (Sheet  *sheet, Range range,
 		printf ("\n");
 	}
 	sheet_style_cache_flush (sheet);
-		
+
 	/* FIXME: Need to clip range against view port */
 	sheet_redraw_cell_region (sheet,
 				  range.start.col, range.start.row,
@@ -420,7 +421,7 @@ sheet_selection_apply_style_cb (Sheet *sheet,
 	sheet_style_optimize (sheet, *range);
 }
 
-/** 
+/**
  * sheet_selection_apply_style:
  * @style: style to be attached
  *
@@ -430,7 +431,7 @@ sheet_selection_apply_style_cb (Sheet *sheet,
 void
 sheet_selection_apply_style (Sheet *sheet, MStyle *mstyle)
 {
-	selection_foreach_range (sheet, 
+	selection_foreach_range (sheet,
 				 sheet_selection_apply_style_cb,
 				 mstyle);
 	sheet_set_dirty (sheet, TRUE);
@@ -503,10 +504,10 @@ sheet_unique_cb (Sheet *sheet, Range const *range,
 /**
  * sheet_selection_get_unique_style:
  * @sheet: the sheet.
- * 
+ *
  * Return a merged list of styles for the selection,
  * if a style is not unique then we get MSTYLE_ELEMENT_CONFLICT.
- * 
+ *
  * Return value: the merged list; free this.
  **/
 MStyle *
@@ -549,7 +550,7 @@ sheet_destroy_styles (Sheet *sheet)
 {
 	GList *l;
 
-	sheet_style_cache_flush (sheet);	
+	sheet_style_cache_flush (sheet);
 	for (l = STYLE_LIST (sheet); l; l = l->next) {
 		StyleRegion *sr = l->data;
 

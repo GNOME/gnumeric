@@ -929,6 +929,8 @@ typedef struct _BiffXFData {
 	guint8 fill_pattern_idx;
 	guint8 pat_foregnd_col;
 	guint8 pat_backgnd_col;
+
+	MStyle *mstyle;
 } BiffXFData;
 
 
@@ -1015,16 +1017,18 @@ style_optimize (ExcelSheet *sheet, int col, int row)
 	}	
 }
 
-static void
-ms_excel_set_xf (ExcelSheet *sheet, int col, int row, guint16 xfidx)
+static MStyle *
+ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 {
-	BiffXFData const *xf = ms_excel_get_xf (sheet, xfidx);
+	BiffXFData *xf = ms_excel_get_xf (sheet, xfidx);
 	StyleColor *fore, *back, *basefore;
 	int back_index;
 	MStyle *mstyle;
-	Range   range;
 
-	g_return_if_fail (xf);
+	g_return_val_if_fail (xf, NULL);
+
+	if (xf->mstyle != NULL)
+		return xf->mstyle;
 
 	mstyle = mstyle_new ();
 	mstyle_set_align_v     (mstyle, xf->valign);
@@ -1049,33 +1053,11 @@ ms_excel_set_xf (ExcelSheet *sheet, int col, int row, guint16 xfidx)
 	if (xf->style_format)
 		mstyle_set_format (mstyle, xf->style_format->format);
 
-#ifndef NO_DEBUG_EXCEL
-	if (ms_excel_color_debug > 0) {
-		printf ("%s : Pattern = %d\n",
-			cell_name (col, row),
-			xf->fill_pattern_idx);
-	}
-#endif
-
 	if (!basefore) {
-#ifndef NO_DEBUG_EXCEL
-		if (ms_excel_color_debug > 2) {
-			printf ("Cell Color : '%s' : (%d, %d)\n",
-				cell_name (col, row),
-				xf->pat_foregnd_col, xf->pat_backgnd_col);
-		}
-#endif
 		fore = ms_excel_palette_get (sheet->wb->palette,
 					     xf->pat_foregnd_col, NULL);
 		back_index = xf->pat_backgnd_col;
 	} else {
-#ifndef NO_DEBUG_EXCEL
-		if (ms_excel_color_debug > 2) {
-			printf ("Cell Color : '%s' : (Fontcol, %d)\n",
-				cell_name (col, row),
-				xf->pat_foregnd_col);
-		}
-#endif
 		fore = basefore;
 		back_index = xf->pat_foregnd_col;
 	}
@@ -1087,18 +1069,47 @@ ms_excel_set_xf (ExcelSheet *sheet, int col, int row, guint16 xfidx)
 		back_index = 0;
 	back = ms_excel_palette_get (sheet->wb->palette, back_index, fore);
 
-	g_return_if_fail (back && fore);
+	g_return_val_if_fail (back && fore, NULL);
 
 	mstyle_set_color (mstyle, MSTYLE_COLOR_FORE, fore);
 	mstyle_set_color (mstyle, MSTYLE_COLOR_BACK, back);
+
+	/* Set the cache */
+	xf->mstyle = mstyle;
+
+	return mstyle;
+}
+
+static void
+ms_excel_set_xf (ExcelSheet *sheet, int col, int row, guint16 xfidx)
+{
+	Range   range;
+	MStyle * mstyle = ms_excel_get_style_from_xf (sheet, xfidx);
+	if (mstyle == NULL)
+		return;
 
 	range.start.col = col;
 	range.start.row = row;
 	range.end       = range.start;
 
 	sheet_style_attach (sheet->gnum_sheet, range, mstyle);
-
 	style_optimize (sheet, col, row);
+}
+
+static void
+ms_excel_set_xf_segment (ExcelSheet *sheet, int start_col, int end_col, int row, guint16 xfidx)
+{
+	Range   range;
+	MStyle * mstyle = ms_excel_get_style_from_xf (sheet,
+						      xfidx);
+	if (mstyle == NULL)
+		return;
+
+	range.start.col = start_col;
+	range.start.row = row;
+	range.end.col   = end_col;
+	range.end.row   = row;
+	sheet_style_attach (sheet->gnum_sheet, range, mstyle);
 }
 
 static StyleBorderType
@@ -1362,6 +1373,9 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
 		subdata = subdata >> 7;
 		xf->border_color[STYLE_RIGHT] = (subdata & 0x7f);
 	}
+
+	/* Init the cache */
+	xf->mstyle = NULL;
 
 	g_ptr_array_add (wb->XF_cell_records, xf);
 #ifndef NO_DEBUG_EXCEL
@@ -2129,7 +2143,7 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 		int const row = EX_GETROW (q);
 		guint8 const *ptr = (q->data + q->length - 2);
 		int lastcol = MS_OLE_GET_GUINT16 (ptr);
-		int i;
+		int i, range_end, prev_xf, xf_index;
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_read_debug > 0) {
 			printf ("Cells in row %d are blank starting at col %s until col ",
@@ -2143,12 +2157,23 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 			firstcol = lastcol;
 			lastcol = tmp;
 		}
-		for (i = lastcol; i >= firstcol ; --i) {
+
+		i = lastcol;
+		prev_xf = -1;
+		do
+		{
 			ptr -= 2;
-			ms_excel_sheet_insert_blank (sheet,
-						   MS_OLE_GET_GUINT16 (ptr),
-						   i, row);
-		}
+			xf_index = MS_OLE_GET_GUINT16 (ptr);
+			if (prev_xf != xf_index) {
+				if (prev_xf >= 0)
+					ms_excel_set_xf_segment (sheet, i+1, range_end,
+								 row, prev_xf);
+				prev_xf = xf_index;
+				range_end = i;
+			}
+		} while (--i >= firstcol);
+		ms_excel_set_xf_segment (sheet, firstcol, range_end,
+					 row, prev_xf);
 		break;
 	}
 

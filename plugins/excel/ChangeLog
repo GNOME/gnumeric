@@ -1,3 +1,12 @@
+1999-10-24  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_read_cell:MULBLANK) : pre-merge the XF
+	  records in a mulblank sequence.  Improves load time.
+
+	* ms-excel-read.c (ms_excel_get_style_from_xf) : New function
+	  split from ms_excel_set_xf.  It calculates and caches the MStyle
+	  associated with an XF record.
+
 1999-10-22  Michael Meeks  <mmeeks@gnu.org>
 
 	* ms-excel-read.c (ms_excel_palette_get): fix leak.
