@@ -804,18 +804,11 @@ print_info_set_margin_left     (PrintInformation *pi, double left)
 void        
 print_info_set_margin_right    (PrintInformation *pi, double right)
 {
-	double right_here = 0;
 	g_return_if_fail (pi->print_config != NULL);
 
 	gnome_print_config_set_length (pi->print_config, 
 				       GNOME_PRINT_KEY_PAGE_MARGIN_RIGHT, 
 				       right, GNOME_PRINT_PS_UNIT);
-	g_print ("Setting margin to: %f\n", right);
-	gnome_print_config_get_length (pi->print_config, 
-				       GNOME_PRINT_KEY_PAGE_MARGIN_RIGHT, 
-				       &right_here, NULL);
-	g_print ("Reading_back: %f\n", right_here);
-	
 }
 
 void

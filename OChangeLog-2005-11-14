@@ -1,4 +1,8 @@
 2002-05-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
+	* src/print-info.c (print_info_set_margin_right) : remove some 
+	  debugging code
+
+2002-05-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* configure.in : bump lignomeprintui req to 0.115.0
 	* src/print-info.c (print_info_new) : margins are now in print_config
