@@ -551,13 +551,7 @@ sheet_object_stop_editing (SheetObject *so)
 			if (SO_CLASS (so)->set_active != NULL)
 				SO_CLASS (so)->set_active (so, FALSE);
 #ifdef ENABLE_BONOBO
-	/* FIXME FIXME FIXME : JEG 11/Sep/2000
-	 * Michael :
-	 * Should we have a virtual void SheetObject::set_active(gboolean) ?
-	 * then move this down into SheetObjectbonobo ?
-	 * We could also remove active_object_frame from Sheet.
-	 * That seems like it belongs at a view level.
-	 */
+	/* FIXME FIXME FIXME : JEG 11/Sep/2000 */
 	if (sheet->active_object_frame) {
 		bonobo_view_frame_view_deactivate (sheet->active_object_frame);
 		if (sheet->active_object_frame != NULL)

@@ -196,6 +196,7 @@ workbook_start_editing_at_cursor (Workbook *wb, gboolean blankp,
 	Sheet *sheet;
 	Cell *cell;
 	char *text = NULL;
+	int col, row;
 
 	g_return_if_fail (wb != NULL);
 
@@ -211,12 +212,13 @@ workbook_start_editing_at_cursor (Workbook *wb, gboolean blankp,
 	sheet = wb->current_sheet;
 	g_return_if_fail (sheet != NULL);
 
+	col = sheet->cursor.edit_pos.col;
+	row = sheet->cursor.edit_pos.row;
+
 	application_clipboard_unant ();
 	workbook_edit_set_sensitive (wb, TRUE, FALSE);
 
-	cell = sheet_cell_get (sheet,
-			       sheet->cursor.edit_pos.col,
-			       sheet->cursor.edit_pos.row);
+	cell = sheet_cell_get (sheet, col, row);
 
 	if (!blankp) {
 		if (cell != NULL)
@@ -232,27 +234,24 @@ workbook_start_editing_at_cursor (Workbook *wb, gboolean blankp,
 	} else
 		gtk_entry_set_text (workbook_get_entry (wb), "");
 
-	if (cursorp) {
-		int const col = sheet->cursor.edit_pos.col;
-		int const row = sheet->cursor.edit_pos.row;
+	sheet_create_edit_cursor (sheet);
 
-		sheet_create_edit_cursor (sheet);
+	/* Redraw the cell contents in case there was a span */
+	sheet_redraw_cell_region (sheet, col, row, col, row);
 
-		/* Redraw the cell contents in case there was a span */
-		sheet_redraw_cell_region (sheet, col, row, col, row);
-
-		/* Activate auto-completion if this is not an expression */
-		if (application_use_auto_complete_get () &&
-		    (text == NULL || isalpha((unsigned char)*text))) {
-			wb->priv->auto_complete = complete_sheet_new (
-				sheet, col, row,
-				workbook_edit_complete_notify, wb);
-			wb->priv->auto_completing = TRUE;
-			wb->priv->auto_max_size = 0;
-		} else
-			wb->priv->auto_complete = NULL;
+	/* Activate auto-completion if this is not an expression */
+	if (application_use_auto_complete_get () &&
+	    (text == NULL || isalpha((unsigned char)*text))) {
+		wb->priv->auto_complete = complete_sheet_new (
+			sheet, col, row,
+			workbook_edit_complete_notify, wb);
+		wb->priv->auto_completing = TRUE;
+		wb->priv->auto_max_size = 0;
 	} else
-		/* Give the focus to the edit line */
+		wb->priv->auto_complete = NULL;
+
+	/* Give the focus to the edit line */
+	if (!cursorp)
 		gtk_window_set_focus (GTK_WINDOW (workbook_get_toplevel (wb)),
 				      GTK_WIDGET (workbook_get_entry (wb)));
 

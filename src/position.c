@@ -41,18 +41,30 @@ eval_pos_init (EvalPos *eval_pos, Sheet *sheet, CellPos const *pos)
 }
 
 EvalPos *
+eval_pos_init_dep (EvalPos *eval_pos, Dependent const *dep)
+{
+	g_return_val_if_fail (dep != NULL, NULL);
+
+	if (DEPENDENT_CELL == (dep->flags & DEPENDENT_TYPE_MASK)) {
+		Cell const *cell = CELL_TO_DEP (dep);
+		return eval_pos_init (eval_pos, dep->sheet, &cell->pos);
+	} else {
+		static CellPos const pos = { 0, 0 };
+		return eval_pos_init (eval_pos, dep->sheet, &pos);
+	}
+}
+
+EvalPos *
 eval_pos_init_cell (EvalPos *eval_pos, Cell const *cell)
 {
-	CellPos pos;
 	g_return_val_if_fail (cell != NULL, NULL);
 
-	pos = cell->pos;
-	return eval_pos_init (eval_pos, cell->base.sheet, &pos);
+	return eval_pos_init (eval_pos, cell->base.sheet, &cell->pos);
 }
 
 EvalPos *
 eval_pos_init_cellref (EvalPos *dest, EvalPos const *src, 
-		  CellRef const *ref)
+		       CellRef const *ref)
 {
 	/* FIXME : This is a place to catch all of the strange
 	 * usages.  Please figure out what they were trying to do.

@@ -23,6 +23,7 @@ struct _ParsePos {
 
 /* Initialization routines for Evaluation Positions */
 EvalPos  *eval_pos_init          (EvalPos *pp, Sheet *s, CellPos const *pos);
+EvalPos  *eval_pos_init_dep 	 (EvalPos *eval_pos, Dependent const *dep);
 EvalPos  *eval_pos_init_cell     (EvalPos *pp, Cell const *cell);
 EvalPos  *eval_pos_init_cellref  (EvalPos *dest, EvalPos const *src,
 				  CellRef const *);

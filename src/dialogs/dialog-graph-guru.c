@@ -31,6 +31,8 @@
 #include "sheet-object.h"
 #include "sheet-object-container.h"
 #include "selection.h"
+#include "ranges.h"
+#include "value.h"
 #include "graph-series.h"
 #include "idl/gnumeric-graphs.h"
 #include <liboaf/liboaf.h>
@@ -227,7 +229,7 @@ get_selector_control (GraphGuruState *state)
 	GtkWidget *res = NULL;
 
 	CORBA_exception_init (&ev);
-	state->control = GNOME_Gnumeric_Graph_Manager_getTypeSelectControl (state->manager, &ev);
+	state->control = GNOME_Gnumeric_Graph_Manager_get_type_select_control (state->manager, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION)
 		return NULL;
 	CORBA_exception_free (&ev);
@@ -312,8 +314,16 @@ cb_create_series_from_range (Sheet *sheet, Range const *src, gpointer user_data)
 	GraphSeries *series;
 	Range vector;
 	int i, count;
+	gboolean const has_col_header = range_has_header (sheet, src, TRUE);
+	gboolean const has_row_header = range_has_header (sheet, src, FALSE);
 
 	vector = *src;
+	if (has_col_header)
+		vector.start.col++;
+
+	if (has_row_header)
+		vector.start.row++;
+
 	if (state->is_columns) {
 		count = vector.end.col - vector.start.col;
 		vector.end.col = vector.start.col;
@@ -323,7 +333,28 @@ cb_create_series_from_range (Sheet *sheet, Range const *src, gpointer user_data)
 	}
 
 	for (i = 0 ; i <= count ; i++) {
-		series = graph_series_new (sheet, &vector);
+		char *name = NULL;
+		if (state->is_columns) {
+			if (has_col_header) {
+				Cell const *cell = sheet_cell_get (sheet,
+								   vector.start.col,
+								   vector.start.row-1);
+				name = value_get_as_string (cell->value);
+			}
+		} else {
+			if (has_row_header) {
+				Cell const *cell = sheet_cell_get (sheet,
+								   vector.start.col-1,
+								   vector.start.row);
+				name = value_get_as_string (cell->value);
+			}
+		}
+
+		/* Create a default name if need be */
+		if (name == NULL)
+			name = g_strdup_printf (_("series%d"), state->series->len+1);
+
+		series = graph_series_new (sheet, &vector, name);
 		graph_series_set_subscriber (series, state->manager);
 		g_ptr_array_add (state->series, series);
 

@@ -1488,8 +1488,16 @@ cellrange_relocate (const Value *v,
 	/* Only relocate if both ends of the range need relocation */
 	if (needs_reloc >= 2) {
 		Value *res;
+		Sheet const *sheet_a = ref_a.sheet;
+		Sheet const *sheet_b = ref_b.sheet;
+
+		if (sheet_a == NULL)
+			sheet_a = rinfo->pos.sheet;
+		if (sheet_b == NULL)
+			sheet_b = rinfo->pos.sheet;
+
 		/* Dont allow creation of 3D references */
-		if (ref_a.sheet == ref_b.sheet)
+		if (sheet_a == sheet_b)
 			res = value_new_cellrange (&ref_a, &ref_b,
 						   rinfo->pos.eval.col,
 						   rinfo->pos.eval.row);

@@ -173,7 +173,7 @@ value_new_cellrange_r (Sheet *sheet, const Range *r)
 	b = &v->cell.b;
 	
 	a->sheet = sheet;
-	b->sheet = NULL;
+	b->sheet = sheet;
 	a->col   = r->start.col;
 	a->row   = r->start.row;
 	b->col   = r->end.col;

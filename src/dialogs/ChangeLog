@@ -1,3 +1,8 @@
+2000-09-20  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-graph-guru.c (get_selector_control) : Hande idl name changes.
+	(cb_create_series_from_range) : Be smart about col/row headers.
+
 2000-09-19  Morten Welinder  <terra@diku.dk>
 
 	* dialog-stf-format-page.c (format_page_format_changed): Don't

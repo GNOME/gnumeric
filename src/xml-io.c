@@ -2429,9 +2429,11 @@ natural_order_cmp( const void *a, const void *b )
 {
 	const Cell *ca = *(void**)a ; 
 	const Cell *cb = *(void**)b ; 
-	return ( ca->row_info->pos != cb->row_info->pos )
-		? ca->row_info->pos - cb->row_info->pos 
-		: ca->col_info->pos - cb->col_info->pos ; 
+	int diff = (ca->pos.row != cb->pos.row);
+
+	if (diff != 0)
+		return diff;
+	return ca->pos.col - cb->pos.col; 
 }
 
 static void

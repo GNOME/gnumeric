@@ -16,6 +16,7 @@
 
 typedef struct {
 	SheetObjectBonobo     parent_object;
+	BonoboViewFrame *view_frame;
 } SheetObjectContainer;
 
 typedef struct {

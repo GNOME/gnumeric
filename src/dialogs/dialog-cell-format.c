@@ -2293,7 +2293,6 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
  * TODO
  *
  * Borders
- * 	- Double lines for borders
  * 	- Add the 'text' elements in the preview
  *
  * Wishlist

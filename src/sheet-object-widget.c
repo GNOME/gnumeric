@@ -379,8 +379,10 @@ static void
 checkbox_set_expr (Dependent *dep, ExprTree *expr)
 {
 	expr_tree_ref (expr);
+	dependent_unlink (dep, NULL);
 	expr_tree_unref (dep->expression);
 	dep->expression = expr;
+	dependent_changed (dep, NULL, TRUE);
 }
 
 static void
