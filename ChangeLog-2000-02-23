@@ -1,3 +1,7 @@
+1999-09-01  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* configure.in,po/da.po: added Danish file
+
 1999-08-31  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/dialogs/dialog-printer-setup.c (do_setup_main_dialog):
