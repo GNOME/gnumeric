@@ -80,7 +80,41 @@ Application
 	* Provide feedback with Animation (boolean)
 		- not exactly sure what this does
 	* Enable AutoComplete for cell values (boolean)	
-
+	* R1C1 Reference Style (boolean)
+		- indicate row and column by offset
+		- references are relative
+	* Ignore other applications (boolean)
+		- don't know what this does
+	* Macro virus protection (boolean)
+		- prompts to disable vb macros
+	* Recently used file list (boolean)
+		- additional attribute if true, number of files (integer)
+	* Prompt for workbook properties (boolean)
+		- prompts for summary info when saving if true
+	* Provide feedback with sound (boolean)
+	* Zoom on roll with Intellimouse (boolean)
+	* Sheets in new workbook (integer)
+	* Standard font (font)
+	* Font size (integer)
+	* Default file location (string)
+	* Alternate startup file location (string)
+	* User name (string)
+	* Save Excel files as (string)
+		- various formats
+	* Microsoft Excel menu or help key (string)
+	* Key binding: Excel menus, Lotus 1-2-3 help (choice)
+		- binds the functionality to the key from the above
+		attribute 
+	* Transition navigation keys (boolean)
+		- don't know what this does
+	* Transition formula evaluation
+		- don't know what this does
+	* Transition formula entry
+		- don't know what this does
+		- above three seem related to Lotus key bindings
+	* Custom lists
+		- allow user to make lists for autofill
+	
 Workbook
 	* Object display: show all, show placeholders, hide all (choice)
 	* Horizontal scrollbar (boolean)
@@ -96,7 +130,13 @@ Workbook
 	* Save external link values (boolean)
 		- I think this keeps the last known external link value
 		with the workbook instead of only relying on the reference
-
+	* Standard colours
+		- sets palette for text and fill
+	* Chart fill
+		- standard chart fill colours
+	* Chart lines
+		- standard chart lines colours
+	
 Sheet
 	* Grid lines (boolean)
 	* Grid line colour (colour or auto/default)
@@ -106,51 +146,12 @@ Sheet
 	* Show zero values (boolean)
 	* Show outline symbols (boolean)
 
-**General
-	Settings:
-		R1C1 reference style (cb)
-		Ignore other applications (cb)
-		Macro virus protection (cb)
-		Recently used file list (cb)
-			 Entries (sp)
-		Prompt for workbook properties (cb)
-		Provide feedback with sound (cb)
-		Zoom on roll with Intellimouse		
-	<Separator>:
-		Sheets in new workbook (sp)
-		Standard Font (cm)
-		Standard Size (sp)
-		Default file location (en)
-		Alternate startup file location (en)
-		User name (en)
-		
-**Transition
-	<Separator>:
-		Save Excel files as (cm)
-	Settings:
-		Microsoft Excel menu or Help key (en)
-		Microsoft Excel menus-Lotus 1-2-3 Help (rb)
-		Transition navigation keys (cb)
-	Sheet Options:
-		Transition formula evaluation (cb)
-		Transition formula entry (cb)
-
-**Custom Lists
-	Interface to allow custom list creation - can import
-	from cells as well. 
-
-**Chart
-	Active chart:
-	        Plot empty cells as -> Not plotted-Zero-Interpolated (rb)
-	        Plot visible cells only (cb)
-	        Chart sizes with window frames (cb)
-	Chart tips:
-		Show names (cb)
-		Show values (cb)
-
-**Color
-	<Separator>:
-		Standard colors (cs)
-		Chart fills (cs)
-		Chart lines (cs)
-		Copy colors from (cm)
+Chart
+	* Plot empty cells as: Not plotted, Zero, Interpolated (choice)
+	* Plot visible cells only (boolean)
+	* Chart sizes with window frame (boolean)
+		- don't know how to activate this option
+	* Show names (boolean)
+		- chart tips
+	* Show values (boolean)
+		- chart tips
