@@ -10,8 +10,8 @@
 #include <stdio.h>
 #include <gnome.h>
 #include "gnumeric.h"
-#include "tree.h"
-#include "parser.h"
+#include "gnome-xml/tree.h"
+#include "gnome-xml/parser.h"
 
 #include "xml-io.h"
 

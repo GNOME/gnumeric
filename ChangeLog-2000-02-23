@@ -1,3 +1,7 @@
+Thu Aug 13 19:08:28 1998  Tom Tromey  <tromey@cygnus.com>
+
+	* src/xml-io.c: Look in gnome-xml for tree.h and parser.h.
+
 Thu Aug 13 00:02:23 EDT 1998  Daniel Veillard <Daniel.Veillard@w3.org>
 
 	* src/xml-io.c : adapated to the new version 0.2 of the xml lib
