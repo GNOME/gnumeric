@@ -449,11 +449,13 @@ excel_iconv_win_codepage (void)
 
 		if ((lang = getenv("WINDOWS_LANGUAGE")) == NULL) {
 			char const *locale = setlocale (LC_CTYPE, "");
-			char const *lang_sep = strchr (locale, '.');
-			if (lang_sep)
-				lang = g_strndup (locale, lang_sep - locale);
-			else
-				lang = g_strdup (locale); /* simplifies exit */
+			if (locale != NULL) {
+				char const *lang_sep = strchr (locale, '.');
+				if (lang_sep)
+					lang = g_strndup (locale, lang_sep - locale);
+				else
+					lang = g_strdup (locale); /* simplifies exit */
+			}
 		}
 
 		if (lang != NULL) {
