@@ -156,30 +156,6 @@ gnumeric_plugin_loader_module_unload_base (GnumericPluginLoader *loader, ErrorIn
 	loader_module->plugin_cleanup_func = NULL;
 }
 
-static gint
-gnumeric_plugin_loader_module_info_get_extra_info_list (GnumericPluginLoader *loader,
-                                                        GSList **ret_keys_list,
-                                                        GSList **ret_values_list)
-{
-	GnumericPluginLoaderModule *loader_module = GNUMERIC_PLUGIN_LOADER_MODULE (loader);
-	GSList *keys_list = NULL, *values_list = NULL;
-	gint n_items = 0;
-
-	g_return_val_if_fail (ret_keys_list != NULL && ret_values_list != NULL, 0);
-
-	GNM_SLIST_PREPEND (keys_list, g_strdup (_("Loader")));
-	GNM_SLIST_PREPEND (values_list, g_strdup ("g_module"));
-	n_items++;
-	GNM_SLIST_PREPEND (keys_list, g_strdup (_("Module file name")));
-	GNM_SLIST_PREPEND (values_list, g_strdup (loader_module->module_file_name));
-	n_items++;
-
-	*ret_keys_list = g_slist_reverse (keys_list);
-	*ret_values_list = g_slist_reverse (values_list);
-
-	return n_items;
-}
-
 static void
 gnumeric_plugin_loader_module_init (GnumericPluginLoaderModule *loader_module)
 {
@@ -216,7 +192,6 @@ gnumeric_plugin_loader_module_class_init (GnumericPluginLoaderModuleClass *klass
 	gnumeric_plugin_loader_class->load_service_plugin_loader = gnumeric_plugin_loader_module_load_service_plugin_loader;
 	gnumeric_plugin_loader_class->load_service_ui = gnumeric_plugin_loader_module_load_service_ui;
 	gnumeric_plugin_loader_class->unload_service_ui = gnumeric_plugin_loader_module_unload_service_ui;
-	gnumeric_plugin_loader_class->get_extra_info_list = gnumeric_plugin_loader_module_info_get_extra_info_list;
 
 	gtk_object_class->destroy = gnumeric_plugin_loader_module_destroy;
 }

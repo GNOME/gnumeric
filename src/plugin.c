@@ -375,32 +375,6 @@ gnm_plugin_get_textdomain (GnmPlugin *plugin)
 }
 
 /**
- * gnm_plugin_get_extra_info_list:
- * @pinfo      : The plugin
- *...
- */
-gint
-gnm_plugin_get_extra_info_list (GnmPlugin *pinfo, GSList **ret_keys_list, GSList **ret_values_list)
-{
-	ErrorInfo *ignored_error;
-
-	*ret_keys_list = NULL;
-	*ret_values_list = NULL;
-
-	if (!plugin_info_read_full_info_if_needed (pinfo)) {
-		return 0;
-	}
-	plugin_get_loader_if_needed (pinfo, &ignored_error);
-	if (ignored_error == NULL) {
-		return gnumeric_plugin_loader_get_extra_info_list (pinfo->loader, ret_keys_list, ret_values_list);
-	} else {
-		error_info_print (ignored_error);
-		error_info_free (ignored_error);
-		return 0;
-	}
-}
-
-/**
  * gnm_plugin_is_active:
  * @pinfo      : The plugin
  *
@@ -1251,6 +1225,19 @@ gnm_plugin_get_dependencies_ids (GnmPlugin *plugin)
 	);
 
 	return g_slist_reverse (list);
+}
+
+/**
+ * gnm_plugin_get_services:
+ * @plugin      : The plugin
+ *
+ */
+GSList *
+gnm_plugin_get_services (GnmPlugin *plugin)
+{
+	g_return_val_if_fail (GNM_IS_PLUGIN (plugin), NULL);
+
+	return plugin->services;
 }
 
 /*

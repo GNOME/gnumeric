@@ -33,8 +33,8 @@ const gchar *gnm_plugin_get_id (GnmPlugin *pinfo);
 const gchar *gnm_plugin_get_name (GnmPlugin *pinfo);
 const gchar *gnm_plugin_get_description (GnmPlugin *pinfo);
 const gchar *gnm_plugin_get_textdomain (GnmPlugin *pinfo);
-gint         gnm_plugin_get_extra_info_list (GnmPlugin *pinfo, GSList **ret_keys_list, GSList **ret_values_list);
 GSList      *gnm_plugin_get_dependencies_ids (GnmPlugin *pinfo);
+GSList      *gnm_plugin_get_services (GnmPlugin *pinfo);
 
 /*
  *

@@ -94,6 +94,7 @@ typedef struct{
 	void (*read_xml) (PluginService *service, xmlNode *tree, ErrorInfo **ret_error);
 	void (*activate) (PluginService *service, ErrorInfo **ret_error);
 	void (*deactivate) (PluginService *service, ErrorInfo **ret_error);
+	char *(*get_description) (PluginService *service);
 } PluginServiceClass;
 
 struct _PluginService {
@@ -101,12 +102,14 @@ struct _PluginService {
 
 	char   *id;
 	GnmPlugin *plugin;
-	gpointer loader_data;
 	gboolean is_loaded;
 
 	/* protected */
 	gpointer cbs_ptr;
 	gboolean is_active;
+
+	/* private */
+	char *saved_description;
 };
 
 
@@ -119,8 +122,8 @@ plugin_service_init (GObject *obj)
 	service->is_active = FALSE;
 	service->is_loaded = FALSE;
 	service->plugin = NULL;
-	service->loader_data = NULL;
 	service->cbs_ptr = NULL;
+	service->saved_description = NULL;
 }
 
 static void
@@ -131,6 +134,8 @@ plugin_service_finalize (GObject *obj)
 
 	g_free (service->id);
 	service->id = NULL;
+	g_free (service->saved_description);
+	service->saved_description = NULL;
 
 	parent_class = g_type_class_peek (G_TYPE_OBJECT);
 	parent_class->finalize (obj);
@@ -145,6 +150,7 @@ plugin_service_class_init (GObjectClass *gobject_class)
 	plugin_service_class->read_xml = NULL;
 	plugin_service_class->activate = NULL;
 	plugin_service_class->deactivate = NULL;
+	plugin_service_class->get_description = NULL;
 }
 
 GSF_CLASS (PluginService, plugin_service, plugin_service_class_init, plugin_service_init,
@@ -218,6 +224,12 @@ plugin_service_general_deactivate (PluginService *service, ErrorInfo **ret_error
 	service->is_active = FALSE;
 }
 
+static char *
+plugin_service_general_get_description (PluginService *service)
+{
+	return g_strdup (_("General"));
+}
+
 static void
 plugin_service_general_class_init (GObjectClass *gobject_class)
 {
@@ -225,6 +237,7 @@ plugin_service_general_class_init (GObjectClass *gobject_class)
 
 	plugin_service_class->activate = plugin_service_general_activate;
 	plugin_service_class->deactivate = plugin_service_general_deactivate;
+	plugin_service_class->get_description = plugin_service_general_get_description;
 }
 
 GSF_CLASS (PluginServiceGeneral, plugin_service_general,
@@ -471,6 +484,15 @@ plugin_service_file_opener_deactivate (PluginService *service, ErrorInfo **ret_e
 	service->is_active = FALSE;
 }
 
+static char *
+plugin_service_file_opener_get_description (PluginService *service)
+{
+	PluginServiceFileOpener *service_file_opener = GNM_PLUGIN_SERVICE_FILE_OPENER (service);
+
+	return g_strdup_printf (
+		_("File opener - %s"), service_file_opener->description);
+}
+
 static void
 plugin_service_file_opener_class_init (GObjectClass *gobject_class)
 {
@@ -480,6 +502,7 @@ plugin_service_file_opener_class_init (GObjectClass *gobject_class)
 	plugin_service_class->read_xml = plugin_service_file_opener_read_xml;
 	plugin_service_class->activate = plugin_service_file_opener_activate;
 	plugin_service_class->deactivate = plugin_service_file_opener_deactivate;
+	plugin_service_class->get_description = plugin_service_file_opener_get_description;
 }
 
 GSF_CLASS (PluginServiceFileOpener, plugin_service_file_opener,
@@ -792,6 +815,15 @@ plugin_service_file_saver_deactivate (PluginService *service, ErrorInfo **ret_er
 	service->is_active = FALSE;
 }
 
+static char *
+plugin_service_file_saver_get_description (PluginService *service)
+{
+	PluginServiceFileSaver *service_file_saver = GNM_PLUGIN_SERVICE_FILE_SAVER (service);
+
+	return g_strdup_printf (
+		_("File saver - %s"), service_file_saver->description);
+}
+
 static void
 plugin_service_file_saver_class_init (GObjectClass *gobject_class)
 {
@@ -801,6 +833,7 @@ plugin_service_file_saver_class_init (GObjectClass *gobject_class)
 	plugin_service_class->read_xml = plugin_service_file_saver_read_xml;
 	plugin_service_class->activate = plugin_service_file_saver_activate;
 	plugin_service_class->deactivate = plugin_service_file_saver_deactivate;
+	plugin_service_class->get_description = plugin_service_file_saver_get_description;
 }
 
 GSF_CLASS (PluginServiceFileSaver, plugin_service_file_saver,
@@ -1115,6 +1148,26 @@ plugin_service_function_group_deactivate (PluginService *service, ErrorInfo **re
 	service->is_active = FALSE;
 }
 
+static char *
+plugin_service_function_group_get_description (PluginService *service)
+{
+	PluginServiceFunctionGroup *service_function_group = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
+	int n_functions;
+	const char *category_name;
+
+	n_functions = g_slist_length (service_function_group->function_name_list);
+	category_name = service_function_group->translated_category_name != NULL
+		? service_function_group->translated_category_name
+		: service_function_group->category_name;
+
+	return g_strdup_printf (
+		ngettext (
+			N_("%d function in category \"%s\""),
+			N_("Group of %d functions in category \"%s\""),
+			n_functions),
+		n_functions, category_name);
+}
+
 static void
 plugin_service_function_group_class_init (GObjectClass *gobject_class)
 {
@@ -1124,6 +1177,7 @@ plugin_service_function_group_class_init (GObjectClass *gobject_class)
 	plugin_service_class->read_xml = plugin_service_function_group_read_xml;
 	plugin_service_class->activate = plugin_service_function_group_activate;
 	plugin_service_class->deactivate = plugin_service_function_group_deactivate;
+	plugin_service_class->get_description = plugin_service_function_group_get_description;
 }
 
 GSF_CLASS (PluginServiceFunctionGroup, plugin_service_function_group,
@@ -1202,6 +1256,12 @@ plugin_service_plugin_loader_deactivate (PluginService *service, ErrorInfo **ret
 	service->is_active = FALSE;
 }
 
+static char *
+plugin_service_plugin_loader_get_description (PluginService *service)
+{
+	return g_strdup (_("Plugin loader"));
+}
+
 static void
 plugin_service_plugin_loader_class_init (GObjectClass *gobject_class)
 {
@@ -1209,6 +1269,7 @@ plugin_service_plugin_loader_class_init (GObjectClass *gobject_class)
 
 	plugin_service_class->activate = plugin_service_plugin_loader_activate;
 	plugin_service_class->deactivate = plugin_service_plugin_loader_deactivate;
+	plugin_service_class->get_description = plugin_service_plugin_loader_get_description;
 }
 
 GSF_CLASS (PluginServicePluginLoader, plugin_service_plugin_loader,
@@ -1363,6 +1424,21 @@ plugin_service_ui_deactivate (PluginService *service, ErrorInfo **ret_error)
 	service->is_active = FALSE;
 }
 
+static char *
+plugin_service_ui_get_description (PluginService *service)
+{
+	PluginServiceUI *service_ui = GNM_PLUGIN_SERVICE_UI (service);
+	int n_verbs;
+
+	n_verbs = g_slist_length (service_ui->verbs);
+	return g_strdup_printf (
+		ngettext (
+			N_("User interface with %d action"),
+			N_("User interface with %d actions"),
+			n_verbs),
+		n_verbs);
+}
+
 static void
 plugin_service_ui_class_init (GObjectClass *gobject_class)
 {
@@ -1372,6 +1448,7 @@ plugin_service_ui_class_init (GObjectClass *gobject_class)
 	plugin_service_class->read_xml = plugin_service_ui_read_xml;
 	plugin_service_class->activate = plugin_service_ui_activate;
 	plugin_service_class->deactivate = plugin_service_ui_deactivate;
+	plugin_service_class->get_description = plugin_service_ui_get_description;
 }
 
 GSF_CLASS (PluginServiceUI, plugin_service_ui,
@@ -1482,6 +1559,18 @@ plugin_service_get_id (PluginService *service)
 	g_return_val_if_fail (GNM_IS_PLUGIN_SERVICE (service), NULL);
 
 	return service->id;
+}
+
+const char *
+plugin_service_get_description (PluginService *service)
+{
+	g_return_val_if_fail (GNM_IS_PLUGIN_SERVICE (service), NULL);
+
+	if (service->saved_description == NULL) {
+		service->saved_description = GPS_GET_CLASS (service)->get_description (service);
+	}
+
+	return service->saved_description;
 }
 
 void

@@ -113,6 +113,7 @@ typedef struct {
 
 PluginService *plugin_service_new (xmlNode *tree, ErrorInfo **ret_error);
 const char    *plugin_service_get_id (PluginService *service);
+const char    *plugin_service_get_description (PluginService *service);
 void           plugin_service_set_plugin (PluginService *service, GnmPlugin *plugin);
 GnmPlugin     *plugin_service_get_plugin (PluginService *service);
 gpointer       plugin_service_get_cbs (PluginService *service);

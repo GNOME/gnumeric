@@ -151,7 +151,6 @@ gnumeric_plugin_loader_class_init (GnumericPluginLoaderClass *klass)
 	klass->unload_service_plugin_loader = gnumeric_plugin_loader_unload_service_plugin_loader_real;
 	klass->load_service_ui = NULL;
 	klass->unload_service_ui = gnumeric_plugin_loader_unload_service_ui_real;
-	klass->get_extra_info_list = NULL;
 
 	GTK_OBJECT_CLASS (klass)->destroy = gnumeric_plugin_loader_destroy;
 }
@@ -311,22 +310,6 @@ gnumeric_plugin_loader_unload_service (GnumericPluginLoader *loader, PluginServi
 		}*/
 	} else {
 		*ret_error = error;
-	}
-}
-
-gint
-gnumeric_plugin_loader_get_extra_info_list (GnumericPluginLoader *loader, GSList **ret_keys_list, GSList **ret_values_list)
-{
-	GnumericPluginLoaderClass *gnumeric_plugin_loader_class;
-
-	g_return_val_if_fail (IS_GNUMERIC_PLUGIN_LOADER (loader), 0);
-	g_return_val_if_fail (ret_keys_list != NULL && ret_values_list != NULL, 0);
-
-	gnumeric_plugin_loader_class = PL_GET_CLASS (loader);
-	if (gnumeric_plugin_loader_class->get_extra_info_list != NULL) {
-		return gnumeric_plugin_loader_class->get_extra_info_list (loader, ret_keys_list, ret_values_list);
-	} else {
-		return 0;
 	}
 }
 
