@@ -105,6 +105,12 @@ gog_barcol_plot_editor (GogObject *item,
 	return gog_barcol_plot_pref (GOG_BARCOL_PLOT (item), cc);
 }
 
+static gboolean
+gog_barcol_swap_x_and_y (GogPlot1_5d *model)
+{
+	return GOG_BARCOL_PLOT (model)->horizontal;
+}
+
 static void
 gog_barcol_update_stacked_and_percentage (GogPlot1_5d *model,
 					  double **vals, unsigned const *lengths)
@@ -177,6 +183,7 @@ gog_barcol_plot_class_init (GogPlot1_5dClass *gog_plot_1_5d_klass)
 
 	plot_klass->desc.series.style_fields = GOG_STYLE_OUTLINE | GOG_STYLE_FILL;
 
+	gog_plot_1_5d_klass->swap_x_and_y = gog_barcol_swap_x_and_y;
 	gog_plot_1_5d_klass->update_stacked_and_percentage =
 		gog_barcol_update_stacked_and_percentage;
 }

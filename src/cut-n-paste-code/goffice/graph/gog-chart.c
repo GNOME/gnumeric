@@ -84,7 +84,7 @@ static void
 role_plot_post_add (GogObject *parent, GogObject *plot)
 {
 	GogChart *chart = GOG_CHART (parent);
-	gboolean ok;
+	gboolean ok = TRUE;
 
 	/* APPEND to keep order, there won't be that many */
 	chart->plots = g_slist_append (chart->plots, plot);
@@ -93,9 +93,8 @@ role_plot_post_add (GogObject *parent, GogObject *plot)
 	if (chart->plots->next == NULL)
 		ok = gog_chart_axis_set_assign (chart,
 			gog_plot_axis_set_pref (GOG_PLOT (plot)));
-	else
-		ok = gog_plot_axis_set_assign (GOG_PLOT (plot),
-			chart->axis_set);
+	ok |= gog_plot_axis_set_assign (GOG_PLOT (plot),
+		chart->axis_set);
 
 	/* a quick post condition to keep us on our toes */
 	g_return_if_fail (ok);
@@ -433,10 +432,20 @@ gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *allocation
 	res.h -= outline * 2.;
 	(cview_parent_klass->size_allocate) (view, &res);
 
+	/* position the axis */
+	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
+		child = ptr->data;
+		if (child->model->position == GOG_POSITION_SPECIAL &&
+		    IS_GOG_AXIS (child->model)) {
+			gog_view_size_allocate (child, &view->residual);
+		}
+	}
+
 	/* overlay all the plots in the residual */
 	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
 		child = ptr->data;
-		if (child->model->position == GOG_POSITION_SPECIAL)
+		if (child->model->position == GOG_POSITION_SPECIAL &&
+		    IS_GOG_PLOT (child->model))
 			gog_view_size_allocate (child, &view->residual);
 	}
 }

@@ -23,6 +23,8 @@
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-data-set.h>
+#include <goffice/graph/gog-view.h>
+#include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/go-data.h>
 
 #include <gsf/gsf-impl-utils.h>
@@ -49,6 +51,8 @@ struct _GogAxis {
 };
 
 typedef GogObjectClass GogAxisClass;
+
+static GType gog_axis_view_get_type (void);
 
 static GObjectClass *parent_klass;
 
@@ -135,7 +139,8 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 			GOG_AXIS_X, GOG_AXIS_TYPES, GOG_AXIS_TYPES, G_PARAM_READWRITE));
 
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
-	gog_klass->update = gog_axis_update;
+	gog_klass->update	= gog_axis_update;
+	gog_klass->view_type	= gog_axis_view_get_type ();
 }
 
 static void
@@ -182,6 +187,13 @@ gog_axis_type (GogAxis const *axis)
 	return axis->type;
 }
 
+/**
+ * gog_axis_add_contributor :
+ * @axis : #GogAxis
+ * @contrib : #GogObject (can we relax this to use an interface ?)
+ *
+ * Register @contrib as taking part in the negotiation of @axis's bounds.
+ **/
 void
 gog_axis_add_contributor (GogAxis *axis, GogObject *contrib)
 {
@@ -191,7 +203,13 @@ gog_axis_add_contributor (GogAxis *axis, GogObject *contrib)
 	axis->contributors = g_slist_prepend (axis->contributors, contrib);
 }
 
-
+/**
+ * gog_axis_del_contributor :
+ * @axis : #GogAxis
+ * @contrib : #GogObject (can we relax this to use an interface ?)
+ *
+ * @contrib no longer takes part in the negotiation of @axis's bounds.
+ **/
 void
 gog_axis_del_contributor (GogAxis *axis, GogObject *contrib)
 {
@@ -200,3 +218,57 @@ gog_axis_del_contributor (GogAxis *axis, GogObject *contrib)
 
 	axis->contributors = g_slist_remove (axis->contributors, contrib);
 }
+
+/**
+ *
+gog_axis_bound_changed   (GogAxis *axis, GogObject *contrib,
+double low, double high);
+**/
+void
+gog_axis_bound_changed (GogAxis *axis, GogObject *contrib,
+			double low, double high)
+{
+	g_return_if_fail (GOG_AXIS (axis) != NULL);
+
+	g_warning ("%p : bound changed to %g -> %g", axis, low, high);
+	gog_object_request_update (GOG_OBJECT (axis));
+}
+
+/****************************************************************************/
+
+typedef GogView		GogAxisView;
+typedef GogViewClass	GogAxisViewClass;
+
+#define GOG_AXIS_VIEW_TYPE	(gog_axis_view_get_type ())
+#define GOG_AXIS_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_AXIS_VIEW_TYPE, GogAxisView))
+#define IS_GOG_AXIS_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_AXIS_VIEW_TYPE))
+
+static GogViewClass *aview_parent_klass;
+
+static void
+gog_axis_view_size_request (GogView *view, GogViewRequisition *req)
+{
+	GogAxis *axis = GOG_AXIS (view->model);
+}
+
+static void
+gog_axis_view_render (GogView *view, GogViewAllocation const *bbox)
+{
+	GogAxis *axis = GOG_AXIS (view->model);
+
+	(aview_parent_klass->render) (view, bbox);
+}
+
+static void
+gog_axis_view_class_init (GogAxisViewClass *gview_klass)
+{
+	GogViewClass *view_klass    = (GogViewClass *) gview_klass;
+
+	aview_parent_klass = g_type_class_peek_parent (gview_klass);
+	view_klass->size_request    = gog_axis_view_size_request;
+	view_klass->render	    = gog_axis_view_render;
+}
+
+static GSF_CLASS (GogAxisView, gog_axis_view,
+		  gog_axis_view_class_init, NULL,
+		  GOG_VIEW_TYPE)

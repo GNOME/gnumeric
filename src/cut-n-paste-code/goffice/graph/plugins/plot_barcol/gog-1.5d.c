@@ -27,6 +27,7 @@
 #include "gog-barcol.h"
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
+#include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/go-data.h>
@@ -100,6 +101,24 @@ gog_plot1_5d_get_property (GObject *obj, guint param_id,
 	}
 }
 
+static GogAxis *
+gog_plot1_5d_get_value_axis (GogPlot1_5d *model)
+{
+	GogPlot1_5dClass *klass = GOG_PLOT1_5D_GET_CLASS (model);
+	if (klass->swap_x_and_y && (*klass->swap_x_and_y ) (model))
+		return model->base.axis [GOG_AXIS_X];
+	return model->base.axis [GOG_AXIS_Y];
+}
+
+static GogAxis *
+gog_plot1_5d_get_index_axis (GogPlot1_5d *model)
+{
+	GogPlot1_5dClass *klass = GOG_PLOT1_5D_GET_CLASS (model);
+	if (klass->swap_x_and_y && (*klass->swap_x_and_y ) (model))
+		return model->base.axis [GOG_AXIS_Y];
+	return model->base.axis [GOG_AXIS_X];
+}
+
 static void
 gog_plot1_5d_update (GogObject *obj)
 {
@@ -108,10 +127,14 @@ gog_plot1_5d_update (GogObject *obj)
 	GogSeries1_5d const *series;
 	unsigned i, num_elements, num_series;
 	double **vals, minimum, maximum;
+	double old_minimum, old_maximum;
 	unsigned *lengths;
 	GSList *ptr;
 
-	model->minimum = model->maximum = 0.;
+	minimum = DBL_MAX; /* yes I mean max */
+	maximum = DBL_MIN;
+	old_minimum =  model->minimum;
+	old_maximum =  model->maximum;
 	num_elements = num_series = 0;
 	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
 		series = ptr->data;
@@ -130,26 +153,37 @@ gog_plot1_5d_update (GogObject *obj)
 				model->maximum = maximum;
 		}
 	}
-	model->num_elements = num_elements;
+	if (model->num_elements != num_elements) {
+		model->num_elements = num_elements;
+		gog_axis_bound_changed (
+			gog_plot1_5d_get_index_axis (model), GOG_OBJECT (model),
+			1, num_elements);
+	}
 	model->num_series = num_series;
 
-	if (num_elements <= 0 || num_series <= 0)
-		return;
+	if (num_elements > 0 && num_series > 0) {
+		vals = g_alloca (num_series * sizeof (double *));
+		lengths = g_alloca (num_series * sizeof (unsigned));
+		i = 0;
+		for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next, i++) {
+			series = ptr->data;
+			/* we are guaranteed that at least 1 series is valid above */
+			if (!gog_series_is_valid (GOG_SERIES (series)))
+				continue;
+			vals[i] = go_data_vector_get_values (
+				GO_DATA_VECTOR (series->base.values[1].data));
+			lengths[i] = go_data_vector_get_len (
+				GO_DATA_VECTOR (series->base.values[1].data));
+		}
 
-	vals = g_alloca (num_series * sizeof (double *));
-	lengths = g_alloca (num_series * sizeof (unsigned));
-	i = 0;
-	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next, i++) {
-		series = ptr->data;
-		if (!gog_series_is_valid (GOG_SERIES (series)))
-			continue;
-		vals[i] = go_data_vector_get_values (
-			GO_DATA_VECTOR (series->base.values[1].data));
-		lengths[i] = go_data_vector_get_len (
-			GO_DATA_VECTOR (series->base.values[1].data));
-	}
+		klass->update_stacked_and_percentage (model, vals, lengths);
+	} else
+		model->minimum = model->maximum = 0.;
 
-	klass->update_stacked_and_percentage (model, vals, lengths);
+	if (old_minimum != model->minimum || old_maximum != model->maximum)
+		gog_axis_bound_changed (
+			gog_plot1_5d_get_value_axis (model), GOG_OBJECT (model),
+			model->minimum, model->maximum);
 
 	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
 	if (plot1_5d_parent_klass->update)

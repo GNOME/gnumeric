@@ -702,7 +702,7 @@ sv_panes_insdel_colrow (SheetView *sv, gboolean is_cols,
 	CellPos br = sv->unfrozen_top_left;
 
 	if (is_cols) {
-		/* unfrozen or acting in unfrozen region */
+		/* ignore if not frozen, or acting in unfrozen region */
 		if (br.col <= tl.col || br.col <= start)
 			return;
 		if (is_insert) {
@@ -710,9 +710,12 @@ sv_panes_insdel_colrow (SheetView *sv, gboolean is_cols,
 			if (tl.col >= start)	/* UI can not do this */
 				tl.col += count;
 		} else {
+			br.col -= count;
+			if (br.col <= tl.col)
+				br.col = tl.col + 1;
 		}
 	} else {
-		/* unfrozen or acting in unfrozen region */
+		/* ignore if not frozen, or acting in unfrozen region */
 		if (br.row <= tl.row || br.row <= start)
 			return;
 		if (is_insert) {
@@ -720,6 +723,9 @@ sv_panes_insdel_colrow (SheetView *sv, gboolean is_cols,
 			if (tl.row >= start)	/* UI can not do this */
 				tl.row += count;
 		} else {
+			br.row -= count;
+			if (br.row <= tl.row)
+				br.row = tl.row + 1;
 		}
 	}
 	sv_freeze_panes (sv, &tl, &br);

@@ -1,7 +1,8 @@
 2003-08-16  Jody Goldberg <jody@gnome.org>
 
 	* widget-color-combo.c (color_combo_construct) : no need to store the
-	  preview canvas.  That is breaking theme support anyway.
+	  preview canvas.  Using it breaks theme support, so why bother
+	  storing it.
 
 2003-08-12  Jody Goldberg <jody@gnome.org>
 

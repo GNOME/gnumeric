@@ -121,11 +121,11 @@ Pending Patches
 	1.14.2) Add any missing axis when chart type is set	(DONE)
 	1.14.3) Remove any existing axis that do not correspond	(DONE)
 		to chart type.
-	1.14.2) Life cycle of plots/axis to maintain connection
-	1.14.3) UI for adding an axis
-	1.14.4) Only permit removal of unused axes
+	1.14.2) Life cycle of plots/axis to maintain connection	(DONE)
+	1.14.3) UI for adding an axis				(DONE)
+	1.14.4) Only permit removal of unused axes		(DONE)
 	1.14.5) Allow a plot to select a different axis
-	1.14.6) Create plot2d as base for bar/col & XY
+	1.14.6) Create plot2d as base for bar/col & XY		(DONE)
 	1.14.7) Filter add plot in guru to matching types
 	1.14.8) do range allocation and filtering in chart
 	    foreach axis in chart

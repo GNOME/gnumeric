@@ -44,9 +44,10 @@ typedef struct {
 typedef struct {
 	GogPlotClass	base;
 
-	void (*update_stacked_and_percentage) (GogPlot1_5d *model,
-					       double **vals,
-					       unsigned const *lengths);
+	gboolean (*swap_x_and_y)		  (GogPlot1_5d *model);
+	void     (*update_stacked_and_percentage) (GogPlot1_5d *model,
+						   double **vals,
+						   unsigned const *lengths);
 } GogPlot1_5dClass;
 
 #define GOG_PLOT1_5D_TYPE		(gog_plot1_5d_get_type ())

@@ -381,7 +381,7 @@ gog_plot_axis_set_assign (GogPlot *plot, GogAxisSet axis_set)
 			GSList *axes = gog_chart_get_axis (chart, type);
 			if (axes != NULL) {
 				gog_axis_add_contributor (axes->data, GOG_OBJECT (plot));
-				plot->axis[GOG_AXIS_TYPES] = axes->data;
+				plot->axis[type] = axes->data;
 				g_slist_free (axes);
 			}
 		}

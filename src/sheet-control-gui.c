@@ -284,7 +284,8 @@ scg_resize (SheetControl *sc, gboolean force_scroll)
 		scg->pane[0].row.item, FALSE,
 		-1, btn_h, scg->row_group.buttons, scg->row_group.button_box);
 
-	if (scg->active_panes == 1) {
+	/* no need to resize panes that are about to go away while unfreezing */
+	if (scg->active_panes == 1 || !sv_is_frozen (sc->view)) {
 		foo_canvas_set_scroll_region (scg->pane[0].col.canvas,
 			0, 0, GNUMERIC_CANVAS_FACTOR_X / zoom, h / zoom);
 		foo_canvas_set_scroll_region (scg->pane[0].row.canvas,

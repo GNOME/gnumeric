@@ -47,6 +47,8 @@ GogAxisType gog_axis_type (GogAxis const *axis);
 
 void gog_axis_add_contributor (GogAxis *axis, GogObject *contrib);
 void gog_axis_del_contributor (GogAxis *axis, GogObject *contrib);
+void gog_axis_bound_changed   (GogAxis *axis, GogObject *contrib,
+			       double low, double high);
 
 G_END_DECLS
 

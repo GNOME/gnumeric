@@ -1,3 +1,16 @@
+2003-08-17  Jody Goldberg <jody@gnome.org>
+
+	* src/selection.c (characterize_vec) : handle empty cells at the end
+	  when characterizing.
+
+2003-08-16  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=117711
+	* src/sheet-view.c (sv_panes_insdel_colrow) : be smarter during
+	  deletetion.
+	* src/sheet-control-gui.c (scg_resize) : stave off some warnings while
+	  unfreezing by not resizing the panes that we're about to delete.
+
 2003-08-16  Jody Goldberg <jody@gnome.org>
 
 	A bit of tidying to make 70184 simpler

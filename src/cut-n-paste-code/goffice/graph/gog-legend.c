@@ -32,8 +32,6 @@
 #include <gsf/gsf-impl-utils.h>
 #include <src/gnumeric-i18n.h>
 
-static GType gog_legend_view_get_type (void);
-
 struct _GogLegend {
 	GogStyledObject	base;
 
@@ -54,6 +52,8 @@ enum {
 	LEGEND_SWATCH_SIZE_PTS,
 	LEGEND_SWATCH_PADDING_PTS
 };
+
+static GType gog_legend_view_get_type (void);
 
 static GObjectClass *parent_klass;
 
