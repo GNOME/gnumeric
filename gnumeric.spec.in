@@ -55,11 +55,11 @@ MS Excel files and many other formats (csv, latex, xbase, applix).
 if [ ! -f configure ]; then
 	CFLAGS="$RPM_OPT_FLAGS" ./autogen.sh $MYARCH_FLAGS --prefix=%prefix \
 		--sysconfdir=%{sysconfdir} \
-		--without-bonobo --without-gb
+		--without-gb
 else
 	CFLAGS="$RPM_OPT_FLAGS" ./configure $MYARCH_FLAGS --prefix=%prefix \
 		--sysconfdir=%{sysconfdir} \
-		--without-bonobo --without-gb
+		--without-gb
 fi
 
 if [ "$SMP" != "" ]; then
@@ -89,20 +89,24 @@ fi
 
 %defattr (0555, bin, bin)
 %{prefix}/bin/gnumeric
-%{prefix}/lib/gnumeric/%{version}/plugins/*/*.so
+%{prefix}/lib/gnumeric/%{version}-bonobo/plugins/*/*.so
+%{prefix}/lib/gnumeric/%{version}-bonobo/plugins/*/*.py
 %{prefix}/lib/gnumericConf.sh
 
 %defattr (0444, bin, bin, 0555)
 %doc HACKING AUTHORS ChangeLog NEWS BUGS README COPYING TODO
-%{prefix}/lib/gnumeric/%{version}/plugins/*/*.xml
+%{prefix}/lib/gnumeric/%{version}-bonobo/plugins/*/*.xml
+%{prefix}/lib/gnumeric/%{version}-bonobo/plugins/*/glossary-po-header
 %config %{prefix}/share/gnome/apps/Applications/*
 %{prefix}/share/gnome/help/gnumeric/C/images/*
 %{prefix}/share/gnome/help/gnumeric/C/*.*
-%{prefix}/share/gnumeric/%{version}/autoformat-templates/*/*
-%{prefix}/share/gnumeric/%{version}/glade/*
-%{prefix}/share/gnumeric/%{version}/gnome/ui/*
-%{prefix}/share/gnumeric/%{version}/idl/*.idl
-%{prefix}/share/gnumeric/%{version}/templates/*
+%dir %{prefix}/share/gnumeric
+%{prefix}/share/gnumeric/%{version}-bonobo/autoformat-templates/*/*
+%{prefix}/share/gnumeric/%{version}-bonobo/glade/*
+%{prefix}/share/gnumeric/%{version}-bonobo/gnome/ui/*
+%{prefix}/share/gnumeric/%{version}-bonobo/idl/*.idl
+%{prefix}/share/gnumeric/%{version}-bonobo/python/*
+%{prefix}/share/gnumeric/%{version}-bonobo/templates/*
 #%{prefix}/share/locale/*/LC_MESSAGES/*.mo
 %{prefix}/share/mc/templates/*
 %{prefix}/share/mime-info/*
@@ -116,13 +120,20 @@ fi
 #%files devel
 #%defattr (-, bin, bin)
 #%{prefix}/lib/gnumericConf.sh
-#%{prefix}/share/gnumeric/%{version}/idl/*.idl
+#%{prefix}/share/gnumeric/%{version}-bonobo/idl/*.idl
 # This is really silly.  The .la files are useless for plugins.
-##%{prefix}/lib/gnumeric/%{version}/plugins/*/*.la
+##%{prefix}/lib/gnumeric/%{version}-bonobo/plugins/*/*.la
 
 %changelog
 * Wed Jun 27 2001 John Gotts <jgotts@linuxsavvy.com>
-- Note that the most important reason for -devel RPM's is to exclude files that+  aren't needed on the majority of systems.  The reason that the "premature"
+- Added the python stuff back; it reappeared in 0.66.
+- We're now Bonobo by default!
+- Cautiously added a %dir.  %dir gets overused by many RPM's.  Try running
+  'rpm -qf /usr/bin' some time.  ;-(
+
+* Wed Jun 27 2001 John Gotts <jgotts@linuxsavvy.com>
+- Note that the most important reason for -devel RPM's is to exclude files that
+  aren't needed on the majority of systems.  The reason that the "premature"
   and "useless" files were moved to a -devel RPM wasn't to highlight their
   usefulness for software development, it was to facilitate their exclusion
   from the vast majority of installations.  It would be better to not install
