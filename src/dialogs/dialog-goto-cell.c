@@ -22,11 +22,6 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#undef GTK_DISABLE_DEPRECATED
-#warning "This file uses GTK_DISABLE_DEPRECATED for GtkCombo in GnomeEntry"
-#undef GNOME_DISABLE_DEPRECATED
-#warning "This file uses GNOME_DISABLE_DEPRECATED for GnomeEntry"
-
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
 #include <gnumeric.h>
@@ -43,7 +38,6 @@
 #include <workbook-view.h>
 
 #include <workbook-edit.h>
-#include <libgnomeui/gnome-entry.h>
 #include <gtk/gtktreestore.h>
 #include <gtk/gtktreeview.h>
 #include <gtk/gtktreeselection.h>
@@ -61,7 +55,7 @@ typedef struct {
 	GtkWidget *dialog;
 	GtkWidget *close_button;
 	GtkWidget *go_button;
-	GnomeEntry *goto_text;
+	GtkEntry *goto_text;
 
 	GtkTreeStore  *model;
 	GtkTreeView   *treeview;
@@ -128,11 +122,13 @@ static void
 cb_dialog_goto_go_clicked (G_GNUC_UNUSED GtkWidget *button,
 			   GotoState *state)
 {
-	char *text = g_strdup (gtk_entry_get_text
-	       (GTK_ENTRY (gnome_entry_gtk_entry (state->goto_text))));
+	char *text = g_strdup (gtk_entry_get_text (state->goto_text));
 
-	if (wb_control_parse_and_jump (WORKBOOK_CONTROL (state->wbcg), text))
+	if (wb_control_parse_and_jump (WORKBOOK_CONTROL (state->wbcg), text)) {
+#if 0
 		gnome_entry_append_history (state->goto_text, TRUE, text);
+#endif
+	}
 	g_free (text);
 	return;
 }
@@ -141,15 +137,14 @@ static void
 cb_dialog_goto_update_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
 				   GotoState *state)
 {
-	GtkEntry *entry = GTK_ENTRY (gnome_entry_gtk_entry (state->goto_text));
 	GnmValue *val = global_range_parse (wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg)),
-					 gtk_entry_get_text (entry));
+					    gtk_entry_get_text (state->goto_text));
 	if (val != NULL) {
 		gtk_widget_set_sensitive (state->go_button, TRUE);
 		value_release (val);
 	} else
 		gtk_widget_set_sensitive (state->go_button, FALSE);
-	gtk_entry_set_activates_default (entry, (val != NULL));
+	gtk_entry_set_activates_default (state->goto_text, (val != NULL));
 }
 
 typedef struct {
@@ -240,9 +235,8 @@ cb_dialog_goto_selection_changed (GtkTreeSelection *the_selection, GotoState *st
 			parse_pos_init_sheet (&pp, sheet);
 			where_to = expr_name_as_string  (name, &pp, gnm_expr_conventions_default);
 			if (wb_control_parse_and_jump (WORKBOOK_CONTROL (state->wbcg), where_to))
-				gtk_entry_set_text (
-					GTK_ENTRY (gnome_entry_gtk_entry (state->goto_text)),
-					where_to);
+				gtk_entry_set_text (state->goto_text,
+						    where_to);
 			g_free (where_to);
 			return;
 		}
@@ -268,12 +262,12 @@ dialog_goto_init (GotoState *state)
 	GtkTreeViewColumn *column;
 
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "names"));
-	state->goto_text =  GNOME_ENTRY (gnome_entry_new ("goto_entry"));
+	state->goto_text = GTK_ENTRY (gtk_entry_new ());
 	gtk_table_attach (table, GTK_WIDGET (state->goto_text),
 			  0, 1, 2, 3,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
-	g_signal_connect_after (G_OBJECT (gnome_entry_gtk_entry (state->goto_text)),
+	g_signal_connect_after (G_OBJECT (state->goto_text),
 		"changed",
 		G_CALLBACK (cb_dialog_goto_update_sensitivity), state);
 

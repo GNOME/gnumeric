@@ -3,6 +3,7 @@
 	* dialog-search-replace.c: Use GtkEntry (some we don't rely on
 	libgnome).
 	* dialog-search.c: Ditto.
+	* dialog-goto-cell.c (dialog_goto_init): Ditto.
 
 2004-02-05  Morten Welinder  <terra@gnome.org>
 
