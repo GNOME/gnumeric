@@ -1,3 +1,10 @@
+1999-11-12  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cell.c (cell_set_text_simple) : Store the entered text.
+
+	* src/formats.c (cell_format_is_number) : Only non simple currencies
+	  require a space.
+
 1999-11-12  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/format.c (format_number): Use alloca here.

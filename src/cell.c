@@ -495,6 +495,7 @@ cell_set_text_simple (Cell *cell, const char *text)
 		}
 
 		cell_render_value (cell);
+		cell->entered_text = string_get (text);
 	}
 }
 

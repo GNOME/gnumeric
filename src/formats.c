@@ -333,19 +333,20 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 		return FMT_UNKNOWN;
 
 	/* Check for prepended currency */
-	if (ptr[0] == '$' || ptr[1] == "£") {
+	if (ptr[0] == '$' || ptr[1] == '£') {
 		info->currency_symbol_index = (ptr[0] == '$') ? 1 : 2;
 		result = FMT_CURRENCY;
 		++ptr;
 	} else if (ptr[0] == '[' && ptr[1] == '$') {
 		char const * const end = strchr (ptr, ']');
 
-		if (end != NULL) {
+		if (end != NULL && end[1] == ' ') {
 			/* FIXME : Look up the correct index */
 			info->currency_symbol_index = 1;
 			result = FMT_CURRENCY;
 			ptr = end + 1;
-		}
+		} else
+			return FMT_UNKNOWN;
 	}
 
 	/* Check for thousands seperator */

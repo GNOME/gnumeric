@@ -373,7 +373,10 @@ draw_format_preview (FormatState *state)
 	case FMT_CURRENCY :
 		g_string_append (new_format,
 				 currency_symbols[state->format.currency_index].symbol);
-		g_string_append_c (new_format, ' ');
+
+		/* Non simple currencies require a spacer */
+		if (currency_symbols[state->format.currency_index].symbol[0] == '[')
+			g_string_append_c (new_format, ' ');
 
 	case FMT_NUMBER :
 		if (state->format.use_separator) {
