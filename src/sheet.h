@@ -107,7 +107,7 @@ struct _Sheet {
 	
 	char        *name;
 
-	void        *style_data; /* See sheet-style.c */
+	SheetStyleData *style_data; /* See sheet-style.c */
 
 	ColRowCollection cols, rows;
 

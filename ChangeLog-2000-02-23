@@ -1,5 +1,9 @@
 1999-10-23  Michael Meeks  <mmeeks@gnu.org>
 
+	* doc/Styles.txt: update.
+
+1999-10-23  Michael Meeks  <mmeeks@gnu.org>
+
 	* src/corba-sheet.c (Sheet_cell_get_pattern, Sheet_cell_set_pattern): 
 	implement.
 
