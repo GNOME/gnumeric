@@ -147,9 +147,9 @@ format_value_gstring (GString *result, GOFormat const *format,
 			val = ABS (val);
 
 		if (entry == NULL)
-			fmt_general_int (result, val, col_width);
+			go_fmt_general_int (result, val, col_width);
 		else
-			format_number (result, val, (int)col_width, entry, date_conv);
+			gnm_format_number (result, val, (int)col_width, entry, date_conv);
 		return;
 	}
 	case VALUE_FLOAT: {
@@ -165,11 +165,11 @@ format_value_gstring (GString *result, GOFormat const *format,
 
 		if (entry == NULL) {
 			if (INT_MAX >= val && val >= INT_MIN && val == gnm_floor (val))
-				fmt_general_int (result, (int)val, col_width);
+				go_fmt_general_int (result, (int)val, col_width);
 			else
-				fmt_general_float (result, val, col_width);
+				gnm_fmt_general_float (result, val, col_width);
 		} else
-			format_number (result, val, (int)col_width, entry, date_conv);
+			gnm_format_number (result, val, (int)col_width, entry, date_conv);
 		return;
 	}
 	case VALUE_ERROR:
