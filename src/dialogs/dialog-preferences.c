@@ -1382,6 +1382,6 @@ dialog_preferences (WorkbookControlGUI *wbcg, gint page)
 
 	gtk_notebook_set_current_page   (GTK_NOTEBOOK (state->notebook), startup_pages[page]);
 
-	wbcg_set_transient (wbcg, state->dialog);
+	wbcg_set_transient (wbcg, GTK_WINDOW (state->dialog));
 	gtk_widget_show (GTK_WIDGET (state->dialog));
 }

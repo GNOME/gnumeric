@@ -77,7 +77,7 @@ solver_param_destroy (SolverParameters *sp)
 	g_free (sp);
 }
 
-SolverResults *
+static SolverResults *
 solver_results_init (const SolverParameters *sp)
 {
         SolverResults *res     = g_new (SolverResults, 1);
@@ -600,7 +600,7 @@ check_program_definition_failures (Sheet            *sheet,
 	return FALSE;  /* Everything Ok. */
 }
 
-SolverResults *
+static SolverResults *
 solver_run (WorkbookControl *wbc, Sheet *sheet,
 	    const SolverLPAlgorithm *alg, gchar **errmsg)
 {

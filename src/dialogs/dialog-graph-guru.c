@@ -106,9 +106,9 @@ struct _GraphGuruState
 	Sheet		   *sheet;
 };
 
+#ifdef GNOME2_CONVERSION_COMPLETE
 static void graph_guru_select_plot (GraphGuruState *s, xmlNode *plot, int seriesID);
 
-#ifdef GNOME2_CONVERSION_COMPLETE
 static void
 graph_guru_clear_xml (GraphGuruState *state)
 {

@@ -1,3 +1,7 @@
+2002-05-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* html_read.c (html32_read_buffer) : make static
+
 2002-04-29  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.3

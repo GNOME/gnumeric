@@ -144,7 +144,7 @@ typedef struct {
         gboolean assume_non_negative;
 } lp_solve_t;
 
-SolverProgram
+static SolverProgram
 w_lp_solve_init (const SolverParameters *param)
 {
 	lp_solve_t *lp;
@@ -161,7 +161,7 @@ w_lp_solve_init (const SolverParameters *param)
 	return lp;
 }
 
-void
+static void
 w_lp_solve_delete_lp (SolverProgram program)
 {
 	lp_solve_t *lp = (lp_solve_t *) program;
@@ -170,7 +170,7 @@ w_lp_solve_delete_lp (SolverProgram program)
 	g_free (lp);
 }
 
-void
+static void
 w_lp_solve_set_maxim (SolverProgram program)
 {
 	lp_solve_t *lp = (lp_solve_t *) program;
@@ -178,7 +178,7 @@ w_lp_solve_set_maxim (SolverProgram program)
         lp_solve_set_maxim (lp->p);
 }
 
-void
+static void
 w_lp_solve_set_minim (SolverProgram program)
 {
 	lp_solve_t *lp = (lp_solve_t *) program;
@@ -186,7 +186,7 @@ w_lp_solve_set_minim (SolverProgram program)
         lp_solve_set_minim (lp->p);
 }
 
-void
+static void
 w_lp_solve_set_obj_fn (SolverProgram program, int col, gnum_float value)
 {
 	lp_solve_t *lp = (lp_solve_t *) program;
@@ -199,7 +199,7 @@ w_lp_solve_set_obj_fn (SolverProgram program, int col, gnum_float value)
 	}
 }
 
-void
+static void
 w_lp_solve_set_constr_mat (SolverProgram program, int col, int row,
 			   gnum_float value)
 {
@@ -213,7 +213,7 @@ w_lp_solve_set_constr_mat (SolverProgram program, int col, int row,
 	}
 }
 
-void
+static void
 w_lp_solve_set_constr (SolverProgram program, int row,
 		       SolverConstraintType type, gnum_float rhs)
 {
@@ -223,7 +223,7 @@ w_lp_solve_set_constr (SolverProgram program, int row,
         lp_solve_set_rh (lp->p, row + 1, rhs);
 }
 
-void
+static void
 w_lp_solve_set_int (SolverProgram program, int col)
 {
 	lp_solve_t *lp = (lp_solve_t *) program;
@@ -236,7 +236,7 @@ w_lp_solve_set_int (SolverProgram program, int col)
 	}
 }
 
-void
+static void
 w_lp_solve_set_bool (SolverProgram program, int col)
 {
 	lp_solve_t *lp = (lp_solve_t *) program;
@@ -256,7 +256,7 @@ w_lp_solve_set_bool (SolverProgram program, int col)
 	}
 }
 
-SolverStatus
+static SolverStatus
 w_lp_solve_solve (SolverProgram program)
 {
 	lp_solve_t *lp = (lp_solve_t *) program;
@@ -264,7 +264,7 @@ w_lp_solve_solve (SolverProgram program)
         return lp_solve_solve (lp->p);
 }
 
-gnum_float
+static gnum_float
 w_lp_solve_get_solution (SolverProgram program, int column)
 {
 	lp_solve_t *lp = (lp_solve_t *) program;
@@ -283,7 +283,7 @@ w_lp_solve_get_solution (SolverProgram program, int column)
 	}
 }
 
-gnum_float
+static gnum_float
 w_lp_solve_get_value_of_obj_fn (SolverProgram program)
 {
 	lp_solve_t *lp = (lp_solve_t *) program;
@@ -291,7 +291,7 @@ w_lp_solve_get_value_of_obj_fn (SolverProgram program)
         return lp->p->best_solution [0];
 }
 
-gnum_float
+static gnum_float
 w_lp_solve_get_dual (SolverProgram program, int row)
 {
 	lp_solve_t *lp = (lp_solve_t *) program;
@@ -299,7 +299,7 @@ w_lp_solve_get_dual (SolverProgram program, int row)
         return lp->p->duals [row + 1];
 }
 
-gboolean
+static gboolean
 w_lp_solve_set_option (SolverProgram program, SolverOptionType option,
 		       const gboolean *b_value,
 		       const gnum_float *f_value, const int *i_value)
@@ -322,7 +322,7 @@ w_lp_solve_set_option (SolverProgram program, SolverOptionType option,
 	}
 }
 
-void
+static void
 w_lp_solve_print_lp (SolverProgram program)
 {
 	lp_solve_t *lp = (lp_solve_t *) program;
@@ -589,91 +589,91 @@ w_glpk_print_lp (SolverProgram program)
  *
  */
 
-SolverProgram
+static SolverProgram
 w_qp_dummy_init (const SolverParameters *param)
 {
         printf ("w_qp_dummy_init\n");
 	return NULL;
 }
 
-void
+static void
 w_qp_dummy_delete (SolverProgram program)
 {
         printf ("w_qp_dummy_delete\n");
 }
 
-void
+static void
 w_qp_dummy_set_maxim (SolverProgram program)
 {
         printf ("w_qp_set_maxim\n");
 }
 
-void
+static void
 w_qp_dummy_set_minim (SolverProgram program)
 {
         printf ("w_qp_set_minim\n");
 }
 
-void
+static void
 w_qp_dummy_set_obj_fn (SolverProgram program, int col, gnum_float value)
 {
         printf ("w_qp_dummy_set_obj_fn %d, %g\n", col, value);
 }
 
-void
+static void
 w_qp_dummy_set_constr_mat (SolverProgram program, int col, int row, gnum_float value)
 {
         printf ("w_qp_dummy_set_constr_mat %d, %d, %g\n", col, row, value);
 }
 
-void
+static void
 w_qp_dummy_set_constr (SolverProgram program, int row, SolverConstraintType type,
 		   gnum_float value)
 {
         printf ("w_qp_dummy_set_constr %d, %d, %g\n", row, type, value);
 }
 
-void
+static void
 w_qp_dummy_set_int (SolverProgram program, int col)
 {
         printf ("w_qp_dummy_set_int %d\n", col);
 }
 
-void
+static void
 w_qp_dummy_set_bool (SolverProgram program, int col)
 {
         printf ("w_qp_dummy_set_bool %d\n", col);
 }
 
-SolverStatus
+static SolverStatus
 w_qp_dummy_solve (SolverProgram program)
 {
         printf ("w_qp_dummy_solve\n");
 	return SolverInfeasible;
 }
 
-gnum_float
+static gnum_float
 w_qp_dummy_get_solution (SolverProgram program, int col)
 {
         printf ("w_qp_dummy_get_solution %d\n", col);
 	return 0;;
 }
 
-gnum_float
+static gnum_float
 w_qp_dummy_get_value_of_obj_fn (SolverProgram program)
 {
         printf ("w_qp_dummy_get_value_of_obj_fn\n");
 	return 0;
 }
 
-gnum_float
+static gnum_float
 w_qp_dummy_get_dual (SolverProgram program, int row)
 {
         printf ("w_qp_dummy_get_dual %d\n", row);
 	return 0;
 }
 
-gboolean
+static gboolean
 w_qp_dummy_set_option (SolverProgram program, SolverOptionType option,
 		   const gboolean *b_value,
 		   const gnum_float *f_value, const int *i_value)
@@ -682,7 +682,7 @@ w_qp_dummy_set_option (SolverProgram program, SolverOptionType option,
         return FALSE;
 }
 
-void
+static void
 w_qp_dummy_print (SolverProgram program)
 {
         printf ("w_qp_dummy_print\n");

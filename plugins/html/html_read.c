@@ -134,7 +134,7 @@ findtag (char const *buf, char const *tag)
 	return buf;
 }
 
-void
+static void
 html32_read_buffer (IOContext *io_context, WorkbookView *wb_view, 
 		    guchar const *buf, int buf_size)
 {

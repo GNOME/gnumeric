@@ -24,6 +24,7 @@
 #include <gnumeric-config.h>
 #include "gnumeric.h"
 #include "numbers.h"
+#include "reports-write.h"
 
 #include "format.h"
 #include "parse-util.h"
@@ -54,7 +55,7 @@
  * Fetches the CPU model and the speed of it.  Returns TRUE if succeeded,
  * FALSE otherwise.  FIXME: Currently Linux only.
  */
-gboolean
+static gboolean
 get_cpu_info (gchar *model_name, gchar *cpu_mhz, unsigned int size)
 {
         FILE     *in;

@@ -1,3 +1,10 @@
+2002-05-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* reports-write.c : include reports-write.h to fix warnings
+	* api.c : make a bunch of functions static to fix warnings
+	* solver.c (solver_results_init) : make static
+	(solver_run) : make static
+
 2002-04-29  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.3

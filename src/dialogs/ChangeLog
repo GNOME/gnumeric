@@ -1,5 +1,10 @@
 2002-05-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-graph-guru.c : fix warning
+	* dialog-preferences.c : fix warning
+
+2002-05-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* plugin-manager.glade : add rescan button
 	* dialog-plugin-manager.c (cb_pm_button_install_plugin_clicked) : 
 	  deleted
