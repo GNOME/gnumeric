@@ -1,3 +1,7 @@
+2003-04-19  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* data-shuffling.c (run_shuffling_tool): Implement free area search.
+
 2003-04-18  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* scenarios.c (scenario_move_range): Implemented.

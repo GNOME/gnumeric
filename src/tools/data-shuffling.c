@@ -231,18 +231,57 @@ static void
 run_shuffling_tool (data_shuffling_t *st)
 {
 	GSList *cur;
+	Cell   *cell;
+	int    i, j;
 
-	range_init (&st->tmp_area, 7, 0, 7, 0);
-
-	if (st->type == SHUFFLE_COLS)
+	if (st->type == SHUFFLE_COLS) {
+		/* Find empty space. */
+		for (i = SHEET_MAX_COLS - 1; i >= 0; i--)
+			for (j = SHEET_MAX_ROWS - 1; j >= 0; j--) {
+				cell = sheet_cell_get (st->sheet, i, j);
+				if (cell != NULL)
+					break;
+				else if (SHEET_MAX_ROWS - j >= st->rows)
+					goto cols_out;
+			}
+	cols_out:
+		if (i < 0)
+			return;
+		range_init (&st->tmp_area, i, j, i, j + st->rows - 1);
 		for (cur = st->changes; cur; cur = cur->next)
 			do_swap_cols (st, (swap_t *) cur->data);
-	else if (st->type == SHUFFLE_ROWS)
+	} else if (st->type == SHUFFLE_ROWS) {
+		/* Find empty space. */
+		for (i = SHEET_MAX_ROWS - 1; i >= 0; i--)
+			for (j = SHEET_MAX_COLS - 1; j >= 0; j--) {
+				cell = sheet_cell_get (st->sheet, j, i);
+				if (cell != NULL)
+					break;
+				else if (SHEET_MAX_COLS - j >= st->cols)
+					goto rows_out;
+			}
+	rows_out:
+		if (i < 0)
+			return;
+		range_init (&st->tmp_area, j, i, j + st->cols - 1, i);
 		for (cur = st->changes; cur; cur = cur->next)
 			do_swap_rows (st, (swap_t *) cur->data);
-	else /* SHUFFLE_AREA */
+	} else {
+		/* SHUFFLE_AREA */
+		/* Find empty space. */
+		for (i = SHEET_MAX_COLS - 1; i >= 0; i--)
+			for (j = SHEET_MAX_ROWS - 1; j >= 0; j--) {
+				cell = sheet_cell_get (st->sheet, i, j);
+				if (cell == NULL)
+					goto area_out;
+			}
+	area_out:
+		if (i < 0)
+			return;
+		range_init (&st->tmp_area, i, j, i, j);
 		for (cur = st->changes; cur; cur = cur->next)
 			do_swap_cells (st, (swap_t *) cur->data);
+	}
 }
 
 data_shuffling_t *
