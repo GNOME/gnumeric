@@ -1,9 +1,13 @@
 2000-03-24  Jody Goldberg <jgoldberg@home.com>
 
-	* src/gnumeric-sheet.c (gnumeric_sheet_set_left_col) : Fix cut-n-paste-o.
+	* src/gnumeric-sheet.c (gnumeric_sheet_set_left_col) : 
+	Fix cut-n-paste-o.
 
 2000-03-24  Tuomas Kuosmanen  <tigert@gimp.org>
 
+	* src/pixmaps/function_selector.xpm: New pixmap for Function
+	Selection Wizard 
+	
 	* src/pixmaps/sort-ascending.xpm 
 	* src/pixmaps/sort-descending.xpm: New versions of the sort icons,
 	we dont sort by numeric value so we dont want to use 123 in the icon
