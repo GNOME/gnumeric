@@ -1,3 +1,20 @@
+2000-04-05  Miguel de Icaza  <miguel@gnu.org>
+
+	Fix #8326
+	
+	* src/print-info.c (print_info_new): Test was reversed here, so we
+	were actually flipping the orientation for printing.
+
+	* src/print.c (print_sheet_range): Now the routine returns the
+	number of pages printed, and can be directed not to generate
+	actual output.  
+	(print_sheet_range): Do column/row fitting for the other printing
+	order as well.
+	(compute_sheet_pages): Support both empty-page printing, and non
+	empty-page printing.
+	(print_page): Can now print and detect if there is anything to
+	print. 
+
 2000-04-05  Jody Goldberg <jgoldberg@home.com>
 
 	* src/commands.c (cmd_paste_cut_undo) : Use sheet_update and force a

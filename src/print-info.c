@@ -249,9 +249,9 @@ print_info_new (void)
 	
 	/* Orientation */
 	if (gnome_config_get_bool ("vertical_print=false"))
-		pi->orientation = PRINT_ORIENT_HORIZONTAL;
-	else
 		pi->orientation = PRINT_ORIENT_VERTICAL;
+	else
+		pi->orientation = PRINT_ORIENT_HORIZONTAL;
 
 	/* Scaling */
 	if (gnome_config_get_bool ("do_scale_percent=true"))

@@ -542,22 +542,32 @@ print_cell_background (GnomePrintContext *context, Sheet *sheet,
 #endif
 }
 
-void
+/*
+ * print_cell_range:
+ *
+ * Prints the cell range.  If output if FALSE, then it does not actually print
+ * but it only computes whether there is data to be printed at all.
+ *
+ * Return value: returns TRUE if at least one cell was printed
+ */
+gboolean 
 print_cell_range (GnomePrintContext *context,
 		  Sheet *sheet,
 		  int start_col, int start_row,
 		  int end_col, int end_row,
-		  double base_x, double base_y)
+		  double base_x, double base_y,
+		  gboolean output)
 {
 	int row, col;
 	double x, y;
-
-	g_return_if_fail (context != NULL);
-	g_return_if_fail (GNOME_IS_PRINT_CONTEXT (context));
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (start_col <= end_col);
-	g_return_if_fail (start_row <= end_row);
+	gboolean printed = FALSE;
+	
+	g_return_val_if_fail (context != NULL, FALSE);
+	g_return_val_if_fail (GNOME_IS_PRINT_CONTEXT (context), FALSE);
+	g_return_val_if_fail (sheet != NULL, FALSE);
+	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
+	g_return_val_if_fail (start_col <= end_col, FALSE);
+	g_return_val_if_fail (start_row <= end_row, FALSE);
 
 	y = base_y;
 	for (row = start_row; row <= end_row; row++){
@@ -566,32 +576,38 @@ print_cell_range (GnomePrintContext *context,
 			continue;
 
 		x = base_x;
-		/* DO NOT increment the column here, spanning cols are different */
+
+		/* Do not increment the column here, spanning cols are different */
 		for (col = start_col; col <= end_col; ){
 			CellSpanInfo const * span;
 			ColRowInfo const * ci = sheet_col_get_info (sheet, col);
+
 			if (!ci->visible) {
 				++col;
 				continue;
 			}
 
-			/* Is this the start of a span?
+			/*
+			 * Is this the start of a span?
 			 * 1) There are cells allocated in the row
 			 *       (indicated by ri->pos != -1)
 			 * 2) Look in the rows hash table to see if
 			 *    there is a span descriptor.
 			 */
-			if (ri->pos == -1 ||
-			    NULL == (span = row_span_get (ri, col))
-			    /* No need to check for edit cell while printing */) {
+			if (ri->pos == -1 || NULL == (span = row_span_get (ri, col))){
 				Cell *cell = sheet_cell_get (sheet, col, row);
-				MStyle *mstyle = print_cell_background (
+				MStyle *mstyle;
+
+				mstyle = print_cell_background (
 					context, sheet, ci, ri,
 					col, row, x, y, FALSE);
 
-				if (!cell_is_blank(cell))
-					print_cell (cell, mstyle, NULL,
-						    context, x, y);
+				if (!cell_is_blank (cell)){
+					if (output)
+						print_cell (cell, mstyle, NULL,
+							    context, x, y);
+					printed = TRUE;
+				}
 				mstyle_unref (mstyle);
 
 				/* Increment the column
@@ -609,13 +625,17 @@ print_cell_range (GnomePrintContext *context,
 				MStyle *real_style = NULL;
 
 				/* Paint the backgrounds & borders */
-				for (; col <= MIN(end_col,end_span_col) ; ++col) {
+				for (; col <= MIN (end_col, end_span_col) ; ++col) {
+
 					ci = sheet_col_get_info (sheet, col);
 					if (ci->visible) {
-						MStyle *mstyle = print_cell_background (
+						MStyle *mstyle;
+
+						mstyle = print_cell_background (
 							context, sheet, ci, ri,
 							col, row, x, y,
 							col != start_span_col);
+						
 						if (col == real_col) {
 							real_style = mstyle;
 							real_x = x;
@@ -635,13 +655,18 @@ print_cell_range (GnomePrintContext *context,
 										 col, cell->col->pos);
 				}
 
-				print_cell (cell, real_style, span,
-					    context, real_x, y);
+				if (output){
+					print_cell (cell, real_style, span,
+						    context, real_x, y);
+				}
+				printed = TRUE;
 				mstyle_unref (real_style);
 			}
 		}
 		y -= ri->size_pts;
 	}
+
+	return printed;
 }
 
 void

@@ -34,6 +34,9 @@
 #include "print-preview.h"
 #include "dialog-printer.h"
 
+/* If TRUE, we print empty pages */
+int print_empty_pages = FALSE;
+
 typedef struct {
 	/*
 	 * Part 1: The information the user configures on the Print Dialog
@@ -105,7 +108,7 @@ print_page_repeated_rows (Sheet *sheet,
 		pj->print_context, sheet,
 		start_col, cell_a->row,
 		end_col,   cell_b->row,
-		base_x, base_y);
+		base_x, base_y, TRUE);
 }
 
 static void
@@ -134,7 +137,7 @@ print_page_repeated_cols (Sheet *sheet,
 		pj->print_context, sheet,
 		cell_a->col, start_row,
 		cell_b->col, end_row,
-		base_x, base_y);
+		base_x, base_y, TRUE);
 }
 
 static void
@@ -158,7 +161,7 @@ print_page_cells (Sheet *sheet,
 		pj->print_context, sheet,
 		start_col, start_row,
 		end_col, end_row,
-		base_x, base_y);
+		base_x, base_y, TRUE);
 }
 
 typedef enum {
@@ -258,13 +261,40 @@ setup_rotation (PrintJobInfo *pj)
 	gnome_print_concat (pj->print_context, affine);
 }
 
-static void
-print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row, PrintJobInfo *pj)
+/**
+ * print_page:
+ * @sheet:     the sheet to print
+ * @start_col: starting column
+ * @start_row: starting row
+ * @end_col:   end column
+ * @end_row:   end row
+ * @pj:        printing context
+ *
+ * Return value: always 0
+ */
+static int
+print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row,
+	    PrintJobInfo *pj, gboolean output)
 {
 	PrintMargins *margins = &pj->pi->margins;
 	double print_height, print_width;
 	double base_x, base_y;
 	int i;
+
+	if (output == FALSE || (print_empty_pages == FALSE)){
+		gboolean printed;
+		
+		printed = print_cell_range (
+			pj->print_context, sheet,
+			start_col, start_row,
+			end_col, end_row, 0, 0, FALSE);
+
+		if (!output)
+			return printed;
+		
+		if (!printed)
+			return 0;
+	}
 	
 	base_x = 0;
 	base_y = 0;
@@ -311,13 +341,13 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 		}
 
 		/* Clip the page */
-		gnome_print_newpath  (pj->print_context);
-		gnome_print_moveto   (pj->print_context,                x, y);
-		gnome_print_lineto   (pj->print_context, pj->x_points + x, y);
-		gnome_print_lineto   (pj->print_context, pj->x_points + x, y + pj->y_points);
-		gnome_print_lineto   (pj->print_context,                x, y + pj->y_points);
-		gnome_print_closepath(pj->print_context);
-		gnome_print_clip     (pj->print_context);
+		gnome_print_newpath   (pj->print_context);
+		gnome_print_moveto    (pj->print_context,                x, y);
+		gnome_print_lineto    (pj->print_context, pj->x_points + x, y);
+		gnome_print_lineto    (pj->print_context, pj->x_points + x, y + pj->y_points);
+		gnome_print_lineto    (pj->print_context,                x, y + pj->y_points);
+		gnome_print_closepath (pj->print_context);
+		gnome_print_clip      (pj->print_context);
 
 		/* Start a new patch because the background fill function does not */
 		gnome_print_newpath  (pj->print_context);
@@ -352,6 +382,8 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 		 */
 		gnome_print_showpage (pj->print_context);
 	}
+
+	return 1;
 }
 
 /*
@@ -405,13 +437,28 @@ compute_groups (Sheet *sheet, int start, int end, int usable,
 #define COL_FIT(col) (col >= SHEET_MAX_COLS ? (SHEET_MAX_COLS-1) : col)
 #define ROW_FIT(row) (row >= SHEET_MAX_ROWS ? (SHEET_MAX_ROWS-1) : row)
 
-static void
-print_sheet_range (Sheet *sheet, Range r, PrintJobInfo *pj)
+/*
+ * @print_sheet_range:
+ * @sheet: the sheet being printed
+ * @r: the requested range of cells to be printed.
+ * @pj: print context
+ * @output: %TRUE if we actually want to print, %FALSE if we want to just
+ *          use print_sheet_range() to probe whether the range contains data
+ *
+ * This routine is used for both printing as well as computing the number
+ * of pages with actual content to print
+ *
+ * Return value: the number of pages printed.
+ */
+static int
+print_sheet_range (Sheet *sheet, Range r, PrintJobInfo *pj, gboolean output)
 {
 	int usable_x, usable_y;
 	GList *l, *m;
 	GList *cols, *rows;
-	
+	int pages = 0;
+	gboolean printed;
+
 	usable_x = pj->x_points - pj->titles_used_x - pj->repeat_cols_used_x;
 	usable_y = pj->y_points - pj->titles_used_y - pj->repeat_rows_used_y;
 
@@ -427,14 +474,21 @@ print_sheet_range (Sheet *sheet, Range r, PrintJobInfo *pj)
 
 			for (m = rows; m; m = m->next) {
 				int row_count = GPOINTER_TO_INT (m->data);
-				
-				print_page (sheet,
-					    COL_FIT (col), ROW_FIT (row),
-					    COL_FIT (col + col_count - 1),
-					    ROW_FIT (row + row_count - 1), pj);
 
+				printed = print_page (
+					sheet,
+					COL_FIT (col), ROW_FIT (row),
+					COL_FIT (col + col_count - 1),
+					ROW_FIT (row + row_count - 1),
+					pj, output);
+				
 				row += row_count;
-				pj->render_info->page++;
+
+				/* Only update page count if we are actually printing */
+				if (printed && output)
+					pj->render_info->page++;
+
+				pages += printed ? 1 : 0;
 			}
 			col += col_count;
 		}
@@ -448,11 +502,20 @@ print_sheet_range (Sheet *sheet, Range r, PrintJobInfo *pj)
 			for (m = cols; m; m = m->next) {
 				int col_count = GPOINTER_TO_INT (m->data);
 
-				print_page (sheet, col, row, col + col_count - 1,
-					    row + row_count - 1, pj);
+				printed = print_page (
+					sheet,
+					COL_FIT (col), ROW_FIT (row),
+					COL_FIT (col + col_count - 1),
+					ROW_FIT (row + row_count - 1),
+					pj, output);
 
 				col += col_count;
-				pj->render_info->page++;
+
+				/* Only update page count if we are actually printing */
+				if (printed && output)
+					pj->render_info->page++;
+
+				pages += printed ? 1 : 0;
 			}
 			row += row_count;
 		}
@@ -460,6 +523,8 @@ print_sheet_range (Sheet *sheet, Range r, PrintJobInfo *pj)
 
 	g_list_free (cols);
 	g_list_free (rows);
+
+	return pages;
 }
 
 static double
@@ -516,7 +581,7 @@ typedef struct _PageCountInfo {
 } PageCountInfo;
 
 static void
-compute_sheet_pages(gpointer key, gpointer value, gpointer user_data)
+compute_sheet_pages (gpointer key, gpointer value, gpointer user_data)
 {
 	PageCountInfo *pc = user_data;
 	PrintJobInfo *pj = pc->pj;
@@ -545,12 +610,23 @@ compute_sheet_pages(gpointer key, gpointer value, gpointer user_data)
 	usable_x = pj->x_points - pj->titles_used_x - pj->repeat_cols_used_x;
 	usable_y = pj->y_points - pj->titles_used_y - pj->repeat_rows_used_y;
 
-	cols = compute_groups (sheet, r.start.col, r.end.col, usable_x, sheet_col_get_info);
-	rows = compute_groups (sheet, r.start.row, r.end.row, usable_y, sheet_row_get_info);
+	if (print_empty_pages){
+		/*
+		 * The total number of columns and rows that wants to be printed
+		 */
+		cols = compute_groups (sheet, r.start.col, r.end.col, usable_x, sheet_col_get_info);
+		rows = compute_groups (sheet, r.start.row, r.end.row, usable_y, sheet_row_get_info);
 
-	pc->pages += g_list_length (cols) * g_list_length (rows);
-	g_list_free (cols);
-	g_list_free (rows);
+		pc->pages = g_list_length (cols) * g_list_length (rows);
+		
+		g_list_free (cols);
+		g_list_free (rows);
+	} else {
+		/*
+		 * Find out how many pages actually contain data
+		 */
+		pc->pages = print_sheet_range (sheet, r, pj, FALSE);
+	}		       
 }
 
 /*
@@ -569,10 +645,10 @@ compute_pages (Workbook *wb, Sheet *sheet, Range *r, PrintJobInfo *pj)
 	if (wb!=NULL) {
 		g_hash_table_foreach (wb->sheets, compute_sheet_pages, pc);
 	} else {
-		compute_sheet_pages(NULL, sheet, pc);
+		compute_sheet_pages (NULL, sheet, pc);
 	}
 	pages = pc->pages;
-	g_free(pc);
+	g_free (pc);
 	return pages;
 }
 
@@ -599,7 +675,7 @@ print_sheet (gpointer key, gpointer value, gpointer user_data)
 	extent.end.col++;
 	extent.end.row++;
 
-	print_sheet_range (sheet, extent, pj);
+	print_sheet_range (sheet, extent, pj, TRUE);
 }
 
 /* should this print a selection over any range of pages? */
@@ -619,10 +695,10 @@ sheet_print_selection (Sheet *sheet, PrintJobInfo *pj)
 	extent.end.col++;
 	extent.end.row++;
 
-	pj->render_info->pages = compute_pages(sheet->workbook, NULL, &extent, pj);
+	pj->render_info->pages = compute_pages (sheet->workbook, NULL, &extent, pj);
 
 	print_job_info_init_sheet (sheet, pj);
-	print_sheet_range (sheet, extent, pj);
+	print_sheet_range (sheet, extent, pj, TRUE);
 }
 
 static void
@@ -630,7 +706,7 @@ workbook_print_all (Workbook *wb, PrintJobInfo *pj)
 {
 	g_return_if_fail (wb != NULL);
 
-	pj->render_info->pages = compute_pages(wb, NULL, NULL, pj);
+	pj->render_info->pages = compute_pages (wb, NULL, NULL, pj);
 
 	g_hash_table_foreach (wb->sheets, print_sheet, pj);
 }
@@ -654,7 +730,7 @@ print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
 	 * Values that should be entered in a dialog box
 	 */
 	pj->start_page = 0;
-	pj->end_page = workbook_sheet_count(sheet->workbook)-1;
+	pj->end_page = workbook_sheet_count (sheet->workbook)-1;
 	pj->range = range;
 	pj->sorted_print = TRUE;
 	pj->is_preview = preview;
@@ -707,20 +783,25 @@ sheet_print (Sheet *sheet, gboolean preview,
 	GnomePrintDialog *gpd;
 	GnomePrintMaster *gpm;
 	GnomePrintMasterPreview *pmp;
-	int copies=1, collate=FALSE;
- 	int first=1, end = workbook_sheet_count(sheet->workbook), range;
+	int copies = 1;
+	int collate = FALSE;
+ 	int first = 1;
+	int end = workbook_sheet_count (sheet->workbook);
+	int range;
 
   	g_return_if_fail (sheet != NULL);
 
   	if (!preview) {
-		gpd = (GnomePrintDialog *)gnome_print_dialog_new(_("Print Sheets"), GNOME_PRINT_DIALOG_RANGE|GNOME_PRINT_DIALOG_COPIES);
-		gnome_print_dialog_construct_range_page(gpd,
-							GNOME_PRINT_RANGE_CURRENT|GNOME_PRINT_RANGE_ALL|
-							GNOME_PRINT_RANGE_SELECTION|GNOME_PRINT_RANGE_RANGE,
-							1, workbook_sheet_count(sheet->workbook),
-							_("Active sheet"), _("Sheets"));
-		switch(gnumeric_dialog_run (sheet->workbook,
-					    GNOME_DIALOG(gpd))) {
+		gpd = (GnomePrintDialog *)gnome_print_dialog_new (
+			_("Print Sheets"),
+			GNOME_PRINT_DIALOG_RANGE|GNOME_PRINT_DIALOG_COPIES);
+		gnome_print_dialog_construct_range_page (
+			gpd,
+			GNOME_PRINT_RANGE_CURRENT|GNOME_PRINT_RANGE_ALL|
+			GNOME_PRINT_RANGE_SELECTION|GNOME_PRINT_RANGE_RANGE,
+			1, workbook_sheet_count(sheet->workbook),
+			_("Active sheet"), _("Sheets"));
+		switch (gnumeric_dialog_run (sheet->workbook, GNOME_DIALOG(gpd))) {
 		case GNOME_PRINT_PRINT:
 			break;
 		case GNOME_PRINT_PREVIEW:
@@ -729,13 +810,14 @@ sheet_print (Sheet *sheet, gboolean preview,
 		case -1:
   			return;
 		default:
-			gnome_dialog_close(GNOME_DIALOG(gpd));
+			gnome_dialog_close (GNOME_DIALOG (gpd));
 			return;
 		}
-		gnome_print_dialog_get_copies(gpd, &copies, &collate);
-		printer = gnome_print_dialog_get_printer(gpd);
-		range = gnome_print_dialog_get_range_page(gpd, &first, &end);
-		gnome_dialog_close(GNOME_DIALOG(gpd));
+		gnome_print_dialog_get_copies (gpd, &copies, &collate);
+		printer = gnome_print_dialog_get_printer (gpd);
+		range = gnome_print_dialog_get_range_page (gpd, &first, &end);
+		gnome_dialog_close (GNOME_DIALOG (gpd));
+
 		switch (range) {
 		case GNOME_PRINT_RANGE_CURRENT:
 			default_range = PRINT_ACTIVE_SHEET;
@@ -759,8 +841,8 @@ sheet_print (Sheet *sheet, gboolean preview,
 		pj->end_page = end-1;
 	}
   
-	gpm = gnome_print_master_new();
-	gnome_print_master_set_paper(gpm, pj->pi->paper);
+	gpm = gnome_print_master_new ();
+	gnome_print_master_set_paper (gpm, pj->pi->paper);
 	if (printer)
 		gnome_print_master_set_printer(gpm, printer);
 	gnome_print_master_set_copies(gpm, copies, collate);
@@ -770,7 +852,7 @@ sheet_print (Sheet *sheet, gboolean preview,
 	switch (pj->range) {
 		
 	case PRINT_ACTIVE_SHEET:
-		pj->render_info->pages = compute_pages(NULL, sheet, NULL, pj);
+		pj->render_info->pages = compute_pages (NULL, sheet, NULL, pj);
 		print_sheet (NULL, sheet, pj);
 		break;
 		
@@ -788,15 +870,15 @@ sheet_print (Sheet *sheet, gboolean preview,
 		break;
   	}
 
-	gnome_print_master_close(gpm);
+	gnome_print_master_close (gpm);
 
 	if (preview) {
-		pmp = gnome_print_master_preview_new(gpm, _("Print preview"));
-		gtk_widget_show(GTK_WIDGET(pmp));
+		pmp = gnome_print_master_preview_new (gpm, _("Print preview"));
+		gtk_widget_show (GTK_WIDGET (pmp));
 	} else {
-		gnome_print_master_print(gpm);
+		gnome_print_master_print (gpm);
 	}
-	gtk_object_unref(GTK_OBJECT(gpm));
+	gtk_object_unref (GTK_OBJECT (gpm));
   	print_job_info_destroy (pj);
 }
 
