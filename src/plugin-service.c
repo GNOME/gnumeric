@@ -1190,7 +1190,7 @@ plugin_service_plugin_loader_deactivate (GnmPluginService *service, ErrorInfo **
 	GNM_INIT_RET_ERROR_INFO (ret_error);
 	full_id = g_strconcat (
 		gnm_plugin_get_id (service->plugin), ":", service->id, NULL);
-	plugins_register_loader (full_id, service);
+	plugins_unregister_loader (full_id);
 	g_free (full_id);
 	service->is_active = FALSE;
 }

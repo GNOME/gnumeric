@@ -300,10 +300,11 @@
     
     <xsd:simpleType name="print_units">
         <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="mm"/>
             <xsd:enumeration value="cm"/>
             <xsd:enumeration value="in"/>
-            <xsd:enumeration value="mm"/>
-            <xsd:enumeration value="points"/>
+            <xsd:enumeration value="Pt"/>
+            <xsd:enumeration value="Px"/>
         </xsd:restriction>
     </xsd:simpleType>
 
@@ -345,11 +346,11 @@
                 <xsd:complexType>
                     <xsd:simpleContent>
                         <xsd:extension base="xsd:string">
-                            <xsd:attribute name="Unit"          type="xsd:double"  use="required"/>
-                            <xsd:attribute name="Bold"          type="xsd:boolean" use="required"/>
-                            <xsd:attribute name="Italic"        type="xsd:boolean" use="required"/>
-                            <xsd:attribute name="Underline"     type="gmr:underline"   use="required"/>
-                            <xsd:attribute name="StrikeThrough" type="xsd:boolean" use="required"/>
+                            <xsd:attribute name="Unit"          type="xsd:double"	use="required"/>
+                            <xsd:attribute name="Bold"          type="xsd:boolean"	use="required"/>
+                            <xsd:attribute name="Italic"        type="xsd:boolean"	use="required"/>
+                            <xsd:attribute name="Underline"     type="gmr:underline"	use="required"/>
+                            <xsd:attribute name="StrikeThrough" type="xsd:boolean"	use="required"/>
                         </xsd:extension>
                     </xsd:simpleContent>
                 </xsd:complexType>
@@ -366,18 +367,47 @@
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
+            <xsd:element name="Hyperlink" use="optional">
+                <xsd:complexType>
+                    <xsd:simpleContent>
+                        <xsd:extension base="xsd:string">
+                            <xsd:attribute name="type"          type="xsd:string"  use="required"/>
+                            <xsd:attribute name="target"        type="xsd:string"  use="optional"/>
+                            <xsd:attribute name="tip"		type="xsd:string"  use="optional"/>
+                        </xsd:extension>
+                    </xsd:simpleContent>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="Validation" use="optional">
+                <xsd:complexType>
+                    <xsd:simpleContent>
+                        <xsd:extension base="xsd:string">
+                            <xsd:attribute name="Style"		type="xsd:integer"  use="required"/>
+                            <xsd:attribute name="Type"		type="xsd:integer"  use="required"/>
+                            <xsd:attribute name="Operator"	type="xsd:integer"  use="optional"/>
+                            <xsd:attribute name="AllowBlank"	type="xsd:boolean"  use="optional"/>
+                            <xsd:attribute name="UseDropdown"	type="xsd:boolean"  use="optional"/>
+                            <xsd:attribute name="Title"		type="xsd:string"   use="optional"/>
+                            <xsd:attribute name="Message"	type="xsd:string"   use="optional"/>
+                            <xsd:attribute name="Expression0"	type="xsd:string"   use="optional"/>
+                            <xsd:attribute name="Expression1"	type="xsd:string"   use="optional"/>
+                        </xsd:extension>
+                    </xsd:simpleContent>
+                </xsd:complexType>
+            </xsd:element>
         </xsd:sequence>
         <xsd:attribute name="HAlign"       type="gmr:horizontal_alignment"/>
         <xsd:attribute name="VAlign"       type="gmr:vertical_alignment"  />
         <xsd:attribute name="WrapText"     type="xsd:boolean"          	  />
-        <xsd:attribute name="Orient"       type="gmr:style_orientation"   />
+        <xsd:attribute name="ShrinkToFit"  type="xsd:boolean"          	  />
+        <xsd:attribute name="Rotation"	   type="xsd:integer"		  />
         <xsd:attribute name="Shade"        type="gmr:style_shading"       />
         <xsd:attribute name="Indent"       type="xsd:integer"             />
+        <xsd:attribute name="Locked"	   type="xsd:boolean"          	  />
+        <xsd:attribute name="Hidden"	   type="xsd:boolean"          	  />
         <xsd:attribute name="Fore"         type="gmr:color"               />
         <xsd:attribute name="Back"         type="gmr:color"               />
         <xsd:attribute name="PatternColor" type="gmr:color"               />
-        <xsd:attribute name="Locked"	   type="xsd:boolean"          	  />
-        <xsd:attribute name="Hidden"	   type="xsd:boolean"          	  />
         <!-- the most common value of the Format attribute, by far, is
              General. Here are some other values: 
              #,##0.00
@@ -453,19 +483,6 @@
                  2 = BOTTOM
                  4 = CENTER
                  8 = JUSTIFY
-            -->
-            <xsd:minInclusive value="0"/>
-            <xsd:maxInclusive value="15"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-
-    <xsd:simpleType name="style_orientation">
-        <xsd:restriction base="xsd:integer">
-            <!-- this is a bit map as follows:
-                 1 = HORIZ
-                 2 = VERT_HORIZ_TEXT
-                 4 = VERT_VERT_TEXT
-                 8 = VERT_VERT_TEXT2
             -->
             <xsd:minInclusive value="0"/>
             <xsd:maxInclusive value="15"/>

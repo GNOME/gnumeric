@@ -1595,14 +1595,14 @@ parse_criteria_range (Sheet *sheet, int b_col, int b_row, int e_col, int e_row,
 			cond = g_new (func_criteria_t, 1);
 			parse_criteria (cell->value, &cond->fun, &cond->x, NULL, date_conv);
 			cond->column = (field_ind != NULL) ? field_ind[j - b_col] : j - b_col;
-			conditions = g_slist_append (conditions, cond);
+			conditions = g_slist_prepend (conditions, cond);
 		}
 
-		new_criteria->conditions = conditions;
-		criterias = g_slist_append (criterias, new_criteria);
+		new_criteria->conditions = g_slist_reverse (conditions);
+		criterias = g_slist_prepend (criterias, new_criteria);
 	}
 
-	return criterias;
+	return g_slist_reverse (criterias);
 }
 
 /*
@@ -1650,20 +1650,19 @@ find_rows_that_match (Sheet *sheet, int first_col, int first_row,
 		      int last_col, int last_row,
 		      GSList *criterias, gboolean unique_only)
 {
-	GSList *current, *conditions, *rows;
+	GSList *current, *conditions, *rows = NULL;
 	GnmCell   *test_cell;
-	int    row, add_flag;
-	rows = NULL;
+	int        row;
+	gboolean   add_flag;
 
 	for (row = first_row; row <= last_row; row++) {
-
 		current = criterias;
-		add_flag = 1;
+		add_flag = TRUE;
 		for (current = criterias; current != NULL;
 		     current = current->next) {
 			database_criteria_t *current_criteria;
 
-			add_flag = 1;
+			add_flag = TRUE;
 			current_criteria = current->data;
 			conditions = current_criteria->conditions;
 
@@ -1672,14 +1671,13 @@ find_rows_that_match (Sheet *sheet, int first_col, int first_row,
 
 				test_cell = sheet_cell_get (sheet,
 					first_col + cond->column, row);
-				if (test_cell != NULL)
+				if (test_cell != NULL) {
 					cell_eval (test_cell);
-				if (cell_is_empty (test_cell))
-					continue;
-
-				if (!cond->fun (test_cell->value, cond->x)) {
-					add_flag = 0;
-					break;
+					if (!cell_is_empty (test_cell) &&
+					    !cond->fun (test_cell->value, cond->x)) {
+						add_flag = FALSE;
+						break;
+					}
 				}
 				conditions = conditions->next;
 			}

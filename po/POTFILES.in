@@ -148,6 +148,10 @@ src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade
 src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c
 src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in
 src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in
+src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/gog-boxplot.c
+src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/gog-boxplot-prefs.glade
+src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plot-types.xml.in
+src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plugin.xml.in
 src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c
 src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.c
 src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade

@@ -1,3 +1,7 @@
+2005-02-08  Jody Goldberg <jody@gnome.org>
+
+	* src/print-info.c (print_hf_same) : add some protection
+
 2005-02-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-object-widget.c: (cb_adjustment_value_changed): avoid
@@ -62,6 +66,10 @@
 
 	* src/graph.c: (gnm_go_data_matrix_get_value): duplicate value before
 	releasing (#166051)
+
+2005-02-01  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric.xsd : Add entries for validation and hyperlinks
 
 2005-02-01  Morten Welinder  <terra@gnome.org>
 
