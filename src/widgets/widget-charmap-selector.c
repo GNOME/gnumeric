@@ -483,7 +483,7 @@ cs_class_init (GtkWidgetClass *widget_klass)
 			char *alias;
 
 			if (sep) {
-				alias = g_strndup (aliases, sep - aliases - 1);
+				alias = g_strndup (aliases, sep - aliases);
 				aliases = sep + 1;
 			} else {
 				alias = g_strdup (aliases);
