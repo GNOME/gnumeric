@@ -78,7 +78,7 @@ god_text_model_finalize (GObject *object)
 	g_free (text->priv);
 	text->priv = NULL;
 
-	G_OBJECT_CLASS (parent_klass)->finalize (obj);
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 static const char *

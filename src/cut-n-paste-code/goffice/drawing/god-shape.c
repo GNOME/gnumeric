@@ -205,7 +205,7 @@ god_shape_dispose (GObject *object)
 	g_free (shape->priv);
 	shape->priv = NULL;
 
-	G_OBJECT_CLASS (parent_klass)->dispose (obj);
+	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void

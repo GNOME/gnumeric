@@ -49,7 +49,7 @@ god_drawing_group_finalize (GObject *object)
 	g_free (group->priv);
 	group->priv = NULL;
 
-	G_OBJECT_CLASS (parent_klass)->finalize (obj);
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 static void

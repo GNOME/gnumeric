@@ -234,7 +234,7 @@ god_property_table_finalize (GObject *object)
 	g_free (prop_table->priv);
 	prop_table->priv = NULL;
 
-	G_OBJECT_CLASS (parent_klass)->finalize (obj);
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 static void
