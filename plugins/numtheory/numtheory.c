@@ -120,7 +120,7 @@ walk_factorization (int n, void *data,
 static int
 compute_nt_pi (int n)
 {
-	int lower = 3, upper = 4, mid, p = 7;
+	int lower = 2, upper = 4, mid, p = 7;
 
 	if (n <= 1)
 		return 0;
