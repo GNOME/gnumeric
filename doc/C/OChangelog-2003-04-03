@@ -1,3 +1,17 @@
+2002-01-09  Alexander Kirillov  <kirillov@math.sunysb.edu>
+
+	* number-format.sgml: complete rewrite
+
+	* figures/number-format-border-dialog.png, 
+	  figures/number-format-protection.png, 
+	  figures/number-format-validation.png, 
+	  figures/number-format-validation-warning.png: new  screenshots
+
+	* figures/number-format-color-dialog.png, 
+	  figures/number-format-font-dialog.png, 
+	  figures/number-format-justification-dialog.png: updated screenshots
+
+
 2002-01-07  Alexander Kirillov  <kirillov@math.sunysb.edu>
 
 	* gnumeric-C.omf: added email addresses
