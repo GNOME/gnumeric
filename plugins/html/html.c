@@ -116,7 +116,7 @@ html_print_encoded (GsfOutput *output, char const *str)
  *
  */
 static void
-html_get_text_color (GnmCell *cell, GnmMStyle *mstyle, guint *r, guint *g, guint *b)
+html_get_text_color (GnmCell *cell, GnmStyle *mstyle, guint *r, guint *g, guint *b)
 {
 	PangoColor const *fore = cell_get_render_color (cell);
 
@@ -129,9 +129,9 @@ html_get_text_color (GnmCell *cell, GnmMStyle *mstyle, guint *r, guint *g, guint
 	}
 }
 static void
-html_get_color (GnmMStyle *mstyle, MStyleElementType t, guint *r, guint *g, guint *b)
+html_get_color (GnmStyle *mstyle, MStyleElementType t, guint *r, guint *g, guint *b)
 {
-	GnmStyleColor *color;
+	GnmColor *color;
 
 	color = mstyle_get_color (mstyle, t);
 
@@ -141,7 +141,7 @@ html_get_color (GnmMStyle *mstyle, MStyleElementType t, guint *r, guint *g, guin
 }
 
 static void
-html_write_cell_content (GsfOutput *output, GnmCell *cell, GnmMStyle *mstyle, html_version_t version)
+html_write_cell_content (GsfOutput *output, GnmCell *cell, GnmStyle *mstyle, html_version_t version)
 {
 	guint r = 0;
 	guint g = 0;
@@ -187,7 +187,7 @@ html_write_cell_content (GsfOutput *output, GnmCell *cell, GnmMStyle *mstyle, ht
 }
 
 static char *
-html_get_border_style (GnmStyleBorder *border)
+html_get_border_style (GnmBorder *border)
 {
 	GString *text = g_string_new (NULL);
 	char *result;
@@ -250,7 +250,7 @@ html_get_border_style (GnmStyleBorder *border)
 }
 
 static void
-html_write_one_border_style_40 (GsfOutput *output, GnmStyleBorder *border, char const *border_name)
+html_write_one_border_style_40 (GsfOutput *output, GnmBorder *border, char const *border_name)
 {
 	char *text;
 	text = html_get_border_style (border);
@@ -261,9 +261,9 @@ html_write_one_border_style_40 (GsfOutput *output, GnmStyleBorder *border, char 
 }
 
 static void
-html_write_border_style_40 (GsfOutput *output, GnmMStyle *mstyle)
+html_write_border_style_40 (GsfOutput *output, GnmStyle *mstyle)
 {
-	GnmStyleBorder *border;
+	GnmBorder *border;
 
 	border = mstyle_get_border (mstyle, MSTYLE_BORDER_TOP);
 	if (!style_border_is_blank (border))
@@ -283,7 +283,7 @@ static void
 write_cell (GsfOutput *output, Sheet *sheet, gint row, gint col, html_version_t version)
 {
 	GnmCell *cell;
-	GnmMStyle *mstyle;
+	GnmStyle *mstyle;
 	guint r, g, b;
 
 	mstyle = sheet_style_get (sheet, col, row);

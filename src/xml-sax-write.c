@@ -77,7 +77,7 @@ void	xml_sax_file_save (GnmFileSaver const *fs, IOContext *io_context,
 #define POINT_SIZE_PRECISION 4
 
 static void
-xml_out_add_stylecolor (GsfXMLOut *xml, char const *id, GnmStyleColor *sc)
+xml_out_add_stylecolor (GsfXMLOut *xml, char const *id, GnmColor *sc)
 {
 	g_return_if_fail (sc != NULL);
 
@@ -356,7 +356,7 @@ xml_write_print_info (GnmOutputXML *state, PrintInformation *pi)
 }
 
 static void
-xml_write_style (GnmOutputXML *state, GnmMStyle const *style)
+xml_write_style (GnmOutputXML *state, GnmStyle const *style)
 {
 	static char const *border_names[] = {
 		GMR "Top",
@@ -489,13 +489,13 @@ xml_write_style (GnmOutputXML *state, GnmMStyle const *style)
 	       && NULL == mstyle_get_border (style, i))
 		i++;
 	if (i <= MSTYLE_BORDER_DIAGONAL) {
-		gsf_xml_out_start_element (state->output, GMR "GnmStyleBorder");
+		gsf_xml_out_start_element (state->output, GMR "StyleBorder");
 		for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_DIAGONAL; i++) {
-			GnmStyleBorder const *border;
+			GnmBorder const *border;
 			if (mstyle_is_element_set (style, i) &&
 			    NULL != (border = mstyle_get_border (style, i))) {
 				StyleBorderType t = border->line_type;
-				GnmStyleColor *col   = border->color;
+				GnmColor *col   = border->color;
 				gsf_xml_out_start_element (state->output, 
 					border_names [i - MSTYLE_BORDER_TOP]);
 				gsf_xml_out_add_int (state->output, "Style", t);
@@ -512,7 +512,7 @@ xml_write_style (GnmOutputXML *state, GnmMStyle const *style)
 static void
 xml_write_style_region (GnmOutputXML *state, GnmStyleRegion const *region)
 {
-	gsf_xml_out_start_element (state->output, GMR "GnmStyleRegion");
+	gsf_xml_out_start_element (state->output, GMR "StyleRegion");
 	xml_out_add_range (state->output, &region->range);
 	if (region->style != NULL)
 		xml_write_style (state, region->style);

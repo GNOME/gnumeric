@@ -187,7 +187,7 @@ format_template_member_get_rect (TemplateMember *member, GnmRange const *r)
 /******************************************************************************
  * Getters and setters for FormatTemplateMember
  *
- * NOTE : GnmMStyle are taken care of internally, there is no
+ * NOTE : GnmStyle are taken care of internally, there is no
  *        need to unref or ref mstyle's manually.
  */
 
@@ -682,8 +682,8 @@ format_template_compare_name (gconstpointer a, gconstpointer b)
  *
  * Return value: The same mstyle as @mstyle with most likely some modifications
  **/
-static GnmMStyle *
-format_template_filter_style (FormatTemplate *ft, GnmMStyle *mstyle, gboolean fill_defaults)
+static GnmStyle *
+format_template_filter_style (FormatTemplate *ft, GnmStyle *mstyle, gboolean fill_defaults)
 {
 	g_return_val_if_fail (ft != NULL, NULL);
 	g_return_val_if_fail (mstyle != NULL, NULL);
@@ -725,7 +725,7 @@ format_template_filter_style (FormatTemplate *ft, GnmMStyle *mstyle, gboolean fi
 			mstyle_unset_element (mstyle, MSTYLE_ALIGN_H);
 		}
 	} else {
-		GnmMStyle *mstyle_default = mstyle_new_default ();
+		GnmStyle *mstyle_default = mstyle_new_default ();
 
 		/*
 		 * We fill in the gaps with the default mstyle
@@ -771,7 +771,7 @@ format_template_filter_style (FormatTemplate *ft, GnmMStyle *mstyle, gboolean fi
 /*
  * Callback used for calculating the styles
  */
-typedef void (* PCalcCallback) (FormatTemplate *ft, GnmRange *r, GnmMStyle *mstyle, gpointer data);
+typedef void (* PCalcCallback) (FormatTemplate *ft, GnmRange *r, GnmStyle *mstyle, gpointer data);
 
 /**
  * format_template_range_check:
@@ -964,7 +964,7 @@ format_template_calculate (FormatTemplate *origft, GnmRange const *r, PCalcCallb
 	iterator = ft->members;
 	while (iterator) {
 		TemplateMember *member = iterator->data;
-		GnmMStyle const *mstyle = member->mstyle;
+		GnmStyle const *mstyle = member->mstyle;
 		GnmRange range = format_template_member_get_rect (member, r);
 
 		if (member->direction == FREQ_DIRECTION_NONE)
@@ -1024,7 +1024,7 @@ format_template_calculate (FormatTemplate *origft, GnmRange const *r, PCalcCallb
  ******************************************************************************/
 
 static void
-cb_format_hash_style (FormatTemplate *ft, GnmRange *r, GnmMStyle *mstyle, GHashTable *table)
+cb_format_hash_style (FormatTemplate *ft, GnmRange *r, GnmStyle *mstyle, GHashTable *table)
 {
 	int row, col;
 
@@ -1081,15 +1081,15 @@ format_template_recalc_hash (FormatTemplate *ft)
  * @row:
  * @col:
  *
- * Returns the GnmMStyle associated with coordinates row, col.
+ * Returns the GnmStyle associated with coordinates row, col.
  * This routine uses the hash to do this.
  * NOTE : You MAY NOT free the result of this operation,
- *        you may also NOT MODIFY the GnmMStyle returned.
+ *        you may also NOT MODIFY the GnmStyle returned.
  *        (make a copy first)
  *
- * Return value: an GnmMStyle
+ * Return value: an GnmStyle
  **/
-GnmMStyle *
+GnmStyle *
 format_template_get_style (FormatTemplate *ft, int row, int col)
 {
 	g_return_val_if_fail (ft != NULL, NULL);
@@ -1114,7 +1114,7 @@ format_template_get_style (FormatTemplate *ft, int row, int col)
  ******************************************************************************/
 
 static void
-cb_format_sheet_style (FormatTemplate *ft, GnmRange *r, GnmMStyle *mstyle, Sheet *sheet)
+cb_format_sheet_style (FormatTemplate *ft, GnmRange *r, GnmStyle *mstyle, Sheet *sheet)
 {
 	g_return_if_fail (ft != NULL);
 	g_return_if_fail (r != NULL);

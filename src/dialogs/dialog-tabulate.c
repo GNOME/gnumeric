@@ -142,7 +142,7 @@ get_table_float_entry (GtkTable *t, int y, int x, GnmCell *cell, gnm_float *numb
 		       GtkEntry **wp, gboolean with_default, gnm_float default_float)
 {
 	GList *l;
-	GnmStyleFormat *format;
+	GnmFormat *format;
 
 	*wp = NULL;
 	for (l = t->children; l; l = l->next) {

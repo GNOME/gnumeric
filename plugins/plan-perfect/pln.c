@@ -195,12 +195,12 @@ pln_file_probe (GnmFileOpener const *fo, GsfInput *input,
 		memcmp (header, signature, sizeof (signature)) == 0;
 }
 
-static GnmMStyle *
+static GnmStyle *
 pln_get_style (PlanPerfectImport *state, guint8 const* data, gboolean is_cell)
 {
 	guint16 attr, fmt, font;
 	guint32 key;
-	GnmMStyle *res;
+	GnmStyle *res;
 
 	attr = GSF_LE_GET_GUINT16 (data);
 	fmt  = GSF_LE_GET_GUINT16 (data+2);
@@ -208,7 +208,7 @@ pln_get_style (PlanPerfectImport *state, guint8 const* data, gboolean is_cell)
 
 	/* Check for use of sheet defaults */
 	if (is_cell) {
-		GnmMStyle *def = sheet_style_default (state->sheet);
+		GnmStyle *def = sheet_style_default (state->sheet);
 		if ((attr & 0x0700) == 0x0400) {
 			attr &= 0xf8ff;
 			switch (mstyle_get_align_h (def)) {
@@ -492,7 +492,7 @@ pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 	GnmCell    *cell;
 	GnmValue   *v;
 	GnmExpr const *expr;
-	GnmMStyle  *style;
+	GnmStyle  *style;
 	GnmParsePos pp;
 	GnmRange r;
 

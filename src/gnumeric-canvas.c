@@ -99,7 +99,7 @@ gnm_check_ctrl_mask (GnmCanvas *gcanvas,guint keyval)
 	}
 
 	if (fmt != NULL) {
-		GnmMStyle *mstyle = mstyle_new ();
+		GnmStyle *mstyle = mstyle_new ();
 
 		mstyle_set_format_text (mstyle, fmt);
 		cmd_selection_format (WORKBOOK_CONTROL (wbcg), mstyle, NULL, desc);

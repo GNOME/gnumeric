@@ -652,7 +652,7 @@ cellregion_to_string (PangoContext *context, GnmCellRegion const *cr)
 
 		if (c_copy->type != CELL_COPY_TYPE_TEXT) {
 			/* FIXME: feels bogus to use rendered value.  */
-			GnmMStyle const *mstyle = style_list_get_style (cr->styles,
+			GnmStyle const *mstyle = style_list_get_style (cr->styles,
 				&c_copy->u.cell->pos);
 			RenderedValue *rv;
 

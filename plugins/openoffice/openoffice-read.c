@@ -67,8 +67,8 @@ typedef struct {
 	gboolean 	 error_content;
 	GHashTable	*styles;
 	GHashTable	*formats;
-	GnmMStyle		*style;
-	GnmMStyle		*col_default_styles[SHEET_MAX_COLS];
+	GnmStyle		*style;
+	GnmStyle		*col_default_styles[SHEET_MAX_COLS];
 	GSList		*sheet_order;
 
 	GnmExprConventions *exprconv;
@@ -167,7 +167,7 @@ oo_attr_float (OOParseState *state, xmlChar const * const *attrs,
 	return TRUE;
 }
 
-static GnmStyleColor *
+static GnmColor *
 oo_attr_color (OOParseState *state, xmlChar const * const *attrs,
 	       int ns_id, char const *name)
 {
@@ -299,7 +299,7 @@ static void
 oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin;
-	GnmMStyle *style = NULL;
+	GnmStyle *style = NULL;
 	int repeat_count = 1;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -408,7 +408,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	gnm_float	 float_val;
 	int array_cols = -1, array_rows = -1;
 	int merge_cols = -1, merge_rows = -1;
-	GnmMStyle *style = NULL;
+	GnmStyle *style = NULL;
 
 	state->col_inc = 1;
 	state->error_content = FALSE;
@@ -615,19 +615,19 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin;
 	xmlChar const *name = NULL;
-	GnmMStyle *parent = NULL;
-	GnmStyleFormat *fmt = NULL;
+	GnmStyle *parent = NULL;
+	GnmFormat *fmt = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		/* ignore  style:family the names seem unique enough */
 		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "name"))
 			name = attrs[1];
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "parent-style-name")) {
-			GnmMStyle *tmp = g_hash_table_lookup (state->styles, attrs[1]);
+			GnmStyle *tmp = g_hash_table_lookup (state->styles, attrs[1]);
 			if (tmp != NULL)
 				parent = tmp;
 		} else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "data-style-name")) {
-			GnmStyleFormat *tmp = g_hash_table_lookup (state->formats, attrs[1]);
+			GnmFormat *tmp = g_hash_table_lookup (state->formats, attrs[1]);
 			if (tmp != NULL)
 				fmt = tmp;
 		}
@@ -668,8 +668,8 @@ oo_style_prop (GsfXMLIn *xin, xmlChar const **attrs)
 		{ NULL,	0 },
 	};
 	OOParseState *state = (OOParseState *)xin;
-	GnmStyleColor *color;
-	GnmMStyle *style = state->style;
+	GnmColor *color;
+	GnmStyle *style = state->style;
 	StyleHAlignFlags h_align = HALIGN_GENERAL;
 	gboolean h_align_is_valid = FALSE;
 	int tmp;

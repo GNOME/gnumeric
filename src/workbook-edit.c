@@ -115,7 +115,7 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept,
 		ValidationStatus valid;
 		char *free_txt = NULL;
 		char const *txt = wbcg_edit_get_display_text (wbcg);
-		GnmMStyle *mstyle = sheet_style_get (sheet, sv->edit_pos.col, sv->edit_pos.row);
+		GnmStyle *mstyle = sheet_style_get (sheet, sv->edit_pos.col, sv->edit_pos.row);
 		char const *expr_txt = NULL;
 
 		/* BE CAREFUL the standard fmts must not NOT include '@' */

@@ -44,7 +44,7 @@ typedef struct {
 	gchar           *printer_config;
 	GSList const    *printer_header;
 	GSList const    *printer_footer;
-	GnmMStyle          *printer_decoration_font;
+	GnmStyle          *printer_decoration_font;
 
 	float		 horizontal_dpi;
 	float		 vertical_dpi;

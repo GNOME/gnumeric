@@ -49,7 +49,7 @@ typedef enum {
 
 typedef struct {
 	SheetObject  sheet_object;
-	GnmStyleColor  *fill_color;
+	GnmColor  *fill_color;
 	double       width;
 	double       a, b, c;
 	SheetObjectGraphicType type;
@@ -77,7 +77,7 @@ sheet_object_graphic_get_graphic (SheetObject *so, FooCanvasItem *item)
  * Absorb the colour reference.
  */
 void
-sheet_object_graphic_fill_color_set (SheetObject *so, GnmStyleColor *color)
+sheet_object_graphic_fill_color_set (SheetObject *so, GnmColor *color)
 {
 	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (so);
 	GdkColor *gdk = (color != NULL) ? &color->color : NULL;
@@ -375,7 +375,7 @@ typedef struct {
 	GtkSpinButton	*spin_line_width;
 
 	/* Store the initial values */
-	GnmStyleColor	*fill_color;
+	GnmColor	*fill_color;
 	double		 width, a, b, c;
 
 	WorkbookControlGUI *wbcg;
@@ -659,7 +659,7 @@ GSF_CLASS (SheetObjectGraphic, sheet_object_graphic,
 typedef struct {
 	SheetObjectGraphic sheet_object_graphic;
 
-	GnmStyleColor *outline_color;
+	GnmColor *outline_color;
 } SheetObjectFilled;
 
 typedef struct {
@@ -669,7 +669,7 @@ typedef struct {
 static SheetObjectGraphicClass *sheet_object_filled_parent_class;
 
 void
-sheet_object_filled_outline_color_set (SheetObject *so, GnmStyleColor *color)
+sheet_object_filled_outline_color_set (SheetObject *so, GnmColor *color)
 {
 	SheetObjectFilled *sof = SHEET_OBJECT_FILLED (so);
 	GdkColor *gdk = (color != NULL) ? &color->color : NULL;
@@ -829,8 +829,8 @@ typedef struct {
 	GtkWidget	*dialog;
 	GtkSpinButton	*spin_border_width;
 
-	GnmStyleColor	*outline_color;
-	GnmStyleColor	*fill_color;
+	GnmColor	*outline_color;
+	GnmColor	*fill_color;
 	double		 width;
 
 	WorkbookControlGUI *wbcg;
@@ -1160,8 +1160,8 @@ GSF_CLASS (SheetObjectFilled, sheet_object_filled,
 
 typedef struct {
 	SheetObject  sheet_object;
-	GnmStyleColor  *fill_color;
-	GnmStyleColor  *outline_color;
+	GnmColor  *fill_color;
+	GnmColor  *outline_color;
 	double       outline_width;
 	FooCanvasPoints *points;
 } SheetObjectPolygon;
@@ -1361,7 +1361,7 @@ sheet_object_polygon_set_points (SheetObject *so, GArray *pairs)
 }
 
 void
-sheet_object_polygon_fill_color_set (SheetObject *so, GnmStyleColor *color)
+sheet_object_polygon_fill_color_set (SheetObject *so, GnmColor *color)
 {
 	SheetObjectPolygon *sop = SHEET_OBJECT_POLYGON (so);
 	GdkColor *gdk = (color != NULL) ? &color->color : NULL;
@@ -1377,7 +1377,7 @@ sheet_object_polygon_fill_color_set (SheetObject *so, GnmStyleColor *color)
 }
 
 void
-sheet_object_polygon_outline_color_set (SheetObject *so, GnmStyleColor *color)
+sheet_object_polygon_outline_color_set (SheetObject *so, GnmColor *color)
 {
 	SheetObjectPolygon *sop = SHEET_OBJECT_POLYGON (so);
 	GdkColor *gdk = (color != NULL) ? &color->color : NULL;
@@ -1398,7 +1398,7 @@ typedef struct {
 	SheetObjectFilled parent;
 
 	char *label;
-	GnmStyleColor  *font_color;
+	GnmColor  *font_color;
 } SheetObjectText;
 typedef struct {
 	SheetObjectFilledClass	parent;
@@ -1605,7 +1605,7 @@ GSF_CLASS (SheetObjectText, sheet_object_text,
 	   SHEET_OBJECT_FILLED_TYPE);
 
 void
-sheet_object_test_font_color_set (SheetObject *so, GnmStyleColor *color)
+sheet_object_test_font_color_set (SheetObject *so, GnmColor *color)
 {
 	SheetObjectText *sot = SHEET_OBJECT_TEXT (so);
 	GdkColor *gdk = (color != NULL) ? &color->color : NULL;

@@ -33,7 +33,7 @@ struct _WorkbookView {
 	char	  *selection_description;
 
 	/* Format for feedback */
-	GnmMStyle    *current_format;
+	GnmStyle    *current_format;
 };
 
 typedef struct {

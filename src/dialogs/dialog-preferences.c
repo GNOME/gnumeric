@@ -660,7 +660,7 @@ cb_pref_font_set_fonts (GConfClient *gconf,
 
 static gboolean
 cb_pref_font_has_changed (G_GNUC_UNUSED FontSelector *fs,
-			  GnmMStyle *mstyle, PrefState *state)
+			  GnmStyle *mstyle, PrefState *state)
 {
 	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_SIZE))
 		gconf_client_set_float (state->gconf,
@@ -753,7 +753,7 @@ cb_pref_font_hf_set_fonts (GConfClient *gconf,
 
 static gboolean
 cb_pref_font_hf_has_changed (G_GNUC_UNUSED FontSelector *fs,
-			  GnmMStyle *mstyle, PrefState *state)
+			  GnmStyle *mstyle, PrefState *state)
 {
 	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_SIZE))
 		gconf_client_set_float (state->gconf,

@@ -55,7 +55,7 @@ void               stf_preview_set_lines                 (RenderData_t *data,
 void               stf_preview_set_startrow              (RenderData_t *data, int startrow);
 
 void               stf_preview_colformats_clear          (RenderData_t *renderdata);
-void               stf_preview_colformats_add            (RenderData_t *renderdata, GnmStyleFormat *format);
+void               stf_preview_colformats_add            (RenderData_t *renderdata, GnmFormat *format);
 
 
 GtkTreeViewColumn *stf_preview_get_column                (RenderData_t *renderdata, int col);

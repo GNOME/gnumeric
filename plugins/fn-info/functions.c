@@ -122,7 +122,7 @@ static const translate_t translate_table[] = {
 };
 
 static GnmValue *
-translate_cell_format (GnmStyleFormat const *format)
+translate_cell_format (GnmFormat const *format)
 {
 	int i;
 	char *fmt;
@@ -153,8 +153,8 @@ translate_cell_format (GnmStyleFormat const *format)
 static FormatCharacteristics
 retrieve_format_info (Sheet *sheet, int col, int row)
 {
-	GnmMStyle *mstyle = sheet_style_get (sheet, col, row);
-	GnmStyleFormat *format = mstyle_get_format (mstyle);
+	GnmStyle *mstyle = sheet_style_get (sheet, col, row);
+	GnmFormat *format = mstyle_get_format (mstyle);
 	return format->family_info;
 }
 
@@ -244,7 +244,7 @@ gnumeric_cell (FunctionEvalInfo *ei, GnmValue **argv)
 	/* from CELL */
 	/* Backwards compatibility w/123 - unnecessary */
 	} else if (!g_ascii_strcasecmp (info_type, "format")) {
-		GnmMStyle const *mstyle =
+		GnmStyle const *mstyle =
 			sheet_style_get (ei->pos->sheet, ref->col, ref->row);
 
 		return translate_cell_format (mstyle_get_format (mstyle));
@@ -263,7 +263,7 @@ gnumeric_cell (FunctionEvalInfo *ei, GnmValue **argv)
 	/* Backwards compatibility w/123 - unnecessary */
 	} else if (!g_ascii_strcasecmp (info_type, "prefix") ||
 		   !g_ascii_strcasecmp (info_type, "prefixcharacter")) {
-		GnmMStyle const *mstyle =
+		GnmStyle const *mstyle =
 			sheet_style_get (ei->pos->sheet, ref->col, ref->row);
 		GnmCell const *cell =
 			sheet_cell_get (ei->pos->sheet, ref->col, ref->row);
@@ -283,7 +283,7 @@ gnumeric_cell (FunctionEvalInfo *ei, GnmValue **argv)
 	/* from CELL */
 	} else if (!g_ascii_strcasecmp (info_type, "locked") ||
 		   !g_ascii_strcasecmp (info_type, "protect")) {
-		GnmMStyle const *mstyle =
+		GnmStyle const *mstyle =
 			sheet_style_get (ei->pos->sheet, ref->col, ref->row);
 		return value_new_int (mstyle_get_content_locked (mstyle) ? 1 : 0);
 

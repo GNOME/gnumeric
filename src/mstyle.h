@@ -55,99 +55,99 @@ typedef enum _MStyleElementType {
 	MSTYLE_ELEMENT_MAX
 } MStyleElementType;
 
-GnmMStyle     *mstyle_new           (void);
-GnmMStyle     *mstyle_new_default   (void);
-GnmMStyle     *mstyle_copy          (const GnmMStyle *st);
-GnmMStyle	   *mstyle_copy_merge	 (const GnmMStyle *orig, const GnmMStyle *overlay);
-void        mstyle_ref           (GnmMStyle *st);
-void        mstyle_unref         (GnmMStyle *st);
+GnmStyle     *mstyle_new           (void);
+GnmStyle     *mstyle_new_default   (void);
+GnmStyle     *mstyle_copy          (const GnmStyle *st);
+GnmStyle	   *mstyle_copy_merge	 (const GnmStyle *orig, const GnmStyle *overlay);
+void        mstyle_ref           (GnmStyle *st);
+void        mstyle_unref         (GnmStyle *st);
 
-GnmMStyle	   *mstyle_link_sheet    (GnmMStyle *st, Sheet *sheet);
-void        mstyle_link          (GnmMStyle *st);
-void        mstyle_link_multiple (GnmMStyle *st, int count);
-void        mstyle_unlink        (GnmMStyle *st);
+GnmStyle	   *mstyle_link_sheet    (GnmStyle *st, Sheet *sheet);
+void        mstyle_link          (GnmStyle *st);
+void        mstyle_link_multiple (GnmStyle *st, int count);
+void        mstyle_unlink        (GnmStyle *st);
 
-gboolean    mstyle_equal         (GnmMStyle const *a, GnmMStyle const *b);
-gboolean    mstyle_equal_XL	 (GnmMStyle const *a, GnmMStyle const *b);
-gboolean    mstyle_verify        (GnmMStyle const *st);
+gboolean    mstyle_equal         (GnmStyle const *a, GnmStyle const *b);
+gboolean    mstyle_equal_XL	 (GnmStyle const *a, GnmStyle const *b);
+gboolean    mstyle_verify        (GnmStyle const *st);
 guint       mstyle_hash          (gconstpointer st);
 guint       mstyle_hash_XL	 (gconstpointer st);
-gboolean    mstyle_empty         (const GnmMStyle *st);
+gboolean    mstyle_empty         (const GnmStyle *st);
 
 /*
  * Wafer thin element access functions.
  */
-gboolean            mstyle_is_element_set  (const GnmMStyle *st, MStyleElementType t);
-gboolean            mstyle_is_element_conflict (const GnmMStyle *st, MStyleElementType t);
-void                mstyle_compare             (GnmMStyle *a, const GnmMStyle *b);
-void                mstyle_unset_element   (GnmMStyle *st, MStyleElementType t);
-void                mstyle_replace_element (GnmMStyle *src, GnmMStyle *dst, MStyleElementType t);
-void                mstyle_set_color       (GnmMStyle *st, MStyleElementType t,
-					    GnmStyleColor *col);
-GnmStyleColor         *mstyle_get_color       (const GnmMStyle *st, MStyleElementType t);
-void                mstyle_set_border      (GnmMStyle *st, MStyleElementType t,
-					    GnmStyleBorder *border);
-GnmStyleBorder	   *mstyle_get_border      (const GnmMStyle *st, MStyleElementType t);
-void                mstyle_set_pattern     (GnmMStyle *st, int pattern);
-int                 mstyle_get_pattern     (const GnmMStyle *st);
-void                mstyle_set_font_name   (GnmMStyle *st, const char *name);
-const char         *mstyle_get_font_name   (const GnmMStyle *st);
-void                mstyle_set_font_bold   (GnmMStyle *st, gboolean bold);
-gboolean            mstyle_get_font_bold   (const GnmMStyle *st);
-void                mstyle_set_font_italic (GnmMStyle *st, gboolean italic);
-gboolean            mstyle_get_font_italic (const GnmMStyle *st);
-void                mstyle_set_font_uline  (GnmMStyle *st, StyleUnderlineType const t);
-StyleUnderlineType  mstyle_get_font_uline  (const GnmMStyle *st);
-void                mstyle_set_font_strike (GnmMStyle *st, gboolean strikethrough);
-gboolean            mstyle_get_font_strike (const GnmMStyle *st);
-void                mstyle_set_font_size   (GnmMStyle *st, double size);
-double              mstyle_get_font_size   (const GnmMStyle *st);
+gboolean            mstyle_is_element_set  (const GnmStyle *st, MStyleElementType t);
+gboolean            mstyle_is_element_conflict (const GnmStyle *st, MStyleElementType t);
+void                mstyle_compare             (GnmStyle *a, const GnmStyle *b);
+void                mstyle_unset_element   (GnmStyle *st, MStyleElementType t);
+void                mstyle_replace_element (GnmStyle *src, GnmStyle *dst, MStyleElementType t);
+void                mstyle_set_color       (GnmStyle *st, MStyleElementType t,
+					    GnmColor *col);
+GnmColor         *mstyle_get_color       (const GnmStyle *st, MStyleElementType t);
+void                mstyle_set_border      (GnmStyle *st, MStyleElementType t,
+					    GnmBorder *border);
+GnmBorder	   *mstyle_get_border      (const GnmStyle *st, MStyleElementType t);
+void                mstyle_set_pattern     (GnmStyle *st, int pattern);
+int                 mstyle_get_pattern     (const GnmStyle *st);
+void                mstyle_set_font_name   (GnmStyle *st, const char *name);
+const char         *mstyle_get_font_name   (const GnmStyle *st);
+void                mstyle_set_font_bold   (GnmStyle *st, gboolean bold);
+gboolean            mstyle_get_font_bold   (const GnmStyle *st);
+void                mstyle_set_font_italic (GnmStyle *st, gboolean italic);
+gboolean            mstyle_get_font_italic (const GnmStyle *st);
+void                mstyle_set_font_uline  (GnmStyle *st, StyleUnderlineType const t);
+StyleUnderlineType  mstyle_get_font_uline  (const GnmStyle *st);
+void                mstyle_set_font_strike (GnmStyle *st, gboolean strikethrough);
+gboolean            mstyle_get_font_strike (const GnmStyle *st);
+void                mstyle_set_font_size   (GnmStyle *st, double size);
+double              mstyle_get_font_size   (const GnmStyle *st);
 
 /* this font must be unrefd after use */
-GnmStyleFont          *mstyle_get_font        (const GnmMStyle *st,
+GnmFont          *mstyle_get_font        (const GnmStyle *st,
 					    PangoContext *context,
 					    double zoom);
-void                mstyle_set_format      (GnmMStyle *st, GnmStyleFormat *);
-void                mstyle_set_format_text (GnmMStyle *st, const char *format);
-GnmStyleFormat        *mstyle_get_format      (const GnmMStyle *st);
-void                mstyle_set_align_h     (GnmMStyle *st, StyleHAlignFlags a);
-StyleHAlignFlags    mstyle_get_align_h     (const GnmMStyle *st);
-void                mstyle_set_align_v     (GnmMStyle *st, StyleVAlignFlags a);
-StyleVAlignFlags    mstyle_get_align_v     (const GnmMStyle *st);
-void                mstyle_set_indent	   (GnmMStyle *st, int i);
-int		    mstyle_get_indent	   (const GnmMStyle *st);
+void                mstyle_set_format      (GnmStyle *st, GnmFormat *);
+void                mstyle_set_format_text (GnmStyle *st, const char *format);
+GnmFormat        *mstyle_get_format      (const GnmStyle *st);
+void                mstyle_set_align_h     (GnmStyle *st, StyleHAlignFlags a);
+StyleHAlignFlags    mstyle_get_align_h     (const GnmStyle *st);
+void                mstyle_set_align_v     (GnmStyle *st, StyleVAlignFlags a);
+StyleVAlignFlags    mstyle_get_align_v     (const GnmStyle *st);
+void                mstyle_set_indent	   (GnmStyle *st, int i);
+int		    mstyle_get_indent	   (const GnmStyle *st);
 
-void                mstyle_set_rotation	   (GnmMStyle *st, int r);
-int            	    mstyle_get_rotation    (const GnmMStyle *st);
+void                mstyle_set_rotation	   (GnmStyle *st, int r);
+int            	    mstyle_get_rotation    (const GnmStyle *st);
 
-void                mstyle_set_wrap_text   (GnmMStyle *st, gboolean f);
-gboolean            mstyle_get_wrap_text   (const GnmMStyle *st);
-gboolean            mstyle_get_effective_wrap_text   (const GnmMStyle *st);
-void                mstyle_set_shrink_to_fit (GnmMStyle *st, gboolean f);
-gboolean            mstyle_get_shrink_to_fit (const GnmMStyle *st);
+void                mstyle_set_wrap_text   (GnmStyle *st, gboolean f);
+gboolean            mstyle_get_wrap_text   (const GnmStyle *st);
+gboolean            mstyle_get_effective_wrap_text   (const GnmStyle *st);
+void                mstyle_set_shrink_to_fit (GnmStyle *st, gboolean f);
+gboolean            mstyle_get_shrink_to_fit (const GnmStyle *st);
 
-void                mstyle_set_content_locked (GnmMStyle *st, gboolean f);
-gboolean            mstyle_get_content_locked (const GnmMStyle *st);
-void                mstyle_set_content_hidden (GnmMStyle *st, gboolean f);
-gboolean            mstyle_get_content_hidden (const GnmMStyle *st);
+void                mstyle_set_content_locked (GnmStyle *st, gboolean f);
+gboolean            mstyle_get_content_locked (const GnmStyle *st);
+void                mstyle_set_content_hidden (GnmStyle *st, gboolean f);
+gboolean            mstyle_get_content_hidden (const GnmStyle *st);
 
-void                mstyle_set_validation	(GnmMStyle *st, GnmValidation *v);
-GnmValidation      *mstyle_get_validation	(const GnmMStyle *st);
+void                mstyle_set_validation	(GnmStyle *st, GnmValidation *v);
+GnmValidation      *mstyle_get_validation	(const GnmStyle *st);
 
-void                mstyle_set_hlink		(GnmMStyle *st, GnmHLink *link);
-GnmHLink	   *mstyle_get_hlink		(const GnmMStyle *st);
+void                mstyle_set_hlink		(GnmStyle *st, GnmHLink *link);
+GnmHLink	   *mstyle_get_hlink		(const GnmStyle *st);
 
-void                mstyle_set_input_msg	(GnmMStyle *st, GnmInputMsg *msg);
-GnmInputMsg   	   *mstyle_get_input_msg	(const GnmMStyle *st);
+void                mstyle_set_input_msg	(GnmStyle *st, GnmInputMsg *msg);
+GnmInputMsg   	   *mstyle_get_input_msg	(const GnmStyle *st);
 
-gboolean            mstyle_visible_in_blank (const GnmMStyle *st);
+gboolean            mstyle_visible_in_blank (const GnmStyle *st);
 
-PangoAttrList      *mstyle_get_pango_attrs (const GnmMStyle *st,
+PangoAttrList      *mstyle_get_pango_attrs (const GnmStyle *st,
 					    PangoContext *context,
 					    double zoom);
 
-char       *mstyle_to_string   (const GnmMStyle *st); /* Debug only ! leaks like a sieve */
-void        mstyle_dump        (const GnmMStyle *st);
+char       *mstyle_to_string   (const GnmStyle *st); /* Debug only ! leaks like a sieve */
+void        mstyle_dump        (const GnmStyle *st);
 
 void        mstyle_init (void);
 void        mstyle_shutdown (void);

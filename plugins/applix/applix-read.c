@@ -343,7 +343,7 @@ applix_read_typefaces (ApplixReadState *state)
 	return FALSE;
 }
 
-static GnmStyleColor *
+static GnmColor *
 applix_get_color (ApplixReadState *state, char **buf)
 {
 	/* Skip 'FG' or 'BG' */
@@ -371,10 +371,10 @@ applix_get_precision (char const *val)
 	return 2;
 }
 
-static GnmMStyle *
+static GnmStyle *
 applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 {
-	GnmMStyle *style;
+	GnmStyle *style;
 	char *start = *buffer, *tmp = start;
 	gboolean is_protected = FALSE, is_invisible = FALSE;
 	char const *format_prefix = NULL, *format_suffix = NULL;
@@ -616,7 +616,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 
 			case 'F' :
 				if (sep[1] == 'G' ) {
-					GnmStyleColor *color = applix_get_color (state, &sep);
+					GnmColor *color = applix_get_color (state, &sep);
 					if (color == NULL)
 						return NULL;
 					mstyle_set_color (style, MSTYLE_COLOR_FORE, color);
@@ -704,14 +704,14 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 				sep = end;
 
 				if (sep[0] == 'F' && sep[1] == 'G' ) {
-					GnmStyleColor *color = applix_get_color (state, &sep);
+					GnmColor *color = applix_get_color (state, &sep);
 					if (color == NULL)
 						return NULL;
 					mstyle_set_color (style, MSTYLE_COLOR_PATTERN, color);
 				}
 
 				if (sep[0] == 'B' && sep[1] == 'G') {
-					GnmStyleColor *color = applix_get_color (state, &sep);
+					GnmColor *color = applix_get_color (state, &sep);
 					if (color == NULL)
 						return NULL;
 					mstyle_set_color (style, MSTYLE_COLOR_BACK, color);
@@ -726,7 +726,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 					STYLE_BORDER_DOUBLE
 				};
 
-				GnmStyleColor *color;
+				GnmColor *color;
 				MStyleElementType const type =
 					(sep[0] == 'T') ? MSTYLE_BORDER_TOP :
 					(sep[0] == 'B') ? MSTYLE_BORDER_BOTTOM :
@@ -782,7 +782,7 @@ applix_read_attributes (ApplixReadState *state)
 {
 	int count = 0;
 	unsigned char *ptr, *tmp;
-	GnmMStyle *style;
+	GnmStyle *style;
 
 	while (NULL != (ptr = applix_get_line (state))) {
 		if (!a_strncmp (ptr, "Attr Table End"))
@@ -988,7 +988,7 @@ static int
 applix_read_cells (ApplixReadState *state)
 {
 	Sheet *sheet;
-	GnmMStyle *style;
+	GnmStyle *style;
 	GnmCell *cell;
 	GnmCellPos pos;
 	GnmParseError  perr;
@@ -1186,7 +1186,7 @@ applix_read_row_list (ApplixReadState *state, unsigned char *ptr)
 			return applix_parse_error (state, "Invalid row format end col");
 		attr_index = strtol (ptr = tmp+1, (char **)&tmp, 10);
 		if (tmp != ptr && attr_index >= 2 && attr_index < state->attrs->len+2) {
-			GnmMStyle *style = g_ptr_array_index(state->attrs, attr_index-2);
+			GnmStyle *style = g_ptr_array_index(state->attrs, attr_index-2);
 			mstyle_ref (style);
 			sheet_style_set_range (sheet, &r, style);
 		} else if (attr_index != 1) /* TODO : What the hell is attr 1 ?? */

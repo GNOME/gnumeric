@@ -564,7 +564,7 @@ gnm_go_data_vector_get_str (GODataVector *dat, unsigned i)
 	GnmGODataVector *vec = (GnmGODataVector *)dat;
 	GnmValue const *v;
 	GnmEvalPos ep;
-	GnmStyleFormat const *format = NULL;
+	GnmFormat const *format = NULL;
 	GnmDateConventions const *date_conv = NULL;
 
 	if (vec->val == NULL)

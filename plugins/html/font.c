@@ -25,7 +25,7 @@
 #include "style.h"
 
 static int
-font_match (GnmMStyle *mstyle, const char **names)
+font_match (GnmStyle *mstyle, const char **names)
 {
 	int i;
 	const char *font_name;
@@ -47,7 +47,7 @@ font_match (GnmMStyle *mstyle, const char **names)
 /*
  */
 int
-font_is_monospaced (GnmMStyle *mstyle)
+font_is_monospaced (GnmStyle *mstyle)
 {
 	const char *names[] = { "Courier", "fixed", NULL };
 
@@ -57,7 +57,7 @@ font_is_monospaced (GnmMStyle *mstyle)
 /*
  */
 int
-font_is_helvetica (GnmMStyle *mstyle)
+font_is_helvetica (GnmStyle *mstyle)
 {
 	const char *names [] = { "Helvetica", NULL };
 
@@ -67,7 +67,7 @@ font_is_helvetica (GnmMStyle *mstyle)
 /*
  */
 int
-font_is_sansserif (GnmMStyle *mstyle)
+font_is_sansserif (GnmStyle *mstyle)
 {
 	const char *names [] = { "helvetica", "avantgarde",
 				 "neep", "blippo", "capri",

@@ -96,12 +96,12 @@ typedef struct _ColRowIndexSet          ColRowIndexSet;
 
 typedef struct _GnmFileOpener		GnmFileOpener;
 
-typedef struct _GnmStyleFormat	        GnmStyleFormat;
-typedef struct _GnmStyleFont	        GnmStyleFont;
-typedef struct _GnmStyleColor	        GnmStyleColor;
-typedef struct _GnmStyleBorder	        GnmStyleBorder;
-typedef struct _GnmStyleRow	        GnmStyleRow;
-typedef struct _GnmMStyle		GnmMStyle;
+typedef struct _GnmFormat	        GnmFormat;
+typedef struct _GnmFont	        GnmFont;
+typedef struct _GnmColor	        GnmColor;
+typedef struct _GnmBorder	        GnmBorder;
+typedef struct _GnmRow	        GnmRow;
+typedef struct _GnmStyle		GnmStyle;
 
 typedef struct _SheetStyleData	        SheetStyleData;
 typedef struct _GnmStyleRegion	        GnmStyleRegion;

@@ -566,8 +566,8 @@ latex2e_write_table_header(GsfOutput *output, int num_cols)
 static StyleBorderType
 latex2e_find_vline (int col, int row, Sheet *sheet, MStyleElementType which_border)
 {
-	GnmStyleBorder	   *border;
-	GnmMStyle             *mstyle;
+	GnmBorder	   *border;
+	GnmStyle             *mstyle;
 
 	if (col < 0 || row < 0)
 		return STYLE_BORDER_NONE;
@@ -692,7 +692,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int num_merged
 	StyleBorderType right_border = STYLE_BORDER_NONE;
 
 	/* Print the cell according to its style. */
-	GnmMStyle *mstyle = cell_get_mstyle (cell);
+	GnmStyle *mstyle = cell_get_mstyle (cell);
 	gboolean hidden = mstyle_get_content_hidden (mstyle);
 
 	g_return_if_fail (mstyle != NULL);
@@ -926,8 +926,8 @@ static gboolean
 latex2e_find_hhlines (StyleBorderType *clines, int length, int col, int row,
 		      Sheet *sheet, MStyleElementType type)
 {
-	GnmMStyle *mstyle;
-	GnmStyleBorder	   *border;
+	GnmStyle *mstyle;
+	GnmBorder	   *border;
  	GnmRange const *merge_range;
 	GnmCellPos pos;
 

@@ -99,7 +99,7 @@ void gnumeric_create_popup_menu (GnumericPopupMenuElement const *elements,
 
 #define gnumeric_filter_modifiers(a) ((a) &(~(GDK_LOCK_MASK|GDK_MOD2_MASK|GDK_MOD5_MASK)))
 
-GnmStyleColor *color_combo_get_style_color (GtkWidget *color_combo);
+GnmColor *color_combo_get_style_color (GtkWidget *color_combo);
 
 GtkWidget *gnumeric_toolbar_new (WorkbookControlGUI *wbcg, gpointer info,
 				  char const *name, gint band_num, gint band_position, gint offset);
@@ -119,9 +119,9 @@ void focus_on_entry (GtkEntry *entry);
 #define entry_to_float(entry, the_float, update)	\
 	entry_to_float_with_format (entry, the_float, update, NULL)
 gboolean entry_to_float_with_format (GtkEntry *entry, gnm_float *the_float, gboolean update,
-				     GnmStyleFormat *format);
+				     GnmFormat *format);
 gboolean entry_to_float_with_format_default (GtkEntry *entry, gnm_float *the_float, gboolean update,
-					     GnmStyleFormat *format, gnm_float num);
+					     GnmFormat *format, gnm_float num);
 gboolean entry_to_int	(GtkEntry *entry, gint *the_int, gboolean update);
 void	 float_to_entry	(GtkEntry *entry, gnm_float the_float);
 void	 int_to_entry	(GtkEntry *entry, gint the_int);

@@ -57,8 +57,8 @@ struct _ItemEdit {
 	gboolean   cursor_visible;
 	int        blink_timer;
 
-	GnmStyleFont *style_font;
-	GnmMStyle	  *style;
+	GnmFont *style_font;
+	GnmStyle	  *style;
 	GdkGC     *fill_gc;	/* Default background fill gc */
 
 	/* When editing, if the cursor is inside a cell name, or a cell range,
@@ -213,7 +213,7 @@ ie_layout (FooCanvasItem *item)
 	GnmCanvas const  *gcanvas = GNM_CANVAS (item->canvas);
 	ColRowInfo const *cri;
 	Sheet	   const *sheet  = sc_sheet (SHEET_CONTROL (ie->scg));
-	GnmStyleFont  const *style_font = ie->style_font;
+	GnmFont  const *style_font = ie->style_font;
 	GnmRange	   const *merged;
 	int end_col, end_row, tmp, width, height, col_size;
 	char const *text, *entered_text;
@@ -240,7 +240,7 @@ ie_layout (FooCanvasItem *item)
 	pango_attr_list_unref (attrs);
 
 	{
-		GnmStyleColor *fore = mstyle_get_color (ie->style, MSTYLE_COLOR_FORE);
+		GnmColor *fore = mstyle_get_color (ie->style, MSTYLE_COLOR_FORE);
 		attr = pango_attr_foreground_new (fore->color.red,
 						  fore->color.green,
 						  fore->color.blue);
@@ -249,7 +249,7 @@ ie_layout (FooCanvasItem *item)
 		pango_attr_list_insert (attrs, attr);
 	}
 	if (entered_text != NULL && entered_text != text) {
-		GnmStyleColor *color;
+		GnmColor *color;
 		int const start = strlen (entered_text);
 
 		color = mstyle_get_color (ie->style, MSTYLE_COLOR_FORE);

@@ -557,7 +557,7 @@ static GSList *format_dup_match_list = NULL;
 static GSList *format_failed_match_list = NULL;
 
 void
-format_match_release (GnmStyleFormat *fmt)
+format_match_release (GnmFormat *fmt)
 {
 	if (fmt->regexp_str != NULL) {
 		g_free (fmt->regexp_str);
@@ -567,7 +567,7 @@ format_match_release (GnmStyleFormat *fmt)
 }
 
 gboolean
-format_match_create (GnmStyleFormat *fmt)
+format_match_create (GnmFormat *fmt)
 {
 	GByteArray *match_tags;
 	char *regexp;
@@ -630,7 +630,7 @@ void
 format_match_init (void)
 {
 	int i;
-	GnmStyleFormat *fmt;
+	GnmFormat *fmt;
 	GHashTable *hash;
 
 	currency_date_format_init ();
@@ -1171,7 +1171,7 @@ format_match_simple (char const *text)
  * format.  The caller is responsible for releasing the resulting value.
  **/
 GnmValue *
-format_match (char const *text, GnmStyleFormat *cur_fmt,
+format_match (char const *text, GnmFormat *cur_fmt,
 	      GnmDateConventions const *date_conv)
 {
 	GnmValue  *v;
@@ -1228,7 +1228,7 @@ format_match (char const *text, GnmStyleFormat *cur_fmt,
 
 	/* Fall back to checking the set of canned formats */
 	for (l = format_match_list; l; l = l->next) {
-		GnmStyleFormat *fmt = l->data;
+		GnmFormat *fmt = l->data;
 #ifdef DEBUG_NUMBER_MATCH
 		printf ("test: %s \'%s\'\n", fmt->format, fmt->regexp_str);
 #endif
@@ -1283,7 +1283,7 @@ format_match (char const *text, GnmStyleFormat *cur_fmt,
  * resulting value.  Will ONLY return numbers.
  */
 GnmValue *
-format_match_number (char const *text, GnmStyleFormat *cur_fmt,
+format_match_number (char const *text, GnmFormat *cur_fmt,
 		     GnmDateConventions const *date_conv)
 {
 	GnmValue *res = format_match (text, cur_fmt, date_conv);

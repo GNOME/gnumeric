@@ -60,7 +60,7 @@ GnmValidation *validation_new   (ValidationStyle style,
 
 void        validation_ref    (GnmValidation *v);
 void        validation_unref  (GnmValidation *v);
-ValidationStatus validation_eval (WorkbookControl *wbc, GnmMStyle const *mstyle,
+ValidationStatus validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 				  Sheet *sheet, GnmCellPos const *pos,
 				  gboolean *showed_dialog);
 

@@ -74,7 +74,7 @@ get_substitute_font (gchar const *fontname)
 }
 
 static int
-style_font_string_width (GnmStyleFont const *font, char const *str)
+style_font_string_width (GnmFont const *font, char const *str)
 {
 	int w;
 	pango_layout_set_text (font->pango.layout, str, -1);
@@ -83,7 +83,7 @@ style_font_string_width (GnmStyleFont const *font, char const *str)
 }
 
 static double
-calc_font_width (GnmStyleFont const *font, char const *teststr)
+calc_font_width (GnmFont const *font, char const *teststr)
 {
 	char const *p1, *p2;
 	int w = 0, w1, w2, dw;
@@ -111,13 +111,13 @@ calc_font_width (GnmStyleFont const *font, char const *teststr)
 }
 
 
-static GnmStyleFont *
+static GnmFont *
 style_font_new_simple (PangoContext *context,
 		       char const *font_name, double size_pts, double scale,
 		       gboolean bold, gboolean italic)
 {
-	GnmStyleFont *font;
-	GnmStyleFont key;
+	GnmFont *font;
+	GnmFont key;
 	int height;
 
 	if (font_name == NULL) {
@@ -136,7 +136,7 @@ style_font_new_simple (PangoContext *context,
 	key.is_italic = italic;
 	key.scale     = scale;
 
-	font = (GnmStyleFont *) g_hash_table_lookup (style_font_hash, &key);
+	font = (GnmFont *) g_hash_table_lookup (style_font_hash, &key);
 	if (font == NULL) {
 		PangoFontDescription *desc;
 		double pts_scale;
@@ -144,7 +144,7 @@ style_font_new_simple (PangoContext *context,
 		if (g_hash_table_lookup (style_font_negative_hash, &key))
 			return NULL;
 
-		font = g_new0 (GnmStyleFont, 1);
+		font = g_new0 (GnmFont, 1);
 		font->font_name = g_strdup (font_name);
 		font->size_pts  = size_pts;
 		font->scale     = scale;
@@ -234,12 +234,12 @@ style_font_new_simple (PangoContext *context,
 	return font;
 }
 
-GnmStyleFont *
+GnmFont *
 style_font_new (PangoContext *context,
 		char const *font_name, double size_pts, double scale,
 		gboolean bold, gboolean italic)
 {
-	GnmStyleFont *font;
+	GnmFont *font;
 
 	g_return_val_if_fail (font_name != NULL, NULL);
 	g_return_val_if_fail (size_pts > 0, NULL);
@@ -277,7 +277,7 @@ style_font_new (PangoContext *context,
 }
 
 void
-style_font_ref (GnmStyleFont *sf)
+style_font_ref (GnmFont *sf)
 {
 	g_return_if_fail (sf != NULL);
 
@@ -292,7 +292,7 @@ style_font_ref (GnmStyleFont *sf)
 }
 
 void
-style_font_unref (GnmStyleFont *sf)
+style_font_unref (GnmFont *sf)
 {
 	g_return_if_fail (sf != NULL);
 	g_return_if_fail (sf->ref_count > 0);
@@ -343,8 +343,8 @@ style_font_unref (GnmStyleFont *sf)
 gint
 style_font_equal (gconstpointer v, gconstpointer v2)
 {
-	GnmStyleFont const *k1 = (GnmStyleFont const *) v;
-	GnmStyleFont const *k2 = (GnmStyleFont const *) v2;
+	GnmFont const *k1 = (GnmFont const *) v;
+	GnmFont const *k2 = (GnmFont const *) v2;
 
 	if (k1->size_pts != k2->size_pts)
 		return 0;
@@ -362,7 +362,7 @@ style_font_equal (gconstpointer v, gconstpointer v2)
 guint
 style_font_hash_func (gconstpointer v)
 {
-	GnmStyleFont const *k = (GnmStyleFont const *) v;
+	GnmFont const *k = (GnmFont const *) v;
 
 	return k->size_pts + g_str_hash (k->font_name);
 }
@@ -408,7 +408,7 @@ font_init (void)
 {
 	GConfClient *client = gnm_app_get_gconf_client ();
 	PangoContext *context;
-	GnmStyleFont *gnumeric_default_font = NULL;
+	GnmFont *gnumeric_default_font = NULL;
 	int n_families, i;
 
 	gnumeric_default_font_name =
@@ -509,14 +509,14 @@ style_init (void)
 }
 
 static void
-delete_neg_font (GnmStyleFont *sf, gpointer value, gpointer user_data)
+delete_neg_font (GnmFont *sf, gpointer value, gpointer user_data)
 {
 	g_free (sf->font_name);
 	g_free (sf);
 }
 
 static void
-list_cached_fonts (GnmStyleFont *font, gpointer value, GSList **lp)
+list_cached_fonts (GnmFont *font, gpointer value, GSList **lp)
 {
 	*lp = g_slist_prepend (*lp, font);
 }
@@ -534,7 +534,7 @@ style_shutdown (void)
 		GSList *fonts = NULL, *tmp;
 		g_hash_table_foreach (style_font_hash, (GHFunc) list_cached_fonts, &fonts);
 		for (tmp = fonts; tmp; tmp = tmp->next) {
-			GnmStyleFont *sf = tmp->data;
+			GnmFont *sf = tmp->data;
 			if (sf->ref_count != 1)
 				g_warning ("Font %s has %d references instead of the expected single.",
 					   sf->font_name, sf->ref_count);
@@ -557,7 +557,7 @@ style_shutdown (void)
  * What changes are required after applying the supplied style.
  */
 SpanCalcFlags
-required_updates_for_style (GnmMStyle *style)
+required_updates_for_style (GnmStyle *style)
 {
 	gboolean const size_change =
 	    (mstyle_is_element_set  (style, MSTYLE_FONT_NAME) ||
@@ -584,7 +584,7 @@ required_updates_for_style (GnmMStyle *style)
  * value.
  */
 StyleHAlignFlags
-style_default_halign (GnmMStyle const *mstyle, GnmCell const *c)
+style_default_halign (GnmStyle const *mstyle, GnmCell const *c)
 {
 	StyleHAlignFlags align = mstyle_get_align_h (mstyle);
 

@@ -262,7 +262,7 @@ dhl_cb_cancel (G_GNUC_UNUSED GtkWidget *button, HyperlinkState *state)
 static void
 dhl_cb_ok (G_GNUC_UNUSED GtkWidget *button, HyperlinkState *state)
 {
-	GnmMStyle *style;
+	GnmStyle *style;
 	char *cmdname;
 	const char *target;
 	gboolean success;

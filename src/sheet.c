@@ -387,7 +387,7 @@ sheet_cell_calc_span (GnmCell *cell, SpanCalcFlags flags)
 void
 sheet_apply_style (Sheet       *sheet,
 		   GnmRange const *range,
-		   GnmMStyle      *style)
+		   GnmStyle      *style)
 {
 	SpanCalcFlags const spanflags = required_updates_for_style (style);
 
@@ -1073,7 +1073,7 @@ cb_max_cell_height (Sheet *sheet, int col, int row, GnmCell *cell,
 		return NULL;
 
 	if (cell->rendered_value == NULL) {
-		GnmMStyle const *style = sheet_style_get (sheet, col, row);
+		GnmStyle const *style = sheet_style_get (sheet, col, row);
 
 		/* rendering is expensive.  Unwrapped cells will be the same
 		 * height as their font */
@@ -1081,7 +1081,7 @@ cb_max_cell_height (Sheet *sheet, int col, int row, GnmCell *cell,
 			cell_render_value (cell, TRUE);
 			height = cell_rendered_height (cell);
 		} else {
-			GnmStyleFont *font = mstyle_get_font (style, sheet->context,
+			GnmFont *font = mstyle_get_font (style, sheet->context,
 				sheet->last_zoom_factor_used);
 			height = font->height;
 			style_font_unref (font);
@@ -4017,7 +4017,7 @@ sheet_dup (Sheet const *src)
  * absorb the reference to the style color
  */
 void
-sheet_set_tab_color (Sheet *sheet, GnmStyleColor *tab_color, GnmStyleColor *text_color)
+sheet_set_tab_color (Sheet *sheet, GnmColor *tab_color, GnmColor *text_color)
 {
 	g_return_if_fail (IS_SHEET (sheet));
 

@@ -52,7 +52,7 @@ gboolean cmd_autofill		(WorkbookControl *wbc, Sheet *sheet,
  * selection.  In the future we should pass in a virtualized selection.
  */
 gboolean cmd_selection_format		(WorkbookControl *wbc,
-					 GnmMStyle *style, GnmStyleBorder **borders,
+					 GnmStyle *style, GnmBorder **borders,
 					 char const *opt_translated_name);
 gboolean cmd_selection_clear		(WorkbookControl *wbc, int clear_flags);
 gboolean cmd_selection_colrow_hide	(WorkbookControl *wbc,

@@ -68,7 +68,7 @@ format_page_trim_menu_deactivate (G_GNUC_UNUSED GtkMenu *menu,
 static void
 activate_column (StfDialogData *pagedata, int i)
 {
-	GnmStyleFormat *colformat;
+	GnmFormat *colformat;
 	GtkCellRenderer *cell;
 	RenderData_t *renderdata = pagedata->format.renderdata;
 
@@ -223,11 +223,11 @@ cb_popup_menu_extend_format (GtkWidget *widget, gpointer data)
 {
 	StfDialogData *pagedata = data;
 	guint index = pagedata->format.index;
-	GnmStyleFormat *colformat = g_ptr_array_index 
+	GnmFormat *colformat = g_ptr_array_index 
 		(pagedata->format.formats, pagedata->format.index);
 
 	for (index++; index < pagedata->format.formats->len; index++) {
-		GnmStyleFormat *sf = g_ptr_array_index 
+		GnmFormat *sf = g_ptr_array_index 
 			(pagedata->format.formats, index);
 		style_format_unref (sf);
 		style_format_ref (colformat); 
@@ -343,7 +343,7 @@ format_page_update_preview (StfDialogData *pagedata)
 
 	stf_preview_colformats_clear (renderdata);
 	for (ui = 0; ui < pagedata->format.formats->len; ui++) {
-		GnmStyleFormat *sf = g_ptr_array_index (pagedata->format.formats, ui);
+		GnmFormat *sf = g_ptr_array_index (pagedata->format.formats, ui);
 		stf_preview_colformats_add (renderdata, sf);
 	}
 
@@ -459,7 +459,7 @@ cb_number_format_changed (G_GNUC_UNUSED GtkWidget *widget,
 			  StfDialogData *data)
 {
 	if (data->format.index >= 0) {
-		GnmStyleFormat *sf;
+		GnmFormat *sf;
 
 		sf = g_ptr_array_index (data->format.formats, data->format.index);
 		style_format_unref (sf);
@@ -483,7 +483,7 @@ cb_number_format_changed (G_GNUC_UNUSED GtkWidget *widget,
 void
 stf_dialog_format_page_prepare (StfDialogData *data)
 {
-	GnmStyleFormat *sf;
+	GnmFormat *sf;
 
 	/* Set the trim.  */
 	format_page_trim_menu_deactivate (NULL, data);
@@ -513,7 +513,7 @@ stf_dialog_format_page_cleanup (StfDialogData *pagedata)
 	if (formats) {
 		unsigned int ui;
 		for (ui = 0; ui < formats->len; ui++) {
-			GnmStyleFormat *sf = g_ptr_array_index (formats, ui);
+			GnmFormat *sf = g_ptr_array_index (formats, ui);
 			style_format_unref (sf);
 		}
 		g_ptr_array_free (formats, TRUE);

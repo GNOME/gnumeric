@@ -74,7 +74,7 @@ typedef struct {
 	int *green;
 	int *blue;
 	int length;
-	GnmStyleColor **gnum_cols;
+	GnmColor **gnum_cols;
 } ExcelPalette;
 
 typedef struct {
@@ -132,7 +132,7 @@ void	       ms_biff_bof_data_destroy (MsBiffBofData * data);
 char	      *ms_biff_get_chars (char const *ptr, guint length,
 				  gboolean use_utf16);
 
-GnmStyleColor  *excel_palette_get (ExcelPalette const *pal, gint idx);
+GnmColor  *excel_palette_get (ExcelPalette const *pal, gint idx);
 
 void	    excel_read_IMDATA (BiffQuery *q);
 

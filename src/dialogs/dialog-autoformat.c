@@ -133,7 +133,7 @@ typedef struct {
 } AutoFormatGrid;
 typedef PreviewGridClass AutoFormatGridClass;
 
-static GnmMStyle *
+static GnmStyle *
 afg_get_cell_style (PreviewGrid *pg, int col, int row)
 {
 	/* If this happens to be NULL the default style

@@ -347,7 +347,7 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
   	gnm_float max_range_val = 1e24;
 	GnmValue *target;
 	GnmRangeRef const *r;
-	GnmStyleFormat *format;
+	GnmFormat *format;
 
 	if (state->warning_dialog != NULL)
 		gtk_widget_destroy (state->warning_dialog);
@@ -444,7 +444,7 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 	case GOAL_SEEK_OK: {
 		const char *actual_str;
 		const char *solution_str;
-		GnmStyleFormat *format = style_format_general ();
+		GnmFormat *format = style_format_general ();
 		GnmValue *error_value = value_new_float (state->target_value -
 						      value_get_as_float (state->set_cell->value));
   		char *target_str = format_value (format, error_value, NULL, 0,

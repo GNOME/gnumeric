@@ -960,10 +960,10 @@ gnumeric_create_popup_menu (GnumericPopupMenuElement const *elements,
  *
  * A utility wrapper to map between gal's colour combo and gnumeric's StyleColors.
  */
-GnmStyleColor *
+GnmColor *
 color_combo_get_style_color (GtkWidget *color_combo)
 {
-	GnmStyleColor *sc = NULL;
+	GnmColor *sc = NULL;
 	GdkColor *gdk = color_combo_get_color (COLOR_COMBO (color_combo), NULL);
 	if (gdk != NULL) {
 		    sc = style_color_new (gdk->red, gdk->green, gdk->blue);
@@ -1108,7 +1108,7 @@ focus_on_entry (GtkEntry *entry)
 
 gboolean
 entry_to_float_with_format_default (GtkEntry *entry, gnm_float *the_float, gboolean update,
-				    GnmStyleFormat *format, gnm_float num)
+				    GnmFormat *format, gnm_float num)
 {
 	char const *text = gtk_entry_get_text (entry);
 	gboolean need_default = (text == NULL);
@@ -1132,7 +1132,7 @@ entry_to_float_with_format_default (GtkEntry *entry, gnm_float *the_float, gbool
 
 gboolean
 entry_to_float_with_format (GtkEntry *entry, gnm_float *the_float, gboolean update,
-			    GnmStyleFormat *format)
+			    GnmFormat *format)
 {
 	GnmValue *value = format_match_number (gtk_entry_get_text (entry), format, NULL);
 

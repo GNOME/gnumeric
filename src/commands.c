@@ -839,10 +839,10 @@ cmd_set_text_redo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	if (!me->has_user_format && expr) {
 		GnmEvalPos ep;
-		GnmStyleFormat *sf = auto_style_format_suggest (expr,
+		GnmFormat *sf = auto_style_format_suggest (expr,
 			eval_pos_init (&ep, me->cmd.sheet, &me->pos.eval));
 		if (sf) {
-			GnmMStyle *new_style = mstyle_new ();
+			GnmStyle *new_style = mstyle_new ();
 			GnmRange r;
 
 			mstyle_set_format (new_style, sf);
@@ -977,7 +977,7 @@ cmd_area_set_text_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	CmdAreaSetText *me = CMD_AREA_SET_TEXT (cmd);
 	GnmExpr const *expr = NULL;
 	GSList *l;
-	GnmMStyle *new_style = NULL;
+	GnmStyle *new_style = NULL;
 	char const *expr_txt;
 
 	g_return_val_if_fail (me != NULL, TRUE);
@@ -1000,7 +1000,7 @@ cmd_area_set_text_redo (GnmCommand *cmd, WorkbookControl *wbc)
 			return TRUE;
 	} else if (expr != NULL) {
 		GnmEvalPos ep;
-		GnmStyleFormat *sf = auto_style_format_suggest (expr,
+		GnmFormat *sf = auto_style_format_suggest (expr,
 			eval_pos_init (&ep, me->cmd.sheet, &me->pp.eval));
 		gnm_expr_unref (expr);
 		expr = NULL;
@@ -1630,8 +1630,8 @@ typedef struct {
 
 	GSList        *old_styles;
 
-	GnmMStyle        *new_style;
-	GnmStyleBorder  **borders;
+	GnmStyle        *new_style;
+	GnmBorder  **borders;
 } CmdFormat;
 
 MAKE_GNM_COMMAND (CmdFormat, cmd_format);
@@ -1743,8 +1743,8 @@ cmd_format_finalize (GObject *cmd)
  * @borders: borders to apply to the selection
  * @opt_translated_name : An optional name to use in place of 'Format Cells'
  *
- * If borders is non NULL, then the GnmStyleBorder references are passed,
- * the GnmMStyle reference is also passed.
+ * If borders is non NULL, then the GnmBorder references are passed,
+ * the GnmStyle reference is also passed.
  *
  * It absorbs the reference to the style.
  *
@@ -1752,7 +1752,7 @@ cmd_format_finalize (GObject *cmd)
  **/
 gboolean
 cmd_selection_format (WorkbookControl *wbc,
-		      GnmMStyle *style, GnmStyleBorder **borders,
+		      GnmStyle *style, GnmBorder **borders,
 		      char const *opt_translated_name)
 {
 	GObject *obj;
@@ -1794,7 +1794,7 @@ cmd_selection_format (WorkbookControl *wbc,
 	if (borders) {
 		int i;
 
-		me->borders = g_new (GnmStyleBorder *, STYLE_BORDER_EDGE_MAX);
+		me->borders = g_new (GnmBorder *, STYLE_BORDER_EDGE_MAX);
 		for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; i++)
 			me->borders [i] = borders [i];
 	} else

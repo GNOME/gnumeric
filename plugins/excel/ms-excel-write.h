@@ -20,9 +20,9 @@ typedef struct {
 } ExcelSheetPair;
 
 typedef struct {
-	/* Don't use GnmStyleFont.  In the case where a font does not exist on the
-	 * display system it does the wrong thing.  GnmMStyle can contain an
-	 * invalid font.  GnmStyleFont gets remapped to the default
+	/* Don't use GnmFont.  In the case where a font does not exist on the
+	 * display system it does the wrong thing.  GnmStyle can contain an
+	 * invalid font.  GnmFont gets remapped to the default
 	 */
 	guint32    color;
 	char const *font_name;
@@ -41,7 +41,7 @@ typedef struct {
 	guint32		 boundsheetPos;
 	gint32		 max_col, max_row;
 	guint16		 col_xf    [SHEET_MAX_COLS];
-	GnmMStyle		*col_style [SHEET_MAX_COLS];
+	GnmStyle		*col_style [SHEET_MAX_COLS];
 	GnmStyleList 	*validations;
 } ExcelWriteSheet;
 
@@ -55,7 +55,7 @@ struct _ExcelWriteState {
 
 	struct {
 		TwoWayTable *two_way_table;
-		GnmMStyle      *default_style;
+		GnmStyle      *default_style;
 	} xf;
 	struct {
 		TwoWayTable *two_way_table;

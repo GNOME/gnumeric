@@ -93,7 +93,7 @@ cellref_init (GnmCellRef *res,
 }
 
 static void
-set_format(GnmMStyle *style, const psiconv_sheet_numberformat psi_numberformat)
+set_format(GnmStyle *style, const psiconv_sheet_numberformat psi_numberformat)
 {
 	/* 100 should be long enough, but to be really safe, use strncpy */
 	char fmt_string[100];
@@ -183,16 +183,16 @@ set_format(GnmMStyle *style, const psiconv_sheet_numberformat psi_numberformat)
 		mstyle_set_format_text (style, fmt_string);
 }
 
-static GnmStyleColor *
+static GnmColor *
 get_color(const psiconv_color color)
 {
 	return style_color_new(color->red*256,color->green*256,color->blue*256);
 }
 
 static void
-set_layout(GnmMStyle * style,const psiconv_sheet_cell_layout psi_layout)
+set_layout(GnmStyle * style,const psiconv_sheet_cell_layout psi_layout)
 {
-	GnmStyleColor *color;
+	GnmColor *color;
 
 	set_format(style,psi_layout->numberformat);
 	mstyle_set_font_size(style,psi_layout->character->font_size);
@@ -224,9 +224,9 @@ set_layout(GnmMStyle * style,const psiconv_sheet_cell_layout psi_layout)
 static void
 set_style(Sheet *sheet, int row, int col,
           const psiconv_sheet_cell_layout psi_layout,
-          const GnmMStyle *default_style)
+          const GnmStyle *default_style)
 {
-	GnmMStyle *style;
+	GnmStyle *style;
 	style = mstyle_copy(default_style);
 	if (!style)
 		return;
@@ -443,7 +443,7 @@ expr_new_from_formula (PsiState *state,
 
 static void
 add_cell (PsiState *state, Sheet *sheet, const psiconv_sheet_cell psi_cell,
-	  const psiconv_formula_list psi_formulas, const GnmMStyle * default_style)
+	  const psiconv_formula_list psi_formulas, const GnmStyle * default_style)
 {
 	GnmCell *cell;
 	GnmValue *val;
@@ -488,7 +488,7 @@ static void
 add_cells(PsiState *state,
 	  Sheet *sheet, const psiconv_sheet_cell_list psi_cells,
           const psiconv_formula_list psi_formulas,
-          const GnmMStyle *default_style)
+          const GnmStyle *default_style)
 {
 	psiconv_u32 i;
 	psiconv_sheet_cell psi_cell;
@@ -510,7 +510,7 @@ add_worksheet(PsiState *state, Workbook *wb, psiconv_sheet_worksheet psi_workshe
 {
 	Sheet *sheet;
 	char *sheet_name;
-	GnmMStyle *default_style;
+	GnmStyle *default_style;
 
 	sheet_name = g_strdup_printf (_("Sheet%d"),nr);
 	sheet = sheet_new (wb, sheet_name);

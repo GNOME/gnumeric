@@ -234,7 +234,7 @@ BC_R(ai)(XLChartHandler const *handle,
 
 	/* Rest are 0 */
 	if (flags&0x01) {
-		GnmStyleFormat *fmt = ms_container_get_fmt (&s->container,
+		GnmFormat *fmt = ms_container_get_fmt (&s->container,
 			GSF_LE_GET_GUINT16 (q->data + 4));
 		d (2, fputs ("Has Custom number format", stderr););
 		if (fmt != NULL) {
@@ -839,7 +839,7 @@ static gboolean
 BC_R(ifmt)(XLChartHandler const *handle,
 	   XLChartReadState *s, BiffQuery *q)
 {
-	GnmStyleFormat *fmt = ms_container_get_fmt (&s->container,
+	GnmFormat *fmt = ms_container_get_fmt (&s->container,
 		GSF_LE_GET_GUINT16 (q->data));
 
 	if (fmt != NULL) {
@@ -1916,7 +1916,7 @@ chart_get_sheet (MSContainer const *container)
 	return ms_container_sheet (container->parent);
 }
 
-static GnmStyleFormat *
+static GnmFormat *
 chart_get_fmt (MSContainer const *container, guint16 indx)
 {
 	return ms_container_get_fmt (container->parent, indx);

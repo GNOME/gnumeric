@@ -135,8 +135,8 @@ stf_apply_formats (StfParseOptions_t *parseoptions,
 	for (ui = 0; ui < parseoptions->formats->len; ui++) {
 		if (parseoptions->col_import_array == NULL ||
 		    parseoptions->col_import_array[ui]) {
-			GnmMStyle *style = mstyle_new ();
-			GnmStyleFormat *sf = g_ptr_array_index 
+			GnmStyle *style = mstyle_new ();
+			GnmFormat *sf = g_ptr_array_index 
 				(parseoptions->formats, ui);
 			mstyle_set_format (style, sf);
 			sheet_style_apply_range (sheet, &range, style);

@@ -470,7 +470,7 @@ stf_dialog_result_attach_formats_to_cr (DialogStfResult_t *dialogresult,
 	targetcol = 0;
 	for (col = 0; col < dialogresult->parseoptions->formats->len; col++) {
 		if (dialogresult->parseoptions->col_import_array[col]) {
-			GnmStyleFormat *sf = g_ptr_array_index 
+			GnmFormat *sf = g_ptr_array_index 
 				(dialogresult->parseoptions->formats, col);
 			GnmStyleRegion *sr = g_new (GnmStyleRegion, 1);
 			

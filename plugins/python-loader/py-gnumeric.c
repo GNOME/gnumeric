@@ -95,7 +95,7 @@ CellRef:
 
 RangeRef:
 
-GnmMStyle:
+GnmStyle:
 	Methods:
 	- set_font_bold
 	- get_font_bold
@@ -159,7 +159,7 @@ Module Gnumeric:
 	- functions     (dictionary containing all Gnumeric functions)
 	- plugin_info   (value of type GnmPlugin)
 	Methods:
-	- GnmMStyle   (creates GnmMStyle object with default style, uses mstyle_new_default())
+	- GnmStyle   (creates GnmStyle object with default style, uses mstyle_new_default())
 	- GnmCellPos  (creates GnmCellPos object)
 	- Range    (creates Range Object)
 	- workbooks
@@ -872,12 +872,12 @@ static PyTypeObject py_RangeRef_object_type = {
 };
 
 /*
- * GnmMStyle
+ * GnmStyle
  */
 
 struct _py_MStyle_object {
 	PyObject_HEAD
-	GnmMStyle *mstyle;
+	GnmStyle *mstyle;
 };
 
 static PyObject *
@@ -925,7 +925,7 @@ static struct PyMethodDef py_MStyle_object_methods[] = {
 	{NULL, NULL}
 };
 
-static GnmMStyle *
+static GnmStyle *
 py_mstyle_as_MStyle (py_MStyle_object *self)
 {
 	return self->mstyle;
@@ -1076,7 +1076,7 @@ py_MStyle_object_dealloc (py_MStyle_object *self)
 }
 
 static PyObject *
-py_new_MStyle_object (GnmMStyle *mstyle)
+py_new_MStyle_object (GnmStyle *mstyle)
 {
 	py_MStyle_object *self;
 
@@ -1093,7 +1093,7 @@ py_new_MStyle_object (GnmMStyle *mstyle)
 static PyTypeObject py_MStyle_object_type = {
 	PyObject_HEAD_INIT(0)
 	0, /* ob_size */
-	(char *) "GnmMStyle",  /* tp_name */
+	(char *) "GnmStyle",  /* tp_name */
 	sizeof (py_MStyle_object),               /* tp_size */
 	0, /* tp_itemsize */
 	(destructor) &py_MStyle_object_dealloc,  /* tp_dealloc */
@@ -1177,7 +1177,7 @@ py_Cell_set_text_method (py_Cell_object *self, PyObject *args)
 static PyObject *
 py_Cell_get_mstyle_method (py_Cell_object *self, PyObject *args)
 {
-	GnmMStyle *mstyle;
+	GnmStyle *mstyle;
 
 	if (!PyArg_ParseTuple (args, (char *) ":get_mstyle")) {
 		return NULL;
@@ -1375,7 +1375,7 @@ py_sheet_style_get_method (py_Sheet_object *self, PyObject *args)
 {
 	gint col, row;
 	py_CellPos_object *py_cell_pos;
-	GnmMStyle *mstyle;
+	GnmStyle *mstyle;
 
 	if (PyArg_ParseTuple (args, (char *) "ii:style_get", &col, &row)) {
 		;
@@ -2144,10 +2144,10 @@ py_gnumeric_Range_method (PyObject *self, PyObject *args)
 static PyObject *
 py_gnumeric_MStyle_method (PyObject *self, PyObject *args)
 {
-	GnmMStyle *mstyle;
+	GnmStyle *mstyle;
 	PyObject *result;
 
-	if (!PyArg_ParseTuple (args, (char *) ":GnmMStyle")) {
+	if (!PyArg_ParseTuple (args, (char *) ":GnmStyle")) {
 		return NULL;
 	}
 
@@ -2194,7 +2194,7 @@ static PyMethodDef GnumericMethods[] = {
 	{ (char *) "Boolean", py_gnumeric_Boolean_method, METH_VARARGS },
 	{ (char *) "CellPos", py_gnumeric_CellPos_method, METH_VARARGS },
 	{ (char *) "Range",   py_gnumeric_Range_method,   METH_VARARGS },
-	{ (char *) "GnmMStyle",  py_gnumeric_MStyle_method,  METH_VARARGS },
+	{ (char *) "GnmStyle",  py_gnumeric_MStyle_method,  METH_VARARGS },
  	{ (char *) "workbooks", py_gnumeric_workbooks_method, METH_VARARGS },
 	{ (char *) "workbook_new", py_gnumeric_workbook_new,  METH_VARARGS},
 	{ NULL, NULL },

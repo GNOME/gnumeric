@@ -16,7 +16,7 @@ typedef struct {
 	GnmExpr const * (*parse_expr)	(MSContainer *container,
 					 guint8 const *data, int length);
 	Sheet	      * (*sheet)	(MSContainer const *container);
-	GnmStyleFormat   * (*get_fmt)	(MSContainer const *container, guint16 indx);
+	GnmFormat   * (*get_fmt)	(MSContainer const *container, guint16 indx);
 } MSContainerClass;
 
 struct _MSContainer {
@@ -52,6 +52,6 @@ GnmExpr	const *ms_container_parse_expr   (MSContainer *c,
 					  guint8 const *data, int length);
 
 Sheet       *ms_container_sheet	    (MSContainer const *c);
-GnmStyleFormat *ms_container_get_fmt   (MSContainer const *container, guint16 indx);
+GnmFormat *ms_container_get_fmt   (MSContainer const *container, guint16 indx);
 
 #endif /* MS_OFFICE_CONTAINER_H */

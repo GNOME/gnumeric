@@ -56,7 +56,7 @@ typedef struct {
 	int                  colcount;              /* Number of columns parsed */
         gboolean             *col_import_array;     /* 0/1 array indicating  */
 	                                            /* which cols to import  */
-	GPtrArray            *formats       ;       /* Contains GnmStyleFormat *s */
+	GPtrArray            *formats       ;       /* Contains GnmFormat *s */
 } StfParseOptions_t;
 
 /* CREATION/DESTRUCTION of stf options struct */

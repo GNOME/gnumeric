@@ -63,13 +63,13 @@ static GnmMemChunk *rendered_value_pool;
 #endif
 
 static guint16
-calc_indent (PangoContext *context, const GnmMStyle *mstyle, Sheet *sheet)
+calc_indent (PangoContext *context, const GnmStyle *mstyle, Sheet *sheet)
 {
 	int indent = 0;
 	if (mstyle_is_element_set (mstyle, MSTYLE_INDENT)) {
 		indent = mstyle_get_indent (mstyle);
 		if (indent) {
-			GnmStyleFont *style_font =
+			GnmFont *style_font =
 				scg_get_style_font (context, sheet, mstyle);
 			indent *= style_font->approx_width.pixels.digit;
 			style_font_unref (style_font);
@@ -80,9 +80,9 @@ calc_indent (PangoContext *context, const GnmMStyle *mstyle, Sheet *sheet)
 
 void
 rendered_value_render (GString *str,
-		       GnmCell *cell, PangoContext *context, GnmMStyle const *mstyle,
+		       GnmCell *cell, PangoContext *context, GnmStyle const *mstyle,
 		       gboolean *dynamic_width, gboolean *display_formula,
-		       GnmStyleColor **color)
+		       GnmColor **color)
 {
 	Sheet *sheet = cell->base.sheet;
 
@@ -102,14 +102,14 @@ rendered_value_render (GString *str,
 	} else if (mstyle_is_element_set (mstyle, MSTYLE_FORMAT)) {
 		double col_width = -1.;
 		/* entered text CAN be null if called by set_value */
-		GnmStyleFormat *format = mstyle_get_format (mstyle);
+		GnmFormat *format = mstyle_get_format (mstyle);
 
 		/* For format general approximate the cell width in characters */
 		if (style_format_is_general (format)) {
 			if (*dynamic_width &&
 			    (VALUE_FMT (cell->value) == NULL ||
 			     style_format_is_general (VALUE_FMT (cell->value)))) {
-				GnmStyleFont *style_font =
+				GnmFont *style_font =
 					scg_get_style_font (context, sheet, mstyle);
 				double wdigit = style_font->approx_width.pts.digit;
 
@@ -164,16 +164,16 @@ rendered_value_render (GString *str,
  * Return value: a new RenderedValue
  **/
 RenderedValue *
-rendered_value_new (GnmCell *cell, GnmMStyle const *mstyle,
+rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 		    gboolean dynamic_width,
 		    PangoContext *context)
 {
 	RenderedValue	*res;
 	Sheet		*sheet;
-	GnmStyleColor	*color;
+	GnmColor	*color;
 	PangoLayout     *layout;
 	PangoAttrList   *attrs;
-	const GnmStyleColor *fore;
+	const GnmColor *fore;
 	gboolean        display_formula;
 	double          zoom;
 

@@ -65,7 +65,7 @@ gnm_hlink_activate (GnmHLink *lnk, WorkbookControl *wbc)
 GnmHLink *
 sheet_hlink_find (Sheet const *sheet, GnmCellPos const *pos)
 {
-	GnmMStyle const *style = sheet_style_get (sheet, pos->col, pos->row);
+	GnmStyle const *style = sheet_style_get (sheet, pos->col, pos->row);
 	return mstyle_get_hlink (style);
 }
 

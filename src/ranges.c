@@ -298,7 +298,7 @@ range_has_header (Sheet const *sheet, GnmRange const *src,
 {
 	GnmCell *ca, *cb;
 	GnmValue *valuea, *valueb;
-	GnmMStyle *stylea, *styleb;
+	GnmStyle *stylea, *styleb;
 	int length, i;
 
 	/* There is only one row or col */

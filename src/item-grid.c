@@ -205,7 +205,7 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *ig,
 	GnmCell  const *cell   = sheet_cell_get (sheet, range->start.col, range->start.row);
 
 	/* load style from corner which may not be visible */
-	GnmMStyle const *style = sheet_style_get (sheet, range->start.col, range->start.row);
+	GnmStyle const *style = sheet_style_get (sheet, range->start.col, range->start.row);
 	gboolean const is_selected = draw_selection &&
 		(sv->edit_pos.col != range->start.col ||
 		 sv->edit_pos.row != range->start.row) &&
@@ -268,7 +268,7 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *ig,
 
 static void
 item_grid_draw_background (GdkDrawable *drawable, ItemGrid *ig,
-			   GnmMStyle const *style,
+			   GnmStyle const *style,
 			   int col, int row, int x, int y, int w, int h,
 			   gboolean draw_selection)
 {
@@ -325,10 +325,10 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 	int end_row = gnm_canvas_find_row (gcanvas, draw_y+height+2, NULL);
 	int const diff_y = y;
 
-	GnmStyleRow sr, next_sr;
-	GnmMStyle const **styles;
-	GnmStyleBorder const **borders, **prev_vert;
-	GnmStyleBorder const *none =
+	GnmRow sr, next_sr;
+	GnmStyle const **styles;
+	GnmBorder const **borders, **prev_vert;
+	GnmBorder const *none =
 		sheet->hide_grid ? NULL : style_border_none ();
 
 	GnmRange     view;
@@ -382,8 +382,8 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 
 	/*
 	 * allocate a single blob of memory for all 8 arrays of pointers.
-	 *	- 6 arrays of n GnmStyleBorder const *
-	 *	- 2 arrays of n GnmMStyle const *
+	 *	- 6 arrays of n GnmBorder const *
+	 *	- 2 arrays of n GnmStyle const *
 	 */
 	n = end_col - start_col + 3; /* 1 before, 1 after, 1 fencepost */
 	style_row_init (&prev_vert, &sr, &next_sr, start_col, end_col,
@@ -470,7 +470,7 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 		}
 
 		for (col = start_col, x = diff_x; col <= end_col ; col++) {
-			GnmMStyle const *style;
+			GnmStyle const *style;
 			CellSpanInfo const *span;
 			ColRowInfo const *ci = sheet_col_get_info (sheet, col);
 

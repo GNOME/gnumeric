@@ -145,8 +145,8 @@ typedef struct _FormatState
 	Sheet		*sheet;
 	SheetView	*sv;
 	GnmValue	*value;
-	GnmMStyle		*style, *result;
-	GnmStyleBorder *borders[STYLE_BORDER_EDGE_MAX];
+	GnmStyle		*style, *result;
+	GnmBorder *borders[STYLE_BORDER_EDGE_MAX];
 
 	int	 	 selection_mask;
 	gboolean	 enable_edit;
@@ -187,7 +187,7 @@ typedef struct _FormatState
 	struct {
 		FooCanvas	*canvas;
 		PreviewGrid     *grid;
-		GnmMStyle          *style;
+		GnmStyle          *style;
 
 		ColorPicker	 back_color;
 		ColorPicker	 pattern_color;
@@ -350,12 +350,12 @@ setup_color_pickers (ColorPicker *picker,
 		     FormatState *state,
 		     GCallback preview_update,
 		     MStyleElementType const e,
-		     GnmMStyle	 *mstyle)
+		     GnmStyle	 *mstyle)
 {
 	GtkWidget *combo, *box, *frame;
 	ColorGroup *cg;
-	GnmStyleColor *mcolor = NULL;
-	GnmStyleColor *def_sc = NULL;
+	GnmColor *mcolor = NULL;
+	GnmColor *def_sc = NULL;
 	GdkColor *def_gc;
 
 	/* MSTYLE_ELEMENT_UNSET is abused as representing borders. */
@@ -874,7 +874,7 @@ fmt_dialog_init_align_page (FormatState *state)
 
 static void
 cb_font_changed (G_GNUC_UNUSED GtkWidget *widget,
-		 GnmMStyle *mstyle, FormatState *state)
+		 GnmStyle *mstyle, FormatState *state)
 {
 	static MStyleElementType const font_types[] = {
 		MSTYLE_FONT_NAME,
@@ -917,7 +917,7 @@ cb_font_preview_color (G_GNUC_UNUSED ColorCombo *combo,
 		       G_GNUC_UNUSED gboolean by_user,
 		       gboolean is_default, FormatState *state)
 {
-	GnmStyleColor *col;
+	GnmColor *col;
 
 	if (!state->enable_edit)
 		return;
@@ -1064,7 +1064,7 @@ cb_back_preview_color (G_GNUC_UNUSED ColorCombo *combo,
 		       gboolean is_default,
 		       FormatState *state)
 {
-	GnmStyleColor *sc;
+	GnmColor *sc;
 
 	g_return_if_fail (c);
 
@@ -1087,7 +1087,7 @@ cb_pattern_preview_color (G_GNUC_UNUSED ColorCombo *combo,
 			  G_GNUC_UNUSED gboolean by_user,
 			  gboolean is_default, FormatState *state)
 {
-	GnmStyleColor *col = (is_default
+	GnmColor *col = (is_default
 			   ? sheet_style_get_auto_pattern_color (state->sheet)
 			   : style_color_new (c->red, c->green, c->blue));
 
@@ -1199,11 +1199,11 @@ static struct
 	{ { 0., 0., 0., 0. }, 0, 0 }
 };
 
-static GnmStyleBorder *
+static GnmBorder *
 border_get_mstyle (FormatState const *state, StyleBorderLocation const loc)
 {
 	BorderPicker const *edge = & state->border.edge[loc];
-	GnmStyleColor *color;
+	GnmColor *color;
 	/* Don't set borders that have not been changed */
 	if (!edge->is_set)
 		return NULL;
@@ -1562,7 +1562,7 @@ cb_border_color (G_GNUC_UNUSED ColorCombo *combo,
 typedef struct
 {
 	StyleBorderLocation     t;
-	GnmStyleBorder const *res;
+	GnmBorder const *res;
 } check_border_closure_t;
 
 /*
@@ -1572,7 +1572,7 @@ typedef struct
 static void
 init_border_button (FormatState *state, StyleBorderLocation const i,
 		    GtkWidget *button,
-		    GnmStyleBorder const * const border)
+		    GnmBorder const * const border)
 {
 	if (border == NULL) {
 		state->border.edge[i].rgba = 0;
@@ -1580,7 +1580,7 @@ init_border_button (FormatState *state, StyleBorderLocation const i,
 		state->border.edge[i].pattern_index = STYLE_BORDER_INCONSISTENT;
 		state->border.edge[i].is_selected = TRUE;
 	} else {
-		GnmStyleColor const *c = border->color;
+		GnmColor const *c = border->color;
 		state->border.edge[i].rgba =
 		    GNOME_CANVAS_COLOR (c->color.red >> 8,
 					c->color.green >> 8,
@@ -2018,7 +2018,7 @@ static void
 cb_fmt_dialog_dialog_buttons (GtkWidget *btn, FormatState *state)
 {
 	if (btn == state->apply_button || btn == state->ok_button) {
-		GnmStyleBorder *borders[STYLE_BORDER_EDGE_MAX];
+		GnmBorder *borders[STYLE_BORDER_EDGE_MAX];
 		int i;
 
 		if (state->validation.changed)
@@ -2252,7 +2252,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 
 	/* Setup border line pattern buttons & select the 1st button */
 	for (i = MSTYLE_BORDER_TOP; i < MSTYLE_BORDER_DIAGONAL; i++) {
-		GnmStyleBorder const *border = mstyle_get_border (state->style, i);
+		GnmBorder const *border = mstyle_get_border (state->style, i);
 		if (!style_border_is_blank (border)) {
 			default_border_color = &border->color->color;
 			default_border_style = border->line_type;

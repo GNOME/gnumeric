@@ -49,10 +49,10 @@ typedef enum _StyleBorderLocation {
 	STYLE_BORDER_EDGE_MAX
 } StyleBorderLocation;
 
-struct _GnmStyleBorder {
+struct _GnmBorder {
 	/* Key elements */
 	StyleBorderType	 line_type;
-	GnmStyleColor     	*color;
+	GnmColor     	*color;
 	int		 begin_margin, end_margin, width;
 
 	/* Private */
@@ -61,38 +61,38 @@ struct _GnmStyleBorder {
 	gint	        ref_count;
 };
 
-void	      style_border_unref (GnmStyleBorder *border);
-GnmStyleBorder  *style_border_ref   (GnmStyleBorder *border);
+void	      style_border_unref (GnmBorder *border);
+GnmBorder  *style_border_ref   (GnmBorder *border);
 
 #define	style_border_is_blank(b) ((b) == NULL || (b)->line_type == STYLE_BORDER_NONE)
-GnmStyleBorder  *style_border_none  (void);
-void          style_border_none_set_color (GnmStyleColor *color);
+GnmBorder  *style_border_none  (void);
+void          style_border_none_set_color (GnmColor *color);
 
-GnmStyleBorder  *style_border_fetch (StyleBorderType const	 line_type,
-				  GnmStyleColor 			*color,
+GnmBorder  *style_border_fetch (StyleBorderType const	 line_type,
+				  GnmColor 			*color,
 				  StyleBorderOrientation       orientation);
-gboolean style_border_visible_in_blank (GnmStyleBorder const *border);
+gboolean style_border_visible_in_blank (GnmBorder const *border);
 
 StyleBorderOrientation style_border_get_orientation (StyleBorderLocation type);
 
 gint   style_border_get_width   (StyleBorderType const line_type);
 void   style_border_set_gc_dash (GdkGC *gc, StyleBorderType const line_type);
 
-void style_borders_row_draw  (GnmStyleBorder const * const * prev_vert,
-			      GnmStyleRow const *sr,
+void style_borders_row_draw  (GnmBorder const * const * prev_vert,
+			      GnmRow const *sr,
 			      GdkDrawable *drawable,
 			      int x, int y1, int y2,
 			      int *colwidths, gboolean draw_vertical);
-void style_border_draw_diag  (GnmMStyle const *style,
+void style_border_draw_diag  (GnmStyle const *style,
 			      GdkDrawable *drawable,
 			      int x1, int y1, int x2, int y2);
 
-void style_borders_row_print (GnmStyleBorder const * const * prev_vert,
-			      GnmStyleRow const *sr,
+void style_borders_row_print (GnmBorder const * const * prev_vert,
+			      GnmRow const *sr,
 			      GnomePrintContext *context,
 			      float x, float y1, float y2,
 			      Sheet const *sheet, gboolean draw_vertical);
-void style_border_print_diag (GnmMStyle const *style,
+void style_border_print_diag (GnmStyle const *style,
 			      GnomePrintContext *context,
 			      float x1, float y1, float x2, float y2);
 

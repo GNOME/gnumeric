@@ -190,11 +190,11 @@ wb_view_format_feedback (WorkbookView *wbv, gboolean display)
 
 	sv = wbv->current_sheet_view;
 	if (sv != NULL) {
-		GnmMStyle *mstyle = sheet_style_get (sv->sheet,
+		GnmStyle *mstyle = sheet_style_get (sv->sheet,
 			sv->edit_pos.col,
 			sv->edit_pos.row);
-		GnmStyleFormat *sf_style = mstyle_get_format (mstyle);
-		GnmStyleFormat *sf_cell;
+		GnmFormat *sf_style = mstyle_get_format (mstyle);
+		GnmFormat *sf_cell;
 		GnmCell *cell;
 
 		if (style_format_is_general (sf_style) &&

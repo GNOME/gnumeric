@@ -1428,10 +1428,10 @@ workbook_sheet_recolor  (Workbook *wb,
 		if (sheet != NULL) {
 			GdkColor *fc = (GdkColor *) fore->data;
 			GdkColor *bc = (GdkColor *) back->data;
-			GnmStyleColor *fore_color = fc ?
+			GnmColor *fore_color = fc ?
 				style_color_new (fc->red, fc->green,
 						 fc->blue) : NULL;
-			GnmStyleColor *back_color = bc ?
+			GnmColor *back_color = bc ?
 				style_color_new (bc->red, bc->green,
 						 bc->blue) : NULL;
 			sheet_set_tab_color (sheet, back_color, fore_color);

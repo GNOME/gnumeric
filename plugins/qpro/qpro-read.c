@@ -631,7 +631,7 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 	gnm_expr_unref (expr);
 }
 
-static GnmMStyle *
+static GnmStyle *
 qpro_get_style (QProReadState *state, guint8 const *data)
 {
 #if 0

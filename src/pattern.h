@@ -7,10 +7,10 @@
 
 #define GNUMERIC_SHEET_PATTERNS 25
 
-gboolean    gnumeric_background_set_gc	(GnmMStyle const *style,
+gboolean    gnumeric_background_set_gc	(GnmStyle const *style,
 					 GdkGC *gc, FooCanvas *canvas,
 					 gboolean const is_selected);
-gboolean    gnumeric_background_set_pc	(GnmMStyle const *style,
+gboolean    gnumeric_background_set_pc	(GnmStyle const *style,
 					 GnomePrintContext *context);
 
 #endif /* GNUMERIC_PATTERN_H */

@@ -52,7 +52,7 @@ thrash_scroll (Sheet *sheet)
 		for (j = 0; j < SCREEN_HEIGHT; j++) {
 			int k;
 			for (k = 0; k < SCREEN_WIDTH; k++) {
-				GnmMStyle *mstyle;
+				GnmStyle *mstyle;
 
 				mstyle = sheet_style_get (sheet, k, i + j);
 			}
@@ -65,8 +65,8 @@ static void
 thrash_insert (Sheet *sheet)
 {
 	int     j;
-	GnmMStyle *style1 = mstyle_new ();
-	GnmMStyle *style2 = mstyle_new ();
+	GnmStyle *style1 = mstyle_new ();
+	GnmStyle *style2 = mstyle_new ();
 
 	mstyle_set_font_bold   (style1, TRUE);
 	mstyle_set_font_italic (style1, TRUE);
@@ -78,7 +78,7 @@ thrash_insert (Sheet *sheet)
 
 		for (i = 0; i < INSERT_WIDTH; i++) {
 			GnmCell    *cell;
-			GnmMStyle *setstyle;
+			GnmStyle *setstyle;
 
 			r.start.col = i;
 			r.start.row = j;

@@ -55,7 +55,7 @@ append_zeros (GString *s, int n)
 
 
 static void
-oleo_set_style (Sheet *sheet, int col, int row, GnmMStyle *mstyle)
+oleo_set_style (Sheet *sheet, int col, int row, GnmStyle *mstyle)
 {
 	GnmRange range;
 
@@ -203,7 +203,7 @@ oleo_parse_formula (OleoParseState *state, char const *text, int col, int row)
 }
 
 static void
-oleo_deal_with_cell (OleoParseState *state, guint8 *str, int *ccol, int *crow, GnmMStyle *style)
+oleo_deal_with_cell (OleoParseState *state, guint8 *str, int *ccol, int *crow, GnmStyle *style)
 {
 	GnmCell *cell;
 	GnmExpr const *expr = NULL;
@@ -292,10 +292,10 @@ oleo_deal_with_cell (OleoParseState *state, guint8 *str, int *ccol, int *crow, G
  */
 static void
 oleo_deal_with_format (OleoParseState *state, guint8 *str, int *ccol, int *crow,
-		       GnmMStyle **style)
+		       GnmStyle **style)
 {
 	char *ptr = str + 1;
-	GnmMStyle *mstyle = mstyle_new_default ();
+	GnmStyle *mstyle = mstyle_new_default ();
 	GString *fmt_string = g_string_new (NULL);
 
 	while (*ptr) {
@@ -371,7 +371,7 @@ oleo_read (IOContext *io_context, Workbook *wb, GsfInput *input)
 {
 	int sheetidx = 0;
 	int ccol = 0, crow = 0;
-	GnmMStyle *style = NULL;
+	GnmStyle *style = NULL;
 	guint8 *line;
 	OleoParseState state;
 

@@ -72,7 +72,7 @@
 
 #define N_ELEMENTS_BETWEEN_PROGRESS_UPDATES   20
 
-static guint style_color_to_rgb888 (GnmStyleColor const *c);
+static guint style_color_to_rgb888 (GnmColor const *c);
 static gint  palette_get_index (ExcelWriteState *ewb, guint c);
 
 /**
@@ -509,8 +509,8 @@ excel_write_WINDOW2 (BiffPut *bp, ExcelWriteSheet *esheet)
 	GnmCellPos top_left;
 	Sheet const *sheet = esheet->gnum_sheet;
 	SheetView const *sv = sheet_get_view (sheet, esheet->ewb->gnum_wb_view);
-	GnmStyleColor *sheet_auto   = sheet_style_get_auto_pattern_color (sheet);
-	GnmStyleColor *default_auto = style_color_auto_pattern ();
+	GnmColor *sheet_auto   = sheet_style_get_auto_pattern_color (sheet);
+	GnmColor *default_auto = style_color_auto_pattern ();
 	guint32 biff_pat_col = 0x40;	/* default grid color index == auto */
 
 	if (sheet->display_formulas)
@@ -1019,10 +1019,10 @@ palette_color_to_int (ExcelPaletteEntry const *c)
 }
 
 /**
- * Convert GnmStyleColor to guint representation used in BIFF file
+ * Convert GnmColor to guint representation used in BIFF file
  **/
 static guint
-style_color_to_rgb888 (GnmStyleColor const *c)
+style_color_to_rgb888 (GnmColor const *c)
 {
 	return ((c->color.blue & 0xff00) << 8) + (c->color.green & 0xff00) + (c->color.red >> 8);
 
@@ -1110,7 +1110,7 @@ palette_get_index (ExcelWriteState *ewb, guint c)
  * Add a color to palette if it is not already there
  **/
 static void
-put_color (ExcelWriteState *ewb, GnmStyleColor const *c)
+put_color (ExcelWriteState *ewb, GnmColor const *c)
 {
 	TwoWayTable *twt = ewb->pal.two_way_table;
 	gpointer pc = GUINT_TO_POINTER (style_color_to_rgb888 (c));
@@ -1129,10 +1129,10 @@ put_color (ExcelWriteState *ewb, GnmStyleColor const *c)
  * Add colors in mstyle to palette
  **/
 static void
-put_colors (GnmMStyle *st, gconstpointer dummy, ExcelWriteState *ewb)
+put_colors (GnmStyle *st, gconstpointer dummy, ExcelWriteState *ewb)
 {
 	int i;
-	GnmStyleBorder const *b;
+	GnmBorder const *b;
 
 	put_color (ewb, mstyle_get_color (st, MSTYLE_COLOR_FORE));
 	put_color (ewb, mstyle_get_color (st, MSTYLE_COLOR_BACK));
@@ -1268,15 +1268,15 @@ excel_font_to_string (ExcelFont const *f)
  *
  * Make an ExcelFont.
  * In, Excel, the foreground color is a font attribute. ExcelFont
- * consists of a GnmStyleFont and a color.
+ * consists of a GnmFont and a color.
  *
  * Style color is *not* unrefed. This is correct
  **/
 static ExcelFont *
-excel_font_new (GnmMStyle *st)
+excel_font_new (GnmStyle *st)
 {
 	ExcelFont *f;
-	GnmStyleColor *c;
+	GnmColor *c;
 
 	if (!st)
 		return NULL;
@@ -1386,7 +1386,7 @@ after_put_font (ExcelFont *f, gboolean was_added, gint index, gconstpointer dumm
  * Add a font to table if it is not already there.
  **/
 static void
-put_font (GnmMStyle *st, gconstpointer dummy, ExcelWriteState *ewb)
+put_font (GnmStyle *st, gconstpointer dummy, ExcelWriteState *ewb)
 {
 	TwoWayTable *twt = ewb->fonts.two_way_table;
 	ExcelFont *f = excel_font_new (st);
@@ -1517,7 +1517,7 @@ excel_write_FONTs (BiffPut *bp, ExcelWriteState *ewb)
  * format is added. Free resources when it was already there.
  **/
 static void
-after_put_format (GnmStyleFormat *format, gboolean was_added, gint index,
+after_put_format (GnmFormat *format, gboolean was_added, gint index,
 		  char const *tmpl)
 {
 	if (was_added) {
@@ -1559,7 +1559,7 @@ formats_free (ExcelWriteState *ewb)
 	}
 }
 
-static GnmStyleFormat const *
+static GnmFormat const *
 formats_get_format (ExcelWriteState *ewb, gint idx)
 {
 	return two_way_table_idx_to_key (ewb->formats.two_way_table, idx);
@@ -1569,7 +1569,7 @@ formats_get_format (ExcelWriteState *ewb, gint idx)
  * Get index of a format
  **/
 static gint
-formats_get_index (ExcelWriteState *ewb, GnmStyleFormat const *format)
+formats_get_index (ExcelWriteState *ewb, GnmFormat const *format)
 {
 	return two_way_table_key_to_idx (ewb->formats.two_way_table, format);
 }
@@ -1580,9 +1580,9 @@ formats_get_index (ExcelWriteState *ewb, GnmStyleFormat const *format)
  * Style format is *not* unrefed. This is correct
  **/
 static void
-put_format (GnmMStyle *mstyle, gconstpointer dummy, ExcelWriteState *ewb)
+put_format (GnmStyle *mstyle, gconstpointer dummy, ExcelWriteState *ewb)
 {
-	GnmStyleFormat *fmt = mstyle_get_format (mstyle);
+	GnmFormat *fmt = mstyle_get_format (mstyle);
 	style_format_ref (fmt);
 	two_way_table_put (ewb->formats.two_way_table,
 			   (gpointer)fmt, TRUE,
@@ -1608,7 +1608,7 @@ static void
 excel_write_FORMAT (ExcelWriteState *ewb, int fidx)
 {
 	guint8 data[64];
-	GnmStyleFormat const *sf = formats_get_format (ewb, fidx);
+	GnmFormat const *sf = formats_get_format (ewb, fidx);
 
 	char *format = style_format_as_XL (sf, FALSE);
 
@@ -1654,22 +1654,22 @@ excel_write_FORMATs (ExcelWriteState *ewb)
 }
 
 /**
- * Get default GnmMStyle of esheet
+ * Get default GnmStyle of esheet
  *
  * FIXME: This works now. But only because the default style for a
  * sheet or workbook can't be changed. Unfortunately, there is no
  * proper API for accessing the default style of an existing sheet.
  **/
-static GnmMStyle *
+static GnmStyle *
 get_default_mstyle (void)
 {
 	return mstyle_new_default ();
 }
 
 /**
- * Initialize XF/GnmMStyle table.
+ * Initialize XF/GnmStyle table.
  *
- * The table records MStyles. For each GnmMStyle, an XF record will be
+ * The table records MStyles. For each GnmStyle, an XF record will be
  * written to file.
  **/
 static void
@@ -1698,14 +1698,14 @@ xf_free (ExcelWriteState *ewb)
 /**
  * Get an mstyle, given index
  **/
-static GnmMStyle *
+static GnmStyle *
 xf_get_mstyle (ExcelWriteState *ewb, gint idx)
 {
 	return two_way_table_idx_to_key (ewb->xf.two_way_table, idx);
 }
 
 static void
-after_put_mstyle (GnmMStyle *st, gboolean was_added, gint index, gconstpointer dummy)
+after_put_mstyle (GnmStyle *st, gboolean was_added, gint index, gconstpointer dummy)
 {
 	if (was_added) {
 		d (1, fprintf (stderr, "Found unique mstyle %d %p\n", index, st); );
@@ -1713,17 +1713,17 @@ after_put_mstyle (GnmMStyle *st, gboolean was_added, gint index, gconstpointer d
 }
 
 /**
- * Add an GnmMStyle to table if it is not already there.
+ * Add an GnmStyle to table if it is not already there.
  **/
 static gint
-put_mstyle (ExcelWriteState *ewb, GnmMStyle *st)
+put_mstyle (ExcelWriteState *ewb, GnmStyle *st)
 {
 	return two_way_table_put (ewb->xf.two_way_table, st, TRUE,
 				  (AfterPutFunc) after_put_mstyle, NULL);
 }
 
 static void
-cb_accum_styles (GnmMStyle *st, gconstpointer dummy, ExcelWriteState *ewb)
+cb_accum_styles (GnmStyle *st, gconstpointer dummy, ExcelWriteState *ewb)
 {
 	put_mstyle (ewb, st);
 }
@@ -1888,8 +1888,8 @@ rotation_to_excel (int rotation, MsBiffVersion ver)
  * the same autocolors over and over.
  */
 static guint16
-style_color_to_pal_index (GnmStyleColor *color, ExcelWriteState *ewb,
-			  GnmStyleColor *auto_back, GnmStyleColor *auto_font)
+style_color_to_pal_index (GnmColor *color, ExcelWriteState *ewb,
+			  GnmColor *auto_back, GnmColor *auto_font)
 {
 	guint16 idx;
 
@@ -1920,7 +1920,7 @@ style_color_to_pal_index (GnmStyleColor *color, ExcelWriteState *ewb,
  * others. Can we use the actual default style as XF 0?
  **/
 static void
-get_xf_differences (ExcelWriteState *ewb, BiffXFData *xfd, GnmMStyle *parentst)
+get_xf_differences (ExcelWriteState *ewb, BiffXFData *xfd, GnmStyle *parentst)
 {
 	int i;
 
@@ -1989,15 +1989,15 @@ log_xf_data (ExcelWriteState *ewb, BiffXFData *xfd, int idx)
 #endif
 
 static void
-build_xf_data (ExcelWriteState *ewb, BiffXFData *xfd, GnmMStyle *st)
+build_xf_data (ExcelWriteState *ewb, BiffXFData *xfd, GnmStyle *st)
 {
 	ExcelFont *f;
-	GnmStyleBorder const *b;
+	GnmBorder const *b;
 	int pat;
-	GnmStyleColor *pattern_color;
-	GnmStyleColor *back_color;
-	GnmStyleColor *auto_back = style_color_auto_back ();
-	GnmStyleColor *auto_font = style_color_auto_font ();
+	GnmColor *pattern_color;
+	GnmColor *back_color;
+	GnmColor *auto_back = style_color_auto_back ();
+	GnmColor *auto_font = style_color_auto_font ();
 	int i;
 
 	memset (xfd, 0, sizeof *xfd);
@@ -2256,7 +2256,7 @@ excel_write_XFs (ExcelWriteState *ewb)
 	TwoWayTable *twt = ewb->xf.two_way_table;
 	unsigned nxf = twt->idx_to_key->len;
 	unsigned i;
-	GnmMStyle *st;
+	GnmStyle *st;
 
 	/* it is more compact to just spew the default representations than
 	 * to store a readable form, and generate the constant data.
@@ -2806,7 +2806,7 @@ excel_write_margin (BiffPut *bp, guint16 op, double points)
  * Utility
  */
 static double
-style_get_char_width (GnmMStyle const *style, gboolean is_default)
+style_get_char_width (GnmStyle const *style, gboolean is_default)
 {
 	return lookup_font_base_char_width (
 		mstyle_get_font_name (style), 20. * mstyle_get_font_size (style),
@@ -2831,7 +2831,7 @@ excel_write_DEFCOLWIDTH (BiffPut *bp, ExcelWriteSheet *esheet)
 	guint8 *data;
 	guint16 width;
 	double  def_font_width, width_chars;
-	GnmMStyle	*def_style;
+	GnmStyle	*def_style;
 
 	/* Use the 'Normal' Style which is by definition the 0th */
 	def_style = sheet_style_default	(esheet->gnum_sheet);
@@ -2862,7 +2862,7 @@ excel_write_COLINFO (BiffPut *bp, ExcelWriteSheet *esheet,
 		     ColRowInfo const *ci, int last_index, guint16 xf_index)
 {
 	guint8 *data;
-	GnmMStyle *style = two_way_table_idx_to_key (
+	GnmStyle *style = two_way_table_idx_to_key (
 		esheet->ewb->xf.two_way_table, xf_index);
 	double  width_chars
 		= ci->size_pts / style_get_char_width (style, FALSE);
@@ -3582,7 +3582,7 @@ static guint32
 excel_sheet_write_block (ExcelWriteSheet *esheet, guint32 begin, int nrows,
 			 GArray *dbcells)
 {
-	GnmMStyle *mstyle;
+	GnmStyle *mstyle;
 	ExcelWriteState *ewb = esheet->ewb;
 	int max_col = esheet->max_col;
 	int col, row, max_row;

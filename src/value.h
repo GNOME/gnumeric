@@ -24,43 +24,43 @@ typedef enum {
 
 typedef struct {
 	GnmValueType const type;
-	GnmStyleFormat *fmt;
+	GnmFormat *fmt;
 } GnmValueAny;
 struct _GnmValueBool {
 	GnmValueType const type;
-	GnmStyleFormat *fmt;
+	GnmFormat *fmt;
 	gboolean val;
 };
 struct _GnmValueInt {
 	GnmValueType const type;
-	GnmStyleFormat *fmt;
+	GnmFormat *fmt;
 	int val;
 };
 struct _GnmValueFloat {
 	GnmValueType const type;
-	GnmStyleFormat *fmt;
+	GnmFormat *fmt;
 	gnm_float val;
 };
 struct _GnmValueErr {
 	GnmValueType const type;
-	GnmStyleFormat *fmt;
+	GnmFormat *fmt;
 	GnmString   *mesg;
 	/* Currently unused.  Intended to support audit functions */
 	GnmEvalPos  src;
 };
 struct _GnmValueStr {
 	GnmValueType const type;
-	GnmStyleFormat *fmt;
+	GnmFormat *fmt;
 	GnmString   *val;
 };
 struct _GnmValueRange {
 	GnmValueType const type;
-	GnmStyleFormat *fmt;
+	GnmFormat *fmt;
 	GnmRangeRef cell;
 };
 struct _GnmValueArray {
 	GnmValueType const type;
-	GnmStyleFormat *fmt;
+	GnmFormat *fmt;
 	int x, y;
 	GnmValue ***vals;  /* Array [x][y] */
 };
@@ -120,10 +120,10 @@ GnmValue *value_new_array            (guint cols, guint rows);
 GnmValue *value_new_array_empty      (guint cols, guint rows);
 GnmValue *value_new_array_non_init   (guint cols, guint rows);
 GnmValue *value_new_from_string	     (GnmValueType t, char const *str,
-				      GnmStyleFormat *sf, gboolean translated);
+				      GnmFormat *sf, gboolean translated);
 
 void        value_release	   (GnmValue *v);
-void	    value_set_fmt	   (GnmValue *v, GnmStyleFormat const *fmt);
+void	    value_set_fmt	   (GnmValue *v, GnmFormat const *fmt);
 void        value_dump		   (GnmValue const *v);
 GnmValue   *value_dup		   (GnmValue const *v);
 

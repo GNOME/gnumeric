@@ -385,10 +385,10 @@ xml_node_set_value (xmlNodePtr node, char const *name, GnmValue const *value)
 	g_string_free (str, FALSE);
 }
 
-GnmStyleColor *
+GnmColor *
 xml_node_get_color (xmlNodePtr node, char const *name)
 {
-	GnmStyleColor *res = NULL;
+	GnmColor *res = NULL;
 	xmlChar *color;
 	int red, green, blue;
 
@@ -401,7 +401,7 @@ xml_node_get_color (xmlNodePtr node, char const *name)
 	return res;
 }
 void
-xml_node_set_color (xmlNodePtr node, char const *name, GnmStyleColor const *val)
+xml_node_set_color (xmlNodePtr node, char const *name, GnmColor const *val)
 {
 	char str[4 * sizeof (val->color)];
 	sprintf (str, "%X:%X:%X", val->color.red, val->color.green,
@@ -562,7 +562,7 @@ xml_write_selection_info (XmlParseContext *ctxt, Sheet const *sheet,
 }
 
 /*
- * Create an XML subtree of doc equivalent to the given GnmStyleBorder.
+ * Create an XML subtree of doc equivalent to the given GnmBorder.
  */
 static char const *StyleSideNames[6] =
 {
@@ -576,14 +576,14 @@ static char const *StyleSideNames[6] =
 
 static xmlNodePtr
 xml_write_style_border (XmlParseContext *ctxt,
-			const GnmMStyle *style)
+			const GnmStyle *style)
 {
 	xmlNodePtr cur;
 	xmlNodePtr side;
 	int        i;
 
 	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_DIAGONAL; i++) {
-		GnmStyleBorder const *border;
+		GnmBorder const *border;
 		if (mstyle_is_element_set (style, i) &&
 		    NULL != (border = mstyle_get_border (style, i))) {
 			break;
@@ -593,14 +593,14 @@ xml_write_style_border (XmlParseContext *ctxt,
 		return NULL;
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns,
-			     CC2XML ("GnmStyleBorder"), NULL);
+			     CC2XML ("StyleBorder"), NULL);
 
 	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_DIAGONAL; i++) {
-		GnmStyleBorder const *border;
+		GnmBorder const *border;
 		if (mstyle_is_element_set (style, i) &&
 		    NULL != (border = mstyle_get_border (style, i))) {
 			StyleBorderType t = border->line_type;
-			GnmStyleColor *col   = border->color;
+			GnmColor *col   = border->color;
  			side = xmlNewChild (cur, ctxt->ns,
 					    CC2XML (StyleSideNames [i - MSTYLE_BORDER_TOP]),
  					    NULL);
@@ -613,26 +613,26 @@ xml_write_style_border (XmlParseContext *ctxt,
 }
 
 /*
- * Create a GnmStyleBorder equivalent to the XML subtree of doc.
+ * Create a GnmBorder equivalent to the XML subtree of doc.
  */
 static void
-xml_read_style_border (XmlParseContext *ctxt, xmlNodePtr tree, GnmMStyle *mstyle)
+xml_read_style_border (XmlParseContext *ctxt, xmlNodePtr tree, GnmStyle *mstyle)
 {
 	xmlNodePtr side;
 	int        i;
 
-	if (strcmp (tree->name, "GnmStyleBorder")){
+	if (strcmp (tree->name, "StyleBorder")){
 		fprintf (stderr,
 			 "xml_read_style_border: invalid element type %s, "
-			 "'GnmStyleBorder' expected`\n", tree->name);
+			 "'StyleBorder' expected`\n", tree->name);
 	}
 
 	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_DIAGONAL; i++) {
  		if ((side = e_xml_get_child_by_name (tree,
 					      CC2XML (StyleSideNames [i - MSTYLE_BORDER_TOP]))) != NULL) {
 			int		 t;
-			GnmStyleColor      *color = NULL;
-			GnmStyleBorder    *border;
+			GnmColor      *color = NULL;
+			GnmBorder    *border;
 			xml_node_get_int (side, "Style", &t);
 			if (t != STYLE_BORDER_NONE)
 				color = xml_node_get_color (side, "Color");
@@ -648,7 +648,7 @@ xml_read_style_border (XmlParseContext *ctxt, xmlNodePtr tree, GnmMStyle *mstyle
  */
 xmlNodePtr
 xml_write_style (XmlParseContext *ctxt,
-		 GnmMStyle *style)
+		 GnmStyle *style)
 {
 	xmlNodePtr  cur, child;
 	xmlChar    *tstr;
@@ -1435,7 +1435,7 @@ font_component (char const *fontname, int idx)
  * Returns: A valid style font.
  */
 static void
-style_font_read_from_x11 (GnmMStyle *mstyle, char const *fontname)
+style_font_read_from_x11 (GnmStyle *mstyle, char const *fontname)
 {
 	char const *c;
 
@@ -1454,14 +1454,14 @@ style_font_read_from_x11 (GnmMStyle *mstyle, char const *fontname)
 /*
  * Create a Style equivalent to the XML subtree of doc.
  */
-GnmMStyle *
+GnmStyle *
 xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	xmlNodePtr child;
 	xmlChar *prop;
 	int val;
-	GnmStyleColor *c;
-	GnmMStyle     *mstyle;
+	GnmColor *c;
+	GnmStyle     *mstyle;
 
 	mstyle = (ctxt->version >= GNUM_XML_V6 ||
 		  ctxt->version <= GNUM_XML_V2)
@@ -1550,7 +1550,7 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 				xmlFree (font);
 			}
 
-		} else if (!strcmp (child->name, "GnmStyleBorder")) {
+		} else if (!strcmp (child->name, "StyleBorder")) {
 			xml_read_style_border (ctxt, child, mstyle);
 		} else if (!strcmp (child->name, "HyperLink")) {
 			xmlChar *type, *target, *tip;
@@ -1644,7 +1644,7 @@ xml_write_style_region (XmlParseContext *ctxt, GnmStyleRegion const *region)
 {
 	xmlNodePtr cur, child;
 
-	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, CC2XML ("GnmStyleRegion"), NULL);
+	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, CC2XML ("StyleRegion"), NULL);
 	xml_node_set_range (cur, &region->range);
 
 	if (region->style != NULL) {
@@ -1659,15 +1659,15 @@ xml_write_style_region (XmlParseContext *ctxt, GnmStyleRegion const *region)
  * Create a GnmStyleRegion equivalent to the XML subtree of doc.
  * Return an mstyle and a range in the @range parameter
  */
-static GnmMStyle*
+static GnmStyle*
 xml_read_style_region_ex (XmlParseContext *ctxt, xmlNodePtr tree, GnmRange *range)
 {
 	xmlNodePtr child;
-	GnmMStyle    *style = NULL;
+	GnmStyle    *style = NULL;
 
-	if (strcmp (tree->name, "GnmStyleRegion")){
+	if (strcmp (tree->name, "StyleRegion")){
 		fprintf (stderr,
-			 "xml_read_style_region_ex: invalid element type %s, 'GnmStyleRegion' expected`\n",
+			 "xml_read_style_region_ex: invalid element type %s, 'StyleRegion' expected`\n",
 			 tree->name);
 		return NULL;
 	}
@@ -1687,7 +1687,7 @@ xml_read_style_region_ex (XmlParseContext *ctxt, xmlNodePtr tree, GnmRange *rang
 static void
 xml_read_style_region (XmlParseContext *ctxt, xmlNodePtr tree)
 {
-	GnmMStyle *style;
+	GnmStyle *style;
 	GnmRange range;
 
 	style = xml_read_style_region_ex (ctxt, tree, &range);
@@ -1935,7 +1935,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 	gboolean is_new_cell = TRUE;
 	gboolean is_value = FALSE;
 	GnmValueType value_type = VALUE_EMPTY; /* Make compiler shut up */
-	GnmStyleFormat *value_fmt = NULL;
+	GnmFormat *value_fmt = NULL;
 
 	if (strcmp (tree->name, "Cell")) {
 		fprintf (stderr,
@@ -1961,7 +1961,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 		 * Old format includes the Style online
 		 */
 		if (xml_node_get_int (tree, "Style", &style_idx)) {
-			GnmMStyle *mstyle;
+			GnmStyle *mstyle;
 
 			style_read = TRUE;
 			mstyle = g_hash_table_lookup (ctxt->style_table,
@@ -2009,7 +2009,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 			 * This is even older backwards compatibility than 0.41 - 0.42
 			 */
 			if (!style_read && !strcmp (child->name, "Style")) {
-				GnmMStyle *mstyle = xml_read_style (ctxt, child);
+				GnmStyle *mstyle = xml_read_style (ctxt, child);
 				if (mstyle)
 					sheet_style_set_pos (ctxt->sheet, col, row, mstyle);
 			/* This is a pre version 1.0.3 file */
@@ -2998,7 +2998,7 @@ static void
 xml_read_cell_styles (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	xmlNodePtr styles, child;
-	GnmMStyle *mstyle;
+	GnmStyle *mstyle;
 	int style_idx;
 
 	ctxt->style_table = g_hash_table_new_full (g_direct_hash, g_direct_equal,
@@ -3155,7 +3155,7 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree,
 	gboolean is_post_52_array = FALSE;
 	gboolean is_value = FALSE;
 	GnmValueType value_type = VALUE_EMPTY; /* Make compiler shut up */
-	GnmStyleFormat *value_fmt = NULL;
+	GnmFormat *value_fmt = NULL;
 	GnmParsePos pp;
 
 	if (strcmp (tree->name, "Cell")) {

@@ -718,7 +718,7 @@ cell_format_is_fraction (char const *fmt, FormatCharacteristics *info)
 
 
 FormatFamily
-cell_format_classify (GnmStyleFormat const *sf, FormatCharacteristics *info)
+cell_format_classify (GnmFormat const *sf, FormatCharacteristics *info)
 {
 	char const *fmt = sf->format;
 	FormatFamily res;

@@ -123,7 +123,7 @@ excel_iconv_open_for_import (guint codepage)
 	return gsf_msole_iconv_open_for_import (codepage);
 }
 
-static GnmStyleFormat *
+static GnmFormat *
 excel_wb_get_fmt (ExcelWorkbook *ewb, guint16 idx)
 {
 	char const *ans = NULL;
@@ -182,13 +182,13 @@ ms_sheet_get_sheet (MSContainer const *container)
 	return ((ExcelReadSheet const *)container)->sheet;
 }
 
-static GnmStyleFormat *
+static GnmFormat *
 ms_sheet_get_fmt (MSContainer const *container, guint16 indx)
 {
 	return excel_wb_get_fmt (container->ewb, indx);
 }
 
-static GnmStyleColor *
+static GnmColor *
 ms_sheet_map_color (ExcelReadSheet const *esheet, MSObj const *obj, MSObjAttrID id)
 {
 	gushort r, g, b;
@@ -424,7 +424,7 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 
 	switch (obj->excel_type) {
 	case 0x01: { /* Line */
-		GnmStyleColor *color;
+		GnmColor *color;
 		MSObjAttr *is_arrow = ms_obj_attr_bag_lookup (obj->attrs,
 			MS_OBJ_ATTR_ARROW_END);
 		so = sheet_object_line_new (is_arrow != NULL);
@@ -437,8 +437,8 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 	}
 	case 0x02:
 	case 0x03: { /* Box or Oval */
-		GnmStyleColor *fill_color = NULL;
-		GnmStyleColor *outline_color;
+		GnmColor *fill_color = NULL;
+		GnmColor *outline_color;
 
 		so = sheet_object_box_new (obj->excel_type == 3);
 		if (ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FILLED))
@@ -458,7 +458,7 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 
 	case 0x0E: /* Label */
 	case 0x06: { /* TextBox */
-		GnmStyleColor *color = NULL;
+		GnmColor *color = NULL;
 
 		so = g_object_new (sheet_object_text_get_type (), NULL);
 
@@ -1336,7 +1336,7 @@ excel_get_default_palette (void)
 		pal->red   = g_new (int, entries);
 		pal->green = g_new (int, entries);
 		pal->blue  = g_new (int, entries);
-		pal->gnum_cols = g_new (GnmStyleColor *, entries);
+		pal->gnum_cols = g_new (GnmColor *, entries);
 
 		while (--entries >= 0) {
 			pal->red[entries]   = excel_default_palette[entries].r;
@@ -1362,7 +1362,7 @@ excel_read_PALETTE (BiffQuery *q, ExcelWorkbook *ewb)
 	pal->red = g_new (int, len);
 	pal->green = g_new (int, len);
 	pal->blue = g_new (int, len);
-	pal->gnum_cols = g_new (GnmStyleColor *, len);
+	pal->gnum_cols = g_new (GnmColor *, len);
 
 	d (3, fprintf (stderr,"New palette with %d entries\n", len););
 
@@ -1382,7 +1382,7 @@ excel_read_PALETTE (BiffQuery *q, ExcelWorkbook *ewb)
 	ewb->palette = pal;
 }
 
-GnmStyleColor *
+GnmColor *
 excel_palette_get (ExcelPalette const *pal, gint idx)
 {
 	/* return black on failure */
@@ -1426,7 +1426,7 @@ excel_palette_get (ExcelPalette const *pal, gint idx)
 		g_return_val_if_fail (pal->gnum_cols[idx],
 				      style_color_black ());
 		d (1, {
-			GnmStyleColor *sc = pal->gnum_cols[idx];
+			GnmColor *sc = pal->gnum_cols[idx];
 			fprintf (stderr,"New color in slot %d: RGB= %x,%x,%x\n",
 				idx, sc->color.red, sc->color.green, sc->color.blue);
 		});
@@ -1489,14 +1489,14 @@ excel_get_xf (ExcelReadSheet *esheet, int xfidx)
 	return xf;
 }
 
-static GnmMStyle *
+static GnmStyle *
 excel_get_style_from_xf (ExcelReadSheet *esheet, guint16 xfidx)
 {
 	BiffXFData const *xf = excel_get_xf (esheet, xfidx);
 	BiffFontData const *fd;
-	GnmStyleColor	*pattern_color, *back_color, *font_color;
+	GnmColor	*pattern_color, *back_color, *font_color;
 	int		 pattern_index,  back_index,  font_index;
-	GnmMStyle *mstyle;
+	GnmStyle *mstyle;
 	int i;
 
 	d (2, fprintf (stderr,"XF index %d\n", xfidx););
@@ -1627,10 +1627,10 @@ excel_get_style_from_xf (ExcelReadSheet *esheet, guint16 xfidx)
 
 	/* Borders */
 	for (i = 0; i < STYLE_ORIENT_MAX; i++) {
-		GnmMStyle *tmp = mstyle;
+		GnmStyle *tmp = mstyle;
 		MStyleElementType const t = MSTYLE_BORDER_TOP + i;
 		int const color_index = xf->border_color[i];
-		GnmStyleColor *color;
+		GnmColor *color;
 
 		switch (color_index) {
 		case 64:
@@ -1668,7 +1668,7 @@ excel_get_style_from_xf (ExcelReadSheet *esheet, guint16 xfidx)
 static void
 excel_set_xf (ExcelReadSheet *esheet, int col, int row, guint16 xfidx)
 {
-	GnmMStyle * const mstyle = excel_get_style_from_xf (esheet, xfidx);
+	GnmStyle * const mstyle = excel_get_style_from_xf (esheet, xfidx);
 
 	d (2, fprintf (stderr,"%s!%s%d = xf(%d)\n", esheet->sheet->name_unquoted,
 		      col_name (col), row + 1, xfidx););
@@ -1685,7 +1685,7 @@ excel_set_xf_segment (ExcelReadSheet *esheet,
 			 int start_row, int end_row, guint16 xfidx)
 {
 	GnmRange   range;
-	GnmMStyle * const mstyle  = excel_get_style_from_xf (esheet, xfidx);
+	GnmStyle * const mstyle  = excel_get_style_from_xf (esheet, xfidx);
 
 	if (mstyle == NULL)
 		return;
@@ -2564,7 +2564,7 @@ ms_wb_parse_expr (MSContainer *container, guint8 const *data, int length)
 	return ms_sheet_parse_expr_internal (&dummy_sheet, data, length);
 }
 
-static GnmStyleFormat *
+static GnmFormat *
 ms_wb_get_fmt (MSContainer const *container, guint16 indx)
 {
 	return excel_wb_get_fmt (((ExcelWorkbook *)container), indx);
@@ -3275,8 +3275,8 @@ excel_read_tab_color (BiffQuery *q, ExcelReadSheet *esheet)
 10 |     0  0  0 XX XX XX XX XX XX XX XX XX XX XX XX |  ...************
 #endif
 	guint8 color_index;
-	GnmStyleColor *color;
-	GnmStyleColor *text_color;
+	GnmColor *color;
+	GnmColor *text_color;
 	int contrast;
 
 	g_return_if_fail (q->length == 20);
@@ -3851,7 +3851,7 @@ excel_read_WINDOW2 (BiffQuery *q, ExcelReadSheet *esheet, WorkbookView *wb_view)
 		sv_set_initial_top_left (sv, left_col, top_row);
 
 		if (!(options & 0x0020)) {
-			GnmStyleColor *pattern_color;
+			GnmColor *pattern_color;
 			if (esheet->container.ver >= MS_BIFF_V8) {
 				/* Get style color from palette*/
 				pattern_color = excel_palette_get (
@@ -4089,7 +4089,7 @@ excel_read_DV (BiffQuery *q, ExcelReadSheet *esheet)
 	ValidationType  type;
 	ValidationOp    op;
 	GSList *ptr, *ranges = NULL;
-	GnmMStyle *mstyle;
+	GnmStyle *mstyle;
 
 	g_return_if_fail (q->length >= 4);
 	options	= GSF_LE_GET_GUINT32 (q->data);
@@ -4373,7 +4373,7 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 	}
 
 	if (link != NULL) {
-		GnmMStyle *style = mstyle_new ();
+		GnmStyle *style = mstyle_new ();
 		mstyle_set_hlink (style, link);
 		sheet_style_apply_range	(esheet->sheet, &r, style);
 		if (tip != NULL)
@@ -4713,7 +4713,7 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 		excel_workbook_reset_style(ewb);
 	} else {
 		/* Apply the default style */
-		GnmMStyle *mstyle= excel_get_style_from_xf (esheet, 15);
+		GnmStyle *mstyle= excel_get_style_from_xf (esheet, 15);
 		if (mstyle != NULL) {
 			GnmRange r;
 			sheet_style_set_range (esheet->sheet,

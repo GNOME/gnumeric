@@ -88,11 +88,11 @@ pg_get_col_width (PreviewGrid *pg, int col)
 	return pg->defaults.col_width;
 }
 
-static GnmMStyle *
+static GnmStyle *
 pg_get_style (PreviewGrid *pg, int col, int row)
 {
 	PreviewGridClass *klass = PREVIEW_GRID_GET_CLASS (pg);
-	GnmMStyle *style;
+	GnmStyle *style;
 
 	g_return_val_if_fail (col >= 0 && col < SHEET_MAX_COLS, NULL);
 	g_return_val_if_fail (row >= 0 && row < SHEET_MAX_ROWS, NULL);
@@ -112,7 +112,7 @@ pg_construct_cell (PreviewGrid *pg, int col, int row, PangoContext *context)
 {
 	PreviewGridClass *klass = PREVIEW_GRID_GET_CLASS (pg);
 	GnmCell   *cell;
-	GnmMStyle *style;
+	GnmStyle *style;
 
 	g_return_val_if_fail (klass != NULL, NULL);
 	g_return_val_if_fail (pg != NULL, NULL);
@@ -291,7 +291,7 @@ preview_grid_update (FooCanvasItem *item,  double i2w_dx, double i2w_dy, int fla
 }
 
 static void
-preview_grid_draw_background (GdkDrawable *drawable, PreviewGrid const *pg, GnmMStyle const *mstyle,
+preview_grid_draw_background (GdkDrawable *drawable, PreviewGrid const *pg, GnmStyle const *mstyle,
 			      int col, int row, int x, int y, int w, int h)
 {
 	GdkGC *gc = pg->gc.empty;
@@ -305,16 +305,16 @@ preview_grid_draw_background (GdkDrawable *drawable, PreviewGrid const *pg, GnmM
 
 #define border_null(b)	((b) == none || (b) == NULL)
 static void
-pg_style_get_row (PreviewGrid *pg, GnmStyleRow *sr)
+pg_style_get_row (PreviewGrid *pg, GnmRow *sr)
 {
-	GnmStyleBorder const *top, *bottom, *none = style_border_none ();
-	GnmStyleBorder const *left, *right;
+	GnmBorder const *top, *bottom, *none = style_border_none ();
+	GnmBorder const *left, *right;
 	int const end = sr->end_col, row = sr->row;
 	int col = sr->start_col;
 
 	sr->vertical [col] = none;
 	while (col <= end) {
-		GnmMStyle const * style = pg_get_style (pg, col, row);
+		GnmStyle const * style = pg_get_style (pg, col, row);
 
 		sr->styles [col] = style;
 
@@ -372,10 +372,10 @@ preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
  	int end_row         = pg_get_row_offset (pg, draw_y + height + 2, NULL);
  	int diff_y    = y;
 
-	GnmStyleRow sr, next_sr;
-	GnmMStyle const **styles;
-	GnmStyleBorder const **borders, **prev_vert;
-	GnmStyleBorder const *none = pg->gridlines ? style_border_none () : NULL;
+	GnmRow sr, next_sr;
+	GnmStyle const **styles;
+	GnmBorder const **borders, **prev_vert;
+	GnmBorder const *none = pg->gridlines ? style_border_none () : NULL;
 
 	int *colwidths = NULL;
 
@@ -383,8 +383,8 @@ preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 
 	/*
 	 * allocate a single blob of memory for all 8 arrays of pointers.
-	 * 	- 6 arrays of n GnmStyleBorder const *
-	 * 	- 2 arrays of n GnmMStyle const *
+	 * 	- 6 arrays of n GnmBorder const *
+	 * 	- 2 arrays of n GnmStyle const *
 	 */
 	n = end_col - start_col + 3; /* 1 before, 1 after, 1 fencepost */
 	style_row_init (&prev_vert, &sr, &next_sr, start_col, end_col,
@@ -417,7 +417,7 @@ preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 
 		for (col = start_col, x = diff_x; col <= end_col; col++) {
  			GnmCell      *cell  = pg_construct_cell (pg, col, row, context);
-			GnmMStyle const *style = sr.styles [col];
+			GnmStyle const *style = sr.styles [col];
 
  			preview_grid_draw_background (drawable, pg,
  						      style, col, row, x, y,
@@ -471,7 +471,7 @@ preview_grid_set_property (GObject *obj, guint param_id,
 		pg->defaults.row_height = g_value_get_uint (value);
 		break;
 	case PREVIEW_GRID_PROP_DEFAULT_STYLE : { /* add a  ref */
-		GnmMStyle *style = g_value_get_pointer (value);
+		GnmStyle *style = g_value_get_pointer (value);
 		g_return_if_fail (style != NULL);
 		mstyle_ref (style);
 		mstyle_unref (pg->defaults.style);

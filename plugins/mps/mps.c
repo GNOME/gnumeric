@@ -87,7 +87,7 @@ static void
 mps_set_style (Sheet *sh, int c1, int r1, int c2, int r2,
 	       gboolean italic, gboolean bold, gboolean ulined)
 {
-        GnmMStyle *mstyle;
+        GnmStyle *mstyle;
 	GnmRange  range;
 
 	mstyle = mstyle_new ();

@@ -41,7 +41,7 @@ enum {
 	PATTERN_COLOR_INDEX
 };
 
-static GnmStyleColor *
+static GnmColor *
 convert_color_to_rgb (long initial)
 {
 	int r = (initial & GB_C_Red) << 8;
@@ -63,7 +63,7 @@ convert_rgb_to_color (int r, int g, int b)
 	return color;
 }
 
-static GnmStyleColor *
+static GnmColor *
 color_from_palette (int idx)
 {
 	EXCEL_PALETTE_ENTRY e;
@@ -77,7 +77,7 @@ color_from_palette (int idx)
 }
 
 static int
-palette_from_color (GnmStyleColor *color)
+palette_from_color (GnmColor *color)
 {
 	int i;
 	int r = color->red >> 8;
@@ -100,7 +100,7 @@ palette_from_color (GnmStyleColor *color)
 
 
 static void
-real_set_style (Sheet *sheet, GnmRange *range, GnmMStyle *style)
+real_set_style (Sheet *sheet, GnmRange *range, GnmStyle *style)
 {
 	sheet_apply_style (sheet, range, style);
 }
@@ -112,7 +112,7 @@ excel_gb_interior_set_arg (GBRunEvalContext *ec,
 			   GBValue          *val)
 {
 	ExcelGBInterior *interior = EXCEL_GB_INTERIOR (object);
-	GnmMStyle          *style;
+	GnmStyle          *style;
 
 	switch (property) {
 
@@ -124,7 +124,7 @@ excel_gb_interior_set_arg (GBRunEvalContext *ec,
 		return TRUE;
 
 	case COLOR_INDEX: {
-		GnmStyleColor *color = color_from_palette (val->v.i);
+		GnmColor *color = color_from_palette (val->v.i);
 
 		if (!color) {
 			gbrun_exception_firev (
@@ -152,7 +152,7 @@ excel_gb_interior_set_arg (GBRunEvalContext *ec,
 		return TRUE;
 
 	case PATTERN_COLOR_INDEX: {
-		GnmStyleColor *color = color_from_palette (val->v.i);
+		GnmColor *color = color_from_palette (val->v.i);
 
 		if (!color) {
 			gbrun_exception_firev (
@@ -180,11 +180,11 @@ excel_gb_interior_get_arg (GBRunEvalContext *ec,
 	ExcelGBInterior *interior = EXCEL_GB_INTERIOR (object);
 	int              col      = interior->range.start.col;
 	int              row      = interior->range.end.col;
-	GnmMStyle          *style;
+	GnmStyle          *style;
 
 	switch (property) {
 	case COLOR: {
-		GnmStyleColor *color;
+		GnmColor *color;
 		long realcolor;
 
 		style = sheet_style_get (interior->sheet, col, row);
@@ -194,7 +194,7 @@ excel_gb_interior_get_arg (GBRunEvalContext *ec,
 		return (gb_value_new_long (realcolor));
 	}
 	case COLOR_INDEX: {
-		GnmStyleColor *color;
+		GnmColor *color;
 		int index;
 
 		style = sheet_style_get (interior->sheet, col, row);
@@ -221,7 +221,7 @@ excel_gb_interior_get_arg (GBRunEvalContext *ec,
 	}
 
 	case PATTERN_COLOR: {
-		GnmStyleColor *color;
+		GnmColor *color;
 		long realcolor;
 
 		style = sheet_style_get (interior->sheet, col, row);
@@ -231,7 +231,7 @@ excel_gb_interior_get_arg (GBRunEvalContext *ec,
 		return (gb_value_new_long (realcolor));
 	}
 	case PATTERN_COLOR_INDEX: {
-		GnmStyleColor *color;
+		GnmColor *color;
 		int index;
 
 		style = sheet_style_get (interior->sheet, col, row);

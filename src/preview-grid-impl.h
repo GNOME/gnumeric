@@ -17,7 +17,7 @@ struct _PreviewGrid {
 	struct {
 		int     col_width;
 		int     row_height;
-		GnmMStyle *style;
+		GnmStyle *style;
 		GnmValue  *value;
 	} defaults;
 
@@ -30,7 +30,7 @@ typedef struct {
 	/* Virtuals */
 	int      (* get_col_width)  (PreviewGrid *pg, int col);
 	int      (* get_row_height) (PreviewGrid *pg, int row);
-	GnmMStyle * (* get_cell_style) (PreviewGrid *pg, int col, int row);
+	GnmStyle * (* get_cell_style) (PreviewGrid *pg, int col, int row);
 	GnmValue*(* get_cell_value) (PreviewGrid *pg, int col, int row);
 } PreviewGridClass;
 

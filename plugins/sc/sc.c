@@ -179,7 +179,7 @@ sc_parse_label (Sheet *sheet, char const *cmd, char const *str, int col, int row
 		cmdtype = LABEL;
 
 	if (cmdtype == LEFTSTRING || cmdtype == RIGHTSTRING) {
-		GnmMStyle *mstyle;
+		GnmStyle *mstyle;
 
 		mstyle = cell_get_mstyle (cell);
 		if (!mstyle)

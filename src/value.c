@@ -391,7 +391,7 @@ value_new_array_empty (guint cols, guint rows)
 }
 
 GnmValue *
-value_new_from_string (GnmValueType t, char const *str, GnmStyleFormat *sf,
+value_new_from_string (GnmValueType t, char const *str, GnmFormat *sf,
 		       gboolean translated)
 {
 	GnmValue *res = NULL;
@@ -1344,13 +1344,13 @@ value_compare (GnmValue const *a, GnmValue const *b, gboolean case_sensitive)
 }
 
 void
-value_set_fmt (GnmValue *v, GnmStyleFormat const *fmt)
+value_set_fmt (GnmValue *v, GnmFormat const *fmt)
 {
 	if (fmt != NULL)
-		style_format_ref ((GnmStyleFormat *)fmt);
+		style_format_ref ((GnmFormat *)fmt);
 	if (VALUE_FMT (v) != NULL)
 		style_format_unref (VALUE_FMT (v));
-	VALUE_FMT (v) = (GnmStyleFormat *)fmt;
+	VALUE_FMT (v) = (GnmFormat *)fmt;
 }
 
 /****************************************************************************/

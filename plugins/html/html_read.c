@@ -94,7 +94,7 @@ html_append_text (GString *buf, const xmlChar *text)
 }
 
 static void
-html_read_content (htmlNodePtr cur, GString *buf, GnmMStyle *mstyle,
+html_read_content (htmlNodePtr cur, GString *buf, GnmStyle *mstyle,
 		   xmlBufferPtr a_buf, gboolean first, htmlDocPtr doc)
 {
 	htmlNodePtr ptr;
@@ -154,7 +154,7 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 			int colspan = 1;
 			int rowspan = 1;
 			GnmCellPos pos;
-			GnmMStyle *mstyle;
+			GnmStyle *mstyle;
 
 			/* Check whether we need to skip merges from above */
 			pos.row = tc->row;

@@ -64,7 +64,7 @@ sheet_merge_add (Sheet *sheet, GnmRange const *r, gboolean clear,
 	GSList *test;
 	GnmRange  *r_copy;
 	GnmCell   *cell;
-	GnmMStyle *style;
+	GnmStyle *style;
 	GnmComment *comment;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
