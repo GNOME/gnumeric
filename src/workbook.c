@@ -295,7 +295,8 @@ workbook_do_destroy (Workbook *wb)
 	wb->eval_queue = NULL;
 
 	/* Erase all cells. */
-	g_hash_table_foreach (wb->sheets, &cb_sheet_destroy_contents, NULL);
+	g_hash_table_foreach (wb->sheet_hash_private,
+			      &cb_sheet_destroy_contents, NULL);
 
 	if (wb->auto_expr_desc)
 		string_unref (wb->auto_expr_desc);
@@ -342,7 +343,7 @@ workbook_do_destroy (Workbook *wb)
 	/* Now do deletions that will put this workbook into a weird
 	   state.  Careful here.  */
 
-	g_hash_table_destroy (wb->sheets);
+	g_hash_table_destroy (wb->sheet_hash_private);
 
 	if (wb->filename)
 	       g_free (wb->filename);
@@ -391,7 +392,8 @@ workbook_set_dirty (Workbook *wb, gboolean is_dirty)
 {
 	g_return_if_fail (wb != NULL);
 
-	g_hash_table_foreach (wb->sheets, cb_sheet_mark_dirty, GINT_TO_POINTER (is_dirty));
+	g_hash_table_foreach (wb->sheet_hash_private,
+			      cb_sheet_mark_dirty, GINT_TO_POINTER (is_dirty));
 }
 
 static void
@@ -416,7 +418,7 @@ workbook_is_dirty (Workbook *wb)
 
 	g_return_val_if_fail (wb != NULL, FALSE);
 
-	g_hash_table_foreach (wb->sheets, cb_sheet_check_dirty,
+	g_hash_table_foreach (wb->sheet_hash_private, cb_sheet_check_dirty,
 			      &dirty);
 
 	return dirty;
@@ -459,7 +461,7 @@ workbook_is_pristine (Workbook *wb)
 		return FALSE;
 
 	/* Check if we seem to contain anything */
-	g_hash_table_foreach (wb->sheets, cb_sheet_check_pristine,
+	g_hash_table_foreach (wb->sheet_hash_private, cb_sheet_check_pristine,
 			      &pristine);
 
 	return pristine;
@@ -2411,7 +2413,8 @@ workbook_init (GtkObject *object)
 
 	wb->priv = workbook_private_new ();
 
-	wb->sheets       = g_hash_table_new (gnumeric_strcase_hash, gnumeric_strcase_equal);
+	wb->sheet_hash_private = g_hash_table_new (gnumeric_strcase_hash,
+						   gnumeric_strcase_equal);
 	wb->current_sheet= NULL;
 	wb->names        = NULL;
 	wb->max_iterations = 1;
@@ -2989,20 +2992,22 @@ workbook_rename_sheet (CommandContext *context,
 	}
 
 	/* Do not let two sheets in the workbook have the same name */
-	if (g_hash_table_lookup (wb->sheets, new_name)) {
+	if (g_hash_table_lookup (wb->sheet_hash_private, new_name)) {
 		gnumeric_error_invalid (context,
 					_("Duplicate Sheet name"),
 					new_name);
 		return TRUE;
 	}
 
-	sheet = (Sheet *) g_hash_table_lookup (wb->sheets, old_name);
+	sheet = (Sheet *) g_hash_table_lookup (wb->sheet_hash_private,
+					       old_name);
 
 	g_return_val_if_fail (sheet != NULL, TRUE);
 
-	g_hash_table_remove (wb->sheets, old_name);
+	g_hash_table_remove (wb->sheet_hash_private, old_name);
 	sheet_rename (sheet, new_name);
-	g_hash_table_insert (wb->sheets, sheet->name_unquoted, sheet);
+	g_hash_table_insert (wb->sheet_hash_private,
+			     sheet->name_unquoted, sheet);
 
 	sheet_set_dirty (sheet, TRUE);
 
@@ -3241,7 +3246,7 @@ workbook_sheet_count (Workbook *wb)
 {
 	g_return_val_if_fail (wb != NULL, 0);
 
-	return g_hash_table_size (wb->sheets);
+	return g_hash_table_size (wb->sheet_hash_private);
 }
 
 /*
@@ -3296,7 +3301,8 @@ workbook_attach_sheet (Workbook *wb, Sheet *sheet)
 
 	sheet->workbook = wb;
 
-	g_hash_table_insert (wb->sheets, sheet->name_unquoted, sheet);
+	g_hash_table_insert (wb->sheet_hash_private,
+			     sheet->name_unquoted, sheet);
 
 	t = gtk_table_new (0, 0, 0);
 	gtk_table_attach (
@@ -3366,7 +3372,7 @@ workbook_detach_sheet (Workbook *wb, Sheet *sheet, gboolean force)
 	/*
 	 * Remove our reference to this sheet
 	 */
-	g_hash_table_remove (wb->sheets, sheet->name_unquoted);
+	g_hash_table_remove (wb->sheet_hash_private, sheet->name_unquoted);
 
 	for (i = 0; i < sheets; i++) {
 		Sheet *this_sheet;
@@ -3415,7 +3421,7 @@ workbook_sheet_lookup (Workbook *wb, const char *sheet_name)
 	g_return_val_if_fail (wb != NULL, NULL);
 	g_return_val_if_fail (sheet_name != NULL, NULL);
 
-	sheet = g_hash_table_lookup (wb->sheets, sheet_name);
+	sheet = g_hash_table_lookup (wb->sheet_hash_private, sheet_name);
 
 	return sheet;
 }
@@ -3738,58 +3744,6 @@ workbook_sheets (Workbook *wb)
 	return g_list_reverse (list);
 }
 
-typedef struct {
-	Sheet   *base_sheet;
-	GString *result;
-} selection_assemble_closure_t;
-
-static void
-cb_assemble_selection (gpointer key, gpointer value, gpointer user_data)
-{
-	selection_assemble_closure_t *info = (selection_assemble_closure_t *) user_data;
-	Sheet *sheet = value;
-	gboolean include_prefix;
-	char *sel;
-
-	if (*info->result->str)
-		g_string_append_c (info->result, ',');
-
-	/*
-	 * If a base sheet is specified, use this to avoid prepending
-	 * the full path to the cell region.
-	 */
-	if (info->base_sheet && (info->base_sheet != value))
-		include_prefix = TRUE;
-	else
-		include_prefix = FALSE;
-
-	sel = selection_to_string (sheet, include_prefix);
-	g_string_append (info->result, sel);
-	g_free (sel);
-}
-
-char *
-workbook_selection_to_string (Workbook *wb, Sheet *base_sheet)
-{
-	selection_assemble_closure_t info;
-	char *result;
-
-	g_return_val_if_fail (wb != NULL, NULL);
-
-	if (base_sheet == NULL){
-		g_return_val_if_fail (IS_SHEET (base_sheet), NULL);
-	}
-
-	info.result = g_string_new ("");
-	info.base_sheet = base_sheet;
-	g_hash_table_foreach (wb->sheets, cb_assemble_selection, &info);
-
-	result = info.result->str;
-	g_string_free (info.result, FALSE);
-
-	return result;
-}
-
 CommandContext *
 workbook_command_context_gui (Workbook *wb)
 {
@@ -3929,7 +3883,8 @@ workbook_calc_spans (Workbook *wb, SpanCalcFlags const flags)
 {
 	g_return_if_fail (wb != NULL);
 
-	g_hash_table_foreach (wb->sheets, &cb_sheet_calc_spans, GINT_TO_POINTER (flags));
+	g_hash_table_foreach (wb->sheet_hash_private,
+			      &cb_sheet_calc_spans, GINT_TO_POINTER (flags));
 }
 
 void

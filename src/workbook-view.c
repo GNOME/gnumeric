@@ -175,7 +175,8 @@ cb_update_sheet_view_prefs (gpointer key, gpointer value, gpointer user_data)
 void
 workbook_view_pref_visibility (Workbook const * const wb)
 {
-	g_hash_table_foreach (wb->sheets, &cb_update_sheet_view_prefs, NULL);
+	g_hash_table_foreach (wb->sheet_hash_private,
+			      &cb_update_sheet_view_prefs, NULL);
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (wb->notebook),
 				    wb->show_notebook_tabs);
 }

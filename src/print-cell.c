@@ -190,6 +190,31 @@ cell_split_text (GnomeFont *font, char const *text, int const width)
 }
 
 /*
+ * print_make_rectangle_path
+ * @pc      print context
+ * @left    left side x coordinate
+ * @bottom  bottom side y coordinate
+ * @right   right side x coordinate
+ * @top     top side y coordinate
+ *
+ * Make a rectangular path.
+ */
+void
+print_make_rectangle_path (GnomePrintContext *pc,
+			   double left, double bottom,
+			   double right, double top)
+{
+	g_return_if_fail (pc != NULL);
+
+	gnome_print_newpath   (pc);
+	gnome_print_moveto    (pc, left, bottom);
+	gnome_print_lineto    (pc, left, top);
+	gnome_print_lineto    (pc, right, top);
+	gnome_print_lineto    (pc, right, bottom);
+	gnome_print_closepath (pc);
+}
+
+/*
  * base_[xy] : Coordinates of the upper left corner of the cell.
  *             INCLUSIVE of the near grid line
  *
@@ -322,12 +347,8 @@ print_cell (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninf
 	clip_width -= ci->margin_a + ci->margin_b;
 	clip_height -= ri->margin_a + ri->margin_b;
 	gnome_print_gsave (context);
-	gnome_print_newpath (context);
-	gnome_print_moveto (context, clip_x, clip_y);
-	gnome_print_lineto (context, clip_x + clip_width, clip_y);
-	gnome_print_lineto (context, clip_x + clip_width, clip_y - clip_height);
-	gnome_print_lineto (context, clip_x, clip_y - clip_height);
-	gnome_print_closepath (context);
+	print_make_rectangle_path (context, clip_x, clip_y - clip_height,
+				   clip_x + clip_width, clip_y);
 	gnome_print_clip (context);
 
 	/* Set the font colour */
@@ -508,6 +529,8 @@ print_cell (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninf
 	gnome_print_grestore (context);
 }
 
+/* We do not use print_make_rectangle_path here - because we do not want a
+ * new path.  */
 static void
 print_rectangle (GnomePrintContext *context,
 		 double x, double y, double w, double h)

@@ -19,4 +19,7 @@ void print_cell_grid  (GnomePrintContext *context,
  * disappear again once Gnumeric makes the switch */
 int print_show_iso8859_1 (GnomePrintContext *pc, char const *text);
 
+void print_make_rectangle_path (GnomePrintContext *pc,
+				double left, double bottom,
+				double right, double top);
 #endif

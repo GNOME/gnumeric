@@ -1,3 +1,76 @@
+2000-09-11  Jon K Hellan  <hellan@acm.org>
+
+	* src/main.c: Add print_debugging variable / debug_print startup
+	option.
+	(gnumeric_main): Make stdout line buffered - we only use it for
+	debug info.
+
+	* src/print-cell.[ch] (print_make_rectangle_path): New function: make
+	a rectangular gnome-print path.
+	* src/print-cell.c (print_cell): Use it.
+
+	* src/print.c (print_empty_pages variable): Remove. This variable
+	is never set. With the new repeated row/column handling, the logic
+	will have to be rewritten anyway if needed.
+	(print_page_repeated_rows): Remove unused parameters start_row and
+	end_row.
+	(print_page_repeated_cols): s/row/col/. Fix bug - was repeat_left,
+	corrected to repeat_top.
+	(print_page_object): Remove unused parameters page_width /
+	page_height and end_col / end_row.
+	(print_hf_element): Rename from print_hf
+	(print_hf_line): New function. Logic shared by print_header and
+	print_footer. Clip to header region. if print_debugging != 0, draw
+	a box around header region.
+	(print_headers): Use print_hf_line. Place at correct y position -
+	ascenders flush with inside of top margin.
+	(print_footers): Descenders flush with inside of bottom
+	margin. Otherwise like headers.
+	(print_page): Include logic for repeated rows and columns: They
+	are only repeated after the start of the repeating range has been
+	seen in the regular page flow. Fix grid size bug when centering
+	horizontally or vertically. Use print_make_rectangle_path.  Remove
+	print_empty_pages logic.
+	(compute_group): New function. Old compute groups changed to only
+	compute one page. Rationale: Available space on page for normal
+	cell flow changes once repeated rows/columns kick in, so there is
+	no gain in precomputing a list.
+	(render_sheet_objects): New function. Factored out of
+	print_sheet_range.
+	(print_range_down_then_right): New function. Used to be the row
+	major loop of print_sheet_range. Include logic for repeated rows
+	and columns (see print_page).
+	(print_range_right_then_down): s/row major/column major/
+	(print_sheet_range): Restructure into a small function that calls
+	render_sheet_objects, print_range_down_then_right,
+	print_range_right_then_down.
+	(compute_sheet_pages): Remove print_empty_pages logic. The
+	variable is never set. With the new repeated row/column handling,
+	the logic will have to be rewritten anyway if needed.
+	(compute_sheet_pages, print_sheet): Remove "key" parameter because
+	we are now called from g_list_foreach instead of
+	g_hash_table_foreach.
+	
+	(compute_pages): Use list returned by workbook_sheets instead of
+	wb->sheets so sheets are processed in order.
+	(workbook_print_all): Print sheets in display order. To do so, use
+	list returned by workbook_sheets instead of wb->sheets.
+	(sheet_print): Use changed print_sheet signature.
+
+	* src/workbook.h (struct _Workbook): Rename "sheets" to
+	sheet_hash_private.
+
+	* src/workbook.c (workbook_do_destroy, workbook_do_destroy,
+	workbook_set_dirty, workbook_is_dirty, workbook_is_pristine,
+	workbook_init, workbook_rename_sheet, workbook_sheet_count,
+	workbook_attach_sheet, workbook_detach_sheet,
+	workbook_sheet_lookup): s/wb->sheets/wb->sheet_hash_private/
+	(cb_assemble_selection, workbook_selection_to_string): Not in
+	use. Remove.
+
+	* src/workbook-view.c (workbook_view_pref_visibility):
+	s/wb->sheets/wb->sheet_hash_private/
+
 2000-09-11  Morten Welinder  <terra@diku.dk>
 
 	* configure.in (pspell): Quiet the test.

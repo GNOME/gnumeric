@@ -37,8 +37,8 @@ struct _Workbook {
 	ExprTree   *auto_expr;
 	String     *auto_expr_desc;
 
-	/* The sheets */
-	GHashTable *sheets;	/* keeps a list of the Sheets on this workbook */
+	/* The sheets -  The public accessor is workbook_sheets */
+	GHashTable *sheet_hash_private;	
 	Sheet	   *current_sheet;
 
 	/* User defined names */
