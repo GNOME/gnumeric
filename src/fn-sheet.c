@@ -26,9 +26,8 @@ static char *help_selection = {
 };
 
 static Value *
-gnumeric_selection (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+gnumeric_selection (Sheet *sheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
 {
-	Sheet *sheet = (Sheet *) tsheet;
 	Value *value;
 	GList *l ;
 	int numrange,lp;
@@ -54,7 +53,7 @@ gnumeric_selection (void *tsheet, GList *expr_node_list, int eval_col, int eval_
 		/* Fill it in */
 		/*   start */
 		cell_ref = &single_value->v.cell_range.cell_a;
-		cell_ref->sheet = tsheet;
+		cell_ref->sheet = sheet;
 		cell_ref->col_relative = 0;
 		cell_ref->row_relative = 0;
 		
@@ -63,7 +62,7 @@ gnumeric_selection (void *tsheet, GList *expr_node_list, int eval_col, int eval_
 
 		/*   end */
 		cell_ref = &single_value->v.cell_range.cell_b;
-		cell_ref->sheet = tsheet;
+		cell_ref->sheet = sheet;
 		cell_ref->col_relative = 0;
 		cell_ref->row_relative = 0;
 		

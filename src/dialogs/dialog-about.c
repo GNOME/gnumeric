@@ -35,6 +35,7 @@ dialog_about (Workbook *wb)
 		N_("Vladimir Vuksan, financial functions"),
 		N_("Takashi Matsuda, simple text plugin"),
 		N_("Jukka-Pekka Iivonen, numerous functions"),
+		N_("Morten Welinder, Gnumeric hacker"),
 		NULL
 	};
 
@@ -49,7 +50,7 @@ dialog_about (Workbook *wb)
 #endif
 
         about = gnome_about_new (_("Gnumeric"), VERSION,
-				 "(C) 1998 Miguel de Icaza",
+				 "(C) 1998-1999 Miguel de Icaza",
 				 authors,
 				 _("The GNOME spreadsheet.\n"
 				   "http://www.gnome.org/gnumeric"),
@@ -58,4 +59,3 @@ dialog_about (Workbook *wb)
 	gnome_dialog_set_close (GNOME_DIALOG (about), TRUE);
         gtk_widget_show (about);
 }
-

@@ -106,7 +106,7 @@ typedef enum {
 	SHEET_MODE_OBJECT_SELECTED,
 } SheetModeType;
 
-typedef struct {
+typedef struct _Sheet {
 	int         signature;
 	
 	Workbook    *workbook;
@@ -395,7 +395,7 @@ Workbook   *workbook_read                (const char *filename);
 void        workbook_save_as             (Workbook *);
 void        workbook_save                (Workbook *);
 void        workbook_attach_sheet        (Workbook *, Sheet *);
-gboolean    workbook_detach_sheet        (Workbook *, Sheet *);
+gboolean    workbook_detach_sheet        (Workbook *, Sheet *, gboolean);
 Sheet      *workbook_focus_current_sheet (Workbook *wb);
 Sheet      *workbook_get_current_sheet   (Workbook *wb);
 char       *workbook_sheet_get_free_name (Workbook *wb);
@@ -410,6 +410,7 @@ gboolean    workbook_rename_sheet        (Workbook *wb,
 					  const char *new_name);
 int         workbook_sheet_count         (Workbook *wb);
 gboolean    workbook_can_detach_sheet    (Workbook *wb, Sheet *sheet);
+GList      *workbook_sheets              (Workbook *wb);
 
 /*
  * Does any pending recalculations
@@ -427,6 +428,14 @@ typedef gboolean (*WorkbookCallback)(Workbook *, gpointer data);
 
 void     workbook_foreach             (WorkbookCallback cback,
 				       gpointer data);
+
+
+
+void	workbook_fixup_references	(Workbook *wb, int col, int row,
+					 int coldelta, int rowdelta);
+
+void	workbook_invalidate_references	(Workbook *wb, int col, int row,
+					 int colcount, int rowcount);
 
 /*
  * Feedback routines

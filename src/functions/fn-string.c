@@ -293,7 +293,7 @@ static char *help_concatenate = {
 };
 
 static Value *
-gnumeric_concatenate (void *sheet, GList *l, int eval_col, int eval_row, char **error_string)
+gnumeric_concatenate (Sheet *sheet, GList *l, int eval_col, int eval_row, char **error_string)
 {
 	Value *v;
 	char *s, *p, *tmp;
@@ -481,7 +481,7 @@ gnumeric_fixed (struct FunctionDefinition *i, Value *argv [], char **error_strin
 		/*
 	} else if (lc->thousands_sep[1] != '\0') {
 		fprintf (stderr, "thousands_sep:\"%s\"\n", lc->thousands_sep);
-		*error_string = _("Invlaid thousands separator");
+		*error_string = _("Invalid thousands separator");
 		return NULL;
 		*/
 	} else if (dec <= 0) { /* no decimal point : just round and pad 0's */

@@ -50,17 +50,34 @@ static void dump_tree (ExprTree *tree);
 static int  yylex (void);
 static int  yyerror (char *s);
 
+/* The expression being parsed */
+static const char *parser_expr;
+
+/* The error returned from the */
+static ParseErr parser_error;
+
+/* The sheet where the parsing takes place */
+static Sheet *parser_sheet;
+
+/* Location where the parsing is taking place */
+static int parser_col, parser_row;
+
+/* The suggested format to use for this expression */
+static const char **parser_desired_format;
+
+static ExprTree **parser_result;
+
 #define p_new(type) ((type *) alloc_buffer ((unsigned) sizeof (type)))
 
 static ExprTree *
 build_binop (ExprTree *l, Operation op, ExprTree *r)
 {
-  ExprTree *res = p_new (ExprTree);
-  res->ref_count = 1;
-  res->u.binary.value_a = l;
-  res->oper = op;
-  res->u.binary.value_b = r;
-  return res;
+	ExprTree *res = p_new (ExprTree);
+	res->ref_count = 1;
+	res->u.binary.value_a = l;
+	res->oper = op;
+	res->u.binary.value_b = r;
+	return res;
 }
 
 %}
@@ -86,14 +103,8 @@ build_binop (ExprTree *l, Operation op, ExprTree *r)
 %right '^'
 
 %%
-line:	  exp           { parser_result = $1;
-                          /* dump_tree (parser_result);*/
-                          alloc_list_free (); 
-                        }
-	| error 	{
-				alloc_clean ();
-				parser_error = PARSE_ERR_SYNTAX;
-			}
+line:	  exp           { *parser_result = $1; }
+	| error 	{ parser_error = PARSE_ERR_SYNTAX; }
 	;
 
 exp:	  NUMBER 	{ $$ = $1 }
@@ -269,8 +280,8 @@ make_string_return (char *string)
 	if (format_match (string, &fv, &format)){
 		v->type = VALUE_FLOAT;
 		v->v.v_float = fv;
-		if (!parser_desired_format)
-			parser_desired_format = format;
+		if (parser_desired_format && *parser_desired_format == NULL)
+			*parser_desired_format = format;
 	} else {
 		v->v.str = string_get (string);
 		v->type = VALUE_STRING;
@@ -362,11 +373,11 @@ try_symbol (char *string, gboolean try_cellref)
 int yylex (void)
 {
 	int c;
-	char *p, *tmp;
+	const char *p, *tmp;
 	int is_float, digits;
-	
+
         while(isspace (*parser_expr))
-                parser_expr++;                                                                                       
+                parser_expr++;
 
 	c = *parser_expr++;
         if (c == '(' || c == ',' || c == ')')
@@ -453,7 +464,7 @@ int yylex (void)
 	}
 	
 	if (isalpha (c) || c == '_' || c == '$'){
-		char *start = parser_expr - 1;
+		const char *start = parser_expr - 1;
 		char *str;
 		int  len;
 		
@@ -466,10 +477,8 @@ int yylex (void)
 		str [len] = 0;
 		return try_symbol (str, TRUE);
 	}
-	if (c == '\n')
-		return 0;
-	
-	if (c == EOF)
+
+	if (c == '\n' || c == 0)
 		return 0;
 
 	if (c == '<'){
@@ -498,8 +507,10 @@ int yylex (void)
 int
 yyerror (char *s)
 {
-    printf ("Error: %s\n", s);
-    return 0;
+#if 0
+	printf ("Error: %s\n", s);
+#endif
+	return 0;
 }
 
 static void
@@ -692,18 +703,7 @@ dump_tree (ExprTree *tree)
 		printf ("Function call: %s\n", s->str);
 		break;
 
-	case OPER_EQUAL:
-	case OPER_NOT_EQUAL:
-	case OPER_LT:
-	case OPER_LTE:
-	case OPER_GT:
-	case OPER_GTE:
-	case OPER_ADD:
-	case OPER_SUB:
-	case OPER_MULT:
-	case OPER_DIV:
-	case OPER_EXP:
-	case OPER_CONCAT:
+	case OPER_ANY_BINARY:
 		dump_tree (tree->u.binary.value_a);
 		dump_tree (tree->u.binary.value_b);
 		switch (tree->oper){
@@ -730,4 +730,31 @@ dump_tree (ExprTree *tree)
 		break;
 		
 	}
+}
+
+ParseErr
+gnumeric_expr_parser (const char *expr, Sheet *sheet, int col, int row,
+		      const char **desired_format, ExprTree **result)
+{
+	parser_error = PARSE_OK;
+	parser_expr = expr;
+	parser_sheet = sheet;
+	parser_col   = col;
+	parser_row   = row;
+	parser_desired_format = desired_format;
+	parser_result = result;
+
+	if (parser_desired_format)
+		*parser_desired_format = NULL;
+
+	yyparse ();
+
+	if (parser_error == PARSE_OK)
+		alloc_list_free ();
+	else {
+		alloc_clean ();
+		*parser_result = NULL;
+	}
+
+	return parser_error;
 }

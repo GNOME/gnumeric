@@ -228,33 +228,72 @@ create_ellipse_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
-cb_sheet_do_destroy (gpointer key, gpointer value, gpointer user_data)
+cb_sheet_do_erase (gpointer key, gpointer value, gpointer user_data)
 {
 	Sheet *sheet = value;
 
-	sheet_destroy (sheet);
+	sheet_clear_region (sheet, 0, 0, SHEET_MAX_COLS - 1, SHEET_MAX_ROWS - 1);
 }
 
 static void
 workbook_do_destroy (Workbook *wb)
 {
-	
-	g_hash_table_foreach (wb->sheets, cb_sheet_do_destroy, NULL);
+	/* First do all deletions that leave the workbook in a working
+	   order.  */
+
+	/* Erase all cells.  In particular this removes all links between
+	   sheets.  */
+	g_hash_table_foreach (wb->sheets, cb_sheet_do_erase, NULL);
+
+	if (wb->auto_expr){
+		expr_tree_unref (wb->auto_expr);
+		wb->auto_expr = NULL;
+		string_unref (wb->auto_expr_desc);
+	}
+
+	/* Problems with insert/delete column/row caused formula_cell_list
+	   to be messed up.  */
+	if (wb->formula_cell_list) {
+		fprintf (stderr, "Reminder: FIXME in workbook_do_destroy\n");
+		g_list_free (wb->formula_cell_list);
+		wb->formula_cell_list = NULL;
+	}
+
+	/* Just drop the eval queue.  */
+	g_list_free (wb->eval_queue);
+	wb->eval_queue = NULL;
+
+	/* Detach and destroy all sheets.  */
+	{
+		GList *sheets, *l;
+
+		sheets = workbook_sheets (wb);
+		for (l = sheets; l ; l = l->next) {
+			Sheet *sheet = l->data;
+
+			workbook_detach_sheet (sheet->workbook, sheet, TRUE);
+			sheet_destroy (sheet);
+		}
+		g_list_free (sheets);
+	}
+
+	if (wb->clipboard_contents)
+		clipboard_release (wb->clipboard_contents);
+	wb->clipboard_contents = NULL;
+
+	/* Remove ourselves from the list of workbooks.  */
+	workbook_list = g_list_remove (workbook_list, wb);
+	workbook_count--;
+
+	/* Now do deletions that will put this workbook into a weird
+	   state.  Careful here.  */
+
 	g_hash_table_destroy (wb->sheets);
 
 	if (wb->filename)
 	       g_free (wb->filename);
 
-	g_list_free (wb->eval_queue);
-
 	g_free (wb->toolbar);
-	if (wb->auto_expr){
-		expr_tree_unref (wb->auto_expr);
-		string_unref (wb->auto_expr_desc);
-	}
-
-	workbook_list = g_list_remove (workbook_list, wb);
-	workbook_count--;
 
 	symbol_table_destroy (wb->symbol_names);
 
@@ -513,7 +552,7 @@ insert_cols_cmd (GtkWidget *unused, Workbook *wb)
 	int cols;
 	
 	sheet = workbook_get_current_sheet (wb);
-	if (!sheet_verify_selection_simple (sheet, _("Insert rows")))
+	if (!sheet_verify_selection_simple (sheet, _("Insert cols")))
 		return;
 	
 	ss = sheet->selections->data;
@@ -901,7 +940,7 @@ static GnomeUIInfo workbook_menu [] = {
 	GNOMEUIINFO_MENU_VIEW_TREE(workbook_menu_view),
 	{ GNOME_APP_UI_SUBTREE, N_("_Insert"), NULL, workbook_menu_insert },
 	{ GNOME_APP_UI_SUBTREE, N_("F_ormat"), NULL, workbook_menu_format },
-	{ GNOME_APP_UI_SUBTREE, N_("T_ools"), NULL, workbook_menu_tools },
+	{ GNOME_APP_UI_SUBTREE, N_("_Tools"), NULL, workbook_menu_tools },
 	GNOMEUIINFO_MENU_HELP_TREE(workbook_menu_help),
 	GNOMEUIINFO_END
 };
@@ -1618,7 +1657,7 @@ sheet_action_delete_sheet (GtkWidget *widget, Sheet *current_sheet)
 	/*
 	 * All is fine, remove the sheet
 	 */
-	workbook_detach_sheet (wb, current_sheet);
+	workbook_detach_sheet (wb, current_sheet, FALSE);
 	sheet_destroy (current_sheet);
 	workbook_recalc_all (wb);
 }
@@ -1800,7 +1839,7 @@ workbook_can_detach_sheet (Workbook *wb, Sheet *sheet)
  * Detaches @sheet from the workbook @wb.
  */
 gboolean
-workbook_detach_sheet (Workbook *wb, Sheet *sheet)
+workbook_detach_sheet (Workbook *wb, Sheet *sheet, gboolean force)
 {
 	GtkNotebook *notebook;
 	int sheets, i;
@@ -1815,11 +1854,13 @@ workbook_detach_sheet (Workbook *wb, Sheet *sheet)
 	notebook = GTK_NOTEBOOK (wb->notebook);
 	sheets = workbook_sheet_count (sheet->workbook);
 
-	if (sheets == 1)
-		return FALSE;
+	if (!force) {
+		if (sheets == 1)
+			return FALSE;
 
-	if (!workbook_can_detach_sheet (wb, sheet))
-		return FALSE;
+		if (!workbook_can_detach_sheet (wb, sheet))
+			return FALSE;
+	}
 
 	/*
 	 * Remove our reference to this sheet
@@ -1986,7 +2027,7 @@ workbook_set_title (Workbook *wb, const char *title)
 	g_return_if_fail (wb != NULL);
 	g_return_if_fail (title != NULL);
 
-	full_title = g_strconcat ("Gnumeric: ", title, NULL);
+	full_title = g_strconcat (_("Gnumeric: "), title, NULL);
 	
  	gtk_window_set_title (GTK_WINDOW (wb->toplevel), full_title);
 	g_free (full_title);
@@ -1994,7 +2035,7 @@ workbook_set_title (Workbook *wb, const char *title)
 
 /**
  * workbook_set_filename:
- * @wb: the workkbook to modify
+ * @wb: the workbook to modify
  * @name: the file name for this worksheet.
  *
  * Sets the internal filename to @name and changes
@@ -2026,4 +2067,162 @@ workbook_foreach (WorkbookCallback cback, gpointer data)
 		if (!(*cback)(wb, data))
 			return;
 	}
+}
+
+/**
+ * workbook_fixup_references:
+ * @wb: the workbook to modify
+ * @col: starting column that was moved.
+ * @row: starting row that was moved.
+ * @coldelta: signed column distance that cells were moved.
+ * @rowcount: signed row distance that cells were moved.
+ *
+ * Fixes references after a column or row move.
+ */
+
+void
+workbook_fixup_references (Workbook *wb, int col, int row,
+			   int coldelta, int rowdelta)
+{
+	GList *cells, *l;
+	gboolean debug = TRUE;
+
+	g_return_if_fail (wb != NULL);
+
+	if (coldelta == 0 && rowdelta == 0) return;
+
+	/* Copy the list since it will change underneath us.  */
+	cells = g_list_copy (wb->formula_cell_list);
+
+	for (l = wb->formula_cell_list; l; l = l->next)	{
+		Cell *cell = l->data;
+		ExprTree *newtree;
+		int thiscol, thisrow;
+
+		thiscol = cell->col->pos;
+		thisrow = cell->row->pos;
+
+		if (debug) {
+			char *str = cell_get_content (cell);
+			const char *cellname = cell_name (thiscol, thisrow);
+			printf ("Before %s: [%s]\n", cellname, str);
+			g_free (str);
+		}
+
+		newtree = expr_tree_fixup_references (cell->parsed_node, cell->sheet,
+						      col, row, coldelta, rowdelta);
+		if (newtree) {
+			char *exprtxt, *eqexprtxt;
+
+			exprtxt = expr_decode_tree (newtree, cell->sheet, thiscol, thisrow);
+			eqexprtxt = g_strconcat ("=", exprtxt, NULL);
+			cell_set_text (cell, eqexprtxt);
+
+			g_free (exprtxt);
+			g_free (eqexprtxt);
+			expr_tree_unref (newtree);
+
+			if (debug) {
+				char *str = cell_get_content (cell);
+				const char *cellname = cell_name (thiscol, thisrow);
+				printf ("After  %s: [%s]\n", cellname, str);
+				g_free (str);
+			}
+		} else {
+			printf ("Unchanged.\n");
+		}
+	}
+
+	g_list_free (cells);
+}
+
+/**
+ * workbook_invalidate_references:
+ * @wb: the workbook to modify
+ * @col: starting column to be invalidated.
+ * @row: starting row to be invalidated.
+ * @colcount: number of columns to be invalidated.
+ * @rowcount: number of rows to be invalidated.
+ *
+ * Invalidates *either* a number of columns *or* a number of rows.
+ */
+
+void
+workbook_invalidate_references (Workbook *wb, int col, int row,
+				int colcount, int rowcount)
+{
+	GList *cells, *l;
+	gboolean debug = TRUE;
+
+	g_return_if_fail (wb != NULL);
+	g_return_if_fail (colcount == 0 || rowcount == 0);
+	g_return_if_fail (colcount >= 0 && rowcount >= 0);
+
+	if (colcount == 0 && rowcount == 0) return;
+
+	/* Copy the list since it will change underneath us.  */
+	cells = g_list_copy (wb->formula_cell_list);
+
+	for (l = wb->formula_cell_list; l; l = l->next)	{
+		Cell *cell = l->data;
+		ExprTree *newtree;
+		int thiscol, thisrow;
+
+		thiscol = cell->col->pos;
+		thisrow = cell->row->pos;
+
+		if (debug) {
+			char *str = cell_get_content (cell);
+			const char *cellname = cell_name (thiscol, thisrow);
+			printf ("Before %s: [%s]\n", cellname, str);
+			g_free (str);
+		}
+
+		newtree = expr_tree_invalidate_references (cell->parsed_node, cell->sheet,
+							   col, row, colcount, rowcount);
+		if (newtree) {
+			char *exprtxt, *eqexprtxt;
+
+			exprtxt = expr_decode_tree (newtree, cell->sheet, thiscol, thisrow);
+			eqexprtxt = g_strconcat ("=", exprtxt, NULL);
+			cell_set_text (cell, eqexprtxt);
+
+			g_free (exprtxt);
+			g_free (eqexprtxt);
+			expr_tree_unref (newtree);
+
+			if (debug) {
+				char *str = cell_get_content (cell);
+				const char *cellname = cell_name (thiscol, thisrow);
+				printf ("After  %s: [%s]\n", cellname, str);
+				g_free (str);
+			}
+		} else {
+			printf ("Unchanged.\n");
+		}
+	}
+
+	g_list_free (cells);
+}
+
+
+
+static void
+cb_workbook_sheets (gpointer key, gpointer value, gpointer user_data)
+{
+	Sheet *sheet = value;
+	GList **l = user_data;
+
+	*l = g_list_prepend (*l, sheet);
+}
+
+
+GList *
+workbook_sheets (Workbook *wb)
+{
+	GList *sheets = NULL;
+
+	g_return_val_if_fail (wb != NULL, NULL);
+	g_hash_table_foreach (wb->sheets, cb_workbook_sheets, &sheets);
+	return sheets;
 }

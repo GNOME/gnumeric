@@ -14,46 +14,18 @@
 #include "format.h"
 #include "func.h"
 
-/* Shared variables with parser.y */
-
-/*       The expression being parsed */
-const char     *parser_expr;
-
-/*        The suggested format to use for this expression */
-char     *parser_desired_format;
-
-/*        The error returned from the */
-ParseErr  parser_error;
-
-/*        The expression tree returned from the parser */
-ExprTree *parser_result;
-
-/*        The sheet where the parsing takes place */
-void     *parser_sheet;
-
-/*        Location where the parsing is taking place */
-int       parser_col, parser_row;
-
 ExprTree *
-expr_parse_string (const char *expr, void *sheet, int col, int row, char **desired_format, char **error_msg)
+expr_parse_string (const char *expr, Sheet *sheet, int col, int row,
+		   const char **desired_format, char **error_msg)
 {
+	ExprTree *tree;
 	g_return_val_if_fail (expr != NULL, NULL);
-	
-	parser_expr  = expr;
-	parser_error = PARSE_OK;
-	parser_col   = col;
-	parser_row   = row;
-	parser_sheet = sheet;
-	parser_desired_format = NULL;
-	
-	yyparse ();
-	switch (parser_error){
+
+	switch (gnumeric_expr_parser (expr, sheet, col, row, desired_format, &tree)) {
 	case PARSE_OK:
 		*error_msg = NULL;
-		if (desired_format)
-			*desired_format = parser_desired_format;
-		parser_result->ref_count = 1;
-		return parser_result;
+		tree->ref_count = 1;
+		return tree;
 
 	case PARSE_ERR_SYNTAX:
 		*error_msg = _("Syntax error");
@@ -83,23 +55,12 @@ do_expr_tree_ref (ExprTree *tree)
 	case OPER_FUNCALL:
 		break;
 
-	case OPER_EQUAL:
-	case OPER_GT:
-	case OPER_LT:
-	case OPER_GTE:
-	case OPER_LTE:
-	case OPER_NOT_EQUAL:
-	case OPER_ADD:
-	case OPER_SUB:
-	case OPER_MULT:
-	case OPER_DIV:
-	case OPER_EXP:
-	case OPER_CONCAT:
+	case OPER_ANY_BINARY:
 		do_expr_tree_ref (tree->u.binary.value_a);
 		do_expr_tree_ref (tree->u.binary.value_b);
 		break;
 
-	case OPER_NEG:
+	case OPER_ANY_UNARY:
 		do_expr_tree_ref (tree->u.value);
 		break;
 	}
@@ -136,23 +97,12 @@ do_expr_tree_unref (ExprTree *tree)
 			symbol_unref (tree->u.function.symbol);
 		break;
 
-	case OPER_EQUAL:
-	case OPER_GT:
-	case OPER_LT:
-	case OPER_GTE:
-	case OPER_LTE:
-	case OPER_NOT_EQUAL:
-	case OPER_ADD:
-	case OPER_SUB:
-	case OPER_MULT:
-	case OPER_DIV:
-	case OPER_EXP:
-	case OPER_CONCAT:
+	case OPER_ANY_BINARY:
 		do_expr_tree_unref (tree->u.binary.value_a);
 		do_expr_tree_unref (tree->u.binary.value_b);
 		break;
 
-	case OPER_NEG:
+	case OPER_ANY_UNARY:
 		do_expr_tree_unref (tree->u.value);
 		break;
 	}
@@ -798,11 +748,11 @@ function_call_with_values (Sheet *sheet, const char *name, int argc, Value *valu
 
 	sym = symbol_lookup (global_symbol_table, name);
 	if (sym == NULL){
-		*error_string = "Function does not exist";
+		*error_string = _("Function does not exist");
 		return NULL;
 	}
 	if (sym->type != SYMBOL_FUNCTION){
-		*error_string = "Calling non-function";
+		*error_string = _("Calling non-function");
 		return NULL;
 	}
 	
@@ -905,15 +855,14 @@ compare (Value *a, Value *b)
 }
 
 Value *
-eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **error_string)
+eval_expr (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **error_string)
 {
 	Value *a, *b, *res;
-	Sheet *sheet = asheet;
 
 	g_return_val_if_fail (tree != NULL, NULL);
-	g_return_val_if_fail (asheet != NULL, NULL);
+	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (error_string != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET (asheet), NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	
 	switch (tree->oper){
 	case OPER_EQUAL:
@@ -1265,7 +1214,7 @@ bigger_prec (Operation parent, Operation this)
  * create a string representation.
  */
 static char *
-do_expr_decode_tree (ExprTree *tree, void *sheet, int col, int row, Operation parent_op)
+do_expr_decode_tree (ExprTree *tree, Sheet *sheet, int col, int row, Operation parent_op)
 {
 	static const char *binary_operation_names [] = {
 		"=", ">", "<", ">=", "<=", "<>",
@@ -1273,20 +1222,7 @@ do_expr_decode_tree (ExprTree *tree, void *sheet, int col, int row, Operation pa
 	};
 
 	switch (tree->oper){
-
-		/* The binary operations */
-	case OPER_EQUAL:
-	case OPER_NOT_EQUAL:
-	case OPER_GT:
-	case OPER_GTE:
-	case OPER_LT:
-	case OPER_LTE:
-	case OPER_ADD:
-	case OPER_SUB:
-	case OPER_MULT:
-	case OPER_DIV:
-	case OPER_EXP:
-	case OPER_CONCAT: {	
+	case OPER_ANY_BINARY: {
 		char *a, *b, *res;
 		char const *op;
 		
@@ -1304,7 +1240,7 @@ do_expr_decode_tree (ExprTree *tree, void *sheet, int col, int row, Operation pa
 		return res;
 	}
 	
-	case OPER_NEG: {
+	case OPER_ANY_UNARY: {
 		char *res, *a;
 
 		a = do_expr_decode_tree (tree->u.value, sheet, col, row, tree->oper);
@@ -1345,9 +1281,10 @@ do_expr_decode_tree (ExprTree *tree, void *sheet, int col, int row, Operation pa
 				if (l->next)
 					strcat (sum, ",");
 			}
-			
+
 			res = g_strconcat (
 				fd->name, "(", sum, ")", NULL);
+			g_free (sum);
 
 			for (i = 0; i < argc; i++)
 				g_free (args [i]);
@@ -1394,7 +1331,7 @@ do_expr_decode_tree (ExprTree *tree, void *sheet, int col, int row, Operation pa
 }
 
 char *
-expr_decode_tree (ExprTree *tree, void *sheet, int col, int row)
+expr_decode_tree (ExprTree *tree, Sheet *sheet, int col, int row)
 {
 	g_return_val_if_fail (tree != NULL, NULL);
 	g_return_val_if_fail (sheet != NULL, NULL);
@@ -1414,46 +1351,33 @@ do_expr_tree_relocate (ExprTree *tree, int coldiff, int rowdiff)
 	new_tree->ref_count = 1;
 	
 	switch (tree->oper){
-		/* The binary operations */
-	case OPER_EQUAL:
-	case OPER_NOT_EQUAL:
-	case OPER_GT:
-	case OPER_GTE:
-	case OPER_LT:
-	case OPER_LTE:
-	case OPER_ADD:
-	case OPER_SUB:
-	case OPER_MULT:
-	case OPER_DIV:
-	case OPER_EXP:
-	case OPER_CONCAT: {
-		ExprTree *a, *b;
-		
-		a = do_expr_tree_relocate (tree->u.binary.value_a, coldiff, rowdiff);
-		b = do_expr_tree_relocate (tree->u.binary.value_b, coldiff, rowdiff);
-
-		new_tree->u.binary.value_a = a;
-		new_tree->u.binary.value_b = b;
+	case OPER_ANY_BINARY:
+		new_tree->u.binary.value_a =
+			do_expr_tree_relocate (tree->u.binary.value_a, coldiff, rowdiff);
+		new_tree->u.binary.value_b =
+			do_expr_tree_relocate (tree->u.binary.value_b, coldiff, rowdiff);
 		break;
-	}
+
+	case OPER_ANY_UNARY:
+		new_tree->u.value = do_expr_tree_relocate (tree->u.value, coldiff, rowdiff);
+		break;
 
 	case OPER_FUNCALL: {
 		GList *l, *arg_list;
-		GList *new_list = NULL;
 
+		/* Why this?  */
 		tree->ref_count++;
-		
-		arg_list = tree->u.function.arg_list;
 
-		for (l = arg_list; l; l = l->next){
+		symbol_ref (tree->u.function.symbol);
+		new_tree->u.function.arg_list = NULL;
+
+		for (l = tree->u.function.arg_list; l; l = l->next){
 			ExprTree *tree = l->data;
 
-			new_list = g_list_append (
-				new_list,
-				do_expr_tree_relocate (tree, coldiff, rowdiff));
-			new_tree->u.function.arg_list = new_list;
+			new_tree->u.function.arg_list =
+				g_list_append (new_tree->u.function.arg_list,
+					       do_expr_tree_relocate (tree, coldiff, rowdiff));
 		}
-		symbol_ref (tree->u.function.symbol);
 		break;
 	}
 
@@ -1482,11 +1406,6 @@ do_expr_tree_relocate (ExprTree *tree, int coldiff, int rowdiff)
 			break;
 		}
 		break;
-	
-	case OPER_NEG: 
-		new_tree->u.value = do_expr_tree_relocate (tree->u.value, coldiff, rowdiff);
-		break;
-
 	}
 	
 	return new_tree;
@@ -1498,4 +1417,22 @@ expr_tree_relocate (ExprTree *tree, int coldiff, int rowdiff)
 	g_return_val_if_fail (tree != NULL, NULL);
 
 	return do_expr_tree_relocate (tree, coldiff, rowdiff);
+}
+
+ExprTree *
+expr_tree_invalidate_references (ExprTree *src, Sheet *sheet,
+				 int col, int row,
+				 int colcount, int rowcount)
+{
+	/* FIXME  */
+	return NULL;
+}
+
+ExprTree *
+expr_tree_fixup_references (ExprTree *src, Sheet *sheet,
+			    int col, int row,
+			    int coldelta, int rowdelta)
+{
+	/* FIXME  */
+	return NULL;
 }

@@ -64,11 +64,10 @@ callback_function_and (Sheet *sheet, Value *value,
 }
 
 static Value *
-gnumeric_and (void *tsheet, GList *expr_node_list,
+gnumeric_and (Sheet *sheet, GList *expr_node_list,
 	      int eval_col, int eval_row, char **error_string)
 {
 	Value *result;
-	Sheet *sheet = (Sheet *) tsheet;
 
 	result = g_new (Value, 1);
 	result->type = VALUE_INTEGER;
@@ -158,11 +157,10 @@ callback_function_or (Sheet *sheet, Value *value,
 }
 
 static Value *
-gnumeric_or (void *tsheet, GList *expr_node_list,
+gnumeric_or (Sheet *sheet, GList *expr_node_list,
 	     int eval_col, int eval_row, char **error_string)
 {
 	Value *result;
-	Sheet *sheet = (Sheet *) tsheet;
 
 	result = g_new (Value, 1);
 	result->type = VALUE_INTEGER;
@@ -196,7 +194,7 @@ static char *help_if = {
 };
 
 static Value *
-gnumeric_if (void *tsheet, GList *expr_node_list,
+gnumeric_if (Sheet *sheet, GList *expr_node_list,
 	     int eval_col, int eval_row, char **error_string)
 {
 	ExprTree *expr;
@@ -211,7 +209,7 @@ gnumeric_if (void *tsheet, GList *expr_node_list,
 	}
 
 	/* Compute the if part */
-	value = eval_expr (tsheet, (ExprTree *) expr_node_list->data,
+	value = eval_expr (sheet, (ExprTree *) expr_node_list->data,
 			   eval_col, eval_row, error_string);
 	if (value == NULL)
 		return NULL;
@@ -236,7 +234,7 @@ gnumeric_if (void *tsheet, GList *expr_node_list,
 	}
 
 	/* Return the result */
-	return eval_expr (tsheet, (ExprTree *) expr, eval_col,
+	return eval_expr (sheet, (ExprTree *) expr, eval_col,
 			  eval_row, error_string);
 }
 

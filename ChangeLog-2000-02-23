@@ -1,3 +1,78 @@
+1999-04-29  Morten Welinder  <terra@diku.dk>
+
+	* src/expr.h (OPER_ANY_BINARY, OPER_ANY_UNARY): new convenience
+ 	macros.
+	(struct _Sheet): declare forward reference so we can use the right
+ 	types.
+	(CellRef, FunctionDefinition, expr_parse_string, expr_decode_tree,
+ 	eval_expr): use "struct _Sheet *".
+
+	* src/workbook.c (workbook_do_destroy): Carefully clean workbook
+ 	before deleting sheets.  Do things in the standard way.  Get rid
+ 	of clipboard leak.
+	(insert_cols_cmd): Fix name string.
+	(workbook_detach_sheet): New parameter "force".  All callers
+ 	changed.
+	(workbook_fixup_references, workbook_invalidate_references,
+ 	workbook_sheets): New functions.
+
+	* src/sheet.c (sheet_verify_selection_simple): Mark strings for
+ 	translation.
+	(sheet_insert_col): Fixup references to moved cells.
+	(sheet_delete_col, sheet_delete_row): Invalidate references to
+ 	deleted cells.
+
+	* src/sheet-autofill.c (fill_item_new): Fix copying of cell with
+	error.
+
+	* src/parser.y (yylex): "const" fixes.
+	(gnumeric_expr_parser): New function (to fix memory corruption and
+ 	leaks).
+
+	* src/fn-stat.c (i1mach): Make static.
+	(gnumeric_var, gnumeric_varp, gnumeric_stdev, gnumeric_stdevp,
+ 	gnumeric_rank, gnumeric_trimmean, gnumeric_covar, gnumeric_correl,
+ 	gnumeric_mode, gnumeric_harmean, gnumeric_geomean, gnumeric_count,
+ 	gnumeric_counta, gnumeric_average, gnumeric_min, gnumeric_max,
+ 	gnumeric_skew, gnumeric_kurt, gnumeric_avedev, gnumeric_devsq,
+ 	gnumeric_pearson, gnumeric_rsq, gnumeric_median, gnumeric_large,
+ 	gnumeric_small, gnumeric_ztest): Fix type.
+
+	* src/fn-math.c (gnumeric_fact, gnumeric_combin): Mark strings for
+ 	translation.
+	(gnumeric_sum, gnumeric_trunc): Fix type.
+
+	* src/fn-lookup.c (gnumeric_choose, gnumeric_column,
+ 	gnumeric_row): Fix type.
+
+	* src/fn-misc.c (gnumeric_iserror): Fix type.
+
+	* src/fn-sheet.c (gnumeric_selection): Fix type.
+
+	* src/fn-string.c (gnumeric_concatenate): Fix type.
+
+	* src/fn-logical.c (gnumeric_and, gnumeric_not, gnumeric_or,
+ 	gnumeric_if): Fix type.
+
+	* src/fn-financial.c (gnumeric_npv): Fix type.
+
+	* src/expr.c (expr_parse_string): Move in part to parser.y.
+  	Delete global variables to communicate.
+	(do_expr_tree_ref, do_expr_tree_unref, do_expr_decode_tree,
+ 	do_expr_tree_relocate): use OPER_ANY_BINARY and OPER_ANY_UNARY.
+	(function_call_with_values): Mark strings for translation.
+	(eval_expr, do_expr_decode_tree, expr_decode_tree): Fix type to
+ 	use "Sheet *" instead of "void *".
+	(do_expr_decode_tree): Free sum.
+	(expr_tree_invalidate_references, expr_tree_fixup_references): New
+ 	functions.  Not implemented yet.
+
+	* src/cell.c (cell_set_formula): "const" fix.
+	(cell_copy): Ref entered_string also if it exists.
+	(cell_relocate): Unlink cell from workbook list of cells.
+
+	* src/about.c (dialog_about): Add myself.  Update copyright.
+
 1999-04-29  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/fn-{math,sheet,logical}.c, src/func.[ch]: Moved logical

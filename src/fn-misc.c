@@ -26,7 +26,7 @@ static char *help_iserror = {
 };
 
 static Value *
-gnumeric_iserror (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+gnumeric_iserror (Sheet *sheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
 {
 	Value *v, *retval;
 	
@@ -34,7 +34,7 @@ gnumeric_iserror (void *tsheet, GList *expr_node_list, int eval_col, int eval_ro
 		*error_string = _("Argument mismatch");
 		return NULL;
 	}
-	v = eval_expr (tsheet, (ExprTree *) expr_node_list->data, eval_col, eval_row, error_string);
+	v = eval_expr (sheet, (ExprTree *) expr_node_list->data, eval_col, eval_row, error_string);
 	if (v == NULL)
 		retval = value_int (1);
 	else {

@@ -13,7 +13,6 @@
 #include "utils.h"
 #include "func.h"
 
-
 #if 0
 /* help template */
 static char *help_ = {
@@ -446,12 +445,12 @@ gnumeric_fact (struct FunctionDefinition *id,
 		i = argv [0]->v.v_int;
 		break;
 	default:
-		*error_string = "#NUM!";
+		*error_string = _("#NUM!");
 		return NULL;
 	}
 
 	if (i < 0){
-		*error_string = "#NUM!";
+		*error_string = _("#NUM!");
 		return NULL;
 	}
 	
@@ -499,7 +498,7 @@ gnumeric_combin (struct FunctionDefinition *id,
 		n = argv [0]->v.v_int;
 		k = argv [1]->v.v_int;
 	} else {
-		*error_string = "#NUM!";
+		*error_string = _("#NUM!");
 		return NULL;
 	}
 	
@@ -882,11 +881,10 @@ callback_function_sum (Sheet *sheet, Value *value,
 }
 
 Value *
-gnumeric_sum (void *tsheet, GList *expr_node_list,
+gnumeric_sum (Sheet *sheet, GList *expr_node_list,
 	      int eval_col, int eval_row, char **error_string)
 {
 	Value *result;
-	Sheet *sheet = (Sheet *) tsheet;
 
 	result = g_new (Value, 1);
 	result->type = VALUE_INTEGER;
@@ -1141,7 +1139,7 @@ static char *help_trunc = {
 	   "@SEEALSO=")
 };
 static Value *
-gnumeric_trunc (void *tsheet, GList *expr_node_list, 
+gnumeric_trunc (Sheet *sheet, GList *expr_node_list, 
 		int eval_col, int eval_row, char **error_string)
 {
 	Value *number;
@@ -1154,7 +1152,7 @@ gnumeric_trunc (void *tsheet, GList *expr_node_list,
 		return NULL;
 	}
 
-	number = eval_expr (tsheet, (ExprTree *) expr_node_list->data,
+	number = eval_expr (sheet, (ExprTree *) expr_node_list->data,
 			    eval_col, eval_row, error_string);
 	if (!number)
 		return NULL;
@@ -1165,7 +1163,7 @@ gnumeric_trunc (void *tsheet, GList *expr_node_list,
 	if (args == 2){
 		Value *value;
 
-		value = eval_expr (tsheet, 
+		value = eval_expr (sheet, 
 				   (ExprTree *) expr_node_list->next->data,
 				   eval_col, eval_row, error_string);
 		if (!value){

@@ -426,10 +426,9 @@ callback_function_npv (Sheet *sheet, Value *value, char **error_string, void *cl
 }
 
 static Value *
-gnumeric_npv (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+gnumeric_npv (Sheet *sheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
 {
         financial_npv_t p;
-        Sheet *sheet = (Sheet *) tsheet;
 
 	p.first = TRUE;
 	p.sum   = 0.0;

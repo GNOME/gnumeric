@@ -8,6 +8,7 @@
 #include <glib.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdio.h>
 #include "symbol.h"
 
 SymbolTable *global_symbol_table;

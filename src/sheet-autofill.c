@@ -215,9 +215,6 @@ fill_item_new (Cell *cell)
 	if (!cell)
 		return fi;
 
-	value = cell->value;
-	value_type = value->type;
-	
 	if (cell->parsed_node){
 		fi->type = FILL_FORMULA;
 		fi->v.formula = cell->parsed_node;
@@ -225,6 +222,12 @@ fill_item_new (Cell *cell)
 		return fi;
 	}
 
+	value = cell->value;
+	if (!value)
+		return fi;
+
+	value_type = value->type;
+	
 	if (value_type == VALUE_INTEGER || value_type == VALUE_FLOAT){
 		fi->type    = FILL_NUMBER;
 		fi->v.value = value;

@@ -28,7 +28,7 @@ static char *help_choose = {
 };
 
 static Value *
-gnumeric_choose (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+gnumeric_choose (Sheet *sheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
 {
 	int     index;
 	int     argc;
@@ -42,7 +42,7 @@ gnumeric_choose (void *tsheet, GList *expr_node_list, int eval_col, int eval_row
 		*error_string = _("#ARG!");
 		return NULL;
 	}
-	v = eval_expr (tsheet, l->data, eval_col, eval_row, error_string);
+	v = eval_expr (sheet, l->data, eval_col, eval_row, error_string);
 	if (!v) return NULL;
 	if (v->type != VALUE_INTEGER &&
 	    v->type != VALUE_FLOAT) {
@@ -55,7 +55,7 @@ gnumeric_choose (void *tsheet, GList *expr_node_list, int eval_col, int eval_row
 	while (l) {
 		index--;
 		if (!index)
-			return eval_expr (tsheet, l->data, eval_col, eval_row, error_string);
+			return eval_expr (sheet, l->data, eval_col, eval_row, error_string);
 		l = g_list_next (l);
 	}
 	*error_string = _("#VALUE!");
@@ -306,23 +306,23 @@ static char *help_column = {
 
 /* FIXME: Needs Array support to be enven slightly meaningful */
 static Value *
-gnumeric_column (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+gnumeric_column (Sheet *sheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
 {
 	Value *v;
 
 	if (!expr_node_list || !expr_node_list->data)
 		return value_int (eval_col+1);
 
-	v = eval_expr (tsheet, expr_node_list->data, eval_col, eval_row, error_string);
+	v = eval_expr (sheet, expr_node_list->data, eval_col, eval_row, error_string);
 	if (!v)
 		return NULL;
 
 	switch (v->type){
 	case VALUE_CELLRANGE:
-		*error_string = "Arrays not yet supported";
+		*error_string = _("Arrays not yet supported");
 		return NULL;
 	case VALUE_ARRAY:
-		*error_string = _("Unimplemented\n");
+		*error_string = _("Unimplemented");
 		return NULL;
 	default:
 		*error_string = _("#VALUE!");
@@ -405,23 +405,23 @@ static char *help_row = {
 
 /* FIXME: Needs Array support to be enven slightly meaningful */
 static Value *
-gnumeric_row (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+gnumeric_row (Sheet *sheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
 {
 	Value *v;
 
 	if (!expr_node_list || !expr_node_list->data)
 		return value_int (eval_row+1);
 
-	v = eval_expr (tsheet, expr_node_list->data, eval_col, eval_row, error_string);
+	v = eval_expr (sheet, expr_node_list->data, eval_col, eval_row, error_string);
 	if (!v)
 		return NULL;
 
 	switch (v->type){
 	case VALUE_CELLRANGE:
-		*error_string = "Arrays not yet supported";
+		*error_string = _("Arrays not yet supported");
 		return NULL;
 	case VALUE_ARRAY:
-		*error_string = _("Unimplemented\n");
+		*error_string = _("Unimplemented");
 		return NULL;
 	default:
 		*error_string = _("#VALUE!");
@@ -459,7 +459,3 @@ FunctionDefinition lookup_functions [] = {
 	{ "vlookup",   "?Af|b","val,range,col_idx,approx", &help_vlookup,  NULL, gnumeric_vlookup },
 	{ NULL, NULL }
 };
-
-
-
-

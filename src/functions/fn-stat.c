@@ -176,7 +176,8 @@ pgamma(double x, double p, double scale)
  * (src/nmath/i1match.c) written and copyrighted (1998) by Ross Ihaka.
  * Modified for Gnumeric by Jukka-Pekka Iivonen
  */
-int i1mach(int i)
+static int
+i1mach (int i)
 {
     switch(i) {
     case  1:
@@ -650,11 +651,10 @@ static char *help_varp = {
 };
 
 static Value *
-gnumeric_varp (void *tsheet, GList *expr_node_list, int eval_col,
+gnumeric_varp (Sheet *sheet, GList *expr_node_list, int eval_col,
 	       int eval_row, char **error_string)
 {
 	stat_closure_t cl;
-	Sheet *sheet = (Sheet *) tsheet;
 	float_t ans, num;
 
 	setup_stat_closure (&cl);
@@ -685,11 +685,10 @@ static char *help_var = {
 };
 
 static Value *
-gnumeric_var (void *tsheet, GList *expr_node_list, int eval_col,
+gnumeric_var (Sheet *sheet, GList *expr_node_list, int eval_col,
 	      int eval_row, char **error_string)
 {
 	stat_closure_t cl;
-	Sheet *sheet = (Sheet *) tsheet;
 	float_t ans, num;
 
 	setup_stat_closure (&cl);
@@ -716,10 +715,10 @@ static char *help_stdev = {
 };
 
 static Value *
-gnumeric_stdev (void *tsheet, GList *expr_node_list, int eval_col,
+gnumeric_stdev (Sheet *sheet, GList *expr_node_list, int eval_col,
 		int eval_row, char **error_string)
 {
-	Value *ans = gnumeric_var (tsheet, expr_node_list, eval_col, eval_row, error_string);
+	Value *ans = gnumeric_var (sheet, expr_node_list, eval_col, eval_row, error_string);
 
 	if (ans && (ans->type == VALUE_FLOAT))
 		ans->v.v_float = sqrt (ans->v.v_float);
@@ -740,10 +739,10 @@ static char *help_stdevp = {
 };
 
 static Value *
-gnumeric_stdevp (void *tsheet, GList *expr_node_list, int eval_col,
+gnumeric_stdevp (Sheet *sheet, GList *expr_node_list, int eval_col,
 		 int eval_row, char **error_string)
 {
-	Value *ans = gnumeric_varp (tsheet, expr_node_list, eval_col, eval_row, error_string);
+	Value *ans = gnumeric_varp (sheet, expr_node_list, eval_col, eval_row, error_string);
 
 	if (ans && (ans->type == VALUE_FLOAT))
 		ans->v.v_float = sqrt (ans->v.v_float);
@@ -867,11 +866,10 @@ callback_function_rank (Sheet *sheet, Value *value,
 }
 
 static Value *
-gnumeric_rank (void *tsheet, GList *expr_node_list,
+gnumeric_rank (Sheet *sheet, GList *expr_node_list,
 	       int eval_col, int eval_row, char **error_string)
 {
 	stat_rank_t p;
-	Sheet       *sheet = (Sheet *) tsheet;
 	GSList      *list;
 	int         order, rank;
 
@@ -966,11 +964,10 @@ callback_function_trimmean (Sheet *sheet, Value *value,
 }
 
 static Value *
-gnumeric_trimmean (void *tsheet, GList *expr_node_list,
+gnumeric_trimmean (Sheet *sheet, GList *expr_node_list,
 		   int eval_col, int eval_row, char **error_string)
 {
 	stat_trimmean_t p;
-	Sheet       *sheet = (Sheet *) tsheet;
 	GSList      *list;
 	int         trim_count, n, count;
 	float_t     sum;
@@ -1085,18 +1082,17 @@ callback_function_covar (Sheet *sheet, Value *value,
 }
 
 static Value *
-gnumeric_covar (void *tsheet, GList *expr_node_list,
+gnumeric_covar (Sheet *sheet, GList *expr_node_list,
 		int eval_col, int eval_row, char **error_string)
 {
 	stat_covar_t pr;
-	Sheet *sheet = (Sheet *) tsheet;
 	float_t sum, mean1, mean2;
 	int     count;
 	GSList  *list1, *list2;
 
 	pr.first   = TRUE;
 	count = value_get_as_int (gnumeric_count
-	        (tsheet, expr_node_list, eval_col, eval_row, error_string));
+	        (sheet, expr_node_list, eval_col, eval_row, error_string));
 
 	if (count % 2 > 0){
 		*error_string = _("#NUM!");
@@ -1211,18 +1207,17 @@ callback_function_correl (Sheet *sheet, Value *value,
 }
 
 static Value *
-gnumeric_correl (void *tsheet, GList *expr_node_list,
+gnumeric_correl (Sheet *sheet, GList *expr_node_list,
 		 int eval_col, int eval_row, char **error_string)
 {
 	stat_correl_t pr;
-	Sheet *sheet = (Sheet *) tsheet;
 	float_t sum, tmp;
 	int     count;
 	GSList  *list1, *list2;
 
 	pr.first   = TRUE;
 	count = value_get_as_int(gnumeric_count
-	        (tsheet, expr_node_list, eval_col, eval_row, error_string));
+	        (sheet, expr_node_list, eval_col, eval_row, error_string));
 	if (count % 2 > 0){
 		*error_string = _("#NUM!");
 		return NULL;
@@ -1592,12 +1587,11 @@ callback_function_mode (Sheet *sheet, Value *value,
 }
 
 static Value *
-gnumeric_mode (void *tsheet, GList *expr_node_list,
+gnumeric_mode (Sheet *sheet, GList *expr_node_list,
 	       int eval_col, int eval_row, char **error_string)
 {
        GSList *tmp;
        stat_mode_t pr;
-       Sheet *sheet = (Sheet *) tsheet;
 
        pr.first = TRUE;
 
@@ -1626,11 +1620,10 @@ gnumeric_mode (void *tsheet, GList *expr_node_list,
 }
 
 static Value *
-gnumeric_harmean (void *tsheet, GList *expr_node_list,
+gnumeric_harmean (Sheet *sheet, GList *expr_node_list,
 		  int eval_col, int eval_row, char **error_string)
 {
 	stat_inv_sum_t pr;
-	Sheet *sheet = (Sheet *) tsheet;
 	float_t ans, num;
 
 	pr.first = TRUE;
@@ -1689,11 +1682,10 @@ callback_function_stat_prod (Sheet *sheet, Value *value,
 }
 
 static Value *
-gnumeric_geomean (void *tsheet, GList *expr_node_list,
+gnumeric_geomean (Sheet *sheet, GList *expr_node_list,
 		  int eval_col, int eval_row, char **error_string)
 {
 	stat_prod_t pr;
-	Sheet *sheet = (Sheet *) tsheet;
 	float_t ans, num;
 
 	pr.first   = TRUE;
@@ -1744,11 +1736,10 @@ callback_function_count (Sheet *sheet, Value *value,
 }
 
 Value *
-gnumeric_count (void *tsheet, GList *expr_node_list,
+gnumeric_count (Sheet *sheet, GList *expr_node_list,
 		int eval_col, int eval_row, char **error_string)
 {
 	Value *result;
-	Sheet *sheet = (Sheet *) tsheet;
 
 	result = g_new (Value, 1);
 	result->type = VALUE_INTEGER;
@@ -1792,12 +1783,11 @@ closure)
         return TRUE;
 }
 
-Value *
-gnumeric_counta (void *tsheet, GList *expr_node_list,
+static Value *
+gnumeric_counta (Sheet *sheet, GList *expr_node_list,
 		 int eval_col, int eval_row, char **error_string)
 {
         Value *result;
-        Sheet *sheet = (Sheet *) tsheet;
 
         result = g_new (Value, 1);
         result->type = VALUE_INTEGER;
@@ -1823,19 +1813,19 @@ static char *help_average = {
 };
 
 Value *
-gnumeric_average (void *tsheet, GList *expr_node_list,
+gnumeric_average (Sheet *sheet, GList *expr_node_list,
 		  int eval_col, int eval_row, char **error_string)
 {
 	Value *result;
 	Value *sum, *count;
 	double c;
 	
-	sum = gnumeric_sum (tsheet, expr_node_list,
+	sum = gnumeric_sum (sheet, expr_node_list,
 			    eval_col, eval_row, error_string);
 	if (!sum)
 		return NULL;
 	
-	count = gnumeric_count (tsheet, expr_node_list,
+	count = gnumeric_count (sheet, expr_node_list,
 				eval_col, eval_row, error_string);
 	if (!count){
 		value_release (sum);
@@ -1845,7 +1835,7 @@ gnumeric_average (void *tsheet, GList *expr_node_list,
 	c = value_get_as_double (count);
 	
 	if (c == 0.0){
-		*error_string = "Division by zero";
+		*error_string = _("#DIV/0!");
 		value_release (sum);
 		return NULL;
 	}
@@ -1946,11 +1936,10 @@ callback_function_min_max (Sheet *sheet, Value *value,
 }
 
 static Value *
-gnumeric_min (void *tsheet, GList *expr_node_list,
+gnumeric_min (Sheet *sheet, GList *expr_node_list,
 	      int eval_col, int eval_row, char **error_string)
 {
 	min_max_closure_t closure;
-	Sheet *sheet = (Sheet *) tsheet;
 
 	closure.operation = OPER_MIN;
 	closure.found  = 0;
@@ -1966,11 +1955,10 @@ gnumeric_min (void *tsheet, GList *expr_node_list,
 }
 
 static Value *
-gnumeric_max (void *tsheet, GList *expr_node_list,
+gnumeric_max (Sheet *sheet, GList *expr_node_list,
 	      int eval_col, int eval_row, char **error_string)
 {
 	min_max_closure_t closure;
-	Sheet *sheet = (Sheet *) tsheet;
 
 	closure.operation = OPER_MAX;
 	closure.found  = 0;
@@ -2033,19 +2021,18 @@ callback_function_skew_sum (Sheet *sheet, Value *value,
 }
 
 static Value *
-gnumeric_skew (void *tsheet, GList *expr_node_list,
+gnumeric_skew (Sheet *sheet, GList *expr_node_list,
 	       int eval_col, int eval_row, char **error_string)
 {
 	stat_skew_sum_t pr;
-	Sheet *sheet = (Sheet *) tsheet;
 	float_t num;
 
 	pr.first   = TRUE;
 
 	pr.mean = value_get_as_double(gnumeric_average
-	        (tsheet, expr_node_list, eval_col, eval_row, error_string));
+	        (sheet, expr_node_list, eval_col, eval_row, error_string));
 	pr.stddev = value_get_as_double(gnumeric_stdev
-	        (tsheet, expr_node_list, eval_col, eval_row, error_string));
+	        (sheet, expr_node_list, eval_col, eval_row, error_string));
 	pr.num  = 0;
 	pr.sum  = 0.0;
 
@@ -3004,18 +2991,17 @@ callback_function_kurt_sum (Sheet *sheet, Value *value,
 }
 
 static Value *
-gnumeric_kurt (void *tsheet, GList *expr_node_list,
+gnumeric_kurt (Sheet *sheet, GList *expr_node_list,
 	       int eval_col, int eval_row, char **error_string)
 {
         stat_kurt_sum_t pr;
-	Sheet *sheet = (Sheet *) tsheet;
 	float_t n, d, num, dem;
 
 	pr.first = TRUE;
 	pr.mean = value_get_as_double(gnumeric_average
-                (tsheet, expr_node_list, eval_col, eval_row, error_string));
+                (sheet, expr_node_list, eval_col, eval_row, error_string));
 	pr.stddev = value_get_as_double(gnumeric_stdev
-                (tsheet, expr_node_list, eval_col, eval_row, error_string));
+                (sheet, expr_node_list, eval_col, eval_row, error_string));
 	pr.num  = 0;
 	pr.sum  = 0.0;
 
@@ -3084,18 +3070,17 @@ callback_function_stat_avedev_sum (Sheet *sheet, Value *value,
 }
 
 static Value *
-gnumeric_avedev (void *tsheet, GList *expr_node_list,
+gnumeric_avedev (Sheet *sheet, GList *expr_node_list,
 		 int eval_col, int eval_row, char **error_string)
 {
         stat_avedev_sum_t pr;
-        Sheet *sheet = (Sheet *) tsheet;
         float_t ans, num;
 
         pr.first = TRUE;
         pr.num   = 0;
         pr.sum   = 0.0;
         pr.mean  = value_get_as_double(gnumeric_average
-	 			       (tsheet, expr_node_list,
+	 			       (sheet, expr_node_list,
 				        eval_col, eval_row, error_string));
 
 	function_iterate_argument_values (sheet, callback_function_stat_avedev_sum,
@@ -3153,16 +3138,15 @@ callback_function_devsq_sum (Sheet *sheet, Value *value,
 }
 
 static Value *
-gnumeric_devsq (void *tsheet, GList *expr_node_list,
+gnumeric_devsq (Sheet *sheet, GList *expr_node_list,
 		int eval_col, int eval_row, char **error_string)
 {
         stat_devsq_sum_t pr;
-        Sheet *sheet = (Sheet *) tsheet;
 
         pr.first = TRUE;
 
         pr.mean = value_get_as_double(gnumeric_average
-                (tsheet, expr_node_list, eval_col, eval_row, error_string));
+                (sheet, expr_node_list, eval_col, eval_row, error_string));
         pr.num  = 0;
         pr.sum  = 0.0;
 
@@ -3266,18 +3250,17 @@ static char *help_pearson = {
 };
 
 static Value *
-gnumeric_pearson (void *tsheet, GList *expr_node_list,
+gnumeric_pearson (Sheet *sheet, GList *expr_node_list,
 		  int eval_col, int eval_row, char **error_string)
 {
 	stat_correl_t pr;
-	Sheet *sheet = (Sheet *) tsheet;
 	float_t sum;
 	int     count;
 	GSList  *list1, *list2;
 
 	pr.first   = TRUE;
 	count = value_get_as_int(gnumeric_count
-	        (tsheet, expr_node_list, eval_col, eval_row, error_string));
+	        (sheet, expr_node_list, eval_col, eval_row, error_string));
 	if (count % 2 > 0){
 		*error_string = _("#NUM!");
 		return NULL;
@@ -3332,18 +3315,17 @@ static char *help_rsq = {
 };
 
 static Value *
-gnumeric_rsq (void *tsheet, GList *expr_node_list,
+gnumeric_rsq (Sheet *sheet, GList *expr_node_list,
 	      int eval_col, int eval_row, char **error_string)
 {
 	stat_correl_t pr;
-	Sheet *sheet = (Sheet *) tsheet;
 	float_t sum, r;
 	int     count;
 	GSList  *list1, *list2;
 
 	pr.first   = TRUE;
 	count = value_get_as_int(gnumeric_count
-	        (tsheet, expr_node_list, eval_col, eval_row, error_string));
+	        (sheet, expr_node_list, eval_col, eval_row, error_string));
 	if (count % 2 > 0){
 		*error_string = _("#NUM!");
 		return NULL;
@@ -3433,11 +3415,10 @@ callback_function_median (Sheet *sheet, Value *value,
 }
 
 static Value *
-gnumeric_median (void *tsheet, GList *expr_node_list,
+gnumeric_median (Sheet *sheet, GList *expr_node_list,
 		 int eval_col, int eval_row, char **error_string)
 {
 	stat_median_t   p;
-	Sheet           *sheet = (Sheet *) tsheet;
 	GSList          *list;
 	int             median_ind, n;
 	float_t         median;
@@ -3491,11 +3472,10 @@ static char *help_large = {
 };
 
 static Value *
-gnumeric_large (void *tsheet, GList *expr_node_list,
+gnumeric_large (Sheet *sheet, GList *expr_node_list,
 		int eval_col, int eval_row, char **error_string)
 {
 	stat_trimmean_t p;
-	Sheet           *sheet = (Sheet *) tsheet;
 	GSList          *list;
 	int             n, count, k;
 	float_t         r;
@@ -3558,11 +3538,10 @@ static char *help_small = {
 };
 
 static Value *
-gnumeric_small (void *tsheet, GList *expr_node_list, 
+gnumeric_small (Sheet *sheet, GList *expr_node_list, 
 		int eval_col, int eval_row, char **error_string)
 {
 	stat_trimmean_t p;
-	Sheet           *sheet = (Sheet *) tsheet;
 	GSList          *list;
 	int             n, count, k;
 	float_t         r;
@@ -3858,11 +3837,10 @@ callback_function_ztest (Sheet *sheet, Value *value,
 }
 
 static Value *
-gnumeric_ztest (void *tsheet, GList *expr_node_list,
+gnumeric_ztest (Sheet *sheet, GList *expr_node_list,
 		int eval_col, int eval_row, char **error_string)
 {
 	stat_ztest_t p;
-	Sheet        *sheet = (Sheet *) tsheet;
 	int          status;
 	float_t      stdev;
 

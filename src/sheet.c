@@ -2488,8 +2488,9 @@ sheet_verify_selection_simple (Sheet *sheet, const char *command_name)
 		return TRUE;
 
 	msg = g_strconcat (
-		"The command `", command_name,
-		"' can not be performed with multiple selections", NULL);
+		_("The command `"),
+		command_name,
+		_("' can not be performed with multiple selections"), NULL);
 	gnumeric_notice (sheet->workbook, GNOME_MESSAGE_BOX_ERROR, msg);
 	g_free (msg);
 	
@@ -2504,7 +2505,7 @@ sheet_selection_copy (Sheet *sheet)
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 	g_return_val_if_fail (sheet->selections, FALSE);
 
-	if (!sheet_verify_selection_simple (sheet, "copy"))
+	if (!sheet_verify_selection_simple (sheet, _("copy")))
 		return FALSE;
 	
 	ss = sheet->selections->data;
@@ -2529,7 +2530,7 @@ sheet_selection_cut (Sheet *sheet)
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 	g_return_val_if_fail (sheet->selections, FALSE);
 
-	if (!sheet_verify_selection_simple (sheet, "cut"))
+	if (!sheet_verify_selection_simple (sheet, _("cut")))
 		return FALSE;
 
 	ss = sheet->selections->data;
@@ -2578,7 +2579,7 @@ sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row, int paste_flags
 	content = find_workbook_with_clipboard (sheet);
 	
 	if (content)
-		if (!sheet_verify_selection_simple (sheet, _("Paste")))
+		if (!sheet_verify_selection_simple (sheet, _("paste")))
 			return;
 
 	clipboard_paste_region (content, sheet, dest_col, dest_row, paste_flags, time);
@@ -2663,6 +2664,8 @@ sheet_insert_col (Sheet *sheet, int col, int count)
 		cur_col = cur_col->prev;
 	} while (cur_col);
 
+	workbook_fixup_references (sheet->workbook, col, 0, count, 0);
+
 	/* 2. Recompute dependencies */
 	deps = region_get_dependencies (sheet, col, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
 	cell_queue_recalc_list (deps);
@@ -2691,6 +2694,9 @@ sheet_delete_col (Sheet *sheet, int col, int count)
 	/* Is there any work to do? */
 	if (g_list_length (sheet->cols_info) == 0)
 		return;
+
+	/* Invalidate all references to cells being deleted.  */
+	workbook_invalidate_references (sheet->workbook, col, 0, count, 0);
 
 	/* Assemble the list of columns to destroy */
 	destroy_list = NULL;
@@ -2967,6 +2973,9 @@ sheet_delete_row (Sheet *sheet, int row, int count)
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (count != 0);
+
+	/* Invalidate all references to cells being deleted.  */
+	workbook_invalidate_references (sheet->workbook, 0, row, 0, count);
 
 	/* 1. Remove cells from hash tables and grab all dangling rows */
 	cell_store = NULL;

@@ -85,15 +85,15 @@ void           tokenized_help_destroy (TokenizedHelp *tok) ;
 float_t combin (int n, int k);
 float_t fact   (int n);
 
-Value *gnumeric_average     (void *tsheet, GList *expr_node_list,
+Value *gnumeric_average     (Sheet *sheet, GList *expr_node_list,
 			     int eval_col, int eval_row,
 			     char **error_string);
 
-Value *gnumeric_count       (void *tsheet, GList *expr_node_list,
+Value *gnumeric_count       (Sheet *sheet, GList *expr_node_list,
 			     int eval_col, int eval_row,
 			     char **error_string);
 
-Value *gnumeric_sum         (void *tsheet, GList *expr_node_list,
+Value *gnumeric_sum         (Sheet *sheet, GList *expr_node_list,
 			     int eval_col, int eval_row,
 			     char **error_string);
 

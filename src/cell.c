@@ -40,7 +40,7 @@ void
 cell_set_formula (Cell *cell, const char *text)
 {
 	char *error_msg = _("ERROR");
-	char *desired_format = NULL;
+	const char *desired_format = NULL;
 	
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
@@ -64,7 +64,7 @@ cell_set_formula (Cell *cell, const char *text)
 		if (cell->flags & CELL_ERROR)
 			cell->flags &= ~CELL_ERROR;
 	}
-	
+
 	if (desired_format && strcmp (cell->style->format->format, "General") == 0){
 		style_format_unref (cell->style->format);
 		cell->style->format = style_format_new (desired_format);
@@ -754,12 +754,15 @@ cell_copy (const Cell *cell)
 	new_cell->col   = NULL;
 	new_cell->row   = NULL;
 	new_cell->sheet = NULL;
-	
+
 	/* now copy propertly the rest */
 	if (new_cell->parsed_node)
 		expr_tree_ref   (new_cell->parsed_node);
 	string_ref      (new_cell->text);
-	
+
+	if (new_cell->entered_text)
+		string_ref (new_cell->entered_text);
+
 	new_cell->style = style_duplicate (new_cell->style);
 
 	/*
@@ -793,7 +796,9 @@ cell_destroy (Cell *cell)
 	cell_comment_destroy (cell);
 
 	if (cell->text)
-		string_unref  (cell->text);
+		string_unref (cell->text);
+	if (cell->entered_text)
+		string_unref (cell->entered_text);
 
 	style_destroy (cell->style);
 
@@ -955,6 +960,7 @@ cell_relocate (Cell *cell, int col_diff, int row_diff)
 
 	/* 2. If the cell contains a formula, relocate the formula */
 	if (cell->parsed_node){
+		sheet_cell_formula_unlink (cell);
 		if (col_diff != 0 || row_diff != 0){
 			ExprTree *new_tree;
 			char *text, *formula;
@@ -964,6 +970,7 @@ cell_relocate (Cell *cell, int col_diff, int row_diff)
 			expr_tree_unref (cell->parsed_node);
 			cell->parsed_node = new_tree;
 		}
+		/* The follwing call also relinks the cell.  */
 		cell_formula_changed (cell);
 	}
 	

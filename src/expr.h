@@ -1,6 +1,9 @@
 #ifndef GNUMERIC_EXPR_H
 #define GNUMERIC_EXPR_H
 
+/* Forward reference.  We should probably just include sheet.h to get this.  */
+struct _Sheet;
+
 typedef enum {
 	OPER_EQUAL,		/* Compare value equal */
 	OPER_GT,		/* Compare value greather than  */
@@ -23,6 +26,13 @@ typedef enum {
 	OPER_NEG,		/* Sign inversion */
 } Operation;
 
+/* Shorthands for case statements.  Easy to read, easy to maintain.  */
+#define OPER_ANY_BINARY OPER_EQUAL: case OPER_GT: case OPER_LT: case OPER_GTE: \
+	case OPER_LTE: case OPER_NOT_EQUAL: \
+	case OPER_ADD: case OPER_SUB: case OPER_MULT: case OPER_DIV: \
+	case OPER_EXP: case OPER_CONCAT
+#define OPER_ANY_UNARY OPER_NEG
+
 typedef enum {
 	VALUE_STRING,
 	VALUE_INTEGER,
@@ -32,7 +42,7 @@ typedef enum {
 } ValueType;
 
 typedef struct {
-	void *sheet;
+	struct _Sheet *sheet;
 	int   col, row;
 
 	unsigned int col_relative:1;
@@ -125,36 +135,41 @@ struct FunctionDefinition {
 	char  *args;
 	char  *named_arguments;
 	char  **help;
-	Value *(*expr_fn)(void *sheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string);
+	Value *(*expr_fn)(struct _Sheet *sheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string);
 	
 	Value *(*fn)(struct FunctionDefinition *func_def, Value *argv [], char **error_string);
 };
 
 typedef struct FunctionDefinition FunctionDefinition;
 
-/* For communication with yyparse */
-extern const char     *parser_expr;
-extern char     *parser_desired_format;
-extern ParseErr  parser_error;
-extern ExprTree *parser_result;
-extern void     *parser_sheet;
-extern int       parser_col, parser_row;
-
 void        cell_get_abs_col_row (const CellRef *cell_ref,
 				  int eval_col, int eval_row,
 				  int *col, int *row);
 
-ExprTree   *expr_parse_string    (const char *expr, void *sheet, int col, int row,
-				  char **desired_format, char **error_msg);
+ExprTree   *expr_parse_string    (const char *expr, struct _Sheet *sheet, int col, int row,
+				  const char **desired_format, char **error_msg);
+/* In parser.y  */
+ParseErr    gnumeric_expr_parser (const char *expr, struct _Sheet *sheet,
+				  int col, int row, const char **desired_format,
+				  ExprTree **tree);
+
 ExprTree   *expr_tree_duplicate  (ExprTree *expr);
 ExprTree   *expr_tree_relocate   (ExprTree *expr, int col_diff, int row_diff);
-char       *expr_decode_tree     (ExprTree *tree, void *sheet,
+char       *expr_decode_tree     (ExprTree *tree, struct _Sheet *sheet,
 				  int col, int row);
 
 void        expr_tree_ref        (ExprTree *tree);
 void        expr_tree_unref      (ExprTree *tree);
 
-Value      *eval_expr            (void *asheet, ExprTree *tree,
+ExprTree   *expr_tree_invalidate_references (ExprTree *src, struct _Sheet *sheet,
+					     int col, int row,
+					     int colcount, int rowcount);
+
+ExprTree   *expr_tree_fixup_references (ExprTree *src, struct _Sheet *sheet,
+					int col, int row,
+					int coldelta, int rowdelta);
+
+Value      *eval_expr            (struct _Sheet *sheet, ExprTree *tree,
 				  int  col, int row,
 				  char **error_string);
 
@@ -184,8 +199,6 @@ Value      *value_float          (float_t f);
 Value      *value_int            (int i);
 Value      *value_str            (char *str);
 	
-int         yyparse              (void);
-
 /* Setup of the symbol table */
 void        functions_init       (void);
 void        constants_init       (void);
