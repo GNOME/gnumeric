@@ -1311,7 +1311,7 @@ msgstr "Fortryd rydning"
 
 #. FIXME?
 #. TODO : Something more descriptive ? maybe the range name
-#: src/commands.c:1113 src/sheet.c:2357
+#: src/commands.c:1113 src/sheet.c:2358
 msgid "Clear"
 msgstr "Ryd"
 
@@ -2358,7 +2358,7 @@ msgstr "allerede defineret i arbejdsbog"
 msgid "circular reference"
 msgstr "cirkulær henvisning"
 
-#: src/expr-name.c:319
+#: src/expr-name.c:322
 msgid "Builtin"
 msgstr "Indbygget"
 
@@ -8564,9 +8564,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(a)\n"
-"@DESCRIPTION=INT function rounds @a now to the nearest integer where "
-"`nearest' implies being closer to zero. INT is equivalent to FLOOR(a) for @a "
-">= 0, and CEIL(a) for @a < 0. This function is Excel compatible. \n"
+"@DESCRIPTION=The INT function returns the largest integer that is not bigger "
+"than its argument. This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "INT(7.2) equals 7.\n"
 "INT(-5.5) equals -6.\n"
@@ -8575,16 +8574,15 @@ msgid ""
 msgstr ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(a)\n"
-"@DESCRIPTION=INT-funktionen runder @a af til nærmeste heltal, der 'nærmeste' "
-"betyder nærmere nul. INT er ækvivalent til FLOOR(a) for @a >=0, og CEIL(a) "
-"for @a < 0. Denne funktion er Excel kompatibel.  \n"
+"@DESCRIPTION=INT-funktionen returnere det største heltal som ikke er større "
+"dets argument. Denne funktion er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "INT(7.2) er lig 7.\n"
-"INT(-5.5) er lig -5.\n"
+"INT(-5.5) er lig -6.\n"
 "\n"
 "@SEEALSO=FLOOR, CEIL, ABS"
 
-#: src/functions/fn-math.c:982
+#: src/functions/fn-math.c:980
 msgid ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x[,base])\n"
@@ -8608,7 +8606,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LN, LOG2, LOG10"
 
-#: src/functions/fn-math.c:1021
+#: src/functions/fn-math.c:1019
 msgid ""
 "@FUNCTION=LN\n"
 "@SYNTAX=LN(x)\n"
@@ -8628,7 +8626,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
-#: src/functions/fn-math.c:1051
+#: src/functions/fn-math.c:1049
 msgid ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
@@ -8650,7 +8648,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP"
 
-#: src/functions/fn-math.c:1085
+#: src/functions/fn-math.c:1083
 msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
@@ -8670,7 +8668,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP, LOG10, LOG"
 
-#: src/functions/fn-math.c:1113
+#: src/functions/fn-math.c:1111
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
@@ -8690,7 +8688,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP, LOG2, LOG"
 
-#: src/functions/fn-math.c:1142
+#: src/functions/fn-math.c:1140
 msgid ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
@@ -8713,7 +8711,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INT,FLOOR,CEIL"
 
-#: src/functions/fn-math.c:1190
+#: src/functions/fn-math.c:1188
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -8733,7 +8731,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PI,DEGREES"
 
-#: src/functions/fn-math.c:1212
+#: src/functions/fn-math.c:1210
 msgid ""
 "@FUNCTION=RAND\n"
 "@SYNTAX=RAND()\n"
@@ -8753,7 +8751,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDBETWEEN"
 
-#: src/functions/fn-math.c:1235
+#: src/functions/fn-math.c:1233
 msgid ""
 "@FUNCTION=RandExp\n"
 "@SYNTAX=RandExp(b)\n"
@@ -8771,7 +8769,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
-#: src/functions/fn-math.c:1258
+#: src/functions/fn-math.c:1256
 msgid ""
 "@FUNCTION=RandPoisson\n"
 "@SYNTAX=RandPoisson(lambda)\n"
@@ -8789,7 +8787,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
-#: src/functions/fn-math.c:1284
+#: src/functions/fn-math.c:1282
 msgid ""
 "@FUNCTION=RandBinom\n"
 "@SYNTAX=RandBinom(p,trials)\n"
@@ -8811,7 +8809,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
-#: src/functions/fn-math.c:1314
+#: src/functions/fn-math.c:1312
 msgid ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p,failures)\n"
@@ -8835,7 +8833,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
-#: src/functions/fn-math.c:1345
+#: src/functions/fn-math.c:1343
 msgid ""
 "@FUNCTION=RandBernoulli\n"
 "@SYNTAX=RandBernoulli(p)\n"
@@ -8855,7 +8853,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
-#: src/functions/fn-math.c:1373
+#: src/functions/fn-math.c:1371
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -8875,7 +8873,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: src/functions/fn-math.c:1396
+#: src/functions/fn-math.c:1394
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -8897,7 +8895,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
-#: src/functions/fn-math.c:1419
+#: src/functions/fn-math.c:1417
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -8919,7 +8917,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POW"
 
-#: src/functions/fn-math.c:1447
+#: src/functions/fn-math.c:1445
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -8943,7 +8941,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE, COUNT"
 
-#: src/functions/fn-math.c:1477
+#: src/functions/fn-math.c:1475
 msgid ""
 "@FUNCTION=SUMA\n"
 "@SYNTAX=SUMA(value1, value2, ...)\n"
@@ -8973,7 +8971,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE, SUM, COUNT"
 
-#: src/functions/fn-math.c:1509
+#: src/functions/fn-math.c:1507
 msgid ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(value1, value2, ...)\n"
@@ -8997,7 +8995,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 
-#: src/functions/fn-math.c:1540
+#: src/functions/fn-math.c:1538
 msgid ""
 "@FUNCTION=MULTINOMIAL\n"
 "@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
@@ -9018,7 +9016,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM"
 
-#: src/functions/fn-math.c:1600
+#: src/functions/fn-math.c:1598
 msgid ""
 "@FUNCTION=PRODUCT\n"
 "@SYNTAX=PRODUCT(value1, value2, ...)\n"
@@ -9040,7 +9038,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM, COUNT, G_PRODUCT"
 
-#: src/functions/fn-math.c:1638
+#: src/functions/fn-math.c:1636
 msgid ""
 "@FUNCTION=G_PRODUCT\n"
 "@SYNTAX=G_PRODUCT(value1, value2, ...)\n"
@@ -9062,7 +9060,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 
-#: src/functions/fn-math.c:1666
+#: src/functions/fn-math.c:1664
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -9082,7 +9080,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
-#: src/functions/fn-math.c:1689
+#: src/functions/fn-math.c:1687
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -9104,7 +9102,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
-#: src/functions/fn-math.c:1712
+#: src/functions/fn-math.c:1710
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -9126,7 +9124,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SQRTPI"
 
-#: src/functions/fn-math.c:1736
+#: src/functions/fn-math.c:1734
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -9150,7 +9148,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INT"
 
-#: src/functions/fn-math.c:1775
+#: src/functions/fn-math.c:1773
 msgid ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(number)\n"
@@ -9170,7 +9168,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ODD"
 
-#: src/functions/fn-math.c:1813
+#: src/functions/fn-math.c:1811
 msgid ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(number)\n"
@@ -9190,7 +9188,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EVEN"
 
-#: src/functions/fn-math.c:1851
+#: src/functions/fn-math.c:1849
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
@@ -9214,7 +9212,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FACT"
 
-#: src/functions/fn-math.c:1889
+#: src/functions/fn-math.c:1887
 msgid ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(num,den)\n"
@@ -9235,7 +9233,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MOD"
 
-#: src/functions/fn-math.c:1920
+#: src/functions/fn-math.c:1918
 msgid ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(number)\n"
@@ -9261,7 +9259,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-math.c:1954
+#: src/functions/fn-math.c:1952
 msgid ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(number)\n"
@@ -9281,7 +9279,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PI"
 
-#: src/functions/fn-math.c:1983
+#: src/functions/fn-math.c:1981
 msgid ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(bottom,top)\n"
@@ -9307,7 +9305,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND"
 
-#: src/functions/fn-math.c:2017
+#: src/functions/fn-math.c:2015
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -9343,7 +9341,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUND,ROUNDUP"
 
-#: src/functions/fn-math.c:2064
+#: src/functions/fn-math.c:2062
 msgid ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(number[,digits])\n"
@@ -9378,7 +9376,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 
-#: src/functions/fn-math.c:2105
+#: src/functions/fn-math.c:2106
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -9414,7 +9412,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUND,ROUNDDOWN"
 
-#: src/functions/fn-math.c:2152
+#: src/functions/fn-math.c:2153
 msgid ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(number,multiple)\n"
@@ -9441,7 +9439,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
 
-#: src/functions/fn-math.c:2202
+#: src/functions/fn-math.c:2203
 msgid ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(number[,type])\n"
@@ -9481,7 +9479,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-math.c:2471
+#: src/functions/fn-math.c:2472
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -9517,14 +9515,14 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ"
 
-#: src/functions/fn-math.c:2527 src/functions/fn-math.c:2546
-#: src/functions/fn-math.c:2640 src/functions/fn-math.c:2660
-#: src/functions/fn-math.c:2752 src/functions/fn-math.c:2772
+#: src/functions/fn-math.c:2528 src/functions/fn-math.c:2547
+#: src/functions/fn-math.c:2641 src/functions/fn-math.c:2661
+#: src/functions/fn-math.c:2753 src/functions/fn-math.c:2773
 #: src/functions/fn-stat.c:2711 src/functions/fn-stat.c:2741
 msgid "Array version not implemented!"
 msgstr "Matrice-version ikke implementeret!"
 
-#: src/functions/fn-math.c:2584
+#: src/functions/fn-math.c:2585
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -9559,7 +9557,7 @@ msgstr ""
 "SUMX2PY2(A1:A5,B1:B5) er lig 7149.\n"
 "@SEEALSO=SUMSQ"
 
-#: src/functions/fn-math.c:2696
+#: src/functions/fn-math.c:2697
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -9595,7 +9593,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2"
 
-#: src/functions/fn-math.c:2810
+#: src/functions/fn-math.c:2811
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
@@ -9654,7 +9652,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT,SUM"
 
-#: src/functions/fn-math.c:2903
+#: src/functions/fn-math.c:2904
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -9683,7 +9681,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT,SUM"
 
-#: src/functions/fn-math.c:3026
+#: src/functions/fn-math.c:3027
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
@@ -9707,11 +9705,11 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MDETERM"
 
-#: src/functions/fn-math.c:3074
+#: src/functions/fn-math.c:3075
 msgid "#3D MULT?"
 msgstr "#3D MULT?"
 
-#: src/functions/fn-math.c:3153
+#: src/functions/fn-math.c:3154
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -9731,7 +9729,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TRANSPOSE,MINVERSE"
 
-#: src/functions/fn-math.c:3229
+#: src/functions/fn-math.c:3230
 msgid ""
 "@FUNCTION=MDETERM\n"
 "@SYNTAX=MDETERM(matrix)\n"
@@ -9760,7 +9758,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MINVERSE"
 
-#: src/functions/fn-math.c:3287
+#: src/functions/fn-math.c:3288
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -9792,7 +9790,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM,PRODUCT"
 
-#: src/functions/fn-math.c:3402
+#: src/functions/fn-math.c:3403
 msgid "Maths / Trig."
 msgstr "Matematik / Trigonometri"
 
@@ -12738,77 +12736,77 @@ msgstr "Flyt celler til højre og flyt"
 msgid "C_ancel"
 msgstr "_Annullér"
 
-#: src/main.c:82
+#: src/main.c:83
 msgid "Display Gnumeric's version"
 msgstr "Vis Gnumerics version"
 
-#: src/main.c:84
+#: src/main.c:85
 msgid "Set the root library directory"
 msgstr "Sæt root biblioteks-katalog"
 
-#: src/main.c:86
+#: src/main.c:87
 msgid "Adjust the root data directory"
 msgstr "Justér root data kataloget"
 
-#: src/main.c:89
+#: src/main.c:90
 msgid "Dumps the function definitions"
 msgstr "Skriver funktiondefinitionerne"
 
-#: src/main.c:89
+#: src/main.c:90
 msgid "FILE"
 msgstr "FILE"
 
-#: src/main.c:92
+#: src/main.c:93
 msgid "Enables some debugging functions"
 msgstr "Slår nogle fejlfindingsfunktioner til"
 
-#: src/main.c:92 src/main.c:95 src/main.c:97 src/main.c:99 src/main.c:107
-#: src/main.c:111 src/main.c:115 src/main.c:119 src/main.c:123 src/main.c:127
+#: src/main.c:93 src/main.c:96 src/main.c:98 src/main.c:100 src/main.c:108
+#: src/main.c:112 src/main.c:116 src/main.c:120 src/main.c:124 src/main.c:128
 msgid "LEVEL"
 msgstr "LEVEL"
 
-#: src/main.c:95
+#: src/main.c:96
 msgid "Enables some style related debugging functions"
 msgstr "Aktivérer nogle stil-relaterede fejlfindingsfunktioner"
 
-#: src/main.c:97
+#: src/main.c:98
 msgid "Enables some dependency related debugging functions"
 msgstr "Aktivérer nogle afhængigheds-relaterede fejlfindingsfunktioner"
 
-#: src/main.c:99
+#: src/main.c:100
 msgid "Enables some print debugging behaviour"
 msgstr "Slår nogle fejlfindingsfunktioner til"
 
-#: src/main.c:102
+#: src/main.c:103
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr ""
 "Afslut umiddelbart efter indlæsning af de valgte bøger (nyttigt ved test)."
 
-#: src/main.c:106 src/main.c:126
+#: src/main.c:107 src/main.c:127
 msgid "Enables debugging mesgs while reading excel workbooks"
 msgstr "Aktivérer fejlfindings besk. under læsning af excel arbejdsbøger"
 
-#: src/main.c:110
+#: src/main.c:111
 msgid "Enables debugging mesgs while reading excel functions"
 msgstr "Aktivérer fejlfindings besk. under læsning af excel funktioner"
 
-#: src/main.c:114
+#: src/main.c:115
 msgid "Enables debugging mesgs while reading excel colours & patterns"
 msgstr "Aktivérer fejlfindings besk. under læsning af excel farver og mønstre"
 
-#: src/main.c:118
+#: src/main.c:119
 msgid "Enables debugging mesgs while reading excel objects"
 msgstr "Aktivérer fejlfindings besk. under læsning af excel objekter"
 
-#: src/main.c:122
+#: src/main.c:123
 msgid "Enables debugging mesgs while reading excel charts"
 msgstr "Aktivérer fejlfindings besk. under læsning af excel grafer"
 
-#: src/main.c:130
+#: src/main.c:131
 msgid "Enables extra consistancy checking while reading ole files"
 msgstr "Aktivérer ekstra konsistenskontrol ved læsning af gamle filer"
 
-#: src/main.c:158
+#: src/main.c:159
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -12819,11 +12817,11 @@ msgstr ""
 "datadir := %s\n"
 "libdir := %s\n"
 
-#: src/main.c:208
+#: src/main.c:209
 msgid "Could not initialize Workbook factory"
 msgstr "Kunne ikke opstarte [Workbook]-fabrik"
 
-#: src/main.c:212
+#: src/main.c:213
 msgid "Could not initialize EmbeddableGrid factory"
 msgstr "Kunne ikke opstarte [EnbeddableGrid]-fabrik"
 
@@ -12859,7 +12857,7 @@ msgstr "#I/T"
 msgid "#RECALC!"
 msgstr "#REKALK!"
 
-#: src/parse-util.c:519
+#: src/parse-util.c:518
 msgid "ERROR"
 msgstr "FEJL"
 
@@ -13138,27 +13136,27 @@ msgstr "Slet"
 msgid "Configure"
 msgstr "Konfigurér"
 
-#: src/sheet.c:2759 src/sheet.c:2769
+#: src/sheet.c:2760 src/sheet.c:2770
 msgid "Insert Columns"
 msgstr "Indsæt kolonner"
 
-#: src/sheet.c:2840
+#: src/sheet.c:2841
 msgid "Delete Columns"
 msgstr "Slet kolonner"
 
-#: src/sheet.c:2910 src/sheet.c:2920
+#: src/sheet.c:2911 src/sheet.c:2921
 msgid "Insert Rows"
 msgstr "Indsæt rækker"
 
-#: src/sheet.c:2991
+#: src/sheet.c:2992
 msgid "Delete Rows"
 msgstr "Slet rækker"
 
-#: src/sheet.c:3875
+#: src/sheet.c:3876
 msgid "Merge"
 msgstr "Flet"
 
-#: src/sheet.c:3882
+#: src/sheet.c:3883
 msgid "There is already a merged region that intersects"
 msgstr "Der er allerede et flettet område der overlapper"
 
