@@ -1,8 +1,9 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 #ifndef GNUMERIC_FORMATS_H
 #define GNUMERIC_FORMATS_H
 
-typedef enum
-{
+typedef enum {
 	FMT_UNKNOWN	= -1,
 
 	FMT_GENERAL	= 0,
@@ -18,14 +19,14 @@ typedef enum
 	FMT_SPECIAL	= 10
 } FormatFamily;
 
-typedef struct
-{
+typedef struct {
 	unsigned char const * const symbol;
 	unsigned char const * const description;
+	gboolean const precedes;
+	gboolean const has_space;
 } CurrencySymbol;
 
-typedef struct
-{
+typedef struct {
 	gboolean thousands_sep;
 	gint	 num_decimals;	/* 0 - 30 */
 	gint	 negative_fmt;	/* 0 - 3 */
@@ -42,7 +43,12 @@ extern char const * const * const cell_formats [];
 
 extern CurrencySymbol const currency_symbols [];
 
-void currency_date_format_init (void);
+void currency_date_format_init     (void);
 void currency_date_format_shutdown (void);
+
+void style_format_percent (GString *result, FormatCharacteristics const *fmt);
+void style_format_science (GString *result, FormatCharacteristics const *fmt);
+void style_format_account (GString *result, FormatCharacteristics const *fmt);
+void style_format_number  (GString *result, FormatCharacteristics const *fmt);
 
 #endif

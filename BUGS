@@ -64,8 +64,7 @@ Pending Patches
 	6.6.3) Excel crashes on our xl95 export of names test
     6.7) non-ole import (Nick Lamb is working on this)		(DONE)
     6.8) Validation export					(DONE)
-	6.8.1) Clip ranges that are outside the sheet area
-	       for that format
+	6.8.1) Clip ranges that are outside the sheet area	(DONE)
     6.9) autofilter export					(DONE)
 	6.9.1) Add name						(DONE)
 	6.9.2) autofilterinfo count				(DONE)
@@ -106,7 +105,7 @@ Pending Patches
     21.10) select the current condition in the combos		(DONE)
     21.11) expression filters					(DONE)
     21.12) expression dialog					(DONE)
-    21.13) Handle range changes (cut-n-paste or ins/del col/row)(DONE)
+    21.13) Handle range changes (cut-n-paste or ins/del col/row)
     21.14) Handle the relationship between groups and filters	(DONE)
     21.15) xml import/export					(DONE)
     21.16) Fix cursor redraw after filter			(DONE)
@@ -230,9 +229,7 @@ Misc stuff that should be fixed
     : Parsing should handle embedded strings
     : It incorrectly accepts mmm:ss as some sort of minute spec.
 
-- Inc/Dec precision should work.  Try "44", click $, then add/remove decimals.
-- While we're playing with those functions, let's add simple ones like inc/dec
-  font size and things like that.
+- let's add simple commands like inc/dec font size and things like that.
 
 - locale : Saving xml should not rely on changing the textdomain to
            disable translation of TRUE/FALSE in expressions.

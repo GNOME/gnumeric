@@ -227,7 +227,7 @@ typedef struct {
  * number of characters used.
  */
 static int
-append_year (GString *string, const guchar *format, const struct tm *time_split)
+append_year (GString *string, guchar const *format, struct tm const *time_split)
 {
 	char temp[5];
 	int year = time_split->tm_year + 1900;
@@ -255,7 +255,7 @@ append_year (GString *string, const guchar *format, const struct tm *time_split)
  * number of characters used.
  */
 static int
-append_month (GString *string, int n, const struct tm *time_split)
+append_month (GString *string, int n, struct tm const *time_split)
 {
 	char temp[3];
 
@@ -285,7 +285,7 @@ append_month (GString *string, int n, const struct tm *time_split)
  * number of characters used.
  */
 static int
-append_day (GString *string, const guchar *format, const struct tm *time_split)
+append_day (GString *string, guchar const *format, struct tm const *time_split)
 {
 	char temp[3];
 
@@ -429,7 +429,7 @@ format_entry_set_fmt (StyleFormatEntry *entry,
 			  ? "General" : "");
 }
 
-static StyleColor * lookup_color (const char *str, const char *end);
+static StyleColor * lookup_color (char const *str, char const *end);
 
 /*
  * Since the Excel formating codes contain a number of ambiguities, this
@@ -591,19 +591,19 @@ format_destroy (StyleFormat *format)
 	format_match_release (format);
 }
 
+/* used to generate formats when delocalizing so keep the leadings caps */
 static struct FormatColor {
-	const char *name;
+	char const * const name;
 	StyleColor *color;
-} format_colors[] = {
-	{ N_("black")   },
-	{ N_("blue")    },
-	{ N_("cyan")    },
-	{ N_("green")   },
-	{ N_("magenta") },
-	{ N_("red")     },
-	{ N_("white")   },
-	{ N_("yellow")  },
-	{ NULL, NULL }
+} format_colors [] = {
+	{ N_("Black")   },
+	{ N_("Blue")    },
+	{ N_("Cyan")    },
+	{ N_("Green")   },
+	{ N_("Magenta") },
+	{ N_("Red")     },
+	{ N_("White")   },
+	{ N_("Yellow")  }
 };
 
 void
@@ -611,7 +611,7 @@ format_color_init (void)
 {
 	int i;
 
-	for (i = 0; format_colors[i].name; i++)
+	for (i = G_N_ELEMENTS (format_colors) ; i-- > 0 ; )
 		format_colors[i].color =
 			style_color_new_name (format_colors[i].name);
 }
@@ -621,18 +621,18 @@ format_color_shutdown (void)
 {
 	int i;
 
-	for (i = 0; format_colors[i].name; i++)
+	for (i = G_N_ELEMENTS (format_colors) ; i-- > 0 ; )
 		style_color_unref (format_colors[i].color);
 }
 
 static struct FormatColor const *
 lookup_color_by_name (gchar const *str, gchar const *end,
-		      gboolean const translate)
+		      gboolean translate)
 {
 	int i, len;
 
 	len = end - str;
-	for (i = 0; format_colors[i].name; i++) {
+	for (i = G_N_ELEMENTS (format_colors) ; i-- > 0 ; ) {
 		gchar const *name = format_colors[i].name;
 		if (translate)
 			name = _(name);
@@ -644,7 +644,7 @@ lookup_color_by_name (gchar const *str, gchar const *end,
 }
 
 static StyleColor *
-lookup_color (const gchar *str, const gchar *end)
+lookup_color (gchar const *str, gchar const *end)
 {
 	struct FormatColor const *color = lookup_color_by_name (str, end, FALSE);
 
@@ -1001,7 +1001,6 @@ format_number (gnm_float number, int col_width, StyleFormatEntry const *entry)
 	int fill_start = -1;
 
 	struct tm *time_split = 0;
-	char *res;
 	gnm_float signed_number;
 
 	memset (&info, 0, sizeof (info));
@@ -1384,9 +1383,7 @@ format_number (gnm_float number, int col_width, StyleFormatEntry const *entry)
 	}
 
  finish:
-	res = result->str;
-	g_string_free (result, FALSE);
-	return res;
+	return g_string_free (result, FALSE);
 }
 
 static gboolean
@@ -1676,7 +1673,7 @@ translate_format_color (GString *res, char const *ptr, gboolean translate_to_en)
 }
 
 char *
-style_format_delocalize (const char *descriptor_string)
+style_format_delocalize (char const *descriptor_string)
 {
 	g_return_val_if_fail (descriptor_string != NULL, NULL);
 
@@ -1686,42 +1683,33 @@ style_format_delocalize (const char *descriptor_string)
 		char const *ptr = descriptor_string;
 		GString *res = g_string_sized_new (strlen (ptr));
 
-		for ( ; *ptr ; ++ptr)
+		for ( ; *ptr ; ++ptr) {
 			if (*ptr == decimal)
 				g_string_append_c (res, '.');
 			else if (*ptr == thousands_sep)
 				g_string_append_c (res, ',');
-			else if (*ptr == '\\') {
-				switch (*ptr) {
+			else if (*ptr == '\"') {
+				do {
+					g_string_append_c (res, *ptr++);
+				} while (*ptr && *ptr != '\"');
+				if (*ptr)
+					g_string_append_c (res, *ptr);
+			} else if (*ptr == '[') {
+				char *tmp = translate_format_color (res, ptr, TRUE);
+				if (tmp != NULL)
+					ptr = tmp;
+			} else if (*ptr == '\\' && ptr[1] != '\0') {
+				switch (*++ptr) {
 				case '.'  : g_string_append_c (res, decimal);
 					    break;
 				case ','  : g_string_append_c (res, thousands_sep);
-					    break;
-
-					    case '\"' : do {
-						    g_string_append_c (res, *ptr++);
-					    } while (*ptr && *ptr != '\"');
-					    if (*ptr)
-						    g_string_append_c (res, *ptr);
-					    break;
-
-				case '\\' : g_string_append_c (res, '\\');
-					    if (ptr[1] != '\0') {
-						    g_string_append_c (res, ptr[1]);
-						    ++ptr;
-					    }
 					    break;
 				default   : g_string_append_c (res, *ptr);
 				};
 			} else
 				g_string_append_c (res, *ptr);
-
-
-		{
-			char *tmp = g_strdup (res->str);
-			g_string_free (res, TRUE);
-			return tmp;
 		}
+		return g_string_free (res, FALSE);
 	} else
 		return g_strdup ("General");
 }
@@ -1833,9 +1821,7 @@ style_format_str_as_XL (char const *ptr, gboolean localized)
 			    g_string_append_c (res, *ptr);
 		};
 
-	tmp = g_strdup (res->str);
-	g_string_free (res, TRUE);
-	return tmp;
+	return g_string_free (res, FALSE);
 	}
 }
 

@@ -442,10 +442,21 @@ init_button_image (GladeXML *gui, char const * const name)
 static void
 generate_format (FormatState *state)
 {
-	static char const * const zeros = "000000000000000000000000000000";
-	static char const * const qmarks = "??????????????????????????????";
 	FormatFamily const page = state->format.current_type;
 	GString		*new_format = g_string_new ("");
+
+	/* It is a strange idea not to reuse FormatCharacteristics
+	 in this file */
+	/* So build one to pass to the style_format_... function */
+	FormatCharacteristics format;
+
+	format.thousands_sep = state->format.use_separator;
+	format.num_decimals = state->format.num_decimals;
+	format.negative_fmt = state->format.negative_format;
+	format.currency_symbol_index = state->format.currency_index;
+	format.list_element = 0; /* Don't need this one. */
+	format.date_has_days = FALSE;
+	format.date_has_months = FALSE;
 
 	/* Update the format based on the current selections and page */
 	switch (page) {
@@ -454,93 +465,25 @@ generate_format (FormatState *state)
 		g_string_append (new_format, cell_formats[page][0]);
 		break;
 
-	case FMT_CURRENCY :
-		g_string_append (new_format,
-				 (const gchar *)currency_symbols[state->format.currency_index].symbol);
-
-		/* Non simple currencies require a spacer */
-		if (currency_symbols[state->format.currency_index].symbol[0] == '[')
-			g_string_append_c (new_format, ' ');
-
 	case FMT_NUMBER :
-		if (state->format.use_separator)
-			g_string_append (new_format, "#,##0");
-		else
-			g_string_append_c (new_format, '0');
+		/* Make sure no currency is selected */
+		format.currency_symbol_index = -1;		
 
-		if (state->format.num_decimals > 0) {
-			g_return_if_fail (state->format.num_decimals <= 30);
-
-			g_string_append_c (new_format, '.');
-			g_string_append (new_format, zeros + 30-state->format.num_decimals);
-		}
-
-		/* There are negatives */
-		if (state->format.negative_format > 0) {
-			GString *tmp = g_string_new ("");
-			g_string_append (tmp, new_format->str);
-			switch (state->format.negative_format) {
-			case 1 : g_string_append (tmp, _(";[Red]"));
-				 break;
-			case 2 : g_string_append (tmp, _("_);("));
-				 break;
-			case 3 : g_string_append (tmp, _("_);[Red]("));
-				 break;
-			default :
-				 g_assert_not_reached ();
-			};
-
-			g_string_append (tmp, new_format->str);
-
-			if (state->format.negative_format >= 2)
-				g_string_append_c (tmp, ')');
-			g_string_free (new_format, TRUE);
-			new_format = tmp;
-		}
+	case FMT_CURRENCY :
+		style_format_number(new_format, &format);
 		break;
 
 	case FMT_ACCOUNT :
-		g_string_append (new_format, "_(");
-		g_string_append (new_format,
-				 (const gchar *)currency_symbols[state->format.currency_index].symbol);
-		g_string_append (new_format, "* #,##0");
-		if (state->format.num_decimals > 0) {
-			g_return_if_fail (state->format.num_decimals <= 30);
-
-			g_string_append_c (new_format, '.');
-			g_string_append (new_format, zeros + 30-state->format.num_decimals);
-		}
-		g_string_append (new_format, "_);_(");
-		g_string_append (new_format,
-				 (const gchar *)currency_symbols[state->format.currency_index].symbol);
-		g_string_append (new_format, "* (#,##0");
-		if (state->format.num_decimals > 0) {
-			g_return_if_fail (state->format.num_decimals <= 30);
-
-			g_string_append_c (new_format, '.');
-			g_string_append (new_format, zeros + 30-state->format.num_decimals);
-		}
-		g_string_append (new_format, ");_(");
-		g_string_append (new_format,
-				 (const gchar *)currency_symbols[state->format.currency_index].symbol);
-		g_string_append (new_format, "* \"-\"");
-		g_string_append (new_format, qmarks + 30-state->format.num_decimals);
-		g_string_append (new_format, "_);_(@_)");
+		style_format_account(new_format, &format);
 		break;
 
 	case FMT_PERCENT :
-	case FMT_SCIENCE :
-		g_string_append_c (new_format, '0');
-		if (state->format.num_decimals > 0) {
-			g_return_if_fail (state->format.num_decimals <= 30);
+		style_format_percent(new_format, &format);
+		break;
 
-			g_string_append_c (new_format, '.');
-			g_string_append (new_format, zeros + 30-state->format.num_decimals);
-		}
-		if (page == FMT_PERCENT)
-			g_string_append_c (new_format, '%');
-		else
-			g_string_append (new_format, "E+00");
+	case FMT_SCIENCE :
+		style_format_science(new_format, &format);
+		break;
 
 	default :
 		break;
@@ -594,15 +537,16 @@ fillin_negative_samples (FormatState *state)
 {
 	static char const * const decimals = "098765432109876543210987654321";
 	static char const * const formats[4] = {
-		"-%s%s3%s210%s%s",
-		"%s%s3%s210%s%s",
-		"(%s%s3%s210%s%s)",
-		"(%s%s3%s210%s%s)"
+		"-%s%s3%s210%s%s%s%s",
+		"%s%s3%s210%s%s%s%s",
+		"(%s%s3%s210%s%s%s%s)",
+		"(%s%s3%s210%s%s%s%s)"
 	};
 	int const n = 30 - state->format.num_decimals;
 
 	int const page = state->format.current_type;
-	char const *space = "", *currency;
+	char const *space_b = "", *currency_b;
+	char const *space_a = "", *currency_a;
 	char decimal[2] = { '\0', '\0' } ;
 	char thousand_sep[2] = { '\0', '\0' } ;
 	char buf[50];
@@ -619,25 +563,38 @@ fillin_negative_samples (FormatState *state)
 		decimal[0] = format_get_decimal ();
 
 	if (page == 2) {
-		currency = (const gchar *)currency_symbols[state->format.currency_index].symbol;
+		currency_b = (const gchar *)currency_symbols[state->format.currency_index].symbol;
 		/*
 		 * FIXME : This should be better hidden.
 		 * Ideally the render would do this for us.
 		 */
-		if (currency[0] == '[' && currency[1] == '$') {
-			char const *end = strchr (currency+2, ']');
-			currency = g_strndup (currency+2, end-currency-2);
-			space = " ";
+		if (currency_b[0] == '[' && currency_b[1] == '$') {
+			char const *end = strchr (currency_b+2, '-');
+			if (end == NULL)
+				end = strchr (currency_b+2, ']');
+			currency_b = g_strndup (currency_b+2, end-currency_b-2);
 		} else
-			currency = g_strdup (currency);
+			currency_b = g_strdup (currency_b);
+
+		if (currency_symbols[state->format.currency_index].has_space)
+			space_b = " ";
+
+		if (!currency_symbols[state->format.currency_index].precedes) {
+			currency_a = currency_b;
+			currency_b = "";
+			space_a = space_b;
+			space_b = "";
+		} else {
+			currency_a = "";
+		}
 	} else
-		currency = "";
+		currency_a = currency_b = "";
 
 	gtk_list_store_clear (state->format.negative_types.model);
 
 	for (i = 0 ; i < 4; i++) {
 		gtk_list_store_append (state->format.negative_types.model, &iter);
-		sprintf (buf, formats[i], currency, space, thousand_sep, decimal, decimals + n);
+		sprintf (buf, formats[i], currency_b, space_b, thousand_sep, decimal, decimals + n, space_a, currency_a);
 		gtk_list_store_set (state->format.negative_types.model, &iter,
 			0,	i,
 			1,  buf,
@@ -646,8 +603,10 @@ fillin_negative_samples (FormatState *state)
 	}
 
 	/* If non empty then free the string */
-	if (*currency)
-		g_free ((char*)currency);
+	if (*currency_a)
+		g_free ((char*)currency_a);
+	if (*currency_b)
+		g_free ((char*)currency_b);
 
 	path = gtk_tree_path_new ();
 	gtk_tree_path_append_index (path, state->format.negative_format);

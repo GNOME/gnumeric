@@ -15,7 +15,6 @@
 
 #include "format.h"
 #include <string.h>
-#include <stdio.h>
 
 /* The various formats */
 static char const * const
@@ -147,6 +146,9 @@ cell_format_text [] = {
 	NULL,
 };
 
+static char const * const zeros = "000000000000000000000000000000";
+static char const * const qmarks = "??????????????????????????????";
+
 char const * const * const
 cell_formats [] = {
 	cell_format_general,
@@ -183,36 +185,46 @@ currency_date_format_init (void)
 	 *   (currency symbol before number)
 	 *  2.  "$ "
 	 *  3.  "$"
-	 *  4.  " " (space after currency)
-	 *  5.  "#,##"
-	 *  6.  ".000"
+	 *  4.  "#,##"
+	 *  5.  ".000"
 	 *   (currency symbol after number)
-	 *  7.  " $"
-	 *  8.  " " (space before currency)
-	 *  9.  "$"
-	 * 10.  11 or 13
-	 * 11.  ";[Red]\1"   (\1 means same string as 1)
+	 *  6.  " $"
+	 *  7.  "$"
+	 *  8.  9 or 11
+	 *  9.  ";[Red]\1"   (\1 means same string as 1)
+	 * 10.  "[Red]"
+	 * 11.  "_);[Red](\1)"
 	 * 12.  "[Red]"
-	 * 13.  "_);[Red](\1)"
-	 * 14.  "[Red]"
 	 */
 
-	char const *pattern_number_currency = "^\\(\\(\\(\\$\\|£\\|¥\\|€\\|\\[\\$[A-Z][A-Z][A-Z]\\]\\)\\(\\\\\\? \\)\\?\\)\\?\\(#,##\\)\\?0\\(\\.0\\{1,30\\}\\)\\?\\(\\(\\\\\\? \\)\\?\\(\\$\\|£\\|¥\\|€\\|\\[\\$[A-Z][A-Z][A-Z]\\]\\)\\)\\?\\)\\(\\(;\\(\\[Red\\]\\)\\?\\1\\)\\|\\(_);\\(\\[Red\\]\\)\\?(\\1)\\)\\)\\?$";
+	char const *pattern_number_currency = "^\\(\\(\\(\\$\\|£\\|¥\\|€\\|\\[\\$.\\{1,3\\}-\\?[0-9]\\{0,3\\}\\]\\) \\?\\)\\?\\(#,##\\)\\?0\\(\\.0\\{1,30\\}\\)\\?\\( \\?\\(\\$\\|£\\|¥\\|€\\|\\[\\$.\\{1,3\\}-\\?[0-9]\\{0,3\\}\\]\\)\\)\\?\\)\\(\\(;\\(\\[[Rr]ed\\]\\)\\?\\1\\)\\|\\(_);\\(\\[[Rr]ed\\]\\)\\?(\\1)\\)\\)\\?$";
 
 	/* This one is for FMT_PERCENT and FMT_SCIENCE */
 	char const *pattern_percent_science = "^0\\(.0\\{1,30\\}\\)\\?\\(%\\|E+00\\)$";
 
 	/* This one is for FMT_ACCOUNT */
-	char const *pattern_account = "^_(\\(\\(\\(\\$\\|£\\|¥\\|€\\|\\|\\[\\$[A-Z][A-Z][A-Z]\\]\\)\\*\\\\\\?  \\?\\)\\?\\)\\(#,##0\\(\\.0\\{1,30\\}\\)\\?\\)\\(\\(\\*\\\\\\?  \\?\\(\\$\\|£\\|¥\\|€\\|\\[\\$[A-Z][A-Z][A-Z]\\]\\)\\)\\?\\)_);_(\\1(\\4)\\6;_(\\1\"-\"?\\{0,30\\}\\6_);_(@_)$";
 
-	if ((regcomp(&re_number_currency, pattern_number_currency, 0)) != 0)
-		fprintf(stderr, "Error in regcomp()\n");
+	/*
+	 *  1. "$*  "	Yes, it is needed (because we use match[])
+	 *  2. "$*  "	This one is like \1, but doesn't have the \?
+	 *  3. "$"
+	 *  4. "#,##0.00"
+	 *  5. ".00"
+	 *  6. "*  $"	Same here.
+	 *  7. "*  $"
+	 *  8. "$"
+	 */
 
-	if ((regcomp(&re_percent_science, pattern_percent_science, 0)) != 0)
-		fprintf(stderr, "Error in regcomp()\n");
+	char const *pattern_account = "^_(\\(\\(\\(\\$\\|£\\|¥\\|€\\|\\|\\[\\$.\\{1,3\\}-\\?[0-9]\\{0,3\\}\\]\\)\\*  \\?\\)\\?\\)\\(#,##0\\(\\.0\\{1,30\\}\\)\\?\\)\\(\\(\\*  \\?\\(\\$\\|£\\|¥\\|€\\|\\[\\$.\\{1,3\\}-\\?[0-9]\\{0,3\\}\\]\\)\\)\\?\\)_);_(\\1(\\4)\\6;_(\\1\"-\"?\\{0,30\\}\\6_);_(@_)$";
 
-	if ((regcomp(&re_account, pattern_account, 0)) != 0)
-		fprintf(stderr, "Error in regcomp()\n");
+	if ((regcomp (&re_number_currency, pattern_number_currency, 0)) != 0)
+		g_warning ("Error in regcomp() for currency");
+
+	if ((regcomp (&re_percent_science, pattern_percent_science, 0)) != 0)
+		g_warning ("Error in regcomp() for percent and science");
+
+	if ((regcomp (&re_account, pattern_account, 0)) != 0)
+		g_warning ("Error in regcomp() for account");
 
 	if (precedes) {
 		post_rep = post = (char *)"";
@@ -289,11 +301,14 @@ currency_date_format_shutdown (void)
 
 CurrencySymbol const currency_symbols[] =
 {
-	{ "", "None" },		/* These first five elements */
-	{ "$", "$" },		/* Must stay in this order */
-	{ "£", "£" },		/* GBP */
-	{ "¥", "¥" },		/* JPY */
-	{ "€", "€" },	/* EUR */
+ 	{ "", "None", TRUE, FALSE },	/* These first five elements */
+ 	{ "$", "$", TRUE, FALSE },	/* Must stay in this order */
+ 	{ "£", "£", TRUE, FALSE },	/* GBP */
+ 	{ "¥", "¥", TRUE, FALSE },	/* JPY */
+
+ 	/* Add yours to this list ! */
+ 	{ "[$€-1]", "€ Euro (100 €)", FALSE, TRUE},
+	{ "[$€-2]", "€ Euro (€ 100)", TRUE, TRUE},
 
 	/* The first column has three letter acronyms
 	 * for each currency.  They MUST start with '[$'
@@ -301,192 +316,191 @@ CurrencySymbol const currency_symbols[] =
 	 */
 
 	/* 2002/08/04 Updated to match iso 4217 */
-	{ "[$AED]",	N_("United Arab Emirates, Dirhams") },
-	{ "[$AFA]",	N_("Afghanistan, Afghanis") },
-	{ "[$ALL]",	N_("Albania, Leke") },
-	{ "[$AMD]",	N_("Armenia, Drams") },
-	{ "[$ANG]",	N_("Netherlands Antilles, Guilders") },
-	{ "[$AOA]",	N_("Angola, Kwanza") },
-	{ "[$ARS]",	N_("Argentina, Pesos") },
-	{ "[$AUD]",	N_("Australia, Dollars") },
-	{ "[$AWG]",	N_("Aruba, Guilders") },
-	{ "[$AZM]",	N_("Azerbaijan, Manats") },
-	{ "[$BAM]",	N_("Bosnia and Herzegovina, Convertible Marka") },
-	{ "[$BBD]",	N_("Barbados, Dollars") },
-	{ "[$BDT]",	N_("Bangladesh, Taka") },
-	{ "[$BGL]",	N_("Bulgaria, Leva") },
-	{ "[$BHD]",	N_("Bahrain, Dinars") },
-	{ "[$BIF]",	N_("Burundi, Francs") },
-	{ "[$BMD]",	N_("Bermuda, Dollars") },
-	{ "[$BND]",	N_("Brunei Darussalam, Dollars") },
-	{ "[$BOB]",	N_("Bolivia, Bolivianos") },
-	{ "[$BRL]",	N_("Brazil, Brazil Real") },
-	{ "[$BSD]",	N_("Bahamas, Dollars") },
-	{ "[$BTN]",	N_("Bhutan, Ngultrum") },
-	{ "[$BWP]",	N_("Botswana, Pulas") },
-	{ "[$BYR]",	N_("Belarus, Rubles") },
-	{ "[$BZD]",	N_("Belize, Dollars") },
-	{ "[$CAD]",	N_("Canada, Dollars") },
-	{ "[$CDF]",	N_("Congo/Kinshasa, Congolese Francs") },
-	{ "[$CHF]",	N_("Switzerland, Francs") },
-	{ "[$CLP]",	N_("Chile, Pesos") },
-	{ "[$CNY]",	N_("China, Yuan Renminbi") },
-	{ "[$COP]",	N_("Colombia, Pesos") },
-	{ "[$CRC]",	N_("Costa Rica, Colones") },
-	{ "[$CUP]",	N_("Cuba, Pesos") },
-	{ "[$CVE]",	N_("Cape Verde, Escudos") },
-	{ "[$CYP]",	N_("Cyprus, Pounds") },
-	{ "[$CZK]",	N_("Czech Republic, Koruny") },
-	{ "[$DJF]",	N_("Djibouti, Francs") },
-	{ "[$DKK]",	N_("Denmark, Kroner") },
-	{ "[$DOP]",	N_("Dominican Republic, Pesos") },
-	{ "[$DZD]",	N_("Algeria, Algeria Dinars") },
-	{ "[$EEK]",	N_("Estonia, Krooni") },
-	{ "[$EGP]",	N_("Egypt, Pounds") },
-	{ "[$ERN]",	N_("Eritrea, Nakfa") },
-	{ "[$ETB]",	N_("Ethiopia, Birr") },
-	{ "[$EUR]",	N_("Euro Member Countries, Euro") },
-	{ "[$FJD]",	N_("Fiji, Dollars") },
-	{ "[$FKP]",	N_("Falkland Islands (Malvinas), Pounds") },
-	{ "[$GBP]",	N_("United Kingdom, Pounds") },
-	{ "[$GEL]",	N_("Georgia, Lari") },
-	{ "[$GGP]",	N_("Guernsey, Pounds") },
-	{ "[$GHC]",	N_("Ghana, Cedis") },
-	{ "[$GIP]",	N_("Gibraltar, Pounds") },
-	{ "[$GMD]",	N_("Gambia, Dalasi") },
-	{ "[$GNF]",	N_("Guinea, Francs") },
-	{ "[$GTQ]",	N_("Guatemala, Quetzales") },
-	{ "[$GYD]",	N_("Guyana, Dollars") },
-	{ "[$HKD]",	N_("Hong Kong, Dollars") },
-	{ "[$HNL]",	N_("Honduras, Lempiras") },
-	{ "[$HRK]",	N_("Croatia, Kuna") },
-	{ "[$HTG]",	N_("Haiti, Gourdes") },
-	{ "[$HUF]",	N_("Hungary, Forint") },
-	{ "[$IDR]",	N_("Indonesia, Rupiahs") },
-	{ "[$ILS]",	N_("Israel, New Shekels") },
-	{ "[$IMP]",	N_("Isle of Man, Pounds") },
-	{ "[$INR]",	N_("India, Rupees") },
-	{ "[$IQD]",	N_("Iraq, Dinars") },
-	{ "[$IRR]",	N_("Iran, Rials") },
-	{ "[$ISK]",	N_("Iceland, Kronur") },
-	{ "[$JEP]",	N_("Jersey, Pounds") },
-	{ "[$JMD]",	N_("Jamaica, Dollars") },
-	{ "[$JOD]",	N_("Jordan, Dinars") },
-	{ "[$JPY]",	N_("Japan, Yen") },
-	{ "[$KES]",	N_("Kenya, Shillings") },
-	{ "[$KGS]",	N_("Kyrgyzstan, Soms") },
-	{ "[$KHR]",	N_("Cambodia, Riels") },
-	{ "[$KMF]",	N_("Comoros, Francs") },
-	{ "[$KPW]",	N_("Korea (North), Won") },
-	{ "[$KRW]",	N_("Korea (South), Won") },
-	{ "[$KWD]",	N_("Kuwait, Dinars") },
-	{ "[$KYD]",	N_("Cayman Islands, Dollars") },
-	{ "[$KZT]",	N_("Kazakstan, Tenge") },
-	{ "[$LAK]",	N_("Laos, Kips") },
-	{ "[$LBP]",	N_("Lebanon, Pounds") },
-	{ "[$LKR]",	N_("Sri Lanka, Rupees") },
-	{ "[$LRD]",	N_("Liberia, Dollars") },
-	{ "[$LSL]",	N_("Lesotho, Maloti") },
-	{ "[$LTL]",	N_("Lithuania, Litai") },
-	{ "[$LVL]",	N_("Latvia, Lati") },
-	{ "[$LYD]",	N_("Libya, Dinars") },
-	{ "[$MAD]",	N_("Morocco, Dirhams") },
-	{ "[$MDL]",	N_("Moldova, Lei") },
-	{ "[$MGF]",	N_("Madagascar, Malagasy Francs") },
-	{ "[$MKD]",	N_("Macedonia, Denars") },
-	{ "[$MMK]",	N_("Myanmar (Burma), Kyats") },
-	{ "[$MNT]",	N_("Mongolia, Tugriks") },
-	{ "[$MOP]",	N_("Macau, Patacas") },
-	{ "[$MRO]",	N_("Mauritania, Ouguiyas") },
-	{ "[$MTL]",	N_("Malta, Liri") },
-	{ "[$MUR]",	N_("Mauritius, Rupees") },
-	{ "[$MVR]",	N_("Maldives (Maldive Islands), Rufiyaa") },
-	{ "[$MWK]",	N_("Malawi, Kwachas") },
-	{ "[$MXN]",	N_("Mexico, Pesos") },
-	{ "[$MYR]",	N_("Malaysia, Ringgits") },
-	{ "[$MZM]",	N_("Mozambique, Meticais") },
-	{ "[$NAD]",	N_("Namibia, Dollars") },
-	{ "[$NGN]",	N_("Nigeria, Nairas") },
-	{ "[$NIO]",	N_("Nicaragua, Gold Cordobas") },
-	{ "[$NOK]",	N_("Norway, Krone") },
-	{ "[$NPR]",	N_("Nepal, Nepal Rupees") },
-	{ "[$NZD]",	N_("New Zealand, Dollars") },
-	{ "[$OMR]",	N_("Oman, Rials") },
-	{ "[$PAB]",	N_("Panama, Balboa") },
-	{ "[$PEN]",	N_("Peru, Nuevos Soles") },
-	{ "[$PGK]",	N_("Papua New Guinea, Kina") },
-	{ "[$PHP]",	N_("Philippines, Pesos") },
-	{ "[$PKR]",	N_("Pakistan, Rupees") },
-	{ "[$PLN]",	N_("Poland, Zlotych") },
-	{ "[$PYG]",	N_("Paraguay, Guarani") },
-	{ "[$QAR]",	N_("Qatar, Rials") },
-	{ "[$ROL]",	N_("Romania, Lei") },
-	{ "[$RUR]",	N_("Russia, Rubles") },
-	{ "[$RWF]",	N_("Rwanda, Rwanda Francs") },
-	{ "[$SAR]",	N_("Saudi Arabia, Riyals") },
-	{ "[$SBD]",	N_("Solomon Islands, Dollars") },
-	{ "[$SCR]",	N_("Seychelles, Rupees") },
-	{ "[$SDD]",	N_("Sudan, Dinars") },
-	{ "[$SEK]",	N_("Sweden, Kronor") },
-	{ "[$SGD]",	N_("Singapore, Dollars") },
-	{ "[$SHP]",	N_("Saint Helena, Pounds") },
-	{ "[$SIT]",	N_("Slovenia, Tolars") },
-	{ "[$SKK]",	N_("Slovakia, Koruny") },
-	{ "[$SLL]",	N_("Sierra Leone, Leones") },
-	{ "[$SOS]",	N_("Somalia, Shillings") },
-	{ "[$SPL]",	N_("Seborga, Luigini") },
-	{ "[$SRG]",	N_("Suriname, Guilders") },
-	{ "[$STD]",	N_("Sao Tome and Principe, Dobras") },
-	{ "[$SVC]",	N_("El Salvador, Colones") },
-	{ "[$SYP]",	N_("Syria, Pounds") },
-	{ "[$SZL]",	N_("Swaziland, Emalangeni") },
-	{ "[$THB]",	N_("Thailand, Baht") },
-	{ "[$TJR]",	N_("Tajikistan, Rubles") },
-	{ "[$TMM]",	N_("Turkmenistan, Manats") },
-	{ "[$TND]",	N_("Tunisia, Dinars") },
-	{ "[$TOP]",	N_("Tonga, Pa'anga") },
-	{ "[$TRL]",	N_("Turkey, Liras") },
-	{ "[$TTD]",	N_("Trinidad and Tobago, Dollars") },
-	{ "[$TVD]",	N_("Tuvalu, Tuvalu Dollars") },
-	{ "[$TWD]",	N_("Taiwan, New Dollars") },
-	{ "[$TZS]",	N_("Tanzania, Shillings") },
-	{ "[$UAH]",	N_("Ukraine, Hryvnia") },
-	{ "[$UGX]",	N_("Uganda, Shillings") },
-	{ "[$USD]",	N_("United States of America, Dollars") },
-	{ "[$UYU]",	N_("Uruguay, Pesos") },
-	{ "[$UZS]",	N_("Uzbekistan, Sums") },
-	{ "[$VEB]",	N_("Venezuela, Bolivares") },
-	{ "[$VND]",	N_("Viet Nam, Dong") },
-	{ "[$VUV]",	N_("Vanuatu, Vatu") },
-	{ "[$WST]",	N_("Samoa, Tala") },
-	{ "[$XAF]",	N_("Communaute Financiere Africaine BEAC, Francs") },
-	{ "[$XAG]",	N_("Silver, Ounces") },
-	{ "[$XAU]",	N_("Gold, Ounces") },
-	{ "[$XCD]",	N_("East Caribbean Dollars") },
-	{ "[$XDR]",	N_("International Monetary Fund (IMF) Special Drawing Rights") },
-	{ "[$XOF]",	N_("Communaute Financiere Africaine BCEAO, Francs") },
-	{ "[$XPD]",	N_("Palladium Ounces") },
-	{ "[$XPF]",	N_("Comptoirs Francais du Pacifique Francs") },
-	{ "[$XPT]",	N_("Platinum, Ounces") },
-	{ "[$YER]",	N_("Yemen, Rials") },
-	{ "[$YUM]",	N_("Yugoslavia, New Dinars") },
-	{ "[$ZAR]",	N_("South Africa, Rand") },
-	{ "[$ZMK]",	N_("Zambia, Kwacha") },
-	{ "[$ZWD]",	N_("Zimbabwe, Zimbabwe Dollars") },
+	{ "[$AED]",	N_("United Arab Emirates, Dirhams"), TRUE, TRUE },
+	{ "[$AFA]",	N_("Afghanistan, Afghanis"), TRUE, TRUE },
+	{ "[$ALL]",	N_("Albania, Leke"), TRUE, TRUE },
+	{ "[$AMD]",	N_("Armenia, Drams"), TRUE, TRUE },
+	{ "[$ANG]",	N_("Netherlands Antilles, Guilders"), TRUE, TRUE },
+	{ "[$AOA]",	N_("Angola, Kwanza"), TRUE, TRUE },
+	{ "[$ARS]",	N_("Argentina, Pesos"), TRUE, TRUE },
+	{ "[$AUD]",	N_("Australia, Dollars"), TRUE, TRUE },
+	{ "[$AWG]",	N_("Aruba, Guilders"), TRUE, TRUE },
+	{ "[$AZM]",	N_("Azerbaijan, Manats"), TRUE, TRUE },
+	{ "[$BAM]",	N_("Bosnia and Herzegovina, Convertible Marka"), TRUE, TRUE },
+	{ "[$BBD]",	N_("Barbados, Dollars"), TRUE, TRUE },
+	{ "[$BDT]",	N_("Bangladesh, Taka"), TRUE, TRUE },
+	{ "[$BGL]",	N_("Bulgaria, Leva"), TRUE, TRUE },
+	{ "[$BHD]",	N_("Bahrain, Dinars"), TRUE, TRUE },
+	{ "[$BIF]",	N_("Burundi, Francs"), TRUE, TRUE },
+	{ "[$BMD]",	N_("Bermuda, Dollars"), TRUE, TRUE },
+	{ "[$BND]",	N_("Brunei Darussalam, Dollars"), TRUE, TRUE },
+	{ "[$BOB]",	N_("Bolivia, Bolivianos"), TRUE, TRUE },
+	{ "[$BRL]",	N_("Brazil, Brazil Real"), TRUE, TRUE },
+	{ "[$BSD]",	N_("Bahamas, Dollars"), TRUE, TRUE },
+	{ "[$BTN]",	N_("Bhutan, Ngultrum"), TRUE, TRUE },
+	{ "[$BWP]",	N_("Botswana, Pulas"), TRUE, TRUE },
+	{ "[$BYR]",	N_("Belarus, Rubles"), TRUE, TRUE },
+	{ "[$BZD]",	N_("Belize, Dollars"), TRUE, TRUE },
+	{ "[$CAD]",	N_("Canada, Dollars"), TRUE, TRUE },
+	{ "[$CDF]",	N_("Congo/Kinshasa, Congolese Francs"), TRUE, TRUE },
+	{ "[$CHF]",	N_("Switzerland, Francs"), TRUE, TRUE },
+	{ "[$CLP]",	N_("Chile, Pesos"), TRUE, TRUE },
+	{ "[$CNY]",	N_("China, Yuan Renminbi"), TRUE, TRUE },
+	{ "[$COP]",	N_("Colombia, Pesos"), TRUE, TRUE },
+	{ "[$CRC]",	N_("Costa Rica, Colones"), TRUE, TRUE },
+	{ "[$CUP]",	N_("Cuba, Pesos"), TRUE, TRUE },
+	{ "[$CVE]",	N_("Cape Verde, Escudos"), TRUE, TRUE },
+	{ "[$CYP]",	N_("Cyprus, Pounds"), TRUE, TRUE },
+	{ "[$CZK]",	N_("Czech Republic, Koruny"), TRUE, TRUE },
+	{ "[$DJF]",	N_("Djibouti, Francs"), TRUE, TRUE },
+	{ "[$DKK]",	N_("Denmark, Kroner"), TRUE, TRUE },
+	{ "[$DOP]",	N_("Dominican Republic, Pesos"), TRUE, TRUE },
+	{ "[$DZD]",	N_("Algeria, Algeria Dinars"), TRUE, TRUE },
+	{ "[$EEK]",	N_("Estonia, Krooni"), TRUE, TRUE },
+	{ "[$EGP]",	N_("Egypt, Pounds"), TRUE, TRUE },
+	{ "[$ERN]",	N_("Eritrea, Nakfa"), TRUE, TRUE },
+	{ "[$ETB]",	N_("Ethiopia, Birr"), TRUE, TRUE },
+	{ "[$EUR]",	N_("Euro Member Countries, Euro"), TRUE, TRUE },
+	{ "[$FJD]",	N_("Fiji, Dollars"), TRUE, TRUE },
+	{ "[$FKP]",	N_("Falkland Islands (Malvinas), Pounds"), TRUE, TRUE },
+	{ "[$GBP]",	N_("United Kingdom, Pounds"), TRUE, TRUE },
+	{ "[$GEL]",	N_("Georgia, Lari"), TRUE, TRUE },
+	{ "[$GGP]",	N_("Guernsey, Pounds"), TRUE, TRUE },
+	{ "[$GHC]",	N_("Ghana, Cedis"), TRUE, TRUE },
+	{ "[$GIP]",	N_("Gibraltar, Pounds"), TRUE, TRUE },
+	{ "[$GMD]",	N_("Gambia, Dalasi"), TRUE, TRUE },
+	{ "[$GNF]",	N_("Guinea, Francs"), TRUE, TRUE },
+	{ "[$GTQ]",	N_("Guatemala, Quetzales"), TRUE, TRUE },
+	{ "[$GYD]",	N_("Guyana, Dollars"), TRUE, TRUE },
+	{ "[$HKD]",	N_("Hong Kong, Dollars"), TRUE, TRUE },
+	{ "[$HNL]",	N_("Honduras, Lempiras"), TRUE, TRUE },
+	{ "[$HRK]",	N_("Croatia, Kuna"), TRUE, TRUE },
+	{ "[$HTG]",	N_("Haiti, Gourdes"), TRUE, TRUE },
+	{ "[$HUF]",	N_("Hungary, Forint"), TRUE, TRUE },
+	{ "[$IDR]",	N_("Indonesia, Rupiahs"), TRUE, TRUE },
+	{ "[$ILS]",	N_("Israel, New Shekels"), TRUE, TRUE },
+	{ "[$IMP]",	N_("Isle of Man, Pounds"), TRUE, TRUE },
+	{ "[$INR]",	N_("India, Rupees"), TRUE, TRUE },
+	{ "[$IQD]",	N_("Iraq, Dinars"), TRUE, TRUE },
+	{ "[$IRR]",	N_("Iran, Rials"), TRUE, TRUE },
+	{ "[$ISK]",	N_("Iceland, Kronur"), TRUE, TRUE },
+	{ "[$JEP]",	N_("Jersey, Pounds"), TRUE, TRUE },
+	{ "[$JMD]",	N_("Jamaica, Dollars"), TRUE, TRUE },
+	{ "[$JOD]",	N_("Jordan, Dinars"), TRUE, TRUE },
+	{ "[$JPY]",	N_("Japan, Yen"), TRUE, TRUE },
+	{ "[$KES]",	N_("Kenya, Shillings"), TRUE, TRUE },
+	{ "[$KGS]",	N_("Kyrgyzstan, Soms"), TRUE, TRUE },
+	{ "[$KHR]",	N_("Cambodia, Riels"), TRUE, TRUE },
+	{ "[$KMF]",	N_("Comoros, Francs"), TRUE, TRUE },
+	{ "[$KPW]",	N_("Korea (North), Won"), TRUE, TRUE },
+	{ "[$KRW]",	N_("Korea (South), Won"), TRUE, TRUE },
+	{ "[$KWD]",	N_("Kuwait, Dinars"), TRUE, TRUE },
+	{ "[$KYD]",	N_("Cayman Islands, Dollars"), TRUE, TRUE },
+	{ "[$KZT]",	N_("Kazakstan, Tenge"), TRUE, TRUE },
+	{ "[$LAK]",	N_("Laos, Kips"), TRUE, TRUE },
+	{ "[$LBP]",	N_("Lebanon, Pounds"), TRUE, TRUE },
+	{ "[$LKR]",	N_("Sri Lanka, Rupees"), TRUE, TRUE },
+	{ "[$LRD]",	N_("Liberia, Dollars"), TRUE, TRUE },
+	{ "[$LSL]",	N_("Lesotho, Maloti"), TRUE, TRUE },
+	{ "[$LTL]",	N_("Lithuania, Litai"), TRUE, TRUE },
+	{ "[$LVL]",	N_("Latvia, Lati"), TRUE, TRUE },
+	{ "[$LYD]",	N_("Libya, Dinars"), TRUE, TRUE },
+	{ "[$MAD]",	N_("Morocco, Dirhams"), TRUE, TRUE },
+	{ "[$MDL]",	N_("Moldova, Lei"), TRUE, TRUE },
+	{ "[$MGF]",	N_("Madagascar, Malagasy Francs"), TRUE, TRUE },
+	{ "[$MKD]",	N_("Macedonia, Denars"), TRUE, TRUE },
+	{ "[$MMK]",	N_("Myanmar (Burma), Kyats"), TRUE, TRUE },
+	{ "[$MNT]",	N_("Mongolia, Tugriks"), TRUE, TRUE },
+	{ "[$MOP]",	N_("Macau, Patacas"), TRUE, TRUE },
+	{ "[$MRO]",	N_("Mauritania, Ouguiyas"), TRUE, TRUE },
+	{ "[$MTL]",	N_("Malta, Liri"), TRUE, TRUE },
+	{ "[$MUR]",	N_("Mauritius, Rupees"), TRUE, TRUE },
+	{ "[$MVR]",	N_("Maldives (Maldive Islands), Rufiyaa"), TRUE, TRUE },
+	{ "[$MWK]",	N_("Malawi, Kwachas"), TRUE, TRUE },
+	{ "[$MXN]",	N_("Mexico, Pesos"), TRUE, TRUE },
+	{ "[$MYR]",	N_("Malaysia, Ringgits"), TRUE, TRUE },
+	{ "[$MZM]",	N_("Mozambique, Meticais"), TRUE, TRUE },
+	{ "[$NAD]",	N_("Namibia, Dollars"), TRUE, TRUE },
+	{ "[$NGN]",	N_("Nigeria, Nairas"), TRUE, TRUE },
+	{ "[$NIO]",	N_("Nicaragua, Gold Cordobas"), TRUE, TRUE },
+	{ "[$NOK]",	N_("Norway, Krone"), TRUE, TRUE },
+	{ "[$NPR]",	N_("Nepal, Nepal Rupees"), TRUE, TRUE },
+	{ "[$NZD]",	N_("New Zealand, Dollars"), TRUE, TRUE },
+	{ "[$OMR]",	N_("Oman, Rials"), TRUE, TRUE },
+	{ "[$PAB]",	N_("Panama, Balboa"), TRUE, TRUE },
+	{ "[$PEN]",	N_("Peru, Nuevos Soles"), TRUE, TRUE },
+	{ "[$PGK]",	N_("Papua New Guinea, Kina"), TRUE, TRUE },
+	{ "[$PHP]",	N_("Philippines, Pesos"), TRUE, TRUE },
+	{ "[$PKR]",	N_("Pakistan, Rupees"), TRUE, TRUE },
+	{ "[$PLN]",	N_("Poland, Zlotych"), TRUE, TRUE },
+	{ "[$PYG]",	N_("Paraguay, Guarani"), TRUE, TRUE },
+	{ "[$QAR]",	N_("Qatar, Rials"), TRUE, TRUE },
+	{ "[$ROL]",	N_("Romania, Lei"), TRUE, TRUE },
+	{ "[$RUR]",	N_("Russia, Rubles"), TRUE, TRUE },
+	{ "[$RWF]",	N_("Rwanda, Rwanda Francs"), TRUE, TRUE },
+	{ "[$SAR]",	N_("Saudi Arabia, Riyals"), TRUE, TRUE },
+	{ "[$SBD]",	N_("Solomon Islands, Dollars"), TRUE, TRUE },
+	{ "[$SCR]",	N_("Seychelles, Rupees"), TRUE, TRUE },
+	{ "[$SDD]",	N_("Sudan, Dinars"), TRUE, TRUE },
+	{ "[$SEK]",	N_("Sweden, Kronor"), TRUE, TRUE },
+	{ "[$SGD]",	N_("Singapore, Dollars"), TRUE, TRUE },
+	{ "[$SHP]",	N_("Saint Helena, Pounds"), TRUE, TRUE },
+	{ "[$SIT]",	N_("Slovenia, Tolars"), TRUE, TRUE },
+	{ "[$SKK]",	N_("Slovakia, Koruny"), TRUE, TRUE },
+	{ "[$SLL]",	N_("Sierra Leone, Leones"), TRUE, TRUE },
+	{ "[$SOS]",	N_("Somalia, Shillings"), TRUE, TRUE },
+	{ "[$SPL]",	N_("Seborga, Luigini"), TRUE, TRUE },
+	{ "[$SRG]",	N_("Suriname, Guilders"), TRUE, TRUE },
+	{ "[$STD]",	N_("Sao Tome and Principe, Dobras"), TRUE, TRUE },
+	{ "[$SVC]",	N_("El Salvador, Colones"), TRUE, TRUE },
+	{ "[$SYP]",	N_("Syria, Pounds"), TRUE, TRUE },
+	{ "[$SZL]",	N_("Swaziland, Emalangeni"), TRUE, TRUE },
+	{ "[$THB]",	N_("Thailand, Baht"), TRUE, TRUE },
+	{ "[$TJR]",	N_("Tajikistan, Rubles"), TRUE, TRUE },
+	{ "[$TMM]",	N_("Turkmenistan, Manats"), TRUE, TRUE },
+	{ "[$TND]",	N_("Tunisia, Dinars"), TRUE, TRUE },
+	{ "[$TOP]",	N_("Tonga, Pa'anga"), TRUE, TRUE },
+	{ "[$TRL]",	N_("Turkey, Liras"), TRUE, TRUE },
+	{ "[$TTD]",	N_("Trinidad and Tobago, Dollars"), TRUE, TRUE },
+	{ "[$TVD]",	N_("Tuvalu, Tuvalu Dollars"), TRUE, TRUE },
+	{ "[$TWD]",	N_("Taiwan, New Dollars"), TRUE, TRUE },
+	{ "[$TZS]",	N_("Tanzania, Shillings"), TRUE, TRUE },
+	{ "[$UAH]",	N_("Ukraine, Hryvnia"), TRUE, TRUE },
+	{ "[$UGX]",	N_("Uganda, Shillings"), TRUE, TRUE },
+	{ "[$USD]",	N_("United States of America, Dollars"), TRUE, TRUE },
+	{ "[$UYU]",	N_("Uruguay, Pesos"), TRUE, TRUE },
+	{ "[$UZS]",	N_("Uzbekistan, Sums"), TRUE, TRUE },
+	{ "[$VEB]",	N_("Venezuela, Bolivares"), TRUE, TRUE },
+	{ "[$VND]",	N_("Viet Nam, Dong"), TRUE, TRUE },
+	{ "[$VUV]",	N_("Vanuatu, Vatu"), TRUE, TRUE },
+	{ "[$WST]",	N_("Samoa, Tala"), TRUE, TRUE },
+	{ "[$XAF]",	N_("Communaute Financiere Africaine BEAC, Francs"), TRUE, TRUE },
+	{ "[$XAG]",	N_("Silver, Ounces"), TRUE, TRUE },
+	{ "[$XAU]",	N_("Gold, Ounces"), TRUE, TRUE },
+	{ "[$XCD]",	N_("East Caribbean Dollars"), TRUE, TRUE },
+	{ "[$XDR]",	N_("International Monetary Fund (IMF) Special Drawing Rights"), TRUE, TRUE },
+	{ "[$XOF]",	N_("Communaute Financiere Africaine BCEAO, Francs"), TRUE, TRUE },
+	{ "[$XPD]",	N_("Palladium Ounces"), TRUE, TRUE },
+	{ "[$XPF]",	N_("Comptoirs Francais du Pacifique Francs"), TRUE, TRUE },
+	{ "[$XPT]",	N_("Platinum, Ounces"), TRUE, TRUE },
+	{ "[$YER]",	N_("Yemen, Rials"), TRUE, TRUE },
+	{ "[$YUM]",	N_("Yugoslavia, New Dinars"), TRUE, TRUE },
+	{ "[$ZAR]",	N_("South Africa, Rand"), TRUE, TRUE },
+	{ "[$ZMK]",	N_("Zambia, Kwacha"), TRUE, TRUE },
+	{ "[$ZWD]",	N_("Zimbabwe, Zimbabwe Dollars"), TRUE, TRUE },
 
-	{ NULL, NULL }
+	{ NULL, NULL, FALSE, FALSE }
 };
 
 /* Returns the index in currency_symbols of the symbol in ptr */
 static int 
-find_currency(char const *ptr, int len)
+find_currency (char const *ptr, int len)
 {
 	int i;
 
-	for (i = 0; currency_symbols[i].symbol; i++) {
+	for (i = 0; currency_symbols[i].symbol; i++)
 		if (strncmp(currency_symbols[i].symbol, ptr, len) == 0)
 			return i;
-	}
 
 	return -1;
 }
@@ -498,25 +512,25 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 	char const *ptr = fmt;
 	int cur = -1;
 
-#define MATCH_SIZE 15
+#define MATCH_SIZE 13
 	regmatch_t match[MATCH_SIZE];
 
 	/* FMT_CURRENCY or FMT_NUMBER ? */
-	if (regexec(&re_number_currency, fmt, MATCH_SIZE, match, 0) == 0) {
+	if (regexec (&re_number_currency, fmt, MATCH_SIZE, match, 0) == 0) {
 
-		/* match[3] and match[9] contain the Currency symbol */
-		if (match[3].rm_eo == -1 && match[9].rm_eo == -1)
+		/* match[3] and match[7] contain the Currency symbol */
+		if (match[3].rm_eo == -1 && match[7].rm_eo == -1)
 			result = FMT_NUMBER;
 		else {
 			result = FMT_CURRENCY;
-			if (match[9].rm_eo == -1)
-				cur = find_currency(ptr + match[3].rm_so,
+			if (match[7].rm_eo == -1)
+				cur = find_currency (ptr + match[3].rm_so,
 						    match[3].rm_eo
 						    - match[3].rm_so);
 			else if (match[3].rm_eo == -1)
-				cur = find_currency(ptr + match[9].rm_so,
-						    match[9].rm_eo
-						    - match[9].rm_so);
+				cur = find_currency (ptr + match[7].rm_so,
+						    match[7].rm_eo
+						    - match[7].rm_so);
 			else
 				return FMT_UNKNOWN;
 
@@ -525,29 +539,29 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 			info->currency_symbol_index = cur;
 		}
 
-		/* match[5] contains the #,## string */
-		if (match[5].rm_eo != -1)
+		/* match[4] contains the #,## string */
+		if (match[4].rm_eo != -1)
 			info->thousands_sep = TRUE;
 
-		/* match[6] contains the .0000... string */
+		/* match[5] contains the .0000... string */
 		info->num_decimals = 0;
-		if (match[6].rm_eo != -1)
-			info->num_decimals = match[6].rm_eo -
-				match[6].rm_so - 1;
+		if (match[5].rm_eo != -1)
+			info->num_decimals = match[5].rm_eo -
+				match[5].rm_so - 1;
 
 		info->negative_fmt = 0;
-		/* match[12] and match[14] contain the [Red] string */
-		if ((match[12].rm_eo != -1) || (match[14].rm_eo != -1))
+		/* match[10] and match[12] contain the [Red] string */
+		if ((match[10].rm_eo != -1) || (match[12].rm_eo != -1))
 			info->negative_fmt++;
-		/* match[13] contains _);(...) */
-		if (match[13].rm_eo != -1)
+		/* match[11] contains _);(...) */
+		if (match[11].rm_eo != -1)
 			info->negative_fmt += 2;
 
 		return result;
 	}
 
 	/* FMT_PERCENT or FMT_SCIENCE ? */
-	if (regexec(&re_percent_science, fmt, MATCH_SIZE, match, 0) == 0) {
+	if (regexec (&re_percent_science, fmt, MATCH_SIZE, match, 0) == 0) {
 
 		info->num_decimals = 0;
 		if (match[1].rm_eo != -1)
@@ -561,7 +575,7 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 	}
 
 	/* FMT_ACCOUNT */
-	if (regexec(&re_account, fmt, MATCH_SIZE, match, 0) == 0) {
+	if (regexec (&re_account, fmt, MATCH_SIZE, match, 0) == 0) {
 
 		info->num_decimals = 0;
 		if (match[5].rm_eo != -1)
@@ -572,11 +586,11 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 			return FMT_UNKNOWN;
 		else {
 			if (match[8].rm_eo == -1)
-				cur = find_currency(ptr + match[3].rm_so,
+				cur = find_currency (ptr + match[3].rm_so,
 						    match[3].rm_eo
 						    - match[3].rm_so);
 			else if (match[3].rm_eo == -1)
-				cur = find_currency(ptr + match[8].rm_so,
+				cur = find_currency (ptr + match[8].rm_so,
 						    match[8].rm_eo
 						    - match[8].rm_so);
 			else
@@ -632,4 +646,132 @@ cell_format_classify (StyleFormat const *sf, FormatCharacteristics *info)
 			}
 	}
 	return FMT_UNKNOWN;
+}
+
+void
+style_format_percent (GString *res, FormatCharacteristics const *fmt)
+{
+	g_string_append_c (res, '0');
+	if (fmt->num_decimals > 0) {
+		g_return_if_fail (fmt->num_decimals <= 30);
+		g_string_append_c (res, '.');
+		g_string_append (res, zeros + 30-fmt->num_decimals);
+	}
+	g_string_append_c (res, '%');
+}
+
+void
+style_format_science (GString *res, FormatCharacteristics const *fmt)
+{
+	g_string_append_c (res, '0');
+	if (fmt->num_decimals > 0) {
+		g_return_if_fail (fmt->num_decimals <= 30);
+		g_string_append_c (res, '.');
+		g_string_append (res, zeros + 30-fmt->num_decimals);
+	}
+	g_string_append (res, "E+00");
+}
+
+void
+style_format_account (GString *res, FormatCharacteristics const *fmt)
+{
+	int symbol = fmt->currency_symbol_index;
+	GString *sym, *num;
+
+	/* The number with decimals */
+	num = g_string_new ("#,##0");
+	if (fmt->num_decimals > 0) {
+		g_return_if_fail (fmt->num_decimals <= 30);
+		g_string_append_c (num, '.');
+		g_string_append (num, zeros + 30-fmt->num_decimals);
+	}
+
+	/* The currency symbols with space after or before */	
+	sym = g_string_new ("");
+	if (currency_symbols[symbol].precedes) {
+		g_string_append (sym, currency_symbols[symbol].symbol);
+		g_string_append (sym, "* ");
+		if (currency_symbols[symbol].has_space)
+			g_string_append_c (sym, ' ');
+	} else {
+		g_string_append (sym, "* ");
+		if (currency_symbols[symbol].has_space)
+			g_string_append_c (sym, ' ');
+		g_string_append (sym, currency_symbols[symbol].symbol);
+	}
+
+	/* Finaly build the correct string */
+	if (currency_symbols[symbol].precedes) {
+		g_string_printf (res, "_(%s%s_);_(%s(%s);_(%s\"-\"%s_);_(@_)",
+				sym->str, num->str,
+				sym->str, num->str,
+				sym->str, qmarks + 30-fmt->num_decimals);
+	} else {
+		g_string_printf (res, "_(%s%s_);_((%s)%s;_(\"-\"%s%s_);_(@_)",
+				num->str, sym->str,
+				num->str, sym->str,
+				qmarks + 30-fmt->num_decimals, sym->str);
+	}
+
+	g_string_free (num, TRUE);
+	g_string_free (sym, TRUE);
+}
+
+void
+style_format_number (GString *res, FormatCharacteristics const *fmt)
+{
+	int symbol = fmt->currency_symbol_index;
+
+	/* Currency */
+	if ((symbol != -1) && (currency_symbols[symbol].precedes)) {
+		
+		g_string_append (res, currency_symbols[symbol].symbol);
+		if (currency_symbols[symbol].has_space)
+			g_string_append_c (res, ' ');
+	}
+
+	if (fmt->thousands_sep)
+		g_string_append (res, "#,##0");
+	else
+		g_string_append_c (res, '0');
+
+	if (fmt->num_decimals > 0) {
+		g_return_if_fail (fmt->num_decimals <= 30);
+
+		g_string_append_c (res, '.');
+		g_string_append (res, zeros + 30-fmt->num_decimals);
+	}
+
+	/* Currency */
+	if ((symbol != -1) && !(currency_symbols[symbol].precedes)) {
+
+		if (currency_symbols[symbol].has_space)
+			g_string_append_c (res, ' ');
+		g_string_append (res, currency_symbols[symbol].symbol);
+
+	}
+
+	/* There are negatives */
+	if (fmt->negative_fmt > 0) {
+
+		GString *tmp = g_string_new ("");
+		g_string_append (tmp, res->str);
+		switch (fmt->negative_fmt) {
+		case 1 : g_string_append (res, _(";[Red]"));
+			break;
+		case 2 : g_string_append (res, _("_);("));
+			break;
+		case 3 : g_string_append (res, _("_);[Red]("));
+			break;
+		default :
+			g_assert_not_reached ();
+		};
+
+		g_string_append (res, tmp->str);
+
+		if (fmt->negative_fmt >= 2)
+			g_string_append_c (res, ')');
+		g_string_free (tmp, TRUE);
+	}
+	
 }

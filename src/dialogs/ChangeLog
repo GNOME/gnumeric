@@ -1,3 +1,7 @@
+2002-12-24  Jody Goldberg <jody@gnome.org>
+
+	* dialog-workbook-attr.c : clean up includes
+
 2002-12-23  Christian Neumair  <chris@gnome-de.org>
 
 	* dialog-about.c: Revamped about dialog.

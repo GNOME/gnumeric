@@ -2,9 +2,14 @@ Gnumeric 1.1.15
 
 Jody:
 	* Fix some XL95 object issues.
+	* Find a few undocumented corners of XL's format.
+	* Fix XL97 export of validation and filters for simple sheets
 
 Jon Kåre:
 	* Open DB connections read only
+
+Nicolas Peninguy:
+	* Move the generation of the standard formats into StyleFormat
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.13/1.1.14

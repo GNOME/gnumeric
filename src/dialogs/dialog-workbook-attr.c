@@ -24,26 +24,11 @@
 #include <gnumeric.h>
 #include "dialogs.h"
 
-#include <sheet.h>
-#include <style-color.h>
-#include <widgets/widget-font-selector.h>
-#include <widgets/gnumeric-dashed-canvas-line.h>
 #include <gui-util.h>
-#include <selection.h>
-#include <ranges.h>
-#include <format.h>
-#include <formats.h>
-#include <pattern.h>
-#include <mstyle.h>
-#include <application.h>
-#include <workbook-control.h>
 #include <workbook-view.h>
+#include <workbook.h>
 #include <workbook-edit.h>
 #include <workbook-priv.h>
-#include <workbook.h>
-#include <commands.h>
-
-#include <glade/glade.h>
 
 #define WORKBOOK_ATTRIBUTE_KEY "workbook-attribute-dialog"
 
