@@ -1439,7 +1439,7 @@ sheet_action_delete_sheet (GtkWidget *widget, Sheet *current_sheet)
 	/*
 	 * If this is the last sheet left, ignore the request
 	 */
-	if (workbook_sheet_count (wb->sheets) == 1)
+	if (workbook_sheet_count (wb) == 1)
 		return;
 	
 	message = g_strdup_printf (
@@ -1456,11 +1456,23 @@ sheet_action_delete_sheet (GtkWidget *widget, Sheet *current_sheet)
 
 	r = gnome_dialog_run (GNOME_DIALOG (d));
 
-	if (r == 0){
-		workbook_detach_sheet (wb, current_sheet);
-		sheet_destroy (current_sheet);
-		workbook_recalc_all (wb);
+	if (r != 0)
+		return;
+
+	if (!workbook_can_detach_sheet (wb, current_sheet)){
+		gnumeric_notice (
+			wb, GNOME_MESSAGE_BOX_ERROR,
+			_("Other sheets depend on the values on this sheet, "
+			  "I can not remove it"));
+		return;
 	}
+
+	/*
+	 * All is fine, remove the sheet
+	 */
+	workbook_detach_sheet (wb, current_sheet);
+	sheet_destroy (current_sheet);
+	workbook_recalc_all (wb);
 }
 
 #define SHEET_CONTEXT_TEST_SIZE 1
@@ -1601,6 +1613,35 @@ workbook_attach_sheet (Workbook *wb, Sheet *sheet)
 	gtk_widget_show (sheet_label);
 	gtk_notebook_append_page (GTK_NOTEBOOK (wb->notebook),
 				  t, sheet_label);
+}
+
+/**
+ * workbook_detach_sheet:
+ * @wb: workbook.
+ * @sheet: the sheet that we want to detach from the workbook
+ *
+ * Returns true whether the sheet can be safely detached from the
+ * workbook.
+ */
+gboolean
+workbook_can_detach_sheet (Workbook *wb, Sheet *sheet)
+{
+	GList *dependency_list;
+
+	g_return_if_fail (wb != NULL);
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (sheet->workbook != NULL);
+	g_return_if_fail (sheet->workbook == wb);
+	g_return_if_fail (workbook_sheet_lookup (wb, sheet->name) == sheet);
+
+	dependency_list = region_get_dependencies (sheet, 0, 0, SHEET_MAX_COLS, SHEET_MAX_ROWS);
+	if (dependency_list == NULL)
+		return TRUE;
+
+	g_list_free (dependency_list);
+
+	return FALSE;
 }
 
 /**

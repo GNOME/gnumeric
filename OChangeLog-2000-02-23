@@ -1,5 +1,9 @@
 1999-02-10  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/workbook.c (sheet_action_delete_sheet): Add a test for
+	dependencies when removing a sheet
+	(workbook_can_detach_sheet): New function.
+
 	* src/cell.c (cell_relocate): When relocating a cell with a
 	formula, always mark it as changed.  We were doing that before
 	only for the case where the location had changed, but we use
