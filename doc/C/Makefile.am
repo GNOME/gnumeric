@@ -7,7 +7,7 @@ endif
 gnumeric_helpdir = $(datadir)/gnome/help/gnumeric/C
 
 gnumeric_help_DATA = 	\
-	gnumeric.html	\
+	index.html	\
 	topic.dat
 
 SGML_FILES =			\
@@ -49,10 +49,10 @@ EXTRA_DIST = \
 
 all: 
 
-gnumeric.html: gnumeric/gnumeric.html
-	-cd $(srcdir) && cp gnumeric/gnumeric.html .
+index.html: gnumeric/index.html
+	-cd $(srcdir) && cp gnumeric/index.html .
 
-gnumeric/gnumeric.html: $(SGML_FILES)
+gnumeric/index.html: $(SGML_FILES)
 	-cd $(srcdir) && db2html gnumeric.sgml
 
 functions.sgml: func-list.sgml func-index.sgml func-header.sgml func-footer.sgml
@@ -71,11 +71,11 @@ make-func.defs:
 dist-hook:
 	mkdir $(distdir)/gnumeric
 	-cp $(srcdir)/gnumeric/*.html gnumeric/*.css $(distdir)/gnumeric
-	-cp $(srcdir)/gnumeric.html $(distdir)
+	-cp $(srcdir)/index.html $(distdir)
 	mkdir $(distdir)/images
 	-cp $(srcdir)/images/*.gif $(srcdir)/images/*.jpg $(srcdir)/images/*.png $(distdir)/images
 
-install-data-local: gnumeric.html
+install-data-local: index.html
 	$(mkinstalldirs) $(DESTDIR)$(gnumeric_helpdir)/images
 	-for file in $(srcdir)/gnumeric/*.html $(srcdir)/gnumeric/*.css; do \
 	basefile=`basename $$file`; \
