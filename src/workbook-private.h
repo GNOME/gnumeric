@@ -80,8 +80,12 @@ struct _WorkbookPrivate {
 	/* While not editing these should be visible */
 	GtkWidget *func_button;
 
+#ifdef ENABLE_BONOBO
+	GtkWidget *progress_bar;
+#else
         /* The status bar */
         GnomeAppBar *appbar;
+#endif
 
 	/*
 	 * GUI command context

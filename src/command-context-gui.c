@@ -63,8 +63,12 @@ static void
 ccg_set_progress (CommandContext *context, gfloat f)
 {
 	CommandContextGui *ccg = COMMAND_CONTEXT_GUI (context);
-
-	gnome_appbar_set_progress (ccg->wb->priv->appbar, f);
+#ifdef ENABLE_BONOBO
+	gtk_progress_bar_update (
+		GTK_PROGRESS_BAR (ccg->wb->priv->progress_bar), f);
+#else
+	gnome_appbar_set_progess (ccg->wb->priv->appbar, f);
+#endif
 }
 
 static void

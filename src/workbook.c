@@ -2229,13 +2229,57 @@ workbook_setup_auto_calc (Workbook *wb)
 	frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_IN);
 	gtk_container_add (GTK_CONTAINER (frame), canvas);
+#ifdef ENABLE_BONOBO
+	{
+		BonoboControl *control;
+
+		control = bonobo_control_new (frame);
+		g_return_if_fail (control != NULL);
+		
+		bonobo_ui_container_object_set (
+			bonobo_ui_compat_get_container (wb->priv->uih),
+			"/status/AutoExpr",
+			bonobo_object_corba_objref (BONOBO_OBJECT (control)),
+			NULL);
+	}
+#else
 	gtk_box_pack_start (GTK_BOX (wb->priv->appbar), frame, FALSE, TRUE, 0);
+#endif
 	gtk_signal_connect (GTK_OBJECT (canvas), "button_press_event",
 			    GTK_SIGNAL_FUNC (change_auto_expr_menu), wb);
 
 	gtk_object_unref (GTK_OBJECT (l));
 	gtk_widget_show_all (frame);
 }
+
+#ifdef ENABLE_BONOBO
+static void
+setup_progress_bar (WorkbookPrivate *priv)
+{
+	GtkProgressBar *progress_bar;
+	BonoboControl  *control;
+
+	progress_bar = (GTK_PROGRESS_BAR (gtk_progress_bar_new ()));
+
+	gtk_progress_bar_set_orientation (
+		progress_bar, GTK_PROGRESS_LEFT_TO_RIGHT);
+	gtk_progress_bar_set_bar_style (
+		progress_bar, GTK_PROGRESS_CONTINUOUS);
+	
+	priv->progress_bar = GTK_WIDGET (progress_bar);
+/*	gtk_widget_set_usize (priv->progress_bar, 200, 10); */
+	gtk_widget_show (priv->progress_bar);
+
+	control = bonobo_control_new (priv->progress_bar);
+	g_return_if_fail (control != NULL);
+
+	bonobo_ui_container_object_set (
+		bonobo_ui_compat_get_container (priv->uih),
+		"/status/Progress",
+		bonobo_object_corba_objref (BONOBO_OBJECT (control)),
+		NULL);
+}
+#endif
 
 /*
  * Sets up the status display area
@@ -2246,11 +2290,13 @@ workbook_setup_status_area (Workbook *wb)
 	/*
 	 * Create the GnomeAppBar
 	 */
-	wb->priv->appbar = GNOME_APPBAR (gnome_appbar_new (TRUE, TRUE,
-							   GNOME_PREFERENCES_USER));
 #ifdef ENABLE_BONOBO
-#warning FIXME: need to bonoboize the status bar.
+	setup_progress_bar (wb->priv);
 #else
+	wb->priv->appbar = GNOME_APPBAR (
+		gnome_appbar_new (TRUE, TRUE,
+				  GNOME_PREFERENCES_USER));
+
 	gnome_app_set_statusbar (GNOME_APP (wb->toplevel),
 				 GTK_WIDGET (wb->priv->appbar));
 #endif
@@ -2567,6 +2613,7 @@ workbook_zoom_feedback_set (Workbook *wb, double zoom_factor)
 		 change_zoom_in_current_sheet_cb, wb);
 }
 
+#ifndef ENABLE_BONOBO
 /*
  * Hide/show some toolbar items depending on the toolbar orientation
  */
@@ -2582,6 +2629,7 @@ workbook_standard_toolbar_orient (GtkToolbar *toolbar,
 	else
 		gtk_widget_hide (wb->priv->zoom_entry);
 }
+#endif
 
 static char const * const preset_zoom [] = {
 	"200%",
@@ -2600,11 +2648,13 @@ static char const * const preset_zoom [] = {
 static GtkWidget *
 workbook_create_standard_toolbar (Workbook *wb)
 {
-	GnomeDockItemBehavior behavior;
-	const char *name = "StandardToolbar";
 	int i, len;
 	GtkWidget *toolbar, *zoom, *entry, *undo, *redo;
+#ifndef ENABLE_BONOBO
 	GnomeApp *app;
+	GnomeDockItemBehavior behavior;
+	const char *name = "StandardToolbar";
+#endif
 
 	/* Zoom combo box */
 	zoom = wb->priv->zoom_entry = gtk_combo_text_new (FALSE);
@@ -2648,6 +2698,7 @@ workbook_create_standard_toolbar (Workbook *wb)
 	gnumeric_inject_widget_into_bonoboui (wb, undo, "/StandardToolbar/EditUndo");
 	gnumeric_inject_widget_into_bonoboui (wb, redo, "/StandardToolbar/EditRedo");
 	gnumeric_inject_widget_into_bonoboui (wb, zoom, "/StandardToolbar/SheetZoom");
+	toolbar = NULL;
 #else
 	app = GNOME_APP (wb->toplevel);
 
@@ -2686,6 +2737,7 @@ workbook_create_standard_toolbar (Workbook *wb)
 static void
 workbook_create_toolbars (Workbook *wb)
 {
+/* FIXME: for bonobo land these need to be privatized */
 	wb->priv->standard_toolbar = workbook_create_standard_toolbar (wb);
 	wb->priv->format_toolbar   = workbook_create_format_toolbar (wb);
 	wb->priv->object_toolbar   = workbook_create_object_toolbar (wb);
@@ -2752,7 +2804,6 @@ workbook_new (void)
 	wb->file_format_level = FILE_FL_NEW;
 	wb->file_save_fn      = gnumeric_xml_write_workbook;
 
-	workbook_setup_status_area (wb);
 	workbook_setup_edit_area (wb);
 	workbook_setup_sheets (wb);
 
@@ -2796,6 +2847,9 @@ workbook_new (void)
 			"gnumeric.xml", "gnumeric");
 	}
 #endif
+	/* Do after setting up UI bits */
+	workbook_setup_status_area (wb);
+
 	/* Create before registering verbs so that we can merge some extra. */
  	workbook_create_toolbars (wb);
 

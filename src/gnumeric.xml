@@ -498,4 +498,10 @@
 		<toolitem type="std" name="Oval" pixtype="stock" pixname="Gnumeric_Oval"
 		 _label="Oval" _descr="Draw an oval" verb="CreateEllipse"/>
 	</dockitem>
+
+	<status>
+		<item name="main"/>
+		<control name="Progress"/>
+		<control name="AutoExpr"/>
+	</status>
 </Root>

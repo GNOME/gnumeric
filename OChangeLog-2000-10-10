@@ -1,3 +1,15 @@
+2000-10-04  Michael Meeks  <michael@helixcode.com>
+
+	* src/workbook.c (setup_progress_bar): impl.
+	(workbook_new): re-order workbook_setup_status_area
+	(workbook_setup_status_area): upd.
+	(workbook_create_standard_toolbar): null the toolbar.
+	(workbook_setup_auto_calc): create the auto-expr control.
+
+	* src/gnumeric.xml: add stuff.
+
+	* src/command-context-gui.c (ccg_set_progress): upd.
+
 2000-10-03  Michael Meeks  <michael@helixcode.com>
 
 	* src/cell-draw.c (cell_draw): render the cell value if we have
