@@ -727,11 +727,29 @@ excel_formula_parses_ref_sheets (MSContainer const *container, guint8 const *dat
 		if (a < 0 || b < 0) /* deleted sheets */
 			return TRUE;
 
-		d (1, fprintf (stderr, " : %hx : %hx : %hx\n", ixals, a, b););
+		d (-1, fprintf (stderr, " : 0x%hx : 0x%hx : 0x%hx\n", ixals, a, b););
 
+		/* ixals < 0 == reference within the current workbook
+		 *    ixals == negative one based index into containers externsheet table
+		 *    a and b
+		 *    < 0 refers to a deleted sheet
+		 *    ==0 refers to the current sheet (should not occur in global names)
+		 *    > 0  1 based indicies to the sheets in the workbook
+		 *    a is always the same as ixals
+		 *    3d references use -ixals and b.  Since global names
+		 *    precede the BOUNDSHEET records and b refers to their
+		 *    content XL cheated and just spews an externsheet for
+		 *    every sheet if there are any 3d references.
+		 *
+		 *    see pivot.xls as an example of expressions with a&b as
+		 *    sheet indicies before the boundsheets.
+		 **/
 		if (ixals < 0) {
-			*first = workbook_sheet_by_index (container->ewb->gnum_wb, a);
-			*last = workbook_sheet_by_index (container->ewb->gnum_wb, b);
+			*first = excel_externsheet_v7 (container, -ixals);
+			*last = (a == b) ? *first
+				: ((b > 0)
+				   ? excel_externsheet_v7 (container, b)
+				   : ms_container_sheet (container));
 		} else {
 			*first = excel_externsheet_v7 (container, ixals);
 			*last  = excel_externsheet_v7 (container, b);

@@ -106,7 +106,8 @@ typedef struct {
 #define IS_GOG_OBJECT_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GOG_OBJECT_TYPE))
 #define GOG_OBJECT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_OBJECT_TYPE, GogObjectClass))
 
-#define GOG_PARAM_PERSISTENT	(1 << G_PARAM_USER_SHIFT)
+#define GOG_PARAM_PERSISTENT	(1 << (G_PARAM_USER_SHIFT+0))
+#define GOG_PARAM_FORCE_SAVE	(1 << (G_PARAM_USER_SHIFT+1))	/* even if the value == default */
 
 GType gog_object_get_type (void);
 

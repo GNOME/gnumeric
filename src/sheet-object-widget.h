@@ -9,11 +9,12 @@ GType sheet_widget_frame_get_type	 (void); /* convert to non-widget item */
 GType sheet_widget_button_get_type	 (void);
 GType sheet_widget_checkbox_get_type	 (void);
 GType sheet_widget_radio_button_get_type (void);
+
+/*Descendents of the list_base sheet widget object*/
 GType sheet_widget_list_get_type	 (void);
 GType sheet_widget_combo_get_type	 (void);
 
 /*Descendents of the adjustment sheet widget object*/
-GType sheet_widget_adjustment_get_type   (void);
 GType sheet_widget_scrollbar_get_type	 (void);
 GType sheet_widget_slider_get_type       (void);
 GType sheet_widget_spinbutton_get_type   (void);

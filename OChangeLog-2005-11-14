@@ -1,4 +1,11 @@
-2004-03-03  Jody Goldberg <jody@gnome.org>
+2004-03-04  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-object-widget.c : rework the List and combo to use a
+	  shared base.  Then store and restore the dependents in xml
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=135946
+	* src/formats.c : Add mmmmm-yy and mmmmm as defaults
+	* src/format.c (append_month) : support them.
 
 	* src/main-application.c (gnumeric_arg_parse) : When we don't need a
 	  gui we still need to initialize gobject.

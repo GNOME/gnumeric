@@ -471,12 +471,9 @@ render_path (GString *target, HFRenderInfo *info, char const *args)
 			g_free (current_dir);
 		}
 		dir = g_path_get_dirname (path_n_file);
-		path = g_build_path (G_DIR_SEPARATOR_S, dir, 
-				     G_DIR_SEPARATOR_S, NULL);
-		g_string_append (target, path);
-		g_free (path);
-		g_free (path_n_file);
+		g_string_append (target, dir);
 		g_free (dir);
+		g_free (path_n_file);
 	} else 
 		g_string_append (target, _("Path "));
 }

@@ -335,11 +335,15 @@ append_month (GString *string, int n, struct tm const *time_split)
 		return 2;
 	}
 
-	if (n == 3){
+	if (n == 3) {
 		g_string_append (string, _(month_short[month - 1]) + 1);
 		return 3;
 	}
 
+	if (n == 5) {
+		g_string_append_c (string, _(month_short[month - 1])[1]);
+		return 5;
+	}
 	g_string_append (string, _(month_long[month - 1]));
 	return 4;
 }

@@ -5361,7 +5361,7 @@ excel_read_BOF (BiffQuery	 *q,
 
 		/* be anal */
 		if (ver->version != MS_BIFF_V4 && !found_it)
-			fprintf (stderr,"Sheet offset in stream of %x not found in list\n", q->streamPos);
+			fprintf (stderr,"Sheet offset in stream of 0x%x not found in list\n", q->streamPos);
 	} else if (ver->type == MS_BIFF_TYPE_Chart) {
 #if 0
 			/* enable when we support workbooklevel objects */

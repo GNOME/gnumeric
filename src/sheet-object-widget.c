@@ -104,6 +104,23 @@ static GObjectClass *sheet_object_widget_class = NULL;
 
 static GType sheet_object_widget_get_type	(void);
 
+static void
+read_dep (GnmDependent *dep, char const *name,
+	  xmlNodePtr tree, XmlParseContext const *context)
+{
+	char *txt = (gchar *)xmlGetProp (tree, (xmlChar *)name);
+
+	dep->sheet = NULL;
+	dep->expression = NULL;
+	if (txt != NULL && *txt != '\0') {
+		GnmParsePos pos;
+		GnmExpr const *expr = gnm_expr_parse_str_simple (txt,
+			parse_pos_init_sheet (&pos, context->sheet));
+		dep->expression = expr;
+		xmlFree (txt);
+	}
+}
+
 static GObject *
 sheet_object_widget_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
@@ -298,18 +315,17 @@ cb_frame_config_ok_clicked (GtkWidget *button, FrameConfigState *state)
 static void
 cb_frame_config_cancel_clicked (GtkWidget *button, FrameConfigState *state)
 {
-  	GList *list;
-  	SheetWidgetFrame *swc;
-  	swc = state->swc;
+  	GList *ptr;
+  	SheetWidgetFrame *swc = state->swc;
+
   	if (swc->label)
   		g_free(swc->label);
+
   	swc->label = g_strdup(state->old_label);
-  	list = swc->sow.realized_list;
-  	for(;list!=NULL;list=list->next){
+  	for (ptr = swc->sow.realized_list; ptr != NULL ; ptr = ptr->next)
 		gtk_frame_set_label
-			(GTK_FRAME(FOO_CANVAS_WIDGET(list->data)->widget),
+			(GTK_FRAME (FOO_CANVAS_WIDGET (ptr->data)->widget),
 			 state->old_label);
-  	}
 
   	gtk_widget_destroy (state->dialog);
 }
@@ -317,7 +333,7 @@ cb_frame_config_cancel_clicked (GtkWidget *button, FrameConfigState *state)
 static void
 cb_frame_label_changed(GtkWidget *entry, FrameConfigState *state)
 {
-  	GList *list;
+  	GList *ptr;
   	SheetWidgetFrame *swc;
   	gchar const *text;
 
@@ -327,10 +343,9 @@ cb_frame_label_changed(GtkWidget *entry, FrameConfigState *state)
   		g_free(swc->label);
 
 	swc->label = g_strdup(text);
-  	for (list = swc->sow.realized_list; list != NULL;
-	     list = list->next){
+  	for (ptr = swc->sow.realized_list; ptr != NULL; ptr = ptr->next) {
 		gtk_frame_set_label
-			(GTK_FRAME(FOO_CANVAS_WIDGET(list->data)->widget),
+			(GTK_FRAME (FOO_CANVAS_WIDGET (ptr->data)->widget),
 			 text);
 	}
 }
@@ -486,15 +501,14 @@ sheet_widget_button_read_xml_dom (SheetObject *so, char const *typename,
 void
 sheet_widget_button_set_label (SheetObject *so, char const *str)
 {
-	GList *list;
+	GList *ptr;
 	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (so);
 
 	g_free (swb->label);
 	swb->label = g_strdup (str);
 
- 	list = swb->sow.realized_list;
- 	for (; list != NULL; list = list->next) {
- 		FooCanvasWidget *item = FOO_CANVAS_WIDGET (list->data);
+ 	for (ptr = swb->sow.realized_list; ptr != NULL; ptr = ptr->next) {
+ 		FooCanvasWidget *item = FOO_CANVAS_WIDGET (ptr->data);
  		gtk_button_set_label (GTK_BUTTON (item->widget), swb->label);
  	}
 }
@@ -508,9 +522,9 @@ SOW_MAKE_TYPE (button, Button,
 	       &sheet_widget_button_read_xml_dom)
 
 /****************************************************************************/
-#define SHEET_WIDGET_ADJUSTMENT_TYPE    (sheet_widget_adjustment_get_type())
-#define SHEET_WIDGET_ADJUSTMENT(obj)     (G_TYPE_CHECK_INSTANCE_CAST ((obj), SHEET_WIDGET_ADJUSTMENT_TYPE, SheetWidgetAdjustment))
-#define DEP_TO_ADJUSTMENT(d_ptr)		(SheetWidgetAdjustment *)(((char *)d_ptr) - G_STRUCT_OFFSET(SheetWidgetAdjustment, dep))
+#define SHEET_WIDGET_ADJUSTMENT_TYPE	(sheet_widget_adjustment_get_type())
+#define SHEET_WIDGET_ADJUSTMENT(obj)	(G_TYPE_CHECK_INSTANCE_CAST ((obj), SHEET_WIDGET_ADJUSTMENT_TYPE, SheetWidgetAdjustment))
+#define DEP_TO_ADJUSTMENT(d_ptr)	(SheetWidgetAdjustment *)(((char *)d_ptr) - G_STRUCT_OFFSET(SheetWidgetAdjustment, dep))
 
 typedef struct {
 	SheetObjectWidget	sow;
@@ -520,6 +534,8 @@ typedef struct {
 	GtkAdjustment *adjustment;
 } SheetWidgetAdjustment;
 typedef SheetObjectWidgetClass SheetWidgetAdjustmentClass;
+
+static GType sheet_widget_adjustment_get_type (void);
 
 static void
 sheet_widget_adjustment_set_value (SheetWidgetAdjustment *swa, gfloat new_val)
@@ -892,28 +908,9 @@ sheet_widget_adjustment_read_xml_dom (SheetObject *so, char const *typename,
 {
 	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (so);
 	double tmp;
-	gchar *input_txt;
 
-	swa->dep.sheet = NULL;
-	swa->dep.expression = NULL;
+	read_dep (&swa->dep, "Input", tree, context);
 	swa->dep.flags = adjustment_get_dep_type ();
-
-	input_txt = (gchar *)xmlGetProp (tree, (xmlChar *)"Input");
-	if (input_txt != NULL && *input_txt != '\0') {
-		GnmParsePos pos;
-		GnmExpr const *expr = gnm_expr_parse_str_simple (input_txt,
-			parse_pos_init_sheet (&pos, context->sheet));
-
-		if (expr == NULL) {
-			g_warning ("Could not read ranged object. Could not parse expr.");
-			xmlFree (input_txt);
-			return TRUE;
-		}
-
-		swa->dep.expression = expr;
-
-		xmlFree (input_txt);
-	}
 
 	if (xml_node_get_double (tree, "Min", &tmp))
 		swa->adjustment->lower = tmp;
@@ -1460,36 +1457,17 @@ sheet_widget_checkbox_read_xml_dom (SheetObject *so, char const *typename,
 {
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
 	gchar *label = (gchar *)xmlGetProp (tree, (xmlChar *)"Label");
-	gchar *input_txt;
 
 	if (!label) {
 		g_warning ("Could not read a CheckBoxWidget object because it lacks a label property");
 		return TRUE;
 	}
 
-	swc->dep.sheet = NULL;
-	swc->dep.expression = NULL;
-	swc->dep.flags = checkbox_get_dep_type ();
 	swc->label = g_strdup (label);
 	xmlFree (label);
 
-	input_txt = (gchar *)xmlGetProp (tree, (xmlChar *)"Input");
-	if (input_txt != NULL && *input_txt != '\0') {
-		GnmParsePos pos;
-		GnmExpr const *expr = gnm_expr_parse_str_simple (input_txt,
-			parse_pos_init_sheet (&pos, context->sheet));
-
-		if (expr == NULL) {
-
-			xmlFree (input_txt);
-			return TRUE;
-		}
-
-		swc->dep.expression = expr;
-
-		xmlFree (input_txt);
-	}
-
+	read_dep (&swc->dep, "Input", tree, context);
+	swc->dep.flags = checkbox_get_dep_type ();
 	xml_node_get_int (tree, "Value", &swc->value);
 
 	return FALSE;
@@ -1664,20 +1642,25 @@ SOW_MAKE_TYPE (radio_button, RadioButton,
 	       NULL)
 
 /****************************************************************************/
-#define SHEET_WIDGET_LIST_TYPE	(sheet_widget_list_get_type ())
-#define SHEET_WIDGET_LIST(obj)	(G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_WIDGET_LIST_TYPE, SheetWidgetList))
-#define DEP_TO_LIST(d_ptr)	(SheetWidgetList *)(((char *)d_ptr) - G_STRUCT_OFFSET(SheetWidgetList, dep))
+#define SHEET_WIDGET_LIST_BASE_TYPE     (sheet_widget_list_base_get_type ())
+#define SHEET_WIDGET_LIST_BASE(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_WIDGET_LIST_BASE_TYPE, SheetWidgetListBase))
+#define DEP_TO_LIST_BASE_INPUT(d_ptr)	(SheetWidgetListBase *)(((char *)d_ptr) - G_STRUCT_OFFSET(SheetWidgetListBase, content_dep))
+#define DEP_TO_LIST_BASE_OUTPUT(d_ptr)	(SheetWidgetListBase *)(((char *)d_ptr) - G_STRUCT_OFFSET(SheetWidgetListBase, output_dep))
 
 typedef struct {
 	SheetObjectWidget	sow;
 
 	gboolean	being_updated;
-	GnmDependent	dep;
-} SheetWidgetList;
-typedef SheetObjectWidgetClass SheetWidgetListClass;
+	GnmDependent	content_dep;	/* content of the list */
+	GnmDependent	output_dep;	/* selected element */
+} SheetWidgetListBase;
+typedef SheetObjectWidgetClass SheetWidgetListBaseClass;
 
+static GType sheet_widget_list_base_get_type (void);
+
+/*-----------*/
 static void
-list_eval (GnmDependent *dep)
+list_content_eval (GnmDependent *dep)
 {
 	GnmValue *v;
 	GnmEvalPos pos;
@@ -1689,37 +1672,161 @@ list_eval (GnmDependent *dep)
 	result = value_get_as_int (v);
 	value_release (v);
 	if (!err) {
-		/* SheetWidgetList *swl = DEP_TO_LIST (dep); */
+		/* SheetWidgetListBase *swc = DEP_TO_LIST_BASE_INPUT (dep); */
 	}
 }
 
 static void
-list_debug_name (GnmDependent const *dep, FILE *out)
+list_content_debug_name (GnmDependent const *dep, FILE *out)
 {
-	fprintf (out, "List%p", dep);
+	fprintf (out, "ListContent%p", dep);
 }
 
-static DEPENDENT_MAKE_TYPE (list, NULL)
+static DEPENDENT_MAKE_TYPE (list_content, NULL)
 
+/*-----------*/
 static void
-sheet_widget_list_init (SheetObjectWidget *sow)
+list_output_eval (GnmDependent *dep)
 {
-	SheetWidgetList *swl = SHEET_WIDGET_LIST (sow);
+	GnmValue *v;
+	GnmEvalPos pos;
+	gboolean err;
+	int result;
 
-	swl->being_updated = FALSE;
-
-	swl->dep.sheet = NULL;
-	swl->dep.flags = list_get_dep_type ();
-	swl->dep.expression = NULL;
+	v = gnm_expr_eval (dep->expression, eval_pos_init_dep (&pos, dep),
+			   GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+	result = value_get_as_int (v);
+	value_release (v);
+	if (!err) {
+		/* SheetWidgetListBase *swc = DEP_TO_LIST_BASE_OUTPUT (dep); */
+	}
 }
 
 static void
-sheet_widget_list_finalize (GObject *obj)
+list_output_debug_name (GnmDependent const *dep, FILE *out)
 {
-	SheetWidgetList *swl = SHEET_WIDGET_LIST (obj);
-	dependent_set_expr (&swl->dep, NULL);
+	fprintf (out, "ListOutput%p", dep);
+}
+
+static DEPENDENT_MAKE_TYPE (list_output, NULL)
+
+/*-----------*/
+
+static void
+sheet_widget_list_base_init (SheetObjectWidget *sow)
+{
+	SheetWidgetListBase *swc = SHEET_WIDGET_LIST_BASE (sow);
+
+	swc->being_updated = FALSE;
+
+	swc->content_dep.sheet = NULL;
+	swc->content_dep.flags = list_content_get_dep_type ();
+	swc->content_dep.expression = NULL;
+
+	swc->output_dep.sheet = NULL;
+	swc->output_dep.flags = list_output_get_dep_type ();
+	swc->output_dep.expression = NULL;
+}
+
+static void
+sheet_widget_list_base_finalize (GObject *obj)
+{
+	SheetWidgetListBase *swc = SHEET_WIDGET_LIST_BASE (obj);
+	dependent_set_expr (&swc->content_dep, NULL);
+	dependent_set_expr (&swc->output_dep, NULL);
 	(*sheet_object_widget_class->finalize) (obj);
 }
+
+static gboolean
+sheet_widget_list_base_set_sheet (SheetObject *so, Sheet *sheet)
+{
+	SheetWidgetListBase *swc = SHEET_WIDGET_LIST_BASE (so);
+
+	g_return_val_if_fail (swc != NULL, TRUE);
+	g_return_val_if_fail (swc->content_dep.sheet == NULL, TRUE);
+	g_return_val_if_fail (swc->output_dep.sheet == NULL, TRUE);
+
+	dependent_set_sheet (&swc->content_dep, sheet);
+	dependent_set_sheet (&swc->output_dep, sheet);
+
+	return FALSE;
+}
+
+static gboolean
+sheet_widget_list_base_clear_sheet (SheetObject *so)
+{
+	SheetWidgetListBase *swc = SHEET_WIDGET_LIST_BASE (so);
+
+	g_return_val_if_fail (swc != NULL, TRUE);
+
+	if (dependent_is_linked (&swc->content_dep))
+		dependent_unlink (&swc->content_dep, NULL);
+	if (dependent_is_linked (&swc->output_dep))
+		dependent_unlink (&swc->output_dep, NULL);
+	swc->content_dep.sheet = swc->output_dep.sheet = NULL;
+	return FALSE;
+}
+
+static gboolean
+sheet_widget_list_base_write_xml_dom (SheetObject const 	*so,
+				      XmlParseContext const *context,
+				      xmlNodePtr tree)
+{
+	SheetWidgetListBase *swl = SHEET_WIDGET_LIST_BASE (so);
+
+	if (swl->content_dep.expression != NULL) {
+		GnmParsePos pos;
+		char *val = gnm_expr_as_string (swl->content_dep.expression,
+			parse_pos_init_sheet (&pos, so->sheet),
+			gnm_expr_conventions_default);
+		xml_node_set_cstr (tree, "Content", val);
+	}
+	if (swl->output_dep.expression != NULL) {
+		GnmParsePos pos;
+		char *val = gnm_expr_as_string (swl->output_dep.expression,
+			parse_pos_init_sheet (&pos, so->sheet),
+			gnm_expr_conventions_default);
+		xml_node_set_cstr (tree, "Output", val);
+	}
+	return FALSE;
+}
+
+static gboolean
+sheet_widget_list_base_read_xml_dom (SheetObject *so, char const *typename,
+				     XmlParseContext const *context,
+				     xmlNodePtr tree)
+{
+	SheetWidgetListBase *swl = SHEET_WIDGET_LIST_BASE (so);
+
+	read_dep (&swl->content_dep, "Content", tree, context);
+	swl->content_dep.flags = list_content_get_dep_type ();
+	read_dep (&swl->output_dep, "Output", tree, context);
+	swl->output_dep.flags  = list_output_get_dep_type ();
+
+	return FALSE;
+}
+
+static GtkWidget *
+sheet_widget_list_base_create_widget (SheetObjectWidget *sow, SheetControlGUI *sview)
+{
+	g_warning("ERROR: sheet_widget_list_base_create_widget SHOULD NEVER BE CALLED (but it has been)!\n");
+	return gtk_frame_new ("invisiwidget(WARNING: I AM A BUG!)");
+}
+
+SOW_MAKE_TYPE (list_base, ListBase,
+	       NULL,
+	       &sheet_widget_list_base_set_sheet,
+	       &sheet_widget_list_base_clear_sheet,
+	       NULL,
+	       &sheet_widget_list_base_write_xml_dom,
+	       &sheet_widget_list_base_read_xml_dom)
+
+/****************************************************************************/
+#define SHEET_WIDGET_LIST_TYPE	(sheet_widget_list_get_type ())
+#define SHEET_WIDGET_LIST(o)	(G_TYPE_CHECK_INSTANCE_CAST((o), SHEET_WIDGET_LIST_TYPE, SheetWidgetList))
+
+typedef SheetWidgetListBase		SheetWidgetList;
+typedef SheetWidgetListBaseClass	SheetWidgetListClass;
 
 static GtkWidget *
 sheet_widget_list_create_widget (SheetObjectWidget *sow, SheetControlGUI *sview)
@@ -1727,175 +1834,45 @@ sheet_widget_list_create_widget (SheetObjectWidget *sow, SheetControlGUI *sview)
 	return gtk_tree_view_new ();
 }
 
-static gboolean
-sheet_widget_list_set_sheet (SheetObject *so, Sheet *sheet)
-{
-	SheetWidgetList *swl = SHEET_WIDGET_LIST (so);
-
-	dependent_set_sheet (&swl->dep, sheet);
-
-	return FALSE;
+static void
+sheet_widget_list_class_init (SheetObjectWidgetClass *sow_class)
+{                                                                         
+        sow_class->create_widget = &sheet_widget_list_create_widget;
 }
 
-static gboolean
-sheet_widget_list_clear_sheet (SheetObject *so)
-{
-	SheetWidgetList *swl = SHEET_WIDGET_LIST (so);
-
-	g_return_val_if_fail (swl != NULL, TRUE);
-
-	if (dependent_is_linked (&swl->dep))
-		dependent_unlink (&swl->dep, NULL);
-	swl->dep.sheet = NULL;
-	return FALSE;
-}
-
-SOW_MAKE_TYPE (list, List,
-	       NULL,
-	       &sheet_widget_list_set_sheet,
-	       &sheet_widget_list_clear_sheet,
-	       NULL,
-	       NULL,
-	       NULL)
+GSF_CLASS (SheetWidgetList, sheet_widget_list,
+	   &sheet_widget_list_class_init, NULL,
+	   SHEET_WIDGET_LIST_BASE_TYPE);
 
 /****************************************************************************/
-#define SHEET_WIDGET_COMBO_TYPE     (sheet_widget_combo_get_type ())
-#define SHEET_WIDGET_COMBO(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_WIDGET_COMBO_TYPE, SheetWidgetCombo))
-#define DEP_TO_COMBO_INPUT(d_ptr)	(SheetWidgetCombo *)(((char *)d_ptr) - G_STRUCT_OFFSET(SheetWidgetCombo, input_dep))
-#define DEP_TO_COMBO_OUTPUT(d_ptr)	(SheetWidgetCombo *)(((char *)d_ptr) - G_STRUCT_OFFSET(SheetWidgetCombo, output_dep))
+#define SHEET_WIDGET_COMBO_TYPE	(sheet_widget_combo_get_type ())
+#define SHEET_WIDGET_COMBO(o)	(G_TYPE_CHECK_INSTANCE_CAST((o), SHEET_WIDGET_COMBO_TYPE, SheetWidgetCombo))
 
-typedef struct {
-	SheetObjectWidget	sow;
-
-	gboolean	being_updated;
-	GnmDependent	input_dep, output_dep;
-} SheetWidgetCombo;
-typedef SheetObjectWidgetClass SheetWidgetComboClass;
-
-/*-----------*/
-static void
-combo_input_eval (GnmDependent *dep)
-{
-	GnmValue *v;
-	GnmEvalPos pos;
-	gboolean err;
-	int result;
-
-	v = gnm_expr_eval (dep->expression, eval_pos_init_dep (&pos, dep),
-			   GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
-	result = value_get_as_int (v);
-	value_release (v);
-	if (!err) {
-		/* SheetWidgetCombo *swc = DEP_TO_COMBO_INPUT (dep); */
-	}
-}
-
-static void
-combo_input_debug_name (GnmDependent const *dep, FILE *out)
-{
-	fprintf (out, "ComboInput%p", dep);
-}
-
-static DEPENDENT_MAKE_TYPE (combo_input, NULL)
-
-/*-----------*/
-static void
-combo_output_eval (GnmDependent *dep)
-{
-	GnmValue *v;
-	GnmEvalPos pos;
-	gboolean err;
-	int result;
-
-	v = gnm_expr_eval (dep->expression, eval_pos_init_dep (&pos, dep),
-			   GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
-	result = value_get_as_int (v);
-	value_release (v);
-	if (!err) {
-		/* SheetWidgetCombo *swc = DEP_TO_COMBO_OUTPUT (dep); */
-	}
-}
-
-static void
-combo_output_debug_name (GnmDependent const *dep, FILE *out)
-{
-	fprintf (out, "ComboOutput%p", dep);
-}
-
-static DEPENDENT_MAKE_TYPE (combo_output, NULL)
-
-/*-----------*/
-
-static void
-sheet_widget_combo_init (SheetObjectWidget *sow)
-{
-	SheetWidgetCombo *swc = SHEET_WIDGET_COMBO (sow);
-
-	swc->being_updated = FALSE;
-
-	swc->input_dep.sheet = NULL;
-	swc->input_dep.flags = combo_input_get_dep_type ();
-	swc->input_dep.expression = NULL;
-
-	swc->output_dep.sheet = NULL;
-	swc->output_dep.flags = combo_output_get_dep_type ();
-	swc->output_dep.expression = NULL;
-}
-
-static void
-sheet_widget_combo_finalize (GObject *obj)
-{
-	SheetWidgetCombo *swc = SHEET_WIDGET_COMBO (obj);
-	dependent_set_expr (&swc->input_dep, NULL);
-	dependent_set_expr (&swc->output_dep, NULL);
-	(*sheet_object_widget_class->finalize) (obj);
-}
+typedef SheetWidgetListBase		SheetWidgetCombo;
+typedef SheetWidgetListBaseClass	SheetWidgetComboClass;
 
 static GtkWidget *
 sheet_widget_combo_create_widget (SheetObjectWidget *sow, SheetControlGUI *sview)
 {
-	GtkWidget *w = gnm_combo_text_new (NULL);
-	return w;
+	SheetWidgetListBase *swl = SHEET_WIDGET_LIST_BASE (sow);
+	GtkWidget *combo;
+
+	swl->being_updated = TRUE;
+	combo = gnm_combo_text_new (NULL);
+	GTK_WIDGET_UNSET_FLAGS (combo, GTK_CAN_FOCUS);
+	swl->being_updated = FALSE;
+	return combo;
 }
 
-static gboolean
-sheet_widget_combo_set_sheet (SheetObject *so, Sheet *sheet)
-{
-	SheetWidgetCombo *swc = SHEET_WIDGET_COMBO (so);
-
-	g_return_val_if_fail (swc != NULL, TRUE);
-	g_return_val_if_fail (swc->input_dep.sheet == NULL, TRUE);
-	g_return_val_if_fail (swc->output_dep.sheet == NULL, TRUE);
-
-	dependent_set_sheet (&swc->input_dep, sheet);
-	dependent_set_sheet (&swc->output_dep, sheet);
-
-	return FALSE;
+static void
+sheet_widget_combo_class_init (SheetObjectWidgetClass *sow_class)
+{                                                                         
+        sow_class->create_widget = &sheet_widget_combo_create_widget;
 }
 
-static gboolean
-sheet_widget_combo_clear_sheet (SheetObject *so)
-{
-	SheetWidgetCombo *swc = SHEET_WIDGET_COMBO (so);
-
-	g_return_val_if_fail (swc != NULL, TRUE);
-
-	if (dependent_is_linked (&swc->input_dep))
-		dependent_unlink (&swc->input_dep, NULL);
-	if (dependent_is_linked (&swc->output_dep))
-		dependent_unlink (&swc->output_dep, NULL);
-	swc->input_dep.sheet = swc->output_dep.sheet = NULL;
-	return FALSE;
-}
-
-SOW_MAKE_TYPE (combo, Combo,
-	       NULL,
-	       &sheet_widget_combo_set_sheet,
-	       &sheet_widget_combo_clear_sheet,
-	       NULL,
-	       NULL,
-	       NULL)
-
+GSF_CLASS (SheetWidgetCombo, sheet_widget_combo,
+	   &sheet_widget_combo_class_init, NULL,
+	   SHEET_WIDGET_LIST_BASE_TYPE);
 /**************************************************************************/
 
 /**

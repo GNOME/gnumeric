@@ -740,9 +740,8 @@ wb_view_sendto (WorkbookView *wbv, GnmCmdContext *context)
 
 #define GNM_SEND_DIR	".gnm-sendto-"
 #ifdef HAVE_MKDTEMP
-		template = g_build_path (G_DIR_SEPARATOR_S, 
-					 g_get_tmp_dir (),
-					 GNM_SEND_DIR "XXXXXX", NULL);
+		template = g_build_filename (g_get_tmp_dir (),
+			GNM_SEND_DIR "XXXXXX", NULL);
 		mkdtemp (template);
 #else
 		while (1) {
@@ -751,9 +750,7 @@ wb_view_sendto (WorkbookView *wbv, GnmCmdContext *context)
 				 (long)getpid (),
 				 (int)(1e8 * random_01 ()));
 
-			template = g_build_path (G_DIR_SEPARATOR_S, 
-						 g_get_tmp_dir (),
-						 dirname, NULL);
+			template = g_build_filename (g_get_tmp_dir (), dirname, NULL);
 			if (mkdir (template, 0700) == 0)
 				break;
 
@@ -771,8 +768,7 @@ wb_view_sendto (WorkbookView *wbv, GnmCmdContext *context)
 		}
 #endif
 
-		full_name = g_build_path (G_DIR_SEPARATOR_S, 
-			template, basename, NULL);
+		full_name = g_build_filename (template, basename, NULL);
 		g_free (basename);
 
 		wbv_save_to_file (wbv, fs, full_name, io_context);

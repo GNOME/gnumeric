@@ -195,7 +195,7 @@ gog_plot_class_init (GogObjectClass *gog_klass)
 		g_param_spec_boolean ("vary_style_by_element", "vary_style_by_element",
 			"Use a different style for each segments",
 			FALSE,
-			G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+			G_PARAM_READWRITE|GOG_PARAM_PERSISTENT|GOG_PARAM_FORCE_SAVE));
 
 	gog_klass->children_reordered = gog_plot_children_reordered;
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));

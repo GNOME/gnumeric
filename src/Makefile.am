@@ -332,7 +332,7 @@ ssconvert_SOURCES =				\
 test_pango_LDADD   = $(gnumeric_LDADD)
 test_pango_LDFLAGS = $(gnumeric_LDFLAGS)
 test_pango_SOURCES =				\
-	$(GNUMERIC_SOURCE) normal-args.c		\
+	$(GNUMERIC_SOURCE) 			\
 	test-pango.c
 
 gnm-marshalers.h : gnm-marshalers.list $(GLIB_GENMARSHAL)
@@ -366,7 +366,7 @@ dist-hook :
 EXTRA_DIST = GNOME_Gnumeric-gtk.xml				\
 	    GNOME_Gnumeric.xml GNOME_Gnumeric_Component.xml	\
 	    gnm-marshalers.list	                        	\
-	    main-application.c normal-args.c 			\
+	    main-application.c 					\
 	    main-component.c					\
 	    $(GNUMERIC_GNOME) README.gnm_float			\
 	    gnumeric-paths.sh.in ssconvert.c
