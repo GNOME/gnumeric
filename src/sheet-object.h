@@ -49,6 +49,7 @@ gboolean      sheet_object_clear_sheet	 (SheetObject *so);
 gboolean      sheet_object_set_sheet	 (SheetObject *so, Sheet *sheet);
 Sheet	     *sheet_object_get_sheet	 (SheetObject const *so);
 
+SheetObject  *sheet_object_dup		 (SheetObject const *so);
 void          sheet_object_print	 (SheetObject const *so,
 					  GnomePrintContext *ctx,
 					  double width, double height);

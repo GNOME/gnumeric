@@ -306,18 +306,13 @@ cell_comment_print (SheetObject const *so, GnomePrintContext *ctx,
 	 */
 }
 
-static SheetObject *
-cell_comment_clone (SheetObject const *so, Sheet *sheet)
+static void
+cell_comment_copy (SheetObject *dst, SheetObject const *src)
 {
-	GnmComment *comment = CELL_COMMENT (so);
-	GnmComment *new_comment;
-
-	new_comment = g_object_new (CELL_COMMENT_TYPE, NULL);
-
+	GnmComment const *comment	= CELL_COMMENT (src);
+	GnmComment	 *new_comment	= CELL_COMMENT (dst);
 	new_comment->author = comment->author ? g_strdup (comment->author) : NULL;
 	new_comment->text   = comment->text   ? g_strdup (comment->text) : NULL;
-
-	return SHEET_OBJECT (new_comment);
 }
 
 static void
@@ -342,7 +337,7 @@ cell_comment_class_init (GObjectClass *gobject_class)
 	sheet_object_class->write_xml_dom	= &cell_comment_write_xml_dom;
 	sheet_object_class->write_xml_sax	= &cell_comment_write_xml_sax;
 	sheet_object_class->print		= &cell_comment_print;
-	sheet_object_class->clone		= &cell_comment_clone;
+	sheet_object_class->copy		= &cell_comment_copy;
 	sheet_object_class->xml_export_name = "CellComment";
 }
 

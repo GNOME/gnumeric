@@ -92,6 +92,8 @@ gboolean cmd_object_delete	(WorkbookControl *wbc, SheetObject *so);
 gboolean cmd_object_move	(WorkbookControl *wbc, SheetObject *so,
 				 SheetObjectAnchor const *old_anchor,
 				 gboolean resize);
+gboolean cmd_object_format	(WorkbookControl *wbc, SheetObject *so,
+				 gpointer orig_style);
 
 gboolean cmd_reorganize_sheets	(WorkbookControl *wbc, GSList *new_order,
 				 GSList *changed_names, GSList *new_names, 

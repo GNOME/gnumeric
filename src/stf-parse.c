@@ -1239,7 +1239,6 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const 
 					ccopy->row_offset = row;
 					ccopy->u.cell = cell_new ();
 					cell_set_value(ccopy->u.cell, v);
-					ccopy->comment = NULL;
 
 					content = g_slist_prepend (content, ccopy);
 					targetcol++;

@@ -70,7 +70,7 @@ typedef struct {
 	GladeXML  	*gui;
 	GogStyle  	*style;
 	GogStyle  	*default_style;
-	GogStyledObject *parent;
+	GObject		*object_with_style;
 	gboolean   	 enable_edit;
 	gulong     	 style_changed_handler;
 	struct {
@@ -99,10 +99,12 @@ cb_style_changed (GogStyledObject *obj, GogStyle *style, StylePrefState *state)
 static void
 set_style (StylePrefState const *state)
 {
-	if (state->parent != NULL) {
-		g_signal_handler_block (state->parent, state->style_changed_handler);
-		g_object_set (G_OBJECT (state->parent), "style", state->style, NULL);
-		g_signal_handler_unblock (state->parent, state->style_changed_handler);
+	if (state->object_with_style != NULL) {
+		if (state->style_changed_handler)
+			g_signal_handler_block (state->object_with_style, state->style_changed_handler);
+		g_object_set (G_OBJECT (state->object_with_style), "style", state->style, NULL);
+		if (state->style_changed_handler)
+			g_signal_handler_unblock (state->object_with_style, state->style_changed_handler);
 	}
 }
 
@@ -840,16 +842,16 @@ static void
 cb_parent_is_gone (StylePrefState *state, GObject *where_the_object_was)
 {
 	state->style_changed_handler = 0;
-	state->parent = NULL;
+	state->object_with_style = NULL;
 }
 
 static void
 gog_style_pref_state_free (StylePrefState *state)
 {
 	if (state->style_changed_handler) {
-		g_signal_handler_disconnect (state->parent,
+		g_signal_handler_disconnect (state->object_with_style,
 			state->style_changed_handler);
-		g_object_weak_unref (G_OBJECT (state->parent),
+		g_object_weak_unref (G_OBJECT (state->object_with_style),
 			(GWeakNotify) cb_parent_is_gone, state);
 	}
 	g_object_unref (state->style);
@@ -868,8 +870,9 @@ static gpointer
 style_editor (GogStyle *style,
 	      GogStyle *default_style,
 	      GnmCmdContext *cc,
-	      gpointer optional_notebook,
-	      GogStyledObject *parent)
+	      gpointer	 optional_notebook,
+	      GObject	*object_with_style,
+	      gboolean   watch_for_external_change)
 {
 	GogStyleFlag enable;
 	GtkWidget *w;
@@ -892,7 +895,7 @@ style_editor (GogStyle *style,
 	state->gui = gui;
 	state->style = style;
 	state->default_style = default_style;
-	state->parent = parent;
+	state->object_with_style = object_with_style;
 	state->enable_edit = FALSE;
 
 	outline_init (state, enable & GOG_STYLE_OUTLINE);
@@ -903,12 +906,11 @@ style_editor (GogStyle *style,
 
 	state->enable_edit = TRUE;
 
-	if (parent != NULL) {
-		state->style_changed_handler = g_signal_connect (G_OBJECT (parent),
+	if (object_with_style != NULL && watch_for_external_change) {
+		state->style_changed_handler = g_signal_connect (G_OBJECT (object_with_style),
 			"style-changed",
 			G_CALLBACK (cb_style_changed), state);
-
-		g_object_weak_ref (G_OBJECT (parent),
+		g_object_weak_ref (G_OBJECT (object_with_style),
 			(GWeakNotify) cb_parent_is_gone, state);
 	}
 
@@ -928,11 +930,11 @@ gpointer
 gog_style_editor (GogStyle *style,
 		  GogStyle *default_style,
 		  GnmCmdContext *cc,
-		  gpointer optional_notebook)
+		  gpointer optional_notebook,
+		  GObject *object_with_style)
 {
-	return style_editor (style, default_style,
-			     cc, optional_notebook,
-			     NULL);
+	return style_editor (style, default_style, cc, optional_notebook,
+		object_with_style, FALSE);
 }
 
 gpointer
@@ -940,8 +942,8 @@ gog_styled_object_editor (GogStyledObject *gso, GnmCmdContext *cc, gpointer opti
 {
 	GogStyle *style = gog_style_dup (gog_styled_object_get_style (gso));
 	GogStyle *default_style = gog_styled_object_get_auto_style (gso);
-	gpointer editor = style_editor (style, default_style, cc, optional_notebook, gso);
-
+	gpointer editor = style_editor (style, default_style, cc,
+		optional_notebook, G_OBJECT (gso), TRUE);
 	g_object_unref (style);
 	g_object_unref (default_style);
 

@@ -447,7 +447,8 @@ cb_redo_activated (GOActionComboStack *a, WorkbookControl *wbc)
 }
 
 static void
-cb_chain_sensitivity (GtkAction *src, GParamSpec *pspec, GtkAction *action)
+cb_chain_sensitivity (GtkAction *src, G_GNUC_UNUSED GParamSpec *pspec,
+		      GtkAction *action)
 
 {
 	gboolean old_val, new_val = gtk_action_is_sensitive (src);
@@ -1082,7 +1083,8 @@ cb_toolbar_activate (GtkToggleAction *action, WorkbookControlGUI *wbcg)
 }
 
 static void
-cb_handlebox_visible (GtkWidget *box, GParamSpec *pspec, WorkbookControlGUI *wbcg)
+cb_handlebox_visible (GtkWidget *box, G_GNUC_UNUSED GParamSpec *pspec,
+		      WorkbookControlGUI *wbcg)
 {
 	GtkToggleAction *toggle_action = g_object_get_data (
 		G_OBJECT (box), "toggle_action");

@@ -1,3 +1,34 @@
+2004-09-24  Jody Goldberg <jody@gnome.org>
+
+	* ms-obj.c (ms_obj_attr_new_flag) : add some safety checking
+	(ms_obj_read_pre_biff8_obj) : merge up the handling of similar
+	  structures to get more consistent import.
+
+	* ms-excel-write.c (excel_write_objs) : now that text boxes and
+	  rectangles are the same we need to do more work to figure out which
+	  are which.  Make a list and use that in place of repeated lookups.
+	(excel_sheet_new) : make the list here.
+	(excel_write_state_new) : use the list.
+	(excel_sheet_free) : new.
+	(excel_write_state_free) : use excel_sheet_free.
+
+	* ms-excel-read.c (ms_sheet_map_color) : rework to use GOColor
+	(ms_sheet_realize_obj) : simplify greatly by using GObject properties
+	  with common names in the sheet objects and merging the handling of
+	  related types (text==rectangle ...)
+	(ms_sheet_create_obj) : Use the new object types in a step towards
+	  removing this function.
+
+	* ms-escher.c (ms_escher_read_OPT_bools) : new.
+	(ms_escher_read_OPT) : read the boolean blocks as a group to avoid
+	  kludging around the infrastructure for 1:1 properties.
+	 While in here make the debug spew for complex options more useful
+	 Store PTR properties
+
+2004-09-17  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (ms_sheet_realize_obj) : default to outline with == 1
+
 2004-09-22  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=153260

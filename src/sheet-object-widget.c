@@ -73,7 +73,7 @@
 #define SOW_CLASS(so)	 	     (SHEET_OBJECT_WIDGET_CLASS (G_OBJECT_GET_CLASS(so)))
 
 #define SOW_MAKE_TYPE(n1, n2, fn_config, fn_set_sheet, fn_clear_sheet,	\
-		      fn_clone, fn_write_dom, fn_read_dom, fn_write_sax)		\
+		      fn_copy, fn_write_dom, fn_read_dom, fn_write_sax)		\
 static void								\
 sheet_widget_ ## n1 ## _class_init (GObjectClass *object_class)		\
 {									\
@@ -83,7 +83,7 @@ sheet_widget_ ## n1 ## _class_init (GObjectClass *object_class)		\
 	so_class->user_config		= fn_config;				\
 	so_class->assign_to_sheet	= fn_set_sheet;				\
 	so_class->remove_from_sheet	= fn_clear_sheet;			\
-	so_class->clone			= fn_clone;				\
+	so_class->copy			= fn_copy;				\
 	so_class->write_xml_dom		= fn_write_dom;				\
 	so_class->read_xml_dom		= fn_read_dom;				\
 	so_class->write_xml_sax		= fn_write_sax;				\
@@ -256,13 +256,11 @@ sheet_widget_frame_create_widget (SheetObjectWidget *sow, SheetControlGUI *sview
 	return gtk_frame_new (swf->label);
 }
 
-static SheetObject *
-sheet_widget_frame_clone (SheetObject const *src_swf, Sheet *new_sheet)
+static void
+sheet_widget_frame_copy (SheetObject *dst, SheetObject const *src)
 {
-	SheetWidgetFrame *swf = g_object_new (SHEET_WIDGET_FRAME_TYPE, NULL);
-	sheet_widget_frame_init_full (swf,
-		SHEET_WIDGET_FRAME (src_swf)->label);
-	return SHEET_OBJECT (swf);
+	sheet_widget_frame_init_full (SHEET_WIDGET_FRAME (dst),
+		SHEET_WIDGET_FRAME (src)->label);
 }
 
 static void
@@ -443,7 +441,7 @@ SOW_MAKE_TYPE (frame, Frame,
 	       &sheet_widget_frame_user_config,
 	       NULL,
 	       NULL,
-	       &sheet_widget_frame_clone,
+	       &sheet_widget_frame_copy,
 	       &sheet_widget_frame_write_xml_dom,
 	       &sheet_widget_frame_read_xml_dom,
 	       &sheet_widget_frame_write_xml_sax)
@@ -488,13 +486,11 @@ sheet_widget_button_create_widget (SheetObjectWidget *sow, SheetControlGUI *svie
 	return gtk_button_new_with_label (swb->label);
 }
 
-static SheetObject *
-sheet_widget_button_clone (SheetObject const *src_swb, Sheet *new_sheet)
+static void
+sheet_widget_button_copy (SheetObject *dst, SheetObject const *src_swb)
 {
-	SheetWidgetButton *swb = g_object_new (SHEET_WIDGET_BUTTON_TYPE, NULL);
-	sheet_widget_button_init_full (swb,
+	sheet_widget_button_init_full (SHEET_WIDGET_BUTTON (dst),
 		SHEET_WIDGET_BUTTON (src_swb)->label);
-	return SHEET_OBJECT (swb);
 }
 
 static void
@@ -554,7 +550,7 @@ SOW_MAKE_TYPE (button, Button,
 	       NULL,
 	       NULL,
 	       NULL,
-	       &sheet_widget_button_clone,
+	       &sheet_widget_button_copy,
 	       &sheet_widget_button_write_xml_dom,
 	       &sheet_widget_button_read_xml_dom,
 	       &sheet_widget_button_write_xml_sax)
@@ -701,26 +697,24 @@ sheet_widget_adjustment_finalize (GObject *obj)
 	(*sheet_object_widget_class->finalize)(obj);
 }
 
-static SheetObject *
-sheet_widget_adjustment_clone (SheetObject const *src_so, Sheet *new_sheet)
+static void
+sheet_widget_adjustment_copy (SheetObject *dst, SheetObject const *src)
 {
-	SheetWidgetAdjustment *src_swa = SHEET_WIDGET_ADJUSTMENT (src_so);
-	SheetWidgetAdjustment *swa = g_object_new (SHEET_WIDGET_ADJUSTMENT_TYPE, NULL);
-	GtkAdjustment *adjust, *src_adjust;
+	SheetWidgetAdjustment const *src_swa = SHEET_WIDGET_ADJUSTMENT (src);
+	SheetWidgetAdjustment       *dst_swa = SHEET_WIDGET_ADJUSTMENT (dst);
+	GtkAdjustment *dst_adjust, *src_adjust;
 	GnmCellRef ref;
 
-	sheet_widget_adjustment_init_full (swa,
+	sheet_widget_adjustment_init_full (dst_swa,
 		sheet_widget_adjustment_get_ref (src_swa, &ref, FALSE));
-	adjust = swa->adjustment;
+	dst_adjust = dst_swa->adjustment;
 	src_adjust = src_swa->adjustment;
 
-	adjust->lower = src_adjust->lower;
-	adjust->upper = src_adjust->upper;
-	adjust->value = src_adjust->value;
-	adjust->step_increment = src_adjust->step_increment;
-	adjust->page_increment = src_adjust->page_increment;
-
-	return SHEET_OBJECT (swa);
+	dst_adjust->lower = src_adjust->lower;
+	dst_adjust->upper = src_adjust->upper;
+	dst_adjust->value = src_adjust->value;
+	dst_adjust->step_increment = src_adjust->step_increment;
+	dst_adjust->page_increment = src_adjust->page_increment;
 }
 
 typedef struct {
@@ -998,7 +992,7 @@ SOW_MAKE_TYPE (adjustment, Adjustment,
 	       &sheet_widget_adjustment_user_config,
 	       &sheet_widget_adjustment_set_sheet,
 	       &sheet_widget_adjustment_clear_sheet,
-	       &sheet_widget_adjustment_clone,
+	       &sheet_widget_adjustment_copy,
 	       &sheet_widget_adjustment_write_xml_dom,
 	       &sheet_widget_adjustment_read_xml_dom,
 	       &sheet_widget_adjustment_write_xml_sax)
@@ -1275,19 +1269,16 @@ sheet_widget_checkbox_create_widget (SheetObjectWidget *sow, SheetControlGUI *sv
 	return button;
 }
 
-static SheetObject *
-sheet_widget_checkbox_clone (SheetObject const *src_so, Sheet *new_sheet)
+static void
+sheet_widget_checkbox_copy (SheetObject *dst, SheetObject const *src)
 {
-	SheetWidgetCheckbox *src_swc = SHEET_WIDGET_CHECKBOX (src_so);
-	SheetWidgetCheckbox *swc = g_object_new (SHEET_WIDGET_CHECKBOX_TYPE, NULL);
+	SheetWidgetCheckbox const *src_swc = SHEET_WIDGET_CHECKBOX (src);
+	SheetWidgetCheckbox       *dst_swc = SHEET_WIDGET_CHECKBOX (dst);
 	GnmCellRef ref;
-
-	sheet_widget_checkbox_init_full (swc,
+	sheet_widget_checkbox_init_full (dst_swc,
 		sheet_widget_checkbox_get_ref (src_swc, &ref, FALSE),
 		src_swc->label);
-	swc->value = src_swc->value;
-
-	return SHEET_OBJECT (swc);
+	dst_swc->value = src_swc->value;
 }
 
 typedef struct {
@@ -1547,7 +1538,7 @@ SOW_MAKE_TYPE (checkbox, Checkbox,
 	       &sheet_widget_checkbox_user_config,
 	       &sheet_widget_checkbox_set_sheet,
 	       &sheet_widget_checkbox_clear_sheet,
-	       &sheet_widget_checkbox_clone,
+	       &sheet_widget_checkbox_copy,
 	       &sheet_widget_checkbox_write_xml_dom,
 	       &sheet_widget_checkbox_read_xml_dom,
 	       &sheet_widget_checkbox_write_xml_sax)

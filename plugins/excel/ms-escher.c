@@ -1114,6 +1114,164 @@ typedef enum {
 	line_cap_Flat     /* Line ends at end point */
 } LineCap;
 
+typedef struct {
+	char const	*name;
+	unsigned	 pid;
+	gboolean	 default_val;
+	MSObjAttrID	 id;
+} MSEscherBoolOptTable;
+
+static MSEscherBoolOptTable const protection_bools[] = {
+	{ "LockRotation",	119, FALSE, 0 },
+	{ "LockAspectRatio",	120, FALSE, 0 },
+	{ "LockPosition",	121, FALSE, 0 },
+	{ "LockAgainstSelect",	122, FALSE, 0 },
+	{ "LockCropping",	123, FALSE, 0 },
+	{ "LockVertices",	124, FALSE, 0 },
+	{ "LockText",		125, FALSE, 0 },
+	{ "LockAdjustHandles",	126, FALSE, 0 },
+	{ "LockAgainstGrouping",127, FALSE, 0 }
+};
+
+static MSEscherBoolOptTable const text_bools[] = {
+	{ "fSelectText",	187,	 TRUE, 0 }, /* TRUE if single click selects text, FALSE if two clicks */
+	{ "fAutoTextMargin",	188,	FALSE, 0 }, /* use host's margin calculations */
+	{ "fRotateText",	189,	FALSE, 0 }, /* Rotate text with shape */
+	{ "fFitShapeToText",	190,	FALSE, 0 }, /* Size shape to fit text size */
+	{ "fFitTextToShape",	191,	FALSE, 0 }  /* Size text to fit shape size */
+};
+
+static MSEscherBoolOptTable const geotext_bools[] = {
+	{ "gtextFReverseRows",	240,	FALSE, 0 }, /* Reverse row order */
+	{ "fGtext",		241,	FALSE, 0 }, /* Has text effect */
+	{ "gtextFVertical",	242,	FALSE, 0 }, /* Rotate characters */
+	{ "gtextFKern",		243,	FALSE, 0 }, /* Kern characters */
+	{ "gtextFTight",	244,	FALSE, 0 }, /* Tightening or tracking */
+	{ "gtextFStretch",	245,	FALSE, 0 }, /* Stretch to fit shape */
+	{ "gtextFShrinkFit",	246,	FALSE, 0 }, /* Char bounding box */
+	{ "gtextFBestFit",	247,	FALSE, 0 }, /* Scale text-on-path */
+	{ "gtextFNormalize",	248,	FALSE, 0 }, /* Stretch char height */
+	{ "gtextFDxMeasure",	249,	FALSE, 0 }, /* Do not measure along path */
+	{ "gtextFBold",		250,	FALSE, 0 }, /* Bold font */
+	{ "gtextFItalic",	251,	FALSE, 0 }, /* Italic font */
+	{ "gtextFUnderline",	252,	FALSE, 0 }, /* Underline font */
+	{ "gtextFShadow",	253,	FALSE, 0 }, /* Shadow font */
+	{ "gtextFSmallcaps",	254,	FALSE, 0 }, /* Small caps font */
+	{ "gtextFStrikethrough",255,	FALSE, 0 }  /* Strike through font */
+};
+
+static MSEscherBoolOptTable const picture_bools[] = {
+	{ "fNoHitTestPicture",	316,	FALSE, 0 }, /* Do not hit test the picture */
+	{ "pictureGray",	317,	FALSE, 0 }, /* grayscale display */
+	{ "pictureBiLevel",	318,	FALSE, 0 }, /* bi-level display */
+	{ "pictureActive",	319,	FALSE, 0 }  /* Server is active (OLE objects only) */
+};
+
+static MSEscherBoolOptTable const geometry_bools[] = {
+	{ "fShadowOK",		378,	 TRUE, 0 }, /* Shadow may be set */
+	{ "f3DOK",		379,	 TRUE, 0 }, /* 3D may be set */
+	{ "fLineOK",		380,	 TRUE, 0 }, /* Line style may be set */
+	{ "fGtextOK",		381,	FALSE, 0 }, /* Text effect (WordArt) supported */
+	{ "fFillShadeShapeOK",	382,	FALSE, 0 },
+	{ "fFillOK",		383,	 TRUE, 0 }  /* OK to fill the shape through the UI or VBA? */
+};
+
+static MSEscherBoolOptTable const fill_bools[] = {
+	{ "fFilled",		443,	 TRUE, MS_OBJ_ATTR_UNFILLED }, /* Is shape filled? */
+	{ "fHitTestFill",	444,	 TRUE, 0 }, /* Should we hit test fill?  */
+	{ "fillShape",		445,	 TRUE, 0 }, /* Register pattern on shape */
+	{ "fillUseRect",	446,	FALSE, 0 }, /* Use the large rect? */
+	{ "fNoFillHitTest",	447,	FALSE, 0 } /* Hit test a shape as though filled */
+};
+
+static MSEscherBoolOptTable const line_bools[] = {
+	{ "fArrowheadsOK",	507,	FALSE, 0 }, /* Allow arrowheads if prop. is set */
+	{ "fLine",		508,	 TRUE, MS_OBJ_ATTR_OUTLINE_HIDE }, /* Any line? */
+	{ "fHitTestLine",	509,	 TRUE, 0 }, /* Should we hit test lines?  */
+	{ "lineFillShape",	510,	 TRUE, 0 }, /* Register pattern on shape */
+	{ "fNoLineDrawDash",	511,	FALSE, 0 }  /* Draw a dashed line if no line */
+};
+
+static MSEscherBoolOptTable const shadow_bools[] = {
+	{ "fShadow",		574,	FALSE, 0 }, /* Any shadow? */
+	{ "fshadowObscured",	575,	FALSE, 0 } /* Excel5-style shadow */
+};
+
+static MSEscherBoolOptTable const three_d_obj_bools[] = {
+	{ "f3D",			700,	FALSE, 0 }, /* Does this shape have a 3D effect? */
+	{ "fc3DMetallic",		701,	FALSE, 0 }, /* metallic specularity? */
+	{ "fc3DUseExtrusionColor",	702,	FALSE, 0 },
+	{ "fc3DLightFace",		703,	 TRUE, 0 }
+};
+
+static MSEscherBoolOptTable const three_d_style_bools[] = {
+	{ "fc3DConstrainRotation",	763,	 TRUE, 0 },
+	{ "fc3DRotationCenterAuto",	764,	FALSE, 0 },
+	{ "fc3DParallel",		765,	 TRUE, 0 }, /* projection? */
+	{ "fc3DKeyHarsh",		766,	 TRUE, 0 }, /* key lighting harsh? */
+	{ "fc3DFillHarsh",		767,	FALSE, 0 } /* fill lighting harsh?` */
+};
+
+static MSEscherBoolOptTable const shape_bools[] = {
+	{ "fOleIcon",			826,	FALSE, 0 }, /* For OLE objects, whether the object is in icon form */
+	{ "fPreferRelativeResize",	827,	FALSE, 0 }, /* For UI only. Prefer relative resizing.  */
+	{ "fLockShapeType",		828,	FALSE, 0 }, /* Lock the shape type (don't allow Change Shape) */
+	{ "fDeleteAttachedObject",	830,	FALSE, 0 },
+	{ "fBackground",		831,	FALSE, 0 } /* If TRUE, this is the background shape. */
+};
+
+static MSEscherBoolOptTable const callout_bools[] = {
+	{ "fCallout",			889,	FALSE, 0 }, /* Is the shape a callout? */
+	{ "fCalloutAccentBar",		890,	FALSE, 0 }, /* does callout have accent bar */
+	{ "fCalloutTextBorder",		891,	 TRUE, 0 }, /* does callout have a text border */
+	{ "fCalloutMinusX",		892,	FALSE, 0 },
+	{ "fCalloutMinusY",		893,	FALSE, 0 },
+	{ "fCalloutDropAuto",		894,	FALSE, 0 }, /* If true, then we occasionally invert the drop distance */
+	{ "fCalloutLengthSpecified",	895,	FALSE, 0 }  /* if true, we look at dxyCalloutLengthSpecified */
+};
+
+static MSEscherBoolOptTable const group_bools[] = {
+	{ "fEditedWrap",	953,	FALSE, 0 }, /* Has the wrap polygon been edited? */
+	{ "fBehindDocument",	954,	FALSE, 0 }, /* Word-only (shape is behind text) */
+	{ "fOnDblClickNotify",	955,	FALSE, 0 }, /* Notify client on a double click */
+	/* A button shape (i.e., clicking performs an action).  Set for shapes
+	 * with attached hyperlinks or macros. */
+	{ "fIsButton",		956,	FALSE, 0 },
+	{ "fOneD",		957,	FALSE, 0 }, /* 1D adjustment */
+	{ "fHidden",		958,	FALSE, 0 }, /* Do not display */
+	{ "fPrint",		959,	 TRUE, 0 }  /* Print this shape */
+};
+
+static void
+ms_escher_read_OPT_bools (MSEscherHeader *h,
+			  MSEscherBoolOptTable const *bools, unsigned n_bools,
+			  guint const pid, guint32 const val)
+{
+	guint32 mask = 0x10000;
+	guint32 bit  = 0x00001;
+	unsigned i = n_bools;
+
+	g_return_if_fail (n_bools > 0);
+	g_return_if_fail (bools[n_bools-1].pid == pid);
+
+	d (2, printf ("BOOLS %s(%d) = 0x%08x;\n",
+		      bools[n_bools-1].name, bools[n_bools-1].pid, val););
+
+	for (; i-- > 0 ; mask <<= 1, bit <<= 1) {
+		if (!(val & mask))	/* the value is set */
+			continue;
+		/* If the value is not the default, and we give a damn */
+		if ((((val & bit) == bit) ^ bools[i].default_val) && bools[i].id != 0) {
+			ms_escher_header_add_attr (h,
+				ms_obj_attr_new_flag (bools[i].id));
+			d (0, printf ("bool %s(%d) ==%s;\n",
+				      bools[i].name, bools[i].id,
+				      /* only exported if they != default_val */
+				      bools[i].default_val ? "false" : "true"););
+		}
+	}
+}
+
 static gboolean
 ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 {
@@ -1154,27 +1312,12 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 4 : name = "long rotation"; break;
 
 	/* Protection */
-#if 0
-		/* FALSE : */
-		case 119 : name = "bool LockRotation"; break;
-		/* FALSE : */
-		case 120 : name = "bool LockAspectRatio"; break;
-		/* FALSE : */
-		case 121 : name = "bool LockPosition"; break;
-		/* FALSE : */
-		case 122 : name = "bool LockAgainstSelect"; break;
-		/* FALSE : */
-		case 123 : name = "bool LockCropping"; break;
-		/* FALSE : */
-		case 124 : name = "bool LockVertices"; break;
-		/* FALSE : */
-		case 125 : name = "bool LockText"; break;
-		/* FALSE : */
-		case 126 : name = "bool LockAdjustHandles"; break;
-#endif
-		/* Booleans are stored in chunks named for the last element */
-		/* FALSE : */
-		case 127 : name = "bool LockAgainstGrouping"; break;
+		case 119 : case 120 : case 121 : case 122 : case 123 :
+		case 124 : case 125 : case 126 : case 127 :
+			ms_escher_read_OPT_bools (h,
+				protection_bools, G_N_ELEMENTS (protection_bools),
+				pid, val);
+			break;
 
 	/* Text */
 		/* 0 : id for the text, value determined by the host */
@@ -1202,19 +1345,11 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		/* LTR : Bi-Di Text direction */
 		case 139 : name = "TextDirection txdir"; break;
 
-#if 0
-		/* TRUE : TRUE if single click selects text, FALSE if two clicks */
-		case 187 : name = "bool fSelectText"; break;
-		/* FALSE : use host's margin calculations */
-		case 188 : name = "bool fAutoTextMargin"; break;
-	        /* FALSE : Rotate text with shape */
-		case 189 : name = "bool fRotateText"; break;
-		/* FALSE : Size shape to fit text size */
-		case 190 : name = "bool fFitShapeToText"; break;
-#endif
-		/* Booleans are stored in chunks named for the last element */
-		/* FALSE : Size text to fit shape size */
-		case 191 : name = "bool fFitTextToShape"; break;
+		case 187 : case 188 : case 189 : case 190 : case 191 :
+			ms_escher_read_OPT_bools (h,
+				text_bools, G_N_ELEMENTS (text_bools),
+				pid, val);
+			break;
 
 	/* GeoText */
 		/* NULL : UNICODE text string */
@@ -1230,41 +1365,14 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		/* NULL : font family name */
 		case 197 : name = "wchar* gtextFont"; break;
 
-#if 0
-		/* FALSE : Reverse row order */
-		case 240 : name = "bool gtextFReverseRows"; break;
-		/* FALSE : Has text effect */
-		case 241 : name = "bool fGtext"; break;
-		/* FALSE : Rotate characters */
-		case 242 : name = "bool gtextFVertical"; break;
-		/* FALSE : Kern characters */
-		case 243 : name = "bool gtextFKern"; break;
-		/* FALSE : Tightening or tracking */
-		case 244 : name = "bool gtextFTight"; break;
-		/* FALSE : Stretch to fit shape */
-		case 245 : name = "bool gtextFStretch"; break;
-		/* FALSE : Char bounding box */
-		case 246 : name = "bool gtextFShrinkFit"; break;
-		/* FALSE : Scale text-on-path */
-		case 247 : name = "bool gtextFBestFit"; break;
-		/* FALSE : Stretch char height */
-		case 248 : name = "bool gtextFNormalize"; break;
-		/* FALSE : Do not measure along path */
-		case 249 : name = "bool gtextFDxMeasure"; break;
-		/* FALSE : Bold font */
-		case 250 : name = "bool gtextFBold"; break;
-		/* FALSE : Italic font */
-		case 251 : name = "bool gtextFItalic"; break;
-		/* FALSE : Underline font */
-		case 252 : name = "bool gtextFUnderline"; break;
-		/* FALSE : Shadow font */
-		case 253 : name = "bool gtextFShadow"; break;
-		/* FALSE : Small caps font */
-		case 254 : name = "bool gtextFSmallcaps"; break;
-#endif
-		/* Booleans are stored in chunks named for the last element */
-		/* FALSE : Strike through font */
-		case 255 : name = "bool gtextFStrikethrough"; break;
+		case 240 : case 241 : case 242 : case 243 : case 244 :
+		case 245 : case 246 : case 247 : case 248 : case 249 :
+		case 250 : case 251 : case 252 : case 253 : case 254 :
+		case 255 :
+			ms_escher_read_OPT_bools (h,
+				geotext_bools, G_N_ELEMENTS (geotext_bools),
+				pid, val);
+			break;
 
 	/* Blip */
 		/* 0 : 16.16 fraction times total image width or height, as appropriate. */
@@ -1314,17 +1422,11 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		/* Comment Blip flags */
 		case 273 : name = "BlipType pibPrintFlags"; break;
 
-#if 0
-		/* FALSE : Do not hit test the picture */
-		case 316 : name = "bool fNoHitTestPicture"; break;
-		/* FALSE : grayscale display */
-		case 317 : name = "bool pictureGray"; break;
-		/* FALSE : bi-level display */
-		case 318 : name = "bool pictureBiLevel"; break;
-#endif
-		/* Booleans are stored in chunks named for the last element */
-		/* FALSE : Server is active (OLE objects only) */
-		case 319 : name = "bool pictureActive"; break;
+		case 316 : case 317 : case 318 : case 319 :
+			ms_escher_read_OPT_bools (h,
+				picture_bools, G_N_ELEMENTS (picture_bools),
+				pid, val);
+			break;
 
 	/* Geometry */
 	        /* 0 : Defines the G (geometry) coordinate space. */
@@ -1365,21 +1467,12 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		/* 0 :  */
 		case 336 : name = "long adjust10Value"; break;
 
-#if 0
-		/* TRUE : Shadow may be set */
-		case 378 : name = "bool fShadowOK"; break;
-		/* TRUE : 3D may be set */
-		case 379 : name = "bool f3DOK"; break;
-		/* TRUE : Line style may be set */
-		case 380 : name = "bool fLineOK"; break;
-		/* FALSE : Text effect (WordArt) supported */
-		case 381 : name = "bool fGtextOK"; break;
-		/* FALSE :  */
-		case 382 : name = "bool fFillShadeShapeOK"; break;
-#endif
-		/* Booleans are stored in chunks named for the last element */
-		/* TRUE : OK to fill the shape through the UI or VBA? */
-		case 383 : name = "bool fFillOK"; break;
+		case 378 : case 379 : case 380 : case 381 : case 382 :
+		case 383 :
+			ms_escher_read_OPT_bools (h,
+				geometry_bools, G_N_ELEMENTS (geometry_bools),
+				pid, val);
+			break;
 
 	/* FillStyle */
 		/* Solid : Type of fill */
@@ -1462,22 +1555,11 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 412 : id = MS_OBJ_ATTR_FILL_SHADE_TYPE;
 			   name = "ShadeType fillShadeType";
 			   break;
-#if 0
-		/* TRUE : Is shape filled? */
-		case 443 : name = "bool fFilled"; break;
-		/* TRUE : Should we hit test fill?  */
-		case 444 : name = "bool fHitTestFill"; break;
-		/* TRUE : Register pattern on shape */
-		case 445 : name = "bool fillShape"; break;
-		/* FALSE : Use the large rect? */
-		case 446 : name = "bool fillUseRect"; break;
-#endif
 
-		/* FALSE : Hit test a shape as though filled */
-		case 447 :
-			name = "bool fNoFillHitTest";
-			if (!(val & 0x10))
-				id = MS_OBJ_ATTR_UNFILLED;
+		case 443 : case 444 : case 445 : case 446 : case 447 :
+			ms_escher_read_OPT_bools (h,
+				fill_bools, G_N_ELEMENTS (fill_bools),
+				pid, val);
 			break;
 
 	/* LineStyle */
@@ -1506,13 +1588,19 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		/* measure_Default : How to interpret fillWidth/Height numbers. */
 		case 458 : name = "LengthMeasure lineFillDztype"; break;
 		/* 9525 : A units; 1pt == 12700 EMUs */
-		case 459 : name = "long lineWidth"; break;
+		case 459 : id = MS_OBJ_ATTR_OUTLINE_WIDTH;
+			   name = "long lineWidth";
+			   val = val * 256. / 12700.; /* convert to 256th of pt */
+			   break;
 		/* 8<<16 : ratio (16.16) of width */
 		case 460 : name = "long lineMiterLimit"; break;
 		/* Simple : Draw parallel lines? */
 		case 461 : name = "LineStyle lineStyle"; break;
 		/* Solid : Can be overridden by: */
-		case 462 : name = "DashedLineStyle lineDashing"; break;
+		case 462 : id = MS_OBJ_ATTR_OUTLINE_STYLE;
+			   name = "DashedLineStyle lineDashing";
+			   val++;
+			   break;
 		/* NULL : As Win32 ExtCreatePen */
 		case 463 : name = "IMsoArray lineDashStyle"; break;
 		/* NoEnd : Arrow at start */
@@ -1535,25 +1623,11 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 470 : name = "LineJoin lineJoinStyle"; break;
 		/* EndCapFlat : How to end lines */
 		case 471 : name = "LineCap lineEndCapStyle"; break;
-#if 0
-		/* FALSE : Allow arrowheads if prop. is set */
-		case 507 : name = "bool fArrowheadsOK"; break;
-		/* TRUE : Any line? */
-		case 508 : name = "bool fLine"; break;
-		/* TRUE : Should we hit test lines?  */
-		case 509 : name = "bool fHitTestLine"; break;
-		/* TRUE : Register pattern on shape */
-		case 510 : name = "bool lineFillShape"; break;
-#endif
 
-		/* Booleans are stored in chunks named for the last element */
-		/* FALSE : Draw a dashed line if no line */
-		case 511 : name = "bool fNoLineDrawDash";
-			id = MS_OBJ_ATTR_OUTLINE_STYLE;
-
-			/* TODO : write a boolean extractor to handle multiple flags in 1 value */
-			/* Test fLine (0x8) */
-			val = (val & 0x8) ? 1 : 0;
+		case 507 : case 508 : case 509 : case 510 : case 511 :
+			ms_escher_read_OPT_bools (h,
+				line_bools, G_N_ELEMENTS (line_bools),
+				pid, val);
 			break;
 
 	/* ShadowStyle */
@@ -1593,13 +1667,11 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 528 : name = "long shadowOriginX"; break;
 		/* 0 :  */
 		case 529 : name = "long shadowOriginY"; break;
-#if 0
-		/* FALSE : Any shadow? */
-		case 574 : name = "bool fShadow"; break;
-#endif
-		/* Booleans are stored in chunks named for the last element */
-		/* FALSE : Excel5-style shadow */
-		case 575 : name = "bool fshadowObscured"; break;
+		case 574 : case 575 :
+			ms_escher_read_OPT_bools (h,
+				shadow_bools, G_N_ELEMENTS (shadow_bools),
+				pid, val);
+			break;
 
 	/* PerspectiveStyle */
 		/* Shape : Where transform applies */
@@ -1652,17 +1724,11 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 647 : name = "Colour c3DExtrusionColor"; break;
 		/* undefined : Modification for BW views */
 		case 648 : name = "Colour c3DCrMod"; break;
-#if 0
-		/* FALSE : Does this shape have a 3D effect? */
-		case 700 : name = "bool f3D"; break;
-		/* 0 : Use metallic specularity? */
-		case 701 : name = "bool fc3DMetallic"; break;
-		/* FALSE :  */
-		case 702 : name = "bool fc3DUseExtrusionColor"; break;
-#endif
-		/* Booleans are stored in chunks named for the last element */
-		/* TRUE :  */
-		case 703 : name = "bool fc3DLightFace"; break;
+		case 700 : case 701 : case 702 : case 703 :
+			ms_escher_read_OPT_bools (h,
+				three_d_obj_bools, G_N_ELEMENTS (three_d_obj_bools),
+				pid, val);
+			break;
 
 	/* 3D Style */
 		/* 0 : degrees (16.16) about y axis */
@@ -1719,19 +1785,12 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 729 : name = "long c3DFillZ"; break;
 		/* 38000 : Fixed point intensity */
 		case 730 : name = "long c3DFillIntensity"; break;
-#if 0
-		/* TRUE :  */
-		case 763 : name = "bool fc3DConstrainRotation"; break;
-		/* FALSE :  */
-		case 764 : name = "bool fc3DRotationCenterAuto"; break;
-		/* 1 : Parallel projection? */
-		case 765 : name = "bool fc3DParallel"; break;
-		/* 1 : Is key lighting harsh? */
-		case 766 : name = "bool fc3DKeyHarsh"; break;
-#endif
-		/* Booleans are stored in chunks named for the last element */
-		/* 0 : Is fill lighting harsh?` */
-		case 767 : name = "bool fc3DFillHarsh"; break;
+
+		case 763 : case 764 : case 765 : case 766 : case 767 :
+			ms_escher_read_OPT_bools (h,
+				three_d_style_bools, G_N_ELEMENTS (three_d_style_bools),
+				pid, val);
+			break;
 
 	/* Shape */
 		/* NULL : master shape */
@@ -1745,19 +1804,11 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 773 : name = "BlackWhiteMode bWModePureBW"; break;
 		/* Automatic :  */
 		case 774 : name = "BlackWhiteMode bWModeBW"; break;
-#if 0
-		/* FALSE : For OLE objects, whether the object is in icon form */
-		case 826 : name = "bool fOleIcon"; break;
-		/* FALSE : For UI only. Prefer relative resizing.  */
-		case 827 : name = "bool fPreferRelativeResize"; break;
-		/* FALSE : Lock the shape type (don't allow Change Shape) */
-		case 828 : name = "bool fLockShapeType"; break;
-		/* FALSE :  */
-		case 830 : name = "bool fDeleteAttachedObject"; break;
-#endif
-		/* Booleans are stored in chunks named for the last element */
-		/* FALSE : If TRUE, this is the background shape. */
-		case 831 : name = "bool fBackground"; break;
+		case 826 : case 827 : case 828 : case 830 : case 831 :
+			ms_escher_read_OPT_bools (h,
+				shape_bools, G_N_ELEMENTS (shape_bools),
+				pid, val);
+			break;
 
 	/* CallOut */
 		/* TwoSegment : CalloutType */
@@ -1772,28 +1823,19 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 836 : name = "long dxyCalloutDropSpecified"; break;
 		/* 0 : if fCalloutLengthSpecified, the actual distance */
 		case 837 : name = "long dxyCalloutLengthSpecified"; break;
-#if 0
-		/* FALSE : Is the shape a callout? */
-		case 889 : name = "bool fCallout"; break;
-		/* FALSE : does callout have accent bar */
-		case 890 : name = "bool fCalloutAccentBar"; break;
-		/* TRUE : does callout have a text border */
-		case 891 : name = "bool fCalloutTextBorder"; break;
-		/* FALSE :  */
-		case 892 : name = "bool fCalloutMinusX"; break;
-		/* FALSE :  */
-		case 893 : name = "bool fCalloutMinusY"; break;
 
-		/* FALSE : If true, then we occasionally invert the drop distance */
-		case 894 : name = "bool fCalloutDropAuto"; break;
-#endif
-		/* Booleans are stored in chunks named for the last element */
-		/* FALSE : if true, we look at dxyCalloutLengthSpecified */
-		case 895 : name = "bool fCalloutLengthSpecified"; break;
+		case 889 : case 890 : case 891 : case 892 : case 893 :
+		case 894 : case 895 :
+			ms_escher_read_OPT_bools (h,
+				callout_bools, G_N_ELEMENTS (callout_bools),
+				pid, val);
+			break;
 
 	/* GroupShape */
 		/* NULL : Shape Name (present only if explicitly set) */
-		case 896 : name = "wchar* wzName"; break;
+		case 896 : id = MS_OBJ_ATTR_OBJ_NAME;
+			   name = "wchar* wzName";
+			   break;
 		/* NULL : alternate text */
 		case 897 : name = "wchar* wzDescription"; break;
 		/* NULL : The hyperlink in the shape. */
@@ -1810,28 +1852,16 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 903 : name = "long dyWrapDistBottom"; break;
 		/* 0 : Regroup ID  */
 		case 904 : name = "long lidRegroup"; break;
-#if 0
-		/* FALSE : Has the wrap polygon been edited? */
-		case 953 : name = "bool fEditedWrap"; break;
-		/* FALSE : Word-only (shape is behind text) */
-		case 954 : name = "bool fBehindDocument"; break;
-		/* FALSE : Notify client on a double click */
-		case 955 : name = "bool fOnDblClickNotify"; break;
-		/* FALSE : A button shape (i.e., clicking performs an action).
-		 * Set for shapes with attached hyperlinks or macros. */
-		case 956 : name = "bool fIsButton"; break;
-		/* FALSE : 1D adjustment */
-		case 957 : name = "bool fOneD"; break;
-		/* FALSE : Do not display */
-		case 958 : name = "bool fHidden"; break;
-#endif
 
-		/* Booleans are stored in chunks named for the last element */
-		/* TRUE : Print this shape */
-		case 959 : name = "bool fPrint"; break;
+		case 953 : case 954 : case 955 : case 956 : case 957 :
+		case 958 : case 959 :
+			ms_escher_read_OPT_bools (h,
+				group_bools, G_N_ELEMENTS (group_bools),
+				pid, val);
+			break;
 
 		default : name = "";
-		};
+		}
 
 		d (0, printf ("%s %d = 0x%08x (=%d) %s%s;\n", name, pid, val, val,
 			      is_blip ? " is blip" : "",
@@ -1845,22 +1875,27 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 			d (5, gsf_mem_dump (extra, val););
 			d (7, { 
 				static int count = 0;
-				char *name = g_strdup_printf ("gnumeric-complex-opt-%d", count++);
+				char *name = g_strdup_printf ("gnumeric-complex-opt-[%d]-%d", pid, count++);
 				FILE *f = fopen (name, "w");
 				if (f != NULL) {
 					fwrite (extra, 1, val, f);
 					fclose (f);
 				}
 			});
+			if (id & MS_OBJ_ATTR_IS_PTR_MASK) {
+				ms_escher_header_add_attr (h,
+					ms_obj_attr_new_ptr (id, g_strndup (extra, val)));
+				id = MS_OBJ_ATTR_NONE;
+			}
 			extra += val;
 		}
 
 		if (id & MS_OBJ_ATTR_IS_INT_MASK)
 			ms_escher_header_add_attr (h,
 				ms_obj_attr_new_uint (id, val));
-		else if (id != MS_OBJ_ATTR_NONE)
-			ms_escher_header_add_attr (h,
-				ms_obj_attr_new_flag (id));
+		else if (id != MS_OBJ_ATTR_NONE) {
+			g_warning ("We know attr[%d] with id == 0x%x, but do not store it ?", pid, id);
+		}
 	}
 	if (needs_free)
 		g_free ((guint8 *)data);

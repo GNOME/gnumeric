@@ -609,7 +609,7 @@ filter_field_class_init (GObjectClass *object_class)
 	sheet_object_class->write_xml_dom = NULL;
 	sheet_object_class->write_xml_sax = NULL;
 	sheet_object_class->print         = NULL;
-	sheet_object_class->clone         = NULL;
+	sheet_object_class->copy          = NULL;
 }
 
 GSF_CLASS (GnmFilterField, filter_field,

@@ -39,8 +39,8 @@
 #include <sheet-object.h>
 #include <sheet-object-cell-comment.h>
 #include <sheet-object-graph.h>
-#include <sheet-object-graphic.h>
 #include <sheet-object-image.h>
+#include <gnm-so-filled.h>
 #include <application.h>
 #include <style.h>
 #include <validation.h>
@@ -333,7 +333,6 @@ points_to_inches (double pts)
 {
 	return pts / 72.0;
 }
-
 
 void
 excel_write_SETUP (BiffPut *bp, ExcelWriteSheet *esheet)
@@ -2330,10 +2329,7 @@ excel_write_XFs (ExcelWriteState *ewb)
 	GnmStyle *st;
 
 	/* it is more compact to just spew the default representations than
-	 * to store a readable form, and generate the constant data.
-	 * At some point it would be good to generate the default style in
-	 * entry 0 but not crucial given that col default xf handles most of it
-	 */
+	 * to store a readable form, and generate the constant data. */
 	static guint8 const builtin_xf_biff8 [XF_RESERVED][20] = {
 		{ 0, 0,    0, 0, 0xf5, 0xff, 0x20, 0, 0,    0, 0, 0, 0, 0, 0, 0, 0, 0, 0xc0, 0x20 },
 		{ 1, 0,    0, 0, 0xf5, 0xff, 0x20, 0, 0, 0xf4, 0, 0, 0, 0, 0, 0, 0, 0, 0xc0, 0x20 },
@@ -3987,8 +3983,6 @@ excel_write_objs (ExcelWriteSheet *esheet)
 	BiffPut *bp = esheet->ewb->bp;
 	GSList  *ptr, *charts = sheet_objects_get (esheet->gnum_sheet,
 		NULL, SHEET_OBJECT_GRAPH_TYPE);
-	GSList  *texts = sheet_objects_get (esheet->gnum_sheet,
-		NULL, SHEET_OBJECT_TEXT_TYPE);
 	int	 len;
 
 	if (esheet->num_objs == 0)
@@ -4008,7 +4002,7 @@ excel_write_objs (ExcelWriteSheet *esheet)
 		guint8 buf [sizeof header_obj_v8];
 		unsigned last_id, num_filters = 0;
 		unsigned num_charts = g_slist_length (charts);
-		unsigned num_texts = g_slist_length (texts);
+		unsigned num_texts = g_slist_length (esheet->textboxes);
 
 		if (esheet->gnum_sheet->filters != NULL) {
 			GnmFilter const *f = esheet->gnum_sheet->filters->data;
@@ -4042,9 +4036,8 @@ excel_write_objs (ExcelWriteSheet *esheet)
 		if (ptr->data)
 			excel_write_image (esheet, ptr->data);
 
-	for (ptr = texts; ptr != NULL ; ptr = ptr->next)
+	for (ptr = esheet->textboxes; ptr != NULL ; ptr = ptr->next)
 		excel_write_textbox (esheet, ptr->data);
-	g_slist_free (texts);
 
 	excel_write_autofilter_objs (esheet);
 }
@@ -4230,8 +4223,11 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 	esheet->blips = g_slist_reverse (esheet->blips);
 	g_slist_free (objs);
 	esheet->num_objs += esheet->num_blips;
+
 	/* Text boxes */
-	objs = sheet_objects_get (sheet, NULL, SHEET_OBJECT_TEXT_TYPE);
+	esheet->textboxes = sheet_objects_get (sheet, NULL, GNM_SO_FILLED_TYPE);
+#warning TODO TODO FIXME FIXME FIXME : filter for boxes with text
+
 	esheet->num_objs += g_slist_length (objs);
 	g_slist_free (objs);
 
@@ -4242,6 +4238,14 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 	}
 
 	return esheet;
+}
+
+static void
+excel_sheet_free (ExcelWriteSheet *esheet)
+{
+	g_slist_free (esheet->textboxes);
+	g_slist_free_custom (esheet->blips, (GFreeFunc) blipinf_free);
+	g_free (esheet);
 }
 
 /**
@@ -5089,11 +5093,8 @@ excel_write_state_new (IOContext *context, WorkbookView const *gwb_view,
 			extract_gog_object_style (ewb,
 				(GogObject *)sheet_object_graph_get_gog (ptr->data));
 		g_slist_free (objs);
-		objs = sheet_objects_get (sheet,
-			NULL, SHEET_OBJECT_TEXT_TYPE);
-		for (ptr = objs ; ptr != NULL ; ptr = ptr->next)
+		for (ptr = esheet->textboxes ; ptr != NULL ; ptr = ptr->next)
 			extract_txomarkup (ewb, ptr->data);
-		g_slist_free (objs);
 	}
 
 	if (biff8) {
@@ -5121,11 +5122,8 @@ excel_write_state_free (ExcelWriteState *ewb)
 	palette_free (ewb);
 	xf_free  (ewb);
 
-	for (i = 0; i < ewb->sheets->len; i++) {
-		ExcelWriteSheet *esheet = g_ptr_array_index (ewb->sheets, i);
-		g_slist_free_custom (esheet->blips, (GFreeFunc) blipinf_free);
-		g_free (esheet);
-	}
+	for (i = 0; i < ewb->sheets->len; i++)
+		excel_sheet_free (g_ptr_array_index (ewb->sheets, i));
 
 	g_ptr_array_free (ewb->sheets, TRUE);
 	g_hash_table_destroy (ewb->names);

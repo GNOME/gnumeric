@@ -58,10 +58,12 @@
 #include <command-context.h>
 #include <sheet-object-cell-comment.h>
 #include <sheet-object-widget.h>
-#include <sheet-object-graphic.h>
+#include <gnm-so-line.h>
+#include <gnm-so-filled.h>
 #include <sheet-object-graph.h>
 #include <sheet-object-image.h>
 #include <goffice/utils/go-units.h>
+#include <goffice/graph/gog-style.h>
 
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-utils.h>
@@ -217,24 +219,30 @@ ms_sheet_get_fmt (MSContainer const *container, unsigned indx)
 	return excel_wb_get_fmt (container->ewb, indx);
 }
 
-static GnmColor *
-ms_sheet_map_color (ExcelReadSheet const *esheet, MSObj const *obj, MSObjAttrID id)
+static GOColor
+ms_sheet_map_color (ExcelReadSheet const *esheet, MSObj const *obj, MSObjAttrID id, GOColor default_val)
 {
 	gushort r, g, b;
 	MSObjAttr *attr = ms_obj_attr_bag_lookup (obj->attrs, id);
 
 	if (attr == NULL)
-		return NULL;
+		return default_val;
 
-	if ((~0x7ffffff) & attr->v.v_uint)
-		return excel_palette_get (esheet->container.ewb->palette,
+	if ((~0x7ffffff) & attr->v.v_uint) {
+		GnmColor *c = excel_palette_get (esheet->container.ewb->palette,
 			(0x7ffffff & attr->v.v_uint));
 
-	r = (attr->v.v_uint)       & 0xff;
-	g = (attr->v.v_uint >> 8)  & 0xff;
-	b = (attr->v.v_uint >> 16) & 0xff;
+		r = c->color.red >> 8;
+		g = c->color.green >> 8;
+		b = c->color.blue >> 8;
+		style_color_unref (c);
+	} else {
+		r = (attr->v.v_uint)       & 0xff;
+		g = (attr->v.v_uint >> 8)  & 0xff;
+		b = (attr->v.v_uint >> 16) & 0xff;
+	}
 
-	return style_color_new_i8 (r, g, b);
+	return RGBA_TO_UINT (r,g,b,0xff);
 }
 
 static SheetObject *
@@ -364,6 +372,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 	SheetObjectDirection direction;
 	SheetObjectAnchor anchor;
 	SheetObject *so;
+	GogStyle *style;
 
 	if (obj == NULL)
 		return TRUE;
@@ -395,87 +404,64 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 	sheet_object_anchor_set (so, &anchor);
 	sheet_object_set_sheet (so, esheet->sheet);
 
-	/* handle common attributes */
-	/* THIS IS DAMN UGLY we should be using gobject properties with common names or something */
 	label = ms_obj_attr_get_ptr (obj->attrs, MS_OBJ_ATTR_TEXT, NULL);
-	if (label != NULL) {
-		switch (obj->excel_type) {
-#if 0
-#warning boxs and circles can have text ?? (map box to label, what to do with circle)
-unhandled text for type 0x2
-#endif
+	if (label != NULL)
+		g_object_set (G_OBJECT (so), "text", label, NULL);
 
-		case 0x0E: /* label or text box */
-		case 0x06: gnm_so_text_set_text (so, label);
-			   break;
-		case 0x07: sheet_widget_button_set_label (so, label);
-			   break;
-		case 0x0B: sheet_widget_checkbox_set_label (so, label);
-			   break;
-		case 0x0C: sheet_widget_radio_button_set_label (so, label);
-			   break;
-		case 0x19: cell_comment_text_set (CELL_COMMENT (so), label);
-			   break;
-		default:
-			   g_warning ("unhandled text for type 0x%x", obj->excel_type);
-			   break;
-		}
-	}
 	markup = ms_obj_attr_get_markup (obj->attrs, MS_OBJ_ATTR_MARKUP, NULL);
-	if (markup != NULL) {
-		switch (obj->excel_type) {
+	if (markup != NULL)
+		g_object_set (so, "markup", markup, NULL);
 
-#if 0
-unhandled markup for type 0x2
-unhandled markup for type 0x7
-unhandled markup for type 0xb
-unhandled markup for type 0xc
-#endif
-		case 0x06: /* TextBox */
-		case 0x0E: /* Label */
-		case 0x19: /* Comment */
-			g_object_set (so, "markup", markup, NULL);
-			break;
-		default:
-			g_warning ("unhandled markup for type 0x%x", obj->excel_type);
-			break;
-		}
-	}
 	switch (obj->excel_type) {
 	case 0x00:
 		break;
-	case 0x01: { /* Line */
-		GnmColor *color = ms_sheet_map_color (esheet, obj,
-			MS_OBJ_ATTR_FILL_COLOR);
-		if (color != NULL)
-			gnm_so_graphic_set_fill_color (so, color);
-		break;
-	}
 
-	case 0x05: /* Chart */
-		/* NOTE : We should not need to do anything for charts */
+	case 0x01: /* Line */
+	case 0x04: /* Arc */
+		style = gog_style_new ();
+		style->line.color = ms_sheet_map_color (esheet, obj,
+			MS_OBJ_ATTR_OUTLINE_COLOR, RGBA_BLACK);
+		style->line.width = ms_obj_attr_get_uint (obj->attrs,
+			MS_OBJ_ATTR_OUTLINE_WIDTH, 0) / 256.;
+		style->line.pattern = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_OUTLINE_HIDE)
+			? 0 : ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_OUTLINE_STYLE, 1);
+		g_object_set (G_OBJECT (so), "style", style, NULL);
+		g_object_unref (style);
 		break;
+
+	case 0x09:
+		g_object_set (G_OBJECT (so), "points",
+			ms_obj_attr_get_array (obj->attrs, MS_OBJ_ATTR_POLYGON_COORDS, NULL),
+			NULL);
+		   /* fallthrough */
 
 	case 0x02: /* rectangle */
 	case 0x03: /* oval */
 	case 0x06: /* TextBox */
 	case 0x0E: /* Label */
-		if (ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_UNFILLED))
-			gnm_so_graphic_set_fill_color (so, NULL);
-		else
-			gnm_so_graphic_set_fill_color (so,
-				ms_sheet_map_color (esheet, obj, MS_OBJ_ATTR_FILL_COLOR));
+		style = gog_style_new ();
+		style->outline.color = ms_sheet_map_color (esheet, obj,
+			MS_OBJ_ATTR_OUTLINE_COLOR, RGBA_BLACK);
+		style->outline.width = ms_obj_attr_get_uint (obj->attrs,
+			MS_OBJ_ATTR_OUTLINE_WIDTH, 0) / 256.;
+		style->outline.pattern = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_OUTLINE_HIDE)
+			? 0 : ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_OUTLINE_STYLE, 1);
+		style->fill.pattern.back = ms_sheet_map_color (esheet, obj,
+			MS_OBJ_ATTR_FILL_COLOR, RGBA_WHITE);
+		style->fill.pattern.fore = ms_sheet_map_color (esheet, obj,
+			MS_OBJ_ATTR_FILL_BACKGROUND, RGBA_BLACK);
+		style->fill.type = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_UNFILLED)
+			? GOG_FILL_STYLE_NONE : GOG_FILL_STYLE_PATTERN;
 
-		gnm_so_filled_set_outline_style (so,
-			ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_OUTLINE_STYLE, 1));
-		gnm_so_filled_set_outline_color (so,
-			ms_sheet_map_color (esheet, obj, MS_OBJ_ATTR_OUTLINE_COLOR));
-		gnm_so_graphic_set_width (so,
-			ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_OUTLINE_WIDTH, 0));
+		g_object_set (G_OBJECT (so), "style", style, NULL);
+		g_object_unref (style);
 		break;
 
-	/* Button */
-	case 0x07:
+	case 0x05: /* Chart */
+		/* NOTE : We should not need to do anything for charts */
+		break;
+
+	case 0x07:	/* Button */
 		break;
 
 	case 0x08: { /* Picture */
@@ -493,17 +479,9 @@ unhandled markup for type 0xc
 
 		/* replace blips we don't know how to handle with rectangles */
 		if (so == NULL)
-			so = sheet_object_box_new (FALSE);  /* placeholder */
+			so = g_object_new (GNM_SO_FILLED_TYPE, NULL);  /* placeholder */
 		break;
 	}
-	case 0x09:
-		   gnm_so_polygon_set_points (SHEET_OBJECT (so),
-			ms_obj_attr_get_array (obj->attrs, MS_OBJ_ATTR_POLYGON_COORDS, NULL));
-		   gnm_so_polygon_set_fill_color (so, 
-			ms_sheet_map_color (esheet, obj, MS_OBJ_ATTR_FILL_COLOR));
-		   gnm_so_polygon_set_outline_color (so, 
-			ms_sheet_map_color (esheet, obj, MS_OBJ_ATTR_OUTLINE_COLOR));
-		   break;
 
 	case 0x0B: 
 		sheet_widget_checkbox_set_link (obj->gnum_obj,
@@ -553,7 +531,6 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 	SheetObject *so = NULL;
 	Workbook *wb;
 	ExcelReadSheet *esheet;
-	MSObjAttr *attr;
 
 	if (obj == NULL)
 		return NULL;
@@ -565,32 +542,25 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 
 	switch (obj->excel_type) {
 	case 0x01: /* Line */
-		attr = ms_obj_attr_bag_lookup (obj->attrs,
-			MS_OBJ_ATTR_ARROW_END);
-		so = sheet_object_line_new (attr != NULL);
+	case 0x04: /* Arc */
+		so = g_object_new (GNM_SO_LINE_TYPE,
+			"is-arrow", 0 != ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_ARROW_END, 0),
+			NULL);
 		break;
 
-	case 0x02:
-		attr = ms_obj_attr_get_ptr (obj->attrs, MS_OBJ_ATTR_TEXT, NULL);
-		if (attr != NULL) {
-			obj->excel_type = 0xE;
-			so = g_object_new (sheet_object_text_get_type (), NULL);
-			break;
-		}
-		/* fall through */
-
 	case 0x00: /* draw the group border */
-	case 0x03: /* Box or Oval */
-		so = sheet_object_box_new (obj->excel_type == 3);
+	case 0x02: /* Box */
+	case 0x03: /* Oval */
+	case 0x06: /* TextBox */
+	case 0x0E: /* Label */
+		so = g_object_new (GNM_SO_FILLED_TYPE,
+			"text", ms_obj_attr_get_ptr (obj->attrs, MS_OBJ_ATTR_TEXT, NULL),
+			"is-oval", obj->excel_type == 3,
+			NULL);
 		break;
 
 	case 0x05: /* Chart */
 		so = sheet_object_graph_new (NULL);
-		break;
-
-	case 0x0E: /* Label */
-	case 0x06: /* TextBox */
-		so = g_object_new (sheet_object_text_get_type (), NULL);
 		break;
 
 	/* Button */
@@ -611,10 +581,10 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 
 		/* replace blips we don't know how to handle with rectangles */
 		if (so == NULL)
-			so = sheet_object_box_new (FALSE);  /* placeholder */
+			so = g_object_new (GNM_SO_FILLED_TYPE, NULL);  /* placeholder */
 		break;
 	}
-	case 0x09: so = g_object_new (sheet_object_polygon_get_type (), NULL);
+	case 0x09: so = g_object_new (GNM_SO_POLYGON_TYPE, NULL);
 		break;
 	case 0x0B: so = g_object_new (sheet_widget_checkbox_get_type (), NULL);
 		break;
@@ -5914,6 +5884,7 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 			excel_unexpected_biff (q, "Workbook", ms_excel_read_debug);
 			break;
 		}
+		/* check here in case any of the handlers read additional records */
 		prev_was_eof = (q->opcode == BIFF_EOF);
 	}
 	ms_biff_query_destroy (q);

@@ -124,7 +124,8 @@ void	   gog_style_force_auto		(GogStyle *style);
 gpointer   gog_style_editor		(GogStyle *style,
 					 GogStyle *default_style,
 					 GnmCmdContext *cc,
-					 gpointer optional_notebook);
+					 gpointer optional_notebook,
+					 GObject *object_with_style);
 gpointer   gog_styled_object_editor	(GogStyledObject *gso,
 					 GnmCmdContext *cc,
 					 gpointer optional_notebook);

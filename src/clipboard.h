@@ -9,36 +9,37 @@ enum {
 	PASTE_AS_VALUES		= 1 << 1, /*  can be applied, not both */
 	PASTE_FORMATS		= 1 << 2,
 	PASTE_COMMENTS		= 1 << 3,
+	PASTE_OBJECTS		= 1 << 4,
 
 	/* Operations that can be performed at paste time on a cell */
-	PASTE_OPER_ADD		= 1 << 4,
-	PASTE_OPER_SUB		= 1 << 5,
-	PASTE_OPER_MULT		= 1 << 6,
-	PASTE_OPER_DIV		= 1 << 7,
+	PASTE_OPER_ADD		= 1 << 5,
+	PASTE_OPER_SUB		= 1 << 6,
+	PASTE_OPER_MULT		= 1 << 7,
+	PASTE_OPER_DIV		= 1 << 8,
 
 	/* Whether the paste transposes or not */
-	PASTE_TRANSPOSE		= 1 << 8,
+	PASTE_TRANSPOSE		= 1 << 9,
 
-	PASTE_LINK              = 1 << 9,
+	PASTE_LINK              = 1 << 10,
 
 	/* If copying a range that includes blank cells, this
 	   prevents pasting blank cells over existing data */
-	PASTE_SKIP_BLANKS       = 1 << 10,
+	PASTE_SKIP_BLANKS       = 1 << 11,
 
 	/* Do not paste merged regions (probably not needed) */
-	PASTE_DONT_MERGE        = 1 << 11,
+	PASTE_DONT_MERGE        = 1 << 12,
 
 	/* Do not clear comments */
-	PASTE_IGNORE_COMMENTS   = 1 << 12,
+	PASTE_IGNORE_COMMENTS   = 1 << 13,
 
 	/* Update the row height when pasting? (for large fonts, etc.) */
-	PASTE_UPDATE_ROW_HEIGHT = 1 << 13,
+	PASTE_UPDATE_ROW_HEIGHT = 1 << 14,
 
-	PASTE_EXPR_LOCAL_RELOCATE = 1 << 14
+	PASTE_EXPR_LOCAL_RELOCATE = 1 << 15
 };
 
-#define PASTE_ALL_TYPES (PASTE_CONTENT | PASTE_FORMATS | PASTE_COMMENTS)
-#define PASTE_DEFAULT   (PASTE_CONTENT | PASTE_FORMATS | PASTE_COMMENTS)
+#define PASTE_ALL_TYPES (PASTE_CONTENT | PASTE_FORMATS | PASTE_COMMENTS | PASTE_OBJECTS)
+#define PASTE_DEFAULT   PASTE_ALL_TYPES
 #define PASTE_OPER_MASK (PASTE_OPER_ADD | PASTE_OPER_SUB | PASTE_OPER_MULT | PASTE_OPER_DIV)
 
 typedef enum {
@@ -53,7 +54,6 @@ typedef struct {
 		GnmCell *cell;
 		char *text;
 	} u;
-	char *comment;
 } CellCopy;
 
 typedef GSList CellCopyList;
@@ -65,6 +65,7 @@ struct _GnmCellRegion {
 	CellCopyList	*content;
 	GnmStyleList	*styles;
 	GSList		*merged;
+	GSList		*objects;
 	gboolean	 not_as_content;
 	unsigned	 ref_count;
 };

@@ -1,11 +1,15 @@
+2004-09-24  Jody Goldberg <jody@gnome.org>
+
+	* POTFILES.in : Adjust to the file changes and sort the file names
+
 2004-09-26  David Lodge <dave@cirt.net>
-                                                                                
-        * ang.po: Added Olde Englisc translation for James Johnson.
-                                                                                
+
+	* ang.po: Added Olde Englisc translation for James Johnson.
+
 2004-09-26  David Lodge <dave@cirt.net>
-                                                                                
-        * en_GB.po: Updated British translation.
-                                                                                
+
+	* en_GB.po: Updated British translation.
+
 2004-09-26  Jan Morén  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.

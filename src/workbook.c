@@ -39,7 +39,13 @@
 #include "style-color.h"
 #include <goffice/utils/go-file.h>
 
+#ifdef WITH_GTK
+#ifdef WITH_GNOME
+#include <bonobo/bonobo-main.h>
+#else
 #include <gtk/gtkmain.h> /* for gtk_main_quit */
+#endif /* WITH_GTK */
+#endif
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 
@@ -164,9 +170,15 @@ workbook_finalize (GObject *wb_object)
 	g_free (wb->basename);
 	wb->basename = NULL;
 
-#warning this has no business being here
+	/* this has no business being here */
+#ifdef WITH_GTK
 	if (initial_workbook_open_complete && gnm_app_workbook_list () == NULL)
+#ifdef WITH_GNOME
+		bonobo_main_quit ();
+#else
 		gtk_main_quit ();
+#endif
+#endif
 	G_OBJECT_CLASS (workbook_parent_class)->finalize (wb_object);
 }
 

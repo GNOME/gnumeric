@@ -17,13 +17,6 @@
 #ifndef GNUMERIC_HELP_H
 #define GNUMERIC_HELP_H
 
-/* ../sheet-object-graphic.c   */
-#define GNUMERIC_HELP_LINK_SO_LINE "sect-graphics-drawings"
-#define GNUMERIC_HELP_LINK_SO_ARROW "sect-graphics-drawings"
-
-/* ../sheet-object-graphic.c   */
-#define GNUMERIC_HELP_LINK_SO_FILLED "sect-graphics-drawings"
-
 /* ../sheet-object-widget.c    */
 #define GNUMERIC_HELP_LINK_SO_FRAME "sect-graphics-drawings"
 #define GNUMERIC_HELP_LINK_SO_ADJUSTMENT "sect-graphics-drawings"

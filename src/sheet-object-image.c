@@ -81,13 +81,10 @@ sheet_object_image_new (char const   *type,
 	SheetObjectImage *soi;
 
 	soi = g_object_new (SHEET_OBJECT_IMAGE_TYPE, NULL);
-	soi->type     = g_strdup (type);
-	soi->bytes.len = data_len;
-	soi->crop_top = soi->crop_bottom = soi->crop_left = soi->crop_right
-		= 0.0;
+	soi->type       = g_strdup (type);
+	soi->bytes.len  = data_len;
 	soi->bytes.data = copy_data ? g_memdup (data, data_len) : data;
 	
-	soi->sheet_object.anchor.direction = SO_DIR_DOWN_RIGHT;
 	return SHEET_OBJECT (soi);
 }
 
@@ -398,10 +395,8 @@ soi_free_image_fmt (gpointer data)
 }
 
 static void
-soi_cb_save_as (GtkWidget *widget, GObject *obj_view)
+soi_cb_save_as (SheetObject *so, SheetControl *sc)
 {
-	SheetObjectImage *soi;
-	SheetControl *sc;
 	WorkbookControlGUI *wbcg;
 	char *uri;
 	GsfOutput *output;
@@ -411,11 +406,9 @@ soi_cb_save_as (GtkWidget *widget, GObject *obj_view)
 	guint i;
 	GError *err = NULL;
 	gboolean res;
-
-	soi = SHEET_OBJECT_IMAGE (sheet_object_view_obj (obj_view));
+	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
 
 	g_return_if_fail (soi != NULL);
-
 
 	/* Put original format of image first in menu. */
 	orig_fmt = soi_get_image_fmt (soi);
@@ -438,7 +431,6 @@ soi_cb_save_as (GtkWidget *widget, GObject *obj_view)
 		l = g_slist_reverse (l);
 	}		
 
-	sc  = sheet_object_view_control (obj_view);
 	wbcg = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
 
 	uri = gui_get_image_save_info (wbcg, l, &sel_fmt);
@@ -474,21 +466,12 @@ out:
 }
 
 static void
-sheet_object_image_populate_menu (SheetObject *so,
-				  GObject *obj_view,
-				  GtkMenu *menu)
+sheet_object_image_populate_menu (SheetObject *so, GPtrArray *actions)
 {
-	GtkWidget *item, *image;
-
-	item = gtk_image_menu_item_new_with_mnemonic (_("_Save as"));
-	image = gtk_image_new_from_stock (GTK_STOCK_SAVE_AS, 
-					  GTK_ICON_SIZE_MENU);
-	gtk_widget_show (image);
-	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item), image);
-	g_signal_connect (G_OBJECT (item), "activate",
-			  G_CALLBACK (soi_cb_save_as), obj_view);
-	sheet_object_image_parent_class->populate_menu (so, obj_view, menu);
-	gtk_menu_shell_insert (GTK_MENU_SHELL (menu),  item, 0);
+	static SheetObjectAction const soi_action =
+		{ GTK_STOCK_SAVE_AS, N_("_Save as image"), NULL, 0, soi_cb_save_as };
+	g_ptr_array_add (actions, (gpointer) &soi_action);
+	sheet_object_image_parent_class->populate_menu (so, actions);
 }
 
 static gboolean
@@ -552,18 +535,19 @@ sheet_object_image_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
  	gsf_xml_out_end_element (output);
 }
 
-static SheetObject *
-sheet_object_image_clone (SheetObject const *so, Sheet *sheet)
+static void
+sheet_object_image_copy (SheetObject *dst, SheetObject const *src)
 {
-	SheetObjectImage *soi;
-	SheetObjectImage *new_soi;
+	SheetObjectImage const *soi = SHEET_OBJECT_IMAGE (src);
+	SheetObjectImage   *new_soi = SHEET_OBJECT_IMAGE (dst);
 
-	g_return_val_if_fail (IS_SHEET_OBJECT_IMAGE (so), NULL);
-	soi = SHEET_OBJECT_IMAGE (so);
-
-	new_soi = g_object_new (GTK_OBJECT_TYPE (soi), NULL);
-
-	return SHEET_OBJECT (new_soi);
+	new_soi->type		= g_strdup (soi->type);
+	new_soi->bytes.len	= soi->bytes.len;
+	new_soi->bytes.data	= g_memdup (soi->bytes.data, soi->bytes.len);
+	new_soi->crop_top	= soi->crop_top;
+	new_soi->crop_bottom	= soi->crop_bottom;
+	new_soi->crop_left	= soi->crop_left;
+	new_soi->crop_right	= soi->crop_right;
 }
 
 static void
@@ -646,7 +630,7 @@ sheet_object_image_class_init (GObjectClass *object_class)
 	sheet_object_class->read_xml_dom	= sheet_object_image_read_xml_dom;
 	sheet_object_class->write_xml_dom	= sheet_object_image_write_xml_dom;
 	sheet_object_class->write_xml_sax	= sheet_object_image_write_xml_sax;
-	sheet_object_class->clone		= sheet_object_image_clone;
+	sheet_object_class->copy		= sheet_object_image_copy;
 	sheet_object_class->user_config		= NULL;
 	sheet_object_class->print		= sheet_object_image_print;
 	sheet_object_class->default_size	= sheet_object_image_default_size;
@@ -687,7 +671,7 @@ sheet_object_image_init (GObject *obj)
 		= 0.0;
 
 	so = SHEET_OBJECT (obj);
-	so->anchor.direction = SO_DIR_NONE_MASK;
+	so->anchor.direction = SO_DIR_DOWN_RIGHT;
 }
 
 GSF_CLASS (SheetObjectImage, sheet_object_image,

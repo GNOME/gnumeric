@@ -356,7 +356,11 @@ main (int argc, char const *argv [])
 
 		warn_about_ancient_gnumerics (g_get_prgname(), ioc);
 		g_object_unref (ioc);
+#ifdef WITH_GNOME
+		bonobo_main ();
+#else
 		gtk_main ();
+#endif
 	}
 
 	gnumeric_arg_shutdown ();

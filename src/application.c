@@ -18,8 +18,10 @@
 #include "sheet.h"
 #include "sheet-view.h"
 #include "sheet-private.h"
+#include "sheet-object.h"
 #include "auto-correct.h"
 #include "gutils.h"
+#include "ranges.h"
 #include "pixmaps/gnumeric-stock-pixbufs.h"
 
 #include <gnumeric-gconf.h>
@@ -54,7 +56,7 @@ struct _GnmApp {
 	/* Clipboard */
 	SheetView	*clipboard_sheet_view;
 	GnmCellRegion	*clipboard_copied_contents;
-	GnmRange	 clipboard_cut_range;
+	GnmRange	*clipboard_cut_range;
 
 	/* History for file menu */
 	GSList           *history_list;
@@ -226,11 +228,11 @@ gnm_app_clipboard_unant (void)
  *
  * we need to pass @wbc as a control rather than a simple command-context so
  * that the control can claim the selection.
- */
+ **/
 void
 gnm_app_clipboard_cut_copy (WorkbookControl *wbc, gboolean is_cut,
-				SheetView *sv, GnmRange const *area,
-				gboolean animate_cursor)
+			    SheetView *sv, GnmRange const *area,
+			    gboolean animate_cursor)
 {
 	g_return_if_fail (IS_SHEET_VIEW (sv));
 	g_return_if_fail (area != NULL);
@@ -240,7 +242,8 @@ gnm_app_clipboard_cut_copy (WorkbookControl *wbc, gboolean is_cut,
 
 	if (wb_control_claim_selection (wbc)) {
 		Sheet *sheet = sv_sheet (sv);
-		app->clipboard_cut_range = *area;
+		g_free (app->clipboard_cut_range);
+		app->clipboard_cut_range = range_dup (area);
 		sv_weak_ref (sv, &(app->clipboard_sheet_view));
 
 		if (!is_cut)
@@ -254,6 +257,43 @@ gnm_app_clipboard_cut_copy (WorkbookControl *wbc, gboolean is_cut,
 			sv_ant (sv, l);
 			g_list_free (l);
 		}
+	} else {
+		g_warning ("Unable to set selection ?");
+	}
+}
+/** gnm_app_clipboard_cut_copy_obj :
+ * @wbc : #WorkbookControl
+ * @is_cut : 
+ * @sv : #SheetView
+ * @so : #SheetObject
+ *
+ * Different than copying/cutting a region, this can actually cut an object
+ **/
+void
+gnm_app_clipboard_cut_copy_obj (WorkbookControl *wbc, gboolean is_cut,
+				SheetView *sv, SheetObject *so)
+{
+	g_return_if_fail (IS_SHEET_VIEW (sv));
+	g_return_if_fail (IS_SHEET_OBJECT (so));
+	g_return_if_fail (app != NULL);
+
+	gnm_app_clipboard_clear (FALSE);
+
+	if (wb_control_claim_selection (wbc)) {
+		Sheet *sheet = sv_sheet (sv);
+		app->clipboard_cut_range = NULL;
+		sv_weak_ref (sv, &(app->clipboard_sheet_view));
+
+		app->clipboard_copied_contents = cellregion_new	(sheet);
+		if (is_cut) {
+			g_object_ref (so);
+			sheet_object_clear_sheet (so);
+		} else
+			so = sheet_object_dup (so);
+		app->clipboard_copied_contents->objects = g_slist_prepend (
+			app->clipboard_copied_contents->objects, so);
+
+		g_signal_emit (G_OBJECT (app), signals [CLIPBOARD_MODIFIED], 0);
 	} else {
 		g_warning ("Unable to set selection ?");
 	}
@@ -312,7 +352,7 @@ gnm_app_clipboard_area_get (void)
 	 * safe and only return a range if there is a valid selection
 	 */
 	if (app->clipboard_sheet_view != NULL)
-		return &app->clipboard_cut_range;
+		return app->clipboard_cut_range;
 	return NULL;
 }
 

@@ -57,7 +57,8 @@
 #include "dialogs/dialogs.h"
 #include "sheet-object-image.h"
 #include "sheet-object-widget.h"
-#include "sheet-object-graphic.h"
+#include "gnm-so-filled.h"
+#include "gnm-so-line.h"
 #include "sheet-object-graph.h"
 
 #include "gui-util.h"
@@ -259,9 +260,13 @@ static GNM_ACTION_DEF (cb_edit_select_inputs)
 static GNM_ACTION_DEF (cb_edit_cut)
 {
 	if (!wbcg_is_editing (wbcg)) {
+		SheetControlGUI *scg = wbcg_cur_scg (wbcg);
 		WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 		SheetView *sv = wb_control_cur_sheet_view (wbc);
-		sv_selection_cut (sv, wbc);
+		if (scg != NULL && scg->current_object != NULL)
+			gnm_app_clipboard_cut_copy_obj (wbc, FALSE, sv, scg->current_object);
+		else
+			sv_selection_cut (sv, wbc);
 	} else
 		gtk_editable_cut_clipboard (GTK_EDITABLE (wbcg_get_entry (wbcg)));
 }
@@ -269,9 +274,13 @@ static GNM_ACTION_DEF (cb_edit_cut)
 static GNM_ACTION_DEF (cb_edit_copy)
 {
 	if (!wbcg_is_editing (wbcg)) {
+		SheetControlGUI *scg = wbcg_cur_scg (wbcg);
 		WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 		SheetView *sv = wb_control_cur_sheet_view (wbc);
-		sv_selection_copy (sv, wbc);
+		if (scg != NULL && scg->current_object != NULL)
+			gnm_app_clipboard_cut_copy_obj (wbc, FALSE, sv, scg->current_object);
+		else
+			sv_selection_copy (sv, wbc);
 	} else
 		gtk_editable_copy_clipboard (GTK_EDITABLE (wbcg_get_entry (wbcg)));
 }
@@ -482,7 +491,7 @@ static GNM_ACTION_DEF (cb_repeat)	{ command_repeat (WORKBOOK_CONTROL (wbcg)); }
 
 /****************************************************************************/
 
-static GNM_ACTION_DEF (cb_view_zoom_in)
+static GNM_ACTION_DEF (cb_view_zoom_out)
 {
 	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 	int zoom = (int)(sheet->last_zoom_factor_used * 100. + .5) - 10;
@@ -493,7 +502,7 @@ static GNM_ACTION_DEF (cb_view_zoom_in)
 		cmd_zoom (WORKBOOK_CONTROL (wbcg), g_slist_append (NULL, sheet),
 			  (double) (zoom + 10) / 100);
 }
-static GNM_ACTION_DEF (cb_view_zoom_out)
+static GNM_ACTION_DEF (cb_view_zoom_in)
 {
 	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 	int zoom = (int)(sheet->last_zoom_factor_used * 100. + .5) - 10;
@@ -992,50 +1001,51 @@ static GNM_ACTION_DEF (cb_launch_chart_guru)
 }
 
 static void
-create_object (WorkbookControlGUI *wbcg, SheetObject *so)
+create_object (WorkbookControlGUI *wbcg, GType t,
+	       char const *first_property_name,
+	       ...)
 {
 	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
 	Sheet *sheet = sc_sheet (SHEET_CONTROL (scg));
+	va_list	args;
 
-	scg_mode_create_object (scg, so);
+	va_start (args, first_property_name);
+	scg_mode_create_object (scg, (SheetObject *)
+		g_object_new_valist (t, first_property_name, args));
+	va_end (args);
+
 	workbook_recalc (sheet->workbook);
 	sheet_update (sheet);
 }
 
-static void
-create_object_type (WorkbookControlGUI *wbcg, GType t)
-{
-	create_object (wbcg, g_object_new (t, NULL));
-}
-
 static GNM_ACTION_DEF (cmd_create_label)
-	{ create_object_type (wbcg, sheet_object_text_get_type ()); }
+	{ create_object (wbcg, GNM_SO_FILLED_TYPE, "text", "", NULL); }
 static GNM_ACTION_DEF (cmd_create_frame)
-	{ create_object_type (wbcg, sheet_widget_frame_get_type()); }
+	{ create_object (wbcg, sheet_widget_frame_get_type(), NULL); }
 static GNM_ACTION_DEF (cmd_create_button)
-	{ create_object_type (wbcg, sheet_widget_button_get_type()); }
+	{ create_object (wbcg, sheet_widget_button_get_type(), NULL); }
 static GNM_ACTION_DEF (cmd_create_radiobutton)
-	{ create_object_type (wbcg, sheet_widget_radio_button_get_type()); }
+	{ create_object (wbcg, sheet_widget_radio_button_get_type(), NULL); }
 static GNM_ACTION_DEF (cmd_create_scrollbar)
-	{ create_object_type (wbcg, sheet_widget_scrollbar_get_type()); }
+	{ create_object (wbcg, sheet_widget_scrollbar_get_type(), NULL); }
 static GNM_ACTION_DEF (cmd_create_slider)
-	{ create_object_type (wbcg, sheet_widget_slider_get_type()); }
+	{ create_object (wbcg, sheet_widget_slider_get_type(), NULL); }
 static GNM_ACTION_DEF (cmd_create_spinbutton)
-	{ create_object_type (wbcg, sheet_widget_spinbutton_get_type()); }
+	{ create_object (wbcg, sheet_widget_spinbutton_get_type(), NULL); }
 static GNM_ACTION_DEF (cmd_create_checkbox)
-	{ create_object_type (wbcg, sheet_widget_checkbox_get_type()); }
+	{ create_object (wbcg, sheet_widget_checkbox_get_type(), NULL); }
 static GNM_ACTION_DEF (cmd_create_list)
-	{ create_object_type (wbcg, sheet_widget_list_get_type()); }
+	{ create_object (wbcg, sheet_widget_list_get_type(), NULL); }
 static GNM_ACTION_DEF (cmd_create_combo)
-	{ create_object_type (wbcg, sheet_widget_combo_get_type()); }
+	{ create_object (wbcg, sheet_widget_combo_get_type(), NULL); }
 static GNM_ACTION_DEF (cmd_create_line)
-	{ create_object (wbcg, sheet_object_line_new (FALSE)); }
+	{ create_object (wbcg, GNM_SO_LINE_TYPE, NULL); }
 static GNM_ACTION_DEF (cmd_create_arrow)
-	{ create_object (wbcg, sheet_object_line_new (TRUE)); }
+	{ create_object (wbcg, GNM_SO_LINE_TYPE, "is-arrow", TRUE, NULL); }
 static GNM_ACTION_DEF (cmd_create_rectangle)
-	{ create_object (wbcg, sheet_object_box_new (FALSE)); }
+	{ create_object (wbcg, GNM_SO_FILLED_TYPE, NULL); }
 static GNM_ACTION_DEF (cmd_create_ellipse)
-	{ create_object (wbcg, sheet_object_box_new (TRUE)); }
+	{ create_object (wbcg, GNM_SO_FILLED_TYPE, "is-oval", TRUE, NULL); }
 
 void
 wbcg_set_selection_halign (WorkbookControlGUI *wbcg, StyleHAlignFlags halign)
@@ -1515,7 +1525,7 @@ static /* const 142334 */ GtkActionEntry actions[] = {
 		NULL, N_("Clear the selected cells' comments"),
 		G_CALLBACK (cb_edit_clear_comments) },
 	{ "EditClearContent", NULL, N_("_Contents"),
-		NULL, N_("Clear the selected cells' contents"),
+		"F1", N_("Clear the selected cells' contents"),
 		G_CALLBACK (cb_edit_clear_content) },
 
 /* Edit -> Delete */

@@ -181,10 +181,8 @@ sog_gsf_gdk_pixbuf_save (const gchar *buf,
  * the saved image, if that's wanted.
  */
 static void
-soi_cb_save_as (GtkWidget *widget, GObject *obj_view)
+sog_cb_save_as (SheetObject *so, SheetControl *sc)
 {
-	SheetObjectGraph *sog;
-	SheetControl *sc;
 	WorkbookControlGUI *wbcg;
 	char *uri;
 	GError *err = NULL;
@@ -198,8 +196,7 @@ soi_cb_save_as (GtkWidget *widget, GObject *obj_view)
 	};
 	GnmImageFormat *sel_fmt = &fmts[0];
 	guint i;
-
-	sog = SHEET_OBJECT_GRAPH (sheet_object_view_obj (obj_view));
+	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
 
 	g_return_if_fail (sog != NULL);
 
@@ -207,9 +204,9 @@ soi_cb_save_as (GtkWidget *widget, GObject *obj_view)
 		l = g_slist_prepend (l, &fmts[i]);
 	l = g_slist_reverse (l);
 
-	sc  = sheet_object_view_control (obj_view);
 	wbcg = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
 
+#warning this violate model gui barrier
 	uri = gui_get_image_save_info (wbcg, l, &sel_fmt);
 	if (!uri)
 		goto out;
@@ -247,21 +244,12 @@ out:
 }
 
 static void
-sheet_object_graph_populate_menu (SheetObject *so,
-				  GObject *obj_view,
-				  GtkMenu *menu)
+sheet_object_graph_populate_menu (SheetObject *so, GPtrArray *actions)
 {
-	GtkWidget *item, *image;
-
-	item = gtk_image_menu_item_new_with_mnemonic (_("_Save as image"));
-	image = gtk_image_new_from_stock (GTK_STOCK_SAVE_AS, 
-					  GTK_ICON_SIZE_MENU);
-	gtk_widget_show (image);
-	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item), image);
-	g_signal_connect (G_OBJECT (item), "activate",
-			  G_CALLBACK (soi_cb_save_as), obj_view);
-	SHEET_OBJECT_CLASS (parent_klass)->populate_menu (so, obj_view, menu);
-	gtk_menu_shell_insert (GTK_MENU_SHELL (menu),  item, 1);
+	static SheetObjectAction const sog_action =
+		{ GTK_STOCK_SAVE_AS, N_("_Save as image"), NULL, 0, sog_cb_save_as };
+	g_ptr_array_add (actions, (gpointer) &sog_action);
+	SHEET_OBJECT_CLASS (parent_klass)->populate_menu (so, actions);
 }
 
 static gboolean
@@ -295,30 +283,21 @@ sheet_object_graph_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 	gog_object_write_xml_sax (GOG_OBJECT (sog->graph), output);
 }
 
-static SheetObject *
-sheet_object_graph_clone (SheetObject const *so, Sheet *sheet)
+static void
+sheet_object_graph_copy (SheetObject *dst, SheetObject const *src)
 {
-	SheetObjectGraph *sog;
-	SheetObjectGraph *new_sog;
-	GogGraph *graph;
-
-	g_return_val_if_fail (IS_SHEET_OBJECT_GRAPH (so), NULL);
-	sog = SHEET_OBJECT_GRAPH (so);
-
-	new_sog = g_object_new (G_OBJECT_TYPE (so), NULL);
-	graph = gog_graph_dup (sog->graph);
-	sheet_object_graph_set_gog (SHEET_OBJECT (new_sog), graph);
+	SheetObjectGraph const *sog = SHEET_OBJECT_GRAPH (src);
+	GogGraph *graph   = gog_graph_dup (sog->graph);
+	sheet_object_graph_set_gog (dst, graph);
 	g_object_unref (graph);
-
-	return SHEET_OBJECT (new_sog);
 }
 
 static void
 sheet_object_graph_print (SheetObject const *so, GnomePrintContext *ctx,
 			  double width, double height)
 {
-	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
-	gog_graph_print_to_gnome_print (sog->graph, ctx, width, height);
+	gog_graph_print_to_gnome_print (
+		SHEET_OBJECT_GRAPH (so)->graph, ctx, width, height);
 }
 
 typedef struct {
@@ -423,7 +402,7 @@ sheet_object_graph_class_init (GObjectClass *klass)
 	so_class->read_xml_dom	     = sheet_object_graph_read_xml_dom;
 	so_class->write_xml_dom	     = sheet_object_graph_write_xml_dom;
 	so_class->write_xml_sax	     = sheet_object_graph_write_xml_sax;
-	so_class->clone              = sheet_object_graph_clone;
+	so_class->copy               = sheet_object_graph_copy;
 	so_class->user_config        = sheet_object_graph_user_config;
 	so_class->assign_to_sheet    = sheet_object_graph_set_sheet;
 	so_class->remove_from_sheet  = sheet_object_graph_remove_from_sheet;

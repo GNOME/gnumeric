@@ -12,17 +12,26 @@
 typedef enum {
 	SHEET_OBJECT_ACTION_STATIC,
 	SHEET_OBJECT_ACTION_CAN_PRESS
-} SheetObjectAction;
+} SheetObjectBehavior;
 
 struct _SheetObject {
 	GObject            parent_object;
-	SheetObjectAction  type;
+	SheetObjectBehavior  type;
 	Sheet             *sheet;
 	GList             *realized_list;
 	SheetObjectAnchor  anchor;
 	unsigned	   is_visible;
 	unsigned	   move_with_cells;
 };
+
+typedef void (*SheetObjectActionFunc) (SheetObject *so, SheetControl *sc);
+typedef struct {
+	char const *icon;	/* optionally NULL */
+	char const *label;	/* NULL for separators */
+	char const *msg_domain;	/* for plugins to specify translations */
+	int  submenu;		/* > 1 starts a menu, < 1 end one */ 
+	SheetObjectActionFunc	func;
+} SheetObjectAction;
 
 typedef struct {
 	GObjectClass parent_class;
@@ -38,8 +47,7 @@ typedef struct {
 	GObject *      (*new_view)   (SheetObject	*sheet_object,
 				      SheetControl	*s_control, gpointer key);
 	void        (*populate_menu) (SheetObject	*sheet_object,
-				      GObject		*obj_view,
-				      GtkMenu		*menu);
+				      GPtrArray		*actions);
 	void	      (*user_config) (SheetObject	*sheet_object,
 				      SheetControl	*s_control);
 	void           (*set_active) (SheetObject	*so,
@@ -63,8 +71,8 @@ typedef struct {
 	void                (*print) (SheetObject const *so,
 				      GnomePrintContext *ctx,
 				      double width, double height);
-	SheetObject *       (*clone) (SheetObject const *so,
-				      Sheet *sheet);
+	void		    (*copy)  (SheetObject *dst,
+				      SheetObject const *src);
 
 	void (*default_size)	 (SheetObject const *so,
 				  double *width_pts, double *height_pts);

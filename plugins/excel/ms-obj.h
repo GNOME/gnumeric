@@ -22,10 +22,7 @@ typedef enum {
 	MS_OBJ_ATTR_FLIP_H,
 	MS_OBJ_ATTR_FLIP_V,
 	MS_OBJ_ATTR_UNFILLED,
-
-	/* will be enums when we support multiple arrow shapes */
-	MS_OBJ_ATTR_ARROW_START,
-	MS_OBJ_ATTR_ARROW_END,
+	MS_OBJ_ATTR_OUTLINE_HIDE,	/* true of style == 0 hides a line */
 
     /* Integers & Enums */
 	MS_OBJ_ATTR_IS_INT_MASK = 0x1000,
@@ -51,6 +48,8 @@ typedef enum {
 	MS_OBJ_ATTR_BLIP_CROP_BOTTOM,
 	MS_OBJ_ATTR_BLIP_CROP_LEFT,
 	MS_OBJ_ATTR_BLIP_CROP_RIGHT,
+	MS_OBJ_ATTR_ARROW_START,
+	MS_OBJ_ATTR_ARROW_END,
 
     /* Ptrs */
 	MS_OBJ_ATTR_IS_PTR_MASK = 0x2000,

@@ -69,9 +69,9 @@ void gnm_pane_object_set_bounds   (GnmPane *pane, SheetObject *so,
 
 /* A convenience api */
 typedef void (*GnmPaneObjectBoundsChanged) (SheetObject *so, FooCanvasItem *view);
-void gnm_pane_object_register (SheetObject *so, FooCanvasItem *view,
-			       GnmPaneObjectBoundsChanged bounds_changed);
-void gnm_pane_widget_register (SheetObject *so, GtkWidget *w, FooCanvasItem *view,
-			       GnmPaneObjectBoundsChanged bounds_changed);
+GObject *gnm_pane_object_register (SheetObject *so, FooCanvasItem *view,
+				   GnmPaneObjectBoundsChanged bounds_changed);
+GObject *gnm_pane_widget_register (SheetObject *so, GtkWidget *w, FooCanvasItem *view,
+				   GnmPaneObjectBoundsChanged bounds_changed);
 
 #endif /* GNUMERIC_PANE_H */

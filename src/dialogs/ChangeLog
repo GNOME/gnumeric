@@ -1,3 +1,18 @@
+2004-09-24  Jody Goldberg <jody@gnome.org>
+
+	* dialog-paste-special.c (dialog_paste_special) : make this
+	  pseudo-modal rather than full modal to drag it into the modern age.
+	  We still need to gladify and higify it.  I've got a glade file if
+	  anyone is interested.
+
+2004-09-24  Jody Goldberg <jody@gnome.org>
+
+	* dialog-so-styled.c : new
+
+2004-09-20  Jody Goldberg <jody@gnome.org>
+
+	* print.glade : s/Print setup/Page Setup/ to match the action
+
 2004-09-24  Morten Welinder  <terra@gnome.org>
 
 	* dialog-autosave.c (autosave_set_sensitivity): Fix type

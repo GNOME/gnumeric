@@ -5,6 +5,7 @@
 #include "gnumeric.h"
 #include "summary.h"
 #include "workbook-control-gui.h"
+#include <goffice/graph/gog-style.h>
 
 typedef enum {
 	FD_CURRENT = -1,
@@ -104,9 +105,12 @@ int dialog_ttest_tool    (WorkbookControlGUI *wbcg, Sheet *sheet, ttest_type tes
 char *dialog_get_password (GtkWindow *parent, char const *filename);
 
 /* Modeless dialogs */
-void	 dialog_summary_update  (WorkbookControlGUI *wbcg, gboolean open_dialogs);
-void     dialog_preferences (WorkbookControlGUI *wbcg, gint page);
+void	dialog_summary_update  (WorkbookControlGUI *wbcg, gboolean open_dialogs);
+void	dialog_preferences (WorkbookControlGUI *wbcg, gint page);
 
-void     dialog_new_view (WorkbookControlGUI *wbcg);
+void	dialog_new_view (WorkbookControlGUI *wbcg);
+void	dialog_so_styled (WorkbookControlGUI *wbcg, GObject *so,
+			  GogStyle *orig, GogStyle *default_style,
+			  char const *title);
 
 #endif /* GNUMERIC_DIALOGS_H */

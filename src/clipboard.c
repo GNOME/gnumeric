@@ -197,19 +197,6 @@ paste_cell (Sheet *dest_sheet,
 	    GnmExprRewriteInfo const *rwinfo,
 	    CellCopy *c_copy, int paste_flags)
 {
-#warning we need to dup the author too
-	if ((paste_flags & PASTE_COMMENTS) && c_copy->comment) {
-		GnmComment   *cell_comment;
-		GnmCellPos       pos;
-		pos.col = target_col;
-		pos.row = target_row;
-
-		cell_comment = cell_has_comment_pos (dest_sheet, &pos);
-		if (cell_comment)
-			cell_comment_text_set (cell_comment, c_copy->comment);
-		else
-			cell_set_comment (dest_sheet, &pos, NULL, c_copy->comment);
-	}
 	if (!(paste_flags & (PASTE_CONTENT | PASTE_AS_VALUES)))
 		return;
 
@@ -242,6 +229,21 @@ paste_cell (Sheet *dest_sheet,
 	} else if (c_copy->u.text)
 		cell_set_text (sheet_cell_fetch (dest_sheet, target_col, target_row),
 			       c_copy->u.text);
+}
+
+static void
+paste_object (GnmPasteTarget const *pt, SheetObject const *src, int left, int top)
+{
+	if ((pt->paste_flags & PASTE_OBJECTS) ||
+	    G_OBJECT_TYPE (src) == CELL_COMMENT_TYPE) {
+		SheetObject *dst = sheet_object_dup (src);
+		SheetObjectAnchor tmp;
+		sheet_object_anchor_cpy (&tmp, sheet_object_anchor_get (src));
+		range_translate (&tmp.cell_bound, left, top);
+		sheet_object_anchor_set (dst, &tmp);
+		sheet_object_set_sheet (dst, pt->sheet);
+		g_object_unref (dst);
+	}
 }
 
 /**
@@ -442,6 +444,9 @@ clipboard_paste_region (GnmCellRegion const *content,
 				paste_cell (pt->sheet, target_col, target_row,
 					    &rwinfo, c_copy, pt->paste_flags);
 			}
+			if (pt->paste_flags & (PASTE_COMMENTS | PASTE_OBJECTS))
+				for (ptr = content->objects; ptr; ptr = ptr->next)
+					paste_object (pt, ptr->data, left, top);
 		}
 
         if (has_content) {
@@ -460,24 +465,17 @@ clipboard_paste_region (GnmCellRegion const *content,
 }
 
 static GnmValue *
-clipboard_prepend_cell (Sheet *sheet, int col, int row, GnmCell *cell, void *user_data)
+cb_clipboard_prepend_cell (Sheet *sheet, int col, int row,
+			   GnmCell *cell, GnmCellRegion *cr)
 {
-	GnmCellRegion *cr = user_data;
 	GnmExprArray const *a;
 	CellCopy *copy;
-	GnmComment   *comment;
 
 	copy = g_new (CellCopy, 1);
 	copy->type       = CELL_COPY_TYPE_CELL;
 	copy->u.cell     = cell_copy (cell);
 	copy->u.cell->pos.col = copy->col_offset = col - cr->base.col;
 	copy->u.cell->pos.row = copy->row_offset = row - cr->base.row;
-	comment = cell_has_comment_pos (sheet, &cell->pos);
-	if (comment)
-		copy->comment = g_strdup (cell_comment_text_get (comment));
-	else
-		copy->comment = NULL;
-
 	cr->content = g_slist_prepend (cr->content, copy);
 
 	/* Check for array division */
@@ -497,16 +495,14 @@ clipboard_prepend_cell (Sheet *sheet, int col, int row, GnmCell *cell, void *use
 }
 
 static void
-clipboard_prepend_comment (SheetObject const *so, void *user_data)
+cb_dup_objects (SheetObject const *src, GnmCellRegion *cr)
 {
-	GnmRange const *r = sheet_object_range_get (so);
-	Sheet   *sheet = sheet_object_get_sheet (so);
-	GnmCell *the_cell = sheet_cell_get (sheet, r->start.col, r->start.row);
-
-	if (the_cell == NULL)
-		clipboard_prepend_cell (sheet,  r->start.col, r->start.row,
-					sheet_cell_fetch (sheet, r->start.col, r->start.row),
-					user_data);
+	SheetObject *dst = sheet_object_dup (src);
+	SheetObjectAnchor tmp;
+	sheet_object_anchor_cpy (&tmp, sheet_object_anchor_get (src));
+	range_translate (&tmp.cell_bound, - cr->base.col, - cr->base.row);
+	sheet_object_anchor_set (dst, &tmp);
+	cr->objects = g_slist_prepend (cr->objects, dst);
 }
 
 /**
@@ -519,7 +515,7 @@ clipboard_copy_range (Sheet *sheet, GnmRange const *r)
 {
 	GnmCellRegion *cr;
 	GSList *merged, *ptr;
-	GSList *comments;
+	GSList *objects;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (range_is_sane (r), NULL);
@@ -532,10 +528,10 @@ clipboard_copy_range (Sheet *sheet, GnmRange const *r)
 	sheet_foreach_cell_in_range ( sheet, TRUE,
 		r->start.col, r->start.row,
 		r->end.col, r->end.row,
-		clipboard_prepend_cell, cr);
-	comments = sheet_objects_get (sheet, r, cell_comment_get_type ());
-	g_slist_foreach (comments, (GFunc)clipboard_prepend_comment, cr);
-	g_slist_free (comments);
+		(CellIterFunc) cb_clipboard_prepend_cell, cr);
+	objects = sheet_objects_get (sheet, r, G_TYPE_NONE);
+	g_slist_foreach (objects, (GFunc)cb_dup_objects, cr);
+	g_slist_free (objects);
 
 	cr->styles = sheet_style_get_list (sheet, r);
 
@@ -575,6 +571,7 @@ cellregion_new (Sheet *origin_sheet)
 	cr->content		= NULL;
 	cr->styles		= NULL;
 	cr->merged		= NULL;
+	cr->objects		= NULL;
 	cr->ref_count		= 1;
 
 	return cr;
@@ -609,8 +606,6 @@ cellregion_unref (GnmCellRegion *cr)
 			cell_destroy (this_cell->u.cell);
 		} else if (this_cell->u.text)
 			g_free (this_cell->u.text);
-		if (this_cell->comment)
-			g_free (this_cell->comment);
 		g_free (this_cell);
 	}
 	g_slist_free (cr->content);
@@ -626,6 +621,13 @@ cellregion_unref (GnmCellRegion *cr)
 			g_free (ptr->data);
 		g_slist_free (cr->merged);
 		cr->merged = NULL;
+	}
+	if (cr->objects != NULL) {
+		GSList *ptr;
+		for (ptr = cr->objects; ptr != NULL ; ptr = ptr->next)
+			g_object_unref (ptr->data);
+		g_slist_free (cr->objects);
+		cr->objects = NULL;
 	}
 
 	g_free (cr);

@@ -4388,34 +4388,26 @@ typedef struct {
 MAKE_GNM_COMMAND (CmdObjectInsert, cmd_object_insert, NULL);
 
 static gboolean
-cmd_object_insert_redo (GnmCommand *cmd,
-			__attribute((unused)) WorkbookControl *wbc)
+cmd_object_insert_redo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
 {
 	CmdObjectInsert *me = CMD_OBJECT_INSERT (cmd);
-
 	sheet_object_set_sheet (me->so, me->cmd.sheet);
-
-	return (FALSE);
+	return FALSE;
 }
 
 static gboolean
-cmd_object_insert_undo (GnmCommand *cmd,
-			G_GNUC_UNUSED WorkbookControl *wbc)
+cmd_object_insert_undo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
 {
 	CmdObjectInsert *me = CMD_OBJECT_INSERT (cmd);
-
 	sheet_object_clear_sheet (me->so);
-
-	return (FALSE);
+	return FALSE;
 }
 
 static void
 cmd_object_insert_finalize (GObject *cmd)
 {
 	CmdObjectInsert *me = CMD_OBJECT_INSERT (cmd);
-
 	g_object_unref (G_OBJECT (me->so));
-
 	gnm_command_finalize (cmd);
 }
 
@@ -4533,7 +4525,7 @@ cmd_object_move_redo (GnmCommand *cmd,
 		sheet_object_anchor_cpy	(&me->anchor, &tmp);
 	}
 
-	return (FALSE);
+	return FALSE;
 }
 
 static gboolean
@@ -4582,6 +4574,76 @@ cmd_object_move (WorkbookControl *wbc, SheetObject *so,
 	return command_push_undo (wbc, object);
 }
 
+/******************************************************************/
+
+#define CMD_OBJECT_FORMAT_TYPE (cmd_object_format_get_type ())
+#define CMD_OBJECT_FORMAT(o)   (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_OBJECT_FORMAT_TYPE, CmdObjectFormat))
+
+typedef struct {
+	GnmCommand cmd;
+	GObject	 *so, *style;
+	gboolean  first_time;
+} CmdObjectFormat;
+
+MAKE_GNM_COMMAND (CmdObjectFormat, cmd_object_format, NULL);
+
+static gboolean
+cmd_object_format_redo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
+{
+	CmdObjectFormat *me = CMD_OBJECT_FORMAT (cmd);
+	if (me->first_time)
+		me->first_time = FALSE;
+	else {
+		GObject *prev;
+		g_object_get (me->so, "style",  &prev, NULL);
+		g_object_set (me->so, "style",  me->style, NULL);
+		g_object_unref (me->style);
+		me->style = prev;
+	}
+	sheet_set_dirty (me->cmd.sheet, TRUE);
+	return FALSE;
+}
+
+static gboolean
+cmd_object_format_undo (GnmCommand *cmd, WorkbookControl *wbc)
+{
+	return cmd_object_format_redo (cmd, wbc);
+}
+
+static void
+cmd_object_format_finalize (GObject *cmd)
+{
+	CmdObjectFormat *me = CMD_OBJECT_FORMAT (cmd);
+	g_object_unref (me->style);
+	g_object_unref (me->so);
+	gnm_command_finalize (cmd);
+}
+
+/* Pass in the original style, we assume that the dialog was doing
+ * instant apply. */
+gboolean
+cmd_object_format (WorkbookControl *wbc, SheetObject *so,
+		   gpointer orig_style)
+{
+	GObject *object;
+	CmdObjectFormat *me;
+
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
+	g_return_val_if_fail (IS_SHEET_OBJECT (so), TRUE);
+
+	object = g_object_new (CMD_OBJECT_FORMAT_TYPE, NULL);
+	me = CMD_OBJECT_FORMAT (object);
+
+	me->so    = g_object_ref (G_OBJECT (so));
+	me->style = g_object_ref (G_OBJECT (orig_style));
+	me->first_time = TRUE;
+
+	me->cmd.sheet = sheet_object_get_sheet (so);
+	me->cmd.size = 1;
+	me->cmd.cmd_descriptor = g_strdup (_("Format Object"));
+
+	return command_push_undo (wbc, object);
+}
 /******************************************************************/
 
 #define CMD_REORGANIZE_SHEETS_TYPE        (cmd_reorganize_sheets_get_type ())
@@ -6220,7 +6282,7 @@ cmd_scenario_add_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	scenario_add (me->cmd.sheet,
 		      scenario_copy (me->scenario, me->cmd.sheet));
 
-	return (FALSE);
+	return FALSE;
 }
 
 static gboolean
@@ -6232,7 +6294,7 @@ cmd_scenario_add_undo (GnmCommand *cmd,
 	me->cmd.sheet->scenarios = scenario_delete (me->cmd.sheet->scenarios,
 						    me->scenario->name);
 
-	return (FALSE);
+	return FALSE;
 }
 
 static void
@@ -6287,7 +6349,7 @@ cmd_scenario_mngr_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	scenario_free (me->sc->undo);
 	me->sc->undo = scenario_show (wbc, me->sc->redo, NULL, &dao);
 
-	return (FALSE);
+	return FALSE;
 }
 
 static gboolean
@@ -6303,7 +6365,7 @@ cmd_scenario_mngr_undo (GnmCommand *cmd,
 	tmp = scenario_copy (me->sc->undo, dao.sheet);
 	scenario_show (wbc, NULL, tmp, &dao);
 
-	return (FALSE);
+	return FALSE;
 }
 
 static void
@@ -6361,7 +6423,7 @@ cmd_data_shuffle_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	CmdDataShuffle *me = CMD_DATA_SHUFFLE (cmd);
 
 	data_shuffling_redo (me->ds);
-	return (FALSE);
+	return FALSE;
 }
 
 static gboolean
@@ -6371,7 +6433,7 @@ cmd_data_shuffle_undo (GnmCommand *cmd,
 	CmdDataShuffle *me = CMD_DATA_SHUFFLE (cmd);
 
 	data_shuffling_redo (me->ds);
-	return (FALSE);
+	return FALSE;
 }
 
 static void

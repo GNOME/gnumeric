@@ -22,7 +22,8 @@
 #include "sheet-style.h"
 #include "sheet-object-impl.h"
 #include "sheet-object-cell-comment.h"
-#include "sheet-object-graphic.h"
+#include "gnm-so-line.h"
+#include "gnm-so-filled.h"
 #include "sheet-object-graph.h"
 #include "str.h"
 #include "solver.h"
@@ -228,6 +229,13 @@ e_xml_get_child_by_name_by_lang (const xmlNode *parent, const gchar *name)
 /* ------------------------------------------------------------------------- */
 
 void
+gnm_xml_out_add_gocolor (GsfXMLOut *o, char const *id, GOColor c)
+{
+	GdkColor tmp;
+	go_color_to_gdk (c, &tmp);
+	gsf_xml_out_add_color (o, id, tmp.red, tmp.green, tmp.blue);
+}
+void
 gnm_xml_out_add_color (GsfXMLOut *o, char const *id, GnmColor const *c)
 {
 	g_return_if_fail (c != NULL);
@@ -399,6 +407,38 @@ xml_node_get_color (xmlNodePtr node, char const *name)
 	xmlFree (color);
 	return res;
 }
+
+gboolean
+xml_node_get_gocolor (xmlNodePtr node, char const *name, GOColor *res)
+{
+	xmlChar *color;
+	int r, g, b;
+
+	color = xmlGetProp (node, CC2XML (name));
+	if (color == NULL)
+		return FALSE;
+	if (sscanf (CXML2C (color), "%X:%X:%X", &r, &g, &b) == 3) {
+		r >>= 8;
+		g >>= 8;
+		b >>= 8;
+		*res = RGBA_TO_UINT (r,g,b,0xff);
+		xmlFree (color);
+		return TRUE;
+	}
+	xmlFree (color);
+	return FALSE;
+}
+
+void
+xml_node_set_gocolor (xmlNodePtr node, char const *name, GOColor val)
+{
+	char str[4 * sizeof (val)];
+	GdkColor tmp;
+	go_color_to_gdk (val, &tmp);
+	sprintf (str, "%X:%X:%X", tmp.red, tmp.green, tmp.blue);
+	xml_node_set_cstr (node, name, str);
+}
+
 void
 xml_node_set_color (xmlNodePtr node, char const *name, GnmColor const *val)
 {
@@ -2704,13 +2744,13 @@ xml_read_sheet_object (XmlParseContext const *ctxt, xmlNodePtr tree)
 
 	/* Old crufty IO */
 	if (!strcmp (tree->name, "Rectangle"))
-		so = sheet_object_box_new (FALSE);
+		so = g_object_new (GNM_SO_FILLED_TYPE, NULL);
 	else if (!strcmp (tree->name, "Ellipse"))
-		so = sheet_object_box_new (TRUE);
-	else if (!strcmp (tree->name, "Arrow"))
-		so = sheet_object_line_new (TRUE);
+		so = g_object_new (GNM_SO_FILLED_TYPE, "is_oval", TRUE, NULL);
 	else if (!strcmp (tree->name, "Line"))
-		so = sheet_object_line_new (FALSE);
+		so = g_object_new (GNM_SO_LINE_TYPE, "is_arrow", TRUE, NULL);
+	else if (!strcmp (tree->name, "Arrow"))
+		so = g_object_new (GNM_SO_LINE_TYPE, NULL);
 
 	/* Class renamed between 1.0.x and 1.2.x */
 	else if (!strcmp (tree->name, "GnmGraph"))
@@ -2719,6 +2759,14 @@ xml_read_sheet_object (XmlParseContext const *ctxt, xmlNodePtr tree)
 	/* Class renamed in 1.2.2 */
 	else if (!strcmp (tree->name, "CellComment"))
 		so = g_object_new (cell_comment_get_type (), NULL);
+
+	/* Class renamed in 1.3.91 */
+	else if (!strcmp (tree->name, "SheetObjectGraphic"))
+		so = g_object_new (GNM_SO_LINE_TYPE, NULL);
+	else if (!strcmp (tree->name, "SheetObjectFilled"))
+		so = g_object_new (GNM_SO_FILLED_TYPE, NULL);
+	else if (!strcmp (tree->name, "SheetObjectText"))
+		so = g_object_new (GNM_SO_FILLED_TYPE, NULL);
 
 	else {
 		GType type = g_type_from_name ((gchar *)tree->name);
@@ -3268,7 +3316,6 @@ cell_copy_new (void)
 	cc          = g_new (CellCopy, 1);
 	cc->type    = CELL_COPY_TYPE_CELL;
 	cc->u.cell  = cell;
-	cc->comment = NULL;
 
 	return cc;
 }
@@ -3472,6 +3519,12 @@ xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, guchar *buffer, int len
 			if (!xmlIsBlankNode (l))
 				xml_read_cell_copy (ctxt, l, cr, sheet);
 
+	l = e_xml_get_child_by_name (clipboard, CC2XML ("Objects"));
+	if (l != NULL)
+		for (l = l->xmlChildrenNode; l != NULL ; l = l->next)
+			if (!xmlIsBlankNode (l))
+				xml_read_sheet_object (ctxt, l);
+
 	xml_parse_ctx_destroy (ctxt);
 	xmlFreeDoc (doc);
 
@@ -3491,7 +3544,7 @@ xmlChar *
 xml_cellregion_write (WorkbookControl *wbc, GnmCellRegion *cr, int *size)
 {
 	XmlParseContext *ctxt;
-	xmlNode   *clipboard, *cell_node, *container = NULL;
+	xmlNode   *clipboard, *container = NULL;
 	GSList    *ptr;
 	GnmStyleList *s_ptr;
 	CellCopyList *c_ptr;
@@ -3542,9 +3595,15 @@ xml_cellregion_write (WorkbookControl *wbc, GnmCellRegion *cr, int *size)
 
 		pp.eval.col = cr->base.col + c_copy->col_offset,
 		pp.eval.row = cr->base.row + c_copy->row_offset;
-		cell_node = xml_write_cell_and_position (ctxt, c_copy->u.cell, &pp);
-		xmlAddChild (container, cell_node);
+		xmlAddChild (container,
+			xml_write_cell_and_position (ctxt, c_copy->u.cell, &pp));
 	}
+
+	if (cr->objects != NULL)
+		container = xmlNewChild (clipboard, clipboard->ns, CC2XML ("Objects"), NULL);
+	for (c_ptr = cr->content; c_ptr != NULL ; c_ptr = c_ptr->next) 
+		xmlAddChild (container, 
+			xml_write_sheet_object (ctxt, c_ptr->data));
 
 	ctxt->doc->xmlRootNode = clipboard;
 	xmlIndentTreeOutput = TRUE;

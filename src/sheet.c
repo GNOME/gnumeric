@@ -785,10 +785,11 @@ sheet_update_only_grid (Sheet const *sheet)
 
 /**
  * sheet_update:
+ * @sheet : #Sheet
  *
  * Should be called after a logical command has finished processing to request
  * redraws for any pending events, and to update the various status regions
- */
+ **/
 void
 sheet_update (Sheet const *sheet)
 {
@@ -807,7 +808,7 @@ sheet_update (Sheet const *sheet)
  *
  * Return value: a (GnmCell *) containing the GnmCell, or NULL if
  * the cell does not exist
- */
+ **/
 GnmCell *
 sheet_cell_get (Sheet const *sheet, int col, int row)
 {
@@ -831,7 +832,7 @@ sheet_cell_get (Sheet const *sheet, int col, int row)
  *
  * Return value: a (GnmCell *) containing the GnmCell at col, row.
  * If no cell existed at that location before, it is created.
- */
+ **/
 GnmCell *
 sheet_cell_fetch (Sheet *sheet, int col, int row)
 {
@@ -848,10 +849,13 @@ sheet_cell_fetch (Sheet *sheet, int col, int row)
 
 /**
  * sheet_colrow_can_group:
+ * @sheet : #Sheet
+ * @r : A #GnmRange
+ * @is_cols : boolean
  *
- * Returns TRUE if @from to @to can be grouped, return
- * FALSE otherwise. You can invert the result if you need
- * to find out if a group can be ungrouped.
+ * Returns TRUE if the cols/rows in @r.start -> @r.end can be grouped, return
+ * FALSE otherwise. You can invert the result if you need to find out if a
+ * group can be ungrouped.
  **/
 gboolean
 sheet_colrow_can_group (Sheet *sheet, GnmRange const *r, gboolean is_cols)

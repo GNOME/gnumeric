@@ -210,7 +210,7 @@ sheet_object_bonobo_load_file (SheetObjectBonobo *sob, const gchar *fname,
 }
 
 static void
-open_cb (GtkMenuItem *item, SheetObjectBonobo *sob)
+open_cb (SheetObject *so, SheetControl *sc)
 {
 	gchar *filename;
 	CORBA_Environment ev;
@@ -234,26 +234,16 @@ open_cb (GtkMenuItem *item, SheetObjectBonobo *sob)
 }
 
 static void
-sheet_object_bonobo_populate_menu (SheetObject *so,
-			           GtkObject   *obj_view,
-			           GtkMenu     *menu)
+sheet_object_bonobo_populate_menu (SheetObject *so, GPtrArray *actions)
 {
-	SheetObjectBonobo *sob;
-	GtkWidget *item;
+	static SheetObjectAction const sob_action =
+		{ GTK_STOCK_OPEN, NULL, NULL, 0, cb_sob_open };
+	SheetObjectBonobo *sob = SHEET_OBJECT_BONOBO (so);
 
-	sob = SHEET_OBJECT_BONOBO (so);
-	g_return_if_fail (sob != NULL);
-
-	if (sob->has_persist_file || sob->has_persist_stream) {
-		item = gtk_menu_item_new_with_label (_("Open..."));
-		g_signal_connect (G_OBJECT (item),
-			"activate",
-			G_CALLBACK (open_cb), so);
-		gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
-	}
-
+	if (sob->has_persist_file || sob->has_persist_stream)
+		g_ptr_array_add (actions, &sob_action);
 	if (sheet_object_bonobo_parent_class->populate_menu)
-		sheet_object_bonobo_parent_class->populate_menu (so, obj_view, menu);
+		sheet_object_bonobo_parent_class->populate_menu (so, menu);
 }
 
 static gboolean

@@ -40,10 +40,11 @@ GSF_CLASS (GnmSimpleCanvas, gnm_simple_canvas,
 	   FOO_TYPE_CANVAS);
 
 FooCanvas *
-gnm_simple_canvas_new (SheetControlGUI *scg)
+gnm_simple_canvas_new (SheetControlGUI *scg, GnmPane *pane)
 {
 	GnmSimpleCanvas *gcanvas = g_object_new (GNM_SIMPLE_CANVAS_TYPE, NULL);
-	gcanvas->scg = scg;
+	gcanvas->scg  = scg;
+	gcanvas->pane = pane;
 
 	/* YES! die die die */
 	foo_canvas_set_center_scroll_region (FOO_CANVAS (gcanvas), FALSE);

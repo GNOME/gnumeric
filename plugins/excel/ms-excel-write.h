@@ -45,7 +45,7 @@ typedef struct {
 	guint16		 col_xf    [SHEET_MAX_COLS];
 	GnmStyle	*col_style [SHEET_MAX_COLS];
 	GnmStyleList 	*validations;
-	GSList           *blips;
+	GSList           *blips, *textboxes;
 	unsigned	 cur_obj, num_objs, num_blips;
 } ExcelWriteSheet;
 

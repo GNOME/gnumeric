@@ -24,17 +24,17 @@
 #include "ranges.h"
 #include "commands.h"
 
-#include "sheet-object-graphic.h"
+#include "gnm-so-line.h"
+#include "gnm-so-filled.h"
 #include "sheet-object-cell-comment.h"
 #include "sheet-object-widget.h"
 #include "sheet-object-graph.h"
 #include "sheet-object-image.h"
 #include "graph.h"
 #include "io-context.h"
+#include "application.h"
 
 #include <libxml/globals.h>
-#include <gtk/gtkimagemenuitem.h>
-#include <gtk/gtkstock.h>
 #include <libfoocanvas/foo-canvas.h>
 #include <gsf/gsf-impl-utils.h>
 
@@ -55,72 +55,44 @@ static guint	     signals [LAST_SIGNAL] = { 0 };
 static GObjectClass *parent_klass;
 
 static void
-cb_sheet_object_raise (GtkWidget *widget, GObject *so_view)
+cb_so_raise (SheetObject *so, SheetControl *sc)
 {
-	SheetObject *so;
-	WorkbookControl *wbc;
-
-	so = sheet_object_view_obj (so_view);
-	wbc = sc_wbc (sheet_object_view_control (so_view));
-
-	cmd_object_raise (wbc, so, cmd_object_raise_up);
+	cmd_object_raise (sc_wbc (sc), so, cmd_object_raise_up);
 }
-
 static void
-cb_sheet_object_raise_to_top (GtkWidget *widget, GObject *so_view)
+cb_so_raise_to_top (SheetObject *so, SheetControl *sc)
 {
-	SheetObject *so;
-	WorkbookControl *wbc;
-
-	so = sheet_object_view_obj (so_view);
-	wbc = sc_wbc (sheet_object_view_control (so_view));
-
-	cmd_object_raise (wbc, so, cmd_object_raise_top);
+	cmd_object_raise (sc_wbc (sc), so, cmd_object_raise_top);
 }
-
 static void
-cb_sheet_object_lower (GtkWidget *widget, GObject *so_view)
+cb_so_lower (SheetObject *so, SheetControl *sc)
 {
-	SheetObject *so;
-	WorkbookControl *wbc;
-
-	so = sheet_object_view_obj (so_view);
-	wbc = sc_wbc (sheet_object_view_control (so_view));
-
-	cmd_object_raise (wbc, so, cmd_object_raise_down);
+	cmd_object_raise (sc_wbc (sc), so, cmd_object_raise_down);
 }
-
 static void
-cb_sheet_object_lower_to_bottom (GtkWidget *widget, GObject *so_view)
+cb_so_lower_to_bottom (SheetObject *so, SheetControl *sc)
 {
-	SheetObject *so;
-	WorkbookControl *wbc;
-
-	so = sheet_object_view_obj (so_view);
-	wbc = sc_wbc (sheet_object_view_control (so_view));
-
-	cmd_object_raise (wbc, so, cmd_object_raise_bottom);
+	cmd_object_raise (sc_wbc (sc), so, cmd_object_raise_bottom);
 }
-
 static void
-cb_sheet_object_remove (GtkWidget *widget, GObject *so_view)
+cb_so_delete (SheetObject *so, SheetControl *sc)
 {
-	cmd_object_delete (sc_wbc (sheet_object_view_control (so_view)),
-			   sheet_object_view_obj (so_view));
+	cmd_object_delete (sc_wbc (sc), so);
 }
-
 static void
-cb_sheet_object_configure (GtkWidget *widget, GObject *obj_view)
+cb_so_configure (SheetObject *so, SheetControl *sc)
 {
-	SheetControl *sc;
-	SheetObject *so;
-
-	g_return_if_fail (obj_view != NULL);
-
-	so = sheet_object_view_obj (obj_view);
-	sc = sheet_object_view_control (obj_view);
-
 	SO_CLASS(so)->user_config (so, sc);
+}
+static void
+cb_so_cut (SheetObject *so, SheetControl *sc)
+{
+	gnm_app_clipboard_cut_copy_obj (sc_wbc (sc), TRUE, sc_view (sc), so);
+}
+static void
+cb_so_copy (SheetObject *so, SheetControl *sc)
+{
+	gnm_app_clipboard_cut_copy_obj (sc_wbc (sc), FALSE, sc_view (sc), so);
 }
 
 /**
@@ -129,46 +101,27 @@ cb_sheet_object_configure (GtkWidget *widget, GObject *obj_view)
  * @menu: the menu to insert into
  *
  * Add standard items to the object's popup menu.
- */
+ **/
 static void
-sheet_object_populate_menu (SheetObject *so,
-			    GObject *obj_view,
-			    GtkMenu *menu)
+sheet_object_populate_menu (SheetObject *so, GPtrArray *actions)
 {
-	GtkWidget *item;
-	if (SO_CLASS(so)->user_config != NULL) {
-		item = gtk_image_menu_item_new_from_stock (GTK_STOCK_PROPERTIES, NULL);
-		g_signal_connect (G_OBJECT (item),
-			"activate",
-			G_CALLBACK (cb_sheet_object_configure), obj_view);
-		gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
-	}
-
-	item = gtk_image_menu_item_new_from_stock (GTK_STOCK_GOTO_TOP, NULL);
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
-	g_signal_connect (G_OBJECT (item),
-			  "activate",
-			  G_CALLBACK (cb_sheet_object_raise_to_top), obj_view);
-	item = gtk_image_menu_item_new_from_stock (GTK_STOCK_GO_UP, NULL);
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
-	g_signal_connect (G_OBJECT (item),
-			  "activate",
-			  G_CALLBACK (cb_sheet_object_raise), obj_view);
-	item = gtk_image_menu_item_new_from_stock (GTK_STOCK_GO_DOWN, NULL);
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
-	g_signal_connect (G_OBJECT (item),
-			  "activate",
-			  G_CALLBACK (cb_sheet_object_lower), obj_view);
-	item = gtk_image_menu_item_new_from_stock (GTK_STOCK_GOTO_BOTTOM, NULL);
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
-	g_signal_connect (G_OBJECT (item),
-			  "activate",
-			  G_CALLBACK (cb_sheet_object_lower_to_bottom), obj_view);
-	item = gtk_image_menu_item_new_from_stock (GTK_STOCK_DELETE, NULL);
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
-	g_signal_connect (G_OBJECT (item),
-		"activate",
-		G_CALLBACK (cb_sheet_object_remove), obj_view);
+	static SheetObjectAction const so_actions [] = {
+		{ "gtk-cut",		NULL,		NULL,  0, cb_so_cut },
+		{ "gtk-copy",		NULL,		NULL,  0, cb_so_copy },
+		{ NULL,	NULL, NULL, 0, NULL },
+		{ "gtk-properties",	NULL,		NULL,  0, cb_so_configure },
+		{ NULL,			N_("_Order"),	NULL,  1, NULL },
+			{ NULL,			N_("Pul_l to Front"),	NULL,  0, cb_so_raise_to_top },
+			{ NULL,			N_("Pull _Forward"),	NULL,  0, cb_so_raise },
+			{ NULL,			N_("Push _Backward"),	NULL,  0, cb_so_lower },
+			{ NULL,			N_("Pus_h to Back"),	NULL,  0, cb_so_lower_to_bottom },
+			{ NULL,			NULL,			NULL, -1, NULL },
+		{ "gtk-delete",		NULL,		NULL, 0, cb_so_delete },
+	};
+	unsigned i;
+	for (i = 0 ; i < G_N_ELEMENTS (so_actions); i++)
+		if (i != 3 || SO_CLASS(so)->user_config != NULL)
+			g_ptr_array_add (actions, (gpointer) (so_actions + i));
 }
 
 /**
@@ -786,9 +739,8 @@ sheet_objects_clear (Sheet const *sheet, GnmRange const *r, GType t)
 void
 sheet_object_register (void)
 {
-	SHEET_OBJECT_GRAPHIC_TYPE;
-	SHEET_OBJECT_FILLED_TYPE;
-	SHEET_OBJECT_TEXT_TYPE;
+	GNM_SO_LINE_TYPE;
+	GNM_SO_FILLED_TYPE;
 	SHEET_OBJECT_GRAPH_TYPE;
 	SHEET_OBJECT_IMAGE_TYPE;
 	GNM_GO_DATA_SCALAR_TYPE;
@@ -799,28 +751,27 @@ sheet_object_register (void)
 }
 
 /**
- * sheet_object_clone:
- * @so: The Sheet Object to clone
- * @sheet: The sheet that we should attach the sheet object to
+ * sheet_object_dup:
+ * @so: a #SheetObject to duplicate
  *
- * Clones a sheet object and attaches it to @sheet
- *
- * Return Value:
+ * Returns : A copy of @so that is not attached to a sheet.
+ *    Caller is responsible for the reference.
  **/
-static SheetObject *
-sheet_object_clone (SheetObject const *so, Sheet *sheet)
+SheetObject *
+sheet_object_dup (SheetObject const *so)
 {
 	SheetObject *new_so = NULL;
 
-	if (!SO_CLASS (so)->clone)
+	if (!SO_CLASS (so)->copy)
 		return NULL;
 
-	new_so = SO_CLASS (so)->clone (so, sheet);
+	new_so = g_object_new (G_OBJECT_TYPE (so), NULL);
 
+	g_return_val_if_fail (new_so != NULL, NULL);
+
+	SO_CLASS (so)->copy (new_so, so);
 	new_so->type = so->type;
 	sheet_object_anchor_cpy (&new_so->anchor, &so->anchor);
-	sheet_object_set_sheet (new_so, sheet);
-	g_object_unref (new_so);
 
 	return new_so;
 }
@@ -840,7 +791,6 @@ sheet_object_clone_sheet (Sheet const *src, Sheet *dst, GnmRange *range)
 	SheetObject *so;
 	SheetObject *new_so;
 	GList *list;
-	GList *new_list = NULL;
 
 	g_return_if_fail (IS_SHEET (dst));
 	g_return_if_fail (dst->sheet_objects == NULL);
@@ -849,13 +799,15 @@ sheet_object_clone_sheet (Sheet const *src, Sheet *dst, GnmRange *range)
 	for (; list != NULL; list = list->next) {
 		so = (SheetObject *) list->data;
 		if (range == NULL || range_overlap (range, &so->anchor.cell_bound)) {
-			new_so = sheet_object_clone (so, dst);
-			if (new_so != NULL)
-				new_list = g_list_prepend (new_list, new_so);
+			new_so = sheet_object_dup (so);
+			if (new_so != NULL) {
+				sheet_object_set_sheet (new_so, dst);
+				g_object_unref (new_so);
+			}
 		}
 	}
 
-	dst->sheet_objects = g_list_reverse (new_list);
+	dst->sheet_objects = g_list_reverse (dst->sheet_objects);
 }
 
 

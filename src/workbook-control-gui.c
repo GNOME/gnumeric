@@ -995,11 +995,6 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 		wbcg_set_action_sensitivity (wbcg, "DataOutlineHideDetail",
 			sheet->priv->enable_showhide_detail);
 	}
-	if (MS_CLIPBOARD & flags) {
-		wbcg_set_action_sensitivity (wbcg, "EditCut", !edit_object);
-		wbcg_set_action_sensitivity (wbcg, "EditCopy", !edit_object);
-		wbcg_set_action_sensitivity (wbcg, "EditPaste", !edit_object);
-	}
 	if (MS_PASTE_SPECIAL & flags)
 		wbcg_set_action_sensitivity (wbcg, "EditPasteSpecial",
 			!gnm_app_clipboard_is_empty () &&

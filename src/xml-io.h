@@ -8,6 +8,7 @@
 #include <gsf/gsf-libxml.h>
 #include <libxml/tree.h>
 #include <libxml/xmlmemory.h>
+#include <goffice/utils/goffice-utils.h>
 
 struct _XmlParseContext {
 	xmlDocPtr doc;		/* Xml document */
@@ -47,13 +48,15 @@ GnmCellRegion *xml_cellregion_read  (WorkbookControl *context, Sheet *sheet,
 /* Some utility routines for setting attributes or content */
 xmlChar   *xml_node_get_cstr	(xmlNodePtr node, char const *name);
 void	   xml_node_set_cstr	(xmlNodePtr node, char const *name, char const *val);
-gboolean   xml_node_get_bool	(xmlNodePtr node, char const *name, gboolean *val);
+gboolean   xml_node_get_bool	(xmlNodePtr node, char const *name, gboolean *result);
 void       xml_node_set_bool	(xmlNodePtr node, char const *name, gboolean val);
-gboolean   xml_node_get_int	(xmlNodePtr node, char const *name, int *val);
-void       xml_node_set_int	(xmlNodePtr node, char const *name, int val);
-gboolean   xml_node_get_double	(xmlNodePtr node, char const *name, double *val);
-void       xml_node_set_double	(xmlNodePtr node, char const *name, double val, int precision);
-GnmColor*xml_node_get_color	(xmlNodePtr node, char const *name);
+gboolean   xml_node_get_int	(xmlNodePtr node, char const *name, int *result);
+void       xml_node_set_int	(xmlNodePtr node, char const *name, int  val);
+gboolean   xml_node_get_double	(xmlNodePtr node, char const *name, double *result);
+void       xml_node_set_double	(xmlNodePtr node, char const *name, double  val, int precision);
+gboolean   xml_node_get_gocolor (xmlNodePtr node, char const *name, GOColor *result);
+void	   xml_node_set_gocolor (xmlNodePtr node, char const *name, GOColor  val);
+GnmColor  *xml_node_get_color	(xmlNodePtr node, char const *name);
 void       xml_node_set_color	(xmlNodePtr node, char const *name, GnmColor const *color);
 
 xmlNodePtr   xml_write_style    (XmlParseContext *ctxt, GnmStyle *style);
@@ -67,6 +70,7 @@ xmlNode *e_xml_get_child_by_name_by_lang (xmlNode const *tree, char const *name)
 
 /* Gnumeric specific SAX utilities */
 void gnm_xml_out_add_color   (GsfXMLOut *o, char const *id, GnmColor const *c);
+void gnm_xml_out_add_gocolor (GsfXMLOut *o, char const *id, GOColor c);
 void gnm_xml_out_add_cellpos (GsfXMLOut *o, char const *id, GnmCellPos const *p);
 
 #endif /* GNUMERIC_XML_IO_H */

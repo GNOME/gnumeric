@@ -83,11 +83,12 @@ calc_indent (PangoContext *context, const GnmStyle *mstyle, Sheet *sheet)
  **/
 static gboolean
 rendered_value_render (GString *str,
-		       GnmCell *cell, PangoContext *context, GnmStyle const *mstyle,
+		       GnmCell const *cell,
+		       PangoContext *context, GnmStyle const *mstyle,
 		       gboolean allow_variable_width, gboolean *display_formula,
 		       GnmColor **color)
 {
-	Sheet *sheet = cell->base.sheet;
+	Sheet const *sheet = cell->base.sheet;
 
 	/* Is the format variable,  we may ignore it, but we still need to know
 	 * if it is possible */

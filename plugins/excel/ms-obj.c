@@ -35,7 +35,6 @@
 #include <expr.h>
 #include <parse-util.h>
 #include <sheet-object-widget.h>
-#include <sheet-object-graphic.h>
 
 #include <gsf/gsf-utils.h>
 #include <stdio.h>
@@ -64,6 +63,8 @@ MSObjAttr *
 ms_obj_attr_new_flag (MSObjAttrID id)
 {
 	MSObjAttr *res = g_new (MSObjAttr, 1);
+
+	g_return_val_if_fail ((id & MS_OBJ_ATTR_MASK) == 0, NULL);
 
 	/* be anal about constness */
 	*((MSObjAttrID *)&(res->id)) = id;
@@ -528,46 +529,45 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 	case 0: /* group */
 		break;
 	case 1: /* line */
-		tmp = GSF_LE_GET_GUINT8 (q->data+40);
-		if (GSF_LE_GET_GUINT8 (q->data+38) & 0x0F)
+		g_return_val_if_fail (q->data + 41 <= last, TRUE);
+		tmp = GSF_LE_GET_GUINT8 (q->data+38) & 0x0F;
+		if (tmp > 0)
 			ms_obj_attr_bag_insert (obj->attrs,
-				ms_obj_attr_new_flag (MS_OBJ_ATTR_ARROW_END));
+				ms_obj_attr_new_uint (MS_OBJ_ATTR_ARROW_END, tmp));
 		ms_obj_attr_bag_insert (obj->attrs,
-			ms_obj_attr_new_uint (MS_OBJ_ATTR_FILL_COLOR,
+			ms_obj_attr_new_uint (MS_OBJ_ATTR_OUTLINE_COLOR,
 				0x80000000 | GSF_LE_GET_GUINT8 (q->data+34)));
+		tmp = GSF_LE_GET_GUINT8 (q->data+35);
+		ms_obj_attr_bag_insert (obj->attrs,
+			ms_obj_attr_new_uint (MS_OBJ_ATTR_OUTLINE_STYLE,
+					      ((tmp == 0xff) ? 0 : tmp+1)));
 
+		tmp = GSF_LE_GET_GUINT8 (q->data+40);
 		if (tmp == 1 || tmp == 2)
 			ms_obj_attr_bag_insert (obj->attrs,
 				ms_obj_attr_new_flag (MS_OBJ_ATTR_FLIP_H));
 		if (tmp >= 2)
 			ms_obj_attr_bag_insert (obj->attrs,
 				ms_obj_attr_new_flag (MS_OBJ_ATTR_FLIP_V));
-		data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 42);
+		data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name,
+			(obj->excel_type == 1) ? 42 : 44);
 		break;
 
 	case 2: /* rectangle */
-		data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 44);
-		break;
 	case 3: /* oval */
-		data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 44);
-		break;
 	case 4: /* arc */
-		data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 44);
-		break;
-	case 5: /* chart */
-		data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 62);
-		break;
 	case 6: /* textbox */
-/* 70 name len, name, fmla (respect cbMacro) */
-		g_return_val_if_fail (q->data + 52 <= last, TRUE);
-
-		if (GSF_LE_GET_GUINT8 (q->data+36) > 0)
-			ms_obj_attr_bag_insert (obj->attrs,
-				ms_obj_attr_new_uint (MS_OBJ_ATTR_FILL_COLOR,
-					0x80000000 | GSF_LE_GET_GUINT8 (q->data+35)));
-		else
+		g_return_val_if_fail (q->data + 36 <= last, TRUE);
+		ms_obj_attr_bag_insert (obj->attrs,
+			ms_obj_attr_new_uint (MS_OBJ_ATTR_FILL_BACKGROUND,
+				0x80000000 | GSF_LE_GET_GUINT8 (q->data+34)));
+		ms_obj_attr_bag_insert (obj->attrs,
+			ms_obj_attr_new_uint (MS_OBJ_ATTR_FILL_COLOR,
+				0x80000000 | GSF_LE_GET_GUINT8 (q->data+35)));
+		if (GSF_LE_GET_GUINT8 (q->data+36) == 0)
 			ms_obj_attr_bag_insert (obj->attrs,
 				ms_obj_attr_new_flag (MS_OBJ_ATTR_UNFILLED));
+
 		tmp = GSF_LE_GET_GUINT8 (q->data+39);
 		ms_obj_attr_bag_insert (obj->attrs,
 			ms_obj_attr_new_uint (MS_OBJ_ATTR_OUTLINE_STYLE,
@@ -577,22 +577,30 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 				0x80000000 | GSF_LE_GET_GUINT8 (q->data+38)));
 		ms_obj_attr_bag_insert (obj->attrs,
 			ms_obj_attr_new_uint (MS_OBJ_ATTR_OUTLINE_WIDTH,
-					      GSF_LE_GET_GUINT8 (q->data+40)));
+					      GSF_LE_GET_GUINT8 (q->data+40) * 256));
 
-		len = GSF_LE_GET_GUINT16 (q->data + 44);
-		txo_len = GSF_LE_GET_GUINT16 (q->data + 48);
-		if_empty = GSF_LE_GET_GUINT16 (q->data + 50);
+		if (obj->excel_type == 6) {
+			g_return_val_if_fail (q->data + 52 <= last, TRUE);
+			len = GSF_LE_GET_GUINT16 (q->data + 44);
+			txo_len = GSF_LE_GET_GUINT16 (q->data + 48);
+			if_empty = GSF_LE_GET_GUINT16 (q->data + 50);
 
-		data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 70);
-		if (data == NULL ||
-		    read_pre_biff8_read_str (q, c, obj,
-			MS_OBJ_ATTR_TEXT, &data, len, txo_len))
-			return TRUE;
+			data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 70);
+			if (data == NULL ||
+			    read_pre_biff8_read_str (q, c, obj,
+				MS_OBJ_ATTR_TEXT, &data, len, txo_len))
+				return TRUE;
 
-		if (txo_len == 0)
-			ms_obj_attr_bag_insert (obj->attrs,
-				ms_obj_attr_new_markup (MS_OBJ_ATTR_MARKUP,
-					ms_container_get_markup (c, if_empty)));
+			if (txo_len == 0)
+				ms_obj_attr_bag_insert (obj->attrs,
+					ms_obj_attr_new_markup (MS_OBJ_ATTR_MARKUP,
+						ms_container_get_markup (c, if_empty)));
+		} else
+			data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 44);
+		break;
+
+	case 5: /* chart */
+		data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 62);
 		break;
 
 	case 7: /* button */

@@ -1709,19 +1709,17 @@ scg_mode_edit (SheetControl *sc)
 	if (scg->wbcg != NULL) {
 		if (wbcg_edit_get_guru (scg->wbcg) != NULL)
 			wbcg_edit_finish (scg->wbcg, WBC_EDIT_REJECT, NULL);
-		wb_control_menu_state_update (WORKBOOK_CONTROL (scg->wbcg),
-			MS_CLIPBOARD);
 	}
 }
 
-/*
+/**
  * scg_mode_edit_object
- * @scg: The SheetControl to edit in.
- * @so : The SheetObject to select.
+ * @scg: The #SheetControl to edit in.
+ * @so : The #SheetObject to select.
  *
  * Makes @so the currently selected object and prepares it for
  * user editing.
- */
+ **/
 void
 scg_mode_edit_object (SheetControlGUI *scg, SheetObject *so)
 {
@@ -1757,8 +1755,6 @@ scg_mode_edit_object (SheetControlGUI *scg, SheetObject *so)
 		scg_object_update_bbox (scg, so, NULL);
 		scg_set_display_cursor (scg);
 		scg_unant (SHEET_CONTROL (scg));
-		wb_control_menu_state_update (WORKBOOK_CONTROL (scg->wbcg),
-			MS_CLIPBOARD);
 	}
 	g_object_unref (G_OBJECT (so));
 }
@@ -1781,8 +1777,6 @@ scg_mode_create_object (SheetControlGUI *scg, SheetObject *so)
 		scg_cursor_visible (scg, FALSE);
 		scg_take_focus (scg);
 		scg_set_display_cursor (scg);
-		wb_control_menu_state_update (WORKBOOK_CONTROL (scg->wbcg),
-			MS_CLIPBOARD);
 	}
 }
 

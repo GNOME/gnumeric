@@ -108,7 +108,6 @@ text_to_cell_region (WorkbookControlGUI *wbcg,
 		ccopy->col_offset = 0;
 		ccopy->row_offset = 0;
 		ccopy->u.text = g_strndup (data, data_len);
-		ccopy->comment = NULL;
 
 		cr = cellregion_new (NULL);
 		cr->content = g_slist_prepend (cr->content, ccopy);

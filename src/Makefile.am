@@ -215,8 +215,10 @@ GNUMERIC_BASE =					\
 	sheet-object-impl.h			\
 	sheet-object-cell-comment.c		\
 	sheet-object-cell-comment.h		\
-	sheet-object-graphic.c			\
-	sheet-object-graphic.h			\
+	gnm-so-filled.c				\
+	gnm-so-filled.h				\
+	gnm-so-line.c				\
+	gnm-so-line.h				\
 	sheet-object-graph.c			\
 	sheet-object-graph.h			\
 	sheet-object-image.c			\
