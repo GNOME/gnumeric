@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.42\n"
-"POT-Creation-Date: 1999-11-17 22:25+0100\n"
+"POT-Creation-Date: 1999-11-17 22:44+0100\n"
 "PO-Revision-Date: 1999-11-06 13:11+01:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
@@ -54,11 +54,15 @@ msgstr " Ukjent formel"
 msgid "Imported %s"
 msgstr "Importerte %s"
 
-#: plugins/ff-csv/csv-io.c:176
+#: plugins/ff-csv/csv-io.c:256
 msgid "Comma Separated Value (CSV) import"
 msgstr "Komma-separert verdi (CSV) import"
 
-#: plugins/ff-csv/csv-io.c:179
+#: plugins/ff-csv/csv-io.c:259
+msgid "Comma Separated Value format (*.csv)"
+msgstr "Komma-separert verdi format (*.csv)"
+
+#: plugins/ff-csv/csv-io.c:262
 msgid "Comma Separated Value (CSV) module"
 msgstr "Komma-separert verdi (CSV) modul"
 
