@@ -1,4 +1,4 @@
-# Nederlandse vertaling van gnumeric CVS-vers encoding="UTF-8"ie
+# De bestandderlandse vertaling van gnumeric CVS-vers encoding="UTF-8"ie
 # Copyright (C) 1999-2002 Free Software Foundation, Inc.
 # M.Meij <M.Meij@wbmt.tudelft.nl>
 # Almer S. Tigelaar <almer1@dds.nl>, 2001
@@ -8,9 +8,8 @@
 # sneltoetsen controleren, aanvullen, completeren.
 # consistentie van functiebeschrijvingen controleren.
 # woordsamenstellingen
-# Elk Woord Een Hoofdletter (hoeft niet overal worden aangepast)
-# De Nederlandse MS-Excel equivalenten voor de functienamen
-# vermelding in de beschrijving
+# Niet Elk Woord Een Hoofdletter (hoeft niet overal worden aangepast)
+# De Nederlandse MS-Excel equivalenten voor de functienamen vermelden in de beschrijving
 #
 # ------------
 # Woordenlijst
@@ -117,8 +116,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-10 00:27-0400\n"
-"PO-Revision-Date: 2003-09-09 04:35+0200\n"
+"POT-Creation-Date: 2003-09-14 04:09+0200\n"
+"PO-Revision-Date: 2003-09-14 14:00+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: nl <vertaling@nl.linux.org>\n"
 "MIME-Version: 1.0\n"
@@ -1016,7 +1015,7 @@ msgstr "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"
 
 #: plugins/derivatives/options.c:1781 plugins/derivatives/options.c:1786
 msgid "spot, strike, time, rate, volatility, cost_of_carry"
-msgstr ""
+msgstr "prijs; koers; tijd; rente; volatiliteit; cost_of_carry"
 
 #: plugins/derivatives/options.c:1796
 msgid "a, b, rho"
@@ -1026,48 +1025,57 @@ msgstr "a; b; rho"
 msgid ""
 "call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
 msgstr ""
+"call_put_keuze; prijs; koers; tijd; binnenlandse_rente; buitenlands_rente; "
+"volatiliteit"
 
 #: plugins/derivatives/options.c:1806
 msgid "call_put_flag, spot, strike, time, t2, rate, volatility, cost of carry"
 msgstr ""
+"call_put_keuze; prijs; koers; tijf; t2; rente; volatiliteit; cost_of_carry"
 
 #: plugins/derivatives/options.c:1811
 msgid "call_put_flag, spot, strike, time, rate, volatility, lambda, gamma"
-msgstr ""
+msgstr "call_put_keuze; prijs; koers; tijd; rente; volatiliteit; lambda; gamma"
 
 #: plugins/derivatives/options.c:1816
 msgid ""
 "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
 msgstr ""
+"call_put_keuze; prijs; koers; tijd; rente; volatiliteit; cost_of_carry; "
+"lambda"
 
 #: plugins/derivatives/options.c:1821 plugins/derivatives/options.c:1831
 msgid "call_put_flag, spot, strike, time, rate, cost_of_carry, volatility"
-msgstr ""
+msgstr "call_put_keuze; prijs; koers; tijd; rente; cost_of_carry; volatiliteit"
 
 #: plugins/derivatives/options.c:1826
 msgid ""
 "call_put_flag, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, rho_ef, "
 "kappa_e, kappa_f)"
 msgstr ""
+"call_put_keuze; p_t; f_t; x; t1; t2; v_s; v_e; v_f; rho_se; rho_sf; rho_ef; "
+"kappa_e; kappa_f)"
 
 #: plugins/derivatives/options.c:1836
 msgid "call_put_flag, spot, strike, t1, t2, rate, d, volatility"
-msgstr ""
+msgstr "call_put_keuze; prijs; koers; t1; t2; rente; d; volatiliteit"
 
 #: plugins/derivatives/options.c:1841
 msgid ""
 "call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
 msgstr ""
+"call_put_keuze; prijs; alpha; tijd1; tijd; rente; volatiliteit; cost_of_carry"
 
 #: plugins/derivatives/options.c:1846
 msgid ""
 "call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"
 msgstr ""
-"call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"
+"call_put_keuze; prijs koers; a; tijd; m; dt; rente; cost_of_carry; "
+"volatiliteit"
 
 #: plugins/derivatives/options.c:1851
 msgid "spot, strike, time1, time2, rate, cost_of_carry, volatility"
-msgstr ""
+msgstr "prijs; koers; tijd1; tijd2; rente; cost_of_carry; volatiliteit"
 
 #: plugins/derivatives/options.c:1856
 msgid ""
@@ -4717,7 +4725,7 @@ msgstr "datum1;datum2;interval"
 #: plugins/fn-date/functions.c:1281 plugins/fn-date/functions.c:1285
 #: plugins/fn-date/functions.c:1293 plugins/fn-date/functions.c:1297
 #: plugins/fn-date/functions.c:1310 plugins/fn-date/functions.c:1314
-#: src/print-info.c:545
+#: src/print-info.c:568
 msgid "date"
 msgstr "datum"
 
@@ -4734,7 +4742,7 @@ msgid "start_date,months"
 msgstr "begindatum;maanden"
 
 #: plugins/fn-date/functions.c:1245 plugins/fn-date/functions.c:1249
-#: plugins/fn-date/functions.c:1265 src/print-info.c:546
+#: plugins/fn-date/functions.c:1265 src/print-info.c:569
 msgid "time"
 msgstr "tijd"
 
@@ -8515,7 +8523,7 @@ msgstr "%s versie %s "
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:264
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:407
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:109
 #: src/dialogs/dialog-cell-format.c:2265 src/dialogs/dialog-cell-format.c:2270
 #: src/dialogs/dialog-cell-format.c:2280 src/workbook-format-toolbar.c:836
@@ -9660,7 +9668,6 @@ msgstr ""
 "@SEEALSO=\""
 
 #: plugins/fn-lookup/functions.c:907
-#, fuzzy
 msgid ""
 "@FUNCTION=COLUMN\n"
 "@SYNTAX=COLUMN([reference])\n"
@@ -9677,8 +9684,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=COLUMN\n"
 "@SYNTAX=COLUMN([verwijzing])\n"
-"@DESCRIPTION=COLUMN geeft een array van de kolom-nummers waarbij het "
-"standaardargument de celpositie van de functie is.\n"
+"@DESCRIPTION=COLUMN geeft het kolomnummer van de huidige cel, tenzij er een "
+"argument @verwijzing is gegeven. In dat geval geeft COLUMN een array van de "
+"kolom-getallen van alle cellen in de @verwijzing.\n"
 "\n"
 "* Als @verwijzing noch een een array is, noch een verwijzing, noch een "
 "bereik, geeft COLUMN een #WAARDE! foutmelding.\n"
@@ -9689,7 +9697,6 @@ msgstr ""
 "@SEEALSO=COLUMNS,ROW,ROWS"
 
 #: plugins/fn-lookup/functions.c:962
-#, fuzzy
 msgid ""
 "@FUNCTION=COLUMNNUMBER\n"
 "@SYNTAX=COLUMNNUMBER(name)\n"
@@ -9703,18 +9710,17 @@ msgid ""
 "\n"
 "@SEEALSO=ADDRESS"
 msgstr ""
-"@FUNCTION=COLUMNS\n"
-"@SYNTAX=COLUMNS(verwijzing)\n"
-"@DESCRIPTION=COLUMNS geeft het aantal kolommen in het opgegeven bereik of de "
-"array-verwijzing.\n"
+"@FUNCTION=COLUMNNUMBER\n"
+"@SYNTAX=COLUMNNUMBER(naam)\n"
+"@DESCRIPTION=COLUMNNUMBER geeft het kolomnummer corresponderend met de "
+"kolomnaam die als tekenreeks is gegeven.\n"
 "\n"
-"* Als @verwijzing noch een array is, noch een verwijzing noch een bereik, "
-"geeft COLUMNS een #WAARDE! foutmelding.\n"
+"* Als @naam ongeldig is, geeft COLUMNNUMBER een #WAARDE! foutmelding.\n"
 "\n"
 "@EXAMPLES=\n"
-"COLUMNS(H2:J3) is 3\n"
+"COLUMNNUMBER(\"E\") is 5\n"
 "\n"
-"@SEEALSO=COLUMN,ROW,ROWS"
+"@SEEALSO=ADRESS"
 
 #: plugins/fn-lookup/functions.c:994
 msgid ""
@@ -9745,7 +9751,6 @@ msgstr ""
 "@SEEALSO=COLUMN,ROW,ROWS"
 
 #: plugins/fn-lookup/functions.c:1019
-#, fuzzy
 msgid ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(range,row,col[,height[,width]])\n"
@@ -9762,8 +9767,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(bereik;rij;kolom;hoogte;breedte)\n"
-"@DESCRIPTION=OFFSET geeft een celbereik. Het celbereik begint bij offset "
-"(@kolom,@rij) vanaf @bereik, en heeft afmetingen met @hoogte en @breedte.\n"
+"@DESCRIPTION=OFFSET geeft een celbereik. Het celbereik begint bij een "
+"verschuiving (@kolom,@rij) vanaf @bereik, en heeft de afmetingen: @hoogte en "
+"@breedte.\n"
 "\n"
 "* Als @bereik noch een verwijzing is, noch een bereik, geeft OFFSET een "
 "#WAARDE! foutmelding.\n"
@@ -15281,7 +15287,6 @@ msgstr ""
 "@SEEALSO=STDEVA,STDEVP"
 
 #: plugins/fn-stat/functions.c:3394
-#, fuzzy
 msgid ""
 "@FUNCTION=PERCENTRANK\n"
 "@SYNTAX=PERCENTRANK(array,x[,significance])\n"
@@ -15304,11 +15309,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=PERCENTRANK\n"
 "@SYNTAX=PERCENTRANK(array;x[;significantie])\n"
-"@DESCRIPTION=PERCENTRANK geeft de rang van een datapunt in een data "
-"verzameling. @array is het celbereik van de getalwaarden, @x is het datapunt "
-"waarvan je de rang wilt weten. De optionele significantie geeft het aantal "
-"significante cijfers achter de komma voor het resultaat. Als @significantie "
-"wordt weggelaten gebruikt PERCENTRANK 3 cijfers.\n"
+"@DESCRIPTION=PERCENTRANK geeft de rang van een datapunt in een "
+"dataverzameling. @array is het bereik van de getalwaarden, @x is het "
+"datapunt waarvan je de rang wilt weten. De optionele significantie geeft het "
+"aantal significante cijfers van het resultaat. Als @significantie wordt "
+"weggelaten gebruikt PERCENTRANK 3 cijfers.\n"
 "\n"
 "* Als @array geen datapunten bevat geeft PERCENTRANK een #GETAL! "
 "foutmelding.\n"
@@ -15729,7 +15734,6 @@ msgstr ""
 "@SEEALSO=LOGREG,LINEST,LOGEST"
 
 #: plugins/fn-stat/functions.c:4549
-#, fuzzy
 msgid ""
 "@FUNCTION=TREND\n"
 "@SYNTAX=TREND(known_y's[,known_x's[,new_x's[,const]]])\n"
@@ -15755,16 +15759,18 @@ msgid ""
 "@SEEALSO=LINEST"
 msgstr ""
 "@FUNCTION=TREND\n"
-"@SYNTAX=TREND(y_bekend[;x_bekend];x_nieuw])\n"
+"@SYNTAX=TREND(y_bekend[;x_bekend[;x_nieuw[;const]]])\n"
 "@DESCRIPTION=TREND schat toekomstige waarden van een gegeven data-"
 "verzameling gebruik makend van een  ``kleinste kwadraten''-lijn die het "
 "beste bij uw data-verzameling past. @y_bekend zijn de y-waarden waarbij y=mx"
 "+b en @x_bekend bevat de de corresponderende x-waarden. @x_nieuw bevat de x-"
-"waarden waarvoor je de schatting van de y-waarden wilt weten.\n"
+"waarden waarvoor u de de y-waarden wilt schatten. Als @const ONWAAR is zal "
+"de lijn door de oorsprong gaan; b is dan dus nul.\n"
 "\n"
 "* Als @x_bekend is weggelaten, wordt een array {1, 2, 3, ...} gebruikt.\n"
 "* Als @x_nieuw is weggelaten, wordt aangenomen dat deze hetzelfde is als "
 "@x_bekend.\n"
+"* Als @const is weggelaten, wordt aangenomen dat deze WAAR is.\n"
 "* Als @y_bekend en @x_bekend een ongelijk aantal datapunten hebben, geeft "
 "TREND een #GETAL! foutmelding.\n"
 "\n"
@@ -15776,7 +15782,6 @@ msgstr ""
 "@SEEALSO=LINEST"
 
 #: plugins/fn-stat/functions.c:4664
-#, fuzzy
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -15806,34 +15811,33 @@ msgid ""
 "\n"
 "@SEEALSO=GROWTH,TREND"
 msgstr ""
-"@FUNCTION=LINEST\n"
-"@SYNTAX=LINEST(y_bekend[;x_bekend[;const[;stat]]])\n"
-"@DESCRIPTION=LINEST berekent de ``kleinste kwadraten''-lijn die het best op "
-"de datapunten in @y_bekend past. @x_bekend bevat de corresponderende x-"
-"waarden waarbij y=mx+b.\n"
+"@FUNCTION=LOGEST\n"
+"@SYNTAX=LOGEST(y_bekend[;x_bekend;const;stat])\n"
+"@DESCRIPTION=LOGEST gebruikt de ``kleinste kwadraten''-methode om een "
+"exponentiële kromme in de vorm\n"
 "\n"
-"LINEST geeft een matrix met twee kolommen en een rij. De helling (m) van de "
-"regressielijn y=mx+b staat in de eerste kolom en het snijpunt met de y as "
-"(b) in de tweede kolom.\n"
+"\ty = b * m{1}^x{1} * m{2}^x{2}... aan uw gegevens te fitten.\n"
 "\n"
-"* Als @stat WAAR is, zal extra statistische informatie worden getoond. Deze "
-"zal onder de coëfficiënten van de regressielijn komen te staan. Extra "
-"statistische informatie bestaat uit vier rijen gegevens. In de eerste rij "
-"worden de waarden van de standaardfouten voor de coefficienten m1, "
-"(m2, ...), b gegeven. De tweede rij bevat de kwadraten van R en de "
-"standaardfout voor de schatting van y. De derde rij bevat de F-waargenomen "
-"waarde en het aantal vrijheidsgraden. De laatste rij bevat de regressie-"
-"kwadratensom en en de residue-kwadratensom.\n"
+"Als @stat WAAR is zal extra statistische informatie worden gegenereerd. "
+"Extra statistische informatie komt te staan onder de coëfficienten van de "
+"regressielijn, in de resultaat-array.  Extra statistische informatie bestaat "
+"uit 4 regels data.  In de eerste rij staan de standaard foutwaarden voor de "
+"coëfficienten m1, (m2, ...), b. De tweede rij bevat het kwadraat van $ en de "
+"standaard fout voor de schatting van y. De derde rij bevat de F-waargenomen "
+"waarde  en het aantal vrijheidsgraden.  De laatste rij bevat de regressie-"
+"kwadratensom en het residue-kwadratensom.\n"
 "\n"
-"* Als @x_bekend is weggelaten wordt een matrix {1, 2, 3, ...} gebruikt.\n"
+"* Als @x_bekend is weggelaten, wordt een array {1, 2, 3, ...} gebruikt. "
+"LOGEST geeft een array {m{n},m{n-1}, ...,m{1},b}.\n"
 "* Als @y_bekend en @x_bekend een ongelijk aantal datapunten hebben, geeft "
-"LINEST een #GETAL! foutmelding.\n"
-"* Als @const ONWAAR is, gaat de lijn door de Oorsprong, met andere woorden: "
-"b zal nul zijn. Standaard is @const WAAR.\n"
-"* De standaard waarde van @stat is ONWAAR.\n"
+"LOGEST een #GETAL! foutmelding.\n"
+"* Als @const ONWAAR is, zal de lijn door de oorsprong (0,1) gaan; b is dan "
+"dus 1.  Standaard is @const WAAR.\n"
+"* De standaardwaarde van @stat is ONWAAR.\n"
+"\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=LOGEST,TREND"
+"@SEEALSO=GROWTH,TREND"
 
 #: plugins/fn-stat/functions.c:4916
 msgid ""
@@ -17263,11 +17267,11 @@ msgstr "Kon de GNOME database configuratie niet uitvoeren"
 
 #: plugins/gnome-db/plugin.xml.in.h:1
 msgid "Database UI services plugin"
-msgstr ""
+msgstr "Database UI services plugin"
 
 #: plugins/gnome-db/plugin.xml.in.h:2
 msgid "GNOME-DB"
-msgstr ""
+msgstr "GNOME-DB"
 
 #: plugins/gnome-db/ui.xml.h:1
 msgid "Data Sources..."
@@ -17853,24 +17857,24 @@ msgstr "Standaard interpreteerder"
 
 #: plugins/python-loader/gnm-python.c:130
 #: plugins/python-loader/gnm-python.c:152
-#, fuzzy, c-format
+#, c-format
 msgid "Could not import %s."
-msgstr "Niet in staat om bestand '%s' te openen"
+msgstr "Kon %s niet importeren."
 
 #: plugins/python-loader/gnm-python.c:137
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find %s."
-msgstr "Niet in staat om bestand '%s' te openen"
+msgstr "Kon '%s' niet vinden."
 
 #: plugins/python-loader/gnm-python.c:145
 #, c-format
 msgid "Could not initialize Python bindings for Gtk+, etc: %s"
-msgstr ""
+msgstr "Kon de Python-bindingen voor Gtk+ etc. niet initialiseren: %s"
 
 #: plugins/python-loader/gnm-python.c:159
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find %s"
-msgstr "Niet in staat om bestand '%s' te openen"
+msgstr "Kon %s niet vinden"
 
 #: plugins/python-loader/plugin.xml.in.h:1
 msgid "Python plugin loader"
@@ -18024,12 +18028,11 @@ msgstr ""
 
 #: plugins/sample_datasource/plugin.xml.in.h:1
 msgid "A proof of concept external data source"
-msgstr ""
+msgstr "Concept-implementatie van een externe databron"
 
 #: plugins/sample_datasource/plugin.xml.in.h:3
-#, fuzzy
 msgid "Sample DataSource"
-msgstr "Databronnen..."
+msgstr "Steekproef databron"
 
 # BUG hoofdletters voor de functienaam
 #: plugins/sample_datasource/sample_datasource.c:264
@@ -18116,11 +18119,11 @@ msgstr "Hallo Wereld"
 
 #: plugins/uihello/plugin.xml.in.h:1
 msgid "Hello World plugin using ui service"
-msgstr ""
+msgstr "Hallo Wereld plugin met gebruik van ui service"
 
 #: plugins/uihello/plugin.xml.in.h:2
 msgid "UI Hello"
-msgstr ""
+msgstr "UI Hallo"
 
 #: plugins/uihello/uihello.c:24
 #, c-format
@@ -18134,7 +18137,8 @@ msgstr "Fout bij het openen van xbase bestand"
 # werkblad?
 #: plugins/xbase/boot.c:175 src/commands.c:4547
 #: src/dialogs/dialog-goto-cell.c:284 src/dialogs/dialog-search.c:391
-#: src/dialogs/print.glade.h:21 src/workbook.c:1041 src/xml-io.c:3585
+#: src/dialogs/print.glade.h:21 src/print-info.c:477 src/workbook.c:1041
+#: src/xml-io.c:3585
 msgid "Sheet"
 msgstr "Blad"
 
@@ -18161,10 +18165,6 @@ msgstr "EXPERIMENTAL SAX gebaseerde XML"
 #: plugins/xml_sax/plugin.xml.in.h:3
 msgid "The next generation sax based xml I/O subsystem"
 msgstr "De volgende generatie sax gebaseerd xml I/O subsysteem"
-
-#: plugins/xml_sax/plugin.xml.in.h:4
-msgid "UNFINISHED Gnumeric XML (*.gnumeric)"
-msgstr "ONVOLTOOID Gnumeric XML (*.gnumeric)"
 
 #: plugins/xml_sax/xml-sax-read.c:301
 #, c-format
@@ -19139,7 +19139,7 @@ msgid "Filter data with given criteria"
 msgstr "Filter de gegevens met de opgegeven criteria."
 
 #: src/GNOME_Gnumeric.xml.h:97
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:843
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:846
 #: src/dialogs/cell-format.glade.h:43 src/dialogs/dialog-preferences.c:1395
 #: src/workbook-format-toolbar.c:411
 msgid "Font"
@@ -19335,8 +19335,8 @@ msgid "Jump to a specified cell"
 msgstr "Spring naar een specifieke cel"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:299
-#: src/sheet-object-graphic.c:1434 src/workbook-object-toolbar.c:147
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:452
+#: src/sheet-object-graphic.c:1440 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Label"
 
@@ -19505,7 +19505,7 @@ msgid "Print Preview"
 msgstr "Afdrukvoorbeeld"
 
 #: src/GNOME_Gnumeric.xml.h:181 src/GNOME_Gnumeric_Component.xml.h:6
-#: src/print.c:1311 src/workbook-control-gui.c:3301
+#: src/print.c:1322 src/workbook-control-gui.c:3301
 #: src/workbook-control-gui.c:3952
 msgid "Print preview"
 msgstr "Afdrukvoorbeeld"
@@ -20839,89 +20839,116 @@ msgid "Reconfigure Graph"
 msgstr "Diagram opnieuw configureren"
 
 #: src/consolidate.c:773
-#, fuzzy, c-format
+#, c-format
 msgid "Consolidating to (%s)"
-msgstr "Consolideren naar %s!%s"
+msgstr "Consolideren naar (%s)"
 
 #: src/consolidate.c:812 src/consolidate.c:815
-#, fuzzy
 msgid "Data Consolidation"
 msgstr "Gegevens consolideren"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:1
-#, fuzzy
-msgid "_Cross"
-msgstr "Kruis"
+msgid "<b>Major Ticks:</b>"
+msgstr "<b>Hoofdverdeling:</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:2
-#, fuzzy
-msgid "_High"
-msgstr "Hoogte"
+msgid "<b>Minor Ticks:</b>"
+msgstr "<b>Onderverdeling:</b>"
 
-# de I is een kleine letter voor de sneltoets
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:3
-#, fuzzy
-msgid "_Invert"
-msgstr "I_nvoegen"
+msgid "I_nside"
+msgstr "Bi_nnen"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:4
-#, fuzzy
-msgid "_Low"
-msgstr "_Rij"
+msgid "O_utside"
+msgstr "B_uiten"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
-#, fuzzy
-msgid "_Map:"
-msgstr "_Scheiding:"
+msgid "_Cross"
+msgstr "_Kruis"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:6
+msgid "_High"
+msgstr "_Hoog"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:7
+msgid "_Inside"
+msgstr "B_innen"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:8
+msgid "_Invert"
+msgstr "_Omkeren"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:9
+msgid "_Low"
+msgstr "_Laag"
+
+# dit is moeilijk. Wat is dit, waar kom je dit tegen?
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:10
+msgid "_Map:"
+msgstr "_Plotten:"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:11
+msgid "_Outside"
+msgstr "_Buiten"
+
+# de labels zijn hier getallen op de as
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:12
+msgid "_Show Labels"
+msgstr "_Getallen tonen"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:380
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "M_in"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:380
 msgid "M_ax"
 msgstr "M_ax"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:247
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:381
 msgid "Ma_jor Ticks"
 msgstr "_Hoofdverdeling"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:248
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:382
 msgid "Mi_nor Ticks"
 msgstr "_Onderverdeling"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:271
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:415
 msgid "Bounds"
 msgstr "Grenzen"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:275
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:419
 msgid "Details"
 msgstr "Details"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:172
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:195
 msgid "Legend"
 msgstr "Legenda"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:175
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:198
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
 #: src/cut-n-paste-code/goffice/graph/gog-legend.c:169
 msgid "Title"
 msgstr "Titel"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:178
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:201
+msgid "Grid"
+msgstr "Rooster"
+
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:204
 msgid "X-Axis"
 msgstr "X-As"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:182
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:208
 msgid "Y-Axis"
 msgstr "Y-as"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:186
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:212
 msgid "Z-Axis"
 msgstr "Z-as"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:190
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:216
 msgid "Plot"
 msgstr "Tekenen"
 
@@ -20994,7 +21021,7 @@ msgstr "GNOME-Office grafiek"
 # dit is voor de grafiekonderdelen die nog niet af zijn
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:2
 msgid "TODO : Unfinished"
-msgstr "TODO : Moet nog worden gedaan"
+msgstr "TODO : Dit moet nog worden geïmlementeerd"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:3
 #: src/dialogs/autocorrect.glade.h:12 src/dialogs/names.glade.h:6
@@ -21031,12 +21058,12 @@ msgstr "Volg_orde"
 msgid "_Top"
 msgstr "_Boven"
 
-#: src/cut-n-paste-code/goffice/graph/gog-label.c:102
+#: src/cut-n-paste-code/goffice/graph/gog-label.c:105
 msgid "_Text:"
 msgstr "_Tekst:"
 
 # Data
-#: src/cut-n-paste-code/goffice/graph/gog-label.c:108
+#: src/cut-n-paste-code/goffice/graph/gog-label.c:111
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:131
 #: src/dialogs/dialog-stf.glade.h:15
 msgid "Data"
@@ -21189,7 +21216,7 @@ msgstr "_donkerder"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:31
 msgid "pts"
-msgstr "pts"
+msgstr "ptn"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:32
 msgid "stretched"
@@ -21205,12 +21232,12 @@ msgstr "behang"
 msgid "%d x %d"
 msgstr "%d x %d"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:535
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:536
 #: src/workbook-control-gui.c:3100
 msgid "Select an image"
 msgstr "Een afbeelding selecteren"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:895
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:898
 #: src/dialogs/pivottable.glade.h:4
 msgid "Style"
 msgstr "Stijl"
@@ -21223,7 +21250,7 @@ msgid "Default"
 msgstr "Standaard"
 
 #. Guppi
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:427
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:435
 msgid "Guppi"
 msgstr "Guppi"
 
@@ -21279,10 +21306,9 @@ msgstr "BalkKolom"
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotLine2
 #.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:44
-#, fuzzy
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:45
 msgid "PlotLine"
-msgstr "Taart"
+msgstr "Lijn"
 
 # dit is het basiswoord waar getallen achter komen.
 # het is mooier om plot weg te laten bij deze dingen:
@@ -21291,10 +21317,9 @@ msgstr "Taart"
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotArea2
 #.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:114
-#, fuzzy
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:115
 msgid "PlotArea"
-msgstr "Taart"
+msgstr "Gebied"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:1
 msgid "3D Adjacent Bars"
@@ -21660,11 +21685,11 @@ msgstr "Ring plot-motor"
 msgid "PlotXY"
 msgstr "XY"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:153
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:171
 msgid "X"
 msgstr "X"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:155
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:173
 msgid "Y"
 msgstr "Y"
 
@@ -21740,54 +21765,44 @@ msgid "XY Charts"
 msgstr "XY-grafieken"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:222
-#, fuzzy
 msgid "none"
 msgstr "Geen"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:223
-#, fuzzy
 msgid "square"
-msgstr "Vierkant"
+msgstr "vierkant"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:224
-#, fuzzy
 msgid "diamond"
-msgstr "Ruit"
+msgstr "ruit"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:225
-#, fuzzy
 msgid "triangle down"
-msgstr "Driehoek onder"
+msgstr "driehoek onder"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:226
-#, fuzzy
 msgid "triangle up"
-msgstr "Driehoek boven"
+msgstr "driehoek boven"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:227
-#, fuzzy
 msgid "triangle right"
-msgstr "Driehoek rechts"
+msgstr "driehoek rechts"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:228
-#, fuzzy
 msgid "triangle left"
-msgstr "Driehoek links"
+msgstr "driehoek links"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:229
-#, fuzzy
 msgid "circle"
-msgstr "Cirkel"
+msgstr "cirkel"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:231
-#, fuzzy
 msgid "cross"
-msgstr "Kruis"
+msgstr "kruis"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:232
-#, fuzzy
 msgid "asterisk"
-msgstr "Sterretje"
+msgstr "sterretje"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:233
 msgid "bar"
@@ -21795,21 +21810,19 @@ msgstr "balk"
 
 # Type markering voor punten in een grafiek
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:234
-#, fuzzy
 msgid "half bar"
-msgstr "Halve balk"
+msgstr "halve balk"
 
+# diabolo
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:235
-#, fuzzy
 msgid "butterfly"
-msgstr "Vlindertje"
+msgstr "vlindertje"
 
 # Type markering voor punten in een grafiek
 # Diabolo?
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:236
-#, fuzzy
 msgid "hourglass"
-msgstr "Zandloper"
+msgstr "zandloper"
 
 # was eerst: effen
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:192
@@ -21893,15 +21906,19 @@ msgid "Thin Reverse Diagonal Stripe"
 msgstr "Dun omgekeerd diagonaal gestreept"
 
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:207
-#: src/cut-n-paste-code/goffice/utils/go-pattern.c:209
-#: src/dialogs/cell-format.glade.h:81
-msgid "Thin Diagonal Crosshatch"
-msgstr "Dun diagonaal gearceerd"
+#: src/dialogs/cell-format.glade.h:82
+msgid "Thin Diagonal Stripe"
+msgstr "Dun diagonaal gestreept"
 
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:208
 #: src/dialogs/cell-format.glade.h:83
 msgid "Thin Horizontal Crosshatch"
 msgstr "Dun horizontaal gearceerd"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:209
+#: src/dialogs/cell-format.glade.h:81
+msgid "Thin Diagonal Crosshatch"
+msgstr "Dun diagonaal gearceerd"
 
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:210
 #: src/dialogs/cell-format.glade.h:44
@@ -22273,7 +22290,7 @@ msgstr "_Invoer"
 #: src/dialogs/correlation.glade.h:11 src/dialogs/covariance.glade.h:11
 #: src/dialogs/descriptive-stats.glade.h:21
 #: src/dialogs/dialog-analysis-tools.c:338
-#: src/dialogs/dialog-analysis-tools.c:2584 src/dialogs/dialog-shuffle.c:149
+#: src/dialogs/dialog-analysis-tools.c:2583 src/dialogs/dialog-shuffle.c:149
 #: src/dialogs/exp-smoothing.glade.h:14
 #: src/dialogs/fourier-analysis.glade.h:12
 #: src/dialogs/moving-averages.glade.h:16 src/dialogs/rank.glade.h:14
@@ -22584,7 +22601,7 @@ msgstr "<b>Foutmeldingen</b>"
 
 # horizontale uitlijning instellen
 #: src/dialogs/cell-format.glade.h:16
-msgid "<b>Horizontal alignement</b>"
+msgid "<b>Horizontal alignment</b>"
 msgstr "<b>Horizontale uitlijning</b>"
 
 #: src/dialogs/cell-format.glade.h:18
@@ -22604,8 +22621,8 @@ msgid "<b>Style</b>"
 msgstr "<b>Stijl</b>"
 
 #: src/dialogs/cell-format.glade.h:22
-msgid "<b>Vertical alignement</b>"
-msgstr "<b>Verticale Uitlijning</b>"
+msgid "<b>Vertical alignment</b>"
+msgstr "<b>Verticale uitlijning</b>"
 
 #: src/dialogs/cell-format.glade.h:23
 msgid "<span weight=\"bold\">Criteria</span>"
@@ -22782,10 +22799,6 @@ msgstr "B_oven"
 #: src/dialogs/cell-format.glade.h:78
 msgid "Text length"
 msgstr "Tekst lengte"
-
-#: src/dialogs/cell-format.glade.h:82
-msgid "Thin Diagonal Stripe"
-msgstr "Dun diagonaal gestreept"
 
 #: src/dialogs/cell-format.glade.h:87 src/widgets/widget-format-selector.c:73
 msgid "Time"
@@ -23274,10 +23287,10 @@ msgid "No matching records were found."
 msgstr "Geen overeenkomende records gevonden."
 
 #: src/dialogs/dialog-advanced-filter.c:160
-#: src/dialogs/dialog-analysis-tools.c:583
-#: src/dialogs/dialog-analysis-tools.c:701
-#: src/dialogs/dialog-analysis-tools.c:1983
-#: src/dialogs/dialog-analysis-tools.c:2874
+#: src/dialogs/dialog-analysis-tools.c:585
+#: src/dialogs/dialog-analysis-tools.c:703
+#: src/dialogs/dialog-analysis-tools.c:1985
+#: src/dialogs/dialog-analysis-tools.c:2875
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "Er trad een onverwachte fout op: %d."
@@ -23290,42 +23303,42 @@ msgstr "_Lijst Bereik:"
 msgid "Could not create the Advanced Filter dialog."
 msgstr "Kon het Geavanceerde Filter dialoogvenster niet maken."
 
-#: src/dialogs/dialog-analysis-tools.c:569
-#: src/dialogs/dialog-analysis-tools.c:687
+#: src/dialogs/dialog-analysis-tools.c:571
+#: src/dialogs/dialog-analysis-tools.c:689
 msgid "The selected input rows must have equal size!"
 msgstr "De geselecteerde invoerrijen moeten dezelfde grootte hebben!"
 
-#: src/dialogs/dialog-analysis-tools.c:574
-#: src/dialogs/dialog-analysis-tools.c:692
+#: src/dialogs/dialog-analysis-tools.c:576
+#: src/dialogs/dialog-analysis-tools.c:694
 msgid "The selected input columns must have equal size!"
 msgstr "De geselecteerde invoer kolommen moeten dezelfde grootte hebben!"
 
-#: src/dialogs/dialog-analysis-tools.c:579
-#: src/dialogs/dialog-analysis-tools.c:697
+#: src/dialogs/dialog-analysis-tools.c:581
+#: src/dialogs/dialog-analysis-tools.c:699
 msgid "The selected input areas must have equal size!"
 msgstr "De geselecteerde invoer gebieden moeten dezelfde grootte hebben!"
 
-#: src/dialogs/dialog-analysis-tools.c:626
+#: src/dialogs/dialog-analysis-tools.c:628
 msgid "Could not create the Correlation Tool dialog."
 msgstr "Kon het Correlatie dialoogvenster niet maken."
 
-#: src/dialogs/dialog-analysis-tools.c:744
+#: src/dialogs/dialog-analysis-tools.c:746
 msgid "Could not create the Covariance Tool dialog."
 msgstr "Kon het Covariantie dialoogvenster niet maken."
 
-#: src/dialogs/dialog-analysis-tools.c:833
+#: src/dialogs/dialog-analysis-tools.c:835
 msgid "Could not create the Rank and Percentile Tools dialog."
 msgstr "Kon het Rang en Percentiel dialoogvenster niet maken."
 
-#: src/dialogs/dialog-analysis-tools.c:923
+#: src/dialogs/dialog-analysis-tools.c:925
 msgid "Could not create the Fourier Analysis Tool dialog."
 msgstr "Kon het Fourieranalyse-dialoogvenster niet maken."
 
-#: src/dialogs/dialog-analysis-tools.c:1085
+#: src/dialogs/dialog-analysis-tools.c:1087
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr "Kon het Beschrijvende Statistieken dialoogvenster niet maken."
 
-#: src/dialogs/dialog-analysis-tools.c:1227
+#: src/dialogs/dialog-analysis-tools.c:1229
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
@@ -23333,7 +23346,7 @@ msgstr ""
 "Voer een geldige\n"
 "populatievariantie in voor variabele 1."
 
-#: src/dialogs/dialog-analysis-tools.c:1236
+#: src/dialogs/dialog-analysis-tools.c:1238
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
@@ -23341,35 +23354,35 @@ msgstr ""
 "Voer een geldige\n"
 "populatievariantie in voor variabele 2."
 
-#: src/dialogs/dialog-analysis-tools.c:1461
+#: src/dialogs/dialog-analysis-tools.c:1463
 msgid "Var_iable 1 Range:"
 msgstr "Var_iabele 1 Bereik:"
 
-#: src/dialogs/dialog-analysis-tools.c:1462
+#: src/dialogs/dialog-analysis-tools.c:1464
 msgid "_Variable 2 Range:"
 msgstr "_Variabele 2 Bereik:"
 
-#: src/dialogs/dialog-analysis-tools.c:1463
+#: src/dialogs/dialog-analysis-tools.c:1465
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "Kon het Test Gemiddelden dialoogvenster niet maken."
 
-#: src/dialogs/dialog-analysis-tools.c:1660
+#: src/dialogs/dialog-analysis-tools.c:1662
 msgid "Var_iable 1 Range"
 msgstr "Var_iabele 1 Bereik:"
 
-#: src/dialogs/dialog-analysis-tools.c:1660
+#: src/dialogs/dialog-analysis-tools.c:1662
 msgid "_Variable 2 Range"
 msgstr "_Variabele 2 Bereik:"
 
-#: src/dialogs/dialog-analysis-tools.c:1661
+#: src/dialogs/dialog-analysis-tools.c:1663
 msgid "Could not create the FTest Tool dialog."
 msgstr "Kon het FTest dialoogvenster niet maken."
 
-#: src/dialogs/dialog-analysis-tools.c:1863
+#: src/dialogs/dialog-analysis-tools.c:1865
 msgid "Could not create the Sampling Tool dialog."
 msgstr "Kon het Steekproeven dialoogvenster niet maken."
 
-#: src/dialogs/dialog-analysis-tools.c:1978 src/tools/analysis-tools.c:2158
+#: src/dialogs/dialog-analysis-tools.c:1980 src/tools/analysis-tools.c:2158
 #: src/tools/analysis-tools.c:2237
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
@@ -23377,39 +23390,39 @@ msgstr ""
 "Er moet een gelijk aantal waarden voor elke variabele in de regressie "
 "aanwezig zijn."
 
-#: src/dialogs/dialog-analysis-tools.c:2081 src/dialogs/regression.glade.h:21
+#: src/dialogs/dialog-analysis-tools.c:2083 src/dialogs/regression.glade.h:21
 msgid "_X Variables:"
 msgstr "_X Variabelen:"
 
-#: src/dialogs/dialog-analysis-tools.c:2081 src/dialogs/regression.glade.h:22
+#: src/dialogs/dialog-analysis-tools.c:2083 src/dialogs/regression.glade.h:22
 msgid "_Y Variable:"
 msgstr "_Y Variabele:"
 
-#: src/dialogs/dialog-analysis-tools.c:2082
+#: src/dialogs/dialog-analysis-tools.c:2084
 msgid "Could not create the Regression Tool dialog."
 msgstr "Kon het Regressie dialoogvenster niet maken."
 
-#: src/dialogs/dialog-analysis-tools.c:2218
+#: src/dialogs/dialog-analysis-tools.c:2220
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr "Kon het Exponentieel Glad dialoogvenster niet maken."
 
-#: src/dialogs/dialog-analysis-tools.c:2359
+#: src/dialogs/dialog-analysis-tools.c:2361
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "Kon het Bewegend Gemiddelde dialoogvenster niet maken."
 
-#: src/dialogs/dialog-analysis-tools.c:2584 src/dialogs/histogram.glade.h:3
+#: src/dialogs/dialog-analysis-tools.c:2583 src/dialogs/histogram.glade.h:3
 msgid "Bin _Range:"
 msgstr "Bin Be_reik:"
 
-#: src/dialogs/dialog-analysis-tools.c:2585
+#: src/dialogs/dialog-analysis-tools.c:2584
 msgid "Could not create the Histogram Tool dialog."
 msgstr "Kon het Histogram dialoogvenster niet maken."
 
-#: src/dialogs/dialog-analysis-tools.c:2761
+#: src/dialogs/dialog-analysis-tools.c:2762
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr "Kon het ANOVA (enkel factor) dialoogvenster niet maken."
 
-#: src/dialogs/dialog-analysis-tools.c:2840
+#: src/dialogs/dialog-analysis-tools.c:2841
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
@@ -23417,7 +23430,7 @@ msgstr ""
 "Het gegeven invoerbereik moet in ieder geval twee kolommen en rijen met "
 "gegevens en hun labels bevatten."
 
-#: src/dialogs/dialog-analysis-tools.c:2843
+#: src/dialogs/dialog-analysis-tools.c:2844
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
@@ -23425,7 +23438,7 @@ msgstr ""
 "Het gegeven invoerbereik moet in ieder geval twee kolommen en rijen met "
 "gegevens bevatten."
 
-#: src/dialogs/dialog-analysis-tools.c:2849
+#: src/dialogs/dialog-analysis-tools.c:2850
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
@@ -23433,13 +23446,13 @@ msgstr ""
 "Het gegeven invoerbereik moet in ieder geval twee kolommen met gegevens en "
 "hun labels bevatten."
 
-#: src/dialogs/dialog-analysis-tools.c:2852
+#: src/dialogs/dialog-analysis-tools.c:2853
 msgid "The given input range should contain at least two columns of data."
 msgstr ""
 "Het gegeven invoerbereik moet in ieder geval twee kolommen met gegevens "
 "bevatten."
 
-#: src/dialogs/dialog-analysis-tools.c:2858
+#: src/dialogs/dialog-analysis-tools.c:2859
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
@@ -23447,19 +23460,19 @@ msgstr ""
 "Het gegeven invoerbereik moet in ieder geval twee kolommen met gegevens en "
 "hun labels bevatten."
 
-#: src/dialogs/dialog-analysis-tools.c:2861
+#: src/dialogs/dialog-analysis-tools.c:2862
 msgid "The given input range should contain at least two rows of data."
 msgstr ""
 "Het gegeven invoerbereik moet in ieder geval twee kolommen met gegevens "
 "bevatten."
 
-#: src/dialogs/dialog-analysis-tools.c:2868
+#: src/dialogs/dialog-analysis-tools.c:2869
 msgid "The number of data rows must be a multiple of the replication number."
 msgstr ""
 "Het aantal rijen met gegevens moet een veelvoud van het herhalingsnummer "
 "zijn."
 
-#: src/dialogs/dialog-analysis-tools.c:2965
+#: src/dialogs/dialog-analysis-tools.c:2966
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Kon het ANOVA (twee factor) dialoogvenster niet maken."
 
@@ -23643,7 +23656,7 @@ msgstr "Hoofdlettergevoelig"
 msgid "By Value"
 msgstr "Op Waarde"
 
-#: src/dialogs/dialog-cell-sort.c:857
+#: src/dialogs/dialog-cell-sort.c:858
 msgid "Could not create the Cell-Sort dialog."
 msgstr "Kon het Cel-Sortering dialoogvenster niet maken."
 
@@ -28629,48 +28642,56 @@ msgstr "&[TAB]"
 msgid "&[DATE]"
 msgstr "&[DATUM]"
 
-#: src/print-info.c:477
-msgid "Sheet 1"
-msgstr "Blad 1"
+#: src/print-info.c:536
+msgid "File Name"
+msgstr "Bestandsnaam"
 
-#: src/print-info.c:542
+#: src/print-info.c:557
+msgid "Path & File Name"
+msgstr "Map & Bestandsnaam"
+
+#: src/print-info.c:565
 msgid "tab"
 msgstr "tab"
 
-#: src/print-info.c:543
+#: src/print-info.c:566
 msgid "page"
 msgstr "pagina"
 
-#: src/print-info.c:544
+#: src/print-info.c:567
 msgid "pages"
 msgstr "pagina's"
 
-#: src/print-info.c:547
+#: src/print-info.c:570
 msgid "file"
 msgstr "bestand"
+
+#: src/print-info.c:571
+msgid "path"
+msgstr "Map"
 
 #. Note: we cannot have spaces in page numbers.
 #: src/print.c:576
 msgid "&[PAGE]"
 msgstr "&[PAGINA]"
 
-#: src/print.c:1104
+#: src/print.c:1115
 msgid "Print Region"
 msgstr "Bereik Afdrukken"
 
-#: src/print.c:1229
+#: src/print.c:1240
 msgid "Print Sheets"
 msgstr "Werkbladen Afdrukken"
 
-#: src/print.c:1237
+#: src/print.c:1248
 msgid "Act_ive sheet"
 msgstr "Huid_ige werkblad"
 
-#: src/print.c:1237
+#: src/print.c:1248
 msgid "S_heets"
 msgstr "Werkbladen"
 
-#: src/print.c:1323
+#: src/print.c:1334
 msgid "Printing failed"
 msgstr "Afdrukken mislukt"
 
@@ -28840,27 +28861,26 @@ msgstr "Niet in staat om bestand '%s' te openen"
 
 #: src/sheet-object-graph.c:158
 msgid "Save graph as image"
-msgstr ""
+msgstr "Grafiek opslaan als afbeelding"
 
 #: src/sheet-object-graph.c:196
 msgid "Sorry, gnumeric can only save graphs as png images"
-msgstr ""
+msgstr "Sorry, gnumeric kan grafieken alleen in het  png-formaat opslaaan"
 
 #: src/sheet-object-graph.c:214
-#, fuzzy
 msgid "_Save as image"
-msgstr "Een afbeelding selecteren"
+msgstr "_Opslaan als afbeelding"
 
-#: src/sheet-object-graphic.c:934 src/sheet-object-graphic.c:951
+#: src/sheet-object-graphic.c:936 src/sheet-object-graphic.c:955
 msgid "Transparent"
 msgstr "Doorzichtig"
 
-#: src/sheet-object-widget.c:1130
+#: src/sheet-object-widget.c:1132
 #, c-format
 msgid "CheckBox %d"
 msgstr "Vinkje %d"
 
-#: src/sheet-object-widget.c:1561 src/workbook-object-toolbar.c:164
+#: src/sheet-object-widget.c:1565 src/workbook-object-toolbar.c:164
 msgid "RadioButton"
 msgstr "RadioKnop"
 
@@ -29189,8 +29209,8 @@ msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
 msgstr ""
-"/SAMENVATTING UITVOER//Regressie Statistieken/Meerdere R/R Kwadraat/"
-"Aangepaste R Kwadraat/Standaard Fout/Observaties//ANOVA//Regressie/Restant/"
+"/SAMENVATTING UITVOER//Regressiestatistieken/Meerdere R/R-kwadraat/"
+"Aangepaste R-kwadraat/Standaard fout/Observaties//ANOVA//Regressie/Restant/"
 "Totaal///Onderbreking"
 
 #: src/tools/analysis-tools.c:2277
@@ -30204,7 +30224,7 @@ msgstr "donkerpaars"
 msgid "sky blue"
 msgstr "hemelsblauw"
 
-#: src/widgets/gnumeric-expr-entry.c:1239
+#: src/widgets/gnumeric-expr-entry.c:1253
 msgid "Expecting a single range"
 msgstr "Verwachtte een enkel bereik"
 
@@ -31735,23 +31755,23 @@ msgstr "Er ontstond een onverklaarbare fout bij het opslaan van %s"
 #. * This should be quite rare.  To provoke, use
 #. * gnumeric `echo -e '\377\376'`
 #.
-#: src/workbook-view.c:608 src/workbook-view.c:967
+#: src/workbook-view.c:608 src/workbook-view.c:964
 msgid "The filename given is not valid in the current encoding."
 msgstr "De opgegeven bestandsnaam is niet geldig in de huidige tekenset."
 
-#: src/workbook-view.c:693 src/workbook-view.c:809
+#: src/workbook-view.c:693 src/workbook-view.c:806
 msgid "Default file saver is not available."
 msgstr "Standaard bestandsopslag is niet beschikbaar."
 
-#: src/workbook-view.c:768
+#: src/workbook-view.c:765
 msgid "Failed to create temporary file for sending."
 msgstr "Kon geen tijdelijk bestand aanmaken voor verzenden."
 
-#: src/workbook-view.c:902
+#: src/workbook-view.c:899
 msgid "Unsupported file format."
 msgstr "Niet ondersteund bestandsformaat."
 
-#: src/workbook-view.c:960
+#: src/workbook-view.c:957
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Er trad een onverklaarbare fout op bij het openen van %s"
@@ -31807,6 +31827,12 @@ msgstr "Fout bij opslaan bestand"
 #: src/xml-io.c:4040
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML bestandsformaat"
+
+#~ msgid "UNFINISHED Gnumeric XML (*.gnumeric)"
+#~ msgstr "ONVOLTOOID Gnumeric XML (*.gnumeric)"
+
+#~ msgid "Sheet 1"
+#~ msgstr "Blad 1"
 
 #~ msgid "S_ize:"
 #~ msgstr "Gr_ootte:"
