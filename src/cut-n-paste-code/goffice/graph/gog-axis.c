@@ -1656,6 +1656,7 @@ gog_axis_dataset_get_elem (GogDataset const *set, int dim_i)
 static void
 gog_axis_dim_changed (GogDataset *set, int dim_i)
 {
+	gog_axis_update (GOG_OBJECT (set));
 	gog_object_emit_changed (GOG_OBJECT (set), TRUE);
 }
 
