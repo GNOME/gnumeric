@@ -3236,7 +3236,7 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree,
  * returns a GnmCellRegion on success or NULL on failure.
  */
 GnmCellRegion *
-xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, guchar *buffer, int length)
+xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, guchar const *buffer, int length)
 {
 	XmlParseContext *ctxt;
 	xmlNode	   *l, *clipboard;

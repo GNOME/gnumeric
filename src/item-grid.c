@@ -771,25 +771,6 @@ ig_obj_create_begin (ItemGrid *ig, GdkEventButton *event)
 
 /***************************************************************************/
 
-static void
-drag_start (GtkWidget *widget, GdkEventButton *event, Sheet *sheet)
-{
-        GtkTargetList *list;
-        GdkDragContext *context;
-	static GtkTargetEntry drag_types [] = {
-		{ (char *)"bonobo/moniker", 0, 1 },
-	};
-
-        list = gtk_target_list_new (drag_types, 1);
-
-        context = gtk_drag_begin (widget, list,
-		(GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_LINK | GDK_ACTION_ASK),
-		event->button, (GdkEvent *)event);
-        gtk_drag_set_icon_default (context);
-
-	gtk_target_list_unref (list);
-}
-
 static int
 item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 {
@@ -912,9 +893,7 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 		break;
 	}
 
-      	/* This is here just for demo purposes */
-      	case 2: drag_start (GTK_WIDGET (item->canvas), event, sheet);
-		break;
+      	case 2: break;
 
       	case 3: scg_context_menu (ig->scg, event, FALSE, FALSE);
 		break;

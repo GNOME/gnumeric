@@ -1,3 +1,10 @@
+2005-03-28  Jon K Hellan  <hellan@acm.org>
+
+	* src/item-grid.c (drag_start): Remove.
+	(item_grid_button_press): Don't call drag_start.
+
+	* src/xml-io.c (xml_cellregion_read): Make param 'buffer' const.
+
 2005-03-28  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-view.c (wb_view_auto_expr_precision): New function.
