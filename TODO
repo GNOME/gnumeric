@@ -161,7 +161,6 @@ Gnumeric Spread Sheet task list
 * Calculation
   - Rework 'Name' dependencies so we can re-express names.
   - Dependancies for - CELL, INDIRECT functions.
-		     - Sheet objects
   - Implicit iteration.  For an array expression that returns scalar results
     which takes a range as a scalar argument, apply the expression to each element
     of the input range.
@@ -190,6 +189,3 @@ Gnumeric Spread Sheet task list
 
 * Excel Export
   * Detect large style ranges and correctly set the default row/col/sheet styles.
-
-* Html export
-  * Export style information for blank cells.
