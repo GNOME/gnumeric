@@ -78,13 +78,13 @@ Workbook_set_filename (PortableServer_Servant servant, const CORBA_char * name, 
 static void
 Workbook_save_to (PortableServer_Servant servant, const CORBA_char * filename, CORBA_Environment * ev)
 {
-        Workbook *workbook = workbook_from_servant (servant);
+        Workbook *wb = workbook_from_servant (servant);
 
 	/* <FIXME> */
 
 	g_warning ("Failure to save will not be noticed");
 
-	if (gnumeric_xml_write_workbook (workbook, filename) == 0)
+	if (gnumeric_xml_write_workbook (wb, filename) == 0)
 		workbook_mark_clean (wb);
 	else
 		g_error ("Could not save to file %s", wb->filename);
@@ -95,8 +95,8 @@ Workbook_save_to (PortableServer_Servant servant, const CORBA_char * filename, C
 static GNOME_Gnumeric_Sheet
 Workbook_sheet_current (PortableServer_Servant servant, CORBA_Environment * ev)
 {
-        Workbook *workbook = workbook_from_servant (servant);
-	Sheet *sheet = workbook_get_current_sheet (workbook);
+        Workbook *wb = workbook_from_servant (servant);
+	Sheet *sheet = workbook_get_current_sheet (wb);
 
 	return corba_sheet (sheet, ev);
 }
