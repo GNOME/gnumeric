@@ -1,3 +1,8 @@
+2000-11-06  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-graph-guru.c (graph_guru_init) : No need to reference th
+	  BonoboControl.  The widget manages things.
+
 2000-11-01  Jon K Hellan  <hellan@acm.org>
 
 	* dialog-cell-sort.c (dialog_cell_sort_ok): Call cmd_sort with

@@ -33,6 +33,7 @@
 #include "workbook.h"
 #include "ranges.h"
 #include "sort.h"
+#include "eval.h"
 #include "parse-util.h"
 #include "clipboard.h"
 #include "selection.h"
@@ -547,6 +548,7 @@ cmd_area_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	/* Everything is ok. Store previous contents and perform the operation */
 	for (l = me->selection ; l != NULL ; l = l->next) {
+		GList *deps;
 		Range const * const r = l->data;
 		me->old_content = g_slist_prepend (me->old_content,
 			clipboard_copy_range (me->pos.sheet, r));
@@ -559,6 +561,12 @@ cmd_area_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 						expr, TRUE);
 		else
 			sheet_range_set_text (&me->pos, r, me->text);
+
+		/* mark content as dirty */
+		sheet_flag_status_update_range (me->pos.sheet, r);
+		deps = sheet_region_get_deps (me->pos.sheet, *r);
+		if (deps)
+			dependent_queue_recalc_list (deps, TRUE);
 	}
 
 	/*
@@ -2056,6 +2064,7 @@ cmd_autofill_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 static gboolean
 cmd_autofill_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
+	GList *deps;
 	CmdAutofill *me = CMD_AUTOFILL(cmd);
 
 	g_return_val_if_fail (me != NULL, TRUE);
@@ -2072,6 +2081,12 @@ cmd_autofill_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 				   me->base_col, me->base_row,
 				   me->base_col, me->base_row,
 				   me->end_col, me->end_row);
+
+	deps = sheet_region_get_deps (me->dst.sheet, me->dst.range);
+	if (deps)
+		dependent_queue_recalc_list (deps, TRUE);
+	sheet_range_calc_spans (me->dst.sheet, me->dst.range, SPANCALC_RENDER);
+	sheet_flag_status_update_range (me->dst.sheet, &me->dst.range);
 
 	sheet_set_dirty (me->dst.sheet, TRUE);
 	workbook_recalc (me->dst.sheet->workbook);

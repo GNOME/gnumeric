@@ -534,7 +534,7 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 		return;
 
 	case FILL_STRING_CONSTANT:
-		sheet_cell_set_value (cell, value_new_string (fi->v.str->str), NULL);
+		cell_set_value (cell, value_new_string (fi->v.str->str), NULL);
 		return;
 
 	case FILL_STRING_WITH_NUMBER: {
@@ -559,7 +559,7 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 			v = g_strconcat (n, buffer, NULL);
 			g_free (n);
 		}
-		/* FIXME : Can we set this as a value ? */
+		/* FIXME : Should we set this as a value ? */
 		sheet_cell_set_text (cell, v);
 		g_free (v);
 		return;
@@ -575,7 +575,7 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 		} else
 			v = value_new_int (last->v.value->v_int.val +
 					   idx * last->delta.d_int);
-		sheet_cell_set_value (cell, v, fi->fmt);
+		cell_set_value (cell, v, fi->fmt);
 		return;
 	}
 
@@ -603,7 +603,7 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 		res -= floor (res);
 		v = (res < 1e-6) ? value_new_int (d)
 			: value_new_float (((float_t)d) + res);
-		sheet_cell_set_value (cell, v, fi->fmt);
+		cell_set_value (cell, v, fi->fmt);
 		return;
 	}
 
@@ -626,7 +626,7 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 		if (*text == '*')
 			text++;
 
-		sheet_cell_set_value (cell, value_new_string(text), NULL);
+		cell_set_value (cell, value_new_string(text), NULL);
 
 		return;
 	}
@@ -650,7 +650,7 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 		 * relative references that will fall off the
 		 * edge ?? */
 		func = expr_rewrite (fi->v.formula, &rwinfo);
-		sheet_cell_set_expr (cell, (func == NULL) ? fi->v.formula : func);
+		cell_set_expr (cell, (func == NULL) ? fi->v.formula : func, NULL);
 		return;
 	}
 	}
@@ -706,7 +706,6 @@ sheet_autofill_dir (Sheet *sheet,
 
 		cell = sheet_cell_get (sheet, col, row);
 		if (fi->type == FILL_EMPTY){
-			/* FIXME : we need to regen spans that bound this */
 			if (cell)
 				sheet_cell_remove (sheet, cell, TRUE);
 		} else {
@@ -732,14 +731,17 @@ autofill_init (void)
 	autofill_register_list (month_long);
 }
 
-/*
- * Autofills a range of cells in the horizontal or the vertical direction
+/**
+ * sheet_autofill :
+ *
+ * An internal routine to autofill a region.  It does NOT
+ * queue a recalc, flag a status update, or regen spans.
  */
 void
 sheet_autofill (Sheet *sheet, int base_col, int base_row, int w, int h, int end_col, int end_row)
 {
-	int range;
 	static int autofill_inited;
+	int series;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -750,12 +752,10 @@ sheet_autofill (Sheet *sheet, int base_col, int base_row, int w, int h, int end_
 	}
 
 	if (end_col != base_col + w - 1){
-		for (range = 0; range < h; range++)
-			sheet_autofill_dir (sheet, base_col, base_row+range, w, base_col, end_col+1, 1, 0);
+		for (series = 0; series < h; series++)
+			sheet_autofill_dir (sheet, base_col, base_row+series, w, base_col, end_col+1, 1, 0);
 	} else {
-		for (range = 0; range < w; range++)
-			sheet_autofill_dir (sheet, base_col+range, base_row, h, base_row, end_row+1, 0, 1);
+		for (series = 0; series < w; series++)
+			sheet_autofill_dir (sheet, base_col+series, base_row, h, base_row, end_row+1, 0, 1);
 	}
-
-	workbook_recalc (sheet->workbook);
 }

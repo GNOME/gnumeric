@@ -1275,7 +1275,7 @@ void
 sheet_cell_set_value (Cell *cell, Value *v, StyleFormat *opt_fmt)
 {
 	cell_set_value (cell, v, opt_fmt);
-	sheet_cell_calc_span (cell, SPANCALC_RESIZE);
+	sheet_cell_calc_span (cell, SPANCALC_RESIZE | SPANCALC_RENDER);
 	cell_content_changed (cell);
 	sheet_flag_status_update_cell (cell);
 }

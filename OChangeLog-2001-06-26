@@ -1,3 +1,14 @@
+2000-11-06  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-autofill.c (autofill_cell) : Use cell_set_value directly.
+	  No need to do depends or respaning for each cell.
+
+	* src/commands.c (cmd_autofill_redo) : When we can do it here, for the
+	  entire range.
+	(cmd_area_set_text_redo) : Add the missing depend update here.
+
+	* src/sheet.c (sheet_cell_set_value) : Render if required.
+
 2000-11-06  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* src/gui-clipboard.c:
