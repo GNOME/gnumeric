@@ -2465,7 +2465,7 @@ cb_fmt_dialog_dialog_buttons (GtkWidget *btn, FormatState *state)
 }
 
 /* Handler for destroy */
-static gboolean
+static void
 cb_fmt_dialog_dialog_destroy (FormatState *state)
 {
 	wbcg_edit_detach_guru (state->wbcg);
@@ -2475,7 +2475,6 @@ cb_fmt_dialog_dialog_destroy (FormatState *state)
 	mstyle_unref (state->result);
 	g_object_unref (G_OBJECT (state->gui));
 	g_free (state);
-	return FALSE;
 }
 
 /* Handler for expr-entry's focus.

@@ -5276,6 +5276,7 @@ cmd_define_name_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	if (me->create_name) {
 		expr_name_remove (me->nexpr);
+		expr_name_unref (me->nexpr);
 		me->nexpr = NULL;
 	} else
 		expr_name_set_expr (me->nexpr, me->expr, NULL);

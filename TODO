@@ -62,14 +62,6 @@ to features that already work.
 
 * Number formatting
 
-   + FIXME : The formating is incomplete.
-     - It does not support seconds fractions.
-     - It incorrectly accepts mmm:ss as some sort of minute spec.
-     - Add/remove decimal buttons on the toolbar are screwed for
-       items with different formats for negatives.
-     - There is too much replicated code for generating formats
-       and recognizing them in the format dialog.
-
    + TODO :
      - Too much parsing is taking place when formating.  We should
        have set all that up beforehand when the format was parsed.
@@ -82,10 +74,6 @@ to features that already work.
      Columns should have an "auto-grow-up-to-this-point" feature.  Beyond that
      size, it would truncate as it does now.
 
-   + Cell comments
-     Cell comments should be wrapped - at least so that they do not run
-     off the screen.
-   
 * Auditing
 
    + Write the sheet auditing code.
@@ -96,8 +84,6 @@ to features that already work.
      If sheet->mode is OBJECT_SELECTED cut/copy/paste should operate on
      the object.
 
-   + Object properties
-
    + Objects
      Load / save of Bonobo objects.
 
@@ -105,7 +91,6 @@ to features that already work.
    + Support for popular formats.  
      I have the specs for the XS3 format.  SC should be
      trivial to support as well (from the guile sources)
-   + Supply default extension to use with a write operation.
    + Improve handling of unknown fonts and functions when importing.
 
 * Workbooks:
@@ -173,7 +158,7 @@ under "1.0" are more important.
 
    + Most of the major elements are there to support in place
    filters.  All we'd need is a new Dependent type to manage the
-   filter results. ==> Fix SUBTOTAL().
+   filter results.
    + Implement `AutoFilter' tool.
    + Implement filter columns???
 

@@ -62,20 +62,9 @@ static struct {
 	{ NULL, 0}
 };
 
-/**
- * zoom_destroy:
- * @window:
- * @state:
- *
- * Destroy the dialog and associated data structures.
- *
- **/
-static gboolean
-zoom_destroy (GtkObject *w, ZoomState *state)
+static void
+cb_zoom_destroy (ZoomState *state)
 {
-	g_return_val_if_fail (w != NULL, FALSE);
-	g_return_val_if_fail (state != NULL, FALSE);
-
 	wbcg_edit_detach_guru (state->wbcg);
 
 	if (state->gui != NULL) {
@@ -85,8 +74,6 @@ zoom_destroy (GtkObject *w, ZoomState *state)
 
 	state->dialog = NULL;
 	g_free (state);
-
-	return FALSE;
 }
 
 static void
@@ -231,19 +218,18 @@ dialog_zoom (WorkbookControlGUI *wbcg, Sheet *sheet)
 		"clicked",
 		G_CALLBACK (cb_zoom_cancel_clicked), state);
 
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_WIDGET (&state->zoom->entry));
+
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
 		"zoom.html");
-
-	g_signal_connect (G_OBJECT (state->dialog),
-		"destroy",
-		G_CALLBACK (zoom_destroy), state);
-
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-				  GTK_WIDGET (&state->zoom->entry));
-	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
 			       ZOOM_DIALOG_KEY);
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify) cb_zoom_destroy);
+	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	gtk_widget_show (state->dialog);
+
 	gtk_widget_grab_focus (focus_target);
 }

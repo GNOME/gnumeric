@@ -423,7 +423,7 @@ name_guru_init_button (NameGuruState *state, char const *name)
 	return tmp;
 }
 
-static gboolean
+static void
 cb_name_guru_destroy (NameGuruState *state)
 {
 	g_return_val_if_fail (state != NULL, FALSE);
@@ -444,8 +444,6 @@ cb_name_guru_destroy (NameGuruState *state)
 	state->expr_names = NULL;
 
 	g_free (state);
-
-	return FALSE;
 }
 
 static void
@@ -545,10 +543,9 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 
 	name_guru_populate_list (state);
 
+	/* a candidate for merging into attach guru */
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       DEFINE_NAMES_KEY);
-
-	/* a candidate for merging into attach guru */
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify)cb_name_guru_destroy);
 	gnumeric_non_modal_dialog (state->wbcg, GTK_WINDOW (state->dialog));

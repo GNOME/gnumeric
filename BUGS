@@ -27,7 +27,7 @@ Release Critical
     6.2) Form import
     6.3) Intersection, union and set export
     6.4) unknown name export
-    6.5) non-ole import ?
+    6.5) non-ole import (Nick Lamb is working on this)
 8) Notice mismatch between suffix and saver (eg .xls for gnumeric file)
 9) Manual recalc
     9.1) finish calculation ui in workbook attr dialog
@@ -105,7 +105,6 @@ Misc stuff that should be fixed
 	* We should start with the expr entry set to either the current cell,
 	  or by selecting the first named expression in scope that contains the
 	  current cell.
-	* Should <ok> add the name ?
     : Check xl import of unicode names
     : Check scoping changes.
 
@@ -140,9 +139,6 @@ Misc stuff that should be fixed
       covered by 'General' ?
     : format.c: we should resolve all the separators at gnumeric_setlocale time,
       not every time we need them.
-    : the format classification should know about other currencies and currency
-      placements.
-    : The currency list in the format dialog needs to be sorted for the locale
     : When applying a currency symbol we need to store the NON-localized id.
     : hour month and year format strings need to be internationalized.
 	eg tt:ss instead of hh:ss for other locales.
@@ -150,6 +146,7 @@ Misc stuff that should be fixed
     : we should parse fractions
     : We do not format fractional seconds correctly.
     : Parsing should handle embedded strings
+    : It incorrectly accepts mmm:ss as some sort of minute spec.
 
 - Inc/Dec precision should work.  Try "44", click $, then add/remove decimals.
 - While we're playing with those functions, let's add simple ones like inc/dec

@@ -51,6 +51,7 @@
 #include <gal/util/e-xml-utils.h>
 #include <libxml/parser.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
+#include <gtk/gtk.h>
 
 #define DISABLE_DEBUG
 #ifndef DISABLE_DEBUG

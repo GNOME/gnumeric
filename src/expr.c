@@ -556,7 +556,7 @@ gnm_expr_extract_ref (CellRef *res, GnmExpr const *expr,
 	return TRUE;
 }
 
-static Value *
+static inline Value *
 handle_empty (Value *res, GnmExprEvalFlags flags)
 {
 	if (res == NULL)

@@ -165,6 +165,11 @@ x_clipboard_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 			return;
 		}
 
+#if 0
+		for (j = 0; j < atom_count ; j++)
+			puts (gdk_atom_name (targets [j]));
+#endif
+
 		/* what do we like best */
 		for (i = 0 ; formats[i] != NULL ; i++) {
 			GdkAtom atom = gdk_atom_intern (formats[i], FALSE);

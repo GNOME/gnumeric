@@ -126,13 +126,9 @@ cb_attr_dialog_dialog_ok (GtkWidget *button, AttrState *state)
 	cb_attr_dialog_dialog_close (button, state);	
 }
 
-/* Handler for destroy */
-static gboolean
-cb_attr_dialog_dialog_destroy (GtkObject *w, AttrState *state)
+static void
+cb_attr_dialog_dialog_destroy (AttrState *state)
 {
-	g_return_val_if_fail (w != NULL, FALSE);
-	g_return_val_if_fail (state != NULL, FALSE);
-
 	wbcg_edit_detach_guru (state->wbcg);
 
 	if (state->gui != NULL) {
@@ -142,8 +138,6 @@ cb_attr_dialog_dialog_destroy (GtkObject *w, AttrState *state)
 
 	state->dialog = NULL;
 	g_free (state);
-
-	return FALSE;
 }
 
 /*****************************************************************************/
@@ -239,17 +233,16 @@ attr_dialog_impl (AttrState *state)
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "close_button")),
 			  "clicked",
 			  G_CALLBACK (cb_attr_dialog_dialog_close), state);
+	cb_toggled (NULL, state);
+
 /* FIXME: Add correct helpfile address */
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
 		"workbook-attributes.html");
 
-	g_signal_connect (G_OBJECT (dialog),
-		"destroy",
-		G_CALLBACK (cb_attr_dialog_dialog_destroy), state);
-
-	cb_toggled (NULL, state);
-
+	/* a candidate for merging into attach guru */
+	g_object_set_data_full (G_OBJECT (dialog),
+		"state", state, (GDestroyNotify) cb_attr_dialog_dialog_destroy);
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       WORKBOOK_ATTRIBUTE_KEY);

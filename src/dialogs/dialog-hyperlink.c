@@ -45,10 +45,9 @@ typedef struct {
 
 static GType last_link_type = 0;
 
-static gboolean
-dialog_hyperlink_close_destroy (GtkObject *w, HyperlinkState  *state)
+static void
+dialog_hyperlink_close_destroy (HyperlinkState  *state)
 {
-	g_return_val_if_fail (w != NULL, FALSE);
 	g_return_val_if_fail (state != NULL, FALSE);
 
 	wbcg_edit_detach_guru (state->wbcg);
@@ -63,8 +62,6 @@ dialog_hyperlink_close_destroy (GtkObject *w, HyperlinkState  *state)
 	}
 	state->dialog = NULL;
 	g_free (state);
-
-	return FALSE;
 }
 
 static void
@@ -201,11 +198,6 @@ dialog_hyperlink_init (HyperlinkState *state)
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
 		"hyperlink.html");
-	g_signal_connect (G_OBJECT (state->dialog),
-		"destroy",
-		G_CALLBACK (dialog_hyperlink_close_destroy), state);
-
-	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 
 	menu = gtk_menu_new ();
 	for (i = 0 ; i < G_N_ELEMENTS (type); i++) {
@@ -287,8 +279,12 @@ dialog_hyperlink (WorkbookControlGUI *wbcg, SheetControl *sc)
 
 	dialog_hyperlink_set_type (state, last_link_type);
 
+	/* a candidate for merging into attach guru */
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       DIALOG_KEY);
-
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify) dialog_hyperlink_close_destroy);
+	gnumeric_non_modal_dialog (state->wbcg, GTK_WINDOW (state->dialog));
+	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	gtk_widget_show (state->dialog);
 }
