@@ -1,5 +1,12 @@
 2004-04-17  Jody Goldberg <jody@gnome.org>
 
+	* ms-excel-read.c (excel_read_HEADER_FOOTER) : new to handle biff8 vs
+	biff7
+	(excel_read_LABEL_markup) : new.  Handle biff[57] and biff8 RSTRING
+	  markup
+
+2004-04-17  Jody Goldberg <jody@gnome.org>
+
 	* ms-excel-read.c (excel_read_str_name) : new.
 	(excel_read_str_name) : split from here.
 	(excel_read_EXTERNNAME) : used here too.

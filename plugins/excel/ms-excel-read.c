@@ -836,11 +836,13 @@ ms_biff_get_chars (char const *ptr, guint length, gboolean use_utf16)
 }
 
 /**
- * This function takes a length argument as Biff V7 has a byte length
- * (seemingly).
- * it returns the length in bytes of the string in byte_length
- * or nothing if this is NULL.
- * FIXME: see S59D47.HTM for full description
+ * biff_get_text :
+ * @pos : pointer to the start of string information
+ * @length : in _characters_
+ * @byte_len : The number of bytes between @pos and the end of string data
+ * @ver : >= biff8 has a 1 byte header for unicode/markup/extended
+ *
+ * Returns a string which the caller is responsible for freeing
  **/
 char *
 biff_get_text (guint8 const *pos, guint32 length, guint32 *byte_length,
@@ -2929,7 +2931,7 @@ excel_parse_name (ExcelWorkbook *ewb, Sheet *sheet, char *name,
 }
 
 static char *
-excel_read_str_name (guint8 const *data, unsigned *name_len, gboolean is_builtin,
+excel_read_name_str (guint8 const *data, unsigned *name_len, gboolean is_builtin,
 		     MsBiffVersion ver)
 {
 	gboolean use_utf16, has_markup, has_extended;
@@ -2986,7 +2988,7 @@ excel_read_EXTERNNAME (BiffQuery *q, MSContainer *container)
 
 		switch (flags & 0x18) {
 		case 0x00: /* external name */
-			name = excel_read_str_name (q->data + 7, &namelen, flags&1, ver);
+			name = excel_read_name_str (q->data + 7, &namelen, flags&1, ver);
 			if (name != NULL) {
 				unsigned expr_len = GSF_LE_GET_GUINT16 (q->data + 7 + namelen);
 				guint8 const *expr_data = q->data + 9 + namelen;
@@ -3121,7 +3123,7 @@ excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb, ExcelReadSheet *esheet)
 		sheet_index = 0; /* no sheets */
 	}
 
-	name = excel_read_str_name (data, &name_len, builtin_name, ver);
+	name = excel_read_name_str (data, &name_len, builtin_name, ver);
 
 	if (name != NULL) {
 		Sheet *sheet = NULL;
@@ -4064,8 +4066,8 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet)
 {
 	guint8 const type	= GSF_LE_GET_GUINT8 (q->data + 0);
 	guint8 const op		= GSF_LE_GET_GUINT8 (q->data + 1);
-	guint16 const expr1_len	= GSF_LE_GET_GUINT8 (q->data + 2);
-	guint16 const expr2_len	= GSF_LE_GET_GUINT8 (q->data + 4);
+	guint16 const expr1_len	= GSF_LE_GET_GUINT16 (q->data + 2);
+	guint16 const expr2_len	= GSF_LE_GET_GUINT16 (q->data + 4);
 	guint8 const fmt_type	= GSF_LE_GET_GUINT8 (q->data + 9);
 	unsigned offset;
 	GnmExpr const *expr1 = NULL, *expr2 = NULL;
@@ -4101,16 +4103,14 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet)
 	};
 #endif
 
-	if (expr1_len > 0) {
+	if (expr1_len > 0)
 		expr1 = ms_sheet_parse_expr_internal (esheet,
 			q->data + q->length - expr1_len - expr2_len,
 			expr1_len);
-	}
-	if (expr2_len > 0) {
+	if (expr2_len > 0)
 		expr2 = ms_sheet_parse_expr_internal (esheet,
 			q->data + q->length - expr2_len,
 			expr2_len);
-	}
 
 	d (1, {
 		puts ("Header");
@@ -4268,19 +4268,19 @@ excel_read_DV (BiffQuery *q, ExcelReadSheet *esheet)
 
 	g_return_if_fail (data+3 <= end);
 	input_title = biff_get_text (data + 2, GSF_LE_GET_GUINT16 (data), &len, ver);
-	data += len + 2; if (len == 0) data++;
+	data += len + 2;
 
 	g_return_if_fail (data+3 <= end);
 	error_title = biff_get_text (data + 2, GSF_LE_GET_GUINT16 (data), &len, ver);
-	data += len + 2; if (len == 0) data++;
+	data += len + 2;
 
 	g_return_if_fail (data+3 <= end);
 	input_msg = biff_get_text (data + 2, GSF_LE_GET_GUINT16 (data), &len, ver);
-	data += len + 2; if (len == 0) data++;
+	data += len + 2;
 
 	g_return_if_fail (data+3 <= end);
 	error_msg = biff_get_text (data + 2, GSF_LE_GET_GUINT16 (data), &len, ver);
-	data += len + 2; if (len == 0) data++;
+	data += len + 2;
 
 	d (1, {
 		fprintf (stderr,"Input Title : '%s'\n", input_title);
@@ -4663,8 +4663,6 @@ excel_read_AUTOFILTER (BiffQuery *q, ExcelReadSheet *esheet)
 			v0 = value_new_string_nocopy (
 				biff_get_text (data, len0, NULL, ver));
 			data += len0;
-			if (esheet->container.ver >= MS_BIFF_V8)
-				data += 1; /* the header */
 		}
 		if (len1 > 0)
 			v1 = value_new_string_nocopy (
@@ -4916,16 +4914,78 @@ excel_read_FILEPASS (BiffQuery *q, ExcelWorkbook *ewb)
 	}
 }
 
+typedef struct {
+	unsigned first, last;
+	PangoAttrList *accum;
+} TXORun;
+
+static gboolean
+append_markup (PangoAttribute *src, TXORun *run)
+{
+	PangoAttribute *dst = pango_attribute_copy (src);
+	dst->start_index = run->first;	/* inclusive */
+	dst->end_index = run->last;	/* exclusive */
+	pango_attr_list_change (run->accum, dst);
+	return FALSE;
+}
+static PangoAttrList *
+excel_read_LABEL_markup (BiffQuery *q, ExcelReadSheet *esheet, unsigned str_len)
+{
+	guint8 const * const end  = q->data + q->length;
+	guint8 const *ptr = q->data + 8 + str_len;
+	MSContainer const *c = &esheet->container;
+	TXORun txo_run;
+	unsigned n;
+
+	txo_run.last = G_MAXINT;
+
+	if (esheet->container.ver >= MS_BIFF_V8) {
+		g_return_val_if_fail (ptr+2 <= end , NULL);
+		n = 4 * GSF_LE_GET_GUINT16 (ptr);
+		ptr += 2;
+
+		g_return_val_if_fail (ptr + n == end , NULL);
+
+		txo_run.accum = pango_attr_list_new ();
+		while (n > 0) {
+			n -= 4;
+			txo_run.first = GSF_LE_GET_GUINT16 (ptr + n);
+			pango_attr_list_filter (ms_container_get_markup (
+				c, GSF_LE_GET_GUINT16 (ptr + n + 2)),
+				(PangoAttrFilterFunc) append_markup, &txo_run);
+			txo_run.last = txo_run.first;
+		}
+	} else {
+		g_return_val_if_fail (ptr+1 <= end , NULL);
+		n = 2 * GSF_LE_GET_GUINT8 (ptr);
+		ptr += 1;
+
+		g_return_val_if_fail (ptr + n == end , NULL);
+
+		txo_run.accum = pango_attr_list_new ();
+		while (n > 0) {
+			n -= 2;
+			txo_run.first = GSF_LE_GET_GUINT8 (ptr + n);
+			pango_attr_list_filter (ms_container_get_markup (
+				c, GSF_LE_GET_GUINT8 (ptr + n + 1)),
+				(PangoAttrFilterFunc) append_markup, &txo_run);
+			txo_run.last = txo_run.first;
+		}
+	}
+	return txo_run.accum;
+}
+
 static void
 excel_read_LABEL (BiffQuery *q, ExcelReadSheet *esheet, gboolean has_markup)
 {
 	GnmValue *v;
 	guint16 const col = XL_GETCOL (q);
 	guint16 const row = XL_GETROW (q);
+	unsigned str_len;
 	char *txt = biff_get_text (q->data + 8,
 		(esheet->container.ver == MS_BIFF_V2)
 		? GSF_LE_GET_GUINT8 (q->data + 7)
-		: GSF_LE_GET_GUINT16 (q->data + 6), NULL,
+		: GSF_LE_GET_GUINT16 (q->data + 6), &str_len,
 		esheet->container.ver);
 
 	d (0, fprintf (stderr,"%s in %s%d;\n",
@@ -4936,8 +4996,26 @@ excel_read_LABEL (BiffQuery *q, ExcelReadSheet *esheet, gboolean has_markup)
 	if (txt != NULL) {
 		v = value_new_string_nocopy (txt);
 		if (has_markup) {
+			PangoAttrList *markup =
+				excel_read_LABEL_markup (q, esheet, str_len);
+			GnmFormat     *fmt = style_format_new_markup (markup);
+			value_set_fmt (v, fmt);
+			style_format_unref (fmt);
 		}
 		cell_set_value (sheet_cell_fetch (esheet->sheet, col, row), v);
+	}
+}
+
+static void
+excel_read_HEADER_FOOTER (BiffQuery *q, MsBiffVersion const ver, gboolean is_header)
+{
+	if (q->length) {
+		char *str = (ver >= MS_BIFF_V8)
+			? biff_get_text (q->data + 2, GSF_LE_GET_GUINT16 (q->data), NULL, ver)
+			: biff_get_text (q->data + 1, GSF_LE_GET_GUINT8  (q->data), NULL, ver);
+		d (2, fprintf (stderr,"%s == '%s'\n", is_header ? "header" : "footer", str););
+		g_free (str);
+#warning USE THIS data (we should export it too
 	}
 }
 
@@ -5092,23 +5170,8 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 
 
 
-		case BIFF_HEADER:
-			if (q->length) {
-				char *str = biff_get_text (q->data + 1,
-					GSF_LE_GET_GUINT8 (q->data), NULL, ver);
-				d (2, fprintf (stderr,"Header '%s'\n", str););
-				g_free (str);
-			}
-		break;
-
-		case BIFF_FOOTER:
-			if (q->length) {
-				char *str = biff_get_text (q->data + 1,
-					GSF_LE_GET_GUINT8 (q->data), NULL, ver);
-				d (2, fprintf (stderr,"Footer '%s'\n", str););
-				g_free (str);
-			}
-		break;
+		case BIFF_HEADER: excel_read_HEADER_FOOTER (q, ver, TRUE); break;
+		case BIFF_FOOTER: excel_read_HEADER_FOOTER (q, ver, FALSE); break;
 
 		case BIFF_EXTERNCOUNT: /* ignore */ break;
 		case BIFF_EXTERNSHEET: /* These cannot be biff8 */

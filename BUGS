@@ -35,6 +35,8 @@ Pending Patches
 ------------------------
 
 - Merge wbc_init_state and wbc_set_view
+- check edit line. Things shift by at least 1 pixel vertically when editing
+- When editing rich text the initial style == pos0, rather than end
 
 1) Format and number match rewrite
 2) Font handling
@@ -116,9 +118,11 @@ Pending Patches
     8.11) Persist markup as pseudo format
     8.12) Parse markup in pseudo format
     8.13) xls
-	8.13.1) import from RLABEL
+	8.13.1) import from RSTRING				(DONE)
+	    8.13.1.1) biff[57]					(DONE)
+	    8.13.1.2) biff8					(DONE)
 	8.13.2) import from SST
-	8.13.3) export RLABEL
+	8.13.3) export RSTRING
 	8.13.4) export in SST
     8.14) editing while zoomed
 

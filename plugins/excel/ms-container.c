@@ -244,7 +244,7 @@ append_txorun (PangoAttribute *src, TXORun *run)
 {
 	PangoAttribute *dst = pango_attribute_copy (src);
 	dst->start_index = run->first;	/* inclusive */
-	dst->end_index = run->last;	/* exclusize */
+	dst->end_index = run->last;	/* exclusive */
 	pango_attr_list_change (run->accum, dst);
 	return FALSE;
 }
