@@ -513,6 +513,14 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControl *sc)
 	gtk_spin_button_set_value (state->spin_arrow_tip, state->a);
 	gtk_spin_button_set_value (state->spin_arrow_length, state->b);
 	gtk_spin_button_set_value (state->spin_arrow_width, state->c);
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_WIDGET (state->spin_line_width));
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_WIDGET (state->spin_arrow_tip));
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_WIDGET (state->spin_arrow_length));
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_WIDGET (state->spin_arrow_width));
 
 	if (sog->type != SHEET_OBJECT_ARROW) {
 		gtk_widget_hide (glade_xml_get_widget (state->gui, "label_arrow_tip"));
@@ -956,6 +964,8 @@ sheet_object_filled_user_config (SheetObject *so, SheetControl *sc)
 						     state->gui, "spin_border_width"));
 	state->width = sog->width;
 	gtk_spin_button_set_value (state->spin_border_width, state->width);
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_WIDGET (state->spin_border_width));
 
 	g_signal_connect (G_OBJECT
 			  (gtk_spin_button_get_adjustment (state->spin_border_width)),

@@ -791,6 +791,16 @@ sheet_widget_adjustment_user_config (SheetObject *so, SheetControl *sc)
 	state->page = glade_xml_get_widget (state->gui, "spin_page");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->page), swa->adjustment->page_increment);
 
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_WIDGET (state->expression));
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_WIDGET (state->min));
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_WIDGET (state->max));
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_WIDGET (state->inc));
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_WIDGET (state->page));
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "ok_button")),
 		"clicked",
 		G_CALLBACK (cb_adjustment_config_ok_clicked), state);
@@ -1351,6 +1361,8 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControl *sc)
  	state->label = glade_xml_get_widget (state->gui, "label_entry");
  	gtk_entry_set_text (GTK_ENTRY (state->label), swc->label);
 	gtk_editable_select_region (GTK_EDITABLE(state->label), 0, -1);
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_WIDGET (state->expression));
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->label));
 

@@ -1,3 +1,15 @@
+2003-07-27  Jon K Hellan  <hellan@acm.org>
+
+	* autofilter-expression.glade: Set has_default for ok_button.
+
+	* autofilter-top10.glade: Ditto.
+
+	* pivottable.glade: Ditto.
+
+	* so-frame.glade: Ditto.
+
+	* solver.glade: Ditto.
+
 2003-07-25  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf-fixed-page.c: Overhaul all navigation.
