@@ -42,14 +42,15 @@ typedef struct _MS_EXCEL_PALETTE
 
 typedef struct _BIFF_FONT_DATA
 {
-  int height ;         /* in 1/20ths of a point   */
-  int italic ;         /* boolean                 */
-  int struck_out ;     /* boolean : strikethrough */
-  int color_idx ;
-  int boldness ;       /* 100->1000 dec, normal = 0x190, bold = 0x2bc */
-  int script ;         /* sub = -1, none = 0, super = 1 */
-  eBiffFontUnderline underline ;
-  char *fontname ;
+	guint16 index ;
+	int height ;         /* in 1/20ths of a point   */
+	int italic ;         /* boolean                 */
+	int struck_out ;     /* boolean : strikethrough */
+	int color_idx ;
+	int boldness ;       /* 100->1000 dec, normal = 0x190, bold = 0x2bc */
+	int script ;         /* sub = -1, none = 0, super = 1 */
+	eBiffFontUnderline underline ;
+	char *fontname ;
 } BIFF_FONT_DATA ;
 
 typedef struct _MS_EXCEL_WORKBOOK
@@ -57,8 +58,8 @@ typedef struct _MS_EXCEL_WORKBOOK
 	GList *boundsheet_data ;
 	GHashTable *XF_cell_records ;
 	GHashTable *XF_style_records ;
+	GHashTable *font_data ;
 	GList *excel_sheets ;
-	GList *font_data ;
 	MS_EXCEL_PALETTE *palette ;
 	/**
 	 *    Global strings kludge, works for me,

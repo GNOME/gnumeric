@@ -248,10 +248,10 @@ biff_boundsheet_data_destroy (BIFF_BOUNDSHEET_DATA * d)
 /**
  * NB. 'fount' is the correct, and original _English_
  **/
-static BIFF_FONT_DATA *
-biff_font_data_new (BIFF_QUERY * q)
+static void
+biff_font_data_new (MS_EXCEL_WORKBOOK *wb, BIFF_QUERY *q)
 {
-	BIFF_FONT_DATA *fd = (BIFF_FONT_DATA *) g_malloc (sizeof (BIFF_FONT_DATA));
+	BIFF_FONT_DATA *fd = g_new (BIFF_FONT_DATA, 1);
 	WORD data;
 
 	fd->height = BIFF_GETWORD (q->data + 0);
@@ -299,14 +299,32 @@ biff_font_data_new (BIFF_QUERY * q)
 	 */
 	printf ("Insert font '%s' size %d pts\n",
 		fd->fontname, fd->height * 20);
-	return fd;
+
+        fd->index = g_hash_table_size (wb->font_data) ;
+	if (fd->index >= 4) /* Wierd: for backwards compatibility */
+		fd->index++ ;
+	g_hash_table_insert (wb->font_data, &fd->index, fd) ;
 }
 
-static void
-biff_font_data_destroy (BIFF_FONT_DATA * p)
+static gboolean 
+biff_font_data_destroy (gpointer key, BIFF_FONT_DATA *d, gpointer userdata)
 {
-	g_free (p->fontname);
-	g_free (p);
+	g_free (d->fontname) ;
+	g_free (d) ;
+	return 1 ;
+}
+
+static guint
+biff_font_data_hash (const guint16 *d)
+{
+        return *d ;
+}
+
+static gint
+biff_font_data_compare (const BIFF_FONT_DATA *a, const BIFF_FONT_DATA *b)
+{
+	if (a->index==b->index) return 1 ;
+	return 0 ;
 }
 
 static MS_EXCEL_PALETTE *
@@ -345,7 +363,7 @@ ms_excel_palette_destroy (MS_EXCEL_PALETTE * pal)
 
 typedef struct _BIFF_XF_DATA {
         guint16 index ;
-	WORD font_idx;
+	guint16 font_idx;
 	WORD format_idx;
 	eBiff_hidden hidden;
 	eBiff_locked locked;
@@ -410,53 +428,42 @@ ms_excel_set_cell_font (MS_EXCEL_SHEET * sheet, Cell * cell, BIFF_XF_DATA * xf)
 				 * I know it may seem excessive. Time will say.  
 				 */
 	int i;
-	GList *ptr = g_list_first (sheet->wb->font_data);
-	int idx = 0;
+	BIFF_FONT_DATA *fd = g_hash_table_lookup (sheet->wb->font_data, &xf->font_idx) ;
 
-	g_assert (idx != 4);
-	while (ptr){
-		if (idx == 4)
-			idx++;	/*
-				 * Backwards compatibility 
-				 */
-
-		if (idx == xf->font_idx){
-			BIFF_FONT_DATA *fd = ptr->data;
-
-			/*
-			 * FIXME: instead of just copying the windows font into the cell, we 
-			 * should implement a font name mapping mechanism.
-			 * In our first attempt to make it work, let's try to guess the 
-			 * X font name from the windows name, by letting the first word 
-			 * of the name be inserted in 0'th position of the X font name.  
-			 */
-			for (i = 0; fd->fontname[i] != '\0' && fd->fontname[i] != ' '; ++i)
-				fd->fontname[i] = tolower (fd->fontname[i]);
-			fd->fontname[i] = '\x0';
-			cell_set_font (cell, font_change_component (cell->style->font->font_name, 1, fd->fontname));
-/*			printf ("FoNt [-]: %s\n", cell->style->font->font_name); */
-			if (fd->italic){
-				cell_set_font (cell, font_get_italic_name (cell->style->font->font_name));
-/*				printf ("FoNt [i]: %s\n", cell->style->font->font_name); */
-				cell->style->font->hint_is_italic = 1;
-			}
-			if (fd->boldness == 0x2bc){
-				cell_set_font (cell, font_get_bold_name (cell->style->font->font_name));
-/*				printf ("FoNt [b]: %s\n", cell->style->font->font_name); */
-				cell->style->font->hint_is_bold = 1;
-			}
-			/*
-			 * What about underlining?  
-			 */
-			g_assert (snprintf (font_size, 16, "%d", fd->height / 2) != -1);
-			cell_set_font (cell, font_change_component (cell->style->font->font_name, 7, font_size));
-
-			return;
-		}
-		idx++;
-		ptr = ptr->next;
+	if (!fd)
+	{
+		printf ("Unknown fount idx %d\n", xf->font_idx);
+		return ;
 	}
-	printf ("Unknown fount idx %d\n", xf->font_idx);
+	g_assert (fd->index != 4);
+
+	/*
+	 * FIXME: instead of just copying the windows font into the cell, we 
+	 * should implement a font name mapping mechanism.
+	 * In our first attempt to make it work, let's try to guess the 
+	 * X font name from the windows name, by letting the first word 
+	 * of the name be inserted in 0'th position of the X font name.  
+	 */
+	for (i = 0; fd->fontname[i] != '\0' && fd->fontname[i] != ' '; ++i)
+		fd->fontname[i] = tolower (fd->fontname[i]);
+	fd->fontname[i] = '\x0';
+	cell_set_font (cell, font_change_component (cell->style->font->font_name, 1, fd->fontname));
+/*			printf ("FoNt [-]: %s\n", cell->style->font->font_name); */
+	if (fd->italic){
+   		cell_set_font (cell, font_get_italic_name (cell->style->font->font_name));
+/*				printf ("FoNt [i]: %s\n", cell->style->font->font_name); */
+		cell->style->font->hint_is_italic = 1;
+	}
+	if (fd->boldness >= 0x2bc){
+		cell_set_font (cell, font_get_bold_name (cell->style->font->font_name));
+/*				printf ("FoNt [b]: %s\n", cell->style->font->font_name); */
+		cell->style->font->hint_is_bold = 1;
+	}
+	/*
+	 * What about underlining?  
+	 */
+	g_assert (snprintf (font_size, 16, "%d", fd->height / 2) != -1);
+	cell_set_font (cell, font_change_component (cell->style->font->font_name, 7, font_size));
 }
 
 
@@ -760,7 +767,7 @@ biff_xf_data_new (MS_EXCEL_WORKBOOK *wb, BIFF_QUERY * q, eBiff_version ver)
 		/*	        printf ("Inserting into cell XF hash with : %d\n", xf->index) ; */
 		g_hash_table_insert (wb->XF_cell_records, &xf->index, xf) ;
 	}
-	else
+ 	else
 	{
 	        xf->index = 16 + 4 + g_hash_table_size (wb->XF_style_records) ;
 		/*	        printf ("Inserting into style XF hash with : %d\n", xf->index) ; */
@@ -831,12 +838,13 @@ ms_excel_workbook_new ()
 
 	ans->gnum_wb = NULL;
 	ans->boundsheet_data = NULL;
-	ans->font_data = NULL;
+	ans->font_data = g_hash_table_new ((GHashFunc)biff_font_data_hash,
+					   (GCompareFunc)biff_font_data_compare) ;
 	ans->excel_sheets = NULL;
 	ans->XF_style_records = g_hash_table_new ((GHashFunc)biff_xf_data_hash,
-						  (GCompareFunc)biff_xf_data_compare) ;;
+						  (GCompareFunc)biff_xf_data_compare) ;
 	ans->XF_cell_records = g_hash_table_new ((GHashFunc)biff_xf_data_hash,
-						 (GCompareFunc)biff_xf_data_compare) ;;
+						 (GCompareFunc)biff_xf_data_compare) ;
 	ans->palette = NULL;
 	ans->global_strings = NULL;
 	ans->global_string_max = 0;
@@ -872,15 +880,10 @@ ms_excel_workbook_destroy (MS_EXCEL_WORKBOOK * wb)
 				     wb) ;
 	g_hash_table_destroy (wb->XF_cell_records) ;
 
-	ptr = g_list_first (wb->font_data);
-	while (ptr){
-		BIFF_FONT_DATA *dat;
-
-		dat = ptr->data;
-		biff_font_data_destroy (dat);
-		ptr = ptr->next;
-	}
-	g_list_free (wb->font_data);
+	g_hash_table_foreach_remove (wb->font_data,
+				     (GHRFunc)biff_font_data_destroy,
+				     wb) ;
+	g_hash_table_destroy (wb->font_data) ;
 
 	if (wb->palette)
 		ms_excel_palette_destroy (wb->palette);
@@ -1056,10 +1059,47 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		g_free (str);
                 break;
 	}
-	
 	default:
-		printf ("Unrecognised opcode : 0x%x, length 0x%x\n", q->opcode, q->length);
-		break;
+		switch (q->opcode)
+		{
+		case BIFF_STRING: /* FIXME: S59DE9.HTM */
+			printf ("This cell evaluated to '%s': so what ? data:\n", biff_get_text (q->data + 2, BIFF_GETWORD(q->data))) ;
+			dump (q->data, q->length);
+			break ;
+		case BIFF_BOOLERR: /* S59D5F.HTM */
+		{
+			printf ("Boolerr\n") ;
+			dump (q->data, q->length);
+			if (BIFF_GETBYTE(q->data + 7)) /* Error */
+			{
+				char *buf ;
+				switch (BIFF_GETBYTE(q->data + 6))
+				{
+					case 0:  buf = "#NULL!" ;  break ;
+					case 7:  buf = "#DIV/0!" ; break ;
+					case 15: buf = "#VALUE!" ; break ;
+					case 23: buf = "#REF!" ;   break ;
+					case 29: buf = "#NAME?" ;  break ;
+					case 36: buf = "#NUM!" ;   break ;
+					case 42: buf = "#N/A" ;    break ;
+				default:
+					buf = "#UNKNOWN!" ;
+				}
+				ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), buf) ;
+			}
+			else /* Boolean */
+			{
+				if (BIFF_GETBYTE(q->data + 6))
+					ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), "TRUE") ;
+				else
+					ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), "FALSE") ;
+			}
+			break;
+		}
+		default:
+			printf ("Unrecognised opcode : 0x%x, length 0x%x\n", q->opcode, q->length);
+			break;
+		}
 	}
 }
 
@@ -1230,8 +1270,7 @@ ms_excelReadWorkbook (MS_OLE * file)
 
 					printf ("Read Font\n");
 					dump (q->data, q->length);
-					ptr = biff_font_data_new (q);
-					wb->font_data = g_list_append (wb->font_data, ptr);
+					biff_font_data_new (wb, q);
 				}
 				break;
 			case BIFF_PRECISION:	/*

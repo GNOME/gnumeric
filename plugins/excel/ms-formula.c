@@ -239,7 +239,7 @@ static char *parse_list_to_equation (PARSE_LIST *list)
 
       strcpy (formula, "=") ;
       strcat (formula, pd->name) ;
-      printf ("The answer is : '%s'\n", formula) ;
+      printf ("Formula : '%s'\n", formula) ;
       return formula ;
     }
   else
@@ -283,9 +283,9 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
   if (q->ls_op == BIFF_FORMULA)
     {
       fn_xf           = EX_GETXF(q) ;
-      printf ("Formula at [%d, %d] XF %d :\n", fn_col, fn_row, fn_xf) ;
+/*      printf ("Formula at [%d, %d] XF %d :\n", fn_col, fn_row, fn_xf) ;
       printf ("formula data : \n") ;
-      dump (q->data +22, q->length-22) ;
+      dump (q->data +22, q->length-22) ; */
       /* This will be safe when we collate continuation records in get_query */
       length = BIFF_GETWORD(q->data + 20) ;
       /* NB. the effective '+1' here is so that the offsets and lengths
@@ -300,9 +300,9 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
     {
       g_assert (q->ls_op == BIFF_ARRAY) ;
       fn_xf = 0 ;
-      printf ("Array at [%d, %d] XF %d :\n", fn_col, fn_row, fn_xf) ;
+/*      printf ("Array at [%d, %d] XF %d :\n", fn_col, fn_row, fn_xf) ;
       printf ("Array data : \n") ;
-      dump (q->data +22, q->length-22) ;
+      dump (q->data +22, q->length-22) ; */
       /* This will be safe when we collate continuation records in get_query */
       length = BIFF_GETWORD(q->data + 12) ;
       /* NB. the effective '+1' here is so that the offsets and lengths
@@ -340,7 +340,7 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 	      }
 	    buffer = cellref_name (ref, sheet->gnum_sheet, fn_col, fn_row) ;
 	    parse_list_push_raw(stack, buffer, NO_PRECEDENCE) ;
-	    printf ("%s\n", buffer) ;
+/*	    printf ("%s\n", buffer) ; */
 	    g_free (ref) ;
 	  }
 	  break ;
@@ -368,7 +368,7 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 	      {
 		buffer = cellref_name (ref, sheet->gnum_sheet, fn_col, fn_row) ;
 		parse_list_push_raw(stack, buffer, NO_PRECEDENCE) ;
-		printf ("%s\n", buffer) ;
+/*		printf ("%s\n", buffer) ; */
 		g_free (ref) ;
 	      }
 	  }
@@ -396,7 +396,7 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 	    strcat (buffer, (ptr=cellref_name (last, sheet->gnum_sheet, fn_col, fn_row))) ;
 	    g_free (ptr) ;
 	    parse_list_push_raw(stack, strdup (buffer), NO_PRECEDENCE) ;
-	    printf ("%s\n", buffer) ;
+/*	    printf ("%s\n", buffer) ; */
 	    g_free (first) ;
 	    g_free (last) ;
 	  }
@@ -410,7 +410,7 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 	    GList *args=0, *tmp ;
 	    int lp ;
 	    char buffer[4096] ; /* Nasty ! */
-	    printf ("Found formula %d with %d args\n", iftab, numargs) ;
+/*	    printf ("Found formula %d with %d args\n", iftab, numargs) ; */
 
 	    for (lp=0;lp<FORMULA_FUNC_DATA_LEN;lp++)
 	      {
@@ -443,7 +443,7 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 	  }
 	  break ;
 	case FORMULA_PTG_PAREN:
-	  printf ("Ignoring redundant parenthesis ptg\n") ;
+/*	  printf ("Ignoring redundant parenthesis ptg\n") ; */
 	  ptg_length = 0 ;
 	  break ;
 	case FORMULA_PTG_FUNC:
@@ -479,7 +479,7 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 		str[lp+1] = '\0' ;
 		str[0]    = '"' ;
 		parse_list_push_raw (stack, str, NO_PRECEDENCE) ;
-		printf ("Found string '%s'\n", str) ;
+/*		printf ("Found string '%s'\n", str) ; */
 		ptg_length = 2 + len ;
 	}
 	break ;
@@ -487,7 +487,7 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 	  {
 	    int lp ;
 
-	    printf ("Search %d records\n", (int)FORMULA_OP_DATA_LEN) ;
+/*	    printf ("Search %d records\n", (int)FORMULA_OP_DATA_LEN) ; */
 	    for (lp=0;lp<FORMULA_OP_DATA_LEN;lp++)
 	      {
 		if (ptgbase == formula_op_data[lp].formula_ptg)
@@ -497,7 +497,7 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 		    char buffer[2048] ;
 		    FORMULA_OP_DATA *fd = &formula_op_data[lp] ;
 		    int bracket_arg2 ;
-		    int bracket_arg1 ;
+    		    int bracket_arg1 ;
 
 		    buffer[0] = '\0' ; /* Terminate string */
 		    arg2 = parse_list_pop (stack) ;
@@ -519,7 +519,7 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 		    if (bracket_arg2)
 		      strcat (buffer, ")") ;
 
-		    printf ("Op : '%s'\n", buffer) ;
+/*		    printf ("Op : '%s'\n", buffer) ; */
 		    parse_list_push_raw(stack, strdup (buffer), fd->precedence) ;
 		    if (fd->infix)
 		      parse_data_free (arg1) ;
@@ -531,19 +531,23 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 	      printf ("Unknown PTG 0x%x base %x\n", ptg, ptgbase), error=1 ;
 	  }
 	}
-      printf ("Ptg 0x%x length (not inc. ptg byte) %d\n", ptgbase, ptg_length) ;
+/*      printf ("Ptg 0x%x length (not inc. ptg byte) %d\n", ptgbase, ptg_length) ; */
       cur+=    (ptg_length+1) ;
       length-= (ptg_length+1) ;
     }
   if (error)
     {
       int xlp, ylp ;
+
+      printf ("Unknown Formula/Array at [%d, %d] XF %d :\n", fn_col, fn_row, fn_xf) ;
+      printf ("formula data : \n") ;
+      dump (q->data +22, q->length-22) ;
+
       for (xlp=array_col_first;xlp<=array_col_last;xlp++)
 	  for (ylp=array_row_first;ylp<=array_row_last;ylp++)
 	    ms_excel_sheet_insert (sheet, fn_xf, xlp, ylp, "Unknown formula") ;
       return ;
     }
-  printf ("--------- Found valid formula !---------\n") ;
   
   ans = parse_list_to_equation(stack) ;
   if (ans)

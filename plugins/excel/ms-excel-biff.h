@@ -58,6 +58,7 @@ extern void free_ms_biff_bof_data (BIFF_BOF_DATA *data) ;
 
 /**
  * See S59D52.HTM for the spec.
+ * As you add low numbers, check you don't glup an odd-ball
  **/
 
 #define BIFF_DIMENSIONS                 0x00
@@ -87,5 +88,7 @@ extern void free_ms_biff_bof_data (BIFF_BOF_DATA *data) ;
 
 /* Odd balls */
 #define BIFF_DV                        0x1be
+#define BIFF_BOOLERR                   0x205
+#define BIFF_STRING                    0x207
 #endif
 

@@ -1,3 +1,18 @@
+1999-02-06  Michael Meeks  <michael@imaginator.com>
+
+	* plugins/excel/ms-formula.c: Cut out lots of debug in working
+	cases
+
+	* plugins/excel/ms-excel.c: Implemented a hash table for fast
+	font lookups, removed and simplified dead font code.
+
+	* plugins/excel/ms-excel.c (ms_excel_set_font): Bold if boldness
+	greater or equal to threshold, not just equal.
+	
+	* plugins/excel/ms-excel.c (ms_excel_read_cell): Added support
+	for BIFF_STRING records, and re-organised switch statement. Added
+	BIFF_BOOLERR support.
+
 1999-02-06  Changwoo Ryu  <cwryu@adam.kaist.ac.kr>
 
 	* gnumeric.desktop: Added Korean translations.
@@ -7,12 +22,12 @@
 	* plugins/excel/ms-excel.ch: Major overhaul of how XF styles
 	are looked up, sparation of Cell / style XF records. Hash
 	table implemented for lage speedup and code simplification.
-	
+
 1999-02-04  Michael Meeks  <michael@imaginator.com>
 
 	* plugins/excel/ms-biff.h: Added a biff_getdouble function for
 	G_BIG_ENDIAN machines, since I don't have one... [begs forgiveness]
-	
+
 1999-02-03  Sean Atkinson  <sca20@cam.ac.uk>
 
 	* plugins/excel/ms-formula.c (ms_excel_parse_formula):
