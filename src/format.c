@@ -2331,7 +2331,8 @@ gnm_format_parse_markup (char *str)
 	unsigned len;
 	int r, g, b;
 
-	g_return_val_if_fail (*str == '@', attrs);
+	g_return_val_if_fail (*str == '@', NULL);
+
 	attrs = pango_attr_list_new ();
 	for (str++ ; *str ; str = closer + 1) {
 		g_return_val_if_fail (*str == '[', attrs);

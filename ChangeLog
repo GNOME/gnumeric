@@ -1,5 +1,15 @@
 2004-11-26  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=159577
+	* src/format.c (gnm_format_parse_markup) : return NULL on error
+
+2004-11-26  Jody Goldberg <jody@gnome.org>
+
+	* src/gui-file.c (gui_file_open) : Add a hook to open template files.
+	  This is cheesy, but is better than nothing.
+
+2004-11-26  Jody Goldberg <jody@gnome.org>
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=159365
 	* src/commands.c (gnm_reloc_undo_release) : new
 	(cmd_ins_del_colrow_finalize) : use it

@@ -181,9 +181,9 @@
       </para>
       <para>
 	<application>Gnumeric</application> has been translated into
-	46 languages, and is being used by people around the globe
-	with the symbols and date/monetary conventions appropriate for their
-	local setting.
+	46 languages, and is being used by people around the globe with the
+	symbols and date/monetary conventions appropriate for their local
+	setting.
       </para>
     </listitem>
 
@@ -313,8 +313,8 @@
         The analytical correctness of
         <application>Gnumeric</application> is a primary concern of
         the team. The precision and correctness of the analytics are
-        constantly being evaluated and improved. New analytic
-        functions and mathematical routines are being added.
+	constantly being evaluated and improved.  Updated versions of the
+	solver libraries (lp_solve and GLPK) were added.
       </para>
     </listitem>
 
