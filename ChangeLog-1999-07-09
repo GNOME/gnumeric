@@ -1,13 +1,12 @@
 1998-09-30  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/clipboard.c (clipboard_export_cell_region): Correct fix to
+	the paste problem: dont pass current_workbook, but rather the wb
+	we get. 
+
 	* src/format.c (split_time): Compute the day of week.  This was
 	done before by localtime, but the new code was not doing it (thus,
 	format "ddd" always reported "Sun").
-
-	* src/clipboard.c (x_selection_handler): Use the last workbook
-	that claimed the selection instead of using the value provided by
-	the callback, as gtk_selection_set_owner just ignores who is the
-	owner. 
 
 	* src/item-edit.c (item_edit_reconfigure): Call reconfigure in parent.
 
