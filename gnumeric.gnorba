@@ -14,7 +14,7 @@ location_info=GOADID:GNOME:Gnumeric:WorkbookFactory:1.0
 type=exe
 repo_id=IDL:GNOME/GenericFactory:1.0
 description=Embeddable Grid Component Factory
-location-info=gnumeric-bonobo
+location_info=gnumeric-bonobo
 
 [GOADID:Gnumeric:Grid:1.0]
 type=factory
