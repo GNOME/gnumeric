@@ -81,14 +81,16 @@ fgets_mac (char *s, size_t s_len, FILE *f)
 {
 	size_t read = 0;
 	char *orig_s = s;
+	int ch;
 
 	s_len--;
 
 	while (!ferror (f) && !feof (f) && (read < s_len)) {
-		*s = (char) fgetc (f);
-		if (*s == EOF)
+		ch = fgetc (f);
+		if (ch == EOF)
 			break;
 
+		*s = (char)ch;
 		read++;
 
 		if (*s == '\n')
