@@ -119,7 +119,6 @@ glade_DATA = 				\
 	search-replace.glade		\
 	sheet-order.glade		\
 	sheet-rename.glade		\
-	solver-options.glade		\
 	solver.glade			\
 	summary.glade			\
 	variance-tests.glade		\

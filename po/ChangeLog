@@ -1,3 +1,7 @@
+2001-10-30 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+        * POTFILES.in: Remove solver-options.glade
+
 2001-10-29  gettextize  <bug-gnu-utils@gnu.org>
 
 	* Makefile.in.in: Upgrade to gettext-0.10.40.

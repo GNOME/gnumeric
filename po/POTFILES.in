@@ -128,7 +128,6 @@ src/dialogs/search.glade
 src/dialogs/search-replace.glade
 src/dialogs/sheet-order.glade
 src/dialogs/sheet-rename.glade
-src/dialogs/solver-options.glade
 src/dialogs/solver.glade
 src/dialogs/summary.glade
 src/dialogs/variance-tests.glade
