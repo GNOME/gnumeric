@@ -158,6 +158,19 @@ rendered_value_render (GString *str,
 }
 
 
+#if 0
+some quicky code to dump an attr list
+we can use this to export them as text
+static gboolean
+cb_dump (PangoAttribute *a)
+{
+	g_print ("dump : %d..%d\n", a->start_index, a->end_index);
+	return FALSE;
+}
+
+			pango_attr_list_filter (attrs,
+				(PangoAttrFilterFunc) cb_dump, NULL);
+#endif
 
 /**
  * rendered_value_new:

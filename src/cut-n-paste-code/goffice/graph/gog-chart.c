@@ -619,7 +619,9 @@ gog_chart_view_render (GogView *view, GogViewAllocation const *bbox)
 	GSList *ptr;        
 	GogView *child;        
 	gboolean clipped = FALSE;        
-	
+
+	(cview_parent_klass->render) (view, bbox);
+
 	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {                
 		child = ptr->data;                
 		/* All plots overlay the same region, simplify life                 

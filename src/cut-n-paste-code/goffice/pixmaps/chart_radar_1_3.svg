@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created with Inkscape ("http://www.inkscape.org/") -->
+<svg
+   id="svg568"
+   sodipodi:version="0.32"
+   inkscape:version="0.36"
+   width="64pt"
+   height="60pt"
+   sodipodi:docbase="/home/mdevine/projects/gnome-b/gnumeric/src/cut-n-paste-code/goffice/pixmaps"
+   sodipodi:docname="/home/mdevine/projects/gnome-b/gnumeric/src/cut-n-paste-code/goffice/pixmaps/chart_radar_1_1.svg"
+   viewBox="0 0 64 60"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs
+     id="defs570" />
+  <sodipodi:namedview
+     id="base"
+     showgrid="true"
+     vertgrid="false"
+     gridspacingy="5pt"
+     gridspacingx="5pt" />
+  <rect
+     style="font-size:12;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke-width:1.5;stroke:#000000;stroke-opacity:1;stroke-dasharray:none;"
+     id="rect587"
+     width="60"
+     height="56"
+     x="2"
+     y="2" />
+  <g
+     id="g576"
+     style="stroke:#000000;stroke-opacity:1;stroke-width:1.5;stroke-dasharray:none;">
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-opacity:1;stroke-width:1.5;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:0.75;stroke-dasharray:none;"
+       d="M 32 8 L 32 30 54.8254 24.5836"
+       id="path571" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-opacity:1;stroke-width:1.5;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:0.75;stroke-dasharray:none;"
+       d="M 46.1068 51.4164 L 32 30 17.8932 51.4164"
+       id="path572" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-opacity:1;stroke-width:1.5;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:0.75;stroke-dasharray:none;"
+       d="M 9.17464 24.5836 L 32 30"
+       id="path573" />
+  </g>
+  <path
+     style="font-size:12;fill:#bab98c;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-opacity:1;stroke-dasharray:none;"
+     d="M 31.6728 7.73768 L 41.8367 27.2101 L 43.7083 47.325 L 21.7559 45.0846 L 13.8352 25.5774 L 31.6728 7.73768 z "
+     id="path575"
+     sodipodi:nodetypes="cccccc" />
+  <path
+     style="font-size:12;fill:#f29109;fill-opacity:1;fill-rule:evenodd;stroke:#000009;stroke-width:1;stroke-opacity:1;stroke-dasharray:none;"
+     d="M 32.0408 16.6327 L 32.2449 16.6327 52.8118 24.641 52.8118 24.641 L 40.2812 42.2237 L 27.5473 36.6787 L 18.0401 26.3091 L 32.0408 16.6327 z "
+     id="path574"
+     sodipodi:nodetypes="cccccc" />
+</svg>

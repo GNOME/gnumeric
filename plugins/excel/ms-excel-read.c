@@ -952,27 +952,6 @@ excel_read_LABEL_markup (BiffQuery *q, ExcelReadSheet *esheet, unsigned str_len)
 	return txo_run.accum;
 }
 
-static guint32
-sst_bound_check (BiffQuery *q, guint32 offset, unsigned len)
-{
-	if (offset >= q->length) {
-		guint16 opcode;
-
-		offset -= q->length;
-		if (!ms_biff_query_peek_next (q, &opcode) ||
-		    opcode != BIFF_CONTINUE ||
-		    !ms_biff_query_next (q)) {
-			g_warning ("missing continuation of SST");
-			return 0;
-		}
-	}
-
-	if ((offset + len) > q->length) {
-		g_warning ("supposedly atomic entry in the sst spans CONTINUEs, we are screwed");
-	}
-	return offset;
-}
-
 /*
  * NB. Whilst the string proper is split, and whilst we get several headers,
  * it seems that the attributes appear in a single block after the end
@@ -987,11 +966,11 @@ sst_read_string (BiffQuery *q, MSContainer const *c,
 	gboolean use_utf16, has_extended;
 	char    *str;
 
-	offset    = sst_bound_check (q, offset, 2);
+	offset    = ms_biff_query_bound_check (q, offset, 2);
 	total_len = GSF_LE_GET_GUINT16 (q->data + offset);
 	offset += 2;
 	do {
-		offset = sst_bound_check (q, offset, 1);
+		offset = ms_biff_query_bound_check (q, offset, 1);
 		offset += excel_read_string_header (q->data + offset,
 				&use_utf16, &n_markup, &has_extended,
 				&post_data_len);
@@ -1015,7 +994,6 @@ sst_read_string (BiffQuery *q, MSContainer const *c,
 			res->str = str;
 	} while (total_len > 0);
 
-	g_warning ("'%s' = %ld", str, g_utf8_strlen (str, -1));
 	if (total_n_markup > 0) {
 		TXORun txo_run;
 		PangoAttrList  *prev_markup = NULL;
@@ -1023,11 +1001,11 @@ sst_read_string (BiffQuery *q, MSContainer const *c,
 		txo_run.accum = pango_attr_list_new ();
 		txo_run.first = 0;
 		for (i = total_n_markup ; i-- > 0 ; offset += 4) {
-			offset = sst_bound_check (q, offset, 4);
+			offset = ms_biff_query_bound_check (q, offset, 4);
 			if ((q->length - offset) >= 4) {
-				txo_run.last = GSF_LE_GET_GUINT16 (q->data+offset);
+				txo_run.last = g_utf8_offset_to_pointer (str,
+					GSF_LE_GET_GUINT16 (q->data+offset)) - str;
 				if (prev_markup != NULL) {
-					g_warning ("%d : %d", txo_run.first, txo_run.last);
 					pango_attr_list_filter (prev_markup,
 						(PangoAttrFilterFunc) append_markup, &txo_run);
 				}
@@ -1038,7 +1016,6 @@ sst_read_string (BiffQuery *q, MSContainer const *c,
 				g_warning ("A TXO entry is across CONTINUEs.  We need to handle those properly");
 		}
 		txo_run.last = G_MAXINT;
-		g_warning ("%d : ...", txo_run.first);
 		pango_attr_list_filter (prev_markup,
 			(PangoAttrFilterFunc) append_markup, &txo_run);
 		res->markup = style_format_new_markup (txo_run.accum);
@@ -2588,12 +2565,10 @@ excel_sheet_insert_val (ExcelReadSheet *esheet, BiffQuery *q,
 {
 	guint16 const col    = XL_GETCOL (q);
 	guint16 const row    = XL_GETROW (q);
-	BiffXFData const *xf;
-	if (VALUE_FMT (v) == NULL) {
-		xf = excel_set_xf (esheet, q);
-		if (xf != NULL && xf->is_simple_format)
-			value_set_fmt (v, xf->style_format);
-	}
+	BiffXFData const *xf = excel_set_xf (esheet, q);
+	if (xf != NULL && xf->is_simple_format &&
+	    VALUE_FMT (v) == NULL)
+		value_set_fmt (v, xf->style_format);
 	cell_set_value (sheet_cell_fetch (esheet->sheet, col, row), v);
 }
 

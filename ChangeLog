@@ -4,6 +4,15 @@
 
 2004-04-19  Jody Goldberg <jody@gnome.org>
 
+	* src/workbook-edit.c (cb_entry_insert_text) : be clear which values
+	  are measured in bytes (PangoAttribute) and which are in characters
+	  (GtkEditable)
+	(cb_entry_cursor_pos) : ditto.
+	(cb_entry_delete_text) : ditto.
+	(wbcg_edit_add_markup) : ditto.
+
+2004-04-19  Jody Goldberg <jody@gnome.org>
+
 	* src/rendered-value.c (rendered_value_new) : don't apply markup to
 	  the shared set of attributes associated with the style make a local
 	  copy.

@@ -318,30 +318,80 @@ entry_changed (GtkEntry *entry, void *data)
 }
 
 static gboolean
-cb_set_attr_list_len (PangoAttribute *a, int const *len)
+cb_set_attr_list_len (PangoAttribute *a, gpointer len_bytes)
 {
 	a->start_index = 0;
-	a->end_index = *len;
+	a->end_index = GPOINTER_TO_INT (len_bytes);
 	return FALSE;
 }
 
 static void
 cb_entry_insert_text (GtkEditable *editable,
 		      gchar const *text,
-		      gint         len,
-		      gint        *pos,
+		      gint         len_bytes,
+		      gint        *pos_in_chars,
 		      WorkbookControlGUI *wbcg)
 {
+	char const *str = gtk_entry_get_text (GTK_ENTRY (editable));
+	int pos_in_bytes = g_utf8_offset_to_pointer (str, *pos_in_chars) - str;
+
 	pango_attr_list_filter (wbcg->edit_line.cur_fmt,
-		(PangoAttrFilterFunc) cb_set_attr_list_len, &len);
+		(PangoAttrFilterFunc) cb_set_attr_list_len,
+		GINT_TO_POINTER (len_bytes));
 	pango_attr_list_splice (wbcg->edit_line.full_content,
-		wbcg->edit_line.cur_fmt, *pos, len);
+		wbcg->edit_line.cur_fmt, pos_in_bytes, len_bytes);
 	pango_attr_list_splice (wbcg->edit_line.markup,
-		wbcg->edit_line.cur_fmt, *pos, len);
+		wbcg->edit_line.cur_fmt, pos_in_bytes, len_bytes);
+}
+
+static void
+cb_entry_cursor_pos (WorkbookControlGUI *wbcg)
+{
+	gint start, end, target_pos_in_chars, target_pos_in_bytes;
+	GtkEditable *entry = GTK_EDITABLE (wbcg_get_entry (wbcg));
+	PangoAttrIterator *iter = pango_attr_list_get_iterator (wbcg->edit_line.full_content);
+	PangoAttribute *attr;
+	char const *str = gtk_entry_get_text (GTK_ENTRY (entry));
+
+	/* 1) Use first selected character if there is a selection
+	 * 2) Ue the character just before the edit pos if it exists
+	 * 3) Use the first character */
+	if (gtk_editable_get_selection_bounds (entry, &start, &end))
+		target_pos_in_chars = start;
+	else {
+		target_pos_in_chars = gtk_editable_get_position (entry);
+		if (target_pos_in_chars > 0)
+			target_pos_in_chars--;
+	}
+
+	target_pos_in_bytes = g_utf8_offset_to_pointer (str, target_pos_in_chars) - str;
+	pango_attr_list_unref (wbcg->edit_line.cur_fmt);
+	wbcg->edit_line.cur_fmt = pango_attr_list_new ();
+	do {
+		pango_attr_iterator_range (iter, &start, &end);
+		if (start <= target_pos_in_bytes && target_pos_in_bytes < end) {
+			GSList *ptr, *attrs = pango_attr_iterator_get_attrs (iter);
+			GnmStyle *style = mstyle_new ();
+
+			for (ptr = attrs; ptr != NULL ; ptr = ptr->next) {
+				attr = (PangoAttribute *)(ptr->data);
+				mstyle_set_from_pango_attribute (style, attr);
+				attr->start_index = 0;
+				attr->end_index = 1;
+				pango_attr_list_insert (wbcg->edit_line.cur_fmt, attr);
+			}
+
+			wb_control_style_feedback (WORKBOOK_CONTROL (wbcg), style);
+			mstyle_unref (style);
+			g_slist_free (attrs);
+			break;
+		}
+	} while (pango_attr_iterator_next (iter));
+	pango_attr_iterator_destroy (iter);
 }
 
 typedef struct {
-	unsigned start_pos, end_pos, len;
+	unsigned start_pos, end_pos, len; /* in bytes not chars */
 } EntryDeleteTextClosure;
 
 static gboolean
@@ -368,50 +418,6 @@ cb_delete_filter (PangoAttribute *a, EntryDeleteTextClosure *change)
 }
 
 static void
-cb_entry_cursor_pos (WorkbookControlGUI *wbcg)
-{
-	gint start, end, target_pos;
-	GtkEditable *entry = GTK_EDITABLE (wbcg_get_entry (wbcg));
-	PangoAttrIterator *iter = pango_attr_list_get_iterator (wbcg->edit_line.full_content);
-	PangoAttribute *attr;
-
-	/* 1) Use first selected character if there is a selection
-	 * 2) Ue the character just before the edit pos if it exists
-	 * 3) Use the first character */
-	if (gtk_editable_get_selection_bounds (entry, &start, &end))
-		target_pos = start;
-	else {
-		target_pos = gtk_editable_get_position (entry);
-		if (target_pos > 0)
-			target_pos--;
-	}
-
-	pango_attr_list_unref (wbcg->edit_line.cur_fmt);
-	wbcg->edit_line.cur_fmt = pango_attr_list_new ();
-	do {
-		pango_attr_iterator_range (iter, &start, &end);
-		if (start <= target_pos && target_pos < end) {
-			GSList *ptr, *attrs = pango_attr_iterator_get_attrs (iter);
-			GnmStyle *style = mstyle_new ();
-
-			for (ptr = attrs; ptr != NULL ; ptr = ptr->next) {
-				attr = (PangoAttribute *)(ptr->data);
-				mstyle_set_from_pango_attribute (style, attr);
-				attr->start_index = 0;
-				attr->end_index = 1;
-				pango_attr_list_insert (wbcg->edit_line.cur_fmt, attr);
-			}
-
-			wb_control_style_feedback (WORKBOOK_CONTROL (wbcg), style);
-			mstyle_unref (style);
-			g_slist_free (attrs);
-			break;
-		}
-	} while (pango_attr_iterator_next (iter));
-	pango_attr_iterator_destroy (iter);
-}
-
-static void
 cb_entry_delete_text (GtkEditable    *editable,
 		      gint            start_pos,
 		      gint            end_pos,
@@ -419,10 +425,11 @@ cb_entry_delete_text (GtkEditable    *editable,
 {
 	PangoAttrList *gunk;
 	EntryDeleteTextClosure change;
+	char const *str = gtk_entry_get_text (GTK_ENTRY (editable));
 
-	change.start_pos = start_pos;
-	change.end_pos = end_pos;
-	change.len = end_pos - start_pos;
+	change.start_pos = g_utf8_offset_to_pointer (str, start_pos) - str;
+	change.end_pos   = g_utf8_offset_to_pointer (str, end_pos) - str;
+	change.len = change.end_pos - change.start_pos;
 	gunk = pango_attr_list_filter (wbcg->edit_line.full_content,
 		(PangoAttrFilterFunc) cb_delete_filter, &change);
 	if (gunk != NULL)
@@ -478,11 +485,17 @@ wbcg_edit_add_markup (WorkbookControlGUI *wbcg, PangoAttribute *attr)
 
 	if (gtk_editable_get_selection_bounds (GTK_EDITABLE (entry),
 					       &attr->start_index, &attr->end_index)) {
+		char const *str = gtk_entry_get_text (GTK_ENTRY (entry));
+
+		attr->start_index = g_utf8_offset_to_pointer (str, attr->start_index) - str;
+		attr->end_index = g_utf8_offset_to_pointer (str, attr->end_index) - str;
 		pango_attr_list_change (wbcg->edit_line.full_content,
-			pango_attribute_copy (attr));
+					pango_attribute_copy (attr));
 		pango_attr_list_change (wbcg->edit_line.markup,
-			pango_attribute_copy (attr));
+					pango_attribute_copy (attr));
 	}
+
+	/* the format to use when inserting text, we will resize it later */
 	attr->start_index = 0;
 	attr->end_index = 1;
 	pango_attr_list_change (wbcg->edit_line.cur_fmt, attr);
@@ -501,6 +514,7 @@ wbcg_edit_get_markup (WorkbookControlGUI *wbcg, gboolean full)
 {
 	return full ? wbcg->edit_line.full_content : wbcg->edit_line.markup;
 }
+
 /**
  * wbcg_edit_start:
  *

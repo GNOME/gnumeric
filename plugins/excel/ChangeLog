@@ -1,5 +1,17 @@
 2004-04-19  Jody Goldberg <jody@gnome.org>
 
+	* ms-chart.c (BC_R(end)) : graph style wants outline not line
+	(ms_excel_read_chart) : there is not 'Graph' concept in xls, remove
+	  it's style.  Charts default to blank too.
+
+2004-04-19  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_sheet_insert_val) : fix the fix.
+	  We do need to apply the style, even if we're not going to assigned
+	  the format to the value.
+
+2004-04-19  Jody Goldberg <jody@gnome.org>
+
 	* ms-excel-read.c (sst_read_string) : don't forget the last markup
 	  element.  Leave some debug in here to figure out what's going on
 	  with quick test.

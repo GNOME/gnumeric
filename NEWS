@@ -9,9 +9,11 @@ Jody:
 	* Make the last dependency above gtk optional to enable a win32 build
 	* Major re-org of xls string import to handle rich text
 	* Improve xls import of old < xl95 variants
-	* Fix xls chart import
+	* Fix xls chart import for value dimensions
 	* Fix autoformat dialog
 	* Fix db functions
+	* Pango uses _byte_ offsets for attributes.  Fix everything
+	* Fix xls import of chart background and outline
 
 Morten:
 	* Fix crash related to database functions (#138600).  [backported]

@@ -65,7 +65,8 @@ gboolean    ms_biff_query_next        (BiffQuery *);
 gboolean    ms_biff_query_peek_next   (BiffQuery *, guint16 *opcode);
 void        ms_biff_query_destroy     (BiffQuery *);
 void        ms_biff_query_dump	      (BiffQuery *);
-
+guint32     ms_biff_query_bound_check (BiffQuery *q,
+				       guint32 offset, unsigned len);
 
 /*******************************************************************************/
 /*                                 Write Side                                  */

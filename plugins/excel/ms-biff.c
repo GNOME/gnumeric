@@ -45,6 +45,27 @@ ms_biff_query_dump (BiffQuery *q)
 /*	dump_stream (q->output); */
 }
 
+guint32
+ms_biff_query_bound_check (BiffQuery *q, guint32 offset, unsigned len)
+{
+	if (offset >= q->length) {
+		guint16 opcode;
+
+		offset -= q->length;
+		if (!ms_biff_query_peek_next (q, &opcode) ||
+		    opcode != BIFF_CONTINUE ||
+		    !ms_biff_query_next (q)) {
+			g_warning ("missing CONTINUE");
+			return 0;
+		}
+	}
+
+	if ((offset + len) > q->length) {
+		g_warning ("supposedly atomic item of len %u sst spans CONTINUEs, we are screwed", len);
+	}
+	return offset;
+}
+
 /*******************************************************************************/
 /*                                 Read Side                                   */
 /*******************************************************************************/
