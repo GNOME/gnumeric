@@ -364,10 +364,7 @@ cb_dialog_set_rhs_sensitivity (GtkWidget *dummy, SolverState *state)
 static void
 free_original_values (GSList *ov, gpointer user_data)
 {
-	GSList *tmp;
-	for (tmp = ov; tmp; tmp = tmp->next)
-		g_free (tmp->data);
-	g_slist_free (ov);
+	e_free_string_slist (ov);
 }
 
 /**
@@ -497,7 +494,7 @@ static gint
 check_int_constraints (Value *input_range, GtkCList *constraint_list)
 {
 	gint i;
-	
+
 	for (i = 0; ; i++) {
 		const constraint_t *a_constraint = gtk_clist_get_row_data (constraint_list, i);
 		if (a_constraint == NULL)

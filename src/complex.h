@@ -124,6 +124,16 @@ GNUMERIC_COMPLEX_PROTO (void complex_conj (complex_t *dst, const complex_t *src)
 
 /* ------------------------------------------------------------------------- */
 
+GNUMERIC_COMPLEX_PROTO (void complex_scale_real (complex_t *dst, gnum_float f))
+#ifdef GNUMERIC_COMPLEX_BODY
+{
+	dst->re *= f;
+	dst->im *= f;
+}
+#endif
+
+/* ------------------------------------------------------------------------- */
+
 GNUMERIC_COMPLEX_PROTO (void complex_add (complex_t *dst, const complex_t *a, const complex_t *b))
 #ifdef GNUMERIC_COMPLEX_BODY
 {

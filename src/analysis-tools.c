@@ -15,8 +15,8 @@
 #include "analysis-tools.h"
 
 #include "mathfunc.h"
+#include "complex.h"
 #include "rangefunc.h"
-#include "numbers.h"
 #include "dialogs.h"
 #include "parse-util.h"
 #include "tools.h"
@@ -2771,7 +2771,7 @@ ranking_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input,
 
 			/* Percent */
 			set_cell_float_na (dao, n_data * 4 + 3, i + 1,
-					   1. - (rank[i].rank - 1.)/
+					   1. - (rank[i].rank - 1.) /
 						    (this_data_set->data->len - 1.),
 					   this_data_set->data->len != 0);
 		}
@@ -3637,7 +3637,7 @@ bin_pareto (const bin_t *set_a, const bin_t *set_b)
 static void
 destroy_items (gpointer data, gpointer user_data) {
 	if (((bin_t*)data)->label != NULL && ((bin_t*)data)->destroy_label)
-		g_free(((bin_t*)data)->label);
+		g_free (((bin_t*)data)->label);
 	g_free (data);
 }
 
@@ -3774,7 +3774,7 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 			a_bin->destroy_label = FALSE;
 		}
 		if (val)
-			value_release(val);
+			value_release (val);
 		a_bin->last = FALSE;
 		a_bin->first = TRUE;
 		a_bin->strict = TRUE;
@@ -3801,7 +3801,7 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 		} else
 			a_bin->label = _("Too Large");
 		if (val)
-			value_release(val);
+			value_release (val);
 	}
 	a_bin->last = TRUE;
 	a_bin->first = FALSE;
@@ -3885,7 +3885,7 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 			x = g_array_index (((bin_t *)this->data)->counts, gnum_float, i);
 			row ++;
 			set_cell_float (dao, col, row,  x);
-			x = x/(((data_set_t *)(g_ptr_array_index (data, i)))->data->len);
+			x /= ((data_set_t *)(g_ptr_array_index (data, i)))->data->len;
 			if (percentage) {
 				l_col++;
 				set_percent (dao, l_col, row, l_col, row);
@@ -3941,8 +3941,7 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
  **/
 
 typedef struct {
-	gnum_float *real;
-	gnum_float *imaginary;
+	complex_t *values;
 	int        skip;
         int        n;
 } fourier_t;
@@ -3950,132 +3949,106 @@ typedef struct {
 static void
 fourier_fft (fourier_t *in, fourier_t *fourier)
 {
-	fourier_t     in_1 = {NULL, NULL, 1, 0};
-	fourier_t     fourier_1 = {NULL, NULL, 1, 0};
-	fourier_t     in_2 = {NULL, NULL, 1, 0};
-	fourier_t     fourier_2 = {NULL, NULL, 1, 0};
-	int           i;
+	fourier_t in_1, in_2, fourier_1, fourier_2;
+	int       i;
 
 	g_return_if_fail (in != NULL);
 	g_return_if_fail (fourier != NULL);
 
 	if (in->n == 1) {
-		fourier->real = g_new (gnum_float, 1);
-		fourier->imaginary = g_new (gnum_float, 1);
+		fourier->values = g_new (complex_t, 1);
+		complex_real (&fourier->values[0], in->values[0].re);
 		fourier->skip = 1;
 		fourier->n = 1;
-		*(fourier->real) = *(in->real);
-		*(fourier->imaginary) = 0.0;
 		return;
 	}
 
-	in_1.real = in->real;
+	in_1.values = in->values;
 	in_1.skip = in->skip * 2;
-	in_1.n    = in->n / 2;
-	in_2.real = in->real + in->skip;
+	in_1.n = in->n / 2;
+
+	in_2.values = in->values + in->skip;
 	in_2.skip = in->skip * 2;
-	in_2.n    = in->n / 2;
+	in_2.n = in->n / 2;
 
 	fourier_fft (&in_1, &fourier_1);
 	fourier_fft (&in_2, &fourier_2);
 
 	fourier->n = 2 * fourier_1.n;
-	fourier->real = g_new (gnum_float, fourier->n);
-	fourier->imaginary = g_new (gnum_float, fourier->n);
+	fourier->values = g_new (complex_t, fourier->n);
 	fourier->skip = 1;
 
 	for (i = 0; i < fourier_1.n; i++) {
 		gnum_float arg = M_PI * i / fourier_1.n;
+		complex_t dir, tmp;
 
-		fourier->real[i] = (fourier_1.real[i] +
-			fourier_2.real[i] * cosgnum (arg) +
-			fourier_2.imaginary[i] * singnum (arg)) / 2;
-		fourier->imaginary[i] = (fourier_1.imaginary[i] +
-			fourier_2.imaginary[i] * cosgnum (arg) -
-			fourier_2.real[i] * singnum (arg)) / 2;
+		complex_from_polar (&dir, 1, -arg);
 
-		fourier->real[i + fourier_1.n] = (fourier_1.real[i] -
-			fourier_2.real[i] * cosgnum (arg) -
-			fourier_2.imaginary[i] * singnum (arg)) / 2;
-		fourier->imaginary[i + fourier_1.n] = (fourier_1.imaginary[i] -
-			fourier_2.imaginary[i] * cosgnum (arg) +
-			fourier_2.real[i] * singnum (arg)) / 2;
+		complex_mul (&tmp, &fourier_2.values[i], &dir);
+		complex_add (&fourier->values[i], &fourier_1.values[i], &tmp);
+		complex_scale_real (&fourier->values[i], 0.5);
+		complex_sub (&fourier->values[i + fourier_1.n], &fourier_1.values[i], &tmp);
+		complex_scale_real (&fourier->values[i + fourier_1.n], 0.5);
 	}
 
-
-	g_free (fourier_1.real);
-	g_free (fourier_1.imaginary);
-	g_free (fourier_2.real);
-	g_free (fourier_2.imaginary);
+	g_free (fourier_1.values);
+	g_free (fourier_2.values);
 }
 
 static void
 fourier_fft_inv (fourier_t *in, fourier_t *fourier)
 {
-	fourier_t     in_1 = {NULL, NULL, 1, 0};
-	fourier_t     fourier_1 = {NULL, NULL, 1, 0};
-	fourier_t     in_2 = {NULL, NULL, 1, 0};
-	fourier_t     fourier_2 = {NULL, NULL, 1, 0};
-	int           i;
+	fourier_t in_1, in_2, fourier_1, fourier_2;
+	int       i;
 
 	g_return_if_fail (in != NULL);
 	g_return_if_fail (fourier != NULL);
 
 	if (in->n == 1) {
-		fourier->real = g_new (gnum_float, 1);
-		fourier->imaginary = g_new (gnum_float, 1);
+		fourier->values = g_new (complex_t, 1);
+		fourier->values[0] = in->values[0];
 		fourier->skip = 1;
 		fourier->n = 1;
-		*(fourier->real) = *(in->real);
-		*(fourier->imaginary) = 0.0;
 		return;
 	}
 
-	in_1.real = in->real;
+	in_1.values = in->values;
 	in_1.skip = in->skip * 2;
-	in_1.n    = in->n / 2;
-	in_2.real = in->real + in->skip;
+	in_1.n = in->n / 2;
+
+	in_2.values = in->values + in->skip;
 	in_2.skip = in->skip * 2;
-	in_2.n    = in->n / 2;
+	in_2.n = in->n / 2;
 
 	fourier_fft_inv (&in_1, &fourier_1);
 	fourier_fft_inv (&in_2, &fourier_2);
 
 	fourier->n = 2 * fourier_1.n;
-	fourier->real = g_new (gnum_float, fourier->n);
-	fourier->imaginary = g_new (gnum_float, fourier->n);
+	fourier->values = g_new (complex_t, fourier->n);
 	fourier->skip = 1;
 
 	for (i = 0; i < fourier_1.n; i++) {
 		gnum_float arg = M_PI * i / fourier_1.n;
+		complex_t dir, tmp;
 
-		fourier->real[i] = (fourier_1.real[i] +
-			fourier_2.real[i] * cosgnum (arg) -
-			fourier_2.imaginary[i] * singnum (arg))  /2;
-		fourier->imaginary[i] = (fourier_1.imaginary[i] +
-			fourier_2.imaginary[i] * cosgnum (arg) +
-			fourier_2.real[i] * singnum (arg)) / 2;
+		complex_from_polar (&dir, 1, arg);
 
-		fourier->real[i + fourier_1.n] = (fourier_1.real[i] -
-			fourier_2.real[i] * cosgnum (arg) +
-			fourier_2.imaginary[i] * singnum (arg)) / 2;
-		fourier->imaginary[i + fourier_1.n] = (fourier_1.imaginary[i] -
-			fourier_2.imaginary[i] * cosgnum (arg) -
-			fourier_2.real[i] * singnum (arg)) / 2;
+		complex_mul (&tmp, &fourier_2.values[i], &dir);
+		complex_add (&fourier->values[i], &fourier_1.values[i], &tmp);
+		complex_scale_real (&fourier->values[i], 0.5);
+		complex_sub (&fourier->values[i + fourier_1.n], &fourier_1.values[i], &tmp);
+		complex_scale_real (&fourier->values[i + fourier_1.n], 0.5);
 	}
 
-
-	g_free (fourier_1.real);
-	g_free (fourier_1.imaginary);
-	g_free (fourier_2.real);
-	g_free (fourier_2.imaginary);
+	g_free (fourier_1.values);
+	g_free (fourier_2.values);
 }
 
 int
 fourier_tool (WorkbookControl *wbc, Sheet *sheet,
-		    GSList *input, group_by_t group_by,
-		    int inverse_flag,
-		    data_analysis_output_t *dao)
+	      GSList *input, group_by_t group_by,
+	      int inverse_flag,
+	      data_analysis_output_t *dao)
 {
 	GSList        *input_range;
 	GPtrArray     *data;
@@ -4091,8 +4064,8 @@ fourier_tool (WorkbookControl *wbc, Sheet *sheet,
 
 	for (dataset = 0; dataset < data->len; dataset++) {
 		data_set_t    *current;
-		fourier_t     in = {NULL, NULL, 1, 0};
-		fourier_t     fourier = {NULL, NULL, 1, 0};
+		fourier_t     in;
+		fourier_t     fourier = {NULL, 1, 0};
 		int           row;
 		int           given_length;
 		int           desired_length = 1;
@@ -4104,33 +4077,34 @@ fourier_tool (WorkbookControl *wbc, Sheet *sheet,
 		while (given_length > desired_length)
 			desired_length *= 2;
 		for (i = given_length; i < desired_length; i++)
-			current->data = g_array_append_val(current->data, zero_val);
+			current->data = g_array_append_val (current->data, zero_val);
 
 		set_cell_printf (dao, col, 0, current->label);
 		set_cell_printf (dao, col, 1, _("Real"));
 		set_cell_printf (dao, col+1, 1, _("Imaginary"));
 
-		in.real = (gnum_float *) current->data->data;
-		in.skip = 1;
 		in.n = current->data->len;
+		in.skip = 1;
+		in.values = g_new (complex_t, in.n);
+		for (i = 0; i < in.n; i++)
+			complex_real (&in.values[i],
+				      ((const gnum_float *)current->data->data)[i]);
 
 		if (inverse_flag == 0)
 			fourier_fft (&in, &fourier);
 		else
 			fourier_fft_inv (&in, &fourier);
 
-		if (fourier.real != NULL && fourier.imaginary != NULL) {
-			gnum_float  *imag =  fourier.imaginary;
-			gnum_float  *real =  fourier.real;
+		g_free (in.values);
 
+		if (fourier.values) {
 			for (row = 0; row < given_length; row++) {
-				set_cell_float (dao, col, row + 2, *real);
-				set_cell_float (dao, col + 1, row + 2, *imag);
-				imag += fourier.skip;
-				real += fourier.skip;
+				set_cell_float (dao, col, row + 2,
+						fourier.values[row * fourier.skip].re);
+				set_cell_float (dao, col + 1, row + 2,
+						fourier.values[row * fourier.skip].im);
 			}
-			g_free(fourier.real);
-			g_free(fourier.imaginary);
+			g_free (fourier.values);
 		}
 
 		col += 2;

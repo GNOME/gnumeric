@@ -1003,7 +1003,7 @@ workbook_print_all (PrintJobInfo *pj, Workbook *wb)
 	pj->render_info->pages = compute_pages (pj, wb, NULL, NULL);
 
 	sheets = workbook_sheets (wb);
-	g_list_foreach (sheets , print_sheet, pj);
+	g_list_foreach (sheets, print_sheet, pj);
 	g_list_free (sheets);
 }
 
