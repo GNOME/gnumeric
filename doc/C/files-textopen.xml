@@ -1,0 +1,334 @@
+<sect1 id="file-format-import-text">
+  <title>Importing Text</title>
+
+  <para>
+    &gnum; can import files or file fragments that consist entirely of
+    text. Text files provide a basic, common format enabling programs
+    to share data.
+  </para>
+
+  <para>
+    Text files consist simply of a continous stream of
+    standard text characters so reading the characters themselves is
+    generally quite simple. Occasionally, this step may prove
+    difficult if the <wordasword>'encoding'</wordasword> of the
+    characters is misunderstood by &gnum;; see <xref
+    linkend="file-format-import-text-encodingNote"/> for a better
+    explanation.
+  </para>
+
+  <para>
+    The difficulty with text files comes from the method which is used
+    to structure the data within the text file. Text files are
+    generally not created as a simple stream of numbers but instead
+    they are created with a regular format. &gnum; must correctly
+    recognize this format to be able to input the data
+    effectively. Because text files are such a common format, there
+    are a large variety of different methods that are used to
+    structure the data within the file. &gnum; needs to parse, or
+    interpret, the file while it is being read to assign different
+    elements into different cells and select the correct number format
+    for each created cell. In order to ensure that this interpretation
+    is done correctly, &gnum; has a special dialog, the
+    <interface>Text Import</interface> dialog, in which the user can
+    configure every aspect of the file import. While this step may
+    require some time and may require several attempts to achieve
+    correctly, the correct import of a structured file saves immense
+    amounts of time compared to re-entering data.
+  </para>
+
+  <para>
+    TODO: Discuss tandard approaches to formating data: CSV, TAB,
+    SPACE, Database tables.
+  </para>
+
+
+
+  <note id="file-format-import-text-encodingNote">
+    <title>File Encodings</title>
+
+    <para>
+      TODO: Add a note on encodings and how &gnum; handles them.
+    </para>
+  </note>
+
+
+  <!-- Old text follows. ****************** -->
+
+  <para>This format exports <application>Gnumeric</application> spreadsheets as straight 
+  text or imports them 
+  from straight text files. Both export (save as) as well as import can be highly customized.
+  </para>
+
+
+
+  <sect4 id="file-format-csv-import">
+  <title>The Text Import Druid</title>
+
+  <para>
+    After specifying the <quote><guilabel>Text File
+    Import</guilabel></quote> Format and a file name in the
+    <quote><guilabel>Import..</guilabel></quote> dialog, the text
+    import druid starts to guide you through the various
+    options.</para> <para>On the first screen of the druid specify the
+    basic format type (fixed width fields or fields separated by
+    specific characters), as well as the line numbers of the lines to
+    import.</para>
+  <figure id="file-format-csv-import-ex1">
+    <title>Selecting the basic format type</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/files-csv-import-ex1.png" format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the first page of the text import
+              druid.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>  
+  <sect5>
+  <title>The Text Import Druid for Separated Fields</title>
+  <orderedlist>
+  <listitem>
+  <figure id="file-format-csv-import-ex2">
+    <title>Separation Customization</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/files-csv-import-ex2.png" format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the second page of the text import
+              druid.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>  
+  <para>Select the appropriate field separator(s) in the 
+  <quote><guilabel>Separator</guilabel></quote> frame. Select the 
+  <quote><guilabel>See two separators as one</guilabel></quote>option if any sequence of 
+  separators are supposed to be considered a single separator. The 
+  <quote><guilabel>Example</guilabel></quote> frame gives immediate feedback on your choices:</para>
+  <figure id="file-format-csv-import-ex3">
+    <title>Separation Customization With Correct Selection</title>
+    <screenshot>
+	<mediaobject>
+           <imageobject>
+             <imagedata fileref="figures/files-csv-import-ex3.png" format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the second page of the text import
+              druid with the comma separator seleced.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>  
+  </listitem>
+  <listitem>
+  <para>Finally select the appropriate format for each input column:</para>
+  <figure id="file-format-csv-import-ex4">
+    <title>Selecting Formats</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/files-csv-import-ex4.png" format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the third page of the text import
+              druid.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>  
+<para>After selecting a column on the left select the appropriate format on the right. In the preview section at the bottom of the dialog, you can immediately see the effect of selecting that format. The following types of formats are available:</para>
+  <variablelist>
+    <varlistentry>
+      <term>
+      General
+      </term>
+      <listitem>
+      <para>This format will guess for each field value whether it is text, 
+      a number, a date, etc.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>
+      Numbers
+      </term>
+      <listitem>
+      <para>You can choose between various number formats. The following list presents 
+      just a short selection of those formats:</para>
+  <figure id="file-format-numberformats">
+    <title>Some Number Formats</title>
+    <screen>
+0
+0.00
+#,##0
+#,##0_);(#,##0)
+#,##0.00_);[Red](#,##0.00)
+    </screen>
+  </figure>
+  <para>There are also formats facilitating the use of scientific notation, 
+  see <xref linkend="file-format-scientificformats" />.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>
+      Currency Amounts
+      </term>
+      <listitem>
+     <para> You can choose between various currency formats. The following list presents 
+     just a short selection of those formats:</para>
+  <figure id="file-format-currenyformats">
+    <title>Some Currency Formats</title>
+    <screen>
+"$"#,##0
+"$"#,##0_);(#,##0)
+"$"#,##0.00_);[Red](#,##0.00)
+    </screen>
+  </figure>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>
+      Dates and Times
+      </term>
+      <listitem>
+      <para>You can choose between various date and time formats. Some of these formats will 
+      recognize combined date/time entries. The following list presents just a short 
+      selection of those formats:</para>
+  <figure id="file-format-dateformats">
+    <title>Some Date and Time Formats</title>
+    <screen>
+m/d/yy
+d-mmm-yyyy
+d-mm
+mmm/d
+mmm/ddd/yyyy
+mmmm-yyyy
+m/d/yyyy h:mm
+yyyy
+h:mm:ss AM/PM
+[h]:mm:ss
+    </screen>
+  </figure>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>
+      Percentages
+      </term>
+      <listitem>
+      <para>You can choose between various formats that recognize percentages. 
+      The following list presents just a short 
+      selection of those formats:</para>
+  <figure id="file-format-percentageformats">
+    <title>Some Percentage Formats</title>
+    <screen>
+0%
+0.00%
+    </screen>
+  </figure>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>
+      Fractions
+      </term>
+      <listitem>
+      <para>You can choose between a few formats that recognize fractions. 
+      The following list presents just a short 
+      selection of those formats:</para>
+  <figure id="file-format-fractionformats">
+    <title>Some Fraction Formats</title>
+    <screen>
+# ?/?
+# ??/??
+    </screen>
+  </figure>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>
+      Scientific Notation
+      </term>
+      <listitem>
+      <para>You can choose between a few formats that recognize numbers in scientific notation.. 
+      The following list presents just a short 
+      selection of those formats:</para>
+  <figure id="file-format-scientificformats">
+    <title>Some Scientific Formats</title>
+    <screen>
+0.00E+00
+##0.0E+0
+    </screen>
+  </figure>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>
+      Text
+      </term>
+      <listitem>
+      <para>If you want the importer to simply read the field value as text without 
+      attempting to interpret it in any way, use the following text format:</para>
+  <figure id="file-format-textformat">
+    <title>The Text Format</title>
+    <screen>
+@
+    </screen>
+  </figure>
+      </listitem>
+    </varlistentry>
+  </variablelist>
+  <para>More details on the various formats can be found in 
+    <xref linkend="file-format" />.</para>
+  </listitem>
+  <listitem><para>
+  Click the <quote><guibutton>Finish</guibutton></quote> button 
+  to complete importing the file.</para>
+  </listitem>
+  </orderedlist>
+  </sect5>
+  <sect5>
+  <title>The Text Import Druid for Fixed Width Fields</title>
+  <orderedlist>
+  <listitem>
+  <para>If you selected fixed width fields you are asked to specify the widths for
+  each field. Click the <quote><guibutton>Auto Column Discovery</guibutton></quote> button
+  to have <application>Gnumeric</application> try to determine the fields widths automatically.</para>
+  <figure id="file-format-csv-import-ex5">
+    <title></title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/files-csv-import-ex5.png" format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the third page of the text import
+              druid with fixed width customization.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>  
+  </listitem>
+  <listitem>
+  <para>Finally select the appropriate format for each input column as in 
+  <xref linkend="file-format-csv-import-ex4" />.</para>
+  </listitem>
+  <listitem><para>
+  Click the <quote><guibutton>Finish</guibutton></quote> button 
+  to complete importing the file.</para>
+  </listitem>
+  </orderedlist>
+  </sect5>
+  </sect4>
+
+
+
+
+</sect1>
+
+       

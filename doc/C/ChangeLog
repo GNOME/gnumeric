@@ -1,3 +1,24 @@
+2004-09-26  Adrian Custer <acuster@gnome.org>
+
+	* gnumeric.xml: Edit File chapter. Added files as entities.
+	* manual-usage.xml: Edit File chapter intro paragraph.
+	
+	* files-formats.xml: Added.
+	* files-textopen.xml: Added. Moved Text Import here.
+	* files-textsave.xml: Added. Moved Text Export here.
+	* files-email.xml: Added.
+	* files-ssconvert.xml: Added.
+	* files-autosave.xml: Deleted. Contents to config chapter.
+	* Makefile.am: Added and deleted files above.
+	* workbooks.xml: Added autosave section from files-autosave.xml.
+	
+	* files-overview.xml: Edits.
+	* files-formats.xml: Edits. Table and list of formats.
+	* files-opening.xml: Edits. How-to and list of formats.
+	* files-textopen.xml: Edits.
+	* files-saving.xml: Edits. How-to and list of formats.
+	* files-textsave.xml: Edits.
+
 2004-09-23  Adrian Custer <acuster@gnome.org>
 
 	* gnumeric.xml: Edit "More Help" chapter title.

@@ -40,10 +40,14 @@ entities =  \
      extending-overview.xml \
      extending-plugins.xml \
      extending-python.xml \
-     files-autosave.xml \
+     files-formats.xml \
+     files-email.xml \
      files-opening.xml \
      files-overview.xml \
      files-saving.xml \
+     files-ssconvert.xml \
+     files-textopen.xml \
+     files-textsave.xml \
      graphics-drawings.xml \
      graphics-images.xml \
      graphics-overview.xml \

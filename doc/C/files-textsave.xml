@@ -1,0 +1,99 @@
+<sect1 id="file-format-export-text">
+  <title>Exporting Text Files</title>
+
+  <para>
+    &gnum; can export files or file fragments that consist entirely of
+    text. Text files provide a basic, common format enabling programs
+    to share data.
+  </para>
+
+
+
+ <sect3 id="file-format-csv-export">
+  <title>The Text Export Druid</title>
+  <para>After specifying the <quote><guilabel>Text File Export</guilabel></quote> 
+  Format and a file name in the 
+  <quote><guilabel>Save as..</guilabel></quote> dialog, the text export 
+  druid starts to guide you through the various options:</para>
+  <orderedlist>
+  <listitem>
+  <para>Specify which sheets to export.</para>
+  <figure id="file-format-csv-export-ex1">
+    <title>Specifying which sheets to export</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/files-csv-export-ex1.png" format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the first page of the text export
+              druid.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>  
+  </listitem>
+  <listitem>
+
+  <para>
+    Choose the line terminator to use. You should select it based on
+    the platform you want the created file to be used on. Choose one
+    of several field separators and whether to quote all fields or
+    only as needed. The defaults create the standard Unix
+    <keycap>csv</keycap> format.
+  </para>
+
+  <figure id="file-format-csv-export-ex2">
+    <title>Specifying line terminators</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/files-csv-export-ex2.png" format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the second page of the text export druid.</phrase>
+            </textobject>
+           </mediaobject>
+
+    </screenshot>
+  </figure>  
+  </listitem>
+
+  <listitem>
+    <para>
+      Select <quote><guibutton>Finish</guibutton></quote> to finally
+      export the selected sheets and create the text file. The
+      standard <keycap>csv</keycap> output of <xref
+      linkend="file-format-dvi-ex1" /> is shown in <xref
+      linkend="file-format-csv-export-ex3" />.
+    </para>
+    <figure id="file-format-csv-export-ex3">
+      <title><keycap>csv</keycap> File</title>
+      <screen>
+,"Operating System",,,
+,DOS,Linux,SCO,
+January,"$1000.00 ","$900.00 ","$500.00 ",
+February,"$900.00 ","$2500.00 ","$300.00 ",
+March,"$800.00 ","$4100.00 ","$100.00 ",
+April,"$700.00 ","$5700.00 ",($100.00),
+May,"$600.00 ","$7300.00 ",($300.00),
+June,"$500.00 ","$8900.00 ",($500.00),
+July,"$400.00 ","$10500.00 ",($700.00),
+August,"$300.00 ","$12100.00 ",($900.00),
+September,"$200.00 ","$13700.00 ",($1100.00),
+October,"$100.00 ","$15300.00 ",($1300.00),
+November,"$0.00 ","$16900.00 ",($1500.00),
+December,($100.00),"$18500.00 ",($1700.00),
+,,,,
+Totals:,"$5400.00 ","$116400.00 ",($7200.00),
+,,,,
+    </screen>
+  </figure>
+  </listitem>
+</orderedlist>
+  </sect3>
+
+
+
+
+</sect1>

@@ -1,0 +1,19 @@
+<sect1 id="sect-files-email">
+  <title>Sending Files</title>
+
+  <para>
+    &gnum; can send files directly as attachments to an electronic
+    mail (email) message, as long as &gnum; is run in an environment
+    where it can access an Email client.
+  </para>
+
+  <para>
+    Todo: How to...
+  </para>
+
+  <para>
+    Todo: How to setup environment...
+  </para>
+
+</sect1>
+

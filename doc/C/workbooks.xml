@@ -54,7 +54,25 @@
       
     </para>
 
+    <para>
+      The AutoSave tool can save your workbook automatically at
+      specific intervals.  You can specify how often you want your
+      work to be saved by entering a number in the ``Minutes'' box.
+      If you check the ``Prompt before saving'' button on, Gnumeric
+      asks a confirmation before each automatic save.
+    </para>
+
+    <figure id="fig-workbooks-settings--autosave-dialog">
+      <title>The Auto Save Tool dialog</title>
+      <mediaobject>
+        <imageobject>
+	  <imagedata fileref="figures/dialog-autosave.png" format="PNG" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
   </sect2>
+
 
   <sect2 id="sect-workbooks-settings-autocorect">
     <title>Document Autocorrection Settings</title>

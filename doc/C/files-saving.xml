@@ -1,76 +1,78 @@
 <sect1 id="sect-files-saving">
     <title>Saving Files</title>
     
-    <para>There are several ways to save a file that is currently
-      open. If the file has been named and already exists (i.e., it is not
-      a new worksheet) the Save function will save the file to the
-      existing name. </para>
-    
-    <para>The Save procedure can be invoked several ways. It is
-      available in the Menubar from the 
-      <guimenu><accel>F</accel>ile</guimenu>/
-      <guimenuitem><accel>S</accel>ave</guimenuitem> menuitem
-	 (see <xref linkend="File-Menu" />). There
-      is also a toolbar <guibutton>Save</guibutton> (see <xref
-      linkend="std-toolbar" />).  All these methods are equivalent.
+    <para>
+      There are several ways to save a file that is currently
+      open. If the file already exists, &gnum; will simply overwrite
+      the file with the newer version. If the file is new, the first
+      time &gnum; goes to save the file it will invoke the
+      <interface>Save As...</interface> dialog to ask the user what to
+      name the file and what type of file to create. This dialog can
+      also be invoked at any time to save a new file with either a
+      different name or of a different type. 
     </para>
 
       <variablelist>
-	<title>Saving a file</title>
+	<title>Three alternative ways to save a file</title>
       <varlistentry>
-	  <term>Menubar</term>
+	  <term>Using the Menus</term>
 	  <listitem>
 	    <para> 
-	      <guimenu><accel>F</accel>ile</guimenu>/
-	      <guimenuitem><accel>S</accel>ave</guimenuitem>
+	      Select, in the <guimenu><accel>F</accel>ile</guimenu> menu, the
+	      <guimenuitem><accel>S</accel>ave</guimenuitem> menu item.
  	    </para>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
 	  <term>
-	    Standard Toolbar
+	    Using the Standard Toolbar
 	  </term>
 	  <listitem>
 	    <para>
+	      Click on the <guibutton>Save</guibutton> button:
 	      <guiicon>
 		<inlinemediaobject>
             <imageobject>
               <imagedata fileref="figures/button-save.png" format="PNG" />
             </imageobject>
             <textobject>
-              <phrase>An image of the save button.</phrase>
+              <phrase>An image of the file save button.</phrase>
             </textobject>
            </inlinemediaobject>
-		Save
 	      </guiicon>
 	    </para>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
 	  <term>
-	    Keyboard Shortcut
+	    Using a Keyboard Shortcut
 	  </term>
 	  <listitem>
 	    <para>
-	      <keycombo action="seq">
-		<keycombo action="simul">
-		  <keycap>Alt</keycap><keycap>f</keycap>
-		</keycombo>
-		<keycap>s</keycap>
-	      </keycombo>
+	      Type the combintation
+	      <keycombo>
+	        <keysym>Ctrl</keysym><keysym>s</keysym>
+	      </keycombo>,
+	      typing both keys simultaneously.
 	    </para>
 	  </listitem>
 	</varlistentry>
       </variablelist>
       
-    <para>To save new files, or to rename a file, the
-      <guimenuitem>Save As...</guimenuitem> is used. This will prompt
-      the user for a new filename and path for the file to be saved
-      as.
+    <para>
+      When saving new files, or when saving a new copy of the current
+      file, the <interface>File Save</interface> dialog must be
+      used. Once a file has been created, using the methods above will
+      only cause the saved file to be updated. The methods below will
+      open the <interface>File Save</interface> dialog.
     </para>
     
       <variablelist>
-	<title>Saving a file as..</title>
+	<title>
+	  Two alternative ways to open the <interface>File
+	  Save</interface> dialog.
+	</title>
+
 	<varlistentry>
 	  <term>Menubar</term>
 	  <listitem>
@@ -82,41 +84,165 @@
 	</varlistentry>
 	<varlistentry>
 	  <term>
-	    Standard Toolbar
-	  </term>
-	  <listitem>
-	    <para>
-	      <guiicon>
-		<inlinemediaobject>
-            <imageobject>
-              <imagedata fileref="figures/button-save.png" format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the save button.</phrase>
-            </textobject>
-           </inlinemediaobject>
-		Save
-	      </guiicon>
-	      This calls <guimenuitem>Save as...</guimenuitem> for new unnamed files. 
-	      To rename a file, the menu
-	      or keyboard shortcut needs to be used.
-	    </para>
-	  </listitem>
-	</varlistentry>
-	<varlistentry>
-	  <term>
 	    Keyboard Shortcut
 	  </term>
 	  <listitem>
 	    <para>
-	      <keycombo action="seq">
-		<keycombo action="simul">
-		  <keycap>Alt</keycap><keycap>f</keycap>
-		</keycombo>
-		<keycap>a</keycap>
-	      </keycombo>
+	      Type the combintation
+	      <keycombo>
+	        <keysym>Shift</keysym>
+		<keysym>Ctrl</keysym>
+		<keysym>s</keysym>
+	      </keycombo>,
+	      typing all three keys simultaneously.
 	    </para>
 	  </listitem>
 	</varlistentry>
       </variablelist>
+
+  <para>
+    Both methods will launch the <interface>File Save</interface>
+    dialog to allow the user to name the file, select a location (also
+    called a directory or a folder) for the file and choose a file
+    type. This dialog will also open automatically the first time a
+    new file is saved.
+  </para>
+
+
+  <sect2 id="file-format-save-dialog">
+    <title>Using the <interface>File Save</interface> dialog.</title>
+
+    
+    <para>
+      TODO:
+    </para>
+
+
+  </sect2>
+
+
+
+
+
+
+
+  <!-- Formats for saving files   *********************************  -->
+
+  <sect2 id="file-format-save-formats">
+    <title>The file formats which Gnumeric can write.</title>
+
+    <para>
+      &gnum; can write files in several formats used by other
+      programs.  The creation of files which consist of structured
+      text is described in <xref linkend="file-format-export-text"
+      />. The creation of Postscript and Portable Document Format
+      (PDF) files is done through the printing mechanism and is
+      described in <xref linkend="chapter-printing" />.&gnum; can also
+      export text data or HTML and XHTML tables through the clipboard
+      mechanism, as is explained in <xref
+      linkend="sect-movecopy-xclipboard"/>.
+      <!-- TODO: &gnum can also read databases directly. -->
+    </para> 
+
+    <note>
+      <para>
+        Most of these formats are provided by plugins, which are
+        independent, configurable modules. If a format described below
+        does not appear in the <interface>File Save</interface>
+        dialog, this may be because the appropriate plugin has not
+        been configured or started. This can be verified by examining
+        the list of plugins which are currently running in the
+        <interface>Plugin Manager</interface> dialog.
+      </para>
+
+      <para>
+        The <interface>Plugin Manager</interface> dialog lists the
+        plugins which are currently in use and provides a way to start
+        plugins which are currently disabled. The <interface>Plugin
+        Manager</interface> can be started by selecting, in the
+        <guimenu>Tools</guimenu> menu, the
+        <guimenuitem>Plug-ins...</guimenuitem> menu item; see <xref
+        linkend="sect-configuration-plugins" /> for more information.
+      </para>
+    </note>
+
+
+
+<!--    TABLE    TABLE    TABLE    TABLE    TABLE    TABLE    -->
+<table frame='all'><title>The file formats which &gnum; can create.</title>
+<tgroup cols='2' align='left' valign='top' colsep='1' rowsep='1'>
+       
+
+<thead>
+<row>
+  <entry align="left">Format</entry>
+  <entry align="left">Extension</entry>
+</row>
+</thead>
+<tbody>
+<row>
+  <entry><link linkend="file-format-gnumeric">Gnumeric</link></entry>
+  <entry><literal>.gnumeric</literal> / <literal>.gnm</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-csv">Comma Separated Values</link></entry>
+  <entry><literal>.csv</literal></entry> 
+  <entry>YES</entry>
+  <entry>YES</entry>
+</row>
+<row>
+  <entry><link linkend="file-format-dif">Data Interchange Format</link></entry>
+  <entry><literal>.dif</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-html">HTML</link></entry>
+  <entry><literal>.html</literal> / <literal>.htm</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-latex">LaTeX</link></entry>
+  <entry><literal>.tex</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-excel">Microsoft Excel</link></entry>
+  <entry><literal>.xls</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-ooo">OpenOffice.Org / StarOffice</link></entry>
+  <entry><literal>.sxc</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-ps">Postscript</link></entry>
+  <entry><literal>.ps</literal> / <literal>.eps</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-pdf">PDF</link></entry>
+  <entry><literal>.pdf</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-tab">Tab Separated Values</link></entry>
+  <entry><literal>.tsv</literal> / <literal>.tab</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-text">Text Formats</link></entry>
+  <entry><literal>.txt</literal> / <literal>.text</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-troff">TROFF</link></entry>
+  <entry><literal>.me</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-xhtml">XHTML</link></entry>
+  <entry><literal>.xhtml</literal> / <literal>.html</literal></entry> 
+</row>
+</tbody>
+</tgroup>
+</table>
+<!--    TABLE    TABLE    TABLE    TABLE    TABLE    TABLE    -->
+
+
+  </sect2>
+
+
 </sect1>
+
+

@@ -173,10 +173,12 @@
               <guilabel>File Opening and Saving</guilabel>
         </para>
         <para>
-          This chapter explains how to use files in
-          <application>Gnumeric</application> including how to save
-          the current file, how to change the file format of saved
-          files and how to open files from a different format.
+          This chapter explains how to use files in &gnum;. The
+          chapter provides an extensive description of the file
+          formats used by &gnum;. The chapter also explains how to
+          open files, import data from text files, save files, export
+          data to text files, send data to others via electronic mail,
+          and convert files from one format to another.
 	</para>
       </listitem>
 

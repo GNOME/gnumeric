@@ -1,0 +1,23 @@
+<sect1 id="sect-files-ssconvert">
+  <title>Converting Files</title>
+
+  <para>
+    &gnum; can convert files automatically without needing user
+    intervention. This allows a large number of files to be converted
+    using a script. &gnum; is distributed along with a program called
+    <application>ssconvert</application> which is the program used to
+    convert files automatically. All of the file formats supported by
+    &gnum; can be used except for the Postscript and PDF file formats
+    which operate through the printing system.
+  </para>
+
+  <para>
+    Todo: How to...
+  </para>
+
+  <para>
+    Todo: How to setup environment...
+  </para>
+
+</sect1>
+

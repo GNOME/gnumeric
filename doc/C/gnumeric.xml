@@ -7,6 +7,7 @@
   <!ENTITY date "May 2004">
   <!ENTITY file-format-open "Excel 95/97/2000, gnumeric XML, HTML, 
            comma separated CSV, Applix,  Lotus 1-2-3, GNU oleo">
+  <!ENTITY gnum "<application>Gnumeric</application>">
 
 
   <!ENTITY legal                SYSTEM "legal.xml">
@@ -48,9 +49,13 @@
   <!ENTITY graphics-drawings    SYSTEM "graphics-drawings.xml">
 
   <!ENTITY files-overview       SYSTEM "files-overview.xml">
+  <!ENTITY files-formats        SYSTEM "files-formats.xml">
   <!ENTITY files-opening        SYSTEM "files-opening.xml">
+  <!ENTITY files-textopen       SYSTEM "files-textopen.xml">
   <!ENTITY files-saving         SYSTEM "files-saving.xml">
-  <!ENTITY files-autosave       SYSTEM "files-autosave.xml">
+  <!ENTITY files-textsave       SYSTEM "files-textsave.xml">
+  <!ENTITY files-email          SYSTEM "files-email.xml">
+  <!ENTITY files-ssconvert      SYSTEM "files-ssconvert.xml">
 
   <!ENTITY printing             SYSTEM "printing.xml">
 
@@ -591,19 +596,25 @@
 
 
   <chapter id="chapter-files">
-    <title>File Opening and Saving</title>
+    <title>Working with Files</title>
 
     <para>
-      This chapter explains how to use files in
-      <application>Gnumeric</application> including how to save the
-      current file, how to change the file format of saved files and
-      how to open files from a different format.
+      This chapter explains how to use files in &gnum;. The chapter
+      provides an extensive description of the file formats used by
+      &gnum;. The chapter also explains how to open files, import data
+      from text files, save files, export data to text files, send
+      data to others via electronic mail, and convert files from one
+      format to another.
     </para>
 
     &files-overview;
+    &files-formats;
     &files-opening;
+    &files-textopen;
     &files-saving;
-    &files-autosave;
+    &files-textsave;
+    &files-email;
+    &files-ssconvert;
 
   </chapter>
 
