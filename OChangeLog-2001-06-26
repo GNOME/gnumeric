@@ -1,5 +1,7 @@
 2001-02-22  Jody Goldberg <jgoldberg@home.com>
 
+	* src/expr.c (eval_expr_real) : fix old typo.
+
 	* src/commands.c (cmd_unmerge_cells_init) : add simple test to avoid
 	  merging singletons.
 	(cmd_unmerge_cells) : check for failure.

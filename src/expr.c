@@ -735,7 +735,7 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 			a = expr_implicit_intersection (pos, a);
 			if (a == NULL)
 				return value_new_error (pos, gnumeric_err_VALUE);
-		} else if (a->type == VALUE_CELLRANGE) {
+		} else if (a->type == VALUE_ARRAY) {
 			a = expr_array_intersection (a);
 			if (a == NULL)
 				return value_new_error (pos, gnumeric_err_VALUE);
