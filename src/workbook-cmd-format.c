@@ -21,6 +21,30 @@
 #include "sheet.h"
 #include "commands.h"
 
+/* Adds borders to all the selected regions on the sheet.
+ * FIXME: This is a little more simplistic then it should be, it always
+ * removes and/or overwrites any borders. What we should do is
+ * 1) When adding -> don't add a border if the border is thicker than 'THIN'
+ * 2) When removing -> don't remove unless the border is 'THIN'
+ */
+void
+workbook_cmd_mutate_borders (WorkbookControl *wbc, Sheet *sheet, gboolean add)
+{
+	StyleBorder *borders [STYLE_BORDER_EDGE_MAX];
+	int i;
+
+	for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; ++i)
+		if (i <= STYLE_BORDER_RIGHT)
+			borders[i] = style_border_fetch (
+				add ? STYLE_BORDER_THIN : STYLE_BORDER_NONE,
+				style_color_black (), style_border_get_orientation (i));
+		else
+			borders[i] = NULL;
+								  
+	cmd_format (wbc, sheet, NULL, borders,
+		    add ? _("Add Borders") : _("Remove borders"));
+}
+
 struct closure_colrow_resize {
 	gboolean	 is_cols;
 	ColRowIndexList *selection;

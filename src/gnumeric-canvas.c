@@ -35,43 +35,6 @@
 
 static GnomeCanvasClass *gcanvas_parent_class;
 
-static void
-gnm_canvas_destroy (GtkObject *object)
-{
-	GnumericCanvas *gcanvas;
-
-	/* Add shutdown code here */
-	gcanvas = GNUMERIC_CANVAS (object);
-
-	if (GTK_OBJECT_CLASS (gcanvas_parent_class)->destroy)
-		(*GTK_OBJECT_CLASS (gcanvas_parent_class)->destroy)(object);
-}
-
-/*
- * Adds borders to all the selected regions on the sheet.
- * FIXME: This is a little more simplistic then it should be, it always
- * removes and/or overwrites any borders. What we should do is
- * 1) When adding -> don't add a border if the border is thicker than 'THIN'
- * 2) When removing -> don't remove unless the border is 'THIN'
- */
-static void
-borders_mutate (WorkbookControlGUI *wbcg, Sheet *sheet, gboolean add)
-{
-	StyleBorder *borders[STYLE_BORDER_EDGE_MAX];
-	int i;
-
-	for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; ++i)
-		if (i <= STYLE_BORDER_RIGHT)
-			borders[i] = style_border_fetch (
-				add ? STYLE_BORDER_THIN : STYLE_BORDER_NONE,
-				style_color_black (), style_border_get_orientation (i));
-		else
-			borders[i] = NULL;
-								  
-	cmd_format (WORKBOOK_CONTROL (wbcg), sheet, NULL, borders,
-		    add ? _("Add Borders") : _("Remove borders"));
-}
-
 /*
  * key press event handler for the gnumeric sheet for the sheet mode
  */
@@ -144,11 +107,12 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 			fmt = "#,##0.00";
 			desc = _("Format as alternative Number"); /* FIXME: Better descriptor */
 			break;
+
 		case GDK_ampersand :
-			borders_mutate (wbcg, sheet, TRUE);
+			workbook_cmd_mutate_borders (WORBOOK_CONTROL (wbc), sheet, TRUE);
 			return TRUE;
 		case GDK_underscore :
-			borders_mutate (wbcg, sheet, FALSE);
+			workbook_cmd_mutate_borders (WORBOOK_CONTROL (wbc), sheet, TRUE);
 			return TRUE;
 		}
 
@@ -668,9 +632,6 @@ gnm_canvas_class_init (GnumericCanvasClass *Class)
 	canvas_class = (GnomeCanvasClass *) Class;
 
 	gcanvas_parent_class = gtk_type_class (gnome_canvas_get_type ());
-
-	/* Method override */
-	object_class->destroy = gnm_canvas_destroy;
 
 	widget_class->realize		   = gnm_canvas_realize;
 	widget_class->unrealize		   = gnm_canvas_unrealize;
@@ -1329,9 +1290,9 @@ gnm_canvas_handle_motion (GnumericCanvas *gcanvas,
 
 /* TODO : All the slide_* members of GnumericCanvas really aught to be in
  * SheetControlGUI, most of these routines also belong there.  However, since
- * the primary point of access is via the GSheet and SCG is very large already
- * I'm leaving them here for now.  Move them when we return to investigate
- * how to do reverse scrolling for pseudo-adjacent panes.
+ * the primary point of access is via GnumericCanvas and SCG is very large
+ * already I'm leaving them here for now.  Move them when we return to
+ * investigate how to do reverse scrolling for pseudo-adjacent panes.
  */
 void
 gnm_canvas_slide_init (GnumericCanvas *gcanvas)

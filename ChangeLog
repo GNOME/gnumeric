@@ -1,5 +1,12 @@
 2001-07-30  Jody Goldberg <jgoldberg@home.com>
 
+	* src/gnumeric-canvas.c (gnm_canvas_key_mode_sheet) : Use
+	  workbook_cmd_mutate_borders.
+	* src/workbook-cmd-format.c (workbook_cmd_mutate_borders) : moved
+	  from gnumeric_canvas.
+
+2001-07-30  Jody Goldberg <jgoldberg@home.com>
+
 	* src/item-bar.c (item_bar_resize_stop) : renamed from
 	  item_bar_end_resize to be consistent.
 

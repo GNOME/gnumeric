@@ -4,6 +4,8 @@
 #include "gnumeric.h"
 #include "workbook-control-gui.h"
 
+void workbook_cmd_mutate_borders	   (WorkbookControl *wbc,
+					    Sheet *sheet, gboolean add);
 void workbook_cmd_resize_selected_colrow   (WorkbookControl *wbc, gboolean is_cols,
 					    Sheet *sheet, int new_size_pixels);
 
