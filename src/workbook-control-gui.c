@@ -3285,10 +3285,9 @@ workbook_setup_status_area (WorkbookControlGUI *wbcg)
 static int
 show_gui (WorkbookControlGUI *wbcg)
 {
-  
 	WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
-	int sx = MAX (gdk_screen_width  () - 64, 600);
-	int sy = MAX (gdk_screen_height () - 64, 200);
+	int sx = MAX (gdk_screen_width  (), 600);
+	int sy = MAX (gdk_screen_height (), 200);
 	
 	/* Set grid size to preferred width */
 	if (wbv && (wbv->preferred_width > 0 || wbv->preferred_height > 0)) {

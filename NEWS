@@ -33,6 +33,7 @@ Jon Kåre:
 Juan Pablo Mendoza:
 	* Improve col and row sizing when cloning a cell.
 	* Catch many bugs with merged regions.
+	* Bug fix for supporting maximized windows.
 
 Morten:
 	* Changed a large number of dirty diapers.

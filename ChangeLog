@@ -1,3 +1,8 @@
+2001-05-12  Jody Goldberg <jgoldberg@home.com>
+	From Juan Pablo Mendoza <pablo_juan@yahoo.com>
+
+	* src/workbook-control-gui.c (show_gui) : remove -64 limit.
+
 2001-05-11  Jody Goldberg <jgoldberg@home.com>
 
 	* src/application.c (application_real_time_auto_expr_recalc) : new
