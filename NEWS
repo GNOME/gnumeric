@@ -1,5 +1,9 @@
 Gnumeric 1.3.2
 
+Emmanuel Pacaud:
+
+	* Add logarithmic mapping support to xy plots
+
 Harald Ashburner:
 	* Updates for the option pricers.
 

@@ -65,9 +65,32 @@ GSList const *gog_axis_contributors	  (GogAxis *axis);
 void	      gog_axis_clear_contributors (GogAxis *axis);
 void	      gog_axis_bound_changed	  (GogAxis *axis, GogObject *contrib);
 
-gboolean      gog_axis_map_init 	  (GogAxis *axis);
-double	      gog_axis_map 		  (GogAxis *axis, double x);
-void 	      gog_axis_map_destroy	  (GogAxis *axis);
+typedef struct _GogAxisMapDesc GogAxisMapDesc;
+
+typedef struct {
+	GogAxis		*axis;
+	GogAxisMapDesc	const *desc;
+	gpointer	 data;
+} GogAxisMap;
+
+struct _GogAxisMapDesc {
+	double 		(*map) (GogAxisMap *map, double value);
+	gboolean 	(*init) (GogAxisMap *map);
+	void		(*destroy) (GogAxisMap *map);
+	void		(*auto_bound) (GogAxis *axis, 
+				       double minimum, double maximum,
+				       double *bound);
+	void		(*calc_ticks) (GogAxis *axis,
+				       gboolean draw_major,
+				       gboolean draw_minor,
+				       gboolean draw_labels);
+	char const	*name;
+	char const	*description;
+};
+
+GogAxisMap*   gog_axis_map_new	 	  (GogAxis *axis);
+double	      gog_axis_map 		  (GogAxisMap *map, double x);
+void 	      gog_axis_map_free		  (GogAxisMap *map);
 
 G_END_DECLS
 

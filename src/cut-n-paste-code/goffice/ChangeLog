@@ -1,3 +1,27 @@
+2004-07-28  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* graph/gog-axis-prefs.glade: HIGification.
+	* graph/gog-axis.c (get_adjusted_tick_array): new.
+	(map_[discrete,linear,log]_init): new. Init for map functions.
+	(map_[discrete,linear,log]): new. Map data to visible plot area.
+	(map_[discrete,linear,log]_auto_bound): new. Calculate auto bounds and
+	tick spacing.
+	(map_[discrete,linear,log]_calc_ticks): new. Calculate position of
+	major ticks,minor ticks and labels.
+	(gog_axis_map_new),
+	(gog_axis_map),
+	(gog_axis_map_free): new. For use in plot view rendering functions.
+	(gog_axis_set_ticks): new. Put tick and label positions in axis->ticks.
+	(gog_axis_auto_bound),
+	(gog_axis_calc_ticks): new.
+	(gog_axis_set_property): check if update or calc_ticks is needed.
+	(gog_axis_update): makes use of gog_axis_set_ticks and
+	gog_axis_auto_bound.
+	(gog_axis_editor): hide map combobox if axis is discrete.
+	(gog_axis_view_render): use axis->ticks for rendering.
+	* graph/plugins/plot_xy/gog-xy.c (gog_xy_view_render): use new map
+	functions.					       
+	
 2004-07-22  Christopher James Lahey  <clahey@ximian.com>
 
 	* libpresent/Makefile.am (libgoffice_libpresent_la_SOURCES): Added
