@@ -1,3 +1,20 @@
+gnumeric (1.1.20-2) unstable; urgency=low
+
+  * [doc/C/gnumeric.1] Fixed the incorrect section argument which caused it to
+    be installed with a bogus filename. (Closes: #207705)
+  * [debian/control]
+    * Added build dependency on python-gtk2-dev for pygobject so the Python
+      plugins are built again. (Closes: #208880)
+    * Corrected the description of gnumeric-doc. (Closes: #207423)
+    * As yelp is the only reasonable viewer for the DocBook XML format which
+      is now used for the documentation, up gnumeric-doc's dependency on it to
+      Recommends: .
+    * Fixed permissions of the buildinfo file.
+    * Updated Standards-Version.
+  * [debian/README] Updated.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sat,  6 Sep 2003 17:24:31 +0200
+
 gnumeric (1.1.20-1) unstable; urgency=low
 
   * New upstream release. Fixed issues include
