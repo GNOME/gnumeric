@@ -34,6 +34,7 @@
 typedef struct 
 {
 	CharmapSelector *charmap_selector;
+	GtkWidget	*charmap_label;
 	GList *openers;
 } file_format_changed_cb_data;
 
@@ -125,10 +126,11 @@ file_format_changed_cb (GtkOptionMenu *omenu_format,
 			file_format_changed_cb_data *data)
 {
 	GnmFileOpener *fo = g_list_nth_data (data->openers,
-					     gtk_option_menu_get_history (omenu_format));
-	charmap_selector_set_sensitive (data->charmap_selector, 
-				       fo != NULL && 
-				       gnm_file_opener_is_encoding_dependent (fo));
+		gtk_option_menu_get_history (omenu_format));
+	gboolean is_sensitive = fo != NULL && gnm_file_opener_is_encoding_dependent (fo);
+
+	charmap_selector_set_sensitive (data->charmap_selector,  is_sensitive);
+	gtk_widget_set_sensitive (data->charmap_label,  is_sensitive);
 }
 
 
@@ -144,7 +146,7 @@ gui_file_open (WorkbookControlGUI *wbcg)
 	GtkOptionMenu *omenu;
 	GtkWidget *format_chooser;
 	GtkWidget *charmap_selector;
-	GtkWidget *box;
+	GtkWidget *box, *label;
 	GnmFileOpener *fo = NULL;
 	gchar const *file_name;
 	gchar const *encoding;
@@ -164,6 +166,7 @@ gui_file_open (WorkbookControlGUI *wbcg)
 	/* Make charmap chooser */
 	charmap_selector = charmap_selector_new ();
 	data.charmap_selector = CHARMAP_SELECTOR(charmap_selector);
+	data.charmap_label = gtk_label_new_with_mnemonic (_("Character _encoding:")),
 	
 	/* Pack it into file selector */
 	fsel = GTK_FILE_SELECTION (gtk_file_selection_new (_("Load file")));
@@ -173,16 +176,19 @@ gui_file_open (WorkbookControlGUI *wbcg)
 	gtk_table_attach (GTK_TABLE (box),
 			  format_chooser,
 			  1, 2, 0, 1, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 5, 2);
-	gtk_table_attach (GTK_TABLE (box),
-                          gtk_label_new (_("File format:")),
+	label = gtk_label_new_with_mnemonic (_("File _type:")),
+	gtk_table_attach (GTK_TABLE (box), label,
 			  0, 1, 0, 1, GTK_SHRINK | GTK_FILL, GTK_SHRINK, 5, 2);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), format_chooser);
+
         gtk_table_attach (GTK_TABLE (box),
                           charmap_selector,
 			  1, 2, 1, 2, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 5, 2);
-	gtk_table_attach (GTK_TABLE (box),
-                          gtk_label_new (_("Character encoding:")),
+	gtk_table_attach (GTK_TABLE (box), data.charmap_label,
 			  0, 1, 1, 2, GTK_SHRINK | GTK_FILL, GTK_SHRINK, 5, 2);
 	gtk_box_pack_start (GTK_BOX (fsel->action_area), box, FALSE, TRUE, 0);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (data.charmap_label),
+				       charmap_selector);
 
 	data.openers = openers;
 	g_signal_connect (G_OBJECT (omenu), "changed",

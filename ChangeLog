@@ -6,6 +6,12 @@
 
 2003-05-13  Jody Goldberg <jody@gnome.org>
 
+	* src/gui-file.c (gui_file_open) : add mnemonics for the type and
+	  encoding selector.
+	(file_format_changed_cb) : desensitize the label as well as the menu.
+
+2003-05-13  Jody Goldberg <jody@gnome.org>
+
 	* src/pattern.c (gnumeric_pattern_get_stipple) : fence post.
 
 2003-05-13  Morten Welinder  <terra@gnome.org>

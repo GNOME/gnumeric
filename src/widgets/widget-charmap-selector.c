@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * A charmap selector widget.  
  *
@@ -189,8 +190,6 @@ typedef struct {
 typedef CharmapSelector Cs;
 typedef CharmapSelectorClass CsClass;
 
-static GtkHBoxClass *cs_parent_class;
-
 /* Signals we emit */
 enum {
 	CHARMAP_CHANGED,
@@ -202,17 +201,17 @@ static guint cs_signals[LAST_SIGNAL] = { 0 };
 static char const *
 get_locale_encoding_name (void) 
 {
-		char const *locale_encoding;
-		CharsetInfo const *charset_trans = charset_trans_array;
-		
-		g_get_charset (&locale_encoding);
-		while (charset_trans->lgroup != LG_LAST) {
-			if (0 == g_ascii_strcasecmp
-			    (charset_trans->charset_name, locale_encoding))
-				return (_(charset_trans->charset_title));
-			charset_trans++;
-		}
-		return locale_encoding;
+	char const *locale_encoding;
+	CharsetInfo const *charset_trans = charset_trans_array;
+
+	g_get_charset (&locale_encoding);
+	while (charset_trans->lgroup != LG_LAST) {
+		if (0 == g_ascii_strcasecmp
+		    (charset_trans->charset_name, locale_encoding))
+			return (_(charset_trans->charset_title));
+		charset_trans++;
+	}
+	return locale_encoding;
 }
 
 static void
@@ -243,6 +242,13 @@ set_menu_to_default (CharmapSelector *cs)
 	gnumeric_option_menu_set_history (cs->encodings, &sel);
 }
 
+static gboolean
+cs_mnemonic_activate (GtkWidget *w, gboolean group_cycling)
+{
+	CharmapSelector *cs = CHARMAP_SELECTOR (w);
+	gtk_widget_grab_focus (GTK_WIDGET (cs->encodings));
+	return TRUE;
+}
 
 static void
 cs_init (CharmapSelector *cs)
@@ -307,25 +313,15 @@ cs_init (CharmapSelector *cs)
 }
 
 static void
-cs_destroy (GtkObject *object)
+cs_class_init (GtkWidgetClass *widget_klass)
 {
-/* 	CharmapSelector *cs = CHARMAP_SELECTOR (object); */
-
-	((GtkObjectClass *)cs_parent_class)->destroy (object);
-}
-
-static void
-cs_class_init (GtkObjectClass *klass)
-{
-	klass->destroy = cs_destroy;
-
-	cs_parent_class = g_type_class_peek (gtk_hbox_get_type ());
+	widget_klass->mnemonic_activate = cs_mnemonic_activate;
 
 	cs_signals[CHARMAP_CHANGED] =
 		gtk_signal_new (
 			"charmap_changed",
 			GTK_RUN_LAST,
-			GTK_CLASS_TYPE (klass),
+			GTK_CLASS_TYPE (widget_klass),
 			GTK_SIGNAL_OFFSET (CharmapSelectorClass, 
 					   charmap_changed),
 			gtk_marshal_NONE__POINTER,
@@ -338,15 +334,11 @@ GSF_CLASS (CharmapSelector, charmap_selector,
 GtkWidget *
 charmap_selector_new (void)
 {
-	GtkWidget *w;
-
-	w = gtk_type_new (CHARMAP_SELECTOR_TYPE);
-	return w;
+	return g_object_new (CHARMAP_SELECTOR_TYPE, NULL);
 }
 
-
 gchar const *
-charmap_selector_get_encoding     (CharmapSelector *cs)
+charmap_selector_get_encoding (CharmapSelector *cs)
 {
 	GSList *selection;
 	gint cnt = 0;
@@ -384,11 +376,4 @@ charmap_selector_set_sensitive (CharmapSelector *cs, gboolean sensitive)
 	
 	gtk_widget_set_sensitive (GTK_WIDGET(cs->encodings), sensitive);
 }
-
-
-
-
-
-
-
 

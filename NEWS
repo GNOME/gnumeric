@@ -6,6 +6,7 @@ Andreas:
 Jody:
 	* Set alwaysCalc flag when xls exporting dynamic dependencies.
 	* Fix HIG-ification of validation page in fmt dialog
+	* Add some mnemonics to the new and improved file open dialog.
 
 Morten:
 	* New function COLUMNNUMBER.
