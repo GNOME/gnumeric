@@ -59,7 +59,7 @@ sc_cellname_to_coords (const char *cellname, int *col, int *row)
 		int ofs = toupper((unsigned char)*cellname) - 'A';
 		if (ofs < 0 || ofs > 25)
 			goto err_out;
-		*col = (mult * 26) + ofs;
+		*col = ((mult + 1) * 26) + ofs;
 		cellname++;
 	}
 

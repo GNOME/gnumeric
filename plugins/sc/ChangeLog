@@ -1,3 +1,8 @@
+2000-05-20  Jeff Garzik  <jgarzik@mandrakesoft.com>
+
+	* sc.c (sc_cellname_to_coords): Fix one-off bug in cell-name-to-
+	column conversion code.
+
 2000-05-09  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.53
