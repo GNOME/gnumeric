@@ -1,3 +1,7 @@
+2003-03-19  Guntupalli Karunakar  <karunakar@freedomink.org>
+
+	* configure.in: Added "ml" in ALL_LINGUAS
+
 2003-03-14  Jody Goldberg <jody@gnome.org>
 
 	* src/gutils.h (GNM_SIZEOF_ARRAY) : delete and use G_N_ELEMENTS
