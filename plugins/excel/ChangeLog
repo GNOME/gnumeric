@@ -1,3 +1,16 @@
+2000-06-21  Jon K Hellan  <hellan@acm.org>
+
+	* ms-excel-write.c (palette_put_defaults): Ensure that black with
+	index 8 can't be swapped out.
+	(fixup_fill_colors): Use index 8 instead of 0 for black in
+	foreground. Excel is unable to open the cell format dialog for
+	cells where foreground pattern color or border color is index 0.
+	(build_xf_data): Borders: Use index 8 instead of 0 for black.
+
+	* ms-excel-read.c (ms_excel_read_cell): Add more references to BIFF
+	documentation.
+	(ms_excel_read_workbook): Ditto
+
 2000-06-20  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_externname) : Catch external names that

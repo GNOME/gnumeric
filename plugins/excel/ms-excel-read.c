@@ -2964,6 +2964,7 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 		}
 		break;
 	}
+	/* See: S59D9D.HTM */
 	case BIFF_LABEL:
 	{
 		char *label;
@@ -2977,7 +2978,7 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
  		ms_excel_read_formula (q, sheet);
 		break;
 
-	case BIFF_LABELSST:
+	case BIFF_LABELSST: /* See: S59D9E.HTM */
 	{
 		guint32 const idx = MS_OLE_GET_GUINT32 (q->data + 6);
 
@@ -4047,6 +4048,7 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 					"dates will be incorrect\n");
 			break;
 
+		/* See: S59E17.HTM */
 		case BIFF_WINDOW1 : /* 0 NOT 1 */
 			if (q->length >= 16) {
 #if 0

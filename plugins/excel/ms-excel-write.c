@@ -546,6 +546,8 @@ log_put_color (guint c, gboolean was_added, gint index, const char *tmpl)
 
 /**
  * Put Excel default colors to palette table
+ *
+ * Ensure that black with index 8 can't be swapped out.
  **/
 static void
 palette_put_defaults (ExcelWorkbook *wb)
@@ -561,7 +563,8 @@ palette_put_defaults (ExcelWorkbook *wb)
 				   GUINT_TO_POINTER (num), FALSE,
 				   (AfterPutFunc) log_put_color,
 				   "Default color %d - 0x%6.6x\n");
-		wb->pal->entry_in_use[i] = FALSE;
+		wb->pal->entry_in_use[i] =
+			(i == PALETTE_ALSO_BLACK) ? TRUE : FALSE;
 	}
 }
 
@@ -1724,6 +1727,20 @@ border_type_to_excel (StyleBorderType btype, MsBiffVersion ver)
  * bg(file) = 1 as black (=0) background. Gnumeric displays background
  * as white, since fg(file) = 0.  But I'll leave this ugliness in for
  * now.
+ *
+ * 2000-06-21 Jon Kåre Hellan
+ * A user reported that Excel wouldn't open the cell format dialog of cells
+ * exported from Gnumeric. This was due to our handling of black.
+ * We exported cells with black pattern foreground and white background,
+ * unless something else had been explicitly selected. We used fg/bg 0/1
+ * (PALETTE_BLACK/PALETTE_WHITE). Exporting border colors as palette index 0
+ * resulted in the same problem. Excel renders the cells as we intend, but
+ * refuses to open the cell format dialog.
+ *
+ * Excel apparently wants 8 (PALETTE_ALSO_BLACK) for black in foreground and
+ * border. (Of course - most of the time it uses autocolors.) On the other
+ * hand, cell format dialog can't be shown when 8 is used for background.
+ * For fonts, it looks like Excel doesn't care.
  **/
 static void
 fixup_fill_colors (BiffXFData *xfd)
@@ -1734,11 +1751,11 @@ fixup_fill_colors (BiffXFData *xfd)
 	    && ((xfd->pat_foregnd_col != PALETTE_BLACK)
 		|| (xfd->pat_backgnd_col != PALETTE_BLACK))) {
 		c = xfd->pat_backgnd_col;
-		if (c == PALETTE_BLACK)
-			c = PALETTE_ALSO_BLACK;
 		xfd->pat_backgnd_col = xfd->pat_foregnd_col;
 		xfd->pat_foregnd_col = c;
 	}
+	if (xfd->pat_foregnd_col == PALETTE_BLACK)
+		xfd->pat_foregnd_col = PALETTE_ALSO_BLACK;
 }
 
 /**
@@ -1845,7 +1862,7 @@ build_xf_data (ExcelWorkbook *wb, BiffXFData *xfd, MStyle *st)
 	StyleColor *back_color;
 	guint pattern_pal_color;
 	guint back_pal_color;
-	guint c;
+	gint c;
 	int i;
 
 	memset (xfd, 0, sizeof *xfd);
@@ -1872,14 +1889,18 @@ build_xf_data (ExcelWorkbook *wb, BiffXFData *xfd, MStyle *st)
 	/* Borders */
 	for (i = STYLE_TOP; i < STYLE_ORIENT_MAX; i++) {
 		xfd->border_type[i]  = STYLE_BORDER_NONE;
-		xfd->border_color[i] = PALETTE_BLACK;
+		xfd->border_color[i] = 0;
 		b = mstyle_get_border (st, MSTYLE_BORDER_TOP + i);
 		if (b) {
 			xfd->border_type[i] = b->line_type;
 			if (b->color) {
-				c = style_color_to_int (b->color);
-				xfd->border_color[i]
-					= palette_get_index (wb, c);
+				c = palette_get_index (
+					wb, style_color_to_int (b->color));
+				/* Excel doesn't want index 0 for black in
+				 * borders */
+				if (c == PALETTE_BLACK)
+					c = PALETTE_ALSO_BLACK;
+				xfd->border_color[i] = c;
 			}
 
 		}
