@@ -1,3 +1,53 @@
+2000-09-20  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-edit.c (workbook_start_editing_at_cursor) : We always
+	  create an in canvas edit item, but sometimes we jump the focus to
+	  the status line.
+
+	* src/value.c (value_new_cellrange_r) : set the sheet for both
+	  cell_refs.
+
+	* src/sheet-object-widget.c (checkbox_set_expr) : Fix.
+
+	* src/graph-series.c (graph_series_seq_scalar) : No need to handle
+	  headers here.
+	(graph_series_seq_date) : or here.
+	(graph_series_seq_string) : or here.
+	(graph_series_eval) : Handle idl rename.
+	(series_get_name) : No need to do this here.
+	(impl_vector_scalar_value) : No need to calculate label.
+	(impl_vector_date_value) : Ditto.
+	(impl_vector_string_value) : Ditto.
+	(graph_series_set_expr) : Correctly register and un register deps.
+	(graph_series_new) : series names are handled at a higher level.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet) : Restore the
+	  behaviour of F2.
+
+	* src/expr.c (cellrange_relocate) : BE smarter about checking for
+	  potential 3d references.
+
+	* idl/gnumeric-graphs.idl : Rename routines using lowercase underscore
+	  rather than StuddyCaps.
+
+	* src/workbook.c (workbook_expr_relocate) : Handle dependents.
+
+	* src/position.c (eval_pos_init_dep) : new function.
+	
+	* configure.in : Prepare for release.
+	  Update req for gnome-print to 0.23
+	  Update req for libglade to 0.14
+	  Comment out pspell.
+	  Leave perl disabled.
+
+	* gnumeric.spec.in : Ditto.
+	* README : Ditto.
+
+2000-09-19  Jody Goldberg <jgoldberg@home.com>
+
+	* src/xml-io.c (natural_order_cm) : Using col_info and row_info is
+	  deprecated.
+
 2000-09-20  Kenneth Christiansen  <kenneth@gnu.org>
 
 	* gnumeric.spec.in: Updated for new release.
