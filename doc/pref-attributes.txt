@@ -123,8 +123,8 @@ Workbook
 	* Update remote references during calc (boolean)
 	* Keep only as much precision as displayed (boolean)
 	* Use 1904 date system (boolean)
-		- converts dates
-		- seems to indicate use of a 1904-2004 sliding date window
+		- converts dates when selected/unselected
+		- stores dates relative to 1904 when true
 	* Accept labels in formulae (boolean)
 		- converts labels to cell references
 	* Save external link values (boolean)
