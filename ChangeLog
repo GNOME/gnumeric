@@ -8,11 +8,11 @@
 	(value_area_get_height) : rip out the clipping.  This slows graphs
 	  but fixes countblank, cols, and rows.
 
-	* src/sheet-object-widget.c (sheet_widget_checkbox_construct_with_range) :
+	* src/sheet-object-widget.c (sheet_widget_checkbox_construct_with_ref) :
 	  remove attempt to assign the corner of the current selection.
 	(sheet_widget_checkbox_clone) : be safer when dealing with checkboxes
 	  without expressions.
-	(sheet_widget_checkbox_get_ref) : ditto.
+	(sheet_widget_checkbox_get_ref) : fix..
 
 	* src/sheet-object.c (sheet_object_clone_sheet) : more protection.
 

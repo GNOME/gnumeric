@@ -547,10 +547,9 @@ checkbox_debug_name (Dependent const *dep, FILE *out)
 static DEPENDENT_MAKE_TYPE (checkbox, NULL)
 
 static void
-sheet_widget_checkbox_construct_with_range (SheetObjectWidget *sow,
-					    Sheet *sheet,
-					    const Range *range,
-					    const gchar *label)
+sheet_widget_checkbox_construct_with_ref (SheetObjectWidget *sow,
+					  CellRef const *ref,
+					  char const *label)
 {
 	static int counter = 0;
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (sow);
@@ -564,21 +563,16 @@ sheet_widget_checkbox_construct_with_range (SheetObjectWidget *sow,
 	swc->dep.sheet = NULL;
 	swc->dep.flags = checkbox_get_dep_type ();
 
-	if (range != NULL && sheet != NULL) {
-		CellRef ref;
-		ref.sheet = sheet;
-		ref.col = range->start.col;
-		ref.row = range->start.row;
-		ref.col_relative = ref.row_relative = FALSE;
-		expr = expr_tree_new_var (&ref);
-	}
+	if (ref != NULL)
+		expr = expr_tree_new_var (ref);
+
 	swc->dep.expression = expr;
 }
 
 static void
 sheet_widget_checkbox_construct (SheetObjectWidget *sow)
 {
-	sheet_widget_checkbox_construct_with_range (sow, NULL, NULL, NULL);
+	sheet_widget_checkbox_construct_with_ref (sow, NULL, NULL);
 }
 
 static void
@@ -598,31 +592,46 @@ sheet_widget_checkbox_destroy (GtkObject *obj)
 	(*sheet_object_widget_class->destroy)(obj);
 }
 
+static gboolean
+sheet_widget_checkbox_get_ref (SheetWidgetCheckbox const *swc, CellRef *res)
+{
+	Value *target;
+	g_return_val_if_fail (swc != NULL, FALSE);
+
+	if (swc->dep.expression == NULL)
+		return FALSE;
+
+	target = expr_tree_get_range (swc->dep.expression);
+	if (target == NULL)
+		return FALSE;
+
+	*res = target->v_range.cell.a;
+	value_release (target);
+
+	g_return_val_if_fail (!res->col_relative, FALSE);
+	g_return_val_if_fail (!res->row_relative, FALSE);
+
+	return TRUE;
+}
+
 static void
 sheet_widget_checkbox_toggled (GtkToggleButton *button,
 			       SheetWidgetCheckbox *swc)
 {
-	Value *target;
+	CellRef ref;
 
 	if (swc->being_updated)
 		return;
 	swc->value = gtk_toggle_button_get_active (button);
 	sheet_widget_checkbox_set_active (swc);
 
-	if (swc->dep.expression == NULL)
-		return;
-	
-	target = expr_tree_get_range (swc->dep.expression);
-	if (target != NULL) {
+	if (sheet_widget_checkbox_get_ref (swc, &ref)) {
 		gboolean const new_val = gtk_toggle_button_get_active (button);
-		CellRef	const *ref = &target->v_range.cell.a;
-		Cell *cell = sheet_cell_fetch (ref->sheet, ref->col, ref->row);
+		Cell *cell = sheet_cell_fetch (ref.sheet, ref.col, ref.row);
 		sheet_cell_set_value (cell, value_new_bool (new_val), NULL);
-
-		sheet_set_dirty (ref->sheet, TRUE);
-		workbook_recalc (ref->sheet->workbook);
-		sheet_update (ref->sheet);
-		value_release (target);
+		sheet_set_dirty (ref.sheet, TRUE);
+		workbook_recalc (ref.sheet->workbook);
+		sheet_update (ref.sheet);
 	}
 }
 
@@ -644,55 +653,16 @@ sheet_widget_checkbox_create_widget (SheetObjectWidget *sow, SheetControlGUI *sv
 	return button;
 }
 
-static CellRef const *
-sheet_widget_checkbox_get_ref (SheetWidgetCheckbox const *swc)
-{
-	const ExprTree *tree;
-
-	g_return_if_fail (swc != NULL);
-
-	/* Get the cell (ref) that this checkbox is pointing to
-	 * we are assuming that a checkbox can only have a reference
-	 * in the form of : Sheetx!$Col$Row
-	 */
-	tree = swc->dep.expression;
-	*ref = (tree != NULL) ? &tree->var.ref : NULL;
-}
-
 static SheetObject *
 sheet_widget_checkbox_clone (SheetObject const *so, Sheet *new_sheet)
 {
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
 	SheetObjectWidget *new_sow = sheet_object_widget_clone (so, new_sheet);
-	CellRef const *ref = sheet_widget_checkbox_get_ref (swc);
-	Range tmp, *r = NULL;
+	CellRef ref;
 
-	if (ref != NULL) {
-		if (ref->sheet == so->sheet) {
-			range.start.col = range.end.col = ref->col;
-			range.start.row = range.end.row = ref->row;
-			r = &range;
-		} else {
-			/* When the sheet of the object is different than the sheet of it's
-			 * input, we point the new object to the same input as the source
-			 * checkbox. Chema.
-			 */
-			
-			/* I can't clone this objects yet cause i cant test it
-			 * because setting the reference of the checkbox to an object
-			 * outside of the current sheet is crashing. We first need to
-			 * fix the configuration so that it can point to a cell outisde
-			 * the sheet before we can clone. Chema
-			 */
-			g_warning ("Cloning for objects that point to an outside of sheet reference "
-				   "not yet implemented\n");
-			gtk_object_unref (GTK_OBJECT (new_sow));
-			return NULL;
-		}
-	}
-
-	sheet_widget_checkbox_construct_with_range (new_sow,
-		new_sheet, r, swc->label);
+	sheet_widget_checkbox_construct_with_ref (new_sow, 
+		(sheet_widget_checkbox_get_ref (swc, &ref)) ? &ref : NULL,
+		swc->label);
 	SHEET_WIDGET_CHECKBOX (new_sow)->value = swc->value;
 
 	return SHEET_OBJECT (new_sow);
