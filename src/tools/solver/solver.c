@@ -51,7 +51,7 @@ solver_param_new (void)
 {
 	SolverParameters *res = g_new0 (SolverParameters, 1);
 
-	res->options.assume_linear_model = TRUE;
+	res->options.model_type          = SolverLPModel;
 	res->options.assume_non_negative = TRUE;
 #if __HAVE_GLPK__
 	res->options.algorithm           = GLPKSimplex;
@@ -746,7 +746,7 @@ solver_prepare_lp_reports (SolverProgram *program, SolverResults *res,
 }
 
 SolverResults *
-solver (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
+solver_lp (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 {
 	SolverParameters  *param = sheet->solver_parameters;
 	SolverLPAlgorithm *alg;
@@ -782,6 +782,37 @@ solver (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 	alg->remove_fn (program);
 
 	return res;
+}
+
+SolverResults *
+solver_qp (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
+{
+	SolverParameters  *param = sheet->solver_parameters;
+
+	*errmsg = _("Quadratic Programming is not yet implemented.");
+	return NULL;
+}
+
+SolverResults *
+solver_nlp (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
+{
+	SolverParameters  *param = sheet->solver_parameters;
+
+	*errmsg = _("Nonlinear Programming is not yet implemented.");
+	return NULL;
+}
+
+SolverResults *
+solver (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
+{
+        switch (sheet->solver_parameters->options.model_type) {
+	case SolverLPModel:
+	        return solver_lp (wbc, sheet, errmsg);
+	case SolverQPModel:
+		return solver_qp (wbc, sheet, errmsg);
+	case SolverNLPModel:
+	        return solver_nlp (wbc, sheet, errmsg);
+	}
 }
 
 /* FIXME */

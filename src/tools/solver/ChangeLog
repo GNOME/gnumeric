@@ -1,3 +1,7 @@
+2002-03-18  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* solver.c: Started adding support for QP.
+
 2002-03-17  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* solver.c, reporst.c: Started adding allowable changes for

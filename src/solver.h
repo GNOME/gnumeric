@@ -93,10 +93,14 @@ typedef struct {
         solver_lp_print_fn            *print_fn;
 } SolverLPAlgorithm;
 
+typedef enum {
+        SolverLPModel, SolverQPModel, SolverNLPModel
+} SolverModelType;
+
 struct _SolverOptions {
         int                   max_time_sec;
         int                   max_iter;
-        gboolean              assume_linear_model;
+        SolverModelType       model_type;
         gboolean              assume_non_negative;
         gboolean              automatic_scaling;
         gboolean              show_iter_results;
