@@ -6,7 +6,7 @@
 struct _EvalPos {
 	GnmCellPos   eval;
 	Sheet      *sheet;
-	Dependent  *dep; /* optionally NULL */
+	GnmDependent  *dep; /* optionally NULL */
 };
 
 struct _ParsePos {
@@ -23,15 +23,15 @@ struct _ParsePos {
 
 /* Initialization routines for Evaluation Positions */
 EvalPos  *eval_pos_init		(EvalPos *ep, Sheet *s, GnmCellPos const *pos);
-EvalPos  *eval_pos_init_dep	(EvalPos *ep, Dependent const *dep);
-EvalPos  *eval_pos_init_cell	(EvalPos *ep, Cell const *cell);
+EvalPos  *eval_pos_init_dep	(EvalPos *ep, GnmDependent const *dep);
+EvalPos  *eval_pos_init_cell	(EvalPos *ep, GnmCell const *cell);
 EvalPos  *eval_pos_init_sheet	(EvalPos *ep, Sheet *sheet);
 
 /* Initialization routines for Parse Positions */
 ParsePos *parse_pos_init         (ParsePos *pp, Workbook *wb,
 				  Sheet *sheet, int col, int row);
-ParsePos *parse_pos_init_dep	 (ParsePos *pp, Dependent const *dep);
-ParsePos *parse_pos_init_cell    (ParsePos *pp, Cell const *cell);
+ParsePos *parse_pos_init_dep	 (ParsePos *pp, GnmDependent const *dep);
+ParsePos *parse_pos_init_cell    (ParsePos *pp, GnmCell const *cell);
 ParsePos *parse_pos_init_evalpos (ParsePos *pp, EvalPos const *pos);
 ParsePos *parse_pos_init_editpos (ParsePos *pp, SheetView const *sv);
 ParsePos *parse_pos_init_sheet	 (ParsePos *pp, Sheet *sheet);

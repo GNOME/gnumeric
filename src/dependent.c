@@ -39,10 +39,10 @@
 
 #define BUCKET_SIZE	128
 
-static void dynamic_dep_eval 	   (Dependent *dep);
-static void dynamic_dep_debug_name (Dependent const *dep, FILE *out);
-static void name_dep_eval 	   (Dependent *dep);
-static void name_dep_debug_name	   (Dependent const *dep, FILE *out);
+static void dynamic_dep_eval 	   (GnmDependent *dep);
+static void dynamic_dep_debug_name (GnmDependent const *dep, FILE *out);
+static void name_dep_eval 	   (GnmDependent *dep);
+static void name_dep_debug_name	   (GnmDependent const *dep, FILE *out);
 
 static GnmCellPos const dummy = { 0, 0 };
 static GPtrArray *dep_classes = NULL;
@@ -57,8 +57,8 @@ static DependentClass name_dep_class = {
 	name_dep_debug_name,
 };
 typedef struct {
-	Dependent  base;
-	Dependent *container;
+	GnmDependent  base;
+	GnmDependent *container;
 	GSList    *ranges;
 	GSList    *singles;
 } DynamicDep;
@@ -122,7 +122,7 @@ dependent_type_register (DependentClass const *klass)
  * Links the dependent and queues a recalc.
  */
 static void
-dependent_changed (Dependent *dep)
+dependent_changed (GnmDependent *dep)
 {
 	if (dep->sheet->workbook->recursive_dirty_enabled)
 		dependent_queue_recalc (dep);
@@ -141,7 +141,7 @@ dependent_changed (Dependent *dep)
  * NOTE : it does NOT relink dependents in case they are going to move later.
  */
 void
-dependent_set_expr (Dependent *dep, GnmExpr const *new_expr)
+dependent_set_expr (GnmDependent *dep, GnmExpr const *new_expr)
 {
 	int const t = dependent_type (dep);
 
@@ -195,7 +195,7 @@ dependent_set_expr (Dependent *dep, GnmExpr const *new_expr)
  * @sheet :
  */
 void
-dependent_set_sheet (Dependent *dep, Sheet *sheet)
+dependent_set_sheet (GnmDependent *dep, Sheet *sheet)
 {
 	g_return_if_fail (dep != NULL);
 	g_return_if_fail (dep->sheet == NULL);
@@ -211,14 +211,14 @@ dependent_set_sheet (Dependent *dep, Sheet *sheet)
 }
 
 static void
-cb_cell_list_deps (Dependent *dep, gpointer user)
+cb_cell_list_deps (GnmDependent *dep, gpointer user)
 {
 	GSList **list = (GSList **)user;
 	*list = g_slist_prepend (*list, dep);
 }
 
 static GSList *
-cell_list_deps (const Cell *cell)
+cell_list_deps (GnmCell const *cell)
 {
 	GSList *deps = NULL;
 	cell_foreach_dep (cell, cb_cell_list_deps, &deps);
@@ -239,7 +239,7 @@ dependent_queue_recalc_list (GSList *list)
 	GSList *work = NULL;
 
 	for (; list != NULL ; list = list->next) {
-		Dependent *dep = list->data;
+		GnmDependent *dep = list->data;
 		if (!dependent_needs_recalc (dep)) {
 			dependent_flag_recalc (dep);
 			work = g_slist_prepend (work, dep);
@@ -254,7 +254,7 @@ dependent_queue_recalc_list (GSList *list)
 	 */
 
 	while (work) {
-		Dependent *dep = work->data;
+		GnmDependent *dep = work->data;
 		int const t = dependent_type (dep);
 
 		/* Pop the top element.  */
@@ -267,7 +267,7 @@ dependent_queue_recalc_list (GSList *list)
 			GSList *waste = NULL;
 			GSList *next;
 			for (list = deps; list != NULL ; list = next) {
-				Dependent *dep = list->data;
+				GnmDependent *dep = list->data;
 				next = list->next;
 				if (dependent_needs_recalc (dep)) {
 					list->next = waste;
@@ -290,7 +290,7 @@ dependent_queue_recalc_list (GSList *list)
 }
 
 void
-dependent_queue_recalc (Dependent *dep)
+dependent_queue_recalc (GnmDependent *dep)
 {
 	g_return_if_fail (dep != NULL);
 
@@ -459,12 +459,12 @@ typedef MicroHash	DepCollection;
 	int i = dc.num_buckets;					\
 	if (i <= 1) { 						\
 		for (l = dc.u.singleton; l ; l = l->next) {	\
-			Dependent *dep = l->data;		\
+			GnmDependent *dep = l->data;		\
 			code					\
 		}						\
 	} else while (i-- > 0) {				\
 		for (l = dc.u.buckets [i]; l ; l = l->next) {	\
-			Dependent *dep = l->data;		\
+			GnmDependent *dep = l->data;		\
 			code					\
 		}						\
 	}							\
@@ -495,7 +495,7 @@ typedef GSList *	DepCollection;
 #define dep_collection_foreach_dep(dc, dep, code) do {		\
 	GSList *l;						\
 	for (l = dc; l != NULL ; l = l->next) {			\
-		Dependent *dep = l->data;			\
+		GnmDependent *dep = l->data;			\
 		code						\
 	}							\
 } while (0)
@@ -565,7 +565,7 @@ depsingle_equal (DependencySingle const *a, DependencySingle const *b)
 }
 
 static DependentFlags
-link_single_dep (Dependent *dep, GnmCellPos const *pos, GnmCellRef const *ref)
+link_single_dep (GnmDependent *dep, GnmCellPos const *pos, GnmCellRef const *ref)
 {
 	DependencySingle lookup;
 	DependencySingle *single;
@@ -595,7 +595,7 @@ link_single_dep (Dependent *dep, GnmCellPos const *pos, GnmCellRef const *ref)
 }
 
 static void
-unlink_single_dep (Dependent *dep, GnmCellPos const *pos, GnmCellRef const *a)
+unlink_single_dep (GnmDependent *dep, GnmCellPos const *pos, GnmCellRef const *a)
 {
 	DependencySingle lookup;
 	DependencySingle *single;
@@ -617,7 +617,7 @@ unlink_single_dep (Dependent *dep, GnmCellPos const *pos, GnmCellRef const *a)
 }
 
 static void
-link_range_dep (GnmDepContainer *deps, Dependent *dep,
+link_range_dep (GnmDepContainer *deps, GnmDependent *dep,
 		DependencyRange const *r)
 {
 	int i = r->range.start.row / BUCKET_SIZE;
@@ -650,7 +650,7 @@ link_range_dep (GnmDepContainer *deps, Dependent *dep,
 }
 
 static void
-unlink_range_dep (GnmDepContainer *deps, Dependent *dep,
+unlink_range_dep (GnmDepContainer *deps, GnmDependent *dep,
 		  DependencyRange const *r)
 {
 	int i = r->range.start.row / BUCKET_SIZE;
@@ -673,7 +673,7 @@ unlink_range_dep (GnmDepContainer *deps, Dependent *dep,
 }
 
 static DependentFlags
-link_cellrange_dep (Dependent *dep, GnmCellPos const *pos,
+link_cellrange_dep (GnmDependent *dep, GnmCellPos const *pos,
 		    GnmCellRef const *a, GnmCellRef const *b)
 {
 	DependencyRange range;
@@ -709,7 +709,7 @@ link_cellrange_dep (Dependent *dep, GnmCellPos const *pos,
 	return flag;
 }
 static void
-unlink_cellrange_dep (Dependent *dep, GnmCellPos const *pos,
+unlink_cellrange_dep (GnmDependent *dep, GnmCellPos const *pos,
 		      GnmCellRef const *a, GnmCellRef const *b)
 {
 	DependencyRange range;
@@ -738,7 +738,7 @@ unlink_cellrange_dep (Dependent *dep, GnmCellPos const *pos,
 }
 
 static DependentFlags
-link_expr_dep (Dependent *dep, GnmCellPos const *pos, GnmExpr const *tree)
+link_expr_dep (GnmDependent *dep, GnmCellPos const *pos, GnmExpr const *tree)
 {
 	g_return_val_if_fail (tree != NULL, DEPENDENT_NO_FLAG);
 
@@ -824,7 +824,7 @@ link_expr_dep (Dependent *dep, GnmCellPos const *pos, GnmExpr const *tree)
 }
 
 static void
-unlink_expr_dep (Dependent *dep, GnmCellPos const *pos, GnmExpr const *tree)
+unlink_expr_dep (GnmDependent *dep, GnmCellPos const *pos, GnmExpr const *tree)
 {
 	switch (tree->any.oper) {
 	case GNM_EXPR_OP_ANY_BINARY:
@@ -910,7 +910,7 @@ unlink_expr_dep (Dependent *dep, GnmCellPos const *pos, GnmExpr const *tree)
 }
 
 static void
-workbook_link_3d_dep (Dependent *dep)
+workbook_link_3d_dep (GnmDependent *dep)
 {
 	Workbook *wb = dep->sheet->workbook;
 
@@ -923,7 +923,7 @@ workbook_link_3d_dep (Dependent *dep)
 }
 
 static void
-workbook_unlink_3d_dep (Dependent *dep)
+workbook_unlink_3d_dep (GnmDependent *dep)
 {
 	Workbook *wb = dep->sheet->workbook;
 
@@ -938,22 +938,22 @@ workbook_unlink_3d_dep (Dependent *dep)
 
 /*****************************************************************************/
 
-static void name_dep_eval (G_GNUC_UNUSED Dependent *dep) { }
+static void name_dep_eval (G_GNUC_UNUSED GnmDependent *dep) { }
 
 static void
-name_dep_debug_name (Dependent const *dep, FILE *out)
+name_dep_debug_name (GnmDependent const *dep, FILE *out)
 {
 	fprintf (out, "Name%p", dep);
 }
-static void dynamic_dep_eval (G_GNUC_UNUSED Dependent *dep) { }
+static void dynamic_dep_eval (G_GNUC_UNUSED GnmDependent *dep) { }
 
 static void
-dynamic_dep_debug_name (Dependent const *dep, FILE *out)
+dynamic_dep_debug_name (GnmDependent const *dep, FILE *out)
 {
 	fprintf (out, "DynamicDep%p", dep);
 }
 void
-dependent_add_dynamic_dep (Dependent *dep, GnmValueRange const *v)
+dependent_add_dynamic_dep (GnmDependent *dep, GnmValueRange const *v)
 {
 	DependentFlags   flags;
 	DynamicDep	*dyn;
@@ -993,7 +993,7 @@ dependent_add_dynamic_dep (Dependent *dep, GnmValueRange const *v)
 }
 
 static inline void
-dependent_clear_dynamic_deps (Dependent *dep)
+dependent_clear_dynamic_deps (GnmDependent *dep)
 {
 	g_hash_table_remove (dep->sheet->deps->dynamic_deps, dep);
 }
@@ -1008,7 +1008,7 @@ dependent_clear_dynamic_deps (Dependent *dep)
  * Adds the dependent to the workbook wide list of dependents.
  */
 void
-dependent_link (Dependent *dep, GnmCellPos const *pos)
+dependent_link (GnmDependent *dep, GnmCellPos const *pos)
 {
 	Sheet *sheet;
 
@@ -1045,7 +1045,7 @@ dependent_link (Dependent *dep, GnmCellPos const *pos)
  * removes the linkages to what it depends on.
  */
 void
-dependent_unlink (Dependent *dep, GnmCellPos const *pos)
+dependent_unlink (GnmDependent *dep, GnmCellPos const *pos)
 {
 	GnmDepContainer *contain;
 
@@ -1086,9 +1086,9 @@ dependent_unlink (Dependent *dep, GnmCellPos const *pos)
  * function.
  **/
 gboolean
-cell_eval_content (Cell *cell)
+cell_eval_content (GnmCell *cell)
 {
-	static Cell *iterating = NULL;
+	static GnmCell *iterating = NULL;
 	GnmValue   *v;
 	EvalPos	 pos;
 	int	 max_iteration;
@@ -1228,7 +1228,7 @@ iterate :
  * @dep :
  */
 gboolean
-dependent_eval (Dependent *dep)
+dependent_eval (GnmDependent *dep)
 {
 	if (dependent_needs_recalc (dep)) {
 		int const t = dependent_type (dep);
@@ -1270,7 +1270,7 @@ dependent_eval (Dependent *dep)
  * If a dependency is already queued ignore it.
  */
 void
-cell_queue_recalc (Cell const *cell)
+cell_queue_recalc (GnmCell const *cell)
 {
 	g_return_if_fail (cell != NULL);
 
@@ -1315,7 +1315,7 @@ cb_search_rangedeps (gpointer key, G_GNUC_UNUSED gpointer value,
 }
 
 static void
-cell_foreach_range_dep (Cell const *cell, DepFunc func, gpointer user)
+cell_foreach_range_dep (GnmCell const *cell, DepFunc func, gpointer user)
 {
 	search_rangedeps_closure_t closure;
 	GHashTable *bucket =
@@ -1348,7 +1348,7 @@ cell_foreach_single_dep (Sheet const *sheet, int col, int row,
 }
 
 void
-cell_foreach_dep (Cell const *cell, DepFunc func, gpointer user)
+cell_foreach_dep (GnmCell const *cell, DepFunc func, gpointer user)
 {
 	g_return_if_fail (cell != NULL);
 
@@ -1433,7 +1433,7 @@ sheet_region_queue_recalc (Sheet const *sheet, GnmRange const *r)
 
 		/* mark the contained depends dirty non recursively */
 		SHEET_FOREACH_DEPENDENT (sheet, dep, {
-			Cell *cell = DEP_TO_CELL (dep);
+			GnmCell *cell = DEP_TO_CELL (dep);
 			if (dependent_is_cell (dep) &&
 			    range_contains (r, cell->pos.col, cell->pos.row))
 				dependent_flag_recalc (dep);
@@ -1456,7 +1456,7 @@ typedef struct
     	int dep_type;
 	union {
 		EvalPos    pos;
-		Dependent *dep;
+		GnmDependent *dep;
 	} u;
 	GnmExpr const *oldtree;
 } ExprRelocateStorage;
@@ -1493,7 +1493,7 @@ dependents_unrelocate (GSList *info)
 		ExprRelocateStorage *tmp = (ExprRelocateStorage *)(ptr->data);
 
 		if (tmp->dep_type == DEPENDENT_CELL) {
-			Cell *cell = sheet_cell_get (tmp->u.pos.sheet,
+			GnmCell *cell = sheet_cell_get (tmp->u.pos.sheet,
 						     tmp->u.pos.eval.col,
 						     tmp->u.pos.eval.row);
 
@@ -1531,7 +1531,7 @@ dependents_link (GSList *deps, GnmExprRewriteInfo const *rwinfo)
 
 	/* put them back */
 	for (; ptr != NULL ; ptr = ptr->next) {
-		Dependent *dep = ptr->data;
+		GnmDependent *dep = ptr->data;
 		if (rwinfo != NULL) {
 			if (rwinfo->type == GNM_EXPR_REWRITE_WORKBOOK) {
 				if (rwinfo->u.workbook == dep->sheet->workbook)
@@ -1598,7 +1598,7 @@ GSList *
 dependents_relocate (GnmExprRelocateInfo const *info)
 {
 	GnmExprRewriteInfo rwinfo;
-	Dependent *dep;
+	GnmDependent *dep;
 	GSList    *l, *dependents = NULL, *undo_info = NULL;
 	Sheet	  *sheet;
 	GnmRange const   *r;
@@ -1619,7 +1619,7 @@ dependents_relocate (GnmExprRelocateInfo const *info)
 
 	/* collect contained cells with expressions */
 	SHEET_FOREACH_DEPENDENT (info->origin_sheet, dep, {
-		Cell *cell = DEP_TO_CELL (dep);
+		GnmCell *cell = DEP_TO_CELL (dep);
 		if (dependent_is_cell (dep) &&
 		    range_contains (r, cell->pos.col, cell->pos.row)) {
 			dependents = g_slist_prepend (dependents, dep);
@@ -1712,7 +1712,7 @@ dependents_relocate (GnmExprRelocateInfo const *info)
 	    (info->row_offset == 0 && range_is_full (&info->origin, TRUE))) {
 		rwinfo.flavour = GNM_EXPR_REWRITE_NAME;
 		GSList *ptr, *accum = NULL;
-		Dependent *dep;
+		GnmDependent *dep;
 
 		info->origin_sheet->deps->referencing_names = NULL;
 
@@ -1749,7 +1749,7 @@ dependents_relocate (GnmExprRelocateInfo const *info)
 /*******************************************************************/
 
 inline static void
-invalidate_refs (Dependent *dep, GnmExprRewriteInfo const *rwinfo)
+invalidate_refs (GnmDependent *dep, GnmExprRewriteInfo const *rwinfo)
 {
 	/* Ignore any linger dynamic deps, they'll get cleared soon */
 	if (dependent_type (dep) != DEPENDENT_DYNAMIC_DEP) {
@@ -1781,7 +1781,7 @@ cb_dep_hash_invalidate (G_GNUC_UNUSED gpointer key,
 #ifndef ENABLE_MICRO_HASH
 	GSList *deps = depany->deps;
 	GSList *ptr = deps;
-	Dependent *dependent;
+	GnmDependent *dependent;
 
 	depany->deps = NULL;	/* poison it */
 	if (rwinfo->type == GNM_EXPR_REWRITE_SHEET) {
@@ -1873,7 +1873,7 @@ cb_name_invalidate (GnmNamedExpr *nexpr, G_GNUC_UNUSED gpointer value,
 }
 
 static void
-cb_collect_deps_of_name (Dependent *dep, G_GNUC_UNUSED gpointer value,
+cb_collect_deps_of_name (GnmDependent *dep, G_GNUC_UNUSED gpointer value,
 			 GSList **accum)
 {
 	/* grab unflagged linked depends */
@@ -1904,7 +1904,7 @@ do_deps_destroy (Sheet *sheet, GnmExprRewriteInfo const *rwinfo)
 	DependentFlags filter = DEPENDENT_LINK_FLAGS; /* unlink everything */
 	GnmDepContainer *deps;
 	GSList *ptr, *next, *local_dyn_deps, *dyn_deps = NULL;
-	Dependent *dep;
+	GnmDependent *dep;
 
 	g_return_if_fail (IS_SHEET (sheet));
 
@@ -2001,7 +2001,7 @@ do_deps_destroy (Sheet *sheet, GnmExprRewriteInfo const *rwinfo)
 
 	if (deps->referencing_names) {
 		GSList *ptr, *accum = NULL;
-		Dependent *dep;
+		GnmDependent *dep;
 		GHashTable *names = deps->referencing_names;
 
 		deps->referencing_names = NULL;
@@ -2132,7 +2132,7 @@ workbook_recalc_all (Workbook *wb)
 static void
 dynamic_dep_free (DynamicDep *dyn)
 {
-	Dependent *dep = dyn->container;
+	GnmDependent *dep = dyn->container;
 	GnmCellPos const *pos = (dependent_is_cell (dep))
 		? &DEP_TO_CELL(dep)->pos : &dummy;
 	GnmValueRange *v;
@@ -2193,7 +2193,7 @@ dump_dependent_list (GSList *l)
 {
 	printf ("(");
 	while (l != NULL) {
-		Dependent *dep = l->data;
+		GnmDependent *dep = l->data;
 		dependent_debug_name (dep, stdout);
 		l = l->next;
 		if (l != NULL)
@@ -2269,7 +2269,7 @@ gnm_dep_container_dump (GnmDepContainer const *deps)
  * A useful little debugging utility.
  */
 void
-dependent_debug_name (Dependent const *dep, FILE *out)
+dependent_debug_name (GnmDependent const *dep, FILE *out)
 {
 	int t;
 

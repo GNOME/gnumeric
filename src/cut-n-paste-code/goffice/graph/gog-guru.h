@@ -32,7 +32,7 @@ G_BEGIN_DECLS
 /* typedef void (*GogGuruRegister) (GogGraph *graph, gpointer user); */
 
 GtkWidget *gog_guru (GogGraph *graph, GogDataAllocator *dalloc,
-		     CommandContext *cc, GtkWindow *toplevel,
+		     GnmCmdContext *cc, GtkWindow *toplevel,
 		     GClosure *closure);
 
 G_END_DECLS

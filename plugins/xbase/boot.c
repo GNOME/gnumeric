@@ -158,7 +158,7 @@ xbase_file_open (GnmFileOpener const *fo, IOContext *io_context,
 	XBrecord  *record;
 	char	  *name;
 	Sheet	  *sheet = NULL;
-	Cell	  *cell;
+	GnmCell	  *cell;
 	GnmValue	  *val;
 	XBfield	  *field;
 	ErrorInfo *open_error;

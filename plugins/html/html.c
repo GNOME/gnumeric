@@ -116,9 +116,9 @@ html_print_encoded (GsfOutput *output, char const *str)
  *
  */
 static void
-html_get_text_color (Cell *cell, MStyle *mstyle, guint *r, guint *g, guint *b)
+html_get_text_color (GnmCell *cell, MStyle *mstyle, guint *r, guint *g, guint *b)
 {
-	const PangoColor *fore = cell_get_render_color (cell);
+	PangoColor const *fore = cell_get_render_color (cell);
 
 	if (fore == NULL)
 		*r = *g = *b = 0;
@@ -141,7 +141,7 @@ html_get_color (MStyle *mstyle, MStyleElementType t, guint *r, guint *g, guint *
 }
 
 static void
-html_write_cell_content (GsfOutput *output, Cell *cell, MStyle *mstyle, html_version_t version)
+html_write_cell_content (GsfOutput *output, GnmCell *cell, MStyle *mstyle, html_version_t version)
 {
 	guint r = 0;
 	guint g = 0;
@@ -282,7 +282,7 @@ html_write_border_style_40 (GsfOutput *output, MStyle *mstyle)
 static void
 write_cell (GsfOutput *output, Sheet *sheet, gint row, gint col, html_version_t version)
 {
-	Cell *cell;
+	GnmCell *cell;
 	MStyle *mstyle;
 	guint r, g, b;
 

@@ -50,7 +50,7 @@ typedef struct {
 	int col_offset, row_offset; /* Position of the cell */
 	CellCopyType type;
 	union {
-		Cell *cell;
+		GnmCell *cell;
 		char *text;
 	} u;
 	char *comment;
@@ -77,7 +77,7 @@ struct _PasteTarget {
 CellRegion *clipboard_copy_range   (Sheet *sheet, GnmRange const *r);
 gboolean    clipboard_paste_region (CellRegion const *content,
 				    PasteTarget const *pt,
-				    CommandContext *cc);
+				    GnmCmdContext *cc);
 PasteTarget*paste_target_init      (PasteTarget *pt,
 				    Sheet *sheet, GnmRange const *r, int flags);
 

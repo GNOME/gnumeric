@@ -331,7 +331,7 @@ sv_menu_enable_insert (SheetView *sv, gboolean col, gboolean row)
  */
 GnmRange const *
 selection_first_range (SheetView const *sv,
-		       CommandContext *cc, char const *cmd_name)
+		       GnmCmdContext *cc, char const *cmd_name)
 {
 	GnmRange const *r;
 	GList *l;
@@ -1253,7 +1253,7 @@ static gboolean
 characterize_vec (Sheet *sheet, GnmRange *vector,
 		  gboolean as_cols, gboolean expand_text)
 {
-	Cell *cell;
+	GnmCell *cell;
 	GnmValue const *v;
 	GnmRange tmp;
 	int dx = 0, dy = 0;

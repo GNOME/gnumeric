@@ -483,11 +483,11 @@ gnm_expr_equal (GnmExpr const *a, GnmExpr const *b)
 	return FALSE;
 }
 
-static Cell *
+static GnmCell *
 expr_array_corner (GnmExpr const *expr,
 		   Sheet const *sheet, GnmCellPos const *pos)
 {
-	Cell *corner = sheet_cell_get (sheet,
+	GnmCell *corner = sheet_cell_get (sheet,
 		pos->col - expr->array.x, pos->row - expr->array.y);
 
 	/* Sanity check incase the corner gets removed for some reason */
@@ -628,7 +628,7 @@ value_intersection (GnmValue *v, EvalPos const *pos)
 			}
 		}
 		if (found) {
-			Cell *cell = sheet_cell_get (
+			GnmCell *cell = sheet_cell_get (
 				eval_sheet (start_sheet, pos->sheet),
 				col, row);
 			if (cell == NULL)
@@ -642,7 +642,7 @@ value_intersection (GnmValue *v, EvalPos const *pos)
 }
 #if 0
 static GnmValue *
-cb_range_eval (Sheet *sheet, int col, int row, Cell *cell, void *ignore)
+cb_range_eval (Sheet *sheet, int col, int row, GnmCell *cell, void *ignore)
 {
 	cell_eval (cell);
 	return NULL;
@@ -984,7 +984,7 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 
 	case GNM_EXPR_OP_CELLREF: {
 		GnmCellRef const * const ref = &expr->cellref.ref;
-		Cell *cell;
+		GnmCell *cell;
 		GnmCellPos dest;
 
 		cellref_get_abs_pos (ref, &pos->eval, &dest);
@@ -1034,7 +1034,7 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 			/* Store real result (cast away const)*/
 			*((GnmValue **)&(expr->array.corner.value)) = a;
 		} else {
-			Cell *corner = expr_array_corner (expr,
+			GnmCell *corner = expr_array_corner (expr,
 				pos->sheet, &pos->eval);
 			if (corner != NULL) {
 				cell_eval (corner);
@@ -1245,7 +1245,7 @@ do_expr_as_string (GString *target, GnmExpr const *expr, ParsePos const *pp,
 		int const x = expr->array.x;
 		int const y = expr->array.y;
 		if (x != 0 || y != 0) {
-			Cell *corner = expr_array_corner (expr,
+			GnmCell *corner = expr_array_corner (expr,
 				pp->sheet, &pp->eval);
 			if (corner) {
 				ParsePos tmp_pos = *pp;

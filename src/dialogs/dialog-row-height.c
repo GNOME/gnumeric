@@ -259,7 +259,7 @@ dialog_row_height (WorkbookControlGUI *wbcg, gboolean use_default)
 	state->sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sv_sheet (state->sv);
 	state->adjusting = FALSE;
-	state->gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+	state->gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
 		"row-height.glade", NULL, NULL);
 	g_return_if_fail (state->gui != NULL);
 

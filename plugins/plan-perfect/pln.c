@@ -489,7 +489,7 @@ pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 	int max_row = SHEET_MAX_ROWS;
 	int i, rcode, rlength;
 	guint8 const *data;
-	Cell    *cell;
+	GnmCell    *cell;
 	GnmValue   *v;
 	GnmExpr const *expr;
 	MStyle  *style;

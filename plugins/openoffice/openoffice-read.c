@@ -487,7 +487,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 	state->simple_content = FALSE;
 	if (expr != NULL) {
-		Cell *cell = sheet_cell_fetch (state->pos.sheet,
+		GnmCell *cell = sheet_cell_fetch (state->pos.sheet,
 			state->pos.eval.col, state->pos.eval.row);
 
 		if (array_cols > 0 || array_rows > 0) {
@@ -513,7 +513,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			gnm_expr_unref (expr);
 		}
 	} else if (val != NULL) {
-		Cell *cell = sheet_cell_fetch (state->pos.sheet,
+		GnmCell *cell = sheet_cell_fetch (state->pos.sheet,
 			state->pos.eval.col, state->pos.eval.row);
 
 		/* has cell previously been initialized as part of an array */
@@ -543,11 +543,12 @@ oo_cell_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	OOParseState *state = (OOParseState *)xin;
 
 	if (state->col_inc > 1) {
-		Cell *cell = sheet_cell_get (state->pos.sheet, state->pos.eval.col, state->pos.eval.row);
+		GnmCell *cell = sheet_cell_get (state->pos.sheet,
+			state->pos.eval.col, state->pos.eval.row);
 
 		if (!cell_is_empty (cell)) {
 			int i = 1;
-			Cell *next;
+			GnmCell *next;
 			for (; i < state->col_inc ; i++) {
 				next = sheet_cell_fetch (state->pos.sheet,
 					state->pos.eval.col + i, state->pos.eval.row);
@@ -597,8 +598,9 @@ oo_cell_content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	OOParseState *state = (OOParseState *)xin;
 
 	if (state->simple_content || state->error_content) {
-		Cell *cell = sheet_cell_fetch (state->pos.sheet, state->pos.eval.col, state->pos.eval.row);
 		GnmValue *v;
+		GnmCell *cell = sheet_cell_fetch (state->pos.sheet,
+			state->pos.eval.col, state->pos.eval.row);
 
 		if (state->simple_content)
 			v = value_new_string (state->base.content->str);
@@ -924,7 +926,7 @@ openoffice_file_open (GnmFileOpener const *fo, IOContext *io_context,
 	zip = gsf_infile_zip_new (input, &err);
 	if (zip == NULL) {
 		g_return_if_fail (err != NULL);
-		gnumeric_error_read (COMMAND_CONTEXT (io_context),
+		gnumeric_error_read (GNM_CMD_CONTEXT (io_context),
 			err->message);
 		g_error_free (err);
 		return;
@@ -933,7 +935,7 @@ openoffice_file_open (GnmFileOpener const *fo, IOContext *io_context,
 	content = gsf_infile_child_by_name (GSF_INFILE (zip),
 					    "content.xml");
 	if (content == NULL) {
-		gnumeric_error_read (COMMAND_CONTEXT (io_context),
+		gnumeric_error_read (GNM_CMD_CONTEXT (io_context),
 			 _("No stream named content.xml found."));
 		g_object_unref (G_OBJECT (zip));
 		return;

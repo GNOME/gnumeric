@@ -65,7 +65,7 @@ category_free (FormatTemplateCategory *category)
 
 static GSList *
 category_get_templates_list (FormatTemplateCategory *category,
-			     CommandContext *cc)
+			     GnmCmdContext *cc)
 {
 	GSList *templates = NULL;
 	DIR *dir;
@@ -222,7 +222,7 @@ category_group_list_free (GList *groups)
 
 GSList *
 category_group_get_templates_list (FormatTemplateCategoryGroup *category_group,
-				   CommandContext *cc)
+				   GnmCmdContext *cc)
 {
 	GSList *templates = NULL;
 	GList *l;

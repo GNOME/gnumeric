@@ -181,7 +181,7 @@ oleo_parse_formula (OleoParseState *state, char const *text, int col, int row)
 	GnmExpr const *expr;
 	char *gnumeric_text;
 
-	Cell const *cell = sheet_cell_fetch (state->sheet,
+	GnmCell const *cell = sheet_cell_fetch (state->sheet,
 		OLEO_TO_GNUMERIC (col), OLEO_TO_GNUMERIC (row));
 
 	parse_pos_init_cell (&pos, cell);
@@ -205,7 +205,7 @@ oleo_parse_formula (OleoParseState *state, char const *text, int col, int row)
 static void
 oleo_deal_with_cell (OleoParseState *state, guint8 *str, int *ccol, int *crow, MStyle *style)
 {
-	Cell *cell;
+	GnmCell *cell;
 	GnmExpr const *expr = NULL;
 	char *ptr = str + 1, *cval = NULL, *formula = NULL;
 

@@ -310,7 +310,7 @@ sv_selection_copy (SheetView *sv, WorkbookControl *wbc)
 {
 	GnmRange const *sel;
 
-	if (!(sel = selection_first_range (sv, COMMAND_CONTEXT (wbc), _("Copy"))))
+	if (!(sel = selection_first_range (sv, GNM_CMD_CONTEXT (wbc), _("Copy"))))
 		return FALSE;
 
 	application_clipboard_cut_copy (wbc, FALSE, sv, sel, TRUE);
@@ -335,10 +335,10 @@ sv_selection_cut (SheetView *sv, WorkbookControl *wbc)
 	 */
 	g_return_val_if_fail (IS_SHEET_VIEW (sv), FALSE);
 
-	if (!(sel = selection_first_range (sv, COMMAND_CONTEXT (wbc), _("Cut"))))
+	if (!(sel = selection_first_range (sv, GNM_CMD_CONTEXT (wbc), _("Cut"))))
 		return FALSE;
 
-	if (sheet_range_splits_region (sv_sheet (sv), sel, NULL, COMMAND_CONTEXT (wbc), _("Cut")))
+	if (sheet_range_splits_region (sv_sheet (sv), sel, NULL, GNM_CMD_CONTEXT (wbc), _("Cut")))
 		return FALSE;
 
 	application_clipboard_cut_copy (wbc, TRUE, sv, sel, TRUE);
@@ -576,7 +576,7 @@ sv_update (SheetView *sv)
 }
 
 static GnmValue *
-fail_if_not_selected (Sheet *sheet, int col, int row, Cell *cell, void *sv)
+fail_if_not_selected (Sheet *sheet, int col, int row, GnmCell *cell, void *sv)
 {
 	if (!sv_is_pos_selected (sv, col, row))
 		return VALUE_TERMINATE;

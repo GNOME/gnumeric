@@ -33,7 +33,7 @@
 #include <string.h>
 
 static gboolean
-cell_has_expr_or_number_or_blank (Cell const * cell)
+cell_has_expr_or_number_or_blank (GnmCell const * cell)
 {
 	return (cell_is_empty (cell) ||
 		(cell != NULL && cell_is_number (cell)) ||
@@ -41,7 +41,7 @@ cell_has_expr_or_number_or_blank (Cell const * cell)
 }
 
 static GnmExpr const *
-cell_get_contents_as_expr (Cell const * cell)
+cell_get_contents_as_expr (GnmCell const * cell)
 {
 	GnmExpr const *expr = NULL;
 
@@ -81,8 +81,8 @@ paste_op_to_expr_op (int paste_flags)
 
 #warning handle formating
 static GnmValue *
-apply_paste_oper_to_values (Cell const *old_cell, Cell const *copied_cell,
-			    Cell const *new_cell, int paste_flags)
+apply_paste_oper_to_values (GnmCell const *old_cell, GnmCell const *copied_cell,
+			    GnmCell const *new_cell, int paste_flags)
 {
 	EvalPos pos;
 	GnmExpr expr, arg_a, arg_b;
@@ -108,7 +108,7 @@ paste_cell_with_operation (Sheet *dest_sheet,
 			   GnmExprRewriteInfo const *rwinfo,
 			   CellCopy *c_copy, int paste_flags)
 {
-	Cell *new_cell;
+	GnmCell *new_cell;
 
 	g_return_if_fail (paste_flags & PASTE_OPER_MASK);
 
@@ -147,7 +147,7 @@ static void
 paste_link (PasteTarget const *pt, int top, int left,
 	    CellRegion const *content)
 {
-	Cell *cell;
+	GnmCell *cell;
 	GnmCellPos pos;
 	GnmExpr const *expr;
 	GnmCellRef source_cell_ref;
@@ -199,7 +199,7 @@ paste_cell (Sheet *dest_sheet,
 {
 #warning we need to dup the author too
 	if ((paste_flags & PASTE_COMMENTS) && c_copy->comment) {
-		CellComment   *cell_comment;
+		GnmComment   *cell_comment;
 		GnmCellPos       pos;
 		pos.col = target_col;
 		pos.row = target_row;
@@ -220,8 +220,8 @@ paste_cell (Sheet *dest_sheet,
 	}
 
 	if (c_copy->type == CELL_COPY_TYPE_CELL) {
-		Cell *new_cell = sheet_cell_fetch (dest_sheet, target_col, target_row);
-		Cell *src_cell = c_copy->u.cell;
+		GnmCell *new_cell = sheet_cell_fetch (dest_sheet, target_col, target_row);
+		GnmCell *src_cell = c_copy->u.cell;
 
 		if (!src_cell) {
 			g_warning ("Cell copy type set but no cell found (this is bad!)");
@@ -260,7 +260,7 @@ paste_cell (Sheet *dest_sheet,
 gboolean
 clipboard_paste_region (CellRegion const *content,
 			PasteTarget const *pt,
-			CommandContext *cc)
+			GnmCmdContext *cc)
 {
 	int repeat_horizontal, repeat_vertical, clearFlags;
 	int dst_cols, dst_rows, src_cols, src_rows, tmp;
@@ -459,12 +459,12 @@ clipboard_paste_region (CellRegion const *content,
 }
 
 static GnmValue *
-clipboard_prepend_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
+clipboard_prepend_cell (Sheet *sheet, int col, int row, GnmCell *cell, void *user_data)
 {
 	CellRegion *cr = user_data;
 	GnmExprArray const *a;
 	CellCopy *copy;
-	CellComment   *comment;
+	GnmComment   *comment;
 
 	copy = g_new (CellCopy, 1);
 	copy->type       = CELL_COPY_TYPE_CELL;
@@ -499,8 +499,8 @@ static void
 clipboard_prepend_comment (SheetObject const *so, void *user_data)
 {
 	GnmRange const *r = sheet_object_range_get (so);
-	Sheet       *sheet = sheet_object_get_sheet (so);
-	Cell        *the_cell = sheet_cell_get (sheet, r->start.col, r->start.row);
+	Sheet   *sheet = sheet_object_get_sheet (so);
+	GnmCell *the_cell = sheet_cell_get (sheet, r->start.col, r->start.row);
 
 	if (the_cell == NULL)
 		clipboard_prepend_cell (sheet,  r->start.col, r->start.row,

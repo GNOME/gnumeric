@@ -195,7 +195,7 @@ print_make_rectangle_path (GnomePrintContext *pc,
  *      \------/
  */
 static void
-print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
+print_cell (GnmCell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 	    double x1, double y1, double width, double height, double h_center)
 {
 	Sheet const * const sheet = cell->base.sheet;
@@ -507,7 +507,7 @@ print_merged_range (GnomePrintContext *context, Sheet const *sheet,
 		    GnmRange const *view, GnmRange const *range)
 {
 	float l, r, t, b;
-	Cell  const *cell    = sheet_cell_get (sheet, range->start.col, range->start.row);
+	GnmCell  const *cell    = sheet_cell_get (sheet, range->start.col, range->start.row);
 	MStyle const *mstyle = sheet_style_get (sheet, range->start.col, range->start.row);
 
 	l = sheet_col_get_distance_pts (sheet,
@@ -764,7 +764,7 @@ print_cell_range (GnomePrintContext *context,
 			if (ri->pos == -1 || NULL == (span = row_span_get (ri, col))) {
 
 				/* no need to draw blanks */
-				Cell const *cell = sheet_cell_get (sheet, col, row);
+				GnmCell const *cell = sheet_cell_get (sheet, col, row);
 				if (!cell_is_empty (cell))
 					print_cell (cell, style, context,
 						    x, y, -1., -1., -1.);
@@ -774,7 +774,7 @@ print_cell_range (GnomePrintContext *context,
 			 * to draw the edit cell, or blanks.
 			 */
 			} else if (col == span->right || col == end_col) {
-				Cell const *cell = span->cell;
+				GnmCell const *cell = span->cell;
 				int const start_span_col = span->left;
 				int const end_span_col = span->right;
 				double real_x = x;

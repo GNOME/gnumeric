@@ -188,12 +188,11 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 			html_read_content (ptr, buf, mstyle, a_buf, TRUE, doc);
 
 			if (buf->len > 0) {
-				Cell *cell = sheet_cell_fetch (tc->sheet, col + 1, tc->row);
+				GnmCell *cell = sheet_cell_fetch (tc->sheet, col + 1, tc->row);
 				sheet_style_set_pos (tc->sheet, col + 1, tc->row, mstyle);
 				cell_set_text (cell, buf->str);
-			} else {
+			} else
 				mstyle_unref (mstyle);
-			}
 
 			if (a_buf->use > 0) {
 				char *name;

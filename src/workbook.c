@@ -815,7 +815,7 @@ workbook_sheet_count (Workbook const *wb)
 }
 
 static void
-cb_dep_unlink (Dependent *dep, gpointer value, gpointer user_data)
+cb_dep_unlink (GnmDependent *dep, gpointer value, gpointer user_data)
 {
 	GnmCellPos *pos = NULL;
 	if (dependent_is_cell (dep))
@@ -836,7 +836,7 @@ pre_sheet_index_change (Workbook *wb)
 }
 
 static void
-cb_dep_link (Dependent *dep, gpointer value, gpointer user_data)
+cb_dep_link (GnmDependent *dep, gpointer value, gpointer user_data)
 {
 	GnmCellPos *pos = NULL;
 	if (dependent_is_cell (dep))
@@ -945,7 +945,7 @@ workbook_sheet_attach (Workbook *wb, Sheet *new_sheet,
 }
 
 static void
-cb_tweak_3d (Dependent *dep, gpointer value, GnmExprRewriteInfo *rwinfo)
+cb_tweak_3d (GnmDependent *dep, gpointer value, GnmExprRewriteInfo *rwinfo)
 {
 	GnmExpr const *newtree = gnm_expr_rewrite (dep->expression, rwinfo);
 	if (newtree != NULL) {
@@ -1212,11 +1212,12 @@ workbook_sheet_get_free_name (Workbook *wb,
  *
  * Returns TRUE when it is possible.
  **/
-gboolean    workbook_sheet_rename_check  (Workbook *wb,
-					  GSList *sheet_indices,
-					  GSList *new_names,
-					  GSList *sheet_indices_deleted,
-					  CommandContext *cc)
+gboolean
+workbook_sheet_rename_check (Workbook *wb,
+			     GSList *sheet_indices,
+			     GSList *new_names,
+			     GSList *sheet_indices_deleted,
+			     GnmCmdContext *cc)
 {
 	GSList *sheet_index = sheet_indices;
 	GSList *new_name = new_names;
@@ -1326,10 +1327,11 @@ gboolean    workbook_sheet_rename_check  (Workbook *wb,
  *
  * Returns FALSE when it was successful
  **/
-gboolean    workbook_sheet_rename        (Workbook *wb,
-					  GSList *sheet_indices,
-					  GSList *new_names,
-					  CommandContext *cc)
+gboolean
+workbook_sheet_rename (Workbook *wb,
+		       GSList *sheet_indices,
+		       GSList *new_names,
+		       GnmCmdContext *cc)
 {
 	GSList *sheet_index = sheet_indices;
 	GSList *new_name = new_names;

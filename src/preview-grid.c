@@ -107,11 +107,11 @@ pg_get_style (PreviewGrid *pg, int col, int row)
 	return pg->defaults.style;
 }
 
-static Cell *
+static GnmCell *
 pg_construct_cell (PreviewGrid *pg, int col, int row, PangoContext *context)
 {
 	PreviewGridClass *klass = PREVIEW_GRID_GET_CLASS (pg);
-	Cell   *cell;
+	GnmCell   *cell;
 	MStyle *style;
 
 	g_return_val_if_fail (klass != NULL, NULL);
@@ -125,7 +125,7 @@ pg_construct_cell (PreviewGrid *pg, int col, int row, PangoContext *context)
 	 * the equivalent of a real cell.  In particular we g_new
 	 * it and it must be g_free'd.
 	 */
-	cell = g_new0 (Cell, 1);
+	cell = g_new0 (GnmCell, 1);
 
 	cell->col_info = g_new0 (ColRowInfo, 1);
 	cell->row_info = g_new0 (ColRowInfo, 1);
@@ -222,7 +222,7 @@ pg_get_col_offset (PreviewGrid *pg, int const x, int *col_origin)
 }
 
 static void
-pg_destruct_cell (Cell *cell)
+pg_destruct_cell (GnmCell *cell)
 {
 	g_return_if_fail (cell != NULL);
 
@@ -416,7 +416,7 @@ preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 			pg_style_get_row (pg, &next_sr);
 
 		for (col = start_col, x = diff_x; col <= end_col; col++) {
- 			Cell         *cell  = pg_construct_cell (pg, col, row, context);
+ 			GnmCell      *cell  = pg_construct_cell (pg, col, row, context);
 			MStyle const *style = sr.styles [col];
 
  			preview_grid_draw_background (drawable, pg,

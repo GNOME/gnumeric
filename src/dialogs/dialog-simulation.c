@@ -138,12 +138,8 @@ prepare_ranges (simulation_t *sim)
 		for (n = base_row;
 		     n<= MAX (sim->ref_inputs->a.row, sim->ref_inputs->b.row);
 		     n++) {
-			Cell *cell;
-
-			cell = sheet_cell_fetch (sim->ref_inputs->a.sheet,
-						 i, n);
-			sim->list_inputs = g_slist_append (sim->list_inputs,
-							   cell);
+			GnmCell *cell = sheet_cell_fetch (sim->ref_inputs->a.sheet, i, n);
+			sim->list_inputs = g_slist_append (sim->list_inputs, cell);
 		}
 	}
 
@@ -156,12 +152,8 @@ prepare_ranges (simulation_t *sim)
 		for (n = base_row;
 		     n<= MAX (sim->ref_outputs->a.row, sim->ref_outputs->b.row);
 		     n++) {
-			Cell *cell;
-
-			cell = sheet_cell_fetch (sim->ref_outputs->a.sheet,
-						 i, n);
-			sim->list_outputs = g_slist_append (sim->list_outputs,
-							    cell);
+			GnmCell *cell = sheet_cell_fetch (sim->ref_outputs->a.sheet, i, n);
+			sim->list_outputs = g_slist_append (sim->list_outputs, cell);
 		}
 	}
 

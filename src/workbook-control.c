@@ -229,7 +229,7 @@ wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 		if (nexpr == NULL || expr_name_is_placeholder (nexpr)) {
 			GnmRange const *r = selection_first_range (
 				wb_control_cur_sheet_view (wbc),
-				COMMAND_CONTEXT (wbc),
+				GNM_CMD_CONTEXT (wbc),
 				_("Define Name"));
 			if (r != NULL) {
 				GnmCellRef a, b;
@@ -250,7 +250,7 @@ wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 		} else {
 			target = gnm_expr_get_range (nexpr->expr);
 			if (target == NULL) {
-				gnumeric_error_invalid (COMMAND_CONTEXT (wbc), _("Address"), text);
+				gnumeric_error_invalid (GNM_CMD_CONTEXT (wbc), _("Address"), text);
 				return FALSE;
 			}
 		}
@@ -314,7 +314,7 @@ workbook_control_init (GObject *obj)
 
 GSF_CLASS (WorkbookControl, workbook_control,
 	   workbook_control_class_init, workbook_control_init,
-	   COMMAND_CONTEXT_TYPE);
+	   GNM_CMD_CONTEXT_TYPE);
 
 void
 workbook_control_set_view (WorkbookControl *wbc,

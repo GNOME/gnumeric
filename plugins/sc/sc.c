@@ -133,7 +133,7 @@ sc_parse_coord (char const **strdata, int *col, int *row)
 static gboolean
 sc_parse_label (Sheet *sheet, char const *cmd, char const *str, int col, int row)
 {
-	Cell *cell;
+	GnmCell *cell;
 	char *s = NULL, *tmpout;
 	char const *tmpstr;
 	gboolean result = FALSE;
@@ -207,7 +207,7 @@ sc_parse_cell_name_list (Sheet *sheet, char const *cell_name_str,
 {
         char     *buf;
 	GSList   *cells = NULL;
-	Cell     *cell;
+	GnmCell     *cell;
 	GnmCellPos   pos;
 	int      i, n;
 
@@ -260,7 +260,7 @@ static gboolean
 sc_parse_let (Sheet *sheet, char const *cmd, char const *str, int col, int row)
 {
 	GnmExpr const *tree;
-	Cell *cell;
+	GnmCell *cell;
 	ParsePos pos;
 	GnmValue const *v;
 

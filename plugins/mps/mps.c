@@ -69,7 +69,7 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 static inline void
 mps_set_cell (Sheet *sh, int col, int row, const gchar *str)
 {
-        Cell *cell = sheet_cell_fetch (sh, col, row);
+        GnmCell *cell = sheet_cell_fetch (sh, col, row);
 
         sheet_cell_set_value (cell, value_new_string (str));
 }
@@ -78,7 +78,7 @@ mps_set_cell (Sheet *sh, int col, int row, const gchar *str)
 static inline void
 mps_set_cell_float (Sheet *sh, int col, int row, const gnm_float f)
 {
-        Cell *cell = sheet_cell_fetch (sh, col, row);
+        GnmCell *cell = sheet_cell_fetch (sh, col, row);
 
         sheet_cell_set_value (cell, value_new_float (f));
 }
@@ -287,7 +287,7 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 	int     n_rows_per_fn;
 	GString *var_range [2];
 	GnmRange   range, v_range;
-	Cell    *cell;
+	GnmCell    *cell;
 	GString *buf;
 
 	/*

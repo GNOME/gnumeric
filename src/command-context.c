@@ -14,7 +14,7 @@
 
 #include <gsf/gsf-impl-utils.h>
 
-#define CC_CLASS(o) COMMAND_CONTEXT_CLASS (G_OBJECT_GET_CLASS (o))
+#define CC_CLASS(o) GNM_CMD_CONTEXT_CLASS (G_OBJECT_GET_CLASS (o))
 
 static GError *
 format_message (GQuark id, char const *message)
@@ -24,21 +24,21 @@ format_message (GQuark id, char const *message)
 }
 
 void
-cmd_context_error (CommandContext *context, GError *err)
+cmd_context_error (GnmCmdContext *context, GError *err)
 {
-	g_return_if_fail (IS_COMMAND_CONTEXT (context));
+	g_return_if_fail (IS_GNM_CMD_CONTEXT (context));
 	CC_CLASS (context)->error.error (context, err);
 }
 
 void
-gnumeric_error_error_info (CommandContext *context, ErrorInfo *error)
+gnumeric_error_error_info (GnmCmdContext *context, ErrorInfo *error)
 {
-	g_return_if_fail (IS_COMMAND_CONTEXT (context));
+	g_return_if_fail (IS_GNM_CMD_CONTEXT (context));
 	CC_CLASS (context)->error.error_info (context, error);
 }
 
 void
-gnumeric_error_system (CommandContext *context, char const *message)
+gnumeric_error_system (GnmCmdContext *context, char const *message)
 {
 	GError *err = format_message (gnm_error_system (), message);
 	cmd_context_error (context, err);
@@ -46,7 +46,7 @@ gnumeric_error_system (CommandContext *context, char const *message)
 }
 
 void
-gnumeric_error_read (CommandContext *context, char const *message)
+gnumeric_error_read (GnmCmdContext *context, char const *message)
 {
 	GError *err = format_message (gnm_error_read (), message);
 	cmd_context_error (context, err);
@@ -54,7 +54,7 @@ gnumeric_error_read (CommandContext *context, char const *message)
 }
 
 void
-gnumeric_error_save (CommandContext *context, char const *message)
+gnumeric_error_save (GnmCmdContext *context, char const *message)
 {
 	GError *err = format_message (gnm_error_write (), message);
 	cmd_context_error (context, err);
@@ -62,7 +62,7 @@ gnumeric_error_save (CommandContext *context, char const *message)
 }
 
 void
-gnumeric_error_invalid (CommandContext *context, char const *msg, char const *val)
+gnumeric_error_invalid (GnmCmdContext *context, char const *msg, char const *val)
 {
 	GError *err = g_error_new (gnm_error_invalid(), 0, "Invalid %s : '%s'", msg, val);
 	cmd_context_error (context, err);
@@ -70,7 +70,7 @@ gnumeric_error_invalid (CommandContext *context, char const *msg, char const *va
 }
 
 void
-gnumeric_error_calc (CommandContext *context, char const *msg)
+gnumeric_error_calc (GnmCmdContext *context, char const *msg)
 {
 	GError *err = format_message (gnm_error_calc (), msg);
 	cmd_context_error (context, err);
@@ -78,7 +78,7 @@ gnumeric_error_calc (CommandContext *context, char const *msg)
 }
 
 void
-gnumeric_error_splits_array (CommandContext *context,
+gnumeric_error_splits_array (GnmCmdContext *context,
 			     G_GNUC_UNUSED char const *cmd,
 			     GnmRange const *array)
 {
@@ -145,36 +145,37 @@ gnm_error_invalid (void)
 }
 
 void
-cmd_context_progress_set (CommandContext *context, gfloat f)
+cmd_context_progress_set (GnmCmdContext *context, gfloat f)
 {
-	g_return_if_fail (IS_COMMAND_CONTEXT (context));
+	g_return_if_fail (IS_GNM_CMD_CONTEXT (context));
 
 	CC_CLASS (context)->progress_set (context, f);
 }
 
 void
-cmd_context_progress_message_set (CommandContext *context, gchar const *msg)
+cmd_context_progress_message_set (GnmCmdContext *context, gchar const *msg)
 {
-	g_return_if_fail (IS_COMMAND_CONTEXT (context));
+	g_return_if_fail (IS_GNM_CMD_CONTEXT (context));
 
 	CC_CLASS (context)->progress_message_set (context, msg);
 }
 
 char *
-cmd_context_get_password (CommandContext *cc, char const *filename)
+cmd_context_get_password (GnmCmdContext *cc, char const *filename)
 {
-	g_return_val_if_fail (IS_COMMAND_CONTEXT (cc), NULL);
+	g_return_val_if_fail (IS_GNM_CMD_CONTEXT (cc), NULL);
 
 	return CC_CLASS (cc)->get_password (cc, filename);
 }
 
 void
-cmd_context_set_sensitive (CommandContext *cc, gboolean sensitive)
+cmd_context_set_sensitive (GnmCmdContext *cc, gboolean sensitive)
 {
-	g_return_if_fail (IS_COMMAND_CONTEXT (cc));
+	g_return_if_fail (IS_GNM_CMD_CONTEXT (cc));
 
 	CC_CLASS (cc)->set_sensitive (cc, sensitive);
 }
 
-GSF_CLASS (CommandContext, command_context,
-	   NULL, NULL, G_TYPE_OBJECT)
+GSF_CLASS (GnmCmdContext, gnm_cmd_context,
+	   NULL, NULL,
+	   G_TYPE_OBJECT)

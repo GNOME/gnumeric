@@ -118,9 +118,9 @@ void            format_template_free           (FormatTemplate *ft);
 FormatTemplate *format_template_clone          (FormatTemplate const *ft);
 FormatTemplate *format_template_new            (void);
 FormatTemplate *format_template_new_from_file  (char const *filename,
-						CommandContext *context);
+						GnmCmdContext *context);
 gboolean        format_template_save           (FormatTemplate const *ft,
-						CommandContext *cc);
+						GnmCmdContext *cc);
 
 gint                  format_template_compare_name             (gconstpointer a, gconstpointer b);
 
@@ -129,7 +129,7 @@ void                  format_template_detach_member            (FormatTemplate *
 MStyle               *format_template_get_style                (FormatTemplate *ft, int row, int col);
 void                  format_template_apply_to_sheet_regions   (FormatTemplate *ft, Sheet *sheet, GSList *regions);
 gboolean	      format_template_check_valid	       (FormatTemplate *ft, GSList *regions,
-								CommandContext *cc);
+								GnmCmdContext *cc);
 
 void                  format_template_set_name                 (FormatTemplate *ft, char const *name);
 void                  format_template_set_author               (FormatTemplate *ft, char const *author);

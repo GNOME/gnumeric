@@ -43,15 +43,15 @@ gboolean    workbook_sheet_recolor       (Workbook *wb,
 gboolean    workbook_sheet_rename        (Workbook *wb,
 					  GSList *sheet_indices,
 					  GSList *new_names,
-					  CommandContext *cc);
+					  GnmCmdContext *cc);
 gboolean    workbook_sheet_rename_check  (Workbook *wb,
 					  GSList *sheet_indices,
 					  GSList *new_names,
 					  GSList *sheet_indices_deleted,
-					  CommandContext *cc);
+					  GnmCmdContext *cc);
 gboolean    workbook_sheet_change_protection  (Workbook *wb,
-					  GSList *sheets,
-					  GSList *locks);
+					       GSList *sheets,
+					       GSList *locks);
 
 
 /* IO Routines */

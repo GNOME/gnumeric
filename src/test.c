@@ -77,7 +77,7 @@ thrash_insert (Sheet *sheet)
 		int i;
 
 		for (i = 0; i < INSERT_WIDTH; i++) {
-			Cell    *cell;
+			GnmCell    *cell;
 			MStyle *setstyle;
 
 			r.start.col = i;

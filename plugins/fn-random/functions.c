@@ -133,7 +133,7 @@ typedef struct {
 } randdiscrete_t;
 
 static GnmValue *
-cb_randdiscrete (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
+cb_randdiscrete (Sheet *sheet, int col, int row, GnmCell *cell, void *user_data)
 {
 	randdiscrete_t *p = (randdiscrete_t *) user_data;
 

@@ -62,30 +62,30 @@ ioc_finalize (GObject *obj)
 		g_object_unref (G_OBJECT (io_context->impl));
 	}
 
-	G_OBJECT_CLASS (g_type_class_peek (COMMAND_CONTEXT_TYPE))->finalize (obj);
+	G_OBJECT_CLASS (g_type_class_peek (GNM_CMD_CONTEXT_TYPE))->finalize (obj);
 }
 
 static char *
-ioc_get_password (CommandContext *cc, char const *filename)
+ioc_get_password (GnmCmdContext *cc, char const *filename)
 {
 	IOContext *ioc = (IOContext *)cc;
 	return cmd_context_get_password (ioc->impl, filename);
 }
 
 static void
-ioc_set_sensitive (CommandContext *cc, gboolean sensitive)
+ioc_set_sensitive (GnmCmdContext *cc, gboolean sensitive)
 {
 	(void)cc; (void)sensitive;
 }
 
 static void
-ioc_error_error (CommandContext *cc, GError *err)
+ioc_error_error (GnmCmdContext *cc, GError *err)
 {
 	gnumeric_io_error_string (IO_CONTEXT (cc), err->message);
 }
 
 static void
-ioc_error_error_info (G_GNUC_UNUSED CommandContext *ctxt,
+ioc_error_error_info (G_GNUC_UNUSED GnmCmdContext *ctxt,
 		      ErrorInfo *error)
 {
 	/* TODO what goes here */
@@ -107,7 +107,7 @@ gnumeric_io_error_string (IOContext *context, const gchar *str)
 static void
 io_context_class_init (IOContextClass *klass)
 {
-	CommandContextClass *cc_class = COMMAND_CONTEXT_CLASS (klass);
+	GnmCmdContextClass *cc_class = GNM_CMD_CONTEXT_CLASS (klass);
 
 	G_OBJECT_CLASS (klass)->finalize = ioc_finalize;
 
@@ -119,14 +119,14 @@ io_context_class_init (IOContextClass *klass)
 
 GSF_CLASS (IOContext, io_context,
 	   io_context_class_init, io_context_init,
-	   COMMAND_CONTEXT_TYPE)
+	   GNM_CMD_CONTEXT_TYPE)
 
 IOContext *
-gnumeric_io_context_new (CommandContext *cc)
+gnumeric_io_context_new (GnmCmdContext *cc)
 {
 	IOContext *io_context;
 
-	g_return_val_if_fail (IS_COMMAND_CONTEXT (cc), NULL);
+	g_return_val_if_fail (IS_GNM_CMD_CONTEXT (cc), NULL);
 
 	io_context = g_object_new (TYPE_IO_CONTEXT, NULL);
 	/* The cc is optional for subclasses, but mandatory in this class. */
@@ -169,7 +169,7 @@ gnumeric_io_error_push (IOContext *context, ErrorInfo *error)
 void
 gnumeric_io_error_display (IOContext *context)
 {
-	CommandContext *cc;
+	GnmCmdContext *cc;
 
 	g_return_if_fail (context != NULL);
 
@@ -177,7 +177,7 @@ gnumeric_io_error_display (IOContext *context)
 		if (context->impl)
 			cc = context->impl;
 		else
-			cc = COMMAND_CONTEXT (context);
+			cc = GNM_CMD_CONTEXT (context);
 		gnumeric_error_error_info (cc, context->info);
 	}
 }
@@ -227,12 +227,12 @@ io_progress_update (IOContext *io_context, gdouble f)
 		(void) gettimeofday (&tv, NULL);
 		t = tv.tv_sec + tv.tv_usec / 1000000.0;
 		if (at_end || t - io_context->last_time >= PROGRESS_UPDATE_PERIOD_SEC) {
-			CommandContext *cc;
+			GnmCmdContext *cc;
 
 			if (io_context->impl)
 				cc = io_context->impl;
 			else
-				cc = COMMAND_CONTEXT (io_context);
+				cc = GNM_CMD_CONTEXT (io_context);
 			cmd_context_progress_set (cc, f);
 			io_context->last_time = t;
 			io_context->last_progress = f;
@@ -247,14 +247,14 @@ io_progress_update (IOContext *io_context, gdouble f)
 void
 io_progress_message (IOContext *io_context, const gchar *msg)
 {
-	CommandContext *cc;
+	GnmCmdContext *cc;
 
 	g_return_if_fail (IS_IO_CONTEXT (io_context));
 
 	if (io_context->impl)
 		cc = io_context->impl;
 	else
-		cc = COMMAND_CONTEXT (io_context);
+		cc = GNM_CMD_CONTEXT (io_context);
 	cmd_context_progress_message_set (cc, msg);
 }
 

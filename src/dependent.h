@@ -4,20 +4,20 @@
 #include "gnumeric.h"
 #include <stdio.h>
 
-struct _Dependent
+struct _GnmDependent
 {
 	guint	  flags;
 	Sheet	 *sheet;
 	GnmExpr const *expression;
 
 	/* Double-linked list.  */
-	struct _Dependent *next_dep, *prev_dep;
+	struct _GnmDependent *next_dep, *prev_dep;
 };
 
 typedef struct {
-	void (*eval) (Dependent *dep);
-	void (*set_expr) (Dependent *dep, GnmExpr const *new_expr);
-	void (*debug_name) (Dependent const *dep, FILE *out);
+	void (*eval) (GnmDependent *dep);
+	void (*set_expr) (GnmDependent *dep, GnmExpr const *new_expr);
+	void (*debug_name) (GnmDependent const *dep, FILE *out);
 } DependentClass;
 
 typedef enum {
@@ -33,7 +33,7 @@ typedef enum {
 	DEPENDENT_IS_LINKED	   = 0x00001000,
 	DEPENDENT_NEEDS_RECALC	   = 0x00002000,
 	DEPENDENT_BEING_CALCULATED = 0x00004000,
-	/* Dependent is in the midst of a cyclic calculation */
+	/* GnmDependent is in the midst of a cyclic calculation */
 	DEPENDENT_BEING_ITERATED   = 0x00008000,
 
 	DEPENDENT_GOES_INTERSHEET  = 0x00010000,
@@ -55,7 +55,7 @@ typedef enum {
 #define dependent_is_linked(dep)	((dep)->flags & DEPENDENT_IS_LINKED)
 
 struct _GnmDepContainer {
-	Dependent *head, *tail;
+	GnmDependent *head, *tail;
 
 	/* Large ranges hashed on 'range' to accelerate duplicate culling. This
 	 * is tranversed by g_hash_table_foreach mostly.
@@ -76,28 +76,28 @@ struct _GnmDepContainer {
 	GHashTable *dynamic_deps;
 };
 
-typedef void (*DepFunc) (Dependent *dep, gpointer user);
+typedef void (*DepFunc) (GnmDependent *dep, gpointer user);
 
 guint32	 dependent_type_register   (DependentClass const *klass);
 void	 dependent_types_init	   (void);
 void	 dependent_types_shutdown  (void);
 
-void	 dependent_set_expr	   (Dependent *dependent, GnmExpr const *new_expr);
-void	 dependent_set_sheet	   (Dependent *dependent, Sheet *sheet);
-void	 dependent_link		   (Dependent *dep, GnmCellPos const *pos);
-void	 dependent_unlink	   (Dependent *dep, GnmCellPos const *pos);
-gboolean dependent_eval		   (Dependent *dep);
-void	 dependent_queue_recalc	   (Dependent *dep);
-void	 dependent_add_dynamic_dep (Dependent *dep, GnmValueRange const *v);
+void	 dependent_set_expr	   (GnmDependent *dep, GnmExpr const *new_expr);
+void	 dependent_set_sheet	   (GnmDependent *dep, Sheet *sheet);
+void	 dependent_link		   (GnmDependent *dep, GnmCellPos const *pos);
+void	 dependent_unlink	   (GnmDependent *dep, GnmCellPos const *pos);
+gboolean dependent_eval		   (GnmDependent *dep);
+void	 dependent_queue_recalc	   (GnmDependent *dep);
+void	 dependent_add_dynamic_dep (GnmDependent *dep, GnmValueRange const *v);
 
 GSList  *dependents_relocate	    (GnmExprRelocateInfo const *info);
 void     dependents_unrelocate      (GSList *info);
 void     dependents_unrelocate_free (GSList *info);
 void	 dependents_link	    (GSList *deps, GnmExprRewriteInfo const *rwinfo);
 
-void	 cell_queue_recalc	    (Cell const *cell);
-void	 cell_foreach_dep	    (Cell const *cell, DepFunc func, gpointer user);
-gboolean cell_eval_content	    (Cell *cell);
+void	 cell_queue_recalc	    (GnmCell const *cell);
+void	 cell_foreach_dep	    (GnmCell const *cell, DepFunc func, gpointer user);
+gboolean cell_eval_content	    (GnmCell *cell);
 
 #define cell_eval(cell)							\
 {									\
@@ -117,9 +117,9 @@ void		 gnm_dep_container_dump	(GnmDepContainer const *deps);
 
 #define DEPENDENT_CONTAINER_FOREACH_DEPENDENT(dc, dep, code)	\
   do {								\
-	Dependent *dep = (dc)->head;				\
+	GnmDependent *dep = (dc)->head;				\
 	while (dep) {						\
-		Dependent *_next = dep->next_dep;		\
+		GnmDependent *_next = dep->next_dep;		\
 		code;						\
 		dep = _next;					\
 	}							\
@@ -140,6 +140,6 @@ t ## _get_dep_type (void)					\
 	return type;						\
 }
 
-void dependent_debug_name (Dependent const *dep, FILE *out);
+void dependent_debug_name (GnmDependent const *dep, FILE *out);
 
 #endif /* GNUMERIC_EVAL_H */

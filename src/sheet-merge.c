@@ -59,13 +59,13 @@ range_row_cmp (GnmRange const *a, GnmRange const *b)
  */
 gboolean
 sheet_merge_add (Sheet *sheet, GnmRange const *r, gboolean clear,
-		 CommandContext *cc)
+		 GnmCmdContext *cc)
 {
 	GSList *test;
 	GnmRange  *r_copy;
-	Cell   *cell;
+	GnmCell   *cell;
 	MStyle *style;
-	CellComment *comment;
+	GnmComment *comment;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (range_is_sane (r), TRUE);
@@ -159,11 +159,11 @@ sheet_merge_add (Sheet *sheet, GnmRange const *r, gboolean clear,
  * returns TRUE if there was an error.
  */
 gboolean
-sheet_merge_remove (Sheet *sheet, GnmRange const *r, CommandContext *cc)
+sheet_merge_remove (Sheet *sheet, GnmRange const *r, GnmCmdContext *cc)
 {
-	GnmRange *r_copy;
-	Cell *cell;
-	CellComment *comment;
+	GnmRange   *r_copy;
+	GnmCell    *cell;
+	GnmComment *comment;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (r != NULL, TRUE);

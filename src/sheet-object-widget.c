@@ -354,7 +354,7 @@ sheet_widget_frame_user_config (SheetObject *so, SheetControl *sc)
   	state->sheet = sc_sheet	(sc);
   	state->old_focus = NULL;
   	state->old_label = g_strdup(swc->label);
-  	state->gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+  	state->gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
 		"so-frame.glade", NULL, NULL);
   	state->dialog = glade_xml_get_widget (state->gui, "so_frame");
 
@@ -515,7 +515,7 @@ typedef struct {
 	SheetObjectWidget	sow;
 
 	gboolean  being_updated;
-	Dependent dep;
+	GnmDependent dep;
 	GtkAdjustment *adjustment;
 } SheetWidgetAdjustment;
 typedef SheetObjectWidgetClass SheetWidgetAdjustmentClass;
@@ -533,7 +533,7 @@ sheet_widget_adjustment_set_value (SheetWidgetAdjustment *swa, gfloat new_val)
 }
 
 static void
-adjustment_eval (Dependent *dep)
+adjustment_eval (GnmDependent *dep)
 {
 	GnmValue *v;
 	EvalPos pos;
@@ -546,7 +546,7 @@ adjustment_eval (Dependent *dep)
 }
 
 static void
-adjustment_debug_name (Dependent const *dep, FILE *out)
+adjustment_debug_name (GnmDependent const *dep, FILE *out)
 {
 	fprintf (out, "Adjustment%p", dep);
 }
@@ -588,7 +588,7 @@ cb_adjustment_value_changed (GtkAdjustment *adjustment,
 		return;
 
 	if (sheet_widget_adjustment_get_ref (swa, &ref, TRUE) != NULL) {
-		Cell *cell = sheet_cell_fetch (ref.sheet, ref.col, ref.row);
+		GnmCell *cell = sheet_cell_fetch (ref.sheet, ref.col, ref.row);
 		/* TODO : add more control for precision, XL is stupid */
 		int new_val = gnumeric_fake_round (swa->adjustment->value);
 		if (cell->value != NULL &&
@@ -775,7 +775,7 @@ sheet_widget_adjustment_user_config (SheetObject *so, SheetControl *sc)
 	state->wbcg = wbcg;
 	state->sheet = sc_sheet	(sc);
 	state->old_focus = NULL;
-	state->gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+	state->gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
 		"so-scrollbar.glade", NULL, NULL);
 	state->dialog = glade_xml_get_widget (state->gui, "SO-Scrollbar");
 
@@ -1082,7 +1082,7 @@ typedef struct {
 
 	char	 *label;
 	gboolean  being_updated;
-	Dependent dep;
+	GnmDependent dep;
 	gboolean  value;
 } SheetWidgetCheckbox;
 typedef SheetObjectWidgetClass SheetWidgetCheckboxClass;
@@ -1105,7 +1105,7 @@ sheet_widget_checkbox_set_active (SheetWidgetCheckbox *swc)
 }
 
 static void
-checkbox_eval (Dependent *dep)
+checkbox_eval (GnmDependent *dep)
 {
 	GnmValue *v;
 	EvalPos pos;
@@ -1124,7 +1124,7 @@ checkbox_eval (Dependent *dep)
 }
 
 static void
-checkbox_debug_name (Dependent const *dep, FILE *out)
+checkbox_debug_name (GnmDependent const *dep, FILE *out)
 {
 	fprintf (out, "Checkbox%p", dep);
 }
@@ -1207,7 +1207,7 @@ cb_checkbox_toggled (GtkToggleButton *button, SheetWidgetCheckbox *swc)
 
 	if (sheet_widget_checkbox_get_ref (swc, &ref, TRUE) != NULL) {
 		gboolean const new_val = gtk_toggle_button_get_active (button);
-		Cell *cell = sheet_cell_fetch (ref.sheet, ref.col, ref.row);
+		GnmCell *cell = sheet_cell_fetch (ref.sheet, ref.col, ref.row);
 		sheet_cell_set_value (cell, value_new_bool (new_val));
 		sheet_set_dirty (ref.sheet, TRUE);
 		workbook_recalc (ref.sheet->workbook);
@@ -1354,7 +1354,7 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControl *sc)
 	state->sheet = sc_sheet	(sc);
 	state->old_focus = NULL;
 	state->old_label = g_strdup (swc->label);
-	state->gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+	state->gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
 		"so-checkbox.glade", NULL, NULL);
 	state->dialog = glade_xml_get_widget (state->gui, "SO-Checkbox");
 
@@ -1536,12 +1536,12 @@ typedef struct {
 
 	gboolean	 being_updated;
 	char		*label;
-	Dependent	 dep;
+	GnmDependent	 dep;
 } SheetWidgetRadioButton;
 typedef SheetObjectWidgetClass SheetWidgetRadioButtonClass;
 
 static void
-radio_button_eval (Dependent *dep)
+radio_button_eval (GnmDependent *dep)
 {
 	GnmValue *v;
 	EvalPos pos;
@@ -1559,7 +1559,7 @@ radio_button_eval (Dependent *dep)
 }
 
 static void
-radio_button_debug_name (Dependent const *dep, FILE *out)
+radio_button_debug_name (GnmDependent const *dep, FILE *out)
 {
 	fprintf (out, "RadioButton%p", dep);
 }
@@ -1671,12 +1671,12 @@ typedef struct {
 	SheetObjectWidget	sow;
 
 	gboolean	being_updated;
-	Dependent	dep;
+	GnmDependent	dep;
 } SheetWidgetList;
 typedef SheetObjectWidgetClass SheetWidgetListClass;
 
 static void
-list_eval (Dependent *dep)
+list_eval (GnmDependent *dep)
 {
 	GnmValue *v;
 	EvalPos pos;
@@ -1693,7 +1693,7 @@ list_eval (Dependent *dep)
 }
 
 static void
-list_debug_name (Dependent const *dep, FILE *out)
+list_debug_name (GnmDependent const *dep, FILE *out)
 {
 	fprintf (out, "List%p", dep);
 }
@@ -1767,13 +1767,13 @@ typedef struct {
 	SheetObjectWidget	sow;
 
 	gboolean	being_updated;
-	Dependent	input_dep, output_dep;
+	GnmDependent	input_dep, output_dep;
 } SheetWidgetCombo;
 typedef SheetObjectWidgetClass SheetWidgetComboClass;
 
 /*-----------*/
 static void
-combo_input_eval (Dependent *dep)
+combo_input_eval (GnmDependent *dep)
 {
 	GnmValue *v;
 	EvalPos pos;
@@ -1790,7 +1790,7 @@ combo_input_eval (Dependent *dep)
 }
 
 static void
-combo_input_debug_name (Dependent const *dep, FILE *out)
+combo_input_debug_name (GnmDependent const *dep, FILE *out)
 {
 	fprintf (out, "ComboInput%p", dep);
 }
@@ -1799,7 +1799,7 @@ static DEPENDENT_MAKE_TYPE (combo_input, NULL)
 
 /*-----------*/
 static void
-combo_output_eval (Dependent *dep)
+combo_output_eval (GnmDependent *dep)
 {
 	GnmValue *v;
 	EvalPos pos;
@@ -1816,7 +1816,7 @@ combo_output_eval (Dependent *dep)
 }
 
 static void
-combo_output_debug_name (Dependent const *dep, FILE *out)
+combo_output_debug_name (GnmDependent const *dep, FILE *out)
 {
 	fprintf (out, "ComboOutput%p", dep);
 }

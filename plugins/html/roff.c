@@ -41,7 +41,7 @@
  * escape special characters .. needs work
  */
 static int
-roff_fprintf (GsfOutput *output, Cell *cell)
+roff_fprintf (GsfOutput *output, GnmCell *cell)
 {
 	int len, i;
 	const char *p;
@@ -89,7 +89,7 @@ roff_file_save (GnmFileSaver const *fs, IOContext *io_context,
                 WorkbookView const *wb_view, GsfOutput *output)
 {
 	GList *sheets, *ptr;
-	Cell *cell;
+	GnmCell *cell;
 	int row, col, fontsize, v_size;
 	Workbook *wb = wb_view_workbook (wb_view);
 

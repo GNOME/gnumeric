@@ -451,7 +451,7 @@ xml_read_format_template_members (XmlParseContext *ctxt, FormatTemplate *ft, xml
  * Return value: a new FormatTemplate (or NULL on error)
  **/
 FormatTemplate *
-format_template_new_from_file (char const *filename, CommandContext *cc)
+format_template_new_from_file (char const *filename, GnmCmdContext *cc)
 {
 	FormatTemplate	*ft = NULL;
 	xmlDoc		*doc;
@@ -580,7 +580,7 @@ xml_write_format_template_members (XmlParseContext *ctxt, FormatTemplate const *
  * Return value: return TRUE on error.
  **/
 gboolean
-format_template_save (FormatTemplate const *ft, CommandContext *cc)
+format_template_save (FormatTemplate const *ft, GnmCmdContext *cc)
 {
 	FILE *file;
 	IOContext *io_context;
@@ -786,7 +786,7 @@ typedef void (* PCalcCallback) (FormatTemplate *ft, GnmRange *r, MStyle *mstyle,
  **/
 static gboolean
 format_template_range_check (FormatTemplate *ft, GnmRange const *r,
-			     CommandContext *optional_cc)
+			     GnmCmdContext *optional_cc)
 {
 	GSList *iterator;
 	int diff_col_high = -1;
@@ -1140,7 +1140,7 @@ cb_format_sheet_style (FormatTemplate *ft, GnmRange *r, MStyle *mstyle, Sheet *s
  * supplied.
  */
 gboolean
-format_template_check_valid (FormatTemplate *ft, GSList *regions, CommandContext *cc)
+format_template_check_valid (FormatTemplate *ft, GSList *regions, GnmCmdContext *cc)
 {
 	g_return_val_if_fail (cc != NULL, FALSE);
 

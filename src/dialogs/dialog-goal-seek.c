@@ -77,9 +77,9 @@ typedef struct {
 	gnm_float target_value;
 	gnm_float xmin;
 	gnm_float xmax;
-	Cell *set_cell;
-	Cell *change_cell;
-	Cell *old_cell;
+	GnmCell *set_cell;
+	GnmCell *change_cell;
+	GnmCell *old_cell;
 	GnmValue *old_value;
 	GtkWidget *warning_dialog;
 	gboolean cancelled;
@@ -87,7 +87,7 @@ typedef struct {
 
 
 typedef struct {
-	Cell *xcell, *ycell;
+	GnmCell *xcell, *ycell;
 	gnm_float ytarget;
 } GoalEvalData;
 
@@ -637,7 +637,7 @@ dialog_goal_seek (WorkbookControlGUI *wbcg, Sheet *sheet)
 	/* Only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, GOALSEEK_KEY))
 		return;
-	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
 		"goalseek.glade", NULL, NULL);
         if (gui == NULL)
                 return;

@@ -584,7 +584,7 @@ required_updates_for_style (MStyle *style)
  * value.
  */
 StyleHAlignFlags
-style_default_halign (MStyle const *mstyle, Cell const *c)
+style_default_halign (MStyle const *mstyle, GnmCell const *c)
 {
 	StyleHAlignFlags align = mstyle_get_align_h (mstyle);
 

@@ -236,7 +236,7 @@ dao_format_output (data_analysis_output_t *dao, char const *cmd)
 
 	if (dao->type == RangeOutput
 	    && sheet_range_splits_region (dao->sheet, &range, NULL,
-					  COMMAND_CONTEXT (dao->wbc), cmd))
+					  GNM_CMD_CONTEXT (dao->wbc), cmd))
 		return TRUE;
 
 	if (dao->clear_outputrange)
@@ -250,15 +250,15 @@ dao_format_output (data_analysis_output_t *dao, char const *cmd)
 			    range.start.col, range.start.row,
 			    range.end.col, range.end.row,
 			    clear_flags | CLEAR_NOCHECKARRAY | CLEAR_MERGES,
-			    COMMAND_CONTEXT (dao->wbc));
+			    GNM_CMD_CONTEXT (dao->wbc));
 	return FALSE;
 }
 
 void 
-dao_set_cell_expr       (data_analysis_output_t *dao, int col, int row,
-			       GnmExpr const *expr)
+dao_set_cell_expr (data_analysis_output_t *dao, int col, int row,
+		   GnmExpr const *expr)
 {
-        Cell *cell;
+        GnmCell *cell;
 
 	col += dao->offset_col;
 	row += dao->offset_row;
@@ -299,7 +299,7 @@ dao_set_cell_expr       (data_analysis_output_t *dao, int col, int row,
 void
 dao_set_cell_value (data_analysis_output_t *dao, int col, int row, GnmValue *v)
 {
-        Cell *cell;
+        GnmCell *cell;
 
 	col += dao->offset_col;
 	row += dao->offset_row;
@@ -890,7 +890,7 @@ dao_find_name (Sheet *sheet, int col, int row)
         int         col_n, row_n;
 
 	for (col_n = col - 1; col_n >= 0; col_n--) {
-	        Cell *cell = sheet_cell_get (sheet, col_n, row);
+	        GnmCell *cell = sheet_cell_get (sheet, col_n, row);
 		if (cell && !VALUE_IS_NUMBER (cell->value)) {
 			col_str = value_peek_string (cell->value);
 		        break;
@@ -898,7 +898,7 @@ dao_find_name (Sheet *sheet, int col, int row)
 	}
 
 	for (row_n = row - 1; row_n >= 0; row_n--) {
-	        Cell *cell = sheet_cell_get (sheet, col, row_n);
+	        GnmCell *cell = sheet_cell_get (sheet, col, row_n);
 		if (cell && !VALUE_IS_NUMBER (cell->value)) {
 			row_str = value_peek_string (cell->value);
 		        break;
@@ -933,22 +933,19 @@ void
 dao_convert_to_values (data_analysis_output_t *dao)
 {
 	int row, col;
-	
+
 	if (dao->put_formulas)
 		return;
-	
+
 	workbook_recalc (dao->sheet->workbook);
 	for (row = 0; row < dao->rows; row++) {
 		for (col = 0; col < dao->cols; col++) {
-			Cell *cell = sheet_cell_fetch (dao->sheet, 
-						       dao->start_col + col, 
-						       dao->start_row + row);
-			
+			GnmCell *cell = sheet_cell_fetch (dao->sheet, 
+				dao->start_col + col, dao->start_row + row);
 			if (cell_has_expr (cell))
 				cell_convert_expr_to_value (cell);
-			}
+		}
 	}
-
 }
 
 void

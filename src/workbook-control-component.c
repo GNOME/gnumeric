@@ -15,15 +15,15 @@
 #include "workbook-edit.h"
 
 static char *
-wbcc_get_password (CommandContext *cc, char const* filename) { return NULL; }
+wbcc_get_password (GnmCmdContext *cc, char const* filename) { return NULL; }
 static void
-wbcc_set_sensitive (CommandContext *wbc, gboolean sensitive) {}
+wbcc_set_sensitive (GnmCmdContext *wbc, gboolean sensitive) {}
 
 static void
-wbcc_progress_set (CommandContext *cc, gfloat val) {}
+wbcc_progress_set (GnmCmdContext *cc, gfloat val) {}
 
 static void
-wbcc_progress_message_set (CommandContext *cc, gchar const *msg) {}
+wbcc_progress_message_set (GnmCmdContext *cc, gchar const *msg) {}
 
 static WorkbookControl *
 wbcc_control_new (G_GNUC_UNUSED WorkbookControl *wbc,

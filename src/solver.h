@@ -153,7 +153,7 @@ struct _SolverConstraint {
 
 struct _SolverParameters {
         SolverProblemType  problem_type;
-        Cell               *target_cell;
+        GnmCell            *target_cell;
         GSList		   *input_cells;
         GSList             *constraints;
         char               *input_entry_str;
@@ -198,7 +198,7 @@ typedef struct {
         gboolean         ilp_flag;   /* This is set if the problem has INT
 				      * constraints.  Some reports cannot
 				      * be created if there are any. */
-        Cell             **input_cells_array;
+        GnmCell          **input_cells_array;
         SolverConstraint **constraints_array;
         gnm_float       *obj_coeff;
         gnm_float       **constr_coeff;
@@ -247,10 +247,10 @@ void             solver_results_free   (SolverResults *res);
 
 /* Returns a pointer to the target cell of the model attached to the
  * given sheet. */
-Cell*            solver_get_target_cell (Sheet *sheet);
+GnmCell		*solver_get_target_cell (Sheet *sheet);
 
 /* Returns a pointer to a input variable cell. */
-Cell*            solver_get_input_var (SolverResults *res, int n);
+GnmCell		*solver_get_input_var (SolverResults *res, int n);
 
 /* Retruns a pointer to a constraint. */
 SolverConstraint* solver_get_constraint (SolverResults *res, int n);

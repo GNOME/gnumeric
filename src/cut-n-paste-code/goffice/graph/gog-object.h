@@ -23,7 +23,7 @@
 
 #include <goffice/graph/goffice-graph.h>
 #include <glib-object.h>
-#include <command-context.h> /* for CommandContext */
+#include <command-context.h> /* for GnmCmdContext */
 #include <libart_lgpl/art_rect.h>
 
 G_BEGIN_DECLS
@@ -87,7 +87,7 @@ typedef struct {
 	void	     (*parent_changed)	(GogObject *obj, gboolean was_set);
 	char const  *(*type_name)	(GogObject const *obj);
 	gpointer     (*editor)		(GogObject *obj,
-					 GogDataAllocator *dalloc, CommandContext *cc);
+					 GogDataAllocator *dalloc, GnmCmdContext *cc);
 
 	/* signals */
 	void (*changed)		(GogObject *obj, gboolean size);
@@ -119,7 +119,7 @@ char const  *gog_object_get_name	 (GogObject const *obj);
 void	     gog_object_set_name	 (GogObject *obj, char *name, GError **err);
 GSList      *gog_object_get_children	 (GogObject const *obj);
 gpointer     gog_object_get_editor	 (GogObject *obj,
-					  GogDataAllocator *dalloc, CommandContext *cc);
+					  GogDataAllocator *dalloc, GnmCmdContext *cc);
 GogView	    *gog_object_new_view	 (GogObject const *obj, GogView *view);
 gboolean     gog_object_is_deletable	 (GogObject const *obj);
 GSList   *gog_object_possible_additions	 (GogObject const *obj);

@@ -436,12 +436,12 @@ gog_object_possible_additions (GogObject const *parent)
  * gog_object_get_editor :
  * @obj   : #GogObject
  * @dalloc : #GogDataAllocator
- * @cc     : #CommandContext
+ * @cc     : #GnmCmdContext
  *
  **/
 gpointer
-gog_object_get_editor (GogObject *obj,
-			  GogDataAllocator *dalloc, CommandContext *cc)
+gog_object_get_editor (GogObject *obj, GogDataAllocator *dalloc,
+		       GnmCmdContext *cc)
 {
 	GogObjectClass *klass = GOG_OBJECT_GET_CLASS (obj);
 	g_return_val_if_fail (klass != NULL, NULL);

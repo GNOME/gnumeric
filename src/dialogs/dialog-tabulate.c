@@ -100,7 +100,7 @@ non_model_dialog (WorkbookControlGUI *wbcg,
 	gtk_widget_show (GTK_WIDGET (dialog));
 }
 
-static Cell *
+static GnmCell *
 single_cell (Sheet *sheet, GnmExprEntry *gee)
 {
 	int col, row;
@@ -138,7 +138,7 @@ get_table_expr_entry (GtkTable *t, int y, int x)
 }
 
 static int
-get_table_float_entry (GtkTable *t, int y, int x, Cell *cell, gnm_float *number,
+get_table_float_entry (GtkTable *t, int y, int x, GnmCell *cell, gnm_float *number,
 		       GtkEntry **wp, gboolean with_default, gnm_float default_float)
 {
 	GList *l;
@@ -179,13 +179,13 @@ static void
 tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 {
 	GtkDialog *dialog = dd->dialog;
-	Cell *resultcell;
+	GnmCell *resultcell;
 	int dims = 0;
 	int row;
 	gboolean with_coordinates;
-	tabulate_t *data;
+	GnmTabulateInfo *data;
 
-	Cell **cells = g_new (Cell *, dd->source_table->nrows);
+	GnmCell **cells = g_new (GnmCell *, dd->source_table->nrows);
 	gnm_float *minima = g_new (gnm_float, dd->source_table->nrows);
 	gnm_float *maxima = g_new (gnm_float, dd->source_table->nrows);
 	gnm_float *steps = g_new (gnm_float, dd->source_table->nrows);
@@ -281,7 +281,7 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 		with_coordinates = (i == -1) ? TRUE : (gboolean)i;
 	}
 
-	data = g_new (tabulate_t, 1);
+	data = g_new (GnmTabulateInfo, 1);
 	data->target = resultcell;
 	data->dims = dims;
 	data->cells = cells;
@@ -319,7 +319,7 @@ dialog_tabulate (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, TABULATE_KEY))
 		return;
-	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
 		"tabulate.glade", NULL, NULL);
         if (gui == NULL)
                 return;

@@ -78,7 +78,7 @@ make_dim_editor (GtkTable *table, unsigned row, GtkWidget *editor,
 static gpointer
 gog_series_editor (GogObject *gobj,
 		   GogDataAllocator *dalloc,
-		   CommandContext *cc)
+		   GnmCmdContext *cc)
 {
 	GtkWidget *w;
 	GtkTable  *table;

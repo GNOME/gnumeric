@@ -27,7 +27,7 @@
 #include <glade/glade-xml.h>
 #include <gtk/gtkspinbutton.h>
 
-GtkWidget *gog_barcol_plot_pref (GogBarColPlot *plot, CommandContext *cc);
+GtkWidget *gog_barcol_plot_pref (GogBarColPlot *plot, GnmCmdContext *cc);
 
 static void
 cb_gap_changed (GtkAdjustment *adj, GObject *barcal)
@@ -42,7 +42,7 @@ cb_overlap_changed (GtkAdjustment *adj, GObject *barcol)
 }
 
 GtkWidget *
-gog_barcol_plot_pref (GogBarColPlot *barcol, CommandContext *cc)
+gog_barcol_plot_pref (GogBarColPlot *barcol, GnmCmdContext *cc)
 {
 	GtkWidget  *w;
 	char const *dir = gnm_plugin_get_dir_name (

@@ -289,7 +289,7 @@ typedef struct {
 
 static GnmValue *
 callback_function_rank (Sheet *sheet, int col, int row,
-			Cell *cell, void *user_data)
+			GnmCell *cell, void *user_data)
 {
         stat_rank_t *p = user_data;
 	gnm_float  x;
@@ -2742,7 +2742,7 @@ typedef struct {
 
 static GnmValue *
 callback_function_list (Sheet *sheet, int col, int row,
-			Cell *cell, void *user_data)
+			GnmCell *cell, void *user_data)
 {
         stat_list_t *mm = user_data;
 	gnm_float *p;

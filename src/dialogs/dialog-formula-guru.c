@@ -904,7 +904,7 @@ dialog_formula_guru (WorkbookControlGUI *wbcg, GnmFunc const *fd)
 {
 	SheetView *sv;
 	GladeXML  *gui;
-	Cell	  *cell;
+	GnmCell	  *cell;
 	GtkWidget *dialog;
 	FormulaGuruState *state;
 	GnmExpr const *expr = NULL;
@@ -941,7 +941,7 @@ dialog_formula_guru (WorkbookControlGUI *wbcg, GnmFunc const *fd)
 	}
 
 	/* Get the dialog and check for errors */
-	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
 		"formula-guru.glade", NULL, NULL);
 	if (gui == NULL)
 		return;

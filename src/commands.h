@@ -138,7 +138,7 @@ gboolean cmd_solver (WorkbookControl *wbc,
 		     GSList *cells, GSList *ov, GSList *nv);
 
 gboolean cmd_goal_seek (WorkbookControl *wbc,
-			Cell *cell, GnmValue *ov, GnmValue *nv);
+			GnmCell *cell, GnmValue *ov, GnmValue *nv);
 
 gboolean cmd_clone_sheet (WorkbookControl *wbc, Sheet *sheet);
 

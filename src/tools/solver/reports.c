@@ -54,7 +54,7 @@
 static void
 get_input_variable_names (SolverResults *res, Sheet *sheet)
 {
-        Cell *cell;
+        GnmCell *cell;
 	int  i;
 
 	for (i = 0; i < res->param->n_variables; i++) {
@@ -81,10 +81,10 @@ get_constraint_names (SolverResults *res, Sheet *sheet)
  * Returns the value of a cell when one of the input variables is reset.
  */
 static gnm_float
-get_target_cell_value (SolverResults *res, Cell *target_cell,
+get_target_cell_value (SolverResults *res, GnmCell *target_cell,
 		       int col, gnm_float x, gnm_float *old_value)
 {
-        Cell *var_cell;
+        GnmCell *var_cell;
 
 	var_cell   = solver_get_input_var (res, col);
 	*old_value = value_get_as_float (var_cell->value);
@@ -99,7 +99,7 @@ is_still_feasible (Sheet *sheet, SolverResults *res, int col, gnm_float value)
 {
         gnm_float c_value, rhs, old_value = res->optimal_values [col];
 	int        i, n;
-	Cell       *cell;
+	GnmCell       *cell;
 	gboolean   status = FALSE;
 
 	res->optimal_values[col] = value;
@@ -149,7 +149,7 @@ calculate_limits (Sheet *sheet, SolverParameters *param, SolverResults *res)
 	for (i = 0; i < param->n_total_constraints; i++) {
 	        gnm_float       slack, lhs, rhs, x, y, old_val;
 		SolverConstraint *c = res->constraints_array[i];
-		Cell             *cell;
+		GnmCell             *cell;
 
 		cell  = sheet_cell_get (sheet, c->rhs.col, c->rhs.row);
 		rhs   = value_get_as_float (cell->value);
@@ -201,7 +201,7 @@ set_optimal_values_to_sheet (SolverProgram *program, Sheet *sheet,
 			     gnm_float *store)
 {
         int  i;
-	Cell *cell;
+	GnmCell *cell;
 
 	for (i = 0; i < res->param->n_variables; i++) {
 	        store[i] = alg->get_obj_fn_var_fn (program, i);
@@ -236,7 +236,7 @@ solver_prepare_reports_success (SolverProgram *program, SolverResults *res,
 				Sheet *sheet)
 {
 	SolverParameters  *param = res->param;
-        Cell              *cell;
+        GnmCell              *cell;
 	int               i;
 	const SolverLPAlgorithm *alg;
 

@@ -1511,7 +1511,7 @@ dialog_preferences (WorkbookControlGUI *wbcg, gint page)
 		return;
 	}
 
-	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
 		"preferences.glade", NULL, NULL);
 	if (gui == NULL)
 		return;

@@ -149,7 +149,7 @@ solver_results_free (SolverResults *res)
 
 /* ------------------------------------------------------------------------- */
 
-Cell *
+GnmCell *
 solver_get_target_cell (Sheet *sheet)
 {
         return sheet_cell_get (sheet,
@@ -157,7 +157,7 @@ solver_get_target_cell (Sheet *sheet)
 			       sheet->solver_parameters->target_cell->pos.row);
 }
 
-Cell *
+GnmCell *
 solver_get_input_var (SolverResults *res, int n)
 {
         return res->input_cells_array[n];
@@ -244,7 +244,7 @@ write_constraint_str (int lhs_col, int lhs_row, int rhs_col,
  * function.
  */
 static inline gnm_float
-get_lp_coeff (Cell *target, Cell *change, gnm_float *x0)
+get_lp_coeff (GnmCell *target, GnmCell *change, gnm_float *x0)
 {
         gnm_float tmp = *x0;
 
@@ -268,11 +268,11 @@ save_original_values (SolverResults          *res,
 {
   
 	GSList   *inputs = param->input_cells;
-	Cell     *cell;
+	GnmCell  *cell;
 	int      i = 0;
 
 	while (inputs != NULL) {
-	        cell = (Cell *) inputs->data;
+	        cell = (GnmCell *) inputs->data;
 
 		if (cell == NULL || cell->value == NULL)
 		        res->original_values[i] = 0;
@@ -295,11 +295,11 @@ restore_original_values (SolverResults *res)
 {
   
 	GSList   *inputs = res->param->input_cells;
-	Cell     *cell;
+	GnmCell  *cell;
 	int      i = 0;
 
 	while (inputs != NULL) {
-	        cell = (Cell *) inputs->data;
+	        cell = (GnmCell *) inputs->data;
 
 		sheet_cell_set_value (cell,
 				      value_new_float(res->original_values[i]));
@@ -315,7 +315,7 @@ static int
 get_col_nbr (SolverResults *res, GnmCellPos *pos)
 {
         int  i;
-        Cell *cell;
+        GnmCell *cell;
 
 	for (i = 0; i < res->param->n_variables; i++) {
 	        cell = solver_get_input_var (res, i);
@@ -348,7 +348,7 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 		   gnm_float start_time, GTimeVal start, const gchar **errmsg)
 {
         SolverProgram     program;
-	Cell              *target;
+	GnmCell          *target;
 	gnm_float         x, x0, base;
 	int               i, n, ind;
 
@@ -501,9 +501,9 @@ check_program_definition_failures (Sheet            *sheet,
 {
 	GSList           *inputs;
 	GSList           *c;
-	Cell             *cell;
-	int              i, n;
-	Cell             **input_cells_array;
+	GnmCell          *cell;
+	int               i, n;
+	GnmCell          **input_cells_array;
 	SolverConstraint **constraints_array;
 
 	param->n_variables = 0;
@@ -515,7 +515,7 @@ check_program_definition_failures (Sheet            *sheet,
 	/* Count the nbr of the input cells and check that each cell
 	 * is in the list only once. */
  	for (inputs = param->input_cells; inputs ; inputs = inputs->next) {
-	        cell = (Cell *) inputs->data;
+	        cell = (GnmCell *) inputs->data;
 
 		/* Check that the cell contains a number or is empty. */
 		if (! (cell->value == NULL || VALUE_IS_EMPTY (cell->value)
@@ -528,10 +528,10 @@ check_program_definition_failures (Sheet            *sheet,
 		
 	        param->n_variables += 1;
 	}
-	input_cells_array = g_new (Cell *, param->n_variables);
+	input_cells_array = g_new (GnmCell *, param->n_variables);
 	i = 0;
  	for (inputs = param->input_cells; inputs ; inputs = inputs->next)
-	        input_cells_array[i++] = (Cell *) inputs->data;
+	        input_cells_array[i++] = (GnmCell *) inputs->data;
 
 	param->n_constraints      = 0;
 	param->n_int_constraints  = 0;
@@ -706,8 +706,8 @@ solver_lp_copy (const SolverParameters *src_param, Sheet *new_sheet)
 
 	/* Copy the input cell list */
 	for (inputs = src_param->input_cells; inputs ; inputs = inputs->next) {
-		Cell *cell = inputs->data;
-		Cell *new_cell;
+		GnmCell *cell = inputs->data;
+		GnmCell *new_cell;
 
 		new_cell = cell_copy (cell);
 		new_cell->base.sheet = new_sheet;

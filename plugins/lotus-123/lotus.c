@@ -62,7 +62,7 @@ append_zeros (char *s, int n) {
 }
 
 static void
-cell_set_format_from_lotus_format (Cell *cell, int fmt)
+cell_set_format_from_lotus_format (GnmCell *cell, int fmt)
 {
 	int fmt_type  = (fmt >> 4) & 0x7;
 	int precision = fmt&0xf;
@@ -177,10 +177,10 @@ record_destroy (record_t *r)
 	}
 }
 
-static Cell *
+static GnmCell *
 insert_value (Sheet *sheet, guint32 col, guint32 row, GnmValue *val)
 {
-	Cell *cell;
+	GnmCell *cell;
 
 	g_return_val_if_fail (val != NULL, NULL);
 	g_return_val_if_fail (sheet != NULL, NULL);
@@ -221,7 +221,7 @@ lotus_wk1_read (LotusWk1Read *state)
 {
 	gboolean result = TRUE;
 	int sheetidx = 0;
-	Cell    *cell;
+	GnmCell    *cell;
 	GnmValue	*v;
 	guint16  fmt;	/* Format code of Lotus Cell */
 	record_t *r;

@@ -996,7 +996,7 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 		return;
 	}
 
-	gui = gnm_glade_xml_new (COMMAND_CONTEXT (state->wbcg),
+	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (state->wbcg),
 		"hf-config.glade", NULL, NULL);
         if (gui == NULL)
                 return;
@@ -1625,7 +1625,7 @@ printer_setup_state_new (WorkbookControlGUI *wbcg, Sheet *sheet)
 	PrinterSetupState *state;
 	GladeXML *gui;
 
-	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
 		"print.glade", NULL, NULL);
         if (gui == NULL)
                 return NULL;

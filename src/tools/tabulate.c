@@ -47,8 +47,8 @@
 
 
 static GnmValue *
-tabulation_eval (Workbook *wb, int dims,
-		 const gnm_float *x, Cell **xcells, Cell *ycell)
+tabulation_eval (Workbook *wb, int dims, gnm_float const *x,
+		 GnmCell **xcells, GnmCell *ycell)
 {
 	int i;
 
@@ -64,7 +64,7 @@ tabulation_eval (Workbook *wb, int dims,
 }
 
 static StyleFormat const *
-my_get_format (Cell const *cell)
+my_get_format (GnmCell const *cell)
 {
 	StyleFormat const *format = mstyle_get_format (cell_get_mstyle (cell));
 
@@ -76,7 +76,7 @@ my_get_format (Cell const *cell)
 
 GSList *
 do_tabulation (WorkbookControl *wbc,
-	       tabulate_t *data)
+	       GnmTabulateInfo *data)
 {
 	Workbook *wb = wb_control_workbook (wbc);
 	GSList *sheet_idx = NULL;
@@ -148,7 +148,7 @@ do_tabulation (WorkbookControl *wbc,
 
 	while (1) {
 		GnmValue *v;
-		Cell *cell;
+		GnmCell *cell;
 		int dim;
 
 		if (data->with_coordinates) {

@@ -107,7 +107,7 @@ search_get_value (gint row, gint column, gpointer _dd, GValue *value)
 	DialogState *dd = (DialogState *)_dd;
 	GnumericLazyList *ll = GNUMERIC_LAZY_LIST (dd->matches_model);
 	SearchFilterResult *item = g_ptr_array_index (dd->matches, row);
-	Cell *cell = item->cell;
+	GnmCell *cell = item->cell;
 
 	g_value_init (value, ll->column_headers[column]);
 
@@ -439,7 +439,7 @@ dialog_search (WorkbookControlGUI *wbcg)
 	if (gnumeric_dialog_raise_if_exists (wbcg, SEARCH_KEY))
 		return;
 
-	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
 		"search.glade", NULL, NULL);
         if (gui == NULL)
                 return;

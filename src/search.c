@@ -492,7 +492,7 @@ cb_order_sheet_col_row (const void *_a, const void *_b)
 
 static GnmValue *
 search_collect_cells_cb (Sheet *sheet, int col, int row,
-			 Cell *cell, GPtrArray *cells)
+			 GnmCell *cell, GPtrArray *cells)
 {
 	EvalPos *ep = g_new (EvalPos, 1);
 
@@ -662,7 +662,7 @@ search_replace_cell (GnmSearchReplace *sr,
 		     gboolean repl,
 		     SearchReplaceCellResult *res)
 {
-	Cell *cell;
+	GnmCell *cell;
 	GnmValue *v;
 	gboolean is_expr, is_value, is_string, is_other;
 
@@ -725,7 +725,7 @@ search_replace_value (GnmSearchReplace *sr,
 		      const EvalPos *ep,
 		      SearchReplaceValueResult *res)
 {
-	Cell *cell;
+	GnmCell *cell;
 
 	g_return_val_if_fail (res, FALSE);
 

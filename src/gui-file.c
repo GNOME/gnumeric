@@ -95,8 +95,8 @@ gui_file_read (WorkbookControlGUI *wbcg, char const *file_name,
 	IOContext *io_context;
 	WorkbookView *wbv;
 
-	cmd_context_set_sensitive (COMMAND_CONTEXT (wbcg), FALSE);
-	io_context = gnumeric_io_context_new (COMMAND_CONTEXT (wbcg));
+	cmd_context_set_sensitive (GNM_CMD_CONTEXT (wbcg), FALSE);
+	io_context = gnumeric_io_context_new (GNM_CMD_CONTEXT (wbcg));
 	wbv = wb_view_new_from_file  (file_name, optional_format, io_context, 
 				      optional_encoding);
 
@@ -105,7 +105,7 @@ gui_file_read (WorkbookControlGUI *wbcg, char const *file_name,
 		gnumeric_io_error_display (io_context);
 
 	g_object_unref (G_OBJECT (io_context));
-	cmd_context_set_sensitive (COMMAND_CONTEXT (wbcg), TRUE);
+	cmd_context_set_sensitive (GNM_CMD_CONTEXT (wbcg), TRUE);
 
 	if (wbv != NULL) {
 		Workbook *tmp_wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
@@ -355,7 +355,7 @@ do_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view,
 		return FALSE;
 	}
 
-	success = wb_view_save_as (wb_view, fs, filename, COMMAND_CONTEXT (wbcg));
+	success = wb_view_save_as (wb_view, fs, filename, GNM_CMD_CONTEXT (wbcg));
 	g_free (filename);
 	return success;
 }
@@ -446,5 +446,5 @@ gui_file_save (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	if (wb->file_format_level < FILE_FL_AUTO)
 		return gui_file_save_as (wbcg, wb_view);
 	else
-		return wb_view_save (wb_view, COMMAND_CONTEXT (wbcg));
+		return wb_view_save (wb_view, GNM_CMD_CONTEXT (wbcg));
 }

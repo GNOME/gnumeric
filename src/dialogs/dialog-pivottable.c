@@ -84,7 +84,7 @@ dialog_pivottable (WorkbookControlGUI *wbcg)
 	if (gnumeric_dialog_raise_if_exists (wbcg, DIALOG_KEY))
 		return;
 
-	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
 		"pivottable.glade", NULL, NULL);
 	if (gui == NULL)
 		return;

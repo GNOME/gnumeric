@@ -222,7 +222,7 @@ gnumeric_cell (FunctionEvalInfo *ei, GnmValue **argv)
 	/* absolutely pointless - compatibility only */
 	} else if (!g_ascii_strcasecmp (info_type, "contents") ||
 		   !g_ascii_strcasecmp (info_type, "value")) {
-		Cell const *cell =
+		GnmCell const *cell =
 			sheet_cell_get (ei->pos->sheet, ref->col, ref->row);
 		if (cell && cell->value)
 			return value_duplicate (cell->value);
@@ -265,7 +265,7 @@ gnumeric_cell (FunctionEvalInfo *ei, GnmValue **argv)
 		   !g_ascii_strcasecmp (info_type, "prefixcharacter")) {
 		MStyle const *mstyle =
 			sheet_style_get (ei->pos->sheet, ref->col, ref->row);
-		Cell const *cell =
+		GnmCell const *cell =
 			sheet_cell_get (ei->pos->sheet, ref->col, ref->row);
 
 		if (cell && cell->value && cell->value->type == VALUE_STRING) {
@@ -314,7 +314,7 @@ gnumeric_cell (FunctionEvalInfo *ei, GnmValue **argv)
 	} else if (!g_ascii_strcasecmp (info_type, "type") ||
 		   !g_ascii_strcasecmp (info_type, "datatype") ||
 		   !g_ascii_strcasecmp (info_type, "formulatype")) {
-		Cell const *cell =
+		GnmCell const *cell =
 			sheet_cell_get (ei->pos->sheet, ref->col, ref->row);
 		if (cell && cell->value) {
 			if (cell->value->type == VALUE_STRING)
@@ -1171,7 +1171,7 @@ gnumeric_expression (FunctionEvalInfo *ei, GnmValue **args)
 {
 	GnmValue const * const v = args[0];
 	if (v->type == VALUE_CELLRANGE) {
-		Cell *cell;
+		GnmCell *cell;
 		GnmCellRef const * a = &v->v_range.cell.a;
 		GnmCellRef const * b = &v->v_range.cell.b;
 
@@ -1212,7 +1212,7 @@ static char const *help_countblank = {
 
 static GnmValue *
 cb_countblank (Sheet *sheet, int col, int row,
-	       Cell *cell, void *user_data)
+	       GnmCell *cell, void *user_data)
 {
 	cell_eval (cell);
 	if (!cell_is_empty (cell))
@@ -1522,7 +1522,7 @@ gnumeric_isblank (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 		GnmCellRef const *ref = &expr->cellref.ref;
 		Sheet const *sheet = eval_sheet (ref->sheet, ei->pos->sheet);
 		GnmCellPos pos;
-		Cell *cell;
+		GnmCell *cell;
 
 		cellref_get_abs_pos (ref, &ei->pos->eval, &pos);
 		cell = sheet_cell_get (sheet, pos.col, pos.row);

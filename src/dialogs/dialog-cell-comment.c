@@ -93,7 +93,7 @@ dialog_cell_comment (WorkbookControlGUI *wbcg, Sheet *sheet, GnmCellPos const *p
 {
 	CommentState	*state;
 	GtkWidget	*textview;
-	CellComment	*comment;
+	GnmComment	*comment;
 	GladeXML	*gui;
 
 	g_return_if_fail (wbcg != NULL);
@@ -102,7 +102,7 @@ dialog_cell_comment (WorkbookControlGUI *wbcg, Sheet *sheet, GnmCellPos const *p
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, COMMENT_DIALOG_KEY))
 		return;
-	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
 		"cell-comment.glade", NULL, NULL);
 	if (gui == NULL)
 		return;

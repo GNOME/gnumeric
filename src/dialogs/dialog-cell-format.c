@@ -2429,12 +2429,12 @@ void
 dialog_cell_format (WorkbookControlGUI *wbcg, FormatDialogPosition_t pageno)
 {
 	GladeXML     *gui;
-	Cell	     *edit_cell;
+	GnmCell	     *edit_cell;
 	FormatState  *state;
 
 	g_return_if_fail (wbcg != NULL);
 
-	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
 		"cell-format.glade", NULL, NULL);
         if (gui == NULL)
                 return;

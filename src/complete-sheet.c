@@ -67,7 +67,7 @@ text_matches (CompleteSheet const *cs)
 {
 	char const *text;
 	Complete const *complete = &cs->parent;
-	Cell *cell = sheet_cell_get (cs->sheet, cs->col, cs->inf);
+	GnmCell *cell = sheet_cell_get (cs->sheet, cs->col, cs->inf);
 
 	if (cell == NULL || cell->value == NULL ||
 	    cell->value->type != VALUE_STRING || cell_has_expr (cell))

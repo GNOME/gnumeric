@@ -98,11 +98,11 @@ GSList     *range_split_ranges    (GnmRange const *hard, GnmRange const *soft);
 GSList     *range_fragment        (GnmRange const *a, GnmRange const *b);
 void        range_fragment_free   (GSList *fragments);
 
-GnmGlobalRange *global_range_new   (Sheet *sheet, GnmRange const *r);
-GnmGlobalRange *global_range_dup   (GnmGlobalRange const *src);
-gboolean     value_to_global_range (GnmValue const *v, GnmGlobalRange *res);
-void         global_range_free     (GnmGlobalRange *gr);
-gboolean     global_range_overlap  (GnmGlobalRange const *a, GnmGlobalRange const *b);
+GnmSheetRange *global_range_new   (Sheet *sheet, GnmRange const *r);
+GnmSheetRange *global_range_dup   (GnmSheetRange const *src);
+gboolean     value_to_global_range (GnmValue const *v, GnmSheetRange *res);
+void         global_range_free     (GnmSheetRange *gr);
+gboolean     global_range_overlap  (GnmSheetRange const *a, GnmSheetRange const *b);
 GnmValue    *global_range_parse    (Sheet *sheet, char const *range);
 char        *global_range_name     (Sheet *sheet, GnmRange const *r);
 

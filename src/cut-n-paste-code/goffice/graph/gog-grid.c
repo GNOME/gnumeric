@@ -41,7 +41,7 @@ static GType gog_grid_view_get_type (void);
 static GogViewClass *gview_parent_klass;
 
 static gpointer
-gog_grid_editor (GogObject *gobj, GogDataAllocator *dalloc, CommandContext *cc)
+gog_grid_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 {
 	return gog_style_editor (gobj, cc, NULL, GOG_STYLE_FILL | GOG_STYLE_LINE);
 }

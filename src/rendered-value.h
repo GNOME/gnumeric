@@ -28,18 +28,18 @@ struct _RenderedValue {
 
 void
 rendered_value_render (GString *str,
-		       Cell *cell, PangoContext *context, MStyle const *mstyle,
+		       GnmCell *cell, PangoContext *context, MStyle const *mstyle,
 		       gboolean *dynamic_width, gboolean *display_formula,
 		       StyleColor **color);
 
-RenderedValue *rendered_value_new           (Cell *cell, MStyle const *mstyle,
-					     gboolean dynamic_width,
-					     PangoContext *context);
-void           rendered_value_destroy       (RenderedValue *rv);
+RenderedValue *rendered_value_new     (GnmCell *cell, MStyle const *mstyle,
+				       gboolean dynamic_width,
+				       PangoContext *context);
+void           rendered_value_destroy (RenderedValue *rv);
 
 /* Return the value as a single string without format infomation.
  * Caller is responsible for freeing the result */
-const char *rendered_value_get_text (RenderedValue const * rv);
+char const *rendered_value_get_text (RenderedValue const * rv);
 
 void rendered_value_init (void);
 void rendered_value_shutdown (void);

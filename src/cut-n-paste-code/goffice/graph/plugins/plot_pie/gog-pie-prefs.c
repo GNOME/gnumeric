@@ -28,7 +28,7 @@
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtktogglebutton.h>
 
-GtkWidget *gog_pie_plot_pref   (GogPiePlot *plot, CommandContext *cc);
+GtkWidget *gog_pie_plot_pref   (GogPiePlot *plot, GnmCmdContext *cc);
 
 static void
 cb_default_separation_changed (GtkAdjustment *adj, GObject *pie)
@@ -75,7 +75,7 @@ gog_pie_plot_pref_signal_connect (GogPiePlot *pie, GladeXML *gui)
 }
 
 GtkWidget *
-gog_pie_plot_pref (GogPiePlot *pie, CommandContext *cc)
+gog_pie_plot_pref (GogPiePlot *pie, GnmCmdContext *cc)
 {
 	GtkWidget  *w;
 	char const *dir = gnm_plugin_get_dir_name (
@@ -98,7 +98,7 @@ gog_pie_plot_pref (GogPiePlot *pie, CommandContext *cc)
 
 /****************************************************************************/
 
-GtkWidget *gog_ring_plot_pref   (GogRingPlot *ring, CommandContext *cc);
+GtkWidget *gog_ring_plot_pref   (GogRingPlot *ring, GnmCmdContext *cc);
 
 static void
 cb_center_size_changed (GtkAdjustment *adj, GObject *ring)
@@ -108,7 +108,7 @@ cb_center_size_changed (GtkAdjustment *adj, GObject *ring)
 
 
 GtkWidget *
-gog_ring_plot_pref (GogRingPlot *ring, CommandContext *cc)
+gog_ring_plot_pref (GogRingPlot *ring, GnmCmdContext *cc)
 {
 	GtkWidget  *w;
 	char const *dir = gnm_plugin_get_dir_name (
@@ -137,7 +137,7 @@ gog_ring_plot_pref (GogRingPlot *ring, CommandContext *cc)
 
 /****************************************************************************/
 
-GtkWidget *gog_pie_series_pref (GogPieSeries *series, CommandContext *cc);
+GtkWidget *gog_pie_series_pref (GogPieSeries *series, GnmCmdContext *cc);
 
 static void
 cb_separation_changed (GtkAdjustment *adj, GObject *pie)
@@ -146,7 +146,7 @@ cb_separation_changed (GtkAdjustment *adj, GObject *pie)
 }
 
 GtkWidget *
-gog_pie_series_pref (GogPieSeries *pie, CommandContext *cc)
+gog_pie_series_pref (GogPieSeries *pie, GnmCmdContext *cc)
 {
 	GtkWidget  *w;
 	char const *dir = gnm_plugin_get_dir_name (

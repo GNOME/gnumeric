@@ -58,12 +58,12 @@ eval_pos_init (EvalPos *ep, Sheet *sheet, GnmCellPos const *pos)
 }
 
 EvalPos *
-eval_pos_init_dep (EvalPos *ep, Dependent const *dep)
+eval_pos_init_dep (EvalPos *ep, GnmDependent const *dep)
 {
 	g_return_val_if_fail (ep != NULL, NULL);
 	g_return_val_if_fail (dep != NULL, NULL);
 
-	ep->dep = (Dependent *)dep;
+	ep->dep = (GnmDependent *)dep;
 	ep->sheet = dep->sheet;
 	if (dependent_is_cell (dep)) {
 		ep->eval = DEP_TO_CELL (dep)->pos;
@@ -75,7 +75,7 @@ eval_pos_init_dep (EvalPos *ep, Dependent const *dep)
 }
 
 EvalPos *
-eval_pos_init_cell (EvalPos *ep, Cell const *cell)
+eval_pos_init_cell (EvalPos *ep, GnmCell const *cell)
 {
 	g_return_val_if_fail (ep != NULL, NULL);
 	g_return_val_if_fail (cell != NULL, NULL);
@@ -138,7 +138,7 @@ parse_pos_init (ParsePos *pp, Workbook *wb, Sheet *sheet, int col, int row)
  * @dep : The dependent
  */
 ParsePos *
-parse_pos_init_dep (ParsePos *pp, Dependent const *dep)
+parse_pos_init_dep (ParsePos *pp, GnmDependent const *dep)
 {
 	g_return_val_if_fail (pp != NULL, NULL);
 
@@ -150,7 +150,7 @@ parse_pos_init_dep (ParsePos *pp, Dependent const *dep)
 }
 
 ParsePos *
-parse_pos_init_cell (ParsePos *pp, Cell const *cell)
+parse_pos_init_cell (ParsePos *pp, GnmCell const *cell)
 {
 	g_return_val_if_fail (cell != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (cell->base.sheet), NULL);

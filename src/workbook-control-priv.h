@@ -5,19 +5,19 @@
 #include "workbook-control.h"
 
 struct _WorkbookControl {
-	CommandContext	context;
+	GnmCmdContext	context;
 
 	WorkbookView *wb_view;
 
 	/* When editing a cell: the cell (may be NULL) */
-	Cell        *editing_cell;
+	GnmCell     *editing_cell;
 	Sheet       *editing_sheet;
 	gboolean     editing;
 
 	gulong clipboard_changed_signal;
 };
 typedef struct {
-	CommandContextClass   context_class;
+	GnmCmdContextClass   context_class;
 
 	/* Create a new control of the same form */
 	WorkbookControl *(*control_new) (WorkbookControl *wbc, WorkbookView *wbv, Workbook *wb,

@@ -4,6 +4,6 @@
 #include <gnumeric.h>
 
 void stf_init (void);
-void stf_text_to_columns (WorkbookControl *wbc, CommandContext *cc);
+void stf_text_to_columns (WorkbookControl *wbc, GnmCmdContext *cc);
 
 #endif /* GNUMERIC_STF_H */

@@ -80,7 +80,7 @@ calc_indent (PangoContext *context, const MStyle *mstyle, Sheet *sheet)
 
 void
 rendered_value_render (GString *str,
-		       Cell *cell, PangoContext *context, MStyle const *mstyle,
+		       GnmCell *cell, PangoContext *context, MStyle const *mstyle,
 		       gboolean *dynamic_width, gboolean *display_formula,
 		       StyleColor **color)
 {
@@ -164,7 +164,7 @@ rendered_value_render (GString *str,
  * Return value: a new RenderedValue
  **/
 RenderedValue *
-rendered_value_new (Cell *cell, MStyle const *mstyle,
+rendered_value_new (GnmCell *cell, MStyle const *mstyle,
 		    gboolean dynamic_width,
 		    PangoContext *context)
 {
@@ -321,7 +321,7 @@ rendered_value_get_text (RenderedValue const *rv)
  * the foreground colour.
  */
 const PangoColor *
-cell_get_render_color (Cell const *cell)
+cell_get_render_color (GnmCell const *cell)
 {
 #ifndef BUG_105322
 	PangoAttrList *attrs;
@@ -333,7 +333,7 @@ cell_get_render_color (Cell const *cell)
 
 	/* A precursor to just in time rendering Ick! */
 	if (cell->rendered_value == NULL)
-		cell_render_value ((Cell *)cell, TRUE);
+		cell_render_value ((GnmCell *)cell, TRUE);
 
 #ifdef BUG_105322
 	{
@@ -368,7 +368,7 @@ cell_get_render_color (Cell const *cell)
  * a string representation of the value.
  */
 char *
-cell_get_entered_text (Cell const *cell)
+cell_get_entered_text (GnmCell const *cell)
 {
 	g_return_val_if_fail (cell != NULL, NULL);
 
@@ -406,7 +406,7 @@ cell_get_entered_text (Cell const *cell)
 }
 
 int
-cell_rendered_height (Cell const *cell)
+cell_rendered_height (GnmCell const *cell)
 {
 	if (!cell || !cell->rendered_value)
 		return 0;
@@ -415,7 +415,7 @@ cell_rendered_height (Cell const *cell)
 }
 
 int
-cell_rendered_width (Cell const *cell)
+cell_rendered_width (GnmCell const *cell)
 {
 	if (!cell || !cell->rendered_value)
 		return 0;
@@ -424,7 +424,7 @@ cell_rendered_width (Cell const *cell)
 }
 
 int
-cell_rendered_offset (Cell const * cell)
+cell_rendered_offset (GnmCell const * cell)
 {
 	if (!cell || !cell->rendered_value)
 		return 0;

@@ -492,7 +492,7 @@ cellpos_as_string (GnmCellPos const *pos)
 }
 
 char const *
-cell_name (Cell const *cell)
+cell_name (GnmCell const *cell)
 {
 	g_return_val_if_fail (cell != NULL, "ERROR");
 

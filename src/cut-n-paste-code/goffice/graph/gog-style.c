@@ -879,7 +879,7 @@ gog_style_pref_state_free (StylePrefState *state)
 }
 
 GtkWidget *
-gog_style_editor (GogObject *obj, CommandContext *cc,
+gog_style_editor (GogObject *obj, GnmCmdContext *cc,
 		  GtkWidget *optional_notebook, guint32 enable)
 {
 	GogStyle *style = gog_object_get_style (obj);

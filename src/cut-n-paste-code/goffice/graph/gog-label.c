@@ -99,7 +99,7 @@ gog_label_finalize (GObject *obj)
 }
 
 static gpointer
-gog_label_editor (GogObject *gobj, GogDataAllocator *dalloc, CommandContext *cc)
+gog_label_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 {
 	GtkWidget *notebook = gtk_notebook_new ();
 	GtkWidget *hbox = gtk_hbox_new (FALSE, 5);

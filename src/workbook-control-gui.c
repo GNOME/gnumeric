@@ -495,7 +495,7 @@ cb_thaw_ui_toolbar (gpointer *data)
 }
 
 static void
-wbcg_set_sensitive (CommandContext *cc, gboolean sensitive)
+wbcg_set_sensitive (GnmCmdContext *cc, gboolean sensitive)
 {
 	GtkWindow *toplevel = wbcg_toplevel (WORKBOOK_CONTROL_GUI (cc));
 
@@ -1653,7 +1653,7 @@ wbcg_claim_selection (WorkbookControl *wbc)
 }
 
 static char *
-wbcg_get_password (CommandContext *cc, char const* filename)
+wbcg_get_password (GnmCmdContext *cc, char const* filename)
 {
 	WorkbookControlGUI *wbcg = WORKBOOK_CONTROL_GUI (cc);
 
@@ -1661,7 +1661,7 @@ wbcg_get_password (CommandContext *cc, char const* filename)
 }
 
 static void
-wbcg_progress_set (CommandContext *cc, gfloat val)
+wbcg_progress_set (GnmCmdContext *cc, gfloat val)
 {
 	WorkbookControlGUI *wbcg = WORKBOOK_CONTROL_GUI (cc);
 
@@ -1674,7 +1674,7 @@ wbcg_progress_set (CommandContext *cc, gfloat val)
 }
 
 static void
-wbcg_progress_message_set (CommandContext *cc, gchar const *msg)
+wbcg_progress_message_set (GnmCmdContext *cc, gchar const *msg)
 {
 	WorkbookControlGUI *wbcg = WORKBOOK_CONTROL_GUI (cc);
 	GtkProgressBar *progress;
@@ -1688,14 +1688,14 @@ wbcg_progress_message_set (CommandContext *cc, gchar const *msg)
 }
 
 static void
-wbcg_error_error (CommandContext *cc, GError *err)
+wbcg_error_error (GnmCmdContext *cc, GError *err)
 {
 	gnumeric_notice (WORKBOOK_CONTROL_GUI (cc),
 		GTK_MESSAGE_ERROR, err->message);
 }
 
 static void
-wbcg_error_error_info (CommandContext *cc, ErrorInfo *error)
+wbcg_error_error_info (GnmCmdContext *cc, ErrorInfo *error)
 {
 	gnumeric_error_info_dialog_show (WORKBOOK_CONTROL_GUI (cc), error);
 }
@@ -1925,7 +1925,7 @@ static void
 cb_file_sendto (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	wb_view_sendto (wb_control_view (WORKBOOK_CONTROL (wbcg)),
-		COMMAND_CONTEXT (wbcg));
+		GNM_CMD_CONTEXT (wbcg));
 }
 
 static void
@@ -2222,9 +2222,9 @@ cb_edit_search_replace_query (SearchReplaceQuery q, GnmSearchReplace *sr, ...)
 
 	switch (q) {
 	case SRQ_fail: {
-		Cell *cell = va_arg (pvar, Cell *);
-		const char *old_text = va_arg (pvar, const char *);
-		const char *new_text = va_arg (pvar, const char *);
+		GnmCell *cell = va_arg (pvar, GnmCell *);
+		char const *old_text = va_arg (pvar, const char *);
+		char const *new_text = va_arg (pvar, const char *);
 
 		char *err;
 
@@ -2246,9 +2246,9 @@ cb_edit_search_replace_query (SearchReplaceQuery q, GnmSearchReplace *sr, ...)
 	}
 
 	case SRQ_query: {
-		Cell *cell = va_arg (pvar, Cell *);
-		const char *old_text = va_arg (pvar, const char *);
-		const char *new_text = va_arg (pvar, const char *);
+		GnmCell *cell = va_arg (pvar, GnmCell *);
+		char const *old_text = va_arg (pvar, const char *);
+		char const *new_text = va_arg (pvar, const char *);
 		Sheet *sheet = cell->base.sheet;
 		char *pos_name = g_strconcat (sheet->name_unquoted, "!",
 					      cell_name (cell), NULL);
@@ -2317,7 +2317,7 @@ cb_edit_fill_autofill (GtkWidget *unused, WorkbookControlGUI *wbcg)
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	Sheet	  *sheet = wb_control_cur_sheet (wbc);
 
-	GnmRange const *total = selection_first_range (sv, COMMAND_CONTEXT (wbc), _("Autofill"));
+	GnmRange const *total = selection_first_range (sv, GNM_CMD_CONTEXT (wbc), _("Autofill"));
 	if (total) {
 		GnmRange src = *total;
 		gboolean do_loop;
@@ -2488,7 +2488,7 @@ cb_insert_rows (GtkWidget *unused, WorkbookControlGUI *wbcg)
 	 * selected region, (use selection_apply).  Arrays and Merged regions
 	 * are permitted.
 	 */
-	if (!(sel = selection_first_range (sv, COMMAND_CONTEXT (wbc), _("Insert rows"))))
+	if (!(sel = selection_first_range (sv, GNM_CMD_CONTEXT (wbc), _("Insert rows"))))
 		return;
 	cmd_insert_rows (wbc, sheet, sel->start.row, range_height (sel));
 }
@@ -2507,7 +2507,7 @@ cb_insert_cols (GtkWidget *unused, WorkbookControlGUI *wbcg)
 	 * selected region, (use selection_apply).  Arrays and Merged regions
 	 * are permitted.
 	 */
-	if (!(sel = selection_first_range (sv, COMMAND_CONTEXT (wbc),
+	if (!(sel = selection_first_range (sv, GNM_CMD_CONTEXT (wbc),
 					   _("Insert columns"))))
 		return;
 	cmd_insert_cols (wbc, sheet, sel->start.col, range_width (sel));
@@ -2544,7 +2544,7 @@ cb_sheet_order (GtkWidget *widget, WorkbookControlGUI *wbcg)
 }
 
 static GnmValue *
-cb_rerender_zeroes (Sheet *sheet, int col, int row, Cell *cell,
+cb_rerender_zeroes (Sheet *sheet, int col, int row, GnmCell *cell,
 		    gpointer ignored)
 {
 	if (!cell->rendered_value || !cell_is_zero (cell))
@@ -2615,7 +2615,7 @@ cb_sheet_pref_ ## flag (GtkWidget *ignored, WorkbookControlGUI *wbcg)	\
 
 TOGGLE_HANDLER (display_formulas,{
 	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-	Cell *cell;
+	GnmCell *cell;
 	WORKBOOK_FOREACH_DEPENDENT
 		(wb, dep, {
 			if (dependent_is_cell (dep)) {
@@ -2899,7 +2899,7 @@ cb_auto_filter (GtkWidget *widget, WorkbookControlGUI *wbcg)
 #warning Add undo/redo
 	if (filter == NULL) {
 		GnmRange const *src = selection_first_range (sv,
-			COMMAND_CONTEXT (wbcg), _("Add Filter"));
+			GNM_CMD_CONTEXT (wbcg), _("Add Filter"));
 		GnmRange region = *src;
 
 		/* only one row selected -- assume that the user wants to
@@ -2908,7 +2908,7 @@ cb_auto_filter (GtkWidget *widget, WorkbookControlGUI *wbcg)
 			sheet_filter_guess_region  (sv->sheet, &region);
 
 		if (src == NULL || region.start.row == region.end.row) {
-			gnumeric_error_invalid	(COMMAND_CONTEXT (wbcg),
+			gnumeric_error_invalid	(GNM_CMD_CONTEXT (wbcg),
 				 _("AutoFilter"), _("Requires more than 1 row"));
 			return;
 		}
@@ -2944,7 +2944,7 @@ static void
 cb_data_text_to_columns (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	stf_text_to_columns (WORKBOOK_CONTROL (wbcg),
-			     COMMAND_CONTEXT (wbcg));
+			     GNM_CMD_CONTEXT (wbcg));
 }
 
 #ifdef ENABLE_PIVOTS
@@ -2967,12 +2967,12 @@ hide_show_detail_real (WorkbookControlGUI *wbcg, gboolean is_cols, gboolean show
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	char const *operation = show ? _("Show Detail") : _("Hide Detail");
-	GnmRange const *r = selection_first_range (sv, COMMAND_CONTEXT (wbc),
+	GnmRange const *r = selection_first_range (sv, GNM_CMD_CONTEXT (wbc),
 						operation);
 
 	/* This operation can only be performed on a whole existing group */
 	if (sheet_colrow_can_group (sv_sheet (sv), r, is_cols)) {
-		gnumeric_error_invalid (COMMAND_CONTEXT (wbc), operation,
+		gnumeric_error_invalid (GNM_CMD_CONTEXT (wbc), operation,
 					_("can only be performed on an existing group"));
 		return;
 	}
@@ -2986,7 +2986,7 @@ hide_show_detail (WorkbookControlGUI *wbcg, gboolean show)
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	char const *operation = show ? _("Show Detail") : _("Hide Detail");
-	GnmRange const *r = selection_first_range (sv, COMMAND_CONTEXT (wbc),
+	GnmRange const *r = selection_first_range (sv, GNM_CMD_CONTEXT (wbc),
 						operation);
 	gboolean is_cols;
 
@@ -3032,7 +3032,7 @@ group_ungroup_colrow (WorkbookControlGUI *wbcg, gboolean group)
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	char const *operation = group ? _("Group") : _("Ungroup");
-	GnmRange const *r = selection_first_range (sv, COMMAND_CONTEXT (wbc), operation);
+	GnmRange const *r = selection_first_range (sv, GNM_CMD_CONTEXT (wbc), operation);
 	gboolean is_cols;
 
 	/* We only operate on a single selection */
@@ -3114,7 +3114,7 @@ cb_insert_image (GtkWidget *widget, WorkbookControlGUI *wbcg)
 
 	if (gnumeric_dialog_file_selection (wbcg, fsel)) {
 		int fd, file_size;
-		IOContext *ioc = gnumeric_io_context_new (COMMAND_CONTEXT (wbcg));
+		IOContext *ioc = gnumeric_io_context_new (GNM_CMD_CONTEXT (wbcg));
 		unsigned char const *data = gnumeric_mmap_open (ioc,
 			gtk_file_selection_get_filename (fsel), &fd, &file_size);
 
@@ -3158,7 +3158,7 @@ sort_by_rows (WorkbookControlGUI *wbcg, int asc)
 
 	sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
 
-	if (!(tmp = selection_first_range (sv, COMMAND_CONTEXT (wbcg), _("Sort"))))
+	if (!(tmp = selection_first_range (sv, GNM_CMD_CONTEXT (wbcg), _("Sort"))))
 		return;
 
 	sel = range_dup (tmp);
@@ -4290,7 +4290,7 @@ cb_statusbox_focus (GtkEntry *entry, GdkEventFocus *event,
 /******************************************************************************/
 
 static GnmValue *
-cb_share_a_cell (Sheet *sheet, int col, int row, Cell *cell, gpointer _es)
+cb_share_a_cell (Sheet *sheet, int col, int row, GnmCell *cell, gpointer _es)
 {
 	if (cell && cell_has_expr (cell)) {
 		ExprTreeSharer *es = _es;
@@ -5091,7 +5091,7 @@ cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 			GnomeVFSURI const *uri = ptr->data;
 			gchar *str = gnome_vfs_uri_to_string (uri, GNOME_VFS_URI_HIDE_NONE);
 			gchar *msg = g_strdup_printf (_("File \"%s\" has unknown format."), str);
-			gnumeric_error_read (COMMAND_CONTEXT (wbcg), msg);
+			gnumeric_error_read (GNM_CMD_CONTEXT (wbcg), msg);
 			g_free (msg);
 #if 0
 			if (gnome_vfs_uri_is_local (uri)) {
@@ -5419,8 +5419,8 @@ wbcg_validation_msg (WorkbookControl *wbc, ValidationStyle v,
 static void
 workbook_control_gui_class_init (GObjectClass *object_class)
 {
-	CommandContextClass  *cc_class =
-		COMMAND_CONTEXT_CLASS (object_class);
+	GnmCmdContextClass  *cc_class =
+		GNM_CMD_CONTEXT_CLASS (object_class);
 	WorkbookControlClass *wbc_class =
 		WORKBOOK_CONTROL_CLASS (object_class);
 	WorkbookControlGUIClass *wbcg_class =

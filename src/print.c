@@ -435,7 +435,7 @@ setup_scale (PrintJobInfo const *pj)
 }
 
 static GnmValue *
-cb_range_empty (Sheet *sheet, int col, int row, Cell *cell, gpointer flags)
+cb_range_empty (Sheet *sheet, int col, int row, GnmCell *cell, gpointer flags)
 {
 	ColRowInfo const *cri = sheet_col_get_info (sheet, col);
 	if (!cri->visible)
@@ -1112,7 +1112,7 @@ sheet_print_selection (PrintJobInfo *pj, Sheet const *sheet,
 	GnmRange extent;
 
 	if (!(sel = selection_first_range (sheet_get_view (sheet, wb_control_view (wbc)),
-					   COMMAND_CONTEXT (wbc), _("Print Region"))))
+					   GNM_CMD_CONTEXT (wbc), _("Print Region"))))
 		return;
 
 	extent = *sel;

@@ -202,7 +202,7 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *ig,
 	GdkGC *gc = ig->gc.empty;
 	SheetView const *sv = ((SheetControl *) ig->scg)->view;
 	Sheet const *sheet  = sv->sheet;
-	Cell  const *cell   = sheet_cell_get (sheet, range->start.col, range->start.row);
+	GnmCell  const *cell   = sheet_cell_get (sheet, range->start.col, range->start.row);
 
 	/* load style from corner which may not be visible */
 	MStyle const *style = sheet_style_get (sheet, range->start.col, range->start.row);
@@ -306,7 +306,7 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 	FooCanvas *canvas = item->canvas;
 	GnmCanvas *gcanvas = GNM_CANVAS (canvas);
 	Sheet const *sheet = ((SheetControl *) gcanvas->simple.scg)->sheet;
-	Cell const * const edit_cell = gcanvas->simple.scg->wbcg->wb_control.editing_cell;
+	GnmCell const * const edit_cell = gcanvas->simple.scg->wbcg->wb_control.editing_cell;
 	ItemGrid *ig = ITEM_GRID (item);
 	ColRowInfo const *ri = NULL, *next_ri = NULL;
 
@@ -566,7 +566,7 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 				 * contents extending past the edge of the edit
 				 * box.  Ignore blanks too.
 				 */
-				Cell const *cell = sheet_cell_get (sheet, col, row);
+				GnmCell const *cell = sheet_cell_get (sheet, col, row);
 				if (!cell_is_empty (cell) && cell != edit_cell)
 					cell_draw (cell,
 						   ig->gc.cell, drawable,
@@ -578,7 +578,7 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 			 */
 			} else if (edit_cell != span->cell &&
 				   (col == span->right || col == end_col)) {
-				Cell const *cell = span->cell;
+				GnmCell const *cell = span->cell;
 				int const start_span_col = span->left;
 				int const end_span_col = span->right;
 				int real_x = x;

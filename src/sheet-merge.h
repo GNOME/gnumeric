@@ -4,9 +4,9 @@
 #include "gnumeric.h"
 
 gboolean     sheet_merge_add		(Sheet *sheet, GnmRange const *r,
-					 gboolean clear, CommandContext *cc);
+					 gboolean clear, GnmCmdContext *cc);
 gboolean     sheet_merge_remove		(Sheet *sheet, GnmRange const *r,
-					 CommandContext *cc);
+					 GnmCmdContext *cc);
 GSList      *sheet_merge_get_overlap	(Sheet const *sheet, GnmRange const *r);
 GnmRange const *sheet_merge_contains_pos	(Sheet const *sheet, GnmCellPos const *pos);
 GnmRange const *sheet_merge_is_corner	(Sheet const *sheet, GnmCellPos const *pos);

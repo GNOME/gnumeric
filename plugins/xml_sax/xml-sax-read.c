@@ -1083,7 +1083,7 @@ xml_sax_cell (GsfXMLIn *gsf_state, xmlChar const **attrs)
  * @cols : The number of columns.
  */
 static void
-xml_cell_set_array_expr (Cell *cell, char const *text,
+xml_cell_set_array_expr (GnmCell *cell, char const *text,
 			 int const cols, int const rows)
 {
 	ParsePos pp;
@@ -1105,7 +1105,7 @@ xml_cell_set_array_expr (Cell *cell, char const *text,
  *     If it is not a member of an array return TRUE.
  */
 static gboolean
-xml_not_used_old_array_spec (Cell *cell, char const *content)
+xml_not_used_old_array_spec (GnmCell *cell, char const *content)
 {
 	int rows, cols, row, col;
 
@@ -1150,7 +1150,7 @@ xml_sax_cell_content (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
 	gboolean is_new_cell, is_post_52_array = FALSE;
-	Cell *cell;
+	GnmCell *cell;
 
 	int const col = state->cell.col;
 	int const row = state->cell.row;
@@ -1244,7 +1244,7 @@ xml_sax_merge (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	if (parse_range (state->base.content->str, &r))
 		sheet_merge_add (state->sheet, &r, FALSE,
-			COMMAND_CONTEXT (state->context));
+			GNM_CMD_CONTEXT (state->context));
 }
 
 static void

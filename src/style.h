@@ -75,7 +75,7 @@ guint          style_font_hash_func (gconstpointer v);
 gint           style_font_equal (gconstpointer v, gconstpointer v2);
 
 SpanCalcFlags	 required_updates_for_style (MStyle *style);
-StyleHAlignFlags style_default_halign (MStyle const *mstyle, Cell const *c);
+StyleHAlignFlags style_default_halign (MStyle const *mstyle, GnmCell const *c);
 
 extern double gnumeric_default_font_width;
 

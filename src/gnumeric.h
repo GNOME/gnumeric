@@ -17,8 +17,7 @@
  * Note: more than 364238 columns will introduce a column named TRUE.
  */
 
-typedef struct _CommandContext		CommandContext;
-typedef struct _CommandContextStderr	CommandContextStderr;
+typedef struct _GnmCmdContext		GnmCmdContext;
 
 typedef struct _IOContext		IOContext;
 typedef struct _XmlParseContext		XmlParseContext;
@@ -31,17 +30,13 @@ typedef struct _Sheet			Sheet;
 typedef struct _SheetView		SheetView;
 typedef struct _SheetControl		SheetControl;
 
-typedef struct _SolverParameters	SolverParameters;
-
 typedef struct _SheetObject		SheetObject;
 typedef struct _SheetObjectAnchor	SheetObjectAnchor;
-typedef struct _GnmHLink		GnmHLink;
-typedef struct _GnmInputMsg		GnmInputMsg;
 
 typedef struct _GnmDepContainer		GnmDepContainer;
-typedef struct _Dependent		Dependent;
-typedef struct _Cell			Cell;
-typedef struct _CellComment		CellComment;
+typedef struct _GnmDependent		GnmDependent;
+typedef struct _GnmCell			GnmCell;
+typedef struct _GnmComment		GnmComment;
 
 typedef union  _GnmValue		GnmValue;
 typedef struct _GnmValueBool		GnmValueBool;
@@ -80,6 +75,10 @@ typedef struct _GnmExprSet		GnmExprSet;
 typedef struct _GnmExprRelocateInfo	GnmExprRelocateInfo;
 typedef struct _GnmExprRewriteInfo 	GnmExprRewriteInfo;
 
+typedef struct _GnmExprConventions      GnmExprConventions;
+typedef struct _GnmDateConventions      GnmDateConventions;
+
+
 typedef struct _GnmNamedExpr		GnmNamedExpr;
 typedef struct _GnmNamedExprCollection	GnmNamedExprCollection;
 
@@ -94,61 +93,40 @@ typedef GSList  ColRowStateGroup;
 typedef GSList  ColRowStateList;
 typedef GList   ColRowIndexList;
 typedef struct _ColRowIndexSet          ColRowIndexSet;
-typedef gboolean (*ColRowHandler)(ColRowInfo *info, void *user_data);
 
-typedef struct _GnmCellPos	        GnmCellPos;
-typedef struct _GnmCellRef	        GnmCellRef;
-typedef struct _GnmRange	        GnmRange;
-typedef struct _GnmGlobalRange	        GnmGlobalRange;
-typedef struct _GnmRangeRef	        GnmRangeRef;
-
-typedef struct _GnmExprConventions      GnmExprConventions;
-typedef struct _GnmDateConventions      GnmDateConventions;
-
-typedef struct _MStyle		        MStyle;
-
-typedef struct _SheetStyleData	        SheetStyleData;
-typedef struct _StyleRegion	        StyleRegion;
-typedef GSList				StyleList;
-
-typedef struct _EvalPos		        EvalPos;
-typedef struct _ParsePos	        ParsePos;
-typedef struct _ParseError	        ParseError;
-typedef struct _FunctionEvalInfo        FunctionEvalInfo;
-typedef struct _GnmFunc			GnmFunc;
-typedef struct _ErrorInfo		ErrorInfo;
-
-typedef struct _PrintInformation        PrintInformation;
-typedef struct _GnmString 	        GnmString;
-
-typedef struct _GnmFileOpener		GnmFileOpener;	/* TODO rename to GnmFileFormatReader */
+typedef struct _GnmFileOpener		GnmFileOpener;
 
 typedef struct _StyleFormat	        StyleFormat;
 typedef struct _StyleFont	        StyleFont;
 typedef struct _StyleColor	        StyleColor;
 typedef struct _StyleBorder	        StyleBorder;
 typedef struct _StyleRow	        StyleRow;
-typedef struct _StyleCondition          StyleCondition;
-typedef struct _FormatTemplate          FormatTemplate;
+typedef struct _MStyle		        MStyle;
 
-typedef struct _GnmValidation		GnmValidation;
+typedef struct _SheetStyleData	        SheetStyleData;
+typedef struct _StyleRegion	        StyleRegion;
+typedef GSList				StyleList;
 
-typedef struct _GnmFilter		GnmFilter;
-typedef struct _GnmFilterCondition	GnmFilterCondition;
+typedef struct _FormatTemplate          FormatTemplate;	/* does not really belong here */
 
-/* Used to locate cells in a sheet */
-struct _GnmCellPos {
+typedef struct {
 	int col, row;
-};
-
-struct _GnmRange {
+} GnmCellPos;
+typedef struct {
 	GnmCellPos start, end;
-};
-
-struct _GnmGlobalRange {
+} GnmRange;
+typedef struct {
 	Sheet *sheet;
 	GnmRange  range;
-};
+} GnmSheetRange;
+typedef struct _GnmCellRef	        GnmCellRef;	/* abs/rel point with sheet */
+typedef struct _GnmRangeRef	        GnmRangeRef;	/* abs/rel range with sheet */
+typedef struct _EvalPos		        EvalPos;
+typedef struct _ParsePos	        ParsePos;
+typedef struct _ParseError	        ParseError;
+typedef struct _FunctionEvalInfo        FunctionEvalInfo;
+typedef struct _GnmFunc			GnmFunc;
+typedef struct _ErrorInfo		ErrorInfo;
 
 typedef enum {
 	CELL_ITER_ALL 		  = 0,
@@ -159,7 +137,7 @@ typedef enum {
 	CELL_ITER_IGNORE_SUBTOTAL = 1 << 2
 } CellIterFlags;
 typedef GnmValue *(*CellIterFunc) (Sheet *sheet, int col, int row,
-				   Cell *cell, gpointer user_data);
+				   GnmCell *cell, gpointer user_data);
 
 typedef enum {
 	SPANCALC_SIMPLE 	= 0x0,	/* Just calc spans */
@@ -174,15 +152,23 @@ typedef enum {
 	GNM_EXPR_EVAL_PERMIT_EMPTY	= 0x2
 } GnmExprEvalFlags;
 
-typedef struct _GnmSearchReplace	GnmSearchReplace;
-
 typedef struct _GnmMemChunk		GnmMemChunk;
+typedef struct _GnmString 	        GnmString;
 
 typedef struct _GnmPlugin		GnmPlugin;
 typedef struct _GnmPluginService	GnmPluginService;
 typedef struct _GnmPluginLoader		GnmPluginLoader;
 
-typedef struct _GnmConsolidate		GnmConsolidate;
 typedef struct _GnmSortData		GnmSortData;
+typedef struct _GnmSearchReplace	GnmSearchReplace;
+typedef struct _GnmConsolidate		GnmConsolidate;
+typedef struct _GnmValidation		GnmValidation;
+typedef struct _GnmFilter		GnmFilter;
+typedef struct _GnmFilterCondition	GnmFilterCondition;
+typedef struct _GnmHLink		GnmHLink;
+typedef struct _GnmInputMsg		GnmInputMsg;
+
+typedef struct _PrintInformation        PrintInformation;
+typedef struct _SolverParameters	SolverParameters;
 
 #endif /* GNUMERIC_H */

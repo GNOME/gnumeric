@@ -67,7 +67,7 @@ struct cb_af_suggest { GnmFuncFlags typ; StyleFormat **explicit; };
 static GnmValue *
 cb_af_suggest (G_GNUC_UNUSED Sheet *sheet,
 	       G_GNUC_UNUSED int col, G_GNUC_UNUSED int row,
-	       Cell *cell, void *_data)
+	       GnmCell *cell, void *_data)
 {
 	struct cb_af_suggest *data = _data;
 
@@ -187,7 +187,7 @@ do_af_suggest (GnmExpr const *expr, const EvalPos *epos, StyleFormat **explicit)
 	case GNM_EXPR_OP_CELLREF: {
 		Sheet const *sheet;
 		GnmCellRef const *ref;
-		Cell const *cell;
+		GnmCell const *cell;
 		GnmCellPos pos;
 
 		ref = &expr->cellref.ref;

@@ -29,9 +29,9 @@ void scg_object_calc_position	(SheetControlGUI *scg, SheetObject *so, double con
 void scg_object_view_position	(SheetControlGUI *scg, SheetObject *so, double *coords);
 void scg_object_stop_editing	(SheetControlGUI *scg, SheetObject *so);
 
-void scg_comment_select		(SheetControlGUI *scg, CellComment *cc);
-void scg_comment_display	(SheetControlGUI *scg, CellComment *cc);
-void scg_comment_unselect	(SheetControlGUI *scg, CellComment *cc);
+void scg_comment_select		(SheetControlGUI *scg, GnmComment *cc);
+void scg_comment_display	(SheetControlGUI *scg, GnmComment *cc);
+void scg_comment_unselect	(SheetControlGUI *scg, GnmComment *cc);
 
 void scg_select_all		(SheetControlGUI *scg);
 gboolean scg_colrow_select	(SheetControlGUI *scg,

@@ -779,13 +779,13 @@ gnumeric_position_tooltip (GtkWidget *tip, int horizontal)
 
 /**
  * gnm_glade_xml_new :
- * @cc : #CommandContext
+ * @cc : #GnmCmdContext
  * @gladefile :
  *
  * Simple utility to open glade files
  **/
 GladeXML *
-gnm_glade_xml_new (CommandContext *cc, char const *gladefile,
+gnm_glade_xml_new (GnmCmdContext *cc, char const *gladefile,
 		   char const *root, char const *domain)
 {
 	GladeXML *gui;

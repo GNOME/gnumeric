@@ -60,7 +60,7 @@ typedef struct {
 
 typedef struct {
 	GnmExprFunction const *node;  /* Expression node that calls us */
-	Dependent *dep;		   /* Dependent containing that node */
+	GnmDependent *dep;	      /* GnmDependent containing that node */
 
 	WatchedValue	*value;
 } Watcher;

@@ -100,7 +100,7 @@ stf_open_and_read (GsfInput *input, size_t *readsize)
 }
 
 static char *
-stf_preparse (CommandContext *context, GsfInput *input, size_t *data_len)
+stf_preparse (GnmCmdContext *context, GsfInput *input, size_t *data_len)
 {
 	char *data;
 
@@ -191,7 +191,7 @@ stf_read_workbook (GnmFileOpener const *fo,  gchar const *enc,
 		return;
 	}
 
-	data = stf_preparse (COMMAND_CONTEXT (context), input, &data_len);
+	data = stf_preparse (GNM_CMD_CONTEXT (context), input, &data_len);
 	if (!data) {
 		g_free (nameutf8);
 		return;
@@ -222,7 +222,7 @@ stf_read_workbook (GnmFileOpener const *fo,  gchar const *enc,
 
 static GnmValue *
 cb_get_content (Sheet *sheet, int col, int row,
-		Cell *cell, GsfOutput *buf)
+		GnmCell *cell, GsfOutput *buf)
 {
 	if (cell != NULL) {
 		char *tmp;
@@ -252,7 +252,7 @@ cb_get_content (Sheet *sheet, int col, int row,
  * Main routine, handles importing a file including all dialog mumbo-jumbo
  **/
 void
-stf_text_to_columns (WorkbookControl *wbc, CommandContext *cc)
+stf_text_to_columns (WorkbookControl *wbc, GnmCmdContext *cc)
 {
 	DialogStfResult_t *dialogresult = NULL;
 	SheetView	*sv;
@@ -295,7 +295,7 @@ stf_text_to_columns (WorkbookControl *wbc, CommandContext *cc)
 	data = gsf_output_memory_get_bytes (buf);
 	data_len = (size_t)gsf_output_size (GSF_OUTPUT (buf));
 	if (data_len == 0) {
-		gnumeric_error_read (COMMAND_CONTEXT (cc),
+		gnumeric_error_read (GNM_CMD_CONTEXT (cc),
 					     _("There is no data "
 					       "to convert"));
 	} else {
@@ -315,7 +315,7 @@ stf_text_to_columns (WorkbookControl *wbc, CommandContext *cc)
 		if (cr == NULL ||
 		    cmd_text_to_columns (wbc, src, src_sheet, 
 					 &target, target_sheet, cr))
-			gnumeric_error_read (COMMAND_CONTEXT (cc),
+			gnumeric_error_read (GNM_CMD_CONTEXT (cc),
 					     _("Error while trying to "
 					       "parse data into sheet"));
 		stf_dialog_result_free (dialogresult);
@@ -350,7 +350,7 @@ stf_read_workbook_auto_csvtab (GnmFileOpener const *fo, gchar const *enc,
 	g_return_if_fail (wbv != NULL);
 
 	book = wb_view_workbook (wbv);
-	data = stf_preparse (COMMAND_CONTEXT (context), input, &data_len);
+	data = stf_preparse (GNM_CMD_CONTEXT (context), input, &data_len);
 	if (!data)
 		return;
 
@@ -358,7 +358,7 @@ stf_read_workbook_auto_csvtab (GnmFileOpener const *fo, gchar const *enc,
 	g_free (data);
 
 	if (!enc) {
-		gnumeric_error_read (COMMAND_CONTEXT (context),
+		gnumeric_error_read (GNM_CMD_CONTEXT (context),
 				     _("That file is not in the given encoding."));
 		return;
 	}
@@ -375,7 +375,7 @@ stf_read_workbook_auto_csvtab (GnmFileOpener const *fo, gchar const *enc,
 		sheet_queue_respan (sheet, 0, SHEET_MAX_ROWS-1);
 	} else {
 		workbook_sheet_detach (book, sheet, TRUE);
-		gnumeric_error_read (COMMAND_CONTEXT (context),
+		gnumeric_error_read (GNM_CMD_CONTEXT (context),
 			_("Parse error while trying to parse data into sheet"));
 	}
 
@@ -391,42 +391,48 @@ stf_write_func (const char *string, GsfOutput *output)
 	return (gsf_output_puts (output, string) >= 0);
 }
 
-/**
- * stf_write_workbook
- * @fs       : file saver
- * @context  : command context
- * @book     : workbook
- * @filename : file to read from+convert
- *
- * Main routine, handles exporting a file including all dialog mumbo-jumbo
- **/
 static void
 stf_write_workbook (GnmFileSaver const *fs, IOContext *context,
 		    WorkbookView const *wbv, GsfOutput *output)
 {
 	StfE_Result_t *result = NULL;
 
-	g_return_if_fail (context != NULL);
-	g_return_if_fail (wbv != NULL);
-	g_return_if_fail (output != NULL);
-
 	if (IS_WORKBOOK_CONTROL_GUI (context->impl))
 		result = stf_export_dialog (WORKBOOK_CONTROL_GUI (context->impl),
 		         wb_view_workbook (wbv));
 
-	if (result != NULL) {
-		stf_export_options_set_write_callback (result->export_options,
-						       (StfEWriteFunc) stf_write_func, (gpointer) output);
-		if (stf_export (result->export_options) == FALSE) {
-			gnumeric_error_read (COMMAND_CONTEXT (context),
-				_("Error while trying to write csv file"));
-			stf_export_dialog_result_free (result);
-			return;
-		}
-
-		stf_export_dialog_result_free (result);
-	} else
+	if (result == NULL) {
 		gnumeric_io_error_unknown (context);
+		return;
+	}
+
+	stf_export_options_set_write_callback (result->export_options,
+		(StfEWriteFunc) stf_write_func, (gpointer) output);
+	if (stf_export (result->export_options) == FALSE)
+		gnumeric_error_read (GNM_CMD_CONTEXT (context),
+#warning change string after branch
+			_("Error while trying to write csv file"));
+	stf_export_dialog_result_free (result);
+}
+
+static void
+stf_write_csv (GnmFileSaver const *fs, IOContext *context,
+	       WorkbookView const *wbv, GsfOutput *output)
+{
+	StfExportOptions_t *config = stf_export_options_new ();
+	stf_export_options_set_terminator_type (config, TERMINATOR_TYPE_LINEFEED);
+	stf_export_options_set_cell_separator  (config, ',');
+	stf_export_options_set_quoting_mode    (config, QUOTING_MODE_AUTO);
+	stf_export_options_set_quoting_char    (config, '"');
+	stf_export_options_sheet_list_add      (config,
+		workbook_sheet_by_index	 (wb_view_workbook (wbv), 0));
+	stf_export_options_set_write_callback  (config,
+		(StfEWriteFunc) stf_write_func, (gpointer) output);
+
+	if (stf_export (config) == FALSE)
+		gnumeric_error_read (GNM_CMD_CONTEXT (context),
+			_("Error while trying to write csv file"));
+	stf_export_options_free (config);
 }
 
 static gboolean
@@ -452,11 +458,15 @@ stf_init (void)
 		_("Comma or tab separated files (CSV/TSV)"),
 		csv_tsv_probe, stf_read_workbook_auto_csvtab), 0);
 	gnm_file_opener_register (gnm_file_opener_new_with_enc (
-		"Gnumeric_stf:stf_druid",
+		"Gnumeric_stf:stf_assistant",
 		_("Text import (configurable)"),
 		NULL, stf_read_workbook), 0);
 	gnm_file_saver_register (gnm_file_saver_new (
-		"Gnumeric_stf:stf", "csv",
+		"Gnumeric_stf:stf_assistant", "txt",
 		_("Text export (configurable)"),
 		FILE_FL_WRITE_ONLY, stf_write_workbook));
+	gnm_file_saver_register (gnm_file_saver_new (
+		"Gnumeric_stf:stf_csv", "csv",
+		_("Comma separated files (CSV)"),
+		FILE_FL_WRITE_ONLY, stf_write_csv));
 }

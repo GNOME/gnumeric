@@ -1072,7 +1072,7 @@ typedef struct {
  */
 static GnmValue *
 cb_iterate_cellrange (Sheet *sheet, int col, int row,
-		      Cell *cell, gpointer user_data)
+		      GnmCell *cell, gpointer user_data)
 {
 	IterateCallbackClosure *data = user_data;
 	GnmValue *res;

@@ -107,7 +107,7 @@ enum {
 static gchar *
 col_row_name (Sheet *sheet, int col, int row, gboolean header, gboolean is_cols)
 {
-	Cell *cell;
+	GnmCell *cell;
 	gchar *str = NULL;
 
 	if (header) {
@@ -226,7 +226,7 @@ cb_update_add_sensitivity (SortFlowState *state)
 	if (state->sel == NULL || range_add == NULL) {
 		gtk_widget_set_sensitive (state->add_button, FALSE);
 	} else {
-		GnmGlobalRange a, b;
+		GnmSheetRange a, b;
 		value_to_global_range (state->sel, &a);
 		value_to_global_range (range_add, &b);
 		gtk_widget_set_sensitive (state->add_button,
@@ -546,7 +546,7 @@ static void
 cb_add_clicked (G_GNUC_UNUSED GtkWidget *w, SortFlowState *state)
 {
         GnmValue *range_add;
-	GnmGlobalRange grange_sort, grange_add;
+	GnmSheetRange grange_sort, grange_add;
 	GnmRange intersection;
 	int start;
 	int end;
@@ -837,7 +837,7 @@ dialog_cell_sort (WorkbookControlGUI *wbcg)
 	if (gnumeric_dialog_raise_if_exists (wbcg, CELL_SORT_KEY))
 		return;
 
-	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
 		"cell-sort.glade", NULL, NULL);
         if (gui == NULL)
                 return;

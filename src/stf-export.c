@@ -240,7 +240,7 @@ stf_export_options_sheet_list_add (StfExportOptions_t *export_options, Sheet *sh
  * Return value: return TRUE on success, FALSE otherwise.
  **/
 static gboolean
-stf_export_cell (StfExportOptions_t *export_options, Cell *cell)
+stf_export_cell (StfExportOptions_t *export_options, GnmCell *cell)
 {
 	g_return_val_if_fail (export_options != NULL, FALSE);
 
@@ -368,7 +368,7 @@ stf_export_sheet (StfExportOptions_t *export_options, Sheet *sheet)
 	for (row = r.start.row; row <= r.end.row; row++) {
 
 		for (col = r.start.col; col <= r.end.col; col++) {
-			Cell *cell = sheet_cell_get (sheet, col, row);
+			GnmCell *cell = sheet_cell_get (sheet, col, row);
 
 			if (!stf_export_cell (export_options, cell)) {
 				g_string_free (separator, TRUE);

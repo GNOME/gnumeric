@@ -530,8 +530,8 @@ static void
 restore_original_values (GSList *input_cells, GSList *ov)
 {
         while (ov != NULL) {
-	        const char *str = ov->data;
-	        Cell *cell = input_cells->data;
+	        char const *str = ov->data;
+	        GnmCell *cell = input_cells->data;
 
 		sheet_cell_set_text (cell, str);
 		ov = ov->next;
@@ -593,7 +593,7 @@ cb_dialog_close_clicked (G_GNUC_UNUSED GtkWidget *button,
  *  @data: pointer to a data_set_t
  */
 static GnmValue *
-grab_cells (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
+grab_cells (Sheet *sheet, int col, int row, GnmCell *cell, void *user_data)
 {
 	GList **the_list = user_data;
 
@@ -736,7 +736,7 @@ save_original_values (GSList *input_cells)
         GSList *ov = NULL;
 
 	while (input_cells != NULL) {
-	        Cell *cell = input_cells->data;
+	        GnmCell *cell = input_cells->data;
 		char *str;
 
 		str = value_get_as_string (cell->value);
@@ -1119,7 +1119,7 @@ dialog_init (SolverState *state)
 			}
 	}
 
-	state->gui = gnm_glade_xml_new (COMMAND_CONTEXT (state->wbcg),
+	state->gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (state->wbcg),
 		"solver.glade", NULL, NULL);
         if (state->gui == NULL)
                 return TRUE;

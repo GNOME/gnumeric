@@ -60,7 +60,7 @@ solver_answer_report (WorkbookControl *wbc,
 		      SolverResults   *res)
 {
         data_analysis_output_t dao;
-	Cell                   *cell;
+	GnmCell                   *cell;
 	int                    i, vars;
 
 	dao_init (&dao, NewSheetOutput);
@@ -209,7 +209,7 @@ solver_sensitivity_report (WorkbookControl *wbc,
 			   SolverResults   *res)
 {
         data_analysis_output_t dao;
-	Cell                   *cell;
+	GnmCell                   *cell;
 	int                    i, vars;
 
 	dao_init (&dao, NewSheetOutput);
@@ -370,7 +370,7 @@ solver_limits_report (WorkbookControl *wbc,
 		      SolverResults   *res)
 {
         data_analysis_output_t dao;
-	Cell                   *cell;
+	GnmCell                   *cell;
 	int                    vars, i;
 
 	dao_init (&dao, NewSheetOutput);

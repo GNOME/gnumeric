@@ -203,8 +203,8 @@ dialog_fill_series_tool_init (FillSeriesState *state)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radio), TRUE);
 
 	if (sel != NULL) {
-		Cell *cell_start;
-		Cell *cell_end;
+		GnmCell *cell_start;
+		GnmCell *cell_end;
 
 		dialog_tool_preset_to_range (&state->base);
 

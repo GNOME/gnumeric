@@ -55,7 +55,7 @@ int
 main (int argc, char *argv [])
 {
 	GnomeProgram	*program;
-	CommandContext	*cc;
+	GnmCmdContext	*cc;
 	ErrorInfo	*plugin_errs;
 	int		 res = 0;
 	poptContext ctx;
@@ -82,7 +82,7 @@ main (int argc, char *argv [])
 
 	gnm_common_init ();
 
-	cc = command_context_stderr_new ();
+	cc = cmd_context_stderr_new ();
 	plugins_init (cc);
 	if (ctx) {
 		char const **args = poptGetArgs (ctx);

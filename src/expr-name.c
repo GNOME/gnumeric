@@ -169,7 +169,7 @@ expr_name_unlink_deps (GnmNamedExpr *nexpr)
 
 	/* pull them out */
 	for (ptr = deps ; ptr != NULL ; ptr = ptr->next) {
-		Dependent *dep = ptr->data;
+		GnmDependent *dep = ptr->data;
 		if (dependent_is_linked (dep))
 			dependent_unlink (dep, NULL);
 	}
@@ -598,7 +598,7 @@ expr_name_set_expr (GnmNamedExpr *nexpr, GnmExpr const *new_expr)
 }
 
 void
-expr_name_add_dep (GnmNamedExpr *nexpr, Dependent *dep)
+expr_name_add_dep (GnmNamedExpr *nexpr, GnmDependent *dep)
 {
 	if (nexpr->dependents == NULL)
 		nexpr->dependents = g_hash_table_new (g_direct_hash,
@@ -608,7 +608,7 @@ expr_name_add_dep (GnmNamedExpr *nexpr, Dependent *dep)
 }
 
 void
-expr_name_remove_dep (GnmNamedExpr *nexpr, Dependent *dep)
+expr_name_remove_dep (GnmNamedExpr *nexpr, GnmDependent *dep)
 {
 	g_return_if_fail (nexpr->dependents != NULL);
 

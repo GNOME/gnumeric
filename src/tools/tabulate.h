@@ -7,18 +7,17 @@
 #include "tools.h"
 
 typedef struct {
-	Cell *target;
+	GnmCell   *target;
 	int dims;
-	Cell **cells;
+	GnmCell  **cells;
 	gnm_float *minima;
 	gnm_float *maxima;
 	gnm_float *steps;
 	gboolean with_coordinates;	
-} tabulate_t;
+} GnmTabulateInfo;
 
 GSList *
 do_tabulation (WorkbookControl *wbc,
-	       tabulate_t *data);
-
+	       GnmTabulateInfo *data);
 
 #endif

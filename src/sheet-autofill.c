@@ -265,7 +265,7 @@ fill_item_new (Sheet *sheet, int col, int row)
 	GnmValue     *value;
 	GnmValueType  value_type;
 	FillItem  *fi;
-	Cell *cell;
+	GnmCell *cell;
 	GnmCellPos	pos;
 	GnmRange const *merged;
 
@@ -569,7 +569,7 @@ autofill_destroy_fill_items (GList *all_items)
 }
 
 static void
-autofill_cell (FillItem *fi, Cell *cell, int idx, int limit_x, int limit_y)
+autofill_cell (FillItem *fi, GnmCell *cell, int idx, int limit_x, int limit_y)
 {
 	/* FILL_DAYS is a place holder used to test for day/month/year fills.
 	 * The last item in the minor list is the delta.  It is the only one
@@ -759,7 +759,7 @@ sheet_autofill_dir (Sheet *sheet, gboolean singleton_increment,
 		: start_pos - end_pos - region_size;
 	for (count = 0; count < count_max; ) {
 		FillItem *fi;
-		Cell *cell;
+		GnmCell *cell;
 
 		if ((minor != NULL && minor->next == NULL) || minor == NULL) {
 			if (major == NULL) {

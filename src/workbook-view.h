@@ -79,9 +79,9 @@ void		 wb_view_auto_expr	  (WorkbookView *wbv,
 
 /* I/O routines */
 gboolean wb_view_save_as (WorkbookView *wbv, GnmFileSaver *fs,
-			  char const *file_name, CommandContext *context);
-gboolean wb_view_save	 (WorkbookView *wbv, CommandContext *context);
-gboolean wb_view_sendto	 (WorkbookView *wbv, CommandContext *context);
+			  char const *file_name, GnmCmdContext *cc);
+gboolean wb_view_save	 (WorkbookView *wbv, GnmCmdContext *cc);
+gboolean wb_view_sendto	 (WorkbookView *wbv, GnmCmdContext *cc);
 
 WorkbookView *wb_view_new_from_input  (GsfInput *input,
 				       GnmFileOpener const *optional_format,

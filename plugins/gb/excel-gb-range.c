@@ -44,7 +44,7 @@ excel_gb_range_set_arg (GBRunEvalContext *ec,
 
 	case VALUE: {
 		GnmValue *value;
-		Cell    *cell;
+		GnmCell    *cell;
 
 		value = gb_to_value (val);
 		if (!value) {
@@ -62,7 +62,7 @@ excel_gb_range_set_arg (GBRunEvalContext *ec,
 	}
 
 	case TEXT: {
-		Cell  *cell;
+		GnmCell  *cell;
 
 		cell = sheet_cell_fetch (range->sheet,
 					 range->range.start.col,
@@ -90,7 +90,7 @@ excel_gb_range_get_arg (GBRunEvalContext *ec,
 	switch (property) {
 
 	case VALUE: {
-		Cell    *cell;
+		GnmCell    *cell;
 		GBValue *val;
 
 		cell = sheet_cell_get (range->sheet,
@@ -109,7 +109,7 @@ excel_gb_range_get_arg (GBRunEvalContext *ec,
 	}
 
 	case TEXT: {
-		Cell    *cell;
+		GnmCell    *cell;
 		char    *txt;
 		GBValue *val;
 

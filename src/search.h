@@ -61,10 +61,10 @@ struct _GnmSearchReplace {
 	/*
 	 * Query and info function.
 	 *
-	 * SRQ_fail (..., Cell *cell, char const *old, char const *new)
+	 * SRQ_fail (..., GnmCell *cell, char const *old, char const *new)
 	 *   Inform the user that an error occurred in SRE_fail mode.
 	 *
-	 * SRQ_query (..., Cell *cell, char const *old, char const *new)
+	 * SRQ_query (..., GnmCell *cell, char const *old, char const *new)
 	 *   Ask user whether to change.  (-1=cancel, 0=yes, 1=no.)
 	 *
 	 * SRQ_querycommment (..., Sheet *sheet, CellPos *cp,
@@ -76,10 +76,10 @@ struct _GnmSearchReplace {
 };
 
 GnmSearchReplace *search_replace_new (void);
-void search_replace_free (GnmSearchReplace *sr);
+void	search_replace_free (GnmSearchReplace *sr);
 GnmSearchReplace *search_replace_copy (GnmSearchReplace const *sr);
-char *search_replace_verify (GnmSearchReplace *sr, gboolean repl);
-char *search_replace_string (GnmSearchReplace *sr, char const *src);
+char	*search_replace_verify (GnmSearchReplace *sr, gboolean repl);
+char	*search_replace_string (GnmSearchReplace *sr, char const *src);
 gboolean search_match_string (GnmSearchReplace *sr, char const *src);
 
 GPtrArray *search_collect_cells (GnmSearchReplace *sr, Sheet *sheet);
@@ -87,15 +87,15 @@ void search_collect_cells_free (GPtrArray *cells);
 
 typedef struct {
 	EvalPos ep;
-	Cell *cell;
-	CellComment *comment;
+	GnmCell *cell;
+	GnmComment *comment;
 	SearchReplaceLocus locus;
 } SearchFilterResult;
 GPtrArray *search_filter_matching (GnmSearchReplace *sr, GPtrArray const *cells);
 void search_filter_matching_free (GPtrArray *matches);
 
-typedef struct SearchReplaceCommentResult {
-	CellComment *comment;
+typedef struct {
+	GnmComment *comment;
 	char const *old_text;
 	char *new_text; /* Caller must free if replacing and found.  */
 } SearchReplaceCommentResult;
@@ -104,8 +104,8 @@ gboolean search_replace_comment (GnmSearchReplace *sr,
 				 gboolean repl,
 				 SearchReplaceCommentResult *res);
 
-typedef struct SearchReplaceCellResult {
-	Cell *cell;
+typedef struct {
+	GnmCell *cell;
 	char *old_text; /* Caller must free.  */
 	char *new_text; /* Caller must free if replacing and found.  */
 } SearchReplaceCellResult;
@@ -114,8 +114,8 @@ gboolean search_replace_cell (GnmSearchReplace *sr,
 			      gboolean repl,
 			      SearchReplaceCellResult *res);
 
-typedef struct SearchReplaceValueResult {
-	Cell *cell;
+typedef struct {
+	GnmCell *cell;
 } SearchReplaceValueResult;
 gboolean search_replace_value (GnmSearchReplace *sr,
 			       EvalPos const *ep,

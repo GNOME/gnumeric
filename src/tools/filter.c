@@ -58,7 +58,7 @@ static void
 filter (data_analysis_output_t *dao, Sheet *sheet, GSList *rows,
 	gint input_col_b, gint input_col_e, gint input_row_b, gint input_row_e)
 {
-        Cell *cell;
+        GnmCell *cell;
 	int  i, r=0;
 
 	if (dao->type == InPlaceOutput) {

@@ -1427,7 +1427,7 @@ int
 find_column_of_field (EvalPos const *ep, GnmValue *database, GnmValue *field)
 {
         Sheet *sheet;
-        Cell  *cell;
+        GnmCell  *cell;
 	gchar *field_name;
 	int   begin_col, end_col, row, n, column;
 	int   offset;
@@ -1564,7 +1564,7 @@ parse_criteria_range (Sheet *sheet, int b_col, int b_row, int e_col, int e_row,
 	database_criteria_t *new_criteria;
 	GSList              *criterias = NULL;
 	GSList              *conditions;
-	Cell 		    *cell;
+	GnmCell 		    *cell;
 	func_criteria_t     *cond;
 	GnmDateConventions const *date_conv = workbook_date_conv (sheet->workbook);
 
@@ -1601,7 +1601,7 @@ GSList *
 parse_database_criteria (EvalPos const *ep, GnmValue *database, GnmValue *criteria)
 {
 	Sheet	*sheet;
-	Cell	*cell;
+	GnmCell	*cell;
 
         int   i;
 	int   b_col, b_row, e_col, e_row;
@@ -1642,7 +1642,7 @@ find_rows_that_match (Sheet *sheet, int first_col, int first_row,
 		      GSList *criterias, gboolean unique_only)
 {
 	GSList *current, *conditions, *rows;
-	Cell   *test_cell;
+	GnmCell   *test_cell;
 	int    row, add_flag;
 	rows = NULL;
 
@@ -1683,7 +1683,7 @@ find_rows_that_match (Sheet *sheet, int first_col, int first_row,
 
 			if (unique_only) {
 				GSList *c;
-				Cell   *cell;
+				GnmCell   *cell;
 				gint    i, trow;
 
 				for (c = rows; c != NULL; c = c->next) {

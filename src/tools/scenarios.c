@@ -150,7 +150,7 @@ typedef struct {
 static GnmValue *
 collect_cb (int col, int row, GnmValue *v, collect_cb_t *p)
 {
-	Cell *cell = sheet_cell_fetch (p->sheet, col, row);
+	GnmCell *cell = sheet_cell_fetch (p->sheet, col, row);
 
 	p->expr_flag |= cell_has_expr (cell);
 
@@ -578,7 +578,7 @@ summary_cb (int col, int row, GnmValue *v, summary_cb_t *p)
 	
 	} else {
 		/* New cell. */
-		Cell *cell;
+		GnmCell *cell;
 		int  *r;
 		
 		/* Changing cell name. */
@@ -632,7 +632,7 @@ scenario_summary_res_cells (WorkbookControl *wbc, GSList *results,
 		for (i = r.start.col; i <= r.end.col; i++)
 			for (j = r.start.row; j <= r.end.row; j++) {
 				scenario_t *ov = NULL;
-				Cell       *cell;
+				GnmCell    *cell;
 				GList      *cur;
 			
 				cell = sheet_cell_fetch (cb->sheet, i, j);

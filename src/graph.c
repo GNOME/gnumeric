@@ -38,14 +38,14 @@
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 
-static Dependent *gnm_go_data_get_dep (GOData const *obj);
+static GnmDependent *gnm_go_data_get_dep (GOData const *obj);
 
 static  GOData *
 gnm_go_data_dup (GOData const *src)
 {
 	GOData *dst = g_object_new (G_OBJECT_TYPE (src), NULL);
-	Dependent const *src_dep = gnm_go_data_get_dep (src);
-	Dependent *dst_dep = gnm_go_data_get_dep (dst);
+	GnmDependent const *src_dep = gnm_go_data_get_dep (src);
+	GnmDependent *dst_dep = gnm_go_data_get_dep (dst);
 
 	dst_dep->expression = src_dep->expression;
 	dst_dep->sheet      = src_dep->sheet;
@@ -62,8 +62,8 @@ gnm_go_data_dup (GOData const *src)
 static gboolean
 gnm_go_data_eq (GOData const *data_a, GOData const *data_b)
 {
-	Dependent const *a = gnm_go_data_get_dep (data_a);
-	Dependent const *b = gnm_go_data_get_dep (data_b);
+	GnmDependent const *a = gnm_go_data_get_dep (data_a);
+	GnmDependent const *b = gnm_go_data_get_dep (data_b);
 	if (a->expression == NULL && b->expression == NULL) {
 		char const *str_a = g_object_get_data (G_OBJECT (data_a), "from-str");
 		char const *str_b = g_object_get_data (G_OBJECT (data_b), "from-str");
@@ -80,7 +80,7 @@ static char *
 gnm_go_data_as_str (GOData const *dat)
 {
 	ParsePos pp;
-	Dependent const *dep = gnm_go_data_get_dep (dat);
+	GnmDependent const *dep = gnm_go_data_get_dep (dat);
 	if (dep->sheet == NULL)
 		return g_strdup ("No sheet for GnmGOData");
 	return gnm_expr_as_string (dep->expression,
@@ -93,7 +93,7 @@ gnm_go_data_from_str (GOData *dat, char const *str)
 {
 	GnmExpr const *expr;
 	ParsePos   pp;
-	Dependent *dep = gnm_go_data_get_dep (dat);
+	GnmDependent *dep = gnm_go_data_get_dep (dat);
 
 	/* Its too early in the life cycle to know where we
 	 * are.  Wait until later when we parse the sheet */
@@ -115,7 +115,7 @@ gnm_go_data_from_str (GOData *dat, char const *str)
 void
 gnm_go_data_set_sheet (GOData *dat, Sheet *sheet)
 {
-	Dependent *dep = gnm_go_data_get_dep (dat);
+	GnmDependent *dep = gnm_go_data_get_dep (dat);
 
 	if (dep == NULL)
 		return;
@@ -147,7 +147,7 @@ gnm_go_data_set_sheet (GOData *dat, Sheet *sheet)
 
 struct _GnmGODataScalar {
 	GODataScalar	 base;
-	Dependent	 dep;
+	GnmDependent	 dep;
 	GnmValue	*val;
 	char		*val_str;
 };
@@ -179,7 +179,7 @@ scalar_get_val (GnmGODataScalar *scalar)
 }
 
 static void
-gnm_go_data_scalar_eval (Dependent *dep)
+gnm_go_data_scalar_eval (GnmDependent *dep)
 {
 	GnmGODataScalar *scalar = DEP_TO_SCALAR (dep);
 
@@ -241,7 +241,7 @@ gnm_go_data_scalar_class_init (GObjectClass *gobject_klass)
 }
 
 static void
-gnm_go_data_scalar_debug_name (Dependent const *dep, FILE *out)
+gnm_go_data_scalar_debug_name (GnmDependent const *dep, FILE *out)
 {
 	fprintf (out, "GraphScalar%p", dep);
 }
@@ -272,7 +272,7 @@ gnm_go_data_scalar_new_expr (Sheet *sheet, GnmExpr const *expr)
 
 struct _GnmGODataVector {
 	GODataVector	base;
-	Dependent	 dep;
+	GnmDependent	 dep;
 	GnmValue	*val;
 	gboolean	 as_col;
 };
@@ -283,7 +283,7 @@ typedef GODataVectorClass GnmGODataVectorClass;
 static GObjectClass *vector_parent_klass;
 
 static void
-gnm_go_data_vector_eval (Dependent *dep)
+gnm_go_data_vector_eval (GnmDependent *dep)
 {
 	GnmGODataVector *vec = DEP_TO_VECTOR (dep);
 
@@ -385,7 +385,7 @@ struct assign_closure {
 
 static GnmValue *
 cb_assign_val (Sheet *sheet, int col, int row,
-	       Cell *cell, struct assign_closure *dat)
+	       GnmCell *cell, struct assign_closure *dat)
 {
 	GnmValue *v;
 	double res;
@@ -576,7 +576,7 @@ gnm_go_data_vector_get_str (GODataVector *dat, unsigned i)
 	eval_pos_init_dep (&ep, &vec->dep);
 	if (v->type == VALUE_CELLRANGE) {
 		Sheet *start_sheet, *end_sheet;
-		Cell  *cell;
+		GnmCell  *cell;
 		GnmRange  r;
 
 		rangeref_normalize (&v->v_range.cell, &ep,
@@ -627,7 +627,7 @@ gnm_go_data_vector_class_init (GObjectClass *gobject_klass)
 }
 
 static void
-gnm_go_data_vector_debug_name (Dependent const *dep, FILE *out)
+gnm_go_data_vector_debug_name (GnmDependent const *dep, FILE *out)
 {
 	fprintf (out, "GraphVector%p", dep);
 }
@@ -655,7 +655,7 @@ gnm_go_data_vector_new_expr (Sheet *sheet, GnmExpr const *expr)
 
 /*******************************************************************************/
 
-static Dependent *
+static GnmDependent *
 gnm_go_data_get_dep (GOData const *dat)
 {
 	if (IS_GNM_GO_DATA_SCALAR (dat))

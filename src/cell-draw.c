@@ -51,7 +51,7 @@ gunichar const zero_width_space = 0x200b;
  *             <= 0 will use width / 2
  */
 void
-cell_draw (Cell const *cell, GdkGC *gc, GdkDrawable *drawable,
+cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 	   int x1, int y1, int width, int height, int h_center)
 {
 	GdkRectangle  rect;

@@ -188,7 +188,7 @@ sylk_rtd_c_parse (SylkReadState *state, const char *str)
 	}
 
 	if (state->val_type != VALUE_EMPTY) {
-		Cell *cell = sheet_cell_fetch (state->sheet, state->cur_x - 1,
+		GnmCell *cell = sheet_cell_fetch (state->sheet, state->cur_x - 1,
 					       state->cur_y - 1);
 		g_assert (cell);
 

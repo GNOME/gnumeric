@@ -911,7 +911,7 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 
 	g_return_if_fail (wbcg != NULL);
 
-	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
 		"sheet-order.glade", NULL, NULL);
         if (gui == NULL)
                 return;

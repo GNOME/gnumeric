@@ -56,14 +56,14 @@ GnmExpr const  *gnm_expr_entry_parse	  (GnmExprEntry *e,
 					   ParseError *perr, gboolean start_sel,
 					   GnmExprParseFlags flags);
 char    *gnm_expr_entry_global_range_name (GnmExprEntry *e, Sheet *sheet);
-void	 gnm_expr_entry_load_from_text	(GnmExprEntry *e, char const *str);
-void	 gnm_expr_entry_load_from_dep	(GnmExprEntry *e,
-					 Dependent const *dep);
-void	 gnm_expr_entry_load_from_expr	(GnmExprEntry *e,
-					 GnmExpr const *expr,
-					 ParsePos const *pp);
-gboolean gnm_expr_entry_load_from_range (GnmExprEntry *e,
-					 Sheet *sheet, GnmRange const *r);
+void	 gnm_expr_entry_load_from_text	  (GnmExprEntry *e, char const *str);
+void	 gnm_expr_entry_load_from_dep	  (GnmExprEntry *e,
+					   GnmDependent const *dep);
+void	 gnm_expr_entry_load_from_expr	  (GnmExprEntry *e,
+					   GnmExpr const *expr,
+					   ParsePos const *pp);
+gboolean gnm_expr_entry_load_from_range   (GnmExprEntry *e,
+					   Sheet *sheet, GnmRange const *r);
 
 void gnm_expr_entry_set_update_policy (GnmExprEntry *e,
 					    GtkUpdateType  policy);

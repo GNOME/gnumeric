@@ -103,11 +103,11 @@ gog_pie_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 	return N_("PlotPie");
 }
 
-extern gpointer gog_pie_plot_pref (GogPiePlot *pie, CommandContext *cc);
+extern gpointer gog_pie_plot_pref (GogPiePlot *pie, GnmCmdContext *cc);
 static gpointer
 gog_pie_plot_editor (GogObject *item,
 		    G_GNUC_UNUSED GogDataAllocator *dalloc,
-		    CommandContext *cc)
+		    GnmCmdContext *cc)
 {
 	return gog_pie_plot_pref (GOG_PIE_PLOT (item), cc);
 }
@@ -263,11 +263,11 @@ gog_ring_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 	return N_("PlotRing");
 }
 
-extern gpointer gog_ring_plot_pref (GogRingPlot *ring, CommandContext *cc);
+extern gpointer gog_ring_plot_pref (GogRingPlot *ring, GnmCmdContext *cc);
 static gpointer
 gog_ring_plot_editor (GogObject *item,
 		      G_GNUC_UNUSED GogDataAllocator *dalloc,
-		      CommandContext *cc)
+		      GnmCmdContext *cc)
 {
 	return gog_ring_plot_pref (GOG_RING_PLOT (item), cc);
 }

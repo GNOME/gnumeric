@@ -69,7 +69,7 @@ row_destroy_span (ColRowInfo *ri)
  * Registers the region
  */
 void
-cell_register_span (Cell const * const cell, int left, int right)
+cell_register_span (GnmCell const *cell, int left, int right)
 {
 	ColRowInfo *ri;
 	int col, i;
@@ -103,7 +103,7 @@ span_remove (G_GNUC_UNUSED gpointer key, gpointer value,
 	     gpointer user_data)
 {
 	CellSpanInfo *span = (CellSpanInfo *)value;
-	Cell *cell = user_data;
+	GnmCell *cell = user_data;
 
 	if (cell == span->cell) {
 		g_free (span); /* free the span descriptor */
@@ -119,7 +119,7 @@ span_remove (G_GNUC_UNUSED gpointer key, gpointer value,
  * Remove all references to this cell in the span hashtable
  */
 void
-cell_unregister_span (Cell const * const cell)
+cell_unregister_span (GnmCell const * const cell)
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (cell->row_info != NULL);
@@ -167,10 +167,10 @@ row_span_get (ColRowInfo const * const ri, int const col)
  * returns TRUE if the cell is empty.
  */
 static inline gboolean
-cellspan_is_empty (int col, ColRowInfo const *ri, Cell const *ok_span_cell)
+cellspan_is_empty (int col, ColRowInfo const *ri, GnmCell const *ok_span_cell)
 {
 	CellSpanInfo const *span = row_span_get (ri, col);
-	Cell const *tmp;
+	GnmCell const *tmp;
 
 	if (span != NULL && span->cell != ok_span_cell)
 		return FALSE;
@@ -191,10 +191,10 @@ cellspan_is_empty (int col, ColRowInfo const *ri, Cell const *ok_span_cell)
  * @col1:   return value: the first column used by this cell
  * @col2:   return value: the last column used by this cell
  *
- * This routine returns the column interval used by a Cell.
+ * This routine returns the column interval used by a GnmCell.
  */
 void
-cell_calc_span (Cell const *cell, int *col1, int *col2)
+cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 {
 	Sheet *sheet;
 	int align, left, max_col, min_col;
@@ -393,7 +393,7 @@ row_calc_spans (ColRowInfo *rinfo, Sheet const *sheet)
 {
 	int left, right, col, row = rinfo->pos;
 	GnmRange const *merged;
-	Cell *cell;
+	GnmCell *cell;
 	int const last = sheet->cols.max_used;
 
 	row_destroy_span (rinfo);
@@ -415,7 +415,7 @@ row_calc_spans (ColRowInfo *rinfo, Sheet const *sheet)
 		/* render as necessary */
 		if (cell->rendered_value == NULL)
 #endif
-			cell_render_value ((Cell *)cell, TRUE);
+			cell_render_value ((GnmCell *)cell, TRUE);
 
 		if (cell_is_merged (cell)) {
 			merged = sheet_merge_is_corner (sheet, &cell->pos);

@@ -51,9 +51,9 @@ typedef struct {
 } ProgressRange;
 
 struct _IOContext {
-	CommandContext parent;
+	GnmCmdContext parent;
 
-	CommandContext *impl;
+	GnmCmdContext *impl;
 	ErrorInfo *info;
 	gboolean error_occurred;
 	gboolean warning_occurred;
@@ -66,7 +66,7 @@ struct _IOContext {
 };
 
 struct _IOContextClass {
-	CommandContextClass parent_class;
+	GnmCmdContextClass parent_class;
 };
 
 #endif /* GNUMERIC_IO_CONTEXT_PRIV_H */

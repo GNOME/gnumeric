@@ -247,7 +247,7 @@ cb_colrow_compute_pixels_from_pts (ColRowInfo *cri, void *data)
 /****************************************************************************/
 
 static GnmValue *
-cb_clear_rendered_values (Sheet *sheet, int col, int row, Cell *cell,
+cb_clear_rendered_values (Sheet *sheet, int col, int row, GnmCell *cell,
 			  gpointer ignored)
 {
 	if (cell->rendered_value != NULL) {
@@ -282,7 +282,7 @@ sheet_range_calc_spans (Sheet *sheet, GnmRange const *r, SpanCalcFlags flags)
 }
 
 void
-sheet_cell_calc_span (Cell *cell, SpanCalcFlags flags)
+sheet_cell_calc_span (GnmCell *cell, SpanCalcFlags flags)
 {
 	CellSpanInfo const * span;
 	int left, right;
@@ -300,7 +300,7 @@ sheet_cell_calc_span (Cell *cell, SpanCalcFlags flags)
 
 	if (render) {
 		if (!cell_has_expr (cell))
-			cell_render_value ((Cell *)cell, TRUE);
+			cell_render_value ((GnmCell *)cell, TRUE);
 		else if (cell->rendered_value) {
 			rendered_value_destroy (cell->rendered_value);
 			cell->rendered_value = NULL;
@@ -313,7 +313,7 @@ sheet_cell_calc_span (Cell *cell, SpanCalcFlags flags)
 	/* Is there an existing span ? clear it BEFORE calculating new one */
 	span = row_span_get (cell->row_info, cell->pos.col);
 	if (span != NULL) {
-		Cell const * const other = span->cell;
+		GnmCell const * const other = span->cell;
 
 		min_col = span->left;
 		max_col = span->right;
@@ -556,7 +556,7 @@ sheet_reposition_objects (Sheet const *sheet, GnmCellPos const *pos)
  * updated if appropriate.
  */
 void
-sheet_flag_status_update_cell (Cell const *cell)
+sheet_flag_status_update_cell (GnmCell const *cell)
 {
 	SHEET_FOREACH_VIEW (cell->base.sheet, sv,
 		sv_flag_status_update_pos (sv, &cell->pos););
@@ -763,13 +763,13 @@ sheet_update (Sheet const *sheet)
  * @col:    the cell column
  * @row:    the cell row
  *
- * Return value: a (Cell *) containing the Cell, or NULL if
+ * Return value: a (GnmCell *) containing the GnmCell, or NULL if
  * the cell does not exist
  */
-Cell *
+GnmCell *
 sheet_cell_get (Sheet const *sheet, int col, int row)
 {
-	Cell *cell;
+	GnmCell *cell;
 	GnmCellPos pos;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
@@ -787,13 +787,13 @@ sheet_cell_get (Sheet const *sheet, int col, int row)
  * @col:    the cell column
  * @row:    the cell row
  *
- * Return value: a (Cell *) containing the Cell at col, row.
+ * Return value: a (GnmCell *) containing the GnmCell at col, row.
  * If no cell existed at that location before, it is created.
  */
-Cell *
+GnmCell *
 sheet_cell_fetch (Sheet *sheet, int col, int row)
 {
-	Cell *cell;
+	GnmCell *cell;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
@@ -912,7 +912,7 @@ struct sheet_extent_data {
 static void
 cb_sheet_get_extent (gpointer ignored, gpointer value, gpointer data)
 {
-	Cell const *cell = (Cell const *) value;
+	GnmCell const *cell = (GnmCell const *) value;
 	struct sheet_extent_data *res = data;
 
 	if (cell_is_empty (cell))
@@ -1010,7 +1010,7 @@ sheet_get_extent (Sheet const *sheet, gboolean spans_and_merges_extend)
  * in a range.
  */
 static GnmValue *
-cb_max_cell_width (Sheet *sheet, int col, int row, Cell *cell,
+cb_max_cell_width (Sheet *sheet, int col, int row, GnmCell *cell,
 		   int *max)
 {
 	int width;
@@ -1055,7 +1055,7 @@ sheet_col_size_fit_pixels (Sheet *sheet, int col)
 	if (max <= 0)
 		return 0;
 
-	/* Cell width does not include margins or far grid line*/
+	/* GnmCell width does not include margins or far grid line*/
 	max += ci->margin_a + ci->margin_b + 1;
 	return max;
 }
@@ -1065,7 +1065,7 @@ sheet_col_size_fit_pixels (Sheet *sheet, int col)
  * in a range.
  */
 static GnmValue *
-cb_max_cell_height (Sheet *sheet, int col, int row, Cell *cell,
+cb_max_cell_height (Sheet *sheet, int col, int row, GnmCell *cell,
 		   int *max)
 {
 	int height;
@@ -1123,7 +1123,7 @@ sheet_row_size_fit_pixels (Sheet *sheet, int row)
 	if (max <= 0)
 		return 0;
 
-	/* Cell height does not include margins or bottom grid line */
+	/* GnmCell height does not include margins or bottom grid line */
 	return max + ri->margin_a + ri->margin_b;
 }
 
@@ -1142,7 +1142,7 @@ cb_recalc_spans_in_col (ColRowInfo *ri, gpointer user)
 
 	if (span) {
 		/* If there is an existing span see if it changed */
-		Cell const * const cell = span->cell;
+		GnmCell const * const cell = span->cell;
 		cell_calc_span (cell, &left, &right);
 		if (left != span->left || right != span->right) {
 			cell_unregister_span (cell);
@@ -1150,7 +1150,7 @@ cb_recalc_spans_in_col (ColRowInfo *ri, gpointer user)
 		}
 	} else {
 		/* If there is a cell see if it started to span */
-		Cell const * const cell = sheet_cell_get (closure->sheet, col, ri->pos);
+		GnmCell const * const cell = sheet_cell_get (closure->sheet, col, ri->pos);
 		if (cell) {
 			cell_calc_span (cell, &left, &right);
 			if (left != right)
@@ -1193,7 +1193,7 @@ typedef struct {
 } closure_set_cell_value;
 
 static GnmValue *
-cb_set_cell_content (Sheet *sheet, int col, int row, Cell *cell,
+cb_set_cell_content (Sheet *sheet, int col, int row, GnmCell *cell,
 		     closure_set_cell_value *info)
 {
 	GnmExpr const *expr = info->expr;
@@ -1224,7 +1224,7 @@ cb_set_cell_content (Sheet *sheet, int col, int row, Cell *cell,
 }
 
 static GnmValue *
-cb_clear_non_corner (Sheet *sheet, int col, int row, Cell *cell,
+cb_clear_non_corner (Sheet *sheet, int col, int row, GnmCell *cell,
 		     GnmRange const *merged)
 {
 	if (merged->start.col != col || merged->start.row != row)
@@ -1298,7 +1298,7 @@ sheet_range_set_text (ParsePos const *pos, GnmRange const *r, char const *str)
 GnmValue const *
 sheet_cell_get_value (Sheet *sheet, int const col, int const row)
 {
-	Cell *cell;
+	GnmCell *cell;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
@@ -1316,7 +1316,7 @@ sheet_cell_get_value (Sheet *sheet, int const col, int const row)
  * Queues recalcs
  */
 void
-sheet_cell_set_text (Cell *cell, char const *text)
+sheet_cell_set_text (GnmCell *cell, char const *text)
 {
 	GnmExpr const *expr;
 	GnmValue	      *val;
@@ -1358,7 +1358,7 @@ sheet_cell_set_text (Cell *cell, char const *text)
  * Queues recalcs
  */
 void
-sheet_cell_set_expr (Cell *cell, GnmExpr const *expr)
+sheet_cell_set_expr (GnmCell *cell, GnmExpr const *expr)
 {
 	cell_set_expr (cell, expr);
 
@@ -1382,7 +1382,7 @@ sheet_cell_set_expr (Cell *cell, GnmExpr const *expr)
  * NOTE : This DOES check for array partitioning.
  */
 void
-sheet_cell_set_value (Cell *cell, GnmValue *v)
+sheet_cell_set_value (GnmCell *cell, GnmValue *v)
 {
 	/* TODO : if the value is unchanged do not assign it */
 	cell_set_value (cell, v);
@@ -1502,7 +1502,7 @@ sheet_redraw_partial_row (Sheet const *sheet, int const row,
 }
 
 void
-sheet_redraw_cell (Cell const *cell)
+sheet_redraw_cell (GnmCell const *cell)
 {
 	CellSpanInfo const * span;
 	int start_col, end_col;
@@ -1858,7 +1858,7 @@ cb_check_array_vertical (ColRowInfo *row, void *user)
 gboolean
 sheet_range_splits_array (Sheet const *sheet,
 			  GnmRange const *r, GnmRange const *ignore,
-			  CommandContext *cc, char const *cmd)
+			  GnmCmdContext *cc, char const *cmd)
 {
 	ArrayCheckData closure;
 
@@ -1928,7 +1928,7 @@ sheet_range_splits_array (Sheet const *sheet,
 gboolean
 sheet_range_splits_region (Sheet const *sheet,
 			   GnmRange const *r, GnmRange const *ignore,
-			   CommandContext *cc, char const *cmd_name)
+			   GnmCmdContext *cc, char const *cmd_name)
 {
 	GSList *merged;
 
@@ -1972,7 +1972,7 @@ sheet_range_splits_region (Sheet const *sheet,
  */
 gboolean
 sheet_ranges_split_region (Sheet const * sheet, GSList const *ranges,
-			   CommandContext *cc, char const *cmd)
+			   GnmCmdContext *cc, char const *cmd)
 {
 	GSList const *l;
 
@@ -1986,7 +1986,7 @@ sheet_ranges_split_region (Sheet const * sheet, GSList const *ranges,
 }
 
 static GnmValue *
-cb_cell_is_array (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
+cb_cell_is_array (Sheet *sheet, int col, int row, GnmCell *cell, void *user_data)
 {
 	return cell_is_array (cell) ? VALUE_TERMINATE : NULL;
 
@@ -2005,7 +2005,7 @@ cb_cell_is_array (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
  */
 gboolean
 sheet_range_contains_region (Sheet const *sheet, GnmRange const *r,
-			     CommandContext *cc, char const *cmd)
+			     GnmCmdContext *cc, char const *cmd)
 {
 	GSList *merged;
 
@@ -2249,7 +2249,7 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 
 		for (j = start_col; j <= end_col; ++j) {
 			ColRowInfo const *ci = sheet_col_get (sheet, j);
-			Cell *cell = NULL;
+			GnmCell *cell = NULL;
 
 			if (ci != NULL) {
 				if (visiblity_matters && !ci->visible)
@@ -2279,7 +2279,7 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 
 static GnmValue *
 cb_sheet_cells_collect (Sheet *sheet, int col, int row,
-			Cell *cell, void *user_data)
+			GnmCell *cell, void *user_data)
 {
 	GPtrArray *cells = user_data;
 	EvalPos *ep = g_new (EvalPos, 1);
@@ -2328,9 +2328,9 @@ sheet_cells (Sheet *sheet,
 	r.end.row = end_row;
 	scomments = sheet_objects_get (sheet, &r, CELL_COMMENT_TYPE);
 	for (ptr = scomments; ptr; ptr = ptr->next) {
-		CellComment *c = ptr->data;
+		GnmComment *c = ptr->data;
 		GnmRange const *loc = sheet_object_range_get (SHEET_OBJECT (c));
-		Cell *cell = sheet_cell_get (sheet, loc->start.col, loc->start.row);
+		GnmCell *cell = sheet_cell_get (sheet, loc->start.col, loc->start.row);
 		if (!cell) {
 			/* If cells does not exist, we haven't seen it...  */
 			EvalPos *ep = g_new (EvalPos, 1);
@@ -2347,7 +2347,7 @@ sheet_cells (Sheet *sheet,
 
 
 static GnmValue *
-fail_if_exist (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
+fail_if_exist (Sheet *sheet, int col, int row, GnmCell *cell, void *user_data)
 {
 	return cell_is_empty (cell) ? NULL : VALUE_TERMINATE;
 }
@@ -2377,7 +2377,7 @@ sheet_is_region_empty (Sheet *sheet, GnmRange const *r)
 gboolean
 sheet_is_cell_empty (Sheet *sheet, int col, int row)
 {
-	Cell const *cell = sheet_cell_get (sheet, col, row);
+	GnmCell const *cell = sheet_cell_get (sheet, col, row);
 	return cell_is_empty (cell);
 }
 
@@ -2387,11 +2387,11 @@ sheet_is_cell_empty (Sheet *sheet, int col, int row)
  * @cell  The cell, it should already have col/pos pointers
  *        initialized pointing to the correct ColRowInfo
  *
- * Cell::pos must be valid before this is called.  The position is used as the
+ * GnmCell::pos must be valid before this is called.  The position is used as the
  * hash key.
  */
 static void
-sheet_cell_add_to_hash (Sheet *sheet, Cell *cell)
+sheet_cell_add_to_hash (Sheet *sheet, GnmCell *cell)
 {
 	g_return_if_fail (cell->pos.col < SHEET_MAX_COLS);
 	g_return_if_fail (cell->pos.row < SHEET_MAX_ROWS);
@@ -2411,10 +2411,10 @@ sheet_cell_add_to_hash (Sheet *sheet, Cell *cell)
 		cell->base.flags |= CELL_IS_MERGED;
 }
 
-Cell *
+GnmCell *
 sheet_cell_new (Sheet *sheet, int col, int row)
 {
-	Cell *cell;
+	GnmCell *cell;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (col >= 0, NULL);
@@ -2439,7 +2439,7 @@ sheet_cell_new (Sheet *sheet, int col, int row)
  * the dependent collection.
  */
 static void
-sheet_cell_remove_from_hash (Sheet *sheet, Cell *cell)
+sheet_cell_remove_from_hash (Sheet *sheet, GnmCell *cell)
 {
 	g_return_if_fail (cell_is_linked (cell));
 
@@ -2455,7 +2455,7 @@ sheet_cell_remove_from_hash (Sheet *sheet, Cell *cell)
  *        sheet.  Do NOT redraw.
  */
 static void
-sheet_cell_destroy (Sheet *sheet, Cell *cell, gboolean queue_recalc)
+sheet_cell_destroy (Sheet *sheet, GnmCell *cell, gboolean queue_recalc)
 {
 	if (cell_expr_is_linked (cell)) {
 		/* if it needs recalc then its depends are already queued
@@ -2477,7 +2477,7 @@ sheet_cell_destroy (Sheet *sheet, Cell *cell, gboolean queue_recalc)
  *        sheet.  Do NOT free the cell, optionally redraw it.
  */
 void
-sheet_cell_remove (Sheet *sheet, Cell *cell, gboolean redraw)
+sheet_cell_remove (Sheet *sheet, GnmCell *cell, gboolean redraw)
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -2495,7 +2495,7 @@ sheet_cell_remove (Sheet *sheet, Cell *cell, gboolean redraw)
 }
 
 static GnmValue *
-cb_free_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
+cb_free_cell (Sheet *sheet, int col, int row, GnmCell *cell, void *user_data)
 {
 	sheet_cell_destroy (sheet, cell, FALSE);
 	return NULL;
@@ -2580,7 +2580,7 @@ sheet_row_destroy (Sheet *sheet, int const row, gboolean free_cells)
 }
 
 static void
-cb_remove_allcells (gpointer ignore0, Cell *cell, gpointer ignore1)
+cb_remove_allcells (gpointer ignore0, GnmCell *cell, gpointer ignore1)
 {
 	cell->base.flags &= ~CELL_IN_SHEET_LIST;
 	cell_destroy (cell);
@@ -2748,7 +2748,7 @@ sheet_destroy (Sheet *sheet)
  * this cell and can now continue.
  */
 static GnmValue *
-cb_empty_cell (Sheet *sheet, int col, int row, Cell *cell, gpointer flag)
+cb_empty_cell (Sheet *sheet, int col, int row, GnmCell *cell, gpointer flag)
 {
 #if 0
 	/* TODO : here and other places flag a need to update the
@@ -2776,7 +2776,7 @@ sheet_clear_region (Sheet *sheet,
 		    int start_col, int start_row,
 		    int end_col, int end_row,
 		    int clear_flags,
-		    CommandContext *cc)
+		    GnmCmdContext *cc)
 {
 	GnmRange r;
 
@@ -2923,7 +2923,7 @@ sheet_is_pristine (Sheet const *sheet)
  * hash, unlink from the dependent collection and put it in a temporary list.
  */
 static GnmValue *
-cb_collect_cell (Sheet *sheet, int col, int row, Cell *cell,
+cb_collect_cell (Sheet *sheet, int col, int row, GnmCell *cell,
 		 void *user_data)
 {
 	GList ** l = user_data;
@@ -2951,7 +2951,7 @@ colrow_move (Sheet *sheet,
 		segment->info [COLROW_SUB_INDEX (old_pos)] : NULL;
 
 	GList *cells = NULL;
-	Cell  *cell;
+	GnmCell  *cell;
 
 	g_return_if_fail (old_pos >= 0);
 	g_return_if_fail (new_pos >= 0);
@@ -3098,7 +3098,7 @@ sheet_colrow_delete_finish (GnmExprRelocateInfo const *rinfo, gboolean is_cols,
 gboolean
 sheet_insert_cols (Sheet *sheet,
 		   int col, int count, ColRowStateList *states,
-		   GnmRelocUndo *reloc_storage, CommandContext *cc)
+		   GnmRelocUndo *reloc_storage, GnmCmdContext *cc)
 {
 	GnmExprRelocateInfo reloc_info;
 	GnmRange region;
@@ -3151,7 +3151,7 @@ sheet_insert_cols (Sheet *sheet,
 gboolean
 sheet_delete_cols (Sheet *sheet,
 		   int col, int count, ColRowStateList *states,
-		   GnmRelocUndo *reloc_storage, CommandContext *cc)
+		   GnmRelocUndo *reloc_storage, GnmCmdContext *cc)
 {
 	GnmExprRelocateInfo reloc_info;
 	int i;
@@ -3216,7 +3216,7 @@ sheet_delete_cols (Sheet *sheet,
 gboolean
 sheet_insert_rows (Sheet *sheet,
 		   int row, int count, ColRowStateList *states,
-		   GnmRelocUndo *reloc_storage, CommandContext *cc)
+		   GnmRelocUndo *reloc_storage, GnmCmdContext *cc)
 {
 	GnmExprRelocateInfo reloc_info;
 	GnmRange region;
@@ -3269,7 +3269,7 @@ sheet_insert_rows (Sheet *sheet,
 gboolean
 sheet_delete_rows (Sheet *sheet,
 		   int row, int count, ColRowStateList *states,
-		   GnmRelocUndo *reloc_storage, CommandContext *cc)
+		   GnmRelocUndo *reloc_storage, GnmCmdContext *cc)
 {
 	GnmExprRelocateInfo reloc_info;
 	int i;
@@ -3338,10 +3338,10 @@ sheet_delete_rows (Sheet *sheet,
  **/
 void
 sheet_move_range (GnmExprRelocateInfo const *rinfo,
-		  GnmRelocUndo *reloc_storage, CommandContext *cc)
+		  GnmRelocUndo *reloc_storage, GnmCmdContext *cc)
 {
 	GList *cells = NULL;
-	Cell  *cell;
+	GnmCell  *cell;
 	GnmRange  dst;
 	gboolean out_of_range;
 
@@ -3895,9 +3895,9 @@ sheet_clone_names (Sheet const *src, Sheet *dst)
 static void
 cb_sheet_cell_copy (gpointer unused, gpointer key, gpointer new_sheet_param)
 {
-	Cell const *cell = key;
+	GnmCell const *cell = key;
 	Sheet *dst = (Sheet *) new_sheet_param;
-	Cell  *new_cell;
+	GnmCell  *new_cell;
 	gboolean is_expr;
 
 	g_return_if_fail (dst != NULL);
@@ -3919,10 +3919,10 @@ cb_sheet_cell_copy (gpointer unused, gpointer key, gpointer new_sheet_param)
 				for (i = 0; i < array->cols ; i++)
 					for (j = 0; j < array->rows ; j++)
 						if (i != 0 || j != 0) {
-							Cell const *in = sheet_cell_fetch (cell->base.sheet,
+							GnmCell const *in = sheet_cell_fetch (cell->base.sheet,
 								cell->pos.col + i,
 								cell->pos.row + j);
-							Cell *out = sheet_cell_fetch (dst,
+							GnmCell *out = sheet_cell_fetch (dst,
 								cell->pos.col + i,
 								cell->pos.row + j);
 							cell_set_value (out, in->value);

@@ -18,7 +18,7 @@ struct _GnmPivotTableField {
 };
 
 typedef struct {
-	GnmGlobalRange src, dst;
+	GnmSheetRange src, dst;
 
 	GPtrArray *pages;
 	GPtrArray *rows;

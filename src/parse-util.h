@@ -30,7 +30,7 @@ char const *sheetref_parse	(char const *start, Sheet **sheet,
 				 Workbook const *wb, gboolean allow_3d);
 
 char const *cell_coord_name	(int col, int row);
-char const *cell_name		(Cell const *cell);
+char const *cell_name		(GnmCell const *cell);
 
 /* backwards compatibility versions that will move to a plugin */
 char	   *gnm_1_0_rangeref_as_string	(GnmRangeRef const *ref, ParsePos const *pp);

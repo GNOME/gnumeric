@@ -52,7 +52,7 @@ typedef struct {
 
 static GnmValue *
 callback_function_sumxy (Sheet *sheet, int col, int row,
-			 Cell *cell, void *user_data)
+			 GnmCell *cell, void *user_data)
 {
         math_sums_t *mm = user_data;
         gnm_float  x;
@@ -100,7 +100,7 @@ typedef struct {
 
 static GnmValue *
 callback_function_criteria (Sheet *sheet, int col, int row,
-			    Cell *cell, void *user_data)
+			    GnmCell *cell, void *user_data)
 {
         math_criteria_t *mm = user_data;
 	GnmValue           *v;
@@ -604,7 +604,7 @@ static char const *help_sumif = {
 
 static GnmValue *
 callback_function_sumif (Sheet *sheet, int col, int row,
-			 Cell *cell, void *user_data)
+			 GnmCell *cell, void *user_data)
 {
         math_criteria_t *mm = user_data;
 	gnm_float       v = 0.;
@@ -2705,7 +2705,7 @@ static char const *help_minverse = {
 
 static GnmValue *
 callback_function_mmult_validate (Sheet *sheet, int col, int row,
-				  Cell *cell, void *user_data)
+				  GnmCell *cell, void *user_data)
 {
         int *item_count = user_data;
 

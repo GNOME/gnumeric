@@ -296,7 +296,7 @@ gboolean
 range_has_header (Sheet const *sheet, GnmRange const *src,
 		  gboolean top, gboolean ignore_styles)
 {
-	Cell *ca, *cb;
+	GnmCell *ca, *cb;
 	GnmValue *valuea, *valueb;
 	MStyle *stylea, *styleb;
 	int length, i;
@@ -997,10 +997,10 @@ range_transpose (GnmRange *range, GnmCellPos const *origin)
 	return clipped;
 }
 
-GnmGlobalRange *
+GnmSheetRange *
 global_range_new (Sheet *sheet, GnmRange const *r)
 {
-	GnmGlobalRange *gr = g_new0 (GnmGlobalRange, 1);
+	GnmSheetRange *gr = g_new0 (GnmSheetRange, 1);
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (r != NULL, NULL);
@@ -1019,7 +1019,7 @@ global_range_new (Sheet *sheet, GnmRange const *r)
  * convert @v into a global range and return in @res
  **/
 gboolean
-value_to_global_range (GnmValue const *v, GnmGlobalRange *res)
+value_to_global_range (GnmValue const *v, GnmSheetRange *res)
 {
 	g_return_val_if_fail (v->type == VALUE_CELLRANGE, FALSE);
 
@@ -1030,7 +1030,7 @@ value_to_global_range (GnmValue const *v, GnmGlobalRange *res)
 }
 
 void
-global_range_free (GnmGlobalRange *gr)
+global_range_free (GnmSheetRange *gr)
 {
 	g_return_if_fail (gr != NULL);
 
@@ -1038,7 +1038,7 @@ global_range_free (GnmGlobalRange *gr)
 }
 
 gboolean
-global_range_overlap (GnmGlobalRange const *a, GnmGlobalRange const *b)
+global_range_overlap (GnmSheetRange const *a, GnmSheetRange const *b)
 {
 	g_return_val_if_fail (a != NULL, FALSE);
 	g_return_val_if_fail (b != NULL, FALSE);
@@ -1049,8 +1049,8 @@ global_range_overlap (GnmGlobalRange const *a, GnmGlobalRange const *b)
 	return FALSE;
 }
 
-GnmGlobalRange *
-global_range_dup (GnmGlobalRange const *src)
+GnmSheetRange *
+global_range_dup (GnmSheetRange const *src)
 {
 	g_return_val_if_fail (src != NULL, NULL);
 

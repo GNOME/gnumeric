@@ -1121,7 +1121,7 @@ static PyTypeObject py_MStyle_object_type = {
 
 struct _py_Cell_object {
 	PyObject_HEAD
-	Cell *cell;
+	GnmCell *cell;
 };
 
 static PyObject *
@@ -1153,7 +1153,7 @@ static struct PyMethodDef py_Cell_object_methods[] = {
 	{NULL, NULL}
 };
 
-static Cell *
+static GnmCell *
 py_Cell_as_Cell (py_Cell_object *self)
 {
 	return self->cell;
@@ -1265,7 +1265,7 @@ py_Cell_object_dealloc (py_Cell_object *self)
 }
 
 static PyObject *
-py_new_Cell_object (Cell *cell)
+py_new_Cell_object (GnmCell *cell)
 {
 	py_Cell_object *self;
 
@@ -1359,7 +1359,7 @@ static PyObject *
 py_sheet_cell_fetch_method (py_Sheet_object *self, PyObject *args)
 {
 	gint col, row;
-	Cell *cell;
+	GnmCell *cell;
 
 	if (!PyArg_ParseTuple (args, (char *) "ii:cell_fetch", &col, &row)) {
 		return NULL;
@@ -1497,7 +1497,7 @@ static PyObject *
 py_sheet_subscript (py_Sheet_object *self, PyObject *key)
 {
 	gint col, row;
-	Cell *cell;
+	GnmCell *cell;
 
 	if (!PyArg_ParseTuple (key, (char *) "ii", &col, &row)) {
 		return NULL;

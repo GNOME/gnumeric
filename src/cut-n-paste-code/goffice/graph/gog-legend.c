@@ -151,7 +151,7 @@ gog_legend_update (GogObject *obj)
 }
 
 static gpointer
-gog_legend_editor (GogObject *gobj, GogDataAllocator *dalloc, CommandContext *cc)
+gog_legend_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 {
 	return gog_style_editor	(gobj, cc, NULL, GOG_STYLE_OUTLINE | GOG_STYLE_FILL);
 }

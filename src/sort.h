@@ -21,8 +21,8 @@ struct _GnmSortData {
 
 void sort_clause_destroy (GnmSortClause *clause);
 void sort_data_destroy   (GnmSortData *data);
-void sort_position 	 (GnmSortData *data, int *perm, CommandContext *cc);
-int *sort_contents 	 (GnmSortData *data, CommandContext *cc);
+void sort_position 	 (GnmSortData *data, int *perm, GnmCmdContext *cc);
+int *sort_contents 	 (GnmSortData *data, GnmCmdContext *cc);
 int  sort_data_length	 (GnmSortData const *data);
 int *sort_permute_invert (int const *perm, int length);
 

@@ -71,7 +71,7 @@ void gnumeric_popup_menu (GtkMenu *menu, GdkEventButton *event);
 void        gnumeric_position_tooltip (GtkWidget *tip, int horizontal);
 GtkWidget  *gnumeric_create_tooltip (void);
 
-GladeXML   *gnm_glade_xml_new (CommandContext *cc, char const * gladefile,
+GladeXML   *gnm_glade_xml_new (GnmCmdContext *cc, char const * gladefile,
 			       char const *root, char const *domain);
 
 void 	    gnumeric_inject_widget_into_bonoboui (WorkbookControlGUI *wbcg,

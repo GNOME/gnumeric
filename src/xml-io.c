@@ -1762,7 +1762,7 @@ xml_write_colrow_info (ColRowInfo *info, void *user_data)
  * set col and row to be the absolute coordinates
  */
 static xmlNodePtr
-xml_write_cell_and_position (XmlParseContext *ctxt, Cell const *cell, ParsePos const *pp)
+xml_write_cell_and_position (XmlParseContext *ctxt, GnmCell const *cell, ParsePos const *pp)
 {
 	xmlNodePtr cellNode;
 	xmlChar *tstr;
@@ -1835,7 +1835,7 @@ xml_write_cell_and_position (XmlParseContext *ctxt, Cell const *cell, ParsePos c
  * Create an XML subtree of doc equivalent to the given Cell.
  */
 static xmlNodePtr
-xml_write_cell (XmlParseContext *ctxt, Cell const *cell)
+xml_write_cell (XmlParseContext *ctxt, GnmCell const *cell)
 {
 	ParsePos pp;
 	return xml_write_cell_and_position (ctxt, cell,
@@ -1853,7 +1853,7 @@ xml_write_cell (XmlParseContext *ctxt, Cell const *cell)
  */
 static void
 xml_cell_set_array_expr (XmlParseContext *ctxt,
-			 Cell *cell, char const *text,
+			 GnmCell *cell, char const *text,
 			 int const rows, int const cols)
 {
 	ParsePos pp;
@@ -1879,7 +1879,7 @@ xml_cell_set_array_expr (XmlParseContext *ctxt,
  */
 static gboolean
 xml_not_used_old_array_spec (XmlParseContext *ctxt,
-			     Cell *cell, char *content)
+			     GnmCell *cell, char *content)
 {
 	int rows, cols, row, col;
 
@@ -1921,10 +1921,10 @@ xml_not_used_old_array_spec (XmlParseContext *ctxt,
 /*
  * Create a Cell equivalent to the XML subtree of doc.
  */
-static Cell *
+static GnmCell *
 xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 {
-	Cell *cell;
+	GnmCell *cell;
 	xmlNodePtr child;
 	int col, row;
 	int array_cols, array_rows, shared_expr_index = -1;
@@ -2699,8 +2699,8 @@ xml_write_scenarios (XmlParseContext *ctxt, GList const *scenarios)
 static int
 natural_order_cmp (const void *a, const void *b)
 {
-	const Cell *ca = *(const Cell **)a ;
-	const Cell *cb = *(const Cell **)b ;
+	GnmCell const *ca = *(GnmCell const **)a ;
+	GnmCell const *cb = *(GnmCell const **)b ;
 	int diff = (ca->pos.row - cb->pos.row);
 
 	if (diff != 0)
@@ -2709,7 +2709,7 @@ natural_order_cmp (const void *a, const void *b)
 }
 
 static void
-copy_hash_table_to_ptr_array (gpointer key, Cell *cell, gpointer user_data)
+copy_hash_table_to_ptr_array (gpointer key, GnmCell *cell, gpointer user_data)
 {
 	if (!cell_is_empty (cell) || cell->base.expression != NULL)
 		g_ptr_array_add (user_data, cell) ;
@@ -3126,7 +3126,7 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 static CellCopy *
 cell_copy_new (void)
 {
-	Cell *cell;
+	GnmCell *cell;
 	CellCopy *cc;
 
 	cell = cell_new ();
@@ -3148,7 +3148,7 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree,
 {
 	int tmp;
 	CellCopy *cc;
-	Cell     *cell;
+	GnmCell  *cell;
 	xmlNode  *child;
 	xmlChar	 *content;
 	int array_cols, array_rows, shared_expr_index = -1;
@@ -3292,14 +3292,14 @@ xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, guchar *buffer, int len
 
 	doc = xmlParseDoc (buffer);
 	if (doc == NULL) {
-		gnumeric_error_read (COMMAND_CONTEXT (wbc),
+		gnumeric_error_read (GNM_CMD_CONTEXT (wbc),
 			_("Unparsable xml in clipboard"));
 		return NULL;
 	}
 	clipboard = doc->xmlRootNode;
 	if (clipboard == NULL || strcmp (clipboard->name, "ClipboardRange")) {
 		xmlFreeDoc (doc);
-		gnumeric_error_read (COMMAND_CONTEXT (wbc),
+		gnumeric_error_read (GNM_CMD_CONTEXT (wbc),
 			_("Clipboard is in unknown format"));
 		return NULL;
 	}
@@ -3966,7 +3966,7 @@ gnumeric_xml_read_workbook (GnmFileOpener const *fo,
 	if (gmr == NULL) {
 		if (res != NULL)
 			xmlFreeDoc (res);
-		gnumeric_error_read (COMMAND_CONTEXT (context),
+		gnumeric_error_read (GNM_CMD_CONTEXT (context),
 			_("The file is not a Gnumeric Workbook file"));
 		return;
 	}
@@ -4003,7 +4003,7 @@ gnumeric_xml_write_workbook (GnmFileSaver const *fs,
 
 	xml = xmlNewDoc (CC2XML ("1.0"));
 	if (xml == NULL) {
-		gnumeric_error_save (COMMAND_CONTEXT (context),
+		gnumeric_error_save (GNM_CMD_CONTEXT (context),
 			_("Failure saving file"));
 		return;
 	}
@@ -4023,7 +4023,7 @@ gnumeric_xml_write_workbook (GnmFileSaver const *fs,
 	}
 	xmlIndentTreeOutput = TRUE;
 	if (gsf_xmlDocFormatDump (output, xml, "UTF-8", TRUE) < 0)
-		gnumeric_error_save (COMMAND_CONTEXT (context),
+		gnumeric_error_save (GNM_CMD_CONTEXT (context),
 				     "Error saving XML");
 	if (gzout) {
 		gsf_output_close (gzout);

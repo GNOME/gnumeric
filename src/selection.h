@@ -21,12 +21,12 @@ gboolean sv_is_full_colrow_selected (SheetView const *sv,
 ColRowSelectionType sv_selection_col_type (SheetView const *sv, int col);
 ColRowSelectionType sv_selection_row_type (SheetView const *sv, int row);
 
-char    *selection_to_string	   (SheetView *sv,
-				    gboolean include_sheet_name_prefix);
-GnmRange const *selection_first_range (SheetView const *sv,
-				    CommandContext *cc, char const *cmd_name);
-GSList  *selection_get_ranges	   (SheetView const *sv,
-				    gboolean allow_intersection);
+char		*selection_to_string   (SheetView *sv,
+					gboolean include_sheet_name_prefix);
+GnmRange const	*selection_first_range (SheetView const *sv,
+				       GnmCmdContext *cc, char const *cmd_name);
+GSList		*selection_get_ranges  (SheetView const *sv,
+					gboolean allow_intersection);
 
 /* FIXME : temporary until we have goffice-graph in std include path */
 void	 sv_selection_to_plot	   (SheetView *sv, gpointer plot);

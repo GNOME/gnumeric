@@ -163,7 +163,7 @@ value_area_get_x_y (GnmValue const *v, int x, int y, EvalPos const *ep)
 		int a_row = a->row;
 		int b_col = b->col;
 		int b_row = b->row;
-		Cell *cell;
+		GnmCell *cell;
 		Sheet *sheet;
 
 		/* Handle relative references */
@@ -228,7 +228,7 @@ typedef struct
 
 static GnmValue *
 cb_wrapper_foreach_cell_in_area (Sheet *sheet, int col, int row,
-				 Cell *cell, void *user_data)
+				 GnmCell *cell, void *user_data)
 {
 	WrapperClosure *wrap = (WrapperClosure *)user_data;
 	GnmValue const *v;

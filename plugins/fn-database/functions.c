@@ -56,7 +56,7 @@ find_cells_that_match (Sheet *sheet, GnmValue *database,
 	GSList *ptr, *condition, *cells;
 	int    row, first_row, last_row;
 	gboolean add_flag;
-	Cell *cell;
+	GnmCell *cell;
 
 	cells = NULL;
 	/* TODO : Why ignore the first row ?  What if there is no header ? */
@@ -81,7 +81,7 @@ find_cells_that_match (Sheet *sheet, GnmValue *database,
 
 			for (;condition != NULL ; condition = condition->next) {
 				func_criteria_t const *cond = condition->data;
-				Cell const *tmp = sheet_cell_get (sheet,
+				GnmCell const *tmp = sheet_cell_get (sheet,
 					cond->column, row);
 
 				if (cell != NULL)
@@ -127,7 +127,7 @@ database_find_values (Sheet *sheet, GnmValue *database,
 	else
 		res = res2 = g_new (GnmValue *, cellcount + 1);
 	for (count = 0, current = cells; current; current = current->next) {
-		Cell *cell = current->data;
+		GnmCell *cell = current->data;
 		GnmValue *value = cell->value;
 
 		if ((flags & COLLECT_IGNORE_STRINGS) && value->type == VALUE_STRING)
@@ -1167,7 +1167,7 @@ static GnmValue *
 gnumeric_getpivotdata (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	int  col, row;
-	Cell *cell;
+	GnmCell *cell;
 
 	col = find_column_of_field (ei->pos, argv[0], argv[1]);
 	if (col == -1)

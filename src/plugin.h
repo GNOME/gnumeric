@@ -28,11 +28,11 @@ gboolean     gnm_plugin_is_loaded (GnmPlugin *pinfo);
 void         gnm_plugin_use_ref (GnmPlugin *pinfo);
 void         gnm_plugin_use_unref (GnmPlugin *pinfo);
 
-const gchar *gnm_plugin_get_dir_name (GnmPlugin *pinfo);
-const gchar *gnm_plugin_get_id (GnmPlugin *pinfo);
-const gchar *gnm_plugin_get_name (GnmPlugin *pinfo);
-const gchar *gnm_plugin_get_description (GnmPlugin *pinfo);
-const gchar *gnm_plugin_get_textdomain (GnmPlugin *pinfo);
+char const  *gnm_plugin_get_dir_name (GnmPlugin *pinfo);
+char const  *gnm_plugin_get_id (GnmPlugin *pinfo);
+char const  *gnm_plugin_get_name (GnmPlugin *pinfo);
+char const  *gnm_plugin_get_description (GnmPlugin *pinfo);
+char const  *gnm_plugin_get_textdomain (GnmPlugin *pinfo);
 GSList      *gnm_plugin_get_dependencies_ids (GnmPlugin *pinfo);
 GSList      *gnm_plugin_get_services (GnmPlugin *pinfo);
 
@@ -40,7 +40,7 @@ GSList      *gnm_plugin_get_services (GnmPlugin *pinfo);
  *
  */
 
-void         plugins_init (CommandContext *context);
+void         plugins_init (GnmCmdContext *context);
 void         plugins_shutdown (void);
 void         plugins_register_loader (const gchar *id_str, GnmPluginService *service);
 void         plugins_unregister_loader (const gchar *id_str);

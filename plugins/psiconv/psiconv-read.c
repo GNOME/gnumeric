@@ -445,7 +445,7 @@ static void
 add_cell (PsiState *state, Sheet *sheet, const psiconv_sheet_cell psi_cell,
 	  const psiconv_formula_list psi_formulas, const MStyle * default_style)
 {
-	Cell *cell;
+	GnmCell *cell;
 	GnmValue *val;
 	GnmExpr *expr;
 	psiconv_formula psi_formula;

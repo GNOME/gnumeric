@@ -342,7 +342,7 @@ dialog_tool_init (GenericToolState *state,
 	state->input_var2_str = input_var2_str;
 	state->state_destroy = NULL;
 
-	state->gui = gnm_glade_xml_new (COMMAND_CONTEXT (state->wbcg),
+	state->gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (state->wbcg),
 		gui_name, NULL, NULL);
         if (state->gui == NULL)
 		goto dialog_tool_init_error;

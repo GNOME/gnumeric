@@ -4,15 +4,15 @@
 #include "gnumeric.h"
 
 typedef struct {
-	Cell const *cell;
+	GnmCell const *cell;
 	int   left, right;
 } CellSpanInfo;
 
-void cell_calc_span (Cell const *cell, int *col1, int *col2);
+void cell_calc_span (GnmCell const *cell, int *col1, int *col2);
 
 /* Management routines for spans */
-void cell_register_span    (Cell const *cell, int left, int right);
-void cell_unregister_span  (Cell const *cell);
+void cell_register_span    (GnmCell const *cell, int left, int right);
+void cell_unregister_span  (GnmCell const *cell);
 
 CellSpanInfo const *row_span_get     (ColRowInfo const *ri, int col);
 void		    row_destroy_span (ColRowInfo *ri);

@@ -470,7 +470,7 @@ make_dim_editor (GogDataset *set, GtkTable *table, unsigned dim,
 }
 
 static gpointer
-gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, CommandContext *cc)
+gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 {
 	static char const *toggle_props[] = {
 		"invert-axis",

@@ -201,7 +201,7 @@ cb_save_as (GtkWidget *widget, GObject *obj_view)
 		}
 
 		if (!ret)
-			cmd_context_error (COMMAND_CONTEXT (wbcg), err);
+			cmd_context_error (GNM_CMD_CONTEXT (wbcg), err);
 		if (extension == NULL)
 			g_free ((char *)fname);
 	}
@@ -503,7 +503,7 @@ sheet_object_graph_guru (WorkbookControlGUI *wbcg, GogGraph *graph,
 			 GClosure *closure)
 {
 	GtkWidget *dialog = gog_guru (graph, GOG_DATA_ALLOCATOR (wbcg),
-		       COMMAND_CONTEXT (wbcg), wbcg_toplevel (wbcg),
+		       GNM_CMD_CONTEXT (wbcg), wbcg_toplevel (wbcg),
 		       closure);
 	wbcg_edit_attach_guru (wbcg, dialog);
 	g_object_set_data_full (G_OBJECT (dialog),

@@ -46,17 +46,7 @@
 #include <goffice/goffice.h>
 
 #include <locale.h>
-#ifdef WITH_BONOBO
-#include "bonobo-io.h"
-/* DO NOT include embeddable-grid.h.  It causes odd depends in the non-bonobo
- * case */
-extern gboolean EmbeddableGridFactory_init (void);
-#endif
 #include <glade/glade.h>
-
-#ifdef WITH_BONOBO
-#include <bonobo.h>
-#endif
 
 /* The debugging level */
 int gnumeric_debugging = 0;
@@ -142,11 +132,6 @@ gnm_common_init (void)
 	/* The statically linked in file formats */
 	xml_init ();
 	stf_init ();
-#ifdef WITH_BONOBO
-#ifdef GNOME2_CONVERSION_COMPLETE
-	gnumeric_bonobo_io_init ();
-#endif
-#endif
 
 	glade_init ();
 }
@@ -155,10 +140,10 @@ int
 gnm_dump_func_defs (char const* filename, gboolean def_or_state)
 {
 	int retval;
-	CommandContext *cc = command_context_stderr_new ();
+	GnmCmdContext *cc = cmd_context_stderr_new ();
 
 	plugins_init (cc);
-	if ((retval = command_context_stderr_get_status (COMMAND_CONTEXT_STDERR (cc))) == 0)
+	if ((retval = cmd_context_stderr_get_status (COMMAND_CONTEXT_STDERR (cc))) == 0)
 		function_dump_defs (filename, def_or_state);
 
 	return retval;

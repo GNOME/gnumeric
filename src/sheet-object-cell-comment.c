@@ -36,21 +36,21 @@
 #include <gsf/gsf-impl-utils.h>
 #include <libfoocanvas/foo-canvas-polygon.h>
 
-struct _CellComment {
+struct _GnmComment {
 	SheetObject	s_object;
 
 	char *author, *text;
 };
 typedef struct {
 	SheetObjectClass s_object_class;
-} CellCommentClass;
+} GnmCommentClass;
 
 static GObjectClass *parent_klass;
 
 static void
 cell_comment_finalize (GObject *object)
 {
-	CellComment *cc = CELL_COMMENT (object);
+	GnmComment *cc = CELL_COMMENT (object);
 
 	g_return_if_fail (cc != NULL);
 
@@ -132,7 +132,7 @@ cell_comment_update_bounds (SheetObject *so, GObject *view)
 static int
 cell_comment_event (FooCanvasItem *view, GdkEvent *event, SheetControlGUI *scg)
 {
-	CellComment *cc;
+	GnmComment *cc;
 	SheetObject *so;
 	GnmRange const *r;
 
@@ -187,7 +187,7 @@ cell_comment_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 	FooCanvasGroup *group;
 	FooCanvasItem *item = NULL;
 	SheetControlGUI *scg = SHEET_CONTROL_GUI (sc);
-	CellComment *cc = CELL_COMMENT (so);
+	GnmComment *cc = CELL_COMMENT (so);
 
 	g_return_val_if_fail (cc != NULL, NULL);
 	g_return_val_if_fail (scg != NULL, NULL);
@@ -214,7 +214,7 @@ static gboolean
 cell_comment_read_xml (SheetObject *so,
 		       XmlParseContext const *ctxt, xmlNodePtr	tree)
 {
-	CellComment *cc = CELL_COMMENT (so);
+	GnmComment *cc = CELL_COMMENT (so);
 	xmlChar *author = xmlGetProp (tree, (xmlChar *)"Author");
 	xmlChar *text = xmlGetProp (tree, (xmlChar *)"Text");
 
@@ -234,7 +234,7 @@ static gboolean
 cell_comment_write_xml (SheetObject const *so,
 			XmlParseContext const *ctxt, xmlNodePtr tree)
 {
-	CellComment const *cc = CELL_COMMENT (so);
+	GnmComment const *cc = CELL_COMMENT (so);
 	xml_node_set_cstr (tree, "Author", cc->author);
 	xml_node_set_cstr (tree, "Text", cc->text);
 	return FALSE;
@@ -253,8 +253,8 @@ cell_comment_print (SheetObject const *so, GnomePrintContext *ctx,
 static SheetObject *
 cell_comment_clone (SheetObject const *so, Sheet *sheet)
 {
-	CellComment *comment = CELL_COMMENT (so);
-	CellComment *new_comment;
+	GnmComment *comment = CELL_COMMENT (so);
+	GnmComment *new_comment;
 
 	new_comment = g_object_new (CELL_COMMENT_TYPE, NULL);
 
@@ -283,18 +283,18 @@ cell_comment_class_init (GObjectClass *object_class)
 	sheet_object_class->clone         = &cell_comment_clone;
 }
 
-GSF_CLASS (CellComment, cell_comment,
+GSF_CLASS (GnmComment, cell_comment,
 	   cell_comment_class_init, NULL, SHEET_OBJECT_TYPE);
 
 char const  *
-cell_comment_author_get (CellComment const *cc)
+cell_comment_author_get (GnmComment const *cc)
 {
 	g_return_val_if_fail (IS_CELL_COMMENT (cc), NULL);
 	return cc->author;
 }
 
 void
-cell_comment_author_set (CellComment *cc, char const *author)
+cell_comment_author_set (GnmComment *cc, char const *author)
 {
 	char *tmp;
 	g_return_if_fail (IS_CELL_COMMENT (cc));
@@ -306,14 +306,14 @@ cell_comment_author_set (CellComment *cc, char const *author)
 }
 
 char const  *
-cell_comment_text_get (CellComment const *cc)
+cell_comment_text_get (GnmComment const *cc)
 {
 	g_return_val_if_fail (IS_CELL_COMMENT (cc), NULL);
 	return cc->text;
 }
 
 void
-cell_comment_text_set (CellComment *cc, char const *text)
+cell_comment_text_set (GnmComment *cc, char const *text)
 {
 	char *tmp;
 	g_return_if_fail (IS_CELL_COMMENT (cc));
@@ -326,7 +326,7 @@ cell_comment_text_set (CellComment *cc, char const *text)
 
 /* convenience routine */
 void
-cell_comment_set_cell (CellComment *cc, GnmCellPos const *pos)
+cell_comment_set_cell (GnmComment *cc, GnmCellPos const *pos)
 {
 	/* top right */
 	static SheetObjectAnchorType const anchor_types [4] = {
@@ -346,11 +346,11 @@ cell_comment_set_cell (CellComment *cc, GnmCellPos const *pos)
 	sheet_object_anchor_set (SHEET_OBJECT (cc), &anchor);
 }
 
-CellComment *
+GnmComment *
 cell_set_comment (Sheet *sheet, GnmCellPos const *pos,
 		  char const *author, char const *text)
 {
-	CellComment *cc;
+	GnmComment *cc;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (pos != NULL, NULL);

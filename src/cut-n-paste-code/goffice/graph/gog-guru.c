@@ -64,7 +64,7 @@ struct _GraphGuruState {
 	GogChart    *chart;
 	GogPlot	    *plot;
 
-	CommandContext	 *cc;
+	GnmCmdContext	 *cc;
 	GogDataAllocator *dalloc;
 	GClosure         *register_closure;
 
@@ -1260,7 +1260,7 @@ graph_guru_init (GraphGuruState *s)
  */
 GtkWidget *
 gog_guru (GogGraph *graph, GogDataAllocator *dalloc,
-	  CommandContext *cc, GtkWindow *toplevel,
+	  GnmCmdContext *cc, GtkWindow *toplevel,
 	  GClosure *closure)
 {
 	int page = (graph != NULL) ? 1 : 0;

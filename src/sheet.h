@@ -84,11 +84,11 @@ void	    sheet_set_tab_color		(Sheet *sheet, StyleColor *tab_color,
 void        sheet_set_zoom_factor	(Sheet *sheet, double factor,
 					 gboolean force, gboolean respan);
 
-/* Cell management */
-Cell       *sheet_cell_get		(Sheet const *sheet, int col, int row);
-Cell       *sheet_cell_fetch		(Sheet *sheet, int col, int row);
-Cell       *sheet_cell_new		(Sheet *sheet, int col, int row);
-void        sheet_cell_remove		(Sheet *sheet, Cell *cell, gboolean redraw);
+/* GnmCell management */
+GnmCell       *sheet_cell_get		(Sheet const *sheet, int col, int row);
+GnmCell       *sheet_cell_fetch		(Sheet *sheet, int col, int row);
+GnmCell       *sheet_cell_new		(Sheet *sheet, int col, int row);
+void        sheet_cell_remove		(Sheet *sheet, GnmCell *cell, gboolean redraw);
 
 GnmValue   *sheet_foreach_cell_in_range	(Sheet *sheet, CellIterFlags flags,
 					 int start_col, int start_row,
@@ -192,25 +192,25 @@ void     sheet_colrow_gutter 	     (Sheet *sheet,
 
 gboolean sheet_range_splits_array    (Sheet const *sheet,
 				      GnmRange const *r, GnmRange const *ignore,
-				      CommandContext *cc, char const *cmd);
+				      GnmCmdContext *cc, char const *cmd);
 gboolean sheet_range_splits_region   (Sheet const *sheet,
 				      GnmRange const *r, GnmRange const *ignore,
-				      CommandContext *cc, char const *cmd);
+				      GnmCmdContext *cc, char const *cmd);
 gboolean sheet_ranges_split_region   (Sheet const *sheet, GSList const *ranges,
-				      CommandContext *cc, char const *cmd);
+				      GnmCmdContext *cc, char const *cmd);
 gboolean sheet_range_contains_region (Sheet const *sheet, GnmRange const *r,
-				      CommandContext *cc, char const *cmd);
+				      GnmCmdContext *cc, char const *cmd);
 void	 sheet_range_bounding_box    (Sheet const *sheet, GnmRange *r);
 
 /* Redraw */
 void     sheet_redraw_all       (Sheet const *sheet, gboolean header);
-void     sheet_redraw_cell      (Cell const *cell);
+void     sheet_redraw_cell      (GnmCell const *cell);
 void     sheet_redraw_range     (Sheet const *sheet, GnmRange const *r);
 void     sheet_redraw_region    (Sheet const *sheet,
 				 int start_col, int start_row,
 				 int end_col,   int end_row);
 
-void	 sheet_flag_status_update_cell	(Cell const *c);
+void	 sheet_flag_status_update_cell	(GnmCell const *c);
 void	 sheet_flag_status_update_range	(Sheet const *s, GnmRange const *r);
 void     sheet_flag_format_update_range	(Sheet const *s, GnmRange const *r);
 void	 sheet_flag_recompute_spans	(Sheet const *s);
@@ -232,15 +232,15 @@ char	*sheet_name_quote	(char const *unquoted_name);
  * redraws and rendering as required.  Does NOT check for
  * division of arrays.
  */
-void	     sheet_cell_set_expr    (Cell *cell, GnmExpr const *expr);
-void	     sheet_cell_set_value   (Cell *cell, GnmValue *v);
-void	     sheet_cell_set_text    (Cell *cell, char const *str);
-GnmValue const *sheet_cell_get_value   (Sheet *sheet, int const col, int const row);
+void	     sheet_cell_set_expr    (GnmCell *cell, GnmExpr const *expr);
+void	     sheet_cell_set_value   (GnmCell *cell, GnmValue *v);
+void	     sheet_cell_set_text    (GnmCell *cell, char const *str);
+GnmValue const *sheet_cell_get_value(Sheet *sheet, int col, int row);
 void	     sheet_range_set_text   (ParsePos const *pos, GnmRange const *r, char const *str);
 void	     sheet_apply_style	    (Sheet  *sheet, GnmRange const *range, MStyle *mstyle);
 void	     sheet_queue_respan     (Sheet const *sheet, int start_row, int end_row);
 void	     sheet_range_calc_spans (Sheet *sheet, GnmRange const *r, SpanCalcFlags flags);
-void	     sheet_cell_calc_span   (Cell *cell, SpanCalcFlags flags);
+void	     sheet_cell_calc_span   (GnmCell *cell, SpanCalcFlags flags);
 
 void	     sheet_adjust_outline_dir (Sheet *sheet, gboolean is_cols);
 
@@ -251,18 +251,18 @@ typedef struct {
 
 gboolean  sheet_insert_cols (Sheet *sheet,
 			     int col, int count, ColRowStateList *states,
-			     GnmRelocUndo *reloc_storage, CommandContext *cc);
+			     GnmRelocUndo *reloc_storage, GnmCmdContext *cc);
 gboolean  sheet_delete_cols (Sheet *sheet,
 			     int col, int count, ColRowStateList *states,
-			     GnmRelocUndo *reloc_storage, CommandContext *cc);
+			     GnmRelocUndo *reloc_storage, GnmCmdContext *cc);
 gboolean  sheet_insert_rows (Sheet *sheet,
 			     int row, int count, ColRowStateList *states,
-			     GnmRelocUndo *reloc_storage, CommandContext *cc);
+			     GnmRelocUndo *reloc_storage, GnmCmdContext *cc);
 gboolean  sheet_delete_rows (Sheet *sheet,
 			     int row, int count, ColRowStateList *states,
-			     GnmRelocUndo *reloc_storage, CommandContext *cc);
+			     GnmRelocUndo *reloc_storage, GnmCmdContext *cc);
 void      sheet_move_range   (GnmExprRelocateInfo const *rinfo,
-			      GnmRelocUndo *reloc_storage, CommandContext *cc);
+			      GnmRelocUndo *reloc_storage, GnmCmdContext *cc);
 
 
 typedef enum {
@@ -278,7 +278,7 @@ typedef enum {
 void  sheet_clear_region (Sheet *sheet,
 			  int start_col, int start_row,
 			  int end_col, int end_row,
-			  int clear_flags, CommandContext *cc);
+			  int clear_flags, GnmCmdContext *cc);
 
 void	sheet_attach_view (Sheet *sheet, SheetView *sv);
 void    sheet_detach_view (SheetView *sv);

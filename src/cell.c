@@ -34,7 +34,7 @@
  */
 #warning this is just plain silly handle this at a higher level
 static inline void
-cell_dirty (Cell *cell)
+cell_dirty (GnmCell *cell)
 {
 	Sheet *sheet = cell->base.sheet;
 
@@ -62,7 +62,7 @@ cell_dirty (Cell *cell)
  *      	- Mark sheet as dirty.
  */
 static void
-cell_cleanout (Cell *cell)
+cell_cleanout (GnmCell *cell)
 {
 	/* A cell can have either an expression or entered text */
 	if (cell_has_expr (cell)) {
@@ -94,10 +94,10 @@ static GnmMemChunk *cell_pool;
  *
  * Creates a new cell.
  */
-Cell *
+GnmCell *
 cell_new (void)
 {
-	Cell *cell = USE_CELL_POOL ? gnm_mem_chunk_alloc0 (cell_pool) : g_new0 (Cell, 1);
+	GnmCell *cell = USE_CELL_POOL ? gnm_mem_chunk_alloc0 (cell_pool) : g_new0 (GnmCell, 1);
 	cell->base.flags = DEPENDENT_CELL;
 	return cell;
 }
@@ -107,14 +107,14 @@ cell_new (void)
  * cell_copy:
  * @cell: existing cell to duplicate
  *
- * Makes a copy of a Cell.
+ * Makes a copy of a GnmCell.
  *
  * Returns a copy of the cell.
  */
-Cell *
-cell_copy (Cell const *cell)
+GnmCell *
+cell_copy (GnmCell const *cell)
 {
-	Cell *new_cell;
+	GnmCell *new_cell;
 
 	g_return_val_if_fail (cell != NULL, NULL);
 
@@ -142,12 +142,12 @@ cell_copy (Cell const *cell)
 
 /**
  * cell_destroy: Frees all resources allocated to the cell's content and marks the
- *     Cell's container as dirty.
+ *     GnmCell's container as dirty.
  *
  * @cell : The cell to destroy
  */
 void
-cell_destroy (Cell *cell)
+cell_destroy (GnmCell *cell)
 {
 	g_return_if_fail (cell != NULL);
 
@@ -163,7 +163,7 @@ cell_destroy (Cell *cell)
  * This routine is used to move a cell to a different location:
  */
 void
-cell_relocate (Cell *cell, GnmExprRewriteInfo const *rwinfo)
+cell_relocate (GnmCell *cell, GnmExprRewriteInfo const *rwinfo)
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (rwinfo != NULL);
@@ -206,7 +206,7 @@ cell_relocate (Cell *cell, GnmExprRewriteInfo const *rwinfo)
  * NOTE : This DOES check for array partitioning.
  */
 void
-cell_set_text (Cell *cell, char const *text)
+cell_set_text (GnmCell *cell, char const *text)
 {
 	GnmExpr const *expr;
 	GnmValue      *val;
@@ -246,7 +246,7 @@ cell_set_text (Cell *cell, char const *text)
  * NOTE : This DOES NOT check for array partitioning.
  */
 void
-cell_assign_value (Cell *cell, GnmValue *v)
+cell_assign_value (GnmCell *cell, GnmValue *v)
 {
 	g_return_if_fail (cell);
 	g_return_if_fail (v);
@@ -269,7 +269,7 @@ cell_assign_value (Cell *cell, GnmValue *v)
  * NOTE : This DOES check for array partitioning.
  **/
 void
-cell_set_value (Cell *cell, GnmValue *v)
+cell_set_value (GnmCell *cell, GnmValue *v)
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (v != NULL);
@@ -293,7 +293,7 @@ cell_set_value (Cell *cell, GnmValue *v)
  * NOTE : This DOES check for array partitioning.
  */
 void
-cell_set_expr_and_value (Cell *cell, GnmExpr const *expr, GnmValue *v,
+cell_set_expr_and_value (GnmCell *cell, GnmExpr const *expr, GnmValue *v,
 			 gboolean link_expr)
 {
 	g_return_if_fail (cell != NULL);
@@ -324,7 +324,7 @@ cell_set_expr_and_value (Cell *cell, GnmExpr const *expr, GnmValue *v,
  * 	- link the expression into the master list.
  */
 static void
-cell_set_expr_internal (Cell *cell, GnmExpr const *expr)
+cell_set_expr_internal (GnmCell *cell, GnmExpr const *expr)
 {
 	gnm_expr_ref (expr);
 
@@ -349,7 +349,7 @@ cell_set_expr_internal (Cell *cell, GnmExpr const *expr)
  *           using this.
  */
 void
-cell_set_expr_unsafe (Cell *cell, GnmExpr const *expr)
+cell_set_expr_unsafe (GnmCell *cell, GnmExpr const *expr)
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (expr != NULL);
@@ -368,7 +368,7 @@ cell_set_expr_unsafe (Cell *cell, GnmExpr const *expr)
  *           Be very careful using this.
  */
 void
-cell_set_expr (Cell *cell, GnmExpr const *expr)
+cell_set_expr (GnmCell *cell, GnmExpr const *expr)
 {
 	g_return_if_fail (!cell_is_partial_array (cell));
 	g_return_if_fail (cell != NULL);
@@ -408,7 +408,7 @@ cell_set_array_formula (Sheet *sheet,
 	int const num_rows = 1 + row_b - row_a;
 	int const num_cols = 1 + col_b - col_a;
 	int x, y;
-	Cell * const corner = sheet_cell_fetch (sheet, col_a, row_a);
+	GnmCell * const corner = sheet_cell_fetch (sheet, col_a, row_a);
 	GnmExpr const *wrapper;
 
 	g_return_if_fail (num_cols > 0);
@@ -424,7 +424,7 @@ cell_set_array_formula (Sheet *sheet,
 
 	for (x = 0; x < num_cols; ++x)
 		for (y = 0; y < num_rows; ++y) {
-			Cell *cell;
+			GnmCell *cell;
 
 			if (x == 0 && y == 0)
 				continue;
@@ -443,12 +443,12 @@ cell_set_array_formula (Sheet *sheet,
 
 /**
  * cell_is_empty :
- * @cell : #Cell
+ * @cell : #GnmCell
  *
  * If the cell has not been created, or has VALUE_EMPTY.
  **/
 gboolean
-cell_is_empty (Cell const * cell)
+cell_is_empty (GnmCell const * cell)
 {
 	return  cell == NULL ||
 		cell->value == NULL ||
@@ -457,12 +457,12 @@ cell_is_empty (Cell const * cell)
 
 /**
  * cell_is_blank :
- * @cell : #Cell
+ * @cell : #GnmCell
  *
  * If the cell has not been created, has VALUE_EMPTY, or has a VALUE_STRING == ""
  **/
 gboolean
-cell_is_blank (Cell const * cell)
+cell_is_blank (GnmCell const * cell)
 {
 	return  cell == NULL ||
 		cell->value == NULL ||
@@ -471,7 +471,7 @@ cell_is_blank (Cell const * cell)
 }
 
 GnmValue *
-cell_is_error (Cell const * cell)
+cell_is_error (GnmCell const * cell)
 {
 	g_return_val_if_fail (cell != NULL, NULL);
 	g_return_val_if_fail (cell->value != NULL, NULL);
@@ -482,14 +482,14 @@ cell_is_error (Cell const * cell)
 }
 
 gboolean
-cell_is_number (Cell const *cell)
+cell_is_number (GnmCell const *cell)
 {
 	/* FIXME : This does not handle arrays or ranges */
 	return (cell->value && VALUE_IS_NUMBER (cell->value));
 }
 
 gboolean
-cell_is_zero (Cell const *cell)
+cell_is_zero (GnmCell const *cell)
 {
 	GnmValue const * const v = cell->value;
 	if (v == NULL)
@@ -509,7 +509,7 @@ cell_is_zero (Cell const *cell)
 }
 
 GnmExprArray const *
-cell_is_array (Cell const *cell)
+cell_is_array (GnmCell const *cell)
 {
 	if (cell != NULL && cell_has_expr (cell) &&
 	    cell->base.expression->any.oper == GNM_EXPR_OP_ARRAY)
@@ -518,7 +518,7 @@ cell_is_array (Cell const *cell)
 }
 
 gboolean
-cell_is_partial_array (Cell const *cell)
+cell_is_partial_array (GnmCell const *cell)
 {
 	GnmExprArray const *ref = cell_is_array (cell);
 	return ref != NULL && (ref->cols > 1 || ref->rows > 1);
@@ -532,13 +532,13 @@ cell_is_partial_array (Cell const *cell)
  * @dynamic_width : Allow format to depend on column width.
  *
  * TODO :
- * The reason the rendered values are stored separately from the Cell is
+ * The reason the rendered values are stored separately from the GnmCell is
  * that in the future only visible cells will be rendered.  The render
  * will be SheetControl specific to allow for multiple zooms and different
  * display resolutions.
  */
 void
-cell_render_value (Cell *cell, gboolean dynamic_width)
+cell_render_value (GnmCell *cell, gboolean dynamic_width)
 {
 	RenderedValue *rv;
 	MStyle *mstyle;
@@ -563,7 +563,7 @@ cell_render_value (Cell *cell, gboolean dynamic_width)
  * then that is what you get.
  */
 char *
-cell_get_rendered_text  (Cell *cell)
+cell_get_rendered_text  (GnmCell *cell)
 {
 	g_return_val_if_fail (cell != NULL, g_strdup ("ERROR"));
 
@@ -576,7 +576,7 @@ cell_get_rendered_text  (Cell *cell)
 
 
 MStyle *
-cell_get_mstyle (Cell const *cell)
+cell_get_mstyle (GnmCell const *cell)
 {
 	g_return_val_if_fail (cell != NULL, NULL);
 	return sheet_style_get (cell->base.sheet,
@@ -592,7 +592,7 @@ cell_get_mstyle (Cell const *cell)
  * the format of the value will be used.
  */
 StyleFormat *
-cell_get_format (Cell const *cell)
+cell_get_format (GnmCell const *cell)
 {
 	StyleFormat *fmt;
 
@@ -618,7 +618,7 @@ cell_get_format (Cell const *cell)
  * Does not render, redraw, or respan.
  */
 void
-cell_set_format (Cell *cell, char const *format)
+cell_set_format (GnmCell *cell, char const *format)
 {
 	GnmRange r;
 	MStyle *mstyle = mstyle_new ();
@@ -647,7 +647,7 @@ cell_set_format (Cell *cell, char const *format)
  * NOTE : This DOES NOT check for array partitioning.
  */
 void
-cell_convert_expr_to_value (Cell *cell)
+cell_convert_expr_to_value (GnmCell *cell)
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (cell_has_expr(cell));
@@ -674,12 +674,12 @@ cellpos_cmp (GnmCellPos const *a, GnmCellPos const *b)
 	return (a->row == b->row && a->col == b->col);
 }
 
-CellComment *
+GnmComment *
 cell_has_comment_pos (Sheet const *sheet, GnmCellPos const *pos)
 {
 	GnmRange r;
 	GSList *comments;
-	CellComment *res;
+	GnmComment *res;
 
 	r.start = r.end = *pos;
 	comments = sheet_objects_get (sheet, &r, CELL_COMMENT_TYPE);
@@ -693,8 +693,8 @@ cell_has_comment_pos (Sheet const *sheet, GnmCellPos const *pos)
 }
 
 
-CellComment *
-cell_has_comment (const Cell *cell)
+GnmComment *
+cell_has_comment (GnmCell const *cell)
 {
 	return cell_has_comment_pos (cell->base.sheet, &cell->pos);
 }
@@ -706,7 +706,7 @@ cell_init (void)
 {
 #if USE_CELL_POOL
 	cell_pool = gnm_mem_chunk_new ("cell pool",
-				       sizeof (Cell),
+				       sizeof (GnmCell),
 				       128 * 1024 - 128);
 #endif
 }
@@ -715,7 +715,7 @@ cell_init (void)
 static void
 cb_cell_pool_leak (gpointer data, G_GNUC_UNUSED gpointer user)
 {
-	Cell const *cell = data;
+	GnmCell const *cell = data;
 	fprintf (stderr, "Leaking cell %p at %s\n", cell, cellpos_as_string (&cell->pos));
 }
 #endif

@@ -118,8 +118,8 @@ cmd_select_cur_array (SheetView *sv)
 static gint
 cb_compare_deps (gconstpointer a, gconstpointer b)
 {
-	Cell const *cell_a = a;
-	Cell const *cell_b = b;
+	GnmCell const *cell_a = a;
+	GnmCell const *cell_b = b;
 	int tmp;
 
 	tmp = cell_a->pos.row - cell_b->pos.row;
@@ -129,7 +129,7 @@ cb_compare_deps (gconstpointer a, gconstpointer b)
 }
 
 static void
-cb_collect_deps (Dependent *dep, gpointer user)
+cb_collect_deps (GnmDependent *dep, gpointer user)
 {
 	if (dependent_is_cell (dep)) {
 		GList **list = (GList **)user;
@@ -146,7 +146,7 @@ cb_collect_deps (Dependent *dep, gpointer user)
 void
 cmd_select_cur_depends (SheetView *sv)
 {
-	Cell  *cur_cell;
+	GnmCell  *cur_cell;
 	GList *deps = NULL, *ptr = NULL;
 
 	g_return_if_fail (IS_SHEET_VIEW (sv));
@@ -165,7 +165,7 @@ cmd_select_cur_depends (SheetView *sv)
 
 	/* Short circuit */
 	if (g_list_length (deps) == 1) {
-		Cell *cell = deps->data;
+		GnmCell *cell = deps->data;
 		sv_selection_add_pos (sv, cell->pos.col, cell->pos.row);
 	} else {
 		GnmRange *cur = NULL;
@@ -173,7 +173,7 @@ cmd_select_cur_depends (SheetView *sv)
 
 		/* Merge the sorted list of cells into rows */
 		for (deps = g_list_sort (deps, &cb_compare_deps) ; deps ; ) {
-			Cell *cell = deps->data;
+			GnmCell *cell = deps->data;
 
 			if (cur == NULL ||
 			    cur->end.row != cell->pos.row ||
@@ -238,7 +238,7 @@ cmd_select_cur_depends (SheetView *sv)
 void
 cmd_select_cur_inputs (SheetView *sv)
 {
-	Cell *cell;
+	GnmCell *cell;
 
 	g_return_if_fail (IS_SHEET_VIEW (sv));
 
@@ -303,7 +303,7 @@ cmd_paste (WorkbookControl *wbc, PasteTarget const *pt)
 				(dst.end.row - dst.start.row)+1,
 				(dst.end.col - dst.start.col)+1,
 				rows+1, cols+1);
-			gnumeric_error_invalid (COMMAND_CONTEXT (wbc),
+			gnumeric_error_invalid (GNM_CMD_CONTEXT (wbc),
 				_("Unable to paste into selection"), msg);
 			g_free (msg);
 			return;
@@ -341,7 +341,7 @@ cmd_paste_to_selection (WorkbookControl *wbc, SheetView *dest_sv, int paste_flag
 	GnmRange const *r;
 	PasteTarget pt;
 
-	if (!(r = selection_first_range (dest_sv, COMMAND_CONTEXT (wbc), _("Paste"))))
+	if (!(r = selection_first_range (dest_sv, GNM_CMD_CONTEXT (wbc), _("Paste"))))
 		return;
 
 	g_return_if_fail (r !=NULL);

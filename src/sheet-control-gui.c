@@ -1922,7 +1922,7 @@ scg_object_view_position (SheetControlGUI *scg, SheetObject *so, double *coords)
  *
  */
 void
-scg_comment_display (SheetControlGUI *scg, CellComment *cc)
+scg_comment_display (SheetControlGUI *scg, GnmComment *cc)
 {
 	int x, y;
 
@@ -2008,7 +2008,7 @@ cb_cell_comment_timer (SheetControlGUI *scg)
  * Prepare @cc for display.
  */
 void
-scg_comment_select (SheetControlGUI *scg, CellComment *cc)
+scg_comment_select (SheetControlGUI *scg, GnmComment *cc)
 {
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 	g_return_if_fail (scg->comment.timer == -1);
@@ -2030,7 +2030,7 @@ scg_comment_select (SheetControlGUI *scg, CellComment *cc)
  * display mechanism.
  */
 void
-scg_comment_unselect (SheetControlGUI *scg, CellComment *cc)
+scg_comment_unselect (SheetControlGUI *scg, GnmComment *cc)
 {
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 

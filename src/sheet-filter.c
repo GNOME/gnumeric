@@ -313,7 +313,7 @@ typedef struct {
 } UniqueCollection;
 
 static GnmValue *
-cb_collect_unique (Sheet *sheet, int col, int row, Cell *cell,
+cb_collect_unique (Sheet *sheet, int col, int row, GnmCell *cell,
 		   UniqueCollection *uc)
 {
 	if (cell_is_blank (cell))
@@ -678,7 +678,7 @@ filter_expr_eval (GnmFilterOp op, GnmValue const *src, gnumeric_regex_t const *r
 }
 
 static GnmValue *
-cb_filter_expr (Sheet *sheet, int col, int row, Cell *cell,
+cb_filter_expr (Sheet *sheet, int col, int row, GnmCell *cell,
 		FilterExpr const *fexpr)
 {
 	if (cell != NULL) {
@@ -704,7 +704,7 @@ cb_filter_expr (Sheet *sheet, int col, int row, Cell *cell,
 /*****************************************************************************/
 
 static GnmValue *
-cb_filter_non_blanks (Sheet *sheet, int col, int row, Cell *cell, gpointer data)
+cb_filter_non_blanks (Sheet *sheet, int col, int row, GnmCell *cell, gpointer data)
 {
 	if (cell_is_blank (cell))
 		colrow_set_visibility (sheet, FALSE, FALSE, row, row);
@@ -712,7 +712,7 @@ cb_filter_non_blanks (Sheet *sheet, int col, int row, Cell *cell, gpointer data)
 }
 
 static GnmValue *
-cb_filter_blanks (Sheet *sheet, int col, int row, Cell *cell, gpointer data)
+cb_filter_blanks (Sheet *sheet, int col, int row, GnmCell *cell, gpointer data)
 {
 	if (!cell_is_blank (cell))
 		colrow_set_visibility (sheet, FALSE, FALSE, row, row);
@@ -729,7 +729,7 @@ typedef struct {
 } FilterItems;
 
 static GnmValue *
-cb_filter_find_items (Sheet *sheet, int col, int row, Cell *cell,
+cb_filter_find_items (Sheet *sheet, int col, int row, GnmCell *cell,
 		      FilterItems *data)
 {
 	GnmValue const *v = cell->value;
@@ -755,7 +755,7 @@ cb_filter_find_items (Sheet *sheet, int col, int row, Cell *cell,
 }
 
 static GnmValue *
-cb_hide_unwanted_items (Sheet *sheet, int col, int row, Cell *cell,
+cb_hide_unwanted_items (Sheet *sheet, int col, int row, GnmCell *cell,
 			FilterItems const *data)
 {
 	if (cell != NULL) {
@@ -778,7 +778,7 @@ typedef struct {
 } FilterPercentage;
 
 static GnmValue *
-cb_filter_find_percentage (Sheet *sheet, int col, int row, Cell *cell,
+cb_filter_find_percentage (Sheet *sheet, int col, int row, GnmCell *cell,
 			   FilterPercentage *data)
 {
 	if (VALUE_IS_NUMBER (cell->value)) {
@@ -798,7 +798,7 @@ cb_filter_find_percentage (Sheet *sheet, int col, int row, Cell *cell,
 }
 
 static GnmValue *
-cb_hide_unwanted_percentage (Sheet *sheet, int col, int row, Cell *cell,
+cb_hide_unwanted_percentage (Sheet *sheet, int col, int row, GnmCell *cell,
 			     FilterPercentage const *data)
 {
 	if (cell != NULL && VALUE_IS_NUMBER (cell->value)) {

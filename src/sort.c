@@ -43,7 +43,7 @@ sort_data_destroy (GnmSortData *data)
 }
 
 int
-sort_data_length (const GnmSortData *data)
+sort_data_length (GnmSortData const *data)
 {
 	if (data->top)
 		return range_height (data->range);
@@ -53,7 +53,7 @@ sort_data_length (const GnmSortData *data)
 
 /* The routines to do the sorting */
 static int
-sort_compare_cells (const Cell *ca, const Cell *cb, GnmSortClause *clause)
+sort_compare_cells (GnmCell const *ca, GnmCell const *cb, GnmSortClause *clause)
 {
 	GnmValue *a, *b;
 	GnmValueType ta, tb;
@@ -94,9 +94,9 @@ sort_compare_cells (const Cell *ca, const Cell *cb, GnmSortClause *clause)
 }
 
 static int
-sort_compare_sets (const GnmSortData *data, int indexa, int indexb)
+sort_compare_sets (GnmSortData const *data, int indexa, int indexb)
 {
-	Cell *ca, *cb;
+	GnmCell *ca, *cb;
 	int clause = 0;
 
 	while (clause < data->num_clause) {
@@ -131,10 +131,10 @@ sort_compare_sets (const GnmSortData *data, int indexa, int indexb)
 }
 
 static int
-sort_qsort_compare (const void *_a, const void *_b)
+sort_qsort_compare (void const *_a, void const *_b)
 {
-	const SortDataPerm *a = (const SortDataPerm *)_a;
-	const SortDataPerm *b = (const SortDataPerm *)_b;
+	SortDataPerm const *a = (SortDataPerm const *)_a;
+	SortDataPerm const *b = (SortDataPerm const *)_b;
 
 	return sort_compare_sets (a->data, a->index, b->index);
 }
@@ -157,7 +157,7 @@ sort_permute_range (GnmSortData *data, GnmRange *range, int adj)
 }
 
 int *
-sort_permute_invert (const int *perm, int length)
+sort_permute_invert (int const *perm, int length)
 {
 	int i, *rperm;
 
@@ -172,8 +172,8 @@ sort_permute_invert (const int *perm, int length)
 #undef DEBUG_SORT
 
 static void
-sort_permute (GnmSortData *data, const int *perm, int length,
-	      CommandContext *cc)
+sort_permute (GnmSortData *data, int const *perm, int length,
+	      GnmCmdContext *cc)
 {
 	int i, *rperm;
 	PasteTarget pt;
@@ -246,7 +246,7 @@ sort_permute (GnmSortData *data, const int *perm, int length,
 }
 
 void
-sort_position (GnmSortData *data, int *perm, CommandContext *cc)
+sort_position (GnmSortData *data, int *perm, GnmCmdContext *cc)
 {
 	int length;
 
@@ -255,7 +255,7 @@ sort_position (GnmSortData *data, int *perm, CommandContext *cc)
 }
 
 int *
-sort_contents (GnmSortData *data, CommandContext *cc)
+sort_contents (GnmSortData *data, GnmCmdContext *cc)
 {
 	ColRowInfo const *cra;
 	SortDataPerm *perm;

@@ -986,7 +986,7 @@ gnm_expr_entry_load_from_text (GnmExprEntry *gee, char const *txt)
  * range selections.
  **/
 void
-gnm_expr_entry_load_from_dep (GnmExprEntry *gee, Dependent const *dep)
+gnm_expr_entry_load_from_dep (GnmExprEntry *gee, GnmDependent const *dep)
 {
 	g_return_if_fail (IS_GNM_EXPR_ENTRY (gee));
 	g_return_if_fail (dep != NULL);

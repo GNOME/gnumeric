@@ -31,8 +31,8 @@ char    *expr_name_as_string  (GnmNamedExpr const *ne, ParsePos const *pp,
 			       GnmExprConventions const *fmt);
 char    *expr_name_set_scope  (GnmNamedExpr *ne, Sheet *sheet);
 void	 expr_name_set_expr   (GnmNamedExpr *ne, GnmExpr const *new_expr);
-void	 expr_name_add_dep    (GnmNamedExpr *ne, Dependent *dep);
-void	 expr_name_remove_dep (GnmNamedExpr *ne, Dependent *dep);
+void	 expr_name_add_dep    (GnmNamedExpr *ne, GnmDependent *dep);
+void	 expr_name_remove_dep (GnmNamedExpr *ne, GnmDependent *dep);
 gboolean expr_name_is_placeholder (GnmNamedExpr const *ne);
 void	 expr_name_downgrade_to_placeholder (GnmNamedExpr *nexpr);
 

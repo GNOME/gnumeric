@@ -62,10 +62,12 @@ void	colrow_compute_pts_from_pixels (ColRowInfo *cri, Sheet const *sheet,
 gboolean colrow_is_default (ColRowInfo const *a);
 gboolean colrow_equal	   (ColRowInfo const *a, ColRowInfo const *b);
 void     colrow_copy	   (ColRowInfo *dst, ColRowInfo const *src);
+
+typedef gboolean (*ColRowHandler)(ColRowInfo *info, gpointer user_data);
 gboolean colrow_foreach	   (ColRowCollection const *infos,
 			    int first, int last,
 			    ColRowHandler callback,
-			    void *user_data);
+			    gpointer user_data);
 
 ColRowIndexList *colrow_index_list_destroy   (ColRowIndexList *list);
 GString         *colrow_index_list_to_string (ColRowIndexList *list,

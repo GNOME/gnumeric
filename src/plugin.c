@@ -1686,13 +1686,13 @@ ghf_collect_new_plugins (gpointer ignored,
 
 /**
  * plugins_init:
- * @context     : CommandContext used to report errors
+ * @context     : #GnmCmdContext used to report errors
  *
  * Initializes the plugin subsystem. Don't call this function more than
  * once.
  */
 void
-plugins_init (CommandContext *context)
+plugins_init (GnmCmdContext *context)
 {
 	GSList *error_list = NULL;
 	ErrorInfo *error;

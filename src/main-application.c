@@ -109,7 +109,7 @@ warn_about_ancient_gnumerics (const char *binary, IOContext *ioc)
 	    now - buf.st_mtime > days * 24 * 60 * 60) {
 		handle_paint_events ();
 
-		gnumeric_error_system (COMMAND_CONTEXT (ioc),
+		gnumeric_error_system (GNM_CMD_CONTEXT (ioc),
 				       _("Thank you for using Gnumeric!\n"
 					 "\n"
 					 "The version of Gnumeric you are using is quite old\n"
@@ -154,7 +154,7 @@ main (int argc, char *argv [])
 		handle_paint_events ();
 	} else {
 		/* TODO: Make this inconsistency go away */
-		CommandContext *cc = command_context_stderr_new ();
+		GnmCmdContext *cc = cmd_context_stderr_new ();
 		ioc = gnumeric_io_context_new (cc);
 		g_object_unref (cc);
 	}
@@ -167,7 +167,7 @@ main (int argc, char *argv [])
 	if (func_state_file)
 		return gnm_dump_func_defs (func_state_file, FALSE);
 
- 	plugins_init (COMMAND_CONTEXT (ioc));
+ 	plugins_init (GNM_CMD_CONTEXT (ioc));
 
 	/* Load selected files */
 	if (ctx)

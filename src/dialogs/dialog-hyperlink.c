@@ -432,7 +432,7 @@ dialog_hyperlink (WorkbookControlGUI *wbcg, SheetControl *sc)
 	if (gnumeric_dialog_raise_if_exists (wbcg, DIALOG_KEY))
 		return;
 
-	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
 		"hyperlink.glade", NULL, NULL);
         if (gui == NULL)
                 return;

@@ -195,7 +195,7 @@ wb_view_format_feedback (WorkbookView *wbv, gboolean display)
 			sv->edit_pos.row);
 		StyleFormat *sf_style = mstyle_get_format (mstyle);
 		StyleFormat *sf_cell;
-		Cell *cell;
+		GnmCell *cell;
 
 		if (style_format_is_general (sf_style) &&
 		    (cell = sheet_cell_get (sv->sheet, sv->edit_pos.col, sv->edit_pos.row)) &&
@@ -304,8 +304,8 @@ wb_view_edit_line_set (WorkbookView *wbv, WorkbookControl *optional_wbc)
 
 	sv = wbv->current_sheet_view;
 	if (sv != NULL) {
-		Cell     *cell;
-		char     *text;
+		GnmCell *cell;
+		char    *text;
 		GnmExprArray const *ar;
 
 		cell = sheet_cell_get (sv->sheet,
@@ -575,7 +575,7 @@ wbv_save_to_file (WorkbookView *wbv, GnmFileSaver const *fs,
 		if (output == NULL) {
 			char *str = g_strdup_printf (_("Can't open '%s' for writing: %s"),
 						     filename_utf8, err->message);
-			gnumeric_error_save (COMMAND_CONTEXT (io_context), str);
+			gnumeric_error_save (GNM_CMD_CONTEXT (io_context), str);
 			g_error_free (err);
 			g_free (str);
 			g_free (filename_utf8);
@@ -607,7 +607,7 @@ wbv_save_to_file (WorkbookView *wbv, GnmFileSaver const *fs,
 		 */
 		msg = g_strdup (_("The filename given is not valid in the current encoding."));
 	}
-	gnumeric_error_save (COMMAND_CONTEXT (io_context), msg);
+	gnumeric_error_save (GNM_CMD_CONTEXT (io_context), msg);
 	g_free (msg);
 	g_free (filename_utf8);
 }
@@ -627,7 +627,7 @@ wbv_save_to_file (WorkbookView *wbv, GnmFileSaver const *fs,
  */
 gboolean
 wb_view_save_as (WorkbookView *wbv, GnmFileSaver *fs, char const *file_name,
-		 CommandContext *context)
+		 GnmCmdContext *context)
 {
 	IOContext *io_context;
 	Workbook  *wb;
@@ -636,7 +636,7 @@ wb_view_save_as (WorkbookView *wbv, GnmFileSaver *fs, char const *file_name,
 	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), FALSE);
 	g_return_val_if_fail (IS_GNM_FILE_SAVER (fs), FALSE);
 	g_return_val_if_fail (file_name != NULL, FALSE);
-	g_return_val_if_fail (IS_COMMAND_CONTEXT (context), FALSE);
+	g_return_val_if_fail (IS_GNM_CMD_CONTEXT (context), FALSE);
 
 	wb = wb_view_workbook (wbv);
 	io_context = gnumeric_io_context_new (context);
@@ -672,7 +672,7 @@ wb_view_save_as (WorkbookView *wbv, GnmFileSaver *fs, char const *file_name,
  * Return value: TRUE if file was successfully saved and FALSE otherwise.
  */
 gboolean
-wb_view_save (WorkbookView *wbv, CommandContext *context)
+wb_view_save (WorkbookView *wbv, GnmCmdContext *context)
 {
 	IOContext	*io_context;
 	Workbook	*wb;
@@ -680,7 +680,7 @@ wb_view_save (WorkbookView *wbv, CommandContext *context)
 	gboolean has_error, has_warning;
 
 	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), FALSE);
-	g_return_val_if_fail (IS_COMMAND_CONTEXT (context), FALSE);
+	g_return_val_if_fail (IS_GNM_CMD_CONTEXT (context), FALSE);
 
 	wb = wb_view_workbook (wbv);
 	fs = workbook_get_file_saver (wb);
@@ -689,7 +689,7 @@ wb_view_save (WorkbookView *wbv, CommandContext *context)
 
 	io_context = gnumeric_io_context_new (context);
 	if (fs == NULL)
-		gnumeric_error_save (COMMAND_CONTEXT (io_context),
+		gnumeric_error_save (GNM_CMD_CONTEXT (io_context),
 			_("Default file saver is not available."));
 	else {
 		char const *filename = workbook_get_filename (wb);
@@ -718,7 +718,7 @@ cb_cleanup_sendto (gpointer path)
 }
 
 gboolean
-wb_view_sendto (WorkbookView *wbv, CommandContext *context)
+wb_view_sendto (WorkbookView *wbv, GnmCmdContext *context)
 {
 	gboolean problem;
 	IOContext	*io_context;
@@ -726,7 +726,7 @@ wb_view_sendto (WorkbookView *wbv, CommandContext *context)
 	GnmFileSaver	*fs;
 
 	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), FALSE);
-	g_return_val_if_fail (IS_COMMAND_CONTEXT (context), FALSE);
+	g_return_val_if_fail (IS_GNM_CMD_CONTEXT (context), FALSE);
 
 	wb = wb_view_workbook (wbv);
 	fs = workbook_get_file_saver (wb);
@@ -761,7 +761,7 @@ wb_view_sendto (WorkbookView *wbv, CommandContext *context)
 			if (errno != EEXIST) {
 				g_free (template);
 
-				gnumeric_error_save (COMMAND_CONTEXT (io_context),
+				gnumeric_error_save (GNM_CMD_CONTEXT (io_context),
 						     _("Failed to create temporary file for sending."));
 				gnumeric_io_error_display (io_context);
 				problem = TRUE;
@@ -802,7 +802,7 @@ wb_view_sendto (WorkbookView *wbv, CommandContext *context)
 		 */
 		g_timeout_add (1000 * 10, cb_cleanup_sendto, full_name);
 	} else {
-		gnumeric_error_save (COMMAND_CONTEXT (io_context),
+		gnumeric_error_save (GNM_CMD_CONTEXT (io_context),
 			_("Default file saver is not available."));
 		gnumeric_io_error_display (io_context);
 		problem = TRUE;
@@ -895,7 +895,7 @@ wb_view_new_from_input  (GsfInput *input,
 			workbook_set_dirty (new_wb, FALSE);
 		}
 	} else
-		gnumeric_error_read (COMMAND_CONTEXT (io_context),
+		gnumeric_error_read (GNM_CMD_CONTEXT (io_context),
 			_("Unsupported file format."));
 
 	return new_wbv;
@@ -963,7 +963,7 @@ wb_view_new_from_file (char const *filename,
 		 */
 		msg = g_strdup (_("The filename given is not valid in the current encoding."));
 	}
-	gnumeric_error_read (COMMAND_CONTEXT (io_context), msg);
+	gnumeric_error_read (GNM_CMD_CONTEXT (io_context), msg);
 	g_free (msg);
 	g_free (filename_utf8);
 

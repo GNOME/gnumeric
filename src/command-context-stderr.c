@@ -17,27 +17,23 @@
 #include "error-info.h"
 #include "ranges.h"
 
-struct _CommandContextStderr {
-	CommandContext context;
-	int status;
+struct _CmdContextStderr {
+	GnmCmdContext	context;
+	int		status;
 };
-
-typedef struct {
-	CommandContextClass   context_class;
-} CommandContextStderrClass;
+typedef GnmCmdContextClass CmdContextStderrClass;
 
 #define COMMAND_CONTEXT_STDERR_CLASS(k) \
- (G_TYPE_CHECK_CLASS_CAST ((k), COMMAND_CONTEXT_STDERR_TYPE, \
- CommandContextStderrClass))
+	(G_TYPE_CHECK_CLASS_CAST ((k), CMD_CONTEXT_STDERR_TYPE, CmdContextStderrClass))
 
-CommandContext *
-command_context_stderr_new (void)
+GnmCmdContext *
+cmd_context_stderr_new (void)
 {
-	return g_object_new (command_context_stderr_get_type (), NULL);
+	return g_object_new (CMD_CONTEXT_STDERR_TYPE, NULL);
 }
 
 void
-command_context_stderr_set_status (CommandContextStderr *ccs, int status)
+cmd_context_stderr_set_status (CmdContextStderr *ccs, int status)
 {
 	g_return_if_fail (ccs != NULL);
 	g_return_if_fail (IS_COMMAND_CONTEXT_STDERR (ccs));
@@ -46,7 +42,7 @@ command_context_stderr_set_status (CommandContextStderr *ccs, int status)
 }
 
 int
-command_context_stderr_get_status (CommandContextStderr *ccs)
+cmd_context_stderr_get_status (CmdContextStderr *ccs)
 {
 	g_return_val_if_fail (ccs != NULL, -1);
 	g_return_val_if_fail (IS_COMMAND_CONTEXT_STDERR (ccs), -1);
@@ -55,56 +51,53 @@ command_context_stderr_get_status (CommandContextStderr *ccs)
 }
 
 static void
-ccs_error_error (CommandContext *ctxt, GError *error)
+ccs_error_error (GnmCmdContext *cc, GError *error)
 {
-	CommandContextStderr *ccs = COMMAND_CONTEXT_STDERR (ctxt);
+	CmdContextStderr *ccs = COMMAND_CONTEXT_STDERR (cc);
 
 	fprintf (stderr, "Error: %s\n", error->message);
 	ccs->status = -1;
 }
 static void
-ccs_error_info (CommandContext *ctxt, ErrorInfo *error)
+ccs_error_info (GnmCmdContext *cc, ErrorInfo *error)
 {
-	CommandContextStderr *ccs = COMMAND_CONTEXT_STDERR (ctxt);
+	CmdContextStderr *ccs = COMMAND_CONTEXT_STDERR (cc);
 
 	error_info_print (error);
 	ccs->status = -1;
 }
 
 static void
-ccs_init (CommandContextStderr *ccs)
+ccs_init (CmdContextStderr *ccs)
 {
 	ccs->status = 0;
 }
 
 static char *
-ccs_get_password (G_GNUC_UNUSED CommandContext *cc,
+ccs_get_password (G_GNUC_UNUSED GnmCmdContext *cc,
 		  G_GNUC_UNUSED char const* filename)
 {
 	return NULL;
 }
 static void
-ccs_set_sensitive (G_GNUC_UNUSED CommandContext *cc,
+ccs_set_sensitive (G_GNUC_UNUSED GnmCmdContext *cc,
 		   G_GNUC_UNUSED gboolean sensitive)
 {
 }
 
 static void
-ccs_progress_set (CommandContext *cc, gfloat val)
+ccs_progress_set (GnmCmdContext *cc, gfloat val)
 {
 }
 
 static void
-ccs_progress_message_set (CommandContext *cc, gchar const *msg)
+ccs_progress_message_set (GnmCmdContext *cc, gchar const *msg)
 {
 }
 
 static void
-ccs_class_init (GObjectClass *object_class)
+ccs_class_init (GnmCmdContextClass *cc_class)
 {
-	CommandContextClass *cc_class = COMMAND_CONTEXT_CLASS (object_class);
-
-	g_return_if_fail (cc_class != NULL);
 	cc_class->get_password		= ccs_get_password;
 	cc_class->set_sensitive	   	= ccs_set_sensitive;
 	cc_class->progress_set		= ccs_progress_set;
@@ -113,5 +106,6 @@ ccs_class_init (GObjectClass *object_class)
 	cc_class->error.error_info	= ccs_error_info;
 }
 
-GSF_CLASS (CommandContextStderr, command_context_stderr,
-	   ccs_class_init, ccs_init, COMMAND_CONTEXT_TYPE);
+GSF_CLASS (CmdContextStderr, cmd_context_stderr,
+	   ccs_class_init, ccs_init,
+	   GNM_CMD_CONTEXT_TYPE);

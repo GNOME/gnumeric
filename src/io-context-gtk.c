@@ -151,6 +151,8 @@ icg_show_gui (IOContextGtk *icg)
 			    FALSE, FALSE, 0);
 
 	icg->window = GTK_WINDOW (gtk_window_new (GTK_WINDOW_TOPLEVEL));
+	gtk_window_set_type_hint (GTK_WINDOW (icg->window),
+		GDK_WINDOW_TYPE_HINT_SPLASHSCREEN);
 	g_signal_connect (G_OBJECT (icg->window),
 		"button_release_event",
 		G_CALLBACK (cb_hide_splash), NULL);
@@ -202,14 +204,14 @@ icg_user_is_impatient (IOContextGtk *icg)
 }
 
 static char *
-icg_get_password (CommandContext *cc, char const *filename)
+icg_get_password (GnmCmdContext *cc, char const *filename)
 {
 	IOContextGtk *icg = IO_CONTEXT_GTK (cc);
 	return dialog_get_password (icg->window, filename);
 }
 
 static void
-icg_progress_set (CommandContext *cc, gfloat val)
+icg_progress_set (GnmCmdContext *cc, gfloat val)
 {
 	IOContextGtk *icg = IO_CONTEXT_GTK (cc);
 
@@ -226,7 +228,7 @@ icg_progress_set (CommandContext *cc, gfloat val)
 }
 
 static void
-icg_progress_message_set (CommandContext *cc, gchar const *msg)
+icg_progress_message_set (GnmCmdContext *cc, gchar const *msg)
 {
 	IOContextGtk *icg = IO_CONTEXT_GTK (cc);
 
@@ -245,7 +247,7 @@ icg_progress_message_set (CommandContext *cc, gchar const *msg)
 }
 
 static void
-icg_error_error_info (G_GNUC_UNUSED CommandContext *cc,
+icg_error_error_info (G_GNUC_UNUSED GnmCmdContext *cc,
 		      ErrorInfo *error)
 {
 	GtkWidget *dialog = gnumeric_error_info_dialog_new (error);
@@ -285,7 +287,7 @@ icg_finalize (GObject *obj)
 static void
 icg_class_init (IOContextGtkClass *klass)
 {
-	CommandContextClass *cc_class = COMMAND_CONTEXT_CLASS (klass);
+	GnmCmdContextClass *cc_class = GNM_CMD_CONTEXT_CLASS (klass);
 
 	G_OBJECT_CLASS (klass)->finalize = icg_finalize;
 

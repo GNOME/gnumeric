@@ -45,7 +45,7 @@ static GType gog_chart_view_get_type (void);
 static GObjectClass *chart_parent_klass;
 
 static gpointer
-gog_chart_editor (GogObject *gobj, GogDataAllocator *dalloc, CommandContext *cc)
+gog_chart_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 {
 	return gog_style_editor	(gobj, cc, NULL, GOG_STYLE_OUTLINE | GOG_STYLE_FILL);
 }

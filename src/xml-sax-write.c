@@ -633,10 +633,10 @@ xml_write_selection_info (GnmOutputXML *state)
 }
 
 static int
-natural_order_cmp (const void *a, const void *b)
+natural_order_cmp (void const *a, void const *b)
 {
-	Cell const *ca = *(Cell const **)a ;
-	Cell const *cb = *(Cell const **)b ;
+	GnmCell const *ca = *(GnmCell const **)a ;
+	GnmCell const *cb = *(GnmCell const **)b ;
 	int diff = (ca->pos.row - cb->pos.row);
 	if (diff != 0)
 		return diff;
@@ -644,14 +644,14 @@ natural_order_cmp (const void *a, const void *b)
 }
 
 static void
-copy_hash_table_to_ptr_array (gpointer key, Cell *cell, gpointer user_data)
+copy_hash_table_to_ptr_array (gpointer key, GnmCell *cell, gpointer user_data)
 {
 	if (!cell_is_empty (cell) || cell->base.expression != NULL)
 		g_ptr_array_add (user_data, cell) ;
 }
 
 static void
-xml_write_cell (GnmOutputXML *state, Cell const *cell, ParsePos const *pp)
+xml_write_cell (GnmOutputXML *state, GnmCell const *cell, ParsePos const *pp)
 {
 	GnmExprArray const *ar;
 	gboolean write_contents = TRUE;
@@ -724,7 +724,7 @@ xml_write_cells (GnmOutputXML *state)
 	size_t i;
 	GPtrArray *natural = g_ptr_array_new ();
 	ParsePos pp;
-	Cell const *cell;
+	GnmCell const *cell;
 
 	gsf_xml_out_start_element (state->output, GMR "Cells");
 

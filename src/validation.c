@@ -121,7 +121,7 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 		 Sheet *sheet, GnmCellPos const *pos, gboolean *showed_dialog)
 {
 	GnmValidation *v;
-	Cell	   *cell;
+	GnmCell	   *cell;
 	char	   *msg = NULL;
 	gboolean    allocated_msg = FALSE;
 	ValidationStatus result;
