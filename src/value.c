@@ -16,6 +16,7 @@
 #include "style.h"
 #include "format.h"
 #include "str.h"
+#include "position.h"
 #include "mathfunc.h"
 
 #include <stdlib.h>
@@ -444,6 +445,56 @@ value_duplicate (Value const *src)
 	value_set_fmt (res, VALUE_FMT (src));
 	return res;
 }
+
+guint
+value_hash (Value const *v)
+{
+	switch (v->type) {
+	case VALUE_BOOLEAN:
+		return v->v_bool.val ? 0x555aaaa : 0xaaa5555;
+
+	case VALUE_STRING:
+		return g_str_hash (v->v_str.val->str);
+
+	case VALUE_ERROR:
+		return g_str_hash (v->v_err.mesg->str);
+
+	case VALUE_INTEGER:
+		return (guint)(v->v_int.val);
+
+	case VALUE_FLOAT: {
+		int expt;
+		gnum_float mant = frexpgnum (gnumabs (v->v_float.val), &expt);
+		guint h = ((guint)(INT_MAX * mant)) ^ expt;
+		if (v->v_float.val >= 0)
+			h ^= 0x55555555;
+		return h;
+	}
+
+	case VALUE_EMPTY:
+		return 42;
+
+	case VALUE_CELLRANGE:
+		return (cellref_hash (&v->v_range.cell.a) * 3) ^
+			cellref_hash (&v->v_range.cell.b);
+
+	case VALUE_ARRAY: {
+		static gboolean warned = FALSE;
+		if (!warned) {
+			g_warning ("FIXME: value_hash is not very smart.");
+			warned = TRUE;
+		}
+		return (guint)(v->type);
+	}
+
+#ifndef DEBUG_SWITCH_ENUM
+	default:
+		g_assert_not_reached ();
+		return 0;
+#endif
+	}
+}
+
 
 gboolean
 value_get_as_bool (Value const *v, gboolean *err)

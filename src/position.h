@@ -58,5 +58,6 @@ int       cellref_get_abs_row	(CellRef const *cell_ref,
 void      cellref_get_abs_pos	(CellRef const *cell_ref,
 				 CellPos const *pos,
 				 CellPos *res);
+guint     cellref_hash          (const CellRef *cr);
 
 #endif /* GNUMERIC_POSITION_H */

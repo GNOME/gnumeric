@@ -1,3 +1,18 @@
+2002-03-18  Morten Welinder  <terra@diku.dk>
+
+	* src/workbook-control-gui.c (cb_workbook_debug_info): Add code to
+	share cells in workbook.
+
+	* src/main.c: Add --debug_share=1 option.
+
+	* src/expr.c (expr_list_eq): New function.
+	(expr_tree_sharer_new, expr_tree_sharer_destroy) 
+	(expr_tree_sharer_share): New functions.
+
+	* src/position.c (cellref_hash): New function.
+
+	* src/value.c (value_hash): New function.
+
 2002-03-18  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/commands.c (cmd_analysis_tool) : set me->parent.size

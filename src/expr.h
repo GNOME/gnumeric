@@ -205,4 +205,15 @@ void 	 expr_list_unref	(ExprList *list);
 char    *expr_list_as_string	(ExprList const *list, ParsePos const *pp);
 gboolean expr_list_equal	(ExprList const *a, ExprList const *b);
 
+
+typedef struct {
+	GHashTable *exprs, *ptrs;
+
+	int nodes_in, nodes_stored;
+} ExprTreeSharer;
+
+ExprTreeSharer *expr_tree_sharer_new (void);
+void expr_tree_sharer_destroy (ExprTreeSharer *);
+ExprTree *expr_tree_sharer_share (ExprTreeSharer *, ExprTree *);
+
 #endif /* GNUMERIC_EXPR_H */

@@ -65,6 +65,7 @@ extern gboolean EmbeddableGridFactory_init (void);
 /* The debugging level */
 int gnumeric_debugging = 0;
 int dependency_debugging = 0;
+int expression_sharing_debugging = 0;
 int immediate_exit_flag = 0;
 int print_debugging = 0;
 gboolean initial_workbook_open_complete = FALSE;
@@ -93,6 +94,8 @@ gnumeric_popt_options[] = {
 
 	{ "debug_deps", '\0', POPT_ARG_INT, &dependency_debugging, 0,
 	  N_("Enables some dependency related debugging functions"), N_("LEVEL") },
+	{ "debug_share", '\0', POPT_ARG_INT, &expression_sharing_debugging, 0,
+	  N_("Enables some debugging functions for expression sharing"), N_("LEVEL") },
 	{ "debug_print", '\0', POPT_ARG_INT, &print_debugging, 0,
 	  N_("Enables some print debugging behavior"), N_("LEVEL") },
 

@@ -47,6 +47,7 @@
 #include "workbook-edit.h"
 #include "main.h"
 #include "eval.h"
+#include "expr.h"
 #include "position.h"
 #include "parse-util.h"
 #include "ranges.h"
@@ -3429,6 +3430,19 @@ wb_jump_to_cell (GtkEntry *entry, WorkbookControlGUI *wbcg)
 	wbcg_focus_cur_scg (wbcg);
 }
 
+static Value *
+cb_share_a_cell (Sheet *sheet, int col, int row, Cell *cell, gpointer _es)
+{
+	if (cell && cell_has_expr (cell)) {
+		ExprTreeSharer *es = _es;
+		cell->base.expression =
+			expr_tree_sharer_share (es, cell->base.expression);
+	}
+
+	return NULL;
+}
+
+
 static void
 cb_workbook_debug_info (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
@@ -3441,6 +3455,22 @@ cb_workbook_debug_info (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	if (dependency_debugging > 0) {
 		printf ("Dependencies\n");
 		sheet_dump_dependencies (sheet);
+	}
+
+	if (expression_sharing_debugging > 0) {
+		ExprTreeSharer *es = expr_tree_sharer_new ();
+
+		WORKBOOK_FOREACH_SHEET (wb, sheet, {
+			sheet_foreach_cell_in_range (sheet, TRUE, 0, 0,
+						     SHEET_MAX_COLS - 1,
+						     SHEET_MAX_ROWS - 1,
+						     &cb_share_a_cell,
+						     es);
+		});
+
+		g_warning ("Nodes in: %d, nodes stored: %d\n",
+			   es->nodes_in, es->nodes_stored);
+		expr_tree_sharer_destroy (es);
 	}
 }
 
@@ -3523,7 +3553,9 @@ workbook_setup_edit_area (WorkbookControlGUI *wbcg)
 	gtk_box_pack_start (GTK_BOX (box), wbcg->func_button, 0, 0, 0);
 
 	/* Dependency debugger */
-	if (gnumeric_debugging > 9 || dependency_debugging > 0) {
+	if (gnumeric_debugging > 9 ||
+	    dependency_debugging > 0 ||
+	    expression_sharing_debugging > 0) {
 		GtkWidget *deps_button = edit_area_button (wbcg, TRUE,
 			G_CALLBACK (cb_workbook_debug_info),
 			GTK_STOCK_DIALOG_INFO);

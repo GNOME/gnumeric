@@ -117,6 +117,7 @@ Value       *value_duplicate       (Value const *v);
 gnum_float   value_diff		   (Value const *a, Value const *b);
 ValueCompare value_compare         (Value const *a, Value const *b,
 				    gboolean case_sensitive);
+guint        value_hash	           (Value const *v);
 
 gboolean    value_get_as_bool         (Value const *v, gboolean *err);
 gboolean    value_get_as_checked_bool (Value const *v);

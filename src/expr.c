@@ -1218,9 +1218,9 @@ cellref_relocate (CellRef *ref, ExprRelocateInfo const *rinfo)
 	int row = ref->row;
 	Sheet *ref_sheet = (ref->sheet != NULL) ? ref->sheet : rinfo->pos.sheet;
 
-	if (ref->col_relative) 
+	if (ref->col_relative)
 		col += rinfo->pos.eval.col;
-	if (ref->row_relative) 
+	if (ref->row_relative)
 		row += rinfo->pos.eval.row;
 
 	/* fprintf (stderr, "%s\n", cellref_name (ref, &rinfo->pos, FALSE)); */
@@ -1301,13 +1301,13 @@ cellref_shift (CellRef const *ref, ExprRelocateInfo const *rinfo)
 {
 	if (rinfo->col_offset == 0) {
 		int col = ref->col;
-		if (ref->col_relative) 
+		if (ref->col_relative)
 			col += rinfo->pos.eval.col;
 		return  col < rinfo->origin.start.col ||
 			col > rinfo->origin.end.col;
 	} else if (rinfo->row_offset == 0) {
 		int row = ref->row;
-		if (ref->row_relative) 
+		if (ref->row_relative)
 			row += rinfo->pos.eval.row;
 		return  row < rinfo->origin.start.row ||
 			row > rinfo->origin.end.row;
@@ -1845,8 +1845,18 @@ expr_list_unref (ExprList *list)
 gboolean
 expr_list_equal (ExprList const *la, ExprList const *lb)
 {
-	for (; la != NULL && lb != NULL; la = la->next, lb =lb->next)
+	for (; la != NULL && lb != NULL; la = la->next, lb = lb->next)
 		if (!expr_tree_equal (la->data, lb->data))
+			return FALSE;
+	return (la == NULL) && (lb == NULL);
+}
+
+/* Same as above, but uses pointer equality.  */
+static gboolean
+expr_list_eq (ExprList const *la, ExprList const *lb)
+{
+	for (; la != NULL && lb != NULL; la = la->next, lb = lb->next)
+		if (la->data != lb->data)
 			return FALSE;
 	return (la == NULL) && (lb == NULL);
 }
@@ -1887,3 +1897,207 @@ expr_list_as_string (ExprList const *list, ParsePos const *pp)
 
 	return sum;
 }
+
+/***************************************************************************/
+
+/*
+ * Special hash function for expressions that assumes that equal
+ * sub-expressions are pointer-equal.  (Thus no need for recursion.)
+ */
+static guint
+ets_hash (gconstpointer key)
+{
+	const ExprTree *expr = (const ExprTree *)key;
+	guint h = (guint)(expr->any.oper);
+
+	switch (expr->any.oper){
+	case OPER_ANY_BINARY:
+		return ((GPOINTER_TO_INT (expr->binary.value_a) * 7) ^
+			(GPOINTER_TO_INT (expr->binary.value_b) * 3) ^
+			h);
+
+	case OPER_ANY_UNARY:
+		return ((GPOINTER_TO_INT (expr->unary.value) * 7) ^
+			h);
+
+	case OPER_FUNCALL: {
+		ExprList *l;
+
+		for (l = expr->func.arg_list; l; l = l->next)
+			h = (h * 3) ^ (GPOINTER_TO_INT (l->data));
+		return h;
+	}
+
+	case OPER_SET: {
+		ExprList *l;
+
+		for (l = expr->set.set; l; l = l->next)
+			h = (h * 3) ^ (GPOINTER_TO_INT (l->data));
+		return h;
+	}
+
+	case OPER_CONSTANT:
+		return value_hash (expr->constant.value);
+
+#ifndef DEBUG_SWITCH_ENUM
+	default:
+		g_assert_not_reached ();
+		return h;
+#endif
+
+	case OPER_VAR:
+	case OPER_NAME:
+	case OPER_ARRAY:
+		return h;  /* FIXME */
+	}
+}
+
+/*
+ * Special equality function for expressions that assumes that equal
+ * sub-expressions are pointer-equal.  (Thus no need for recursion.)
+ */
+static gboolean
+ets_equal (gconstpointer _a, gconstpointer _b)
+{
+	const ExprTree *ea = _a;
+	const ExprTree *eb = _b;
+
+	if (ea->any.oper != eb->any.oper)
+		return FALSE;
+
+	switch (ea->any.oper){
+	case OPER_ANY_BINARY:
+		return (ea->binary.value_a == eb->binary.value_a &&
+			ea->binary.value_b == eb->binary.value_b);
+	case OPER_ANY_UNARY:
+		return (ea->unary.value == eb->unary.value);
+	case OPER_FUNCALL:
+		return (ea->func.func == eb->func.func &&
+			expr_list_eq (ea->func.arg_list, eb->func.arg_list));
+	case OPER_SET:
+		return expr_list_eq (ea->set.set, eb->set.set);
+
+	default:
+		/* No sub-expressions.  */
+		return expr_tree_equal (ea, eb);
+	}
+}
+
+
+ExprTreeSharer *
+expr_tree_sharer_new (void)
+{
+	ExprTreeSharer *es = g_new (ExprTreeSharer, 1);
+	es->nodes_in = es->nodes_stored = 0;
+	es->exprs = g_hash_table_new (ets_hash, ets_equal);
+	es->ptrs = g_hash_table_new (g_direct_hash, g_direct_equal);
+	return es;
+}
+
+static void
+cb_ets_unref_key (gpointer key, gpointer value, gpointer user_data)
+{
+	ExprTree *e = key;
+	expr_tree_unref (e);
+}
+
+
+void
+expr_tree_sharer_destroy (ExprTreeSharer *es)
+{
+	g_hash_table_foreach (es->exprs, cb_ets_unref_key, NULL);
+	g_hash_table_destroy (es->exprs);
+	g_hash_table_foreach (es->ptrs, cb_ets_unref_key, NULL);
+	g_hash_table_destroy (es->ptrs);
+	g_free (es);
+}
+
+ExprTree *
+expr_tree_sharer_share (ExprTreeSharer *es, ExprTree *e)
+{
+	ExprTree *e2;
+	gboolean wasshared;
+
+	g_return_val_if_fail (es != NULL, NULL);
+	g_return_val_if_fail (e != NULL, NULL);
+
+	wasshared = (e->any.ref_count > 1);
+	if (wasshared) {
+		e2 = g_hash_table_lookup (es->ptrs, e);
+		if (e2) {
+			expr_tree_ref (e2);
+			expr_tree_unref (e);
+			return e2;
+		}
+	}
+
+	es->nodes_in++;
+
+	/* First share all sub-expressions.  */
+	switch (e->any.oper) {
+	case OPER_ANY_BINARY:
+		e->binary.value_a =
+			expr_tree_sharer_share (es, e->binary.value_a);
+		e->binary.value_b =
+			expr_tree_sharer_share (es, e->binary.value_b);
+		break;
+
+	case OPER_ANY_UNARY:
+		e->unary.value =
+			expr_tree_sharer_share (es, e->unary.value);
+		break;
+
+	case OPER_FUNCALL: {
+		ExprList *l;
+
+		for (l = e->func.arg_list; l; l = l->next)
+			l->data = expr_tree_sharer_share (es, l->data);
+		break;
+	}
+
+	case OPER_SET: {
+		ExprList *l;
+
+		for (l = e->set.set; l; l = l->next)
+			l->data = expr_tree_sharer_share (es, l->data);
+		break;
+	}
+
+	case OPER_ARRAY:
+		/*
+		 * I don't want to deal with the complications of arrays
+		 * right here.  Non-corners must point to the corner.
+		 */
+		return e;
+
+	default:
+		break; /* Nothing -- no sub-expressions.  */
+	}
+
+	/* Now look in the hash table.  */
+	e2 = g_hash_table_lookup (es->exprs, e);
+	if (e2 == NULL) {
+		/* Not there -- insert it.  */
+		expr_tree_ref (e);
+		es->nodes_stored++;
+		g_hash_table_insert (es->exprs, e, e);
+		e2 = e;
+	} else {
+		/* Found -- share the stored value.  */
+		expr_tree_ref (e2);
+		expr_tree_unref (e);
+	}
+
+	/*
+	 * Note: we have to use a variable for this because a non-shared none
+	 * might now exist anymore.
+	 */	   
+	if (wasshared) {
+		expr_tree_ref (e);
+		g_hash_table_insert (es->ptrs, e, e2);
+	}
+
+	return e2;
+}
+
+/***************************************************************************/
