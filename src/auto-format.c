@@ -262,5 +262,8 @@ auto_style_format_suggest (GnmExpr const *expr, EvalPos const *epos)
 		explicit = NULL;
 	}
 
+	if (explicit)
+		style_format_ref (explicit);
+
 	return explicit;
 }

@@ -2055,6 +2055,6 @@ style_format_default_money (void)
 {
 	static StyleFormat *fmt = NULL;
 	if (fmt == NULL)
-		fmt = style_format_new_XL (cell_formats[FMT_CURRENCY][3], FALSE);
+		fmt = style_format_new_XL (cell_formats[FMT_CURRENCY][2], FALSE);
 	return fmt;
 }

@@ -36,6 +36,8 @@ Morten:
 	* Security fix for sc plugin.
 	* Fix gnome print configuration.
 	* Fix latex exporter crash.
+	* Restore auto-format functionality.  (Automatically supply a format
+	  to a new cell based on the formula entered.)
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.16

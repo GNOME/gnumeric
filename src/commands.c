@@ -773,8 +773,9 @@ typedef struct
 {
 	GnumericCommand cmd;
 
-	EvalPos	 pos;
-	gchar	*text;
+	EvalPos pos;
+	gchar *text;
+	CellRegion *old_contents;
 } CmdSetText;
 
 GNUMERIC_MAKE_COMMAND (CmdSetText, cmd_set_text);
@@ -783,34 +784,13 @@ static gboolean
 cmd_set_text_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
 	CmdSetText *me = CMD_SET_TEXT (cmd);
-	Cell *cell;
-	char *new_text;
+	Range r;
+	PasteTarget pt;
 
-	g_return_val_if_fail (me != NULL, TRUE);
-
-	/* Get the cell */
-	cell = sheet_cell_get (me->pos.sheet,
-			       me->pos.eval.col,
-			       me->pos.eval.row);
-
-	/* Save the new value so we can redo */
-	new_text = cell_is_blank (cell) ? NULL : cell_get_entered_text (cell);
-
-	/* Restore the old value if it was not empty */
-	if (me->text != NULL) {
-		if (cell == NULL)
-			cell = sheet_cell_new (me->pos.sheet,
-					       me->pos.eval.col,
-					       me->pos.eval.row);
-		sheet_cell_set_text (cell, me->text);
-		g_free (me->text);
-	} else if (cell != NULL)
-		sheet_clear_region (me->pos.sheet,
-				    me->pos.eval.col, me->pos.eval.row,
-				    me->pos.eval.col, me->pos.eval.row,
-				    CLEAR_VALUES|CLEAR_RECALC_DEPS, COMMAND_CONTEXT (wbc));
-
-	me->text = new_text;
+	r.start = r.end = me->pos.eval;
+	clipboard_paste_region (me->old_contents,
+				paste_target_init (&pt, me->cmd.sheet, &r, PASTE_CONTENT | PASTE_FORMATS),
+				COMMAND_CONTEXT (wbc));
 
 	return FALSE;
 }
@@ -818,18 +798,39 @@ cmd_set_text_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 static gboolean
 cmd_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
-	/* Undo and redo are the same for this case */
-	return cmd_set_text_undo (cmd, wbc);
+	CmdSetText *me = CMD_SET_TEXT (cmd);
+	const GnmExpr *expr;
+	Cell *cell = sheet_cell_fetch (me->pos.sheet,
+				       me->pos.eval.col,
+				       me->pos.eval.row);
+	sheet_cell_set_text (cell, me->text);
+	expr = cell->base.expression;
+
+	if (expr) {
+		EvalPos ep;
+		StyleFormat *sf = auto_style_format_suggest (expr,
+			eval_pos_init (&ep, me->cmd.sheet, &me->pos.eval));
+		if (sf) {
+			MStyle *new_style = mstyle_new ();
+			Range r;
+
+			mstyle_set_format (new_style, sf);
+			style_format_unref (sf);
+			r.start = r.end = me->pos.eval;
+			sheet_apply_style (me->cmd.sheet, &r, new_style);
+		}
+	}
+
+	return FALSE;
 }
 
 static void
 cmd_set_text_finalize (GObject *cmd)
 {
 	CmdSetText *me = CMD_SET_TEXT (cmd);
-	if (me->text != NULL) {
-		g_free (me->text);
-		me->text = NULL;
-	}
+	if (me->old_contents)
+		cellregion_free (me->old_contents);
+	g_free (me->text);
 	gnumeric_command_finalize (cmd);
 }
 
@@ -844,6 +845,7 @@ cmd_set_text (WorkbookControl *wbc,
 	Cell const *cell;
 	char *where;
 	gboolean truncated;
+	Range r;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (new_text != NULL, TRUE);
@@ -865,6 +867,8 @@ cmd_set_text (WorkbookControl *wbc,
 	me->pos.sheet = sheet;
 	me->pos.eval = *pos;
 	me->text = corrected_text;
+	r.start = r.end = *pos;
+	me->old_contents = clipboard_copy_range (sheet, &r);
 
 	text = make_undo_text (corrected_text,
 			       max_descriptor_width (),
@@ -922,7 +926,7 @@ cmd_area_set_text_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 		c = me->old_content->data;
 		clipboard_paste_region (c,
-			paste_target_init (&pt, me->cmd.sheet, r, PASTE_CONTENT),
+			paste_target_init (&pt, me->cmd.sheet, r, PASTE_CONTENT | PASTE_FORMATS),
 			COMMAND_CONTEXT (wbc));
 		cellregion_free (c);
 		me->old_content = g_slist_remove (me->old_content, c);

@@ -1,3 +1,14 @@
+2003-04-28  Morten Welinder  <terra@gnome.org>
+
+	* src/commands.c (cmd_area_set_text_undo): Restore formats too.
+	(cmd_set_text_redo): Handle auto-format.
+	(cmd_set_text_undo): Undo via pasting.
+
+	* src/auto-format.c (auto_style_format_suggest): Ref the result.
+
+	* src/format.c (style_format_default_money): Make the default
+	format be the one using ()s and red negatives.
+
 2003-04-26  Jody Goldberg <jody@gnome.org>
 
 	* src/gui-util.c (gnm_setup_label_atk) : update.
