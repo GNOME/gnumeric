@@ -1,5 +1,8 @@
 2000-09-24  Jody Goldberg <jgoldberg@home.com>
 
+	* src/workbook.c (workbook_create_standard_toolbar) : Rename from
+	    workbook_create_standard_toobar (note the missing l in toobar)
+
 	* src/normal-args.c : Suppress warning.
 
 	* src/functions/fn*.c : Add a prototype of the _init routine to

@@ -2597,7 +2597,7 @@ static char const * const preset_zoom [] = {
  * special purposes widgets for fonts, size, zoom
  */
 static GtkWidget *
-workbook_create_standard_toobar (Workbook *wb)
+workbook_create_standard_toolbar (Workbook *wb)
 {
 	GnomeDockItemBehavior behavior;
 	const char *name = "StandardToolbar";
@@ -2685,9 +2685,9 @@ workbook_create_standard_toobar (Workbook *wb)
 static void
 workbook_create_toolbars (Workbook *wb)
 {
-	wb->priv->standard_toolbar = workbook_create_standard_toobar (wb);
-	wb->priv->format_toolbar = workbook_create_format_toolbar (wb);
-	wb->priv->object_toolbar = workbook_create_object_toolbar (wb);
+	wb->priv->standard_toolbar = workbook_create_standard_toolbar (wb);
+	wb->priv->format_toolbar   = workbook_create_format_toolbar (wb);
+	wb->priv->object_toolbar   = workbook_create_object_toolbar (wb);
 
 	gtk_widget_show (wb->priv->format_toolbar);
 #ifndef ENABLE_BONOBO
