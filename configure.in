@@ -294,34 +294,45 @@ dnl 	GNOME_CHECK_GUILE
 dnl fi
 AM_CONDITIONAL(WITH_GUILE, $enable_guile)
 
-dnl The psiconv plugin works again. Autoconfiscation remains. Two points:
-dnl 1) psiconv version 0.9.3 or later is required
-dnl 2) There is a psiconv-config program 
-dnl    e.g. psiconv-config --version, psiconv-config --libs, 
-dnl      psiconv-config --cflags
-dnl 3) PSICONV_INIT is a gnome1 era macro. We have to copy it if we want to
-dnl    use it, and we can probably do better anyway.
 dnl **************************************************
 dnl * psiconv support
 dnl **************************************************
-dnl PSICONV_INIT()
-dnl if test "$want_psiconv" = "yes"; then
-dnl 	ac_save_CFLAGS="$CFLAGS"
-dnl 	ac_save_LIBS="$LIBS"
-dnl 	CFLAGS="$CFLAGS $psiconv_cflags"
-dnl 	LIBS="$LIBS $psiconv_libs"
-dnl 	AC_CHECK_LIB(psiconv,psiconv_parse_sheet_file,want_psiconv=yes,want_psiconv=no)
-dnl 	CFLAGS="$ac_save_CFLAGS"
-dnl 	LIBS="$ac_save_LIBS"
-dnl 
-dnl 	if test "$want_psiconv" = "no"; then
-dnl 		PSICONV_LIBS=""
-dnl 		PSICONV_CFLAGS=""
-dnl 		enable_psiconv=false
-dnl 	fi
-dnl fi
+try_psiconv=true
 enable_psiconv=false
-AM_CONDITIONAL(WITH_PSICONV,$enable_psiconv)
+psiconv_msg=no
+AC_ARG_WITH(psiconv,
+	[--{with,without}-psiconv Compile with psiconv support or without it],
+	if test "x$withval" = xno; then
+		try_psiconv=false
+	fi
+)
+if $try_psiconv; then
+    psiconv_msg="missing dependencies"
+    AC_PATH_PROG(PSICONV_CONFIG,psiconv-config,no)
+    if test "$PSICONV_CONFIG" = no; then
+        have_psiconv=false
+    else
+	AC_MSG_CHECKING(for psiconv >= 0.9.3)
+        verstxt=`$PSICONV_CONFIG --version`
+        vers=`echo "$verstxt" | \
+	    awk -F. '{ printf "%d", ($1 * 1000 + $2) * 1000 + $3;}'`
+        if test "$vers" -ge 9003; then
+	    PSICONV_CFLAGS=`$PSICONV_CONFIG --cflags`
+            PSICONV_LIBS=`$PSICONV_CONFIG --libs`
+	    psiconv_msg=yes
+        else
+	    psiconv_msg=no
+        fi
+	AC_MSG_RESULT($psiconv_msg)
+    fi
+fi
+
+if test "x$psiconv_msg" = "xyes"; then
+	enable_psiconv=true
+fi
+AM_CONDITIONAL(WITH_PSICONV, $enable_psiconv)
+AC_SUBST(PSICONV_LIBS)
+AC_SUBST(PSICONV_CFLAGS)
 
 try_paradox=true
 enable_paradox=false
@@ -903,5 +914,6 @@ Configuration:
 	GDA support:		${gda_msg}
 	GNOME-DB support:	${gnomedb_msg}
 	Mono support:		${mono_msg}
+	Psiconv support:        ${psiconv_msg}
 "
 	#Evolution Support:      ${evolution}

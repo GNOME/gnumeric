@@ -1,5 +1,9 @@
 2004-08-18  Jon K Hellan  <hellan@acm.org>
 
+	* Makefile.am (psiconv_la_LDFLAG): Use PSICONV_LIBS
+
+2004-08-18  Jon K Hellan  <hellan@acm.org>
+
 	(psiconv_read): Fix double free due to how we handled error
 	returns from psiconv_parse.
 
