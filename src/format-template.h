@@ -130,4 +130,8 @@ void                  format_template_set_name                 (FormatTemplate *
 void                  format_template_set_author               (FormatTemplate *ft, char const *author);
 void                  format_template_set_description          (FormatTemplate *ft, char const *description);
 
+TemplateMember *format_template_member_new (void);
+TemplateMember *format_template_member_clone (TemplateMember *member);
+void format_template_member_free (TemplateMember *member);
+
 #endif /* GNUMERIC_FORMAT_TEMPLATE_H */

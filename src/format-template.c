@@ -394,7 +394,7 @@ format_template_member_set_edge (TemplateMember *member, int edge)
  * Return value: the new FormatTemplate
  **/
 FormatTemplate *
-format_template_new ()
+format_template_new (void)
 {
 	FormatTemplate *ft;
 
