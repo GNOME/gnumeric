@@ -12,7 +12,7 @@
 #include "item-cursor.h"
 #include "item-edit.h"
 #include "item-grid.h"
-#include "sheet-control-gui.h"
+#include "sheet-control-gui-priv.h"
 #include "gnumeric-util.h"
 #include "style-color.h"
 #include "selection.h"
@@ -51,7 +51,8 @@ gnumeric_sheet_destroy (GtkObject *object)
 static gint
 gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 {
-	Sheet *sheet = gsheet->scg->sheet;
+	SheetControl *sc = (SheetControl *) gsheet->scg;
+	Sheet *sheet = sc->sheet;
 	WorkbookControlGUI *wbcg = gsheet->scg->wbcg;
 	gboolean const jump_to_bounds = event->state & GDK_CONTROL_MASK;
 	int state = gnumeric_filter_modifiers (event->state);
@@ -227,7 +228,7 @@ gnumeric_sheet_key_mode_object (GnumericSheet *gsheet, GdkEventKey *event)
 
 	switch (event->keyval) {
 	case GDK_Escape:
-		scg_mode_edit (scg);
+		scg_mode_edit ((SheetControl *) scg);
 		application_clipboard_unant ();
 		break;
 
@@ -258,7 +259,7 @@ static gint
 gnumeric_sheet_key_release (GtkWidget *widget, GdkEventKey *event)
 {
 	GnumericSheet *gsheet = GNUMERIC_SHEET (widget);
-	SheetControlGUI *scg = gsheet->scg;
+	SheetControl *sc = (SheetControl *) gsheet->scg;
 
 	/*
 	 * The status_region normally displays the current edit_pos
@@ -267,10 +268,10 @@ gnumeric_sheet_key_release (GtkWidget *widget, GdkEventKey *event)
 	 * is released, or the mouse button is release we need to reset
 	 * to displaying the edit pos.
 	 */
-	if (scg->current_object == NULL &&
+	if (gsheet->scg->current_object == NULL &&
 	    (event->keyval == GDK_Shift_L || event->keyval == GDK_Shift_R))
 		wb_view_selection_desc (wb_control_view (
-			WORKBOOK_CONTROL (gsheet->scg->wbcg)), TRUE, NULL);
+			sc->wbc), TRUE, NULL);
 
 	return (*GTK_WIDGET_CLASS (gsheet_parent_class)->key_release_event)(widget, event);
 }
@@ -373,7 +374,8 @@ gnumeric_sheet_filenames_dropped (GtkWidget        *widget,
 				  GnumericSheet    *gsheet)
 {
 	GList *names, *tmp_list;
-	WorkbookControl *wbc = WORKBOOK_CONTROL (gsheet->scg->wbcg);
+	SheetControl *sc = (SheetControl *) gsheet->scg;
+	WorkbookControl *wbc = sc->wbc;
 
 	names = gnome_uri_list_extract_filenames ((char *)selection_data->data);
 
@@ -384,7 +386,7 @@ gnumeric_sheet_filenames_dropped (GtkWidget        *widget,
 #ifdef ENABLE_BONOBO
 			/* If it wasn't a workbook, see if we have a control for it */
 			SheetObject *so = sheet_object_container_new_file (
-			                  gsheet->scg->sheet, file_name);
+				sc->sheet, file_name);
 			if (so != NULL)
 				scg_mode_create_object (gsheet->scg, so);
 #else
@@ -392,7 +394,7 @@ gnumeric_sheet_filenames_dropped (GtkWidget        *widget,
 
 			msg = g_strdup_printf (_("File \"%s\" has unknown format."),
 			                       file_name);
-			gnumeric_error_read (COMMAND_CONTEXT (wbc), msg);
+			gnumeric_error_read (COMMAND_CONTEXT (sc->wbc), msg);
 			g_free (msg);
 #endif
 		}
@@ -686,7 +688,7 @@ gnumeric_sheet_set_left_col (GnumericSheet *gsheet, int new_first_col)
 int
 gnumeric_sheet_find_col (GnumericSheet *gsheet, int x, int *col_origin)
 {
-	Sheet *sheet = gsheet->scg->sheet;
+	Sheet *sheet = ((SheetControl *) gsheet->scg)->sheet;
 	int col   = gsheet->col.first;
 	int pixel = gsheet->col_offset.first;
 
@@ -730,7 +732,7 @@ gnumeric_sheet_find_col (GnumericSheet *gsheet, int x, int *col_origin)
 int
 gnumeric_sheet_find_row (GnumericSheet *gsheet, int y, int *row_origin)
 {
-	Sheet *sheet = gsheet->scg->sheet;
+	Sheet *sheet = ((SheetControl *) gsheet->scg)->sheet;
 	int row   = gsheet->row.first;
 	int pixel = gsheet->row_offset.first;
 
@@ -815,8 +817,7 @@ gnumeric_sheet_rangesel_start (GnumericSheet *gsheet, int col, int row)
 	GnomeCanvas *canvas = GNOME_CANVAS (gsheet);
 	GnomeCanvasItem *tmp;
 	GnomeCanvasGroup *group = GNOME_CANVAS_GROUP (canvas->root);
-	Sheet *sheet = gsheet->scg->sheet;
-	WorkbookControlGUI *wbcg = gsheet->scg->wbcg;
+	SheetControl *sc = (SheetControl *) gsheet->scg;
 	Range r;
 
 	g_return_if_fail (gsheet->sel_cursor == NULL);
@@ -824,7 +825,7 @@ gnumeric_sheet_rangesel_start (GnumericSheet *gsheet, int col, int row)
 	/* Hide the primary cursor while the range selection cursor is visible
 	 * and we are selecting on a different sheet than the expr being edited
 	 */
-	if (sheet != wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)))
+	if (sc->sheet != wb_control_cur_sheet (sc->wbc))
 		item_cursor_set_visibility (gsheet->item_cursor, FALSE);
 
 	tmp = gnome_canvas_item_new (group,
@@ -870,7 +871,7 @@ gsheet_compute_visible_region (GnumericSheet *gsheet,
 			       gboolean const full_recompute)
 {
 	SheetControlGUI const * const scg = gsheet->scg;
-	Sheet const * const sheet = scg->sheet;
+	Sheet const * const sheet = ((SheetControl *) scg)->sheet;
 	GnomeCanvas   *canvas = GNOME_CANVAS (gsheet);
 	int pixels, col, row, width, height;
 
@@ -956,7 +957,7 @@ gsheet_compute_visible_region (GnumericSheet *gsheet,
 	}
 
 	/* Update the scrollbar sizes */
-	scg_scrollbar_config (scg);
+	scg_scrollbar_config (SHEET_CONTROL (scg));
 
 	/* Force the cursor to update its bounds relative to the new visible region */
 	item_cursor_reposition (gsheet->item_cursor);
@@ -992,7 +993,7 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row,
 	g_return_if_fail (col < SHEET_MAX_COLS);
 	g_return_if_fail (row < SHEET_MAX_ROWS);
 
-	sheet = gsheet->scg->sheet;
+	sheet = ((SheetControl *) gsheet->scg)->sheet;
 	canvas = GNOME_CANVAS (gsheet);
 
 	/* Find the new gsheet->col.first */

@@ -8,7 +8,7 @@
  */
 #include <config.h>
 
-#include "sheet-control-gui.h"
+#include "sheet-control-gui-priv.h"
 #include "item-bar.h"
 #define GNUMERIC_ITEM "SCG"
 #include "item-debug.h"
@@ -52,9 +52,14 @@
 
 static SheetControlClass *scg_parent_class;
 
-void
-scg_redraw_all (SheetControlGUI *scg)
+static void scg_ant                    (SheetControl *sc);
+static void scg_unant                  (SheetControl *sc);
+
+static void
+scg_redraw_all (SheetControl *sc)
 {
+	SheetControlGUI *scg = (SheetControlGUI *)sc;
+
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
 	gnome_canvas_request_redraw (
@@ -71,11 +76,12 @@ scg_redraw_all (SheetControlGUI *scg)
 /*
  * Redraw selected range, do not honour spans
  */
-void
-scg_redraw_cell_region (SheetControlGUI *scg,
+static void
+scg_redraw_cell_region (SheetControl *sc,
 			int start_col, int start_row,
 			int end_col, int end_row)
 {
+	SheetControlGUI *scg = (SheetControlGUI *)sc;
 	GnumericSheet *gsheet;
 	GnomeCanvas *canvas;
 	int x1, y1, x2, y2;
@@ -122,11 +128,12 @@ scg_redraw_cell_region (SheetControlGUI *scg,
 	gnome_canvas_request_redraw (GNOME_CANVAS (gsheet), x1-2, y1-2, x2, y2);
 }
 
-void
-scg_redraw_headers (SheetControlGUI *scg,
+static void
+scg_redraw_headers (SheetControl *sc,
 		    gboolean const col, gboolean const row,
 		    Range const * r /* optional == NULL */)
 {
+	SheetControlGUI *scg = (SheetControlGUI *)sc;
 	GnumericSheet *gsheet;
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
@@ -180,9 +187,10 @@ scg_redraw_headers (SheetControlGUI *scg,
 	}
 }
 
-void
-scg_update_cursor_pos (SheetControlGUI *scg)
+static void
+scg_update_cursor_pos (SheetControl *sc)
 {
+	SheetControlGUI *scg = (SheetControlGUI *)sc;
 	GList *l;
 	GnumericSheet *gsheet;
 
@@ -202,9 +210,11 @@ scg_update_cursor_pos (SheetControlGUI *scg)
  * scg_resize :
  * @scg :
  */
-void
-scg_resize (SheetControlGUI *scg)
+static void
+scg_resize (SheetControl *sc)
 {
+	SheetControlGUI *scg = (SheetControlGUI *)sc;
+	Sheet *sheet = sc->sheet;
 	GnumericSheet *gsheet;
 	ItemBar *col_item, *row_item;
 	int h, w;
@@ -213,7 +223,7 @@ scg_resize (SheetControlGUI *scg)
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
 	gsheet = GNUMERIC_SHEET (scg->canvas);
-	zoom = scg->sheet->last_zoom_factor_used;
+	zoom = sheet->last_zoom_factor_used;
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
@@ -241,30 +251,31 @@ scg_resize (SheetControlGUI *scg)
 		/* Ensure that the current cell remains visible when we zoom */
 		gnumeric_sheet_make_cell_visible
 			(gsheet,
-			 scg->sheet->edit_pos.col,
-			 scg->sheet->edit_pos.row,
+			 sheet->edit_pos.col,
+			 sheet->edit_pos.row,
 			 TRUE);
 
-	scg_update_cursor_pos (scg);
+	scg_update_cursor_pos (sc);
 }
 
 void
-scg_set_zoom_factor (SheetControlGUI *scg)
+scg_set_zoom_factor (SheetControl *sc)
 {
+	SheetControlGUI *scg = (SheetControlGUI *)sc;
 	GnumericSheet *gsheet;
 	double zoom;
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
 	gsheet = GNUMERIC_SHEET (scg->canvas);
-	zoom = scg->sheet->last_zoom_factor_used;
+	zoom = sc->sheet->last_zoom_factor_used;
 
 	/* Set pixels_per_unit before the font.  The item bars look here for the number */
 	gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (gsheet), zoom);
 	gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (scg->col_canvas), zoom);
 	gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (scg->row_canvas), zoom);
 
-	scg_resize (scg);
+	scg_resize (sc);
 }
 
 static void
@@ -299,12 +310,13 @@ new_canvas_bar (SheetControlGUI *scg, gboolean is_col_header, GnomeCanvasItem **
 
 /* Manages the scrollbar dimensions and paging parameters. */
 void
-scg_scrollbar_config (SheetControlGUI const *scg)
+scg_scrollbar_config (SheetControl const *sc)
 {
+	SheetControlGUI *scg = SHEET_CONTROL_GUI (sc);
 	GtkAdjustment *va = GTK_ADJUSTMENT (scg->va);
 	GtkAdjustment *ha = GTK_ADJUSTMENT (scg->ha);
 	GnumericSheet *gsheet = GNUMERIC_SHEET (scg->canvas);
-	Sheet         *sheet = scg->sheet;
+	Sheet         *sheet = sc->sheet;
 	int const last_col = gsheet->col.last_full;
 	int const last_row = gsheet->row.last_full;
 	int max_col = last_col;
@@ -375,15 +387,16 @@ scg_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 	 */
 	scg_make_edit_pos_visible (scg);
 #endif
-	scg_scrollbar_config (scg);
+	scg_scrollbar_config ((SheetControl *) scg);
 }
 
 void
 scg_colrow_size_set (SheetControlGUI *scg,
 		     gboolean is_cols, int index, int new_size_pixels)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (scg->wbcg);
-	Sheet *sheet = scg->sheet;
+	SheetControl *sc = (SheetControl *) scg;
+	WorkbookControl *wbc = sc->wbc;
+	Sheet *sheet = sc->sheet;
 
 	/* If all cols/rows in the selection are completely selected
 	 * then resize all of them, otherwise just resize the selected col/row.
@@ -399,13 +412,14 @@ scg_colrow_size_set (SheetControlGUI *scg,
 static void
 scg_select_all (SheetControlGUI *scg)
 {
-	Sheet *sheet = scg->sheet;
+	SheetControl *sc = (SheetControl *) scg;
+	Sheet *sheet = sc->sheet;
 	gboolean const rangesel = wbcg_rangesel_possible (scg->wbcg);
 
 	if (!rangesel) {
 		if (!wbcg_edit_has_guru (scg->wbcg)) {
 			wbcg_edit_finish (scg->wbcg, FALSE);
-			cmd_select_all (scg->sheet);
+			cmd_select_all (sheet);
 		}
 	} else {
 		if (!scg->rangesel.active)
@@ -420,7 +434,8 @@ void
 scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
 		   int index, int modifiers)
 {
-	Sheet *sheet = scg->sheet;
+	SheetControl *sc = (SheetControl *) scg;
+	Sheet *sheet = sc->sheet;
 	GnumericSheet *gsheet = GNUMERIC_SHEET (scg->canvas);
 	gboolean const rangesel = wbcg_rangesel_possible (scg->wbcg);
 
@@ -514,8 +529,10 @@ horizontal_scroll_offset_changed (GtkAdjustment *adj, int left, int is_hint,
 static void
 cb_table_destroy (GtkObject *table, SheetControlGUI *scg)
 {
-	scg_mode_edit (scg); /* finish any object edits */
-	scg_unant (scg); /* Make sure that everything is unanted */
+	SheetControl *sc = (SheetControl *) scg;
+
+	scg_mode_edit (sc);	/* finish any object edits */
+	scg_unant (sc);		/* Make sure that everything is unanted */
 
  	if (scg->wbcg) {
 		GtkWindow *toplevel = wb_control_gui_toplevel (scg->wbcg);
@@ -530,7 +547,7 @@ cb_table_destroy (GtkObject *table, SheetControlGUI *scg)
 static void
 scg_init (SheetControlGUI *scg)
 {
-	scg->sheet = NULL;
+	((SheetControl *) scg)->sheet = NULL;
 	scg->slide_handler = NULL;
 	scg->slide_data = NULL;
 	scg->sliding = -1;
@@ -550,7 +567,8 @@ scg_construct (SheetControlGUI *scg)
 {
 	GnomeCanvasGroup *root_group;
 	GtkTable  *inner_table;
-	Sheet *sheet = scg->sheet;
+	SheetControl *sc = (SheetControl *) scg;
+	Sheet *sheet = sc->sheet;
 	int i;
 
 	scg->table = GTK_TABLE (gtk_table_new (4, 4, FALSE));
@@ -635,7 +653,7 @@ scg_construct (SheetControlGUI *scg)
 	while (i-- > 0)
 		scg->control_points[i] = NULL;
 
-	scg_ant (scg);
+	scg_ant (sc);
 
 	/* Store some useful information */
 	gtk_object_set_data (GTK_OBJECT (scg->table), SHEET_CONTROL_KEY, scg);
@@ -652,7 +670,7 @@ sheet_control_gui_new (Sheet *sheet)
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
 	scg = gtk_type_new (sheet_control_gui_get_type ());
-	scg->sheet = sheet;
+	((SheetControl *) scg)->sheet = sheet;
 	scg->tip = NULL;
 
 	scg_construct (scg);
@@ -664,13 +682,14 @@ static void
 scg_destroy (GtkObject *object)
 {
 	SheetControlGUI *scg = SHEET_CONTROL_GUI (object);
+	SheetControl *sc = (SheetControl *) scg;
 
 	/* Add shutdown code here */
 	if (scg->tip)
 		gtk_object_unref (GTK_OBJECT (scg->tip));
 
-	if (scg->sheet)
-		sheet_detach_scg (scg);
+	if (sc->sheet)
+		sheet_detach_control (sc);
 
 	if (scg->table)
 		gtk_object_unref (GTK_OBJECT (scg->table));
@@ -684,21 +703,9 @@ scg_destroy (GtkObject *object)
 }
 
 static void
-scg_class_init (SheetControlGUIClass *Class)
+scg_unant (SheetControl *sc)
 {
-	GtkObjectClass *object_class;
-
-	object_class = (GtkObjectClass *) Class;
-	scg_parent_class = gtk_type_class (sheet_control_get_type ());
-	object_class->destroy = scg_destroy;
-}
-
-GNUMERIC_MAKE_TYPE (sheet_control_gui, "SheetControlGUI", SheetControlGUI,
-		    scg_class_init, scg_init, sheet_control_get_type ())
-
-void
-scg_unant (SheetControlGUI *scg)
-{
+	SheetControlGUI *scg = (SheetControlGUI *)sc;
 	GList *l;
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
@@ -713,17 +720,18 @@ scg_unant (SheetControlGUI *scg)
 	scg->anted_cursors = NULL;
 }
 
-void
-scg_ant (SheetControlGUI *scg)
+static void
+scg_ant (SheetControl *sc)
 {
+	SheetControlGUI *scg = (SheetControlGUI *)sc;
 	GList *l;
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
 	if (scg->anted_cursors)
-		scg_unant (scg);
+		scg_unant (sc);
 
-	for (l = scg->sheet->ants; l; l = l->next){
+	for (l = sc->sheet->ants; l; l = l->next){
 		Range *ss = l->data;
 		ItemCursor *item_cursor;
 
@@ -739,9 +747,10 @@ scg_ant (SheetControlGUI *scg)
 }
 
 void
-scg_adjust_preferences (SheetControlGUI *scg)
+scg_adjust_preferences (SheetControl *sc)
 {
-	Sheet const *sheet = scg->sheet;
+	SheetControlGUI *scg = SHEET_CONTROL_GUI (sc);
+	Sheet const *sheet = sc->sheet;
 
 	if (sheet->hide_col_header)
 		gtk_widget_hide (GTK_WIDGET (scg->col_canvas));
@@ -758,8 +767,8 @@ scg_adjust_preferences (SheetControlGUI *scg)
 	else
 		gtk_widget_show (scg->select_all_btn);
 
-	if (scg->wbcg != NULL) {
-		WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (scg->wbcg));
+	if (sc->wbc != NULL) {
+		WorkbookView *wbv = wb_control_view (sc->wbc);
 		if (wbv->show_horizontal_scrollbar)
 			gtk_widget_show (scg->hs);
 		else
@@ -944,13 +953,14 @@ enum {
 	CONTEXT_ROW_UNHIDE
 };
 static gboolean
-context_menu_hander (GnumericPopupMenuElement const *element,
+context_menu_handler (GnumericPopupMenuElement const *element,
 		     gpointer user_data)
 {
 	SheetControlGUI *scg = user_data;
-	Sheet *sheet = scg->sheet;
+	SheetControl *sc = (SheetControl *) scg;
+	Sheet *sheet = sc->sheet;
 	WorkbookControlGUI *wbcg = scg->wbcg;
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *wbc = sc->wbc;
 
 	g_return_val_if_fail (element != NULL, TRUE);
 	g_return_val_if_fail (sheet != NULL, TRUE);
@@ -1011,6 +1021,8 @@ void
 scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		  gboolean is_col, gboolean is_row)
 {
+	SheetControl *sc = (SheetControl *) scg;
+	
 	enum {
 		CONTEXT_DISPLAY_FOR_CELLS = 1,
 		CONTEXT_DISPLAY_FOR_ROWS = 2,
@@ -1107,7 +1119,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 	 * whole row or a whole column and disable the insert/delete col/row menu items
 	 * accordingly
 	 */
-	for (l = scg->sheet->selections; l != NULL; l = l->next) {
+	for (l = sc->sheet->selections; l != NULL; l = l->next) {
 		Range const *r = l->data;
 
 		if (r->start.row == 0 && r->end.row == SHEET_MAX_ROWS - 1)
@@ -1117,7 +1129,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 			sensitivity_filter |= CONTEXT_DISABLE_FOR_COLS;
 	}
 
-	gnumeric_create_popup_menu (popup_elements, &context_menu_hander,
+	gnumeric_create_popup_menu (popup_elements, &context_menu_handler,
 				    scg, display_filter,
 				    sensitivity_filter, event);
 }
@@ -1125,10 +1137,10 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 static gboolean
 cb_redraw_sel (Sheet *sheet, Range const *r, gpointer user_data)
 {
-	SheetControlGUI *scg = user_data;
-	scg_redraw_cell_region (scg,
+	SheetControl *sc = user_data;
+	scg_redraw_cell_region (sc,
 		r->start.col, r->start.row, r->end.col, r->end.row);
-	scg_redraw_headers (scg, TRUE, TRUE, r);
+	scg_redraw_headers (sc, TRUE, TRUE, r);
 	return TRUE;
 }
 
@@ -1136,13 +1148,14 @@ static void
 scg_cursor_visible (SheetControlGUI *scg, gboolean is_visible)
 {
 	GnumericSheet *gsheet;
+	SheetControl *sc = (SheetControl *) scg;
 
 	if (!scg->canvas)
 		return;
 	
 	gsheet = GNUMERIC_SHEET (scg->canvas);
 	item_cursor_set_visibility (gsheet->item_cursor, is_visible);
-	selection_foreach_range (scg->sheet, TRUE, cb_redraw_sel, scg);
+	selection_foreach_range (sc->sheet, TRUE, cb_redraw_sel, sc);
 }
 
 /***************************************************************************/
@@ -1207,15 +1220,17 @@ scg_mode_clear (SheetControlGUI *scg)
 
 /*
  * scg_mode_edit:
- * @scg:  The sheet
+ * @sc:  The sheet control
  *
  * Put @sheet into the standard state 'edit mode'.  This shuts down
  * any object editing and frees any objects that are created but not
  * realized.
  */
 void
-scg_mode_edit (SheetControlGUI *scg)
+scg_mode_edit (SheetControl *sc)
 {
+	SheetControlGUI *scg = (SheetControlGUI *)sc;
+	
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
 	scg_mode_clear (scg);
@@ -1636,13 +1651,14 @@ calc_obj_place (GnumericSheet *gsheet, int pixel, gboolean is_col,
 	int origin;
 	int colrow;
 	ColRowInfo *cri;
+	Sheet *sheet = ((SheetControl *) gsheet->scg)->sheet;
 
 	if (is_col) {
 		colrow = gnumeric_sheet_find_col (gsheet, pixel, &origin);
-		cri = sheet_col_get_info (gsheet->scg->sheet, colrow);
+		cri = sheet_col_get_info (sheet, colrow);
 	} else {
 		colrow = gnumeric_sheet_find_row (gsheet, pixel, &origin);
-		cri = sheet_row_get_info (gsheet->scg->sheet, colrow);
+		cri = sheet_row_get_info (sheet, colrow);
 	}
 
 	/* TODO : handle other anchor types */
@@ -1728,7 +1744,7 @@ cb_sheet_object_destroy (GtkObject *view, SheetObject *so)
 
 	if (scg) {
 		if (scg->current_object == so)
-			scg_mode_edit (scg);
+			scg_mode_edit ((SheetControl *) scg);
 		else
 			scg_object_stop_editing (scg, so);
 	}
@@ -1972,6 +1988,7 @@ int
 scg_colrow_distance_get (SheetControlGUI const *scg, gboolean is_cols,
 			 int from, int to)
 {
+	SheetControl *sc = (SheetControl *) scg;
 	ColRowCollection const *collection;
 	int default_size;
 	int i, pixels = 0;
@@ -1990,10 +2007,10 @@ scg_colrow_distance_get (SheetControlGUI const *scg, gboolean is_cols,
 
 	if (is_cols) {
 		g_return_val_if_fail (to <= SHEET_MAX_COLS, 1);
-		collection = &scg->sheet->cols;
+		collection = &sc->sheet->cols;
 	} else {
 		g_return_val_if_fail (to <= SHEET_MAX_ROWS, 1);
-		collection = &scg->sheet->rows;
+		collection = &sc->sheet->rows;
 	}
 
 	/* Do not use col_row_foreach, it ignores empties.
@@ -2025,23 +2042,29 @@ scg_colrow_distance_get (SheetControlGUI const *scg, gboolean is_cols,
 
 /*************************************************************************/
 
-void
-scg_cursor_bound (SheetControlGUI *scg, Range const *r)
+static void
+scg_cursor_bound (SheetControl *sc, Range const *r)
 {
+	SheetControlGUI *scg = (SheetControlGUI *) sc;
+
 	gnumeric_sheet_cursor_bound (GNUMERIC_SHEET (scg->canvas), r);
 }
 
-void
-scg_compute_visible_region (SheetControlGUI *scg, gboolean full_recompute)
+static void
+scg_compute_visible_region (SheetControl *sc, gboolean full_recompute)
 {
+	SheetControlGUI *scg = (SheetControlGUI *) sc;
+
 	gsheet_compute_visible_region (GNUMERIC_SHEET (scg->canvas),
 				       full_recompute);
 }
 
-void
-scg_make_cell_visible (SheetControlGUI  *scg, int col, int row,
+static void
+scg_make_cell_visible (SheetControl  *sc, int col, int row,
 		       gboolean force_scroll)
 {
+	SheetControlGUI *scg = (SheetControlGUI *) sc;
+
 	gnumeric_sheet_make_cell_visible (GNUMERIC_SHEET (scg->canvas),
 					  col, row, FALSE);
 }
@@ -2073,6 +2096,7 @@ scg_rangesel_changed (SheetControlGUI *scg,
 	GnumericExprEntry *expr_entry;
 	gboolean ic_changed;
 	Range *r, last_r;
+	Sheet *sheet;
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
@@ -2102,18 +2126,19 @@ scg_rangesel_changed (SheetControlGUI *scg,
 	 * We'll also need to name selections containing merged cells
 	 * properly.
 	 */
+	sheet = ((SheetControl *) scg)->sheet;
 	expr_entry = wbcg_get_entry_logical (scg->wbcg);
 	gnumeric_expr_entry_freeze (expr_entry);
 	ic_changed = gnumeric_expr_entry_set_rangesel_from_range (
-		expr_entry, r, scg->sheet, scg->rangesel.cursor_pos);
+		expr_entry, r, sheet, scg->rangesel.cursor_pos);
 	if (ic_changed)
 		gnumeric_expr_entry_get_rangesel (expr_entry, r, NULL);
 
 	last_r = *r;
-	sheet_merge_find_container (scg->sheet, r);
+	sheet_merge_find_container (sheet, r);
 	if (!range_equal (&last_r, r)) {
 		(void) gnumeric_expr_entry_set_rangesel_from_range (
-			expr_entry, r, scg->sheet, scg->rangesel.cursor_pos);
+			expr_entry, r, sheet, scg->rangesel.cursor_pos);
 		/* This can't grow the range further */
 	}
 	gnumeric_expr_entry_thaw (expr_entry);
@@ -2133,7 +2158,8 @@ scg_rangesel_start (SheetControlGUI *scg, int col, int row)
 
 	scg->wbcg->rangesel = scg;
 	scg->rangesel.active = TRUE;
-	scg->rangesel.cursor_pos = GTK_EDITABLE (wbcg_get_entry_logical (scg->wbcg))->current_pos;
+	scg->rangesel.cursor_pos =
+		GTK_EDITABLE (wbcg_get_entry_logical (scg->wbcg))->current_pos;
 
 	gnumeric_sheet_rangesel_start (GNUMERIC_SHEET (scg->canvas), col, row);
 	scg_rangesel_changed (scg, col, row, col, row);
@@ -2173,7 +2199,7 @@ void
 scg_cursor_move_to (SheetControlGUI *scg, int col, int row,
 		    gboolean clear_selection)
 {
-	Sheet *sheet = scg->sheet;
+	Sheet *sheet = ((SheetControl *) scg)->sheet;
 
 	/*
 	 * Please note that the order here is important, as
@@ -2235,7 +2261,7 @@ void
 scg_rangesel_move (SheetControlGUI *scg, int n, gboolean jump_to_bound,
 		   gboolean horiz)
 {
-	Sheet const *sheet = scg->sheet;
+	Sheet *sheet = ((SheetControl *) scg)->sheet;
 	CellPos tmp;
 
 	if (!scg->rangesel.active)
@@ -2244,11 +2270,11 @@ scg_rangesel_move (SheetControlGUI *scg, int n, gboolean jump_to_bound,
 
 	tmp = scg->rangesel.base_corner;
 	if (horiz)
-		tmp.col = sheet_find_boundary_horizontal (scg->sheet,
-			tmp.col, tmp.row, tmp.row, n, jump_to_bound);
+		tmp.col = sheet_find_boundary_horizontal (
+			sheet, tmp.col, tmp.row, tmp.row, n, jump_to_bound);
 	else
-		tmp.row = sheet_find_boundary_vertical (scg->sheet,
-			tmp.col, tmp.row, tmp.col, n, jump_to_bound);
+		tmp.row = sheet_find_boundary_vertical (
+			sheet, tmp.col, tmp.row, tmp.col, n, jump_to_bound);
 
 	scg_rangesel_changed (scg, tmp.col, tmp.row, tmp.col, tmp.row);
 	gnumeric_sheet_make_cell_visible (GNUMERIC_SHEET (scg->canvas),
@@ -2259,15 +2285,17 @@ void
 scg_rangesel_extend (SheetControlGUI *scg, int n,
 		     gboolean jump_to_bound, gboolean horiz)
 {
+	Sheet *sheet = ((SheetControl *) scg)->sheet;
+	
 	if (scg->rangesel.active) {
 		CellPos tmp = scg->rangesel.move_corner;
 
 		if (horiz)
-			tmp.col = sheet_find_boundary_horizontal (scg->sheet,
+			tmp.col = sheet_find_boundary_horizontal (sheet,
 				tmp.col, tmp.row, scg->rangesel.base_corner.row,
 				n, jump_to_bound);
 		else
-			tmp.row = sheet_find_boundary_vertical (scg->sheet,
+			tmp.row = sheet_find_boundary_vertical (sheet,
 				tmp.col, tmp.row, scg->rangesel.base_corner.col,
 				n, jump_to_bound);
 
@@ -2296,7 +2324,7 @@ void
 scg_cursor_move (SheetControlGUI *scg, int n,
 		 gboolean jump_to_bound, gboolean horiz)
 {
-	Sheet *sheet = scg->sheet;
+	Sheet *sheet = ((SheetControl *) scg)->sheet;
 	CellPos tmp = sheet->edit_pos_real;
 
 	if (horiz)
@@ -2323,7 +2351,7 @@ void
 scg_cursor_extend (SheetControlGUI *scg, int n,
 		   gboolean jump_to_bound, gboolean horiz)
 {
-	Sheet *sheet = scg->sheet;
+	Sheet *sheet = ((SheetControl *) scg)->sheet;
 	CellPos tmp = sheet->cursor.move_corner;
 
 	if (horiz)
@@ -2347,3 +2375,31 @@ scg_take_focus (SheetControlGUI *scg)
 	gtk_window_set_focus (wb_control_gui_toplevel (scg->wbcg),
 			      scg->canvas);
 }
+
+static void
+scg_class_init (GtkObjectClass *object_class)
+{
+	SheetControlClass *sc_class = SHEET_CONTROL_CLASS (object_class);
+
+	g_return_if_fail (sc_class != NULL);
+	
+	scg_parent_class = gtk_type_class (sheet_control_get_type ());
+	object_class->destroy = scg_destroy;
+
+	sc_class->resize                 = scg_resize;
+	sc_class->set_zoom_factor        = scg_set_zoom_factor;
+	sc_class->redraw_all             = scg_redraw_all;
+	sc_class->redraw_cell_region     = scg_redraw_cell_region;
+	sc_class->redraw_headers         = scg_redraw_headers;
+	sc_class->ant                    = scg_ant;
+	sc_class->unant                  = scg_unant;
+	sc_class->adjust_preferences     = scg_adjust_preferences;
+	sc_class->update_cursor_pos      = scg_update_cursor_pos;
+	sc_class->scrollbar_config       = scg_scrollbar_config;
+	sc_class->compute_visible_region = scg_compute_visible_region;
+	sc_class->make_cell_visible      = scg_make_cell_visible;
+	sc_class->cursor_bound           = scg_cursor_bound;
+}
+
+GNUMERIC_MAKE_TYPE (sheet_control_gui, "SheetControlGUI", SheetControlGUI,
+		    scg_class_init, scg_init, sheet_control_get_type ())

@@ -66,7 +66,7 @@ sheet_unant (Sheet *sheet)
 	sheet->ants = NULL;
 
 	SHEET_FOREACH_CONTROL (sheet, control,
-			       scg_unant (control););
+			       sc_unant (control););
 }
 
 void
@@ -94,14 +94,14 @@ sheet_ant (Sheet *sheet, GList *ranges)
 	sheet->ants = g_list_reverse (sheet->ants);
 
 	SHEET_FOREACH_CONTROL (sheet, control,
-		scg_ant (control););
+		sc_ant (control););
 }
 
 void
 sheet_redraw_all (Sheet const *sheet)
 {
 	SHEET_FOREACH_CONTROL (sheet, control,
-		scg_redraw_all (control););
+		sc_redraw_all (control););
 }
 
 void
@@ -110,7 +110,7 @@ sheet_redraw_headers (Sheet const *sheet,
 		      Range const *r /* optional == NULL */)
 {
 	SHEET_FOREACH_CONTROL (sheet, control,
-		scg_redraw_headers (control, col, row, r););
+		sc_redraw_headers (control, col, row, r););
 }
 
 void
@@ -136,20 +136,23 @@ sheet_new_scg (Sheet *sheet)
 
 	scg = sheet_control_gui_new (sheet);
 	/* Set the visible bound, not the logical bound */
-	scg_cursor_bound (SHEET_CONTROL_GUI (scg), r);
+	sc_cursor_bound (SHEET_CONTROL (scg), r);
 	sheet->s_controls = g_list_prepend (sheet->s_controls, scg);
 
 	return SHEET_CONTROL_GUI (scg);
 }
 
 void
-sheet_detach_scg (SheetControlGUI *scg)
+sheet_detach_control (SheetControl *sc)
 {
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
-	g_return_if_fail (IS_SHEET (scg->sheet));
+	Sheet *sheet;
+	
+	g_return_if_fail (IS_SHEET_CONTROL (sc));
+	sheet = sc_sheet (sc);
+	g_return_if_fail (IS_SHEET (sheet));
 
-	scg->sheet->s_controls = g_list_remove (scg->sheet->s_controls, scg);
-	scg->sheet = NULL;
+	sheet->s_controls = g_list_remove (sheet->s_controls, sc);
+	sc_invalidate_sheet (sc);
 }
 
 /*
@@ -524,7 +527,7 @@ sheet_set_zoom_factor (Sheet *sheet, double f, gboolean force, gboolean update)
 	colrow_foreach (&sheet->rows, 0, SHEET_MAX_ROWS-1,
 			&cb_colrow_compute_pixels_from_pts, &closure);
 
-	SHEET_FOREACH_CONTROL (sheet, control, scg_set_zoom_factor (control););
+	SHEET_FOREACH_CONTROL (sheet, control, sc_set_zoom_factor (control););
 
 	/*
 	 * The font size does not scale linearly with the zoom factor
@@ -816,7 +819,7 @@ sheet_update_only_grid (Sheet const *sheet)
 		p->recompute_visibility = FALSE;
 		p->resize_scrollbar = FALSE; /* compute_visible_region does this */
 		SHEET_FOREACH_CONTROL(sheet, control,
-			scg_compute_visible_region (control, TRUE););
+			sc_compute_visible_region (control, TRUE););
 		sheet_update_cursor_pos (sheet);
 		sheet_redraw_all (sheet);
 	}
@@ -995,7 +998,7 @@ sheet_col_row_gutter (Sheet *sheet,
 
 	sheet->cols.max_outline_level = col_max_outline;
 	sheet->rows.max_outline_level = row_max_outline;
-	SHEET_FOREACH_CONTROL (sheet, control, scg_resize (control););
+	SHEET_FOREACH_CONTROL (sheet, control, sc_resize (control););
 }
 
 /**
@@ -1507,7 +1510,7 @@ sheet_redraw_cell_region (Sheet const *sheet,
 	}
 
 	SHEET_FOREACH_CONTROL (sheet, control,
-		scg_redraw_cell_region (control,
+		sc_redraw_cell_region (control,
 			min_col, min_row, max_col, max_row););
 }
 
@@ -1527,7 +1530,7 @@ sheet_redraw_partial_row (Sheet const *sheet, int const row,
 			  int const start_col, int const end_col)
 {
 	SHEET_FOREACH_CONTROL (sheet, control,
-		scg_redraw_cell_region (control,
+		sc_redraw_cell_region (control,
 			start_col, row, end_col, row););
 }
 
@@ -1543,7 +1546,7 @@ sheet_redraw_cell (Cell const *cell)
 	merged = sheet_merge_is_corner (cell->base.sheet, &cell->pos);
 	if (merged != NULL) {
 		SHEET_FOREACH_CONTROL (cell->base.sheet, control,
-			scg_redraw_cell_region (control,
+			sc_redraw_cell_region (control,
 				merged->start.col, merged->start.row,
 				merged->end.col, merged->end.row););
 		return;
@@ -2928,7 +2931,7 @@ sheet_make_cell_visible (Sheet *sheet, int col, int row)
 {
 	g_return_if_fail (IS_SHEET (sheet));
 	SHEET_FOREACH_CONTROL(sheet, control,
-		scg_make_cell_visible (control, col, row, FALSE););
+		sc_make_cell_visible (control, col, row, FALSE););
 }
 
 void
@@ -3024,7 +3027,7 @@ sheet_cursor_set (Sheet *sheet,
 
 	g_return_if_fail (range_is_sane	(bound));
 
-	SHEET_FOREACH_CONTROL(sheet, scg, scg_cursor_bound (scg, bound););
+	SHEET_FOREACH_CONTROL(sheet, scg, sc_cursor_bound (scg, bound););
 }
 
 void
@@ -3033,7 +3036,7 @@ sheet_update_cursor_pos (Sheet const *sheet)
 	g_return_if_fail (IS_SHEET (sheet));
 
 	SHEET_FOREACH_CONTROL (sheet, control,
-		scg_update_cursor_pos (control););
+		sc_update_cursor_pos (control););
 }
 
 /**
@@ -3970,7 +3973,7 @@ sheet_scrollbar_config (Sheet const *sheet)
 	g_return_if_fail (IS_SHEET (sheet));
 
 	SHEET_FOREACH_CONTROL (sheet, control,
-		scg_scrollbar_config (control););
+		sc_scrollbar_config (control););
 }
 
 void
@@ -3985,11 +3988,11 @@ sheet_adjust_preferences (Sheet const *sheet, gboolean redraw, gboolean resize)
 		}
 	});
 	SHEET_FOREACH_CONTROL (sheet, control, {
-		scg_adjust_preferences (control);
+		sc_adjust_preferences (control);
 		if (resize)
-			scg_resize (control);
+			sc_resize (control);
 		if (redraw)
-			scg_redraw_all (control);
+			sc_redraw_all (control);
 	});
 }
 

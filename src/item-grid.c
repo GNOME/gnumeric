@@ -18,7 +18,7 @@
 #include "workbook-view.h"
 #include "workbook-control.h"
 #include "workbook-control-gui-priv.h"
-#include "sheet-control-gui.h"
+#include "sheet-control-gui-priv.h"
 #include "sheet.h"
 #include "sheet-style.h"
 #include "sheet-merge.h"
@@ -155,7 +155,7 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *ig,
 {
 	int l, r, t, b, last;
 	GdkGC *gc = ig->gc.empty;
-	Sheet const *sheet   = ig->scg->sheet;
+	Sheet const *sheet = ((SheetControl *) ig->scg)->sheet;
 	Cell  const *cell    = sheet_cell_get (sheet, range->start.col, range->start.row);
 
 	/* load style from corner which may not be visible */
@@ -221,7 +221,7 @@ item_grid_draw_background (GdkDrawable *drawable, ItemGrid *ig,
 {
 	GdkGC                 *gc    = ig->gc.empty;
 	SheetControlGUI const *scg   = ig->scg;
-	Sheet const	      *sheet = scg->sheet;
+	Sheet const           *sheet = ((SheetControl *) scg)->sheet;
 	gboolean const is_selected =
 		scg->current_object == NULL && scg->new_object == NULL &&
 		!(sheet->edit_pos.col == col && sheet->edit_pos.row == row) &&
@@ -250,7 +250,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 {
 	GnomeCanvas *canvas = item->canvas;
 	GnumericSheet *gsheet = GNUMERIC_SHEET (canvas);
-	Sheet const *sheet = gsheet->scg->sheet;
+	Sheet const *sheet = ((SheetControl *) gsheet->scg)->sheet;
 	Cell const * const edit_cell = gsheet->scg->wbcg->editing_cell;
 	ItemGrid *ig = ITEM_GRID (item);
 	ColRowInfo const *ri = NULL, *next_ri = NULL;
@@ -659,6 +659,7 @@ cb_obj_create_button_release (GnumericSheet *gsheet, GdkEventButton *event,
 	double pts [4];
 	SheetObject *so;
 	SheetControlGUI *scg;
+	Sheet *sheet;
 
 	g_return_val_if_fail (gsheet != NULL, 1);
 	g_return_val_if_fail (closure != NULL, -1);
@@ -667,7 +668,8 @@ cb_obj_create_button_release (GnumericSheet *gsheet, GdkEventButton *event,
 
 	scg = closure->scg;
 	so = scg->new_object;
-	sheet_set_dirty (scg->sheet, TRUE);
+	sheet = ((SheetControl *) scg)->sheet;
+	sheet_set_dirty (sheet, TRUE);
 
 	/* If there has been some motion use the press and release coords */
 	if (closure->has_been_sized) {
@@ -693,7 +695,7 @@ cb_obj_create_button_release (GnumericSheet *gsheet, GdkEventButton *event,
 	scg_object_calc_position (scg, so, pts);
 
 	if (!sheet_object_rubber_band_directly (so)) {
-		sheet_object_set_sheet (so, scg->sheet);
+		sheet_object_set_sheet (so, sheet);
 		gtk_object_destroy (GTK_OBJECT (closure->item));
 		closure->item = NULL;
 	}
@@ -755,7 +757,7 @@ sheet_object_begin_creation (GnumericSheet *gsheet, GdkEventButton *event)
 		points [1] = points [3] = event->y;
 		
 		scg_object_calc_position (scg, so, points);
-		sheet_object_set_sheet (so, scg->sheet);
+		sheet_object_set_sheet (so, ((SheetControl *) scg)->sheet);
 		closure->item = NULL;
 	}
 
@@ -777,6 +779,8 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (ig);
 	GnomeCanvas   *canvas = item->canvas;
 	GnumericSheet *gsheet = GNUMERIC_SHEET (canvas);
+	SheetControl *sc = (SheetControl *) scg;
+	Sheet *sheet = sc->sheet;
 
 	/* Range check first */
 	if (col >= SHEET_MAX_COLS)
@@ -793,7 +797,7 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 	 */
 	if (scg->current_object != NULL) {
 		if (!wbcg_edit_has_guru (scg->wbcg))
-			scg_mode_edit (scg);
+			scg_mode_edit (sc);
 	} else
 		wb_control_gui_focus_cur_sheet (scg->wbcg);
 
@@ -839,17 +843,17 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 		return 1;
 
 	if (!(event->state & (GDK_CONTROL_MASK|GDK_SHIFT_MASK)))
-		sheet_selection_reset (scg->sheet);
+		sheet_selection_reset (sheet);
 
 	ig->selecting = ITEM_GRID_SELECTING_CELL_RANGE;
 
-	if ((event->state & GDK_SHIFT_MASK) && scg->sheet->selections)
-		sheet_selection_extend_to (scg->sheet, col, row);
+	if ((event->state & GDK_SHIFT_MASK) && sheet->selections)
+		sheet_selection_extend_to (sheet, col, row);
 	else {
-		sheet_selection_add (scg->sheet, col, row);
-		sheet_make_cell_visible (scg->sheet, col, row);
+		sheet_selection_add (sheet, col, row);
+		sheet_make_cell_visible (sheet, col, row);
 	}
-	sheet_update (scg->sheet);
+	sheet_update (sheet);
 
 	gnome_canvas_item_grab (item,
 				GDK_POINTER_MOTION_MASK |
@@ -886,7 +890,7 @@ drag_start (GtkWidget *widget, GdkEvent *event, Sheet *sheet)
 static gboolean
 cb_extend_cell_range (SheetControlGUI *scg, int col, int row, gpointer ignored)
 {
-	sheet_selection_extend_to (scg->sheet, col, row);
+	sheet_selection_extend_to (((SheetControl *) scg)->sheet, col, row);
 	return TRUE;
 }
 
@@ -904,7 +908,8 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 	ItemGrid *ig = ITEM_GRID (item);
 	GnumericSheet *gsheet = GNUMERIC_SHEET (canvas);
 	SheetControlGUI *scg = ig->scg;
-	Sheet *sheet = scg->sheet;
+	SheetControl *sc = (SheetControl *) scg;
+	Sheet *sheet = sc->sheet;
 	int col, row, x, y, left, top, width, height;
 
 	switch (event->type){
@@ -932,8 +937,8 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 							 sheet->edit_pos.col,
 							 sheet->edit_pos.row);
 
-			wb_view_selection_desc (wb_control_view (
-				WORKBOOK_CONTROL (scg->wbcg)), TRUE, NULL);
+			wb_view_selection_desc (
+				wb_control_view (sc->wbc), TRUE, NULL);
 
 			ig->selecting = ITEM_GRID_NO_SELECTION;
 			gnome_canvas_item_ungrab (item, event->button.time);

@@ -13,7 +13,7 @@
 #include "item-debug.h"
 #include "style.h"
 #include "sheet.h"
-#include "sheet-control-gui.h"
+#include "sheet-control-gui-priv.h"
 #include "application.h"
 #include "selection.h"
 #include "gnumeric-sheet.h"
@@ -93,7 +93,7 @@ compute_pixels_from_indent (Sheet const *sheet, int indent, gboolean const horiz
 int
 item_bar_calc_size (ItemBar *ib)
 {
-	Sheet const *sheet = ib->scg->sheet;
+	Sheet const *sheet = ((SheetControl *) ib->scg)->sheet;
 	double const zoom_factor = sheet->last_zoom_factor_used;
 	double const res  = application_dpi_to_pixels ();
 	StyleFont * const normal_font =
@@ -265,7 +265,7 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 {
 	ItemBar const         *item_bar = ITEM_BAR (item);
 	SheetControlGUI const *scg = item_bar->scg;
-	Sheet const           *sheet = scg->sheet;
+	Sheet const           *sheet = ((SheetControl *) scg)->sheet;
 	GnumericSheet const   *gsheet = GNUMERIC_SHEET (scg->canvas);
 	GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (item)->canvas);
 	ColRowInfo const *cri;
@@ -529,7 +529,7 @@ item_bar_translate (GnomeCanvasItem *item, double dx, double dy)
 static ColRowInfo *
 is_pointer_on_division (ItemBar const *item_bar, int pos, int *the_total, int *the_element)
 {
-	Sheet *sheet = item_bar->scg->sheet;
+	Sheet *sheet = ((SheetControl *) item_bar->scg)->sheet;
 	ColRowInfo *cri;
 	int i, total = 0;
 
@@ -611,7 +611,7 @@ static void
 item_bar_start_resize (ItemBar *ib)
 {
 	SheetControlGUI const * const scg = ib->scg;
-	Sheet const * const sheet = scg->sheet;
+	Sheet const * const sheet = ((SheetControl *) scg)->sheet;
 	double const zoom = sheet->last_zoom_factor_used; /* * res / 72.; */
 	GnumericSheet const * const gsheet = GNUMERIC_SHEET (scg->canvas);
 	GnomeCanvas const * const canvas = GNOME_CANVAS (gsheet);
@@ -713,7 +713,8 @@ cb_extend_selection (SheetControlGUI *scg, int col, int row, gpointer user_data)
 static gint
 outline_button_press (ItemBar const *ib, int element, int pixel)
 {
-	Sheet * const sheet = ib->scg->sheet;
+	SheetControl *sc = (SheetControl *) ib->scg;
+	Sheet * const sheet = sc->sheet;
 	int inc, step;
 
 	if (ib->is_col_header) {
@@ -727,7 +728,7 @@ outline_button_press (ItemBar const *ib, int element, int pixel)
 
 	step = pixel / inc;
 
-	cmd_colrow_outline_change (WORKBOOK_CONTROL (ib->scg->wbcg), sheet,
+	cmd_colrow_outline_change (sc->wbc, sheet,
 				   ib->is_col_header, element, step);
 	return TRUE;
 }
@@ -738,7 +739,8 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 	ColRowInfo *cri;
 	GnomeCanvas * const canvas = item->canvas;
 	ItemBar * const item_bar = ITEM_BAR (item);
-	Sheet   * const sheet = item_bar->scg->sheet;
+	SheetControl *sc = (SheetControl *) item_bar->scg;
+	Sheet   * const sheet = sc->sheet;
 	GnumericSheet * const gsheet = GNUMERIC_SHEET (item_bar->scg->canvas);
 	WorkbookControlGUI * const wbcg = item_bar->scg->wbcg;
 	gboolean const is_cols = item_bar->is_col_header;
@@ -843,7 +845,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			return FALSE;
 
 		if (!wbcg_edit_has_guru (wbcg))
-			scg_mode_edit (item_bar->scg);
+			scg_mode_edit (sc);
 
 		gnome_canvas_w2c (canvas, e->button.x, e->button.y, &x, &y);
 		if (is_cols) {

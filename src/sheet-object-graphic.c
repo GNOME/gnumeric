@@ -11,7 +11,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <libgnomeprint/gnome-print.h>
 #include "gnumeric.h"
-#include "sheet-control-gui.h"
+#include "sheet-control-gui-priv.h"
 #include "str.h"
 #include "gnumeric-util.h"
 #include "gnumeric-type-util.h"

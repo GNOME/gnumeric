@@ -201,6 +201,7 @@ GNUMERIC_BASE_SOURCES =				\
 	sheet-control-priv.h 			\
 	sheet-control-gui.c			\
 	sheet-control-gui.h			\
+	sheet-control-gui-priv.h		\
 	solver-lp.c                     	\
 	solver.h				\
 	sort.c					\

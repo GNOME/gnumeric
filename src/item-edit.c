@@ -22,7 +22,7 @@
 #define GNUMERIC_ITEM "EDIT"
 #include "item-debug.h"
 #include "gnumeric-sheet.h"
-#include "sheet-control-gui.h"
+#include "sheet-control-gui-priv.h"
 #include "sheet.h"
 #include "sheet-style.h"
 #include "value.h"
@@ -85,6 +85,7 @@ static gboolean
 point_is_inside_range (ItemEdit *item_edit, const char *text, Range *range)
 {
 	Value *v;
+	Sheet *sheet = ((SheetControl *) item_edit->scg)->sheet;
 	int text_len, cursor_pos, scan;
 
 	if ((text = gnumeric_char_start_expr_p (text)) == NULL)
@@ -103,14 +104,14 @@ point_is_inside_range (ItemEdit *item_edit, const char *text, Range *range)
 	if (scan > 0 && text [scan-1] == '!')
 		return FALSE;
 
-	if ((v = range_parse (item_edit->scg->sheet, &text [scan], FALSE)) != NULL)
+	if ((v = range_parse (sheet, &text [scan], FALSE)) != NULL)
 		return setup_range_from_value (range, v);
 
 	if (scan == cursor_pos && scan > 0)
 		scan--;
 	scan_at (text, &scan);
 
-	if ((v = range_parse (item_edit->scg->sheet, &text [scan], FALSE)) != NULL)
+	if ((v = range_parse (sheet, &text [scan], FALSE)) != NULL)
 		return setup_range_from_value (range, v);
 
 	return FALSE;
@@ -213,7 +214,8 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 {
 	GtkWidget *canvas   = GTK_WIDGET (item->canvas);
 	ItemEdit *item_edit = ITEM_EDIT (item);
-	ColRowInfo const *ci = sheet_col_get_info (item_edit->scg->sheet,
+	SheetControl *sc = (SheetControl *) item_edit->scg;
+	ColRowInfo const *ci = sheet_col_get_info (sc->sheet,
 						   item_edit->pos.col);
 	int const left_pos = ((int)item->x1) + ci->margin_a - x;
 
@@ -290,7 +292,7 @@ static void
 recalc_spans (GnomeCanvasItem *item)
 {
 	ItemEdit *item_edit = ITEM_EDIT (item);
-	Sheet    *sheet     = item_edit->scg->sheet;
+	Sheet    *sheet  = ((SheetControl *) item_edit->scg)->sheet;
 	GdkFont  *font      = item_edit->font;
 	char const *start = wbcg_edit_get_display_text (item_edit->scg->wbcg);
 	char const *text  = start;
@@ -512,7 +514,7 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	g_return_if_fail (item_edit->scg == NULL);
 
 	item_edit->scg = GTK_VALUE_POINTER (*arg);
-	sheet = item_edit->scg->sheet;
+	sheet = ((SheetControl *) item_edit->scg)->sheet;
 	item_edit->entry = GTK_ENTRY (wbcg_get_entry (item_edit->scg->wbcg));
 	item_edit->pos = sheet->edit_pos;
 

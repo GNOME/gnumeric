@@ -15,7 +15,7 @@
 #include "workbook-control-gui-priv.h"
 #include "gnumeric-util.h"
 #include "gnumeric-type-util.h"
-#include "sheet-control-gui.h"
+#include "sheet-control-gui-priv.h"
 #include "sheet-object-container.h"
 #include "sheet-object-widget.h"
 #include <bonobo/bonobo-item-container.h>

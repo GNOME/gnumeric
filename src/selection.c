@@ -181,10 +181,10 @@ sheet_selection_redraw (Sheet const *sheet)
 		Range const *r = sel->data;
 
 		SHEET_FOREACH_CONTROL (sheet, control,
-			scg_redraw_cell_region (control,
+			sc_redraw_cell_region (control,
 				r->start.col, r->start.row,
 				r->end.col, r->end.row);
-			scg_redraw_headers (control, TRUE, TRUE, r););
+			sc_redraw_headers (control, TRUE, TRUE, r););
 	}
 }
 

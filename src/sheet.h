@@ -306,7 +306,7 @@ void  sheet_clear_region (WorkbookControl *context,
 do {									\
 	GList *PtR, *NexTPtR;						\
 	for (PtR = (sheet)->s_controls; PtR != NULL ; PtR = NexTPtR) {	\
-		SheetControlGUI *control = PtR->data;			\
+		SheetControl *control = PtR->data;			\
 		NexTPtR = PtR->next;					\
 		code							\
 	}								\

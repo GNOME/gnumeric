@@ -37,23 +37,28 @@
 static void
 create_object_command (SheetControlGUI *scg, SheetObject *so)
 {
+	Sheet *sheet = sc_sheet (SHEET_CONTROL (scg));
+
 	scg_mode_create_object (scg, so);
-	workbook_recalc (scg->sheet->workbook);
-	sheet_update (scg->sheet);
+	workbook_recalc (sheet->workbook);
+	sheet_update (sheet);
 }
 
 static void
 cmd_create_label (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	SheetControlGUI *scg = wb_control_gui_cur_sheet (wbcg);
-	SheetObject *so = sheet_widget_label_new (scg->sheet);
+	Sheet *sheet = sc_sheet (SHEET_CONTROL (scg));
+	SheetObject *so = sheet_widget_label_new (sheet);
+		
 	create_object_command (scg, so);
 }
 static void
 cmd_create_frame (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	SheetControlGUI *scg = wb_control_gui_cur_sheet (wbcg);
-	SheetObject *so = sheet_widget_frame_new (scg->sheet);
+	Sheet *sheet = sc_sheet (SHEET_CONTROL (scg));
+	SheetObject *so = sheet_widget_frame_new (sheet);
 	create_object_command (scg, so);
 }
 
@@ -61,35 +66,40 @@ static void
 cmd_create_button (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	SheetControlGUI *scg = wb_control_gui_cur_sheet (wbcg);
-	SheetObject *so = sheet_widget_button_new (scg->sheet);
+	Sheet *sheet = sc_sheet (SHEET_CONTROL (scg));
+	SheetObject *so = sheet_widget_button_new (sheet);
 	create_object_command (scg, so);
 }
 static void
 cmd_create_checkbox (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	SheetControlGUI *scg = wb_control_gui_cur_sheet (wbcg);
-	SheetObject *so = sheet_widget_checkbox_new (scg->sheet);
+	Sheet *sheet = sc_sheet (SHEET_CONTROL (scg));
+	SheetObject *so = sheet_widget_checkbox_new (sheet);
 	create_object_command (scg, so);
 }
 static void
 cmd_create_radiobutton (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	SheetControlGUI *scg = wb_control_gui_cur_sheet (wbcg);
-	SheetObject *so = sheet_widget_radio_button_new	(scg->sheet);
+	Sheet *sheet = sc_sheet (SHEET_CONTROL (scg));
+	SheetObject *so = sheet_widget_radio_button_new	(sheet);
 	create_object_command (scg, so);
 }
 static void
 cmd_create_list (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	SheetControlGUI *scg = wb_control_gui_cur_sheet (wbcg);
-	SheetObject *so = sheet_widget_list_new (scg->sheet);
+	Sheet *sheet = sc_sheet (SHEET_CONTROL (scg));
+	SheetObject *so = sheet_widget_list_new (sheet);
 	create_object_command (scg, so);
 }
 static void
 cmd_create_combobox (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	SheetControlGUI *scg = wb_control_gui_cur_sheet (wbcg);
-	SheetObject *so = sheet_widget_combo_new (scg->sheet);
+	Sheet *sheet = sc_sheet (SHEET_CONTROL (scg));
+	SheetObject *so = sheet_widget_combo_new (sheet);
 	create_object_command (scg, so);
 }
 

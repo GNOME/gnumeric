@@ -12,7 +12,7 @@
 #define GNUMERIC_ITEM "CURSOR"
 #include "item-debug.h"
 #include "gnumeric-sheet.h"
-#include "sheet-control-gui.h"
+#include "sheet-control-gui-priv.h"
 #include "style-color.h"
 #include "clipboard.h"
 #include "selection.h"
@@ -682,7 +682,8 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 	}
 
 	case GDK_2BUTTON_PRESS: {
-		Sheet *sheet = ic->scg->sheet;
+		SheetControl *sc = (SheetControl *) ic->scg;
+		Sheet *sheet = sc->sheet;
 		int final_col = ic->pos.end.col;
 		int final_row = ic->pos.end.col;
 
@@ -744,7 +745,7 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		}
 
 		/* fill the row/column */
-		cmd_autofill (WORKBOOK_CONTROL (ic->scg->wbcg), sheet,
+		cmd_autofill (sc->wbc, sheet,
 			      ic->pos.start.col,    ic->pos.start.row,
 			      ic->pos.end.col - ic->pos.start.col + 1,
 			      ic->pos.end.row - ic->pos.start.row + 1,
@@ -802,12 +803,12 @@ item_cursor_target_region_ok (ItemCursor *ic)
 	int v;
 	GtkWidget	*message;
 	GnomeCanvasItem *gci = GNOME_CANVAS_ITEM (ic);
-	SheetControlGUI	*scg = ic->scg;
+	SheetControl	*sc = (SheetControl *) ic->scg;
 
 	g_return_val_if_fail (gci != NULL, FALSE);
 	g_return_val_if_fail (gci->canvas != NULL, FALSE);
 
-	if (sheet_is_region_empty_or_selected (scg->sheet, &ic->pos))
+	if (sheet_is_region_empty_or_selected (sc->sheet, &ic->pos))
 		return TRUE;
 
 	message = gnome_message_box_new (
@@ -818,7 +819,7 @@ item_cursor_target_region_ok (ItemCursor *ic)
 		GNOME_STOCK_BUTTON_YES,
 		GNOME_STOCK_BUTTON_NO,
 		NULL);
-	v = gnumeric_dialog_run (scg->wbcg, GNOME_DIALOG (message));
+	v = gnumeric_dialog_run (ic->scg->wbcg, GNOME_DIALOG (message));
 
 	if (v == 0)
 		return TRUE;
@@ -840,7 +841,9 @@ typedef enum {
 static void
 item_cursor_do_action (ItemCursor *item_cursor, ActionType action, guint32 time)
 {
+	SheetControl *sc;
 	Sheet *sheet;
+	WorkbookControl *wbc;
 	PasteTarget pt;
 
 	if (action == ACTION_NONE || !item_cursor_target_region_ok (item_cursor)) {
@@ -850,38 +853,44 @@ item_cursor_do_action (ItemCursor *item_cursor, ActionType action, guint32 time)
 
 	g_return_if_fail (item_cursor != NULL);
 
-	sheet = item_cursor->scg->sheet;
+	sc = (SheetControl *) item_cursor->scg;
+	sheet = sc->sheet;
+	wbc = sc->wbc;
 
 	switch (action) {
 	case ACTION_COPY_CELLS:
-		if (!sheet_selection_copy (WORKBOOK_CONTROL (item_cursor->scg->wbcg), sheet))
+		if (!sheet_selection_copy (wbc, sheet))
 			break;
-		cmd_paste (WORKBOOK_CONTROL (item_cursor->scg->wbcg),
-			   paste_target_init (&pt, sheet, &item_cursor->pos, PASTE_ALL_TYPES),
+		cmd_paste (wbc,
+			   paste_target_init (&pt, sheet, &item_cursor->pos,
+					      PASTE_ALL_TYPES),
 			   time);
 		break;
 
 	case ACTION_MOVE_CELLS:
-		if (!sheet_selection_cut (WORKBOOK_CONTROL (item_cursor->scg->wbcg), sheet))
+		if (!sheet_selection_cut (sc->wbc, sheet))
 			break;
-		cmd_paste (WORKBOOK_CONTROL (item_cursor->scg->wbcg),
-			   paste_target_init (&pt, sheet, &item_cursor->pos, PASTE_ALL_TYPES),
+		cmd_paste (wbc,
+			   paste_target_init (&pt, sheet, &item_cursor->pos,
+					      PASTE_ALL_TYPES),
 			   time);
 		break;
 
 	case ACTION_COPY_FORMATS:
-		if (!sheet_selection_copy (WORKBOOK_CONTROL (item_cursor->scg->wbcg), sheet))
+		if (!sheet_selection_copy (wbc, sheet))
 			break;
-		cmd_paste (WORKBOOK_CONTROL (item_cursor->scg->wbcg),
-			   paste_target_init (&pt, sheet, &item_cursor->pos, PASTE_FORMATS),
+		cmd_paste (wbc,
+			   paste_target_init (&pt, sheet, &item_cursor->pos,
+					      PASTE_FORMATS),
 			   time);
 		break;
 
 	case ACTION_COPY_VALUES:
-		if (!sheet_selection_copy (WORKBOOK_CONTROL (item_cursor->scg->wbcg), sheet))
+		if (!sheet_selection_copy (wbc, sheet))
 			break;
-		cmd_paste (WORKBOOK_CONTROL (item_cursor->scg->wbcg),
-			   paste_target_init (&pt, sheet, &item_cursor->pos, PASTE_AS_VALUES),
+		cmd_paste (wbc,
+			   paste_target_init (&pt, sheet, &item_cursor->pos,
+					      PASTE_AS_VALUES),
 			   time);
 		break;
 
@@ -955,7 +964,7 @@ static void
 item_cursor_do_drop (ItemCursor *ic, GdkEventButton *event)
 {
 	/* Only do the operation if something moved */
-	Sheet const *sheet = ic->scg->sheet;
+	Sheet const *sheet = ((SheetControl *) ic->scg)->sheet;
 	Range const *target = selection_first_range (sheet, NULL, NULL);
 
 	if (range_equal (target, &ic->pos)) {
@@ -1183,10 +1192,11 @@ static gint
 item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 {
 	ItemCursor *item_cursor = ITEM_CURSOR (item);
+	SheetControl *sc = (SheetControl *) item_cursor->scg;
+	
 	switch (event->type){
 
 	case GDK_BUTTON_RELEASE: {
-		Sheet *sheet = item_cursor->scg->sheet;
 		scg_stop_sliding (item_cursor->scg);
 
 		/*
@@ -1199,7 +1209,7 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 		gdk_flush ();
 
 		wbcg_edit_finish (item_cursor->scg->wbcg, TRUE);
-		cmd_autofill (WORKBOOK_CONTROL (item_cursor->scg->wbcg), sheet,
+		cmd_autofill (sc->wbc, sc->sheet,
 			      item_cursor->base.col,    item_cursor->base.row,
 			      item_cursor->base_cols+1, item_cursor->base_rows+1,
 			      item_cursor->pos.end.col, item_cursor->pos.end.row);

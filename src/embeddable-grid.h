@@ -4,7 +4,7 @@
 #include <bonobo/bonobo-embeddable.h>
 #include "idl/Gnumeric.h"
 
-#include "sheet-control-gui.h"
+#include "sheet-control-gui-priv.h"
 
 #define EMBEDDABLE_GRID_TYPE        (embeddable_grid_get_type ())
 #define EMBEDDABLE_GRID(o)          (GTK_CHECK_CAST ((o), EMBEDDABLE_GRID_TYPE, EmbeddableGrid))

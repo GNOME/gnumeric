@@ -11,7 +11,7 @@
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "gnumeric-type-util.h"
-#include "sheet-control-gui.h"
+#include "sheet-control-gui-priv.h"
 #include "workbook-control-gui-priv.h"
 #include "dialogs.h"
 #include "sheet-object-item.h"

@@ -1014,9 +1014,8 @@ workbook_sheet_detach (Workbook *wb, Sheet *sheet)
 			      == sheet, FALSE);
 
 	/* Finish any object editing */
-	/* FIXME : when we virtualize SheetControl this will be the first candidate */
 	SHEET_FOREACH_CONTROL (sheet, control,
-		scg_mode_edit (control););
+		sc_mode_edit (control););
 
 	sheet_index = workbook_sheet_index_get (wb, sheet);
 

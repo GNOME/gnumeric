@@ -30,7 +30,7 @@
 #include "workbook.h"
 #include "sheet.h"
 #include "sheet-private.h"
-#include "sheet-control-gui.h"
+#include "sheet-control-gui-priv.h"
 #include "sheet-object.h"
 #include "dialogs.h"
 #include "commands.h"
@@ -100,7 +100,9 @@ sheet_to_page_index (WorkbookControlGUI *wbcg, Sheet *sheet, SheetControlGUI **r
 		GtkObject *obj = gtk_object_get_data (GTK_OBJECT (w),
 						      SHEET_CONTROL_KEY);
 		SheetControlGUI *scg = SHEET_CONTROL_GUI (obj);
-		if (scg != NULL && scg->sheet == sheet) {
+		SheetControl *sc = (SheetControl *) scg;
+		
+		if (scg != NULL && sc->sheet == sheet) {
 			if (res)
 				*res = scg;
 			return i;
@@ -142,7 +144,7 @@ wb_control_gui_focus_cur_sheet (WorkbookControlGUI *wbcg)
 
 	scg_take_focus (scg);
 
-	return scg->sheet;
+	return ((SheetControl *) scg)->sheet;
 }
 
 SheetControlGUI *
@@ -365,14 +367,16 @@ cb_sheet_label_edit_stopped (EditableLabel *el, WorkbookControlGUI *wbcg)
 static void
 sheet_action_add_sheet (GtkWidget *widget, SheetControlGUI *scg)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (scg->wbcg);
-	workbook_sheet_add (wb_control_workbook (wbc), scg->sheet, TRUE);
+	SheetControl *sc = (SheetControl *) scg;
+
+	workbook_sheet_add (wb_control_workbook (sc->wbc), sc->sheet, TRUE);
 }
 
 static void
 delete_sheet_if_possible (GtkWidget *ignored, SheetControlGUI *scg)
 {
-	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (scg->wbcg));
+	SheetControl *sc = (SheetControl *) scg;
+	Workbook *wb = wb_control_workbook (sc->wbc);
 	GtkWidget *d, *button_no;
 	char *message;
 	int r;
@@ -385,7 +389,7 @@ delete_sheet_if_possible (GtkWidget *ignored, SheetControlGUI *scg)
 
 	message = g_strdup_printf (
 		_("Are you sure you want to remove the sheet called `%s'?"),
-		scg->sheet->name_unquoted);
+		sc->sheet->name_unquoted);
 
 	d = gnome_message_box_new (
 		message, GNOME_MESSAGE_BOX_QUESTION,
@@ -401,30 +405,31 @@ delete_sheet_if_possible (GtkWidget *ignored, SheetControlGUI *scg)
 	if (r != 0)
 		return;
 
-	workbook_sheet_delete (scg->sheet);
+	workbook_sheet_delete (sc->sheet);
 	workbook_recalc_all (wb);
 }
 
 static void
 sheet_action_rename_sheet (GtkWidget *widget, SheetControlGUI *scg)
 {
-	Sheet *sheet = scg->sheet;
+	SheetControl *sc = (SheetControl *) scg;
+	Sheet *sheet = sc->sheet;
 	char *new_name = dialog_get_sheet_name (scg->wbcg, sheet->name_unquoted);
 	if (!new_name)
 		return;
 
 	/* We do not care if it fails */
-	cmd_rename_sheet (WORKBOOK_CONTROL (scg->wbcg),
-			  sheet->name_unquoted, new_name);
+	cmd_rename_sheet (sc->wbc, sheet->name_unquoted, new_name);
 	g_free (new_name);
 }
 
 static void
 sheet_action_clone_sheet (GtkWidget *widget, SheetControlGUI *scg)
 {
-     	Sheet *new_sheet = sheet_duplicate (scg->sheet);
-	workbook_sheet_attach (scg->sheet->workbook, new_sheet,
-			       scg->sheet);
+	SheetControl *sc = (SheetControl *) scg;
+     	Sheet *new_sheet = sheet_duplicate (sc->sheet);
+	
+	workbook_sheet_attach (sc->sheet->workbook, new_sheet, sc->sheet);
 	sheet_set_dirty (new_sheet, TRUE);
 }
 
@@ -441,7 +446,8 @@ static void
 sheet_menu_label_run (SheetControlGUI *scg, GdkEventButton *event)
 {
 #define SHEET_CONTEXT_TEST_SIZE 1
-
+	SheetControl *sc = (SheetControl *) scg;
+	
 	struct {
 		const char *text;
 		void (*function) (GtkWidget *widget, SheetControlGUI *scg);
@@ -465,7 +471,7 @@ sheet_menu_label_run (SheetControlGUI *scg, GdkEventButton *event)
 		int flags = sheet_label_context_actions [i].flags;
 
 		if (flags & SHEET_CONTEXT_TEST_SIZE &&
-		    workbook_sheet_count (scg->sheet->workbook) < 2)
+		    workbook_sheet_count (sc->sheet->workbook) < 2)
 				continue;
 
 		item = gtk_menu_item_new_with_label (
@@ -535,6 +541,7 @@ wbcg_sheet_add (WorkbookControl *wbc, Sheet *sheet)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
 	SheetControlGUI *scg;
+	SheetControl *sc;
 	GtkWidget *sheet_label;
 	GList     *ptr;
 
@@ -544,6 +551,8 @@ wbcg_sheet_add (WorkbookControl *wbc, Sheet *sheet)
 		workbook_setup_sheets (wbcg);
 
 	scg = sheet_new_scg (sheet);
+	sc = (SheetControl *) scg;
+	sc->wbc = wbc;
 	scg->wbcg = wbcg;
 
 	/*
@@ -576,8 +585,8 @@ wbcg_sheet_add (WorkbookControl *wbc, Sheet *sheet)
 	/* create views for the sheet objects */
 	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next)
 		sheet_object_new_view (ptr->data, scg);
-	scg_adjust_preferences (scg);
-	scg_set_zoom_factor (scg);
+	scg_adjust_preferences (sc);
+	scg_set_zoom_factor (sc);
 	scg_take_focus (scg);
 }
 
@@ -1390,9 +1399,10 @@ cb_edit_cut (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	SheetControlGUI *scg;
 
 	if (sheet_to_page_index (wbcg, wb_control_cur_sheet (wbc), &scg) >= 0) {
+		SheetControl *sc = (SheetControl *) scg;
 		if (scg->current_object != NULL)
 			gtk_object_destroy (GTK_OBJECT (scg->current_object));
-		scg_mode_edit (scg);
+		scg_mode_edit (sc);
 		sheet_selection_cut (wbc, sheet);
 	}
 }
@@ -1642,6 +1652,7 @@ static void
 insert_bonobo_object (WorkbookControlGUI *wbcg, char const **interfaces)
 {
 	SheetControlGUI *scg = wb_control_gui_cur_sheet (wbcg);
+	SheetControl *sc = (SheetControl *) scg;
 	char  *obj_id, *msg;
 	SheetObject *so = NULL;
 
@@ -1649,7 +1660,7 @@ insert_bonobo_object (WorkbookControlGUI *wbcg, char const **interfaces)
 					    interfaces);
 
 	if (obj_id != NULL) {
-		so = sheet_object_container_new_object (scg->sheet, obj_id);
+		so = sheet_object_container_new_object (sc->sheet, obj_id);
 
 		if (so != NULL) {
 			scg_mode_create_object (scg, so);
@@ -1660,7 +1671,7 @@ insert_bonobo_object (WorkbookControlGUI *wbcg, char const **interfaces)
 		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR, msg);
 		g_free (msg);
 	}
-	scg_mode_edit (scg);
+	scg_mode_edit (sc);
 }
 
 static void
@@ -3371,8 +3382,12 @@ show_gui (WorkbookControlGUI *wbcg)
 	gtk_widget_show_all (GTK_WIDGET (wbcg->toplevel));
 
 	/* rehide headers if necessary */
-	if (wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)))
-		scg_adjust_preferences (wb_control_gui_cur_sheet (wbcg));
+	if (wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg))) {
+		SheetControl *sc;
+
+		sc = SHEET_CONTROL (wb_control_gui_cur_sheet (wbcg));
+		scg_adjust_preferences (sc);
+	}
 
 	return FALSE;
 }

@@ -25,7 +25,7 @@
 #include "sheet-object-impl.h"
 #include "sheet.h"
 #include "sheet-merge.h"
-#include "sheet-control-gui.h"
+#include "sheet-control-gui-priv.h"
 #include "gnumeric-type-util.h"
 #include <gal/widgets/e-cursors.h>
 
@@ -57,7 +57,7 @@ cell_comment_destroy (GtkObject *object)
 
 	/* If this comment is being displayed we shut down nicely */
 	SHEET_FOREACH_CONTROL (cc->s_object.sheet, control,
-		scg_comment_unselect (control, cc););
+		scg_comment_unselect ((SheetControlGUI *) control, cc););
 
 	GTK_OBJECT_CLASS (cell_comment_parent_class)->destroy (object);
 }
@@ -110,7 +110,7 @@ cell_comment_event (GnomeCanvasItem *view, GdkEvent *event, SheetControlGUI *scg
 {
 	CellComment *cc;
 	SheetObject *so;
-
+	
 	switch (event->type) {
 	default:
 		return FALSE;

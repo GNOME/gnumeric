@@ -27,7 +27,7 @@
 
 #define SC_CLASS(o) SHEET_CONTROL_CLASS ((o)->object.klass)
 #define SC_VIRTUAL_FULL(func, handle, arglist, call)		\
-void sc_control_ ## func arglist				\
+void sc_ ## func arglist				        \
 {								\
 	SheetControlClass *sc_class;			        \
 								\
@@ -46,7 +46,8 @@ static GtkObjectClass *parent_class;
 static void
 sc_destroy (GtkObject *obj)
 {
-	SheetControl *sc = SHEET_CONTROL (obj);
+	/* Commented out until needed */
+	/* SheetControl *sc = SHEET_CONTROL (obj); */ 
 	GTK_OBJECT_CLASS (parent_class)->destroy (obj);
 }
 
@@ -61,7 +62,7 @@ GNUMERIC_MAKE_TYPE(sheet_control, "SheetControl", SheetControl,
 		   sheet_control_ctor_class, NULL, gtk_object_get_type ())
 
 void
-sheet_control_init_state (SheetControl *sc)
+sc_init_state (SheetControl *sc)
 {
 	SheetControlClass *sc_class;
 
@@ -71,3 +72,56 @@ sheet_control_init_state (SheetControl *sc)
 	if (sc_class != NULL && sc_class->init_state != NULL)
 		sc_class->init_state (sc);
 }
+
+Sheet *
+sc_sheet (SheetControl *sc)
+{
+	g_return_val_if_fail (IS_SHEET_CONTROL (sc), NULL);
+	return sc->sheet;
+}
+
+void
+sc_invalidate_sheet (SheetControl *sc)
+{
+	g_return_if_fail (IS_SHEET_CONTROL (sc));
+	sc->sheet = NULL;
+}
+
+
+SC_VIRTUAL (resize, (SheetControl *sc), (sc))
+
+SC_VIRTUAL (set_zoom_factor, (SheetControl *sc), (sc))
+
+SC_VIRTUAL (redraw_all, (SheetControl *sc), (sc))
+
+SC_VIRTUAL (redraw_cell_region,
+	    (SheetControl *sc,
+	     int start_col, int start_row, int end_col, int end_row),
+	    (sc, start_col, start_row, end_col, end_row))
+
+SC_VIRTUAL (redraw_headers,
+	    (SheetControl *sc,
+	     gboolean const col, gboolean const row, Range const * r),
+	    (sc, col, row, r))
+
+SC_VIRTUAL (ant, (SheetControl *sc), (sc))
+
+SC_VIRTUAL (unant, (SheetControl *sc), (sc))
+
+SC_VIRTUAL (adjust_preferences, (SheetControl *sc), (sc))
+
+SC_VIRTUAL (update_cursor_pos, (SheetControl *sc), (sc))
+
+SC_VIRTUAL (scrollbar_config, (SheetControl const *sc), (sc));
+
+SC_VIRTUAL (mode_edit, (SheetControl *sc), (sc));
+
+SC_VIRTUAL (compute_visible_region,
+	    (SheetControl *sc, gboolean full_recompute),
+	    (sc, full_recompute))
+
+SC_VIRTUAL (make_cell_visible,
+	    (SheetControl *sc, int col, int row, gboolean force_scroll),
+	    (sc, col, row, force_scroll));
+
+SC_VIRTUAL (cursor_bound, (SheetControl *sc, Range const *r), (sc, r))
