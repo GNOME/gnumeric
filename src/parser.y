@@ -1395,7 +1395,7 @@ gnm_expr_parse_str (char const *expr_text, GnmParsePos const *pos,
 		/* If there is no error message, attempt to be more detailed */
 		if (pstate.error != NULL &&
 		    (pstate.error->err == NULL || pstate.error->err->message == NULL)) {
-			char const *last_token = pstate.ptr - 1;
+			char const *last_token = pstate.ptr;
 
 			if (*last_token == '\0') {
 				char const *str = pstate.start;

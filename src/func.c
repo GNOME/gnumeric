@@ -827,8 +827,8 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 		/* force scalars whenever we are certain */
 		tmp = args[i] = gnm_expr_eval (expr, ei->pos,
 		       ((iter_count >= 0 || arg_type == '?')
-			       ? GNM_EXPR_EVAL_PERMIT_NON_SCALAR
-			       : GNM_EXPR_EVAL_PERMIT_EMPTY));
+			       ? (GNM_EXPR_EVAL_PERMIT_EMPTY | GNM_EXPR_EVAL_PERMIT_NON_SCALAR)
+			       : (GNM_EXPR_EVAL_PERMIT_EMPTY)));
 
 		if (arg_type == '?')	/* '?' arguments are unrestriced */
 			continue;

@@ -70,6 +70,7 @@ plugins/openoffice/openoffice-write.c
 plugins/openoffice/plugin.xml.in
 plugins/paradox/paradox.c
 plugins/paradox/plugin.xml.in
+plugins/perl/ext/Gnumeric.xs
 plugins/perl/plugin.xml.in
 plugins/plan-perfect/pln.c
 plugins/plan-perfect/plugin.xml.in
@@ -300,7 +301,7 @@ src/func-builtin.c
 src/func.c
 src/gnm-so-filled.c
 src/gnm-so-line.c
-src/GNOME_Gnumeric-gtk.xml
+src/GNOME_Gnumeric-gtk.xml.in
 src/gnumeric-canvas.c
 src/gnumeric-pane.c
 src/gui-clipboard.c

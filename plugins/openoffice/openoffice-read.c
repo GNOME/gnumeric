@@ -87,7 +87,9 @@ typedef struct {
 	OOStyleType	 cur_style_type;
 	GnmStyle	*col_default_styles[SHEET_MAX_COLS];
 	GSList		*sheet_order;
-	int	 	richtext_len;
+	int	 	 richtext_len;
+	GString		*accum_fmt;
+	char		*fmt_name;
 
 	GnmExprConventions *exprconv;
 } OOParseState;
@@ -184,70 +186,97 @@ oo_attr_float (OOParseState *state, xmlChar const * const *attrs,
 	return TRUE;
 }
 
+
+static GnmColor *
+oo_parse_color (OOParseState *state, xmlChar const *str, char const *name)
+{
+	guint r, g, b;
+
+	g_return_val_if_fail (str != NULL, NULL);
+
+	if (3 == sscanf (str, "#%2x%2x%2x", &r, &g, &b))
+		return style_color_new_i8 (r, g, b);
+
+	oo_warning (state, "Invalid attribute '%s', expected color, received '%s'",
+		    name, str);
+	return NULL;
+}
 static GnmColor *
 oo_attr_color (OOParseState *state, xmlChar const * const *attrs,
 	       int ns_id, char const *name)
 {
-	guint r, g, b;
+	g_return_val_if_fail (attrs != NULL, NULL);
+	g_return_val_if_fail (attrs[0] != NULL, NULL);
 
+	if (!gsf_xml_in_namecmp (&state->base, attrs[0], ns_id, name))
+		return NULL;
+	return oo_parse_color (state, attrs[1], name);
+}
+
+/* returns pts */
+static char const *
+oo_parse_distance (OOParseState *state, xmlChar const *str,
+		  char const *name, double *pts)
+{
+	double num;
+	char *end = NULL;
+
+	g_return_val_if_fail (str != NULL, NULL);
+
+	num = strtod (str, &end);
+	if (str != (xmlChar const *)end) {
+		if (0 == strncmp (end, "mm", 2)) {
+			num = GO_CM_TO_PT (num/10.);
+			end += 2;
+		} else if (0 == strncmp (end, "m", 1)) {
+			num = GO_CM_TO_PT (num*100.);
+			end ++;
+		} else if (0 == strncmp (end, "km", 2)) {
+			num = GO_CM_TO_PT (num*100000.);
+			end += 2;
+		} else if (0 == strncmp (end, "cm", 2)) {
+			num = GO_CM_TO_PT (num);
+			end += 2;
+		} else if (0 == strncmp (end, "pt", 2)) {
+			end += 2;
+		} else if (0 == strncmp (end, "pc", 2)) { /* pica 12pt == 1 pica */
+			num /= 12.;
+			end += 2;
+		} else if (0 == strncmp (end, "ft", 2)) {
+			num = GO_IN_TO_PT (num*12.);
+			end += 2;
+		} else if (0 == strncmp (end, "mi", 2)) {
+			num = GO_IN_TO_PT (num*63360.);
+			end += 2;
+		} else if (0 == strncmp (end, "inch", 4)) {
+			num = GO_IN_TO_PT (num);
+			end += 4;
+		} else {
+			oo_warning (state, "Invalid attribute '%s', unknown unit '%s'",
+				    name, str);
+			return NULL;
+		}
+	} else {
+		oo_warning (state, "Invalid attribute '%s', expected distance, received '%s'",
+			    name, str);
+		return NULL;
+	}
+
+	*pts = num;
+	return end;
+}
+/* returns pts */
+static char const *
+oo_attr_distance (OOParseState *state, xmlChar const * const *attrs,
+		  int ns_id, char const *name, double *pts)
+{
 	g_return_val_if_fail (attrs != NULL, NULL);
 	g_return_val_if_fail (attrs[0] != NULL, NULL);
 	g_return_val_if_fail (attrs[1] != NULL, NULL);
 
 	if (!gsf_xml_in_namecmp (&state->base, attrs[0], ns_id, name))
 		return NULL;
-	if (3 == sscanf (attrs[1], "#%2x%2x%2x", &r, &g, &b))
-		return style_color_new_i8 (r, g, b);
-
-	oo_warning (state, "Invalid attribute '%s', expected color, received '%s'",
-		    name, attrs[1]);
-	return NULL;
-}
-
-/* returns pts */
-static gboolean
-oo_attr_distance (OOParseState *state, xmlChar const * const *attrs,
-		  int ns_id, char const *name, double *pts)
-{
-	double num;
-	char *end = NULL;
-
-	g_return_val_if_fail (attrs != NULL, FALSE);
-	g_return_val_if_fail (attrs[0] != NULL, FALSE);
-	g_return_val_if_fail (attrs[1] != NULL, FALSE);
-
-	if (!gsf_xml_in_namecmp (&state->base, attrs[0], ns_id, name))
-		return FALSE;
-
-	num = strtod (attrs[1], &end);
-	if (attrs[1] != (xmlChar const *)end) {
-		if (0 == strcmp (end, "mm"))
-			num = GO_CM_TO_PT (num/10.);
-		else if (0 == strcmp (end, "m"))
-			num = GO_CM_TO_PT (num*100.);
-		else if (0 == strcmp (end, "km"))
-			num = GO_CM_TO_PT (num*100000.);
-		else if (0 == strcmp (end, "cm"))
-			num = GO_CM_TO_PT (num);
-		else if (0 == strcmp (end, "pt"))
-			;
-		else if (0 == strcmp (end, "pc")) /* pica 12pt == 1 pica */
-			num /= 12.;
-		else if (0 == strcmp (end, "ft"))
-			num = GO_IN_TO_PT (num*12.);
-		else if (0 == strcmp (end, "mi"))
-			num = GO_IN_TO_PT (num*63360.);
-		else if (0 == strcmp (end, "inch"))
-			num = GO_IN_TO_PT (num);
-		else
-			return oo_warning (state, "Invalid attribute '%s', unknown unit '%s'",
-					   name, attrs[1]);
-	} else
-		return oo_warning (state, "Invalid attribute '%s', expected distance, received '%s'",
-				   name, attrs[1]);
-
-	*pts = num;
-	return TRUE;
+	return oo_parse_distance (state, attrs[1], name, pts);
 }
 
 typedef struct {
@@ -529,14 +558,28 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 		} else if (oo_attr_bool (state, attrs, OO_NS_TABLE, "boolean-value", &bool_val))
 			val = value_new_bool (bool_val);
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "date-value")) {
-			unsigned y, m, d;
-			if (3 == sscanf (attrs[1], "%u-%u-%u", &y, &m, &d)) {
+			unsigned y, m, d, h, mi;
+			float s;
+			unsigned n = sscanf (attrs[1], "%u-%u-%uT%u:%u:%g",
+					     &y, &m, &d, &h, &mi, &s);
+
+			if (n >= 3) {
 				GDate date;
 				g_date_set_dmy (&date, d, m, y);
-				if (g_date_valid (&date))
-					val = value_new_int (datetime_g_to_serial (&date,
-										   workbook_date_conv (state->pos.wb)));
+				if (g_date_valid (&date)) {
+					unsigned d_serial = datetime_g_to_serial (&date,
+						workbook_date_conv (state->pos.wb));
+					if (n >= 6) {
+						double time_frac = h + ((double)mi / 60.) + ((double)s / 3600.);
+						val = value_new_float (d_serial + time_frac / 24.);
+					} else
+						val = value_new_int (d_serial);
+				}
 			}
+		} else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "time-value")) {
+			unsigned h, m, s;
+			if (3 == sscanf (attrs[1], "PT%uH%uM%uS", &h, &m, &s))
+				val = value_new_float (h + ((double)m / 60.) + ((double)s / 3600.));
 		} else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_TABLE, "string-value"))
 			val = value_new_string (attrs[1]);
 		else if (oo_attr_float (state, attrs, OO_NS_TABLE, "value", &float_val))
@@ -780,6 +823,187 @@ oo_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
+oo_date_day (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin;
+	gboolean is_short = TRUE;
+
+	if (state->accum_fmt == NULL)
+		return;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_NUMBER, "style"))
+			is_short = 0 == strcmp (attrs[1], "short");
+
+	g_string_append (state->accum_fmt, is_short ? "d" : "dd");
+}
+static void
+oo_date_month (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin;
+	gboolean as_text = FALSE;
+	gboolean is_short = TRUE;
+
+	if (state->accum_fmt == NULL)
+		return;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_NUMBER, "style"))
+			is_short = 0 == strcmp (attrs[1], "short");
+		else if (oo_attr_bool (state, attrs, OO_NS_NUMBER, "textual", &as_text))
+			;
+	g_string_append (state->accum_fmt, as_text
+			 ? (is_short ? "mmm" : "mmmm")
+			 : (is_short ? "m" : "mm"));
+}
+static void
+oo_date_year (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin;
+	gboolean is_short = TRUE;
+
+	if (state->accum_fmt == NULL)
+		return;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_NUMBER, "style"))
+			is_short = 0 == strcmp (attrs[1], "short");
+	g_string_append (state->accum_fmt, is_short ? "yy" : "yyyy");
+}
+static void
+oo_date_era (GsfXMLIn *xin, xmlChar const **attrs)
+{
+}
+static void
+oo_date_day_of_week (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin;
+	gboolean is_short = TRUE;
+
+	if (state->accum_fmt == NULL)
+		return;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_NUMBER, "style"))
+			is_short = 0 == strcmp (attrs[1], "short");
+
+	g_string_append (state->accum_fmt, is_short ? "ddd" : "dddd");
+}
+static void
+oo_date_week_of_year (GsfXMLIn *xin, xmlChar const **attrs)
+{
+}
+static void
+oo_date_quarter (GsfXMLIn *xin, xmlChar const **attrs)
+{
+}
+static void
+oo_date_hours (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin;
+	gboolean is_short = TRUE;
+
+	if (state->accum_fmt == NULL)
+		return;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_NUMBER, "style"))
+			is_short = 0 == strcmp (attrs[1], "short");
+	g_string_append (state->accum_fmt, is_short ? "h" : "hh");
+}
+static void
+oo_date_minutes (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin;
+	gboolean is_short = TRUE;
+
+	if (state->accum_fmt == NULL)
+		return;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_NUMBER, "style"))
+			is_short = 0 == strcmp (attrs[1], "short");
+	g_string_append (state->accum_fmt, is_short ? "m" : "mm");
+}
+static void
+oo_date_seconds (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin;
+	gboolean is_short = TRUE;
+
+	if (state->accum_fmt == NULL)
+		return;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_NUMBER, "style"))
+			is_short = 0 == strcmp (attrs[1], "short");
+	g_string_append (state->accum_fmt, is_short ? "s" : "ss");
+}
+static void
+oo_date_am_pm (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin;
+	if (state->accum_fmt != NULL)
+		g_string_append (state->accum_fmt, "AM/PM");
+
+}
+static void
+oo_date_text_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	OOParseState *state = (OOParseState *)xin;
+
+	if (state->accum_fmt == NULL)
+		return;
+
+	g_string_append (state->accum_fmt, state->base.content->str);
+}
+
+static void
+oo_date_style (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin;
+	char const *name = NULL;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "name"))
+			name = attrs[1];
+		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "family") &&
+			 0 != strcmp (attrs[1], "data-style"))
+			return;
+
+	g_return_if_fail (state->accum_fmt == NULL);
+	g_return_if_fail (name != NULL);
+
+	state->accum_fmt = g_string_new (NULL);
+	state->fmt_name = g_strdup (name);
+}
+
+static void
+oo_date_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	OOParseState *state = (OOParseState *)xin;
+	g_return_if_fail (state->accum_fmt != NULL);
+
+	g_hash_table_insert (state->formats, state->fmt_name,
+		style_format_new_XL (state->accum_fmt->str, FALSE));
+	g_warning ("%s == %s", state->fmt_name, state->accum_fmt->str);
+	g_string_free (state->accum_fmt, TRUE);
+	state->accum_fmt = NULL;
+	state->fmt_name = NULL;
+}
+
+static void
+oo_parse_border (OOParseState *state, GnmStyle *style,
+		 char const *str, MStyleElementType location)
+{
+	double pts;
+	char const *end = oo_parse_distance (state, str, "border", &pts);
+	if (end == NULL || end == str)
+		return;
+/* "0.035cm solid #000000" */
+}
+
+static void
 oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static OOEnum const h_alignments [] = {
@@ -820,6 +1044,14 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 			mstyle_set_align_v (style, tmp);
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_FO, "wrap-option"))
 			mstyle_set_wrap_text (style, !strcmp (attrs[1], "wrap"));
+		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_FO, "border-bottom"))
+			oo_parse_border (state, style, attrs[1], MSTYLE_BORDER_BOTTOM);
+		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_FO, "border-left"))
+			oo_parse_border (state, style, attrs[1], MSTYLE_BORDER_LEFT);
+		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_FO, "border-right"))
+			oo_parse_border (state, style, attrs[1], MSTYLE_BORDER_RIGHT);
+		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_FO, "border-top"))
+			oo_parse_border (state, style, attrs[1], MSTYLE_BORDER_TOP);
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "font-name"))
 			mstyle_set_font_name (style, attrs[1]);
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_FO, "font-size")) {
@@ -853,7 +1085,7 @@ oo_style_prop_row (GsfXMLIn *xin, xmlChar const **attrs)
 	g_return_if_fail (state->cur_style.col_row != NULL);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (oo_attr_distance (state, attrs, OO_NS_STYLE, "row-height", &pts))
+		if (NULL != oo_attr_distance (state, attrs, OO_NS_STYLE, "row-height", &pts))
 			*(state->cur_style.col_row) = pts;
 }
 static void
@@ -865,7 +1097,7 @@ oo_style_prop_col (GsfXMLIn *xin, xmlChar const **attrs)
 	g_return_if_fail (state->cur_style.col_row != NULL);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (oo_attr_distance (state, attrs, OO_NS_STYLE, "column-width", &pts))
+		if (NULL != oo_attr_distance (state, attrs, OO_NS_STYLE, "column-width", &pts))
 			*(state->cur_style.col_row) = pts;
 }
 
@@ -936,6 +1168,64 @@ oo_named_expr (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 }
 
+static GsfXMLInNode opencalc_styles_dtd[] = {
+GSF_XML_IN_NODE_FULL (START, START, -1, NULL, FALSE, FALSE, TRUE, NULL, NULL, 0),
+GSF_XML_IN_NODE (START, OFFICE_FONTS, OO_NS_OFFICE, "font-decls", FALSE, NULL, NULL),
+  GSF_XML_IN_NODE (OFFICE_FONTS, FONT_DECL, OO_NS_STYLE, "font-decl", FALSE, NULL, NULL),
+GSF_XML_IN_NODE (START, OFFICE_STYLES, OO_NS_OFFICE, "styles", FALSE, NULL, NULL),
+  GSF_XML_IN_NODE (OFFICE_STYLES, STYLE, OO_NS_STYLE, "style", FALSE, &oo_style, &oo_style_end),
+    GSF_XML_IN_NODE (STYLE, STYLE_PROP, OO_NS_STYLE, "properties", FALSE, &oo_style_prop, NULL),
+
+  GSF_XML_IN_NODE (OFFICE_STYLES, NUMBER_STYLE, OO_NS_NUMBER, "number-style", FALSE, NULL, NULL),
+    GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_PROP, OO_NS_NUMBER,	"number", FALSE, NULL, NULL),
+    GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_FRACTION, OO_NS_NUMBER, "fraction", FALSE, NULL, NULL),
+    GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_SCI_STYLE_PROP, OO_NS_NUMBER, "scientific-number", FALSE, NULL, NULL),
+
+  GSF_XML_IN_NODE (OFFICE_STYLES, DATE_STYLE, OO_NS_NUMBER, "date-style", FALSE, &oo_date_style, &oo_date_style_end),
+    GSF_XML_IN_NODE (DATE_STYLE, DATE_DAY, OO_NS_NUMBER,		"day", FALSE,	&oo_date_day, NULL),
+    GSF_XML_IN_NODE (DATE_STYLE, DATE_MONTH, OO_NS_NUMBER,		"month", FALSE,	&oo_date_month, NULL),
+    GSF_XML_IN_NODE (DATE_STYLE, DATE_YEAR, OO_NS_NUMBER,		"year", FALSE,	&oo_date_year, NULL),
+    GSF_XML_IN_NODE (DATE_STYLE, DATE_ERA, OO_NS_NUMBER,		"era", FALSE,	&oo_date_era, NULL),
+    GSF_XML_IN_NODE (DATE_STYLE, DATE_DAY_OF_WEEK, OO_NS_NUMBER,	"day-of-week", FALSE, &oo_date_day_of_week, NULL),
+    GSF_XML_IN_NODE (DATE_STYLE, DATE_WEEK_OF_YEAR, OO_NS_NUMBER,	"week-of-year", FALSE, &oo_date_week_of_year, NULL),
+    GSF_XML_IN_NODE (DATE_STYLE, DATE_QUARTER, OO_NS_NUMBER,		"quarter", FALSE, &oo_date_quarter, NULL),
+    GSF_XML_IN_NODE (DATE_STYLE, DATE_HOURS, OO_NS_NUMBER,		"hours", FALSE,	&oo_date_hours, NULL),
+    GSF_XML_IN_NODE (DATE_STYLE, DATE_MINUTES, OO_NS_NUMBER,		"minutes", FALSE, &oo_date_minutes, NULL),
+    GSF_XML_IN_NODE (DATE_STYLE, DATE_SECONDS, OO_NS_NUMBER,		"seconds", FALSE, &oo_date_seconds, NULL),
+    GSF_XML_IN_NODE (DATE_STYLE, DATE_AM_PM, OO_NS_NUMBER,		"am-pm", FALSE,	&oo_date_am_pm, NULL),
+    GSF_XML_IN_NODE (DATE_STYLE, DATE_TEXT, OO_NS_NUMBER,		"text", TRUE,	NULL, &oo_date_text_end),
+    GSF_XML_IN_NODE (DATE_STYLE, DATE_TEXT_PROP, OO_NS_STYLE,		"text-properties", FALSE, NULL, NULL),
+    GSF_XML_IN_NODE (DATE_STYLE, DATE_MAP, OO_NS_STYLE,		"map", FALSE, NULL, NULL),
+
+  GSF_XML_IN_NODE (OFFICE_STYLES, TIME_STYLE, OO_NS_NUMBER, "time-style", FALSE, &oo_date_style, &oo_date_style_end),
+    GSF_XML_IN_NODE (TIME_STYLE, TIME_HOURS, OO_NS_NUMBER,		"hours", FALSE,	&oo_date_hours, NULL),
+    GSF_XML_IN_NODE (TIME_STYLE, TIME_MINUTES, OO_NS_NUMBER,		"minutes", FALSE, &oo_date_minutes, NULL),
+    GSF_XML_IN_NODE (TIME_STYLE, TIME_SECONDS, OO_NS_NUMBER,		"seconds", FALSE, &oo_date_seconds, NULL),
+    GSF_XML_IN_NODE (TIME_STYLE, TIME_AM_PM, OO_NS_NUMBER,		"am-pm", FALSE,	&oo_date_am_pm, NULL),
+    GSF_XML_IN_NODE (TIME_STYLE, TIME_TEXT, OO_NS_NUMBER, 		"text", TRUE,	NULL, &oo_date_text_end),
+    GSF_XML_IN_NODE (TIME_STYLE, TIME_TEXT_PROP, OO_NS_STYLE,		"text-properties", FALSE, NULL, NULL),
+    GSF_XML_IN_NODE (TIME_STYLE, TIME_MAP, OO_NS_STYLE,			"map", FALSE, NULL, NULL),
+
+  GSF_XML_IN_NODE (OFFICE_STYLES, STYLE_BOOL, OO_NS_NUMBER, "boolean-style", FALSE, NULL, NULL),
+    GSF_XML_IN_NODE (STYLE_BOOL, BOOL_PROP, OO_NS_NUMBER, "boolean", FALSE, NULL, NULL),
+
+  GSF_XML_IN_NODE (OFFICE_STYLES, STYLE_CURRENCY, OO_NS_NUMBER, "currency-style", FALSE, NULL, NULL),
+    GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_STYLE, OO_NS_NUMBER, "number", FALSE, NULL, NULL),
+    GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_STYLE_PROP, OO_NS_STYLE, "properties", FALSE, NULL, NULL),
+    GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_MAP, OO_NS_STYLE, "map", FALSE, NULL, NULL),
+    GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_SYMBOL, OO_NS_NUMBER, "currency-symbol", FALSE, NULL, NULL),
+    GSF_XML_IN_NODE (STYLE_CURRENCY, CURRENCY_TEXT, OO_NS_NUMBER, "text", FALSE, NULL, NULL),
+
+  GSF_XML_IN_NODE (OFFICE_STYLES, STYLE_PERCENTAGE, OO_NS_NUMBER, "percentage-style", FALSE, NULL, NULL),
+    GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_STYLE_PROP, OO_NS_NUMBER, "number", FALSE, NULL, NULL),
+    GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_TEXT, OO_NS_NUMBER, "text", FALSE, NULL, NULL),
+
+  GSF_XML_IN_NODE (OFFICE_STYLES, STYLE_TEXT, OO_NS_NUMBER, "text-style", FALSE, NULL, NULL),
+    GSF_XML_IN_NODE (STYLE_TEXT, STYLE_TEXT_PROP, OO_NS_NUMBER, "text-content", FALSE, NULL, NULL),
+
+  { NULL }
+};
+
 static GsfXMLInNode opencalc_content_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, FALSE, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE (START, OFFICE, OO_NS_OFFICE, "document-content", FALSE, NULL, NULL),
@@ -950,17 +1240,32 @@ GSF_XML_IN_NODE (START, OFFICE, OO_NS_OFFICE, "document-content", FALSE, NULL, N
       GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_PROP, OO_NS_NUMBER, "number", FALSE, NULL, NULL),
       GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_FRACTION, OO_NS_NUMBER, "fraction", FALSE, NULL, NULL),
       GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_SCI_STYLE_PROP, OO_NS_NUMBER, "scientific-number", FALSE, NULL, NULL),
-    GSF_XML_IN_NODE (OFFICE_STYLES, DATE_STYLE, OO_NS_NUMBER, "date-style", FALSE, NULL, NULL),
-      GSF_XML_IN_NODE (DATE_STYLE, DATE_QUARTER, OO_NS_NUMBER, "quarter", FALSE, NULL, NULL),
-      GSF_XML_IN_NODE (DATE_STYLE, DATE_YEAR, OO_NS_NUMBER, "year", FALSE, NULL, NULL),
-      GSF_XML_IN_NODE (DATE_STYLE, DATE_MONTH, OO_NS_NUMBER, "month", FALSE, NULL, NULL),
-      GSF_XML_IN_NODE (DATE_STYLE, DATE_DAY, OO_NS_NUMBER, "day", FALSE, NULL, NULL),
-      GSF_XML_IN_NODE (DATE_STYLE, DATE_DAY_OF_WEEK, OO_NS_NUMBER, "day-of-week", FALSE, NULL, NULL),
-      GSF_XML_IN_NODE (DATE_STYLE, DATE_WEEK_OF_YEAR, OO_NS_NUMBER, "week-of-year", FALSE, NULL, NULL),
-      GSF_XML_IN_NODE (DATE_STYLE, DATE_HOURS, OO_NS_NUMBER, "hours", FALSE, NULL, NULL),
-      GSF_XML_IN_NODE (DATE_STYLE, DATE_MINUTES, OO_NS_NUMBER, "minutes", FALSE, NULL, NULL),
-      GSF_XML_IN_NODE (DATE_STYLE, DATE_SECONDS, OO_NS_NUMBER, "seconds", FALSE, NULL, NULL),
-      GSF_XML_IN_NODE (DATE_STYLE, DATE_TEXT, OO_NS_NUMBER, "text", FALSE, NULL, NULL),
+
+    GSF_XML_IN_NODE (OFFICE_STYLES, DATE_STYLE, OO_NS_NUMBER, "date-style", FALSE, &oo_date_style, &oo_date_style_end),
+      GSF_XML_IN_NODE (DATE_STYLE, DATE_DAY, OO_NS_NUMBER,		"day", FALSE,	&oo_date_day, NULL),
+      GSF_XML_IN_NODE (DATE_STYLE, DATE_MONTH, OO_NS_NUMBER,		"month", FALSE,	&oo_date_month, NULL),
+      GSF_XML_IN_NODE (DATE_STYLE, DATE_YEAR, OO_NS_NUMBER,		"year", FALSE,	&oo_date_year, NULL),
+      GSF_XML_IN_NODE (DATE_STYLE, DATE_ERA, OO_NS_NUMBER,		"era", FALSE,	&oo_date_era, NULL),
+      GSF_XML_IN_NODE (DATE_STYLE, DATE_DAY_OF_WEEK, OO_NS_NUMBER,	"day-of-week", FALSE, &oo_date_day_of_week, NULL),
+      GSF_XML_IN_NODE (DATE_STYLE, DATE_WEEK_OF_YEAR, OO_NS_NUMBER,	"week-of-year", FALSE, &oo_date_week_of_year, NULL),
+      GSF_XML_IN_NODE (DATE_STYLE, DATE_QUARTER, OO_NS_NUMBER,		"quarter", FALSE, &oo_date_quarter, NULL),
+      GSF_XML_IN_NODE (DATE_STYLE, DATE_HOURS, OO_NS_NUMBER,		"hours", FALSE,	&oo_date_hours, NULL),
+      GSF_XML_IN_NODE (DATE_STYLE, DATE_MINUTES, OO_NS_NUMBER,		"minutes", FALSE, &oo_date_minutes, NULL),
+      GSF_XML_IN_NODE (DATE_STYLE, DATE_SECONDS, OO_NS_NUMBER,		"seconds", FALSE, &oo_date_seconds, NULL),
+      GSF_XML_IN_NODE (DATE_STYLE, DATE_AM_PM, OO_NS_NUMBER,		"am-pm", FALSE,	&oo_date_am_pm, NULL),
+      GSF_XML_IN_NODE (DATE_STYLE, DATE_TEXT, OO_NS_NUMBER,		"text", TRUE,	NULL, &oo_date_text_end),
+      GSF_XML_IN_NODE (DATE_STYLE, DATE_TEXT_PROP, OO_NS_STYLE,		"text-properties", FALSE, NULL, NULL),
+      GSF_XML_IN_NODE (DATE_STYLE, DATE_MAP, OO_NS_STYLE,		"map", FALSE, NULL, NULL),
+
+    GSF_XML_IN_NODE (OFFICE_STYLES, TIME_STYLE, OO_NS_NUMBER, "time-style", FALSE, &oo_date_style, &oo_date_style_end),
+      GSF_XML_IN_NODE (TIME_STYLE, TIME_HOURS, OO_NS_NUMBER,		"hours", FALSE,	&oo_date_hours, NULL),
+      GSF_XML_IN_NODE (TIME_STYLE, TIME_MINUTES, OO_NS_NUMBER,		"minutes", FALSE, &oo_date_minutes, NULL),
+      GSF_XML_IN_NODE (TIME_STYLE, TIME_SECONDS, OO_NS_NUMBER,		"seconds", FALSE, &oo_date_seconds, NULL),
+      GSF_XML_IN_NODE (TIME_STYLE, TIME_AM_PM, OO_NS_NUMBER,		"am-pm", FALSE,	&oo_date_am_pm, NULL),
+      GSF_XML_IN_NODE (TIME_STYLE, TIME_TEXT, OO_NS_NUMBER, 		"text", TRUE,	NULL, &oo_date_text_end),
+      GSF_XML_IN_NODE (TIME_STYLE, TIME_TEXT_PROP, OO_NS_STYLE,		"text-properties", FALSE, NULL, NULL),
+      GSF_XML_IN_NODE (TIME_STYLE, TIME_MAP, OO_NS_STYLE,		"map", FALSE, NULL, NULL),
+
     GSF_XML_IN_NODE (OFFICE_STYLES, STYLE_BOOL, OO_NS_NUMBER, "boolean-style", FALSE, NULL, NULL),
       GSF_XML_IN_NODE (STYLE_BOOL, BOOL_PROP, OO_NS_NUMBER, "boolean", FALSE, NULL, NULL),
     GSF_XML_IN_NODE (OFFICE_STYLES, STYLE_CURRENCY, OO_NS_NUMBER, "currency-style", FALSE, NULL, NULL),
@@ -974,12 +1279,6 @@ GSF_XML_IN_NODE (START, OFFICE, OO_NS_OFFICE, "document-content", FALSE, NULL, N
       GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_TEXT, OO_NS_NUMBER, "text", FALSE, NULL, NULL),
     GSF_XML_IN_NODE (OFFICE_STYLES, STYLE_TEXT, OO_NS_NUMBER, "text-style", FALSE, NULL, NULL),
       GSF_XML_IN_NODE (STYLE_TEXT, STYLE_TEXT_PROP, OO_NS_NUMBER, "text-content", FALSE, NULL, NULL),
-    GSF_XML_IN_NODE (OFFICE_STYLES, STYLE_TIME, OO_NS_NUMBER, "time-style", FALSE, NULL, NULL),
-      GSF_XML_IN_NODE (STYLE_TIME, TIME_HOURS, OO_NS_NUMBER, "hours", FALSE, NULL, NULL),
-      GSF_XML_IN_NODE (STYLE_TIME, TIME_MINUTES, OO_NS_NUMBER, "minutes", FALSE, NULL, NULL),
-      GSF_XML_IN_NODE (STYLE_TIME, TIME_SECONDS, OO_NS_NUMBER, "seconds", FALSE, NULL, NULL),
-      GSF_XML_IN_NODE (STYLE_TIME, TIME_AM_PM, OO_NS_NUMBER, "am-pm", FALSE, NULL, NULL),
-      GSF_XML_IN_NODE (STYLE_TIME, TIME_TEXT, OO_NS_NUMBER, "text", FALSE, NULL, NULL),
 
   GSF_XML_IN_NODE (OFFICE, OFFICE_BODY, OO_NS_OFFICE, "body", FALSE, NULL, NULL),
     GSF_XML_IN_NODE (OFFICE_BODY, TABLE_CALC_SETTINGS, OO_NS_TABLE, "calculation-settings", FALSE, NULL, NULL),
@@ -1080,7 +1379,7 @@ oo_conventions (void)
 	return res;
 }
 
-static GsfXMLInDoc *content_doc, *settings_doc;
+static GsfXMLInDoc *content_doc, *settings_doc, *styles_doc;
 
 void
 openoffice_file_open (GnmFileOpener const *fo, IOContext *io_context,
@@ -1092,6 +1391,7 @@ openoffice_file_open (GnmFileOpener const *fo, IOContext *io_context,
 	char *old_num_locale, *old_monetary_locale;
 	OOParseState state;
 	GsfInput *content = NULL;
+	GsfInput *styles = NULL;
 	GError   *err = NULL;
 	GsfInfile *zip;
 	int i;
@@ -1111,6 +1411,13 @@ openoffice_file_open (GnmFileOpener const *fo, IOContext *io_context,
 	if (content == NULL) {
 		go_cmd_context_error_import (GO_CMD_CONTEXT (io_context),
 			 _("No stream named content.xml found."));
+		g_object_unref (G_OBJECT (zip));
+		return;
+	}
+	styles = gsf_infile_child_by_name (zip, "styles.xml");
+	if (styles == NULL) {
+		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (io_context),
+			 _("No stream named styles.xml found."));
 		g_object_unref (G_OBJECT (zip));
 		return;
 	}
@@ -1139,6 +1446,13 @@ openoffice_file_open (GnmFileOpener const *fo, IOContext *io_context,
 	state.cur_style_type   = OO_STYLE_UNKNOWN;
 	state.sheet_order = NULL;
 	state.exprconv = oo_conventions ();
+	state.accum_fmt = NULL;
+
+	if (styles != NULL) {
+		state.base.doc = styles_doc;
+		gsf_xml_in_parse (&state.base, styles);
+		g_object_unref (styles);
+	}
 
 	state.base.doc = content_doc;
 	if (gsf_xml_in_parse (&state.base, content)) {
@@ -1161,6 +1475,7 @@ openoffice_file_open (GnmFileOpener const *fo, IOContext *io_context,
 		gnumeric_io_error_string (io_context, _("XML document not well formed!"));
 	g_hash_table_destroy (state.col_row_styles);
 	g_hash_table_destroy (state.cell_styles);
+	g_hash_table_destroy (state.formats);
 	g_object_unref (G_OBJECT (content));
 
 	g_object_unref (G_OBJECT (zip));
@@ -1181,12 +1496,14 @@ openoffice_file_open (GnmFileOpener const *fo, IOContext *io_context,
 void
 plugin_init (void)
 {
+	styles_doc   = gsf_xml_in_doc_new (opencalc_styles_dtd, content_ns);
 	content_doc  = gsf_xml_in_doc_new (opencalc_content_dtd, content_ns);
 	settings_doc = gsf_xml_in_doc_new (opencalc_settings_dtd, content_ns);
 }
 void
 plugin_cleanup (void)
 {
+	gsf_xml_in_doc_free (styles_doc);
 	gsf_xml_in_doc_free (content_doc);
 	gsf_xml_in_doc_free (settings_doc);
 }

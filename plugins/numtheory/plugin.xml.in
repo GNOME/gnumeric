@@ -11,23 +11,24 @@
 		<service type="function_group" id="num_theory">
 			<_category>Number Theory</_category>
 			<functions>
-				<function name="ithprime"/>
-				<function name="nt_phi"/>
-				<function name="nt_d"/>
-				<function name="nt_sigma"/>
 				<function name="isprime"/>
-				<function name="nt_pi"/>
+				<function name="ithprime"/>
+				<function name="nt_d"/>
 				<function name="nt_mu"/>
+				<function name="nt_phi"/>
+				<function name="nt_pi"/>
+				<function name="nt_sigma"/>
+				<function name="pfactor"/>
 			</functions>
 		</service>
 		<service type="function_group" id="bitwise">
 			<_category>Bitwise Operations</_category>
 			<functions>
-				<function name="bitor"/>
-				<function name="bitxor"/>
 				<function name="bitand"/>
 				<function name="bitlshift"/>
+				<function name="bitor"/>
 				<function name="bitrshift"/>
+				<function name="bitxor"/>
 			</functions>
 		</service>
 	</services>

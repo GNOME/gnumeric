@@ -13,8 +13,8 @@ sub foobar
 }
 
 $help_foobar = <<'EOS';
-@FUNCTION=ADDER
-@SYNTAX=ADDER(a,b)
+@FUNCTION=PERL_ADDER
+@SYNTAX=PERL_ADDER(a,b)
 @DESCRIPTION=
 Adds two numbers. It is just an example function.
 EOS

@@ -159,7 +159,7 @@ set_plugin_model_row (PluginManagerGUI *pm_gui, GtkTreeIter *iter, GnmPlugin *pl
 {
 	gtk_list_store_set (
 		pm_gui->model_plugins, iter,
-		PLUGIN_NAME,  gnm_plugin_get_name (plugin),
+		PLUGIN_NAME,  _(gnm_plugin_get_name (plugin)),
 		PLUGIN_ACTIVE, gnm_plugin_is_active (plugin),
 		PLUGIN_SWITCHABLE, !gnm_plugin_is_active (plugin) || gnm_plugin_can_deactivate (plugin),
 		PLUGIN_POINTER, plugin,
@@ -378,7 +378,7 @@ cb_pm_selection_changed (GtkTreeSelection *selection, PluginManagerGUI *pm_gui)
 
 		gtk_tree_model_get (GTK_TREE_MODEL (pm_gui->model_plugins),
 		                    &iter, PLUGIN_POINTER, &pinfo, -1);
-		plugin_desc = gnm_plugin_get_description (pinfo);
+		plugin_desc = _(gnm_plugin_get_description (pinfo));
 		if (plugin_desc == NULL) {
 			plugin_desc = "";
 		}

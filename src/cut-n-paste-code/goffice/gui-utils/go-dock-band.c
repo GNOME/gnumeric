@@ -22,14 +22,18 @@
    Author: Ettore Perazzoli <ettore@comm2000.it>
 */
 
-#include <goffice/goffice-config.h>
+#include <gnumeric-config.h>
 #include <glib/gi18n.h>
 #include <string.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
-#include <goffice/gui-utils/go-dock.h>
-#include <goffice/gui-utils/go-dock-band.h>
-#include <goffice/gui-utils/go-dock-item.h>
+#include <libgnome/gnome-macros.h>
+#include "go-dock.h"
+#include "go-dock-band.h"
+#include "go-dock-item.h"
+
+GNOME_CLASS_BOILERPLATE (GoDockBand, go_dock_band,
+			 GtkContainer, GTK_TYPE_CONTAINER);
 
 #define noBONOBO_DOCK_BAND_DEBUG
 
@@ -126,8 +130,6 @@ static gboolean check_guint_arg               (GObject *object,
 					       const gchar *name,
 					       guint *value_return);
 
-G_DEFINE_TYPE (GoDockBand, go_dock_band, GTK_TYPE_CONTAINER)
-
 static void
 go_dock_band_class_init (GoDockBandClass *klass)
 {
@@ -152,7 +154,7 @@ go_dock_band_class_init (GoDockBandClass *klass)
 }
 
 static void
-go_dock_band_init (GoDockBand *band)
+go_dock_band_instance_init (GoDockBand *band)
 {
   GtkWidget *widget = GTK_WIDGET (band);
 
@@ -541,7 +543,7 @@ go_dock_band_map (GtkWidget *widget)
   g_return_if_fail(widget != NULL);
   g_return_if_fail(GO_IS_DOCK_BAND(widget));
 
-  GTK_WIDGET_CLASS (go_dock_band_parent_class)->map (widget);
+  GNOME_CALL_PARENT (GTK_WIDGET_CLASS, map, (widget));
 
   for (lp = band->children; lp != NULL; lp = lp->next)
     {
@@ -562,7 +564,7 @@ go_dock_band_unmap (GtkWidget *widget)
   g_return_if_fail(widget != NULL);
   g_return_if_fail(GO_IS_DOCK_BAND(widget));
 
-  GTK_WIDGET_CLASS (go_dock_band_parent_class)->unmap (widget);
+  GNOME_CALL_PARENT (GTK_WIDGET_CLASS, unmap, (widget));
 
   for (lp = band->children; lp != NULL; lp = lp->next)
     {
@@ -659,7 +661,7 @@ go_dock_band_finalize (GObject *object)
   g_free (self->_priv);
   self->_priv = NULL;
 
-  G_OBJECT_CLASS (go_dock_band_parent_class)->finalize (object);
+  GNOME_CALL_PARENT (G_OBJECT_CLASS, finalize, (object));
 }
 
 
@@ -1412,6 +1414,8 @@ check_guint_arg (GObject *object,
 {
   GParamSpec *pspec;
 
+  g_return_val_if_fail (object != NULL, FALSE);
+
   pspec = g_object_class_find_property (G_OBJECT_GET_CLASS (object), name);
   if (pspec != NULL) {
     GValue value = { 0, };
@@ -1980,4 +1984,3 @@ _bonobo_dock_band_handle_key_nav (GoDockBand *band,
 
   return handled;
 }
-

@@ -7,11 +7,129 @@
 	src/dialogs/dialog-cell-format.c: Use the new GO_COLOR macros.
 
 
+2004-10-19  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/.cvsignore: add GNOME_Gnumeric-gtk.xml
+
+2004-10-19  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=132876
+	* src/print.c (sheet_print): make the print dialog semi-modal.
+	(dialog_destroy): new
+	(dialog_response): new
+	(sheet_print_real): new
+
+2004-10-19  Morten Welinder  <terra@gnome.org>
+
+	* src/Makefile.am (GNOME_Gnumeric-gtk.xml): Create this using a
+	sed script for now.  We seem to have relied on intltool bugs not
+	present in all versions.
+
+	* src/print-info.c (render_path): Use go_dirname_from_uri.
+
+	* src/workbook-view.c (cb_cleanup_sendto): Remove directory using
+	rmdir, not unlink.
+
+	* src/gui-file.c (go_file_is_writable): Use go_dirname_from_uri.
+
+2004-10-18  Jody Goldberg <jody@gnome.org>
+
+	* src/print-info.c (print_info_dup) : copy the margins.
+
+2004-10-16  Yukihiro Nakai  <nakai@gnome.gr.jp>
+
+	* src/GNOME_Gnumeric-gtk.xml: Obsolete
+	* src/GNOME_Gnumeric-gtk.xml.in: Newly added for gettextize.
+	* src/wbc-gtk.c: Gettextize the toolbar.
+
+2004-10-18  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=152516
+	* src/sheet-control-gui.c (scg_context_menu) : minor string change
+	  It is clearer to say 'Cells' for insert and delete.
+
+2004-10-16  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-pane.c (gnm_pane_object_register) : Take a 'selectable'
+	  argument to enable/disable the view selection mechanism.  This
+	  routine is still useful for setting up bounds handlers.
+
+2004-10-16  Jody Goldberg <jody@gnome.org>
+
+	* src/print-info.c : delay the creation of a GnomePrintConfig until it
+	  is really necessary.
+
+2004-10-16  Jody Goldberg <jody@gnome.org>
+
+	* src/func.c (function_call_with_list) : Everything can now return an
+	  empty during evaluation.
+
+2004-10-16  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-object-cell-comment.c (cell_comment_new_view) : add
+	  bounds-changed handler.
+	(cell_comment_event) : This now takes a GnmPane, not an scg.
+
+	* src/sheet-object-cell-comment.c : Add a text property.
+
+2004-10-14  Morten Welinder  <terra@gnome.org>
+
+	* src/gutils.c (gnm_usr_dir): Use g_build_filename.  Note, that
+	this means that we return the result without a terminating slash.
+
+2004-10-13  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-object-widget.c (SOW_MAKE_TYPE): Add arguments for
+	property support.
+	(SheetWidgetButton): Add markup member.
+	(sheet_widget_button_get_property,
+	sheet_widget_button_set_property): New functions.
+
+2004-10-13  Jean Brefort <jean.brefort@normalesup.org>
+
+	* src/graph.c: (gnm_go_data_vector_load_values),
+	(gnm_go_data_matrix_load_values): fixes VALUE_STRING case, if a value
+	is found, take it into account for minimum and maximum.
+
+2004-10-13  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (regenerate_window_menu): Escape underscore in
+	names.
+
+2004-10-11  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet.c (sheet_rename) : tell each view to update its edit line
+	  in case the editline is displaying an expression that references the
+	  name of a sheet.
+
+	* src/commands.c (update_after_action) : Take a Workbook and run an
+	  update on the current sheet for each control.
+
+2004-10-11  Morten Welinder  <terra@gnome.org>
+
+	* src/parser.y (gnm_expr_parse_str): Revive logic to add missing
+	parenthesis.
+
+	* src/gnumeric-pane.c (gnm_pane_release): Plug leak.
+
+2004-10-10  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-object-widget.c : Add a ToggleButton type.
+	(sheet_widget_checkbox_get_ref) : weaken to allow relative references
+	  and assume they are relative to A1.
+	(sheet_widget_adjustment_get_ref) : 
+
+2004-10-10  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric.spec.in : Let's stick with fedora core package names as the
+	  defacto standard until something better presents itself.  There are
+	  still no guarantees that this works.
+
 2004-10-09  Jody Goldberg <jody@gnome.org>
 
 	* src/gnumeric-pane.c (cb_sheet_object_widget_canvas_event) :
 	  Simplify.  There's no need to select the object here.  We've
-	  already handle it in the main handler (cb_sheet_object_canvas_event)
+	  already handled it in the main handler (cb_sheet_object_canvas_event)
 
 2004-10-09  Jean Brefort  <jean.brefort@normalesup.org>
 

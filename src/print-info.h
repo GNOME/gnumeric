@@ -49,6 +49,7 @@ typedef struct {
 typedef struct {
 	PrintUnit top;     /* see print.c for the definition (these are header/footer) */
 	PrintUnit bottom;
+	double left, right, header, footer;
 } PrintMargins;
 
 /* Header/Footer definition */
@@ -85,7 +86,10 @@ struct _PrintInformation {
 	PrintHF          *header;
 	PrintHF          *footer;
 
-	GnomePrintConfig *print_config;
+	PrintOrientation  orientation;
+	int		  n_copies;
+	char		 *gp_config_str;
+	char		 *paper;
 };
 
 typedef enum {
@@ -103,6 +107,8 @@ PrintInformation *print_info_new         (void);
 PrintInformation *print_info_dup	 (PrintInformation const *pi);
 void              print_info_free        (PrintInformation *pi);
 void              print_info_save        (PrintInformation const *pi);
+GnomePrintConfig *print_info_make_config (PrintInformation const *pi);
+void		  print_info_load_config (PrintInformation *pi, GnomePrintConfig *config);
 
 PrintHF          *print_hf_new           (char const *left,
 					  char const *middle,
@@ -126,8 +132,11 @@ double      unit_convert             (double value,
 void        print_init               (void);
 void        print_shutdown           (void);
 
-void        print_info_set_n_copies  (PrintInformation *pi, guint copies);
-gboolean    print_info_get_margins   (PrintInformation const *pi,
+void        print_info_set_n_copies  (PrintInformation *pi, int copies);
+guint	    print_info_get_n_copies  (PrintInformation const *pi);
+void	    print_info_set_paper     (PrintInformation *pi, char const *paper);
+char const *print_info_get_paper     (PrintInformation const *pi);
+void        print_info_get_margins   (PrintInformation const *pi,
 				      double *header, double *footer, double *left, double *right);
 void        print_info_set_margins   (PrintInformation *pi,
 				      double header, double footer, double left, double right);
@@ -138,7 +147,6 @@ void        print_info_set_margin_right  (PrintInformation *pi, double right);
 void        print_info_set_orientation   (PrintInformation *pi, 
 					  PrintOrientation orient); 
 PrintOrientation print_info_get_orientation (PrintInformation const *pi); 
-guint		 print_info_get_n_copies    (PrintInformation const *pi);
 
 /* Formats known */
 extern GList *hf_formats;

@@ -130,6 +130,7 @@ draw_path (GogRendererSvg *prend, ArtVpath const *path, GString *string)
 {
 	for ( ; path->code != ART_END ; path++)
 		switch (path->code) {
+		case ART_MOVETO_OPEN :
 		case ART_MOVETO :
 			g_string_append_printf (string, "M%g %g", path->x, path->y);
 			break;

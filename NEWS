@@ -1,10 +1,19 @@
 Gnumeric 1.3.92
 
+Andreas:
+	* Fix text export dialog [#155437, #154231]
+	* Skip sheet selection in text export if there is only one sheet.
+	* Make print dialog less modal. [#132876]
+
+Hal Ashburner:
+	* Some function documentation cleanups.
+
 Jody:
 	* Enable selecting and moving multiple drawing objects
-	http://bugzilla.gnome.org/show_bug.cgi?id=154734
-	* Swap X & Y axis content when importing xls bar plots
+	* Swap X & Y axis content when importing xls bar plots. [#154734]
 	* Basic handling for XL 'Forms' Objects
+	* Fix handling of empty arguments in nested expressions
+	* Delay gnome-print init to decrease startup time
 
 Morten:
 	* Implement Edit->Select->Input. [#154735]
@@ -13,6 +22,18 @@ Morten:
 	  was loaded.  [#143188]
 	* Make it possible to unhide sheets.  [#154710]
 	* Add HYPOT function.  [#148322]
+	* Add PFACTOR function.
+	* Plug leaks.
+	* Revive logic to add missing parenthesis in parser.
+	* Fix evil timing issue in about dialog.  [#155268]
+	* Fix window menu in case of "_" in names.  [#155235]
+	* Add support for setting text and markup in buttons.
+	* Fix XL save crash.  [#155371]
+	* Limit the width of search window.  [#136421]
+
+Yukihiro Nakai:
+	* Improve perl plugin.
+	* Fix various untranslated GUI elements.
 
 --------------------------------------------------------------------------
 

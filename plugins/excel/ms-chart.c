@@ -3291,7 +3291,7 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 
 			/* BIFF_CHART_chartformatlink documented as unnecessary */
 			if (i == 0 && legend != NULL) {
-				GogObjectPosition pos = gog_object_get_pos (legend);
+				/*GogObjectPosition pos = gog_object_get_pos (legend); */
 				guint16 flags = 0x1f;
 
 				data = ms_biff_put_len_next (s->bp, BIFF_CHART_legend, 20);

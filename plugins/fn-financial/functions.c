@@ -1429,7 +1429,7 @@ gnumeric_rate (FunctionEvalInfo *ei, GnmValue **argv)
 #if 0
 	printf ("Guess = %.15g\n", rate0);
 #endif
-	goal_seek_initialise (&data);
+	goal_seek_initialize (&data);
 
 	data.xmin = MAX (data.xmin,
 			 -powgnum (DBL_MAX / 1e10, 1.0 / udata.nper) + 1);
@@ -1558,7 +1558,7 @@ gnumeric_irr (FunctionEvalInfo *ei, GnmValue **argv)
 	        return result;
 	}
 
-	goal_seek_initialise (&data);
+	goal_seek_initialize (&data);
 
 	data.xmin = MAX (data.xmin,
 			 -powgnum (DBL_MAX / 1e10, 1.0 / p.n) + 1);
@@ -1813,7 +1813,7 @@ gnumeric_xirr (FunctionEvalInfo *ei, GnmValue **argv)
 	gnm_float      rate0;
 	int             n, d_n;
 
-	goal_seek_initialise (&data);
+	goal_seek_initialize (&data);
 	data.xmin = -1;
 	data.xmax = MIN (1000, data.xmax);
 
@@ -2533,7 +2533,7 @@ gnumeric_yield (FunctionEvalInfo *ei, GnmValue **argv)
 		GoalSeekStatus   status;
 		gnm_float       yield0 = 0.1;
 
-		goal_seek_initialise (&data);
+		goal_seek_initialize (&data);
 		data.xmin = MAX (data.xmin, 0);
 		data.xmax = MIN (data.xmax, 1000);
 
@@ -2908,7 +2908,7 @@ gnumeric_oddfyield (FunctionEvalInfo *ei, GnmValue **argv)
         if (udata.rate < 0.0 || udata.price <= 0.0 || udata.redemption <= 0.0)
                 return value_new_error_NUM (ei->pos);
 
-	goal_seek_initialise (&data);
+	goal_seek_initialize (&data);
 	data.xmin = MAX (data.xmin, 0);
 	data.xmax = MIN (data.xmax, 1000);
 

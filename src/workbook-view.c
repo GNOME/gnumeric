@@ -744,7 +744,7 @@ cb_cleanup_sendto (gpointer path)
 {
 	char *dir = g_path_get_dirname (path);
 	unlink (path);	g_free (path);	/* the attachment */
-	unlink (dir);	g_free (dir);	/* the tempdir */
+	rmdir (dir);	g_free (dir);	/* the tempdir */
 	return FALSE;
 }
 

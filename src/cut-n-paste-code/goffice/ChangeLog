@@ -12,6 +12,66 @@
 	utils/go-color.c, utils/go-color.h, utils/go-marker.c,
 	utils/go-pattern.c: Used the new GO_COLOR macros.
 
+2004-10-19  Morten Welinder  <terra@gnome.org>
+
+	* utils/go-file.c (go_dirname_from_uri): New function.
+
+2004-10-13  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* graph/gog-axis.c (gog_axis_dim_changed): call gog_axis_update in
+	order to refresh labels and ticks.
+
+2004-10-13  Morten Welinder  <terra@gnome.org>
+
+	* graph/gog-axis.c (gog_axis_get_entry): Remove band-aid no longer
+	needed.  (Although files created in the past few days will have
+	the vector type in the file.)
+
+2004-10-13  Jean Brefort <jean.brefort@normalesup.org>
+
+	* graph/gog-axis.c: (make_dim_editor): replace TRUE by GO_DATA_SCALAR in the
+	call to gog_data_allocator_editor.
+	* graph/gog-label.c: (gog_label_editor): ditto.
+	* graph/gog-series.c: (gog_series_editor): ditto.
+
+2004-10-13  Jean Brefort <jean.brefort@normalesup.org>
+
+	* graph/gog-plot-impl.h: added a foreach_elem member in GogPlotClass
+	* graph/gog-plot.c: (gog_plot_foreach_elem): calls Klass->foreach_elem
+	when not NULL to override default legends management.
+	* graph/gog-renderer-gnome-print.c: (draw_path): add ART_MOVETO_OPEN case,
+	(gog_renderer_gnome_print_measure_text): fix a bad sign.
+	* graph/gog-renderer-svg.c: (draw_path): add ART_MOVETO_OPEN case.
+
+2004-10-12  Morten Welinder  <terra@gnome.org>
+
+	* graph/gog-axis.h (GogAxisTickTypes): Fix namespace.
+
+	* graph/gog-axis.c (GogAxisElemType): Name this type.
+	(gog_axis_get_entry): Use GogAxisElemType, not unsigned int, for
+	the index argument.
+
+2004-10-12  Morten Welinder  <terra@gnome.org>
+
+	* graph/gog-axis.c (map_linear_auto_bound): Fix gnm_float/double
+	confusion.
+	(gog_axis_get_entry): Temporary fix for user-defined axis limits.
+
+2004-10-11  Morten Welinder  <terra@gnome.org>
+
+	* graph/gog-series.c (gog_series_finalize): Plug leak.
+
+2004-10-11  Jody Goldberg <jody@gnome.org>
+
+	* gui-utils/Makefile.am : drop the dock code we're not going to be
+	  using it before 1.4
+
+2004-10-02  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=154664
+	* graph/gog-guru.glade: set width and height request for sample area
+	and object list.
+
 2004-10-09  Jean Brefort <jean.brefort@normalesup.org>
 
 	* graph/go-data.c: (go_data_matrix_emit_changed),

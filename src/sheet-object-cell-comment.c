@@ -47,6 +47,7 @@ struct _GnmComment {
 typedef SheetObjectClass GnmCommentClass;
 enum {
 	CC_PROP_0,
+	CC_PROP_TEXT,
 	CC_PROP_MARKUP
 };
 
@@ -160,6 +161,10 @@ cell_comment_set_property (GObject *obj, guint param_id,
 	GList *ptr;
 
 	switch (param_id) {
+	case CC_PROP_TEXT:
+		g_free (cc->text);
+		cc->text = g_strdup (g_value_get_string (value));
+		break;
 	case CC_PROP_MARKUP :
 		if (cc->markup != NULL)
 			pango_attr_list_unref (cc->markup);
@@ -183,6 +188,9 @@ cell_comment_get_property (GObject *obj, guint param_id,
 {
 	GnmComment *cc = CELL_COMMENT (obj);
 	switch (param_id) {
+	case CC_PROP_TEXT :
+		g_value_set_string (value, cc->text);
+		break;
 	case CC_PROP_MARKUP :
 		g_value_set_boxed (value, cc->markup);
 		break;
@@ -193,11 +201,12 @@ cell_comment_get_property (GObject *obj, guint param_id,
 }
 
 static int
-cell_comment_event (FooCanvasItem *view, GdkEvent *event, SheetControlGUI *scg)
+cell_comment_event (FooCanvasItem *view, GdkEvent *event, GnmPane *pane)
 {
 	GnmComment *cc;
 	SheetObject *so;
 	GnmRange const *r;
+	SheetControlGUI *scg;
 
 	switch (event->type) {
 	default:
@@ -212,6 +221,7 @@ cell_comment_event (FooCanvasItem *view, GdkEvent *event, SheetControlGUI *scg)
 		break;
 	}
 
+	scg = pane->gcanvas->simple.scg;
 	so = sheet_object_view_get_so (SHEET_OBJECT_VIEW (view));
 	cc = CELL_COMMENT (so);
 
@@ -254,7 +264,7 @@ cell_comment_new_view (SheetObject *so, SheetObjectViewContainer *container)
 	g_signal_connect (view,
 		"event",
 		G_CALLBACK (cell_comment_event), container);
-	return SHEET_OBJECT_VIEW (view);
+	return gnm_pane_object_register (so, view, FALSE);
 }
 
 static gboolean
@@ -326,6 +336,9 @@ cell_comment_class_init (GObjectClass *gobject_class)
 	gobject_class->finalize		= cell_comment_finalize;
 	gobject_class->set_property	= cell_comment_set_property;
 	gobject_class->get_property	= cell_comment_get_property;
+        g_object_class_install_property (gobject_class, CC_PROP_TEXT,
+                 g_param_spec_string ("text", NULL, NULL, NULL,
+			(G_PARAM_READABLE | G_PARAM_WRITABLE)));
         g_object_class_install_property (gobject_class, CC_PROP_MARKUP,
                  g_param_spec_boxed ("markup", NULL, NULL,
 				     PANGO_TYPE_ATTR_LIST,

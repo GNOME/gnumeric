@@ -131,7 +131,7 @@ enum {
 };
 
 static GogStyle *
-sof_default_style ()
+sof_default_style (void)
 {
 	GogStyle *res = gog_style_new ();
 	res->interesting_fields = GOG_STYLE_OUTLINE | GOG_STYLE_FILL;
@@ -232,7 +232,7 @@ gnm_so_filled_new_view (SheetObject *so, SheetObjectViewContainer *container)
 	g_signal_connect_object (sof,
 		"notify", G_CALLBACK (cb_gnm_so_filled_changed),
 		group, 0);
-	return gnm_pane_object_register (so, FOO_CANVAS_ITEM (group));
+	return gnm_pane_object_register (so, FOO_CANVAS_ITEM (group), TRUE);
 }
 
 static void
@@ -480,7 +480,7 @@ gnm_so_filled_set_property (GObject *obj, guint param_id,
 
 static void
 gnm_so_filled_get_property (GObject *obj, guint param_id,
-			    GValue  *value,  GParamSpec *pspec)
+			    GValue *value, GParamSpec *pspec)
 {
 	GnmSOFilled  *sof = GNM_SO_FILLED (obj);
 	switch (param_id) {
@@ -656,7 +656,7 @@ gnm_so_polygon_new_view (SheetObject *so, SheetObjectViewContainer *container)
 		"notify", G_CALLBACK (cb_gnm_so_filled_style_changed),
 		item, 0);
 #endif
-	return gnm_pane_object_register (so, item);
+	return gnm_pane_object_register (so, item, TRUE);
 }
 
 static void

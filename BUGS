@@ -10,9 +10,6 @@ Release Critical
 
 debian 272697
 
-    http://bugzilla.gnome.org/show_bug.cgi?id=152434
-    : file save gremlins
-
     : provide undo for dropped objects from sheet_objects_relocate
     : provide undo for dropped objects from sheet_objects_clear
     : undo of pasting copy/cut of objects
@@ -52,12 +49,10 @@ debian 272697
 
 Worries
 
-    We init gnome_print at sheet creation time.  With cups this can cause
-    hangs at startup if the server isn't answering.   --> delay init.
-    It's also damn slow : Patch available to delay instantiating the
-	print_config until necessary but it does not help because importers 
-	are still forcing it's creation.  There is some redhat work to speed up
-	the printer dialog that may help.
+    The only way to unhide column A seems to be to select the entire sheet
+    and unhide.  Not elegant.  We could, perhaps, when a single column is
+    selected add "Unhide column to the left" and "... right" to the context
+    menu (when relevant).
 
 -------------------------------------------------------------------------------
 Pending Patches
@@ -156,6 +151,7 @@ Target Features
 - input message				(Stored)
 - load/save of external references
 - all the merged cell singleton bugs
+- Drag and Drop
 
 - R1C1
 - finish corba plugin
@@ -166,9 +162,9 @@ Target Features
 - repeat (http://bugzilla.gnome.org/show_bug.cgi?id=143244)	(DONE)
 - ssconvert for non-gnome					(DONE)
 
-Excel i/o
+Excel i/o							(DONE)
     - 'Forms' import						(DONE)
-    - Properties of 'Forms'
+    - Properties of 'Forms'					(DONE)
 
 -------------------------------------------------------------------------------
 Short Term Goals

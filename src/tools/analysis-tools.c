@@ -2500,7 +2500,7 @@ analysis_tool_ttest_eqvar_engine_run (data_analysis_output_t *dao,
 
 	/* And finish up */
 
-	dao_set_italic (dao, 0, 0, 0, 11);
+	dao_set_italic (dao, 0, 0, 0, 12);
 	dao_set_italic (dao, 0, 0, 2, 0);
 
 	value_release (val_1);

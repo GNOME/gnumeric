@@ -25,7 +25,7 @@
   @NOTATION@
 */
 
-#include "goffice/goffice-config.h"
+#include "gnumeric-config.h"
 #include <glib/gi18n.h>
 #include <string.h>
 #include <gtk/gtk.h>
@@ -33,6 +33,10 @@
 #include "go-dock.h"
 #include "go-dock-band.h"
 #include "go-dock-item.h"
+#include <libgnome/gnome-macros.h>
+
+GNOME_CLASS_BOILERPLATE (GoDock, go_dock,
+			 GtkContainer, GTK_TYPE_CONTAINER);
 
 #define noBONOBO_DOCK_DEBUG
 
@@ -154,8 +158,6 @@ static guint dock_signals[LAST_SIGNAL] = { 0 };
 
 
 
-G_DEFINE_TYPE (GoDock, go_dock, GTK_TYPE_CONTAINER);
-
 static void
 go_dock_class_init (GoDockClass *class)
 {
@@ -193,7 +195,7 @@ go_dock_class_init (GoDockClass *class)
 }
 
 static void
-go_dock_init (GoDock *dock)
+go_dock_instance_init (GoDock *dock)
 {
   GTK_WIDGET_SET_FLAGS (GTK_WIDGET (dock), GTK_NO_WINDOW);
 
@@ -485,7 +487,7 @@ go_dock_map (GtkWidget *widget)
   g_return_if_fail (widget != NULL);
   g_return_if_fail (GO_IS_DOCK(widget));
 
-  GTK_WIDGET_CLASS (go_dock_parent_class)-> map (widget);
+  GNOME_CALL_PARENT (GTK_WIDGET_CLASS, map, (widget));
 
   dock = GO_DOCK (widget);
 
@@ -518,7 +520,7 @@ go_dock_unmap (GtkWidget *widget)
 
   g_list_foreach (dock->floating_children, unmap_widget_foreach, NULL);
 
-  GTK_WIDGET_CLASS (go_dock_parent_class)-> unmap (widget);
+  GNOME_CALL_PARENT (GTK_WIDGET_CLASS, unmap, (widget));
 }
 
 
@@ -668,7 +670,8 @@ go_dock_finalize (GObject *object)
   g_free (self->_priv);
   self->_priv = NULL;
 
-  G_OBJECT_CLASS (go_dock_parent_class)->finalize (object);
+  if (G_OBJECT_CLASS (parent_class)->finalize)
+    (* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -804,7 +807,7 @@ drag_floating (GoDock *dock,
   item_widget = GTK_WIDGET (item);
   dock_widget = GTK_WIDGET (dock);
 
-  if (item_widget->parent != dock_widget)
+  if (!item->is_floating && item_widget->parent != dock_widget)
     {
       GtkAllocation *dock_allocation, *client_allocation;
 
@@ -1811,4 +1814,3 @@ _bonobo_dock_handle_key_nav (GoDock     *dock,
 
   return TRUE;
 }
-

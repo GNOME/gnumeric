@@ -164,7 +164,7 @@ sheet_object_graph_new_view (SheetObject *so, SheetObjectViewContainer *containe
 		so_graph_foo_view_get_type (),
 		"renderer",	sog->renderer,
 		NULL);
-	return gnm_pane_object_register (so, view);
+	return gnm_pane_object_register (so, view, TRUE);
 }
 
 static gboolean

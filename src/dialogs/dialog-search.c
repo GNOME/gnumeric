@@ -433,6 +433,11 @@ make_matches_table (GtkTreeModel *model)
 								  NULL);
 		/* Set single_paragraph_mode to ensure fixed height.  */
 		g_object_set (cell, "single_paragraph_mode", TRUE, NULL);
+#ifdef HAVE_PANGO_LAYOUT_SET_ELLIPSIZE
+		if (i == COL_CONTENTS &&
+		    g_object_class_find_property (G_OBJECT_GET_CLASS (cell), "ellipsize"))
+			g_object_set (cell, "ellipsize", PANGO_ELLIPSIZE_END, NULL);
+#endif
 		gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_GROW_ONLY);
 		gtk_tree_view_append_column (tree_view, column);
 	}

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin id="Gnumeric_QPro">
 	<information>
-		<_name>Quatro Pro(tm)</_name>
+		<_name>Quattro Pro(tm)</_name>
 		<_description>Imports Quatro Pro (tm) files</_description>
 	</information>
 	<loader type="Gnumeric_Builtin:module">

@@ -277,7 +277,7 @@ xml_write_print_hf (GnmOutputXML *state, char const *name,
 static void
 xml_write_print_info (GnmOutputXML *state, PrintInformation *pi)
 {
-	guchar *paper_name;
+	char const *paper_name;
 	double header = 0, footer = 0, left = 0, right = 0;
 
 	g_return_if_fail (pi != NULL);
@@ -344,12 +344,9 @@ xml_write_print_info (GnmOutputXML *state, PrintInformation *pi)
 	xml_write_print_hf (state, GMR "Header", pi->header);
 	xml_write_print_hf (state, GMR "Footer", pi->footer);
 
-	paper_name = gnome_print_config_get (pi->print_config,
-					     (guchar *)GNOME_PRINT_KEY_PAPER_SIZE);
-	if (paper_name) {
+	paper_name = print_info_get_paper (pi);
+	if (paper_name)
 		gsf_xml_out_simple_element (state->output, GMR "paper", paper_name);
-		g_free (paper_name);
-	}
 
 	gsf_xml_out_end_element (state->output);
 }

@@ -31,9 +31,7 @@
 #ifndef _GO_DOCK_ITEM_H
 #define _GO_DOCK_ITEM_H
 
-#include <gdk/gdk.h>
-#include <gtk/gtkbin.h>
-#include <gtk/gtkenums.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 
@@ -71,8 +69,9 @@ struct _GoDockItem
 
   gchar                *name;
 
+  /* <private> */
   GdkWindow            *bin_window; /* parent window for children */
-  GdkWindow            *float_window;
+  GdkWindow            *float_window; /* always NULL */
   GtkShadowType         shadow_type;
 
   /* Start drag position (wrt widget->window).  */

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-09 11:11-0400\n"
-"PO-Revision-Date: 2004-10-09 11:36-0400\n"
+"POT-Creation-Date: 2004-10-19 11:24-0400\n"
+"PO-Revision-Date: 2004-10-19 11:36-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: English/Canada <adamw@FreeBSD.org>\n"
 "MIME-Version: 1.0\n"
@@ -93,9 +93,9 @@ msgid ""
 "@FUNCTION=CUM_BIV_NORM_DIST\n"
 "@SYNTAX=CUM_BIV_NORM_DIST(a,b,rho)\n"
 "@DESCRIPTION=CUM_BIV_NORM_DIST calculates the cumulative bivariate normal "
-"distribution from parameters a, b & rho.  The return value is the "
-"probability that two random variables with correlation @rho are respectively "
-"each less than @a and @b.\n"
+"distribution from parameters a, b & rho.\n"
+"The return value is the probability that two random variables with "
+"correlation @rho are respectively each less than @a and @b.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -104,9 +104,9 @@ msgstr ""
 "@FUNCTION=CUM_BIV_NORM_DIST\n"
 "@SYNTAX=CUM_BIV_NORM_DIST(a,b,rho)\n"
 "@DESCRIPTION=CUM_BIV_NORM_DIST calculates the cumulative bivariate normal "
-"distribution from parameters a, b & rho.  The return value is the "
-"probability that two random variables with correlation @rho are respectively "
-"each less than @a and @b.\n"
+"distribution from parameters a, b & rho.\n"
+"The return value is the probability that two random variables with "
+"correlation @rho are respectively each less than @a and @b.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -118,14 +118,14 @@ msgid ""
 "@SYNTAX=OPT_BS(call_put_flag,spot,strike,time,rate,volatility [,"
 "cost_of_carry])\n"
 "@DESCRIPTION=OPT_BS uses the Black-Scholes model to calculate the price of a "
-"European option using call_put_flag, @call_put_flag, c or p struck at "
+"European option using call_put_flag, @call_put_flag, 'c' or 'p' struck at "
 "@strike on an asset with spot price @spot.\n"
-"@time is the time to maturity of the option expressed in years\n"
-"@rate is the risk-free interest rate\n"
-"@volatility is the annualized volatility, in percent, of the asset or the "
+"@time is the time to maturity of the option expressed in years.\n"
+"@rate is the risk-free interest rate.\n"
+"@volatility is the annualized volatility, in percent, of the asset for the "
 "period through to the exercise date. \n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
-"stocks, this would be the dividend yield\n"
+"stocks, this would be the dividend yield.\n"
 "* The returned value will be expressed in the same units as @strike and "
 "@spot.\n"
 "\n"
@@ -137,14 +137,14 @@ msgstr ""
 "@SYNTAX=OPT_BS(call_put_flag,spot,strike,time,rate,volatility [,"
 "cost_of_carry])\n"
 "@DESCRIPTION=OPT_BS uses the Black-Scholes model to calculate the price of a "
-"European option using call_put_flag, @call_put_flag, c or p struck at "
+"European option using call_put_flag, @call_put_flag, 'c' or 'p' struck at "
 "@strike on an asset with spot price @spot.\n"
-"@time is the time to maturity of the option expressed in years\n"
-"@rate is the risk-free interest rate\n"
-"@volatility is the annualized volatility, in percent, of the asset or the "
+"@time is the time to maturity of the option expressed in years.\n"
+"@rate is the risk-free interest rate.\n"
+"@volatility is the annualized volatility, in percent, of the asset for the "
 "period through to the exercise date. \n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
-"stocks, this would be the dividend yield\n"
+"stocks, this would be the dividend yield.\n"
 "* The returned value will be expressed in the same units as @strike and "
 "@spot.\n"
 "\n"
@@ -158,14 +158,14 @@ msgid ""
 "@SYNTAX=OPT_BS_DELTA(call_put_flag,spot,strike,time,rate,volatility[,"
 "cost_of_carry])\n"
 "@DESCRIPTION=OPT_BS_DELTA uses the Black-Scholes model to calculate the "
-"\"delta\" of a European option with call_put_flag, @call_put_flag, c or p "
+"'delta' of a European option with call_put_flag, @call_put_flag, 'c' or 'p' "
 "struck at @strike on an asset with spot price @spot.\n"
-"Where @time is the time to maturity of the option expressed in years\n"
-"@rate is the risk-free interest rate\n"
-"@volatility is the annualized volatility, in percent, of the asset or the "
+"Where @time is the time to maturity of the option expressed in years.\n"
+"@rate is the risk-free interest rate.\n"
+"@volatility is the annualized volatility, in percent, of the asset for the "
 "period through to the exercise date. \n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
-"stocks, this would be the dividend yield\n"
+"stocks, this would be the dividend yield.\n"
 "* The returned value will be expressed in the same units as @strike and "
 "@spot.\n"
 "\n"
@@ -177,14 +177,14 @@ msgstr ""
 "@SYNTAX=OPT_BS_DELTA(call_put_flag,spot,strike,time,rate,volatility[,"
 "cost_of_carry])\n"
 "@DESCRIPTION=OPT_BS_DELTA uses the Black-Scholes model to calculate the "
-"\"delta\" of a European option with call_put_flag, @call_put_flag, c or p "
+"'delta' of a European option with call_put_flag, @call_put_flag, 'c' or 'p' "
 "struck at @strike on an asset with spot price @spot.\n"
-"Where @time is the time to maturity of the option expressed in years\n"
-"@rate is the risk-free interest rate\n"
-"@volatility is the annualized volatility, in percent, of the asset or the "
+"Where @time is the time to maturity of the option expressed in years.\n"
+"@rate is the risk-free interest rate.\n"
+"@volatility is the annualized volatility, in percent, of the asset for the "
 "period through to the exercise date. \n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
-"stocks, this would be the dividend yield\n"
+"stocks, this would be the dividend yield.\n"
 "* The returned value will be expressed in the same units as @strike and "
 "@spot.\n"
 "\n"
@@ -197,18 +197,18 @@ msgid ""
 "@FUNCTION=OPT_BS_GAMMA\n"
 "@SYNTAX=OPT_BS_GAMMA(spot,strike,time,rate,volatility[,cost_of_carry])\n"
 "@DESCRIPTION=OPT_BS_GAMMA uses the Black-Scholes model to calculate the "
-"\"gamma\" of a European option struck at @strike on an asset with spot price "
+"'gamma' of a European option struck at @strike on an asset with spot price "
 "@spot.\n"
 "\n"
 "(The gamma of an option is the second derivative of its price with respect "
 "to the price of the underlying asset, and is the same for calls and puts.)\n"
 "\n"
-"@time is the time to maturity of the option expressed in years\n"
+"@time is the time to maturity of the option expressed in years.\n"
 "@rate is the risk-free interest rate to the exercise date, in percent.\n"
 "@volatility is the annualized volatility, in percent, of the asset for the "
 "period through to the exercise date.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
-"stocks, this would be the dividend yield\n"
+"stocks, this would be the dividend yield.\n"
 "* The returned value will be expressed as the rate of change of delta per "
 "unit change in @spot.\n"
 "\n"
@@ -219,18 +219,18 @@ msgstr ""
 "@FUNCTION=OPT_BS_GAMMA\n"
 "@SYNTAX=OPT_BS_GAMMA(spot,strike,time,rate,volatility[,cost_of_carry])\n"
 "@DESCRIPTION=OPT_BS_GAMMA uses the Black-Scholes model to calculate the "
-"\"gamma\" of a European option struck at @strike on an asset with spot price "
+"'gamma' of a European option struck at @strike on an asset with spot price "
 "@spot.\n"
 "\n"
 "(The gamma of an option is the second derivative of its price with respect "
 "to the price of the underlying asset, and is the same for calls and puts.)\n"
 "\n"
-"@time is the time to maturity of the option expressed in years\n"
+"@time is the time to maturity of the option expressed in years.\n"
 "@rate is the risk-free interest rate to the exercise date, in percent.\n"
 "@volatility is the annualized volatility, in percent, of the asset for the "
 "period through to the exercise date.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
-"stocks, this would be the dividend yield\n"
+"stocks, this would be the dividend yield.\n"
 "* The returned value will be expressed as the rate of change of delta per "
 "unit change in @spot.\n"
 "\n"
@@ -244,7 +244,7 @@ msgid ""
 "@SYNTAX=OPT_BS_THETA(call_put_flag,spot,strike,time,rate,volatility[,"
 "cost_of_carry])\n"
 "@DESCRIPTION=OPT_BS_THETA uses the Black-Scholes model to calculate the "
-"\"theta\" of a European option with call_put_flag, @call_put_flag struck at "
+"'theta' of a European option with call_put_flag, @call_put_flag struck at "
 "@strike on an asset with spot price @spot.\n"
 "\n"
 "(The theta of an option is the rate of change of its price with respect to "
@@ -255,7 +255,7 @@ msgid ""
 "@volatility is the annualized volatility, in percent, of the asset for the "
 "period through to the exercise date.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
-"stocks, this would be the dividend yield\n"
+"stocks, this would be the dividend yield.\n"
 "* The returned value will be expressed as minus the rate of change of option "
 "value, per 365.25 days.\n"
 "\n"
@@ -267,7 +267,7 @@ msgstr ""
 "@SYNTAX=OPT_BS_THETA(call_put_flag,spot,strike,time,rate,volatility[,"
 "cost_of_carry])\n"
 "@DESCRIPTION=OPT_BS_THETA uses the Black-Scholes model to calculate the "
-"\"theta\" of a European option with call_put_flag, @call_put_flag struck at "
+"'theta' of a European option with call_put_flag, @call_put_flag struck at "
 "@strike on an asset with spot price @spot.\n"
 "\n"
 "(The theta of an option is the rate of change of its price with respect to "
@@ -278,7 +278,7 @@ msgstr ""
 "@volatility is the annualized volatility, in percent, of the asset for the "
 "period through to the exercise date.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
-"stocks, this would be the dividend yield\n"
+"stocks, this would be the dividend yield.\n"
 "* The returned value will be expressed as minus the rate of change of option "
 "value, per 365.25 days.\n"
 "\n"
@@ -290,14 +290,14 @@ msgstr ""
 msgid ""
 "@FUNCTION=OPT_BS_VEGA\n"
 "@SYNTAX=OPT_BS_VEGA(spot,strike,time,rate,volatility[,cost_of_carry])\n"
-"@DESCRIPTION=OPT_BS_VEGA uses the Black-Scholes model to calculate the \"vega"
-"\" of a European option struck at @strike on an asset with spot price "
+"@DESCRIPTION=OPT_BS_VEGA uses the Black-Scholes model to calculate the "
+"'vega' of a European option struck at @strike on an asset with spot price "
 "@spot.\n"
 "(The vega of an option is the rate of change of its price with respect to "
 "volatility, and is the same for calls and puts.)\n"
 "@volatility is the annualized volatility, in percent, of the asset for the "
 "period through to the exercise date.\n"
-" @time is the time to maturity of the option expressed in years\n"
+" @time is the time to maturity of the option expressed in years.\n"
 "@rate is the risk-free interest rate to the exercise date, in percent.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
 "stocks, this would be the dividend yield.\n"
@@ -311,14 +311,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=OPT_BS_VEGA\n"
 "@SYNTAX=OPT_BS_VEGA(spot,strike,time,rate,volatility[,cost_of_carry])\n"
-"@DESCRIPTION=OPT_BS_VEGA uses the Black-Scholes model to calculate the \"vega"
-"\" of a European option struck at @strike on an asset with spot price "
+"@DESCRIPTION=OPT_BS_VEGA uses the Black-Scholes model to calculate the "
+"'vega' of a European option struck at @strike on an asset with spot price "
 "@spot.\n"
 "(The vega of an option is the rate of change of its price with respect to "
 "volatility, and is the same for calls and puts.)\n"
 "@volatility is the annualized volatility, in percent, of the asset for the "
 "period through to the exercise date.\n"
-" @time is the time to maturity of the option expressed in years\n"
+" @time is the time to maturity of the option expressed in years.\n"
 "@rate is the risk-free interest rate to the exercise date, in percent.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
 "stocks, this would be the dividend yield.\n"
@@ -336,18 +336,18 @@ msgid ""
 "@FUNCTION=OPT_BS_RHO\n"
 "@SYNTAX=OPT_BS_RHO(call_put_flag,spot,strike,time,rate,volatility[,"
 "cost_of_carry])\n"
-"@DESCRIPTION=OPT_BS_RHO uses the Black-Scholes model to calculate the \"rho"
-"\" of a European option with call_put_flag, @call_put_flag struck at @strike "
-"on an asset with spot price @spot.\n"
+"@DESCRIPTION=OPT_BS_RHO uses the Black-Scholes model to calculate the 'rho' "
+"of a European option with call_put_flag, @call_put_flag struck at @strike on "
+"an asset with spot price @spot.\n"
 "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
 "put.\n"
 "\n"
 "(The rho of an option is the rate of change of its price with respect to the "
 "risk free interest rate.)\n"
-"@time is the time to maturity of the option expressed in years\n"
+"@time is the time to maturity of the option expressed in years.\n"
 "@rate is the risk-free interest rate to the exercise date, in percent.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
-"stocks, this would be the dividend yield\n"
+"stocks, this would be the dividend yield.\n"
 "* The returned value will be expressed as the rate of change of option "
 "value, per 100% change in @rate.\n"
 "\n"
@@ -358,18 +358,18 @@ msgstr ""
 "@FUNCTION=OPT_BS_RHO\n"
 "@SYNTAX=OPT_BS_RHO(call_put_flag,spot,strike,time,rate,volatility[,"
 "cost_of_carry])\n"
-"@DESCRIPTION=OPT_BS_RHO uses the Black-Scholes model to calculate the \"rho"
-"\" of a European option with call_put_flag, @call_put_flag struck at @strike "
-"on an asset with spot price @spot.\n"
+"@DESCRIPTION=OPT_BS_RHO uses the Black-Scholes model to calculate the 'rho' "
+"of a European option with call_put_flag, @call_put_flag struck at @strike on "
+"an asset with spot price @spot.\n"
 "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
 "put.\n"
 "\n"
 "(The rho of an option is the rate of change of its price with respect to the "
 "risk free interest rate.)\n"
-"@time is the time to maturity of the option expressed in years\n"
+"@time is the time to maturity of the option expressed in years.\n"
 "@rate is the risk-free interest rate to the exercise date, in percent.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
-"stocks, this would be the dividend yield\n"
+"stocks, this would be the dividend yield.\n"
 "* The returned value will be expressed as the rate of change of option "
 "value, per 100% change in @rate.\n"
 "\n"
@@ -383,7 +383,7 @@ msgid ""
 "@SYNTAX=OPT_BS_CARRYCOST(call_put_flag,spot,strike,time,rate,volatility[,"
 "cost_of_carry])\n"
 "@DESCRIPTION=OPT_BS_CARRYCOST uses the Black-Scholes model to calculate the "
-"\"elasticity\" of a European option struck at @strike on an asset with spot "
+"'elasticity' of a European option struck at @strike on an asset with spot "
 "price @spot.\n"
 "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
 "put.\n"
@@ -393,7 +393,7 @@ msgid ""
 "\n"
 "@volatility is the annualized volatility, in percent, of the asset for the "
 "period through to the exercise date.  @time is the time to maturity of the "
-"option expressed in years\n"
+"option expressed in years.\n"
 "@rate is the risk-free interest rate to the exercise date, in percent.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
 "stocks, this would be the dividend yield.\n"
@@ -409,7 +409,7 @@ msgstr ""
 "@SYNTAX=OPT_BS_CARRYCOST(call_put_flag,spot,strike,time,rate,volatility[,"
 "cost_of_carry])\n"
 "@DESCRIPTION=OPT_BS_CARRYCOST uses the Black-Scholes model to calculate the "
-"\"elasticity\" of a European option struck at @strike on an asset with spot "
+"'elasticity' of a European option struck at @strike on an asset with spot "
 "price @spot.\n"
 "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
 "put.\n"
@@ -419,7 +419,7 @@ msgstr ""
 "\n"
 "@volatility is the annualized volatility, in percent, of the asset for the "
 "period through to the exercise date.  @time is the time to maturity of the "
-"option expressed in years\n"
+"option expressed in years.\n"
 "@rate is the risk-free interest rate to the exercise date, in percent.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
 "stocks, this would be the dividend yield.\n"
@@ -442,13 +442,13 @@ msgid ""
 "put.\n"
 "@volatility is the annualized volatility, in percent, of the asset for the "
 "period through to the exercise date. \n"
-"@time the number of days to exercise \n"
+"@time the number of days to exercise.\n"
 "@domestic_rate is the domestic risk-free interest rate to the exercise "
-"date \n"
+"date.\n"
 "@foreign_rate is the foreign risk-free interest rate to the exercise date, "
 "in percent.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
-"stocks, this would be the dividend yield\n"
+"stocks, this would be the dividend yield.\n"
 "* The returned value will be expressed as the rate of change of option "
 "value, per 100% volatility.\n"
 "\n"
@@ -465,13 +465,13 @@ msgstr ""
 "put.\n"
 "@volatility is the annualized volatility, in percent, of the asset for the "
 "period through to the exercise date. \n"
-"@time the number of days to exercise \n"
+"@time the number of days to exercise.\n"
 "@domestic_rate is the domestic risk-free interest rate to the exercise "
-"date \n"
+"date.\n"
 "@foreign_rate is the foreign risk-free interest rate to the exercise date, "
 "in percent.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
-"stocks, this would be the dividend yield\n"
+"stocks, this would be the dividend yield.\n"
 "* The returned value will be expressed as the rate of change of option "
 "value, per 100% volatility.\n"
 "\n"
@@ -536,13 +536,13 @@ msgid ""
 "according to the Jump Diffusion process (Merton).\n"
 "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
 "put.\n"
-"@spot is the spot price of the underlying asset\n"
-"@strike is the strike price of the option\n"
-"@time is the time to maturity of the option expressed in years\n"
-"@rate is the annualised rate of interest\n"
-"@volatility is the annualized volatility of the underlying asset\n"
-"@lambda is expected number of 'jumps' per year\n"
-"@gamma is proportion of volatility explained by the 'jumps'\n"
+"@spot is the spot price of the underlying asset.\n"
+"@strike is the strike price of the option.\n"
+"@time is the time to maturity of the option expressed in years.\n"
+"@rate is the annualized rate of interest.\n"
+"@volatility is the annualized volatility of the underlying asset.\n"
+"@lambda is expected number of 'jumps' per year.\n"
+"@gamma is proportion of volatility explained by the 'jumps.'\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -555,13 +555,13 @@ msgstr ""
 "according to the Jump Diffusion process (Merton).\n"
 "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
 "put.\n"
-"@spot is the spot price of the underlying asset\n"
-"@strike is the strike price of the option\n"
-"@time is the time to maturity of the option expressed in years\n"
-"@rate is the annualised rate of interest\n"
-"@volatility is the annualized volatility of the underlying asset\n"
-"@lambda is expected number of 'jumps' per year\n"
-"@gamma is proportion of volatility explained by the 'jumps'\n"
+"@spot is the spot price of the underlying asset.\n"
+"@strike is the strike price of the option.\n"
+"@time is the time to maturity of the option expressed in years.\n"
+"@rate is the annualized rate of interest.\n"
+"@volatility is the annualized volatility of the underlying asset.\n"
+"@lambda is expected number of 'jumps' per year.\n"
+"@gamma is proportion of volatility explained by the 'jumps.'\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -576,22 +576,22 @@ msgid ""
 "on commodities futures according to Miltersen & Schwartz. \n"
 "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
 "put.\n"
-"@p_t is a zero coupon bond with expiry at option maturity \n"
-"@f_t is is the futures price \n"
-"@x is is the strike price \n"
-"@t1 is the time to maturity of the option \n"
-"@t2 is the time to maturity of the underlying commodity futures contract \n"
-"@v_s is the volatility of the spot commodity price \n"
-"@v_e is the volatility of the future convenience yield \n"
-"@v_f is the volatility of the forward rate of interest \n"
+"@p_t is a zero coupon bond with expiry at option maturity.\n"
+"@f_t is is the futures price.\n"
+"@x is is the strike price.\n"
+"@t1 is the time to maturity of the option.\n"
+"@t2 is the time to maturity of the underlying commodity futures contract.\n"
+"@v_s is the volatility of the spot commodity price.\n"
+"@v_e is the volatility of the future convenience yield.\n"
+"@v_f is the volatility of the forward rate of interest.\n"
 "@rho_se is correlation between the spot commodity price and the convenience "
-"yield\n"
+"yield.\n"
 "@rho_sf is correlation between the spot commodity price and the forward "
-"interest rate \n"
+"interest rate.\n"
 "@rho_ef is correlation between the forward interest rate and the convenience "
-"yield \n"
-"@kappa_e is the speed of mean reversion of the convenience yield \n"
-"@kappa_f is the speed of mean reversion of the forward interest rate \n"
+"yield.\n"
+"@kappa_e is the speed of mean reversion of the convenience yield.\n"
+"@kappa_f is the speed of mean reversion of the forward interest rate.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -604,22 +604,22 @@ msgstr ""
 "on commodities futures according to Miltersen & Schwartz. \n"
 "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
 "put.\n"
-"@p_t is a zero coupon bond with expiry at option maturity \n"
-"@f_t is is the futures price \n"
-"@x is is the strike price \n"
-"@t1 is the time to maturity of the option \n"
-"@t2 is the time to maturity of the underlying commodity futures contract \n"
-"@v_s is the volatility of the spot commodity price \n"
-"@v_e is the volatility of the future convenience yield \n"
-"@v_f is the volatility of the forward rate of interest \n"
+"@p_t is a zero coupon bond with expiry at option maturity.\n"
+"@f_t is is the futures price.\n"
+"@x is is the strike price.\n"
+"@t1 is the time to maturity of the option.\n"
+"@t2 is the time to maturity of the underlying commodity futures contract.\n"
+"@v_s is the volatility of the spot commodity price.\n"
+"@v_e is the volatility of the future convenience yield.\n"
+"@v_f is the volatility of the forward rate of interest.\n"
 "@rho_se is correlation between the spot commodity price and the convenience "
-"yield\n"
+"yield.\n"
 "@rho_sf is correlation between the spot commodity price and the forward "
-"interest rate \n"
+"interest rate.\n"
 "@rho_ef is correlation between the forward interest rate and the convenience "
-"yield \n"
-"@kappa_e is the speed of mean reversion of the convenience yield \n"
-"@kappa_f is the speed of mean reversion of the forward interest rate \n"
+"yield.\n"
+"@kappa_e is the speed of mean reversion of the convenience yield.\n"
+"@kappa_f is the speed of mean reversion of the forward interest rate.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -633,13 +633,13 @@ msgid ""
 "according to the Roll-Geske-Whaley approximation where: \n"
 "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
 "put.\n"
-"@spot is the spot price of the underlying asset\n"
-"@strike is the strike price at which the option is struck\n"
-"@t1 is the time to the dividend payout\n"
+"@spot is the spot price of the underlying asset.\n"
+"@strike is the strike price at which the option is struck.\n"
+"@t1 is the time to the dividend payout.\n"
 "@t2 is the time to option expiration.\n"
-"@rate is the annualised rate of interest\n"
-"@d is the amount of the dividend to be paid \n"
-"@volatility is the annualized rate of volatility of the underlying asset\n"
+"@rate is the annualized rate of interest.\n"
+"@d is the amount of the dividend to be paid.\n"
+"@volatility is the annualized rate of volatility of the underlying asset.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -651,13 +651,13 @@ msgstr ""
 "according to the Roll-Geske-Whaley approximation where: \n"
 "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
 "put.\n"
-"@spot is the spot price of the underlying asset\n"
-"@strike is the strike price at which the option is struck\n"
-"@t1 is the time to the dividend payout\n"
+"@spot is the spot price of the underlying asset.\n"
+"@strike is the strike price at which the option is struck.\n"
+"@t1 is the time to the dividend payout.\n"
 "@t2 is the time to option expiration.\n"
-"@rate is the annualised rate of interest\n"
-"@d is the amount of the dividend to be paid \n"
-"@volatility is the annualized rate of volatility of the underlying asset\n"
+"@rate is the annualized rate of interest.\n"
+"@d is the amount of the dividend to be paid.\n"
+"@volatility is the annualized rate of volatility of the underlying asset.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -672,13 +672,13 @@ msgid ""
 "according to the Barone Adesie & Whaley approximation. \n"
 "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
 "put.\n"
-"@spot is the spot price of the underlying asset\n"
-"@strike is the strike price at which the option is struck\n"
-"@time is the number of days to maturity of the option\n"
-"@rate is the risk annualised free rate of interest\n"
+"@spot is the spot price of the underlying asset.\n"
+"@strike is the strike price at which the option is struck.\n"
+"@time is the number of days to maturity of the option.\n"
+"@rate is the risk annualized free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
-"stocks, this would be the dividend yield\n"
-"@volatility is the annualised volatility in price of the underlying asset\n"
+"stocks, this would be the dividend yield.\n"
+"@volatility is the annualized volatility in price of the underlying asset.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -691,13 +691,13 @@ msgstr ""
 "according to the Barone Adesie & Whaley approximation. \n"
 "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
 "put.\n"
-"@spot is the spot price of the underlying asset\n"
-"@strike is the strike price at which the option is struck\n"
-"@time is the number of days to maturity of the option\n"
-"@rate is the risk annualised free rate of interest\n"
+"@spot is the spot price of the underlying asset.\n"
+"@strike is the strike price at which the option is struck.\n"
+"@time is the number of days to maturity of the option.\n"
+"@rate is the risk annualized free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
-"stocks, this would be the dividend yield\n"
-"@volatility is the annualised volatility in price of the underlying asset\n"
+"stocks, this would be the dividend yield.\n"
+"@volatility is the annualized volatility in price of the underlying asset.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -712,11 +712,11 @@ msgid ""
 "according to the Bjerksund & Stensland approximation technique.\n"
 "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
 "put.\n"
-"@spot is the spot price of the underlying asset\n"
-"@strike is the strike price at which the option is struck\n"
-"@time is the number of days to maturity of the option\n"
-"@rate is the risk annualised free rate of interest\n"
-"@volatility is the annualised volatility in price of the underlying asset\n"
+"@spot is the spot price of the underlying asset.\n"
+"@strike is the strike price at which the option is struck.\n"
+"@time is the number of days to maturity of the option.\n"
+"@rate is the risk annualized free rate of interest.\n"
+"@volatility is the annualized volatility in price of the underlying asset.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
 "stocks, this would be the dividend yield.\n"
 "\n"
@@ -731,11 +731,11 @@ msgstr ""
 "according to the Bjerksund & Stensland approximation technique.\n"
 "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
 "put.\n"
-"@spot is the spot price of the underlying asset\n"
-"@strike is the strike price at which the option is struck\n"
-"@time is the number of days to maturity of the option\n"
-"@rate is the risk annualised free rate of interest\n"
-"@volatility is the annualised volatility in price of the underlying asset\n"
+"@spot is the spot price of the underlying asset.\n"
+"@strike is the strike price at which the option is struck.\n"
+"@time is the number of days to maturity of the option.\n"
+"@rate is the risk annualized free rate of interest.\n"
+"@volatility is the annualized volatility in price of the underlying asset.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
 "stocks, this would be the dividend yield.\n"
 "\n"
@@ -751,14 +751,14 @@ msgid ""
 "@DESCRIPTION=OPT_EXEC models the theoretical price of executive stock "
 "options @call_put_flag is 'c' or 'p' to indicate whether the option is a "
 "call or a put.\n"
-"One would expect this to always be a call option \n"
-"@spot is the spot price of the underlying asset \n"
-"@strike is the strike price at which the option is struck \n"
-"@time is the number of days to maturity of the option \n"
-"@rate is the risk annualised free rate of interest \n"
-"@volatility is the annualised volatility in price of the underlying asset\n"
+"One would expect this to always be a call option.\n"
+"@spot is the spot price of the underlying asset.\n"
+"@strike is the strike price at which the option is struck.\n"
+"@time is the number of days to maturity of the option.\n"
+"@rate is the risk annualized free rate of interest.\n"
+"@volatility is the annualized volatility in price of the underlying asset.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
-"stocks, this would be the dividend yield\n"
+"stocks, this would be the dividend yield.\n"
 "@lambda is the jump rate for executives. The model assumes executives "
 "forfeit their options if they leave the company.\n"
 "\n"
@@ -772,14 +772,14 @@ msgstr ""
 "@DESCRIPTION=OPT_EXEC models the theoretical price of executive stock "
 "options @call_put_flag is 'c' or 'p' to indicate whether the option is a "
 "call or a put.\n"
-"One would expect this to always be a call option \n"
-"@spot is the spot price of the underlying asset \n"
-"@strike is the strike price at which the option is struck \n"
-"@time is the number of days to maturity of the option \n"
-"@rate is the risk annualised free rate of interest \n"
-"@volatility is the annualised volatility in price of the underlying asset\n"
+"One would expect this to always be a call option.\n"
+"@spot is the spot price of the underlying asset.\n"
+"@strike is the strike price at which the option is struck.\n"
+"@time is the number of days to maturity of the option.\n"
+"@rate is the risk annualized free rate of interest.\n"
+"@volatility is the annualized volatility in price of the underlying asset.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
-"stocks, this would be the dividend yield\n"
+"stocks, this would be the dividend yield.\n"
 "@lambda is the jump rate for executives. The model assumes executives "
 "forfeit their options if they leave the company.\n"
 "\n"
@@ -796,14 +796,14 @@ msgid ""
 "options\n"
 " @call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
 "put.\n"
-"@spot is the spot price of the underlying asset \n"
-"@alpha is a fraction that set the strike price the future date @time1\n"
-"@time1 is the number of days until the option starts \n"
-"@time is the number of days to maturity of the option \n"
-"@rate is the risk annualised free rate of interest \n"
-"@volatility is the annualised volatility in price of the underlying asset\n"
+"@spot is the spot price of the underlying asset.\n"
+"@alpha is a fraction that set the strike price the future date @time1.\n"
+"@time1 is the number of days until the option starts.\n"
+"@time is the number of days to maturity of the option.\n"
+"@rate is the risk annualized free rate of interest.\n"
+"@volatility is the annualized volatility in price of the underlying asset.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
-"stocks, this would be the dividend yield\n"
+"stocks, this would be the dividend yield.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
@@ -815,14 +815,14 @@ msgstr ""
 "options\n"
 " @call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
 "put.\n"
-"@spot is the spot price of the underlying asset \n"
-"@alpha is a fraction that set the strike price the future date @time1\n"
-"@time1 is the number of days until the option starts \n"
-"@time is the number of days to maturity of the option \n"
-"@rate is the risk annualised free rate of interest \n"
-"@volatility is the annualised volatility in price of the underlying asset\n"
+"@spot is the spot price of the underlying asset.\n"
+"@alpha is a fraction that set the strike price the future date @time1.\n"
+"@time1 is the number of days until the option starts.\n"
+"@time is the number of days to maturity of the option.\n"
+"@rate is the risk annualized free rate of interest.\n"
+"@volatility is the annualized volatility in price of the underlying asset.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
-"stocks, this would be the dividend yield\n"
+"stocks, this would be the dividend yield.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
@@ -835,19 +835,19 @@ msgid ""
 "@DESCRIPTION=OPT_TIME_SWITCH models the theoretical price of time switch "
 "options. (Pechtl 1995)\n"
 "The holder receives @a * @dt for each period dt that the asset price was "
-"greater than the strike price (for a call) or below it (for a put) \n"
+"greater than the strike price (for a call) or below it (for a put). \n"
 "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
 "put.\n"
-"@spot is the spot price of the underlying asset \n"
-"@strike is the strike price at which the option is struck \n"
-"@a is the amount received for each time period as discussed above\n"
-"@time is the maturity of the option in years \n"
-"@m is the number of time units the option has already met the condition \n"
+"@spot is the spot price of the underlying asset.\n"
+"@strike is the strike price at which the option is struck.\n"
+"@a is the amount received for each time period as discussed above.\n"
+"@time is the maturity of the option in years.\n"
+"@m is the number of time units the option has already met the condition.\n"
 "@dt is the agreed upon discrete time period (often a day) expressed as a "
-"fraction of a year \n"
-"@rate is the risk annualised free rate of interest \n"
+"fraction of a year.\n"
+"@rate is the risk annualized free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
-"stocks, this would be the dividend yield\n"
+"stocks, this would be the dividend yield.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
@@ -858,19 +858,19 @@ msgstr ""
 "@DESCRIPTION=OPT_TIME_SWITCH models the theoretical price of time switch "
 "options. (Pechtl 1995)\n"
 "The holder receives @a * @dt for each period dt that the asset price was "
-"greater than the strike price (for a call) or below it (for a put) \n"
+"greater than the strike price (for a call) or below it (for a put). \n"
 "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
 "put.\n"
-"@spot is the spot price of the underlying asset \n"
-"@strike is the strike price at which the option is struck \n"
-"@a is the amount received for each time period as discussed above\n"
-"@time is the maturity of the option in years \n"
-"@m is the number of time units the option has already met the condition \n"
+"@spot is the spot price of the underlying asset.\n"
+"@strike is the strike price at which the option is struck.\n"
+"@a is the amount received for each time period as discussed above.\n"
+"@time is the maturity of the option in years.\n"
+"@m is the number of time units the option has already met the condition.\n"
 "@dt is the agreed upon discrete time period (often a day) expressed as a "
-"fraction of a year \n"
-"@rate is the risk annualised free rate of interest \n"
+"fraction of a year.\n"
+"@rate is the risk annualized free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
-"stocks, this would be the dividend yield\n"
+"stocks, this would be the dividend yield.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
@@ -884,13 +884,14 @@ msgid ""
 "chooser options.\n"
 "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
 "put.\n"
-"@spot is the spot price of the underlying asset \n"
-"@strike is the strike price at which the option is struck \n"
-"@time1 is the time in years until the holder chooses a put or a call option\n"
-"@time2 is the time in years until the the chosen option expires\n"
-"@rate is the risk annualised free rate of interest \n"
+"@spot is the spot price of the underlying asset.\n"
+"@strike is the strike price at which the option is struck.\n"
+"@time1 is the time in years until the holder chooses a put or a call "
+"option.\n"
+"@time2 is the time in years until the the chosen option expires.\n"
+"@rate is the risk annualized free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
-"stocks, this would be the dividend yield\n"
+"stocks, this would be the dividend yield.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
@@ -902,13 +903,14 @@ msgstr ""
 "chooser options.\n"
 "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
 "put.\n"
-"@spot is the spot price of the underlying asset \n"
-"@strike is the strike price at which the option is struck \n"
-"@time1 is the time in years until the holder chooses a put or a call option\n"
-"@time2 is the time in years until the the chosen option expires\n"
-"@rate is the risk annualised free rate of interest \n"
+"@spot is the spot price of the underlying asset.\n"
+"@strike is the strike price at which the option is struck.\n"
+"@time1 is the time in years until the holder chooses a put or a call "
+"option.\n"
+"@time2 is the time in years until the the chosen option expires.\n"
+"@rate is the risk annualized free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
-"stocks, this would be the dividend yield\n"
+"stocks, this would be the dividend yield.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
@@ -922,16 +924,19 @@ msgid ""
 "chooser options.\n"
 "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
 "put.\n"
-"@spot is the spot price of the underlying asset \n"
-"@strike_call is the strike price at which the option is struck \n"
-"@strike_put is the strike price at which the option is struck \n"
-"@time is the time in years until the holder chooses a put or a call option \n"
-"@time_call is the time in years to maturity of the call option if chosen\n"
-"@time_put is the time in years  to maturity of the put option if chosen\n"
-"@rate is the risk annualised free rate of interest \n"
+"@spot is the spot price of the underlying asset.\n"
+"@strike_call is the strike price at which the option is struck, applicable "
+"if exercised as a call option.\n"
+"@strike_put is the strike price at which the option is struck, applicable if "
+"exercised as a put option.\n"
+"@time is the time in years until the holder chooses a put or a call "
+"option. \n"
+"@time_call is the time in years to maturity of the call option if chosen.\n"
+"@time_put is the time in years  to maturity of the put option if chosen.\n"
+"@rate is the risk annualized free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
-"stocks, this would be the dividend yield\n"
-"@volatility is the annualised volatility in price of the underlying asset\n"
+"stocks, this would be the dividend yield.\n"
+"@volatility is the annualized volatility in price of the underlying asset.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -944,16 +949,19 @@ msgstr ""
 "chooser options.\n"
 "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
 "put.\n"
-"@spot is the spot price of the underlying asset \n"
-"@strike_call is the strike price at which the option is struck \n"
-"@strike_put is the strike price at which the option is struck \n"
-"@time is the time in years until the holder chooses a put or a call option \n"
-"@time_call is the time in years to maturity of the call option if chosen\n"
-"@time_put is the time in years  to maturity of the put option if chosen\n"
-"@rate is the risk annualised free rate of interest \n"
+"@spot is the spot price of the underlying asset.\n"
+"@strike_call is the strike price at which the option is struck, applicable "
+"if exercised as a call option.\n"
+"@strike_put is the strike price at which the option is struck, applicable if "
+"exercised as a put option.\n"
+"@time is the time in years until the holder chooses a put or a call "
+"option. \n"
+"@time_call is the time in years to maturity of the call option if chosen.\n"
+"@time_put is the time in years  to maturity of the put option if chosen.\n"
+"@rate is the risk annualized free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
-"stocks, this would be the dividend yield\n"
-"@volatility is the annualised volatility in price of the underlying asset\n"
+"stocks, this would be the dividend yield.\n"
+"@volatility is the annualized volatility in price of the underlying asset.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -965,20 +973,20 @@ msgid ""
 "@SYNTAX=OPT_ON_OPTIONS(type_flag,spot,strike1,strike2,time1,time2,rate,"
 "cost_of_carry,volatility)\n"
 "@DESCRIPTION=OPT_ON_OPTIONS models the theoretical price of options on "
-"options \n"
+"options.\n"
 "@type_flag is 'cc' for calls on calls, 'cp' for calls on puts, and so on for "
-"'pc', and 'pp'\n"
+"'pc', and 'pp'.\n"
 "@spot is the spot price of the underlying asset.\n"
 "@strike1 is the strike price at which the option being valued is struck.\n"
 "@strike2 is the strike price at which the underlying option is struck.\n"
 "@time1 is the time in years to maturity of the option.\n"
 "@time2 is the time in years to the maturity of the underlying option.\n"
-"(@time2 >= @time1)\n"
-"@rate is the risk annualised free rate of interest \n"
+"(@time2 >= @time1).\n"
+"@rate is the risk annualized free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset of the "
-"underlying optionfor common stocks, this would be the dividend yield\n"
-"@volatility is the annualised volatility in price of the underlying asset of "
-"the underlying option\n"
+"underlying option.for common stocks, this would be the dividend yield.\n"
+"@volatility is the annualized volatility in price of the underlying asset of "
+"the underlying option.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -988,20 +996,20 @@ msgstr ""
 "@SYNTAX=OPT_ON_OPTIONS(type_flag,spot,strike1,strike2,time1,time2,rate,"
 "cost_of_carry,volatility)\n"
 "@DESCRIPTION=OPT_ON_OPTIONS models the theoretical price of options on "
-"options \n"
+"options.\n"
 "@type_flag is 'cc' for calls on calls, 'cp' for calls on puts, and so on for "
-"'pc', and 'pp'\n"
+"'pc', and 'pp'.\n"
 "@spot is the spot price of the underlying asset.\n"
 "@strike1 is the strike price at which the option being valued is struck.\n"
 "@strike2 is the strike price at which the underlying option is struck.\n"
 "@time1 is the time in years to maturity of the option.\n"
 "@time2 is the time in years to the maturity of the underlying option.\n"
-"(@time2 >= @time1)\n"
-"@rate is the risk annualised free rate of interest \n"
+"(@time2 >= @time1).\n"
+"@rate is the risk annualized free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset of the "
-"underlying optionfor common stocks, this would be the dividend yield\n"
-"@volatility is the annualised volatility in price of the underlying asset of "
-"the underlying option\n"
+"underlying option.for common stocks, this would be the dividend yield.\n"
+"@volatility is the annualized volatility in price of the underlying asset of "
+"the underlying option.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -1015,7 +1023,7 @@ msgid ""
 "@DESCRIPTION=OPT_EXTENDIBLE_WRITER models the theoretical price of "
 "extendible writer options. These are options that can be exercised at an "
 "initial period, @time1, or their maturity extended to @time2 if the option "
-"is out of the money at @time1 \n"
+"is out of the money at @time1.\n"
 "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
 "put.\n"
 "@spot is the spot price of the underlying asset.\n"
@@ -1024,10 +1032,10 @@ msgid ""
 "money at @time1.\n"
 "@time1 is the initial maturity of the option in years.\n"
 "@time2 is the is the extended maturity in years if chosen.\n"
-"@rate is the risk annualised free rate of interest.\n"
+"@rate is the risk annualized free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
 "stocks, this would be the dividend yield.\n"
-"@volatility is the annualised volatility in price of the underlying asset.\n"
+"@volatility is the annualized volatility in price of the underlying asset.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -1039,7 +1047,7 @@ msgstr ""
 "@DESCRIPTION=OPT_EXTENDIBLE_WRITER models the theoretical price of "
 "extendible writer options. These are options that can be exercised at an "
 "initial period, @time1, or their maturity extended to @time2 if the option "
-"is out of the money at @time1 \n"
+"is out of the money at @time1.\n"
 "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
 "put.\n"
 "@spot is the spot price of the underlying asset.\n"
@@ -1048,10 +1056,10 @@ msgstr ""
 "money at @time1.\n"
 "@time1 is the initial maturity of the option in years.\n"
 "@time2 is the is the extended maturity in years if chosen.\n"
-"@rate is the risk annualised free rate of interest.\n"
+"@rate is the risk annualized free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
 "stocks, this would be the dividend yield.\n"
-"@volatility is the annualised volatility in price of the underlying asset.\n"
+"@volatility is the annualized volatility in price of the underlying asset.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -1073,10 +1081,10 @@ msgid ""
 "@spot1 & @spot2 are the spot prices of the underlying assets.\n"
 "@strike1 & @strike2 are the strike prices at which the option is struck.\n"
 "@time is the initial maturity of the option in years.\n"
-"@rate is the risk annualised free rate of interest.\n"
+"@rate is the risk annualized free rate of interest.\n"
 "@cost_of_carry1 & @cost_of_carry2 are the leakage in value of the underlying "
 "assets, for common stocks, this would be the dividend yield.\n"
-"@volatility1 & @volatility2 are the annualised volatility in price of the "
+"@volatility1 & @volatility2 are the annualized volatility in price of the "
 "underlying assets.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -1097,10 +1105,10 @@ msgstr ""
 "@spot1 & @spot2 are the spot prices of the underlying assets.\n"
 "@strike1 & @strike2 are the strike prices at which the option is struck.\n"
 "@time is the initial maturity of the option in years.\n"
-"@rate is the risk annualised free rate of interest.\n"
+"@rate is the risk annualized free rate of interest.\n"
 "@cost_of_carry1 & @cost_of_carry2 are the leakage in value of the underlying "
 "assets, for common stocks, this would be the dividend yield.\n"
-"@volatility1 & @volatility2 are the annualised volatility in price of the "
+"@volatility1 & @volatility2 are the annualized volatility in price of the "
 "underlying assets.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -1116,10 +1124,10 @@ msgid ""
 "option to exchange one asset with quantity @qty2 and spot price @spot2 for "
 "another, with quantity @qty1 and spot price @spot1.\n"
 "@time is the initial maturity of the option in years.\n"
-"@rate is the risk annualised free rate of interest.\n"
+"@rate is the risk annualized free rate of interest.\n"
 "@cost_of_carry1 & @cost_of_carry2 are the leakage in value of the underlying "
 "assets, for common stocks, this would be the dividend yield.\n"
-"@volatility1 & @volatility2 are the annualised volatility in price of the "
+"@volatility1 & @volatility2 are the annualized volatility in price of the "
 "underlying assets.\n"
 "@rho is the correlation between the two assets.\n"
 "\n"
@@ -1135,10 +1143,10 @@ msgstr ""
 "option to exchange one asset with quantity @qty2 and spot price @spot2 for "
 "another, with quantity @qty1 and spot price @spot1.\n"
 "@time is the initial maturity of the option in years.\n"
-"@rate is the risk annualised free rate of interest.\n"
+"@rate is the risk annualized free rate of interest.\n"
 "@cost_of_carry1 & @cost_of_carry2 are the leakage in value of the underlying "
 "assets, for common stocks, this would be the dividend yield.\n"
-"@volatility1 & @volatility2 are the annualised volatility in price of the "
+"@volatility1 & @volatility2 are the annualized volatility in price of the "
 "underlying assets.\n"
 "@rho is the correlation between the two assets.\n"
 "\n"
@@ -1154,12 +1162,12 @@ msgid ""
 "cost_of_carry2,volatility1, volatility2, rho)\n"
 "@DESCRIPTION=OPT_AMER_EXCHANGE models the theoretical price of an American "
 "option to exchange one asset with quantity @qty2 and spot price @spot2 for "
-"another, with quantity @qty1 and spot price @spot1 \n"
+"another, with quantity @qty1 and spot price @spot1.\n"
 "@time is the initial maturity of the option in years.\n"
-"@rate is the risk annualised free rate of interest.\n"
+"@rate is the risk annualized free rate of interest.\n"
 "@cost_of_carry1 & @cost_of_carry2 are the leakage in value of the underlying "
 "assets, for common stocks, this would be the dividend yield.\n"
-"@volatility1 & @volatility2 are the annualised volatility in price of the "
+"@volatility1 & @volatility2 are the annualized volatility in price of the "
 "underlying assets.\n"
 "@rho is the correlation between the two assets.\n"
 "\n"
@@ -1173,12 +1181,12 @@ msgstr ""
 "cost_of_carry2,volatility1, volatility2, rho)\n"
 "@DESCRIPTION=OPT_AMER_EXCHANGE models the theoretical price of an American "
 "option to exchange one asset with quantity @qty2 and spot price @spot2 for "
-"another, with quantity @qty1 and spot price @spot1 \n"
+"another, with quantity @qty1 and spot price @spot1.\n"
 "@time is the initial maturity of the option in years.\n"
-"@rate is the risk annualised free rate of interest.\n"
+"@rate is the risk annualized free rate of interest.\n"
 "@cost_of_carry1 & @cost_of_carry2 are the leakage in value of the underlying "
 "assets, for common stocks, this would be the dividend yield.\n"
-"@volatility1 & @volatility2 are the annualised volatility in price of the "
+"@volatility1 & @volatility2 are the annualized volatility in price of the "
 "underlying assets.\n"
 "@rho is the correlation between the two assets.\n"
 "\n"
@@ -1199,8 +1207,8 @@ msgid ""
 "@fut_price1 & @fut_price2 are the prices of the two futures contracts.\n"
 "@strike is the strike price at which the option is struck \n"
 "@time is the initial maturity of the option in years.\n"
-"@rate is the risk annualised free rate of interest.\n"
-"@volatility1 & @volatility2 are the annualised volatility in price of the "
+"@rate is the risk annualized free rate of interest.\n"
+"@volatility1 & @volatility2 are the annualized volatility in price of the "
 "underlying futures contracts.\n"
 "@rho is the correlation between the two futures contracts.\n"
 "\n"
@@ -1218,8 +1226,8 @@ msgstr ""
 "@fut_price1 & @fut_price2 are the prices of the two futures contracts.\n"
 "@strike is the strike price at which the option is struck \n"
 "@time is the initial maturity of the option in years.\n"
-"@rate is the risk annualised free rate of interest.\n"
-"@volatility1 & @volatility2 are the annualised volatility in price of the "
+"@rate is the risk annualized free rate of interest.\n"
+"@volatility1 & @volatility2 are the annualized volatility in price of the "
 "underlying futures contracts.\n"
 "@rho is the correlation between the two futures contracts.\n"
 "\n"
@@ -1243,10 +1251,10 @@ msgid ""
 "@spot_max is the maximum spot price of the underlying asset so far "
 "observed.\n"
 "@time is the initial maturity of the option in years.\n"
-"@rate is the risk annualised free rate of interest.\n"
+"@rate is the risk annualized free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
 "stocks, this would be the dividend yield.\n"
-"@volatility is the annualised volatility in price of the underlying asset.\n"
+"@volatility is the annualized volatility in price of the underlying asset.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -1266,10 +1274,10 @@ msgstr ""
 "@spot_max is the maximum spot price of the underlying asset so far "
 "observed.\n"
 "@time is the initial maturity of the option in years.\n"
-"@rate is the risk annualised free rate of interest.\n"
+"@rate is the risk annualized free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
 "stocks, this would be the dividend yield.\n"
-"@volatility is the annualised volatility in price of the underlying asset.\n"
+"@volatility is the annualized volatility in price of the underlying asset.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -1278,11 +1286,11 @@ msgstr ""
 #: plugins/derivatives/options.c:2067
 msgid ""
 "@FUNCTION=OPT_FIXED_STRK_LKBK\n"
-"@SYNTAX=OPT_FIXED_STRK_LKBK(call_put_flag,spot,spot_max,spot_min,strike,time,"
+"@SYNTAX=OPT_FIXED_STRK_LKBK(call_put_flag,spot,spot_min,spot_max,strike,time,"
 "rate,cost_of_carry,volatility)\n"
-"@DESCRIPTION=OPT_FIXED_STRK_LKBK models the theoretical price of where the "
-"holder of the option may exercise on expiry at the most favourable price "
-"observed during the options life of the underlying asset\n"
+"@DESCRIPTION=OPT_FIXED_STRK_LKBK models the theoretical price of an option "
+"where the holder of the option may exercise on expiry at the most favourable "
+"price observed during the options life of the underlying asset.\n"
 "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
 "put.\n"
 "@spot is the spot price of the underlying asset.\n"
@@ -1290,22 +1298,23 @@ msgid ""
 "observed.\n"
 "@spot_max is the maximum spot price of the underlying asset so far "
 "observed.\n"
+"@strike is the strike prices at which the option is struck.\n"
 "@time is the initial maturity of the option in years.\n"
-"@rate is the risk annualised free rate of interest.\n"
+"@rate is the risk annualized free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
 "stocks, this would be the dividend yield.\n"
-"@volatility is the annualised volatility in price of the underlying asset.\n"
+"@volatility is the annualized volatility in price of the underlying asset.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
 "@FUNCTION=OPT_FIXED_STRK_LKBK\n"
-"@SYNTAX=OPT_FIXED_STRK_LKBK(call_put_flag,spot,spot_max,spot_min,strike,time,"
+"@SYNTAX=OPT_FIXED_STRK_LKBK(call_put_flag,spot,spot_min,spot_max,strike,time,"
 "rate,cost_of_carry,volatility)\n"
-"@DESCRIPTION=OPT_FIXED_STRK_LKBK models the theoretical price of where the "
-"holder of the option may exercise on expiry at the most favourable price "
-"observed during the options life of the underlying asset\n"
+"@DESCRIPTION=OPT_FIXED_STRK_LKBK models the theoretical price of an option "
+"where the holder of the option may exercise on expiry at the most favourable "
+"price observed during the options life of the underlying asset.\n"
 "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
 "put.\n"
 "@spot is the spot price of the underlying asset.\n"
@@ -1313,35 +1322,38 @@ msgstr ""
 "observed.\n"
 "@spot_max is the maximum spot price of the underlying asset so far "
 "observed.\n"
+"@strike is the strike prices at which the option is struck.\n"
 "@time is the initial maturity of the option in years.\n"
-"@rate is the risk annualised free rate of interest.\n"
+"@rate is the risk annualized free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
 "stocks, this would be the dividend yield.\n"
-"@volatility is the annualised volatility in price of the underlying asset.\n"
+"@volatility is the annualized volatility in price of the underlying asset.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
-#: plugins/derivatives/options.c:2147
+#: plugins/derivatives/options.c:2148
 msgid ""
 "@FUNCTION=OPT_BINOMIAL\n"
 "@SYNTAX=OPT_BINOMIAL(amer_euro_flag,call_put_flag,num_time_steps, spot, "
 "strike, time, rate, volatility, cost_of_carry)\n"
 "@DESCRIPTION=OPT_ models the theoretical price of either an American or "
-"European style option using a binomial tree \n"
-"@amer_euro_flag is either \"a\" or \"e\" to indicate whether the option "
-"being valued is an American or European style option respectively\n"
+"European style option using a binomial tree.\n"
+"@amer_euro_flag is either 'a' or 'e' to indicate whether the option being "
+"valued is an American or European style option respectively.\n"
 "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
 "put.\n"
 "@num_time_steps is the number of time steps used in the valuation, a greater "
-"number of time steps yields greater accuracy however is slower to calculate\n"
+"number of time steps yields greater accuracy however is slower to "
+"calculate.\n"
 "@spot is the spot price of the underlying asset.\n"
-"@strike is the strike price at which the option is struck \n"
+"@strike is the strike price at which the option is struck.\n"
 "@time is the initial maturity of the option in years.\n"
-"@rate is the risk annualised free rate of interest.\n"
-"@volatility is the annualised volatility in price of the underlying asset.\n"
-"@cost_of_carry is the leakage in value of the underlying asset, \n"
+"@rate is the risk annualized free rate of interest.\n"
+"@volatility is the annualized volatility in price of the underlying asset.\n"
+"@cost_of_carry is the leakage in value of the underlying asset.\n"
+"\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
@@ -1350,62 +1362,64 @@ msgstr ""
 "@SYNTAX=OPT_BINOMIAL(amer_euro_flag,call_put_flag,num_time_steps, spot, "
 "strike, time, rate, volatility, cost_of_carry)\n"
 "@DESCRIPTION=OPT_ models the theoretical price of either an American or "
-"European style option using a binomial tree \n"
-"@amer_euro_flag is either \"a\" or \"e\" to indicate whether the option "
-"being valued is an American or European style option respectively\n"
+"European style option using a binomial tree.\n"
+"@amer_euro_flag is either 'a' or 'e' to indicate whether the option being "
+"valued is an American or European style option respectively.\n"
 "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
 "put.\n"
 "@num_time_steps is the number of time steps used in the valuation, a greater "
-"number of time steps yields greater accuracy however is slower to calculate\n"
+"number of time steps yields greater accuracy however is slower to "
+"calculate.\n"
 "@spot is the spot price of the underlying asset.\n"
-"@strike is the strike price at which the option is struck \n"
+"@strike is the strike price at which the option is struck.\n"
 "@time is the initial maturity of the option in years.\n"
-"@rate is the risk annualised free rate of interest.\n"
-"@volatility is the annualised volatility in price of the underlying asset.\n"
-"@cost_of_carry is the leakage in value of the underlying asset, \n"
+"@rate is the risk annualized free rate of interest.\n"
+"@volatility is the annualized volatility in price of the underlying asset.\n"
+"@cost_of_carry is the leakage in value of the underlying asset.\n"
+"\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
-#: plugins/derivatives/options.c:2170 plugins/derivatives/options.c:2175
-#: plugins/derivatives/options.c:2180 plugins/derivatives/options.c:2185
-#: plugins/derivatives/options.c:2200
+#: plugins/derivatives/options.c:2171 plugins/derivatives/options.c:2176
+#: plugins/derivatives/options.c:2181 plugins/derivatives/options.c:2186
+#: plugins/derivatives/options.c:2201
 msgid "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"
 msgstr "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"
 
-#: plugins/derivatives/options.c:2190 plugins/derivatives/options.c:2195
+#: plugins/derivatives/options.c:2191 plugins/derivatives/options.c:2196
 msgid "spot, strike, time, rate, volatility, cost_of_carry"
 msgstr "spot, strike, time, rate, volatility, cost_of_carry"
 
-#: plugins/derivatives/options.c:2205
+#: plugins/derivatives/options.c:2206
 msgid "a, b, rho"
 msgstr "a, b, rho"
 
-#: plugins/derivatives/options.c:2210
+#: plugins/derivatives/options.c:2211
 msgid ""
 "call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
 msgstr ""
 "call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
 
-#: plugins/derivatives/options.c:2215
+#: plugins/derivatives/options.c:2216
 msgid "call_put_flag, spot, strike, time, t2, rate, volatility, cost of carry"
 msgstr "call_put_flag, spot, strike, time, t2, rate, volatility, cost of carry"
 
-#: plugins/derivatives/options.c:2220
+#: plugins/derivatives/options.c:2221
 msgid "call_put_flag, spot, strike, time, rate, volatility, lambda, gamma"
 msgstr "call_put_flag, spot, strike, time, rate, volatility, lambda, gamma"
 
-#: plugins/derivatives/options.c:2225
+#: plugins/derivatives/options.c:2226
 msgid ""
 "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
 msgstr ""
 "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
 
-#: plugins/derivatives/options.c:2230 plugins/derivatives/options.c:2240
+#: plugins/derivatives/options.c:2231 plugins/derivatives/options.c:2241
 msgid "call_put_flag, spot, strike, time, rate, cost_of_carry, volatility"
 msgstr "call_put_flag, spot, strike, time, rate, cost_of_carry, volatility"
 
-#: plugins/derivatives/options.c:2235
+#: plugins/derivatives/options.c:2236
 msgid ""
 "call_put_flag, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, rho_ef, "
 "kappa_e, kappa_f)"
@@ -1413,27 +1427,27 @@ msgstr ""
 "call_put_flag, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, rho_ef, "
 "kappa_e, kappa_f)"
 
-#: plugins/derivatives/options.c:2245
+#: plugins/derivatives/options.c:2246
 msgid "call_put_flag, spot, strike, t1, t2, rate, d, volatility"
 msgstr "call_put_flag, spot, strike, t1, t2, rate, d, volatility"
 
-#: plugins/derivatives/options.c:2250
+#: plugins/derivatives/options.c:2251
 msgid ""
 "call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
 msgstr ""
 "call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
 
-#: plugins/derivatives/options.c:2255
+#: plugins/derivatives/options.c:2256
 msgid ""
 "call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"
 msgstr ""
 "call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"
 
-#: plugins/derivatives/options.c:2260
+#: plugins/derivatives/options.c:2261
 msgid "spot, strike, time1, time2, rate, cost_of_carry, volatility"
 msgstr "spot, strike, time1, time2, rate, cost_of_carry, volatility"
 
-#: plugins/derivatives/options.c:2265
+#: plugins/derivatives/options.c:2266
 msgid ""
 "spot, strike_call, strike_put, time, time_call, time_put, rate, "
 "cost_of_carry, volatility"
@@ -1441,7 +1455,7 @@ msgstr ""
 "spot, strike_call, strike_put, time, time_call, time_put, rate, "
 "cost_of_carry, volatility"
 
-#: plugins/derivatives/options.c:2270 plugins/derivatives/options.c:2275
+#: plugins/derivatives/options.c:2271 plugins/derivatives/options.c:2276
 msgid ""
 "type_flag, spot, strike1, strike2, time1, time2, rate, cost_of_carry, "
 "volatility"
@@ -1449,7 +1463,7 @@ msgstr ""
 "type_flag, spot, strike1, strike2, time1, time2, rate, cost_of_carry, "
 "volatility"
 
-#: plugins/derivatives/options.c:2280
+#: plugins/derivatives/options.c:2281
 msgid ""
 "type_flag, spot1, spot2, strike1, strike2, time, cost_of_carry1, "
 "cost_of_carry2, rate, volatility1, volatility2, rho"
@@ -1457,7 +1471,7 @@ msgstr ""
 "type_flag, spot1, spot2, strike1, strike2, time, cost_of_carry1, "
 "cost_of_carry2, rate, volatility1, volatility2, rho"
 
-#: plugins/derivatives/options.c:2285 plugins/derivatives/options.c:2290
+#: plugins/derivatives/options.c:2286 plugins/derivatives/options.c:2291
 msgid ""
 "spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1,"
 "volatility2,rho"
@@ -1465,7 +1479,7 @@ msgstr ""
 "spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1,"
 "volatility2,rho"
 
-#: plugins/derivatives/options.c:2295
+#: plugins/derivatives/options.c:2296
 msgid ""
 "call_put_flag,fut_price1,fut_price2,strike,time, rate,volatility1,"
 "volatility2,rho"
@@ -1473,12 +1487,12 @@ msgstr ""
 "call_put_flag,fut_price1,fut_price2,strike,time, rate,volatility1,"
 "volatility2,rho"
 
-#: plugins/derivatives/options.c:2300
+#: plugins/derivatives/options.c:2301
 msgid "call_put_flag,spot,spot_min,spot_max,time,rate,cost_of_carry,volatility"
 msgstr ""
 "call_put_flag,spot,spot_min,spot_max,time,rate,cost_of_carry,volatility"
 
-#: plugins/derivatives/options.c:2305
+#: plugins/derivatives/options.c:2306
 msgid ""
 "call_put_flag,spot,spot_min,spot_max,strike,time,rate,cost_of_carry,"
 "volatility"
@@ -1486,7 +1500,7 @@ msgstr ""
 "call_put_flag,spot,spot_min,spot_max,strike,time,rate,cost_of_carry,"
 "volatility"
 
-#: plugins/derivatives/options.c:2311
+#: plugins/derivatives/options.c:2312
 msgid ""
 "amer_euro_flag,call_put_flag,num_time_steps, spot, strike, time, rate, "
 "volatility, cost_of_carry"
@@ -1508,8 +1522,8 @@ msgstr "Financial Derivatives"
 msgid "Functions related to financial derivatives"
 msgstr "Functions related to financial derivatives"
 
-#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5683
-#: plugins/mps/mps.c:547 src/xml-io.c:4203
+#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5743
+#: plugins/mps/mps.c:547 src/xml-io.c:4192
 msgid "Reading file..."
 msgstr "Reading file..."
 
@@ -1600,45 +1614,45 @@ msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Unexpected attribute %s::%s == '%s'."
 
 #: plugins/excel/excel-xml-read.c:198
-#: plugins/openoffice/openoffice-read.c:1165
-#: plugins/xml_sax/xml-sax-read.c:1651
+#: plugins/openoffice/openoffice-read.c:1479
+#: plugins/xml_sax/xml-sax-read.c:1649
 msgid "XML document not well formed!"
 msgstr "XML document not well formed!"
 
-#: plugins/excel/ms-excel-read.c:1061 src/value.c:60
+#: plugins/excel/ms-excel-read.c:1069 src/value.c:60
 msgid "#UNKNOWN!"
 msgstr "#UNKNOWN!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1143 plugins/excel/ms-excel-read.c:1155
+#: plugins/excel/ms-excel-read.c:1151 plugins/excel/ms-excel-read.c:1163
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:510
 #: src/dialogs/dialog-sheet-order.c:494 src/dialogs/dialog-sheet-order.c:498
 #, c-format
 msgid "Sheet%d"
 msgstr "Sheet%d"
 
-#: plugins/excel/ms-excel-read.c:1159
+#: plugins/excel/ms-excel-read.c:1167
 #, c-format
 msgid "Macro%d"
 msgstr "Macro%d"
 
-#: plugins/excel/ms-excel-read.c:1163
+#: plugins/excel/ms-excel-read.c:1171
 #, c-format
 msgid "Chart%d"
 msgstr "Chart%d"
 
-#: plugins/excel/ms-excel-read.c:1166
+#: plugins/excel/ms-excel-read.c:1174
 #, c-format
 msgid "Module%d"
 msgstr "Module%d"
 
-#: plugins/excel/ms-excel-read.c:2954
+#: plugins/excel/ms-excel-read.c:2963
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Failure parsing name '%s'"
 
-#: plugins/excel/ms-excel-read.c:3050
+#: plugins/excel/ms-excel-read.c:3059
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -1647,7 +1661,7 @@ msgstr ""
 "DDE links are not supported.\n"
 "Name '%s' will be lost.\n"
 
-#: plugins/excel/ms-excel-read.c:3056
+#: plugins/excel/ms-excel-read.c:3065
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -1656,15 +1670,15 @@ msgstr ""
 "OLE links are not supported.\n"
 "Name '%s' will be lost.\n"
 
-#: plugins/excel/ms-excel-read.c:5033
+#: plugins/excel/ms-excel-read.c:5088
 msgid "external references"
 msgstr "external references"
 
-#: plugins/excel/ms-excel-read.c:5056
+#: plugins/excel/ms-excel-read.c:5111
 msgid "No password supplied"
 msgstr "No password supplied"
 
-#: plugins/excel/ms-excel-read.c:5909
+#: plugins/excel/ms-excel-read.c:5969
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Unable to locate valid MS Excel workbook"
 
@@ -1678,7 +1692,7 @@ msgstr ""
 "We already wrote a length for a string that is being truncated due to "
 "encoding problems."
 
-#: plugins/excel/ms-excel-write.c:4163
+#: plugins/excel/ms-excel-write.c:4164
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -1687,7 +1701,7 @@ msgstr ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
 "d rows, and this workbook has %d"
 
-#: plugins/excel/ms-excel-write.c:4170
+#: plugins/excel/ms-excel-write.c:4171
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -8823,7 +8837,7 @@ msgstr "%s version %s"
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #. Color
 #: plugins/fn-info/functions.c:1324
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1445
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1447
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:224
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:119
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:822
@@ -14374,8 +14388,8 @@ msgid ""
 "@SYNTAX=TDIST(x,dof,tails)\n"
 "@DESCRIPTION=TDIST function returns the Student's t-distribution. @dof is "
 "the degree of freedom and @tails is 1 or 2 depending on whether you want one-"
-"tailed or two-tailed distribution.@tails = 1 returns the size of teh right "
-"tail.\n"
+"tailed or two-tailed distribution.\n"
+"@tails = 1 returns the size of the right tail.\n"
 "\n"
 "* If @dof < 1 TDIST returns #NUM! error.\n"
 "* If @tails is neither 1 or 2 TDIST returns #NUM! error.\n"
@@ -14392,11 +14406,11 @@ msgstr ""
 "@SYNTAX=TDIST(x,dof,tails)\n"
 "@DESCRIPTION=TDIST function returns the Student's t-distribution. @dof is "
 "the degree of freedom and @tails is 1 or 2 depending on whether you want one-"
-"tailed or two-tailed distribution. @tails = 1 returns the size of the right "
-"tail.\n"
+"tailed or two-tailed distribution.\n"
+"@tails = 1 returns the size of the right tail.\n"
 "\n"
-"* If @dof < 1, TDIST returns #NUM! error.\n"
-"* If @tails is neither 1 nor 2, TDIST returns #NUM! error.\n"
+"* If @dof < 1 TDIST returns #NUM! error.\n"
+"* If @tails is neither 1 or 2 TDIST returns #NUM! error.\n"
 "* This function is Excel compatible for non-negative @x.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -17728,9 +17742,9 @@ msgstr "Objective function:"
 msgid "Constraints:"
 msgstr "Constraints:"
 
-#: plugins/mps/mps.c:245 src/commands.c:6101
+#: plugins/mps/mps.c:245 src/commands.c:6107
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1057
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:377
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:379
 #: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:800
 #: src/dialogs/dialog-function-select.c:445
 #: src/dialogs/dialog-function-select.c:467 src/dialogs/dialog-scenarios.c:368
@@ -17918,7 +17932,27 @@ msgstr ""
 "\n"
 "@SEEALSO=ITHPRIME, NT_D, NT_SIGMA"
 
-#: plugins/numtheory/numtheory.c:404
+#: plugins/numtheory/numtheory.c:428
+msgid ""
+"@FUNCTION=PFACTOR\n"
+"@SYNTAX=PFACTOR(n)\n"
+"@DESCRIPTION=PFACTOR function returns the smallest prime factor of its "
+"argument.\n"
+"\n"
+"The argument must be at least 2, or else a #VALUE! error is returned.\n"
+"\n"
+"@SEEALSO=ITHPRIME"
+msgstr ""
+"@FUNCTION=PFACTOR\n"
+"@SYNTAX=PFACTOR(n)\n"
+"@DESCRIPTION=PFACTOR function returns the smallest prime factor of its "
+"argument.\n"
+"\n"
+"The argument must be at least 2, or else a #VALUE! error is returned.\n"
+"\n"
+"@SEEALSO=ITHPRIME"
+
+#: plugins/numtheory/numtheory.c:457
 msgid ""
 "@FUNCTION=NT_PI\n"
 "@SYNTAX=NT_PI(n)\n"
@@ -17934,7 +17968,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA"
 
-#: plugins/numtheory/numtheory.c:430
+#: plugins/numtheory/numtheory.c:483
 msgid ""
 "@FUNCTION=BITOR\n"
 "@SYNTAX=BITOR(a,b)\n"
@@ -17950,7 +17984,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITXOR,BITAND"
 
-#: plugins/numtheory/numtheory.c:449
+#: plugins/numtheory/numtheory.c:502
 msgid ""
 "@FUNCTION=BITXOR\n"
 "@SYNTAX=BITXOR(a,b)\n"
@@ -17968,7 +18002,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITOR,BITAND"
 
-#: plugins/numtheory/numtheory.c:469
+#: plugins/numtheory/numtheory.c:522
 msgid ""
 "@FUNCTION=BITAND\n"
 "@SYNTAX=BITAND(a,b)\n"
@@ -17984,7 +18018,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITOR,BITXOR"
 
-#: plugins/numtheory/numtheory.c:489
+#: plugins/numtheory/numtheory.c:542
 msgid ""
 "@FUNCTION=BITLSHIFT\n"
 "@SYNTAX=BITLSHIFT(x,n)\n"
@@ -18004,7 +18038,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITRSHIFT"
 
-#: plugins/numtheory/numtheory.c:516
+#: plugins/numtheory/numtheory.c:569
 msgid ""
 "@FUNCTION=BITRSHIFT\n"
 "@SYNTAX=BITRSHIFT(x,n)\n"
@@ -18052,43 +18086,47 @@ msgstr "GNU Oleo (*.oleo)"
 msgid "Imports GNU Oleo documents"
 msgstr "Imports GNU Oleo documents"
 
-#: plugins/openoffice/openoffice-read.c:507
+#: plugins/openoffice/openoffice-read.c:536
 msgid "Missing expression"
 msgstr "Missing expression"
 
-#: plugins/openoffice/openoffice-read.c:512
+#: plugins/openoffice/openoffice-read.c:541
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "Expression '%s' does not start with a recognized character"
 
-#: plugins/openoffice/openoffice-read.c:525
+#: plugins/openoffice/openoffice-read.c:554
 #, c-format
 msgid "Unable to parse '%s' because '%s'"
 msgstr "Unable to parse '%s' because '%s'"
 
-#: plugins/openoffice/openoffice-read.c:582
+#: plugins/openoffice/openoffice-read.c:625
 msgid "Invalid array expression does not specify number of columns."
 msgstr "Invalid array expression does not specify number of columns."
 
-#: plugins/openoffice/openoffice-read.c:585
+#: plugins/openoffice/openoffice-read.c:628
 msgid "Invalid array expression does not specify number of rows."
 msgstr "Invalid array expression does not specify number of rows."
 
-#: plugins/openoffice/openoffice-read.c:916
+#: plugins/openoffice/openoffice-read.c:1148
 #, c-format
 msgid "Unable to parse position for expression '%s' @ '%s' because '%s'"
 msgstr "Unable to parse position for expression '%s' @ '%s' because '%s'"
 
-#: plugins/openoffice/openoffice-read.c:929
+#: plugins/openoffice/openoffice-read.c:1161
 #, c-format
 msgid ""
 "Unable to parse position for expression '%s' with value '%s' because '%s'"
 msgstr ""
 "Unable to parse position for expression '%s' with value '%s' because '%s'"
 
-#: plugins/openoffice/openoffice-read.c:1115
+#: plugins/openoffice/openoffice-read.c:1415
 msgid "No stream named content.xml found."
 msgstr "No stream named content.xml found."
+
+#: plugins/openoffice/openoffice-read.c:1422
+msgid "No stream named styles.xml found."
+msgstr "No stream named styles.xml found."
 
 #: plugins/openoffice/openoffice-write.c:122
 #, c-format
@@ -18148,6 +18186,10 @@ msgstr "Paradox"
 #: plugins/paradox/plugin.xml.in.h:3
 msgid "Paradox database or primary index file"
 msgstr "Paradox database or primary index file"
+
+#: plugins/perl/ext/Gnumeric.xs:144
+msgid "Perl plugin"
+msgstr "Perl plugin"
 
 #: plugins/perl/plugin.xml.in.h:1
 msgid "Enables the creation of functions in Perl"
@@ -18368,8 +18410,8 @@ msgid "Quatro Pro (*.wb1, *.wb2, *.wb3)"
 msgstr "Quatro Pro (*.wb1, *.wb2, *.wb3)"
 
 #: plugins/qpro/plugin.xml.in.h:3
-msgid "Quatro Pro(tm)"
-msgstr "Quatro Pro(tm)"
+msgid "Quattro Pro(tm)"
+msgstr "Quattro Pro(tm)"
 
 #: plugins/qpro/qpro-read.c:151
 #, c-format
@@ -18494,10 +18536,10 @@ msgstr "This is message from the \"%s\" plugin."
 msgid "Error while opening xbase file."
 msgstr "Error while opening xbase file."
 
-#: plugins/xbase/boot.c:175 src/commands.c:4895
+#: plugins/xbase/boot.c:175 src/commands.c:4901
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:409
 #: src/dialogs/dialog-stf-export.c:353 src/dialogs/print.glade.h:21
-#: src/print-info.c:391 src/workbook.c:1083 src/xml-io.c:3793
+#: src/print-info.c:391 src/workbook.c:1083 src/xml-io.c:3782
 msgid "Sheet"
 msgstr "Sheet"
 
@@ -18536,7 +18578,7 @@ msgstr "EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"
 msgid "EXPERIMENTAL SAX based XML"
 msgstr "EXPERIMENTAL SAX based XML"
 
-#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4329
+#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4318
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML (*.gnumeric)"
 
@@ -19436,446 +19478,446 @@ msgstr "%s is locked. Unprotect the workbook to enable editing."
 msgid "%s is locked. Unprotect the sheet to enable editing."
 msgstr "%s is locked. Unprotect the sheet to enable editing."
 
-#: src/commands.c:424
+#: src/commands.c:429
 msgid "..."
 msgstr "..."
 
-#: src/commands.c:917 src/commands.c:1022 src/commands.c:1027
+#: src/commands.c:923 src/commands.c:1028 src/commands.c:1033
 msgid "Set Text"
 msgstr "Set Text"
 
-#: src/commands.c:942
+#: src/commands.c:948
 #, c-format
 msgid "Typing \"%s%s\" in %s"
 msgstr "Typing \"%s%s\" in %s"
 
-#: src/commands.c:1145
+#: src/commands.c:1151
 #, c-format
 msgid "Typing \"%s%s\""
 msgstr "Typing \"%s%s\""
 
-#: src/commands.c:1182
+#: src/commands.c:1188
 msgid "Ins/Del Column/Row"
 msgstr "Ins/Del Column/Row"
 
-#: src/commands.c:1289 src/commands.c:1294 src/sheet.c:3244
+#: src/commands.c:1295 src/commands.c:1300 src/sheet.c:3249
 msgid "Delete Columns"
 msgstr "Delete Columns"
 
-#: src/commands.c:1289 src/commands.c:1294 src/sheet.c:3362
+#: src/commands.c:1295 src/commands.c:1300 src/sheet.c:3367
 msgid "Delete Rows"
 msgstr "Delete Rows"
 
-#: src/commands.c:1442
+#: src/commands.c:1448
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Inserting %d columns before %s"
 
-#: src/commands.c:1443
+#: src/commands.c:1449
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "Inserting %d column before %s"
 
-#: src/commands.c:1458
+#: src/commands.c:1464
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "Inserting %d rows before %s"
 
-#: src/commands.c:1459
+#: src/commands.c:1465
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "Inserting %d row before %s"
 
-#: src/commands.c:1470
+#: src/commands.c:1476
 #, c-format
 msgid "Deleting columns %s"
 msgstr "Deleting columns %s"
 
-#: src/commands.c:1471
+#: src/commands.c:1477
 #, c-format
 msgid "Deleting column %s"
 msgstr "Deleting column %s"
 
-#: src/commands.c:1481
+#: src/commands.c:1487
 #, c-format
 msgid "Deleting rows %s"
 msgstr "Deleting rows %s"
 
-#: src/commands.c:1482
+#: src/commands.c:1488
 #, c-format
 msgid "Deleting row %s"
 msgstr "Deleting row %s"
 
 #. Check for locked cells
-#: src/commands.c:1564 src/commands.c:1568 src/sheet.c:2858
+#: src/commands.c:1570 src/commands.c:1574 src/sheet.c:2861
 msgid "Clear"
 msgstr "Clear"
 
-#: src/commands.c:1639
+#: src/commands.c:1645
 msgid "contents"
 msgstr "contents"
 
-#: src/commands.c:1641
+#: src/commands.c:1647
 msgid "formats"
 msgstr "formats"
 
-#: src/commands.c:1643
+#: src/commands.c:1649
 msgid "comments"
 msgstr "comments"
 
-#: src/commands.c:1659
+#: src/commands.c:1665
 msgid "all"
 msgstr "all"
 
-#: src/commands.c:1666
+#: src/commands.c:1672
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "Clearing %s in %s"
 
-#: src/commands.c:1749
+#: src/commands.c:1755
 msgid "Changing Format"
 msgstr "Changing Format"
 
-#: src/commands.c:1874
+#: src/commands.c:1880
 #, c-format
 msgid "Changing format of %s"
 msgstr "Changing format of %s"
 
-#: src/commands.c:1984
+#: src/commands.c:1990
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Autofitting column %s"
 
-#: src/commands.c:1985
+#: src/commands.c:1991
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Autofitting row %s"
 
-#: src/commands.c:1988
+#: src/commands.c:1994
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "Setting width of column %s to %d pixels"
 
-#: src/commands.c:1990
+#: src/commands.c:1996
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "Setting height of row %s to %d pixels"
 
-#: src/commands.c:1993
+#: src/commands.c:1999
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "Setting width of column %s to default"
 
-#: src/commands.c:1996
+#: src/commands.c:2002
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr "Setting height of row %s to default"
 
-#: src/commands.c:2000
+#: src/commands.c:2006
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Autofitting columns %s"
 
-#: src/commands.c:2001
+#: src/commands.c:2007
 #, c-format
 msgid "Autofitting rows %s"
 msgstr "Autofitting rows %s"
 
-#: src/commands.c:2004
+#: src/commands.c:2010
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "Setting width of columns %s to %d pixels"
 
-#: src/commands.c:2006
+#: src/commands.c:2012
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "Setting height of rows %s to %d pixels"
 
-#: src/commands.c:2010
+#: src/commands.c:2016
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "Setting width of columns %s to default"
 
-#: src/commands.c:2012
+#: src/commands.c:2018
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr "Setting height of rows %s to default"
 
-#: src/commands.c:2078 src/dialogs/dialog-preferences.c:816
+#: src/commands.c:2084 src/dialogs/dialog-preferences.c:816
 msgid "Sorting"
 msgstr "Sorting"
 
-#: src/commands.c:2098
+#: src/commands.c:2104
 #, c-format
 msgid "Sorting %s"
 msgstr "Sorting %s"
 
-#: src/commands.c:2241
+#: src/commands.c:2247
 msgid "Unhide columns"
 msgstr "Unhide columns"
 
-#: src/commands.c:2241
+#: src/commands.c:2247
 msgid "Hide columns"
 msgstr "Hide columns"
 
-#: src/commands.c:2242
+#: src/commands.c:2248
 msgid "Unhide rows"
 msgstr "Unhide rows"
 
-#: src/commands.c:2242
+#: src/commands.c:2248
 msgid "Hide rows"
 msgstr "Hide rows"
 
-#: src/commands.c:2324
+#: src/commands.c:2330
 msgid "Expand columns"
 msgstr "Expand columns"
 
-#: src/commands.c:2324
+#: src/commands.c:2330
 msgid "Collapse columns"
 msgstr "Collapse columns"
 
-#: src/commands.c:2325
+#: src/commands.c:2331
 msgid "Expand rows"
 msgstr "Expand rows"
 
-#: src/commands.c:2325
+#: src/commands.c:2331
 msgid "Collapse rows"
 msgstr "Collapse rows"
 
-#: src/commands.c:2351
+#: src/commands.c:2357
 #, c-format
 msgid "Show column outline %d"
 msgstr "Show column outline %d"
 
-#: src/commands.c:2351
+#: src/commands.c:2357
 #, c-format
 msgid "Show row outline %d"
 msgstr "Show row outline %d"
 
-#: src/commands.c:2421
+#: src/commands.c:2427
 msgid "Those columns are already grouped"
 msgstr "Those columns are already grouped"
 
-#: src/commands.c:2422
+#: src/commands.c:2428
 msgid "Those rows are already grouped"
 msgstr "Those rows are already grouped"
 
-#: src/commands.c:2445
+#: src/commands.c:2451
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Those columns are not grouped, you can't ungroup them"
 
-#: src/commands.c:2446
+#: src/commands.c:2452
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Those rows are not grouped, you can't ungroup them"
 
-#: src/commands.c:2460
+#: src/commands.c:2466
 #, c-format
 msgid "Group columns %s"
 msgstr "Group columns %s"
 
-#: src/commands.c:2460
+#: src/commands.c:2466
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Ungroup columns %s"
 
-#: src/commands.c:2462
+#: src/commands.c:2468
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Group rows %d:%d"
 
-#: src/commands.c:2462
+#: src/commands.c:2468
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Ungroup rows %d:%d"
 
-#: src/commands.c:2699
+#: src/commands.c:2705
 #, c-format
 msgid "Moving %s"
 msgstr "Moving %s"
 
-#: src/commands.c:2708 src/commands.c:2935
+#: src/commands.c:2714 src/commands.c:2941
 msgid "is beyond sheet boundaries"
 msgstr "is beyond sheet boundaries"
 
-#: src/commands.c:2771
+#: src/commands.c:2777
 msgid "Paste Copy"
 msgstr "Paste Copy"
 
 #. FIXME?
-#: src/commands.c:2876
+#: src/commands.c:2882
 #, c-format
 msgid "Pasting into %s"
 msgstr "Pasting into %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:2972 src/commands.c:3129 src/commands.c:3130
+#: src/commands.c:2978 src/commands.c:3135 src/commands.c:3136
 #: src/wbcg-actions.c:427
 msgid "Autofill"
 msgstr "Autofill"
 
 #. Changed in initial redo.
-#: src/commands.c:3152
+#: src/commands.c:3158
 #, c-format
 msgid "Autofilling %s"
 msgstr "Autofilling %s"
 
-#: src/commands.c:3470
+#: src/commands.c:3476
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Autoformatting %s"
 
-#: src/commands.c:3587
+#: src/commands.c:3593
 #, c-format
 msgid "Unmerging %s"
 msgstr "Unmerging %s"
 
-#: src/commands.c:3751
+#: src/commands.c:3757
 #, c-format
 msgid "Merge and Center %s"
 msgstr "Merge and Centre %s"
 
-#: src/commands.c:3751
+#: src/commands.c:3757
 #, c-format
 msgid "Merging %s"
 msgstr "Merging %s"
 
 #. Corrected below.
-#: src/commands.c:4132 src/dialogs/search-replace.glade.h:24
+#: src/commands.c:4138 src/dialogs/search-replace.glade.h:24
 msgid "Search and Replace"
 msgstr "Search and Replace"
 
-#: src/commands.c:4227
+#: src/commands.c:4233
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Setting default width of columns to %.2fpts"
 
-#: src/commands.c:4228
+#: src/commands.c:4234
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Setting default height of rows to %.2fpts"
 
-#: src/commands.c:4343
+#: src/commands.c:4349
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Zoom %s to %.0f%%"
 
-#: src/commands.c:4409
+#: src/commands.c:4415
 msgid "Delete Object"
 msgstr "Delete Object"
 
-#: src/commands.c:4570
+#: src/commands.c:4576
 msgid "Format Object"
 msgstr "Format Object"
 
-#: src/commands.c:5169
+#: src/commands.c:5175
 msgid "Reordering Sheets"
 msgstr "Reordering Sheets"
 
-#: src/commands.c:5172
+#: src/commands.c:5178
 msgid "Renaming Sheets"
 msgstr "Renaming Sheets"
 
-#: src/commands.c:5175
+#: src/commands.c:5181
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "Appending %i Sheets"
 
-#: src/commands.c:5179
+#: src/commands.c:5185
 msgid "Changing Tab Colors"
 msgstr "Changing Tab Colours"
 
-#: src/commands.c:5182
+#: src/commands.c:5188
 msgid "Changing Sheet Protection"
 msgstr "Changing Sheet Protection"
 
-#: src/commands.c:5185
+#: src/commands.c:5191
 msgid "Delete sheets"
 msgstr "Delete sheets"
 
-#: src/commands.c:5188
+#: src/commands.c:5194
 msgid "Delete a sheet"
 msgstr "Delete a sheet"
 
-#: src/commands.c:5191
+#: src/commands.c:5197
 msgid "Changing Sheet Visibility"
 msgstr "Changing Sheet Visibility"
 
-#: src/commands.c:5194
+#: src/commands.c:5200
 msgid "Reorganizing Sheets"
 msgstr "Reorganizing Sheets"
 
-#: src/commands.c:5345
+#: src/commands.c:5351
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Clearing comment of %s"
 
-#: src/commands.c:5346
+#: src/commands.c:5352
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Setting comment of %s"
 
-#: src/commands.c:5726
+#: src/commands.c:5732
 #, c-format
 msgid "Merging data into %s"
 msgstr "Merging data into %s"
 
-#: src/commands.c:5828
+#: src/commands.c:5834
 msgid "Changing summary info"
 msgstr "Changing summary info"
 
-#: src/commands.c:5917
+#: src/commands.c:5923
 msgid "Pull Object to the Front"
 msgstr "Pull Object to the Front"
 
-#: src/commands.c:5920
+#: src/commands.c:5926
 msgid "Pull Object Forward"
 msgstr "Pull Object Forward"
 
-#: src/commands.c:5923
+#: src/commands.c:5929
 msgid "Push Object Backward"
 msgstr "Push Object Backward"
 
-#: src/commands.c:5926
+#: src/commands.c:5932
 msgid "Push Object to the Back"
 msgstr "Push Object to the Back"
 
-#: src/commands.c:6041
+#: src/commands.c:6047
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Page Setup For %s"
 
-#: src/commands.c:6043
+#: src/commands.c:6049
 msgid "Page Setup For All Sheets"
 msgstr "Page Setup For All Sheets"
 
-#: src/commands.c:6158
+#: src/commands.c:6164
 msgid "has a circular reference"
 msgstr "has a circular reference"
 
-#: src/commands.c:6181
+#: src/commands.c:6187
 #, c-format
 msgid "Define Name %s"
 msgstr "Define Name %s"
 
-#: src/commands.c:6184
+#: src/commands.c:6190
 #, c-format
 msgid "Update Name %s"
 msgstr "Update Name %s"
 
-#: src/commands.c:6248
+#: src/commands.c:6254
 msgid "Add scenario"
 msgstr "Add scenario"
 
-#: src/commands.c:6323
+#: src/commands.c:6329
 msgid "Scenario Show"
 msgstr "Scenario Show"
 
-#: src/commands.c:6387
+#: src/commands.c:6393
 msgid "Shuffle Data"
 msgstr "Shuffle Data"
 
 #. FIXME?
-#: src/commands.c:6497
+#: src/commands.c:6503
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Text (%s) to Columns (%s)"
@@ -19885,28 +19927,28 @@ msgstr "Text (%s) to Columns (%s)"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/commands.c:6641 src/dialogs/solver.glade.h:17
+#: src/commands.c:6647 src/dialogs/solver.glade.h:17
 #: src/tools/solver/reports-write.c:193 src/tools/solver/reports-write.c:354
 #: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:743
 #: src/tools/solver/reports-write.c:904 src/tools/solver/reports-write.c:955
 msgid "Solver"
 msgstr "Solver"
 
-#: src/commands.c:6725
+#: src/commands.c:6731
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Goal Seek (%s)"
 
-#: src/commands.c:6870
+#: src/commands.c:6876
 #, c-format
 msgid "Duplicating %s"
 msgstr "Duplicating %s"
 
-#: src/commands.c:6949
+#: src/commands.c:6955
 msgid "Tabulating Dependencies"
 msgstr "Tabulating Dependencies"
 
-#: src/commands.c:7024
+#: src/commands.c:7030
 msgid "Reconfigure Graph"
 msgstr "Reconfigure Graph"
 
@@ -19949,41 +19991,41 @@ msgstr "Logarithm mapping"
 msgid "Details"
 msgstr "Details"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1455
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1457
 msgid "Categories between _ticks"
 msgstr "Categories between _ticks"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1456
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1458
 msgid "Categories between _labels"
 msgstr "Categories between _labels"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1457
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1459
 msgid "_Cross at category #"
 msgstr "_Cross at category #"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1463
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1477
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1465
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1479
 msgid "Bounds"
 msgstr "Bounds"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1466
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1468
 #: src/dialogs/solver.glade.h:7
 msgid "M_in"
 msgstr "M_in"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1467
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1469
 msgid "M_ax"
 msgstr "M_ax"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1468
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1470
 msgid "Ma_jor Ticks"
 msgstr "Ma_jor Ticks"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1469
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1471
 msgid "Mi_nor Ticks"
 msgstr "Mi_nor Ticks"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1470
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1472
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:7
 msgid "_Cross"
 msgstr "_Cross"
@@ -19992,22 +20034,22 @@ msgstr "_Cross"
 #. * We need a way to toggle auto vs user formats
 #. * but the selector is too tall already
 #. * disable for now
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1492
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1499
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1494
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1501
 #: src/dialogs/dialog-stf.glade.h:25
 msgid "Format"
 msgstr "Format"
 
 #. Object Toolbar
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1528 src/wbcg-actions.c:1911
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1530 src/wbcg-actions.c:1911
 msgid "Label"
 msgstr "Label"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1531
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1533
 msgid "MinorGrid"
 msgstr "MinorGrid"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1534
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1536
 msgid "MajorGrid"
 msgstr "MajorGrid"
 
@@ -20257,7 +20299,7 @@ msgid "_Text:"
 msgstr "_Text:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-label.c:116
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:424
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:426
 #: src/dialogs/dialog-stf.glade.h:18
 msgid "Data"
 msgstr "Data"
@@ -20287,7 +20329,7 @@ msgstr "Index:"
 msgid "Settings"
 msgstr "Settings"
 
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:450
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:452
 #: src/tools/analysis-tools.c:3919
 msgid "Point"
 msgstr "Point"
@@ -20942,6 +20984,60 @@ msgstr "Radar plotting engine"
 msgid "Radial/Radar plots"
 msgstr "Radial/Radar plots"
 
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/gog-contour-prefs.glade.h:1
+msgid "_Slices number:"
+msgstr "_Slices number:"
+
+#. xgettext : the base for how to name contour plot objects
+#.
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/gog-surface.c:101
+msgid "PlotContour"
+msgstr "PlotContour"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/gog-surface.c:367
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:337
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:489
+msgid "X"
+msgstr "X"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/gog-surface.c:369
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:339
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:491
+msgid "Y"
+msgstr "Y"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/gog-surface.c:371
+msgid "Z"
+msgstr "Z"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plot-types.xml.in.h:1
+msgid "Contour"
+msgstr "Contour"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plot-types.xml.in.h:2
+msgid "Contour plot."
+msgstr "Contour plot."
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plot-types.xml.in.h:3
+msgid "Surface"
+msgstr "Surface"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plugin.xml.in.h:1
+msgid "Contour plotting engine"
+msgstr "Contour plotting engine"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plugin.xml.in.h:2
+msgid "Default surface plot types"
+msgstr "Default surface plot types"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plugin.xml.in.h:3
+msgid "Surface Charts"
+msgstr "Surface Charts"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plugin.xml.in.h:4
+msgid "Surface charts"
+msgstr "Surface charts"
+
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:2
 #, no-c-format
 msgid "% of default size"
@@ -20981,16 +21077,6 @@ msgstr "_Vary colours by bubble"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:277
 msgid "PlotXY"
 msgstr "PlotXY"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:337
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:489
-msgid "X"
-msgstr "X"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:339
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:491
-msgid "Y"
-msgstr "Y"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:379
 msgid "PlotBubble"
@@ -21261,31 +21347,31 @@ msgstr "custom"
 msgid "Custom Color..."
 msgstr "Custom Colour..."
 
-#: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:222
-#: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:223
+#: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:235
+#: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:236
 msgid "Shadow type"
 msgstr "Shadow type"
 
-#: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:233
-#: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:234
+#: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:246
+#: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:247
 msgid "Orientation"
 msgstr "Orientation"
 
-#: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:244
-#: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:245
+#: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:257
+#: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:258
 msgid "Preferred width"
 msgstr "Preferred width"
 
-#: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:253
-#: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:254
+#: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:266
+#: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:267
 msgid "Preferred height"
 msgstr "Preferred height"
 
-#: src/cut-n-paste-code/goffice/gui-utils/go-dock-item-grip.c:252
+#: src/cut-n-paste-code/goffice/gui-utils/go-dock-item-grip.c:260
 msgid "Dock the toolbar"
 msgstr "Dock the toolbar"
 
-#: src/cut-n-paste-code/goffice/gui-utils/go-dock-item-grip.c:253
+#: src/cut-n-paste-code/goffice/gui-utils/go-dock-item-grip.c:261
 msgid "Un dock the toolbar"
 msgstr "Un-dock the toolbar"
 
@@ -21744,7 +21830,7 @@ msgid "_Rows"
 msgstr "_Rows"
 
 #: src/dialogs/anova-two.glade.h:1 src/dialogs/autocorrect.glade.h:1
-#: src/dialogs/autofilter-expression.glade.h:14
+#: src/dialogs/autofilter-expression.glade.h:27
 #: src/dialogs/autoformat.glade.h:1 src/dialogs/autosave.glade.h:1
 #: src/dialogs/cell-format.glade.h:2 src/dialogs/descriptive-stats.glade.h:2
 #: src/dialogs/dialog-stf-export.glade.h:5 src/dialogs/dialog-stf.glade.h:3
@@ -21848,6 +21934,36 @@ msgid ""
 "does not equal\n"
 "is greater than\n"
 "is greater than or equal to\n"
+"is less than\n"
+"is less than or equal to\n"
+"begins with\n"
+"does not begin with\n"
+"ends with\n"
+"does not end with\n"
+"contains\n"
+"does not contain"
+msgstr ""
+"\n"
+"equals\n"
+"does not equal\n"
+"is greater than\n"
+"is greater than or equal to\n"
+"is less than\n"
+"is less than or equal to\n"
+"begins with\n"
+"does not begin with\n"
+"ends with\n"
+"does not end with\n"
+"contains\n"
+"does not contain"
+
+#: src/dialogs/autofilter-expression.glade.h:14
+msgid ""
+"\n"
+"equals\n"
+"does not equal\n"
+"is greater than\n"
+"is greater than or equal to\n"
 "is_less_than\n"
 "is less than or equal to\n"
 "begins with\n"
@@ -21871,20 +21987,20 @@ msgstr ""
 "contains\n"
 "does not contain"
 
-#: src/dialogs/autofilter-expression.glade.h:15
+#: src/dialogs/autofilter-expression.glade.h:28
 #: src/dialogs/autofilter-top10.glade.h:1
 msgid "Gnumeric : AutoFilter"
 msgstr "Gnumeric : AutoFilter"
 
-#: src/dialogs/autofilter-expression.glade.h:16
+#: src/dialogs/autofilter-expression.glade.h:29
 msgid "Show rows where:"
 msgstr "Show rows where:"
 
-#: src/dialogs/autofilter-expression.glade.h:17
+#: src/dialogs/autofilter-expression.glade.h:30
 msgid "_And"
 msgstr "_And"
 
-#: src/dialogs/autofilter-expression.glade.h:18
+#: src/dialogs/autofilter-expression.glade.h:31
 msgid "_Or"
 msgstr "_Or"
 
@@ -22638,143 +22754,319 @@ msgstr "Art"
 msgid "Packaging"
 msgstr "Packaging"
 
+#: src/dialogs/dialog-about.c:82
+msgid "Harald Ashburner"
+msgstr "Harald Ashburner"
+
 #: src/dialogs/dialog-about.c:83
 msgid "Options pricers"
 msgstr "Options pricers"
+
+#: src/dialogs/dialog-about.c:84
+msgid "Sean Atkinson"
+msgstr "Sean Atkinson"
 
 #: src/dialogs/dialog-about.c:85
 msgid "Functions and X-Base importing."
 msgstr "Functions and X-Base importing."
 
+#: src/dialogs/dialog-about.c:86
+msgid "Michel Berkelaar"
+msgstr "Michel Berkelaar"
+
 #: src/dialogs/dialog-about.c:87 src/dialogs/dialog-about.c:101
 msgid "Simplex algorithm for Solver (LP Solve)."
 msgstr "Simplex algorithm for Solver (LP Solve)."
+
+#: src/dialogs/dialog-about.c:88
+msgid "Jean Brefort"
+msgstr "Jean Brefort"
 
 #: src/dialogs/dialog-about.c:89
 msgid "Core charting engine."
 msgstr "Core charting engine."
 
+#: src/dialogs/dialog-about.c:90
+msgid "Grandma Chema Celorio"
+msgstr "Grandma Chema Celorio"
+
 #: src/dialogs/dialog-about.c:91
 msgid "Quality Assurance and sheet copy."
 msgstr "Quality Assurance and sheet copy."
+
+#: src/dialogs/dialog-about.c:92
+msgid "Frank Chiulli"
+msgstr "Frank Chiulli"
 
 #: src/dialogs/dialog-about.c:93
 msgid "OLE2 support."
 msgstr "OLE2 support."
 
+#: src/dialogs/dialog-about.c:94
+msgid "Kenneth Christiansen"
+msgstr "Kenneth Christiansen"
+
 #: src/dialogs/dialog-about.c:95
 msgid "Localization."
 msgstr "Localization."
+
+#: src/dialogs/dialog-about.c:96
+msgid "Zbigniew Chyla"
+msgstr "Zbigniew Chyla"
 
 #: src/dialogs/dialog-about.c:97
 msgid "Plugin system, localization."
 msgstr "Plugin system, localization."
 
+#: src/dialogs/dialog-about.c:98
+msgid "J.H.M. Dassen (Ray)"
+msgstr "J.H.M. Dassen (Ray)"
+
 #: src/dialogs/dialog-about.c:99
 msgid "Debian packaging."
 msgstr "Debian packaging."
+
+#: src/dialogs/dialog-about.c:100
+msgid "Jeroen Dirks"
+msgstr "Jeroen Dirks"
+
+#: src/dialogs/dialog-about.c:102
+msgid "Tom Dyas"
+msgstr "Tom Dyas"
 
 #: src/dialogs/dialog-about.c:103
 msgid "Original plugin engine."
 msgstr "Original plugin engine."
 
+#: src/dialogs/dialog-about.c:104
+msgid "Gergo Erdi"
+msgstr "Gergo Erdi"
+
 #: src/dialogs/dialog-about.c:105
 msgid "Custom UI tools"
 msgstr "Custom UI tools"
+
+#: src/dialogs/dialog-about.c:106
+msgid "John Gotts"
+msgstr "John Gotts"
 
 #: src/dialogs/dialog-about.c:107
 msgid "RPM packaging"
 msgstr "RPM packaging"
 
+#: src/dialogs/dialog-about.c:108
+msgid "Andreas J. Gülzow"
+msgstr "Andreas J. Gülzow"
+
 #: src/dialogs/dialog-about.c:109
 msgid "Statistics and GUI master"
 msgstr "Statistics and GUI master"
+
+#: src/dialogs/dialog-about.c:110
+msgid "Jon Kåre Hellan"
+msgstr "Jon Kåre Hellan"
 
 #: src/dialogs/dialog-about.c:111
 msgid "UI Polish and all round bug fixer"
 msgstr "UI Polish and all-around bug fixer"
 
+#: src/dialogs/dialog-about.c:112
+msgid "Ross Ihaka"
+msgstr "Ross Ihaka"
+
 #: src/dialogs/dialog-about.c:113
 msgid "Special functions"
 msgstr "Special functions"
+
+#: src/dialogs/dialog-about.c:114
+msgid "Jukka-Pekka Iivonen"
+msgstr "Jukka-Pekka Iivonen"
 
 #: src/dialogs/dialog-about.c:115
 msgid "Solver, lots of worksheet functions, and general trailblazer"
 msgstr "Solver, lots of worksheet functions, and general trailblazer"
 
+#: src/dialogs/dialog-about.c:116
+msgid "Jakub Jelinek"
+msgstr "Jakub Jelinek"
+
 #: src/dialogs/dialog-about.c:117
 msgid "One of the original core contributors"
 msgstr "One of the original core contributors"
+
+#: src/dialogs/dialog-about.c:118
+msgid "Jakub Steiner"
+msgstr "Jakub Steiner"
 
 #: src/dialogs/dialog-about.c:119
 msgid "Icons and Images"
 msgstr "Icons and Images"
 
+#: src/dialogs/dialog-about.c:120
+msgid "Chris Lahey"
+msgstr "Chris Lahey"
+
 #: src/dialogs/dialog-about.c:121
 msgid "The original value format engine and libgoffice work"
 msgstr "The original value format engine and libgoffice work"
+
+#: src/dialogs/dialog-about.c:122
+msgid "Takashi Matsuda"
+msgstr "Takashi Matsuda"
 
 #: src/dialogs/dialog-about.c:123
 msgid "The original text plugin"
 msgstr "The original text plugin"
 
+#: src/dialogs/dialog-about.c:124
+msgid "Michael Meeks"
+msgstr "Michael Meeks"
+
 #: src/dialogs/dialog-about.c:125
 msgid "Started the MS Excel import/export engine, and 'GnmStyle'"
 msgstr "Started the MS Excel import/export engine, and 'GnmStyle'"
+
+#: src/dialogs/dialog-about.c:126
+msgid "Lutz Muller"
+msgstr "Lutz Muller"
 
 #: src/dialogs/dialog-about.c:127
 msgid "SheetObject improvement"
 msgstr "SheetObject improvement"
 
+#: src/dialogs/dialog-about.c:128
+msgid "Yukihiro Nakai"
+msgstr "Yukihiro Nakai"
+
 #: src/dialogs/dialog-about.c:129
+msgid "Support for non-Latin languages"
+msgstr "Support for non-Latin languages"
+
+#: src/dialogs/dialog-about.c:130
+msgid "Emmanuel Pacaud"
+msgstr "Emmanuel Pacaud"
+
+#: src/dialogs/dialog-about.c:131
 msgid "Many plot types for charting engine."
 msgstr "Many plot types for charting engine."
 
-#: src/dialogs/dialog-about.c:131
+#: src/dialogs/dialog-about.c:132
+msgid "Federico M. Quintero"
+msgstr "Federico M. Quintero"
+
+#: src/dialogs/dialog-about.c:133
 msgid "canvas support"
 msgstr "canvas support"
 
-#: src/dialogs/dialog-about.c:133 src/dialogs/dialog-about.c:139
+#: src/dialogs/dialog-about.c:134
+msgid "Mark Probst"
+msgstr "Mark Probst"
+
+#: src/dialogs/dialog-about.c:135 src/dialogs/dialog-about.c:141
 msgid "Guile support"
 msgstr "Guile support"
 
-#: src/dialogs/dialog-about.c:135
+#: src/dialogs/dialog-about.c:136
+msgid "Rasca"
+msgstr "Rasca"
+
+#: src/dialogs/dialog-about.c:137
 msgid "HTML, troff, LaTeX exporters"
 msgstr "HTML, troff, LaTeX exporters"
 
-#: src/dialogs/dialog-about.c:137
+#: src/dialogs/dialog-about.c:138
+msgid "Vincent Renardias"
+msgstr "Vincent Renardias"
+
+#: src/dialogs/dialog-about.c:139
 msgid "original CSV support, French localization"
 msgstr "original CSV support, French localization"
 
-#: src/dialogs/dialog-about.c:141
+#: src/dialogs/dialog-about.c:140
+msgid "Ariel Rios"
+msgstr "Ariel Rios"
+
+#: src/dialogs/dialog-about.c:142
+msgid "Uwe Steinmann"
+msgstr "Uwe Steinmann"
+
+#: src/dialogs/dialog-about.c:143
 msgid "Paradox Importer"
 msgstr "Paradox Importer"
 
-#: src/dialogs/dialog-about.c:143
+#: src/dialogs/dialog-about.c:144
+msgid "Arturo Tena"
+msgstr "Arturo Tena"
+
+#: src/dialogs/dialog-about.c:145
 msgid "Initial work on OLE2 for libgsf"
 msgstr "Initial work on OLE2 for libgsf"
 
-#: src/dialogs/dialog-about.c:145
+#: src/dialogs/dialog-about.c:146
+msgid "Almer S. Tigelaar"
+msgstr "Almer S. Tigelaar"
+
+#: src/dialogs/dialog-about.c:147
 msgid "Consolidation and Structured Text importer"
 msgstr "Consolidation and Structured Text importer"
 
-#: src/dialogs/dialog-about.c:147
+#: src/dialogs/dialog-about.c:148
+msgid "Bruno Unna"
+msgstr "Bruno Unna"
+
+#: src/dialogs/dialog-about.c:149
 msgid "Pieces of MS Excel import"
 msgstr "Pieces of MS Excel import"
 
-#: src/dialogs/dialog-about.c:149
+#: src/dialogs/dialog-about.c:150
+msgid "Daniel Veillard"
+msgstr "Daniel Veillard"
+
+#: src/dialogs/dialog-about.c:151
 msgid "Initial XML support"
 msgstr "Initial XML support"
 
-#: src/dialogs/dialog-about.c:151
+#: src/dialogs/dialog-about.c:152
+msgid "Vladimir Vuksan"
+msgstr "Vladimir Vuksan"
+
+#: src/dialogs/dialog-about.c:153
 msgid "Some financial functions"
 msgstr "Some financial functions"
 
-#: src/dialogs/dialog-about.c:153
+#: src/dialogs/dialog-about.c:154
+msgid "Morten Welinder"
+msgstr "Morten Welinder"
+
+#: src/dialogs/dialog-about.c:155
 msgid "All round powerhouse"
 msgstr "All-around powerhouse"
 
-#: src/dialogs/dialog-about.c:261
+#: src/dialogs/dialog-about.c:156
+msgid "Kevin Breit"
+msgstr "Kevin Breit"
+
+#: src/dialogs/dialog-about.c:157
+msgid "Thomas Canty"
+msgstr "Thomas Canty"
+
+#: src/dialogs/dialog-about.c:158
+msgid "Adrian Custer"
+msgstr "Adrian Custer"
+
+#: src/dialogs/dialog-about.c:159
+msgid "Adrian Likins"
+msgstr "Adrian Likins"
+
+#: src/dialogs/dialog-about.c:160
+msgid "Aaron Weber"
+msgstr "Aaron Weber"
+
+#: src/dialogs/dialog-about.c:161
+msgid "Alexander Kirillov"
+msgstr "Alexander Kirillov"
+
+#: src/dialogs/dialog-about.c:263
 msgid "About Gnumeric"
 msgstr "About Gnumeric"
 
@@ -23647,19 +23939,19 @@ msgstr "Internal"
 msgid "Header/Footer"
 msgstr "Header/Footer"
 
-#: src/dialogs/dialog-printer-setup.c:874
+#: src/dialogs/dialog-printer-setup.c:873
 msgid "Customize header"
 msgstr "Customize header"
 
-#: src/dialogs/dialog-printer-setup.c:876
+#: src/dialogs/dialog-printer-setup.c:875
 msgid "Customize footer"
 msgstr "Customize footer"
 
-#: src/dialogs/dialog-printer-setup.c:1023
+#: src/dialogs/dialog-printer-setup.c:1022
 msgid "Custom header configuration"
 msgstr "Custom header configuration"
 
-#: src/dialogs/dialog-printer-setup.c:1028
+#: src/dialogs/dialog-printer-setup.c:1027
 msgid "Custom footer configuration"
 msgstr "Custom footer configuration"
 
@@ -24191,7 +24483,7 @@ msgid "Export"
 msgstr "Export"
 
 #: src/dialogs/dialog-stf-export.c:400
-#: src/dialogs/dialog-stf-export.glade.h:38
+#: src/dialogs/dialog-stf-export.glade.h:33
 msgid "_Next"
 msgstr "_Next"
 
@@ -24211,22 +24503,6 @@ msgstr ""
 
 #: src/dialogs/dialog-stf-export.glade.h:6
 msgid ""
-"<span background=\"#4B6983\" foreground=\"white\" size=\"xx-large\">Choose "
-"export formatting</span>"
-msgstr ""
-"<span background=\"#4B6983\" foreground=\"white\" size=\"xx-large\">Choose "
-"export formatting</span>"
-
-#: src/dialogs/dialog-stf-export.glade.h:7
-msgid ""
-"<span background=\"#4B6983\" foreground=\"white\" size=\"xx-large\">Choose "
-"sheets to export</span>"
-msgstr ""
-"<span background=\"#4B6983\" foreground=\"white\" size=\"xx-large\">Choose "
-"sheets to export</span>"
-
-#: src/dialogs/dialog-stf-export.glade.h:8
-msgid ""
 "Automatic (puts quotes where needed)\n"
 "Always\n"
 "Never"
@@ -24235,36 +24511,40 @@ msgstr ""
 "Always\n"
 "Never"
 
-#: src/dialogs/dialog-stf-export.glade.h:11 src/gui-file.c:209
+#: src/dialogs/dialog-stf-export.glade.h:9 src/gui-file.c:209
 msgid "Character _encoding:"
 msgstr "Character _encoding:"
+
+#: src/dialogs/dialog-stf-export.glade.h:10
+msgid "Choose export formatting:"
+msgstr "Choose export formatting:"
+
+#: src/dialogs/dialog-stf-export.glade.h:11
+msgid "Choose sheets to export:"
+msgstr "Choose sheets to export:"
 
 #: src/dialogs/dialog-stf-export.glade.h:12
 msgid "Export as Text"
 msgstr "Export as Text"
 
 #: src/dialogs/dialog-stf-export.glade.h:13
-msgid "How to handle unknown characters"
-msgstr "How to handle unknown characters"
-
-#: src/dialogs/dialog-stf-export.glade.h:14
 msgid "Qu_oting:"
 msgstr "Qu_oting:"
 
-#: src/dialogs/dialog-stf-export.glade.h:15
+#: src/dialogs/dialog-stf-export.glade.h:14
 msgid "Quote _character:"
 msgstr "Quote _character:"
 
-#: src/dialogs/dialog-stf-export.glade.h:16
+#: src/dialogs/dialog-stf-export.glade.h:15
 msgid "Select N_one"
 msgstr "Select N_one"
 
 #. Edit -> Select
-#: src/dialogs/dialog-stf-export.glade.h:17 src/wbcg-actions.c:1560
+#: src/dialogs/dialog-stf-export.glade.h:16 src/wbcg-actions.c:1560
 msgid "Select _All"
 msgstr "Select _All"
 
-#: src/dialogs/dialog-stf-export.glade.h:18
+#: src/dialogs/dialog-stf-export.glade.h:17
 msgid ""
 "Space\n"
 "Tab\n"
@@ -24288,27 +24568,15 @@ msgstr ""
 "Slash (/)\n"
 "Custom"
 
-#: src/dialogs/dialog-stf-export.glade.h:28
-msgid "The character sequence to put between columns"
-msgstr "The character sequence to put between columns"
+#: src/dialogs/dialog-stf-export.glade.h:27
+msgid ""
+"Transliterate\n"
+"Escape"
+msgstr ""
+"Transliterate\n"
+"Escape"
 
 #: src/dialogs/dialog-stf-export.glade.h:29
-msgid "The characters to quote content"
-msgstr "The characters to quote content"
-
-#: src/dialogs/dialog-stf-export.glade.h:30
-msgid "The sequence of characters to mark the end of a line"
-msgstr "The sequence of characters to mark the end of a line"
-
-#: src/dialogs/dialog-stf-export.glade.h:31
-msgid ""
-"Transliterate\n"
-"Escape"
-msgstr ""
-"Transliterate\n"
-"Escape"
-
-#: src/dialogs/dialog-stf-export.glade.h:33
 msgid ""
 "Unix (linefeed)\n"
 "Macintosh (carriage return)\n"
@@ -24318,27 +24586,19 @@ msgstr ""
 "Macintosh (carriage return)\n"
 "Windows (carriage return + linefeed)"
 
-#: src/dialogs/dialog-stf-export.glade.h:36
-msgid ""
-"Whether the quote character placed around cells depends on the value being "
-"quoted"
-msgstr ""
-"Whether the quote character placed around cells depends on the value being "
-"quoted"
-
-#: src/dialogs/dialog-stf-export.glade.h:37
+#: src/dialogs/dialog-stf-export.glade.h:32
 msgid "_Line termination:"
 msgstr "_Line termination:"
 
-#: src/dialogs/dialog-stf-export.glade.h:39
+#: src/dialogs/dialog-stf-export.glade.h:34
 msgid "_Preserves Formats"
 msgstr "_Preserves Formats"
 
-#: src/dialogs/dialog-stf-export.glade.h:40
+#: src/dialogs/dialog-stf-export.glade.h:35
 msgid "_Separator:"
 msgstr "_Separator:"
 
-#: src/dialogs/dialog-stf-export.glade.h:41
+#: src/dialogs/dialog-stf-export.glade.h:36
 msgid "_Unknown characters:"
 msgstr "_Unknown characters:"
 
@@ -27349,6 +27609,18 @@ msgstr "Filled Object Properties"
 msgid "Line/Arrow Properties"
 msgstr "Line/Arrow Properties"
 
+#: src/GNOME_Gnumeric-gtk.xml.in.h:1
+msgid "FormatToolbar"
+msgstr "Format Toolbar"
+
+#: src/GNOME_Gnumeric-gtk.xml.in.h:2
+msgid "ObjectToolbar"
+msgstr "ObjectToolbar"
+
+#: src/GNOME_Gnumeric-gtk.xml.in.h:3
+msgid "StandardToolbar"
+msgstr "Standard Toolbar"
+
 #: src/gnumeric-pane.c:130
 #, c-format
 msgid ""
@@ -27456,7 +27728,7 @@ msgstr "Multiple errors\n"
 msgid "Unable to open file '%s'"
 msgstr "Unable to open file '%s'"
 
-#: src/gutils.c:540
+#: src/gutils.c:538
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "yngnum."
@@ -28110,11 +28382,11 @@ msgid "Error while opening file \"%s\" for reading."
 msgstr "Error while opening file \"%s\" for reading."
 
 #. Note: we cannot have spaces in page numbers.
-#: src/print.c:605
+#: src/print.c:608
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: src/print.c:1150
+#: src/print.c:1153
 msgid "Print Region"
 msgstr "Print Region"
 
@@ -28138,21 +28410,21 @@ msgstr "Print preview"
 msgid "Printing failed"
 msgstr "Printing failed"
 
-#: src/print-info.c:140 src/print-info.c:143 src/print-info.c:144
-#: src/print-info.c:261
+#: src/print-info.c:143 src/print-info.c:146 src/print-info.c:147
+#: src/print-info.c:258
 msgid "Page &[PAGE]"
 msgstr "Page &[PAGE]"
 
-#: src/print-info.c:141 src/print-info.c:146
+#: src/print-info.c:144 src/print-info.c:149
 msgid "Page &[PAGE] of &[PAGES]"
 msgstr "Page &[PAGE] of &[PAGES]"
 
-#: src/print-info.c:142 src/print-info.c:143 src/print-info.c:144
-#: src/print-info.c:146 src/print-info.c:255
+#: src/print-info.c:145 src/print-info.c:146 src/print-info.c:147
+#: src/print-info.c:149 src/print-info.c:252
 msgid "&[TAB]"
 msgstr "&[TAB]"
 
-#: src/print-info.c:144 src/print-info.c:145 src/print-info.c:146
+#: src/print-info.c:147 src/print-info.c:148 src/print-info.c:149
 msgid "&[DATE]"
 msgstr "&[DATE]"
 
@@ -28242,23 +28514,23 @@ msgstr "Do not save"
 msgid "Do not log out"
 msgstr "Do not log out"
 
-#: src/sheet.c:2010
+#: src/sheet.c:2013
 msgid "Target region contains merged cells"
 msgstr "Target region contains merged cells"
 
-#: src/sheet.c:2071
+#: src/sheet.c:2074
 msgid "cannot operate on merged cells"
 msgstr "cannot operate on merged cells"
 
-#: src/sheet.c:2081
+#: src/sheet.c:2084
 msgid "cannot operate on array formulae"
 msgstr "cannot operate on array formulae"
 
-#: src/sheet.c:3185
+#: src/sheet.c:3190
 msgid "Insert Columns"
 msgstr "Insert Columns"
 
-#: src/sheet.c:3303
+#: src/sheet.c:3308
 msgid "Insert Rows"
 msgstr "Insert Rows"
 
@@ -28282,12 +28554,12 @@ msgstr "Paste _Special"
 #. * strings, and the logic that knows the count is elsewhere
 #.
 #: src/sheet-control-gui.c:1520
-msgid "_Insert..."
-msgstr "_Insert..."
+msgid "_Insert Cells..."
+msgstr "_Insert Cells..."
 
 #: src/sheet-control-gui.c:1522
-msgid "_Delete..."
-msgstr "_Delete..."
+msgid "_Delete Cells..."
+msgstr "_Delete Cells..."
 
 #: src/sheet-control-gui.c:1524
 msgid "_Insert Column(s)"
@@ -28454,20 +28726,20 @@ msgstr "EMF (extended metafile)"
 msgid "WMF (windows metafile)"
 msgstr "WMF (windows metafile)"
 
-#: src/sheet-object-widget.c:251 src/wbcg-actions.c:1914
+#: src/sheet-object-widget.c:257 src/wbcg-actions.c:1914
 msgid "Frame"
 msgstr "Frame"
 
-#: src/sheet-object-widget.c:482 src/wbcg-actions.c:1947
+#: src/sheet-object-widget.c:496 src/wbcg-actions.c:1947
 msgid "Button"
 msgstr "Button"
 
-#: src/sheet-object-widget.c:1198
+#: src/sheet-object-widget.c:1304
 #, c-format
 msgid "CheckBox %d"
 msgstr "CheckBox %d"
 
-#: src/sheet-object-widget.c:1617 src/wbcg-actions.c:1950
+#: src/sheet-object-widget.c:1750 src/wbcg-actions.c:1950
 msgid "RadioButton"
 msgstr "RadioButton"
 
@@ -31318,7 +31590,7 @@ msgstr "Nothing"
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 
-#: src/wbc-gtk.c:1104
+#: src/wbc-gtk.c:1118
 #, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "Show/Hide toolbar %s"
@@ -32586,34 +32858,34 @@ msgstr "Unsupported file format."
 msgid "An unexplained error happened while opening %s"
 msgstr "An unexplained error happened while opening %s"
 
-#: src/xml-io.c:2774
+#: src/xml-io.c:2763
 #, c-format
 msgid "Unsupported object type '%s'"
 msgstr "Unsupported object type '%s'"
 
-#: src/xml-io.c:3477
+#: src/xml-io.c:3466
 msgid "Unparsable xml in clipboard"
 msgstr "Unparsable xml in clipboard"
 
-#: src/xml-io.c:3484
+#: src/xml-io.c:3473
 msgid "Clipboard is in unknown format"
 msgstr "Clipboard is in unknown format"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3924
+#: src/xml-io.c:3913
 msgid "Processing file..."
 msgstr "Processing file..."
 
-#: src/xml-io.c:4251
+#: src/xml-io.c:4240
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "The file is not a Gnumeric Workbook file"
 
-#: src/xml-io.c:4288
+#: src/xml-io.c:4277
 msgid "Failure saving file"
 msgstr "Failure saving file"
 
-#: src/xml-io.c:4333
+#: src/xml-io.c:4322
 msgid "Gnumeric XML (*.gnumeric) original slow exporter"
 msgstr "Gnumeric XML (*.gnumeric) original slow exporter"

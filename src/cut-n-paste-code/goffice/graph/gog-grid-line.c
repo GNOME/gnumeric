@@ -197,8 +197,8 @@ gog_grid_line_view_render (GogView *view, GogViewAllocation const *bbox)
 				switch (axis_type) {
 					case GOG_AXIS_X: 
 						for (i = 0; i < tick_nbr; i++) {
-							if ((ticks[i].type == TICK_MAJOR && !grid_line->is_minor) ||
-							    (ticks[i].type == TICK_MINOR && grid_line->is_minor)) {
+							if ((ticks[i].type == GOG_AXIS_TICK_MAJOR && !grid_line->is_minor) ||
+							    (ticks[i].type == GOG_AXIS_TICK_MINOR && grid_line->is_minor)) {
 								path[0].y = plot_area->y;
 								path[1].y = plot_area->y + plot_area->h;
 								path[0].x = 
@@ -209,8 +209,8 @@ gog_grid_line_view_render (GogView *view, GogViewAllocation const *bbox)
 						break;
 					case GOG_AXIS_Y: 
 						for (i = 0; i < tick_nbr; i++) {
-							if ((ticks[i].type == TICK_MAJOR && !grid_line->is_minor) ||
-							    (ticks[i].type == TICK_MINOR && grid_line->is_minor)) {
+							if ((ticks[i].type == GOG_AXIS_TICK_MAJOR && !grid_line->is_minor) ||
+							    (ticks[i].type == GOG_AXIS_TICK_MINOR && grid_line->is_minor)) {
 								path[0].x = plot_area->x;
 								path[1].x = plot_area->x + plot_area->w;
 								path[0].y = 
@@ -248,8 +248,8 @@ gog_grid_line_view_render (GogView *view, GogViewAllocation const *bbox)
 				c_path[num_radii + 1].code = ART_END;
 
 				for (i = 0; i < tick_nbr; i++) {
-					if ((ticks[i].type == TICK_MAJOR && !grid_line->is_minor) ||
-					    (ticks[i].type == TICK_MINOR && grid_line->is_minor)) {
+					if ((ticks[i].type == GOG_AXIS_TICK_MAJOR && !grid_line->is_minor) ||
+					    (ticks[i].type == GOG_AXIS_TICK_MINOR && grid_line->is_minor)) {
 						position = gog_axis_map_to_canvas (map, ticks[i].position);
 						c_path[0].x = center_x;
 						c_path[0].y = center_y - position;

@@ -368,7 +368,7 @@ undo_redo_menu_labels (Workbook *wb)
 }
 
 static void
-update_after_action (Sheet *sheet)
+update_after_action (Sheet *sheet, Workbook *wb)
 {
 	if (sheet != NULL) {
 		g_return_if_fail (IS_SHEET (sheet));
@@ -381,6 +381,11 @@ update_after_action (Sheet *sheet)
 		WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
 			  wb_control_sheet_focus (control, sheet);
 		);
+	} else if (wb != NULL) {
+		WORKBOOK_FOREACH_CONTROL (wb, view, wbc, {
+			wb_control_sheet_focus (wbc, sheet);
+			sheet_update (wb_control_cur_sheet (wbc));
+		});
 	}
 }
 
@@ -471,7 +476,7 @@ command_undo (WorkbookControl *wbc)
 	/* TRUE indicates a failure to undo.  Leave the command where it is */
 	if (klass->undo_cmd (cmd, wbc))
 		return;
-	update_after_action (cmd->sheet);
+	update_after_action (cmd->sheet, wb);
 
 	wb->undo_commands = g_slist_remove (wb->undo_commands,
 					    wb->undo_commands->data);
@@ -511,7 +516,7 @@ command_redo (WorkbookControl *wbc)
 	/* TRUE indicates a failure to redo.  Leave the command where it is */
 	if (klass->redo_cmd (cmd, wbc))
 		return;
-	update_after_action (cmd->sheet);
+	update_after_action (cmd->sheet, wb);
 
 	/* Remove the command from the undo list */
 	wb->redo_commands = g_slist_remove (wb->redo_commands,
@@ -753,7 +758,8 @@ command_push_undo (WorkbookControl *wbc, GObject *obj)
 
 	/* TRUE indicates a failure to do the command */
 	trouble = klass->redo_cmd (cmd, wbc);
-	update_after_action (cmd->sheet);
+	update_after_action (cmd->sheet, wb_control_workbook (wbc));
+
 
 	if (!trouble)
 		command_register_undo (wbc, obj);
@@ -3813,7 +3819,7 @@ cmd_search_replace_update_after_action (CmdSearchReplace *me)
 		SearchReplaceItem *sri = tmp->data;
 		if (sri->pos.sheet != last_sheet) {
 			last_sheet = sri->pos.sheet;
-			update_after_action (last_sheet);
+			update_after_action (last_sheet, NULL);
 		}
 	}
 }

@@ -291,14 +291,12 @@ gnm_usr_dir (char const *subdir)
 {
 	char const *home_dir = g_get_home_dir ();
 
-	if (home_dir != NULL && *home_dir != '\0') {
-		gboolean has_slash = (home_dir[strlen (home_dir) - 1] == G_DIR_SEPARATOR);
-		return g_strconcat (home_dir, (has_slash ? "" : G_DIR_SEPARATOR_S),
-				    ".gnumeric" G_DIR_SEPARATOR_S GNUMERIC_VERSION G_DIR_SEPARATOR_S,
-				    subdir, G_DIR_SEPARATOR_S,
-				    NULL);
-	}
-	return NULL;
+	if (!home_dir)
+		return NULL;
+
+	return g_build_filename (home_dir, ".gnumeric",
+				 GNUMERIC_VERSION, subdir,
+				 NULL);
 }
 
 char *

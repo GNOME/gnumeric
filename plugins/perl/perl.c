@@ -40,7 +40,7 @@ plugin_init_general (ErrorInfo **ret_error)
 	/* Initialize the Perl interpreter. */
 	arg = gnm_sys_data_dir ("perl");
 	argv[1] = g_strconcat("-I", arg, NULL);
-	argv[2] = g_strconcat (arg, "startup.pl", NULL);
+	argv[2] = g_build_filename (arg, "startup.pl", NULL);
 	g_free(arg);
 	gnumeric_perl_interp = perl_alloc();
 	perl_construct(gnumeric_perl_interp);

@@ -29,18 +29,18 @@ libgoffice_gui_utils_la_SOURCES =	\
 	go-action-combo-text.h		\
 	\
 	go-font-sel.c			\
-	go-font-sel.h			\
-	\
-	go-dock-band.c			\
-	go-dock-band.h			\
-	go-dock-item-grip.c		\
-	go-dock-item-grip.h		\
-	go-dock-item.c			\
-	go-dock-item.h			\
-	go-dock-layout.c		\
-	go-dock-layout.h		\
-	go-dock.c			\
-	go-dock.h
+	go-font-sel.h
+
+#	go-dock-band.c			\
+#	go-dock-band.h			\
+#	go-dock-item-grip.c		\
+#	go-dock-item-grip.h		\
+#	go-dock-item.c			\
+#	go-dock-item.h			\
+#	go-dock-layout.c		\
+#	go-dock-layout.h		\
+#	go-dock.c			\
+#	go-dock.h
 
 go-marshalers.h : go-marshalers.list $(GLIB_GENMARSHAL)
 	$(GLIB_GENMARSHAL) $< --header --prefix=go_ > $@

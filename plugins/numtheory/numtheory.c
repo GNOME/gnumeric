@@ -400,6 +400,59 @@ gnumeric_isprime (FunctionEvalInfo *ei, GnmValue **args)
 
 /* ------------------------------------------------------------------------- */
 
+/*
+ * Returns
+ *   -1 (out of bounds)
+ *    0 (n <= 1)
+ *    smallest prime facter
+ */
+static int
+prime_factor (int n)
+{
+	int i = 1, p = 2;
+
+	if (n <= 1)
+		return 0;
+
+	for (i = 1; p * p <= n; i++) {
+		if (ithprime (i, &p))
+			return -1;
+		if (n % p == 0)
+			return p;
+	}
+
+	return n;
+}
+
+static char const *help_pfactor = {
+	N_("@FUNCTION=PFACTOR\n"
+	   "@SYNTAX=PFACTOR(n)\n"
+	   "@DESCRIPTION="
+	   "PFACTOR function returns the smallest prime factor of its argument.\n"
+	   "\n"
+	   "The argument must be at least 2, or else a #VALUE! error is returned.\n"
+	   "\n"
+	   "@SEEALSO=ITHPRIME")
+};
+
+static GnmValue *
+gnumeric_pfactor (FunctionEvalInfo *ei, GnmValue **args)
+{
+	int n = value_get_as_int (args [0]);
+	int p;
+
+	if (n < 2)
+		return value_new_error_VALUE (ei->pos);
+
+	p = prime_factor (n);
+	if (p < 0)
+		return value_new_error (ei->pos, OUT_OF_BOUNDS);
+
+	return value_new_int (p);
+}
+
+/* ------------------------------------------------------------------------- */
+
 static char const *help_nt_pi = {
 	N_("@FUNCTION=NT_PI\n"
 	   "@SYNTAX=NT_PI(n)\n"
@@ -549,6 +602,9 @@ plugin_cleanup (void)
 const GnmFuncDescriptor num_theory_functions[] = {
 	{"ithprime", "f", "number", &help_ithprime,
 	 &gnumeric_ithprime, NULL, NULL, NULL, NULL,
+	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	{"pfactor", "f", "number", &help_pfactor,
+	 &gnumeric_pfactor, NULL, NULL, NULL, NULL,
 	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{"nt_phi",   "f", "number", &help_phi,
 	 &gnumeric_phi,      NULL, NULL, NULL, NULL,

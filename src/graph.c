@@ -521,13 +521,14 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 			} else if (v->type == VALUE_STRING) {
 				GnmValue *tmp = format_match_number (v->v_str.val->str, NULL,
 						workbook_date_conv (vec->dep.sheet->workbook));
-				if (tmp != NULL) {
-					vals[len] = value_get_as_float (tmp);
-					value_release (tmp);
+				if (tmp == NULL) {
+					vals[len] = go_nan;
 					continue;
 				}
-			}
-			vals[len] = value_get_as_float (v);
+				vals[len] = value_get_as_float (tmp);
+				value_release (tmp);
+			} else
+				vals[len] = value_get_as_float (v);
 			if (minimum > vals[len])
 				minimum = vals[len];
 			if (maximum < vals[len])
@@ -920,13 +921,12 @@ gnm_go_data_matrix_load_values (GODataMatrix *dat)
 				} else if (v->type == VALUE_STRING) {
 					GnmValue *tmp = format_match_number (v->v_str.val->str, NULL,
 							workbook_date_conv (mat->dep.sheet->workbook));
-					if (tmp != NULL) {
-						vals[cur] = value_get_as_float (tmp);
-						value_release (tmp);
-					} else {
+					if (tmp == NULL) {
 						vals[cur] = go_nan;
 						continue;
 					}
+					vals[cur] = value_get_as_float (tmp);
+					value_release (tmp);
 				} else
 					vals[cur] = value_get_as_float (v);
 				if (minimum > vals[cur])

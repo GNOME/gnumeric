@@ -122,7 +122,7 @@ gnumeric_goal_seek (GoalSeekState *state)
 	gboolean hadold;
 	gnm_float oldx;
 
-	goal_seek_initialise (&seekdata);
+	goal_seek_initialize (&seekdata);
 	seekdata.xmin = state->xmin;
 	seekdata.xmax = state->xmax;
 

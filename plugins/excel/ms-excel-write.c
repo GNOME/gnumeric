@@ -357,8 +357,9 @@ excel_write_SETUP (BiffPut *bp, ExcelWriteSheet *esheet)
 	if (pi != NULL && pi->print_comments)
 		options |= 0x20;
 
-	if (pi == NULL ||
-	    !print_info_get_margins (pi, &header, &footer, &dummy, &dummy))
+	if (NULL != pi)
+		print_info_get_margins (pi, &header, &footer, &dummy, &dummy);
+	else
 		header = footer = 0.;
 	header = points_to_inches (header);
 	footer = points_to_inches (footer);
@@ -4221,7 +4222,6 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 		esheet->blips = g_slist_prepend (esheet->blips, bi);
 	}
 	esheet->blips = g_slist_reverse (esheet->blips);
-	g_slist_free (objs);
 	esheet->num_objs += esheet->num_blips;
 
 	/* Text boxes */

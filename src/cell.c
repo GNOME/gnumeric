@@ -333,7 +333,11 @@ cell_set_expr_internal (GnmCell *cell, GnmExpr const *expr)
 	cell->base.flags |= CELL_HAS_NEW_EXPR;
 	cell->base.expression = expr;
 
-	/* Until the value is recomputed, we put in this value.  */
+	/* Until the value is recomputed, we put in this value.
+	 *
+	 * We should consider using 0 instead and take out the
+	 * cell_needs_recalc call in sheet_foreach_cell_in_range.
+	 */
 	cell->value = value_new_empty ();
 	cell_dirty (cell);
 }

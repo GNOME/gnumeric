@@ -1,3 +1,41 @@
+2004-10-19  Morten Welinder  <terra@gnome.org>
+
+	* dialog-search.c (make_matches_table): Add ellipsize property to
+	contents column if supported.
+
+2004-10-18  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-stf-export.glade: fix formatting on all pages
+	* dialog-stf-export.c (stf_export_dialog_switch_page): no need to
+	  go back if there is only one sheet
+	(stf_export_dialog): we can go directly to format specifications
+	  if there is only one sheet.
+
+2004-10-18  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=155437
+	* dialog-stf-export.c (cb_sheet_select_none): number of selected
+	  sheets is now 0.
+	http://bugzilla.gnome.org/show_bug.cgi?id=154231
+	(cb_sheet_select_all): number os selected sheets is now `all'
+	* dialog-stf-export.glade: fix formatting of description
+
+2004-10-18  Yukihiro Nakai  <nakai@gnome.gr.jp>
+
+	* dialog-plugin-manager.c (set_plugin_model_row): Gettextize the
+	plugin names on GUI.
+	* dialog-pluing-manager.c (cb_pm_selection_changed): Gettextize the
+	plugin description on GUI.
+
+2004-10-15  Yukihiro Nakai  <nakai@gnome.gr.jp>
+
+	* dialog-about.c (cb_about_animate): Gettextize contributors name.
+
+2004-10-13  Morten Welinder  <terra@gnome.org>
+
+	* dialog-about.c (dialog_about): Add timeout at low priority so it
+	will not run before the canvas has been updated.
+
 2004-10-09  Jody Goldberg <jody@gnome.org>
 
 	* dialog-preferences.c (pref_window_page_initializer) : Set max to 64.

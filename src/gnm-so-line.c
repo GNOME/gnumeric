@@ -189,7 +189,7 @@ gnm_so_line_new_view (SheetObject *so, SheetObjectViewContainer *container)
 	g_signal_connect_object (G_OBJECT (sol),
 		"notify", G_CALLBACK (cb_gnm_so_line_changed),
 		item, 0);
-	return gnm_pane_object_register (so, item);
+	return gnm_pane_object_register (so, item, TRUE);
 }
 
 static void

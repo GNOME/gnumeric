@@ -480,12 +480,16 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 		/* replace blips we don't know how to handle with rectangles */
 		if (so == NULL)
 			so = g_object_new (GNM_SO_FILLED_TYPE, NULL);  /* placeholder */
+
+#warning "Why do we create these here only to get rid of them?"
+		g_object_unref (so);
 		break;
 	}
 
 	case 0x0B: 
+	case 0x70: 
 		sheet_widget_checkbox_set_link (obj->gnum_obj,
-			ms_obj_attr_get_expr (obj->attrs, MS_OBJ_ATTR_CHECKBOX_LINK, NULL));
+			ms_obj_attr_get_expr (obj->attrs, MS_OBJ_ATTR_LINKED_TO_CELL, NULL));
 		break;
 
 	case 0x0C:
@@ -494,7 +498,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 	case 0x10:
 	case 0x11:
 		sheet_widget_adjustment_set_details (obj->gnum_obj,
-			ms_obj_attr_get_expr (obj->attrs, MS_OBJ_ATTR_SCROLLBAR_LINK, NULL),
+			ms_obj_attr_get_expr (obj->attrs, MS_OBJ_ATTR_LINKED_TO_CELL, NULL),
 			ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_SCROLLBAR_VALUE, 0),
 			ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_SCROLLBAR_MIN, 0),
 			ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_SCROLLBAR_MAX, 100) - 1,
@@ -608,6 +612,10 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 	break;
 
 	case 0x19: so = g_object_new (cell_comment_get_type (), NULL);
+		break;
+
+	/* Gnumeric specific addition to handle toggle button controls */
+	case 0x70: so = g_object_new (sheet_widget_toggle_button_get_type (), NULL);
 		break;
 
 	default:
@@ -2320,8 +2328,9 @@ excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 	cell = sheet_cell_fetch (esheet->sheet, col, row);
 	g_return_if_fail (cell != NULL);
 
-	d (1, fprintf (stderr,"Formula in %s!%s;\n",
-		      cell->base.sheet->name_quoted, cell_name (cell)););
+	d (1, fprintf (stderr,"Formula in %s!%s == 0x%x;\n",
+		      cell->base.sheet->name_quoted, cell_name (cell),
+		      GSF_LE_GET_GUINT32 (q->data + 16)););
 
 	/* TODO TODO TODO: Wishlist
 	 * We should make an array of minimum sizes for each BIFF type
@@ -3570,23 +3579,89 @@ excel_read_COLINFO (BiffQuery *q, ExcelReadSheet *esheet)
 				       firstcol, lastcol);
 }
 
+/* Add a bmp header so that gdk-pixbuf can do the work */
+static GdkPixbuf *
+excel_read_os2bmp (BiffQuery *q, guint32 image_len)
+{
+	guint16 op;
+	GError *err = NULL;
+	GdkPixbufLoader *loader = NULL;
+	GdkPixbuf	*pixbuf = NULL;
+	gboolean ret = FALSE;
+	guint8 bmphdr[14];
+	guint bpp; 
+	guint offset;
+
+	loader = gdk_pixbuf_loader_new_with_type ("bmp", &err);
+	if (!loader)
+		return NULL;
+	strcpy (bmphdr, "BM");
+	GSF_LE_SET_GUINT32 (bmphdr + 2, 
+			    image_len + sizeof bmphdr);
+	GSF_LE_SET_GUINT16 (bmphdr + 6, 0);
+	GSF_LE_SET_GUINT16 (bmphdr + 8, 0);
+	bpp = GSF_LE_GET_GUINT16 (q->data + 18);
+	switch (bpp) {
+	case 24: offset = 0;       break;
+	case 8:  offset = 256 * 3; break;
+	case 4:  offset = 16 * 3;  break;
+	default: offset = 2 * 3;   break;
+	}
+	offset += sizeof bmphdr + 12;
+	GSF_LE_SET_GUINT32 (bmphdr + 10, offset);
+	ret = gdk_pixbuf_loader_write (loader, bmphdr, sizeof bmphdr, &err);
+	if (ret)
+		ret = gdk_pixbuf_loader_write (loader, q->data+8,
+					       q->length-8, &err);
+	image_len += 8;
+	while (ret &&  image_len > q->length &&
+	       ms_biff_query_peek_next (q, &op) && op == BIFF_CONTINUE) {
+		image_len -= q->length;
+		ms_biff_query_next (q);
+		ret = gdk_pixbuf_loader_write (loader, q->data, q->length,
+					       &err);
+	}
+	gdk_pixbuf_loader_close (loader, ret ? &err : NULL);
+	if (ret) {
+		pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
+		g_object_ref (pixbuf);
+	} else {
+		g_message ("Unable to read OS/2 BMP image: %s\n",
+			   err->message);
+		g_error_free (err);
+	}
+	g_object_unref (G_OBJECT (loader));
+	return pixbuf;
+}
+
 /* When IMDATA or BG_PIC is bitmap, the format is OS/2 BMP, but the
  * 14 bytes header is missing.
  */
 GdkPixbuf *
 excel_read_IMDATA (BiffQuery *q, gboolean keep_image)
 {
-	static int count = 0;
-	FILE *f = NULL;
 	guint16 op;
 	guint32 image_len = GSF_LE_GET_GUINT32 (q->data + 4);
 
-	GError *err = NULL;
-	GdkPixbufLoader *loader = NULL;
 	GdkPixbuf	*pixbuf = NULL;
-	gboolean ret = FALSE;
 
-	d (1,{
+	guint16 const format   = GSF_LE_GET_GUINT16 (q->data);
+
+	switch (format) {
+	case 0x2: break;	/* Windows metafile/Mac pict */
+	case 0x9:		/* OS/2 BMP sans header */
+	{
+		pixbuf = excel_read_os2bmp (q, image_len);
+	}
+	break;
+	case 0xe: break;	/* Native format */
+	default: break;		/* Unknown format */
+	}
+
+	/* Dump formats which weren't handled above to file */
+	d (1, if (format != 0x9) {
+		static int count = 0;
+		FILE *f = NULL;
 		char *file_name;
 		char const *from_name;
 		char const *format_name;
@@ -3603,7 +3678,6 @@ excel_read_IMDATA (BiffQuery *q, gboolean keep_image)
 		format_name = (from_env == 1) ? "windows metafile" : "mac pict";
 		break;
 
-		case 0x9: format_name = "windows native bitmap"; break;
 		case 0xe: format_name = "'native format'"; break;
 		default: format_name = "Unknown format?"; break;
 		}
@@ -3615,35 +3689,16 @@ excel_read_IMDATA (BiffQuery *q, gboolean keep_image)
 		f = fopen (file_name, "w");
 		fwrite (q->data+8, 1, q->length-8, f);
 		g_free (file_name);
+		image_len += 8;
+		while (image_len > q->length &&
+		       ms_biff_query_peek_next (q, &op) &&
+		       op == BIFF_CONTINUE) {
+			image_len -= q->length;
+			ms_biff_query_next (q);
+			fwrite (q->data, 1, q->length, f);
+		}
+		fclose (f);
 	});
-
-	loader = gdk_pixbuf_loader_new_with_type ("bmp", &err);
-	if (loader != NULL)
-		ret = gdk_pixbuf_loader_write (loader, q->data+8, q->length-8, &err);
-
-	image_len += 8;
-	while (image_len > q->length &&
-	       ms_biff_query_peek_next (q, &op) && op == BIFF_CONTINUE) {
-		image_len -= q->length;
-		ms_biff_query_next (q);
-		d(1, fwrite (q->data, 1, q->length, f););
-		if (ret)
-			ret = gdk_pixbuf_loader_write (loader, q->data, q->length, &err);
-	}
-
-	d(1, fclose (f););
-	gdk_pixbuf_loader_close (loader, ret ? &err : NULL);
-	if (ret)
-		pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
-	g_object_unref (G_OBJECT (loader));
-
-	g_return_val_if_fail (image_len == q->length, pixbuf);
-
-	if (err != NULL) {
-		g_warning (err-> message);
-		g_error_free (err);
-		err = NULL;
-	}
 
 	return pixbuf;
 }
@@ -5341,7 +5396,12 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb, ExcelReadSheet *esheet)
 				biff_get_rk (q->data + 6));
 			break;
 
-		case BIFF_IMDATA:	excel_read_IMDATA (q, FALSE);		break;
+		case BIFF_IMDATA: {
+			GdkPixbuf *pixbuf = excel_read_IMDATA (q, FALSE);
+			if (pixbuf)
+				g_object_unref (pixbuf);
+			}
+			break;
 		case BIFF_GUTS:		excel_read_GUTS (q, esheet);		break;
 		case BIFF_WSBOOL:	excel_read_WSBOOL (q, esheet);		break;
 		case BIFF_GRIDSET:		break;

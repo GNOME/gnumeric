@@ -1,3 +1,13 @@
+2004-10-18  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c : Add support for date and time styles
+	(oo_cell_start) : Handle time-values
+	(openoffice_file_open) : read styles.
+
+2004-10-17  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c : Add basic parser for date formats
+
 2004-10-05  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.3.91
