@@ -4,6 +4,9 @@
 #include "gnumeric.h"
 #include <gdk/gdk.h>
 
+gboolean cell_calc_layout (GnmCell const *cell, RenderedValue *rv, gboolean printing,
+			   int x1, int y1, int width, int height, int h_center,
+			   GdkRectangle  *rect, GdkColor **res_color, gint *res_x, gint *res_y);
 void cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 		int x, int y, int height, int width, int h_center);
 

@@ -1,3 +1,12 @@
+2004-09-22  Morten Welinder  <terra@gnome.org>
+
+	* src/rendered-value.c (rendered_value_new): Get rid of quantify
+	artefacts.
+
+	* src/cell-draw.c (cell_draw): Get rid of quantify artefacts.
+	(cell_calc_layout): Add rv and printing arguments, drop res_layout
+	argument.  Make extern.  Caller changed.
+
 2004-09-21  Morten Welinder  <terra@gnome.org>
 
 	* src/print.c (print_hf_element): Print using pango layouts when
