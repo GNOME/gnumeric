@@ -1869,7 +1869,7 @@ scg_comment_timer_clear (SheetControlGUI *scg)
  * Simplistic routine to display the text of a comment in an UGLY popup window.
  * FIXME : this should really bring up another sheetobject with an arrow from
  * it to the comment marker.  However, we lack a decent rich text canvas item
- * until the conversion to pange and the new text box.
+ * until the conversion to pango and the new text box.
  */
 void
 scg_comment_display (SheetControlGUI *scg, CellComment *cc)
@@ -1878,9 +1878,13 @@ scg_comment_display (SheetControlGUI *scg, CellComment *cc)
 	int x, y;
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
-	g_return_if_fail (IS_CELL_COMMENT (scg->comment.selected));
 
 	scg_comment_timer_clear (scg);
+
+	/* If someone clicked and dragged the comment marker this may be NULL */
+	if (scg->comment.selected == NULL)
+		return;
+
 	if (cc == NULL)
 		cc = scg->comment.selected;
 	else if (scg->comment.selected != cc)
@@ -1888,12 +1892,14 @@ scg_comment_display (SheetControlGUI *scg, CellComment *cc)
 
 	g_return_if_fail (IS_CELL_COMMENT (cc));
 
-	scg->comment.item = gtk_window_new (GTK_WINDOW_POPUP);
-	label = gtk_label_new (cell_comment_text_get (cc));
-	gtk_container_add (GTK_CONTAINER (scg->comment.item), label);
-	gdk_window_get_pointer (NULL, &x, &y, NULL);
-	gtk_widget_set_uposition (scg->comment.item, x+10, y+10);
-	gtk_widget_show_all (scg->comment.item);
+	if (scg->comment.item == NULL) {
+		scg->comment.item = gtk_window_new (GTK_WINDOW_POPUP);
+		label = gtk_label_new (cell_comment_text_get (cc));
+		gtk_container_add (GTK_CONTAINER (scg->comment.item), label);
+		gdk_window_get_pointer (NULL, &x, &y, NULL);
+		gtk_widget_set_uposition (scg->comment.item, x+10, y+10);
+		gtk_widget_show_all (scg->comment.item);
+	}
 }
 
 /**

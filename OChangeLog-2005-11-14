@@ -1,5 +1,9 @@
 2001-02-23  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet-control-gui.c (scg_comment_display) : We only need to be
+	  sure that scg::selected is a comment if we are using it and no other
+	  comment is visible.
+
 	* src/style-border.c (print_hline) : gdk_draw_line excludes the far
 	  pixel.  Make this match to keep the draw code consistent.
 	(print_vline) : ditto.
