@@ -227,6 +227,9 @@ workbook_set_dirty (Workbook *wb, gboolean is_dirty)
 {
 	g_return_if_fail (wb != NULL);
 
+	wb->modified = is_dirty;
+	if (wb->summary_info != NULL)
+		wb->summary_info->modified = is_dirty;
 	g_hash_table_foreach (wb->sheet_hash_private,
 			      cb_sheet_mark_dirty, GINT_TO_POINTER (is_dirty));
 }
