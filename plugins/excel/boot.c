@@ -142,6 +142,7 @@ excel_file_open (GnumFileOpener const *fo, IOContext *context,
 #endif
 
 	g_object_unref (G_OBJECT (ole));
+	g_object_unref (G_OBJECT (stream));
 }
 
 /*
