@@ -404,7 +404,7 @@ workbook_new (void)
 
 	/* Assign a default name */
 	do {
-		char *name, *nameutf8;
+		char *name, *nameutf8, *uri;
 
 		count++;
 		nameutf8 = g_strdup_printf (_("Book%d.%s"), count, extension);
@@ -412,9 +412,11 @@ workbook_new (void)
 		if (!name) {
 			name = g_strdup_printf ("Book%d.%s", count, extension);
 		}
+		uri = go_filename_to_uri (name);
 
-		is_unique = workbook_set_uri (wb, name);
+		is_unique = workbook_set_uri (wb, uri);
 
+		g_free (uri);
 		g_free (name);
 		g_free (nameutf8);
 	} while (!is_unique);

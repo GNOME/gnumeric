@@ -1,3 +1,7 @@
+2004-09-10  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook.c (workbook_new): Generate a proper URI here.
+
 2004-09-09  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : Post release bump
