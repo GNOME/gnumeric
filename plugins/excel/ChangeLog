@@ -1,5 +1,7 @@
 1999-05-13  Michael Meeks  <michael@imaginator.com>
 
+	* ms-formula.c (ms_excel_parse_formula): Updated Array support.
+
 	* ms-excel.c (ms_excel_set_cell_colors): Kills colors where
 	backgnd & foregnd are same, needs pattern stuff to work
 	before it can be fixed.

@@ -824,37 +824,36 @@ ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 			guint16 lpx,lpy;
 			guint8 *data=cur+3;
 			
-
 			if (cols==0) cols=256;
 			v = value_array_new (cols, rows);
 			ptg_length = 3;
 			printf ("An Array how interesting: (%d,%d)\n", cols, rows);
 			dump (mem, length);
-#ifdef 0
+
 			for (lpy=0;lpy<rows;lpy++) {
 				for (lpx=0;lpx<cols;lpx++) {
 					guint8 opts=BIFF_GETBYTE(data);
 					if (opts == 1) {
-						g_string_sprintfa (ans, MS_EXCEL_DOUBLE_FORMAT,
-								   BIFF_GETDOUBLE(data+1));
+						value_array_set (v, lpx, lpy,
+								 value_float (BIFF_GETDOUBLE(data+1)));
 						data+=9;
 						ptg_length+=9;
 					} else if (opts == 2) {
 						guint32 len;
-						g_string_append (ans, biff_get_text (data+2,
-										     BIFF_GETBYTE(data+1),
-										     &len));
-						g_string_append (ans, ",");
+						char *str = biff_get_text (data+2,
+									   BIFF_GETBYTE(data+1),
+									   &len);
+						value_array_set (v, lpx, lpy, value_str(str));
+						g_free (str);
 						data+=len+2;
 						ptg_length+=2+len;
 					} else {
 						printf ("Duff type\n");
 						break;
 					}
-					g_string_append (ans, ";");
 				}
 			}
-#endif
+			ptg_length+=7;
 			parse_list_push_raw (&stack, v);
 			break;
 		}

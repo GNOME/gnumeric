@@ -295,6 +295,104 @@ gnumeric_hlookup (struct FunctionDefinition *i, Value *argv [], char **error_str
 	return NULL;
 }
 
+static char *help_lookup = {
+	N_("@FUNCTION=LOOKUP\n"
+	   "@SYNTAX=LOOKUP(value,vector1,vector2)\n"
+
+	   "@DESCRIPTION="
+	   "The LOOKUP function finds the row index of 'value' in vector1 and returns "
+	   "the contents of value2 at that row index."
+	   "If the area is longer than it is wide then the sense of the search is rotated. "
+	   "Alternatively a single array can be used."
+	   "\n"
+	   "If LOOKUP can't find value it uses the next largest value less than value."
+	   "The data must be sorted"
+	   "\n"
+	   "If value is smaller than the first value it returns #N/A"
+	   "\n"
+	   "@SEEALSO=VLOOKUP,HLOOKUP")
+};
+
+/* Not very efficient ! */
+static Value *
+gnumeric_lookup (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+	Value *v1, *ans;
+	int height, width;
+	const Value *next_largest = NULL;
+	int next_largest_x = 0;
+	int next_largest_y = 0;
+	
+	height  = value_area_get_height (argv[1]);
+	width   = value_area_get_width  (argv[1]);
+
+	if ((argv[1]->type == VALUE_ARRAY)) {
+		if (argv[2]) {
+			*error_string = _("Type Mismatch");
+			return NULL;
+		}
+	} else if (argv[1]->type == VALUE_CELLRANGE) {
+		if (!argv[2]) {
+			*error_string = _("Invalid number of arguments");
+			return NULL;
+		}
+	} else {
+		*error_string = _("Type Mismatch");
+		return NULL;
+	}
+	
+	{
+		Value *src, *dest;
+		int    x_offset=0, y_offset=0, lpx, lpy, maxx, maxy;
+		int    tmp, compare, touched;
+
+		if (argv[1]->type == VALUE_ARRAY) {
+			src = dest = argv[1];
+			if (width>height)
+				y_offset = 1;
+			else
+				x_offset = 1;
+		} else {
+			src = argv[1];
+			dest = argv[2];
+		}
+		maxy  = value_area_get_height (src);
+		maxx  = value_area_get_width  (dest);
+		if ((tmp=value_area_get_height (src))<maxy)
+			maxy=tmp;
+		if ((tmp=value_area_get_width (src))<maxx)
+			maxx=tmp;
+
+		touched = 0;
+		for (lpx=0,lpy=0;lpx<maxx && lpy<maxy;) {
+			const Value *v = value_area_get_at_x_y (src, lpx, lpy);
+			compare = lookup_similar (v, argv[0], next_largest, 1);
+			if (compare == 1)
+				return value_duplicate (value_area_get_at_x_y (dest, next_largest_x+x_offset,
+									       next_largest_y+y_offset));
+			if (compare < 0) {
+				next_largest = v;
+				next_largest_x = lpx;
+				next_largest_y = lpy;
+			} else
+				break;
+
+			if (width>height)
+				lpx++;
+			else
+				lpy++;
+		}
+		if (!next_largest) {
+			*error_string = _("#N/A");
+			return NULL;
+		}
+		return value_duplicate (value_area_get_at_x_y (dest, next_largest_x+x_offset,
+							       next_largest_y+y_offset));
+	}
+}
+
+
+
 static char *help_column = {
 	N_("@FUNCTION=COLUMN\n"
 	   "@SYNTAX=COLUMN([reference])\n"
@@ -463,6 +561,7 @@ FunctionDefinition lookup_functions [] = {
 	{ "column",    "?",    "ref",                      &help_column,   gnumeric_column, NULL },
 	{ "columns",   "A",    "ref",                      &help_column,   NULL, gnumeric_columns },
 	{ "hlookup",   "?Af|b","val,range,col_idx,approx", &help_hlookup,  NULL, gnumeric_hlookup },
+	{ "lookup",    "?A|r", "val,range,range",          &help_lookup,   NULL, gnumeric_lookup },
 	{ "offset",    "rffff","ref,row,col,hight,width",  &help_offset,   NULL, gnumeric_offset },
 	{ "row",       "?",    "ref",                      &help_row,      gnumeric_row, NULL },
 	{ "rows",      "A",    "ref",                      &help_rows,     NULL, gnumeric_rows },

@@ -393,6 +393,7 @@ value_get_as_int (const Value *v)
 		g_warning ("value_get_as_int unknown type\n");
 		break;
 	}
+	return 0.0;
 }
 
 Value *
@@ -415,6 +416,19 @@ value_array_new (guint width, guint height)
 		}
 	}
 	return v;
+}
+
+void
+value_array_set (Value *array, guint col, guint row, Value *v)
+{
+	g_return_if_fail (v);
+	g_return_if_fail (v->type == VALUE_ARRAY);
+	g_return_if_fail (col>=0);
+	g_return_if_fail (row>=0);
+	g_return_if_fail (v->v.array.y <= row);
+	g_return_if_fail (v->v.array.x <= col);
+
+	memcpy (&array->v.array.vals[col][row], v, sizeof (Value));
 }
 
 void
@@ -533,9 +547,9 @@ value_area_get_at_x_y (Value *v, guint x, guint y)
 
 		if (cell && cell->value)
 			return cell->value;
-		else
-			return value_int (0);
 	}
+	
+	g_warning ("Leaked on array\n");
 	return value_int (0);
 }
 

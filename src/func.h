@@ -114,7 +114,7 @@ Value *gnumeric_sum         (Sheet *sheet, GList *expr_node_list,
  * This includes the database functions and some mathematical functions
  * like COUNTIF, SUMIF...
  */
-typedef (*criteria_test_fun_t) (Value *x, Value *y);
+typedef int (*criteria_test_fun_t) (Value *x, Value *y);
 
 typedef struct {
         criteria_test_fun_t fun;
