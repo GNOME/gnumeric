@@ -1,3 +1,6 @@
+#ifndef GNUMERIC_PLUGIN_LOTUS_123_LOTUS_TYPES_H
+#define GNUMERIC_PLUGIN_LOTUS_123_LOTUS_TYPES_H
+
 /* Lotus' record types */
 
 #define LOTUS_BOF            0x0
@@ -33,3 +36,5 @@
 #define LOTUS_HEADER         0x26
 #define LOTUS_SETUP          0x27
 #define LOTUS_MARGINS        0x28
+
+#endif

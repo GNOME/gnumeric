@@ -42,7 +42,7 @@ void     lotus_file_open (GnumFileOpener const *fo, IOContext *io_context,
 gboolean
 lotus_file_probe (GnumFileOpener const *fo, const gchar *file_name, FileProbeLevel pl)
 {
-	char magic[4];
+	unsigned char magic[4];
 	FILE *f;
 	gint rcount;
 

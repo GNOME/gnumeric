@@ -1,3 +1,6 @@
+#ifndef GNUMERIC_PLUGIN_GUILE_SMOB_VALUE_H
+#define GNUMERIC_PLUGIN_GUILE_SMOB_VALUE_H
+
 /* -*- mode: c; c-basic-offset: 8 -*- */
 
 /*
@@ -30,3 +33,4 @@ void init_value_type (void);
 SCM make_new_smob (Value *);
 Value *get_value_from_smob (SCM);
 
+#endif

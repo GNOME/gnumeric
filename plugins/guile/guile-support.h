@@ -1,12 +1,10 @@
-#include <libguile.h>
-#include <gtk/gtk.h>
+#ifndef GNUMERIC_PLUGIN_GUILE_GUILE_SUPPORT_H
+#define GNUMERIC_PLUGIN_GUILE_GUILE_SUPPORT_H
 
-#include "cell.h"
-#include "expr.h"
+#include <libguile.h>
 #include "gnumeric.h"
-#include "value.h"
 
 SCM value_to_scm (Value const *val, CellRef cell_ref);
 Value* scm_to_value (SCM scm);
 
-
+#endif

@@ -1,3 +1,11 @@
+2001-08-17  Morten Welinder  <terra@diku.dk>
+
+	* lotus.h: Guard and get rid of old getdouble junk.
+	* lotus-formula.h: Guard.
+	* lotus-types.h: Ditto.
+
+	* boot.c (lotus_file_probe): Fix signedness problem.
+
 2001-08-11  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.69

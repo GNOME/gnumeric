@@ -1,3 +1,8 @@
+#ifndef GNUMERIC_PLUGIN_XBASE_XBASE_H
+#define GNUMERIC_PLUGIN_XBASE_XBASE_H
+
+#include "gnumeric.h"
+
 typedef struct { /* field format */
 	guint8 name[11]; /* name, including terminating '\0' */
 	guint8 type; /* type (single ASCII char) */
@@ -27,3 +32,5 @@ guint8   *record_get_field (const XBrecord *record, guint num);
 
 XBfile *xbase_open (const char *filename, ErrorInfo **ret_error);
 void    xbase_close (XBfile *file);
+
+#endif
