@@ -24,6 +24,7 @@
 
 #include "command-context.h"
 #include "dialog-stf.h"
+#include "format.h"
 
 #define GLADE_FILE "dialog-stf.glade"
 

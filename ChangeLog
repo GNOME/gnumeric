@@ -1,5 +1,8 @@
 2000-08-21  Jody Goldberg <jgoldberg@home.com>
 
+	* src/corba-sheet.c : suppress warnings.
+	* src/dialogs/dialog-stf.c : Ditto.
+
 	* src/number-match.c (format_create_regexp) : Improve regexps.
 
 	* src/formats.c (cell_format_is_number) : Format always uses standard

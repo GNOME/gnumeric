@@ -4,14 +4,14 @@ and longer term bugs.
 
 Release Critical
 ----------------
-- We should save per block maximums.
 - Changing the size of all rows/cols creates big xml files, and slows
   calculations to a crawl
 - Saving xml should not rely on changing the textdomain to disable translation
-  of TRUE/FALSE.
+  of TRUE/FALSE in expressions.
 
 Long term breakage
 ------------------
+- We should save per block maximums.
 - Changing an expression name that is in use does not recalc, or regen depends
   correctly.
 - The max row/col canvas scroll size is still hard coded.
@@ -42,9 +42,6 @@ Long term breakage
   quotes) in a cell with an assigned format of Text.  This should be treated as
   text.  Instead It parses as a Date (Oct 1) and gets converted.
 
-- Some number formats are being written in their native locale.  Breaking things when
-  they are reloaded in other locales.
-
 - The File->Print Preview icon is too big.  Use the stock version when the next
   release of gnome-libs is made. (tigert is adding to gnome-libs)
 
@@ -53,12 +50,6 @@ Long term breakage
 - Underline should scale with font size.  (Say, max (1, font->descent/4?)
   gnome-print has a function we could use for printing which returns the
   underline thickness.
-
-- Error handling is completely hosed.  We currently save the value of a cell
-  as a string.  This means that we need to be able to parse that a value is an
-  error.  Currently this only works for the standard errors.
-  eg  value_error_new("1+3") will print the string 1+3 as the error.
-      Something more comprehensive is necessary.
 
 - Functions like SUMPRODUCT need to have better support for sparse ranges.
   We should probably create synchronously_walk_ranges.  (XL goes kaboom on
