@@ -6,6 +6,13 @@ release, and longer term bugs.
 
 Release Critical
 ----------------
+    - Errors are saved localised.
+      1. Start gnumeric in, say, French locale.
+      2. A1=eek
+      3. Copy A1.
+      4. Paste special as value into B1.
+      5. Save.
+      ==> #NOM? ends up in file.
 
 Pending Patches
 ---------------
