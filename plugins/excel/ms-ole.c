@@ -169,7 +169,7 @@ static int create_link_array(MS_OLE_FILE *f, BBPtr first, BBPtr **array)
   ptr = first ;
   while (ptr != MS_OLE_END_OF_CHAIN)
     {
-      *array[lp++] = ptr ;
+      (*array)[lp++] = ptr ;
       ptr = nextBB (f, ptr) ;
     }
   return num ;

@@ -1,3 +1,8 @@
+1998-11-10  Michael Meeks    <michael@imaginator.com>
+
+	* plugins/excel/ms-ole.c(create_link_array): Truly
+	brainless one suprised it took so long to surface.
+
 1998-11-10  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/sheet-view.c (sheet_view_comment_get_points): Scale properly
