@@ -101,45 +101,6 @@ static const char *problem_type_group[] = {
 };
 
 /**
- * warning_destroy:
- * @window:
- * @state:
- *
- * Destroy the dialog and NULL the field in the state structure.
- *
- **/
-static gboolean
-solver_destroy_warning (GtkObject *w, SolverState  *state)
-{
-	g_return_val_if_fail (w != NULL, FALSE);
-	g_return_val_if_fail (state != NULL, FALSE);
-
-	state->warning_dialog = NULL;
-
-	return FALSE;
-}
-
-/**
- * :
- * @state:
- * @type:
- * @str;
- *
- **/
-static void       
-solver_notice (SolverState *state, GtkMessageType type, const char *str)
-{
-	if (state->warning_dialog != NULL)
-		gtk_widget_destroy (state->warning_dialog);
-
-        state->warning_dialog = GTK_WIDGET (gnumeric_notice_nonmodal ((GtkWindow *) state->dialog, 
-							  type, str));
-	gtk_signal_connect (GTK_OBJECT (state->warning_dialog), "destroy",
-			    GTK_SIGNAL_FUNC (solver_destroy_warning), state);
-	
-}
-
-/**
  * is_hom_row_or_col_ref:
  * @Widget:
  *
@@ -851,7 +812,8 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 					 state->sheet, &opt_x, &sh_pr, &ilp);
 			workbook_recalc (state->sheet->workbook);
 			if (res == SOLVER_LP_OPTIMAL) {
-				solver_notice (state, 
+				gnumeric_notice_nonmodal ((GtkWindow *) state->dialog,
+					       &(state->warning_dialog),
 						 GTK_MESSAGE_INFO, 
 						 _("Solver found an optimal solution. All "
 						   "constraints and optimality conditions "
@@ -867,7 +829,9 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 						(_("Solver was not successful:"
 						   " %i"), res);
 				}
-				solver_notice (state, GTK_MESSAGE_WARNING, str);
+			        gnumeric_notice_nonmodal ((GtkWindow *) state->dialog,
+							  &(state->warning_dialog), 
+							  GTK_MESSAGE_WARNING, str);
 				g_free (str);
 			
 			}
@@ -888,7 +852,9 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 		str = g_strdup_printf
 			(_("Constraint `%s' is for a cell that "
 			   "is not an input cell."), s);
-		solver_notice (state, GTK_MESSAGE_ERROR, str);
+		gnumeric_notice_nonmodal ((GtkWindow *) state->dialog,
+					  &(state->warning_dialog), 
+					  GTK_MESSAGE_ERROR, str);
 		g_free (str);
 	}
 

@@ -1,3 +1,10 @@
+2002-01-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/gui_util.c (gnumeric_destroy_dialog) : new callback
+	(gnumeric_notice_nonmodal) : save dialog ptr in reference
+	* src/gui_util.h (gnumeric_notice_nonmodal) : change
+	  parameters and return value
+
 2002-01-27  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control-gui.c :

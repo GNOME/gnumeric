@@ -284,25 +284,6 @@ gnumeric_expr_entry_parse_to_list (GnumericExprEntry *ee, Sheet *sheet)
 }
 
 /**
- * warning_destroy:
- * @window:
- * @state:
- *
- * Destroy the dialog and NULL the field in the state structure.
- *
- **/
-static gboolean
-tools_destroy_warning (GtkObject *w, GenericToolState  *state)
-{
-	g_return_val_if_fail (w != NULL, FALSE);
-	g_return_val_if_fail (state != NULL, FALSE);
-
-	state->warning_dialog = NULL;
-
-	return FALSE;
-}
-
-/**
  * error_in_entry:
  *
  * @wbcg:
@@ -314,13 +295,9 @@ tools_destroy_warning (GtkObject *w, GenericToolState  *state)
 static void
 error_in_entry (GenericToolState *state, GtkWidget *entry, const char *err_str)
 {
-	if (state->warning_dialog != NULL)
-		gtk_widget_destroy (state->warning_dialog);
-
-        state->warning_dialog = GTK_WIDGET (gnumeric_notice_nonmodal ((GtkWindow *) state->dialog, 
-							  GTK_MESSAGE_ERROR, err_str));
-	gtk_signal_connect (GTK_OBJECT (state->warning_dialog), "destroy",
-			    GTK_SIGNAL_FUNC (tools_destroy_warning), state);
+        gnumeric_notice_nonmodal ((GtkWindow *) state->dialog,
+					      &(state->warning_dialog),
+					      GTK_MESSAGE_ERROR, err_str);
 
 	gtk_widget_grab_focus (entry);
 	gtk_entry_set_position (GTK_ENTRY (entry), 0);

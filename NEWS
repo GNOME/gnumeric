@@ -10,6 +10,7 @@ Andreas:
 	* Destroy outadated dialogs
 	* Port solver dialog to gnome2
 	* Make the solver information dialogs non-modal
+	* Make the goal-seek warnings non-modal
 
 Jody:
 	* Initial port to gnome2.

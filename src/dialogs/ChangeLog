@@ -1,5 +1,14 @@
 2002-01-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-analysis-tools.c (tools_destroy_warning) : move to gui_utils.c
+	(error_in_entry) : move some code to gnumeric_notice_nonmodal
+	* dialog-goal-seek.c : change gnumeric_notice to gnumeric_notice_nonmodal
+	(dialog_goal_seek) : initialize state->warning_dialog
+	* dialog-solver.c (solver_destroy_warning) : move to gui_utils.c
+	(solver_notice) : move to gnumeric_notice_nonmodal
+
+2002-01-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* solver.glade : make gnome2 compatible
 	* dialog-solver.c (solver_destroy_warning) : new callback
 	(solver_notice) : wrapper around gnumeric_notice_nonmodal

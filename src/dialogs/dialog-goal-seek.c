@@ -66,6 +66,7 @@ typedef struct {
 	Cell *change_cell;
 	Cell *old_cell;
 	Value *old_value;
+	GtkWidget *warning_dialog;
 } GoalSeekState;
 
 
@@ -346,12 +347,18 @@ cb_dialog_apply_clicked (GtkWidget *button, GoalSeekState *state)
 	Value *error_value, *target;
 	RangeRef const *r;
 
+	if (state->warning_dialog != NULL)
+		gtk_widget_destroy (state->warning_dialog);
+
 	/* set up source */
 	target = global_range_parse (state->sheet,
 		gtk_entry_get_text (GTK_ENTRY (state->set_cell_entry)));
 	if (target == NULL) {
-		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
-				 _("You should introduce a valid cell name in 'Set Cell:'!"));
+		gnumeric_notice_nonmodal (GTK_WINDOW(state->dialog),
+					  &(state->warning_dialog),
+					  GTK_MESSAGE_ERROR,
+					  _("You should introduce a valid cell "
+					    "name in 'Set Cell:'!"));
 		focus_on_entry (GTK_WIDGET (state->set_cell_entry));
 		return;
 	}
@@ -359,8 +366,11 @@ cb_dialog_apply_clicked (GtkWidget *button, GoalSeekState *state)
 	state->set_cell = sheet_cell_get (r->a.sheet, r->a.col, r->a.row);
 	value_release (target);
 	if (state->set_cell == NULL || !cell_has_expr (state->set_cell)) {
-		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
-				 _("The cell named in 'Set Cell:' must contain a formula!"));
+		gnumeric_notice_nonmodal (GTK_WINDOW(state->dialog),
+					  &(state->warning_dialog),
+					  GTK_MESSAGE_ERROR,
+					  _("The cell named in 'Set Cell:' "
+					    "must contain a formula!"));
 		focus_on_entry (GTK_WIDGET (state->set_cell_entry));
 		return;
 	}
@@ -369,9 +379,11 @@ cb_dialog_apply_clicked (GtkWidget *button, GoalSeekState *state)
 	target = global_range_parse (state->sheet,
 		gtk_entry_get_text (GTK_ENTRY (state->change_cell_entry)));
 	if (target == NULL) {
-		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
-				 _("You should introduce a valid cell "
-				   "name in 'By Changing Cell:'!"));
+		gnumeric_notice_nonmodal (GTK_WINDOW(state->dialog),
+					  &(state->warning_dialog),
+					  GTK_MESSAGE_ERROR,
+					  _("You should introduce a valid cell "
+					    "name in 'By Changing Cell:'!"));
 		focus_on_entry (GTK_WIDGET (state->change_cell_entry));
 		return;
 	}
@@ -380,9 +392,11 @@ cb_dialog_apply_clicked (GtkWidget *button, GoalSeekState *state)
 	state->change_cell = sheet_cell_fetch (r->a.sheet, r->a.col, r->a.row);
 	value_release (target);
 	if (cell_has_expr (state->change_cell)) {
-		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
-				 _("The cell named in 'By changing cell' "
-				   "must not contain a formula."));
+		gnumeric_notice_nonmodal (GTK_WINDOW(state->dialog),
+					  &(state->warning_dialog),
+					  GTK_MESSAGE_ERROR,
+					  _("The cell named in 'By changing cell' "
+					    "must not contain a formula."));
 		focus_on_entry (GTK_WIDGET (state->change_cell_entry));
 		return;
 	}
@@ -393,9 +407,11 @@ cb_dialog_apply_clicked (GtkWidget *button, GoalSeekState *state)
 	if (format != NULL) 
 		target_value_format = format;
 	if (value == NULL){
-		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
-				 _("The value given in 'To Value:' "
-				   "is not valid."));
+		gnumeric_notice_nonmodal (GTK_WINDOW(state->dialog),
+					  &(state->warning_dialog),
+					  GTK_MESSAGE_ERROR,
+					  _("The value given in 'To Value:' "
+					    "is not valid."));
 		focus_on_entry (GTK_WIDGET (state->to_value_entry));		
 		return;
 	}
@@ -652,6 +668,7 @@ dialog_goal_seek (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
+	state->warning_dialog = NULL;
 
 	if (dialog_init (state)) {
 		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
