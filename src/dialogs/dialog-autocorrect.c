@@ -62,7 +62,8 @@ typedef struct {
 } AutoCorrectState;
 
 static void
-cb_add_clicked (GtkWidget *widget, AutoCorrectExceptionState *s)
+cb_add_clicked (__attribute__((unused)) GtkWidget *widget,
+		AutoCorrectExceptionState *s)
 {
 	gchar const *txt;
 	GSList      *ptr;
@@ -87,7 +88,8 @@ cb_add_clicked (GtkWidget *widget, AutoCorrectExceptionState *s)
 }
 
 static void
-cb_remove_clicked (GtkWidget *widget, AutoCorrectExceptionState *s)
+cb_remove_clicked (__attribute__((unused)) GtkWidget *widget,
+		   AutoCorrectExceptionState *s)
 {
 	char *txt;
 	GtkTreeIter iter;
@@ -179,7 +181,8 @@ ac_dialog_toggle_init (AutoCorrectState *state, char const *name,
 }
 
 static gboolean
-cb_autocorrect_destroy (GtkObject *w, AutoCorrectState *state)
+cb_autocorrect_destroy (__attribute__((unused)) GtkObject *w,
+			AutoCorrectState *state)
 {
 	g_slist_foreach (state->init_caps.exceptions, (GFunc)g_free, NULL);
 	g_slist_free (state->init_caps.exceptions);
@@ -201,7 +204,8 @@ cb_autocorrect_destroy (GtkObject *w, AutoCorrectState *state)
 }
 
 static  gint
-cb_autocorrect_key_press (GtkWidget *widget, GdkEventKey *event,
+cb_autocorrect_key_press (__attribute__((unused)) GtkWidget *widget,
+			  GdkEventKey *event,
 			  AutoCorrectState *state)
 {
 	if (event->keyval == GDK_Escape) {
@@ -212,13 +216,15 @@ cb_autocorrect_key_press (GtkWidget *widget, GdkEventKey *event,
 }
 
 static void
-cb_cancel_button_clicked (GtkWidget *button, AutoCorrectState *state)
+cb_cancel_button_clicked (__attribute__((unused)) GtkWidget *button,
+			  AutoCorrectState *state)
 {
 	gtk_object_destroy (GTK_OBJECT (state->dialog));
 }
 
 static void
-cb_apply_button_clicked (GtkWidget *button, AutoCorrectState *state)
+cb_apply_button_clicked (__attribute__((unused)) GtkWidget *button,
+			 AutoCorrectState *state)
 {
 	int i;
 	if (state->init_caps.changed)

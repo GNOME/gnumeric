@@ -126,7 +126,8 @@ typedef struct {
  ********************************************************************************/
 
 static MStyle *
-cb_get_cell_style (PreviewGrid *pg, int row, int col, FormatTemplate *ft)
+cb_get_cell_style (__attribute__((unused)) PreviewGrid *pg,
+		   int row, int col, FormatTemplate *ft)
 {
 	/*
 	 * If this happens to be NULL the default style
@@ -136,7 +137,9 @@ cb_get_cell_style (PreviewGrid *pg, int row, int col, FormatTemplate *ft)
 }
 
 static Value *
-cb_get_cell_value (PreviewGrid *pg, int row, int col, gpointer data)
+cb_get_cell_value (__attribute__((unused)) PreviewGrid *pg,
+		   int row, int col,
+		   __attribute__((unused)) gpointer data)
 {
 	char const *text;
 	char *endptr = NULL;
@@ -370,7 +373,8 @@ previews_load (AutoFormatState *state, int topindex)
  ********************************************************************************/
 
 static void
-cb_ok_clicked (GtkButton *button, AutoFormatState *state)
+cb_ok_clicked (__attribute__((unused)) GtkButton *button,
+	       AutoFormatState *state)
 {
 	if (state->selected_template)
 		cmd_selection_autoformat (WORKBOOK_CONTROL (state->wbcg),
@@ -380,7 +384,8 @@ cb_ok_clicked (GtkButton *button, AutoFormatState *state)
 }
 
 static void
-cb_cancel_clicked (GtkButton *button, AutoFormatState *state)
+cb_cancel_clicked (__attribute__((unused)) GtkButton *button,
+		   AutoFormatState *state)
 {
 	gtk_widget_destroy (GTK_WIDGET (state->dialog));
 }
@@ -407,7 +412,9 @@ cb_scroll_value_changed (GtkAdjustment *adjustment, AutoFormatState *state)
 }
 
 static gboolean
-cb_canvas_button_press (GnomeCanvas *canvas, GdkEventButton *event, AutoFormatState *state)
+cb_canvas_button_press (GnomeCanvas *canvas,
+			__attribute__((unused)) GdkEventButton *event,
+			AutoFormatState *state)
 {
 	FormatTemplate *ft;
 	GSList *ptr;
@@ -444,7 +451,8 @@ cb_canvas_button_press (GnomeCanvas *canvas, GdkEventButton *event, AutoFormatSt
 }
 
 static void
-cb_check_item_toggled (GtkCheckMenuItem *item, AutoFormatState *state)
+cb_check_item_toggled (__attribute__((unused)) GtkCheckMenuItem *item,
+		       AutoFormatState *state)
 {
 	GSList *ptr;
 	int i;
@@ -472,7 +480,8 @@ cb_check_item_toggled (GtkCheckMenuItem *item, AutoFormatState *state)
 }
 
 static void
-cb_category_popwin_hide (GtkWidget *widget, AutoFormatState *state)
+cb_category_popwin_hide (__attribute__((unused)) GtkWidget *widget,
+			 AutoFormatState *state)
 {
 	state->current_category_group = category_group_list_find_category_by_name(
 	                               state->category_groups,
@@ -519,7 +528,8 @@ cb_category_popwin_hide (GtkWidget *widget, AutoFormatState *state)
 }
 
 static void
-cb_gridlines_item_toggled (GtkCheckMenuItem *item, AutoFormatState *state)
+cb_gridlines_item_toggled (__attribute__((unused)) GtkCheckMenuItem *item,
+			   AutoFormatState *state)
 {
 	previews_free (state);
 	previews_load (state, state->preview_top);

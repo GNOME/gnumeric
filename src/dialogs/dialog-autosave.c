@@ -48,7 +48,8 @@ typedef struct {
 #define AUTOSAVE_KEY            "autosave-setup-dialog"
 
 static void
-autosave_set_sensitivity (GtkWidget *widget, autosave_t *state)
+autosave_set_sensitivity (__attribute__((unused)) GtkWidget *widget,
+			  autosave_t *state)
 {
         gboolean active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->autosave_on_off));
 	gint minutes;
@@ -117,7 +118,8 @@ dialog_autosave_destroy (GtkObject *w, autosave_t  *state)
  * Close (destroy) the dialog
  **/
 static void
-cb_autosave_cancel (GtkWidget *button, autosave_t *state)
+cb_autosave_cancel (__attribute__((unused)) GtkWidget *button,
+		    autosave_t *state)
 {
 	gtk_widget_destroy (state->dialog);
 	return;
@@ -129,7 +131,8 @@ cb_autosave_cancel (GtkWidget *button, autosave_t *state)
  * @state:
  **/
 static void
-cb_autosave_help (GtkWidget *button, autosave_t *state)
+cb_autosave_help (__attribute__((unused)) GtkWidget *button,
+		  __attribute__((unused)) autosave_t *state)
 {
 	gnumeric_help_display ("autosave.html");
 	return;
@@ -141,7 +144,7 @@ cb_autosave_help (GtkWidget *button, autosave_t *state)
  * @state:
  **/
 static void
-cb_autosave_ok (GtkWidget *button, autosave_t *state)
+cb_autosave_ok (__attribute__((unused)) GtkWidget *button, autosave_t *state)
 {
 		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->autosave_on_off))) {
 			int minutes;

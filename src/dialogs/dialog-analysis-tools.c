@@ -239,7 +239,8 @@ tool_destroy (GtkObject *w, GenericToolState  *state)
  * Close (destroy) the dialog
  **/
 static void
-cb_tool_cancel_clicked (GtkWidget *button, GenericToolState *state)
+cb_tool_cancel_clicked (__attribute__((unused)) GtkWidget *button,
+		        GenericToolState *state)
 {
 	gtk_widget_destroy (state->dialog);
 	return;
@@ -491,7 +492,8 @@ tool_load_selection (GenericToolState *state, gboolean allow_multiple)
  * areas as first input.
  **/
 static void
-tool_update_sensitivity_cb (GtkWidget *dummy, GenericToolState *state)
+tool_update_sensitivity_cb (__attribute__((unused)) GtkWidget *dummy,
+			    GenericToolState *state)
 {
 	gboolean ready  = FALSE;
 	gboolean input_1_ready  = FALSE;
@@ -552,7 +554,8 @@ tool_update_sensitivity_cb (GtkWidget *dummy, GenericToolState *state)
  * contain sensible data.
  **/
 static void
-corr_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
+corr_tool_ok_clicked_cb (__attribute__((unused)) GtkWidget *button,
+			 GenericToolState *state)
 {
 	data_analysis_output_t  *dao;
 	analysis_tools_data_generic_t  *data;
@@ -668,7 +671,8 @@ dialog_correlation_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
  * contain sensible data.
  **/
 static void
-cov_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
+cov_tool_ok_clicked_cb (__attribute__((unused)) GtkWidget *button,
+			GenericToolState *state)
 {
 	data_analysis_output_t  *dao;
 	analysis_tools_data_generic_t  *data;
@@ -784,7 +788,8 @@ dialog_covariance_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
  * contain sensible data.
  **/
 static void
-rank_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
+rank_tool_ok_clicked_cb (__attribute__((unused)) GtkWidget *button,
+			 GenericToolState *state)
 {
 	data_analysis_output_t  *dao;
 	analysis_tools_data_ranking_t  *data;
@@ -872,7 +877,8 @@ dialog_ranking_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
  * contain sensible data.
  **/
 static void
-fourier_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
+fourier_tool_ok_clicked_cb (__attribute__((unused)) GtkWidget *button,
+			    GenericToolState *state)
 {
 	data_analysis_output_t  *dao;
 	analysis_tools_data_fourier_t  *data;
@@ -969,7 +975,8 @@ static const char *stats_group[] = {
  * contain sensible data.
  **/
 static void
-cb_desc_stat_tool_ok_clicked (GtkWidget *button, DescriptiveStatState *state)
+cb_desc_stat_tool_ok_clicked (__attribute__((unused)) GtkWidget *button,
+			      DescriptiveStatState *state)
 {
 	data_analysis_output_t  *dao;
 	analysis_tools_data_descriptive_t  *data;
@@ -1019,7 +1026,8 @@ cb_desc_stat_tool_ok_clicked (GtkWidget *button, DescriptiveStatState *state)
  * a statistic is selected.
  **/
 static void
-desc_stat_tool_update_sensitivity_cb (GtkWidget *dummy, DescriptiveStatState *state)
+desc_stat_tool_update_sensitivity_cb (__attribute__((unused)) GtkWidget *dummy,
+				      DescriptiveStatState *state)
 {
 	gboolean ready  = FALSE;
 	int i, j, an_int;
@@ -1167,7 +1175,8 @@ dialog_descriptive_stat_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
  * contain sensible data.
  **/
 static void
-ttest_tool_ok_clicked_cb (GtkWidget *button, TTestState *state)
+ttest_tool_ok_clicked_cb (__attribute__((unused)) GtkWidget *button,
+			  TTestState *state)
 {
 	data_analysis_output_t  *dao;
 	analysis_tools_data_ttests_t  *data;
@@ -1264,7 +1273,8 @@ ttest_tool_ok_clicked_cb (GtkWidget *button, TTestState *state)
  * are the standard input (one or two ranges) and output items.
  **/
 static void
-ttest_update_sensitivity_cb (GtkWidget *dummy, TTestState *state)
+ttest_update_sensitivity_cb (__attribute__((unused)) GtkWidget *dummy,
+			     TTestState *state)
 {
 	gboolean ready  = FALSE;
 	gboolean input_1_ready  = FALSE;
@@ -1410,7 +1420,8 @@ dialog_ttest_adjust_to_invocation (TTestState *state)
  *
  **/
 static void
-dialog_ttest_realized (GtkWidget *widget, TTestState *state)
+dialog_ttest_realized (__attribute__((unused)) GtkWidget *widget,
+		       TTestState *state)
 {
 	gtk_widget_set_usize (state->options_table,
 			      state->options_table->allocation.width,
@@ -1548,7 +1559,8 @@ dialog_ttest_tool (WorkbookControlGUI *wbcg, Sheet *sheet, ttest_type test)
  * contain sensible data.
  **/
 static void
-ftest_tool_ok_clicked_cb (GtkWidget *button, FTestToolState *state)
+ftest_tool_ok_clicked_cb (__attribute__((unused)) GtkWidget *button,
+			  FTestToolState *state)
 {
 	data_analysis_output_t  *dao;
 	analysis_tools_data_ftest_t  *data;
@@ -1591,7 +1603,8 @@ ftest_tool_ok_clicked_cb (GtkWidget *button, FTestToolState *state)
  * are the standard input (one or two ranges) and output items.
  **/
 static void
-ftest_update_sensitivity_cb (GtkWidget *dummy, FTestToolState *state)
+ftest_update_sensitivity_cb (__attribute__((unused)) GtkWidget *dummy,
+			     FTestToolState *state)
 {
 	gboolean ready  = FALSE;
 	gboolean input_1_ready  = FALSE;
@@ -1698,7 +1711,8 @@ dialog_ftest_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
  * are the standard input (one range) and output items.
  **/
 static void
-sampling_tool_update_sensitivity_cb (GtkWidget *dummy, SamplingState *state)
+sampling_tool_update_sensitivity_cb (__attribute__((unused)) GtkWidget *dummy,
+				     SamplingState *state)
 {
 	gboolean ready  = FALSE;
 	int i, periodic, size, number, err_size, err_number;
@@ -1745,7 +1759,8 @@ sampling_tool_update_sensitivity_cb (GtkWidget *dummy, SamplingState *state)
  * contain sensible data.
  **/
 static void
-sampling_tool_ok_clicked_cb (GtkWidget *button, SamplingState *state)
+sampling_tool_ok_clicked_cb (__attribute__((unused)) GtkWidget *button,
+			     SamplingState *state)
 {
 	data_analysis_output_t  *dao;
 	analysis_tools_data_sampling_t  *data;
@@ -1814,7 +1829,8 @@ sampling_method_toggled_cb (GtkWidget *button, SamplingState *state)
  *
  **/
 static void
-dialog_sampling_realized (GtkWidget *widget, SamplingState *state)
+dialog_sampling_realized (__attribute__((unused)) GtkWidget *widget,
+			  SamplingState *state)
 {
 	gtk_widget_set_usize (state->options_table,
 			      state->options_table->allocation.width,
@@ -1926,7 +1942,8 @@ dialog_sampling_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
  * contain sensible data.
  **/
 static void
-regression_tool_ok_clicked_cb (GtkWidget *button, RegressionToolState *state)
+regression_tool_ok_clicked_cb (__attribute__((unused)) GtkWidget *button,
+			       RegressionToolState *state)
 {
 	data_analysis_output_t  *dao;
 	analysis_tools_data_regression_t  *data;
@@ -1999,7 +2016,8 @@ regression_tool_ok_clicked_cb (GtkWidget *button, RegressionToolState *state)
  * an interval is given.
  **/
 static void
-regression_tool_update_sensitivity_cb (GtkWidget *dummy, RegressionToolState *state)
+regression_tool_update_sensitivity_cb (__attribute__((unused)) GtkWidget *dummy,
+				       RegressionToolState *state)
 {
 	gboolean ready  = FALSE;
 	gboolean input_1_ready  = FALSE;
@@ -2106,7 +2124,8 @@ dialog_regression_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
  *
  **/
 static void
-exp_smoothing_tool_ok_clicked_cb (GtkWidget *button, ExpSmoothToolState *state)
+exp_smoothing_tool_ok_clicked_cb (__attribute__((unused)) GtkWidget *button,
+				  ExpSmoothToolState *state)
 {
 	data_analysis_output_t  *dao;
 	analysis_tools_data_exponential_smoothing_t  *data;
@@ -2146,7 +2165,7 @@ exp_smoothing_tool_ok_clicked_cb (GtkWidget *button, ExpSmoothToolState *state)
  * a damping factor is given.
  **/
 static void
-exp_smoothing_tool_update_sensitivity_cb (GtkWidget *dummy,
+exp_smoothing_tool_update_sensitivity_cb (__attribute__((unused)) GtkWidget *dummy,
 					  ExpSmoothToolState *state)
 {
 	gboolean ready  = FALSE;
@@ -2247,7 +2266,8 @@ dialog_exp_smoothing_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
  * contain sensible data.
  **/
 static void
-average_tool_ok_clicked_cb (GtkWidget *button, AverageToolState *state)
+average_tool_ok_clicked_cb (__attribute__((unused)) GtkWidget *button,
+			    AverageToolState *state)
 {
 	data_analysis_output_t  *dao;
 	analysis_tools_data_moving_average_t  *data;
@@ -2287,7 +2307,8 @@ average_tool_ok_clicked_cb (GtkWidget *button, AverageToolState *state)
  * an interval is given.
  **/
 static void
-average_tool_update_sensitivity_cb (GtkWidget *dummy, AverageToolState *state)
+average_tool_update_sensitivity_cb (__attribute__((unused)) GtkWidget *dummy,
+				    AverageToolState *state)
 {
 	gboolean ready  = FALSE;
 	int i, interval, err;
@@ -2381,7 +2402,8 @@ dialog_average_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
  * Update the dialog widgets sensitivity
  **/
 static void
-histogram_tool_update_sensitivity_cb (GtkWidget *dummy, HistogramToolState *state)
+histogram_tool_update_sensitivity_cb (__attribute__((unused)) GtkWidget *dummy,
+				      HistogramToolState *state)
 {
 	gboolean ready  = FALSE;
 	gboolean input_ready  = FALSE;
@@ -2438,7 +2460,8 @@ histogram_tool_update_sensitivity_cb (GtkWidget *dummy, HistogramToolState *stat
  * contain sensible data.
  **/
 static void
-histogram_tool_ok_clicked_cb (GtkWidget *button, HistogramToolState *state)
+histogram_tool_ok_clicked_cb (__attribute__((unused)) GtkWidget *button,
+			      HistogramToolState *state)
 {
 	data_analysis_output_t  *dao;
 	analysis_tools_data_histogram_t  *data;
@@ -2498,8 +2521,9 @@ histogram_tool_ok_clicked_cb (GtkWidget *button, HistogramToolState *state)
  *
  **/
 static void
-histogram_tool_set_predetermined (GtkWidget *widget, GdkEventFocus *event,
-			HistogramToolState *state)
+histogram_tool_set_predetermined (__attribute__((unused)) GtkWidget *widget,
+				  __attribute__((unused)) GdkEventFocus *event,
+				  HistogramToolState *state)
 {
 	    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->predetermined_button), TRUE);
 }
@@ -2514,8 +2538,8 @@ histogram_tool_set_predetermined (GtkWidget *widget, GdkEventFocus *event,
  *
  **/
 static void
-histogram_tool_set_predetermined_on_toggle (GtkWidget *widget,
-			HistogramToolState *state)
+histogram_tool_set_predetermined_on_toggle (__attribute__((unused)) GtkWidget *widget,
+					    HistogramToolState *state)
 {
 	    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->predetermined_button), TRUE);
 }
@@ -2531,8 +2555,9 @@ histogram_tool_set_predetermined_on_toggle (GtkWidget *widget,
  *
  **/
 static void
-histogram_tool_set_calculated (GtkWidget *widget, GdkEventFocus *event,
-			HistogramToolState *state)
+histogram_tool_set_calculated (__attribute__((unused)) GtkWidget *widget,
+			       __attribute__((unused)) GdkEventFocus *event,
+			       HistogramToolState *state)
 {
 	    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->calculated_button), TRUE);
 }
@@ -2638,7 +2663,8 @@ dialog_histogram_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
  * contain sensible data.
  **/
 static void
-anova_single_tool_ok_clicked_cb (GtkWidget *button, AnovaSingleToolState *state)
+anova_single_tool_ok_clicked_cb (__attribute__((unused)) GtkWidget *button,
+				 AnovaSingleToolState *state)
 {
 	data_analysis_output_t  *dao;
 	GtkWidget *w;
@@ -2674,7 +2700,7 @@ anova_single_tool_ok_clicked_cb (GtkWidget *button, AnovaSingleToolState *state)
  * an alpha is given.
  **/
 static void
-anova_single_tool_update_sensitivity_cb (GtkWidget *dummy,
+anova_single_tool_update_sensitivity_cb (__attribute__((unused)) GtkWidget *dummy,
 					 AnovaSingleToolState *state)
 {
 	gboolean input_1_ready  = FALSE;
@@ -2783,7 +2809,7 @@ dialog_anova_single_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
  * contain sensible data.
  **/
 static void
-anova_two_factor_tool_ok_clicked_cb (GtkWidget *button,
+anova_two_factor_tool_ok_clicked_cb (__attribute__((unused)) GtkWidget *button,
 				     AnovaTwoFactorToolState *state)
 {
 	data_analysis_output_t  *dao;
@@ -2881,7 +2907,7 @@ anova_two_factor_tool_ok_clicked_cb (GtkWidget *button,
  * an alpha and a replaication is given.
  **/
 static void
-anova_two_factor_tool_update_sensitivity_cb (GtkWidget *dummy,
+anova_two_factor_tool_update_sensitivity_cb (__attribute__((unused)) GtkWidget *dummy,
 					     AnovaTwoFactorToolState *state)
 {
 	gboolean ready  = FALSE;

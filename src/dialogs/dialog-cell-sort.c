@@ -215,7 +215,8 @@ load_model_data (SortFlowState *state)
  *
  **/
 static void
-cb_update_add_sensitivity (GtkWidget *dummy, SortFlowState *state)
+cb_update_add_sensitivity (__attribute__((unused)) GtkWidget *dummy,
+			   SortFlowState *state)
 {
         Value *range_add;
 
@@ -324,7 +325,8 @@ dialog_destroy (GtkObject *w, SortFlowState  *state)
  * Sort
  **/
 static void
-cb_dialog_ok_clicked (GtkWidget *button, SortFlowState *state)
+cb_dialog_ok_clicked (__attribute__((unused)) GtkWidget *button,
+		      SortFlowState *state)
 {
 	SortData *data;
 	SortClause *array, *this_array_item;
@@ -385,7 +387,8 @@ cb_dialog_ok_clicked (GtkWidget *button, SortFlowState *state)
  * Close (destroy) the dialog
  **/
 static void
-cb_dialog_cancel_clicked (GtkWidget *button, SortFlowState *state)
+cb_dialog_cancel_clicked (__attribute__((unused)) GtkWidget *button,
+			  SortFlowState *state)
 {
 	gtk_widget_destroy (state->dialog);
 	return;
@@ -437,7 +440,8 @@ location_of_iter (GtkTreeIter  *iter, GtkListStore *model)
  *
  */
 static void
-cb_sort_selection_changed (GtkTreeSelection *ignored, SortFlowState *state)
+cb_sort_selection_changed (__attribute__((unused)) GtkTreeSelection *ignored,
+			   SortFlowState *state)
 {
 	GtkTreeIter iter;
 	GtkTreeIter this_iter;
@@ -461,7 +465,7 @@ cb_sort_selection_changed (GtkTreeSelection *ignored, SortFlowState *state)
 }
 
 static void
-toggled (GtkCellRendererToggle *cell,
+toggled (__attribute__((unused)) GtkCellRendererToggle *cell,
 	 gchar                 *path_string,
 	 gpointer               data,
 	 int                    column)
@@ -519,10 +523,20 @@ move_cb (SortFlowState *state, gint direction)
 	g_free (name);
 }
 
-static void cb_up   (GtkWidget *w, SortFlowState *state) { move_cb (state, -1); }
-static void cb_down (GtkWidget *w, SortFlowState *state) { move_cb (state,  1); }
+static void
+cb_up (__attribute__((unused)) GtkWidget *w, SortFlowState *state)
+{
+	move_cb (state, -1);
+}
 
-static void cb_delete_clicked (GtkWidget *w, SortFlowState *state)
+static void
+cb_down (__attribute__((unused)) GtkWidget *w, SortFlowState *state)
+{
+	move_cb (state,  1);
+}
+
+static void
+cb_delete_clicked (__attribute__((unused)) GtkWidget *w, SortFlowState *state)
 {
 	GtkTreeIter iter;
 
@@ -535,7 +549,7 @@ static void cb_delete_clicked (GtkWidget *w, SortFlowState *state)
 		cb_update_sensitivity (NULL, state);
 }
 
-static void cb_add_clicked (GtkWidget *w, SortFlowState *state)
+static void cb_add_clicked (__attribute__((unused)) GtkWidget *w, SortFlowState *state)
 {
         Value *range_add;
 	GlobalRange *grange_sort;
@@ -601,7 +615,7 @@ static void cb_add_clicked (GtkWidget *w, SortFlowState *state)
 }
 
 static void
-cb_toggled_descending (GtkCellRendererToggle *cell,
+cb_toggled_descending (__attribute__((unused)) GtkCellRendererToggle *cell,
 	 gchar                 *path_string,
 	 gpointer               data)
 {

@@ -54,7 +54,7 @@ typedef GenericToolState AdvancedFilterState;
  * Update the dialog widgets sensitivity
  **/
 static void
-advanced_filter_update_sensitivity_cb (GtkWidget *dummy,
+advanced_filter_update_sensitivity_cb (__attribute__((unused)) GtkWidget *dummy,
 				       AdvancedFilterState *state)
 {
         Value *output_range   = NULL;
@@ -112,7 +112,8 @@ advanced_filter_update_sensitivity_cb (GtkWidget *dummy,
  * contain sensible data.
  **/
 static void
-advanced_filter_ok_clicked_cb (GtkWidget *button, AdvancedFilterState *state)
+advanced_filter_ok_clicked_cb (__attribute__((unused)) GtkWidget *button,
+			       AdvancedFilterState *state)
 {
 	data_analysis_output_t  dao;
 	Value                   *input;
