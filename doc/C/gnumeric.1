@@ -156,8 +156,10 @@ Program name as used by the window manager.
 Program class as used by the window manager.
 .TP
 \fB\-\-gxid_host=\fR\fIHOST\fR
+The host on which to contact the gxid daemon. This overrides the GXID_HOST environment variable. This option is only available if GTK+ has been configured with \-\-gdk-target=x11.
 .TP
 \fB\-\-gxid_port=\fR\fIPORT\fR
+The port for the connection to gxid. This overrides the GXID_PORT environment variable. This option is only available if GTK+ has been configured with --gdk-target=x11.
 .TP
 \fB\-\-gtk-debug=\fR\fIFLAGS\fR
 Gtk+ debugging flags to set.
