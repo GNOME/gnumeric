@@ -78,6 +78,7 @@ stf_export_dialog_format_page_init (GladeXML *gui)
 {
 	StfE_FormatPageData_t *data;
 	GtkMenu *menu;
+	GtkWidget * table;
 
 	g_return_val_if_fail (gui != NULL, NULL);
 
@@ -90,6 +91,12 @@ stf_export_dialog_format_page_init (GladeXML *gui)
 	data->format_custom      = GTK_ENTRY       (glade_xml_get_widget (gui, "format_custom"));
 	data->format_quote       = GTK_OPTION_MENU (glade_xml_get_widget (gui, "format_quote"));
 	data->format_quotechar   = GTK_COMBO       (glade_xml_get_widget (gui, "format_quotechar"));
+	data->format_charset	 = CHARMAP_SELECTOR (charmap_selector_new ());
+
+	table = glade_xml_get_widget (gui, "format_table");
+	gtk_table_attach_defaults (GTK_TABLE (table), GTK_WIDGET (data->format_charset),
+				   1, 2, 5, 6);
+	gtk_widget_show_all (table);
 
 	menu = (GtkMenu *) gtk_option_menu_get_menu (data->format_separator);
 
@@ -115,6 +122,7 @@ stf_export_dialog_format_page_result (StfE_FormatPageData_t *data, StfExportOpti
 	StfQuotingMode_t quotingmode;
 	char *text;
 	char separator;
+	char const * charset;
 
 	g_return_if_fail (data != NULL);
 	g_return_if_fail (export_options != NULL);
@@ -168,6 +176,9 @@ stf_export_dialog_format_page_result (StfE_FormatPageData_t *data, StfExportOpti
 	}
 
 	stf_export_options_set_cell_separator (export_options, separator);
+
+	charset = charmap_selector_get_encoding (data->format_charset);
+	stf_export_options_set_charset (export_options, charset);
 }
 
 /**

@@ -22,6 +22,8 @@
 #include <glade/glade.h>
 #include <libgnomeui/gnome-druid.h>
 
+#include "../widgets/widget-charmap-selector.h"
+
 /* for the sheet page */
 typedef struct {
 	GtkCList  *sheet_avail;
@@ -41,11 +43,12 @@ typedef struct {
 
 /* for the format page */
 typedef struct {
-	GtkOptionMenu *format_termination;
-	GtkOptionMenu *format_separator;
-	GtkEntry      *format_custom;
-	GtkOptionMenu *format_quote;
-	GtkCombo      *format_quotechar;
+	GtkOptionMenu 	*format_termination;
+	GtkOptionMenu 	*format_separator;
+	GtkEntry      	*format_custom;
+	GtkOptionMenu 	*format_quote;
+	GtkCombo      	*format_quotechar;
+	CharmapSelector *format_charset;
 } StfE_FormatPageData_t;
 
 /* Global stuff */

@@ -1,3 +1,13 @@
+2003-05-07   Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	For Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+	http://bugzilla.gnome.org/show_bug.cgi?id=111075
+	* dialog-stf-export-format-page.c
+	(stf_export_dialog_format_page_init): add charmap_selector widget
+	(stf_export_dialog_format_page_result): retrieve charset selection
+	
+	* dialog-stf-export.glade: add charset selection line
+
 2003-04-26  Jody Goldberg <jody@gnome.org>
 
 	* dialog-cell-sort.c : use connect_swapped, to avoid all the
