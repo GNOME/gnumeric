@@ -27,20 +27,18 @@
 #define arraysize(x)     (sizeof(x)/sizeof(*(x)))
 
 
-struct sylk_format
-{
-	long picture_idx;
+typedef struct {
+	long     picture_idx;
 	unsigned italic : 1;
 	unsigned bold : 1;
 	unsigned grid_top : 1;
 	unsigned grid_bottom : 1;
 	unsigned grid_left : 1;
 	unsigned grid_right : 1;
-};
+} sylk_format_t;
 
 
-struct sylk_file_state
-{
+typedef struct {
 	/* input data */
 	FILE *f;
 
@@ -59,7 +57,7 @@ struct sylk_file_state
 	long val_l;
 	double val_d;
 	
-	struct sylk_format def_fmt;
+	sylk_format_t def_fmt;
 
 	unsigned got_start : 1;
 	unsigned got_end : 1;
@@ -67,18 +65,19 @@ struct sylk_file_state
 	unsigned show_commas : 1;		/* sheet-wide */
 	unsigned hide_rowcol_hdrs : 1;		/* sheet-wide */
 	unsigned hide_def_gridlines : 1;	/* sheet-wide */
-};
+} sylk_file_state_t;
 
 
 /* why?  because we must handle Mac text files, and because I'm too lazy to make it fast */
-static char *fgets_mac (char *s, size_t s_len, FILE *f)
+static char *
+fgets_mac (char *s, size_t s_len, FILE *f)
 {
 	size_t read = 0;
 	char *orig_s = s;
 
 	s_len--;
 
-	while (!ferror(f) && !feof(f) && (read < s_len)) {
+	while (!ferror (f) && !feof (f) && (read < s_len)) {
 		*s = (char) fgetc (f);
 		if (*s == EOF)
 			break;
@@ -102,7 +101,7 @@ static char *fgets_mac (char *s, size_t s_len, FILE *f)
 	}
 
 	if (read > 0) {
-		orig_s[read] = 0;
+		orig_s [read] = 0;
 		return orig_s;
 	}
 
@@ -110,7 +109,8 @@ static char *fgets_mac (char *s, size_t s_len, FILE *f)
 }
 
 
-static size_t sylk_next_token_len (const char *line)
+static size_t
+sylk_next_token_len (const char *line)
 {
 	size_t len = 0;
 
@@ -129,8 +129,9 @@ static size_t sylk_next_token_len (const char *line)
 }
 
 
-static void sylk_parse_value (struct sylk_file_state *src, const char *str,
-			      size_t *len)
+static void
+sylk_parse_value (sylk_file_state_t *src, const char *str,
+		  size_t *len)
 {
 	const char *s;
 
@@ -167,7 +168,8 @@ static void sylk_parse_value (struct sylk_file_state *src, const char *str,
 	}
 	
 	/* boolean values */
-	else if (!strcmp(str,"\"TRUE\"") || !strcmp(str,"\"FALSE\"")) {
+	else if (!strcmp (str,"\"TRUE\"") ||
+		 !strcmp (str,"\"FALSE\"")) {
 		src->val_type = VALUE_BOOLEAN;
 		src->val_l = (strcmp(str,"\"TRUE\"") == 0 ? TRUE : FALSE);
 		return;
@@ -191,7 +193,8 @@ static void sylk_parse_value (struct sylk_file_state *src, const char *str,
 }
 
 
-static gboolean sylk_rtd_c_parse (struct sylk_file_state *src, const char *str)
+static gboolean
+sylk_rtd_c_parse (sylk_file_state_t *src, const char *str)
 {
 	size_t len;
 
@@ -251,7 +254,8 @@ static gboolean sylk_rtd_c_parse (struct sylk_file_state *src, const char *str)
 }
 
 
-static gboolean sylk_rtd_f_parse (struct sylk_file_state *src, const char *str)
+static gboolean
+sylk_rtd_f_parse (sylk_file_state_t *src, const char *str)
 {
 	size_t len;
 
@@ -319,7 +323,8 @@ static gboolean sylk_rtd_f_parse (struct sylk_file_state *src, const char *str)
 }
 
 
-static gboolean sylk_rtd_b_parse (struct sylk_file_state *src, const char *str)
+static gboolean
+sylk_rtd_b_parse (sylk_file_state_t *src, const char *str)
 {
 	size_t len;
 
@@ -345,14 +350,16 @@ static gboolean sylk_rtd_b_parse (struct sylk_file_state *src, const char *str)
 }
 
 
-static gboolean sylk_rtd_e_parse (struct sylk_file_state *src, const char *str)
+static gboolean
+sylk_rtd_e_parse (sylk_file_state_t *src, const char *str)
 {
 	src->got_end = TRUE;
 	return TRUE;
 }
 
 
-static gboolean sylk_rtd_id_parse (struct sylk_file_state *src, const char *str)
+static gboolean
+sylk_rtd_id_parse (sylk_file_state_t *src, const char *str)
 {
 	src->got_start = TRUE;
 	return TRUE;
@@ -361,25 +368,26 @@ static gboolean sylk_rtd_id_parse (struct sylk_file_state *src, const char *str)
 
 static const struct {
 	const char *name;
-	gboolean (*handler) (struct sylk_file_state *src, const char *str);
+	gboolean (*handler) (sylk_file_state_t *src, const char *str);
 } sylk_rtd_list[] = {
-	{ "B;", sylk_rtd_b_parse },
-	{ "C;", sylk_rtd_c_parse },
-	{ "E;", sylk_rtd_e_parse },
-	{ "F;", sylk_rtd_f_parse },
+	{ "B;",  sylk_rtd_b_parse },
+	{ "C;",  sylk_rtd_c_parse },
+	{ "E;",  sylk_rtd_e_parse },
+	{ "F;",  sylk_rtd_f_parse },
 	{ "ID;", sylk_rtd_id_parse },
 };
 
 
-static gboolean sylk_parse_line (struct sylk_file_state *src, char *buf)
+static gboolean
+sylk_parse_line (sylk_file_state_t *src, char *buf)
 {
 	int i;
 	
 	for (i = 0; i < arraysize (sylk_rtd_list); i++)
-		if (strncmp (sylk_rtd_list[i].name, buf,
-			     strlen (sylk_rtd_list[i].name)) == 0) {
-			sylk_rtd_list[i].handler (src,
-				buf + strlen (sylk_rtd_list[i].name));
+		if (strncmp (sylk_rtd_list [i].name, buf,
+			     strlen (sylk_rtd_list [i].name)) == 0) {
+			sylk_rtd_list [i].handler (src,
+				buf + strlen (sylk_rtd_list [i].name));
 			return TRUE;
 		}
 	
@@ -388,7 +396,8 @@ static gboolean sylk_parse_line (struct sylk_file_state *src, char *buf)
 	return TRUE;
 }
 
-static gboolean sylk_parse_sheet (struct sylk_file_state *src)
+static gboolean
+sylk_parse_sheet (sylk_file_state_t *src)
 {
 	char buf [BUFSIZ];
 	
@@ -402,34 +411,34 @@ static gboolean sylk_parse_sheet (struct sylk_file_state *src)
 
 	while (fgets_mac (buf, sizeof (buf), src->f) != NULL) {
 		g_strchomp (buf);
-		if ( buf[0] && !sylk_parse_line (src, buf) ) {
+		if ( buf [0] && !sylk_parse_line (src, buf) ) {
 			fprintf (stderr, "error parsing line\n");
 			return FALSE;
 		}
 	}
 
-	if (ferror (src->f)) {
+	if (ferror (src->f))
 		return FALSE;
-	}
 
 	return TRUE;
 }
 
 
-static gboolean sylk_read_workbook (Workbook *book, const char *filename)
+static gboolean
+sylk_read_workbook (Workbook *book, const char *filename)
 {
-	/* TODO : When there is a reasonable error reporting
+	/*
+	 * TODO : When there is a reasonable error reporting
 	 * mechanism use it and put all the error code back
 	 */
-	struct sylk_file_state src;
+	sylk_file_state_t src;
 	char *name;
 	gboolean result;
 	FILE *f;
 	
-	f = fopen(filename, "r");
-	if (!f) {
+	f = fopen (filename, "r");
+	if (!f)
 		return FALSE;
-	}
 	
 	name = g_strdup_printf (_("Imported %s"), g_basename (filename));
 
@@ -449,9 +458,10 @@ static gboolean sylk_read_workbook (Workbook *book, const char *filename)
 }
 
 
-static gboolean sylk_probe (const char *filename)
+static gboolean
+sylk_probe (const char *filename)
 {
-	char buf[32] = "";
+	char buf [32] = "";
 	FILE *f;
 	int error;
 	
@@ -470,25 +480,28 @@ static gboolean sylk_probe (const char *filename)
 }
 
 
-static int sylk_can_unload (PluginData *pd)
+static int
+sylk_can_unload (PluginData *pd)
 {
 	/* We can always unload */
 	return TRUE;
 }
 
 
-static void sylk_cleanup_plugin (PluginData *pd)
+static void
+sylk_cleanup_plugin (PluginData *pd)
 {
 	file_format_unregister_open (sylk_probe, sylk_read_workbook);
 }
 
 
-int init_plugin (PluginData * pd)
+int
+init_plugin (PluginData * pd)
 {
 	file_format_register_open (1, _("MultiPlan (SYLK) import"),
 				   sylk_probe, sylk_read_workbook);
 
-	pd->can_unload = sylk_can_unload;
+	pd->can_unload     = sylk_can_unload;
 	pd->cleanup_plugin = sylk_cleanup_plugin;
 	pd->title = g_strdup (_("MultiPlan (SYLK) file import module"));
 	return 0;
