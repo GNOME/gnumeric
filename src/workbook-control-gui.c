@@ -803,7 +803,7 @@ cb_sheet_label_drag_begin (GtkWidget *widget, GdkDragContext *context,
 	gdk_pixbuf_render_pixmap_and_mask (pixbuf, NULL, &bitmap, 128);
 	g_object_unref (G_OBJECT (pixbuf));
 	gtk_widget_shape_combine_mask (arrow, bitmap, 0, 0);
-	gdk_drawable_unref (bitmap);
+	g_object_unref (bitmap);
 	g_object_ref (G_OBJECT (arrow));
 	gtk_object_sink (GTK_OBJECT (arrow));
 	g_object_set_data (G_OBJECT (widget), "arrow", arrow);

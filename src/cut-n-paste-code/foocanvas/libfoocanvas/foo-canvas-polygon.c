@@ -244,11 +244,11 @@ foo_canvas_polygon_destroy (GtkObject *object)
 	poly->coords = NULL;
 
 	if (poly->fill_stipple)
-		gdk_drawable_unref (poly->fill_stipple);
+		g_object_unref (poly->fill_stipple);
 	poly->fill_stipple = NULL;
 
 	if (poly->outline_stipple)
-		gdk_drawable_unref (poly->outline_stipple);
+		g_object_unref (poly->outline_stipple);
 	poly->outline_stipple = NULL;
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
@@ -372,11 +372,11 @@ static void
 set_stipple (GdkGC *gc, GdkBitmap **internal_stipple, GdkBitmap *stipple, int reconfigure)
 {
 	if (*internal_stipple && !reconfigure)
-		gdk_drawable_unref (*internal_stipple);
+		g_object_unref (*internal_stipple);
 
 	*internal_stipple = stipple;
 	if (stipple && !reconfigure)
-		gdk_drawable_ref (stipple);
+		g_object_ref (stipple);
 
 	if (gc) {
 		if (stipple) {

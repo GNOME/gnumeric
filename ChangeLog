@@ -1,5 +1,8 @@
 2003-05-19  Morten Welinder  <terra@gnome.org>
 
+	* src/libgnumeric.c (gnm_common_init): Use glade_init, not
+	glade_gnome_init.
+
 	* src/gui-util.c (gnumeric_position_tooltip): Use gtk_window_move,
 	not deprecated gtk_widget_set_uposition.
 	(gnumeric_clist_moveto): Use "void *" as arg instead of deprecated

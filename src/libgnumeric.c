@@ -143,7 +143,7 @@ gnm_common_init (void)
 #endif
 
 	global_gnome_font_init ();
-	glade_gnome_init ();
+	glade_init ();
 }
 
 int

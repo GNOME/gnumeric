@@ -39,13 +39,7 @@ foreach my $filename (@ARGV) {
     $changed = 1 if $contents =~
 	s/gtk_object_(unref|ref)\s*\(GTK_OBJECT\s*\(([^\(\)]+)\)\)/g_object_$1 \($2\)/g;
     $changed = 1 if $contents =~
-	s/gtk_object_(unref|ref)/g_object_$1/g;
-    $changed = 1 if $contents =~
-	s/gtk_style_unref/g_object_unref/g;
-    $changed = 1 if $contents =~
-	s/gdk_pixbuf_(unref|ref)/g_object_$1/g;
-    $changed = 1 if $contents =~
-	s/gdk_gc_(unref|ref)/g_object_$1/g;
+	s/gdk_(object|drawable|bitmap|pixmap|pixbuf|gc|style)_(unref|ref)/g_object_$2/g;
     $changed = 1 if $contents =~
 	s/gdk_cursor_destroy/gdk_cursor_unref/g;
 
@@ -56,11 +50,6 @@ foreach my $filename (@ARGV) {
 	s/GTK_STRUCT_OFFSET/G_STRUCT_OFFSET/g;
     $changed = 1 if $contents =~
 	s/gtk_notebook_set_page/gtk_notebook_set_current_page/g;
-
-    # Silly double names.
-    $changed = 1 if $contents =~
-	s/gdk_(bitmap|pixmap)_(unref|ref)/gdk_drawable_$2/g;
-
 
     if ($changed) {
 	$contents =~ s/\n\n+\z/\n/;
