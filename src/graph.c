@@ -388,6 +388,8 @@ cb_assign_val (Sheet *sheet, int col, int row,
 		dat->vals[dat->i++] = gnm_nan;
 		return NULL;
 	}
+
+	dat->last = dat->i;
 	if (v->type == VALUE_STRING) {
 		v = format_match_number (v->v_str.val->str, NULL,
 				workbook_date_conv (sheet->workbook));
@@ -400,7 +402,6 @@ cb_assign_val (Sheet *sheet, int col, int row,
 	} else
 		res = value_get_as_float (v);
 
-	dat->last = dat->i;
 	dat->vals[dat->i++] = res;
 	if (dat->minimum > res)
 		dat->minimum = res;

@@ -344,6 +344,8 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 
 	if (GOG_IS_RING_PLOT (model))
 		center_size = GOG_RING_PLOT(model)->center_size;
+	else if (num_series > 1)
+		num_series = 1;
 
 	/* centre things */
 	cx = view->allocation.x + view->allocation.w/2.;
@@ -364,6 +366,8 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 
 		if (!gog_series_is_valid (GOG_SERIES (series)))
 			continue;
+		if (index > num_series) /* people snuck extra series into a pie */
+			break;
 
 		has_hole = center_radius > 0.;
 		r_int = center_radius + r * ((double)index - 1.0) / (double)num_series;

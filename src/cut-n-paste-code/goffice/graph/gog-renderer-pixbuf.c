@@ -257,59 +257,70 @@ make_layout (GogRendererPixbuf *prend, char const *text)
 }
 
 static void
-gog_renderer_pixbuf_draw_text (GogRenderer *rend, ArtPoint const *pos, GtkAnchorType anchor,
-			       char const *text, GogViewRequisition *size)
+gog_renderer_pixbuf_draw_text (GogRenderer *rend, char const *text,
+			       GogViewAllocation const *pos, GtkAnchorType anchor,
+			       GogViewAllocation *result)
 {
 	FT_Bitmap ft_bitmap;
 	GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (rend);
 	PangoRectangle rect;
 	PangoLayout   *layout = make_layout (prend, text);
 	guint8 r, g, b, a, alpha, *dst, *src;
-	int h, w, i;
+	int h, w, i, x, y;
 	GogStyle const *style = rend->cur_style;
-	ArtPoint real_pos = *pos;
 
-	pango_layout_get_pixel_extents (layout, &rect, NULL);
-	if (rect.width <= 0 || rect.height <= 0)
-		return;
-
+	pango_layout_get_extents (layout, &rect, NULL);
+	rect.x = PANGO_PIXELS (rect.x);
+	rect.y = PANGO_PIXELS (rect.y);
+	x = (int)(pos->x * PANGO_SCALE);
+	y = (int)(pos->y * PANGO_SCALE);
 	switch (anchor) {
 	case GTK_ANCHOR_CENTER : case GTK_ANCHOR_N : case GTK_ANCHOR_S :
-		real_pos.x -= rect.width / 2;
+		x -= rect.width / 2;
 		break;
 	case GTK_ANCHOR_NE : case GTK_ANCHOR_SE : case GTK_ANCHOR_E :
-		real_pos.x -= rect.width;
+		x -= rect.width;
 		break;
 	default : break;
 	}
+	x = (x > 0) ? (x + PANGO_SCALE / 2) / PANGO_SCALE : 0;
+	w = (rect.width + PANGO_SCALE / 2) / PANGO_SCALE;
+	if (w > pos->w && pos->w >= 0)
+		w = pos->w;
+	if ((x + w) > prend->w)
+		w = prend->w - x;
+
 	switch (anchor) {
 	case GTK_ANCHOR_CENTER : case GTK_ANCHOR_E : case GTK_ANCHOR_W :
-		real_pos.y -= rect.height / 2;
+		y -= rect.height / 2;
 		break;
 	case GTK_ANCHOR_SE : case GTK_ANCHOR_S : case GTK_ANCHOR_SW :
-		real_pos.y -= rect.height;
+		y -= rect.height;
 		break;
 	default : break;
 	}
+	y = (y > 0) ? (y + PANGO_SCALE / 2) / PANGO_SCALE : 0;
+	h = (rect.height + PANGO_SCALE / 2) / PANGO_SCALE;
+	if (h > pos->h && pos->h >= 0)
+		h = pos->h;
+	if ((y + h) > prend->h)
+		h = prend->h - y;
 
-	w = rect.width;
-	if (size != NULL && w > size->w && size->w >= 0)
-		w = size->w;
-	if ((real_pos.x + w) > prend->w)
-		w = prend->w - real_pos.x;
+	if (result != NULL) {
+		result->x = x;
+		result->y = y;
+		result->w = w;
+		result->h = h;
+	}
 
-	h = rect.height;
-	if (size != NULL && h > size->h && size->h >= 0)
-		h = size->h;
-	if ((real_pos.y + h) > prend->h)
-		h = prend->h - real_pos.y;
-
-	if (w <= 0 || h <= 0)
+	if (w <= 0 || h <= 0) {
+		g_object_unref (layout);
 		return;
+	}
 
-	ft_bitmap.rows         = rect.height;
-	ft_bitmap.width        = rect.width;
-	ft_bitmap.pitch        = (rect.width+3) & ~3;
+	ft_bitmap.rows         = h;
+	ft_bitmap.width        = w;
+	ft_bitmap.pitch        = (w+3) & ~3;
 	ft_bitmap.buffer       = g_malloc0 (ft_bitmap.rows * ft_bitmap.pitch);
 	ft_bitmap.num_grays    = 256;
 	ft_bitmap.pixel_mode   = ft_pixel_mode_grays;
@@ -326,8 +337,8 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, ArtPoint const *pos, GtkAnchor
 	 * slow, and I do not feel like leaping through 20 different data
 	 * structures to composite 1 byte images, onto rgba */
 	dst = prend->pixels;
-	dst += ((int)real_pos.y * prend->rowstride);
-	dst += ((int)real_pos.x + rect.x)* 4;
+	dst += (y * prend->rowstride);
+	dst += (x + rect.x)* 4;
 	src = ft_bitmap.buffer;
 
 	while (h--) {
@@ -343,11 +354,6 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, ArtPoint const *pos, GtkAnchor
 		src += ft_bitmap.pitch - w;
 	}
 
-	if (size != NULL) {
-		pango_layout_get_pixel_extents (layout, &rect, NULL);
-		size->w = rect.width;
-		size->h = rect.height;
-	}
 	g_object_unref (layout);
 	g_free (ft_bitmap.buffer);
 }

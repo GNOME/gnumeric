@@ -184,9 +184,9 @@ gog_renderer_svg_draw_polygon (GogRenderer *renderer, ArtVpath const *path, gboo
 }
 
 static void
-gog_renderer_svg_draw_text (GogRenderer *rend, ArtPoint const *pos,
-			    GtkAnchorType anchor,
-			    char const *text, GogViewRequisition *size)
+gog_renderer_svg_draw_text (GogRenderer *rend, char const *text,
+			    GogViewAllocation const *pos, GtkAnchorType anchor,
+			    GogViewAllocation *result)
 {
 #if 0
 	GogRendererSvg *prend = GOG_RENDERER_SVG (rend);

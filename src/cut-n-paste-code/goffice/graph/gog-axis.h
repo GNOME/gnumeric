@@ -45,8 +45,11 @@ GType gog_axis_get_type (void);
 
 GogAxisType	gog_axis_get_atype 	 (GogAxis const *axis);
 GogAxisPosition gog_axis_get_pos 	 (GogAxis const *axis);
+gboolean        gog_axis_is_discrete     (GogAxis const *axis);
 gboolean	gog_axis_get_bounds 	 (GogAxis const *axis,
 					  double *minima, double *maxima);
+void		gog_axis_get_ticks 	 (GogAxis const *axis,
+					  double *major, double *minor);
 
 void 	      gog_axis_add_contributor	  (GogAxis *axis, GogObject *contrib);
 void 	      gog_axis_del_contributor	  (GogAxis *axis, GogObject *contrib);

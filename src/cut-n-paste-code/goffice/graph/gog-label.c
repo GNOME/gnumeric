@@ -237,12 +237,9 @@ gog_label_view_render (GogView *view, GogViewAllocation const *bbox)
 
 	if (l->text.data != NULL) {
 		char const *text = go_data_scalar_get_str (GO_DATA_SCALAR (l->text.data));
-		if (text != NULL) {
-			ArtPoint  point;
-			point.x = view->residual.x;
-			point.y = view->residual.y;
-			gog_renderer_draw_text (view->renderer, &point, GTK_ANCHOR_NW, text, NULL);
-		}
+		if (text != NULL)
+			gog_renderer_draw_text (view->renderer, text,
+				&view->residual, GTK_ANCHOR_NW, NULL);
 	}
 	gog_renderer_pop_style (view->renderer);
 	(lview_parent_klass->render) (view, bbox);

@@ -319,21 +319,55 @@ gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath const *pa
 }
 
 static void
-gog_renderer_gnome_print_draw_text (GogRenderer *rend, ArtPoint const *pos,
-				    GtkAnchorType anchor,
-				    char const *text, GogViewRequisition *size)
+gog_renderer_gnome_print_draw_text (GogRenderer *rend, char const *text,
+				    GogViewAllocation const *pos, GtkAnchorType anchor,
+				    GogViewAllocation *result)
 {
 	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (rend);
 	GnomeFont *gfont = get_font (prend,  rend->cur_style->font.font);
 	double const font_ascent = gnome_font_get_ascender (gfont);
+	double x, y, w, h;
+
+	w = gnome_font_get_width_utf8 (gfont, text);
+	h = font_ascent + gnome_font_get_descender (gfont);
+
+	x = pos->x;
+	switch (anchor) {
+	case GTK_ANCHOR_CENTER : case GTK_ANCHOR_N : case GTK_ANCHOR_S :
+		x -= w / 2;
+		break;
+	case GTK_ANCHOR_NE : case GTK_ANCHOR_SE : case GTK_ANCHOR_E :
+		x -= w;
+		break;
+	default : break;
+	}
+	if (x <= 0)
+		x = 0;
+
+	y = pos->y;
+	switch (anchor) {
+	case GTK_ANCHOR_CENTER : case GTK_ANCHOR_E : case GTK_ANCHOR_W :
+		y -= h / 2;
+		break;
+	case GTK_ANCHOR_SE : case GTK_ANCHOR_S : case GTK_ANCHOR_SW :
+		y -= h;
+		break;
+	default : break;
+	}
+	if (y <= 0)
+		y = 0;
+
+#warning add clipping
 
 	gnome_print_setfont (prend->gp_context, gfont);
-	gnome_print_moveto (prend->gp_context, pos->x, -pos->y - font_ascent);
+	gnome_print_moveto (prend->gp_context, x, -y - font_ascent);
 	gnome_print_show (prend->gp_context, text);
 
-	if (size != NULL) {
-		size->w = gnome_font_get_width_utf8 (gfont, text);
-		size->h = gnome_font_get_ascender (gfont) + gnome_font_get_descender (gfont);
+	if (result != NULL) {
+		result->x = x;
+		result->y = y;
+		result->w = w;
+		result->h = h;
 	}
 }
 

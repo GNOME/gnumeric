@@ -81,6 +81,15 @@ gog_grid_view_render (GogView *view, GogViewAllocation const *bbox)
 {
 	GogGrid *grid = GOG_GRID (view->model);
 
+#warning KLUDGE KLUDGE
+	/* there seems to be a fence post discrepency in the code where axis
+	 * and plots extend 1 pixel past the edge of the grid.  cheat for now
+	 * and extend the grid 1 pixel,  chase this down after the release */
+	GogViewAllocation kludge = view->allocation;
+
+	kludge.h += 1.;
+	kludge.w += 1.;
+
 	gog_renderer_push_style (view->renderer, grid->base.style);
 	gog_renderer_draw_rectangle (view->renderer, &view->allocation);
 	gog_renderer_pop_style (view->renderer);

@@ -67,8 +67,8 @@ struct _GogAxis {
 	double		min_val, max_val;
 	double		logical_min_val, logical_max_val;
 	gpointer	min_contrib, max_contrib; /* NULL means use the manual sources */
-	gboolean	is_index;
-	GOData		*labels;
+	gboolean	is_discrete;
+	GODataVector	*labels;
 };
 
 typedef GogStyledObjectClass GogAxisClass;
@@ -297,16 +297,25 @@ gog_axis_update (GogObject *obj)
 	double old_min = axis->auto_bound [AXIS_ELEM_MIN];
 	double old_max = axis->auto_bound [AXIS_ELEM_MAX];
 	GOData *labels;
-	gboolean is_index;
+	gboolean is_discrete;
 
 	gog_debug (0, g_warning ("axis::update"););
 
-	axis->min_val =  DBL_MAX;
-	axis->max_val = -DBL_MAX;
+	axis->is_discrete = TRUE;
+	axis->labels   = NULL;
+	axis->min_val  =  DBL_MAX;
+	axis->max_val  = -DBL_MAX;
 	axis->min_contrib = axis->max_contrib = NULL;
 	for (ptr = axis->contributors ; ptr != NULL ; ptr = ptr->next) {
 		labels = gog_plot_get_axis_bounds (GOG_PLOT (ptr->data), axis->type,
-			&minima, &maxima, &logical_min, &logical_max, &is_index);
+			&minima, &maxima, &logical_min, &logical_max, &is_discrete);
+
+		/* value dimensions have more information than index dimensions.
+		 * At least thats what I am guessing today*/
+		if (!is_discrete)
+			axis->is_discrete = FALSE;
+		else if (axis->labels == NULL && labels != NULL)
+			axis->labels = GO_DATA_VECTOR (labels);
 
 		if (axis->min_val > minima) {
 			axis->min_val = minima;
@@ -473,18 +482,21 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, CommandContext *cc)
 	gui = gnm_glade_xml_new (cc, "gog-axis-prefs.glade", "axis_pref_table", NULL);
 	if (gui == NULL)
 		return NULL;
-	/* Bounds Page */
 	notebook = gtk_notebook_new ();
-	w = gtk_table_new (1, 2, FALSE);
-	table = GTK_TABLE (w);
-	w = gtk_label_new (_("Automatic"));
-	gtk_misc_set_alignment (GTK_MISC (w), 0., .5);
-	gtk_table_attach (table, w, 0, 1, 0, 1, GTK_FILL, 0, 5, 3);
-	for (i = AXIS_ELEM_MIN; i < AXIS_ELEM_MAX_ENTRY ; i++)
-		make_dim_editor (set, table, i, dalloc);
-	gtk_widget_show_all (GTK_WIDGET (table));
-	gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), GTK_WIDGET (table),
-		gtk_label_new (_("Bounds")));
+
+	if (!axis->is_discrete) {
+		/* Bounds Page */
+		w = gtk_table_new (1, 2, FALSE);
+		table = GTK_TABLE (w);
+		w = gtk_label_new (_("Automatic"));
+		gtk_misc_set_alignment (GTK_MISC (w), 0., .5);
+		gtk_table_attach (table, w, 0, 1, 0, 1, GTK_FILL, 0, 5, 3);
+		for (i = AXIS_ELEM_MIN; i < AXIS_ELEM_MAX_ENTRY ; i++)
+			make_dim_editor (set, table, i, dalloc);
+		gtk_widget_show_all (GTK_WIDGET (table));
+		gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), GTK_WIDGET (table),
+			gtk_label_new (_("Bounds")));
+	}
 
 	gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook),
 		glade_xml_get_widget (gui, "axis_pref_table"),
@@ -605,7 +617,7 @@ gog_axis_init (GogAxis *axis)
 	axis->min_val =  DBL_MAX;
 	axis->max_val = -DBL_MAX;
 	axis->min_contrib = axis->max_contrib = NULL;
-	axis->is_index = FALSE;
+	axis->is_discrete = FALSE;
 	axis->labels = NULL;
 }
 
@@ -672,6 +684,19 @@ axis_get_entry (GogAxis const *axis, unsigned i)
 }
 
 /**
+ * gog_axis_is_discrete :
+ * @axis : #GogAxis
+ * 
+ * Returns TRUE if @axis enumerates a set of discrete items, rather than a
+ * continuous value
+ **/ 
+gboolean
+gog_axis_is_discrete (GogAxis const *axis)
+{
+	return axis->is_discrete;
+}
+
+/**
  * gog_axis_get_bounds :
  * @axis : #GogAxis
  * @minima : result
@@ -688,6 +713,27 @@ gog_axis_get_bounds (GogAxis const *axis, double *minima, double *maxima)
 	*maxima = axis_get_entry (axis, AXIS_ELEM_MAX);
 
 	return finite (*minima) && finite (*maxima) && *minima < *maxima;
+}
+
+/**
+ * gog_axis_get_ticks :
+ * @axis : #GogAxis
+ *
+ * @major : result
+ * @major : result
+ *
+ * Retreive the major and minor 'ticks' (increments) used to step from the
+ * minimum to the maximum.
+ **/
+void
+gog_axis_get_ticks (GogAxis const *axis, double *major, double *minor)
+{
+	g_return_if_fail (GOG_AXIS (axis) != NULL);
+
+	if (major != NULL)
+		*major = axis_get_entry (axis, AXIS_ELEM_MAJOR_TICK);
+	if (minor != NULL)
+		*minor = axis_get_entry (axis, AXIS_ELEM_MINOR_TICK);
 }
 
 /**
@@ -776,26 +822,39 @@ gog_axis_bound_changed (GogAxis *axis, GogObject *contrib)
 static unsigned
 gog_axis_num_markers (GogAxis *axis)
 {
-	double minima, maxima, major_tick = axis_get_entry (axis, AXIS_ELEM_MAJOR_TICK);
+	double minima, maxima;
 
-	if (major_tick <= 0. || !gog_axis_get_bounds (axis, &minima, &maxima))
-		return 0;
-
-	return 1 + fabs (maxima - minima) / major_tick;
+	if (axis->is_discrete) {
+		if (axis->labels != NULL)
+			return go_data_vector_get_len (axis->labels);
+		return gnumeric_fake_trunc (axis->max_val);
+	} else {
+		double major_tick = axis_get_entry (axis, AXIS_ELEM_MAJOR_TICK);
+		if (major_tick <= 0. ||
+		    !gog_axis_get_bounds (axis, &minima, &maxima))
+			return 0;
+		return 1 + fabs (maxima - minima) / major_tick;
+	}
 }
 
 static char *
 gog_axis_get_marker (GogAxis *axis, unsigned i)
 {
-	double major_tick = axis_get_entry (axis, AXIS_ELEM_MAJOR_TICK);
-	double val = axis_get_entry (axis, AXIS_ELEM_MIN) +
-		(((double)i) * major_tick);
+	if (axis->is_discrete) {
+		if (axis->labels != NULL)
+			return go_data_vector_get_str (axis->labels, i);
+		return g_strdup_printf ("%d", i+1);
+	} else {
+		double major_tick = axis_get_entry (axis, AXIS_ELEM_MAJOR_TICK);
+		double val = axis_get_entry (axis, AXIS_ELEM_MIN) +
+			(((double)i) * major_tick);
 
-	/* force display to 0 if it is within less than a  step */
-	if (fabs (val) < major_tick / 10.0)
-		val = 0.;
+		/* force display to 0 if it is within less than a  step */
+		if (fabs (val) < major_tick / 10.0)
+			val = 0.;
 
-	return g_strdup_printf ("%g", val);
+		return g_strdup_printf ("%g", val);
+	}
 }
 
 /****************************************************************************/
@@ -815,6 +874,7 @@ gog_axis_view_size_request (GogView *v, GogViewRequisition *req)
 	GogAxis *axis = GOG_AXIS (v->model);
 	GogViewRequisition tmp;
 	gboolean const is_horiz = axis->type == GOG_AXIS_X;
+	char *label;
 	int i;
 	double total = 0., max = 0., tick_major = 0., tick_minor = 0., pad = 0.;
 	double line_width = gog_renderer_line_size (
@@ -825,9 +885,9 @@ gog_axis_view_size_request (GogView *v, GogViewRequisition *req)
 	if (axis->major_tick_labeled) {
 		gog_renderer_push_style (v->renderer, axis->base.style);
 		for (i = gog_axis_num_markers (axis) ; i-- > 0 ; ) {
-			char *txt = gog_axis_get_marker (axis, i);
-			gog_renderer_measure_text (v->renderer, txt, &tmp);
-			g_free (txt);
+			label = gog_axis_get_marker (axis, i);
+			gog_renderer_measure_text (v->renderer, label, &tmp);
+			g_free (label);
 			if (is_horiz) {
 				total += tmp.w;
 				if (max < tmp.h)
@@ -871,125 +931,173 @@ gog_axis_view_size_request (GogView *v, GogViewRequisition *req)
 }
 
 static void
-gog_axis_view_render (GogView *view, GogViewAllocation const *bbox)
+gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 {
 	GtkAnchorType anchor;
-	GogViewAllocation const *area = &view->residual;
-	GogViewRequisition size;
-	ArtVpath path[3], major_path[3], minor_path[3];
-	ArtPoint pos;
-	GogAxis *axis = GOG_AXIS (view->model);
-	unsigned n;
-	double pre, post, step = 0, bound, tick_len, tick_pad;
-	double line_width = gog_renderer_line_size (
-		view->renderer, axis->base.style->line.width) / 2;
+	GogViewAllocation const *area = &v->residual;
+	GogViewAllocation label_pos, label_result;
+	ArtVpath axis_path[3], major_path[3], minor_path[3];
+	GogAxis *axis = GOG_AXIS (v->model);
+	unsigned i, n;
+	char *label;
+	gboolean draw_major, draw_minor;
+	double pre, post, bound, tick_len, label_pad, dir, center, start;
+	double step = 0, line_width = gog_renderer_line_size (
+		v->renderer, axis->base.style->line.width) / 2;
 
-	(aview_parent_klass->render) (view, bbox);
+	(aview_parent_klass->render) (v, bbox);
 
 	g_return_if_fail (axis->pos != GOG_AXIS_IN_MIDDLE);
 
-	gog_renderer_push_style (view->renderer, axis->base.style);
-	path[0].code = major_path[0].code = minor_path[0].code = ART_MOVETO;
-	path[1].code = major_path[1].code = minor_path[1].code = ART_LINETO;
-	path[2].code = major_path[2].code = minor_path[2].code = ART_END;
+	gog_renderer_push_style (v->renderer, axis->base.style);
+	axis_path[0].code = major_path[0].code = minor_path[0].code = ART_MOVETO;
+	axis_path[1].code = major_path[1].code = minor_path[1].code = ART_LINETO;
+	axis_path[2].code = major_path[2].code = minor_path[2].code = ART_END;
 
+	draw_major = axis->major.tick_out || axis->major.tick_in;
+	draw_minor = axis->minor.tick_out || axis->minor.tick_in;
 	n = gog_axis_num_markers (axis);
+	if (axis->is_discrete)
+		n++;
 	switch (axis->type) {
 	case GOG_AXIS_X:
-		gog_chart_view_get_indents (view->parent, &pre, &post);
-		path[0].x = area->x + pre;
-		pos.x = path[1].x = area->x + area->w - post;
-		tick_pad = gog_renderer_pt2r_y (view->renderer, TICK_LABEL_PAD);
-		tick_len = axis->major.tick_out
-			? gog_renderer_pt2r_y (view->renderer, axis->major.size_pts)
-			: 0;
-
+		gog_chart_view_get_indents (v->parent, &pre, &post);
 		switch (axis->pos) {
 		case GOG_AXIS_AT_LOW:
 			anchor = GTK_ANCHOR_N;
-			path[0].y = path[1].y = area->y + line_width;
-			major_path[0].y = path[0].y  + line_width;
+			dir = 1.;
+			center = area->y + line_width;
 			break;
 
 		case GOG_AXIS_AT_HIGH:
 			anchor = GTK_ANCHOR_S;
-			path[0].y = path[1].y = area->y + area->h - line_width;
-			major_path[0].y = path[0].y  - line_width;
-			tick_len *= -1; tick_pad *= -1;
+			dir = -1.;
+			center = area->y + area->h - line_width;
 			break;
-		default :
-			break;
+		default : break;
 		}
-		major_path[1].y = major_path[0].y + tick_len;
-		pos.y  = major_path[1].y + tick_pad;
-
 		if (n > 1)
 			step = (area->w - pre - post) / (n - 1);
-		for (bound = DBL_MAX ; n-- > 0 ;) {
-			if (axis->major_tick_labeled && pos.x < bound) {
-				char *txt = gog_axis_get_marker (axis, n);
 
-				size.h = area->h - line_width;
-				size.w = -1;
-				gog_renderer_draw_text (view->renderer, &pos, anchor, txt, &size);
-				g_free (txt);
-				bound = pos.x - size.w;
+		axis_path[0].y = axis_path[1].y = center;
+		axis_path[0].x = start = area->x + pre;
+		axis_path[1].x = area->x + area->w - post;
+
+		/* set major tick height */
+		tick_len = gog_renderer_pt2r_y (v->renderer, axis->major.size_pts);
+		if (axis->major.tick_out)
+			major_path[0].y = center + dir * (line_width + tick_len);
+		else
+			major_path[0].y = center - dir * line_width;
+		if (axis->major.tick_in)
+			major_path[1].y = center - dir * (line_width + tick_len);
+		else
+			major_path[1].y = center + dir * line_width;
+
+		if (axis->major_tick_labeled) {
+			label_pad = gog_renderer_pt2r_y (v->renderer, TICK_LABEL_PAD);
+			label_pos.y = (axis->major.tick_out)
+				? major_path[0].y + dir * label_pad
+				: center + dir * (line_width + label_pad);
+			label_pos.h  = area->h - line_width;
+			label_pos.w  = step;
+		}
+
+		for (bound = -1, i = 0 ; i < n ; i++) {
+			if (draw_major) {
+				major_path[1].x = major_path[0].x = axis_path[0].x + i * step;
+				gog_renderer_draw_path (v->renderer, major_path);
 			}
-			major_path[1].x = major_path[0].x = pos.x;
-			gog_renderer_draw_path (view->renderer, major_path);
-			pos.x -= step;
+			if (axis->major_tick_labeled) {
+				label_pos.x = axis_path[0].x + i * step;
+				if (label_pos.x < bound)
+					continue;
+				if (axis->is_discrete) {
+					if (i == 0)
+						continue;
+					label_pos.x -= step/2;
+					label = gog_axis_get_marker (axis, i-1);
+				} else
+					label = gog_axis_get_marker (axis, i);
+				gog_renderer_draw_text (v->renderer, label,
+					&label_pos, anchor, &label_result);
+				g_free (label);
+				bound = label_pos.x + label_result.w;
+			}
 		}
 		break;
 
 	case GOG_AXIS_Y:
-		pos.y = path[0].y = area->y;
-		path[1].y = area->y + area->h;
-		tick_pad = gog_renderer_pt2r_x (view->renderer, TICK_LABEL_PAD);
-		tick_len = axis->major.tick_out
-			? gog_renderer_pt2r_x (view->renderer, axis->major.size_pts)
-			: 0;
 		switch (axis->pos) {
 		case GOG_AXIS_AT_LOW:
 			anchor = GTK_ANCHOR_E;
-			path[0].x = path[1].x = area->x + area->w - line_width;
-			major_path[0].x = path[0].x  - line_width;
-			tick_len *= -1; tick_pad *= -1;
+			dir = -1.;
+			center = area->x + area->w - line_width;
 			break;
 		case GOG_AXIS_AT_HIGH:
 			anchor = GTK_ANCHOR_W;
-			path[0].x = path[1].x = area->x + line_width;
-			major_path[0].x = path[0].x  + line_width;
+			dir = 1.;
+			center = area->x + line_width;
 			break;
-		default :
-			break;
+		default : break;
 		}
-		major_path[1].x = major_path[0].x + tick_len;
-		pos.x  = major_path[1].x + tick_pad;
-
 		if (n > 1)
 			step = area->h / (n - 1);
-		for (bound = -1 ; n-- > 0 ;) {
-			if (axis->major_tick_labeled && pos.y > bound) {
-				char *txt = gog_axis_get_marker (axis, n);
 
-				size.w = area->w - line_width;
-				size.h = -1;
-				gog_renderer_draw_text (view->renderer, &pos,
-							anchor, txt, &size);
-				g_free (txt);
-				bound = pos.y + size.h;
+		axis_path[0].x = axis_path[1].x = center;
+		axis_path[0].y = start = area->y + area->h;
+		axis_path[1].y = area->y;
+
+		/* set major tick width */
+		tick_len = gog_renderer_pt2r_x (v->renderer, axis->major.size_pts);
+		if (axis->major.tick_out)
+			major_path[0].x = center + dir * (line_width + tick_len);
+		else
+			major_path[0].x = center - dir * line_width;
+		if (axis->major.tick_in)
+			major_path[1].x = center - dir * (line_width + tick_len);
+		else
+			major_path[1].x = center + dir * line_width;
+
+		if (axis->major_tick_labeled) {
+			label_pad = gog_renderer_pt2r_x (v->renderer, TICK_LABEL_PAD);
+			label_pos.x = (axis->major.tick_out)
+				? major_path[0].x + dir * label_pad
+				: center + dir * (line_width + label_pad);
+			label_pos.w  = area->w - line_width;
+			label_pos.h  = step;
+		}
+
+		for (bound = DBL_MAX, i = 0 ; i < n ; i++) {
+			if (draw_major) {
+				major_path[1].y = major_path[0].y = axis_path[0].y - i * step;
+				gog_renderer_draw_path (v->renderer, major_path);
 			}
-			major_path[1].y = major_path[0].y = pos.y + line_width;
-			gog_renderer_draw_path (view->renderer, major_path);
-			pos.y += step;
+			if (axis->major_tick_labeled) {
+				label_pos.y = axis_path[0].y - i * step;
+				if (label_pos.y > bound)
+					continue;
+				if (axis->is_discrete) {
+					if (i == 0)
+						continue;
+					label_pos.y += step/2;
+					label = gog_axis_get_marker (axis, i-1);
+				} else
+					label = gog_axis_get_marker (axis, i);
+				gog_renderer_draw_text (v->renderer, label,
+					&label_pos, anchor, &label_result);
+				g_free (label);
+				bound = label_pos.y - label_result.h;
+			}
 		}
 		break;
 	default :
 		break;
 	}
 
-	gog_renderer_draw_path (view->renderer, path);
-	gog_renderer_pop_style (view->renderer);
+	if (line_width > 0)
+		gog_renderer_draw_path (v->renderer, axis_path);
+	gog_renderer_pop_style (v->renderer);
 }
 
 static void

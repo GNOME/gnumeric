@@ -547,23 +547,46 @@ style_default_halign (MStyle const *mstyle, Cell const *c)
 	return align;
 }
 
+/**
+ * gnm_font_find_closest_from_weight_slant :
+ *
+ * A wrapper around gnome-print because it is stupid.
+ * At least this will warn us when it is stupid
+ **/
 GnomeFont *
 gnm_font_find_closest_from_weight_slant (const guchar *family, 
 					 GnomeFontWeight weight, 
 					 gboolean italic, gdouble size)
 {
 	GnomeFont *font;
-	const guchar   *fam;
+	guchar const *fam;
+	guchar   *name;
 
-	font = gnome_font_find_closest_from_weight_slant 
-		(family, weight, italic, size);
-	fam = gnome_font_get_family_name  (font);
-	if (strcasecmp(family, fam) != 0) {
-		guchar   *name = gnome_font_get_full_name (font);
+	while (1) {
+		font = gnome_font_find_closest_from_weight_slant 
+			(family, weight, italic, size);
+		fam = gnome_font_get_family_name  (font);
+		if (g_ascii_strcasecmp (family, fam) == 0)
+			return font;
+
+		name = gnome_font_get_full_name (font);
 		g_warning ("GnomePrint: Requested %s but using %s (%s)", 
 			   family, fam, name);
 		g_free (name);
-	}
 
+		/* put in some fallbacks */
+		if (!g_ascii_strcasecmp (family, "Sans"))
+			family = "Sans Regular";
+		else if (!g_ascii_strcasecmp (family, "Helvetica"))
+			family = "Sans";
+		/* one of the arials */
+		else if (!g_ascii_strncasecmp (family, "Arial ", 6))
+			family = "Arial";
+		else
+			return font;
+
+		g_warning ("Trying to fallback to '%s'", family);
+	}
+	/* notreached */
 	return font;
 }

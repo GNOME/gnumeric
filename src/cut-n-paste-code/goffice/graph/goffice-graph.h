@@ -129,7 +129,8 @@ typedef enum {
 	GOG_POSITION_MANUAL_X_ABS = 1 << 8, /* abs vs relative pos */
 	GOG_POSITION_MANUAL_Y_ABS = 1 << 9,
 	GOG_POSITION_MANUAL_X_END = 1 << 10, /* pos relative to start or end */
-	GOG_POSITION_MANUAL_Y_END = 1 << 11
+	GOG_POSITION_MANUAL_Y_END = 1 << 11,
+	GOG_POSITION_ANY_MANUAL   = 0xf80
 } GogObjectPosition;
 
 /* #define NO_DEBUG_CHARTS */

@@ -10,16 +10,8 @@ Release Critical
 * Enable the 'your gnumeric is too old' test.
 
 * gnome print
-    - font name selection
     - Print to file name always output.ps
     - Does pdf work ?
-    - Do we want Sans or Sans Regular as the default font
-    - How to handle 'Helvetica'
-
-* Charts
-    - Index axis labels (1.14.12)
-    - connect up or disable axis editor (1.14.{11,13})
-    - honor manual bounds when genreating markers
 
 * When we release 1.1.18, we should ask people to nominate certain foreign
   encodings as major.
@@ -48,10 +40,10 @@ Short Term Goals
           so that we can do just selection.
     0.4)  Add keynav for color combo                            (DONE)
     0.5)  center color combo swatches in the buttons		(DONE)
-    0.6)  alpha channel support for color combos
+    0.6)  alpha channel support for color combos		(DONE)
     0.7)  Add mnemonic_activate for color combos		(DONE)
     0.8)  Add mnemonic_activate for ExprEntry			(DONE)
-    0.9)  Queue update for changed/deleted in ExprEntry ?
+    0.9)  Queue update for changed/deleted in ExprEntry ?	(DONE)
     0.10) Menu mnemonics for Edit -> Fill -> merge & series	(DONE)
     0.11) Fix warning on destruction of torn off combo		(DONE)
     0.12) Use 'Chart' in the ui to be compatible		(DONE)
@@ -94,7 +86,7 @@ Short Term Goals
 	1.6.3) editor to specify pref for vector or scalar	(DONE)
     1.7) XLS
 	1.7.1) check overlap percentage for bars		(DONE)
-	1.7.2) Add gog_object_set_position
+	1.7.2) Add gog_object_set_position			(DONE)
 	1.7.3) Handle 'use_one_style'				(DONE)
 	1.7.4) override auto series indexing for xls
 	1.7.5) styles						(DONE)
@@ -103,6 +95,7 @@ Short Term Goals
 	    1.7.5.3) Marker					(DONE)
 	1.7.6) Avoid leaking GODatas when faced with an unknown	(DONE)
 	       plot type.
+	1.7.7) double axis import on simple_bar2
     1.8) data sources
 	1.8.1) vector and scalar data sources from gnumeric	(DONE)
 	1.8.2) static vector and scalar data sources for utils
@@ -149,16 +142,19 @@ Short Term Goals
 	1.14.6) Create plot1.5d as base for bar/col & line	(DONE)
 	1.14.7) do range allocation and filtering in chart	(DONE)
 	1.14.7) Draw ticks and allocate space for them		(DONE)
-	1.14.8) Honour the in/out tick flags
-	1.14.9) Make the major labels optional			(DONE)
-	1.14.10) Add a font selector to the editor		(DONE)
-	1.14.11) Value formating (at least percentage and date)
-	1.14.12) Support index type axis
-	1.14.13) Support inverted axis
-	1.14.14) Allow a plot to select a different axis
-	1.14.15) Filter add plot in guru to matching types
-	1.14.16) Editor for min/max/major/minor			(DONE)
-	1.14.17) Respect user supplied min/max/major/minor
+	1.14.8) Make the major labels optional			(DONE)
+	1.14.9) Add a font selector to the editor		(DONE)
+	1.14.10) Value formating (at least percentage and date)
+	1.14.11) Support index type axis			(DONE)
+	1.14.12) Support inverted axis
+	1.14.13) Allow a plot to select a different axis
+	1.14.14) Filter add plot in guru to matching types
+	1.14.15) Editor for min/max/major/minor			(DONE)
+	1.14.16) Respect user supplied min/max/major/minor	(DONE)
+	1.14.17) Draw major ticks in				(DONE)
+	1.14.18) Draw major ticks out				(DONE)
+	1.14.19) Draw minor ticks in
+	1.14.20) Draw minor ticks out
     1.15) per series plot type specific data			(DONE)
     1.16) libart based render akin to guppicanvas.		(DONE)
 	1.16.1) Solid background fills				(DONE)
@@ -194,10 +190,13 @@ Short Term Goals
 	    1.20.1.6) patterns					(DONE)
 	1.20.2) outline line pattern
 	1.20.3) font selector					(DONE)
-	1.20.4) Add 'is auto' checkboxes
-	    outline
-	    fill
-	    font
+	1.20.4) Support 'auto' settings
+	    1.20.4.1) outline (colour)				(DONE)
+	    1.20.4.2) line (color)				(DONE)
+	    1.20.4.3) fill (colors)	 			(DONE)
+	    1.20.4.4) marker 
+	    1.20.4.5) font 
+	    1.20.4.6) fill type
 	1.20.5) image selector
 	    1.20.5.1) drag destination for background images
 	    1.20.5.2) scale image preview                       (DONE)
@@ -212,7 +211,7 @@ Short Term Goals
 	1.22.1) Set up cardinality framework.			(DONE)
 	1.22.2) Get things to update when chart changes		(DONE)
 	1.22.2) smarter layout
-    1.23) Layout engine						(DONE)
+    1.23) Layout engine
 	1.23.1) In ChartView::size_allocate use the positions	(DONE)
 	1.23.2) For compass placement use the alignment flags	(DONE)
 	1.23.3) support NW, NE, SW, SE				(DONE)
@@ -221,6 +220,8 @@ Short Term Goals
 	1.23.6) Add some notion of padding			(DONE)
 	1.23.7) remove request_valid				(DONE)
 	1.23.8) pass in available space				(DONE)
+	1.23.9) How to support axis labels (siblings need
+		common residual)
     1.24) Sizing units						(DONE)
 	1.24.1) Have the legend use pts to size swatches	(DONE)
 	1.24.2) Test renderers mapping between pts & pixels	(DONE)
@@ -235,7 +236,7 @@ Short Term Goals
 	1.25.8) draw text					(DONE)
 	1.25.9) why doesn't text appear in preview
 	1.25.10) why is font selection bogus
-	1.25.11) why is font selection bogus
+	1.25.11) text anchors
     1.26) Move 'use_one_style' from pie -> plot with 1 series	(DONE)
     1.27) Add a flag to gobject to go with its role indicating	(DONE)
 	whether the instance was autocreated or assigned.

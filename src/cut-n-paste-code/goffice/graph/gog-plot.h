@@ -42,7 +42,7 @@ void      gog_plot_foreach_elem    (GogPlot *,
 GOData	 *gog_plot_get_axis_bounds (GogPlot *plot, GogAxisType axis,
 				    double *min, double *max,
 				    double *logical_min, double *logical_max,
-				    gboolean *is_index);
+				    gboolean *is_discrete);
 
 gboolean  gog_plot_supports_vary_style_by_element (GogPlot const *plot);
 

@@ -636,12 +636,54 @@ gog_object_add_by_role (GogObject *parent, GogObjectRole const *role, GogObject 
 	return NULL;
 }
 
+/**
+ * gog_object_add_by_name :
+ * @parent : #GogObject
+ * @role :
+ * @child : optionally null #GogObject
+ *
+ * Returns a newly created child of @parent in @role.  If @child is provided,
+ * it is assumed to be an unaffiliated object that will be assigned in @role.
+ * On failure return NULL.
+ **/
 GogObject *
 gog_object_add_by_name (GogObject *parent,
 			char const *role, GogObject *child)
 {
 	return gog_object_add_by_role (parent,
 		gog_object_find_role_by_name (parent, role), child);
+}
+
+GogObjectPosition
+gog_object_get_pos (GogObject const *obj)
+{
+	g_return_val_if_fail (GOG_OBJECT (obj) != NULL, GOG_POSITION_SPECIAL);
+	return obj->position;
+}
+
+/**
+ * gog_object_set_pos :
+ * @obj : #GogObject
+ * @pos : #GogObjectPosition
+ *
+ * Attempts to set the position of @obj to @pos.
+ * Returns TRUE the new position is permitted.
+ **/
+gboolean
+gog_object_set_pos (GogObject *obj, GogObjectPosition pos)
+{
+	g_return_val_if_fail (GOG_OBJECT (obj) != NULL, FALSE);
+	g_return_val_if_fail (obj->role != NULL, FALSE);
+
+	if (obj->position == pos)
+		return TRUE;
+
+	if ((obj->role->allowable_positions & pos) !=
+	    (pos & (GOG_POSITION_COMPASS|GOG_POSITION_ANY_MANUAL)))
+		return FALSE;
+	obj->position = pos;
+	gog_object_emit_changed (obj, TRUE);
+	return TRUE;
 }
 
 GogObjectRole const *

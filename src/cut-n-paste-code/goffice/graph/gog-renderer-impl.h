@@ -55,8 +55,9 @@ typedef struct {
 
 	void (*draw_path)      (GogRenderer *renderer, ArtVpath const *path);
 	void (*draw_polygon)   (GogRenderer *renderer, ArtVpath const *path, gboolean narrow);
-	void (*draw_text)      (GogRenderer *rend, ArtPoint const *pos, GtkAnchorType anchor,
-				char const *text, GogViewRequisition *size);
+	void (*draw_text)      (GogRenderer *rend, char const *text,
+				GogViewAllocation const *pos, GtkAnchorType anchor,
+				GogViewAllocation *result);
 	void (*draw_marker)    (GogRenderer *rend, double x, double y);
 	void (*measure_text)   (GogRenderer *rend, 
 				char const *text, GogViewRequisition *size);

@@ -1,3 +1,36 @@
+2003-09-15  Jody Goldberg <jody@gnome.org>
+
+	* graph/plugins/plot_pie/gog-pie.c (gog_pie_view_render) : only draw
+	  the first series for a pie.  Things can sneak in.
+
+	* utils/go-font.c (go_font_init) : make default font smaller
+
+	* graph/gog-object.c (gog_object_get_pos) : new.
+	(gog_object_set_pos) : new.
+
+2003-09-14  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-axis.c (gog_axis_editor) : We ignore the bounds for a
+	  discrete axis.
+	(gog_axis_update) : store information pertaining to axes with discrete
+	  enumerations.
+	(gog_axis_editor) : discrete enumerations do not allow for manual boun
+	  changes.
+	(gog_axis_num_markers) : handle discrete enumerations.
+	(gog_axis_get_marker) : ditto.
+	(gog_axis_view_size_request) : ditto.
+	(gog_axis_view_render) : rework to support in and out ticks.
+	  Support discrete enumerations.
+	(gog_axis_is_discrete) : new.
+	(gog_axis_get_ticks) : new.
+
+	* graph/gog-renderer.c (gog_renderer_draw_text) : revamp the interface
+	  yet again to make parameters clearer.
+	* graph/gog-renderer-pixbuf.c (gog_renderer_pixbuf_draw_text) : adjsut
+	  to the new interface and imrpve clipping support.
+	* graph/gog-renderer-gnome-print.c (gog_renderer_gnome_print_draw_text) :
+	  adjust to the new interface, add support for anchors.
+
 2003-09-14  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* gog-style-prefs.glade: `colour' should be `color'

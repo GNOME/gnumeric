@@ -238,15 +238,19 @@ gog_renderer_draw_polygon (GogRenderer *rend, ArtVpath const *path, gboolean nar
 /**
  * gog_renderer_draw_text :
  * @rend   : #GogRenderer
- * @pos    : #ArtPoint
- * @anchor : #GtkAnchorType how to draw relative to @pos
  * @text   : the string to draw
- * @size   : an optionally NULL #GogViewRequisition to store the size of
- *         @text we just drew.  If w or h is >=0 when called clip the text
+ * @pos    : #GogViewAllocation
+ * @anchor : #GtkAnchorType how to draw relative to @pos
+ * @result : an optionally NULL #GogViewAllocation
+ *
+ * Have @rend draw @text in the at @pos.{x,y} anchored by the @anchor corner.
+ * If @pos.w or @pos.h are >= 0 then clip the results to less than that size.
+ * If @result is supplied it will recieve the actual position of the result.
  **/
 void
-gog_renderer_draw_text (GogRenderer *rend, ArtPoint const *pos, GtkAnchorType anchor,
-			char const *text, GogViewRequisition *size)
+gog_renderer_draw_text (GogRenderer *rend, char const *text,
+			GogViewAllocation const *pos, GtkAnchorType anchor,
+			GogViewAllocation *result)
 {
 	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
 
@@ -254,7 +258,7 @@ gog_renderer_draw_text (GogRenderer *rend, ArtPoint const *pos, GtkAnchorType an
 	g_return_if_fail (rend->cur_style != NULL);
 	g_return_if_fail (text != NULL);
 
-	(klass->draw_text) (rend, pos, anchor, text, size);
+	(klass->draw_text) (rend, text, pos, anchor, result);
 }
 
 /**

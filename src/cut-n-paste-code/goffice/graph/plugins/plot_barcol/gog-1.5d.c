@@ -192,7 +192,7 @@ static GOData *
 gog_plot1_5d_axis_bounds (GogPlot *plot, GogAxisType axis,
 			  double *min, double *max,
 			  double *logical_min, double *logical_max,
-			  gboolean *is_index)
+			  gboolean *is_discrete)
 {
 	GogPlot1_5d *model = GOG_PLOT1_5D (plot);
 	if (axis == gog_axis_get_atype (gog_plot1_5d_get_value_axis (model))) {
@@ -204,11 +204,11 @@ gog_plot1_5d_axis_bounds (GogPlot *plot, GogAxisType axis,
 		}
 		return NULL;
 	} else if (axis == gog_axis_get_atype (gog_plot1_5d_get_index_axis (model))) {
-		*min = 1;
+		*min = 0;
 		*max = model->num_elements;
-		*logical_min = 1;
+		*logical_min = 0;
 		*logical_max = gnm_nan;
-		*is_index = TRUE;
+		*is_discrete = TRUE;
 		if (plot->series == NULL)
 			return NULL;
 		return GOG_SERIES (plot->series->data)->values[0].data;

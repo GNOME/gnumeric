@@ -71,7 +71,7 @@ typedef struct {
 	GOData	  *(*axis_bounds) 	(GogPlot *plot, GogAxisType axis,
 					 double *min, double *max,
 					 double *logical_min, double *logical_max,
-					 gboolean *is_index);
+					 gboolean *is_discrete);
 
 	gboolean   (*supports_vary_style_by_element) (GogPlot const *plot);
 } GogPlotClass;

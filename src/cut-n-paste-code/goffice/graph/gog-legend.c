@@ -315,7 +315,7 @@ cb_render_elements (unsigned i, GogStyle const *base_style, char const *name,
 	GogViewAllocation swatch = data->swatch;
 	GogView  const   *v = data->view;
 	GogStyle *style = NULL;
-	ArtPoint pos;
+	GogViewAllocation pos;
 	double epsilon = 0.0001;
 	
 	swatch.y += i * data->step;
@@ -333,7 +333,8 @@ cb_render_elements (unsigned i, GogStyle const *base_style, char const *name,
 
 	pos.x = swatch.x + data->pad_x;
 	pos.y = swatch.y;
-	gog_renderer_draw_text (v->renderer, &pos, GTK_ANCHOR_NW, name, NULL);
+	pos.h = pos.w = -1;
+	gog_renderer_draw_text (v->renderer, name, &pos, GTK_ANCHOR_NW, NULL);
 
 	gog_renderer_pop_style (v->renderer);
 

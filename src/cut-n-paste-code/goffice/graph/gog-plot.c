@@ -327,7 +327,7 @@ GOData *
 gog_plot_get_axis_bounds (GogPlot *plot, GogAxisType axis,
 			  double *minima, double *maxima,
 			  double *logical_minima, double *logical_maxima,
-			  gboolean *is_index)
+			  gboolean *is_discrete)
 {
 	GogPlotClass *klass = GOG_PLOT_GET_CLASS (plot);
 
@@ -337,9 +337,10 @@ gog_plot_get_axis_bounds (GogPlot *plot, GogAxisType axis,
 	*logical_minima = gnm_nan;
 	*minima =  DBL_MAX;
 	*maxima = -DBL_MAX;
-	*is_index = FALSE;
+	*is_discrete = FALSE;
 	return (klass->axis_bounds) (plot, axis, minima, maxima,
-				     logical_minima, logical_maxima, is_index);
+				     logical_minima, logical_maxima,
+				     is_discrete);
 }
 
 gboolean

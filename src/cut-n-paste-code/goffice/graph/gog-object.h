@@ -127,6 +127,9 @@ GogObject   *gog_object_add_by_role	 (GogObject *parent,
 					  GogObjectRole const *role, GogObject *child);
 GogObject   *gog_object_add_by_name	 (GogObject *parent,
 					  char const *role, GogObject *child);
+GogObjectPosition gog_object_get_pos	 (GogObject const *obj);
+gboolean	  gog_object_set_pos	 (GogObject *obj, GogObjectPosition p);
+
 GogObjectRole const *gog_object_find_role_by_name (GogObject const *obj,
 						   char const *role);
 

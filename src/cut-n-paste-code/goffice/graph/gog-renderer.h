@@ -43,9 +43,9 @@ void  gog_renderer_draw_polygon   (GogRenderer *r, ArtVpath const *path,
 void  gog_renderer_draw_rectangle (GogRenderer *r,
 				   GogViewAllocation const *rect);
 
-void  gog_renderer_draw_text	  (GogRenderer *rend, ArtPoint const *pos,
-				   GtkAnchorType anchor,
-				   char const *text, GogViewRequisition *size);
+void  gog_renderer_draw_text	  (GogRenderer *rend, char const *text,
+				   GogViewAllocation const *pos, GtkAnchorType anchor,
+				   GogViewAllocation *result);
 void  gog_renderer_draw_marker	  (GogRenderer *rend, double x, double y);
 void  gog_renderer_measure_text	  (GogRenderer *rend,
 				   char const *text, GogViewRequisition *size);

@@ -30,6 +30,7 @@ Jody:
 	* Auto pad between chart child with compass layouts
 	* XLS import for axis marker/line formats, and axis ticks
 	* XLS import for ring plots, and fix some pie parameter scales
+	* XLS import legend position
 	* Honour and edit manual min/max values for axis
 
 Jon Kåre:
