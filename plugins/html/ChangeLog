@@ -1,3 +1,13 @@
+2004-11-01   Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=157047
+	* latex.c (latex2e_write_multicolumn_cell): cells can extend to
+	  the right. So if we see a span it may start earlier than the
+	  cell creating it. Add an argument specifying the column we 
+	  are working in.
+	(latex_file_save): add argument to latex2e_write_multicolumn_cell
+	  call
+
 2004-10-05  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.3.91
