@@ -29,8 +29,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-01-28 03:48+0100\n"
-"PO-Revision-Date: 2002-01-28 03:48+0100\n"
+"POT-Creation-Date: 2002-01-30 02:36+0100\n"
+"PO-Revision-Date: 2002-01-30 02:37+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1582,7 +1582,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:3014
 msgid ""
-"Comparing two population means from pop. with known varinces or using a "
+"Comparing two population means from pop. with known variances or using a "
 "large sample: z- test"
 msgstr ""
 "Jämför två populationsmedelvärden för populationer med kända varianser eller "
@@ -1903,11 +1903,11 @@ msgstr "Infoga ett objekt i kalkylbladet"
 msgid "Insert new cells"
 msgstr "Infoga nya celler"
 
-#: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:2850
+#: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:2847
 msgid "Insert new columns"
 msgstr "Infoga nya kolumner"
 
-#: src/GNOME_Gnumeric.xml.h:118 src/workbook-control-gui.c:2847
+#: src/GNOME_Gnumeric.xml.h:118 src/workbook-control-gui.c:2850
 msgid "Insert new rows"
 msgstr "Infoga nya rader"
 
@@ -2266,7 +2266,7 @@ msgstr "Markera _fält"
 msgid "Select _All"
 msgstr "Markera _allt"
 
-#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2666
+#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2661
 msgid "Select _Column"
 msgstr "Markera _kolumn"
 
@@ -2274,7 +2274,7 @@ msgstr "Markera _kolumn"
 msgid "Select _Depends"
 msgstr "Markera beroenden"
 
-#: src/GNOME_Gnumeric.xml.h:207 src/workbook-control-gui.c:2661
+#: src/GNOME_Gnumeric.xml.h:207 src/workbook-control-gui.c:2666
 msgid "Select _Row"
 msgstr "Markera _rad"
 
@@ -2290,11 +2290,11 @@ msgstr "Markera alla celler som beror på den aktuella cellen som redigeras"
 msgid "Select an array of cells"
 msgstr "Markera ett fält av celler"
 
-#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:2667
+#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:2662
 msgid "Select an entire column"
 msgstr "Markera en hel kolumn"
 
-#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:2662
+#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:2667
 msgid "Select an entire row"
 msgstr "Markera en hel rad"
 
@@ -2493,7 +2493,7 @@ msgstr "St_äng"
 #: src/dialogs/fourier-analysis.glade.h:8 src/dialogs/histogram.glade.h:21
 #: src/dialogs/moving-averages.glade.h:9 src/dialogs/rank.glade.h:10
 #: src/dialogs/regression.glade.h:10 src/dialogs/sampling.glade.h:13
-#: src/workbook-control-gui.c:2849
+#: src/workbook-control-gui.c:2846
 msgid "_Columns"
 msgstr "_Kolumner"
 
@@ -2693,7 +2693,7 @@ msgstr "_Rad"
 #: src/dialogs/fourier-analysis.glade.h:13
 #: src/dialogs/moving-averages.glade.h:14 src/dialogs/rank.glade.h:15
 #: src/dialogs/regression.glade.h:15 src/dialogs/sampling.glade.h:20
-#: src/workbook-control-gui.c:2846
+#: src/workbook-control-gui.c:2849
 msgid "_Rows"
 msgstr "_Rader"
 
@@ -5343,12 +5343,12 @@ msgid "Source"
 msgstr "Källområde"
 
 #: src/dialogs/dialog-cell-format.c:2118 src/dialogs/dialog-cell-format.c:2125
-#: src/sheet-object-widget.c:811
+#: src/sheet-object-widget.c:809
 msgid "Min :"
 msgstr "Min:"
 
 #: src/dialogs/dialog-cell-format.c:2119 src/dialogs/dialog-cell-format.c:2128
-#: src/sheet-object-widget.c:815
+#: src/sheet-object-widget.c:813
 msgid "Max :"
 msgstr "Max:"
 
@@ -20060,32 +20060,32 @@ msgstr "Kantbredd"
 msgid "Transparent"
 msgstr "Genomskinlig"
 
-#: src/sheet-object-widget.c:789
+#: src/sheet-object-widget.c:787
 msgid "Scrollbar Configure"
 msgstr "Rullningslistkonfiguration"
 
-#: src/sheet-object-widget.c:805 src/sheet-object-widget.c:1268
+#: src/sheet-object-widget.c:803 src/sheet-object-widget.c:1269
 msgid "Link to :"
 msgstr "Länk till:"
 
-#: src/sheet-object-widget.c:819
+#: src/sheet-object-widget.c:817
 msgid "Increment :"
 msgstr "Ökning:"
 
-#: src/sheet-object-widget.c:823
+#: src/sheet-object-widget.c:821
 msgid "Page :"
 msgstr "Sida:"
 
-#: src/sheet-object-widget.c:1031
+#: src/sheet-object-widget.c:1027
 #, c-format
 msgid "CheckBox %d"
 msgstr "Kryssruta %d"
 
-#: src/sheet-object-widget.c:1257
+#: src/sheet-object-widget.c:1253
 msgid "Checkbox Configure"
 msgstr "Kryssrutekonfiguration"
 
-#: src/sheet-object-widget.c:1272
+#: src/sheet-object-widget.c:1273
 msgid "Label :"
 msgstr "Rubrik:"
 
@@ -20986,18 +20986,18 @@ msgstr "Är inte en Gnumeric-arbetsboksfil"
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
 
+#~ msgid ""
+#~ "Comparing two population means from pop. with known varinces or using a "
+#~ "large sample: z- test"
+#~ msgstr ""
+#~ "Jämför två populationsmedelvärden för populationer med kända varianser "
+#~ "eller använd ett stort prov: z-test"
+
 #~ msgid "TTitle :"
 #~ msgstr "TTitel:"
 
 #~ msgid "Cell :"
 #~ msgstr "Cell:"
-
-#~ msgid ""
-#~ "Comparing two population means from pop. with known variances or using a "
-#~ "large sample: z-test"
-#~ msgstr ""
-#~ "Jämför två populationsmedelvärden för populationer med kända varianser "
-#~ "eller använd ett stort prov: z-test"
 
 #~ msgid "Statistical methods"
 #~ msgstr "Statistika metoder"
