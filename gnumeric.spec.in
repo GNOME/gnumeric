@@ -16,6 +16,7 @@ Docdir: 	%{prefix}/doc
 
 Requires: gnome-libs >= 1.0.0
 Requires: guile >= 1.3
+Requires: gnome-print
 
 %description
 GNOME (GNU Network Object Model Environment) is a user-friendly set of
@@ -29,13 +30,13 @@ the good features and stay as compatible as possible with Excel in terms of
 usability. Hopefully we left the bugs behind :).
 
 %prep
-%setup
+%setup -q
 
 %build
 %ifarch alpha
   MYARCH_FLAGS="--host=alpha-redhat-linux"
 %endif
-./configure --prefix=%prefix $MYARCH_FLAGS
+./configure --prefix=%prefix $MYARCH_FLAGS --sysconfdir=/etc
 
 if [ "$SMP" != "" ]; then
   (make "MAKE=make -k -j $SMP"; exit 0)
@@ -46,12 +47,17 @@ fi
 
 %install
 
-make prefix=$RPM_BUILD_ROOT%{prefix} install
+make prefix=$RPM_BUILD_ROOT%{prefix} sysconfdir=$RPM_BUILD_ROOT/etc install
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Jul 14 1999 Gregory McLean <gregm@comstar.net>
+- Added the gnome-print requirement.
+- Updated the file list to try and quiet down the updating.
+- added the sysconfdir
+
 * Tue Mar 9  1999 Gregory McLean <gregm@comstar.net>
 - Updated the spec file.
 
@@ -64,6 +70,15 @@ rm -rf $RPM_BUILD_ROOT
 %doc HACKING AUTHORS ChangeLog NEWS README COPYING TODO
 
 %{prefix}/bin/*
-%{prefix}/lib/gnumeric/*
-%{prefix}/share/*
+%{prefix}/lib/gnumeric/plugins/*
+%{prefix}/share/locale/*/*
+%{prefix}/share/gnome/apps/Applications/gnumeric.desktop
+%{prefix}/share/help/gnumeric/C/*
+%{prefix}/share/help/gnumeric/images/*
+%{prefix}/share/idl/Gnumeric.idl
+%{prefix}/share/mc/templates/*
+%{prefix}/share/mime-info/*
+%{prefix}/share/pixmaps/*
+
+%config /etc/CORBA/servers/*
 
