@@ -2815,7 +2815,7 @@ workbook_new (void)
 			fname = bonobo_ui_util_get_ui_fname ("gnumeric.xml");
 			g_warning ("Loading ui from '%s'", fname);
 			
-			ui = bonobo_ui_util_new_ui (fname);
+			ui = bonobo_ui_util_new_ui (component, fname, "gnumeric");
 			
 			bonobo_ui_component_set_tree (
 				component, container, "/", ui, NULL);

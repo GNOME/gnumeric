@@ -1,3 +1,9 @@
+2000-09-09  Michael Meeks  <michael@helixcode.com>
+
+	* src/gnumeric.xml: add magic placeholder to help section.
+
+	* src/workbook.c (workbook_new): update for ui_util_new_ui changes.
+
 2000-09-08  Michael Meeks  <michael@helixcode.com>
 
 	* src/workbook.c (workbook_new): Parse the xml file and add the verbs.
