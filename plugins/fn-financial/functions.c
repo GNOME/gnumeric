@@ -34,6 +34,7 @@
 #include <datetime.h>
 #include <value.h>
 #include <str.h>
+#include <mathfunc.h>
 
 #include <math.h>
 #include <limits.h>
@@ -1186,8 +1187,7 @@ gnumeric_dollarde (FunctionEvalInfo *ei, Value **argv)
 	floored = floor (fractional_dollar);
 	rest = fractional_dollar - floored;
 
-	return value_new_float (floored + ((gnum_float) rest * powgnum (10, n) /
-					   fraction));
+	return value_new_float (floored + rest * gpow10 (n) / fraction);
 }
 
 /***************************************************************************/
@@ -1228,8 +1228,7 @@ gnumeric_dollarfr (FunctionEvalInfo *ei, Value **argv)
 	floored = floor (fractional_dollar);
 	rest = fractional_dollar - floored;
 
-	return value_new_float (floored + ((gnum_float) (rest * fraction) /
-					   powgnum (10, n)));
+	return value_new_float (floored + rest * fraction / gpow10 (n));
 }
 
 /***************************************************************************/
