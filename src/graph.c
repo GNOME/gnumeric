@@ -19,7 +19,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
-#ifdef NEW_GRAPHS
 #include <gnumeric-config.h>
 #include "graph.h"
 #include "dependent.h"
@@ -505,4 +504,3 @@ gnm_go_data_vector_set_sheet (GnmGODataVector *vec, Sheet *sheet)
 		vec->dep.sheet = NULL;
 	}
 }
-#endif

@@ -111,9 +111,7 @@ gnm_common_init (void)
 	mathfunc_init ();
 	g_object_new (GNUMERIC_APPLICATION_TYPE, NULL);
 	plugin_services_init ();
-#ifdef NEW_GRAPHS
 	gog_plugin_services_init ();
-#endif
 	gnm_conf_init ();
 	string_init ();
 	value_init ();

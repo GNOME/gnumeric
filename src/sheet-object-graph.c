@@ -33,12 +33,10 @@
 #include "sheet-object-impl.h"
 #include "workbook-edit.h"
 
-#ifdef NEW_GRAPHS
 #include <goffice/graph/gog-graph.h>
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-renderer-pixbuf.h>
 #include <goffice/graph/gog-control-foocanvas.h>
-#endif
 #include <graph.h>
 
 #include <gdk/gdkkeysyms.h>
@@ -57,10 +55,8 @@
 
 typedef struct {
 	SheetObject  base;
-#ifdef NEW_GRAPHS
 	GogGraph	*graph;
 	GObject		*renderer;
-#endif
 } SheetObjectGraph;
 typedef struct {
 	SheetObjectClass base;
@@ -68,7 +64,6 @@ typedef struct {
 
 static GObjectClass *parent_klass;
 
-#ifdef NEW_GRAPHS
 static void
 sog_data_set_sheet (G_GNUC_UNUSED SheetObjectGraph *sog, GOData *data, Sheet *sheet)
 {
@@ -121,14 +116,12 @@ sheet_object_graph_new (GogGraph *graph)
 
 	return SHEET_OBJECT (sog);
 }
-#endif
 
 static void
 sheet_object_graph_finalize (GObject *obj)
 {
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (obj);
 
-#ifdef NEW_GRAPHS
 	if (sog->renderer != NULL) {
 		g_object_unref (sog->renderer);
 		sog->renderer = NULL;
@@ -137,7 +130,6 @@ sheet_object_graph_finalize (GObject *obj)
 		g_object_unref (sog->graph);
 		sog->graph = NULL;
 	}
-#endif
 
 	if (parent_klass && parent_klass->finalize)
 		parent_klass->finalize (obj);
@@ -146,7 +138,6 @@ sheet_object_graph_finalize (GObject *obj)
 static GObject *
 sheet_object_graph_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
-#ifdef NEW_GRAPHS
 	GnmCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
 	FooCanvasItem *item = foo_canvas_item_new (gcanvas->sheet_object_group,
@@ -157,9 +148,6 @@ sheet_object_graph_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 
 	gnm_pane_object_register (so, item);
 	return G_OBJECT (item);
-#else
-	return NULL;
-#endif
 }
 
 static void
@@ -227,7 +215,6 @@ sheet_object_graph_print (SheetObject const *so, GnomePrintContext *ctx,
 #endif
 }
 
-#ifdef NEW_GRAPHS
 static void
 cb_update_graph (GogGraph *graph, SheetObjectGraph *sog)
 {
@@ -236,7 +223,6 @@ cb_update_graph (GogGraph *graph, SheetObjectGraph *sog)
 	g_object_unref (G_OBJECT (sog->graph));
 	sog->graph = graph;
 }
-#endif
 
 static void
 sheet_object_graph_user_config (SheetObject *so, SheetControl *sc)
@@ -246,16 +232,13 @@ sheet_object_graph_user_config (SheetObject *so, SheetControl *sc)
 
 	g_return_if_fail (sog != NULL);
 
-#ifdef NEW_GRAPHS
 	sheet_object_graph_guru (wbcg, sog->graph,
 		(GogGuruRegister)cb_update_graph, so);
-#endif
 }
 
 static gboolean
 sheet_object_graph_set_sheet (SheetObject *so, Sheet *sheet)
 {
-#ifdef NEW_GRAPHS
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
 
 	if (sog->graph != NULL) {
@@ -263,7 +246,6 @@ sheet_object_graph_set_sheet (SheetObject *so, Sheet *sheet)
 		for (; ptr != NULL ; ptr = ptr->next)
 			sog_data_set_sheet (sog, ptr->data, sheet);
 	}
-#endif
 
 	return FALSE;
 }
@@ -271,7 +253,6 @@ sheet_object_graph_set_sheet (SheetObject *so, Sheet *sheet)
 static gboolean
 sheet_object_graph_remove_from_sheet (SheetObject *so)
 {
-#ifdef NEW_GRAPHS
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
 
 	if (sog->graph != NULL) {
@@ -279,7 +260,6 @@ sheet_object_graph_remove_from_sheet (SheetObject *so)
 		for (; ptr != NULL ; ptr = ptr->next)
 			sog_data_set_sheet (sog, ptr->data, NULL);
 	}
-#endif
 
 	return FALSE;
 }
@@ -287,21 +267,15 @@ sheet_object_graph_remove_from_sheet (SheetObject *so)
 static void
 sheet_object_graph_default_size (SheetObject const *so, double *w, double *h)
 {
-#ifdef NEW_GRAPHS
 	g_object_get (SHEET_OBJECT_GRAPH (so)->renderer,
 		"logical_width_pts",  w,
 		"logical_height_pts", h,
 		NULL);
-#else
-	*w = 200.;
-	*h = 200.;
-#endif
 }
 
 static void
 sheet_object_graph_position_changed (SheetObject const *so)
 {
-#ifdef NEW_GRAPHS
 	double coords [4];
 
 	sheet_object_position_pts_get (so, coords);
@@ -309,7 +283,6 @@ sheet_object_graph_position_changed (SheetObject const *so)
 		"logical_width_pts",  fabs (coords[2] - coords[0]),
 		"logical_height_pts", fabs (coords[3] - coords[1]),
 		NULL);
-#endif
 }
 
 static void
@@ -348,8 +321,6 @@ GSF_CLASS (SheetObjectGraph, sheet_object_graph,
 	   sheet_object_graph_class_init, sheet_object_graph_init,
 	   SHEET_OBJECT_TYPE);
 
-#ifdef NEW_GRAPHS
-
 static void
 cb_graph_guru_done (WorkbookControlGUI *wbcg)
 {
@@ -376,4 +347,3 @@ sheet_object_graph_guru (WorkbookControlGUI *wbcg, GogGraph *graph,
 	g_object_set_data_full (G_OBJECT (dialog),
 		"guru", wbcg, (GDestroyNotify) cb_graph_guru_done);
 }
-#endif

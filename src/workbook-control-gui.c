@@ -3120,7 +3120,6 @@ cb_sort_descending (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	sort_by_rows (wbcg, 1);
 }
 
-#ifdef NEW_GRAPHS
 #include <goffice/graph/gog-guru.h>
 #include <goffice/graph/gog-data-allocator.h>
 #include <sheet-object-graph.h>
@@ -3131,13 +3130,10 @@ cb_add_graph (GogGraph *graph, gpointer wbcg)
 	scg_mode_create_object (scg, sheet_object_graph_new (graph));
 }
 
-#endif
 static void
 cb_launch_graph_guru (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-#ifdef NEW_GRAPHS
 	sheet_object_graph_guru (wbcg, NULL, cb_add_graph, wbcg);
-#endif
 }
 
 #ifdef WITH_BONOBO
@@ -5354,7 +5350,6 @@ workbook_control_gui_class_init (GObjectClass *object_class)
 }
 
 /***************************************************************************/
-#ifdef NEW_GRAPHS
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-series.h>
 #include <goffice/graph/go-data.h>
@@ -5452,11 +5447,6 @@ GSF_CLASS_FULL (WorkbookControlGUI, workbook_control_gui,
 		workbook_control_gui_class_init, NULL,
 		WORKBOOK_CONTROL_TYPE, 0,
 		GSF_INTERFACE (wbcg_go_plot_data_allocator_init, GOG_DATA_ALLOCATOR_TYPE))
-#else
-GSF_CLASS (WorkbookControlGUI, workbook_control_gui,
-	   workbook_control_gui_class_init, NULL,
-	   WORKBOOK_CONTROL_TYPE)
-#endif
 
 WorkbookControl *
 workbook_control_gui_new (WorkbookView *optional_view,

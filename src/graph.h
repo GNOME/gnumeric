@@ -2,8 +2,6 @@
 #ifndef GNUMERIC_GRAPH_H
 #define GNUMERIC_GRAPH_H
 
-#ifdef NEW_GRAPHS
-
 #include "gnumeric.h"
 #include <goffice/graph/goffice-graph.h>
 #include <glib-object.h>
@@ -26,5 +24,4 @@ GType	 gnm_go_data_vector_get_type  (void);
 GOData	*gnm_go_data_vector_new_expr  (Sheet *sheet, GnmExpr const *expr);
 void	 gnm_go_data_vector_set_sheet (GnmGODataVector *vec, Sheet *sheet);
 
-#endif /* NEW_GRAPHS */
 #endif /* GNUMERIC_GRAPH_H */

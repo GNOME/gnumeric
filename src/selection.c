@@ -1241,13 +1241,11 @@ sv_selection_walk_step (SheetView *sv,
 	sv_make_cell_visible (sv, destination.col, destination.row, TRUE);
 }
 
-#ifdef NEW_GRAPHS
 #include <goffice/graph/gog-series.h>
 #include <goffice/graph/gog-plot-impl.h>
 #include <goffice/graph/go-data.h>
 #include <expr.h>
 #include <graph.h>
-#endif
 
 /* characterize a vector based on the last non-blank cell in the range.
  * optionally expand the vector to merge multiple string vectors */
@@ -1297,7 +1295,6 @@ characterize_vec (Sheet *sheet, Range *vector,
 void
 sv_selection_to_plot (SheetView *sv, gpointer go_plot)
 {
-#ifdef NEW_GRAPHS
 	/* the first range controls which direction to associate with rectangles */
 	GList *ptr = g_list_last (sv->selections);
 	Range const *r = ptr->data;
@@ -1403,5 +1400,4 @@ skip :
 	}
 
 #warning TODO is last series is incomplete try to shift data out of optional dimensions
-#endif
 }
