@@ -42,7 +42,7 @@
 #include <string.h>
 #include <sys/stat.h>
 
-#define PREVIEW_HSIZE 60
+#define PREVIEW_HSIZE 80
 #define PREVIEW_VSIZE 100
 
 
@@ -299,7 +299,6 @@ static void
 update_preview_cb (GtkFileChooser *chooser)
 {
 	gchar *filename = gtk_file_chooser_get_preview_filename (chooser);
-	gboolean have_preview = FALSE;
 	GtkWidget *label = g_object_get_data (G_OBJECT (chooser), "label-widget");
 	GtkWidget *image = g_object_get_data (G_OBJECT (chooser), "image-widget");
 
@@ -337,14 +336,11 @@ update_preview_cb (GtkFileChooser *chooser)
 			}
 			gtk_widget_show (label);
 
-			have_preview = TRUE;
 			g_object_unref (buf);
 		}
 
 		g_free (filename);
 	}
-
-	gtk_file_chooser_set_preview_widget_active (chooser, have_preview);
 }
 
 static gboolean
@@ -406,7 +402,7 @@ gui_image_file_select (WorkbookControlGUI *wbcg, const char *initial,
 		g_object_set_data (G_OBJECT (fsel), "image-widget", preview_image);
 		g_object_set_data (G_OBJECT (fsel), "label-widget", preview_label);
 
-		gtk_widget_set_size_request (vbox, PREVIEW_HSIZE, PREVIEW_VSIZE);
+		gtk_widget_set_size_request (vbox, PREVIEW_HSIZE, -1);
 
 		gtk_box_pack_start (GTK_BOX (vbox), preview_image, FALSE, FALSE, 0);
 		gtk_box_pack_start (GTK_BOX (vbox), preview_label, FALSE, FALSE, 0);

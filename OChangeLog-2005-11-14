@@ -1,3 +1,8 @@
+2004-02-25  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-file.c (update_preview_cb): Keep the preview, possibly
+	blank, at all times to avoid flicker.
+
 2004-02-23  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-file.c (gui_image_file_select): New arg "is_save" for
