@@ -34,6 +34,8 @@
 #include <style.h>
 
 #include <libgnome/gnome-i18n.h>
+#include <libgnomeprint/gnome-print-master.h>
+#include <libgnomeprintui/gnome-print-paper-selector.h>
 #include <glade/glade.h>
 
 #define PREVIEW_X 170
@@ -55,6 +57,8 @@
 #define EPSILON 1e-5		/* Same as in gtkspinbutton.c */
 
 #define PRINTER_SETUP_KEY "printer-setup-dialog"
+
+#define MARGIN_PAGE 1
 
 /* FIXME: Now that we have added a header/footer sample
  * preview widget, we should rename the preview widget for the margins
@@ -121,8 +125,6 @@ typedef struct {
 
 	GList *conversion_listeners;
 
-	GnomePrintPaper const *paper;
-	GnomePrintPaper const *current_paper;
 	PrintOrientation orientation;
 	PrintOrientation current_orientation;
 
@@ -145,6 +147,8 @@ typedef struct {
 	/* The header and footer preview widgets. */
 	HFPreviewInfo *pi_header;
 	HFPreviewInfo *pi_footer;
+
+	gulong notebook_signal_connection;
 } PrinterSetupState;
 
 typedef struct
@@ -215,11 +219,13 @@ spin_button_set_bound (GtkSpinButton *spin, double space_to_grow,
 static double
 get_paper_pswidth (PrinterSetupState *state)
 {
-	g_return_val_if_fail (state->paper != NULL, 1.);
-	if (state->orientation == PRINT_ORIENT_VERTICAL)
-		return state->paper->width;
+	double height;
+	double width;
+	if (gnome_print_master_get_page_size_from_config (state->pi->print_config, 
+							  &width, &height))
+		return width;
 	else
-		return state->paper->height;
+		return 1.0;
 }
 
 /**
@@ -231,11 +237,13 @@ get_paper_pswidth (PrinterSetupState *state)
 static double
 get_paper_psheight (PrinterSetupState *state)
 {
-	g_return_val_if_fail (state->paper != NULL, 1.);
-	if (state->orientation == PRINT_ORIENT_VERTICAL)
-		return state->paper->height;
+	double height;
+	double width;
+	if (gnome_print_master_get_page_size_from_config (state->pi->print_config, 
+							  &width, &height))
+		return height;
 	else
-		return state->paper->width;
+		return 1.0;
 }
 
 /**
@@ -569,18 +577,22 @@ preview_page_create (PrinterSetupState *state)
 static void
 canvas_update (PrinterSetupState *state)
 {
-	if (state->current_paper != state->paper ||
-	    state->current_orientation != state->orientation) {
 		preview_page_destroy (state);
-		state->current_paper = state->paper;
-		state->current_orientation = state->orientation;
 		preview_page_create (state);
-		/* FIXME: Introduce state->displayed_unit? */
 		set_horizontal_bounds (state, MARGIN_NONE,
 				       state->margins.top.unit);
 		set_vertical_bounds (state, MARGIN_NONE,
 				     state->margins.top.unit);
-	}
+}
+
+static void 
+notebook_flipped (GtkNotebook *notebook,
+		  GtkNotebookPage *page,
+		  gint page_num,
+		  PrinterSetupState *state)
+{
+	if (page_num == MARGIN_PAGE)
+		canvas_update (state);	
 }
 
 /**
@@ -1491,38 +1503,13 @@ do_setup_page_info (PrinterSetupState *state)
 			&state->pi->repeat_left.range);
 }
 
-/**
- * This callback switches the orientation of the preview page.
- */
-static void
-orientation_changed (GtkToggleButton *landscape_bt, PrinterSetupState *state)
-{
-	if (gtk_toggle_button_get_active (landscape_bt))
-		state->orientation = PRINT_ORIENT_HORIZONTAL;
-	else
-		state->orientation = PRINT_ORIENT_VERTICAL;
-
-	canvas_update (state);
-}
-
-static void
-paper_size_changed (GtkEntry *entry, PrinterSetupState *state)
-{
-	char const *text = gtk_entry_get_text (entry);
-	GnomePrintPaper const *new_paper = gnome_print_paper_get_by_name (text);
-	if (new_paper) {
-		state->paper = new_paper;
-		canvas_update (state);
-	}
-}
-
 static void
 do_setup_page (PrinterSetupState *state)
 {
 	PrintInformation *pi = state->pi;
-	GtkWidget *image;
 	GtkWidget *scale_percent_spin, *scale_width_spin, *scale_height_spin;
-	GtkCombo *first_page_combo, *paper_size_combo;
+	GtkWidget *paper_selector;
+	GtkCombo *first_page_combo;
 	GtkTable *table;
 	GladeXML *gui;
 	const char *toggle;
@@ -1530,27 +1517,9 @@ do_setup_page (PrinterSetupState *state)
 	gui = state->gui;
 	table = GTK_TABLE (glade_xml_get_widget (gui, "table-orient"));
 
-	image = gnumeric_load_image ("orient-vertical.png");
-	gtk_widget_show (image);
-	gtk_table_attach_defaults (table, image, 0, 1, 0, 1);
-	image = gnumeric_load_image ("orient-horizontal.png");
-	gtk_widget_show (image);
-	gtk_table_attach_defaults (table, image, 2, 3, 0, 1);
-
-	/*
-	 * Select the proper radio for orientation
-	 */
-	state->orientation = state->pi->orientation;
-	if (pi->orientation == PRINT_ORIENT_VERTICAL)
-		toggle = "vertical-radio";
-	else
-		toggle = "horizontal-radio";
-
-	gtk_toggle_button_set_active (
-		GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, toggle)), 1);
-	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "horizontal-radio")),
-		"toggled",
-		G_CALLBACK (orientation_changed), state);
+	paper_selector =  gnome_paper_selector_new (pi->print_config);
+	gtk_widget_show (paper_selector);
+	gtk_table_attach_defaults (table, paper_selector, 0, 1, 0, 1);
 
 	/*
 	 * Set the scale
@@ -1580,36 +1549,6 @@ do_setup_page (PrinterSetupState *state)
 		GTK_SPIN_BUTTON (scale_height_spin), pi->scaling.dim.rows);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				      GTK_WIDGET (scale_height_spin));
-	/*
-	 * Fill the paper sizes
-	 */
-	paper_size_combo =
-		GTK_COMBO (glade_xml_get_widget (gui, "paper-size-combo"));
-	g_signal_connect (G_OBJECT (paper_size_combo->entry),
-		"changed",
-		G_CALLBACK (paper_size_changed), state);
-	{
-		GList *sizes = gnome_print_paper_get_list ();
-		GList *this_size, *names = NULL;;
-
-		for (this_size = sizes; this_size; this_size = this_size->next) { 
-			names = g_list_prepend (names, 
-						((GnomePrintPaper *)this_size->data)->name);
-		}
-		names = g_list_reverse (names);
-		gtk_combo_set_popdown_strings (paper_size_combo, names);
-		g_list_free (names);
-		gnome_print_paper_free_list (sizes);
-	}
-	gtk_combo_set_value_in_list (paper_size_combo, TRUE, FALSE);
-	gnumeric_combo_enters (GTK_WINDOW (state->dialog), paper_size_combo);
-
-	if (state->pi->paper == NULL)
-		state->pi->paper = gnome_print_paper_get_default ();
-	state->paper = state->pi->paper;
-
-	gtk_entry_set_text (GTK_ENTRY (paper_size_combo->entry),
-			    state->pi->paper->name);
 	first_page_combo =
 		GTK_COMBO (glade_xml_get_widget (gui, "first-page-combo"));
 	gnumeric_combo_enters (GTK_WINDOW (state->dialog), first_page_combo);
@@ -1658,6 +1597,8 @@ cb_do_print_destroy (GtkWidget *button, PrinterSetupState *state)
 	wbcg_edit_detach_guru (state->wbcg);
 	wbcg_edit_finish (state->wbcg, FALSE);
 
+	g_signal_handler_disconnect (glade_xml_get_widget (state->gui, "print-setup-notebook"),
+				     state->notebook_signal_connection);
 	if (state->customize_header)
 		gtk_widget_destroy (state->customize_header);
 
@@ -1695,6 +1636,11 @@ do_setup_main_dialog (PrinterSetupState *state)
 		"clicked",
 		G_CALLBACK (cb_do_print_cancel), state);
 
+	w = glade_xml_get_widget (state->gui, "print-setup-notebook");
+	state->notebook_signal_connection = g_signal_connect (GTK_OBJECT (w),
+		"switch-page",
+		G_CALLBACK (notebook_flipped), state);
+
 	/* Hide non-functional buttons for now */
 	w = glade_xml_get_widget (state->gui, "options");
 	gtk_widget_hide (w);
@@ -1723,8 +1669,6 @@ printer_setup_state_new (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->sheet = sheet;
 	state->gui   = gui;
 	state->pi    = sheet->print_info;
-	state->current_paper = NULL;
-	state->current_orientation = -1;
 	state->customize_header = NULL;
 	state->customize_footer = NULL;
 
@@ -1756,12 +1700,15 @@ do_fetch_page (PrinterSetupState *state)
 {
 	GtkWidget *w;
 	GladeXML *gui = state->gui;
-	char const *t;
 
-	w = glade_xml_get_widget (gui, "vertical-radio");
-	if (GTK_TOGGLE_BUTTON (w)->active)
+	double height;
+	double width;
+
+	if (gnome_print_master_get_page_size_from_config (state->pi->print_config, 
+							  &width, &height) &&
+	    height > width) {
 		state->pi->orientation = PRINT_ORIENT_VERTICAL;
-	else
+	} else 	
 		state->pi->orientation = PRINT_ORIENT_HORIZONTAL;
 
 	w = glade_xml_get_widget (gui, "scale-percent-radio");
@@ -1778,12 +1725,6 @@ do_fetch_page (PrinterSetupState *state)
 
 	w = glade_xml_get_widget (gui, "scale-height-spin");
 	state->pi->scaling.dim.rows = GTK_SPIN_BUTTON (w)->adjustment->value;
-
-	w = glade_xml_get_widget (gui, "paper-size-combo");
-	t = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (w)->entry));
-
-	if (gnome_print_paper_get_by_name (t) != NULL)
-		state->pi->paper = gnome_print_paper_get_by_name (t);
 }
 
 static PrintUnit

@@ -1,3 +1,17 @@
+2002-05-02  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/print-info.c (print_info_free) : add print-config
+	(print_info_new) : ditto
+	(print_info_save) : ditto
+	(print_info_dup) : ditto
+	* src/print-info.h : add print-config to PrintInformation
+	* src/print.c (print_job_info_get) : use
+	  gnome_print_master_get_page_size_from_config
+	(sheet_print) : use print_config included in PrintInformation
+	* src/xml-io.c (xml_write_print_info) : use print_config included 
+	  in PrintInformation
+	(xml_read_print_info) : ditto
+
 2002-05-02  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=79925

@@ -57,6 +57,7 @@
 #include <gal/widgets/e-colors.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
+#include <libgnomeprint/gnome-print-config.h>
 #include <locale.h>
 #include <math.h>
 #include <limits.h>
@@ -1013,8 +1014,15 @@ xml_write_print_info (XmlParseContext *ctxt, PrintInformation *pi)
 	xml_node_set_print_hf (cur, "Header", pi->header);
 	xml_node_set_print_hf (cur, "Footer", pi->footer);
 
-	if (pi->paper != NULL)
-		xmlNewChild (cur, ctxt->ns, (xmlChar const *)"paper", (xmlChar const *)pi->paper->name);
+	{
+		gchar *paper_name;
+		paper_name = gnome_print_config_get (pi->print_config, GNOME_PRINT_KEY_PAPER_SIZE);
+		if (paper_name) {
+			xmlNewChild (cur, ctxt->ns, (xmlChar const *)"paper", 
+				     (xmlChar const *)paper_name);
+		}
+		g_free (paper_name);
+	}
 
 	return cur;
 }
@@ -1196,7 +1204,7 @@ xml_read_print_info (XmlParseContext *ctxt, xmlNodePtr tree)
 
 	if ((child = e_xml_get_child_by_name (tree, (xmlChar const *)"paper"))) {
 		char *name = (char *)xmlNodeGetContent (child);
-		pi->paper = gnome_print_paper_get_by_name (name);
+		gnome_print_config_set (pi->print_config, GNOME_PRINT_KEY_PAPER_SIZE, name);
 		xmlFree (name);
 	}
 }

@@ -3,6 +3,7 @@
 
 #include "gnumeric.h"
 #include <libgnomeprint/gnome-print-paper.h>	/* for typedef of GnomePrintPaper */
+#include <libgnomeprint/gnome-print-config.h>	/* for typedef of GnomePrintPaper */
 
 typedef enum {
 	PRINT_ORIENT_HORIZONTAL,
@@ -87,7 +88,7 @@ struct _PrintInformation {
 	PrintHF          *header;
 	PrintHF          *footer;
 
-	GnomePrintPaper const *paper;
+	GnomePrintConfig *print_config;
 };
 
 typedef enum {

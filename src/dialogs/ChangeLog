@@ -1,5 +1,17 @@
 2002-05-02  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-printer-setup.c (get_paper_pswidth) : use gnome-print-master
+	(get_paper_psheight) : ditto
+	(canvas_update) : use print-config
+	(notebook_flipped) : new
+	(orientation_changed) : deleted
+	(paper_size_changed) : deleted
+	(do_setup_page) : use gnome-print paper selector
+	(do_fetch_page) : use gnome-print-master
+	* print.glade : use gnome-print paper selector rather than combo box
+
+2002-05-02  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-preferences.c (pref_tree_set_model) : check for missing schemas
 
 2002-05-01  Christophe Merlet  <christophe@merlet.net>

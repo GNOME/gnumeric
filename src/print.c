@@ -994,7 +994,7 @@ print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
 	GnomeFontFace *face;
 	PrintJobInfo *pj;
 	PrintMargins *pm = &sheet->print_info->margins;
-	int width, height;
+	double width = 1.0, height = 1.0;
 
 	pj = g_new0 (PrintJobInfo, 1);
 
@@ -1015,16 +1015,11 @@ print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
 	pj->current_output_sheet = 0;
 
 	/* Precompute information */
-	width  = pj->pi->paper->width;
-	height = pj->pi->paper->height;
+	gnome_print_master_get_page_size_from_config (pj->pi->print_config, 
+						      &width, &height);
+	pj->width = width;
+	pj->height = height;
 
-	if (pj->pi->orientation == PRINT_ORIENT_HORIZONTAL) {
-		pj->width = height;
-		pj->height = width;
-	} else {
-		pj->width = width;
-		pj->height = height;
-	}
 
 	pj->x_points = pj->width - (pm->left.points + pm->right.points);
 	pj->y_points = pj->height -
@@ -1066,36 +1061,20 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 	int end;
 	int range;
 	GtkWindow *toplevel;
-	GnomePrintConfig *print_config = gnome_print_config_default ();
+	GnomePrintConfig *print_config;
 
   	g_return_if_fail (IS_SHEET (sheet));
 
 	end  = workbook_sheet_count (sheet->workbook);
 	
-	/* Setting up print-config based on saved information */
 	pj = print_job_info_get (sheet, default_range, preview);
+
+	print_config = pj->pi->print_config;
 	pj->sorted_print = FALSE;
 	if (default_range == PRINT_SHEET_RANGE) {
 		pj->start_page = first-1;
 		pj->end_page = end-1;
 	}
-
-	{ /* FIXME: this is a workaround for a bug in gnome-print */
-		gchar** parts =  g_strsplit (pj->pi->paper->name, " ", -1);
-		gchar * new_name = g_strjoinv ("", parts);
-		
-		g_strfreev (parts);
-		gnome_print_config_set(print_config, GNOME_PRINT_KEY_PAPER_SIZE, new_name);
-		g_free (new_name);
-	}
-	gnome_print_config_set_double (print_config, GNOME_PRINT_KEY_PAPER_WIDTH, 
-				       pj->pi->paper->width);
-	gnome_print_config_set_double (print_config, GNOME_PRINT_KEY_PAPER_HEIGHT,
-				       pj->pi->paper->height);
-	gnome_print_config_set(print_config, GNOME_PRINT_KEY_ORIENTATION,
-			       (pj->pi->orientation == PRINT_ORIENT_HORIZONTAL) ?
-			       "R90" : "R0");
-	/* print-config has been set up */
 
   	if (!preview) {
 		gnome_print_dialog = g_object_new (GNOME_TYPE_PRINT_DIALOG,
@@ -1106,12 +1085,13 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 
 		gnome_print_dialog_construct (GNOME_PRINT_DIALOG (gnome_print_dialog), 
 					      _("Print Sheets"),
+					      GNOME_PRINT_DIALOG_RANGE |
 					      GNOME_PRINT_DIALOG_COPIES);
 
 		gnome_print_dialog_construct_range_page (
 			GNOME_PRINT_DIALOG (gnome_print_dialog),
-			GNOME_PRINT_RANGE_CURRENT|GNOME_PRINT_RANGE_ALL|
-			GNOME_PRINT_RANGE_SELECTION|GNOME_PRINT_RANGE_RANGE,
+			GNOME_PRINT_RANGE_CURRENT | GNOME_PRINT_RANGE_ALL |
+			GNOME_PRINT_RANGE_SELECTION | GNOME_PRINT_RANGE_RANGE,
 			1, workbook_sheet_count(sheet->workbook),
 			_("Act_ive sheet"), _("S_heets"));
 
@@ -1197,5 +1177,4 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 
 	g_object_unref (G_OBJECT (gpm));
   	print_job_info_destroy (pj);
-	gnome_print_config_unref (print_config);
 }
