@@ -47,7 +47,6 @@ typedef struct _ColorCombo {
 	 * Canvas where we display
 	 */
 	GtkWidget       *preview_button;
-	FooCanvas     *preview_canvas;
 	FooCanvasItem *preview_color_item;
 	ColorPalette    *palette;
 
