@@ -1,4 +1,4 @@
-SUBDIRS = . intl po macros idl plugins src doc icons templates
+SUBDIRS = . intl po macros idl src plugins doc icons templates
 
 change_logs = ChangeLog \
 	OChangeLog-1999-07-09 OChangeLog-2000-02-23 OChangeLog-2000-10-10 
@@ -7,6 +7,40 @@ confexecdir=$(libdir)
 confexec_DATA = gnumericConf.sh
 
 CLEANFILES=gnumericConf.sh
+
+appicondir = $(datadir)/pixmaps
+appicon_DATA = gnome-gnumeric.png \
+               gnome-application-x-gnumeric.png \
+               gnome-application-x-xls.png
+
+Applicationsdir = $(datadir)/gnome/apps/Applications
+Applications_DATA = gnumeric.desktop
+gnewdir = $(datadir)/mc/templates
+gnew_DATA = gnumeric.desktop
+
+Mimedir = $(datadir)/mime-info
+Mime_DATA = gnumeric.keys gnumeric.mime
+
+@XML_I18N_MERGE_OAF_RULE@
+
+oafdir = $(datadir)/oaf
+oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
+oaf_in_files = GNOME_Gnumeric.oaf.in
+
+EXTRA_DIST = \
+	gnumeric.desktop.in gnumeric.spec.in gnumericConf.sh.in		\
+	gnumeric.keys.in gnumeric.mime $(appicon_DATA) 			\
+	README HACKING NEWS BUGS MAINTAINERS AUTHORS $(change_logs)	\
+	xml-i18n-extract.in	\
+	xml-i18n-merge.in	\
+	xml-i18n-update.in	\
+	$(oaf_in_files)
+
+if BONOBO
+gnumeric_version="$(VERSION)-bonobo"
+else
+gnumeric_version="$(VERSION)"
+endif
 
 ## Cloned from gnome-print
 ##
@@ -28,35 +62,6 @@ gnumericConf.sh: gnumericConf.sh.in Makefile
 	      < $(srcdir)/gnumericConf.sh.in > gnumericConf.tmp \
 	  && mv gnumericConf.tmp gnumericConf.sh
 
-EXTRA_DIST = \
-	gnumeric.desktop.in gnumeric.spec.in gnumericConf.sh.in \
-	gnumeric.keys.in gnumeric.mime $(appicon_DATA) 		\
-	gnumeric.gnorba GNOME_Gnumeric.oafinfo $(change_logs)	\
-	README HACKING NEWS BUGS MAINTAINERS AUTHORS		\
-	xml-i18n-extract.in	\
-	xml-i18n-merge.in	\
-	xml-i18n-update.in
-
-appicondir = $(datadir)/pixmaps
-appicon_DATA = gnome-gnumeric.png \
-               gnome-application-x-gnumeric.png \
-               gnome-application-x-xls.png
-
-Applicationsdir = $(datadir)/gnome/apps/Applications
-Applications_DATA = gnumeric.desktop
-
-Mimedir = $(datadir)/mime-info
-Mime_DATA = gnumeric.keys gnumeric.mime
-
-gnewdir = $(datadir)/mc/templates
-gnew_DATA = gnumeric.desktop
-
-gnorbadir = $(sysconfdir)/CORBA/servers
-gnorba_DATA = gnumeric.gnorba
-
-oafdir = $(datadir)/oaf
-oaf_DATA = GNOME_Gnumeric.oafinfo
-
 gnumeric.keys: gnumeric.keys.in Makefile
 	sed -e 's^\@icondir\@^$(appicondir)^g' < $(srcdir)/gnumeric.keys.in > gnumeric.keys.tmp \
 	&& mv gnumeric.keys.tmp gnumeric.keys 
@@ -65,10 +70,3 @@ dist-hook: gnumeric.spec
 	mkdir $(distdir)/samples
 	cp $(srcdir)/samples/*gnumeric $(distdir)/samples	
 	cp gnumeric.spec $(distdir)
-
-if BONOBO
-gnumeric_version="$(VERSION)-bonobo"
-else
-gnumeric_version="$(VERSION)"
-endif
-

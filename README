@@ -30,7 +30,7 @@ You need:
 	gnome-xml   >= 1.8.12     (gnome-xml 2.x not supported yet)
 	NOTE : gnome-xml is also known as libxml
 
-	libole2	    >= 0.2.2
+	libole2	    >= 0.2.3
 	NOTE : libole2 is also known as libgnomeole2
 
 Optionally:

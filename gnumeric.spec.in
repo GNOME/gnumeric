@@ -19,7 +19,7 @@ Requires: gnome-libs >= 1.0.57
 Requires: gnome-print >= 0.25
 Requires: libglade >= 0.16
 Requires: libxml >= 1.8.12
-Requires: libole2 >= 0.2.2
+Requires: libole2 >= 0.2.3
 Requires: gal >= 0.8
 # The help menu commands require whatever package contains the gnome-help
 # program.
