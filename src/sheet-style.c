@@ -307,7 +307,7 @@ sheet_style_optimize (Sheet *sheet, Range range)
 
 	if (STYLE_DEBUG)
 		g_warning ("there are %d overlaps out of %d = %g%%",
-			   overlapping, len, (double)((1.0 * overlapping) / len));
+			   overlapping, len, (double)((100.0 * overlapping) / len));
 
 	/*
 	 * Merge any identical Range regions

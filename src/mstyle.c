@@ -424,17 +424,24 @@ mstyle_new_name (const gchar *name)
 	return (MStyle *)pst;
 }
 
-static MStyle *default_mstyle = NULL;
-
 MStyle *
 mstyle_new_default (void)
 {
 	MStyle *mstyle;
 
+#if 0
+/* Do not use a cached default style.
+ * People will reference it.
+ * When it is overridden by other styles the
+ * merge operation will eviscerate the contents.
+ */
+	static MStyle *default_mstyle = NULL;
+
 	if (default_mstyle) {
 		mstyle_ref (default_mstyle);
 		return default_mstyle;
 	}
+#endif
 	
 	mstyle = mstyle_new ();
 
@@ -472,7 +479,9 @@ mstyle_new_default (void)
 	/* This negates the back and pattern colors */
 	mstyle_set_pattern     (mstyle, 0);
 
+#if 0
 	default_mstyle = mstyle;
+#endif
 
 	return mstyle;
 }

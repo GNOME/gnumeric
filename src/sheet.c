@@ -2385,7 +2385,7 @@ sheet_clear_region (Sheet *sheet, int start_col, int start_row, int end_col, int
 	cb.r.end.row = end_row;
 	cb.l = NULL;
 
-	/* Clear the style in the region */
+	/* Clear the style in the region (new_default will ref the style for us) */
 	sheet_style_attach (sheet, cb.r, mstyle_new_default ());
 
 	if (sheet_cell_foreach_range (sheet, TRUE,

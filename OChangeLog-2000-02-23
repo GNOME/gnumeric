@@ -1,5 +1,8 @@
 1999-11-11  Jody Goldberg <jgoldberg@home.com>
 
+	* src/dialogs/dialog-cell-format.c (draw_format_preview) :
+	  Generate accounting format strings.
+
 	* doc/C/images/{number-format-dialog.jpg,
 			number-format-justification-dialog-2.jpg,
 			number-format-color-dialog-2.jpg) : Update.

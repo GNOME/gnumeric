@@ -351,11 +351,11 @@ init_button_image (GladeXML *gui, char const * const name)
 
 /*****************************************************************************/
 
-/* TODO : Add preview */
 static void
 draw_format_preview (FormatState *state)
 {
 	static char const * const zeros = "000000000000000000000000000000";
+	static char const * const qmarks = "??????????????????????????????";
 	FormatFamily const page = state->format.current_type;
 	GString		*new_format = g_string_new ("");
 	gchar		*preview;
@@ -410,6 +410,31 @@ draw_format_preview (FormatState *state)
 			g_string_free (new_format, TRUE);
 			new_format = tmp;
 		}
+		break;
+
+	case FMT_ACCOUNT :
+		/* FIXME : Set the currency symbol correctly */
+		g_string_append (new_format, "_($*#");
+		g_string_append (new_format, format_get_thousand ());
+		g_string_append (new_format, "##0");
+		if (state->format.num_decimals > 0) {
+			g_return_if_fail (state->format.num_decimals <= 30);
+
+			g_string_append (new_format, format_get_decimal ());
+			g_string_append (new_format, zeros + 30-state->format.num_decimals);
+		}
+		g_string_append (new_format, "_);_($*(#");
+		g_string_append (new_format, format_get_thousand ());
+		g_string_append (new_format, "##0");
+		if (state->format.num_decimals > 0) {
+			g_return_if_fail (state->format.num_decimals <= 30);
+
+			g_string_append (new_format, format_get_decimal ());
+			g_string_append (new_format, zeros + 30-state->format.num_decimals);
+		}
+		g_string_append (new_format, ");_($*\"-\"");
+		g_string_append (new_format, qmarks + 30-state->format.num_decimals);
+		g_string_append (new_format, "_);_(@_)");
 		break;
 
 	case FMT_PERCENT :
