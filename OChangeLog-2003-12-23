@@ -1,5 +1,8 @@
 2002-01-28  Jody Goldberg <jody@gnome.org>
 
+	* src/workbook.c (workbook_sheet_move) : flag if the move did
+	  anything.
+
 	* src/workbook-object-toolbar.c :  adjust to the new creation format.
 
 	* src/workbook-edit.c (wbcg_edit_has_guru) : return the actual guru.
@@ -31,7 +34,6 @@
 	  parameters
 	(consolidate_add_source) : ditto
 	
->>>>>>> 1.1833
 2002-01-27  Seth Nickell  <snickell@stanford.edu>
 
 	* Makefile.am:

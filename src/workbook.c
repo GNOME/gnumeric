@@ -1083,17 +1083,17 @@ workbook_sheet_delete (Sheet *sheet)
 	workbook_sheet_detach (wb, sheet);
 }
 
-/*
+/**
  * Moves the sheet up or down @direction spots in the sheet list
  * If @direction is positive, move left. If positive, move right.
  */
-void
+gboolean
 workbook_sheet_move (Sheet *sheet, int direction)
 {
 	Workbook *wb;
 	gint old_pos, new_pos;
 
-	g_return_if_fail (IS_SHEET (sheet));
+	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 
 	wb = sheet->workbook;
         old_pos = workbook_sheet_index_get (wb, sheet);
@@ -1105,7 +1105,9 @@ workbook_sheet_move (Sheet *sheet, int direction)
 		WORKBOOK_FOREACH_CONTROL (wb, view, control,
 			wb_control_sheet_move (control, sheet, new_pos););
 		sheet_set_dirty (sheet, TRUE);
+		return TRUE;
 	}
+	return FALSE;
 }
 
 /**

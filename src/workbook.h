@@ -81,7 +81,7 @@ Sheet	   *workbook_sheet_add		 (Workbook *wb,
 					  Sheet const *insert_after,
 					  gboolean make_dirty);
 void        workbook_sheet_delete        (Sheet *sheet);
-void        workbook_sheet_move          (Sheet *sheet, int direction);
+gboolean    workbook_sheet_move          (Sheet *sheet, int direction);
 char       *workbook_sheet_get_free_name (Workbook *wb,
 					  const char *base,
 					  gboolean always_suffix,

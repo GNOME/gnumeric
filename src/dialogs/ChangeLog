@@ -1,5 +1,13 @@
 2002-01-28  Jody Goldberg <jody@gnome.org>
 
+	* dialog-sheet-order.c (cb_sheet_order_destroy) : detach guru.
+	(get_selected_sheet) : new util.
+	(cb_selection_changed) : rework.
+	(populate_sheet_list) : simplify.
+	(move_cb) : implement.
+
+2002-01-28  Jody Goldberg <jody@gnome.org>
+
 	* sheet-order.glade : rewrite.
 	* dialog-sheet-order.c : begin transfer to TreeView.
 	NOTE : IT CRASHES ! commit now so that jrb can see what the hell is
