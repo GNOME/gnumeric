@@ -34,7 +34,7 @@ typedef struct _GOActionComboStack	GOActionComboStack;
 GType go_action_combo_stack_get_type (void);
 void  go_action_combo_stack_push     (GOActionComboStack *act, char const *str);
 void  go_action_combo_stack_pop	     (GOActionComboStack *act, unsigned n);
-void  go_action_combo_stack_trunc    (GOActionComboStack *act, unsigned n);
+void  go_action_combo_stack_truncate (GOActionComboStack *act, unsigned n);
 
 G_END_DECLS
 

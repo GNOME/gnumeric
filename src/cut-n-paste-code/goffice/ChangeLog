@@ -1,3 +1,10 @@
+2004-01-16  Jody Goldberg <jody@gnome.org>
+
+	* gui-utils/go-action-combo-stack.c (go_action_combo_stack_push) :
+	  operate on the combo, not the toolitem wrapper.
+	(go_action_combo_stack_pop) : ditto.
+	(go_action_combo_stack_truncate) : ditto.
+
 2004-01-16  Jon K Hellan  <hellan@acm.org>
 
 	* gui-utils/go-action-combo-stack.c (go_action_combo_stack_push) 

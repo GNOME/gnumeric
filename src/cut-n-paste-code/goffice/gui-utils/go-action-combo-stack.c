@@ -70,7 +70,6 @@ static GSF_CLASS (GOToolComboStack, go_tool_combo_stack,
 struct _GOActionComboStack {
 	GtkAction	base;
 };
-
 typedef GtkActionClass GOActionComboStackClass;
 
 static GObjectClass *combo_stack_parent;
@@ -130,10 +129,13 @@ void
 go_action_combo_stack_push (GOActionComboStack *a, char const *str)
 {
 	GSList *p;
+	GOToolComboStack *tool;
 
 	for (p = gtk_action_get_proxies (GTK_ACTION (a)); p != NULL ; p = p->next)
-		if (IS_GNM_COMBO_STACK (p->data))
-			gnm_combo_stack_push (GNM_COMBO_STACK (p->data), str);
+		if (IS_GO_TOOL_COMBO_STACK (p->data)) {
+			tool = (GOToolComboStack *)(p->data);
+			gnm_combo_stack_push (tool->combo, str);
+		}
 }
 
 /**
@@ -148,14 +150,17 @@ void
 go_action_combo_stack_pop (GOActionComboStack *a, unsigned n)
 {
 	GSList *p;
+	GOToolComboStack *tool;
 
 	for (p = gtk_action_get_proxies (GTK_ACTION (a)); p != NULL ; p = p->next)
-		if (IS_GNM_COMBO_STACK (p->data))
-			gnm_combo_stack_pop (GNM_COMBO_STACK (p->data), n);
+		if (IS_GO_TOOL_COMBO_STACK (p->data)) {
+			tool = (GOToolComboStack *)(p->data);
+			gnm_combo_stack_pop (tool->combo, n);
+		}
 }
 
 /**
- * go_action_combo_stack_trunc :
+ * go_action_combo_stack_truncate :
  * @act : #GOActionComboStack
  * @n : 
  *
@@ -163,11 +168,14 @@ go_action_combo_stack_pop (GOActionComboStack *a, unsigned n)
  * bottom.
  **/
 void
-go_action_combo_stack_trunc (GOActionComboStack *a, unsigned n)
+go_action_combo_stack_truncate (GOActionComboStack *a, unsigned n)
 {
 	GSList *p;
+	GOToolComboStack *tool;
 
 	for (p = gtk_action_get_proxies (GTK_ACTION (a)); p != NULL ; p = p->next)
-		if (IS_GNM_COMBO_STACK (p->data))
-			gnm_combo_stack_truncate (GNM_COMBO_STACK (p->data), n);
+		if (IS_GO_TOOL_COMBO_STACK (p->data)) {
+			tool = (GOToolComboStack *)(p->data);
+			gnm_combo_stack_truncate (tool->combo, n);
+		}
 }
