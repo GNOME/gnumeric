@@ -1,3 +1,7 @@
+2001-09-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* descriptive-stats.glade : Add labels.
+
 2001-09-06  Morten Welinder  <terra@diku.dk>
 
 	* dialog-about.c (dialog_about): Kill stale link.

@@ -1,3 +1,7 @@
+2001-09-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+        * src/functions/fn-stat.c (help_confidence) : Clarify description
+
 2001-09-08  Jody Goldberg <jgoldberg@home.com>
 
 	* fn-lookup.c (gnumeric_indirect) : support constants and names.

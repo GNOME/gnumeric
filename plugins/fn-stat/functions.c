@@ -1822,8 +1822,8 @@ static char *help_confidence = {
 
 	   "@DESCRIPTION="
 	   "CONFIDENCE function returns the confidence interval for a "
-	   "mean. @x is the significance level, @stddev is the standard "
-	   "deviation, and @size is the size of the sample."
+	   "mean. @x is the significance level, @stddev is the population "
+	   "standard deviation, and @size is the size of the sample."
 	   "\n"
 	   "If @size is non-integer it is truncated. "
 	   "If @size < 0 CONFIDENCE returns #NUM! error. "
