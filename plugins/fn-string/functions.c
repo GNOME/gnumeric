@@ -38,6 +38,8 @@
 #include <mathfunc.h>
 #include <rangefunc-strings.h>
 #include <collect.h>
+#include <gsf/gsf-utils.h>
+#include <gsf/gsf-msole-utils.h>
 
 #include <limits.h>
 #include <string.h>
@@ -49,6 +51,8 @@
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 /***************************************************************************/
+
+static GIConv CHAR_iconv;
 
 static const char *help_char = {
 	N_("@FUNCTION=CHAR\n"
@@ -67,19 +71,22 @@ static Value *
 gnumeric_char (FunctionEvalInfo *ei, Value **argv)
 {
 	int c = value_get_as_int (argv[0]);
+	char result[7];
 
 	if (c <= 0 || c >= 256)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
-	if (c <= 127 || c >= 160) {
-		char result[7];
-		int len = g_unichar_to_utf8 (c, result);
-		result[len] = 0;
+	if (c <= 127) {
+		result[0] = c;
+		result[1] = 0;
 		return value_new_string (result);
-	}
+	} else {
+		char c2 = c;
 
-	/* FIXME: XL has characters in that range.  */
-	return value_new_error (ei->pos, gnumeric_err_VALUE);
+		char *str = g_convert_with_iconv (&c2, 1, CHAR_iconv,
+						  NULL, NULL, NULL);
+		return value_new_string_nocopy (str);
+	}
 }
 
 /***************************************************************************/
@@ -1313,3 +1320,18 @@ const GnmFuncDescriptor string_functions[] = {
 
         {NULL}
 };
+
+
+void
+plugin_init (void)
+{
+	int codepage = gsf_msole_iconv_win_codepage ();
+	CHAR_iconv = gsf_msole_iconv_open_for_import (codepage);
+}
+
+void
+plugin_cleanup (void)
+{
+	gsf_iconv_close (CHAR_iconv);
+	CHAR_iconv = (GIConv)-1;
+}
