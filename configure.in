@@ -834,9 +834,6 @@ AC_SUBST(MONO_CFLAGS)
 AC_SUBST(MONO_LIBS)
 ])
 
-dnl A hack to silence intltools:
-AM_CONDITIONAL(NEVER, false)
-
 dnl **************************************************
 dnl * Config defaults (Must be after bonobo)
 dnl **************************************************
