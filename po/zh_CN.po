@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.70\n"
-"POT-Creation-Date: 2003-01-03 18:51+0000\n"
+"POT-Creation-Date: 2003-04-06 18:18+0000\n"
 "PO-Revision-Date: 2001-08-10 11:05-0400\n"
 "Last-Translator: Donald Park <xlpark@kankou.cs.uec.ac.jp>\n"
 "Language-Team: Chinese Team\n"
@@ -3128,7 +3128,7 @@ msgstr "一月"
 msgid "Error '%s' opening workbook stream"
 msgstr "打开工作本流时发生 '%s' 错误"
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3412
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3417
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "无效的 xml 文件. 树是空的吗?"
 
@@ -5623,8 +5623,8 @@ msgstr "当读入分类表时出现错误"
 # src/dialog-cell-format.c:358 src/formats.c:16 src/number-match.c:455
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/dialog-autoformat.c:953 src/format.c:1644 src/format.c:1736
-#: src/format.c:1745 src/format.c:1814
+#: src/dialogs/dialog-autoformat.c:953 src/format.c:1654 src/format.c:1746
+#: src/format.c:1755 src/format.c:1824
 msgid "General"
 msgstr "一般"
 
@@ -8233,59 +8233,59 @@ msgid "The target region is too small.  It should be at least %d rows high"
 msgstr "目标区域太小, 它至少应有 %d 行高"
 
 # src/format.c:403
-#: src/format.c:585
+#: src/format.c:595
 msgid "black"
 msgstr "黑色"
 
 # src/format.c:404
-#: src/format.c:586
+#: src/format.c:596
 msgid "blue"
 msgstr "蓝色"
 
 # src/format.c:405
-#: src/format.c:587
+#: src/format.c:597
 msgid "cyan"
 msgstr "天蓝色"
 
 # src/format.c:406
-#: src/format.c:588
+#: src/format.c:598
 msgid "green"
 msgstr "绿色"
 
 # src/format.c:407
-#: src/format.c:589
+#: src/format.c:599
 msgid "magenta"
 msgstr "紫红色"
 
 # src/format.c:408
-#: src/format.c:590
+#: src/format.c:600
 msgid "red"
 msgstr "红色"
 
 # src/format.c:409
-#: src/format.c:591
+#: src/format.c:601
 msgid "white"
 msgstr "白色"
 
 # src/format.c:410
-#: src/format.c:592
+#: src/format.c:602
 msgid "yellow"
 msgstr "黄色"
 
 #. Is it a boolean?
-#: src/format.c:1551 src/number-match.c:1109 src/value-sheet.c:34
+#: src/format.c:1561 src/number-match.c:1109 src/value-sheet.c:34
 #: src/value.c:264 src/value.c:503
 msgid "TRUE"
 msgstr "真"
 
 # src/main.c:36
-#: src/format.c:1551 src/number-match.c:1111 src/value-sheet.c:34
+#: src/format.c:1561 src/number-match.c:1111 src/value-sheet.c:34
 #: src/value.c:266 src/value.c:503
 msgid "FALSE"
 msgstr "假"
 
 #. Array of arrays ??
-#: src/format.c:1579
+#: src/format.c:1589
 msgid "ARRAY"
 msgstr "数组"
 
@@ -21337,12 +21337,12 @@ msgstr "语法扫描 XML 文件..."
 msgid "Not enough memory to create zlib decompression state."
 msgstr "没有足够的内存来创建 zlib 解压缩状态"
 
-#: src/xml-io.c:3421
+#: src/xml-io.c:3426
 msgid "Is not an Gnumeric Workbook file"
 msgstr "不是 Gnumeric 工作本文件"
 
 # src/xml-io.c:1637
-#: src/xml-io.c:3478
+#: src/xml-io.c:3483
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML 文件格式"
 

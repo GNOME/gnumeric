@@ -29,7 +29,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2003-01-03 18:51+0000\n"
+"POT-Creation-Date: 2003-04-06 18:18+0000\n"
 "PO-Revision-Date: 2002-05-29 00:21+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -3074,7 +3074,7 @@ msgstr "Imaginärdel"
 msgid "Error '%s' opening workbook stream"
 msgstr "\"%s\"-fel vid öppning av arbetsboksflöde"
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3412
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3417
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Ogiltig xml-fil, trädet är tomt?"
 
@@ -5294,8 +5294,8 @@ msgstr "Ett fel uppstod vid läsning av kategorilistan"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/dialog-autoformat.c:953 src/format.c:1644 src/format.c:1736
-#: src/format.c:1745 src/format.c:1814
+#: src/dialogs/dialog-autoformat.c:953 src/format.c:1654 src/format.c:1746
+#: src/format.c:1755 src/format.c:1824
 msgid "General"
 msgstr "Allmän"
 
@@ -7577,51 +7577,51 @@ msgstr "Målområdet är för litet. Det måste vara minst %d kolumner brett"
 msgid "The target region is too small.  It should be at least %d rows high"
 msgstr "Målområdet är för litet. Det måste vara minst %d rader högt"
 
-#: src/format.c:585
+#: src/format.c:595
 msgid "black"
 msgstr "svart"
 
-#: src/format.c:586
+#: src/format.c:596
 msgid "blue"
 msgstr "blå"
 
-#: src/format.c:587
+#: src/format.c:597
 msgid "cyan"
 msgstr "cyan"
 
-#: src/format.c:588
+#: src/format.c:598
 msgid "green"
 msgstr "grön"
 
-#: src/format.c:589
+#: src/format.c:599
 msgid "magenta"
 msgstr "magenta"
 
-#: src/format.c:590
+#: src/format.c:600
 msgid "red"
 msgstr "röd"
 
-#: src/format.c:591
+#: src/format.c:601
 msgid "white"
 msgstr "vit"
 
-#: src/format.c:592
+#: src/format.c:602
 msgid "yellow"
 msgstr "gul"
 
 #. Is it a boolean?
-#: src/format.c:1551 src/number-match.c:1109 src/value-sheet.c:34
+#: src/format.c:1561 src/number-match.c:1109 src/value-sheet.c:34
 #: src/value.c:264 src/value.c:503
 msgid "TRUE"
 msgstr "SANT"
 
-#: src/format.c:1551 src/number-match.c:1111 src/value-sheet.c:34
+#: src/format.c:1561 src/number-match.c:1111 src/value-sheet.c:34
 #: src/value.c:266 src/value.c:503
 msgid "FALSE"
 msgstr "FALSKT"
 
 #. Array of arrays ??
-#: src/format.c:1579
+#: src/format.c:1589
 msgid "ARRAY"
 msgstr "VEKTOR"
 
@@ -20976,11 +20976,11 @@ msgid "Not enough memory to create zlib decompression state."
 msgstr ""
 "Inte tillräckligt med minne för att skapa zlib-dekomprimeringstillstånd."
 
-#: src/xml-io.c:3421
+#: src/xml-io.c:3426
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Är inte en Gnumeric-arbetsboksfil"
 
-#: src/xml-io.c:3478
+#: src/xml-io.c:3483
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
 

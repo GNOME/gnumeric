@@ -11,7 +11,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
-"POT-Creation-Date: 2003-01-03 18:51+0000\n"
+"POT-Creation-Date: 2003-04-06 18:18+0000\n"
 "PO-Revision-Date: 2002-05-30 01:55+02:00\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -3090,7 +3090,7 @@ msgstr "Imaginair"
 msgid "Error '%s' opening workbook stream"
 msgstr "Fout '%s' bij openen werkmap stroom"
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3412
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3417
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Ongeldig xml bestand. Boom is leeg?"
 
@@ -5317,8 +5317,8 @@ msgstr "Er trad een fout op bij het lezen van de categorie lijst"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/dialog-autoformat.c:953 src/format.c:1644 src/format.c:1736
-#: src/format.c:1745 src/format.c:1814
+#: src/dialogs/dialog-autoformat.c:953 src/format.c:1654 src/format.c:1746
+#: src/format.c:1755 src/format.c:1824
 msgid "General"
 msgstr "Algemeen"
 
@@ -7612,51 +7612,51 @@ msgstr "Het doelbereik is te klein, het moet tenminste %d kolommen breed zijn."
 msgid "The target region is too small.  It should be at least %d rows high"
 msgstr "Het doelbereik is te klein, het moet tenminste %d rijen hoog zijn."
 
-#: src/format.c:585
+#: src/format.c:595
 msgid "black"
 msgstr "zwart"
 
-#: src/format.c:586
+#: src/format.c:596
 msgid "blue"
 msgstr "blauw"
 
-#: src/format.c:587
+#: src/format.c:597
 msgid "cyan"
 msgstr "cyaan"
 
-#: src/format.c:588
+#: src/format.c:598
 msgid "green"
 msgstr "groen"
 
-#: src/format.c:589
+#: src/format.c:599
 msgid "magenta"
 msgstr "magenta"
 
-#: src/format.c:590
+#: src/format.c:600
 msgid "red"
 msgstr "rood"
 
-#: src/format.c:591
+#: src/format.c:601
 msgid "white"
 msgstr "wit"
 
-#: src/format.c:592
+#: src/format.c:602
 msgid "yellow"
 msgstr "geel"
 
 #. Is it a boolean?
-#: src/format.c:1551 src/number-match.c:1109 src/value-sheet.c:34
+#: src/format.c:1561 src/number-match.c:1109 src/value-sheet.c:34
 #: src/value.c:264 src/value.c:503
 msgid "TRUE"
 msgstr "WAAR"
 
-#: src/format.c:1551 src/number-match.c:1111 src/value-sheet.c:34
+#: src/format.c:1561 src/number-match.c:1111 src/value-sheet.c:34
 #: src/value.c:266 src/value.c:503
 msgid "FALSE"
 msgstr "ONWAAR"
 
 #. Array of arrays ??
-#: src/format.c:1579
+#: src/format.c:1589
 msgid "ARRAY"
 msgstr "REEKS"
 
@@ -21327,11 +21327,11 @@ msgstr "Bezig met verwerken bestand..."
 msgid "Not enough memory to create zlib decompression state."
 msgstr "Onvoldoende geheugen om zlib decompressie toestand te maken."
 
-#: src/xml-io.c:3421
+#: src/xml-io.c:3426
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Is geen Gnumeric Werkmap bestand"
 
-#: src/xml-io.c:3478
+#: src/xml-io.c:3483
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML bestandsformaat"
 

@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0.13\n"
-"POT-Creation-Date: 2003-02-24 21:03+0100\n"
+"POT-Creation-Date: 2003-04-06 18:18+0000\n"
 "PO-Revision-Date: 2003-02-24 21:03+0100\n"
 "Last-Translator: Christophe Merlet (RedFox) <redfox@redfoxcenter.org>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -4419,7 +4419,8 @@ msgid "_Wrap text"
 msgstr "_Retour à la ligne"
 
 #: src/dialogs/cell-format.glade.h:129
-msgid "min <= val <= max         (between)"
+#, fuzzy
+msgid "min &lt;= val &lt;= max         (between)"
 msgstr "min <= val <= max         (entre)"
 
 #: src/dialogs/cell-format.glade.h:130
@@ -4427,28 +4428,33 @@ msgid "val != bound                  (not equal to)"
 msgstr "val != limite              (différent de)"
 
 #: src/dialogs/cell-format.glade.h:131
-msgid "val <  bound                  (less than)"
-msgstr "val < limite              (inférieur à)"
-
-#: src/dialogs/cell-format.glade.h:132
-msgid "val <= min || max <= val (not between)"
-msgstr "val <= min || max <= val         (pas compris entre)"
-
-#: src/dialogs/cell-format.glade.h:133
-msgid "val <=bound                  (less than or equal to)"
-msgstr "val <= limite              (inférieur ou égal à)"
-
-#: src/dialogs/cell-format.glade.h:134
-msgid "val == bound                 (equal to)"
-msgstr "val == limite                 (égal à)"
-
-#: src/dialogs/cell-format.glade.h:135
-msgid "val >  bound                  (greater than)"
+#, fuzzy
+msgid "val &gt;  bound                  (greater than)"
 msgstr "val > limite              (supérieur à)"
 
-#: src/dialogs/cell-format.glade.h:136
-msgid "val >=bound                  (greater than or equal to)"
+#: src/dialogs/cell-format.glade.h:132
+#, fuzzy
+msgid "val &gt;=bound                  (greater than or equal to)"
 msgstr "val >= limite              (supérieur ou égal à)"
+
+#: src/dialogs/cell-format.glade.h:133
+#, fuzzy
+msgid "val &lt;  bound                  (less than)"
+msgstr "val < limite              (inférieur à)"
+
+#: src/dialogs/cell-format.glade.h:134
+#, fuzzy
+msgid "val &lt;= min || max &lt;= val (not between)"
+msgstr "val <= min || max <= val         (pas compris entre)"
+
+#: src/dialogs/cell-format.glade.h:135
+#, fuzzy
+msgid "val &lt;=bound                  (less than or equal to)"
+msgstr "val <= limite              (inférieur ou égal à)"
+
+#: src/dialogs/cell-format.glade.h:136
+msgid "val == bound                 (equal to)"
+msgstr "val == limite                 (égal à)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A _header"
@@ -5271,8 +5277,8 @@ msgstr "Une erreur est apparue durant la lecture de la liste de catégories"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/dialog-autoformat.c:953 src/format.c:1644 src/format.c:1736
-#: src/format.c:1745 src/format.c:1814
+#: src/dialogs/dialog-autoformat.c:953 src/format.c:1654 src/format.c:1746
+#: src/format.c:1755 src/format.c:1824
 msgid "General"
 msgstr "Général"
 
@@ -5710,15 +5716,15 @@ msgstr "Commentaires"
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Voulez-vous vraiment supprimer la feuille nommée « %s » ?"
 
-#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:1
+#: src/dialogs/dialog-solver.c:65
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:66
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:3
 msgid "="
 msgstr "="
 
@@ -5765,25 +5771,27 @@ msgstr "Voulez-vous vraiment annuler ?"
 msgid "\""
 msgstr "\""
 
-#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
+#: src/dialogs/dialog-stf-export.glade.h:2
+msgid "&lt;- Remove"
+msgstr "&lt;- Enlever"
+
+#: src/dialogs/dialog-stf-export.glade.h:3
+#, fuzzy
+msgid "&lt;- Remove all"
+msgstr "&lt;- Enlever"
+
+#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
 msgid "'"
 msgstr "'"
 
-#: src/dialogs/dialog-stf-export.glade.h:3
-msgid "<- Remove"
-msgstr "<- Enlever"
-
-#: src/dialogs/dialog-stf-export.glade.h:4
-msgid "<- Remove all"
-msgstr "<- Enlever tout"
-
 #: src/dialogs/dialog-stf-export.glade.h:5
-msgid "Add ->"
-msgstr "Ajouter ->"
+msgid "Add -&gt;"
+msgstr "Ajouter -&gt;"
 
 #: src/dialogs/dialog-stf-export.glade.h:6
-msgid "Add all ->"
-msgstr "Ajouter tout ->"
+#, fuzzy
+msgid "Add all -&gt;"
+msgstr "Ajouter -&gt;"
 
 #: src/dialogs/dialog-stf-export.glade.h:7
 msgid "Always"
@@ -7271,6 +7279,14 @@ msgstr "Saisissez le _nouveau nom de la feuille :"
 msgid "Rename sheet"
 msgstr "Renommer la feuille"
 
+#: src/dialogs/solver.glade.h:1
+msgid "&gt;="
+msgstr "&gt;="
+
+#: src/dialogs/solver.glade.h:2
+msgid "&lt;="
+msgstr "&lt;="
+
 #: src/dialogs/solver.glade.h:4
 msgid "Assume _Linear Model"
 msgstr "Supposer le modèle _linéaire"
@@ -7561,51 +7577,51 @@ msgid "The target region is too small.  It should be at least %d rows high"
 msgstr ""
 "La région cible est trop petite. Elle devrait contenir au moins %d lignes"
 
-#: src/format.c:585
+#: src/format.c:595
 msgid "black"
 msgstr "noir"
 
-#: src/format.c:586
+#: src/format.c:596
 msgid "blue"
 msgstr "bleu"
 
-#: src/format.c:587
+#: src/format.c:597
 msgid "cyan"
 msgstr "cyan"
 
-#: src/format.c:588
+#: src/format.c:598
 msgid "green"
 msgstr "vert"
 
-#: src/format.c:589
+#: src/format.c:599
 msgid "magenta"
 msgstr "magenta"
 
-#: src/format.c:590
+#: src/format.c:600
 msgid "red"
 msgstr "rouge"
 
-#: src/format.c:591
+#: src/format.c:601
 msgid "white"
 msgstr "blanc"
 
-#: src/format.c:592
+#: src/format.c:602
 msgid "yellow"
 msgstr "jaune"
 
 #. Is it a boolean?
-#: src/format.c:1551 src/number-match.c:1109 src/value-sheet.c:34
+#: src/format.c:1561 src/number-match.c:1109 src/value-sheet.c:34
 #: src/value.c:264 src/value.c:503
 msgid "TRUE"
 msgstr "VRAI"
 
-#: src/format.c:1551 src/number-match.c:1111 src/value-sheet.c:34
+#: src/format.c:1561 src/number-match.c:1111 src/value-sheet.c:34
 #: src/value.c:266 src/value.c:503
 msgid "FALSE"
 msgstr "FAUX"
 
 #. Array of arrays ??
-#: src/format.c:1579
+#: src/format.c:1589
 msgid "ARRAY"
 msgstr "TABLEAU"
 
@@ -20850,25 +20866,17 @@ msgstr "N'est pas un fichier classeur Gnumeric"
 msgid "Gnumeric XML file format"
 msgstr "Format de fichier Gnumeric XML"
 
-#~ msgid "&lt;- Remove"
-#~ msgstr "&lt;- Enlever"
+#~ msgid "<- Remove"
+#~ msgstr "<- Enlever"
 
-#, fuzzy
-#~ msgid "&lt;- Remove all"
-#~ msgstr "&lt;- Enlever"
+#~ msgid "<- Remove all"
+#~ msgstr "<- Enlever tout"
 
-#~ msgid "Add -&gt;"
-#~ msgstr "Ajouter -&gt;"
+#~ msgid "Add ->"
+#~ msgstr "Ajouter ->"
 
-#, fuzzy
-#~ msgid "Add all -&gt;"
-#~ msgstr "Ajouter -&gt;"
-
-#~ msgid "&gt;="
-#~ msgstr "&gt;="
-
-#~ msgid "&lt;="
-#~ msgstr "&lt;="
+#~ msgid "Add all ->"
+#~ msgstr "Ajouter tout ->"
 
 #~ msgid "PLN : Not a PlanPerfect File"
 #~ msgstr "PLN : N'est pas un fichier PlanPerfect"
