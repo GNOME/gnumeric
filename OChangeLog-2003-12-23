@@ -1,3 +1,8 @@
+2001-01-27  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/dialogs/plugin-manager.glade: Set policy to AUTOMATIC for some
+	scrollbars.
+
 2001-01-26  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/gnumeric-sheet.c (gnumeric_sheet_filenames_dropped): Added
