@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * summary.c:  Summary Information management
  *
@@ -146,7 +147,7 @@ summary_item_as_text (const SummaryItem *sit)
 	}
 }
 
-void
+static void
 summary_item_free (SummaryItem *sit)
 {
 	g_return_if_fail (sit);
@@ -183,6 +184,25 @@ summary_item_dump (SummaryItem *sit)
 	printf (" %s\n", txt);
 	g_free (txt);
 }
+static gboolean
+summary_item_eq (SummaryItem const *a, SummaryItem const *b)
+{
+	if (a->type != b->type || strcmp (a->name, b->name))
+		return FALSE;
+
+	switch (a->type) {
+	case SUMMARY_STRING:	return strcmp (a->v.txt, b->v.txt) == 0;
+	case SUMMARY_BOOLEAN:	return a->v.boolean == b->v.boolean;
+	case SUMMARY_SHORT:	return a->v.short_i == b->v.short_i;
+	case SUMMARY_INT:	return a->v.i == b->v.i;
+	case SUMMARY_TIME:	return a->v.time.tv_sec == b->v.time.tv_sec &&
+				       a->v.time.tv_usec == b->v.time.tv_usec;
+
+	default :
+		g_warning ("Huh!?");
+	}
+	return FALSE;
+}
 
 SummaryInfo *
 summary_info_new (void)
@@ -190,10 +210,11 @@ summary_info_new (void)
 	SummaryInfo *sin = g_new (SummaryInfo, 1);
 	sin->names = g_hash_table_new (&gnumeric_strcase_hash,
 				       &gnumeric_strcase_equal);
+	sin->modified = FALSE;
 	return sin;
 }
 
-SummaryItem *
+static SummaryItem *
 summary_info_get (SummaryInfo *sin, char *name)
 {
 	g_return_val_if_fail (sin != NULL, NULL);
@@ -213,12 +234,25 @@ summary_info_add (SummaryInfo *sin, SummaryItem *sit)
 	g_return_if_fail (sit->name != NULL);
 	g_return_if_fail (sin->names != NULL);
 
+	/* remove existing items if it is different */
 	if ((tsit = summary_info_get (sin, sit->name))) {
+		if (summary_item_eq (sit, tsit)) {
+			summary_item_free (sit);
+			return;
+		}
 		g_hash_table_remove (sin->names, sit->name);
 		summary_item_free (tsit);
+		sin->modified = TRUE;
 	}
 
-	g_hash_table_insert (sin->names, sit->name, sit);
+	/* Storing a blank string removes that tag */
+	if (sit->type == SUMMARY_STRING &&
+	    (sit->v.txt == NULL || sit->v.txt[0] == '\0'))
+		summary_item_free (sit);
+	else {
+		g_hash_table_insert (sin->names, sit->name, sit);
+		sin->modified = TRUE;
+	}
 }
 
 void

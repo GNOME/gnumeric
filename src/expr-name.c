@@ -38,10 +38,7 @@ expr_name_invalidate_refs_sheet (Sheet const *sheet)
 void
 expr_name_invalidate_refs_wb (Workbook const *wb)
 {
-	static gboolean warned = FALSE;
-	if (!warned)
-		g_warning ("Implement Me !. expr_name_invalidate_refs_wb\n");
-	warned = TRUE;
+	WORKBOOK_FOREACH_SHEET(wb, sheet, expr_name_invalidate_refs_sheet (sheet););
 }
 
 static void

@@ -1,3 +1,15 @@
+2001-12-25  Jody Goldberg <jody@gnome.org>
+
+	* src/expr-name.c (expr_name_invalidate_refs_wb) : Implement in terms
+	  of expr_name_invalidate_refs_sheet.
+
+	* src/summary.c (summary_info_add) : mark things as modified if the
+	  new value has changes things.
+	(summary_item_eq) : new.
+
+	* src/workbook.c (workbook_is_dirty) : see if the summary info has
+	  changed.
+
 2001-12-24  Jody Goldberg <jody@gnome.org>
 
 	* src/plugin.c (gnumeric_extra_plugin_dirs) : const warning.

@@ -80,14 +80,13 @@ SummaryItem *summary_item_new_int     (const gchar *name, gint i);
 SummaryItem *summary_item_new_time    (const gchar *name, GTimeVal t);
 SummaryItem *summary_item_new_string  (const gchar *name, const gchar *string);
 char        *summary_item_as_text     (const SummaryItem *sit);
-void         summary_item_free        (SummaryItem *sit);
 
 struct _SummaryInfo {
 	GHashTable *names;
+	gboolean modified;
 };
 
-SummaryInfo *summary_info_new     (void);
-SummaryItem *summary_info_get     (SummaryInfo *sin, char *name);
+SummaryInfo *summary_info_new	  (void);
 GList       *summary_info_as_list (SummaryInfo *sin);
 void         summary_info_add     (SummaryInfo *sin, SummaryItem *sit);
 void         summary_info_default (SummaryInfo *sin);

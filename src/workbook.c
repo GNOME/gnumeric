@@ -253,6 +253,8 @@ workbook_is_dirty (Workbook const *wb)
 	gboolean dirty = FALSE;
 
 	g_return_val_if_fail (wb != NULL, FALSE);
+	if (wb->summary_info != NULL && wb->summary_info->modified)
+		return TRUE;
 
 	g_hash_table_foreach (wb->sheet_hash_private, cb_sheet_check_dirty,
 			      &dirty);
@@ -370,6 +372,7 @@ workbook_init (GtkObject *object)
 	wb->names        = NULL;
 	wb->summary_info   = summary_info_new ();
 	summary_info_default (wb->summary_info);
+	wb->summary_info->modified = FALSE;
 
 	/* Nothing to undo or redo */
 	wb->undo_commands = wb->redo_commands = NULL;

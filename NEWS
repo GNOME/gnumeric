@@ -31,6 +31,7 @@ Jody:
 	* Ensure that cell sizes never violate absolute minima.
 	* Fix format leak (thanks Morten)
 	* Fix data validation.
+	* Dirty workbook when modifying summary info.
 
 Morten:
 	* Fix DATE.

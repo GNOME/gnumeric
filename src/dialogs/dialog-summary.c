@@ -116,7 +116,6 @@ dialog_summary_update (WorkbookControlGUI *wbcg, SummaryInfo *sin)
 	comments = glade_xml_get_widget (gui, "glade_comments");
 	gtk_text_set_word_wrap (GTK_TEXT (comments), TRUE);
 
-
 	summary_put (gui, sin);
 
 	v = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dia));

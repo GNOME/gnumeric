@@ -10,7 +10,6 @@ Release Critical
 - name refering to deleted sheet
 - names refereing to other names
 - research reports graph data guru crash
-- Changing the summary info does not dirty a workbook.
 
 Pending Patches
 ---------------
@@ -58,6 +57,7 @@ Long term breakage
     - Reorder sheets.
     - Delete Comment.
     - Freeze panes.
+    - Changing summary info.
 
 - Misc.
     - Add an idle handler at start up to check for availablity of
