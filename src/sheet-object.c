@@ -559,10 +559,9 @@ sheet_relocate_objects (ExprRelocateInfo const *rinfo)
 
 	/* Clear the destination range on the target sheet */
 	if (change_sheets) {
-		GList *copy = rinfo->target_sheet->sheet_objects;
-		for (ptr = copy; ptr != NULL ; ptr = next ) {
+		GList *copy = g_list_copy (rinfo->target_sheet->sheet_objects);
+		for (ptr = copy; ptr != NULL ; ptr = ptr->next ) {
 			SheetObject *so = SHEET_OBJECT (ptr->data);
-			next = ptr->next;
 			if (range_contains (&dest,
 					    so->cell_bound.start.col,
 					    so->cell_bound.start.row))
@@ -584,6 +583,11 @@ sheet_relocate_objects (ExprRelocateInfo const *rinfo)
 				gtk_object_destroy (GTK_OBJECT (so));
 				continue;
 			}
+			if (change_sheets) {
+				sheet_object_clear_sheet (so);
+				sheet_object_set_sheet (so, rinfo->target_sheet);
+			} else
+				sheet_object_position (so, NULL);
 		} else if (!change_sheets &&
 			   range_contains (&dest,
 					   so->cell_bound.start.col,
@@ -591,12 +595,6 @@ sheet_relocate_objects (ExprRelocateInfo const *rinfo)
 			gtk_object_destroy (GTK_OBJECT (so));
 			continue;
 		}
-
-		if (change_sheets) {
-			sheet_object_clear_sheet (so);
-			sheet_object_set_sheet (so, rinfo->target_sheet);
-		} else
-			sheet_object_position (so, NULL);
 	}
 }
 

@@ -1,5 +1,15 @@
 2000-12-19  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet.c (sheet_relocate_merged) : new function.
+
+	* src/sheet-object.c (sheet_relocate_objects) : we only need to move
+	  objects in the origin zone.
+
+2000-12-19  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_clone_merged_regions) : implement.
+	(sheet_duplicate) : call sheet_clone_merged_regions.
+
 	* src/xml-io.c (xml_sheet_read) : add IO for merged regions.
 	(xml_sheet_write) : Ditto.
 	(xml_read_merged_regions) : new function.

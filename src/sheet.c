@@ -2859,6 +2859,7 @@ sheet_insert_cols (WorkbookControl *wbc, Sheet *sheet,
 
 	/* 4. Slide the StyleRegions and SheetObjects to the right */
 	sheet_relocate_objects (&reloc_info);
+	sheet_relocate_merged (&reloc_info);
 	sheet_style_insert_colrow (sheet, col, count, TRUE);
 
 	/* 5. Recompute dependencies */
@@ -2932,6 +2933,7 @@ sheet_delete_cols (WorkbookControl *wbc, Sheet *sheet,
 
 	/* 5. Slide the StyleRegions and SheetObjects left */
 	sheet_relocate_objects (&reloc_info);
+	sheet_relocate_merged (&reloc_info);
 	sheet_style_delete_colrow (sheet, col, count, TRUE);
 
 	/* 6. Recompute dependencies */
@@ -3010,6 +3012,7 @@ sheet_insert_rows (WorkbookControl *wbc, Sheet *sheet,
 
 	/* 4. Slide the StyleRegions and SheetObjects down */
 	sheet_relocate_objects (&reloc_info);
+	sheet_relocate_merged (&reloc_info);
 	sheet_style_insert_colrow (sheet, row, count, FALSE);
 
 	/* 5. Recompute dependencies */
@@ -3083,6 +3086,7 @@ sheet_delete_rows (WorkbookControl *wbc, Sheet *sheet,
 
 	/* 5. Slide the StyleRegions and SheetObjects up */
 	sheet_relocate_objects (&reloc_info);
+	sheet_relocate_merged (&reloc_info);
 	sheet_style_delete_colrow (sheet, row, count, FALSE);
 
 	/* 6. Recompute dependencies */
@@ -3231,6 +3235,7 @@ sheet_move_range (WorkbookControl *wbc,
 
 	/* 7. Move objects in the range */
 	sheet_relocate_objects (rinfo);
+	sheet_relocate_merged (rinfo);
 
 	/* 8. Recompute dependencies */
 	sheet_recalc_dependencies (rinfo->target_sheet);
@@ -3649,15 +3654,6 @@ sheet_clone_colrow_info (Sheet const *src, Sheet *dst)
 			&sheet_clone_colrow_info_item, &closure);
 }
 
-
-static void
-sheet_clone_style_region (Sheet *sheet, StyleRegion const *region)
-{
-	g_return_if_fail (region->style != NULL);
-
-	sheet_style_attach (sheet, region->range, mstyle_copy (region->style));
-}
-
 static void
 sheet_clone_styles (Sheet const *src, Sheet *dst)
 {
@@ -3671,10 +3667,18 @@ sheet_clone_styles (Sheet const *src, Sheet *dst)
 
 	for (ptr = style_regions; ptr != NULL; ptr = ptr->next) {
 		StyleRegion const *region = ptr->data;
-		sheet_clone_style_region (dst, region);
+		sheet_style_attach (dst, region->range, mstyle_copy (region->style));
 	}
 
 	g_list_free (style_regions);
+}
+
+static void
+sheet_clone_merged_regions (Sheet const *src, Sheet *dst)
+{
+	GSList *ptr;
+	for (ptr = src->list_merged ; ptr != NULL ; ptr = ptr->next)
+		sheet_region_merge (NULL, dst, ptr->data);
 }
 
 static void
@@ -3718,7 +3722,7 @@ sheet_clone_names (Sheet const *src, Sheet *dst)
 		return;
 
 	if (!warned) {
-		g_warning ("We are not duplicating names yet. Function ont implemented\n");
+		g_warning ("We are not duplicating names yet. Function not implemented\n");
 		warned = TRUE;
 	}
 	
@@ -3809,6 +3813,7 @@ sheet_duplicate	(Sheet const *src)
 	dst->print_info = print_info_copy (src->print_info);
 
 	sheet_clone_styles         (src, dst);
+	sheet_clone_merged_regions (src, dst);
 	sheet_clone_colrow_info    (src, dst);
 	sheet_clone_selection      (src, dst);
 	sheet_clone_names          (src, dst);
@@ -4011,4 +4016,62 @@ sheet_region_is_merge_cell (Sheet const *sheet, CellPos const *pos)
 	g_return_val_if_fail (pos != NULL, NULL);
 
 	return g_hash_table_lookup (sheet->hash_merged, pos);
+}
+
+/**
+ * sheet_relocate_merged :
+ *
+ * @rinfo : Descriptor of what is moving.
+ *
+ * Shifts merged regions that need to move.
+ */
+void
+sheet_relocate_merged (ExprRelocateInfo const *ri)
+{
+	GSList   *ptr, *copy, *to_move = NULL;
+	Range	 dest;
+	gboolean clear, change_sheets;
+
+	g_return_if_fail (ri != NULL);
+	g_return_if_fail (IS_SHEET (ri->origin_sheet));
+	g_return_if_fail (IS_SHEET (ri->target_sheet));
+	    
+	dest = ri->origin;
+	clear = range_translate (&dest, ri->col_offset, ri->row_offset);
+	change_sheets = (ri->origin_sheet != ri->target_sheet);
+
+	/* Clear the destination range on the target sheet */
+	if (change_sheets) {
+		copy = g_slist_copy (ri->target_sheet->list_merged);
+		for (ptr = copy; ptr != NULL ; ptr = ptr->next) {
+			Range const *r = ptr->data;
+			if (range_contains (&dest, r->start.col, r->start.row))
+				sheet_region_unmerge (NULL, ri->target_sheet, r);
+		}
+		g_slist_free (copy);
+	}
+
+	copy = g_slist_copy (ri->origin_sheet->list_merged);
+	for (ptr = copy; ptr != NULL ; ptr = ptr->next ) {
+		Range const *r = ptr->data;
+		if (range_contains (&ri->origin, r->start.col, r->start.row)) {
+			Range tmp = *r;
+
+			/* Toss any objects that would be clipped. */
+			sheet_region_unmerge (NULL, ri->origin_sheet, r);
+			if (!range_translate (&tmp, ri->col_offset, ri->row_offset))
+				to_move = g_slist_prepend (to_move, range_copy (&tmp));
+		} else if (!change_sheets &&
+			   range_contains (&dest, r->start.col, r->start.row))
+			sheet_region_unmerge (NULL, ri->origin_sheet, r);
+	}
+	g_slist_free (copy);
+
+	/* move the ranges after removing the previous content in case of overlap */
+	for (ptr = to_move ; ptr != NULL ; ptr = ptr->next) {
+		Range *dest = ptr->data;
+		sheet_region_merge (NULL, ri->target_sheet, dest);
+		g_free (dest);
+	}
+	g_slist_free (to_move);
 }

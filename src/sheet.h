@@ -316,6 +316,7 @@ gboolean     sheet_region_unmerge	(CommandContext *cc,
 GSList      *sheet_region_get_merged	(Sheet *sheet, Range const *r);
 Range const * sheet_region_get_merged_cell (Sheet const *sheet, CellPos const *pos);
 Range const *sheet_region_is_merge_cell (Sheet const *sheet, CellPos const *pos);
+void	     sheet_relocate_merged	(ExprRelocateInfo const *ri);
 void	     sheet_region_adjacent_merge(Sheet const *sheet, CellPos const *pos,
 					 Range const **left, Range const **right);
 
