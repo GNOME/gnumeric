@@ -67,11 +67,11 @@ msgstr ""
 
 #: plugins/applix/plugin.xml.in.h:1
 msgid "Applix"
-msgstr "Applix"
+msgstr "アプリックス"
 
 #: plugins/applix/plugin.xml.in.h:2
 msgid "Applix (*.as)"
-msgstr "Applix (*.as)"
+msgstr "アプリックス (*.as)"
 
 #: plugins/applix/plugin.xml.in.h:3
 msgid "Imports version 4.[234] spreadsheets"
@@ -856,7 +856,6 @@ msgstr ""
 
 #: plugins/derivatives/plugin.xml.in.h:1
 #: plugins/fn-financial/plugin.xml.in.h:1
-#, fuzzy
 msgid "Finance"
 msgstr "財務"
 
@@ -2186,7 +2185,7 @@ msgstr ""
 
 #: plugins/fn-complex/functions.c:1484
 msgid "real,im,suffix"
-msgstr ""
+msgstr "実数,虚数,虚数単位"
 
 #: plugins/fn-complex/functions.c:1487 plugins/fn-complex/functions.c:1490
 #: plugins/fn-complex/functions.c:1493 plugins/fn-complex/functions.c:1496
@@ -2206,31 +2205,26 @@ msgstr ""
 #: plugins/fn-complex/functions.c:1593 plugins/fn-complex/functions.c:1596
 #: plugins/fn-complex/functions.c:1599 plugins/fn-complex/functions.c:1602
 #: plugins/fn-complex/functions.c:1605 plugins/fn-complex/functions.c:1608
-#, fuzzy
 msgid "inumber"
-msgstr "数値"
+msgstr "虚数"
 
 #: plugins/fn-complex/functions.c:1502 plugins/fn-complex/functions.c:1517
 #: plugins/fn-complex/functions.c:1529 plugins/fn-complex/functions.c:1532
 #: plugins/fn-complex/functions.c:1545
-#, fuzzy
 msgid "inumber,inumber"
-msgstr "数値"
+msgstr "虚数"
 
 #: plugins/fn-complex/plugin.xml.in.h:1
-#, fuzzy
 msgid "Complex"
-msgstr "例"
+msgstr "複素数"
 
 #: plugins/fn-complex/plugin.xml.in.h:2
-#, fuzzy
 msgid "Complex Functions"
-msgstr "検索関数"
+msgstr "複素数関数"
 
 #: plugins/fn-complex/plugin.xml.in.h:3
-#, fuzzy
 msgid "Functions for complex numbers"
-msgstr "複素数や基数変換などの関数"
+msgstr "複素数のための関数"
 
 #: plugins/fn-database/functions.c:264
 msgid ""
@@ -3666,7 +3660,7 @@ msgstr ""
 
 #: plugins/fn-date/functions.c:1217
 msgid "year,month,day"
-msgstr ""
+msgstr "年,月,日"
 
 #: plugins/fn-date/functions.c:1221
 #, fuzzy
@@ -3713,7 +3707,7 @@ msgstr ""
 #: plugins/fn-date/functions.c:1273
 #, fuzzy
 msgid "timetext"
-msgstr "時間"
+msgstr "時刻文字列"
 
 #: plugins/fn-date/functions.c:1289
 msgid "date,days,holidays"
@@ -3724,9 +3718,8 @@ msgid "unixtime"
 msgstr "UNIX時間"
 
 #: plugins/fn-date/functions.c:1306
-#, fuzzy
 msgid "serial"
-msgstr "標準"
+msgstr "シリアル"
 
 #: plugins/fn-date/plugin.xml.in.h:1
 msgid "Date and Time Functions"
@@ -3741,7 +3734,6 @@ msgid "Functions manipulating dates and time"
 msgstr "日付/時刻操作関数"
 
 #: plugins/fn-eng/functions.c:115
-#, fuzzy
 msgid ""
 "@FUNCTION=BIN2DEC\n"
 "@SYNTAX=BIN2DEC(x)\n"
@@ -3759,14 +3751,14 @@ msgstr ""
 "@SYNTAX=BIN2DEC(x)\n"
 "@DESCRIPTION=BIN2DEC 関数は2進数を対応する文字列あるいは10進数に変換しま"
 "す。\n"
-"この関数は Excel 互換です。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "BIN2DEC(101) = 5 です。\n"
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
 #: plugins/fn-eng/functions.c:138
-#, fuzzy
 msgid ""
 "@FUNCTION=BIN2OCT\n"
 "@SYNTAX=BIN2OCT(number[,places])\n"
@@ -3787,8 +3779,9 @@ msgstr ""
 "@DESCRIPTION=BIN2OCT 関数は2進数を対応する文字列あるいは8進数に変換します。@"
 "列数 はオプションのフィールドで、列数を指定すると列数にあわせてゼロを埋めるこ"
 "とができます。\n"
-"@列数 が小さすぎたり負数であると #NUM! エラーが返されます。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* @列数 が小さすぎたり負数であると #NUM! エラーが返されます。\n"
+"* この関数は Excel 互換です。\n"
 "@EXAMPLES=\n"
 "BIN2OCT(110111) = 67 です。\n"
 "\n"
@@ -7718,7 +7711,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-logical/functions.c:280
-#, fuzzy
 msgid ""
 "@FUNCTION=TRUE\n"
 "@SYNTAX=TRUE()\n"
@@ -7734,14 +7726,14 @@ msgstr ""
 "@FUNCTION=TRUE\n"
 "@SYNTAX=TRUE()\n"
 "@DESCRIPTION=TRUE 関数は論理値の TRUE を返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
 "@EXAMPLES=\n"
 "TRUE() = TRUE です。\n"
 "\n"
 "@SEEALSO=FALSE"
 
 #: plugins/fn-logical/functions.c:302
-#, fuzzy
 msgid ""
 "@FUNCTION=FALSE\n"
 "@SYNTAX=FALSE()\n"
@@ -7757,7 +7749,8 @@ msgstr ""
 "@FUNCTION=FALSE\n"
 "@SYNTAX=FALSE()\n"
 "@DESCRIPTION=FALSE 関数は論理値の FALSE を返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
 "@EXAMPLES=\n"
 "FALSE() = FALSE です。\n"
 "\n"
@@ -7803,7 +7796,6 @@ msgstr ""
 #: plugins/fn-stat/functions.c:5747 plugins/fn-stat/functions.c:5765
 #: plugins/fn-stat/functions.c:5843 plugins/fn-string/functions.c:1129
 #: plugins/fn-string/functions.c:1132
-#, fuzzy
 msgid "number"
 msgstr "数値"
 
@@ -7813,15 +7805,13 @@ msgstr ""
 
 #: plugins/fn-logical/plugin.xml.in.h:1
 msgid "Functions for manipulating truth values"
-msgstr "論理関数"
+msgstr "論理値を扱うための関数"
 
 #: plugins/fn-logical/plugin.xml.in.h:2
-#, fuzzy
 msgid "Logic"
 msgstr "論理"
 
 #: plugins/fn-logical/plugin.xml.in.h:3
-#, fuzzy
 msgid "Logic Functions"
 msgstr "論理関数"
 
@@ -10286,9 +10276,8 @@ msgstr "数学関数"
 
 #. *************************************************************************
 #: plugins/fn-math/plugin.xml.in.h:3 src/func-builtin.c:124
-#, fuzzy
 msgid "Mathematics"
-msgstr "一致するもの(_M)"
+msgstr "数学"
 
 #: plugins/fn-random/functions.c:49
 #, fuzzy
@@ -15950,12 +15939,12 @@ msgstr "シートの読み込み中にエラーが発生しました。"
 
 #: plugins/uihello/hello.xml.h:1
 msgid "Hello World"
-msgstr ""
+msgstr "みなさんこんにちは"
 
 #: plugins/uihello/uihello.c:24
 #, c-format
 msgid "This is message from the \"%s\" plugin."
-msgstr ""
+msgstr "これは\"%s\"プラグインからのメッセージです。"
 
 #: plugins/xbase/boot.c:169
 msgid "Error while opening xbase file."
@@ -16037,9 +16026,8 @@ msgid "Autocorrect replace"
 msgstr "自動訂正"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:8
-#, fuzzy
 msgid "List of Active Plugins."
-msgstr "プラグインを有効にする(_C)"
+msgstr "有効なプラグインの一覧です。"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:9
 msgid "List of Extra Autoformat Directories."
@@ -16200,43 +16188,39 @@ msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:4
 msgid "Default Compression Level For Gnumeric Files"
-msgstr ""
+msgstr "デフォルトのGnumericファイル圧縮レベル"
 
 #: schemas/gnumeric-general.schemas.in.h:5
 msgid "Default Font Size"
-msgstr "デフォルトフォントサイズ"
+msgstr "デフォルトのフォントサイズ"
 
 #: schemas/gnumeric-general.schemas.in.h:6
-#, fuzzy
 msgid "Default Horizontal Window Size"
-msgstr "水平余白のセット"
+msgstr "デフォルトのウィンドウ水平サイズ"
 
 #: schemas/gnumeric-general.schemas.in.h:7
-#, fuzzy
 msgid "Default Number of Sheets"
-msgstr "標本数(_U):"
+msgstr "デフォルトのシート数"
 
 #: schemas/gnumeric-general.schemas.in.h:8
 msgid "Default To Overwriting Files"
-msgstr ""
+msgstr "デフォルトでファイルに上書きする"
 
 #: schemas/gnumeric-general.schemas.in.h:9
 msgid "Default Vertical Window Size"
-msgstr ""
+msgstr "デフォルトのウィンドウ垂直サイズ"
 
 #: schemas/gnumeric-general.schemas.in.h:10
 msgid "Default Zoom Factor"
-msgstr ""
+msgstr "デフォルトの拡大率"
 
 #: schemas/gnumeric-general.schemas.in.h:11
-#, fuzzy
 msgid "Default font name"
-msgstr "名前の定義"
+msgstr "デフォルトのフォント名"
 
 #: schemas/gnumeric-general.schemas.in.h:12
-#, fuzzy
 msgid "Horizontal DPI"
-msgstr "横位置"
+msgstr "水平方向DPI"
 
 #: schemas/gnumeric-general.schemas.in.h:13
 msgid ""
@@ -16248,24 +16232,23 @@ msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:14
 msgid "Length of File History"
-msgstr ""
+msgstr "ファイル履歴の長さ"
 
 #: schemas/gnumeric-general.schemas.in.h:15
 msgid "Length of the Undo Descriptors"
-msgstr ""
+msgstr "「元に戻す」記述の長さ"
 
 #: schemas/gnumeric-general.schemas.in.h:16
 msgid "List of recently used files"
-msgstr ""
+msgstr "最近使用したファイルのリスト"
 
 #: schemas/gnumeric-general.schemas.in.h:17
 msgid "Live Scrolling"
-msgstr ""
+msgstr "ライブスクローリング"
 
 #: schemas/gnumeric-general.schemas.in.h:18
-#, fuzzy
 msgid "Maximal Undo Size"
-msgstr "最大化"
+msgstr "「元に戻す」の最大サイズ"
 
 #: schemas/gnumeric-general.schemas.in.h:19
 #, fuzzy
@@ -16273,18 +16256,16 @@ msgid "Number of Automatic Clauses"
 msgstr "失敗回数(_U)"
 
 #: schemas/gnumeric-general.schemas.in.h:20
-#, fuzzy
 msgid "Number of Undo Items"
-msgstr "読み込む行数"
+msgstr "「元に戻す」ことのできるアイテムの数"
 
 #: schemas/gnumeric-general.schemas.in.h:21
 msgid "Prefer CLIPBOARD over PRIMARY selection"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:22
-#, fuzzy
 msgid "Sans"
-msgstr "階数"
+msgstr "Kochi Gothic"
 
 #: schemas/gnumeric-general.schemas.in.h:23
 msgid "Screen resolution in the horizontal direction."
@@ -17851,9 +17832,8 @@ msgid "_Paste"
 msgstr "貼付け(_P)"
 
 #: src/GNOME_Gnumeric.xml.h:311 src/workbook-control-gui.c:3909
-#, fuzzy
 msgid "_PivotTable..."
-msgstr "印刷(_P)..."
+msgstr "ピボットテーブル(_P)..."
 
 #: src/GNOME_Gnumeric.xml.h:312 src/workbook-control-gui.c:3783
 msgid "_Plug-ins..."
@@ -17864,9 +17844,8 @@ msgid "_Print..."
 msgstr "印刷(_P)..."
 
 #: src/GNOME_Gnumeric.xml.h:314
-#, fuzzy
 msgid "_Quit"
-msgstr "付ける(_P):"
+msgstr "終了(_Q):"
 
 #: src/GNOME_Gnumeric.xml.h:315 src/workbook-control-gui.c:3388
 msgid "_Random Generator..."
@@ -17877,9 +17856,8 @@ msgid "_Redo"
 msgstr "やり直し(_R)"
 
 #: src/GNOME_Gnumeric.xml.h:317 src/workbook-control-gui.c:3766
-#, fuzzy
 msgid "_Regression..."
-msgstr "回帰(_R)"
+msgstr "回帰(_R)..."
 
 #: src/GNOME_Gnumeric.xml.h:318 src/dialogs/autocorrect.glade.h:13
 #: src/dialogs/dialog-stf.glade.h:66 src/dialogs/pivottable.glade.h:12
@@ -18577,7 +18555,7 @@ msgstr ""
 
 #: src/commands.c:5600
 msgid "Add scenario"
-msgstr ""
+msgstr "シナリオの追加"
 
 #: src/commands.c:5676
 msgid "Scenario Show"
@@ -18589,84 +18567,75 @@ msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:107
 msgid "Axis"
-msgstr ""
+msgstr "軸"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:46
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:169
 msgid "Chart"
-msgstr "チャート"
+msgstr "図表"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:145
-#, fuzzy
 msgid "Plot"
-msgstr "プロット(_P)"
+msgstr "プロット"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:149
 #: src/cut-n-paste-code/goffice/graph/gog-legend.c:99
-#, fuzzy
 msgid "Legend"
-msgstr "送信"
+msgstr "凡例"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:152
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
 #: src/cut-n-paste-code/goffice/graph/gog-legend.c:133
-#, fuzzy
 msgid "Title"
-msgstr "題名:"
+msgstr "題名"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:155
 msgid "X-Axis"
-msgstr ""
+msgstr "X軸"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:158
 msgid "Y-Axis"
-msgstr ""
+msgstr "Y軸"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:161
 msgid "Z-Axis"
-msgstr ""
+msgstr "Z軸"
 
 #: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:246
 msgid "H"
-msgstr ""
+msgstr "H"
 
 #: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:246
-#, fuzzy
 msgid "Height"
-msgstr "高さ(_E)..."
+msgstr "高さ"
 
 #: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
 msgid "W"
-msgstr ""
+msgstr "W"
 
 #: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
-#, fuzzy
 msgid "Width"
-msgstr "修正後の文字(_W)"
+msgstr "幅"
 
 #. default
 #. Cheat and assign a name here, graphs will not have parents until we
 #. * support graphs in graphs
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:123
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:230
-#, fuzzy
 msgid "Graph"
-msgstr "グラフ(_G)..."
+msgstr "グラフ"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:995
-#, fuzzy
 msgid "Step 1 of 2: Select Chart Type"
-msgstr "ステップ 1/3: グラフの種類の選択"
+msgstr "ステップ 1/2: 図表タイプの選択"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1003
-#, fuzzy
 msgid "Step 2 of 2: Customize Chart"
-msgstr "ステップ 3/3: グラフのカスタマイズ"
+msgstr "ステップ 2/2: 図表のカスタマイズ"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1008
-#, fuzzy
 msgid "Customize Chart"
-msgstr "ヘッダのカスタマイズ"
+msgstr "図表のカスタマイズ"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1081
 msgid "_Plot Type"
@@ -18689,12 +18658,11 @@ msgstr "説明"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:1
 msgid "GNOME Office Graph"
-msgstr ""
+msgstr "GNOMEオフィス グラフ"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:2
-#, fuzzy
 msgid "TODO : Unfinished"
-msgstr "未完成"
+msgstr "TODO: 未完成"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:3
 #: src/dialogs/autocorrect.glade.h:12 src/dialogs/dialog-stf.glade.h:60
@@ -18708,9 +18676,8 @@ msgid "_Bottom"
 msgstr "下(_B)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:5
-#, fuzzy
 msgid "_Decrease"
-msgstr "減少"
+msgstr "減少(_D)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:6
 #: src/dialogs/names.glade.h:7 src/dialogs/solver.glade.h:31
@@ -18718,14 +18685,12 @@ msgid "_Delete"
 msgstr "削除(_D)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:7
-#, fuzzy
 msgid "_Increase"
-msgstr "増加"
+msgstr "増加(_I)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:8
-#, fuzzy
 msgid "_Order"
-msgstr "罫線"
+msgstr "順序(_O)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:9
 #: src/dialogs/autoformat.glade.h:24
@@ -18913,9 +18878,8 @@ msgstr "デフォルト"
 
 #. Guppi
 #: src/cut-n-paste-code/goffice/graph/gog-theme.c:263
-#, fuzzy
 msgid "Guppi"
-msgstr "グループ化"
+msgstr "Guppi"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:2
@@ -19016,7 +18980,7 @@ msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:13
 msgid "Bar"
-msgstr ""
+msgstr "棒グラフ"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:14
 #: src/dialogs/dialog-stf.glade.h:16
@@ -19066,9 +19030,8 @@ msgid "Minor categories stacked in vertical columns grouped by major category."
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:23
-#, fuzzy
 msgid "Percentage Bars"
-msgstr "パーセント(_C)"
+msgstr "パーセンテージバー"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:24
 #, fuzzy
@@ -19133,9 +19096,8 @@ msgstr ""
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:8
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:9
 #: src/dialogs/cell-format.glade.h:107
-#, fuzzy
 msgid "degrees"
-msgstr "削除(_D)"
+msgstr "度"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:103
 #, fuzzy
@@ -19143,19 +19105,16 @@ msgid "PlotPie"
 msgstr "プロット(_P)"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:3
-#, fuzzy
 msgid "Cen_ter size:"
-msgstr "カテゴリ:"
+msgstr "中心サイズ:"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:1
-#, fuzzy
 msgid "3D Pie"
-msgstr "枠線(_G)"
+msgstr "3次元円グラフ"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:2
-#, fuzzy
 msgid "3D Split Pie"
-msgstr "分割"
+msgstr "3次元分割円グラフ"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:3
 msgid ""
@@ -19171,12 +19130,11 @@ msgstr ""
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:5
 #, fuzzy
 msgid "Multi-Pie"
-msgstr "乗算"
+msgstr "複数円グラフ"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:6
-#, fuzzy
 msgid "Multi-pie-bars"
-msgstr "複数のエラー\n"
+msgstr "複数円/棒グラフ"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:7
 msgid ""
@@ -19205,44 +19163,40 @@ msgid "Percentage of each contributor."
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:13
-#, fuzzy
 msgid "Pie"
-msgstr "価格"
+msgstr "円"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:14
-#, fuzzy
 msgid "Ring"
-msgstr "範囲(_R)"
+msgstr "リング"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:15
-#, fuzzy
 msgid "Split Pie"
-msgstr "分割"
+msgstr "分割円"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:16
-#, fuzzy
 msgid "Split Ring"
-msgstr "分割"
+msgstr "分割リング"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:1
 msgid "Default pie types"
-msgstr ""
+msgstr "デフォルト円グラフタイプ"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:2
 msgid "Pie Charts"
-msgstr ""
+msgstr "円グラフ"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:3
 msgid "Pie charts"
-msgstr ""
+msgstr "円グラフ"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:4
 msgid "Pie plotting engine"
-msgstr ""
+msgstr "円グラフプロットエンジン"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:5
 msgid "Ring plotting engine"
-msgstr ""
+msgstr "リンググラフプロットエンジン"
 
 #: src/dates.c:16
 msgid "*Sun"
@@ -19665,32 +19619,28 @@ msgstr " "
 
 #: src/dialogs/autofilter-expression.glade.h:3
 #: src/dialogs/autofilter-top10.glade.h:2
-#, fuzzy
 msgid "Gnumeric : AutoFilter"
-msgstr "Gnumeric XML ファイル形式"
+msgstr "Gnumeric : オートフィルタ"
 
 #: src/dialogs/autofilter-expression.glade.h:4
-#, fuzzy
 msgid "Show rows where:"
-msgstr "矢印"
+msgstr ""
 
 #: src/dialogs/autofilter-expression.glade.h:5
-#, fuzzy
 msgid "_And"
-msgstr "追加(_A)"
+msgstr "かつ(_A)"
 
 #: src/dialogs/autofilter-expression.glade.h:6
 msgid "_Or"
-msgstr ""
+msgstr "または(_O)"
 
 #: src/dialogs/autofilter-expression.glade.h:7
 msgid "begins with"
 msgstr ""
 
 #: src/dialogs/autofilter-expression.glade.h:8
-#, fuzzy
 msgid "contains"
-msgstr "内容"
+msgstr "含む"
 
 #: src/dialogs/autofilter-expression.glade.h:9
 msgid "does not begin with"
@@ -19743,18 +19693,16 @@ msgstr "下"
 
 #: src/dialogs/autofilter-top10.glade.h:3
 msgid "Items"
-msgstr ""
+msgstr "アイテム"
 
 #: src/dialogs/autofilter-top10.glade.h:4
 #: src/widgets/widget-format-selector.c:74
-#, fuzzy
 msgid "Percentage"
-msgstr "パーセント(_P)"
+msgstr "パーセンテージ"
 
 #: src/dialogs/autofilter-top10.glade.h:5
-#, fuzzy
 msgid "Show:"
-msgstr "影"
+msgstr "表示:"
 
 #: src/dialogs/autofilter-top10.glade.h:6 src/dialogs/cell-format.glade.h:89
 msgid "Top"
@@ -19793,9 +19741,8 @@ msgid "Autoformat"
 msgstr "自動書式設定"
 
 #: src/dialogs/autoformat.glade.h:10
-#, fuzzy
 msgid "C_ategory:"
-msgstr "カテゴリ:"
+msgstr "カテゴリ(_A):"
 
 #: src/dialogs/autoformat.glade.h:11
 msgid "Category:"
@@ -19822,9 +19769,8 @@ msgid "Preview"
 msgstr "プレビュー"
 
 #: src/dialogs/autoformat.glade.h:17
-#, fuzzy
 msgid "Template Details"
-msgstr "テンプレート詳細(_T)"
+msgstr "テンプレート詳細"
 
 #: src/dialogs/autoformat.glade.h:18
 msgid "The category this template belongs to"
@@ -19897,76 +19843,64 @@ msgid "75% Grey"
 msgstr "75% グレー"
 
 #: src/dialogs/cell-format.glade.h:13
-#, fuzzy
 msgid "<b>Background</b>"
-msgstr "背景"
+msgstr "<b>背景</b>"
 
 #: src/dialogs/cell-format.glade.h:14
-#, fuzzy
 msgid "<b>Control</b>"
-msgstr "文字の制御"
+msgstr "<b>文字の制御</b>"
 
 #: src/dialogs/cell-format.glade.h:15
-#, fuzzy
 msgid "<b>Error alerts</b>"
-msgstr "エラー通知"
+msgstr "<b>エラー通知</b>"
 
 #: src/dialogs/cell-format.glade.h:16
-#, fuzzy
 msgid "<b>Horizontal alignement</b>"
-msgstr "水平余白のセット"
+msgstr "<b>水平位置</b>"
 
 #: src/dialogs/cell-format.glade.h:17
-#, fuzzy
 msgid "<b>Line</b>"
-msgstr "プレビュー"
+msgstr "<b>行</b>"
 
 #: src/dialogs/cell-format.glade.h:18
-#, fuzzy
 msgid "<b>Orientation</b>"
-msgstr "方向"
+msgstr "<b>方向</b>"
 
 #: src/dialogs/cell-format.glade.h:19
-#, fuzzy
 msgid "<b>Pattern</b>"
-msgstr "パターン"
+msgstr "<b>パターン</b>"
 
 #: src/dialogs/cell-format.glade.h:20
-#, fuzzy
 msgid "<b>Sample</b>"
-msgstr "例"
+msgstr "<b>例</b>"
 
 #: src/dialogs/cell-format.glade.h:21
-#, fuzzy
 msgid "<b>Style</b>"
-msgstr "プレビュー"
+msgstr "<b>スタイル</b>"
 
 #: src/dialogs/cell-format.glade.h:22
-#, fuzzy
 msgid "<b>Vertical alignement</b>"
-msgstr "縦位置"
+msgstr "<b>垂直位置</b>"
 
 #: src/dialogs/cell-format.glade.h:23
 msgid "<span weight=\"bold\">Criteria</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">条件付き書式</span>"
 
 #: src/dialogs/cell-format.glade.h:24
 msgid "A_ngle:"
 msgstr "角度(_N):"
 
 #: src/dialogs/cell-format.glade.h:25
-#, fuzzy
 msgid "Ac_tion:"
-msgstr "動作(_C):"
+msgstr "動作(_T):"
 
 #: src/dialogs/cell-format.glade.h:26
 msgid "Alignment"
 msgstr "配置"
 
 #: src/dialogs/cell-format.glade.h:27
-#, fuzzy
 msgid "Allo_w:"
-msgstr "許可(_A):"
+msgstr "許可(_W):"
 
 #: src/dialogs/cell-format.glade.h:28
 msgid "Any Value     (no validation)"
@@ -19997,9 +19931,8 @@ msgid "Color:"
 msgstr "色:"
 
 #: src/dialogs/cell-format.glade.h:37
-#, fuzzy
 msgid "Con_dition:"
-msgstr "状態(_C):"
+msgstr "条件(_D):"
 
 #: src/dialogs/cell-format.glade.h:38 src/dialogs/dialog-stf-export.glade.h:17
 #: src/widgets/widget-format-selector.c:79
@@ -20247,44 +20180,36 @@ msgid "_Wrap text"
 msgstr "折り返し(_W)"
 
 #: src/dialogs/cell-format.glade.h:108
-#, fuzzy
 msgid "min <= val <= max         (between)"
-msgstr "最小値 &lt;= 値 &lt;= 最大値        (範囲内)"
+msgstr "最小値 <= 値 <= 最大値        (範囲内)"
 
 #: src/dialogs/cell-format.glade.h:109
-#, fuzzy
 msgid "val  <  bound                  (less than)"
-msgstr "値 &lt; 境界値                     (小さい)"
+msgstr "値 < 境界値                     (小さい)"
 
 #: src/dialogs/cell-format.glade.h:110
-#, fuzzy
 msgid "val  >  bound                  (greater than)"
-msgstr "値 &gt; 境界値                        (より大きい)"
+msgstr "値 > 境界値                        (より大きい)"
 
 #: src/dialogs/cell-format.glade.h:111
-#, fuzzy
 msgid "val <= bound                  (less than or equal)"
-msgstr "値 &lt= 境界値                    (小さいまたは等しい)"
+msgstr "値 <= 境界値                    (小さいまたは等しい)"
 
 #: src/dialogs/cell-format.glade.h:112
-#, fuzzy
 msgid "val <= min || max <= val (not between)"
-msgstr "値 &lt;= 最小値 || 最大値 &lt;= 値  (範囲外)"
+msgstr "値 <= 最小値 || 最大値 <= 値  (範囲外)"
 
 #: src/dialogs/cell-format.glade.h:113
-#, fuzzy
 msgid "val <> bound                  (not equal to)"
-msgstr "値 != 境界値                   (等しくない)"
+msgstr "値 <> 境界値                   (等しくない)"
 
 #: src/dialogs/cell-format.glade.h:114
-#, fuzzy
 msgid "val == bound                  (equal to)"
 msgstr "値 == 境界値                  (等しい)"
 
 #: src/dialogs/cell-format.glade.h:115
-#, fuzzy
 msgid "val >= bound                  (greater than or equal)"
-msgstr "値 &gt;= 境界値                      (大きいまたは等しい)"
+msgstr "値 >= 境界値                      (大きいまたは等しい)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "<span weight=\"bold\">Sort Options</span>"
@@ -20994,9 +20919,8 @@ msgstr "数値"
 
 #: src/dialogs/dialog-cell-format.c:654 src/dialogs/dialog-stf-main-page.c:363
 #: src/widgets/widget-format-selector.c:77
-#, fuzzy
 msgid "Text"
-msgstr "テキスト(_X)"
+msgstr "テキスト"
 
 #: src/dialogs/dialog-cell-format.c:1773
 msgid "Source"
@@ -21114,9 +21038,8 @@ msgid "Recently Used"
 msgstr "現在使用中"
 
 #: src/dialogs/dialog-function-select.c:210
-#, fuzzy
 msgid "All Functions (long list)"
-msgstr "関数がありません"
+msgstr "すべての関数 (長いリスト)"
 
 #: src/dialogs/dialog-goal-seek.c:346
 msgid "You should introduce a valid cell name in 'Set Cell:'!"
@@ -21205,22 +21128,19 @@ msgstr "ウェブリンク(_W)"
 
 #: src/dialogs/dialog-hyperlink.c:205
 msgid "Browse to the specified URL"
-msgstr ""
+msgstr "指定したURLの閲覧"
 
 #: src/dialogs/dialog-hyperlink.c:276
-#, fuzzy
 msgid "Add Hyperlink"
-msgstr "削除(_R)"
+msgstr "ハイパーリンクの追加"
 
 #: src/dialogs/dialog-hyperlink.c:278
-#, fuzzy
 msgid "Edit Hyperlink"
-msgstr "削除(_R)"
+msgstr "ハイパーリンクの編集"
 
 #: src/dialogs/dialog-hyperlink.c:284 src/sheet-control-gui.c:1446
-#, fuzzy
 msgid "Remove Hyperlink"
-msgstr "削除(_R)"
+msgstr "ハイパーリンクの削除"
 
 #: src/dialogs/dialog-hyperlink.c:455
 msgid "Could not create the hyperlink dialog."
@@ -21259,9 +21179,8 @@ msgid "Merge Field"
 msgstr "フィールドの結合"
 
 #: src/dialogs/dialog-password.c:34
-#, fuzzy, c-format
 msgid "%s is encrypted"
-msgstr "このファイルは暗号化されています"
+msgstr "%sは暗号化されています"
 
 #: src/dialogs/dialog-password.c:36
 msgid ""
@@ -21330,19 +21249,16 @@ msgid "Skip Blanks"
 msgstr "空白を無視する"
 
 #: src/dialogs/dialog-plugin-manager.c:369
-#, fuzzy
 msgid "Plugin dependencies"
-msgstr "プラグイン詳細"
+msgstr "プラグイン依存関係"
 
 #: src/dialogs/dialog-plugin-manager.c:377
-#, fuzzy
 msgid "Unknown plugin"
-msgstr "プラグイン名が不明です。"
+msgstr "不明なプラグイン"
 
 #: src/dialogs/dialog-plugin-manager.c:391
-#, fuzzy
 msgid "Plugin services"
-msgstr "プラグイン詳細"
+msgstr "プラグインサービス"
 
 #: src/dialogs/dialog-plugin-manager.c:452
 msgid "Errors while activating plugins"
@@ -21358,17 +21274,21 @@ msgid ""
 "one:\n"
 "\n"
 msgstr ""
+"このプラグインを有効にするためには次のプラグインを有効でなければ"
+"なりません:\n"
+"\n"
 
 #: src/dialogs/dialog-plugin-manager.c:570
-#, fuzzy, c-format
 msgid "Unknown plugin with id=\"%s\"\n"
-msgstr "ID = \"%s\" のプラグイン用のローダーではありません。"
+msgstr "ID = \"%s\"は不明なプラグインです\n"
 
 #: src/dialogs/dialog-plugin-manager.c:577
 msgid ""
 "\n"
 "Do you want to activate this plugin together with its dependencies?"
 msgstr ""
+"\n"
+"このプラグインを依存関係のあるプラグインごと有効にしますか?"
 
 #: src/dialogs/dialog-plugin-manager.c:596
 msgid "Error while deactivating plugin \"%s\"."
@@ -21447,7 +21367,6 @@ msgid "Undo"
 msgstr "元に戻す"
 
 #: src/dialogs/dialog-preferences.c:1398
-#, fuzzy
 msgid "Various"
 msgstr "変数"
 
@@ -21633,9 +21552,8 @@ msgid "Landau"
 msgstr "横向き(_L)"
 
 #: src/dialogs/dialog-random-generator.c:145
-#, fuzzy
 msgid "Laplace"
-msgstr "スペース"
+msgstr "ラプラス"
 
 #: src/dialogs/dialog-random-generator.c:147
 msgid "Levy alpha-Stable"
@@ -21850,9 +21768,8 @@ msgid "The sheet order has changed. Do you want to update the list?"
 msgstr ""
 
 #: src/dialogs/dialog-shuffle.c:73
-#, fuzzy
 msgid "The input range is invalid."
-msgstr "出力範囲が正しくありません。"
+msgstr "入力範囲が正しくありません。"
 
 #: src/dialogs/dialog-shuffle.c:149
 #, fuzzy
@@ -21870,14 +21787,12 @@ msgid "The output variable range is invalid."
 msgstr "出力範囲が正しくありません。"
 
 #: src/dialogs/dialog-simulation.c:169
-#, fuzzy
 msgid "Simulations"
-msgstr "限度のレポート"
+msgstr "シミュレーション"
 
 #: src/dialogs/dialog-simulation.c:169
-#, fuzzy
 msgid "Iterations"
-msgstr "演算"
+msgstr "反復"
 
 #: src/dialogs/dialog-simulation.c:169
 #, fuzzy
@@ -22810,18 +22725,16 @@ msgid "Display numeric values with a fixed number of decimals."
 msgstr ""
 
 #: src/dialogs/format-selector.glade.h:8
-#, fuzzy
 msgid "Display times of day."
-msgstr "アウトラインを表示する(_O)"
+msgstr "日付と時刻を表示します。"
 
 #: src/dialogs/format-selector.glade.h:9
 msgid "Display values as closest fractional approximation."
 msgstr ""
 
 #: src/dialogs/format-selector.glade.h:10
-#, fuzzy
 msgid "Display values as percentages."
-msgstr "入力された通りに値を表示します"
+msgstr "値をパーセンテージで表示します。"
 
 #: src/dialogs/format-selector.glade.h:11
 msgid "Display values with power-of-ten scaling."
@@ -23049,9 +22962,8 @@ msgid "HyperLink"
 msgstr "ハイパーリンク"
 
 #: src/dialogs/hyperlink.glade.h:5
-#, fuzzy
 msgid "Target _Range:"
-msgstr "範囲の結合:"
+msgstr "範囲となる範囲(_R):"
 
 #: src/dialogs/hyperlink.glade.h:6
 msgid "_File:"
@@ -27468,20 +27380,17 @@ msgstr "#RECALC!"
 
 #. This is the default custom color
 #: src/widgets/color-palette.c:375
-#, fuzzy
 msgid "custom"
 msgstr "カスタム"
 
 #. "Custom" color - we'll pop up a GnomeColorPicker
 #: src/widgets/color-palette.c:417
-#, fuzzy
 msgid "Custom Color:"
-msgstr "フッタのカスタマイズ"
+msgstr "カスタムカラー:"
 
 #: src/widgets/color-palette.c:425
-#, fuzzy
 msgid "Choose Custom Color"
-msgstr "エキスポートするシートの選択"
+msgstr "カスタムカラーの選択"
 
 #: src/widgets/color-palette.c:558
 msgid "black"
@@ -27500,9 +27409,8 @@ msgid "dark green #2"
 msgstr ""
 
 #: src/widgets/color-palette.c:562
-#, fuzzy
 msgid "navy"
-msgstr "月曜日"
+msgstr "濃紺"
 
 #: src/widgets/color-palette.c:563 src/widgets/color-palette.c:619
 msgid "dark blue"
@@ -27521,18 +27429,16 @@ msgid "dark red"
 msgstr ""
 
 #: src/widgets/color-palette.c:569
-#, fuzzy
 msgid "red-orange"
-msgstr "範囲(_N)"
+msgstr "赤橙"
 
 #: src/widgets/color-palette.c:570
-#, fuzzy
 msgid "gold"
-msgstr "ボールド"
+msgstr "金"
 
 #: src/widgets/color-palette.c:571
 msgid "dark green"
-msgstr ""
+msgstr "深緑"
 
 #: src/widgets/color-palette.c:572 src/widgets/color-palette.c:625
 #, fuzzy
@@ -27558,14 +27464,12 @@ msgid "red"
 msgstr "赤"
 
 #: src/widgets/color-palette.c:579
-#, fuzzy
 msgid "orange"
-msgstr "範囲(_N)"
+msgstr "橙"
 
 #: src/widgets/color-palette.c:580
-#, fuzzy
 msgid "lime"
-msgstr "時間"
+msgstr "ライム"
 
 #: src/widgets/color-palette.c:581
 msgid "dull green"
@@ -27581,15 +27485,13 @@ msgstr ""
 
 #: src/widgets/color-palette.c:584 src/widgets/color-palette.c:623
 msgid "purple"
-msgstr ""
+msgstr "紫"
 
 #: src/widgets/color-palette.c:585
-#, fuzzy
 msgid "gray"
-msgstr "配列"
+msgstr "グレー"
 
 #: src/widgets/color-palette.c:588 src/widgets/color-palette.c:620
-#, fuzzy
 msgid "magenta"
 msgstr "赤紫"
 
@@ -27598,17 +27500,14 @@ msgid "bright orange"
 msgstr ""
 
 #: src/widgets/color-palette.c:590 src/widgets/color-palette.c:621
-#, fuzzy
 msgid "yellow"
 msgstr "黄"
 
 #: src/widgets/color-palette.c:591
-#, fuzzy
 msgid "green"
 msgstr "緑"
 
 #: src/widgets/color-palette.c:592 src/widgets/color-palette.c:622
-#, fuzzy
 msgid "cyan"
 msgstr "シアン"
 
@@ -27625,9 +27524,8 @@ msgid "light gray"
 msgstr ""
 
 #: src/widgets/color-palette.c:598 src/widgets/color-palette.c:615
-#, fuzzy
 msgid "pink"
-msgstr "削除(_R)"
+msgstr "ピンク"
 
 #: src/widgets/color-palette.c:599
 #, fuzzy
@@ -27663,37 +27561,35 @@ msgstr "白"
 
 #: src/widgets/color-palette.c:610
 msgid "purplish blue"
-msgstr ""
+msgstr "紫青"
 
 #: src/widgets/color-palette.c:614
 msgid "dark purple"
 msgstr ""
 
 #: src/widgets/color-palette.c:616
-#, fuzzy
 msgid "sky blue"
-msgstr "値で"
+msgstr "スカイブルー"
 
 #: src/widgets/gnumeric-expr-entry.c:1239
 msgid "Expecting a single range"
 msgstr ""
 
 #: src/widgets/gnumeric-optionmenu.c:199
-#, fuzzy
 msgid "Menu"
-msgstr "平均(_M):"
+msgstr "メニュー"
 
 #: src/widgets/gnumeric-optionmenu.c:200
 msgid "The menu of options"
-msgstr ""
+msgstr "オプションメニュー"
 
 #: src/widgets/gnumeric-optionmenu.c:206
 msgid "Indicator Size"
-msgstr ""
+msgstr "インジケータのサイズ"
 
 #: src/widgets/gnumeric-optionmenu.c:207
 msgid "Size of dropdown indicator"
-msgstr ""
+msgstr "ドロップダウンインジケータのサイズ"
 
 #: src/widgets/gnumeric-optionmenu.c:212
 #, fuzzy
