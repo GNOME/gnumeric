@@ -1334,9 +1334,12 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 
 	gnome_print_job_close (gpm);
 
-	if (preview)
-		gtk_widget_show ( gnome_print_job_preview_new (gpm, _("Print preview")));
-	else {
+	if (preview) {
+		GtkWidget *w = gnome_print_job_preview_new (gpm, _("Print preview"));
+		GdkScreen *screen = gtk_window_get_screen (wbcg_toplevel (wbcg));
+		gtk_window_set_screen (GTK_WINDOW (gtk_widget_get_toplevel (w)), screen);
+		gtk_widget_show (w);
+	} else {
 		int result = gnome_print_job_print (gpm);
 		if (result == -1) {
 			/*
