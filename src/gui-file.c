@@ -17,119 +17,72 @@
 
 static void
 cb_select (GtkWidget *clist, gint row, gint column,
-	   GdkEventButton *event, GtkWidget *dialog)
+           GdkEventButton *event, GtkWidget *dialog)
 {
 	/* If the filter is double-clicked we proceed with importing and
-           dismiss chooser. */
-	if (event && event->type == GDK_2BUTTON_PRESS)
+	   dismiss chooser. */
+	if (event && event->type == GDK_2BUTTON_PRESS) {
 		gtk_signal_emit_by_name (GTK_OBJECT (dialog), "clicked", 0);
+	}
 }
 
 /*
  * Lets the user choose an import filter for @filename, and
  * uses that to load the file
  */
-WorkbookView *
+gboolean
 gui_file_import (WorkbookControlGUI *wbcg, const char *filename)
 {
-	WorkbookView *new_view = NULL;
-	Workbook *new_wb;
-	char *template;
-
 	GladeXML *gui;
 	GtkWidget *dialog;
 	GtkCList *clist;
-	FileOpener *fo = NULL;
-	int ret, row;
+	GnumFileOpener *fo = NULL;
+	int row;
 	GList *l;
+	gint ret;
 
 	gui = gnumeric_glade_xml_new (wbcg, "import.glade");
-	if (gui == NULL)
-		return NULL;
+	if (gui == NULL) {
+		return FALSE;
+	}
 
 	dialog = glade_xml_get_widget (gui, "import-dialog");
-
 	gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
 
 	clist = GTK_CLIST (glade_xml_get_widget (gui, "import-clist"));
 
-	for (row = 0, l = file_format_get_openers (); l; l = l->next){
-		FileOpener *fo = l->data;
+	for (l = get_file_importers (), row = 0; l != NULL; l = l->next, row++) {
+		GnumFileOpener *fo = l->data;
 		char *text[1];
 
-		if (file_opener_has_probe (fo))
-			continue;
-
-		text[0] = (gchar *) file_opener_get_format_description (fo);
+		text[0] = (gchar *) gnum_file_opener_get_description (fo);
 		gtk_clist_append (clist, text);
 		gtk_clist_set_row_data (clist, row, l->data);
-		if (row == 0)
-			gtk_clist_select_row (clist, 0, 0);
-
-		row++;
 	}
+	if (row > 0) {
+		gtk_clist_select_row (clist, 0, 0);
+	}
+
 	gtk_signal_connect (GTK_OBJECT(clist), "select_row",
-			    GTK_SIGNAL_FUNC(cb_select), (gpointer) dialog);
+	                    GTK_SIGNAL_FUNC (cb_select), (gpointer) dialog);
 
 	gtk_widget_grab_focus (GTK_WIDGET (clist));
 
 	ret = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
-
-	if (ret == 0 && clist->selection) {
-		int sel_row;
-
-		sel_row = GPOINTER_TO_INT (clist->selection->data);
-		fo = gtk_clist_get_row_data (clist, sel_row);
+	if (ret == 0 && clist->selection != NULL) {
+		fo = gtk_clist_get_row_data (clist, GPOINTER_TO_INT (clist->selection->data));
 	}
-
-	if (ret != -1)
+	if (ret != -1) {
 		gnome_dialog_close (GNOME_DIALOG (dialog));
+	}
 	gtk_object_unref (GTK_OBJECT (gui));
 
-	if (fo == NULL)
-		return NULL;
-
-	new_view = workbook_view_new (NULL);
-	new_wb = wb_view_workbook (new_view);
-
-	template = g_strdup_printf (_("Could not import file %s\n%%s"),
-				    filename);
-	command_context_push_err_template (COMMAND_CONTEXT (wbcg), template);
-	{
-		IOContext *io_context;
-
-		io_context = gnumeric_io_context_new (WORKBOOK_CONTROL (wbcg));
-		ret = file_opener_open (fo, io_context, new_view, filename) ? 0 : -1;
-		if (ret == 0 && workbook_sheet_count (new_wb) <= 0) {
-			ret = -1;
-			gnumeric_error_read (COMMAND_CONTEXT (wbcg), _("No sheets found"));
-		}
-		gnumeric_io_context_free (io_context);
+	if (fo != NULL) {
+		return wb_view_open_custom (wb_control_view (WORKBOOK_CONTROL (wbcg)),
+		                            WORKBOOK_CONTROL (wbcg), fo, filename);
+	} else {
+		return FALSE;
 	}
-	command_context_pop_err_template (COMMAND_CONTEXT (wbcg));
-	g_free (template);
-
-	if (ret != 0) {
-		gtk_object_destroy (GTK_OBJECT (new_wb));
-		new_view = NULL;
-	} else
-		workbook_set_dirty (new_wb, FALSE);
-
-	return file_finish_load (WORKBOOK_CONTROL (wbcg), new_view);
-}
-
-/*
- * Check that a given file saver is present in the file saver list.
- */
-static gboolean
-is_saver_registered (FileSaver *saver)
-{
-	GList *l;
-
-	for (l = file_format_get_savers (); l; l = l->next) 
-		if (l->data == saver)
-			return TRUE;
-	return FALSE;
 }
 
 static void
@@ -167,18 +120,12 @@ handle_ok (GtkWidget *widget, gboolean *dialog_result)
  * Callback routine to choose the current file saver
  */
 static void
-saver_activate (GtkMenuItem *item, FileSaver *saver)
+saver_activate (GtkMenuItem *item, GnumFileSaver *saver)
 {
-	GList *l;
 	WorkbookControlGUI *wbcg;
 
 	wbcg = gtk_object_get_data (GTK_OBJECT (item), "wbcg");
-	for (l = file_format_get_savers (); l; l = l->next){
-		FileSaver *fs = l->data;
-
-		if (fs == saver)
-			wbcg->current_saver = saver;
-	}
+	wbcg->current_saver = saver;
 }
 
 /**
@@ -187,15 +134,13 @@ saver_activate (GtkMenuItem *item, FileSaver *saver)
  * Returns TRUE if @saver is the default file save format.
  */
 static gboolean
-file_saver_is_default_format (WorkbookControlGUI *wbcg, FileSaver *saver)
+file_saver_is_default_format (WorkbookControlGUI *wbcg, GnumFileSaver *saver)
 {
 	if (wbcg->current_saver == saver)
 		return TRUE;
 
 	if (wbcg->current_saver == NULL) {
-		const gchar *extension = file_saver_get_extension (saver);
-
-		if (extension != NULL && strcmp (extension, "gnumeric") == 0) {
+		if (saver == get_default_file_saver ()) {
 			wbcg->current_saver = saver;
 			return TRUE;
 		}
@@ -205,16 +150,16 @@ file_saver_is_default_format (WorkbookControlGUI *wbcg, FileSaver *saver)
 }
 
 static void
-fill_save_menu (WorkbookControlGUI *wbcg,  GtkOptionMenu *omenu, GtkMenu *menu)
+fill_save_menu (WorkbookControlGUI *wbcg, GtkOptionMenu *omenu, GtkMenu *menu)
 {
 	GList *l;
 	int i, selected=-1;
 
-	for (i = 0, l = file_format_get_savers (); l; l = l->next, i++){
+	for (l = get_file_savers (), i = 0; l != NULL; l = l->next, i++){
 		GtkWidget *menu_item;
-		FileSaver *fs = l->data;
+		GnumFileSaver *fs = l->data;
 
-		menu_item = gtk_menu_item_new_with_label (file_saver_get_format_description (fs));
+		menu_item = gtk_menu_item_new_with_label (gnum_file_saver_get_description (fs));
 		gtk_object_set_data (GTK_OBJECT (menu_item), "wbcg", wbcg);
 		gtk_widget_show (menu_item);
 		gtk_menu_append (menu, menu_item);
@@ -365,8 +310,7 @@ static gboolean
 do_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view, const char *name)
 {
 	char *filename;
-	gboolean success;
-	const gchar *extension;
+	gboolean success = FALSE;
 
 	if (*name == 0 || name [strlen (name) - 1] == '/') {
 		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
@@ -374,12 +318,7 @@ do_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view, const char *name)
 		return FALSE;
 	}
 
-	extension = file_saver_get_extension (wbcg->current_saver);
-	if (strchr (g_basename (name), '.') == NULL && extension != NULL) {
-		filename = g_strdup_printf ("%s.%s", name, extension);
-	} else {
-		filename = g_strdup (name);
-	}
+	filename = gnum_file_saver_fix_file_name (wbcg->current_saver, name);
 	if (!can_try_save_to (wbcg, filename)) {
 		g_free (filename);
 		return FALSE;
@@ -387,8 +326,8 @@ do_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view, const char *name)
 
 	wb_view_preferred_size (wb_view, GTK_WIDGET (wbcg->notebook)->allocation.width,
 				GTK_WIDGET (wbcg->notebook)->allocation.height);
-	success = workbook_save_as (WORKBOOK_CONTROL (wbcg), wb_view, filename,
-				    wbcg->current_saver);
+	success = wb_view_save_as (wb_view, WORKBOOK_CONTROL (wbcg),
+	                           wbcg->current_saver, filename);
 	g_free (filename);
 	return success;
 }
@@ -403,10 +342,6 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	Workbook *wb = wb_view_workbook (wb_view);
 
 	g_return_val_if_fail (wbcg != NULL, FALSE);
-
-	/* Verify that wbcg->current_saver is still registered */
-	if (!is_saver_registered (wbcg->current_saver))
-		wbcg->current_saver = NULL;
 
 	fsel = GTK_FILE_SELECTION
 		(gtk_file_selection_new (_("Save workbook as")));
@@ -517,6 +452,6 @@ gui_file_save (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 		wb_view_preferred_size (wb_view,
 					GTK_WIDGET (wbcg->notebook)->allocation.width,
 					GTK_WIDGET (wbcg->notebook)->allocation.height);
-		return workbook_save (WORKBOOK_CONTROL (wbcg), wb_view);
+		return wb_view_save (wb_view, WORKBOOK_CONTROL (wbcg));
 	}
 }

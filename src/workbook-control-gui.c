@@ -1176,7 +1176,7 @@ cb_file_open (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	if (!fname)
 		return;
 
-	(void) workbook_read (wbc, fname);
+	(void) wb_view_open (wb_control_view (wbc), wbc, fname);
 	g_free (fname);
 }
 

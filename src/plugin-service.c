@@ -18,6 +18,8 @@
 #include "func.h"
 #include "io-context.h"
 #include "error-info.h"
+#include "file.h"
+#include "file-priv.h"
 #include "plugin.h"
 #include "plugin-service.h"
 
@@ -163,6 +165,166 @@ plugin_service_general_cleanup (PluginService *service, ErrorInfo **ret_error)
  * FileOpener
  */
 
+typedef struct _GnumPluginFileOpener GnumPluginFileOpener;
+typedef struct _GnumPluginFileOpenerClass GnumPluginFileOpenerClass;
+
+#define TYPE_GNUM_PLUGIN_FILE_OPENER             (gnum_plugin_file_opener_get_type ())
+#define GNUM_PLUGIN_FILE_OPENER(obj)             (GTK_CHECK_CAST ((obj), TYPE_GNUM_PLUGIN_FILE_OPENER, GnumPluginFileOpener))
+#define GNUM_PLUGIN_FILE_OPENER_CLASS(klass)     (GTK_CHECK_CLASS_CAST ((klass), TYPE_GNUM_PLUGIN_FILE_OPENER, GnumPluginFileOpenerClass))
+#define IS_GNUM_PLUGIN_FILE_OPENER(obj)          (GTK_CHECK_TYPE ((obj), TYPE_GNUM_PLUGIN_FILE_OPENER))
+#define IS_GNUM_PLUGIN_FILE_OPENER_CLASS(klass)  (GTK_CHECK_CLASS_TYPE ((klass), TYPE_GNUM_PLUGIN_FILE_OPENER))
+
+GtkType gnum_plugin_file_opener_get_type (void);
+
+struct _GnumPluginFileOpenerClass {
+	GnumFileOpenerClass parent_class;
+};
+
+struct _GnumPluginFileOpener {
+	GnumFileOpener parent;
+
+	PluginService *service;
+};
+
+static void
+gnum_plugin_file_opener_init (GnumPluginFileOpener *fo)
+{
+	fo->service = NULL;
+}
+
+static gboolean
+gnum_plugin_file_opener_probe (GnumFileOpener const *fo, const gchar *file_name)
+{
+	GnumPluginFileOpener *pfo;
+	PluginServiceFileOpener *service_file_opener;
+	gboolean file_name_matches;
+	gchar *base_file_name = g_basename (file_name);
+	GList *l;
+
+	g_return_val_if_fail (IS_GNUM_PLUGIN_FILE_OPENER (fo), FALSE);
+	g_return_val_if_fail (file_name != NULL, FALSE);
+
+	pfo = GNUM_PLUGIN_FILE_OPENER (fo);
+	service_file_opener = &pfo->service->t.file_opener;
+	file_name_matches = FALSE;
+	for (l = service_file_opener->file_patterns; l != NULL; l = l->next) {
+		InputFilePattern *pattern;
+
+		pattern = (InputFilePattern *) l->data;
+		switch (pattern->pattern_type) {
+		case FILE_PATTERN_SHELL: {
+			if (fnmatch (pattern->value, base_file_name, FNM_PATHNAME) == 0) {
+				file_name_matches = TRUE;
+			}
+			break;
+		}
+		case FILE_PATTERN_REGEXP:
+			g_warning ("Not implemented");
+			break;
+		default:
+			g_assert_not_reached ();
+		}	
+	}
+
+	if (service_file_opener->has_probe &&
+	    (service_file_opener->file_patterns == NULL || file_name_matches)) {
+		ErrorInfo *ignored_error;
+
+		plugin_service_load (pfo->service, &ignored_error);
+		if (ignored_error == NULL) {
+			g_return_val_if_fail (service_file_opener->plugin_func_file_probe != NULL, FALSE);
+			return service_file_opener->plugin_func_file_probe (fo, pfo->service, file_name);
+		} else {
+			error_info_print (ignored_error);
+			error_info_free (ignored_error);
+			return FALSE;
+		}
+	} else {
+		return file_name_matches;
+	}
+}
+
+static void
+gnum_plugin_file_opener_open (GnumFileOpener const *fo, IOContext *io_context,
+                              WorkbookView *wbv, const gchar *file_name)
+
+{
+	GnumPluginFileOpener *pfo;
+	PluginServiceFileOpener *service_file_opener;
+	ErrorInfo *error;
+
+	g_return_if_fail (IS_GNUM_PLUGIN_FILE_OPENER (fo));
+	g_return_if_fail (file_name != NULL);
+
+	pfo = GNUM_PLUGIN_FILE_OPENER (fo);
+	service_file_opener = &pfo->service->t.file_opener;
+	plugin_service_load (pfo->service, &error);
+	if (error == NULL) {
+		g_return_if_fail (service_file_opener->plugin_func_file_open != NULL);
+		service_file_opener->plugin_func_file_open (fo, pfo->service, io_context, wbv, file_name);
+		if (!gnumeric_io_error_occurred (io_context)) {
+			if (service_file_opener->save_info != NULL) {
+				InputFileSaveInfo *save_info;
+
+				save_info = service_file_opener->save_info;
+				if (save_info->saver_id_str[0] == '\0') {
+					workbook_set_saveinfo (wb_view_workbook (wbv), file_name,
+					                       save_info->format_level, NULL);
+				} else {
+					GHashTable *file_savers_hash;
+					GnumFileSaver *saver;
+
+					file_savers_hash = plugin_info_peek_services_data (pfo->service->plugin)->file_savers_hash;
+					saver = (GnumFileSaver *) g_hash_table_lookup (file_savers_hash,
+					                                           save_info->saver_id_str);
+					if (saver != NULL) {
+						workbook_set_saveinfo (wb_view_workbook (wbv), file_name,
+						                       save_info->format_level, saver);
+					}
+				}
+			}
+		}
+	} else {
+		gnumeric_io_error_info_set (io_context, error);
+		gnumeric_io_error_info_push (io_context, error_info_new_str (
+		                            _("Error while reading file.")));
+	}
+}
+
+static void
+gnum_plugin_file_opener_class_init (GnumPluginFileOpenerClass *klass)
+{
+	GnumFileOpenerClass *gnum_file_opener_klass = GNUM_FILE_OPENER_CLASS (klass);
+
+	gnum_file_opener_klass->probe = gnum_plugin_file_opener_probe;
+	gnum_file_opener_klass->open = gnum_plugin_file_opener_open;
+}
+
+E_MAKE_TYPE (gnum_plugin_file_opener, "GnumPluginFileOpener", GnumPluginFileOpener, \
+             gnum_plugin_file_opener_class_init, gnum_plugin_file_opener_init, \
+             TYPE_GNUM_FILE_OPENER)
+
+static GnumPluginFileOpener *
+gnum_plugin_file_opener_new (PluginService *service)
+{
+	GnumPluginFileOpener *fo;
+	PluginServiceFileOpener *service_file_opener;
+	gchar *opener_id;
+
+	service_file_opener = &service->t.file_opener;
+	opener_id = g_strdup_printf ("%s:%s",
+	                             plugin_info_peek_id (service->plugin),
+	                             service_file_opener->id);
+	fo = GNUM_PLUGIN_FILE_OPENER (gtk_type_new (TYPE_GNUM_PLUGIN_FILE_OPENER));
+	gnum_file_opener_setup (GNUM_FILE_OPENER (fo), opener_id,
+	                        service_file_opener->description,
+	                        NULL, NULL);
+	fo->service = service;
+	g_free (opener_id);
+
+	return fo;
+}
+
 static void
 input_file_pattern_free (gpointer data)
 {
@@ -208,7 +370,7 @@ plugin_service_file_opener_read (xmlNode *tree, ErrorInfo **ret_error)
 	PluginService *service = NULL;
 	gchar *id_str;
 	guint priority;
-	gboolean has_probe;
+	gboolean has_probe, can_open, can_import;
 	xmlNode *information_node;
 	gchar *description;
 
@@ -220,6 +382,8 @@ plugin_service_file_opener_read (xmlNode *tree, ErrorInfo **ret_error)
 	priority = e_xml_get_uint_prop_by_name_with_default (tree, "priority", 50);
 	priority = MIN (priority, 100);
 	has_probe = e_xml_get_bool_prop_by_name_with_default (tree, "probe", TRUE);
+	can_open = e_xml_get_bool_prop_by_name_with_default (tree, "open", TRUE);
+	can_import = e_xml_get_bool_prop_by_name_with_default (tree, "import", FALSE);
 	information_node = e_xml_get_child_by_name_by_lang_list (tree, "information", NULL);
 	if (information_node != NULL) {
 		description = e_xml_get_string_prop_by_name (information_node, "description");
@@ -273,6 +437,8 @@ plugin_service_file_opener_read (xmlNode *tree, ErrorInfo **ret_error)
 		service_file_opener->id = id_str;
 		service_file_opener->priority = priority;
 		service_file_opener->has_probe = has_probe;
+		service_file_opener->can_open = can_open;
+		service_file_opener->can_import = can_import;
 		service_file_opener->description = description;
 		service_file_opener->file_patterns = file_patterns;
 		service_file_opener->save_info = save_info;
@@ -309,118 +475,6 @@ plugin_service_file_opener_free (PluginService *service)
 	input_file_saver_info_free (service_file_opener->save_info);
 }
 
-static gboolean
-plugin_service_file_opener_probe_func (FileOpener const *fo, const gchar *file_name)
-{
-	PluginService *service;
-	PluginServiceFileOpener *service_file_opener;
-	gboolean file_name_matches;
-	gchar *base_file_name = g_basename (file_name);
-	GList *l;
-
-	g_return_val_if_fail (file_name != NULL, FALSE);
-
-	service = (PluginService *) file_opener_get_user_data (fo);
-	g_return_val_if_fail (service != NULL, FALSE);
-
-	service_file_opener = &service->t.file_opener;
-	file_name_matches = FALSE;
-	for (l = service_file_opener->file_patterns; l != NULL; l = l->next) {
-		InputFilePattern *pattern;
-
-		pattern = (InputFilePattern *) l->data;
-		switch (pattern->pattern_type) {
-		case FILE_PATTERN_SHELL: {
-			if (fnmatch (pattern->value, base_file_name, FNM_PATHNAME) == 0) {
-				file_name_matches = TRUE;
-			}
-			break;
-		}
-		case FILE_PATTERN_REGEXP:
-			g_warning ("Not implemented");
-			break;
-		default:
-			g_assert_not_reached ();
-		}	
-	}
-
-	if (service_file_opener->has_probe &&
-	    (service_file_opener->file_patterns == NULL || file_name_matches)) {
-		ErrorInfo *ignored_error;
-
-		plugin_service_load (service, &ignored_error);
-		if (ignored_error == NULL) {
-			g_return_val_if_fail (service_file_opener->plugin_func_file_probe != NULL, FALSE);
-			return service_file_opener->plugin_func_file_probe (fo, service, file_name);
-		} else {
-			error_info_print (ignored_error);
-			error_info_free (ignored_error);
-			return FALSE;
-		}
-	} else {
-		return file_name_matches;
-	}
-}
-
-static gboolean
-plugin_service_file_opener_open_func (FileOpener const *fo, IOContext *io_context,
-                                      WorkbookView *wb_view, const gchar *file_name)
-{
-	PluginService *service;
-	PluginServiceFileOpener *service_file_opener;
-	ErrorInfo *error;
-
-	g_return_val_if_fail (file_name != NULL, FALSE);
-
-	service = (PluginService *) file_opener_get_user_data (fo);
-	g_return_val_if_fail (service != NULL, FALSE);
-
-	service_file_opener = &service->t.file_opener;
-	plugin_service_load (service, &error);
-	if (error == NULL) {
-		g_return_val_if_fail (service_file_opener->plugin_func_file_open != NULL, FALSE);
-		service_file_opener->plugin_func_file_open (fo, service, io_context, wb_view, file_name);
-		if (gnumeric_io_error_occurred (io_context)) {
-			if (gnumeric_io_has_error_info (io_context)) {
-				gnumeric_io_error_info_push (io_context, error_info_new_str (
-				                             _("Error while reading file.")));
-				gnumeric_io_error_info_display (io_context);
-			}
-			gnumeric_io_clear_error (io_context);
-			return FALSE;
-		} else {
-			if (service_file_opener->save_info != NULL) {
-				InputFileSaveInfo *save_info;
-
-				save_info = service_file_opener->save_info;
-				if (save_info->saver_id_str[0] == '\0') {
-					workbook_set_saveinfo (wb_view_workbook (wb_view), file_name,
-					                       save_info->format_level, NULL);
-				} else {
-					GHashTable *file_savers_hash;
-					FileSaver *saver;
-
-					file_savers_hash = plugin_info_peek_services_data (service->plugin)->file_savers_hash;
-					saver = (FileSaver *) g_hash_table_lookup (file_savers_hash,
-					                                           save_info->saver_id_str);
-					if (saver != NULL) {
-						workbook_set_saveinfo (wb_view_workbook (wb_view), file_name,
-						                       save_info->format_level, saver);
-					}
-				}
-			}
-			return TRUE;
-		}
-	} else {
-		gnumeric_io_error_info_set (io_context, error);
-		gnumeric_io_error_info_push (io_context, error_info_new_str (
-		                            _("Error while reading file.")));
-		gnumeric_io_error_info_display (io_context);
-		gnumeric_io_error_info_clear (io_context);
-		return FALSE;
-	}
-}
-
 static void
 plugin_service_file_opener_initialize (PluginService *service, ErrorInfo **ret_error)
 {
@@ -432,14 +486,14 @@ plugin_service_file_opener_initialize (PluginService *service, ErrorInfo **ret_e
 
 	*ret_error = NULL;
 	service_file_opener = &service->t.file_opener;
-	service_file_opener->opener = file_format_register_open (
-	                              service_file_opener->priority,
-	                              service_file_opener->description,
-	                              service_file_opener->has_probe || service_file_opener->file_patterns != NULL
-	                              ? &plugin_service_file_opener_probe_func
-	                              : NULL,
-	                              &plugin_service_file_opener_open_func);
-	file_opener_set_user_data (service_file_opener->opener, service);
+	service_file_opener->opener = GNUM_FILE_OPENER (gnum_plugin_file_opener_new (service));
+	if (service_file_opener->can_open) {
+		register_file_opener (service_file_opener->opener,
+		                      service_file_opener->priority);
+	}
+	if (service_file_opener->can_import) {
+		register_file_opener_as_importer (service_file_opener->opener);
+	}
 }
 
 static gboolean
@@ -462,12 +516,103 @@ plugin_service_file_opener_cleanup (PluginService *service, ErrorInfo **ret_erro
 
 	*ret_error = NULL;
 	service_file_opener = &service->t.file_opener;
-	file_format_unregister_open (service_file_opener->opener);
+	if (service_file_opener->can_open) {
+		unregister_file_opener (service_file_opener->opener);
+	}
+	if (service_file_opener->can_import) {
+		unregister_file_opener_as_importer (service_file_opener->opener);
+	}
 }
 
 /*
  * FileSaver
  */
+
+typedef struct _GnumPluginFileSaver GnumPluginFileSaver;
+typedef struct _GnumPluginFileSaverClass GnumPluginFileSaverClass;
+
+#define TYPE_GNUM_PLUGIN_FILE_SAVER             (gnum_plugin_file_saver_get_type ())
+#define GNUM_PLUGIN_FILE_SAVER(obj)             (GTK_CHECK_CAST ((obj), TYPE_GNUM_PLUGIN_FILE_SAVER, GnumPluginFileSaver))
+#define GNUM_PLUGIN_FILE_SAVER_CLASS(klass)     (GTK_CHECK_CLASS_CAST ((klass), TYPE_GNUM_PLUGIN_FILE_SAVER, GnumPluginFileSaverClass))
+#define IS_GNUM_PLUGIN_FILE_SAVER(obj)          (GTK_CHECK_TYPE ((obj), TYPE_GNUM_PLUGIN_FILE_SAVER))
+#define IS_GNUM_PLUGIN_FILE_SAVER_CLASS(klass)  (GTK_CHECK_CLASS_TYPE ((klass), TYPE_GNUM_PLUGIN_FILE_SAVER))
+
+GtkType gnum_plugin_file_saver_get_type (void);
+
+struct _GnumPluginFileSaverClass {
+	GnumFileSaverClass parent_class;
+};
+
+struct _GnumPluginFileSaver {
+	GnumFileSaver parent;
+
+	PluginService *service;
+};
+
+static void
+gnum_plugin_file_saver_init (GnumPluginFileSaver *fs)
+{
+	fs->service = NULL;
+}
+
+static void
+gnum_plugin_file_saver_save (GnumFileSaver const *fs, IOContext *io_context,
+                             WorkbookView *wbv, const gchar *file_name)
+{
+	GnumPluginFileSaver *pfs;
+	PluginServiceFileSaver *service_file_saver;
+	ErrorInfo *error;
+
+	g_return_if_fail (IS_GNUM_PLUGIN_FILE_SAVER (fs));
+	g_return_if_fail (file_name != NULL);
+
+	pfs = GNUM_PLUGIN_FILE_SAVER (fs);
+	service_file_saver = &pfs->service->t.file_saver;
+	plugin_service_load (pfs->service, &error);
+	if (error == NULL) {
+		g_return_if_fail (service_file_saver->plugin_func_file_save != NULL);
+		service_file_saver->plugin_func_file_save (fs, pfs->service, io_context, wbv, file_name);
+	} else {
+		gnumeric_io_error_info_set (io_context, error);
+		gnumeric_io_error_info_push (io_context, error_info_new_str (
+		                             _("Error while saving file.")));
+	}
+}
+
+static void
+gnum_plugin_file_saver_class_init (GnumPluginFileSaverClass *klass)
+{
+	GnumFileSaverClass *gnum_file_saver_klass = GNUM_FILE_SAVER_CLASS (klass);
+
+	gnum_file_saver_klass->save = gnum_plugin_file_saver_save;
+}
+
+E_MAKE_TYPE (gnum_plugin_file_saver, "GnumPluginFileSaver", GnumPluginFileSaver, \
+             gnum_plugin_file_saver_class_init, gnum_plugin_file_saver_init, \
+             TYPE_GNUM_FILE_SAVER)
+
+static GnumPluginFileSaver *
+gnum_plugin_file_saver_new (PluginService *service)
+{
+	GnumPluginFileSaver *fs;
+	PluginServiceFileSaver *service_file_saver;
+	gchar *saver_id;
+
+	service_file_saver = &service->t.file_saver;
+	saver_id = g_strdup_printf ("%s:%s",
+	                             plugin_info_peek_id (service->plugin),
+	                             service_file_saver->id);
+	fs = GNUM_PLUGIN_FILE_SAVER (gtk_type_new (TYPE_GNUM_PLUGIN_FILE_SAVER));
+	gnum_file_saver_setup (GNUM_FILE_SAVER (fs), saver_id,
+	                       service_file_saver->file_extension,
+	                       service_file_saver->description,
+	                       service_file_saver->format_level,
+	                       NULL);
+	fs->service = service;
+	g_free (saver_id);
+
+	return fs;
+}
 
 static PluginService *
 plugin_service_file_saver_read (xmlNode *tree, ErrorInfo **ret_error)
@@ -536,45 +681,6 @@ plugin_service_file_saver_free (PluginService *service)
 	g_free (service_file_saver->description);
 }
 
-static gboolean
-plugin_service_file_saver_save_func (FileSaver const *fs, IOContext *io_context,
-                                     WorkbookView *wb_view, const gchar *file_name)
-{
-	PluginService *service;
-	PluginServiceFileSaver *service_file_saver;
-	ErrorInfo *error;
-
-	g_return_val_if_fail (file_name != NULL, FALSE);
-
-	service = (PluginService *) file_saver_get_user_data (fs);
-	g_return_val_if_fail (service != NULL, FALSE);
-
-	service_file_saver = &service->t.file_saver;
-	plugin_service_load (service, &error);
-	if (error == NULL) {
-		g_return_val_if_fail (service_file_saver->plugin_func_file_save != NULL, FALSE);
-		service_file_saver->plugin_func_file_save (fs, service, io_context, wb_view, file_name);
-		if (gnumeric_io_error_occurred (io_context)) {
-			if (gnumeric_io_has_error_info (io_context)) {
-				gnumeric_io_error_info_push (io_context, error_info_new_str (
-				                             _("Error while saving file.")));
-				gnumeric_io_error_info_display (io_context);
-			}
-			gnumeric_io_clear_error (io_context);
-			return FALSE;
-		} else {
-			return TRUE;
-		}
-	} else {
-		gnumeric_io_error_info_set (io_context, error);
-		gnumeric_io_error_info_push (io_context, error_info_new_str (
-		                             _("Error while saving file.")));
-		gnumeric_io_error_info_display (io_context);
-		gnumeric_io_error_info_clear (io_context);
-		return FALSE;
-	}
-}
-
 static void
 plugin_service_file_saver_initialize (PluginService *service, ErrorInfo **ret_error)
 {
@@ -587,12 +693,8 @@ plugin_service_file_saver_initialize (PluginService *service, ErrorInfo **ret_er
 
 	*ret_error = NULL;
 	service_file_saver = &service->t.file_saver;
-	service_file_saver->saver = file_format_register_save (
-	                            service_file_saver->file_extension,
-	                            service_file_saver->description,
-	                            service_file_saver->format_level,
-	                            &plugin_service_file_saver_save_func);
-	file_saver_set_user_data (service_file_saver->saver, service);
+	service_file_saver->saver = GNUM_FILE_SAVER (gnum_plugin_file_saver_new (service));
+	register_file_saver (service_file_saver->saver);
 	file_savers_hash = plugin_info_peek_services_data (service->plugin)->file_savers_hash;
 	g_assert (g_hash_table_lookup (file_savers_hash, service_file_saver->id) == NULL);
 	g_hash_table_insert (file_savers_hash, service_file_saver->id, service_file_saver->saver);
@@ -621,7 +723,7 @@ plugin_service_file_saver_cleanup (PluginService *service, ErrorInfo **ret_error
 	service_file_saver = &service->t.file_saver;
 	file_savers_hash = plugin_info_peek_services_data (service->plugin)->file_savers_hash;
 	g_hash_table_remove (file_savers_hash, service_file_saver->id);
-	file_format_unregister_save (service_file_saver->saver);
+	unregister_file_saver (service_file_saver->saver);
 }
 
 /*

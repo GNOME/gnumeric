@@ -27,7 +27,8 @@ static void
 file_history_cmd (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	gchar *filename = gtk_object_get_data (GTK_OBJECT (widget), UGLY_GNOME_UI_KEY);
-	(void) workbook_read (WORKBOOK_CONTROL (wbcg), filename);
+	(void) wb_view_open (wb_control_view (WORKBOOK_CONTROL (wbcg)),
+	                     WORKBOOK_CONTROL (wbcg), filename);
 }
 
 #else

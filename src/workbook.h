@@ -24,9 +24,10 @@ struct _Workbook {
 	/* Attribute list */
 	GList *attributes;
 
-	char       *filename;
+	gchar          *filename;
 	FileFormatLevel file_format_level;
-	FileSaver      *file_saver;
+	GnumFileSaver  *file_saver;
+	gint            file_saver_sig_id;
 
 	/* Undo support */
 	GSList	   *undo_commands;
@@ -89,9 +90,10 @@ gboolean    workbook_sheet_rename        (WorkbookControl *,
 					  const char *new_name);
 
 /* IO Routines */
-gboolean    workbook_set_filename        (Workbook *, const char *);
-gboolean    workbook_set_saveinfo        (Workbook *, const gchar *,
-                                          FileFormatLevel, FileSaver *);
+gboolean       workbook_set_filename   (Workbook *wb, const char *);
+gboolean       workbook_set_saveinfo   (Workbook *wb, const gchar *,
+                                        FileFormatLevel, GnumFileSaver *);
+GnumFileSaver *workbook_get_file_saver (Workbook *wb);
 
 void        workbook_print               (Workbook *, gboolean);
 

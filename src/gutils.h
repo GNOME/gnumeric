@@ -15,6 +15,7 @@ void     gnumeric_config_set_string_list (GList *items,
 
 void	  g_ptr_array_insert (GPtrArray *array, gpointer value, int index);
 GList    *g_create_list	     (gpointer item1, ...);
+gint      g_list_index_custom (GList *list, gpointer data, GCompareFunc cmp_func);
 void      g_list_free_custom (GList *list, GFreeFunc free_func);
 GList    *g_string_list_copy (GList *list);
 GList    *g_strsplit_to_list (const gchar *string, const gchar *delimiter);

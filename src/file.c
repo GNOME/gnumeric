@@ -1,516 +1,594 @@
 /*
  * file.c: File loading and saving routines
  *
- * Author:
+ * Authors:
  *   Miguel de Icaza (miguel@kernel.org)
+ *   Zbigniew Chyla (cyba@gnome.pl)
  */
 #include <config.h>
+#include <string.h>
 #include <libgnome/libgnome.h>
-#include "gnumeric.h"
-#include "xml-io.h"
-#include "file.h"
-#include "sheet.h"
-#include "application.h"
+#include <gal/util/e-util.h>
 #include "io-context.h"
 #include "command-context.h"
+#include "gnumeric.h"
+#include "xml-io.h"
+#include "sheet.h"
+#include "application.h"
 #include "workbook-control.h"
 #include "workbook-view.h"
 #include "workbook.h"
+#include "gutils.h"
+#include "file.h"
 
-struct _FileOpener {
-	int              priority;
-	char            *format_description;
-	FileFormatProbe  probe_func;
-	FileFormatOpen   open_func;
-	gpointer         user_data;
+/*
+ * GnumFileOpener
+ */
+
+struct _GnumFileOpenerClass {
+	GtkObjectClass parent_class;
+
+	gboolean  (*probe) (GnumFileOpener const *fo,
+	                    const gchar *file_name);
+	void      (*open)  (GnumFileOpener const *fo,
+	                    IOContext *io_context,
+	                    WorkbookView *wbv,
+	                    const gchar *file_name);
 };
 
-struct _FileSaver {
-	char            *extension;
-	char            *format_description;
-	FileFormatLevel  level;
-	FileFormatSave   save_func;
-	gpointer         user_data;
+struct _GnumFileOpener {
+	GtkObject parent;
+
+	gchar                  *id;
+	gchar                  *description;
+	GnumFileOpenerProbeFunc probe_func;
+	GnumFileOpenerOpenFunc  open_func;
 };
 
-/* A GList of FileOpener structures */
-static GList *gnumeric_file_savers = NULL;
-static GList *gnumeric_file_openers = NULL;
+#define GNUM_FILE_OPENER_METHOD(obj,name) \
+        ((GNUM_FILE_OPENER_CLASS (GTK_OBJECT (obj)->klass))->name)
 
-static gint
-file_priority_sort (gconstpointer a, gconstpointer b)
+static void
+gnum_file_opener_init (GnumFileOpener *fo)
 {
-	const FileOpener *fa = (const FileOpener *)a;
-	const FileOpener *fb = (const FileOpener *)b;
-
-	return fb->priority - fa->priority;
+	fo->id = NULL;
+	fo->description = NULL;
+	fo->probe_func = NULL;
+	fo->open_func = NULL;
 }
 
-const gchar *
-file_opener_get_format_description (FileOpener const *fo)
+static void
+gnum_file_opener_destroy (GtkObject *obj)
 {
-	g_return_val_if_fail (fo != NULL, NULL);
+	GnumFileOpener *fo;
 
-	return fo->format_description;
+	g_return_if_fail (IS_GNUM_FILE_OPENER (obj));
+
+	fo = GNUM_FILE_OPENER (obj);
+	g_free (fo->id);
+	g_free (fo->description);
+
+	GTK_OBJECT_CLASS (gtk_type_class (GTK_TYPE_OBJECT))->destroy (obj);
 }
 
-gboolean
-file_opener_has_probe (FileOpener const *fo)
+static gboolean
+gnum_file_opener_probe_real (GnumFileOpener const *fo, const gchar *file_name)
 {
-	g_return_val_if_fail (fo != NULL, FALSE);
-
-	return fo->probe_func != NULL;
-}
-
-gboolean
-file_opener_probe (FileOpener const *fo, const gchar *file_name)
-{
-	gboolean result;
-
-	g_return_val_if_fail (fo != NULL, FALSE);
-	g_return_val_if_fail (file_name != NULL, FALSE);
-
 	if (fo->probe_func == NULL) {
 		return FALSE;
 	}
-	result = fo->probe_func (fo, file_name);
 
-	return result;
+	return fo->probe_func (fo, file_name);
 }
 
-gboolean
-file_opener_open (FileOpener const *fo, IOContext *context,
-                       WorkbookView *wb_view, const gchar *file_name)
+static void
+gnum_file_opener_open_real (GnumFileOpener const *fo, IOContext *io_context,
+                            WorkbookView *wbv, const gchar *file_name)
 {
-	gboolean result;
+	if (fo->open_func == NULL) {
+		gnumeric_io_error_unknown (io_context);
+		return;
+	}
 
-	g_return_val_if_fail (fo != NULL, FALSE);
-	g_return_val_if_fail (file_name != NULL, FALSE);
-
-	result = fo->open_func (fo, context, wb_view, file_name);
-
-	return result;
+	fo->open_func (fo, io_context, wbv, file_name);
 }
+
+static void
+gnum_file_opener_class_init (GnumFileOpenerClass *klass)
+{
+	GTK_OBJECT_CLASS (klass)->destroy = gnum_file_opener_destroy;
+
+	klass->probe = gnum_file_opener_probe_real;
+	klass->open = gnum_file_opener_open_real;
+}
+
+E_MAKE_TYPE (gnum_file_opener, "GnumFileOpener", GnumFileOpener, \
+             gnum_file_opener_class_init, gnum_file_opener_init, \
+             GTK_TYPE_OBJECT)
 
 void
-file_saver_set_user_data (FileSaver *fs, gpointer user_data)
+gnum_file_opener_setup (GnumFileOpener *fo, const gchar *id,
+                        const gchar *description,
+                        GnumFileOpenerProbeFunc probe_func,
+                        GnumFileOpenerOpenFunc open_func)
 {
-	g_return_if_fail (fs != NULL);
+	g_return_if_fail (IS_GNUM_FILE_OPENER (fo));
 
-	fs->user_data = user_data;
+	fo->id = g_strdup (id);
+	fo->description = g_strdup (description);
+	fo->probe_func = probe_func;
+	fo->open_func = open_func;
 }
 
-gpointer
-file_saver_get_user_data (FileSaver const *fs)
+GnumFileOpener *
+gnum_file_opener_new (const gchar *id,
+                      const gchar *description,
+                      GnumFileOpenerProbeFunc probe_func,
+                      GnumFileOpenerOpenFunc open_func)
 {
-	g_return_val_if_fail (fs != NULL, NULL);
+	GnumFileOpener *fo;
 
-	return fs->user_data;
+	fo = GNUM_FILE_OPENER (gtk_type_new (TYPE_GNUM_FILE_OPENER));
+	gnum_file_opener_setup (fo, id, description, probe_func, open_func);
+
+	return fo;
 }
 
 const gchar *
-file_saver_get_extension (FileSaver const *fs)
+gnum_file_opener_get_id (GnumFileOpener const *fo)
 {
-	g_return_val_if_fail (fs != NULL, NULL);
+	g_return_val_if_fail (IS_GNUM_FILE_OPENER (fo), FALSE);
+
+	return fo->id;
+}
+
+const gchar *
+gnum_file_opener_get_description (GnumFileOpener const *fo)
+{
+	g_return_val_if_fail (IS_GNUM_FILE_OPENER (fo), FALSE);
+
+	return fo->description;
+}
+
+gboolean
+gnum_file_opener_probe (GnumFileOpener const *fo, const gchar *file_name)
+{
+	g_return_val_if_fail (IS_GNUM_FILE_OPENER (fo), FALSE);
+	g_return_val_if_fail (file_name != NULL, FALSE);
+
+	return GNUM_FILE_OPENER_METHOD (fo, probe) (fo, file_name);
+}
+
+void
+gnum_file_opener_open (GnumFileOpener const *fo, IOContext *io_context,
+                       WorkbookView *wbv, const gchar *file_name)
+{
+	g_return_if_fail (IS_GNUM_FILE_OPENER (fo));
+	g_return_if_fail (file_name != NULL);
+
+	GNUM_FILE_OPENER_METHOD (fo, open) (fo, io_context, wbv, file_name);
+}
+
+/*
+ * GnumFileSaver
+ */
+
+struct _GnumFileSaverClass {
+	GtkObjectClass parent_class;
+
+	void  (*save)  (GnumFileSaver const *fs,
+	                IOContext *io_context,
+	                WorkbookView *wbv,
+	                const gchar *file_name);
+};
+
+struct _GnumFileSaver {
+	GtkObject parent;
+
+	gchar                *id;
+	gchar                *extension;
+	gchar                *description;
+	FileFormatLevel       format_level;
+	GnumFileSaverSaveFunc save_func;
+};
+
+#define GNUM_FILE_SAVER_METHOD(obj,name) \
+        ((GNUM_FILE_SAVER_CLASS (GTK_OBJECT (obj)->klass))->name)
+
+static void
+gnum_file_saver_init (GnumFileSaver *fs)
+{
+	fs->id = NULL;
+	fs->extension = NULL;
+	fs->description = NULL;
+	fs->format_level = FILE_FL_NEW;
+	fs->save_func = NULL;
+}
+
+static void
+gnum_file_saver_destroy (GtkObject *obj)
+{
+	GnumFileSaver *fs;
+
+	g_return_if_fail (IS_GNUM_FILE_SAVER (obj));
+
+	fs = GNUM_FILE_SAVER (obj);
+	g_free (fs->id);
+	g_free (fs->extension);
+	g_free (fs->description);
+
+	GTK_OBJECT_CLASS (gtk_type_class (GTK_TYPE_OBJECT))->destroy (obj);
+}
+
+static void
+gnum_file_saver_save_real (GnumFileSaver const *fs, IOContext *io_context,
+                           WorkbookView *wbv, const gchar *file_name)
+{
+	if (fs->save_func == NULL) {
+		gnumeric_io_error_unknown (io_context);
+		return;
+	}
+
+	fs->save_func (fs, io_context, wbv, file_name);
+}
+
+static void
+gnum_file_saver_class_init (GnumFileSaverClass *klass)
+{
+	GTK_OBJECT_CLASS (klass)->destroy = gnum_file_saver_destroy;
+
+	klass->save = gnum_file_saver_save_real;
+}
+
+E_MAKE_TYPE (gnum_file_saver, "GnumFileSaver", GnumFileSaver, \
+             gnum_file_saver_class_init, gnum_file_saver_init, \
+             GTK_TYPE_OBJECT)
+
+void
+gnum_file_saver_setup (GnumFileSaver *fs, const gchar *id,
+                       const gchar *extension,
+                       const gchar *description,
+                       FileFormatLevel level,
+                       GnumFileSaverSaveFunc save_func)
+{
+	g_return_if_fail (IS_GNUM_FILE_SAVER (fs));
+
+	fs->id = g_strdup (id);
+	fs->extension = g_strdup (extension);
+	fs->description = g_strdup (description);
+	fs->format_level = level;
+	fs->save_func = save_func;
+}
+
+GnumFileSaver *
+gnum_file_saver_new (const gchar *id,
+                     const gchar *extension,
+                     const gchar *description,
+                     FileFormatLevel level,
+                     GnumFileSaverSaveFunc save_func)
+{
+	GnumFileSaver *fs;
+
+	fs = GNUM_FILE_SAVER (gtk_type_new (TYPE_GNUM_FILE_SAVER));
+	gnum_file_saver_setup (fs, id, extension, description, level, save_func);
+
+	return fs;
+}
+
+const gchar *
+gnum_file_saver_get_id (GnumFileSaver const *fs)
+{
+	g_return_val_if_fail (IS_GNUM_FILE_SAVER (fs), FALSE);
+
+	return fs->id;
+}
+
+const gchar *
+gnum_file_saver_get_extension (GnumFileSaver const *fs)
+{
+	g_return_val_if_fail (IS_GNUM_FILE_SAVER (fs), FALSE);
 
 	return fs->extension;
 }
 
 const gchar *
-file_saver_get_format_description (FileSaver const *fs)
+gnum_file_saver_get_description (GnumFileSaver const *fs)
 {
-	g_return_val_if_fail (fs != NULL, NULL);
+	g_return_val_if_fail (IS_GNUM_FILE_SAVER (fs), FALSE);
 
-	return fs->format_description;
+	return fs->description;
 }
 
-gboolean
-file_saver_save (FileSaver const *fs, IOContext *context,
-                      WorkbookView *wb_view, const gchar *file_name)
+FileFormatLevel
+gnum_file_saver_get_format_level (GnumFileSaver const *fs)
 {
-	gboolean result;
+	g_return_val_if_fail (IS_GNUM_FILE_SAVER (fs), FILE_FL_NEW);
 
-	g_return_val_if_fail (fs != NULL, FALSE);
-
-	result = fs->save_func (fs, context, wb_view, file_name);
-
-	return result;
+	return fs->format_level;
 }
 
 void
-file_opener_set_user_data (FileOpener *fo, gpointer user_data)
+gnum_file_saver_save (GnumFileSaver const *fs, IOContext *io_context,
+                      WorkbookView *wbv, const gchar *file_name)
 {
-	g_return_if_fail (fo != NULL);
+	g_return_if_fail (IS_GNUM_FILE_SAVER (fs));
+	g_return_if_fail (file_name != NULL);
 
-	fo->user_data = user_data;
+	GNUM_FILE_SAVER_METHOD (fs, save) (fs, io_context, wbv, file_name);
 }
 
-gpointer
-file_opener_get_user_data (FileOpener const *fo)
+gchar *
+gnum_file_saver_fix_file_name (GnumFileSaver const *fs, const gchar *file_name)
 {
-	g_return_val_if_fail (fo != NULL, NULL);
+	gchar *new_file_name;
 
-	return fo->user_data;
-}
-
-/**
- * file_format_register_open:
- * @priority: The priority at which this file open handler is registered
- * @desc: a description of this file format
- * @probe_fn: A routine that would probe if the file is of a given type.
- * @open_fn: A routine that would load the code
- *
- * The priority is used to give it a higher precendence to a format.
- * The higher the priority, the sooner it will be tried, gnumeric registers
- * its XML-based format at priority 50.
- *
- * If the probe_fn is NULL, we consider it a format importer, so that
- * it gets only listed in the "Import..." menu, and it is not auto-probed
- * at file open time.
- */
-FileOpener *
-file_format_register_open (gint priority, const gchar *desc,
-                           FileFormatProbe probe_fn, FileFormatOpen open_fn)
-{
-	FileOpener *fo;
-
-	g_return_val_if_fail (open_fn != NULL, NULL);
-
-	fo = g_new (FileOpener, 1);
-	fo->priority = priority;
-	fo->format_description = g_strdup (desc);
-	fo->probe_func = probe_fn;
-	fo->open_func  = open_fn;
-	fo->user_data = NULL;
-
-	gnumeric_file_openers = g_list_insert_sorted (gnumeric_file_openers, fo, file_priority_sort);
-
-	return fo;
-}
-
-/**
- * file_format_unregister_open:
- * @fo: File opener
- *
- * This function is used to remove a registered format opener from gnumeric
- */
-void
-file_format_unregister_open (FileOpener *fo)
-{
-	gnumeric_file_openers = g_list_remove (gnumeric_file_openers, fo);
-	if (fo->format_description) {
-		g_free (fo->format_description);
-	}
-	g_free (fo);
-}
-
-/**
- * file_format_register_save:
- * @extension: An extension that is usually used by this format
- * @format_description: A description of this format
- * @level: The file format level
- * @save_fn: A function that should be used to save
- *
- * This routine registers a file format save routine with Gnumeric
- */
-FileSaver *
-file_format_register_save (char *extension, const char *format_description,
-                           FileFormatLevel level, FileFormatSave save_fn)
-{
-	FileSaver *fs;
-
-	g_return_val_if_fail (save_fn != NULL, NULL);
-
-	fs = g_new (FileSaver, 1);
-	fs->extension = extension;
-	fs->format_description = g_strdup (format_description);
-	fs->level = level;
-	fs->save_func = save_fn;
-	fs->user_data = NULL;
-
-	gnumeric_file_savers = g_list_append (gnumeric_file_savers, fs);
-
-	return fs;
-}
-
-/**
- * cb_unregister_save:
- * @wb: Workbook
- * @fs: Format saver which will be removed
- *
- * Set file format level to manual for workbooks which had this saver set.
- */
-static void
-cb_unregister_save (Workbook *wb, FileSaver *fs)
-{
-	if (wb->file_saver == fs) {
-		wb->file_format_level = FILE_FL_MANUAL;
-		wb->file_saver = NULL;
-	}
-}
-
-/**
- * file_format_unregister_save:
- * @saver_id: Saver ID
- *
- * This function is used to remove a registered format saver from gnumeric
- */
-void
-file_format_unregister_save (FileSaver *fs)
-{
-	application_workbook_foreach ((WorkbookCallback) cb_unregister_save, fs);
-
-	gnumeric_file_savers = g_list_remove (gnumeric_file_savers, fs);
-	if (fs->format_description) {
-		g_free (fs->format_description);
-	}
-	g_free (fs);
-}
-
-GList *
-file_format_get_savers (void)
-{
-	return gnumeric_file_savers;
-}
-
-GList *
-file_format_get_openers (void)
-{
-	return gnumeric_file_openers;
-}
-
-static gboolean
-do_load_from (WorkbookControl *wbc, WorkbookView *wbv, const char *file_name)
-{
-	GList *l;
-
-	for (l = gnumeric_file_openers; l; l = l->next) {
-		FileOpener const * const fo = l->data;
-
-		if (file_opener_probe (fo, file_name)) {
-			gboolean success;
-			IOContext *io_context;
-
-
-			io_context = gnumeric_io_context_new (wbc);
-			success = file_opener_open (fo, io_context, wbv, file_name);
-			if (success) {
-				Workbook *wb = wb_view_workbook (wbv);
-				if (workbook_sheet_count (wb) > 0)
-					workbook_set_dirty (wb, FALSE);
-				else
-					success = FALSE;
-			}
-			gnumeric_io_context_free (io_context);
-			return success;
-		}
-	}
-	return FALSE;
-}
-
-/**
- * workbook_load_from:
- * @wbc:  The calling context.
- * @wbv:  A workbook view to load into.
- * @file_name: gives the URI of the file.
- *
- * This function attempts to read the file into the supplied
- * workbook.
- *
- * Return value: success : TRUE
- *               failure : FALSE
- **/
-gboolean
-workbook_load_from (WorkbookControl *wbc, WorkbookView *wbv,
-                    const gchar *file_name)
-{
-	gboolean success;
-
-	success = do_load_from (wbc, wbv, file_name);
-	if (!success) {
-		gnumeric_error_read (COMMAND_CONTEXT (wbc), NULL);
-	}
-
-	return success;
-}
-
-/**
- * workbook_try_read:
- * @file_name: gives the URI of the file.
- *
- * This function attempts to read the file
- *
- * Return value: a fresh workbook and view loaded workbook on success
- *               or NULL on failure.
- **/
-WorkbookView *
-workbook_try_read (WorkbookControl *wbc, const char *file_name)
-{
-	WorkbookView *new_view;
-	gboolean success;
-
+	g_return_val_if_fail (IS_GNUM_FILE_SAVER (fs), NULL);
 	g_return_val_if_fail (file_name != NULL, NULL);
 
-	new_view = workbook_view_new (NULL);
-	success = do_load_from (wbc, new_view, file_name);
-	if (!success) {
-		Workbook *wb;
+	if (fs->extension != NULL && strchr (g_basename (file_name), '.') == NULL) {
+		new_file_name = g_strconcat (file_name, ".", fs->extension, NULL);
+	} else {
+		new_file_name = g_strdup (file_name);
+	}
 
-		gnumeric_error_read (COMMAND_CONTEXT (wbc), NULL);
-		wb = wb_view_workbook (new_view);
-		gtk_object_destroy (GTK_OBJECT (wb));
+	return new_file_name;
+}
+
+
+/*
+ * ------
+ */
+
+typedef struct {
+	gint priority;
+	GnumFileSaver *saver;
+} DefaultFileSaver;
+
+static GHashTable *file_opener_id_hash = NULL,
+                  *file_saver_id_hash = NULL;
+static GList *file_opener_list = NULL, *file_opener_priority_list = NULL;
+static GList *file_importer_list = NULL;
+static GList *file_saver_list = NULL, *default_file_saver_list = NULL;
+
+static gint
+cmp_int_less_than (gconstpointer list_i, gconstpointer i)
+{
+	return !(GPOINTER_TO_INT (list_i) < GPOINTER_TO_INT (i));
+}
+
+void
+register_file_opener (GnumFileOpener *fo, gint priority)
+{
+	gint pos;
+	const gchar *id;
+
+	g_return_if_fail (IS_GNUM_FILE_OPENER (fo));
+	g_return_if_fail (priority >=0 && priority <= 100);
+
+	gtk_object_ref (GTK_OBJECT (fo));
+	gtk_object_sink (GTK_OBJECT (fo));
+
+	pos = g_list_index_custom (file_opener_priority_list,
+	                           GINT_TO_POINTER (priority),
+	                           cmp_int_less_than); 
+	file_opener_priority_list = g_list_insert (
+	                            file_opener_priority_list,
+	                            GINT_TO_POINTER (priority), pos);
+	file_opener_list = g_list_insert (file_opener_list, fo, pos);
+
+	id = gnum_file_opener_get_id (fo);
+	if (id != NULL) {
+		if (file_opener_id_hash	== NULL) {
+			file_opener_id_hash = g_hash_table_new (&g_str_hash, &g_str_equal);
+		}
+		g_hash_table_insert (file_opener_id_hash, (gpointer) id, fo);
+	}
+}
+
+void
+register_file_opener_as_importer (GnumFileOpener *fo)
+{
+	const gchar *id;
+
+	g_return_if_fail (IS_GNUM_FILE_OPENER (fo));
+
+	gtk_object_ref (GTK_OBJECT (fo));
+	gtk_object_sink (GTK_OBJECT (fo));
+
+	file_importer_list = g_list_prepend (file_importer_list, fo);
+
+	id = gnum_file_opener_get_id (fo);
+	if (id != NULL) {
+		if (file_opener_id_hash	== NULL) {
+			file_opener_id_hash = g_hash_table_new (&g_str_hash, &g_str_equal);
+		}
+		g_hash_table_insert (file_opener_id_hash, (gpointer) id, fo);
+	}
+}
+
+void
+unregister_file_opener (GnumFileOpener *fo)
+{
+	gint pos;
+	const gchar *id;
+
+	g_return_if_fail (IS_GNUM_FILE_OPENER (fo));
+
+	pos = g_list_index (file_opener_list, fo);
+	g_return_if_fail (pos != -1);
+	file_opener_list = g_list_remove_link (
+	                   file_opener_list,
+	                   g_list_nth (file_opener_list, pos));
+	file_opener_priority_list = g_list_remove_link (
+	                            file_opener_priority_list,
+	                            g_list_nth (file_opener_priority_list, pos));
+
+	id = gnum_file_opener_get_id (fo);
+	if (id != NULL) {
+		g_hash_table_remove (file_opener_id_hash, (gpointer) id);
+		if (g_hash_table_size (file_opener_id_hash) == 0) {
+			g_hash_table_destroy (file_opener_id_hash);
+			file_opener_id_hash = NULL;
+		}
+	}
+
+	gtk_object_unref (GTK_OBJECT (fo));
+}
+
+void
+unregister_file_opener_as_importer (GnumFileOpener *fo)
+{
+	GList *l;
+	const gchar *id;
+
+	g_return_if_fail (IS_GNUM_FILE_OPENER (fo));
+
+	l = g_list_find (file_importer_list, fo);
+	g_return_if_fail (l != NULL);
+	file_importer_list = g_list_remove_link (file_importer_list,  l);
+
+	id = gnum_file_opener_get_id (fo);
+	if (id != NULL) {
+		g_hash_table_remove (file_opener_id_hash, (gpointer) id);
+		if (g_hash_table_size (file_opener_id_hash) == 0) {
+			g_hash_table_destroy (file_opener_id_hash);
+			file_opener_id_hash = NULL;
+		}
+	}
+
+	gtk_object_unref (GTK_OBJECT (fo));
+}
+
+static gint
+default_file_saver_cmp_priority (gconstpointer a, gconstpointer b)
+{
+	const DefaultFileSaver *dfs_a = a, *dfs_b = b;
+
+	return dfs_b->priority - dfs_a->priority;
+}
+
+static gint
+default_file_saver_cmp_saver (gconstpointer a, gconstpointer b)
+{
+	const DefaultFileSaver *dfs_a = a, *dfs_b = b;
+
+	return dfs_a->saver != dfs_b->saver;
+}
+
+void
+register_file_saver (GnumFileSaver *fs)
+{
+	const gchar *id;
+
+	g_return_if_fail (IS_GNUM_FILE_SAVER (fs));
+
+	gtk_object_ref (GTK_OBJECT (fs));
+	gtk_object_sink (GTK_OBJECT (fs));
+
+	file_saver_list = g_list_prepend (file_saver_list, fs);
+	id = gnum_file_saver_get_id (fs);
+	if (id != NULL) {
+		if (file_saver_id_hash	== NULL) {
+			file_saver_id_hash = g_hash_table_new (&g_str_hash, &g_str_equal);
+		}
+		g_hash_table_insert (file_saver_id_hash, (gpointer) id, fs);
+	}
+}
+
+void
+register_file_saver_as_default (GnumFileSaver *fs, gint priority)
+{
+	DefaultFileSaver *dfs;
+
+	g_return_if_fail (IS_GNUM_FILE_SAVER (fs));
+	g_return_if_fail (priority >=0 && priority <= 100);
+
+	register_file_saver (fs);
+
+	dfs = g_new (DefaultFileSaver, 1);
+	dfs->priority = priority;
+	dfs->saver = fs;
+	default_file_saver_list = g_list_insert_sorted (
+	                          default_file_saver_list, dfs,
+	                          default_file_saver_cmp_priority);
+}
+
+void
+unregister_file_saver (GnumFileSaver *fs)
+{
+	GList *l;
+	const gchar *id;
+
+	g_return_if_fail (IS_GNUM_FILE_SAVER (fs));
+
+	l = g_list_find (file_saver_list, fs);
+	g_return_if_fail (l != NULL);
+	file_saver_list = g_list_remove_link (file_saver_list, l);
+
+	id = gnum_file_saver_get_id (fs);
+	if (id != NULL) {
+		g_hash_table_remove (file_saver_id_hash, (gpointer) id);
+		if (g_hash_table_size (file_saver_id_hash) == 0) {
+			g_hash_table_destroy (file_saver_id_hash);
+			file_saver_id_hash = NULL;
+		}
+	}
+
+	l = g_list_find_custom (default_file_saver_list, fs,
+	                        default_file_saver_cmp_saver);
+	default_file_saver_list = g_list_remove_link (default_file_saver_list, l);
+
+	gtk_object_unref (GTK_OBJECT (fs));
+}
+
+GnumFileSaver *
+get_default_file_saver (void)
+{
+	if (default_file_saver_list == NULL) {
 		return NULL;
 	}
 
-	return new_view;
+	return ((DefaultFileSaver *) default_file_saver_list->data)->saver;
 }
 
-WorkbookView *
-file_finish_load (WorkbookControl *wbc, WorkbookView *new_wbv)
+GnumFileOpener *
+get_file_opener_by_id (const gchar *id)
 {
-	if (new_wbv != NULL) {
-		WorkbookControl *new_wbc;
-		Workbook *old_wb = wb_control_workbook (wbc);
+	g_return_val_if_fail (id != NULL, NULL);
 
-		/*
-		 * If the current workbook is empty and untouched use its
-		 * control to wrap the new book.
-		 */
-		if (workbook_is_pristine (old_wb)) {
-			gtk_object_ref (GTK_OBJECT (wbc));
-			workbook_unref (old_wb);
-			workbook_control_set_view (wbc, new_wbv, NULL);
-			workbook_control_init_state (wbc);
-			new_wbc = wbc;
-		} else
-			new_wbc = wb_control_wrapper_new (wbc, new_wbv, NULL);
-
-		workbook_recalc (wb_view_workbook (new_wbv));
-
-		/* FIXME : This should not be needed */
-		workbook_set_dirty (wb_view_workbook (new_wbv), FALSE);
-
-		sheet_update (wb_view_cur_sheet (new_wbv));
+	if (file_opener_id_hash == NULL) {
+		return NULL;
 	}
 
-	return new_wbv;
+	return GNUM_FILE_OPENER (g_hash_table_lookup (file_opener_id_hash, id));
 }
 
-/**
- * workbook_read:
- * @file_name: the file's URI
- *
- * This attempts to read a workbook, if the file doesn't
- * exist it will create a blank 1 sheet workbook, otherwise
- * it will flag a user error message.
- *
- * Return value: a pointer to a Workbook or NULL.
- **/
-WorkbookView *
-workbook_read (WorkbookControl *wbc, const char *file_name)
+GnumFileSaver *
+get_file_saver_by_id (const gchar *id)
 {
-	WorkbookView *new_view = NULL;
-	char *template;
+	g_return_val_if_fail (id != NULL, NULL);
 
-	g_return_val_if_fail (file_name != NULL, NULL);
-
-	if (g_file_exists (file_name)) {
-		template = g_strdup_printf (_("Could not read file %s\n%%s"),
-					    file_name);
-		command_context_push_err_template (COMMAND_CONTEXT (wbc), template);
-		new_view = workbook_try_read (wbc, file_name);
-		command_context_pop_err_template (COMMAND_CONTEXT (wbc));
-		g_free (template);
-	} else {
-		Workbook *new_wb = workbook_new_with_sheets (1);
-
-		workbook_set_saveinfo (new_wb, file_name, FILE_FL_NEW,
-		                       gnumeric_xml_get_saver ());
-		new_view = workbook_view_new (new_wb);
+	if (file_saver_id_hash == NULL) {
+		return NULL;
 	}
 
-	return file_finish_load (wbc, new_view);
+	return GNUM_FILE_SAVER (g_hash_table_lookup (file_saver_id_hash, id));
 }
 
-static FileSaver *
-insure_saver (FileSaver *current)
+GList *
+get_file_savers (void)
 {
-	GList *l;
-
-	if (current)
-		return current;
-
-	for (l = gnumeric_file_savers; l; l = l->next){
-		return l->data;
-	}
-	g_assert_not_reached ();
-	return NULL;
+	return file_saver_list;
 }
 
-gboolean
-workbook_save_as (WorkbookControl *wbc, WorkbookView *wb_view,
-                  const char *name, FileSaver *fs)
+GList *
+get_file_openers (void)
 {
-	char *template;
-	gboolean success = FALSE;
-	Workbook *wb = wb_view_workbook (wb_view);
-	IOContext *io_context;
-
-	template = g_strdup_printf (_("Could not save to file %s\n%%s"), name);
-	command_context_push_err_template (COMMAND_CONTEXT (wbc), template);
-
-	fs = insure_saver (fs);
-	if (!fs) {
-		gnumeric_error_save (COMMAND_CONTEXT (wbc),
-				     _("There are no file savers loaded"));
-		return FALSE;
-	}
-
-	io_context = gnumeric_io_context_new (wbc);
-
-	/* Files are expected to be in standard C format.  */
-	if (file_saver_save (fs, io_context, wb_view, name)) {
-		workbook_set_saveinfo (wb, name, fs->level, fs);
-		workbook_set_dirty (wb, FALSE);
-		success = TRUE;
-	}
-
-	command_context_pop_err_template (COMMAND_CONTEXT (wbc));
-	g_free (template);
-
-	gnumeric_io_context_free (io_context);
-	return success;
+	return file_opener_list;
 }
 
-gboolean
-workbook_save (WorkbookControl *wbc, WorkbookView *wb_view)
+GList *
+get_file_importers (void)
 {
-	char *template;
-	gboolean ret;
-	FileSaver *fs;
-	Workbook *wb = wb_view_workbook (wb_view);
-	IOContext *io_context;
-
-	g_return_val_if_fail (wb_view != NULL, FALSE);
-
-	template = g_strdup_printf (_("Could not save to file %s\n%%s"),
-				    wb->filename);
-	command_context_push_err_template (COMMAND_CONTEXT (wbc), template);
-	if (wb->file_saver == NULL) {
-		fs = gnumeric_xml_get_saver ();
-	} else {
-		fs = wb->file_saver;
-	}
-	g_return_val_if_fail (fs != NULL, FALSE);
-
-	io_context = gnumeric_io_context_new (wbc);
-	ret = file_saver_save (fs, io_context, wb_view, wb->filename);
-	if (ret) {
-		workbook_set_dirty (wb, FALSE);
-	}
-	command_context_pop_err_template (COMMAND_CONTEXT (wbc));
-	g_free (template);
-	gnumeric_io_context_free (io_context);
-
-	return ret;
+	return file_importer_list;
 }

@@ -2,6 +2,7 @@
 #define GNUMERIC_WORKBOOK_VIEW_H
 
 #include "gnumeric.h"
+#include "file.h"
 #include <gtk/gtkobject.h>
 
 struct _WorkbookView {
@@ -58,7 +59,7 @@ void		 wb_view_sheet_add	  (WorkbookView *wbv, Sheet *new_sheet);
 
 /* Manipulation */
 GtkArg		*wb_view_get_attributev	  (WorkbookView *wbv, guint *n_args);
-void		 wb_view_set_attributev	  (WorkbookView *wbv, GList *list);
+void         wb_view_set_attribute_list (WorkbookView *wbv, GList *list);
 void		 wb_view_preferred_size	  (WorkbookView *wbv,
 					   int w_pixels, int h_pixels);
 void		 wb_view_prefs_update	  (WorkbookView *wbv);
@@ -83,5 +84,15 @@ do {										\
 			code							\
 		}								\
 } while (0)
+
+/* i/o routines */
+
+gboolean wb_view_save_as     (WorkbookView *wbv, WorkbookControl *wbc,
+                              GnumFileSaver *fs, const gchar *file_name);
+gboolean wb_view_save        (WorkbookView *wbv, WorkbookControl *wbc);
+gboolean wb_view_open        (WorkbookView *wbv, WorkbookControl *wbc,
+                              const gchar *file_name);
+gboolean wb_view_open_custom (WorkbookView *wbv, WorkbookControl *wbc,
+                              GnumFileOpener *fo, const gchar *file_name);
 
 #endif /* GNUMERIC_WORKBOOK_VIEW_H */

@@ -113,7 +113,7 @@ struct _WorkbookControlGUI {
         gint       autosave_minutes;
         gint       autosave_timer;
 
-	FileSaver *current_saver;
+	GnumFileSaver *current_saver;
 };
 
 typedef struct {

@@ -378,11 +378,8 @@ gnumeric_sheet_filenames_dropped (GtkWidget        *widget,
 
 	for (tmp_list = names; tmp_list != NULL; tmp_list = tmp_list->next) {
 		gchar *file_name = tmp_list->data;
-		WorkbookView *new_wb = workbook_try_read (wbc, file_name);
 
-		if (new_wb != NULL) {
-			(void) file_finish_load (wbc, new_wb);
-		} else {
+		if (!wb_view_open (wb_control_view (wbc), wbc, file_name)) {
 #ifdef ENABLE_BONOBO
 			/* If it wasn't a workbook, see if we have a control for it */
 			SheetObject *so = sheet_object_container_new_file (

@@ -351,13 +351,13 @@ gnumeric_plugin_loader_module_load_service_general (GnumericPluginLoader *loader
  */
 
 typedef struct {
-	gboolean (*module_func_file_probe) (FileOpener const *fo, const gchar *file_name);
-	void (*module_func_file_open) (FileOpener const *fo, IOContext *io_context,
-	                               WorkbookView *wb_view, const gchar *filename);
+	gboolean (*module_func_file_probe) (GnumFileOpener const *fo, const gchar *file_name);
+	void (*module_func_file_open) (GnumFileOpener const *fo, IOContext *io_context,
+	                               WorkbookView *wbv, const gchar *filename);
 } ServiceLoaderDataFileOpener;
 
 static gboolean
-gnumeric_plugin_loader_module_func_file_probe (FileOpener const *fo, PluginService *service,
+gnumeric_plugin_loader_module_func_file_probe (GnumFileOpener const *fo, PluginService *service,
                                                const gchar *file_name)
 {
 	ServiceLoaderDataFileOpener *loader_data;
@@ -370,8 +370,8 @@ gnumeric_plugin_loader_module_func_file_probe (FileOpener const *fo, PluginServi
 }
 
 static void
-gnumeric_plugin_loader_module_func_file_open (FileOpener const *fo, PluginService *service,
-                                              IOContext *io_context, WorkbookView *wb_view,
+gnumeric_plugin_loader_module_func_file_open (GnumFileOpener const *fo, PluginService *service,
+                                              IOContext *io_context, WorkbookView *wbv,
                                               const gchar *file_name)
 {
 	ServiceLoaderDataFileOpener *loader_data;
@@ -380,7 +380,7 @@ gnumeric_plugin_loader_module_func_file_open (FileOpener const *fo, PluginServic
 	g_return_if_fail (file_name != NULL);
 
 	loader_data = (ServiceLoaderDataFileOpener *) plugin_service_get_loader_data (service);
-	loader_data->module_func_file_open (fo, io_context, wb_view, file_name);
+	loader_data->module_func_file_open (fo, io_context, wbv, file_name);
 }
 
 static void
@@ -450,13 +450,13 @@ gnumeric_plugin_loader_module_load_service_file_opener (GnumericPluginLoader *lo
  */
 
 typedef struct {
-	void (*module_func_file_save) (FileSaver const *fs, IOContext *io_context,
-	                               WorkbookView *wb_view, const gchar *filename);
+	void (*module_func_file_save) (GnumFileSaver const *fs, IOContext *io_context,
+	                               WorkbookView *wbv, const gchar *filename);
 } ServiceLoaderDataFileSaver;
 
 static void
-gnumeric_plugin_loader_module_func_file_save (FileSaver const *fs, PluginService *service,
-                                              IOContext *io_context, WorkbookView *wb_view,
+gnumeric_plugin_loader_module_func_file_save (GnumFileSaver const *fs, PluginService *service,
+                                              IOContext *io_context, WorkbookView *wbv,
                                               const gchar *file_name)
 {
 	ServiceLoaderDataFileSaver *loader_data;
@@ -465,7 +465,7 @@ gnumeric_plugin_loader_module_func_file_save (FileSaver const *fs, PluginService
 	g_return_if_fail (file_name != NULL);
 
 	loader_data = (ServiceLoaderDataFileSaver *) plugin_service_get_loader_data (service);
-	loader_data->module_func_file_save (fs, io_context, wb_view, file_name);
+	loader_data->module_func_file_save (fs, io_context, wbv, file_name);
 }
 
 static void

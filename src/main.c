@@ -28,6 +28,7 @@ extern gboolean EmbeddableGridFactory_init (void);
 #include "command-context.h"
 #include "workbook.h"
 #include "workbook-control-gui.h"
+#include "workbook-view.h"
 #include "sheet-object.h"
 #include "number-match.h"
 #include "main.h"
@@ -124,7 +125,7 @@ static void
 gnumeric_main (void *closure, int argc, char *argv [])
 {
 	gboolean opened_workbook = FALSE;
-	WorkbookControl *context;
+	WorkbookControl *wbc;
 	const char *gnumeric_binary = argv[0];
 
 	/* Make stdout line buffered - we only use it for debug info */
@@ -206,13 +207,14 @@ gnumeric_main (void *closure, int argc, char *argv [])
 #ifdef ENABLE_BONOBO
 	bonobo_activate ();
 #endif
-	context = workbook_control_gui_new (NULL, NULL);
-	plugins_init (COMMAND_CONTEXT (context));
+ 	wbc = workbook_control_gui_new (NULL, NULL);
+ 	plugins_init (COMMAND_CONTEXT (wbc));
 	if (startup_files) {
 		int i;
 		for (i = 0; startup_files [i]  && !initial_workbook_open_complete ; i++) {
-			if (workbook_read (context, startup_files [i]) != NULL)
-				opened_workbook = TRUE;
+ 			if (wb_view_open (wb_control_view (wbc), wbc, startup_files[i])) {
+  				opened_workbook = TRUE;
+ 			}
 
 			handle_paint_events ();
 		}
@@ -225,7 +227,7 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	if (!initial_workbook_open_complete && !immediate_exit_flag) {
 		initial_workbook_open_complete = TRUE;
 		if (!opened_workbook) {
-			workbook_sheet_add (wb_control_workbook (context),
+			workbook_sheet_add (wb_control_workbook (wbc),
 					    NULL, FALSE);
 			handle_paint_events ();
 		}
@@ -238,7 +240,7 @@ gnumeric_main (void *closure, int argc, char *argv [])
 			if (stat (gnumeric_binary, &buf) != -1 &&
 			    buf.st_mtime != -1 &&
 			    now - buf.st_mtime > days * 24 * 60 * 60) {
-				gnumeric_error_system (COMMAND_CONTEXT (context),
+				gnumeric_error_system (COMMAND_CONTEXT (wbc),
 						       _("Thank you for using Gnumeric\n"
 							 "\n"
 							 "The version of Gnumeric you are using is quite old\n"

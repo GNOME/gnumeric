@@ -12,6 +12,7 @@
  */
 #include <config.h>
 
+#include <stdlib.h>
 #include "workbook.h"
 #include "workbook-view.h"
 #include "workbook-control.h"
@@ -30,6 +31,8 @@
 #include "commands.h"
 #include "xml-io.h"
 #include "main.h"
+#include "file.h"
+#include "io-context.h"
 #include "gutils.h"
 
 #ifdef ENABLE_BONOBO
@@ -103,12 +106,27 @@ workbook_history_update (GList *wl, gchar *filename)
 }
 
 static void
+cb_saver_destroy_event (GtkObject *obj, gpointer *data)
+{
+	g_return_if_fail (IS_GNUM_FILE_SAVER (obj));
+	g_return_if_fail (IS_WORKBOOK (data));
+
+	WORKBOOK (data)->file_saver = NULL;
+	WORKBOOK (data)->file_saver_sig_id = 0;
+}
+
+static void
 workbook_destroy (GtkObject *wb_object)
 {
 	Workbook *wb = WORKBOOK (wb_object);
 	GList *sheets, *ptr;
 
 	wb->priv->during_destruction = TRUE;
+
+	if (wb->file_saver_sig_id != 0) {
+		gtk_signal_disconnect (GTK_OBJECT (wb->file_saver), wb->file_saver_sig_id);
+		wb->file_saver_sig_id = 0;
+	}
 
 	/* Remove all the sheet controls to avoid displaying while we exit */
 	WORKBOOK_FOREACH_CONTROL (wb, view, control,
@@ -441,6 +459,7 @@ workbook_new (void)
 	} while (!is_unique);
 	wb->file_format_level = FILE_FL_NEW;
 	wb->file_saver        = NULL;
+	wb->file_saver_sig_id = 0;
 
 	wb->priv->during_destruction = FALSE;
 
@@ -534,7 +553,7 @@ workbook_set_filename (Workbook *wb, const char *name)
  * workbook_set_saveinfo:
  * @wb: the workbook to modify
  * @name: the file name for this worksheet.
- * @level: the file format level - new, manual or auto
+ * @level: the file format level
  *
  * Provided level is at least as high as current level,
  * calls workbook_set_filename, and sets level and saver.
@@ -544,28 +563,44 @@ workbook_set_filename (Workbook *wb, const char *name)
  * FIXME : Add a check to ensure the name is unique.
  */
 gboolean
-workbook_set_saveinfo (Workbook *wb, const gchar *name,
-                       FileFormatLevel level, FileSaver *file_saver)
+workbook_set_saveinfo (Workbook *wb, const gchar *file_name,
+                       FileFormatLevel level, GnumFileSaver *fs)
 {
 	g_return_val_if_fail (wb != NULL, FALSE);
-	g_return_val_if_fail (name != NULL, FALSE);
+	g_return_val_if_fail (file_name != NULL, FALSE);
 	g_return_val_if_fail (level > FILE_FL_NONE && level <= FILE_FL_AUTO,
-			      FALSE);
+	                      FALSE);
 
-	if (level < wb->file_format_level)
+	if (level < wb->file_format_level ||
+	    !workbook_set_filename (wb, file_name)) {
 		return FALSE;
+	}
 
-	if (!workbook_set_filename (wb, name))
-		return FALSE;
 	wb->file_format_level = level;
-	if (file_saver != NULL) {
-		wb->file_saver = file_saver;
+	if (wb->file_saver_sig_id != 0) {
+		gtk_signal_disconnect (GTK_OBJECT (wb->file_saver), wb->file_saver_sig_id);
+	}
+	wb->file_saver = fs;
+	if (wb->file_saver != NULL) {
+		wb->file_saver_sig_id = gtk_signal_connect (GTK_OBJECT (wb->file_saver),
+		                        "destroy",
+		                        GTK_SIGNAL_FUNC (cb_saver_destroy_event),
+		                        wb);
 	} else {
-		wb->file_saver = gnumeric_xml_get_saver ();
+		wb->file_saver_sig_id = 0;
 	}
 
 	return TRUE;
 }
+
+GnumFileSaver *
+workbook_get_file_saver (Workbook *wb)
+{
+	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
+
+	return wb->file_saver;
+}
+
 
 typedef struct
 {

@@ -1,3 +1,116 @@
+2001-05-21  Zbigniew Chyla  <cyba@gnome.pl>
+
+	Cleaned up file i/o interface.
+
+	* src/Makefile.am: Added file-priv.h.
+
+	* src/file.[ch]:
+	Made GnumFileOpener and GnumFileSaver GtkObjects with virtual probe,
+	open and save methods.
+	New GnumFileOpener methods: get_id.
+	New GnumFileSaver methods: get_id, fix_file_name.
+	New functions: register_file_opener, register_file_opener_as_importer,
+	unregister_file_opener, unregister_file_opener_as_importer,
+	register_file_saver, register_file_saver_as_default,
+	unregister_file_saver, get_default_file_saver,
+	get_file_opener_by_id, get_file_saver_by_id,
+	get_file_savers, get_file_openers, get_file_importers.
+
+	* src/file-priv.h: New file with definitions of structs:
+	_GnumFileOpener, _GnumFileOpenerClass, _GnumFileSaver,
+	_GnumFileSaverClass.
+
+	* src/workbook.h
+	(struct _Workbook): Added file_saver_sig_id field.
+	s/FileSaver/GnumFileSaver/
+	(workbook_get_file_saver): New accessor function.
+
+	* src/workbook.c
+	(cb_saver_destroy_event, workbook_destroy, workbook_set_saveinfo):
+	When setting new file_saver, connect to its "destroy" signal and
+	set file_saver to NULL in signal handler. Disconnect when changing file
+	saver or destroying the workbook.
+	(workbook_get_file_saver): New accessor function.
+
+	* src/workbook-view.[ch]
+	(wb_view_set_attributev): Renamed to wb_view_set_attribute_list and
+	simplified.
+	(wb_view_save_as, wb_view_save, wb_view_open, wb_view_open_custom): New
+	methods (some code moved from file.c).
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_filenames_dropped):
+	Use wb_view_open() instead of workbook_try_read()+file_finish_load().
+
+	* src/gui-file.c
+	(gui_file_import): Use get_file_importers(). Use
+	wb_view_open_custom() instead of file_opener_open() + manual creation
+	of wb_view, error checking, etc.
+	(is_saver_registered): Removed.
+	(saver_activate): Don't check if saver is really registered.
+	(file_saver_is_default_format): Use get_default_file_saver() instead
+	of strcmp(extension, "gnumeric") hack.
+	(do_save_as): Use gnum_file_saver_fix_file_name().
+	Adjusted everything to file.h, workbook.h, workbook-control.h.
+
+	* src/gui-file.h (gui_file_import): Signature change, now function
+	returns gboolean.
+
+	* src/gutils.[ch] (g_list_index_custom): New function.
+
+	* src/history.c (file_history_cmd), src/main.c (gnumeric_main),
+	src/workbook-control-gui.c (cb_file_open): Use wb_view_open()
+	instead of workbook_read().
+
+	* src/workbook-control-gui-priv.h (struct _WorkbookControlGUI):
+	s/FileSaver/GnumFileSaver/
+
+	* src/plugin-service
+	Created GnumPluginFileOpener and GnumPluginFileSaver classes (derived
+	from GnumFileOpener and GnumFileSaver respectively). Moved contents of
+	plugin_service_file_opener_probe_func,
+	plugin_service_file_opener_open_func,
+	plugin_service_file_saver_save_func into
+	gnum_plugin_file_opener_probe, gnum_plugin_file_opener_open,
+	gnum_plugin_file_saver_save methods (slightly modified).
+	(plugin_service_file_opener_read): Read "open" and "import" attributes
+	of <service> tag.
+	(plugin_service_file_opener_initialize,
+	plugin_service_file_opener_cleanup): Register/unregister created
+	file opener (GnumPluginFileOpener object) as normal opener and/or
+	importer depending on "open" and "import" XML attributes.
+	(plugin_service_file_opener_initialize,
+	plugin_service_file_opener_cleanup): Register/unregister created
+	file saver (GnumPluginFileSaver object).
+
+	* src/plugin-service.h
+	(struct _PluginServiceFileOpener):
+	Added can_open and can_import fields.
+	s/FileOpener/GnumFileOpener/
+	(struct _PluginServiceFileSaver):
+	s/FileSaver/GnumFileSaver/
+	
+	* src/plugin-loader-module.c
+	(struct ServiceLoaderDataFileOpener, struct ServiceLoaderDataFileSaver),
+	gnumeric_plugin_loader_module_func_file_probe,
+	gnumeric_plugin_loader_module_func_file_open,
+	gnumeric_plugin_loader_module_func_file_save):
+	s/FileOpener/GnumFileOpener/
+	s/FileSaver/GnumFileSaver/
+
+	* src/stf.c
+	(stf_read_workbook, stf_write_workbook): Signature change
+	(don't return gboolean).
+	(stf_init): Adjusted to file i/o interface changes.
+
+	src/xml-io.[ch]
+	(gnumeric_xml_get_opener, xml_probe):
+	s/FileOpener/GnumFileOpener/
+	(gnumeric_xml_get_opener):
+	s/FileSaver/GnumFileSaver/
+	(gnumeric_xml_read_workbook, gnumeric_xml_write_workbook): Signature
+	change (don't return gboolean).
+	(xml_init): Adjusted to file i/o interface changes.
+
 2001-05-20  Chema Celorio  <chema@celorio.com>
 
 	* src/sheet-control-gui.c (set_acetate_coords): make sure the accetate

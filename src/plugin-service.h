@@ -32,16 +32,18 @@ struct _PluginServiceFileOpener {
 	gchar *id;
 	gint priority;
 	gboolean has_probe;
+	gboolean can_open;
+	gboolean can_import;
 	gchar *description;
 	GList *file_patterns;      /* list of InputFilePattern */
 	InputFileSaveInfo *save_info;
 
-	FileOpener *opener;
+	GnumFileOpener *opener;
 	/* fields available after loading */
-	gboolean (*plugin_func_file_probe) (FileOpener const *fo, PluginService *service,
+	gboolean (*plugin_func_file_probe) (GnumFileOpener const *fo, PluginService *service,
 	                                    const gchar *file_name);
-	void (*plugin_func_file_open) (FileOpener const *fo, PluginService *service,
-	                               IOContext *io_context, WorkbookView *wb_view,
+	void (*plugin_func_file_open) (GnumFileOpener const *fo, PluginService *service,
+	                               IOContext *io_context, WorkbookView *wbv,
 	                               const gchar *file_name);
 };
 
@@ -51,10 +53,10 @@ struct _PluginServiceFileSaver {
 	FileFormatLevel format_level;
 	gchar *description;
 
-	FileSaver *saver;
+	GnumFileSaver *saver;
 	/* fields available after loading */
-	void  (*plugin_func_file_save) (FileSaver const *fs, PluginService *service,
-	                                IOContext *io_context, WorkbookView *wb_view,
+	void  (*plugin_func_file_save) (GnumFileSaver const *fs, PluginService *service,
+	                                IOContext *io_context, WorkbookView *wbv,
 	                                const gchar *file_name);
 };
 

@@ -94,6 +94,7 @@ GNUMERIC_BASE_SOURCES =				\
 	expr-name.h				\
 	file.c					\
 	file.h					\
+	file-priv.h					\
 	file-autoft.c				\
 	file-autoft.h				\
 	format-template.h			\

@@ -199,6 +199,21 @@ g_create_list (gpointer item1, ...)
 	return g_list_reverse (list);
 }
 
+gint
+g_list_index_custom (GList *list, gpointer data, GCompareFunc cmp_func)
+{
+	GList *l;
+	gint i;
+
+	for (l = list, i = 0; l != NULL; l = l->next, i++) {
+		if (cmp_func (l->data, data) == 0) {
+			return i;
+		}
+	}
+
+	return -1;
+}
+
 /**
  * g_list_free_custom:
  * @list: list of some items
