@@ -7,7 +7,7 @@
   <source_directory></source_directory>
   <pixmaps_directory>pixmaps</pixmaps_directory>
   <language>C</language>
-  <gettext_support>False</gettext_support>
+  <gettext_support>True</gettext_support>
   <use_widget_names>False</use_widget_names>
   <main_source_file>gladesrc.c</main_source_file>
   <main_header_file>gladesrc.h</main_header_file>

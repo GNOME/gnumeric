@@ -222,13 +222,15 @@ cb_sheet_do_destroy (gpointer key, gpointer value, gpointer user_data)
 {
 	Sheet *sheet = value;
 
-	sheet->workbook = NULL;
 	sheet_destroy (sheet);
 }
 
 static void
 workbook_do_destroy (Workbook *wb)
 {
+	g_hash_table_foreach (wb->sheets, cb_sheet_do_destroy, NULL);
+	g_hash_table_destroy (wb->sheets);
+
 	if (wb->filename)
 	       g_free (wb->filename);
 
@@ -244,9 +246,6 @@ workbook_do_destroy (Workbook *wb)
 	workbook_count--;
 
 	symbol_table_destroy (wb->symbol_names);
-
-	g_hash_table_foreach (wb->sheets, cb_sheet_do_destroy, NULL);
-	g_hash_table_destroy (wb->sheets);
 
 	g_free (wb);
 

@@ -3,7 +3,7 @@
  *
  * Redid the format parsing routine to make it accept more of the Excel
  * formats.  The number rendeing code from Chris has not been touched,
- * that routine is pretty good. 
+ * that routine is pretty good.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -56,27 +56,9 @@ static void style_entry_free (gpointer data, gpointer user_data);
  * A number specification is as described in the relavent portions of
  * the excel formatting information.  Commas can currently only appear
  * at the end of the number specification.  Fractions are not yet
- * supported.  
+ * supported.
  */
 
-
-static void
-do_roundup (GString *string)
-{
-	int i;
-  
-	for (i = string->len - 1; string->str [i] == '9'; i--)
-		string->str[i] = '0';
-
-	if (string->str [i] == '.')
-	{
-		/* FIXME */
-	}
-	else
-	{
-		string->str [i]++;
-	}
-}
 
 /*
  * Parses the year field at the beginning of the format.  Returns the
@@ -86,12 +68,12 @@ static int
 append_year (GString *string, gchar *format, struct tm *time_split)
 {
 	char temp [5];
-	
+
 	if (tolower (format [1]) != 'y'){
 		g_string_append_c (string, 'y');
 		return 1;
 	}
-	
+
 	if (tolower (format [2]) != 'y' || tolower (format [3]) != 'y'){
 		sprintf (temp, "%02d", time_split->tm_year % 100);
 		g_string_append (string, temp);
@@ -112,20 +94,20 @@ static int
 append_month (GString *string, gchar *format, struct tm *time_split)
 {
 	char temp [3];
-	
+
 	if (tolower (format [1]) != 'm'){
 		sprintf (temp, "%d", time_split->tm_mon+1);
 		g_string_append( string, temp);
 		return 1;
 	}
-	
+
 	if (tolower (format [2]) != 'm')
 	{
 		sprintf (temp, "%02d", time_split->tm_mon+1);
 		g_string_append (string, temp);
 		return 2;
 	}
-	
+
 	if (tolower (format [3]) != 'm'){
 		g_string_append (string, _(month_short [time_split->tm_mon])+1);
 		return 3;
@@ -214,7 +196,7 @@ static int
 append_second (GString *string, gchar *format, struct tm *time_split)
 {
 	char temp[3];
-	
+
 	if (tolower (format [1]) != 's'){
 		sprintf (temp, "%d", time_split->tm_sec);
 		g_string_append (string, temp);
@@ -246,7 +228,7 @@ append_half (GString *string, gchar *format, struct tm *time_split)
 		else
 			g_string_append_c (string, 'P');
 	}
-	
+
 	if (tolower (format [1]) == 'm'){
 		g_string_append_c (string, format [1]);
 		return 2;
@@ -272,7 +254,7 @@ pre_parse_format (StyleFormatEntry *style)
 			if (*format)
 				format++;
 			break;
-			
+
 		case '\\':
 			if (*(format+1))
 				format++;
@@ -311,12 +293,12 @@ format_compile (StyleFormat *format)
 	int length = strlen (format->format);
 	StyleFormatEntry standard_entries[4];
 	StyleFormatEntry *temp;
-	
+
 	g_list_free (format->format_list);
 	format->format_list = 0;
-	
+
 	/* g_string_maybe_expand (string, length); */
-	
+
 	for (i = 0; i < length; i++){
 
 		switch (format->format[i]){
@@ -344,7 +326,7 @@ format_compile (StyleFormat *format)
 		standard_entries[which].restriction_type = '*';
 		which++;
 	}
-	
+
 	/* Set up restriction types. */
 	standard_entries[1].restriction_type = '<';
 	standard_entries[1].restriction_value = 0;
@@ -379,7 +361,7 @@ static void
 style_entry_free(gpointer data, gpointer user_data)
 {
 	StyleFormatEntry *entry = data;
-	
+
 	g_free (entry->format);
 	g_free (entry);
 }
@@ -396,7 +378,7 @@ format_destroy (StyleFormat *format)
 {
 	g_list_foreach (format->format_list, style_entry_free, NULL);
 	g_list_free (format->format_list);
-	format->format_list = NULL;  
+	format->format_list = NULL;
 }
 
 static struct {
@@ -422,10 +404,10 @@ format_color_init (void)
 	for (i = 0; format_colors [i].name; i++){
 		StyleColor *sc;
 		GdkColor c;
-		
+
 		gdk_color_parse (format_colors [i].name, &c);
 		sc = style_color_new (c.red, c.green, c.blue);
-		
+
 		format_colors [i].color = sc;
 	}
 }
@@ -470,39 +452,48 @@ render_number (gdouble number,
 	       char *show_decimal)
 {
 	GString *number_string = g_string_new ("");
-	gint zero_count, nine_count;
+	gint zero_count;
 	gdouble temp;
 	int group = 0;
-	
-	for (temp = number; temp >= 1.0; temp /= 10.0){
 
+	if (right_allowed >= 0) {
+		/* Change "rounding" into "truncating".  */
+		gdouble delta = 0.5;
+		int i;
+		for (i = 0; i < right_allowed; i++)
+			delta /= 10.0;
+		/* Note, that we assume number >= 0 here.  */
+		number += delta;
+	}
+
+	for (temp = number; temp >= 1.0; temp /= 10.0){
 		double r = floor (temp);
 		int digit;
-				  
+
 		if (use_thousand_sep){
 			group++;
 			if (group == 4){
 				int c;
-				
+
 				group = 1;
 				if (lc->thousands_sep [0] == 0)
 					c = ',';
 				else
 					c = lc->thousands_sep [0];
-				
+
 				g_string_prepend_c (number_string, c);
 			}
 		}
-		
+
 		digit = r - floor (r / 10) * 10;
 		g_string_prepend_c (number_string, (digit) + '0');
 		if (left_req > 0)
 			left_req --;
 		if (left_spaces > 0)
 			left_spaces --;
-		
+
 	}
-      
+
 	for (; left_req > 0; left_req--, left_spaces--)
 		g_string_prepend_c (number_string, '0');
 
@@ -517,73 +508,45 @@ render_number (gdouble number,
 	else
 		g_string_append (number_string, show_decimal);
 
-      temp = number - floor (number);
+	temp = number - floor (number);
 
-      for (; right_req > 0; right_req --, right_allowed --, right_spaces --)
-      {
-	      gint digit;
-	      temp *= 10.0;
-	      digit = floor (temp);
-	      temp -= floor (temp);
-	      if (right_allowed == 1 && floor (temp * 10.0) >= 5)
-	      {
-		      if (digit < 9)
-			      digit ++;
-		      else
-		      {
-			      digit = 0;
-			      do_roundup (number_string);
-		      }
-	      }
-	      g_string_append_c (number_string, digit + '0');
-      }
-      
-      zero_count = 0;
-      nine_count = 0;
-      
-      for (; right_allowed > 0; right_allowed --)
-      {
-	      gint digit;
-	      temp *= 10.0;
-	      digit = floor (temp);
-	      temp -= floor (temp);
-	      
-	      if (right_allowed == 1 && floor (temp * 10.0) >= 5)
-	      {
-		      if (digit < 9)
-			      digit ++;
-		      else
-		      {
-			      digit = 0;
-			      right_spaces -= zero_count;
-			      zero_count = nine_count;
-			      right_spaces += zero_count;
-			      do_roundup (number_string);
-		      }
-	      }
-	      if (digit == 0)
-		      zero_count ++;
-	      else
-	      {
-		      right_spaces -= zero_count + 1;
-		      zero_count = 0;
-	      }
-	      if (digit == 9)
-		      nine_count ++;
-	      else
-		      nine_count = 0;
-	      
-	      g_string_append_c (number_string, digit + '0');
-      }
-      
-      g_string_truncate (number_string, number_string->len - zero_count);
-      
-      for (; right_spaces > 0; right_spaces--)
-      {
-	      g_string_append_c (number_string, ' ');
-      }
+	for (; right_req > 0; right_req --, right_allowed --, right_spaces --)
+	{
+		gint digit;
+		temp *= 10.0;
+		digit = (gint)temp;
+		temp -= digit;
+		g_string_append_c (number_string, digit + '0');
+	}
 
-      return number_string;
+	zero_count = 0;
+
+	for (; right_allowed > 0; right_allowed --)
+	{
+		gint digit;
+		temp *= 10.0;
+		digit = (gint)temp;
+		temp -= digit;
+
+		if (digit == 0)
+			zero_count ++;
+		else
+		{
+			right_spaces -= zero_count + 1;
+			zero_count = 0;
+		}
+
+		g_string_append_c (number_string, digit + '0');
+	}
+
+	g_string_truncate (number_string, number_string->len - zero_count);
+
+	for (; right_spaces > 0; right_spaces--)
+	{
+		g_string_append_c (number_string, ' ');
+	}
+
+	return number_string;
 }
 
 typedef struct {
@@ -606,7 +569,7 @@ do_render_number (gdouble number, format_info_t *info)
 	GString *res;
 	char *result;
 	char decimal_point [2];
-	
+
 	info->rendered = 1;
 
 	/*
@@ -641,7 +604,7 @@ do_render_number (gdouble number, format_info_t *info)
 		info->decimal_separator_seen,
 		decimal_point);
 #endif
-	
+
 	res = render_number (
 		number,
 		info->left_req,
@@ -657,10 +620,10 @@ do_render_number (gdouble number, format_info_t *info)
 
 	if (info->append_after_number)
 		g_string_append (res, info->append_after_number);
-	
+
 	result = g_strdup (res->str);
 	g_string_free (res, TRUE);
-	
+
 	return result;
 }
 
@@ -671,11 +634,11 @@ do_render_number (gdouble number, format_info_t *info)
  * > Microsoft EXCEL version 6.0 ("Office 95 version") and version 7.0 ("Office
  * > 97 version") believe that year 1900 is a leap year.  The extra February 29
  * > cause the following problems.
- * > 
+ * >
  * > 1)  All day-of-week before March 1, 1900 are incorrect;
  * > 2)  All date sequence (serial number) on and after March 1, 1900 are incorrect.
  * > 3)  Calculations of number of days across March 1, 1900 are incorrect.
- * > 
+ * >
  * > The risk of the error will cause must be little.  Especially case 1.
  * > However, import or export date using serial date number will be a problem.
  * > If no one noticed anything wrong, it must be that no one did it that way.
@@ -687,7 +650,7 @@ split_time (gdouble number)
 	double secs;
 
 	GDate* date = g_date_new_serial (number);
-	
+
 	g_date_to_struct_tm (date, &tm);
 
 	secs = (number - floor (number)) * 86400.0;
@@ -710,7 +673,7 @@ format_number (gdouble number, StyleFormatEntry *style_format_entry)
 	int hour_seen = 0;
 	struct tm *time_split = 0;
 	char *res;
-	
+
 	memset (&info, 0, sizeof (info));
 	if (number < 0.0){
 		info.negative = TRUE;
@@ -719,7 +682,7 @@ format_number (gdouble number, StyleFormatEntry *style_format_entry)
 
 	if (!lc)
 		lc = localeconv ();
-		
+
 	while (*format){
 		switch (*format){
 		case '#':
@@ -727,7 +690,7 @@ format_number (gdouble number, StyleFormatEntry *style_format_entry)
 			if (info.decimal_separator_seen)
 				info.right_optional++;
 			break;
-			
+
 		case '?':
 			can_render_number = 1;
 			if (info.decimal_separator_seen)
@@ -735,7 +698,7 @@ format_number (gdouble number, StyleFormatEntry *style_format_entry)
 			else
 				info.left_spaces++;
 			break;
-			
+
 		case '0':
 			can_render_number = 1;
 			if (info.decimal_separator_seen){
@@ -747,11 +710,11 @@ format_number (gdouble number, StyleFormatEntry *style_format_entry)
 				info.left_req++;
 			}
 			break;
-			
+
 		case ',': case '.': {
 			if (*format == lc->decimal_point [0]){
 				int c = *(format+1);
-				
+
 				can_render_number = 1;
 				if (c && (c != '0' && c != '#' && c != '?'))
 					number /= 1000;
@@ -763,7 +726,7 @@ format_number (gdouble number, StyleFormatEntry *style_format_entry)
 				break;
 			}
 		}
-		
+
 		case 'E': case 'e':
 			can_render_number = 1;
 			info.scientific = TRUE;
@@ -784,11 +747,11 @@ format_number (gdouble number, StyleFormatEntry *style_format_entry)
 			{
 				char buffer [40];
 				sprintf (buffer, "%g", number);
-				
+
 				g_string_append (result, buffer);
 				goto finish;
 			}
-			
+
 		/* percent */
 		case '%':
 			can_render_number = 1;
@@ -822,15 +785,15 @@ format_number (gdouble number, StyleFormatEntry *style_format_entry)
 		case ':':
 			info.supress_minus = TRUE;
 			/* fall down */
-			
+
 		case '$':
 			g_string_append_c (result, *format);
 			break;
-	
+
 		case '£':
 			g_string_append_c (result, *format);
 			break;
-		
+
 		case ')':
 			if (can_render_number && !info.rendered)
 				g_string_append (result, do_render_number (number, &info));
@@ -885,7 +848,7 @@ format_number (gdouble number, StyleFormatEntry *style_format_entry)
 			format += append_hour (result, format, time_split, style_format_entry->want_am_pm) - 1;
 			hour_seen = TRUE;
 			break;
-			
+
 		case 'A':
 		case 'a':
 			if (!time_split)
@@ -905,7 +868,7 @@ format_number (gdouble number, StyleFormatEntry *style_format_entry)
 					format++;
 			}
 			break;
-			
+
 		case 'P': case 'p':
 			if (!time_split)
 				time_split = split_time (number);
@@ -920,7 +883,7 @@ format_number (gdouble number, StyleFormatEntry *style_format_entry)
 					format++;
 			}
 			break;
-			
+
 		default:
 			break;
 		}
@@ -928,7 +891,7 @@ format_number (gdouble number, StyleFormatEntry *style_format_entry)
 	}
 	if (!info.rendered && can_render_number){
 		char *rendered_string = do_render_number (number, &info);
-		
+
 		g_string_append (result, rendered_string);
 		g_free (rendered_string);
 	}
@@ -949,7 +912,7 @@ check_valid (StyleFormatEntry *entry, Value *value)
 	case VALUE_FLOAT:
 		switch (entry->restriction_type){
 
-		case '*': 
+		case '*':
 			return TRUE;
 		case '<':
 			return value->v.v_float < entry->restriction_value;
@@ -966,11 +929,11 @@ check_valid (StyleFormatEntry *entry, Value *value)
 		default:
 			return FALSE;
 		}
-		
+
 	case VALUE_INTEGER:
 		switch (entry->restriction_type){
 
-		case '*': 
+		case '*':
 			return TRUE;
 		case '<':
 			return value->v.v_int < entry->restriction_value;
@@ -987,7 +950,7 @@ check_valid (StyleFormatEntry *entry, Value *value)
 		default:
 			return FALSE;
 		}
-		
+
 	default:
 		return FALSE;
 	}
@@ -1000,15 +963,15 @@ format_value (StyleFormat *format, Value *value, StyleColor **color)
 	StyleFormatEntry entry;
 	GList *list;
 	int is_general = 0;
-	
+
 	if (color)
 		*color = NULL;
-	
+
 	/* get format */
 	for (list = format->format_list; list; list = g_list_next (list))
 		if (check_valid (list->data, value))
 			break;
-	
+
 	if (list)
 		entry = *(StyleFormatEntry *)(list->data);
 	else
@@ -1017,7 +980,7 @@ format_value (StyleFormat *format, Value *value, StyleColor **color)
 	/* Try to parse a color specification */
 	if (entry.format [0] == '['){
 		char *end = strchr (entry.format, ']');
-      
+
 		if (end){
 			if (color)
 				*color = lookup_color (&entry.format [1], end);
@@ -1027,12 +990,12 @@ format_value (StyleFormat *format, Value *value, StyleColor **color)
 
 	if (entry.format [0] == 0)
 		is_general = 1;
-	
+
 	if (strcmp (entry.format, "General") == 0){
 		entry.format += 7;
 		is_general = 1;
-	} 
-	
+	}
+
 	switch (value->type){
 	case VALUE_FLOAT:
 		if (is_general){
@@ -1046,24 +1009,23 @@ format_value (StyleFormat *format, Value *value, StyleColor **color)
 		else
 			return g_strdup ("#VAL");
 		break;
-		
+
 	case VALUE_INTEGER:
 		if (is_general)
 			entry.format = "0";
 		v = format_number (value->v.v_int, &entry);
 		break;
-		
+
 	case VALUE_STRING:
 		return g_strdup (value->v.str->str);
-		
+
 	default:
 		return g_strdup ("Internal error");
 	}
-	
+
 	/* Format error, return a default value */
 	if (v == NULL)
 		return value_string (value);
-	
+
 	return v;
 }
-

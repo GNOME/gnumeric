@@ -2231,7 +2231,6 @@ sheet_destroy (Sheet *sheet)
 	
 	g_assert (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet)); 
-	g_return_if_fail (sheet->workbook == NULL);
 
 	g_warning ("Reminder: need to destroy SheetObjects");
 	sheet_selections_free (sheet);
