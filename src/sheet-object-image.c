@@ -72,6 +72,10 @@ sheet_object_image_finalize (GObject *object)
 
 /**
  * be sure to unref the result if it is non-NULL
+ *
+ * TODO : this is really overkill for now.
+ * only wmf/emf will require regenerating the pixbug for different scale
+ * factors.  And even then we should cache them.
  */
 static GdkPixbuf *
 soi_get_pixbuf (SheetObjectImage *soi, double scale)
@@ -94,7 +98,7 @@ soi_get_pixbuf (SheetObjectImage *soi, double scale)
 
 		if (!soi->dumped) {
 			static int count = 0;
-			char *filename = g_strdup_printf ("unknown%d",  count++);
+			char *filename = g_strdup_printf ("unknown%d.%s",  count++, soi->type);
 			FILE *file = fopen (filename, "w");
 			if (file != NULL) {
 				fwrite (soi->data, soi->data_len, 1, file);
@@ -112,6 +116,7 @@ soi_get_pixbuf (SheetObjectImage *soi, double scale)
 	} else {
 		res = gdk_pixbuf_loader_get_pixbuf (loader),
 		g_object_ref (G_OBJECT (res));
+	/* TODO : use gdk_pixbuf_new_subpixbuf to implement clipping */
 	}
 
 	gdk_pixbuf_loader_close (loader, &err);
@@ -236,11 +241,12 @@ sheet_object_image_print (SheetObject const *so, GnomePrintContext *ctx,
 	g_return_if_fail (GNOME_IS_PRINT_CONTEXT (ctx));
 	soi = SHEET_OBJECT_IMAGE (so);
 
-	sheet_object_position_pts_get (so, coords);
-
-	gnome_print_gsave (ctx);
-
 	pixbuf = soi_get_pixbuf (soi, 1.);
+	if (pixbuf == NULL)
+		return;
+
+	sheet_object_position_pts_get (so, coords);
+	gnome_print_gsave (ctx);
 	if (gdk_pixbuf_get_has_alpha (pixbuf))
 		gnome_print_rgbaimage  (ctx,
 					gdk_pixbuf_get_pixels    (pixbuf),
@@ -254,7 +260,6 @@ sheet_object_image_print (SheetObject const *so, GnomePrintContext *ctx,
 				       gdk_pixbuf_get_height    (pixbuf),
 				       gdk_pixbuf_get_rowstride (pixbuf));
 	g_object_unref (G_OBJECT (pixbuf));
-
 	gnome_print_grestore (ctx);
 }
 

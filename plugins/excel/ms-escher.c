@@ -376,7 +376,7 @@ ms_escher_read_BSE (MSEscherState * state, MSEscherHeader * h)
 static gboolean
 ms_escher_read_Blip (MSEscherState * state, MSEscherHeader * h)
 {
-	int primary_uid_size = 0;
+	int blip_header = -1, primary_uid_size = 0;
 	guint32 blip_instance = h->instance;
 	gboolean res = FALSE;
 	MSEscherBlip *blip = NULL;
@@ -406,24 +406,33 @@ ms_escher_read_Blip (MSEscherState * state, MSEscherHeader * h)
 	/* Clients may set bit 0x800 */
 	blip_instance &= (~0x800);
 
+/*
+ * TODO : read /scratch/openoffice/svx/source/msfilter/msdffimp.cxx
+ */
 	switch (blip_instance) {
 	case 0x216 : /* compressed WMF, with Metafile header */
-		type = "wmf";
+		type = "wmf.gz";
+		blip_header = 20 + 8 + 6;
 		break;
 	case 0x3d4 : /* compressed EMF, with Metafile header */
-		type = "emf";
+		type = "emf.gz";
+		blip_header = 20 + 8 + 6;
 		break;
 	case 0x542 : /* compressed PICT, with Metafile header */
-		type = "pict";
+		type = "pict.gz";
+		blip_header = 20 + 8 + 6;
 		break;
 	case 0x46a : /* JPEG data, with 1 byte header */
 		type = "jpeg";
+		blip_header = 1;
 		break;
 	case 0x6e0 : /* PNG  data, with 1 byte header */
 		type = "png";
+		blip_header = 1;
 		break;
 	case 0x7a8 : /* DIB  data, with 1 byte header */
 		type = "dib";
+		blip_header = 1;
 		break;
 
 	default:
@@ -432,8 +441,8 @@ ms_escher_read_Blip (MSEscherState * state, MSEscherHeader * h)
 			   h->instance);
 	};
 
-	if (type != NULL) {
-		int const header = 17 + primary_uid_size + common_header_len;
+	if (blip_header >= 0) {
+		int const header = blip_header + 16 + primary_uid_size + common_header_len;
 		gboolean needs_free;
 		guint8 const *data = ms_escher_get_data (state, h->offset, h->len,
 			header, &needs_free);
@@ -1221,10 +1230,18 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 
 	/* Blip */
 		/* 0 : 16.16 fraction times total image width or height, as appropriate. */
-		case 256 : name = "fixed16_16 cropFromTop"; break;
-		case 257 : name = "fixed16_16 cropFromBottom"; break;
-		case 258 : name = "fixed16_16 cropFromLeft"; break;
-		case 259 : name = "fixed16_16 cropFromRight"; break;
+		case 256 : name = "fixed16_16 cropFromTop";
+			   id = MS_OBJ_ATTR_BLIP_CROP_TOP;
+			   break;
+		case 257 : name = "fixed16_16 cropFromBottom";
+			   id = MS_OBJ_ATTR_BLIP_CROP_BOTTOM;
+			   break;
+		case 258 : name = "fixed16_16 cropFromLeft";
+			   id = MS_OBJ_ATTR_BLIP_CROP_LEFT;
+			   break;
+		case 259 : name = "fixed16_16 cropFromRight";
+			   id = MS_OBJ_ATTR_BLIP_CROP_RIGHT;
+			   break;
 
 		/* NULL : Blip to display */
 		case 260 : id = MS_OBJ_ATTR_BLIP_ID;

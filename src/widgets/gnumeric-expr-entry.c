@@ -603,6 +603,24 @@ cb_entry_changed (GtkEntry *ignored, GnumericExprEntry *gee)
 	g_signal_emit (G_OBJECT (gee), signals [CHANGED], 0);
 }
 
+static gboolean
+gee_focus_in_event (GtkWidget *widget, GdkEventFocus *event, GnumericExprEntry *gee)
+{
+	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee), FALSE);
+	wbcg_set_entry (gee->wbcg, gee);
+	fprintf (stderr, "in %p\n",gee);
+	return FALSE;
+}
+static gboolean
+gee_focus_out_event (GtkWidget *widget, GdkEventFocus *event, GnumericExprEntry *gee)
+{
+	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee), FALSE);
+	wbcg_set_entry (gee->wbcg, NULL);
+
+	fprintf (stderr, "out %p\n",gee);
+	return FALSE;
+}
+
 /**
  * gnumeric_expr_entry_new:
  *
@@ -624,6 +642,12 @@ gnumeric_expr_entry_new (WorkbookControlGUI *wbcg, gboolean with_icon)
 	g_signal_connect (G_OBJECT (gee->entry),
 		"changed",
 		G_CALLBACK (cb_entry_changed), gee);
+	g_signal_connect (G_OBJECT (gee->entry),
+		"focus_in_event",
+		G_CALLBACK (gee_focus_in_event), gee);
+	g_signal_connect (G_OBJECT (gee->entry),
+		"focus_out_event",
+		G_CALLBACK (gee_focus_out_event), gee);
 	gtk_box_pack_start (GTK_BOX (gee), GTK_WIDGET (gee->entry),
 		TRUE, TRUE, 0);
 

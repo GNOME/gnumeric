@@ -270,54 +270,9 @@ font_init (void)
 	gnumeric_default_font = style_font_new_simple (DEFAULT_FONT, DEFAULT_SIZE,
 						       1., FALSE, FALSE);
 
-	if (!gnumeric_default_font) {
-		char const *lc_all = getenv ("LC_ALL");
-		char const *lang = getenv ("LANG");
-		char *msg;
-		char *fontmap_fn = gnome_datadir_file ("fonts/fontmap2");
-		gboolean exists = (fontmap_fn != NULL);
-
-		if (!exists)
-			fontmap_fn = gnome_unconditional_datadir_file ("fonts/fontmap2");
-
-		if (lc_all == NULL)
-			lc_all = _("<Has not been set>");
-		if (lang == NULL)
-			lang = _("<Has not been set>");
-
-		msg = g_strdup_printf (
-		      _("Gnumeric failed to find a suitable default font.\n"
-			"Your gnome-print installation is likely incomplete.  Please\n"
-			"try reinstalling gnome-print.\n\n"
-			"%s\n"
-			"\n"
-			"If you still have no luck, please file a proper bug report (see\n"
-			"http://bugzilla.gnome.org) including the following extra items:\n"
-			"\n"
-			"1) The content of your fontmap2 file, if the file exists.\n"
-			"\t(typically located in %s)\n"
-			"2) The value of the LC_ALL environment variable\n"
-			"\tLC_ALL=%s\n"
-			"3) The value of the LANG environment variable\n"
-			"\tLANG=%s\n"
-			"4) What version of libxml gnumeric is running with.\n"
-			"\tYou may be able to use the 'ldd' command to get that information.\n"
-			"5) What version of gnome-print gnumeric is running with.\n"
-			"\tYou may be able to use the 'ldd' command to get that information.\n"
-			"\n"
-			"Thanks -- the Gnumeric Team\n"), exists
-			? _("Your fontmap2 file does not have a valid entry for Helvetica.")
-			: _("Your fontmap2 file could not be found in the expected location."),
-			fontmap_fn, lc_all, lang);
-
-		/* Ick ! We should do this somewhere when we have a command context. */
-		gnumeric_notice (NULL, GTK_MESSAGE_ERROR, msg);
+	if (!gnumeric_default_font)
 		exit (1);
-	}
 
-	/*
-	 * Load bold font
-	 */
 	gnumeric_default_bold_font = style_font_new_simple (
 		DEFAULT_FONT, DEFAULT_SIZE, 1., TRUE, FALSE);
 	if (gnumeric_default_bold_font == NULL){
@@ -325,9 +280,6 @@ font_init (void)
 	    style_font_ref (gnumeric_default_bold_font);
 	}
 
-	/*
-	 * Load italic font
-	 */
 	gnumeric_default_italic_font = style_font_new_simple (
 		DEFAULT_FONT, DEFAULT_SIZE, 1., FALSE, TRUE);
 	if (gnumeric_default_italic_font == NULL){

@@ -1,3 +1,4 @@
+/* vim: set sw=8: */
 /*
  * fn-database.c:  Built in database functions and functions registration
  *
@@ -235,7 +236,7 @@ parse_criteria_range(Sheet *sheet, int b_col, int b_row, int e_col, int e_row,
 	database_criteria_t *new_criteria;
 	GSList              *criterias = NULL;
 	GSList              *conditions;
-	Cell                *cell;
+	Cell const          *cell;
 	func_criteria_t     *cond;
 	gchar               *cell_str;
 
@@ -247,7 +248,7 @@ parse_criteria_range(Sheet *sheet, int b_col, int b_row, int e_col, int e_row,
 
 		for (j = b_col; j <= e_col; j++) {
 		        cell = sheet_cell_get (sheet, j, i);
-			if (cell == NULL || cell->value == NULL)
+			if (cell_is_blank (cell))
 			        continue;
 
 			cond = g_new (func_criteria_t, 1);
@@ -289,7 +290,7 @@ parse_database_criteria (const EvalPos *ep, Value *database,
 {
 	Sheet               *sheet;
 	GSList              *criterias;
-	Cell                *cell;
+	Cell const          *cell;
 
         int   i;
 	int   b_col, b_row, e_col, e_row;
@@ -306,7 +307,7 @@ parse_database_criteria (const EvalPos *ep, Value *database,
 	/* Find the index numbers for the columns of criterias */
 	for (i = b_col; i <= e_col; i++) {
 	        cell = sheet_cell_get (sheet, i, b_row);
-		if (cell == NULL || cell->value == NULL)
+		if (cell_is_blank (cell))
 		        continue;
 		field_ind[i - b_col] =
 		        find_column_of_field (ep, database, cell->value);
@@ -335,6 +336,7 @@ find_cells_that_match (Sheet *sheet, Value *database,
 	GSList *ptr, *condition, *cells;
 	int    row, first_row, last_row;
 	gboolean add_flag;
+	Cell *cell;
 
 	cells = NULL;
 	/* TODO : Why ignore the first row ?  What if there is no header ? */
@@ -342,8 +344,8 @@ find_cells_that_match (Sheet *sheet, Value *database,
 	last_row  = database->v_range.cell.b.row;
 
 	for (row = first_row; row <= last_row; row++) {
-		Cell *cell = sheet_cell_get (sheet, col, row);
-		if (cell == NULL || cell->value == NULL)
+		cell = sheet_cell_get (sheet, col, row);
+		if (cell_is_blank (cell))
 			continue;
 
 		add_flag = TRUE;
@@ -358,11 +360,10 @@ find_cells_that_match (Sheet *sheet, Value *database,
 				Cell const *tmp = sheet_cell_get (sheet,
 					cond->column, row);
 
-				if (tmp == NULL ||
-				    tmp->value == NULL ||
+				if (cell_is_blank (tmp) ||
 				    !cond->fun (tmp->value, cond->x)) {
-						add_flag = FALSE;
-						break;
+					add_flag = FALSE;
+					break;
 				}
 			}
 
@@ -385,11 +386,11 @@ find_rows_that_match (Sheet *sheet, int first_col, int first_row,
 		      GSList *criterias, gboolean unique_only)
 {
 	GSList *current, *conditions, *rows;
+	Cell const *test_cell;
 	int    row, add_flag;
 	rows = NULL;
 
 	for (row = first_row; row <= last_row; row++) {
-		Cell   *test_cell;
 
 		current = criterias;
 		add_flag = 1;
@@ -402,13 +403,11 @@ find_rows_that_match (Sheet *sheet, int first_col, int first_row,
 			conditions = current_criteria->conditions;
 
 			while (conditions != NULL) {
-				func_criteria_t *cond = conditions->data;
+				func_criteria_t const *cond = conditions->data;
 
-				test_cell =
-					sheet_cell_get (sheet,
-						       first_col + cond->column, row);
-				if (test_cell == NULL ||
-				    test_cell->value == NULL)
+				test_cell = sheet_cell_get (sheet,
+					first_col + cond->column, row);
+				if (cell_is_blank (test_cell))
 					continue;
 
 				if (!cond->fun (test_cell->value, cond->x)) {
@@ -1348,7 +1347,7 @@ gnumeric_getpivotdata (FunctionEvalInfo *ei, Value **argv)
 
 	/* FIXME: Lots of stuff missing */
 
-	if (cell == NULL || cell->value == NULL ||
+	if (cell_is_blank (cell) ||
 	    !VALUE_IS_NUMBER (cell->value))
 		return value_new_error (ei->pos, gnumeric_err_REF);
 

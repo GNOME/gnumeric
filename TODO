@@ -186,10 +186,6 @@ to features that already work.
    + Localise sheet/workbook Name import.
    + Import names even if they arn't referenced.
 
-* Excel Export
-
-   + Detect large style ranges and correctly set the default row/col/sheet styles.
-
 1.1
 ==========
 These section lists features that are for post 1.0 versions
@@ -233,4 +229,6 @@ under "1.0" are more important.
 
 * Autofilter
 
-   + ?
+   + Most of the major elements are there to support in place
+   filters.  All we'd need is a new Dependent type to manage the
+   filter results.

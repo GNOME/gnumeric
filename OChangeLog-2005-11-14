@@ -1,3 +1,8 @@
+2002-02-17  Jody Goldberg <jody@gnome.org>
+
+	* plugins/excel/ms-escher.c (ms_escher_read_OPT) : add support for
+	  blip cropping.
+
 2002-02-16  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-object-image.c (soi_get_pixbuf) : move things here.

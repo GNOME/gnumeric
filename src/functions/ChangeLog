@@ -1,3 +1,11 @@
+2002-02-17  Jody Goldberg <jody@gnome.org>
+
+	* fn-database.c (parse_criteria_range) : use cell_is_blank.
+	(parse_database_criteria) : ditto.
+	(find_cells_that_match) : ditto.
+	(find_rows_that_match) : ditto.
+	(gnumeric_getpivotdata) : ditto.
+
 2002-02-07  Morten Welinder  <terra@diku.dk>
 
 	* fn-date.c (gnumeric_date2unix): Fix.
