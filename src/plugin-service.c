@@ -628,9 +628,6 @@ gnum_plugin_file_opener_open (GnumFileOpener const *fo, IOContext *io_context,
 	}
 	g_return_if_fail (service_file_opener->cbs.plugin_func_file_open != NULL);
 
-	/* Set name before loading so the nascent workbook is more readable */
-	if (NULL != gsf_input_name (input))
-		workbook_set_filename (wb_view_workbook (wbv), gsf_input_name (input));
 	service_file_opener->cbs.plugin_func_file_open (fo, pfo->service, io_context, wbv, input);
 }
 

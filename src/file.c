@@ -192,6 +192,9 @@ gnum_file_opener_open (GnumFileOpener const *fo, IOContext *io_context,
 	g_return_if_fail (IS_GNUM_FILE_OPENER (fo));
 	g_return_if_fail (GSF_IS_INPUT (input));
 
+	if (NULL != gsf_input_name (input))
+		workbook_set_filename (wb_view_workbook (wbv),
+				       gsf_input_name (input));
 	GNUM_FILE_OPENER_METHOD (fo, open) (fo, io_context, wbv, input);
 }
 
