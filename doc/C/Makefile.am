@@ -7,7 +7,9 @@ entities =  about-authors.xml \
      about-history.xml \
      about-license.xml \
      analysis-complexNumbers.xml \
+     analysis-goalseek.xml \
      analysis-overview.xml \
+     analysis-scenarios.xml \
      analysis-simulation.xml \
      analysis-solver.xml \
      analysis-statistical.xml \

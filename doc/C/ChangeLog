@@ -1,3 +1,8 @@
+2003-08-22  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* Makefile.am: Added analysis-goalseek.xml, analysis-scenarios to
+	  entities.
+
 2003-08-21  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.20
