@@ -1026,19 +1026,6 @@
 		</child>
 	      </widget>
 
-	      <widget>
-		<class>GtkCheckButton</class>
-		<name>align_merge</name>
-		<can_focus>True</can_focus>
-		<label>_Merge</label>
-		<active>False</active>
-		<draw_indicator>True</draw_indicator>
-		<child>
-		  <padding>0</padding>
-		  <expand>False</expand>
-		  <fill>False</fill>
-		</child>
-	      </widget>
 	    </widget>
 	  </widget>
 	</widget>
