@@ -48,6 +48,8 @@ struct _RangeRef {
 	CellRef a, b;
 };
 
+CellRef   *cellref_set          (CellRef *ref, Sheet *sheet, int col, int row,
+				 gboolean rel);
 gboolean  cellref_equal		(CellRef const *a, CellRef const *b);
 void      cellref_make_abs	(CellRef *dest,
 				 CellRef const *src,

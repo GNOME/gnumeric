@@ -30,6 +30,18 @@
 #include "value.h"
 #include "ranges.h"
 
+
+CellRef *
+cellref_set (CellRef *ref, Sheet *sheet, int col, int row, gboolean relative)
+{
+	ref->sheet = sheet;
+	ref->col   = col;
+	ref->row   = row;
+	ref->col_relative = ref->row_relative = relative;
+
+	return ref;
+}
+
 EvalPos *
 eval_pos_init (EvalPos *ep, Sheet *sheet, CellPos const *pos)
 {
