@@ -1,3 +1,6 @@
+#ifndef GNUMERIC_EXCEL_ESCHER_TYPES_H
+#define GNUMERIC_EXCEL_ESCHER_TYPES_H
+
 /**
  * escher-types.h: A long and dull list of types used
  *                 in the MS drawing layer.
@@ -45,3 +48,5 @@
 #define ClientRule             0xf015
 #define CalloutRule            0xf017
 #define Selection              0xf119
+
+#endif

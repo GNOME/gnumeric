@@ -1,3 +1,6 @@
+#ifndef GNUMERIC_EXCEL_MD5_H
+#define GNUMERIC_EXCEL_MD5_H
+
 /*
  **********************************************************************
  ** md5.h -- Header file for implementation of MD5                   **
@@ -38,7 +41,8 @@
  */
 
 /* typedef a 32 bit type */
-typedef unsigned long int UINT4;
+#include <glib.h>
+typedef guint32 UINT4;
 
 /* Data structure for MD5 (Message Digest) computation */
 typedef struct {
@@ -50,10 +54,12 @@ typedef struct {
 
 void wvMD5Init   (MD5_CTX *mdContext);
 void wvMD5Update (MD5_CTX *mdContext, unsigned char *inBuf, unsigned int inLen);
-void wvMD5Final ();
+/* void wvMD5Final (); */
 
 /*
  **********************************************************************
  ** End of md5.h                                                     **
  ******************************* (cut) ********************************
  */
+
+#endif

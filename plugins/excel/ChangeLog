@@ -1,3 +1,13 @@
+2002-08-06  Morten Welinder  <terra@diku.dk>
+
+	* md5.h (UINT4): Portability fix.
+
+	* rc4.h: Guard.
+	* md5.h: Guard.
+	* biff-types.h: Guard.
+	* escher-types.h: Guard.
+	* formula-types.h: Guard.
+
 2002-08-04  Jody Goldberg <jody@gnome.org>
 
 	* ms-formula-read.c (ms_excel_parse_formula) : remove bogisity about

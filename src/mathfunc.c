@@ -4984,7 +4984,7 @@ ran_gamma_int (unsigned int a)
 
 			/*
 			 * This handles the 0-probability event of getting
-			 * and actual zero as well as the possibility of
+			 * an actual zero as well as the possibility of
 			 * underflow.
 			 */
 		} while (prod == 0);

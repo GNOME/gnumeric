@@ -1,3 +1,6 @@
+#ifndef GNUMERIC_EXCEL_FORMULA_TYPES_H
+#define GNUMERIC_EXCEL_FORMULA_TYPES_H
+
 /**
  * formula-types.h: A long and dull list of function record types.
  *
@@ -78,3 +81,5 @@
 #define FORMULA_CLASS_REF               0x00
 #define FORMULA_CLASS_VALUE             0x20
 #define FORMULA_CLASS_ARRAY             0x40
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef GNUMERIC_EXCEL_BIFF_TYPES_H
+#define GNUMERIC_EXCEL_BIFF_TYPES_H
+
 /**
  * biff-types.h: A long and dull list of BIFF types.
  *
@@ -301,3 +304,5 @@
 #define BIFF_CHART_siindex		0x1065
 #define BIFF_CHART_gelframe		0x1066
 #define BIFF_CHART_boppopcustom		0x1067
+
+#endif

@@ -1567,28 +1567,3 @@ const ModulePluginFunctionInfo complex_functions[] = {
 	  gnumeric_imarccoth, NULL, NULL, NULL },
         {NULL}
 };
-
-/* FIXME: Should be merged into the above.  */
-static const struct {
-	const char *func;
-	AutoFormatTypes typ;
-} af_info[] = {
-	{ NULL, AF_UNKNOWN }
-};
-
-void
-plugin_init (void)
-{
-	int i;
-	for (i = 0; af_info[i].func; i++)
-		auto_format_function_result_by_name (af_info[i].func,
-						     af_info[i].typ);
-}
-
-void
-plugin_cleanup (void)
-{
-	int i;
-	for (i = 0; af_info[i].func; i++)
-		auto_format_function_result_remove (af_info[i].func);
-}
