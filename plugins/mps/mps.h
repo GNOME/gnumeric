@@ -26,6 +26,7 @@
 #ifndef GNUMERIC_PLUGINS_MPS_H
 #define GNUMERIC_PLUGINS_MPS_H 1
 
+#include <gsf/gsf-input-textline.h>
 
 #define N_INPUT_LINES_BETWEEN_UPDATES   50
 #define MAX_COL                         160
@@ -113,12 +114,9 @@ typedef struct {
 typedef struct {
         IOContext *io_context;
 
-        gint   data_size;
-        guchar *data, *cur;
-
+	GsfInputTextline *input;
         gint   line_no;
         gchar *line;
-        gint   line_len, alloc_line_len;
 
         Sheet  *sheet;
 
@@ -152,9 +150,6 @@ static const int VARIABLE_ROW        = 5;
 static const int CONSTRAINT_COL      = 1;
 static const int CONSTRAINT_ROW      = 10;
 
-/* Error margin in the equiality comparison */
-static const gchar *BINDING_LIMIT    = "0.00000001";
-
 
 /*************************************************************************
  *
@@ -163,7 +158,7 @@ static const gchar *BINDING_LIMIT    = "0.00000001";
 
 /* Reads the MPS file in and creates a spreadsheet model of it. */
 void     mps_file_open  (GnumFileOpener const *fo, IOContext *io_context,
-			 WorkbookView *wbv, char const *file_name);
+			 WorkbookView *wbv, GsfInput *input);
 
 void     mps_parse_file (MpsInputContext *ctxt);
 gboolean mps_add_row    (MpsInputContext *ctxt, MpsRowType type, gchar *txt);

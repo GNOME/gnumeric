@@ -59,6 +59,9 @@
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 
+/* Error margin in the equiality comparison */
+static const gchar *BINDING_LIMIT    = "0.00000001";
+
 
 /*************************************************************************
  *
@@ -599,28 +602,16 @@ mps_create_sheet (MpsInputContext *ctxt, WorkbookView *wbv)
 
 /* Make the initializations. */
 static MpsInputContext *
-mps_input_context_new (IOContext *io_context, Workbook *wb, char const *file_name)
+mps_input_context_new (IOContext *io_context, Workbook *wb, GsfInput *input)
 {
         MpsInputContext *ctxt = NULL;
-	gint size;
-	guchar *data;
-	ErrorInfo *mmap_error;
-
-	data = gnumeric_mmap_error_info (file_name, &size, &mmap_error);
-	if (mmap_error != NULL) {
-	        gnumeric_io_error_info_set (io_context, mmap_error);
-		return NULL;
-	}
 
 	ctxt = g_new (MpsInputContext, 1);
 	ctxt->io_context     = io_context;
-	ctxt->data_size      = size;
-	ctxt->data           = data;
-	ctxt->cur            = data;
+
+	ctxt->input	     = gsf_input_textline_new (input);
 	ctxt->line_no        = 1;
-	ctxt->line           = g_malloc (1);
-	ctxt->line_len       = 0;
-	ctxt->alloc_line_len = 0;
+	ctxt->line           = NULL;
 	ctxt->sheet          = workbook_sheet_add (wb, NULL, FALSE);
 
 	ctxt->name           = NULL;
@@ -638,7 +629,6 @@ mps_input_context_new (IOContext *io_context, Workbook *wb, char const *file_nam
 	g_slist_free (ctxt->rows);
 
 	io_progress_message (io_context, _("Reading file..."));
-	memory_io_progress_set (io_context, ctxt->data, ctxt->data_size);
 
 	return ctxt;
 }
@@ -669,7 +659,6 @@ mps_input_context_destroy (MpsInputContext *ctxt)
         GSList *current;
 
 	io_progress_unset (ctxt->io_context);
-	munmap (ctxt->data, ctxt->data_size);
 
 	/* Free ROWS */
 	for (current = ctxt->rows; current != NULL; current = current->next) {
@@ -721,6 +710,7 @@ mps_input_context_destroy (MpsInputContext *ctxt)
 	}
 	g_free (ctxt->line);
 	g_free (ctxt->name);
+	g_object_unref (G_OBJECT (ctxt->input)); ctxt->input = NULL;
 	g_free (ctxt);
 }
 
@@ -734,12 +724,12 @@ mps_input_context_destroy (MpsInputContext *ctxt)
 
 void
 mps_file_open (GnumFileOpener const *fo, IOContext *io_context,
-               WorkbookView *wbv, char const *file_name)
+               WorkbookView *wbv, GsfInput *input)
 {
         MpsInputContext *ctxt;
 
 	ctxt = mps_input_context_new (io_context, wb_view_workbook (wbv),
-				      file_name);
+				      input);
 	if (ctxt != NULL) {
 	        mps_parse_file (ctxt);
 		if (gnumeric_io_error_occurred (io_context)) {

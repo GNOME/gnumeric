@@ -63,47 +63,12 @@
 static gboolean
 mps_get_line (MpsInputContext *ctxt)
 {
-        guchar *p, *p_limit;
-
- try_again:
-	p_limit = ctxt->data + ctxt->data_size;
-	if (ctxt->cur >= p_limit) {
-	        ctxt->line[0] = '\0';
-		ctxt->line_len = 0;
-		return FALSE;
-	}
-
-	for (p = ctxt->cur; p < p_limit && p[0] != '\n' && p[0] != '\r'; p++);
-
-	ctxt->line_len = p - ctxt->cur;
-	if (ctxt->line_len > ctxt->alloc_line_len) {
-	        g_free (ctxt->line);
-		ctxt->alloc_line_len = MAX (ctxt->alloc_line_len * 2,
-					    ctxt->line_len);
-		ctxt->line = g_malloc (ctxt->alloc_line_len + 1);
-	}
-	if (ctxt->line_len > 0) {
-	        memcpy (ctxt->line, ctxt->cur, ctxt->line_len);
-	}
-	ctxt->line[ctxt->line_len] = '\0';
-
-	if (p == p_limit || (p == p_limit - 1 && (p[0] == '\n' ||
-						  p[0] == '\r'))) {
-	        ctxt->cur = p_limit;
-	} else if ((p[0] == '\n' && p[1] == '\r') || (p[0] == '\r' &&
-						      p[1] == '\n')) {
-	        ctxt->cur = p + 2;
-	} else {
-	        ctxt->cur = p + 1;
-	}
-
-	if ((++ctxt->line_no % N_INPUT_LINES_BETWEEN_UPDATES) == 0) {
-	        memory_io_progress_update (ctxt->io_context, ctxt->cur);
-	}
-
-	/* Check if a comment line */
-	if (ctxt->line[0] == '*')
-	        goto try_again;
+	do {
+		ctxt->line = gsf_input_textline_ascii_gets (ctxt->input);
+		if (ctxt->line == NULL)
+			return FALSE;
+		/* Check if a comment line */
+	} while (ctxt->line[0] == '*');
 
 	return TRUE;
 }
@@ -244,9 +209,7 @@ mps_parse_name (MpsInputContext *ctxt)
 			while (isspace ((unsigned char) *line))
 			        line++;
 
-			ctxt->name = strcpy (g_malloc (ctxt->line_len -
-						       (line-ctxt->line) + 1),
-					     line);
+			ctxt->name = g_strdup (ctxt->line);
 			break;
 		} else
 		        return FALSE;
@@ -272,7 +235,7 @@ mps_add_row (MpsInputContext *ctxt, MpsRowType type, gchar *txt)
 	if (len == 0)
 	          return FALSE;
 
-	row->name = strcpy (g_malloc (len + 1), txt);
+	row->name = g_strdup (txt);
 	row->type = type;
 	row->index = ctxt->n_rows;
 	ctxt->n_rows += 1;

@@ -1,3 +1,10 @@
+2002-06-14  Jody Goldberg <jody@gnome.org>
+
+	* parser.c (mps_parse_name) : just use strdup.
+	(mps_add_row) : ditto.
+	(mps_get_line): ditto.
+	* mps.c (mps_input_context_new) : convert to libgsf.
+
 2002-05-29  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.4
