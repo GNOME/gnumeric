@@ -79,16 +79,21 @@ sub Error2{
 sub Xmlfiles {
     print "Working, please wait.";
 
-#   if (-s "$PACKAGE.pot"){
-#	unlink "$PACKAGE.pot";
-#   }
+   if (-s "$PACKAGE-xml.pot"){
+	unlink "$PACKAGE-xml.pot";
+   }
 
     open FILE, "XMLFILES.in";
     while (<FILE>) {
         chomp $_;
         &Convert ($_);
     }
+    open OUT, ">>$PACKAGE-xml.pot";
     &addMessages;
+    close OUT;
+    `msghack --append gnumeric-xml.pot gnumeric-source.pot > gnumeric.pot`;
+    unlink "gnumeric-xml.pot";
+    unlink "gnumeric-source.pot";
     print "done.\n";
 }
 
@@ -122,8 +127,8 @@ sub Convert($) {
 	return $n;
     };
 
-    if (!-s "$PACKAGE.pot"){
-    	open OUT, ">$PACKAGE.pot";
+    if (!-s "$PACKAGE.xml.pot"){
+    	open OUT, ">$PACKAGE-xml.pot";
 
 	print OUT "# SOME DESCRIPTIVE TITLE.\n";
 	print OUT "# Copyright (C) YEAR Free Software Foundation, Inc.\n";
@@ -156,8 +161,6 @@ sub Convert($) {
 
 sub addMessages{
 
-    open OUT, ">>$PACKAGE.pot";
-
     # # inputfile: lineno
     # msgid "the string"
     # msgstr ""
@@ -179,14 +182,14 @@ sub addMessages{
 
         for (split /\n/, $theMessage) {
 	    $_ =~ s/^\s+//mg;
-	    print OUT "\"~$_\"\n";
+	    print OUT "\"$_\"\n";
 	}
 
 	} else {
 		
 	    print OUT "\n";
 	    print OUT "#: $fileName:$lineNo\n";
-	    print OUT "msgid \"~$theMessage\"\n";
+	    print OUT "msgid \"$theMessage\"\n";
 
 	}
 	    
