@@ -1,3 +1,8 @@
+2001-06-20  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/print-info.c (print_info_new): Default to scale
+	factor 1 not 100.
+
 2001-06-20  Jody Goldberg <jgoldberg@home.com>
 
 	* src/number-match.c (compute_value) : parse 12:xx am correctly.
