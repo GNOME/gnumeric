@@ -1,0 +1,43 @@
+Hello,
+
+   Ok, by popular demand, there is a new Gnumeric release: 
+Gnumeric "Uncrashable during column resize" 0.35.  
+
+* Availability:
+
+	ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric
+
+   New features in this release:
+
+* Uncrahable magic
+
+	* Should not crash on column resizing.
+
+	* Should terminate properly the strings that get saved
+	  (Morten, thanks, btw)
+
+* Format fixing
+
+	* "\" format character is an escape sequence, and should work
+	  on this release
+
+* Memory leak plugs
+
+	* Morten as usual tracked down a bunch of memory leaks and
+	  they are now plugged.  Thanks Morten!
+
+* Bonobo-land
+
+	* Michael added Bonobo drag-and-drop support to Gnumeric.  It
+	  will only work if you have Bonobo installed (not recomended
+	  for regular operation).
+
+	* Michael also fixed the destruction of objects (for the
+	  Bonobo case).
+
+* Others
+
+	* Cursor loading fixed (Morten).
+
+
+
