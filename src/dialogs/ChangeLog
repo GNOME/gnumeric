@@ -1,3 +1,8 @@
+2001-12-15  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+	* dialog-stf-main-page.c (stf_dialog_main_page_init) truncate 
+	  preview to avoid wraps (# 66393)
+	* dialog-stf.h define maximal preview size
+	
 2001-12-14  Morten Welinder  <terra@diku.dk>
 
 	* dialog-cell-format.c (fmt_dialog_init_format_page): Sort

@@ -29,7 +29,7 @@ Andreas:
 	* Removed latex209 exporter
 	* Implement spans in LaTeX exporter
 	* Improved analysis tools documentation
-	* Fix bugs (#66433 & #66880)
+	* Fix bugs (#66433 & #66880 & #66393)
 	* Fix cellspan bug (#66658)
 
 Jody:

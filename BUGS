@@ -156,6 +156,8 @@ Dialogs
     : As we auto add new entries for varargs we should make them visible.
     : Editing nested functions.  How best to express this.
     : Switching between multiple function at the same level.
+- Import Dialog
+    : Rewrite main page preview (see Bug #66393)
 
 Function Breakage
 -----------------

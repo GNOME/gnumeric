@@ -178,7 +178,9 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	const char *s;
 	GtkMenu *menu;
 	int l, lg;
-
+	int line_count;
+	const char *end_point = NULL;
+	char *display_data;
 	/* Create/get object and fill information struct */
 
 	info->main_separated = GTK_RADIO_BUTTON (glade_xml_get_widget (gui, "main_separated"));
@@ -198,22 +200,39 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	 * are drawn on a local display. We therefore simply _not_ display
 	 * anything if the string is too large.
 	 */
-	for (lg = 0, l = 1, s = pagedata->data; s && *s != '\0'; s++, l++) {
+	for (lg = 0, l = 1, s = pagedata->data, line_count = 0; s && *s != '\0'; s++, l++) {
 		if (*s == '\n' || *s == '\r' || s[1] == '\0') {
 			if (l > lg)
 				lg = l;
 			l = 0;
+			line_count++;
+			if (line_count == RAW_LINE_DISPLAY_LIMIT) {
+				end_point = s;
+				break;
+			}
 		}
 	}
+	if (end_point) {
+		gint length = end_point -  pagedata->data + 4;
+		display_data =  g_strndup (pagedata->data, length);
+/*POST RELEASE FIX: we should really append a translated string! */
+		display_data[length-4] = '\n';
+		display_data[length-3] = '.';
+		display_data[length-2] = '.';
+		display_data[length-1] = '.';
+	} else 
+		display_data = pagedata->data;
 	info->main_run_text = GNOME_CANVAS_TEXT (gnome_canvas_item_new (gnome_canvas_root (info->main_canvas),
 									GNOME_TYPE_CANVAS_TEXT,
-									"text", lg < X_OVERFLOW_PROTECT ? pagedata->data : _("LINES TOO LONG!"),
+									"text", lg < X_OVERFLOW_PROTECT ? display_data : _("LINES TOO LONG!"),
 									"font", "fixed",
 									"x", 0.0,
 									"y", 0.0,
 									"x_offset", TEXT_OFFSET,
 									"anchor", GTK_ANCHOR_NW,
 									NULL));
+	if (end_point)
+		g_free (display_data);
 	
 	/* Warning : The rectangle is vital to prevent auto-centering, DON'T REMOVE IT! */
     	info->main_run_rect = GNOME_CANVAS_RECT (gnome_canvas_item_new (gnome_canvas_root (info->main_canvas),
