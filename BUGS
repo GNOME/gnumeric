@@ -35,7 +35,6 @@ Long term breakage
 
 Function Breakage
 -----------------
-- Match  : does not support match_type +-1
 - Index  : does not support 0,0 or reference syntax.
 
 Widget polishing
