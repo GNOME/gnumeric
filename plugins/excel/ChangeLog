@@ -1,5 +1,8 @@
 2003-03-05  Jody Goldberg <jody@gnome.org>
 
+	* ms-biff.c (ms_biff_query_next) : more morton warnings.
+	(ms_biff_query_peek_next) : ditto.
+
 	* ms-obj.c (ms_obj_read_biff8_obj) : TRUE on error in precondition
 
 2003-02-05  Jody Goldberg <jody@gnome.org>

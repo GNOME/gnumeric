@@ -265,8 +265,8 @@ ms_biff_query_peek_next (BiffQuery *q, guint16 *opcode)
 {
 	guint8 const *data;
 
-	g_return_val_if_fail (opcode != NULL, 0);
-	g_return_val_if_fail (q != NULL, 0);
+	g_return_val_if_fail (opcode != NULL, FALSE);
+	g_return_val_if_fail (q != NULL, FALSE);
 
 	data = gsf_input_read (q->input, 2, NULL);
 	if (data == NULL)
@@ -306,7 +306,7 @@ ms_biff_query_next (BiffQuery *q)
 	q->streamPos = gsf_input_tell (q->input);
 	data = gsf_input_read (q->input, 4, NULL);
 	if (data == NULL)
-		return FALSE;
+		return 0;
 	q->opcode = GSF_LE_GET_GUINT16 (data);
 	q->length = GSF_LE_GET_GUINT16 (data + 2);
 	q->ms_op  = (q->opcode>>8);
