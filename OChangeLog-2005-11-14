@@ -1,3 +1,39 @@
+2002-07-12  Jody Goldberg <jody@gnome.org>
+
+	* src/plugin-service.c (gnum_plugin_file_opener_probe) : remove
+	  pretend feature that supported regexp.  Only shell paterns are
+	  supported now.
+	(plugin_service_file_opener_read) : ditto.
+
+	* src/io-context.c (file_io_progress_set) : delete.
+	(file_io_progress_update) : ditto.
+	(memory_io_progress_set) : ditto.
+	(memory_io_progress_update) : ditto.
+
+	* src/gnumeric-gconf.c (gnm_gconf_get_horizontal_dpi) : dummy out for
+	  now until we add a cache.
+	(gnm_gconf_get_vertical_dpi) : ditto.
+
+2002-07-10  Jody Goldberg <jody@gnome.org>
+
+	* src/stf.c (stf_preparse) : stf_parse_convert_to_unix now returns the
+	  length.
+	* src/stf.c (stf_read_default_probe) : handle short files.
+
+2002-07-10  Jody Goldberg <jody@gnome.org>
+
+	* src/gui-clipboard.c (x_clipboard_to_cell_region) :
+	  stf_parse_is_valid_data now takes a length.
+	* src/stf.c (stf_read_default_probe) : ditto.
+	(stf_preparse) : ditto.
+	* src/stf-parse.c (stf_parse_is_valid_data) : Use the supplied buffer
+	  length, not a 0 terminator.
+
+2002-07-10  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : enable quatro pro plugin
+	* plugins/Makefile.am : ditto
+
 2002-07-11  Morten Welinder  <terra@diku.dk>
 
 	* src/search.c (calculate_replacement): Initial work towards UTF-8

@@ -33,6 +33,10 @@ plugins/fn-stat/functions.c
 plugins/fn-stat/plugin.xml.in
 plugins/fn-string/functions.c
 plugins/fn-string/plugin.xml.in
+plugins/fn-random/functions.c
+plugins/fn-random/plugin.xml.in
+plugins/fn-complex/functions.c
+plugins/fn-complex/plugin.xml.in
 plugins/gb/plugin.c
 plugins/gb/plugin.xml.in
 plugins/gda/plugin-gda.c
@@ -64,6 +68,8 @@ plugins/python-loader/py-gnumeric.c
 plugins/python-loader/python-loader.c
 plugins/python/plugin.xml.in
 plugins/python/python.c
+plugins/qpro/qpro.c
+plugins/qpro/plugin.xml.in
 plugins/sample_datasource/sample_datasource.c
 plugins/sc/plugin.xml.in
 plugins/sc/sc.c

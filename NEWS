@@ -27,6 +27,7 @@ Jody:
 	* Decrease dependence on gal in favour of libgsf.
 	* Move libgsf for XL export
 	* Remove dependence on libole2 !
+	* Add a Quattro Pro importer
 
 Jukka:
 	* More solver enhancements:

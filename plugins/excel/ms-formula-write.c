@@ -39,8 +39,6 @@ typedef struct _FormulaCacheEntry FormulaCacheEntry;
 
 static void write_node (PolishData *pd, GnmExpr const *tree, int paren_level);
 
-/* FIXME: Leaks like a leaky bucket */
-
 struct _FormulaCacheEntry {
 	enum { CACHE_STD, CACHE_ENAME_V8, CACHE_ENAME_V7 } type;
 	union {
@@ -513,9 +511,6 @@ write_funcall (PolishData *pd, FormulaCacheEntry *fce, GnmExpr const *tree)
 	}
 }
 
-/**
- * Recursion is just so fun.
- **/
 static void
 write_node (PolishData *pd, GnmExpr const *tree, int paren_level)
 {
@@ -545,7 +540,7 @@ write_node (PolishData *pd, GnmExpr const *tree, int paren_level)
 		{ FORMULA_PTG_PERCENT,	 5, 0, 0 }, /* Percentage (NOT MODULO) */
 		{ 0, 0, 0, 0 },	/* Array    */
 		{ 0, 0, 0, 0 }, /* Set      */
-		{ FORMULA_PTG_RANGE,	10, 1, 0 }
+		{ FORMULA_PTG_RANGE,	 0, 0, 0 }
 	};
 	int op;
 	g_return_if_fail (pd);

@@ -42,7 +42,7 @@ else
 PSICONV_DIR=
 endif
 
-SUBDIRS_FILE_FORMATS = excel lotus-123 oleo sc sylk xbase html dif \
+SUBDIRS_FILE_FORMATS = excel lotus-123 oleo sc sylk xbase html dif qpro \
 	xml_sax applix mps $(GNOME_GLOSSARY_DIR) $(PSICONV_DIR)
 
 SUBDIRS_FUNCTIONS = numtheory fn-database fn-date fn-eng fn-financial fn-info \
