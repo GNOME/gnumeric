@@ -589,8 +589,8 @@ AM_CONDITIONAL(WITH_PLAN_PERFECT, false)
 AC_OUTPUT([
 gnumeric.spec
 Makefile
-libgnumeric/Makefile
-libgnumeric/portability.h
+src/Makefile
+src/portability.h
 icons/Makefile
 idl/Makefile
 src/Makefile
