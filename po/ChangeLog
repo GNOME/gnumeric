@@ -1,3 +1,8 @@
+2001-11-27  Karl Eichwalder  <ke@suse.de>
+
+	* de.po: Fix translation; cf. #121233 at bugs.debian.org.
+	Reported by Florian Hars/.H.M. Dassen (Ray).
+
 2001-11-27  Roy-Magne Mo  <rmo@sunnmore.net>
 
 	* nn.po: Updated Norwegian (nynorsk) translation.

@@ -36,7 +36,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.70\n"
 "POT-Creation-Date: 2001-11-18 21:49-0500\n"
-"PO-Revision-Date: 2001-08-15 17:24+0200\n"
+"PO-Revision-Date: 2001-11-27 14:16+0100\n"
 "Last-Translator: Karl Eichwalder <ke@suse.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -5499,7 +5499,7 @@ msgstr "Leerzeichen"
 
 #: src/dialogs/dialog-stf-export.glade.h:31
 msgid "Tab"
-msgstr "Reiter"
+msgstr "Tabulator"
 
 #: src/dialogs/dialog-stf-export.glade.h:32
 msgid "Unix (linefeed)"
@@ -5797,7 +5797,7 @@ msgstr "Schrä_gstrich (/)"
 
 #: src/dialogs/dialog-stf.glade.h:57
 msgid "Ta_b"
-msgstr "_Reiter"
+msgstr "_Tabulator"
 
 #: src/dialogs/dialog-stf.glade.h:58
 msgid "Te_xt indicator : "
@@ -16389,9 +16389,11 @@ msgstr "Inch"
 msgid "Sheet 1"
 msgstr "Blatt 1"
 
+# or better: Einzug?
+# 2001-11-27 14:16:24 CET -ke-
 #: src/print-info.c:583
 msgid "tab"
-msgstr "Reiter"
+msgstr "Tabulator"
 
 #: src/print-info.c:584
 msgid "page"
@@ -17670,9 +17672,6 @@ msgstr "Die GNOME-Tabellenkalkulation"
 
 #~ msgid "Scrollbars"
 #~ msgstr "Rollbalken"
-
-#~ msgid "_Tabs"
-#~ msgstr "_Reiter"
 
 #~ msgid "Base error"
 #~ msgstr "Basisfehler"
