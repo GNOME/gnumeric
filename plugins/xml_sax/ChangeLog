@@ -1,7 +1,7 @@
-2001-04-20  Almer S. Tigelaar  <almer@gnome.org>
+2001-04-25  Jody Goldberg <jgoldberg@home.com>
 
-	* xml-sax-read.c (xml_cell_set_array_expr): Correct
-	for newly updated expr_parse_string function.
+	* xml-sax-read.c (xmlSaxParseSheet) : Add flags for the outline
+	  preferences.
 
 2001-04-18  Jody Goldberg <jgoldberg@home.com>
 

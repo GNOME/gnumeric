@@ -523,6 +523,12 @@ xmlSaxParseSheet (XML2ParseState *state, CHAR const **attrs)
 			state->sheet->hide_col_header = tmp;
 		else if (xmlSaxParseAttrInt (attrs, "HideRowHeader", &tmp))
 			state->sheet->hide_row_header = tmp;
+		else if (xmlSaxParseAttrInt (attrs, "DisplayOutlines", &tmp))
+			state->sheet->display_outlines = tmp;
+		else if (xmlSaxParseAttrInt (attrs, "OutlineSymbolsBelow", &tmp))
+			state->sheet->outline_symbols_below = tmp;
+		else if (xmlSaxParseAttrInt (attrs, "OutlineSymbolsRight", &tmp))
+			state->sheet->outline_symbols_right = tmp;
 		else
 			xmlSaxUnknownAttr (state, attrs, "Sheet");
 }
@@ -921,12 +927,13 @@ static void
 xml_cell_set_array_expr (Cell *cell, char const *text,
 			 int const cols, int const rows)
 {
+	char *error_string = NULL;
 	ParsePos pp;
 	ExprTree * expr;
 
 	expr = expr_parse_string (text,
 				  parse_pos_init_cell (&pp, cell),
-				  NULL, NULL);
+				  NULL, &error_string);
 
 	g_return_if_fail (expr != NULL);
 	cell_set_array_formula (cell->base.sheet,
