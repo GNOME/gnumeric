@@ -70,8 +70,15 @@ val_to_base (FunctionEvalInfo *ei, Value **argv, int num_argv,
 		places = 0;
 
 	switch (value->type){
+	case VALUE_ERROR :
+		return value_duplicate(value);
+
 	case VALUE_STRING:
 		str = value->v.str->str;
+		break;
+	case VALUE_BOOLEAN :
+		snprintf (buffer, sizeof (buffer)-1, "%d", value->v.v_bool?1:0);
+		str = buffer;
 		break;
 	case VALUE_INTEGER:
 		snprintf (buffer, sizeof (buffer)-1, "%d", value->v.v_int);
@@ -81,6 +88,7 @@ val_to_base (FunctionEvalInfo *ei, Value **argv, int num_argv,
 		snprintf (buffer, sizeof (buffer)-1, "%8.0f", value->v.v_float);
 		str = buffer;
 		break;
+	case VALUE_EMPTY:
 	default:
 		return value_new_error (&ei->pos, gnumeric_err_NUM);
 	}
@@ -1514,7 +1522,8 @@ static char *help_delta = {
 static Value *
 gnumeric_delta (FunctionEvalInfo *ei, Value **argv)
 {
-	int ans = 0;
+	Value *err = NULL;
+	gboolean ans;
 	Value *vx, *vy;
 
 	vx = argv[0];
@@ -1523,49 +1532,27 @@ gnumeric_delta (FunctionEvalInfo *ei, Value **argv)
 	else
 		vy = value_new_int (0);
 
-	switch (vx->type)
+	/* Promote to the largest value */
+	switch ((vx->type > vy->type) ? vx->type : vy->type)
 	{
+	case VALUE_BOOLEAN:
+		/* Only happens when both are bool */
+		ans = vx->v.v_bool == vy->v.v_bool;
+		break;
+	case VALUE_EMPTY:
 	case VALUE_INTEGER:
-		switch (vy->type)
-		{
-		case VALUE_INTEGER:
-			if (vx->v.v_int == vy->v.v_int)
-				ans = 1;
-			break;
-		case VALUE_FLOAT:
-			if (vy->v.v_float == (float_t)vx->v.v_int)
-				ans = 1;
-			break;
-		default:
-			return value_new_error (&ei->pos, _("Impossible"));
-			return NULL;
-		}
+		ans = value_get_as_int(vx) == value_get_as_int(vy);
 		break;
 	case VALUE_FLOAT:
-		switch (vy->type)
-		{
-		case VALUE_INTEGER:
-			if (vx->v.v_float == (float_t)vy->v.v_int)
-				ans = 1;
-			break;
-		case VALUE_FLOAT:
-			if (vy->v.v_float == vx->v.v_float)
-				ans = 1;
-			break;
-		default:
-			return value_new_error (&ei->pos, _("Impossible"));
-			return NULL;
-		}
+		ans = value_get_as_float(vx) == value_get_as_float(vy);
 		break;
 	default:
-		return value_new_error (&ei->pos, _("Impossible"));
-		return NULL;
+		err = value_new_error (&ei->pos, _("Impossible"));
 	}
-	       
 	if (!argv[1])
 		value_release (vy);
 
-	return value_new_int (ans);
+	return (err != NULL) ? err : value_new_int (ans ? 1 : 0);
 }
 
 static char *help_gestep = {
@@ -1586,7 +1573,8 @@ static char *help_gestep = {
 static Value *
 gnumeric_gestep (FunctionEvalInfo *ei, Value **argv)
 {
-	int ans = 0;
+	Value *err = NULL;
+	gboolean ans;
 	Value *vx, *vy;
 
 	vx = argv[0];
@@ -1595,46 +1583,27 @@ gnumeric_gestep (FunctionEvalInfo *ei, Value **argv)
 	else
 		vy = value_new_int (0);
 
-	switch (vx->type)
+	/* Promote to the largest value */
+	switch ((vx->type > vy->type) ? vx->type : vy->type)
 	{
+	case VALUE_BOOLEAN:
+		/* Only happens when both are bool */
+		ans = vx->v.v_bool >= vy->v.v_bool;
+		break;
+	case VALUE_EMPTY:
 	case VALUE_INTEGER:
-		switch (vy->type)
-		{
-		case VALUE_INTEGER:
-			if (vx->v.v_int >= vy->v.v_int)
-				ans = 1;
-			break;
-		case VALUE_FLOAT:
-			if (vy->v.v_float < (float_t)vx->v.v_int)
-				ans = 1;
-			break;
-		default:
-			return value_new_error (&ei->pos, _("Impossible"));
-		}
+		ans = value_get_as_int(vx) >= value_get_as_int(vy);
 		break;
 	case VALUE_FLOAT:
-		switch (vy->type)
-		{
-		case VALUE_INTEGER:
-			if (vx->v.v_float >= (float_t)vy->v.v_int)
-				ans = 1;
-			break;
-		case VALUE_FLOAT:
-			if (vy->v.v_float < vx->v.v_float)
-				ans = 1;
-			break;
-		default:
-			return value_new_error (&ei->pos, _("Impossible"));
-		}
+		ans = value_get_as_float(vx) >= value_get_as_float(vy);
 		break;
 	default:
-		return value_new_error (&ei->pos, _("Impossible"));
-		return NULL;
+		err = value_new_error (&ei->pos, _("Impossible"));
 	}
 	       
 	if (!argv[1])
 		value_release (vy);
-	return value_new_int (ans);
+	return (err != NULL) ? err : value_new_int (ans ? 1 : 0);
 }
 
 void eng_functions_init()

@@ -610,8 +610,21 @@ typedef enum {
 } compare_t;
 
 static compare_t
-compare_int_int (int a, int b)
+compare_bool_bool (Value const * const va, Value const * const vb)
 {
+	gboolean err; /* Ignored */
+	gboolean const a = value_get_as_bool (va, &err);
+	gboolean const b = value_get_as_bool (vb, &err);
+	if (a)
+		return b ? IS_EQUAL : IS_GREATER;
+	return b ? IS_LESS : IS_EQUAL;
+}
+
+static compare_t
+compare_int_int (Value const * const va, Value const * const vb)
+{
+	int const a = value_get_as_int (va);
+	int const b = value_get_as_int (vb);
 	if (a == b)
 		return IS_EQUAL;
 	else if (a < b)
@@ -621,20 +634,16 @@ compare_int_int (int a, int b)
 }
 
 static compare_t
-compare_float_float (float_t a, float_t b)
+compare_float_float (Value const * const va, Value const * const vb)
 {
+	float_t const a = value_get_as_float (va);
+	float_t const b = value_get_as_float (vb);
 	if (a == b)
 		return IS_EQUAL;
 	else if (a < b)
 		return IS_LESS;
 	else
 		return IS_GREATER;
-}
-
-static gboolean
-is_null_string (Value const *v)
-{
-	return v != NULL && v->type == VALUE_STRING && v->v.str->str[0] == '\0';
 }
 
 /*
@@ -643,76 +652,78 @@ is_null_string (Value const *v)
 static compare_t
 compare (const Value *a, const Value *b)
 {
+	ValueType ta, tb;
+
 	/* Handle trivial and double NULL case */
 	if (a == b)
 		return IS_EQUAL;
 
-	if (a == NULL)
-		return is_null_string (b) ? IS_EQUAL : TYPE_MISMATCH;
-	if (b == NULL)
-		return is_null_string (a) ? IS_EQUAL : TYPE_MISMATCH;
+	ta = value_is_empty_cell (a) ? VALUE_EMPTY : a->type;
+	tb = value_is_empty_cell (b) ? VALUE_EMPTY : b->type;
 
-	if (a->type == VALUE_BOOLEAN){
-		gboolean err, b_val = value_get_as_bool (b, &err);
-
-		if (err)
-			return TYPE_MISMATCH;
-
-		if (a->v.v_bool)
-			return (b_val) ? IS_EQUAL : IS_GREATER;
-		return (b_val) ? IS_LESS : IS_EQUAL;
-	}
-	if (a->type == VALUE_INTEGER){
-		int f;
-
-		switch (b->type){
-		case VALUE_INTEGER:
-			return compare_int_int (a->v.v_int, b->v.v_int);
-
-		case VALUE_FLOAT:
-			return compare_float_float (a->v.v_int, b->v.v_float);
-
-		case VALUE_STRING:
-			f = value_get_as_float (b);
-			return compare_float_float (a->v.v_int, f);
-
-		default:
-			return TYPE_MISMATCH;
-		}
-	}
-
-	if (a->type == VALUE_FLOAT){
-		float_t f;
-
-		switch (b->type){
-		case VALUE_INTEGER:
-			return compare_float_float (a->v.v_float, b->v.v_int);
-
-		case VALUE_FLOAT:
-			return compare_float_float (a->v.v_float, b->v.v_float);
-
-		case VALUE_STRING:
-			f = value_get_as_float (b);
-			return compare_float_float (a->v.v_float, f);
-
-		default:
-			return TYPE_MISMATCH;
-		}
-	}
-
-	if (a->type == VALUE_STRING && b->type == VALUE_STRING){
-		int t;
-
-		t = strcasecmp (a->v.str->str, b->v.str->str);
-		if (t == 0)
-			return IS_EQUAL;
-		else if (t > 0)
+	/* string > empty */
+	if (ta == VALUE_STRING) {
+		switch (tb) {
+		/* Strings are > (empty, or number) */
+		case VALUE_EMPTY : case VALUE_INTEGER : case VALUE_FLOAT :
 			return IS_GREATER;
-		else
+
+		/* Strings are < FALSE ?? */
+		case VALUE_BOOLEAN :
 			return IS_LESS;
+
+		/* If both are strings compare as string */
+		case VALUE_STRING :
+		{
+			int const t = strcasecmp (a->v.str->str, b->v.str->str);
+			if (t == 0)
+				return IS_EQUAL;
+			else if (t > 0)
+				return IS_GREATER;
+			else
+				return IS_LESS;
+		}
+		default :
+			/*
+			 * TODO : Add implicit intersection here if not in
+			 * array mode
+			 * */
+			return TYPE_MISMATCH;
+		}
+	} else if (tb == VALUE_STRING) {
+		switch (ta) {
+		/* (empty, or number) < String */
+		case VALUE_EMPTY : case VALUE_INTEGER : case VALUE_FLOAT :
+			return IS_LESS;
+
+		/* Strings are < FALSE ?? */
+		case VALUE_BOOLEAN :
+			return IS_GREATER;
+
+		default :
+			/*
+			 * TODO : Add implicit intersection here if not in
+			 * array mode
+			 * */
+			return TYPE_MISMATCH;
+		}
 	}
 
-	return TYPE_MISMATCH;
+	switch ((ta > tb) ? ta : tb) {
+	case VALUE_EMPTY:	/* Empty Empty compare */
+		return IS_EQUAL;
+
+	case VALUE_BOOLEAN:
+		return compare_bool_bool (a, b);
+
+	case VALUE_INTEGER:
+		return compare_int_int (a, b);
+
+	case VALUE_FLOAT:
+		return compare_float_float (a, b);
+	default:
+		return TYPE_MISMATCH;
+	}
 }
 
 /*
@@ -780,19 +791,22 @@ eval_expr_real (FunctionEvalInfo *s, ExprTree const *tree)
 		int comp;
 
 		a = eval_expr_real (s, tree->u.binary.value_a);
-		if (VALUE_IS_PROBLEM(a))
+		if (a != NULL && a->type == VALUE_ERROR)
 			return a;
 
 		b = eval_expr_real (s, tree->u.binary.value_b);
-		if (VALUE_IS_PROBLEM(b)){
-			value_release (a);
+		if (b != NULL && b->type == VALUE_ERROR) {
+			if (a != NULL)
+				value_release (a);
 			return b;
 		}
 
 		comp = compare (a, b);
 
-		value_release (a);
-		value_release (b);
+		if (a != NULL)
+			value_release (a);
+		if (b != NULL)
+			value_release (b);
 
 		if (comp == TYPE_MISMATCH){
 			/* TODO TODO TODO : Make error more informative
@@ -804,7 +818,7 @@ eval_expr_real (FunctionEvalInfo *s, ExprTree const *tree)
 			if (tree->oper == OPER_NOT_EQUAL)
 				return value_new_bool (TRUE);
 
-			return value_new_error (&s->pos, _("Type Mismatch"));
+			return value_new_error (&s->pos, gnumeric_err_VALUE);
 		}
 
 		switch (tree->oper){
@@ -845,134 +859,149 @@ eval_expr_real (FunctionEvalInfo *s, ExprTree const *tree)
 	case OPER_MULT:
 	case OPER_DIV:
 	case OPER_EXP:
-		a = eval_expr_real (s, tree->u.binary.value_a);
+	        /* Garantees that a != NULL */
+		a = eval_expr (s, tree->u.binary.value_a);
 
-		if (VALUE_IS_PROBLEM(a))
+		/*
+		 * Priority
+		 * 1) Error from A
+		 * 2) #!VALUE error if A is not a number
+		 * 3) Error from B
+		 * 4) #!VALUE error if B is not a number
+		 * 5) result of operation, or error specific to the operation
+		 */
+
+		/* 1) Error from A */
+		if (a->type == VALUE_ERROR)
 			return a;
 
-		b = eval_expr_real (s, tree->u.binary.value_b);
+		/* 2) #!VALUE error if A is not a number */
+		if (!VALUE_IS_NUMBER (a)) {
+			value_release (a);
+			return value_new_error (&s->pos, gnumeric_err_VALUE);
+		}
 
-		if (VALUE_IS_PROBLEM(b)){
+	        /* Garantees that b != NULL */
+		b = eval_expr (s, tree->u.binary.value_b);
+
+		/* 3) Error from B */
+		if (b->type == VALUE_ERROR) {
 			value_release (a);
 			return b;
 		}
 
-		if (!VALUE_IS_NUMBER (a) || !VALUE_IS_NUMBER (b)){
+		/* 4) #!VALUE error if B is not a number */
+		if (!VALUE_IS_NUMBER (b)) {
 			value_release (a);
 			value_release (b);
-			return value_new_error (&s->pos, _("Type mismatch"));
+			return value_new_error (&s->pos, gnumeric_err_VALUE);
 		}
 
-		res = g_new (Value, 1);
 		if (a->type != VALUE_FLOAT && b->type != VALUE_FLOAT){
-			int ia = value_get_as_int (a);
+			int const ia = value_get_as_int (a);
 			int ib = value_get_as_int (b);
-
-			res->type = VALUE_INTEGER;
 
 			switch (tree->oper){
 			case OPER_SUB:
 			case OPER_ADD: {
 				int sum;
 
-				if (tree->oper == OPER_SUB){
+				if (tree->oper == OPER_SUB)
 					ib = -ib;
-				}
 
 				sum = ia + ib;
 
 				if ((ia > 0) && (ib > 0)){
-
-					if (sum < ia){
-						res->type = VALUE_FLOAT;
-						res->v.v_float = ((double)ia) + ib;
-					} else
-						res->v.v_int = sum;
+					return (sum < ia)
+					    ? value_new_float((double)ia + ib)
+					    : value_new_int(sum);
 				} else if ((ia < 0) && (ib < 0)){
-					if (sum > ia){
-						res->type = VALUE_FLOAT;
-						res->v.v_float = ((double)ia) + ib;
-					} else
-						res->v.v_int = sum;
-				} else
-					res->v.v_int = sum;
-
-				break;
+					return (sum > ia)
+					    ? value_new_float((double)ia + ib)
+					    : value_new_int(sum);
+				}
+				return value_new_int(sum);
 			}
 
 			case OPER_MULT:
-				res->v.v_int = ia * ib;
-				break;
+			        return value_new_int(ia * ib);
 
 			case OPER_DIV:
-				if (ib == 0){
-					value_release (a);
-					value_release (b);
-					value_release (res);
-				       
-					return value_new_error (&s->pos, gnumeric_err_DIV0);
-				}
-				res->type = VALUE_FLOAT;
-				res->v.v_float =  ia / (float_t)ib;
-				break;
+				return (ib == 0)
+				    ?  value_new_error (&s->pos,
+							gnumeric_err_DIV0)
+				    : value_new_float(ia / (float_t)ib);
 
 			case OPER_EXP:
-				res->v.v_int = pow (ia, ib);
-				break;
+				if (ia == 0)
+					return value_new_error (&s->pos,
+								gnumeric_err_NUM);
+				return value_new_int(pow (ia, ib));
 			default:
 				break;
 			}
 		} else {
-			res->type = VALUE_FLOAT;
-			res->v.v_float = 0.0;
-			a = value_cast_to_float (a);
-			b = value_cast_to_float (b);
+			float_t const va = value_get_as_float(a);
+			float_t const vb = value_get_as_float(b);
+			value_release (a);
+			value_release (b);
 
 			switch (tree->oper){
 			case OPER_ADD:
-				res->v.v_float = a->v.v_float + b->v.v_float;
-				break;
+				return value_new_float(va + vb);
 
 			case OPER_SUB:
-				res->v.v_float = a->v.v_float - b->v.v_float;
-				break;
+				return value_new_float(va - vb);
 
 			case OPER_MULT:
-				res->v.v_float = a->v.v_float * b->v.v_float;
-				break;
+				return value_new_float(va * vb);
 
 			case OPER_DIV:
-				if (b->v.v_float == 0.0){
-					value_release (a);
-					value_release (b);
-					value_release (res);
-
-					return value_new_error (&s->pos, gnumeric_err_DIV0);
-				}
-
-				res->v.v_float = a->v.v_float / b->v.v_float;
-				break;
+				return (vb == 0.0)
+				    ? value_new_error (&s->pos,
+						       gnumeric_err_DIV0)
+				    : value_new_float(va / vb);
 
 			case OPER_EXP:
-				res->v.v_float = pow (a->v.v_float, b->v.v_float);
-				break;
+				if (va == 0.)
+					return value_new_error (&s->pos,
+								gnumeric_err_NUM);
+				return value_new_float(pow(va, vb));
+
 			default:
 				break;
 			}
 		}
+		return value_new_error (&s->pos, _("Unknown operator"));
+
+	case OPER_NEG:
+	        /* Garantees that a != NULL */
+		a = eval_expr (s, tree->u.value);
+		if (a->type == VALUE_ERROR)
+			return a;
+		if (!VALUE_IS_NUMBER (a)){
+			value_release (a);
+			return value_new_error (&s->pos, gnumeric_err_VALUE);
+		}
+		if (a->type == VALUE_INTEGER)
+			res = value_new_int (-a->v.v_int);
+		else if (a->type == VALUE_FLOAT)
+			res = value_new_float (-a->v.v_float);
+		else
+			res = value_new_bool (!a->v.v_float);
 		value_release (a);
-		value_release (b);
 		return res;
 
 	case OPER_CONCAT: {
 		char *sa, *sb, *tmp;
 
 		a = eval_expr_real (s, tree->u.binary.value_a);
-		if (VALUE_IS_PROBLEM(a))
+		if (a != NULL && a->type == VALUE_ERROR)
 			return a;
 		b = eval_expr_real (s, tree->u.binary.value_b);
-		if (VALUE_IS_PROBLEM(b)) {
-			value_release (a);
+		if (b != NULL && b->type == VALUE_ERROR) {
+			if (a != NULL)
+				value_release (a);
 			return b;
 		}
 
@@ -1030,23 +1059,6 @@ eval_expr_real (FunctionEvalInfo *s, ExprTree const *tree)
 			eval_range (s, res);
 		return value_duplicate (res);
 
-	case OPER_NEG:
-		a = eval_expr_real (s, tree->u.value);
-		if (VALUE_IS_PROBLEM(a))
-			return a;
-		if (!VALUE_IS_NUMBER (a)){
-			value_release (a);
-			return value_new_error (&s->pos, _("Type mismatch"));
-		}
-		if (a->type == VALUE_INTEGER)
-			res = value_new_int (-a->v.v_int);
-		else if (a->type == VALUE_FLOAT)
-			res = value_new_float (-a->v.v_float);
-		else
-			res = value_new_bool (!a->v.v_float);
-		value_release (a);
-		return res;
-
 	case OPER_ARRAY:
 	{
 		/* The upper left corner manages the recalc of the expr */
@@ -1100,9 +1112,14 @@ Value *
 eval_expr (FunctionEvalInfo *s, ExprTree const *tree)
 {
 	Value * res = eval_expr_real (s, tree);
-	if (res != NULL)
-		return res;
-	return value_new_int (0);
+	if (res == NULL)
+		return value_new_int (0);
+
+	if (res->type == VALUE_EMPTY) {
+		value_release (res);
+		return value_new_int (0);
+	}
+	return res;
 }
 
 int
@@ -1491,11 +1508,11 @@ do_expr_tree_invalidate_references (ExprTree *src, const struct expr_tree_frob_r
 		Value *v = src->u.constant;
 
 		switch (v->type) {
+		case VALUE_BOOLEAN:
+		case VALUE_ERROR:
 		case VALUE_STRING:
 		case VALUE_INTEGER:
 		case VALUE_FLOAT:
-		case VALUE_BOOLEAN:
-		case VALUE_ERROR:
 		case VALUE_EMPTY:
 			return NULL;
 

@@ -1537,8 +1537,7 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 			dump (q->data+6, 8);
 		}
 #endif
-		/* FIXME FIXME FIXME : This should be empty, not null string */
-		val = value_new_string ("");
+		val = value_new_empty ();
 		break;
 
 		default :
@@ -1650,29 +1649,6 @@ ms_excel_sheet_new (ExcelWorkbook *wb, char *name)
 			      (GCompareFunc)biff_shared_formula_equal);
 
 	return ans;
-}
-
-static void
-ms_excel_read_error (BiffQuery *q, ExcelSheet *sheet)
-{
-	ExprTree *e;
-	guint8 const val = MS_OLE_GET_GUINT8(q->data + 6);
-	Value *v = NULL;
-	guint16 const xf_index = EX_GETXF (q);
-	Cell *cell = sheet_cell_fetch (sheet->gnum_sheet,
-				       EX_GETCOL (q), EX_GETROW (q));
-
-	char const *const err_str = biff_get_error_text (val);
-	v = value_new_string (err_str);
-	e = expr_tree_new_error (err_str);
-
-	sheet->blank = FALSE;
-	cell_set_formula_tree_simple (cell, e);
-	if (cell->value)
-		value_release (cell->value);
-	cell->value = v;
-	expr_tree_unref (e);
-	ms_excel_set_cell_xf (sheet, cell, xf_index);
 }
 
 static void
@@ -2047,45 +2023,49 @@ static void
 ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 {
 	switch (q->ls_op) {
-	case BIFF_BLANK:	/*
-				 * FIXME: Not a good way of doing blanks ?
-				 */
-		/*
-		 * printf ("Cell [%d, %d] XF = %x\n", EX_GETCOL(q), EX_GETROW(q),
-		 * EX_GETXF(q));
-		 */
-		ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), 0);
+	case BIFF_BLANK:
+#if 0
+		printf ("Cell [%d, %d] XF = %x\n", EX_GETCOL(q), EX_GETROW(q),
+		EX_GETXF(q));
+#endif
+		ms_excel_sheet_insert_val (sheet, EX_GETXF (q),
+					   EX_GETCOL (q), EX_GETROW (q),
+					   value_new_empty());
 		break;
-	case BIFF_MULBLANK:	/*
-				 * S59DA7.HTM is extremely unclear, this is an educated guess
-				 */
-		{
-			if (q->opcode == BIFF_DV) {
-				printf ("Unimplemented DV: data validation criteria, FIXME\n");
-				break;
-			} else {
-				int row, col, lastcol;
-				int incr;
-				guint8 const *ptr;
 
-				/*
-				 * dump (ptr, q->length);
-				 */
-				row = EX_GETROW (q);
-				col = EX_GETCOL (q);
-				ptr = (q->data + 4);
-				lastcol = MS_OLE_GET_GUINT16 (q->data + q->length - 2);
-/*				printf ("Cells in row %d are blank starting at col %d until col %d (0x%x)\n",
-				row, col, lastcol, lastcol); */
-				incr = (lastcol > col) ? 1 : -1;
-				while (col != lastcol) {
-					ms_excel_sheet_insert (sheet, MS_OLE_GET_GUINT16 (ptr), col, EX_GETROW (q), 0);
-					col += incr;
-					ptr += 2;
-				}
+	case BIFF_MULBLANK:
+		/* S59DA7.HTM is extremely unclear, this is an educated guess */
+		if (q->opcode == BIFF_DV) {
+			printf ("Unimplemented DV: data validation criteria, FIXME\n");
+			break;
+		} else {
+			int row, col, lastcol;
+			int incr;
+			guint8 const *ptr;
+
+			/*
+			 * dump (ptr, q->length);
+			 */
+			row = EX_GETROW (q);
+			col = EX_GETCOL (q);
+			ptr = (q->data + 4);
+			lastcol = MS_OLE_GET_GUINT16 (q->data + q->length - 2);
+#if 0
+			printf ("Cells in row %d are blank starting at col %d until col %d (0x%x)\n",
+				row, col, lastcol, lastcol);
+#endif
+			incr = (lastcol > col) ? 1 : -1;
+			while (col != lastcol) {
+				ms_excel_sheet_insert_val (sheet,
+							   MS_OLE_GET_GUINT16 (ptr),
+							   col, EX_GETROW (q),
+							   value_new_empty());
+				col += incr;
+				ptr += 2;
 			}
 		}
 		break;
+
 	case BIFF_RSTRING: /* See: S59DDC.HTM */
 	{
 		char *txt;
@@ -2094,7 +2074,8 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 		  dump (q->data, q->length);
 		  printf ("Rstring\n");
 		*/
-		ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q),
+		ms_excel_sheet_insert (sheet, EX_GETXF (q),
+				       EX_GETCOL (q), EX_GETROW (q),
 				       (txt = biff_get_text (q->data + 8, EX_GETSTRLEN (q), NULL)));
 		g_free (txt);
 		break;
@@ -2259,15 +2240,17 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 
 		case BIFF_BOOLERR: /* S59D5F.HTM */
 		{
+			Value *v;
+			guint8 const val = MS_OLE_GET_GUINT8(q->data + 6);
 			if (MS_OLE_GET_GUINT8(q->data + 7)) {
-				ms_excel_read_error (q, sheet);
-			} else {
-				/* Boolean */
-				Value *v;
-				v = value_new_bool (MS_OLE_GET_GUINT8(q->data + 6));
-				ms_excel_sheet_insert_val (sheet, EX_GETXF (q), EX_GETCOL (q),
-							   EX_GETROW (q), v);
-			}
+				/* FIXME : Init EvalPos */
+				v = value_new_error (NULL,
+						     biff_get_error_text (val));
+			} else
+				v = value_new_bool (val);
+			ms_excel_sheet_insert_val (sheet,
+						   EX_GETXF (q), EX_GETCOL (q),
+						   EX_GETROW (q), v);
 			break;
 		}
 		default:
@@ -2275,6 +2258,56 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 			break;
 		}
 	}
+}
+
+/* S59DE2.HTM */
+static void
+ms_excel_read_selection (ExcelSheet *sheet, BiffQuery *q)
+{
+	int const pane_number	= MS_OLE_GET_GUINT8 (q->data);
+	int const act_row	= MS_OLE_GET_GUINT16 (q->data + 1);
+	int const act_col	= MS_OLE_GET_GUINT16 (q->data + 3);
+	int num_refs		= MS_OLE_GET_GUINT16 (q->data + 7);
+	guint8 *refs;
+
+
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_read_debug > 1) {
+		printf ("Start selection\n");
+		if (ms_excel_read_debug > 6)
+			printf ("Cursor : %d %d\n", act_col, act_row);
+	}
+#endif
+	if (pane_number != 3) {
+		printf ("FIXME: no pane support\n");
+		return;
+	}
+
+	sheet_selection_reset_only (sheet->gnum_sheet);
+	for (refs = q->data + 9; num_refs > 0; refs += 6, num_refs--) {
+		int const start_row = MS_OLE_GET_GUINT16(refs + 0);
+		int const start_col = MS_OLE_GET_GUINT8(refs + 4);
+		int const end_row   = MS_OLE_GET_GUINT16(refs + 2);
+		int const end_col   = MS_OLE_GET_GUINT8(refs + 5);
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_read_debug > 6)
+			printf ("Ref %d = %d %d %d %d\n", num_refs,
+				start_col, start_row, end_col, end_row);
+#endif
+
+		/* FIXME : This should not trigger a recalc */
+		sheet_selection_append_range (sheet->gnum_sheet,
+					      start_col, start_row,
+					      start_col, start_row,
+					      end_col, end_row);
+	}
+	sheet_cursor_set (sheet->gnum_sheet,
+			  act_col, act_row, act_col, act_row, act_col, act_row);
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_read_debug > 1) {
+		printf ("Done selection\n");
+	}
+#endif
 }
 
 static void
@@ -2317,49 +2350,9 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 			ms_obj_read_obj (q, wb);
 			break;
 
-		case BIFF_SELECTION: /* S59DE2.HTM */
-		{
-			int pane_number;
-			int act_row, act_col;
-			int num_refs;
-			guint8 *refs;
-
-#ifndef NO_DEBUG_EXCEL
-			if (ms_excel_read_debug > 1) {
-				printf ("Start selection\n");
-			}
-#endif
-			pane_number = MS_OLE_GET_GUINT8 (q->data);
-			act_row     = MS_OLE_GET_GUINT16 (q->data + 1);
-			act_col     = MS_OLE_GET_GUINT16 (q->data + 3);
-			num_refs    = MS_OLE_GET_GUINT16 (q->data + 7);
-			refs        = q->data + 9;
-/*			printf ("Cursor : %d %d\n", act_col, act_row); */
-			if (pane_number != 3) {
-				printf ("FIXME: no pane support\n");
-				break;
-			}
-			sheet_selection_reset_only (sheet->gnum_sheet);
-			while (num_refs>0) {
-				int start_row = MS_OLE_GET_GUINT16(refs + 0);
-				int start_col = MS_OLE_GET_GUINT8(refs + 4);
-				int end_row   = MS_OLE_GET_GUINT16(refs + 2);
-				int end_col   = MS_OLE_GET_GUINT8(refs + 5);
-/*				printf ("Ref %d = %d %d %d %d\n", num_refs, start_col, start_row, end_col, end_row); */
-				sheet_selection_append_range (sheet->gnum_sheet, start_col, start_row,
-							      start_col, start_row,
-							      end_col, end_row);
-				refs+=6;
-				num_refs--;
-			}
-			sheet_cursor_set (sheet->gnum_sheet, act_col, act_row, act_col, act_row, act_col, act_row);
-#ifndef NO_DEBUG_EXCEL
-			if (ms_excel_read_debug > 1) {
-				printf ("Done selection\n");
-			}
-#endif
-			break;
-		}
+		case BIFF_SELECTION:
+		    ms_excel_read_selection (sheet, q);
+		    break;
 
 		case BIFF_MS_O_DRAWING:
 		case BIFF_MS_O_DRAWING_GROUP:
@@ -2471,13 +2464,6 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 
 		default:
 			switch (q->opcode) {
-			case BIFF_STRING :
-				/* FIXME FIXME FIXME */
-				/* this should not happen.  Need to check the
-				 * shared formula handling to see how to deal
-				 * with this */
-				break;
-
 			case BIFF_CODENAME :
 				break;
 

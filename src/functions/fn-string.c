@@ -757,9 +757,10 @@ gnumeric_value (FunctionEvalInfo *ei, Value **argv)
 	gboolean ok;
 
 	switch (argv[0]->type) {
+	case VALUE_EMPTY:
 	case VALUE_INTEGER:
 	case VALUE_FLOAT:
-		/* This specifically should not be used for VALUE_BOOL.  */
+	case VALUE_BOOLEAN:
 		return value_duplicate (argv[0]);
 	default:
 		q = p = arg = value_get_as_string (argv[0]);

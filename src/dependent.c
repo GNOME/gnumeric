@@ -264,7 +264,7 @@ add_tree_deps (Cell *cell, ExprTree *tree)
 	default:
 		g_warning ("Unknown Operation type, dependencies lost");
 		break;
-	} /* switch */
+	}
 }
 
 /*

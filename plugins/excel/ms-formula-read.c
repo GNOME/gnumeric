@@ -685,8 +685,9 @@ make_function (ParseList **stack, int fn_idx, int numargs)
 		    tmp->u.constant->type != VALUE_STRING) {
 			if (tmp) expr_tree_unref (tmp);
 			parse_list_free (&args);
-			parse_list_push (stack,
-					 expr_tree_new_error (_("Broken function")));
+			parse_list_push_raw (stack,
+					     value_new_error (NULL,
+							      _("Broken function")));
 			printf ("So much for that theory.\n");
 			return FALSE;
 		}
@@ -736,7 +737,7 @@ make_function (ParseList **stack, int fn_idx, int numargs)
 			txt = g_strdup_printf ("[Function '%s']", 
 					       fd->prefix?fd->prefix:"?");
 			printf ("Unknown %s\n", txt);
-			parse_list_push (stack, expr_tree_new_error (txt));
+			parse_list_push_raw (stack, value_new_error (NULL, txt));
 			g_free (txt);
 
 			parse_list_free (&args);
@@ -1242,9 +1243,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 				return NULL;   /* To tell name stuff */
 			}
 			errtxt  = biff_get_error_text (err_num);
-			/* FIXME: we do not have errors as first-class values, so we
-			   must build an expression that generates the error.  */
-			parse_list_push (&stack, expr_tree_new_error (errtxt));
+			parse_list_push_raw (&stack, value_new_error (NULL, errtxt));
 			ptg_length = 1 ;
 			break ;
 		}

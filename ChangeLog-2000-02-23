@@ -1,3 +1,39 @@
+1999-08-01  Jody Goldberg  <jgoldberg@home.com>
+
+	* samples/operator.xls : Test workbook for operators.
+
+	* src/Gnumeric.idl : Add VALUE_ERROR, VALUE_BOOLEAN, VALUE_EMPTY
+          in a few more places
+	* src/fn-lookup.c : Ditto.
+	* src/fn-math.c : Ditto.
+	* src/fn-stat.c : Ditto.
+	* src/fn-string.c : Ditto.
+	* src/dialog-cell-sort.c : Ditto.
+	* src/corba-sheet.c : Ditto.
+
+	* src/fn-eng.c : Support VALUE_BOOLEAN and simplify comparison logic in
+          DELTA and GESTEP.
+
+	* src/expr.c (compare_bool_bool) : New function.
+          (compare_int_int, compare_float_float) : Take (Value *) and do cast
+          internally.
+	  (is_null_string) : Rename to value_is_empty_cell, support VALUE_EMPTY.
+            and move to src/value.c.
+	  (compare) : Rework to bring into closer compliance with XL.
+          (expr_eval_real) : Ditto, replace 'Type [Mm]ismatch' with '#!VALUE'.
+          use eval_expr rather than eval_expr_real for arithmetic binary
+	  operators.  Use value_get_as_float rather than value_cast_to_float.
+          (eval_expr) : Remap 'VALUE_EMPTY' to int(0)
+
+	* src/value.h : Adjust enumeration so that BOOLEAN < INTEGER < FLOAT
+	    remove value_cast_to_float
+
+	* src/value.c (value_get_as_*) : Support NULL values.
+	  (value_cast_to_float) : Remove.
+
+	* src/sheet.c (sheet_cell_formula_unlink) : Add precondition to handle
+          problems using deleted cells.
+
 1999-08-01  Morten Welinder  <terra@diku.dk>
 
 	* src/fn-stat.c (gnumeric_covar, gnumeric_correl): Simplify using

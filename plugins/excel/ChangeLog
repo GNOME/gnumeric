@@ -1,3 +1,12 @@
+1999-07-30  Jody Goldberg  <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_read_error) : Delete
+          (ms_excel_read_cell) : Use VALUE_ERROR, and VALUE_EMPTY.
+	  (ms_excel_read_selection) : Split out into seperate function.
+
+	* ms-formula-read.c (ms_excel_parse_formula,
+          make_function) : VALUE_ERROR.
+
 1999-07-31  Morten Welinder  <terra@diku.dk>
 
 	* ms-excel-read.c (ms_excel_read_formula): Kill warning that is no

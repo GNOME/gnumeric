@@ -2446,6 +2446,8 @@ sheet_cell_formula_unlink (Cell *cell)
 	g_return_if_fail (cell->parsed_node != NULL);
 
 	sheet = cell->sheet;
+	g_return_if_fail (sheet != NULL); /* Catch use of deleted cell */
+
 	cell_drop_dependencies (cell);
 	sheet->workbook->formula_cell_list = g_list_remove (sheet->workbook->formula_cell_list, cell);
 

@@ -201,12 +201,16 @@ callback_function_rank (Sheet *sheet, int col, int row,
 	        return NULL;
 
 	switch (cell->value->type) {
+        case VALUE_BOOLEAN:
+                x = cell->value->v.v_bool ? 1 : 0;
+                break;
         case VALUE_INTEGER:
                 x = cell->value->v.v_int;
                 break;
         case VALUE_FLOAT:
                 x = cell->value->v.v_float;
                 break;
+	case VALUE_EMPTY:
         default:
                 return value_terminate();
         }

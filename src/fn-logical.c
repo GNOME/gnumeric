@@ -160,7 +160,7 @@ gnumeric_if (FunctionEvalInfo *ei, GList *expr_node_list)
 
 	/* Compute the if part */
 	value = eval_expr (ei, (ExprTree *) expr_node_list->data);
-	if (VALUE_IS_PROBLEM (value))
+	if (VALUE_IS_EMPTY_OR_ERROR(value))
 		return value;
 
 	/* Choose which expression we will evaluate */

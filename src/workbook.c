@@ -1449,7 +1449,8 @@ static struct {
  * selection in the sheet changes
  */
 static void
-workbook_set_auto_expr (Workbook *wb, const char *description, const char *expression)
+workbook_set_auto_expr (Workbook *wb,
+			const char *description, const char *expression)
 {
 	ParsePosition pp;
 
@@ -1463,6 +1464,44 @@ workbook_set_auto_expr (Workbook *wb, const char *description, const char *expre
 		string_unref (wb->auto_expr_desc);
 
 	wb->auto_expr_desc = string_get (description);
+}
+
+/*
+ * A utility to temporarily remove a workbook auto expr.  The current expression
+ * and description are returned to the caller in @expr and @desc so that they
+ * can be reset via sheet_resume_auto_expr later.  The caller takes is
+ * responsible for managing the string and expression until they are returned
+ * to the workbook via sheet_suspend_auto_expr.
+ */
+void
+sheet_suspend_auto_expr(Workbook *wb, ExprTree **expr, String **desc)
+{
+	g_return_if_fail (wb != NULL);
+
+	*expr = wb->auto_expr;
+	wb->auto_expr = NULL;
+	*desc = wb->auto_expr_desc;
+	wb->auto_expr_desc = NULL;
+}
+
+/*
+ * The counter point to sheet_suspend_auto_expr it reset previously suspended
+ * auto expressions and retakes responsibility for managing the strings and
+ * expressions.
+ */
+void
+sheet_resume_auto_expr(Workbook *wb, ExprTree *expr, String *desc)
+{
+	Sheet *sheet;
+
+	g_return_if_fail (wb != NULL);
+	g_return_if_fail (expr != NULL);
+	g_return_if_fail (desc != NULL);
+
+       	sheet = workbook_get_current_sheet (wb);
+	wb->auto_expr = expr;
+	wb->auto_expr_desc = desc;
+	sheet_update_auto_expr (sheet);
 }
 
 static void

@@ -50,6 +50,7 @@ get_value_class (FunctionEvalInfo *ei, ExprTree *expr)
 		case VALUE_ARRAY:
 			res = VALUE_CLASS_ARRAY;
 			break;
+		case VALUE_EMPTY:
 		default:
 			res = VALUE_CLASS_BOGUS;
 			break;

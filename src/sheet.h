@@ -369,6 +369,15 @@ void        sheet_redraw_all              (Sheet *sheet);
 				       
 void        sheet_update_auto_expr        (Sheet *sheet);
 
+/*
+ * A Pair of utilities to temporarily suspend auto_expr's while reading
+ * worksheets.
+ */
+void        sheet_suspend_auto_expr       (Workbook *wb,
+					   ExprTree **expr, String **desc);
+void        sheet_resume_auto_expr        (Workbook *wb,
+					   ExprTree *expr, String *desc);
+
 void        sheet_mark_clean              (Sheet *sheet);
 void        sheet_set_dirty               (Sheet *sheet, gboolean is_dirty);
 /* Sheet information manipulation */

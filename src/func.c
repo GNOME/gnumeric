@@ -79,6 +79,7 @@ function_iterate_do_value (const EvalPosition      *ep,
 		}
 		/* Fall through.  */
 
+	case VALUE_EMPTY:
 	case VALUE_BOOLEAN:
 	case VALUE_INTEGER:
 	case VALUE_FLOAT:
@@ -127,7 +128,6 @@ function_iterate_do_value (const EvalPosition      *ep,
 			iterate_cellrange_callback,
 			&data);
 	}
-	case VALUE_EMPTY: break;
 	}
 	return res;
 }
@@ -150,7 +150,7 @@ function_iterate_argument_values (const EvalPosition      *fp,
 		func_eval_info_pos (&fs, fp);
 		val = eval_expr (&fs, tree);
 
-		if (!VALUE_IS_PROBLEM(val) || !strict) {
+		if (!VALUE_IS_EMPTY_OR_ERROR (val) || !strict) {
 			result = function_iterate_do_value (
 				fp, callback, callback_closure,
 				val, strict);

@@ -200,6 +200,8 @@ lookup_similar (const Value *data, const Value *templ,
 	g_return_val_if_fail (templ != NULL, 0);
 
 	switch (templ->type){
+	case VALUE_EMPTY:
+	case VALUE_BOOLEAN:
 	case VALUE_INTEGER:
 	case VALUE_FLOAT:
 	{
@@ -221,6 +223,7 @@ lookup_similar (const Value *data, const Value *templ,
 		break;
 	}
 	case VALUE_STRING:
+	case VALUE_ERROR:
 	default:
 	{
 		char *a, *b;

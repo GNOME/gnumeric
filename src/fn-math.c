@@ -73,12 +73,16 @@ callback_function_sumxy (Sheet *sheet, int col, int row,
 	case VALUE_ERROR:
 		return value_terminate();
 
+	case VALUE_BOOLEAN:
+	        x = cell->value->v.v_bool ? 1 : 0;
+		break;
 	case VALUE_INTEGER:
 	        x = cell->value->v.v_int;
 		break;
 	case VALUE_FLOAT:
 	        x = cell->value->v.v_float;
 		break;
+	case VALUE_EMPTY:
 	default:
 	        return NULL;
 	}
@@ -115,6 +119,9 @@ callback_function_criteria (Sheet *sheet, int col, int row,
 	        return NULL;
 
         switch (cell->value->type) {
+	case VALUE_BOOLEAN:
+	        v = value_new_bool (cell->value->v.v_bool);
+		break;
 	case VALUE_INTEGER:
 	        v = value_new_int (cell->value->v.v_int);
 		break;
@@ -124,6 +131,7 @@ callback_function_criteria (Sheet *sheet, int col, int row,
 	case VALUE_STRING:
 	        v = value_new_string (cell->value->v.str->str);
 		break;
+	case VALUE_EMPTY:
 	default:
 	        return NULL;
 	}
@@ -212,6 +220,7 @@ callback_function_lcm (const EvalPosition *ep, Value *value, void *closure)
 	        result->v.v_int /= gcd(result->v.v_int, value->v.v_int);
 		result->v.v_int *= value->v.v_int;
 		break;
+	case VALUE_EMPTY:
 	default:
 	        return value_terminate();
 	}
@@ -565,6 +574,7 @@ callback_function_sumif (Sheet *sheet, int col, int row,
 	case VALUE_ERROR:
 		return value_terminate();
 
+	case VALUE_EMPTY:
 	default:
 	        return NULL;
 	}
@@ -1290,6 +1300,7 @@ callback_function_multinomial (const EvalPosition *ep, Value *value,
 		mm->sum += value->v.v_int;
 		mm->num++;
 		break;
+	case VALUE_EMPTY:
 	default:
 		return value_terminate();
 	}

@@ -133,9 +133,13 @@ compare_values (const SortData * ain, const SortData * bin, int clause)
 		b = cb->value;
 
 	switch (a->type){
+	case VALUE_EMPTY:
+	case VALUE_BOOLEAN:
 	case VALUE_FLOAT:
 	case VALUE_INTEGER:
 		switch (b->type){
+		case VALUE_EMPTY:
+		case VALUE_BOOLEAN:
 		case VALUE_FLOAT:
 		case VALUE_INTEGER:
 			{
@@ -157,6 +161,8 @@ compare_values (const SortData * ain, const SortData * bin, int clause)
 		break;
 	default:{
 			switch (b->type){
+			case VALUE_EMPTY:
+			case VALUE_BOOLEAN:
 			case VALUE_FLOAT:
 			case VALUE_INTEGER:
 				ans = 1;

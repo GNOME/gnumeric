@@ -115,7 +115,8 @@ value_release (Value *value)
 	g_return_if_fail (value != value_terminate());
 #endif
 
-	switch (value->type){
+	switch (value->type) {
+	case VALUE_EMPTY:
 	case VALUE_BOOLEAN:
 		break;
 
@@ -296,37 +297,13 @@ value_copy_to (Value *dest, const Value *source)
 	}
 }
 
-/*
- * Casts a value to float if it is integer, and returns
- * a new Value * if required
- */
-Value *
-value_cast_to_float (Value *v)
-{
-	Value *newv;
-
-	g_return_val_if_fail (VALUE_IS_NUMBER (v), NULL);
-
-	if (v->type == VALUE_FLOAT)
-		return v;
-	if (v->type == VALUE_BOOLEAN) {
-		newv = value_new_float(v->v.v_bool ? 1. : 0.);
- 		value_release (v);
-		return newv;
-	}
-
-	newv = g_new (Value, 1);
-	newv->type = VALUE_FLOAT;
-	mpf_set_z (newv->v.v_float, v->v.v_int);
-	value_release (v);
-
-	return newv;
-}
-
 gboolean
 value_get_as_bool (Value const *v, gboolean *err)
 {
 	*err = FALSE;
+
+	if (v == NULL)
+		return FALSE;
 
 	switch (v->type) {
 	case VALUE_EMPTY:
@@ -369,6 +346,9 @@ value_get_as_string (const Value *value)
 	    locinfo->decimal_point [0] == ',' &&
 	    locinfo->decimal_point [1] == 0)
 		separator = ";";
+
+	if (value == NULL)
+		return g_strdup ("");
 
 	switch (value->type){
 	case VALUE_EMPTY:
@@ -437,8 +417,9 @@ value_get_as_string (const Value *value)
 int
 value_get_as_int (const Value *v)
 {
-	switch (v->type)
-	{
+	if (v == NULL)
+		return 0;
+	switch (v->type) {
 	case VALUE_EMPTY:
 		return 0;
 
@@ -477,10 +458,12 @@ value_get_as_int (const Value *v)
 float_t
 value_get_as_float (const Value *v)
 {
-	switch (v->type)
-	{
+	if (v == NULL)
+		return 0.;
+
+	switch (v->type) {
 	case VALUE_EMPTY:
-		return 0.0;
+		return 0.;
 
 	case VALUE_STRING:
 		return atof (v->v.str->str);
@@ -563,6 +546,21 @@ value_cellrange_get_as_string (const Value *value, gboolean use_relative_syntax)
 	ans = str->str;
 	g_string_free (str, FALSE);
 	return ans;
+}
+
+/*
+ * Test @v to see if it fits the heurists used to identify the results of
+ * accessing an empty cell.  Which are currently
+ * 1) v == NULL
+ * 2) v->type == VALUE_EMPTY (new)
+ * 3) v == string("")
+ */
+gboolean
+value_is_empty_cell (Value const *v)
+{
+	return v == NULL ||
+	      (v->type == VALUE_EMPTY) ||
+	      (v->type == VALUE_STRING && v->v.str->str[0] == '\0');
 }
 
 /*

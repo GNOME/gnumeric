@@ -1078,6 +1078,10 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color)
 	case VALUE_ARRAY:
 		/* Array of arrays ?? */
 		return g_strdup (_("ARRAY"));
+
+	case VALUE_EMPTY:
+		return g_strdup ("");
+
 	default:
 		return g_strdup ("Internal error");
 	}

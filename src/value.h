@@ -12,11 +12,11 @@ typedef struct _Value		Value;
 typedef enum {
 	/* Use magic values to act as a signature */
 	VALUE_EMPTY	= 10,
-	VALUE_BOOLEAN	= 20,
-	VALUE_ERROR	= 30,
-	VALUE_STRING	= 40,
-	VALUE_INTEGER	= 50,
-	VALUE_FLOAT	= 60,
+	VALUE_BOOLEAN	= 20, /* Keep bool < int < float */
+	VALUE_INTEGER	= 30,
+	VALUE_FLOAT	= 40,
+	VALUE_ERROR	= 50,
+	VALUE_STRING	= 60,
 	VALUE_CELLRANGE = 70,
 	VALUE_ARRAY	= 80
 } ValueType;
@@ -51,8 +51,8 @@ struct _Value {
 			    ((x)->type == VALUE_FLOAT) || \
 			    ((x)->type == VALUE_BOOLEAN))
 
-#define VALUE_IS_PROBLEM(x) ((x == NULL) || \
-			    ((x)->type == VALUE_ERROR))
+#define VALUE_IS_EMPTY_OR_ERROR(x) (value_is_empty_cell (x) || \
+				    ((x)->type == VALUE_ERROR))
 
 Value       *value_new_empty       (void);
 Value       *value_new_bool        (gboolean b);
@@ -67,7 +67,6 @@ void         value_release         (Value *value);
 void         value_dump            (Value const *value);
 Value       *value_duplicate       (Value const *value);
 void         value_copy_to         (Value *dest, Value const *source);
-Value       *value_cast_to_float   (Value *v);
 
 gboolean     value_get_as_bool     (Value const *v, gboolean *err);
 char        *value_get_as_string   (const Value *value);
@@ -76,6 +75,8 @@ float_t      value_get_as_float    (const Value *v);
 char        *value_cellrange_get_as_string (const Value *value,
 					    gboolean use_relative_syntax);
 
+/* Does the value correspond to an empty cell ? */
+gboolean     value_is_empty_cell (Value const *v);
 
 /* Return a Special error value indicating that the iteration should stop */
 Value       *value_terminate (void);
