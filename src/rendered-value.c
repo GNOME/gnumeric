@@ -70,7 +70,7 @@ rendered_value_new_ext (Cell *cell, MStyle *mstyle)
 	RenderedValue	*res;
 	Sheet		*sheet;
 	StyleColor	*color;
-	int		 col_width = 0;
+	float		 col_width = 0.;
 	char *str;
 
 	g_return_val_if_fail (cell != NULL, NULL);
@@ -102,9 +102,8 @@ rendered_value_new_ext (Cell *cell, MStyle *mstyle)
 
 				/* FIXME : how does one get the width of the
 				 * widest character used to display numbers.
-				 * Use 4 as the max width for now, and
-				 * intentionally round DOWN to measue the max
-				 * full characters that will fit */
+				 * Use 4 as the max width for now.
+				 */
 				double const font_width = gdk_string_measure
 					(gdk_font, "4");
 				if (font_width > 0)

@@ -1437,34 +1437,37 @@ check_valid (const StyleFormatEntry *entry, const Value *value)
  * @col_width : the approximate width in characters.
  */
 static char *
-fmt_general_float (float_t val, int col_width)
+fmt_general_float (float_t val, float col_width)
 {
 	double log_val, abs_val;
 	int prec;
 
 	if (val < 0) {
 		/* leave space for minus sign */
-		col_width--;
+		col_width -= 1.;
 		abs_val = -val;
 	} else
 		abs_val = val;
 
 	log_val = log10 (abs_val);
 
-	if (col_width < 0)
+	if (col_width >= 0.) {
+		prec = (int) floor (col_width - .2); /* '.' is small */
+
+		/* Display 0 for cols that are too narrow for scientific
+		 * notation with 1 > abs (value) >= 0 */
+		if (col_width < 4. && log_val < 0) {
+			int tmp = -floor (log_val);
+			if (tmp >= prec)
+				return g_strdup ("0");
+		}
+	} else
 		prec = DBL_DIG;
-	else
-		prec = col_width - 1;
 
-	/* Display 0 for cols that are too narrow for scientific notation with
-	 * 1 > abs (value) >= 0 */
-	if (log_val < 0 && col_width < 4)
-		return g_strdup ("0");
-
-	if (log_val > col_width || log_val < -4.)
+	if (log_val > prec || log_val < -3.)
 		prec -= 4;
 	else if (log_val < 0.)
-		prec += (int)log_val - 1;
+		prec += (int)floor (log_val);
 
 	/* FIXME : glib bug.  it does not handle G, use g */
 	return g_strdup_printf ("%.*g", prec, val);
@@ -1503,7 +1506,7 @@ fmt_general_int (int val, int col_width)
  */
 gchar *
 format_value (StyleFormat *format, const Value *value, StyleColor **color,
-	      char const *entered_text, int col_width)
+	      char const *entered_text, float col_width)
 {
 	char *v = NULL;
 	StyleFormatEntry entry;

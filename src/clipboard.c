@@ -325,8 +325,10 @@ clipboard_paste_region (CommandContext *context,
 	/* clear the region where we will paste */
 	if (pt->paste_flags & (PASTE_VALUES|PASTE_FORMULAS))
 		tmp = CLEAR_VALUES|CLEAR_COMMENTS;
-	if (pt->paste_flags & PASTE_FORMATS)
-		tmp |= CLEAR_FORMATS;
+
+	/* No need to clear the formats.  We will paste over top of these. */
+	/* if (pt->paste_flags & PASTE_FORMATS) tmp |= CLEAR_FORMATS; */
+
 	if (pt->paste_flags & (PASTE_OPER_MASK | PASTE_SKIP_BLANKS))
 		tmp = 0;
 	if (tmp) {

@@ -1,6 +1,18 @@
 2000-10-15  Jody Goldberg <jgoldberg@home.com>
 
-	* src/sheet.c (sheet_update) : RE_RENDER when a span clac is forced.
+	* src/clipboard.c (clipboard_paste_region) : no need to clear the
+	  formats.  We are going to be pasting over them later.  This means
+	  that we don't rerender everything in the region then replace it.
+
+	* src/rendered-value.c (rendered_value_new_ext) : Pass colwidth as a
+	  float to get beter resolution.
+	* src/format.c (format_value) : Ditto.
+
+	* src/format.c (fmt_general_float) : More tuning.
+
+2000-10-15  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_update) : RE_RENDER when a span calc is forced.
 	  This is a bit brute force for now, but is necessary to force the
 	  re-rendering of values that may have width dependent formats.
 	  I've noted a possible future enhancement that would remove this req
