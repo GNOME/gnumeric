@@ -722,10 +722,16 @@ wb_view_open_custom (WorkbookView *wbv, WorkbookControl *wbc,
 		if (fo != NULL) {
 			Workbook *tmp_wb;
 			WorkbookView *tmp_wbv;
+			gboolean old;
 
 			tmp_wb = workbook_new ();
 			tmp_wbv = workbook_view_new (tmp_wb);
+
+			/* disable recursive dirtying while loading */
+			old = workbook_enable_recursive_dirty (tmp_wb, FALSE);
 			gnum_file_opener_open (fo, io_context, tmp_wbv, file_name);
+			workbook_enable_recursive_dirty (tmp_wb, old);
+
 			if (!gnumeric_io_error_occurred (io_context) &&
 			    workbook_sheet_count (tmp_wb) == 0)
 				gnumeric_io_error_read (io_context, _("No sheets in workbook."));

@@ -31,7 +31,7 @@
 #include "main.h"
 #include "workbook-control.h"
 #include "workbook-view.h"
-#include "workbook.h"
+#include "workbook-private.h"
 #include "expr.h"
 #include "cell.h"
 #include "sheet.h"
@@ -726,8 +726,12 @@ void
 dependent_changed (Dependent *dep, CellPos const *pos, gboolean queue_recalc)
 {
 	dependent_link (dep, pos);
-	if (queue_recalc)
-		cb_dependent_queue_recalc (dep, NULL);
+	if (queue_recalc) {
+		if (dep->sheet->workbook->priv->recursive_dirty_enabled)
+			cb_dependent_queue_recalc (dep, NULL);
+		else
+			dependent_queue_recalc (dep);
+	}
 }
 
 /**

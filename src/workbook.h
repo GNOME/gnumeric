@@ -112,12 +112,11 @@ Value	   *workbook_foreach_cell_in_range (EvalPos const *pos,
 					    void	  *closure);
 GPtrArray  *workbook_cells               (Workbook *wb, gboolean comments);
 
-
-/*
- * Does any pending recalculations
- */
+/* Calculation control */
 void        workbook_recalc              (Workbook *wb);
 void        workbook_recalc_all          (Workbook *wb);
+gboolean    workbook_enable_recursive_dirty (Workbook *wb, gboolean enable);
+
 void        workbook_calc_spans          (Workbook *wb, SpanCalcFlags const flags);
 
 /*

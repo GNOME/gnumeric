@@ -35,6 +35,7 @@ struct _WorkbookPrivate {
 #endif
 
 	gboolean during_destruction;
+	gboolean recursive_dirty_enabled;
 };
 
 WorkbookPrivate *workbook_private_new (void);

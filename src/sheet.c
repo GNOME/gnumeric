@@ -15,7 +15,7 @@
 #include "sheet-style.h"
 #include "workbook-control.h"
 #include "workbook-view.h"
-#include "workbook.h"
+#include "workbook-private.h"
 #include "workbook-edit.h"
 #include "parse-util.h"
 #include "gnumeric-util.h"
@@ -2500,10 +2500,8 @@ sheet_cell_remove (Sheet *sheet, Cell *cell, gboolean redraw)
 		sheet_flag_status_update_cell (cell);
 	}
 
-	/* FIXME : room for optimization here.
-	 * queuing depends should be optional
-	 */
-	sheet_cell_destroy (sheet, cell, TRUE);
+	sheet_cell_destroy (sheet, cell,
+			    sheet->workbook->priv->recursive_dirty_enabled);
 }
 
 /*

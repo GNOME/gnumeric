@@ -830,7 +830,13 @@ workbook_cells (Workbook *wb, gboolean comments)
 	return cells;
 }
 
-
+gboolean
+workbook_enable_recursive_dirty (Workbook *wb, gboolean enable)
+{
+	gboolean old = wb->priv->recursive_dirty_enabled;
+	wb->priv->recursive_dirty_enabled = enable;
+	return old;
+}
 
 void
 workbook_attach_view (Workbook *wb, WorkbookView *wbv)

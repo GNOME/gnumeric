@@ -1,3 +1,16 @@
+2001-05-24  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c (workbook_enable_recursive_dirty) : new function.
+	* src/workbook-private.c (workbook_private_init) : Init
+	  recursive_dirty_enabled.
+	* src/sheet.c (sheet_cell_remove) : Use recursive_dirty_enabled.
+	* src/eval.c (dependent_changed) : ditto.
+
+	* src/workbook-view.c (wb_view_open_custom) : while loading disable
+	  recursive depend dirtying.  We are loading everything it is up to
+	  the loader to handle the queuing correctly (either queuing all, or
+	  just those necessary)
+
 2001-05-23  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (sheet_cell_destroy) : optionally queue the dependents

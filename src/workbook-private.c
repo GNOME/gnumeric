@@ -43,8 +43,8 @@ static GtkObject *workbook_private_parent_class = NULL;
 static void
 workbook_private_init (GtkObject *object)
 {
-	WorkbookPrivate *wbp;
-	wbp = WORKBOOK_PRIVATE (object);
+	WorkbookPrivate *p = WORKBOOK_PRIVATE (object);
+	p->recursive_dirty_enabled = TRUE;
 }
 
 static void
