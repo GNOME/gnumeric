@@ -368,6 +368,8 @@ cmd_set_text (CommandContext *context,
 	gchar *pad = "";
 	gchar *text; 
 
+	/* Autocorrect `new_text' here */
+
 	g_return_val_if_fail (sheet != NULL, TRUE);
 	g_return_val_if_fail (new_text != NULL, TRUE);
 

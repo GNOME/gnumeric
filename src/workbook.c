@@ -2057,7 +2057,7 @@ workbook_new (void)
 
 	wb->autosave_timer = 
 	        gtk_timeout_add(wb->autosave_minutes*60000, 
-				dialog_autosave_callback, wb);
+				(GtkFunction) dialog_autosave_callback, wb);
 
 	gtk_window_set_policy (GTK_WINDOW (wb->toplevel), 1, 1, 0);
 	sx = MAX (gdk_screen_width  () - 64, 400);

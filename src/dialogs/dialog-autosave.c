@@ -59,8 +59,9 @@ dialog_autosave_callback (gpointer *data)
 		workbook_save (wb);
 	}
 out:
-	wb->autosave_timer = gtk_timeout_add(wb->autosave_minutes*60000,
-					     dialog_autosave_callback, wb);
+	wb->autosave_timer =
+	       gtk_timeout_add(wb->autosave_minutes*60000,
+			       (GtkFunction) dialog_autosave_callback, wb);
 
 	return 0;
 }
@@ -74,7 +75,7 @@ dialog_autosave (Workbook *wb)
 	GtkWidget *autosave_on_off; 
 	GtkWidget *minutes;
 	GtkWidget *prompt_on_off;
-	gchar     *buf[20];
+	gchar     buf[20];
 	gint      v, old_autosave, old_prompt, old_minutes;
 
 	old_autosave = wb->autosave;
@@ -100,12 +101,14 @@ dialog_autosave (Workbook *wb)
 	autosave_on_off = glade_xml_get_widget (gui, "autosave_on_off");
 
         if (wb->autosave)
-	        gtk_toggle_button_set_active (autosave_on_off, wb->autosave);
+	        gtk_toggle_button_set_active ((GtkToggleButton *)
+					      autosave_on_off, wb->autosave);
 	gtk_signal_connect (GTK_OBJECT (autosave_on_off), "toggled",
 			    GTK_SIGNAL_FUNC (autosave_on_off_toggled), wb);
 	prompt_on_off = glade_xml_get_widget (gui, "prompt_on_off");
 	if (wb->autosave_prompt)
-	        gtk_toggle_button_set_active (prompt_on_off,
+	        gtk_toggle_button_set_active ((GtkToggleButton *)
+					      prompt_on_off,
 					      wb->autosave_prompt);
 	gtk_signal_connect (GTK_OBJECT (prompt_on_off), "toggled",
 			    GTK_SIGNAL_FUNC (prompt_on_off_toggled), wb);
@@ -131,7 +134,7 @@ loop:
 		}
 		wb->autosave_timer = 
 		        gtk_timeout_add(wb->autosave_minutes*60000,
-					dialog_autosave_callback, wb);
+					(GtkFunction) dialog_autosave_callback, wb);
 	} else {
 	        wb->autosave = old_autosave;
 	        wb->autosave_prompt = old_prompt;

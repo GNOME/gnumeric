@@ -1,3 +1,7 @@
+2000-01-13  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/workbook.c, src/dialogs/dialog-autosave.c: Killed warnings.
+	
 2000-01-13  Jody Goldberg <jgoldberg@home.com>
 
 	* *.[ch] : eval_expr now takes an EvalPosition rather than a FunctionEvalInfo.
