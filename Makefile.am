@@ -7,4 +7,4 @@ dist-hook:
 	cp $(srcdir)/samples/*gnumeric $(distdir)/samples
 
 Productivitydir = $(datadir)/apps/Productivity
-Productivitydir_DATA = gnumeric.desktop
+Productivity_DATA = gnumeric.desktop
