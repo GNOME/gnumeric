@@ -23,7 +23,7 @@ static void
 fixed_page_autodiscover (DruidPageData_t *pagedata)
 {
 	FixedInfo_t *info = pagedata->fixed_info;
-	guint i = 0;
+	guint i = 1;
 	char *tset[2];
 
 	stf_parse_options_fixed_autodiscover (info->fixed_run_parseoptions, pagedata->importlines, (char *) pagedata->cur);
@@ -32,7 +32,7 @@ fixed_page_autodiscover (DruidPageData_t *pagedata)
 
 	while (i < info->fixed_run_parseoptions->splitpositions->len) {
 
-		tset[0] = g_strdup_printf ("%d", i);
+		tset[0] = g_strdup_printf ("%d", i - 1);
 		tset[1] = g_strdup_printf ("%d", g_array_index (info->fixed_run_parseoptions->splitpositions,
 								int,
 								i));
@@ -44,7 +44,7 @@ fixed_page_autodiscover (DruidPageData_t *pagedata)
 		i++;
 	}
 
-	tset[0] = g_strdup_printf ("%d", i);
+	tset[0] = g_strdup_printf ("%d", i - 1);
 	tset[1] = g_strdup_printf ("%d", -1);
 
 	gtk_clist_append (info->fixed_collist, tset);

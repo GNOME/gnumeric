@@ -1124,14 +1124,6 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int const
 				g_array_remove_index (parseoptions->splitpositions, i);
 
 				/*
-				 * If the beginning of the column is zero than this
-				 * is an exclusive case and the end also needs to be removed
-				 * because there is no preceding column
-				 */
-				if (begin == 0)
-					g_array_remove_index (parseoptions->splitpositions, i);
-					
-				/*
 				 * We HAVE to make sure that the next column (end) also
 				 * gets checked out. If we don't decrease "i" here, we
 				 * will skip over it as the indexes shift down after

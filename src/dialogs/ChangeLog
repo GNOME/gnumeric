@@ -1,3 +1,10 @@
+2001-12-13  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* dialog-stf-fixed-page.c (fixed_page_autodiscover) : 
+	  first split is not the end of a column (Bug #66433)
+	* dialogs/dialog-analysis-tools.c : alphabetize 
+	(dialog_ftest_tool_init) : fix typo (Bug #66880)
+	
 2001-12-13  Jody Goldberg <jody@gnome.org>
 
 	* dialog-cell-sort.c (dialog_cell_sort) : changes to range_has_header.

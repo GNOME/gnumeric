@@ -1,3 +1,8 @@
+2001-12-13  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/stf-parse.c (stf_parse_options_fixed_autodiscover) :
+	  Only delete one split for each empty column (Bug #66433)
+
 2001-12-13  Jody Goldberg <jody@gnome.org>
 
 	* src/ranges.c (range_has_header) : !$!%! XL uses styles to

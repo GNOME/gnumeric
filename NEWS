@@ -29,6 +29,7 @@ Andreas:
 	* Removed latex209 exporter
 	* Implement spans in LaTeX exporter
 	* Improved analysis tools documentation
+	* Fix bugs (#66433 & #66880)
 
 Jody:
 	* Tricky corner cases for style applications (Part 2).

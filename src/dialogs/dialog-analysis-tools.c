@@ -2205,7 +2205,7 @@ dialog_ftest_tool_init (FTestToolState *state)
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_EDITABLE (state->alpha_entry));
 	gtk_signal_connect_after (GTK_OBJECT (state->alpha_entry), "changed",
-				  GTK_SIGNAL_FUNC (ttest_update_sensitivity_cb), state);
+				  GTK_SIGNAL_FUNC (ftest_update_sensitivity_cb), state);
 
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       FTEST_KEY);
@@ -4373,10 +4373,10 @@ static tool_list_t tools[] = {
 	  dialog_covariance_tool },
         { N_("Descriptive Statistics"),
 	  dialog_descriptive_stat_tool },
-        { N_("F-Test: Two-Sample for Variances"),
-	  dialog_ftest_tool },
         { N_("Exponential Smoothing"),
 	  dialog_exp_smoothing_tool },
+        { N_("F-Test: Two-Sample for Variances"),
+	  dialog_ftest_tool },
 /*  	{ N_("Fourier Analysis"), */
 /*  	  dialog_fourier_tool }, */
         { N_("Histogram"),
