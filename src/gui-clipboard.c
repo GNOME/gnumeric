@@ -15,7 +15,7 @@
 #include "clipboard.h"
 #include "selection.h"
 #include "application.h"
-#include "io-context.h"
+#include <goffice/app/io-context.h>
 #include "workbook-control-gui-priv.h"
 #include "workbook.h"
 #include "workbook-view.h"
@@ -237,7 +237,8 @@ complex_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 		 * if the conversion from the X selection -> a cellregion
 		 * was canceled this may have content sized -1,-1
 		 */
-		if (content->cols > 0 && content->rows > 0)
+		if ((content->cols > 0 && content->rows > 0) ||
+		    content->objects != NULL)
 			cmd_paste_copy (wbc, pt, content);
 
 		/* Release the resources we used */
