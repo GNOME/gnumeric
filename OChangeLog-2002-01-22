@@ -1,3 +1,17 @@
+2000-03-04  Morten Welinder  <terra@diku.dk>
+
+	* src/sheet.c (r1c1_get_item): Fix signed/unsigned char confusion.
+
+	* src/dialogs/dialog-autocorrect.c (autocorrect_tool): Massive
+ 	signed/unsigned char confusion.
+
+	* src/solver-lp.c (find_name): Kill a warning.
+
+	* src/func.c (function_get_category): Kill a warning.
+
+	* src/dialogs/dialog-plugin-manager.c (refresh_right_frame): Kill
+ 	a warning.
+
 2000-03-03  Jody Goldberg <jgoldberg@home.com>
 
 	* src/cell-draw.c (cell_draw) : Correct off by one error for

@@ -1,3 +1,9 @@
+2000-03-04  Morten Welinder  <terra@diku.dk>
+
+	* sc.c (sc_parse_sheet): Fix argument to isalpha.
+	(sc_cellname_to_coords): Fix arguments to isalpha, isdigit, and
+ 	toupper.
+
 2000-01-29  Jon K Hellan  <hellan@acm.org>
 
 	* sc.c (sc_read_workbook, sc_parse_sheet): Add

@@ -831,7 +831,7 @@ static char *
 find_name (Sheet *sheet, int col, int row)
 {
         static char *str = NULL;
-        Cell        *cell;
+        Cell        *cell = NULL;
 	char        *col_str, *row_str;
         int         col_n, row_n;
 

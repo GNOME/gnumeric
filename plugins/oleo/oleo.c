@@ -73,16 +73,15 @@ static long
 astol (char **ptr)
 {
 	long i = 0;
-	int c;
 	int sign = 1;
-	char *s;
+	unsigned char *s, c;
 
-	s = *ptr;
+	s = (unsigned char *)*ptr;
 
 	/* Skip whitespace */
 	while (isspace (*s))
 		if (*s++ == '\0') {
-			*ptr = s;
+			*ptr = (char *)s;
 			return (0);
 		}
 	/* Check for - or + */
@@ -93,14 +92,15 @@ astol (char **ptr)
 	else if (*s == '+')
 		s++;
 
-  /* Read in the digits */
+	/* FIXME -- this is silly and assumed 32 bit ints.  */
+	/* Read in the digits */
 	for (; (c = *s); s++) {
 		if (!isdigit (c) || i > 214748364 ||
 		    (i == 214748364 && c > (sign > 0 ? '7' : '8')))
 			break;
 		i = i * 10 + c - '0';
 	}
-	*ptr = s;
+	*ptr = (char *)s;
 	return i * sign;
 }
 

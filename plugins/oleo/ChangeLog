@@ -1,3 +1,7 @@
+2000-03-04  Morten Welinder  <terra@diku.dk>
+
+	* oleo.c (astol): Fix signed/unsigned confusion.
+
 2000-01-31  Jon K Hellan  <hellan@acm.org>
 
 	* oleo.c (oleo_read): Really return 0 on success.

@@ -63,6 +63,7 @@ Almer :
 Morten:
 	* Fixed display of pre-1900 dates.
 	* Fixed display of very large numbers.
+	* Went on a warning-killing spree.
 
 --------------------------------------------------------------------------
 

@@ -568,7 +568,11 @@ function_get_category (gchar const *description)
 	String            tmps;
 	g_return_val_if_fail (description != NULL, NULL);
 
-	tmps.str  = description;
+	/*
+	 * This cast is just here to kill a warning; we aren't going to
+	 * actually change the description.
+	 */ 
+	tmps.str  = (gchar *)description;
 	tmpc.name = &tmps;
 	gnode = g_list_find_custom (categories, &tmpc,
 				    &function_category_compare);

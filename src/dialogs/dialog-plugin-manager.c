@@ -116,7 +116,7 @@ refresh_right_frame (PluginData *pd, PluginManager *pm)
 	if (!pd)
 		str = g_strdup (_("File size:"));
 	else
-		str = g_strdup_printf (_("File size: %d bytes"), sbuf.st_size);
+		str = g_strdup_printf (_("File size: %ld bytes"), (long)sbuf.st_size);
 	gtk_label_set_text (GTK_LABEL (pm->size_lbl), str);
 	g_free (str);
 	

@@ -49,20 +49,21 @@ static char *autocorrect_day [] = {
 void
 autocorrect_tool (char *command)
 {
-        char  *s;
-	gint  i, len;
+        unsigned char *s;
+	unsigned char *ucommand = (unsigned char *)command;
+	gint i, len;
 
-	len = strlen (command);
+	len = strlen (ucommand);
 
         if (autocorrect_init_caps) {
-		for (s = command; *s; s++) {
+		for (s = ucommand; *s; s++) {
 		skip_ic_correct:
 		        if (isupper (*s) && isupper (s[1])) {
 			        if (islower (s[2])) {
 				        GList *c = autocorrect_in_exceptions;
 					while (c != NULL) {
-					        gchar *a = (gchar *) c->data;
-					        if (strncmp(s, a, strlen(a))
+					        guchar *a = (guchar *)c->data;
+					        if (strncmp (s, a, strlen (a))
 						    == 0) {
 						        s++;
 						        goto skip_ic_correct;
@@ -78,31 +79,31 @@ autocorrect_tool (char *command)
 	}
 
 	if (autocorrect_first_letter) {
-	        char *p;
+	        unsigned char *p;
 
-	        for (s = command; *s; s = p+1) {
+	        for (s = ucommand; *s; s = p+1) {
 		skip_first_letter:
 		        p = strchr(s, '.');
 			if (p == NULL)
 			        break;
 			while (isspace(*s))
 			        ++s;
-			if (islower (*s) && (s == command || isspace(s[-1]))) {
+			if (islower (*s) && (s == ucommand || isspace (s[-1]))) {
 			        GList *cur = autocorrect_fl_exceptions;
 
 				for ( ; cur != NULL; cur = cur->next) {
-				        gchar *t, *c = (gchar *) cur->data;
-					gint  l = strlen(c);
+				        guchar *t, *c = (guchar *)cur->data;
+					gint  l = strlen (c);
 					gint  spaces = 0;
 
-					for (t=s-1; t>=command; t--)
-					        if (isspace(*t))
+					for (t = s - 1; t >= ucommand; t--)
+					        if (isspace (*t))
 						        ++spaces;
 						else
 						        break;
-				        if (s-command > l+spaces &&
+				        if (s - ucommand > l + spaces &&
 					    strncmp(s-l-spaces, c, l) == 0) {
-					        s = p+1;
+					        s = p + 1;
 					        goto skip_first_letter;
 					}
 				}
@@ -112,9 +113,9 @@ autocorrect_tool (char *command)
 	}
 
 	if (autocorrect_names_of_days) {
-	        for (i=0; autocorrect_day[i] != NULL; i++) {
+	        for (i = 0; autocorrect_day[i] != NULL; i++) {
 		        do {
-			        s = strstr(command, autocorrect_day[i]);
+			        s = strstr (ucommand, autocorrect_day[i]);
 				if (s != NULL)
 				        *s = toupper (*s);
 			} while (s != NULL);
@@ -122,13 +123,13 @@ autocorrect_tool (char *command)
 	}
 
 	if (autocorrect_caps_lock) {
-	        if (len > 1 && islower(command[0]) && isupper(command[1]))
-		        for (i=0; i<len; i++)
-			        if (isalpha(command[i])) {
-				        if (isupper(command[i]))
-					        command[i]=tolower(command[i]);
+	        if (len > 1 && islower (ucommand[0]) && isupper (ucommand[1]))
+		        for (i = 0; i < len; i++)
+			        if (isalpha (ucommand[i])) {
+				        if (isupper (ucommand[i]))
+					        command[i] = tolower (ucommand[i]);
 					else
-					        command[i]=toupper(command[i]);
+					        command[i] = toupper (ucommand[i]);
 				}
 	}
 }

@@ -48,17 +48,17 @@ sc_cellname_to_coords (const char *cellname, int *col, int *row)
 	g_return_val_if_fail (col, FALSE);
 	g_return_val_if_fail (row, FALSE);
 
-	if (!cellname || !*cellname || !isalpha(*cellname))
+	if (!cellname || !*cellname || !isalpha((unsigned char)*cellname))
 		goto err_out;
 
-	mult = toupper(*cellname) - 'A';
+	mult = toupper((unsigned char)*cellname) - 'A';
 	if (mult < 0 || mult > 25)
 		goto err_out;
 
 	cellname++;
 
-	if (isalpha(*cellname)) {
-		int ofs = toupper(*cellname) - 'A';
+	if (isalpha((unsigned char)*cellname)) {
+		int ofs = toupper((unsigned char)*cellname) - 'A';
 		if (ofs < 0 || ofs > 25)
 			goto err_out;
 		*col = (mult * 26) + ofs;
@@ -71,7 +71,7 @@ sc_cellname_to_coords (const char *cellname, int *col, int *row)
 
 	/* XXX need to replace this block with strtol+error checking */
 	if (1) {
-		if (!isdigit(*cellname))
+		if (!isdigit((unsigned char)*cellname))
 			goto err_out;
 
 		*row = atoi (cellname);
@@ -374,7 +374,7 @@ sc_parse_sheet (CommandContext *context, sc_file_state_t *src)
 
 	while (fgets (buf, sizeof (buf), src->f) != NULL) {
 		g_strchomp (buf);
-		if (isalpha (buf [0]) && !sc_parse_line (src, buf)) {
+		if (isalpha ((unsigned char)(buf [0])) && !sc_parse_line (src, buf)) {
 			gnumeric_error_read (context, "Error parsing line");
 			return -1;
 		}

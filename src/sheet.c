@@ -2416,7 +2416,7 @@ r1c1_get_item (int *num, unsigned char *rel, const char * *const in)
 	}
 	*num = 0;
 
-	while (**in && isdigit (**in)) {
+	while (**in && isdigit ((unsigned char)**in)) {
 		*num = *num * 10 + **in - '0';
 		(*in)++;
 	}
