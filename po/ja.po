@@ -8,10 +8,10 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 1.1.90\n"
+"Project-Id-Version: gnumeric 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-09-10 00:27-0400\n"
-"PO-Revision-Date: 2003-08-30 18:30+0900\n"
+"PO-Revision-Date: 2003-09-11 18:30+0900\n"
 "Last-Translator: Yukihiro Nakai <nakai@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -7496,7 +7496,7 @@ msgstr ""
 
 #: plugins/fn-info/functions.c:1818
 msgid "info_type, cell"
-msgstr ""
+msgstr "info_type, セル"
 
 #: plugins/fn-info/functions.c:1821 plugins/fn-info/functions.c:1827
 #: plugins/fn-info/functions.c:1830 plugins/fn-info/functions.c:1833
@@ -7506,37 +7506,31 @@ msgstr ""
 #: plugins/fn-info/functions.c:1854 plugins/fn-info/functions.c:1857
 #: plugins/fn-info/functions.c:1860 plugins/fn-info/functions.c:1866
 #: plugins/fn-string/functions.c:1189
-#, fuzzy
 msgid "value"
 msgstr "値"
 
 #: plugins/fn-info/functions.c:1824
-#, fuzzy
 msgid "info_type"
-msgstr "不明な info_type です"
+msgstr "info_type"
 
 #. XL stores this in statistical ?
 #: plugins/fn-info/functions.c:1871
-#, fuzzy
 msgid "range"
-msgstr "範囲(_N)"
+msgstr "範囲"
 
 #: plugins/fn-info/functions.c:1875 plugins/fn-string/functions.c:1135
 #: plugins/fn-string/functions.c:1138 plugins/fn-string/functions.c:1141
 #: plugins/fn-string/functions.c:1162 plugins/fn-string/functions.c:1165
 #: plugins/fn-string/functions.c:1171 plugins/fn-string/functions.c:1195
 #: plugins/fn-string/functions.c:1198 plugins/fn-string/functions.c:1201
-#, fuzzy
 msgid "text"
-msgstr "テキスト(_X)"
+msgstr "テキスト"
 
 #: plugins/fn-info/functions.c:1878
-#, fuzzy
 msgid "cell"
 msgstr "セル"
 
 #: plugins/fn-info/functions.c:1881
-#, fuzzy
 msgid "string"
 msgstr "文字列"
 
@@ -7553,7 +7547,6 @@ msgid "Information Functions"
 msgstr "情報関数"
 
 #: plugins/fn-logical/functions.c:44
-#, fuzzy
 msgid ""
 "@FUNCTION=AND\n"
 "@SYNTAX=AND(b1, b2, ...)\n"
@@ -7581,11 +7574,14 @@ msgstr ""
 "@SYNTAX=AND(b1, b2, ...)\n"
 "@DESCRIPTION=AND 関数は論理積関数です。この結果が TRUE になるのは、全ての式の"
 "評価が TRUE の場合で、それ以外は FALSE を返します。\n"
+"\n"
 "@b1 から @bN は、評価が TRUE か FALSE になる式です。もし整数か実数が与えられ"
 "た場合、0 が FALSE とみなされ、それ以外は TRUE とみなされます。\n"
-"もしこの値に文字列や空白のセルが含まれているとこれらの値は無視されます。もし"
-"一つも論理値が指定されないと、#VALUE! エラーが返されます。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* もしこの値に文字列や空白のセルが含まれているとこれらの値は無視されます。\n"
+"* もし一つも論理値が指定されないと、#VALUE! エラーが返されます。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "AND(TRUE,TRUE) = TRUE です。\n"
 "AND(TRUE,FALSE) = FALSE です。\n"
@@ -7596,7 +7592,6 @@ msgstr ""
 "@SEEALSO=OR, NOT"
 
 #: plugins/fn-logical/functions.c:106
-#, fuzzy
 msgid ""
 "@FUNCTION=NOT\n"
 "@SYNTAX=NOT(number)\n"
@@ -7615,7 +7610,9 @@ msgstr ""
 "@SYNTAX=NOT(数値)\n"
 "@DESCRIPTION=NOT 関数は論理否定式です。@数値が 0 になる場合には、TRUE が返さ"
 "れます。それ以外では FALSE が返されます。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "NOT(0) = TRUE です。\n"
 "NOT(TRUE) = FALSE です。\n"
@@ -7627,7 +7624,6 @@ msgid "Type Mismatch"
 msgstr "型の不一致"
 
 #: plugins/fn-logical/functions.c:134
-#, fuzzy
 msgid ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1, b2, ...)\n"
@@ -7652,13 +7648,15 @@ msgstr ""
 "@SYNTAX=OR(b1, b2, ...)\n"
 "@DESCRIPTION=OR 関数は論理和関数です。いずれかの値が TRUE であれば結果は "
 "TRUE になります。\n"
-"もし整数か実数が与えられた場合、0 が FALSE とみなされ、それ以外は TRUE とみな"
-"されます。\n"
+"\n"
 "@b1から@bNまでは、評価がTRUEかFALSEになる式です。もし整数か実数が与えられた場"
 "合、0 が FALSEとみなされ、それ以外は TRUE とみなされます。\n"
-"もしこの値に文字列や空白のセルが含まれているとこれらの値は無視されます。もし"
-"一つも論理値が指定されないと、#VALUE! エラーが返されます。\n"
-"この関数は Excel 互換です。\n"
+
+"\n"
+"* もしこの値に文字列や空白のセルが含まれているとこれらの値は無視されます。\n"
+"* もし一つも論理値が指定されないと、#VALUE! エラーが返されます。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "OR(TRUE,FALSE) = TRUE です。\n"
 "OR(3>4,4<3) = FALSE です。\n"
@@ -7666,7 +7664,6 @@ msgstr ""
 "@SEEALSO=AND, NOT"
 
 #: plugins/fn-logical/functions.c:193
-#, fuzzy
 msgid ""
 "@FUNCTION=XOR\n"
 "@SYNTAX=XOR(b1, b2, ...)\n"
@@ -7689,13 +7686,13 @@ msgstr ""
 "@SYNTAX=XOR(b1, b2, ...)\n"
 "@DESCRIPTION=XOR 関数は排他的論理和関数です。いずれかの値の奇数番目が TRUE で"
 "あれば結果は TRUE になります。\n"
-"もし整数か実数が与えられた場合、0 が FALSE とみなされ、それ以外は TRUE とみな"
-"されます。\n"
+"\n"
 "@b1 から @bN までは、評価が TRUE か FALSE になる式です。もし整数か実数が与え"
 "られた場合、0 が FALSE とみなされ、それ以外は TRUE とみなされます。\n"
-"もしこの値に文字列や空白のセルが含まれている場合、これらの値は無視されます。"
-"もし一つも論理値が指定されないと、#VALUE! エラーが返されます。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* もしこの値に文字列や空白のセルが含まれている場合、これらの値は無視されます。"
+"* もし一つも論理値が指定されないと、#VALUE! エラーが返されます。\n"
+"\n"
 "@EXAMPLES=\n"
 "XOR(TRUE,FALSE) = TRUE です。\n"
 "XOR(3>4,4<3) = FALSE です。\n"
@@ -7703,7 +7700,6 @@ msgstr ""
 "@SEEALSO=OR, AND, NOT"
 
 #: plugins/fn-logical/functions.c:250
-#, fuzzy
 msgid ""
 "@FUNCTION=IF\n"
 "@SYNTAX=IF(condition[,if-true,if-false])\n"
@@ -7722,12 +7718,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=IF\n"
 "@SYNTAX=IF(条件[,真の場合,偽の場合])\n"
-"@DESCRIPTION=IF 文を使うと、その他の値や式が条件を満たしているかを評価できま"
-"す。@条件式が 0(ゼロ)以外の値を返した場合、IF 文の返り値は@真の場合に指定され"
-"た値になり、相でない場合は、@偽の場合に指定された値になります。引数が省略され"
-"た場合、@真の場合に TRUE が、@偽の場合に FALSE がデフォルト値として使われま"
-"す。\n"
-"この関数は Excel 互換です。\n"
+"@DESCRIPTION=IF関数を使うと、その他の値や式が条件を満たしているかを評価"
+"できます。IF関数は@条件を評価します。@条件が 0(ゼロ)以外の値を返した"
+"場合、IF関数の返り値は@真の場合に指定された値になり、そうでない場合は、"
+"@偽の場合に指定された値になります。"
+"\n"
+"* もし引数が省略された場合、@真の場合に TRUE が、@偽の場合に FALSE が"
+"デフォルト値として使われます。\n"
+"* この関数は Excel 互換です。\n"
 "@EXAMPLES=\n"
 "IF(FALSE,TRUE,FALSE) = FALSE です。\n"
 "\n"
@@ -7751,6 +7749,7 @@ msgstr ""
 "@DESCRIPTION=TRUE 関数は論理値の TRUE を返します。\n"
 "\n"
 "* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "TRUE() = TRUE です。\n"
 "\n"
@@ -7774,6 +7773,7 @@ msgstr ""
 "@DESCRIPTION=FALSE 関数は論理値の FALSE を返します。\n"
 "\n"
 "* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "FALSE() = FALSE です。\n"
 "\n"
@@ -7796,7 +7796,7 @@ msgstr ""
 #: plugins/fn-stat/functions.c:5936 plugins/fn-stat/functions.c:5952
 #: src/func-builtin.c:134 src/func-builtin.c:140
 msgid "number,number,"
-msgstr ""
+msgstr "数値,数値,"
 
 #. MS Excel puts this in the engineering functions
 #: plugins/fn-logical/functions.c:332 plugins/fn-math/functions.c:3086
@@ -7824,7 +7824,7 @@ msgstr "数値"
 
 #: plugins/fn-logical/functions.c:336
 msgid "condition,if true,if false"
-msgstr ""
+msgstr "条件,真の場合,負の場合"
 
 #: plugins/fn-logical/plugin.xml.in.h:1
 msgid "Functions for manipulating truth values"
@@ -22901,9 +22901,8 @@ msgid "Te_xt indicator: "
 msgstr "テキスト・インジケータ(_X): "
 
 #: src/dialogs/dialog-stf.glade.h:47
-#, fuzzy
 msgid "Text Import Configuration"
-msgstr "テキストのインポート (カスタマイズ可能)"
+msgstr "テキストのインポート設定"
 
 #: src/dialogs/dialog-stf.glade.h:48
 msgid "Text indicator"
@@ -22921,7 +22920,7 @@ msgstr "改行文字(アスキーコード 10)で改行"
 msgid ""
 "The sequence of carriage return and line feed (ASCII codes 13 and 10) breaks "
 "lines"
-msgstr ""
+msgstr "復帰文字と改行文字のシーケンス(アスキーコード13と10)で改行"
 
 #: src/dialogs/dialog-stf.glade.h:52
 msgid ""
@@ -23211,24 +23210,23 @@ msgstr "小数の位(_M):"
 
 #: src/dialogs/format-selector.glade.h:3
 msgid "Display amounts in traditional accounting styles."
-msgstr ""
+msgstr "量を伝統的な会計スタイルで表示します。"
 
 #: src/dialogs/format-selector.glade.h:4
 msgid "Display and input values as strings with no interpretation."
-msgstr ""
+msgstr "入力した値を、文字列としてそのまま表示します。"
 
 #: src/dialogs/format-selector.glade.h:5
-#, fuzzy
 msgid "Display currency amounts."
-msgstr "ヨーロッパ通貨単位"
+msgstr "通貨の量を表示します。"
 
 #: src/dialogs/format-selector.glade.h:6
 msgid "Display dates and optionally times of day."
-msgstr ""
+msgstr "日付(とオプションで時刻)を表示します。"
 
 #: src/dialogs/format-selector.glade.h:7
 msgid "Display numeric values with a fixed number of decimals."
-msgstr ""
+msgstr "数値を桁固定した10進数で表示します。"
 
 #: src/dialogs/format-selector.glade.h:8
 msgid "Display times of day."
@@ -23236,7 +23234,7 @@ msgstr "日付と時刻を表示します。"
 
 #: src/dialogs/format-selector.glade.h:9
 msgid "Display values as closest fractional approximation."
-msgstr ""
+msgstr "値を最も近い分数で近似します。"
 
 #: src/dialogs/format-selector.glade.h:10
 msgid "Display values as percentages."
@@ -23244,7 +23242,7 @@ msgstr "値をパーセンテージで表示します。"
 
 #: src/dialogs/format-selector.glade.h:11
 msgid "Display values with power-of-ten scaling."
-msgstr ""
+msgstr "値を精度つきで表示します。"
 
 #: src/dialogs/format-selector.glade.h:12
 msgid "Format c_ode:"
