@@ -12,8 +12,13 @@
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <ctype.h>
+#include <stdlib.h>
+#include "gnumeric.h"
 #include "ranges.h"
 #include "search.h"
+#include "sheet.h"
+#include "workbook.h"
+#include "position.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -313,6 +318,26 @@ calculate_replacement (SearchReplace *sr, const char *src, const regmatch_t *pm)
 
 /* ------------------------------------------------------------------------- */
 
+gboolean
+search_match_string (SearchReplace *sr, const char *src)
+{
+	int ret;
+
+	g_return_val_if_fail (sr && sr->comp_search, FALSE);
+
+	ret = regexec (sr->comp_search, src, 0, 0, REG_NOSUB);
+
+	switch (ret) {
+	case 0: return TRUE;
+	case REG_NOMATCH: return FALSE;
+	default:
+		g_error ("Unexpect error code from regexec: %d.", ret);
+		return FALSE;
+	}
+}
+
+/* ------------------------------------------------------------------------- */
+
 /*
  * Returns NULL if nothing changed, or a g_malloc string otherwise.
  */
@@ -387,6 +412,92 @@ search_replace_string (SearchReplace *sr, const char *src)
 	} else {
 		return NULL;
 	}
+}
+
+/* ------------------------------------------------------------------------- */
+
+static int
+cb_order_sheet_row_col (const void *_a, const void *_b)
+{
+	const EvalPos *a = *(const EvalPos **)_a;
+	const EvalPos *b = *(const EvalPos **)_b;
+	int i;
+
+	/* By sheet name.  FIXME: Any better way than this?  */
+	i = strcmp (a->sheet->name_unquoted, b->sheet->name_unquoted);
+
+	/* By row number.  */
+	if (!i) i = (a->eval.row - b->eval.row);
+
+	/* By column number.  */
+	if (!i) i = (a->eval.col - b->eval.col);
+
+	return i;
+}
+
+static int
+cb_order_sheet_col_row (const void *_a, const void *_b)
+{
+	const EvalPos *a = *(const EvalPos **)_a;
+	const EvalPos *b = *(const EvalPos **)_b;
+	int i;
+
+	/* By sheet name.  FIXME: Any better way than this?  */
+	i = strcmp (a->sheet->name_unquoted, b->sheet->name_unquoted);
+
+	/* By column number.  */
+	if (!i) i = (a->eval.col - b->eval.col);
+
+	/* By row number.  */
+	if (!i) i = (a->eval.row - b->eval.row);
+
+	return i;
+}
+
+/* Collect a list of all cells subject to search.  */
+GPtrArray *
+search_collect_cells (SearchReplace *sr, Sheet *sheet)
+{
+	GPtrArray *cells;
+
+	switch (sr->scope) {
+	case SRS_workbook:
+		cells = workbook_cells (sheet->workbook, TRUE);
+		break;
+
+	case SRS_sheet:
+		cells = sheet_cells (sheet,
+				     0, 0, SHEET_MAX_COLS, SHEET_MAX_ROWS,
+				     TRUE);
+		break;
+
+	case SRS_range:
+	{
+		int start_col, start_row, end_col, end_row;
+
+		/* FIXME: what about sheet name?  */
+		parse_range (sr->range_text,
+			     &start_col, &start_row,
+			     &end_col, &end_row);
+
+		cells = sheet_cells (sheet,
+				     start_col, start_row, end_col, end_row,
+				     TRUE);
+		break;
+	}
+
+	default:
+		cells = NULL;
+		g_assert_not_reached ();
+	}
+
+	/* Sort our cells.  */
+	qsort (&g_ptr_array_index (cells, 0),
+	       cells->len,
+	       sizeof (gpointer),
+	       sr->by_row ? cb_order_sheet_row_col : cb_order_sheet_col_row);
+
+	return cells;
 }
 
 /* ------------------------------------------------------------------------- */

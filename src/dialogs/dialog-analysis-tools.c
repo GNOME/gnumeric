@@ -12,6 +12,7 @@
 #include <glib.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
+#include <libgnome/gnome-help.h>
 #include <glade/glade.h>
 #include <string.h>
 #include "gnumeric.h"
@@ -573,6 +574,8 @@ typedef struct {
 	GtkWidget *ok_button;
 	GtkWidget *cancel_button;
 	GtkWidget *apply_button;
+	GtkWidget *help_button;
+	char *helpfile;
 	GtkWidget *new_sheet;
 	GtkWidget *new_workbook;
 	GtkWidget *output_range;
@@ -591,6 +594,8 @@ typedef struct {
 	GtkWidget *ok_button;
 	GtkWidget *cancel_button;
 	GtkWidget *apply_button;
+	GtkWidget *help_button;
+	char *helpfile;
 	GtkWidget *new_sheet;
 	GtkWidget *new_workbook;
 	GtkWidget *output_range;
@@ -621,6 +626,8 @@ typedef struct {
 	GtkWidget *ok_button;
 	GtkWidget *cancel_button;
 	GtkWidget *apply_button;
+	GtkWidget *help_button;
+	char *helpfile;
 	GtkWidget *new_sheet;
 	GtkWidget *new_workbook;
 	GtkWidget *output_range;
@@ -656,6 +663,8 @@ typedef struct {
 	GtkWidget *ok_button;
 	GtkWidget *cancel_button;
 	GtkWidget *apply_button;
+	GtkWidget *help_button;
+	char *helpfile;
 	GtkWidget *new_sheet;
 	GtkWidget *new_workbook;
 	GtkWidget *output_range;
@@ -687,6 +696,22 @@ typedef union {
 /*  Functions in this section are being used  */
 /*  by virtually all tools.                   */
 /**********************************************/
+/**
+ * tool_help_cb:
+ * @button:
+ * @state:
+ *
+ * Provide help.
+ **/
+static void
+tool_help_cb(GtkWidget *button, GenericToolState *state)
+{
+	if (state->helpfile != NULL) {
+		GnomeHelpMenuEntry help_ref = { "gnumeric", state->helpfile};
+		gnome_help_display (NULL, &help_ref);		
+	}
+	return;
+}
 
 /**
  * tool_destroy:
@@ -808,6 +833,10 @@ dialog_tool_init (GenericToolState *state, char *gui_name, char *dialog_name,
 	if (state->apply_button != NULL ) 
 		gtk_signal_connect (GTK_OBJECT (state->apply_button), "clicked",
 				    ok_function, state);
+	state->help_button     = glade_xml_get_widget(state->gui, "helpbutton");
+	if (state->help_button != NULL ) 
+		gtk_signal_connect (GTK_OBJECT (state->help_button), "clicked",
+				    GTK_SIGNAL_FUNC (tool_help_cb), state);
 
 	state->new_sheet  = glade_xml_get_widget(state->gui, "newsheet-button");
 	state->new_workbook  = glade_xml_get_widget(state->gui, "newworkbook-button");
@@ -1018,6 +1047,7 @@ dialog_correlation_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
+	state->helpfile = "correlation-tool.html";
 
 	if (dialog_tool_init (state, "correlation.glade", "Correlation", 
                        GTK_SIGNAL_FUNC (corr_tool_ok_clicked_cb), 
@@ -1122,6 +1152,7 @@ dialog_covariance_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
+	state->helpfile = "covariance-tool.html";
 
 	if (dialog_tool_init (state, "covariance.glade", "Covariance", 
                        GTK_SIGNAL_FUNC (cov_tool_ok_clicked_cb), 
@@ -1324,6 +1355,7 @@ dialog_descriptive_stat_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
+	state->helpfile = "descriptive-statistics-tool.html";
 
 	if (dialog_desc_stat_tool_init (state)) {
 		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
@@ -1419,6 +1451,7 @@ dialog_ranking_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
+	state->helpfile = "rank-and-percentile-tool.html";
 
 	if (dialog_tool_init (state, "rank.glade", "RankPercentile", 
                        GTK_SIGNAL_FUNC (rank_tool_ok_clicked_cb), 
@@ -1757,6 +1790,7 @@ dialog_ttest_tool (WorkbookControlGUI *wbcg, Sheet *sheet, ttest_type test)
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
 	state->invocation = test;
+	state->helpfile = "t-test.html";
 
 	if (dialog_ttest_tool_init (state)) {
 		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
@@ -1916,6 +1950,7 @@ dialog_ftest_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
+	state->helpfile = "ftest-two-sample-for-variances-tool.html";
 
 	if (dialog_tool_init (state, "variance-tests.glade", "VarianceTests", 
                        GTK_SIGNAL_FUNC (ftest_tool_ok_clicked_cb), 
@@ -2164,6 +2199,7 @@ dialog_sampling_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
+	state->helpfile = "sampling-tool.html";
 
 	if (dialog_sampling_tool_init (state)) {
 		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,

@@ -23,7 +23,8 @@ void       gnumeric_error_info_dialog_show (WorkbookControlGUI *wbcg,
                                             ErrorInfo *error);
 void       gnumeric_set_transient (WorkbookControlGUI *context, GtkWindow *window);
 void       gnumeric_keyed_dialog (WorkbookControlGUI *wbcg,
-				  GtkWindow *dialog, char *key);
+				  GtkWindow *dialog,
+				  const char *key);
 gboolean   gnumeric_dialog_raise_if_exists (WorkbookControlGUI *wbcg,
 					    char *key);
 void       gnumeric_editable_enters (GtkWindow *window, GtkEditable *editable);

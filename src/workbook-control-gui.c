@@ -47,6 +47,7 @@
 #include "position.h"
 #include "parse-util.h"
 #include "ranges.h"
+#include "value.h"
 #include "history.h"
 #include "str.h"
 #include "cell.h"
@@ -112,7 +113,7 @@ sheet_to_page_index (WorkbookControlGUI *wbcg, Sheet *sheet, SheetControlGUI **r
 						      SHEET_CONTROL_KEY);
 		SheetControlGUI *scg = SHEET_CONTROL_GUI (obj);
 		SheetControl *sc = (SheetControl *) scg;
-		
+
 		if (scg != NULL && sc->sheet == sheet) {
 			if (res)
 				*res = scg;
@@ -442,7 +443,7 @@ sheet_action_clone_sheet (GtkWidget *widget, SheetControlGUI *scg)
 {
 	SheetControl *sc = (SheetControl *) scg;
      	Sheet *new_sheet = sheet_duplicate (sc->sheet);
-	
+
 	workbook_sheet_attach (sc->sheet->workbook, new_sheet, sc->sheet);
 	sheet_set_dirty (new_sheet, TRUE);
 }
@@ -461,7 +462,7 @@ sheet_menu_label_run (SheetControlGUI *scg, GdkEventButton *event)
 {
 #define SHEET_CONTEXT_TEST_SIZE 1
 	SheetControl *sc = (SheetControl *) scg;
-	
+
 	struct {
 		const char *text;
 		void (*function) (GtkWidget *widget, SheetControlGUI *scg);
@@ -825,7 +826,7 @@ change_menu_state (WorkbookControlGUI const *wbcg,
 	CORBA_exception_init (&ev);
 	bonobo_ui_component_set_prop (wbcg->uic, verb_path,
 				      "state", state ? "1" : "0", &ev);
-	CORBA_exception_free (&ev);	
+	CORBA_exception_free (&ev);
 }
 
 static void
@@ -839,7 +840,7 @@ change_menu_sensitivity (WorkbookControlGUI const *wbcg,
 	CORBA_exception_init (&ev);
 	bonobo_ui_component_set_prop (wbcg->uic, verb_path,
 				      "sensitive", sensitive ? "1" : "0", &ev);
-	CORBA_exception_free (&ev);	
+	CORBA_exception_free (&ev);
 }
 
 static void
@@ -882,11 +883,11 @@ static void
 wbcg_menu_state_update (WorkbookControl *wbc, Sheet const *sheet, int flags)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
-	
+
 	g_return_if_fail (wbcg != NULL);
 
 #ifndef ENABLE_BONOBO
-	if (MS_INSERT_COLS & flags) 
+	if (MS_INSERT_COLS & flags)
 		change_menu_sensitivity (wbcg->menu_item_insert_cols,
 					 sheet->priv->enable_insert_cols);
 	if (MS_INSERT_ROWS & flags)
@@ -1031,7 +1032,7 @@ static void
 wbcg_menu_state_sheet_prefs (WorkbookControl *wbc, Sheet const *sheet)
 {
  	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
-	
+
 	if (!wbcg_ui_update_begin (wbcg))
 		return;
 
@@ -1083,7 +1084,7 @@ wbcg_menu_state_sheet_count (WorkbookControl *wbc)
 
 	/* Scrollable if there are more than 3 tabs */
 	gtk_notebook_set_scrollable (wbcg->notebook, sheet_count > 3);
-	
+
 #ifndef ENABLE_BONOBO
 	change_menu_sensitivity (wbcg->menu_item_sheet_remove, multi_sheet);
 	change_menu_sensitivity (wbcg->menu_item_sheets_edit_reorder, multi_sheet);
@@ -1411,7 +1412,7 @@ cb_file_send (GtkWidget *widget, WorkbookControlGUI *wbcg)
 #endif
 	CORBA_free (attachment_data);
 	if (BONOBO_EX (&ev)) {
-		g_warning ("Unable to attach image: %s", 
+		g_warning ("Unable to attach image: %s",
 			   bonobo_exception_get_text (&ev));
 		CORBA_exception_free (&ev);
 		bonobo_object_release_unref (composer, NULL);
@@ -1420,14 +1421,14 @@ cb_file_send (GtkWidget *widget, WorkbookControlGUI *wbcg)
 
 	GNOME_Evolution_Composer_show (composer, &ev);
 	if (BONOBO_EX (&ev)) {
-		g_warning ("Unable to show composer: %s", 
+		g_warning ("Unable to show composer: %s",
 			   bonobo_exception_get_text (&ev));
 		CORBA_exception_free (&ev);
 		bonobo_object_release_unref (composer, NULL);
 		return;
 	}
 
-	CORBA_exception_free (&ev); 
+	CORBA_exception_free (&ev);
 }
 #endif
 #endif
@@ -1674,6 +1675,20 @@ cb_edit_duplicate_sheet (GtkWidget *widget, WorkbookControlGUI *wbcg)
 }
 
 
+static void
+common_cell_goto (Sheet *sheet, const CellPos *cp)
+{
+	int col = cp->col;
+	int row = cp->row;
+
+	WORKBOOK_FOREACH_VIEW (sheet->workbook, view, {
+		wb_view_sheet_focus (view, sheet);
+	});
+	sheet_selection_set (sheet, col, row, col, row, col, row);
+	sheet_make_cell_visible (sheet, col, row);
+}
+
+
 static int
 cb_edit_search_replace_query (SearchReplaceQuery q, SearchReplace *sr, ...)
 {
@@ -1713,20 +1728,12 @@ cb_edit_search_replace_query (SearchReplaceQuery q, SearchReplace *sr, ...)
 		Cell *cell = va_arg (pvar, Cell *);
 		const char *old_text = va_arg (pvar, const char *);
 		const char *new_text = va_arg (pvar, const char *);
-		char *pos_name;
-
 		Sheet *sheet = cell->base.sheet;
-		int col = cell->pos.col;
-		int row = cell->pos.row;
+		char *pos_name = g_strconcat (sheet->name_unquoted, "!",
+					      cell_name (cell), NULL);
 
-		WORKBOOK_FOREACH_VIEW (sheet->workbook, view, {
-			wb_view_sheet_focus (view, sheet);
-		});
-		sheet_selection_set (sheet, col, row, col, row, col, row);
-		sheet_make_cell_visible (sheet, col, row);
+		common_cell_goto (sheet, &cell->pos);
 
-		pos_name = g_strconcat (sheet->name_unquoted, "!",
-					cell_name (cell), NULL);
 		res = dialog_search_replace_query (wbcg, sr, pos_name,
 						   old_text, new_text);
 		g_free (pos_name);
@@ -1738,20 +1745,11 @@ cb_edit_search_replace_query (SearchReplaceQuery q, SearchReplace *sr, ...)
 		CellPos *cp = va_arg (pvar, CellPos *);
 		const char *old_text = va_arg (pvar, const char *);
 		const char *new_text = va_arg (pvar, const char *);
-		char *pos_name;
+		char *pos_name = g_strdup_printf (_("Comment in cell %s!%s"),
+						  sheet->name_unquoted,
+						  cell_pos_name (cp));
+		common_cell_goto (sheet, cp);
 
-		int col = cp->col;
-		int row = cp->row;
-
-		WORKBOOK_FOREACH_VIEW (sheet->workbook, view, {
-			wb_view_sheet_focus (view, sheet);
-		});
-		sheet_selection_set (sheet, col, row, col, row, col, row);
-		sheet_make_cell_visible (sheet, col, row);
-
-		pos_name = g_strdup_printf (_("Comment in cell %s!%s"),
-					    sheet->name_unquoted,
-					    cell_pos_name (cp));
 		res = dialog_search_replace_query (wbcg, sr, pos_name,
 						   old_text, new_text);
 		g_free (pos_name);
@@ -1762,38 +1760,6 @@ cb_edit_search_replace_query (SearchReplaceQuery q, SearchReplace *sr, ...)
 
 	va_end (pvar);
 	return res;
-}
-
-static void
-cb_edit_fill_autofill (GtkWidget *unused, WorkbookControlGUI *wbcg)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Sheet *sheet = wb_control_cur_sheet (wbc);
-
-	Range const *sel = selection_first_range(sheet, wbc, _("Autofill"));
-	if (sel) {
-		Range template;
-
-		range_init(&template,
-			   sel->start.col, sel->start.row,
-			   sel->end.col, sel->end.row);
-
-		/* This could be more efficient, but it is not important */
-		if (range_trim(sheet, &template, TRUE) ||
-		    range_trim(sheet, &template, FALSE))
-			return; // Region totally empty
-
-		/* Make it autofill in only one direction */
- 		if ((sel->end.col - template.end.col) >= (sel->end.row - template.end.row))
- 			template.end.row = sel->end.row;
- 		else
- 			template.end.col = sel->end.col;
-
- 		cmd_autofill(wbc, sheet, sel->start.col, sel->start.row,
- 			     template.end.col - sel->start.col + 1,
-			     template.end.row - sel->start.row + 1,
- 			     sel->end.col, sel->end.row);
- 	}
 }
 
 static gboolean
@@ -1814,6 +1780,113 @@ static void
 cb_edit_search_replace (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
 	dialog_search_replace (wbcg, cb_edit_search_replace_action);
+}
+
+
+static gboolean
+cb_edit_search_action (WorkbookControlGUI *wbcg,
+		       SearchReplace *sr)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	unsigned i;
+	gboolean complain_no_match = TRUE;
+
+	GPtrArray *cells = search_collect_cells (sr, wb_control_cur_sheet (wbc));
+
+	for (i = 0; i < cells->len; i++) {
+		EvalPos *ep = g_ptr_array_index (cells, i);
+
+		Cell *cell = sheet_cell_get (ep->sheet, ep->eval.col, ep->eval.row);
+		Value *v = cell ? cell->value : NULL;
+		gboolean is_expr, is_value, is_string, is_other;
+		gboolean matches = FALSE;
+
+		is_expr = cell && cell_has_expr (cell);
+		is_value = cell && !is_expr && !cell_is_blank (cell) && v;
+		is_string = is_value && (v->type == VALUE_STRING);
+		is_other = is_value && !is_string;
+
+		if ((is_expr && sr->search_expressions) ||
+		    (is_string && sr->search_strings) ||
+		    (is_other && sr->search_other_values)) {
+			char *old_text = cell_get_entered_text (cell);
+			gboolean initial_quote = (is_value && old_text[0] == '\'');
+			matches = search_match_string (sr, old_text + (initial_quote ? 1 : 0));
+			g_free (old_text);
+		}
+
+		if (matches) {
+			Sheet *sheet = cell->base.sheet;
+			char *pos_name = g_strconcat (sheet->name_unquoted, "!",
+						      cell_name (cell), NULL);
+			int res;
+
+			common_cell_goto (sheet, &cell->pos);
+
+			res = dialog_search_notify (wbcg, sr, pos_name);
+			g_free (pos_name);
+
+			complain_no_match = FALSE;
+
+			if (res == -1)
+				break;
+		}
+
+		g_free (ep);
+	}
+
+	/* On cancel, free the rest.  */
+	for (; i < cells->len; i++) {
+		EvalPos *ep = g_ptr_array_index (cells, i);
+		g_free (ep);
+	}
+
+	if (complain_no_match) {
+		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+				 _("Search text was not found."));
+	}
+
+	g_ptr_array_free (cells, TRUE);
+
+	return TRUE;
+}
+
+static void
+cb_edit_search (GtkWidget *unused, WorkbookControlGUI *wbcg)
+{
+	dialog_search (wbcg, cb_edit_search_action);
+}
+
+static void
+cb_edit_fill_autofill (GtkWidget *unused, WorkbookControlGUI *wbcg)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	Sheet *sheet = wb_control_cur_sheet (wbc);
+
+	Range const *sel = selection_first_range (sheet, wbc, _("Autofill"));
+	if (sel) {
+		Range template;
+
+		range_init (&template,
+			    sel->start.col, sel->start.row,
+			    sel->end.col, sel->end.row);
+
+		/* This could be more efficient, but it is not important */
+		if (range_trim (sheet, &template, TRUE) ||
+		    range_trim (sheet, &template, FALSE))
+			return; // Region totally empty
+
+		/* Make it autofill in only one direction */
+ 		if ((sel->end.col - template.end.col) >= (sel->end.row - template.end.row))
+ 			template.end.row = sel->end.row;
+ 		else
+ 			template.end.col = sel->end.col;
+
+ 		cmd_autofill (wbc, sheet, sel->start.col, sel->start.row,
+			      template.end.col - sel->start.col + 1,
+			      template.end.row - sel->start.row + 1,
+			      sel->end.col, sel->end.row);
+ 	}
 }
 
 static void
@@ -2189,7 +2262,7 @@ static void
 cb_data_consolidate (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	
+
 	dialog_consolidate (wbcg, wb_control_cur_sheet (wbc));
 }
 
@@ -2220,7 +2293,7 @@ hide_show_detail (WorkbookControlGUI *wbcg, gboolean show)
 					_("can only be performed on an existing group"));
 		return;
 	}
-	
+
 	cmd_colrow_hide_selection (wbc, sheet, is_cols, show);
 }
 
@@ -2581,6 +2654,12 @@ static GnomeUIInfo workbook_menu_edit [] = {
 
 	GNOMEUIINFO_SUBTREE(N_("_Fill"), workbook_menu_edit_fill),
 
+	{ GNOME_APP_UI_ITEM, N_("Search..."),
+		  N_("Search for some text"),
+	          cb_edit_search,
+		  NULL, NULL,
+		  0, 0, 0, 0 },
+
 	{ GNOME_APP_UI_ITEM, N_("Search and Replace..."),
 		  N_("Search for some text and replace it with something else"),
 	          cb_edit_search_replace,
@@ -2720,7 +2799,7 @@ static GnomeUIInfo workbook_menu_format_sheet [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("Re-_Order Sheets..."),
 		N_("Change the order the sheets are displayed"),
 		cb_sheet_order),
-		
+
 	/* Default <Ctrl-`> (control backquote) to insert toggle formula/value display */
 	{ GNOME_APP_UI_TOGGLEITEM,
 		N_("Display _Formulas"),
@@ -2990,6 +3069,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("EditDelete", cb_edit_delete),
 	BONOBO_UI_UNSAFE_VERB ("EditDuplicateSheet", cb_edit_duplicate_sheet),
 	BONOBO_UI_UNSAFE_VERB ("EditFillAutofill", cb_edit_fill_autofill),
+	BONOBO_UI_UNSAFE_VERB ("EditSearch", cb_edit_search),
 	BONOBO_UI_UNSAFE_VERB ("EditSearchReplace", cb_edit_search_replace),
 	BONOBO_UI_UNSAFE_VERB ("EditGoto", cb_edit_goto),
 	BONOBO_UI_UNSAFE_VERB ("EditRecalc", cb_edit_recalc),
@@ -3053,7 +3133,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("DataValidate", cb_data_validate),
 #endif
 	BONOBO_UI_UNSAFE_VERB ("DataConsolidate", cb_data_consolidate),
-	
+
 	BONOBO_UI_UNSAFE_VERB ("DataOutlineHideDetail", cb_data_hide_detail),
 	BONOBO_UI_UNSAFE_VERB ("DataOutlineShowDetail", cb_data_show_detail),
 	BONOBO_UI_UNSAFE_VERB ("DataOutlineGroup", cb_data_group),
@@ -3339,7 +3419,7 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 			 guint page_num, WorkbookControlGUI *wbcg)
 {
 	Sheet *sheet;
-	
+
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
 
 	/* Ignore events during destruction */
@@ -3385,7 +3465,7 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 
 	gtk_object_set_data (GTK_OBJECT (notebook), "previous_page",
 			     GINT_TO_POINTER (gtk_notebook_get_current_page (notebook)));
-	
+
 	/* if we are not selecting a range for an expression update */
 	sheet = wb_control_gui_focus_cur_sheet (wbcg);
 	if (wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)) != NULL) {
@@ -3640,7 +3720,7 @@ show_gui (WorkbookControlGUI *wbcg)
 	WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
 	int sx = MAX (gdk_screen_width  (), 600);
 	int sy = MAX (gdk_screen_height (), 200);
-	
+
 	/* Set grid size to preferred width */
 	if (wbv && (wbv->preferred_width > 0 || wbv->preferred_height > 0)) {
 		int pwidth = wbv->preferred_width;
@@ -3744,7 +3824,7 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 		workbook_menu_edit [6].widget;
 	wbcg->menu_item_search_replace =
 		workbook_menu_edit [13].widget;
-	
+
 	wbcg->menu_item_insert_rows =
 		workbook_menu_insert [1].widget;
 	wbcg->menu_item_insert_cols =
@@ -3758,7 +3838,7 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 		workbook_menu_data [3].widget;
 	wbcg->menu_item_freeze_panes =
 		workbook_menu_view [1].widget;
-	
+
 	wbcg->menu_item_sheet_display_formulas =
 		workbook_menu_format_sheet [2].widget;
 	wbcg->menu_item_sheet_hide_zero =
@@ -3780,7 +3860,7 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 		workbook_menu_data_outline [6].widget;
 	wbcg->menu_item_sheet_outline_symbols_right =
 		workbook_menu_data_outline [7].widget;
-		
+
 	wbcg->menu_item_sheet_remove =
 		workbook_menu_edit_sheet [3].widget;
 	wbcg->menu_item_sheets_edit_reorder =
@@ -3836,7 +3916,7 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	 * active sheet (if there is an active sheet)
 	 */
 	wb_view_menus_update (wb_control_view (WORKBOOK_CONTROL (wbcg)));
-	
+
 	/* We are not in edit mode */
 	wbcg->editing = FALSE;
 	wbcg->editing_sheet = NULL;
@@ -3922,7 +4002,7 @@ workbook_control_gui_ctor_class (GtkObjectClass *object_class)
 	wbc_class->sheet.focus	    = wbcg_sheet_focus;
 	wbc_class->sheet.move	    = wbcg_sheet_move;
 	wbc_class->sheet.remove_all = wbcg_sheet_remove_all;
-	
+
 	wbc_class->undo_redo.clear    = wbcg_undo_redo_clear;
 	wbc_class->undo_redo.truncate = wbcg_undo_redo_truncate;
 	wbc_class->undo_redo.pop      = wbcg_undo_redo_pop;

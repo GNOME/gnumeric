@@ -257,6 +257,11 @@
 	    </submenu>
 	    
 
+	    <menuitem name="EditSearch" verb=""
+		_label="Search..."
+		_tip="Search for some text"
+		/>
+
 	    <menuitem name="EditSearchReplace" verb=""
 		_label="Search and Replace..."
 		_tip="Search for some text and replace it with something else"

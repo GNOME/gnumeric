@@ -71,9 +71,10 @@ struct _SearchReplace {
 SearchReplace *search_replace_new (void);
 void search_replace_free (SearchReplace *sr);
 SearchReplace *search_replace_copy (const SearchReplace *sr);
-
 char *search_replace_verify (SearchReplace *sr, gboolean repl);
-
 char *search_replace_string (SearchReplace *sr, const char *src);
+gboolean search_match_string (SearchReplace *sr, const char *src);
+
+GPtrArray *search_collect_cells (SearchReplace *sr, Sheet *sheet);
 
 #endif

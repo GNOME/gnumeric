@@ -1,3 +1,10 @@
+2001-10-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.sgml : Small corrections (figure references).
+	* files.sgml : hook up autosave.sgml to make the help button on
+	  the autosave dialog work.
+	* gnumeric.sgml : ditto
+
 2001-10-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* analysis-tools.sgml : Extend manual.

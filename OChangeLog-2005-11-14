@@ -1,3 +1,13 @@
+2001-10-06  Morten Welinder  <terra@diku.dk>
+
+	* src/workbook-control-gui.c (cb_edit_search): Implement search.
+
+	* src/search.c (search_collect_cells): New function, extracted
+ 	from commands.c.
+	(search_match_string): New function to check for match only.
+
+	* src/gui-util.c (gnumeric_keyed_dialog): Constify.
+
 2001-10-05  Jody Goldberg <jgoldberg@home.com>
 
 	* src/number-match.c (format_match) : compute_value returns a Value

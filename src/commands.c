@@ -3533,51 +3533,13 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, EvalPos *ep,
 	return FALSE;
 }
 
-static int
-cb_order_sheet_row_col (const void *_a, const void *_b)
-{
-	const EvalPos *a = *(const EvalPos **)_a;
-	const EvalPos *b = *(const EvalPos **)_b;
-	int i;
-
-	/* By sheet name.  FIXME: Any better way than this?  */
-	i = strcmp (a->sheet->name_unquoted, b->sheet->name_unquoted);
-
-	/* By row number.  */
-	if (!i) i = (a->eval.row - b->eval.row);
-
-	/* By column number.  */
-	if (!i) i = (a->eval.col - b->eval.col);
-
-	return i;
-}
-
-static int
-cb_order_sheet_col_row (const void *_a, const void *_b)
-{
-	const EvalPos *a = *(const EvalPos **)_a;
-	const EvalPos *b = *(const EvalPos **)_b;
-	int i;
-
-	/* By sheet name.  FIXME: Any better way than this?  */
-	i = strcmp (a->sheet->name_unquoted, b->sheet->name_unquoted);
-
-	/* By column number.  */
-	if (!i) i = (a->eval.col - b->eval.col);
-
-	/* By row number.  */
-	if (!i) i = (a->eval.row - b->eval.row);
-
-	return i;
-}
-
 
 static gboolean
 cmd_search_replace_do (CmdSearchReplace *me, Workbook *wb,
 		       Sheet *sheet, gboolean test_run)
 {
 	SearchReplace *sr = me->sr;
-	GPtrArray *cells = NULL;
+	GPtrArray *cells;
 	gboolean result = FALSE;
 	unsigned i;
 
@@ -3595,42 +3557,7 @@ cmd_search_replace_do (CmdSearchReplace *me, Workbook *wb,
 		}
 	}
 
-	/* Collect a list of all cells subject to search.  */
-	switch (sr->scope) {
-	case SRS_workbook:
-		cells = workbook_cells (wb, TRUE);
-		break;
-
-	case SRS_sheet:
-		cells = sheet_cells (sheet,
-				     0, 0, SHEET_MAX_COLS, SHEET_MAX_ROWS,
-				     TRUE);
-		break;
-
-	case SRS_range:
-	{
-		int start_col, start_row, end_col, end_row;
-
-		/* FIXME: what about sheet name?  */
-		parse_range (sr->range_text,
-			     &start_col, &start_row,
-			     &end_col, &end_row);
-
-		cells = sheet_cells (sheet,
-				     start_col, start_row, end_col, end_row,
-				     TRUE);
-		break;
-	}
-
-	default:
-		g_assert_not_reached ();
-	}
-
-	/* Sort our cells.  */
-	qsort (&g_ptr_array_index (cells, 0),
-	       cells->len,
-	       sizeof (gpointer),
-	       sr->by_row ? cb_order_sheet_row_col : cb_order_sheet_col_row);
+	cells = search_collect_cells (sr, sheet);
 
 	for (i = 0; i < cells->len; i++) {
 		EvalPos *ep = g_ptr_array_index (cells, i);

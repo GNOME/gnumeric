@@ -63,7 +63,7 @@ fsel_handle_ok (GtkWidget *widget, gboolean *result)
 
 	fsel = GTK_FILE_SELECTION (gtk_widget_get_ancestor (widget, GTK_TYPE_FILE_SELECTION));
 	file_name = gtk_file_selection_get_filename (fsel);
-	
+
 	/* Change into directory if that's what user selected */
 	if (g_file_test (file_name, G_FILE_TEST_ISDIR)) {
 		gint name_len;
@@ -349,7 +349,7 @@ gnumeric_error_info_dialog_show (WorkbookControlGUI *wbcg, ErrorInfo *error)
 	GList *details;
 	gboolean has_extra_details;
 	GtkWidget *dialog, *default_button;
-	
+
 	str = g_string_new (error_info_peek_message (error));
 	details = error_info_peek_details (error);
 	if (g_list_length (details) == 1) {
@@ -394,44 +394,44 @@ gnumeric_error_info_dialog_show (WorkbookControlGUI *wbcg, ErrorInfo *error)
  * one.
  * The function duplicates the positioning functionality in
  * gnome_dialog_set_parent, but does not require the transient window to be
- * a GnomeDialog. 
+ * a GnomeDialog.
  */
 void
 gnumeric_set_transient (WorkbookControlGUI *wbcg, GtkWindow *window)
 {
 	GtkWindow *toplevel;
-	
+
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
 	g_return_if_fail (GTK_IS_WINDOW (window));
 
 	toplevel = wb_control_gui_toplevel (wbcg);
 	gtk_window_set_transient_for (window, toplevel);
 
-	gtk_window_set_position(window, 
+	gtk_window_set_position(window,
 				gnome_preferences_get_dialog_position());
 	if (gnome_preferences_get_dialog_centered()) {
-		
+
 		/* User wants us to center over toplevel */
-		
+
 		gint x, y, w, h, dialog_x, dialog_y;
-		
+
 		if ( ! GTK_WIDGET_VISIBLE(toplevel)) return; /* Can't get its
 								size/pos */
 
 		/* Throw out other positioning */
 		gtk_window_set_position(toplevel, GTK_WIN_POS_NONE);
-		
+
 		gdk_window_get_origin (GTK_WIDGET(toplevel)->window, &x, &y);
 		gdk_window_get_size   (GTK_WIDGET(toplevel)->window, &w, &h);
-		
+
 		/* The problem here is we don't know how big the dialog is.
-		   So "centered" isn't really true. We'll go with 
+		   So "centered" isn't really true. We'll go with
 		   "kind of more or less on top" */
-		
+
 		dialog_x = x + w/4;
 		dialog_y = y + h/4;
-		
-		gtk_widget_set_uposition(GTK_WIDGET(window), dialog_x, dialog_y); 
+
+		gtk_widget_set_uposition(GTK_WIDGET(window), dialog_x, dialog_y);
 	}
 }
 
@@ -463,14 +463,14 @@ cb_remove_object_data (GtkWidget *w, KeyedDialogContext *ctxt)
  * only one dialog of a kind can be displayed for a wbcg. Deallocation of
  * the object data is managed here.  */
 void
-gnumeric_keyed_dialog (WorkbookControlGUI *wbcg, GtkWindow *dialog, char *key)
+gnumeric_keyed_dialog (WorkbookControlGUI *wbcg, GtkWindow *dialog, const char *key)
 {
 	KeyedDialogContext *ctxt;
-	
+
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
 	g_return_if_fail (GTK_IS_WINDOW (dialog));
 	g_return_if_fail (key != NULL);
-	
+
 	gnumeric_set_transient (wbcg, dialog);
 
 	ctxt = g_new (KeyedDialogContext, 1);
@@ -496,7 +496,7 @@ gboolean
 gnumeric_dialog_raise_if_exists (WorkbookControlGUI *wbcg, char *key)
 {
 	GtkWidget *dialog;
-	
+
 	g_return_val_if_fail (wbcg != NULL, FALSE);
 	g_return_val_if_fail (key != NULL, FALSE);
 

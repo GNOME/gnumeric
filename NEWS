@@ -58,8 +58,8 @@ Morten:
 	  boggling bug in python.  Again.)
 	* Various code cleanup.
 	* Fix regression.
-	* Implemented querying in search and replace.  (This can, therefore,
-	  be used as a poor man's search.)
+	* Implemented querying in search-and-replace.
+	* Implemented Search.
 
 Toralf Lund:
 	* improve the oleo importer.

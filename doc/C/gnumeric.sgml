@@ -11,6 +11,7 @@
 <!entity autofill SYSTEM "autofill.sgml">
 <!entity introduction SYSTEM "introduction.sgml">
 <!entity files SYSTEM "files.sgml">
+<!entity autosave SYSTEM "autosave.sgml">
 <!entity functions SYSTEM "functions.sgml">
 <!entity printing SYSTEM "printing.sgml">
 <!entity analysis-tools SYSTEM "analysis-tools.sgml">

@@ -129,16 +129,18 @@
      the analysis.  In addition, the names of the variables are
      printed in the output table.</para>
 
-     <para>For example, you want to calculate the correlation between
-     three variables, one each in columns A, B, and C.
-     Both variables have 10 values in rows 2 to 11 with labels in row 1
-     (see <xref linkend="correlation-example-1">).</para>
   <figure id="correlation-example-1">
     <title>The Data</title>
     <screenshot>
        <graphic fileref="images/analysistools-correlation-ex1" format="png"></graphic>
     </screenshot>
   </figure>
+ <example id="usingcorrelationtool">
+ <title>Using The Correlation Tool</title>
+    <para>For example, you want to calculate the correlation between
+     three variables, one each in columns A, B, and C.
+     Both variables have 10 values in rows 2 to 11 with labels in row 1
+     (see <xref linkend="correlation-example-1">).</para>
 
      <para>First
      you should enter A1:B11 in the ``Input Range:'' entry by typing 
@@ -149,12 +151,6 @@
      checkbox since the first row contains labels. Specify the output 
      options described above and press the OK button. (see 
      <xref linkend="correlation-example-2">).</para>
-  <figure id="correlation-example-2">
-    <title>The Completed Dialog</title>
-    <screenshot>
-       <graphic fileref="images/analysistools-correlation-ex2" format="png"></graphic>
-    </screenshot>
-  </figure>
      
      <para>The results are printed into a table where each column and
      row is labeled according to the names of the variables.  If the
@@ -164,13 +160,19 @@
      correlation between a variable in a column A and B, can be read
      in the second column and third row of the results table (see 
      <xref linkend="correlation-example-3">).</para>
+ </example>
+  <figure id="correlation-example-2">
+    <title>The Completed Dialog</title>
+    <screenshot>
+       <graphic fileref="images/analysistools-correlation-ex2" format="png"></graphic>
+    </screenshot>
+  </figure>
   <figure id="correlation-example-3">
     <title>The Result</title>
     <screenshot>
        <graphic fileref="images/analysistools-correlation-ex3" format="png"></graphic>
     </screenshot>
   </figure>
-
   </sect1>
 
 

@@ -1,9 +1,24 @@
+2001-10-06  Morten Welinder  <terra@diku.dk>
+
+	* dialog-search-replace.c (dialog_search, dialog_search_notify):
+ 	New functions (and dialogs).
+
 2001-10-05  Morten Welinder  <terra@diku.dk>
 
 	* dialog-search-replace.c (dialog_search_replace_query): Make sure
  	cancel actually does.
 
 	* Makefile.am: add search dialog.
+
+2001-10-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-analysis-tools.c : implement help buttons for all tools
+	* mean-tests.glade : ditto and small capitalization and colon corrections
+	* rank.glade : ditto
+	* sampling.glade : ditto
+	* variance-tests.glade : ditto
+	* correlation.glade : ditto
+	* covariance.glade : ditto
 
 2001-10-04  Jody Goldberg <jgoldberg@home.com>
 

@@ -384,7 +384,7 @@
 
 	    <widget>
 	      <class>GtkHBox</class>
-	      <name>range-hbox</name>
+	      <name>range_hbox</name>
 	      <homogeneous>False</homogeneous>
 	      <spacing>4</spacing>
 	      <child>

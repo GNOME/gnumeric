@@ -72,6 +72,14 @@
 	<can_focus>True</can_focus>
 	<stock_button>GNOME_STOCK_BUTTON_CANCEL</stock_button>
       </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>helpbutton</name>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<stock_button>GNOME_STOCK_BUTTON_HELP</stock_button>
+      </widget>
     </widget>
 
     <widget>
@@ -99,7 +107,7 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>var1-label</name>
-	  <label>Variable 1 Range</label>
+	  <label>Variable 1 Range:</label>
 	  <justify>GTK_JUSTIFY_RIGHT</justify>
 	  <wrap>False</wrap>
 	  <xalign>0</xalign>
@@ -125,7 +133,7 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>var2-label</name>
-	  <label>Variable 2 Range</label>
+	  <label>Variable 2 Range:</label>
 	  <justify>GTK_JUSTIFY_RIGHT</justify>
 	  <wrap>False</wrap>
 	  <xalign>0</xalign>
@@ -190,7 +198,7 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>variablespaired-label</name>
-	<label>Variables are</label>
+	<label>Variables are:</label>
 	<justify>GTK_JUSTIFY_RIGHT</justify>
 	<wrap>False</wrap>
 	<xalign>0</xalign>
@@ -217,7 +225,7 @@
 	<class>GtkRadioButton</class>
 	<name>paired-button</name>
 	<can_focus>True</can_focus>
-	<label>_paired</label>
+	<label>_Paired</label>
 	<active>False</active>
 	<draw_indicator>True</draw_indicator>
 	<group>pair</group>
@@ -241,7 +249,7 @@
 	<class>GtkRadioButton</class>
 	<name>unpaired-button</name>
 	<can_focus>True</can_focus>
-	<label>unpai_red</label>
+	<label>Unpai_red</label>
 	<active>True</active>
 	<draw_indicator>True</draw_indicator>
 	<group>pair</group>
@@ -264,7 +272,7 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>varianceknown-label</name>
-	<label>Population variances are</label>
+	<label>Population Variances are:</label>
 	<justify>GTK_JUSTIFY_RIGHT</justify>
 	<wrap>False</wrap>
 	<xalign>0</xalign>
@@ -291,7 +299,7 @@
 	<class>GtkRadioButton</class>
 	<name>known-button</name>
 	<can_focus>True</can_focus>
-	<label>_known</label>
+	<label>_Known</label>
 	<active>False</active>
 	<draw_indicator>True</draw_indicator>
 	<group>known</group>
@@ -315,7 +323,7 @@
 	<class>GtkRadioButton</class>
 	<name>unknown-button</name>
 	<can_focus>True</can_focus>
-	<label>unkno_wn</label>
+	<label>Unkno_wn</label>
 	<active>True</active>
 	<draw_indicator>True</draw_indicator>
 	<group>known</group>
@@ -336,36 +344,10 @@
       </widget>
 
       <widget>
-	<class>GtkLabel</class>
-	<name>varianceequal-label</name>
-	<label>Unknown pop. var. are</label>
-	<justify>GTK_JUSTIFY_RIGHT</justify>
-	<wrap>False</wrap>
-	<xalign>0</xalign>
-	<yalign>0.5</yalign>
-	<xpad>5</xpad>
-	<ypad>0</ypad>
-	<child>
-	  <left_attach>0</left_attach>
-	  <right_attach>1</right_attach>
-	  <top_attach>2</top_attach>
-	  <bottom_attach>3</bottom_attach>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	  <xexpand>False</xexpand>
-	  <yexpand>False</yexpand>
-	  <xshrink>False</xshrink>
-	  <yshrink>False</yshrink>
-	  <xfill>True</xfill>
-	  <yfill>False</yfill>
-	</child>
-      </widget>
-
-      <widget>
 	<class>GtkRadioButton</class>
 	<name>equal-button</name>
 	<can_focus>True</can_focus>
-	<label>e_qual</label>
+	<label>E_qual</label>
 	<active>False</active>
 	<draw_indicator>True</draw_indicator>
 	<group>equal</group>
@@ -389,40 +371,13 @@
 	<class>GtkRadioButton</class>
 	<name>unequal-button</name>
 	<can_focus>True</can_focus>
-	<label>_unequal</label>
+	<label>_Unequal</label>
 	<active>True</active>
 	<draw_indicator>True</draw_indicator>
 	<group>equal</group>
 	<child>
 	  <left_attach>2</left_attach>
 	  <right_attach>3</right_attach>
-	  <top_attach>2</top_attach>
-	  <bottom_attach>3</bottom_attach>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	  <xexpand>False</xexpand>
-	  <yexpand>False</yexpand>
-	  <xshrink>False</xshrink>
-	  <yshrink>False</yshrink>
-	  <xfill>True</xfill>
-	  <yfill>False</yfill>
-	</child>
-      </widget>
-
-      <widget>
-	<class>GtkLabel</class>
-	<name>var1_variance-label</name>
-	<label>Variable 1 Pop. Variance</label>
-	<justify>GTK_JUSTIFY_RIGHT</justify>
-	<wrap>False</wrap>
-	<xalign>0</xalign>
-	<yalign>0.5</yalign>
-	<xpad>5</xpad>
-	<ypad>0</ypad>
-	<focus_target>var1-variance</focus_target>
-	<child>
-	  <left_attach>0</left_attach>
-	  <right_attach>1</right_attach>
 	  <top_attach>2</top_attach>
 	  <bottom_attach>3</bottom_attach>
 	  <xpad>0</xpad>
@@ -463,7 +418,7 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>var2_variance-label</name>
-	<label>Variable 2 Pop. Variance</label>
+	<label>Variable 2 Pop. Variance:</label>
 	<justify>GTK_JUSTIFY_RIGHT</justify>
 	<wrap>False</wrap>
 	<xalign>0</xalign>
@@ -510,6 +465,59 @@
 	  <yfill>False</yfill>
 	</child>
       </widget>
+
+      <widget>
+	<class>GtkLabel</class>
+	<name>varianceequal-label</name>
+	<label>Unknown Pop. Var. are:</label>
+	<justify>GTK_JUSTIFY_RIGHT</justify>
+	<wrap>False</wrap>
+	<xalign>0</xalign>
+	<yalign>0.5</yalign>
+	<xpad>5</xpad>
+	<ypad>0</ypad>
+	<child>
+	  <left_attach>0</left_attach>
+	  <right_attach>1</right_attach>
+	  <top_attach>2</top_attach>
+	  <bottom_attach>3</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>False</xexpand>
+	  <yexpand>False</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>False</yfill>
+	</child>
+      </widget>
+
+      <widget>
+	<class>GtkLabel</class>
+	<name>var1_variance-label</name>
+	<label>Variable 1 Pop. Variance:</label>
+	<justify>GTK_JUSTIFY_RIGHT</justify>
+	<wrap>False</wrap>
+	<xalign>0</xalign>
+	<yalign>0.5</yalign>
+	<xpad>5</xpad>
+	<ypad>0</ypad>
+	<focus_target>var1-variance</focus_target>
+	<child>
+	  <left_attach>0</left_attach>
+	  <right_attach>1</right_attach>
+	  <top_attach>2</top_attach>
+	  <bottom_attach>3</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>False</xexpand>
+	  <yexpand>False</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>False</yfill>
+	</child>
+      </widget>
     </widget>
 
     <widget>
@@ -545,7 +553,7 @@
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>label6</name>
-	    <label>_Hypothesized Mean Difference</label>
+	    <label>_Hypothesized Mean Difference:</label>
 	    <justify>GTK_JUSTIFY_RIGHT</justify>
 	    <wrap>False</wrap>
 	    <xalign>0</xalign>
@@ -741,6 +749,10 @@
 	  </child>
 	</widget>
       </widget>
+    </widget>
+
+    <widget>
+      <class>Placeholder</class>
     </widget>
   </widget>
 </widget>
