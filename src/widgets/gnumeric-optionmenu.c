@@ -36,6 +36,7 @@
 
 #include "gtk/gtkmenu.h"
 #include "gtk/gtkmenuitem.h"
+#include "gtk/gtkcheckmenuitem.h"
 #include "gdk/gdkkeysyms.h"
 
 
@@ -229,6 +230,7 @@ gnumeric_option_menu_init (GnumericOptionMenu *option_menu)
   option_menu->select_menu = NULL;
   option_menu->menu_item = NULL;
   option_menu->old_menu_item = NULL;
+  option_menu->last_signaled_menu_item = NULL;
   option_menu->selection = NULL;
   option_menu->new_selection = TRUE;
   option_menu->width = 0;
@@ -773,6 +775,16 @@ gnumeric_option_menu_changed (GnumericOptionMenu *option_menu)
 {
   g_return_if_fail (GNUMERIC_IS_OPTION_MENU (option_menu));
 
+  if (option_menu->last_signaled_menu_item && GTK_IS_CHECK_MENU_ITEM(option_menu->last_signaled_menu_item))
+	  gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(option_menu->last_signaled_menu_item),
+					  FALSE);
+  
+  option_menu->last_signaled_menu_item = option_menu->menu_item;
+  if (option_menu->last_signaled_menu_item
+      && GTK_IS_CHECK_MENU_ITEM(option_menu->last_signaled_menu_item))
+          gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(option_menu->last_signaled_menu_item),
+					  TRUE);
+  
   g_signal_emit (option_menu, signals[CHANGED], 0);
 }
 
@@ -1059,6 +1071,10 @@ gnumeric_option_menu_show_all (GtkWidget *widget)
     gtk_widget_show_all (option_menu->menu);
   if (option_menu->menu_item)
     gtk_widget_show_all (option_menu->menu_item);
+  if (option_menu->last_signaled_menu_item)
+    gtk_widget_show_all (option_menu->last_signaled_menu_item);
+  if (option_menu->select_menu)
+	  gtk_widget_show_all (option_menu->select_menu);
 }
 
 

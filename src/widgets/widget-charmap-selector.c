@@ -266,7 +266,7 @@ cs_init (CharmapSelector *cs)
 		while (charset_trans->lgroup != LG_LAST) {
 			GtkWidget *subitem;
 			if (charset_trans->lgroup == lgroup->lgroup) {
-				subitem = gtk_menu_item_new_with_label 
+				subitem = gtk_check_menu_item_new_with_label 
 					(_(charset_trans->charset_title));
 				gtk_widget_show (subitem);
 				gtk_menu_append (submenu, subitem);
@@ -288,7 +288,7 @@ cs_init (CharmapSelector *cs)
 							      get_locale_encoding_name (), 
 							      NULL);
 		
-		item = gtk_menu_item_new_with_label (locale_encoding_menu_title);
+		item = gtk_check_menu_item_new_with_label (locale_encoding_menu_title);
 		g_free (locale_encoding_menu_title);
 		gtk_widget_show (item);
 		gtk_menu_append (menu, item);

@@ -1,9 +1,20 @@
+2003-05-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* gnumeric-optionmenu.c (option_menu_init): initialize 
+	  last_signaled_menu_item
+	(gnumeric_option_menu_changed): check and uncheck items
+	(gnumeric_option_menu_show_all): show more
+	* gnumeric-optionmenu.h (last_signaled_menu_item): new
+	  field in teh option menu
+	* widget-charmap-selector.c: use check_menu_item rather 
+	  than just menu_item
+
 2003-05-08  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/widgets/Makefile.am: added src/widgets/gnumeric-optionmenu.[ch]
-	* src/widgets/gnumeric-optionmenu.c: new (based on gtkoptionmenu)
-	* src/widgets/gnumeric-optionmenu.h: new (based on gtkoptionmenu)
-	* src/widgets/widget-charmap-selector.c: rewritten
+	* Makefile.am: added src/widgets/gnumeric-optionmenu.[ch]
+	* gnumeric-optionmenu.c: new (based on gtkoptionmenu)
+	* gnumeric-optionmenu.h: new (based on gtkoptionmenu)
+	* widget-charmap-selector.c: rewritten
 
 2003-05-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
 

@@ -63,6 +63,8 @@ struct _GnumericOptionMenu
 	GtkWidget *menu_item;
 	GtkWidget *old_menu_item;
 
+	GtkWidget *last_signaled_menu_item;
+
 	GSList *selection;
 	gboolean new_selection;
 	
