@@ -1604,7 +1604,7 @@ gnumeric_rate (FunctionEvalInfo *ei, Value **argv)
 		else {
 			/* Exact case.  */
 			return value_new_float (pow (-udata.fv / udata.pv,
-						     -1.0 / udata.nper) - 1);
+						     1.0 / udata.nper) - 1);
 		}
 	}
 

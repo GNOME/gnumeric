@@ -1,3 +1,7 @@
+2000-08-28  Morten Welinder  <terra@diku.dk>
+
+	* src/functions/fn-financial.c (gnumeric_rate): Fix special case.
+
 2000-08-27  Jody Goldberg <jgoldberg@home.com>
 
 	* src/number-match.c (format_create_regexp) : If we see seconds
