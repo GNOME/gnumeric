@@ -24,16 +24,15 @@ static char *help_iserror = {
 	   "@SEEALSO=ERROR")
 };
 
-static Value *
-gnumeric_iserror (Sheet *sheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+static FuncReturn *
+gnumeric_iserror (FunctionEvalInfo *ei, GList *nodes)
 {
 	Value *v, *retval;
 
-	if (g_list_length (expr_node_list) != 1){
-		*error_string = _("Argument mismatch");
-		return NULL;
-	}
-	v = eval_expr (sheet, (ExprTree *) expr_node_list->data, eval_col, eval_row, error_string);
+	if (g_list_length (nodes) != 1)
+		return function_error (ei, _("Argument mismatch"));
+
+	v = (Value *)eval_expr (ei, (ExprTree *) nodes->data);
 	if (v == NULL)
 		retval = value_new_int (1);
 	else {
@@ -41,7 +40,7 @@ gnumeric_iserror (Sheet *sheet, GList *expr_node_list, int eval_col, int eval_ro
 		value_release (v);
 	}
 
-	return retval;
+	FUNC_RETURN_VAL (retval);
 }
 
 static char *help_error = {
@@ -55,29 +54,25 @@ static char *help_error = {
 	   "@SEEALSO=ISERROR")
 };
 
-static Value *
-gnumeric_error (struct FunctionDefinition *i, Value *argv [], char **error_string)
+static FuncReturn *
+gnumeric_error (FunctionEvalInfo *ei, Value *argv[])
 {
-	if (argv [0]->type != VALUE_STRING){
-		*error_string = _("Type mismatch");
-		return NULL;
-	}
+	if (argv [0]->type != VALUE_STRING)
+		return function_error (ei, _("Type mismatch"));
 
 	/* The error signaling system is broken.  We really cannot allocate a
 	   dynamic error string.  Let's hope the string stays around for long
 	   enough...  */
-	*error_string = argv [0]->v.str->str;
-	return NULL;
+	return function_error_alloc (ei, g_strdup (argv [0]->v.str->str));
 }
-
-
-FunctionDefinition misc_functions [] = {
-	{ "error",   "s",  "text",             &help_error,   NULL,             gnumeric_error },
-	{ "iserror", "",   "",                 &help_iserror, gnumeric_iserror, NULL           },
-	{ NULL, NULL }
-};
 
 void misc_functions_init()
 {
 	FunctionCategory *cat = function_get_category (_("Miscellaneous"));
+
+	function_add_args  (cat, "error",   "s",  "text",
+			    &help_error,   gnumeric_error);
+	function_add_nodes (cat, "iserror", "",   "",
+			    &help_iserror, gnumeric_iserror);
 }
+	

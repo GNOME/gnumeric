@@ -24,19 +24,19 @@ static char *help_selection = {
 	   "@SEEALSO=")
 };
 
-static Value *
-gnumeric_selection (Sheet *sheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+static FuncReturn *
+gnumeric_selection  (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	Value *value;
 	GList *l ;
 	int numrange,lp;
+	Sheet *sheet;
 	
 	/* Type checking */
-	if (expr_node_list != NULL){
-		*error_string = _("Invalid number of arguments");
-		return NULL;
-	}
+	if (expr_node_list != NULL)
+		return function_error (ei, _("Invalid number of arguments"));
 
+	sheet = ei->pos.sheet;
 	numrange=g_list_length (sheet->selections);
 	value = value_array_new (numrange, 1);
 	
@@ -69,15 +69,12 @@ gnumeric_selection (Sheet *sheet, GList *expr_node_list, int eval_col, int eval_
 		cell_ref->row = ss->end_row;
 	}
 
-	return value;
+	FUNC_RETURN_VAL (value);
 }
-
-FunctionDefinition sheet_functions [] = {
-	{ "selection", 0,    "", &help_selection, gnumeric_selection, NULL },
-	{ NULL, NULL }
-};
 
 void sheet_functions_init()
 {
 	FunctionCategory *cat = function_get_category (_("Sheet"));
+
+	function_add_nodes (cat, "selection", 0,    "", &help_selection, gnumeric_selection);
 }

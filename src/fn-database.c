@@ -824,6 +824,7 @@ gnumeric_dstdev (FunctionEvalInfo *ei, Value **argv)
 	Cell           *cell;
 	int            field;
 	stat_closure_t p;
+	ErrorMessage   *err;
 
 	database = argv[0];
 	criteria = argv[2];
@@ -844,12 +845,13 @@ gnumeric_dstdev (FunctionEvalInfo *ei, Value **argv)
 	setup_stat_closure (&p);
 	cell = current->data;
 
+	err = error_message_new ();
 	while (current != NULL) {
-	        char *error_str;
 	        cell = current->data;
-		callback_function_stat (NULL, cell->value, &error_str, &p);
+		callback_function_stat (NULL, cell->value, err, &p);
 		current = g_slist_next(current);
 	}
+	error_message_free (err);
 
 	g_slist_free(cells);
 	free_criterias(criterias);
@@ -915,9 +917,9 @@ gnumeric_dstdevp (FunctionEvalInfo *ei, Value **argv)
 	cell = current->data;
 
 	while (current != NULL) {
-	        char *error_str;
+		ErrorMessage *err = error_message_new ();
 	        cell = current->data;
-		callback_function_stat (NULL, cell->value, &error_str, &p);
+		callback_function_stat (NULL, cell->value, err, &p);
 		current = g_slist_next(current);
 	}
 
@@ -1032,6 +1034,7 @@ gnumeric_dvar (FunctionEvalInfo *ei, Value **argv)
 	Cell           *cell;
 	int            field;
 	stat_closure_t p;
+	ErrorMessage *err;
 
 	database = argv[0];
 	criteria = argv[2];
@@ -1052,12 +1055,13 @@ gnumeric_dvar (FunctionEvalInfo *ei, Value **argv)
 	setup_stat_closure (&p);
 	cell = current->data;
 
+	err = error_message_new ();
 	while (current != NULL) {
-	        char *error_str;
 	        cell = current->data;
-		callback_function_stat (NULL, cell->value, &error_str, &p);
+		callback_function_stat (NULL, cell->value, err, &p);
 		current = g_slist_next(current);
 	}
+	error_message_free (err);
 
 	g_slist_free(cells);
 	free_criterias(criterias);
@@ -1102,6 +1106,7 @@ gnumeric_dvarp (FunctionEvalInfo *ei, Value **argv)
 	Cell           *cell;
 	int            field;
 	stat_closure_t p;
+	ErrorMessage   *err;
 
 	database = argv[0];
 	criteria = argv[2];
@@ -1121,13 +1126,14 @@ gnumeric_dvarp (FunctionEvalInfo *ei, Value **argv)
 	current = cells;
 	setup_stat_closure (&p);
 	cell = current->data;
-
+	
+	err = error_message_new ();
 	while (current != NULL) {
-	        char *error_str;
 	        cell = current->data;
-		callback_function_stat (NULL, cell->value, &error_str, &p);
+		callback_function_stat (NULL, cell->value, err, &p);
 		current = g_slist_next(current);
 	}
+	error_message_free (err);
 
 	g_slist_free(cells);
 	free_criterias(criterias);

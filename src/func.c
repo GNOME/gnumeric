@@ -259,9 +259,12 @@ fn_def_init (FunctionDefinition *fd, char *name, char *args, char *arg_names, ch
 	fd->args      = args;
 	fd->help      = help;
 	fd->named_arguments = arg_names;
+
+	symbol_install (global_symbol_table, name,
+			SYMBOL_FUNCTION, fd);
 }
 
-FunctionDefinition *function_new_nodes (FunctionCategory *parent,
+FunctionDefinition *function_add_nodes (FunctionCategory *parent,
 					char *name,
 					char *args,
 					char *arg_names,
@@ -281,7 +284,7 @@ FunctionDefinition *function_new_nodes (FunctionCategory *parent,
 	return fd;
 }
 
-FunctionDefinition *function_new_args (FunctionCategory *parent,
+FunctionDefinition *function_add_args (FunctionCategory *parent,
 				       char *name,
 				       char *args,
 				       char *arg_names,

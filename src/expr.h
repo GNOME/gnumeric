@@ -162,7 +162,10 @@ struct _FunctionEvalInfo {
 	FunctionDefinition *func_def;
 };
 
-FuncReturn *function_error (FunctionEvalInfo *fe, char *error_string);
+FuncReturn *function_error       (FunctionEvalInfo *fe,
+				  char *error_string);
+FuncReturn *function_error_alloc (FunctionEvalInfo *fe,
+				  char *error_string);
 
 /* Transition functions */
 EvalPosition     *eval_pos_init       (EvalPosition *, Sheet *s, int col, int row);
@@ -214,9 +217,9 @@ void        cell_get_abs_col_row (const CellRef *cell_ref,
 ExprTree   *expr_parse_string    (const char *expr, const EvalPosition *fp,
 				  const char **desired_format, char **error_msg);
 /* In parser.y  */
-ParseErr    gnumeric_expr_parser (const char *expr, const EvalPosition *fp,
+ParseErr    gnumeric_expr_parser (const char *expr, const EvalPosition *ep,
 				  const char **desired_format,
-				  ExprTree **tree);
+				  ExprTree **result);
 
 ExprTree   *expr_tree_duplicate  (ExprTree *expr);
 char       *expr_decode_tree     (ExprTree *tree, const EvalPosition *fp);

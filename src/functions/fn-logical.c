@@ -34,7 +34,7 @@ static char *help_and = {
 
 static int
 callback_function_and (Sheet *sheet, Value *value,
-		       char **error_string, void *closure)
+		       ErrorMessage *error, void *closure)
 {
 	Value *result = closure;
 
@@ -63,23 +63,22 @@ callback_function_and (Sheet *sheet, Value *value,
 }
 
 static FuncReturn *
-gnumeric_and (FunctionEvalInfo *s)
+gnumeric_and (FunctionEvalInfo *ei, GList *nodes)
 {
 	Value *result;
 
 	result = value_new_int (-1);
 
-	function_iterate_argument_values (&s->pos, callback_function_and,
-					  result, s->a.nodes,
-					  &s->error_string);
+	function_iterate_argument_values (&ei->pos, callback_function_and,
+					  result, nodes,
+					  ei->error);
 
 	/* See if there was any value worth using */
-	if (result->v.v_int == -1){
+	if (result->v.v_int == -1) {
 		value_release (result);
-		s->error_string = _("#VALUE");
-		return NULL;
+		return function_error (ei, gnumeric_err_VALUE);
 	}
-	return (FuncReturn *)result;
+	FUNC_RETURN_VAL (result);
 }
 
 
@@ -95,13 +94,13 @@ static char *help_not = {
 };
 
 static FuncReturn *
-gnumeric_not (FunctionEvalInfo *s)
+gnumeric_not (FunctionEvalInfo *ei, Value **args)
 {
 	int b;
 
-	b = value_get_as_int (s->a.args[0]);
+	b = value_get_as_int (args[0]);
 
-	return (FuncReturn *)value_new_int (!b);
+	FUNC_RETURN_VAL (value_new_int (!b));
 }
 
 static char *help_or = {
@@ -123,7 +122,7 @@ static char *help_or = {
 
 static int
 callback_function_or (Sheet *sheet, Value *value,
-		      char **error_string, void *closure)
+		      ErrorMessage *error, void *closure)
 {
 	Value *result = closure;
 	
@@ -152,23 +151,22 @@ callback_function_or (Sheet *sheet, Value *value,
 }
 
 static FuncReturn *
-gnumeric_or (FunctionEvalInfo *s)
+gnumeric_or (FunctionEvalInfo *ei, GList *nodes)
 {
 	Value *result;
 
 	result = value_new_int (-1);
 
-	function_iterate_argument_values (&s->pos, callback_function_or,
-					  result, s->a.nodes,
-					  &s->error_string);
+	function_iterate_argument_values (&ei->pos, callback_function_or,
+					  result, nodes,
+					  ei->error);
 
 	/* See if there was any value worth using */
 	if (result->v.v_int == -1){
 		value_release (result);
-		s->error_string = _("#VALUE");
-		return NULL;
+		return function_error (ei, gnumeric_err_VALUE);
 	}
-	return (FuncReturn *)result;
+	FUNC_RETURN_VAL (result);
 }
 
 static char *help_if = {
@@ -186,21 +184,19 @@ static char *help_if = {
 };
 
 static FuncReturn *
-gnumeric_if (FunctionEvalInfo *s)
+gnumeric_if (FunctionEvalInfo *ei, GList *nodes)
 {
 	ExprTree *expr;
 	Value *value;
 	int err, ret, args;
 		
 	/* Type checking */
-	args = g_list_length (s->a.nodes);
-	if (args < 1 || args > 3){
-		s->error_string = _("Invalid number of arguments");
-		return NULL;
-	}
+	args = g_list_length (nodes);
+	if (args < 1 || args > 3)
+		return function_error (ei, _("Invalid number of arguments"));
 
 	/* Compute the if part */
-	value = (Value *)eval_expr (s, (ExprTree *) s->a.nodes->data);
+	value = (Value *)eval_expr (ei, (ExprTree *) nodes->data);
 	if (value == NULL)
 		return NULL;
 
@@ -211,29 +207,29 @@ gnumeric_if (FunctionEvalInfo *s)
 		return NULL;
 	
 	if (ret){
-		if (s->a.nodes->next)
-			expr = (ExprTree *) s->a.nodes->next->data;
+		if (nodes->next)
+			expr = (ExprTree *) nodes->next->data;
 		else
-			return (FuncReturn *)value_new_int (1);
+			FUNC_RETURN_VAL (value_new_int (1));
 	} else {
-		if (s->a.nodes->next && 
-		    s->a.nodes->next->next)
-			expr = (ExprTree *) s->a.nodes->next->next->data;
+		if (nodes->next && 
+		    nodes->next->next)
+			expr = (ExprTree *) nodes->next->next->data;
 		else
-			return (FuncReturn *)value_new_int (0);
+			FUNC_RETURN_VAL (value_new_int (0));
 	}
 
 	/* Return the result */
-	return eval_expr (s, expr);
+	return eval_expr (ei, expr);
 }
 
 void logical_functions_init()
 {
 	FunctionCategory *cat = function_get_category (_("Logical"));
 
-	function_new (cat,"and",     0,      "",          &help_and,   FUNCTION_NODES, gnumeric_and);
-	function_new (cat,"if",      0,      "logical_test,value_if_true,value_if_false", &help_if,
-		      FUNCTION_NODES, gnumeric_if);
-	function_new (cat,"not",     "f",    "number",    &help_not,     FUNCTION_ARGS, gnumeric_not);
-	function_new (cat,"or",      0,      "",          &help_or,      FUNCTION_NODES, gnumeric_or);
+	function_add_nodes (cat,"and",     0,      "",          &help_and, gnumeric_and);
+	function_add_nodes (cat,"if",      0,      "logical_test,value_if_true,value_if_false", &help_if,
+			    gnumeric_if);
+	function_add_args  (cat,"not",     "f",    "number",    &help_not, gnumeric_not);
+	function_add_nodes (cat,"or",      0,      "",          &help_or,  gnumeric_or);
 }

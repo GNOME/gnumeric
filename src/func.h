@@ -113,20 +113,20 @@ void           tokenized_help_destroy (TokenizedHelp *tok) ;
 float_t combin (int n, int k);
 float_t fact   (int n);
 void setup_stat_closure (stat_closure_t *cl);
-int callback_function_stat (Sheet *sheet, Value *value, char **error_string,
+int callback_function_stat (Sheet *sheet, Value *value, ErrorMessage *error,
 			    void *closure);
 
-FuncReturn *gnumeric_average     (FunctionEvalInfo *s);
-FuncReturn *gnumeric_count       (FunctionEvalInfo *s);
-FuncReturn *gnumeric_sum         (FunctionEvalInfo *s);
-FuncReturn *gnumeric_stdev       (FunctionEvalInfo *s);
-FuncReturn *gnumeric_stdevp      (FunctionEvalInfo *s);
-FuncReturn *gnumeric_var         (FunctionEvalInfo *s);
-FuncReturn *gnumeric_varp        (FunctionEvalInfo *s);
-FuncReturn *gnumeric_counta      (FunctionEvalInfo *s);
-FuncReturn *gnumeric_min         (FunctionEvalInfo *s);
-FuncReturn *gnumeric_max         (FunctionEvalInfo *s);
-FuncReturn *gnumeric_suma        (FunctionEvalInfo *s);
+FuncReturn *gnumeric_average     (FunctionEvalInfo *s, GList *nodes);
+FuncReturn *gnumeric_count       (FunctionEvalInfo *s, GList *nodes);
+FuncReturn *gnumeric_sum         (FunctionEvalInfo *s, GList *nodes);
+FuncReturn *gnumeric_stdev       (FunctionEvalInfo *s, GList *nodes);
+FuncReturn *gnumeric_stdevp      (FunctionEvalInfo *s, GList *nodes);
+FuncReturn *gnumeric_var         (FunctionEvalInfo *s, GList *nodes);
+FuncReturn *gnumeric_varp        (FunctionEvalInfo *s, GList *nodes);
+FuncReturn *gnumeric_counta      (FunctionEvalInfo *s, GList *nodes);
+FuncReturn *gnumeric_min         (FunctionEvalInfo *s, GList *nodes);
+FuncReturn *gnumeric_max         (FunctionEvalInfo *s, GList *nodes);
+FuncReturn *gnumeric_suma        (FunctionEvalInfo *s, GList *nodes);
 
 
 /* Type definitions and function prototypes for criteria functions.

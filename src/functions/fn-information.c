@@ -26,7 +26,7 @@ static char *help_countblank = {
 };
 
 static FuncReturn *
-gnumeric_countblank (FunctionEvalInfo *s)
+gnumeric_countblank (FunctionEvalInfo *s, Value **args)
 {
         Sheet *sheet;
         Value *range;
@@ -34,7 +34,7 @@ gnumeric_countblank (FunctionEvalInfo *s)
 	int   i, j;
 	int   count;
 
-	range = s->a.args[0];
+	range = args[0];
 	sheet = range->v.cell_range.cell_a.sheet;
 	col_a = range->v.cell_range.cell_a.col;
 	col_b = range->v.cell_range.cell_b.col;
@@ -50,13 +50,13 @@ gnumeric_countblank (FunctionEvalInfo *s)
 			        count++;
 		}
 
-	return (FuncReturn *)value_new_int (count);
+	FUNC_RETURN_VAL (value_new_int (count));
 }
 
 void information_functions_init()
 {
 	FunctionCategory *cat = function_get_category (_("Information"));
 
-        function_new (cat, "countblank", "r",  "range",       &help_countblank,
-		      FUNCTION_ARGS, gnumeric_countblank);
+        function_add_args (cat, "countblank", "r",  "range",       &help_countblank,
+			   gnumeric_countblank);
 }

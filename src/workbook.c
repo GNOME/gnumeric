@@ -1363,13 +1363,15 @@ static char *
 workbook_set_auto_expr (Workbook *wb, const char *description, const char *expression)
 {
 	char *error = NULL;
+	EvalPosition ep;
 	
 	if (wb->auto_expr){
 		g_assert (wb->auto_expr->ref_count == 1);
 		expr_tree_unref (wb->auto_expr);
 		string_unref (wb->auto_expr_desc);
 	}
-	wb->auto_expr = expr_parse_string (expression, 0, 0, 0, NULL, &error);
+	wb->auto_expr = expr_parse_string (expression, eval_pos_init (&ep, 0, 0, 0),
+					   NULL, &error);
 	wb->auto_expr_desc = string_get (description);
 
 	return error;
@@ -2188,6 +2190,7 @@ workbook_fixup_references (Workbook *wb, Sheet *sheet, int col, int row,
 			   int coldelta, int rowdelta)
 {
 	GList *cells, *l;
+	EvalPosition epa, epb;
 
 	g_return_if_fail (wb != NULL);
 
@@ -2200,10 +2203,10 @@ workbook_fixup_references (Workbook *wb, Sheet *sheet, int col, int row,
 		Cell *cell = l->data;
 		ExprTree *newtree;
 
-		newtree = expr_tree_fixup_references (cell->parsed_node, cell->sheet,
-						      cell->col->pos, cell->row->pos,
-						      sheet,
-						      col, row, coldelta, rowdelta);
+		newtree = expr_tree_fixup_references (cell->parsed_node,
+						      eval_pos_cell (&epa, cell),
+						      eval_pos_init (&epb, sheet, col, row),
+						      coldelta, rowdelta);
 		if (newtree)
 			cell_set_formula_tree (cell, newtree);
 	}
@@ -2228,6 +2231,7 @@ workbook_invalidate_references (Workbook *wb, Sheet *sheet, int col, int row,
 				int colcount, int rowcount)
 {
 	GList *cells, *l;
+	EvalPosition epa, epb;
 
 	g_return_if_fail (wb != NULL);
 	g_return_if_fail (colcount == 0 || rowcount == 0);
@@ -2242,10 +2246,10 @@ workbook_invalidate_references (Workbook *wb, Sheet *sheet, int col, int row,
 		Cell *cell = l->data;
 		ExprTree *newtree;
 
-		newtree = expr_tree_invalidate_references (cell->parsed_node, cell->sheet,
-							   cell->col->pos, cell->row->pos,
-							   sheet,
-							   col, row, colcount, rowcount);
+		newtree = expr_tree_invalidate_references (cell->parsed_node,
+							   eval_pos_cell (&epa, cell),
+							   eval_pos_init (&epb, sheet, col, row),
+							   colcount, rowcount);
 		if (newtree)
 			cell_set_formula_tree (cell, newtree);
 	}

@@ -44,40 +44,36 @@ static char *help_address = {
 };
 
 static FuncReturn *
-gnumeric_address (FunctionEvalInfo *s)
+gnumeric_address (FunctionEvalInfo *ei, Value **args)
 {
         int   row, col, abs_num, a1, err;
 	gchar *text, *buf;
 	Value *v;
 
-	row = value_get_as_int (s->a.args[0]);
-	col = value_get_as_int (s->a.args[1]);
+	row = value_get_as_int (args[0]);
+	col = value_get_as_int (args[1]);
 
-	if (row < 1 || col < 1) {
-	        s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (row < 1 || col < 1)
+	        return function_error (ei, gnumeric_err_NUM);
 
-	if (s->a.args[2] == NULL)
+	if (args[2] == NULL)
 	        abs_num = 1;
 	else
-	        abs_num = value_get_as_int (s->a.args [2]);
+	        abs_num = value_get_as_int (args [2]);
 
-	if (s->a.args[3] == NULL)
+	if (args[3] == NULL)
 	        a1 = 1;
 	else {
-	        a1 = value_get_as_bool (s->a.args[3], &err);
-		if (err) {
-		        s->error_string = _("#VALUE!");
-			return NULL;
-		}
+	        a1 = value_get_as_bool (args[3], &err);
+		if (err)
+		        return function_error (ei, gnumeric_err_VALUE);
 	}
 
-	if (s->a.args[4] == NULL) {
+	if (args[4] == NULL) {
 	        text = g_new(gchar, 1);
 	        text[0] = '\0';
 	} else {
-	        gchar *p = s->a.args[4]->v.str->str;
+	        gchar *p = args[4]->v.str->str;
 		int   n=0, space=0;
 
 		text = g_new(gchar, strlen(p) + 3);
@@ -85,9 +81,9 @@ gnumeric_address (FunctionEvalInfo *s)
 			if (*p++ == ' ')
 			        space = 1;
 		if (space)
-		        sprintf(text, "'%s'", s->a.args[4]->v.str->str);
+		        sprintf(text, "'%s'", args[4]->v.str->str);
 		else
-		        strcpy(text, s->a.args[4]->v.str->str);
+		        strcpy(text, args[4]->v.str->str);
 		strcat(text, "!");
 	}
 
@@ -121,8 +117,7 @@ gnumeric_address (FunctionEvalInfo *s)
 	default:
 	        g_free(text);
 	        g_free(buf);
-		s->error_string = _("#NUM!");
-		return NULL;
+		return function_error (ei, gnumeric_err_NUM);
 	}
 	v = value_new_string (buf);
 	g_free(text);
@@ -145,28 +140,24 @@ static char *help_choose = {
 };
 
 static FuncReturn *
-gnumeric_choose (FunctionEvalInfo *s)
+gnumeric_choose (FunctionEvalInfo *ei, GList *l)
 {
 	int     index;
 	int     argc;
 	Value  *v;
-	GList  *l = s->a.nodes;
 
 	argc =  g_list_length (l);
 
-	if (argc < 1 || !l->data){
-		s->error_string = _("#ARG!");
-		return NULL;
-	}
+	if (argc < 1 || !l->data)
+		return function_error (ei, _("#ARG!"));
 
-	v = (Value *)eval_expr (s, l->data);
+	v = (Value *)eval_expr (ei, l->data);
 	if (!v)
 		return NULL;
 
-	if ((v->type != VALUE_INTEGER) && (v->type != VALUE_FLOAT)){
-		s->error_string = _("#VALUE!");
+	if ((v->type != VALUE_INTEGER) && (v->type != VALUE_FLOAT)) {
 		value_release (v);
-		return NULL;
+		return function_error (ei, gnumeric_err_VALUE);
 	}
 
 	index = value_get_as_int(v);
@@ -176,11 +167,10 @@ gnumeric_choose (FunctionEvalInfo *s)
 	while (l){
 		index--;
 		if (!index)
-			return eval_expr (s, l->data);
+			return eval_expr (ei, l->data);
 		l = g_list_next (l);
 	}
-	s->error_string = _("#VALUE!");
-	return NULL;
+	return function_error (ei, gnumeric_err_VALUE);
 }
 
 static char *help_vlookup = {
@@ -272,32 +262,27 @@ lookup_similar (const Value *data, const Value *templ,
 }
 
 static FuncReturn *
-gnumeric_vlookup (FunctionEvalInfo *s)
+gnumeric_vlookup (FunctionEvalInfo *ei, Value **args)
 {
 	const Value *next_largest = NULL;
 	int height, lp, approx, col_idx, next_largest_row = 0;
 	
-	height = value_area_get_height (s->a.args[1]);
-	col_idx = value_get_as_int (s->a.args[2]);
+	height = value_area_get_height (args[1]);
+	col_idx = value_get_as_int (args[2]);
 
-	if (col_idx <= 0){
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
-	if (col_idx >value_area_get_width (s->a.args [1])){
-		s->error_string = _("#REF!");
-		return NULL;
-	}
+	if (col_idx <= 0)
+		return function_error (ei, gnumeric_err_NUM);
 
-	if (s->a.args [3]){
+	if (col_idx >value_area_get_width (args [1]))
+		return function_error (ei, gnumeric_err_REF);
+
+	if (args [3]){
 		int err;
 
-		approx = value_get_as_bool (s->a.args [3], &err);
+		approx = value_get_as_bool (args [3], &err);
 
-		if (err){
-			s->error_string = _("#VALUE!");
-			return NULL;
-		}
+		if (err)
+			return function_error (ei, gnumeric_err_VALUE);
 	} else
 		approx = 1;
 
@@ -305,16 +290,16 @@ gnumeric_vlookup (FunctionEvalInfo *s)
 		int compare;
 		const Value *v;
 
-		v = value_area_get_at_x_y (s->a.args[1], 0, lp);
+		v = value_area_get_at_x_y (args[1], 0, lp);
 
 		g_return_val_if_fail (v != NULL, NULL);
 
-		compare = lookup_similar (v, s->a.args[0], next_largest, approx);
+		compare = lookup_similar (v, args[0], next_largest, approx);
 
 		if (compare == 1){
 			const Value *v;
 
-			v = value_area_get_at_x_y (s->a.args [1], col_idx-1, lp);
+			v = value_area_get_at_x_y (args [1], col_idx-1, lp);
 			g_return_val_if_fail (v != NULL, NULL);
 
 			FUNC_RETURN_VAL (value_duplicate (v));
@@ -327,13 +312,13 @@ gnumeric_vlookup (FunctionEvalInfo *s)
 	if (approx && next_largest){
 	        const Value *v;
 
-		v = value_area_get_at_x_y (s->a.args [1], col_idx-1,
+		v = value_area_get_at_x_y (args [1], col_idx-1,
 					   next_largest_row);
 		g_return_val_if_fail (v != NULL, NULL);
 		FUNC_RETURN_VAL (value_duplicate (v));
 	}
 	else
-		s->error_string = _("#N/A");
+		return function_error (ei, gnumeric_err_NA);
 
 	return NULL;
 }
@@ -358,31 +343,26 @@ static char *help_hlookup = {
 };
 
 static FuncReturn *
-gnumeric_hlookup (FunctionEvalInfo *s) 
+gnumeric_hlookup (FunctionEvalInfo *ei, Value **args) 
 {
 	const Value *next_largest = NULL;
 	int height, lp, approx, row_idx, next_largest_col = 0;
 	
-	row_idx = value_get_as_int (s->a.args [2]);
-	height  = value_area_get_width (s->a.args [1]);
+	row_idx = value_get_as_int (args [2]);
+	height  = value_area_get_width (args [1]);
 
-	if (row_idx <= 0){
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
-	if (row_idx > value_area_get_height (s->a.args [1])){
-		s->error_string = _("#REF!");
-		return NULL;
-	}
+	if (row_idx <= 0)
+		return function_error (ei, gnumeric_err_NUM);
 
-	if (s->a.args [3]){
+	if (row_idx > value_area_get_height (args [1]))
+		return function_error (ei, _("#REF!"));
+
+	if (args [3]){
 		int err;
-		approx = value_get_as_bool (s->a.args [3], &err);
+		approx = value_get_as_bool (args [3], &err);
 
-		if (err){
-			s->error_string = _("#VALUE!");
-			return NULL;
-		}
+		if (err)
+			return function_error (ei, gnumeric_err_VALUE);
 	} else
 		approx = 1;
 
@@ -390,16 +370,16 @@ gnumeric_hlookup (FunctionEvalInfo *s)
 		int compare;
 		const Value *v;
 
-		v = value_area_get_at_x_y (s->a.args[1],lp, 0);
+		v = value_area_get_at_x_y (args[1],lp, 0);
 
 		g_return_val_if_fail (v != NULL, NULL);
 
-		compare = lookup_similar (v, s->a.args[0], next_largest, approx);
+		compare = lookup_similar (v, args[0], next_largest, approx);
 
 		if (compare == 1){
 			const Value *v;
 
-			v = value_area_get_at_x_y (s->a.args [1], lp, row_idx-1);
+			v = value_area_get_at_x_y (args [1], lp, row_idx-1);
 			g_return_val_if_fail (v != NULL, NULL);
 
 			FUNC_RETURN_VAL (value_duplicate (v));
@@ -413,14 +393,14 @@ gnumeric_hlookup (FunctionEvalInfo *s)
 	if (approx && next_largest){
 		const Value *v;
 
-		v = value_area_get_at_x_y (s->a.args [1],
+		v = value_area_get_at_x_y (args [1],
 					   next_largest_col, row_idx-1);
 		g_return_val_if_fail (v != NULL, NULL);
 
 		FUNC_RETURN_VAL (value_duplicate (v));
 	}
 	else
-		s->error_string = _("#N/A");
+		return function_error (ei, gnumeric_err_NA);
 
 	return NULL;
 }
@@ -446,45 +426,41 @@ static char *help_lookup = {
 
 /* Not very efficient ! */
 static FuncReturn *
-gnumeric_lookup (FunctionEvalInfo *s)
+gnumeric_lookup (FunctionEvalInfo *ei, Value **args)
 {
 	int height, width;
 	const Value *next_largest = NULL;
 	int next_largest_x = 0;
 	int next_largest_y = 0;
 	
-	height  = value_area_get_height (s->a.args[1]);
-	width   = value_area_get_width  (s->a.args[1]);
+	height  = value_area_get_height (args[1]);
+	width   = value_area_get_width  (args[1]);
 
-	if ((s->a.args[1]->type == VALUE_ARRAY)) {
-		if (s->a.args[2]) {
-			s->error_string = _("Type Mismatch");
-			return NULL;
-		}
-	} else if (s->a.args[1]->type == VALUE_CELLRANGE) {
-		if (!s->a.args[2]) {
-			s->error_string = _("Invalid number of arguments");
-			return NULL;
-		}
-	} else {
-		s->error_string = _("Type Mismatch");
-		return NULL;
-	}
+	if ((args[1]->type == VALUE_ARRAY)) {
+		if (args[2])
+			return function_error (ei, _("Type Mismatch"));
+
+	} else if (args[1]->type == VALUE_CELLRANGE) {
+		if (!args[2])
+			return function_error (ei, _("Invalid number of arguments"));
+
+	} else
+		return function_error (ei, _("Type Mismatch"));
 	
 	{
 		Value *src, *dest;
 		int    x_offset=0, y_offset=0, lpx, lpy, maxx, maxy;
 		int    tmp, compare, touched;
 
-		if (s->a.args[1]->type == VALUE_ARRAY) {
-			src = dest = s->a.args[1];
+		if (args[1]->type == VALUE_ARRAY) {
+			src = dest = args[1];
 			if (width>height)
 				y_offset = 1;
 			else
 				x_offset = 1;
 		} else {
-			src = s->a.args[1];
-			dest = s->a.args[2];
+			src = args[1];
+			dest = args[2];
 		}
 		maxy  = value_area_get_height (src);
 		maxx  = value_area_get_width  (dest);
@@ -496,7 +472,7 @@ gnumeric_lookup (FunctionEvalInfo *s)
 		touched = 0;
 		for (lpx=0,lpy=0;lpx<maxx && lpy<maxy;) {
 			const Value *v = value_area_get_at_x_y (src, lpx, lpy);
-			compare = lookup_similar (v, s->a.args[0], next_largest, 1);
+			compare = lookup_similar (v, args[0], next_largest, 1);
 			if (compare == 1)
 				FUNC_RETURN_VAL (value_duplicate (value_duplicate (value_area_get_at_x_y (dest, next_largest_x+x_offset,
 													  next_largest_y+y_offset))));
@@ -512,10 +488,9 @@ gnumeric_lookup (FunctionEvalInfo *s)
 			else
 				lpy++;
 		}
-		if (!next_largest) {
-			s->error_string = _("#N/A");
-			return NULL;
-		}
+		if (!next_largest)
+			return function_error (ei, gnumeric_err_NA);
+
 	       FUNC_RETURN_VAL (value_duplicate (value_area_get_at_x_y (dest,
 									next_largest_x+x_offset,
 									next_largest_y+y_offset)));
@@ -540,30 +515,27 @@ static char *help_column = {
 
 /* FIXME: Needs Array support to be enven slightly meaningful */
 static FuncReturn *
-gnumeric_column (FunctionEvalInfo *s)
+gnumeric_column (FunctionEvalInfo *ei, GList *nodes)
 {
 	Value *v;
 
-	if (!s->a.nodes || !s->a.nodes->data)
-		FUNC_RETURN_VAL (value_new_int (s->pos.eval_col+1));
+	if (!nodes || !nodes->data)
+		FUNC_RETURN_VAL (value_new_int (ei->pos.eval_col+1));
 
-	v = (Value *)eval_expr (s, s->a.nodes->data);
+	v = (Value *)eval_expr (ei, nodes->data);
 	if (!v)
 		return NULL;
 
 	switch (v->type){
 	case VALUE_CELLRANGE:
-		s->error_string = _("Arrays not yet supported");
 		value_release (v);
-		return NULL;
+		return function_error (ei, _("Arrays not yet supported"));
 	case VALUE_ARRAY:
-		s->error_string = _("Unimplemented");
 		value_release (v);
-		return NULL;
+		return function_error (ei, _("Unimplemented"));
 	default:
-		s->error_string = _("#VALUE!");
 		value_release (v);
-		return NULL;
+		return function_error (ei, gnumeric_err_VALUE);
 	}
 }
 
@@ -583,9 +555,9 @@ static char *help_columns = {
 
 /* FIXME: Needs Array support to be enven slightly meaningful */
 static FuncReturn *
-gnumeric_columns (FunctionEvalInfo *s)
+gnumeric_columns (FunctionEvalInfo *ei, Value **args)
 {
-	FUNC_RETURN_VAL (value_new_int (value_area_get_width (s->a.args [0])));
+	FUNC_RETURN_VAL (value_new_int (value_area_get_width (args [0])));
 }
 
 static char *help_offset = {
@@ -603,31 +575,28 @@ static char *help_offset = {
 };
 
 static FuncReturn *
-gnumeric_offset (FunctionEvalInfo *s)
+gnumeric_offset (FunctionEvalInfo *ei, Value **args)
 {
 	CellRef a;
 	CellRef b;
 	int tw, th;
 
-	g_return_val_if_fail (s->a.args [0]->type == VALUE_CELLRANGE, NULL);
+	g_return_val_if_fail (args [0]->type == VALUE_CELLRANGE, NULL);
 
-	memcpy (&a, &s->a.args[0]->v.cell_range.cell_a, sizeof (CellRef));
+	memcpy (&a, &args[0]->v.cell_range.cell_a, sizeof (CellRef));
 
-	a.row += value_get_as_int (s->a.args[1]);
-	a.col += value_get_as_int (s->a.args[2]);
+	a.row += value_get_as_int (args[1]);
+	a.col += value_get_as_int (args[2]);
 
 	memcpy (&b, &a, sizeof(CellRef));
 
-	tw = value_get_as_int (s->a.args[3]);
-	th = value_get_as_int (s->a.args[4]);
+	tw = value_get_as_int (args[3]);
+	th = value_get_as_int (args[4]);
 
-	if (tw < 0 || th < 0) {
-		s->error_string = _("#VALUE!");
-		return NULL;
-	} else if (a.row < 0 || a.col < 0) {
-		s->error_string = _("#REF!");
-		return NULL;
-	}
+	if (tw < 0 || th < 0)
+		return function_error (ei, gnumeric_err_VALUE);
+	else if (a.row < 0 || a.col < 0)
+		return function_error (ei, gnumeric_err_REF);
 
 	b.row += tw;
 	b.col += th;
@@ -650,31 +619,28 @@ static char *help_row = {
 
 /* FIXME: Needs Array support to be enven slightly meaningful */
 static FuncReturn *
-gnumeric_row (FunctionEvalInfo *s)
+gnumeric_row (FunctionEvalInfo *ei, GList *nodes)
 {
 	Value *v;
 
-	if (!s->a.nodes || !s->a.nodes->data)
-		FUNC_RETURN_VAL (value_new_int (s->pos.eval_row+1));
+	if (!nodes || !nodes->data)
+		FUNC_RETURN_VAL (value_new_int (ei->pos.eval_row+1));
 
-	v = (Value *)eval_expr (s, s->a.nodes->data);
+	v = (Value *)eval_expr (ei, nodes->data);
 	if (!v)
 		return NULL;
 
 	switch (v->type){
 	case VALUE_CELLRANGE:
-		s->error_string = _("Arrays not yet supported");
 		value_release (v);
-		return NULL;
+		return function_error (ei, _("Arrays not yet supported"));
 
 	case VALUE_ARRAY:
-		s->error_string = _("Unimplemented");
 		value_release (v);
-		return NULL;
+		return function_error (ei, _("Unimplemented"));
 	default:
-		s->error_string = _("#VALUE!");
 		value_release (v);
-		return NULL;
+		return function_error (ei, gnumeric_err_VALUE);
 	}
 }
 
@@ -694,33 +660,33 @@ static char *help_rows = {
 
 /* FIXME: Needs Array support to be enven slightly meaningful */
 static FuncReturn *
-gnumeric_rows (FunctionEvalInfo *s)
+gnumeric_rows (FunctionEvalInfo *ei, Value **args)
 {
-	FUNC_RETURN_VAL (value_new_int (value_area_get_height (s->a.args [0])));
+	FUNC_RETURN_VAL (value_new_int (value_area_get_height (args [0])));
 }
 
 void lookup_functions_init()
 {
 	FunctionCategory *cat = function_get_category (_("Data / Lookup"));
 
-	function_new (cat, "address",   "ff|ffs", "row_num,col_num,abs_num,a1,text",
-		      &help_address,  FUNCTION_ARGS, gnumeric_address);
-        function_new (cat, "choose",     0,     "index,value...",
-		      &help_choose, FUNCTION_NODES, gnumeric_choose);
-	function_new (cat, "column",    "?",    "ref",
-		      &help_column, FUNCTION_NODES, gnumeric_column);
-	function_new (cat, "columns",   "A",    "ref",
-		      &help_columns, FUNCTION_ARGS, gnumeric_columns);
-	function_new (cat, "hlookup",   "?Af|b","val,range,col_idx,approx",
-		      &help_hlookup, FUNCTION_ARGS, gnumeric_hlookup);
-	function_new (cat, "lookup",    "?A|r", "val,range,range",
-		      &help_lookup, FUNCTION_ARGS, gnumeric_lookup);
-	function_new (cat, "offset",    "rffff","ref,row,col,hight,width",
-		      &help_offset, FUNCTION_ARGS, gnumeric_offset);
-	function_new (cat, "row",       "?",    "ref",
-		      &help_row, FUNCTION_NODES, gnumeric_row);
-	function_new (cat, "rows",      "A",    "ref",
-		      &help_rows, FUNCTION_ARGS, gnumeric_rows);
-	function_new (cat, "vlookup",   "?Af|b","val,range,col_idx,approx",
-		      &help_vlookup, FUNCTION_ARGS, gnumeric_vlookup);
+	function_add_args  (cat, "address",   "ff|ffs", "row_num,col_num,abs_num,a1,text",
+			   &help_address,  gnumeric_address);
+        function_add_nodes (cat, "choose",     0,     "index,value...",
+			    &help_choose,  gnumeric_choose);
+	function_add_nodes (cat, "column",    "?",    "ref",
+			    &help_column,  gnumeric_column);
+	function_add_args  (cat, "columns",   "A",    "ref",
+			    &help_columns, gnumeric_columns);
+	function_add_args  (cat, "hlookup",   "?Af|b","val,range,col_idx,approx",
+			    &help_hlookup, gnumeric_hlookup);
+	function_add_args  (cat, "lookup",    "?A|r", "val,range,range",
+			    &help_lookup,  gnumeric_lookup);
+	function_add_args  (cat, "offset",    "rffff","ref,row,col,hight,width",
+			    &help_offset,  gnumeric_offset);
+	function_add_nodes (cat, "row",       "?",    "ref",
+			    &help_row,     gnumeric_row);
+	function_add_args  (cat, "rows",      "A",    "ref",
+			    &help_rows,    gnumeric_rows);
+	function_add_args  (cat, "vlookup",   "?Af|b","val,range,col_idx,approx",
+			    &help_vlookup, gnumeric_vlookup);
 }

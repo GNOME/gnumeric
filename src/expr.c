@@ -140,10 +140,20 @@ error_message_free (ErrorMessage *em)
 FuncReturn *
 function_error (FunctionEvalInfo *fe, char *error_string)
 {
-	g_return_if_fail (fe);
-	g_return_if_fail (error_string);
+	g_return_val_if_fail (fe, NULL);
+	g_return_val_if_fail (error_string, NULL);
 
 	error_message_set (fe->error, error_string);
+	return NULL;
+}
+       
+FuncReturn *
+function_error_alloc (FunctionEvalInfo *fe, char *error_string)
+{
+	g_return_val_if_fail (fe, NULL);
+	g_return_val_if_fail (error_string, NULL);
+
+	error_message_set_alloc (fe->error, g_strdup(error_string));
 	return NULL;
 }
        
