@@ -1,5 +1,7 @@
 2002-03-29  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
+	* solver.c (solver_delete_rows, solver_delete_cols): Wrote.
+
 	* solver.c (solver_insert_cols, solver_insert_rows): Wrote.
 
 2002-03-25  Jody Goldberg <jody@gnome.org>

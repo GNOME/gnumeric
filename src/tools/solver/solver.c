@@ -756,6 +756,10 @@ solver_insert_rows (Sheet *sheet, int row, int count)
 		        c->lhs.row += count;
 		if (c->rhs.row >= row)
 		        c->rhs.row += count;
+		g_free (c->str);
+		c->str = write_constraint_str (c->lhs.col, c->lhs.row,
+					       c->rhs.col, c->rhs.row,
+					       c->type, c->cols, c->rows);
 	}
 }
 
@@ -795,6 +799,105 @@ solver_insert_cols (Sheet *sheet, int col, int count)
 		        c->lhs.col += count;
 		if (c->rhs.col >= col)
 		        c->rhs.col += count;
+		g_free (c->str);
+		c->str = write_constraint_str (c->lhs.col, c->lhs.row,
+					       c->rhs.col, c->rhs.row,
+					       c->type, c->cols, c->rows);
 	}
 }
+
+/*
+ * Adjusts the row indecies in the Solver's data structures when rows
+ * are deleted.
+ */
+void
+solver_delete_rows (Sheet *sheet, int row, int count)
+{
+	SolverParameters *param = sheet->solver_parameters;
+	GSList           *constraints;
+        Value            *input_range;
+	Range            range;
+
+	/* Adjust the input range. */
+	input_range = global_range_parse (sheet, param->input_entry_str);
+	if (input_range != NULL) {
+	        if (input_range->v_range.cell.a.row >= row) {
+		        range.start.col = input_range->v_range.cell.a.col;
+		        range.start.row = input_range->v_range.cell.a.row -
+			        count;
+		        range.end.col   = input_range->v_range.cell.b.col;
+		        range.end.row   = input_range->v_range.cell.b.row -
+			        count;
+			if (range.start.row < row || range.end.row < row)
+			        param->input_entry_str = g_strdup ("");
+			else
+			        param->input_entry_str =
+				         g_strdup (global_range_name (sheet,
+								      &range));
+		}
+	}
+
+	/* Adjust the constraints. */
+	for (constraints = param->constraints; constraints;
+	     constraints = constraints->next) {
+		SolverConstraint *c = constraints->data;
+
+		if (c->lhs.row >= row)
+		        c->lhs.row -= count;
+		if (c->rhs.row >= row)
+		        c->rhs.row -= count;
+		g_free (c->str);
+		c->str = write_constraint_str (c->lhs.col, c->lhs.row,
+					       c->rhs.col, c->rhs.row,
+					       c->type, c->cols, c->rows);
+	}
+}
+
+/*
+ * Adjusts the column indecies in the Solver's data structures when columns
+ * are deleted.
+ */
+void
+solver_delete_cols (Sheet *sheet, int col, int count)
+{
+	SolverParameters *param = sheet->solver_parameters;
+	GSList           *constraints;
+        Value            *input_range;
+	Range            range;
+
+	/* Adjust the input range. */
+	input_range = global_range_parse (sheet, param->input_entry_str);
+	if (input_range != NULL) {
+	        if (input_range->v_range.cell.a.col >= col) {
+		        range.start.col = input_range->v_range.cell.a.col -
+			        count;
+		        range.start.row = input_range->v_range.cell.a.row;
+		        range.end.col   = input_range->v_range.cell.b.col -
+			        count;
+		        range.end.row   = input_range->v_range.cell.b.row;
+			if (range.start.col < col || range.end.col < col)
+			        param->input_entry_str = g_strdup ("");
+			else
+			        param->input_entry_str =
+				         g_strdup (global_range_name (sheet,
+								      &range));
+		}
+	}
+
+	/* Adjust the constraints. */
+	for (constraints = param->constraints; constraints;
+	     constraints = constraints->next) {
+		SolverConstraint *c = constraints->data;
+
+		if (c->lhs.col >= col)
+		        c->lhs.col -= count;
+		if (c->rhs.col >= col)
+		        c->rhs.col -= count;
+		g_free (c->str);
+		c->str = write_constraint_str (c->lhs.col, c->lhs.row,
+					       c->rhs.col, c->rhs.row,
+					       c->type, c->cols, c->rows);
+	}
+}
+
 
