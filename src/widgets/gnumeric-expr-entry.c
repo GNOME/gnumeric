@@ -389,23 +389,40 @@ gnm_expr_entry_rangesel_start (GnumericExprEntry *gee)
 	for (start = 0;
 	     start <= cursor;
 	     start = g_utf8_next_char (text + start) - text) {
+		int next_end = -1;
+		gboolean next_was_alnum = FALSE;
 		gunichar c = g_utf8_get_char (text + start);
 		gboolean is_alnum = g_unichar_isalnum (c);
+
+		/* A range does not start in the middle of a word.  */
 		if (last_was_alnum && is_alnum)
 			continue;
 		last_was_alnum = is_alnum;
-
 		/* A range starts with a letter, a quote, or a dollar sign.  */
 		if (is_alnum ? g_unichar_isdigit (c) : (c != '\'' && c != '$'))
 			continue;
 
-		for (end = last;
-		     end >= cursor;
-		     end = g_utf8_prev_char (text + end) - text) {
+		for (end = last; end >= MAX (cursor, start + 1); end = next_end) {
 			GSList *ranges;
+			gunichar c_end;
+			gboolean is_alnum;
+
+			next_end = g_utf8_prev_char (text + end) - text;
+			c_end = g_utf8_get_char (text + next_end);
+			is_alnum = g_unichar_isalnum (c_end);
+
+			/* A range does not end in the middle of a word.  */
+			if (is_alnum && next_was_alnum)
+				continue;
+			next_was_alnum = is_alnum;
+			/* A range ends in a letter, digit, or quote.  */
+			if (!is_alnum && c_end != '\'')
+				continue;
 
 			test = g_strndup (text + start, end - start);
+#if 0
 			g_warning ("Parsing [%s]", test);
+#endif
 			ranges = global_range_list_parse (gee->target_sheet, test);
 			g_free (test);
 
