@@ -21,6 +21,7 @@
 #include <regex.h>
 #include <errno.h>
 #include <locale.h>
+#include <math.h>
 #include "number-match.h"
 #include "formats.h"
 #include "dates.h"

@@ -1,3 +1,8 @@
+2001-04-24  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/number-match.c : We are using the fabs function, so
+	include math.h
+
 2001-04-24  Morten Welinder  <terra@diku.dk>
 
 	* src/parse-util.c (gnumeric_char_start_expr_p): Make sure lines
