@@ -35,7 +35,7 @@
 #include <workbook-view.h>
 #include <gui-util.h>
 #include <parse-util.h>
-#include <src/gnm-format.h>
+#include <gnm-format.h>
 #include <tool-dialogs.h>
 #include <dao-gui-utils.h>
 #include <sheet.h>

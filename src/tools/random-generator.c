@@ -39,7 +39,7 @@
 #include "style.h"
 #include "sheet-style.h"
 #include "workbook.h"
-#include <src/gnm-format.h>
+#include "gnm-format.h"
 #include "command-context.h"
 #include "sheet-object-cell-comment.h"
 

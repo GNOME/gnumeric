@@ -9,7 +9,7 @@
 #include "gnm-py-interpreter.h"
 #include "python-loader.h"
 #include "py-console.h"
-#include <src/gnm-plugin.h>
+#include <gnm-plugin.h>
 #include <goffice/app/error-info.h>
 #include <goffice/app/module-plugin-defs.h>
 #include <glib.h>

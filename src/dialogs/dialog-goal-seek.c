@@ -33,7 +33,7 @@
 #include <expr.h>
 #include <commands.h>
 #include <dependent.h>
-#include <src/gnm-format.h>
+#include <gnm-format.h>
 #include <value.h>
 #include <mstyle.h>
 #include <ranges.h>

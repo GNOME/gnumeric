@@ -136,11 +136,11 @@ sol_default_style (void)
 }
 
 #ifdef WITH_GTK
-#include <src/sheet-control-gui.h>
-#include <src/dialogs/dialogs.h>
-#include <src/gnumeric-pane.h>
-#include <src/gnumeric-simple-canvas.h>
-#include <src/gnumeric-canvas.h>
+#include <sheet-control-gui.h>
+#include <dialogs/dialogs.h>
+#include <gnumeric-pane.h>
+#include <gnumeric-simple-canvas.h>
+#include <gnumeric-canvas.h>
 #include <goffice/utils/go-color.h>
 
 static void

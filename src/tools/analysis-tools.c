@@ -45,7 +45,7 @@
 #include "regression.h"
 #include "sheet-style.h"
 #include "workbook.h"
-#include <src/gnm-format.h>
+#include "gnm-format.h"
 #include "sheet-object-cell-comment.h"
 #include "workbook-control.h"
 #include "command-context.h"

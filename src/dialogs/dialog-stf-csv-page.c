@@ -22,7 +22,7 @@
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include "dialog-stf.h"
-#include <src/gnm-format.h>
+#include "gnm-format.h"
 
 /*************************************************************************************************
  * SIGNAL HANDLERS

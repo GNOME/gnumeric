@@ -37,7 +37,7 @@
 #include "workbook.h"
 #include "cell.h"
 #include "commands.h"
-#include <src/gnm-format.h>
+#include "gnm-format.h"
 #include "number-match.h"
 #include "mstyle.h"
 #include "style-border.h"

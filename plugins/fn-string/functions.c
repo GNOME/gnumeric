@@ -27,7 +27,7 @@
 #include <func.h>
 #include <parse-util.h>
 #include <cell.h>
-#include <src/gnm-format.h>
+#include <gnm-format.h>
 #include <str.h>
 #include <sheet.h>
 #include <workbook.h>

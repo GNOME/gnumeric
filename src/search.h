@@ -1,8 +1,8 @@
 #ifndef GNUMERIC_SEARCH_H
 #define GNUMERIC_SEARCH_H
 
-#include <src/gnumeric.h>
-#include <src/position.h>
+#include <gnumeric.h>
+#include <position.h>
 #include <goffice/utils/regutf8.h>
 #include <sys/types.h>
 

@@ -50,7 +50,7 @@
 #include <style-color.h>
 #include <font.h>
 #include <cell.h>
-#include <src/gnm-format.h>
+#include <gnm-format.h>
 #include <style-border.h>
 #include <sheet-style.h>
 #include <parse-util.h>

@@ -38,7 +38,7 @@
 #include <ranges.h>
 #include <sheet.h>
 #include <workbook.h>
-#include <src/gnm-format.h>
+#include <gnm-format.h>
 #include <style.h>
 #include <value.h>
 #include <expr.h>

@@ -28,7 +28,7 @@
 #include <goffice/utils/numbers.h>
 #include "reports-write.h"
 
-#include <src/gnm-format.h>
+#include "gnm-format.h"
 #include "parse-util.h"
 #include "solver.h"
 #include "func.h"

@@ -4,7 +4,7 @@
 #include <gnumeric.h>
 #include "xbase.h"
 
-#include <src/gnm-format.h>
+#include <gnm-format.h>
 #include <gutils.h>
 #include <io-context.h>
 #include <goffice/app/error-info.h>

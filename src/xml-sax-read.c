@@ -35,7 +35,7 @@
 #include "style.h"
 #include "style-border.h"
 #include "style-color.h"
-#include <src/gnm-format.h>
+#include "gnm-format.h"
 #include "cell.h"
 #include "position.h"
 #include "expr.h"

@@ -1,5 +1,11 @@
 2005-02-14  Stepan Kasal  <kasal@ucw.cz>
 
+	Don't use #include <src/xyz.h>, as `-I $(top_srcdir)' is not
+	always in the flags; none of these headers is duplicate in the
+	tree, so we can safely omit the dirname.
+
+2005-02-14  Stepan Kasal  <kasal@ucw.cz>
+
 	* src/solver.h: Define most of the structures even if !ENABLE_SOLVER.
 	* src/xml-io.c (xml_read_solver, xml_write_solver): Compile these two
 	  functions even if !ENABLE_SOLVER, so that we don't cripple the

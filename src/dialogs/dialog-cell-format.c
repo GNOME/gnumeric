@@ -40,7 +40,7 @@
 #include <cell.h>
 #include <expr.h>
 #include <value.h>
-#include <src/gnm-format.h>
+#include <gnm-format.h>
 #include <pattern.h>
 #include <position.h>
 #include <mstyle.h>

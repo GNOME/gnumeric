@@ -40,7 +40,7 @@
 #include <expr.h>
 #include <expr-impl.h>
 #include <func.h>
-#include <src/gnm-format.h>
+#include <gnm-format.h>
 #include <widgets/gnumeric-expr-entry.h>
 #include <widgets/gnumeric-cell-renderer-expr-entry.h>
 

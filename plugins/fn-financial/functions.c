@@ -32,7 +32,7 @@
 #include <value.h>
 #include <str.h>
 #include <mathfunc.h>
-#include <src/gnm-format.h>
+#include <gnm-format.h>
 #include <workbook.h>
 #include <sheet.h>
 #include <gnm-datetime.h>

@@ -31,7 +31,7 @@
 #include <gnm-datetime.h>
 #include <value.h>
 #include <mathfunc.h>
-#include <src/gnm-format.h>
+#include <gnm-format.h>
 #include <workbook.h>
 #include <sheet.h>
 #include <gnm-i18n.h>

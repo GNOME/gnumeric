@@ -23,7 +23,7 @@
 #include "sheet.h"
 #include "value.h"
 #include "expr.h"
-#include <src/gnm-format.h>
+#include "gnm-format.h"
 #include "mstyle.h"
 #include "style-border.h"
 #include "style-color.h"

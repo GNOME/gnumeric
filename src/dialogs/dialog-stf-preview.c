@@ -26,7 +26,7 @@
 #include "dialog-stf-preview.h"
 #include "dialog-stf.h"
 
-#include <src/gnm-format.h>
+#include <gnm-format.h>
 #include <number-match.h>
 #include <value.h>
 #include <style.h>

@@ -31,7 +31,7 @@
 
 #include "mstyle.h"
 #include "value.h"
-#include <src/gnm-format.h>
+#include <gnm-format.h>
 #include "workbook.h"
 #include "number-match.h"
 #include "widgets/widget-font-selector.h"

@@ -24,7 +24,7 @@
 #include <gnumeric.h>
 #include "dialog-stf.h"
 
-#include <src/gnm-format.h>
+#include <gnm-format.h>
 #include <command-context.h>
 #include <gui-util.h>
 #include <sheet-style.h>

@@ -26,15 +26,15 @@
 
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
-#include <gnumeric.h>
+#include "gnumeric.h"
 
-#include <sheet.h>
-#include <sheet-filter.h>
-#include <cell.h>
-#include <ranges.h>
-#include <value.h>
-#include <src/gnm-format.h>
-#include <workbook.h>
+#include "sheet.h"
+#include "sheet-filter.h"
+#include "cell.h"
+#include "ranges.h"
+#include "value.h"
+#include "gnm-format.h"
+#include "workbook.h"
 #include "tools.h"
 #include <goffice/utils/numbers.h>
 

@@ -30,7 +30,7 @@
 #include "ms-chart.h"
 #include "formula-types.h"
 
-#include <src/gnm-format.h>
+#include <gnm-format.h>
 #include <position.h>
 #include <style-color.h>
 #include <cell.h>

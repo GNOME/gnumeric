@@ -38,7 +38,7 @@
 #include <style-color.h>
 #include <sheet-style.h>
 #include <mstyle.h>
-#include <src/gnm-format.h>
+#include <gnm-format.h>
 #include <command-context.h>
 #include <io-context.h>
 #include <goffice/utils/go-units.h>

@@ -20,7 +20,7 @@
 #include "ms-formula-write.h"
 
 #include <parse-util.h>
-#include <src/gnm-format.h>
+#include <gnm-format.h>
 #include <expr.h>
 #include <value.h>
 #include <gutils.h>

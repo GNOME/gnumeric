@@ -38,7 +38,7 @@
 #include "workbook.h"
 #include "workbook-control.h"
 #include "command-context.h"
-#include <src/gnm-format.h>
+#include "gnm-format.h"
 #include "sheet-object-cell-comment.h"
 #include "commands.h"
 #include "style-color.h"

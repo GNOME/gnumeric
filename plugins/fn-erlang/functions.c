@@ -32,7 +32,7 @@
 #include <cell.h>
 #include <value.h>
 #include <mathfunc.h>
-#include <src/gnm-format.h>
+#include <gnm-format.h>
 #include <workbook.h>
 #include <sheet.h>
 #include <tools/goal-seek.h>

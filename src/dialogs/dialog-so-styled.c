@@ -21,15 +21,15 @@
  */
 
 #include <gnumeric-config.h>
-#include <src/gnumeric.h>
+#include "gnumeric.h"
 #include "dialogs.h"
 
-#include <src/gui-gnumeric.h>
-#include <src/gui-util.h>
-#include <src/dialogs/help.h>
-#include <src/workbook-edit.h>
-#include <src/commands.h>
-#include <src/sheet-object.h>
+#include "gui-gnumeric.h"
+#include "gui-util.h"
+#include "dialogs/help.h"
+#include "workbook-edit.h"
+#include "commands.h"
+#include "sheet-object.h"
 #include <goffice/app/go-cmd-context.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/gui-utils/go-gui-utils.h>

@@ -41,7 +41,7 @@
 #include <sheet-filter.h>
 #include <cell.h>
 #include <style.h>
-#include <src/gnm-format.h>
+#include <gnm-format.h>
 #include <print-info.h>
 #include <selection.h>
 #include <validation.h>
