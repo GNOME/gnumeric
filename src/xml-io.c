@@ -472,11 +472,11 @@ xml_get_print_unit (xmlNodePtr node, PrintUnit * const pu)
 	if (txt) {
 		if (!g_strcasecmp (txt, "points"))
 			pu->desired_display = UNIT_POINTS;
-		else if (!g_strcmp (txt, "mm"))
+		else if (!strcmp (txt, "mm"))
 			pu->desired_display = UNIT_MILLIMETER;
-		else if (!g_strcmp (txt, "cm"))
+		else if (!strcmp (txt, "cm"))
 			pu->desired_display = UNIT_CENTIMETER;
-		else if (!g_strcmp (txt, "in"))
+		else if (!strcmp (txt, "in"))
 			pu->desired_display = UNIT_INCH;
 		g_free (txt);
 	}

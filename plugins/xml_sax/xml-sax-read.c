@@ -586,13 +586,13 @@ xml2ParseMargin (XML2ParseState *state, CHAR const **attrs)
 		if (xml2ParseAttrDouble (attrs, "Points", &points))
 			pu->points = points;
 		else if (!strcmp (attrs[0], "PrefUnit")) {
-			if (!g_strcmp (attrs[1], "points"))
+			if (!strcmp (attrs[1], "points"))
 				pu->desired_display = UNIT_POINTS;
-			else if (!g_strcmp (attrs[1], "mm"))
+			else if (!strcmp (attrs[1], "mm"))
 				pu->desired_display = UNIT_MILLIMETER;
-			else if (!g_strcmp (attrs[1], "cm"))
+			else if (!strcmp (attrs[1], "cm"))
 				pu->desired_display = UNIT_CENTIMETER;
-			else if (!g_strcmp (attrs[1], "in"))
+			else if (!strcmp (attrs[1], "in"))
 				pu->desired_display = UNIT_INCH;
 		} else
 			xml2UnknownAttr (state, attrs, "Margin");
