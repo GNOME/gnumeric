@@ -1,3 +1,7 @@
+2003-07-04  Rodrigo Moya <rodrigo@gnome-db.org>
+
+	* configure.in: added check for libgnomedb.
+
 2003-07-04  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-view.c (wb_view_sendto) : quick implementation that
