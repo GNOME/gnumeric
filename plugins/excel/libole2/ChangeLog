@@ -1,3 +1,7 @@
+2000-04-21  Arturo Tena  <arturo@directmail.org>
+
+	* ms-ole.c (read_sb): Fix for files with broken small block descriptors.
+
 2000-04-17  Arturo Tena  <arturo@directmail.org>
 
 	* ms-ole.c: include config.h.

@@ -6,8 +6,6 @@
  *    Arturo Tena   (arturo@directmail.org)
  **/
 
-
-/* FIXME tenix delete unused headers */
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/mman.h>
@@ -1276,6 +1274,13 @@ read_sb (MsOle *f)
 	lastidx = -1;
 	idx     = 0;
 	ptr = GET_SBD_STARTBLOCK (f);
+
+	if (f->sbf->len == 0 && ptr != END_OF_CHAIN) {
+		printf ("No small block file, but small block depot start block exists!: "
+			"ignore depot, since there's no small block files after all.\n");
+		ptr = END_OF_CHAIN;
+	}
+
 	while (ptr != END_OF_CHAIN) {
 		guint32 lp;
 		if (ptr == UNUSED_BLOCK ||
