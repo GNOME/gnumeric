@@ -22,6 +22,9 @@ typedef enum
     GNUM_XML_V4,	/* >= 0.57 */
     GNUM_XML_V5,	/* >= 0.58 */
     GNUM_XML_V6,	/* >= 0.62 */
+
+    /* NOTE : Keep this up to date */
+    GNUM_XML_LATEST = GNUM_XML_V6
 } GnumericXMLVersion;
 
 typedef struct _XmlParseContext XmlParseContext;

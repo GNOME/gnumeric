@@ -56,9 +56,6 @@ Long term breakage
 
 - calculated cells do not respan.
 
-- Look into ability to identify versions of gnumeric xml that are newer than we
-  are.  Ask DV about name spaces.
-
 - Why does the number matching bother comparing against formats that are
   covered by 'General' ?
 

@@ -30,6 +30,7 @@
 #include <limits.h>
 #include <ctype.h>
 #include <locale.h>
+#include <errno.h>
 #ifdef HAVE_LANGINFO_H
 #    include <langinfo.h>
 #endif
@@ -176,6 +177,7 @@ static GHashTable *style_format_hash = NULL;
 typedef struct {
         char const *format;
 	gboolean    want_am_pm;
+	gboolean    has_fraction;
         char        restriction_type;
         int         restriction_value;
 } StyleFormatEntry;
@@ -200,8 +202,8 @@ struct _StyleFormat {
  *
  * A number specification is as described in the relevant portions of
  * the excel formatting information.  Commas can currently only appear
- * at the end of the number specification.  Fractions are not yet
- * supported.
+ * at the end of the number specification.  Fractions are supported
+ * but the parsing is not as nice as it should be.
  */
 
 
@@ -425,7 +427,7 @@ pre_parse_format (StyleFormatEntry *style)
 {
 	const unsigned char *format;
 
-	style->want_am_pm = FALSE;
+	style->want_am_pm = style->has_fraction = FALSE;
 	for (format = style->format; *format; format++){
 		switch (*format){
 		case '"':
@@ -444,12 +446,20 @@ pre_parse_format (StyleFormatEntry *style)
 				return;
 			break;
 
+		case '/':
+			if (format [1] == '?' || isdigit (format[1])) {
+				style->has_fraction = TRUE;
+				format++;
+			}
+			break;
 		case 'a':
 		case 'p':
 		case 'A':
 		case 'P':
 			if (tolower (format[1]) == 'm')
 				style->want_am_pm = TRUE;
+			break;
+		default :
 			break;
 		}
 	}
@@ -632,6 +642,20 @@ lookup_color (const char *str, const char *end)
 	return NULL;
 }
 
+typedef struct {
+	int  right_optional, right_spaces, right_req, right_allowed;
+	int  left_spaces, left_req;
+	int  scientific;
+	int  scientific_exp;
+	gboolean scientific_shows_plus;
+	gboolean rendered;
+	gboolean negative;
+	gboolean decimal_separator_seen;
+	gboolean supress_minus;
+	gboolean comma_separator_seen;
+	gboolean has_fraction;
+} format_info_t;
+
 static GString *
 render_number (gdouble number,
 	       int left_req,
@@ -639,11 +663,8 @@ render_number (gdouble number,
 	       int left_spaces,
 	       int right_spaces,
 	       int right_allowed,
-	       int use_thousand_sep,
-	       int negative,
-	       int supress_minus,
-	       int decimal,
-	       const char *show_decimal)
+	       char const *show_decimal,
+	       format_info_t const *info)
 {
 	GString *number_string = g_string_new ("");
 	gint zero_count;
@@ -655,7 +676,7 @@ render_number (gdouble number,
 	if (!beyond_precision)
 		beyond_precision = gpow10 (DBL_DIG + 1);
 
-	if (right_allowed >= 0) {
+	if (!info->has_fraction && right_allowed >= 0) {
 		/* Change "rounding" into "truncating".  */
 		gdouble delta = 0.5;
 		int i;
@@ -670,7 +691,7 @@ render_number (gdouble number,
 	for (temp = number; temp >= 1.0; temp /= 10.0) {
 		int digit;
 
-		if (use_thousand_sep) {
+		if (info->comma_separator_seen) {
 			group++;
 			if (group == 4){
 				group = 1;
@@ -697,10 +718,10 @@ render_number (gdouble number,
 	for (; left_spaces > 0; left_spaces--)
 		g_string_prepend_c (number_string, ' ');
 
-	if (negative && !supress_minus)
+	if (info->negative && !info->supress_minus)
 		g_string_prepend_c (number_string, '-');
 
-	if (decimal > 0)
+	if (info->decimal_separator_seen)
 		g_string_append_c (number_string, format_get_decimal ());
 	else
 		g_string_append (number_string, show_decimal);
@@ -742,26 +763,13 @@ render_number (gdouble number,
 	return number_string;
 }
 
-typedef struct {
-	int  right_optional, right_spaces, right_req, right_allowed;
-	int  left_spaces, left_req;
-	int  scientific;
-	int  scientific_shows_plus;
-	int  scientific_exp;
-	int  rendered;
-	int  negative;
-	int  decimal_separator_seen;
-	int  supress_minus;
-	int  comma_separator_seen;
-} format_info_t;
-
 static void
 do_render_number (gdouble number, format_info_t *info, GString *result)
 {
 	GString *number_str;
 	char decimal_point [2];
 
-	info->rendered = 1;
+	info->rendered = TRUE;
 
 	/*
 	 * If the format contains only "#"s to the left of the decimal
@@ -803,11 +811,8 @@ do_render_number (gdouble number, format_info_t *info, GString *result)
 		info->left_spaces,
 		info->right_spaces,
 		info->right_allowed + info->right_optional,
-		info->comma_separator_seen,
-		info->negative,
-		info->supress_minus,
-		info->decimal_separator_seen,
-		decimal_point);
+		decimal_point,
+		info);
 
 	g_string_append (result, number_str->str);
 	g_string_free (number_str, TRUE);
@@ -1010,11 +1015,46 @@ format_add_decimal (StyleFormat const *fmt)
 
 /*********************************************************************/
 
+static void
+stern_brocot (float val, int max_denom, int *res_num, int *res_denom)
+{
+	int an = 0, ad = 1;
+	int bn = 1, bd = 1;
+	int n, d;
+	float sp, delta;
+
+	while ((d = ad + bd) <= max_denom) {
+		sp = 1e-5 * d;	/* Quick and dirty,  do adaptive later */
+		n = an + bn;
+		delta = val * d - n;
+		if (delta > sp)
+		{
+			an = n;
+			ad = d;
+		} else if (delta < -sp)
+		{
+			bn = n;
+			bd = d;
+		} else {
+			*res_num = n;
+			*res_denom = d;
+			return;
+		}
+	}
+	if (bd > max_denom || fabs (val * ad - an) < fabs (val * bd - bn)) {
+		*res_num = an;
+		*res_denom = ad;
+	} else {
+		*res_num = bn;
+		*res_denom = bd;
+	}
+}
+
 static gchar *
-format_number (gdouble number, int const col_width, const StyleFormatEntry *style_format_entry)
+format_number (gdouble number, int col_width, StyleFormatEntry const *entry)
 {
 	GString *result = g_string_new ("");
-	char const *format = style_format_entry->format;
+	char const *format = entry->format;
 	format_info_t info;
 	gboolean can_render_number = FALSE;
 	int hour_seen = 0;
@@ -1034,6 +1074,7 @@ format_number (gdouble number, int const col_width, const StyleFormatEntry *styl
 		info.negative = TRUE;
 		number = -number;
 	}
+	info.has_fraction = entry->has_fraction;
 
 	while (*format) {
 		int c = *format;
@@ -1159,8 +1200,50 @@ format_number (gdouble number, int const col_width, const StyleFormatEntry *styl
 			break;
 		}
 
+		case '/': /* fractions */
+			if (can_render_number && info.left_spaces > info.left_req) {
+				int size = 0;
+				int numerator = -1, denominator = -1;
+
+				while (format [size+1] == '?')
+					++size;
+
+				/* check for explicit denominator */
+				if (size == 0) {
+					char *end;
+
+					errno = 0;
+					denominator = strtol (format+1, &end, 10);
+					if (format+1 != end && errno != ERANGE) {
+						format = end;
+						numerator = (int)((number - (int)number) * denominator + 0.5);
+					}
+				} else {
+					static int const powers [3] = { 10, 100, 1000 };
+
+					format += size + 1;
+					if (size > 3)
+						size = 3;
+					stern_brocot (number - (int)number, powers [size-1],
+						      &numerator, &denominator);
+				}
+
+				if (denominator > 0) {
+					/* improper fractions */
+					if (!info.rendered) {
+						info.rendered = TRUE;
+						numerator += ((int)number) * denominator;
+					}
+					if (numerator > 0) {
+						char buffer [30];
+						sprintf (buffer, "%d/%d", numerator, denominator);
+						g_string_append (result, buffer);
+					}
+					continue;
+				}
+			}
+
 		case '-':
-		case '/':
 		case '(':
 		case '+':
 		case ' ':
@@ -1292,7 +1375,7 @@ format_number (gdouble number, int const col_width, const StyleFormatEntry *styl
 				append_hour_elapsed (result, n, time_split, number);
 			} else
 				append_hour (result, n, time_split,
-					     style_format_entry->want_am_pm);
+					     entry->want_am_pm);
 			hour_seen = TRUE;
 			break;
 		}

@@ -14,8 +14,10 @@ Jody:
 	* Some fine tuning to improve start and exit times.
 	* Merge cell & hidden column interactions
 	* Some XL import improvement when parsing objects
-	* Improve XL95 export and include merged regions
+	* Improve XL95 export and include merged regions & outlines
+	* Fix some irritating mouse behaviors
 	* More system portability enhancements.
+	* Support fractions.
 
 Jon Kåre:
 	* New architecture for selecting cell ranges into dialogs.

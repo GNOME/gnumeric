@@ -2473,13 +2473,13 @@ cmd_autofill_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 				   me->base_col, me->base_row,
 				   me->base_col, me->base_row,
 				   me->end_col, me->end_row);
-	sheet_make_cell_visible	(me->dst.sheet, me->base_col, me->base_row);
 
 	deps = sheet_region_get_deps (me->dst.sheet, &me->dst.range);
 	if (deps)
 		dependent_queue_recalc_list (deps, TRUE);
 	sheet_range_calc_spans (me->dst.sheet, me->dst.range, SPANCALC_RENDER);
 	sheet_flag_status_update_range (me->dst.sheet, &me->dst.range);
+	sheet_make_cell_visible	(me->dst.sheet, me->base_col, me->base_row);
 
 	return FALSE;
 }

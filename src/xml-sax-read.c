@@ -56,20 +56,10 @@ gboolean xml_sax_file_probe (FileOpener const *fo, const gchar *file_name);
 void     xml_sax_file_open (FileOpener const *fo, IOContext *io_context,
 			    WorkbookView *wb_view, char const *filename);
 
-
-typedef struct _XML2ParseState XML2ParseState;
-
 /*****************************************************************************/
 
-static void
-xmlSaxUnknownAttr (XML2ParseState *state, CHAR const * const *attrs, char const *name)
-{
-	g_return_if_fail (attrs != NULL);
-	g_warning ("Unexpected attribute '%s'='%s' for element of type %s.", name, attrs[0], attrs[1]);
-}
-
 static int
-xmlSaxParseAttrDouble (CHAR const * const *attrs, char const *name, double * res)
+xml_sax_parse_attr_double (CHAR const * const *attrs, char const *name, double * res)
 {
 	char *end;
 	double tmp;
@@ -91,7 +81,7 @@ xmlSaxParseAttrDouble (CHAR const * const *attrs, char const *name, double * res
 	return TRUE;
 }
 static gboolean
-xmlParseDouble (CHAR const *chars, double *res)
+xml_sax_parse_double (CHAR const *chars, double *res)
 {
 	char *end;
 	*res = g_strtod (chars, &end);
@@ -99,7 +89,7 @@ xmlParseDouble (CHAR const *chars, double *res)
 }
 
 static int
-xmlSaxParseAttrInt (CHAR const * const *attrs, char const *name, int *res)
+xml_sax_parse_attr_int (CHAR const * const *attrs, char const *name, int *res)
 {
 	char *end;
 	int tmp;
@@ -122,7 +112,7 @@ xmlSaxParseAttrInt (CHAR const * const *attrs, char const *name, int *res)
 }
 
 static gboolean
-xmlParseInt (CHAR const *chars, int *res)
+xml_sax_parse_int (CHAR const *chars, int *res)
 {
 	char *end;
 	*res = strtol (chars, &end, 10);
@@ -130,7 +120,7 @@ xmlParseInt (CHAR const *chars, int *res)
 }
 
 static int
-xmlSaxParseAttrColour (CHAR const * const *attrs, char const *name, StyleColor **res)
+xml_sax_parse_color (CHAR const * const *attrs, char const *name, StyleColor **res)
 {
 	int red, green, blue;
 
@@ -151,17 +141,17 @@ xmlSaxParseAttrColour (CHAR const * const *attrs, char const *name, StyleColor *
 }
 
 static gboolean
-xmlSaxParseRange (CHAR const * const *attrs, Range *res)
+xml_sax_parse_range (CHAR const * const *attrs, Range *res)
 {
 	int flags = 0;
 	for (; attrs[0] && attrs[1] ; attrs += 2)
-		if (xmlSaxParseAttrInt (attrs, "startCol", &res->start.col))
+		if (xml_sax_parse_attr_int (attrs, "startCol", &res->start.col))
 			flags |= 0x1;
-		else if (xmlSaxParseAttrInt (attrs, "startRow", &res->start.row))
+		else if (xml_sax_parse_attr_int (attrs, "startRow", &res->start.row))
 			flags |= 0x2;
-		else if (xmlSaxParseAttrInt (attrs, "endCol", &res->end.col))
+		else if (xml_sax_parse_attr_int (attrs, "endCol", &res->end.col))
 			flags |= 0x4;
-		else if (xmlSaxParseAttrInt (attrs, "endRow", &res->end.row))
+		else if (xml_sax_parse_attr_int (attrs, "endRow", &res->end.row))
 			flags |= 0x8;
 		else
 			return FALSE;
@@ -343,7 +333,20 @@ static char const * const xmlSax_state_names[] =
 NULL
 };
 
-struct _XML2ParseState
+typedef enum
+{
+    GNUM_XML_UNKNOWN = 0,
+    GNUM_XML_V1,
+    GNUM_XML_V2,
+    GNUM_XML_V3,	/* >= 0.52 */
+    GNUM_XML_V4,	/* >= 0.57 */
+    GNUM_XML_V5,	/* >= 0.58 */
+    GNUM_XML_V6,	/* >= 0.62 */
+
+    /* NOTE : Keep this up to date */
+    GNUM_XML_LATEST = GNUM_XML_V6
+} GnumericXMLVersion;
+typedef struct _XMLSaxParseState
 {
 	xmlSaxState state;
 	gint	  unknown_depth;	/* handle recursive unknown tags */
@@ -352,7 +355,7 @@ struct _XML2ParseState
 	IOContext 	*context;	/* The IOcontext managing things */
 	WorkbookView	*wb_view;	/* View for the new workbook */
 	Workbook	*wb;		/* The new workbook */
-	int version;
+	GnumericXMLVersion version;
 
 	Sheet *sheet;
 	double sheet_zoom;
@@ -378,31 +381,103 @@ struct _XML2ParseState
 
 	/* expressions with ref > 1 a map from index -> expr pointer */
 	GHashTable *expr_map;
-};
+} XMLSaxParseState;
+
+static void
+xml_sax_unknown_attr (XMLSaxParseState *state, CHAR const * const *attrs, char const *name)
+{
+	g_return_if_fail (attrs != NULL);
+
+	/* FIXME : Use IOContext to get these messages back to the user. */
+	if (state->version == GNUM_XML_LATEST)
+		g_warning ("Unexpected attribute '%s'='%s' for element of type %s.",
+			   name, attrs[0], attrs[1]);
+}
+
+static void
+xml_sax_warning (XMLSaxParseState *state, const char *msg, ...)
+{
+	va_list args;
+
+	va_start (args, msg);
+	g_logv ("XML", G_LOG_LEVEL_WARNING, msg, args);
+	va_end (args);
+}
+
+static void
+xml_sax_error (XMLSaxParseState *state, const char *msg, ...)
+{
+	va_list args;
+
+	va_start (args, msg);
+	g_logv ("XML", G_LOG_LEVEL_CRITICAL, msg, args);
+	va_end (args);
+}
+
+static void
+xml_sax_fatal_error (XMLSaxParseState *state, const char *msg, ...)
+{
+	va_list args;
+
+	va_start (args, msg);
+	g_logv ("XML", G_LOG_LEVEL_ERROR, msg, args);
+	va_end (args);
+}
+
 
 /****************************************************************************/
 
 static void
-xmlSaxParseWBView (XML2ParseState *state, CHAR const **attrs)
+xml_sax_parse_wb (XMLSaxParseState *state, CHAR const **attrs)
+{
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (strcmp (attrs[0], "xmlns:gmr") == 0) {
+			static const struct {
+				char const * const id;
+				GnumericXMLVersion const version;
+			} GnumericVersions [] = {
+				{ "http://www.gnome.org/gnumeric/v6", GNUM_XML_V6 },	/* 0.62 */
+				{ "http://www.gnome.org/gnumeric/v5", GNUM_XML_V5 },
+				{ "http://www.gnome.org/gnumeric/v4", GNUM_XML_V4 },
+				{ "http://www.gnome.org/gnumeric/v3", GNUM_XML_V3 },
+				{ "http://www.gnome.org/gnumeric/v2", GNUM_XML_V2 },
+				{ "http://www.gnome.org/gnumeric/", GNUM_XML_V1 },
+				{ NULL }
+			};
+			int i;
+			for (i = 0 ; GnumericVersions [i].id != NULL ; ++i )
+				if (strcmp (attrs[0], GnumericVersions [i].id)) {
+					if (state->version != GNUM_XML_UNKNOWN)
+						xml_sax_warning (state, "Multiple version specifications.  Assuming %d",
+								state->version);
+					else
+						state->version = GnumericVersions [i].version;
+				}
+		} else
+			xml_sax_unknown_attr (state, attrs, "Workbook");
+}
+
+static void
+xml_sax_parse_wb_view (XMLSaxParseState *state, CHAR const **attrs)
 {
 	int sheet_index;
 	int width = -1, height = -1;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (xmlSaxParseAttrInt (attrs, "SelectedTab", &sheet_index))
+		if (xml_sax_parse_attr_int (attrs, "SelectedTab", &sheet_index))
 			wb_view_sheet_focus (state->wb_view,
 				workbook_sheet_by_index (state->wb, sheet_index));
-		else if (xmlSaxParseAttrInt (attrs, "Width", &width)) ;
-		else if (xmlSaxParseAttrInt (attrs, "Height", &height)) ;
+		else if (xml_sax_parse_attr_int (attrs, "Width", &width)) ;
+		else if (xml_sax_parse_attr_int (attrs, "Height", &height)) ;
 		else
-			xmlSaxUnknownAttr (state, attrs, "WorkbookView");
+			xml_sax_unknown_attr (state, attrs, "WorkbookView");
 
 	if (width > 0 && height > 0)
 		wb_view_preferred_size (state->wb_view, width, height);
 }
 
 static void
-xmlSax_arg_set (GtkArg *arg, gchar *string)
+xml_sax_arg_set (GtkArg *arg, gchar *string)
 {
 	switch (arg->type) {
 	case GTK_TYPE_CHAR:
@@ -442,7 +517,7 @@ xmlSax_arg_set (GtkArg *arg, gchar *string)
 }
 
 static void
-xmlSaxFinishParseAttr (XML2ParseState *state)
+xml_sax_finish_parse_wb_attr (XMLSaxParseState *state)
 {
 	GtkArg *arg;
 
@@ -452,7 +527,7 @@ xmlSaxFinishParseAttr (XML2ParseState *state)
 
 	arg = gtk_arg_new (state->attribute.type);
 	arg->name = state->attribute.name;
-	xmlSax_arg_set (arg, state->attribute.value);
+	xml_sax_arg_set (arg, state->attribute.value);
 	state->attributes = g_list_prepend (state->attributes, arg);
 
 	state->attribute.type = -1;
@@ -477,7 +552,7 @@ xmlSax_free_arg_list (GList *start)
 }
 
 static void
-xmlSax_parse_attr_elem (XML2ParseState *state)
+xmlSax_parse_attr_elem (XMLSaxParseState *state)
 {
 	char const * content = state->content->str;
 	int const len = state->content->len;
@@ -496,7 +571,7 @@ xmlSax_parse_attr_elem (XML2ParseState *state)
 	case STATE_WB_ATTRIBUTES_ELEM_TYPE :
 	{
 		int type;
-		if (xmlParseInt (content, &type))
+		if (xml_sax_parse_int (content, &type))
 			state->attribute.type = type;
 		break;
 	}
@@ -508,33 +583,33 @@ xmlSax_parse_attr_elem (XML2ParseState *state)
 }
 
 static void
-xmlSaxParseSheet (XML2ParseState *state, CHAR const **attrs)
+xmlSaxParseSheet (XMLSaxParseState *state, CHAR const **attrs)
 {
 	int tmp;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (xmlSaxParseAttrInt (attrs, "DisplayFormulas", &tmp))
+		if (xml_sax_parse_attr_int (attrs, "DisplayFormulas", &tmp))
 			state->sheet->display_formulas = tmp;
-		else if (xmlSaxParseAttrInt (attrs, "HideZero", &tmp))
+		else if (xml_sax_parse_attr_int (attrs, "HideZero", &tmp))
 			state->sheet->hide_zero = tmp;
-		else if (xmlSaxParseAttrInt (attrs, "HideGrid", &tmp))
+		else if (xml_sax_parse_attr_int (attrs, "HideGrid", &tmp))
 			state->sheet->hide_grid = tmp;
-		else if (xmlSaxParseAttrInt (attrs, "HideColHeader", &tmp))
+		else if (xml_sax_parse_attr_int (attrs, "HideColHeader", &tmp))
 			state->sheet->hide_col_header = tmp;
-		else if (xmlSaxParseAttrInt (attrs, "HideRowHeader", &tmp))
+		else if (xml_sax_parse_attr_int (attrs, "HideRowHeader", &tmp))
 			state->sheet->hide_row_header = tmp;
-		else if (xmlSaxParseAttrInt (attrs, "DisplayOutlines", &tmp))
+		else if (xml_sax_parse_attr_int (attrs, "DisplayOutlines", &tmp))
 			state->sheet->display_outlines = tmp;
-		else if (xmlSaxParseAttrInt (attrs, "OutlineSymbolsBelow", &tmp))
+		else if (xml_sax_parse_attr_int (attrs, "OutlineSymbolsBelow", &tmp))
 			state->sheet->outline_symbols_below = tmp;
-		else if (xmlSaxParseAttrInt (attrs, "OutlineSymbolsRight", &tmp))
+		else if (xml_sax_parse_attr_int (attrs, "OutlineSymbolsRight", &tmp))
 			state->sheet->outline_symbols_right = tmp;
 		else
-			xmlSaxUnknownAttr (state, attrs, "Sheet");
+			xml_sax_unknown_attr (state, attrs, "Sheet");
 }
 
 static void
-xmlSaxParseSheetName (XML2ParseState *state)
+xmlSaxParseSheetName (XMLSaxParseState *state)
 {
 	char const * content = state->content->str;
 	g_return_if_fail (state->sheet == NULL);
@@ -544,19 +619,19 @@ xmlSaxParseSheetName (XML2ParseState *state)
 }
 
 static void
-xmlSaxParseSheetZoom (XML2ParseState *state)
+xmlSaxParseSheetZoom (XMLSaxParseState *state)
 {
 	char const * content = state->content->str;
 	double zoom;
 
 	g_return_if_fail (state->sheet != NULL);
 
-	if (xmlParseDouble (content, &zoom))
+	if (xml_sax_parse_double (content, &zoom))
 		sheet_set_zoom_factor (state->sheet, zoom, FALSE, FALSE);
 }
 
 static void
-xmlSaxParseMargin (XML2ParseState *state, CHAR const **attrs)
+xmlSaxParseMargin (XMLSaxParseState *state, CHAR const **attrs)
 {
 	PrintInformation *pi;
 	PrintUnit *pu;
@@ -590,7 +665,7 @@ xmlSaxParseMargin (XML2ParseState *state, CHAR const **attrs)
 	}
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (xmlSaxParseAttrDouble (attrs, "Points", &points))
+		if (xml_sax_parse_attr_double (attrs, "Points", &points))
 			pu->points = points;
 		else if (!strcmp (attrs[0], "PrefUnit")) {
 			if (!strcmp (attrs[1], "points"))
@@ -602,15 +677,15 @@ xmlSaxParseMargin (XML2ParseState *state, CHAR const **attrs)
 			else if (!strcmp (attrs[1], "in"))
 				pu->desired_display = UNIT_INCH;
 		} else
-			xmlSaxUnknownAttr (state, attrs, "Margin");
+			xml_sax_unknown_attr (state, attrs, "Margin");
 	}
 }
 
 static void
-xmlSaxParseSelectionRange (XML2ParseState *state, CHAR const **attrs)
+xmlSaxParseSelectionRange (XMLSaxParseState *state, CHAR const **attrs)
 {
 	Range r;
-	if (xmlSaxParseRange (attrs, &r))
+	if (xml_sax_parse_range (attrs, &r))
 		sheet_selection_add_range (state->sheet,
 					   r.start.col, r.start.row,
 					   r.start.col, r.start.row,
@@ -618,17 +693,17 @@ xmlSaxParseSelectionRange (XML2ParseState *state, CHAR const **attrs)
 }
 
 static void
-xmlSaxParseSelection (XML2ParseState *state, CHAR const **attrs)
+xmlSaxParseSelection (XMLSaxParseState *state, CHAR const **attrs)
 {
 	int col = -1, row = -1;
 
 	sheet_selection_reset (state->sheet);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (xmlSaxParseAttrInt (attrs, "CursorCol", &col)) ;
-		else if (xmlSaxParseAttrInt (attrs, "CursorRow", &row)) ;
+		if (xml_sax_parse_attr_int (attrs, "CursorCol", &col)) ;
+		else if (xml_sax_parse_attr_int (attrs, "CursorRow", &row)) ;
 		else
-			xmlSaxUnknownAttr (state, attrs, "Selection");
+			xml_sax_unknown_attr (state, attrs, "Selection");
 
 	g_return_if_fail (col >= 0);
 	g_return_if_fail (row >= 0);
@@ -639,7 +714,7 @@ xmlSaxParseSelection (XML2ParseState *state, CHAR const **attrs)
 }
 
 static void
-xmlSaxFinishSelection (XML2ParseState *state)
+xmlSaxFinishSelection (XMLSaxParseState *state)
 {
 	CellPos const pos = state->cell;
 
@@ -652,7 +727,7 @@ xmlSaxFinishSelection (XML2ParseState *state)
 }
 
 static void
-xmlSaxParseColRow (XML2ParseState *state, CHAR const **attrs, gboolean is_col)
+xmlSaxParseColRow (XMLSaxParseState *state, CHAR const **attrs, gboolean is_col)
 {
 	ColRowInfo *cri = NULL;
 	double size = -1.;
@@ -662,7 +737,7 @@ xmlSaxParseColRow (XML2ParseState *state, CHAR const **attrs, gboolean is_col)
 	g_return_if_fail (state->sheet != NULL);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (xmlSaxParseAttrInt (attrs, "No", &dummy)) {
+		if (xml_sax_parse_attr_int (attrs, "No", &dummy)) {
 			g_return_if_fail (cri == NULL);
 
 			cri = is_col
@@ -671,22 +746,22 @@ xmlSaxParseColRow (XML2ParseState *state, CHAR const **attrs, gboolean is_col)
 		} else {
 			g_return_if_fail (cri != NULL);
 
-			if (xmlSaxParseAttrDouble (attrs, "Unit", &size)) ;
-			else if (xmlSaxParseAttrInt (attrs, "Count", &count)) ;
-			else if (xmlSaxParseAttrInt (attrs, "MarginA", &dummy))
+			if (xml_sax_parse_attr_double (attrs, "Unit", &size)) ;
+			else if (xml_sax_parse_attr_int (attrs, "Count", &count)) ;
+			else if (xml_sax_parse_attr_int (attrs, "MarginA", &dummy))
 				cri->margin_a = dummy;
-			else if (xmlSaxParseAttrInt (attrs, "MarginB", &dummy))
+			else if (xml_sax_parse_attr_int (attrs, "MarginB", &dummy))
 				cri->margin_b = dummy;
-			else if (xmlSaxParseAttrInt (attrs, "HardSize", &dummy))
+			else if (xml_sax_parse_attr_int (attrs, "HardSize", &dummy))
 				cri->hard_size = dummy;
-			else if (xmlSaxParseAttrInt (attrs, "Hidden", &dummy))
+			else if (xml_sax_parse_attr_int (attrs, "Hidden", &dummy))
 				cri->visible = !dummy;
-			else if (xmlSaxParseAttrInt (attrs, "Collapsed", &dummy))
+			else if (xml_sax_parse_attr_int (attrs, "Collapsed", &dummy))
 				cri->is_collapsed = dummy;
-			else if (xmlSaxParseAttrInt (attrs, "OutlineLevel", &dummy))
+			else if (xml_sax_parse_attr_int (attrs, "OutlineLevel", &dummy))
 				cri->outline_level = dummy;
 			else
-				xmlSaxUnknownAttr (state, attrs, "ColRow");
+				xml_sax_unknown_attr (state, attrs, "ColRow");
 		}
 	}
 
@@ -708,18 +783,18 @@ xmlSaxParseColRow (XML2ParseState *state, CHAR const **attrs, gboolean is_col)
 }
 
 static void
-xmlSaxParseStyleRegion (XML2ParseState *state, CHAR const **attrs)
+xmlSaxParseStyleRegion (XMLSaxParseState *state, CHAR const **attrs)
 {
 	g_return_if_fail (state->style_range_init == FALSE);
 	g_return_if_fail (state->style == NULL);
 
 	state->style = mstyle_new ();
 	state->style_range_init =
-		xmlSaxParseRange (attrs, &state->style_range);
+		xml_sax_parse_range (attrs, &state->style_range);
 }
 
 static void
-xmlSaxParseStyleRegionStyle (XML2ParseState *state, CHAR const **attrs)
+xmlSaxParseStyleRegionStyle (XMLSaxParseState *state, CHAR const **attrs)
 {
 	int val;
 	StyleColor *colour;
@@ -727,38 +802,38 @@ xmlSaxParseStyleRegionStyle (XML2ParseState *state, CHAR const **attrs)
 	g_return_if_fail (state->style != NULL);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (xmlSaxParseAttrInt (attrs, "HAlign", &val))
+		if (xml_sax_parse_attr_int (attrs, "HAlign", &val))
 			mstyle_set_align_h (state->style, val);
-		else if (xmlSaxParseAttrInt (attrs, "VAlign", &val))
+		else if (xml_sax_parse_attr_int (attrs, "VAlign", &val))
 			mstyle_set_align_v (state->style, val);
 
 		/* Pre version V6 */
-		else if (xmlSaxParseAttrInt (attrs, "Fit", &val))
+		else if (xml_sax_parse_attr_int (attrs, "Fit", &val))
 			mstyle_set_wrap_text (state->style, val);
 
-		else if (xmlSaxParseAttrInt (attrs, "WrapText", &val))
+		else if (xml_sax_parse_attr_int (attrs, "WrapText", &val))
 			mstyle_set_wrap_text (state->style, val);
-		else if (xmlSaxParseAttrInt (attrs, "Orient", &val))
+		else if (xml_sax_parse_attr_int (attrs, "Orient", &val))
 			mstyle_set_orientation (state->style, val);
-		else if (xmlSaxParseAttrInt (attrs, "Shade", &val))
+		else if (xml_sax_parse_attr_int (attrs, "Shade", &val))
 			mstyle_set_pattern (state->style, val);
-		else if (xmlSaxParseAttrInt (attrs, "Indent", &val))
+		else if (xml_sax_parse_attr_int (attrs, "Indent", &val))
 			mstyle_set_indent (state->style, val);
-		else if (xmlSaxParseAttrColour (attrs, "Fore", &colour))
+		else if (xml_sax_parse_color (attrs, "Fore", &colour))
 			mstyle_set_color (state->style, MSTYLE_COLOR_FORE, colour);
-		else if (xmlSaxParseAttrColour (attrs, "Back", &colour))
+		else if (xml_sax_parse_color (attrs, "Back", &colour))
 			mstyle_set_color (state->style, MSTYLE_COLOR_BACK, colour);
-		else if (xmlSaxParseAttrColour (attrs, "PatternColor", &colour))
+		else if (xml_sax_parse_color (attrs, "PatternColor", &colour))
 			mstyle_set_color (state->style, MSTYLE_COLOR_PATTERN, colour);
 		else if (!strcmp (attrs[0], "Format"))
 			mstyle_set_format_text (state->style, attrs[1]);
 		else
-			xmlSaxUnknownAttr (state, attrs, "StyleRegion");
+			xml_sax_unknown_attr (state, attrs, "StyleRegion");
 	}
 }
 
 static void
-xmlSaxParseStyleRegionFont (XML2ParseState *state, CHAR const **attrs)
+xmlSaxParseStyleRegionFont (XMLSaxParseState *state, CHAR const **attrs)
 {
 	double size_pts = 10.;
 	int val;
@@ -766,18 +841,18 @@ xmlSaxParseStyleRegionFont (XML2ParseState *state, CHAR const **attrs)
 	g_return_if_fail (state->style != NULL);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (xmlSaxParseAttrDouble (attrs, "Unit", &size_pts))
+		if (xml_sax_parse_attr_double (attrs, "Unit", &size_pts))
 			mstyle_set_font_size (state->style, size_pts);
-		else if (xmlSaxParseAttrInt (attrs, "Bold", &val))
+		else if (xml_sax_parse_attr_int (attrs, "Bold", &val))
 			mstyle_set_font_bold (state->style, val);
-		else if (xmlSaxParseAttrInt (attrs, "Italic", &val))
+		else if (xml_sax_parse_attr_int (attrs, "Italic", &val))
 			mstyle_set_font_italic (state->style, val);
-		else if (xmlSaxParseAttrInt (attrs, "Underline", &val))
+		else if (xml_sax_parse_attr_int (attrs, "Underline", &val))
 			mstyle_set_font_uline (state->style, (StyleUnderlineType)val);
-		else if (xmlSaxParseAttrInt (attrs, "StrikeThrough", &val))
+		else if (xml_sax_parse_attr_int (attrs, "StrikeThrough", &val))
 			mstyle_set_font_strike (state->style, val ? TRUE : FALSE);
 		else
-			xmlSaxUnknownAttr (state, attrs, "StyleFont");
+			xml_sax_unknown_attr (state, attrs, "StyleFont");
 	}
 }
 
@@ -830,7 +905,7 @@ style_font_read_from_x11 (MStyle *mstyle, const char *fontname)
 }
 
 static void
-xmlSaxFinishStyleRegionFont (XML2ParseState *state)
+xmlSaxFinishStyleRegionFont (XMLSaxParseState *state)
 {
 	if (state->content->len > 0) {
 		char const * content = state->content->str;
@@ -842,7 +917,7 @@ xmlSaxFinishStyleRegionFont (XML2ParseState *state)
 }
 
 static void
-xmlSaxParseStyleRegionBorders (XML2ParseState *state, CHAR const **attrs)
+xmlSaxParseStyleRegionBorders (XMLSaxParseState *state, CHAR const **attrs)
 {
 	int pattern = -1;
 	StyleColor *colour = NULL;
@@ -851,10 +926,10 @@ xmlSaxParseStyleRegionBorders (XML2ParseState *state, CHAR const **attrs)
 
 	/* Colour is optional */
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (xmlSaxParseAttrColour (attrs, "Color", &colour)) ;
-		else if (xmlSaxParseAttrInt (attrs, "Style", &pattern)) ;
+		if (xml_sax_parse_color (attrs, "Color", &colour)) ;
+		else if (xml_sax_parse_attr_int (attrs, "Style", &pattern)) ;
 		else
-			xmlSaxUnknownAttr (state, attrs, "StyleBorder");
+			xml_sax_unknown_attr (state, attrs, "StyleBorder");
 	}
 
 	if (pattern >= STYLE_BORDER_NONE) {
@@ -868,7 +943,7 @@ xmlSaxParseStyleRegionBorders (XML2ParseState *state, CHAR const **attrs)
 }
 
 static void
-xmlSaxParseCell (XML2ParseState *state, CHAR const **attrs)
+xmlSaxParseCell (XMLSaxParseState *state, CHAR const **attrs)
 {
 	int row = -1, col = -1;
 	int rows = -1, cols = -1;
@@ -883,16 +958,16 @@ xmlSaxParseCell (XML2ParseState *state, CHAR const **attrs)
 	g_return_if_fail (state->expr_id == -1);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (xmlSaxParseAttrInt (attrs, "Col", &col)) ;
-		else if (xmlSaxParseAttrInt (attrs, "Row", &row)) ;
-		else if (xmlSaxParseAttrInt (attrs, "Cols", &cols)) ;
-		else if (xmlSaxParseAttrInt (attrs, "Rows", &rows)) ;
-		else if (xmlSaxParseAttrInt (attrs, "ExprID", &expr_id)) ;
-		else if (xmlSaxParseAttrInt (attrs, "ValueType", &value_type)) ;
+		if (xml_sax_parse_attr_int (attrs, "Col", &col)) ;
+		else if (xml_sax_parse_attr_int (attrs, "Row", &row)) ;
+		else if (xml_sax_parse_attr_int (attrs, "Cols", &cols)) ;
+		else if (xml_sax_parse_attr_int (attrs, "Rows", &rows)) ;
+		else if (xml_sax_parse_attr_int (attrs, "ExprID", &expr_id)) ;
+		else if (xml_sax_parse_attr_int (attrs, "ValueType", &value_type)) ;
 		else if (!strcmp (attrs[0], "ValueFormat"))
 			value_fmt = attrs[1];
 		else
-			xmlSaxUnknownAttr (state, attrs, "Cell");
+			xml_sax_unknown_attr (state, attrs, "Cell");
 	}
 
 	g_return_if_fail (col >= 0);
@@ -991,7 +1066,7 @@ xml_not_used_old_array_spec (Cell *cell, char const *content)
 }
 
 static void
-xmlSaxParseCellContent (XML2ParseState *state)
+xmlSaxParseCellContent (XMLSaxParseState *state)
 {
 	gboolean is_new_cell, is_post_52_array = FALSE;
 	Cell *cell;
@@ -1072,14 +1147,14 @@ xmlSaxParseCellContent (XML2ParseState *state)
 }
 
 static void
-xmlSaxParseObject (XML2ParseState *state, CHAR const **attrs)
+xmlSaxParseObject (XMLSaxParseState *state, CHAR const **attrs)
 {
 }
 
 /****************************************************************************/
 
 static gboolean
-xmlSaxSwitchState (XML2ParseState *state, CHAR const *name, xmlSaxState const newState)
+xml_sax_switch_state (XMLSaxParseState *state, CHAR const *name, xmlSaxState const newState)
 {
 	if (strcmp (name, xmlSax_state_names[newState]))
 		    return FALSE;
@@ -1090,7 +1165,7 @@ xmlSaxSwitchState (XML2ParseState *state, CHAR const *name, xmlSaxState const ne
 }
 
 static void
-xmlSaxUnknownState (XML2ParseState *state, CHAR const *name)
+xml_sax_unknown_state (XMLSaxParseState *state, CHAR const *name)
 {
 	if (state->unknown_depth++)
 		return;
@@ -1108,196 +1183,197 @@ xmlSax_file_probe (FileOpener const *fo, const gchar *file_name)
  */
 
 static void
-xmlSaxStartElement (XML2ParseState *state, CHAR const *name, CHAR const **attrs)
+xml_sax_start_element (XMLSaxParseState *state, CHAR const *name, CHAR const **attrs)
 {
 	switch (state->state) {
 	case STATE_START:
-		if (xmlSaxSwitchState (state, name, STATE_WB)) {
+		if (xml_sax_switch_state (state, name, STATE_WB)) {
+			xml_sax_parse_wb (state, attrs);
 		} else
-			xmlSaxUnknownState (state, name);
+			xml_sax_unknown_state (state, name);
 		break;
 
 	case STATE_WB :
-		if (xmlSaxSwitchState (state, name, STATE_WB_ATTRIBUTES)) {
-		} else if (xmlSaxSwitchState (state, name, STATE_WB_SUMMARY)) {
-		} else if (xmlSaxSwitchState (state, name, STATE_WB_GEOMETRY)) {
-			xmlSaxParseWBView (state, attrs);
-		} else if (xmlSaxSwitchState (state, name, STATE_WB_SHEETS)) {
-		} else if (xmlSaxSwitchState (state, name, STATE_WB_VIEW))
-			xmlSaxParseWBView (state, attrs);
+		if (xml_sax_switch_state (state, name, STATE_WB_ATTRIBUTES)) {
+		} else if (xml_sax_switch_state (state, name, STATE_WB_SUMMARY)) {
+		} else if (xml_sax_switch_state (state, name, STATE_WB_GEOMETRY)) {
+			xml_sax_parse_wb_view (state, attrs);
+		} else if (xml_sax_switch_state (state, name, STATE_WB_SHEETS)) {
+		} else if (xml_sax_switch_state (state, name, STATE_WB_VIEW))
+			xml_sax_parse_wb_view (state, attrs);
 		else
-			xmlSaxUnknownState (state, name);
+			xml_sax_unknown_state (state, name);
 		break;
 
 	case STATE_WB_ATTRIBUTES :
-		if (xmlSaxSwitchState (state, name, STATE_WB_ATTRIBUTES_ELEM)) {
+		if (xml_sax_switch_state (state, name, STATE_WB_ATTRIBUTES_ELEM)) {
 		} else
-			xmlSaxUnknownState (state, name);
+			xml_sax_unknown_state (state, name);
 		break;
 
 	case STATE_WB_ATTRIBUTES_ELEM :
-		if (xmlSaxSwitchState (state, name, STATE_WB_ATTRIBUTES_ELEM_NAME)) {
-		} else if (xmlSaxSwitchState (state, name, STATE_WB_ATTRIBUTES_ELEM_TYPE)) {
-		} else if (xmlSaxSwitchState (state, name, STATE_WB_ATTRIBUTES_ELEM_VALUE)) {
+		if (xml_sax_switch_state (state, name, STATE_WB_ATTRIBUTES_ELEM_NAME)) {
+		} else if (xml_sax_switch_state (state, name, STATE_WB_ATTRIBUTES_ELEM_TYPE)) {
+		} else if (xml_sax_switch_state (state, name, STATE_WB_ATTRIBUTES_ELEM_VALUE)) {
 		} else
-			xmlSaxUnknownState (state, name);
+			xml_sax_unknown_state (state, name);
 		break;
 
 	case STATE_WB_SUMMARY :
-		if (xmlSaxSwitchState (state, name, STATE_WB_SUMMARY_ITEM)) {
+		if (xml_sax_switch_state (state, name, STATE_WB_SUMMARY_ITEM)) {
 		} else
-			xmlSaxUnknownState (state, name);
+			xml_sax_unknown_state (state, name);
 		break;
 
 	case STATE_WB_SUMMARY_ITEM :
-		if (xmlSaxSwitchState (state, name, STATE_WB_SUMMARY_ITEM_NAME)) {
-		} else if (xmlSaxSwitchState (state, name, STATE_WB_SUMMARY_ITEM_VALUE_STR)) {
-		} else if (xmlSaxSwitchState (state, name, STATE_WB_SUMMARY_ITEM_VALUE_INT)) {
+		if (xml_sax_switch_state (state, name, STATE_WB_SUMMARY_ITEM_NAME)) {
+		} else if (xml_sax_switch_state (state, name, STATE_WB_SUMMARY_ITEM_VALUE_STR)) {
+		} else if (xml_sax_switch_state (state, name, STATE_WB_SUMMARY_ITEM_VALUE_INT)) {
 		} else
-			xmlSaxUnknownState (state, name);
+			xml_sax_unknown_state (state, name);
 		break;
 
 	case STATE_WB_SHEETS :
-		if (xmlSaxSwitchState (state, name, STATE_SHEET)) {
+		if (xml_sax_switch_state (state, name, STATE_SHEET)) {
 			xmlSaxParseSheet (state, attrs);
 		} else
-			xmlSaxUnknownState (state, name);
+			xml_sax_unknown_state (state, name);
 		break;
 
 	case STATE_SHEET :
-		if (xmlSaxSwitchState (state, name, STATE_SHEET_NAME)) {
-		} else if (xmlSaxSwitchState (state, name, STATE_SHEET_MAXCOL)) {
-		} else if (xmlSaxSwitchState (state, name, STATE_SHEET_MAXROW)) {
-		} else if (xmlSaxSwitchState (state, name, STATE_SHEET_ZOOM)) {
-		} else if (xmlSaxSwitchState (state, name, STATE_SHEET_PRINTINFO)) {
-		} else if (xmlSaxSwitchState (state, name, STATE_SHEET_STYLES)) {
-		} else if (xmlSaxSwitchState (state, name, STATE_SHEET_COLS)) {
-		} else if (xmlSaxSwitchState (state, name, STATE_SHEET_ROWS)) {
-		} else if (xmlSaxSwitchState (state, name, STATE_SHEET_SELECTIONS)) {
+		if (xml_sax_switch_state (state, name, STATE_SHEET_NAME)) {
+		} else if (xml_sax_switch_state (state, name, STATE_SHEET_MAXCOL)) {
+		} else if (xml_sax_switch_state (state, name, STATE_SHEET_MAXROW)) {
+		} else if (xml_sax_switch_state (state, name, STATE_SHEET_ZOOM)) {
+		} else if (xml_sax_switch_state (state, name, STATE_SHEET_PRINTINFO)) {
+		} else if (xml_sax_switch_state (state, name, STATE_SHEET_STYLES)) {
+		} else if (xml_sax_switch_state (state, name, STATE_SHEET_COLS)) {
+		} else if (xml_sax_switch_state (state, name, STATE_SHEET_ROWS)) {
+		} else if (xml_sax_switch_state (state, name, STATE_SHEET_SELECTIONS)) {
 			xmlSaxParseSelection (state, attrs);
-		} else if (xmlSaxSwitchState (state, name, STATE_SHEET_CELLS)) {
-		} else if (xmlSaxSwitchState (state, name, STATE_SHEET_SOLVER)) {
-		} else if (xmlSaxSwitchState (state, name, STATE_SHEET_OBJECTS)) {
+		} else if (xml_sax_switch_state (state, name, STATE_SHEET_CELLS)) {
+		} else if (xml_sax_switch_state (state, name, STATE_SHEET_SOLVER)) {
+		} else if (xml_sax_switch_state (state, name, STATE_SHEET_OBJECTS)) {
 		} else
-			xmlSaxUnknownState (state, name);
+			xml_sax_unknown_state (state, name);
 		break;
 
 	case STATE_SHEET_PRINTINFO :
-		if (xmlSaxSwitchState (state, name, STATE_PRINT_MARGINS)) {
-		} else if (xmlSaxSwitchState (state, name, STATE_PRINT_VCENTER)) {
-		} else if (xmlSaxSwitchState (state, name, STATE_PRINT_HCENTER)) {
-		} else if (xmlSaxSwitchState (state, name, STATE_PRINT_GRID)) {
-		} else if (xmlSaxSwitchState (state, name, STATE_PRINT_MONO)) {
-		} else if (xmlSaxSwitchState (state, name, STATE_PRINT_DRAFTS)) {
-		} else if (xmlSaxSwitchState (state, name, STATE_PRINT_TITLES)) {
-		} else if (xmlSaxSwitchState (state, name, STATE_PRINT_REPEAT_TOP)) {
-		} else if (xmlSaxSwitchState (state, name, STATE_PRINT_REPEAT_LEFT)) {
-		} else if (xmlSaxSwitchState (state, name, STATE_PRINT_ORDER)) {
-		} else if (xmlSaxSwitchState (state, name, STATE_PRINT_ORIENT)) {
-		} else if (xmlSaxSwitchState (state, name, STATE_PRINT_HEADER)) {
-		} else if (xmlSaxSwitchState (state, name, STATE_PRINT_FOOTER)) {
-		} else if (xmlSaxSwitchState (state, name, STATE_PRINT_PAPER)) {
+		if (xml_sax_switch_state (state, name, STATE_PRINT_MARGINS)) {
+		} else if (xml_sax_switch_state (state, name, STATE_PRINT_VCENTER)) {
+		} else if (xml_sax_switch_state (state, name, STATE_PRINT_HCENTER)) {
+		} else if (xml_sax_switch_state (state, name, STATE_PRINT_GRID)) {
+		} else if (xml_sax_switch_state (state, name, STATE_PRINT_MONO)) {
+		} else if (xml_sax_switch_state (state, name, STATE_PRINT_DRAFTS)) {
+		} else if (xml_sax_switch_state (state, name, STATE_PRINT_TITLES)) {
+		} else if (xml_sax_switch_state (state, name, STATE_PRINT_REPEAT_TOP)) {
+		} else if (xml_sax_switch_state (state, name, STATE_PRINT_REPEAT_LEFT)) {
+		} else if (xml_sax_switch_state (state, name, STATE_PRINT_ORDER)) {
+		} else if (xml_sax_switch_state (state, name, STATE_PRINT_ORIENT)) {
+		} else if (xml_sax_switch_state (state, name, STATE_PRINT_HEADER)) {
+		} else if (xml_sax_switch_state (state, name, STATE_PRINT_FOOTER)) {
+		} else if (xml_sax_switch_state (state, name, STATE_PRINT_PAPER)) {
 		} else
-			xmlSaxUnknownState (state, name);
+			xml_sax_unknown_state (state, name);
 		break;
 
 	case STATE_PRINT_MARGINS :
-		if (xmlSaxSwitchState (state, name, STATE_PRINT_MARGIN_TOP) ||
-		    xmlSaxSwitchState (state, name, STATE_PRINT_MARGIN_BOTTOM) ||
-		    xmlSaxSwitchState (state, name, STATE_PRINT_MARGIN_LEFT) ||
-		    xmlSaxSwitchState (state, name, STATE_PRINT_MARGIN_RIGHT) ||
-		    xmlSaxSwitchState (state, name,
+		if (xml_sax_switch_state (state, name, STATE_PRINT_MARGIN_TOP) ||
+		    xml_sax_switch_state (state, name, STATE_PRINT_MARGIN_BOTTOM) ||
+		    xml_sax_switch_state (state, name, STATE_PRINT_MARGIN_LEFT) ||
+		    xml_sax_switch_state (state, name, STATE_PRINT_MARGIN_RIGHT) ||
+		    xml_sax_switch_state (state, name,
 				     STATE_PRINT_MARGIN_HEADER) ||
-		    xmlSaxSwitchState (state, name, STATE_PRINT_MARGIN_FOOTER)) {
+		    xml_sax_switch_state (state, name, STATE_PRINT_MARGIN_FOOTER)) {
 			xmlSaxParseMargin (state, attrs);
 		} else
-			xmlSaxUnknownState (state, name);
+			xml_sax_unknown_state (state, name);
 		break;
 
 	case STATE_SHEET_STYLES :
-		if (xmlSaxSwitchState (state, name, STATE_STYLE_REGION))
+		if (xml_sax_switch_state (state, name, STATE_STYLE_REGION))
 			xmlSaxParseStyleRegion (state, attrs);
 		else
-			xmlSaxUnknownState (state, name);
+			xml_sax_unknown_state (state, name);
 		break;
 
 	case STATE_STYLE_REGION :
-		if (xmlSaxSwitchState (state, name, STATE_STYLE_STYLE))
+		if (xml_sax_switch_state (state, name, STATE_STYLE_STYLE))
 			xmlSaxParseStyleRegionStyle (state, attrs);
 		else
-			xmlSaxUnknownState (state, name);
+			xml_sax_unknown_state (state, name);
 		break;
 
 	case STATE_STYLE_STYLE :
-		if (xmlSaxSwitchState (state, name, STATE_STYLE_FONT))
+		if (xml_sax_switch_state (state, name, STATE_STYLE_FONT))
 			xmlSaxParseStyleRegionFont (state, attrs);
-		else if (xmlSaxSwitchState (state, name, STATE_STYLE_BORDER)) {
+		else if (xml_sax_switch_state (state, name, STATE_STYLE_BORDER)) {
 		} else
-			xmlSaxUnknownState (state, name);
+			xml_sax_unknown_state (state, name);
 		break;
 
 	case STATE_STYLE_BORDER :
-		if (xmlSaxSwitchState (state, name, STATE_BORDER_TOP) ||
-		    xmlSaxSwitchState (state, name, STATE_BORDER_BOTTOM) ||
-		    xmlSaxSwitchState (state, name, STATE_BORDER_LEFT) ||
-		    xmlSaxSwitchState (state, name, STATE_BORDER_RIGHT) ||
-		    xmlSaxSwitchState (state, name, STATE_BORDER_DIAG) ||
-		    xmlSaxSwitchState (state, name, STATE_BORDER_REV_DIAG))
+		if (xml_sax_switch_state (state, name, STATE_BORDER_TOP) ||
+		    xml_sax_switch_state (state, name, STATE_BORDER_BOTTOM) ||
+		    xml_sax_switch_state (state, name, STATE_BORDER_LEFT) ||
+		    xml_sax_switch_state (state, name, STATE_BORDER_RIGHT) ||
+		    xml_sax_switch_state (state, name, STATE_BORDER_DIAG) ||
+		    xml_sax_switch_state (state, name, STATE_BORDER_REV_DIAG))
 			xmlSaxParseStyleRegionBorders (state, attrs);
 		else
-			xmlSaxUnknownState (state, name);
+			xml_sax_unknown_state (state, name);
 		break;
 
 	case STATE_SHEET_COLS :
-		if (xmlSaxSwitchState (state, name, STATE_COL))
+		if (xml_sax_switch_state (state, name, STATE_COL))
 			xmlSaxParseColRow (state, attrs, TRUE);
 		else
-			xmlSaxUnknownState (state, name);
+			xml_sax_unknown_state (state, name);
 		break;
 
 	case STATE_SHEET_ROWS :
-		if (xmlSaxSwitchState (state, name, STATE_ROW))
+		if (xml_sax_switch_state (state, name, STATE_ROW))
 			xmlSaxParseColRow (state, attrs, FALSE);
 		else
-			xmlSaxUnknownState (state, name);
+			xml_sax_unknown_state (state, name);
 		break;
 
 	case STATE_SHEET_SELECTIONS :
-		if (xmlSaxSwitchState (state, name, STATE_SELECTION))
+		if (xml_sax_switch_state (state, name, STATE_SELECTION))
 			xmlSaxParseSelectionRange (state, attrs);
 		else
-			xmlSaxUnknownState (state, name);
+			xml_sax_unknown_state (state, name);
 		break;
 
 	case STATE_SHEET_CELLS :
-		if (xmlSaxSwitchState (state, name, STATE_CELL))
+		if (xml_sax_switch_state (state, name, STATE_CELL))
 			xmlSaxParseCell (state, attrs);
 		else
-			xmlSaxUnknownState (state, name);
+			xml_sax_unknown_state (state, name);
 		break;
 
 	case STATE_CELL :
-		if (!xmlSaxSwitchState (state, name, STATE_CELL_CONTENT))
-			xmlSaxUnknownState (state, name);
+		if (!xml_sax_switch_state (state, name, STATE_CELL_CONTENT))
+			xml_sax_unknown_state (state, name);
 		break;
 
 	case STATE_SHEET_OBJECTS :
-		if (xmlSaxSwitchState (state, name, STATE_OBJECT_RECTANGLE) ||
-		    xmlSaxSwitchState (state, name, STATE_OBJECT_ELLIPSE) ||
-		    xmlSaxSwitchState (state, name, STATE_OBJECT_ARROW) ||
-		    xmlSaxSwitchState (state, name, STATE_OBJECT_LINE)) {
+		if (xml_sax_switch_state (state, name, STATE_OBJECT_RECTANGLE) ||
+		    xml_sax_switch_state (state, name, STATE_OBJECT_ELLIPSE) ||
+		    xml_sax_switch_state (state, name, STATE_OBJECT_ARROW) ||
+		    xml_sax_switch_state (state, name, STATE_OBJECT_LINE)) {
 			xmlSaxParseObject (state, attrs);
 		} else
-			xmlSaxUnknownState (state, name);
+			xml_sax_unknown_state (state, name);
 		break;
 
 	case STATE_OBJECT_RECTANGLE :
 	case STATE_OBJECT_ELLIPSE :
 	case STATE_OBJECT_ARROW :
 	case STATE_OBJECT_LINE :
-		if (xmlSaxSwitchState (state, name, STATE_OBJECT_POINTS)) {
+		if (xml_sax_switch_state (state, name, STATE_OBJECT_POINTS)) {
 		} else
-			xmlSaxUnknownState (state, name);
+			xml_sax_unknown_state (state, name);
 		break;
 
 	default :
@@ -1306,7 +1382,7 @@ xmlSaxStartElement (XML2ParseState *state, CHAR const *name, CHAR const **attrs)
 }
 
 static void
-xmlSaxEndElement (XML2ParseState *state, const CHAR *name)
+xml_sax_end_element (XMLSaxParseState *state, const CHAR *name)
 {
 	if (state->unknown_depth > 0) {
 		state->unknown_depth--;
@@ -1322,7 +1398,7 @@ xmlSaxEndElement (XML2ParseState *state, const CHAR *name)
 		break;
 
 	case STATE_WB_ATTRIBUTES_ELEM :
-		xmlSaxFinishParseAttr (state);
+		xml_sax_finish_parse_wb_attr (state);
 		break;
 
 	case STATE_WB_ATTRIBUTES :
@@ -1406,7 +1482,7 @@ xmlSaxEndElement (XML2ParseState *state, const CHAR *name)
 }
 
 static void
-xmlSaxCharacters (XML2ParseState *state, const CHAR *chars, int len)
+xml_sax_characters (XMLSaxParseState *state, const CHAR *chars, int len)
 {
 	switch (state->state) {
 	case STATE_WB_ATTRIBUTES_ELEM_NAME :
@@ -1437,50 +1513,20 @@ xmlSaxCharacters (XML2ParseState *state, const CHAR *chars, int len)
 }
 
 static xmlEntityPtr
-xmlSaxGetEntity (XML2ParseState *state, const CHAR *name)
+xmlSaxGetEntity (XMLSaxParseState *state, const CHAR *name)
 {
 	return xmlGetPredefinedEntity (name);
 }
 
 static void
-xmlSaxWarning (XML2ParseState *state, const char *msg, ...)
-{
-	va_list args;
-
-	va_start (args, msg);
-	g_logv ("XML", G_LOG_LEVEL_WARNING, msg, args);
-	va_end (args);
-}
-
-static void
-xmlSaxError (XML2ParseState *state, const char *msg, ...)
-{
-	va_list args;
-
-	va_start (args, msg);
-	g_logv ("XML", G_LOG_LEVEL_CRITICAL, msg, args);
-	va_end (args);
-}
-
-static void
-xmlSaxFatalError (XML2ParseState *state, const char *msg, ...)
-{
-	va_list args;
-
-	va_start (args, msg);
-	g_logv ("XML", G_LOG_LEVEL_ERROR, msg, args);
-	va_end (args);
-}
-
-static void
-xmlSaxStartDocument (XML2ParseState *state)
+xmlSaxStartDocument (XMLSaxParseState *state)
 {
 	state->state = STATE_START;
 	state->unknown_depth = 0;
 	state->state_stack = NULL;
 
 	state->sheet = NULL;
-	state->version = -1;
+	state->version = GNUM_XML_UNKNOWN;
 
 	state->content = g_string_sized_new (128);
 
@@ -1501,7 +1547,7 @@ xmlSaxStartDocument (XML2ParseState *state)
 }
 
 static void
-xmlSaxEndDocument (XML2ParseState *state)
+xmlSaxEndDocument (XMLSaxParseState *state)
 {
 	g_string_free (state->content, TRUE);
 	g_hash_table_destroy (state->expr_map);
@@ -1525,16 +1571,16 @@ static xmlSAXHandler xmlSaxSAXParser = {
 	0, /* setDocumentLocator */
 	(startDocumentSAXFunc)xmlSaxStartDocument, /* startDocument */
 	(endDocumentSAXFunc)xmlSaxEndDocument, /* endDocument */
-	(startElementSAXFunc)xmlSaxStartElement, /* startElement */
-	(endElementSAXFunc)xmlSaxEndElement, /* endElement */
+	(startElementSAXFunc)xml_sax_start_element, /* startElement */
+	(endElementSAXFunc)xml_sax_end_element, /* endElement */
 	0, /* reference */
-	(charactersSAXFunc)xmlSaxCharacters, /* characters */
+	(charactersSAXFunc)xml_sax_characters, /* characters */
 	0, /* ignorableWhitespace */
 	0, /* processingInstruction */
 	0, /* comment */
-	(warningSAXFunc)xmlSaxWarning, /* warning */
-	(errorSAXFunc)xmlSaxError, /* error */
-	(fatalErrorSAXFunc)xmlSaxFatalError, /* fatalError */
+	(warningSAXFunc)xml_sax_warning, /* warning */
+	(errorSAXFunc)xml_sax_error, /* error */
+	(fatalErrorSAXFunc)xml_sax_fatal_error, /* fatalError */
 };
 
 void
@@ -1542,7 +1588,7 @@ xml_sax_file_open (FileOpener const *fo, IOContext *io_context,
 		   WorkbookView *wb_view, char const *filename)
 {
 	xmlParserCtxtPtr ctxt;
-	XML2ParseState state;
+	XMLSaxParseState state;
 
 	g_return_if_fail (wb_view != NULL);
 	g_return_if_fail (filename != NULL);

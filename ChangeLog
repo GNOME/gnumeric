@@ -1,3 +1,17 @@
+2001-04-27  Jody Goldberg <jgoldberg@home.com>
+
+	* src/format.c (pre_parse_format) : Catch fractions too.
+	(render_number) : don't pass in so many copies of flags.  Just use the
+	  info struct.  Add a 'has_fraction' flag to disable rounding.
+	(do_render_number) : ditto.
+	(stern_brocot) : simple stern brocot tree.  Should really use an
+	  adaptive precision but I am lazy.
+	(format_number) : add fractions.
+
+	* src/commands.c (cmd_autofill_redo) : changing visiblity can triger a
+	  draw which requiresthat things be rendered and spanned.  Be sure to
+	  complete the action BEFORE changing visibility.
+
 2001-04-27  Chema Celorio  <chema@celorio.com>
 
 	* src/sheet-object.h: add the header for clone_sheet
