@@ -28,14 +28,19 @@
 
 G_BEGIN_DECLS
 
+typedef enum {
+	GOG_OBJECT_NAME_BY_ROLE	 = 1,
+	GOG_OBJECT_NAME_BY_TYPE  = 2,
+	GOG_OBJECT_NAME_MANUALLY = 3
+} GogObjectNamingConv;
+
 struct _GogObjectRole {
 	char const *id;	/* for persistence */
 
 	char const *is_a_typename;
-	guint32		  allowable_positions;
-	GogObjectPosition default_position;
-
-	gboolean singleton; /* simple filter, and controls name generation */
+	guint32		  	allowable_positions;
+	GogObjectPosition 	default_position;
+	GogObjectNamingConv	naming_conv;
 
 	gboolean   (*can_add)	  (GogObject const *parent);
 	gboolean   (*can_remove)  (GogObject const *child);
@@ -44,7 +49,7 @@ struct _GogObjectRole {
 	void       (*pre_remove)  (GogObject *parent, GogObject *child);
 	void       (*post_remove) (GogObject *parent, GogObject *child);
 
-	union {
+	union { /* allow people to tack some useful tidbits on the end */
 		int		i;
 		float		f;
 		gpointer	p;

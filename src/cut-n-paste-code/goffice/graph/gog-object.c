@@ -84,7 +84,6 @@ gog_object_class_init (GObjectClass *klass)
 		g_cclosure_marshal_VOID__OBJECT,
 		G_TYPE_NONE,
 		1, G_TYPE_OBJECT);
-
 	gog_object_signals [CHILD_REMOVED] = g_signal_new ("child_removed",
 		G_TYPE_FROM_CLASS (klass),
 		G_SIGNAL_RUN_LAST,
@@ -93,7 +92,6 @@ gog_object_class_init (GObjectClass *klass)
 		g_cclosure_marshal_VOID__OBJECT,
 		G_TYPE_NONE,
 		1, G_TYPE_OBJECT);
-
 	gog_object_signals [NAME_CHANGED] = g_signal_new ("name_changed",
 		G_TYPE_FROM_CLASS (klass),
 		G_SIGNAL_RUN_LAST,
@@ -134,12 +132,23 @@ gog_object_generate_name (GogObject *obj)
 	GSList *ptr;
 
 	g_return_val_if_fail (klass != NULL, NULL);
+	g_return_val_if_fail (obj->role != NULL, NULL);
 
-	if (*klass->type_name == NULL) {
+	switch (obj->role->naming_conv) {
+	case GOG_OBJECT_NAME_MANUALLY :
+		g_warning ("Role %s should not be autogenerating names",
+			   obj->role->id);
+
+	case GOG_OBJECT_NAME_BY_ROLE :
 		g_return_val_if_fail (obj->role != NULL, NULL);
 		type_name = _(obj->role->id);
-	} else
+		break;
+
+	case GOG_OBJECT_NAME_BY_TYPE :
+		g_return_val_if_fail (klass->type_name != NULL, NULL);
 		type_name = _((*klass->type_name) (obj));
+		break;
+	}
 
 	g_return_val_if_fail (type_name != NULL, NULL);
 	name_len = strlen (type_name);
@@ -516,6 +525,7 @@ gog_object_set_parent (GogObject *child, GogObject *parent,
 	g_free (child->id);
 	g_free (child->user_name);
 	child->id = (id != NULL) ? id : gog_object_generate_name (child);
+	if (child->id == NULL) child->id = g_strdup ("BROKEN");
 
 	if (role->post_add != NULL)
 		(role->post_add) (parent, child);

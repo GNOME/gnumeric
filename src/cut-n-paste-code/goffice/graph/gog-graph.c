@@ -167,10 +167,10 @@ gog_graph_class_init (GogGraphClass *klass)
 
 	static GogObjectRole const roles[] = {
 		{ N_("Chart"), "GogChart",
-		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, FALSE,
+		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
 		  NULL, NULL, NULL, role_chart_post_add, role_chart_pre_remove, NULL },
 		{ N_("Title"), "GogLabel",
-		  GOG_POSITION_COMPASS, GOG_POSITION_N|GOG_POSITION_ALIGN_CENTER, FALSE,
+		  GOG_POSITION_COMPASS, GOG_POSITION_N|GOG_POSITION_ALIGN_CENTER, GOG_OBJECT_NAME_BY_ROLE,
 		  NULL, NULL, NULL, NULL, NULL, NULL },
 	};
 

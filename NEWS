@@ -60,7 +60,7 @@ Jody:
 	* Function doc spelling and grammar.
 	* Fix glitch in xls hyperlink import.
 	* Undocumented flag on cell comments in xls
-	* Import cell comments from >= xl97.
+	* Import cell comments from >= xl97 too.
 	* Object text labels from >= xl97.
 	* Fix export of strings > 8224 characters in xl97.
 	* Fix style export in the presence of validation and hyperlinks.

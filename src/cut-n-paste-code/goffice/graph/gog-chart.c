@@ -40,12 +40,6 @@ enum {
 static GType gog_chart_view_get_type (void);
 static GObjectClass *chart_parent_klass;
 
-static char const *
-gog_chart_type_name (GogObject const *obj)
-{
-	return N_("Chart");
-}
-
 static gpointer
 gog_chart_editor (GogObject *gobj, GogDataAllocator *dalloc, CommandContext *cc)
 {
@@ -68,11 +62,10 @@ role_plot_post_add (GogObject *parent, GogObject *plot)
 	chart->plots = g_slist_append (chart->plots, plot);
 	gog_chart_request_cardinality_update (chart);
 
-	if (chart->plots->data == plot)
+	if (chart->plots->next == NULL)
 		gog_chart_axis_set_assign (chart,
 			gog_plot_axis_set_pref (GOG_PLOT (plot)));
-	else
-		gog_plot_axis_set_assign (GOG_PLOT (plot), chart->axis_set);
+	gog_plot_axis_set_assign (GOG_PLOT (plot), chart->axis_set);
 }
 
 static void
@@ -140,24 +133,24 @@ static void z_axis_pre_remove  (GogObject *parent, GogObject *child)  { axis_pre
 
 static GogObjectRole const roles[] = {
 	{ N_("Plot"), "GogPlot",
-	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, FALSE,
+	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_TYPE,
 	  NULL, NULL, NULL, role_plot_post_add, role_plot_pre_remove, NULL, { -1 } },
 	{ N_("Legend"), "GogLegend",
-	  GOG_POSITION_COMPASS, GOG_POSITION_E|GOG_POSITION_ALIGN_CENTER, TRUE,
+	  GOG_POSITION_COMPASS, GOG_POSITION_E|GOG_POSITION_ALIGN_CENTER, GOG_OBJECT_NAME_BY_ROLE,
 	  NULL, NULL, NULL, NULL, NULL, NULL, { -1 } },
 	{ N_("Title"), "GogLabel",
-	  GOG_POSITION_COMPASS, GOG_POSITION_N|GOG_POSITION_ALIGN_CENTER, FALSE,
+	  GOG_POSITION_COMPASS, GOG_POSITION_N|GOG_POSITION_ALIGN_CENTER, GOG_OBJECT_NAME_BY_ROLE,
 	  NULL, NULL, NULL, NULL, NULL, NULL, { -1 } },
 	{ N_("X-Axis"), "GogAxis",
-	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, FALSE,
+	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
 	  x_axis_can_add, NULL, NULL, x_axis_post_add, x_axis_pre_remove, NULL,
 	  { GOG_AXIS_X } },
 	{ N_("Y-Axis"), "GogAxis",
-	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, FALSE,
+	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
 	  y_axis_can_add, NULL, NULL, y_axis_post_add, y_axis_pre_remove, NULL,
 	  { GOG_AXIS_Y } },
 	{ N_("Z-Axis"), "GogAxis",
-	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, FALSE,
+	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
 	  z_axis_can_add, NULL, NULL, z_axis_post_add, z_axis_pre_remove, NULL,
 	  { GOG_AXIS_Z } }
 };
@@ -175,7 +168,6 @@ gog_chart_class_init (GogObjectClass *gog_klass)
 			FALSE, G_PARAM_READABLE));
 
 	gog_klass->editor    = gog_chart_editor;
-	gog_klass->type_name = gog_chart_type_name;
 	gog_klass->view_type = gog_chart_view_get_type ();
 	gog_klass->update    = gog_chart_update;
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
@@ -320,20 +312,31 @@ gog_chart_add_axis (GogChart *chart, GogAxisType type)
 gboolean
 gog_chart_axis_set_assign (GogChart *chart, GogAxisSet axis_set)
 {
-	gboolean has_axis[GOG_AXIS_TYPES];
 	GogAxis *axis;
 	GSList  *ptr;
-	int type;
+	GogAxisType type;
 
 	g_return_val_if_fail (GOG_CHART (chart) != NULL, FALSE);
 
+	if (chart->axis_set == axis_set)
+		return TRUE;
+	chart->axis_set = axis_set;
+
+	/* Add at least 1 instance of any required axis */
+	for (type = 0 ; type < GOG_AXIS_TYPES ; type++)
+		if ((axis_set & (1 << type))) {
+			GSList *tmp = gog_chart_get_axis (chart, type);
+			if (tmp == NULL)
+				gog_chart_add_axis (chart, type);
+			else
+				g_slist_free (tmp);
+		}
+
+	/* link the plots */
 	for (ptr = chart->plots ; ptr != NULL ; ptr = ptr->next)
 		if (!gog_plot_axis_set_assign (ptr->data, axis_set))
 			return FALSE;
-	chart->axis_set = axis_set;
 
-	for (type = 0 ; type < GOG_AXIS_TYPES ; type++)
-		has_axis[type] = FALSE;
 
 	/* remove any existing axis that do not fit this scheme */
 	for (ptr = GOG_OBJECT (chart)->children ; ptr != NULL ; ) {
@@ -350,17 +353,45 @@ gog_chart_axis_set_assign (GogChart *chart, GogAxisSet axis_set)
 			if (0 == (axis_set & (1 << type))) {
 				gog_object_clear_parent (GOG_OBJECT (axis));
 				g_object_unref (axis);
-			} else
-				has_axis [type] = TRUE;
+			}
 		}
 	}
 
-	/* Add at least 1 instance of any required axis */
-	for (type = 0 ; type < GOG_AXIS_TYPES ; type++)
-		if ((axis_set & (1 << type)) && ! has_axis [type])
-			gog_chart_add_axis (chart, type);
-
 	return TRUE;
+}
+
+/**
+ * gog_chart_get_axis :
+ * @chart : #GogChart
+ * @target  : #GogAxisType
+ *
+ * Return a list which the caller must free of all axis of type @target
+ * associated with @chart.
+ **/
+GSList *
+gog_chart_get_axis (GogChart const *chart, GogAxisType target)
+{
+	GSList *ptr, *res = NULL;
+	GogAxis *axis;
+	int type;
+
+	g_return_val_if_fail (GOG_CHART (chart) != NULL, FALSE);
+
+	for (ptr = GOG_OBJECT (chart)->children ; ptr != NULL ; ptr = ptr->next) {
+		axis = ptr->data;
+		if (IS_GOG_AXIS (axis)) {
+			type = -1;
+			g_object_get (G_OBJECT (axis), "type", &type, NULL);
+			if (type < 0 || type >= GOG_AXIS_TYPES) {
+				g_warning ("Invalid axis");
+				continue;
+			}
+			if (type == target)
+				res = g_slist_prepend (res, axis);
+		}
+	}
+
+	return res;
 }
 
 /*********************************************************************/

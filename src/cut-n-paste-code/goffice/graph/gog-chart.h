@@ -45,6 +45,7 @@ void	  gog_chart_foreach_elem  (GogChart *,
 
 gboolean  gog_chart_axis_set_is_valid (GogChart const *chart, GogAxisSet type);
 gboolean  gog_chart_axis_set_assign   (GogChart *chart, GogAxisSet type);
+GSList	 *gog_chart_get_axis	      (GogChart const *chart, GogAxisType type);
 
 G_END_DECLS
 

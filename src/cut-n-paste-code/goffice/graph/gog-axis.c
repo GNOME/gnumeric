@@ -101,18 +101,12 @@ gog_axis_finalize (GObject *obj)
 		(parent_klass->finalize) (obj);
 }
 
-static char const *
-gog_axis_type_name (GogObject const *obj)
-{
-	return N_("Axis");
-}
-
 static void
 gog_axis_class_init (GObjectClass *gobject_klass)
 {
 	static GogObjectRole const roles[] = {
 		{ N_("Label"), "GogLabel",
-		  GOG_POSITION_COMPASS, GOG_POSITION_N|GOG_POSITION_ALIGN_CENTER, FALSE,
+		  GOG_POSITION_COMPASS, GOG_POSITION_N|GOG_POSITION_ALIGN_CENTER, GOG_OBJECT_NAME_BY_ROLE,
 		  NULL, NULL, NULL, NULL, NULL, NULL },
 	};
 	GogObjectClass *gog_klass = (GogObjectClass *) gobject_klass;
@@ -128,13 +122,16 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 			"GogAxisType",
 			GOG_AXIS_X, GOG_AXIS_TYPES, GOG_AXIS_TYPES, G_PARAM_READWRITE));
 
-	gog_klass->type_name = gog_axis_type_name;
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 }
 
 static void
-gog_axis_init (GogGraph *graph)
+gog_axis_init (GogAxis *axis)
 {
+	axis->type	 = GOG_AXIS_UNKNOWN;
+	axis->pos	 = GOG_AXIS_AT_LOW;
+	axis->tick_level = AXIS_ELEM_MINOR_TICK,
+	axis->i_cross =	axis->crosses_me = axis->plots = NULL;
 }
 
 static void

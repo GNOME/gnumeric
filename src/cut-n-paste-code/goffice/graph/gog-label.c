@@ -92,11 +92,6 @@ gog_label_finalize (GObject *obj)
 		(label_parent_klass->finalize) (obj);
 }
 
-static char const *
-gog_label_type_name (GogObject const *item)
-{
-	return N_("GraphLabel");
-}
 static gpointer
 gog_label_editor (GogObject *gobj, GogDataAllocator *dalloc, CommandContext *cc)
 {
@@ -132,7 +127,6 @@ gog_label_class_init (GogLabelClass *klass)
 			TRUE, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
 
 	gog_klass->editor	= gog_label_editor;
-	gog_klass->type_name	= gog_label_type_name;
 	gog_klass->view_type	= gog_label_view_get_type ();
 }
 

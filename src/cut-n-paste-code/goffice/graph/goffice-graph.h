@@ -74,7 +74,8 @@ typedef void (*GogEnumFunc) (unsigned i, GogStyle *style,
 			     char const *name, gpointer data);
 
 typedef enum {
-	GOG_AXIS_X,
+	GOG_AXIS_UNKNOWN = -1,
+	GOG_AXIS_X	 = 0,
 	GOG_AXIS_Y,
 	GOG_AXIS_Z,
 	GOG_AXIS_TYPES,

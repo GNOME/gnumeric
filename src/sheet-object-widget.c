@@ -477,7 +477,6 @@ sheet_widget_button_set_label (SheetObject *so, char const *str)
 	GList *list;
 	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (so);
 
-	puts (str);
 	g_free (swb->label);
 	swb->label = g_strdup (str);
 

@@ -93,12 +93,6 @@ gog_legend_get_property (GObject *obj, guint param_id,
 	}
 }
 
-static char const *
-gog_legend_type_name (GogObject const *item)
-{
-	return N_("Legend");
-}
-
 static void
 gog_legend_parent_changed (GogObject *obj, gboolean was_set)
 {
@@ -131,7 +125,7 @@ gog_legend_class_init (GogLegendClass *klass)
 {
 	static GogObjectRole const roles[] = {
 		{ N_("Title"), "GogLabel",
-		  GOG_POSITION_COMPASS, GOG_POSITION_N|GOG_POSITION_ALIGN_CENTER, FALSE,
+		  GOG_POSITION_COMPASS, GOG_POSITION_N|GOG_POSITION_ALIGN_CENTER, GOG_OBJECT_NAME_BY_ROLE,
 		  NULL, NULL, NULL, NULL, NULL, NULL },
 	};
 
@@ -142,7 +136,6 @@ gog_legend_class_init (GogLegendClass *klass)
 	gobject_klass->set_property = gog_legend_set_property;
 	gobject_klass->get_property = gog_legend_get_property;
 
-	gog_klass->type_name	  = gog_legend_type_name;
 	gog_klass->parent_changed = gog_legend_parent_changed;
 	gog_klass->update	  = gog_legend_update;
 	gog_klass->view_type	  = gog_legend_view_get_type ();

@@ -162,7 +162,7 @@ gog_plot_class_init (GogObjectClass *gog_klass)
 {
 	static GogObjectRole const roles[] = {
 		{ N_("Series"), "GogSeries",
-		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, FALSE,
+		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
 		  role_series_can_add, role_series_can_remove,
 		  role_series_allocate,
 		  role_series_post_add, role_series_pre_remove, NULL },
@@ -360,14 +360,22 @@ gog_plot_axis_set_is_valid (GogPlot const *plot, GogAxisSet type)
 }
 
 gboolean
-gog_plot_axis_set_assign (GogPlot *plot, GogAxisSet type)
+gog_plot_axis_set_assign (GogPlot *plot, GogAxisSet axis_set)
 {
 	GogPlotClass *klass = GOG_PLOT_GET_CLASS (plot);
+	GogAxisType type;
 
 	g_return_val_if_fail (klass != NULL, FALSE);
-	if (klass->axis_set_assign != NULL)
-		return (klass->axis_set_assign) (plot, type);
-	return type == GOG_AXIS_SET_NONE;
+
+	for (type = 0 ; type < GOG_AXIS_TYPES ; type++)
+		if ((axis_set & (1 << type))) {
+		} else {
+		}
+
+	if (klass->axis_set_assign == NULL)
+		return axis_set == GOG_AXIS_SET_NONE;
+
+	return (klass->axis_set_assign) (plot, axis_set);
 }
 
 /****************************************************************************/

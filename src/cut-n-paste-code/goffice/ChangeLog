@@ -1,5 +1,9 @@
 2003-07-19  Jody Goldberg <jody@gnome.org>
 
+	* graph/gog-chart.c (gog_chart_get_axis) : new.
+
+2003-07-19  Jody Goldberg <jody@gnome.org>
+
 	* graph/plugins/plot_barcol/plot-types.xml.in : for stacked and
 	  percentage set the overlap to 100.
 

@@ -53,12 +53,6 @@ gog_series_finalize (GObject *obj)
 		(parent_klass->finalize) (obj);
 }
 
-static char const *
-gog_series_type_name (GogObject const *gobj)
-{
-	return N_("Series");
-}
-
 static unsigned
 make_dim_editor (GtkTable *table, unsigned row, GtkWidget *editor,
 		 char const *name, GogSeriesPriority priority, gboolean is_shared)
@@ -150,7 +144,6 @@ gog_series_class_init (GogSeriesClass *klass)
 
 	parent_klass = g_type_class_peek_parent (klass);
 	gobject_klass->finalize		= gog_series_finalize;
-	gog_klass->type_name		= gog_series_type_name;
 	gog_klass->editor		= gog_series_editor;
 }
 
@@ -191,7 +184,7 @@ gog_series_dataset_set_dim (GogDataset *set, int dim_i,
 {
 	GogSeriesDesc const *desc;
 	GogSeries *series = GOG_SERIES (set);
-	GogGraph *graph;
+	GogGraph *graph = gog_object_get_graph (GOG_OBJECT (series));
 
 	g_return_if_fail (GOG_PLOT (series->plot) != NULL);
 

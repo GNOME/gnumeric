@@ -7,6 +7,9 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+- when only graph is selected but it only has 1 chart allow going backward
+- check why 
+
 * When we release 1.1.18, we should ask people to nominate certain foreign
   encodings as major.
 
@@ -18,8 +21,6 @@ Release Critical
 
 Pending Patches
 ---------------
-
-    - ?? more work on D&D based sheet reorg ?
 
     http://bugzilla.gnome.org/show_bug.cgi?id=84062
     - XIM menu
@@ -118,7 +119,10 @@ Pending Patches
 	1.13.1) Getting data from sheet -> graphs		(DONE)
 	1.13.2) linking unlinking				(DONE)
     1.14) Axis management
-	1.14.1) Charts/plots have axis layout type
+	1.14.1) Charts/plots have axis layout type		(DONE)
+	1.14.2) Add any missing axis when chart type is set	(DONE)
+	1.14.3) Remove any existing axis that do not correspond	(DONE)
+		to chart type.
 	1.14.2) Life cycle of plots/axis to maintain connection
 	1.14.3) UI for adding an axis
 	1.14.4) Only permit removal of unused axes
