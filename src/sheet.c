@@ -451,16 +451,6 @@ sheet_reconfigure_zoom (Sheet *sheet)
 	g_warning ("Need to recompute string lenghts of cells\n");
 }
 
-static void
-scroll_to (GnomeCanvas *canvas, double x, double y)
-{
-	canvas->layout.hadjustment->value = x;
-	gtk_signal_emit_by_name (GTK_OBJECT (canvas->layout.hadjustment), "value_changed");
-
-	canvas->layout.vadjustment->value = y;
-	gtk_signal_emit_by_name (GTK_OBJECT (canvas->layout.vadjustment), "value_changed");
-}
-
 void
 sheet_set_zoom_factor (Sheet *sheet, double factor)
 {
@@ -468,9 +458,9 @@ sheet_set_zoom_factor (Sheet *sheet, double factor)
 	gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (sheet->col_canvas), factor);
 	gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (sheet->row_canvas), factor);
 	sheet_reconfigure_zoom (sheet);
-	scroll_to (GNOME_CANVAS (sheet->sheet_view), 0, 0);
-	scroll_to (GNOME_CANVAS (sheet->col_canvas), 0, 0);
-	scroll_to (GNOME_CANVAS (sheet->row_canvas), 0, 0);
+	gnome_canvas_scroll_to (GNOME_CANVAS (sheet->sheet_view), 0, 0);
+	gnome_canvas_scroll_to (GNOME_CANVAS (sheet->col_canvas), 0, 0);
+	gnome_canvas_scroll_to (GNOME_CANVAS (sheet->row_canvas), 0, 0);
 }
 
 ColRowInfo *

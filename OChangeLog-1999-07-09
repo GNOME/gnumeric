@@ -1,5 +1,14 @@
 1998-07-30  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
+	* src/sheet.c (sheet_set_zoom_factor): Use gnome_canvas_scroll_to().
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_set_top_row): Scroll using
+	gnome_canvas_scroll_to().
+	(gnumeric_sheet_set_top_col): Likewise.
+	(gnumeric_sheet_make_cell_visible): Get the offsets using
+	gnome_canvas_get_scroll_offsets().
+	(gnumeric_sheet_make_cell_visible): Use gnome_canvas_scroll_to().
+
 	* src/gnumeric-sheet.c (gnumeric_sheet_color_alloc): Query the
 	colormap with gtkdget_get_colormap(), because the canvas structure
 	no longer has a colormap field in it.

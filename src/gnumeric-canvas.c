@@ -660,11 +660,13 @@ gnumeric_sheet_set_top_row (GnumericSheet *gsheet, int new_top_row)
 	GnomeCanvas *rowc = GNOME_CANVAS_ITEM (gsheet->rowbar)->canvas;
 	Sheet *sheet = gsheet->sheet;
 	int row_distance;
+	int x;
 	
 	gsheet->top_row = new_top_row;
 	row_distance = sheet_row_get_distance (sheet, 0, gsheet->top_row);
-	rowc->layout.vadjustment->value = row_distance;
-	gtk_signal_emit_by_name (GTK_OBJECT (rowc->layout.vadjustment), "value_changed");
+
+	gnome_canvas_get_scroll_offsets (rowc, &x, NULL);
+	gnome_canvas_scroll_to (rowc, x, row_distance);
 	
 	return row_distance;
 }
@@ -675,11 +677,13 @@ gnumeric_sheet_set_top_col (GnumericSheet *gsheet, int new_top_col)
 	GnomeCanvas *colc = GNOME_CANVAS_ITEM (gsheet->colbar)->canvas;
 	Sheet *sheet = gsheet->sheet;
 	int col_distance;
+	int y;
 
 	gsheet->top_col = new_top_col;
 	col_distance = sheet_col_get_distance (sheet, 0, gsheet->top_col);
-	colc->layout.hadjustment->value = col_distance;
-	gtk_signal_emit_by_name (GTK_OBJECT (colc->layout.hadjustment), "value_changed");
+
+	gnome_canvas_get_scroll_offsets (colc, NULL, &y);
+	gnome_canvas_scroll_to (colc, col_distance, y);
 	
 	return col_distance;
 }
@@ -748,8 +752,8 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row)
 		new_top_row = gsheet->top_row;
 
 	/* Determine if scrolling is required */
-	col_distance = GTK_LAYOUT (gsheet)->hadjustment->value;
-	row_distance = GTK_LAYOUT (gsheet)->vadjustment->value;
+
+	gnome_canvas_get_scroll_offsets (GNOME_CANVAS (gsheet), &col_distance, &row_distance);
 	
 	if (gsheet->top_col != new_top_col){
 		col_distance = gnumeric_sheet_set_top_col (gsheet, new_top_col);
@@ -766,8 +770,7 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row)
 	
 	gnumeric_sheet_compute_visible_ranges (gsheet);
 
-	canvas->layout.hadjustment->value = sheet_col_get_distance (sheet, 0, gsheet->top_col);
-	gtk_signal_emit_by_name (GTK_OBJECT (canvas->layout.hadjustment), "value_changed");
+	gnome_canvas_scroll_to (GNOME_CANVAS (gsheet), col_distance, row_distance);
 }
 
 static void
