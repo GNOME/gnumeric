@@ -1,5 +1,12 @@
 1999-12-18  Ariel Rios <jarios@usa.net>
 
+	* functions.scm: THe formula redefinitions for sign, lcm and gcd were commented.
+	  It is almost useless to redefine them on Scheme since C version are faster.
+	  However, for example purposes I leave them commented.
+	  
+
+1999-12-18  Ariel Rios <jarios@usa.net>
+
 	* galway_startup.scm: We no longer display Guile initialization messages.
 
 1999-12-10  Ariel Rios <jarios@usa.net>

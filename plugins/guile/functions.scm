@@ -11,20 +11,20 @@
 ;;Usage: =SIGN(number)
 ;;returns -1, 0 or 1.
 
-(define (sign num)
-  (cond ((negative? num) -1)
-	((zero? num) 0)
-	(else 1)))
+;(define (sign num)
+;  (cond ((negative? num) -1)
+;	((zero? num) 0)
+;	(else 1)))
 
 
 
-(register-function
- "sign" "f"
- "@FUNCTION=SIGN
-@SYNTAX=SIGN(number)
-@DESCRIPTION=Returns -1 if NUMBER is less than 0, 1 if NUMBER
-is greater than 0 and 0 if NUMBER is equal 0."
- sign)
+;(register-function
+; "sign" "f"
+; "@FUNCTION=SIGN
+;@SYNTAX=SIGN(number)
+;@DESCRIPTION=Returns -1 if NUMBER is less than 0, 1 if NUMBER
+;is greater than 0 and 0 if NUMBER is equal 0."
+; sign)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -34,23 +34,23 @@ is greater than 0 and 0 if NUMBER is equal 0."
 ;;Please note that there is not lcm definition here
 ;;for it's defined on R4RS
 
-(register-function
- "lcm" "ff"
- "@FUNCTION=LCM
-@SYNTAX=LCM(n1,n2)
-@DESCRIPTION=Returns the least common multiplier of N1 and N2."
- lcm)
+;(register-function
+; "lcm" "ff"
+; "@FUNCTION=LCM
+;@SYNTAX=LCM(n1,n2)
+;@DESCRIPTION=Returns the least common multiplier of N1 and N2."
+; lcm)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;gcd function
 ;;Usage: =GCD(num, num)
 
-(register-function
- "gcd" "ff"
- "@FUNCTION=GCD
-@SYNTAX=GCD(n1,n2)
-@DESCRIPTION=Returns the greatest common divisor of N1 and N2."
- gcd)
+;(register-function
+; "gcd" "ff"
+; "@FUNCTION=GCD
+;@SYNTAX=GCD(n1,n2)
+;@DESCRIPTION=Returns the greatest common divisor of N1 and N2."
+; gcd)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
