@@ -27,7 +27,7 @@ static int date_origin = 0;
  * The serial number of 19000228.  Excel allocates a serial number for
  * the non-existing date 19000229.
  */
-static const int date_serial_19000228 = 58;
+static const int date_serial_19000228 = 59;
 
 static void
 date_init (void)
@@ -62,11 +62,9 @@ datetime_serial_to_g (int serial)
 
 	if (serial <= date_serial_19000228)
 		return g_date_new_julian (serial + date_origin);
-	else if (serial == date_serial_19000228 + 1) {
+	else if (serial == date_serial_19000228 + 1)
 		g_warning ("Request for date 19000229.");
-		return g_date_new_julian (serial + date_origin);
-	} else
-		return g_date_new_julian (serial + date_origin - 1);
+	return g_date_new_julian (serial + date_origin - 1);
 }
 
 /* ------------------------------------------------------------------------- */
