@@ -3,6 +3,9 @@
 	* src/xml-io.c: Don't include <goffice/utils/go-locale.h> which
 	just went away and wasn't needed anyway.
 
+	* src/*.c src/*/*.c plugins/*/*.c: Use canonical object property
+	names.
+
 2005-03-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/style-border.c (style_border_hash): use GPOINTER_TO_UINT

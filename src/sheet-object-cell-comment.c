@@ -246,7 +246,7 @@ cell_comment_new_view (SheetObject *so, SheetObjectViewContainer *container)
 	GnmCanvas	*gcanvas = ((GnmPane *)container)->gcanvas;
 	FooCanvasItem	*view = foo_canvas_item_new (gcanvas->grid_items,
 		comment_foo_view_get_type (),
-		"fill_color",	"red",
+		"fill-color",	"red",
 		NULL);
 	/* Do not use the standard handler, comments are not movable */
 	g_signal_connect (view,

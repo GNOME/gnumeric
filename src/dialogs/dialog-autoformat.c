@@ -341,9 +341,9 @@ previews_load (AutoFormatState *state, int topindex)
 					"y1", (double)(-INNER_BORDER),
 					"x2", (double)(TOTAL_WIDTH + INNER_BORDER),
 					"y2", (double)(TOTAL_HEIGHT + INNER_BORDER),
-					"width_pixels", (int) 3,
-					"outline_color", "red",
-					"fill_color", NULL,
+					"width-pixels", (int) 3,
+					"outline-color", "red",
+					"fill-color", NULL,
 					NULL);
 				gtk_frame_set_shadow_type (state->frame[i], GTK_SHADOW_IN);
 			} else

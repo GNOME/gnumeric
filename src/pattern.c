@@ -151,7 +151,6 @@ gnumeric_background_set_gc (GnmStyle const *mstyle, GdkGC *gc,
 			GdkGCValues values;
 
 			values.fill = GDK_SOLID;
-#warning "FIXME: verify the _foreground_ here."
 			values.foreground = *back;
 			gdk_rgb_find_color (cmap, &values.foreground);
 			gdk_gc_set_values (gc, &values, GDK_GC_FILL | GDK_GC_FOREGROUND);

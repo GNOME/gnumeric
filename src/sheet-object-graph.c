@@ -263,7 +263,7 @@ sog_cb_save_as (SheetObject *so, SheetControl *sc)
 
 	wbcg = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
 
-#warning this violate model gui barrier
+#warning "This violates model gui barrier"
 	uri = gui_get_image_save_info (wbcg_toplevel (wbcg), l, &sel_fmt);
 	if (!uri)
 		goto out;
@@ -415,8 +415,8 @@ sheet_object_graph_bounds_changed (SheetObject *so)
 		double coords [4];
 		sheet_object_position_pts_get (so, coords);
 		g_object_set (SHEET_OBJECT_GRAPH (so)->renderer,
-			"logical_width_pts",  fabs (coords[2] - coords[0]),
-			"logical_height_pts", fabs (coords[3] - coords[1]),
+			"logical-width-pts",  fabs (coords[2] - coords[0]),
+			"logical-height-pts", fabs (coords[3] - coords[1]),
 			NULL);
 	}
 }

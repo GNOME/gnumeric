@@ -47,6 +47,7 @@
 #include "gutils.h"
 #include <goffice/app/io-context.h>
 #include "command-context.h"
+#include "auto-format.h"
 
 #include <gsf/gsf.h>
 #include <gsf/gsf-impl-utils.h>
@@ -394,6 +395,7 @@ wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display)
 	GnmExprList	*selection = NULL;
 	GnmValue	*v;
 	SheetView	*sv;
+	gboolean        no_auto_expr_format = FALSE;  /* FIXME */
 
 	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
 	g_return_if_fail (wbv->auto_expr != NULL);
@@ -408,19 +410,41 @@ wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display)
 	ei.func_call = (GnmExprFunction const *)wbv->auto_expr;
 
 	v = function_call_with_list (&ei, selection, 0);
-	gnm_expr_list_unref (selection);
 
-	if (wbv->auto_expr_value_as_string)
-		g_free (wbv->auto_expr_value_as_string);
+	g_free (wbv->auto_expr_value_as_string);
 
 	if (v) {
-		char const *val_str = value_peek_string (v);
-		wbv->auto_expr_value_as_string =
-			g_strconcat (wbv->auto_expr_desc, "=", val_str, NULL);
+		GString *str = g_string_new (wbv->auto_expr_desc);
+		GOFormat const *format = NULL;
+
+		g_string_append_c (str, '=');
+		if (!no_auto_expr_format) {
+			format = VALUE_FMT (v);
+			if (!format) {
+				const GnmExpr *fcall =
+					gnm_expr_new_funcall (gnm_expr_get_func_def (wbv->auto_expr),
+							      selection);
+				selection = NULL;
+				format = auto_style_format_suggest (fcall, ei.pos);
+				gnm_expr_unref (fcall);
+			}
+		}
+
+		if (format) {
+			g_print ("Format: [%s]\n", style_format_as_XL (format, FALSE));
+			format_value_gstring (str, format, v, NULL,
+					      -1, workbook_date_conv (wb_view_workbook (wbv)));
+		} else {
+			g_print ("No format\n");
+			g_string_append (str, value_peek_string (v));
+		}
+
+		wbv->auto_expr_value_as_string = g_string_free (str, FALSE);
 		value_release (v);
 	} else
 		wbv->auto_expr_value_as_string = g_strdup (_("Internal ERROR"));
 
+	gnm_expr_list_unref (selection);
 	wb_view_auto_expr_value_display (wbv);
 }
 

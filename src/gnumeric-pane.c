@@ -376,15 +376,15 @@ gnm_pane_colrow_resize_start (GnmPane *pane,
 	item = foo_canvas_item_new (gcanvas->action_items,
 		FOO_TYPE_CANVAS_LINE,
 		"points", points,
-		"fill_color", "black",
-		"width_pixels", 1,
+		"fill-color", "black",
+		"width-pixels", 1,
 		NULL);
 	pane->colrow_resize.start = GTK_OBJECT (item);
 
 	item = foo_canvas_item_new (gcanvas->action_items,
 		FOO_TYPE_CANVAS_LINE,
-		"fill_color", "black",
-		"width_pixels", 1,
+		"fill-color", "black",
+		"width-pixels", 1,
 		NULL);
 	pane->colrow_resize.guide = GTK_OBJECT (item);
 }
@@ -830,7 +830,7 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event, GnmPane *pane)
 
 		if (idx != 8) {
 			foo_canvas_item_set (ctrl_pt,
-				"fill_color",    "green",
+				"fill-color",    "green",
 				NULL);
 			gnm_pane_display_obj_size_tip (pane, so);
 		}
@@ -840,7 +840,7 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event, GnmPane *pane)
 		scg_set_display_cursor (scg);
 		if (idx != 8) {
 			foo_canvas_item_set (ctrl_pt,
-				"fill_color",    "white",
+				"fill-color",    "white",
 				NULL);
 			gnm_pane_clear_obj_size_tip (pane);
 		}
@@ -945,9 +945,9 @@ new_control_point (GnmPane *pane, SheetObject *so, int idx, double x, double y)
 	item = foo_canvas_item_new (
 		gcanvas->action_items,
 		FOO_TYPE_CANVAS_ELLIPSE,
-		"outline_color", "black",
-		"fill_color",    "white",
-		"width_pixels",  CTRL_PT_OUTLINE,
+		"outline-color", "black",
+		"fill-color",    "white",
+		"width-pixels",  CTRL_PT_OUTLINE,
 		NULL);
 
 	g_signal_connect (G_OBJECT (item),
@@ -997,10 +997,10 @@ set_acetate_coords (GnmPane *pane, SheetObject *so, FooCanvasItem **ctrl_pts,
 				GTK_WIDGET (pane->gcanvas)->window, dashed, 8, 8);
 			ctrl_pts [9] = foo_canvas_item_new (pane->gcanvas->action_items,
 				FOO_TYPE_CANVAS_RECT,
-				"fill_color",		NULL,
-				"width_units",   	1.,
-				"outline_color",	"black",
-				"outline_stipple",	stipple,
+				"fill-color",		NULL,
+				"width-units",   	1.,
+				"outline-color",	"black",
+				"outline-stipple",	stipple,
 				NULL);
 			g_object_unref (stipple);
 			foo_canvas_item_lower_to_bottom (ctrl_pts [9]);
@@ -1037,17 +1037,17 @@ set_acetate_coords (GnmPane *pane, SheetObject *so, FooCanvasItem **ctrl_pts,
 		FooCanvasItem *item = foo_canvas_item_new (
 			pane->gcanvas->action_items,
 			item_acetate_get_type (),
-			"fill_color",		NULL,
+			"fill-color",		NULL,
 #ifdef WITH_STIPPLE_BORDER
-			"width_units",		(double)(CTRL_PT_SIZE + CTRL_PT_OUTLINE),
-			"outline_color",	"black",
-			"outline_stipple",	stipple,
+			"width-units",		(double)(CTRL_PT_SIZE + CTRL_PT_OUTLINE),
+			"outline-color",	"black",
+			"outline-stipple",	stipple,
 #endif
 #if 0
 			/* work around the screwup in canvas-item-shape that adds a large
 			 * border to anything that uses miter (required for gnome-canvas
 			 * not foocanvas */
-			"join_style",		GDK_JOIN_ROUND,
+			"join-style",		GDK_JOIN_ROUND,
 #endif
 			NULL);
 #ifdef WITH_STIPPLE_BORDER

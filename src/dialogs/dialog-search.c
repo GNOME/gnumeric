@@ -460,7 +460,7 @@ make_matches_table (DialogState *dd)
 	tree_view = GTK_TREE_VIEW (gtk_tree_view_new_with_model (model));
 #ifdef NOT_YET
 	/* Gtk+ isn't ready yet -- 20031224.  */
-	g_object_set (tree_view, "fixed_height_mode", TRUE, NULL);
+	g_object_set (tree_view, "fixed-height-mode", TRUE, NULL);
 #endif
 
 	for (i = 0; i < (int)G_N_ELEMENTS (columns); i++) {
@@ -470,7 +470,7 @@ make_matches_table (DialogState *dd)
 								  columns[i].type, i,
 								  NULL);
 		/* Set single_paragraph_mode to ensure fixed height.  */
-		g_object_set (cell, "single_paragraph_mode", TRUE, NULL);
+		g_object_set (cell, "single-paragraph-mode", TRUE, NULL);
 		if (i == COL_CONTENTS)
 			g_object_set (cell, "ellipsize", PANGO_ELLIPSIZE_END, NULL);
 		gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_GROW_ONLY);

@@ -1293,9 +1293,9 @@ xml_sax_object_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 	if (!strcmp (type_name, "Rectangle"))
 		so = g_object_new (GNM_SO_FILLED_TYPE, NULL);
 	else if (!strcmp (type_name, "Ellipse"))
-		so = g_object_new (GNM_SO_FILLED_TYPE, "is_oval", TRUE, NULL);
+		so = g_object_new (GNM_SO_FILLED_TYPE, "is-oval", TRUE, NULL);
 	else if (!strcmp (type_name, "Line"))
-		so = g_object_new (GNM_SO_LINE_TYPE, "is_arrow", TRUE, NULL);
+		so = g_object_new (GNM_SO_LINE_TYPE, "is-arrow", TRUE, NULL);
 	else if (!strcmp (type_name, "Arrow"))
 		so = g_object_new (GNM_SO_LINE_TYPE, NULL);
 

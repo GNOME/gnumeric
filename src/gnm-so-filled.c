@@ -181,15 +181,15 @@ cb_gnm_so_filled_style_changed (FooCanvasItem *background, GnmSOFilled const *so
 
 	if (style->outline.width > 0.)	/* in pts */
 		foo_canvas_item_set (background,
-			"width_units",		style->outline.width,
-			"outline_color_gdk",	outline_gdk,
-			"fill_color_gdk",	fill_gdk,
+			"width-units",		style->outline.width,
+			"outline-color-gdk",	outline_gdk,
+			"fill-color-gdk",	fill_gdk,
 			NULL);
 	else /* hairline 1 pixel that ignores zoom */
 		foo_canvas_item_set (background,
-			"width_pixels",		1,
-			"outline_color_gdk",	outline_gdk,
-			"fill_color_gdk",	fill_gdk,
+			"width-pixels",		1,
+			"outline-color-gdk",	outline_gdk,
+			"fill-color-gdk",	fill_gdk,
 			NULL);
 
 }

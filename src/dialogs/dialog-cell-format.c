@@ -590,7 +590,7 @@ cb_rotate_changed (GtkEditable *editable, FormatState *state)
 		if (state->align.rotate_marks[i] != NULL) {
 			colour = (state->align.rotation == (i-6)*15) ? "green" : "black";
 			foo_canvas_item_set (state->align.rotate_marks[i],
-					     "fill_color", colour,
+					     "fill-color", colour,
 					     NULL);
 		}
 	if (state->align.line != NULL) {
@@ -645,15 +645,15 @@ cb_rotate_canvas_realize (FooCanvas *canvas, FormatState *state)
 					     FOO_TYPE_CANVAS_ELLIPSE,
 					     "x1", x-size,	"y1", y-size,
 					     "x2", x+size,	"y2", y+size,
-					     "width_pixels", (int) 1,
-					     "outline_color","black",
-					     "fill_color",	"black",
+					     "width-pixels", (int) 1,
+					     "outline-color","black",
+					     "fill-color",	"black",
 					     NULL);
 		state->align.rotate_marks[i] = item;
 	}
 	state->align.line = foo_canvas_item_new (group,
 		FOO_TYPE_CANVAS_LINE,
-		"fill_color",	"black",
+		"fill-color",	"black",
 		"width_units",	2.,
 		NULL);
 
@@ -1239,7 +1239,7 @@ border_format_has_changed (FormatState *state, BorderPicker *edge)
 			    state->border.lines[i] != NULL)
 				foo_canvas_item_set (
 					FOO_CANVAS_ITEM (state->border.lines[i]),
-					"fill_color_rgba", edge->rgba,
+					"fill-color-rgba", edge->rgba,
 					NULL);
 		}
 	}
@@ -1402,8 +1402,8 @@ draw_border_preview (FormatState *state)
 			FOO_TYPE_CANVAS_RECT,
 			"x1", L-10.,	"y1", T-10.,
 			"x2", R+10.,	"y2", B+10.,
-			"width_pixels", (int) 0,
-			"fill_color",	"white",
+			"width-pixels", (int) 0,
+			"fill-color",	"white",
 			NULL);
 
 		/* Draw the corners */
@@ -1423,8 +1423,8 @@ draw_border_preview (FormatState *state)
 
 			foo_canvas_item_new (group,
 					       foo_canvas_line_get_type (),
-					       "width_pixels",	(int) 0,
-					       "fill_color",	"gray63",
+					       "width-pixels",	(int) 0,
+					       "fill-color",	"gray63",
 					       "points",	points,
 					       NULL);
 		}
@@ -1441,7 +1441,7 @@ draw_border_preview (FormatState *state)
 				state->border.lines[i] =
 					foo_canvas_item_new (group,
 							       gnumeric_dashed_canvas_line_get_type (),
-							       "fill_color_rgba", p->rgba,
+							       "fill-color-rgba", p->rgba,
 							       "points",	  points,
 							       NULL);
 				gnumeric_dashed_canvas_line_set_dash_index (

@@ -327,8 +327,8 @@ make_line (FooCanvasGroup *g, double x1, double y1, double x2, double y2)
 	item = foo_canvas_item_new (
 		FOO_CANVAS_GROUP (g), foo_canvas_line_get_type (),
 		"points", points,
-		"width_pixels", 1,
-		"fill_color",   MARGIN_COLOR_DEFAULT,
+		"width-pixels", 1,
+		"fill-color",   MARGIN_COLOR_DEFAULT,
 		NULL);
 	foo_canvas_points_unref (points);
 
@@ -474,9 +474,9 @@ preview_page_create (PrinterSetupState *state)
 		"y1",  	      	 (double) y1+2,
 		"x2",  	      	 (double) x2+2,
 		"y2",         	 (double) y2+2,
-		"fill_color",    "black",
-		"outline_color", "black",
-		"width_pixels",   1,
+		"fill-color",    "black",
+		"outline-color", "black",
+		"width-pixels",   1,
 		NULL);
 
 	foo_canvas_item_new (FOO_CANVAS_GROUP (pi->group),
@@ -485,9 +485,9 @@ preview_page_create (PrinterSetupState *state)
 		"y1",  	      	 (double) y1,
 		"x2",  	      	 (double) x2,
 		"y2",         	 (double) y2,
-		"fill_color",    "white",
-		"outline_color", "black",
-		"width_pixels",   1,
+		"fill-color",    "white",
+		"outline-color", "black",
+		"width-pixels",   1,
 		NULL);
 
 	draw_margins (state, x1, y1, x2, y2);
@@ -589,7 +589,7 @@ unit_activated (G_GNUC_UNUSED GtkSpinButton *spin_button,
 		UnitInfo_cbdata *data)
 {
 	foo_canvas_item_set (data->target->line,
-			       "fill_color", MARGIN_COLOR_ACTIVE,
+			       "fill-color", MARGIN_COLOR_ACTIVE,
 			       NULL);
 	return FALSE;
 }
@@ -600,7 +600,7 @@ unit_deactivated (G_GNUC_UNUSED GtkSpinButton *spin_button,
 		  UnitInfo_cbdata *data)
 {
 	foo_canvas_item_set (data->target->line,
-			       "fill_color", MARGIN_COLOR_DEFAULT,
+			       "fill-color", MARGIN_COLOR_DEFAULT,
 			       NULL);
 	return FALSE;
 }
@@ -1152,7 +1152,7 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 		"y1",		(header ? shadow : 0),
 		"x2",		width + shadow,
 		"y2",		height + (header ? 0 : shadow),
-		"fill_color",	"black",
+		"fill-color",	"black",
 		NULL);
 
         foo_canvas_item_new (foo_canvas_root (FOO_CANVAS (pi->canvas)),
@@ -1161,7 +1161,7 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 		"y1",		0.0,
 		"x2",		width,
 		"y2",		height,
-		"fill_color",	"white",
+		"fill-color",	"white",
 		NULL);
 
 	/* Use the Gnumeric default font. */
@@ -1178,8 +1178,8 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 		"x",		padding,
 		"y",		header ? margin : bottom_margin,
 		"anchor",	GTK_ANCHOR_WEST,
-		"font_desc",	font_desc,
-		"fill_color",	"black",
+		"font-desc",	font_desc,
+		"fill-color",	"black",
 		"text",		"Left",
 		NULL);
 
@@ -1189,8 +1189,8 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 		"x",		width / 2,
 		"y",		header ? margin : bottom_margin,
 		"anchor",	GTK_ANCHOR_CENTER,
-		"font_desc",	font_desc,
-		"fill_color",	"black",
+		"font-desc",	font_desc,
+		"fill-color",	"black",
 		"text",		"Center",
 		NULL);
 
@@ -1200,8 +1200,8 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 		"x",		width - padding,
 		"y",		header ? margin : bottom_margin,
 		"anchor",	GTK_ANCHOR_EAST,
-		"font_desc",    font_desc,
-		"fill_color",	"black",
+		"font-desc",    font_desc,
+		"fill-color",	"black",
 		"text",		"Right",
 		NULL);
 

@@ -353,7 +353,7 @@ BC_R(area)(XLChartHandler const *handle,
 
 	g_object_set (G_OBJECT (s->plot),
 		"type",			type,
-		"in_3d",		in_3d,
+		"in-3d",		in_3d,
 		NULL);
 
 	d(1, fprintf (stderr, "%s area;", type););
@@ -583,9 +583,9 @@ BC_R(bar)(XLChartHandler const *handle,
 	g_object_set (G_OBJECT (s->plot),
 		"horizontal",		horizontal,
 		"type",			type,
-		"in_3d",		in_3d,
-		"overlap_percentage",	overlap_percentage,
-		"gap_percentage",	gap_percentage,
+		"in-3d",		in_3d,
+		"overlap-percentage",	overlap_percentage,
+		"gap-percentage",	gap_percentage,
 		NULL);
 	d(1, fprintf (stderr, "%s bar with gap = %d, overlap = %d;",
 		      type, gap_percentage, overlap_percentage););
@@ -682,12 +682,12 @@ BC_R(chartformat)(XLChartHandler const *handle,
 
 	if (s->plot != NULL)
 		g_object_set (G_OBJECT (s->plot),
-			"vary_style_by_element", (flags & 0x01) ? TRUE : FALSE,
-			NULL);
+			      "vary-style-by-element", (flags & 0x01) ? TRUE : FALSE,
 #if 0
-	"index", s->plot_counter
-	"stacking_position", z_order
+			      "index", s->plot_counter
+			      "stacking-position", z_order
 #endif
+			      NULL);
 
 	d (0, {
 		fprintf (stderr, "Z value = %uh\n", z_order);
@@ -1101,7 +1101,7 @@ BC_R(line)(XLChartHandler const *handle,
 
 	g_object_set (G_OBJECT (s->plot),
 		"type",			type,
-		"in_3d",		in_3d,
+		"in-3d",		in_3d,
 		NULL);
 
 	d(1, fprintf (stderr, "%s line;", type););
@@ -1304,12 +1304,12 @@ BC_R(pie)(XLChartHandler const *handle,
 	g_return_val_if_fail (s->plot != NULL, TRUE);
 
 	g_object_set (G_OBJECT (s->plot),
-		"in_3d",		in_3d,
-		"initial_angle",	initial_angle,
+		"in-3d",		in_3d,
+		"initial-angle",	initial_angle,
 		NULL);
 	if (center_size != 0)
 		g_object_set (G_OBJECT (s->plot),
-			"center_size",	((double)center_size) / 100.,
+			"center-size",	((double)center_size) / 100.,
 			NULL);
 
 #if 0
@@ -1333,9 +1333,9 @@ BC_R(pieformat)(XLChartHandler const *handle,
 		g_object_set_data (G_OBJECT (s->style),
 			"pie-separation", GUINT_TO_POINTER (separation));
 	else if (s->plot != NULL &&
-	    g_object_class_find_property (G_OBJECT_GET_CLASS (s->plot), "default_separation"))
+	    g_object_class_find_property (G_OBJECT_GET_CLASS (s->plot), "default-separation"))
 		g_object_set (G_OBJECT (s->plot),
-			"default_separation",	((double) separation) / 100.,
+			"default-separation",	((double) separation) / 100.,
 			NULL);
 	d (2, fprintf (stderr, "Pie slice(s) are %u %% of diam from center\n",
 		       separation););
@@ -1441,10 +1441,10 @@ BC_R(scatter)(XLChartHandler const *handle,
 			s->plot = gog_plot_new_by_name ("GogBubblePlot");
 			g_return_val_if_fail (s->plot != NULL, TRUE);
 			g_object_set (G_OBJECT (s->plot),
-				"in_3d",		in_3d, 
-				"show_negatives",	show_negatives,
-				"size_as_area", 	size_as_area,
-				"bubble_scale",	scale,
+				"in-3d",		in_3d, 
+				"show-negatives",	show_negatives,
+				"size-as-area", 	size_as_area,
+				"bubble-scale",	scale,
 				NULL);
 			d(1, fprintf (stderr, "bubbles;"););
 			return FALSE;
@@ -1669,8 +1669,8 @@ BC_R(surf)(XLChartHandler const *handle,
 	g_return_val_if_fail (s->plot == NULL, TRUE);
 	s->plot = gog_plot_new_by_name ("GogContourPlot");
 	g_object_set (G_OBJECT (s->plot),
-		"use_color",		(flags & 0x01) != 0,
-		"in_3d",		(s->container.ver >= MS_BIFF_V8 && (flags & 0x02)),
+		"use-color",		(flags & 0x01) != 0,
+		"in-3d",		(s->container.ver >= MS_BIFF_V8 && (flags & 0x02)),
 		NULL);
 #endif
 
@@ -1831,7 +1831,7 @@ BC_R(valuerange)(XLChartHandler const *handle,
 		d (1, fputs ("Values in reverse order;\n", stderr););
 	}
 	if (flags & 0x80) {
-		g_object_set (s->axis, "pos_str", "high", NULL);
+		g_object_set (s->axis, "pos-str", "high", NULL);
 		d (1, fputs ("Cross over at max value;\n", stderr););
 	}
 
@@ -3099,7 +3099,7 @@ map_1_5d_type (XLChartWriteState *s, GogPlot const *plot,
 	gboolean in_3d = FALSE;
 	guint16 res;
 
-	g_object_get (G_OBJECT (plot), "type", &type, "in_3d", &in_3d, NULL);
+	g_object_get (G_OBJECT (plot), "type", &type, "in-3d", &in_3d, NULL);
 
 	res = (s->bp->version >= MS_BIFF_V8 && in_3d) ? flag_3d : 0;
 	if (0 == strcmp (type, "stacked"))
@@ -3127,8 +3127,8 @@ chart_write_plot (XLChartWriteState *s, GogPlot const *plot)
 
 		g_object_get (G_OBJECT (plot),
 			      "horizontal",		&horizontal,
-			      "overlap_percentage",	&overlap_percentage,
-			      "gap_percentage",		&gap_percentage,
+			      "overlap-percentage",	&overlap_percentage,
+			      "gap-percentage",		&gap_percentage,
 			      NULL);
 		if (horizontal)
 			flags |= 1;
@@ -3149,9 +3149,9 @@ chart_write_plot (XLChartWriteState *s, GogPlot const *plot)
 		float initial_angle = 0., center_size = 0., default_separation = 0.;
 		gint16 center = 0;
 		g_object_get (G_OBJECT (plot),
-			"in_3d",		&in_3d,
-			"initial_angle",	&initial_angle,
-			"default_separation",	&default_separation,
+			"in-3d",		&in_3d,
+			"initial-angle",	&initial_angle,
+			"default-separation",	&default_separation,
 			NULL);
 
 		data = ms_biff_put_len_next (s->bp, BIFF_CHART_pie,
@@ -3160,7 +3160,7 @@ chart_write_plot (XLChartWriteState *s, GogPlot const *plot)
 
 		if (0 == strcmp (type, "GogRingPlot")) {
 			g_object_get (G_OBJECT (plot),
-				"center_size",		&center_size,
+				"center-size",		&center_size,
 				NULL);
 			center = (int)floor (center_size * 100. + .5);
 			if (center < 0)
@@ -3192,9 +3192,9 @@ chart_write_plot (XLChartWriteState *s, GogPlot const *plot)
 			} else {
 				gboolean show_neg = FALSE, in_3d = FALSE, as_area = TRUE;
 				g_object_get (G_OBJECT (plot),
-					"show_negatives",	&show_neg,
-					"in_3d",		&in_3d,
-					"size_as_area",		&as_area,
+					"show-negatives",	&show_neg,
+					"in-3d",		&in_3d,
+					"size-as-area",		&as_area,
 					NULL);
 				/* TODO : find accurate size */
 				GSF_LE_SET_GUINT16 (data + 0, 100);
@@ -3294,7 +3294,7 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 			guint16 flags = 0;
 
 			g_object_get (G_OBJECT (pptr->data),
-				      "vary_style_by_element", &vary,
+				      "vary-style-by-element", &vary,
 				      NULL);
 
 			data = ms_biff_put_len_next (s->bp, BIFF_CHART_chartformat, 20);

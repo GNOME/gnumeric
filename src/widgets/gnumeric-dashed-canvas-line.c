@@ -170,7 +170,7 @@ gnumeric_dashed_canvas_line_set_dash_index (GnumericDashedCanvasLine *line,
 	gint const width = style_border_get_width (indx);
 	line->dash_style_index = indx;
 	foo_canvas_item_set (FOO_CANVAS_ITEM (line),
-			       "width_pixels", width,
+			       "width-pixels", width,
 			       NULL);
 
 	foo_canvas_item_request_update (FOO_CANVAS_ITEM (line));

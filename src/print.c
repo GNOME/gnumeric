@@ -1412,7 +1412,7 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 	}
 	
 	gnome_print_dialog = g_object_new (GNOME_TYPE_PRINT_DIALOG,
-					   "print_config", pj->gp_config,
+					   "print-config", pj->gp_config,
 					   NULL);
 	
 	g_return_if_fail (gnome_print_dialog != NULL);

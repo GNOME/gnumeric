@@ -300,7 +300,7 @@ dialog_about (WorkbookControlGUI *wbcg)
 	}
 	g_object_set (G_OBJECT (plot),
 		"horizontal",			TRUE,
-		"vary_style_by_element",	TRUE,
+		"vary-style-by-element",	TRUE,
 		NULL);
 	gog_object_add_by_name (chart, "Plot", GOG_OBJECT (plot));
 	series = gog_plot_new_series (plot);
