@@ -10,7 +10,6 @@ Release Critical
 
     http://bugzilla.gnome.org/show_bug.cgi?id=62004	rand paste (replicate?)
     http://bugzilla.gnome.org/show_bug.cgi?id=60678	dsum
-    http://bugzilla.gnome.org/show_bug.cgi?id=60468	oleo
 
     - Add an idle handler at start up to check for availablity of
       evo and guppi.  They should only be enabled if they are available.
@@ -19,6 +18,8 @@ Release Critical
 
 Pending Patches
 ---------------
+
+    http://bugzilla.gnome.org/show_bug.cgi?id=60468	oleo
 
 Long term breakage
 ------------------
@@ -39,8 +40,6 @@ Long term breakage
 - outline mode
     : finish implementing optionally putting markers above/left
     : Make ungroup smarter about handling extra items of lower level at the edges
-
-- It is possible to navigate to hidden cols/rows at the start/end of the sheet.
 
 - clean up the range_list codes to differentiate a list of ranges from a list
   of cellranges.
@@ -90,6 +89,7 @@ Long term breakage
     : formats with AM/PM need to be internationalized.
     : we should parse fractions
     : We do not format fractional seconds correctly.
+    : Parsing should handle embedded strings
 
 - Inc/Dec precision should work.  Try "44", click $, then add/remove decimals.
 - While we're playing with those functions, let's add simple ones like inc/dec
@@ -169,5 +169,8 @@ Plugins
 - dif 
     : uses g_alloca inside function calls.  This does not work.
 - latex
+    : multiline rows not handled properly.
+    : nor are spans
+- html export
     : multiline rows not handled properly.
     : nor are spans
