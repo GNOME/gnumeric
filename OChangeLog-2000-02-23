@@ -1,5 +1,10 @@
 1999-09-23  Morten Welinder  <terra@diku.dk>
 
+	* configure.in (gnome-print): only require 0.7 -- that's the
+ 	latest cvs version.
+
+	* gnumeric.spec.in (Requires): Ditto.
+
 	* configure.in (gnome-print): fix test.
 
 1999-09-23  Miguel de Icaza  <miguel@nuclecu.unam.mx>
