@@ -68,6 +68,7 @@ struct _GogAxis {
 	gpointer	min_contrib, max_contrib; /* NULL means use the manual sources */
 	gboolean	is_discrete;
 	GODataVector   *labels;
+	GogPlot	       *plot_that_supplied_labels;
 	GOFormat       *format, *assigned_format;
 };
 
@@ -330,6 +331,8 @@ gog_axis_finalize (GObject *obj)
 	if (axis->labels != NULL) {
 		g_object_unref (axis->labels);
 		axis->labels   = NULL;
+		/* this is for information only, no ref */
+		axis->plot_that_supplied_labels = NULL;
 	}
 	if (axis->assigned_format != NULL) {
 		go_format_unref (axis->assigned_format);
@@ -383,6 +386,7 @@ gog_axis_update (GogObject *obj)
 	if (axis->labels != NULL) {
 		g_object_unref (axis->labels);
 		axis->labels   = NULL;
+		axis->plot_that_supplied_labels = NULL;
 	}
 	axis->is_discrete = TRUE;
 	axis->min_val  =  DBL_MAX;
@@ -404,8 +408,9 @@ gog_axis_update (GogObject *obj)
 		if (!bounds.is_discrete)
 			axis->is_discrete = FALSE;
 		else if (axis->labels == NULL && labels != NULL) {
-			axis->labels = GO_DATA_VECTOR (labels);
 			g_object_ref (labels);
+			axis->labels = GO_DATA_VECTOR (labels);
+			axis->plot_that_supplied_labels = GOG_PLOT (ptr->data);
 		}
 
 		if (axis->min_val > bounds.val.minima) {
@@ -820,6 +825,7 @@ gog_axis_init (GogAxis *axis)
 	axis->min_contrib = axis->max_contrib = NULL;
 	axis->is_discrete = FALSE;
 	axis->labels = NULL;
+	axis->plot_that_supplied_labels = NULL;
 	axis->format = axis->assigned_format = NULL;
 }
 
@@ -927,6 +933,29 @@ gog_axis_get_ticks (GogAxis const *axis, double *major, double *minor)
 }
 
 /**
+ * gog_axis_get_labels :
+ * @axi : #GogAxis
+ * @plot_that_labeled_axis : #GogPlot
+ *
+ * Return the possibly NULL #GOData used as a label for this axis
+ * along with the plot that it was associated with
+ **/
+GOData *
+gog_axis_get_labels (GogAxis const *axis, GogPlot **plot_that_labeled_axis)
+{
+	g_return_val_if_fail (GOG_AXIS (axis) != NULL, NULL);
+
+	if (axis->is_discrete) {
+		if (plot_that_labeled_axis != NULL)
+			*plot_that_labeled_axis = axis->plot_that_supplied_labels;
+		return GO_DATA (axis->labels);
+	}
+	if (plot_that_labeled_axis != NULL)
+		*plot_that_labeled_axis = NULL;
+	return NULL;
+}
+
+/**
  * gog_axis_add_contributor :
  * @axis : #GogAxis
  * @contrib : #GogObject (can we relax this to use an interface ?)
@@ -1016,9 +1045,7 @@ gog_axis_num_markers (GogAxis *axis, double *major_step, double *minor_step)
 
 	if (axis->is_discrete) {
 		int n = 0;
-		if (axis->labels != NULL)
-			n = go_data_vector_get_len (axis->labels);
-		else if (axis->max_val >= axis->min_val)	/* case there is no data */
+		if (axis->max_val >= axis->min_val)	/* case there is no data */
 			n = gnumeric_fake_trunc (axis->max_val);
 		if (n < 1)
 			n = 1;
@@ -1051,8 +1078,11 @@ static char *
 gog_axis_get_marker (GogAxis *axis, unsigned i)
 {
 	if (axis->is_discrete) {
-		if (axis->labels != NULL)
+		if (axis->labels != NULL) {
+			if ((int)i < go_data_vector_get_len (axis->labels))
 			return go_data_vector_get_str (axis->labels, i);
+			return g_strdup ("");
+		}
 		return g_strdup_printf ("%d", i+1);
 	} else {
 		double major_tick = axis_get_entry (axis, AXIS_ELEM_MAJOR_TICK, NULL);

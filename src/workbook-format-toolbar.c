@@ -63,7 +63,7 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 {
 	GtkWidget *fontsel, *fontsize, *entry;
 	GtkWidget *border_combo, *back_combo, *fore_combo;
-	ColorGroup *cg;
+	GOColorGroup *cg;
 
 	GList *l;
 	int i, len;

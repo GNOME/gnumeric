@@ -476,7 +476,6 @@ wbcg_edit_attach_guru_main (WorkbookControlGUI *wbcg, GtkWidget *guru)
 	gtk_editable_set_editable (GTK_EDITABLE (wbcg_get_entry (wbcg)), FALSE);
 	wb_control_edit_set_sensitive (wbc, FALSE, FALSE);
 	wb_control_menu_state_update (wbc, MS_GURU_MENU_ITEMS);
-
 }
 
 static void

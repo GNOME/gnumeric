@@ -226,7 +226,7 @@ style_font_new_simple (PangoContext *context,
 		font->ref_count++;
 
 #ifdef DEBUG_REF_COUNT
-	fprintf (stderr, __FUNCTION__ " font=%p name=%s%s%s ref_count=%d\n",
+	g_message (__FUNCTION__ " font=%p name=%s%s%s ref_count=%d\n",
 		 font, font->font_name,
 		 font->is_bold ? " bold" : "",
 		 font->is_italic ? " italic" : "",
@@ -284,7 +284,7 @@ style_font_ref (GnmFont *sf)
 
 	sf->ref_count++;
 #ifdef DEBUG_REF_COUNT
-	fprintf (stderr, __FUNCTION__ " font=%p name=%s%s%s ref_count=%d\n",
+	g_message (__FUNCTION__ " font=%p name=%s%s%s ref_count=%d\n",
 		 sf, sf->font_name,
 		 sf->is_bold ? " bold" : "",
 		 sf->is_italic ? " italic" : "",
@@ -300,7 +300,7 @@ style_font_unref (GnmFont *sf)
 
 	sf->ref_count--;
 #ifdef DEBUG_REF_COUNT
-	fprintf (stderr, __FUNCTION__ " font=%p name=%s%s%s ref_count=%d\n",
+	g_message (__FUNCTION__ " font=%p name=%s%s%s ref_count=%d\n",
 		 sf, sf->font_name,
 		 sf->is_bold ? " bold" : "",
 		 sf->is_italic ? " italic" : "",

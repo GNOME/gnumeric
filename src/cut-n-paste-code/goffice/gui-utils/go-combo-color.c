@@ -30,48 +30,41 @@
  * 02111-1307, USA.
  */
 
-#undef GNOME_DISABLE_DEPRECATED
-#warning "This file uses GNOME_DISABLE_DEPRECATED for GnomeColorPicker"
 #include <gnumeric-config.h>
 
-#include "widget-color-combo.h"
-#include <gnm-marshalers.h>
-#include <gui-util.h>
-#include <style-color.h>
+#include "go-combo-color.h"
+#include "go-marshalers.h"
+#include "go-combo-box.h"
+#include "go-color-palette.h"
 
-#include <widgets/gnm-combo-box.h>
-#include <widgets/color-palette.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkimage.h>
+#include <gtk/gtkwindow.h>
 #include <gdk/gdkcolor.h>
-#include <libgnomeui/gnome-color-picker.h>
 
 struct _ColorCombo {
-	GnmComboBox     combo_box;
-
-	/*
-	 * GtkImage where we display
-	 */
-	GtkWidget       *preview_button;
-	GtkWidget	*preview_image;
-	gboolean	preview_is_icon;
+	GOComboBox     combo_box;
 
 	ColorPalette    *palette;
+	GtkWidget       *preview_button;
+	GtkWidget	*preview_image;
+	gboolean	 preview_is_icon;
+	gboolean	 instant_apply;
 
-	GdkColor  default_color_save;
-        GdkColor *default_color;
-	gboolean  instant_apply;
+        GOColor  default_color;
 };
 
 typedef struct {
-	GnmComboBoxClass base;
-	void (* color_changed) (ColorCombo *color_combo, GdkColor *color,
-				gboolean custom, gboolean by_user, gboolean is_default);
+	GOComboBoxClass base;
+	void (*color_changed) (ColorCombo *cc, GOColor color,
+			       gboolean custom, gboolean by_user, gboolean is_default);
+	void (*display_custom_dialog) (ColorCombo *cc, GtkWidget *dialog);
 } ColorComboClass;
 
 enum {
-	CHANGED,
+	COLOR_CHANGED,
+	DISPLAY_CUSTOM_DIALOG,
 	LAST_SIGNAL
 };
 
@@ -79,32 +72,22 @@ static guint color_combo_signals [LAST_SIGNAL] = { 0, };
 
 static GObjectClass *color_combo_parent_class;
 
-#define make_color(CC,COL) (((COL) != NULL) ? (COL) : ((CC) ? ((CC)->default_color) : NULL))
-
 #define PREVIEW_SIZE 20
 
 static void
-color_combo_set_color_internal (ColorCombo *cc, GdkColor *color)
+color_combo_set_color_internal (ColorCombo *cc, GOColor color, gboolean is_default)
 {
 	guint color_y, color_height;
 	guint height, width;
 	GdkPixbuf *pixbuf;
 	GdkPixbuf *color_pixbuf;
-	GdkColor *new_color;
-	GdkColor *outline_color;
-
-	new_color = make_color (cc,color);
-	/* If the new and the default are NULL draw an outline */
-	outline_color = (new_color) ? new_color : &gs_dark_gray;
+	gboolean   add_an_outline;
 
 	pixbuf = gtk_image_get_pixbuf (GTK_IMAGE (cc->preview_image));
-
 	if (!pixbuf)
 		return;
-
 	width = gdk_pixbuf_get_width (pixbuf);
 	height = gdk_pixbuf_get_height (pixbuf);
-
 	if (cc->preview_is_icon) {
 		color_y = height - 4;
 		color_height = 4;
@@ -113,20 +96,19 @@ color_combo_set_color_internal (ColorCombo *cc, GdkColor *color)
 		color_height = height;
 	}
 
-	color_pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB,
-				       TRUE, 8,
-				       width,
-				       color_height);
-	gdk_pixbuf_fill (color_pixbuf, GDK_TO_UINT (*outline_color));
-	gdk_pixbuf_copy_area (color_pixbuf, 0, 0, width, color_height,
-			      pixbuf, 0, color_y);
+	color_pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8,
+				       width, color_height);
 
-	if (new_color != NULL)
-		gdk_pixbuf_fill (color_pixbuf, GDK_TO_UINT (*new_color));
-	else
-		gdk_pixbuf_fill (color_pixbuf, 0xffffff00);
-	gdk_pixbuf_copy_area (color_pixbuf, 0, 0, width - 2, color_height -2,
-			      pixbuf, 1, color_y + 1);
+	/* mostly transparent things should have an outline */
+	add_an_outline = (UINT_RGBA_A (color) < 0x80);
+	gdk_pixbuf_fill (color_pixbuf, add_an_outline ? RGBA_GREY (0x33) : color);
+	gdk_pixbuf_copy_area (color_pixbuf, 0, 0, width, color_height,
+		pixbuf, 0, color_y);
+	if (add_an_outline) {
+		gdk_pixbuf_fill (color_pixbuf, color);
+		gdk_pixbuf_copy_area (color_pixbuf, 0, 0, width - 2, color_height -2,
+			pixbuf, 1, color_y + 1);
+	}
 
 	g_object_unref (color_pixbuf);
 	gtk_widget_queue_draw (cc->preview_image);
@@ -147,34 +129,26 @@ cb_screen_changed (ColorCombo *cc, GdkScreen *previous_screen)
 }
 
 static void
-emit_color_changed (ColorCombo *cc, GdkColor *color,
+emit_color_changed (ColorCombo *cc, GOColor color,
 		    gboolean is_custom, gboolean by_user, gboolean is_default)
 {
   	g_signal_emit (cc,
-		       color_combo_signals [CHANGED], 0,
+		       color_combo_signals [COLOR_CHANGED], 0,
 		       color, is_custom, by_user, is_default);
-	gnm_combo_box_popup_hide (GNM_COMBO_BOX (cc));
-}
-
-static void
-apply_current_color (ColorCombo *cc)
-{
-	gboolean is_default;
-	GdkColor *color = color_palette_get_current_color (cc->palette, &is_default);
-	emit_color_changed (cc, color, FALSE, TRUE, is_default);
-	if (color)
-		gdk_color_free (color);
+	go_combo_box_popup_hide (GO_COMBO_BOX (cc));
 }
 
 static void
 cb_preview_clicked (GtkWidget *button, ColorCombo *cc)
 {
-	if (_gnm_combo_is_updating (GNM_COMBO_BOX (cc)))
+	if (_go_combo_is_updating (GO_COMBO_BOX (cc)))
 		return;
-	if (cc->instant_apply)
-		apply_current_color (cc);
-	else
-		gnm_combo_box_popup_display (GNM_COMBO_BOX (cc));
+	if (cc->instant_apply) {
+		gboolean is_default;
+		GOColor color = color_palette_get_current_color (cc->palette, &is_default);
+		emit_color_changed (cc, color, FALSE, TRUE, is_default);
+	} else
+		go_combo_box_popup_display (GO_COMBO_BOX (cc));
 }
 
 static void
@@ -193,73 +167,84 @@ color_combo_init (ColorCombo *cc)
 }
 
 static void
-color_combo_class_init (GObjectClass *object_class)
+color_combo_set_title (GOComboBox *combo, char const *title)
 {
-	color_combo_parent_class = g_type_class_ref (GNM_COMBO_BOX_TYPE);
+	color_palette_set_title	(COLOR_COMBO (combo)->palette, title);
+}
 
-	color_combo_signals [CHANGED] =
+static void
+color_combo_class_init (GObjectClass *gobject_class)
+{
+	color_combo_parent_class = g_type_class_ref (GO_COMBO_BOX_TYPE);
+
+	GO_COMBO_BOX_CLASS (gobject_class)->set_title = color_combo_set_title;
+
+	color_combo_signals [COLOR_CHANGED] =
 		g_signal_new ("color_changed",
-			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_OBJECT_CLASS_TYPE (gobject_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ColorComboClass, color_changed),
 			      NULL, NULL,
-			      gnm__VOID__POINTER_BOOLEAN_BOOLEAN_BOOLEAN,
+			      go__VOID__INT_BOOLEAN_BOOLEAN_BOOLEAN,
 			      G_TYPE_NONE, 4, G_TYPE_POINTER,
 			      G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN);
+	color_combo_signals [DISPLAY_CUSTOM_DIALOG] =
+		g_signal_new ("display-custom-dialog",
+			      G_OBJECT_CLASS_TYPE (gobject_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ColorComboClass, display_custom_dialog),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__OBJECT,
+			      G_TYPE_NONE, 1, G_TYPE_OBJECT);
 }
 
 GSF_CLASS (ColorCombo, color_combo,
 	   color_combo_class_init, color_combo_init,
-	   GNM_COMBO_BOX_TYPE)
+	   GO_COMBO_BOX_TYPE)
 
 static void
-cb_palette_color_changed (ColorPalette *P, GdkColor *color,
-		 gboolean custom, gboolean by_user, gboolean is_default,
-		 ColorCombo *cc)
+cb_palette_color_changed (ColorPalette *P, GOColor color,
+			  gboolean custom, gboolean by_user, gboolean is_default,
+			  ColorCombo *cc)
 {
-	color_combo_set_color_internal (cc, color);
+	color_combo_set_color_internal (cc, color, is_default);
 	emit_color_changed (cc, color, custom, by_user, is_default);
 }
 
 static void
-cb_cust_color_clicked (GtkWidget *widget, ColorCombo *cc)
+cb_proxy_custom_dialog (ColorPalette *pal, GtkWidget *dialog, ColorCombo *cc)
 {
-	gnm_combo_box_popup_hide (GNM_COMBO_BOX (cc));
+	g_signal_emit (cc, color_combo_signals [DISPLAY_CUSTOM_DIALOG], 0,
+		       dialog);
 }
 
-/*
- * Creates the color table
- */
 static void
 color_table_setup (ColorCombo *cc,
-		   char const *no_color_label, ColorGroup *color_group)
+		   char const *no_color_label, GOColorGroup *color_group)
 {
 	g_return_if_fail (cc != NULL);
 
 	/* Tell the palette that we will be changing it's custom colors */
-	cc->palette = COLOR_PALETTE (
-		color_palette_new (no_color_label,
-				   cc->default_color,
-				   color_group));
-	g_signal_connect (color_palette_get_color_picker (cc->palette),
-		"clicked",
-		G_CALLBACK (cb_cust_color_clicked), cc);
+	cc->palette = COLOR_PALETTE (color_palette_new (no_color_label,
+							cc->default_color,
+							color_group));
 	g_signal_connect (cc->palette,
 		"color_changed",
 		G_CALLBACK (cb_palette_color_changed), cc);
-
+	g_signal_connect (cc->palette,
+		"display-custom-dialog",
+		G_CALLBACK (cb_proxy_custom_dialog), cc);
 	gtk_widget_show_all (GTK_WIDGET (cc->palette));
 }
 
 /* color_combo_get_color:
  *
- * Return current color, result must be freed with gdk_color_free !
+ * Return current color
  */
-GdkColor *
+GOColor
 color_combo_get_color (ColorCombo *cc, gboolean *is_default)
 {
-	g_return_val_if_fail (IS_COLOR_COMBO (cc), NULL);
-
+	g_return_val_if_fail (IS_COLOR_COMBO (cc), RGBA_BLACK);
 	return color_palette_get_current_color (cc->palette, is_default);
 }
 
@@ -274,57 +259,17 @@ color_combo_get_color (ColorCombo *cc, gboolean *is_default)
 void
 color_combo_set_color (ColorCombo *cc, GdkColor *color)
 {
+#warning convert to GOColor
 	g_return_if_fail (IS_COLOR_COMBO (cc));
 	
-	/* This will change the color on the palette than it will invoke
-	 * cb_palette_color_changed which will call emit_color_changed and
-	 * set_color_internal which will change the color on our preview and
-	 * will let the users of the combo know that the current color has
-	 * changed
-	 */
-	if (color != NULL) {
-		gdk_colormap_alloc_color (gtk_widget_get_colormap (GTK_WIDGET (cc)), color, FALSE, TRUE);
-		gdk_colormap_query_color (gtk_widget_get_colormap (GTK_WIDGET (cc)), color->pixel, color);
-	}
-	color_palette_set_current_color (cc->palette, color);
-}
-
-GOColor
-color_combo_get_gocolor (ColorCombo *cc,
-			 gboolean is_custom) /* , gboolean *is_default) */
-{
-	/* cheap hack to pull alpha direct from picker if it is custom.  The
-	 * stock combo interface loses the alpha by storing a GdkColor */
-	if (is_custom) {
-		guint8 r, g, b, a;
-		gnome_color_picker_get_i8 (GNOME_COLOR_PICKER (color_palette_get_color_picker (cc->palette)),
-			&r, &g, &b, &a);
-		return RGBA_TO_UINT (r, g, b, a);
-	} else {
-		GdkColor *gdk = color_combo_get_color (COLOR_COMBO (cc), NULL);
-		if (gdk != NULL) {
-			GOColor res = GDK_TO_UINT (*gdk);
-			gdk_color_free (gdk);
-			return res;
-		}
-	}
-	return 0; /* GOColor res = default_val; */
+	color_palette_set_current_color (cc->palette, GDK_TO_UINT (*color));
 }
 
 void
 color_combo_set_gocolor (ColorCombo *cc, GOColor c)
 {
-	if (UINT_RGBA_A (c) != 0) {
-		GdkColor gdk;
-		go_color_to_gdk	(c, &gdk);
-		/* should not be necessary.  The CC should do it for itself */
-		gdk_rgb_find_color (gtk_widget_get_colormap (GTK_WIDGET (cc)), &gdk);
-		color_combo_set_color (COLOR_COMBO (cc), &gdk);
-		gnome_color_picker_set_i8 (GNOME_COLOR_PICKER (color_palette_get_color_picker (cc->palette)),
-			UINT_RGBA_R (c), UINT_RGBA_G (c),
-			UINT_RGBA_B (c), UINT_RGBA_A (c));
-	} else
-		color_combo_set_color (COLOR_COMBO (cc), NULL);
+#warning delete this now
+	color_palette_set_current_color (cc->palette, c);
 }
 
 /**
@@ -375,21 +320,22 @@ color_combo_set_color_to_default (ColorCombo *cc)
 /**
  * color_combo_new :
  * icon : optionally NULL.
- * , const char *no_color_label,
+ * no_color_label :
+ *
  * Default constructor. Pass an optional icon and an optional label for the
  * no/auto color button.
  */
 GtkWidget *
 color_combo_new (GdkPixbuf *icon, char const *no_color_label,
-		 GdkColor const *default_color,
-		 ColorGroup *color_group)
+		 GOColor default_color,
+		 GOColorGroup *color_group)
 {
-	GdkColor  *color;
-	GdkPixbuf *pixbuf = NULL;
+	GOColor     color;
+	gboolean    is_default;
+	GdkPixbuf  *pixbuf = NULL;
 	ColorCombo *cc = g_object_new (COLOR_COMBO_TYPE, NULL);
 
-        cc->default_color = default_color ? (cc->default_color_save = *default_color), &cc->default_color_save : NULL;
-
+        cc->default_color = default_color;
 	if (icon != NULL &&
 	    gdk_pixbuf_get_width (icon) > 4 && 
 	    gdk_pixbuf_get_height (icon) > 4) {
@@ -407,13 +353,11 @@ color_combo_new (GdkPixbuf *icon, char const *no_color_label,
 	color_table_setup (cc, no_color_label, color_group);
 	gtk_widget_show_all (cc->preview_button);
 
-	gnm_combo_box_construct (GNM_COMBO_BOX (cc),
-	    cc->preview_button, GTK_WIDGET (cc->palette), GTK_WIDGET (cc->palette));
+	go_combo_box_construct (GO_COMBO_BOX (cc),
+		cc->preview_button, GTK_WIDGET (cc->palette), GTK_WIDGET (cc->palette));
 
-	color = color_palette_get_current_color (cc->palette, NULL);
-	color_combo_set_color_internal (cc, color);
-	if (color)
-		gdk_color_free (color);
+	color = color_palette_get_current_color (cc->palette, &is_default);
+	color_combo_set_color_internal (cc, color, is_default);
 
 	return GTK_WIDGET (cc);
 }

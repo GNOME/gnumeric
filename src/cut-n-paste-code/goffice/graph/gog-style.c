@@ -21,8 +21,6 @@
 
 #undef GTK_DISABLE_DEPRECATED
 #warning "This file uses GTK_DISABLE_DEPRECATED for GtkOptionMenu"
-#undef GNOME_DISABLE_DEPRECATED
-#warning "This file uses GNOME_DISABLE_DEPRECATED for GnomeColorPicker"
 
 #include <gnumeric-config.h>
 #include <goffice/graph/gog-style.h>
@@ -32,22 +30,22 @@
 #include <goffice/utils/go-font.h>
 #include <goffice/utils/go-marker.h>
 
+#include <goffice/gui-utils/go-color-palette.h>
+#include <goffice/gui-utils/go-combo-color.h>
+#include <goffice/gui-utils/go-combo-pixmaps.h>
+
 #include <src/gui-util.h>
 #include <glade/glade-xml.h>
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkimage.h>
+#include <gtk/gtktable.h>
 #include <gtk/gtkrange.h>
 #include <gtk/gtkoptionmenu.h>
 #include <gtk/gtknotebook.h>
-#include <widgets/widget-color-combo.h>
-#include <widgets/color-palette.h>
-#include <widgets/widget-pixmap-combo.h>
 #include <widgets/widget-font-selector.h>
 #include <widgets/preview-file-selection.h>
 #include <gdk-pixbuf/gdk-pixdata.h>
-
-#include <libgnomeui/gnome-color-picker.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n.h>
@@ -116,12 +114,10 @@ create_color_combo (StylePrefState *state,
 		    char const *group, char const *label_name,
 		    GCallback func)
 {
-	GdkColor gdk_default;
 	GtkWidget *w;
 
-	go_color_to_gdk	(default_val, &gdk_default);
-	w = color_combo_new (NULL, _("Automatic"),
-		&gdk_default, color_group_fetch (group, NULL));
+	w = color_combo_new (NULL, _("Automatic"), default_val,
+		go_color_group_fetch (group, NULL));
 	color_combo_set_instant_apply (COLOR_COMBO (w), FALSE);
 	color_combo_set_allow_alpha (COLOR_COMBO (w), TRUE);
 	gtk_label_set_mnemonic_widget (
@@ -197,16 +193,16 @@ cb_outline_size_changed (GtkAdjustment *adj, StylePrefState *state)
 }
 
 static void
-cb_outline_color_changed (ColorCombo *cc,
-			  G_GNUC_UNUSED GdkColor *color,	gboolean  is_custom,
-			  G_GNUC_UNUSED gboolean  by_user,	gboolean  is_default,
-			  StylePrefState *state)
+cb_outline_color_changed (G_GNUC_UNUSED ColorCombo *cc, GOColor color,
+			  G_GNUC_UNUSED gboolean  is_custom,
+			  G_GNUC_UNUSED gboolean  by_user,
+			  gboolean  is_default, StylePrefState *state)
 {
 	GogStyle *style = state->style;
 	
 	g_return_if_fail (style != NULL);
 
-	style->outline.color = color_combo_get_gocolor (cc, is_custom);
+	style->outline.color = color;
 	style->outline.auto_color = is_default;
 	set_style (state);
 }
@@ -253,16 +249,16 @@ cb_line_size_changed (GtkAdjustment *adj, StylePrefState const *state)
 }
 
 static void
-cb_line_color_changed (ColorCombo *cc,
-		       G_GNUC_UNUSED GdkColor *color,	gboolean  is_custom,
-		       G_GNUC_UNUSED gboolean  by_user,	gboolean  is_default,
-		       StylePrefState *state)
+cb_line_color_changed (G_GNUC_UNUSED ColorCombo *cc, GOColor color,
+		       G_GNUC_UNUSED gboolean  is_custom,
+		       G_GNUC_UNUSED gboolean  by_user,
+		       gboolean  is_default, StylePrefState *state)
 {
 	GogStyle *style = state->style;
 	
 	g_return_if_fail (style != NULL);
 	
-	style->line.color = color_combo_get_gocolor (cc, is_custom);
+	style->line.color = color;
 	style->line.auto_color = is_default;
 	set_style (state);
 }
@@ -341,17 +337,17 @@ populate_pattern_combo (StylePrefState *state)
 }
 
 static void
-cb_fg_color_changed (ColorCombo *cc,
-		     G_GNUC_UNUSED GdkColor *color,	gboolean is_custom,
-		     G_GNUC_UNUSED gboolean by_user,	G_GNUC_UNUSED gboolean is_default,
-		     StylePrefState *state)
+cb_fg_color_changed (G_GNUC_UNUSED ColorCombo *cc, GOColor color,
+		     G_GNUC_UNUSED gboolean is_custom,
+		     G_GNUC_UNUSED gboolean by_user,
+		     gboolean is_default, StylePrefState *state)
 {
 	GogStyle *style = state->style;
 
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (GOG_FILL_STYLE_PATTERN == style->fill.type);
 	
-	style->fill.u.pattern.pat.fore = color_combo_get_gocolor (cc, is_custom);
+	style->fill.u.pattern.pat.fore = color;
 	style->fill.pattern_fore_auto = is_default;
 	style->fill.is_auto = (style->fill.pattern_fore_auto & 
 			       style->fill.pattern_back_auto);
@@ -360,17 +356,17 @@ cb_fg_color_changed (ColorCombo *cc,
 }
 
 static void
-cb_bg_color_changed (ColorCombo *cc,
-		     G_GNUC_UNUSED GdkColor *color,	gboolean is_custom,
-		     G_GNUC_UNUSED gboolean by_user,	G_GNUC_UNUSED gboolean is_default,
-		     StylePrefState *state)
+cb_bg_color_changed (G_GNUC_UNUSED ColorCombo *cc, GOColor color,
+		     G_GNUC_UNUSED gboolean is_custom,
+		     G_GNUC_UNUSED gboolean by_user,
+		     gboolean is_default, StylePrefState *state)
 {
 	GogStyle *style = state->style;
 
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (GOG_FILL_STYLE_PATTERN == style->fill.type);
 	
-	style->fill.u.pattern.pat.back = color_combo_get_gocolor (cc, is_custom);
+	style->fill.u.pattern.pat.back = color;
 	style->fill.pattern_back_auto = is_default;
 	style->fill.is_auto = (style->fill.pattern_fore_auto & 
 			       style->fill.pattern_back_auto);
@@ -407,11 +403,12 @@ fill_pattern_init (StylePrefState *state)
 
 /************************************************************************/
 
+static GOGradientDirection default_to_last_selected_type = GO_GRADIENT_N_TO_S;
 static void
 cb_gradient_type_changed (GtkWidget *cc, int id, StylePrefState const *state)
 {
 	GogStyle *style = state->style;
-	style->fill.u.gradient.dir = id;
+	style->fill.u.gradient.dir = default_to_last_selected_type = id;
 	set_style (state);
 }
 
@@ -432,9 +429,10 @@ populate_gradient_combo (StylePrefState *state)
 
 	table = glade_xml_get_widget (state->gui, "fill_gradient_table");
 	gtk_table_attach (GTK_TABLE (table), combo, 1, 2, 0, 1, 0, 0, 0, 0);
-	if (style->fill.type == GOG_FILL_STYLE_GRADIENT)
-		go_combo_pixmaps_select_id (GO_COMBO_PIXMAPS (combo),
-					    style->fill.u.gradient.dir);
+	go_combo_pixmaps_select_id (GO_COMBO_PIXMAPS (combo),
+		(style->fill.type == GOG_FILL_STYLE_GRADIENT)
+			? style->fill.u.gradient.dir : default_to_last_selected_type);
+
 	g_signal_connect (G_OBJECT (combo),
 		"changed",
 		G_CALLBACK (cb_gradient_type_changed), state);
@@ -442,13 +440,13 @@ populate_gradient_combo (StylePrefState *state)
 }
 
 static void
-cb_fill_gradient_start_color (ColorCombo *cc,
-			      G_GNUC_UNUSED GdkColor *color,	gboolean is_custom,
-			      G_GNUC_UNUSED gboolean by_user,	gboolean is_default,
-			      StylePrefState *state)
+cb_fill_gradient_start_color (G_GNUC_UNUSED ColorCombo *cc, GOColor  color,
+			      G_GNUC_UNUSED gboolean is_custom,
+			      G_GNUC_UNUSED gboolean by_user,
+			      gboolean is_default, StylePrefState *state)
 {
 	GogStyle *style = state->style;
-	style->fill.u.gradient.start = color_combo_get_gocolor (cc, is_custom);
+	style->fill.u.gradient.start = color;
 	style->fill.gradient_start_auto = is_default;
 	style->fill.is_auto = (style->fill.gradient_start_auto & 
 			       style->fill.gradient_end_auto);
@@ -465,14 +463,14 @@ cb_delayed_gradient_combo_update (StylePrefState *state)
 }
 
 static void
-cb_fill_gradient_end_color (ColorCombo *cc,
-			    G_GNUC_UNUSED GdkColor *color,	gboolean is_custom,
-			    gboolean by_user,			gboolean is_default,
-			    StylePrefState *state)
+cb_fill_gradient_end_color (G_GNUC_UNUSED ColorCombo *cc, GOColor color,
+			    G_GNUC_UNUSED gboolean is_custom,
+			    G_GNUC_UNUSED gboolean by_user,
+			    gboolean is_default, StylePrefState *state)
 {
 	GogStyle *style = state->style;
 
-	style->fill.u.gradient.end = color_combo_get_gocolor (cc, is_custom);
+	style->fill.u.gradient.end = color;
 	style->fill.gradient_end_auto = is_default;
 	style->fill.is_auto = (style->fill.gradient_start_auto & 
 			       style->fill.gradient_end_auto);
@@ -689,18 +687,18 @@ cb_fill_type_changed (GtkWidget *menu, StylePrefState *state)
 	case GOG_FILL_STYLE_NONE:
 		break;
 	case GOG_FILL_STYLE_PATTERN:
-		style->fill.u.pattern.pat.fore = color_combo_get_gocolor (
+		style->fill.u.pattern.pat.fore = color_combo_get_color (
 			COLOR_COMBO (state->fill.pattern.fore), FALSE);
-		style->fill.u.pattern.pat.back = color_combo_get_gocolor (
+		style->fill.u.pattern.pat.back = color_combo_get_color (
 			COLOR_COMBO (state->fill.pattern.back), FALSE);
 		style->fill.u.pattern.pat.pattern = go_combo_pixmaps_get_selected (
 			(GOComboPixmaps*)state->fill.pattern.combo, NULL);
 		break;
 
 	case GOG_FILL_STYLE_GRADIENT:
-		style->fill.u.gradient.start = color_combo_get_gocolor (
+		style->fill.u.gradient.start = color_combo_get_color (
 			COLOR_COMBO (state->fill.gradient.start), FALSE);
-		style->fill.u.gradient.end = color_combo_get_gocolor (
+		style->fill.u.gradient.end = color_combo_get_color (
 			COLOR_COMBO (state->fill.gradient.end), FALSE);
 		style->fill.u.gradient.dir = go_combo_pixmaps_get_selected (
 			(GOComboPixmaps*)state->fill.gradient.combo, NULL);
@@ -799,36 +797,30 @@ populate_marker_combo (StylePrefState *state)
 }
 
 static void
-cb_marker_outline_color_changed (ColorCombo *cc,
-				 G_GNUC_UNUSED GdkColor *color,		gboolean is_custom,
-				 G_GNUC_UNUSED gboolean by_user,	gboolean is_auto,
-				 StylePrefState *state)
+cb_marker_outline_color_changed (G_GNUC_UNUSED ColorCombo *cc, GOColor color,
+				 G_GNUC_UNUSED gboolean is_custom,
+				 G_GNUC_UNUSED gboolean by_user,
+				 gboolean is_auto, StylePrefState *state)
 {
 	GogStyle *style = state->style;
-	GOColor gc;
 	if (is_auto) 
-		gc = go_marker_get_outline_color (state->default_style->marker.mark);
-	else
-		gc = color_combo_get_gocolor (cc, is_custom);
-	go_marker_set_outline_color (style->marker.mark, gc);
+		color = go_marker_get_outline_color (state->default_style->marker.mark);
+	go_marker_set_outline_color (style->marker.mark, color);
 	style->marker.auto_outline_color = is_auto;
 	set_style (state);
 	populate_marker_combo (state);
 }
 
 static void
-cb_marker_fill_color_changed (ColorCombo *cc,
-			      G_GNUC_UNUSED GdkColor *color,	gboolean is_custom,
-			      G_GNUC_UNUSED gboolean by_user,	gboolean is_auto,
-			      StylePrefState *state)
+cb_marker_fill_color_changed (G_GNUC_UNUSED ColorCombo *cc, GOColor color,
+			      G_GNUC_UNUSED gboolean is_custom,
+			      G_GNUC_UNUSED gboolean by_user,
+			      gboolean is_auto, StylePrefState *state)
 {
 	GogStyle *style = state->style;
-	GOColor gc;
 	if (is_auto) 
-		gc = go_marker_get_fill_color (state->default_style->marker.mark);
-	else
-		gc = color_combo_get_gocolor (cc, is_custom);
-	go_marker_set_fill_color (style->marker.mark, gc);
+		color = go_marker_get_fill_color (state->default_style->marker.mark);
+	go_marker_set_fill_color (style->marker.mark, color);
 	style->marker.auto_fill_color = is_auto;
 	set_style (state);
 	populate_marker_combo (state);

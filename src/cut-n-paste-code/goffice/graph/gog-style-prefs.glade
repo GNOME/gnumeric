@@ -945,7 +945,7 @@
 		  <child>
 		    <widget class="GtkLabel" id="outline_color_label">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">C_olor:</property>
+		      <property name="label" translatable="yes">Co_lor:</property>
 		      <property name="use_underline">True</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1122,7 +1122,7 @@
 		  <child>
 		    <widget class="GtkLabel" id="line_color_label">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">C_olor:</property>
+		      <property name="label" translatable="yes">Co_lor:</property>
 		      <property name="use_underline">True</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1298,7 +1298,7 @@
 		  <child>
 		    <widget class="GtkLabel" id="marker_shape_label">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">_Shape:</property>
+		      <property name="label" translatable="yes">Sha_pe:</property>
 		      <property name="use_underline">True</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1391,7 +1391,7 @@
 		  <child>
 		    <widget class="GtkLabel" id="marker_outline_label">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">_Outline color:</property>
+		      <property name="label" translatable="yes">O_utline color:</property>
 		      <property name="use_underline">True</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>

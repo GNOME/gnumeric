@@ -21,14 +21,14 @@
 #include "workbook-edit.h"
 #include "dialogs/help.h"
 #include "xml-io.h"
+#include <goffice/gui-utils/go-combo-color.h>
+#include <goffice/gui-utils/go-combo-box.h>
 
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtkspinbutton.h>
 #include <gsf/gsf-impl-utils.h>
-#include <widgets/widget-color-combo.h>
-#include <widgets/gnm-combo-box.h>
 #include <libfoocanvas/foo-canvas-line.h>
 #include <libfoocanvas/foo-canvas-rect-ellipse.h>
 #include <libfoocanvas/foo-canvas-polygon.h>
@@ -452,7 +452,7 @@ cb_adjustment_value_changed (GtkAdjustment *adj, DialogGraphicData *state)
 }
 
 static void
-cb_fill_color_changed (GtkWidget *cc, GdkColor *color,
+cb_fill_color_changed (GtkWidget *cc, GOColor color,
 		       gboolean is_custom, gboolean by_user, gboolean is_default,
 		       DialogGraphicData *state)
 {
@@ -492,7 +492,8 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControl *sc)
 				   2, 3, 0, (sog->type != SHEET_OBJECT_ARROW) ? 2 : 5);
 	gtk_widget_show (GTK_WIDGET (state->canvas));
 
-	w = color_combo_new (NULL, NULL, NULL, color_group_fetch ("color", so));
+	w = color_combo_new (NULL, NULL, 0,
+		go_color_group_fetch ("color", so));
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (glade_xml_get_widget (state->gui, "label_color")), w);
 	gnm_setup_label_atk (
@@ -873,7 +874,7 @@ cb_dialog_filled_adjustment_value_changed (GtkAdjustment *adj, DialogFilledData 
 }
 
 static void
-cb_fillcolor_changed (GtkWidget *cc, GdkColor *color,
+cb_fillcolor_changed (GtkWidget *cc, GOColor color,
 		      gboolean is_custom, gboolean by_user, gboolean is_default,
 		      SheetObject *so)
 {
@@ -882,7 +883,7 @@ cb_fillcolor_changed (GtkWidget *cc, GdkColor *color,
 }
 
 static void
-cb_outlinecolor_changed (GtkWidget *cc, GdkColor *color,
+cb_outlinecolor_changed (GtkWidget *cc, GOColor color,
 			 gboolean is_custom, gboolean by_user, gboolean is_default,
 			 SheetObject *so)
 {
@@ -939,8 +940,8 @@ sheet_object_filled_user_config (SheetObject *so, SheetControl *sc)
 
  	table = glade_xml_get_widget (state->gui, "table");
 
-	w = color_combo_new (NULL, _("Transparent"),
-		NULL, color_group_fetch ("outline_color", so));
+	w = color_combo_new (NULL, _("Transparent"), 0,
+		go_color_group_fetch ("outline_color", so));
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (glade_xml_get_widget (state->gui, "border_label")), w);
 	gnm_setup_label_atk (
@@ -954,8 +955,8 @@ sheet_object_filled_user_config (SheetObject *so, SheetControl *sc)
 		"color_changed",
 		G_CALLBACK (cb_outlinecolor_changed), so);
 
-	w = color_combo_new (NULL, _("Transparent"),
-		NULL, color_group_fetch ("fill_color", so));
+	w = color_combo_new (NULL, _("Transparent"), 0,
+		go_color_group_fetch ("fill_color", so));
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (glade_xml_get_widget (state->gui, "fill_label")), w);
 	gnm_setup_label_atk (

@@ -394,14 +394,14 @@ workbook_create_standard_toolbar (WorkbookControlGUI *wbcg)
 
 	/* Undo dropdown list */
 	undo = wbcg->undo_combo = gnm_combo_stack_new (GTK_STOCK_UNDO, TRUE);
-	gnm_combo_box_set_title (GNM_COMBO_BOX (undo), _("Undo"));
+	gnm_combo_box_set_title (GO_COMBO_BOX (undo), _("Undo"));
 	g_signal_connect (G_OBJECT (undo),
 		"pop",
 		G_CALLBACK (cb_undo_combo), wbcg);
 
 	/* Redo dropdown list */
 	redo = wbcg->redo_combo = gnm_combo_stack_new (GTK_STOCK_REDO, TRUE);
-	gnm_combo_box_set_title (GNM_COMBO_BOX (redo), _("Redo"));
+	gnm_combo_box_set_title (GO_COMBO_BOX (redo), _("Redo"));
 	g_signal_connect (G_OBJECT (redo),
 		"pop",
 		G_CALLBACK (cb_redo_combo), wbcg);

@@ -1,3 +1,10 @@
+2004-01-29  Jody Goldberg <jody@gnome.org>
+
+	From Nick Lamb <njl98r@ecs.soton.ac.uk>
+	* ms-excel-read.c (excel_read_FILEPASS) : new.
+	(excel_read_sheet) : use it here.
+	(excel_read_workbook) : and here.
+
 2004-01-28  Jean Brefort  <jean.brefort@ac-dijon.fr>
 
 	* plugins/excel/ms-chart.c: (scatter):add import of bubble plots

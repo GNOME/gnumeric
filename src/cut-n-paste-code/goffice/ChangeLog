@@ -1,3 +1,19 @@
+2004-01-29  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-style.c (cb_gradient_type_changed) : store the last
+	  selected type.
+	(populate_gradient_combo) : default to that when changing fill type to
+	  gradient.
+
+	* graph/gog-style-prefs.glade : fix mnemonics to not clash.
+
+	* gui-utils/go-action-combo-stack.c
+	(go_action_combo_stack_create_tool_item) : patch leak
+
+	* utils/go-marker.c (go_marker_selector) :
+	  go_combo_pixmaps_add_element absorbs a ref to the pixbuf, don't lose
+	  control of it.  Handle shape=none nicely too.
+
 2004-01-29  Morten Welinder  <terra@gnome.org>
 
 	* graph/plugins/plot_xy/gog-xy.c (gog_xy_view_render): Attempt
@@ -9,8 +25,6 @@
 	  compile
 
 2004-01-28  Jean Brefort  <jean.brefort@ac-dijon.fr>
-
-	reviewed by: <delete if not using a buddy>
 
 	* graph/plugins/plot_xy/Makefile.am:
 	* graph/plugins/plot_xy/gog-bubble-prefs.glade:

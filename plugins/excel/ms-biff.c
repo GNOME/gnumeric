@@ -110,10 +110,6 @@ ms_biff_pre_biff8_query_set_decrypt  (BiffQuery *q, char const *password)
 		return FALSE;
 	}
 
-#if BIFF_DEBUG > 0
-	printf("Stored hash = %04X password hash = %04X\n", hash, pw_hash);
-#endif
-
 	if (hash != pw_hash)
 		return FALSE;
 

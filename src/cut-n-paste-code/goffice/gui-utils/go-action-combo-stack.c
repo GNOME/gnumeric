@@ -21,7 +21,7 @@
  */
 #include <gnumeric-config.h>
 #include "go-action-combo-stack.h"
-#include <src/widgets/gnm-combo-box.h>
+#include "go-combo-box.h"
 #include <src/gui-util.h>
 
 #include <gtk/gtkaction.h>
@@ -45,7 +45,7 @@
 ////////////////////////////////////////////////////////////////////////////
 
 typedef struct {
-	GnmComboBox	parent;
+	GOComboBox base;
 
 	GtkWidget   *button;
 	GtkTreeView *list;
@@ -55,7 +55,7 @@ typedef struct {
 } GOComboStack;
 
 typedef struct {
-	GnmComboBoxClass	parent;
+	GOComboBoxClass	base;
 	void (*pop) (GOComboStack *cbox, gpointer key);
 } GOComboStackClass;
 
@@ -72,8 +72,6 @@ enum {
 #define GO_COMBO_STACK_TYPE	(go_combo_stack_get_type ())
 #define GO_COMBO_STACK(o)	G_TYPE_CHECK_INSTANCE_CAST (o, GO_COMBO_STACK_TYPE, GOComboStack)
 #define IS_GO_COMBO_STACK(o)	G_TYPE_CHECK_INSTANCE_TYPE (o, GO_COMBO_STACK_TYPE)
-
-typedef struct _GnmComboStack	     GnmComboStack;
 
 static GtkType go_combo_stack_get_type   (void);
 static guint go_combo_stack_signals [LAST_SIGNAL] = { 0, };
@@ -107,12 +105,12 @@ get_key_at_path (GtkTreeView *view, GtkTreePath	*pos)
 static void
 cb_button_clicked (GOComboStack *stack)
 {
-	if (!_gnm_combo_is_updating (GNM_COMBO_BOX (stack))) {
+	if (!_go_combo_is_updating (GO_COMBO_BOX (stack))) {
 		GtkTreePath *pos = gtk_tree_path_new_first ();
 		gpointer top = get_key_at_path (stack->list, pos);
 		gtk_tree_path_free (pos);
 		g_signal_emit (stack, go_combo_stack_signals [POP], 0, top);
-		gnm_combo_box_popup_hide (GNM_COMBO_BOX (stack));
+		go_combo_box_popup_hide (GO_COMBO_BOX (stack));
 	}
 }
 
@@ -121,7 +119,7 @@ cb_button_release_event (GtkWidget *list, GdkEventButton *e, gpointer data)
 {
 	GOComboStack *stack = GO_COMBO_STACK (data);
 
-	gnm_combo_box_popup_hide (GNM_COMBO_BOX (stack));
+	go_combo_box_popup_hide (GO_COMBO_BOX (stack));
 
 	if (stack->last_key != NULL) {
 		gint dummy, w, h;
@@ -210,7 +208,7 @@ go_combo_stack_init (GOComboStack *stack)
 	gtk_widget_show (GTK_WIDGET (stack->list));
 	gtk_widget_show (stack->scrolled);
 	gtk_widget_show (stack->button);
-	gnm_combo_box_construct (GNM_COMBO_BOX (stack),
+	go_combo_box_construct (GO_COMBO_BOX (stack),
 		stack->button, stack->scrolled, GTK_WIDGET (stack->list));
 }
 
@@ -229,7 +227,7 @@ go_combo_stack_class_init (GObjectClass *klass)
 
 GSF_CLASS (GOComboStack, go_combo_stack,
 	   go_combo_stack_class_init, go_combo_stack_init,
-	   GNM_COMBO_BOX_TYPE)
+	   GO_COMBO_BOX_TYPE)
 
 ////////////////////////////////////////////////////////////////////////////
 
@@ -250,7 +248,7 @@ go_tool_combo_stack_set_tooltip (GtkToolItem *tool_item, GtkTooltips *tooltips,
 				 char const *tip_private)
 {
 	GOToolComboStack *self = (GOToolComboStack *)tool_item;
-	gnm_combo_box_set_tooltip (GNM_COMBO_BOX (self->combo), tooltips,
+	go_combo_box_set_tooltip (GO_COMBO_BOX (self->combo), tooltips,
 		tip_text, tip_private);
 	return TRUE;
 }
@@ -301,7 +299,7 @@ go_action_combo_stack_create_tool_item (GtkAction *a)
 	GtkWidget *image;
 	GtkTreeView *tree_view;
 	GOToolComboStack *tool = g_object_new (GO_TOOL_COMBO_STACK_TYPE, NULL);
-	char const *stock_id;
+	char *stock_id;
 	gboolean is_sensitive = gtk_tree_model_iter_n_children (saction->model, NULL) > 0;
 
 	tool->combo = g_object_new (GO_COMBO_STACK_TYPE, NULL);
@@ -317,13 +315,14 @@ go_action_combo_stack_create_tool_item (GtkAction *a)
 	g_object_get (G_OBJECT (a), "stock_id", &stock_id, NULL);
 	image = gtk_image_new_from_stock (
 		stock_id, GTK_ICON_SIZE_LARGE_TOOLBAR);
+	g_free (stock_id);
 	gtk_widget_show (image);
 	gtk_container_add (GTK_CONTAINER (tool->combo->button), image);
 
 	gtk_widget_set_sensitive (GTK_WIDGET (tool), is_sensitive);
 
-	gnm_combo_box_set_relief (GNM_COMBO_BOX (tool->combo), GTK_RELIEF_NONE);
-	gnm_combo_box_set_tearable (GNM_COMBO_BOX (tool->combo), TRUE);
+	go_combo_box_set_relief (GO_COMBO_BOX (tool->combo), GTK_RELIEF_NONE);
+	go_combo_box_set_tearable (GO_COMBO_BOX (tool->combo), TRUE);
 	gnm_widget_disable_focus (GTK_WIDGET (tool->combo));
 	gtk_container_add (GTK_CONTAINER (tool), GTK_WIDGET (tool->combo));
 	gtk_widget_show (GTK_WIDGET (tool->combo));

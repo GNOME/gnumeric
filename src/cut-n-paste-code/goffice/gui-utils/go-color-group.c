@@ -1,11 +1,10 @@
-/* File import from gal to gnumeric by import-gal.  Do not edit.  */
-
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * color-group.c - Utility to keep a shered memory of custom colors
+ * color-group.c - Utility to keep a shared memory of custom colors
  *                 between arbitrary widgets.
  * Copyright 2000, Michael Levy
  * Copyright 2001, Almer S. Tigelaar
+ * Copyright 2004, Jody Goldberg
  *
  * Authors:
  * 	Michael Levy (mlevy@genoscope.cns.fr)
@@ -27,192 +26,116 @@
  * 02111-1307, USA.
  */
 
-#include "color-group.h"
-#include <glib-object.h>
-#include <gdk/gdkcolor.h>
-#include <gnm-marshalers.h>
+#include "go-color-group.h"
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 
-#define PARENT_TYPE	G_TYPE_OBJECT
+typedef struct {
+	GObjectClass base;
+
+	void (*history_changed) (GOColorGroup *group);
+} GOColorGroupClass;
 
 enum {
-        CUSTOM_COLOR_ADD,
+        HISTORY_CHANGED,
         LAST_SIGNAL
 };
 
-static GObjectClass *parent_class;
-
-static GQuark color_group_signals [LAST_SIGNAL] = { 0 };
-
-static void color_group_finalize (GObject *obj);
+static GObjectClass *go_color_group_parent_class;
+static guint	     go_color_group_signals [LAST_SIGNAL] = { 0 };
+static GHashTable   *go_color_groups = NULL;
 
 static void
-color_group_class_init (ColorGroupClass *klass)
+go_color_group_finalize (GObject *obj)
+{
+	GOColorGroup *cg = GO_COLOR_GROUP (obj);
+
+	/* make this name available */
+	if (cg->name) {
+		g_hash_table_remove (go_color_groups, cg);
+		g_free (cg->name);
+		cg->name = NULL;
+	}
+
+	if (go_color_group_parent_class->finalize)
+		(go_color_group_parent_class->finalize) (obj);
+}
+
+static void
+go_color_group_class_init (GOColorGroupClass *klass)
 {
 	GObjectClass *object_class;
 
 	object_class = (GObjectClass*) klass;
 
-	object_class->finalize = &color_group_finalize;
-	parent_class = g_type_class_peek (PARENT_TYPE);
-
-	color_group_signals [CUSTOM_COLOR_ADD] =
-		g_signal_new ("custom_color_add",
-			COLOR_GROUP_TYPE,
+	object_class->finalize = &go_color_group_finalize;
+	go_color_group_parent_class = g_type_class_peek (G_TYPE_OBJECT);
+	go_color_group_signals [HISTORY_CHANGED] =
+		g_signal_new ("history-changed",
+			GO_COLOR_GROUP_TYPE,
 			G_SIGNAL_RUN_LAST,
-			G_STRUCT_OFFSET (ColorGroupClass, custom_color_add),
+			G_STRUCT_OFFSET (GOColorGroupClass, history_changed),
 			(GSignalAccumulator) NULL, NULL,
-			g_cclosure_marshal_VOID__POINTER,
-			G_TYPE_NONE,
-			1, G_TYPE_POINTER);
+			g_cclosure_marshal_VOID__VOID,
+			G_TYPE_NONE, 0);
 }
 
 static void
-color_group_init (ColorGroup *cg)
+go_color_group_init (GOColorGroup *cg)
 {
+	int i;
+
 	cg->name = NULL;
-	cg->history = NULL;
-	cg->history_size = 0;
+	cg->context = NULL;
+	for (i = 0 ; i < GO_COLOR_GROUP_HISTORY_SIZE ; i++)
+		cg->history[i] = RGBA_BLACK;
 }
 
-GSF_CLASS(ColorGroup,color_group,color_group_class_init,color_group_init,PARENT_TYPE)
-
-
-/* Hash table used to ensure unicity in newly created names*/
-static GHashTable *group_names = NULL;
-
-static guint
-cg_hash (gconstpointer	key)
-{
-	/* Do NOT use smart type checking it will not work for the tmp_key */
-	return g_str_hash (((ColorGroup *)key)->name);
-}
-
-static gint
-cg_cmp (gconstpointer a, gconstpointer	b)
-{
-	/* Do NOT use smart type checking it will not work for the tmp_key */
-	ColorGroup const *cg_a = (ColorGroup *)a;
-	ColorGroup const *cg_b = (ColorGroup *)b;
-	if (cg_a == cg_b)
-		return TRUE;
-	if (cg_a->context != cg_b->context)
-		return FALSE;
-	return g_str_equal (cg_a->name, cg_b->name);
-}
-
-static void
-initialize_group_names (void)
-{
-	g_assert (group_names == NULL);
-	group_names = g_hash_table_new (cg_hash, cg_cmp);
-}
+GSF_CLASS (GOColorGroup, go_color_group,
+	   go_color_group_class_init, go_color_group_init,
+	   G_TYPE_OBJECT)
 
 /**
- * color_group_get :
+ * go_color_group_find :
  * @name :
  * @context :
  *
  * Look up the name/context specific color-group.  Return NULL if it is not found.
  * No reference is added if it is found.
  */
-ColorGroup *
-color_group_get (const gchar * name, gpointer context)
+GOColorGroup *
+go_color_group_find (char const *name, gpointer context)
 {
-	ColorGroup tmp_key;
-	gpointer res;
+	GOColorGroup tmp_key;
 
-	g_assert(group_names);
+	if (go_color_groups == NULL)
+		return NULL;
 
 	g_return_val_if_fail(name != NULL, NULL);
 
 	tmp_key.name = (char *)name;
 	tmp_key.context = context;
-	res = g_hash_table_lookup (group_names, &tmp_key);
-
-	if (res != NULL)
-		return COLOR_GROUP (res);
-	else
-		return NULL;
-}
-
-static gchar *
-create_unique_name (gpointer context)
-{
-	const gchar *prefix = "__cg_autogen_name__";
-	static gint latest_suff = 0;
-	gchar *new_name;
-
-	for(;;latest_suff++) {
-		new_name = g_strdup_printf("%s%i", prefix, latest_suff);
-		if (color_group_get (new_name, context) == NULL)
-			return new_name;
-		else
-			g_free(new_name);
-	}
-	g_assert_not_reached();
-}
-
-static void
-color_group_finalize (GObject *obj)
-{
-	ColorGroup *cg;
-
-	g_return_if_fail(obj != NULL);
-	g_return_if_fail(IS_COLOR_GROUP(obj));
-	g_assert(group_names != NULL);
-
-	cg = COLOR_GROUP (obj);
-
-	/* make this name available */
-	if (cg->name) {
-		g_hash_table_remove (group_names, cg);
-		g_free (cg->name);
-		cg->name = NULL;
+	return (GOColorGroup *) g_hash_table_lookup (go_color_groups, &tmp_key);
 	}
 
-	if (cg->history) {
-		/* Free the whole colour history */
-		while ((int) cg->history->len > 0)
-			gdk_color_free ((GdkColor *)
-					g_ptr_array_remove_index (cg->history, 0));
-		g_ptr_array_free (cg->history, TRUE);
-		cg->history = NULL;
-	}
-
-	if (parent_class->finalize)
-		(parent_class->finalize) (obj);
-}
-
-/*
- * color_group_get_history_size:
- * Get the size of the custom color history
- */
-gint
-color_group_get_history_size (ColorGroup *cg)
+static guint
+cg_hash (GOColorGroup const *key)
 {
-	g_return_val_if_fail (cg != NULL, 0);
-
-	return cg->history_size;
+	return g_str_hash (key->name);
 }
 
-/*
- * Change the size of the custom color history.
- */
-void
-color_group_set_history_size (ColorGroup *cg, gint size)
+static gint
+cg_equal (GOColorGroup const *a, GOColorGroup const *b)
 {
-	g_return_if_fail(cg != NULL);
-	g_return_if_fail(size >= 0);
-
-	/* Remove excess elements (begin with kicking out the oldest) */
-	while ((int) cg->history->len > size)
-		gdk_color_free ((GdkColor *) g_ptr_array_remove_index (cg->history, 0));
+	if (a == b)
+		return TRUE;
+	if (a->context != b->context)
+		return FALSE;
+	return g_str_equal (a->name, b->name);
 }
 
-/*
- * color_group_fetch :
+/**
+ * go_color_group_fetch :
  * @name :
  * @context :
  *
@@ -223,109 +146,68 @@ color_group_set_history_size (ColorGroup *cg, gint size)
  * If name was already used by a group then the reference count is
  * incremented and a pointer to the group is returned.
  */
-ColorGroup *
-color_group_fetch (const gchar *name, gpointer context)
+GOColorGroup *
+go_color_group_fetch (const gchar *name, gpointer context)
 {
-	ColorGroup *cg;
+	GOColorGroup *cg;
 	gchar *new_name;
 
-	if (group_names == NULL)
-		initialize_group_names();
+	if (go_color_groups == NULL)
+		go_color_groups = g_hash_table_new (
+			(GHashFunc) cg_hash, (GEqualFunc) cg_equal);
 
-	if (name == NULL)
-		new_name = create_unique_name (context);
-	else
+	if (name == NULL) {
+		static gint count = 0;
+
+		while (1) {
+			new_name = g_strdup_printf("color_group_number_%i", count++);
+			if (go_color_group_find (new_name, context) == NULL)
+				break;
+			g_free (new_name);
+		}
+	} else {
 		new_name = g_strdup (name);
-
-	cg = color_group_get (new_name, context);
+		cg = go_color_group_find (new_name, context);
 	if (cg != NULL) {
 		g_free (new_name);
 		g_object_ref (G_OBJECT (cg));
 		return cg;
 	}
+	}
 
-	/* Take care of creating the new object */
-	cg = g_object_new (color_group_get_type (), NULL);
+	cg = g_object_new (go_color_group_get_type (), NULL);
+
 	g_return_val_if_fail(cg != NULL, NULL);
 
 	cg->name = new_name;
 	cg->context = context;
 
-	/* Create history */
-	cg->history = g_ptr_array_new ();
-
-	/* FIXME: Why not 8? We never use more then 8 on the palette,
-	 * maybe we can't free colors while they are still on the palette and
-	 * need to be sure they are not on it when we free them and thus we
-	 * make the upper limit twice the size of the number of displayed items
-	 * (2 * 8) ?
-	 */
-	cg->history_size = 16;
-
 	/* lastly register this name */
-	g_hash_table_insert (group_names, cg, cg);
+	g_hash_table_insert (go_color_groups, cg, cg);
 
 	return cg;
 }
 
-/*
- * color_group_get_custom_colors:
- * Retrieve all custom colors currently in the history using a callback
- * mechanism. The custom colors will be passed from the oldest to the newest.
- */
+/**
+ * go_color_group_add_color :
+ * @cg : #GOColorGroup
+ * @c : the color
+ *
+ * Potentially slide the history to add the new colour.  If it was already in
+ * the history reorder.
+ **/
 void
-color_group_get_custom_colors (ColorGroup *cg, CbCustomColors callback, gpointer user_data)
+go_color_group_add_color (GOColorGroup *cg, GOColor c)
 {
-	int i;
+	unsigned i;
+	g_return_if_fail (IS_GO_COLOR_GROUP (cg));
 
-	g_return_if_fail (cg != NULL);
-
-	/* Invoke the callback for our full history */
-	for (i = 0; i < (int) cg->history->len; i++) {
-		GdkColor const * const color = g_ptr_array_index (cg->history, i);
-
-		callback (color, user_data);
-	}
-}
-
-/*
- * color_group_add_color:
- * Changes the colors. The color to be set should always be a custom
- * color! It has no use adding a color which is already in the default
- * palette.
- */
-void
-color_group_add_color (ColorGroup *cg, GdkColor const * const color)
-{
-	int i;
-
-	g_return_if_fail(cg != NULL);
-	g_return_if_fail(color != NULL); /* Can't be NULL */
-
-	/* Let's be smart and see if it's already in our history, no need to add it again*/
-	for (i = 0; i < (int) cg->history->len; i++) {
-		GdkColor *current = g_ptr_array_index (cg->history, i);
-
-		if (gdk_color_equal (color, current))
-			return;
-	}
-
-	/*
-	 * We make our own private copy of the color passed and put
-	 * it in the history, this is freed later.
-	 */
-	if (cg->history_size > 0)
-		g_ptr_array_add (cg->history, gdk_color_copy (color));
-
-	/* Shift out the oldest item if we grow beyond our set size */
-	if ((int) cg->history->len > cg->history_size)
-		gdk_color_free ((GdkColor *) g_ptr_array_remove_index (cg->history, 0));
-
-	/* Tell color-palette's that use this group that
-	 * a new custom color was added.
-	 */
-	g_signal_emit (G_OBJECT(cg),
-		color_group_signals [CUSTOM_COLOR_ADD],
-		0,
-		color);
+	for (i = GO_COLOR_GROUP_HISTORY_SIZE ; i-- > 0 ;)
+		if (cg->history[i] == c)
+			break;
+	for ( ; i < GO_COLOR_GROUP_HISTORY_SIZE-1 ; i++)
+		cg->history [i] = cg->history [i+1];
+	cg->history [GO_COLOR_GROUP_HISTORY_SIZE-1] = c;
+	g_signal_emit (G_OBJECT (cg),
+		go_color_group_signals [HISTORY_CHANGED], 0);
 }

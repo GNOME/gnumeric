@@ -32,6 +32,7 @@
 #include "commands.h"
 #include "style-color.h"
 #include "global-gnome-font.h"
+#include "workbook-edit.h"
 
 #include <goffice/gui-utils/go-action-combo-stack.h>
 #include <goffice/gui-utils/go-action-combo-color.h>
@@ -147,7 +148,7 @@ wbc_gtk_init_zoom (WBCgtk *gtk)
 		go_action_combo_text_add_item (gtk->zoom, preset_zoom[i]);
 
 #if 0
-	gnm_combo_box_set_title (GNM_COMBO_BOX (fore_combo), _("Foreground"));
+	gnm_combo_box_set_title (GO_COMBO_BOX (fore_combo), _("Foreground"));
 #endif
 	g_signal_connect (G_OBJECT (gtk->zoom),
 		"activate",
@@ -164,7 +165,7 @@ wbc_gtk_set_zoom_label (WorkbookControlGUI const *wbcg, char const *label)
 
 /****************************************************************************/
 
-#include "widgets/widget-pixmap-combo.h"
+#include <goffice/gui-utils/go-combo-pixmaps.h>
 #include "pixmaps/gnumeric-stock-pixbufs.h"
 #include "style-border.h"
 
@@ -280,7 +281,7 @@ wbc_gtk_init_borders (WBCgtk *gtk)
 		      "tooltip", _("Borders"),
 		      NULL);
 #if 0
-	gnm_combo_box_set_title (GNM_COMBO_BOX (fore_combo), _("Foreground"));
+	gnm_combo_box_set_title (GO_COMBO_BOX (fore_combo), _("Foreground"));
 	go_combo_pixmaps_select (gtk->borders, 1); /* default to none */
 #endif
 	g_signal_connect (G_OBJECT (gtk->borders),
@@ -370,6 +371,15 @@ wbc_gtk_init_undo_redo (WBCgtk *gtk)
 /****************************************************************************/
 
 static void
+cb_custom_color_created (GOActionComboColor *caction, GtkWidget *dialog, WorkbookControlGUI *wbcg)
+{
+	wbcg_edit_attach_guru (wbcg, dialog);
+	g_signal_connect_object (dialog,
+		"destroy",
+		G_CALLBACK (wbcg_edit_detach_guru), wbcg, G_CONNECT_SWAPPED);
+}
+
+static void
 cb_fore_color_changed (GOActionComboColor *a, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
@@ -419,8 +429,11 @@ wbc_gtk_init_color_fore (WBCgtk *gtk)
 	g_signal_connect (G_OBJECT (gtk->fore_color),
 		"activate",
 		G_CALLBACK (cb_fore_color_changed), gtk);
+	g_signal_connect (G_OBJECT (gtk->fore_color),
+		"display-custom-dialog",
+		G_CALLBACK (cb_custom_color_created), gtk);
 #if 0
-	gnm_combo_box_set_title (GNM_COMBO_BOX (fore_combo), _("Foreground"));
+	gnm_combo_box_set_title (GO_COMBO_BOX (fore_combo), _("Foreground"));
 #endif
 	gtk_action_group_add_action (gtk->actions, GTK_ACTION (gtk->fore_color));
 }
@@ -480,8 +493,11 @@ wbc_gtk_init_color_back (WBCgtk *gtk)
 	g_signal_connect (G_OBJECT (gtk->back_color),
 		"activate",
 		G_CALLBACK (cb_back_color_changed), gtk);
+	g_signal_connect (G_OBJECT (gtk->back_color),
+		"display-custom-dialog",
+		G_CALLBACK (cb_custom_color_created), gtk);
 #if 0
-	gnm_combo_box_set_title (GNM_COMBO_BOX (back_combo), _("Background"));
+	gnm_combo_box_set_title (GO_COMBO_BOX (back_combo), _("Background"));
 #endif
 	gtk_action_group_add_action (gtk->actions, GTK_ACTION (gtk->back_color));
 }
@@ -505,7 +521,7 @@ wbc_gtk_init_font_name (WBCgtk *gtk)
 			go_action_combo_text_add_item (gtk->font_name, ptr->data);
 
 #if 0
-	gnm_combo_box_set_title (GNM_COMBO_BOX (fore_combo), _("Foreground"));
+	gnm_combo_box_set_title (GO_COMBO_BOX (fore_combo), _("Foreground"));
 #endif
 	gtk_action_group_add_action (gtk->actions, GTK_ACTION (gtk->font_name));
 }

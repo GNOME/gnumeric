@@ -5,19 +5,21 @@
 
 #undef GTK_DISABLE_DEPRECATED
 #warning "This file uses GTK_DISABLE_DEPRECATED"
+
 #include <gnumeric-config.h>
-#include <gnumeric.h>
 #include "gnumeric-combo-text.h"
+#include <goffice/gui-utils/go-combo-box.h>
 
 #include <gtk/gtksignal.h>
 #include <gtk/gtkentry.h>
 #include <gtk/gtklist.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkscrolledwindow.h>
+
 #include <gsf/gsf-impl-utils.h>
 
 struct _GnmComboText {
-	GnmComboBox parent;
+	GOComboBox parent;
 
 	GCompareFunc cmp_func;
 
@@ -29,7 +31,7 @@ struct _GnmComboText {
 };
 
 typedef struct {
-	GnmComboBoxClass	base;
+	GOComboBoxClass	base;
 
 	gboolean (* selection_changed)	(GnmComboText *ct, GtkWidget *new_item);
 	gboolean (* entry_changed)	(GnmComboText *ct, char const *new_str);
@@ -117,7 +119,7 @@ cb_list_select (G_GNUC_UNUSED GtkWidget *list,
 		gtk_entry_set_text (entry, text);
 	g_free (text);
 
-	gnm_combo_box_popup_hide (GNM_COMBO_BOX (data));
+	go_combo_box_popup_hide (GO_COMBO_BOX (data));
 }
 
 static void
@@ -280,6 +282,7 @@ gnm_combo_text_init (GnmComboText *ct)
 	g_signal_connect (G_OBJECT (ct->scroll),
 		"size_request",
 		G_CALLBACK (cb_scroll_size_request), (gpointer) ct);
+
 	g_signal_connect (G_OBJECT (ct->list),
 		"select-child",
 		G_CALLBACK (cb_list_select), (gpointer) ct);
@@ -291,15 +294,15 @@ gnm_combo_text_init (GnmComboText *ct)
 		G_CALLBACK (cb_list_mapped), NULL);
 
 	gtk_widget_show (ct->entry);
-	gnm_combo_box_construct (GNM_COMBO_BOX (ct),
+	go_combo_box_construct (GO_COMBO_BOX (ct),
 		ct->entry, ct->scroll, ct->list);
+
 	g_signal_connect (G_OBJECT (ct),
 		"pop_down_done",
 		G_CALLBACK (cb_pop_down), NULL);
-
 	g_signal_connect (G_OBJECT (ct),
-			  "screen-changed", G_CALLBACK (cb_screen_changed),
-			  NULL);
+		"screen-changed", G_CALLBACK (cb_screen_changed),
+		NULL);
 }
 
 static void
@@ -318,7 +321,7 @@ gnm_combo_text_destroy (GtkObject *object)
 		ct->list = NULL;
 	}
 
-	parent = g_type_class_peek (gnm_combo_box_get_type ());
+	parent = g_type_class_peek (GO_COMBO_BOX_TYPE);
 	if (parent && parent->destroy)
 		(*parent->destroy) (object);
 }
@@ -368,7 +371,7 @@ gnm_combo_text_glade_new (void)
 
 GSF_CLASS (GnmComboText, gnm_combo_text,
 	   gnm_combo_text_class_init, gnm_combo_text_init,
-	   gnm_combo_box_get_type ())
+	   GO_COMBO_BOX_TYPE)
 
 GtkWidget *
 gnm_combo_text_get_entry (GnmComboText *ct)

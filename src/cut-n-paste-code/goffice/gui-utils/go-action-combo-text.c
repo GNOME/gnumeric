@@ -21,6 +21,7 @@
  */
 #include <gnumeric-config.h>
 #include "go-action-combo-text.h"
+#include "go-combo-box.h"
 #include <src/widgets/gnumeric-combo-text.h>
 #include <src/gui-util.h>
 
@@ -121,14 +122,14 @@ go_action_combo_create_tool_item (GtkAction *act)
 		}
 	}
 				
-	gnm_combo_box_set_title (GNM_COMBO_BOX (tool->combo),
+	go_combo_box_set_title (GO_COMBO_BOX (tool->combo),
 		_(gtk_action_get_name (act)));
 	gtk_widget_set_size_request (
 		gnm_combo_text_get_entry (tool->combo), w, -1);
 	g_object_set (G_OBJECT (tool), "visible_vertical", FALSE, NULL);
 
-	gnm_combo_box_set_relief (GNM_COMBO_BOX (tool->combo), GTK_RELIEF_NONE);
-	gnm_combo_box_set_tearable (GNM_COMBO_BOX (tool->combo), TRUE);
+	go_combo_box_set_relief (GO_COMBO_BOX (tool->combo), GTK_RELIEF_NONE);
+	go_combo_box_set_tearable (GO_COMBO_BOX (tool->combo), TRUE);
 	gnm_widget_disable_focus (GTK_WIDGET (tool->combo));
 	gtk_container_add (GTK_CONTAINER (tool), GTK_WIDGET (tool->combo));
 	gtk_widget_show (GTK_WIDGET (tool->combo));

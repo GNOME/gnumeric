@@ -21,67 +21,60 @@
  * 02111-1307, USA.
  */
 
-#ifndef _GNM_COMBO_BOX_H_
-#define _GNM_COMBO_BOX_H_
+#ifndef _GO_COMBO_BOX_H_
+#define _GO_COMBO_BOX_H_
 
 #include <gtk/gtkhbox.h>
 #include <gtk/gtktooltips.h>
 
 G_BEGIN_DECLS
 
-#define GNM_COMBO_BOX_TYPE          (gnm_combo_box_get_type())
-#define GNM_COMBO_BOX(obj)	    G_TYPE_CHECK_INSTANCE_CAST (obj, gnm_combo_box_get_type (), GnmComboBox)
-#define GNM_COMBO_BOX_CLASS(klass)  G_TYPE_CHECK_CLASS_CAST (klass, gnm_combo_box_get_type (), GnmComboBoxClass)
-#define IS_GNM_COMBO_BOX(obj)       G_TYPE_CHECK_INSTANCE_TYPE (obj, gnm_combo_box_get_type ())
+#define GO_COMBO_BOX_TYPE	(go_combo_box_get_type())
+#define GO_COMBO_BOX(o)		G_TYPE_CHECK_INSTANCE_CAST ((o), GO_COMBO_BOX_TYPE, GOComboBox)
+#define IS_GO_COMBO_BOX(o)	G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_COMBO_BOX_TYPE)
+#define GO_COMBO_BOX_CLASS(k)	G_TYPE_CHECK_CLASS_CAST ((k), GO_COMBO_BOX_TYPE, GOComboBoxClass)
 
-typedef struct _GnmComboBox	   GnmComboBox;
-typedef struct _GnmComboBoxPrivate GnmComboBoxPrivate;
-typedef struct _GnmComboBoxClass   GnmComboBoxClass;
+typedef struct _GOComboBox	  GOComboBox;
+typedef struct _GOComboBoxPrivate GOComboBoxPrivate;
+typedef struct _GOComboBoxClass   GOComboBoxClass;
 
-struct _GnmComboBox {
+struct _GOComboBox {
 	GtkHBox hbox;
-	GnmComboBoxPrivate *priv;
+	GOComboBoxPrivate *priv;
 };
 
-struct _GnmComboBoxClass {
-	GtkHBoxClass parent_class;
+struct _GOComboBoxClass {
+	GtkHBoxClass	base;
 
-	GtkWidget *(*pop_down_widget) (GnmComboBox *cbox);
+	/* virtual */
+	void  (*set_title) (GOComboBox *cbox, char const *title);
 
-	/*
-	 * invoked when the popup has been hidden, if the signal
-	 * returns TRUE, it means it should be killed from the
-	 */
-	gboolean  *(*pop_down_done)   (GnmComboBox *cbox, GtkWidget *);
-
-	/*
-	 * Notification signals.
-	 */
-	void      (*pre_pop_down)     (GnmComboBox *cbox);
-	void      (*post_pop_hide)    (GnmComboBox *cbox);
+	/* invoked when the popup has been hidden, if the signal
+	 * returns TRUE, it means it should be killed */
+	gboolean   (*pop_down_done)   (GOComboBox *cbox, GtkWidget *);
 };
 
 /* public */
-GtkType    gnm_combo_box_get_type    (void);
-void       gnm_combo_box_construct   (GnmComboBox *combo_box,
-				      GtkWidget *display_widget,
-				      GtkWidget *popdown_container,
-				      GtkWidget	*popdown_focus);
-void	   gnm_combo_box_set_tooltip  (GnmComboBox *combo, GtkTooltips *tips,
+GtkType	    go_combo_box_get_type     (void);
+void	    go_combo_box_set_tooltip  (GOComboBox *combo, GtkTooltips *tips,
 				       char const *text, char const *priv_text);
-void	   gnm_combo_box_set_relief   (GnmComboBox *combo, GtkReliefStyle relief);
-void       gnm_combo_box_set_title    (GnmComboBox *combo, char const *title);
-void       gnm_combo_box_set_tearable (GnmComboBox *combo, gboolean tearable);
+void	    go_combo_box_set_relief   (GOComboBox *combo, GtkReliefStyle relief);
+void	    go_combo_box_set_title    (GOComboBox *combo, char const *title);
+char const *go_combo_box_get_title    (GOComboBox *combo);
+void	    go_combo_box_set_tearable (GOComboBox *combo, gboolean tearable);
 
 /* protected */
-void     gnm_combo_box_get_pos     (GnmComboBox *combo_box, int *x, int *y);
-void     gnm_combo_box_popup_hide  (GnmComboBox *combo_box);
-void     gnm_combo_box_popup_display (GnmComboBox *combo_box);
-void     gnm_combo_box_set_display (GnmComboBox *combo_box,
-				      GtkWidget *display_widget);
-
-gboolean _gnm_combo_is_updating (GnmComboBox const *combo_box);
+void go_combo_box_construct	(GOComboBox *combo,
+				 GtkWidget  *display_widget,
+				 GtkWidget  *popdown_container,
+				 GtkWidget  *popdown_focus);
+void go_combo_box_get_pos	(GOComboBox *combo, int *x, int *y);
+void go_combo_box_popup_hide	(GOComboBox *combo);
+void go_combo_box_popup_display	(GOComboBox *combo);
+void go_combo_box_set_display	(GOComboBox *combo,
+				 GtkWidget *display_widget);
+gboolean _go_combo_is_updating (GOComboBox const *combo);
 
 G_END_DECLS
 
-#endif /* _GNM_COMBO_BOX_H_ */
+#endif /* _GO_COMBO_BOX_H_ */

@@ -22,7 +22,7 @@
 #define __GO_ACTION_COMBO_PIXMAPS_H__
 
 #include <glib-object.h>
-#include <src/widgets/widget-pixmap-combo.h>
+#include <goffice/gui-utils/go-combo-pixmaps.h>
 
 G_BEGIN_DECLS
 

@@ -24,7 +24,6 @@
 #ifndef GO_COMBO_PIXMAPS_H
 #define GO_COMBO_PIXMAPS_H
 
-#include <widgets/gnm-combo-box.h>
 #include <gtk/gtktooltips.h>
 
 G_BEGIN_DECLS

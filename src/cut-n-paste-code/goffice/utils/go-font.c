@@ -20,7 +20,7 @@
  */
 
 #include <gnumeric-config.h>
-#include <goffice/utils/go-font.h>
+#include "go-font.h"
 
 static GHashTable   *font_hash;
 static GPtrArray    *font_array;

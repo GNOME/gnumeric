@@ -1995,22 +1995,14 @@ static GtkActionEntry actions[] = {
 	{ "FormatDecreasePrecision", "Gnumeric_FormatRemovePrecision", N_("Decrease Precision"),
 		NULL, N_("Decrease the number of decimals displayed"),
 		G_CALLBACK (cb_format_dec_precision) },
-#ifndef GTK_STOCK_INDENT
-	{ "FormatDecreaseIndent", GTK_STOCK_MISSING_IMAGE, N_("Decrease Indent"),
-		NULL, N_("Decrease the indent, and align the contents to the left"),
-		G_CALLBACK (cb_format_dec_indent) },
-	{ "FormatIncreaseIndent", GTK_STOCK_MISSING_IMAGE, N_("Increase Indent"),
-		NULL, N_("Increase the indent, and align the contents to the left"),
-		G_CALLBACK (cb_format_inc_indent) },
-#else
 	{ "FormatDecreaseIndent", GTK_STOCK_UNINDENT, NULL,
 		NULL, N_("Decrease the indent, and align the contents to the left"),
 		G_CALLBACK (cb_format_dec_indent) },
 	{ "FormatIncreaseIndent", GTK_STOCK_INDENT, NULL,
 		NULL, N_("Increase the indent, and align the contents to the left"),
 		G_CALLBACK (cb_format_inc_indent) },
-#endif
 /* Unattached */
+#warning add descriptions for copy down/right
 	{ "CopyDown", NULL, "", "<control>D", NULL, G_CALLBACK (cb_copydown) },
 	{ "CopyRight", NULL, "", "<control>R", NULL, G_CALLBACK (cb_copyright) },
 };

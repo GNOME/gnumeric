@@ -2,7 +2,7 @@
 #ifndef _GNM_COMBO_TEXT_H
 #define _GNM_COMBO_TEXT_H
 
-#include <widgets/gnm-combo-box.h>
+#include <gtk/gtkwidget.h>
 
 G_BEGIN_DECLS
 

@@ -30,14 +30,10 @@
 #ifndef GNUMERIC_COLOR_PALETTE_H
 #define GNUMERIC_COLOR_PALETTE_H
 
-#include <widgets/color-group.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtktooltips.h>
-#include <gtk/gtktable.h>
+#include <goffice/gui-utils/go-color-group.h>
 
 G_BEGIN_DECLS
 
-typedef struct _ColorNamePair ColorNamePair;
 typedef struct _ColorPalette  ColorPalette;
 
 #define COLOR_PALETTE_TYPE     (color_palette_get_type ())
@@ -48,18 +44,20 @@ typedef struct _ColorPalette  ColorPalette;
 GtkType    color_palette_get_type (void);
 
 GtkWidget *color_palette_new	   (char const *no_color_label,
-				    GdkColor const *default_color,
-				    ColorGroup *color_group);
+				    GOColor default_color,
+				    GOColorGroup *color_group);
 GtkWidget *color_palette_make_menu (char const *no_color_label,
-				    GdkColor const *default_color,
-				    ColorGroup *color_group);
+				    GOColor default_color,
+				    GOColorGroup *color_group,
+				    char const *custom_dialog_title,
+				    GOColor current_color);
 
-void	   color_palette_set_group	      (ColorPalette *P, ColorGroup *cg);
-void       color_palette_set_current_color    (ColorPalette *P, GdkColor *color);
-void       color_palette_set_color_to_default (ColorPalette *P);
-GdkColor  *color_palette_get_current_color    (ColorPalette *P, gboolean *is_default);
-GtkWidget *color_palette_get_color_picker     (ColorPalette *P);
-void	   color_palette_set_allow_alpha      (ColorPalette *P, gboolean allow_alpha);
+void	color_palette_set_title		   (ColorPalette *p, char const *title);
+void	color_palette_set_group		   (ColorPalette *p, GOColorGroup *cg);
+void    color_palette_set_current_color    (ColorPalette *p, GOColor color);
+void    color_palette_set_color_to_default (ColorPalette *p);
+GOColor color_palette_get_current_color    (ColorPalette *p, gboolean *is_default);
+void	color_palette_set_allow_alpha      (ColorPalette *p, gboolean allow_alpha);
 
 G_END_DECLS
 

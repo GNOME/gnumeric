@@ -41,10 +41,10 @@
 #include <application.h>
 #include <widgets/gnumeric-cell-renderer-text.h>
 #include <widgets/gnumeric-cell-renderer-toggle.h>
-#include <widgets/gnm-combo-box.h>
+#include <goffice/gui-utils/go-combo-box.h>
+#include <goffice/gui-utils/go-combo-color.h>
 
 #include <glade/glade.h>
-#include <widgets/widget-color-combo.h>
 #include <gtk/gtktreeview.h>
 #include <gtk/gtktreeselection.h>
 #include <gtk/gtkstock.h>
@@ -150,7 +150,7 @@ cb_color_changed_fore (G_GNUC_UNUSED ColorCombo *color_combo,
 
 static void
 cb_color_changed_back (G_GNUC_UNUSED ColorCombo *color_combo,
-		       GdkColor *color, G_GNUC_UNUSED gboolean custom,
+		       GOColor color, G_GNUC_UNUSED gboolean custom,
 		       G_GNUC_UNUSED gboolean by_user,
 		       G_GNUC_UNUSED gboolean is_default,
 		       SheetManager *state)
@@ -908,7 +908,7 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 	SheetManager *state;
 	GladeXML *gui;
 	GtkBox *vbox;
-	ColorGroup *cg;
+	GOColorGroup *cg;
 	Workbook *wb;
 
 	g_return_if_fail (wbcg != NULL);
@@ -953,17 +953,17 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 	gtk_button_set_alignment (GTK_BUTTON (state->delete_btn), 0., .5);
 
 	vbox = GTK_BOX (glade_xml_get_widget (gui,"sheet_order_buttons_vbox"));
-	cg = color_group_fetch ("back_color_group", wb_control_view (WORKBOOK_CONTROL (wbcg)));
-	state->ccombo_back = color_combo_new (
-		gnm_app_get_pixbuf ("bucket"),
-		_("Default"), NULL, cg);
+	cg = go_color_group_fetch ("back_color_group",
+		wb_control_view (WORKBOOK_CONTROL (wbcg)));
+	state->ccombo_back = color_combo_new (gnm_app_get_pixbuf ("bucket"),
+		_("Default"), 0, cg);
 	gtk_box_pack_start (vbox, state->ccombo_back, 0, 0, 0);
 	gtk_widget_set_sensitive (state->ccombo_back, FALSE);
 
-	cg = color_group_fetch ("fore_color_group", wb_control_view (WORKBOOK_CONTROL (wbcg)));
-	state->ccombo_fore = color_combo_new (
-		gnm_app_get_pixbuf ("font"),
-		_("Default"), NULL, cg);
+	cg = go_color_group_fetch ("fore_color_group",
+		wb_control_view (WORKBOOK_CONTROL (wbcg)));
+	state->ccombo_fore = color_combo_new (gnm_app_get_pixbuf ("font"),
+		_("Default"), 0, cg);
 	gtk_box_pack_start (vbox, state->ccombo_fore, 1, 1, 0);
 	gtk_widget_set_sensitive (state->ccombo_fore, FALSE);
 

@@ -1,3 +1,8 @@
+2004-01-29  Jody Goldberg <jody@gnome.org>
+
+	* dialog-stf.glade : '_Fixed Width' conflicted with '_Forward'
+	  Move to 'Fi_xed Width'
+
 2004-01-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-printer-setup.c (do_fetch_page): don't bother setting

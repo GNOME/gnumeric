@@ -21,13 +21,16 @@
  */
 #include <gnumeric-config.h>
 #include "go-action-combo-pixmaps.h"
-#include <src/widgets/widget-pixmap-combo.h>
+#include "go-combo-pixmaps.h"
+#include "go-combo-box.h"
+
 #include <src/gui-util.h>
 
 #include <gtk/gtkaction.h>
 #include <gtk/gtktoolitem.h>
 #include <gtk/gtkimagemenuitem.h>
 #include <gtk/gtkimage.h>
+#include <gtk/gtkwidget.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n.h>
 
@@ -48,8 +51,8 @@ go_tool_combo_pixmaps_set_tooltip (GtkToolItem *tool_item, GtkTooltips *tooltips
 				   char const *tip_private)
 {
 	GOToolComboPixmaps *self = (GOToolComboPixmaps *)tool_item;
-	gnm_combo_box_set_tooltip (GNM_COMBO_BOX (self->combo), tooltips,
-				   tip_text, tip_private);
+	go_combo_box_set_tooltip (GO_COMBO_BOX (self->combo), tooltips,
+				  tip_text, tip_private);
 	return TRUE;
 }
 static void
@@ -78,6 +81,8 @@ static GObjectClass *combo_pixmaps_parent;
 static void
 go_action_combo_pixmaps_connect_proxy (GtkAction *a, GtkWidget *proxy)
 {
+	GTK_ACTION_CLASS (combo_pixmaps_parent)->connect_proxy (a, proxy);
+
 	if (GTK_IS_IMAGE_MENU_ITEM (proxy)) { /* set the icon */
 		GOActionComboPixmaps *paction = (GOActionComboPixmaps *)a;
 		GdkPixbuf *pixbuf = gdk_pixbuf_new_from_inline (-1,
@@ -123,8 +128,8 @@ go_action_combo_pixmaps_create_tool_item (GtkAction *a)
 			el->id, _(el->untranslated_tooltip));
 	go_combo_pixmaps_select_id (tool->combo, paction->selected_id);
 
-	gnm_combo_box_set_relief (GNM_COMBO_BOX (tool->combo), GTK_RELIEF_NONE);
-	gnm_combo_box_set_tearable (GNM_COMBO_BOX (tool->combo), TRUE);
+	go_combo_box_set_relief (GO_COMBO_BOX (tool->combo), GTK_RELIEF_NONE);
+	go_combo_box_set_tearable (GO_COMBO_BOX (tool->combo), TRUE);
 	gnm_widget_disable_focus (GTK_WIDGET (tool->combo));
 	gtk_container_add (GTK_CONTAINER (tool), GTK_WIDGET (tool->combo));
 	gtk_widget_show (GTK_WIDGET (tool->combo));

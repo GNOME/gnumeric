@@ -43,6 +43,8 @@
 #    include <langinfo.h>
 #endif
 
+#undef DEBUG_REF_COUNT
+
 /***************************************************************************/
 
 static GnmFormat *default_percentage_fmt;
@@ -111,6 +113,12 @@ update_lc (void)
 				(lc_decimal[0] == ',' ? "." : ","));
 	if (g_utf8_strlen (lc_thousand, -1) != 1)
 		g_warning ("Monetary thousands separator is not a single character.");
+
+	if (!strcmp (lc_thousand, lc_decimal)) {
+		*lc_thousand = (*lc_decimal == ',') ? '.' : ',';
+		g_warning ("Monetary thousands separator is the same as the decimal seperator ??, converting '%s' to '%s'",
+			   lc_decimal, lc_thousand);
+	}
 
 	/* Use != 0 rather than == 1 so that CHAR_MAX (undefined) is true */
 	lc_precedes = (lc->p_cs_precedes != 0);
@@ -2247,6 +2255,10 @@ style_format_new_XL (char const *descriptor_string, gboolean delocalize)
 		g_hash_table_insert (style_format_hash, format->format, format);
 	}
 	format->ref_count++;
+#ifdef DEBUG_REF_COUNT
+	g_message (__FUNCTION__ " format=%p '%s' ref_count=%d",
+		   format, format->format, format->ref_count);
+#endif
 
 	g_free (desc_copy);
 	return format;
@@ -2413,6 +2425,10 @@ style_format_ref (GnmFormat *sf)
 	g_return_if_fail (sf != NULL);
 
 	sf->ref_count++;
+#ifdef DEBUG_REF_COUNT
+	g_message (__FUNCTION__ " format=%p '%s' ref_count=%d",
+		   sf, sf->format, sf->ref_count);
+#endif
 }
 
 /**
@@ -2430,6 +2446,10 @@ style_format_unref (GnmFormat *sf)
 	g_return_if_fail (sf->ref_count > 0);
 
 	sf->ref_count--;
+#ifdef DEBUG_REF_COUNT
+	g_message (__FUNCTION__ " format=%p '%s' ref_count=%d",
+		   sf, sf->format, sf->ref_count);
+#endif
 	if (sf->ref_count != 0)
 		return;
 

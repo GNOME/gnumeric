@@ -22,9 +22,9 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
-#include "widget-pixmap-combo.h"
-#include "gnm-combo-box.h"
+#include "go-combo-pixmaps.h"
+#include "go-combo-box.h"
+
 #include <gtk/gtkwindow.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtktogglebutton.h>
@@ -34,13 +34,15 @@
 #include <gtk/gtkvbox.h>
 #include <gdk/gdkkeysyms.h>
 
+#include <glib/gi18n.h>
+
 #include <gsf/gsf-impl-utils.h>
 
 #define PIXMAP_PREVIEW_WIDTH 15
 #define PIXMAP_PREVIEW_HEIGHT 15
 
 struct _GOComboPixmaps {
-	GnmComboBox     base;
+	GOComboBox     base;
 
 	int selected_index;
 	int cols;
@@ -52,7 +54,7 @@ struct _GOComboPixmaps {
 };
 
 typedef struct {
-	GnmComboBoxClass base;
+	GOComboBoxClass base;
 	void (* changed) (GOComboPixmaps *pixmaps, int id);
 } GOComboPixmapsClass;
 
@@ -104,11 +106,11 @@ cb_screen_changed (GOComboPixmaps *combo, GdkScreen *previous_screen)
 static void
 emit_change (GOComboPixmaps *combo)
 {
-	if (_gnm_combo_is_updating (GNM_COMBO_BOX (combo)))
+	if (_go_combo_is_updating (GO_COMBO_BOX (combo)))
 		return;
 	g_signal_emit (combo, go_combo_pixmaps_signals [CHANGED], 0,
 		g_array_index (combo->elements, Element, combo->selected_index).id);
-	gnm_combo_box_popup_hide (GNM_COMBO_BOX (combo));
+	go_combo_box_popup_hide (GO_COMBO_BOX (combo));
 }
 
 static void
@@ -122,9 +124,6 @@ go_combo_pixmaps_init (GOComboPixmaps *combo)
 	gtk_object_sink (GTK_OBJECT (combo->tool_tip));
 
 	combo->preview_button = gtk_toggle_button_new ();
-	gtk_button_set_relief (GTK_BUTTON (combo->preview_button),
-		GTK_RELIEF_NONE);
-
 	combo->preview_image = gtk_image_new ();
 	gtk_container_add (GTK_CONTAINER (combo->preview_button),
 		GTK_WIDGET (combo->preview_image));
@@ -138,14 +137,14 @@ go_combo_pixmaps_init (GOComboPixmaps *combo)
 
 	gtk_widget_show_all (combo->preview_button);
 	gtk_widget_show_all (combo->table);
-	gnm_combo_box_construct (GNM_COMBO_BOX (combo),
+	go_combo_box_construct (GO_COMBO_BOX (combo),
 		combo->preview_button, combo->table, combo->table);
 }
 
 static void
 go_combo_pixmaps_class_init (GObjectClass *gobject_class)
 {
-	go_combo_pixmaps_parent_class = g_type_class_ref (GNM_COMBO_BOX_TYPE);
+	go_combo_pixmaps_parent_class = g_type_class_ref (GO_COMBO_BOX_TYPE);
 	gobject_class->finalize = go_combo_pixmaps_finalize;
 
 	go_combo_pixmaps_signals [CHANGED] =
@@ -160,7 +159,7 @@ go_combo_pixmaps_class_init (GObjectClass *gobject_class)
 
 GSF_CLASS (GOComboPixmaps, go_combo_pixmaps,
 	   go_combo_pixmaps_class_init, go_combo_pixmaps_init,
-	   GNM_COMBO_BOX_TYPE)
+	   GO_COMBO_BOX_TYPE)
 
 GOComboPixmaps *
 go_combo_pixmaps_new (int ncols)
@@ -200,6 +199,15 @@ cb_swatch_key_press (GtkWidget *button, GdkEventKey *event, GOComboPixmaps *comb
 		return FALSE;
 }
 
+/**
+ * go_combo_pixmaps_add_element :
+ * @combo : #GOComboPixmaps
+ * @pixbuf : #GdkPixbuf
+ * @id : an identifier for the callbacks
+ * @tootip : optional
+ *
+ * Absorbs a ref to the pixbuf.
+ **/
 void
 go_combo_pixmaps_add_element (GOComboPixmaps *combo,
 			      GdkPixbuf const *pixbuf, int id, char const *tooltip)
@@ -363,6 +371,7 @@ go_menu_pixmaps_add_element (GOMenuPixmaps *menu,
 	g_object_unref ((GdkPixbuf *)pixbuf);
 	g_object_set_data (G_OBJECT (button),
 		"ItemID", GINT_TO_POINTER (id));
+	gtk_widget_show_all (button);
 	gtk_menu_attach (GTK_MENU (menu), button,
 		col, col + 1, row + 1, row + 2);
 	g_signal_connect (G_OBJECT (button),

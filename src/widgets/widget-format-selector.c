@@ -37,6 +37,7 @@
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkcellrenderertext.h>
 #include <gtk/gtkliststore.h>
+#include <gtk/gtkhbox.h>
 #include <gsf/gsf-impl-utils.h>
 
 #include <string.h>

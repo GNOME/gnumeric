@@ -37,9 +37,6 @@
 #include <sheet-merge.h>
 #include <sheet-style.h>
 #include <style-color.h>
-#include <widgets/widget-font-selector.h>
-#include <widgets/gnumeric-dashed-canvas-line.h>
-#include <widgets/gnumeric-combo-text.h>
 #include <gui-util.h>
 #include <selection.h>
 #include <str.h>
@@ -60,9 +57,12 @@
 #include <mathfunc.h>
 #include <preview-grid.h>
 #include <widgets/gnumeric-expr-entry.h>
-
+#include <widgets/widget-font-selector.h>
+#include <widgets/gnumeric-dashed-canvas-line.h>
+#include <widgets/gnumeric-combo-text.h>
 #include <widgets/widget-format-selector.h>
-
+#include <goffice/gui-utils/go-combo-color.h>
+#include <goffice/gui-utils/go-combo-box.h>
 #include <libart_lgpl/art_alphagamma.h>
 #include <libart_lgpl/art_pixbuf.h>
 #include <libart_lgpl/art_rgb_pixbuf_affine.h>
@@ -83,7 +83,6 @@
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include <libgnomecanvas/gnome-canvas-pixbuf.h>
 #include <pango/pangoft2.h>
-#include <widgets/widget-color-combo.h>
 
 static const struct {
 	const char *Cname;
@@ -360,7 +359,7 @@ setup_color_pickers (ColorPicker *picker,
 		     GnmStyle	 *mstyle)
 {
 	GtkWidget *combo, *box, *frame;
-	ColorGroup *cg;
+	GOColorGroup *cg;
 	GnmColor *mcolor = NULL;
 	GnmColor *def_sc = NULL;
 	GdkColor *def_gc;
@@ -384,18 +383,16 @@ setup_color_pickers (ColorPicker *picker,
 	default:
 		g_warning ("Unhandled mstyle element!");
 	}
-	cg = color_group_fetch
-		(color_group,
+	cg = go_color_group_fetch (color_group,
 		 wb_control_view (WORKBOOK_CONTROL (state->wbcg)));
 
 	def_gc = def_sc ? &def_sc->color : &GTK_WIDGET (state->dialog)->style->black;
 
-	combo = color_combo_new (NULL, default_caption, def_gc, cg);
+	combo = color_combo_new (NULL, default_caption, GDK_TO_UINT (*def_gc), cg);
+	go_combo_box_set_title (GO_COMBO_BOX (combo), caption);
 	g_signal_connect (G_OBJECT (combo),
 		"color_changed",
 		G_CALLBACK (preview_update), state);
-	/* FIXME: Should we disable the focus? Line 793 workbook-format-toolbar.c */
-	gnm_combo_box_set_title (GNM_COMBO_BOX (combo), caption);
 
 	/* Connect to the sample canvas and redraw it */
 	picker->combo          = combo;

@@ -1,3 +1,8 @@
+2004-01-29  Jody Goldberg <jody@gnome.org>
+
+	* gnm-combo-box.c (gnm_combo_box_mnemonic_activate) : fix this to work
+	  in the context of the new approach.
+
 2004-01-23  Jody Goldberg <jody@gnome.org>
 
 	* widget-color-combo.c (color_combo_set_color_internal) : redraw the

@@ -20,12 +20,12 @@
  */
 
 #include <gnumeric-config.h>
-#include <goffice/utils/go-pattern.h>
-#include <goffice/utils/go-color.h>
+#include "go-pattern.h"
+#include "go-color.h"
+#include <goffice/gui-utils/go-combo-pixmaps.h>
 
 #include <libart_lgpl/libart.h>
 #include <glib/gi18n.h>
-#include <widgets/widget-pixmap-combo.h>
 #include <gdk-pixbuf/gdk-pixdata.h>
 #include <string.h>
 

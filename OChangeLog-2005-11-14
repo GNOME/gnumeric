@@ -1,3 +1,10 @@
+2004-01-28  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=131933
+	* src/format.c (update_lc) : catch mismatched monetary and numeric
+	  locales that set result in the decimal seperator and thousands
+	  seperator being the same.
+
 2004-01-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* schemas/gnumeric-dialogs.schemas.in: Add schemas correponding to 

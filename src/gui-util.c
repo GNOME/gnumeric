@@ -26,8 +26,7 @@
 #include "workbook.h"
 #include "gnumeric-paths.h"
 
-#include <string.h>
-#include <widgets/widget-color-combo.h>
+#include <goffice/gui-utils/go-combo-color.h>
 #include <widgets/preview-file-selection.h>
 #include <glade/glade.h>
 #include <gtk/gtklabel.h>
@@ -42,10 +41,13 @@
 #include <gtk/gtkframe.h>
 #include <gtk/gtkimagemenuitem.h>
 #include <gtk/gtkbbox.h>
+#include <gtk/gtkhbox.h>
 #include <atk/atkrelation.h>
 #include <atk/atkrelationset.h>
 #include <gdk/gdkkeysyms.h>
 #include <libgnome/gnome-help.h>
+
+#include <string.h>
 
 gboolean
 gnumeric_dialog_question_yes_no (WorkbookControlGUI *wbcg,
@@ -871,10 +873,13 @@ GnmColor *
 color_combo_get_style_color (GtkWidget *color_combo)
 {
 	GnmColor *sc = NULL;
-	GdkColor *gdk = color_combo_get_color (COLOR_COMBO (color_combo), NULL);
-	if (gdk != NULL) {
-		    sc = style_color_new (gdk->red, gdk->green, gdk->blue);
-		    gdk_color_free (gdk);
+	guint16   r, g, b;
+	GOColor color = color_combo_get_color (COLOR_COMBO (color_combo), NULL);
+	if (UINT_RGBA_A (color) >= 0x80) {
+		r  = UINT_RGBA_R (color); r |= (r << 8);
+		g  = UINT_RGBA_G (color); g |= (g << 8);
+		b  = UINT_RGBA_B (color); b |= (b << 8);
+		sc = style_color_new (r, g, b);
 	}
 	return sc;
 }

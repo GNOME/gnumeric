@@ -54,6 +54,8 @@ gboolean	gog_axis_get_bounds 	 (GogAxis const *axis,
 					  double *minima, double *maxima);
 void		gog_axis_get_ticks 	 (GogAxis const *axis,
 					  double *major, double *minor);
+GOData	       *gog_axis_get_labels	 (GogAxis const *axis,
+					  GogPlot **plot_that_labeled_axis);
 
 void 	      gog_axis_add_contributor	  (GogAxis *axis, GogObject *contrib);
 void 	      gog_axis_del_contributor	  (GogAxis *axis, GogObject *contrib);

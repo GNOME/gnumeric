@@ -20,7 +20,7 @@
  */
 
 #include <gnumeric-config.h>
-#include <goffice/utils/go-format.h>
+#include "go-format.h"
 #include <src/format.h>
 #include <src/value.h>
 #include <src/datetime.h>

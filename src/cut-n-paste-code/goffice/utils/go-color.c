@@ -19,12 +19,9 @@
  * USA
  */
 
-#undef GNOME_DISABLE_DEPRECATED
-#warning "This file uses GNOME_DISABLE_DEPRECATED for GnomeColorPicker"
 #include <gnumeric-config.h>
-#include <goffice/utils/go-color.h>
-#include <widgets/widget-color-combo.h>
-#include <libgnomeui/gnome-color-picker.h>
+#include "go-color.h"
+#include <goffice/gui-utils/go-combo-color.h>
 
 #include <stdio.h>
 

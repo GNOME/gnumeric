@@ -59,6 +59,7 @@ Pending Patches
 	5.7.1) stub						(DONE)	
 	5.7.2) Add some events					(DONE)
 	5.7.3) Support custom menu item				(DONE)
+	5.7.4) Make menu item actually appear			(DONE)
     5.8) GOActionColor
 	5.8.1) stub						(DONE)	
 	5.8.2) Support custom menu item				(DONE)
@@ -66,20 +67,22 @@ Pending Patches
 	5.8.4) emit activate for toolbar			(DONE)
 	5.8.5) emit activate for menu				(DONE)
 	5.8.6) history buttons in menu				(DONE)
-	5.8.7) custom button in menu
-	5.8.8) sync proxies
-	5.8.9) Use GtkColorSelector
-	5.8.10) Better cursor
-	5.8.11) Use GOColor in action				(DONE)
-	5.8.12) Use GOColor in combo
-	5.8.13) Cleanup
-	5.8.14) why is first custom colour not displayed
+	5.8.7) think about custom button
+	5.8.8) custom button in menu
+	5.8.9) sync proxies
+	5.8.10) Use GtkColorSelector				(DONE)
+	5.8.11) Better cursor
+	5.8.12) Use GOColor in action				(DONE)
+	5.8.13) Use GOColor in combo				(DONE)
+	5.8.14) Cleanup						(DONE)
+	5.8.15) why is first custom colour not displayed	(DONE)
     5.9) Move the hard coded accelerators out of
 	canvas into actions
     5.10) Add indent/unindent icons to gtk			(DONE)
 	5.10.1) Patch written					(DONE)
 	5.10.2) Patch accepted into gtk				(DONE)
     5.11) File History
+    5.12) Split gui-utils.h down into goffice
 
 6) Jump to zip file
     6.1) move existing code into plugin (easy)
@@ -103,7 +106,6 @@ Pending Patches
 - input message				(Stored)
 - load/save of external references
 - all the merged cell singleton bugs
-- round trip links to vba functions
 
 - finish corba plugin
 - conditional formats : could be done if someone wanted to work on the dialog
@@ -117,9 +119,6 @@ Excel i/o
 -------------------------------------------------------------------------------
 Short Term Goals
 ----------------
-
-* "_Fixed" and "_Forward" share F-key on STF's first page.
-    - fix once we branch for 1.3 and the string freeze ends
 
 * When we release 1.1.18, we should ask people to nominate certain foreign
   encodings as major.
@@ -239,7 +238,7 @@ Short Term Goals
 	1.12.2) Take marker sizes into account at bounds
 	1.12.3) Bounds on 1 axis explicitly clip the other
 	1.12.4) Splined interpolation
-	1.12.5) Bubbles {Jean has patch}
+	1.12.5) Bubbles {Jean has patch}			(DONE)
     1.13) Decide on recalc strategy				(DONE)
 	1.13.1) Getting data from sheet -> graphs		(DONE)
 	1.13.2) linking unlinking				(DONE)

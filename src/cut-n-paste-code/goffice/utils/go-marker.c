@@ -19,7 +19,11 @@
  * USA
  */
 
+#include <gnumeric-config.h>
 #include "go-marker.h"
+#include "go-color.h"
+#include <goffice/gui-utils/go-combo-color.h>
+#include <goffice/gui-utils/go-combo-pixmaps.h>
 
 #include <libart_lgpl/art_render_gradient.h>
 #include <libart_lgpl/art_render_svp.h>
@@ -29,18 +33,11 @@
 #include <libart_lgpl/art_affine.h>
 #include <libart_lgpl/art_rgb_svp.h>
 
-#include <goffice/utils/go-color.h>
-
-#include <gnumeric-config.h>
-#include <glade/glade-xml.h>
-#include <widgets/widget-color-combo.h>
-#include <widgets/widget-pixmap-combo.h>
-
-#include <gdk-pixbuf/gdk-pixdata.h>
-
 #include <src/mathfunc.h>
-#include <glib/gi18n.h>
 
+#include <glade/glade-xml.h>
+#include <gdk-pixbuf/gdk-pixdata.h>
+#include <glib/gi18n.h>
 #include <gsf/gsf-impl-utils.h>
 
 #define MARKER_DEFAULT_SIZE 5
@@ -260,7 +257,18 @@ static struct {
 static GObjectClass *marker_parent_klass;
 
 static GdkPixbuf *
-marker_create_pixbuf_with_size (GOMarker * marker, guint size)
+new_blank_pixbuf (GOMarker *marker, guint size)
+{
+	int offset = ceil ((double)size * MARKER_OUTLINE_WIDTH / 2.0);
+	int pixbuf_size = size + 1 + 2 * offset;
+	GdkPixbuf *res = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8,
+					    pixbuf_size, pixbuf_size);
+	gdk_pixbuf_fill (res, 0);
+	return res;
+}
+
+static GdkPixbuf *
+marker_create_pixbuf_with_size (GOMarker *marker, guint size)
 {
 	double scaling[6], translation[6], affine[6];
 	guchar *pixels;
@@ -268,16 +276,16 @@ marker_create_pixbuf_with_size (GOMarker * marker, guint size)
 	ArtSVP *outline, *fill;
 	double half_size;
 	int pixbuf_size, offset;
-	ArtVpath * outline_path;
-	ArtVpath * fill_path;
-	GdkPixbuf * pixbuf;
+	ArtVpath  *outline_path;
+	ArtVpath  *fill_path;
+	GdkPixbuf *pixbuf;
 
-	if ((size < 1) ||
-	    (marker->shape == GO_MARKER_NONE))
+	if (size < 1 || marker->shape == GO_MARKER_NONE)
 		return NULL;
 
 	/* FIXME : markers look bad due to grey outline */
 
+	/* keep in sync with new_blank_pixbuf */
 	offset = ceil ((double)size * MARKER_OUTLINE_WIDTH / 2.0);
 	pixbuf_size = size + 1 + 2 * offset;
 	half_size = (double)size / 2.0;
@@ -562,6 +570,7 @@ go_marker_selector (GOColor outline_color, GOColor fill_color,
 	GOComboPixmaps	*w;
 	GOMarker	*marker = go_marker_new ();
 	GOMarkerShape	 shape;
+	GdkPixbuf const	*pixbuf;
 
 	go_marker_set_fill_color (marker, fill_color);
 	go_marker_set_outline_color (marker, outline_color);
@@ -572,14 +581,19 @@ go_marker_selector (GOColor outline_color, GOColor fill_color,
 		shape = elements[i];
 		is_auto = (shape == GO_MARKER_MAX);
 		go_marker_set_shape (marker, is_auto ? default_shape : shape);
+		pixbuf = go_marker_get_pixbuf (marker);
+		if (pixbuf == NULL) /* handle none */
+			pixbuf = new_blank_pixbuf (marker, marker->size);
+		else	/* add_element absorbs ref */
+			g_object_ref (G_OBJECT (pixbuf));
 		if (is_auto) {
 			/* xgettext : this will appear as 'Automatic (shapename)' */
 			char *name = g_strdup_printf (_("Automatic (%s)"),
 				_(marker_shapes [default_shape].name));
-			go_combo_pixmaps_add_element (w, go_marker_get_pixbuf (marker),
+			go_combo_pixmaps_add_element (w, pixbuf,
 				-default_shape, name);
 		} else
-			go_combo_pixmaps_add_element (w, go_marker_get_pixbuf (marker),
+			go_combo_pixmaps_add_element (w, pixbuf,
 				shape, _(marker_shapes [shape].name));
 	}
 	g_object_unref (marker);

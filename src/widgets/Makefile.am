@@ -9,16 +9,6 @@ INCLUDES = 						\
 noinst_LIBRARIES = libwidgets.a
 
 libwidgets_a_SOURCES =				\
-	color-group.c				\
-	color-group.h				\
-	color-palette.c				\
-	color-palette.h				\
-	widget-color-combo.c			\
-	widget-color-combo.h			\
-	widget-pixmap-combo.c			\
-	widget-pixmap-combo.h			\
-	gnm-combo-box.c				\
-	gnm-combo-box.h				\
 	gnm-dao.c				\
 	gnm-dao.h				\
 	preview-file-selection.c		\
