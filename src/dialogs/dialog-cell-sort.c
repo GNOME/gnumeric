@@ -70,7 +70,8 @@ typedef struct {
 
 
 static void
-dialog_cell_sort_adv(GtkWidget *widget, OrderBox *orderbox) {
+dialog_cell_sort_adv (GtkWidget *widget, OrderBox *orderbox)
+{
 	GladeXML *gui;
 	GtkWidget *check;
 	GtkWidget *rb1, *rb2;
@@ -85,24 +86,24 @@ dialog_cell_sort_adv(GtkWidget *widget, OrderBox *orderbox) {
 	}
 
 	dialog = glade_xml_get_widget (gui, "CellSortAdvanced");
-	check = glade_xml_get_widget (gui, "cell_sort_adv_case");
-	rb1   = glade_xml_get_widget (gui, "cell_sort_adv_value");
-	rb2   = glade_xml_get_widget (gui, "cell_sort_adv_text");
+	check  = glade_xml_get_widget (gui, "cell_sort_adv_case");
+	rb1    = glade_xml_get_widget (gui, "cell_sort_adv_value");
+	rb2    = glade_xml_get_widget (gui, "cell_sort_adv_text");
 	if (!dialog || !check || !rb1 || !rb2) {
 		g_warning ("Corrupt file cell-sort.glade\n");
 		return;
 	}
 
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), orderbox->cs);
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(rb1), orderbox->val);
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(rb2), !(orderbox->val));
-	btn = gnome_dialog_run(GNOME_DIALOG(dialog));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), orderbox->cs);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (rb1), orderbox->val);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (rb2), !(orderbox->val));
+	btn = gnome_dialog_run (GNOME_DIALOG (dialog));
 	if (btn == 0) {
-		orderbox->cs = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON (check));
-		orderbox->val = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON (rb1));	
+		orderbox->cs  = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check));
+		orderbox->val = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rb1));	
 	}
 
-	gtk_object_destroy(GTK_OBJECT(dialog));
+	gtk_object_destroy (GTK_OBJECT (dialog));
 }
 
 static OrderBox *
@@ -110,11 +111,11 @@ order_box_new (GtkWidget * parent, const gchar *frame_text,
 	       GList *names, gboolean empty)
 {
 	OrderBox *orderbox;
-	GtkWidget *hbox = gtk_hbox_new(FALSE, 2);
+	GtkWidget *hbox = gtk_hbox_new (FALSE, 2);
 
-	orderbox  = g_new(OrderBox, 1);
+	orderbox  = g_new (OrderBox, 1);
 	orderbox->parent = parent;
-	orderbox->main_frame = gtk_frame_new(frame_text);
+	orderbox->main_frame = gtk_frame_new (frame_text);
 
 	/* Set up the column names combo boxes */
 	orderbox->rangetext = gtk_combo_new ();
@@ -183,7 +184,7 @@ static char *
 order_box_get_text (OrderBox *orderbox, ClauseData *data)
 {
 	data->asc = gtk_radio_group_get_selected (orderbox->group);
-	data->cs = orderbox->cs;
+	data->cs  = orderbox->cs;
 	data->val = orderbox->val;
 	return gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (orderbox->rangetext)->entry));
 }
@@ -195,8 +196,8 @@ compare_values (const SortData * ain, const SortData * bin, int clause)
 	Value *a,  *b;
 	int ans = 0, fans = 0;
 
-	ca = ain->cells[ain->clauses[clause].offset];
-	cb = bin->cells[bin->clauses[clause].offset];
+	ca = ain->cells [ain->clauses [clause].offset];
+	cb = bin->cells [bin->clauses [clause].offset];
 
 	if (!ca)
 		a = value_new_int (0);
@@ -247,11 +248,10 @@ compare_values (const SortData * ain, const SortData * bin, int clause)
 					char *sa, *sb;
 					sa  = value_get_as_string (a);
 					sb  = value_get_as_string (b);
-					if (ain->clauses[clause].cs) {
-						ans = strcmp(sa, sb);
-					} else {
-						ans = strcasecmp(sa, sb);
-					}
+					if (ain->clauses [clause].cs)
+						ans = strcmp (sa, sb);
+					else
+						ans = strcasecmp (sa, sb);
 					g_free (sa);
 					g_free (sb);
 					break;
@@ -262,13 +262,19 @@ compare_values (const SortData * ain, const SortData * bin, int clause)
 		}
 	} else {
 		char *sa, *sb;
-		sa  = cell_get_text (ca);
-		sb  = cell_get_text (cb);
-		if (ain->clauses[clause].cs) {
-			ans = strcmp(sa, sb);
-		} else {
-			ans = strcasecmp(sa, sb);
-		}
+		if (ca)
+			sa = cell_get_text (ca);
+		else
+			sa = g_strdup ("0");
+		if (cb)
+			sb = cell_get_text (cb);
+		else
+			sb = g_strdup ("0");
+
+		if (ain->clauses [clause].cs)
+			ans = strcmp (sa, sb);
+		else
+			ans = strcasecmp (sa, sb);
 		g_free (sa);
 		g_free (sb);
 	}
@@ -284,9 +290,9 @@ compare_values (const SortData * ain, const SortData * bin, int clause)
 		fans = ain->clauses [clause].asc ? -1 :  1;
 
 	if (!ca)
-		value_release(a);
+		value_release (a);
 	if (!cb)
-		value_release(b);
+		value_release (b);
 
 	return fans;
 }
@@ -435,7 +441,7 @@ dialog_cell_sort_del_clause (GtkWidget *widget, SortFlow *sf)
 		sf->num_clause--;
 		order_box_remove  (sf->clauses [sf->num_clause]);
 		order_box_destroy (sf->clauses [sf->num_clause]);
-/* Fixme: bit nasty ! */
+/* FIXME: bit nasty ! */
 		gtk_container_queue_resize (GTK_CONTAINER (sf->dialog));
 		gtk_widget_show_all (sf->dialog);
 		sf->clauses [sf->num_clause] = NULL;
@@ -636,9 +642,9 @@ dialog_cell_sort (Workbook * inwb, Sheet * sheet)
 	sort_flow.rownames_header = cell_sort_row_name_list (sheet, start_row, end_row, start_col, TRUE);
 	gtk_signal_connect (GTK_OBJECT (check), "toggled",
 			    GTK_SIGNAL_FUNC (dialog_cell_sort_header_toggled), &sort_flow);
-	gtk_signal_connect (GTK_OBJECT (rb1), "toggled",
+	gtk_signal_connect (GTK_OBJECT (rb1),   "toggled",
 			    GTK_SIGNAL_FUNC (dialog_cell_sort_rows_toggled),   &sort_flow);	
-	gtk_signal_connect (GTK_OBJECT (rb2), "toggled",
+	gtk_signal_connect (GTK_OBJECT (rb2),   "toggled",
 			    GTK_SIGNAL_FUNC (dialog_cell_sort_cols_toggled),   &sort_flow);
 
 	gnome_dialog_set_parent (GNOME_DIALOG (sort_flow.dialog), GTK_WINDOW (sort_flow.wb->toplevel));
@@ -730,9 +736,8 @@ dialog_cell_sort (Workbook * inwb, Sheet * sheet)
 		} else if (btn == 2) {
 			dialog_cell_sort_del_clause (NULL, &sort_flow);
 			sort_flow.retry = 1;
-		} else  {
+		} else
 			sort_flow.retry = 0;
-		}
 	}
 	while (sort_flow.retry || sort_flow.force_redisplay);
 

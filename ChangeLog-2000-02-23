@@ -1,3 +1,8 @@
+1999-12-04  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/dialogs/dialog-cell-sort.c (compare_values): Fix fatal bug
+	with cell_get_text on a NULL Cell.
+
 1999-12-03  JP Rosevear  <jpr@arcavia.com>
 
 	* src/dialogs/dialog-cell-sort.c (dialog_cell_sort_adv): options
