@@ -1,5 +1,15 @@
 2001-07-19  Almer S. Tigelaar  <almer@gnome.org>
 
+ 	* function-select.glade: Put the description label inside
+ 	a scrollable viewport.
+ 
+ 	* dialog-function-select.c (category_and_function_key_press): New,
+ 	handle the selection of a corresponding item when pressing a key
+ 	in the category or function clist.
+ 	(function_select_row): Set description.
+ 	(dialog_function_select_impl): Connect keypress events for the
+ 	clist's.
+
 	* cell-format.glade: Set border around background
 	preview canvas.
 

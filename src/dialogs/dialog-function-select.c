@@ -6,6 +6,7 @@
  *
  */
 #include <config.h>
+#include <ctype.h>
 #include <glade/glade.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
@@ -84,6 +85,41 @@ function_list_fill (FunctionSelectState *state)
 	gnumeric_clist_moveto (list, state->selected_func);
 }
 
+static gboolean
+category_and_function_key_press (GtkCList *list, GdkEventKey *event,
+				 int *index)
+{
+	if (event->string && isalpha(*event->string)) {
+		int i, first, next;
+
+		first = next = -1;
+		for (i = 0; i < list->rows; i++) {
+			char *t[1];
+			
+			gtk_clist_get_text (list, i, 0, t);
+			if (strncasecmp (t[0], event->string, 1) == 0) {
+				if (first == -1)
+					first = i;
+				if (next == -1 && i > *index)
+					next = i;
+			}
+		}
+		
+		i = -1;
+		if (next == -1 && first != -1)
+			i = first;
+		else
+			i = next;
+			
+		if (i >= 0) {
+			gtk_clist_select_row (list, i, 0);
+			gnumeric_clist_moveto (list,i);
+		}
+	}
+	
+	return TRUE;
+}
+
 static void
 function_select_row (GtkCList *clist, gint row, gint col,
 		     GdkEvent *event, FunctionSelectState *state)
@@ -100,8 +136,8 @@ function_select_row (GtkCList *clist, gint row, gint col,
 	gtk_label_set_text (state->func_name,
 			    tokenized_help_find (state->func_help, "SYNTAX"));
 
-	/* TODO : Fix 'descriptions' to be simple paragraphs */
-	gtk_label_set_text (state->description, "");
+	gtk_label_set_text (state->description,
+			    tokenized_help_find (state->func_help, "DESCRIPTION"));
 }
 
 static void
@@ -134,6 +170,13 @@ dialog_function_select_impl (WorkbookControlGUI *wbcg, GladeXML *gui)
 	g_return_val_if_fail (state.functions, NULL);
 	g_return_val_if_fail (state.func_name, NULL);
 	g_return_val_if_fail (state.description, NULL);
+
+	gtk_signal_connect (GTK_OBJECT (state.categories), "key-press-event",
+			    GTK_SIGNAL_FUNC (category_and_function_key_press),
+			    &state.selected_cat);
+	gtk_signal_connect (GTK_OBJECT (state.functions), "key-press-event",
+			    GTK_SIGNAL_FUNC (category_and_function_key_press),
+			    &state.selected_func);
 
 	gtk_signal_connect (GTK_OBJECT (state.categories), "select-row",
 			    GTK_SIGNAL_FUNC (category_select_row),

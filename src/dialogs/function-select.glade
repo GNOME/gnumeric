@@ -13,7 +13,6 @@
   <output_main_file>False</output_main_file>
   <output_support_files>False</output_support_files>
   <output_build_files>False</output_build_files>
-  <output_translatable_strings>False</output_translatable_strings>
 </project>
 
 <widget>
@@ -104,7 +103,7 @@
 	<class>GtkVBox</class>
 	<name>vbox1</name>
 	<homogeneous>False</homogeneous>
-	<spacing>0</spacing>
+	<spacing>5</spacing>
 
 	<widget>
 	  <class>GtkHBox</class>
@@ -216,21 +215,35 @@
 	</widget>
 
 	<widget>
-	  <class>GtkLabel</class>
-	  <name>function_description</name>
-	  <height>50</height>
-	  <label>place holder no need to translate</label>
-	  <justify>GTK_JUSTIFY_LEFT</justify>
-	  <wrap>True</wrap>
-	  <xalign>0</xalign>
-	  <yalign>0</yalign>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
+	  <class>GtkScrolledWindow</class>
+	  <name>scrolledwindow3</name>
+	  <hscrollbar_policy>GTK_POLICY_AUTOMATIC</hscrollbar_policy>
+	  <vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
+	  <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
+	  <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
 	  <child>
 	    <padding>0</padding>
 	    <expand>False</expand>
 	    <fill>False</fill>
 	  </child>
+
+	  <widget>
+	    <class>GtkViewport</class>
+	    <name>viewport1</name>
+	    <shadow_type>GTK_SHADOW_IN</shadow_type>
+
+	    <widget>
+	      <class>GtkLabel</class>
+	      <name>function_description</name>
+	      <label>place holder no need to translate</label>
+	      <justify>GTK_JUSTIFY_LEFT</justify>
+	      <wrap>True</wrap>
+	      <xalign>0</xalign>
+	      <yalign>0</yalign>
+	      <xpad>1</xpad>
+	      <ypad>1</ypad>
+	    </widget>
+	  </widget>
 	</widget>
       </widget>
     </widget>
