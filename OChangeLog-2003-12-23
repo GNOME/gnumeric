@@ -1,3 +1,13 @@
+2001-01-06  Kenneth Christiansen  <kenneth@gnu.org>
+
+        * configure.in, macros/autogen.sh:
+          added support for xml-i18n-tools. This module is now required 
+          when building from cvs. Please make sure that the macrofile 
+          installed by xml-i18n-tools is installed so it's in aclocal's
+          path. or do:
+ 		
+ 	  export ACLOCAL_FLAGS='-I /usr/local/share/aclocal'
+
 2001-01-04  Jon K Hellan  <hellan@acm.org>
 
 	* src/Makefile.am: Add files gui-file.c, gui-file.h
