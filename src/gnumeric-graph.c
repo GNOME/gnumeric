@@ -184,13 +184,18 @@ gnm_graph_vector_seq_string (GnmGraphVector *vector)
 	GNOME_Gnumeric_String_Seq *values;
 	Value *v = vector->value;
 
-	len = value_area_get_height  (&pos, v);
+	len = (v != NULL) ? value_area_get_height  (&pos, v) : 1;
 	values = GNOME_Gnumeric_String_Seq__alloc ();
 	values->_length = values->_maximum = len;
 	values->_buffer = CORBA_sequence_CORBA_string_allocbuf (len);
 	values->_release = CORBA_TRUE;
 
 	/* FIXME : This is dog slow */
+	if (v == NULL) {
+		values->_buffer[0] = CORBA_string_dup ("");
+		return values;
+	}
+
 	for (i = 0; i < len ; ++i) {
 		Value const *elem = vector->is_column
 			? value_area_get_x_y (&pos, v, 0, i)
@@ -209,6 +214,7 @@ gnm_graph_vector_eval (Dependent *dep)
 	CORBA_Environment ev;
 	GnmGraphVector *vector;
 	EvalPos ep;
+	ExprEvalFlags flags = EVAL_PERMIT_NON_SCALAR;
 
 	vector = DEP_TO_GRAPH_VECTOR (dep);
 
@@ -216,9 +222,10 @@ gnm_graph_vector_eval (Dependent *dep)
 
 	if (vector->value != NULL)
 		value_release (vector->value);
+	if (vector->type == GNM_VECTOR_STRING)
+		flags |= EVAL_PERMIT_EMPTY;
 	vector->value = eval_expr (eval_pos_init_dep (&ep, &vector->dep),
-				   vector->dep.expression,
-				   EVAL_PERMIT_NON_SCALAR);
+				   vector->dep.expression, flags);
 
 	CORBA_exception_init (&ev);
 	switch (vector->type) {
@@ -697,6 +704,7 @@ gnm_graph_add_vector (GnmGraph *graph, ExprTree *expr,
 	GnmGraphVector *vector;
 	EvalPos ep;
 	int i;
+	ExprEvalFlags flags = EVAL_PERMIT_NON_SCALAR;
 
 	g_return_val_if_fail (IS_GNUMERIC_GRAPH (graph), -1);
 
@@ -729,8 +737,11 @@ gnm_graph_add_vector (GnmGraph *graph, ExprTree *expr,
 	vector->header = NULL;
 	dependent_link (&vector->dep, NULL);
 
+	if (type == GNM_VECTOR_STRING || type == GNM_VECTOR_AUTO)
+		flags |= EVAL_PERMIT_EMPTY;
 	vector->value = eval_expr (eval_pos_init_dep (&ep, &vector->dep),
-				   vector->dep.expression, EVAL_PERMIT_NON_SCALAR);
+				   vector->dep.expression, flags);
+
 	switch (type) {
 	case GNM_VECTOR_AUTO :
 		type = (value_area_foreach (&ep, vector->value,
@@ -749,7 +760,8 @@ gnm_graph_add_vector (GnmGraph *graph, ExprTree *expr,
 		type = GNM_VECTOR_SCALAR;
 	};
 
-	vector->is_column = value_area_get_width (&ep, vector->value) == 1;
+	vector->is_column = (vector->value != NULL &&
+			     value_area_get_width (&ep, vector->value) == 1);
 	vector->type = type;
 	if (!gnm_graph_vector_corba_init (vector) ||
 	    !gnm_graph_subscribe_vector (graph, vector)) {

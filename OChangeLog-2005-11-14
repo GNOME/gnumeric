@@ -1,3 +1,10 @@
+2001-10-09  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric-graph.c (gnm_graph_add_vector) : Allow empties to
+	  remaing empty.
+	(gnm_graph_vector_eval) : ditto.
+	(gnm_graph_vector_seq_string) : handle singleton empties.
+
 2001-10-08  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/style-condition.[ch] (style_condition_eval):
