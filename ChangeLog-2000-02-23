@@ -1,5 +1,11 @@
 1999-10-10  Jody Goldberg <jgoldberg@home.com>
 
+	* src/style.c (style_mstyle_new) : Init background color to NULL for
+	  now.
+
+	* src/dialogs/dialog-cell-format.c (set_color_picker_from_style) :
+	  Don't warn about unset colours.
+
 	* src/item-grid.c (item_grid_draw_cell) : Draw borders.
 
 	* src/border.[ch] : Since stipples won't work, we don't need

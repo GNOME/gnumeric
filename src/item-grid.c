@@ -18,6 +18,7 @@
 #include "clipboard.h"
 #include "selection.h"
 #include "main.h"
+#include "border.h"
 
 static GnomeCanvasItem *item_grid_parent_class;
 
@@ -211,6 +212,33 @@ item_grid_invert_gc (ItemGrid *item_grid)
 	}
 }
 
+static void
+item_grid_draw_border (GdkDrawable *drawable, Style *style,
+		       int x, int y, int w, int h)
+{
+	if (style->valid_flags & STYLE_BORDER_TOP)
+		border_draw (drawable, style->border_top,
+			     x, y, x+w, y);
+	if (style->valid_flags & STYLE_BORDER_LEFT)
+		border_draw (drawable, style->border_left,
+			     x, y, x, y+h);
+	if (style->valid_flags & STYLE_BORDER_BOTTOM)
+		border_draw (drawable, style->border_bottom,
+			     x, y+h, x+w, y+h);
+	if (style->valid_flags & STYLE_BORDER_RIGHT)
+		border_draw (drawable, style->border_right,
+			     x+w, y, x+w, y+h);
+#if 0
+	/* These would look ugly and should be ignored for now */
+	if (style->valid_flags & STYLE_BORDER_DIAGONAL)
+		border_draw (drawable, style->border_diagonal,
+			     x, y, x+w, y+h);
+	if (style->valid_flags & STYLE_BORDER_REV_DIAGONAL)
+		border_draw (drawable, style->border_rev_diagonal,
+			     x+w, y+h, x, y);
+#endif
+}
+
 /*
  * Draw a cell.  It gets pixel level coordinates
  *
@@ -263,27 +291,7 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 	/* Draw cell contents BEFORE border */
 	count = cell_draw (cell, item_grid->sheet_view, gc, drawable, x1, y1);
 
-	if (style->valid_flags & STYLE_BORDER_TOP)
-		border_draw (drawable, style->border_top,
-			     x1, y1, x1+w, y1);
-	if (style->valid_flags & STYLE_BORDER_LEFT)
-		border_draw (drawable, style->border_left,
-			     x1, y1, x1, y1+h);
-	if (style->valid_flags & STYLE_BORDER_BOTTOM)
-		border_draw (drawable, style->border_bottom,
-			     x1, y1+h, x1+w, y1+h);
-	if (style->valid_flags & STYLE_BORDER_RIGHT)
-		border_draw (drawable, style->border_right,
-			     x1+w, y1, x1+w, y1+h);
-#if 0
-	/* These would look ugly and should be ignored for now */
-	if (style->valid_flags & STYLE_BORDER_DIAGONAL)
-		border_draw (drawable, style->border_diagonal,
-			     x1, y1, x1+w, y1+h);
-	if (style->valid_flags & STYLE_BORDER_REV_DIAGONAL)
-		border_draw (drawable, style->border_rev_diagonal,
-			     x1+w, y1+h, x1, y1);
-#endif
+	item_grid_draw_border (drawable, style, x1, y1, w, h);
 
 	return count;
 }
@@ -309,6 +317,8 @@ item_grid_paint_empty_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 			ci->pixels - ci->margin_b,
 			ri->pixels - ri->margin_b);
 	}
+
+	item_grid_draw_border (drawable, style, x, y, ci->pixels, ri->pixels);
 
 	style_destroy (style);
 	return;

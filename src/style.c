@@ -427,7 +427,7 @@ style_mstyle_new (MStyleElement *e, guint len)
 		style->back_color = e[MSTYLE_COLOR_BACK].u.color.back;
 		style_color_ref (style->back_color);
 	} else
-		style->back_color = style_color_new (0xffff, 0xffff, 0xffff);
+		style->back_color = NULL; /* style_color_new (0xffff, 0xffff, 0xffff); */
 
 	if (e[MSTYLE_COLOR_PATTERN].type) {
 		style->pattern_color = e[MSTYLE_COLOR_PATTERN].u.color.pattern;

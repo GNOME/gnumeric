@@ -722,6 +722,10 @@ set_color_picker_from_style (GnomeColorPicker *cp, MStyleElement e)
 	gushort red, green, blue;
 
 	g_return_if_fail (cp != NULL);
+
+	if (e.type == MSTYLE_ELEMENT_UNSET)
+		return;
+
 	g_return_if_fail (e.type == MSTYLE_COLOR_FORE ||
 			  e.type == MSTYLE_COLOR_BACK);
 
@@ -983,6 +987,7 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
 	for (i = 0; cell_format_pages [i].title; i++){
 		GtkWidget *page;
 
+		focus_widgets[i] = NULL;
 		page = (*cell_format_pages [i].create_page) 
 			(prop_win, styles, &focus_widgets[i]);
 		gnome_property_box_append_page (
