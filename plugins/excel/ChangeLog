@@ -1,3 +1,8 @@
+1999-05-16  Michael Meeks  <michael@imaginator.com>
+
+	* ms-formula-read.c (make_function): Allow fn_idx == 0
+	add translation for RANK.
+
 1999-05-15  Michael Meeks  <michael@imaginator.com>
 
 	* ms-excel.[ch] -> ms-excel-read.[ch],

@@ -283,7 +283,7 @@ FORMULA_FUNC_DATA formula_func_data[] =
 	{ "0xd5", 8 },
 	{ "0xd6", 8 },
 	{ "0xd7", 8 },
-	{ "0xd8", 8 },
+	{ "RANK", -1 },
 	{ "0xd9", 8 },
 	{ "0xda", 8 },
 	{ "ADDRESS", -1 },
@@ -674,7 +674,7 @@ make_function (PARSE_LIST **stack, int fn_idx, int numargs)
 		return 1 ;
 	}
 	else
-		if (fn_idx > 0 && fn_idx < FORMULA_FUNC_DATA_LEN)
+		if (fn_idx >= 0 && fn_idx < FORMULA_FUNC_DATA_LEN)
 		{
 			const FORMULA_FUNC_DATA *fd = &formula_func_data[fn_idx] ;
 			

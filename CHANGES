@@ -35,6 +35,7 @@ Michael
 	* Improved colour support - still very odd.
 	* Implemented LOOKUP()
 	* Optimised Area functions to clip to used cells.
+	* Fixed varions Excel function imports
 
 Several translations updated: thanks to our translators
 
