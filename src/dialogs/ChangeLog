@@ -2,6 +2,7 @@
 
 	* dialog-cell-format.c (set_rot_from_point): Use atan2, not atan.
 	(cb_rotate_canvas_realize): Call go_pango_fc_font_map_cache_clear.
+	Plug leak.
 
 2004-09-27  Jody Goldberg <jody@gnome.org>
 

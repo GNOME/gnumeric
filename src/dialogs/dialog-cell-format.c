@@ -688,10 +688,9 @@ cb_rotate_canvas_realize (GnomeCanvas *canvas, FormatState *state)
 	pango_layout_get_pixel_size (layout, &w, &h);
 #endif
 
-	if (w == 0 || h == 0) {
-		g_object_unref (layout);
-		return;
-	}
+	if (w == 0 || h == 0)
+		goto out;
+
 	ft_bitmap.rows         = h;
 	ft_bitmap.width        = w;
 	ft_bitmap.pitch        = (w+3) & ~3;
@@ -704,7 +703,6 @@ cb_rotate_canvas_realize (GnomeCanvas *canvas, FormatState *state)
 #if 1
 	pango_ft2_render_layout (&ft_bitmap, layout, 0, 0);
 #endif
-	g_object_unref (layout);
 
 	pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8,
 				 ft_bitmap.width, ft_bitmap.rows);
@@ -728,6 +726,9 @@ cb_rotate_canvas_realize (GnomeCanvas *canvas, FormatState *state)
 	state->align.rot_width  = w;
 	state->align.rot_height = h;
 	cb_rotate_changed (NULL, state);
+
+ out:
+	g_object_unref (layout);
 
 	/* See http://bugzilla.gnome.org/show_bug.cgi?id=143542  */
 	go_pango_fc_font_map_cache_clear (PANGO_FC_FONT_MAP (font_map));
