@@ -32,6 +32,7 @@
 #include "style-color.h"
 #include "sheet-object-impl.h"
 #include "workbook-edit.h"
+#include "commands.h"
 
 #include <goffice/graph/gog-graph.h>
 #include <goffice/graph/gog-object.h>
@@ -84,6 +85,17 @@ cb_graph_remove_data (G_GNUC_UNUSED GogGraph *graph,
 		      GOData *data, SheetObjectGraph *sog)
 {
 	sog_data_set_sheet (sog, data, NULL);
+}
+
+void 
+sheet_object_graph_reassign_gog (SheetObject *so, GogGraph *graph)
+{
+	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
+	g_return_if_fail (graph != NULL);
+
+	g_object_set (sog->renderer, "model", graph, NULL);
+	g_object_ref (G_OBJECT (graph));
+	sog->graph = graph;
 }
 
 static void
@@ -237,10 +249,12 @@ sheet_object_graph_print (SheetObject const *so, GnomePrintContext *ctx,
 static void
 cb_update_graph (GogGraph *graph, SheetObjectGraph *sog)
 {
-	g_object_set (sog->renderer, "model", graph, NULL);
-	g_object_ref (G_OBJECT (graph));
-	g_object_unref (sog->graph);
-	sog->graph = graph;
+	WorkbookControl *wbc = g_object_get_data (G_OBJECT (sog),
+						  "wbc");
+
+	cmd_so_graph_config (wbc,
+			     SHEET_OBJECT (sog), G_OBJECT (graph), 
+			     G_OBJECT (sog->graph));
 }
 
 static void
@@ -250,6 +264,8 @@ sheet_object_graph_user_config (SheetObject *so, SheetControl *sc)
 	WorkbookControlGUI *wbcg = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
 
 	g_return_if_fail (sog != NULL);
+
+	g_object_set_data (G_OBJECT (so),"wbc",  wbcg);
 
 	sheet_object_graph_guru (wbcg, sog->graph,
 		(GogGuruRegister)cb_update_graph, so);

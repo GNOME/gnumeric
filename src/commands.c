@@ -74,6 +74,7 @@
 
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
+#include <goffice/graph/gog-graph.h>
 
 /*
  * There are several distinct stages to wrapping each command.
@@ -6600,3 +6601,89 @@ cmd_tabulate (WorkbookControl *wbc, gpointer data)
 
 /******************************************************************/
 
+
+#define CMD_SO_GRAPH_CONFIG_TYPE (cmd_so_graph_config_get_type ())
+#define CMD_SO_GRAPH_CONFIG(o)   (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_SO_GRAPH_CONFIG_TYPE, CmdSOGraphConfig))
+
+typedef struct
+{
+	GnumericCommand cmd;
+	SheetObject *so;
+	GogGraph *new_graph;
+	GogGraph *old_graph;
+} CmdSOGraphConfig;
+
+GNUMERIC_MAKE_COMMAND (CmdSOGraphConfig, cmd_so_graph_config);
+
+static gboolean
+cmd_so_graph_config_redo (GnumericCommand *cmd,
+			  G_GNUC_UNUSED WorkbookControl *wbc)
+{
+	CmdSOGraphConfig *me = CMD_SO_GRAPH_CONFIG (cmd);
+
+	g_object_unref (G_OBJECT (sheet_object_graph_get_gog (me->so)));
+	sheet_object_graph_reassign_gog (me->so, me->new_graph);
+
+	return (FALSE);
+}
+
+static gboolean
+cmd_so_graph_config_undo (GnumericCommand *cmd,
+			  G_GNUC_UNUSED WorkbookControl *wbc)
+{
+	CmdSOGraphConfig *me = CMD_SO_GRAPH_CONFIG (cmd);
+
+	g_object_unref (G_OBJECT (sheet_object_graph_get_gog (me->so)));
+	sheet_object_graph_reassign_gog (me->so, me->old_graph);
+
+	return (FALSE);
+}
+
+static void
+cmd_so_graph_config_finalize (GObject *cmd)
+{
+	CmdSOGraphConfig *me = CMD_SO_GRAPH_CONFIG (cmd);
+
+	g_object_unref (G_OBJECT (me->so));
+	g_object_unref (G_OBJECT (me->new_graph));
+	g_object_unref (G_OBJECT (me->old_graph));
+
+	gnumeric_command_finalize (cmd);
+}
+
+gboolean cmd_so_graph_config (WorkbookControl *wbc,
+			      SheetObject *so,  
+			      GObject *n_graph,  
+			      GObject *o_graph)
+{
+	GObject *object;
+	CmdSOGraphConfig *me;
+	GogGraph *new_graph, *old_graph;
+
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
+	g_return_val_if_fail (IS_SHEET_OBJECT_GRAPH (so), TRUE);
+	g_return_val_if_fail (IS_GOG_GRAPH (n_graph), TRUE);
+	g_return_val_if_fail (IS_GOG_GRAPH (o_graph), TRUE);
+	
+	new_graph = GOG_GRAPH (n_graph);
+	old_graph = GOG_GRAPH (o_graph);
+
+	object = g_object_new (CMD_SO_GRAPH_CONFIG_TYPE, NULL);
+	me = CMD_SO_GRAPH_CONFIG (object);
+
+	me->so = so;
+	g_object_ref (G_OBJECT (so));
+
+	me->new_graph = new_graph;
+	g_object_ref (G_OBJECT (new_graph));
+	me->old_graph = old_graph;
+	g_object_ref (G_OBJECT (old_graph));
+
+	me->cmd.sheet = sheet_object_get_sheet (so);;
+	me->cmd.size = 1;
+	me->cmd.cmd_descriptor = g_strdup (_("Reconfigure Graph"));
+
+	return command_push_undo (wbc, object);
+}
+
+/******************************************************************/

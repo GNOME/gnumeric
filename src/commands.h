@@ -143,4 +143,7 @@ gboolean cmd_clone_sheet (WorkbookControl *wbc, Sheet *sheet);
 
 gboolean cmd_tabulate (WorkbookControl *wbc, gpointer data);
 
+gboolean cmd_so_graph_config (WorkbookControl *wbc, SheetObject *sog,  
+                              GObject *n_graph, GObject *o_graph);
+
 #endif /* GNUMERIC_COMMANDS_H */
