@@ -96,9 +96,10 @@
       found in the section called <xref
       linkend="sect-extending-plugins"/> and the actual computer
       source code can be found in the directory
-      <code>gnumeric/plugins/sample_datasource/</code> of either a
-      distribution of <application>gnumeric</application> or in a code
-      checkout from the concurrent versioning system (CVS) repository.
+      <literal>gnumeric/plugins/sample_datasource/</literal> of
+      either a distribution of <application>gnumeric</application> or
+      in a code checkout from the concurrent versioning system (CVS)
+      repository.
     </para>
 
   </sect2>

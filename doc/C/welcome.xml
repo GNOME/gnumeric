@@ -160,55 +160,52 @@
 
   <itemizedlist>
 
+    
     <listitem>
       <para>
-        <guilabel>GTK 2.0 :</guilabel>
-      </para>
-      <para>
-        This version of <application>Gnumeric</application> is based
-        on the second version of the Gimp Tool Kit (GTK+), the basic
-        libraries of computer code used to build GNOME
-        applications. This second version improves on the first and
-        provides a sound basis for future programming. Users will
-        benefit greatly from this second version of the GTK+
-        libraries. <application>Gnumeric</application> is now able to
-        produce characters from a much larger range of languages, has
-        improved icons, is better integrated with GNOME and has other
-        visual improvments like anti-aliased fonts.
-      </para>
-    </listitem>
-
-    <listitem>
-      <para>
-        <guilabel>Improved functions :</guilabel>
+        <guilabel>Improved Analytics :</guilabel>
       </para>
       <para>
         This version of <application>Gnumeric</application> includes
-        all of the functions from the North American edition of
-        Microsoft Excel 2000 (TM). This version also includes numerous
-        new functions and statistical routines imported from the
-        <application><ulink type="http"
+        450 sheet functions including all of the functions from the
+        North American edition of Microsoft Excel 2000 (TM). This
+        version also includes numerous new functions and statistical
+        routines imported from the <application><ulink type="http"
         url="http://www.r-project.org/">R</ulink></application>
         statistical language, from the <ulink type="http"
         url="http://www.gnu.org/software/gsl/">GNU Scientific
         Library</ulink>, and from other sources. The random number
-        generation has been updated.
+        generation has been updated to include Beta, Cauchy,
+        Chi-Squared, Exponential power F, Gamma, Geometric, Laplace,
+        Levy alpha-Stable Logarithmic, Logistic, Log-normal, Pareto,
+        Rayleigh Rayleigh tail, T, Type I Gumbel, Type II Gumbel,
+        Weibull Gaussian Tail, Landau, and Uniform integer
+        distributions. The derivative valuation routines have been
+        expanded to include Black-Scholes (and sensitivities), Garman
+        Kohlhagen, Merton Jump Diffusion process, Bjerksund and
+        Stensland (American options), Forward Starts, Simple and
+        Complex Choosers. The solver has been improved with new linear
+        and quadradtic programming routines.
       </para>
     </listitem>
 
     <listitem>
       <para>
-        <guilabel>File Import and Export :</guilabel>
+        <guilabel>Improved File Import and Export :</guilabel>
       </para>
       <para>
         The ability to import and export files of different formats
-        has been greatly improved. 
+        has been greatly improved. <application>Gnumeric</application>
+        now supports Applix, Excel 1997, 2000 and XP formats (possibly
+        encrypted), Lotus, OpenOffice, Plan Perfect, and Quattro
+        Pro. These file tools have been made more robust by using the
+        GNOME Structured File library.
       </para>
     </listitem>
 
     <listitem>
       <para>
-        <guilabel>Graphing :</guilabel>
+        <guilabel>Improved Graphing :</guilabel>
       </para>
       <para>
         The earlier versions of <application>Gnumeric</application>
@@ -222,11 +219,22 @@
 
     <listitem>
       <para>
-        <guilabel>Improved Solver :</guilabel>
+        <guilabel>Improved Structure based on GTK 2.0 :</guilabel>
       </para>
       <para>
-        The routines used to obtain soltions to series of linear
-        equations have been reworked and improved.
+        This version of <application>Gnumeric</application> is based
+        on the second version of the Gimp Tool Kit (GTK+), the basic
+        libraries of computer code used to build GNOME
+        applications. This second version improves on the first and
+        provides a sound basis for future programming. Users will
+        benefit greatly from this second version of the GTK+
+        libraries. <application>Gnumeric</application> is now able to
+        produce characters from a much larger range of languages, has
+        improved icons, is better integrated with GNOME and has other
+        visual improvments like anti-aliased
+        fonts. <application>Gnumeric</application> can also now be
+        used without problem on a machine with several screens. The
+        transition to GTK+ 2.0 has also greatly improved performance.
       </para>
     </listitem>
 
@@ -247,8 +255,8 @@
 </para>
         
 <para>
-
-  <itemizedlist>
+Issues which cannot be fixed immediately will be added to this list as they are discovered.
+<!--  <itemizedlist>
 
     <listitem>
       <para>
@@ -269,6 +277,6 @@
     </listitem>
 
   </itemizedlist>
-
+-->
 </para>
         
