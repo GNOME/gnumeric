@@ -1,5 +1,9 @@
 2004-12-09  Jody Goldberg <jody@gnome.org>
 
+	* Release 1.4.1
+
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
 	* ms-chart.c (BC_R(surf)) : prep but leave ifdefed to avoid problems
 	  with XL's funky representation of axes.
 

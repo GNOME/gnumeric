@@ -1,5 +1,9 @@
 2004-12-09  Jody Goldberg <jody@gnome.org>
 
+	* Release 1.4.1
+
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
 	* utils/go-file.c (go_url_show) : patch the problems morten pointed
 	  out and finish the '%1' subsitution.
 

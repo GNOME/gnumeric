@@ -1,3 +1,7 @@
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.1
+
 2004-12-02  Jody Goldberg <jody@gnome.org>
 
 	* gnumeric.xml : Don't put appendix wrappers here, then have extra

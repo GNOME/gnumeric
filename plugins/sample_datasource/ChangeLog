@@ -1,3 +1,7 @@
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.1
+
 2004-12-03  Jody Goldberg <jody@gnome.org>
 
 	* sample_datasource.c (plugin_init) : open with 'rb' instead of 'b'

@@ -10731,7 +10731,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para><function>HYPOT</function> returns the square root of the sum of the squares of the argumnents.</para>
+        <para><function>HYPOT</function> returns the square root of the sum of the squares of the arguments.</para>
       </refsect1>
       <refsect1>
         <title>Examples</title>

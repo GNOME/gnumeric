@@ -1,5 +1,9 @@
 2004-12-09  Jody Goldberg <jody@gnome.org>
 
+	* Release 1.4.1
+
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
 	* src/cell-draw.c (cell_calc_layout) : set wrapmode to word-char
 	  rather than the default word so that long words will wrap
 

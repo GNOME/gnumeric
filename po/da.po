@@ -47,7 +47,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.71\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-28 22:56-0500\n"
+"POT-Creation-Date: 2004-12-10 00:06-0500\n"
 "PO-Revision-Date: 2002-01-16 11:31+0100\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
@@ -7664,7 +7664,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1662 src/func.c:789
+#: plugins/fn-info/functions.c:1662 src/func.c:859
 msgid "Invalid number of arguments"
 msgstr "Ugyldigt antal parametre"
 
@@ -15585,7 +15585,7 @@ msgid "Functions for manipulating strings"
 msgstr ""
 
 #: plugins/fn-string/plugin.xml.in.h:2 src/dialogs/dialog-search.c:144
-#: src/func.c:673
+#: src/func.c:743
 msgid "String"
 msgstr "Tekst"
 
@@ -17295,7 +17295,7 @@ msgid ""
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:29
-#: src/dialogs/dialog-preferences.c:527 src/wbcg-actions.c:1903
+#: src/dialogs/dialog-preferences.c:527 src/wbcg-actions.c:1882
 msgid "Sort Ascending"
 msgstr "Sortér stigende"
 
@@ -17851,7 +17851,7 @@ msgstr "Indsætning i %s"
 
 #. Check arrays or merged regions in src or target regions
 #: src/commands.c:3007 src/commands.c:3164 src/commands.c:3165
-#: src/wbcg-actions.c:427
+#: src/wbcg-actions.c:424
 msgid "Autofill"
 msgstr "Automatisk udfyldning"
 
@@ -18167,7 +18167,7 @@ msgid "Format"
 msgstr "Format"
 
 #. Object Toolbar
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1542 src/wbcg-actions.c:1911
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1542 src/wbcg-actions.c:1890
 msgid "Label"
 msgstr "Etiket"
 
@@ -18409,8 +18409,8 @@ msgid "Customize Chart"
 msgstr "Tilpas sidehoved"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1178
-#: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1442
-#: src/wbcg-actions.c:1600
+#: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1421
+#: src/wbcg-actions.c:1579
 msgid "_Insert"
 msgstr "_Indsæt"
 
@@ -18785,7 +18785,7 @@ msgid "Adjacent vertical columns grouped by major and minor categories."
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:13
-#: src/func.c:679
+#: src/func.c:749
 #, fuzzy
 msgid "Area"
 msgstr "_Arealer"
@@ -18809,7 +18809,7 @@ msgid "Column"
 msgstr "_Kolonne"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:18
-#: src/dialogs/dialog-stf-main-page.c:370 src/wbcg-actions.c:1935
+#: src/dialogs/dialog-stf-main-page.c:370 src/wbcg-actions.c:1914
 msgid "Line"
 msgstr "Linje"
 
@@ -20087,8 +20087,8 @@ msgstr "_Arealer"
 #: src/dialogs/exp-smoothing.glade.h:8 src/dialogs/fourier-analysis.glade.h:6
 #: src/dialogs/histogram.glade.h:16 src/dialogs/rank.glade.h:9
 #: src/dialogs/regression.glade.h:8 src/dialogs/sampling.glade.h:11
-#: src/dialogs/shuffle.glade.h:5 src/wbcg-actions.c:1551
-#: src/wbcg-actions.c:1664
+#: src/dialogs/shuffle.glade.h:5 src/wbcg-actions.c:1530
+#: src/wbcg-actions.c:1643
 msgid "_Columns"
 msgstr "_Kolonner"
 
@@ -20119,8 +20119,8 @@ msgstr "_Mærkater"
 #: src/dialogs/fourier-analysis.glade.h:10 src/dialogs/histogram.glade.h:23
 #: src/dialogs/moving-averages.glade.h:12 src/dialogs/rank.glade.h:12
 #: src/dialogs/regression.glade.h:13 src/dialogs/sampling.glade.h:18
-#: src/dialogs/shuffle.glade.h:6 src/wbcg-actions.c:1548
-#: src/wbcg-actions.c:1667
+#: src/dialogs/shuffle.glade.h:6 src/wbcg-actions.c:1527
+#: src/wbcg-actions.c:1646
 msgid "_Rows"
 msgstr "_Rækker"
 
@@ -20128,12 +20128,12 @@ msgstr "_Rækker"
 #: src/dialogs/autofilter-expression.glade.h:14
 #: src/dialogs/autoformat.glade.h:1 src/dialogs/autosave.glade.h:1
 #: src/dialogs/cell-format.glade.h:2 src/dialogs/descriptive-stats.glade.h:2
-#: src/dialogs/dialog-stf-export.glade.h:5 src/dialogs/dialog-stf.glade.h:3
-#: src/dialogs/exp-smoothing.glade.h:1 src/dialogs/fill-series.glade.h:1
-#: src/dialogs/font-sel.glade.h:1 src/dialogs/goalseek.glade.h:3
-#: src/dialogs/histogram.glade.h:1 src/dialogs/hyperlink.glade.h:1
-#: src/dialogs/mean-tests.glade.h:1 src/dialogs/moving-averages.glade.h:1
-#: src/dialogs/names.glade.h:2 src/dialogs/plugin-manager.glade.h:1
+#: src/dialogs/dialog-stf.glade.h:3 src/dialogs/exp-smoothing.glade.h:1
+#: src/dialogs/fill-series.glade.h:1 src/dialogs/font-sel.glade.h:1
+#: src/dialogs/goalseek.glade.h:3 src/dialogs/histogram.glade.h:1
+#: src/dialogs/hyperlink.glade.h:1 src/dialogs/mean-tests.glade.h:1
+#: src/dialogs/moving-averages.glade.h:1 src/dialogs/names.glade.h:2
+#: src/dialogs/plugin-manager.glade.h:1
 #: src/dialogs/random-generation.glade.h:1 src/dialogs/regression.glade.h:1
 #: src/dialogs/sampling.glade.h:1 src/dialogs/scenario-add.glade.h:1
 #: src/dialogs/scenario-manager.glade.h:2 src/dialogs/search-replace.glade.h:1
@@ -20219,7 +20219,7 @@ msgid "_Add"
 msgstr "_Tilføj"
 
 #: src/dialogs/autocorrect.glade.h:13 src/dialogs/pivottable.glade.h:12
-#: src/wbcg-actions.c:1613
+#: src/wbcg-actions.c:1592
 msgid "_Remove"
 msgstr "Fj_ern"
 
@@ -20879,7 +20879,7 @@ msgid "Correlation"
 msgstr "Korrelation"
 
 #: src/dialogs/covariance.glade.h:1 src/tools/analysis-tools.c:1008
-#: src/tools/analysis-tools.c:1011 src/wbcg-actions.c:1819
+#: src/tools/analysis-tools.c:1011 src/wbcg-actions.c:1798
 msgid "Covariance"
 msgstr "Kovarians"
 
@@ -21774,7 +21774,7 @@ msgid "Double"
 msgstr "Dobbelt"
 
 #: src/dialogs/dialog-cell-format.c:470 src/dialogs/dialog-search.c:148
-#: src/func.c:671 src/wbcg-actions.c:1962
+#: src/func.c:741 src/wbcg-actions.c:1941
 #: src/widgets/widget-format-selector.c:76
 msgid "Number"
 msgstr "Tal"
@@ -21937,8 +21937,8 @@ msgid "Could not create the Name Guru."
 msgstr "Kunne ikke fremmane navnehjælperen."
 
 #: src/dialogs/dialog-delete-cells.c:136
-#: src/dialogs/scenario-manager.glade.h:8 src/wbcg-actions.c:209
-#: src/wbcg-actions.c:223
+#: src/dialogs/scenario-manager.glade.h:8 src/wbcg-actions.c:206
+#: src/wbcg-actions.c:220
 msgid "Delete"
 msgstr "Slet"
 
@@ -22154,7 +22154,7 @@ msgstr "Nøgleord"
 #. * 	Skip Blanks, Paste Link, Cancel, Ok are all on the same page
 #. * 	try to keep them from conflicting
 #. Edit -> Clear
-#: src/dialogs/dialog-paste-special.c:66 src/wbcg-actions.c:1534
+#: src/dialogs/dialog-paste-special.c:66 src/wbcg-actions.c:1513
 msgid "_All"
 msgstr "_Alt"
 
@@ -22169,11 +22169,11 @@ msgid "As _Value"
 msgstr "Som værdi"
 
 # navneord, er knyttet til næste tekst
-#: src/dialogs/dialog-paste-special.c:69 src/wbcg-actions.c:1537
+#: src/dialogs/dialog-paste-special.c:69 src/wbcg-actions.c:1516
 msgid "_Formats"
 msgstr "_Formater"
 
-#: src/dialogs/dialog-paste-special.c:70 src/wbcg-actions.c:1540
+#: src/dialogs/dialog-paste-special.c:70 src/wbcg-actions.c:1519
 msgid "Co_mments"
 msgstr "_Kommentarer"
 
@@ -22960,7 +22960,7 @@ msgid "Export"
 msgstr "Rapporter"
 
 #: src/dialogs/dialog-stf-export.c:511
-#: src/dialogs/dialog-stf-export.glade.h:39
+#: src/dialogs/dialog-stf-export.glade.h:38
 #, fuzzy
 msgid "_Next"
 msgstr "Te_kst"
@@ -22981,7 +22981,7 @@ msgid ""
 "`\n"
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:6
+#: src/dialogs/dialog-stf-export.glade.h:5
 #, fuzzy
 msgid ""
 "Automatic (puts quotes where needed)\n"
@@ -22989,80 +22989,80 @@ msgid ""
 "Never"
 msgstr "Automatisk (indsætter anførselstegn om nødvendigt)"
 
-#: src/dialogs/dialog-stf-export.glade.h:9 src/gui-file.c:209
+#: src/dialogs/dialog-stf-export.glade.h:8 src/gui-file.c:209
 msgid "Character _encoding:"
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:10
+#: src/dialogs/dialog-stf-export.glade.h:9
 #, fuzzy
 msgid "Choose export formatting:"
 msgstr "Vælg eksportformatering"
 
-#: src/dialogs/dialog-stf-export.glade.h:11
+#: src/dialogs/dialog-stf-export.glade.h:10
 msgid "Choose sheets to export and determine export ordering of the sheets:"
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:12
+#: src/dialogs/dialog-stf-export.glade.h:11
 #, fuzzy
 msgid "Deselect all sheets for export."
 msgstr "Vælg ark der skal eksporteres"
 
-#: src/dialogs/dialog-stf-export.glade.h:13
+#: src/dialogs/dialog-stf-export.glade.h:12
 #, fuzzy
 msgid "Export as Text"
 msgstr "Formatér som tid"
 
-#: src/dialogs/dialog-stf-export.glade.h:14
+#: src/dialogs/dialog-stf-export.glade.h:13
 msgid ""
 "Lower the selected sheet in the list of to be exported sheets to be exported "
 "later."
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:15
+#: src/dialogs/dialog-stf-export.glade.h:14
 msgid ""
 "Move the selected sheet to the end of the list of to be exported exported "
 "sheets to be exported last."
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:16
+#: src/dialogs/dialog-stf-export.glade.h:15
 msgid ""
 "Move the selected sheet to the top of the list of to be exported sheets to "
 "be exported first."
 msgstr ""
 
 # dækker vist betydningen bedst
-#: src/dialogs/dialog-stf-export.glade.h:17
+#: src/dialogs/dialog-stf-export.glade.h:16
 #, fuzzy
 msgid "Qu_oting:"
 msgstr "Beskyt værdier:"
 
-#: src/dialogs/dialog-stf-export.glade.h:18
+#: src/dialogs/dialog-stf-export.glade.h:17
 #, fuzzy
 msgid "Quote _character:"
 msgstr "Anførselstegn:"
 
-#: src/dialogs/dialog-stf-export.glade.h:19
+#: src/dialogs/dialog-stf-export.glade.h:18
 msgid ""
 "Raise the selected sheet in the list of to be exported sheets to be exported "
 "earlier."
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:20
+#: src/dialogs/dialog-stf-export.glade.h:19
 #, fuzzy
 msgid "Select N_one"
 msgstr "Markér _række"
 
 #. Edit -> Select
-#: src/dialogs/dialog-stf-export.glade.h:21 src/wbcg-actions.c:1560
+#: src/dialogs/dialog-stf-export.glade.h:20 src/wbcg-actions.c:1539
 msgid "Select _All"
 msgstr "Markér _alt"
 
-#: src/dialogs/dialog-stf-export.glade.h:22
+#: src/dialogs/dialog-stf-export.glade.h:21
 #, fuzzy
 msgid "Select all non-empty sheets for export."
 msgstr "Du skal vælge mindst ét ark til eksportering"
 
-#: src/dialogs/dialog-stf-export.glade.h:23
+#: src/dialogs/dialog-stf-export.glade.h:22
 msgid ""
 "Space\n"
 "Tab\n"
@@ -23076,13 +23076,13 @@ msgid ""
 "Custom"
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:33
+#: src/dialogs/dialog-stf-export.glade.h:32
 msgid ""
 "Transliterate\n"
 "Escape"
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:35
+#: src/dialogs/dialog-stf-export.glade.h:34
 #, fuzzy
 msgid ""
 "Unix (linefeed)\n"
@@ -23090,22 +23090,22 @@ msgid ""
 "Windows (carriage return + linefeed)"
 msgstr "Windows (vognretur + linjeskift)"
 
-#: src/dialogs/dialog-stf-export.glade.h:38
+#: src/dialogs/dialog-stf-export.glade.h:37
 #, fuzzy
 msgid "_Line termination:"
 msgstr "Linjeafslutning:"
 
-#: src/dialogs/dialog-stf-export.glade.h:40
+#: src/dialogs/dialog-stf-export.glade.h:39
 #, fuzzy
 msgid "_Preserves Formats"
 msgstr "Bevar små og store bogstaver"
 
-#: src/dialogs/dialog-stf-export.glade.h:41
+#: src/dialogs/dialog-stf-export.glade.h:40
 #, fuzzy
 msgid "_Separator:"
 msgstr "Separator:"
 
-#: src/dialogs/dialog-stf-export.glade.h:42
+#: src/dialogs/dialog-stf-export.glade.h:41
 #, fuzzy
 msgid "_Unknown characters:"
 msgstr "Ukendt operator"
@@ -23666,7 +23666,7 @@ msgid "_Month"
 msgstr "*man"
 
 #: src/dialogs/fill-series.glade.h:17 src/dialogs/pivottable.glade.h:13
-#: src/wbcg-actions.c:1447
+#: src/wbcg-actions.c:1426
 msgid "_Row"
 msgstr "_Række"
 
@@ -23785,7 +23785,7 @@ msgstr "_Benyt adskillelse mellem 1000'er"
 msgid "Formula Guru"
 msgstr "Formelhjælper"
 
-#: src/dialogs/fourier-analysis.glade.h:1 src/wbcg-actions.c:1825
+#: src/dialogs/fourier-analysis.glade.h:1 src/wbcg-actions.c:1804
 msgid "Fourier Analysis"
 msgstr "Fourier-analyse"
 
@@ -23798,7 +23798,7 @@ msgstr "I_nvertér"
 msgid "Category"
 msgstr "Kategori"
 
-#: src/dialogs/function-select.glade.h:3 src/wbcg-actions.c:1899
+#: src/dialogs/function-select.glade.h:3 src/wbcg-actions.c:1878
 msgid "Function"
 msgstr "Funktion"
 
@@ -24154,7 +24154,7 @@ msgid "Workbook"
 msgstr "Arbejdsbog"
 
 #: src/dialogs/names.glade.h:8 src/dialogs/solver.glade.h:23
-#: src/wbcg-actions.c:1435
+#: src/wbcg-actions.c:1414
 msgid "_Delete"
 msgstr "_Slet"
 
@@ -24198,7 +24198,7 @@ msgstr ""
 msgid "_Add:"
 msgstr "_Tilføj"
 
-#: src/dialogs/pivottable.glade.h:8 src/wbcg-actions.c:1455
+#: src/dialogs/pivottable.glade.h:8 src/wbcg-actions.c:1434
 msgid "_Data"
 msgstr "_Data"
 
@@ -24930,7 +24930,7 @@ msgstr "_Søg efter"
 msgid "Manage Sheets..."
 msgstr "Omdøb ark"
 
-#: src/dialogs/sheet-order.glade.h:2 src/wbcg-actions.c:1610
+#: src/dialogs/sheet-order.glade.h:2 src/wbcg-actions.c:1589
 msgid "_Duplicate"
 msgstr "_Duplikér"
 
@@ -25440,7 +25440,7 @@ msgstr "allerede defineret i arket"
 msgid "'%s' is already defined in workbook"
 msgstr "allerede defineret i arbejdsbog"
 
-#: src/file-autoft.c:91
+#: src/file-autoft.c:89
 #, c-format
 msgid "Invalid template file: %s"
 msgstr "Ugyldig skabelonfil: %s"
@@ -26454,42 +26454,42 @@ msgstr "Gnumeric"
 msgid "Cannot create file %s\n"
 msgstr "Kan ikke oprette filen %s\n"
 
-#: src/func.c:277
+#: src/func.c:347
 msgid "Function implementation not available."
 msgstr "Funktionsimplementeringen er ikke tilgængelig."
 
-#: src/func.c:490
+#: src/func.c:560
 msgid "Unknown Function"
 msgstr "Ukendt funktion"
 
-#: src/func.c:675
+#: src/func.c:745
 msgid "Boolean"
 msgstr "Boolsk"
 
-#: src/func.c:677
+#: src/func.c:747
 #, fuzzy
 msgid "Cell Range"
 msgstr "Celleværdi"
 
-#: src/func.c:681
+#: src/func.c:751
 #, fuzzy
 msgid "Scalar or Blank"
 msgstr "Standardafvigelse"
 
-#: src/func.c:683
+#: src/func.c:753
 #, fuzzy
 msgid "Scalar or Error"
 msgstr "Standardafvigelse"
 
-#: src/func.c:685
+#: src/func.c:755
 msgid "Scalar"
 msgstr "Skalar"
 
-#: src/func.c:687
+#: src/func.c:757
 msgid "Any"
 msgstr "Enhver"
 
-#: src/func.c:1006
+#: src/func.c:1076
 msgid "Function does not exist"
 msgstr "Funktionen eksisterer ikke"
 
@@ -26498,7 +26498,7 @@ msgstr "Funktionen eksisterer ikke"
 msgid "Filled Object Properties"
 msgstr "_Egenskaber..."
 
-#: src/gnm-so-line.c:148
+#: src/gnm-so-line.c:150
 #, fuzzy
 msgid "Line/Arrow Properties"
 msgstr "_Egenskaber..."
@@ -26637,17 +26637,17 @@ msgid ""
 "yngnum."
 msgstr ""
 
-#: src/hlink.c:169
+#: src/hlink.c:170
 #, fuzzy
 msgid "Link target"
 msgstr "Forminds_k for at passe"
 
-#: src/hlink.c:227
+#: src/hlink.c:224
 #, fuzzy, c-format
 msgid "Unable to activate the url '%s'"
 msgstr "Kan ikke oprette et objekt af typen \"%s\""
 
-#: src/hlink.c:277
+#: src/hlink.c:274
 #, fuzzy, c-format
 msgid "Unable to open '%s'"
 msgstr "kan ikke åbne filen '%s'"
@@ -26959,121 +26959,121 @@ msgstr "Ugyldigt udtryk"
 msgid "Unexpected token %c"
 msgstr "Uventet symbol %c"
 
-#: src/plugin.c:352
+#: src/plugin.c:353
 #, fuzzy, c-format
 msgid "File contains plugin info with invalid id (%s), expected %s."
 msgstr "Fil indeholder modelinfo med ugyldigt id (%s), forventede %s."
 
-#: src/plugin.c:356
+#: src/plugin.c:357
 msgid "Couldn't read plugin info from file."
 msgstr "Kunne ikke læse modulinfo fra fil."
 
-#: src/plugin.c:465
+#: src/plugin.c:466
 msgid "Unknown name"
 msgstr "Ukendt navn"
 
-#: src/plugin.c:562
+#: src/plugin.c:563
 #, c-format
 msgid "Unsupported loader type \"%s\"."
 msgstr "Ikke-understøttet indlæsertype \"%s\"."
 
-#: src/plugin.c:570
+#: src/plugin.c:571
 #, c-format
 msgid "Error while preparing loader \"%s\"."
 msgstr "Fejl ved forberedelse af indlæseren \"%s\"."
 
-#: src/plugin.c:647
+#: src/plugin.c:648
 #, c-format
 msgid "Error while reading service #%d info."
 msgstr "Fejl ved læsning af oplysninger om tjeneste nr. %d."
 
-#: src/plugin.c:726
+#: src/plugin.c:727
 #, c-format
 msgid "Can't read plugin info file (\"%s\")."
 msgstr "Kan ikke læse modulinfofil (\"%s\")."
 
-#: src/plugin.c:730
+#: src/plugin.c:731
 #, c-format
 msgid "File \"%s\" is not valid plugin info file."
 msgstr "Filen \"%s\" er ikke en gyldig modulinfofil."
 
-#: src/plugin.c:816
+#: src/plugin.c:817
 #, c-format
 msgid "Errors while reading services for plugin with id=\"%s\"."
 msgstr "Fejl ved læsning af tjenester for udvidelsesmodulet med id=\"%s\"."
 
-#: src/plugin.c:821
+#: src/plugin.c:822
 #, c-format
 msgid "No services defined for plugin with id=\"%s\"."
 msgstr "Ingen tjenester defineret for udvidelsesmodulet med id=\"%s\"."
 
-#: src/plugin.c:831
+#: src/plugin.c:832
 #, c-format
 msgid "Plugin id contains invalid characters (%s)."
 msgstr ""
 
-#: src/plugin.c:835
+#: src/plugin.c:836
 msgid "Unknown plugin name."
 msgstr "Ukendt udvidelsesmodulnavn."
 
-#: src/plugin.c:839
+#: src/plugin.c:840
 #, fuzzy, c-format
 msgid "No loader defined or loader id invalid for plugin with id=\"%s\"."
 msgstr "Ingen indlæser defineret for udvidelsesmodulet med id=\"%s\"."
 
-#: src/plugin.c:845
+#: src/plugin.c:846
 msgid "Plugin has no id."
 msgstr "Udvidelsesmodulet har ingen id."
 
-#: src/plugin.c:888
+#: src/plugin.c:889
 #, c-format
 msgid "Error initializing plugin loader (\"%s\")."
 msgstr "Fejl ved klargøring af udvidelsesmodulindlæser (\"%s\")."
 
-#: src/plugin.c:919 src/plugin.c:1076
+#: src/plugin.c:920 src/plugin.c:1077
 #, fuzzy
 msgid "Detected cyclic plugin dependencies."
 msgstr "Fejl ved indlæsning af modulafhængigheder."
 
-#: src/plugin.c:943
+#: src/plugin.c:944
 #, fuzzy, c-format
 msgid "Couldn't activate plugin with id=\"%s\"."
 msgstr "Kunne ikke aktivere udvidelsesmodul \"%s\" (id: %s)."
 
-#: src/plugin.c:949 src/plugin.c:1122
+#: src/plugin.c:950 src/plugin.c:1123
 #, fuzzy, c-format
 msgid "Couldn't find plugin with id=\"%s\"."
 msgstr "Ingen indlæser defineret for udvidelsesmodulet med id=\"%s\"."
 
-#: src/plugin.c:956
+#: src/plugin.c:957
 #, fuzzy
 msgid "Error while activating plugin dependencies."
 msgstr "Fejl ved indlæsning af modulafhængigheder."
 
-#: src/plugin.c:970
+#: src/plugin.c:971
 #, c-format
 msgid "Error while activating plugin service #%d."
 msgstr "Fejl ved aktivering udvidelsesmodultjeneste nr. %d."
 
-#: src/plugin.c:1023
+#: src/plugin.c:1024
 #, c-format
 msgid "Error while deactivating plugin service #%d."
 msgstr "Fejl ved deaktivering af udvidelsesmodultjeneste nr. %d."
 
-#: src/plugin.c:1088 src/plugin.c:1109
+#: src/plugin.c:1089 src/plugin.c:1110
 msgid "Cannot load plugin loader."
 msgstr "Kan ikke indlæse udvidelsesmodulindlæser."
 
-#: src/plugin.c:1116
+#: src/plugin.c:1117
 #, fuzzy, c-format
 msgid "Couldn't load plugin with id=\"%s\"."
 msgstr "Ingen indlæser defineret for udvidelsesmodulet med id=\"%s\"."
 
-#: src/plugin.c:1129
+#: src/plugin.c:1130
 msgid "Error while loading plugin dependencies."
 msgstr "Fejl ved indlæsning af modulafhængigheder."
 
-#: src/plugin.c:1305
+#: src/plugin.c:1306
 #, c-format
 msgid "Errors occurred while reading plugin informations from file \"%s\"."
 msgstr ""
@@ -27320,7 +27320,7 @@ msgstr "&[PAGE]"
 msgid "Print Region"
 msgstr "Udskriv område"
 
-#: src/print.c:1325 src/wbcg-actions.c:1515
+#: src/print.c:1325 src/wbcg-actions.c:1494
 msgid "Print preview"
 msgstr "Vis udskrift"
 
@@ -27535,12 +27535,12 @@ msgid "Column _Width..."
 msgstr "_Kolonnebredde..."
 
 #: src/sheet-control-gui.c:1547 src/sheet-control-gui.c:1555
-#: src/wbcg-actions.c:1725 src/wbcg-actions.c:1742
+#: src/wbcg-actions.c:1704 src/wbcg-actions.c:1721
 msgid "_Hide"
 msgstr "_Skjul"
 
 #: src/sheet-control-gui.c:1549 src/sheet-control-gui.c:1557
-#: src/wbcg-actions.c:1728 src/wbcg-actions.c:1745
+#: src/wbcg-actions.c:1707 src/wbcg-actions.c:1724
 msgid "_Unhide"
 msgstr "_Vis igen"
 
@@ -27607,7 +27607,7 @@ msgid "(Non Blanks...)"
 msgstr ""
 
 #. Format toolbar
-#: src/sheet-merge.c:73 src/wbcg-actions.c:1955
+#: src/sheet-merge.c:73 src/wbcg-actions.c:1934
 msgid "Merge"
 msgstr "Flet"
 
@@ -27674,11 +27674,11 @@ msgstr ""
 msgid "WMF (windows metafile)"
 msgstr ""
 
-#: src/sheet-object-widget.c:257 src/wbcg-actions.c:1914
+#: src/sheet-object-widget.c:257 src/wbcg-actions.c:1893
 msgid "Frame"
 msgstr "Ramme"
 
-#: src/sheet-object-widget.c:496 src/wbcg-actions.c:1947
+#: src/sheet-object-widget.c:496 src/wbcg-actions.c:1926
 #: templates/autoformat/autoformat.3D.button.xml.in.h:2
 msgid "Button"
 msgstr "Knap"
@@ -27688,7 +27688,7 @@ msgstr "Knap"
 msgid "CheckBox %d"
 msgstr "Afkrydsningsboks %d"
 
-#: src/sheet-object-widget.c:1807 src/wbcg-actions.c:1950
+#: src/sheet-object-widget.c:1807 src/wbcg-actions.c:1929
 msgid "RadioButton"
 msgstr "Radioknap"
 
@@ -28959,7 +28959,7 @@ msgstr "#N/A"
 msgid "#RECALC!"
 msgstr "#OMBEREGN!"
 
-#: src/wbcg-actions.c:350
+#: src/wbcg-actions.c:347
 #, c-format
 msgid ""
 "In cell %s, the current contents\n"
@@ -28978,7 +28978,7 @@ msgstr ""
 "\n"
 "Erstatningen er afbrudt, og intet er blevet ændret."
 
-#: src/wbcg-actions.c:387
+#: src/wbcg-actions.c:384
 #, c-format
 msgid "Comment in cell %s!%s"
 msgstr "Kommentar i celle %s!%s"
@@ -28987,996 +28987,996 @@ msgstr "Kommentar i celle %s!%s"
 #. * selected region, (use selection_apply).  Arrays and Merged regions
 #. * are permitted.
 #.
-#: src/wbcg-actions.c:633
+#: src/wbcg-actions.c:630
 msgid "Insert rows"
 msgstr "Indsæt rækker"
 
-#: src/wbcg-actions.c:650
+#: src/wbcg-actions.c:647
 msgid "Insert columns"
 msgstr "Indsæt kolonner"
 
-#: src/wbcg-actions.c:727
+#: src/wbcg-actions.c:724
 #, fuzzy
 msgid "Add Filter"
 msgstr "Avanceret filtrering"
 
-#: src/wbcg-actions.c:739
+#: src/wbcg-actions.c:736
 #, fuzzy
 msgid "AutoFilter"
 msgstr "Avanceret filtrering"
 
-#: src/wbcg-actions.c:739
+#: src/wbcg-actions.c:736
 msgid "Requires more than 1 row"
 msgstr ""
 
-#: src/wbcg-actions.c:766 src/wbcg-actions.c:785
+#: src/wbcg-actions.c:763 src/wbcg-actions.c:782
 #, fuzzy
 msgid "Show Detail"
 msgstr "_Vis detaljer"
 
-#: src/wbcg-actions.c:766 src/wbcg-actions.c:785
+#: src/wbcg-actions.c:763 src/wbcg-actions.c:782
 #, fuzzy
 msgid "Hide Detail"
 msgstr "_Skjul detaljer"
 
-#: src/wbcg-actions.c:773
+#: src/wbcg-actions.c:770
 msgid "can only be performed on an existing group"
 msgstr "kan kun bruges på en eksisterende gruppe"
 
 # udsagnsord
-#: src/wbcg-actions.c:813
+#: src/wbcg-actions.c:810
 msgid "Group"
 msgstr "Gruppér"
 
-#: src/wbcg-actions.c:813
+#: src/wbcg-actions.c:810
 msgid "Ungroup"
 msgstr "Afgruppér"
 
-#: src/wbcg-actions.c:965
+#: src/wbcg-actions.c:944
 msgid "Sort"
 msgstr "Sortér"
 
-#: src/wbcg-actions.c:1085
+#: src/wbcg-actions.c:1064
 msgid "Set Horizontal Alignment"
 msgstr "Angiv lodret justering"
 
-#: src/wbcg-actions.c:1119
+#: src/wbcg-actions.c:1098
 #, fuzzy
 msgid "Set Vertical Alignment"
 msgstr "Angiv lodret justering"
 
-#: src/wbcg-actions.c:1208
+#: src/wbcg-actions.c:1187
 msgid "Set Font Style"
 msgstr "Angiv skriftstíl"
 
-#: src/wbcg-actions.c:1234
+#: src/wbcg-actions.c:1213
 msgid "Format as Number"
 msgstr "Formatér som tal"
 
-#: src/wbcg-actions.c:1239
+#: src/wbcg-actions.c:1218
 msgid "Format as Currency"
 msgstr "Formatér som valuta"
 
-#: src/wbcg-actions.c:1244
+#: src/wbcg-actions.c:1223
 #, fuzzy
 msgid "Format as Accounting"
 msgstr "Formatér som videnskabeligt tal"
 
-#: src/wbcg-actions.c:1250
+#: src/wbcg-actions.c:1229
 msgid "Format as Percentage"
 msgstr "Formatér som procentdel"
 
-#: src/wbcg-actions.c:1255
+#: src/wbcg-actions.c:1234
 msgid "Format as Scientific"
 msgstr "Formatér som videnskabeligt tal"
 
-#: src/wbcg-actions.c:1260
+#: src/wbcg-actions.c:1239
 msgid "Format as Date"
 msgstr "Formatér som dato"
 
-#: src/wbcg-actions.c:1265
+#: src/wbcg-actions.c:1244
 msgid "Format as Time"
 msgstr "Formatér som tid"
 
-#: src/wbcg-actions.c:1289
+#: src/wbcg-actions.c:1268
 msgid "Add Borders"
 msgstr "Tilføj kanter"
 
-#: src/wbcg-actions.c:1289
+#: src/wbcg-actions.c:1268
 msgid "Remove borders"
 msgstr "Fjern kanter"
 
-#: src/wbcg-actions.c:1318
+#: src/wbcg-actions.c:1297
 msgid "Increase precision"
 msgstr "Øg præcision"
 
-#: src/wbcg-actions.c:1320
+#: src/wbcg-actions.c:1299
 msgid "Decrease precision"
 msgstr "Formindsk præcision"
 
-#: src/wbcg-actions.c:1322
+#: src/wbcg-actions.c:1301
 #, fuzzy
 msgid "Toggle thousands separator"
 msgstr "Tusindadskillelse"
 
-#: src/wbcg-actions.c:1342
+#: src/wbcg-actions.c:1321
 msgid "Increase Indent"
 msgstr "Øg indrykning"
 
-#: src/wbcg-actions.c:1362
+#: src/wbcg-actions.c:1341
 msgid "Decrease Indent"
 msgstr "Formindsk indrykning"
 
-#: src/wbcg-actions.c:1369
+#: src/wbcg-actions.c:1348
 #, fuzzy
 msgid "Copy down"
 msgstr "Kopiér"
 
-#: src/wbcg-actions.c:1375
+#: src/wbcg-actions.c:1354
 #, fuzzy
 msgid "Copy right"
 msgstr "Venstrejustér"
 
 #. Actions that are always sensitive
 #. const 142334
-#: src/wbcg-actions.c:1432
+#: src/wbcg-actions.c:1411
 msgid "_File"
 msgstr "_Fil"
 
-#: src/wbcg-actions.c:1433
+#: src/wbcg-actions.c:1412
 msgid "_Edit"
 msgstr "R_edigér"
 
-#: src/wbcg-actions.c:1434
+#: src/wbcg-actions.c:1413
 msgid "C_lear"
 msgstr "_Ryd"
 
-#: src/wbcg-actions.c:1436
+#: src/wbcg-actions.c:1415
 msgid "S_heet"
 msgstr "_Ark"
 
-#: src/wbcg-actions.c:1437
+#: src/wbcg-actions.c:1416
 msgid "_Select"
 msgstr "_Markér"
 
-#: src/wbcg-actions.c:1438
+#: src/wbcg-actions.c:1417
 #, fuzzy
 msgid "F_ill"
 msgstr "_Udfyld"
 
-#: src/wbcg-actions.c:1439
+#: src/wbcg-actions.c:1418
 msgid "_View"
 msgstr "_Vis"
 
-#: src/wbcg-actions.c:1440
+#: src/wbcg-actions.c:1419
 #, fuzzy
 msgid "_Windows"
 msgstr "Skjulning af rækker"
 
-#: src/wbcg-actions.c:1441
+#: src/wbcg-actions.c:1420
 #, fuzzy
 msgid "_Toolbars"
 msgstr "_Værktøjslinjer..."
 
-#: src/wbcg-actions.c:1443
+#: src/wbcg-actions.c:1422
 #, fuzzy
 msgid "_Names"
 msgstr "_Navn"
 
 # specielle giver et forkert indtryk
-#: src/wbcg-actions.c:1444
+#: src/wbcg-actions.c:1423
 msgid "S_pecial"
 msgstr "_Andet"
 
-#: src/wbcg-actions.c:1445
+#: src/wbcg-actions.c:1424
 msgid "F_ormat"
 msgstr "F_ormatér"
 
-#: src/wbcg-actions.c:1446
+#: src/wbcg-actions.c:1425
 msgid "C_olumn"
 msgstr "_Kolonne"
 
 #. ICK A DUPLICATE : we have no way to override a label on one proxy
-#: src/wbcg-actions.c:1448 src/wbcg-actions.c:1604
+#: src/wbcg-actions.c:1427 src/wbcg-actions.c:1583
 msgid "_Sheet"
 msgstr "_Ark"
 
-#: src/wbcg-actions.c:1449
+#: src/wbcg-actions.c:1428
 msgid "_Tools"
 msgstr "_Værktøj"
 
-#: src/wbcg-actions.c:1450
+#: src/wbcg-actions.c:1429
 #, fuzzy
 msgid "Sce_narios"
 msgstr "Adskillelsestegn"
 
-#: src/wbcg-actions.c:1451
+#: src/wbcg-actions.c:1430
 #, fuzzy
 msgid "Statistical Anal_ysis"
 msgstr "Statistiske metoder"
 
-#: src/wbcg-actions.c:1452
+#: src/wbcg-actions.c:1431
 #, fuzzy
 msgid "_ANOVA"
 msgstr "ANOVA"
 
-#: src/wbcg-actions.c:1453
+#: src/wbcg-actions.c:1432
 #, fuzzy
 msgid "F_orecast"
 msgstr "F_ormatér"
 
-#: src/wbcg-actions.c:1454
+#: src/wbcg-actions.c:1433
 #, fuzzy
 msgid "Two _Means"
 msgstr "_Middel:"
 
-#: src/wbcg-actions.c:1456
+#: src/wbcg-actions.c:1435
 msgid "_Filter"
 msgstr "_Filter"
 
-#: src/wbcg-actions.c:1457
+#: src/wbcg-actions.c:1436
 msgid "_Group and Outline"
 msgstr "_Grupper og omrids"
 
-#: src/wbcg-actions.c:1458
+#: src/wbcg-actions.c:1437
 #, fuzzy
 msgid "Get _External Data"
 msgstr "Intern FEJL"
 
-#: src/wbcg-actions.c:1459
+#: src/wbcg-actions.c:1438
 msgid "_Help"
 msgstr "_Hjælp"
 
-#: src/wbcg-actions.c:1462
+#: src/wbcg-actions.c:1441
 msgid "Cut the selection"
 msgstr "Klip det markerede fra"
 
-#: src/wbcg-actions.c:1465
+#: src/wbcg-actions.c:1444
 msgid "Copy the selection"
 msgstr "Kopiér det markerede"
 
-#: src/wbcg-actions.c:1468
+#: src/wbcg-actions.c:1447
 msgid "Paste the clipboard"
 msgstr "Indsæt fra klippebordet"
 
-#: src/wbcg-actions.c:1471 src/wbcg-actions.c:1543
+#: src/wbcg-actions.c:1450 src/wbcg-actions.c:1522
 #, fuzzy
 msgid "_Contents"
 msgstr "_Indhold"
 
-#: src/wbcg-actions.c:1472
+#: src/wbcg-actions.c:1451
 msgid "Open a viewer for Gnumeric's documentation"
 msgstr ""
 
-#: src/wbcg-actions.c:1474
+#: src/wbcg-actions.c:1453
 #, fuzzy
 msgid "Gnumeric on the _Web"
 msgstr "Gnumerics hjemmeside"
 
-#: src/wbcg-actions.c:1475
+#: src/wbcg-actions.c:1454
 msgid "Browse to Gnumeric's website"
 msgstr ""
 
-#: src/wbcg-actions.c:1477
+#: src/wbcg-actions.c:1456
 msgid "_Live Assistance"
 msgstr ""
 
-#: src/wbcg-actions.c:1478
+#: src/wbcg-actions.c:1457
 msgid "See if anyone is available to answer questions"
 msgstr ""
 
-#: src/wbcg-actions.c:1480
+#: src/wbcg-actions.c:1459
 msgid "Report a _Problem"
 msgstr ""
 
-#: src/wbcg-actions.c:1481
+#: src/wbcg-actions.c:1460
 msgid "Report problem "
 msgstr ""
 
-#: src/wbcg-actions.c:1483
+#: src/wbcg-actions.c:1462
 #, fuzzy
 msgid "_About"
 msgstr "_Om..."
 
-#: src/wbcg-actions.c:1484
+#: src/wbcg-actions.c:1463
 msgid "About this application"
 msgstr "Om dette program"
 
 #. Special.  The sensitivity is chained to redo we do not want to
 #. * toggle it directly so we put it in here
-#: src/wbcg-actions.c:1489
+#: src/wbcg-actions.c:1468
 #, fuzzy
 msgid "Repeat"
 msgstr "Rapporter"
 
-#: src/wbcg-actions.c:1490
+#: src/wbcg-actions.c:1469
 #, fuzzy
 msgid "Repeat the previous action"
 msgstr "Gentag den fortrudte handling igen"
 
-#: src/wbcg-actions.c:1497
+#: src/wbcg-actions.c:1476
 msgid "Create a new workbook"
 msgstr "Opret ny arbejdsbog"
 
-#: src/wbcg-actions.c:1500
+#: src/wbcg-actions.c:1479
 #, fuzzy
 msgid "Open a file"
 msgstr "Importerer en fil"
 
-#: src/wbcg-actions.c:1503
+#: src/wbcg-actions.c:1482
 msgid "Save the current workbook"
 msgstr "Gem den aktuelle arbejdsbog"
 
-#: src/wbcg-actions.c:1506
+#: src/wbcg-actions.c:1485
 #, fuzzy
 msgid "Save the current workbook with a different name"
 msgstr "Gem den aktuelle fil under et andet navn"
 
-#: src/wbcg-actions.c:1508
+#: src/wbcg-actions.c:1487
 #, fuzzy
 msgid "Sen_d To..."
 msgstr "Gå til..."
 
-#: src/wbcg-actions.c:1509
+#: src/wbcg-actions.c:1488
 #, fuzzy
 msgid "Send the current file via email"
 msgstr "Send den aktuelle fil med et ebrev"
 
-#: src/wbcg-actions.c:1511
+#: src/wbcg-actions.c:1490
 #, fuzzy
 msgid "Page Set_up..."
 msgstr "Print_eropsætning..."
 
-#: src/wbcg-actions.c:1512
+#: src/wbcg-actions.c:1491
 msgid "Setup the page settings for your current printer"
 msgstr "Indstil sideopsætningen for den aktuelle printer"
 
-#: src/wbcg-actions.c:1518
+#: src/wbcg-actions.c:1497
 msgid "Print the current file"
 msgstr "Udskriv den aktive fil"
 
-#: src/wbcg-actions.c:1520
+#: src/wbcg-actions.c:1499
 #, fuzzy
 msgid "Proper_ties..."
 msgstr "_Egenskaber..."
 
-#: src/wbcg-actions.c:1521
+#: src/wbcg-actions.c:1500
 msgid "Edit descriptive information"
 msgstr "Redigér beskrivende oplysninger"
 
-#: src/wbcg-actions.c:1523
+#: src/wbcg-actions.c:1502
 #, fuzzy
 msgid "Pre_ferences..."
 msgstr "Egenskaber..."
 
-#: src/wbcg-actions.c:1524
+#: src/wbcg-actions.c:1503
 msgid "Change Gnumeric Preferences"
 msgstr ""
 
-#: src/wbcg-actions.c:1527
+#: src/wbcg-actions.c:1506
 msgid "Close the current file"
 msgstr "Luk den aktive fil"
 
-#: src/wbcg-actions.c:1530
+#: src/wbcg-actions.c:1509
 #, fuzzy
 msgid "Quit the application"
 msgstr "Om dette program"
 
-#: src/wbcg-actions.c:1535
+#: src/wbcg-actions.c:1514
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Ryd de markerede cellers formater, kommentarer og indhold"
 
-#: src/wbcg-actions.c:1538
+#: src/wbcg-actions.c:1517
 msgid "Clear the selected cells' formats"
 msgstr "Ryd de markerede cellers formater"
 
-#: src/wbcg-actions.c:1541
+#: src/wbcg-actions.c:1520
 msgid "Clear the selected cells' comments"
 msgstr "Ryd de markerede cellers kommentarer"
 
-#: src/wbcg-actions.c:1544
+#: src/wbcg-actions.c:1523
 msgid "Clear the selected cells' contents"
 msgstr "Ryd de markerede cellers indhold"
 
-#: src/wbcg-actions.c:1549
+#: src/wbcg-actions.c:1528
 #, fuzzy
 msgid "Delete the row(s) containing the selected cells"
 msgstr "Formindsk præcisionen i de markerede celler"
 
-#: src/wbcg-actions.c:1552
+#: src/wbcg-actions.c:1531
 #, fuzzy
 msgid "Delete the column(s) containing the selected cells"
 msgstr "Formindsk præcisionen i de markerede celler"
 
 #. Insert
-#: src/wbcg-actions.c:1554 src/wbcg-actions.c:1661
+#: src/wbcg-actions.c:1533 src/wbcg-actions.c:1640
 msgid "C_ells..."
 msgstr "C_eller..."
 
-#: src/wbcg-actions.c:1555
+#: src/wbcg-actions.c:1534
 #, fuzzy
 msgid "Delete the selected cells, shifting others into their place"
 msgstr "Fjern valgte celler idet andre celler rykker ind i stedet"
 
-#: src/wbcg-actions.c:1561
+#: src/wbcg-actions.c:1540
 msgid "Select all cells in the spreadsheet"
 msgstr "Markér alle celler i regnearket"
 
-#: src/wbcg-actions.c:1563
+#: src/wbcg-actions.c:1542
 msgid "Select _Column"
 msgstr "Markér _kolonne"
 
-#: src/wbcg-actions.c:1564
+#: src/wbcg-actions.c:1543
 msgid "Select an entire column"
 msgstr "Markér en hel kolonne"
 
-#: src/wbcg-actions.c:1566
+#: src/wbcg-actions.c:1545
 msgid "Select _Row"
 msgstr "Markér _række"
 
-#: src/wbcg-actions.c:1567
+#: src/wbcg-actions.c:1546
 msgid "Select an entire row"
 msgstr "Markér en hel række"
 
-#: src/wbcg-actions.c:1569
+#: src/wbcg-actions.c:1548
 msgid "Select Arra_y"
 msgstr "Markér _matrix"
 
-#: src/wbcg-actions.c:1570
+#: src/wbcg-actions.c:1549
 msgid "Select an array of cells"
 msgstr "Markér en matrix af celler"
 
-#: src/wbcg-actions.c:1572
+#: src/wbcg-actions.c:1551
 msgid "Select _Depends"
 msgstr "Markér _afhængige"
 
 # edit er overflødigt
-#: src/wbcg-actions.c:1573
+#: src/wbcg-actions.c:1552
 msgid "Select all the cells that depend on the current edit cell"
 msgstr "Markér alle cellerne som afhænger af den aktive celle"
 
-#: src/wbcg-actions.c:1575
+#: src/wbcg-actions.c:1554
 #, fuzzy
 msgid "Select _Inputs"
 msgstr "Vælg skrifttype"
 
 # edit er overflødigt
-#: src/wbcg-actions.c:1576
+#: src/wbcg-actions.c:1555
 #, fuzzy
 msgid "Select all the cells are used by the current edit cell"
 msgstr "Markér alle cellerne som afhænger af den aktive celle"
 
 #. Edit -> Fill
-#: src/wbcg-actions.c:1580
+#: src/wbcg-actions.c:1559
 msgid "Auto_fill"
 msgstr "Automatisk ud_fyldning"
 
 # dækker så nogenlunde
-#: src/wbcg-actions.c:1581
+#: src/wbcg-actions.c:1560
 msgid "Automatically fill the current selection"
 msgstr "Udfyld automatisk de aktuelt markerede celler"
 
-#: src/wbcg-actions.c:1583
+#: src/wbcg-actions.c:1562
 #, fuzzy
 msgid "_Merge..."
 msgstr "Flet"
 
-#: src/wbcg-actions.c:1584
+#: src/wbcg-actions.c:1563
 msgid ""
 "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr ""
 
-#: src/wbcg-actions.c:1586
+#: src/wbcg-actions.c:1565
 msgid "_Tabulate Dependency..."
 msgstr "_Tabellér afhængighed..."
 
-#: src/wbcg-actions.c:1587
+#: src/wbcg-actions.c:1566
 msgid "Make a table of a cell's value as a function of other cells"
 msgstr "Lav en tabel over en celles værdi som en funktion af andre celler"
 
-#: src/wbcg-actions.c:1589
+#: src/wbcg-actions.c:1568
 #, fuzzy
 msgid "_Series..."
 msgstr "_Serier"
 
-#: src/wbcg-actions.c:1590
+#: src/wbcg-actions.c:1569
 msgid "Fill according to a linear or exponential series"
 msgstr ""
 
-#: src/wbcg-actions.c:1592
+#: src/wbcg-actions.c:1571
 #, fuzzy
 msgid "_Random Generator..."
 msgstr "Generering af tilfældige tal"
 
-#: src/wbcg-actions.c:1593
+#: src/wbcg-actions.c:1572
 msgid "Generate random numbers of a selection of distributions"
 msgstr ""
 
 #. Edit -> Sheet
-#: src/wbcg-actions.c:1597
+#: src/wbcg-actions.c:1576
 #, fuzzy
 msgid "_Manage Sheets..."
 msgstr "Om_rokér ark..."
 
-#: src/wbcg-actions.c:1598
+#: src/wbcg-actions.c:1577
 #, fuzzy
 msgid "Manage the sheets in this workbook"
 msgstr "Ingen ark i arbejdsbogen"
 
-#: src/wbcg-actions.c:1601 src/wbcg-actions.c:1605
+#: src/wbcg-actions.c:1580 src/wbcg-actions.c:1584
 msgid "Insert a new sheet"
 msgstr "Indsæt et nyt ark"
 
-#: src/wbcg-actions.c:1607
+#: src/wbcg-actions.c:1586
 #, fuzzy
 msgid "_Append"
 msgstr "_Tilføj"
 
-#: src/wbcg-actions.c:1608
+#: src/wbcg-actions.c:1587
 #, fuzzy
 msgid "Append a new sheet"
 msgstr "Indsæt et nyt ark"
 
-#: src/wbcg-actions.c:1611
+#: src/wbcg-actions.c:1590
 msgid "Make a copy of the current sheet"
 msgstr "Lav en kopi af det aktive ark"
 
-#: src/wbcg-actions.c:1614
+#: src/wbcg-actions.c:1593
 msgid "Irrevocably remove an entire sheet"
 msgstr "Fjern uigenkaldeligt et helt ark"
 
-#: src/wbcg-actions.c:1616
+#: src/wbcg-actions.c:1595
 #, fuzzy
 msgid "Re_name"
 msgstr "_Omdøb..."
 
-#: src/wbcg-actions.c:1617
+#: src/wbcg-actions.c:1596
 msgid "Rename the current sheet"
 msgstr "Omdøb det aktive ark"
 
 #. Edit
-#: src/wbcg-actions.c:1621
+#: src/wbcg-actions.c:1600
 msgid "P_aste special..."
 msgstr "_Avanceret indsætning..."
 
-#: src/wbcg-actions.c:1622
+#: src/wbcg-actions.c:1601
 msgid "Paste with optional filters and transformations"
 msgstr "Indsæt med valgbare filtre og transformationer"
 
-#: src/wbcg-actions.c:1625
+#: src/wbcg-actions.c:1604
 #, fuzzy
 msgid "Co_mment..."
 msgstr "_Kommentarer"
 
-#: src/wbcg-actions.c:1626
+#: src/wbcg-actions.c:1605
 msgid "Edit the selected cell's comment"
 msgstr "Redigér den valgte celles kommentar"
 
-#: src/wbcg-actions.c:1629
+#: src/wbcg-actions.c:1608
 #, fuzzy
 msgid "_Find..."
 msgstr "_Bredde..."
 
-#: src/wbcg-actions.c:1630
+#: src/wbcg-actions.c:1609
 #, fuzzy
 msgid "Search for something"
 msgstr "Søg efter noget tekst"
 
-#: src/wbcg-actions.c:1632
+#: src/wbcg-actions.c:1611
 #, fuzzy
 msgid "R_eplace..."
 msgstr "_Erstat:"
 
-#: src/wbcg-actions.c:1633
+#: src/wbcg-actions.c:1612
 #, fuzzy
 msgid "Search for some something and replace it with something else"
 msgstr "Søg efter en tekst og erstat den med noget andet"
 
-#: src/wbcg-actions.c:1635
+#: src/wbcg-actions.c:1614
 msgid "_Goto cell..."
 msgstr "_Gå til celle..."
 
-#: src/wbcg-actions.c:1636
+#: src/wbcg-actions.c:1615
 msgid "Jump to a specified cell"
 msgstr "Spring til en angivet celle"
 
-#: src/wbcg-actions.c:1639
+#: src/wbcg-actions.c:1618
 msgid "Recalculate"
 msgstr "Beregn igen"
 
 # statuslinjetip så masser af plads
-#: src/wbcg-actions.c:1640
+#: src/wbcg-actions.c:1619
 msgid "Recalculate the spreadsheet"
 msgstr "Beregner celleværdierne i regnearket igen"
 
 #. View
-#: src/wbcg-actions.c:1644
+#: src/wbcg-actions.c:1623
 #, fuzzy
 msgid "_New View..."
 msgstr "_Ny..."
 
-#: src/wbcg-actions.c:1645
+#: src/wbcg-actions.c:1624
 #, fuzzy
 msgid "Create a new view of the workbook"
 msgstr "Opret en ny delt visning af arbejdsbogen"
 
-#: src/wbcg-actions.c:1647 src/workbook-control-gui.c:1023
+#: src/wbcg-actions.c:1626 src/workbook-control-gui.c:1023
 msgid "_Freeze Panes"
 msgstr "_Frys paneler..."
 
-#: src/wbcg-actions.c:1648 src/workbook-control-gui.c:1026
+#: src/wbcg-actions.c:1627 src/workbook-control-gui.c:1026
 msgid "Freeze the top left of the sheet"
 msgstr "Frys den øverste venstre del af arket"
 
-#: src/wbcg-actions.c:1650
+#: src/wbcg-actions.c:1629
 msgid "_Zoom..."
 msgstr "_Zoom..."
 
-#: src/wbcg-actions.c:1651
+#: src/wbcg-actions.c:1630
 msgid "Zoom the spreadsheet in or out"
 msgstr "Zoom ind og ud på regnearket"
 
-#: src/wbcg-actions.c:1653
+#: src/wbcg-actions.c:1632
 #, fuzzy
 msgid "Zoom _In"
 msgstr "Zoom"
 
-#: src/wbcg-actions.c:1654
+#: src/wbcg-actions.c:1633
 #, fuzzy
 msgid "Increase the zoom to make things larger"
 msgstr "Hæver det antal decimaler som vises"
 
-#: src/wbcg-actions.c:1656
+#: src/wbcg-actions.c:1635
 #, fuzzy
 msgid "Zoom _Out"
 msgstr "Zoom"
 
-#: src/wbcg-actions.c:1657
+#: src/wbcg-actions.c:1636
 msgid "Decrease the zoom to make things smaller"
 msgstr ""
 
-#: src/wbcg-actions.c:1662
+#: src/wbcg-actions.c:1641
 msgid "Insert new cells"
 msgstr "Indsæt nye celler"
 
-#: src/wbcg-actions.c:1665
+#: src/wbcg-actions.c:1644
 msgid "Insert new columns"
 msgstr "Indsæt nye kolonner"
 
-#: src/wbcg-actions.c:1668
+#: src/wbcg-actions.c:1647
 msgid "Insert new rows"
 msgstr "Indsæt nye rækker"
 
-#: src/wbcg-actions.c:1671
+#: src/wbcg-actions.c:1650
 #, fuzzy
 msgid "C_hart..."
 msgstr "_Sortér..."
 
-#: src/wbcg-actions.c:1672
+#: src/wbcg-actions.c:1651
 #, fuzzy
 msgid "Insert a Chart"
 msgstr "_Indsæt ny"
 
-#: src/wbcg-actions.c:1674
+#: src/wbcg-actions.c:1653
 #, fuzzy
 msgid "_Image..."
 msgstr "_Gem..."
 
-#: src/wbcg-actions.c:1675
+#: src/wbcg-actions.c:1654
 #, fuzzy
 msgid "Insert an image"
 msgstr "_Indsæt ny"
 
-#: src/wbcg-actions.c:1678
+#: src/wbcg-actions.c:1657
 #, fuzzy
 msgid "Hyper_link..."
 msgstr "Redigér udtryk"
 
-#: src/wbcg-actions.c:1679
+#: src/wbcg-actions.c:1658
 #, fuzzy
 msgid "Insert a Hyperlink"
 msgstr "Redigér udtryk"
 
 #. Insert -> Special
-#: src/wbcg-actions.c:1682
+#: src/wbcg-actions.c:1661
 msgid "Current _date"
 msgstr "Dags _dato"
 
 # flertals-/entalsparanteserne forstyrrer mere end de hjælper
-#: src/wbcg-actions.c:1683
+#: src/wbcg-actions.c:1662
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Indsæt dags dato i de markerede celler"
 
-#: src/wbcg-actions.c:1686
+#: src/wbcg-actions.c:1665
 msgid "Current _time"
 msgstr "_Tidspunkt"
 
-#: src/wbcg-actions.c:1687
+#: src/wbcg-actions.c:1666
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Indsæt det nuværende tidspunkt i de markerede celler"
 
-#: src/wbcg-actions.c:1690
+#: src/wbcg-actions.c:1669
 #, fuzzy
 msgid "Current d_ate and time"
 msgstr "_Tidspunkt"
 
-#: src/wbcg-actions.c:1691
+#: src/wbcg-actions.c:1670
 #, fuzzy
 msgid "Insert the current date and time into the selected cell(s)"
 msgstr "Indsæt det nuværende tidspunkt i de markerede celler"
 
 #. Insert -> Name
-#: src/wbcg-actions.c:1695
+#: src/wbcg-actions.c:1674
 msgid "_Define..."
 msgstr "_Definér..."
 
-#: src/wbcg-actions.c:1696
+#: src/wbcg-actions.c:1675
 msgid "Edit sheet and workbook names"
 msgstr "Redigér navne i ark og arbejdsbog"
 
-#: src/wbcg-actions.c:1699
+#: src/wbcg-actions.c:1678
 msgid "_Auto generate names..."
 msgstr "_Autogenerér navne..."
 
-#: src/wbcg-actions.c:1700
+#: src/wbcg-actions.c:1679
 msgid "Use the current selection to create names"
 msgstr "Brug den nuværende markering til at generere navne"
 
 #. Format
-#: src/wbcg-actions.c:1705
+#: src/wbcg-actions.c:1684
 msgid "_Cells..."
 msgstr "_Celler..."
 
-#: src/wbcg-actions.c:1706
+#: src/wbcg-actions.c:1685
 msgid "Modify the formatting of the selected cells"
 msgstr "Ændr de markerede cellers formatering"
 
-#: src/wbcg-actions.c:1708
+#: src/wbcg-actions.c:1687
 msgid "_Workbook..."
 msgstr "Arbejds_bog..."
 
-#: src/wbcg-actions.c:1709
+#: src/wbcg-actions.c:1688
 msgid "Modify the workbook attributes"
 msgstr "Ændr arbejdsbogens egenskaber"
 
-#: src/wbcg-actions.c:1711
+#: src/wbcg-actions.c:1690
 #, fuzzy
 msgid "_Gnumeric..."
 msgstr "Gnumeric"
 
-#: src/wbcg-actions.c:1712
+#: src/wbcg-actions.c:1691
 msgid "Edit the Gnumeric Preferences"
 msgstr ""
 
-#: src/wbcg-actions.c:1714
+#: src/wbcg-actions.c:1693
 msgid "_Autoformat..."
 msgstr "A_utoformatér..."
 
-#: src/wbcg-actions.c:1715
+#: src/wbcg-actions.c:1694
 msgid "Format a region of cells according to a pre-defined template"
 msgstr ""
 "Formatér et celleområde som foreskrevet af en allerede defineret skabelon"
 
 #. Format -> Col
-#: src/wbcg-actions.c:1719
+#: src/wbcg-actions.c:1698
 msgid "_Width..."
 msgstr "_Bredde..."
 
-#: src/wbcg-actions.c:1720
+#: src/wbcg-actions.c:1699
 msgid "Change width of the selected columns"
 msgstr "Ændr bredden af de markerede kolonner"
 
 # auto unødvendig/forvirrende
-#: src/wbcg-actions.c:1722 src/wbcg-actions.c:1739
+#: src/wbcg-actions.c:1701 src/wbcg-actions.c:1718
 msgid "_Auto fit selection"
 msgstr "_Tilpas markerede"
 
-#: src/wbcg-actions.c:1723
+#: src/wbcg-actions.c:1702
 msgid "Ensure columns are just wide enough to display content"
 msgstr ""
 "Sørger for at de markerede kolonner er netop brede nok til at vise indholdet"
 
-#: src/wbcg-actions.c:1726
+#: src/wbcg-actions.c:1705
 msgid "Hide the selected columns"
 msgstr "Skjul de valgte kolonner"
 
-#: src/wbcg-actions.c:1729
+#: src/wbcg-actions.c:1708
 msgid "Make any hidden columns in the selection visible"
 msgstr "Gør enhver skjult kolonne der er markeret, synlig"
 
-#: src/wbcg-actions.c:1731
+#: src/wbcg-actions.c:1710
 msgid "_Standard Width"
 msgstr "_Standardbredde"
 
-#: src/wbcg-actions.c:1732
+#: src/wbcg-actions.c:1711
 msgid "Change the default column width"
 msgstr "Ændr standardbredden på kolonnerne"
 
 #. Format -> Row
-#: src/wbcg-actions.c:1736
+#: src/wbcg-actions.c:1715
 msgid "H_eight..."
 msgstr "Hø_jde..."
 
-#: src/wbcg-actions.c:1737
+#: src/wbcg-actions.c:1716
 msgid "Change height of the selected rows"
 msgstr "Ændrer højden af de markerede rækker"
 
-#: src/wbcg-actions.c:1740
+#: src/wbcg-actions.c:1719
 msgid "Ensure rows are just tall enough to display content"
 msgstr ""
 "Sørger for at de markerede rækker er netop høje nok til at vise indholdet"
 
-#: src/wbcg-actions.c:1743
+#: src/wbcg-actions.c:1722
 msgid "Hide the selected rows"
 msgstr "Skjul de valgte rækker"
 
-#: src/wbcg-actions.c:1746
+#: src/wbcg-actions.c:1725
 msgid "Make any hidden rows in the selection visible"
 msgstr "Gør enhver skjult række der er markeret, synlig"
 
-#: src/wbcg-actions.c:1748
+#: src/wbcg-actions.c:1727
 msgid "_Standard Height"
 msgstr "_Standardhøjde"
 
-#: src/wbcg-actions.c:1749
+#: src/wbcg-actions.c:1728
 msgid "Change the default row height"
 msgstr "Ændr standardhøjden på rækkerne"
 
 #. Tools
-#: src/wbcg-actions.c:1753
+#: src/wbcg-actions.c:1732
 msgid "_Plug-ins..."
 msgstr "_Udvidelsesmoduler..."
 
-#: src/wbcg-actions.c:1754
+#: src/wbcg-actions.c:1733
 msgid "Manage available plugin modules"
 msgstr "Administrér tilgængelige udvidelsesmoduler"
 
-#: src/wbcg-actions.c:1756
+#: src/wbcg-actions.c:1735
 msgid "Auto _Correct..."
 msgstr "Auto_korrektion..."
 
-#: src/wbcg-actions.c:1757
+#: src/wbcg-actions.c:1736
 msgid "Automatically perform simple spell checking"
 msgstr "Udfør automatisk simpel stavekontrol"
 
-#: src/wbcg-actions.c:1759
+#: src/wbcg-actions.c:1738
 msgid "_Auto Save..."
 msgstr "_Autogem..."
 
-#: src/wbcg-actions.c:1760
+#: src/wbcg-actions.c:1739
 msgid "Automatically save the current document at regular intervals"
 msgstr "Gem automatisk det aktuelle dokument med regelmæssige intervaller"
 
-#: src/wbcg-actions.c:1762
+#: src/wbcg-actions.c:1741
 msgid "_Goal Seek..."
 msgstr "_Målsøgning..."
 
-#: src/wbcg-actions.c:1763
+#: src/wbcg-actions.c:1742
 msgid "Iteratively recalculate to find a target value"
 msgstr "Udfører en beregning igen og igen for at opnå en bestemt målværdi"
 
-#: src/wbcg-actions.c:1765
+#: src/wbcg-actions.c:1744
 msgid "_Solver..."
 msgstr "_Optimeringsproblemløser..."
 
-#: src/wbcg-actions.c:1766
+#: src/wbcg-actions.c:1745
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr ""
 "Udfører en beregning med begrænsninger igen og igen for at nærme sig en "
 "bestemt målværdi"
 
-#: src/wbcg-actions.c:1768
+#: src/wbcg-actions.c:1747
 #, fuzzy
 msgid "Si_mulation..."
 msgstr "Følsomhedsrapport"
 
-#: src/wbcg-actions.c:1769
+#: src/wbcg-actions.c:1748
 msgid ""
 "Test decision alternatives by using Monte Carlo simulation to find out "
 "probable outputs and risks related to them"
 msgstr ""
 
 #. Tools -> Scenarios
-#: src/wbcg-actions.c:1774
+#: src/wbcg-actions.c:1753
 #, fuzzy
 msgid "_View..."
 msgstr "_Ny..."
 
-#: src/wbcg-actions.c:1775
+#: src/wbcg-actions.c:1754
 msgid "View, delete and report different scenarios"
 msgstr ""
 
-#: src/wbcg-actions.c:1777
+#: src/wbcg-actions.c:1756
 #, fuzzy
 msgid "_Add..."
 msgstr "_Tilføj"
 
-#: src/wbcg-actions.c:1778
+#: src/wbcg-actions.c:1757
 #, fuzzy
 msgid "Add a new scenario"
 msgstr "Indsæt ny kolonne"
 
 #. Tools -> ANOVA
-#: src/wbcg-actions.c:1782
+#: src/wbcg-actions.c:1761
 #, fuzzy
 msgid "_One Factor..."
 msgstr "Anova - enkeltfaktor"
 
-#: src/wbcg-actions.c:1783
+#: src/wbcg-actions.c:1762
 msgid "One Factor Analysis of Variance..."
 msgstr ""
 
-#: src/wbcg-actions.c:1785
+#: src/wbcg-actions.c:1764
 #, fuzzy
 msgid "_Two Factor..."
 msgstr "Anova - tofaktor"
 
-#: src/wbcg-actions.c:1786
+#: src/wbcg-actions.c:1765
 msgid "Two Factor Analysis of Variance..."
 msgstr ""
 
 #. Tools -> Forecasting
-#: src/wbcg-actions.c:1790
+#: src/wbcg-actions.c:1769
 #, fuzzy
 msgid "_Exponential Smoothing..."
 msgstr "Eksponentiel udjævning"
 
-#: src/wbcg-actions.c:1791
+#: src/wbcg-actions.c:1770
 #, fuzzy
 msgid "Exponential smoothing..."
 msgstr "Eksponentiel udjævning"
 
-#: src/wbcg-actions.c:1793
+#: src/wbcg-actions.c:1772
 #, fuzzy
 msgid "_Moving Average..."
 msgstr "Rullende gennemsnit"
 
-#: src/wbcg-actions.c:1794
+#: src/wbcg-actions.c:1773
 #, fuzzy
 msgid "Moving average..."
 msgstr "Rullende gennemsnit"
 
 #. Tools -> Two Means
-#: src/wbcg-actions.c:1798
+#: src/wbcg-actions.c:1777
 #, fuzzy
 msgid "_Paired Samples: T-Test..."
 msgstr "t-Test: To-prøve under antagelse af uens varians"
 
-#: src/wbcg-actions.c:1799
+#: src/wbcg-actions.c:1778
 #, fuzzy
 msgid "Comparing two population means for two paired samples: t-test..."
 msgstr "Populationsvarianser er:"
 
-#: src/wbcg-actions.c:1802
+#: src/wbcg-actions.c:1781
 #, fuzzy
 msgid "Unpaired Samples, _Equal Variances: T-Test..."
 msgstr "t-Test: To-prøve under antagelse af uens varians"
 
-#: src/wbcg-actions.c:1803
+#: src/wbcg-actions.c:1782
 #, fuzzy
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with equal variances: t-test..."
 msgstr "Populationsvarianser er:"
 
-#: src/wbcg-actions.c:1806
+#: src/wbcg-actions.c:1785
 #, fuzzy
 msgid "Unpaired Samples, _Unequal Variances: T-Test..."
 msgstr "t-Test: To-prøve under antagelse af uens varians"
 
-#: src/wbcg-actions.c:1807
+#: src/wbcg-actions.c:1786
 #, fuzzy
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with unequal variances: t-test..."
 msgstr "Populationsvarianser er:"
 
-#: src/wbcg-actions.c:1810
+#: src/wbcg-actions.c:1789
 #, fuzzy
 msgid "_Known Variances: Z-Test..."
 msgstr "t-Test: To-prøve under antagelse af uens varians"
 
-#: src/wbcg-actions.c:1811
+#: src/wbcg-actions.c:1790
 #, fuzzy
 msgid ""
 "Comparing two population means from populations with known variances: z-"
@@ -29984,681 +29984,681 @@ msgid ""
 msgstr "Populationsvarianser er:"
 
 #. Tools -> Analysis
-#: src/wbcg-actions.c:1815
+#: src/wbcg-actions.c:1794
 #, fuzzy
 msgid "_Correlation..."
 msgstr "Korrelation"
 
-#: src/wbcg-actions.c:1816
+#: src/wbcg-actions.c:1795
 #, fuzzy
 msgid "Pearson Correlation"
 msgstr "Korrelation"
 
-#: src/wbcg-actions.c:1818
+#: src/wbcg-actions.c:1797
 #, fuzzy
 msgid "Co_variance..."
 msgstr "Kovarians"
 
-#: src/wbcg-actions.c:1821
+#: src/wbcg-actions.c:1800
 #, fuzzy
 msgid "_Descriptive Statistics..."
 msgstr "Beskrivende statistikker"
 
-#: src/wbcg-actions.c:1822
+#: src/wbcg-actions.c:1801
 #, fuzzy
 msgid "Various summary statistics"
 msgstr "Sammendragsstatistikker"
 
-#: src/wbcg-actions.c:1824
+#: src/wbcg-actions.c:1803
 #, fuzzy
 msgid "_Fourier Analysis..."
 msgstr "Fourier-analyse"
 
-#: src/wbcg-actions.c:1827
+#: src/wbcg-actions.c:1806
 #, fuzzy
 msgid "_Histogram..."
 msgstr "Histogram"
 
-#: src/wbcg-actions.c:1828
+#: src/wbcg-actions.c:1807
 msgid "Various frequency tables"
 msgstr ""
 
-#: src/wbcg-actions.c:1830
+#: src/wbcg-actions.c:1809
 #, fuzzy
 msgid "Ranks And _Percentiles..."
 msgstr "Grad og percentil"
 
-#: src/wbcg-actions.c:1831
+#: src/wbcg-actions.c:1810
 #, fuzzy
 msgid "Ranks, placements and percentiles"
 msgstr "Grad og percentil"
 
-#: src/wbcg-actions.c:1833
+#: src/wbcg-actions.c:1812
 #, fuzzy
 msgid "_Regression..."
 msgstr "Regression"
 
-#: src/wbcg-actions.c:1834
+#: src/wbcg-actions.c:1813
 #, fuzzy
 msgid "Regression Analysis"
 msgstr "Regression"
 
-#: src/wbcg-actions.c:1836
+#: src/wbcg-actions.c:1815
 #, fuzzy
 msgid "_Sampling..."
 msgstr "Stikprøveudtagning"
 
-#: src/wbcg-actions.c:1837
+#: src/wbcg-actions.c:1816
 msgid "Periodic and random samples"
 msgstr ""
 
-#: src/wbcg-actions.c:1839
+#: src/wbcg-actions.c:1818
 msgid "_Two Variances: FTest..."
 msgstr ""
 
-#: src/wbcg-actions.c:1840
+#: src/wbcg-actions.c:1819
 #, fuzzy
 msgid "Comparing two population variances"
 msgstr "Populationsvarianser er:"
 
 #. Data
-#: src/wbcg-actions.c:1844
+#: src/wbcg-actions.c:1823
 msgid "_Sort..."
 msgstr "_Sortér..."
 
-#: src/wbcg-actions.c:1845
+#: src/wbcg-actions.c:1824
 #, fuzzy
 msgid "Sort the selected region"
 msgstr "Sorterer det markerede område"
 
-#: src/wbcg-actions.c:1847
+#: src/wbcg-actions.c:1826
 msgid "Sh_uffle..."
 msgstr ""
 
-#: src/wbcg-actions.c:1848
+#: src/wbcg-actions.c:1827
 msgid "Shuffle cells, rows or columns"
 msgstr ""
 
-#: src/wbcg-actions.c:1850
+#: src/wbcg-actions.c:1829
 msgid "_Validate..."
 msgstr "_Gyldighedskontrol..."
 
 # RETMIG: måske indtastning i stedet for dataene
-#: src/wbcg-actions.c:1851
+#: src/wbcg-actions.c:1830
 msgid "Validate input with preset criteria"
 msgstr "Kontrollér gyldighed af dataene efter forudangivne kriterier"
 
-#: src/wbcg-actions.c:1853
+#: src/wbcg-actions.c:1832
 #, fuzzy
 msgid "_Text to Columns..."
 msgstr "Automatisk tilpasning af kolonner"
 
-#: src/wbcg-actions.c:1854
+#: src/wbcg-actions.c:1833
 #, fuzzy
 msgid "Parse the text in the selection into data"
 msgstr "Centrerer teksten i hver markering"
 
-#: src/wbcg-actions.c:1856
+#: src/wbcg-actions.c:1835
 msgid "_Consolidate..."
 msgstr "_Foren data..."
 
-#: src/wbcg-actions.c:1857
+#: src/wbcg-actions.c:1836
 msgid "Consolidate regions using a function"
 msgstr "Foren områder vha. en funktion"
 
-#: src/wbcg-actions.c:1861
+#: src/wbcg-actions.c:1840
 #, fuzzy
 msgid "_PivotTable..."
 msgstr "_Udskriv..."
 
-#: src/wbcg-actions.c:1862
+#: src/wbcg-actions.c:1841
 #, fuzzy
 msgid "Create a pivot table"
 msgstr "Opret etiket"
 
 #. Data -> Outline
-#: src/wbcg-actions.c:1867
+#: src/wbcg-actions.c:1846
 msgid "_Hide Detail"
 msgstr "_Skjul detaljer"
 
-#: src/wbcg-actions.c:1868
+#: src/wbcg-actions.c:1847
 msgid "Collapse an outline group"
 msgstr "Sammenfold en omridsgruppe"
 
-#: src/wbcg-actions.c:1870
+#: src/wbcg-actions.c:1849
 msgid "_Show Detail"
 msgstr "_Vis detaljer"
 
-#: src/wbcg-actions.c:1871
+#: src/wbcg-actions.c:1850
 msgid "Uncollapse an outline group"
 msgstr "Udfold en omridsgruppe"
 
 # udsagnsord, bydemåde
-#: src/wbcg-actions.c:1873
+#: src/wbcg-actions.c:1852
 msgid "_Group..."
 msgstr "_Gruppér..."
 
-#: src/wbcg-actions.c:1874
+#: src/wbcg-actions.c:1853
 msgid "Add an outline group"
 msgstr "Tilføj en omridsgruppe"
 
-#: src/wbcg-actions.c:1876
+#: src/wbcg-actions.c:1855
 msgid "_Ungroup..."
 msgstr "_Afgruppér..."
 
-#: src/wbcg-actions.c:1877
+#: src/wbcg-actions.c:1856
 msgid "Remove an outline group"
 msgstr "Fjern en omridsgruppe"
 
 #. Data -> Filter
-#: src/wbcg-actions.c:1881 src/workbook-control-gui.c:1034
+#: src/wbcg-actions.c:1860 src/workbook-control-gui.c:1034
 #, fuzzy
 msgid "Add _Auto Filter"
 msgstr "Avanceret filtrering"
 
-#: src/wbcg-actions.c:1882
+#: src/wbcg-actions.c:1861
 msgid "Add or remove a filter"
 msgstr ""
 
-#: src/wbcg-actions.c:1884
+#: src/wbcg-actions.c:1863
 #, fuzzy
 msgid "_Show All"
 msgstr "_Vis detaljer"
 
-#: src/wbcg-actions.c:1885
+#: src/wbcg-actions.c:1864
 msgid "Show all filtered and hidden rows"
 msgstr ""
 
-#: src/wbcg-actions.c:1887
+#: src/wbcg-actions.c:1866
 msgid "Advanced _Filter..."
 msgstr "Avanceret _filtrering..."
 
-#: src/wbcg-actions.c:1888
+#: src/wbcg-actions.c:1867
 msgid "Filter data with given criteria"
 msgstr "Filtrér data efter givne kriterier"
 
 #. Data -> External
-#: src/wbcg-actions.c:1891
+#: src/wbcg-actions.c:1870
 #, fuzzy
 msgid "Import _Text File..."
 msgstr "Importerer en fil"
 
-#: src/wbcg-actions.c:1892
+#: src/wbcg-actions.c:1871
 #, fuzzy
 msgid "Import the text from a file"
 msgstr "Importerer en fil"
 
 #. Standard Toolbar
-#: src/wbcg-actions.c:1896 src/workbook-control-gui.c:1827
+#: src/wbcg-actions.c:1875 src/workbook-control-gui.c:1827
 #: src/workbook-view.c:542
 msgid "Sum"
 msgstr "Sum"
 
-#: src/wbcg-actions.c:1897
+#: src/wbcg-actions.c:1876
 msgid "Sum into the current cell"
 msgstr "Summér til den aktuelle celle."
 
-#: src/wbcg-actions.c:1900
+#: src/wbcg-actions.c:1879
 #, fuzzy
 msgid "Edit a function in the current cell"
 msgstr "Redigér en funktion i den aktuelle celle."
 
-#: src/wbcg-actions.c:1904
+#: src/wbcg-actions.c:1883
 msgid ""
 "Sort the selected region in ascending order based on the first column "
 "selected"
 msgstr ""
 "Sorterer det markerede område i stigende orden efter den første kolonne"
 
-#: src/wbcg-actions.c:1906
+#: src/wbcg-actions.c:1885
 msgid "Sort Descending"
 msgstr "Sortér faldende"
 
-#: src/wbcg-actions.c:1907
+#: src/wbcg-actions.c:1886
 msgid ""
 "Sort the selected region in descending order based on the first column "
 "selected"
 msgstr ""
 "Sorterer det markerede område i faldende orden efter den første kolonne"
 
-#: src/wbcg-actions.c:1912
+#: src/wbcg-actions.c:1891
 msgid "Create a label"
 msgstr "Opret etiket"
 
-#: src/wbcg-actions.c:1915
+#: src/wbcg-actions.c:1894
 msgid "Create a frame"
 msgstr "Opret ramme"
 
-#: src/wbcg-actions.c:1917
+#: src/wbcg-actions.c:1896
 msgid "Checkbox"
 msgstr "Afkrydsningsboks"
 
-#: src/wbcg-actions.c:1918
+#: src/wbcg-actions.c:1897
 msgid "Create a checkbox"
 msgstr "Opret afkrydsningsboks"
 
-#: src/wbcg-actions.c:1920
+#: src/wbcg-actions.c:1899
 #, fuzzy
 msgid "Scrollbar"
 msgstr "US-dollar"
 
-#: src/wbcg-actions.c:1921
+#: src/wbcg-actions.c:1900
 #, fuzzy
 msgid "Create a scrollbar"
 msgstr "Opret ramme"
 
-#: src/wbcg-actions.c:1923
+#: src/wbcg-actions.c:1902
 #, fuzzy
 msgid "Slider"
 msgstr "Fast"
 
-#: src/wbcg-actions.c:1924
+#: src/wbcg-actions.c:1903
 #, fuzzy
 msgid "Create a slider"
 msgstr "Opret liste"
 
-#: src/wbcg-actions.c:1926
+#: src/wbcg-actions.c:1905
 #, fuzzy
 msgid "SpinButton"
 msgstr "Knap"
 
-#: src/wbcg-actions.c:1927
+#: src/wbcg-actions.c:1906
 #, fuzzy
 msgid "Create a spin button"
 msgstr "Opret knap"
 
-#: src/wbcg-actions.c:1929 templates/autoformat/autoformat.3D.list.xml.in.h:3
+#: src/wbcg-actions.c:1908 templates/autoformat/autoformat.3D.list.xml.in.h:3
 msgid "List"
 msgstr "Liste"
 
-#: src/wbcg-actions.c:1930
+#: src/wbcg-actions.c:1909
 msgid "Create a list"
 msgstr "Opret liste"
 
-#: src/wbcg-actions.c:1932
+#: src/wbcg-actions.c:1911
 msgid "Combo Box"
 msgstr "Menuvalg med indtastning"
 
-#: src/wbcg-actions.c:1933
+#: src/wbcg-actions.c:1912
 msgid "Create a combo box"
 msgstr "Opret menuvalg"
 
-#: src/wbcg-actions.c:1936
+#: src/wbcg-actions.c:1915
 #, fuzzy
 msgid "Create a line object"
 msgstr "Opret et linjeobjekt"
 
-#: src/wbcg-actions.c:1938
+#: src/wbcg-actions.c:1917
 msgid "Arrow"
 msgstr "Pil"
 
-#: src/wbcg-actions.c:1939
+#: src/wbcg-actions.c:1918
 #, fuzzy
 msgid "Create an arrow object"
 msgstr "Opret nyt pileobjekt"
 
-#: src/wbcg-actions.c:1941
+#: src/wbcg-actions.c:1920
 msgid "Rectangle"
 msgstr "Firkant"
 
-#: src/wbcg-actions.c:1942
+#: src/wbcg-actions.c:1921
 #, fuzzy
 msgid "Create a rectangle object"
 msgstr "Opret et firkantsobjekt"
 
-#: src/wbcg-actions.c:1944
+#: src/wbcg-actions.c:1923
 msgid "Ellipse"
 msgstr "Ellipse"
 
-#: src/wbcg-actions.c:1945
+#: src/wbcg-actions.c:1924
 #, fuzzy
 msgid "Create an ellipse object"
 msgstr "Opretter et ellipseobjekt"
 
-#: src/wbcg-actions.c:1948
+#: src/wbcg-actions.c:1927
 msgid "Create a button"
 msgstr "Opret knap"
 
-#: src/wbcg-actions.c:1951
+#: src/wbcg-actions.c:1930
 msgid "Create a radio button"
 msgstr "Opret radioknap"
 
-#: src/wbcg-actions.c:1956
+#: src/wbcg-actions.c:1935
 msgid "Merge a range of cells"
 msgstr "Flet celleinterval"
 
-#: src/wbcg-actions.c:1958
+#: src/wbcg-actions.c:1937
 msgid "Split"
 msgstr "Opsplit"
 
-#: src/wbcg-actions.c:1959
+#: src/wbcg-actions.c:1938
 msgid "Split merged ranges of cells"
 msgstr "Opsplit et celleinterval"
 
-#: src/wbcg-actions.c:1963
+#: src/wbcg-actions.c:1942
 #, fuzzy
 msgid "Format the selection as numbers"
 msgstr "Formatér de valgte celler som valuta"
 
-#: src/wbcg-actions.c:1965 src/widgets/widget-format-selector.c:77
+#: src/wbcg-actions.c:1944 src/widgets/widget-format-selector.c:77
 #, fuzzy
 msgid "Currency"
 msgstr "_Valuta"
 
-#: src/wbcg-actions.c:1966
+#: src/wbcg-actions.c:1945
 #, fuzzy
 msgid "Format the selection as currency"
 msgstr "Formatér de valgte celler som valuta"
 
-#: src/wbcg-actions.c:1968 src/widgets/widget-format-selector.c:78
+#: src/wbcg-actions.c:1947 src/widgets/widget-format-selector.c:78
 #, fuzzy
 msgid "Accounting"
 msgstr "_Bogføring"
 
-#: src/wbcg-actions.c:1969
+#: src/wbcg-actions.c:1948
 #, fuzzy
 msgid "Format the selection as accounting"
 msgstr "Formatér de valgte celler som valuta"
 
-#: src/wbcg-actions.c:1971 src/widgets/widget-format-selector.c:81
+#: src/wbcg-actions.c:1950 src/widgets/widget-format-selector.c:81
 #, fuzzy
 msgid "Percentage"
 msgstr "_Procentdel"
 
-#: src/wbcg-actions.c:1972
+#: src/wbcg-actions.c:1951
 #, fuzzy
 msgid "Format the selection as percentage"
 msgstr "Formatér de valgte celler som procentdele"
 
-#: src/wbcg-actions.c:1974 src/widgets/widget-format-selector.c:83
+#: src/wbcg-actions.c:1953 src/widgets/widget-format-selector.c:83
 #, fuzzy
 msgid "Scientific"
 msgstr "_Videnskabelig"
 
-#: src/wbcg-actions.c:1975
+#: src/wbcg-actions.c:1954
 #, fuzzy
 msgid "Format the selection as scientific"
 msgstr "Formatér som videnskabeligt tal"
 
-#: src/wbcg-actions.c:1977 src/widgets/widget-format-selector.c:79
+#: src/wbcg-actions.c:1956 src/widgets/widget-format-selector.c:79
 msgid "Date"
 msgstr "Dato"
 
-#: src/wbcg-actions.c:1978
+#: src/wbcg-actions.c:1957
 #, fuzzy
 msgid "Format the selection as date"
 msgstr "Formatér de valgte celler som valuta"
 
-#: src/wbcg-actions.c:1980 src/widgets/widget-format-selector.c:80
+#: src/wbcg-actions.c:1959 src/widgets/widget-format-selector.c:80
 msgid "Time"
 msgstr "Tid"
 
-#: src/wbcg-actions.c:1981
+#: src/wbcg-actions.c:1960
 #, fuzzy
 msgid "Format the selection as time"
 msgstr "Formatér de valgte celler som valuta"
 
-#: src/wbcg-actions.c:1983
+#: src/wbcg-actions.c:1962
 #, fuzzy
 msgid "AddBorders"
 msgstr "Tilføj kanter"
 
-#: src/wbcg-actions.c:1984
+#: src/wbcg-actions.c:1963
 #, fuzzy
 msgid "Add a border the the selection"
 msgstr "Kan ikke tilføje flere klausuler end størrelsen af markeringen"
 
-#: src/wbcg-actions.c:1986
+#: src/wbcg-actions.c:1965
 #, fuzzy
 msgid "ClearBorders"
 msgstr "Ryd kanter"
 
-#: src/wbcg-actions.c:1987
+#: src/wbcg-actions.c:1966
 #, fuzzy
 msgid "Clear the border around the selection"
 msgstr "Centrerer teksten i hver markering"
 
-#: src/wbcg-actions.c:1990
+#: src/wbcg-actions.c:1969
 #, fuzzy
 msgid "Thousands Separator"
 msgstr "Tusindadskillelse"
 
-#: src/wbcg-actions.c:1991
+#: src/wbcg-actions.c:1970
 #, fuzzy
 msgid "Set the format of the selected cells to include a thousands separator"
 msgstr "Brug tusindadskillelser i de valgte celler"
 
-#: src/wbcg-actions.c:1993
+#: src/wbcg-actions.c:1972
 msgid "Increase Precision"
 msgstr "Øg præcision"
 
-#: src/wbcg-actions.c:1994
+#: src/wbcg-actions.c:1973
 #, fuzzy
 msgid "Increase the number of decimals displayed"
 msgstr "Hæver det antal decimaler som vises"
 
-#: src/wbcg-actions.c:1996
+#: src/wbcg-actions.c:1975
 msgid "Decrease Precision"
 msgstr "Formindsk præcision"
 
-#: src/wbcg-actions.c:1997
+#: src/wbcg-actions.c:1976
 #, fuzzy
 msgid "Decrease the number of decimals displayed"
 msgstr "Sænker det antal decimaler som vises"
 
-#: src/wbcg-actions.c:2000
+#: src/wbcg-actions.c:1979
 msgid "Decrease the indent, and align the contents to the left"
 msgstr ""
 
-#: src/wbcg-actions.c:2003
+#: src/wbcg-actions.c:1982
 msgid "Increase the indent, and align the contents to the left"
 msgstr ""
 
 #. const 142334
-#: src/wbcg-actions.c:2041
+#: src/wbcg-actions.c:2020
 msgid "Display _Outlines"
 msgstr "Vis _omridsgrupper"
 
-#: src/wbcg-actions.c:2042
+#: src/wbcg-actions.c:2021
 msgid "Toggle whether or not to display outline groups"
 msgstr "Slå visning af omridsgrupper til/fra"
 
-#: src/wbcg-actions.c:2044
+#: src/wbcg-actions.c:2023
 msgid "Outlines _Below"
 msgstr "Omrids _under"
 
-#: src/wbcg-actions.c:2045
+#: src/wbcg-actions.c:2024
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr "Skift mellem at vise rækkeomrids øverst eller nederst"
 
-#: src/wbcg-actions.c:2047
+#: src/wbcg-actions.c:2026
 msgid "Outlines _Right"
 msgstr "Omrids til _højre"
 
-#: src/wbcg-actions.c:2048
+#: src/wbcg-actions.c:2027
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Skift mellem at vise rækkeomrids til højre eller til venstre"
 
-#: src/wbcg-actions.c:2050
+#: src/wbcg-actions.c:2029
 msgid "Display _Formulas"
 msgstr "Vis _formler"
 
-#: src/wbcg-actions.c:2051
+#: src/wbcg-actions.c:2030
 msgid "Display the value of a formula or the formula itself"
 msgstr "Vis værdien af en formel eller formlen selv"
 
-#: src/wbcg-actions.c:2053
+#: src/wbcg-actions.c:2032
 msgid "Hide _Zeros"
 msgstr "Skjul _nuller"
 
-#: src/wbcg-actions.c:2054
+#: src/wbcg-actions.c:2033
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr "Slå visning af nuller som tomme celler til/fra"
 
-#: src/wbcg-actions.c:2056
+#: src/wbcg-actions.c:2035
 msgid "Hide _Gridlines"
 msgstr "Skjul _gitterlinjer"
 
-#: src/wbcg-actions.c:2057
+#: src/wbcg-actions.c:2036
 msgid "Toggle whether or not to display gridlines"
 msgstr "Slå visning af gitterlinjer til/fra"
 
-#: src/wbcg-actions.c:2059
+#: src/wbcg-actions.c:2038
 msgid "Hide _Column Headers"
 msgstr "Skjul _kolonnehoveder"
 
-#: src/wbcg-actions.c:2060
+#: src/wbcg-actions.c:2039
 msgid "Toggle whether or not to display column headers"
 msgstr "Slå visning af kolonneoverskrifter til/fra"
 
-#: src/wbcg-actions.c:2062
+#: src/wbcg-actions.c:2041
 msgid "Hide _Row Headers"
 msgstr "Skjul _rækkehoveder"
 
-#: src/wbcg-actions.c:2063
+#: src/wbcg-actions.c:2042
 msgid "Toggle whether or not to display row headers"
 msgstr "Slå visning af rækkeoverskrifter til/fra"
 
-#: src/wbcg-actions.c:2067
+#: src/wbcg-actions.c:2046
 #, fuzzy
 msgid "_Left Align"
 msgstr "Venstrejustér"
 
-#: src/wbcg-actions.c:2068 src/wbc-gtk.c:324
+#: src/wbcg-actions.c:2047 src/wbc-gtk.c:324
 #, fuzzy
 msgid "Align left"
 msgstr "Justering"
 
-#: src/wbcg-actions.c:2070
+#: src/wbcg-actions.c:2049
 msgid "_Center"
 msgstr "_Centrér"
 
-#: src/wbcg-actions.c:2071 src/wbc-gtk.c:325
+#: src/wbcg-actions.c:2050 src/wbc-gtk.c:325
 #, fuzzy
 msgid "Center horizontally"
 msgstr "_Vandret"
 
-#: src/wbcg-actions.c:2073
+#: src/wbcg-actions.c:2052
 #, fuzzy
 msgid "_Right Align"
 msgstr "Højrejustér"
 
-#: src/wbcg-actions.c:2074 src/wbc-gtk.c:326
+#: src/wbcg-actions.c:2053 src/wbc-gtk.c:326
 #, fuzzy
 msgid "Align right"
 msgstr "Omrids til _højre"
 
-#: src/wbcg-actions.c:2076
+#: src/wbcg-actions.c:2055
 #, fuzzy
 msgid "_Center Across Selection"
 msgstr "Centrér hen over markering"
 
-#: src/wbcg-actions.c:2077 src/wbc-gtk.c:329
+#: src/wbcg-actions.c:2056 src/wbc-gtk.c:329
 #, fuzzy
 msgid "Center horizontally across the selection"
 msgstr "Centrér hen over markering"
 
-#: src/wbcg-actions.c:2080
+#: src/wbcg-actions.c:2059
 #, fuzzy
 msgid "_Merge and Center"
 msgstr "_Lodret"
 
-#: src/wbcg-actions.c:2081
+#: src/wbcg-actions.c:2060
 msgid "Merge the selection into 1 cell, and center horizontaly."
 msgstr ""
 
-#: src/wbcg-actions.c:2088
+#: src/wbcg-actions.c:2067
 msgid "Align _Top"
 msgstr ""
 
-#: src/wbcg-actions.c:2089 src/wbc-gtk.c:336
+#: src/wbcg-actions.c:2068 src/wbc-gtk.c:336
 msgid "Align Top"
 msgstr ""
 
-#: src/wbcg-actions.c:2091
+#: src/wbcg-actions.c:2070
 #, fuzzy
 msgid "_Vertically Center"
 msgstr "_Lodret"
 
-#: src/wbcg-actions.c:2092
+#: src/wbcg-actions.c:2071
 #, fuzzy
 msgid "Vertically Center"
 msgstr "_Lodret"
 
-#: src/wbcg-actions.c:2094
+#: src/wbcg-actions.c:2073
 #, fuzzy
 msgid "Align _Bottom"
 msgstr "_Bund"
 
-#: src/wbcg-actions.c:2095 src/wbc-gtk.c:338
+#: src/wbcg-actions.c:2074 src/wbc-gtk.c:338
 #, fuzzy
 msgid "Align Bottom"
 msgstr "Tyk bund"
 
-#: src/wbcg-actions.c:2098
+#: src/wbcg-actions.c:2077
 msgid "View _Statusbar"
 msgstr ""
 
-#: src/wbcg-actions.c:2099
+#: src/wbcg-actions.c:2078
 msgid "Toggle visibility of statusbar"
 msgstr ""
 
-#: src/wbcg-actions.c:2103
+#: src/wbcg-actions.c:2082
 #, fuzzy
 msgid "F_ull Screen..."
 msgstr "_Målsøgning..."
 
-#: src/wbcg-actions.c:2104
+#: src/wbcg-actions.c:2083
 #, fuzzy
 msgid "in or out"
 msgstr "_Rét ikke:"
 
-#: src/wbcg-actions.c:2109
+#: src/wbcg-actions.c:2088
 #, fuzzy
 msgid "_Bold"
 msgstr "Fed"
 
 #. ALSO "<control>2"
-#: src/wbcg-actions.c:2110 src/widgets/widget-font-selector.c:201
+#: src/wbcg-actions.c:2089 src/widgets/widget-font-selector.c:201
 msgid "Bold"
 msgstr "Fed"
 
-#: src/wbcg-actions.c:2112
+#: src/wbcg-actions.c:2091
 #, fuzzy
 msgid "_Italic"
 msgstr "Kursiv"
 
 #. ALSO "<control>3"
-#: src/wbcg-actions.c:2113 src/widgets/widget-font-selector.c:203
+#: src/wbcg-actions.c:2092 src/widgets/widget-font-selector.c:203
 msgid "Italic"
 msgstr "Kursiv"
 
-#: src/wbcg-actions.c:2115
+#: src/wbcg-actions.c:2094
 #, fuzzy
 msgid "_Underline"
 msgstr "Understregning"
 
 #. ALSO "<control>4"
-#: src/wbcg-actions.c:2116
+#: src/wbcg-actions.c:2095
 msgid "Underline"
 msgstr "Understregning"
 
-#: src/wbcg-actions.c:2118
+#: src/wbcg-actions.c:2097
 #, fuzzy
 msgid "_Strike Through"
 msgstr "_Gennemstreget"
 
-#: src/wbcg-actions.c:2119
+#: src/wbcg-actions.c:2098
 #, fuzzy
 msgid "Strike Through"
 msgstr "_Gennemstreget"
 
-#: src/wbcg-actions.c:2122
+#: src/wbcg-actions.c:2101
 #, fuzzy
 msgid "_Double Underline"
 msgstr "Understregning"
 
-#: src/wbcg-actions.c:2123
+#: src/wbcg-actions.c:2102
 #, fuzzy
 msgid "Double Underline"
 msgstr "Understregning"

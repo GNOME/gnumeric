@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:gnumeric.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-28 22:56-0500\n"
+"POT-Creation-Date: 2004-12-10 00:06-0500\n"
 "PO-Revision-Date: 2003-07-05 10:29+0530\n"
 "Last-Translator: FSF-India <locale@gnu.org.in>\n"
 "Language-Team: Malayalam <locale@gnu.org.in>\n"
@@ -5450,7 +5450,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-info/functions.c:1662 src/func.c:789
+#: plugins/fn-info/functions.c:1662 src/func.c:859
 msgid "Invalid number of arguments"
 msgstr "സാധുതയില്ലാത്ത ക്രിയാങ്ക മൂല്യം"
 
@@ -10426,7 +10426,7 @@ msgid "Functions for manipulating strings"
 msgstr "സ്ട്രിംഗ് കൈകാര്യം ചെയ്യ‌ുന്നതിനുവേണ്ടിയുള്ള പ്രവ‌ര്ത്തനങ്ങള്‌"
 
 #: plugins/fn-string/plugin.xml.in.h:2 src/dialogs/dialog-search.c:144
-#: src/func.c:673
+#: src/func.c:743
 msgid "String"
 msgstr "വാക്യം"
 
@@ -11975,7 +11975,7 @@ msgid ""
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:29
-#: src/dialogs/dialog-preferences.c:527 src/wbcg-actions.c:1903
+#: src/dialogs/dialog-preferences.c:527 src/wbcg-actions.c:1882
 msgid "Sort Ascending"
 msgstr "ആരോഹണക്രമത്തില്‌ തരംതിരിക്കുക"
 
@@ -12509,7 +12509,7 @@ msgstr "%s ലേക്ക് ഒട്ടിക്കുന്നു"
 
 #. Check arrays or merged regions in src or target regions
 #: src/commands.c:3007 src/commands.c:3164 src/commands.c:3165
-#: src/wbcg-actions.c:427
+#: src/wbcg-actions.c:424
 msgid "Autofill"
 msgstr "സ്വപൂരകം"
 
@@ -12816,7 +12816,7 @@ msgid "Format"
 msgstr "ക്രമീകരണം"
 
 #. Object Toolbar
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1542 src/wbcg-actions.c:1911
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1542 src/wbcg-actions.c:1890
 msgid "Label"
 msgstr "ലിഖിതം"
 
@@ -13048,8 +13048,8 @@ msgid "Customize Chart"
 msgstr "തലക്കുറിപ്പ് യഥേഷ്ടമാക്കുക"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1178
-#: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1442
-#: src/wbcg-actions.c:1600
+#: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1421
+#: src/wbcg-actions.c:1579
 msgid "_Insert"
 msgstr "ഇടയ്ക്ക് ചേര്ക്കുക"
 
@@ -13406,7 +13406,7 @@ msgid "Adjacent vertical columns grouped by major and minor categories."
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:13
-#: src/func.c:679
+#: src/func.c:749
 msgid "Area"
 msgstr "വിസ്തീര്ണ്ണം"
 
@@ -13428,7 +13428,7 @@ msgid "Column"
 msgstr "നിര"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:18
-#: src/dialogs/dialog-stf-main-page.c:370 src/wbcg-actions.c:1935
+#: src/dialogs/dialog-stf-main-page.c:370 src/wbcg-actions.c:1914
 msgid "Line"
 msgstr "വരി‌"
 
@@ -14681,8 +14681,8 @@ msgstr "സ്ഥലങ്ങളില്‌"
 #: src/dialogs/exp-smoothing.glade.h:8 src/dialogs/fourier-analysis.glade.h:6
 #: src/dialogs/histogram.glade.h:16 src/dialogs/rank.glade.h:9
 #: src/dialogs/regression.glade.h:8 src/dialogs/sampling.glade.h:11
-#: src/dialogs/shuffle.glade.h:5 src/wbcg-actions.c:1551
-#: src/wbcg-actions.c:1664
+#: src/dialogs/shuffle.glade.h:5 src/wbcg-actions.c:1530
+#: src/wbcg-actions.c:1643
 msgid "_Columns"
 msgstr "നിരകള്‌"
 
@@ -14713,8 +14713,8 @@ msgstr "ലിഖിതങ്ങള്"
 #: src/dialogs/fourier-analysis.glade.h:10 src/dialogs/histogram.glade.h:23
 #: src/dialogs/moving-averages.glade.h:12 src/dialogs/rank.glade.h:12
 #: src/dialogs/regression.glade.h:13 src/dialogs/sampling.glade.h:18
-#: src/dialogs/shuffle.glade.h:6 src/wbcg-actions.c:1548
-#: src/wbcg-actions.c:1667
+#: src/dialogs/shuffle.glade.h:6 src/wbcg-actions.c:1527
+#: src/wbcg-actions.c:1646
 msgid "_Rows"
 msgstr "വരികള്"
 
@@ -14722,12 +14722,12 @@ msgstr "വരികള്"
 #: src/dialogs/autofilter-expression.glade.h:14
 #: src/dialogs/autoformat.glade.h:1 src/dialogs/autosave.glade.h:1
 #: src/dialogs/cell-format.glade.h:2 src/dialogs/descriptive-stats.glade.h:2
-#: src/dialogs/dialog-stf-export.glade.h:5 src/dialogs/dialog-stf.glade.h:3
-#: src/dialogs/exp-smoothing.glade.h:1 src/dialogs/fill-series.glade.h:1
-#: src/dialogs/font-sel.glade.h:1 src/dialogs/goalseek.glade.h:3
-#: src/dialogs/histogram.glade.h:1 src/dialogs/hyperlink.glade.h:1
-#: src/dialogs/mean-tests.glade.h:1 src/dialogs/moving-averages.glade.h:1
-#: src/dialogs/names.glade.h:2 src/dialogs/plugin-manager.glade.h:1
+#: src/dialogs/dialog-stf.glade.h:3 src/dialogs/exp-smoothing.glade.h:1
+#: src/dialogs/fill-series.glade.h:1 src/dialogs/font-sel.glade.h:1
+#: src/dialogs/goalseek.glade.h:3 src/dialogs/histogram.glade.h:1
+#: src/dialogs/hyperlink.glade.h:1 src/dialogs/mean-tests.glade.h:1
+#: src/dialogs/moving-averages.glade.h:1 src/dialogs/names.glade.h:2
+#: src/dialogs/plugin-manager.glade.h:1
 #: src/dialogs/random-generation.glade.h:1 src/dialogs/regression.glade.h:1
 #: src/dialogs/sampling.glade.h:1 src/dialogs/scenario-add.glade.h:1
 #: src/dialogs/scenario-manager.glade.h:2 src/dialogs/search-replace.glade.h:1
@@ -14810,7 +14810,7 @@ msgid "_Add"
 msgstr "ചേര്ക്കുക"
 
 #: src/dialogs/autocorrect.glade.h:13 src/dialogs/pivottable.glade.h:12
-#: src/wbcg-actions.c:1613
+#: src/wbcg-actions.c:1592
 msgid "_Remove"
 msgstr "നീക്കുക"
 
@@ -15437,7 +15437,7 @@ msgid "Correlation"
 msgstr "സഹബന്ധം"
 
 #: src/dialogs/covariance.glade.h:1 src/tools/analysis-tools.c:1008
-#: src/tools/analysis-tools.c:1011 src/wbcg-actions.c:1819
+#: src/tools/analysis-tools.c:1011 src/wbcg-actions.c:1798
 msgid "Covariance"
 msgstr "സഹവര്ത്തി"
 
@@ -16288,7 +16288,7 @@ msgid "Double"
 msgstr "ഡബിള്"
 
 #: src/dialogs/dialog-cell-format.c:470 src/dialogs/dialog-search.c:148
-#: src/func.c:671 src/wbcg-actions.c:1962
+#: src/func.c:741 src/wbcg-actions.c:1941
 #: src/widgets/widget-format-selector.c:76
 msgid "Number"
 msgstr "സംഖ്യകള്‌"
@@ -16442,8 +16442,8 @@ msgid "Could not create the Name Guru."
 msgstr "ഗുരുനാമം ഉണ്ടാക്കാന്‌ കഴിഞ്ഞില്ല."
 
 #: src/dialogs/dialog-delete-cells.c:136
-#: src/dialogs/scenario-manager.glade.h:8 src/wbcg-actions.c:209
-#: src/wbcg-actions.c:223
+#: src/dialogs/scenario-manager.glade.h:8 src/wbcg-actions.c:206
+#: src/wbcg-actions.c:220
 msgid "Delete"
 msgstr "നീക്കം ചെയ്യ‍ുക"
 
@@ -16644,7 +16644,7 @@ msgstr ""
 #. * 	Skip Blanks, Paste Link, Cancel, Ok are all on the same page
 #. * 	try to keep them from conflicting
 #. Edit -> Clear
-#: src/dialogs/dialog-paste-special.c:66 src/wbcg-actions.c:1534
+#: src/dialogs/dialog-paste-special.c:66 src/wbcg-actions.c:1513
 msgid "_All"
 msgstr "എല്ലാം"
 
@@ -16658,11 +16658,11 @@ msgstr "ഉള്ളടക്കം"
 msgid "As _Value"
 msgstr "മൂല്യം പോലെ"
 
-#: src/dialogs/dialog-paste-special.c:69 src/wbcg-actions.c:1537
+#: src/dialogs/dialog-paste-special.c:69 src/wbcg-actions.c:1516
 msgid "_Formats"
 msgstr "ക്രമീകരണം"
 
-#: src/dialogs/dialog-paste-special.c:70 src/wbcg-actions.c:1540
+#: src/dialogs/dialog-paste-special.c:70 src/wbcg-actions.c:1519
 msgid "Co_mments"
 msgstr "വിവരണം"
 
@@ -17392,7 +17392,7 @@ msgid "Export"
 msgstr "അറിയിക്കല്:"
 
 #: src/dialogs/dialog-stf-export.c:511
-#: src/dialogs/dialog-stf-export.glade.h:39
+#: src/dialogs/dialog-stf-export.glade.h:38
 #, fuzzy
 msgid "_Next"
 msgstr "വാചകം"
@@ -17413,7 +17413,7 @@ msgid ""
 "`\n"
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:6
+#: src/dialogs/dialog-stf-export.glade.h:5
 #, fuzzy
 msgid ""
 "Automatic (puts quotes where needed)\n"
@@ -17421,77 +17421,77 @@ msgid ""
 "Never"
 msgstr "സ്വയമേവ "
 
-#: src/dialogs/dialog-stf-export.glade.h:9 src/gui-file.c:209
+#: src/dialogs/dialog-stf-export.glade.h:8 src/gui-file.c:209
 msgid "Character _encoding:"
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:10
+#: src/dialogs/dialog-stf-export.glade.h:9
 msgid "Choose export formatting:"
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:11
+#: src/dialogs/dialog-stf-export.glade.h:10
 msgid "Choose sheets to export and determine export ordering of the sheets:"
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:12
+#: src/dialogs/dialog-stf-export.glade.h:11
 #, fuzzy
 msgid "Deselect all sheets for export."
 msgstr "കയറ്റി അയയ്‌യ‌്ക്കാനുള്ള പത്രികകള്‌ തിരഞ്ഞെടുക്കുക"
 
-#: src/dialogs/dialog-stf-export.glade.h:13
+#: src/dialogs/dialog-stf-export.glade.h:12
 #, fuzzy
 msgid "Export as Text"
 msgstr "സമയത്തിലേക്ക് മാറ്റുക"
 
-#: src/dialogs/dialog-stf-export.glade.h:14
+#: src/dialogs/dialog-stf-export.glade.h:13
 msgid ""
 "Lower the selected sheet in the list of to be exported sheets to be exported "
 "later."
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:15
+#: src/dialogs/dialog-stf-export.glade.h:14
 msgid ""
 "Move the selected sheet to the end of the list of to be exported exported "
 "sheets to be exported last."
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:16
+#: src/dialogs/dialog-stf-export.glade.h:15
 msgid ""
 "Move the selected sheet to the top of the list of to be exported sheets to "
 "be exported first."
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:17
+#: src/dialogs/dialog-stf-export.glade.h:16
 #, fuzzy
 msgid "Qu_oting:"
 msgstr "മിനുസപ്പെടുത്തുന്നു:"
 
-#: src/dialogs/dialog-stf-export.glade.h:18
+#: src/dialogs/dialog-stf-export.glade.h:17
 #, fuzzy
 msgid "Quote _character:"
 msgstr "അക്ഷരങ്ങള്"
 
-#: src/dialogs/dialog-stf-export.glade.h:19
+#: src/dialogs/dialog-stf-export.glade.h:18
 msgid ""
 "Raise the selected sheet in the list of to be exported sheets to be exported "
 "earlier."
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:20
+#: src/dialogs/dialog-stf-export.glade.h:19
 #, fuzzy
 msgid "Select N_one"
 msgstr "വരി തെരഞ്ഞെടുക്കുക"
 
 #. Edit -> Select
-#: src/dialogs/dialog-stf-export.glade.h:21 src/wbcg-actions.c:1560
+#: src/dialogs/dialog-stf-export.glade.h:20 src/wbcg-actions.c:1539
 msgid "Select _All"
 msgstr "എല്ലാം തെരഞ്ഞെടുക്കുക"
 
-#: src/dialogs/dialog-stf-export.glade.h:22
+#: src/dialogs/dialog-stf-export.glade.h:21
 msgid "Select all non-empty sheets for export."
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:23
+#: src/dialogs/dialog-stf-export.glade.h:22
 msgid ""
 "Space\n"
 "Tab\n"
@@ -17505,13 +17505,13 @@ msgid ""
 "Custom"
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:33
+#: src/dialogs/dialog-stf-export.glade.h:32
 msgid ""
 "Transliterate\n"
 "Escape"
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:35
+#: src/dialogs/dialog-stf-export.glade.h:34
 #, fuzzy
 msgid ""
 "Unix (linefeed)\n"
@@ -17519,21 +17519,21 @@ msgid ""
 "Windows (carriage return + linefeed)"
 msgstr "ജാലകങ്ങള്"
 
-#: src/dialogs/dialog-stf-export.glade.h:38
+#: src/dialogs/dialog-stf-export.glade.h:37
 #, fuzzy
 msgid "_Line termination:"
 msgstr "വരി അവസാനം:"
 
-#: src/dialogs/dialog-stf-export.glade.h:40
+#: src/dialogs/dialog-stf-export.glade.h:39
 msgid "_Preserves Formats"
 msgstr "നിചയഘണ‌്ഡം"
 
-#: src/dialogs/dialog-stf-export.glade.h:41
+#: src/dialogs/dialog-stf-export.glade.h:40
 #, fuzzy
 msgid "_Separator:"
 msgstr "വേ‍ര്തിരി:"
 
-#: src/dialogs/dialog-stf-export.glade.h:42
+#: src/dialogs/dialog-stf-export.glade.h:41
 #, fuzzy
 msgid "_Unknown characters:"
 msgstr "അറിയാത്ത പ്രവ‌‌ര്ത്തകന്"
@@ -18060,7 +18060,7 @@ msgid "_Month"
 msgstr ""
 
 #: src/dialogs/fill-series.glade.h:17 src/dialogs/pivottable.glade.h:13
-#: src/wbcg-actions.c:1447
+#: src/wbcg-actions.c:1426
 msgid "_Row"
 msgstr "വരി"
 
@@ -18174,7 +18174,7 @@ msgstr "1000ങ്ങള്‌ക്ക് വേ‌‌ര്തിരിവ് 
 msgid "Formula Guru"
 msgstr "സൂത്രവാക്യ ഗുരു"
 
-#: src/dialogs/fourier-analysis.glade.h:1 src/wbcg-actions.c:1825
+#: src/dialogs/fourier-analysis.glade.h:1 src/wbcg-actions.c:1804
 msgid "Fourier Analysis"
 msgstr "ഫോറിയര്‌ വിശകലനം"
 
@@ -18187,7 +18187,7 @@ msgstr "മറിച്ചിട്ട"
 msgid "Category"
 msgstr "വിഭാഗങ്ങള്"
 
-#: src/dialogs/function-select.glade.h:3 src/wbcg-actions.c:1899
+#: src/dialogs/function-select.glade.h:3 src/wbcg-actions.c:1878
 msgid "Function"
 msgstr "ധ‌ര്മ്മം"
 
@@ -18521,7 +18521,7 @@ msgid "Workbook"
 msgstr "പ്രവ‌ര്ത്തിപുസ്തകം"
 
 #: src/dialogs/names.glade.h:8 src/dialogs/solver.glade.h:23
-#: src/wbcg-actions.c:1435
+#: src/wbcg-actions.c:1414
 msgid "_Delete"
 msgstr "നീക്കം ചെയ്യ‍ുക"
 
@@ -18561,7 +18561,7 @@ msgstr ""
 msgid "_Add:"
 msgstr "ചേര്ക്കുക"
 
-#: src/dialogs/pivottable.glade.h:8 src/wbcg-actions.c:1455
+#: src/dialogs/pivottable.glade.h:8 src/wbcg-actions.c:1434
 msgid "_Data"
 msgstr "വസ്തുത"
 
@@ -19234,7 +19234,7 @@ msgstr "തെരയുക"
 msgid "Manage Sheets..."
 msgstr "പത്രികകള് കൈകാര്യം ചെയ്യ‌ുക..."
 
-#: src/dialogs/sheet-order.glade.h:2 src/wbcg-actions.c:1610
+#: src/dialogs/sheet-order.glade.h:2 src/wbcg-actions.c:1589
 msgid "_Duplicate"
 msgstr "തനിപ്പക‍ര്പ്പ്"
 
@@ -19701,7 +19701,7 @@ msgstr ""
 msgid "'%s' is already defined in workbook"
 msgstr ""
 
-#: src/file-autoft.c:91
+#: src/file-autoft.c:89
 #, c-format
 msgid "Invalid template file: %s"
 msgstr ""
@@ -20538,40 +20538,40 @@ msgstr "ജിന്യ‌ൂമറിക്"
 msgid "Cannot create file %s\n"
 msgstr ""
 
-#: src/func.c:277
+#: src/func.c:347
 msgid "Function implementation not available."
 msgstr ""
 
-#: src/func.c:490
+#: src/func.c:560
 msgid "Unknown Function"
 msgstr ""
 
-#: src/func.c:675
+#: src/func.c:745
 msgid "Boolean"
 msgstr "ബൂളിയന്"
 
-#: src/func.c:677
+#: src/func.c:747
 msgid "Cell Range"
 msgstr "അറ പരിധി"
 
-#: src/func.c:681
+#: src/func.c:751
 #, fuzzy
 msgid "Scalar or Blank"
 msgstr "അദിശം അല്ലെങ്കില്‌ തെറ്റ്"
 
-#: src/func.c:683
+#: src/func.c:753
 msgid "Scalar or Error"
 msgstr "അദിശം അല്ലെങ്കില്‌ തെറ്റ്"
 
-#: src/func.c:685
+#: src/func.c:755
 msgid "Scalar"
 msgstr "അദിശം"
 
-#: src/func.c:687
+#: src/func.c:757
 msgid "Any"
 msgstr "ഏതെങ്കിലും"
 
-#: src/func.c:1006
+#: src/func.c:1076
 msgid "Function does not exist"
 msgstr "പ്രവ‌ര്ത്തനം നിലവിലില്ല"
 
@@ -20580,7 +20580,7 @@ msgstr "പ്രവ‌ര്ത്തനം നിലവിലില്ല"
 msgid "Filled Object Properties"
 msgstr "‌പാളി ഗുണഗണങ്ങള്‌"
 
-#: src/gnm-so-line.c:148
+#: src/gnm-so-line.c:150
 #, fuzzy
 msgid "Line/Arrow Properties"
 msgstr "‌പാളി ഗുണഗണങ്ങള്‌"
@@ -20707,16 +20707,16 @@ msgid ""
 "yngnum."
 msgstr ""
 
-#: src/hlink.c:169
+#: src/hlink.c:170
 msgid "Link target"
 msgstr "കണ്ണി ലക്ഷ്യസ്ഥാനം"
 
-#: src/hlink.c:227
+#: src/hlink.c:224
 #, c-format
 msgid "Unable to activate the url '%s'"
 msgstr "url'%s' സജീവമാക്കാനാവുന്നില്ല"
 
-#: src/hlink.c:277
+#: src/hlink.c:274
 #, c-format
 msgid "Unable to open '%s'"
 msgstr "'%s' തുറക്കാനാകുന്നില്ല"
@@ -21006,119 +21006,119 @@ msgstr "സാധുതയില്ലാത്ത വ്യംജകം"
 msgid "Unexpected token %c"
 msgstr "%c അപ്രതീക്ഷിത ചിഹ്നം"
 
-#: src/plugin.c:352
+#: src/plugin.c:353
 #, c-format
 msgid "File contains plugin info with invalid id (%s), expected %s."
 msgstr ""
 
-#: src/plugin.c:356
+#: src/plugin.c:357
 msgid "Couldn't read plugin info from file."
 msgstr "രചനയില് നിന്ന് സംയോജനി വിവരങ്ങള് വായിക്കാന് കഴിയുന്നില്ല."
 
-#: src/plugin.c:465
+#: src/plugin.c:466
 msgid "Unknown name"
 msgstr "അറിയാത്ത പേ‌‌ര‌്"
 
-#: src/plugin.c:562
+#: src/plugin.c:563
 #, c-format
 msgid "Unsupported loader type \"%s\"."
 msgstr "പിന്തുണ‌യ‌്ക്കപ്പെടാത്ത ലോഡ‌ര് തരം \"%s\"."
 
-#: src/plugin.c:570
+#: src/plugin.c:571
 #, c-format
 msgid "Error while preparing loader \"%s\"."
 msgstr ""
 
-#: src/plugin.c:647
+#: src/plugin.c:648
 #, c-format
 msgid "Error while reading service #%d info."
 msgstr ""
 
-#: src/plugin.c:726
+#: src/plugin.c:727
 #, c-format
 msgid "Can't read plugin info file (\"%s\")."
 msgstr "(\"%s\") സംയോജിനി വിവരരചന വായിക്കാന് കഴിയുന്നില്ല."
 
-#: src/plugin.c:730
+#: src/plugin.c:731
 #, c-format
 msgid "File \"%s\" is not valid plugin info file."
 msgstr "രചന \"%s\" സാധുതയുള്ള ഒരു സംയോജിനി വിവരരചനയല്ല."
 
-#: src/plugin.c:816
+#: src/plugin.c:817
 #, c-format
 msgid "Errors while reading services for plugin with id=\"%s\"."
 msgstr ""
 
-#: src/plugin.c:821
+#: src/plugin.c:822
 #, c-format
 msgid "No services defined for plugin with id=\"%s\"."
 msgstr ""
 
-#: src/plugin.c:831
+#: src/plugin.c:832
 #, c-format
 msgid "Plugin id contains invalid characters (%s)."
 msgstr ""
 
-#: src/plugin.c:835
+#: src/plugin.c:836
 msgid "Unknown plugin name."
 msgstr "അറിയാത്ത സംയോജിനിനാമം"
 
-#: src/plugin.c:839
+#: src/plugin.c:840
 #, c-format
 msgid "No loader defined or loader id invalid for plugin with id=\"%s\"."
 msgstr ""
 
-#: src/plugin.c:845
+#: src/plugin.c:846
 msgid "Plugin has no id."
 msgstr ""
 
-#: src/plugin.c:888
+#: src/plugin.c:889
 #, c-format
 msgid "Error initializing plugin loader (\"%s\")."
 msgstr ""
 
-#: src/plugin.c:919 src/plugin.c:1076
+#: src/plugin.c:920 src/plugin.c:1077
 msgid "Detected cyclic plugin dependencies."
 msgstr ""
 
-#: src/plugin.c:943
+#: src/plugin.c:944
 #, c-format
 msgid "Couldn't activate plugin with id=\"%s\"."
 msgstr ""
 
-#: src/plugin.c:949 src/plugin.c:1122
+#: src/plugin.c:950 src/plugin.c:1123
 #, c-format
 msgid "Couldn't find plugin with id=\"%s\"."
 msgstr ""
 
-#: src/plugin.c:956
+#: src/plugin.c:957
 msgid "Error while activating plugin dependencies."
 msgstr ""
 
-#: src/plugin.c:970
+#: src/plugin.c:971
 #, c-format
 msgid "Error while activating plugin service #%d."
 msgstr ""
 
-#: src/plugin.c:1023
+#: src/plugin.c:1024
 #, c-format
 msgid "Error while deactivating plugin service #%d."
 msgstr ""
 
-#: src/plugin.c:1088 src/plugin.c:1109
+#: src/plugin.c:1089 src/plugin.c:1110
 msgid "Cannot load plugin loader."
 msgstr "സംയോജിനി ലോഡ‌ര് നിറയ‌്ക്കാന്‌ കഴിയുന്നില്ല"
 
-#: src/plugin.c:1116
+#: src/plugin.c:1117
 #, c-format
 msgid "Couldn't load plugin with id=\"%s\"."
 msgstr ""
 
-#: src/plugin.c:1129
+#: src/plugin.c:1130
 msgid "Error while loading plugin dependencies."
 msgstr ""
 
-#: src/plugin.c:1305
+#: src/plugin.c:1306
 #, c-format
 msgid "Errors occurred while reading plugin informations from file \"%s\"."
 msgstr ""
@@ -21355,7 +21355,7 @@ msgstr ""
 msgid "Print Region"
 msgstr ""
 
-#: src/print.c:1325 src/wbcg-actions.c:1515
+#: src/print.c:1325 src/wbcg-actions.c:1494
 msgid "Print preview"
 msgstr "അച്ചടി രൂപം മുന്‍കൂട്ടി കാണുക"
 
@@ -21568,12 +21568,12 @@ msgid "Column _Width..."
 msgstr ""
 
 #: src/sheet-control-gui.c:1547 src/sheet-control-gui.c:1555
-#: src/wbcg-actions.c:1725 src/wbcg-actions.c:1742
+#: src/wbcg-actions.c:1704 src/wbcg-actions.c:1721
 msgid "_Hide"
 msgstr "ഒളിയ്‍ക്കുക"
 
 #: src/sheet-control-gui.c:1549 src/sheet-control-gui.c:1557
-#: src/wbcg-actions.c:1728 src/wbcg-actions.c:1745
+#: src/wbcg-actions.c:1707 src/wbcg-actions.c:1724
 msgid "_Unhide"
 msgstr "വെളിവാക്കുക"
 
@@ -21636,7 +21636,7 @@ msgid "(Non Blanks...)"
 msgstr ""
 
 #. Format toolbar
-#: src/sheet-merge.c:73 src/wbcg-actions.c:1955
+#: src/sheet-merge.c:73 src/wbcg-actions.c:1934
 msgid "Merge"
 msgstr "കൂട്ടിച്ചേ‌ര്ക്കുക"
 
@@ -21703,11 +21703,11 @@ msgstr ""
 msgid "WMF (windows metafile)"
 msgstr ""
 
-#: src/sheet-object-widget.c:257 src/wbcg-actions.c:1914
+#: src/sheet-object-widget.c:257 src/wbcg-actions.c:1893
 msgid "Frame"
 msgstr "ചട്ടക്കൂട്"
 
-#: src/sheet-object-widget.c:496 src/wbcg-actions.c:1947
+#: src/sheet-object-widget.c:496 src/wbcg-actions.c:1926
 #: templates/autoformat/autoformat.3D.button.xml.in.h:2
 msgid "Button"
 msgstr "മൊട്ട്"
@@ -21717,7 +21717,7 @@ msgstr "മൊട്ട്"
 msgid "CheckBox %d"
 msgstr ""
 
-#: src/sheet-object-widget.c:1807 src/wbcg-actions.c:1950
+#: src/sheet-object-widget.c:1807 src/wbcg-actions.c:1929
 msgid "RadioButton"
 msgstr ""
 
@@ -22889,7 +22889,7 @@ msgstr ""
 msgid "#RECALC!"
 msgstr ""
 
-#: src/wbcg-actions.c:350
+#: src/wbcg-actions.c:347
 #, c-format
 msgid ""
 "In cell %s, the current contents\n"
@@ -22901,7 +22901,7 @@ msgid ""
 "The replace has been aborted and nothing has been changed."
 msgstr ""
 
-#: src/wbcg-actions.c:387
+#: src/wbcg-actions.c:384
 #, c-format
 msgid "Comment in cell %s!%s"
 msgstr ""
@@ -22910,942 +22910,942 @@ msgstr ""
 #. * selected region, (use selection_apply).  Arrays and Merged regions
 #. * are permitted.
 #.
-#: src/wbcg-actions.c:633
+#: src/wbcg-actions.c:630
 msgid "Insert rows"
 msgstr ""
 
-#: src/wbcg-actions.c:650
+#: src/wbcg-actions.c:647
 msgid "Insert columns"
 msgstr ""
 
-#: src/wbcg-actions.c:727
+#: src/wbcg-actions.c:724
 msgid "Add Filter"
 msgstr ""
 
-#: src/wbcg-actions.c:739
+#: src/wbcg-actions.c:736
 msgid "AutoFilter"
 msgstr ""
 
-#: src/wbcg-actions.c:739
+#: src/wbcg-actions.c:736
 msgid "Requires more than 1 row"
 msgstr ""
 
-#: src/wbcg-actions.c:766 src/wbcg-actions.c:785
+#: src/wbcg-actions.c:763 src/wbcg-actions.c:782
 msgid "Show Detail"
 msgstr ""
 
-#: src/wbcg-actions.c:766 src/wbcg-actions.c:785
+#: src/wbcg-actions.c:763 src/wbcg-actions.c:782
 msgid "Hide Detail"
 msgstr ""
 
-#: src/wbcg-actions.c:773
+#: src/wbcg-actions.c:770
 msgid "can only be performed on an existing group"
 msgstr ""
 
-#: src/wbcg-actions.c:813
+#: src/wbcg-actions.c:810
 msgid "Group"
 msgstr "കൂട്ടം"
 
-#: src/wbcg-actions.c:813
+#: src/wbcg-actions.c:810
 msgid "Ungroup"
 msgstr ""
 
-#: src/wbcg-actions.c:965
+#: src/wbcg-actions.c:944
 msgid "Sort"
 msgstr "ക്രമീകരിക്കുക"
 
-#: src/wbcg-actions.c:1085
+#: src/wbcg-actions.c:1064
 msgid "Set Horizontal Alignment"
 msgstr ""
 
-#: src/wbcg-actions.c:1119
+#: src/wbcg-actions.c:1098
 #, fuzzy
 msgid "Set Vertical Alignment"
 msgstr "ലംബ കിടപ്പ്"
 
-#: src/wbcg-actions.c:1208
+#: src/wbcg-actions.c:1187
 msgid "Set Font Style"
 msgstr ""
 
-#: src/wbcg-actions.c:1234
+#: src/wbcg-actions.c:1213
 msgid "Format as Number"
 msgstr "സംഖ്യയിലേക്ക് മാറ്റുക"
 
-#: src/wbcg-actions.c:1239
+#: src/wbcg-actions.c:1218
 msgid "Format as Currency"
 msgstr "നാണയത്തിലേക്ക് മാറ്റുക"
 
-#: src/wbcg-actions.c:1244
+#: src/wbcg-actions.c:1223
 #, fuzzy
 msgid "Format as Accounting"
 msgstr "ശാസ്ത്രീയതയിലേക്ക് മാറ്റുക"
 
-#: src/wbcg-actions.c:1250
+#: src/wbcg-actions.c:1229
 msgid "Format as Percentage"
 msgstr "ശതമാനത്തിലേക്ക് മാറ്റുക"
 
-#: src/wbcg-actions.c:1255
+#: src/wbcg-actions.c:1234
 msgid "Format as Scientific"
 msgstr "ശാസ്ത്രീയതയിലേക്ക് മാറ്റുക"
 
-#: src/wbcg-actions.c:1260
+#: src/wbcg-actions.c:1239
 msgid "Format as Date"
 msgstr "തിയതിയിലേക്ക് മാറ്റുക"
 
-#: src/wbcg-actions.c:1265
+#: src/wbcg-actions.c:1244
 msgid "Format as Time"
 msgstr "സമയത്തിലേക്ക് മാറ്റുക"
 
-#: src/wbcg-actions.c:1289
+#: src/wbcg-actions.c:1268
 msgid "Add Borders"
 msgstr ""
 
-#: src/wbcg-actions.c:1289
+#: src/wbcg-actions.c:1268
 msgid "Remove borders"
 msgstr ""
 
-#: src/wbcg-actions.c:1318
+#: src/wbcg-actions.c:1297
 msgid "Increase precision"
 msgstr ""
 
-#: src/wbcg-actions.c:1320
+#: src/wbcg-actions.c:1299
 msgid "Decrease precision"
 msgstr ""
 
-#: src/wbcg-actions.c:1322
+#: src/wbcg-actions.c:1301
 msgid "Toggle thousands separator"
 msgstr ""
 
-#: src/wbcg-actions.c:1342
+#: src/wbcg-actions.c:1321
 msgid "Increase Indent"
 msgstr "വിടവ് കൂട്ടുക"
 
-#: src/wbcg-actions.c:1362
+#: src/wbcg-actions.c:1341
 msgid "Decrease Indent"
 msgstr "വിടവ് കുറയ‌്ക്കുക"
 
-#: src/wbcg-actions.c:1369
+#: src/wbcg-actions.c:1348
 #, fuzzy
 msgid "Copy down"
 msgstr "പക‍ര്പ്പ്"
 
-#: src/wbcg-actions.c:1375
+#: src/wbcg-actions.c:1354
 #, fuzzy
 msgid "Copy right"
 msgstr "നിര ക്രമീകരണം"
 
 #. Actions that are always sensitive
 #. const 142334
-#: src/wbcg-actions.c:1432
+#: src/wbcg-actions.c:1411
 msgid "_File"
 msgstr "ശേഖരം"
 
-#: src/wbcg-actions.c:1433
+#: src/wbcg-actions.c:1412
 msgid "_Edit"
 msgstr "ചിട്ട"
 
-#: src/wbcg-actions.c:1434
+#: src/wbcg-actions.c:1413
 msgid "C_lear"
 msgstr "വാക്യം മായ്‍ക്കുക"
 
-#: src/wbcg-actions.c:1436
+#: src/wbcg-actions.c:1415
 msgid "S_heet"
 msgstr "പത്രിക"
 
-#: src/wbcg-actions.c:1437
+#: src/wbcg-actions.c:1416
 msgid "_Select"
 msgstr "തെരഞ്ഞെടുക്കുക"
 
-#: src/wbcg-actions.c:1438
+#: src/wbcg-actions.c:1417
 #, fuzzy
 msgid "F_ill"
 msgstr "നിറയ്‍ക്കുക"
 
-#: src/wbcg-actions.c:1439
+#: src/wbcg-actions.c:1418
 msgid "_View"
 msgstr "കാഴ്ച"
 
-#: src/wbcg-actions.c:1440
+#: src/wbcg-actions.c:1419
 #, fuzzy
 msgid "_Windows"
 msgstr "അദൃശ്യമായ വരികള്‌"
 
-#: src/wbcg-actions.c:1441
+#: src/wbcg-actions.c:1420
 #, fuzzy
 msgid "_Toolbars"
 msgstr "ഉപകരണപ്പട്ടകള്..."
 
-#: src/wbcg-actions.c:1443
+#: src/wbcg-actions.c:1422
 #, fuzzy
 msgid "_Names"
 msgstr "പേര‍്"
 
-#: src/wbcg-actions.c:1444
+#: src/wbcg-actions.c:1423
 msgid "S_pecial"
 msgstr "സവിശേഷം"
 
-#: src/wbcg-actions.c:1445
+#: src/wbcg-actions.c:1424
 msgid "F_ormat"
 msgstr "ക്രമീകരണം"
 
-#: src/wbcg-actions.c:1446
+#: src/wbcg-actions.c:1425
 msgid "C_olumn"
 msgstr "നിര"
 
 #. ICK A DUPLICATE : we have no way to override a label on one proxy
-#: src/wbcg-actions.c:1448 src/wbcg-actions.c:1604
+#: src/wbcg-actions.c:1427 src/wbcg-actions.c:1583
 msgid "_Sheet"
 msgstr "പത്രിക"
 
-#: src/wbcg-actions.c:1449
+#: src/wbcg-actions.c:1428
 msgid "_Tools"
 msgstr "ഉപകരണങ്ങള്"
 
-#: src/wbcg-actions.c:1450
+#: src/wbcg-actions.c:1429
 msgid "Sce_narios"
 msgstr ""
 
-#: src/wbcg-actions.c:1451
+#: src/wbcg-actions.c:1430
 msgid "Statistical Anal_ysis"
 msgstr "സ്ഥിതിവിവര വിശകലനം"
 
-#: src/wbcg-actions.c:1452
+#: src/wbcg-actions.c:1431
 msgid "_ANOVA"
 msgstr "_ANOVA"
 
-#: src/wbcg-actions.c:1453
+#: src/wbcg-actions.c:1432
 #, fuzzy
 msgid "F_orecast"
 msgstr "പ്രവചനം"
 
-#: src/wbcg-actions.c:1454
+#: src/wbcg-actions.c:1433
 msgid "Two _Means"
 msgstr "രണ്ട് മാ‌ര്ഗ്ഗങ്ങള്‌"
 
-#: src/wbcg-actions.c:1456
+#: src/wbcg-actions.c:1435
 msgid "_Filter"
 msgstr "അരിപ്പ"
 
-#: src/wbcg-actions.c:1457
+#: src/wbcg-actions.c:1436
 msgid "_Group and Outline"
 msgstr ""
 
-#: src/wbcg-actions.c:1458
+#: src/wbcg-actions.c:1437
 msgid "Get _External Data"
 msgstr "ബാഹ്യ വസ്തുത ലഭ്യമാക്കുക"
 
-#: src/wbcg-actions.c:1459
+#: src/wbcg-actions.c:1438
 msgid "_Help"
 msgstr "സഹായം"
 
-#: src/wbcg-actions.c:1462
+#: src/wbcg-actions.c:1441
 msgid "Cut the selection"
 msgstr "തെരഞ്ഞെടുത്തവ മുറിക്കുക"
 
-#: src/wbcg-actions.c:1465
+#: src/wbcg-actions.c:1444
 msgid "Copy the selection"
 msgstr "തെരഞ്ഞെടുത്തവ പക‍ര്ത്തുക"
 
-#: src/wbcg-actions.c:1468
+#: src/wbcg-actions.c:1447
 msgid "Paste the clipboard"
 msgstr "മുറിച്ചവ/പക‍‍ര്ത്തിയവ ഒട്ടിക്കുക"
 
-#: src/wbcg-actions.c:1471 src/wbcg-actions.c:1543
+#: src/wbcg-actions.c:1450 src/wbcg-actions.c:1522
 msgid "_Contents"
 msgstr "ഉള്ളടക്കം"
 
-#: src/wbcg-actions.c:1472
+#: src/wbcg-actions.c:1451
 msgid "Open a viewer for Gnumeric's documentation"
 msgstr ""
 
-#: src/wbcg-actions.c:1474
+#: src/wbcg-actions.c:1453
 #, fuzzy
 msgid "Gnumeric on the _Web"
 msgstr "ജിന്യ‌ൂമറിക് പ്രാരംഭതാള്"
 
-#: src/wbcg-actions.c:1475
+#: src/wbcg-actions.c:1454
 msgid "Browse to Gnumeric's website"
 msgstr ""
 
-#: src/wbcg-actions.c:1477
+#: src/wbcg-actions.c:1456
 msgid "_Live Assistance"
 msgstr ""
 
-#: src/wbcg-actions.c:1478
+#: src/wbcg-actions.c:1457
 msgid "See if anyone is available to answer questions"
 msgstr ""
 
-#: src/wbcg-actions.c:1480
+#: src/wbcg-actions.c:1459
 msgid "Report a _Problem"
 msgstr ""
 
-#: src/wbcg-actions.c:1481
+#: src/wbcg-actions.c:1460
 msgid "Report problem "
 msgstr ""
 
-#: src/wbcg-actions.c:1483
+#: src/wbcg-actions.c:1462
 msgid "_About"
 msgstr "കുറിപ്പ്"
 
-#: src/wbcg-actions.c:1484
+#: src/wbcg-actions.c:1463
 msgid "About this application"
 msgstr "ഈ പ്രയോഗത്തെക്കുറിച്ച്"
 
 #. Special.  The sensitivity is chained to redo we do not want to
 #. * toggle it directly so we put it in here
-#: src/wbcg-actions.c:1489
+#: src/wbcg-actions.c:1468
 #, fuzzy
 msgid "Repeat"
 msgstr "അറിയിക്കല്:"
 
-#: src/wbcg-actions.c:1490
+#: src/wbcg-actions.c:1469
 #, fuzzy
 msgid "Repeat the previous action"
 msgstr "മുന്പ് ഒഴിവാക്കിയ പ്രവ‍ര്ത്തി വീണ്ടും ചെയ്യ‍ുക"
 
-#: src/wbcg-actions.c:1497
+#: src/wbcg-actions.c:1476
 msgid "Create a new workbook"
 msgstr "ഒരു പുതിയ പ്രവൃത്തി പുസ്തകം സൃഷ്ടിക്കുക"
 
-#: src/wbcg-actions.c:1500
+#: src/wbcg-actions.c:1479
 msgid "Open a file"
 msgstr "ഒരു രചന തുറക്കുക"
 
-#: src/wbcg-actions.c:1503
+#: src/wbcg-actions.c:1482
 msgid "Save the current workbook"
 msgstr "ഇപ്പോഴത്തെ പ്രവ‌‌ര്ത്തിപുസ്തകം സംരക്ഷിക്കുക"
 
-#: src/wbcg-actions.c:1506
+#: src/wbcg-actions.c:1485
 msgid "Save the current workbook with a different name"
 msgstr ""
 
-#: src/wbcg-actions.c:1508
+#: src/wbcg-actions.c:1487
 #, fuzzy
 msgid "Sen_d To..."
 msgstr "പോകുക..."
 
-#: src/wbcg-actions.c:1509
+#: src/wbcg-actions.c:1488
 #, fuzzy
 msgid "Send the current file via email"
 msgstr "ഇപ്പോഴത്തെ രചന അച്ചടിക്കുക"
 
-#: src/wbcg-actions.c:1511
+#: src/wbcg-actions.c:1490
 msgid "Page Set_up..."
 msgstr "താള് സജ്ജീകരണം"
 
-#: src/wbcg-actions.c:1512
+#: src/wbcg-actions.c:1491
 msgid "Setup the page settings for your current printer"
 msgstr "നിലവിലുള്ള അച്ചടിയന്ത്രത്തിന് വേണ്ടി താളിന്റെ ക്രമീകരണം സജ്ജീകരിക്കുക"
 
-#: src/wbcg-actions.c:1518
+#: src/wbcg-actions.c:1497
 msgid "Print the current file"
 msgstr "ഇപ്പോഴത്തെ രചന അച്ചടിക്കുക"
 
-#: src/wbcg-actions.c:1520
+#: src/wbcg-actions.c:1499
 msgid "Proper_ties..."
 msgstr "ഗുണഗണങ്ങള്‌...‌"
 
-#: src/wbcg-actions.c:1521
+#: src/wbcg-actions.c:1500
 msgid "Edit descriptive information"
 msgstr "വിശദവിവരങ്ങള് ചിട്ടപ്പെടുത്തുക"
 
-#: src/wbcg-actions.c:1523
+#: src/wbcg-actions.c:1502
 #, fuzzy
 msgid "Pre_ferences..."
 msgstr "മുന്ഗണനകള്..."
 
-#: src/wbcg-actions.c:1524
+#: src/wbcg-actions.c:1503
 msgid "Change Gnumeric Preferences"
 msgstr "ജിന്യൂമറിക് മുന്ഗണനകള് മാറ്റുക"
 
-#: src/wbcg-actions.c:1527
+#: src/wbcg-actions.c:1506
 msgid "Close the current file"
 msgstr "സജീവ രചന അടയ്‍ക്കുക"
 
-#: src/wbcg-actions.c:1530
+#: src/wbcg-actions.c:1509
 msgid "Quit the application"
 msgstr "ഈ പ്രയോഗത്തിന്റെ പ്രവ‍ര്ത്തനം നിര്ത്തുക"
 
-#: src/wbcg-actions.c:1535
+#: src/wbcg-actions.c:1514
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr ""
 
-#: src/wbcg-actions.c:1538
+#: src/wbcg-actions.c:1517
 msgid "Clear the selected cells' formats"
 msgstr "തെരഞ്ഞെടുത്തവ കള്ളികളുടെ ക്രമീകരണം മായ്‍ക്കുക"
 
-#: src/wbcg-actions.c:1541
+#: src/wbcg-actions.c:1520
 msgid "Clear the selected cells' comments"
 msgstr "തെരഞ്ഞെടുത്തവ കള്ളികളുടെ വിവരണം മായ്‍ക്കുക"
 
-#: src/wbcg-actions.c:1544
+#: src/wbcg-actions.c:1523
 msgid "Clear the selected cells' contents"
 msgstr "തെരഞ്ഞെടുത്തവ കള്ളികളുടെ ഉള്ളടക്കം മായ്‍ക്കുക"
 
-#: src/wbcg-actions.c:1549
+#: src/wbcg-actions.c:1528
 #, fuzzy
 msgid "Delete the row(s) containing the selected cells"
 msgstr "തെരഞ്ഞെടുത്ത കള്ളികളില് ഇപ്പോഴത്തെ സമയം ചേ‌ര്ക്കുക"
 
-#: src/wbcg-actions.c:1552
+#: src/wbcg-actions.c:1531
 #, fuzzy
 msgid "Delete the column(s) containing the selected cells"
 msgstr "തെരഞ്ഞെടുത്ത കള്ളികളില് ഇപ്പോഴത്തെ സമയം ചേ‌ര്ക്കുക"
 
 #. Insert
-#: src/wbcg-actions.c:1554 src/wbcg-actions.c:1661
+#: src/wbcg-actions.c:1533 src/wbcg-actions.c:1640
 msgid "C_ells..."
 msgstr "കള്ളികള്‌..."
 
-#: src/wbcg-actions.c:1555
+#: src/wbcg-actions.c:1534
 msgid "Delete the selected cells, shifting others into their place"
 msgstr ""
 
-#: src/wbcg-actions.c:1561
+#: src/wbcg-actions.c:1540
 msgid "Select all cells in the spreadsheet"
 msgstr "വിസ്തൃതപത്രികയിലുള്ള എല്ലാ കള്ളികളും തെരയൂ"
 
-#: src/wbcg-actions.c:1563
+#: src/wbcg-actions.c:1542
 msgid "Select _Column"
 msgstr "നിര പരതൂ"
 
-#: src/wbcg-actions.c:1564
+#: src/wbcg-actions.c:1543
 msgid "Select an entire column"
 msgstr "മുഴുവന്‌ നിരകളും തെരഞ്ഞെടുക്കുക"
 
-#: src/wbcg-actions.c:1566
+#: src/wbcg-actions.c:1545
 msgid "Select _Row"
 msgstr "വരി തെരഞ്ഞെടുക്കുക"
 
-#: src/wbcg-actions.c:1567
+#: src/wbcg-actions.c:1546
 msgid "Select an entire row"
 msgstr "മുഴുവന് വരിയും തെരഞ്ഞെടുക്കുക"
 
-#: src/wbcg-actions.c:1569
+#: src/wbcg-actions.c:1548
 msgid "Select Arra_y"
 msgstr "ശ്രേണി തെരഞ്ഞെടുക്കുക"
 
-#: src/wbcg-actions.c:1570
+#: src/wbcg-actions.c:1549
 msgid "Select an array of cells"
 msgstr "കള്ളിയിലെ ഒരു ശ്രേണി തെരഞ്ഞെടുക്കൂ"
 
-#: src/wbcg-actions.c:1572
+#: src/wbcg-actions.c:1551
 msgid "Select _Depends"
 msgstr ""
 
-#: src/wbcg-actions.c:1573
+#: src/wbcg-actions.c:1552
 msgid "Select all the cells that depend on the current edit cell"
 msgstr ""
 
-#: src/wbcg-actions.c:1575
+#: src/wbcg-actions.c:1554
 #, fuzzy
 msgid "Select _Inputs"
 msgstr "നിര പരതൂ"
 
-#: src/wbcg-actions.c:1576
+#: src/wbcg-actions.c:1555
 msgid "Select all the cells are used by the current edit cell"
 msgstr ""
 
 #. Edit -> Fill
-#: src/wbcg-actions.c:1580
+#: src/wbcg-actions.c:1559
 msgid "Auto_fill"
 msgstr "സ്വയംപൂരകം"
 
-#: src/wbcg-actions.c:1581
+#: src/wbcg-actions.c:1560
 msgid "Automatically fill the current selection"
 msgstr "നിലവില്‌ തെരഞ്ഞെടുത്തത് സ്വയം നിറയ്‌ക്കുക"
 
-#: src/wbcg-actions.c:1583
+#: src/wbcg-actions.c:1562
 msgid "_Merge..."
 msgstr ""
 
-#: src/wbcg-actions.c:1584
+#: src/wbcg-actions.c:1563
 msgid ""
 "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr ""
 
-#: src/wbcg-actions.c:1586
+#: src/wbcg-actions.c:1565
 msgid "_Tabulate Dependency..."
 msgstr "ആശ്രിതത്വത്തിന്റെ പട്ടികയുണ്ടാക്കുക..."
 
-#: src/wbcg-actions.c:1587
+#: src/wbcg-actions.c:1566
 msgid "Make a table of a cell's value as a function of other cells"
 msgstr ""
 
-#: src/wbcg-actions.c:1589
+#: src/wbcg-actions.c:1568
 msgid "_Series..."
 msgstr ""
 
-#: src/wbcg-actions.c:1590
+#: src/wbcg-actions.c:1569
 msgid "Fill according to a linear or exponential series"
 msgstr ""
 
-#: src/wbcg-actions.c:1592
+#: src/wbcg-actions.c:1571
 msgid "_Random Generator..."
 msgstr ""
 
-#: src/wbcg-actions.c:1593
+#: src/wbcg-actions.c:1572
 msgid "Generate random numbers of a selection of distributions"
 msgstr ""
 
 #. Edit -> Sheet
-#: src/wbcg-actions.c:1597
+#: src/wbcg-actions.c:1576
 msgid "_Manage Sheets..."
 msgstr ""
 
-#: src/wbcg-actions.c:1598
+#: src/wbcg-actions.c:1577
 msgid "Manage the sheets in this workbook"
 msgstr ""
 
-#: src/wbcg-actions.c:1601 src/wbcg-actions.c:1605
+#: src/wbcg-actions.c:1580 src/wbcg-actions.c:1584
 msgid "Insert a new sheet"
 msgstr "ഒരു പുതിയ പത്രിക കൂട്ടിച്ചേ‌ര്ക്കുക"
 
-#: src/wbcg-actions.c:1607
+#: src/wbcg-actions.c:1586
 #, fuzzy
 msgid "_Append"
 msgstr "ഉം"
 
-#: src/wbcg-actions.c:1608
+#: src/wbcg-actions.c:1587
 #, fuzzy
 msgid "Append a new sheet"
 msgstr "ഒരു പുതിയ പത്രിക കൂട്ടിച്ചേ‌ര്ക്കുക"
 
-#: src/wbcg-actions.c:1611
+#: src/wbcg-actions.c:1590
 msgid "Make a copy of the current sheet"
 msgstr "ഇപ്പോഴത്തെ പത്രികയുടെ പക‌ര്പ്പ് ഉണ്ടാക്കുക"
 
-#: src/wbcg-actions.c:1614
+#: src/wbcg-actions.c:1593
 msgid "Irrevocably remove an entire sheet"
 msgstr ""
 
-#: src/wbcg-actions.c:1616
+#: src/wbcg-actions.c:1595
 #, fuzzy
 msgid "Re_name"
 msgstr "പേര‍് മാറ്റുക..."
 
-#: src/wbcg-actions.c:1617
+#: src/wbcg-actions.c:1596
 msgid "Rename the current sheet"
 msgstr "നിലവിലുള്ള പത്രികയുടെ പേര‌് മാറ്റുക"
 
 #. Edit
-#: src/wbcg-actions.c:1621
+#: src/wbcg-actions.c:1600
 msgid "P_aste special..."
 msgstr ""
 
-#: src/wbcg-actions.c:1622
+#: src/wbcg-actions.c:1601
 msgid "Paste with optional filters and transformations"
 msgstr ""
 
-#: src/wbcg-actions.c:1625
+#: src/wbcg-actions.c:1604
 #, fuzzy
 msgid "Co_mment..."
 msgstr "വിവരണം"
 
-#: src/wbcg-actions.c:1626
+#: src/wbcg-actions.c:1605
 msgid "Edit the selected cell's comment"
 msgstr "തെരഞ്ഞെടുക്കപ്പെട്ട കള്ളികളുടെ വിവരണം ചിട്ടപ്പെടുത്തുക"
 
-#: src/wbcg-actions.c:1629
+#: src/wbcg-actions.c:1608
 #, fuzzy
 msgid "_Find..."
 msgstr "വീതി..."
 
-#: src/wbcg-actions.c:1630
+#: src/wbcg-actions.c:1609
 #, fuzzy
 msgid "Search for something"
 msgstr "ചില വാക്യങ്ങള്‌ക്കു വേണ്ടി തെരയുക"
 
-#: src/wbcg-actions.c:1632
+#: src/wbcg-actions.c:1611
 #, fuzzy
 msgid "R_eplace..."
 msgstr "മാറ്റുക"
 
-#: src/wbcg-actions.c:1633
+#: src/wbcg-actions.c:1612
 msgid "Search for some something and replace it with something else"
 msgstr ""
 
-#: src/wbcg-actions.c:1635
+#: src/wbcg-actions.c:1614
 msgid "_Goto cell..."
 msgstr "കള്ളിയിലേക്ക് പോകുക..."
 
-#: src/wbcg-actions.c:1636
+#: src/wbcg-actions.c:1615
 msgid "Jump to a specified cell"
 msgstr "നിശ്ചിത കള്ളിയിലേക്ക് ചാടുക"
 
-#: src/wbcg-actions.c:1639
+#: src/wbcg-actions.c:1618
 msgid "Recalculate"
 msgstr "വീണ്ടും കണക്ക് കൂട്ടുക"
 
-#: src/wbcg-actions.c:1640
+#: src/wbcg-actions.c:1619
 msgid "Recalculate the spreadsheet"
 msgstr "വിസ്തൃതപത്രിക വീണ്ടും കണക്കാക്കുക"
 
 #. View
-#: src/wbcg-actions.c:1644
+#: src/wbcg-actions.c:1623
 msgid "_New View..."
 msgstr ""
 
-#: src/wbcg-actions.c:1645
+#: src/wbcg-actions.c:1624
 msgid "Create a new view of the workbook"
 msgstr ""
 
-#: src/wbcg-actions.c:1647 src/workbook-control-gui.c:1023
+#: src/wbcg-actions.c:1626 src/workbook-control-gui.c:1023
 msgid "_Freeze Panes"
 msgstr ""
 
-#: src/wbcg-actions.c:1648 src/workbook-control-gui.c:1026
+#: src/wbcg-actions.c:1627 src/workbook-control-gui.c:1026
 msgid "Freeze the top left of the sheet"
 msgstr ""
 
-#: src/wbcg-actions.c:1650
+#: src/wbcg-actions.c:1629
 msgid "_Zoom..."
 msgstr "വലുതാക്കുക..."
 
-#: src/wbcg-actions.c:1651
+#: src/wbcg-actions.c:1630
 msgid "Zoom the spreadsheet in or out"
 msgstr "വിസ്തൃതപത്രികയുടെ വലിപ്പം കൂട്ടുകയോ കുറയ്‍ക്കുകയോ ചെയയ്ുക"
 
-#: src/wbcg-actions.c:1653
+#: src/wbcg-actions.c:1632
 #, fuzzy
 msgid "Zoom _In"
 msgstr "വലുതാക്കുക"
 
-#: src/wbcg-actions.c:1654
+#: src/wbcg-actions.c:1633
 #, fuzzy
 msgid "Increase the zoom to make things larger"
 msgstr "പ്രദ‌ര്ശിപ്പിച്ചിട്ടുള്ള ദശാംശസംഖ്യകളുടെ എണ്ണം കൂട്ടുക"
 
-#: src/wbcg-actions.c:1656
+#: src/wbcg-actions.c:1635
 #, fuzzy
 msgid "Zoom _Out"
 msgstr "വലുതാക്കുക"
 
-#: src/wbcg-actions.c:1657
+#: src/wbcg-actions.c:1636
 msgid "Decrease the zoom to make things smaller"
 msgstr ""
 
-#: src/wbcg-actions.c:1662
+#: src/wbcg-actions.c:1641
 msgid "Insert new cells"
 msgstr "പുതിയ കള്ളികള്‌ കൂട്ടിച്ചേ‌ര്ക്കുക"
 
-#: src/wbcg-actions.c:1665
+#: src/wbcg-actions.c:1644
 msgid "Insert new columns"
 msgstr "പുതിയ നിരകള്‌ കൂട്ടിച്ചേ‌ര്ക്കുക"
 
-#: src/wbcg-actions.c:1668
+#: src/wbcg-actions.c:1647
 msgid "Insert new rows"
 msgstr "പുതിയ വരികള് കൂട്ടിച്ചേ‌ര്ക്കുക"
 
-#: src/wbcg-actions.c:1671
+#: src/wbcg-actions.c:1650
 msgid "C_hart..."
 msgstr ""
 
-#: src/wbcg-actions.c:1672
+#: src/wbcg-actions.c:1651
 #, fuzzy
 msgid "Insert a Chart"
 msgstr "ചിത്രം ചേ‌ര്ക്കുക"
 
-#: src/wbcg-actions.c:1674
+#: src/wbcg-actions.c:1653
 msgid "_Image..."
 msgstr "ചിത്രം..."
 
-#: src/wbcg-actions.c:1675
+#: src/wbcg-actions.c:1654
 msgid "Insert an image"
 msgstr "ചിത്രം ചേ‌ര്ക്കുക"
 
-#: src/wbcg-actions.c:1678
+#: src/wbcg-actions.c:1657
 msgid "Hyper_link..."
 msgstr "ഹൈപ്പ‌ര്ലിംഗ്..."
 
-#: src/wbcg-actions.c:1679
+#: src/wbcg-actions.c:1658
 msgid "Insert a Hyperlink"
 msgstr "ഹൈപ്പ‌ര്ലിംഗ് കൂട്ടിച്ചേ‌ര്ക്കുക"
 
 #. Insert -> Special
-#: src/wbcg-actions.c:1682
+#: src/wbcg-actions.c:1661
 msgid "Current _date"
 msgstr "ഇപ്പോഴത്തെ തീയതി"
 
-#: src/wbcg-actions.c:1683
+#: src/wbcg-actions.c:1662
 msgid "Insert the current date into the selected cell(s)"
 msgstr "തെരഞ്ഞെടുത്ത കള്ളികളില് ഇപ്പോഴത്തെ തീയതി ചേ‌ര്ക്കുക"
 
-#: src/wbcg-actions.c:1686
+#: src/wbcg-actions.c:1665
 msgid "Current _time"
 msgstr "ഇപ്പോഴത്തെ സമയം"
 
-#: src/wbcg-actions.c:1687
+#: src/wbcg-actions.c:1666
 msgid "Insert the current time into the selected cell(s)"
 msgstr "തെരഞ്ഞെടുത്ത കള്ളികളില് ഇപ്പോഴത്തെ സമയം ചേ‌ര്ക്കുക"
 
-#: src/wbcg-actions.c:1690
+#: src/wbcg-actions.c:1669
 #, fuzzy
 msgid "Current d_ate and time"
 msgstr "ഇപ്പോഴത്തെ സമയം"
 
-#: src/wbcg-actions.c:1691
+#: src/wbcg-actions.c:1670
 #, fuzzy
 msgid "Insert the current date and time into the selected cell(s)"
 msgstr "തെരഞ്ഞെടുത്ത കള്ളികളില് ഇപ്പോഴത്തെ സമയം ചേ‌ര്ക്കുക"
 
 #. Insert -> Name
-#: src/wbcg-actions.c:1695
+#: src/wbcg-actions.c:1674
 msgid "_Define..."
 msgstr "വിശദീകരിക്കുക..."
 
-#: src/wbcg-actions.c:1696
+#: src/wbcg-actions.c:1675
 msgid "Edit sheet and workbook names"
 msgstr "പത്രികയുടേയും പ്രവ‌‌ര്ത്തിപുസ്തകത്തിന്റെയും പേ‌‌ര‌് ചിട്ടപ്പെടുത്തുക"
 
-#: src/wbcg-actions.c:1699
+#: src/wbcg-actions.c:1678
 msgid "_Auto generate names..."
 msgstr ""
 
-#: src/wbcg-actions.c:1700
+#: src/wbcg-actions.c:1679
 msgid "Use the current selection to create names"
 msgstr ""
 
 #. Format
-#: src/wbcg-actions.c:1705
+#: src/wbcg-actions.c:1684
 msgid "_Cells..."
 msgstr "കള്ളികള്‌..."
 
-#: src/wbcg-actions.c:1706
+#: src/wbcg-actions.c:1685
 msgid "Modify the formatting of the selected cells"
 msgstr "തെരഞ്ഞെടുത്ത കള്ളികളുടെ ‌ക്രമീകരണങ്ങള് വ്യതിയാനം വരുത്തുക"
 
-#: src/wbcg-actions.c:1708
+#: src/wbcg-actions.c:1687
 msgid "_Workbook..."
 msgstr "പ്രവ‌ൃത്തിപുസ്തകം..."
 
-#: src/wbcg-actions.c:1709
+#: src/wbcg-actions.c:1688
 msgid "Modify the workbook attributes"
 msgstr "പ്രവ‌‌ര്ത്തിപുസ്തകത്തിന്റെ വിവരഘടകങ്ങള് വ്യതിയാനം വരുത്തുക"
 
-#: src/wbcg-actions.c:1711
+#: src/wbcg-actions.c:1690
 msgid "_Gnumeric..."
 msgstr "ജിന്യ‌ൂമറിക്..."
 
-#: src/wbcg-actions.c:1712
+#: src/wbcg-actions.c:1691
 msgid "Edit the Gnumeric Preferences"
 msgstr "ജിന്യ‌ൂമറിക്‌ താല്‌പര്യങ്ങള്‌ ചിട്ടപ്പെടുത്തുക"
 
-#: src/wbcg-actions.c:1714
+#: src/wbcg-actions.c:1693
 msgid "_Autoformat..."
 msgstr "സ്വയം ക്രമീകരണം..."
 
-#: src/wbcg-actions.c:1715
+#: src/wbcg-actions.c:1694
 msgid "Format a region of cells according to a pre-defined template"
 msgstr ""
 
 #. Format -> Col
-#: src/wbcg-actions.c:1719
+#: src/wbcg-actions.c:1698
 msgid "_Width..."
 msgstr "വീതി..."
 
-#: src/wbcg-actions.c:1720
+#: src/wbcg-actions.c:1699
 msgid "Change width of the selected columns"
 msgstr "തെരഞ്ഞെടുത്ത നിരകളുടെ വീതി മാറ്റുക"
 
-#: src/wbcg-actions.c:1722 src/wbcg-actions.c:1739
+#: src/wbcg-actions.c:1701 src/wbcg-actions.c:1718
 msgid "_Auto fit selection"
 msgstr "തെരഞ്ഞെടുത്തവ മുറിക്കുക"
 
-#: src/wbcg-actions.c:1723
+#: src/wbcg-actions.c:1702
 msgid "Ensure columns are just wide enough to display content"
 msgstr ""
 
-#: src/wbcg-actions.c:1726
+#: src/wbcg-actions.c:1705
 msgid "Hide the selected columns"
 msgstr "തെരഞ്ഞെടുത്ത നിരകള്‌ ഒളിപ്പിക്കുക"
 
-#: src/wbcg-actions.c:1729
+#: src/wbcg-actions.c:1708
 msgid "Make any hidden columns in the selection visible"
 msgstr ""
 
-#: src/wbcg-actions.c:1731
+#: src/wbcg-actions.c:1710
 msgid "_Standard Width"
 msgstr "പ്രാമാണിക വീതി"
 
-#: src/wbcg-actions.c:1732
+#: src/wbcg-actions.c:1711
 msgid "Change the default column width"
 msgstr "നിരകളുടെ സ്വതേയുള്ള വീതി മാറ്റുക"
 
 #. Format -> Row
-#: src/wbcg-actions.c:1736
+#: src/wbcg-actions.c:1715
 msgid "H_eight..."
 msgstr "ഉയരം..."
 
-#: src/wbcg-actions.c:1737
+#: src/wbcg-actions.c:1716
 msgid "Change height of the selected rows"
 msgstr "തെരഞ്ഞെടുത്ത വരികളുടെ ഉയരം മാറ്റുക"
 
-#: src/wbcg-actions.c:1740
+#: src/wbcg-actions.c:1719
 msgid "Ensure rows are just tall enough to display content"
 msgstr ""
 
-#: src/wbcg-actions.c:1743
+#: src/wbcg-actions.c:1722
 msgid "Hide the selected rows"
 msgstr "തെരഞ്ഞെടുത്ത വരികള്‌ ഒളിപ്പിക്കുക"
 
-#: src/wbcg-actions.c:1746
+#: src/wbcg-actions.c:1725
 msgid "Make any hidden rows in the selection visible"
 msgstr ""
 
-#: src/wbcg-actions.c:1748
+#: src/wbcg-actions.c:1727
 msgid "_Standard Height"
 msgstr "പ്രാമാണിക ഉയരം"
 
-#: src/wbcg-actions.c:1749
+#: src/wbcg-actions.c:1728
 msgid "Change the default row height"
 msgstr "വരികളുടെ സ്വതേയുള്ള ഉയരം മാറ്റുക"
 
 #. Tools
-#: src/wbcg-actions.c:1753
+#: src/wbcg-actions.c:1732
 msgid "_Plug-ins..."
 msgstr "സംയോജകങ്ങള്...‌"
 
-#: src/wbcg-actions.c:1754
+#: src/wbcg-actions.c:1733
 msgid "Manage available plugin modules"
 msgstr ""
 
-#: src/wbcg-actions.c:1756
+#: src/wbcg-actions.c:1735
 msgid "Auto _Correct..."
 msgstr "സ്വയം തിരുത്ത്..."
 
-#: src/wbcg-actions.c:1757
+#: src/wbcg-actions.c:1736
 msgid "Automatically perform simple spell checking"
 msgstr "ലളിതമായ അക്ഷരപരിശോധന സ്വയം നടത്തുക"
 
-#: src/wbcg-actions.c:1759
+#: src/wbcg-actions.c:1738
 msgid "_Auto Save..."
 msgstr "സ്വയം സംരംക്ഷണം..."
 
-#: src/wbcg-actions.c:1760
+#: src/wbcg-actions.c:1739
 msgid "Automatically save the current document at regular intervals"
 msgstr ""
 
-#: src/wbcg-actions.c:1762
+#: src/wbcg-actions.c:1741
 msgid "_Goal Seek..."
 msgstr "ഗോള്‌ സീക്ക്..."
 
-#: src/wbcg-actions.c:1763
+#: src/wbcg-actions.c:1742
 msgid "Iteratively recalculate to find a target value"
 msgstr ""
 
-#: src/wbcg-actions.c:1765
+#: src/wbcg-actions.c:1744
 msgid "_Solver..."
 msgstr ""
 
-#: src/wbcg-actions.c:1766
+#: src/wbcg-actions.c:1745
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr ""
 
-#: src/wbcg-actions.c:1768
+#: src/wbcg-actions.c:1747
 #, fuzzy
 msgid "Si_mulation..."
 msgstr "അനുകരണം:"
 
-#: src/wbcg-actions.c:1769
+#: src/wbcg-actions.c:1748
 msgid ""
 "Test decision alternatives by using Monte Carlo simulation to find out "
 "probable outputs and risks related to them"
 msgstr ""
 
 #. Tools -> Scenarios
-#: src/wbcg-actions.c:1774
+#: src/wbcg-actions.c:1753
 msgid "_View..."
 msgstr ""
 
-#: src/wbcg-actions.c:1775
+#: src/wbcg-actions.c:1754
 msgid "View, delete and report different scenarios"
 msgstr ""
 
-#: src/wbcg-actions.c:1777
+#: src/wbcg-actions.c:1756
 msgid "_Add..."
 msgstr "ചേര്ക്കുക"
 
-#: src/wbcg-actions.c:1778
+#: src/wbcg-actions.c:1757
 msgid "Add a new scenario"
 msgstr ""
 
 #. Tools -> ANOVA
-#: src/wbcg-actions.c:1782
+#: src/wbcg-actions.c:1761
 #, fuzzy
 msgid "_One Factor..."
 msgstr "വസ്തു..."
 
-#: src/wbcg-actions.c:1783
+#: src/wbcg-actions.c:1762
 msgid "One Factor Analysis of Variance..."
 msgstr ""
 
-#: src/wbcg-actions.c:1785
+#: src/wbcg-actions.c:1764
 #, fuzzy
 msgid "_Two Factor..."
 msgstr "രണ്ട് ഘടകം"
 
-#: src/wbcg-actions.c:1786
+#: src/wbcg-actions.c:1765
 msgid "Two Factor Analysis of Variance..."
 msgstr ""
 
 #. Tools -> Forecasting
-#: src/wbcg-actions.c:1790
+#: src/wbcg-actions.c:1769
 #, fuzzy
 msgid "_Exponential Smoothing..."
 msgstr "ചരഘാതാങ്കം"
 
-#: src/wbcg-actions.c:1791
+#: src/wbcg-actions.c:1770
 #, fuzzy
 msgid "Exponential smoothing..."
 msgstr "ചരഘാതാങ്കം"
 
-#: src/wbcg-actions.c:1793
+#: src/wbcg-actions.c:1772
 #, fuzzy
 msgid "_Moving Average..."
 msgstr "ശരാശരി നീക്കുക"
 
-#: src/wbcg-actions.c:1794
+#: src/wbcg-actions.c:1773
 #, fuzzy
 msgid "Moving average..."
 msgstr "ശരാശരി നീങ്ങുന്നു"
 
 #. Tools -> Two Means
-#: src/wbcg-actions.c:1798
+#: src/wbcg-actions.c:1777
 msgid "_Paired Samples: T-Test..."
 msgstr ""
 
-#: src/wbcg-actions.c:1799
+#: src/wbcg-actions.c:1778
 #, fuzzy
 msgid "Comparing two population means for two paired samples: t-test..."
 msgstr "രണ്ട് ജനസംഖ്യ വ്യതിയാനങ്ങള്‌ താരതെമ്യം ചെയ്യ‌ുക"
 
-#: src/wbcg-actions.c:1802
+#: src/wbcg-actions.c:1781
 msgid "Unpaired Samples, _Equal Variances: T-Test..."
 msgstr ""
 
-#: src/wbcg-actions.c:1803
+#: src/wbcg-actions.c:1782
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with equal variances: t-test..."
 msgstr ""
 
-#: src/wbcg-actions.c:1806
+#: src/wbcg-actions.c:1785
 msgid "Unpaired Samples, _Unequal Variances: T-Test..."
 msgstr ""
 
-#: src/wbcg-actions.c:1807
+#: src/wbcg-actions.c:1786
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with unequal variances: t-test..."
 msgstr ""
 
-#: src/wbcg-actions.c:1810
+#: src/wbcg-actions.c:1789
 #, fuzzy
 msgid "_Known Variances: Z-Test..."
 msgstr "രണ്ട് വ്യതിയാനം: FTest"
 
-#: src/wbcg-actions.c:1811
+#: src/wbcg-actions.c:1790
 #, fuzzy
 msgid ""
 "Comparing two population means from populations with known variances: z-"
@@ -23853,651 +23853,651 @@ msgid ""
 msgstr "രണ്ട് ജനസംഖ്യ വ്യതിയാനങ്ങള്‌ താരതെമ്യം ചെയ്യ‌ുക"
 
 #. Tools -> Analysis
-#: src/wbcg-actions.c:1815
+#: src/wbcg-actions.c:1794
 #, fuzzy
 msgid "_Correlation..."
 msgstr "സഹബന്ധം"
 
-#: src/wbcg-actions.c:1816
+#: src/wbcg-actions.c:1795
 msgid "Pearson Correlation"
 msgstr "പിയേഴ്സണ്‌ സഹബന്ധം"
 
-#: src/wbcg-actions.c:1818
+#: src/wbcg-actions.c:1797
 #, fuzzy
 msgid "Co_variance..."
 msgstr "സഹപരിവ‌ര്ത്തി"
 
-#: src/wbcg-actions.c:1821
+#: src/wbcg-actions.c:1800
 #, fuzzy
 msgid "_Descriptive Statistics..."
 msgstr "വിശദ സ്ഥിതിവിവരം"
 
-#: src/wbcg-actions.c:1822
+#: src/wbcg-actions.c:1801
 msgid "Various summary statistics"
 msgstr "വിവിധ ചുരുക്ക സ്ഥിതിവിവരക്കണക്കുകളള്‌"
 
-#: src/wbcg-actions.c:1824
+#: src/wbcg-actions.c:1803
 #, fuzzy
 msgid "_Fourier Analysis..."
 msgstr "ഫോറിയര്‌ വിശകലനം"
 
-#: src/wbcg-actions.c:1827
+#: src/wbcg-actions.c:1806
 #, fuzzy
 msgid "_Histogram..."
 msgstr "ആവൃത്തിപ്പട്ടിക"
 
-#: src/wbcg-actions.c:1828
+#: src/wbcg-actions.c:1807
 msgid "Various frequency tables"
 msgstr "വിവിധ ആവൃത്തിപ്പട്ടിക"
 
-#: src/wbcg-actions.c:1830
+#: src/wbcg-actions.c:1809
 msgid "Ranks And _Percentiles..."
 msgstr ""
 
-#: src/wbcg-actions.c:1831
+#: src/wbcg-actions.c:1810
 msgid "Ranks, placements and percentiles"
 msgstr ""
 
-#: src/wbcg-actions.c:1833
+#: src/wbcg-actions.c:1812
 #, fuzzy
 msgid "_Regression..."
 msgstr "പിന്‌വാങ്ങല്‌"
 
-#: src/wbcg-actions.c:1834
+#: src/wbcg-actions.c:1813
 msgid "Regression Analysis"
 msgstr "പിന്‌വാങ്ങല്‌ വിശകലനം"
 
-#: src/wbcg-actions.c:1836
+#: src/wbcg-actions.c:1815
 #, fuzzy
 msgid "_Sampling..."
 msgstr "മാതൃക"
 
-#: src/wbcg-actions.c:1837
+#: src/wbcg-actions.c:1816
 msgid "Periodic and random samples"
 msgstr ""
 
-#: src/wbcg-actions.c:1839
+#: src/wbcg-actions.c:1818
 #, fuzzy
 msgid "_Two Variances: FTest..."
 msgstr "രണ്ട് വ്യതിയാനം: FTest"
 
-#: src/wbcg-actions.c:1840
+#: src/wbcg-actions.c:1819
 msgid "Comparing two population variances"
 msgstr "രണ്ട് ജനസംഖ്യ വ്യതിയാനങ്ങള്‌ താരതെമ്യം ചെയ്യ‌ുക"
 
 #. Data
-#: src/wbcg-actions.c:1844
+#: src/wbcg-actions.c:1823
 msgid "_Sort..."
 msgstr "ക്രമീകരണം..."
 
-#: src/wbcg-actions.c:1845
+#: src/wbcg-actions.c:1824
 msgid "Sort the selected region"
 msgstr "തെരഞ്ഞെടുത്ത ഭാഗം തരംതിരിക്കുക"
 
-#: src/wbcg-actions.c:1847
+#: src/wbcg-actions.c:1826
 msgid "Sh_uffle..."
 msgstr ""
 
-#: src/wbcg-actions.c:1848
+#: src/wbcg-actions.c:1827
 msgid "Shuffle cells, rows or columns"
 msgstr ""
 
-#: src/wbcg-actions.c:1850
+#: src/wbcg-actions.c:1829
 msgid "_Validate..."
 msgstr "സാധുത പരിശോധിക്കുക..."
 
-#: src/wbcg-actions.c:1851
+#: src/wbcg-actions.c:1830
 msgid "Validate input with preset criteria"
 msgstr "തന്നിട്ടുള്ള മാനദണ‌‌‌്ഡപ്രകാരം നിവേശകം ഉറപ്പിക്കുക"
 
-#: src/wbcg-actions.c:1853
+#: src/wbcg-actions.c:1832
 msgid "_Text to Columns..."
 msgstr "പക‍ര്‍ത്തേണ്ട വാചകം..."
 
-#: src/wbcg-actions.c:1854
+#: src/wbcg-actions.c:1833
 msgid "Parse the text in the selection into data"
 msgstr ""
 
-#: src/wbcg-actions.c:1856
+#: src/wbcg-actions.c:1835
 msgid "_Consolidate..."
 msgstr "ഏകീകരിക്കുക..."
 
-#: src/wbcg-actions.c:1857
+#: src/wbcg-actions.c:1836
 msgid "Consolidate regions using a function"
 msgstr ""
 
-#: src/wbcg-actions.c:1861
+#: src/wbcg-actions.c:1840
 msgid "_PivotTable..."
 msgstr "പിവറ്റ് ടേബിള്‌..."
 
-#: src/wbcg-actions.c:1862
+#: src/wbcg-actions.c:1841
 msgid "Create a pivot table"
 msgstr "ഒരു പുതിയ പിവറ്റ് ടേബിനിര്മ്മിക്കുക"
 
 #. Data -> Outline
-#: src/wbcg-actions.c:1867
+#: src/wbcg-actions.c:1846
 msgid "_Hide Detail"
 msgstr "വിശദാംശങ്ങള് ഒളിപ്പിക്കുക"
 
-#: src/wbcg-actions.c:1868
+#: src/wbcg-actions.c:1847
 msgid "Collapse an outline group"
 msgstr "എല്ലാ വരികളും കൂട്ടിച്ചേ‌ര്‍ക്കുക"
 
-#: src/wbcg-actions.c:1870
+#: src/wbcg-actions.c:1849
 msgid "_Show Detail"
 msgstr "വിശദാംശങ്ങള് കാണിക്കുക"
 
-#: src/wbcg-actions.c:1871
+#: src/wbcg-actions.c:1850
 msgid "Uncollapse an outline group"
 msgstr ""
 
-#: src/wbcg-actions.c:1873
+#: src/wbcg-actions.c:1852
 msgid "_Group..."
 msgstr "കൂട്ടം..."
 
-#: src/wbcg-actions.c:1874
+#: src/wbcg-actions.c:1853
 msgid "Add an outline group"
 msgstr ""
 
-#: src/wbcg-actions.c:1876
+#: src/wbcg-actions.c:1855
 msgid "_Ungroup..."
 msgstr "കൂട്ടം പിരിക്കുക..."
 
-#: src/wbcg-actions.c:1877
+#: src/wbcg-actions.c:1856
 msgid "Remove an outline group"
 msgstr ""
 
 #. Data -> Filter
-#: src/wbcg-actions.c:1881 src/workbook-control-gui.c:1034
+#: src/wbcg-actions.c:1860 src/workbook-control-gui.c:1034
 msgid "Add _Auto Filter"
 msgstr "സ്വയം അരിപ്പ് കൂട്ടിച്ചേ‌ര്ക്കുക"
 
-#: src/wbcg-actions.c:1882
+#: src/wbcg-actions.c:1861
 msgid "Add or remove a filter"
 msgstr "അരിപ്പ് കൂട്ടിച്ചേ‌‌‌ര്ക്കുകയോ നീക്കംചെയ്യ‌ുകയോ ചെയ്യ‌ുക"
 
-#: src/wbcg-actions.c:1884
+#: src/wbcg-actions.c:1863
 msgid "_Show All"
 msgstr "എല്ലാം കാണിക്കുക"
 
-#: src/wbcg-actions.c:1885
+#: src/wbcg-actions.c:1864
 msgid "Show all filtered and hidden rows"
 msgstr "അരിച്ചതും ഒളിപ്പിച്ചതുമായ എല്ലാ വരികളും കാണിക്കുക"
 
-#: src/wbcg-actions.c:1887
+#: src/wbcg-actions.c:1866
 msgid "Advanced _Filter..."
 msgstr "പോഷിപ്പിച്ച അരിപ്പ്..."
 
-#: src/wbcg-actions.c:1888
+#: src/wbcg-actions.c:1867
 msgid "Filter data with given criteria"
 msgstr "തന്നിട്ടുള്ള മാനദണ‌‌‌്ഡപ്രകാരം വസ്തുത അരിക്കുക"
 
 #. Data -> External
-#: src/wbcg-actions.c:1891
+#: src/wbcg-actions.c:1870
 msgid "Import _Text File..."
 msgstr "വാക്യ രചന കൊണ്ടുവരിക..."
 
-#: src/wbcg-actions.c:1892
+#: src/wbcg-actions.c:1871
 msgid "Import the text from a file"
 msgstr "ഒരു രചനയില്‌ നിന്ന് വാക്യം കൊണ്ടുവരിക"
 
 #. Standard Toolbar
-#: src/wbcg-actions.c:1896 src/workbook-control-gui.c:1827
+#: src/wbcg-actions.c:1875 src/workbook-control-gui.c:1827
 #: src/workbook-view.c:542
 msgid "Sum"
 msgstr "തുക‍"
 
-#: src/wbcg-actions.c:1897
+#: src/wbcg-actions.c:1876
 msgid "Sum into the current cell"
 msgstr "ഇപ്പോഴത്തെ രചന അച്ചടിക്കുക"
 
-#: src/wbcg-actions.c:1900
+#: src/wbcg-actions.c:1879
 msgid "Edit a function in the current cell"
 msgstr "നിലവിലുള്ള കള്ളിയിലെ ധ‌ര്മ്മം ചിട്ടപ്പെടുത്തുക"
 
-#: src/wbcg-actions.c:1904
+#: src/wbcg-actions.c:1883
 msgid ""
 "Sort the selected region in ascending order based on the first column "
 "selected"
 msgstr ""
 
-#: src/wbcg-actions.c:1906
+#: src/wbcg-actions.c:1885
 msgid "Sort Descending"
 msgstr "അവരോഹണക്രമത്തില്‌ തരംതിരിക്കുക‌"
 
-#: src/wbcg-actions.c:1907
+#: src/wbcg-actions.c:1886
 msgid ""
 "Sort the selected region in descending order based on the first column "
 "selected"
 msgstr ""
 
-#: src/wbcg-actions.c:1912
+#: src/wbcg-actions.c:1891
 msgid "Create a label"
 msgstr "ഒരു ലിഖിതം ഉണ്ടാക്കുക"
 
-#: src/wbcg-actions.c:1915
+#: src/wbcg-actions.c:1894
 msgid "Create a frame"
 msgstr "ഒരു ചട്ടക്കൂട്‌ നിര്മ്മിക്കുക"
 
-#: src/wbcg-actions.c:1917
+#: src/wbcg-actions.c:1896
 msgid "Checkbox"
 msgstr "മറുകുറി"
 
-#: src/wbcg-actions.c:1918
+#: src/wbcg-actions.c:1897
 msgid "Create a checkbox"
 msgstr "മറുകുറി‌ നിര്മ്മിക്കുക"
 
-#: src/wbcg-actions.c:1920
+#: src/wbcg-actions.c:1899
 msgid "Scrollbar"
 msgstr "നിരക്കുപട്ട"
 
-#: src/wbcg-actions.c:1921
+#: src/wbcg-actions.c:1900
 msgid "Create a scrollbar"
 msgstr "ഒരു നിരക്കുപലക ഉണ്ടാക്കുക"
 
-#: src/wbcg-actions.c:1923
+#: src/wbcg-actions.c:1902
 #, fuzzy
 msgid "Slider"
 msgstr "ദൃഢമായ"
 
-#: src/wbcg-actions.c:1924
+#: src/wbcg-actions.c:1903
 #, fuzzy
 msgid "Create a slider"
 msgstr "ഒരു പട്ടിക‌ നിര്മ്മിക്കുക"
 
-#: src/wbcg-actions.c:1926
+#: src/wbcg-actions.c:1905
 #, fuzzy
 msgid "SpinButton"
 msgstr "മൊട്ട്"
 
-#: src/wbcg-actions.c:1927
+#: src/wbcg-actions.c:1906
 #, fuzzy
 msgid "Create a spin button"
 msgstr "മൊട്ട്‌ നിര്മ്മിക്കുക"
 
-#: src/wbcg-actions.c:1929 templates/autoformat/autoformat.3D.list.xml.in.h:3
+#: src/wbcg-actions.c:1908 templates/autoformat/autoformat.3D.list.xml.in.h:3
 msgid "List"
 msgstr "നാമാവലി"
 
-#: src/wbcg-actions.c:1930
+#: src/wbcg-actions.c:1909
 msgid "Create a list"
 msgstr "ഒരു പട്ടിക‌ നിര്മ്മിക്കുക"
 
-#: src/wbcg-actions.c:1932
+#: src/wbcg-actions.c:1911
 msgid "Combo Box"
 msgstr "കോമ്പോ ബോക്സ്"
 
-#: src/wbcg-actions.c:1933
+#: src/wbcg-actions.c:1912
 msgid "Create a combo box"
 msgstr "കോമ്പോ പെട്ടി ഉണ്ടാക്കൂ"
 
-#: src/wbcg-actions.c:1936
+#: src/wbcg-actions.c:1915
 msgid "Create a line object"
 msgstr "ഒരു വരിവസ്തു ഉണ്ടാക്കുക"
 
-#: src/wbcg-actions.c:1938
+#: src/wbcg-actions.c:1917
 msgid "Arrow"
 msgstr "അമ്പ്"
 
-#: src/wbcg-actions.c:1939
+#: src/wbcg-actions.c:1918
 msgid "Create an arrow object"
 msgstr "ഒരു അമ്പടയാളം ഉണ്ടാക്കുക"
 
-#: src/wbcg-actions.c:1941
+#: src/wbcg-actions.c:1920
 msgid "Rectangle"
 msgstr "ദീ‌‌ര്ഘവൃത്തം"
 
-#: src/wbcg-actions.c:1942
+#: src/wbcg-actions.c:1921
 msgid "Create a rectangle object"
 msgstr "ഒരു ദീര്ഘചതുരാകൃതിയുള്ള വസ്തു ഉണ്ടാക്കുക"
 
-#: src/wbcg-actions.c:1944
+#: src/wbcg-actions.c:1923
 msgid "Ellipse"
 msgstr "ദീര്‌ഘവൃത്തം"
 
-#: src/wbcg-actions.c:1945
+#: src/wbcg-actions.c:1924
 msgid "Create an ellipse object"
 msgstr "ഒരു ദീര്‌ഘവൃത്തം ഉണ്ടാക്കുക"
 
-#: src/wbcg-actions.c:1948
+#: src/wbcg-actions.c:1927
 msgid "Create a button"
 msgstr "മൊട്ട്‌ നിര്മ്മിക്കുക"
 
-#: src/wbcg-actions.c:1951
+#: src/wbcg-actions.c:1930
 msgid "Create a radio button"
 msgstr "ഒരു റേഡിയോ മൊട്ട് ഉണ്ടാക്കുക"
 
-#: src/wbcg-actions.c:1956
+#: src/wbcg-actions.c:1935
 msgid "Merge a range of cells"
 msgstr ""
 
-#: src/wbcg-actions.c:1958
+#: src/wbcg-actions.c:1937
 msgid "Split"
 msgstr "വേ‌ര്തിരിക്കുക"
 
-#: src/wbcg-actions.c:1959
+#: src/wbcg-actions.c:1938
 msgid "Split merged ranges of cells"
 msgstr ""
 
-#: src/wbcg-actions.c:1963
+#: src/wbcg-actions.c:1942
 #, fuzzy
 msgid "Format the selection as numbers"
 msgstr "സംഖ്യയിലേക്ക് മാറ്റുക"
 
-#: src/wbcg-actions.c:1965 src/widgets/widget-format-selector.c:77
+#: src/wbcg-actions.c:1944 src/widgets/widget-format-selector.c:77
 #, fuzzy
 msgid "Currency"
 msgstr "നാണയം"
 
-#: src/wbcg-actions.c:1966
+#: src/wbcg-actions.c:1945
 #, fuzzy
 msgid "Format the selection as currency"
 msgstr "നാണയത്തിലേക്ക് മാറ്റുക"
 
-#: src/wbcg-actions.c:1968 src/widgets/widget-format-selector.c:78
+#: src/wbcg-actions.c:1947 src/widgets/widget-format-selector.c:78
 #, fuzzy
 msgid "Accounting"
 msgstr "കണക്കെഴുത്ത്"
 
-#: src/wbcg-actions.c:1969
+#: src/wbcg-actions.c:1948
 #, fuzzy
 msgid "Format the selection as accounting"
 msgstr "തെരഞ്ഞെടുത്ത നിര ക്രമീകരിക്കുക"
 
-#: src/wbcg-actions.c:1971 src/widgets/widget-format-selector.c:81
+#: src/wbcg-actions.c:1950 src/widgets/widget-format-selector.c:81
 msgid "Percentage"
 msgstr "ശതമാനം"
 
-#: src/wbcg-actions.c:1972
+#: src/wbcg-actions.c:1951
 #, fuzzy
 msgid "Format the selection as percentage"
 msgstr "ശതമാനത്തിലേക്ക് മാറ്റുക"
 
-#: src/wbcg-actions.c:1974 src/widgets/widget-format-selector.c:83
+#: src/wbcg-actions.c:1953 src/widgets/widget-format-selector.c:83
 #, fuzzy
 msgid "Scientific"
 msgstr "ശാസ്ത്രീയമായ"
 
-#: src/wbcg-actions.c:1975
+#: src/wbcg-actions.c:1954
 #, fuzzy
 msgid "Format the selection as scientific"
 msgstr "ശാസ്ത്രീയതയിലേക്ക് മാറ്റുക"
 
-#: src/wbcg-actions.c:1977 src/widgets/widget-format-selector.c:79
+#: src/wbcg-actions.c:1956 src/widgets/widget-format-selector.c:79
 msgid "Date"
 msgstr "തിയ്യതി"
 
-#: src/wbcg-actions.c:1978
+#: src/wbcg-actions.c:1957
 #, fuzzy
 msgid "Format the selection as date"
 msgstr "തെരഞ്ഞെടുത്തവ മുറിക്കുക"
 
-#: src/wbcg-actions.c:1980 src/widgets/widget-format-selector.c:80
+#: src/wbcg-actions.c:1959 src/widgets/widget-format-selector.c:80
 msgid "Time"
 msgstr "സമയം"
 
-#: src/wbcg-actions.c:1981
+#: src/wbcg-actions.c:1960
 #, fuzzy
 msgid "Format the selection as time"
 msgstr "തെരഞ്ഞെടുത്തവ മുറിക്കുക"
 
-#: src/wbcg-actions.c:1983
+#: src/wbcg-actions.c:1962
 #, fuzzy
 msgid "AddBorders"
 msgstr "അരികുകള്‌"
 
-#: src/wbcg-actions.c:1984
+#: src/wbcg-actions.c:1963
 #, fuzzy
 msgid "Add a border the the selection"
 msgstr "തെരഞ്ഞെടുത്തവ മുറിക്കുക"
 
-#: src/wbcg-actions.c:1986
+#: src/wbcg-actions.c:1965
 #, fuzzy
 msgid "ClearBorders"
 msgstr "അരികുകള്‌"
 
-#: src/wbcg-actions.c:1987
+#: src/wbcg-actions.c:1966
 #, fuzzy
 msgid "Clear the border around the selection"
 msgstr "തെരഞ്ഞെടുത്തവയ‌്‌ക്ക് കുറുകെയുള്ള മദ്ധ്യം"
 
-#: src/wbcg-actions.c:1990
+#: src/wbcg-actions.c:1969
 msgid "Thousands Separator"
 msgstr ""
 
-#: src/wbcg-actions.c:1991
+#: src/wbcg-actions.c:1970
 msgid "Set the format of the selected cells to include a thousands separator"
 msgstr ""
 
-#: src/wbcg-actions.c:1993
+#: src/wbcg-actions.c:1972
 msgid "Increase Precision"
 msgstr "കൃത്യത കൂട്ടുക"
 
-#: src/wbcg-actions.c:1994
+#: src/wbcg-actions.c:1973
 msgid "Increase the number of decimals displayed"
 msgstr "പ്രദ‌ര്ശിപ്പിച്ചിട്ടുള്ള ദശാംശസംഖ്യകളുടെ എണ്ണം കൂട്ടുക"
 
-#: src/wbcg-actions.c:1996
+#: src/wbcg-actions.c:1975
 msgid "Decrease Precision"
 msgstr "കൃത്യത കുറയ‌്ക്കുക"
 
-#: src/wbcg-actions.c:1997
+#: src/wbcg-actions.c:1976
 msgid "Decrease the number of decimals displayed"
 msgstr "പ്രദ‌ര്ശിപ്പിച്ച ദശാംശ സംഖ്യകളുടെ എണ്ണം കുറയ്‌ക്കുക"
 
-#: src/wbcg-actions.c:2000
+#: src/wbcg-actions.c:1979
 msgid "Decrease the indent, and align the contents to the left"
 msgstr ""
 
-#: src/wbcg-actions.c:2003
+#: src/wbcg-actions.c:1982
 msgid "Increase the indent, and align the contents to the left"
 msgstr ""
 
 #. const 142334
-#: src/wbcg-actions.c:2041
+#: src/wbcg-actions.c:2020
 msgid "Display _Outlines"
 msgstr "ബാഹ്യ‌രേഖകള്‌ പ്രദര്‌ശിപ്പിക്കുക"
 
-#: src/wbcg-actions.c:2042
+#: src/wbcg-actions.c:2021
 msgid "Toggle whether or not to display outline groups"
 msgstr ""
 
-#: src/wbcg-actions.c:2044
+#: src/wbcg-actions.c:2023
 msgid "Outlines _Below"
 msgstr "താഴെയുള്ള പുറംവരകള്‌"
 
-#: src/wbcg-actions.c:2045
+#: src/wbcg-actions.c:2024
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr ""
 
-#: src/wbcg-actions.c:2047
+#: src/wbcg-actions.c:2026
 msgid "Outlines _Right"
 msgstr "വലതുവശത്തുള്ള പുറംവരകള്‌"
 
-#: src/wbcg-actions.c:2048
+#: src/wbcg-actions.c:2027
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr ""
 
-#: src/wbcg-actions.c:2050
+#: src/wbcg-actions.c:2029
 msgid "Display _Formulas"
 msgstr "സൂത്രവാക്യങ്ങള്‌ പര്ദ‌‌ര്ശിപ്പിക്കുക"
 
-#: src/wbcg-actions.c:2051
+#: src/wbcg-actions.c:2030
 msgid "Display the value of a formula or the formula itself"
 msgstr ""
 
-#: src/wbcg-actions.c:2053
+#: src/wbcg-actions.c:2032
 msgid "Hide _Zeros"
 msgstr "പൂജ്യങ്ങള്‌ ഒളിപ്പിക്കുക"
 
-#: src/wbcg-actions.c:2054
+#: src/wbcg-actions.c:2033
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr ""
 
-#: src/wbcg-actions.c:2056
+#: src/wbcg-actions.c:2035
 msgid "Hide _Gridlines"
 msgstr "ഗ്രിഡ്‌ലൈന്സ് ഒളിപ്പിക്കുക"
 
-#: src/wbcg-actions.c:2057
+#: src/wbcg-actions.c:2036
 msgid "Toggle whether or not to display gridlines"
 msgstr ""
 
-#: src/wbcg-actions.c:2059
+#: src/wbcg-actions.c:2038
 msgid "Hide _Column Headers"
 msgstr "നിരയുടെ തലവാചകങ്ങള്‌ ഒളിപ്പിക്കുക"
 
-#: src/wbcg-actions.c:2060
+#: src/wbcg-actions.c:2039
 msgid "Toggle whether or not to display column headers"
 msgstr ""
 
-#: src/wbcg-actions.c:2062
+#: src/wbcg-actions.c:2041
 msgid "Hide _Row Headers"
 msgstr "വരിയുടെ തലവാചകങ്ങള്‌ ഒളിപ്പിക്കുക"
 
-#: src/wbcg-actions.c:2063
+#: src/wbcg-actions.c:2042
 msgid "Toggle whether or not to display row headers"
 msgstr ""
 
-#: src/wbcg-actions.c:2067
+#: src/wbcg-actions.c:2046
 #, fuzzy
 msgid "_Left Align"
 msgstr "ഇടത് ക്രമീകരണം"
 
-#: src/wbcg-actions.c:2068 src/wbc-gtk.c:324
+#: src/wbcg-actions.c:2047 src/wbc-gtk.c:324
 #, fuzzy
 msgid "Align left"
 msgstr "ക്രമീകരണം"
 
-#: src/wbcg-actions.c:2070
+#: src/wbcg-actions.c:2049
 msgid "_Center"
 msgstr "േകന്ദ്രം"
 
-#: src/wbcg-actions.c:2071 src/wbc-gtk.c:325
+#: src/wbcg-actions.c:2050 src/wbc-gtk.c:325
 #, fuzzy
 msgid "Center horizontally"
 msgstr "തിരശ്ചീനമായ"
 
-#: src/wbcg-actions.c:2073
+#: src/wbcg-actions.c:2052
 #, fuzzy
 msgid "_Right Align"
 msgstr "വലത് ക്രമീകരണം"
 
-#: src/wbcg-actions.c:2074 src/wbc-gtk.c:326
+#: src/wbcg-actions.c:2053 src/wbc-gtk.c:326
 #, fuzzy
 msgid "Align right"
 msgstr "വലതുവശത്തുള്ള പുറംവരകള്‌"
 
-#: src/wbcg-actions.c:2076
+#: src/wbcg-actions.c:2055
 #, fuzzy
 msgid "_Center Across Selection"
 msgstr "തെരഞ്ഞെടുത്തവയ‌്‌ക്ക് കുറുകെയുള്ള മദ്ധ്യം"
 
-#: src/wbcg-actions.c:2077 src/wbc-gtk.c:329
+#: src/wbcg-actions.c:2056 src/wbc-gtk.c:329
 #, fuzzy
 msgid "Center horizontally across the selection"
 msgstr "തെരഞ്ഞെടുത്തവയ‌്‌ക്ക് കുറുകെയുള്ള മദ്ധ്യം"
 
-#: src/wbcg-actions.c:2080
+#: src/wbcg-actions.c:2059
 #, fuzzy
 msgid "_Merge and Center"
 msgstr "ലംബമായ"
 
-#: src/wbcg-actions.c:2081
+#: src/wbcg-actions.c:2060
 msgid "Merge the selection into 1 cell, and center horizontaly."
 msgstr ""
 
-#: src/wbcg-actions.c:2088
+#: src/wbcg-actions.c:2067
 msgid "Align _Top"
 msgstr ""
 
-#: src/wbcg-actions.c:2089 src/wbc-gtk.c:336
+#: src/wbcg-actions.c:2068 src/wbc-gtk.c:336
 msgid "Align Top"
 msgstr ""
 
-#: src/wbcg-actions.c:2091
+#: src/wbcg-actions.c:2070
 #, fuzzy
 msgid "_Vertically Center"
 msgstr "ലംബമായ"
 
-#: src/wbcg-actions.c:2092
+#: src/wbcg-actions.c:2071
 #, fuzzy
 msgid "Vertically Center"
 msgstr "ലംബമായ"
 
-#: src/wbcg-actions.c:2094
+#: src/wbcg-actions.c:2073
 #, fuzzy
 msgid "Align _Bottom"
 msgstr "താഴെ"
 
-#: src/wbcg-actions.c:2095 src/wbc-gtk.c:338
+#: src/wbcg-actions.c:2074 src/wbc-gtk.c:338
 #, fuzzy
 msgid "Align Bottom"
 msgstr "താഴെ"
 
-#: src/wbcg-actions.c:2098
+#: src/wbcg-actions.c:2077
 msgid "View _Statusbar"
 msgstr ""
 
-#: src/wbcg-actions.c:2099
+#: src/wbcg-actions.c:2078
 msgid "Toggle visibility of statusbar"
 msgstr ""
 
-#: src/wbcg-actions.c:2103
+#: src/wbcg-actions.c:2082
 #, fuzzy
 msgid "F_ull Screen..."
 msgstr "ഗോള്‌ സീക്ക്..."
 
-#: src/wbcg-actions.c:2104
+#: src/wbcg-actions.c:2083
 #, fuzzy
 msgid "in or out"
 msgstr "തിരുത്തേണ്ടതില്ല:"
 
-#: src/wbcg-actions.c:2109
+#: src/wbcg-actions.c:2088
 #, fuzzy
 msgid "_Bold"
 msgstr "സ്ഥൂലം"
 
 #. ALSO "<control>2"
-#: src/wbcg-actions.c:2110 src/widgets/widget-font-selector.c:201
+#: src/wbcg-actions.c:2089 src/widgets/widget-font-selector.c:201
 msgid "Bold"
 msgstr "സ്ഥൂലം"
 
-#: src/wbcg-actions.c:2112
+#: src/wbcg-actions.c:2091
 #, fuzzy
 msgid "_Italic"
 msgstr "ചരിഞ്ഞ"
 
 #. ALSO "<control>3"
-#: src/wbcg-actions.c:2113 src/widgets/widget-font-selector.c:203
+#: src/wbcg-actions.c:2092 src/widgets/widget-font-selector.c:203
 msgid "Italic"
 msgstr "ചരിഞ്ഞ"
 
-#: src/wbcg-actions.c:2115
+#: src/wbcg-actions.c:2094
 #, fuzzy
 msgid "_Underline"
 msgstr "അടി വര"
 
 #. ALSO "<control>4"
-#: src/wbcg-actions.c:2116
+#: src/wbcg-actions.c:2095
 msgid "Underline"
 msgstr "അടി വര"
 
-#: src/wbcg-actions.c:2118
+#: src/wbcg-actions.c:2097
 #, fuzzy
 msgid "_Strike Through"
 msgstr "കുറുകെ വരയ്‌ക്കുക"
 
-#: src/wbcg-actions.c:2119
+#: src/wbcg-actions.c:2098
 #, fuzzy
 msgid "Strike Through"
 msgstr "കുറുകെ വരയ്‌ക്കുക"
 
-#: src/wbcg-actions.c:2122
+#: src/wbcg-actions.c:2101
 #, fuzzy
 msgid "_Double Underline"
 msgstr "അടി വര"
 
-#: src/wbcg-actions.c:2123
+#: src/wbcg-actions.c:2102
 #, fuzzy
 msgid "Double Underline"
 msgstr "അടി വര"

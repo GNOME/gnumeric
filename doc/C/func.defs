@@ -4357,7 +4357,7 @@ GCD(470,770,1495) equals 5.
 @CATEGORY=Mathematics
 @FUNCTION=HYPOT
 @SYNTAX=HYPOT(number1,number2,...)
-@DESCRIPTION=HYPOT returns the square root of the sum of the squares of the argumnents.
+@DESCRIPTION=HYPOT returns the square root of the sum of the squares of the arguments.
 
 @EXAMPLES=
 HYPOT(3,4) equals to 5.
