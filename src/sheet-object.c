@@ -168,8 +168,13 @@ sheet_object_drop_file (GnumericSheet *gsheet, gint x, gint y, const char *fname
 		so = sheet_object_container_new (gsheet->sheet_view->sheet, pos.x, pos.y,
 						 pos.x + 100.0, pos.y + 100.0,
 						 mime_goad_id);
-		sheet_object_bonobo_load_from_file (SHEET_OBJECT_BONOBO (so), fname);
-		sheet_object_bonobo_query_size (SHEET_OBJECT_BONOBO (so));
+		if (!so) {
+			msg = g_strdup_printf ("can't create object for '%s'", mime_goad_id);
+			gnome_dialog_run_and_close (GNOME_DIALOG (gnome_error_dialog (msg)));
+		} else {
+			sheet_object_bonobo_load_from_file (SHEET_OBJECT_BONOBO (so), fname);
+			sheet_object_bonobo_query_size (SHEET_OBJECT_BONOBO (so));
+		}
 	}
 	if (msg)
 		g_free (msg);
