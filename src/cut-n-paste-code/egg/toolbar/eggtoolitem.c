@@ -318,14 +318,14 @@ egg_tool_item_create_menu_proxy (EggToolItem *item)
     return gtk_separator_menu_item_new ();
 }
 
-GtkWidget *
+EggToolItem *
 egg_tool_item_new (void)
 {
   EggToolItem *item;
 
   item = g_object_new (EGG_TYPE_TOOL_ITEM, NULL);
 
-  return GTK_WIDGET (item);
+  return item;
 }
 
 void

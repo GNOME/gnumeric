@@ -5,6 +5,7 @@
 #include <gnumeric.h>
 
 #include "egg-action.h"
+#include "../toolbar/eggtoolbutton.h"
 
 #ifndef _
 # define _(s) (s)
@@ -111,7 +112,7 @@ egg_action_class_init (EggActionClass *class)
   class->disconnect_proxy = disconnect_proxy;
 
   class->menu_item_type = GTK_TYPE_IMAGE_MENU_ITEM;
-  class->toolbar_item_type = GTK_TYPE_BUTTON;
+  class->toolbar_item_type = EGG_TYPE_TOOL_BUTTON;
 
   g_object_class_install_property (object_class,
 				   PROP_NAME,
@@ -349,7 +350,7 @@ create_tool_item (EggAction *action)
 
   toolbar_item_type = EGG_ACTION_GET_CLASS (action)->toolbar_item_type;
 
-  return tool_button_new (toolbar_item_type, NULL, NULL);
+  return g_object_new (toolbar_item_type, NULL);
 }
 
 static void
@@ -390,13 +391,13 @@ static void
 egg_action_sync_short_label (EggAction *action, GParamSpec *pspec,
 			     GtkWidget *proxy)
 {
-  GtkWidget *label = NULL;
+  GValue value = { 0, };
 
-  g_return_if_fail (GTK_IS_BUTTON (proxy));
-  label = tool_button_get_label (proxy);;
+  g_value_init(&value, G_TYPE_STRING);
+  g_object_get_property (G_OBJECT (action), "short_label", &value);
 
-  if (GTK_IS_LABEL (label))
-    gtk_label_set_label (GTK_LABEL (label), action->label);
+  g_object_set_property (G_OBJECT (proxy), "label", &value);
+  g_value_unset (&value);
 }
 
 static void
@@ -406,13 +407,19 @@ egg_action_sync_stock_id (EggAction *action, GParamSpec *pspec,
   GtkWidget *image = NULL;
 
   if (GTK_IS_IMAGE_MENU_ITEM (proxy))
-    image = gtk_image_menu_item_get_image (GTK_IMAGE_MENU_ITEM (proxy));
-  else if (GTK_IS_BUTTON (proxy))
-    image = tool_button_get_icon (proxy);
+    {
+      image = gtk_image_menu_item_get_image (GTK_IMAGE_MENU_ITEM (proxy));
 
-  if (GTK_IS_IMAGE (image))
-    gtk_image_set_from_stock (GTK_IMAGE (image),
-			      action->stock_id, GTK_ICON_SIZE_MENU);
+      if (GTK_IS_IMAGE (image))
+	gtk_image_set_from_stock (GTK_IMAGE (image),
+				  action->stock_id, GTK_ICON_SIZE_MENU);
+    }
+}
+
+static GtkWidget *
+egg_action_create_menu_proxy (EggToolItem *tool_item, EggAction *action)
+{
+  return egg_action_create_menu_item (action);
 }
 
 static void
@@ -500,30 +507,28 @@ connect_proxy (EggAction *action, GtkWidget *proxy)
 			       G_CALLBACK (egg_action_activate), action,
 			       G_CONNECT_SWAPPED);
     }
-  else if (GTK_IS_BUTTON (proxy))
+  else if (EGG_IS_TOOL_BUTTON (proxy))
     {
       GtkWidget *label;
       GtkWidget *icon;
       /* toolbar button specific synchronisers ... */
 
       /* synchronise the label */
-      label = tool_button_get_label (proxy);
-      if (label)
-	gtk_label_set_label (GTK_LABEL (label), action->short_label);
+      g_object_set (G_OBJECT (proxy),
+		    "label", action->short_label,
+		    "use_underline", TRUE,
+		    NULL);
       g_signal_connect_object (action, "notify::short_label",
 			       G_CALLBACK (egg_action_sync_short_label),
 			       proxy, 0);
 
-      icon = tool_button_get_icon (proxy);
-      if (icon && GTK_IS_IMAGE (icon))
-	{
-	  gtk_image_set_from_stock (GTK_IMAGE (icon),
-				    action->stock_id,
-				    GTK_ICON_SIZE_LARGE_TOOLBAR);
-	}
+      g_object_set (G_OBJECT (proxy), "stock_id", action->stock_id, NULL);
       g_signal_connect_object (action, "notify::stock_id",
-			       G_CALLBACK (egg_action_sync_stock_id),
-			       proxy, 0);
+			G_CALLBACK (egg_action_sync_property), proxy, 0);
+
+      g_signal_connect_object (proxy, "create_menu_proxy",
+			       G_CALLBACK (egg_action_create_menu_proxy),
+			       action, 0);
 
       g_signal_connect_object (proxy, "clicked",
 			       G_CALLBACK (egg_action_activate), action,
@@ -571,6 +576,9 @@ disconnect_proxy (EggAction *action, GtkWidget *proxy)
   g_signal_handlers_disconnect_by_func (action,
 			G_CALLBACK (egg_action_sync_short_label),
 			proxy);
+  g_signal_handlers_disconnect_by_func (proxy,
+			G_CALLBACK (egg_action_create_menu_proxy),
+			action);
 }
 
 /**

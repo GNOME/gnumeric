@@ -96,7 +96,6 @@ egg_radio_action_activate (EggAction *action)
   EggToggleAction *toggle_action;
   EggToggleAction *tmp_action;
   GSList *tmp_list;
-  gboolean toggled = FALSE;
 
   g_return_if_fail (EGG_IS_RADIO_ACTION (action));
 
@@ -105,7 +104,6 @@ egg_radio_action_activate (EggAction *action)
 
   if (toggle_action->active)
     {
-      tmp_action = NULL;
       tmp_list = radio_action->group;
 
       while (tmp_list)
@@ -114,20 +112,14 @@ egg_radio_action_activate (EggAction *action)
 	  tmp_list = tmp_list->next;
 
 	  if (tmp_action->active && (tmp_action != toggle_action))
-	    break;
-
-	  tmp_action = NULL;
-	}
-
-      if (tmp_action)
-	{
-	  toggled = TRUE;
-	  toggle_action->active = !toggle_action->active;
+	    {
+	      toggle_action->active = !toggle_action->active;
+	      break;
+	    }
 	}
     }
   else
     {
-      toggled = TRUE;
       toggle_action->active = !toggle_action->active;
 
       tmp_list = radio_action->group;
@@ -144,8 +136,7 @@ egg_radio_action_activate (EggAction *action)
 	}
     }
 
-  if (toggled)
-    egg_toggle_action_toggled (toggle_action);
+  egg_toggle_action_toggled (toggle_action);
 }
 
 /**

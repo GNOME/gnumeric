@@ -5,6 +5,7 @@
 #include <gnumeric.h>
 
 #include "egg-toggle-action.h"
+#include "../toolbar/eggtoggletoolbutton.h"
 
 enum {
   TOGGLED,
@@ -65,7 +66,7 @@ egg_toggle_action_class_init (EggToggleActionClass *class)
   action_class->disconnect_proxy = disconnect_proxy;
 
   action_class->menu_item_type = GTK_TYPE_CHECK_MENU_ITEM;
-  action_class->toolbar_item_type = GTK_TYPE_TOGGLE_BUTTON;
+  action_class->toolbar_item_type = EGG_TYPE_TOGGLE_TOOL_BUTTON;
 
   class->toggled = egg_toggle_action_real_toggled;
 
@@ -114,9 +115,9 @@ egg_toggle_action_real_toggled (EggToggleAction *action)
       if (GTK_IS_CHECK_MENU_ITEM (proxy))
 	gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (proxy),
 					action->active);
-      else if (GTK_IS_TOGGLE_BUTTON (proxy))
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (proxy),
-				      action->active);
+      else if (EGG_IS_TOGGLE_TOOL_BUTTON (proxy))
+	egg_toggle_tool_button_set_active (EGG_TOGGLE_TOOL_BUTTON (proxy),
+					   action->active);
       else {
 	g_warning ("Don't know how to toggle `%s' widgets",
 		   G_OBJECT_TYPE_NAME (proxy));
@@ -136,9 +137,9 @@ connect_proxy (EggAction *action, GtkWidget *proxy)
   if (GTK_IS_MENU_ITEM (proxy))
     gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (proxy),
 				    toggle_action->active);
-  else if (GTK_IS_TOGGLE_BUTTON (proxy))
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (proxy),
-				  toggle_action->active);
+  else if (EGG_IS_TOGGLE_TOOL_BUTTON (proxy))
+    egg_toggle_tool_button_set_active (EGG_TOGGLE_TOOL_BUTTON (proxy),
+				       toggle_action->active);
 
   (* EGG_ACTION_CLASS (parent_class)->connect_proxy) (action, proxy);
 }

@@ -46,8 +46,8 @@ struct _EggToolItemClass
 				      GtkReliefStyle  relief_style);
 };
 
-GType      egg_tool_item_get_type (void);
-GtkWidget *egg_tool_item_new      (void);
+GType        egg_tool_item_get_type (void);
+EggToolItem *egg_tool_item_new      (void);
 
 void egg_tool_item_set_orientation (EggToolItem *tool_item, GtkOrientation orientation);
 void egg_tool_item_set_icon_size (EggToolItem *tool_item, GtkIconSize icon_size);

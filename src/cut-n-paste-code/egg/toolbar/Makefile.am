@@ -10,13 +10,16 @@ noinst_LIBRARIES = libegg-toolbar.a
 libegg_toolbar_a_LIBADD = 
 libegg_toolbar_a_SOURCES = \
   eggtoolbar.c \
+  eggtoolitem.c \
+  eggseparatortoolitem.c \
   eggtoolbutton.c \
-  eggtoolitem.c
+  eggtoggletoolbutton.c
 
 noinst_HEADERS = \
   eggtoolbar.h \
+  eggtoolitem.h	 \
+  eggseparatortoolitem.h \
   eggtoolbutton.h \
-  eggtoolitem.h	
-
+  eggtoggletoolbutton.h
 
 

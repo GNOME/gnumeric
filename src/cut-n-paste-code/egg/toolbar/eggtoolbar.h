@@ -56,7 +56,8 @@ struct _EggToolbarClass
 GType      egg_toolbar_get_type        (void) G_GNUC_CONST;
 GtkWidget* egg_toolbar_new             (void);
 
-void egg_toolbar_append_item (EggToolbar *toolbar, EggToolItem *item);
+/* pos=-1 appends an item */
+void egg_toolbar_insert_item (EggToolbar *toolbar, EggToolItem *item, gint pos);
 
 void egg_toolbar_set_orientation (EggToolbar *toolbar, GtkOrientation orientation);
 void egg_toolbar_set_style (EggToolbar *toolbar, GtkToolbarStyle style);

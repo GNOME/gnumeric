@@ -9,7 +9,7 @@ INCLUDES = \
 
 noinst_LIBRARIES = libegg-menu.a
 
-libegg_menu_a_LIBADD = 
+libegg_menu_a_LIBADD = ../toolbar/libegg-toolbar.a 
 libegg_menu_a_SOURCES = \
   egg-action.c \
   egg-action-group.c \

@@ -6,6 +6,8 @@
 
 #include <string.h>
 #include "egg-menu-merge.h"
+#include "../toolbar/eggtoolbar.h"
+#include "../toolbar/eggseparatortoolitem.h"
 
 #ifndef _
 #  define _(string) (string)
@@ -509,10 +511,16 @@ start_element_handler (GMarkupParseContext *context,
       else if ((ctx->state == STATE_MENU || ctx->state == STATE_TOOLBAR) &&
 	       !strcmp(element_name, "placeholder"))
 	{
-	  ctx->current = get_child_node(self, ctx->current,
-					node_name, strlen(node_name),
-					EGG_MENU_MERGE_PLACEHOLDER,
-					TRUE, top);
+	  if (ctx->state == STATE_MENU)
+	    ctx->current = get_child_node(self, ctx->current,
+					  node_name, strlen(node_name),
+					  EGG_MENU_MERGE_MENU_PLACEHOLDER,
+					  TRUE, top);
+	  else
+	    ctx->current = get_child_node(self, ctx->current,
+					  node_name, strlen(node_name),
+					  EGG_MENU_MERGE_TOOLBAR_PLACEHOLDER,
+					  TRUE, top);
 
 	  egg_menu_merge_node_prepend_ui_reference (NODE_INFO (ctx->current),
 						    ctx->merge_id, verb_quark);
@@ -543,7 +551,10 @@ start_element_handler (GMarkupParseContext *context,
 	{
 	  GNode *node;
 
-	  ctx->state = STATE_MENUITEM;
+	  if (ctx->state == STATE_MENU)
+	    ctx->state = STATE_MENUITEM;
+	  else
+	    ctx->state = STATE_TOOLITEM;
 	  node = get_child_node(self, ctx->current,
 				node_name, strlen(node_name),
 				EGG_MENU_MERGE_SEPARATOR,
@@ -641,6 +652,7 @@ end_element_handler (GMarkupParseContext *context,
        * placeholder */
       if (NODE_INFO(ctx->current)->type == EGG_MENU_MERGE_ROOT)
 	ctx->state = STATE_ROOT;
+      /* else, stay in STATE_TOOLBAR state */
       break;
     case STATE_POPUPS:
       ctx->current = ctx->current->parent;
@@ -791,7 +803,7 @@ find_menu_position (GNode *node, GtkWidget **menushell_p, gint *pos_p)
 
   g_return_val_if_fail(node != NULL, FALSE);
   g_return_val_if_fail(NODE_INFO(node)->type == EGG_MENU_MERGE_MENU ||
-		       NODE_INFO(node)->type == EGG_MENU_MERGE_PLACEHOLDER ||
+		       NODE_INFO(node)->type == EGG_MENU_MERGE_MENU_PLACEHOLDER ||
 		       NODE_INFO(node)->type == EGG_MENU_MERGE_MENUITEM ||
 		       NODE_INFO(node)->type == EGG_MENU_MERGE_SEPARATOR,
 		       FALSE);
@@ -814,7 +826,7 @@ find_menu_position (GNode *node, GtkWidget **menushell_p, gint *pos_p)
 	    menushell = gtk_menu_item_get_submenu(GTK_MENU_ITEM(menushell));
 	  pos = 0;
 	  break;
-	case EGG_MENU_MERGE_PLACEHOLDER:
+	case EGG_MENU_MERGE_MENU_PLACEHOLDER:
 	  menushell = gtk_widget_get_parent(NODE_INFO(parent)->proxy);
 	  g_return_val_if_fail(GTK_IS_MENU_SHELL(menushell), FALSE);
 	  pos = g_list_index(GTK_MENU_SHELL(menushell)->children,
@@ -832,7 +844,7 @@ find_menu_position (GNode *node, GtkWidget **menushell_p, gint *pos_p)
       GNode *sibling;
 
       sibling = node->prev;
-      if (NODE_INFO(sibling)->type == EGG_MENU_MERGE_PLACEHOLDER)
+      if (NODE_INFO(sibling)->type == EGG_MENU_MERGE_MENU_PLACEHOLDER)
 	prev_child = NODE_INFO(sibling)->extra; /* second Separator */
       else
 	prev_child = NODE_INFO(sibling)->proxy;
@@ -846,6 +858,69 @@ find_menu_position (GNode *node, GtkWidget **menushell_p, gint *pos_p)
 
   if (menushell_p)
     *menushell_p = menushell;
+  if (pos_p)
+    *pos_p = pos;
+
+  return TRUE;
+}
+
+static gboolean
+find_toolbar_position (GNode *node, GtkWidget **toolbar_p, gint *pos_p)
+{
+  GtkWidget *toolbar;
+  gint pos;
+
+  g_return_val_if_fail(node != NULL, FALSE);
+  g_return_val_if_fail(NODE_INFO(node)->type == EGG_MENU_MERGE_TOOLBAR ||
+		       NODE_INFO(node)->type == EGG_MENU_MERGE_TOOLBAR_PLACEHOLDER ||
+		       NODE_INFO(node)->type == EGG_MENU_MERGE_TOOLITEM ||
+		       NODE_INFO(node)->type == EGG_MENU_MERGE_SEPARATOR,
+		       FALSE);
+
+  /* first sibling -- look at parent */
+  if (node->prev == NULL)
+    {
+      GNode *parent;
+
+      parent = node->parent;
+      switch (NODE_INFO(parent)->type)
+	{
+	case EGG_MENU_MERGE_TOOLBAR:
+	  toolbar = NODE_INFO(parent)->proxy;
+	  pos = 0;
+	  break;
+	case EGG_MENU_MERGE_TOOLBAR_PLACEHOLDER:
+	  toolbar = gtk_widget_get_parent(NODE_INFO(parent)->proxy);
+	  g_return_val_if_fail(EGG_IS_TOOLBAR(toolbar), FALSE);
+	  pos = g_list_index(EGG_TOOLBAR(toolbar)->items,
+			     NODE_INFO(parent)->proxy) + 1;
+	  break;
+	default:
+	  g_warning("%s: bad parent node type %d", G_STRLOC,
+		    NODE_INFO(parent)->type);
+	  return FALSE;
+	}
+    }
+  else
+    {
+      GtkWidget *prev_child;
+      GNode *sibling;
+
+      sibling = node->prev;
+      if (NODE_INFO(sibling)->type == EGG_MENU_MERGE_TOOLBAR_PLACEHOLDER)
+	prev_child = NODE_INFO(sibling)->extra; /* second Separator */
+      else
+	prev_child = NODE_INFO(sibling)->proxy;
+
+      g_return_val_if_fail(GTK_IS_WIDGET(prev_child), FALSE);
+      toolbar = gtk_widget_get_parent(prev_child);
+      g_return_val_if_fail(EGG_IS_TOOLBAR(toolbar), FALSE);
+
+      pos = g_list_index(EGG_TOOLBAR(toolbar)->items, prev_child) + 1;
+    }
+
+  if (toolbar_p)
+    *toolbar_p = toolbar;
   if (pos_p)
     *pos_p = pos;
 
@@ -898,7 +973,8 @@ update_node (EggMenuMerge *self, GNode *node)
 	  info->type != EGG_MENU_MERGE_MENUBAR &&
 	  info->type != EGG_MENU_MERGE_TOOLBAR &&
 	  info->type != EGG_MENU_MERGE_SEPARATOR &&
-	  info->type != EGG_MENU_MERGE_PLACEHOLDER)
+	  info->type != EGG_MENU_MERGE_MENU_PLACEHOLDER &&
+	  info->type != EGG_MENU_MERGE_TOOLBAR_PLACEHOLDER)
 	{
 	  /* FIXME: Should we warn here? */
 	  goto recurse_children;
@@ -982,12 +1058,12 @@ update_node (EggMenuMerge *self, GNode *node)
 	case EGG_MENU_MERGE_TOOLBAR:
 	  if (info->proxy == NULL)
 	    {
-	      info->proxy = gtk_toolbar_new ();
+	      info->proxy = egg_toolbar_new ();
 	      gtk_widget_show (info->proxy);
 	      g_signal_emit (self, merge_signals[ADD_WIDGET], 0, info->proxy);
 	    }
 	  break;
-	case EGG_MENU_MERGE_PLACEHOLDER:
+	case EGG_MENU_MERGE_MENU_PLACEHOLDER:
 	  /* create menu items for placeholders if necessary ... */
 	  if (!GTK_IS_SEPARATOR_MENU_ITEM (info->proxy) ||
 	      !GTK_IS_SEPARATOR_MENU_ITEM (info->extra))
@@ -1016,6 +1092,41 @@ update_node (EggMenuMerge *self, GNode *node)
 		  NODE_INFO(node)->extra = gtk_separator_menu_item_new();
 		  gtk_menu_shell_insert(GTK_MENU_SHELL(menushell),
 					NODE_INFO(node)->extra, pos+1);
+		  /*gtk_widget_show(NODE_INFO(node)->extra);*/
+		}
+	    }
+	  break;
+	case EGG_MENU_MERGE_TOOLBAR_PLACEHOLDER:
+	  /* create toolbar items for placeholders if necessary ... */
+	  if (!EGG_IS_SEPARATOR_TOOL_ITEM (info->proxy) ||
+	      !EGG_IS_SEPARATOR_TOOL_ITEM (info->extra))
+	    {
+	      if (info->proxy)
+		gtk_container_remove(GTK_CONTAINER(info->proxy->parent),
+				     info->proxy);
+	      if (info->extra)
+		gtk_container_remove(GTK_CONTAINER(info->extra->parent),
+				     info->extra);
+	      info->proxy = NULL;
+	      info->extra = NULL;
+	    }
+	  if (info->proxy == NULL)
+	    {
+	      GtkWidget *toolbar;
+	      gint pos;
+
+	      if (find_toolbar_position(node, &toolbar, &pos))
+		{
+		  EggToolItem *item;
+
+		  item = egg_separator_tool_item_new();
+		  egg_toolbar_insert_item(EGG_TOOLBAR(toolbar), item, pos);
+		  NODE_INFO(node)->proxy = GTK_WIDGET (item);
+		  /*gtk_widget_show(NODE_INFO(node)->proxy);*/
+
+		  item = egg_separator_tool_item_new();
+		  egg_toolbar_insert_item(EGG_TOOLBAR(toolbar), item, pos+1);
+		  NODE_INFO(node)->extra = GTK_WIDGET (item);
 		  /*gtk_widget_show(NODE_INFO(node)->extra);*/
 		}
 	    }
@@ -1052,33 +1163,75 @@ update_node (EggMenuMerge *self, GNode *node)
 	    }
 	  break;
 	case EGG_MENU_MERGE_TOOLITEM:
-	  if (NODE_INFO(node->parent)->type == EGG_MENU_MERGE_TOOLBAR)
-	    {
-	      info->proxy = egg_action_create_tool_item (info->action);
-	      gtk_toolbar_append_widget (GTK_TOOLBAR(NODE_INFO(node->parent)->proxy),
-					 info->proxy, NULL, NULL);
-	    }
-	  break;
-	case EGG_MENU_MERGE_SEPARATOR:
-	  /* need to handle toolbar separators too ... */
-	  if (GTK_IS_SEPARATOR_MENU_ITEM(info->proxy))
+	  /* remove the proxy if it is of the wrong type ... */
+	  if (info->proxy &&  G_OBJECT_TYPE(info->proxy) !=
+	      EGG_ACTION_GET_CLASS(info->action)->toolbar_item_type)
 	    {
 	      gtk_container_remove(GTK_CONTAINER(info->proxy->parent),
 				   info->proxy);
 	      info->proxy = NULL;
 	    }
-	  {
-	    GtkWidget *menushell;
-	    gint pos;
+	  /* create proxy if needed ... */
+	  if (info->proxy == NULL)
+	    {
+	      GtkWidget *toolbar;
+	      gint pos;
 
-	    if (find_menu_position(node, &menushell, &pos))
-	      {
-		info->proxy = gtk_separator_menu_item_new();
-		gtk_menu_shell_insert (GTK_MENU_SHELL (menushell),
-				       info->proxy, pos);
-		gtk_widget_show(info->proxy);
-	      }
-	  }
+	      if (find_toolbar_position(node, &toolbar, &pos))
+		{
+		  info->proxy = egg_action_create_tool_item (info->action);
+
+		  egg_toolbar_insert_item (EGG_TOOLBAR (toolbar),
+					   EGG_TOOL_ITEM (info->proxy), pos);
+		}
+	    }
+	  else
+	    {
+	      egg_action_connect_proxy (info->action, info->proxy);
+	    }
+	  break;
+	case EGG_MENU_MERGE_SEPARATOR:
+	  if (NODE_INFO (node->parent)->type == EGG_MENU_MERGE_TOOLBAR ||
+	      NODE_INFO (node->parent)->type == EGG_MENU_MERGE_TOOLBAR_PLACEHOLDER)
+	    {
+	      GtkWidget *toolbar;
+	      gint pos;
+
+	      if (EGG_IS_SEPARATOR_TOOL_ITEM(info->proxy))
+		{
+		  gtk_container_remove(GTK_CONTAINER(info->proxy->parent),
+				       info->proxy);
+		  info->proxy = NULL;
+		}
+
+	      if (find_toolbar_position(node, &toolbar, &pos))
+		{
+		  EggToolItem *item = egg_separator_tool_item_new();
+		  egg_toolbar_insert_item (EGG_TOOLBAR (toolbar), item, pos);
+		  info->proxy = GTK_WIDGET (item);
+		  gtk_widget_show(info->proxy);
+		}
+	    }
+	  else
+	    {
+	      GtkWidget *menushell;
+	      gint pos;
+
+	      if (GTK_IS_SEPARATOR_MENU_ITEM(info->proxy))
+		{
+		  gtk_container_remove(GTK_CONTAINER(info->proxy->parent),
+				       info->proxy);
+		  info->proxy = NULL;
+		}
+
+	      if (find_menu_position(node, &menushell, &pos))
+		{
+		  info->proxy = gtk_separator_menu_item_new();
+		  gtk_menu_shell_insert (GTK_MENU_SHELL (menushell),
+					 info->proxy, pos);
+		  gtk_widget_show(info->proxy);
+		}
+	    }
 	  break;
 	}
 
@@ -1102,6 +1255,10 @@ update_node (EggMenuMerge *self, GNode *node)
     {
       if (NODE_INFO(node)->proxy)
 	gtk_widget_destroy(NODE_INFO(node)->proxy);
+      if ((NODE_INFO(node)->type == EGG_MENU_MERGE_MENU_PLACEHOLDER ||
+	   NODE_INFO(node)->type == EGG_MENU_MERGE_TOOLBAR_PLACEHOLDER) &&
+	  NODE_INFO(node)->extra)
+	gtk_widget_destroy(NODE_INFO(node)->extra);
       g_chunk_free(NODE_INFO(node), merge_node_chunk);
       g_node_destroy(node);
     }

@@ -19,14 +19,22 @@ struct _EggToolButton
 {
   EggToolItem parent;
 
+  /*< private >*/
   GtkWidget *button;
+  GtkWidget *box;
   GtkWidget *label;
   GtkWidget *icon;
+
+  gchar *stock_id;
+  guint label_set : 1;
+  guint icon_set : 1;
 };
 
 struct _EggToolButtonClass
 {
   EggToolItemClass parent_class;
+
+  GType button_type;
 };
 
 GType        egg_tool_button_get_type       (void);

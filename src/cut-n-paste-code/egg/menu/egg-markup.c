@@ -6,6 +6,7 @@
 
 #include <string.h>
 #include "egg-markup.h"
+#include "../toolbar/eggtoolbar.h"
 
 #ifndef _
 #  define _(String) (String)
@@ -121,7 +122,7 @@ start_element_handler (GMarkupParseContext *context,
 
 	  ctx->state = STATE_TOOLBAR;
 
-	  ctx->top = ctx->current = gtk_toolbar_new();
+	  ctx->top = ctx->current = egg_toolbar_new();
 	  ctx->type = "toolbar";
 	  for (i = 0; attribute_names[i] != NULL; i++)
 	    {
@@ -215,7 +216,9 @@ start_element_handler (GMarkupParseContext *context,
 	    }
 	  else /* toolbar */
 	    {
-	      gtk_toolbar_append_space(GTK_TOOLBAR(ctx->current));
+	      EggToolItem *item = egg_tool_item_new ();
+	      egg_toolbar_insert_item (EGG_TOOLBAR(ctx->current), item, -1);
+	      gtk_widget_show (GTK_WIDGET (item));
 	    }
 
 	  raise_error = FALSE;
