@@ -34,6 +34,7 @@ typedef struct {
 
 typedef struct {
 	int col, row;
+
 	unsigned int col_abs:1;
 	unsigned int row_abs:1;
 } CellRef;
@@ -52,6 +53,9 @@ typedef struct {
 		int_t   v_int;
 	} v;
 } Value;
+
+#define VALUE_IS_NUMBER(x) (((x)->type == VALUE_INTEGER) || \
+			    ((x)->type == VALUE_FLOAT))
 
 struct EvalNode {
 	Operation oper;
@@ -76,16 +80,26 @@ typedef struct EvalNode EvalNode;
 
 typedef enum {
 	PARSE_OK,
-	PARSE_ERR_NO_QUOTE
+	PARSE_ERR_NO_QUOTE,
+	PARSE_ERR_SYNTAX
 } ParseErr;
 
 /* For talking to yyparse */
 extern char     *parser_expr;
-extern ParseErr parser_error;
+extern ParseErr  parser_error;
 extern EvalNode *parser_result;
 
-EvalNode   *eval_parse_string (char *expr, int col, int row, char **error_msg);
-void        eval_release_node (EvalNode *node);
-int         yyparse           (void);
+EvalNode   *eval_parse_string  (char *expr, char **error_msg);
+Value      *eval_node_value    (void *asheet, EvalNode *node,
+				char **error_string);
+
+void        eval_release_node  (EvalNode *node);
+void        eval_release_value (Value *value);
+Value      *eval_cast_to_float (Value *v);
+
+void        eval_dump_value    (Value *value);
+char       *eval_value_string  (Value *value);
+
+int         yyparse            (void);
 
 #endif

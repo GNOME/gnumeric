@@ -273,13 +273,16 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 			    height - (cell->row->margin_a + cell->row->margin_b));
 
 	pixels = 0;
-	do {
-		gdk_draw_text (drawable, font, gc,
-			       x1 + x_offset,
-			       text_base + y_offset,
-			       cell->text, strlen (cell->text));
-		pixels += cell->width;
-	} while (style->halign == HALIGN_FILL && pixels < cell->col->pixels);
+	if (cell->text){
+		do {
+			gdk_draw_text (drawable, font, gc,
+				       x1 + x_offset,
+				       text_base + y_offset,
+				       cell->text, strlen (cell->text));
+			pixels += cell->width;
+		} while (style->halign == HALIGN_FILL &&
+			 pixels < cell->col->pixels);
+	}
 }
 
 static void

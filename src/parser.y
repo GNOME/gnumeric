@@ -10,11 +10,11 @@
 	
 #include <glib.h>
 #include <ctype.h>
+#include <string.h>
 #include "numbers.h"
 #include "symbol.h"
 #include "expr.h"
 #include "utils.h"
-#include <ctype.h>
 
 /* Allocation with disposal-on-error */ 
 static void *alloc_buffer   (int size);
@@ -41,7 +41,6 @@ typedef struct {
 static GList *alloc_list;
  
 /* Debugging */ 
-static void dump_constant (EvalNode *node);
 static void dump_node (EvalNode *node);
 
 /* Bison/Yacc internals */ 
@@ -67,8 +66,11 @@ static int  yyerror (char *s);
 %right '^'
 
 %%
-line:	  exp           { parser_result = $1; dump_node (parser_result); }
-	| error 	{ alloc_clean (); }
+line:	  exp           { parser_result = $1; /* dump_node (parser_result);*/ }
+	| error 	{
+				alloc_clean ();
+				parser_error = PARSE_ERR_SYNTAX;
+			}
 	;
 
 exp:	  NUMBER 	{ $$ = $1 }
@@ -139,7 +141,8 @@ return_cellref (char *p)
 	int row = 0;
 	EvalNode *e;
 	Value    *v;
-
+	CellRef  *ref;
+	
 	/* Try to parse a column */
 	if (*p == '$'){
 		col_absolute = TRUE;
@@ -162,21 +165,24 @@ return_cellref (char *p)
 	if (!(*p >= '1' && *p <= '9'))
 		return 0;
 
-	while (isdigit (*p))
+	while (isdigit (*p)){
 		row = row * 10 + *p - '0';
-	row++;
+		p++;
+	}
+	row--;
 	
 	e = p_new (EvalNode);
 	v = v_new ();
 
 	e->oper = OP_VAR;
 
-	ref = &e->u.value.v.cell;
+	ref = &v->v.cell;
 
 	ref->col = col;
 	ref->row = row;
 	ref->col_abs = col_absolute;
 	ref->row_abs = row_absolute;
+	e->u.constant = v;
 	
 	yylval.node = e;
 	return CELLREF;
@@ -188,7 +194,8 @@ return_symbol (char *string)
 	EvalNode *e = p_new (EvalNode);
 	Value *v = v_new ();
 	Symbol *sym;
-
+	int type;
+	
 	sym = symbol_lookup (string);
 	type = STRING;
 	if (!sym)
@@ -206,17 +213,19 @@ return_symbol (char *string)
 	e->u.constant = v;
 	
 	yylval.node = e;
-	return STRING;
+	return type;
 }
 
 static int
 try_symbol (char *string)
 {
+	int v;
+	
 	v = return_cellref (string);
 	if (v)
 		return v;
 
-	return_symbol (string);
+	return return_symbol (string);
 }
 
 int yylex (void)
@@ -297,23 +306,23 @@ int yylex (void)
 		*string = 0;
 		parser_expr++;
 
-		return return_plain_symbol (string);
-		
+		return return_symbol (string);
+	}
 	}
 	
-	if (isalpha (c)){
-		while (islapha*parser_expr)
-	}
-	if (c == '$'){
-		EvalNode *e = p_new (EvalNode);
+	if (isalpha (c) || c == '$'){
+		char *start = parser_expr - 1;
+		char *str;
+		int  len;
+		
+		while (isalnum (*parser_expr) || *parser_expr == '$')
+			parser_expr++;
 
-		e->oper = OP_FUNCALL;
-		e->u.function.symbol = symbol_install
-			("STRFUNC", SYMBOL_FUNCTION, 0);
-		register_symbol (e->u.function.symbol);
-		e->u.function.arg_list = NULL;
-		yylval.node = e;
-		return FUNCALL;
+		len = parser_expr - start;
+		str = alloca (len + 1);
+		strncpy (str, start, len);
+		str [len] = 0;
+		return try_symbol (str);
 	}
 	if (c == '\n')
 		return 0;
@@ -412,22 +421,50 @@ alloc_clean (void)
 	alloc_list = NULL;
 }
 
-static void
-dump_constant (EvalNode *node)
+/*
+ * FIXME: For now this is only supporting double/int, not
+ * mpz/mpf.
+ * FIXME: This is not using the format_* routines as
+ * Chris has been working on those and has not commited
+ * his new version
+ */
+char *
+eval_value_string (Value *value)
 {
-	Value *value = node->u.constant;
+	char buffer [1024];
+		
+	switch (value->type){
+	case VALUE_STRING:
+		return g_strdup (value->v.str->str);
 
+	case VALUE_INTEGER:
+		snprintf (buffer, sizeof (buffer)-1, "%d", value->v.v_int);
+		break;
+
+	case VALUE_FLOAT:
+		snprintf (buffer, sizeof (buffer)-1, "%g", value->v.v_float);
+		break;
+	case VALUE_CELLRANGE:
+		g_warning ("Cellrange on a value!");
+		return g_strdup ("Internal problem");
+	}
+	return g_strdup (buffer);
+}
+
+void
+eval_dump_value (Value *value)
+{
 	switch (value->type){
 	case VALUE_STRING:
 		printf ("STRING: %s\n", value->v.str->str);
 		break;
 
 	case VALUE_INTEGER:
-		printf ("NUM: %d\n", 0);
+		printf ("NUM: %d\n", value->v.v_int);
 		break;
 
 	case VALUE_FLOAT:
-		printf ("Float: %f\n", 0.0);
+		printf ("Float: %f\n", value->v.v_float);
 		break;
 		
 	default:
@@ -443,7 +480,7 @@ dump_node (EvalNode *node)
 	
 	switch (node->oper){
 	case OP_VAR:
-		cr = &node->u.value.v.cell;
+		cr = &node->u.constant->v.cell;
 		printf ("Cell: %s%c%s%d\n",
 			cr->col_abs ? "$" : "",
 			cr->col + 'A',
@@ -452,7 +489,7 @@ dump_node (EvalNode *node)
 		return;
 		
 	case OP_CONSTANT:
-		dump_constant (node);
+		eval_dump_value (node->u.constant);
 		return;
 
 	case OP_FUNCALL:

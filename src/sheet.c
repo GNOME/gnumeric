@@ -10,11 +10,9 @@
 #include <gnome.h>
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
+#include "utils.h"
 
-static GMemChunk *cell_chunk;
-static int sheet_count;
-
-static void
+void
 sheet_redraw_all (Sheet *sheet)
 {
 	gnome_canvas_request_redraw (
@@ -195,13 +193,6 @@ sheet_new (Workbook *wb, char *name)
 	sheet->max_row_used = rows_shown;
 
 	sheet->cell_hash = g_hash_table_new (cell_hash, cell_compare);
-	if (!cell_chunk){
-		cell_chunk = g_mem_new ("CellPos",
-					sizeof (CellPos),
-					sizeof (CellPos) * 60,
-					G_ALLOC_AND_FREE);
-		sheet_count++;
-	}
 	sheet_init_default_styles (sheet);
 	
 	/* Dummy initialization */
@@ -281,11 +272,6 @@ sheet_destroy (Sheet *sheet)
 
 	g_hash_table_foreach (sheet->cell_hash, cell_hash_free_key, NULL);
 	gtk_widget_destroy (sheet->toplevel);
-	sheet_count--;
-	if (sheet_count == 0){
-		g_mem_chunk_destroy (cell_chunk);
-		cell_chunk = NULL;
-	}
 	g_free (sheet);
 }
 
@@ -1091,11 +1077,48 @@ sheet_cell_new (Sheet *sheet, int col, int row)
 	return cell;
 }
 
+
 void
-cell_set_text (Cell *cell, char *text)
+cell_set_formula (Sheet *sheet, Cell *cell, char *text)
+{
+	char *error_msg;
+	Value *v;
+
+	g_return_if_fail (cell != NULL);
+	g_return_if_fail (text != NULL);
+	
+	if (cell->text)
+		g_free (cell->text);
+	
+	cell->parsed_node = eval_parse_string (&text [1],
+					       &error_msg);
+	if (cell->parsed_node == NULL){
+		cell->text = g_strdup (error_msg);
+		return;
+	}
+
+	v = eval_node_value (sheet,
+			     cell->parsed_node,
+			     &error_msg);
+
+	if (cell->value)
+		eval_release_value (cell->value);
+	
+	if (v == NULL){
+		cell->text = g_strdup (error_msg);
+		cell->value = NULL;
+	} else {
+		/* FIXME: Use the format stuff */
+		cell->value = v;
+		cell->text  = eval_value_string (v);
+	}
+}
+
+
+void
+cell_set_text (Sheet *sheet, Cell *cell, char *text)
 {
 	GdkFont *font;
-
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
 
@@ -1104,12 +1127,42 @@ cell_set_text (Cell *cell, char *text)
 		g_free (cell->entered_text);
 	cell->entered_text = g_strdup (text);
 
-	/* The computed text, for now, just the same */
-	{
-		cell->parsed_node = NULL;
+	if (text [0] == '='){
+		cell_set_formula (sheet, cell, text); 
+	} else {
+		int is_text = 0, is_float;
+		char *p;
+		
 		if (cell->text)
 			g_free (cell->text);
 		cell->text = g_strdup (text);
+
+		for (p = text; *p && !is_text; p++){
+			switch (*p){
+			case '0': case '1': case '2': case '3': case '4':
+			case '5': case '6': case '7': case '8': case '9':
+				break;
+				
+			case 'E': case 'e': case '+': case ':': case '.':
+				is_float = 1;
+				break;
+			default:
+				is_text = 1;
+			}
+		}
+		if (!is_text){
+			Value *v = g_new (Value, 1);
+
+			if (is_float){
+				v->type = VALUE_FLOAT;
+				float_get_from_range (text, text+strlen(text),
+						      &v->v.v_float);
+			} else {
+				v->type = VALUE_INTEGER;
+				int_get_from_range (text, text+strlen (text),
+						    &v->v.v_int);
+			}
+		}
 	}
 
 	/* No default color */

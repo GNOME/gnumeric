@@ -2,6 +2,7 @@
 #include <gnome.h>
 #include <gdk/gdkkeysyms.h>
 #include "gnumeric.h"
+#include "gnumeric-sheet.h"
 
 /* The locations within the main table in the workbook */
 #define WB_EA_LINE   0
@@ -39,23 +40,44 @@ workbook_setup_sheets (Workbook *wb)
 }
 
 Sheet *
-workbook_focus_current_sheet (Workbook *wb)
+workbook_get_current_sheet (Workbook *wb)
 {
 	GtkWidget *current_notebook;
 	Sheet *sheet;
+
+	g_return_val_if_fail (wb != NULL, NULL);
 	
 	current_notebook = GTK_NOTEBOOK (wb->notebook)->cur_page->child;
 	sheet = gtk_object_get_data (GTK_OBJECT (current_notebook), "sheet");
+
+	if (sheet == NULL)
+		g_warning ("There is no current sheet in this workbook");
 	
-	gtk_window_set_focus (GTK_WINDOW (wb->toplevel),
-			      sheet->sheet_view);
+	return sheet;
+}
+
+Sheet *
+workbook_focus_current_sheet (Workbook *wb)
+{
+	Sheet *sheet;
+
+	g_return_val_if_fail (wb != NULL, NULL);
+	
+	sheet = workbook_get_current_sheet (wb);
+	
+	gtk_window_set_focus (GTK_WINDOW (wb->toplevel), sheet->sheet_view);
 	return sheet;
 }
 
 static void
 wb_input_finished (GtkEntry *entry, Workbook *wb)
 {
+	Sheet *sheet;
+	
 	printf ("FOCUS!\n");
+	sheet = workbook_get_current_sheet (wb);
+
+	gnumeric_sheet_set_current_value (GNUMERIC_SHEET (sheet->sheet_view));
 	workbook_focus_current_sheet (wb);
 }
 

@@ -36,17 +36,19 @@ typedef struct {
 	char      *entered_text;
 	
 	/* Type of the content and the actual parsed content */
-	EvalNode  *parsed_node;
+	EvalNode  *parsed_node;	/* Parse tree with the expression */
+	Value     *value;	/* Last value computed */
 	Style     *style;
 	
 	/* computed versions of the cell contents */
-	char      *text;	/* Text displayed */
+	char      *text;	/* Text rendered and displayed */
 	GdkColor  color;	/* color for the displayed text */
 	int       width;	/* Width of text */
 	int       height;	/* Height of text */
 
 	int       flags;
 } Cell;
+
 
 #define CELL_IS_FORMULA(cell) (cell->entered_text [0] == '=')
 

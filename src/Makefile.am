@@ -3,14 +3,15 @@ CFLAGS += -g -Wall 	\
 	-Wmissing-prototypes -Wmissing-declarations 
 
 bin_PROGRAMS = gnumeric
-noinst_PROGRAMS = test-format 
+noinst_PROGRAMS = test-format test-parser
 
 INCLUDES = 			\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" \
 	-I$(includedir)				 \
 	$(GNOME_INCLUDEDIR)
 
-gnumeric_SOURCES =		\
+
+GNUMERIC_BASE_SOURCES =		\
 	cell.h			\
 	expr.c			\
 	expr.h			\
@@ -27,7 +28,6 @@ gnumeric_SOURCES =		\
 	item-edit.h		\
 	item-grid.c		\
 	item-grid.h		\
-	main.c			\
 	parser.y		\
 	sheet.c			\
 	sheet.h			\
@@ -39,6 +39,11 @@ gnumeric_SOURCES =		\
 	utils.h			\
 	workbook.c
 
+gnumeric_SOURCES =		\
+	main.c			\
+	$(GNUMERIC_BASE_SOURCES)
+
+
 gnumeric_LDADD = \
 	$(GNOME_LIBDIR) \
 	$(GNOMEUI_LIBS)	\
@@ -49,6 +54,14 @@ test_format_SOURCES = format.c
 test_format_LDADD = \
 	$(GNOME_LIBDIR) \
 	$(GNOMEUI_LIBS)
+
+test_parser_SOURCES = 		\
+	test-parser.c		\
+	$(GNUMERIC_BASE_SOURCES)
+	
+test_parser_LDADD =		\
+	$(GNOME_LIBDIR)	\
+	$(GNOMEUI_LIBS) -lgmp
 
 #test_token_SOURCES = 		\
 #	test-token.c		\

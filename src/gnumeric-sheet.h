@@ -36,9 +36,11 @@ void       gnumeric_sheet_cursor_set     	 (GnumericSheet *sheet,
 void       gnumeric_sheet_load_cell_val          (GnumericSheet *gsheet);
 void       gnumeric_sheet_accept_pending_output  (GnumericSheet *sheet);
 void       gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet);
+void       gnumeric_sheet_set_current_value      (GnumericSheet *sheet);
 
 typedef struct {
 	GnomeCanvasClass parent_class;
 } GnumericSheetClass;
 #endif
+
 

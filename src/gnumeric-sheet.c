@@ -59,22 +59,35 @@ gnumeric_sheet_cursor_set (GnumericSheet *sheet, int col, int row)
 }
 
 void
-gnumeric_sheet_accept_pending_output (GnumericSheet *sheet)
+gnumeric_sheet_set_current_value (GnumericSheet *sheet)
 {
 	Cell *cell;
+	int  col, row;
+	
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (GNUMERIC_IS_SHEET (sheet));
 
+	col = sheet->cursor_col;
+	row = sheet->cursor_row;
+	cell = sheet_cell_get (sheet->sheet, col, row);
+	if (!cell)
+		cell = sheet_cell_new (sheet->sheet, sheet->cursor_col, sheet->cursor_row);
+	
+	cell_set_text (sheet->sheet, cell, gtk_entry_get_text (GTK_ENTRY (sheet->entry)));
+	sheet_redraw_all (sheet->sheet);
+}
+
+void
+gnumeric_sheet_accept_pending_output (GnumericSheet *sheet)
+{
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (GNUMERIC_IS_SHEET (sheet));
 
 	if (!sheet->item_editor)
 		return;
 
-	cell = sheet_cell_get (sheet->sheet, sheet->cursor_col, sheet->cursor_row);
-	if (!cell)
-		cell = sheet_cell_new (sheet->sheet, sheet->cursor_col, sheet->cursor_row);
+	gnumeric_sheet_set_current_value (sheet);
 	
-	cell_set_text (cell, gtk_entry_get_text (GTK_ENTRY (sheet->entry)));
-
 	gtk_object_destroy (GTK_OBJECT (sheet->item_editor));
 	sheet->item_editor = NULL;
 }
@@ -85,14 +98,19 @@ gnumeric_sheet_load_cell_val (GnumericSheet *gsheet)
 	Sheet *sheet; 
 	Workbook *wb;
 	GtkWidget *entry;
-
+	Cell *cell;
+	
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
 	
 	sheet = gsheet->sheet;
 	wb = sheet->parent_workbook;
 	entry = wb->ea_input;
-	
-	gtk_entry_set_text (GTK_ENTRY(entry), "");
+
+	cell = sheet_cell_get (sheet, gsheet->cursor_col, gsheet->cursor_row);
+	if (cell && cell->entered_text){
+		gtk_entry_set_text (GTK_ENTRY(entry), cell->entered_text);
+	} else
+		gtk_entry_set_text (GTK_ENTRY(entry), "");
 }
 
 /*
@@ -126,6 +144,7 @@ start_editing_at_cursor (GnumericSheet *sheet, GtkWidget *entry)
 	GnomeCanvasItem *item;
 	GnomeCanvas *canvas = GNOME_CANVAS (sheet);
 
+	gtk_entry_set_text (GTK_ENTRY(entry), "");
 	item = gnome_canvas_item_new (GNOME_CANVAS_GROUP(canvas->root),
 				      item_edit_get_type (),
 				      "ItemEdit::Sheet",    sheet->sheet,
@@ -230,9 +249,9 @@ gnumeric_sheet_key (GtkWidget *widget, GdkEventKey *event)
 {
 	GnumericSheet *sheet = GNUMERIC_SHEET (widget);
 	Workbook *wb = sheet->sheet->parent_workbook;
-	void (*movefn_horizontal)(GnumericSheet *, int);
-	void (*movefn_vertical)(GnumericSheet *, int);
-	
+	void (*movefn_horizontal) (GnumericSheet *, int);
+	void (*movefn_vertical)   (GnumericSheet *, int);
+
 	if ((event->state & GDK_SHIFT_MASK) != 0){
 		movefn_horizontal = gnumeric_sheet_move_horizontal_selection;
 		movefn_vertical   = gnumeric_sheet_move_vertical_selection;
