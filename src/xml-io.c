@@ -3656,7 +3656,7 @@ gnumeric_xml_write_workbook (GnmFileSaver const *fs,
 	XmlParseContext *ctxt;
 	char const *extension;
 	GsfOutput *gzout = NULL;
-	char *filename;
+	const char *filename;
 
 	g_return_if_fail (wb_view != NULL);
 	g_return_if_fail (GSF_IS_OUTPUT (output));
@@ -3675,8 +3675,8 @@ gnumeric_xml_write_workbook (GnmFileSaver const *fs,
 	xml_parse_ctx_destroy (ctxt);
 
 	/* If the suffix is .xml disable compression */
-	filename = (char *) gsf_output_name (output);
-	extension = gsf_extension_pointer (filename);
+	filename = gsf_output_name (output);
+	extension = filename ? gsf_extension_pointer (filename) : NULL;
 	if (extension == NULL || g_ascii_strcasecmp (extension, "xml") != 0) {
 		gzout  = GSF_OUTPUT (gsf_output_gzip_new (output, NULL));
 		g_object_unref (output);
