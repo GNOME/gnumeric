@@ -83,17 +83,17 @@ typedef enum {
 
 	SHEET_MODE_CREATE_BUTTON,
 	SHEET_MODE_CREATE_CHECKBOX,
-	
+
 	/* Object is selected */
 	SHEET_MODE_OBJECT_SELECTED,
 } SheetModeType;
 
 struct _Sheet {
 	int         signature;
-	
+
 	Workbook    *workbook;
 	GList       *sheet_views;
-	
+
 	char        *name;
 
 	SheetStyleData *style_data; /* See sheet-style.c */
@@ -110,13 +110,13 @@ struct _Sheet {
 	SheetSelection *cursor_selection;
 	/* TODO : seperate cursor handling from selection */
 /*	CellPos  selection_corner;*/	/* A corner of the current selection */
-	
+
 	/* The list of cells that have a comment */
 	GList       *comment_list;
-	
+
 	/* User defined names */
 	GList      *names;
-	
+
 	double      last_zoom_factor_used;
 
 	/*
@@ -130,15 +130,18 @@ struct _Sheet {
 	/* Objects */
 	SheetModeType mode;	/* Sheet mode */
 	void        *mode_data; /* Sheet per-mode data */
-	
+
 	GList       *objects;	/* List of objects in the spreadsheet */
 	GList       *coords;	/* During creation time: keeps click coordinates */
 	void        *current_object;
 	void        *active_object_frame;
-	
+
 	gboolean    pristine;
 	gboolean    modified;
-	
+
+	/* Preferences */
+	gboolean	show_grid;
+
         /* Solver parameters */
         SolverParameters solver_parameters;
 
@@ -243,7 +246,7 @@ int         sheet_col_get_distance        (Sheet const *sheet, int from_col, int
 int         sheet_row_get_distance        (Sheet const *sheet, int from_row, int to_row);
 double      sheet_row_get_unit_distance   (Sheet const *sheet, int from_row, int to_row);
 double      sheet_col_get_unit_distance   (Sheet const *sheet, int from_col, int to_col);
- 
+
 /* Sets the width/height of a column row in terms of pixels */
 void        sheet_col_set_width           (Sheet *sheet,
 				           int col, int width);
@@ -272,7 +275,7 @@ void        sheet_col_set_selection       (Sheet *sheet,
 void        sheet_row_set_selection       (Sheet *sheet,
 					   ColRowInfo *ri, int value);
 void        sheet_set_selection           (Sheet *sheet, SheetSelection const *ss);
-				       
+
 /* sheet-style.c */
 MStyle        *sheet_style_compute              (Sheet const *sheet,
 						 int col, int row);
@@ -314,7 +317,7 @@ void	    sheet_redraw_cols		  (Sheet const *sheet);
 void	    sheet_redraw_rows		  (Sheet const *sheet);
 void        sheet_redraw_selection        (Sheet const *sheet, SheetSelection const *ss);
 void        sheet_redraw_all              (Sheet const *sheet);
-				       
+
 void        sheet_update_auto_expr        (Sheet *sheet);
 
 void        sheet_mark_clean              (Sheet *sheet);
@@ -373,7 +376,7 @@ gboolean     cellref_r1c1_get             (CellRef *out, const char *in,
 void sheet_insert_object (Sheet *sheet, char *repoid);
 
 /*
- * Hooks for CORBA bootstrap: they create the 
+ * Hooks for CORBA bootstrap: they create the
  */
 void sheet_corba_setup       (Sheet *);
 void sheet_corba_shutdown    (Sheet *);
@@ -412,6 +415,6 @@ void  sheet_clear_region_content  (CommandContext *context, Sheet *sheet,
 void  sheet_clear_region_comments (Sheet *sheet,
 				   int start_col, int start_row,
 				   int end_col,   int end_row,
-				   void *closure);	
+				   void *closure);
 
 #endif /* GNUMERIC_SHEET_H */

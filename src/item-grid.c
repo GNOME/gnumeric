@@ -76,7 +76,7 @@ item_grid_realize (GnomeCanvasItem *item)
 	item_grid->fill_gc = gdk_gc_new (window);
 	item_grid->gc = gdk_gc_new (window);
 	item_grid->empty_gc = gdk_gc_new (window);
-		
+
 	/* Allocate the default colors */
 	item_grid->background = gs_white;
 	item_grid->grid_color = gs_light_gray;
@@ -242,19 +242,19 @@ item_grid_draw_border (GdkDrawable *drawable, MStyle *mstyle,
 				   x, y, x + w, y);
 	if (!extended_left &&
 	    mstyle_is_element_set (mstyle, MSTYLE_BORDER_LEFT))
-		style_border_draw (drawable, 
+		style_border_draw (drawable,
 				   mstyle_get_border (mstyle, MSTYLE_BORDER_LEFT),
 				   x, y, x, y + h);
 	if (mstyle_is_element_set (mstyle, MSTYLE_BORDER_BOTTOM))
-		style_border_draw (drawable, 
+		style_border_draw (drawable,
 				   mstyle_get_border (mstyle, MSTYLE_BORDER_BOTTOM),
 				   x, y + h, x + w, y + h);
 	if (!extended_right &&
 	    mstyle_is_element_set (mstyle, MSTYLE_BORDER_RIGHT))
-		style_border_draw (drawable, 
+		style_border_draw (drawable,
 				   mstyle_get_border (mstyle, MSTYLE_BORDER_RIGHT),
 				   x + w, y, x + w, y + h);
-	
+
 	if (mstyle_is_element_set (mstyle, MSTYLE_BORDER_DIAGONAL))
 		style_border_draw (drawable,
 				   mstyle_get_border (mstyle, MSTYLE_BORDER_DIAGONAL),
@@ -278,7 +278,7 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 	int         count;
 	int         w, h;
 	MStyle     *mstyle;
-	
+
 	mstyle = sheet_style_compute (item_grid->sheet, cell->col->pos,
 				      cell->row->pos);
 
@@ -312,13 +312,14 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 
 static void
 item_grid_paint_empty_cell (GdkDrawable *drawable, ItemGrid *item_grid,
-			    ColRowInfo *ci, ColRowInfo *ri, int col, int row,
+			    ColRowInfo const * const ci, ColRowInfo const * const ri,
+			    int col, int row,
 			    int x, int y,
 			    int const span_count)
 {
 	MStyle *mstyle;
 	GdkGC  *gc = item_grid->empty_gc;
-	
+
 	mstyle = sheet_style_compute (item_grid->sheet, col, row);
 
 	if (gnumeric_background_set_gc (mstyle, gc, item_grid->canvas_item.canvas))
@@ -340,77 +341,56 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 	ItemGrid *item_grid = ITEM_GRID (item);
 	Sheet *sheet   = item_grid->sheet;
 	GdkGC *grid_gc = item_grid->grid_gc;
-	Cell  *cell;
-	int end_x, end_y;
-	int paint_col, paint_row, max_paint_col, max_paint_row;
-	int col, row;
-	int x_paint, y_paint, real_x;
-	int diff_x, diff_y;
+	int col, row, real_x;
 	int span_count = 0;
 
-	if (x < 0){
-		g_warning ("x < 0\n");
-		return;
-	}
+	int x_paint, y_paint;
+	int const paint_col = item_grid_find_col (item_grid, x, &x_paint);
+	int const paint_row = item_grid_find_row (item_grid, y, &y_paint);
+	int const diff_x = x - x_paint;
+	int const end_x  = width + diff_x;
+	int const diff_y = y - y_paint;
+	int const end_y  = height + diff_y;
 
-	if (y < 0){
-		g_warning ("y < 0\n");
-		return;
-	}
-
-	max_paint_col = max_paint_row = 0;
-	paint_col = item_grid_find_col (item_grid, x, &x_paint);
-	paint_row = item_grid_find_row (item_grid, y, &y_paint);
-
-	col = paint_col;
-
-	diff_x = x - x_paint;
-	end_x = width + diff_x;
-	diff_y = y - y_paint;
-	end_y = height + diff_y;
+	/* We can relax this eventually. See comment in item_grid_find_col */
+	g_return_if_fail (x >= 0);
+	g_return_if_fail (y >= 0);
 
 	/* 1. The default background */
 	gdk_draw_rectangle (drawable, item_grid->fill_gc, TRUE,
 			    0, 0, width, height);
 
 	/* 2. the grids */
-	for (x_paint = -diff_x; x_paint < end_x && col < SHEET_MAX_COLS; col++){
-		ColRowInfo *ci;
+	if (sheet->show_grid) {
+		col = paint_col;
+		for (x_paint = -diff_x; x_paint < end_x && col < SHEET_MAX_COLS; ++col){
+			ColRowInfo *ci;
 
-		ci = sheet_col_get_info (sheet, col);
-		g_assert (ci->pixels != 0);
+			ci = sheet_col_get_info (sheet, col);
+			gdk_draw_line (drawable, grid_gc, x_paint, 0, x_paint, height);
+			x_paint += ci->pixels;
+		}
 
-		gdk_draw_line (drawable, grid_gc, x_paint, 0, x_paint, height);
+		row = paint_row;
+		for (y_paint = -diff_y; y_paint < end_y && row < SHEET_MAX_ROWS; ++row){
+			ColRowInfo *ri;
 
-		x_paint += ci->pixels;
-		max_paint_col = col;
-	}
-
-	row = paint_row;
-	for (y_paint = -diff_y; y_paint < end_y && row < SHEET_MAX_ROWS; row++){
-		ColRowInfo *ri;
-
-		ri = sheet_row_get_info (sheet, row);
-		gdk_draw_line (drawable, grid_gc, 0, y_paint, width, y_paint);
-		y_paint += ri->pixels;
-		max_paint_row = row;
+			ri = sheet_row_get_info (sheet, row);
+			gdk_draw_line (drawable, grid_gc, 0, y_paint, width, y_paint);
+			y_paint += ri->pixels;
+		}
 	}
 
 	gdk_gc_set_function (item_grid->gc, GDK_COPY);
 
 	row = paint_row;
 	for (y_paint = -diff_y; y_paint < end_y && row < SHEET_MAX_ROWS; row++) {
-		ColRowInfo *ri;
+		ColRowInfo const * const ri = sheet_row_get_info (sheet, row);
 
-		ri = sheet_row_get_info (sheet, row);
 		col = paint_col;
-
 		for (x_paint = -diff_x; x_paint < end_x && col < SHEET_MAX_COLS; ++col) {
-			ColRowInfo *ci;
-			
-			ci = sheet_col_get_info (sheet, col);
-
-			cell = sheet_cell_get (sheet, col, row);
+			ColRowInfo const * const ci = sheet_col_get_info (sheet, col);
+			Cell *cell = sheet_cell_get (sheet, col, row);
 
 			/* If the cell does not exist paint it as an empty cell */
 			if (cell == NULL) {
@@ -812,7 +792,7 @@ item_grid_button_1 (Sheet *sheet, GdkEvent *event, ItemGrid *item_grid, int col,
 		gnumeric_sheet_selection_cursor_base (gsheet, col, row);
 		return 1;
 	}
-	
+
 	/*
 	 * If the user is editing a formula (gnumeric_sheet_can_move_cursor)
 	 * then we enable the dynamic cell selection mode.
@@ -975,7 +955,7 @@ drag_start (GtkWidget *widget, GdkEvent *event, Sheet *sheet)
 	static GtkTargetEntry drag_types [] = {
 		{ "bonobo/moniker", 0, 1 },
 	};
-	
+
         list = gtk_target_list_new (drag_types, 1);
 
         context = gtk_drag_begin (widget, list,
@@ -1123,7 +1103,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			g_warning ("This is here just for demo purposes");
 			drag_start (GTK_WIDGET (item->canvas), event, sheet);
 			return 1;
-			
+
 		case 3:
 			item_grid_popup_menu (item_grid->sheet,
 					      event, col, row,

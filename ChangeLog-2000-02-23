@@ -1,3 +1,18 @@
+2000-01-14  Jody Goldberg <jgoldberg@home.com>
+
+	* src/dialogs/dialog-autocorrect.c (autocorrect_tool) : Suppress
+	  warnings.
+
+	* src/commands.h : Do not declare autocorrect_tool here.
+
+	* src/item-grid.c (item_grid_draw) : Add support for hiding the
+	  grid_lines.
+	* src/sheet.c (sheet_new) : Init show_grid.
+
+	* src/functions/fn-math.c (gnumeric_sumif) : Do not ignore empty cells
+	  if there is a result range that we need to stay in sync with.  Fix
+	  handling of inter-sheet references.
+
 2000-01-14  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/dialog-autocorrect.c, src/autocorrect.glade,

@@ -225,6 +225,9 @@ sheet_new (Workbook *wb, const char *name)
 	sheet->pristine = TRUE;
 	sheet->modified = FALSE;
 
+	/* Init preferences */
+	sheet->show_grid = TRUE;
+
 	return sheet;
 }
 

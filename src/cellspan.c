@@ -163,7 +163,7 @@ cell_unregister_span (Cell *cell)
  * Returns the Cell* which happens to display at the column
  */
 Cell *
-row_cell_get_displayed_at (ColRowInfo *ri, int col)
+row_cell_get_displayed_at (ColRowInfo const * const ri, int const col)
 {
 	g_return_val_if_fail (ri != NULL, NULL);
 

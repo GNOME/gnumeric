@@ -16,8 +16,6 @@
 
 /*
  * NOTE : This is a work in progress
- * Only the SetText and insert/delete row/col commands are complete and working
- * the rest need to be filled in.
  *
  * Feel free to lend a hand.  There are several distinct stages to
  * wrapping each command.
@@ -355,10 +353,13 @@ cmd_set_text_destroy (GtkObject *cmd)
 	gnumeric_command_destroy (cmd);
 }
 
+/* From src/dialogs/dialog-autocorrect.c */
+extern void autocorrect_tool (char *text);
+
 gboolean
 cmd_set_text (CommandContext *context,
 	      Sheet *sheet, CellPos const * const pos,
-	      char const * const new_text,
+	      char * new_text,
 	      String const * const old_text)
 {
 	static int const max_descriptor_width = 15;
@@ -371,6 +372,7 @@ cmd_set_text (CommandContext *context,
 	g_return_val_if_fail (sheet != NULL, TRUE);
 	g_return_val_if_fail (new_text != NULL, TRUE);
 
+	/* From src/dialogs/dialog-autocorrect.c */
 	autocorrect_tool (new_text);
 	obj = gtk_type_new (CMD_SET_TEXT_TYPE);
 	me = CMD_SET_TEXT (obj);

@@ -57,13 +57,13 @@ autocorrect_tool (char *command)
 
         if (autocorrect_init_caps) {
 		for (s = command; *s; s++) {
-		        if (isupper (*s) && isupper (s[1]))
+		        if (isupper (*s) && isupper (s[1])) {
 			        if (islower (s[2]))
 				        s[1] = tolower (s[1]);
 				else
 				        while (!isspace(*s))
 					        ++s;
-			
+			}
 		}
 	}
 
@@ -112,11 +112,12 @@ autocorrect_tool (char *command)
 	if (autocorrect_caps_lock) {
 	        if (len > 1 && islower(command[0]) && isupper(command[1]))
 		        for (i=0; i<len; i++)
-			        if (isalpha(command[i]))
+			        if (isalpha(command[i])) {
 				        if (isupper(command[i]))
 					        command[i]=tolower(command[i]);
 					else
 					        command[i]=toupper(command[i]);
+				}
 	}
 }
 

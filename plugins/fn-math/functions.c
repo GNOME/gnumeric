@@ -541,8 +541,8 @@ gnumeric_countif (FunctionEvalInfo *ei, Value **argv)
 	}
 
 	sheet = eval_sheet (range->v.cell_range.cell_a.sheet, ei->pos->sheet);
-	ret = sheet_cell_foreach_range (
-		sheet, TRUE,
+	ret = sheet_cell_foreach_range ( sheet,
+		FALSE, /* Ignore empty cells */
 		range->v.cell_range.cell_a.col,
 		range->v.cell_range.cell_a.row,
 		range->v.cell_range.cell_b.col,
@@ -676,8 +676,10 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 	        items.actual_range = FALSE;
 
 	ret = sheet_cell_foreach_range (
-		eval_sheet (ei->pos->sheet, ei->pos->sheet),
-		TRUE,
+		eval_sheet (range->v.cell_range.cell_a.sheet, ei->pos->sheet),
+		/* Do not ignore empty cells if there is an actual range */
+		actual_range == NULL,
+
 		range->v.cell_range.cell_a.col,
 		range->v.cell_range.cell_a.row,
 		range->v.cell_range.cell_b.col,
@@ -707,14 +709,16 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 	      items.current = items.list;
 	      items.sum = items.total_num = 0;
  	      ret = sheet_cell_foreach_range (
-		      eval_sheet (ei->pos->sheet, ei->pos->sheet),
-		      TRUE,
-		      actual_range->v.cell_range.cell_a.col,
-		      actual_range->v.cell_range.cell_a.row,
-		      actual_range->v.cell_range.cell_b.col,
-		      actual_range->v.cell_range.cell_b.row,
-		      callback_function_sumif,
-		      &items);
+			eval_sheet (actual_range->v.cell_range.cell_a.sheet, ei->pos->sheet),
+			/* Empty cells too.  Criteria and results must align */
+			FALSE,
+
+			actual_range->v.cell_range.cell_a.col,
+			actual_range->v.cell_range.cell_a.row,
+			actual_range->v.cell_range.cell_b.col,
+			actual_range->v.cell_range.cell_b.row,
+			callback_function_sumif,
+			&items);
 	      sum = items.sum;
 	}
 

@@ -182,7 +182,7 @@ void        cell_deep_freeze_redraws          (void);
  *
  * These are defined in cellspan.c
  */
-Cell *      row_cell_get_displayed_at    (ColRowInfo *ri, int col);
+Cell *      row_cell_get_displayed_at    (ColRowInfo const * const ri, int const col);
 void        cell_register_span           (Cell *cell, int left, int right);
 void        cell_unregister_span         (Cell *cell);
 
