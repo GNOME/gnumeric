@@ -1,3 +1,7 @@
+2001-07-14  Karl Eichwalder  <ke@suse.de>
+
+	* de.po: Update.
+
 2001-07-13  Karl Eichwalder  <ke@suse.de>
 
 	* de.po: Update.
@@ -1523,7 +1527,7 @@
 
 	* no.po: Updated Norwegian translation.
 	
-1999-10-17  Martin Norb’äãk  <norpan@bigfoot.com>
+1999-10-17  Martin Norbäk  <norpan@bigfoot.com>
 
 	* sv.po: Updated translation again.
 
@@ -1607,8 +1611,8 @@
 1999-09-08  Vincent Renardias <vincent@ldsol.com>
 
 	* Updated fr.po:
-	avant:	896 translated messages, 60 fuzzy translations, 42 untranslated messages.
-	apr’èó:  958 translated messages, 13 fuzzy translations, 27 untranslated messages.
+	before:	896 translated messages, 60 fuzzy translations, 42 untranslated messages.
+	after:  958 translated messages, 13 fuzzy translations, 27 untranslated messages.
 
 1999-09-06  Kjartan Maraas  <kmaraas@online.no>
 

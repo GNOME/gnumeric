@@ -36,7 +36,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.67\n"
 "POT-Creation-Date: 2001-07-12 22:38+0200\n"
-"PO-Revision-Date: 2001-07-13 07:54+0200\n"
+"PO-Revision-Date: 2001-07-14 04:42+0200\n"
 "Last-Translator: Karl Eichwalder <ke@suse.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -87,12 +87,12 @@ msgstr ""
 #: plugins/dif/dif.c:310
 #, c-format
 msgid "Unexpected end of file at line %d while reading header."
-msgstr ""
+msgstr "Unerwartetes Dateiende bei Zeile %d während des Lesens der Kopfzeilen."
 
 #: plugins/dif/dif.c:314
 #, c-format
 msgid "Unexpected end of file at line %d while reading data."
-msgstr ""
+msgstr "Unerwartetes Dateiende bei Zeile %d während des Lesens der Daten."
 
 #: plugins/dif/dif.c:330
 msgid "Error while reading DIF file."
@@ -237,11 +237,11 @@ msgstr "Gnumeric wurde ohne Unterstützung für Guile compiliert."
 
 #: plugins/html/roff.c:199
 msgid "Error executing groff."
-msgstr ""
+msgstr "Fehler beim Ausführen von »groff«."
 
 #: plugins/html/roff.c:228
 msgid "Error executing groff+gs."
-msgstr ""
+msgstr "Fehler beim Ausführen von »groff« und »gs«."
 
 #: plugins/lotus-123/lotus.c:316
 msgid "Error while reading lotus workbook."
