@@ -1,3 +1,10 @@
+2002-05-16  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook-control-component.c (wbcc_set_sensitive): New
+	(wbcc_menu_state_sensitivity): Remove
+	(workbook_control_component_ctor_class): Register
+	wbcc_set_sensitive and remove wbcc_menu_state_sensitivity.
+
 2002-05-16  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-view.c (wb_view_open) : Use wb_control_set_sensitive.

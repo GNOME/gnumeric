@@ -98,6 +98,9 @@ wbcc_edit_set_sensitive (WorkbookControl *wbc,
 			 gboolean ok_cancel_flag, gboolean func_guru_flag) {}
 
 static void
+wbcc_set_sensitive (WorkbookControl *wbc, gboolean sensitive) {}
+
+static void
 wbcc_auto_expr_value (WorkbookControl *wbc) {}
 
 static void
@@ -141,9 +144,6 @@ wbcc_menu_state_sheet_prefs (WorkbookControl *wbc, Sheet const *sheet) {}
 
 static void
 wbcc_menu_state_sheet_count (WorkbookControl *wbc) {}
-
-static void
-wbcc_menu_state_sensitivity (WorkbookControl *wbc, gboolean sensitive) {}
 
 static int
 wbcc_validation_msg (WorkbookControl *wbc, ValidationStyle v,
@@ -358,6 +358,7 @@ workbook_control_component_ctor_class (GObjectClass *object_class)
 	wbc_class->zoom_feedback      = wbcc_zoom_feedback;
 	wbc_class->edit_line_set      = wbcc_edit_line_set;
 	wbc_class->selection_descr_set = wbcc_edit_selection_descr_set;
+	wbc_class->set_sensitive      = wbcc_set_sensitive;
 	wbc_class->edit_set_sensitive = wbcc_edit_set_sensitive;
 	wbc_class->auto_expr_value    = wbcc_auto_expr_value;
 
@@ -375,7 +376,6 @@ workbook_control_component_ctor_class (GObjectClass *object_class)
 	wbc_class->undo_redo.labels   = wbcc_undo_redo_labels;
 	wbc_class->menu_state.update  = wbcc_menu_state_update;
 	wbc_class->menu_state.sheet_prefs = wbcc_menu_state_sheet_prefs;
-	wbc_class->menu_state.sensitivity = wbcc_menu_state_sensitivity;
 	wbc_class->menu_state.sheet_count = wbcc_menu_state_sheet_count;
 
 	/* wbc_class->claim_selection inherited from wbcg */
