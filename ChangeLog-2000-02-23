@@ -1,3 +1,9 @@
+1999-10-14  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/functions/fn-stat.c: Fixed the optional argument handling of
+ 	TREND.  Implemented one-dimensional GROWTH mostly (const argument
+ 	not implemented yet).
+
 1999-10-13  Morten Welinder  <terra@diku.dk>
 
 	* src/sheet-object.c (sheet_object_destroy): Don't try to walk the

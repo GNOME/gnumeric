@@ -3906,6 +3906,8 @@ static char *help_trend = {
 	   "which you want to estimate the y-values. "
 	   "\n"
 	   "If @known_x's is omitted, an array {1, 2, 3, ...} is used. "
+	   "If @new_x's is omitted, it is assumed to be the same as "
+	   "@known_x's. "
 	   "If @known_y's and @known_x's have unequal number of data points, "
 	   "TREND returns #NUM! error. "
 	   "\n"
@@ -3944,14 +3946,24 @@ gnumeric_trend (FunctionEvalInfo *ei, Value *argv [])
 					    COLLECT_IGNORE_BOOLS,
 					    &nnx, &result);
 	} else {
-	        xs = g_new(float_t, ny);
-	        for (nx=0; nx<ny; nx++)
-		        xs[nx] = nx+1;
-
-		nxs = collect_floats_value (argv[1], &ei->pos,
-					    COLLECT_IGNORE_STRINGS |
-					    COLLECT_IGNORE_BOOLS,
-					    &nnx, &result);
+	        /* @new_x's is assumed to be the same as @known_x's */ 
+	        if (argv[1] != NULL) {
+		        xs = collect_floats_value (argv[1], &ei->pos,
+						   COLLECT_IGNORE_STRINGS |
+						   COLLECT_IGNORE_BOOLS,
+						   &nx, &result);
+			nxs = collect_floats_value (argv[1], &ei->pos,
+						    COLLECT_IGNORE_STRINGS |
+						    COLLECT_IGNORE_BOOLS,
+						    &nnx, &result);
+		} else {
+		        xs = g_new(float_t, ny);
+			for (nx=0; nx<ny; nx++)
+			        xs[nx] = nx+1;
+		        nxs = g_new(float_t, ny);
+			for (nnx=0; nnx<ny; nnx++)
+			        xs[nnx] = nnx+1;
+		}
 	}
 	        
 	if (result)
@@ -4091,7 +4103,7 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv [])
 
 static char *help_growth = {
 	N_("@FUNCTION=GROWTH\n"
-	   "@SYNTAX=GROWTH(known_y's[,known_x's],new_x's[,const])\n"
+	   "@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
 
 	   "@DESCRIPTION="
 	   "GROWTH function applies the ``least squares'' method to fit an "
@@ -4099,6 +4111,9 @@ static char *help_growth = {
 	   "growth by using this curve. "
 	   "\n"
 	   "If @known_x's is omitted, an array {1, 2, 3, ...} is used. "
+	   "If @new_x's is omitted, it is assumed to be the same as "
+	   "@known_x's. "
+	   "\n"
 	   "GROWTH returns an array having one column and a row for each "
 	   "data point in @new_x."
 	   "\n"
@@ -4116,7 +4131,75 @@ static char *help_growth = {
 static Value *
 gnumeric_growth (FunctionEvalInfo *ei, Value *argv [])
 {
-        return value_new_float (0);
+	float_t *xs = NULL, *ys = NULL, *nxs = NULL;
+	Value *result = NULL;
+	int nx, ny, nnx, i, dim;
+	float_t expres[2];
+
+	ys = collect_floats_value (argv[0], &ei->pos,
+				   COLLECT_IGNORE_STRINGS |
+				   COLLECT_IGNORE_BOOLS,
+				   &ny, &result);
+	if (result)
+		goto out;
+
+	if (argv[2] != NULL) {
+	        xs = collect_floats_value (argv[1], &ei->pos,
+					   COLLECT_IGNORE_STRINGS |
+					   COLLECT_IGNORE_BOOLS,
+					   &nx, &result);
+
+		nxs = collect_floats_value (argv[2], &ei->pos,
+					    COLLECT_IGNORE_STRINGS |
+					    COLLECT_IGNORE_BOOLS,
+					    &nnx, &result);
+	} else {
+	        /* @new_x's is assumed to be the same as @known_x's */ 
+	        if (argv[1] != NULL) {
+		        xs = collect_floats_value (argv[1], &ei->pos,
+						   COLLECT_IGNORE_STRINGS |
+						   COLLECT_IGNORE_BOOLS,
+						   &nx, &result);
+		        nxs = collect_floats_value (argv[1], &ei->pos,
+						    COLLECT_IGNORE_STRINGS |
+						    COLLECT_IGNORE_BOOLS,
+						    &nnx, &result);
+		} else {
+		        xs = g_new(float_t, ny);
+			for (nx=0; nx<ny; nx++)
+			        xs[nx] = nx+1;
+		        nxs = g_new(float_t, ny);
+			for (nnx=0; nnx<ny; nnx++)
+			        nxs[nnx] = nnx+1;
+		}
+	}
+	        
+	if (result)
+		goto out;
+
+	if (nx != ny) {
+		result = value_new_error (&ei->pos, gnumeric_err_NUM);
+		goto out;
+	}
+
+	dim = 1;
+
+	if (exponential_regression (&xs, dim, ys, nx, 1, expres)) {
+		result = value_new_error (&ei->pos, gnumeric_err_NUM);
+		goto out;
+	}
+
+	result = value_new_array (1, nnx);
+	for (i=0; i<nnx; i++)
+	        value_array_set (result, 0, i,
+				 value_new_float (pow(expres[1], nxs[i]) * 
+						  expres[0]));
+
+ out:
+	g_free (xs);
+	g_free (ys);
+	g_free (nxs);
+	return result;
 }
 
 /***************************************************************************/
@@ -4349,8 +4432,8 @@ stat_functions_init (void)
 			    &help_gammainv, gnumeric_gammainv);
 	function_add_nodes (cat, "geomean",   0,      "",
 			    &help_geomean, gnumeric_geomean);
-	function_add_args  (cat, "growth",  "AA|Ab",
-			    "known_y's[,known_x's],new_x's[,const]",
+	function_add_args  (cat, "growth",  "A|AAb",
+			    "known_y's[,known_x's,new_x's,const]",
 			    &help_growth, gnumeric_growth);
 	function_add_nodes (cat, "harmean",   0,      "",
 			    &help_harmean, gnumeric_harmean);
@@ -4435,8 +4518,8 @@ stat_functions_init (void)
 			    &help_tdist, gnumeric_tdist);
 	function_add_args  (cat, "tinv",    "ff",     "",
 			    &help_tinv, gnumeric_tinv);
-	function_add_args  (cat, "trend",  "AA|A",
-			    "known_y's[,known_x's],new_x's",
+	function_add_args  (cat, "trend",  "A|AA",
+			    "known_y's[,known_x's,new_x's]",
 			    &help_trend, gnumeric_trend);
 	function_add_nodes (cat, "trimmean",  0,      "",
 			    &help_trimmean, gnumeric_trimmean);

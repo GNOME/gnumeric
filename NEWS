@@ -1,3 +1,11 @@
+Gnumeric 0.39
+
+Jukka:
+	* Started implementation of GROWTH function
+	* Optional argument fixes for TREND function
+
+--------------------------------------------------------------------------
+
 Gnumeric 0.38
 
 Arturo:
