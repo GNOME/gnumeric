@@ -2650,6 +2650,18 @@ cb_tools_solver (GtkWidget *widget, WorkbookControlGUI *wbcg)
 }
 
 static void
+cb_tools_scenario_add (GtkWidget *unused, WorkbookControlGUI *wbcg)
+{
+	dialog_scenario_add (wbcg);
+}
+
+static void
+cb_tools_scenarios (GtkWidget *unused, WorkbookControlGUI *wbcg)
+{
+	dialog_scenarios (wbcg);
+}
+
+static void
 cb_tools_simulation (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
@@ -3574,6 +3586,16 @@ static GnomeUIInfo workbook_menu_format [] = {
 
 /* Tools menu */
 
+static GnomeUIInfo workbook_menu_tools_scenarios [] = {
+	GNOMEUIINFO_ITEM_NONE (N_("_View..."),
+                N_("View, delete and report different scenarios"),
+                cb_tools_scenarios),
+	GNOMEUIINFO_ITEM_NONE (N_("_Add..."),
+                N_("Add a new scenario"),
+                cb_tools_scenario_add),
+	GNOMEUIINFO_END
+};
+
 static GnomeUIInfo workbook_menu_tools_anova [] = {
 
 	GNOMEUIINFO_ITEM_NONE (N_("_One Factor"),
@@ -3688,10 +3710,16 @@ static GnomeUIInfo workbook_menu_tools [] = {
 		N_("Iteratively recalculate with constraints to approach a target value"),
 		cb_tools_solver),
 
+	GNOMEUIINFO_SEPARATOR,
+
 	GNOMEUIINFO_ITEM_NONE (N_("_Risk Simulation..."),
 		N_("Test decision alternatives by using Monte Carlo simulation "
 		   "to find out probable outputs and risks related to them"),
 		cb_tools_simulation),
+ 
+       GNOMEUIINFO_SUBTREE(N_("Sce_narios"),
+                           workbook_menu_tools_scenarios),
+
 
 	GNOMEUIINFO_SEPARATOR,
 
@@ -3984,6 +4012,8 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("ToolsTabulate", cb_tools_tabulate),
 	BONOBO_UI_UNSAFE_VERB ("ToolsMerge", cb_tools_merge),
 	BONOBO_UI_UNSAFE_VERB ("ToolsSolver", cb_tools_solver),
+        BONOBO_UI_UNSAFE_VERB ("ToolsScenario", cb_tools_scenario_add),
+        BONOBO_UI_UNSAFE_VERB ("ToolsScenarios", cb_tools_scenarios),
 	BONOBO_UI_UNSAFE_VERB ("ToolsSimulation", cb_tools_simulation),
 
 	BONOBO_UI_UNSAFE_VERB ("ToolsANOVAoneFactor", cb_tools_anova_one_factor),

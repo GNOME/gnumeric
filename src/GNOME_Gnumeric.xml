@@ -522,6 +522,18 @@
 		_label="_Solver..."
 		_tip="Iteratively recalculate with constraints to approach a target value"/>
 
+            <submenu name="Scenarios" _label="Sce_narios">
+
+                <menuitem name="ToolsScenarios" verb=""
+                    _label="_View..."
+                    _tip="View, delete and report different scenarios"/>
+
+                <menuitem name="ToolsScenarioAdd" verb=""
+                    _label="_Add..."
+                    _tip="Add a scenario"/>
+
+            </submenu>
+
 	    <menuitem name="ToolsSimulation" verb=""
 		_label="_Risk Simulation..."
 		_tip="Test decision alternatives by using Monte Carlo simulation to find out probable outputs and risks related to them"/>

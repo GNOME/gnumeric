@@ -1,5 +1,7 @@
 2003-04-10  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
+	* src/workbook-control-gui.c: Added scenario tool.
+
 	* src/sheet.c (sheet_destroy): Added scenarios free call.
 	(sheet_dup): Added scenarios copy call.
 

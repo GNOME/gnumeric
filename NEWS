@@ -13,6 +13,7 @@ Jody:
 Jukka:
 	* Added shuffling tool.
 	* Added `Edit'->`Fill'->`Series...' filling tool like in XL.
+	* Added scenario tools.
 
 Morten:
 	* Make RenderedValue use a PangoLayout for storing the contents
