@@ -1,3 +1,13 @@
+1999-08-16  Michael Meeks  <michael@imaginator.com>
+
+	* src/widget-editable-label.c (el_start_editing): Remove
+	GTK_WIDGET_SET/UNSET_FLAGS (GTK_CAN_FOCUS): broken for
+	scrolling notebooks.
+	(el_stop_editing): ditto.
+
+	* src/workbook.c (workbook_setup_sheets): remove
+	unset FOCUS on notebook.
+
 1999-08-15  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/fn-stat.c: Implemented TREND (mostly).  Made the second

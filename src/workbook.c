@@ -1164,7 +1164,6 @@ static void
 workbook_setup_sheets (Workbook *wb)
 {
 	wb->notebook = gtk_notebook_new ();
-	GTK_WIDGET_UNSET_FLAGS (wb->notebook, GTK_CAN_FOCUS);
 	gtk_signal_connect_after (GTK_OBJECT (wb->notebook), "switch_page",
 				  GTK_SIGNAL_FUNC(do_focus_sheet), wb);
 

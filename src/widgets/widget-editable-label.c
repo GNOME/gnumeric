@@ -121,12 +121,6 @@ el_start_editing (El *el, const char *text)
 	GtkWidget *toplevel;
 
 	/*
-	 * Temporarly be focusable
-	 */
-	GTK_WIDGET_SET_FLAGS (GTK_WIDGET (el), GTK_CAN_FOCUS);
-	gtk_widget_grab_focus (GTK_WIDGET (el));
-
-	/*
 	 * Create a GtkEntry to actually do the editing.
 	 */
 	el->entry = gtk_entry_new ();
@@ -140,8 +134,6 @@ el_start_editing (El *el, const char *text)
 
 	gtk_grab_add (GTK_WIDGET (el));
 	
-/*	gtk_editable_select_region (GTK_EDITABLE (el->entry, 0, -1)); */
-
 	/*
 	 * Syncronize the GtkEntry with the label
 	 */
@@ -170,7 +162,6 @@ el_stop_editing (El *el)
 	}
 
 	gtk_grab_remove (GTK_WIDGET (el));
-	GTK_WIDGET_UNSET_FLAGS (GTK_WIDGET (el), GTK_CAN_FOCUS);
 }
 
 static void
