@@ -296,6 +296,37 @@ gnumeric_randbernoulli (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
+static const char *help_pdfbernoulli = {
+        N_("@FUNCTION=PDFBERNOULLI\n"
+           "@SYNTAX=PDFBERNOULLI(k,p)\n"
+
+           "@DESCRIPTION="
+           "PDFBERNOULLI returns the probability p(k) of obtaining @k "
+	   "from a Bernoulli distribution with probability parameter @p. "
+           "\n"
+           "If @k != 0 and @k != 1 PDFBERNOULLI returns #NUM! error. "
+           "If @p < 0 or @p > 1 PDFBERNOULLI returns #NUM! error. "
+	   "\n"
+           "@EXAMPLES=\n"
+           "PDFBERNOULLI(0,0.5).\n"
+           "\n"
+           "@SEEALSO=RANDBERBOULLI")
+};
+
+static Value *
+gnumeric_pdfbernoulli (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float k = value_get_as_int (argv[0]);
+	gnum_float p = value_get_as_float (argv[1]);
+
+	if (p < 0 || p > 1 || (k != 0 && k != 1))
+		return value_new_error (ei->pos, gnumeric_err_NUM);
+
+        return value_new_float (random_bernoulli_pdf (k, p));
+}
+
+/***************************************************************************/
+
 static const char *help_randgaussian = {
         N_("@FUNCTION=RANDGAUSSIAN\n"
            "@SYNTAX=RANDGAUSSIAN(mean,stdev)\n"
@@ -351,6 +382,36 @@ gnumeric_randcauchy (FunctionEvalInfo *ei, Value **argv)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
         return value_new_float (random_cauchy (a));
+}
+
+/***************************************************************************/
+
+static const char *help_pdfcauchy = {
+        N_("@FUNCTION=PDFCAUCHY\n"
+           "@SYNTAX=PDFCAUCHY(x,a)\n"
+
+           "@DESCRIPTION="
+           "PDFCAUCHY returns the probability density p(x) at x for @a "
+	   "Cauchy distribution with scale parameter @a. "
+           "\n"
+           "If @a < 0 PDFCAUCHY returns #NUM! error. "
+	   "\n"
+           "@EXAMPLES=\n"
+           "PDFCAUCHY(0.43,1).\n"
+           "\n"
+           "@SEEALSO=RANDCAUCHY")
+};
+
+static Value *
+gnumeric_pdfcauchy (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float x = value_get_as_float (argv[0]);
+	gnum_float a = value_get_as_float (argv[1]);
+
+	if (a < 0)
+		return value_new_error (ei->pos, gnumeric_err_NUM);
+
+        return value_new_float (random_cauchy_pdf (x, a));
 }
 
 /***************************************************************************/
@@ -472,6 +533,31 @@ gnumeric_randrayleigh (FunctionEvalInfo *ei, Value **argv)
 	gnum_float sigma = value_get_as_float (argv[0]);
 
         return value_new_float (random_rayleigh (sigma));
+}
+
+/***************************************************************************/
+
+static const char *help_pdfrayleigh = {
+        N_("@FUNCTION=PDFRAYLEIGH\n"
+           "@SYNTAX=PDFRAYLEIGH(x,sigma)\n"
+
+           "@DESCRIPTION="
+           "PDFRAYLEIGH returns the probability density p(x) at @x for a "
+	   "Rayleigh distribution with scale parameter @sigma."
+           "\n"
+           "@EXAMPLES=\n"
+           "PDFRAYLEIGH(0.4,1).\n"
+           "\n"
+           "@SEEALSO=RANDRAYLEIGH")
+};
+
+static Value *
+gnumeric_pdfrayleigh (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float x     = value_get_as_float (argv[0]);
+	gnum_float sigma = value_get_as_float (argv[1]);
+
+        return value_new_float (random_rayleigh_pdf (x, sigma));
 }
 
 /***************************************************************************/
@@ -972,6 +1058,30 @@ gnumeric_randlandau (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
+static const char *help_pdflandau = {
+        N_("@FUNCTION=PDFLANDAU\n"
+           "@SYNTAX=PDFLANDAU(x)\n"
+
+           "@DESCRIPTION="
+           "PDFLANDAU returns the probability density p(x) at @x for the "
+	   "Landau distribution using an approximation method. "
+           "\n"
+           "@EXAMPLES=\n"
+           "PDFLANDAU(0.34).\n"
+           "\n"
+           "@SEEALSO=RANDLANDAU")
+};
+
+static Value *
+gnumeric_pdflandau (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float x = value_get_as_float (argv[0]);
+
+	return value_new_float (random_landau_pdf (x));
+}
+
+/***************************************************************************/
+
 static const char *help_randgaussiantail = {
         N_("@FUNCTION=RANDGAUSSIANTAIL\n"
            "@SYNTAX=RANDGAUSSIANTAIL(a,sigma)\n"
@@ -1008,16 +1118,24 @@ gnumeric_randgaussiantail (FunctionEvalInfo *ei, Value **argv)
 /***************************************************************************/
 
 const ModulePluginFunctionInfo random_functions[] = {
+        { "pdfbernoulli", "ff", N_("k,p"),   &help_pdfbernoulli,
+	  gnumeric_pdfbernoulli, NULL, NULL, NULL },
         { "pdfbeta", "fff", N_("x,a,b"),         &help_pdfbeta,
 	  gnumeric_pdfbeta, NULL, NULL, NULL },
+        { "pdfcauchy", "ff", N_("x,a"),   &help_pdfcauchy,
+	  gnumeric_pdfcauchy, NULL, NULL, NULL },
         { "pdfexp", "ff", N_("x,mu"),         &help_pdfexp,
 	  gnumeric_pdfexp, NULL, NULL, NULL },
         { "pdfexppow", "fff", N_("x,a,b"),         &help_pdfexppow,
 	  gnumeric_pdfexppow, NULL, NULL, NULL },
         { "pdfgamma", "fff", N_("x,a,b"),         &help_pdfgamma,
 	  gnumeric_pdfgamma, NULL, NULL, NULL },
+        { "pdflandau", "f", N_("x"), &help_pdflandau,
+	  gnumeric_pdflandau, NULL, NULL, NULL },
         { "pdflaplace", "ff", N_("x,a"), &help_pdflaplace,
 	  gnumeric_pdflaplace, NULL, NULL, NULL },
+        { "pdfrayleigh", "ff", N_("x,sigma"), &help_pdfrayleigh,
+	  gnumeric_pdfrayleigh, NULL, NULL, NULL },
 	{ "rand",    "", "",           &help_rand,
 	  gnumeric_rand, NULL, NULL, NULL },
         { "randbernoulli", "f", N_("p"),   &help_randbernoulli,

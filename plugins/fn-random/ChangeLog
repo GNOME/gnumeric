@@ -1,5 +1,17 @@
 2002-07-22  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
+	* gsl-pdf.c (random_bernoulli_pdf, random_binomial_pdf,
+	random_cauchy_pdf, random_chisq_pdf, random_hypergeometric_pdf,
+	random_landau_pdf, random_logistic_pdf, random_lognormal_pdf,
+	random_negative_binomial_pdf, random_pareto_pdf,
+	random_poisson_pdf, random_rayleigh_pdf, random_rayleigh_tail_pdf,
+	random_tdist_pdf, random_weibull_pdf): Imported from the GSL.
+
+	* functions.c: Added PDFBERNOULLI(), PDFCAUCHY(), PDFLANDAU(), and
+	PDFRAYLEIGH().
+
+2002-07-22  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
 	* gsl-pdf.c (random_gamma_pdf, random_beta_pdf, 
 	random_exponential_pdf): Imported from GSL.
 

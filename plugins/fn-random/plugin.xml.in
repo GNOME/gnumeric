@@ -11,11 +11,15 @@
 		<service type="function_group" id="random">
 			<_category>Random</_category>
 			<functions>
+				<function name="pdfbernoulli"/>
 				<function name="pdfbeta"/>
+				<function name="pdfcauchy"/>
 				<function name="pdfexp"/>
 				<function name="pdfexppow"/>
 				<function name="pdfgamma"/>
+				<function name="pdflandau"/>
 				<function name="pdflaplace"/>
+				<function name="pdfrayleigh"/>
 				<function name="rand"/>
 				<function name="randbernoulli"/>
 				<function name="randbeta"/>
