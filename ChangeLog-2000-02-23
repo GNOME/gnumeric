@@ -1,5 +1,11 @@
 1999-08-05  Morten Welinder  <terra@diku.dk>
 
+	* src/dialog-printer-setup.c (dialog_print_info_destroy): Plug
+ 	leaks.
+
+	* src/print-info.c (hf_format_render): Plug leak.
+	(render_opcode): Constify.
+
 	* src/item-cursor.c (item_cursor_autofill_event): Don't unref, but
  	destroy.  We no longer own the ref.
 

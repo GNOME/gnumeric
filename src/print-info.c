@@ -549,7 +549,7 @@ static struct {
  * to the opcode and then a number format code
  */
 static void
-render_opcode (GString *target, char *opcode, HFRenderInfo *info, HFRenderType render_type)
+render_opcode (GString *target, const char *opcode, HFRenderInfo *info, HFRenderType render_type)
 {
 	char *args;
 	int i;
@@ -611,6 +611,7 @@ hf_format_render (const char *format, HFRenderInfo *info, HFRenderType render_ty
 				strncpy (operation, start, p - start);
 				operation [p-start] = 0;
 				render_opcode (result, operation, info, render_type);
+				g_free (operation);
 			} else
 				break;
 		} else

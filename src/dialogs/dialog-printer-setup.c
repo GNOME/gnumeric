@@ -855,6 +855,8 @@ dialog_print_info_destroy (dialog_print_info_t *dpi)
 {
 	gtk_object_unref (GTK_OBJECT (dpi->gui));
 
+	print_hf_free (dpi->header);
+	print_hf_free (dpi->footer);
 	g_free (dpi);
 }
 
