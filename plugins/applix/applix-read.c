@@ -52,6 +52,7 @@ typedef struct {
 	GHashTable	*exprs, *styles;
 	GPtrArray	*colours;
 	GPtrArray	*attrs;
+	GPtrArray	*font_names;
 
 	char *buffer;
 	int buffer_size;
@@ -210,10 +211,18 @@ applix_read_typefaces (ApplixReadState *state)
 	if (strncmp (buffer, "TYPEFACE TABLE", 14))
 		return TRUE;
 
-	do {
-		if (NULL == fgets (buffer, sizeof(buffer), state->file))
-			return TRUE;
-	} while (strncmp (buffer, "END TYPEFACE TABLE", 18));
+looper :
+	if (NULL == fgets (buffer, sizeof(buffer), state->file))
+		return TRUE;
+	if (strncmp (buffer, "END TYPEFACE TABLE", 18)) {
+		char *ptr = buffer;
+		while (*ptr && *ptr != '\n' && *ptr != '\r')
+			++ptr;
+		*ptr = '\0';
+		g_ptr_array_add	(state->font_names, g_strdup (buffer));
+		goto looper;
+	}
+
 	return FALSE;
 }
 
@@ -235,12 +244,23 @@ applix_get_colour (ApplixReadState *state, char **buf)
 	return style_color_black ();
 }
 
+static int
+applix_get_precision (char const *val)
+{
+	if (0 <= *val && *val <= '9')
+		return *val - '0';
+	if (*val != 'f')
+		g_warning ("APPLIX : unknow number format %c", *val);
+	return 2;
+}
+
 static MStyle *
 applix_parse_style (ApplixReadState *state, char **buffer)
 {
 	MStyle *style;
 	char *start = *buffer, *tmp = start;
 	gboolean is_protected = FALSE, is_invisible = FALSE;
+	char const *format_prefix = NULL, *format_suffix = NULL;
 
 	*buffer = NULL;
 	if (*tmp == 'P') {
@@ -375,15 +395,45 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 				}
 				case 'C' : /* currency or comma */
 					/* comma 'CO' */
-					if (sep[1] == 'O')
+					if (sep[1] == 'O') {
 						++sep;
+						format_prefix = "#,###";
+					} else
+						/* FIXME : what currency to use for differnt locales */
+						format_prefix = "$ #,###";
 
-				case 'F' : /* fixed */
-				case 'G' : /* general */
+					format_suffix = "";
+
 				case 'S' : /* scientific */
+					if (!format_suffix)
+						format_suffix = "E+00";
 				case 'P' : /* percentage */
-					sep += 2;
+					if (!format_suffix)
+						format_suffix = "%";
+
+				case 'G' : /* general FIXME */
+				case 'F' : /* fixed */
+				{
+					static char const *zeros = "000000000";
+					char *format;
+					char const *prec = "", *decimal = "";
+					int n_prec = applix_get_precision (++sep);
+
+					sep++;
+					if (n_prec > 0) {
+						prec = zeros + 9 - n_prec;
+						decimal = ".";
+					}
+
+					if (!format_prefix)
+						format_prefix = "0";
+					format = g_strconcat (format_prefix, decimal, prec,
+							      format_suffix, NULL);
+
+					mstyle_set_format_text (style, format);
+					g_free (format);
 					break;
+				}
 
 #if 0
 				/* FIXME : Add these to gnumeric ? */
@@ -480,10 +530,12 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 					char *start = (sep += 2);
 					int font_id = strtol (start, &sep, 10);
 
-					if (start == sep)
+					if (start == sep || font_id < 1 || font_id > state->font_names->len)
 						(void) applix_parse_error (state, "Unknown font modifier");
-
-					/* TODO : Implement this when the font table is imported */
+					else {
+						char const *name = g_ptr_array_index (state->font_names, font_id-1);
+						mstyle_set_font_name (style, name);
+					}
 					break;
 				}
 
@@ -1273,6 +1325,7 @@ applix_read (CommandContext *context, Workbook *wb, FILE *file)
 	state.styles	= g_hash_table_new (&g_str_hash, &g_str_equal);
 	state.colours	= g_ptr_array_new ();
 	state.attrs	= g_ptr_array_new ();
+	state.font_names= g_ptr_array_new ();
 	state.buffer	= NULL;
 
 	/* Actualy read the workbook */
@@ -1288,11 +1341,16 @@ applix_read (CommandContext *context, Workbook *wb, FILE *file)
 	g_hash_table_destroy (state.styles);
 
 	for (i = state.colours->len; --i >= 0 ; )
-		style_color_unref (g_ptr_array_index(state.colours,i));
+		style_color_unref (g_ptr_array_index(state.colours, i));
 	g_ptr_array_free (state.colours, TRUE);
 
 	for (i = state.attrs->len; --i >= 0 ; )
-		mstyle_unref (g_ptr_array_index(state.attrs,i));
+		mstyle_unref (g_ptr_array_index(state.attrs, i));
 	g_ptr_array_free (state.colours, TRUE);
+
+	for (i = state.font_names->len; --i >= 0 ; )
+		g_free (g_ptr_array_index(state.font_names, i));
+	g_ptr_array_free (state.font_names, TRUE);
+
 	return res;
 }
