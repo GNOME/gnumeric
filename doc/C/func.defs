@@ -2019,7 +2019,7 @@ COUPPCD (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 29-Nov-2002
 @CATEGORY=Finance
 @FUNCTION=CUM_BIV_NORM_DIST
 @SYNTAX=CUM_BIV_NORM_DIST(a,b,rho)
-@DESCRIPTION=CUM_BIV_NORM_DIST calculates the cumulative bivariatenormal distribution from parameters a, b & rhoThe return value is the probability that two random variables with correlation @rho are respectively each less than @a and@b
+@DESCRIPTION=CUM_BIV_NORM_DIST calculates the cumulative bivariate normal distribution from parameters a, b & rho.  The return value is the probability that two random variables with correlation @rho are respectively each less than @a and @b
 
 @EXAMPLES=
 
@@ -2256,6 +2256,19 @@ EUROCONVERT(2.1,"DEM","EUR") returns 1.07.
 Let us assume that the cells A1, A2, ..., A5 contain interest rates 0.11, 0.13, 0.09, 0.17, and 0.03.  Then
 FVSCHEDULE(3000,A1:A5) equals 4942.7911611.
 @SEEALSO=PV,FV
+
+@CATEGORY=Finance
+@FUNCTION=G_DURATION
+@SYNTAX=G_DURATION(rate,pv,fv)
+@DESCRIPTION=G_DURATION calculates number of periods needed for an investment to attain a desired value. This function is similar to FV and PV with a difference that we do not need give the direction of cash flows e.g. -100 for a cash outflow and +100 for a cash inflow.
+
+* If @rate <= 0, G_DURATION returns #DIV0 error.
+* If @fv = 0 or @pv = 0, G_DURATION returns #DIV0 error.
+* If @fv / @pv < 0, G_DURATION returns #VALUE error.
+
+@EXAMPLES=
+
+@SEEALSO=PPMT,PV,FV,DURATION,MDURATION
 
 @CATEGORY=Finance
 @FUNCTION=INTRATE
@@ -2529,7 +2542,7 @@ NPV(0.17,-10000,3340,2941,2493,3233,1732,2932) equals 186.30673.
 
 @EXAMPLES=
 
-@SEEALSO=OPT_BS_PUT, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA
+@SEEALSO=OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA
 
 @CATEGORY=Finance
 @FUNCTION=OPT_BS_CARRYCOST
@@ -3894,7 +3907,7 @@ ATANH(0.8) equals 1.098612.
 
 @EXAMPLES=
 
-@SEEALSO=BETALN,GAMMA
+@SEEALSO=BETALN,GAMMALN
 
 @CATEGORY=Mathematics
 @FUNCTION=BETALN

@@ -4218,7 +4218,7 @@
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
-      <para>CUM_BIV_NORM_DIST calculates the cumulative bivariatenormal distribution from parameters a, b &amp; rhoThe return value is the probability that two random variables with correlation @rho are respectively each less than @a and@b</para>
+      <para>CUM_BIV_NORM_DIST calculates the cumulative bivariate normal distribution from parameters a, b &amp; rho.  The return value is the probability that two random variables with correlation @rho are respectively each less than @a and @b</para>
       <para/>
     </refsect1>
     <refsect1>
@@ -4704,6 +4704,41 @@
       <title>See also</title>
       <para><link linkend="gnumeric-PV">PV</link>,
         <link linkend="gnumeric-FV">FV</link>.
+      </para>
+    </refsect1>
+  </refentry>
+  <refentry id="gnumeric-G_DURATION">
+    <refmeta>
+      <refentrytitle>G_DURATION</refentrytitle>
+    </refmeta>
+    <refnamediv>
+      <refname>G_DURATION</refname>
+      <refpurpose/>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>G_DURATION(rate,pv,fv)</synopsis>
+    </refsynopsisdiv>
+    <refsect1>
+      <title>Description</title>
+      <para>G_DURATION calculates number of periods needed for an investment to attain a desired value. This function is similar to FV and PV with a difference that we do not need give the direction of cash flows e.g. -100 for a cash outflow and +100 for a cash inflow.</para>
+      <para/>
+      <para>* If @rate &lt;= 0, G_DURATION returns #DIV0 error.</para>
+      <para>* If @fv = 0 or @pv = 0, G_DURATION returns #DIV0 error.</para>
+      <para>* If @fv / @pv &lt; 0, G_DURATION returns #VALUE error.</para>
+      <para/>
+    </refsect1>
+    <refsect1>
+      <title>Examples</title>
+      <para/>
+      <para/>
+    </refsect1>
+    <refsect1>
+      <title>See also</title>
+      <para><link linkend="gnumeric-PPMT">PPMT</link>,
+        <link linkend="gnumeric-PV">PV</link>,
+        <link linkend="gnumeric-FV">FV</link>,
+        <link linkend="gnumeric-DURATION">DURATION</link>,
+        <link linkend="gnumeric-MDURATION">MDURATION</link>.
       </para>
     </refsect1>
   </refentry>
@@ -5282,8 +5317,7 @@
     </refsect1>
     <refsect1>
       <title>See also</title>
-      <para><link linkend="gnumeric-OPT_BS_PUT">OPT_BS_PUT</link>,
-        <link linkend="gnumeric-OPT_BS_DELTA">OPT_BS_DELTA</link>,
+      <para><link linkend="gnumeric-OPT_BS_DELTA">OPT_BS_DELTA</link>,
         <link linkend="gnumeric-OPT_BS_RHO">OPT_BS_RHO</link>,
         <link linkend="gnumeric-OPT_BS_THETA">OPT_BS_THETA</link>,
         <link linkend="gnumeric-OPT_BS_VEGA">OPT_BS_VEGA</link>,
@@ -8445,7 +8479,7 @@
     <refsect1>
       <title>See also</title>
       <para><link linkend="gnumeric-BETALN">BETALN</link>,
-        <link linkend="gnumeric-GAMMA">GAMMA</link>.
+        <link linkend="gnumeric-GAMMALN">GAMMALN</link>.
       </para>
     </refsect1>
   </refentry>
