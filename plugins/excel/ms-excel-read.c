@@ -20,6 +20,7 @@
 #include "selection.h"
 #include "utils.h"	/* for cell_name */
 #include "ranges.h"
+#include "ms-excel-util.h"
 #include "ms-excel-xf.h"
 
 /* #define NO_DEBUG_EXCEL */
@@ -2346,37 +2347,14 @@ print_font_mapping_debug_info (ExcelSheet *sheet, MStyle const *ms)
 #endif
 
 /**
- * lookup_base_char_width:
+ * lookup_base_char_width_for_read:
  * @sheet	the Excel sheet
  *
- * Measures base character width for column sizing. Returns width.
- *
- * There is no such thing as a typical width, but we have to do
- * something.
- *
- * It looks like the width of 'n' is very close to Excel's concept of
- * width. For Times in 3 sizes, the average is .45% too low, for
- * Helvetica in 3 sizes it is .02% too low.
- *
- * Widths based on text samples come out lower, but can be used if
- * scaled appropriately. Using the sample below, we reduce the
- * difference in precision between Times and Helvetica to 0.13%.  
- */
-/* 
- * FIXME: If a column is marked italic, Excel exports a different width.
- * Looks like it tracks bold/italic variations, but we know that it doesn't 
- * track family/size. Weird.
+ * Measures base character width for column sizing. Returns width
  */
 static double
-lookup_base_char_width (ExcelSheet *sheet)
+lookup_base_char_width_for_read (ExcelSheet *sheet)
 {
-
-	double scaling = 1.2304; /* Recalibrate if sample is changed !! */
-	static char *sample =
-		"Widths based on text samples come out too low, but "
-		"can be used if scaled appropriately. Experiments "
-		"showed that a 2 line sample was very slightly more";
-
 	MStyle       *ms;
 	double        res;
 	gboolean      def;
@@ -2386,7 +2364,7 @@ lookup_base_char_width (ExcelSheet *sheet)
 	 * right so far. 
 	 */
 	def = !sheet->wb->XF_cell_records ||
-		sheet->wb->XF_cell_records->len == 0;
+		(sheet->wb->XF_cell_records->len == 0);
 	
 	if (def)
 		ms = NULL;
@@ -2397,21 +2375,15 @@ lookup_base_char_width (ExcelSheet *sheet)
 		res = EXCEL_DEFAULT_CHAR_WIDTH;
 	else {
 		StyleFont *sf;
-		double samplewidth, average;
 
 		sf = mstyle_get_font (ms, 1.0);
-		samplewidth = gnome_font_get_width_string
-			(style_font_gnome_font (sf), sample);
-		average = samplewidth / strlen (sample);
-		res = average * scaling;
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_read_debug > 2) {
 			print_font_mapping_debug_info (sheet, ms);
-			printf ("Character width based on %d character sample:"
-				" %g - adjusted to %g\n",
-				strlen (sample), average, res);
 		}
 #endif
+		res = lookup_font_base_char_width (sf, 
+						   (ms_excel_read_debug > 2));
 		style_font_unref (sf);
 		mstyle_unref (ms);
 	}
@@ -2431,12 +2403,19 @@ lookup_base_char_width (ExcelSheet *sheet)
  * This style is actually common to all sheets in the
  * workbook, but I find it more robust to treat it as a sheet
  * attribute.  
+ *
+ * FIXME: There is a function with this name both in ms-excel-read.c and
+ * ms-excel-write.c. The only difference is lookup_base_char_width_for_read
+ * vs. lookup_base_char_width_for_write. Pass the function as parameter?
+ * May be not. I don't like clever code.
  */
 static double
 get_base_char_width (ExcelSheet *sheet)
 {
 	if (sheet->base_char_width <= 0)
-		sheet->base_char_width = lookup_base_char_width (sheet);
+		sheet->base_char_width
+			= lookup_base_char_width_for_read (sheet);
+
 	return sheet->base_char_width;
 }
 			
@@ -2922,6 +2901,7 @@ ms_excel_read_selection (ExcelSheet *sheet, BiffQuery *q)
  * @sheet	The Excel sheet
  * 
  * Processes a BIFF default row height (BIFF_DEFAULTROWHEIGHT) record.
+ * See: S59D72.HTM
  */
 static void
 ms_excel_read_default_row_height (BiffQuery *q, ExcelSheet *sheet)
@@ -2955,6 +2935,7 @@ ms_excel_read_default_row_height (BiffQuery *q, ExcelSheet *sheet)
  * @sheet	The Excel sheet
  * 
  * Processes a BIFF default column width (BIFF_DEFCOLWIDTH) record.
+ * See: S59D73.HTM
  */
 static void
 ms_excel_read_default_col_width (BiffQuery *q, ExcelSheet *sheet)

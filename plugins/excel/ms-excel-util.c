@@ -1,5 +1,5 @@
 /**
- * ms-excel-util.c: Utility functions for MS Excel export
+ * ms-excel-util.c: Utility functions for MS Excel import / export
  *
  * Author:
  *    Jon K Hellan (hellan@acm.org)
@@ -161,3 +161,52 @@ two_way_table_idx_to_key (const TwoWayTable *table, gint idx)
 
 	return g_ptr_array_index (table->idx_to_key, idx - table->base);
 }
+
+/**
+ * lookup_font_base_char_width:
+ * @font	       the style font
+ * @logging_condition  print debug log if this is true
+ *
+ * Measures base character width for column sizing. Returns width.
+ *
+ * There is no such thing as a typical width, but we have to do
+ * something.
+ *
+ * It looks like the width of 'n' is very close to Excel's concept of
+ * width. For Times in 3 sizes, the average is .45% too low, for
+ * Helvetica in 3 sizes it is .02% too low.
+ *
+ * Widths based on text samples come out lower, but can be used if
+ * scaled appropriately. Using the sample below, we reduce the
+ * difference in precision between Times and Helvetica to 0.13%.  
+ */
+/* 
+ * FIXME: If a column is marked italic, Excel exports a different width.
+ * Looks like it tracks bold/italic variations, but we know that it doesn't 
+ * track family/size. Weird.
+ */
+double
+lookup_font_base_char_width (StyleFont *font, gboolean logging_condition)
+{
+
+	double scaling = 1.2304; /* Recalibrate if sample is changed !! */
+	static char *sample =
+		"Widths based on text samples come out too low, but "
+		"can be used if scaled appropriately. Experiments "
+		"showed that a 2 line sample was very slightly more";
+	double        res;
+	double samplewidth, average;
+
+	samplewidth = gnome_font_get_width_string
+		(style_font_gnome_font (font), sample);
+	average = samplewidth / strlen (sample);
+	res = average * scaling;
+#ifndef NO_DEBUG_EXCEL
+	if (logging_condition)
+		printf ("Character width based on %d character sample:"
+			" %g - adjusted to %g\n",
+			strlen (sample), average, res);
+#endif
+	return res;
+}
+

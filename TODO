@@ -275,3 +275,6 @@ Office 2000 and 'explorer' compatibility.
 * Excel Import
   * Localise sheet/workbook Name import,
   * Import names even if they arn't referenced.
+
+* Html export
+  * Export style information for blank cells.

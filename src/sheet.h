@@ -227,6 +227,12 @@ ColRowInfo *sheet_col_fetch               (Sheet *sheet, int pos);
 void        sheet_col_add                 (Sheet *sheet, ColRowInfo *cp);
 void        sheet_row_add                 (Sheet *sheet, ColRowInfo *cp);
 
+/* Return the number of units (points) in a col/row, including margins */
+double      sheet_get_default_external_col_width  (Sheet const *sheet);
+double      sheet_get_default_external_row_height (Sheet const *sheet);
+double      sheet_col_get_external_width  (Sheet const *sheet, int const pos);
+double      sheet_row_get_external_height (Sheet const *sheet, int const pos);
+
 /* Measure distances in pixels from one col/row to another */
 int         sheet_col_get_distance        (Sheet const *sheet, int from_col, int to_col);
 int         sheet_row_get_distance        (Sheet const *sheet, int from_row, int to_row);

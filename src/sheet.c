@@ -1007,6 +1007,76 @@ sheet_col_get_distance (Sheet const *sheet, int from, int to)
 }
 
 /**
+ * sheet_get_default_external_col_width:
+ *
+ * Return the default number of units in a column, including margins.
+ * This function returns the raw sum, no rounding etc.
+ */
+double
+sheet_get_default_external_col_width (Sheet const *sheet)
+{
+	ColRowInfo const *ci;
+
+	g_assert (sheet != NULL);
+ 
+	ci = &sheet->cols.default_style;
+	return  ci->units + ci->margin_a_pt + ci->margin_b_pt;
+}
+
+/**
+ * sheet_get_default_external_row_height:
+ *
+ * Return the default number of units in a row, including margins.
+ * This function returns the raw sum, no rounding etc.
+ */
+double
+sheet_get_default_external_row_height (Sheet const *sheet)
+{
+	ColRowInfo const *ci;
+
+	g_assert (sheet != NULL);
+ 
+	ci = &sheet->rows.default_style;
+	return  ci->units + ci->margin_a_pt + ci->margin_b_pt;
+}
+
+/**
+ * sheet_col_get_external_height:
+ *
+ * Return the number of units in a row, including margins.
+ * This function returns the raw sum. If you need rounding and
+ * fiddling, use sheet_col_get_unit_distance.
+ */
+double
+sheet_col_get_external_width (Sheet const *sheet, int const pos)
+{
+	ColRowInfo const *ci;
+
+	g_assert (sheet != NULL);
+ 
+	ci = sheet_col_get_info (sheet, pos);
+	return  ci->units + ci->margin_a_pt + ci->margin_b_pt;
+}
+
+/**
+ * sheet_row_get_external_height:
+ *
+ * Return the number of units in a row, including margins.
+ * This function returns the raw sum. If you need rounding and
+ * fiddling, use sheet_row_get_unit_distance.
+ */
+double
+sheet_row_get_external_height (Sheet const *sheet, int const pos)
+{
+	ColRowInfo const *ci;
+
+	g_assert (sheet != NULL);
+ 
+	ci = sheet_row_get_info (sheet, pos);
+	return  ci->units + ci->margin_a_pt + ci->margin_b_pt;
+}
+
+/**
  * sheet_row_get_distance:
  *
  * Return the number of pixels between from_row to to_row

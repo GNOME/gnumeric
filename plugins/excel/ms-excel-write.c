@@ -519,12 +519,14 @@ style_color_to_int (const StyleColor *c)
 }
 
 /**
- * Callback called when putting color to palette. Print to debug log when
- * color is added to table.
+ * log_put_color
  * @c          color
  * @was_added  true if color was added
  * @index      index of color
  * @tmpl       printf template
+
+ * Callback called when putting color to palette. Print to debug log when
+ * color is added to table.
  **/
 inline static void
 log_put_color (guint c, gboolean was_added, gint index, const char *tmpl)
@@ -591,10 +593,11 @@ palette_free (ExcelWorkbook *wb)
 }
 
 /**
- * Get index of color
+ * palette_get_index
  * @wb workbook
  * @c  color
  *
+ * Get index of color
  * The color index to use is *not* simply the index into the palette.
  * See comment to ms_excel_palette_get in ms-excel-read.c 
  **/ 
@@ -662,6 +665,9 @@ put_colors (MStyle *st, gconstpointer dummy, ExcelWorkbook *wb)
 }
 
 /**
+ * gather_palette
+ * @wb   workbook
+ *
  * Add all colors in workbook to palette.
  *
  * The palette is apparently limited to EXCEL_DEF_PAL_LEN.  We start
@@ -712,9 +718,11 @@ gather_palette (ExcelWorkbook *wb)
 }
 
 /**  
- * Write palette to file
- * @wb workbook
+ * write_palette
  * @bp BIFF buffer
+ * @wb workbook
+ *
+ * Write palette to file
  **/
 static void
 write_palette (BiffPut *bp, ExcelWorkbook *wb)
@@ -762,9 +770,10 @@ excel_font_to_string (const ExcelFont *f)
 #endif
 
 /**
- * Make an ExcelFont.
+ * excel_font_new
  * @st style - which includes style font and color
  *
+ * Make an ExcelFont.
  * In, Excel, the foreground color is a font attribute. ExcelFont
  * consists of a StyleFont and a color.
  *
@@ -800,6 +809,8 @@ excel_font_free (ExcelFont *f)
 }
 
 /**
+ * excel_font_hash
+ *
  * Hash function for ExcelFonts
  * @f font
  **/
@@ -816,12 +827,14 @@ excel_font_hash (gconstpointer f)
 }
 
 /**
- * ExcelFont comparison function used when hashing.
+ * excel_font_equal
  * @a font a
  * @b font b
+ *
+ * ExcelFont comparison function used when hashing.
  **/
 static gint  
-excel_font_equal (gconstpointer	a, gconstpointer b)
+excel_font_equal (gconstpointer a, gconstpointer b)
 {
 	gint res;
 
@@ -945,18 +958,19 @@ gather_fonts (ExcelWorkbook *wb)
 }
 
 /**
- * Write a font to file
- * @wb workbook
+ * write_font
  * @bp BIFF buffer
+ * @wb workbook
  * @f  font
  *
+ * Write a font to file
  * See S59D8C.HTM
  *
  * FIXME:
  * It would be useful to map well known fonts to Windows equivalents
  **/
 static void
-write_font (ExcelWorkbook *wb, BiffPut *bp, const ExcelFont *f)
+write_font (BiffPut *bp, ExcelWorkbook *wb, const ExcelFont *f)
 {
 	guint8 data[64];
 	StyleFont  *sf  = f->style_font;
@@ -1001,12 +1015,14 @@ write_font (ExcelWorkbook *wb, BiffPut *bp, const ExcelFont *f)
 }
 
 /**
- * Write all fonts to file
- * @wb workbook
+ * write_fonts
  * @bp BIFF buffer
+ * @wb workbook
+ *
+ * Write all fonts to file
  **/
 static void
-write_fonts (ExcelWorkbook *wb, BiffPut *bp)
+write_fonts (BiffPut *bp, ExcelWorkbook *wb)
 {
 	TwoWayTable *twt = wb->fonts->two_way_table;
 	int nfonts = twt->idx_to_key->len;
@@ -1016,7 +1032,7 @@ write_fonts (ExcelWorkbook *wb, BiffPut *bp)
 	for (lp = 0; lp < nfonts; lp++) {
 		if (lp != FONT_SKIP) {	/* FONT_SKIP is invalid, skip it */
 			f = fonts_get_font (wb, lp);
-			write_font (wb, bp, f);
+			write_font (bp, wb, f);
 		}
 	}
 
@@ -1026,19 +1042,21 @@ write_fonts (ExcelWorkbook *wb, BiffPut *bp)
 		for (; lp < FONTS_MINIMUM + 1; lp++) {
 			if (lp != FONT_SKIP) {	
 				/* FONT_SKIP is invalid, skip it */
-				write_font (wb, bp, f);
+				write_font (bp, wb, f);
 			}
 		}
 	}
 }
 
 /**
- * Callback called when putting format to table. Print to debug log when
- * format is added. Free resources when it was already there.
+ * after_put_format
  * @format     format
  * @was_added  true if format was added
  * @index      index of format
  * @tmpl       printf template
+ *
+ * Callback called when putting format to table. Print to debug log when
+ * format is added. Free resources when it was already there.
  **/
 static void
 after_put_format (char *format, gboolean was_added, gint index, 
@@ -1168,15 +1186,16 @@ gather_formats (ExcelWorkbook *wb)
 
 
 /**
- * Write a format to file
- * @wb   workbook
+ * write_format
  * @bp   BIFF buffer
+ * @wb   workbook
  * @fidx format index
  *
+ * Write a format to file
  * See S59D8E.HTM
  **/
 static void
-write_format (ExcelWorkbook *wb, BiffPut *bp, int fidx)
+write_format (BiffPut *bp, ExcelWorkbook *wb, int fidx)
 {
 	guint8 data[64];
 	char *format = formats_get_format(wb, fidx);
@@ -1200,29 +1219,28 @@ write_format (ExcelWorkbook *wb, BiffPut *bp, int fidx)
 }
 
 /**
- * Write all formats to file.
- * @wb workbook
+ * write_formats
  * @bp BIFF buffer
+ * @wb workbook
  *
+ * Write all formats to file.
  * Although we do, the formats apparently don't have to be written out in order
  **/
 static void
-write_formats (ExcelWorkbook *wb, BiffPut *bp)
+write_formats (BiffPut *bp, ExcelWorkbook *wb)
 {
 	TwoWayTable *twt = wb->formats->two_way_table;
 	int nformats = twt->idx_to_key->len;
 	int i;
-	int   magic_num[] = { 5, 6, 7, 8, 0x2a, 0x29, 0x2c, 0x2b };
+	int   magic_num [] = { 5, 6, 7, 8, 0x2a, 0x29, 0x2c, 0x2b };
 	
 	/* The built-in fonts which get localized */
-	for (i = 0; i < sizeof magic_num / sizeof magic_num[0]; i++) {
-		write_format (wb, bp, magic_num[i]);
-	}
+	for (i = 0; i < sizeof magic_num / sizeof magic_num[0]; i++)
+		write_format (bp, wb, magic_num [i]);
 
 	/* The custom fonts */
-	for (i = EXCEL_BUILTIN_FORMAT_LEN; i < nformats; i++) { 
-		write_format (wb, bp, i);
-	}
+	for (i = EXCEL_BUILTIN_FORMAT_LEN; i < nformats; i++)
+		write_format (bp, wb, i);
 }
 
 /**
@@ -1476,8 +1494,10 @@ gather_styles (ExcelWorkbook *wb)
 }
 
 /**
- * Map Gnumeric pattern index to Excel ditto.
+ * map_pattern_index_to_excel
  * @i Gnumeric pattern index 
+ *
+ * Map Gnumeric pattern index to Excel ditto.
  *
  * FIXME: 
  * Move this and ms-excel-read.c::excel_map_pattern_index_from_excel 
@@ -1502,9 +1522,10 @@ map_pattern_index_to_excel (int const i)
 }
 
 /**
- * Map Gnumeric horizontal alignment to Excel bitfield
+ * halign_to_excel
  * @halign Gnumeric horizontal alignment
  *
+ * Map Gnumeric horizontal alignment to Excel bitfield
  * See S59E1E.HTM
  **/
 inline static guint 
@@ -1539,9 +1560,10 @@ halign_to_excel (StyleHAlignFlags halign)
 }
 
 /**
- * Map Gnumeric vertical alignment to Excel bitfield
+ * valign_to_excel
  * @valign Gnumeric vertical alignment
  *
+ * Map Gnumeric vertical alignment to Excel bitfield
  * See S59E1E.HTM
  **/
 inline static guint 
@@ -1570,12 +1592,13 @@ valign_to_excel (StyleVAlignFlags valign)
 }
 
 /**
- * Map Gnumeric orientation to Excel bitfield
+ * orientation_to_excel
  * @orientation Gnumeric orientation
  *
+ * Map Gnumeric orientation to Excel bitfield
  * See S59E1E.HTM
  **/
-static guint 
+inline static guint 
 orientation_to_excel (StyleOrientation orientation)
 {
 	guint ior;
@@ -1601,13 +1624,14 @@ orientation_to_excel (StyleOrientation orientation)
 }
 
 /**
- * Map Gnumeric border type to Excel bitfield
+ * border_type_to_excel
  * @btype Gnumeric border type
  * @ver   Biff version
  *
+ * Map Gnumeric border type to Excel bitfield
  * See S59E1E.HTM
  **/
-static guint 
+inline static guint 
 border_type_to_excel (StyleBorderType btype, eBiff_version ver)
 {
 	guint ibtype = btype;
@@ -1624,8 +1648,10 @@ border_type_to_excel (StyleBorderType btype, eBiff_version ver)
 }
 
 /**
- * Do yucky stuff with fill foreground and background colors 
+ * fixup_fill_colors
  * @xfd  XF data
+ *
+ * Do yucky stuff with fill foreground and background colors 
  *
  * Solid fill patterns seem to reverse the meaning of foreground and 
  * background
@@ -1672,11 +1698,12 @@ fixup_fill_colors (BiffXFData *xfd)
 }
 
 /**
- * Fill out map of differences to parent style *
+ * get_xf_differences
  * @wb   workbook
  * @xfd  XF data
  * @parentst parent style (Not used at present)
  *
+ * Fill out map of differences to parent style
  * See S59E1E.HTM
  *
  * FIXME
@@ -1718,7 +1745,8 @@ get_xf_differences (ExcelWorkbook *wb, BiffXFData *xfd, MStyle *parentst)
 /**
  * Log XF data for a record about to be written
  **/
-static void log_xf_data	(ExcelWorkbook *wb, BiffXFData *xfd, int idx)
+static void
+log_xf_data (ExcelWorkbook *wb, BiffXFData *xfd, int idx)
 {
 	if (ms_excel_write_debug > 1) {
 		int i;
@@ -1747,11 +1775,12 @@ static void log_xf_data	(ExcelWorkbook *wb, BiffXFData *xfd, int idx)
 #endif
 
 /**
- * Build XF data for a style
+ * build_xf_data
  * @wb   workbook
  * @xfd  XF data
  * @st   style
  *
+ * Build XF data for a style
  * See S59E1E.HTM
  *
  * All BIFF V7 features are implemented, except:
@@ -1835,11 +1864,12 @@ build_xf_data (ExcelWorkbook *wb, BiffXFData *xfd, MStyle *st)
 }
 
 /**
- * Write a built-in XF record to file
+ * write_xf_magic_record
  * @bp  BIFF buffer
  * @ver BIFF version
  * @idx Index of record
  *
+ * Write a built-in XF record to file
  * See S59E1E.HTM
  **/
 static void
@@ -1900,16 +1930,17 @@ write_xf_magic_record (BiffPut *bp, eBiff_version ver, int idx)
 }
 
 /**
- * Write an XF record to file
- * @wb  Workbook
+ * write_xf_record
  * @bp  BIFF buffer
+ * @wb  Workbook
  * @xfd XF data
  *
+ * Write an XF record to file
  * See S59E1E.HTM
  * For BIFF V8, only font and format are written.
  **/
 static void
-write_xf_record (ExcelWorkbook *wb, BiffPut *bp, BiffXFData *xfd)
+write_xf_record (BiffPut *bp, ExcelWorkbook *wb, BiffXFData *xfd)
 {
 	guint8 data[256]; 
 	guint16 itmp;
@@ -1992,12 +2023,14 @@ write_xf_record (ExcelWorkbook *wb, BiffPut *bp, BiffXFData *xfd)
 }
 
 /**
- * Write XF records to file for all MStyles
- * @wb workbook
+ * write_xf
  * @bp BIFF buffer
+ * @wb workbook
+ *
+ * Write XF records to file for all MStyles
  **/
 static void
-write_xf (ExcelWorkbook *wb, BiffPut *bp)
+write_xf (BiffPut *bp, ExcelWorkbook *wb)
 {
 	TwoWayTable *twt = wb->xf->two_way_table;
 	int nxf = twt->idx_to_key->len;
@@ -2019,7 +2052,7 @@ write_xf (ExcelWorkbook *wb, BiffPut *bp)
 #ifndef NO_DEBUG_EXCEL
 		log_xf_data (wb, &xfd, lp);
 #endif
-		write_xf_record (wb, bp, &xfd);
+		write_xf_record (bp, wb, &xfd);
 	}
 
 	/* See: S59DEA.HTM */
@@ -2109,13 +2142,15 @@ ms_excel_write_map_errcode (Value const * const v)
 }
 
 /**
- * Write cell value to file
+ * write_value
  * @bp  BIFF buffer
  * @v   value
  * @ver BIFF version
  * @col column
  * @row row
  * @xf  XF index
+ *
+ * Write cell value to file
  **/
 static void
 write_value (BiffPut *bp, Value *v, eBiff_version ver,
@@ -2239,11 +2274,13 @@ write_value (BiffPut *bp, Value *v, eBiff_version ver,
 }
 
 /**
- * Write formula to file
+ * write_formula
  * @bp    BIFF buffer
  * @sheet sheet
  * @cell  cell
  * @xf    XF index
+ *
+ * Write formula to file
  **/
 static void
 write_formula (BiffPut *bp, ExcelSheet *sheet, const Cell *cell, gint16 xf)
@@ -2328,10 +2365,12 @@ write_formula (BiffPut *bp, ExcelSheet *sheet, const Cell *cell, gint16 xf)
 }
 
 /**
- * Write cell to file
+ * write_cell
  * @bp    biff buffer
  * @sheet sheet
  * @cell  cell
+ *
+ * Write cell to file
  **/
 static void
 write_cell (BiffPut *bp, ExcelSheet *sheet, const ExcelCell *cell)
@@ -2372,13 +2411,15 @@ write_cell (BiffPut *bp, ExcelSheet *sheet, const ExcelCell *cell)
 }
 
 /**
- * Write multiple blanks to file
+ * write_mulblank
  * @bp      BIFF buffer
  * @sheet   sheet
  * @end_col last blank column
  * @row     row
  * @xf_list list of XF indices - one per cell
  * @run     number of blank cells
+ *
+ * Write multiple blanks to file
  **/
 static void
 write_mulblank (BiffPut *bp, ExcelSheet *sheet, guint32 end_col, guint32 row, 
@@ -2452,6 +2493,35 @@ write_mulblank (BiffPut *bp, ExcelSheet *sheet, guint32 end_col, guint32 row,
 	}
 }
 
+/**
+ * write_default_row_height
+ * @bp  BIFF buffer
+ * @sheet sheet
+ *
+ * Write default row height
+ * See: S59D72.HTM
+ */
+static void
+write_default_row_height (BiffPut *bp, ExcelSheet *sheet)
+{
+	guint8 *data;
+	double def_height;
+	guint16 options = 0x0;
+	guint16 height;
+	
+	def_height = sheet_get_default_external_row_height (sheet->gnum_sheet);
+	height = (guint16) (20. * def_height);
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_write_debug > 1) {
+		printf ("Default row height 0x%x;\n", height);
+	}
+#endif
+	data = ms_biff_put_len_next (bp, 0x200|BIFF_DEFAULTROWHEIGHT, 4);
+	MS_OLE_SET_GUINT16 (data + 0, options);
+	MS_OLE_SET_GUINT16 (data + 2, height);
+	ms_biff_put_commit (bp);
+}
+	
 static void
 margin_write (BiffPut *bp, guint16 op, PrintUnit *pu)
 {
@@ -2464,6 +2534,170 @@ margin_write (BiffPut *bp, guint16 op, PrintUnit *pu)
 	BIFF_SETDOUBLE (data, margin);
 
 	ms_biff_put_commit (bp);
+}
+
+/**
+ * lookup_sheet_base_char_width_for_write
+ * @sheet sheet
+ *
+ * Look up base character width
+ */
+static double
+lookup_base_char_width_for_write (ExcelSheet *sheet)
+{
+	double res = EXCEL_DEFAULT_CHAR_WIDTH;
+	ExcelFont *f = NULL;
+	if (sheet && sheet->wb
+	    && sheet->wb->xf && sheet->wb->xf->default_style) {
+		f = excel_font_new (sheet->wb->xf->default_style);
+	}
+	
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_write_debug > 1) {
+		printf ("Font for column sizing: %s\n",
+			f ? excel_font_to_string (f) : "none");
+	}
+#endif
+	if (f) {
+		gboolean do_log = (ms_excel_write_debug > 2);
+		res = lookup_font_base_char_width (f->style_font, do_log);
+		excel_font_free (f);
+	}
+	
+	return res;
+}
+
+/**
+ * get_base_char_width
+ * @sheet	the Excel sheet
+ *
+ * Returns base character width for column sizing. Uses cached value
+ * if font alrady measured. Otherwise measure font.
+ *
+ * Excel uses the character width of the font in the "Normal" style.
+ * The char width is based on the font in the "Normal" style.
+ * This style is actually common to all sheets in the
+ * workbook, but I find it more robust to treat it as a sheet
+ * attribute.  
+ *
+ * FIXME: There is a function with this name both in ms-excel-read.c and
+ * ms-excel-write.c. The only difference is lookup_base_char_width_for_read
+ * vs. lookup_base_char_width_for_write. Pass the function as parameter?
+ * May be not. I don't like clever code.
+ */
+static double
+get_base_char_width (ExcelSheet *sheet)
+{
+	if (sheet->base_char_width <= 0)
+		sheet->base_char_width
+			= lookup_base_char_width_for_write (sheet);
+
+	return sheet->base_char_width;
+}
+
+/**
+ * write_default_col_width
+ * @bp  BIFF buffer
+ * @sheet sheet
+ *
+ * Write default column width
+ * See: S59D73.HTM
+ *
+ * FIXME: Not yet roundtrip compatible. The problem is that the base
+ * font when we export is the font in the default style. But this font
+ * is hardcoded and is not changed when a worksheet is imported.
+ */
+static void
+write_default_col_width (BiffPut *bp, ExcelSheet *sheet)
+{
+	guint8 *data;
+	double def_width;
+	double width_chars;
+	guint16 width;
+	
+	def_width = sheet_get_default_external_col_width (sheet->gnum_sheet);
+	width_chars = def_width / get_base_char_width (sheet);
+	width = (guint16) (width_chars + .5);
+
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_write_debug > 1) {
+		printf ("Default column width %d characters\n", width);
+	}
+#endif
+	
+	data = ms_biff_put_len_next (bp, BIFF_DEFCOLWIDTH, 2);
+	MS_OLE_SET_GUINT16 (data, width);
+	ms_biff_put_commit (bp);
+}
+
+/**
+ * write_colinfo
+ * @bp   BIFF buffer
+ * @col  column
+ *
+ * Write column info for a run of identical columns
+ */
+static void
+write_colinfo (BiffPut *bp, ExcelCol *col)
+{
+	guint8 *data;
+	double  width_chars = col->width / get_base_char_width (col->sheet);
+	guint16 width = (guint16) (width_chars * 256.);
+
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_write_debug > 1) {
+		printf ("Column Formatting from col %d to %d of width "
+			"%f characters\n", col->first, col->last, width/256.0);
+	}
+#endif
+
+	data = ms_biff_put_len_next (bp, BIFF_COLINFO, 12);
+	MS_OLE_SET_GUINT16 (data +  0, col->first); /* 1st  col formatted */
+	MS_OLE_SET_GUINT16 (data +  2, col->last);  /* last col formatted */
+	MS_OLE_SET_GUINT16 (data +  4, width);      /* width */
+	MS_OLE_SET_GUINT16 (data +  6, col->xf);    /* XF index */
+	MS_OLE_SET_GUINT16 (data +  8, 0x00);       /* options */
+	MS_OLE_SET_GUINT16 (data + 10, 0x00);       /* magic */
+	ms_biff_put_commit (bp);
+}
+
+/**
+ * write_colinfos
+ * @bp     BIFF buffer
+ * @sheet  sheet
+ *
+ * Write column info for all columns
+ * See: S59D72.HTM
+ */
+static void
+write_colinfos (BiffPut *bp, ExcelSheet *sheet)
+{
+	ExcelCol col;
+	int i;
+	double width;
+
+	col.first = 0;
+	col.width = 0.0;
+	col.sheet = sheet;
+	
+	/* FIXME: Find default style for column. Does it have to be common to
+	 * all cells, or can a cell override? Do all cells have to be
+	 * blank. */
+	col.xf    = 0x0f;
+
+	for (i = 0; i < sheet->maxx; i++) {
+		width = sheet_col_get_external_width (sheet->gnum_sheet, i);
+		if (width != col.width) {
+			if (i > 0) {
+				col.last = i - 1;
+				write_colinfo (bp, &col);
+			}
+			col.width = width;
+			col.first = i;
+		}
+	}
+	col.last = sheet->maxx;
+	write_colinfo (bp, &col);
 }
 
 static void
@@ -2531,10 +2765,7 @@ write_sheet_bools (BiffPut *bp, ExcelSheet *sheet)
 	MS_OLE_SET_GUINT32 (data+4, 0x0);
 	ms_biff_put_commit (bp);
 
-	/* See: S59D72.HTM */
-	data = ms_biff_put_len_next (bp, 0x200|BIFF_DEFAULTROWHEIGHT, 4);
-	MS_OLE_SET_GUINT32 (data, 0x00ff0000);
-	ms_biff_put_commit (bp);
+	write_default_row_height (bp, sheet); /* Default row height */
 
 	/* See: S59D6B.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_COUNTRY, 4);
@@ -2590,20 +2821,9 @@ write_sheet_bools (BiffPut *bp, ExcelSheet *sheet)
 
 	ms_formula_write_pre_data (bp, sheet, EXCEL_EXTERNNAME, ver);
 
-	/* See: S59D73.HTM */
-	data = ms_biff_put_len_next (bp, BIFF_DEFCOLWIDTH, 2);
-	MS_OLE_SET_GUINT16 (data, 0x0008);
-	ms_biff_put_commit (bp);
+	write_default_col_width (bp, sheet); /* Default column width */
 
-	/* See: S59D67.HTM */
-	data = ms_biff_put_len_next (bp, BIFF_COLINFO, 12);
-	MS_OLE_SET_GUINT16 (data+ 0, 0x00);   /* 1st  col formatted */
-	MS_OLE_SET_GUINT16 (data+ 2, sheet->maxx);   /* last col formatted */
-	MS_OLE_SET_GUINT16 (data+ 4, 0x0c49); /* width */
-	MS_OLE_SET_GUINT16 (data+ 6, 0x0f);   /* XF index */
-	MS_OLE_SET_GUINT16 (data+ 8, 0x00);   /* options */
-	MS_OLE_SET_GUINT16 (data+10, 0x00);   /* magic */
-	ms_biff_put_commit (bp);
+	write_colinfos (bp, sheet); /* Column infos */
 
 	/* See: S59D76.HTM */
 	if (ver >= eBiffV8) {
@@ -2751,21 +2971,39 @@ write_index (MsOleStream *s, ExcelSheet *sheet, MsOlePos pos)
 
 /* See: S59DDB.HTM */
 static MsOlePos
-write_rowinfo (BiffPut *bp, guint32 row, guint32 width)
+write_rowinfo (BiffPut *bp, ExcelSheet *sheet, guint32 row, guint32 width)
 {
 	guint8 *data;
 	MsOlePos pos;
 
+	double points = sheet_row_get_external_height (sheet->gnum_sheet, row);
+	/* We don't worry about standard height. I haven't seen it
+	 * indicated in any actual sheet. */
+	guint16 height = (guint16) (20. * points);
+	/* FIXME: Set option bit 7 if row has default style */
+	guint16 options = 0x0100; /* Magic */
+	/* FIXME: Find default style for row. Does it have to be common to
+	 * all cells, or can a cell override? Do all cells have to be
+	 * blank. */
+	guint16 row_xf     = 0x000f; /* Magic */
+	/* FIXME: set bit 12 of row_xf if thick border on top, bit 13 if thick
+	 * border on bottom. */
+	
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_write_debug > 1)
+		printf ("Row %d height 0x%x;\n", row+1, height);
+#endif
+
 	data = ms_biff_put_len_next (bp, (0x200 | BIFF_ROW), 16);
 	pos = bp->streamPos;
-	MS_OLE_SET_GUINT16 (data +  0, row);    /* Row number */
-	MS_OLE_SET_GUINT16 (data +  2, 0);      /* first def. col */
-	MS_OLE_SET_GUINT16 (data +  4, width);  /* last  def. col */
-	MS_OLE_SET_GUINT16 (data +  6, 0xff);   /* height */
-	MS_OLE_SET_GUINT16 (data +  8, 0x00);   /* undocumented */
-	MS_OLE_SET_GUINT16 (data + 10, 0x00);   /* reserved */
-	MS_OLE_SET_GUINT16 (data + 12, 0x0100); /* options */
-	MS_OLE_SET_GUINT16 (data + 14, 0x000f); /* magic so far */
+	MS_OLE_SET_GUINT16 (data +  0, row);     /* Row number */
+	MS_OLE_SET_GUINT16 (data +  2, 0);       /* first def. col */
+	MS_OLE_SET_GUINT16 (data +  4, width);   /* last  def. col */
+	MS_OLE_SET_GUINT16 (data +  6, height);	 /* height */
+	MS_OLE_SET_GUINT16 (data +  8, 0x00);    /* undocumented */
+	MS_OLE_SET_GUINT16 (data + 10, 0x00);    /* reserved */
+	MS_OLE_SET_GUINT16 (data + 12, options); /* options */
+	MS_OLE_SET_GUINT16 (data + 14, row_xf);  /* default style */
 	ms_biff_put_commit (bp);
 
 	return pos;
@@ -2838,7 +3076,7 @@ write_sheet (BiffPut *bp, ExcelSheet *sheet)
 		GList *xf_list = NULL;
 		MsOlePos start;
 
-		start = write_rowinfo (bp, y, maxx);
+		start = write_rowinfo (bp, sheet, y, maxx);
 
 		for (x = 0; x < maxx; x++) {
 			const ExcelCell *cell = excel_cell_get (sheet, x, y);
@@ -2891,7 +3129,8 @@ new_sheet (ExcelWorkbook *wb, Sheet *value)
 	sheet->maxx       = extent.end.col + 1;
 	sheet->maxy       = extent.end.row + 1;
 	sheet->dbcells    = g_array_new (FALSE, FALSE, sizeof (MsOlePos));
-
+	sheet->base_char_width = 0;
+	
 	g_ptr_array_add (wb->sheets, sheet);
 
 	ms_formula_cache_init (sheet);
@@ -2912,7 +3151,7 @@ free_sheet (ExcelSheet *sheet)
 }
 
 /**
- * pre_pass:
+ * pre_pass
  * @wb: the workbook to scan
  * 
  * Scans all the workbook items. Adds all styles, fonts, formats and
@@ -2968,9 +3207,9 @@ write_workbook (BiffPut *bp, Workbook *gwb, eBiff_version ver)
 /*	write_externsheets    (bp, wb, NULL); */
 	write_bits            (bp, wb, ver);
 
-	write_fonts (wb, bp);
-	write_formats (wb, bp);
-	write_xf (wb, bp);
+	write_fonts (bp, wb);
+	write_formats (bp, wb);
+	write_xf (bp, wb);
 	write_palette (bp, wb);
 
 	for (lp = 0; lp < wb->sheets->len; lp++) {

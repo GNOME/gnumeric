@@ -28,6 +28,7 @@ dialog_about (Workbook *wb)
 		N_("Ross Ihaka, special functions."),
 		N_("Jukka-Pekka Iivonen, numerous functions and tools."),
 		N_("Jakub Jelinek, Gnumeric hacker."),
+		N_("Jon K Hellan, Excel hacker."),
 		N_("Chris Lahey, Number format engine."),
 		N_("Adrian Likins, Documentation, debugging."),
 		N_("Takashi Matsuda, simple text plugin."),

@@ -1,3 +1,8 @@
+1999-12-18  Michael Meeks  <mmeeks@gnu.org>
+
+	* html.c (html_get_color): implement helper.
+	(html_write_cell32, html_write_cell40): use it + be more defensive.
+
 1999-12-18  Jarl van Katwijk <jarl@casema.net>
 
 	* html.c (html_write_cell32, html_write_cell40): fix stupid bug.

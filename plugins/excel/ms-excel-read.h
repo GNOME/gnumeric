@@ -109,8 +109,6 @@ typedef struct _ExcelWorkbook
 	Workbook            *gnum_wb;
 } ExcelWorkbook;
 
-#define EXCEL_DEFAULT_CHAR_WIDTH 12
-
 extern ExcelSheet * ms_excel_workbook_get_sheet (ExcelWorkbook *wb, guint idx);
 extern Sheet* biff_get_externsheet_name (ExcelWorkbook *wb, guint16 idx, gboolean get_first);
 extern char* biff_get_text (guint8 const *ptr, guint32 length, guint32 *byte_length);

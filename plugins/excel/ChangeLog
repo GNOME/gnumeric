@@ -1,3 +1,54 @@
+1999-12-17  Jon K Hellan  <hellan@acm.org>
+
+	* ms-excel-write.h (struct _ExcelCol ): define it
+	(struct _ExcelSheet): Add base_char_width
+
+	* ms-excel-write.c (log_put_color, palette_get_index,
+	gather_palette, write_palette, excel_font_new, excel_font_hash,
+	excel_font_equal, after_put_format, map_pattern_index_to_excel,
+	halign_to_excel, valign_to_excel, fixup_fill_colors,
+	get_xf_differences, log_xf_data, build_xf_data,
+	write_xf_magic_record, write_value, write_formula, write_cell,
+	write_mulblank, pre_pass): Cosmetics
+	(write_font, write_fonts, write_format, write_formats,
+	write_xf_record, write_xf, write_workbook): Conform to
+	conventional parameter order
+	(orientation_to_excel, border_type_to_excel): Make inline
+	(write_default_row_height): New function. Write default row
+	height.
+	(lookup_base_char_width_for_write): New function. Locate font for
+	measuring base char width, and call measuring function.
+	(get_base_char_width): New function: Return base char width for
+	column sizing.
+	(write_default_col_width): New function. Write default col width.
+	(write_colinfo): New function. Write column info for a run of
+	identical columns
+	(write_colinfos): New function. Write column info for all columns.
+	(write_sheet_bools): Use write_default_row_height,
+	write_default_col_width, write_colinfos.
+	(write_sheet_bools):
+	(write_rowinfo): Write true row height. Add sheet to signature.
+	(write_sheet): Add sheet to write_rowinfo call.
+	(new_sheet): Initialize base_char_width.
+
+	* ms-excel-util.h: #include <sheet.h>
+	(EXCEL_DEFAULT_CHAR_WIDTH): Move here from ms-excel-read.h
+	(lookup_font_base_char_width): Declare it.	
+
+	* ms-excel-util.c (lookup_font_base_char_width): New
+	function. Measure "base character width" of font. Previously in
+	lookup_base_char_width in ms-excel-read.c
+
+	* ms-excel-read.c: #include ms-excel-util.h
+	(lookup_base_char_width_for_read): Renamed from
+	lookup_base_char_width because of similar, but different function
+	in ms-excel-write.c. Split in two. Font locating stays here. Font
+	measuring moved to new function lookup_font_base_char_width in
+	ms-excel-util.c
+	(get_base_char_width): Use lookup_base_char_width_for_read.
+	(ms_excel_read_default_row_height): Refer to Excel doc page.
+	(ms_excel_read_default_col_width): Ditto
+
 1999-12-14  Jon K Hellan  <hellan@acm.org>
  
         * ms-excel-write.h (XF_MAGIC, PALETTE_ALSO_BLACK, FILL_MAGIC,

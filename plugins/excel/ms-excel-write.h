@@ -17,6 +17,7 @@
 typedef struct _ExcelFont     ExcelFont;
 typedef struct _ExcelCell     ExcelCell;
 typedef struct _ExcelRow      ExcelRow;
+typedef struct _ExcelCol      ExcelCol;
 typedef struct _ExcelSheet    ExcelSheet;
 typedef struct _ExcelWorkbook ExcelWorkbook;
 typedef struct _XF       XF;
@@ -52,6 +53,15 @@ struct _ExcelCell {
 	Cell    *gnum_cell;
 };
 
+struct _ExcelCol 
+{
+	ExcelSheet *sheet;
+	guint16 first;
+	guint16 last;
+	double  width;
+	guint16 xf;
+};
+
 struct _ExcelSheet {
 	ExcelWorkbook *wb;
 	Sheet         *gnum_sheet;
@@ -63,6 +73,7 @@ struct _ExcelSheet {
 	GHashTable    *formula_cache;
 	gpointer       cell_used_map;
 	ExcelCell     *cells;            
+	double         base_char_width;
 };
 
 struct _ExcelWorkbook {

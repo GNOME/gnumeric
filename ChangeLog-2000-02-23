@@ -1,5 +1,22 @@
 1999-12-18  Michael Meeks  <mmeeks@gnu.org>
 
+	* src/about.c (dialog_about): add Jon.
+
+1999-12-17  Jon K Hellan  <hellan@acm.org>
+ 
+	* src/sheet.c (sheet_get_default_external_col_width): New
+ 	function.  Get default column width in units, including margins.
+ 	(sheet_get_default_external_row_height): New function. Get default
+ 	row height in units, including margins.
+ 	(sheet_col_get_external_width): New function. Get column width in
+ 	units, including margins.
+ 	(sheet_row_get_external_height): New function. Get row height in
+	units, including margins.
+
+ 	* src/sheet.h: Declare new functions in sheet.c
+ 
+1999-12-18  Michael Meeks  <mmeeks@gnu.org>
+
 	* src/dialogs/dialog-cell-sort.c (dialog_cell_sort): add command context.
 
 1999-12-17  Michael Meeks  <mmeeks@gnu.org>

@@ -76,6 +76,14 @@ html_write_cell_str (FILE *fp, Cell *cell, MStyle *mstyle)
 		fprintf (fp, "</TT>");
 }
 
+static void
+html_get_color (MStyle *mstyle, MStyleElementType t, int *r, int *g, int *b)
+{
+	*r = mstyle_get_color (mstyle, t)->color.red >> 8;
+	*g = mstyle_get_color (mstyle, t)->color.green >> 8;
+	*b = mstyle_get_color (mstyle, t)->color.blue >> 8;
+}
+
 /*
  * write a TD
  */
@@ -83,7 +91,7 @@ static void
 html_write_cell32 (FILE *fp, Cell *cell)
 {
 	MStyle *mstyle;
-	unsigned char r, g, b;
+	unsigned int r, g, b;
 
 	if (!cell) {	/* empty cell */
 		fprintf (fp, "\t<TD>");
@@ -107,15 +115,11 @@ html_write_cell32 (FILE *fp, Cell *cell)
 		}
 		if (mstyle_get_align_v (mstyle) & VALIGN_TOP)
 			fprintf (fp, " valign=top");
-		r = mstyle_get_color (mstyle, MSTYLE_COLOR_BACK)->color.red >> 8;
-		g = mstyle_get_color (mstyle, MSTYLE_COLOR_BACK)->color.green >> 8;
-		b = mstyle_get_color (mstyle, MSTYLE_COLOR_BACK)->color.blue >> 8;
-		if (r != 255 || g != 255 || b != 255)
+		html_get_color (mstyle, MSTYLE_COLOR_BACK, &r, &g, &b);
+		if (r < 255 || g < 255 || b < 255)
 			fprintf (fp, " bgcolor=\"#%02X%02X%02X\"", r, g, b);
 		fprintf (fp, ">");
-		r = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color.red >> 8;
-		g = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color.green >> 8;
-		b = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color.blue >> 8;
+		html_get_color (mstyle, MSTYLE_COLOR_FORE, &r, &g, &b);
 		if (r != 0 || g != 0 || b != 0)
 			fprintf (fp, "<FONT color=\"#%02X%02X%02X\">",
 				 r, g, b);
@@ -135,7 +139,7 @@ static void
 html_write_cell40 (FILE *fp, Cell *cell)
 {
 	MStyle *mstyle;
-	unsigned char r, g, b;
+	unsigned int r, g, b;
 
 	if (!cell) {	/* empty cell */
 		fprintf (fp, "\t<TD>");
@@ -159,15 +163,11 @@ html_write_cell40 (FILE *fp, Cell *cell)
 		}
 		if (mstyle_get_align_v (mstyle) & VALIGN_TOP)
 			fprintf (fp, " valign=top");
-		r = mstyle_get_color (mstyle, MSTYLE_COLOR_BACK)->color.red >> 8;
-		g = mstyle_get_color (mstyle, MSTYLE_COLOR_BACK)->color.green >> 8;
-		b = mstyle_get_color (mstyle, MSTYLE_COLOR_BACK)->color.blue >> 8;
-		if (r != 255 || g != 255 || b != 255)
+		html_get_color (mstyle, MSTYLE_COLOR_BACK, &r, &g, &b);
+		if (r < 255 || g < 255 || b < 255)
 			fprintf (fp, " bgcolor=\"#%02X%02X%02X\"", r, g, b);
 		fprintf (fp, ">");
-		r = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color.red >> 8;
-		g = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color.green >> 8;
-		b = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color.blue >> 8;
+		html_get_color (mstyle, MSTYLE_COLOR_FORE, &r, &g, &b);
 		if (r != 0 || g != 0 || b != 0)
 			fprintf (fp, "<FONT color=\"#%02X%02X%02X\">",
 				 r, g, b);
