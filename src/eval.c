@@ -288,7 +288,6 @@ cell_drop_dependencies (Cell *cell)
 }
 
 typedef struct {
-	Range range;
 	int   start_col, start_row;
 	int   end_col, end_row;
 	Sheet *sheet;
@@ -333,10 +332,10 @@ region_get_dependencies (Sheet *sheet, int start_col, int start_row, int end_col
 	if (!dependency_hash)
 		dependency_hash_init ();
 	
-	closure.range.start_col = start_col;
-	closure.range.start_row = start_row;
-	closure.range.end_col = end_col;
-	closure.range.end_row = end_row;
+	closure.start_col = start_col;
+	closure.start_row = start_row;
+	closure.end_col = end_col;
+	closure.end_row = end_row;
 	closure.sheet = sheet;
 	closure.list = NULL;
 
