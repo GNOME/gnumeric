@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-02 08:35+0200\n"
+"POT-Creation-Date: 2003-09-03 08:25+0200\n"
 "PO-Revision-Date: 2002-01-21 11:50+0100\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -1401,7 +1401,6 @@ msgstr ""
 "@SEEALSO=IMLN,IMLOG2"
 
 #: plugins/fn-complex/functions.c:638
-#, fuzzy
 msgid ""
 "@FUNCTION=IMPOWER\n"
 "@SYNTAX=IMPOWER(inumber1,inumber2)\n"
@@ -1419,11 +1418,15 @@ msgid ""
 "@SEEALSO=IMSQRT"
 msgstr ""
 "@FUNCTION=IMPOWER\n"
-"@SYNTAX=IMPOWER(liczba_zespolona;liczba)\n"
-"@DESCRIPTION=Funkcja IMPOWER zwraca moduł liczby zespolonej podniesiony do "
-"potęgi. @liczba_zespolona jest argumentem, a @liczba - numerem potęgi, do "
-"której moduł ma zostać podniesiony.\n"
-"Funkcja ta jest zgodna z programem Excel.\n"
+"@SYNTAX=IMPOWER(liczba_zespolona1;liczba_zespolona2)\n"
+"@DESCRIPTION=Funkcja IMPOWER zwraca liczbę zespoloną podniesioną do potęgi. "
+"@liczba_zespolona1 jest argumentem, a @liczba - wartością potęgi, do której "
+"ma zostać podniesiona.\n"
+"\n"
+"* Jeśli @liczba_zespolona1 lub @liczba_zespolona2 nie są poprawnymi liczbami "
+"zespolonymi, funkcja IMPOWER zwraca błąd #WARTOŚĆ!.\n"
+"* Funkcja ta jest zgodna z programem Excel.\n"
+"\n"
 "@EXAMPLES=\n"
 "IMPOWER(\"4-j\";2) jest równe 15-8j.\n"
 "\n"
@@ -7348,15 +7351,13 @@ msgstr "tablica"
 
 #: plugins/fn-lookup/plugin.xml.in.h:1
 msgid "Functions for looking up values in ranges"
-msgstr ""
+msgstr "Funkcje do wyszukiwania wartości w zakresach"
 
 #: plugins/fn-lookup/plugin.xml.in.h:2
-#, fuzzy
 msgid "Lookup"
-msgstr "Wyszukiwanie danych"
+msgstr "Wyszukiwanie"
 
 #: plugins/fn-lookup/plugin.xml.in.h:3
-#, fuzzy
 msgid "Lookup Functions"
 msgstr "Funkcje wyszukiwania"
 
@@ -9243,9 +9244,8 @@ msgstr "zakładka"
 
 #. MS Excel puts this in statistical
 #: plugins/fn-math/functions.c:3125
-#, fuzzy
 msgid "range,criteria"
-msgstr "Kryterium"
+msgstr "zakres;kryterium"
 
 #: plugins/fn-math/functions.c:3133
 msgid "number,significance"
@@ -9257,12 +9257,11 @@ msgstr ""
 
 #: plugins/fn-math/functions.c:3165
 msgid "number,number"
-msgstr ""
+msgstr "liczba;liczba"
 
 #: plugins/fn-math/functions.c:3178
-#, fuzzy
 msgid "number,base"
-msgstr "Liczby"
+msgstr "liczba;podstawa"
 
 #: plugins/fn-math/functions.c:3187 plugins/fn-math/functions.c:3206
 msgid "numerator,denominator"
@@ -9274,38 +9273,35 @@ msgstr ""
 
 #: plugins/fn-math/functions.c:3200
 msgid "base,exponent"
-msgstr ""
+msgstr "podstawa;wykładnik"
 
 #: plugins/fn-math/functions.c:3212
 msgid "number,type"
-msgstr ""
+msgstr "liczba;typ"
 
 #: plugins/fn-math/functions.c:3215 plugins/fn-math/functions.c:3219
 #: plugins/fn-math/functions.c:3223 plugins/fn-math/functions.c:3273
-#, fuzzy
 msgid "number,digits"
-msgstr "Liczby"
+msgstr "liczba;cyfry_dziesiętne"
 
 #: plugins/fn-math/functions.c:3227
-#, fuzzy
 msgid "x,n,m,coefficients"
-msgstr "Współczynnik"
+msgstr "x,n,m,Współczynniki"
 
 #: plugins/fn-math/functions.c:3249
 msgid "range,criteria,actual_range"
 msgstr ""
 
 #: plugins/fn-math/functions.c:3252
-#, fuzzy
 msgid "range,range,"
-msgstr "Zakres"
+msgstr "zakres;zakres;"
 
 #: plugins/fn-math/functions.c:3258 plugins/fn-math/functions.c:3261
 #: plugins/fn-math/functions.c:3264 plugins/fn-math/functions.c:3280
 #: plugins/fn-stat/functions.c:5717 plugins/fn-stat/functions.c:5726
 #: plugins/fn-stat/functions.c:5849 plugins/fn-stat/functions.c:5905
 msgid "array1,array2"
-msgstr ""
+msgstr "tablica1;tablica2"
 
 #: plugins/fn-math/functions.c:3286 plugins/fn-math/functions.c:3290
 msgid "array,matrix_type,bandsize"
@@ -10139,7 +10135,7 @@ msgstr "Zakres"
 
 #: plugins/fn-random/functions.c:1121
 msgid "b"
-msgstr ""
+msgstr "b"
 
 #: plugins/fn-random/functions.c:1127
 msgid "nu1,nu2"
@@ -10147,45 +10143,43 @@ msgstr ""
 
 #: plugins/fn-random/functions.c:1133 plugins/fn-random/functions.c:1178
 msgid "a,sigma"
-msgstr ""
+msgstr "a;sigma"
 
 #: plugins/fn-random/functions.c:1139
 msgid "a,b,type"
-msgstr ""
+msgstr "a;b;typ"
 
 #: plugins/fn-random/functions.c:1142
 msgid "n1,n2,t"
-msgstr ""
+msgstr "n1;n2;t"
 
 #: plugins/fn-random/functions.c:1151
 msgid "c,alpha,beta"
-msgstr ""
+msgstr "c,alfa,beta"
 
 #: plugins/fn-random/functions.c:1160
 msgid "zeta,sigma"
-msgstr ""
+msgstr "zeta;sigma"
 
 #: plugins/fn-random/functions.c:1163
-#, fuzzy
 msgid "p,failures"
-msgstr "Wartości"
+msgstr "p;niepowodzenia"
 
 #: plugins/fn-random/functions.c:1166
 msgid "mean,stdev"
 msgstr ""
 
 #: plugins/fn-random/functions.c:1172
-#, fuzzy
 msgid "lambda"
-msgstr "_Lambda:"
+msgstr "lambda"
 
 #: plugins/fn-random/functions.c:1175
 msgid "sigma"
-msgstr ""
+msgstr "sigma"
 
 #: plugins/fn-random/functions.c:1190
 msgid "d1,d2,...,dN"
-msgstr ""
+msgstr "d1;d2;....dN"
 
 #: plugins/fn-random/plugin.xml.in.h:1
 msgid "Functions for generating random numbers"
@@ -10728,7 +10722,6 @@ msgstr ""
 "@SEEALSO=AVERAGE,HARMEAN,MEDIAN,MODE,TRIMMEAN"
 
 #: plugins/fn-stat/functions.c:836
-#, fuzzy
 msgid ""
 "@FUNCTION=COUNT\n"
 "@SYNTAX=COUNT(b1, b2, ...)\n"
@@ -10748,9 +10741,11 @@ msgstr ""
 "@SYNTAX=COUNT(b1;b2;...)\n"
 "@DESCRIPTION=Funkcja COUNT zwraca całkowitą liczbę przekazanych argumentów "
 "liczbowych (całkowitych i zmiennoprzecinkowych).\n"
-"Funkcja ta jest zgodna z programem Excel.\n"
+"\n"
+"* Funkcja ta jest zgodna z programem Excel.\n"
+"\n"
 "@EXAMPLES=\n"
-"Jeśli komórki A1, A2, ..., A5 zawierają liczby 11,4, 17,3, 21,3, 25,9, oraz "
+"Jeśli komórki A1, A2, ..., A5 zawierają liczby 11,4, 17,3, 21,3, 25,9 oraz "
 "40,1, wówczas\n"
 "COUNT(A1:A5) jest równe 5.\n"
 "\n"
@@ -13420,11 +13415,11 @@ msgstr ""
 
 #: plugins/fn-stat/functions.c:5804 plugins/fn-stat/functions.c:5880
 msgid "x,mean,stddev"
-msgstr ""
+msgstr "x;średnia;odchylenie_std"
 
 #: plugins/fn-stat/functions.c:5834
 msgid "f,t,p"
-msgstr ""
+msgstr "f;t;p"
 
 #: plugins/fn-stat/functions.c:5837
 #, fuzzy
@@ -13432,9 +13427,8 @@ msgid "x,mean,stddev,cumulative"
 msgstr "Łączny %"
 
 #: plugins/fn-stat/functions.c:5852
-#, fuzzy
 msgid "array,k"
-msgstr "Tablica"
+msgstr "tablica;k"
 
 #: plugins/fn-stat/functions.c:5855
 msgid "array,x,significance"
@@ -13479,25 +13473,24 @@ msgid "ref,x"
 msgstr ""
 
 #: plugins/fn-stat/functions.c:5946 plugins/fn-stat/functions.c:5964
-#, fuzzy
 msgid "x,a,b"
-msgstr "zakładka"
+msgstr "x;a;b"
 
 #: plugins/fn-stat/functions.c:5955
 msgid "x"
-msgstr ""
+msgstr "x"
 
 #: plugins/fn-stat/functions.c:5958 plugins/fn-stat/functions.c:5961
 msgid "x,a"
-msgstr ""
+msgstr "x;a"
 
 #: plugins/fn-stat/functions.c:5967
 msgid "x,sigma"
-msgstr ""
+msgstr "x;sigma"
 
 #: plugins/fn-stat/functions.c:5970
 msgid "x,a,sigma"
-msgstr ""
+msgstr "x;a;sigma"
 
 #: plugins/fn-stat/functions.c:5976
 msgid "function_nbr,ref,ref,"
@@ -13558,7 +13551,6 @@ msgstr ""
 "@SEEALSO=CODE"
 
 #: plugins/fn-string/functions.c:134
-#, fuzzy
 msgid ""
 "@FUNCTION=CODE\n"
 "@SYNTAX=CODE(char)\n"
@@ -13574,14 +13566,15 @@ msgstr ""
 "@FUNCTION=CODE\n"
 "@SYNTAX=CODE(znak)\n"
 "@DESCRIPTION=Funkcja CODE zwraca kod ASCII znaku @znak.\n"
-"Funkcja ta jest zgodna z programem Excel.\n"
+"\n"
+"* Funkcja ta jest zgodna z programem Excel.\n"
+"\n"
 "@EXAMPLES=\n"
 "CODE(\"A\") jest równe 65.\n"
 "\n"
 "@SEEALSO=CHAR"
 
 #: plugins/fn-string/functions.c:179
-#, fuzzy
 msgid ""
 "@FUNCTION=UNICODE\n"
 "@SYNTAX=UNICODE(char)\n"
@@ -13593,14 +13586,15 @@ msgid ""
 "\n"
 "@SEEALSO=UNICHAR,CODE,CHAR"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Funkcja CODE zwraca kod ASCII znaku @znak.\n"
-"Funkcja ta jest zgodna z programem Excel.\n"
+"@FUNCTION=UNICODE\n"
+"@SYNTAX=UNICODE(znak)\n"
+"@DESCRIPTION=Funkcja UNICODE zwraca kod Unicode znaku @znak.\n"
+"\n"
+"\n"
 "@EXAMPLES=\n"
 "CODE(\"A\") jest równe 65.\n"
 "\n"
-"@SEEALSO=CHAR"
+"@SEEALSO=UNICHAR,CODE,CHAR"
 
 #: plugins/fn-string/functions.c:205
 #, fuzzy
@@ -14212,7 +14206,7 @@ msgstr ""
 
 #: plugins/fn-string/plugin.xml.in.h:1
 msgid "Functions for manipulating strings"
-msgstr ""
+msgstr "Funkcje do wykonywania operacji na napisach"
 
 #: plugins/fn-string/plugin.xml.in.h:2 src/dialogs/dialog-search.c:137
 #: src/func.c:681
@@ -14220,9 +14214,8 @@ msgid "String"
 msgstr "Łańcuch znakowy"
 
 #: plugins/fn-string/plugin.xml.in.h:3
-#, fuzzy
 msgid "String Functions"
-msgstr "Funkcje w Pythonie"
+msgstr "Funkcje napisowe"
 
 #: plugins/gb/plugin.c:133
 msgid "Unknown GB error"
@@ -14248,12 +14241,11 @@ msgstr "Gnome Basic"
 
 #: plugins/gda/plugin-gda.c:60
 msgid "Too much data returned"
-msgstr ""
+msgstr "Zwrócono zbyt dużo danych"
 
 #: plugins/gda/plugin-gda.c:100
-#, fuzzy
 msgid "Database Connection"
-msgstr "Funkcje w Pythonie"
+msgstr "Połączenie z bazą danych"
 
 #: plugins/gda/plugin-gda.c:136
 #, fuzzy
@@ -14316,21 +14308,20 @@ msgid "Format: readDBTable(dsn,user,password,table)"
 msgstr "Format: execSQL(źródło_danych,użytkownik,hasło,sql)"
 
 #: plugins/gda/plugin.xml.in.h:2
-#, fuzzy
 msgid "Database functions for retrieval of data from a database."
-msgstr "Funkcje bazodanowe, pozwalające na pobieranie danych z baz danych"
+msgstr "Funkcje bazodanowe, pozwalające na pobieranie danych z baz danych."
 
 #: plugins/gnome-db/plugin-gnomedb.c:24
 msgid "Could not run GNOME database configuration tool"
-msgstr ""
+msgstr "Nie można uruchomić narzędzia konfiguracyjnego bazy danych GNOME"
 
 #: plugins/gnome-db/ui.xml.h:1
 msgid "Data Sources..."
-msgstr ""
+msgstr "Źródła danych..."
 
 #: plugins/gnome-db/ui.xml.h:2
 msgid "View and manage data sources"
-msgstr ""
+msgstr "Przegląda i zarządza źródłami danych"
 
 #: plugins/gnome-glossary/plugin.xml.in.h:1
 msgid "Gnome Glossary"
@@ -14345,9 +14336,8 @@ msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr "Udostępnia możliwość zapisu słownika GNOME w plikach .po."
 
 #: plugins/guile/plugin.c:108
-#, fuzzy
 msgid "Guile error"
-msgstr "Wystąpiło wiele błędów"
+msgstr "Błąd Guile"
 
 #: plugins/guile/plugin.xml.in.h:1
 msgid "Guile Plugin"
@@ -14358,31 +14348,28 @@ msgid "This plugin enables Guile(scheme) support in Gnumeric"
 msgstr "Wtyczka udostępniająca obsługę Guile (scheme)"
 
 #: plugins/guile/smob-value.c:102
-#, fuzzy
 msgid "Unable to convert value from Guile"
-msgstr "Nie można zamknąć pliku z modułem \"%s\"."
+msgstr "Nie można przekonwertować wartości z Guile"
 
 #: plugins/guile/smob-value.c:163
 msgid "Not a Guile boolean"
-msgstr ""
+msgstr "To nie jest wartość logiczna Guile"
 
 #: plugins/guile/smob-value.c:181
-#, fuzzy
 msgid "Not a Guile number"
-msgstr "Liczba ujemna:"
+msgstr "To nie jest liczba Guile"
 
 #: plugins/guile/smob-value.c:199
 msgid "Not a Guile string"
-msgstr ""
+msgstr "To nie jest napis Guile"
 
 #: plugins/html/html_read.c:473
-#, fuzzy
 msgid "Unable to parse the html."
-msgstr "Nie można wkleić"
+msgstr "Nie można przeanalizować kodu html."
 
 #: plugins/html/plugin.xml.in.h:1
 msgid "HTML"
-msgstr ""
+msgstr "HTML"
 
 #: plugins/html/plugin.xml.in.h:2
 msgid "HTML & TeX"
@@ -14413,13 +14400,12 @@ msgid "TROFF (*.me)"
 msgstr "TROFF (*.me)"
 
 #: plugins/html/plugin.xml.in.h:9
-#, fuzzy
 msgid "XHTML (*.html)"
-msgstr "HTML 3.2 (*.html)"
+msgstr "XHTML (*.html)"
 
 #: plugins/html/plugin.xml.in.h:10
 msgid "XHTML range - for export to clipboard"
-msgstr ""
+msgstr "Zakres XHTML - do wyeksportowania do schowka"
 
 #: plugins/lotus-123/boot.c:61
 msgid "Error while reading lotus workbook."
@@ -14490,7 +14476,7 @@ msgstr "Typ"
 
 #: plugins/mps/mps.c:276
 msgid "RHS"
-msgstr ""
+msgstr "RHS"
 
 #: plugins/mps/mps.c:277 src/tools/solver/reports-write.c:134
 msgid "Slack"
@@ -14517,9 +14503,8 @@ msgid "Invalid RHS section in the file."
 msgstr "Niepoprawna sekcja RHS w pliku."
 
 #: plugins/mps/parser.c:569
-#, fuzzy
 msgid "Invalid RANGES section in the file."
-msgstr "Niepoprawna sekcja RHS w pliku."
+msgstr "Niepoprawna sekcja RANGES w pliku."
 
 #: plugins/mps/parser.c:574
 msgid "Invalid BOUNDS section in the file."
@@ -14805,7 +14790,7 @@ msgstr "Porzuć wyrażenie"
 #: plugins/openoffice/openoffice-read.c:426
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
-msgstr ""
+msgstr "Wyrażenie \"%s\" nie rozpoczyna się od rozpoznanego znaku"
 
 #: plugins/openoffice/openoffice-read.c:439
 #, fuzzy, c-format
@@ -14814,11 +14799,11 @@ msgstr "Nie można otworzyć pliku \"%s\""
 
 #: plugins/openoffice/openoffice-read.c:496
 msgid "Invalid array expression does not specify number of columns."
-msgstr ""
+msgstr "Niepoprawne wyrażenie tablicowe nie określa liczby kolumn."
 
 #: plugins/openoffice/openoffice-read.c:499
 msgid "Invalid array expression does not specify number of rows."
-msgstr ""
+msgstr "Niepoprawne wyrażenie tablicowe nie określa liczby wierszy."
 
 #: plugins/openoffice/openoffice-read.c:747
 #, fuzzy, c-format
@@ -14833,20 +14818,19 @@ msgstr "Nie można otworzyć pliku \"%s\""
 
 #: plugins/openoffice/openoffice-read.c:935
 msgid "No stream named content.xml found."
-msgstr ""
+msgstr "Nie znaleziono strumienia o nazwie content.xml."
 
 #: plugins/openoffice/plugin.xml.in.h:1
 msgid "Open/Star Calc (*.sxc)"
-msgstr ""
+msgstr "Open/Star Calc (*.sxc)"
 
 #: plugins/openoffice/plugin.xml.in.h:2
-#, fuzzy
 msgid "Open/Star Office spreadsheet"
-msgstr "Otwiera arkusz"
+msgstr "Arkusz kalkulacyjny Open/Star Office"
 
 #: plugins/openoffice/plugin.xml.in.h:3
 msgid "OpenCalc/StarCalc"
-msgstr ""
+msgstr "OpenCalc/StarCalc"
 
 #: plugins/perl/plugin.xml.in.h:1
 msgid "Enables the creation of functions in Perl"
@@ -14931,12 +14915,11 @@ msgstr "Wtyczka udostępniająca obsługę dla wtyczek napisanych w Pythonie"
 #: plugins/python-loader/py-console.c:91
 #, c-format
 msgid "*** Interpreter: %s\n"
-msgstr ""
+msgstr "*** Interpreter: %s\n"
 
 #: plugins/python-loader/py-console.c:160
-#, fuzzy
 msgid "Gnumeric Python console"
-msgstr "Gnumeric"
+msgstr "Konsola Pythona w Gnumericu"
 
 #: plugins/python-loader/py-console.c:169
 #, fuzzy
@@ -14944,9 +14927,8 @@ msgid "E_xecute in:"
 msgstr "_Czynność :"
 
 #: plugins/python-loader/py-console.c:214
-#, fuzzy
 msgid "C_ommand:"
-msgstr "K_omentarze"
+msgstr "P_olecenie:"
 
 #: plugins/python-loader/py-gnumeric.c:237
 msgid "Python list is not an array"
@@ -15035,9 +15017,8 @@ msgid "Open the Python console"
 msgstr ""
 
 #: plugins/python-loader/ui-console-menu.xml.h:2
-#, fuzzy
 msgid "Python console"
-msgstr "Funkcje w Pythonie"
+msgstr "Konsola Pythona"
 
 #: plugins/qpro/plugin.xml.in.h:1
 #, fuzzy
@@ -15046,11 +15027,11 @@ msgstr "Importuje pliki MultiPlan (SYLK)"
 
 #: plugins/qpro/plugin.xml.in.h:2
 msgid "Quatro Pro"
-msgstr ""
+msgstr "Quatro Pro"
 
 #: plugins/qpro/plugin.xml.in.h:3
 msgid "Quatro Pro(tm)"
-msgstr ""
+msgstr "Quatro Pro(tm)"
 
 #: plugins/qpro/qpro-read.c:151
 #, c-format
@@ -15141,12 +15122,12 @@ msgstr "Wystąpił błąd przy odczycie arkusza."
 
 #: plugins/uihello/hello.xml.h:1
 msgid "Hello World"
-msgstr ""
+msgstr "Witaj świecie"
 
 #: plugins/uihello/uihello.c:24
 #, c-format
 msgid "This is message from the \"%s\" plugin."
-msgstr ""
+msgstr "To jest komunikat od wtyczki \"%s\"."
 
 #: plugins/xbase/boot.c:169
 msgid "Error while opening xbase file."
@@ -15185,11 +15166,8 @@ msgid "The next generation sax based xml I/O subsystem"
 msgstr "Kolejna generacja podsystemu we/wy XML-a, oparta na interfejsie SAX"
 
 #: plugins/xml_sax/plugin.xml.in.h:4
-#, fuzzy
 msgid "UNFINISHED Gnumeric XML (*.gnumeric)"
-msgstr ""
-"Eksperymentalna obsługa plików Gnumerica (*.gnumeric) oparta na interfejsie "
-"SAX"
+msgstr "NIESKOŃCZONA obsługa XML Gnumerica (*.gnumeric)"
 
 #: plugins/xml_sax/xml-sax-read.c:301
 #, c-format
@@ -15198,7 +15176,7 @@ msgstr ""
 
 #: plugins/xml_sax/xml-sax-read.c:452
 msgid "File has inconsistent SheetNameIndex element."
-msgstr ""
+msgstr "Plik posiada niespójny element SheetNameIndex."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:1
 #, fuzzy
@@ -15242,7 +15220,7 @@ msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:10
 msgid "List of Extra Plugin Directories."
-msgstr ""
+msgstr "Lista dodatkowych katalogów z wtyczkami."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:11
 msgid "List of First Letter Exceptions"
@@ -15254,15 +15232,15 @@ msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:13
 msgid "List of Known Plugins."
-msgstr ""
+msgstr "Lista znanych wtyczek."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:14
 msgid "List of Plugin File States."
-msgstr ""
+msgstr "Lista stanów plików z wtyczkami."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:15
 msgid "List of recently used functions."
-msgstr ""
+msgstr "Lista ostatnio używanych funkcji."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:16
 msgid "Maximum Length of Recently Used Functions List"
@@ -15421,7 +15399,7 @@ msgstr "Domyślna liczba arkuszy"
 
 #: schemas/gnumeric-general.schemas.in.h:8
 msgid "Default To Overwriting Files"
-msgstr ""
+msgstr "Domyślne nadpisywanie plików"
 
 #: schemas/gnumeric-general.schemas.in.h:9
 msgid "Default Vertical Window Size"
@@ -15508,7 +15486,7 @@ msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:27
 msgid "Show Sheet Name in Undo List"
-msgstr ""
+msgstr "Wyświetlanie nazwy arkusza na liście cofnięć"
 
 #: schemas/gnumeric-general.schemas.in.h:28
 msgid ""
@@ -15562,7 +15540,7 @@ msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:39
 msgid "The number of sheets initially created in a new workbook."
-msgstr ""
+msgstr "Liczba arkuszy początkowo tworzonych w nowym zeszycie."
 
 #: schemas/gnumeric-general.schemas.in.h:40
 msgid ""
@@ -15612,6 +15590,8 @@ msgstr ""
 msgid ""
 "This value determines whether the default font for a new workbook is bold."
 msgstr ""
+"Ta wartość określa czy domyślna czcionka dla nowych zeszytów jest "
+"wytłuszczona."
 
 #: schemas/gnumeric-general.schemas.in.h:47
 msgid ""
@@ -15632,7 +15612,7 @@ msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:50
 msgid "This variable determines whether autocompletion is set on."
-msgstr ""
+msgstr "Ta zmienna określa czy ustawione jest automatyczne uzupełnianie."
 
 #: schemas/gnumeric-general.schemas.in.h:51
 msgid ""
@@ -15652,19 +15632,20 @@ msgstr "Styl paska narzędziowego"
 #: schemas/gnumeric-general.schemas.in.h:54
 msgid "Toolbar Style. Valid values are both, both_horiz, icon, and text"
 msgstr ""
+"Styl paska narzędziowego. Poprawnymi wartościami są both, both_horiz, icon i "
+"text"
 
 #: schemas/gnumeric-general.schemas.in.h:55
 msgid "Transition Keys"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:56
-#, fuzzy
 msgid "Vertical DPI"
-msgstr "Pio_nowo"
+msgstr "Rozdzielczość DPI w pionie"
 
 #: schemas/gnumeric-general.schemas.in.h:57
 msgid "Warn When Exporting Into Single Sheet Format"
-msgstr ""
+msgstr "Ostrzeganie przed eksportem do formatu pojedynczego arkusza"
 
 #: schemas/gnumeric-general.schemas.in.h:58
 msgid ""
@@ -15718,22 +15699,18 @@ msgid "Advanced _Filter..."
 msgstr "Zaawansowany f_iltr"
 
 #: src/GNOME_Gnumeric.xml.h:7 src/workbook-format-toolbar.c:480
-#, fuzzy
 msgid "Align the contents to the left and decrease the indent"
 msgstr "Wyrównuje zawartość komórek do lewej i zmniejsza wcięcie"
 
 #: src/GNOME_Gnumeric.xml.h:8 src/workbook-format-toolbar.c:483
-#, fuzzy
 msgid "Align the contents to the left and increase the indent"
 msgstr "Wyrównuje zawartość komórek do lewej i zwiększa wcięcie"
 
-# [cyba] - FIXME
 # src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c - winno być "Wstawia nowy arkusz"
 # Drugie src/workbook-control-gui.c:1 - "Wstaw nowy arkusz"
 #: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:3408
-#, fuzzy
 msgid "Append a new sheet"
-msgstr "Wstawia nowy arkusz"
+msgstr "Dołącza nowy arkusz"
 
 #: src/GNOME_Gnumeric.xml.h:10 src/workbook-object-toolbar.c:177
 msgid "Arrow"
@@ -15768,7 +15745,7 @@ msgstr "Tło"
 #: src/GNOME_Gnumeric.xml.h:17 src/widgets/widget-font-selector.c:150
 #: src/workbook-format-toolbar.c:414
 msgid "Bold"
-msgstr "Pogrubiona"
+msgstr "Wytłuszczenie"
 
 #: src/GNOME_Gnumeric.xml.h:18 src/workbook-format-toolbar.c:803
 #: src/workbook-format-toolbar.c:872
@@ -15830,9 +15807,8 @@ msgid "Change width of the selected columns"
 msgstr "Zmienia szerokość zaznaczonych kolumn"
 
 #: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:4004
-#, fuzzy
 msgid "Chart Guru"
-msgstr "Wyjście"
+msgstr "Druid wykresów"
 
 #: src/GNOME_Gnumeric.xml.h:33 src/workbook-object-toolbar.c:159
 msgid "Checkbox"
@@ -16290,7 +16266,7 @@ msgstr "Nieodwołalnie usuwa cały arkusz"
 #: src/GNOME_Gnumeric.xml.h:138 src/widgets/widget-font-selector.c:152
 #: src/workbook-format-toolbar.c:421
 msgid "Italic"
-msgstr "Italic"
+msgstr "Pochylenie"
 
 #: src/GNOME_Gnumeric.xml.h:139 src/workbook-control-gui.c:3799
 msgid "Iteratively recalculate to find a target value"
@@ -16655,17 +16631,14 @@ msgid "Send the current file via email"
 msgstr "Wysyła bieżący plik w liście do innej osoby"
 
 #: src/GNOME_Gnumeric.xml.h:224 src/workbook-format-toolbar.c:468
-#, fuzzy
 msgid "Set the format of the selected cells to include a thousands separator"
 msgstr "Ustawia format zaznaczonych komórek na zawierający separator tysięcy"
 
 #: src/GNOME_Gnumeric.xml.h:225 src/workbook-format-toolbar.c:462
-#, fuzzy
 msgid "Set the format of the selected cells to monetary"
 msgstr "Ustawia format zaznaczonych komórek na walutowy"
 
 #: src/GNOME_Gnumeric.xml.h:226 src/workbook-format-toolbar.c:465
-#, fuzzy
 msgid "Set the format of the selected cells to percentage"
 msgstr "Ustawia format zaznaczonych komórek na procentowy"
 
@@ -17507,9 +17480,8 @@ msgid "Setting height of rows %s to default"
 msgstr "Ustawienie wysokości wierszy %s na %d pikseli"
 
 #: src/commands.c:2019 src/dialogs/dialog-preferences.c:1399
-#, fuzzy
 msgid "Sorting"
-msgstr "Posortowanie %s"
+msgstr "Sortowanie"
 
 #: src/commands.c:2039
 #, c-format
@@ -17803,7 +17775,7 @@ msgstr "Poszukiwanie celu"
 #: src/commands.c:6509
 #, fuzzy, c-format
 msgid "Duplicating %s"
-msgstr "_Zduplikuj"
+msgstr "Zduplikuj"
 
 #: src/commands.c:6590
 #, fuzzy
@@ -18951,9 +18923,8 @@ msgstr "Analiza wariancji - jeden czynnik"
 #: src/dialogs/random-generation.glade.h:4 src/dialogs/rank.glade.h:3
 #: src/dialogs/regression.glade.h:4 src/dialogs/sampling.glade.h:4
 #: src/dialogs/variance-tests.glade.h:4
-#, fuzzy
 msgid "Clear Output Range"
-msgstr "Zak_res wyjściowy:"
+msgstr "Czyszczenie zakresu wyjściowego"
 
 #: src/dialogs/anova-one.glade.h:6 src/dialogs/correlation.glade.h:4
 #: src/dialogs/covariance.glade.h:4 src/dialogs/descriptive-stats.glade.h:9
@@ -19084,7 +19055,6 @@ msgid "Correct _TWo INitial CApitals                           "
 msgstr "Poprawianie _DWóch POczątkowych KApitalików"
 
 #: src/dialogs/autocorrect.glade.h:6
-#, fuzzy
 msgid "Do _not capitalize after:"
 msgstr "_Bez kapitalika po:"
 
@@ -19198,7 +19168,7 @@ msgstr "Dół"
 
 #: src/dialogs/autofilter-top10.glade.h:3
 msgid "Items"
-msgstr ""
+msgstr "Elementy"
 
 #: src/dialogs/autofilter-top10.glade.h:4
 #: src/widgets/widget-format-selector.c:74
@@ -19240,42 +19210,36 @@ msgid "Apply _Patterns"
 msgstr "Zastosowanie _deseni"
 
 #: src/dialogs/autoformat.glade.h:8
-#, fuzzy
 msgid "Author:"
-msgstr "Autor :"
+msgstr "Autor:"
 
 #: src/dialogs/autoformat.glade.h:9
 msgid "Autoformat"
 msgstr "Automatyczne formatowanie"
 
 #: src/dialogs/autoformat.glade.h:10
-#, fuzzy
 msgid "C_ategory:"
-msgstr "Kategoria :"
+msgstr "K_ategoria:"
 
 #: src/dialogs/autoformat.glade.h:11
-#, fuzzy
 msgid "Category:"
-msgstr "Kategoria :"
+msgstr "Kategoria:"
 
 #: src/dialogs/autoformat.glade.h:12
-#, fuzzy
 msgid "Description:"
-msgstr "Opis :"
+msgstr "Opis:"
 
 #: src/dialogs/autoformat.glade.h:13
-#, fuzzy
 msgid "Edges"
-msgstr "strony"
+msgstr "Krawędzie"
 
 #: src/dialogs/autoformat.glade.h:14
 msgid "Name of template"
 msgstr "Nazwa szablonu"
 
 #: src/dialogs/autoformat.glade.h:15
-#, fuzzy
 msgid "Name:"
-msgstr "Nazwa :"
+msgstr "Nazwa:"
 
 #: src/dialogs/autoformat.glade.h:16 src/dialogs/font-sel.glade.h:4
 #: src/widgets/preview-file-selection.c:199
@@ -19283,9 +19247,8 @@ msgid "Preview"
 msgstr "Podgląd"
 
 #: src/dialogs/autoformat.glade.h:17
-#, fuzzy
 msgid "Template Details"
-msgstr "_Szczegóły szablonu"
+msgstr "Szczegóły szablonu"
 
 #: src/dialogs/autoformat.glade.h:18
 msgid "The category this template belongs to"
@@ -19312,7 +19275,6 @@ msgid "Auto Save"
 msgstr "Automatyczny zapis"
 
 #: src/dialogs/autosave.glade.h:3
-#, fuzzy
 msgid "_Automatically save every"
 msgstr "_Automatyczny zapis w regularnych odstępach"
 
@@ -19325,13 +19287,12 @@ msgid "_minutes"
 msgstr "_minut"
 
 #: src/dialogs/cell-comment.glade.h:1
-#, fuzzy
 msgid "Cell Comment"
 msgstr "Komentarz do komórki"
 
 #: src/dialogs/cell-format.glade.h:1
 msgid "    "
-msgstr ""
+msgstr "    "
 
 #: src/dialogs/cell-format.glade.h:4
 #, no-c-format
@@ -19736,11 +19697,11 @@ msgstr "wartość >= ograniczenie  (nie mniejsze niż)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "<span weight=\"bold\">Sort Options</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Opcje sortowania</span>"
 
 #: src/dialogs/cell-sort.glade.h:2
 msgid "<span weight=\"bold\">Sort Specification</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Określenie sortowania</span>"
 
 #: src/dialogs/cell-sort.glade.h:3
 msgid "Direction:"
@@ -19752,16 +19713,15 @@ msgstr "Zakres:"
 
 #: src/dialogs/cell-sort.glade.h:5
 msgid "Sort range has a _header"
-msgstr ""
+msgstr "Zakres sortowania posiada _nagłówek"
 
 #: src/dialogs/cell-sort.glade.h:6
 msgid "Sort..."
 msgstr "Sortowanie..."
 
 #: src/dialogs/cell-sort.glade.h:7
-#, fuzzy
 msgid "_Preserves Formats"
-msgstr "Zachowanie wielkości _liter"
+msgstr "Zachowanie _formatów"
 
 #: src/dialogs/cell-sort.glade.h:8
 msgid "_Right-Left"
@@ -20102,7 +20062,7 @@ msgstr "Arkusz kalkulacyjny gotowy do działania"
 #. Translate the following string with the names of all translators for this locale.
 #: src/dialogs/dialog-about.c:118
 msgid "This is an untranslated version of Gnumeric."
-msgstr "To jest nieprzetłumaczona wersja Gnumerica."
+msgstr "GNOME PL Team <translators@gnome.pl>"
 
 #: src/dialogs/dialog-about.c:124
 msgid "Gnumeric Home Page"
@@ -20492,9 +20452,8 @@ msgid "Row/Column"
 msgstr "Wiersz/kolumna"
 
 #: src/dialogs/dialog-cell-sort.c:721
-#, fuzzy
 msgid "Case Sensitive"
-msgstr "Z _rozróżnianiem małych i wielkich liter"
+msgstr "Rozróżnianie wielkości liter"
 
 #: src/dialogs/dialog-cell-sort.c:734
 #, fuzzy
@@ -26820,9 +26779,9 @@ msgid "'%s' is an error"
 msgstr "\"%s\" nie jest liczbą"
 
 #: src/validation.c:171
-#, fuzzy, c-format
+#, c-format
 msgid "'%s' is not a valid date"
-msgstr "%s nie jest poprawnym obszarem docelowym"
+msgstr "\"%s\" nie jest poprawną datą"
 
 #: src/validation.c:173
 #, c-format
@@ -26919,9 +26878,8 @@ msgid "dark green #2"
 msgstr "ciemnozielony #2"
 
 #: src/widgets/color-palette.c:562
-#, fuzzy
 msgid "navy"
-msgstr "Poniedziałek"
+msgstr "granatowy"
 
 #: src/widgets/color-palette.c:563 src/widgets/color-palette.c:619
 msgid "dark blue"
@@ -26929,7 +26887,7 @@ msgstr "ciemnoniebieski"
 
 #: src/widgets/color-palette.c:564
 msgid "purple #2"
-msgstr "purpurowy #2"
+msgstr "fioletowy #2"
 
 #: src/widgets/color-palette.c:565
 msgid "very dark gray"
@@ -26940,9 +26898,8 @@ msgid "dark red"
 msgstr "ciemnoczerwony"
 
 #: src/widgets/color-palette.c:569
-#, fuzzy
 msgid "red-orange"
-msgstr "Zakres"
+msgstr "czerwonopomarańczowy"
 
 #: src/widgets/color-palette.c:570
 msgid "gold"
@@ -26953,9 +26910,8 @@ msgid "dark green"
 msgstr "ciemnozielony"
 
 #: src/widgets/color-palette.c:572 src/widgets/color-palette.c:625
-#, fuzzy
 msgid "dull blue"
-msgstr "Wartość komórki"
+msgstr ""
 
 #: src/widgets/color-palette.c:573 src/widgets/color-palette.c:626
 msgid "blue"
@@ -26978,9 +26934,8 @@ msgid "orange"
 msgstr "pomarańczowy"
 
 #: src/widgets/color-palette.c:580
-#, fuzzy
 msgid "lime"
-msgstr "czas"
+msgstr "jasnozielony"
 
 #: src/widgets/color-palette.c:581
 msgid "dull green"
@@ -26996,16 +26951,15 @@ msgstr "błękitny #2"
 
 #: src/widgets/color-palette.c:584 src/widgets/color-palette.c:623
 msgid "purple"
-msgstr "purpurowy"
+msgstr "fioletowy"
 
 #: src/widgets/color-palette.c:585
 msgid "gray"
 msgstr "szary"
 
 #: src/widgets/color-palette.c:588 src/widgets/color-palette.c:620
-#, fuzzy
 msgid "magenta"
-msgstr "purpurowy"
+msgstr "karmazynowy"
 
 #: src/widgets/color-palette.c:589
 msgid "bright orange"
@@ -27029,7 +26983,7 @@ msgstr "jaskrawoniebieski"
 
 #: src/widgets/color-palette.c:594 src/widgets/color-palette.c:611
 msgid "red purple"
-msgstr ""
+msgstr "czerwonofioletowy"
 
 #: src/widgets/color-palette.c:595
 msgid "light gray"
@@ -27052,9 +27006,8 @@ msgid "light green"
 msgstr "jasnobrązowy"
 
 #: src/widgets/color-palette.c:602
-#, fuzzy
 msgid "light cyan"
-msgstr "Wyrównaj do prawej"
+msgstr "bladoniebieski"
 
 #: src/widgets/color-palette.c:603 src/widgets/color-palette.c:613
 msgid "light blue"
@@ -27062,7 +27015,7 @@ msgstr "jasnoniebieski"
 
 #: src/widgets/color-palette.c:604 src/widgets/color-palette.c:617
 msgid "light purple"
-msgstr "jasnopurpurowy"
+msgstr "jasnofioletowy"
 
 #: src/widgets/color-palette.c:605
 msgid "white"
@@ -27070,7 +27023,7 @@ msgstr "biały"
 
 #: src/widgets/color-palette.c:610
 msgid "purplish blue"
-msgstr ""
+msgstr "niebieskofioletowy"
 
 #: src/widgets/color-palette.c:614
 msgid "dark purple"
@@ -27082,7 +27035,7 @@ msgstr "błękitny"
 
 #: src/widgets/gnumeric-expr-entry.c:1239
 msgid "Expecting a single range"
-msgstr ""
+msgstr "Spodziewany jest pojedynczy zakres"
 
 #: src/widgets/gnumeric-optionmenu.c:199
 msgid "Menu"
@@ -27094,7 +27047,7 @@ msgstr "Menu opcji"
 
 #: src/widgets/gnumeric-optionmenu.c:206
 msgid "Indicator Size"
-msgstr ""
+msgstr "Rozmiar wskaźnika"
 
 #: src/widgets/gnumeric-optionmenu.c:207
 msgid "Size of dropdown indicator"
@@ -27882,7 +27835,6 @@ msgid "Estonia (et_EE)"
 msgstr "Estonia (et_EE)"
 
 #: src/widgets/widget-locale-selector.c:175
-#, fuzzy
 msgid "Spain/Basque (eu_ES)"
 msgstr "Hiszpania/Baskijski (eu_ES)"
 
@@ -27916,11 +27868,11 @@ msgstr "Francja (fr_FR)"
 
 #: src/widgets/widget-locale-selector.c:183
 msgid "Ireland/Gaelic (ga_IE)"
-msgstr ""
+msgstr "Irlandia/Galijski (ga_IE)"
 
 #: src/widgets/widget-locale-selector.c:184
 msgid "Great Britain/Scottish Gaelic (gd_GB)"
-msgstr ""
+msgstr "Wielka Brytania/Szkocki Galijski (gd_GB)"
 
 #: src/widgets/widget-locale-selector.c:185
 msgid "Spain/Galician (gl_ES)"
@@ -27928,7 +27880,7 @@ msgstr ""
 
 #: src/widgets/widget-locale-selector.c:186
 msgid "Great Britain/Manx Gaelic (gv_GB)"
-msgstr ""
+msgstr "Wielka Brytania/Galijski Manx (gv_GB)"
 
 #: src/widgets/widget-locale-selector.c:187
 msgid "India/Hindu (hi_IN)"
@@ -28187,29 +28139,24 @@ msgid " : Gnumeric"
 msgstr " : Gnumeric"
 
 #: src/workbook-control-gui.c:637
-#, fuzzy
 msgid "Manage sheets..."
-msgstr "Zmiana nazwy arkusza"
+msgstr ""
 
 #: src/workbook-control-gui.c:640
-#, fuzzy
 msgid "Append"
-msgstr "Wyślij"
+msgstr "Dołącz"
 
 #: src/workbook-control-gui.c:641
-#, fuzzy
 msgid "Duplicate"
-msgstr "_Zduplikuj"
+msgstr "Zduplikuj"
 
 #: src/workbook-control-gui.c:642
-#, fuzzy
 msgid "Remove"
-msgstr "_Usuń"
+msgstr "Usuń"
 
 #: src/workbook-control-gui.c:643
-#, fuzzy
 msgid "Rename"
-msgstr "Zmień _nazwę..."
+msgstr "Zmień nazwę"
 
 #.
 #. * xgettext:
@@ -28623,9 +28570,8 @@ msgid "Default file saver is not available."
 msgstr "Brak obsługi domyślnego formatu zapisu."
 
 #: src/workbook-view.c:768
-#, fuzzy
 msgid "Failed to create temporary file for sending."
-msgstr "Nie można stworzyć pliku tymczasowego."
+msgstr "Nie można utworzyć pliku tymczasowego do przesłania."
 
 #: src/workbook-view.c:902
 msgid "Unsupported file format."
