@@ -78,6 +78,7 @@ src/dialogs/dialog-workbook-attr.c
 src/dialogs/dialog-zoom.c
 src/dialogs/dialog-zoom.glade.h
 src/dialogs/font-sel.glade.h
+src/dialogs/formula-guru.glade.h
 src/dialogs/function-select.glade.h
 src/dialogs/hf-config.glade.h
 src/dialogs/import.glade.h

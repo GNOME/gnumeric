@@ -542,11 +542,9 @@ return_symbol (Symbol *sym)
 		break;
 
 	case SYMBOL_VALUE:
-	case SYMBOL_STRING: {
 		e = expr_tree_new_constant (value_duplicate (sym->data));
 		type = CONSTANT;
 		break;
-	}
 
 	default:
 		g_assert_not_reached ();

@@ -1037,7 +1037,7 @@ gnumeric_substitute (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_dollar = {
 	N_("@FUNCTION=DOLLAR\n"
-	   "@SYNTAX=DOLLAR(num,[decimals])\n"
+	   "@SYNTAX=DOLLAR(num[,decimals])\n"
 	   "@DESCRIPTION="
 	   "DOLLAR returns @num formatted as currency."
 	   "\n"

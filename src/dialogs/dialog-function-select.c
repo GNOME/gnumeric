@@ -14,6 +14,7 @@
 #include "workbook.h"
 
 typedef struct {
+	GtkWidget *dialog;
 	GtkCList  *functions;
 	GtkCList  *categories;
 	GtkLabel  *func_name;
@@ -85,11 +86,11 @@ function_select_row (GtkCList *clist, gint row, gint col,
 		     GdkEvent *event, FunctionSelectState *state)
 {
 #if 0
-	if (event && event->type == GDK_2BUTTON_PRESS){
-		gtk_signal_emit_by_name (GTK_OBJECT (state->dlg),
+	if (event && event->type == GDK_2BUTTON_PRESS)
+		gtk_signal_emit_by_name (GTK_OBJECT (state->dialog),
 					 "clicked", 0);
-	}
 #endif
+
 	state->selected_func = row;
 	state->func = g_list_nth_data (state->cat->functions, row);
 	if (state->func_help != NULL)
@@ -113,25 +114,22 @@ category_select_row (GtkCList *clist, gint row, gint col,
 	function_list_fill (state);
 }
 
-#define GLADE_FILE "function-select.glade"
-
 static FunctionDefinition *
 dialog_function_select_impl (Workbook *wb, GladeXML *gui)
 {
 	int res;
 	FunctionSelectState state;
-	GtkWidget *dialog;
 
 	g_return_val_if_fail (wb, NULL);
 
-	dialog		  = glade_xml_get_widget (gui, "FunctionSelect");
+	state.dialog	  = glade_xml_get_widget (gui, "FunctionSelect");
 	state.categories  = GTK_CLIST (glade_xml_get_widget (gui, "category_list"));
 	state.functions   = GTK_CLIST (glade_xml_get_widget (gui, "function_list"));
 	state.func_name	  = GTK_LABEL (glade_xml_get_widget (gui, "function_name"));
 	state.description = GTK_LABEL (glade_xml_get_widget (gui, "function_description"));
 	state.func_help	  = NULL;
 
-	g_return_val_if_fail (dialog, NULL);
+	g_return_val_if_fail (state.dialog, NULL);
 	g_return_val_if_fail (state.categories, NULL);
 	g_return_val_if_fail (state.functions, NULL);
 	g_return_val_if_fail (state.func_name, NULL);
@@ -149,14 +147,14 @@ dialog_function_select_impl (Workbook *wb, GladeXML *gui)
 	category_list_fill (&state);
 
 	/* Bring up the dialog */
-	res = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
+	res = gnumeric_dialog_run (wb, GNOME_DIALOG (state.dialog));
 
 	if (state.func_help != NULL)
 		tokenized_help_destroy (state.func_help);
 
 	/* If the user closed the dialog with prejudice, its already destroyed */
 	if (res >= 0)
-		gnome_dialog_close (GNOME_DIALOG (dialog));
+		gnome_dialog_close (GNOME_DIALOG (state.dialog));
 
 	if (res == 1) {
 		FunctionCategory const * const cat = state.cat;
@@ -176,7 +174,7 @@ dialog_function_select (Workbook *wb)
 	g_return_val_if_fail (wb != NULL, NULL);
 
 	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
-				GLADE_FILE);
+				      "function-select.glade");
         if (gui == NULL)
                 return NULL;
 

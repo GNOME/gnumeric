@@ -92,6 +92,7 @@ glade_DATA = 				\
 	dialog-stf-export.glade		\
 	plugin-manager.glade		\
 	function-select.glade 		\
+	formula-guru.glade		\
 	workbook-attr.glade
 
 glade_msgs = 				\
@@ -123,6 +124,7 @@ glade_msgs = 				\
 	dialog-stf-export.glade.h	\
 	plugin-manager.glade.h		\
 	function-select.glade.h		\
+	formula-guru.glade.h		\
 	workbook-attr.glade.h
 
 EXTRA_DIST = $(glade_DATA) $(glade_msgs)

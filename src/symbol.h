@@ -4,7 +4,6 @@
 typedef enum {
 	SYMBOL_FUNCTION,
 	SYMBOL_VALUE,
-	SYMBOL_STRING
 } SymbolType;
 
 typedef struct {
@@ -32,8 +31,6 @@ gboolean     symbol_is_unused      (Symbol *);
 void         symbol_ref            (Symbol *);
 void         symbol_unref          (Symbol *);
 void         symbol_unref_ptr      (Symbol **);
-
-Symbol      *symbol_ref_string     (SymbolTable *st, const char *str);
 
 void         global_symbol_init    (void);
 

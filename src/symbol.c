@@ -128,30 +128,6 @@ symbol_ref (Symbol *sym)
 }
 
 /*
- * symbol_ref_string:
- * @str:  string to be converted to a symbol
- *
- * This looks up the string on the symbol hash table,
- * if it is found, it is references, otherwise a new
- * symbol is created
- */
-Symbol *
-symbol_ref_string (SymbolTable *st, const char *str)
-{
-	Symbol *sym;
-
-	g_return_val_if_fail (st != NULL, NULL);
-	g_return_val_if_fail (str != NULL, NULL);
-	
-	sym = symbol_lookup (st, str);
-	if (sym){
-		symbol_ref (sym);
-		return sym;
-	}
-	return symbol_install (st, str, SYMBOL_STRING, 0);
-}
-
-/*
  * symbol_unref:
  * @Sym:  The symbol to remove the reference from
  *

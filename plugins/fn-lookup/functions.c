@@ -186,7 +186,7 @@ gnumeric_choose (FunctionEvalInfo *ei, GList *l)
 
 static char *help_vlookup = {
 	N_("@FUNCTION=VLOOKUP\n"
-	   "@SYNTAX=VLOOKUP(value,range,column,[approximate])\n"
+	   "@SYNTAX=VLOOKUP(value,range,column[,approximate])\n"
 
 	   "@DESCRIPTION="
 	   "VLOOKUP function finds the row in range that has a first "
@@ -342,7 +342,7 @@ gnumeric_vlookup (FunctionEvalInfo *ei, Value **args)
 
 static char *help_hlookup = {
 	N_("@FUNCTION=HLOOKUP\n"
-	   "@SYNTAX=HLOOKUP(value,range,row,[approximate])\n"
+	   "@SYNTAX=HLOOKUP(value,range,row[,approximate])\n"
 
 	   "@DESCRIPTION="
 	   "HLOOKUP function finds the col in range that has a first "

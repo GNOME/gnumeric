@@ -1,3 +1,8 @@
+2000-06-15  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-function-wizard.c : Gladify and add roll up/down
+	  automatic entry addition/deletion for varargs.
+
 2000-06-15  JP Rosevear  <jpr@arcavia.com>
 
 	* cell-sort.glade: Tidy the UI

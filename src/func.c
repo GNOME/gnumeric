@@ -246,17 +246,19 @@ function_def_count_args (const FunctionDefinition *fndef,
 	g_return_if_fail (max != NULL);
 	g_return_if_fail (fndef != NULL);
 
+	ptr = fndef->args;
+
 	/*
 	 * FIXME: clearly for 'nodes' functions many of
 	 * the type fields will need to be filled.
 	 */
-	if (fndef->args == NULL) {
-		*min = 1;
+	if (fndef->fn_type == FUNCTION_NODES && ptr == NULL) {
+		*min = 0;
 		*max = G_MAXINT;
+		return;
 	}
 
-	i = vararg = 0;
-	for (ptr = fndef->args; ptr && *ptr; ptr++) {
+	for (i = vararg = 0; ptr && *ptr; ptr++) {
 		if (*ptr == '|') {
 			vararg = 1;
 			*min = i;

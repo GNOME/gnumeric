@@ -34,27 +34,52 @@
 #include "expr.h"
 #include "func.h"
 
-typedef struct {
-	GtkWidget	   *dialog;
-	GtkBox		   *dialog_box;
+typedef struct _FomulaGuruState FomulaGuruState;
+typedef struct
+{
+	FomulaGuruState	*state;
+	GtkEntry	*entry;
+	GtkWidget	*box;
 
-	int		    max_arg;
+	gchar 	  *name;
+	gchar	   type;
+	gboolean   is_optional;
+	int	   content_length;
+	int	   index;
+} ArgumentState;
+
+struct _FomulaGuruState
+{
+	GladeXML  *gui;
+
+	GtkWidget *dialog;
+	GtkWidget *help_button;
+	GtkWidget *rollup_button;
+	GtkWidget *rolldown_button;
+	GtkWidget *ok_button;
+	GtkWidget *cancel_button;
+	GtkWidget *rolled_box;
+	GtkWidget *rolled_label;
+	GtkWidget *rolled_entry;
+	GtkWidget *unrolled_box;
+	GtkWidget *arg_box;
+	GtkWidget *arg_frame;
+	GtkWidget *description;
+	
+	gboolean	    is_rolled;
+	gboolean	    var_args;
+	ArgumentState	   *cur_arg;
+	int		    max_arg; /* max arg # with a value */
 	Workbook	   *wb;
 	FunctionDefinition *fd;
 	TokenizedHelp	   *help_tokens;
 	GPtrArray	   *args;
-} FomulaGuruState;
+};
 
-typedef struct {
-	FomulaGuruState	 *state;
-	GtkEntry *entry;
-
-	gchar   *name;
-	gchar    type;
-	gboolean is_optional;
-	int       content_length;
-	int       index;
-} ArgumentState;
+static void formula_guru_arg_delete (FomulaGuruState *state, int i);
+static void formula_guru_arg_new    (char * const name, char const type,
+				     gboolean const is_optional,
+				     FomulaGuruState *state);
 
 static void
 formula_guru_set_expr (FomulaGuruState *state, int index)
@@ -91,12 +116,12 @@ formula_guru_set_expr (FomulaGuruState *state, int index)
 	g_string_free (str, TRUE);
 }
 
-static gboolean
-cb_formula_guru_entry_focus_in (GtkWidget *ignored0, GdkEventFocus *ignored1, ArgumentState *as)
+static void
+cb_formula_guru_rolled_entry_changed (GtkEditable *editable,
+				      FomulaGuruState *state) 
 {
-	workbook_set_entry (as->state->wb, as->entry);
-	formula_guru_set_expr (as->state, as->index);
-	return FALSE;
+	gtk_entry_set_text (state->cur_arg->entry,
+		gtk_entry_get_text (GTK_ENTRY (state->rolled_entry)));
 }
 
 static void
@@ -119,6 +144,71 @@ cb_formula_guru_entry_changed (GtkEditable *editable, ArgumentState *as)
 	formula_guru_set_expr (as->state, as->index);
 }
 
+static void
+formula_guru_set_rolled_state (FomulaGuruState *state, gboolean is_rolled)
+{
+	GtkEntry *new_entry;
+
+	g_return_if_fail (state->cur_arg != NULL);
+
+	state->is_rolled = is_rolled;
+	if (is_rolled) {
+		new_entry = GTK_ENTRY (state->rolled_entry);
+		gtk_entry_set_text (new_entry,
+			gtk_entry_get_text (state->cur_arg->entry));
+		gtk_label_set_text (GTK_LABEL (state->rolled_label),
+			state->cur_arg->name);
+
+		gtk_signal_connect (GTK_OBJECT (new_entry), "changed",
+				    GTK_SIGNAL_FUNC (cb_formula_guru_rolled_entry_changed),
+				    state);
+
+		gtk_widget_show	(state->rolled_box);
+		gtk_widget_hide	(state->unrolled_box);
+		gtk_widget_show (state->rolldown_button);
+		gtk_widget_hide (state->rollup_button);
+	} else {
+		new_entry = state->cur_arg->entry;
+		gtk_widget_hide	(state->rolled_box);
+		gtk_widget_show	(state->unrolled_box);
+		gtk_widget_hide (state->rolldown_button);
+		gtk_widget_show (state->rollup_button);
+	}
+	workbook_set_entry (state->wb, new_entry);
+}
+
+static gboolean
+cb_formula_guru_entry_focus_in (GtkWidget *ignored0, GdkEventFocus *ignored1, ArgumentState *as)
+{
+	FomulaGuruState *state = as->state;
+	int i, lim;
+
+	if (state->var_args) {
+		i = state->args->len - 1;
+
+		if (i == as->index) {
+			formula_guru_arg_new (NULL, '?', TRUE, state);
+			gtk_widget_show_all (GTK_WIDGET (state->arg_box));
+			/* FIXME : scroll window to make visible if necessary */
+		} else {
+			lim = MAX (as->index+1, state->max_arg);
+			if (lim < 1)
+				lim = 1;
+			for (; i > lim ; --i) {
+				ArgumentState *as = g_ptr_array_index (state->args, i);
+				gtk_object_destroy (GTK_OBJECT (as->box));
+				formula_guru_arg_delete (state, i);
+			}
+			g_ptr_array_set_size (state->args, i+1);
+		}
+	}
+
+	state->cur_arg = as;
+	workbook_set_entry (state->wb, as->entry);
+	formula_guru_set_expr (state, as->index);
+	return FALSE;
+}
+
 static gboolean
 cb_formula_guru_destroy (GtkObject *w, FomulaGuruState *state)
 {
@@ -130,11 +220,8 @@ cb_formula_guru_destroy (GtkObject *w, FomulaGuruState *state)
 	if (state->args != NULL) {
 		int i;
 
-		for (i = state->args->len; i-- > 0 ;){
-			ArgumentState *as = g_ptr_array_index (state->args, i);
-			g_free (as->name);
-			g_free (as);
-		}
+		for (i = state->args->len; i-- > 0 ;)
+			formula_guru_arg_delete (state, i);
 		g_ptr_array_free (state->args, FALSE);
 		state->args = NULL;
 	}
@@ -144,34 +231,70 @@ cb_formula_guru_destroy (GtkObject *w, FomulaGuruState *state)
 		state->help_tokens = NULL;
 	}
 
+	if (state->gui != NULL) {
+		gtk_object_unref (GTK_OBJECT (state->gui));
+		state->gui = NULL;
+	}
+
 	/* Handle window manger closing the dialog.
 	 * This will be ignored if we are being destroyed differently.
 	 */
 	workbook_finish_editing (state->wb, FALSE);
+
+	state->dialog = NULL;
 
 	g_free (state);
 	return FALSE;
 }
 
 static void
-cb_formula_guru_clicked (GnomeDialog *d, gint arg, FomulaGuruState *state)
+cb_formula_guru_clicked (GtkWidget *button, FomulaGuruState *state)
 {
-	/* Help */
-	if (arg == 0)
+	if (state->dialog == NULL)
 		return;
 
+	if (button == state->help_button)
+		return;
+
+	if (button == state->rolldown_button) {
+		formula_guru_set_rolled_state (state, FALSE);
+		return;
+	}
+	if (button == state->rollup_button) {
+		formula_guru_set_rolled_state (state, TRUE);
+		return;
+	}
+
 	/* Accept for OK, reject for cancel */
-	workbook_finish_editing (state->wb, arg == 1);
-	gnome_dialog_close (d);
+	workbook_finish_editing (state->wb, button == state->ok_button);
 }
 
 static void
-formula_guru_init_arg (GtkTable *table, int row, ArgumentState *as)
+formula_guru_arg_delete (FomulaGuruState *state, int i)
 {
-	gchar *txt = NULL, *label;
+	ArgumentState *as = g_ptr_array_index (state->args, i);
+	g_free (as->name);
+	g_free (as);
+}
 
-	g_return_if_fail (as);
-	g_return_if_fail (table);
+static void
+formula_guru_arg_new (char * const name,
+		      char const type,
+		      gboolean const is_optional,
+		      FomulaGuruState *state)
+{
+	ArgumentState *as;
+	gchar *txt = NULL, *label;
+	int row;
+
+	as = g_new (ArgumentState, 1);
+	as->box = gtk_hbox_new (FALSE, 0);
+	as->index = row = state->args->len;
+	as->name = name ? name : g_strdup_printf (_("Value%d"), row+1);
+	as->is_optional = is_optional;
+	as->type = type;
+	as->content_length = 0;
+	as->state = state;
 
 	switch (as->type){
 	case 's': txt = _("String"); break;
@@ -180,44 +303,38 @@ formula_guru_init_arg (GtkTable *table, int row, ArgumentState *as)
 	case 'r': txt = _("Range"); break;
 	case 'a': txt = _("Array"); break;
 	case 'A': txt = _("Range/Array"); break;
-	case '?': txt = _("Any"); break;
-	default:  txt = _("Unknown"); break;
+	case '?':
+	default: txt = _("Any");
 	}
-	gtk_table_attach_defaults (table, gtk_label_new (as->name),
-				   0, 1, row, row+1);
+
+	gtk_box_pack_start (GTK_BOX (as->box), gtk_label_new (as->name),
+			    TRUE, TRUE, 0);
 
 	as->entry = GTK_ENTRY (gtk_entry_new ());
-	gtk_table_attach_defaults (table, GTK_WIDGET(as->entry),
-				   1, 2, row, row+1);
+	gtk_box_pack_start (GTK_BOX (as->box), GTK_WIDGET(as->entry),
+			    TRUE, TRUE, 0);
 
 	if (as->is_optional)
 		label = g_strconcat ("(", txt, ")", NULL);
 	else
 		label = g_strconcat ("=", txt, NULL);
 
-	gtk_table_attach_defaults (table, gtk_label_new (label),
-				   3, 4, row, row+1);
-#if 0
-	GtkButton *button;
-	GtkWidget *pix;
-	gtk_table_attach_defaults (table, GTK_WIDGET(button),
-				   2, 3, row, row+1);
-	button = GTK_BUTTON(gtk_button_new());
-	pix = gnome_stock_pixmap_widget_new (as->state->wb->toplevel,
-					     GNOME_STOCK_PIXMAP_BOOK_GREEN);
-	gtk_container_add (GTK_CONTAINER (button), pix);
-	GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
-#endif
+	gtk_box_pack_start (GTK_BOX (as->box), gtk_label_new (label),
+			    TRUE, TRUE, 0);
+	g_free (label);
+
 	/* FIXME : Do I really need focus-in ?  is there something less draconian */
 	gtk_signal_connect (GTK_OBJECT (as->entry), "focus-in-event",
 			    GTK_SIGNAL_FUNC (cb_formula_guru_entry_focus_in), as);
 	gtk_signal_connect (GTK_OBJECT (as->entry), "changed",
 			    GTK_SIGNAL_FUNC (cb_formula_guru_entry_changed), as);
 
+	g_ptr_array_add (state->args, as);
 	if (row == 0)
-		gtk_widget_activate (GTK_WIDGET (as->entry));
+		as->state->cur_arg = as;
 
-	g_free (label);
+	gtk_box_pack_start (GTK_BOX (state->arg_box), as->box,
+			    FALSE, FALSE, 0);
 }
 
 static void
@@ -233,25 +350,15 @@ formula_guru_init_args (FomulaGuruState *state)
 	g_return_if_fail (state->fd != NULL);
 	g_return_if_fail (state->help_tokens != NULL);
 
-	state->args = g_ptr_array_new ();
+	function_def_count_args (state->fd, &arg_min, &arg_max);
 
 	/* Var arg function */
-	function_def_count_args (state->fd, &arg_min, &arg_max);
-	if (arg_max == G_MAXINT) {
-		/* Display 2 argument for vararg functions by default */
-		for (i = 0; i < 2; i++) {
-			ArgumentState *as;
+	state->var_args = (arg_max == G_MAXINT);
 
-			as = g_new (ArgumentState, 1);
-			as->name = g_strdup ("Value");
-			as->is_optional = TRUE;  /* All arguments are optional. */
-			as->type = '?';
-			as->index = i;
-			as->content_length = 0;
-			as->entry = NULL;
-			as->state = state;
-			g_ptr_array_add (state->args, as);
-		}
+	if (state->var_args) {
+		/* Display 2 argument for vararg functions by default */
+		for (i = 0; i < 2; i++)
+			formula_guru_arg_new (NULL, '?', TRUE, state);
 		return;
 	}
 
@@ -275,17 +382,10 @@ formula_guru_init_args (FomulaGuruState *state)
 		}
 		if (*ptr == ',' || *ptr == ')') {
 			if (ptr > start) {
-				ArgumentState *as;
-				as = g_new (ArgumentState, 1);
-				as->name = g_strndup (start, (int)(ptr - start));
-				as->is_optional = (i >= arg_min);
-				as->type = function_def_get_arg_type (state->fd, i);
-				as->index = i;
-				as->content_length = 0;
-				as->entry = NULL;
-				as->state = state;
-				g_ptr_array_add (state->args, as);
-				i++;
+				formula_guru_arg_new (g_strndup (start, (int)(ptr - start)),
+						      function_def_get_arg_type (state->fd, i),
+						      (i >= arg_min), state);
+				++i;
 			}
 			start = ptr + 1;
 		}
@@ -296,71 +396,78 @@ formula_guru_init_args (FomulaGuruState *state)
 		g_warning ("Function mis-match : %s has %d named arguments but was declared to have %d",
 			   function_def_get_name (state->fd), i, arg_max);
 
+	while (i < arg_max) {
+		formula_guru_arg_new (NULL,
+				      function_def_get_arg_type (state->fd, i),
+				      (i >= arg_min), state);
+		++i;
+	}
+
 	g_free (copy_args);
 }
 
-static void
+static GtkWidget *
+formula_guru_init_button (FomulaGuruState *state, char const *name)
+{
+	GtkWidget *tmp = glade_xml_get_widget (state->gui, name);
+	gtk_signal_connect (GTK_OBJECT (tmp), "clicked",
+			    GTK_SIGNAL_FUNC (cb_formula_guru_clicked),
+			    state);
+	return tmp;
+}
+
+static gboolean
 formula_guru_init (FomulaGuruState *state)
 {
-	GtkBox *vbox;
-	GtkTable *table;
-	GtkWidget *dialog;
 	TokenizedHelp *help_tokens;
-	int lp;
+
+	state->gui = gnumeric_glade_xml_new (workbook_command_context_gui (state->wb),
+					     "formula-guru.glade");
+        if (state->gui == NULL)
+                return TRUE;
+
 
 	state->args	= NULL;
 	state->max_arg	= 0;
 	state->help_tokens = tokenized_help_new (state->fd);
+	state->args = g_ptr_array_new ();
+
+	state->dialog	    = glade_xml_get_widget (state->gui, "FormulaGuru");
+	state->help_button  = formula_guru_init_button (state, "help_button");
+	state->rollup_button  = formula_guru_init_button (state, "rollup_button");
+	state->rolldown_button= formula_guru_init_button (state, "rolldown_button");
+	state->ok_button    = formula_guru_init_button (state, "ok_button");
+	state->cancel_button= formula_guru_init_button (state, "cancel_button");
+	state->rolled_box   = glade_xml_get_widget (state->gui, "rolled_box");
+	state->rolled_label = glade_xml_get_widget (state->gui, "rolled_label");
+	state->rolled_entry = glade_xml_get_widget (state->gui, "rolled_entry");
+	state->unrolled_box = glade_xml_get_widget (state->gui, "unrolled_box");
+	state->arg_box	    = glade_xml_get_widget (state->gui, "arg_box");
+	state->arg_frame    = glade_xml_get_widget (state->gui, "arg_frame");
+	state->description  = glade_xml_get_widget (state->gui, "description");
+	
 	formula_guru_init_args (state);
 
-	dialog = gnome_dialog_new (_("Formula Guru"),
-				   GNOME_STOCK_BUTTON_HELP,
-				   GNOME_STOCK_BUTTON_OK,
-				   GNOME_STOCK_BUTTON_CANCEL,
-				   NULL);
-	gtk_window_set_modal (GTK_WINDOW (dialog), FALSE);
-
-	gtk_signal_connect (GTK_OBJECT (dialog), "destroy",
+	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
 			    GTK_SIGNAL_FUNC (cb_formula_guru_destroy),
 			    state);
-	gtk_signal_connect (GTK_OBJECT (dialog), "clicked",
-			    GTK_SIGNAL_FUNC (cb_formula_guru_clicked),
-			    state);
-
-	state->dialog = dialog;
-	state->dialog_box = GTK_BOX(GNOME_DIALOG (dialog)->vbox);
 
 	help_tokens = tokenized_help_new (state->fd);
-
-	vbox = GTK_BOX (gtk_vbox_new (0, 0));
-
-	{ /* Syntax label */
-		GtkWidget *label = gtk_label_new (tokenized_help_find (help_tokens, "SYNTAX"));
-		gtk_box_pack_start (vbox, label, TRUE, TRUE, 0);
-	}
-
-	{ /* Description */
-		GtkLabel *label;
-		const char *txt = tokenized_help_find (help_tokens, "DESCRIPTION");
-		label = GTK_LABEL (gtk_label_new (txt));
-		gtk_label_set_line_wrap (label, TRUE);
-		gtk_box_pack_start (vbox, GTK_WIDGET(label),
-				    TRUE, TRUE, 0);
-	}
-
+	gtk_frame_set_label (GTK_FRAME (state->arg_frame),
+			     tokenized_help_find (help_tokens, "SYNTAX"));
+	gtk_label_set_text  (GTK_LABEL (state->description),
+			     tokenized_help_find (help_tokens, "DESCRIPTION"));
 	tokenized_help_destroy (help_tokens);
 
-	table = GTK_TABLE (gtk_table_new (3, state->args->len, FALSE));
-	for (lp = 0; lp < state->args->len; lp++)
-		formula_guru_init_arg (table, lp, g_ptr_array_index (state->args, lp));
-
-	gtk_box_pack_start (GTK_BOX(vbox),	GTK_WIDGET (table), TRUE, TRUE, 0);
-	gtk_box_pack_start (state->dialog_box,	GTK_WIDGET (vbox),  FALSE, FALSE, 0);
-	gtk_widget_show_all (GTK_WIDGET(state->dialog_box));
+	gtk_window_set_transient_for (GTK_WINDOW (state->dialog),
+				      GTK_WINDOW (state->wb->toplevel));
+	gtk_widget_show_all (GTK_WIDGET (state->arg_box));
 
 	workbook_edit_attach_guru (state->wb, state->dialog);
-
 	formula_guru_set_expr (state, 0);
+	formula_guru_set_rolled_state (state, FALSE);
+
+	return FALSE;
 }
 
 /**
@@ -400,7 +507,8 @@ dialog_formula_guru (Workbook *wb)
 	state = g_new(FomulaGuruState, 1);
 	state->wb	= wb;
 	state->fd	= fd;
-	formula_guru_init (state);
-
-	gnumeric_dialog_show (wb->toplevel, GNOME_DIALOG (state->dialog), FALSE, TRUE);
+	if (formula_guru_init (state)) {
+		g_free (state);
+		return;
+	}
 }

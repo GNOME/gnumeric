@@ -7,8 +7,6 @@ Release Critical
 - Parser is incorrectly giving precedence to function names during look up.
   eg it is impossible to have a sheet named 'exp'.
 - The strings TRUE and FALSE are not recognized as values.
-- print preview is not drawing the background colours for cells.
-  This is likely a gnome-print problem.
 - Changing the size of all rows/cols creates big xml files.
 - Changing an expression name that is in use causes a crash.
 
@@ -65,6 +63,15 @@ Dialogs
 -------
 - Enhance function wizard
 - Use color combos in format dialog.
+- Function selector
+    : Double click in the function list should select a function.
+    : 'Most recently used'
+    : typing in the function list should jump to an entry that starts with the
+      requested letter.
+- Formula Guru
+    : Sizing sucks
+    : Editing existing functions
+    : Editing nested funtions
 
 Function Breakage
 -----------------
