@@ -1,0 +1,607 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: YEAH-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: ENCODING\n"
+
+#: ../src/gnumeric.xml:337
+msgid "About this application"
+msgstr "Om denne applikation"
+
+#: ../src/gnumeric.xml:300
+msgid "Auto _Correct..."
+msgstr ""
+
+#: ../src/gnumeric.xml:301
+msgid "Automaticaly perform simple spell checking"
+msgstr ""
+
+#: ../src/gnumeric.xml:305
+msgid "Automaticaly save the current document at regular intervals"
+msgstr ""
+
+#: ../src/gnumeric.xml:98
+msgid "C_lear"
+msgstr ""
+
+#: ../src/gnumeric.xml:78
+msgid "C_lear..."
+msgstr ""
+
+#: ../src/gnumeric.xml:207
+msgid "C_olumn"
+msgstr ""
+
+#: ../src/gnumeric.xml:60
+msgid "C_ut"
+msgstr "Klip"
+
+#: ../src/gnumeric.xml:236
+msgid "Change height of the selected rows"
+msgstr ""
+
+#: ../src/gnumeric.xml:226
+msgid "Change the default column width"
+msgstr ""
+
+#: ../src/gnumeric.xml:248
+msgid "Change the default row height"
+msgstr ""
+
+#: ../src/gnumeric.xml:258
+msgid "Change the order the sheets are displayed"
+msgstr ""
+
+#: ../src/gnumeric.xml:214
+msgid "Change width of the selected columns"
+msgstr ""
+
+#: ../src/gnumeric.xml:90
+msgid "Clear the selected cells' comments"
+msgstr ""
+
+#: ../src/gnumeric.xml:94
+msgid "Clear the selected cells' contents"
+msgstr ""
+
+#: ../src/gnumeric.xml:86
+msgid "Clear the selected cells' formats"
+msgstr ""
+
+#: ../src/gnumeric.xml:82
+msgid "Clear the selected cells' formats, comments, and contents"
+msgstr ""
+
+#: ../src/gnumeric.xml:99
+msgid "Clear the selection"
+msgstr ""
+
+#: ../src/gnumeric.xml:40
+msgid "Close the current file"
+msgstr ""
+
+#: ../src/gnumeric.xml:89
+msgid "Co_mments"
+msgstr "Ko_mmentar"
+
+#: ../src/gnumeric.xml:64
+msgid "Copy the selection"
+msgstr ""
+
+#: ../src/gnumeric.xml:6
+msgid "Create a new spreadsheet"
+msgstr ""
+
+#: ../src/gnumeric.xml:186
+msgid "Current _date"
+msgstr ""
+
+#: ../src/gnumeric.xml:191
+msgid "Current _time"
+msgstr ""
+
+#: ../src/gnumeric.xml:60
+msgid "Cut the selection"
+msgstr ""
+
+#: ../src/gnumeric.xml:105
+msgid "De_lete Sheet"
+msgstr ""
+
+#: ../src/gnumeric.xml:261
+msgid "Display _Formulas"
+msgstr ""
+
+#: ../src/gnumeric.xml:262
+msgid "Display the value of a formula or the formula itself"
+msgstr ""
+
+#: ../src/gnumeric.xml:45
+msgid "E_xit"
+msgstr "Afslut"
+
+#: ../src/gnumeric.xml:175
+msgid "Edit sheet and workbook names"
+msgstr ""
+
+#: ../src/gnumeric.xml:254
+msgid "Edit the name of the current sheet"
+msgstr ""
+
+#: ../src/gnumeric.xml:181
+msgid "Edit the selected cell's comment"
+msgstr ""
+
+#: ../src/gnumeric.xml:210
+msgid "Ensure columns are just wide enough to display content"
+msgstr ""
+
+#: ../src/gnumeric.xml:232
+msgid "Ensure rows are just tall enough to display content"
+msgstr ""
+
+#: ../src/gnumeric.xml:45
+msgid "Exit the program"
+msgstr ""
+
+#: ../src/gnumeric.xml:200
+msgid "F_ormat"
+msgstr ""
+
+#: ../src/gnumeric.xml:331
+msgid "Filter data with given criteria"
+msgstr ""
+
+#: ../src/gnumeric.xml:283
+msgid "Format a region of cells according to a pre-defined template"
+msgstr ""
+
+#: ../src/gnumeric.xml:273
+msgid "Hide _Column Headers"
+msgstr ""
+
+#: ../src/gnumeric.xml:269
+msgid "Hide _Gridlines"
+msgstr ""
+
+#: ../src/gnumeric.xml:277
+msgid "Hide _Row Headers"
+msgstr ""
+
+#: ../src/gnumeric.xml:265
+msgid "Hide _Zeros"
+msgstr ""
+
+#: ../src/gnumeric.xml:218
+msgid "Hide the selected columns"
+msgstr ""
+
+#: ../src/gnumeric.xml:240
+msgid "Hide the selected rows"
+msgstr ""
+
+#: ../src/gnumeric.xml:14
+msgid "Imports a file"
+msgstr ""
+
+#: ../src/gnumeric.xml:156
+msgid "Insert a new spreadsheet"
+msgstr ""
+
+#: ../src/gnumeric.xml:165
+msgid "Insert new cells"
+msgstr ""
+
+#: ../src/gnumeric.xml:162
+msgid "Insert new columns"
+msgstr ""
+
+#: ../src/gnumeric.xml:159
+msgid "Insert new rows"
+msgstr ""
+
+#: ../src/gnumeric.xml:187
+msgid "Insert the current date into the selected cell(s)"
+msgstr ""
+
+#: ../src/gnumeric.xml:192
+msgid "Insert the current time into the selected cell(s)"
+msgstr ""
+
+#: ../src/gnumeric.xml:168
+msgid "Inserts a Bonobo object"
+msgstr ""
+
+#: ../src/gnumeric.xml:106
+msgid "Irrevocably remove an entire sheet"
+msgstr ""
+
+#: ../src/gnumeric.xml:311
+msgid "Iteratively recalculate to find a target value"
+msgstr ""
+
+#: ../src/gnumeric.xml:315
+msgid "Iteratively recalculate with constraints to approach a target value"
+msgstr ""
+
+#: ../src/gnumeric.xml:136
+msgid "Jump to a specified cell"
+msgstr ""
+
+#: ../src/gnumeric.xml:222
+msgid "Make any hidden columns in the selection visible"
+msgstr ""
+
+#: ../src/gnumeric.xml:244
+msgid "Make any hidden rows in the selection visible"
+msgstr ""
+
+#: ../src/gnumeric.xml:295
+msgid "Manage available plugin modules"
+msgstr ""
+
+#: ../src/gnumeric.xml:204
+msgid "Modify the formatting of the selected cells"
+msgstr ""
+
+#: ../src/gnumeric.xml:287
+msgid "Modify the workbook attributes"
+msgstr ""
+
+#: ../src/gnumeric.xml:172
+msgid "N_ames"
+msgstr ""
+
+#: ../src/gnumeric.xml:10
+msgid "Open a file"
+msgstr ""
+
+#: ../src/gnumeric.xml:68
+msgid "Paste the clipboard"
+msgstr ""
+
+#: ../src/gnumeric.xml:73
+msgid "Paste with optional filters and transformations"
+msgstr ""
+
+#: ../src/gnumeric.xml:35
+msgid "Print S_etup..."
+msgstr ""
+
+#: ../src/gnumeric.xml:31
+msgid "Print the current file"
+msgstr ""
+
+#: ../src/gnumeric.xml:257
+msgid "Re-_Order Sheets"
+msgstr ""
+
+#: ../src/gnumeric.xml:140
+msgid "Recalculate the spreadsheet"
+msgstr ""
+
+#: ../src/gnumeric.xml:55
+msgid "Redo the undone action"
+msgstr ""
+
+#: ../src/gnumeric.xml:102
+msgid "Remove selected cells, shifting others into their place"
+msgstr ""
+
+#: ../src/gnumeric.xml:183
+msgid "S_pecial"
+msgstr ""
+
+#: ../src/gnumeric.xml:21
+msgid "Save _As..."
+msgstr ""
+
+#: ../src/gnumeric.xml:18
+msgid "Save the current file"
+msgstr ""
+
+#: ../src/gnumeric.xml:22
+msgid "Save the current file with a different name"
+msgstr ""
+
+#: ../src/gnumeric.xml:125
+msgid "Select Arra_y"
+msgstr ""
+
+#: ../src/gnumeric.xml:113
+msgid "Select _All"
+msgstr ""
+
+#: ../src/gnumeric.xml:121
+msgid "Select _Column"
+msgstr ""
+
+#: ../src/gnumeric.xml:129
+msgid "Select _Depends"
+msgstr ""
+
+#: ../src/gnumeric.xml:117
+msgid "Select _Row"
+msgstr ""
+
+#: ../src/gnumeric.xml:114
+msgid "Select all cells in the spreadsheet"
+msgstr ""
+
+#: ../src/gnumeric.xml:130
+msgid "Select all the cells that depend on the current edit cell."
+msgstr ""
+
+#: ../src/gnumeric.xml:126
+msgid "Select an array of cells"
+msgstr ""
+
+#: ../src/gnumeric.xml:122
+msgid "Select an entire column"
+msgstr ""
+
+#: ../src/gnumeric.xml:118
+msgid "Select an entire row"
+msgstr ""
+
+#: ../src/gnumeric.xml:36
+msgid "Setup the page settings for your current printer"
+msgstr ""
+
+#: ../src/gnumeric.xml:328
+msgid "Sort the selected cells"
+msgstr ""
+
+#: ../src/gnumeric.xml:321
+msgid "Statistical methods"
+msgstr ""
+
+#: ../src/gnumeric.xml:25
+msgid "Su_mmary..."
+msgstr ""
+
+#: ../src/gnumeric.xml:26
+msgid "Summary information"
+msgstr ""
+
+#: ../src/gnumeric.xml:274
+msgid "Toggle whether or not to display column headers"
+msgstr ""
+
+#: ../src/gnumeric.xml:270
+msgid "Toggle whether or not to display gridlines"
+msgstr ""
+
+#: ../src/gnumeric.xml:278
+msgid "Toggle whether or not to display row headers"
+msgstr ""
+
+#: ../src/gnumeric.xml:266
+msgid "Toggle whether or not to display zeros as blanks"
+msgstr ""
+
+#: ../src/gnumeric.xml:52
+msgid "Undo the last action"
+msgstr ""
+
+#: ../src/gnumeric.xml:149
+msgid "Zoom the spreadsheet in or out"
+msgstr ""
+
+#: ../src/gnumeric.xml:337
+msgid "_About..."
+msgstr ""
+
+#: ../src/gnumeric.xml:180
+msgid "_Add / modify comment..."
+msgstr ""
+
+#: ../src/gnumeric.xml:81
+msgid "_All"
+msgstr ""
+
+#: ../src/gnumeric.xml:304
+msgid "_Auto Save..."
+msgstr ""
+
+#: ../src/gnumeric.xml:231
+msgid "_Auto fit selection"
+msgstr ""
+
+#: ../src/gnumeric.xml:282
+msgid "_Autoformat..."
+msgstr ""
+
+#: ../src/gnumeric.xml:165
+msgid "_Cells"
+msgstr ""
+
+#: ../src/gnumeric.xml:203
+msgid "_Cells..."
+msgstr ""
+
+#: ../src/gnumeric.xml:253
+msgid "_Change Name"
+msgstr ""
+
+#: ../src/gnumeric.xml:39
+msgid "_Close"
+msgstr ""
+
+#: ../src/gnumeric.xml:162
+msgid "_Columns"
+msgstr ""
+
+#: ../src/gnumeric.xml:93
+msgid "_Content"
+msgstr ""
+
+#: ../src/gnumeric.xml:63
+msgid "_Copy"
+msgstr ""
+
+#: ../src/gnumeric.xml:325
+msgid "_Data"
+msgstr ""
+
+#: ../src/gnumeric.xml:320
+msgid "_Data Analysis..."
+msgstr ""
+
+#: ../src/gnumeric.xml:101
+msgid "_Delete..."
+msgstr ""
+
+#: ../src/gnumeric.xml:50
+msgid "_Edit"
+msgstr ""
+
+#: ../src/gnumeric.xml:3
+msgid "_File"
+msgstr ""
+
+#: ../src/gnumeric.xml:331
+msgid "_Filter..."
+msgstr ""
+
+#: ../src/gnumeric.xml:85
+msgid "_Formats"
+msgstr ""
+
+#: ../src/gnumeric.xml:310
+msgid "_Goal Seek..."
+msgstr ""
+
+#: ../src/gnumeric.xml:135
+msgid "_Goto cell..."
+msgstr ""
+
+#: ../src/gnumeric.xml:235
+msgid "_Height..."
+msgstr ""
+
+#: ../src/gnumeric.xml:335
+msgid "_Help"
+msgstr ""
+
+#: ../src/gnumeric.xml:239
+msgid "_Hide"
+msgstr ""
+
+#: ../src/gnumeric.xml:13
+msgid "_Import..."
+msgstr ""
+
+#: ../src/gnumeric.xml:153
+msgid "_Insert"
+msgstr ""
+
+#: ../src/gnumeric.xml:5
+msgid "_New"
+msgstr ""
+
+#: ../src/gnumeric.xml:168
+msgid "_Object"
+msgstr ""
+
+#: ../src/gnumeric.xml:9
+msgid "_Open..."
+msgstr ""
+
+#: ../src/gnumeric.xml:67
+msgid "_Paste"
+msgstr ""
+
+#: ../src/gnumeric.xml:72
+msgid "_Paste special..."
+msgstr ""
+
+#: ../src/gnumeric.xml:294
+msgid "_Plug-ins..."
+msgstr ""
+
+#: ../src/gnumeric.xml:30
+msgid "_Print"
+msgstr ""
+
+#: ../src/gnumeric.xml:139
+msgid "_Recalculate"
+msgstr ""
+
+#: ../src/gnumeric.xml:55
+msgid "_Redo"
+msgstr ""
+
+#: ../src/gnumeric.xml:229
+msgid "_Row"
+msgstr ""
+
+#: ../src/gnumeric.xml:159
+msgid "_Rows"
+msgstr ""
+
+#: ../src/gnumeric.xml:17
+msgid "_Save"
+msgstr ""
+
+#: ../src/gnumeric.xml:110
+msgid "_Select..."
+msgstr ""
+
+#: ../src/gnumeric.xml:251
+msgid "_Sheet"
+msgstr ""
+
+#: ../src/gnumeric.xml:314
+msgid "_Solver..."
+msgstr ""
+
+#: ../src/gnumeric.xml:328
+msgid "_Sort..."
+msgstr ""
+
+#: ../src/gnumeric.xml:247
+msgid "_Standard Height"
+msgstr ""
+
+#: ../src/gnumeric.xml:225
+msgid "_Standard Width"
+msgstr ""
+
+#: ../src/gnumeric.xml:291
+msgid "_Tools"
+msgstr ""
+
+#: ../src/gnumeric.xml:52
+msgid "_Undo"
+msgstr ""
+
+#: ../src/gnumeric.xml:243
+msgid "_Unhide"
+msgstr ""
+
+#: ../src/gnumeric.xml:146
+msgid "_View"
+msgstr ""
+
+#: ../src/gnumeric.xml:213
+msgid "_Width..."
+msgstr ""
+
+#: ../src/gnumeric.xml:286
+msgid "_Workbook..."
+msgstr ""
+
+#: ../src/gnumeric.xml:148
+msgid "_Zoom..."
+msgstr ""
