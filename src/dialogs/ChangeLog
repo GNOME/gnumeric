@@ -1,3 +1,8 @@
+2000-06-08  ERDI Gergo  <cactus@cactus.rulez.org>
+
+	* src/dialogs/dialog-printer-setup.c (unit_editor_configure):
+	Fixed a possible memory leak (callback data was not freed)
+
 2000-06-06  Miguel de Icaza  <miguel@helixcode.com>
 
 	* dialog-autocorrect.c (autocorrect_tool): Duplicate return string here.

@@ -690,9 +690,13 @@ unit_editor_configure (UnitInfo *target, dialog_print_info_t *dpi,
 	gtk_signal_connect (
 		GTK_OBJECT (target->spin), "focus_out_event",
 		unit_deactivated, cbdata);
-	gtk_signal_connect (
+	gtk_signal_connect_full (
 		GTK_OBJECT (target->spin), "changed",
-		GTK_SIGNAL_FUNC (unit_changed), cbdata);
+		GTK_SIGNAL_FUNC (unit_changed),
+		NULL,
+		cbdata,
+		(GtkDestroyNotify)g_free,
+		FALSE, FALSE);
 	dpi->conversion_listeners
 		= g_list_append (dpi->conversion_listeners, (gpointer) target);
 }
@@ -1185,6 +1189,7 @@ do_setup_main_dialog (dialog_print_info_t *dpi)
 
 	dpi->dialog = glade_xml_get_widget (dpi->gui, "print-setup");
 
+#if 0
 	for (i = 1; i < 5; i++) {
 		GtkWidget *w;
 		char *print = g_strdup_printf ("print-%d", i);
@@ -1212,6 +1217,27 @@ do_setup_main_dialog (dialog_print_info_t *dpi)
 
 		g_free (options);
 	}
+#else
+	{
+		GtkWidget *w;
+		
+		w = glade_xml_get_widget (dpi->gui, "print");
+		gtk_signal_connect (GTK_OBJECT (w), "clicked",
+				    GTK_SIGNAL_FUNC (do_print_cb), dpi);
+		w = glade_xml_get_widget (dpi->gui, "preview");
+		gtk_signal_connect (GTK_OBJECT (w), "clicked",
+				    GTK_SIGNAL_FUNC
+				    (do_print_preview_cb), dpi);
+
+		/*
+		 * Hide non-functional buttons for now
+		 */
+		w = glade_xml_get_widget (dpi->gui, "options");
+		gtk_widget_hide (w);
+	}
+		
+		
+#endif
 }
 
 static dialog_print_info_t *
