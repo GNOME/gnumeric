@@ -13,6 +13,9 @@
 #include "utils.h"
 #include "func.h"
 
+/* The list of categories */
+static GPtrArray *categories = NULL ;
+
 typedef struct {
 	FunctionIterateCallback  callback;
 	void                     *closure;
@@ -139,54 +142,52 @@ function_iterate_argument_values (Sheet                   *sheet,
 	return result;
 }
 
-static GPtrArray *categories = NULL ;
-
-/**
- * The right way TM. :-)
- **/
 GPtrArray *
-get_function_categories()
+function_categories_get ()
 {
-	return categories ;
+	return categories;
 }
 
-TOKENISED_HELP *
-tokenised_help_new (FunctionDefinition *fd)
+TokenizedHelp *
+tokenized_help_new (FunctionDefinition *fd)
 {
-	TOKENISED_HELP *tok = g_new (TOKENISED_HELP, 1) ;
-	tok->fd = fd ;
-	if (fd->help && fd->help[0]) {
-		char *ptr ;
-		int seek_att = 1 ;
-		int last_newline = 1 ;
-		tok->help_copy = g_strdup (fd->help[0]) ;
-		tok->sections = g_ptr_array_new () ;
-		ptr = tok->help_copy ;
-		while (*ptr) {
+	TokenizedHelp *tok;
+
+	g_return_if_fail (fd != NULL);
+
+	tok = g_new (TokenizedHelp, 1);
+
+	tok->fd = fd;
+
+	if (fd->help && fd->help [0]){
+		char *ptr;
+		int seek_att = 1;
+		int last_newline = 1;
+		
+		tok->help_copy = g_strdup (fd->help [0]);
+		tok->sections = g_ptr_array_new ();
+		ptr = tok->help_copy;
+		
+		while (*ptr){
 			if (*ptr == '\\' && *(ptr+1))
-				ptr+=2 ;
-			if (*ptr == '@' && seek_att && last_newline) {
-				*ptr = 0 ;
-				g_ptr_array_add (tok->sections, (ptr+1)) ;
-				seek_att = 0 ;
-			} else if (*ptr == '=' && !seek_att) {
-				*ptr = 0 ;
-				g_ptr_array_add (tok->sections, (ptr+1)) ;
-				seek_att = 1 ;
+				ptr+=2;
+			
+			if (*ptr == '@' && seek_att && last_newline){
+				*ptr = 0;
+				g_ptr_array_add (tok->sections, (ptr+1));
+				seek_att = 0;
+			} else if (*ptr == '=' && !seek_att){
+				*ptr = 0;
+				g_ptr_array_add (tok->sections, (ptr+1));
+				seek_att = 1;
 			}
-			last_newline =  (*ptr == '\n') ;
-				
-			ptr++ ;
+			last_newline = (*ptr == '\n');
+
+			ptr++;
 		}
-/*	{
-		int lp ;
-		for (lp=0;lp<tok->sections->len;lp++)
-			printf ("'%s'\n",
-				(char *)g_ptr_array_index (tok->sections, lp)) ;
-				} */
 	} else {
-		tok->help_copy = NULL ;
-		tok->sections = NULL ;
+		tok->help_copy = NULL;
+		tok->sections = NULL;
 	}
 	
 	return tok ;
@@ -196,43 +197,48 @@ tokenised_help_new (FunctionDefinition *fd)
  * Use to find a token eg. "FUNCTION"'s value.
  **/
 char *
-tokenised_help_find (TOKENISED_HELP *tok, char *token)
+tokenized_help_find (TokenizedHelp *tok, char *token)
 {
-	int lp ;
+	int lp;
+
 	if (!tok || !tok->sections)
-		return "Duff Function Description." ;
-	for (lp=0;lp<tok->sections->len-1;lp++) {
-		char *cmp = g_ptr_array_index (tok->sections, lp) ;
-		if (strcasecmp (cmp, token) == 0) {
-			return g_ptr_array_index (tok->sections, lp+1) ;
+		return "Incorrect Function Description.";
+	
+	for (lp = 0; lp < tok->sections->len-1; lp++){
+		char *cmp = g_ptr_array_index (tok->sections, lp);
+
+		if (strcasecmp (cmp, token) == 0){
+			return g_ptr_array_index (tok->sections, lp+1);
 		}
 	}
-	return "Can't find token" ;	
+	return "Can not find token";
 }
 
 void
-tokenised_help_destroy (TOKENISED_HELP *tok)
+tokenized_help_destroy (TokenizedHelp *tok)
 {
-	g_return_if_fail (tok) ;
-	/* John 8:34-36 */
+	g_return_if_fail (tok != NULL);
+
 	if (tok->help_copy)
-		g_free (tok->help_copy) ;
+		g_free (tok->help_copy);
+
 	if (tok->sections)
-		g_ptr_array_free (tok->sections, FALSE) ;
-	g_free (tok) ;
+		g_ptr_array_free (tok->sections, FALSE);
+
+	g_free (tok);
 }
 
 void
 install_symbols (FunctionDefinition *functions, gchar *description)
 {
 	int i;
-	FUNCTION_CATEGORY *fnc = g_new (FUNCTION_CATEGORY,1) ;
+	FunctionCategory *fn_cat = g_new (FunctionCategory, 1);
 	
-	g_return_if_fail (categories) ;
+	g_return_if_fail (categories);
 
-	fnc->name = description ;
-	fnc->functions = functions ;
-	g_ptr_array_add (categories, fnc) ; 
+	fn_cat->name = description;
+	fn_cat->functions = functions;
+	g_ptr_array_add (categories, fn_cat); 
 	
 	for (i = 0; functions [i].name; i++){
 		symbol_install (global_symbol_table, functions [i].name,
@@ -243,7 +249,8 @@ install_symbols (FunctionDefinition *functions, gchar *description)
 void
 functions_init (void)
 {
-	categories = g_ptr_array_new () ;
+	categories = g_ptr_array_new ();
+
 	install_symbols (math_functions, _("Maths / Trig."));
 	install_symbols (sheet_functions, _("Sheet"));
 	install_symbols (misc_functions, _("Miscellaneous"));

@@ -213,6 +213,8 @@ static int
 csv_cleanup_plugin (PluginData *pd)
 {
 	file_format_unregister_save (csv_read_workbook);
+
+	return TRUE;
 }
 
 static int

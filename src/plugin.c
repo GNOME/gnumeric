@@ -33,6 +33,7 @@ plugin_load (Workbook *wb, gchar *modfile)
 	
 	data->handle = g_module_open (modfile, 0);
 	if (!data->handle) {
+		g_free (data);
 		return NULL;
 #if 0
 		char *str;
@@ -45,6 +46,7 @@ plugin_load (Workbook *wb, gchar *modfile)
 	}
 	
 	if (!g_module_symbol (data->handle, "init_plugin", (gpointer *) &data->init_plugin)){
+		g_free (data);
 		gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
 				 _("Plugin must contain init_plugin function."));
 		goto error;

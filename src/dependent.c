@@ -27,8 +27,10 @@ cell_eval (Cell *cell)
 		       cell->row->pos,
 		       &error_msg);
 
-	if (cell->value)
+	if (cell->value){
 		value_release (cell->value);
+		cell->value = NULL;
+	}
 	
 	if (v == NULL){
 		cell_set_rendered_text (cell, error_msg);

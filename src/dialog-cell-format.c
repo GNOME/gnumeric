@@ -147,6 +147,9 @@ render_formated_version (char *format)
 		Value *v = first_cell->value;
 		char *str;
 
+		if (v == NULL)
+			return;
+		
 		style_format = style_format_new (format);
 		str = format_value (style_format, v, NULL);
 
