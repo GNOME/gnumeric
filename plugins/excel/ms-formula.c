@@ -65,7 +65,7 @@ FORMULA_FUNC_DATA formula_func_data[] =
   { 0x06, "MIN (", 0,  ")", -1, 0 },
   { 0x07, "MAX (", 0,  ")", -1, 0 },
   { 0x08, "0x8 (", 0, ")", 8, 0 },
-  { 0x09, "0x9 (", 0, ")", 8, 0 },
+  { 0x09, "COLUMN (", 0, ")", -1, 0 },
   { 0x0a, "0xa (", 0, ")", 8, 0 },
   { 0x0b, "0xb (", 0, ")", 8, 0 },
   { 0x0c, "STDEV (", 0, ")", -1, 0 },
@@ -127,10 +127,10 @@ FORMULA_FUNC_DATA formula_func_data[] =
   { 0x48, "MINUTE (", 0, ")", 1, 0 },
   { 0x49, "SECOND (", 0, ")", 1, 0 },
   { 0x4a, "NOW (", 0, ")", 0, 0 },
-  { 0x4b, "0x4b (", 0, ")", 8, 0 },
+  { 0x4b, "AREAS (", 0, ")", 1, 0 },
   { 0x4c, "0x4c (", 0, ")", 8, 0 },
-  { 0x4d, "0x4d (", 0, ")", 8, 0 },
-  { 0x4e, "0x4e (", 0, ")", 8, 0 },
+  { 0x4d, "COLUMNS (", 0, ")", 1, 0 },
+  { 0x4e, "OFFSET (", 0, ")", -1, 0 },
   { 0x4f, "0x4f (", 0, ")", 8, 0 },
   { 0x50, "0x50 (", 0, ")", 8, 0 },
   { 0x51, "0x51 (", 0, ")", 8, 0 },
@@ -204,6 +204,7 @@ FORMULA_FUNC_DATA formula_func_data[] =
   { 0xc2, "VARP (", 0, ")", -1, 0 },
   { 0xc5, "TRUNC (", 0, ")", 1, 0 },
   { 0xc6, "ISLOGICAL (", 0, ")", 1, 0 },
+  { 0xdb, "ADDRESS (", 0, ")", -1, 0 },
   { 0xdc, "DAYS360 (", 0, ")", 2, 0 },
   { 0xdd, "TODAY (", 0, ")", 0, 0 },
   { 0xe3, "MEDIAN (", 0, ")", -1, 0 },
@@ -279,7 +280,8 @@ FORMULA_FUNC_DATA formula_func_data[] =
   { 0x14c, "TINV (", 0, ")", 2, 0 },
   { 0x150, "CONCATENATE (", 0, ")", 2, 0 },
   { 0x156, "RADIANS (", 0, ")", 1, 0 },
-  { 0x15b, "COUNTBLANK (", 0, ")", 1, 0 }
+  { 0x15b, "COUNTBLANK (", 0, ")", 1, 0 },
+  { 0x167, "HYPERLINK (", 0, ")", -1, 0 }
 };
 #define FORMULA_FUNC_DATA_LEN (sizeof(formula_func_data)/sizeof(FORMULA_FUNC_DATA))
 

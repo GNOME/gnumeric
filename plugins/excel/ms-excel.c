@@ -1081,8 +1081,9 @@ ms_excel_sheet_insert (MS_EXCEL_SHEET * sheet, int xfidx, int col, int row, char
 		sheet->blank = 0 ;
 		cell_set_text_simple (cell, text);
 	}
-	else
+	else {
 		cell_set_text_simple (cell, "") ;
+	}
 	ms_excel_set_cell_xf (sheet, cell, xfidx);
 }
 
@@ -1391,6 +1392,10 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 			printf ("Odd Colinfo\n") ;
 		printf ("Column Formatting from col %d to %d of width %f characters\n",
 			firstcol, lastcol, width/256.0) ;
+		if ((int)width/256.0 == 0) {
+			printf ("FIXME: Hidden columns need implementing\n") ;
+			width++ ;
+		}
 		for (lp=firstcol;lp<=lastcol;lp++)
 			sheet_col_set_width (sheet->gnum_sheet, lp, width/25) ;
 		break ;

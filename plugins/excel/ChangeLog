@@ -1,3 +1,8 @@
+1999-03-24  Thomas Meeks  <thomas@imaginator.com>
+
+	* ms-formula.c: Added mappings for Address, Area, Hyperlink,
+	Offset, Column, Columns.
+	
 1999-03-12  Michael Meeks  <michael@imaginator.com>
 
 	* ms-excel.c (biff_name_data_new, biff_name_data_get_name),
