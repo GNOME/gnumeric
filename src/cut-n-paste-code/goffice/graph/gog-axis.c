@@ -1172,18 +1172,6 @@ gog_axis_get_entry (GogAxis const *axis, GogAxisElemType i, gboolean *user_defin
 			return tmp;
 		}
 	}
-#warning "The above code doesn't trigger anymore -- the following does.  Sort this out."
-	if (dat != NULL && IS_GO_DATA_VECTOR (dat)) {
-		GODataVector *vec = GO_DATA_VECTOR (dat);
-		if (go_data_vector_get_len (vec) == 1) {
-			double tmp = *go_data_vector_get_values (vec);
-			if (go_finite (tmp)) {
-				if (user_defined)
-					*user_defined = TRUE;
-				return tmp;
-			}
-		}
-	}
 
 	return axis->auto_bound [i];
 }

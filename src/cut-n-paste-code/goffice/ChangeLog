@@ -1,3 +1,9 @@
+2004-10-13  Morten Welinder  <terra@gnome.org>
+
+	* graph/gog-axis.c (gog_axis_get_entry): Remove band-aid no longer
+	needed.  (Although files created in the past few days will have
+	the vector type in the file.)
+
 2004-10-13  Jean Brefort <jean.brefort@normalesup.org>
 
 	* graph/gog-axis.c: (make_dim_editor): replace TRUE by GO_DATA_SCALAR in the
