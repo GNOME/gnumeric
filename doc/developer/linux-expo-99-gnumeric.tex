@@ -1,0 +1,717 @@
+\documentclass[12pt,twoside,twocolumn]{article}
+\usepackage{linuxexpo}
+\begin{document}
+
+\title{The Gnumeric spreadsheet: a test-bed for component programming.}
+
+\author{
+	\textit{Miguel de Icaza}\\
+	Instituto de Ciencias Nucleares \\
+	Universidad Nacional Aut\'onoma de M\'exico.\\
+	\small
+	miguel@gnu.org\\
+}
+
+\maketitle
+
+\begin{abstract}
+The Gnumeric spreadsheet is part of the GNOME project.  Gnumeric is
+licensed under the terms of the GNU GPL.  I show how the main
+components of Gnumeric work and how the Gnumeric engine is exported
+trough CORBA and scripting language facilities to customize and extend
+it.  A view at the development of Gnumeric and some lessons
+learned are showed.
+\end{abstract}
+
+
+
+\section{Motivation.}
+
+The Gnumeric spreadsheet is part of the GNU Network Object Model
+Environment \cite{gnome} project.  The GNOME project provides a framework
+for application development and components reuse.  The GNOME desktop
+is a free[gnufree] user-friendly, consistent, easy to use yet powerful set
+of applications and desktop integration tools for UNIX systems.
+
+The lack of a standard, and freely available setup for component
+programming is a problem present on the UNIX world nowadays.  One of
+the issues being addressed by the GNOME project is providing such a
+framework.  The GNOME framework is based on the CORBA[omg] object
+model.  During the design of the GNOME component interfaces, we tried
+to address a range of needs:
+
+\begin{itemize}
+
+	\item {Automation:} Allow applications to be remotely
+	controlled.  People should be able to launch and control GNOME
+	applications remotely.  This is achieved by the Gnome Object
+	Activation Directory (GOAD), the supporting libraries (the
+	GNORBA libraries) and making use of the CORBA facilities for
+	binding CORBA to scripting languages.
+
+	\item {Compound document creation:} It is important to design
+	and implement the GNOME applications in such a way that they
+	will let the user create compound documents:  Documents whose
+	contents might have been produced by different tools. 
+
+	\item {In-place document editing:} The next step to compound
+	document creation is providing ways to edit embedded documents
+	inside a container application.  This means that it should be
+	possible to make changes to an embedded spreadsheet document
+	inside a word processing document in a seamless fashion:  it
+	is important to make this integration simple and easy to use. 
+
+	\item {Component reuse:} Filters and pipes proved to be 
+	important building blocks in Unix but they are very limited:
+	The flow of control usually goes in a single direction and the
+	protocol used to exchange information is very simple for
+	today's needs.  
+
+	\item {Desktop integration:} The GNOME desktop deals with
+	CORBA interfaces to services:  This means that as far as an
+	application is concerned, they only care about the published
+	interface that a program provides.
+
+	In GNOME, interfaces for specific tasks play an important
+	role: it is up to the user to choose which implementation of
+	those interfaces he uses (for example, the Mailer interface is
+	implemented by the GNOME Balsa mail reader, but it can be
+	implemented by Emacs RMAIL, Emacs GNUS or the Mozilla Mail
+	Reader:  if any of those provide the CORBA Mailer interface
+	they will fit and integrate in the GNOME desktop). 
+
+\end{itemize}
+
+Defining sensible interfaces for the above listed tasks without having
+real applications that would use them is an experiment in futility.
+One of the motivations for coding the Gnumeric spreadsheet were to
+address the issues listed above.
+
+The GNOME project would not be complete without a collection of
+commercial-grade end-user applications, and Gnumeric is one of these
+applications.  Gnumeric was designed and coded to be of
+commercial-grade quality: the design of the code allows for Gnumeric
+to be extended to what the commercial offering has these days.
+
+One of Gnumeric goals was thus to become a replacement for the
+commercial offerings and possibly go beyond their offerings.  Thus,
+various design decisions in Gnumeric are shaped after the industry top
+spreadsheets.  For example, the formats used to configure the way
+numbers are displayed in Gnumeric mimics the Excel format.
+
+
+
+
+\section{The display engine.}
+
+The Gnumeric display engine is built on top of the GNOME
+Canvas\cite{canvas}.  The GNOME canvas is an extensible display and event
+dispatch engine that provides high-quality, flicker-free display
+primitives to applications.  A GNOME canvas is a container for objects
+of type GnomeCanvasItem which are the actual objects that receive
+events and display themselves inside the canvas.
+
+The GNOME canvas provides with a number of graphic primitives that can
+be used to construct powerful applications.  All of these primitives
+are derived from the GTK+ object GnomeCanvasItem.
+
+The flicker-free display is achieved by having the GnomeCanvasItem
+objects render their contents in an off-screen pixmap which is later
+transfered in a single operation to the actual exposed region.  The
+pixmap transfer takes place by default on the idle loop handler.  Even
+when it is possible to force a redraw at any point, applications that
+are user-input driven do not benefit from this feature.
+
+The availability of a flick-free display engine frees the programmer
+from having to deal with intricate paint setups for avoiding flicker
+on the screen and concentrate on his code features.  Complex graphical
+user interface are thus easy to construct with little hassle.  Display
+Postscript based systems provide this same power to the user.
+
+In the practice, we have noticed that Gnumeric flickers a lot less
+than the commercial spreadsheets due to this engine in various cases
+where a lot of changes are being done to the Gnumeric grid display. 
+
+\subsection{Subclassing the Canvas objects.}
+
+Gnumeric was the first GNOME application to use the GNOME Canvas
+engine: it was also the first application to effectively provide its
+own Canvas items to simplify the programming of all the graphical
+elements that people expect from a modern spreadsheet.
+
+The GNOME canvas provides to graphic application authors a powerful
+abstraction for creating elaborate graphical applications.  All of the
+details of event dispatching, rendering, flicker free display and
+redrawing are done by the Canvas on behalf of the programmer.
+
+The code in Gnumeric subclasses the GnomeCanvas widget engine to
+provide spreadsheet specific event dispatching and to implement the
+special key bindings and focus policies as expected on a spreadsheet.
+
+The spreadsheet code extends the basic set of GnomeCanvasItems
+available by implementing a number of specialized items.   
+
+\begin{itemize}
+
+	\item {Bar item:} This one is used to draw the columns and
+	rows indicators.  
+
+	\item {Cursor item:} Various number of cursors are supported
+	in Gnumeric: input cursors, editing cursors, marked regions,
+	walking-ant cursors.  They can have different sizes and than
+	one cursor can be active at any point.
+
+	Making the cursor a CanvasItem simplifies and centralizes the
+	event handling for the cursors.
+
+	\item {Grid item:} This is the actual spreadsheet display
+	code.  It is the most complex CanvasItem in Gnumeric as it
+	deals with the spreadsheet repaint code and the cell repaint
+	code.
+
+	\item {Comment item:} Cells in Gnumeric can have comments
+	attached to them.   
+
+\end{itemize}
+
+All of the above components are tied together inside a SheetView GTK+
+Widget.  A side effect of using the GNOME Canvas as the foundation for
+the spreadsheet display engine is that simple drawing features can be
+added to Gnumeric and embedding of arbitrary widgets inside a
+spreadsheet is simple.
+
+The support for embedding widgets is specially interesting, as the
+GNOME document model [baboon] uses a special widget to embed documents
+that were created by other programs. 
+
+At the point of this writing, the basic drawing engine in Gnumeric is
+being replaced with Havoc Pennington's GNOME EzPaint [ezpaint]
+library: The EzPaint library implements a sample drawing program on
+top of any GnomeCanvas derived object by plugging it into the
+framework.  
+
+\subsection{Display code organization.}
+
+The top-level object managed by Gnumeric is the Workbook.  A workbook
+contains one or more Sheet objects.  Sheet objects in turn are the
+information repository in Gnumeric:  they contain all of the
+information required to render the Spreadsheet on the screen but they
+do not actually deal with any display issues. 
+
+Each Sheet object in turn contains a SheetView object which is a
+visual representation of the Sheet contents in a way familiar to the
+user: it contains three canvas objects: one for the column headings,
+one for the row headings and finally a GnumericSheet object which is
+the container for the actual data display.
+
+The GnumericSheet object in turn contains one ItemGrid canvas object
+which is bound to the container Sheet.  A variable number of cursors,
+drawing objects and cell comments are contained inside this object.
+
+The controller-view model for the Gnumeric internals was adopted to
+allow Gnumeric to become a Bonobo component.  The Bonobo architecture
+would require from its components to provide various display views for
+its information on demand.
+
+\section{Numbers and formats.}
+
+Gnumeric will render the numbers based on a format string.  This
+format string is the same format string supported by Microsoft's Excel
+product. 
+
+The formatting codes allow the user to display a number in many ways:
+The format code can include verbatim strings that will be inserted in
+the output (for example, the currency denomination);  it also allows
+to control precisely the precision and style for the number
+displayed. 
+
+An interesting feature of the formatting codes is that they support a
+mode in which the number will be rendered as a date or a time
+representation: this is a powerful mechanism as it simplifies the task
+of date manipulation in the spreadsheet.
+
+Dates are represented internally as the number of days since the first
+day of 1900 (it should be noted that Microsoft got this wrong two
+times, so Gnumeric needs to support --for the sake of Excel
+compatibility-- two broken representations for numbers plus the
+correct representation and this is sadly a global for the workbook).
+
+Times are represented as a fraction of the day.  For example: 0.0
+represents the beginning of the day; 1.0 represent the end of the day
+and 0.5 represents noon. 
+
+\subsection{Input Parsing.}
+
+To simplify the task of entering dates or any other data, Gnumeric
+implements a very slick trick: when the user enters any data into a
+cell, it will try to match the entered text as a number plus any of
+the defined formats in Gnumeric.
+
+This input parsing engine will convert strings like ``10-Jan'' 
+into a number plus a format.  In 1999, the actual number stored for
+the above example would be: 36230. 
+
+Internally, Gnumeric will generate a regular expression that describes
+all the possible matches a number formating code would render.
+For each regular expression, Gnumeric will keep a parallel description
+of what each match represents: a tag that describes how to convert the
+matching input to a number.
+
+The user input is thus processed against all of these regular
+expressions known to Gnumeric and if a match is found the engine will
+use the parallel description to create a number from the input and bind
+to it the specified format name.
+
+\section{Resource management.}
+
+There are a number of resources that are managed by Gnumeric.  The
+goal is to minimize the memory usage and the system resources used by
+Gnumeric.   Resources include: pre-compiled number format
+descriptions, display colors, fonts, stipple patterns and rendering
+styles. 
+
+To achieve this, all of the Gnumeric allocated resources are
+considered read-only resources and are always reference counted.  The
+rule is simple: the user is forbidden from making changes to a
+Gnumeric-managed resource;  when a resources is used in a new place
+its reference count should be incremented;  when the resource is no
+longer used its reference count should be decremented. 
+
+When a modified version of a resource is required, a copy of it must
+be obtained by the resource manager.  The resource manager, in turn
+will try to find an matching version for the requested in the list of
+allocated resources, and if a match is found, a pointer to it will be
+returned and the reference count will be incremented.
+
+
+\section{Information storage.}
+
+Information in Gnumeric is stored in Cell structures.  These Cell
+structures are either attached to a Sheet object or are in the
+clipboard.  No Cell is ever allowed to live anywhere else.  Period.
+Cells living in the clipboard are particularly boring Cells and they
+are usually just in-transit Cells, so we wont bother about them.
+
+The other kind of Cells are those that live on the domain of a Sheet.
+The Sheet structure keeps a list of all of the Cells in a hashed table
+(hashed by column and row number in case you were wondering).  
+
+The Sheet also keeps track of the column and row information (the
+dimensions of it, and only if the column and row actually exists).
+Gnumeric conveniently keeps the row information as doubly linked list
+which hangs from the column information.  Each row contains in turn
+all of the Cells for that row in doubly linked list form.
+
+This is by no mean inneficient, because those lists are barely walked
+from beginning to end.  Also, Cells in turn keep pointers to their
+row and column information structures.  So it all happens to be very
+efficient. 
+
+Every cell containing a valid expression is kept on a list of
+cells with expressions. 
+
+As with other resources in Gnumeric, all of the strings contained on
+the Sheet objects are reference counted.  A copy of all of the strings
+used in the Sheet objects is maintained in an adaptive global hash
+table.  The per-cell cost is about 60 bytes in the best case scenario
+and differs slightly as the cell differentiates from existing cells.
+
+Expressions are parsed into a tree structure and are stored in this
+format.  This means that the originally entered text is lost at this
+stage, but from initial experiments there is no reason to keep this
+entered text format at all.  Each note of the tree structure is
+reference counted.  Currently this is not used to minimize memory
+usage although it is the plan, but rather it is used to allow quick
+cell formula duplication.
+
+
+
+\section{The computation engine.}
+
+\subsection{Number evaluation.}
+
+When an expression is entered into a Sheet, Gnumeric parses the
+expression and if the expression is valid a tree representation of the
+expression is attached to that Cell.  Currently Gnumeric uses the
+integer and double data types from the C language to perform all of
+its computations.  It is planned to replace this engine with the
+Guile[guile] value system, which will provide a more powerful
+spreadsheet. 
+
+
+Recursive references are sometimes useful in a spreadsheet to compute
+functions that converge to a number.  The computation engine can be
+configured to iterate a given number of times over recursive cell
+definitions or until the numbers converge within a constraint.  To
+achieve this, Gnumeric keep a generation tag both on the Workbook and
+on each Cell on the spreadsheet.  This tag is used on the Cell to keep
+control on the re-computation.
+
+\subsection{Re-computation.}
+
+The re-computation in Gnumeric works in the following way: when an
+expression has been successfully parsed the tree is examined for any
+references to cells.  For each cell reference or cell range reference,
+the code keeps track of this region of ``interest'' (internally called
+a DependencyRange).  
+
+When the contents of a cell cell in the spreadsheet is modified, the
+location of this cell is looked up in the regions of interest hash
+table.  If a match is found, then the cell is put on the queue of
+pending re-computations. 
+
+To actually perform the re-computation, the following steps take place:
+
+\begin{itemize}
+
+	\item the workbook generation counter is incremented.
+	
+	\item each cell on the re-computation queue is pulled from the
+	queue and evaluated.
+
+	\item A list of every cell depending on the computed cell is
+	retrieved and if the dependency cell generation counter does
+	not match the current workbook generation, the cell is added
+	to the queue of pending re-computations.
+
+\end{itemize}
+
+Forcing a re-computation on the workbook is just a matter of queuing the
+list of known formulas and invoking the pending computation routine. 
+
+Various ways exist to improve the re-computation mechanism by adding
+various sorts of lazy re-computation based on various criteria.
+Unfortunately some of the most interesting methods that could be
+implemented are patented.
+
+
+\section{Plug-in setup.}
+
+At start up Gnumeric loads any shared libraries that are installed in
+the Gnumeric library directory.  These shared libraries have full
+access to the Gnumeric internals and can hook themselves into various
+spots inside the code.  
+
+Plug-ins exist for various scripting languages (described in the next
+section) as well as extended collections of functions for domain
+specific applications. 
+
+Plug-ins that depend on being linked into the address space of
+Gnumeric to work are required to be licensed under a license
+compatible with the GPL.  
+
+
+\section{Scripting.}
+
+There are a number of plug-ins written for Gnumeric that allow the user
+to extend Gnumeric with a scripting language.  At the time of this
+writing, plug-ins for Guile, Perl and Python exist.  The Perl and
+Python plug-ins are a bit limited as they only allow new functions to
+be defined in Perl and Python.  The Guile plug-in is better integrated
+with the Gnumeric core and allows more powerful scripts to be created
+with it. 
+
+Guile provides various interesting features like big integers, precise
+and imprecise arithmetic and complex numbers.  Besides these
+advantages, the existence of various Scheme-based symbolic
+computation, physics packages and advanced mathematical packages make
+the Guile integration an exciting extension. 
+
+\section{Automation.}
+
+Gnumeric uses the ORBit[orbit] CORBA implementation and the GNOME
+setup for object activation to export its functionality and allow it
+to be used as a reusable component in other applications.
+
+Gnumeric exposes a number of interfaces to the world.  A factory
+interface to create new instances of Gnumeric and various interfaces
+to control Gnumeric in a number of ways.  Any application on the GNOME
+desktop can launch Gnumeric and control Gnumeric completely as if the
+user were actually performing the actions by means of a high level
+interface to it.  Scripting languages with CORBA support and any other
+CORBA-enabled application on the desktop can make use of Gnumeric in
+this way. 
+
+Gnumeric exposes a number of interfaces to the world.  Besides the
+Bonobo interfaces, Gnumeric can be seen as:
+
+\begin{itemize}
+
+	\item {\tt GNOME::Table}  Applications will consider any of
+	Gnumeric's data to be a Table.  Just like a database, and they
+	do not need to care about any spreadsheet specific features.
+
+	\item {\tt GNOME::Spreadsheet}  This is a generic spreadsheet
+	interface and provides access to functions that are supposed
+	to be available on most spreadsheets (insert and remove
+	columns and rows; set cell properties;  define plotting
+	information and items like this).
+
+	\item {\tt GNOME::Gnumeric}  This is a more specialized
+	version of the {\tt GNOME::spreadsheet} interface.  This
+	provides access to features that are unique to Gnumeric.
+
+\end{itemize}
+
+\section{The development.}
+
+Advances in software development techniques, software engineering and
+faster machines being available to developers were enabling
+technologies to create Gnumeric.  The GNU Image Manipulation Program
+(GIMP[gimp]) and the GTK+[gtk] toolkit projects were specially
+motivating: the core and first releases of the GIMP program was
+written by two programmers in a relatively short time.
+
+The programming style, architecture and special interest in program
+correctness on the GIMP and GTK+ have motivated the code base for
+Gnumeric. 
+
+The second public release of Gnumeric took place three months after
+the project started and consisted of approximately 25,000 lines of
+code.  By the time it was releases it was already better in terms of
+the computation engine, display engine, the plug-in architecture to
+any other free software offering in this area.
+
+The approach used in Gnumeric showed a number of important things:
+
+\begin{itemize}
+	
+	\item {Code correctness pays:} Using pre-conditions widely
+	helped find bugs earlier in the coding.
+
+	\item {Rapid development:} The GTK+ toolkit and GNOME
+	libraries provide a powerful framework for building commercial
+	grade applications with little effort. 
+
+	\item {Big projects do not need lots of contributors:}
+	Gnumeric was written mostly by a single person during the
+	course of two months.  Contributors to free software can
+	usually help with many of the details in providing a complete
+	application, so it is not worth worrying about those at the
+	beginning.  
+
+	For example, various plug-in modules were written by
+	contributors after the initial code release, including
+	language bindings to various scripting languages.
+
+	The core of the Excel 97 importing code was written in two
+	weeks by a two-person team. 
+
+	\item {Clean interfaces and inline documentation:} The
+	Gnumeric code exposes its inner API in a very clean fashion
+	and it uses inline documentation to describe the API.
+
+	This allows plug-ins to be written with little effort, and the
+	plug-in author does not need to understand the whole code base
+	before contributing code.
+
+	A subset of the internal API is exposed trough CORBA to the
+	GNOME desktop.
+
+	\item {C is by no means dead for Graphical User Interface
+	development:} All of the Gnumeric core has been written in C.
+	Many people believe that the C language is not adequate for
+	GUI programming and that no complex application can be written
+	with it.
+
+	GNOME and GTK+ provide an C-based object oriented framework
+	for GUI application development.  By using C we use the
+	low-level common denominator in Unix languages and we can
+	easily provide bindings for almost every language available on
+	UNIX systems \cite{gnome2}
+
+	It is the author belief that a share of the problems people
+	have with C are not really with the language but rather with
+	the way C is taught in books and by C language instructors.  
+
+	A focus on correctness and clean coding practices would help
+	the language enormously.  Learning about Emacs Emacs Dynamic
+	completion or vi dynamic completion also helps (due to our
+	long identifier names).
+	
+\end{itemize}
+
+\section{Other Features.}
+
+Gnumeric implements various other features found on proprietary
+spreadsheets.  One of the most interesting pieces of code is the
+auto-filling code.
+
+\subsection{Automatic cell fill.}
+
+The principle behind automatic cell filling is very simple: The user
+should be able to fill a region of cells by pulling the cell selector
+handle and dragging it to fill a selected region.
+
+Automatic filling will take into consideration the currently selected
+region of cells to compute the values for the automatic filling: if a
+single cell is selected, then the automatic-fill delta is set to one.
+If the selected cell range is bigger than that, then the delta is set
+to the difference between the last value and the previous value.
+
+Computing the values for numbers is fairly simple: the number is
+already stored in the cell.  Since dates and hours are stored
+internally as some number plus a format, this automatically takes care
+of automatic filling for dates and hours. 
+
+For non-numerical values, Gnumeric will try to match the value against
+a set of string tables: This allows automatic filling to work with a
+list of words (weekdays and month names for example).
+
+Gnumeric attempts finally to match a number at the beginning or at the
+end of the cell text.  If it finds a match, it uses that number for
+the automatic filling and during the automatic filling it will replace
+the number with the value computed.  This handles cases for automatic
+filling string like ``Product 1''. 
+
+If all of the above methods fail, Gnumeric will just copy the cell
+values. 
+
+\section{Future development.}
+
+    The Gnumeric team considers the lack of important spreadsheet
+features in the code a bug, and thus they will get fixed eventually.
+Besides the regular features that are expected to exist in a
+spreadsheet, there are various areas in which Gnumeric will be moved
+in the following months: 
+
+\begin{itemize}
+
+	\item {Expression optimization at compile time:} Currently
+	expressions are stored in the same way that the user entered
+	them.  Simple optimizations can be performed to the expression
+	once the expression tree has been built:  common subexpression
+	elimination and constant folding should be easily
+	implemented.   
+
+	\item {Finish Bonobo integration:} Currently Gnumeric does not
+	support any of the Bonobo interfaces for document embedding
+	and in-place activation.  Bonobo, Gnumeric and the rest of the
+	productivity applications in GNOME are evolving hand in hand
+	to provide an integrated set of tools for GNOME. 
+
+	\item {Guppi Graphics integration:} Guppi is the plotting
+	system of GNOME.  The plotting system is commonly viewed as
+	tightly bound to a spreadsheet.  In GNOME the plotting system
+	and the spreadsheet are separate and the interactions between
+	them is achieves by two sets of interfaces:  The Bonobo
+	interfaces for document embedding and in-place editing and the
+	Table and Plot interfaces (the former provided by Gnumeric and
+	the later provided by Guppi).  
+
+	This is another step towards component reuse and integration. 
+
+	\item {Constraint solver:} Besides the obvious uses of a
+	constraint solver, a constraint solver is required for a nicer
+	Guppi integration. 
+
+	Guppi has been modified to allow user intervention and data
+	modification with the mouse.  Changes on the plot to a
+	computed formula will trigger the constraint solver to find
+	appropriate values for the domain of a function. 
+
+	\item {Using Guile math engine for computation:} Gnumeric
+	currently uses doubles and integers from C to perform its
+	computations.  We want to go beyond this and provide access to
+	the powerful Guile value system to the Gnumeric user.  
+
+	Integration of this engine
+
+	\item {Printing:} Finishing the Printing support for Gnumeric.
+	Currently, there is an experimental branch of Gnumeric that
+	includes printing support using the gnome-print printing
+	architecture.
+
+\end{itemize}
+
+\section{File I/O.}
+
+Gnumeric has a framework to plug file loading and file saving
+routines.  File formats are usually implemented as plug-in modules to
+Gnumeric. 
+
+At the time of this writing, Gnumeric currently supports four file
+formats: an XML-based file format, the Excel97 file format, a text
+importer and a comma separated value format.
+
+The Gnumeric native file format is based on the XML standard.  Daniel
+Veillard at the W3 consortium designed the Gnumeric native file
+format.  Since the XML file format tends to be a bit verbose, Gnumeric
+by default compresses the files with the libz[libz] library to
+minimize space consumption.  This format supports all of the features
+supported in Gnumeric. 
+
+The Excel support was written by Michael Meeks and Bruno Unna from
+Microsoft published documentation for both the BIFF format used by
+Excel and the OLE structured storage file format.  A side effect of
+the Excel97 work has been that GNOME now has a library for dealing
+with Structured Storage OLE2 files.
+
+\section{Acknowledgements.}
+
+The hackers of the GNOME project which have provided valuable input
+during the design of this code.  Specially the Gnumeric hackers which
+have provided many features to the code base.
+
+\section{Availability.}
+
+Up to date information about Gnumeric, its availability and latest
+features is available from the Gnumeric web page at: 
+
+\begin{center}\small
+{\texttt {http://www.gnome.org/gnumeric}}
+\end{center}
+
+The Gnumeric spreadsheet is available from the GNOME FTP server:
+
+\begin{center}\small
+	{\texttt{ftp://ftp.gnome.org}}
+\end{center}
+
+and its mirrors.  The development versions of Gnumeric are available
+from the GNOME CVS server and its anonymous-login replicas as the
+``gnumeric'' module.  
+
+A number of experimental features of Gnumeric are usually kept on
+separate branches on the GNOME CVS repository.  The GNOME team
+provides Bonsai and LXR access to the GNOME source code in the web
+site at:
+
+\begin{center}\small
+{\texttt {http://cvs.gnome.org/}}
+\end{center}
+
+\bibliography{gnumeric}
+
+\noindent
+[sfaq] The Spreadsheet FAQ.
+
+\noindent
+[baboon] The GNOME document model.
+
+\noindent
+[ezpaint] The GNOME EzPaint library, Havoc Pennington.
+
+\noindent
+[GIMP] The GNU Image Manipulation Program, http://www.gimp.org
+
+\noindent
+[GTK+] The GIMP Toolkit, http://www.gtk.org
+
+\noindent
+[gnufree] http://www.gnu.org/philosophy/free-sw.html
+
+\noindent
+[guile] http://www.gnu.org
+
+\noindent
+[libz] http://www.cdrom.com/pub/infozip/zlib
+
+\noindent
+[omg] The Object Management Group, http://www.omg.org
+
+\noindent
+[orbit] The ORBit CORBA 2.2 implementation,
+http://www.labs.redhat.com/orbit 
+
+\end{document}
