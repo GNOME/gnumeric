@@ -26,7 +26,7 @@
 #ifndef _GTK_COMBO_BOX_H_
 #define _GTK_COMBO_BOX_H_
 
-#include <gtk/gtkhbox.h>
+#include <gtk/gtk.h>
 
 #ifdef __cplusplus
 extern "C" {

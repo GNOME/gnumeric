@@ -178,6 +178,12 @@ foreach my $file (@files) {
 	    s|libgnomecanvas/gnome-|libfoocanvas/foo-|;
 	}
 
+	if ($file =~ /^widget-color-combo\.[ch]$/) {
+	    print DST "#include <libfoocanvas/foo-canvas.h>\n"
+		if m|^\#include <widgets/color-palette\.h>|;
+	    s|gtk/gtkwidget\.h|gtk/gtk.h|;
+	}
+
 	s/\s+$//;
 
 	print DST "$_\n";

@@ -33,10 +33,10 @@
 #ifndef GNUMERIC_WIDGET_COLOR_COMBO_H
 #define GNUMERIC_WIDGET_COLOR_COMBO_H
 
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 #include <widgets/gtk-combo-box.h>
-#include <widgets/color-palette.h>
 #include <libfoocanvas/foo-canvas.h>
+#include <widgets/color-palette.h>
 
 G_BEGIN_DECLS
 
