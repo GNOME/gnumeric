@@ -572,7 +572,7 @@ static char *help_eomonth = {
 	   "Returns the last day of the month which is @months "
 	   "from the @start_date."
 	   "\n"
-	   "Returns #NUM if start_date or months are invalid"
+	   "Returns #NUM! if start_date or months are invalid."
 	   "\n"
 	   ""
 	   "@SEEALSO=MONTH")
@@ -615,7 +615,7 @@ static char *help_workday = {
 	   "from the @start_date.  Weekends and holidays optionaly "
 	   "supplied in @holidays are respected."
 	   "\n"
-	   "Returns #NUM if start_date or days are invalid"
+	   "Returns #NUM! if @start_date or @days are invalid."
 	   "\n"
 	   ""
 	   "@SEEALSO=NETWORKDAYS")

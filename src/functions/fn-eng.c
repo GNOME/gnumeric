@@ -336,7 +336,7 @@ static char *help_hex2oct = {
 	   "\n"
 	   "If @places is too small or negative #NUM! error is returned."
 	   "\n"
-	   "@SEEALSO=OCT2HEX. HEX2BIN, HEX2DEC")
+	   "@SEEALSO=OCT2HEX, HEX2BIN, HEX2DEC")
 };
 
 static Value *
@@ -375,8 +375,8 @@ static char *help_besseli = {
 	   "truncated."
 	   "\n"
 
-	   "If @x or @n are not numeric a #VALUE! error is returned."
-	   "If @n < 0 a #NUM! error is returned." 
+	   "If @x or @y are not numeric a #VALUE! error is returned. "
+	   "If @y < 0 a #NUM! error is returned." 
 	   "\n"
 	   "@SEEALSO=BESSELJ,BESSELK,BESSELY")
 };
@@ -413,7 +413,7 @@ static char *help_besselk = {
 	   "\n"
 
 	   "if x or n are not numeric a #VALUE! error is returned."
-	   "if n < 0 a #NUM! error is returned." 
+	   "if y < 0 a #NUM! error is returned." 
 	   "\n"
 	   "@SEEALSO=BESSELI,BESSELJ,BESSELY")
 };
@@ -1508,7 +1508,7 @@ static char *help_delta = {
 	   "@SYNTAX=DELTA(x[,y])\n"
 
 	   "@DESCRIPTION="
-	   "The DELTA function test for numerical eqivilance of two "
+	   "The DELTA function test for numerical equivilance of two "
 	   "arguments returning 1 in equality "
 	   "@y is optional, and defaults to 0."
 	   "\n"

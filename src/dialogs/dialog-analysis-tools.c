@@ -148,7 +148,7 @@ standard_errors_signal_fun()
 
 static check_button_t desc_stat_buttons[] = {
         { N_("Summary Statistics"), summary_stat_signal_fun, FALSE,
-	  N_("") },
+	  "" },
         { N_("Confidence Level for Mean"), confidence_signal_fun, TRUE,
 	  N_("0.95") },
 	{ N_("Kth Largest:"), kth_largest_signal_fun, TRUE,
@@ -160,19 +160,19 @@ static check_button_t desc_stat_buttons[] = {
 
 static check_button_t first_row_label_button[] = {
         { N_("Labels in First Row"), first_row_label_signal_fun, FALSE,
-	  N_("") },
+	  "" },
         { NULL, NULL }
 };
 
 static check_button_t label_button[] = {
         { N_("Labels"), first_row_label_signal_fun, FALSE,
-	  N_("") },
+	  "" },
         { NULL, NULL }
 };
 
 static check_button_t standard_errors_button[] = {
         { N_("Standard Errors"), standard_errors_signal_fun, FALSE,
-	  N_("") },
+	  "" },
         { NULL, NULL }
 };
 

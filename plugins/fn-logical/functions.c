@@ -68,7 +68,7 @@ static char *help_not = {
 
 	   "@DESCRIPTION="
 	   "Implements the logical NOT function: the result is TRUE if the "
-	   "@number is zero;  othewise the result is FALSE.\n\n"
+	   "@number is zero;  otherwise the result is FALSE.\n\n"
 
 	   "@SEEALSO=AND, OR")
 };
