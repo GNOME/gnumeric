@@ -1,3 +1,10 @@
+Thu Jan 20 16:52:14 2000  Morten Welinder  <welinder@rentec.com>
+
+	* src/functions/fn-stat.c (gnumeric_stdev): Correct error code.
+
+	* src/functions/fn-math.c (gnumeric_log): Correct error code and
+ 	protect from crash.
+
 2000-01-20  Morten Welinder  <terra@diku.dk>
 
 	* src/functions/fn-math.c (gnumeric_mod): Correct error code; fix

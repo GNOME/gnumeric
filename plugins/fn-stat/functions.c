@@ -199,7 +199,7 @@ gnumeric_stdev (FunctionEvalInfo *ei, GList *expr_node_list)
 				     range_stddev_est,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS,
-				     gnumeric_err_VALUE);
+				     gnumeric_err_DIV0);
 }
 
 /***************************************************************************/
@@ -228,7 +228,7 @@ gnumeric_stdevp (FunctionEvalInfo *ei, GList *expr_node_list)
 				     range_stddev_pop,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS,
-				     gnumeric_err_VALUE);
+				     gnumeric_err_DIV0);
 }
 
 /***************************************************************************/

@@ -1050,11 +1050,14 @@ gnumeric_log (FunctionEvalInfo *ei, Value **argv)
 
 	if (argv[1] == NULL)
 	        base = 10;
-	else
+	else {
 	        base = value_get_as_float (argv[1]);
+		if (base <= 1)
+			return value_new_error (ei->pos, gnumeric_err_NUM);
+	}
 
 	if (t <= 0.0)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (log (t) / log (base));
 }
