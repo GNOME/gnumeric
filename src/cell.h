@@ -83,6 +83,8 @@ void        cell_set_formula          (Cell *cell, char *text);
 void        cell_set_format           (Cell *cell, char *format);
 void        cell_set_alignment        (Cell *cell, int halign, int valign, int orientation);
 void        cell_set_rendered_text    (Cell *cell, char *rendered_text);
+void        cell_formula_relocate     (Cell *cell, int target_col, int target_row);
+void        cell_make_value           (Cell *cell);
 void        cell_render_value         (Cell *cell);
 void        cell_calc_dimensions      (Cell *cell);
 Cell       *cell_copy                 (Cell *cell);

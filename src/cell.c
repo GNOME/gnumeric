@@ -270,3 +270,38 @@ cell_set_format (Cell *cell, char *format)
 	cell_queue_redraw (cell);
 }
 
+void
+cell_formula_relocate (Cell *cell, int target_col, int target_row)
+{
+	char *text, *formula;
+	
+	g_return_if_fail (cell != NULL);
+	g_return_if_fail (cell->entered_text);
+	
+	string_unref (cell->entered_text);
+	
+	text = expr_decode_tree (cell->parsed_node, target_col, target_row);
+	
+	formula = g_copy_strings ("=", text, NULL);
+	cell->entered_text = string_get (formula);
+
+	g_free (formula);
+	g_free (text);
+	
+	cell_formula_changed (cell);
+}
+
+/*
+ * This routine drops the formula and just keeps the value
+ */
+void
+cell_make_value (Cell *cell)
+{
+	g_return_if_fail (cell != NULL);
+	g_return_if_fail (cell->parsed_node != NULL);
+
+	expr_tree_unref (cell->parsed_node);
+	cell->parsed_node = NULL;
+	string_unref (cell->entered_text);
+	cell->entered_text = string_ref (cell->text);
+}

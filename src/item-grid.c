@@ -461,6 +461,8 @@ context_paste_special_cmd (GtkWidget *widget, ItemGrid *item_grid)
 static void
 context_insert_cmd (GtkWidget *widget, ItemGrid *item_grid)
 {
+	g_warning ("TEST CODE: Manually inserting 2 columns at column 1\n");
+	sheet_insert_col (item_grid->sheet, 1, 2);
 	context_destroy_menu (widget);
 }
 

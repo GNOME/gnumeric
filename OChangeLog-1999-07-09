@@ -1,3 +1,24 @@
+1998-08-21  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet.c (sheet_cell_remove): Remove the memory used by the
+	key in the hashtable as well.
+	(sheet_insert_col): new routine used to insert columns in the
+	spreadsheet, it is pretty elaborate.
+	(sheet_col_destroy, sheet_row_destroy): New routine used by the
+	column-overflow logic in the insertion routines.
+	(sheet_cell_add): Only attach a style to a cell if it does not
+	have any yet.
+	(sheet_move_row): New routine: shifts a row a number of columns.
+
+	* src/clipboard.c (paste_cell): Simplify.
+
+	* src/cell.c (cell_make_value, cell_formula_relocate): New routines
+	based on the code that was done for the clipboard.  Now they are
+	used in other places as well.  cell_make_value actually fixes a
+	potential bug that caused formulas to reappear magically on
+	paste-values commands (never hit the bug, but it was there, I
+	swear to god).
+
 1998-08-20  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/gnumeric-sheet.c (gnumeric_sheet_set_cursor_bounds): New

@@ -77,25 +77,10 @@ paste_cell (Sheet *dest_sheet, Cell *new_cell, int target_col, int target_row, i
 	}
 	
 	if (new_cell->parsed_node){
-		char *new_text, *formula;
-		
-		if (paste_flags & PASTE_FORMULAS){
-			string_unref (new_cell->entered_text);
-			
-			new_text = expr_decode_tree (
-				new_cell->parsed_node,
-				target_col, target_row);
-			
-			formula = g_copy_strings ("=", new_text, NULL);
-			new_cell->entered_text = string_get (formula);
-			g_free (formula);
-			g_free (new_text);
-			
-			cell_formula_changed (new_cell);
-		} else {
-			expr_tree_unref (new_cell->parsed_node);
-			new_cell->parsed_node = NULL;
-		}
+		if (paste_flags & PASTE_FORMULAS)
+			cell_formula_relocate (new_cell, target_col, target_row);
+		else 
+			cell_make_value (new_cell);
 	}
 
 	cell_render_value (new_cell);

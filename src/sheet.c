@@ -1542,6 +1542,24 @@ CRowSort (gconstpointer a, gconstpointer b)
 	return ca->row->pos - cb->row->pos;
 }
 
+/*
+ * sheet_cell_add_to_hash
+ * @sheet The sheet where the cell is inserted
+ * @cell  The cell, it should already have col/pos pointers
+ *        initialized pointing to the correct ColRowInfo
+ */
+static void
+sheet_cell_add_to_hash (Sheet *sheet, Cell *cell)
+{
+	CellPos *cellref;
+
+	cellref = g_new (CellPos, 1);
+	cellref->col = cell->col->pos;
+	cellref->row = cell->row->pos;
+
+	g_hash_table_insert (sheet->cell_hash, cellref, cell);
+}
+
 void
 sheet_cell_add (Sheet *sheet, Cell *cell, int col, int row)
 {
@@ -1550,17 +1568,18 @@ sheet_cell_add (Sheet *sheet, Cell *cell, int col, int row)
 	cell->sheet = sheet;
 	cell->col   = sheet_col_get (sheet, col);
 	cell->row   = sheet_row_get (sheet, row);
-	cell->style = sheet_style_compute (sheet, col, row);
+
+	if (!cell->style)
+		cell->style = sheet_style_compute (sheet, col, row);
 		
 	cell->width = cell->col->margin_a + cell->col->margin_b;
 	
-	cellref = g_new0 (CellPos, 1);
+	cellref = g_new (CellPos, 1);
 	cellref->col = col;
 	cellref->row = row;
 	
 	g_hash_table_insert (sheet->cell_hash, cellref, cell);
 	cell->col->data = g_list_insert_sorted (cell->col->data, cell, CRowSort);
-
 }
 
 Cell *
@@ -1577,27 +1596,44 @@ sheet_cell_new (Sheet *sheet, int col, int row)
 	return cell;
 }
 
-void
-sheet_cell_remove (Sheet *sheet, Cell *cell)
+static void
+sheet_cell_remove_from_hash (Sheet *sheet, Cell *cell)
 {
 	CellPos cellref;
-
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (cell != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
+	void    *original_key;
 
 	cellref.col = cell->col->pos;
 	cellref.row = cell->row->pos;
 
+	g_hash_table_lookup_extended (sheet->cell_hash, &cellref, &original_key, NULL);
+	g_hash_table_remove (sheet->cell_hash, &cellref);
+	g_free (original_key);
+}
+
+static void
+sheet_cell_remove_internal (Sheet *sheet, Cell *cell)
+{
 	if (cell->parsed_node)
 		sheet_cell_formula_unlink (cell);
 
-	g_hash_table_remove (sheet->cell_hash, &cellref);
+	sheet_cell_remove_from_hash (sheet, cell);
+	
 	cell->col->data = g_list_remove (cell->col->data, cell);
+}
 
+
+void
+sheet_cell_remove (Sheet *sheet, Cell *cell)
+{
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (cell != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	sheet_cell_remove_internal (sheet, cell);
+	
 	sheet_redraw_cell_region (sheet,
-				  cellref.col, cellref.row, 
-				  cellref.col, cellref.row);
+				  cell->col->pos, cell->row->pos,
+				  cell->col->pos, cell->row->pos);
 }
 
 void
@@ -1614,6 +1650,38 @@ sheet_cell_formula_unlink (Cell *cell)
 	Sheet *sheet = cell->sheet;
 	
 	sheet->formula_cell_list = g_list_remove (sheet->formula_cell_list, cell);
+}
+
+/*
+ * Destroys a ColRowInfo from the Sheet with all of its cells
+ */
+static void
+sheet_col_destroy (Sheet *sheet, ColRowInfo *ci)
+{
+	GList *l;
+
+	for (l = ci->data; l; l = l->next){
+		Cell *cell = l->data;
+
+		sheet_cell_remove_internal (sheet, cell);
+	}
+	
+	sheet->cols_info = g_list_remove (sheet->cols_info, ci);
+	style_destroy (ci->style);
+	g_free (ci);
+}
+
+/*
+ * Destroys a row ColRowInfo
+ */
+static void
+sheet_row_destroy (Sheet *sheet, ColRowInfo *ri)
+{
+	GList *l;
+
+	sheet->rows_info = g_list_remove (sheet->rows_info, ri);
+	style_destroy (ri->style);
+	g_free (ri);
 }
 
 /*
@@ -1722,13 +1790,212 @@ sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row, int paste_flags
 	sheet_selection_extend_to (sheet, end_col, end_row);
 }
 
-
+/*
+ * sheet_insert_col
+ * @sheet   The sheet
+ * @col     At which position we want to insert
+ * @count   The number of columns to be inserted
+ */
 void
-sheet_insert_col (Sheet *sheet, int col, int row, int count)
+sheet_insert_col (Sheet *sheet, int col, int count)
 {
+	GList   *cur_col;
+	CellPos cellref;
+	int   col_count;
 	
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (count != 0);
+	
+	col_count = g_list_length (sheet->cols_info);
+	if (col_count == 0)
+		return;
+
+	/* 1. Start scaning from the last column toward the goal column
+	 *    moving all of the cells to their new location
+	 */
+	cur_col = g_list_nth (sheet->cols_info, col_count - 1);
+
+	do {
+		GList *rows, *column_cells, *l;
+		ColRowInfo *ci;
+		int new_column;
+		
+		ci = cur_col->data;
+		if (ci->pos < col)
+			break;
+
+		/* 1.1 Move every cell on this column count positions */
+		cellref.col = ci->pos;
+		new_column = ci->pos + count;
+
+		if (new_column > SHEET_MAX_COLS-1){
+			sheet_col_destroy (sheet, ci);
+			
+			/* Skip to next */
+			cur_col = cur_col->prev;
+			continue;
+		}
+		
+		/* 1.1.1 remove the cells */
+		column_cells = NULL;
+		for (rows = ci->data; rows; rows = rows->next){
+			Cell *cell = rows->data;
+
+			sheet_cell_remove_from_hash (sheet, cell);
+			column_cells = g_list_prepend (column_cells, cell);
+		}
+
+		/* 1.2 Update the column position */
+		ci->pos = new_column;
+
+		/* 1.3 Insert the cells back */
+		for (l = column_cells; l; l = l->next){
+			Cell *cell = l->data;
+			
+			sheet_cell_add_to_hash (sheet, cell);
+
+			/* 1.3.1 If there is a formula, re-render the entered text*/
+			if (cell->parsed_node)
+				cell_formula_relocate (cell, new_column, cell->row->pos);
+		}
+		g_list_free (column_cells);
+
+		/* 1.4 Go to the next column */
+		cur_col = cur_col->prev;
+	} while (cur_col);
+
+	/* Redraw */
+	sheet_redraw_all (sheet);
 }
 
+/*
+ * Returns the closest column (from above) to pos
+ */
+static GList *
+colrow_closest_above (GList *l, int pos)
+{
+	for (; l; l = l->next){
+		ColRowInfo *info = l->data;
+
+		if (info->pos >= pos)
+			return l;
+	}
+	return NULL;
+}
+
+/*
+ * sheet_shift_row
+ * @sheet the sheet
+ * @row   row where the shifting takes place
+ * @col   first column
+ * @count numbers of columns to shift.  anegative numbers will
+ *        delete count columns, positive number will insert
+ *        count columns.
+ */
+void
+sheet_shift_row (Sheet *sheet, int col, int row, int count)
+{
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (count != 0);
+
+	if (count < 0)
+		sheet_clear_region (sheet, col, row, col - count, row);
+
+	if (count > 0)
+		cur_col = g_list_nth (sheet->cols_info, col_count - 1);
+	else 
+		cur_col = colrow_closest_above (sheet->cols_info, col);
+
+	/* If nothing interesting found, return */
+	if (cur_col == NULL)
+		return;
+
+	do {
+		ColRowInfo *ci;
+
+		ci = cur_col->data;
+		new_column = ci->pos + count;
+
+		/* Search for this row */
+		for (l = ci->data; l; l = l->next){
+			Cell *cell = l->data;
+			
+			if (cell->row->pos > row)
+				break;
+
+			/* Match found */
+			if (cell->row->pos == 0){
+
+				/* If it overflows, remove it */
+				if (new_column > SHEET_MAX_COLS-1){
+					sheet_cell_remove (sheet, cell);
+					cell_destroy (cell);
+					break;
+				}
+
+				/* Relocate the cell */
+				sheet_cell_remove (sheet, cel);
+				sheet_cell_add (sheet, cell);
+				if (cell->parsed_node)
+					cell_formula_relocate (cell, new_column, row);
+			}
+		}			 
+		
+		/* Advance to the next column */
+		if (count > 0)
+			cur_col = cur_col->prev;
+		else
+			cur_col = cur_col->next;
+	} while (cur_col);
+}
+
+void
+sheet_shift_rows (Sheet *sheet, int col, int start_row, int end_row, int count)
+{
+	int i;
+
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (count != 0);
+	g_return_if_fail (start_row <= end_row);
+	
+	for (i = start_row; i <= end_row; i++)
+		sheet_move_row (sheet, col, i, count);
+}
+
+/*
+ * sheet_insert_row
+ * @sheet   The sheet
+ * @row     At which position we want to insert
+ * @count   The number of rows to be inserted
+ */
+void
+sheet_insert_row (Sheet *sheet, int row, int count)
+{
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (count != 0);
+}
+
+/*
+ * sheet_shift_col
+ * @sheet the sheet
+ * @row   first row
+ * @col   column where the shifting takes place
+ * @count numbers of rows to shift.  a negative numbers will
+ *        delete count rows, positive number will insert
+ *        count rows.
+ */
+void
+sheet_shift_col (Sheet *sheet, int col, int row, int count)
+{
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (count != 0);
+}
+		 
 void
 sheet_style_attach (Sheet *sheet, int start_col, int start_row, int end_col, int end_row, Style *style)
 {
