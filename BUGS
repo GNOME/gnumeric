@@ -31,7 +31,7 @@ Pending Patches
     0.1)  Missing toolbar borders for colour and stack combos	(DONE)
     0.2)  Add keynav for autoformat canvases			(DONE)
     0.3)  Make the 'apply' behavior of the color combo optional
-          so that we can do just selection.
+          so that we can do just selection.                     (DONE)
     0.4)  Add keynav for color combo
     0.5)  center color combo swatches in the buttons		(DONE)
     0.6)  alpha channel support for colour combos
