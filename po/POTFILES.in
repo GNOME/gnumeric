@@ -358,3 +358,4 @@ src/workbook-view.c
 src/workbook.c
 src/xml-io-autoft.c
 src/xml-io.c
+src/ssconvert.c

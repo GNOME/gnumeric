@@ -1,3 +1,9 @@
+2003-12-24  Jody Goldberg <jody@gnome.org>
+
+	* POTFILES.in : Move ssconvert.c here
+	* POTFILES.skip : from here, and remove the ancient
+	  plot-types.xml.in
+
 2003-12-23  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.3
