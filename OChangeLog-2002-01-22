@@ -1,3 +1,9 @@
+2001-09-12  John Gotts <jgotts@linuxsavvy.com>
+
+	* gnumeric.spec.in: Keep better track of the /usr/share/gnumeric
+	  directory structure, following problem reports on the GNOME mailing
+	  lists.
+
 2001-09-12  Jody Goldberg <jgoldberg@home.com>
 
 	* idl/GNOME_Gnumeric_Graph.idl : move the type enums here.

@@ -101,10 +101,28 @@ fi
 %{prefix}/share/gnome/help/gnumeric/C/images/*
 %{prefix}/share/gnome/help/gnumeric/C/*.*
 %dir %{prefix}/share/gnumeric
-%{prefix}/share/gnumeric/%{version}-bonobo/autoformat-templates/*/*
+%dir %{prefix}/share/gnumeric/%{version}-bonobo
+%dir %{prefix}/share/gnumeric/%{version}-bonobo/autoformat-templates
+%dir %{prefix}/share/gnumeric/%{version}-bonobo/autoformat-templates/3D
+%dir %{prefix}/share/gnumeric/%{version}-bonobo/autoformat-templates/Classical
+%dir %{prefix}/share/gnumeric/%{version}-bonobo/autoformat-templates/Colourful
+%dir %{prefix}/share/gnumeric/%{version}-bonobo/autoformat-templates/Financial
+%dir %{prefix}/share/gnumeric/%{version}-bonobo/autoformat-templates/General
+%dir %{prefix}/share/gnumeric/%{version}-bonobo/autoformat-templates/List
+%dir %{prefix}/share/gnumeric/%{version}-bonobo/glade
+%dir %{prefix}/share/gnumeric/%{version}-bonobo/gnome
+%dir %{prefix}/share/gnumeric/%{version}-bonobo/gnome/ui
+%dir %{prefix}/share/gnumeric/%{version}-bonobo/python
+%dir %{prefix}/share/gnumeric/%{version}-bonobo/templates
+%{prefix}/share/gnumeric/%{version}-bonobo/autoformat-templates/3D/*
+%{prefix}/share/gnumeric/%{version}-bonobo/autoformat-templates/Classical/*
+%{prefix}/share/gnumeric/%{version}-bonobo/autoformat-templates/Colourful/*
+%{prefix}/share/gnumeric/%{version}-bonobo/autoformat-templates/Financial/*
+%{prefix}/share/gnumeric/%{version}-bonobo/autoformat-templates/General/*
+%{prefix}/share/gnumeric/%{version}-bonobo/autoformat-templates/List/*
 %{prefix}/share/gnumeric/%{version}-bonobo/glade/*
 %{prefix}/share/gnumeric/%{version}-bonobo/gnome/ui/*
-%{prefix}/share/gnumeric/%{version}-bonobo/idl/*.idl
+%{prefix}/share/gnumeric/%{version}-bonobo/idl/*
 %{prefix}/share/gnumeric/%{version}-bonobo/python/*
 %{prefix}/share/gnumeric/%{version}-bonobo/templates/*
 #%{prefix}/share/locale/*/LC_MESSAGES/*.mo
@@ -125,6 +143,11 @@ fi
 ##%{prefix}/lib/gnumeric/%{version}-bonobo/plugins/*/*.la
 
 %changelog
+* Wed Sep 12 2001 John Gotts <jgotts@linuxsavvy.com>
+- Keep the /usr/share/gnumeric directory structure under RPM revision control.
+  %dirs should be used sparingly, but no other package will use this directory
+  structure, so it's okay here.
+
 * Thu Jun 28 2001 Jody Goldberg <jgoldberg@home.com>
 - bump libxml1 req.
 
