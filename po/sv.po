@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.31\n"
-"POT-Creation-Date: 1999-09-23 17:49-0500\n"
-"PO-Revision-Date: 1999-09-23 20:00+0200\n"
+"POT-Creation-Date: 1999-09-27 19:09+0200\n"
+"PO-Revision-Date: 1999-09-27 20:00+0200\n"
 "Last-Translator: Richard Hult <rhult@hem2.passagen.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -938,7 +938,7 @@ msgstr "Textfärg"
 
 #. The radio buttons
 #: src/dialogs/dialog-cell-format.c:625 src/dialogs/dialog-cell-format.c:661
-#: src/dialogs/dialog-paste-special.c:28 src/widgets/widget-color-combo.c:110
+#: src/dialogs/dialog-paste-special.c:28 src/widgets/widget-color-combo.c:111
 msgid "None"
 msgstr "Ingen"
 
@@ -1003,7 +1003,7 @@ msgstr ""
 msgid "Need at least one clause"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:315 src/workbook.c:1422
+#: src/dialogs/dialog-cell-sort.c:315 src/workbook.c:1434
 msgid "Selection must be a single range"
 msgstr "Markeringen måste bestå av ett sammanhängande område"
 
@@ -1040,7 +1040,7 @@ msgid "Delete cells"
 msgstr "Ta bort celler"
 
 #: src/dialogs/dialog-delete-cells.c:49 src/dialogs/names.glade.h:10
-#: src/item-grid.c:649
+#: src/item-grid.c:650
 msgid "Delete"
 msgstr "Ta bort"
 
@@ -1184,7 +1184,7 @@ msgstr "infoga celler"
 msgid "Insert cells"
 msgstr "Infoga celler"
 
-#: src/dialogs/dialog-insert-cells.c:50 src/item-grid.c:648
+#: src/dialogs/dialog-insert-cells.c:50 src/item-grid.c:649
 msgid "Insert"
 msgstr "Infoga"
 
@@ -1236,7 +1236,7 @@ msgstr "Multiplicera"
 msgid "Divide"
 msgstr "Dividera"
 
-#: src/dialogs/dialog-paste-special.c:64 src/item-grid.c:646
+#: src/dialogs/dialog-paste-special.c:64 src/item-grid.c:647
 msgid "Paste special"
 msgstr "Klistra in special"
 
@@ -1273,11 +1273,11 @@ msgstr "<="
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:45 src/workbook.c:1532
+#: src/dialogs/dialog-solver.c:45 src/workbook.c:1544
 msgid "Max"
 msgstr "Max"
 
-#: src/dialogs/dialog-solver.c:46 src/workbook.c:1531
+#: src/dialogs/dialog-solver.c:46 src/workbook.c:1543
 msgid "Min"
 msgstr "Min"
 
@@ -1590,7 +1590,7 @@ msgstr "_Rader att upprepa till vänster:"
 msgid "_Rows to repeat on the upper region:"
 msgstr "Ra_der att upprepa överst:"
 
-#: src/dialogs/print.glade.h:50 src/workbook.c:1053
+#: src/dialogs/print.glade.h:50 src/workbook.c:1062
 msgid "Print"
 msgstr "Skriv ut"
 
@@ -1598,7 +1598,7 @@ msgstr "Skriv ut"
 msgid "Row and co_lumn headings"
 msgstr "Rad- och kolumnrubriker"
 
-#: src/dialogs/print.glade.h:52 src/workbook.c:886
+#: src/dialogs/print.glade.h:52 src/workbook.c:895
 msgid "Co_mments"
 msgstr "Ko_mmentarer"
 
@@ -1699,23 +1699,23 @@ msgstr "Kan inte skapa filen %s\n"
 msgid "Embedded Sheet"
 msgstr "Inbäddat ark"
 
-#: src/expr-name.c:131
+#: src/expr-name.c:175
 msgid "already defined"
 msgstr "redan definierad"
 
-#: src/expr-name.c:134
-msgid "no workbook"
-msgstr "ingen arbetsbok"
+#: src/expr-name.c:178
+msgid "no scope"
+msgstr ""
 
-#: src/expr-name.c:139
+#: src/expr-name.c:183
 msgid "circular reference"
 msgstr "cirkelreferens"
 
-#: src/expr-name.c:248
+#: src/expr-name.c:336
 msgid "Builtin"
 msgstr "Inbyggd"
 
-#: src/expr-name.c:279
+#: src/expr-name.c:367
 msgid "Error: no sheet"
 msgstr "Fel: inget ark"
 
@@ -1747,11 +1747,11 @@ msgstr "Okänd operator"
 msgid "Unknown evaluation error"
 msgstr "Okänt evalueringsfel"
 
-#: src/expr.c:1539
+#: src/expr.c:1542
 msgid "#Reference to deleted cell!"
 msgstr "#Referens till borttagen cell!"
 
-#: src/expr.c:1568
+#: src/expr.c:1571
 msgid "#Reference to deleted range!"
 msgstr "#Referens till borttaget område!"
 
@@ -2566,7 +2566,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-eng.c:288
-#, fuzzy
 msgid ""
 "@FUNCTION=OCT2DEC\n"
 "@SYNTAX=OCT2DEC(x)\n"
@@ -2577,12 +2576,14 @@ msgid ""
 "\n"
 "@SEEALSO=DEC2OCT, OCT2BIN, OCT2HEX"
 msgstr ""
-"@FUNCTION=HEX2DEC\n"
-"@SYNTAX=HEX2DEC(x)\n"
-"@DESCRIPTION=HEX2DEC omvandlar ett hexadecimalt tal till dess decimala "
-"motsvarighet.\n"
+"@FUNCTION=OCT2DEC\n"
+"@SYNTAX=OCT2DEC(x)\n"
+"@DESCRIPTION=OCT2DEC omvandlar ett oktalt tal (eller sträng) till dess "
+"decimala motsvarighet. Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"OCT2DEC(\"124\") är lika med 84.\n"
 "\n"
-"@SEEALSO=DEC2HEX, HEX2BIN, HEX2OCT"
+"@SEEALSO=DEC2OCT, OCT2BIN, OCT2HEX"
 
 #: src/functions/fn-eng.c:311
 msgid ""
@@ -3061,7 +3062,6 @@ msgstr ""
 "@SEEALSO=IMSUM"
 
 #: src/functions/fn-eng.c:1158
-#, fuzzy
 msgid ""
 "@FUNCTION=IMPRODUCT\n"
 "@SYNTAX=IMPRODUCT(inumber1[,inumber2,...])\n"
@@ -3073,12 +3073,15 @@ msgid ""
 "@SEEALSO=IMDIV"
 msgstr ""
 "@FUNCTION=IMPRODUCT\n"
-"@SYNTAX=IMPRODUCT(i1[,i2,...])\n"
-"@DESCRIPTION=IMPRODUCT returnerar produkten av de givna komplexa talen.\n"
+"@SYNTAX=IMPRODUCT(ital1[,ital2,...])\n"
+"@DESCRIPTION=IMPRODUCT returnerar produkten av de givna komplexa talen. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"IMPRODUCT(\"2-j\",\"4-2j\") är like med 6-8j.\n"
+"\n"
 "@SEEALSO=IMDIV"
 
 #: src/functions/fn-eng.c:1228
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSUM\n"
 "@SYNTAX=IMSUM(inumber,inumber)\n"
@@ -3090,12 +3093,15 @@ msgid ""
 "@SEEALSO=IMSUB"
 msgstr ""
 "@FUNCTION=IMSUM\n"
-"@SYNTAX=IMSUM(i,i)\n"
-"@DESCRIPTION=IMSUM returnerar summan av två komplexa tal.\n"
+"@SYNTAX=IMSUM(ital,ital)\n"
+"@DESCRIPTION=IMSUM returnerar summan av två komplexa tal. Denna funktion "
+"är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"IMSUM(\"2-4j\",\"9-j\") är lika med 11-5j.\n"
+"\n"
 "@SEEALSO=IMSUB"
 
 #: src/functions/fn-eng.c:1262
-#, fuzzy
 msgid ""
 "@FUNCTION=CONVERT\n"
 "@SYNTAX=CONVERT(number,from_unit,to_unit)\n"
@@ -3294,6 +3300,11 @@ msgstr ""
 "\n"
 "Om @från_enhet och @till_enhet har olika typ, returnerar CONVERT felvärdet "
 "#NUM!.\n"
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"CONVERT(3,\"lbm\",\"g\") är lika med 1360.7769.\n"
+"CONVERT(5.8,\"m\",\"in\") är lika med 228.3465.\n"
+"CONVERT(7.9,\"cal\",\"J\") är lika med 33.07567.\n"
 "@SEEALSO="
 
 #: src/functions/fn-eng.c:1657
@@ -3586,7 +3597,6 @@ msgid "nominal - domain error"
 msgstr "nominal - domänfel"
 
 #: src/functions/fn-financial.c:672
-#, fuzzy
 msgid ""
 "@FUNCTION=ISPMT\n"
 "@SYNTAX=ISPMT(rate,per,nper,pv)\n"
@@ -3600,10 +3610,11 @@ msgstr ""
 "@SYNTAX=ISPMT(räntesats,per,nper,pv)\n"
 "@DESCRIPTION=ISPMT returnerar räntan för en viss period.\n"
 "Om @per < 1 eller @per > @nper, returnerar ISPMT felvärdet #NUM!.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=PV"
 
 #: src/functions/fn-financial.c:706
-#, fuzzy
 msgid ""
 "@FUNCTION=DB\n"
 "@SYNTAX=DB(cost,salvage,life,period[,month])\n"
@@ -3619,17 +3630,18 @@ msgid ""
 msgstr ""
 "@FUNCTION=DB\n"
 "@SYNTAX=DB(kostnad,rest,livslängd,period[,månad])\n"
-"@DESCRIPTION=DB returnerar värdeminskningen för en tillgång över en given "
-"period enligt 'fixed-declining balance'-metoden. @kostnad är det "
-"ursprungliga värdet av tillgången. @rest är värdet efter värdeminskningen. "
+"@DESCRIPTION=DB returnerar avskrivningen för en tillgång över en given "
+"period med metoden fast degressiv avskrivning. @kostnad är det "
+"ursprungliga värdet av tillgången. @rest är värdet efter avskrivningen. "
 "@livslängd är det totala antalet perioder och @period är den period för "
-"vilken du vill beräkna värdeminskningen. @månad är antalet månader under det "
-"första året av värdeminskningen. Om @månad utelämnas, antas antalet vara 12 "
+"vilken du vill beräkna avskrivningen. @månad är antalet månader under det "
+"första året av avskrivningen. Om @månad utelämnas, antas antalet vara 12 "
 "månader.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=DDB,SLN,SYD,VDB"
 
 #: src/functions/fn-financial.c:760
-#, fuzzy
 msgid ""
 "@FUNCTION=DDB\n"
 "@SYNTAX=DDB(cost,salvage,life,period[,factor])\n"
@@ -3646,17 +3658,18 @@ msgid ""
 msgstr ""
 "@FUNCTION=DDB\n"
 "@SYNTAX=DDB(kostnad,rest,livslängd,period[,faktor])\n"
-"@DESCRIPTION=DDB returnerar värdeminskningen för en tillgång över en given "
-"period enligt 'double-declining balance'-metoden eller någon liknande metod "
-"som anges. @kostnad är det ursprungliga värdet av tillgången. @rest är "
-"värdet efter värdeminskningen. @livslängd är det totala antalet perioder och "
-"@period är den period för vilken du vill beräkna värdeminskningen. @faktor "
+"@DESCRIPTION=DDB returnerar avskrivningen för en tillgång över en given "
+"period enligt metoden dubbel degressiv avskrivning eller någon liknande metod "
+"som du anger. @kostnad är det ursprungliga värdet av tillgången. @rest är "
+"värdet efter avskrivningen. @livslängd är det totala antalet perioder och "
+"@period är den period för vilken du vill beräkna avskrivningen. @faktor "
 "är den faktor med vilken balansräkningen minskar. Om @faktor utelämnas, "
-"antas värdet 2 (double-declining balance method).\n"
+"antas värdet 2 (dubbel degressiv avskrivning).\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=SLN,SYD,VDB"
 
 #: src/functions/fn-financial.c:808
-#, fuzzy
 msgid ""
 "@FUNCTION=SLN\n"
 "@SYNTAX=SLN(cost,salvage_value,life)\n"
@@ -3673,14 +3686,16 @@ msgid ""
 msgstr ""
 "@FUNCTION=SLN\n"
 "@SYNTAX=SLN(kostnad,rest_värde,livslängd)\n"
-"@DESCRIPTION=Beräknar den raka linje som bildas av värdeminskningen för en "
+"@DESCRIPTION=Beräknar den raka linje som bildas av avskrivningen för en "
 "tillgång baserat på dess kostnad, restvärde och den förväntade livslängden.\n"
 "Formeln för detta är:\n"
-"Värdeminskning = ( kostnad - rest_värde ) / livsängd\n"
+"Avskrivning = ( kostnad - rest_värde ) / livsängd\n"
 "\t@kostnad = kostnad av en tillgång vid införskaffningstillfället "
 "(marknadsvärde)\trest_värde = summa som fås när tillgången säljs då dess "
 "livslängd gått ut.\t@livslängd = förväntad livslängd för\n"
 " tillgången\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=SYD"
 
 #: src/functions/fn-financial.c:841
@@ -3688,7 +3703,6 @@ msgid "sln - domain error"
 msgstr "sln - domänfel"
 
 #: src/functions/fn-financial.c:849
-#, fuzzy
 msgid ""
 "@FUNCTION=SYD\n"
 "@SYNTAX=SYD(cost,salvage_value,life,period)\n"
@@ -3707,16 +3721,18 @@ msgid ""
 msgstr ""
 "@FUNCTION=SYD\n"
 "@SYNTAX=SYD(kostnad,rest_värde,livslängd,period)\n"
-"@DESCRIPTION=Beräknar 'sum-of-years digits'-värdeminskning för en tillgång, "
+"@DESCRIPTION=Beräknar 'sum-of-years digits'-avskrivning för en tillgång, "
 "baserat på dess kostnad, restvärde, förväntade livslängd och en given "
 "period.\n"
 "Formeln för detta är:\n"
-"Värdeminskning = ( kostnad - restvärde ) * (livslängd - period + 1) * 2 / "
+"Avskrivning = ( kostnad - restvärde ) * (livslängd - period + 1) * 2 / "
 "livslängd * (livslängd + 1).\n"
 "\t@kostnad = kostnad för en tillgång vid införskaffningstillfället "
 "(marknadsvärde)\t@rest_värde = summa som fås då tillgången säljs vid då dess "
 "livslängd gått ut\t@livslängd = förväntad livslängd för tillgången\t@period "
-"= period för vilken värdeminskningen skall beräknas\n"
+"= period för vilken avskrivningen skall beräknas\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=SLN"
 
 #: src/functions/fn-financial.c:885
@@ -3724,7 +3740,6 @@ msgid "syd - domain error"
 msgstr "syd - domänfel"
 
 #: src/functions/fn-financial.c:895
-#, fuzzy
 msgid ""
 "@FUNCTION=DOLLARDE\n"
 "@SYNTAX=DOLLARDE(fractional_dollar,fraction)\n"
@@ -3736,12 +3751,15 @@ msgid ""
 "\n"
 "@SEEALSO=DOLLARFR"
 msgstr ""
-"@FUNCTION=FACTDOUBLE\n"
-"@SYNTAX=FACTDOUBLE(tal)\n"
-"@DESCRIPTION=FACTDOUBLE beräknar semifakulteten för @tal.\n"
-"Om @tal inte är ett heltal, trunkeras det. Om @tal är negativt, returneras "
-"felet #NUM!\n"
-"@SEEALSO=FACT"
+"@FUNCTION=DOLLARDE\n"
+"@SYNTAX=DOLLARDE(decimaltal,bråktal)\n"
+"@DESCRIPTION=DOLLARDE omvandlar ett pris uttryckt som ett bråktal till ett "
+"pris i dollar uttryckt som ett decimaltal.\n"
+"Om @bråktal inte är ett heltal, avkortas det. Om @bråktal <=0 returneras "
+"felvärdet #NUM!\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=DOLLARFR"
 
 #: src/functions/fn-financial.c:937
 msgid ""
@@ -3755,6 +3773,15 @@ msgid ""
 "\n"
 "@SEEALSO=DOLLARDE"
 msgstr ""
+"@FUNCTION=DOLLARFR\n"
+"@SYNTAX=DOLLARFR(decimaltal,bråktal)\n"
+"@DESCRIPTION=DOLLARFR omvandlar ett pris i dollar uttryckt som ett decimaltal "
+"till ett pris i dollar uttryckt som ett bråktal.\n"
+"Om @bråktal inte är ett heltal, avkortas det. Om @bråktal <= 0 returneras "
+"felvårdet #NUM!\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=DOLLARDE"
 
 #: src/functions/fn-financial.c:979
 msgid ""
@@ -3814,7 +3841,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-financial.c:1154
-#, fuzzy
 msgid ""
 "@FUNCTION=RATE\n"
 "@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])\n"
@@ -3823,13 +3849,14 @@ msgid ""
 "\n"
 "@SEEALSO=PV,FV"
 msgstr ""
-"@FUNCTION=PV\n"
-"@SYNTAX=PV(ränta,nper,pmt,fv,typ)\n"
-"@DESCRIPTION=Beräknar nuvarande värdet av en investering.\n"
-"@SEEALSO=FV"
+"@FUNCTION=RATE\n"
+"@SYNTAX=RATE(nper,pmt,pv[,fv,typ,gissa])\n"
+"@DESCRIPTION=RATE returnerar räntesatsen för en investering.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=PV,FV"
 
 #: src/functions/fn-financial.c:1258
-#, fuzzy
 msgid ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(rate,nper,pmt,fv,type)\n"
@@ -3841,6 +3868,8 @@ msgstr ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(ränta,nper,pmt,fv,typ)\n"
 "@DESCRIPTION=Beräknar nuvarande värdet av en investering.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=FV"
 
 #: src/functions/fn-financial.c:1282
@@ -3877,7 +3906,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-financial.c:1406
-#, fuzzy
 msgid ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rate,nper,pmt,pv,type)\n"
@@ -3886,13 +3914,14 @@ msgid ""
 "\n"
 "@SEEALSO=PV,PMT,PPMT"
 msgstr ""
-"@FUNCTION=PV\n"
-"@SYNTAX=PV(ränta,nper,pmt,fv,typ)\n"
-"@DESCRIPTION=Beräknar nuvarande värdet av en investering.\n"
-"@SEEALSO=FV"
+"@FUNCTION=FV\n"
+"@SYNTAX=FV(ränta,nper,pmt,pv,typ)\n"
+"@DESCRIPTION=FV beräknar det framtida värdet av en investering.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=PV,PMT,PPMT"
 
 #: src/functions/fn-financial.c:1439
-#, fuzzy
 msgid ""
 "@FUNCTION=PMT\n"
 "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
@@ -3901,10 +3930,12 @@ msgid ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
-"@FUNCTION=PV\n"
-"@SYNTAX=PV(ränta,nper,pmt,fv,typ)\n"
-"@DESCRIPTION=Beräknar nuvarande värdet av en investering.\n"
-"@SEEALSO=FV"
+"@FUNCTION=PMT\n"
+"@SYNTAX=PMT(ränta,nper,pv[,fv,typ])\n"
+"@DESCRIPTION=PMT beräknar det nuvarande värdet av en investering.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=PPMT,PV,FV"
 
 #: src/functions/fn-financial.c:1473
 msgid ""
@@ -3985,7 +4016,6 @@ msgid "Financial"
 msgstr "Finansiella"
 
 #: src/functions/fn-information.c:68
-#, fuzzy
 msgid ""
 "@FUNCTION=CELL\n"
 "@SYNTAX=CELL()\n"
@@ -3997,8 +4027,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=CELL\n"
 "@SYNTAX=CELL()\n"
-"@DESCRIPTION=CELL returnerar information om formattering, placering eller "
+"@DESCRIPTION=CELL returnerar information om formatering, placering eller "
 "innehåll för en cell.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO="
 
 #: src/functions/fn-information.c:210 src/functions/fn-information.c:328
@@ -4006,7 +4038,6 @@ msgid "Unknown info_type"
 msgstr "Okänd info_typ"
 
 #: src/functions/fn-information.c:216
-#, fuzzy
 msgid ""
 "@FUNCTION=COUNTBLANK\n"
 "@SYNTAX=COUNTBLANK(range)\n"
@@ -4019,11 +4050,12 @@ msgstr ""
 "@FUNCTION=COUNTBLANK\n"
 "@SYNTAX=COUNTBLANK(område)\n"
 "@DESCRIPTION=COUNTBLANK räknar antalet blanka celler i det angivna området. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
 "\n"
 "@SEEALSO=COUNT"
 
 #: src/functions/fn-information.c:256
-#, fuzzy
 msgid ""
 "@FUNCTION=INFO\n"
 "@SYNTAX=INFO()\n"
@@ -4035,7 +4067,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=INFO\n"
 "@SYNTAX=INFO()\n"
-"@DESCRIPTION=INFO returnerar information om systemet.\n"
+"@DESCRIPTION=INFO returnerar information om systemet. "
+"Denna funktion är kompatibel med Excel.\n"
 "@SEEALSO="
 
 #: src/functions/fn-information.c:298
@@ -4057,7 +4090,6 @@ msgid "Unknown system"
 msgstr "Okänt system"
 
 #: src/functions/fn-information.c:334
-#, fuzzy
 msgid ""
 "@FUNCTION=ISERROR\n"
 "@SYNTAX=ISERROR(exp)\n"
@@ -4070,6 +4102,8 @@ msgstr ""
 "@FUNCTION=ISERROR\n"
 "@SYNTAX=ISERROR(uttryck)\n"
 "@DESCRIPTION=Returnerar TRUE om uttrycket @uttryck innehåller ett fel.\n"
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
 "\n"
 "@SEEALSO=ERROR"
 
@@ -4078,7 +4112,6 @@ msgid "Argument mismatch"
 msgstr "Fel typ på argument"
 
 #: src/functions/fn-information.c:388
-#, fuzzy
 msgid ""
 "@FUNCTION=ISNA\n"
 "@SYNTAX=ISNA()\n"
@@ -4091,10 +4124,12 @@ msgstr ""
 "@FUNCTION=ISNA\n"
 "@SYNTAX=ISNA()\n"
 "@DESCRIPTION=ISNA returnerar TRUE om värdet är felvärdet #N/A. \n"
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO="
 
 #: src/functions/fn-information.c:422
-#, fuzzy
 msgid ""
 "@FUNCTION=ISERR\n"
 "@SYNTAX=ISERR()\n"
@@ -4107,6 +4142,8 @@ msgstr ""
 "@FUNCTION=ISERR\n"
 "@SYNTAX=ISERR()\n"
 "@DESCRIPTION=ISERR returnerar TRUE om värdet är något felvärde förutom #N/A. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
 
@@ -4130,7 +4167,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-information.c:511
-#, fuzzy
 msgid ""
 "@FUNCTION=NA\n"
 "@SYNTAX=NA()\n"
@@ -4142,11 +4178,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=NA\n"
 "@SYNTAX=NA()\n"
-"@DESCRIPTION=NA returnerar felvärdet #N/A. \n"
+"@DESCRIPTION=NA returnerar felvärdet #N/A. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO="
 
 #: src/functions/fn-information.c:532
-#, fuzzy
 msgid ""
 "@FUNCTION=ERROR\n"
 "@SYNTAX=ERROR(text)\n"
@@ -4159,6 +4197,8 @@ msgstr ""
 "@FUNCTION=ERROR\n"
 "@SYNTAX=ERROR(text)\n"
 "@DESCRIPTION=Returnerar det angivna felvärdet.\n"
+"\n"
+"@EXAMPLES=\n"
 "\n"
 "@SEEALSO=ISERROR"
 
@@ -4173,7 +4213,6 @@ msgid "Type mismatch"
 msgstr "Typfel"
 
 #: src/functions/fn-information.c:555
-#, fuzzy
 msgid ""
 "@FUNCTION=ISBLANK\n"
 "@SYNTAX=ISBLANK()\n"
@@ -4185,11 +4224,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISBLANK\n"
 "@SYNTAX=ISBLANK()\n"
-"@DESCRIPTION=ISBLANK returnerar TRUE om värdet är tomt. \n"
+"@DESCRIPTION=ISBLANK returnerar TRUE om värdet är tomt. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO="
 
 #: src/functions/fn-information.c:603
-#, fuzzy
 msgid ""
 "@FUNCTION=ISEVEN\n"
 "@SYNTAX=ISEVEN()\n"
@@ -4201,11 +4242,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISEVEN\n"
 "@SYNTAX=ISEVEN()\n"
-"@DESCRIPTION=ISEVEN returnerar TRUE om talet är jämnt. \n"
+"@DESCRIPTION=ISEVEN returnerar TRUE om talet är jämnt. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=ISODD"
 
 #: src/functions/fn-information.c:624
-#, fuzzy
 msgid ""
 "@FUNCTION=ISLOGICAL\n"
 "@SYNTAX=ISLOGICAL()\n"
@@ -4217,11 +4260,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISLOGICAL\n"
 "@SYNTAX=ISLOGICAL()\n"
-"@DESCRIPTION=ISLOGICAL returnerar TRUE om värdet är ett logiskt värde. \n"
+"@DESCRIPTION=ISLOGICAL returnerar TRUE om värdet är ett logiskt värde. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO="
 
 #: src/functions/fn-information.c:653
-#, fuzzy
 msgid ""
 "@FUNCTION=ISNONTEXT\n"
 "@SYNTAX=ISNONTEXT()\n"
@@ -4233,11 +4278,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISNONTEXT\n"
 "@SYNTAX=ISNONTEXT()\n"
-"@DESCRIPTION=ISNONTEXT returnerar TRUE om värdet inte består av text. \n"
+"@DESCRIPTION=ISNONTEXT returnerar TRUE om värdet inte består av text. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=ISTEXT"
 
 #: src/functions/fn-information.c:679
-#, fuzzy
 msgid ""
 "@FUNCTION=ISNUMBER\n"
 "@SYNTAX=ISNUMBER()\n"
@@ -4249,11 +4296,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISNUMBER\n"
 "@SYNTAX=ISNUMBER()\n"
-"@DESCRIPTION=ISNUMBER returnerar TRUE om värdet är ett tal. \n"
+"@DESCRIPTION=ISNUMBER returnerar TRUE om värdet är ett tal. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO="
 
 #: src/functions/fn-information.c:705
-#, fuzzy
 msgid ""
 "@FUNCTION=ISODD\n"
 "@SYNTAX=ISODD()\n"
@@ -4265,11 +4314,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISODD\n"
 "@SYNTAX=ISODD()\n"
-"@DESCRIPTION=ISODD returnerar TRUE om talet är udda. \n"
+"@DESCRIPTION=ISODD returnerar TRUE om talet är udda. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=ISEVEN"
 
 #: src/functions/fn-information.c:726
-#, fuzzy
 msgid ""
 "@FUNCTION=ISREF\n"
 "@SYNTAX=ISREF()\n"
@@ -4281,11 +4332,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISREF\n"
 "@SYNTAX=ISREF()\n"
-"@DESCRIPTION=ISREF returnerar TRUE om värdet är en referens. \n"
+"@DESCRIPTION=ISREF returnerar TRUE om värdet är en referens. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO="
 
 #: src/functions/fn-information.c:757
-#, fuzzy
 msgid ""
 "@FUNCTION=ISTEXT\n"
 "@SYNTAX=ISTEXT()\n"
@@ -4297,11 +4350,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISTEXT\n"
 "@SYNTAX=ISTEXT()\n"
-"@DESCRIPTION=ISTEXT returnerar TRUE om värdet består av text. \n"
+"@DESCRIPTION=ISTEXT returnerar TRUE om värdet består av text. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=ISNONTEXT"
 
 #: src/functions/fn-information.c:783
-#, fuzzy
 msgid ""
 "@FUNCTION=N\n"
 "@SYNTAX=N()\n"
@@ -4314,11 +4369,13 @@ msgstr ""
 "@FUNCTION=N\n"
 "@SYNTAX=N()\n"
 "@DESCRIPTION=N returnerar ett värde omvandlat till ett tal. Strängar som "
-"innehåller text resulterar i värdet noll. \n"
+"innehåller text resulterar i värdet noll. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO="
 
 #: src/functions/fn-information.c:822
-#, fuzzy
 msgid ""
 "@FUNCTION=TYPE\n"
 "@SYNTAX=TYPE()\n"
@@ -4330,7 +4387,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=TYPE\n"
 "@SYNTAX=TYPE()\n"
-"@DESCRIPTION=TYPE returnerar ett tal som anger datatypen för ett värde. \n"
+"@DESCRIPTION=TYPE returnerar ett tal som anger datatypen för ett värde. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO="
 
 #: src/functions/fn-information.c:849
@@ -4360,7 +4420,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-logical.c:79
-#, fuzzy
 msgid ""
 "@FUNCTION=NOT\n"
 "@SYNTAX=NOT(number)\n"
@@ -4377,6 +4436,10 @@ msgstr ""
 "@SYNTAX=NOT(tal)\n"
 "@DESCRIPTION=Implementerar logisk ICKE (NOT): resultatet är TRUE om @tal är "
 "noll;  annars TRUE.\n"
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"NOT(0) är lika med TRUE.\n"
+"NOT(TRUE) är lika med FALSE.\n"
 "\n"
 "@SEEALSO=AND, OR"
 
@@ -4528,7 +4591,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-lookup.c:638
-#, fuzzy
 msgid ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text, [format])\n"
@@ -4548,6 +4610,8 @@ msgstr ""
 "eller R1C1. Typen kan valfritt anges i @format, annars används A1 som "
 "standard.\n"
 "Om @ref_text inte är en giltig referens returneras #REF!.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO="
 
 #: src/functions/fn-lookup.c:702
@@ -4563,7 +4627,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-lookup.c:753
-#, fuzzy
 msgid ""
 "@FUNCTION=COLUMN\n"
 "@SYNTAX=COLUMN([reference])\n"
@@ -4580,11 +4643,12 @@ msgstr ""
 "@DESCRIPTION=COLUMN returnerar ett fält med kolumnnummer. Om @referens inte "
 "anges, används den cell som formeln finns i.\n"
 "Om @referens inte är ett fält, en referens eller ett område, returneras "
-"felvärdet#VALUE!.\n"
+"felvärdet#VALUE!\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=COLUMNS,ROW,ROWS"
 
 #: src/functions/fn-lookup.c:806
-#, fuzzy
 msgid ""
 "@FUNCTION=COLUMNS\n"
 "@SYNTAX=COLUMNS(reference)\n"
@@ -4601,7 +4665,9 @@ msgstr ""
 "@DESCRIPTION=COLUMNS returnerar antalet kolumner som finns inom det område "
 "eller den fältreferens som anges.\n"
 "Om @referens inte är ett fält, en referens eller ett område, returneras "
-"felvärdet #VALUE!.\n"
+"felvärdet #VALUE!\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 
 #: src/functions/fn-lookup.c:831
@@ -4619,7 +4685,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-lookup.c:894
-#, fuzzy
 msgid ""
 "@FUNCTION=ROW\n"
 "@SYNTAX=ROW([reference])\n"
@@ -4631,16 +4696,17 @@ msgid ""
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 msgstr ""
-"@FUNCTION=COLUMN\n"
-"@SYNTAX=COLUMN([referens])\n"
-"@DESCRIPTION=COLUMN returnerar ett fält med kolumnnummer. Om @referens inte "
+"@FUNCTION=ROW\n"
+"@SYNTAX=ROW([referens])\n"
+"@DESCRIPTION=ROW returnerar ett fält med radnummer. Om @referens inte "
 "anges, används den cell som formeln finns i.\n"
 "Om @referens inte är ett fält, en referens eller ett område, returneras "
-"felvärdet#VALUE!.\n"
-"@SEEALSO=COLUMNS,ROW,ROWS"
+"felvärdet #VALUE!\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=COLUMN,COLUMNS,ROWS"
 
 #: src/functions/fn-lookup.c:947
-#, fuzzy
 msgid ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(reference)\n"
@@ -4652,16 +4718,17 @@ msgid ""
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 msgstr ""
-"@FUNCTION=COLUMNS\n"
-"@SYNTAX=COLUMNS(referens)\n"
-"@DESCRIPTION=COLUMNS returnerar antalet kolumner som finns inom det område "
+"@FUNCTION=ROWS\n"
+"@SYNTAX=ROWS(referens)\n"
+"@DESCRIPTION=ROWS returnerar antalet rader som finns inom det område "
 "eller den fältreferens som anges.\n"
 "Om @referens inte är ett fält, en referens eller ett område, returneras "
 "felvärdet #VALUE!.\n"
-"@SEEALSO=COLUMN,ROW,ROWS"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=COLUMN,COLUMNS,ROW"
 
 #: src/functions/fn-lookup.c:972
-#, fuzzy
 msgid ""
 "@FUNCTION=HYPERLINK\n"
 "@SYNTAX=HYPERLINK(reference)\n"
@@ -4677,10 +4744,11 @@ msgstr ""
 "@DESCRIPTION=HYPERLINK returnerar sitt andra argument, or om det är "
 "utelämnat, sitt första argument.\n"
 "\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO="
 
 #: src/functions/fn-lookup.c:997
-#, fuzzy
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matrix)\n"
@@ -4692,6 +4760,8 @@ msgstr ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matris)\n"
 "@DESCRIPTION=TRANSPOSE returnerar transponeringen av @matris.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=MMULT"
 
 #: src/functions/fn-lookup.c:1047
@@ -4699,7 +4769,6 @@ msgid "Data / Lookup"
 msgstr ""
 
 #: src/functions/fn-math.c:136
-#, fuzzy
 msgid ""
 "@FUNCTION=GCD\n"
 "@SYNTAX=GCD(number1,number2,...)\n"
@@ -4717,11 +4786,16 @@ msgstr ""
 "@SYNTAX=GCD(tal1,tal2,...)\n"
 "@DESCRIPTION=GCD returnerar den största gemensamma delaren för deangivna "
 "talen.\n"
-"Om något av argumenten är mindre än noll, returnerar GCD #NUM!.\n"
+"Om något av argumenten är mindre än noll, returnerar GCD felvärdet #NUM! "
+"Om något av argumenten är icke-heltal, kortas det av. Denna funktion är "
+"kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"GCD(470,770) är lika med 10.\n"
+"GCD(470,770,1495) är lika med 5.\n"
+"\n"
 "@SEEALSO=LCM"
 
 #: src/functions/fn-math.c:187
-#, fuzzy
 msgid ""
 "@FUNCTION=LCM\n"
 "@SYNTAX=LCM(number1,number2,...)\n"
@@ -4741,11 +4815,15 @@ msgstr ""
 "@DESCRIPTION=LCM returnerar den minsta gemensamma multipeln för angivna "
 "heltalen. Den minsta gemensamma multipeln är det minsta positiva tal som är "
 "en multipel av alla de angivna talen.\n"
-"Om något av argumenten är mindre än 1, returneras felkoden #NUM!\n"
+"Om något av argumenten är mindre än 1, returneras felvärdet #NUM! "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"LCM(2,13) är lika med 26.\n"
+"LCM(4,7,5) är lika med 140.\n"
+"\n"
 "@SEEALSO=GCD"
 
 #: src/functions/fn-math.c:245
-#, fuzzy
 msgid ""
 "@FUNCTION=ABS\n"
 "@SYNTAX=ABS(b1)\n"
@@ -4760,13 +4838,16 @@ msgid ""
 msgstr ""
 "@FUNCTION=ABS\n"
 "@SYNTAX=ABS(b1)\n"
-"@DESCRIPTION=Ger absolutvärdet av argumentet, som kan vara heltal eller "
-"flyttal.\n"
-"Om argumentet är en sträng eller tom cell, händer ingenting.\n"
+"@DESCRIPTION=Ger absolutvärdet av argumentet, vilket innebär att ett eventuellt "
+"minustecken tas bort. Argumentet kan vara ett heltal eller flyttal. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"ABS(7) är lika med 7.\n"
+"ABS(-3.14) är lika med 3.14.\n"
+"\n"
 "@SEEALSO=CEIL, FLOOR"
 
 #: src/functions/fn-math.c:270
-#, fuzzy
 msgid ""
 "@FUNCTION=ACOS\n"
 "@SYNTAX=ACOS(x)\n"
@@ -4784,13 +4865,17 @@ msgstr ""
 "@SYNTAX=ACOS(x)\n"
 "@DESCRIPTION=ACOS-funktionen beräknar arcus cosinus av @x; det vill säga det "
 "värde vars cosinus är @x. Om @x ligger utanför intervallet -1 till 1, "
-"returnerar ACOS felet 'acos -domänfel'. Resultatet anges i radianer.\n"
+"returnerar ACOS felet NUM!. Resultatet anges i radianer.\n"
 "Om argumentet är en sträng eller tom cell, händer ingenting. Funktionen tar "
-"endast ett argument.\n"
+"endast ett argument. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"ACOS(0.1) är lika med 1.470629.\n"
+"ACOS(-0.1) är lika med 1.670964.\n"
+"\n"
 "@SEEALSO=COS, SIN, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:302
-#, fuzzy
 msgid ""
 "@FUNCTION=ACOSH\n"
 "@SYNTAX=ACOSH(x)\n"
@@ -4807,13 +4892,15 @@ msgstr ""
 "@SYNTAX=ACOSH(x)\n"
 "@DESCRIPTION=ACOSH beräknar inversen till cosinus hyperbolicus av @x; det "
 "vill säga det värde vars COSH är @x. Om @x är mindre än 1.0, returnerar "
-"ACOSH felet 'acosh - domänfel'\n"
-"Om argumentet är en sträng eller tom cell, händer ingenting. Funktionen tar "
-"endast ett argument.\n"
+"ACOSH felet NUM! "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"ACOSH(2) är lika med 1.31696.\n"
+"ACOSH(5.3) är lika med 2.35183.\n"
+"\n"
 "@SEEALSO=ACOS, DEGREES, RADIANS "
 
 #: src/functions/fn-math.c:333
-#, fuzzy
 msgid ""
 "@FUNCTION=ASIN\n"
 "@SYNTAX=ASIN(x)\n"
@@ -4830,13 +4917,15 @@ msgstr ""
 "@SYNTAX=ASIN(x)\n"
 "@DESCRIPTION=ASIN beräknar arcus sinus av @x; det vill säga det värde vars "
 "sinus är @x. Om @x ligger utanför intervallet -1 till 1, returnerar ASIN "
-"felet 'asin - domänfel'\n"
-"Om argumentet är en sträng eller tom cell, händer ingenting. Funktionen tar "
-"endast ett argument.\n"
+"felet NUM! "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"ASIN(0.5) är lika med 0.523599.\n"
+"ASIN(1) är lika med 1.570797.\n"
+"\n"
 "@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:364
-#, fuzzy
 msgid ""
 "@FUNCTION=ASINH\n"
 "@SYNTAX=ASINH(x)\n"
@@ -4851,13 +4940,13 @@ msgstr ""
 "@SYNTAX=ASINH(x)\n"
 "@DESCRIPTION=ASINH beräknar inversen till sinus hyperbolicus av @x; det vill "
 "säga det värde vars SINH är @x. Om @x är mindre än 1.0, returnerar ASINH "
-"felet 'acosh - domänfel'\n"
-"Om argumentet är en sträng eller tom cell, händer ingenting. Funktionen tar "
-"endast ett argument.\n"
-"@SEEALSO=ASIN, SIN, COS, DEGREES, RADIANS"
+"felet NUM! "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"ASINH(0.5) är lika med 0.481212. ASINH(1.0) är lika med 0.881374.\n"
+"@SEEALSO=ASIN, ACOSH, SIN, COS, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:388
-#, fuzzy
 msgid ""
 "@FUNCTION=ATAN\n"
 "@SYNTAX=ATAN(x)\n"
@@ -4871,13 +4960,13 @@ msgstr ""
 "@FUNCTION=ATAN\n"
 "@SYNTAX=ATAN(x)\n"
 "@DESCRIPTION=ATAN beräknar arctan av @x; det vill säga det värde vars "
-"tangens är @x. Resultatet ges i radianer.\n"
-"Om argumentet är en sträng eller tom cell, händer ingenting. Funktionen tar "
-"endast ett argument.\n"
+"tangens är @x. Resultatet ges i radianer. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:411
-#, fuzzy
 msgid ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
@@ -4893,13 +4982,13 @@ msgstr ""
 "@SYNTAX=ATANH(x)\n"
 "@DESCRIPTION=ATANH beräknar inversen till tangens hyperbolicus; det vill "
 "säga det värde vars tanh är @x. Om absolutvärdet av @x är större än 1.0, "
-"returnerar ATANH felet 'atanh: domänfel'\n"
-"Om argumentet är en sträng eller tom cell, händer ingenting. Funktionen tar "
-"endast ett argument.\n"
+"returnerar ATANH felet NUM! "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"ATANH(0.5) är lika med 0.549306. ATANH(0.8) är lika med 1.098612.\n"
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:443
-#, fuzzy
 msgid ""
 "@FUNCTION=ATAN2\n"
 "@SYNTAX=ATAN2(b1,b2)\n"
@@ -4915,12 +5004,13 @@ msgstr ""
 "@SYNTAX=ATAN2(b1,b2)\n"
 "@DESCRIPTION=ATAN2 är likvärdigt med att beräkna arctan av @b1 / @b2, med "
 "undantaget att de båda argumentens tecken används för att bestämma vilken "
-"kvadrant resultatet ska ligga i. Resultatet ges i radianer.\n"
-"Om argumentet är en sträng eller tom cell, händer ingenting.\n"
+"kvadrant resultatet ska ligga i. Resultatet ges i radianer. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"ATAN2(0.5,1.0) är lika med 1.107149. ATAN2(-0.5,2.0) är lika med 1.815775.\n"
 "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:471
-#, fuzzy
 msgid ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
@@ -4933,7 +5023,9 @@ msgstr ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
 "@DESCRIPTION=Funktionen CEIL avrundar @x uppåt till närmsta heltal.\n"
-"Om argumentet är en sträng eller tom cell, händer ingenting.\n"
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"CEIL(0.4) är lika med 1. CEIL(-1.1) är lika med -1. CEIL(-2.9) är lika med -2.\n"
 "@SEEALSO=ABS, FLOOR, INT"
 
 #: src/functions/fn-math.c:495
@@ -4954,7 +5046,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-math.c:573
-#, fuzzy
 msgid ""
 "@FUNCTION=SUMIF\n"
 "@SYNTAX=SUMIF(range,criteria[,actual_range])\n"
@@ -4978,11 +5069,20 @@ msgstr ""
 "@DESCRIPTION=SUMIF summerar de värden i @område, som uppfyller det givna "
 "villkoret. Om @verkligt_område är givet, summerar SUMIF värdena i "
 "@verkligt_område, vars motsvarande värden i @område uppfyller det givna "
-"villkoret.\n"
+"villkoret. "
+"Denna funktion är kompatibel med Excel.\n" 
+"@EXAMPLES=\n"
+"Låt oss anta att cellerna A1, A2, ..., A5 innehåller talen 23, 27, 28, 33, "
+"and 39.  Då är \n"
+"SUMIF(A1:A5,\"<=28\") lika med 78.\n"
+"SUMIF(A1:A5,\"<28\") lika med 50.\n"
+"Om dessutom cellerna B1, B2, ..., B5 innehåller talen 5, 3, 2, 6, och 7 "
+"då är:\n"
+"SUMIF(A1:A5,\"<=27\",B1:B5) lika med 8.\n"
+"\n"
 "@SEEALSO=COUNTIF,SUM"
 
 #: src/functions/fn-math.c:729
-#, fuzzy
 msgid ""
 "@FUNCTION=CEILING\n"
 "@SYNTAX=CEILING(x,significance)\n"
@@ -5000,11 +5100,13 @@ msgstr ""
 "@DESCRIPTION=CEILING avrundar @x uppåt till den minsta multipeln av "
 "@significance.\n"
 "Om @x eller @significance är icke-numerisk, returnerar CEILING felet #VALUE! "
-"Om @x och @significance har olika tecken, returneras felet #NUM!.\n"
+"Om @x och @significance har olika tecken, returneras felet #NUM!. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"CEILING(2.43,1) är lika med 3. CEILING(123.123,3) är lika med 126.\n"
 "@SEEALSO=CEIL"
 
 #: src/functions/fn-math.c:770
-#, fuzzy
 msgid ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
@@ -5019,12 +5121,14 @@ msgstr ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
 "@DESCRIPTION=COS returnerar cosinus av @x, där @x anges i radianer. \n"
-"Om argumentet är en sträng eller tom cell, händer ingenting. Funktionen tar "
-"endast ett argument.\n"
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"COS(0.5) är lika med 0.877583.\n"
+"COS(1) är lika med 0.540302.\n"
+"\n"
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 
 #: src/functions/fn-math.c:794
-#, fuzzy
 msgid ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
@@ -5038,13 +5142,13 @@ msgstr ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
 "@DESCRIPTION=COSH returnerar cosinus hyperbolicus för @x, vilket definieras "
-"matematisk såsom (exp(@x) + exp(-@x)) / 2. @x anges i radianer.\n"
-"Om argumentet är en sträng eller tom cell, händer ingenting. Funktionen tar "
-"endast ett argument.\n"
+"matematisk såsom (exp(@x) + exp(-@x)) / 2. @x anges i radianer. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"COSH(0.5) är lika med 1.127626.COSH(1) är lika med 1.543081.\n"
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 
 #: src/functions/fn-math.c:819
-#, fuzzy
 msgid ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
@@ -5057,12 +5161,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
-"@DESCRIPTION=Omvandlar @x radianer till grader.\n"
-"Om argumentet är en sträng eller tom cell, händer ingenting.\n"
+"@DESCRIPTION=Omvandlar @x radianer till grader. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"DEGREES(2.5) är lika med 143.2394.\n"
+"\n"
 "@SEEALSO=RADIANS, PI"
 
 #: src/functions/fn-math.c:841
-#, fuzzy
 msgid ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
@@ -5076,12 +5182,14 @@ msgstr ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
 "@DESCRIPTION=Beräknar värdet av e upphöjt till @x. e är basen för den "
-"naturliga logaritmen.\n"
-"Om argumentet är en sträng eller tom cell, returneras ett fel.\n"
+"naturliga logaritmen. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"EXP(2) är lika med 7.389056.\n"
+"\n"
 "@SEEALSO=LOG, LOG2, LOG10"
 
 #: src/functions/fn-math.c:864
-#, fuzzy
 msgid ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
@@ -5095,13 +5203,15 @@ msgid ""
 msgstr ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
-"@DESCRIPTION=Beräknar faktorialen av @x, det vill säga @x!\n"
-"Om argumentet är en sträng eller tom cell, returneras ett fel.\n"
+"@DESCRIPTION=Beräknar fakulteten av @x, det vill säga @x! "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"FACT(3) equals 6.\n"
+"FACT(9) equals 362880.\n"
 "\n"
 "@SEEALSO="
 
 #: src/functions/fn-math.c:913
-#, fuzzy
 msgid ""
 "@FUNCTION=COMBIN\n"
 "@SYNTAX=COMBIN(n,k)\n"
@@ -5118,13 +5228,16 @@ msgstr ""
 "@FUNCTION=COMBIN\n"
 "@SYNTAX=COMBIN(n,k)\n"
 "@DESCRIPTION=Beräknar antalet kombinationer.\n"
-"Om argumenten ej är positiva heltal returneras ett fel. Även om @n är mindre "
-"än @k returneras ett felvärde.\n"
+"Om argumenten ej är positiva heltal returneras ett fel. Också om @n är mindre "
+"än @k returneras ett felvärde. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"COMBIN(8,6) är lika med 28.\n"
+"COMBIN(6,2) är lika med 15.\n"
 "\n"
 "@SEEALSO="
 
 #: src/functions/fn-math.c:963
-#, fuzzy
 msgid ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x,significance)\n"
@@ -5140,12 +5253,15 @@ msgstr ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x,significance)\n"
 "@DESCRIPTION=FLOOR avrundar @x nedåt till närmsta multipel av @significance. "
-"@significance är 1 om inget anges.\n"
-"Om funktionen utförs på en sträng eller tom cell, händer ingenting.\n"
+"@significance är 1 om inget anges. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"FLOOR(0.5) equals 0.\n"
+"FLOOR(5,2) equals 4.\n"
+"\n"
 "@SEEALSO=CEIL, ABS, INT"
 
 #: src/functions/fn-math.c:999
-#, fuzzy
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(a)\n"
@@ -5162,12 +5278,15 @@ msgstr ""
 "@SYNTAX=INT(b1, b2, ...)\n"
 "@DESCRIPTION=INT avrundar @b1 till närmsta heltal.\n"
 " 'Närmsta' betyder här 'närmare noll'. Funktionen är likvärdigt med "
-"FLOOR(@b1) för @b1 >= 0, och CEIL(@b1) för @b1 < 0.\n"
-"Om funktionen utförs på en sträng eller tom cell, händer ingenting.\n"
+"FLOOR(@b1) för @b1 >= 0, och CEIL(@b1) för @b1 < 0. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"INT(7.2) är lika med 7.\n"
+"INT(-5.5) är lika med -6.\n"
+"\n"
 "@SEEALSO=FLOOR, CEIL, ABS"
 
 #: src/functions/fn-math.c:1025
-#, fuzzy
 msgid ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x[,base])\n"
@@ -5183,11 +5302,15 @@ msgstr ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x[,bas])\n"
 "@DESCRIPTION=Beräknar logaritmen av @x för den givna basen @bas. Om ingen "
-"bas anges, används 10.\n"
+"bas anges, används 10. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"LOG(2) är lika med 0.30103.\n"
+"LOG(8192,2) är lika med 13.\n"
+"\n"
 "@SEEALSO=LN, LOG2, LOG10"
 
 #: src/functions/fn-math.c:1061
-#, fuzzy
 msgid ""
 "@FUNCTION=LN\n"
 "@SYNTAX=LN(x)\n"
@@ -5200,11 +5323,15 @@ msgid ""
 msgstr ""
 "@FUNCTION=LN\n"
 "@SYNTAX=LN(x)\n"
-"@DESCRIPTION=LN returnerar den naturliga logaritmen av @x.\n"
+"@DESCRIPTION=LN returnerar den naturliga logaritmen av @x. Om @x <= 0, returnerar "
+"felet #NUM! "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"LN(7) är lika med 1.94591.\n"
+"\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
 #: src/functions/fn-math.c:1091
-#, fuzzy
 msgid ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
@@ -5219,11 +5346,14 @@ msgstr ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
 "@DESCRIPTION=Returnerar värdet av @x upphöjt till @y.\n"
-"Om funktionen utförs på en sträng eller tom cell, returneras ett fel.\n"
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"POWER(2,7) är lika med 128.\n"
+"POWER(3,3.141) är lika med 31.523749.\n"
+"\n"
 "@SEEALSO=EXP"
 
 #: src/functions/fn-math.c:1123
-#, fuzzy
 msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
@@ -5236,12 +5366,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
-"@DESCRIPTION=Beräknas logaritmen av @x i basen 2.\n"
-"Om funktionen utförs på en sträng eller tom cell, returneras ett fel.\n"
+"@DESCRIPTION=Beräknas logaritmen av @x i basen 2. Om @x <= 0, returernas "
+"felvärdet #NUM! "
+"@EXAMPLES=\n"
+"LOG2(1024) är lika med 10.\n"
+"\n"
 "@SEEALSO=EXP, LOG10, LOG"
 
 #: src/functions/fn-math.c:1151
-#, fuzzy
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
@@ -5254,8 +5386,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
-"@DESCRIPTION=Beräknas logaritmen av @x i basen 10.\n"
-"Om funktionen utförs på en sträng eller tom cell, returneras ett fel.\n"
+"@DESCRIPTION=Beräknas logaritmen av @x i basen 10. Om @x <= 0, returneras "
+"felvärdet #NUM! "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"LOG10(7) är lika med 0.845098.\n"
+"\n"
 "@SEEALSO=EXP, LOG2, LOG"
 
 #: src/functions/fn-math.c:1180
@@ -7509,7 +7645,7 @@ msgid ""
 "@SEEALSO=LOGEST,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:3897
+#: src/functions/fn-stat.c:3898
 msgid ""
 "@FUNCTION=TREND\n"
 "@SYNTAX=TREND(known_y's[,known_x's],new_x's])\n"
@@ -7529,7 +7665,7 @@ msgid ""
 "@SEEALSO=LINEST"
 msgstr ""
 
-#: src/functions/fn-stat.c:3984
+#: src/functions/fn-stat.c:3987
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -7548,7 +7684,7 @@ msgid ""
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4089
+#: src/functions/fn-stat.c:4093
 msgid ""
 "@FUNCTION=GROWTH\n"
 "@SYNTAX=GROWTH(known_y's[,known_x's],new_x's[,const])\n"
@@ -7566,7 +7702,7 @@ msgid ""
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4121
+#: src/functions/fn-stat.c:4125
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -7585,7 +7721,7 @@ msgid ""
 "@SEEALSO=INTERCEPT,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4190
+#: src/functions/fn-stat.c:4196
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -7603,7 +7739,7 @@ msgid ""
 "@SEEALSO=FORECAST,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4238
+#: src/functions/fn-stat.c:4245
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
@@ -7618,7 +7754,7 @@ msgid ""
 "@SEEALSO=STDEV,STDEVPA"
 msgstr ""
 
-#: src/functions/fn-stat.c:4282
+#: src/functions/fn-stat.c:4290
 msgid "Statistics"
 msgstr "Statistik"
 
@@ -8435,7 +8571,7 @@ msgstr ""
 "existerande cellerna i det området. Vill du ersätta\n"
 "innehållet i området?"
 
-#: src/item-cursor.c:582 src/item-grid.c:644 src/workbook.c:1065
+#: src/item-cursor.c:582 src/item-grid.c:645 src/workbook.c:1074
 msgid "Copy"
 msgstr "Kopiera"
 
@@ -8467,19 +8603,19 @@ msgstr "Flytta celler nedåt och flytta"
 msgid "Shift cells right and move"
 msgstr "Flytta celler åt höger och flytta"
 
-#: src/item-grid.c:643 src/workbook.c:1062
+#: src/item-grid.c:644 src/workbook.c:1071
 msgid "Cut"
 msgstr "Klipp ut"
 
-#: src/item-grid.c:645 src/workbook.c:1068
+#: src/item-grid.c:646 src/workbook.c:1077
 msgid "Paste"
 msgstr "Klistra in"
 
-#: src/item-grid.c:650
+#: src/item-grid.c:651
 msgid "Erase content"
 msgstr "Ta bort innehåll"
 
-#: src/item-grid.c:652
+#: src/item-grid.c:653
 msgid "Cell format"
 msgstr "Cellformatering"
 
@@ -8540,19 +8676,19 @@ msgstr "Lägg till..."
 msgid "Remove"
 msgstr "Ta bort"
 
-#: src/plugin.c:40
+#: src/plugin.c:41
 msgid "unable to open module file: "
 msgstr "kan inte öppna modulfilen: "
 
-#: src/plugin.c:51
+#: src/plugin.c:52
 msgid "Plugin must contain init_plugin function."
 msgstr "Tillägg måste innehålla funktionen init_plugin."
 
-#: src/plugin.c:57
+#: src/plugin.c:58
 msgid "init_plugin returned error"
 msgstr "init_plugin returnerade felvärde"
 
-#: src/plugin.c:77
+#: src/plugin.c:78
 msgid "Plugin is still in use.\n"
 msgstr "Tillägget används fortfarande.\n"
 
@@ -8706,7 +8842,7 @@ msgstr "Nästa"
 msgid "Last"
 msgstr "Sista"
 
-#: src/print-preview.c:455 src/workbook.c:2063
+#: src/print-preview.c:455 src/workbook.c:2075
 msgid "Zoom in"
 msgstr "Zooma in"
 
@@ -8714,7 +8850,7 @@ msgstr "Zooma in"
 msgid "Zooms the page in"
 msgstr "Zoomar in sidan"
 
-#: src/print-preview.c:456 src/workbook.c:2056
+#: src/print-preview.c:456 src/workbook.c:2068
 msgid "Zoom out"
 msgstr "Zooma ut"
 
@@ -8745,14 +8881,6 @@ msgid ""
 "We apologize for the inconvenience"
 msgstr ""
 
-#: src/sheet-object-container.c:207 src/workbook.c:834
-msgid "Select an object"
-msgstr "Välj ett objekt"
-
-#: src/sheet-object-container.c:428
-msgid "Object server"
-msgstr "Objektserver"
-
 #: src/sheet-view.c:357 src/sheet-view.c:429
 #, c-format
 msgid "Row: %d"
@@ -8767,12 +8895,12 @@ msgstr "Kolumn: %s"
 msgid "Internal ERROR"
 msgstr "Internt FEL"
 
-#: src/sheet.c:3765
+#: src/sheet.c:3767
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "Kunde inte aktivera objekt %s"
 
-#: src/sheet.c:3777
+#: src/sheet.c:3779
 msgid "I was unable to the bind object"
 msgstr "Kunde inte binda objektet"
 
@@ -8818,430 +8946,443 @@ msgstr ""
 msgid "Italic"
 msgstr "Kursiv"
 
-#: src/workbook.c:404
+#: src/workbook.c:413
 msgid "Warning"
 msgstr "Varning"
 
-#: src/workbook.c:413
+#: src/workbook.c:422
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr "Arbetsboken %s har osparade ändringar, spara dem?"
 
-#: src/workbook.c:416
+#: src/workbook.c:425
 msgid "Workbook has unsaved changes, save them?"
 msgstr "Arbetsboken har osparade ändringar, spara dem?"
 
-#: src/workbook.c:616
+#: src/workbook.c:625
 msgid "Insert cols"
 msgstr "Infoga kolumner"
 
-#: src/workbook.c:636
+#: src/workbook.c:645
 msgid "Insert rows"
 msgstr "Infoga rader"
 
-#: src/workbook.c:731
+#: src/workbook.c:740
 msgid ">mm/dd/yyyy"
 msgstr ">mm/dd/åååå"
 
-#: src/workbook.c:750
+#: src/workbook.c:759
 msgid ">hh:mm"
 msgstr ">tt:mm"
 
 #: src/workbook.c:843
+msgid "Select an object"
+msgstr "Välj ett objekt"
+
+#: src/workbook.c:852
 msgid "_New"
 msgstr "_Nytt"
 
-#: src/workbook.c:843
+#: src/workbook.c:852
 msgid "Create a new spreadsheet"
 msgstr "Skapa ett nytt kalkylark"
 
-#: src/workbook.c:847
+#: src/workbook.c:856
 msgid "_Import..."
 msgstr "_Importera..."
 
-#: src/workbook.c:847
+#: src/workbook.c:856
 msgid "Imports a file"
 msgstr "Importerar en fil"
 
-#: src/workbook.c:853
+#: src/workbook.c:862
 msgid "Su_mmary..."
 msgstr "Sammanfattning..."
 
-#: src/workbook.c:853
+#: src/workbook.c:862
 msgid "Summary information"
 msgstr "Sammanfattningsinformation"
 
-#: src/workbook.c:858
+#: src/workbook.c:867
 msgid "Plu_g-ins..."
 msgstr "Tillä_gg..."
 
-#: src/workbook.c:858
+#: src/workbook.c:867
 msgid "Gnumeric plugins"
 msgstr "Gnumeric-tillägg"
 
-#: src/workbook.c:865 src/workbook.c:1056
+#: src/workbook.c:874 src/workbook.c:1065
 msgid "Print pre_view"
 msgstr "Förhands_granskning"
 
-#: src/workbook.c:865 src/workbook.c:1056
+#: src/workbook.c:874 src/workbook.c:1065
 msgid "Print preview"
 msgstr "Förhandsgranskning"
 
-#: src/workbook.c:881
+#: src/workbook.c:890
 msgid "_All"
 msgstr "_Allt"
 
-#: src/workbook.c:882
+#: src/workbook.c:891
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Ta bort markerade cellers formatering, kommentarer och innehåll"
 
-#: src/workbook.c:884
+#: src/workbook.c:893
 msgid "_Formats"
 msgstr "_Formatering"
 
-#: src/workbook.c:885
+#: src/workbook.c:894
 msgid "Clear the selected cells' formats"
 msgstr "Ta bort markerade cellers formatering"
 
-#: src/workbook.c:887
+#: src/workbook.c:896
 msgid "Clear the selected cells' comments"
 msgstr "Ta bort markerade cellers kommentarer"
 
-#: src/workbook.c:888
+#: src/workbook.c:897
 msgid "_Content"
 msgstr "_Innehåll"
 
-#: src/workbook.c:889
+#: src/workbook.c:898
 msgid "Clear the selected cells' contents"
 msgstr "Ta bort markerade cellers innehåll"
 
-#: src/workbook.c:897
+#: src/workbook.c:906
 msgid "P_aste special..."
 msgstr "Klistra in _special..."
 
-#: src/workbook.c:899
+#: src/workbook.c:908
 msgid "_Delete..."
 msgstr "Ta bort..."
 
-#: src/workbook.c:901
+#: src/workbook.c:910
 msgid "C_lear"
 msgstr "_Ta bort"
 
-#: src/workbook.c:902
+#: src/workbook.c:911
 msgid "Clear the selected cell(s)"
 msgstr "Ta bort markerade cell(er)"
 
-#: src/workbook.c:906
+#: src/workbook.c:915
 msgid "_Select All"
 msgstr "Markera _allt"
 
-#: src/workbook.c:907
+#: src/workbook.c:916
 msgid "Select all cells in the spreadsheet"
 msgstr "Markera alla celler på kalkylarket"
 
-#: src/workbook.c:909
+#: src/workbook.c:918
 msgid "_Goto cell..."
 msgstr "_Gå till cell.."
 
-#: src/workbook.c:910
+#: src/workbook.c:919
 msgid "Jump to a specified cell"
 msgstr "Gå till specifierad cell"
 
-#: src/workbook.c:916
+#: src/workbook.c:925
 msgid "Insert object..."
 msgstr "Infoga objekt..."
 
-#: src/workbook.c:917
+#: src/workbook.c:926
 msgid "Inserts a Bonobo object"
 msgstr "Infogar ett Bonobo-objekt"
 
-#: src/workbook.c:921
+#: src/workbook.c:930
 msgid "_Define cell names"
 msgstr "_Definera cellnamn"
 
-#: src/workbook.c:924
+#: src/workbook.c:933
 msgid "_Recalculate"
 msgstr "_Räkna om"
 
-#: src/workbook.c:925
+#: src/workbook.c:934
 msgid "Recalculate the spreadsheet"
 msgstr "Räkna om kalkylbladet"
 
-#: src/workbook.c:933
+#: src/workbook.c:942
 msgid "_Zoom..."
 msgstr "_Zooma..."
 
-#: src/workbook.c:934
+#: src/workbook.c:943
 msgid "Zoom the spreadsheet in or out"
 msgstr "Zooma in eller ut i kalkylbladet"
 
-#: src/workbook.c:941
+#: src/workbook.c:950
 msgid "Current _date"
 msgstr "Dagens _datum"
 
-#: src/workbook.c:942
+#: src/workbook.c:951
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Infoga dagens datum i markerade cell(er)"
 
-#: src/workbook.c:945
+#: src/workbook.c:954
 msgid "Current _time"
 msgstr "Nuvarande _klockslag"
 
-#: src/workbook.c:946
+#: src/workbook.c:955
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Infoga nuvarande tid i markerade cell(er)"
 
-#: src/workbook.c:953 src/workbook.c:1001
+#: src/workbook.c:962 src/workbook.c:1010
 msgid "_Sheet"
 msgstr "_Blad"
 
-#: src/workbook.c:953
+#: src/workbook.c:962
 msgid "Insert a new spreadsheet"
 msgstr "Infoga ett nytt kalkylblad"
 
-#: src/workbook.c:955 src/workbook.c:996
+#: src/workbook.c:964 src/workbook.c:1005
 msgid "_Cells..."
 msgstr "_Celler..."
 
-#: src/workbook.c:955
+#: src/workbook.c:964
 msgid "Insert new cells"
 msgstr "Infoga nya celler"
 
-#: src/workbook.c:957
+#: src/workbook.c:966
 msgid "_Rows"
 msgstr "_Rader"
 
-#: src/workbook.c:957
+#: src/workbook.c:966
 msgid "Insert new rows"
 msgstr "Infoga nya rader"
 
-#: src/workbook.c:959
+#: src/workbook.c:968
 msgid "C_olumns"
 msgstr "_Kolumner"
 
-#: src/workbook.c:959
+#: src/workbook.c:968
 msgid "Insert new columns"
 msgstr "Infoga nya kolumner"
 
-#: src/workbook.c:964
+#: src/workbook.c:973
 msgid "_Add/modify comment..."
 msgstr "_Lägg till/ändra kommentar..."
 
-#: src/workbook.c:965
+#: src/workbook.c:974
 msgid "Edit the selected cell's comment"
 msgstr "Ändra den markerade cellens kommentar"
 
-#: src/workbook.c:966
+#: src/workbook.c:975
 msgid "_Special"
 msgstr "_Special"
 
-#: src/workbook.c:974 src/workbook.c:982
+#: src/workbook.c:983 src/workbook.c:991
 msgid "_Auto fit selection"
 msgstr "_Anpassa till markeringen"
 
-#: src/workbook.c:976
+#: src/workbook.c:985
 msgid "_Width"
 msgstr "_Bredd"
 
-#: src/workbook.c:984
+#: src/workbook.c:993
 msgid "_Height"
 msgstr "_Höjd"
 
-#: src/workbook.c:990
+#: src/workbook.c:999
 msgid "_Change name"
 msgstr "_Ändra namn"
 
-#: src/workbook.c:997
+#: src/workbook.c:1006
 msgid "Modify the formatting of the selected cells"
 msgstr "Ändra formateringen på markerade celler"
 
-#: src/workbook.c:999
+#: src/workbook.c:1008
 msgid "C_olumn"
 msgstr "_Kolumn"
 
-#: src/workbook.c:1000
+#: src/workbook.c:1009
 msgid "_Row"
 msgstr "_Rad"
 
-#: src/workbook.c:1008
+#: src/workbook.c:1017
 msgid "_Sort..."
 msgstr "_Sortera..."
 
-#: src/workbook.c:1009
+#: src/workbook.c:1018
 msgid "Sort the selected cells"
 msgstr "Sortera merkerade celler"
 
-#: src/workbook.c:1010
+#: src/workbook.c:1019
 msgid "_Goal Seek..."
 msgstr "_Målsökning..."
 
-#: src/workbook.c:1012
+#: src/workbook.c:1021
 msgid "_Solver..."
 msgstr "_Problemlösare..."
 
-#: src/workbook.c:1014
+#: src/workbook.c:1023
 msgid "_Data Analysis..."
 msgstr ""
 
-#: src/workbook.c:1028
+#: src/workbook.c:1037
 msgid "_Insert"
 msgstr "_Infoga"
 
-#: src/workbook.c:1029
+#: src/workbook.c:1038
 msgid "F_ormat"
 msgstr "F_ormat"
 
-#: src/workbook.c:1030
+#: src/workbook.c:1039
 msgid "_Tools"
 msgstr "Verk_tyg"
 
-#: src/workbook.c:1041
+#: src/workbook.c:1050
 msgid "New"
 msgstr "Nytt"
 
-#: src/workbook.c:1041
+#: src/workbook.c:1050
 msgid "Creates a new sheet"
 msgstr "Skapar ett nytt kalkylblad"
 
-#: src/workbook.c:1044
+#: src/workbook.c:1053
 msgid "Open"
 msgstr "Öppna"
 
-#: src/workbook.c:1044
+#: src/workbook.c:1053
 msgid "Opens an existing workbook"
 msgstr "Öppnar en existerande arbetsbok"
 
-#: src/workbook.c:1047
+#: src/workbook.c:1056
 msgid "Save"
 msgstr "Spara"
 
-#: src/workbook.c:1047
+#: src/workbook.c:1056
 msgid "Saves the workbook"
 msgstr "Sparar arbetsboken"
 
-#: src/workbook.c:1053
+#: src/workbook.c:1062
 msgid "Prints the workbook"
 msgstr "Skriver ut arbetsboken"
 
-#: src/workbook.c:1062
+#: src/workbook.c:1071
 msgid "Cuts the selection to the clipboard"
 msgstr "Klipper ut markeringen till urklipp"
 
-#: src/workbook.c:1065
+#: src/workbook.c:1074
 msgid "Copies the selection to the clipboard"
 msgstr "Kopierar markeringen till urklipp"
 
-#: src/workbook.c:1068
+#: src/workbook.c:1077
 msgid "Pastes the clipboard"
 msgstr "Klistrar in från urklipp"
 
-#: src/workbook.c:1075
+#: src/workbook.c:1084
 msgid "Graphic"
 msgstr "Diagram"
 
-#: src/workbook.c:1075
+#: src/workbook.c:1084
 msgid "Creates a graphic in the spreadsheet"
 msgstr "Skapar ett diagram på kalkylbladet"
 
-#: src/workbook.c:1080
+#: src/workbook.c:1087
+msgid "Bobobo Item"
+msgstr ""
+
+#: src/workbook.c:1087
+#, fuzzy
+msgid "Creates a Bonobo shaped item"
+msgstr "Skapar ett nytt kalkylblad"
+
+#: src/workbook.c:1092
 msgid "Button"
 msgstr "Knapp"
 
-#: src/workbook.c:1080
+#: src/workbook.c:1092
 msgid "Creates a button"
 msgstr "Skapar en knapp"
 
-#: src/workbook.c:1083
+#: src/workbook.c:1095
 msgid "Checkbox"
 msgstr "Kryssruta"
 
-#: src/workbook.c:1083
+#: src/workbook.c:1095
 msgid "Creates a checkbox"
 msgstr "Skapar en kryssruta"
 
-#: src/workbook.c:1090
+#: src/workbook.c:1102
 msgid "Line"
 msgstr "Linje"
 
-#: src/workbook.c:1090
+#: src/workbook.c:1102
 msgid "Creates a line object"
 msgstr "Skapar ett linje-objekt"
 
-#: src/workbook.c:1093
+#: src/workbook.c:1105
 msgid "Arrow"
 msgstr "Pil"
 
-#: src/workbook.c:1093
+#: src/workbook.c:1105
 msgid "Creates an arrow object"
 msgstr "Skapar ett pil-objekt"
 
-#: src/workbook.c:1096
+#: src/workbook.c:1108
 msgid "Rectangle"
 msgstr "Rektangel"
 
-#: src/workbook.c:1096
+#: src/workbook.c:1108
 msgid "Creates a rectangle object"
 msgstr "Skapar ett rektangel-objekt"
 
-#: src/workbook.c:1099
+#: src/workbook.c:1111
 msgid "Ellipse"
 msgstr "Ellips"
 
-#: src/workbook.c:1099
+#: src/workbook.c:1111
 msgid "Creates an ellipse object"
 msgstr "Skapar ett ellips-objekt"
 
-#: src/workbook.c:1317
+#: src/workbook.c:1329
 msgid "You should introduce a valid cell name"
 msgstr "Du måste ange ett giltigt cellnamn"
 
-#: src/workbook.c:1326
+#: src/workbook.c:1338
 msgid "Column out of range"
 msgstr "Kolumn utanför giltigt område"
 
-#: src/workbook.c:1332
+#: src/workbook.c:1344
 msgid "Row number out of range"
 msgstr "Radnummer utanför giltigt område"
 
-#: src/workbook.c:1530
+#: src/workbook.c:1542
 msgid "Sum"
 msgstr "Sum"
 
-#: src/workbook.c:1533
+#: src/workbook.c:1545
 msgid "Average"
 msgstr "Medelvärde"
 
-#: src/workbook.c:1534
+#: src/workbook.c:1546
 msgid "Count"
 msgstr "Räkna"
 
-#: src/workbook.c:1964
+#: src/workbook.c:1976
 msgid "Untitled.gnumeric"
 msgstr "Namnlös.gnumeric"
 
-#: src/workbook.c:2164
+#: src/workbook.c:2176
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Är du säker på att du vill ta bort bladet med namn `%s'?"
 
-#: src/workbook.c:2183
+#: src/workbook.c:2195
 msgid "Other sheets depend on the values on this sheet; I cannot remove it."
 msgstr "Andra blad refererar till värden på detta blad; kan inte ta bort det."
 
-#: src/workbook.c:2203
+#: src/workbook.c:2215
 msgid "Add another sheet"
 msgstr "Lägg till ett nytt blad"
 
-#: src/workbook.c:2204
+#: src/workbook.c:2216
 msgid "Remove this sheet"
 msgstr "Ta bort detta blad"
 
-#: src/workbook.c:2470 src/workbook.c:2505
+#: src/workbook.c:2482 src/workbook.c:2517
 #, c-format
 msgid "Sheet%d"
 msgstr "Blad%d"
 
-#: src/workbook.c:2540
+#: src/workbook.c:2552
 msgid "Gnumeric: "
 msgstr "Gnumeric: "
 
@@ -9322,7 +9463,7 @@ msgstr "Storlek"
 msgid "Foreground"
 msgstr "Förgrund"
 
-#: src/workbook-format-toolbar.c:583
+#: src/workbook-format-toolbar.c:584
 msgid "Background"
 msgstr "Bakgrund"
 
@@ -9334,6 +9475,6 @@ msgstr "Du angav en ogiltig kolumnbredd.  Den måste vara större än 0"
 msgid "You entered an invalid row height value.  It must be bigger than 0"
 msgstr "Du angav en ogiltig radhöjd.  Den måste vara större än 0"
 
-#: src/xml-io.c:2277
+#: src/xml-io.c:2276
 msgid "Old Gnumeric XML file format"
 msgstr "Gammalt Gnumeric XML filformat"
