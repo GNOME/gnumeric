@@ -742,33 +742,30 @@ yylex (void)
 
 			errno = 0;
 			d = strtod (start, &end);
-			if (start != end) {
-				if (errno != ERANGE) {
-					v = value_new_float ((gnum_float)d);
-					state->expr_text = end;
-				} else {
-					if (tolower (c) != 'e') {
-						gnumeric_parse_error (
-							state, PERR_OUT_OF_RANGE,
-							g_strdup (_("The number is out of range")),
-							state->expr_text - state->expr_backup, end - start);
-						return INVALID_TOKEN;
-					} else {
-						/*
-						 * For an exponent it's hard to highlight
-						 * the right region w/o it turning into an
-						 * ugly hack, for now the cursor is put
-						 * at the end.
-						 */
-						gnumeric_parse_error (
-							state, PERR_OUT_OF_RANGE,
-							g_strdup (_("The number is out of range")),
-							0, 0);
-						return INVALID_TOKEN;
-					}
-				}
-			} else
+			if (start == end) {
 				g_warning ("%s is not a double, but was expected to be one", start);
+			}  else if (errno != ERANGE) {
+				v = value_new_float ((gnum_float)d);
+				state->expr_text = end;
+			} else if (tolower (c) != 'e') {
+				gnumeric_parse_error (
+					state, PERR_OUT_OF_RANGE,
+					g_strdup (_("The number is out of range")),
+					state->expr_text - state->expr_backup, end - start);
+				return INVALID_TOKEN;
+			} else {
+				/*
+				 * For an exponent it's hard to highlight
+				 * the right region w/o it turning into an
+				 * ugly hack, for now the cursor is put
+				 * at the end.
+				 */
+				gnumeric_parse_error (
+					state, PERR_OUT_OF_RANGE,
+					g_strdup (_("The number is out of range")),
+					0, 0);
+				return INVALID_TOKEN;
+			}
 		} else {
 			/* This could be a row range ref or an integer */
 			char *end;
@@ -776,27 +773,33 @@ yylex (void)
 
 			errno = 0;
 			l = strtol (start, &end, 10);
-			if (start != end) {
+			if (start == end) {
+				g_warning ("%s is not an integer, but was expected to be one", start);
+			} else if (errno != ERANGE) {
+				/* Check for a Row range ref (3:4 == A3:IV4) */
+				if (*end == ':' && l < SHEET_MAX_COLS) {
+				    /* TODO : adjust parser to allow returning
+				     * a range, not just a cellref
+				     */
+				}
+				v = value_new_int (l);
+				state->expr_text = end;
+			} else if (l == LONG_MIN || l == LONG_MAX) {
+				double d;
+
+				errno = 0;
+				d = strtod (start, &end);
 				if (errno != ERANGE) {
-					/* Check for a Row range ref (3:4 == A3:IV4) */
-					if (*end == ':' && l < SHEET_MAX_COLS) {
-					    /* TODO : adjust parser to allow returning
-					     * a range, not just a cellref
-					     */
-					}
-					v = value_new_int (l);
+					v = value_new_float ((gnum_float)d);
 					state->expr_text = end;
 				} else {
-					if (l == LONG_MIN || l == LONG_MAX) {
-						gnumeric_parse_error (
-							state, PERR_OUT_OF_RANGE,
-							g_strdup (_("The number is out of range")),
-							state->expr_text - state->expr_backup, end - start);
-						return INVALID_TOKEN;
-					}
+					gnumeric_parse_error (
+						state, PERR_OUT_OF_RANGE,
+						g_strdup (_("The number is out of range")),
+						state->expr_text - state->expr_backup, end - start);
+					return INVALID_TOKEN;
 				}
-			} else
-				g_warning ("%s is not an integer, but was expected to be one", start);
+			}
 		}
 
 		/* Very odd string,  Could be a bound problem.  Trigger an error */

@@ -1,3 +1,9 @@
+2001-10-12  Jody Goldberg <jgoldberg@home.com>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=62167
+	* src/parser.y (yylex) : If an integer is out of range fall back to
+	  float.  Reorganize slightly to make this more readable.
+
 2001-10-12  Morten Welinder  <terra@diku.dk>
 
 	* src/search.c (search_collect_cells_free): New convenience
