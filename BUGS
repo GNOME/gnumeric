@@ -16,8 +16,9 @@ Release Critical
 -----------
 
 - load/save of external references
-- String functions need to be UTF8ed.
+- String functions need to be UTF8ed: CHAR, CODE, SUBSTITUTE, SEARCH.
 - Search/Replace needs to be UTF8ed.
+- function_category_compare needs to be made UTF8 safe.
 
 Pending Patches
 ---------------
@@ -195,4 +196,3 @@ Plugins
 - Mark plugin as "broken" if deactivation failed.
 - mps
     : has some fixed-length arrays that can be overrun.
-
