@@ -1,4 +1,6 @@
-$state = 0;
+use strict;
+
+my $state = 0;
 
 while (<>) {
     s/\s+$//;

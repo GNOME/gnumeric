@@ -1,13 +1,16 @@
 
+use strict;
+
 print "<itemizedlist mark=\"bullet\">\n";
 
+my @f = ();
 while (<>){
   if (/^\@FUNCTION=(.*)/){
     push @f, $1;
   }
 }
 
-foreach $func (sort @f){
+foreach my $func (sort @f){
   my $fixed_name = &fixup_function_name ($func);
   print "<listitem><para><link linkend=\"gnumeric-$fixed_name\">$func</link></para></listitem>\n";
 }
