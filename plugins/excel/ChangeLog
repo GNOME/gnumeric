@@ -1,3 +1,11 @@
+1999-08-06  Michael Meeks  <michael@imaginator.com>
+
+	* ole.c (list_files): Fix so it shows directories...
+	(get_file_handle, list_files, really_put, main): Use current_directory.
+	(enter_dir): Implemented 'cd' command
+	(do_copyout: Implemented splitting (really_get): from (do_get).
+	(dump_vba): Started.
+
 1999-08-05  Michael Meeks  <michael@imaginator.com>
 
 	* ms-summary.c (ms_summary_read): Trivial fix to kill warning.

@@ -150,6 +150,7 @@ extern void ms_ole_stream_close             (MsOleStream *) ;
 
 extern void dump (guint8 const *ptr, guint32 len) ;
 
+/* Do not use */
 extern void ms_ole_debug (MsOle *, int magic);
 #endif
 

@@ -31,6 +31,10 @@ static GPtrArray *biff_types   = NULL;
 static GPtrArray *escher_types = NULL;
 typedef enum { eBiff=0, eEscher=1 } typeType;
 
+MsOleDirectory *current_directory = NULL;
+
+static void dump_vba (MsOle *f);
+
 static void
 read_types (char *fname, GPtrArray **types, typeType t)
 {
@@ -116,7 +120,7 @@ get_file_handle (MsOle *ole, char *name)
 	MsOleDirectory *dir;
 	if (!name)
 		return NULL;
-	dir = ms_ole_get_root (ole);
+	dir = ms_ole_directory_copy (current_directory);
 	ms_ole_directory_enter (dir);
 
 	while (ms_ole_directory_next(dir)) {
@@ -136,12 +140,17 @@ get_file_handle (MsOle *ole, char *name)
 static void
 list_files (MsOle *ole)
 {
-	MsOleDirectory *dir = ms_ole_get_root (ole);
+	MsOleDirectory *dir = ms_ole_directory_copy (current_directory);
 	ms_ole_directory_enter (dir);
 
 	g_assert (dir);
 	while (ms_ole_directory_next(dir)) {
-		printf ("'%25s' : type %d, length %d bytes\n", dir->name, dir->type, dir->length);
+		if (dir->type == MsOlePPSStream)
+			printf ("'%25s : length %d bytes\n", dir->name, dir->length);
+		else if (dir->type == MsOlePPSStorage)
+			printf ("'[%s] : Storage ( directory )\n", dir->name);
+		else
+			printf ("Wierd - '%25s' : type %d, length %d bytes\n", dir->name, dir->type, dir->length);
 	}
 }
 
@@ -158,6 +167,7 @@ syntax_error(char *err)
 	printf (" -i: Interactive, queries for fresh commands\n\n");
 	printf ("command can be one or all of:\n");
 	printf (" * ls:                   list files\n");
+	printf (" * cd:                   enter storage\n");
 	printf (" * biff    <stream name>:   dump biff records, merging continues\n");
 	printf (" * biffraw <stream name>:   dump biff records no merge + raw data\n");
 	printf (" * draw    <stream name>:   dump drawing records\n");
@@ -168,6 +178,7 @@ syntax_error(char *err)
 	printf (" * get     <stream name> <fname>\n");
 	printf (" * put     <fname> <stream name>\n");
 	printf (" * copyin  [<fname>,]...\n");
+	printf (" * copyout [<fname>,]...\n");
 	printf (" * quit,exit,bye:        exit\n");
 	exit(1);
 }
@@ -300,6 +311,37 @@ dump_escher (guint8 *data, guint32 len, int level)
 }
 
 static void
+enter_dir (MsOle *ole)
+{
+	char *ptr;
+	MsOleDirectory *dir;
+
+	ptr = strtok (NULL, delim);
+	if (!ptr) {
+		printf ("Takes a directory argument\n");
+		return;
+	}
+	dir = ms_ole_directory_copy (current_directory);
+	ms_ole_directory_enter (dir);
+
+	while (ms_ole_directory_next(dir)) {
+		if (!dir->name) {
+			printf ("Odd: NULL dirctory name\n");
+			continue;
+		}
+		if (g_strcasecmp(dir->name, ptr)==0) {
+			ms_ole_directory_destroy (current_directory);
+			current_directory = dir;
+			return;
+		}
+	}	
+	printf ("Storage '%s' not found\n", ptr);
+	ms_ole_directory_destroy (dir);
+
+	return;
+}
+
+static void
 do_dump (MsOle *ole)
 {
 	char *ptr;
@@ -415,13 +457,10 @@ do_draw (MsOle *ole)
 }
 
 static void
-do_get (MsOle *ole)
+really_get (MsOle *ole, char *from, char *to)
 {
-	char *from, *to;
 	MsOleDirectory *dir;
 
-	from = strtok (NULL, delim);
-	to   = strtok (NULL, delim);
 	if ((dir = get_file_handle (ole, from)))
 	{
 		MsOleStream *stream = ms_ole_stream_open (dir, 'r');
@@ -441,6 +480,16 @@ do_get (MsOle *ole)
 }
 
 static void
+do_get (MsOle *ole)
+{
+	char *from, *to;
+
+	from = strtok (NULL, delim);
+	to   = strtok (NULL, delim);
+	really_get (ole, from, to);
+}
+
+static void
 really_put (MsOle *ole, char *from, char *to)
 {
 	MsOleDirectory *dir;
@@ -453,7 +502,7 @@ really_put (MsOle *ole, char *from, char *to)
 	}
 
 	if (!(dir = get_file_handle (ole, to)))
-		dir = ms_ole_directory_create (ms_ole_get_root(ole),
+		dir = ms_ole_directory_create (ms_ole_directory_copy (current_directory),
 					       to, MsOlePPSStream);
 		
 	if (dir)
@@ -650,6 +699,18 @@ do_copyin (MsOle *ole)
 	} while (from);
 }
 
+static void
+do_copyout (MsOle *ole)
+{
+	char *from;
+
+	do {
+		from = strtok (NULL, delim);
+		if (from)
+			really_get (ole, from, from);
+	} while (from);
+}
+
 int main (int argc, char **argv)
 {
 	MsOle *ole;
@@ -681,6 +742,8 @@ int main (int argc, char **argv)
 		buffer = str; /* and again */
 	}
 
+	current_directory = ms_ole_get_root (ole);
+
 	do
 	{
 		char *ptr;
@@ -697,7 +760,9 @@ int main (int argc, char **argv)
 			printf ("Command : '%s'\n", ptr);
 		if (g_strcasecmp(ptr, "ls")==0) {
 			list_files (ole);
-		} else if (g_strcasecmp(ptr, "dump")==0)
+		} else if (g_strcasecmp(ptr, "cd")==0)
+			enter_dir (ole);
+		else if (g_strcasecmp(ptr, "dump")==0)
 			do_dump (ole);
 		else if (g_strcasecmp(ptr, "biff")==0)
 			do_biff (ole);
@@ -711,10 +776,14 @@ int main (int argc, char **argv)
 			do_put (ole);
 		else if (g_strcasecmp(ptr, "copyin")==0)
 			do_copyin (ole);
+		else if (g_strcasecmp(ptr, "copyout")==0)
+			do_copyout (ole);
 		else if (g_strcasecmp(ptr, "summary")==0)
 			do_summary (ole);
 		else if (g_strcasecmp(ptr, "debug")==0)
 			ms_ole_debug (ole, 1);
+		else if (g_strcasecmp(ptr, "vba")==0)
+			dump_vba (ole);
 		else if (g_strcasecmp(ptr,"exit")==0 ||
 			   g_strcasecmp(ptr,"quit")==0 ||
 			   g_strcasecmp(ptr,"q")==0 ||
@@ -726,3 +795,121 @@ int main (int argc, char **argv)
 	ms_ole_destroy (ole);
 	return 1;
 }
+
+static void
+dump_vba_module (const MsOleDirectory *dir)
+{
+	MsOleStream *s;
+
+	g_return_if_fail (dir != NULL);
+
+	s = ms_ole_stream_open (dir, 'r');
+	if (!s) {
+		printf ("Strange: can't open '%s'\n", dir->name);
+		return;
+	}
+
+	/* Very, very, very, very, very crude :-) */
+	{
+		guint8  *data, *ptr;
+		guint32  i;
+
+		data = g_new (guint8, s->size);
+		if (!s->read_copy (s, data, s->size)) {
+			printf ("Strange: failed read of module '%s'\n", dir->name);
+			return;
+		}
+		
+		ptr = data;
+		i   = 0;
+		do {
+			if (!g_strncasecmp (ptr, "Attribut", 8)) {
+				guint8 *txt = g_new (guint8, s->size);
+				guint8 *p;
+				guint  j;
+
+				printf ("Possibly found the text !\n");
+				p = txt;
+				while (i < s->size) {
+					for (j = 0; j < 8 && i + j < s->size; j++) {
+						*p++ = *ptr++;
+					}
+					i++;
+					ptr++;
+				}
+				*p = '\0';
+				printf ("Text is '%s'\n", txt);
+				break;
+			}
+			ptr++; i++;
+		} while (i < s->size - 10);
+	}
+	
+	ms_ole_stream_close (s);
+}
+
+/* Hack - leave it here for now */
+static void
+dump_vba (MsOle *f)
+{
+	MsOleDirectory *dir;
+	MsOleStream *s;
+	char *txt;
+
+	dir = get_file_handle (f, "_VBA_PROJECT_CUR");
+	if (!dir) {
+		printf ("No VBA found\n");
+		return;
+	}
+	ms_ole_directory_destroy (current_directory);
+	current_directory = dir;
+
+	s   = ms_ole_stream_open_name (dir, "PROJECT", 'r');
+	if (!s)
+		printf ("No project file... wierd\n");
+	else {
+		txt = g_new (guint8, s->size);
+		if (!s->read_copy (s, txt, s->size))
+			printf ("Failed to read project stream\n");
+		else {
+			printf ("----------\n");
+			printf ("Project file:\n");
+			printf ("%s", txt);
+			printf ("----------\n");
+		}
+		ms_ole_stream_close (s);
+	}
+
+	dir = get_file_handle (f, "VBA");
+	if (!dir) {
+		printf ("No VBA subdirectory found\n");
+		return;
+	}
+	ms_ole_directory_destroy (current_directory);
+	current_directory = dir;
+
+	{
+		int module_count = 0;
+		MsOleDirectory *tmp = ms_ole_directory_copy (dir);
+
+		ms_ole_directory_enter (tmp);
+
+		while (ms_ole_directory_next(tmp)) {
+			if (!tmp->name) {
+				printf ("Odd: NULL dirctory name\n");
+				continue;
+			}
+			if (!g_strncasecmp(tmp->name, "Module", 6)) {
+				printf ("Module : %d = '%s'\n", module_count, tmp->name);
+				printf ("----------\n");
+				dump_vba_module (tmp);
+				printf ("----------\n");
+				module_count++;
+			}
+		}	
+		if (!module_count)
+			printf ("Strange no modules found\n");
+		ms_ole_directory_destroy (dir);
+	}
+}
+
