@@ -787,11 +787,10 @@ gnumeric_sheet_key_mode_object (GnumericSheet *gsheet, GdkEventKey *event)
 		application_clipboard_unant ();
 		break;
 
-	case GDK_BackSpace:
+	case GDK_BackSpace: /* Ick! */
+	case GDK_KP_Delete:
 	case GDK_Delete:
 		gtk_object_destroy (GTK_OBJECT (sheet->current_object));
-		sheet->current_object = NULL;
-		sheet_mode_edit	(sheet);
 		break;
 
 	default:

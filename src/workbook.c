@@ -665,10 +665,9 @@ cut_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
 
-	if (sheet->current_object != NULL) {
-		gtk_object_unref (GTK_OBJECT (sheet->current_object));
-		sheet->current_object = NULL;
-	} else
+	if (sheet->current_object != NULL)
+		gtk_object_destroy (GTK_OBJECT (sheet->current_object));
+	else
 		sheet_selection_cut (workbook_command_context_gui (wb), sheet);
 	sheet_mode_edit	(sheet);
 }

@@ -100,7 +100,7 @@ graph_guru_state_destroy (GraphGuruState *state)
 		state->control = CORBA_OBJECT_NIL;
 	}
 	if (state->manager_client != NULL) {
-		bonobo_object_client_unref (state->manager_client, NULL);
+		bonobo_object_unref (BONOBO_OBJECT(state->manager_client));
 		state->manager_client = NULL;
 		state->manager = CORBA_OBJECT_NIL;
 	}
@@ -199,6 +199,9 @@ cb_graph_guru_clicked (GtkWidget *button, GraphGuruState *state)
 				sheet_object_container_new_bonobo (sheet,
 								   client_site));
 		}
+
+		/* Clear the manager to avoid destroying it when the dialog is removed */
+		state->manager_client = NULL;
 	}
 
 	gtk_object_destroy (GTK_OBJECT(state->dialog));
@@ -275,6 +278,13 @@ graph_guru_init (GraphGuruState *state)
 	return FALSE;
 }
 
+static void
+graph_manager_destroy (BonoboObjectClient *manager_client, gpointer ignored)
+{
+	printf ("GNUMERIC : unref the manager\n");
+	bonobo_object_client_unref (manager_client, NULL);
+}
+
 static gboolean
 graph_guru_init_manager (GraphGuruState *state)
 {
@@ -289,10 +299,17 @@ graph_guru_init_manager (GraphGuruState *state)
 	state->control = CORBA_OBJECT_NIL;
 	if (o != CORBA_OBJECT_NIL) {
 		state->manager_client = bonobo_object_client_from_corba (o);
-		if (state->manager_client != NULL)
+
+		if (state->manager_client != NULL) {
+			/* Catch destroy so that we can unref the remote object */
+			gtk_signal_connect (
+				GTK_OBJECT (state->manager_client), "destroy",
+				GTK_SIGNAL_FUNC (graph_manager_destroy), NULL);
+
 			state->manager = bonobo_object_query_interface (
 				BONOBO_OBJECT (state->manager_client),
 				"IDL:GNOME/Gnumeric/Graph/Manager:1.0");
+		}
 	}
 
 	CORBA_exception_free (&ev);

@@ -104,10 +104,10 @@ view_activated_cb (BonoboViewFrame *view_frame, gboolean activated, SheetObject 
 }
 
 /*
- * Invoked when an item has been destroyed
+ * Invoked when a view has been destroyed
  */
 static void
-item_destroyed (GnomeCanvasItem *item, BonoboViewFrame *view_frame)
+view_destroyed (GnomeCanvasItem *item, BonoboViewFrame *view_frame)
 {
 	if (view_frame)
 		bonobo_object_unref (BONOBO_OBJECT (view_frame));
@@ -169,7 +169,7 @@ sheet_object_container_new_view (SheetObject *so, SheetView *sheet_view)
 	i = make_container_item (so, sheet_view, view_widget);
 
 	gtk_signal_connect (GTK_OBJECT (i), "destroy",
-			    GTK_SIGNAL_FUNC (item_destroyed), view_frame);
+			    GTK_SIGNAL_FUNC (view_destroyed), view_frame);
 	return i;
 }
 

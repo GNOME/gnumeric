@@ -735,7 +735,7 @@ update_bbox (SheetObject *so)
 static void
 sheet_object_remove_cb (GtkWidget *widget, SheetObject *so)
 {
-	gtk_object_unref (GTK_OBJECT (so));
+	gtk_object_destroy (GTK_OBJECT (so));
 }
 
 static void

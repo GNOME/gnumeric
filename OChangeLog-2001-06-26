@@ -1,3 +1,22 @@
+2000-09-28  Jody Goldberg <jgoldberg@home.com>
+
+	* src/dialogs/dialog-graph-guru.c (graph_guru_state_destroy) : Use
+	  bonobo_object_unref rather than bonobo_object_client_unref.
+	(cb_graph_guru_clicked) : On success clear the State's pointer to the
+	  manager so that it does not get deleted.
+	(graph_manager_destroy) : new routine to clear out the remote manager.
+	(graph_guru_init_manager) : Use it.
+
+	* src/workbook.c (cut_cmd) : Delete the object explicitly.
+	* src/sheet-object.c (sheet_object_remove_cb) : Ditto.
+
+	* src/sheet-object-container.c (view_destroyed) : rename from
+	  item_destroy to clarify its function.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_object) : Add
+	  KP_Delete.  There is no need to change the mode and clear anything.
+	  The sheet_object destructor takes care of it.
+
 2000-09-28  Pablo Saratxaga <pablo@mandrakesoft.com>
 
 	* configure.in,po/ca.po: Added Catalan language file
