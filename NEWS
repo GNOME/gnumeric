@@ -8,6 +8,9 @@ Andreas:
 Jody:
 	* Some missing '...' in menu names
 	* Rename 'Summary' menu -> 'Properties'
+	* Support graphs with no data.
+	* Fix CRASH!! due to last minute translation fix.
+	* Some warning suppression for s390.
 
 Morten:
 	* Added DATE2UNIX and UNIX2DATE.

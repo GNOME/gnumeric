@@ -1088,7 +1088,7 @@ cmd_insert_cols (WorkbookControl *wbc,
 		  ? _("Inserting %d columns before %s")
 		  : _("Inserting %d column before %s"),
 		  count, col_name (start_col));
-	return cmd_ins_del_colrow (wbc, sheet, TRUE, TRUE, mesg,
+	return cmd_ins_del_colrow (wbc, sheet, TRUE, TRUE, g_strdup (mesg),
 				   start_col, count);
 }
 
@@ -1104,7 +1104,7 @@ cmd_insert_rows (WorkbookControl *wbc,
 		  ? _("Inserting %d rows before %s")
 		  : _("Inserting %d row before %s"),
 		  count, row_name (start_row));
-	return cmd_ins_del_colrow (wbc, sheet, FALSE, TRUE, mesg,
+	return cmd_ins_del_colrow (wbc, sheet, FALSE, TRUE, g_strdup (mesg),
 				   start_row, count);
 }
 

@@ -1,5 +1,8 @@
 2002-01-04  Jody Goldberg <jody@gnome.org>
 
+	* src/commands.c (cmd_insert_rows) : dup the string.
+	(cmd_insert_cols) : ditto.
+
 	* src/eval.c (dependent_unlink) : add some safety.  Default to A1 if
 	  no position is supplied.
 
