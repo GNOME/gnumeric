@@ -764,7 +764,7 @@ msgstr "Эксцесс"
 
 #: src/analysis-tools.c:744
 msgid "Skewness"
-msgstr "Ассиметрия"
+msgstr "Асимметрия"
 
 #: src/analysis-tools.c:745 src/dialogs/dialog-function-wizard.c:407
 msgid "Range"
@@ -11716,7 +11716,7 @@ msgstr ""
 "@FUNCTION=NORMSDIST\n"
 "@SYNTAX=NORMSDIST(x)\n"
 "@DESCRIPTION=Функция NORMSDIST возвращает стандартное нормальное "
-"куммулятивное распределение. @x - значение для которого вы хотите получить "
+"кумулятивное распределение. @x - значение для которого вы хотите получить "
 "распределение. Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "NORMSDIST(2) равняется 0.977249868.\n"
@@ -11739,9 +11739,9 @@ msgstr ""
 "@FUNCTION=NORMSINV\n"
 "@SYNTAX=NORMSINV(p)\n"
 "@DESCRIPTION=Функция NORMSINV возвращает инверсию стандартного нормального "
-"куммулятивного распределения. @p - заданная вероятность соответствующего "
-"нормального распределения. Эта функция Excel-совместима. \n"
-"Если @p < 0 или @p > 1, возвращается ошибка #NUM!. \n"
+"кумулятивного распределения. @p - заданная вероятность соответствующего "
+"нормального распределения. Эта функция Excel-совместима.\n"
+"Если @p < 0 или @p > 1, возвращается ошибка #NUM!.\n"
 "@EXAMPLES=\n"
 "NORMSINV(0.2) равняется -0.841621234.\n"
 "\n"
@@ -12082,7 +12082,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=SKEWP\n"
 "@SYNTAX=SKEWP(n1, n2, ...)\n"
-"@DESCRIPTION=SKEWP возвращает ассимметрию набора данных.\n"
+"@DESCRIPTION=SKEWP возвращает асимметрию набора данных.\n"
 "Строки и пустые ячейки игнорируются.\n"
 "Если задано меньше двух чисел, SKEWP возвращает ошибку #DIV/0!.\n"
 "@EXAMPLES=\n"
@@ -12499,9 +12499,9 @@ msgstr ""
 "@FUNCTION=PERMUT\n"
 "@SYNTAX=PERMUT(n,k)\n"
 "@DESCRIPTION=Функция PERMUT возвращает число перестановок. @n - число "
-"об`ектов, @k - число об`ектов в каждой перестановке.\n"
+"объектов, @k - число объектов в каждой перестановке.\n"
 "Если @n = 0, возвращается ошибка #NUM!. Если @n < @k, возвращается ошибка "
-"#NUM!. Эта функция Excel-совместима. \n"
+"#NUM!. Эта функция Excel-совместима.\n"
 "@EXAMPLES=\n"
 "PERMUT(7,3) равняется 210.\n"
 "\n"
@@ -12582,7 +12582,7 @@ msgstr ""
 "@DESCRIPTION=Функция STANDARDIZE возвращает нормализованное значение. @x - "
 "нормализуемое число, @mean - медиана распределения, @stdev - стандартное "
 "отклонение распределения.\n"
-"Если @stddev = 0, возвращается ошибка #DIV/0!. Эта функция Excel-совместима. "
+"Если @stddev = 0, возвращается ошибка #DIV/0!. Эта функция Excel-совместима."
 "\n"
 "@EXAMPLES=\n"
 "STANDARDIZE(3,2,4) равняется 0.25.\n"
@@ -14350,7 +14350,7 @@ msgstr "Вставить"
 
 #: src/item-grid.c:473
 msgid "Paste _Special"
-msgstr "Cпециальная вставка"
+msgstr "Специальная вставка"
 
 #: src/item-grid.c:478
 msgid "_Insert..."
@@ -15313,7 +15313,7 @@ msgstr "Выделить все ячейки, которые зависят от редактируемой ячейки."
 
 #: src/workbook.c:1339
 msgid "P_aste special..."
-msgstr "Cпециальная вставка..."
+msgstr "Специальная вставка..."
 
 #: src/gnumeric.xml.h:140 src/workbook.c:1340
 msgid "Paste with optional filters and transformations"
@@ -16062,7 +16062,7 @@ msgstr "Овал"
 
 #: src/gnumeric.xml.h:137
 msgid "Paste special..."
-msgstr "Cпециальная вставка..."
+msgstr "Специальная вставка..."
 
 #: src/gnumeric.xml.h:138
 msgid "Paste the clipboard"
@@ -16230,7 +16230,7 @@ msgstr "Открыть..."
 
 #: src/gnumeric.xml.h:227
 msgid "_Paste special..."
-msgstr "Cпециальная вставка..."
+msgstr "Специальная вставка..."
 
 #: src/gnumeric.xml.h:229
 msgid "_Print"
