@@ -222,9 +222,14 @@ change_font_in_selection_cmd (GtkMenuItem *item, Workbook *wb)
 	Style *selection_style;
 	CellList *cell_list;
 	GList *l;
+	double size;
 	
 	sheet = workbook_get_current_sheet (wb);
 
+	size = atof (gtk_entry_get_text (GTK_ENTRY (wb->priv->size_widget)));
+	if (size <= 0.0)
+		return;
+	
 	/*
 	 * First, create a new font with the defaults
 	 * and apply this to all the selections
@@ -233,7 +238,7 @@ change_font_in_selection_cmd (GtkMenuItem *item, Workbook *wb)
 	selection_style->valid_flags |= STYLE_FONT;
 	selection_style->font = style_font_new (
 		font_name,
-		12,
+		size,
 		sheet->last_zoom_factor_used,
 		0, 0);
 
@@ -271,6 +276,12 @@ change_font_in_selection_cmd (GtkMenuItem *item, Workbook *wb)
 	}
 
 	sheet_cell_list_free (cell_list);
+}
+
+static void
+change_font_size_in_selection_cmd (GtkMenuItem *item, Workbook *wb)
+{
+	g_warning ("Comming RSN");
 }
 
 #ifdef ENABLE_BONOBO
@@ -2124,6 +2135,7 @@ create_format_toolbar (Workbook *wb)
 	GtkWidget *menu, *item;
 	const char *name = "FormatToolbar";
 	GList *l;
+	int len;
 	
 	wb->priv->format_toolbar = gnumeric_toolbar_new (
 		workbook_format_toolbar, wb);
@@ -2171,7 +2183,13 @@ create_format_toolbar (Workbook *wb)
 	 */
 	wb->priv->size_widget = gtk_entry_new ();
 	gtk_widget_show (wb->priv->size_widget);
-	
+
+	len = gdk_string_measure (wb->priv->size_widget->style->font, "000000");
+	gtk_widget_set_usize (GTK_ENTRY (wb->priv->size_widget), len, 0);
+	gtk_signal_connect (
+		GTK_OBJECT (wb->priv->size_widget), "activate",
+		GTK_SIGNAL_FUNC (change_font_size_in_selection_cmd), wb);
+		
 	gtk_toolbar_insert_widget (
 		GTK_TOOLBAR (wb->priv->format_toolbar),
 		wb->priv->size_widget, _("Size"), NULL, 1);
@@ -2838,20 +2856,20 @@ workbook_feedback_set (Workbook *workbook, int feedback_flags,
 			
 			for (l = gnumeric_font_family_list; l; l = l->next, idx++){
 				if (strcmp (l->data, font_name) == 0){
+					np = GINT_TO_POINTER (idx);
 					gtk_object_set_data (
 						(GtkObject *) font,
-						"gnumeric-idx", GINT_TO_POINTER (idx));
+						"gnumeric-idx", np);
 					break;
 				}
 			}
-		} else {
-			/*
-			 * +1 means, skip over the "undefined font" element
-			 */
-			gtk_option_menu_set_history (
-				GTK_OPTION_MENU (workbook->priv->option_menu),
-				GPOINTER_TO_INT (np)+1);
-		}
+		} 
+		/*
+		 * +1 means, skip over the "undefined font" element
+		 */
+		gtk_option_menu_set_history (
+			GTK_OPTION_MENU (workbook->priv->option_menu),
+			GPOINTER_TO_INT (np)+1);
 	} else {
 		gtk_option_menu_set_history (
 			GTK_OPTION_MENU (workbook->priv->option_menu), 0);

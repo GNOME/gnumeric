@@ -1286,15 +1286,19 @@ sheet_update_controls (Sheet *sheet)
 		closure.italic = style->font->is_italic;
 		closure.font = style->font->font;
 		closure.font_size = style->font->size;
+
+		flags = WORKBOOK_FEEDBACK_BOLD |
+			WORKBOOK_FEEDBACK_ITALIC |
+			WORKBOOK_FEEDBACK_FONT_SIZE |
+			WORKBOOK_FEEDBACK_FONT;
 		
 		style_destroy (style);
-	}
-
-	flags = (closure.bold_common ? WORKBOOK_FEEDBACK_BOLD : 0) |
-		(closure.italic_common ? WORKBOOK_FEEDBACK_ITALIC : 0) |
-		(closure.font_size_common ? WORKBOOK_FEEDBACK_FONT_SIZE : 0) |
-		(closure.font_common ? WORKBOOK_FEEDBACK_FONT : 0);
-
+	} else 
+		flags = (closure.bold_common ? WORKBOOK_FEEDBACK_BOLD : 0) |
+			(closure.italic_common ? WORKBOOK_FEEDBACK_ITALIC : 0) |
+			(closure.font_size_common ? WORKBOOK_FEEDBACK_FONT_SIZE : 0) |
+			(closure.font_common ? WORKBOOK_FEEDBACK_FONT : 0);
+	
 	if (flags == 0)
 		return;
 	
