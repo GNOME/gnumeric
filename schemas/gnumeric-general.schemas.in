@@ -299,5 +299,16 @@
         <long>The initial zoom factor for new workbooks.</long>
         </locale>
       </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/cut-and-paste/prefer-clipboard</key>
+        <applyto>/apps/gnumeric/cut-and-paste/prefer-clipboard</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>TRUE</default>
+        <locale name="C">
+        <short>Prefer CLIPBOARD over PRIMARY selection</short>
+        <long>When TRUE, Gnumeric will prefer the modern CLIPBOARD selection over the legacy PRIMARY selections.  Set to FALSE if you have to deal with older applications, like Xterm or Emacs, which set only the PRIMARY selection.</long>
+        </locale>
+      </schema>
     </schemalist>
 </gconfschemafile>

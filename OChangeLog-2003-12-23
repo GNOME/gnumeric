@@ -1,5 +1,12 @@
 2003-04-22  Morten Welinder  <terra@gnome.org>
 
+	* src/gui-clipboard.c (x_request_clipboard): Follow cut-and-paste
+	preference.
+
+	* src/gnumeric-gconf.c (gnm_conf_init): Set initial cut-and-paste
+	preference.
+	(gnm_gconf_set_prefer_clipboard_selection): New function.
+
 	* src/formats.c (currency_date_format_init): Improve error
 	messages.
 

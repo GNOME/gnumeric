@@ -28,6 +28,7 @@
 #include "dialog-stf.h"
 #include "stf-parse.h"
 #include "mstyle.h"
+#include "gnumeric-gconf.h"
 
 #include <gsf/gsf-input-memory.h>
 #include <libxml/globals.h>
@@ -162,7 +163,7 @@ table_cellregion_read (WorkbookControl *wbc, const char *reader_id,
 		gnumeric_io_error_display (ioc);
 		goto out;
 	}
-	
+
 	wb = wb_view_workbook (wb_view);
 	l = workbook_sheets (wb);
 	if (l) {
@@ -184,7 +185,7 @@ out:
 		g_object_unref (wb);
 	g_object_unref (G_OBJECT (ioc));
 	g_object_unref (G_OBJECT (input));
-	
+
 	return ret;
 }
 
@@ -210,7 +211,7 @@ text_received (GtkClipboard *clipboard, const gchar *text, gpointer closure)
 		/* Release the resources we used */
 		cellregion_free (content);
 	}
-	
+
 	if (wbcg->clipboard_paste_callback_data != NULL) {
 		g_free (wbcg->clipboard_paste_callback_data);
 		wbcg->clipboard_paste_callback_data = NULL;
@@ -232,7 +233,7 @@ complex_content_received (GtkClipboard *clipboard,  GtkSelectionData *sel,
 					       sel->data, sel->length);
 	} else {
 		const char *reader_id = NULL;
-		
+
 		if (sel->target == gdk_atom_intern (OOO_ATOM_NAME, FALSE))
 			reader_id = "Gnumeric_OpenCalc:openoffice";
 		else if (sel->target == gdk_atom_intern (HTML_ATOM_NAME,
@@ -259,7 +260,7 @@ complex_content_received (GtkClipboard *clipboard,  GtkSelectionData *sel,
 
 		/* Release the resources we used */
 		cellregion_free (content);
-		
+
 		if (wbcg->clipboard_paste_callback_data != NULL) {
 			g_free (wbcg->clipboard_paste_callback_data);
 			wbcg->clipboard_paste_callback_data = NULL;
@@ -428,7 +429,10 @@ void
 x_request_clipboard (WorkbookControlGUI *wbcg, PasteTarget const *pt)
 {
 	PasteTarget *new_pt;
-	GtkClipboard *clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+	GtkClipboard *clipboard =
+		gtk_clipboard_get (gnm_app_prefs->prefer_clipboard_selection
+				   ? GDK_SELECTION_CLIPBOARD
+				   : GDK_SELECTION_PRIMARY);
 	GdkAtom atom_targets  = gdk_atom_intern (TARGETS_ATOM_NAME, FALSE);
 
 	if (wbcg->clipboard_paste_callback_data != NULL)

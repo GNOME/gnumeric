@@ -151,6 +151,9 @@ gnm_conf_init (void)
 		DIALOGS_GCONF_UNFOCUSED_RS, NULL);
 	prefs.printer_config = gconf_client_get_string (client,
 		PRINTING_GCONF_PRINTER_CONFIG, NULL);
+
+	prefs.prefer_clipboard_selection = gconf_client_get_bool (client,
+		GNUMERIC_GCONF_CUTANDPASTE_PREFER_CLIPBOARD, NULL); 
 }
 
 void
@@ -451,6 +454,16 @@ gnm_gconf_set_unfocused_range_selection (gboolean val)
 			       DIALOGS_GCONF_UNFOCUSED_RS,
 			       val, NULL);
 }
+
+void
+gnm_gconf_set_prefer_clipboard_selection (gboolean val)
+{
+	gconf_client_set_bool (application_get_gconf_client (),
+			       GNUMERIC_GCONF_CUTANDPASTE_PREFER_CLIPBOARD,
+			       val, NULL);
+}
+
+
 void    gnm_gconf_set_printer_config (gchar *str)
 {
 	gconf_client_set_string  (application_get_gconf_client (),
