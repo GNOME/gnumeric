@@ -271,7 +271,7 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 
 	halign = cell_default_halign (cell, mstyle);
 	if (halign != HALIGN_JUSTIFY && valign != VALIGN_JUSTIFY &&
-	    !mstyle_get_fit_in_cell (mstyle)) {
+	    !mstyle_get_wrap_text (mstyle)) {
 		int x, len = cell_width_pixel;
 
 		switch (halign) {
