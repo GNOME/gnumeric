@@ -364,61 +364,41 @@ scm_set_cell_string (SCM scm_cell_ref, SCM scm_string)
 }
 
 static SCM
-scm_gnumeric_funcall(SCM funcname, SCM arglist)
+scm_gnumeric_funcall (SCM funcname, SCM arglist)
 {
 	int i, num_args;
 	Value **values;
 	CellRef cell_ref = { 0, 0, 0, 0 };
 
-	SCM_ASSERT(SCM_NIMP(funcname) && SCM_STRINGP(funcname), funcname, SCM_ARG1, "gnumeric-funcall");
-	SCM_ASSERT(SCM_NFALSEP(scm_list_p(arglist)), arglist, SCM_ARG2, "gnumeric-funcall");
+	SCM_ASSERT (SCM_NIMP (funcname) && SCM_STRINGP (funcname), funcname, SCM_ARG1, "gnumeric-funcall");
+	SCM_ASSERT (SCM_NFALSEP (scm_list_p (arglist)), arglist, SCM_ARG2, "gnumeric-funcall");
 
-	num_args = scm_ilength(arglist);
-	values = g_new(Value*, num_args);
-	for (i = 0; i < num_args; ++i)
-	{
-		values[i] = scm_to_value(SCM_CAR(arglist));
-		arglist = SCM_CDR(arglist);
+	num_args = scm_ilength (arglist);
+	values = g_new (Value *, num_args);
+	for (i = 0; i < num_args; ++i) {
+		values[i] = scm_to_value (SCM_CAR (arglist));
+		arglist = SCM_CDR (arglist);
 	}
 
-	return value_to_scm(function_call_with_values(eval_pos,
-						      SCM_CHARS(funcname),
-						      num_args,
-						      values),
-			    cell_ref);
-}
-
-typedef struct {
-	FunctionDefinition *fndef;
-	SCM function;
-} FuncData;
-
-static GList *funclist = NULL;
-
-static int
-fndef_compare(FuncData *fdata, FunctionDefinition *fndef)
-{
-	return (fdata->fndef != fndef);
+	return value_to_scm (function_call_with_values (eval_pos,
+							SCM_CHARS (funcname),
+							num_args,
+							values),
+			     cell_ref);
 }
 
 static Value*
 func_marshal_func (FunctionEvalInfo *ei, Value *argv[])
 {
-	GList *l;
 	FunctionDefinition const *fndef = ei->func_def;
 	SCM args = SCM_EOL, result, function;
 	CellRef dummy = { 0, 0, 0, 0 };
 	EvalPosition *old_eval_pos;
 	int i, min, max;
 
-	function_def_count_args(fndef, &min, &max);
+	function_def_count_args (fndef, &min, &max);
 
-	l = g_list_find_custom (funclist, (gpointer)fndef,
-				(GCompareFunc)fndef_compare);
-	if (l == NULL)
-		return value_new_error (ei->pos, _("Unable to lookup Guile function."));
-
-	function = ((FuncData*)l->data)->function;
+	function = GPOINTER_TO_INT (function_def_get_user_data (fndef));
 
 	for (i = min - 1; i >= 0; --i)
 		args = scm_cons (value_to_scm (argv [i], dummy), args);
@@ -432,32 +412,27 @@ func_marshal_func (FunctionEvalInfo *ei, Value *argv[])
 }
 
 static SCM
-scm_register_function(SCM scm_name, SCM scm_args, SCM scm_help, SCM scm_function)
+scm_register_function (SCM scm_name, SCM scm_args, SCM scm_help, SCM scm_function)
 {
 	FunctionDefinition *fndef;
 	FunctionCategory   *cat;
-	FuncData *fdata;
-	char **help;
+	char              **help;
 
-	SCM_ASSERT(SCM_NIMP(scm_name) && SCM_STRINGP(scm_name), scm_name, SCM_ARG1, "scm_register_function");
-	SCM_ASSERT(SCM_NIMP(scm_args) && SCM_STRINGP(scm_args), scm_args, SCM_ARG2, "scm_register_function");
-	SCM_ASSERT(SCM_NIMP(scm_help) && SCM_STRINGP(scm_help), scm_help, SCM_ARG3, "scm_register_function");
-	SCM_ASSERT(scm_procedure_p(scm_function), scm_function, SCM_ARG4, "scm_register_function");
+	SCM_ASSERT (SCM_NIMP (scm_name) && SCM_STRINGP (scm_name), scm_name, SCM_ARG1, "scm_register_function");
+	SCM_ASSERT (SCM_NIMP (scm_args) && SCM_STRINGP (scm_args), scm_args, SCM_ARG2, "scm_register_function");
+	SCM_ASSERT (SCM_NIMP (scm_help) && SCM_STRINGP (scm_help), scm_help, SCM_ARG3, "scm_register_function");
+	SCM_ASSERT (scm_procedure_p (scm_function), scm_function, SCM_ARG4, "scm_register_function");
 
-	scm_permanent_object(scm_function); /* is this correct? */
+	scm_permanent_object (scm_function); /* is this correct? */
 
 	help  = g_new (char *, 1);
-	*help = g_strdup(SCM_CHARS(scm_help));
+	*help = g_strdup (SCM_CHARS (scm_help));
 	cat   = function_get_category ("Guile");
-	fndef = function_add_args (cat, g_strdup(SCM_CHARS(scm_name)),
-				   g_strdup(SCM_CHARS(scm_args)), NULL,
+	fndef = function_add_args (cat, g_strdup (SCM_CHARS (scm_name)),
+				   g_strdup (SCM_CHARS (scm_args)), NULL,
 				   help, func_marshal_func);
 
-	fdata = g_new(FuncData, 1);
-	fdata->fndef = fndef;
-	fdata->function = scm_function;
-
-	funclist = g_list_append(funclist, fdata);
+	function_def_set_user_data (fndef, GINT_TO_POINTER (scm_function));
 
 	return SCM_UNSPECIFIED;
 }
@@ -487,18 +462,18 @@ init_plugin (CommandContext *context, PluginData *pd)
 	pd->can_unload = no_unloading_for_me;
 	pd->title = g_strdup(_("Guile Plugin"));
 
-	scm_make_gsubr("cell-value", 1, 0, 0, scm_cell_value);
-	scm_make_gsubr("cell-expr", 1, 0, 0, scm_cell_expr);
-	scm_make_gsubr("set-cell-string!", 2, 0, 0, scm_set_cell_string);
-	scm_make_gsubr("gnumeric-funcall", 2, 0, 0, scm_gnumeric_funcall);
-	scm_make_gsubr("register-function", 4, 0, 0, scm_register_function);
+	scm_make_gsubr ("cell-value", 1, 0, 0, scm_cell_value);
+	scm_make_gsubr ("cell-expr", 1, 0, 0, scm_cell_expr);
+	scm_make_gsubr ("set-cell-string!", 2, 0, 0, scm_set_cell_string);
+	scm_make_gsubr ("gnumeric-funcall", 2, 0, 0, scm_gnumeric_funcall);
+	scm_make_gsubr ("register-function", 4, 0, 0, scm_register_function);
 
-	init_file_name = gnome_unconditional_datadir_file("gnumeric/guile/gnumeric_startup.scm");
-	scm_apply(scm_eval_0str("(lambda (filename)"
-				"  (if (access? filename R_OK)"
-				"    (load filename)"
-				"    (display (string-append \"could not read Guile plug-in init file\" filename \"\n\"))))"),
-		  scm_cons(scm_makfrom0str(init_file_name), SCM_EOL),
+	init_file_name = gnome_unconditional_datadir_file ("gnumeric/guile/gnumeric_startup.scm");
+	scm_apply (scm_eval_0str ("(lambda (filename)"
+				  "  (if (access? filename R_OK)"
+				  "    (load filename)"
+				  "    (display (string-append \"could not read Guile plug-in init file\" filename \"\n\"))))"),
+		  scm_cons (scm_makfrom0str (init_file_name), SCM_EOL),
 		  SCM_EOL);
 
 	return PLUGIN_OK;

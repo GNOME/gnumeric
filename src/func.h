@@ -125,18 +125,18 @@ gboolean            function_is_unused (FunctionDefinition *fndef);
 void                function_remove    (FunctionCategory   *parent,
 					FunctionDefinition *fndef);
 
-gpointer function_def_get_fn           (FunctionDefinition *fndef);
+gpointer function_def_get_fn           (const FunctionDefinition *fndef);
 void     function_def_set_user_data    (FunctionDefinition *fndef,
 					gpointer user_data);
 
-gpointer function_def_get_user_data    (FunctionDefinition *fndef);
+gpointer function_def_get_user_data    (const FunctionDefinition *fndef);
 
-void     function_def_count_args       (FunctionDefinition const *fndef,
+void     function_def_count_args       (const FunctionDefinition *fndef,
 					int *min, int *max);
 /* 0 based arg_index */
-char     function_def_get_arg_type     (FunctionDefinition const *fndef,
+char     function_def_get_arg_type     (const FunctionDefinition *fndef,
 					int arg_idx);
-const char *function_def_get_name      (FunctionDefinition *fndef);
+const char *function_def_get_name      (const FunctionDefinition *fndef);
 
 /* Used to build manual */
 void     function_dump_defs            (const char *filename);

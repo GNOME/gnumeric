@@ -183,7 +183,7 @@ struct _FunctionDefinition {
  * Return value: function pointer.
  **/
 gpointer
-function_def_get_fn (FunctionDefinition *fndef)
+function_def_get_fn (const FunctionDefinition *fndef)
 {
 	g_return_val_if_fail (fndef != NULL, NULL);
 
@@ -197,7 +197,7 @@ function_def_get_fn (FunctionDefinition *fndef)
 }
 
 gpointer
-function_def_get_user_data (FunctionDefinition *fndef)
+function_def_get_user_data (const FunctionDefinition *fndef)
 {
 	g_return_val_if_fail (fndef != NULL, NULL);
 
@@ -214,7 +214,7 @@ function_def_set_user_data (FunctionDefinition *fndef,
 }
 
 const char *
-function_def_get_name (FunctionDefinition *fndef)
+function_def_get_name (const FunctionDefinition *fndef)
 {
 	g_return_val_if_fail (fndef != NULL, NULL);
 
@@ -235,7 +235,7 @@ function_def_get_name (FunctionDefinition *fndef)
  * 
  **/
 inline void
-function_def_count_args (FunctionDefinition const *fndef,
+function_def_count_args (const FunctionDefinition *fndef,
 			 int *min, int *max)
 {
 	const char *ptr;
@@ -276,7 +276,7 @@ function_def_count_args (FunctionDefinition const *fndef,
  * Return value: the type of the argument
  **/
 inline char
-function_def_get_arg_type (FunctionDefinition const *fndef,
+function_def_get_arg_type (const FunctionDefinition *fndef,
 			   int arg_idx)
 {
 	const char *ptr;

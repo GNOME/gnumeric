@@ -173,7 +173,8 @@ cell_draw (Cell *cell, MStyle *mstyle,
 	else {
 		g_warning ("Serious cell error at '%s'\n",
 			   cell_name (cell->col->pos, cell->row->pos));
-		text = "FATAL ERROR";
+		/* This can occur when eg. a plugin function fires up a dialog */
+		text = "Pending";
 	} 
 	
 	if (do_multi_line) {

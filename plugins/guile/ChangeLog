@@ -1,3 +1,10 @@
+2000-01-30  Michael Meeks  <michael@mejm2.dow.cam.ac.uk>
+
+	* plugin.c (scm_register_function): Use set_user_data & not
+	the funclist. (fndef_compare): kill.
+	(func_marshal_func): user user_data instead of func_list;
+	constant time operation.
+
 2000-01-28  Michael Meeks  <michael@mejm2.dow.cam.ac.uk>
 
 	* plugin.c: Kill nasty absolute references on includes.
