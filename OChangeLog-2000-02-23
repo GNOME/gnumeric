@@ -1,5 +1,9 @@
 2000-01-15  Morten Welinder  <terra@diku.dk>
 
+	* src/dialogs/dialog-goal-seek.c (gnumeric_goal_seek): Restore old
+ 	value of failure.
+	(dialog_goal_seek): Fix restoration on cancel.
+
 	* src/functions/fn-math.c (range_bogusproduct): New function.
 	(gnumeric_product): Use it.
 

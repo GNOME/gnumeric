@@ -69,6 +69,8 @@ gnumeric_goal_seek (Workbook *wb, Sheet *sheet,
 	GoalSeekData seekdata;
 	GoalEvalData evaldata;
 	GoalSeekStatus status;
+	gboolean hadold;
+	float_t oldx;
 
 	goal_seek_initialise (&seekdata);
 	seekdata.xmin = xmin;
@@ -78,12 +80,15 @@ gnumeric_goal_seek (Workbook *wb, Sheet *sheet,
 	evaldata.ycell = set_cell;
 	evaldata.ytarget = target_value;
 
+	hadold = (change_cell->value != NULL);
+	oldx = hadold ? value_get_as_float (change_cell->value) : 0;
+
 	/* PLAN A: Newton's iterative method.  */
 	{
 		float_t x0;
 
-		if (change_cell->value)
-			x0 = value_get_as_float (change_cell->value);
+		if (hadold)
+			x0 = oldx;
 		else
 			x0 = (seekdata.xmin + seekdata.xmax) / 2;
 
@@ -170,6 +175,9 @@ gnumeric_goal_seek (Workbook *wb, Sheet *sheet,
 	if (status == GOAL_SEEK_OK) {
 		float_t yroot;
 		(void) goal_seek_eval (seekdata.root, &yroot, &evaldata);
+	} else if (hadold) {
+		float_t ydummy;
+		(void) goal_seek_eval (oldx, &ydummy, &evaldata);
 	}
 
 	cell_queue_redraw (change_cell);
@@ -415,8 +423,10 @@ dialog_loop:
 		        gnome_dialog_close (GNOME_DIALOG (dialog));
 			if (dialog_found_solution (set_cell, change_cell, target_value)) {
 			        /* Goal seek cancelled */
-				cell_set_value (change_cell, old_value);
-				cell_eval (set_cell);
+				if (old_value) {
+					cell_set_value (change_cell, old_value);
+					workbook_recalc (set_cell->sheet->workbook);
+				}
 				return;
 			}
 			if (old_value)
