@@ -64,7 +64,7 @@ x_selection_to_cell_region (WorkbookControlGUI *wbcg, const char *src, int len)
 	if ((c = stf_parse_is_valid_data (data)) != NULL) {
 		char *message;
 		
-		message = g_strdup_printf (_("The data on the clipboard does not seem to be valid text.\nThe character '%c' (ASCII decimal %d) was encountered"),
+		message = g_strdup_printf (_("The data on the clipboard does not seem to be valid text.\nThe character '%c' (ASCII decimal %d) was encountered.\nMost likely your locale settings are wrong."),
 					   *c, (int) *c);
 		g_warning (message);
 		g_free (message);

@@ -144,7 +144,7 @@ stf_read_workbook (IOContext *context, WorkbookView *wbv, char const *filename)
 		 * Note this buffer was allocated with malloc, not g_malloc
 		 */
 
-		message = g_strdup_printf (_("This file does not seem to be a valid text file.\nThe character '%c' (ASCII decimal %d) was encountered"),
+		message = g_strdup_printf (_("This file does not seem to be a valid text file.\nThe character '%c' (ASCII decimal %d) was encountered.\nMost likely your locale settings are wrong."),
 					   *c, (int) *c);
 		gnumeric_io_error_read (context, message);
 		g_free (message);
