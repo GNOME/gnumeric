@@ -1,3 +1,7 @@
+2002-03-15  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* fn-*.c: Added GPL clause.
+
 2002-03-10  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.1
