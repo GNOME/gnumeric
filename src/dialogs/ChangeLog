@@ -1,3 +1,9 @@
+2001-08-23  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-graph-guru.c (graph_guru_create_vectors_from_range) : Use the
+	  new gnm_graph_vector_new interface.
+	(cb_data_simple_col_row_toggle) : use gnm_graph_arrange_vectors.
+
 2001-08-20  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.70

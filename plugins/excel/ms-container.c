@@ -131,3 +131,36 @@ ms_container_parse_expr (MSContainer *c, guint8 const *data, int length)
 	g_return_val_if_fail (c->vtbl->parse_expr != NULL, NULL);
 	return (*c->vtbl->parse_expr) (c, data, length);
 }
+
+/**
+ * ms_container_sheet:
+ *
+ * @c : The container
+ *
+ * DEPRECATED !
+ * This will become dependent_container when that abstraction is added
+ * in the code.  We will need it to support tabs with standalone charts.
+ * DEPRECATED !
+ */
+Sheet *
+ms_container_sheet (MSContainer const *c)
+{
+	g_return_val_if_fail (c != NULL, NULL);
+	g_return_val_if_fail (c->vtbl != NULL, NULL);
+	g_return_val_if_fail (c->vtbl->sheet != NULL, NULL);
+	return (*c->vtbl->sheet) (c);
+}
+
+/**
+ * ms_container_workbook:
+ *
+ * @c : The container
+ */
+Workbook *
+ms_container_workbook (MSContainer const *c)
+{
+	g_return_val_if_fail (c != NULL, NULL);
+	g_return_val_if_fail (c->vtbl != NULL, NULL);
+	g_return_val_if_fail (c->vtbl->workbook != NULL, NULL);
+	return (*c->vtbl->workbook) (c);
+}

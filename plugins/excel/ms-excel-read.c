@@ -2287,6 +2287,18 @@ ms_sheet_parse_expr (MSContainer *container, guint8 const *data, int length)
 					     data, length);
 }
 
+static Sheet  *
+ms_sheet_sheet (MSContainer const *container)
+{
+	return ((ExcelSheet const *)container)->gnum_sheet;
+}
+
+static Workbook *
+ms_sheet_workbook (MSContainer const *container)
+{
+	return ((ExcelSheet const *)container)->gnum_sheet->workbook;
+}
+
 /*
  * ms_excel_init_margins
  * @esheet ExcelSheet
@@ -2322,7 +2334,9 @@ ms_excel_sheet_new (ExcelWorkbook *wb, char const *sheet_name)
 	static MSContainerClass const vtbl = {
 		&ms_sheet_obj_realize,
 		&ms_sheet_obj_create,
-		&ms_sheet_parse_expr
+		&ms_sheet_parse_expr,
+		&ms_sheet_sheet,
+		&ms_sheet_workbook
 	};
 
 	ExcelSheet *esheet = g_new (ExcelSheet, 1);
@@ -2468,12 +2482,20 @@ ms_wb_parse_expr (MSContainer *container, guint8 const *data, int length)
 	return ms_sheet_parse_expr_internal (&dummy_sheet, data, length);
 }
 
+static Workbook *
+ms_wb_workbook (MSContainer const *container)
+{
+	return ((ExcelWorkbook const *)container)->gnum_wb;
+}
+
 static ExcelWorkbook *
 ms_excel_workbook_new (MsBiffVersion ver)
 {
 	static MSContainerClass const vtbl = {
 		NULL, NULL,
-		&ms_wb_parse_expr
+		&ms_wb_parse_expr,
+		NULL,
+		&ms_wb_workbook,
 	};
 
 	ExcelWorkbook *ans = g_new (ExcelWorkbook, 1);
@@ -3471,10 +3493,7 @@ ms_excel_read_mergecells (BiffQuery *q, ExcelSheet *esheet)
 static void
 ms_excel_biff_dimensions (BiffQuery *q, ExcelWorkbook *wb)
 {
-	guint32 first_row;
-	guint32 last_row;
-	guint16 first_col;
-	guint16 last_col;
+	Range r;
 
 	/* What the heck was a 0x00 ? */
 	if (q->opcode != 0x200)
@@ -3482,22 +3501,20 @@ ms_excel_biff_dimensions (BiffQuery *q, ExcelWorkbook *wb)
 
 	if (wb->container.ver >= MS_BIFF_V8)
 	{
-		first_row = MS_OLE_GET_GUINT32 (q->data);
-		last_row  = MS_OLE_GET_GUINT32 (q->data + 4);
-		first_col = MS_OLE_GET_GUINT16 (q->data + 8);
-		last_col  = MS_OLE_GET_GUINT16 (q->data + 10);
+		r.start.row = MS_OLE_GET_GUINT32 (q->data);
+		r.end.row   = MS_OLE_GET_GUINT32 (q->data + 4);
+		r.start.col = MS_OLE_GET_GUINT16 (q->data + 8);
+		r.end.col   = MS_OLE_GET_GUINT16 (q->data + 10);
 	} else
 	{
-		first_row = MS_OLE_GET_GUINT16 (q->data);
-		last_row  = MS_OLE_GET_GUINT16 (q->data + 2);
-		first_col = MS_OLE_GET_GUINT16 (q->data + 4);
-		last_col  = MS_OLE_GET_GUINT16 (q->data + 6);
+		r.start.row = MS_OLE_GET_GUINT16 (q->data);
+		r.end.row   = MS_OLE_GET_GUINT16 (q->data + 2);
+		r.start.col = MS_OLE_GET_GUINT16 (q->data + 4);
+		r.end.col   = MS_OLE_GET_GUINT16 (q->data + 6);
 	}
 
 	if (ms_excel_chart_debug > 0)
-		printf ("Dimension = %s%d:%s%d\n",
-			col_name (first_col), first_row + 1,
-			col_name (last_col), last_row + 1);
+		printf ("Dimension = %s\n", range_name (&r));
 }
 
 static MSContainer *

@@ -1,6 +1,11 @@
 --------------------------------------------------------------------------
 Gnumeric 0.71
 
+Jody:
+	* bump bonobo req to 1.0.8 to fix the memory problem.
+	* bump the gnome-print req to 0.29 in an effort to decrease
+	  the number of problems with gnome-print installs.
+
 Morten:
 	* Speed up font handling a bit.
 

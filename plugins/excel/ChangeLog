@@ -1,3 +1,31 @@
+2001-08-23  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-chart.c (ms_excel_chart) : only delete the series after
+	  processing.  condtionalize some of the debug spew.
+	  condtionalize parsing based on the existence of a graph
+	  condtionalize making the graph on the debug flag (for now)
+	(BC_R(sertocrt)) : store the chart group.
+	(BC_R(series_impl)) : merge back into BC_R(series).
+	(BC_R(vector_details)) : use the gnumeric type directly.
+	(excel_chart_series_new) : new.
+	(excel_chart_series_destroy) : new.
+
+	* ms-container.c (ms_container_workbook) : new function.
+	(ms_container_sheet) : ditto.
+
+	* ms-excel-read.c (ms_wb_workbook) : new function.
+	(ms_excel_workbook_new) : used here.
+	(ms_sheet_workbook) : new function.
+	(ms_sheet_sheet) : new function.
+	(ms_excel_sheet_new) : used here.
+
+2001-08-21  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-chart.c (gnm_graph_vector_type_name) : use the version in gnumeric-graph.c
+	(BC_R(vector_details)) : Use the correct index for the debug info.
+
+	* ms-excel-read.c (ms_excel_biff_dimensions) : Use range_name.
+
 2001-08-21  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* plugin.xml: Removed

@@ -8,45 +8,65 @@
 
 module GNOME {
 	module Gnumeric {
-		interface VectorNotify {
-			oneway void headerChanged (in string header);
+		struct Pair {
+			short start;
+			short end;
 		};
-
-		typedef sequence<double> SeqScalar;
-		interface VectorScalarNotify : VectorNotify {
-			oneway void valueChanged (in short start, in SeqScalar new_values);
+		/* This is a place holder */
+		typedef sequence<Pair> SeqPair;
+		interface VectorSelection {
+			oneway void selected (in SeqPair ranges);
 		};
-		interface VectorScalar : VectorScalarNotify {
-			void value (out SeqScalar values);
+		module Scalar {
+			typedef sequence<double> Seq;
+			interface Vector : VectorSelection {
+				oneway void changed (in short start, in Seq new_values);
+				void value (out Seq values);
+			};
 		};
-
-		typedef sequence<long> SeqDate;
-		interface VectorDateNotify : VectorNotify {
-			oneway void valueChanged (in short start, in SeqDate new_values);
+		module Date {
+			typedef sequence<long> Seq;
+			interface Vector : VectorSelection {
+				oneway void changed (in short start, in Seq new_values);
+				void value (out Seq values);
+			};
 		};
-		interface VectorDate : VectorDateNotify {
-			void value (out SeqDate values);
-		};
-
-		typedef sequence<string> SeqString;
-		interface VectorStringNotify : VectorNotify {
-			oneway void valueChanged (in short start, in SeqString new_values);
-		};
-		interface VectorString : VectorStringNotify {
-			void value (out SeqString values);
+		module String {
+			typedef sequence<string> Seq;
+			interface Vector : VectorSelection {
+				oneway void changed (in short start, in Seq new_values);
+				void value (out Seq values);
+			};
 		};
 
 		module Graph {
-			interface Manager_v1 : Bonobo::Unknown {
+			interface Manager_v2 : Bonobo::Unknown {
+				typedef long VectorID;
+				typedef sequence<VectorID> VectorIDs;
+
+				Scalar::Vector addScalarVector (in Scalar::Vector v, in VectorID id);
+				Date::Vector   addDateVector   (in Date::Vector   v, in VectorID id);
+				String::Vector addStringVector (in String::Vector v, in VectorID id);
+
+				/**
+				 * clearVectors :
+				 *
+				 * Remove all references to the existing set of vectors.
+				 */
+ 				oneway void clearVectors ();
+
+				/**
+				 * arrangeVectors :
+				 *
+				 * Take the set of vectors and their optional
+				 * headers in the order specified by the
+				 * supplied @data ids, and arrange them into a
+				 * graph using the 'current' graph type.
+				 */
+				oneway void arrangeVectors (in VectorIDs data, in VectorIDs optional_headers);
+
 				Bonobo::Control getTypeSelectControl ();
 				Bonobo::Control getLayoutControl ();
-
-				VectorScalarNotify addVectorScalar (in VectorScalar v, in long id);
-				VectorDateNotify   addVectorDate   (in VectorDate   v, in long id);
-				VectorStringNotify addVectorString (in VectorString v, in long id);
-
-				oneway void freeze (in boolean flag);
-				oneway void clearVectors ();
 			};
 		};
 	};

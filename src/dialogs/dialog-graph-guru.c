@@ -239,11 +239,16 @@ graph_guru_init (GraphGuruState *state)
 static void
 graph_guru_create_vectors_from_range (GraphGuruState *state, Range const *src)
 {
-	GnmGraphVector *g_vector;
 	int i, count;
 	gboolean const has_header = range_has_header (state->sheet, src,
 						      state->is_columns);
 	Range vector = *src;
+	CellRef header;
+
+	header.sheet = state->sheet;
+	header.col_relative = header.row_relative = FALSE;
+	header.col = vector.start.col;
+	header.row = vector.start.row;
 
 	if (state->is_columns) {
 		if (has_header)
@@ -258,15 +263,20 @@ graph_guru_create_vectors_from_range (GraphGuruState *state, Range const *src)
 	}
 
 	for (i = 0 ; i <= count ; i++) {
-		g_vector = gnm_graph_vector_new (state->graph,
+		(void) gnm_graph_vector_new (state->graph,
 			expr_tree_new_constant (
 				value_new_cellrange_r (state->sheet, &vector)),
-			has_header, GNM_VECTOR_UNKNOWN, state->sheet);
+			GNM_VECTOR_AUTO, state->sheet);
+
+		if (has_header)
+			(void) gnm_graph_vector_new (state->graph,
+				expr_tree_new_var (&header),
+				GNM_VECTOR_STRING, state->sheet);
 
 		if (state->is_columns)
-			vector.end.col = ++vector.start.col;
+			vector.end.col = vector.start.col = ++header.col;
 		else
-			vector.end.row = ++vector.start.row;
+			vector.end.row = vector.start.row = ++header.row;
 	}
 }
 
@@ -282,12 +292,11 @@ cb_data_simple_col_row_toggle (GtkToggleButton *button, GraphGuruState *state)
 {
 	GSList	*ptr;
 
-	gnm_graph_freeze (state->graph, TRUE);
 	gnm_graph_clear_vectors (state->graph);
 	state->is_columns = gtk_toggle_button_get_active (button);
 	for (ptr = state->ranges; ptr != NULL ; ptr = ptr->next)
 		graph_guru_create_vectors_from_range (state, ptr->data);
-	gnm_graph_freeze (state->graph, FALSE);
+	gnm_graph_arrange_vectors (state->graph);
 }
 
 /**

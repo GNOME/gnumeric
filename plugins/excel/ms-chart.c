@@ -21,25 +21,12 @@
 #include <format.h>
 #include <expr.h>
 #include <gutils.h>
-#include <gnumeric-graph.h>
 
+#include <gnumeric-graph.h>
 #include <gnome-xml/tree.h>
 #include <stdio.h>
 
 /* #define NO_DEBUG_EXCEL */
-
-typedef enum {
-	MS_VECTOR_TYPE_DATES		= 0,
-	MS_VECTOR_TYPE_NUMBERS		= 1,
-	MS_VECTOR_TYPE_SEQUENCES	= 2,
-	MS_VECTOR_TYPE_STRINGS		= 3,
-	MS_VECTOR_TYPE_MAX		= 4
-} MS_VECTOR_TYPE;
-static char const *const gnm_graph_vector_type_name [] =
-{
-    "Dates (This is invalid)", "Numbers",
-    "Sequences (This is invalid)", "Strings",
-};
 
 typedef enum {
 	MS_VECTOR_PURPOSE_LABELS	= 0,
@@ -53,12 +40,12 @@ typedef enum {
 typedef struct _ExcelChartSeries
 {
 	struct {
-		MS_VECTOR_TYPE  type;
-		int		 count;
-		GnmGraphVector	*gnum;
+		GnmGraphVectorType type;
+		int		   count;
+		GnmGraphVector	  *g_vector;
 	} vector [MS_VECTOR_PURPOSE_MAX];
-	gboolean has_bubbles;
 
+	int chart_group;
 	xmlNodePtr  xml;
 } ExcelChartSeries;
 
@@ -102,6 +89,32 @@ struct biff_chart_handler
 #define BC_R(n)	BC(read_ ## n)
 #define BC_W(n)	BC(write_ ## n)
 
+static ExcelChartSeries *
+excel_chart_series_new (void)
+{
+	ExcelChartSeries *series;
+	int i;
+
+	series = g_new (ExcelChartSeries, 1);
+
+	series->chart_group = -1;
+	for (i = MS_VECTOR_PURPOSE_MAX; i-- > 0 ; ) {
+		series->vector [i].g_vector = NULL;
+		series->vector [i].type = GNM_VECTOR_AUTO; /* may be reset later */
+	}
+
+	/* labels are always strings */
+	series->vector [MS_VECTOR_PURPOSE_LABELS].type = GNM_VECTOR_STRING;
+
+	return series;
+}
+
+static void
+excel_chart_series_delete (ExcelChartSeries *series)
+{
+	g_free (series);
+}
+
 static int
 BC_R(top_state) (ExcelChartReadState *s)
 {
@@ -117,7 +130,10 @@ BC_R(color)(guint8 const *data, char *type)
 	guint16 const g = (rgb >>  8) & 0xff;
 	guint16 const b = (rgb >> 16) & 0xff;
 
-	printf("%s Color %02x%02x%02x\n", type, r, g, b);
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_chart_debug > 0)
+		printf("%s Color %02x%02x%02x\n", type, r, g, b);
+#endif
 
 	return style_color_new ((r<<8)|r, (g<<8)|g, (b<<8)|b);
 }
@@ -196,29 +212,11 @@ BC_W(3d)(ExcelChartHandler const *handle,
 
 /****************************************************************************/
 
-static GnmGraphVectorType
-map_excel_vec_type_to_gnm (MS_VECTOR_TYPE t)
-{
-	switch (t) {
-	case MS_VECTOR_TYPE_DATES :	return GNM_VECTOR_DATE;
-	case MS_VECTOR_TYPE_NUMBERS :	return GNM_VECTOR_SCALAR;
-	case MS_VECTOR_TYPE_SEQUENCES :
-		g_warning ("Unsupported vector type 'sequences', converting to scalar");
-		return GNM_VECTOR_SCALAR;
-
-	case MS_VECTOR_TYPE_STRINGS : 	return GNM_VECTOR_STRING;
-	default :
-		;
-	};
-	g_warning ("Unsupported vector type '%d', converting to scalar", t);
-	return GNM_VECTOR_SCALAR;
-}
-
 static gboolean
 BC_R(ai)(ExcelChartHandler const *handle,
 	 ExcelChartReadState *s, BiffQuery *q)
 {
-	guint8 const link_type = MS_OLE_GET_GUINT8 (q->data);
+	guint8 const purpose = MS_OLE_GET_GUINT8 (q->data);
 	guint8 const ref_type = MS_OLE_GET_GUINT8 (q->data + 1);
 	guint16 const flags = MS_OLE_GET_GUINT16 (q->data + 2);
 	guint16 const length = MS_OLE_GET_GUINT16 (q->data + 6);
@@ -242,8 +240,8 @@ BC_R(ai)(ExcelChartHandler const *handle,
 	} else
 		puts ("Uses number format from data source");
 
-	g_return_val_if_fail (link_type < MS_VECTOR_PURPOSE_MAX, TRUE);
-	switch (link_type) {
+	g_return_val_if_fail (purpose < MS_VECTOR_PURPOSE_MAX, TRUE);
+	switch (purpose) {
 	case MS_VECTOR_PURPOSE_LABELS :	    puts ("Linking title or text"); break;
 	case MS_VECTOR_PURPOSE_VALUES :	    puts ("Linking values"); break;
 	case MS_VECTOR_PURPOSE_CATEGORIES : puts ("Linking categories"); break;
@@ -265,21 +263,22 @@ BC_R(ai)(ExcelChartHandler const *handle,
 		ExprTree *expr = ms_container_parse_expr (s->parent,
 							  q->data+8, length);
 		if (expr) {
+			Sheet *sheet = ms_container_sheet (s->parent);
+
+			g_return_val_if_fail (sheet != NULL, FALSE);
 			g_return_val_if_fail (s->currentSeries != NULL, TRUE);
 
-#if 0
-			s->currentSeries->vector [link_type].gnm =
+#ifdef ENABLE_BONOBO
+			s->currentSeries->vector [purpose].g_vector =
 				gnm_graph_vector_new (s->graph, expr,
-					s->currentSeries->vector [link_type].gnm =
-						      );
+					s->currentSeries->vector [purpose].type,
+					sheet);
 #endif
 
 		}
 	} else {
 		g_return_val_if_fail (length == 0, TRUE);
 	}
-
-	g_return_val_if_fail (s->currentSeries != NULL, TRUE);
 
 	return FALSE;
 }
@@ -1268,11 +1267,11 @@ static gboolean
 BC_R(objectlink)(ExcelChartHandler const *handle,
 		 ExcelChartReadState *s, BiffQuery *q)
 {
-	guint16 const link_type = MS_OLE_GET_GUINT16 (q->data);
+	guint16 const purpose = MS_OLE_GET_GUINT16 (q->data);
 	guint16 const series_num = MS_OLE_GET_GUINT16 (q->data+2);
 	guint16 const pt_num = MS_OLE_GET_GUINT16 (q->data+2);
 
-	switch (link_type)
+	switch (purpose)
 	{
 	case 1 : printf ("TEXT is chart title\n"); break;
 	case 2 : printf ("TEXT is Y axis title\n"); break;
@@ -1507,38 +1506,46 @@ BC_W(serfmt)(ExcelChartHandler const *handle,
 /****************************************************************************/
 
 static void
-BC_R(vector_details)(ExcelChartReadState *s, BiffQuery *q, ExcelChartSeries *ser,
+BC_R(vector_details)(ExcelChartReadState *s, BiffQuery *q, ExcelChartSeries *series,
 		     MS_VECTOR_PURPOSE purpose,
 		     int type_offset, int count_offset, char const *name)
 {
-	guint16 type = MS_OLE_GET_GUINT16 (q->data + type_offset);
+	typedef enum {
+		MS_VECTOR_TYPE_DATES		= 0,
+		MS_VECTOR_TYPE_NUMBERS		= 1,
+		MS_VECTOR_TYPE_SEQUENCES	= 2,
+		MS_VECTOR_TYPE_STRINGS		= 3,
+		MS_VECTOR_TYPE_MAX		= 4
+	} MS_VECTOR_TYPE;
 
-	g_return_if_fail (type < MS_VECTOR_TYPE_MAX);
+	GnmGraphVectorType type;
+	guint16 e_type = MS_OLE_GET_GUINT16 (q->data + type_offset);
 
-	ser->vector [purpose].type = map_excel_vec_type_to_gnm (type);
-	ser->vector [purpose].count = MS_OLE_GET_GUINT16 (q->data+count_offset);
+	g_return_if_fail (e_type < MS_VECTOR_TYPE_MAX);
+
+	switch (e_type) {
+	case MS_VECTOR_TYPE_DATES :	type = GNM_VECTOR_DATE; break;
+	case MS_VECTOR_TYPE_NUMBERS :	type = GNM_VECTOR_SCALAR; break;
+	case MS_VECTOR_TYPE_SEQUENCES :
+		g_warning ("Unsupported vector type 'sequences', converting to scalar");
+		type = GNM_VECTOR_SCALAR; break;
+
+	case MS_VECTOR_TYPE_STRINGS : 	type = GNM_VECTOR_STRING; break;
+
+	default :
+		g_warning ("Unsupported vector type '%d', converting to scalar", e_type);
+		type = GNM_VECTOR_SCALAR;
+	};
+
+	series->vector [purpose].type = type;
+	series->vector [purpose].count = MS_OLE_GET_GUINT16 (q->data+count_offset);
+#ifdef ENABLE_BONOBO
 	printf ("%d %s are %s\n",
-		ser->vector [purpose].count, name,
-		gnm_graph_vector_type_name [ser->vector [purpose].count]);
+		series->vector [purpose].count, name,
+		gnm_graph_vector_type_name [series->vector [purpose].type]);
+#endif
 }
 
-static gboolean
-BC_R(series_impl)(ExcelChartReadState *s, BiffQuery *q, ExcelChartSeries *ser)
-{
-	/*
-	 * WARNING : The offsets in the documentation are WRONG.
-	 *           Use the sizes instead.
-	 */
-	BC_R(vector_details) (s, q, ser, MS_VECTOR_PURPOSE_CATEGORIES,
-			      0, 4, "Categories");
-	BC_R(vector_details) (s, q, ser, MS_VECTOR_PURPOSE_VALUES,
-			      2, 6, "Values");
-	if ((ser->has_bubbles = (s->container.ver >= MS_BIFF_V8)))
-		BC_R(vector_details) (s, q, ser, MS_VECTOR_PURPOSE_VALUES,
-				      8, 10, "Bubbles");
-
-	return FALSE;
-}
 
 /*
  * Wrapper function to avoid leaking memory on failure
@@ -1547,20 +1554,27 @@ static gboolean
 BC_R(series)(ExcelChartHandler const *handle,
 	     ExcelChartReadState *s, BiffQuery *q)
 {
-	ExcelChartSeries *ser;
+	ExcelChartSeries *series;
 
 	g_return_val_if_fail (s->chart != NULL, TRUE);
 	g_return_val_if_fail (s->currentSeries == NULL, TRUE);
 
-	ser = g_new (ExcelChartSeries, 1);
-	if (BC_R(series_impl)(s, q, ser)) {
-		g_free (ser);
-		return TRUE;
-	}
+	series = excel_chart_series_new ();
+	/*
+	 * WARNING : The offsets in the documentation are WRONG.
+	 *           Use the sizes instead.
+	 */
+	BC_R(vector_details) (s, q, series, MS_VECTOR_PURPOSE_CATEGORIES,
+			      0, 4, "Categories");
+	BC_R(vector_details) (s, q, series, MS_VECTOR_PURPOSE_VALUES,
+			      2, 6, "Values");
+	if (s->container.ver >= MS_BIFF_V8)
+		BC_R(vector_details) (s, q, series, MS_VECTOR_PURPOSE_VALUES,
+				      8, 10, "Bubbles");
 
-	g_ptr_array_add (s->series, ser);
+	g_ptr_array_add (s->series, series);
 	printf ("SERIES = %d\n", s->series->len-1);
-	s->currentSeries = ser;
+	s->currentSeries = series;
 	return FALSE;
 }
 
@@ -1632,7 +1646,14 @@ BC_R(sertocrt)(ExcelChartHandler const *handle,
 	       ExcelChartReadState *s, BiffQuery *q)
 {
 	guint16 const index = MS_OLE_GET_GUINT16 (q->data);
+
+	g_return_val_if_fail (s->currentSeries != NULL, FALSE);
+
+	s->currentSeries->chart_group = index;
+
+#ifndef NO_DEBUG_EXCEL
 	printf ("Series chart group index is %hd\n", index);
+#endif
 	return FALSE;
 }
 
@@ -1703,7 +1724,8 @@ BC_R(siindex)(ExcelChartHandler const *handle,
 {
 	static int count = 0;
 	/* UNDOCUMENTED : Docs says this is long
-	 *Biff record is only length 2 */
+	 * Biff record is only length 2
+	 */
 	gint16 const index = MS_OLE_GET_GUINT16 (q->data);
 	printf ("Series %d is %hd\n", ++count, index);
 	return FALSE;
@@ -1923,7 +1945,6 @@ BC_R(end)(ExcelChartHandler const *handle,
 	case BIFF_CHART_series :
 		g_return_val_if_fail (s->currentSeries != NULL, FALSE);
 
-		g_free (s->currentSeries);
 		s->currentSeries = NULL;
 		break;
 
@@ -2094,11 +2115,13 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver)
 	static MSContainerClass const vtbl = {
 		chart_realize_obj,
 		chart_create_obj,
-		chart_parse_expr
+		chart_parse_expr,
+		NULL, NULL
 	};
 	int const num_handler = sizeof(chart_biff_handler) /
 		sizeof(ExcelChartHandler *);
 
+	int i;
 	gboolean done = FALSE;
 	ExcelChartReadState state;
 
@@ -2116,9 +2139,23 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver)
 	state.chart         = xmlNewDoc ("1.0");
 	state.currentSeries = NULL;
 	state.series	    = g_ptr_array_new ();
+#ifdef ENABLE_BONOBO
+	/*
+	 *All chart handling is debug for now, so just
+	 *lobotomize it here if user isnt interested.
+	 */
+	if (ms_excel_chart_debug > 0)
+		state.graph = gnm_graph_new (ms_container_workbook (container));
+	else
+		state.graph = NULL;
+#else
+	state.graph	    = NULL;
+#endif
 
+#ifndef NO_DEBUG_EXCEL
 	if (ms_excel_chart_debug > 0)
 		puts ("{ CHART");
+#endif
 	while (!done && ms_biff_query_next (q)) {
 		int const lsb = q->opcode & 0xff;
 
@@ -2137,11 +2174,7 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver)
 				ExcelChartHandler const *const h =
 					chart_biff_handler [lsb];
 
-				/*
-				 *All chart handling is debug for now, so just
-				 *lobotomize it here if user isnt interested.
-				 */
-				if (ms_excel_chart_debug > 0) {
+				if (state.graph	!= NULL) {
 					if (!begin_end)
 						printf ("%s(\n", h->name);
 					(void)(*h->read_fn)(h, &state, q);
@@ -2153,23 +2186,34 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver)
 			switch (lsb) {
 			case BIFF_EOF:
 				done = TRUE;
+#ifndef NO_DEBUG_EXCEL
 				if (ms_excel_chart_debug > 0)
 					puts ("}; /* CHART */");
+#endif
 				g_return_if_fail(state.stack->len == 0);
 				break;
 
 			case BIFF_PROTECT : {
 				gboolean const protected =
 					(1 == MS_OLE_GET_GUINT16 (q->data));
+#ifndef NO_DEBUG_EXCEL
 				if (ms_excel_chart_debug > 0)
 					printf ("Chart is%s protected;\n",
 						protected ? "" : " not");
+#endif
+				break;
 			}
-			break;
 
-			case BIFF_NUMBER: {	/* Should figure out what these are associated with */
+			case BIFF_NUMBER: {
+				double val;
+				val = gnumeric_get_le_double (q->data + 6);
+				/* Figure out how to assign these back to the series,
+				 * are they just sequential ?
+				 */
+#ifndef NO_DEBUG_EXCEL
 				if (ms_excel_chart_debug > 0)
-					printf ("%f\n", gnumeric_get_le_double (q->data + 6));
+					printf ("%f\n", val);
+#endif
 				break;
 			}
 
@@ -2179,11 +2223,13 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver)
 				guint16 xf  = MS_OLE_GET_GUINT16 (q->data + 4);
 				guint16 len = MS_OLE_GET_GUINT16 (q->data + 6);
 				char *label = biff_get_text (q->data + 8, len, NULL);
+#ifndef NO_DEBUG_EXCEL
 				if (ms_excel_chart_debug > 0) {
 					puts (label);
 					printf ("hmm, what are these values for a chart ???\n"
 						"row = %d, col = %d, xf = %d\n", row, col, xf);
 				}
+#endif
 				g_free (label);
 				break;
 			}
@@ -2199,9 +2245,11 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver)
 			case BIFF_VCENTER :	/* Skip for Now */
 			case BIFF_SCL :		/* Are charts scaled separately from the sheet ? */
 			case BIFF_SETUP :
+#ifndef NO_DEBUG_EXCEL
 				if (ms_excel_chart_debug > 0)
 					printf ("Handled biff %x in chart;\n",
 						q->opcode);
+#endif
 				break;
 
 			case BIFF_PRINTSIZE: {
@@ -2219,6 +2267,11 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver)
 		state.prev_opcode = q->opcode;
 	}
 
+	for (i = state.series->len; i-- > 0 ; ) {
+		ExcelChartSeries *series = g_ptr_array_index (state.series, i);
+		if (series != NULL)
+			excel_chart_series_delete (series);
+	}
 	g_ptr_array_free (state.series, TRUE);
 	ms_container_finalize (&state.container);
 }

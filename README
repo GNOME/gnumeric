@@ -1,6 +1,6 @@
-Gnumeric -- The GNOME spreadsheet program
+Gnumeric -- The GNOME spreadsheet
 Jody Goldberg <jgoldberg@home.com>
-Miguel de Icaza <miguel@helixcode.com>
+Miguel de Icaza <miguel@ximian.com>
 
 This is Gnumeric, the GNOME spreadsheet.  
 
@@ -8,9 +8,9 @@ This is Gnumeric, the GNOME spreadsheet.
 file COPYING.
 
    The project aims to become a drop in replacement for commercial
-spreadsheets.  Gnumeric is still a young program and it is advancing steadily.
-If you are interested in contributing to it's development please send us some
-email, there are lots of projects available.
+spreadsheets.  Gnumeric is still a young program and it is advancing
+steadily.  If you are interested in contributing to it's development please
+send us some email, there are lots of projects available.
 
 To report Gnumeric bugs, please visit bugzilla.gnome.org.
 
@@ -26,20 +26,19 @@ You need:
 	libglade	>= 0.16
 	gal		>= 0.8
 	gnome-print	>= 0.25
-	gnome-xml   	>= 1.8.14     (gnome-xml 2.x not supported yet)
+	gnome-xml   	>= 1.8.14 (gnome-xml 2.x not supported yet)
 	NOTE : gnome-xml is also known as libxml
 	libole2	    	>= 0.2.3
 	NOTE : libole2 is also known as libgnomeole2
-	bonobo		>= 1.0.3
-	With the newer bonobo you will also want a newer gnome-libs
-	gnome-libs  	>= 1.2.7	(gnome-libs 2.0 is not supported)
 
 Optionally:
-	evolution CVS
-	gb == 0.0.19            (Gnome Basic for macros)
-	gda >= 0.2.11		(GDA plugin, for accessing databases)
-	guile >= 1.5            ("Soon" to be releated Guile version)
-	guppi == CVS module guppi3
+	bonobo		>= 1.0.8
+	NOTE : With bonobo you will need gnome-libs  >= 1.2.7
+	gb		== 0.0.19  (Gnome Basic for macros)
+	gda		>= 0.2.11  (GDA plugin, for accessing databases)
+	guile		>= 1.5     ("Soon" to be releated Guile version)
+	guppi		== CVS module guppi3
+	evolution	== CVS
 
 Notes regarding plugins
 -----------------------

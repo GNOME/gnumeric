@@ -1,3 +1,38 @@
+2001-08-23  Jody Goldberg <jgoldberg@home.com>
+
+	* idl/gnumeric-graphs.idl : reorganize to improve naming.
+	  remove notion of header that was not working well.
+	  remove freeze.
+	  add arrangeVector.
+	  add notion of selection for future uese.
+
+	* src/gnumeric-graph.c (gnm_graph_vector_type_name) : add these.
+	(MANAGER) : bump the idl version.
+	(GnmGraphVector) : remove header, add id, adjust to new idl and use
+	  vectors directly, rather than notifies.
+	(gnm_graph_add_vector) : adjust to idl renaming.
+	(gnm_graph_new) : improve error message.
+	(gnm_graph_freeze) : delete.
+	(gnm_graph_arrange_vectors) : new function.
+	(gnm_graph_vector_seq_{scalar,date,string}) : headers are handled at a
+	  higher level.
+	(gnm_graph_vector_eval) : idl renaming.
+	(impl_vector_selection_selected) : new.
+	(gnm_graph_vector_corba_init) : split from gnm_graph_vector_new to
+	  simpify cut-n-paste sharing with guppi.
+	(gnm_graph_vector_corba_destroy) : Fix and split out to simplify
+	  sharing.
+	(gnm_graph_vector_destroy) : simplify and handle the case of a vector
+	  being destroyed indepenently of the graph.
+	(gnm_graph_vector_new) : handle headers at a higher level.
+	(gnm_graph_vector_corba_class_init) : renamed from
+	  corba_implementation_classes_init.
+
+	* src/sheet-object-container.c (sheet_object_container_new_view) : Use
+	  bonobo_client_site_new_view_full to disable the irrtiating frame
+	  that causes the content to change size when the frme is activated
+	  and deactivated.
+
 2001-08-22  Zbigniew Chyla  <cyba@gnome.pl>
 
 	Fixes #59334

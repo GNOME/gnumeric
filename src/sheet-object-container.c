@@ -55,9 +55,9 @@ sheet_object_container_new_view (SheetObject *so, SheetControlGUI *scg)
 
 	soc = SHEET_OBJECT_CONTAINER (so);
 
-	view_frame = bonobo_client_site_new_view (
+	view_frame = bonobo_client_site_new_view_full (
 		SHEET_OBJECT_BONOBO (so)->client_site,
-		bonobo_ui_component_get_container (wbcg->uic));
+		bonobo_ui_component_get_container (wbcg->uic), FALSE, FALSE);
 	if (!view_frame) {
 		g_warning ("Component died");
 		return NULL;
@@ -112,7 +112,7 @@ sheet_object_container_set_active (SheetObject *so, GtkObject *view,
 	 * We need to ref the view_frame on activation because the view
 	 * can get destroyed. Sure, we will be called during destruction, but
 	 * at this point, the view_frame will already be gone and we won't 
-	 * be able to correcly deactivate.
+	 * be able to correctly deactivate.
 	 */
 	view_frame = gtk_object_get_data (GTK_OBJECT (view), "view_frame");
 
