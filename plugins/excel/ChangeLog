@@ -1,3 +1,18 @@
+1999-11-19  Jon K Hellan  <hellan@acm.org>
+
+	* ms-excel-read.c (ms_excel_read_row): New funtion: Process a BIFF
+	row info record. Previously in ms_excel_read_cell.
+	(ms_excel_read_colinfo): New function: Process a BIFF column
+	info record. Previously in ms_excel_read_cell.
+	(ms_excel_read_cell): Move some code to ms_excel_read_row and
+	ms_excel_read_colinfo
+	(ms_excel_read_default_row_height): New function: Process a BIFF
+	default row height record. Previously in ms_excel_read_sheet.
+	(ms_excel_read_default_col_width): New function: Process a BIFF
+	default column width record. Previously in ms_excel_read_sheet.
+	(ms_excel_read_sheet): Move some code to
+	ms_excel_read_default_row_height and ms_excel_read_default_col_width.
+	
 1999-11-19  Michael Meeks  <mmeeks@gnu.org>
 
 	* boot.c (excel_probe): Check for the right streams, not just an

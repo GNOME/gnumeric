@@ -36,14 +36,26 @@ extern int ms_excel_read_debug;
 #define GR_CHECKBOX_FORMULA   0x14
 #define GR_COMMON_OBJ_DATA    0x15
 
+/**
+ * object_anchor_to_position:
+ * @points	Array which receives anchor coordinates in points
+ * @obj         The object
+ * @sheet	The sheet
+ * 
+ * Converts anchor coordinates in Excel units to points. Anchor
+ * coordinates are x and y of upper left and lower right corner. Each
+ * is expressed as a pair: Row/cell number + position within cell as
+ * fraction of cell dimension.
+ *
+ * NOTE: According to docs, position within cell is expressed as
+ * 1/1024 of cell dimension. However, this can't be true vertically,
+ * at least not for Excel 97. We use 256, which seems correct. Either
+ * the docs are wrong all the time, or it is a version issue.
+  */
 static void
 object_anchor_to_position (double points[4], MSObj*obj, Sheet const * sheet)
 {
 	/*
-	 * NOTE: According to docs, distance is expressed as 1/1024 of
-	 * cell dimension. However, this can't be true vertically, at
-	 * least not for Excel 97. We use 256, which seems correct. A
-	 * version issue?
 	 */
 
 	int	i;
