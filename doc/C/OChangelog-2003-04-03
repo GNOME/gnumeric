@@ -1,3 +1,7 @@
+2003-04-21  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* simulation.xml: Documented the risk simulation tool.
+
 2003-04-16  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* scenarios.xml: Docs for the scenario tool.

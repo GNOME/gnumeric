@@ -1,13 +1,130 @@
 <sect1 id="simulation">
   <title>Simulation</title>
 
-  <para>With Simulation tool you can simulate decision models.</para>
+  <para>Risk simulation tool provides an iteration engine for
+  monte-carlo simulation that collects results from user-selected
+  cells over a number of recalculations of a workbook. With the
+  built-in random distribution functions this tool can be used to
+  simulate random behaviour of almost any well-known random
+  distribution.</para>
+
+  <para>In order to use the simulation tool you should have a
+  worksheet model that has at least one random function in it.
+  Simulation tool iterates the worksheet given number of times and
+  stores the desired `output' variables.  When the simulation is
+  completed you can get various statistical figures about the obtained
+  results.</para>
+
 
   <sect2>
-    <title>Foo</title>
+    <title>Simple Simulation Without Decision Variables</title>
 
-    <para>Foo bar is a foobar.</para>
+    <para>Let's consider the case of an airline company. In travelling
+    business customers typically book their seats well in time but in
+    many cases last minute changes cause them to change or even cancel
+    the reservation.  Airline companies have for a long time
+    overbooked their filghts in order to avoid empty seats.  In the
+    case where the number of customers that actually board exceeds the
+    number of seats in the plane the airline company, for example,
+    pays a compensation for the unlucky customers.</para>
+
+    <para>In our example, we have a B757 plane with 227 seats (cell
+    B1), cancelling probability of 6% (B2), fare per seat is $550
+    (B3), and the compensation cost in the case of overbooking is
+    $1,500 (B4). Now let's set the number of reservations that are
+    accepted to 233 exceeding the number of seats by five (in B6).
+    The number of passangers that actually show up can be obtained by
+    `=RANDBINOM(1-B2,B6)' (in B7). The number of empty seats is
+    `=MAX(B1-B7,0)' (in B8) and the number of customers who did not
+    fit into the plane is `=MAX(B7-B1,0)' (in B9).  The profit (let's
+    not consider any fixed costs here) is `B7*B3-B9*B4' (in
+    B10).</para>
+
+    <figure id="simulation-example">
+      <title>An airline overbooking model</title>
+      <screenshot>
+        <graphic fileref="figures/simulation.png"></graphic>
+      </screenshot>
+    </figure>
+
+    <para>This model can be simulated now by selecting the tools menu
+    and the risk simulatation entry in it. A dialog should then appear
+    on the screen. Set the cell containing the random number
+    generation function (B7) to be an input, and set the cells whose
+    output you are interested in as outputs. The outputs could be, for
+    example, B8:B10 (the number of empty seats, the number of
+    customers whose boarding was denied, and the profit
+    fields).</para>
+
+    <para>Then go to the `Options' page and set the number of
+    iterations in the simulation. The default value is 1,000 and it is
+    quite good for our demonstration.  The reporting can be directed
+    into a new sheet, into a new workbook, or into an output range
+    just like in the statistical analysis tools. When everything is
+    ready press the `OK' button. You can now go back to the `Summary'
+    page to see an overview of the simulation or click the `Close'
+    button. The results are written into a new worksheet by
+    default.</para>
+
+    <para>As we can see from the results in this model, the
+    overbooking is a very rare event.  Even though we overbooked the
+    227 seats by five seats 1,000 times we hardly ever we had a
+    situation that we had to pay compensations.  But what is the right
+    number for accepting reservations?  Read the next section to find
+    out.</para>
+
+  </sect2>
+
+  <sect2>
+    <title>Simulating Various Decision Alternatives</title>
+
+    <para>In the previous section, an airline overbooking model was
+    introduced. Now let's extend the model to support simulating
+    various decision alternatives.</para>
+
+    <para>If you replace the number of reservations to be accepted
+    (233 in B6) by a SIMTABLE function we can simulate various
+    decision alternatives. For example, let's write
+    `=SIMTABLE(233,234,235,236,237,238,239,240,241,242,243,244,245,246,247)'
+    into B6. We are going to run 15 rounds of simulations, and on each
+    round a different value on the SIMTABLE list is taken as the value
+    of B6.</para>
+
+    <para>We can now restart the risk simulation tool but this time,
+    the inputs should also include the cell B6 (i.g. use `B6:B7' as
+    `Inputs:'). In the `Options' page write 15 into the `Last Round #'
+    entry since we have 15 decision alternatives on our SIMTABLE
+    formula.  (If you want to start the simulation from, let's say,
+    value 240 instead of 233 in the list, you can also set the `First
+    Round #', in this case to 8). Now we are ready to start simulation
+    so let's press the `Ok' button.</para>
+
+    <para>As we can see from the results, we will start to get a
+    serious number of overbookings around 237-240 accepted
+    reservations. If we accept even more reservations the profit will
+    actually start go down.  Altough the profit figure looks like to
+    be optimized in around 240 accepted reservations we might want to
+    take into account that on average we have to deny the boarding of
+    one passanger on almost every flight. The profit is almost the
+    same in the case of 238 passagers but the overbooking is a much
+    more rare event.</para>
 
   </sect2>
 
 </sect1>
+
+  <!-- Keep this comment at the end of the file
+  Local variables:
+  mode: sgml
+  sgml-omittag:t
+  sgml-shorttag:t
+  sgml-minimize-attributes:nil
+  sgml-always-quote-attributes:t
+  sgml-indent-step:2
+  sgml-indent-data:t
+  sgml-parent-document:nil
+  sgml-exposed-tags:nil
+  sgml-local-catalogs:nil
+  sgml-local-ecat-files:nil
+  End:
+  -->             
