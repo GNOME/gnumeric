@@ -1,3 +1,15 @@
+2002-07-20  Jody Goldberg <jody@gnome.org>
+
+	* src/item-grid.c (item_grid_init) : init the cursor timer.
+	(item_grid_event) : handle hlink cursor transitions and tips.
+	(ig_clear_hlink_tip) : new.
+	(item_grid_destroy) : clear the cursor timer and any visible tips.
+	(cb_cursor_come_to_rest) : new.
+	(cb_cursor_motion) : new.
+
+	* src/sheet-control-gui.c (scg_set_display_cursor) : in the non-object
+	  case use the pane's current cursor.
+
 2002-07-18  Jody Goldberg <jody@gnome.org>
 
 	* src/expr.c (gnm_expr_extract_ref) : take some eval flags to see if

@@ -2145,7 +2145,7 @@ scg_rangesel_stop (SheetControlGUI *scg, gboolean clear_string)
 void
 scg_set_display_cursor (SheetControlGUI *scg)
 {
-	int cursor;
+	int cursor = -1;
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
@@ -2153,10 +2153,12 @@ scg_set_display_cursor (SheetControlGUI *scg)
 		cursor = E_CURSOR_THIN_CROSS;
 	else if (scg->current_object != NULL)
 		cursor = E_CURSOR_ARROW;
-	else
-		cursor = E_CURSOR_FAT_CROSS;
 
-	SCG_FOREACH_PANE (scg, pane, e_cursor_set_widget (pane->gcanvas, cursor););
+	SCG_FOREACH_PANE (scg, pane, {
+		int c = cursor;
+		if (c < 0)
+			c = pane->cursor_type;
+		e_cursor_set_widget (pane->gcanvas, c);});
 }
 
 void

@@ -138,6 +138,7 @@ gnm_pane_init (GnumericPane *pane, SheetControlGUI *scg,
 			sheet_object_new_view (ptr->data, SHEET_CONTROL (scg),
 					       (gpointer)pane);
 	}
+	pane->cursor_type = E_CURSOR_FAT_CROSS;
 }
 
 void

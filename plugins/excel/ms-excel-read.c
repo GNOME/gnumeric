@@ -3828,21 +3828,20 @@ ms_excel_read_hlink (BiffQuery *q, ExcelSheet *esheet)
 	if (options & 0x8) {
 		len = GSF_LE_GET_GUINT32 (data);
 		data += 4;
-		g_return_if_fail (data + len*2 - q->data <= (int)q->length);
+		g_return_if_fail (len*2 + data - q->data <= (int)q->length);
 		target = read_utf16_str (len, data);
 		data += len*2;
 	}
 
-	/* file with UNC */
 	if ((options & 0x1e3) == 0x003 && !memcmp (data, url_guid, sizeof (url_guid))) {
 		guchar *url;
 
 		len = GSF_LE_GET_GUINT32 (data + sizeof (url_guid));
 		data += 4 + sizeof (url_guid);
 
-		g_return_if_fail (data + len*2 - q->data <= (int)q->length);
+		g_return_if_fail (len + data - q->data <= (int)q->length);
 
-		url = read_utf16_str (len, data);
+		url = read_utf16_str (len/2, data);
 		link = g_object_new (gnm_hlink_url_get_type (), NULL);
 		gnm_hlink_url_set_target (link, url);
 		g_free (url);
@@ -3854,7 +3853,7 @@ ms_excel_read_hlink (BiffQuery *q, ExcelSheet *esheet)
 		len = GSF_LE_GET_GUINT32 (data + 2);
 		data += 6;
 
-		g_return_if_fail (data+len-q->data <= (int)q->length);
+		g_return_if_fail (len*2 + data - q->data <= (int)q->length);
 		data += len;
 
 		gsf_mem_dump (data, 34);

@@ -92,6 +92,25 @@ gnm_hlink_init (GObject *obj)
 GSF_CLASS_ABSTRACT (GnmHLink, gnm_hlink,
 		    gnm_hlink_class_init, gnm_hlink_init, G_TYPE_OBJECT)
 
+guchar const *
+gnm_hlink_get_tip (GnmHLink const *l)
+{
+	g_return_val_if_fail (GNM_IS_HLINK (l), NULL);
+	return l->tip;
+}
+
+void
+gnm_hlink_set_tip (GnmHLink *l, guchar const *tip)
+{
+	guchar *tmp;
+
+	g_return_if_fail (GNM_IS_HLINK (l));
+
+	tmp = g_strdup (tip);
+	g_free (l->tip);
+	l->tip = tmp;
+}
+
 /***************************************************************************/
 /* Link to named regions within the current workbook */
 typedef struct { GnmHLinkClass hlink; } GnmHLinkCurWBClass;

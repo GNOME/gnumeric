@@ -34,9 +34,13 @@
 #include "pattern.h"
 #include "commands.h"
 #include "hlink.h"
+#include "gui-util.h"
 
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include <gtk/gtkdnd.h>
+#include <gtk/gtkmain.h>
+#include <gtk/gtklabel.h>
+#include <gal/widgets/e-cursors.h>
 #include <gsf/gsf-impl-utils.h>
 #include <math.h>
 #define GNUMERIC_ITEM "GRID"
@@ -85,11 +89,41 @@ struct _ItemGrid {
 		gboolean has_been_sized;
 		GnomeCanvasItem *item;
 	} obj_create;
+
+	/* information for tha cursor motion handler */
+	guint cursor_timer;
+	double last_x, last_y;
+	GnmHLink *cur_link; /* do not derference, just a pointer */
+	GtkWidget *tip;
+	guint tip_timer;
 };
+
+static void
+ig_clear_hlink_tip (ItemGrid *ig)
+{
+	if (ig->tip_timer != 0) {
+		gtk_timeout_remove (ig->tip_timer);
+		ig->tip_timer = 0;
+	}
+
+	if (ig->tip != NULL) {
+		gtk_widget_destroy (gtk_widget_get_toplevel (ig->tip));
+		ig->tip = NULL;
+	}
+}
 
 static void
 item_grid_destroy (GtkObject *object)
 {
+	ItemGrid *ig = ITEM_GRID (object);
+
+	if (ig->cursor_timer != 0) {
+		gtk_timeout_remove (ig->cursor_timer);
+		ig->cursor_timer = 0;
+	}
+	ig_clear_hlink_tip (ig);
+	ig->cur_link = NULL;
+
 	if (GTK_OBJECT_CLASS (item_grid_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (item_grid_parent_class)->destroy)(object);
 }
@@ -941,6 +975,69 @@ cb_extend_object_creation (GnumericCanvas *gcanvas, int col, int row, gpointer i
 }
 
 static gint
+cb_cursor_come_to_rest (ItemGrid *ig)
+{
+	Sheet const *sheet = ((SheetControl *) ig->scg)->view->sheet;
+	GnomeCanvas *canvas = ig->canvas_item.canvas;
+	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (canvas);
+	GnmHLink *link;
+	int x, y;
+	CellPos pos;
+
+	/* Be anal and look it up in case something has destroyed the link
+	 * since the last motion */
+	gnome_canvas_w2c (canvas, ig->last_x, ig->last_y, &x, &y);
+	pos.col = gnm_canvas_find_col (gcanvas, x, NULL);
+	pos.row = gnm_canvas_find_row (gcanvas, y, NULL);
+
+	link = sheet_hlink_find (sheet, &pos);
+	if (link != NULL && gnm_hlink_get_tip (link) != NULL) {
+		g_return_val_if_fail (link == ig->cur_link, FALSE);
+
+		if (ig->tip == NULL) {
+			ig->tip = gnumeric_create_tooltip ();
+			gtk_label_set_text (GTK_LABEL (ig->tip),
+				gnm_hlink_get_tip (link));
+			puts (gnm_hlink_get_tip (link));
+			gnumeric_position_tooltip (ig->tip, TRUE);
+			gtk_widget_show_all (gtk_widget_get_toplevel (ig->tip));
+		}
+	}
+
+	return FALSE;
+}
+
+static gint
+cb_cursor_motion (ItemGrid *ig)
+{
+	Sheet const *sheet = ((SheetControl *) ig->scg)->view->sheet;
+	GnomeCanvas *canvas = ig->canvas_item.canvas;
+	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (canvas);
+	int x, y, cursor;
+	CellPos pos;
+	GnmHLink *old_link;
+
+	gnome_canvas_w2c (canvas, ig->last_x, ig->last_y, &x, &y);
+	pos.col = gnm_canvas_find_col (gcanvas, x, NULL);
+	pos.row = gnm_canvas_find_row (gcanvas, y, NULL);
+
+	old_link = ig->cur_link;
+	ig->cur_link = sheet_hlink_find (sheet, &pos);
+	cursor = (NULL == ig->cur_link) ? E_CURSOR_FAT_CROSS : E_CURSOR_PRESS;
+
+	ig->cursor_timer = 0;
+	if (gcanvas->pane->cursor_type != cursor) {
+		gcanvas->pane->cursor_type = cursor;
+		scg_set_display_cursor (ig->scg);
+	}
+	if (old_link != ig->cur_link && ig->tip != NULL) {
+		gtk_widget_destroy (gtk_widget_get_toplevel (ig->tip));
+		ig->tip = NULL;
+	}
+	return FALSE;
+}
+
+static gint
 item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 {
 	GnomeCanvas *canvas = item->canvas;
@@ -954,6 +1051,9 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 	switch (event->type){
 	case GDK_ENTER_NOTIFY:
 		scg_set_display_cursor (scg);
+		return TRUE;
+	case GDK_LEAVE_NOTIFY:
+		ig_clear_hlink_tip (ig);
 		return TRUE;
 
 	case GDK_BUTTON_RELEASE: {
@@ -1007,9 +1107,18 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 
 	case GDK_MOTION_NOTIFY: {
 		GnumericCanvasSlideHandler slide_handler = NULL;
-
 		switch (ig->selecting) {
-		case ITEM_GRID_NO_SELECTION: return TRUE;
+		case ITEM_GRID_NO_SELECTION:
+			if (ig->cursor_timer == 0)
+				ig->cursor_timer = gtk_timeout_add (100,
+					(GtkFunction)cb_cursor_motion, ig);
+			if (ig->tip_timer != 0)
+				gtk_timeout_remove (ig->tip_timer);
+			ig->tip_timer = gtk_timeout_add (500,
+					(GtkFunction)cb_cursor_come_to_rest, ig);
+			ig->last_x = event->motion.x;
+			ig->last_y = event->motion.y;
+			return TRUE;
 		case ITEM_GRID_SELECTING_CELL_RANGE :
 			slide_handler = &cb_extend_cell_range;
 			break;
@@ -1092,6 +1201,10 @@ item_grid_init (ItemGrid *ig)
 	ig->gc.fill = ig->gc.cell = ig->gc.empty = ig->gc.bound = NULL;
 	range_init_full_sheet (&ig->bound);
 	ig->obj_create.item = NULL;
+	ig->cursor_timer = 0;
+	ig->cur_link = NULL;
+	ig->tip_timer = 0;
+	ig->tip = NULL;
 }
 
 static void

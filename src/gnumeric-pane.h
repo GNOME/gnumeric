@@ -30,6 +30,8 @@ struct _GnumericPane {
 
 	SheetObject	 *drag_object;
 	GnomeCanvasItem  *control_points [9]; /* Control points for the current item */
+
+	int	cursor_type;
 };
 
 void gnm_pane_init	(GnumericPane *pane, SheetControlGUI *scg,

@@ -32,6 +32,7 @@ Jody:
 	* Support url, and in workbook hyper-links, no UI or persistence yet.
 	* Import url, and in workbook hyper-links from xls
 	* Take steps towards support implicit iteration for function args.
+	* Handle cursor changes, and tooltips for hyper-links.
 
 Jukka:
 	* More solver enhancements:

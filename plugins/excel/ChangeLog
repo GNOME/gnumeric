@@ -1,5 +1,9 @@
 2002-07-19  Jody Goldberg <jody@gnome.org>
 
+	* ms-excel-read.c (ms_excel_read_hlink) : improve bounds checking.
+
+2002-07-19  Jody Goldberg <jody@gnome.org>
+
 	* plugins/excel/ms-excel-read.c (ms_excel_read_hlink) : tidy up and
 	  support custom tool tips.
 
