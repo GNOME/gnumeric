@@ -1,5 +1,9 @@
 2002-12-08  Jon K Hellan  <hellan@acm.org>
 
+	* src/sheet-filter.c: Include gdkevents.h
+
+2002-12-08  Jon K Hellan  <hellan@acm.org>
+
 	* src/GNOME_Gnumeric.xml: Add Pivot table command.
 
 2002-12-08  Jon K Hellan  <hellan@acm.org>

@@ -40,6 +40,7 @@
 
 #include <libfoocanvas/foo-canvas-widget.h>
 #include <gtk/gtk.h>
+#include <gdk/gdkevents.h>
 #include <gdk/gdkkeysyms.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gnumeric-i18n.h>
