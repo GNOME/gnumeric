@@ -1140,3 +1140,207 @@ sheet_object_filled_init (GObject *obj)
 GSF_CLASS (SheetObjectFilled, sheet_object_filled,
 	   sheet_object_filled_class_init, sheet_object_filled_init,
 	   SHEET_OBJECT_GRAPHIC_TYPE);
+
+/************************************************************************/
+
+#define SHEET_OBJECT_POLYGON(o)       (G_TYPE_CHECK_INSTANCE_CAST((o),	SHEET_OBJECT_POLYGON_TYPE, SheetObjectPolygon))
+#define SHEET_OBJECT_POLYGON_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k),	SHEET_OBJECT_POLYGON_TYPE, SheetObjectPolygonClass))
+
+typedef struct {
+	SheetObject  sheet_object;
+	StyleColor  *fill_color;
+	StyleColor  *outline_color;
+	double       outline_width;
+	GnomeCanvasPoints *points;
+} SheetObjectPolygon;
+typedef struct {
+	SheetObjectClass parent_class;
+} SheetObjectPolygonClass;
+static SheetObjectClass *sheet_object_polygon_parent_class;
+
+SheetObject *
+sheet_object_polygon_new (void)
+{
+	return g_object_new (SHEET_OBJECT_POLYGON_TYPE, NULL);
+}
+
+static void
+sheet_object_polygon_finalize (GObject *object)
+{
+	SheetObjectPolygon *sop = SHEET_OBJECT_POLYGON (object);
+	style_color_unref (sop->fill_color);
+	style_color_unref (sop->outline_color);
+
+	G_OBJECT_CLASS (sheet_object_polygon_parent_class)->finalize (object);
+}
+
+static GObject *
+sheet_object_polygon_new_view (SheetObject *so, SheetControl *sc, gpointer key)
+{
+	GnumericCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
+	SheetObjectPolygon *sop = SHEET_OBJECT_POLYGON (so);
+	GnomeCanvasItem *item = NULL;
+	GdkColor *fill_color, *outline_color;
+
+	g_return_val_if_fail (IS_SHEET_OBJECT (so), NULL);
+	g_return_val_if_fail (IS_SHEET_CONTROL (sc), NULL);
+	g_return_val_if_fail (gcanvas != NULL, NULL);
+
+	fill_color = (sop->fill_color != NULL) ? &sop->fill_color->color : NULL;
+	outline_color = (sop->outline_color != NULL) ? &sop->outline_color->color : NULL;
+
+	gnome_canvas_item_raise_to_top (GNOME_CANVAS_ITEM (gcanvas->sheet_object_group));
+
+	item = gnome_canvas_item_new (
+		gcanvas->sheet_object_group,
+		gnome_canvas_line_get_type (),
+		"fill_color_gdk",	fill_color,
+		"width_units",		sop->outline_width,
+		"points",		sop->points,
+		NULL);
+	gnm_pane_object_register (so, item);
+	return G_OBJECT (item);
+}
+
+static void
+sheet_object_polygon_update_bounds (SheetObject *so, GObject *view_obj)
+{
+	double scale[6], translate[6], result[6];
+	GnomeCanvasPoints *points = gnome_canvas_points_new (2);
+	GnomeCanvasItem   *view = GNOME_CANVAS_ITEM (view_obj);
+	SheetControlGUI	  *scg  =
+		SHEET_CONTROL_GUI (sheet_object_view_control (view_obj));
+
+	scg_object_view_position (scg, so, points->coords);
+
+	art_affine_scale (scale,
+		fabs (points->coords[2] - points->coords[0]),
+		fabs (points->coords[3] - points->coords[1]));
+	art_affine_translate (translate,
+		MIN (points->coords[0], points->coords[2]),
+		MIN (points->coords[1], points->coords[3]));
+	art_affine_multiply (result, scale, translate);
+
+	gnome_canvas_item_affine_absolute (view, result);
+	gnome_canvas_points_free (points);
+
+	if (so->is_visible)
+		gnome_canvas_item_show (view);
+	else
+		gnome_canvas_item_hide (view);
+}
+
+static gboolean
+sheet_object_polygon_read_xml (SheetObject *so,
+			       XmlParseContext const *ctxt, xmlNodePtr tree)
+{
+	SheetObjectPolygon *sop;
+
+	g_return_val_if_fail (IS_SHEET_OBJECT_POLYGON (so), TRUE);
+	sop = SHEET_OBJECT_POLYGON (so);
+
+	return FALSE;
+}
+
+static gboolean
+sheet_object_polygon_write_xml (SheetObject const *so,
+				XmlParseContext const *ctxt, xmlNodePtr tree)
+{
+	SheetObjectPolygon *sop;
+
+	g_return_val_if_fail (IS_SHEET_OBJECT_POLYGON (so), TRUE);
+	sop = SHEET_OBJECT_POLYGON (so);
+
+	return FALSE;
+}
+
+static SheetObject *
+sheet_object_polygon_clone (SheetObject const *so, Sheet *sheet)
+{
+	SheetObjectPolygon *sop;
+	SheetObjectPolygon *new_sop;
+
+	g_return_val_if_fail (IS_SHEET_OBJECT_POLYGON (so), NULL);
+	sop = SHEET_OBJECT_POLYGON (so);
+
+	new_sop = g_object_new (G_OBJECT_TYPE (so), NULL);
+
+	new_sop->fill_color = style_color_ref (sop->fill_color);
+	new_sop->outline_color = style_color_ref (sop->outline_color);
+
+	return SHEET_OBJECT (new_sop);
+}
+
+static void
+sheet_object_polygon_print (SheetObject const *so, GnomePrintContext *ctx,
+			    double base_x, double base_y)
+{
+}
+
+static void
+sheet_object_polygon_class_init (GObjectClass *object_class)
+{
+	SheetObjectClass *sheet_object_class;
+
+	sheet_object_polygon_parent_class = gtk_type_class (SHEET_OBJECT_TYPE);
+
+	/* Object class method overrides */
+	object_class->finalize = sheet_object_polygon_finalize;
+
+	/* SheetObject class method overrides */
+	sheet_object_class = SHEET_OBJECT_CLASS (object_class);
+	sheet_object_class->new_view	  = sheet_object_polygon_new_view;
+	sheet_object_class->update_bounds = sheet_object_polygon_update_bounds;
+	sheet_object_class->read_xml	  = sheet_object_polygon_read_xml;
+	sheet_object_class->write_xml	  = sheet_object_polygon_write_xml;
+	sheet_object_class->clone         = sheet_object_polygon_clone;
+	sheet_object_class->user_config   = NULL;
+	sheet_object_class->print         = sheet_object_polygon_print;
+	sheet_object_class->rubber_band_directly = FALSE;
+}
+
+static void
+sheet_object_polygon_init (GObject *obj)
+{
+	SheetObjectPolygon *sop;
+	SheetObject *so;
+
+	sop = SHEET_OBJECT_POLYGON (obj);
+	sop->fill_color = style_color_new_name ("black");
+	sop->outline_color = style_color_new_name ("white");
+	sop->outline_width = 1.;
+	sop->points = gnome_canvas_points_new (4);
+
+	sop->points->coords[0] = 0.; sop->points->coords[1] = 0.;
+	sop->points->coords[2] = 1.; sop->points->coords[3] = 0.;
+	sop->points->coords[4] = 1.; sop->points->coords[5] = 1.;
+	sop->points->coords[6] = 0.; sop->points->coords[7] = 1.;
+
+	so = SHEET_OBJECT (obj);
+	so->anchor.direction = SO_DIR_NONE_MASK;
+}
+GSF_CLASS (SheetObjectPolygon, sheet_object_polygon,
+	   sheet_object_polygon_class_init, sheet_object_polygon_init,
+	   SHEET_OBJECT_TYPE);
+
+void
+sheet_object_polygon_set_points (SheetObject *so, GArray *pairs)
+{
+	GnomeCanvasPoints *points;
+	unsigned i;
+	GList *l;
+	SheetObjectPolygon *sop;
+
+	g_return_if_fail (IS_SHEET_OBJECT_POLYGON (so));
+	g_return_if_fail (pairs != NULL);
+
+	sop = SHEET_OBJECT_POLYGON (so);
+
+	points = gnome_canvas_points_new (pairs->len / 2);
+	for (i = 0 ; i < pairs->len ; i++)
+		points->coords [i] = g_array_index (pairs, double, i);
+	for (l = so->realized_list; l; l = l->next)
+		gnome_canvas_item_set (l->data, "points", points, NULL);
+	gnome_canvas_points_free (sop->points);
+	sop->points = points;
+}

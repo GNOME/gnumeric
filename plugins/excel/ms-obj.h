@@ -45,12 +45,16 @@ typedef enum {
 	MS_OBJ_ATTR_IS_PTR_MASK = 0x2000,
 	MS_OBJ_ATTR_ANCHOR,
 
+    /* GArrays */
+	MS_OBJ_ATTR_IS_GARRAY_MASK = 0x4000,
+	MS_OBJ_ATTR_POLYGON_COORDS,
+
     /* Expressions */
-	MS_OBJ_ATTR_IS_EXPR_MASK = 0x4000,
+	MS_OBJ_ATTR_IS_EXPR_MASK = 0x10000,
 	MS_OBJ_ATTR_CHECKBOX_LINK,
 	MS_OBJ_ATTR_SCROLLBAR_LINK,
 
-	MS_OBJ_ATTR_MASK = 0x7000
+	MS_OBJ_ATTR_MASK = 0x17000
 } MSObjAttrID;
 
 typedef struct {
@@ -60,6 +64,7 @@ typedef struct {
 		guint32	  v_uint;
 		guint32	  v_int;
 		gpointer  v_ptr;
+		GArray   *v_array;
 		GnmExpr const *v_expr;
 	} v;
 } MSObjAttr;
@@ -68,12 +73,14 @@ MSObjAttr    *ms_object_attr_new_flag    (MSObjAttrID id);
 MSObjAttr    *ms_object_attr_new_uint    (MSObjAttrID id, guint32 val);
 MSObjAttr    *ms_object_attr_new_int     (MSObjAttrID id, gint32 val);
 MSObjAttr    *ms_object_attr_new_ptr     (MSObjAttrID id, gpointer val);
+MSObjAttr    *ms_object_attr_new_array   (MSObjAttrID id, GArray *array);
 MSObjAttr    *ms_object_attr_new_expr    (MSObjAttrID id, GnmExpr const *expr);
 
-guint32   ms_object_attr_get_uint (MSObj *obj, MSObjAttrID id, guint32 default_value);
-gint32    ms_object_attr_get_int  (MSObj *obj, MSObjAttrID id, gint32 default_value);
-gpointer  ms_object_attr_get_ptr  (MSObj *obj, MSObjAttrID id, gpointer default_value);
-GnmExpr const *ms_object_attr_get_expr (MSObj *obj, MSObjAttrID id, GnmExpr const *default_value);
+guint32   ms_object_attr_get_uint	(MSObj *obj, MSObjAttrID id, guint32 default_value);
+gint32    ms_object_attr_get_int	(MSObj *obj, MSObjAttrID id, gint32 default_value);
+gpointer  ms_object_attr_get_ptr	(MSObj *obj, MSObjAttrID id, gpointer default_value);
+GArray   *ms_object_attr_get_array	(MSObj *obj, MSObjAttrID id, GArray *default_value);
+GnmExpr const *ms_object_attr_get_expr	(MSObj *obj, MSObjAttrID id, GnmExpr const *default_value);
 
 typedef GHashTable MSObjAttrBag;
 MSObjAttrBag *ms_object_attr_bag_new     (void);

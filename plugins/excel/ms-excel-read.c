@@ -344,7 +344,10 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 					esheet->gnum_sheet);
 
 		/* can not be done until we have set the sheet */
-		if (obj->excel_type == 0x0B) {
+		if (obj->excel_type == 0x09) {
+			sheet_object_polygon_set_points (SHEET_OBJECT (obj->gnum_obj),
+				ms_object_attr_get_array (obj, MS_OBJ_ATTR_POLYGON_COORDS, NULL));
+		} else if (obj->excel_type == 0x0B) {
 			sheet_widget_checkbox_set_link (SHEET_OBJECT (obj->gnum_obj),
 				ms_object_attr_get_expr (obj, MS_OBJ_ATTR_CHECKBOX_LINK, NULL));
 		} else if (obj->excel_type == 0x11) {
@@ -432,6 +435,8 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 			so = sheet_object_box_new (FALSE);  /* placeholder */
 		break;
 	}
+	case 0x09: so = g_object_new (sheet_object_polygon_get_type (), NULL);
+		   break;
 	case 0x0B: so = g_object_new (sheet_widget_checkbox_get_type (), NULL);
 		   break;
 	case 0x0C: so = g_object_new (sheet_widget_radio_button_get_type (), NULL);

@@ -1,9 +1,12 @@
 2002-08-12  Jody Goldberg <jody@gnome.org>
 
+	* ms-obj.c (ms_object_attr_new_array) : new.
+	(ms_object_attr_get_expr) : ditto.
+	(ms_object_attr_destroy) : support arrays.
+	(ms_obj_read_pre_biff8_obj) : Parse the coord list for polygons.
+
 	* ms-excel-read.c (ms_excel_read_SUPBOOK) : do a touch more.
 	Still need to write the encoded path parser.
-
-2002-08-11  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (ms_excel_read_cf) : don't leak.
 

@@ -19,4 +19,11 @@ SheetObject *sheet_object_box_new   (gboolean is_oval);
 void	     sheet_object_filled_outline_color_set (SheetObject *so,
 						    StyleColor *color);
 
+#define SHEET_OBJECT_POLYGON_TYPE  (sheet_object_polygon_get_type ())
+#define IS_SHEET_OBJECT_POLYGON(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), SHEET_OBJECT_POLYGON_TYPE))
+
+GType      sheet_object_polygon_get_type (void);
+SheetObject *sheet_object_polygon_new (void);
+void	     sheet_object_polygon_set_points (SheetObject *so, GArray *pairs);
+
 #endif /* GNUMERIC_SHEET_OBJECT_GRAPHIC_H */

@@ -548,9 +548,9 @@ wb_view_save_as (WorkbookView *wbv, GnumFileSaver *fs, gchar const *file_name,
 	wb = wb_view_workbook (wbv);
 	io_context = gnumeric_io_context_new (context);
 
-	cmd_context_set_sensitive (context, TRUE);
-	gnum_file_saver_save (fs, io_context, wbv, file_name);
 	cmd_context_set_sensitive (context, FALSE);
+	gnum_file_saver_save (fs, io_context, wbv, file_name);
+	cmd_context_set_sensitive (context, TRUE);
 
 	error = gnumeric_io_error_occurred (io_context);
 	if (!error) {

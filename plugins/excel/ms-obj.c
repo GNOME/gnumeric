@@ -95,6 +95,19 @@ ms_object_attr_new_ptr (MSObjAttrID id, gpointer val)
 }
 
 MSObjAttr *
+ms_object_attr_new_array (MSObjAttrID id, GArray *array)
+{
+	MSObjAttr *res = g_new (MSObjAttr, 1);
+
+	g_return_val_if_fail ((id & MS_OBJ_ATTR_MASK) == MS_OBJ_ATTR_IS_GARRAY_MASK, NULL);
+
+	/* be anal about constness */
+	*((MSObjAttrID *)&(res->id)) = id;
+	res->v.v_array = array;
+	return res;
+}
+
+MSObjAttr *
 ms_object_attr_new_expr (MSObjAttrID id, GnmExpr const *expr)
 {
 	MSObjAttr *res = g_new (MSObjAttr, 1);
@@ -149,6 +162,20 @@ ms_object_attr_get_ptr  (MSObj *obj, MSObjAttrID id, gpointer default_value)
 	return attr->v.v_ptr;
 }
 
+GArray *
+ms_object_attr_get_array (MSObj *obj, MSObjAttrID id, GArray *default_value)
+{
+	MSObjAttr *attr;
+
+	g_return_val_if_fail (obj != NULL, default_value);
+	g_return_val_if_fail (id & MS_OBJ_ATTR_IS_GARRAY_MASK, default_value);
+
+	attr = ms_object_attr_bag_lookup (obj->attrs, id);
+	if (attr == NULL)
+		return default_value;
+	return attr->v.v_array;
+}
+
 GnmExpr const *
 ms_object_attr_get_expr (MSObj *obj, MSObjAttrID id, GnmExpr const *default_value)
 {
@@ -170,9 +197,15 @@ ms_object_attr_destroy (MSObjAttr *attr)
 		if ((attr->id & MS_OBJ_ATTR_IS_PTR_MASK) &&
 		    attr->v.v_ptr != NULL) {
 			g_free (attr->v.v_ptr);
+			attr->v.v_ptr = NULL;
+		} else if ((attr->id & MS_OBJ_ATTR_IS_GARRAY_MASK) &&
+			   attr->v.v_array != NULL) {
+			g_array_free (attr->v.v_array, TRUE);
+			attr->v.v_array = NULL;
 		} else if ((attr->id & MS_OBJ_ATTR_IS_EXPR_MASK) &&
-		    attr->v.v_expr != NULL) {
+			   attr->v.v_expr != NULL) {
 			gnm_expr_unref (attr->v.v_expr);
+			attr->v.v_expr = NULL;
 		}
 		g_free (attr);
 	}
@@ -351,6 +384,7 @@ ms_obj_dump_impl (guint8 const *data, int len, int data_left, char const *name)
 static gboolean
 ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 {
+	guint16 peek_op;
 	/* TODO : Lots of docs for these things.  Write the parser. */
 
 #if 0
@@ -364,6 +398,28 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 
 	obj->excel_type = GSF_LE_GET_GUINT16(q->data + 4);
 	obj->id         = GSF_LE_GET_GUINT32(q->data + 6);
+
+	if (obj->excel_type == 9 && /* polygon */
+	    ms_biff_query_peek_next (q, &peek_op) &&
+	    peek_op == BIFF_COORDLIST) {
+		unsigned i, n;
+		guint tmp;
+		GArray *array;
+
+		ms_biff_query_next (q);
+		n = q->length / 2;
+		array = g_array_set_size (
+			g_array_new (FALSE, FALSE, sizeof (double)), n + 2);
+
+		for (i = 0; i < n ; i++) {
+			tmp = GSF_LE_GET_GUINT16 (q->data + 2*i);
+			g_array_index (array, double, i) = (double)tmp/ 16384.;
+		}
+		g_array_index (array, double, i)   = g_array_index (array, double, 0);
+		g_array_index (array, double, i+1) = g_array_index (array, double, 1);
+		ms_object_attr_bag_insert (obj->attrs,
+			ms_object_attr_new_array (MS_OBJ_ATTR_POLYGON_COORDS, array));
+	}
 
 	return FALSE;
 }
