@@ -535,6 +535,7 @@ cb_ok_clicked (GtkWidget *ignore, SheetManager *state)
 	gboolean is_deleted, is_locked;
 	GdkColor *back, *fore;
 	gboolean fore_changed, back_changed, lock_changed;
+	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (state->wbcg));
 
 	while (gtk_tree_model_iter_nth_child  (GTK_TREE_MODEL (state->model),
 					       &this_iter, NULL, n)) {
@@ -659,6 +660,10 @@ cb_ok_clicked (GtkWidget *ignore, SheetManager *state)
 		old_order = NULL;
 	}
 
+	/* Stop listening to changes in the sheet order. */
+	g_signal_handler_block (G_OBJECT (wb),
+				state->sheet_order_changed_listener);
+
 	if ((new_order == NULL && changed_names == NULL && color_changed == NULL 
 	     && protection_changed == NULL)
 	    || !cmd_reorganize_sheets (WORKBOOK_CONTROL (state->wbcg), 
@@ -667,7 +672,12 @@ cb_ok_clicked (GtkWidget *ignore, SheetManager *state)
 				       color_changed, new_colors_back, new_colors_fore, 
 				       protection_changed, new_locks)) {
 		gtk_widget_destroy (GTK_WIDGET (state->dialog));
-	} 
+	} else {
+		/* Restart listening to changes in the sheet order. */
+		g_signal_handler_unblock (G_OBJECT (wb),
+					  state->sheet_order_changed_listener);
+	}
+	
 	if (deleted_sheets) {
 		g_slist_foreach (deleted_sheets, cb_delete_sheets, NULL);
 		g_slist_free (deleted_sheets);

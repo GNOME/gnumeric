@@ -1,3 +1,8 @@
+2002-09-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/workbook.c (workbook_sheet_reorganize): add missing call 
+	  to post_sheet_index_change
+	
 2002-09-25  Jody Goldberg <jody@gnome.org>
 
 	* src/parser.y : begin support for intersection and sets, still needs

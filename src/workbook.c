@@ -1325,6 +1325,8 @@ workbook_sheet_reorganize (WorkbookControl *wbc,
 		}
 		this_sheet = this_sheet->next;
 	}
+	if (new_order)
+		post_sheet_index_change (wb);
 
 	return FALSE;
 }
