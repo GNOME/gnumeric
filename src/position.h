@@ -5,14 +5,14 @@
 #include "position.h"
 
 struct _EvalPos {
-	Sheet   *sheet;
 	CellPos  eval;
+	Sheet   *sheet;
 };
 
 struct _ParsePos {
-	Workbook *wb;
-	Sheet    *sheet;
 	CellPos   eval;
+	Sheet    *sheet;
+	Workbook *wb;
 };
 
 /**

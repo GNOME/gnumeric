@@ -1,3 +1,10 @@
+2000-12-02  Jody Goldberg <jgoldberg@home.com>
+
+	* src/expr.c (cellrange_relocate) : Still not doing the 'right' thing
+	  in all cases.   However at least it will no longer create broken
+	  references.
+	(cellref_relocate) : tweak a bit.
+
 2000-12-01  Michael Meeks  <michael@helixcode.com>
 
 	* configure.in: check for gb >= 0.0.17
