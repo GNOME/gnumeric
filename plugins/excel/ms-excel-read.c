@@ -5375,7 +5375,12 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 				biff_get_rk (q->data + 6));
 			break;
 
-		case BIFF_IMDATA:	excel_read_IMDATA (q, FALSE);		break;
+		case BIFF_IMDATA: {
+			GdkPixbuf *pixbuf = excel_read_IMDATA (q, FALSE);
+			if (pixbuf)
+				g_object_unref (pixbuf);
+			}
+			break;
 		case BIFF_GUTS:		excel_read_GUTS (q, esheet);		break;
 		case BIFF_WSBOOL:	excel_read_WSBOOL (q, esheet);		break;
 		case BIFF_GRIDSET:		break;

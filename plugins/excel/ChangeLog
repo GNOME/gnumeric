@@ -1,9 +1,13 @@
 2004-10-18  Jon K Hellan  <hellan@acm.org>
 
+	* ms-obj.c (ms_obj_read_pre_biff8_obj): Unref pixbuf returned by
+	excel_read_IMDATA.
+
 	* ms-excel-read.c (excel_read_os2bmp): New. Handle headerless OS/2
 	bitmap.
 	(excel_read_IMDATA): Call excel_read_os2bmp to handle OS/2
 	BMP. Other format may be dumped to file.
+	(excel_read_sheet): Unref pixbuf returned by excel_read_IMDATA.
 
 2004-10-15  Morten Welinder  <terra@gnome.org>
 
