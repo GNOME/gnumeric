@@ -121,8 +121,7 @@ dependent_set_expr (Dependent *dep, ExprTree *expr)
  * dependent_queue_recalc:
  * @dep: the dependent that contains the expression needing recomputation.
  *
- * Marks @dep as needing recalculation and if it is not already there
- * queues it.
+ * Marks @dep as needing recalculation
  * NOTE : it does NOT recursively dirty dependencies.
  */
 #define dependent_queue_recalc(dep) dep->flags |= DEPENDENT_NEEDS_RECALC
@@ -156,33 +155,19 @@ dependent_queue_recalc_list (GSList const *list, gboolean recurse)
 	for (; list != NULL ; list = list->next) {
 		Dependent *dep = list->data;
 
-		dep->flags |= DEPENDENT_NEEDS_RECALC;
+		if (!(dep->flags & DEPENDENT_NEEDS_RECALC)) {
+			dependent_queue_recalc (dep);
 
-		/* FIXME : it would be better if we queued the entire list then
-		 * recursed.  That would save time, but we need to keep track
-		 * of deps that are already queued
-		 */
-		if (recurse &&
-		    (dep->flags & DEPENDENT_TYPE_MASK) == DEPENDENT_CELL)
-			cell_foreach_dep (DEP_TO_CELL (dep),
-				cb_dependent_queue_recalc, NULL);
+			/* FIXME : it would be better if we queued the entire list then
+			 * recursed.  That would save time, but we need to keep track
+			 * of deps that are already queued
+			 */
+			if (recurse &&
+			    (dep->flags & DEPENDENT_TYPE_MASK) == DEPENDENT_CELL)
+				cell_foreach_dep (DEP_TO_CELL (dep),
+						  cb_dependent_queue_recalc, NULL);
+		}
 	}
-}
-
-/*
- * dependent_unqueue:
- * @dep: the dependent to remove from the recomputation queue
- *
- * Removes a dependent that has been previously added to the recalc
- * queue.  Used internally when a dependent that was queued is changed or
- * removed.
- */
-void
-dependent_unqueue (Dependent *dep)
-{
-	g_return_if_fail (dep != NULL);
-
-	dep->flags &= ~(DEPENDENT_NEEDS_RECALC);
 }
 
 /**************************************************************************
@@ -584,8 +569,7 @@ dependent_unlink_sheet (Sheet *sheet)
 	g_return_if_fail (IS_SHEET (sheet));
 
 	wb = sheet->workbook;
-	WORKBOOK_FOREACH_DEPENDENT
-		(wb, dep,
+	WORKBOOK_FOREACH_DEPENDENT (wb, dep,
 		 if (dep->sheet == sheet) {
 			 dep->flags &= ~DEPENDENT_IN_EXPR_LIST;
 			 UNLINK_DEP (wb, dep);
@@ -812,11 +796,10 @@ sheet_region_queue_recalc (Sheet const *sheet, Range const *r)
 	g_return_if_fail (sheet->deps != NULL);
 
 	if (r == NULL) {
-		WORKBOOK_FOREACH_DEPENDENT
-			(sheet->workbook, dep, {
-				 if (dep->sheet == sheet)
-					 dependent_queue_recalc (dep);
-			});
+		WORKBOOK_FOREACH_DEPENDENT (sheet->workbook, dep, {
+			if (dep->sheet == sheet)
+				dependent_queue_recalc (dep);
+		});
 
 		/* Find anything that depends on a range in this sheet */
 		g_hash_table_foreach (sheet->deps->range_hash,
@@ -828,8 +811,7 @@ sheet_region_queue_recalc (Sheet const *sheet, Range const *r)
 	} else {
 		int ix, iy, end_col, end_row;
 
-		WORKBOOK_FOREACH_DEPENDENT
-			(sheet->workbook, dep, {
+		WORKBOOK_FOREACH_DEPENDENT (sheet->workbook, dep, {
 				 Cell *cell = DEP_TO_CELL (dep);
 				 if (dep->sheet == sheet &&
 				     ((dep->flags & DEPENDENT_TYPE_MASK) == DEPENDENT_CELL) &&
@@ -1018,15 +1000,8 @@ void
 workbook_queue_all_recalc (Workbook *wb)
 {
 	/* FIXME : warning what about dependents in other workbooks */
-
-	/* FIXME: listifying is silly.  */
-
-	GSList *dependents = NULL;
-	WORKBOOK_FOREACH_DEPENDENT
-		(wb, dep, dependents = g_slist_prepend (dependents, dep));
-	dependent_queue_recalc_list (dependents, FALSE);
-
-	g_slist_free (dependents);
+	WORKBOOK_FOREACH_DEPENDENT (wb, dep,
+		dependent_queue_recalc (dep););
 }
 
 /*
@@ -1038,8 +1013,7 @@ workbook_recalc (Workbook *wb)
 {
 	g_return_if_fail (IS_WORKBOOK (wb));
 
-	WORKBOOK_FOREACH_DEPENDENT
-		(wb, dep,
+	WORKBOOK_FOREACH_DEPENDENT (wb, dep,
 		if (dep->flags & DEPENDENT_NEEDS_RECALC) {
 			int const t = (dep->flags & DEPENDENT_TYPE_MASK);
 
@@ -1155,10 +1129,8 @@ dump_range_dep (gpointer key, gpointer value, gpointer closure)
 	Range const *range = &(deprange->range);
 
 	/* 2 calls to col_name and row_name.  It uses a static buffer */
-	printf ("\t%s%s:",
-		col_name (range->start.col), row_name (range->start.row));
-	printf ("%s%s -> ",
-		col_name (range->end.col), row_name (range->end.row));
+	printf ("\t%s:", cell_pos_name (&range->start));
+	printf ("%s -> ", cell_pos_name (&range->end));
 
 	dump_dependent_list (deprange->dependent_list);
 }

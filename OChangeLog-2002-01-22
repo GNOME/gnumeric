@@ -1,5 +1,19 @@
 2001-08-29  Jody Goldberg <jgoldberg@home.com>
 
+	* src/eval.c (dependent_queue_recalc_list) : fix my breakage and don't
+	  bother recursing for already queued cells.
+	(workbook_queue_all_recalc) : remove sillyness.
+	(dependent_unqueue) : delete unused routine.
+
+	* src/cell.c (cell_cleanout) : remove useless 'in_recalc_queue' flag.
+	(cell_copy) : ditto.
+
+	* src/sheet.c (sheet_cell_destroy) : no need to unqueue, unlink
+	  handles it.
+	(sheet_move_range) : ditto.
+
+2001-08-29  Jody Goldberg <jgoldberg@home.com>
+
 	* src/eval.c (dependent_queue_recalc) : make this a macro.
 	(cb_dependent_queue_recalc) : simplify to just mark the requirement
 	  now that there is no distinct reval queue.

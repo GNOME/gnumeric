@@ -24,8 +24,7 @@ typedef enum {
 	/* Linked into the workbook wide expression list */
 	DEPENDENT_IN_EXPR_LIST     = 0x00001000,
 	DEPENDENT_NEEDS_RECALC	   = 0x00002000,
-	DEPENDENT_IN_RECALC_QUEUE  = 0x00004000,
-	DEPENDENT_BEING_CALCULATED = 0x00008000,
+	DEPENDENT_BEING_CALCULATED = 0x00004000,
 
 	/* Types */
 	DEPENDENT_CELL 		  = 0x00000001,
@@ -39,7 +38,6 @@ void dependent_types_init	 (void);
 void dependent_types_shutdown	 (void);
 
 void dependent_set_expr		 (Dependent *dependent, ExprTree *expr);
-void dependent_unqueue		 (Dependent *dep);
 void dependent_link		 (Dependent *dep, CellPos const *pos);
 void dependent_unlink		 (Dependent *dep, CellPos const *pos);
 void dependent_unlink_sheet	 (Sheet *sheet);

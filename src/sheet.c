@@ -2669,16 +2669,11 @@ sheet_cell_remove_from_hash (Sheet *sheet, Cell *cell)
 static void
 sheet_cell_destroy (Sheet *sheet, Cell *cell, gboolean queue_recalc)
 {
-	gboolean const needs_recalc = cell_needs_recalc (cell);
-
-	if (needs_recalc)
-		dependent_unqueue (CELL_TO_DEP (cell));
-
 	if (cell_has_expr (cell)) {
 		dependent_unlink (CELL_TO_DEP (cell), &cell->pos);
 
 		/* if it needs recalc then its depends are already queued */
-		if (queue_recalc && !needs_recalc)
+		if (queue_recalc && !cell_needs_recalc (cell))
 			cell_foreach_dep (cell, cb_dependent_queue_recalc, NULL);
 	}
 
@@ -3781,8 +3776,6 @@ sheet_move_range (WorkbookControl *wbc,
 		/* check for out of bounds and delete if necessary */
 		if ((cell->pos.col + rinfo->col_offset) >= SHEET_MAX_COLS ||
 		    (cell->pos.row + rinfo->row_offset) >= SHEET_MAX_ROWS) {
-			if (cell_needs_recalc (cell))
-				dependent_unqueue (CELL_TO_DEP (cell));
 			if (cell_has_expr (cell))
 				dependent_unlink (CELL_TO_DEP (cell), &cell->pos);
 			cell_destroy (cell);
