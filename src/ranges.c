@@ -733,11 +733,11 @@ range_intersection (Range const *a, Range const *b)
 
 	g_return_if_fail (range_overlap (a, b));
 	
-	ans.start.col = MAX(a->start.col, b->start.col);
-	ans.start.row = MAX(a->start.row, b->start.row);
+	ans.start.col = MAX (a->start.col, b->start.col);
+	ans.start.row = MAX (a->start.row, b->start.row);
 	
-	ans.end.col = MIN(a->end.col, b->end.col);
-	ans.end.row = MIN(a->end.row, b->end.row);
+	ans.end.col = MIN (a->end.col, b->end.col);
+	ans.end.row = MIN (a->end.row, b->end.row);
 
 	/* Make sure this is an actual intersection */
 	return ans;
