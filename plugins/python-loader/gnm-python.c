@@ -5,8 +5,8 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include <Python.h>
+#include <glib/gi18n.h>
 #include <pygobject.h>
 #include <glib.h>
 #include <gutils.h>

@@ -5,10 +5,10 @@
  */
 
 #include <gnumeric-config.h>
+#include <Python.h>
 #include <glib/gi18n.h>
 #include <stdio.h>
 #include <glib.h>
-#include <Python.h>
 #include <gnumeric.h>
 #include <plugin.h>
 #include <gutils.h>

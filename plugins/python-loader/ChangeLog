@@ -1,3 +1,11 @@
+2004-08-27  Jon K Hellan  <hellan@acm.org>
+
+
+	* gnm-python.c, gnm-py-interpreter.c, py-gnumeric.c,
+	python-loader.c: Move Python.h include just after gnumeric-config,
+	to shut up redefinition warnings. Working around Python project
+	bug 107450 at sourceforge. 
+
 2004-07-19  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.3.1

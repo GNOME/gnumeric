@@ -5,9 +5,9 @@
  */
 
 #include <gnumeric-config.h>
+#include <Python.h>
 #include <glib/gi18n.h>
 #include <gnumeric.h>
-#include <Python.h>
 #include <glib.h>
 #include "pygobject.h"
 #include "application.h"
