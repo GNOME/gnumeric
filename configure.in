@@ -44,7 +44,26 @@ if test "$GCC" = "yes" -a "$set_more_warnings" != "no"; then
 	unset option
 fi
 
+dnl
+dnl Check whether we need to pass defines to get compliance with a standard
+dnl we expect.
+dnl
 
+dnl src/functions/fn-math.c uses M_PI
+dnl src/plugin-util.c uses caddr_t
+AC_MSG_CHECKING([whether -D_BSD_SOURCE is needed for M_PI])
+AC_TRY_COMPILE([#include <math.h>], [double f = M_PI], need_bsd=no, need_bsd=yes)
+AC_MSG_RESULT($need_bsd)
+if test $need_bsd = yes ; then
+	CFLAGS="$CFLAGS -D_BSD_SOURCE"
+else
+	AC_MSG_CHECKING([whether -D_BSD_SOURCE is needed for caddr_t])
+	AC_TRY_COMPILE([#include <sys/types.h>], [caddr_t ca], need_bsd=no, need_bsd=yes)
+	if test $need_bsd = yes ; then
+		CFLAGS="$CFLAGS -D_BSD_SOURCE"
+	fi
+	AC_MSG_RESULT($need_bsd)
+fi
 
 GNOME_X_CHECKS
 GNOME_XML_CHECK
@@ -576,11 +595,11 @@ try_evolution=false
 evolution=no
 AC_ARG_WITH(evolution,
 	[--{with,without}-evolution Use evolution to send spreadsheets (bonobo needed).],
-	if test x$withval=xyes; then
+	if test x$withval = xyes; then
 		try_evolution=true
 	fi
 )
-if $have_bonobo -a $try_evolution; then
+if test x"$have_bonobo" = "xtrue" -a x"$try_evolution" = "xtrue" ; then
 	path_to_composer_idl=`gnome-config --datadir`/idl/Evolution-Composer.idl
 	AC_CHECK_FILE($path_to_composer_idl, evolution=yes, evolution=no)
 fi
