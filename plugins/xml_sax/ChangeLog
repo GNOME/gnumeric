@@ -1,3 +1,16 @@
+2001-10-27  Almer S. Tigelaar  <almer@gnome.org>
+
+	* xml-sax-read.c (xml_sax_validation): New, Support for
+	validation.
+	(xml_sax_validation_end): Idem.
+	(xml_sax_style_condition): New, Support for StyleCondition.
+	(xml_sax_style_condition_chain): New, Helper function.
+	(xml_sax_style_condition_expr): New, support for StyleCondition.
+	(xml_sax_style_condition_constraint): Idem.
+	(xml_sax_style_condition_flags): Idem.
+	(xml_sax_start_element): Add validation and StyleCondition support.
+	(xml_sax_end_element): Idem.
+
 2001-10-25  Jody Goldberg <jgoldberg@home.com>
 
 	* xml-sax-read.c (xml_sax_print_scale) : new function.

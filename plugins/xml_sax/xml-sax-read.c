@@ -35,12 +35,14 @@
 #include "style.h"
 #include "style-border.h"
 #include "style-color.h"
+#include "style-condition.h"
 #include "format.h"
 #include "cell.h"
 #include "position.h"
 #include "expr.h"
 #include "expr-name.h"
 #include "print-info.h"
+#include "validation.h"
 #include "value.h"
 #include "selection.h"
 #include "command-context.h"
@@ -286,6 +288,12 @@ STATE_WB,
 							STATE_BORDER_RIGHT,
 							STATE_BORDER_DIAG,
 							STATE_BORDER_REV_DIAG,
+						STATE_STYLE_VALIDATION,
+							STATE_STYLE_CONDITION_CHAIN,
+								STATE_STYLE_CONDITION,
+									STATE_STYLE_CONDITION_EXPR,
+									STATE_STYLE_CONDITION_CONSTRAINT,
+									STATE_STYLE_CONDITION_FLAGS,
 			STATE_SHEET_COLS,
 				STATE_COL,
 			STATE_SHEET_ROWS,
@@ -384,6 +392,13 @@ static char const * const xmlSax_state_names[] =
 							"gmr:Right",
 							"gmr:Diagonal",
 							"gmr:Rev-Diagonal",
+						"gmr:Validation",
+							"gmr:StyleConditionChain",
+								"gmr:StyleCondition",
+									"gmr:Expr",
+									"gmr:Constraint",
+									"gmr:Flags",
+
 			"gmr:Cols",
 				"gmr:ColInfo",
 
@@ -439,6 +454,21 @@ typedef struct _XMLSaxParseState
 		char *value;
 		char *position;
 	} name;
+
+	struct {
+		ValidationStyle  vs;
+		char            *title;
+		char            *msg;
+	} validation;
+
+	struct {
+		StyleConditionType type;
+		StyleConditionBool next_op;
+		StyleConditionBool prev_next_op;
+
+		StyleCondition *scf;
+		StyleCondition *scl;			
+	} condition;
 	
 	gboolean  style_range_init;
 	Range	  style_range;
@@ -1142,6 +1172,131 @@ xml_sax_styleregion_font_end (XMLSaxParseState *state)
 }
 
 static void
+xml_sax_validation (XMLSaxParseState *state, CHAR const **attrs)
+{
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (xml_sax_attr_int (attrs, "Style", (int *) &state->validation.vs)) {
+		} else if (!strcmp (attrs[0], "Title")) {
+			state->validation.title = g_strdup (attrs[1]);
+		} else if (!strcmp (attrs[0], "Message")) {
+			state->validation.msg = g_strdup (attrs[1]);			
+		} else
+			xml_sax_unknown_attr (state, attrs, "StyleCondition");
+	}
+	state->condition.scf = NULL;
+	state->condition.scl = NULL;
+}
+
+static void
+xml_sax_validation_end (XMLSaxParseState *state)
+{
+	Validation *v;
+
+	g_return_if_fail (state->style != NULL);
+
+	v = validation_new (state->validation.vs, state->validation.title,
+			    state->validation.msg, state->condition.scf);
+	mstyle_set_validation (state->style, v);
+
+	if (state->validation.title) {
+		g_free (state->validation.title);
+		state->validation.title = NULL;
+	}
+	if (state->validation.msg) {
+		g_free (state->validation.msg);
+		state->validation.msg = NULL;
+	}
+	state->condition.scf = NULL;
+	state->condition.scl = NULL;
+}
+
+static void
+xml_sax_style_condition (XMLSaxParseState *state, CHAR const **attrs)
+{
+	state->condition.prev_next_op = state->condition.next_op;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (xml_sax_attr_int (attrs, "Type", (int *) &state->condition.type));
+		else if (xml_sax_attr_int (attrs, "NextOperator", (int *) &state->condition.next_op));
+		else
+			xml_sax_unknown_attr (state, attrs, "StyleCondition");
+	}
+}
+
+static void
+xml_sax_style_condition_chain (XMLSaxParseState *state, StyleCondition *sc)
+{
+	if (state->condition.scl) {
+		style_condition_chain (state->condition.scl, state->condition.prev_next_op, sc);
+		state->condition.scl = sc;
+	} else {
+		state->condition.scl = sc;
+		state->condition.scf = sc;
+	}
+}
+
+static void
+xml_sax_style_condition_expr (XMLSaxParseState *state, CHAR const **attrs)
+{
+	StyleConditionOperator op = -1;
+	StyleCondition *sc;
+	char const *cexpr = NULL;
+	ExprTree *expr = NULL;
+	
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (xml_sax_attr_int (attrs, "Operator", (int *) &op));
+		else if (!strcmp (attrs[0], "Expression"))
+			 cexpr = attrs[1];
+		else
+			xml_sax_unknown_attr (state, attrs, "StyleConditionExpr");
+	}
+
+	if (cexpr) {
+		ParsePos pos, *pp;
+		
+		pp = parse_pos_init (&pos, state->wb, state->sheet, 0, 0);
+		if ((expr = expr_parse_string (cexpr, pp, NULL, NULL)) == NULL)
+			g_warning ("XML-IO: empty/missing expression in StyleCondition");
+	} else
+		g_warning ("StyleConditionExpression without Expression!");
+
+	sc = style_condition_new_expr (state->sheet, op, expr);
+	expr_tree_unref (expr);
+	xml_sax_style_condition_chain (state, sc);
+}
+
+static void
+xml_sax_style_condition_constraint (XMLSaxParseState *state, CHAR const **attrs)
+{
+	StyleCondition *sc;
+	StyleConditionConstraint constraint = -1;
+	
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (xml_sax_attr_int (attrs, "Value", (int *) &constraint));
+		else
+			xml_sax_unknown_attr (state, attrs, "StyleConditionConstraint");
+	}
+
+	sc = style_condition_new_constraint (constraint);
+	xml_sax_style_condition_chain (state, sc);
+}
+
+static void
+xml_sax_style_condition_flags (XMLSaxParseState *state, CHAR const **attrs)
+{
+	StyleCondition *sc;
+	StyleConditionFlags flags;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (xml_sax_attr_int (attrs, "Value", (int *) &flags));
+		else
+			xml_sax_unknown_attr (state, attrs, "StyleConditionFlags");
+	}
+
+	sc = style_condition_new_flags (flags);
+	xml_sax_style_condition_chain (state, sc);	
+}
+
+static void
 xml_sax_style_region_borders (XMLSaxParseState *state, CHAR const **attrs)
 {
 	int pattern = -1;
@@ -1697,6 +1852,8 @@ xml_sax_start_element (XMLSaxParseState *state, CHAR const *name, CHAR const **a
 		if (xml_sax_switch_state (state, name, STATE_STYLE_FONT))
 			xml_sax_styleregion_font (state, attrs);
 		else if (xml_sax_switch_state (state, name, STATE_STYLE_BORDER)) {
+		} else if (xml_sax_switch_state (state, name, STATE_STYLE_VALIDATION)) {
+			xml_sax_validation (state, attrs);
 		} else
 			xml_sax_unknown_state (state, name);
 		break;
@@ -1712,7 +1869,31 @@ xml_sax_start_element (XMLSaxParseState *state, CHAR const *name, CHAR const **a
 		else
 			xml_sax_unknown_state (state, name);
 		break;
+		
+	case STATE_STYLE_VALIDATION :
+		if (xml_sax_switch_state (state, name, STATE_STYLE_CONDITION_CHAIN));
+		else
+			xml_sax_unknown_state (state, name);
+		break;
+		
+	case STATE_STYLE_CONDITION_CHAIN :
+		if (xml_sax_switch_state (state, name, STATE_STYLE_CONDITION))
+			xml_sax_style_condition (state, attrs);
+		else
+			xml_sax_unknown_state (state, name);
+		break;
 
+	case STATE_STYLE_CONDITION :
+		if (xml_sax_switch_state (state, name, STATE_STYLE_CONDITION_EXPR))
+			xml_sax_style_condition_expr (state, attrs);
+		else if (xml_sax_switch_state (state, name, STATE_STYLE_CONDITION_CONSTRAINT))
+			xml_sax_style_condition_constraint (state, attrs);
+		else if (xml_sax_switch_state (state, name, STATE_STYLE_CONDITION_FLAGS))
+			xml_sax_style_condition_flags (state, attrs);
+		else
+			xml_sax_unknown_state (state, name);
+		break;
+		
 	case STATE_SHEET_COLS :
 		if (xml_sax_switch_state (state, name, STATE_COL))
 			xml_sax_colrow (state, attrs, TRUE);
@@ -1873,6 +2054,10 @@ xml_sax_end_element (XMLSaxParseState *state, const CHAR *name)
 		g_string_truncate (state->content, 0);
 		break;
 
+	case STATE_STYLE_VALIDATION :
+		xml_sax_validation_end (state);
+		break;
+		
 	case STATE_CELL :
 		if (state->cell.row >= 0 || state->cell.col >= 0)
 			xml_sax_cell_content (state);
