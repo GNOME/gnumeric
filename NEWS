@@ -6,7 +6,7 @@ Andreas:
 	* Make the autosave dialog non-modal, port to gnome2
 	* Make the analysis tools warnings non-modal
 	* Make the autocorrect dialog non-modal, port to gnome2
-	* Fix gnome2 specific random tool crash 
+	* Fix gnome2 specific random tool crash
 	* Destroy outadated dialogs
 	* Port solver dialog to gnome2
 	* Make the solver information dialogs non-modal
@@ -85,7 +85,7 @@ Gnumeric 1.0.2
 
 Andreas:
 	* Add `autofit columns' checkbox to all analysis tools.
-	* Add radio buttons to rank dialog to let user choose 
+	* Add radio buttons to rank dialog to let user choose
 	  behaviour in case of ties.
 	* Enable Standard Errors Checkbox in Moving Averages Dialog.
 	* Implement calculated bins in Histogram Tool.
@@ -172,7 +172,7 @@ Gnumeric 0.99.1
 Andreas:
 	* Improve documentation incl. analysis tools, files & worksheet
 	* Implement merges and spans in html exporter
-	* Make output from HTML4.0 and HTML3.2 exporters validate 
+	* Make output from HTML4.0 and HTML3.2 exporters validate
 	* Fix copy multiple cells to single merged cell (#67298)
 	* Fix expr entry widget: used to fet confised on mouse clicks
           (#65894)
