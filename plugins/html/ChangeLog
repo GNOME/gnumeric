@@ -1,3 +1,8 @@
+2001-12-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=66457
+	* roff.c (write_wb_roff) : use real col & row numbers
+
 2001-12-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=67550

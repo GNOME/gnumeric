@@ -98,13 +98,13 @@ write_wb_roff (IOContext *io_context, WorkbookView *wb_view, FILE *fp)
 		fprintf (fp, "allbox;\n");
 
 		for (row = r.start.row; row <= r.end.row; row++) {
-			if (row)
+			if (row > r.start.row)
 				fprintf (fp, ".T&\n");
 			/* define alignments, bold etc. per cell */
 			v_size = DEFSIZE;
 			for (col = r.start.col; col <= r.end.col; col++) {
 				cell = sheet_cell_get (sheet, col, row);
-				if (col)
+				if (col > r.start.col)
 					fprintf (fp, " ");
 				if (!cell) {
 					fprintf (fp, "l");
@@ -160,8 +160,8 @@ write_wb_roff (IOContext *io_context, WorkbookView *wb_view, FILE *fp)
 			}
 			fprintf (fp, ".\n");
 			fprintf (fp, ".vs %.2fp\n", 2.5 + (float)v_size);
-			for (col = 0; col <= sheet->cols.max_used; col++) {
-				if (col)
+			for (col = r.start.col; col <= r.end.col;  col++) {
+				if (col > r.start.col)
 					fprintf (fp, "\t");
 				cell = sheet_cell_get (sheet, col, row);
 				if (!cell) {	/* empty cell */
@@ -171,7 +171,7 @@ write_wb_roff (IOContext *io_context, WorkbookView *wb_view, FILE *fp)
 				}
 			}
 			fprintf (fp, "\n");
-			if (!row)
+			if (row == r.start.row)
 				fprintf (fp, ".TH\n");
 		}
 		fprintf (fp, ".TE\n\n");
