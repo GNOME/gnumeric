@@ -33,6 +33,7 @@ static GObjectClass *parent_class;
 
 struct PresentPresentationPrivate_ {
 	GPtrArray *slides; /* Of type PresentSlide. */
+	GodDrawingGroup *drawing_group;
 };
 
 static GPtrArray*
@@ -123,6 +124,25 @@ present_presentation_get_slide (PresentPresentation  *presentation,
 	return slide;
 }
 
+GodDrawingGroup *
+present_presentation_get_drawing_group (PresentPresentation  *presentation)
+{
+	if (presentation->priv->drawing_group)
+		g_object_ref (presentation->priv->drawing_group);
+	return presentation->priv->drawing_group;
+}
+
+void
+present_presentation_set_drawing_group (PresentPresentation  *presentation,
+					GodDrawingGroup *drawing_group)
+{
+	if (presentation->priv->drawing_group)
+		g_object_unref (presentation->priv->drawing_group);
+	presentation->priv->drawing_group = drawing_group;
+	if (presentation->priv->drawing_group)
+		g_object_ref (presentation->priv->drawing_group);
+}
+
 static void
 present_presentation_init (GObject *object)
 {
@@ -143,6 +163,8 @@ present_presentation_dispose (GObject *object)
 	for (i = 0; i < presentation->priv->slides->len; i++)
 		g_object_unref (g_ptr_array_index (presentation->priv->slides, i));
 	g_ptr_array_free (presentation->priv->slides, TRUE);
+	if (presentation->priv->drawing_group)
+		g_object_unref (presentation->priv->drawing_group);
 	g_free (presentation->priv);
 	presentation->priv = NULL;
 

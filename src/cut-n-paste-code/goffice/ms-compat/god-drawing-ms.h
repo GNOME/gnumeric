@@ -18,17 +18,22 @@
 #include <ms-compat/god-drawing-ms-client-handler.h>
 #include <gsf/gsf.h>
 
-GodDrawing      *god_drawing_read_ms        (GsfInput                   *input,
-					     gsf_off_t                   length,
-					     GodDrawingMsClientHandler  *handler,
-					     GError                    **err);
-GodDrawingGroup *god_drawing_group_read_ms  (GsfInput                   *input,
-					     gsf_off_t                   length,
-					     GodDrawingMsClientHandler  *handler,
-					     GError                    **err);
+GodDrawing      *god_drawing_read_ms             (GsfInput                   *input,
+						  gsf_off_t                   length,
+						  GodDrawingMsClientHandler  *handler,
+						  GError                    **err);
+GodDrawingGroup *god_drawing_group_read_ms       (GsfInput                   *input,
+						  gsf_off_t                   length,
+						  GodDrawingMsClientHandler  *handler,
+						  GError                    **err);
+void             god_drawing_group_parse_images  (GodDrawingGroup            *drawing_group,
+						  GsfInput                   *input,
+						  gsf_off_t                   length,
+						  GodDrawingMsClientHandler  *handler,
+						  GError                    **err);
 #if 0
-int              god_drawing_write_ms       (GodDrawing                 *drawing,
-					     GsfOutput                  *output);
+int              god_drawing_write_ms            (GodDrawing                 *drawing,
+						  GsfOutput                  *output);
 #endif
 
 #endif /* GO_DRAWING_MS_H */

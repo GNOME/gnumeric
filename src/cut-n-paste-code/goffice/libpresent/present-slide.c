@@ -33,6 +33,7 @@ static GObjectClass *parent_class;
 
 struct PresentSlidePrivate_ {
 	GPtrArray *texts; /* Of type PresentText. */
+	GodDrawing *drawing;
 };
 
 static GPtrArray*
@@ -109,7 +110,7 @@ present_slide_get_text_count  (PresentSlide       *slide)
 
 PresentText *
 present_slide_get_text (PresentSlide  *slide,
-			int                   pos)
+			int            pos)
 {
 	PresentText *text;
 
@@ -121,6 +122,25 @@ present_slide_get_text (PresentSlide  *slide,
 
 	g_object_ref (text);
 	return text;
+}
+
+GodDrawing *
+present_slide_get_drawing (PresentSlide  *slide)
+{
+	if (slide->priv->drawing)
+		g_object_ref (slide->priv->drawing);
+	return slide->priv->drawing;
+}
+
+void
+present_slide_set_drawing (PresentSlide *slide,
+			   GodDrawing   *drawing)
+{
+	if (slide->priv->drawing)
+		g_object_unref (slide->priv->drawing);
+	slide->priv->drawing = drawing;
+	if (slide->priv->drawing)
+		g_object_ref (slide->priv->drawing);
 }
 
 static void
@@ -143,6 +163,7 @@ present_slide_dispose (GObject *object)
 	for (i = 0; i < slide->priv->texts->len; i++)
 		g_object_unref (g_ptr_array_index (slide->priv->texts, i));
 	g_ptr_array_free (slide->priv->texts, TRUE);
+	g_object_unref (slide->priv->drawing);
 	g_free (slide->priv);
 	slide->priv = NULL;
 

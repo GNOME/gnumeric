@@ -31,8 +31,34 @@
 static GObjectClass *parent_class;
 
 struct GodDrawingGroupPrivate_ {
-	gint dummy;
+	GodImageStore *image_store;
 };
+
+static void
+ensure_image_store (GodDrawingGroup *drawing_group)
+{
+	if (drawing_group->priv->image_store == NULL)
+		drawing_group->priv->image_store =
+			god_image_store_new();
+}
+
+GodDrawingGroup *
+god_drawing_group_new (void)
+{
+	GodDrawingGroup *drawing_group;
+
+	drawing_group = g_object_new (GOD_DRAWING_GROUP_TYPE, NULL);
+
+	return drawing_group;
+}
+
+GodImageStore *
+god_drawing_group_get_image_store  (GodDrawingGroup *group)
+{
+	ensure_image_store (group);
+	g_object_ref (group->priv->image_store);
+	return group->priv->image_store;
+}
 
 static void
 god_drawing_group_init (GObject *object)
@@ -42,14 +68,16 @@ god_drawing_group_init (GObject *object)
 }
 
 static void
-god_drawing_group_finalize (GObject *object)
+god_drawing_group_dispose (GObject *object)
 {
 	GodDrawingGroup *group = GOD_DRAWING_GROUP (object);
 
+	if (group->priv->image_store)
+		g_object_unref (group->priv->image_store);
 	g_free (group->priv);
 	group->priv = NULL;
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void
@@ -57,11 +85,11 @@ god_drawing_group_class_init (GodDrawingGroupClass *class)
 {
 	GObjectClass *object_class;
 
-	object_class           = (GObjectClass *) class;
+	object_class          = (GObjectClass *) class;
 
-	parent_class           = g_type_class_peek_parent (class);
+	parent_class          = g_type_class_peek_parent (class);
 
-	object_class->finalize = god_drawing_group_finalize;
+	object_class->dispose = god_drawing_group_dispose;
 }
 
 GSF_CLASS (GodDrawingGroup, god_drawing_group,

@@ -24,11 +24,13 @@
 #include <goffice/goffice-config.h>
 #include "ms-compat/god-drawing-ms.h"
 #include <ms-compat/go-ms-parser.h>
+#include <ms-compat/god-image-ms.h>
 #include <drawing/god-property-table.h>
 #include <drawing/god-shape.h>
 #include <glib/gmacros.h>
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-utils.h>
+#include <string.h>
 
 #define d(x) x
 
@@ -102,7 +104,7 @@ static const GOMSParserRecordType types[] =
 	{	EscherCLSID,			"EscherCLSID",			FALSE,	FALSE,	-1,	-1	},
 	{	EscherOPT,			"EscherOPT",			FALSE,	TRUE,	-1,	-1	},
 	{	EscherBStoreContainer,		"EscherBStoreContainer",	TRUE,	FALSE,	-1,	-1	},
-	{	EscherBSE,			"EscherBSE",			FALSE,	FALSE,	-1,	-1	},
+	{	EscherBSE,			"EscherBSE",			FALSE,	TRUE,	-1,	-1	},
 	{	EscherBlip_START,		"EscherBlip_START",		FALSE,	FALSE,	-1,	-1	},
 	{	EscherBlip_END,			"EscherBlip_END",		FALSE,	FALSE,	-1,	-1	},
 	{	EscherDgContainer,		"EscherDgContainer",		TRUE,	FALSE,	-1,	-1	},
@@ -179,12 +181,11 @@ typedef struct {
 static void
 handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInput *input, GError **err, gpointer user_data)
 {
-
+	ParseCallbackData *cb_data = user_data;
 	switch (record->opcode) {
 	case EscherClientAnchor:
 		{
 			ShapeParseState *parse_state;
-			ParseCallbackData *cb_data = user_data;
 
 			ERROR (STACK_TOP && STACK_TOP->opcode == EscherSpContainer, "Placement Error");
 
@@ -204,7 +205,6 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 	case EscherClientTextbox:
 		{
 			ShapeParseState *parse_state;
-			ParseCallbackData *cb_data = user_data;
 
 			ERROR (STACK_TOP && STACK_TOP->opcode == EscherSpContainer, "Placement Error");
 
@@ -227,7 +227,11 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 			guint complex_offset;
 			ShapeParseState *parse_state;
 
-			ERROR (STACK_TOP && STACK_TOP->opcode == EscherSpContainer, "Placement Error");
+			ERROR (STACK_TOP && (STACK_TOP->opcode == EscherSpContainer ||
+					     STACK_TOP->opcode == EscherDggContainer), "Placement Error");
+
+			if (STACK_TOP->opcode == EscherDggContainer)
+				break;
 
 			parse_state = STACK_TOP->parse_state;
 
@@ -280,7 +284,7 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 					god_property_table_set_uint
 						(parse_state->prop_table,
 						 GOD_PROPERTY_BLIP_ID,
-						 opt_data);
+						 opt_data - 1);
 					break;
 				case 384:
 					god_property_table_set_uint
@@ -318,12 +322,50 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 			parse_state->sp.have_spt = !!(data[5] & 0x08);
 		}
 		break;
+	case EscherBSE:
+		{
+			GodImageStore *store;
+			GodImage *image;
+			ERROR (cb_data->drawing_group, "Placement Error");
+			store = god_drawing_group_get_image_store (cb_data->drawing_group);
+			image = god_image_ms_new ();
+			god_image_ms_set_hash (GOD_IMAGE_MS(image), data + 2);
+			god_image_store_append_image (store, image);
+		}
+		break;
+	}
+
+	if (record->opcode >= EscherBlip_START && record->opcode <= EscherBlip_END) {
+		int i, image_count;
+		GodImageStore *store;
+		GodImage *image;
+
+		ERROR (record->length >= 17, "Length Error");
+		data = gsf_input_read (input, record->length, NULL);
+		ERROR (data, "Length Error");
+
+		ERROR (cb_data->drawing_group, "Placement Error");
+		store = god_drawing_group_get_image_store (cb_data->drawing_group);
+		image_count = god_image_store_get_image_count (store);
+		for (i = 0; i < image_count; i++) {
+			const guint8 *hash;
+			image = god_image_store_get_image (store, i);
+			hash = god_image_ms_get_hash (GOD_IMAGE_MS(image));
+			if (!memcmp(hash, data, 16)) {
+				god_image_set_image_data (image,
+							  NULL,
+							  data + 17,
+							  record->length - 17);
+			}
+		}
+		g_object_unref (store);
 	}
 }
 
 static void
 start_container (GSList *stack, GsfInput *input, GError **err, gpointer user_data)
 {
+	ParseCallbackData *cb_data = user_data;
 	switch (STACK_TOP->opcode) {
 	case EscherSpContainer:
 		{
@@ -346,6 +388,15 @@ start_container (GSList *stack, GsfInput *input, GError **err, gpointer user_dat
 			DrawingParseState *parse_state = g_new0 (DrawingParseState, 1);
 			STACK_TOP->parse_state = parse_state;
 			ERROR (!STACK_SECOND, "Placement Error");
+			ERROR (cb_data->drawing == NULL, "Multiple EscherDgContainers");
+			cb_data->drawing = god_drawing_new();
+		}
+		break;
+	case EscherDggContainer:
+		{
+			ERROR (!STACK_SECOND, "Placement Error");
+			ERROR (cb_data->drawing_group == NULL, "Multiple EscherDggContainers");
+			cb_data->drawing_group = god_drawing_group_new();
 		}
 		break;
 	}
@@ -370,6 +421,7 @@ append_shape_on_stack (GSList *stack, GError **err, GodShape *shape)
 static void
 end_container (GSList *stack, GsfInput *input, GError **err, gpointer user_data)
 {
+	ParseCallbackData *cb_data = user_data;
 	switch (STACK_TOP->opcode) {
 	case EscherSpContainer:
 		{
@@ -422,10 +474,7 @@ end_container (GSList *stack, GsfInput *input, GError **err, gpointer user_data)
 			DrawingParseState *parse_state = STACK_TOP->parse_state;
 			GList *list;
 			GodShape *root_shape;
-			ParseCallbackData *cb_data = user_data;
 
-			ERROR (cb_data->drawing == NULL, "Multiple EscherDgContainers");
-			cb_data->drawing = god_drawing_new();
 			root_shape = god_drawing_get_root_shape (cb_data->drawing);
 
 			parse_state->shapes = g_list_reverse (parse_state->shapes);
@@ -497,4 +546,30 @@ god_drawing_group_read_ms  (GsfInput   *input,
 	if (cb_data.drawing)
 		g_object_unref (cb_data.drawing);
 	return cb_data.drawing_group;
+}
+
+void
+god_drawing_group_parse_images  (GodDrawingGroup *drawing_group,
+				 GsfInput   *input,
+				 gsf_off_t   length,
+				 GodDrawingMsClientHandler *handler,
+				 GError    **err)
+{
+	ParseCallbackData cb_data;
+
+	god_drawing_ms_init();
+
+	cb_data.drawing = NULL;
+	cb_data.drawing_group = drawing_group;
+	cb_data.handler = handler;
+
+	go_ms_parser_read (input,
+			   length,
+			   types,
+			   (sizeof (types) / sizeof (types[0])),
+			   &callbacks,
+			   &cb_data,
+			   err);
+	if (cb_data.drawing)
+		g_object_unref (cb_data.drawing);
 }

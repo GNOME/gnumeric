@@ -5,6 +5,10 @@ libgoffice_drawing_la_SOURCES = 	\
 	god-anchor.h			\
 	god-drawing-group.c		\
 	god-drawing-group.h		\
+	god-image-store.c		\
+	god-image-store.h		\
+	god-image.c			\
+	god-image.h			\
 	god-property-table.c		\
 	god-property-table.h		\
 	god-shape.c			\

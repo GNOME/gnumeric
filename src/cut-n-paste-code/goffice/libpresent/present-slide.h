@@ -16,6 +16,7 @@
 #include <glib-object.h>
 #include <glib.h>
 #include <libpresent/present-text.h>
+#include <drawing/god-drawing.h>
 
 G_BEGIN_DECLS
 
@@ -53,6 +54,11 @@ int           present_slide_get_text_count  (PresentSlide *parent);
 /* Return value is reffed. */
 PresentText  *present_slide_get_text        (PresentSlide *parent,
 					     int           pos);
+
+/* Return value is reffed. */
+GodDrawing   *present_slide_get_drawing     (PresentSlide *slide);
+void          present_slide_set_drawing     (PresentSlide *slide,
+					     GodDrawing   *drawing);
 
 G_END_DECLS
 

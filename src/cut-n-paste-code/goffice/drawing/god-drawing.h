@@ -15,6 +15,7 @@
 #include <glib-object.h>
 #include <glib.h>
 #include <drawing/god-shape.h>
+#include <drawing/god-drawing-group.h>
 
 G_BEGIN_DECLS
 
@@ -35,13 +36,19 @@ typedef struct {
 	GObjectClass parent_class;
 } GodDrawingClass;
 
-GType       god_drawing_get_type        (void);
-GodDrawing *god_drawing_new             (void);
+GType            god_drawing_get_type           (void);
+GodDrawing      *god_drawing_new                (void);
 
 /* Return value is reffed. */
-GodShape   *god_drawing_get_root_shape  (GodDrawing *drawing);
-void        god_drawing_set_root_shape  (GodDrawing *drawing,
-					 GodShape   *root_shape);
+GodShape        *god_drawing_get_root_shape     (GodDrawing      *drawing);
+void             god_drawing_set_root_shape     (GodDrawing      *drawing,
+						 GodShape        *root_shape);
+
+/* Return value is reffed. */
+GodDrawingGroup *god_drawing_get_drawing_group  (GodDrawing      *drawing);
+void             god_drawing_set_drawing_group  (GodDrawing      *drawing,
+						 GodDrawingGroup *drawing_group);
+
 
 G_END_DECLS
 

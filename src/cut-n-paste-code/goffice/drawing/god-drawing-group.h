@@ -15,6 +15,7 @@
 
 #include <glib-object.h>
 #include <glib.h>
+#include <drawing/god-image-store.h>
 
 G_BEGIN_DECLS
 
@@ -39,6 +40,8 @@ typedef struct {
 GType            god_drawing_group_get_type  (void);
 
 GodDrawingGroup *god_drawing_group_new       (void);
+
+GodImageStore   *god_drawing_group_get_image_store (GodDrawingGroup *drawing_group);
 
 G_END_DECLS
 

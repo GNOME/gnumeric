@@ -1,3 +1,48 @@
+2004-03-22  Christopher James Lahey  <clahey@ximian.com>
+
+	* drawing/Makefile.am (libgoffice_drawing_la_SOURCES): Added
+	god-image.c, god-image.h, god-image-store.c, and
+	god-image-store.h.
+
+	* drawing/god-drawing-group.c, drawing/god-drawing-group.h: Added
+	an image store to the drawing group.  Implemented
+	god_drawing_group_new.
+
+	* drawing/god-drawing.c, drawing/god-drawing.h: Gave each drawing
+	a link to its drawing group.
+
+	* drawing/god-image-store.c, drawing/god-image-store.h: New class.
+	An array of images.
+
+	* drawing/god-image.c, drawing/god-image.h: An image or a
+	placeholder for an image.  Includes the original data as well as a
+	loaded pixbuf.
+
+	* libpresent/load-ppt.c: Actually store the drawings in the slides
+	and the drawing groups in the presentations.  Load the pictures
+	into the drawing group.
+
+	* libpresent/present-presentation.c,
+	libpresent/present-presentation.h: Added a drawing group here.
+
+	* libpresent/present-slide.c, libpresent/present-slide.h: Added a
+	drawing here.
+
+	* ms-compat/Makefile.am (libgoffice_ms_compat_la_SOURCES): Added
+	god-image-ms.c and god-image-ms.h.
+
+	* ms-compat/god-drawing-ms.c, ms-compat/god-drawing-ms.h: Actually
+	do drawing group loads and load up the image store as we go.
+	Added a function to handle parsing of images not in the main
+	Escher stream.
+
+	* ms-compat/god-image-ms.c, ms-compat/god-image-ms.h: New class.
+	Just a god_image with a hash that's used at load time.
+
+	* test/test-ppt.c: Moved dumping the Drawings here since they're
+	included in the slides now so it makes more sense to dump them
+	here than in load-ppt.c.
+
 2004-03-22  Morten Welinder  <terra@gnome.org>
 
 	* libpresent/load-ppt.c (handle_atom): The usual fix.

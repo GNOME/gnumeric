@@ -202,55 +202,6 @@ slide_list_with_text_parse_state_finish_slide (PresentPresentation *presentation
 #define STACK_SECOND GO_MS_PARSER_STACK_SECOND(stack)
 
 static void
-dump_shape (GodShape *shape, int depth)
-{
-	GodAnchor *anchor;
-	int i, count;
-	const char *text;
-	if (shape == NULL)
-		return;
-
-	for (i = 0; i < depth; i++) {
-		g_print ("\t");
-	}
-	anchor = god_shape_get_anchor(shape);
-	if (anchor) {
-		GoRect rect;
-		god_anchor_get_rect (anchor,
-				     &rect);
-		g_print ("%f, %f - %f, %f",
-			 GO_UN_TO_IN ((double)rect.top),
-			 GO_UN_TO_IN ((double)rect.left),
-			 GO_UN_TO_IN ((double)rect.bottom),
-			 GO_UN_TO_IN ((double)rect.right));
-	}
-	text = god_shape_get_text (shape);
-	if (text) {
-		g_print (" %s", text);
-	}
-	g_print ("\n");
-	count = god_shape_get_child_count (shape);
-	for (i = 0; i < count; i++) {
-		GodShape *child;
-		child = god_shape_get_child (shape, i);
-		dump_shape (child, depth + 1);
-		g_object_unref (child);
-	}
-}
-
-static void
-dump_drawing (GodDrawing *drawing)
-{
-	GodShape *shape;
-	if (drawing == NULL)
-		return;
-	shape = god_drawing_get_root_shape (drawing);
-	dump_shape (shape, 0);
-	if (shape)
-		g_object_unref (shape);
-}
-
-static void
 handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInput *input, GError **err, gpointer user_data)
 {
 	ParseUserData *parse_user_data = user_data;
@@ -306,13 +257,17 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 			}
 		}
 		break;
-#if 0
 	case PPDrawingGroup:
 		{
-			drawing_group = god_drawing_group_read_ms (stream, record->length, handler, NULL);
+			GodDrawingGroup *drawing_group;
+			ERROR (present_presentation_get_drawing_group (parse_user_data->presentation) == NULL, "Multiple Drawing Groups");
+			drawing_group = god_drawing_group_read_ms (input, record->length, NULL, NULL);
+			ERROR (drawing_group, "DrawingGroup load failed");
+			present_presentation_set_drawing_group (parse_user_data->presentation,
+								drawing_group);
+			g_object_unref (drawing_group);
 		}
 		break;
-#endif
 	case PPDrawing:
 		{
 			GodDrawingMsClientHandler *handler;
@@ -331,11 +286,16 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 			}
 
 			drawing = god_drawing_read_ms (input, record->length, handler, NULL);
-			g_print ("Drawing read %p\n", drawing);
-			dump_drawing (drawing);
+			ERROR (drawing, "Drawing load failed");
+			god_drawing_set_drawing_group (drawing,
+						       present_presentation_get_drawing_group (parse_user_data->presentation));
 			g_object_unref (handler);
-			if (drawing)
-				g_object_unref (drawing);
+			if (STACK_TOP->opcode == Slide) {
+				SlideParseState *parse_state = STACK_TOP->parse_state;
+				present_slide_set_drawing (parse_state->slide,
+							   drawing);
+			}
+			g_object_unref (drawing);
 		}
 		break;
 	}
@@ -443,6 +403,23 @@ load_ppt (char *input_file)
 	if (stream != NULL) {
 		presentation = parse_stream (stream, gsf_input_remaining (stream));
 		g_object_unref (G_OBJECT (stream));
+	}
+
+	if (presentation) {
+		GodDrawingGroup *drawing_group = present_presentation_get_drawing_group (presentation);
+		if (drawing_group) {
+			stream = gsf_infile_child_by_name (infile, "Pictures");
+
+			if (stream != NULL) {
+				god_drawing_group_parse_images (drawing_group,
+								stream,
+								gsf_input_remaining (stream),
+								NULL,
+								NULL);
+				g_object_unref (G_OBJECT (stream));
+			}
+		}
+		g_object_unref (drawing_group);
 	}
 	g_object_unref (G_OBJECT (infile));
 	g_object_unref (G_OBJECT (input));

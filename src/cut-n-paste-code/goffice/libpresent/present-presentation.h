@@ -16,6 +16,7 @@
 #include <glib-object.h>
 #include <glib.h>
 #include <libpresent/present-slide.h>
+#include <drawing/god-drawing-group.h>
 
 G_BEGIN_DECLS
 
@@ -36,23 +37,28 @@ typedef struct {
 	GObjectClass parent_class;
 } PresentPresentationClass;
 
-GType                present_presentation_get_type         (void);
-PresentPresentation *present_presentation_new              (void);
+GType                present_presentation_get_type           (void);
+PresentPresentation *present_presentation_new                (void);
 
-void                 present_presentation_append_slide     (PresentPresentation *parent,
-							    PresentSlide        *slide);
-void                 present_presentation_insert_slide     (PresentPresentation *parent,
-							    PresentSlide        *slide,
-							    int                  pos);
-void                 present_presentation_delete_slide     (PresentPresentation *parent,
-							    int                  pos);
-void                 present_presentation_reorder_slide    (PresentPresentation *parent,
-							    int                  old_pos,
-							    int                  new_pos);
-int                  present_presentation_get_slide_count  (PresentPresentation *parent);
+void                 present_presentation_append_slide       (PresentPresentation *presentation,
+							      PresentSlide        *slide);
+void                 present_presentation_insert_slide       (PresentPresentation *presentation,
+							      PresentSlide        *slide,
+							      int                  pos);
+void                 present_presentation_delete_slide       (PresentPresentation *presentation,
+							      int                  pos);
+void                 present_presentation_reorder_slide      (PresentPresentation *presentation,
+							      int                  old_pos,
+							      int                  new_pos);
+int                  present_presentation_get_slide_count    (PresentPresentation *presentation);
 /* Return value is reffed. */
-PresentSlide        *present_presentation_get_slide        (PresentPresentation *parent,
-							    int                  pos);
+PresentSlide        *present_presentation_get_slide          (PresentPresentation *presentation,
+							      int                  pos);
+
+/* Return value is reffed. */
+GodDrawingGroup     *present_presentation_get_drawing_group  (PresentPresentation *presentation);
+void                 present_presentation_set_drawing_group  (PresentPresentation *presentation,
+							      GodDrawingGroup     *drawing_group);
 
 G_END_DECLS
 
