@@ -1,3 +1,10 @@
+2002-03-29  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* tools.h : change fourier_tool into 
+	  cmd_analysis_tools engine
+	* dialog-analysis-tools.c : make fourier analysis tool
+	  undoable
+
 2002-03-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* tools.h : change descriptive_stats_tool into 
@@ -24,7 +31,7 @@
 	* moving-averages.glade : add options
 	* random-generation.glade : add options
 	* rank.glade : add options
-	* regression.glad : add options
+	* regression.glade : add options
 	* sampling.glade : add options
 	* variance-tests.glade : add options
 	* tools.h : change correlation_tool into 

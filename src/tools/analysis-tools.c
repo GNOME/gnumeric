@@ -3983,23 +3983,16 @@ fourier_fft (const complex_t *in, int n, int skip, complex_t **fourier, gboolean
 	g_free (fourier_2);
 }
 
-int
-fourier_tool (WorkbookControl *wbc, Sheet *sheet,
-	      GSList *input, group_by_t group_by,
-	      gboolean inverse_flag,
-	      data_analysis_output_t *dao)
+static gboolean
+analysis_tool_fourier_engine_run (data_analysis_output_t *dao, 
+				  analysis_tools_data_fourier_t *info)
 {
-	GSList        *input_range;
 	GPtrArray     *data;
 	guint         dataset;
 	gint          col = 0;
 
-	input_range = input;
-	prepare_input_range (&input_range, group_by);
-	data = new_data_set_list (input_range, group_by,
-				  TRUE, dao->labels_flag, sheet);
-
-	dao_prepare_output (wbc, dao, _("Fourier Analysis"));
+	data = new_data_set_list (info->input, info->group_by,
+				  TRUE, info->labels, dao->sheet);
 
 	for (dataset = 0; dataset < data->len; dataset++) {
 		data_set_t    *current;
@@ -4026,7 +4019,7 @@ fourier_tool (WorkbookControl *wbc, Sheet *sheet,
 			complex_real (&in[i],
 				      ((const gnum_float *)current->data->data)[i]);
 
-		fourier_fft (in, desired_length, 1, &fourier, inverse_flag);
+		fourier_fft (in, desired_length, 1, &fourier, info->inverse);
 		g_free (in);
 
 		if (fourier) {
@@ -4042,13 +4035,60 @@ fourier_tool (WorkbookControl *wbc, Sheet *sheet,
 		col += 2;
 	}
 	dao_set_italic (dao, 0, 0, col - 1, 1);
-	dao_autofit_columns (dao);
 
 	destroy_data_set_list (data);
-	range_list_destroy (input_range);
-
-	sheet_set_dirty (dao->sheet, TRUE);
-	sheet_update (sheet);
 
 	return 0;
+}
+
+static int
+analysis_tool_fourier_calc_length (data_analysis_output_t *dao, 
+				   analysis_tools_data_fourier_t *info)
+{
+	GPtrArray     *data = new_data_set_list (info->input, info->group_by,
+						 TRUE, info->labels, dao->sheet);
+	int           result = 1;
+	guint         dataset;
+
+	for (dataset = 0; dataset < data->len; dataset++) {
+		data_set_t    *current;
+		int           given_length;
+
+		current = g_ptr_array_index (data, dataset);
+		given_length = current->data->len;
+		if (given_length > result)
+			result = given_length;
+	}
+	destroy_data_set_list (data);
+	return result;
+}
+
+
+gboolean 
+analysis_tool_fourier_engine (data_analysis_output_t *dao, gpointer specs, 
+			      analysis_tool_engine_t selector, gpointer result)
+{
+	analysis_tools_data_fourier_t *info = specs;
+
+	switch (selector) {
+	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
+		return (dao_command_descriptor (dao, _("Fourier Series (%s)"), result) 
+			== NULL);
+	case TOOL_ENGINE_UPDATE_DAO: 
+		prepare_input_range (&info->input, info->group_by);
+		dao_adjust (dao, 2 * g_slist_length (info->input), 
+			    2 + analysis_tool_fourier_calc_length (dao, specs));
+		return FALSE;
+	case TOOL_ENGINE_CLEAN_UP:
+		return analysis_tool_generic_clean (dao, specs);
+	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
+		dao_prepare_output (NULL, dao, _("Fourier Series"));
+		return FALSE;
+	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
+		return dao_format_output (dao, _("Fourier Series"));
+	case TOOL_ENGINE_PERFORM_CALC:
+	default:
+		return analysis_tool_fourier_engine_run (dao, specs);
+	}
+	return TRUE;  /* We shouldn't get here */
 }

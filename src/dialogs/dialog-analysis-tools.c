@@ -3199,38 +3199,29 @@ dialog_average_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 static void
 fourier_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
 {
-	data_analysis_output_t  dao;
-	GSList                  *input;
+	data_analysis_output_t  *dao;
+	analysis_tools_data_fourier_t  *data;
+
 	GtkWidget               *w;
-	gboolean                inverse;
-	gint                    err;
-	char                    *text;
 
-	input = gnm_expr_entry_parse_as_list (
+	data = g_new0 (analysis_tools_data_fourier_t, 1);
+	dao  = g_new0 (data_analysis_output_t, 1);
+
+	data->input = gnm_expr_entry_parse_as_list (
 		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
+	data->group_by = gnumeric_glade_group_value (state->gui, grouped_by_group);
 
-        parse_output (state, &dao);
+        parse_output (state, dao);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
-        dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        data->labels = dao->labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	w = glade_xml_get_widget (state->gui, "inverse_button");
-	inverse = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)) != 0;
+	data->inverse = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)) != 0;
 
-	err = fourier_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, input,
-			    gnumeric_glade_group_value (state->gui, grouped_by_group),
-			    inverse, &dao);
-
-	switch (err) {
-	case 0:
+	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, 
+			       dao, data, analysis_tool_fourier_engine))
 		gtk_widget_destroy (state->dialog);
-		break;
-	default:
-		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
-		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry), text);
-		g_free (text);
-		break;
-	}
 
 	return;
 }

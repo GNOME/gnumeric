@@ -121,10 +121,6 @@ int exp_smoothing_tool    (WorkbookControl *context, Sheet *sheet,
 			   GSList *input, group_by_t group_by,
 			   gnum_float damp_fact, int std_error_flag,
 			   data_analysis_output_t *dao);
-int fourier_tool          (WorkbookControl *context, Sheet *sheet,
-			   GSList *input, group_by_t group_by,
-			   gboolean inverse_flag,
-			   data_analysis_output_t *dao);
 int ranking_tool          (WorkbookControl *context, Sheet *sheet,
 			   GSList *input, group_by_t group_by,
 			   gboolean av_ties_flag,
@@ -201,6 +197,17 @@ typedef struct {
 
 gboolean analysis_tool_descriptive_engine (data_analysis_output_t *dao, gpointer specs, 
 					   analysis_tool_engine_t selector, gpointer result);
+
+
+/************** Fourier Analysis **** *************/
+
+typedef struct {
+	ANALYSIS_TOOLS_DATA_GENERIC;
+	gboolean inverse;
+} analysis_tools_data_fourier_t;
+
+gboolean analysis_tool_fourier_engine (data_analysis_output_t *dao, gpointer specs, 
+				       analysis_tool_engine_t selector, gpointer result);
 
 
 /********************************************************************/
