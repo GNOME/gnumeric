@@ -100,13 +100,13 @@ html_write_cell32 (FILE *fp, Cell *cell)
 		g_return_if_fail (mstyle != NULL);
 
 		fprintf (fp, "\t<TD");
-		
+
 		switch (cell_get_horizontal_align (cell,
 						   mstyle_get_align_h (mstyle))) {
 		case HALIGN_RIGHT :
 			fprintf (fp, " align=right");
 			break;
-			
+
 		case HALIGN_CENTER :
 			fprintf (fp, " align=center");
 			break;
@@ -154,7 +154,7 @@ html_write_cell40 (FILE *fp, Cell *cell)
 		case HALIGN_RIGHT :
 			fprintf (fp, " halign=right");
 			break;
-			
+
 		case HALIGN_CENTER :
 			fprintf (fp, " halign=center");
 			break;
@@ -368,7 +368,7 @@ html_read (Workbook *wb, const char *filename)
 	workbook_set_filename (wb, filename);
 
 	fp = fopen (filename, "r");
-	if (!fp) 
+	if (!fp)
 		return FALSE;
 
 	sheet = NULL;
@@ -432,13 +432,13 @@ html_read (Workbook *wb, const char *filename)
 							 */
 							if (flags & HTML_BOLD)
 								mstyle_set_font_bold (mstyle, TRUE);
-							
+
 							if (flags & HTML_ITALIC)
 								mstyle_set_font_italic (mstyle, TRUE);
-							
+
 							if (flags & HTML_RIGHT)
 								mstyle_set_align_h (mstyle, HALIGN_CENTER);
-							
+
 							sheet_style_attach_single (cell->sheet,
 										   cell->col->pos,
 										   cell->row->pos, mstyle);

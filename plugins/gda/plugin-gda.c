@@ -32,23 +32,20 @@
 #include "../../src/plugin.h"
 #include "../../src/expr.h"
 
-int                 init_plugin                  (PluginData* pd);
-
-
 char* help_execSQL = "execSQL: Execute SQL statement and display values";
 
-static gchar* 
+static gchar*
 display_recordset(Gda_Recordset* rs, Sheet* sheet, gint col, gint row)
 {
   gint i;
   Cell*   cell;
   gchar*  retval;
   Gda_Field* field;
-  
+
   sheet = workbook_get_current_sheet(current_workbook);
   field = gda_recordset_field_idx(rs, 0);
   retval = gda_field_name(field);
-  
+
   for ( i = 1; i < gda_recordset_rowsize(rs); i++)
     {
       gchar*  field_name;
@@ -107,7 +104,7 @@ execSQL(void* sheet, GList* expr_node_list, int eval_col, int eval_row, char **e
       return NULL;
     }
   stmt = g_string_new("");
-  
+
   node = expr_node_list->data;
   g_print("1. node->oper = %d\n", node->oper);
   db_name = expr_decode_tree(node, sheet, eval_col, eval_row);
@@ -136,7 +133,7 @@ execSQL(void* sheet, GList* expr_node_list, int eval_col, int eval_row, char **e
       node = expr_node_list->data;
 
       g_print("parameter_node %d: oper = %d\n", parm_idx, node->oper);
-      
+
       if (node->oper == OPER_CONSTANT)
 	{
 	  if (node->u.constant->type != VALUE_STRING)
@@ -156,7 +153,7 @@ execSQL(void* sheet, GList* expr_node_list, int eval_col, int eval_row, char **e
 	  Cell*      parameter_cell;
 	  gint       cell_row;
 	  gint       cell_col;
-	  
+
 	  g_string_append(stmt, " ? ");
 	  g_print("cellref->row = %d, relative = %d\n",
 		  node->u.ref.row, node->u.ref.row_relative);
@@ -170,9 +167,9 @@ execSQL(void* sheet, GList* expr_node_list, int eval_col, int eval_row, char **e
 	      cell_col = eval_col + node->u.ref.col;
 	  else
 	    cell_col = node->u.ref.col;
-	  
+
 	  parameter_cell = sheet_cell_get(sheet, cell_col, cell_row);
-	  
+
 	  gda_value = GDA_Value__alloc();
 	  gda_value->_d = GDA_TypeVarchar;
 	  gda_value->_u.lvc = parameter_cell->text->str;
@@ -181,14 +178,14 @@ execSQL(void* sheet, GList* expr_node_list, int eval_col, int eval_row, char **e
 	}
       expr_node_list = g_list_next(expr_node_list);
     }
-  
+
   g_snprintf(bfr, sizeof(bfr), "/gdalib/%s/Provider", &db_name[1]);
   provider = gnome_config_get_string(bfr);
   cnc = gda_connection_new(gnome_CORBA_ORB());
   gda_connection_set_provider(cnc, provider);
   g_snprintf(bfr, sizeof(bfr), "/gdalib/%s/DSN", &db_name[1]);
   dsn = gnome_config_get_string(bfr);
-  
+
   rc = gda_connection_open(cnc, dsn, &user[1], &password[1]);
   if (rc != 0)
     {
@@ -234,7 +231,7 @@ execSQL(void* sheet, GList* expr_node_list, int eval_col, int eval_row, char **e
   gda_command_free(cmd);
   gda_connection_close(cnc);
   gda_connection_free(cnc);
-  
+
   return result;
 }
 
@@ -242,21 +239,21 @@ static FunctionDefinition plugin_functionp[] ={
   { "execSQL",   "", "", &help_execSQL, execSQL, NULL},
   { NULL, NULL}
 };
-  
+
 static int
 can_unload (PluginData *pd)
 {
 	Symbol *sym;
-	
+
 	sym = symbol_lookup (global_symbol_table, "execSQL");
 	return sym->ref_count <= 1;
 }
-  
+
 static void
 cleanup_plugin (PluginData *pd)
 {
 	Symbol *sym;
-	
+
 	g_free (pd->title);
 	sym = symbol_lookup (global_symbol_table, "execSQL");
 	if (sym) {
@@ -266,17 +263,16 @@ cleanup_plugin (PluginData *pd)
 
 
 int
-init_plugin(PluginData* pd)
+init_plugin(CmdContext *context, PluginData* pd)
 {
-  g_print("plugin-gda: init_plugin called\n");
-  install_symbols(plugin_functionp, "GDA Plugin");
-  pd->can_unload = can_unload;
-  pd->cleanup_plugin = cleanup_plugin;
-  pd->title = g_strdup("Database Access");
-  return 0;
+	g_print("plugin-gda: init_plugin called\n");
+
+	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
+		return -2;
+
+	install_symbols(plugin_functionp, "GDA Plugin");
+	pd->can_unload = can_unload;
+	pd->cleanup_plugin = cleanup_plugin;
+	pd->title = g_strdup("Database Access");
+	return 0;
 }
-
-
-
-    
-  

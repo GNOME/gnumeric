@@ -318,7 +318,7 @@ readTextWorkbook (Workbook *book, const char* filename, gboolean probe)
 	}
 
 	/* FIXME: ARBITRARY VALUE */
-	if (buf.st_size < 1 || buf.st_size > 1000000){ 
+	if (buf.st_size < 1 || buf.st_size > 1000000){
 		close(fd);
 		return FALSE;
 	} else
@@ -356,8 +356,8 @@ static gboolean
 text_read_workbook (Workbook *wb, const char* filename)
 {
 	gboolean ret;
-		
-	ret = readTextWorkbook (wb, filename, FALSE); 
+
+	ret = readTextWorkbook (wb, filename, FALSE);
 	if (ret){
 		workbook_set_filename (wb, filename);
 		workbook_set_title (wb, filename);
@@ -450,8 +450,11 @@ text_can_unload (PluginData *pd)
 }
 
 int
-init_plugin (PluginData *pd)
+init_plugin (CmdContext *context, PluginData *pd)
 {
+	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
+		return -2;
+
 	text_init ();
 
 	pd->can_unload = text_can_unload;

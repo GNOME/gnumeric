@@ -1,20 +1,24 @@
 #ifndef GNUMERIC_WORKBOOK_VIEW_H
 #define GNUMERIC_WORKBOOK_VIEW_H
 
-#include "sheet.h"
+#include "gnumeric.h"
 
 /* The command context for use by a GUI.
  * This will need refinement.
  */
-CmdContext * command_context_gui (void);
+CmdContext * command_context_gui (Workbook *wb);
 
-/* Actions on the workbooks UI */
-
-/* enable/disable paste/paste_special
- * 0 = both disabled
- * 1 = paste enabled
- * 2 = both enabled
+/* Actions on the workbooks UI
+ * 
+ * These are the embryonic form of signals that will change the
+ * workbook-view.  I amsure that this is the wrong place and interface
+ * but it is a starting point of the list.
+ *
  */
 void workbook_view_set_paste_state (Workbook *wb, int const state);
+
+void workbook_view_set_undo_redo_state (Workbook const * const wb,
+					gboolean const has_undos,
+					gboolean const has_redos);
 
 #endif /* GNUMERIC_WORKBOOK_VIEW_H */

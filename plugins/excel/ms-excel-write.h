@@ -53,7 +53,7 @@ struct _ExcelCell {
 	Cell    *gnum_cell;
 };
 
-struct _ExcelCol 
+struct _ExcelCol
 {
 	ExcelSheet *sheet;
 	guint16 first;
@@ -72,7 +72,7 @@ struct _ExcelSheet {
 	guint32        maxy;
 	GHashTable    *formula_cache;
 	gpointer       cell_used_map;
-	ExcelCell     *cells;            
+	ExcelCell     *cells;
 	double         base_char_width;
 };
 

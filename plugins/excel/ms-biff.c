@@ -136,7 +136,7 @@ ms_biff_merge_continues (BiffQuery *bq, guint32 len)
 			chunk.data[chunk.length-1]);
 #endif
 		tmp[0] = 0; tmp[1] = 0; tmp[2] = 0; tmp[3] = 0;
-		bq->pos->read_copy (bq->pos, tmp, 4);	
+		bq->pos->read_copy (bq->pos, tmp, 4);
 		total_len   += chunk.length;
 		g_array_append_val (contin, chunk);
 

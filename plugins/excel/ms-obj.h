@@ -28,7 +28,7 @@ typedef struct
 	int nths;		/* No of 1/1024th, 1/256th */
 } anchor_point;
 
-typedef struct 
+typedef struct
 {
 	/* In pixels */
 	anchor_point anchor[4];

@@ -18,6 +18,7 @@ libgnum_html_la_SOURCES = boot.h boot.c html.h html.c latex.h latex.c \
 INCLUDES = 						\
 	-I$(GNUMERIC_SRC_DIR)				\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
+	-DGNUMERIC_VERSION=\""$(VERSION)"\"             \
 	-I$(includedir)					\
 	$(GNOME_INCLUDEDIR)
 

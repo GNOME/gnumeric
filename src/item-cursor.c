@@ -608,6 +608,7 @@ static void
 item_cursor_do_action (ItemCursor *item_cursor, ActionType action, guint32 time)
 {
 	Sheet *sheet = item_cursor->sheet;
+	Workbook *wb = sheet->workbook;
 	int   col = item_cursor->pos.start.col;
 	int   row = item_cursor->pos.start.row;
 
@@ -619,36 +620,36 @@ item_cursor_do_action (ItemCursor *item_cursor, ActionType action, guint32 time)
 		if (!item_cursor_target_region_ok (item_cursor)) {
 			return;
 		}
-		if (!sheet_selection_copy (command_context_gui(), sheet))
+		if (!sheet_selection_copy (command_context_gui (wb), sheet))
 			return;
-		sheet_selection_paste (command_context_gui(), sheet,
+		sheet_selection_paste (command_context_gui (wb), sheet,
 				       col, row, PASTE_ALL_TYPES, time);
 		return;
 
 	case ACTION_MOVE_CELLS:
 		if (!item_cursor_target_region_ok (item_cursor))
 			return;
-		if (!sheet_selection_cut (command_context_gui(), sheet))
+		if (!sheet_selection_cut (command_context_gui (wb), sheet))
 			return;
-		sheet_selection_paste (command_context_gui(), sheet,
+		sheet_selection_paste (command_context_gui (wb), sheet,
 				       col, row, PASTE_ALL_TYPES, time);
 		return;
 
 	case ACTION_COPY_FORMATS:
 		if (!item_cursor_target_region_ok (item_cursor))
 			return;
-		if (!sheet_selection_copy (command_context_gui(), sheet))
+		if (!sheet_selection_copy (command_context_gui (wb), sheet))
 			return;
-		sheet_selection_paste (command_context_gui(), sheet,
+		sheet_selection_paste (command_context_gui (wb), sheet,
 				       col, row, PASTE_FORMATS, time);
 		return;
 
 	case ACTION_COPY_VALUES:
 		if (!item_cursor_target_region_ok (item_cursor))
 			return;
-		if (!sheet_selection_copy (command_context_gui(), sheet))
+		if (!sheet_selection_copy (command_context_gui (wb), sheet))
 			return;
-		sheet_selection_paste (command_context_gui(), sheet,
+		sheet_selection_paste (command_context_gui (wb), sheet,
 				       col, row, PASTE_VALUES, time);
 		return;
 

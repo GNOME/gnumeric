@@ -40,10 +40,10 @@ lotus_getdouble (const guint8 *p)
 	int i;
 	guint8 *t = (guint8 *)&d;
 	int sd = sizeof (d);
-	
+
 	for (i = 0; i < sd; i++)
 		t[i] = p[sd - 1 - i];
-	
+
 	return d;
 }
 
@@ -53,7 +53,7 @@ lotus_setdouble (guint8 *p, double d)
 	int i;
 	guint8 *t = (guint8 *)&d;
 	int sd = sizeof (d);
-	
+
 	for (i = 0; i < sd; i++)
 		p[sd - 1 - i] = t[i];
 }
@@ -153,7 +153,7 @@ read_workbook (Workbook *wb, FILE *f)
 	Sheet    *sheet = NULL;
 	gboolean  panic = FALSE;
 	record_t *r;
-       
+
 	sheet = attach_sheet (wb, sheetidx++);
 
 	r = record_new (f);
@@ -182,7 +182,7 @@ read_workbook (Workbook *wb, FILE *f)
 /*			rf = readfmt(p);  FIXME
 			f = sf | rf;
 			if (rf == FMT_DATE) {
-				value.number 
+				value.number
 					= from_wk1date(value.number,FALSE);
 				sprintf(b, "%d", (int)value.number);
 			}
@@ -198,10 +198,10 @@ read_workbook (Workbook *wb, FILE *f)
 			v = value_new_float (num);
 			i = GUINT16_FROM_LE (*(guint16 *)(r->data + 1));
 		        j = GUINT16_FROM_LE (*(guint16 *)(r->data + 3));
-/*			rf = readfmt(p); 
+/*			rf = readfmt(p);
 			f = sf | rf;
 			if (rf == FMT_DATE || rf == FMT_TIME) {
-				value.number = from_wk1date(value.number, 
+				value.number = from_wk1date(value.number,
 							    rf == FMT_TIME);
 				sprintf(b, "%d", (int) value.number);
 			}
@@ -218,7 +218,7 @@ read_workbook (Workbook *wb, FILE *f)
 			v = value_new_string (r->data + 6); /* FIXME unsafe */
 			i = GUINT16_FROM_LE (*(guint16 *)(r->data + 1));
 		        j = GUINT16_FROM_LE (*(guint16 *)(r->data + 3));
-/*			f = sf | readfmt(p); 
+/*			f = sf | readfmt(p);
 			ins_data(buf, siod_interpreter, (char *)r->data + 6,
 				value, LABEL, s, i, j);
 				ins_format(buf,	s, i, j, fmt_old2new(f)); */
@@ -233,7 +233,7 @@ read_workbook (Workbook *wb, FILE *f)
 			i = GUINT16_FROM_LE (*(guint16 *)(r->data + 1));
                         j = GUINT16_FROM_LE (*(guint16 *)(r->data + 3));
 /*                Ignore for now.
-			f = sf | readfmt(p); 
+			f = sf | readfmt(p);
 			formula(GINT16_FROM_LE (*(gint16 *)(r->data + 13), r->data + 15, i, j));
 			p1 = pop();
 			value.number = LOTUS_GETDOUBLE (
@@ -262,12 +262,12 @@ gboolean
 lotus_read (Workbook *wb, const char *filename)
 {
 	FILE *f;
-	
+
 	if (!(f = fopen (filename, "rb")))
 		return FALSE;
 
 	cell_deep_freeze_redraws ();
-	
+
 	if (!read_workbook (wb, f)) {
 		printf ("FIXME: Nasty workbook error, leaked\n");
 		return FALSE;

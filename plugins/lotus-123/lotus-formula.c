@@ -192,7 +192,7 @@ parse_list_last_n (ParseList **list, gint n)
 }
 
 
-static void 
+static void
 parse_list_free (ParseList **list)
 {
 	while (*list)
@@ -244,7 +244,7 @@ static gint32
 find_function (guint16 idx)
 {
 	guint lp;
-	
+
 	for (lp = 0; lp < sizeof (functions) / sizeof (func_struct_t); lp++) {
 		if (idx == functions[lp].idx)
 			return lp;
@@ -273,7 +273,7 @@ make_function (GList **stack, guint16 idx, guint8 *data)
 		sym = symbol_lookup (global_symbol_table, f->name);
 		if (!sym) {
 			char *txt;
-			txt = g_strdup_printf ("[Function '%s']", 
+			txt = g_strdup_printf ("[Function '%s']",
 					       f->name?f->name:"?");
 			printf ("Unknown %s\n", txt);
 			parse_list_push (stack, expr_tree_new_error (txt));
@@ -303,13 +303,13 @@ make_function (GList **stack, guint16 idx, guint8 *data)
 		ExprTree *r;
 		r = parse_list_pop (stack);
 		parse_list_push (stack, expr_tree_new_unary (f->data, r));
-	} else 
+	} else
 		g_warning ("Unknown formula type");
 
 	return ans;
 }
 
-	
+
 ExprTree *
 lotus_parse_formula (Sheet *sheet, guint32 col, guint32 row,
 		     guint8 *data, guint32 len)

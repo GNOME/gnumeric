@@ -18,10 +18,40 @@
 
 GList *plugin_list = NULL;
 
+/* A coarse safety check to ensure that plugins are used only with the version
+ * they are compiled for.
+ * 
+ * @plugin_version : A string representing the version of gnumeric that the
+ *                   pluging was compiled for.
+ *
+ * return TRUE if the plugin version and the application version do not match exactly.
+ */
+gboolean
+plugin_version_mismatch  (CmdContext *context, PluginData *pd,
+			  char const * const plugin_version)
+{
+	gboolean const mismatch = (strcmp (plugin_version, GNUMERIC_VERSION) != 0);
+
+	if (mismatch) {
+		gchar *mesg =
+		    g_strdup_printf (_("Unable to open plugin '%s'\n"
+				       "Plugin version '%s' is different from application '%s'."),
+				     pd->file_name, plugin_version, GNUMERIC_VERSION);
+		gnumeric_error_plugin_problem (context, mesg);
+		g_free (mesg);
+	}
+
+	return mismatch;
+}
+
 PluginData *
 plugin_load (Workbook *wb, const gchar *modfile)
 {
+	/* FIXME : Get the correct command context here. */
+	CmdContext *context = command_context_gui (wb);
+
 	PluginData *data;
+	int res;
 
 	g_return_val_if_fail (modfile != NULL, NULL);
 	
@@ -31,31 +61,30 @@ plugin_load (Workbook *wb, const gchar *modfile)
 		return NULL;
 	}
 	
+	data->file_name = g_strdup (modfile);
 	data->handle = g_module_open (modfile, 0);
 	if (!data->handle) {
-#if 0
-		g_free (data);
-		return NULL;
-#else
 		char *str;
 		str = g_strconcat(_("unable to open module file: "), g_module_error(), NULL);
-		gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR, str);
+		gnumeric_error_plugin_problem (context, str);
 		g_free (str);
 		g_free (data);
 		return NULL;
-#endif
 	}
 	
 	if (!g_module_symbol (data->handle, "init_plugin", (gpointer *) &data->init_plugin)){
 		g_free (data);
-		gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
-				 _("Plugin must contain init_plugin function."));
+		gnumeric_error_plugin_problem (context, 
+					       _("Plugin must contain init_plugin function."));
 		goto error;
 	}
 	
-	if (data->init_plugin (data) < 0){
-		gnumeric_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-				 _("init_plugin returned error"));
+	res = data->init_plugin (NULL, data);
+	if (res < 0) {
+		/* Avoid displaying 2 error boxes */
+		if (res == -1)
+			gnumeric_error_plugin_problem (context, 
+						       _("init_plugin returned error"));
 		goto error;
 	}
 
@@ -64,6 +93,7 @@ plugin_load (Workbook *wb, const gchar *modfile)
 
  error:
 	g_module_close (data->handle);
+	g_free (data->file_name);
 	g_free (data);
 	return NULL;
 }
@@ -85,6 +115,7 @@ plugin_unload (Workbook *wb, PluginData *pd)
 	plugin_list = g_list_remove (plugin_list, pd);
 
 	g_module_close (pd->handle);
+	g_free (pd->file_name);
 	g_free (pd);
 }
 

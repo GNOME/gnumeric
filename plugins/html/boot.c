@@ -94,8 +94,11 @@ html_init (void)
  * called by gnumeric to load the plugin
  */
 int
-init_plugin (PluginData *pd)
+init_plugin (CmdContext *context, PluginData *pd)
 {
+	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
+		return -2;
+
 	html_init ();
 	pd->can_unload = html_can_unload;
 	pd->cleanup_plugin = html_cleanup_plugin;

@@ -561,10 +561,10 @@ char *excel_builtin_formats[EXCEL_BUILTIN_FORMAT_LEN] = {
 /* 0x31 */	"@"
 };
 
-/* 
+/*
  * FIXME: This code falsely assumes that the builtin formats are
  * fixed. The builtins get translated to local currency formats. E.g.
- * Format data : 0x05 == '"kr"\ #,##0;"kr"\ \-#,##0' 
+ * Format data : 0x05 == '"kr"\ #,##0;"kr"\ \-#,##0'
 */
 StyleFormat *
 biff_format_data_lookup (ExcelWorkbook *wb, guint16 idx)
@@ -981,7 +981,7 @@ ms_excel_get_xf (ExcelSheet *sheet, int const xfidx)
  * @fontname    The font name
  *
  * Tries to find a gnome font which matches the Excel font.
- * Returns the name of the substitute font if found. Otherwise returns NULL 
+ * Returns the name of the substitute font if found. Otherwise returns NULL
  */
 /* This is very ad hoc - throw it away when something better comes along */
 static gchar *
@@ -1038,7 +1038,7 @@ style_optimize (ExcelSheet *sheet, int col, int row)
 			sheet->style_optimize.end.row   = row;
 		if (row < sheet->style_optimize.end.row)
 			sheet->style_optimize.start.row = row;
-	}	
+	}
 }
 
 static MStyle *
@@ -1097,13 +1097,13 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 	mstyle_set_pattern (mstyle, xf->fill_pattern_idx);
 
 	/* Solid patterns seem to reverse the meaning */
-	/* 
+	/*
 	 * FIXME: Is this test correct? I fed Excel an XF record with
 	 * fill_pattern_idx = 1, pat_backgnd_col = 1 (black),
 	 * pat_foregnd_col = 0 (white). Excel displays  it with black
 	 * background. Gnumeric displays it with white background.
 	 * Can the "xf->pat_foregnd_col != 0" test be removed?
-	 * - Jon Hellan 
+	 * - Jon Hellan
 	 */
 	if (xf->fill_pattern_idx == 1 && xf->pat_foregnd_col != 0) {
 		pattern_index	= xf->pat_backgnd_col;
@@ -1551,7 +1551,7 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
 		xf->pat_backgnd_col = (data & 0x1f80) >> 7;
 
 		data = MS_OLE_GET_GUINT16 (q->data + 10);
-		xf->fill_pattern_idx = 
+		xf->fill_pattern_idx =
 			excel_map_pattern_index_from_excel (data & 0x3f);
 
 #ifndef NO_DEBUG_EXCEL
@@ -2327,18 +2327,18 @@ print_font_mapping_debug_info (ExcelSheet *sheet, MStyle const *ms)
 {
 	BiffXFData const *xf = NULL;
 	BiffFontData const *fd = NULL;
-			
+
 	if ((xf = ms_excel_get_xf (sheet, 0)) != NULL &&
 	    (fd = ms_excel_get_font (sheet, xf->font_idx))) {
-				
-		printf ("Font: %s %g", 
+
+		printf ("Font: %s %g",
 			fd->fontname, fd->height/20.0);
 		if (ms) {
-			const char *msfn 
+			const char *msfn
 				= mstyle_get_font_name (ms);
-			printf (" mapped to %s %.6g", 
+			printf (" mapped to %s %.6g",
 				msfn,
-				mstyle_get_font_size 
+				mstyle_get_font_size
 				(ms));
 		}
 		printf ("\n");
@@ -2361,11 +2361,11 @@ lookup_base_char_width_for_read (ExcelSheet *sheet)
 
 	/*
 	 * I'm only guessing that 0 is the right index, but I've been
-	 * right so far. 
+	 * right so far.
 	 */
 	def = !sheet->wb->XF_cell_records ||
 		(sheet->wb->XF_cell_records->len == 0);
-	
+
 	if (def)
 		ms = NULL;
 	else
@@ -2382,7 +2382,7 @@ lookup_base_char_width_for_read (ExcelSheet *sheet)
 			print_font_mapping_debug_info (sheet, ms);
 		}
 #endif
-		res = lookup_font_base_char_width (sf, 
+		res = lookup_font_base_char_width (sf,
 						   (ms_excel_read_debug > 2));
 		style_font_unref (sf);
 		mstyle_unref (ms);
@@ -2390,7 +2390,7 @@ lookup_base_char_width_for_read (ExcelSheet *sheet)
 
 	return res;
 }
-			
+
 /**
  * get_base_char_width:
  * @sheet	the Excel sheet
@@ -2402,7 +2402,7 @@ lookup_base_char_width_for_read (ExcelSheet *sheet)
  * The char width is based on the font in the "Normal" style.
  * This style is actually common to all sheets in the
  * workbook, but I find it more robust to treat it as a sheet
- * attribute.  
+ * attribute.
  *
  * FIXME: There is a function with this name both in ms-excel-read.c and
  * ms-excel-write.c. The only difference is lookup_base_char_width_for_read
@@ -2418,20 +2418,20 @@ get_base_char_width (ExcelSheet *sheet)
 
 	return sheet->base_char_width;
 }
-			
+
 /**
  * get_row_height_units:
  * @height	height in Excel units
  *
  * Converts row height from Excel units to points. Returns height in points.
- * 
- * Excel specifies row height in 1/20 of a point. 
- * 
+ *
+ * Excel specifies row height in 1/20 of a point.
+ *
  * What we now print out is just 0.5% shorter than theoretical
  * height. The height of what Excel prints out varies in mysterious
  * ways. Sometimes it is close to theoretical, sometimes it is a few %
  * shorter. I don't see any point in correcting for the 0.5% until we
- * know the whole story. 
+ * know the whole story.
  */
 static double
 get_row_height_units (guint16 height)
@@ -2443,7 +2443,7 @@ get_row_height_units (guint16 height)
  * get_units_net_of_margins:
  * @units 	A dimension in points
  * @cri         A ColRowInfo for a row or column.
- * 
+ *
  * Converts an external (with margins) row height/column width in
  * points to an internal (without margins) height/width, as this is
  * what the sheet_<foo>_set_{width|height}_units functions
@@ -2465,10 +2465,10 @@ get_units_net_of_margins (double units, const ColRowInfo * cri)
  * ms_excel_read_row:
  * @q 		A BIFF query
  * @sheet	The Excel sheet
- * 
- * Processes a BIFF row info (BIFF_ROW) record. See: S59DDB.HTM 
+ *
+ * Processes a BIFF row info (BIFF_ROW) record. See: S59DDB.HTM
  */
-static void 
+static void
 ms_excel_read_row (BiffQuery *q, ExcelSheet *sheet)
 {
 	guint16 const row = MS_OLE_GET_GUINT16(q->data);
@@ -2484,7 +2484,7 @@ ms_excel_read_row (BiffQuery *q, ExcelSheet *sheet)
 	if ((height & 0x8000) == 0) {
 		double hu = get_row_height_units (height);
 		/* Subtract margins */
-		hu = get_units_net_of_margins 
+		hu = get_units_net_of_margins
 			(hu, sheet_row_get_info (sheet->gnum_sheet, row));
 		sheet_row_set_height_units (sheet->gnum_sheet, row, hu, TRUE);
 	}
@@ -2499,15 +2499,15 @@ ms_excel_read_row (BiffQuery *q, ExcelSheet *sheet)
 #endif
 	}
 }
-		
+
 /**
  * ms_excel_read_colinfo:
  * @q 		A BIFF query
  * @sheet	The Excel sheet
- * 
- * Processes a BIFF column info (BIFF_COLINFO) record. See: S59D67.HTM 
+ *
+ * Processes a BIFF column info (BIFF_COLINFO) record. See: S59D67.HTM
  */
-static void 
+static void
 ms_excel_read_colinfo (BiffQuery *q, ExcelSheet *sheet)
 {
 	int lp;
@@ -2543,20 +2543,20 @@ ms_excel_read_colinfo (BiffQuery *q, ExcelSheet *sheet)
 			printf ("FIXME: Hidden column unimplemented\n");
 		else
 			printf ("FIXME: 0 sized column ???\n");
-		
+
 		/* FIXME : Is this still necessary ? */
 		col_width = 62;
 	} else
 		col_width = (width * char_width) / 256.;
 	/* Subtract margins */
-	col_width = get_units_net_of_margins 
+	col_width = get_units_net_of_margins
 		(col_width, sheet_col_get_info (sheet->gnum_sheet, firstcol));
 
 	/* NOTE : seems like this is inclusive firstcol, inclusive lastcol */
 	if (lastcol >= SHEET_MAX_COLS)
 		lastcol = SHEET_MAX_COLS-1;
 	for (lp = firstcol; lp <= lastcol; ++lp)
-		sheet_col_set_width_units 
+		sheet_col_set_width_units
 			(sheet->gnum_sheet, lp, col_width);
 }
 
@@ -2899,7 +2899,7 @@ ms_excel_read_selection (ExcelSheet *sheet, BiffQuery *q)
  * ms_excel_read_default_row_height:
  * @q 		A BIFF query
  * @sheet	The Excel sheet
- * 
+ *
  * Processes a BIFF default row height (BIFF_DEFAULTROWHEIGHT) record.
  * See: S59D72.HTM
  */
@@ -2933,7 +2933,7 @@ ms_excel_read_default_row_height (BiffQuery *q, ExcelSheet *sheet)
  * ms_excel_read_default_col_width:
  * @q 		A BIFF query
  * @sheet	The Excel sheet
- * 
+ *
  * Processes a BIFF default column width (BIFF_DEFCOLWIDTH) record.
  * See: S59D73.HTM
  */
@@ -3713,7 +3713,7 @@ ms_excel_read_workbook (Workbook *workbook, MsOle *file)
 			}
 #ifndef NO_DEBUG_EXCEL
 			if (ms_excel_read_debug > 2) {
-				printf ("Format data : 0x%x == '%s'\n", 
+				printf ("Format data : 0x%x == '%s'\n",
 					d->idx, d->name);
 			}
 #endif

@@ -22,6 +22,7 @@
 #include "print-info.h"
 #include "mstyle.h"
 #include "application.h"
+#include "command-context.h"
 #ifdef ENABLE_BONOBO
 #    include <libgnorba/gnorba.h>
 #endif
@@ -2574,7 +2575,7 @@ sheet_clear_region (CmdContext *context, Sheet *sheet,
 		cell_thaw_redraws ();
 		workbook_recalc (sheet->workbook);
 	} else 
-		gnumeric_no_modify_array_notice (sheet->workbook);
+		gnumeric_error_splits_array (context);
 	g_list_free (cb.l);
 }
 
@@ -2774,7 +2775,11 @@ sheet_fill_selection_with (Sheet *sheet, const char *str,
 		if (!sheet_check_for_partial_array (sheet,
 						    ss->user.start.row,ss->user.start.col,
 						    ss->user.end.row, ss->user.end.col)) {
+#if 0
+			gnumeric_error_splits_array (context);
+#else
 			gnumeric_no_modify_array_notice (sheet->workbook);
+#endif
 			return;
 		}
 	}
@@ -3301,7 +3306,7 @@ sheet_insert_cols (CmdContext *context, Sheet *sheet,
 					      col, SHEET_MAX_ROWS-1,
 					      &avoid_dividing_array_horizontal,
 					      NULL) != NULL){
-			gnumeric_no_modify_array_notice (sheet->workbook);
+			gnumeric_error_splits_array (context);
 			return;
 		}
 
@@ -3368,7 +3373,7 @@ sheet_delete_cols (CmdContext *context, Sheet *sheet,
 	if (!sheet_check_for_partial_array (sheet, 0, col, 
 					    SHEET_MAX_ROWS-1, col+count-1))
 	{
-		gnumeric_no_modify_array_notice (sheet->workbook);
+		gnumeric_error_splits_array (context);
 		return;
 	}
 
@@ -3440,8 +3445,8 @@ sheet_insert_rows (CmdContext *context, Sheet *sheet,
 					      0, row,
 					      SHEET_MAX_COLS-1, row,
 					      &avoid_dividing_array_vertical,
-					      NULL) != NULL){
-			gnumeric_no_modify_array_notice (sheet->workbook);
+					      NULL) != NULL) {
+			gnumeric_error_splits_array (context);
 			return;
 		}
 
@@ -3508,7 +3513,7 @@ sheet_delete_rows (CmdContext *context, Sheet *sheet,
 	if (!sheet_check_for_partial_array (sheet, row, 0, 
 					    row+count-1, SHEET_MAX_COLS-1))
 	{
-		gnumeric_no_modify_array_notice (sheet->workbook);
+		gnumeric_error_splits_array (context);
 		return;
 	}
 

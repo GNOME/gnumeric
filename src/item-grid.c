@@ -543,21 +543,21 @@ context_destroy_menu (GtkWidget *widget)
 static void
 context_cut_cmd (GtkWidget *widget, Sheet *sheet)
 {
-	sheet_selection_cut (command_context_gui(), sheet);
+	sheet_selection_cut (command_context_gui (sheet->workbook), sheet);
 	context_destroy_menu (widget);
 }
 
 static void
 context_copy_cmd (GtkWidget *widget, Sheet *sheet)
 {
-	sheet_selection_copy (command_context_gui(), sheet);
+	sheet_selection_copy (command_context_gui (sheet->workbook), sheet);
 	context_destroy_menu (widget);
 }
 
 static void
 context_paste_cmd (GtkWidget *widget, Sheet *sheet)
 {
-	sheet_selection_paste (command_context_gui(), sheet,
+	sheet_selection_paste (command_context_gui (sheet->workbook), sheet,
 			       sheet->cursor_col,
 			       sheet->cursor_row,
 			       PASTE_DEFAULT,
@@ -572,7 +572,7 @@ context_paste_special_cmd (GtkWidget *widget, Sheet *sheet)
 
 	flags = dialog_paste_special (sheet->workbook);
 	if (flags != 0)
-		sheet_selection_paste (command_context_gui(), sheet,
+		sheet_selection_paste (command_context_gui (sheet->workbook), sheet,
 				       sheet->cursor_col,
 				       sheet->cursor_row,
 				       flags,
@@ -597,7 +597,7 @@ context_delete_cmd (GtkWidget *widget, Sheet *sheet)
 static void
 context_clear_cmd (GtkWidget *widget, Sheet *sheet)
 {
-	sheet_selection_clear_content (command_context_gui(), sheet);
+	sheet_selection_clear_content (command_context_gui (sheet->workbook), sheet);
 	context_destroy_menu (widget);
 }
 

@@ -21,16 +21,16 @@ static int
 can_unload (PluginData *pd)
 {
 	Symbol *sym;
-	
+
 	sym = symbol_lookup (global_symbol_table, "plusone");
 	return sym->ref_count <= 1;
 }
-  
+
 static void
 cleanup_plugin (PluginData *pd)
 {
 	Symbol *sym;
-	
+
 	g_free (pd->title);
 	sym = symbol_lookup (global_symbol_table, "plusone");
 	if (sym)
@@ -38,10 +38,14 @@ cleanup_plugin (PluginData *pd)
 }
 
 int
-init_plugin (PluginData *pd)
+init_plugin (CmdContext *context, PluginData *pd)
 {
-	FunctionCategory *cat = function_get_category (_("Sample Plugin"));
+	FunctionCategory *cat;
 
+	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
+		return -2;
+
+	cat = function_get_category (_("Sample Plugin"));
 	function_add_args (cat, "plusone", "f", "number", NULL, func_plusone);
 
 	pd->can_unload     = can_unload;

@@ -44,19 +44,19 @@ typedef struct {
 
 	/* gnumeric sheet */
 	Sheet *sheet;
-	
+
 	/* SYLK current X/Y pointers (begin at 1) */
 	long cur_x, cur_y;
-	
+
 	/* SYLK maximum dimensions (begin at 1) */
 	long max_x, max_y;
-	
-	/* XXX doesn't really belong here at all */	
+
+	/* XXX doesn't really belong here at all */
 	ValueType val_type;
 	char *val_s;
 	long val_l;
 	double val_d;
-	
+
 	sylk_format_t def_fmt;
 
 	unsigned got_start : 1;
@@ -118,10 +118,10 @@ sylk_next_token_len (const char *line)
 		if (!*line ||
 		    (*line == ';' && *(line + 1) != ';'))
 			break;
-		
+
 		len++;
 		line++;
-		
+
 		g_assert (len < 10000);
 	}
 
@@ -149,7 +149,7 @@ sylk_parse_value (sylk_file_state_t *src, const char *str,
 		src->val_type = VALUE_EMPTY;
 		return;
 	}
-	
+
 	/* remaining non-strings, floats and ints */
 	else if (*str != '"') {
 		/* floats */
@@ -157,16 +157,16 @@ sylk_parse_value (sylk_file_state_t *src, const char *str,
 			src->val_type = VALUE_FLOAT;
 			src->val_d = strtod (str, NULL);
 		}
-		
+
 		/* ints */
 		else {
 			src->val_type = VALUE_INTEGER;
 			src->val_l = strtol (str, NULL, 10);
 		}
-		
+
 		return;
 	}
-	
+
 	/* boolean values */
 	else if (!strcmp (str,"\"TRUE\"") ||
 		 !strcmp (str,"\"FALSE\"")) {
@@ -174,7 +174,7 @@ sylk_parse_value (sylk_file_state_t *src, const char *str,
 		src->val_l = (strcmp(str,"\"TRUE\"") == 0 ? TRUE : FALSE);
 		return;
 	}
-	
+
 	/* the remaining case: strings */
 
 	src->val_type = VALUE_STRING;
@@ -224,7 +224,7 @@ sylk_rtd_c_parse (sylk_file_state_t *src, const char *str)
 		Cell *cell = sheet_cell_fetch (src->sheet, src->cur_x - 1,
 					       src->cur_y - 1);
 		g_assert (cell);
-		
+
 		if (src->val_type == VALUE_STRING)
 			cell_set_text_simple (cell, src->val_s);
 
@@ -241,15 +241,15 @@ sylk_rtd_c_parse (sylk_file_state_t *src, const char *str)
 			g_assert (v);
 			cell_set_value_simple (cell, v);
 		}
-			
+
 	}
-	
+
 	src->val_type = VALUE_EMPTY;
 	if (src->val_s) {
 		g_free (src->val_s);
 		src->val_s = NULL;
 	}
-	
+
 	return TRUE;
 }
 
@@ -345,7 +345,7 @@ sylk_rtd_b_parse (sylk_file_state_t *src, const char *str)
 		str += (len + 1);
 		len = sylk_next_token_len (str);
 	}
-	
+
 	return TRUE;
 }
 
@@ -382,7 +382,7 @@ static gboolean
 sylk_parse_line (sylk_file_state_t *src, char *buf)
 {
 	int i;
-	
+
 	for (i = 0; i < arraysize (sylk_rtd_list); i++)
 		if (strncmp (sylk_rtd_list [i].name, buf,
 			     strlen (sylk_rtd_list [i].name)) == 0) {
@@ -390,7 +390,7 @@ sylk_parse_line (sylk_file_state_t *src, char *buf)
 				buf + strlen (sylk_rtd_list [i].name));
 			return TRUE;
 		}
-	
+
 	fprintf (stderr, "unhandled directive: '%s'\n", buf);
 
 	return TRUE;
@@ -400,7 +400,7 @@ static gboolean
 sylk_parse_sheet (sylk_file_state_t *src)
 {
 	char buf [BUFSIZ];
-	
+
 	if (fgets_mac (buf, sizeof (buf), src->f) == NULL)
 		return FALSE;
 
@@ -435,11 +435,11 @@ sylk_read_workbook (Workbook *book, const char *filename)
 	char *name;
 	gboolean result;
 	FILE *f;
-	
+
 	f = fopen (filename, "r");
 	if (!f)
 		return FALSE;
-	
+
 	name = g_strdup_printf (_("Imported %s"), g_basename (filename));
 
 	memset (&src, 0, sizeof (src));
@@ -453,7 +453,7 @@ sylk_read_workbook (Workbook *book, const char *filename)
 	result = sylk_parse_sheet (&src);
 
 	fclose(f);
-	
+
 	return result;
 }
 
@@ -464,18 +464,18 @@ sylk_probe (const char *filename)
 	char buf [32] = "";
 	FILE *f;
 	int error;
-	
+
 	f = fopen (filename, "r");
 	if (!f)
 		return FALSE;
-	
+
 	fgets (buf, sizeof (buf), f);
 	error = ferror (f);
 	fclose (f);
 
 	if (!error && strncmp (buf, "ID;", 3) == 0)
 		return TRUE;
-	
+
 	return FALSE;
 }
 
@@ -497,8 +497,11 @@ sylk_cleanup_plugin (PluginData *pd)
 
 
 int
-init_plugin (PluginData * pd)
+init_plugin (CmdContext *context, PluginData * pd)
 {
+	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
+		return -2;
+
 	file_format_register_open (1, _("MultiPlan (SYLK) import"),
 				   sylk_probe, sylk_read_workbook);
 

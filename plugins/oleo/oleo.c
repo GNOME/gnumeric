@@ -3,10 +3,10 @@
  *
  * Author:
  *    Robert Brady <rwb197@ecs.soton.ac.uk>
- * 
+ *
  * partially based on the Lotus-123 code,
  * partially based on actual Oleo code.
- * 
+ *
  */
 
 #include <stdio.h>
@@ -56,7 +56,7 @@ oleo_insert_value (Sheet *sheet, guint32 col, guint32 row, Value *val)
 	g_return_val_if_fail (val != NULL, NULL);
 	g_return_val_if_fail (sheet != NULL, NULL);
 
-	cell = sheet_cell_fetch (sheet, OLEO_TO_GNUMERIC (col), 
+	cell = sheet_cell_fetch (sheet, OLEO_TO_GNUMERIC (col),
 				        OLEO_TO_GNUMERIC (row));
 
 	g_return_val_if_fail (cell != NULL, NULL);
@@ -114,13 +114,13 @@ oleo_deal_with_cell (char *str, Sheet *sheet, int *ccol, int *crow)
 		}
 		*ptr++ = '\0';
 		switch (*ptr++) {
-		case 'c' : 
-			*ccol = astol (&ptr); 
+		case 'c' :
+			*ccol = astol (&ptr);
 		   	break;
-		case 'r' : 
-			*crow = astol (&ptr); 
+		case 'r' :
+			*crow = astol (&ptr);
 		   	break;
-		case 'K' : 
+		case 'K' :
 		   cval = ptr;
 		   quotes = 0;
 		   while (*ptr && (*ptr != ';' || quotes > 0))
@@ -135,16 +135,16 @@ oleo_deal_with_cell (char *str, Sheet *sheet, int *ccol, int *crow)
 		        ptr = ""; /* I wish C had multilevel break */
 		        break;
 		}
-	   
+
 	   if (!*ptr)
 	      break;
 	}
-	
+
 	if (cval) {
 		char *error = NULL;
 		long result;
 		result = strtol(cval, &error, 10);
-	   
+
 		if (!*error)
 			oleo_insert_value (sheet, *ccol, *crow,
 					   value_new_int (result));
@@ -193,11 +193,11 @@ oleo_read (Workbook *wb, const char *filename)
 		str[2000] = 0;
 		if (feof(f)) break;
 		n = strchr(str, '\n');
-		if (n) 
-			*n = 0; 
-		else 
+		if (n)
+			*n = 0;
+		else
 			break;
-     
+
 		switch (str[0]) {
 
 		case '#': /* Comment */
@@ -215,7 +215,7 @@ oleo_read (Workbook *wb, const char *filename)
 			break;
 		}
 	}
-	
+
 	fclose (f);
 	return TRUE;
 }

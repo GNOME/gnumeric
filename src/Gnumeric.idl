@@ -35,6 +35,8 @@ module GNOME {
 		typedef sequence<VecValue> VecValueVec;
 		typedef sequence<double>   DoubleVec;
 
+		exception PluginProblem { string mesg; }
+
 		interface Sheet {
 			exception OutOfRange {};
 			exception ParseError {};

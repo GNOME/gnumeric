@@ -56,19 +56,19 @@ epsf_write_cell (FILE *fp, Cell *cell, float x, float y)
 		rgb.g = mstyle_get_color (mstyle, MSTYLE_COLOR_BACK)->color.green >> 8;
 		rgb.b = mstyle_get_color (mstyle, MSTYLE_COLOR_BACK)->color.blue >> 8;
 		ps_set_color (fp, &rgb);
-		
+
 		cell_width  = CELL_WIDTH  (cell);
 		cell_height = CELL_HEIGHT (cell);
 		ps_box_filled (fp, x, y, cell_width, cell_height);
-		
+
 		rgb.r = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color.red >> 8;
 		rgb.g = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color.green >> 8;
 		rgb.b = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color.blue >> 8;
 		ps_set_color (fp, &rgb);
 		ps_box_bordered (fp, x, y, cell_width, cell_height, 0.5);
-		
+
 		font_size = mstyle_get_font_size (mstyle);
-		
+
 		if (!font_size)
 			font_size = 10;
 		if (font_is_sansserif (mstyle)) {

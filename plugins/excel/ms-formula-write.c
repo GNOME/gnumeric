@@ -146,7 +146,7 @@ get_formula_index (ExcelSheet *sheet, const gchar *name)
  * ms_formula_build_pre_data:
  * @sheet: The sheet to do it on
  * @tree: a expression tree in the sheet.
- * 
+ *
  *  Searches for interesting formula / names
  * and builds a database of things to write out later.
  **/
@@ -245,7 +245,7 @@ ms_formula_write_pre_data (BiffPut *bp, ExcelSheet *sheet,
 				ms_biff_put_var_write (bp, data, 4);
 				ms_biff_put_commit (bp);
 				}
-				
+
 				fce->u.ename_v7.idx = idx++;
 				l = g_list_next (l);
 			}
@@ -288,7 +288,7 @@ push_guint32 (PolishData *pd, guint32 b)
 }
 
 static void
-write_cellref_v7 (PolishData *pd, const CellRef *ref, 
+write_cellref_v7 (PolishData *pd, const CellRef *ref,
 		  guint8 *out_col, guint16 *out_row)
 {
 	guint    row, col;
@@ -403,7 +403,7 @@ write_area (PolishData *pd, const CellRef *a, const CellRef *b)
 					  (guint16 *)(data + 6), (guint16 *)(data + 2));
 			write_cellref_v8 (pd, b,
 					  (guint16 *)(data + 8), (guint16 *)(data + 4));
-			ms_biff_put_var_write (pd->bp, data, 10);			
+			ms_biff_put_var_write (pd->bp, data, 10);
 		}
 	}
 }
@@ -412,7 +412,7 @@ static void
 write_ref (PolishData *pd, const CellRef *ref)
 {
 	guint8 data[24];
-		
+
 	g_return_if_fail (pd);
 	g_return_if_fail (ref);
 
@@ -474,18 +474,18 @@ write_funcall (PolishData *pd, FormulaCacheEntry *fce, ExprTree *tree)
 		push_guint32 (pd, 0); /* reserved */
 		}
 	}
-	
+
 	while (args) {
 		write_node (pd, args->data);
 		args = g_list_next (args);
 		num_args++;
 	}
-	
+
 #if FORMULA_DEBUG > 1
 	printf ("Writing function '%s' as idx %d, args %d\n",
 		name, fce->u.std.idx, fce->u.std.fd->num_args);
 #endif
-	
+
 	g_assert (num_args < 128);
 	if (fce->type == CACHE_STD) {
 		if (fce->u.std.fd->num_args < 0) {
@@ -577,7 +577,7 @@ write_node (PolishData *pd, ExprTree *tree)
 	{
 		FormulaCacheEntry *fce;
 
-		fce = get_formula_index (pd->sheet, 
+		fce = get_formula_index (pd->sheet,
 					 tree->u.function.symbol->str);
 		if (fce)
 			write_funcall (pd, fce, tree);
@@ -660,7 +660,7 @@ write_node (PolishData *pd, ExprTree *tree)
 		case VALUE_ARRAY: /* Guestimation */
 		{
 			guint8 data[8];
-			
+
 			if (v->v.array.x > 256 ||
 			    v->v.array.y > 65536)
 				g_warning ("Array far too big");
@@ -710,7 +710,7 @@ write_node (PolishData *pd, ExprTree *tree)
 	    for (idx = 0; idx <14; idx++) data[idx] = 0;
 
 	    for (idx = 0; idx < pd->sheet->wb->names->len; idx++) {
-	      if (!strcmp(tree->u.name->name->str, 
+	      if (!strcmp(tree->u.name->name->str,
 			  g_ptr_array_index (pd->sheet->wb->names, idx))) {
 
 		MS_OLE_SET_GUINT8  (data + 0, FORMULA_PTG_NAME);
@@ -719,7 +719,7 @@ write_node (PolishData *pd, ExprTree *tree)
 		return;
 	      }
 	    }
-	    
+
 	  }
 
 	case OPER_ARRAY:
@@ -755,7 +755,7 @@ write_arrays (PolishData *pd)
 	for (lpy = 0; lpy < array->v.array.y; lpy++) {
 		for (lpx = 0; lpx < array->v.array.x; lpx++) {
 			const Value *v = array->v.array.vals[lpx][lpy];
-			
+
 			if (VALUE_IS_NUMBER (v)) {
 				push_guint8 (pd, 1);
 				BIFF_SETDOUBLE (data, value_get_as_float (v));
@@ -780,7 +780,7 @@ ms_excel_write_formula (BiffPut *bp, ExcelSheet *sheet, ExprTree *expr,
 	PolishData *pd;
 	MsOlePos start;
 	guint32 len;
-	
+
 	g_return_val_if_fail (bp, 0);
 	g_return_val_if_fail (expr, 0);
 	g_return_val_if_fail (sheet, 0);
@@ -804,6 +804,6 @@ ms_excel_write_formula (BiffPut *bp, ExcelSheet *sheet, ExprTree *expr,
 		while (pd->arrays)
 			write_arrays (pd);
 	}
-	
+
 	return len;
 }

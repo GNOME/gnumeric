@@ -17,5 +17,6 @@ libgnum_text_la_SOURCES = text-io.h text-io.c
 INCLUDES = 						\
 	-I$(GNUMERIC_SRC_DIR)				\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
+	-DGNUMERIC_VERSION=\""$(VERSION)"\"             \
 	-I$(includedir)					\
 	$(GNOME_INCLUDEDIR)

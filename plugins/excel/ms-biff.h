@@ -12,7 +12,7 @@
 
 extern double biff_getdouble (const guint8 *p);
 extern void   biff_setdouble (guint8 *p, double d);
-	
+
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN
 /* MW: I have reservations about this.  We are assuming not only little
  * endian, but also arbitrary alignment for doubles as well as a certain
@@ -46,7 +46,7 @@ struct _BiffQuery {
 	int     data_malloced; /* is *data a copy ? */
 	MsOleStream *pos;
 };
- 
+
 /* Sets up a query on a stream */
 extern BiffQuery  *ms_biff_query_new         (MsOleStream *);
 /* Updates the BiffQuery structure with the next BIFF record
@@ -70,13 +70,13 @@ typedef struct _BiffPut
 	guint8        *data;
 	MsOlePos   streamPos;
 	MsOlePos   curpos; /* Curpos is offset from beggining of header */
-	guint16        num_merges;      
+	guint16        num_merges;
 /*	gint16         padding;*/
 	int            data_malloced;
 	int            len_fixed;
 	MsOleStream *pos;
 } BiffPut;
- 
+
 /* Sets up a record on a stream */
 extern BiffPut      *ms_biff_put_new        (MsOleStream *);
 extern void          ms_biff_put_destroy    (BiffPut *);

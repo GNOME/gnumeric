@@ -96,9 +96,9 @@ value_to_scm (Value *val, CellRef cell_ref)
 		case VALUE_INTEGER :
 			return scm_long2num(val->v.v_int);
 
-	        case VALUE_FLOAT : 
+		case VALUE_FLOAT :
 			return gh_double2scm(val->v.v_float);
-	       
+
 		case VALUE_CELLRANGE :
 			return scm_cons(scm_symbolfrom0str("cell-range"),
 					scm_cons(cell_ref_to_scm(val->v.cell_range.cell_a, cell_ref),
@@ -111,13 +111,13 @@ value_to_scm (Value *val, CellRef cell_ref)
 
 				x = val->v.array.x;
 				y = val->v.array.y;
-				
+
 				ls = gh_eval_str("'()");
-				
+
 				for(i = 0; i < y; i++)
 					for(ii = 0; i < x; i++)
 						ls = scm_cons(val->v.array.vals[ii][i], ls);
-				return ls; 
+				return ls;
 			}
 	}
 
@@ -137,9 +137,9 @@ scm_to_value (SCM scm)
 	}
 	else if (SCM_NFALSEP(scm_number_p(scm)))
 	{
-		/* We do not need to do any distinction between an integer or 
+		/* We do not need to do any distinction between an integer or
 		 *  a float here. If we do so, we can crash gnumeric if the
-                 *  size of scm is bigger than the size of int 
+                 *  size of scm is bigger than the size of int
 		 */
 
 		//return value_new_int((int)scm_num2int(scm));
@@ -222,7 +222,7 @@ expr_to_scm (ExprTree *expr, CellRef cell_ref)
 					 expr_to_scm(expr->u.binary.value_a, cell_ref),
 					 expr_to_scm(expr->u.binary.value_b, cell_ref));
 
-	        case OPER_PERCENT :
+		case OPER_PERCENT :
 			return SCM_LIST3(scm_symbolfrom0str("modulo"),
 					 expr_to_scm(expr->u.binary.value_a, cell_ref),
 					 expr_to_scm(expr->u.binary.value_b, cell_ref));
@@ -304,7 +304,7 @@ func_scm_apply (FunctionEvalInfo *ei, GList *expr_node_list)
 		eval_cell.col_relative = 0;
 		eval_cell.row_relative = 0;
 		eval_cell.sheet = NULL;
-		
+
 		value = eval_expr(ei, (ExprTree*)g_list_nth(expr_node_list, i)->data);
 		if (value == NULL)
 			return value_new_error (&ei->pos, _("Could not evaluate argument"));
@@ -323,7 +323,7 @@ scm_cell_value (SCM scm)
 {
 	CellRef cell_ref = scm_to_cell_ref(scm);
 	Cell *cell;
-	
+
 	g_return_val_if_fail (eval_pos != NULL, SCM_EOL);
 
 	cell = sheet_cell_get(eval_pos->sheet, cell_ref.col, cell_ref.row);
@@ -418,7 +418,7 @@ func_marshal_func (FunctionEvalInfo *ei, Value *argv[])
 	SCM args = SCM_EOL, result, function;
 	CellRef dummy = { 0, 0, 0, 0 };
 	EvalPosition *old_eval_pos;
-	int i, min, max; 
+	int i, min, max;
 
 	function_def_count_args(fndef, &min, &max);
 
@@ -476,13 +476,14 @@ no_unloading_for_me (PluginData *pd)
 	return 0;
 }
 
-int init_plugin (PluginData *pd);
-
 int
-init_plugin (PluginData *pd)
+init_plugin (CmdContext *context, PluginData *pd)
 {
 	FunctionCategory *cat;
 	char *init_file_name;
+
+	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
+		return -2;
 
 	/* Initialize just in case. */
 	eval_pos = NULL;

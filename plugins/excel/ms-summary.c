@@ -122,7 +122,7 @@ sum_name_to_excel (gchar *name, MsOleSummaryPID *pid, MsOlePropertySetID psid)
 			return 0;
 		}
 	}
-	
+
 	g_warning ("sum_name_to_excel: summary name not found - %s\n", name);
 	return 0;
 }
@@ -207,7 +207,7 @@ ms_summary_read (MsOle *f, SummaryInfo *sin)
 		read_summary_items (sin, si, MS_OLE_PS_SUMMARY_INFO);
 		ms_ole_summary_close (si);
 	}
-	
+
 	/*
 	 *  Get all the information from the DocumentSummaryInformation stream.
 	 */
@@ -217,7 +217,7 @@ ms_summary_read (MsOle *f, SummaryInfo *sin)
 		read_summary_items (sin, si, MS_OLE_PS_DOCUMENT_SUMMARY_INFO);
 		ms_ole_summary_close (si);
 	} else {
-#if SUMMARY_DEBUG > 0		
+#if SUMMARY_DEBUG > 0
 		printf ("ms_summary_read: Unable to open DocumentSummaryInformation.\n");
 #endif
 	}
@@ -258,16 +258,16 @@ set_summary_item (SummaryItem *s_item, MsOleSummary *ms_sum)
 			case SUMMARY_TIME:
 				ms_ole_summary_set_time (ms_sum, pid, s_item->v.time);
 				break;
-	
+
 			default:
 				g_warning ("set_summary_item: Unsupported summary type - %d",
 					   s_item->type);
 				break;
 			}
 		}
-	
+
 	}
-	
+
 }
 
 
@@ -276,12 +276,12 @@ ms_summary_write (MsOle *f, SummaryInfo *sin)
 {
 	GList		*si_list;
 	MsOleSummary	*si;
-	
+
 	if (f == NULL) {
 		g_warning ("ms_summary_write: no file to write to.\n");
 		return;
 	}
-	
+
 	if (sin == NULL) {
 		g_warning ("ms_summary_write: no summary information to write.\n");
 		return;
@@ -302,9 +302,9 @@ ms_summary_write (MsOle *f, SummaryInfo *sin)
 	}
 
 	g_list_foreach (si_list, (GFunc)set_summary_item, si);
-	
+
 	ms_ole_summary_close (si);
-	
+
 	/*
 	 *  Write out DocumentSummaryInformation.
 	 */
@@ -321,7 +321,7 @@ ms_summary_write (MsOle *f, SummaryInfo *sin)
 	}
 
 	g_list_foreach (si_list, (GFunc)set_summary_item, si);
-	
+
 	ms_ole_summary_close (si);
 	*/
 }

@@ -49,14 +49,14 @@ sc_cellname_to_coords (const char *cellname, int *col, int *row)
 	g_return_val_if_fail (cellname, FALSE);
 	g_return_val_if_fail (col, FALSE);
 	g_return_val_if_fail (row, FALSE);
-	
+
 	if (!cellname || !*cellname || !isalpha(*cellname))
 		goto err_out;
-	
+
 	mult = toupper(*cellname) - 'A';
 	if (mult < 0 || mult > 25)
 		goto err_out;
-	
+
 	cellname++;
 
 	if (isalpha(*cellname)) {
@@ -66,11 +66,11 @@ sc_cellname_to_coords (const char *cellname, int *col, int *row)
 		*col = (mult * 26) + ofs;
 		cellname++;
 	}
-	
+
 	else {
 		*col = mult;
 	}
-	
+
 	/* XXX need to replace this block with strtol+error checking */
 	if (1) {
 		if (!isdigit(*cellname))
@@ -95,18 +95,18 @@ sc_parse_coord (const char **strdata, int *col, int *row)
 	const char *s = *strdata, *eq;
 	size_t len = strlen (s);
 	char tmpstr [16];
-	
+
 	g_return_if_fail (strdata);
 	g_return_if_fail (col);
 	g_return_if_fail (row);
-	
+
 	eq = strstr (s, " = ");
 	if (!eq)
 		return;
 
 	memcpy (tmpstr, s, eq - s);
 	tmpstr [eq - s] = 0;
-	
+
 	if (!sc_cellname_to_coords (tmpstr, col, row))
 		return;
 
@@ -137,11 +137,11 @@ sc_parse_label (sc_file_state_t *src, const char *cmd, const char *str, int col,
 
 	if (!src || !str || *str != '"' || col == -1 || row == -1)
 		goto err_out;
-	
+
 	s = tmpout = g_strdup (str);
 	if (!s)
 		goto err_out;
-	
+
 	tmpstr = str + 1; /* skip leading " */
 	while (*tmpstr) {
 		if (*tmpstr != '\\') {
@@ -154,32 +154,32 @@ sc_parse_label (sc_file_state_t *src, const char *cmd, const char *str, int col,
 		goto err_out;
 	tmpout--;
 	*tmpout = 0;
-	
+
 	cell = sheet_cell_fetch (src->sheet, col, row);
 	if (!cell)
 		goto err_out;
-	
+
 	cell_set_text_simple (cell, s);
-	
+
 	if (strcmp (cmd, "leftstring") == 0)
 		cmdtype = LEFTSTRING;
 	else if (strcmp (cmd, "rightstring") == 0)
 		cmdtype = RIGHTSTRING;
 	else
 		cmdtype = LABEL;
-	
+
 	if (cmdtype == LEFTSTRING || cmdtype == RIGHTSTRING) {
 		MStyle *mstyle;
-		
+
 		mstyle = cell_get_mstyle (cell);
 		if (!mstyle)
 			goto err_out;
-		
+
 		if (cmdtype == LEFTSTRING)
 			mstyle_set_align_h (mstyle, HALIGN_LEFT);
 		else
 			mstyle_set_align_h (mstyle, HALIGN_RIGHT);
-		
+
 		mstyle_unref (mstyle);
 	}
 
@@ -247,20 +247,20 @@ sc_parse_let_expr (sc_file_state_t *src, const char *cmd, const char *str, int c
 	g_return_val_if_fail (col >= 0, FALSE);
 	g_return_val_if_fail (row >= 0, FALSE);
 
-	tree = expr_parse_string (str, NULL, NULL, &error); 
+	tree = expr_parse_string (str, NULL, NULL, &error);
 	if (!tree) {
 		g_warning ("cannot parse cmd='%s',str='%s',col=%d,row=%d\n",
 			   cmd, str, col, row);
 		goto out;
 	}
-	
+
 	/* FIXME FIXME FIXME sc/xspread rows start at A0 not A1.  we must
 	 * go through and fixup each row number in each cell reference */
-	
+
 	cell = sheet_cell_fetch (src->sheet, col, row);
 	if (!cell)
 		return FALSE;
-	
+
 	cell_set_formula_tree_simple (cell, tree);
 
 	/* fall through */
@@ -286,7 +286,7 @@ sc_parse_let (sc_file_state_t *src, const char *cmd, const char *str, int col, i
 
 	if (!*str)
 		return FALSE;
-	
+
 	/* it's an expression not a simple value, handle elsewhere */
 	if (*str == '@')
 #if SC_EXPR_PARSE_WORKS
@@ -298,7 +298,7 @@ sc_parse_let (sc_file_state_t *src, const char *cmd, const char *str, int col, i
 	cell = sheet_cell_fetch (src->sheet, col, row);
 	if (!cell)
 		return FALSE;
-	
+
 	v = value_new_float (atof(str));
 	if (!v)
 		return FALSE;
@@ -312,7 +312,7 @@ sc_parse_let (sc_file_state_t *src, const char *cmd, const char *str, int col, i
 typedef struct {
 	const char *name;
 	size_t namelen;
-	gboolean (*handler) (sc_file_state_t *src, const char *name, 
+	gboolean (*handler) (sc_file_state_t *src, const char *name,
 			     const char *str, int col, int row);
 	unsigned have_coord : 1;
 } sc_cmd_t;
@@ -332,7 +332,7 @@ sc_parse_line (sc_file_state_t *src, char *buf)
 	const char *space;
 	size_t i, cmdlen;
 	const sc_cmd_t *cmd;
-	
+
 	g_return_val_if_fail (src, FALSE);
 	g_return_val_if_fail (buf, FALSE);
 
@@ -347,7 +347,7 @@ sc_parse_line (sc_file_state_t *src, char *buf)
 		    strncmp (cmd->name, buf, cmdlen) == 0) {
 			int col = -1, row = -1;
 			const char *strdata;
-			
+
 			strdata = space + 1;
 
 			if (cmd->have_coord)
@@ -357,7 +357,7 @@ sc_parse_line (sc_file_state_t *src, char *buf)
 			return TRUE;
 		}
 	}
-	
+
 #if 0
 	fprintf (stderr, "unhandled directive: '%s'\n", buf);
 #endif
@@ -370,7 +370,7 @@ static gboolean
 sc_parse_sheet (sc_file_state_t *src)
 {
 	char buf [BUFSIZ];
-	
+
 	g_return_val_if_fail (src, FALSE);
 	g_return_val_if_fail (src->f, FALSE);
 
@@ -401,7 +401,7 @@ sc_read_workbook (Workbook *book, const char *filename)
 	char *name;
 	gboolean result;
 	FILE *f;
-	
+
 	g_return_val_if_fail (book, FALSE);
 	g_return_val_if_fail (filename, FALSE);
 	g_return_val_if_fail (*filename, FALSE);
@@ -409,7 +409,7 @@ sc_read_workbook (Workbook *book, const char *filename)
 	f = fopen (filename, "r");
 	if (!f)
 		return FALSE;
-	
+
 	name = g_strdup_printf (_("Imported %s"), g_basename (filename));
 
 	memset (&src, 0, sizeof (src));
@@ -422,7 +422,7 @@ sc_read_workbook (Workbook *book, const char *filename)
 	result = sc_parse_sheet (&src);
 
 	fclose(f);
-	
+
 	return result;
 }
 
@@ -448,11 +448,14 @@ sc_cleanup_plugin (PluginData *pd)
 
 
 int
-init_plugin (PluginData * pd)
+init_plugin (CmdContext *context, PluginData * pd)
 {
 	const char *desc = _("SC/xspread file import");
 
 	g_return_val_if_fail (pd, -1);
+
+	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
+		return -2;
 
 	file_format_register_open (1, desc, NULL, sc_read_workbook);
 

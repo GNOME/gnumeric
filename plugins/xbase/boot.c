@@ -144,7 +144,7 @@ xbase_load (Workbook *wb, const char *filename)
 	Sheet    *sheet = NULL;
 	Cell *cell;
 	Value *val;
-	
+
 	if ((file = xbase_open (filename)) == NULL)
 		return FALSE;
 
@@ -161,7 +161,7 @@ xbase_load (Workbook *wb, const char *filename)
 	g_free (name);
 
 	cell_deep_freeze_redraws ();
-	
+
 	field = 0;
 	while (field < file->fields) {
 		cell = sheet_cell_fetch (sheet, field, 0);
@@ -175,7 +175,7 @@ xbase_load (Workbook *wb, const char *filename)
 		while (field < file->fields) {
 			cell = sheet_cell_fetch (sheet, field, row);
 			cell_set_value_simple (cell, val =
-					       xbase_field_as_value 
+					       xbase_field_as_value
 					       (rec, ++field));
 		}
 		row++;
@@ -185,7 +185,7 @@ xbase_load (Workbook *wb, const char *filename)
 	cell_deep_thaw_redraws ();
 
 	xbase_close (file);
-	
+
 	return TRUE;
 }
 
@@ -203,9 +203,12 @@ xbase_cleanup_plugin (PluginData *pd)
 }
 
 int
-init_plugin (PluginData *pd)
+init_plugin (CmdContext *context, PluginData *pd)
 {
 	char *descr  = _("Xbase (*.dbf) file format");
+
+	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
+		return -2;
 
 	/* We register XBase format with a precendence of 100 */
 	file_format_register_open (100, descr, xbase_probe, xbase_load);

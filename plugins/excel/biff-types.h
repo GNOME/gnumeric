@@ -10,7 +10,7 @@
  * See S59D52.HTM for the spec.
  * NOTE : Use the low byte as much as possible.  The high byte is supposed to
  *        be a version (not mentioned in more recent docs).  However,  some
- *        of the low bytes types have multiple record types with different 
+ *        of the low bytes types have multiple record types with different
  *        high bytes.... So much for consistancy.
  * As you add low numbers, check you don't glup an odd-ball
  **/
@@ -46,7 +46,7 @@
 #define BIFF_ARRAY                      0x21	/* 2, NOT 10 */
 #define BIFF_1904                       0x22	/* 0, NOT 1,10 */
 #define BIFF_EXTERNNAME                 0x23	/* 2 */
-#define BIFF_DEFAULTROWHEIGHT	        0x25	/* 2, NOT 10 */
+#define BIFF_DEFAULTROWHEIGHT		0x25	/* 2, NOT 10 */
 #define BIFF_LEFT_MARGIN                0x26	/* 0, NOT 10 */
 #define BIFF_RIGHT_MARGIN               0x27	/* 0, NOT 10 */
 #define BIFF_TOP_MARGIN                 0x28	/* 0 */

@@ -380,7 +380,7 @@ x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time, gpoi
 	} else
 		content = x_selection_to_cell_region (sel->data, sel->length);
 
-	sheet_paste_selection (command_context_gui(),
+	sheet_paste_selection (command_context_gui (wb),
 			       pc->dest_sheet, content, ss, pc);
 
 	/* Release the resources we used */

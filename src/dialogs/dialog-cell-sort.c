@@ -591,7 +591,7 @@ dialog_cell_sort (Workbook *inwb, Sheet *sheet)
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	if (!selection_is_simple (command_context_gui (),
+	if (!selection_is_simple (command_context_gui (inwb),
 				  sheet, _("sort")))
 		return;	
 	

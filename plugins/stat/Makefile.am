@@ -17,5 +17,6 @@ libgnum_stat_la_SOURCES = stat.c stat.h
 INCLUDES = 						\
 	-I$(GNUMERIC_SRC_DIR)				\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
+	-DGNUMERIC_VERSION=\""$(VERSION)"\"             \
 	-I$(includedir)					\
 	$(GNOME_INCLUDEDIR)

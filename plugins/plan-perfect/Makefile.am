@@ -17,5 +17,6 @@ libgnum_pln_la_SOURCES = pln.h pln.c
 INCLUDES = 						\
 	-I$(GNUMERIC_SRC_DIR)				\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
+	-DGNUMERIC_VERSION=\""$(VERSION)"\"             \
 	-I$(includedir)					\
 	$(GNOME_INCLUDEDIR)

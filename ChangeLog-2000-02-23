@@ -1,3 +1,41 @@
+1999-12-29  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-view.c (command_context_gui,
+				gui_splits_array,
+				gui_plugin_problem,
+				command_context_gui_cast) : New functions.
+
+	* src/workbook.c (workbook_new) : Switch to using the workbook_view
+	  routines to manipulate the undo/redo and paste/paste_special menu
+	  items.
+
+	* src/func.c (function_iterate_argument_values) : Return an error
+	  for empty/missing arguments.
+
+	* plugins/*/Makefile.am : Define GNUMERIC_VERSION.
+
+	* plugins/*/*.c (init_plugin): Take a CmdContext for error reporting.
+	  Call plugin_version_mismatch to do some minimal version matching for
+	  plugins and the running application.
+
+	* src/Gnumeric.idl : Add PluginProblem.
+
+	* src/command-context.[ch] (gnumeric_error_splits_array,
+				    gnumeric_error_plugin_problem,
+				    command_context_vtbl_init) : New functions.
+
+	* src/plugin.c (plugin_version_mismatch) : New function.
+	  (plugin_load) : Hard code a GUI context for now.
+	                  Switch to using gnumeric_error_ routines.
+			  Pass a CmdContext to the init_plugin routines.
+			  Only produce an error if the plugin returns -1.
+			  Store the plugin filename.
+	  (plugin_unload) : Free the filename on exit.
+
+	* *.c : command_context_gui now takes a Workbook argument.
+	      : Switch from gnumeric_no_modify_array_notice
+	                 to gnumeric_error_splits_array in most places.
+
 1999-12-28  Peter Moulder <reiter@netspace.net.au>
 
 	* src/number-match.c: Currently, two-digit years are converted to

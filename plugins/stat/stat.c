@@ -20,8 +20,11 @@ cleanup_plugin (PluginData *pd)
 }
 
 int
-init_plugin (PluginData *pd)
+init_plugin (CmdContext *context, PluginData *pd)
 {
+	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
+		return -2;
+
 	pd->can_unload = can_unload;
 	pd->cleanup_plugin = cleanup_plugin;
 	pd->title = g_strdup (_("OLD Statistics Plugin, not required anymore"));

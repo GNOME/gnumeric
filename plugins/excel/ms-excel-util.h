@@ -20,21 +20,21 @@ struct _TwoWayTable {
 	gint       base;	/* Indices assigned consecutively from base */
 };
 
-typedef void (*AfterPutFunc) (gconstpointer key, 
-			      gboolean      was_added, 
-			      gint          index, 
+typedef void (*AfterPutFunc) (gconstpointer key,
+			      gboolean      was_added,
+			      gint          index,
 			      gpointer      closure);
 
 TwoWayTable *
 two_way_table_new (GHashFunc    hash_func,
-		   GCompareFunc key_compare_func, 
+		   GCompareFunc key_compare_func,
 		   gint   base);
 
 void
 two_way_table_free (TwoWayTable *table);
 
 gint
-two_way_table_put (const TwoWayTable *table, gpointer key, 
+two_way_table_put (const TwoWayTable *table, gpointer key,
 		   gboolean unique,  AfterPutFunc apf, gpointer closure);
 
 gpointer

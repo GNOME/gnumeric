@@ -17,6 +17,7 @@ libgnum_gdaif_la_SOURCES = plugin-gda.c
 INCLUDES = 						\
 	-I$(GNUMERIC_SRC_DIR)				\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
+	-DGNUMERIC_VERSION=\""$(VERSION)"\"             \
 	-I$(includedir)					\
 	$(GNOME_INCLUDEDIR)                             \
 	-I$(hack)/gda

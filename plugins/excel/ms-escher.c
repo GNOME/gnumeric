@@ -235,7 +235,7 @@ ms_escher_read_SplitMenuColors (MSEscherState * state, MSEscherHeader * h)
 
 	g_return_val_if_fail (h->instance == 4, TRUE);
 	g_return_val_if_fail (h->len == 24, TRUE); /* header + 4*4 */
-	
+
 	if ((data = ms_escher_get_data (state, h->offset, 24,
 					common_header_len, &needs_free))) {
 		guint32 const top_level_fill = MS_OLE_GET_GUINT32(data + 0);
@@ -395,12 +395,12 @@ ms_escher_read_Blip (MSEscherState * state, MSEscherHeader * h)
 			ms_escher_get_data (state, h->offset, h->len,
 					    header, &needs_free);
 		const char *repoid = NULL;
-		
+
 		if (blip_instance == 0x6e0)
 			repoid = "bonobo-object:image-x-png";
 		else
 			repoid = "embeddable:image-jpeg";
-			
+
 		ms_escher_blip_new (data, h->len - header,
 				    repoid, state->wb);
 		write_file ("unknown", data, h->len - header, h->fbt - Blip_START);
@@ -1561,7 +1561,7 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader * h)
 		case 766 : name = "bool fc3DKeyHarsh"; break;
 		/* 0 : Is fill lighting harsh?` */
 		case 767 : name = "bool fc3DFillHarsh"; break;
-	   
+
 		/* NULL : master shape */
 		case 769 : name = "MSOHSP pMaster"; break;
 		/* None : Type of connector */
@@ -1899,9 +1899,9 @@ ms_escher_read_container (MSEscherState * state, MSEscherHeader * container,
  * @q:     Biff context.
  * @wb:    required workbook argument
  * @sheet: optional sheet argument
- * 
+ *
  *   This function parses an escher stream, and stores relevant data in the
- * workbook. 
+ * workbook.
  */
 void
 ms_escher_parse (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *sheet)

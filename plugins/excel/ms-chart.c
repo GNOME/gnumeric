@@ -1118,10 +1118,10 @@ BC_R(markerformat)(ExcelChartHandler const *handle,
 		 * We already have the colors ?
 		 */
 		StyleColor const * marker_border =
-		    ms_excel_palette_get (s->wb->palette, 
+		    ms_excel_palette_get (s->wb->palette,
 					  MS_OLE_GET_GUINT16 (q->data+12));
 		StyleColor const * marker_fill =
-		    ms_excel_palette_get (s->wb->palette, 
+		    ms_excel_palette_get (s->wb->palette,
 					  MS_OLE_GET_GUINT16 (q->data+14));
 		guint32 const marker_size = MS_OLE_GET_GUINT32 (q->data+16);
 

@@ -141,10 +141,10 @@ plugin_manager_new (Workbook *wb)
 				    
 	gnome_dialog_button_connect(GNOME_DIALOG (pm->dialog), 1,
 				    GTK_SIGNAL_FUNC (remove_cb), pm);
-				    	
+					
 	gnome_dialog_button_connect(GNOME_DIALOG (pm->dialog), 2,
 				    GTK_SIGNAL_FUNC (close_cb), pm);
-				    		
+						
 	gtk_signal_connect (GTK_OBJECT (pm->clist), "select_row",
 			    GTK_SIGNAL_FUNC (row_cb), pm);
 	
@@ -161,10 +161,3 @@ plugin_manager_new (Workbook *wb)
 	
 	return pm->dialog;
 }
-
-
-
-
-
-
-

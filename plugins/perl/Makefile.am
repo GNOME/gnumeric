@@ -16,6 +16,7 @@ gnperldir = $(datadir)/gnumeric/perl/lib
 PERL_CFLAGS = $(PERL_CCCDLFLAGS)				\
 	-I$(GNUMERIC_SRC_DIR)				\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
+	-DGNUMERIC_VERSION=\""$(VERSION)"\"             \
 	-I$(includedir)					\
 	$(PERL_CCOPTS)					\
 	$(GNOME_INCLUDEDIR)

@@ -9,7 +9,7 @@
 #include "qpro.h"
 
 
-#define arraysize(x)     (sizeof(x)/sizeof(*(x)))                                                                  
+#define arraysize(x)     (sizeof(x)/sizeof(*(x)))
 
 
 struct qpro_header {
@@ -150,7 +150,7 @@ static const struct {
 int qpro_record_type_idx (qpro_record_t type)
 {
 	int i;
-	
+
 	for (i = 0; i < arraysize (qpro_records); i++)
 		if (qpro_records[i].type == type)
 			return i;
@@ -167,18 +167,18 @@ static int qpro_dump_record (char *data, size_t datalen, char **cur_o)
 	struct qpro_header *hdrp, hdr;
 	char *cur = *cur_o;
 	int idx, rc = 1;
-	
+
 	if (((cur - data) + sizeof (*hdrp)) >= datalen)
 		return 0;
 
 	hdrp = (struct qpro_header *) cur;
 	hdr.type = GUINT16_FROM_LE (hdrp->type);
 	hdr.len = GUINT16_FROM_LE (hdrp->len);
-	
+
 	idx = qpro_record_type_idx (hdr.type);
 	if (idx < 0)
 		return 0;
-	
+
 	g_message ("HDR \"%s\" (%d): %d bytes\n",
 		   qpro_records[idx].name,
 		   hdr.type,
@@ -202,7 +202,7 @@ int main (int argc, char *argv[])
 	int fd, rc;
 	char *cur;
 	struct stat st;
-	
+
 	if (argc != 2) {
 		fprintf(stderr,"usage: dump-qpro FILE\n");
 		abort();
@@ -220,18 +220,18 @@ int main (int argc, char *argv[])
 		close(fd);
 		abort();
 	}
-	
+
 	data = mmap (0, st.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
 	if (data == (void*)MAP_FAILED) {
 		perror("mmap");
 		close(fd);
 		abort();
 	}
-	
+
 	cur = (char*) data;
 	while (qpro_dump_record (data, st.st_size, &cur))
 		/* chirp */ ;
-	
+
 	munmap (data, st.st_size);
 	close(fd);
 	return 0;

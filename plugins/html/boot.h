@@ -26,6 +26,6 @@
 #include "gnumeric-util.h"
 #include "../../src/plugin.h"
 
-int init_plugin (PluginData *pd);
+int init_plugin (CmdContext *context, PluginData *pd);
 
 #endif

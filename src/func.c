@@ -126,7 +126,7 @@ function_iterate_do_value (EvalPosition      const *ep,
 }
 
 Value *
-function_iterate_argument_values (const EvalPosition      *fp,
+function_iterate_argument_values (const EvalPosition      *ep,
 				  FunctionIterateCallback callback,
 				  void                    *callback_closure,
 				  GList                   *expr_node_list,
@@ -140,19 +140,27 @@ function_iterate_argument_values (const EvalPosition      *fp,
 		ExprTree const * tree = (ExprTree const *) expr_node_list->data;
 		Value *val;
 
-		func_eval_info_pos (&fs, fp);
+		func_eval_info_pos (&fs, ep);
 		val = eval_expr (&fs, tree);
 
-		if (!VALUE_IS_EMPTY_OR_ERROR (val) || !strict) {
-			result = function_iterate_do_value (
-				fp, callback, callback_closure,
-				val, strict);
-			value_release (val);
-		} else {
-			/* A strict function with an error -- just short circuit.  */
-			/* FIXME : Make the new position of the error here */
-			return val;
+		if (strict) {
+			if (value_is_empty_cell (val)) {
+				/* A strict function with a blank/missing arg. */
+				if (val)
+					value_release (val);
+
+				/* TODO : Say which argument is empty to improve error messages */
+				return value_new_error (ep, _("Missing argument"));
+			} else if (val->type == VALUE_ERROR) {
+				/* A strict function with an error */
+				/* FIXME : Make the new position of the error here */
+				return val;
+			}
 		}
+
+		result = function_iterate_do_value (ep, callback, callback_closure,
+						    val, strict);
+		value_release (val);
 	}
 	return result;
 }

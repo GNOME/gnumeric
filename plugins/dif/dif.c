@@ -299,7 +299,7 @@ dif_write_cell (FILE *f, Cell *cell, int col, int row)
 			fputs("1,0\n\"\"\n", f);
 			break;
 
-	 	case VALUE_STRING:	/* Text Value */
+		case VALUE_STRING:	/* Text Value */
 			fputs("1,0\n\"", f);
 			fputs(cell->text->str, f);
 			fputs("\"\n", f);
@@ -346,7 +346,7 @@ dif_write_cell (FILE *f, Cell *cell, int col, int row)
 
 		}
 	}
-	
+
 	if (ferror (f))
 		return -1;
 
@@ -407,10 +407,10 @@ dif_write_workbook (Workbook *wb, const char *filename)
 			for (col = 0; col <= sheet->cols.max_used; col++) {
 				cell = sheet_cell_get (sheet, col, row);
 				rc = dif_write_cell (f, cell, col, row);
-				if (rc) 
+				if (rc)
 					goto out;
 			}
-			
+
 		}
 
 		sheet_list = sheet_list->next;
@@ -443,10 +443,13 @@ dif_cleanup_plugin (PluginData *pd)
 
 
 int
-init_plugin (PluginData * pd)
+init_plugin (CmdContext *context, PluginData * pd)
 {
 	char *desc;
-	
+
+	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
+		return -2;
+
 	desc = _("Data Interchange Format (DIF) import");
 	file_format_register_open (1, desc, NULL, dif_read_workbook);
 

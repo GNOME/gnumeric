@@ -933,10 +933,13 @@ pln_cleanup_plugin (PluginData *pd)
 
 
 int
-init_plugin (PluginData * pd)
+init_plugin (CmdContext *context, PluginData * pd)
 {
 	char *desc;
-	
+
+	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
+		return -2;
+
 	desc = _("Plan Perfect Format (PLN) import");
 	file_format_register_open (1, desc, NULL, pln_read_workbook);
 

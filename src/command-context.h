@@ -3,14 +3,15 @@
 
 #include "gnumeric.h"
 
-typedef enum {
-	CMD_CONTEXT_GUI   = 0x11,
-	CMD_CONTEXT_CORBA = 0x22
-} CmdContextType;
+/*
+ * These routines should be part of the eventual worbook-view
+ * structure.  They represent the exceptions that can arise.
+ * NOTE : The selection is quite limited by IDL's intentional non-support for
+ *        inheritance (single or multiple).
+ */
+void gnumeric_error_plugin_problem (CmdContext *context,
+				    char const * const message);
 
-struct _CmdContext
-{
-	CmdContextType type;
-};
+void gnumeric_error_splits_array (CmdContext *context);
 
 #endif /* GNUMERIC_CMD_CONTEXT_H */

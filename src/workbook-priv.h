@@ -56,18 +56,18 @@ struct _Workbook {
 	GnomeUIHandler *uih;
 #else
 	GtkObject  gtk_object;
-#endif
-
-	/* { Start view specific elements */;
-        GtkWidget  *toplevel; 
-	GtkWidget  *notebook;
-	GtkWidget  *table;
 
 	/* Menu items that get toggled */
 	GtkWidget  *menu_item_undo;
 	GtkWidget  *menu_item_redo;
 	GtkWidget  *menu_item_paste;
 	GtkWidget  *menu_item_paste_special;
+#endif
+
+	/* { Start view specific elements */;
+        GtkWidget  *toplevel; 
+	GtkWidget  *notebook;
+	GtkWidget  *table;
 
 	/* Edit area */
 	GtkWidget  *ea_status;

@@ -67,7 +67,7 @@ csv_parse_field (FileSource_t *src)
 		}
 	}
 
-	/* Skip close delemiter */
+	/* Skip close delimiter */
 	if (*cur) {
 		src->cur = cur;
 		if (delim != ',')
@@ -200,7 +200,7 @@ csv_write_cell (FILE *f, Cell *cell, int col, int row)
 		if (quoting)
 			fputc ('"', f);
 	}
-	
+
 	if (ferror (f))
 		return -1;
 
@@ -226,7 +226,7 @@ csv_write_workbook (Workbook *wb, const char *filename)
 
 	if (!f)
 		return -1;
-	
+
 	setvbuf (f, NULL, _IOFBF, PAGE_SIZE);
 
 	sheet_list = workbook_sheets (wb);
@@ -237,11 +237,11 @@ csv_write_workbook (Workbook *wb, const char *filename)
 			for (col = 0; col <= sheet->cols.max_used; col++) {
 				cell = sheet_cell_get (sheet, col, row);
 				rc = csv_write_cell (f, cell, col, row);
-				if (rc) 
+				if (rc)
 					goto out;
 			}
-			
-			/* TODO TODO TODO : Add a flag to optionally 
+
+			/* TODO TODO TODO : Add a flag to optionally
 			 * produce \r\n pairs.
 			 */
 			fputc ('\n', f);
@@ -275,10 +275,13 @@ csv_cleanup_plugin (PluginData *pd)
 
 
 int
-init_plugin (PluginData * pd)
+init_plugin (CmdContext *context, PluginData *pd)
 {
 	char *desc;
-	
+
+	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
+		return -2;
+
 	desc = _("Comma Separated Value (CSV) import");
 	file_format_register_open (1, desc, NULL, csv_read_workbook);
 

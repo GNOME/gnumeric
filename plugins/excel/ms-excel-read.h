@@ -35,7 +35,7 @@ typedef struct _BiffBoundsheetData
 
 typedef struct {
 	guint16 col;
-	guint16 row;	
+	guint16 row;
 } BiffSharedFormulaKey;
 
 typedef struct {

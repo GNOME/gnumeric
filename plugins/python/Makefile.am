@@ -17,6 +17,7 @@ libgnum_python_la_SOURCES = python.c
 INCLUDES = 						\
 	-I$(GNUMERIC_SRC_DIR)				\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
+	-DGNUMERIC_VERSION=\""$(VERSION)"\"             \
 	-I$(includedir)					\
 	$(PY_CFLAGS)				\
 	$(GNOME_INCLUDEDIR)

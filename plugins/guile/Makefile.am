@@ -17,6 +17,7 @@ libgnum_guile_la_SOURCES = plugin.c
 INCLUDES = 						\
 	-I$(GNUMERIC_SRC_DIR)				\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
+	-DGNUMERIC_VERSION=\""$(VERSION)"\"             \
 	-I$(includedir)					\
 	$(GUILE_INCS)					\
 	$(GNOME_INCLUDEDIR)

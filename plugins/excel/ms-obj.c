@@ -41,7 +41,7 @@ extern int ms_excel_read_debug;
  * @points	Array which receives anchor coordinates in points
  * @obj         The object
  * @sheet	The sheet
- * 
+ *
  * Converts anchor coordinates in Excel units to points. Anchor
  * coordinates are x and y of upper left and lower right corner. Each
  * is expressed as a pair: Row/cell number + position within cell as
@@ -81,7 +81,7 @@ object_anchor_to_position (double points[4], MSObj*obj, Sheet const * sheet,
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 0)
-		printf ("Anchor position in points" 
+		printf ("Anchor position in points"
 			" left = %g, top = %g, right = %g, bottom = %g;\n",
 			points[0], points[1], points[2], points[3]);
 #endif
@@ -174,8 +174,8 @@ ms_obj_destroy (MSObj *obj)
 
 /**
  * ms_excel_sheet_realize_objs:
- * @sheet: 
- * 
+ * @sheet:
+ *
  *   This realizes the objects after the zoom factor has been
  * loaded.
  **/
@@ -221,7 +221,7 @@ ms_parse_object_anchor (anchor_point anchor[4],
 		if (ms_excel_read_debug > 1) {
 			int pos  = anchor[i].pos;
 			printf ("%d/%d cell %s from ",
-				anchor[i].nths, (i & 1) ? 256 : 1024, 
+				anchor[i].nths, (i & 1) ? 256 : 1024,
 				(i & 1) ? "heights" : "widths");
 			if (i & 1)
 				printf ("row %d;\n", pos + 1);
@@ -230,7 +230,7 @@ ms_parse_object_anchor (anchor_point anchor[4],
 		}
 #endif
 	}
-	
+
 	return FALSE;
 }
 
@@ -622,7 +622,7 @@ ms_read_OBJ (BiffQuery *q, ExcelWorkbook * wb, Sheet * sheet)
 		break;
 
 	default :
-		g_warning ("EXCEL : unhandled excel object of type %s (0x%x) id = %d", 
+		g_warning ("EXCEL : unhandled excel object of type %s (0x%x) id = %d",
 			   type_name, obj->excel_type, obj->id);
 		g_free(obj);
 		return NULL;

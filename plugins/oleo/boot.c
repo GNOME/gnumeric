@@ -56,7 +56,7 @@ oleo_load (Workbook *wb, const char *filename)
 {
 	char *name, *p;
 	gboolean ret;
-	
+
 	ret = oleo_read (wb, filename);
 
 	if (ret) {
@@ -84,9 +84,12 @@ oleo_cleanup_plugin (PluginData *pd)
 }
 
 int
-init_plugin (PluginData *pd)
+init_plugin (CmdContext *context, PluginData *pd)
 {
 	char *descr  = _("GNU Oleo (*.oleo) file format");
+
+	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
+		return -2;
 
 	file_format_register_open (100, descr, oleo_probe, oleo_load);
 

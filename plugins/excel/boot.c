@@ -26,7 +26,7 @@ static gboolean
 excel_probe (const char *filename)
 {
 	MsOle    *file;
-	
+
 	if (ms_ole_open (&file, filename) == MS_OLE_ERR_OK) {
 		MsOleErr     result;
 		MsOleStream *stream;
@@ -53,7 +53,7 @@ excel_load (Workbook *wb, const char *filename)
 	MsOle *f;
 	gboolean ret;
 	MsOleErr  result;
-	
+
 	result = ms_ole_open (&f, filename);
 	if (result != MS_OLE_ERR_OK) {
 		ms_ole_destroy (&f);
@@ -92,7 +92,7 @@ excel_save (Workbook *wb, const char *filename, eBiff_version ver)
 				 _("Saving over old files disabled for safety"));
 		return 1;
 	}
-	
+
 	result = ms_ole_create (&f, filename);
 
 	if (result != MS_OLE_ERR_OK) {

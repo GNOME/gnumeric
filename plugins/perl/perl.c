@@ -25,10 +25,13 @@ no_unloading_for_me (PluginData *pd)
 }
 
 int
-init_plugin(PluginData *pd)
+init_plugin (CmdContext *context, PluginData *pd)
 {
 	char *argv[] = { "", NULL, NULL, NULL };
 	char *arg;
+
+	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
+		return -2;
 
 	/* Initialize Gnumeric plugin information. */
 	pd->can_unload = no_unloading_for_me;

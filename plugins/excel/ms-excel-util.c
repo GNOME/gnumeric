@@ -15,9 +15,9 @@
 /*
  * TwoWayTable
  *
- * This is a data structure for a one to one mapping between a key and an 
- * index. You can access the key by index and the index by key. Indices are 
- * assigned to keys in the order they are entered. 
+ * This is a data structure for a one to one mapping between a key and an
+ * index. You can access the key by index and the index by key. Indices are
+ * assigned to keys in the order they are entered.
  *
  * Example of use:
  * Build a table of unique fonts in the workbook, assigning each an index.
@@ -30,8 +30,8 @@
  * two_way_table_replace:    Replace the key for an index in the TwoWayTable
  * two_way_table_key_to_idx: Find index given a key
  * two_way_table_idx_to_key: Find key given the index
- * 
- * Implementation: 
+ *
+ * Implementation:
  * A g_hash_table and a g_ptr_array. The value stored in the hash
  * table is index + 1. This is because hash lookup returns NULL on
  * failure. If 0 could be stored in the hash, we could not distinguish
@@ -48,7 +48,7 @@
  */
 TwoWayTable *
 two_way_table_new (GHashFunc    hash_func,
-		   GCompareFunc key_compare_func, 
+		   GCompareFunc key_compare_func,
 		   gint         base)
 {
 	TwoWayTable *table = g_new (TwoWayTable, 1);
@@ -64,7 +64,7 @@ two_way_table_new (GHashFunc    hash_func,
 /**
  * two_way_table_free
  * @table Table
- * 
+ *
  * Destroys the TwoWayTable.
  */
 void
@@ -85,10 +85,10 @@ two_way_table_free (TwoWayTable *table)
  * Puts a key to the TwoWayTable if it is not already there. Returns
  * the index of the key. apf is of type AfterPutFunc, and can be used
  * for logging, freeing resources, etc. It is told if the key was
- * entered or not.  
+ * entered or not.
  */
 gint
-two_way_table_put (const TwoWayTable *table, gpointer key, 
+two_way_table_put (const TwoWayTable *table, gpointer key,
 		   gboolean unique,  AfterPutFunc apf, gpointer closure)
 {
 	gint index = two_way_table_key_to_idx (table, key);
@@ -99,7 +99,7 @@ two_way_table_put (const TwoWayTable *table, gpointer key,
 		index = table->idx_to_key->len + table->base;
 
 		if (!found)
-			g_hash_table_insert (table->key_to_idx, key, 
+			g_hash_table_insert (table->key_to_idx, key,
 					     GINT_TO_POINTER (index + 1));
 		g_ptr_array_add (table->idx_to_key, key);
 	}
@@ -115,7 +115,7 @@ two_way_table_put (const TwoWayTable *table, gpointer key,
  * @table Table
  * @idx   Index to be updated
  * @key   New key to be assigned to the index
- * 
+ *
  * Replaces the key bound to an index with a new value. Returns the old key.
  */
 gpointer
@@ -126,7 +126,7 @@ two_way_table_replace (const TwoWayTable *table, gint idx, gpointer key)
 	g_hash_table_remove(table->key_to_idx, old_key);
 	g_hash_table_insert(table->key_to_idx, key, GINT_TO_POINTER (idx + 1));
 	g_ptr_array_index (table->idx_to_key, idx) = key;
-	
+
 	return old_key;
 }
 
@@ -134,7 +134,7 @@ two_way_table_replace (const TwoWayTable *table, gint idx, gpointer key)
  * two_way_table_key_to_idx
  * @table Table
  * @key   Key
- * 
+ *
  * Returns index of key, or -1 if key not found.
  */
 gint
@@ -148,15 +148,15 @@ two_way_table_key_to_idx (const TwoWayTable *table, gconstpointer key)
  * two_way_table_idx_to_key
  * @table Table
  * @idx   Index
- * 
+ *
  * Returns key bound to index, or NULL if index is out of range.
  */
 gpointer
 two_way_table_idx_to_key (const TwoWayTable *table, gint idx)
 {
-	
+
 	g_return_val_if_fail (idx - table->base >= 0, NULL);
-	g_return_val_if_fail (idx - table->base < table->idx_to_key->len, 
+	g_return_val_if_fail (idx - table->base < table->idx_to_key->len,
 			      NULL);
 
 	return g_ptr_array_index (table->idx_to_key, idx - table->base);
@@ -178,11 +178,11 @@ two_way_table_idx_to_key (const TwoWayTable *table, gint idx)
  *
  * Widths based on text samples come out lower, but can be used if
  * scaled appropriately. Using the sample below, we reduce the
- * difference in precision between Times and Helvetica to 0.13%.  
+ * difference in precision between Times and Helvetica to 0.13%.
  */
-/* 
+/*
  * FIXME: If a column is marked italic, Excel exports a different width.
- * Looks like it tracks bold/italic variations, but we know that it doesn't 
+ * Looks like it tracks bold/italic variations, but we know that it doesn't
  * track family/size. Weird.
  */
 double

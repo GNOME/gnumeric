@@ -651,7 +651,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	gboolean const cursor_move = gnumeric_sheet_can_move_cursor (gsheet);
 	gboolean const jump_to_bounds = event->state & GDK_CONTROL_MASK;
 
-	if ((event->state & GDK_SHIFT_MASK) != 0){
+	if (event->state & GDK_SHIFT_MASK) {
 		if (cursor_move){
 			movefn_horizontal = selection_expand_horizontal;
 			movefn_vertical = selection_expand_vertical;
@@ -770,7 +770,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 
 	case GDK_KP_Delete:
 	case GDK_Delete:
-		sheet_selection_clear_content (command_context_gui(), sheet);
+		sheet_selection_clear_content (command_context_gui (wb), sheet);
 		break;
 
 	case GDK_KP_Enter:

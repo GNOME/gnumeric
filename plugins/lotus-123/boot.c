@@ -56,7 +56,7 @@ lotus_load (Workbook *wb, const char *filename)
 {
 	char *name, *p;
 	gboolean ret;
-	
+
 	ret = lotus_read (wb, filename);
 
 	if (ret) {
@@ -84,9 +84,12 @@ lotus_cleanup_plugin (PluginData *pd)
 }
 
 int
-init_plugin (PluginData *pd)
+init_plugin (CmdContext *context, PluginData *pd)
 {
 	char *descr  = _("Lotus (*.wk1) file format");
+
+	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
+		return -2;
 
 	file_format_register_open (50, descr, lotus_probe, lotus_load);
 

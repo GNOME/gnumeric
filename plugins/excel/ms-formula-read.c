@@ -584,7 +584,7 @@ parse_list_last_n (ParseList **list, gint n)
 }
 
 
-static void 
+static void
 parse_list_free (ParseList **list)
 {
 	while (*list)
@@ -618,7 +618,7 @@ make_inter_sheet_ref_v7 (ExcelWorkbook *wb, guint16 extn_idx,
 
 	g_return_if_fail (wb->excel_sheets);
 	g_return_if_fail (first<wb->excel_sheets->len);
-	
+
 	sheet = g_ptr_array_index (wb->excel_sheets, first);
 	g_return_if_fail (sheet);
 	a->sheet = sheet->gnum_sheet;
@@ -743,7 +743,7 @@ make_function (ParseList **stack, int fn_idx, int numargs)
 		/* This should not happen */
 		if (!name) {
 			char *txt;
-			txt = g_strdup_printf ("[Function '%s']", 
+			txt = g_strdup_printf ("[Function '%s']",
 					       fd->prefix?fd->prefix:"?");
 			printf ("Unknown %s\n", txt);
 			parse_list_push_raw (stack, value_new_error (NULL, txt));
@@ -790,7 +790,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 	int len_left = length ;
 	ParseList *stack = NULL;
 	gboolean error = FALSE ;
-	
+
 	if (array_element != NULL)
 		*array_element = FALSE;
 
@@ -848,7 +848,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 			ExprTree *tree ;
 			guint16 extn_name_idx; /* 1 based */
 			guint16 extn_sheet_idx;
-			
+
 			if (wb->ver == eBiffV8) {
 				extn_sheet_idx = MS_OLE_GET_GUINT16(cur) ;
 				extn_name_idx  = MS_OLE_GET_GUINT16(cur+2) ;
@@ -895,7 +895,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 		case FORMULA_PTG_AREA_3D: /* see S59E2B.HTM */
 		{
 			CellRef *first=0, *last=0 ;
-			
+
 			if (wb->ver >= eBiffV8) {
 				guint16 extn_idx = MS_OLE_GET_GUINT16(cur) ;
 
@@ -954,7 +954,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 		}
 		case FORMULA_PTG_ARRAY:
 		{
-			/* NB. the spec. is wrong here, these are zero offset */ 
+			/* NB. the spec. is wrong here, these are zero offset */
 			guint32 const cols=MS_OLE_GET_GUINT8(array_data)+1;
 			guint32 const rows=MS_OLE_GET_GUINT16(array_data+1)+1;
 			guint16 lpx,lpy;
@@ -1437,11 +1437,11 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 			ms_ole_dump (mem, length) ;
 		}
 #endif
-		
+
 		parse_list_free (&stack) ;
 		return expr_tree_string (_(" Unknown formula")) ;
 	}
-	
+
 	if (!stack)
 		return expr_tree_string ("Stack too short - unusual");
 	if (g_list_length(stack) > 1) {

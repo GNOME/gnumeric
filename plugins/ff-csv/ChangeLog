@@ -2,6 +2,7 @@
 
 	* csv-io.c (csv_parse_sheet) : Minor adjustment to the previous
 	  enhancement.
+	(csv_parse_field) : Extend \r\n to embedded newlines also.
 
 1999-12-28  Stephane Alnet <stephane@u-picardie.fr>
 
