@@ -2570,27 +2570,27 @@ biff_get_rk (guint8 const *ptr)
 	case eIEEEx100:
 	{
 		guint8 tmp[8];
-		double answer;
+		gnum_float answer;
 		int lp;
 
 		/* Think carefully about big/little endian issues before
 		   changing this code.  */
 		for (lp = 0; lp < 4; lp++) {
 			tmp[lp + 4]= (lp > 0) ? ptr[lp]: (ptr[lp] & 0xfc);
-			tmp[lp]=0;
+			tmp[lp] = 0;
 		}
 
-		answer = gnumeric_get_le_double (tmp);
+		answer = (gnum_float)gnumeric_get_le_double (tmp);
 		return value_new_float (type == eIEEEx100 ? answer / 100 : answer);
 	}
 	case eInt:
-		return value_new_int ((number>>2));
+		return value_new_int (number >> 2);
 	case eIntx100:
 		number >>= 2;
-		if ((number % 100) ==0)
-			return value_new_int (number/100);
+		if ((number % 100) == 0)
+			return value_new_int (number / 100);
 		else
-			return value_new_float (number/100.0);
+			return value_new_float ((gnum_float)number / 100);
 	}
 	while (1) abort ();
 }
