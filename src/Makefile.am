@@ -267,8 +267,8 @@ gnumeric_LDADD = 					\
 	$(EXTRA_GNOME_LIBS)				\
 	$(GNOME_XML_LIB) 				\
 	$(GUILE_LIBS)					\
-	$(PSPELL_LIBS)					\
 	$(INTLLIBS)
+#	$(PSPELL_LIBS)
 
 gnumeric_bonobo_LDADD =					\
 	$(gnumeric_libs)				\
@@ -295,4 +295,4 @@ dist-hook:
 EXTRA_DIST = portability.h.in gnumeric.xml
 
 uidir=$(datadir)/gnome/ui
-ui_DATA=gnumeric.xml
+ui_DATA = gnumeric.xml
