@@ -4547,18 +4547,21 @@ numbers */
 
 static char const *help_trend = {
 	N_("@FUNCTION=TREND\n"
-	   "@SYNTAX=TREND(known_y's[,known_x's[,new_x's]])\n"
+	   "@SYNTAX=TREND(known_y's[,known_x's[,new_x's[,const]]])\n"
 
 	   "@DESCRIPTION="
 	   "TREND function estimates future values of a given data set "
 	   "using the ``least squares'' line that best fit to your data. "
 	   "@known_y's is the y-values where y=mx+b and @known_x's contains "
 	   "the corresponding x-values.  @new_x's contains the x-values for "
-	   "which you want to estimate the y-values.\n"
+	   "which you want to estimate the y-values. If @const is FALSE, "
+	   "the line will be forced to go through the "
+           "origin, i.e., b will be zero.\n"
 	   "\n"
 	   "* If @known_x's is omitted, an array {1, 2, 3, ...} is used.\n"
 	   "* If @new_x's is omitted, it is assumed to be the same as "
 	   "@known_x's.\n"
+           "* If @const is omitted, it is assumed to be TRUE.\n"
 	   "* If @known_y's and @known_x's have unequal number of data points, "
 	   "TREND returns #NUM! error.\n"
 	   "\n"
