@@ -20,9 +20,6 @@ click .
 
 For more information about other number format codes, click .
 
-
-
-
 ------------------------------------------
 Basic number format codes
 
@@ -196,17 +193,4 @@ set conditions for each section of a number format. For example, the
 following format displays entries greater than 1000 in blue: 
 
 [>1000][Blue]#,##
-
-
-
-
-
-
-
-
-
-
-
-
-
 
