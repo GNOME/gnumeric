@@ -499,9 +499,10 @@ format_template_new (WorkbookControl *context)
 	ft->filename    = g_string_new ("");
 
 	ft->author      = g_string_new (g_get_real_name ());
-	ft->name        = g_string_new ("Name");
+	ft->name        = g_string_new (_("Name"));
 	ft->description = g_string_new ("");
-	ft->category    = g_string_new ("General");
+
+	ft->category = NULL;
 
 	ft->members = NULL;
 	ft->context = context;
@@ -512,7 +513,7 @@ format_template_new (WorkbookControl *context)
 	ft->patterns  = TRUE;
 	ft->alignment = TRUE;
 
-        ft->table     = hash_table_create ();
+	ft->table     = hash_table_create ();
 	ft->invalidate_hash = TRUE;
 
 	ft->x1 = ft->y1 = 0;
@@ -540,7 +541,6 @@ format_template_free (FormatTemplate *ft)
 	g_string_free (ft->author, TRUE);
 	g_string_free (ft->name, TRUE);
 	g_string_free (ft->description, TRUE);
-	g_string_free (ft->category, TRUE);
 
 	iterator = ft->members;
 	while (iterator) {
@@ -579,7 +579,8 @@ format_template_clone (FormatTemplate *ft)
 	clone->author      = g_string_new (ft->author->str);
 	clone->name        = g_string_new (ft->name->str);
 	clone->description = g_string_new (ft->description->str);
-	clone->category    = g_string_new (ft->category->str);
+
+	clone->category    = ft->category;
 
 	iterator = ft->members;
 	while (iterator) {
@@ -691,6 +692,21 @@ format_template_detach_member (FormatTemplate *ft, TemplateMember *member)
 	g_return_if_fail (member != NULL);
 
 	ft->members = g_slist_remove (ft->members, member);
+}
+
+/**
+ * format_template_compare_name:
+ * @ft_a: First FormatTemplate
+ * @ft_b: Second FormatTemplate
+ *
+ **/
+gint
+format_template_compare_name (gconstpointer a, gconstpointer b)
+{
+	FormatTemplate *ft_a = (FormatTemplate *) a,
+	               *ft_b = (FormatTemplate *) b;
+
+	return strcmp (ft_a->name->str, ft_b->name->str);
 }
 
 /******************************************************************************
@@ -1138,6 +1154,7 @@ format_template_get_style (FormatTemplate *ft, int row, int col)
 }
 
 
+
 /******************************************************************************
  * FormatTemplate - Application to Sheet
  ******************************************************************************/
@@ -1307,23 +1324,20 @@ format_template_get_description (FormatTemplate *ft)
 		return NULL;
 }
 
-char *
-format_template_get_category (FormatTemplate *ft)
-{
-	g_return_val_if_fail (ft != NULL, NULL);
-
-	if (ft->category)
-		return g_strdup (ft->category->str);
-	else
-		return NULL;
-}
-
 GSList *
 format_template_get_members (FormatTemplate *ft)
 {
 	g_return_val_if_fail (ft != NULL, NULL);
 
 	return ft->members;
+}
+
+FormatTemplateCategory *
+format_template_get_category (FormatTemplate *ft)
+{
+	g_return_val_if_fail (ft != NULL, NULL);
+
+	return ft->category;
 }
 
 void
@@ -1375,15 +1389,12 @@ format_template_set_description (FormatTemplate *ft, const char *description)
 }
 
 void
-format_template_set_category (FormatTemplate *ft, const char *category)
+format_template_set_category (FormatTemplate *ft, FormatTemplateCategory *category)
 {
 	g_return_if_fail (ft != NULL);
 	g_return_if_fail (category != NULL);
 
-	if (ft->category)
-		g_string_free (ft->category, TRUE);
-
-	ft->category = g_string_new (category);
+	ft->category = category;
 }
 
 
@@ -1442,4 +1453,3 @@ format_template_set_size (FormatTemplate *ft, int x1, int y1, int x2, int y2)
 
 	ft->invalidate_hash = TRUE;
 }
-

@@ -27,8 +27,9 @@
 #include <config.h>
 #include <gnome.h>
 #include <glade/glade.h>
-
+#include <gal/util/e-util.h>
 #include <math.h>
+#include <stdlib.h>
 
 #include "gnumeric.h"
 #include "gnumeric-util.h"
@@ -61,13 +62,16 @@
  */
 #define NUM_PREVIEWS 6
 
+/* Keep these strings very short.
+   They are used as a sample data for a sheet, so you can put anything here
+   ("One", "Two", "Three" for example) */
 static const char*
 demotable[PREVIEW_ROWS][PREVIEW_COLS] = {
-	{ " "    , "Jan", "Feb", "Mrt", "Total" },
-	{ "North",   "6",  "13",  "20",    "39" },
-	{ "South",  "12",   "4",  "17",    "33" },
-	{ "West" ,   "8",   "2",   "0",    "10" },
-	{ "Total",  "26",  "19",  "37",    "81" }
+	{ N_(" ")    , N_("Jan"), N_("Feb"), N_("Mrt"), N_("Total") },
+	{ N_("North"),   N_("6"),  N_("13"),  N_("20"),    N_("39") },
+	{ N_("South"),  N_("12"),   N_("4"),  N_("17"),    N_("33") },
+	{ N_("West") ,   N_("8"),   N_("2"),   N_("0"),    N_("10") },
+	{ N_("Total"),  N_("26"),  N_("19"),  N_("37"),    N_("81") }
 };
 
 typedef struct {
@@ -76,14 +80,14 @@ typedef struct {
 	PreviewGridController *controller[NUM_PREVIEWS];  /* Controller for each canvas */
 	GSList         *templates;                        /* List of FormatTemplate's */
 	FormatTemplate *selected_template;                /* The currently selected template */
-	GList          *categories;                       /* List of categories */
+	GList          *category_groups;                  /* List of groups of categories */
 
-	char           *current_category;  /* Selected currently selected category */
-	int             preview_top;       /* Top index of the previewlist */
-	int             preview_index;     /* Selected canvas in previewlist */
-	gboolean        previews_locked;   /* If true, the preview_free and preview_load will not function */
-	gboolean        more_down;         /* If true, more was clicked and the button caption is now 'Less' */
-	gboolean        canceled;          /* True if the user pressed cancel */
+	FormatTemplateCategoryGroup *current_category_group; /* Currently selected category group */
+	int               preview_top;       /* Top index of the previewlist */
+	int               preview_index;     /* Selected canvas in previewlist */
+	gboolean          previews_locked;   /* If true, the preview_free and preview_load will not function */
+	gboolean          more_down;         /* If true, more was clicked and the button caption is now 'Less' */
+	gboolean          canceled;          /* True if the user pressed cancel */
 
 	/*
 	 * Gui elements
@@ -133,7 +137,7 @@ cb_get_cell_content (int row, int col, gpointer data)
 
 	g_return_val_if_fail (row < PREVIEW_ROWS && col < PREVIEW_COLS, NULL);
 
-	text = demotable[row][col];
+	text = _(demotable[row][col]);
 
        /*
         * Determine if the text to display is a number.  If so,
@@ -143,7 +147,7 @@ cb_get_cell_content (int row, int col, gpointer data)
                char *endptr = NULL;
                double tmp;
 
-               tmp = g_strtod (text, &endptr);
+               tmp = strtod (text, &endptr);
 
                /*
                 * String is only a valid number if *endptr equals \0
@@ -255,59 +259,27 @@ templates_free (AutoFormatInfo *info)
  * @info: AutoFormatInfo
  *
  * This function will load the templates in the currently selected
- * category (it looks at info->categories to determine the selection)
+ * category group (it looks at info->category_groups to determine the selection)
  *
  * Return value: TRUE if all went well, FALSE otherwise.
  **/
 static gboolean
 templates_load (AutoFormatInfo *info)
 {
-	int count = 0;
-	gboolean error = FALSE;
-	GList *template_list, *iterator;;
+	GSList *l;
+	gint n_templates;
 
-	g_return_val_if_fail (info != NULL, FALSE);
+	g_assert (info != NULL);
 
-	if (g_list_length (info->categories) == 0)
+	if (info->category_groups == NULL) {
 		return FALSE;
-
-	template_list = template_list_load ();
-
-	iterator = template_list;
-	while (iterator) {
-		const char *filename = iterator->data;
-		char **array = g_strsplit (g_basename (filename), ".", -1);
-		const char *category = array[1];
-
-		/*
-		 * Load it if it belongs in the currently active category
-		 */
-		if (strcmp (info->current_category, category) == 0) {
-			FormatTemplate *ft;
-
-			ft = format_template_new_from_file (
-				WORKBOOK_CONTROL (info->wbcg), filename);
-
-			if (ft == NULL) {
-				g_warning ("Error while reading %s", filename);
-				error = TRUE;
-				break;
-			}
-
-			format_template_set_size (ft, 0, 0, PREVIEW_COLS - 1, PREVIEW_ROWS - 1);
-
-			info->templates = g_slist_prepend (info->templates, ft);
-			count++;
-		}
-
-		g_strfreev (array);
-
-		iterator = g_list_next (iterator);
 	}
 
-	template_list_free (template_list);
-
-	info->templates = g_slist_reverse (info->templates);
+	info->templates = category_group_get_templates_list (info->current_category_group, WORKBOOK_CONTROL (info->wbcg));
+	for (l = info->templates; l != NULL; l = l->next) {
+		format_template_set_size ((FormatTemplate *) l->data, 0, 0, PREVIEW_COLS - 1, PREVIEW_ROWS - 1);
+	}
+	n_templates = g_slist_length (info->templates);
 
 	/*
 	 * We need to temporary lock the preview loading/freeing or
@@ -318,10 +290,9 @@ templates_load (AutoFormatInfo *info)
 	{
 		GtkAdjustment *adjustment = gtk_range_get_adjustment (GTK_RANGE (info->scroll));
 
-		count++;
 		adjustment->value = 0;
 		adjustment->lower = 0;
-		adjustment->upper = count / 2;
+		adjustment->upper = n_templates / 2;
 		adjustment->step_increment = 1;
 		adjustment->page_increment = 3;
 		adjustment->page_size = 3;
@@ -333,12 +304,12 @@ templates_load (AutoFormatInfo *info)
 	/*
 	 * Hide the scrollbar when it's not needed
 	 */
-	if (count > NUM_PREVIEWS)
+	if (n_templates > NUM_PREVIEWS)
 		gtk_widget_show (GTK_WIDGET (info->scroll));
 	else
 		gtk_widget_hide (GTK_WIDGET (info->scroll));
 
-	return (!error);
+	return TRUE;
 }
 
 /**
@@ -557,20 +528,10 @@ cb_edit_activated (GtkMenuItem *item, AutoFormatInfo *info)
 static void
 cb_remove_current_activated (GtkMenuItem *item, AutoFormatInfo *info)
 {
-	g_warning ("Not implemented yet");
-
-	/*
-	 * The implementation below is nice to start with, we need
-	 * some way to distinguish between templates that are read-only
-	 * (in the /usr/share/gnumeric/... dir) an templates that
-	 * are in ~/.gnumeric/....
-	 * Only private templates (~/.gnumeric) should be removable.
-	 */
-
-/*	GtkWidget *dialog;
+	GtkWidget *dialog;
 	GtkWidget *no_button;
-	int ret;
-	char *question;
+	gint ret;
+	gchar *question;
 
 	question = g_strdup_printf (_("Are you sure you want to remove the template '%s' ?"), info->selected_template->name->str);
 
@@ -583,22 +544,16 @@ cb_remove_current_activated (GtkMenuItem *item, AutoFormatInfo *info)
 	g_free (question);
 
 	if (ret == 0) {
-
 		if (unlink (info->selected_template->filename->str) != 0) {
 			GtkWidget *edialog;
 
 			edialog = gnome_error_dialog_parented (_("Could not remove template"),
-							       GTK_WINDOW (info->dialog));
-
+			                                       GTK_WINDOW (info->dialog));
 			gnome_dialog_run (GNOME_DIALOG (edialog));
 		} else {
-
-			gtk_signal_emit_by_name (GTK_OBJECT (info->categories),
-						 "select-row", info->category_index, 0,
-						 NULL, info);
+			gtk_signal_emit_by_name (GTK_OBJECT (info->category->popwin), "hide", info);
 		}
 	}
-*/
 }
 
 /**
@@ -666,7 +621,8 @@ cb_canvas_button_release (GnomeCanvas *canvas, GdkEventButton *event, AutoFormat
 		FormatTemplate *ft;
 		GSList *iterator = info->templates;
 		int dummy;
-		char *name, *author, *cat, *descr;
+		char *name, *author, *descr;
+		FormatTemplateCategory *category;
 
 		index = 0;
 		while (iterator != NULL) {
@@ -688,12 +644,12 @@ cb_canvas_button_release (GnomeCanvas *canvas, GdkEventButton *event, AutoFormat
 
 		name   = format_template_get_name (ft);
 		author = format_template_get_author (ft);
-		cat    = format_template_get_category (ft);
 		descr  = format_template_get_description (ft);
+		category  = format_template_get_category (ft);
 
 		gtk_entry_set_text (info->info_name, name);
 		gtk_entry_set_text (info->info_author, author);
-		gtk_entry_set_text (info->info_cat, cat);
+		gtk_entry_set_text (info->info_cat, category->name);
 		gtk_editable_delete_text (GTK_EDITABLE (info->info_descr), 0, -1);
 
 		dummy = 0;
@@ -702,8 +658,9 @@ cb_canvas_button_release (GnomeCanvas *canvas, GdkEventButton *event, AutoFormat
 
 		g_free (name);
 		g_free (author);
-		g_free (cat);
 		g_free (descr);
+
+		gtk_widget_set_sensitive (GTK_WIDGET (info->remove_current), category->is_writable);
 
 		info->selected_template = ft;
 	}
@@ -756,16 +713,22 @@ cb_apply_item_toggled (GtkCheckMenuItem *item, AutoFormatInfo *info)
 static void
 cb_category_popwin_hide (GtkWidget *widget, AutoFormatInfo *info)
 {
-	/*
-	 * Don't directly modify current_category!
-	 */
-	info->current_category = gtk_entry_get_text (GTK_ENTRY (info->category->entry));
+	info->current_category_group = category_group_list_find_category_by_name(
+	                               info->category_groups,
+	                               gtk_entry_get_text (GTK_ENTRY (info->category->entry)));
 
 	previews_free (info);
 	templates_free (info);
 
-	if (templates_load (info) == FALSE)
+	if (templates_load (info) == FALSE) {
 		g_warning ("Error while loading templates!");
+	}
+
+	if (info->current_category_group->description != NULL) {
+		gtk_tooltips_set_tip (info->tooltips, GTK_WIDGET (info->category->entry), info->current_category_group->description, "");
+	} else {
+		gtk_tooltips_set_tip (info->tooltips, GTK_WIDGET (info->category->entry), info->current_category_group->name, "");
+	}
 
 	previews_load (info, 0);
 
@@ -781,13 +744,11 @@ cb_category_popwin_hide (GtkWidget *widget, AutoFormatInfo *info)
 		cb_canvas_button_release (info->canvas[0], NULL, info);
 
 		gtk_widget_set_sensitive (GTK_WIDGET (info->edit), TRUE);
-		gtk_widget_set_sensitive (GTK_WIDGET (info->remove_current), TRUE);
 		gtk_widget_set_sensitive (GTK_WIDGET (info->ok), TRUE);
 	} else {
 		info->selected_template = NULL;
 
 		gtk_widget_set_sensitive (GTK_WIDGET (info->edit), FALSE);
-		gtk_widget_set_sensitive (GTK_WIDGET (info->remove_current), FALSE);
 		gtk_widget_set_sensitive (GTK_WIDGET (info->ok), FALSE);
 
 		/*
@@ -803,7 +764,6 @@ cb_category_popwin_hide (GtkWidget *widget, AutoFormatInfo *info)
 	 * FIXME: REMOVE THIS WHEN YOU WANT NEW/EDIT/REMOVE TO WORK!!!!!!!
 	 */
 	gtk_widget_set_sensitive (GTK_WIDGET (info->edit), FALSE);
-	gtk_widget_set_sensitive (GTK_WIDGET (info->remove_current), FALSE);
 	gtk_widget_set_sensitive (GTK_WIDGET (info->new), FALSE);
 }
 
@@ -879,15 +839,15 @@ dialog_autoformat (WorkbookControlGUI *wbcg)
 	 */
 	info = g_new0 (AutoFormatInfo, 1);
 
-	info->wb         = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-	info->wbcg        = wbcg;
-	info->templates  = NULL;
-	info->categories = NULL;
+	info->wb              = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	info->wbcg            = wbcg;
+	info->templates       = NULL;
+	info->category_groups = NULL;
 	for (i = 0; i < NUM_PREVIEWS; i++) {
 		info->controller[i] = NULL;
 	}
 
-	info->current_category  = NULL;
+	info->current_category_group  = NULL;
 	info->preview_top       = 0;
 	info->preview_index     = -1;
 	info->previews_locked   = FALSE;
@@ -997,16 +957,34 @@ dialog_autoformat (WorkbookControlGUI *wbcg)
 	/*
 	 * Fill category list
 	 */
-	if ((info->categories = category_list_load ()) == NULL) {
+	info->category_groups = category_group_list_get ();
+	if (info->category_groups == NULL) {
 		GtkWidget *wdialog;
 
-		wdialog = gnome_warning_dialog_parented (_("An error occured while reading the category list"),
-							 GTK_WINDOW (info->dialog));
-
+		wdialog = gnome_warning_dialog_parented (
+		          _("An error occured while reading the category list"),
+		          GTK_WINDOW (info->dialog));
 		gnome_dialog_run (GNOME_DIALOG (wdialog));
 	} else {
+		GList *names_list, *general_category_group_link;
 
-		gtk_combo_set_popdown_strings (info->category, info->categories);
+		names_list = category_group_list_get_names_list (info->category_groups);
+		gtk_combo_set_popdown_strings (info->category, names_list);
+		/* This is a name of the "General" autoformat template category.
+		   Please use the same translation as in General.category XML file */
+		general_category_group_link = g_list_find_custom (names_list, _("General"), g_str_compare);
+		if (general_category_group_link == NULL) {
+			general_category_group_link = g_list_find_custom (names_list, "General", g_str_compare);
+		}
+		if (general_category_group_link != NULL) {
+			gint general_category_group_index;
+			
+			general_category_group_index = g_list_position (names_list, general_category_group_link);
+			gtk_list_select_item (GTK_LIST (info->category->list), general_category_group_index);
+		} else {
+			g_warning ("General category not found");
+		}
+		e_free_string_list (names_list);
 
 		/*
 		 * Call callback the screen updates
@@ -1051,7 +1029,7 @@ dialog_autoformat (WorkbookControlGUI *wbcg)
 
 	gtk_object_unref (GTK_OBJECT (info->tooltips));
 
-	category_list_free (info->categories);
+	category_group_list_free (info->category_groups);
 
 	gtk_widget_destroy (GTK_WIDGET (info->dialog));
 	gtk_object_unref (GTK_OBJECT (gui));

@@ -12,11 +12,48 @@
 #include <string.h>
 #include <ctype.h>
 #include <unistd.h>
+#include <gnome.h>
+#include <gal/util/e-util.h>
 #include "numbers.h"
 #include "gutils.h"
 #include "gnumeric.h"
 #include "sheet.h"
 #include "ranges.h"
+
+GList *
+g_create_list (gpointer item1, ...)
+{
+	va_list args;
+	GList *list = NULL;
+	gpointer item;
+
+	va_start (args, item1);
+	for (item = item1; item != NULL; item = va_arg (args, gpointer)) {
+		list = g_list_prepend (list, item);
+	}		
+
+	return g_list_reverse (list);
+}
+
+gint
+g_lang_score_in_lang_list (gchar *lang, GList *lang_list)
+{
+	if (lang_list == NULL) {
+		lang_list = gnome_i18n_get_language_list ("LC_MESSAGES");
+	}
+	if (lang == NULL) {
+		return g_list_length (lang_list);
+	} else {
+		GList *lang_item;
+
+		lang_item = g_list_find_custom (lang_list, lang, g_str_compare);
+		if (lang_item != NULL) {
+			return g_list_position (lang_list, lang_item);
+		} else {
+			return G_MAXINT;
+		}
+	}
+}
 
 gint
 gnumeric_strcase_equal (gconstpointer v, gconstpointer v2)

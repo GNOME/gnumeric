@@ -80,6 +80,9 @@ typedef struct {
 	MStyle *mstyle;       /* Style to apply */
 } TemplateMember;
 
+typedef struct _FormatTemplateCategory FormatTemplateCategory;
+typedef struct _FormatTemplateCategoryGroup FormatTemplateCategoryGroup;
+
 typedef struct {
         /* The filename of this template */
 	GString *filename;
@@ -90,7 +93,6 @@ typedef struct {
 	GString *author;
 	GString *name;
 	GString *description;
-	GString *category;
 
 	/*
 	 * The most important thing the actual TemplateMembers are
@@ -118,7 +120,27 @@ typedef struct {
 	 * Dimensions of the application area
 	 */
 	int x1, y1, x2, y2;
+
+	/*
+	 * Category it came from.
+	 */
+	FormatTemplateCategory *category;
 } FormatTemplate;
+
+struct _FormatTemplateCategory {
+	gchar *directory;
+	gchar *orig_name, *name;
+	gchar *description;
+	gint lang_score;
+	gboolean is_writable;
+};
+
+struct _FormatTemplateCategoryGroup {
+	GList *categories;
+	gchar *orig_name, *name;
+	gchar *description;
+	gint lang_score;
+};
 
 /*
  * Functions for FormatColRowInfo
@@ -161,6 +183,8 @@ void                  format_template_free                     (FormatTemplate *
 FormatTemplate       *format_template_new_from_file            (WorkbookControl *context, const char *filename);
 int                   format_template_save                     (FormatTemplate *ft);
 
+gint                  format_template_compare_name             (gconstpointer a, gconstpointer b);
+
 void                  format_template_attach_member            (FormatTemplate *ft, TemplateMember *member);
 void                  format_template_detach_member            (FormatTemplate *ft, TemplateMember *member);
 MStyle               *format_template_get_style                (FormatTemplate *ft, int row, int col);
@@ -170,14 +194,14 @@ char                 *format_template_get_filename             (FormatTemplate *
 char                 *format_template_get_name                 (FormatTemplate *ft);
 char                 *format_template_get_author               (FormatTemplate *ft);
 char                 *format_template_get_description          (FormatTemplate *ft);
-char                 *format_template_get_category             (FormatTemplate *ft);
 GSList               *format_template_get_members              (FormatTemplate *ft);
+FormatTemplateCategory *format_template_get_category           (FormatTemplate *ft);
 
 void                  format_template_set_filename             (FormatTemplate *ft, const char *filename);
 void                  format_template_set_name                 (FormatTemplate *ft, const char *name);
 void                  format_template_set_author               (FormatTemplate *ft, const char *author);
 void                  format_template_set_description          (FormatTemplate *ft, const char *description);
-void                  format_template_set_category             (FormatTemplate *ft, const char *category);
+void                  format_template_set_category             (FormatTemplate *ft, FormatTemplateCategory *category);
 
 void                  format_template_set_filter               (FormatTemplate *ft,
 							        gboolean number, gboolean border,

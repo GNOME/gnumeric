@@ -83,7 +83,9 @@ int        gnumeric_xml_read_selection_clipboard  (WorkbookControl *context, Cel
 /*
  * Exported support functions
  */
-xmlNodePtr   xml_search_child      (xmlNodePtr node, const char *name);
+xmlNodePtr   xml_search_child           (xmlNodePtr node, const char *name);
+xmlNodePtr   xml_search_child_lang_list (xmlNodePtr tree, const char *name, GList *lang_list);
+xmlNodePtr   xml_search_child_no_lang   (xmlNodePtr tree, const char *name);
 
 void	     xml_set_value_cstr	   (xmlNodePtr node, const char *name, const char *val);
 String *     xml_get_value_string  (xmlNodePtr node, const char *name);

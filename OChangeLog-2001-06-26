@@ -1,3 +1,77 @@
+2000-12-20  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/Makefile.am: Removed "-DGNUMERIC_AUTOFORMATDIR" from INCLUDES.
+	Now we use a function inside Gnumeric for this.
+
+	* src/dialogs/dialog-autoformat.c:
+	Marked strings for translation (sample data).
+	(struct AutoFormatInfo): Now we have field current_category_group
+	(of type FormatTemplateCategoryGroup *) instead of current_category
+	and category_groups instead of categories.
+	(cb_get_cell_content): Function g_strtod always uses "C" locale,
+	used strtod instead.
+	(templates_load): Mostly new implementation, uses
+	category_group_get_templates_list().
+	(cb_remove_current_activated): Now it is implemented.
+	(cb_canvas_button_release): Showing real category name
+	(template->category->name). Setting sensitivity of
+	info->remove_current menu item.
+	(cb_category_popwin_hide): Used
+	category_group_list_find_category_by_name when setting
+	info->current_category_group and category_list_get_names_list
+	when calling gtk_combo_set_popdown_strings. Selecting "General"
+	category by default if it exists. Displaying current category
+	description in the category combo tooltip.
+
+	* src/file-autoft.c, src/file-autoft.h: New functions:
+	gnumeric_sys_autoformat_dir, gnumeric_usr_autoformat_dir,
+	gnumeric_extra_autoformat_dirs,
+	category_free, category_get_templates_list, category_list_free,
+	category_group_free, category_group_get_templates_list,
+	category_group_list_get, category_group_list_find_category_by_name,
+	category_group_list_get_names_list, category_group_list_free.
+	Removed functions: template_list_load, template_list_free,
+	util_list_free, category_list_load, category_list_free.
+
+	* src/format-template.c, src/format-template.h:
+	New function: format_template_compare_name.
+	New structs: FormatTemplateCategory and
+	FormatTemplateCategoryGroup.
+	(struct FormatTemplate): field category is now of type
+	FormatTemplateCategory.
+
+	* src/gutils.c, src/gutils.h: New functions: g_create_list,
+	g_lang_score_in_lang_list, g_lang_score_is_better (implemented
+	as a macro).
+
+	* src/xml-io-autoft.c:
+	(xml_write_format_template_members): Don't write category
+	information.
+	(xml_read_format_template_members): Used
+	xml_search_child_lang_list instead of xml_search_child to find
+	"Information" node. Ignore category information.
+	(gnumeric_xml_read_format_template_category): New function.
+
+	* src/xml-io-autoft.h: Added
+	gnumeric_xml_read_format_template_category function declaration.
+
+	* src/xml-io.c, src/xml-io.h: New functions:
+	xml_search_child_lang_list, xml_search_child_no_lang,
+	xml_search_child_lang_list_with_score (static function).
+
+	* templates/autoformat/3D.category,
+	templates/autoformat/Financial.category,
+	templates/autoformat/Classical.category,
+	templates/autoformat/General.category,
+	templates/autoformat/Colourful.category,
+	templates/autoformat/List.category:
+	New files, XML descriptions of default categories.
+
+	* templates/autoformat/Makefile.am:
+	Templates grouped into categories, now every category is installed
+	in separate directory. Installing *.category files as ".category" in
+	appropriate directories.
+
 2000-12-20  Jon K Hellan  <hellan@acm.org>
 
 	* src/file.c (dialog_query_load_file): Select directory of

@@ -4,6 +4,12 @@
 #include "gnumeric.h"
 #include "numbers.h"
 
+
+GList    *g_create_list (gpointer item1, ...);
+
+#define   g_lang_score_is_better(score_a, score_b) (score_a < score_b)
+gint      g_lang_score_in_lang_list (gchar *lang, GList *lang_list);
+
 guint     gnumeric_strcase_hash  (gconstpointer v);
 gint      gnumeric_strcase_equal (gconstpointer v, gconstpointer v2);
 

@@ -19,235 +19,361 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 #include <dirent.h>
 #include <string.h>
 #include <errno.h>
 
+#include <gal/util/e-util.h>
+
+#include "gutils.h"
+#include "workbook-control.h"
+
+#include "xml-io.h"
+#include "xml-io-autoft.h"
+#include "format-template.h"
+
 #include "file-autoft.h"
 
-/**
- * util_list_free:
- * @list : a GList
- *
- * Free a list with items
- **/
-static void
-util_list_free (GList *list)
+#define TEMPLATE_FILE_EXT    ".xml"
+
+#define AUTOFORMAT_SUFFIX	"autoformat-templates"
+
+char *
+gnumeric_sys_autoformat_dir (void)
 {
-	GList *iterator = list;
+	return gnumeric_sys_data_dir (AUTOFORMAT_SUFFIX);
+}
 
-	while (iterator) {
+char *
+gnumeric_usr_autoformat_dir (void)
+{
+	return gnumeric_usr_dir (AUTOFORMAT_SUFFIX);
+}
 
-		g_free (iterator->data);
+GList *
+gnumeric_extra_autoformat_dirs (void)
+{
+	static GList *extra_dirs;
+	static gboolean list_ready = FALSE;
+	GList *new_list, *l;
 
-		iterator = g_list_next (iterator);
+	if (!list_ready) {
+		gint i;
+
+		gnome_config_push_prefix("Gnumeric/Autoformat/");
+		extra_dirs = NULL;
+		for (i = 0; ; i++) {
+			gchar *key, *value;
+
+			key = g_strdup_printf ("ExtraTemplatesDir%d", i);
+			value = gnome_config_get_string (key);
+			g_free (key);
+			if (value != NULL) {
+				extra_dirs = g_list_prepend (extra_dirs, value);
+			} else {
+				break;
+			}
+		}
+		extra_dirs = g_list_reverse (extra_dirs);
+		gnome_config_pop_prefix ();
+		list_ready = TRUE;
 	}
 
-	g_list_free (list);
+	new_list = NULL;
+	for (l = extra_dirs; l != NULL; l = l->next) {
+		gchar *dir_name;
+
+		dir_name = (gchar *) l->data;
+		new_list = g_list_prepend (new_list, g_strdup (dir_name));
+	}
+
+	return g_list_reverse (new_list);
 }
 
 /**
- * template_list_load:
+ * category_compare_orig_name:
  *
- * Load the list of available templates
- *
- * Return value: The list of templates (should be freed with templates_list_free)
  **/
-GList *
-template_list_load (void)
+static gint
+category_compare_orig_name (const void *a, const void *b)
 {
+	FormatTemplateCategory *cat_a = (FormatTemplateCategory *) a,
+	                       *cat_b = (FormatTemplateCategory *) b;
+
+	g_assert (cat_a != NULL && cat_b != NULL);
+
+	return strcmp (cat_a->orig_name, cat_b->orig_name);
+}
+
+/**
+ * category_free:
+ *
+ **/
+void
+category_free (FormatTemplateCategory *category)
+{
+	g_free (category->directory);
+	g_free (category->orig_name);
+	g_free (category->name);
+	g_free (category->description);
+	g_free (category);
+}
+
+/**
+ * category_get_templates_list:
+ *
+ **/
+GSList *
+category_get_templates_list (FormatTemplateCategory *category, WorkbookControl *wbc)
+{
+	GSList *templates = NULL;
 	DIR *dir;
-	struct dirent *ent;
-	int count = 0;
-	GList *list = NULL;
+	struct dirent *entry;
 
-	dir = opendir (GNUMERIC_AUTOFORMATDIR);
+	if (category == NULL) {
+		return NULL;
+	}
+
+	dir = opendir (category->directory);
 	if (dir == NULL) {
-		g_warning ("Error while trying to open the autoformat template directory %s : %s", GNUMERIC_AUTOFORMATDIR, g_strerror (errno));
-
 		return NULL;
 	}
 
-	errno = 0;
-	while ((ent = readdir (dir))) {
+	while ((entry = readdir (dir)) != NULL) {
+		gint name_len;
 
-		/*
-		 * Look if the name is actually a valid filename
-		 * A valid filename is "autoformat.<Category>.<name>.xml";
-		 * The result of g_strsplit should always be 4 strings and than a \0
-		 */
-		if (ent->d_name && strcmp (ent->d_name, ".") != 0 && strcmp (ent->d_name, "..") != 0) {
-			char **array = g_strsplit (ent->d_name, ".", -1);
-			gboolean valid = TRUE;
-			int elements = 0;
+		name_len = strlen (entry->d_name);
+		if (name_len > 4 && strcmp (entry->d_name + name_len - 4, TEMPLATE_FILE_EXT) == 0) {
+			gchar *full_entry_name;
+			FormatTemplate *ft;
 
-			/*
-			 * Count number of elements in array
-			 */
-			while (array[elements]) {
-
-				elements++;
-			}
-
-			if (elements == 4) {
-				/*
-				 * The first part should always be "autoformat"
-				 */
-				if (array[0]) {
-					g_strdown (array[0]);
-					if (strcmp (array[0], "autoformat") != 0)
-						valid = FALSE;
-				} else {
-					valid = FALSE;
-				}
-
-				/*
-				 * Now a category should come
-				 */
-				if (!array[1]) {
-					valid = FALSE;
-				}
-
-				/*
-				 * After that the name of the template
-				 */
-				if (!array[2]) {
-					valid = FALSE;
-				}
-
-				/*
-				 * And last but not least "xml"
-				 */
-				if (array[3]) {
-					g_strdown (array[3]);
-					if (strcmp (array[3], "xml") != 0)
-						valid = FALSE;
-				} else {
-					valid = FALSE;
-				}
+			full_entry_name = g_concat_dir_and_file (category->directory, entry->d_name);
+			ft = format_template_new_from_file (wbc, full_entry_name);
+			if (ft == NULL) {
+				g_warning (_("Invalid template file: %s"), full_entry_name);
 			} else {
-				valid = FALSE;
+				ft->category = category;
+				templates = g_slist_prepend (templates, ft);
 			}
-
-			/*
-			 * Only add it if valid, otherwise print an error
-			 */
-			if (valid) {
-				list = g_list_append (list, g_strdup_printf ("%s/%s", GNUMERIC_AUTOFORMATDIR, ent->d_name));
-				count++;
-			} else {
-				g_warning ("The file %s encountered in %s is an invalid file, please remove it from your autoformat directory",
-					   ent->d_name, GNUMERIC_AUTOFORMATDIR);
-			}
-
-			g_strfreev (array);
+			g_free (full_entry_name);
 		}
-
-		errno = 0;
-	}
-
-	if (errno) {
-
-		g_warning ("Error while reading listing of %s", GNUMERIC_AUTOFORMATDIR);
-		closedir (dir);
-		g_list_free (list);
-		return NULL;
-	} else if (count == 0) {
-
-		g_warning ("The autoformat template directory %s contains no templates at all!", GNUMERIC_AUTOFORMATDIR);
-		closedir (dir);
-		g_list_free (list);
-		return NULL;
 	}
 
 	closedir (dir);
 
-	return list;
+	return g_slist_sort (templates, format_template_compare_name);
 }
 
 /**
- * template_list_free:
- * @list: A GList
+ * category_list_get_from_dir_list:
  *
- * Free the template list
  **/
-void
-template_list_free (GList *list)
+static GList *
+category_list_get_from_dir_list (GList *dir_list)
 {
-	util_list_free (list);
-}
+	GList *categories = NULL;
+	GList *dir_iterator;
 
-/**
- * category_list_load
- *
- * Loads the list of categories available
- *
- * Return value: NULL on failure or a pointer to a list with categories on success.
- **/
-GList *
-category_list_load (void)
-{
-	GList *template_list, *iterator, *subiterator;
-	GList *list = NULL;
+	g_return_val_if_fail (dir_list != NULL, NULL);
 
-	template_list = template_list_load ();
+	for (dir_iterator = dir_list; dir_iterator != NULL; dir_iterator = dir_iterator->next) {
+		gchar *dir_name;
+		DIR *dir;
+		struct dirent *entry;
 
-	/*
-	 * Strip category part from each filename and put this in a separate list
-	 * In the filename the second part is always the category
-	 */
-	iterator = template_list;
-	while (iterator) {
-		char *string = iterator->data;
-		char **array = g_strsplit (g_basename (string), ".", -1);
-		char *category = array[1];
-		gboolean exists = FALSE;
+		dir_name = (gchar *) dir_iterator->data;
+		g_assert (dir_name != NULL);
 
-		/*
-		 * Don't add this item if it already exists
-		 */
-		subiterator = list;
-		while (subiterator) {
-			char *data = subiterator->data;
+		dir = opendir (dir_name);
+		if (dir == NULL) {
+			continue;
+		}
 
-			if (strcmp (data, category) == 0) {
-				exists = TRUE;
-				break;
+		while ((entry = readdir (dir)) != NULL) {
+			gchar *full_entry_name;
+			struct stat entry_info;
+
+			full_entry_name = g_concat_dir_and_file (dir_name, entry->d_name);
+			if (entry->d_name[0] != '.' && stat (full_entry_name, &entry_info) == 0 && S_ISDIR(entry_info.st_mode)) {
+				FormatTemplateCategory *category;
+
+				category = gnumeric_xml_read_format_template_category (full_entry_name);
+				if (category != NULL) {
+					categories = g_list_prepend (categories, category);
+				}
 			}
-
-			subiterator = g_list_next (subiterator);
+			g_free (full_entry_name);
 		}
 
-		/*
-		 * Add the new category if it doesn't exist yet,
-		 * note that we always add the 'General' category to the
-		 * top of the list if it exists
-		 */
-		if (!exists) {
-			if (strcmp (category, "General") == 0)
-				list = g_list_insert (list, g_strdup (category), 0);
-			else
-				list = g_list_append (list, g_strdup (category));
-		}
-
-		g_strfreev (array);
-
-		iterator = g_list_next (iterator);
+		closedir (dir);
 	}
 
-	template_list_free (template_list);
-
-	return list;
+	return categories;
 }
 
 /**
  * category_list_free:
- * @list: A GList
  *
- * Free the template list
  **/
 void
-category_list_free (GList *list)
+category_list_free (GList *categories)
 {
-	util_list_free (list);
+	GList *l;
+
+	g_return_if_fail (categories);
+
+	for (l = categories; l != NULL; l = l->next) {
+		category_free ((FormatTemplateCategory *) l->data);
+	}
+	g_list_free (categories);
+}
+
+/**
+ * category_group_list_get:
+ *
+ **/
+GList *
+category_group_list_get (void)
+{
+	GList *category_groups = NULL;
+	GList *dir_list;
+	GList *categories, *l;
+	FormatTemplateCategoryGroup *current_group;
+
+	dir_list = g_create_list (gnumeric_sys_autoformat_dir (),
+	                          gnumeric_usr_autoformat_dir (),
+	                          NULL);
+	dir_list = g_list_concat (dir_list, gnumeric_extra_autoformat_dirs ());
+	categories = category_list_get_from_dir_list (dir_list);
+
+	categories = g_list_sort (categories, category_compare_orig_name);
+
+	current_group = NULL;
+	for (l = categories; l != NULL; l = l->next) {
+		FormatTemplateCategory *category;
+
+		category = (FormatTemplateCategory *) l->data;
+		if (current_group == NULL || strcmp (current_group->orig_name, category->orig_name) != 0) {
+			if (current_group != NULL) {
+				category_groups = g_list_prepend (category_groups, current_group);
+			}
+			current_group = g_new (FormatTemplateCategoryGroup, 1);
+			current_group->categories = g_list_append (NULL, category);
+			current_group->orig_name = g_strdup (category->orig_name);
+			current_group->name = g_strdup (category->name);
+			current_group->description = g_strdup (category->description);
+			current_group->lang_score = category->lang_score;
+		} else {
+			current_group->categories = g_list_prepend (current_group->categories, category);
+			if (g_lang_score_is_better (category->lang_score, current_group->lang_score)) {
+				g_free (current_group->name);
+				g_free (current_group->description);
+				current_group->name = g_strdup (category->name);
+				current_group->description = g_strdup (category->description);
+				current_group->lang_score = category->lang_score;
+			}
+		}
+	}
+	if (current_group != NULL) {
+		category_groups = g_list_prepend (category_groups, current_group);
+	}
+
+	e_free_string_list (dir_list);
+
+	return category_groups;
+}
+
+
+/**
+ * category_group_list_find_category_by_name:
+ *
+ **/
+FormatTemplateCategoryGroup *
+category_group_list_find_category_by_name (GList *category_groups, gchar *name)
+{
+	GList *l;
+
+	for (l = category_groups; l != NULL; l = l->next) {
+		FormatTemplateCategoryGroup *category_group;
+
+		category_group = (FormatTemplateCategoryGroup *) l->data;
+		if (strcmp (category_group->name, name) == 0) {
+			return category_group;
+		}
+	}
+
+	return NULL;
+}
+
+/**
+ * category_group_list_get_names_list:
+ *
+ **/
+GList *
+category_group_list_get_names_list (GList *category_groups)
+{
+	GList *names = NULL;
+	GList *l;
+
+	for (l = category_groups; l != NULL; l = l->next) {
+		FormatTemplateCategoryGroup *category_group;
+
+		category_group = (FormatTemplateCategoryGroup *) l->data;
+		names = g_list_prepend (names, g_strdup (category_group->name));
+	}
+
+	return g_list_sort (names, g_str_compare);
+}
+
+/**
+ * category_group_free:
+ *
+ **/
+void
+category_group_free (FormatTemplateCategoryGroup *category_group)
+{
+	g_free (category_group->orig_name);
+	g_free (category_group->name);
+	g_free (category_group->description);
+	g_free (category_group);
+}
+
+/**
+ * category_group_list_free:
+ *
+ **/
+void
+category_group_list_free (GList *category_groups)
+{
+	GList *l;
+
+	g_return_if_fail (category_groups);
+
+	for (l = category_groups; l != NULL; l = l->next) {
+		category_group_free ((FormatTemplateCategoryGroup *) l->data);
+	}
+	g_list_free (category_groups);
+}
+
+/**
+ * category_group_get_templates_list:
+ *
+ **/
+GSList *
+category_group_get_templates_list (FormatTemplateCategoryGroup *category_group, WorkbookControl *wbc)
+{
+	GSList *templates = NULL;
+	GList *l;
+
+	for (l = category_group->categories; l != NULL; l = l->next) {
+		FormatTemplateCategory *category;
+
+		category = l->data;
+		templates = g_slist_concat (templates, category_get_templates_list (category, wbc));
+	}
+
+	return g_slist_sort (templates, format_template_compare_name);
 }

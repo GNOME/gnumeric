@@ -27,10 +27,14 @@
 #include "str.h"
 #include "xml-io.h"
 #include "xml-io-autoft.h"
+#include "format-template.h"
+#include "gutils.h"
 
 #include <gnome-xml/parser.h>
 #include <gnome-xml/parserInternals.h>
 #include <gnome-xml/xmlmemory.h>
+
+#define CATEGORY_FILE_NAME    ".category"
 
 /*
  * Create an XML subtree of doc equivalent to the given FormatColRowInfo
@@ -112,8 +116,8 @@ xml_write_format_template_members (XmlParseContext *ctxt, FormatTemplate *ft)
 	xmlNsPtr gmr;
 	xmlNodePtr child;
 	GSList *members;
-	String *author, *name, *description, *category;
-	char *author_c, *name_c, *description_c, *category_c;
+	String *author, *name, *description;
+	char *author_c, *name_c, *description_c;
 
 	/*
 	 * General information about the Template
@@ -132,27 +136,22 @@ xml_write_format_template_members (XmlParseContext *ctxt, FormatTemplate *ft)
 	author_c      = format_template_get_author (ft);
 	name_c        = format_template_get_name (ft);
 	description_c = format_template_get_description (ft);
-	category_c    = format_template_get_category (ft);
 
 	author      = string_get (author_c);
 	name        = string_get (name_c);
 	description = string_get (description_c);
-	category    = string_get (category_c);
 
 	xml_set_value_string (child, "author", author);
 	xml_set_value_string (child, "name", name);
 	xml_set_value_string (child, "description", description);
-	xml_set_value_string (child, "category", category);
 
 	string_unref (author);
 	string_unref (name);
 	string_unref (description);
-	string_unref (category);
 
 	g_free (author_c);
 	g_free (name_c);
 	g_free (description_c);
-	g_free (category_c);
 
 	/*
 	 * Write members
@@ -353,24 +352,21 @@ xml_read_format_template_members (XmlParseContext *ctxt, FormatTemplate *ft, xml
 	/*
 	 * Read some general information
 	 */
-	child = xml_search_child (tree, "Information");
+	child = xml_search_child_lang_list (tree, "Information", NULL);
 	if (child){
-		String *author, *name, *description, *category;
+		String *author, *name, *description;
 
 		author      = xml_get_value_string (child, "author");
 		name        = xml_get_value_string (child, "name");
 		description = xml_get_value_string (child, "description");
-		category    = xml_get_value_string (child, "category");
 
 		format_template_set_author (ft, author->str);
 		format_template_set_name (ft, name->str);
 		format_template_set_description (ft, description->str);
-		format_template_set_category (ft, category->str);
 
 		string_unref (author);
 		string_unref (name);
 		string_unref (description);
-		string_unref (category);
 	} else {
 		return FALSE;
 	}
@@ -455,4 +451,55 @@ gnumeric_xml_read_format_template (WorkbookControl *context, FormatTemplate *ft,
 	xmlFreeDoc (res);
 
 	return 0;
+}
+
+/*
+ * Open an XML file and read a FormatTemplateCategory
+ *
+ */
+FormatTemplateCategory *
+gnumeric_xml_read_format_template_category (const char *dir_name)
+{
+	gchar *file_name;
+	xmlDocPtr doc;
+	xmlNodePtr orig_info_node, translated_info_node;
+	FormatTemplateCategory *category = NULL;
+
+	g_return_val_if_fail (dir_name != NULL, NULL);
+
+	file_name = g_concat_dir_and_file (dir_name, CATEGORY_FILE_NAME);
+	doc = xmlParseFile (file_name);
+	if (doc != NULL && doc->root != NULL
+	    && xmlSearchNsByHref (doc, doc->root, "http://www.gnome.org/gnumeric/format-template-category/v1") != NULL
+	    && strcmp (doc->root->name, "FormatTemplateCategory") == 0
+	    && (translated_info_node = xml_search_child_lang_list (doc->root, "Information", NULL)) != NULL) {
+		xmlChar *orig_name, *name, *description, *lang;
+
+		orig_info_node = xml_search_child_no_lang (doc->root, "Information");
+		if (orig_info_node == NULL) {
+			orig_info_node = translated_info_node;
+		}
+
+		orig_name = xmlGetProp (orig_info_node, "name");
+		name = xmlGetProp (translated_info_node, "name");
+		description = xmlGetProp (translated_info_node, "description");
+		lang = xmlGetProp (translated_info_node, "xml:lang");
+		if (orig_name != NULL) {
+			category = g_new (FormatTemplateCategory, 1);
+			category->directory = g_strdup (dir_name);
+			category->orig_name = g_strdup (orig_name);
+			category->name = g_strdup (name);
+			category->description = g_strdup (description);
+			category->lang_score = g_lang_score_in_lang_list (lang, NULL);
+			category->is_writable = (access (dir_name, W_OK) == 0);
+		}
+		xmlFree (orig_name);
+		xmlFree (name);
+		xmlFree (description);
+		xmlFree (lang);
+	}
+	xmlFreeDoc (doc);
+	g_free (file_name);
+
+	return category;
 }

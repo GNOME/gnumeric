@@ -474,6 +474,91 @@ xml_search_child (xmlNodePtr node, const char *name)
 	return NULL;
 }
 
+/*
+ * xml_search_child_lang_list_with_score:
+ *
+ */
+static xmlNodePtr
+xml_search_child_lang_list_with_score (xmlNodePtr tree, const gchar *name, GList *lang_list, gint *best_lang_score)
+{
+	xmlNodePtr best_node = NULL, node;
+
+	for (node = tree->childs; node != NULL; node = node->next) {
+		xmlChar *lang;
+
+		if (!node->name || strcmp (node->name, name) != 0) {
+			continue;
+		}
+		lang = xmlGetProp (node, "xml:lang");
+		if (lang != NULL) {
+			GList *l;
+			gint i;
+
+			for (l = lang_list, i = 0; l != NULL && i < *best_lang_score; l = l->next, i++) {
+				if (strcmp ((gchar *) l->data, lang) == 0) {
+					best_node = node;
+					*best_lang_score = i;
+				}
+			}
+		} else {
+			if (best_node == NULL) {
+				best_node = node;
+			}
+		}
+		xmlFree (lang);
+		if (*best_lang_score == 0) {
+			return best_node;
+		} 
+	}
+
+	return best_node;
+}
+
+/*
+ * xml_search_child_lang_list:
+ *
+ * Search a child by name.
+ */
+xmlNodePtr
+xml_search_child_lang_list (xmlNodePtr tree, const gchar *name, GList *lang_list)
+{
+	gint best_lang_score = INT_MAX;
+
+	g_return_val_if_fail (tree != NULL, NULL);
+	g_return_val_if_fail (name != NULL, NULL);
+
+	if (lang_list == NULL) {
+		lang_list = gnome_i18n_get_language_list ("LC_MESSAGES");
+	}
+	return xml_search_child_lang_list_with_score (tree, name, lang_list, &best_lang_score);
+}
+
+/*
+ * xml_search_child_no_lang:
+ *
+ * Search a child by name.
+ */
+xmlNodePtr
+xml_search_child_no_lang (xmlNodePtr tree, const gchar *name)
+{
+	xmlNodePtr node;
+
+	for (node = tree->childs; node != NULL; node = node->next) {
+		xmlChar *lang;
+
+		if (!node->name || strcmp (node->name, name) != 0) {
+			continue;
+		}
+		lang = xmlGetProp (node, "xml:lang");
+		if (lang == NULL) {
+			return node;
+		}
+		xmlFree (lang);
+	}
+
+	return NULL;
+}
+
 static gboolean
 xml_read_range (xmlNodePtr tree, Range *r)
 {
