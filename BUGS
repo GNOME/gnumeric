@@ -12,7 +12,7 @@ Release Critical
 * gnome print
     - font name selection
     - Print to file name always output.ps
-    - Does pdf work
+    - Does pdf work ?
     - Do we want Sans or Sans Regular as the default font
     - How to handle 'Helvetica'
 
@@ -21,6 +21,7 @@ Release Critical
     - connect up or disable axis editor (1.14.{10,11,13})
     - Get 'auto' working for fills so that we don't wipe a users selection when
       merging the theme.
+    - more xls format import (1.7.5.{2,3})
 
 * When we release 1.1.18, we should ask people to nominate certain foreign
   encodings as major.
