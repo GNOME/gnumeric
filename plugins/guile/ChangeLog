@@ -1,3 +1,16 @@
+2000-11-06  Ariel Rios  <ariel@arcavia.com>
+
+	* smob-value.h (make_new_smob): Add prototype.
+	(make_new_smob): Ditto
+	* smob-value.c (make_new_smob): New functions that enables to create a
+	new value smob from a Value. This function is used in the C world.
+	(get_value_from_smob): Get the Value member from the smob. Also
+	used only in the C world.
+	(scm_value_new_bool): Function to create a new SCM.
+	(scm_value_new_float): Ditto.
+	(scm_value_new_string): Ditto.
+	(init_value_type): Add the value-new* functions into Guile.
+
 2000-11-06 Ariel Rios <ariel@arcavia.com>
 
 	* doc/guile-gnumeric.txt: Update documentation.
