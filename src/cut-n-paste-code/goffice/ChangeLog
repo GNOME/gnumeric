@@ -1,5 +1,8 @@
 2003-08-21  Jody Goldberg <jody@gnome.org>
 
+	* graph/gog-guru.c (gog_guru) : use gog_graph_dup now that styles
+	  work.
+
 	* graph/gog-object.c (gog_object_dup) : doh! dst = src works better
 	  than src = src.
 

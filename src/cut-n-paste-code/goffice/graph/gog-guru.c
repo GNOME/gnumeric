@@ -1240,9 +1240,7 @@ gog_guru (GogGraph *graph, GogDataAllocator *dalloc,
 	if (graph != NULL) {
 		g_return_val_if_fail (IS_GOG_GRAPH (graph), NULL);
 
-		state->graph = graph;
-		g_object_ref (graph);
-#warning TODO should dup not ref
+		state->graph = gog_graph_dup (graph);
 		state->chart = NULL;
 		state->plot  = NULL;
 	} else {
