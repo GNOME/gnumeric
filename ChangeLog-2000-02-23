@@ -1,3 +1,7 @@
+2000-02-12  Gregory McLean <gregm@gnu.org>
+
+	* src/functions/fn-financial.c: Added documentation and examples.
+
 2000-02-12  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* doc/C/autosave.sgml: New file added.  Documentation of the
