@@ -1,3 +1,8 @@
+2000-11-54  John Gotts  <jgotts@linuxsavvy.com>
+
+	* gnumeric.spec.in: Create a devel RPM.  Added some missing files.
+	Made the build work from either a tar file or CVS.
+
 2000-11-14  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* src/io-context.h, src/io-context.c

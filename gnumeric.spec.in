@@ -8,7 +8,7 @@ Name: 		gnumeric
 Version: 	@VERSION@
 Release: 	%rel
 Copyright: 	GPL
-Group: 		Applications/Spreadsheets
+Group: 		Applications/Productivity
 Source: ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric/gnumeric-%{version}.tar.gz
 Url:		http://www.gnome.org/gnumeric
 BuildRoot:	/var/tmp/%{name}-%{PACKAGE_VERSION}-root
@@ -20,7 +20,7 @@ Requires: gnome-print >= 0.25
 Requires: libglade >= 0.14
 Requires: libxml >= 1.8.5
 Requires: libole2 >= 0.1.4
-Requires: gal >= 0.2.2.0
+Requires: gal >= 0.2.2
 
 %description
 GNOME (GNU Network Object Model Environment) is a user-friendly set of
@@ -33,22 +33,38 @@ Excel, you should be ready to use Gnumeric.  We have tried to clone all of
 the good features and stay as compatible as possible with Excel in terms of 
 usability. Hopefully we left the bugs behind :).
 
+%package devel
+Summary: Files necessary to develop gnumeric-based applications.
+Group: Development/Libraries
+
+%description devel
+The gnumeric-devel package includes files necessary to develop gnumeric-based
+applications.
+
+Install gnumeric-devel if you want to develop programs which will use gnumeric.
+
 %prep
 %setup -q
 
 %build
 %ifarch alpha
-  MYARCH_FLAGS="--host=alpha-redhat-linux"
+	MYARCH_FLAGS="--host=alpha-redhat-linux"
 %endif
-# Configure only showing me failures.
-CFLAGS="$RPM_OPT_FLAGS" \
-./configure --quiet --prefix=%prefix --sysconfdir=%{sysconfdir} \
-            --without-bonobo --without-gb $MYARCH_FLAGS 
+
+if [ ! -f configure ]; then
+	CFLAGS="$RPM_OPT_FLAGS" ./autogen.sh $MYARCH_FLAGS --prefix=%prefix \
+		--sysconfdir=%{sysconfdir} \
+		--without-bonobo --without-gb
+else
+	CFLAGS="$RPM_OPT_FLAGS" ./configure $MYARCH_FLAGS --prefix=%prefix \
+		--sysconfdir=%{sysconfdir} \
+		--without-bonobo --without-gb
+fi
 
 if [ "$SMP" != "" ]; then
-	make -j$SMP "MAKE=make -j$SMP"
+	make -k -j$SMP "MAKE=make -k -j$SMP"
 else
-	make
+	make -k
 fi
 
 %install
@@ -73,11 +89,12 @@ fi
 %defattr (0555, bin, bin)
 %{prefix}/bin/gnumeric
 %{prefix}/lib/gnumeric/%{version}/plugins/*.so
-
+# Should these really be executable?
 %{prefix}/share/gnumeric/%{version}/python/*
-%{prefix}/share/gnumeric/%{version}/glade/*.glade
 
-%defattr (0444, bin, man, 0555)
+%defattr (0444, bin, bin, 0555)
+%doc HACKING AUTHORS ChangeLog NEWS BUGS README COPYING TODO
+%config %{sysconfdir}/CORBA/servers/gnumeric.gnorba
 %{prefix}/share/gnome/help/gnumeric/C/images/*
 %{prefix}/share/gnome/help/gnumeric/C/*.html
 %{prefix}/share/gnome/help/gnumeric/C/*.dat
@@ -88,21 +105,31 @@ fi
 %{prefix}/share/pixmaps/gnome-application-x-gnumeric.png
 %{prefix}/share/pixmaps/gnome-application-x-xls.png
 %{prefix}/share/pixmaps/gnome-gnumeric.png
-%{prefix}/share/gnumeric/@VERSION@/templates/*.gnumeric
-%{prefix}/share/gnumeric/@VERSION@/autoformat-templates/*.xml
+%{prefix}/share/gnumeric/%{version}/glade/*.glade
+%{prefix}/share/gnumeric/%{version}/templates/*.gnumeric
+%{prefix}/share/gnumeric/%{version}/autoformat-templates/*.xml
 %{prefix}/share/mime-info/gnumeric.keys
 %{prefix}/share/mime-info/gnumeric.mime
 %{prefix}/share/mc/templates/gnumeric.desktop
+%{prefix}/share/oaf/gnumeric.oafinfo
 
+%files devel
+%defattr (-, bin, bin)
 
-%defattr (0444, bin, bin, 555)
-# This should go in a devel package...
-%{prefix}/share/idl/*.idl
-%{prefix}/share/gnumeric/@VERSION/idl/*.idl
-%config %{sysconfdir}/CORBA/servers/gnumeric.gnorba
-%doc HACKING AUTHORS ChangeLog NEWS BUGS README COPYING TODO
+%{prefix}/lib/gnumericConf.sh
+%{prefix}/share/gnumeric/%{version}/idl/*.idl
+%{prefix}/lib/gnumeric/%{version}/plugins/*.la
 
 %changelog
+* Tue Nov 14 2000 John Gotts <jgotts@linuxsavvy.com>
+- Require GAL 0.2.2 instead of 0.2.2.0.
+- Use %{version} instead of at characters surrouding VERSION (it makes a nicer
+  generated spec file).
+- Created devel package.
+- Fixed category to match Red Hat.
+- Added the standard mechanism to build from either the tarball or CVS (and
+  reindented things following the current practice).
+
 * Thu Nov 09 2000 Jody Goldberg <jgoldberg@home.com>
 - Updated version requirements for GAL
 
