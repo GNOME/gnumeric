@@ -1,3 +1,17 @@
+2004-11-22  Adrian Custer <acuster@gnome.org>
+
+	* NEWS Minor cleanups for numbering. Edit worksheet
+	       chapter. Write configuration chapter.
+
+	* gnumeric.xml: Change link name for desktop-help. Change WS
+	                chapter title. Reorder configuration chapt.
+	* manual-usage.xml: Change WS chapter title.
+	* quick-start.xml: Windows version now exists.
+	* worksheets.xml: Re-organize and write.
+	* configuration-preferences.xml: Limit images to 550px.
+	* configuration-*.xml: Edits.
+	* figures/preferences-*.png: Change size, remove border.
+
 2004-11-19  Adrian Custer <acuster@gnome.org>
 
 	* NEWS Bump version to 1.4. Start edits of worksheet 

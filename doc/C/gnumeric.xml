@@ -444,8 +444,9 @@
 
       <para>
         If you are using the GNOME desktop environment, you can read
-        the <ulink type="help" url="ghelp:user-guide">the GNOME User
-        Guide</ulink> for help in getting started with computers.
+        the <ulink type="help" url="ghelp:user-guide">the GNOME
+        Desktop User Guide</ulink> for help in getting started with
+        computers.
       </para>
 
       <para>
@@ -561,7 +562,7 @@
 
 
   <chapter id="chapter-worksheets">
-    <title>Working with Worksheets</title>
+    <title>Using Worksheets</title>
 
     <para>
       This chapter explains the use and manipulation of worksheets in
@@ -607,8 +608,8 @@
     </para>
 
     &config-overview;
-    &config-toolbars;
     &config-preferences;
+    &config-toolbars;
     &config-plugins;
     &config-localization;
 

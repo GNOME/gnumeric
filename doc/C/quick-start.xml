@@ -51,19 +51,6 @@
     linkend="fig-gnumeric-first-start" />
   </para>
 
-  <note>
-    <para>
-      It is assumed that you have installed the
-      <application>Gnumeric</application> program on your
-      machine. Installing <application>Gnumeric</application> depends
-      on the particular operating system and distribution and is
-      therefore beyond the scope of this manual. If
-      <application>Gnumeric</application> is not installed on your
-      machine, read the manuals that came with your distribution or
-      look at your distribution vendor's web site.
-    </para>
-  </note>
-
   <figure id="fig-gnumeric-first-start">
     <title>The Gnumeric spreadsheet when first opened.</title>
     <screenshot>
@@ -80,6 +67,32 @@
       </mediaobject>
     </screenshot>
   </figure>
+
+  <note>
+    <title>Starting is the hardest step</title>
+    <para>
+      Starting &gnum; the first time is the most difficult
+      step. Unfortunately, this is also the step which cannot
+      effectively be explained by this manual. &gnum; can be installed
+      many different ways so no generic instructions can possibly
+      suffice. The pointers below will hopefully get past that first
+      step.
+    </para>
+  </note>
+
+  <note>
+    <para>
+      It is assumed that you have installed the
+      <application>Gnumeric</application> program on your
+      machine. Installing <application>Gnumeric</application> depends
+      on the particular operating system and distribution and is
+      therefore beyond the scope of this manual. If
+      <application>Gnumeric</application> is not installed on your
+      machine, read the manuals that came with your distribution or
+      look at your distribution vendor's web site.
+<!-- TODO: ref- add a link to the installation section. -->
+    </para>
+  </note>
 
   <sect2 id="sect-quick-starting-gnumeric-gnome">
     <title>Starting Gnumeric from the GNOME desktop</title>
@@ -157,11 +170,14 @@ gnumeric &amp;
     <title>Starting Gnumeric from a Microsoft desktop</title>
 
     <para>
-      <application>Gnumeric</application> will eventually run on
-      windows. You should be able to start
-      <application>gnumeric</application> from the Microsoft
-      <guilabel>Start</guilabel> menu.
+      &gnum;, starting with the 1.4 series, can be run as a native
+      application on the Microsoft Windows operating systems. On those
+      operating systems, The <guilabel>Start</guilabel> menu should
+      contain an entry which will launch &gnum;. The actual location
+      of the menu item depends on the choices made during
+      installation. 
     </para>
+
     <sect3 id="sect-quick-starting-gnumeric-dozePrompt">
       <title>Starting Gnumeric from a Microsoft command prompt</title>
 
@@ -184,34 +200,34 @@ c:\Program Files\Gnome-Office\gnumeric
 
   </sect2>
 
-<!--  Had to add a section2 tag here to make xmllint happy. -->
-<!--  <sect2 id='temporarytoo'> -->
-<!--    <title>temporary</title> -->
-  <para>
-  </para>
-  <para>
-  </para>
-  <para>
-    If you are still stuck, ask a friend or someone who knows your
-    machine. Unfortunately, getting started is often the hardest part
-    of learning to use a new program but it is also the one place a
-    manual such as this one cannot really help.
-  </para>
+  <sect2 id="quick-start-by-file">
+    <title>Starting from a Spreadsheet file</title>
 
-  <para>
-    <application>Gnumeric</application> can also be opened using a
-    spreadsheet file directly. If there is a spreadsheet file on the
-    desktop or in a file manager like
-    <application>Nautilus</application>, it may be possible to click
-    or double-click with the mouse pointer on the file and have
-    <application>Gnumeric</application> open the file
-    automatically. Alternatively, you may be able to right click on
-    the file and get a pop-up menu that will allow you to select
-    <application>Gnumeric</application> as the application to use to
-    open the file.
-  </para>
+    <para>
+      <application>Gnumeric</application> can also be opened using a
+      spreadsheet file directly. If there is a spreadsheet file on the
+      desktop or in a file manager like
+      <application>Nautilus</application>, it may be possible to click
+      or double-click with the mouse pointer on the file and have
+      <application>Gnumeric</application> open the file
+      automatically. Alternatively, you may be able to right click on
+      the file and get a pop-up menu that will allow you to select
+      <application>Gnumeric</application> as the application to use to
+      open the file.
+    </para>
+  </sect2>
+    
+  <sect2 id="quick-start-other">
+    <title>Other sources of help</title>
 
-<!--    </sect2> -->
+    <para>
+      If you are still stuck, ask a friend or someone who knows your
+      machine. Unfortunately, getting started is often the hardest
+      part of learning to use a new program but it is also the one
+      place a manual such as this one cannot really help.
+    </para>
+
+  </sect2>
 
 </sect1>
 
