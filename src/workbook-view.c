@@ -265,10 +265,18 @@ wb_view_selection_desc (WorkbookView *wbv, gboolean use_pos,
 			sel_descr = sheet_names_check (sv->sheet, r);
 			if (sel_descr == NULL)
 				sel_descr = cellpos_as_string (&r->start);
-		} else
-			snprintf (buffer, sizeof (buffer), _("%dR x %dC"),
-				  r->end.row - r->start.row + 1,
-				  r->end.col - r->start.col + 1);
+		} else {
+			int rows = r->end.row - r->start.row + 1;
+			int cols = r->end.col - r->start.col + 1;
+
+			if (rows == SHEET_MAX_ROWS)
+				snprintf (buffer, sizeof (buffer), _("%dC"), cols);
+			else if (cols == SHEET_MAX_COLS)
+				snprintf (buffer, sizeof (buffer), _("%dR"), rows);
+			else
+				snprintf (buffer, sizeof (buffer), _("%dR x %dC"), 
+					  rows, cols);
+		}
 
 		if (optional_wbc == NULL) {
 		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control,

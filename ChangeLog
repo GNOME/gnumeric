@@ -1,5 +1,10 @@
 2003-08-04  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	* src/workbook-view.c (wb_view_selection_desc): don't include
+	  the number of rows (or columns) for full columns (or rows)
+
+2003-08-04  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* src/commands.h (cmd_tabulate): new
 	* src/commands.c (cmd_tabulate*): new
 
