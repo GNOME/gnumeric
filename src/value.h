@@ -4,7 +4,7 @@
 #include <glib.h>
 #include "gnumeric.h"
 #include "position.h"
-#include <goffice/utils/numbers.h>
+#include "numbers.h"
 
 typedef enum {
 	/* Use magic values to act as a signature

@@ -25,7 +25,7 @@
 #define GNUMERIC_SOLVER_H 1
 
 #include "gnumeric.h"
-#include <goffice/utils/numbers.h>
+#include "numbers.h"
 
 
 typedef enum {

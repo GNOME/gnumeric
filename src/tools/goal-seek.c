@@ -12,7 +12,7 @@
 #endif
 
 #include <gnumeric-config.h>
-#include <goffice/utils/numbers.h>
+#include "numbers.h"
 #include "gnumeric.h"
 #include "goal-seek.h"
 

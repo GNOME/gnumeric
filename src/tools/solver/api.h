@@ -25,7 +25,7 @@
 #define GNUMERIC_SOLVER_API_H
 
 #include "gnumeric.h"
-#include <goffice/utils/numbers.h>
+#include "numbers.h"
 #include "solver.h"
 
 extern const SolverLPAlgorithm lp_algorithm [];

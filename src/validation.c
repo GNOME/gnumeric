@@ -25,7 +25,7 @@
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
 #include "gnumeric.h"
-#include <goffice/utils/numbers.h>
+#include "numbers.h"
 #include "mathfunc.h"
 #include "validation.h"
 #include "expr.h"

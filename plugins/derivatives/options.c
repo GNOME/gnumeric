@@ -33,7 +33,7 @@
 #include "value.h"
 #include "gnm-i18n.h"
 
-#include <goffice/utils/numbers.h>
+#include "numbers.h"
 #include <goffice/app/go-plugin.h>
 #include <gnm-plugin.h>
 

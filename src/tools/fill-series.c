@@ -36,7 +36,7 @@
 #include "gnm-format.h"
 #include "workbook.h"
 #include "tools.h"
-#include <goffice/utils/numbers.h>
+#include "numbers.h"
 
 #include "mathfunc.h"
 #include "fill-series.h"

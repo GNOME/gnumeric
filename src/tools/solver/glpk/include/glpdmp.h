@@ -28,7 +28,7 @@
 
 #include "gnumeric-config.h"
 #include "gnumeric.h"
-#include <goffice/utils/numbers.h>
+#include "numbers.h"
 
 #define dmp_create_pool       glp_dmp_create_pool
 #define dmp_get_atom          glp_dmp_get_atom

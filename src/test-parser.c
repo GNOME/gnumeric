@@ -2,7 +2,7 @@
 #include <gnumeric.h>
 #include <glib.h>
 #include <stdio.h>
-#include <goffice/utils/numbers.h>
+#include "numbers.h"
 #include "str.h"
 #include "expr.h"
 

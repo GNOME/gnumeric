@@ -2,7 +2,7 @@
 #define GNM_DATETIME_H
 
 #include "gnumeric.h"
-#include <goffice/utils/numbers.h>
+#include "numbers.h"
 #include <goffice/utils/datetime.h>
 
 G_BEGIN_DECLS

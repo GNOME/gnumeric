@@ -1,7 +1,7 @@
 #ifndef GNUMERIC_MATHFUNC_H
 #define GNUMERIC_MATHFUNC_H
 
-#include <goffice/utils/numbers.h>
+#include "numbers.h"
 #include <math.h>
 #include <glib.h>
 

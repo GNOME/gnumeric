@@ -138,6 +138,7 @@ GNUMERIC_BASE =					\
 	mstyle.h				\
 	number-match.c				\
 	number-match.h				\
+	numbers.h				\
 	parser.y				\
 	parse-util.c				\
 	parse-util.h				\

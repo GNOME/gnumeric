@@ -28,7 +28,7 @@
 
 #include "gnumeric-config.h"
 #include "gnumeric.h"
-#include <goffice/utils/numbers.h>
+#include "numbers.h"
 
 #define luf_create            glp_luf_create
 #define luf_defrag_sva        glp_luf_defrag_sva

@@ -6,7 +6,7 @@
 #include "gutils.h"
 
 #include <goffice/app/error-info.h>
-#include <goffice/utils/numbers.h>
+#include "numbers.h"
 #include <goffice/gtk/goffice-gtk.h>
 #include <gtk/gtkbutton.h>
 #include <gtk/gtkcombo.h>

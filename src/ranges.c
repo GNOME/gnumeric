@@ -10,7 +10,7 @@
 #include "gnumeric.h"
 #include "ranges.h"
 
-#include <goffice/utils/numbers.h>
+#include "numbers.h"
 #include "expr.h"
 #include "expr-impl.h"
 #include "expr-name.h"

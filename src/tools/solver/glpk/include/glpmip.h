@@ -28,7 +28,7 @@
 
 #include "gnumeric-config.h"
 #include "gnumeric.h"
-#include <goffice/utils/numbers.h>
+#include "numbers.h"
 
 #include "glpies.h"
 

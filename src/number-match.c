@@ -24,7 +24,7 @@
 #include "value.h"
 #include "mathfunc.h"
 #include "str.h"
-#include <goffice/utils/numbers.h>
+#include "numbers.h"
 #include <goffice/utils/go-format-match.h>
 #include <goffice/utils/regutf8.h>
 #include <goffice/utils/datetime.h>

@@ -2,7 +2,7 @@
 #define GNUMERIC_EXPR_IMPL_H
 
 #include "gnumeric.h"
-#include <goffice/utils/numbers.h>
+#include "numbers.h"
 #include "parse-util.h"
 
 struct _GnmExprConstant {

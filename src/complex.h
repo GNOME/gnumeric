@@ -1,7 +1,7 @@
 #ifndef GNUMERIC_COMPLEX_H
 #define GNUMERIC_COMPLEX_H
 
-#include <goffice/utils/numbers.h>
+#include "numbers.h"
 #include <math.h>
 
 typedef struct {

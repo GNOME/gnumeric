@@ -2,7 +2,7 @@
 #define GNUMERIC_ANALYSIS_TOOLS_H
 
 #include "gnumeric.h"
-#include <goffice/utils/numbers.h>
+#include "numbers.h"
 #include "dao.h"
 #include "tools.h"
 #include "regression.h"

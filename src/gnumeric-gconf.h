@@ -1,7 +1,7 @@
 #ifndef GNM_CONF_H
 #define GNM_CONF_H
 
-#include <goffice/utils/numbers.h>
+#include "numbers.h"
 #include <gnumeric.h>
 #include <print-info.h>
 
