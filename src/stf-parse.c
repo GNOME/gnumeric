@@ -1265,7 +1265,7 @@ stf_parse_get_colwidth (StfParseOptions_t *parseoptions, const char *data, int i
 
 			if (stf_parse_csv_is_separator (iterator, parseoptions->separators, parseoptions->customfieldseparator) || *iterator == parseoptions->terminator || *iterator == '\0') {
 
-				if (parseoptions->duplicates) {
+				if (*iterator != 0 && parseoptions->duplicates) {
 					const char *nextiterator = iterator;
 
 					nextiterator++;

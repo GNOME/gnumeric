@@ -1,3 +1,7 @@
+2000-11-21  Morten Welinder  <terra@diku.dk>
+
+	* src/stf-parse.c (stf_parse_get_colwidth): Don't overrun buffer.
+
 2000-11-20  Morten Welinder  <terra@diku.dk>
 
 	* src/gutils.c (gnumeric_usr_dir): Use g_get_home_dir, not just
