@@ -1,3 +1,8 @@
+2002-06-01  Jody Goldberg <jody@gnome.org>
+
+	* POTFILES.in : Disable the plan perfect files because they are not
+	  distributed.
+
 2002-06-02  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* no.po: Updated Norwegian (bokmål) translation.
