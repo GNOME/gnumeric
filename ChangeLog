@@ -1,3 +1,11 @@
+2003-09-13  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook-control-gui.c (cb_graph_dim_entry_unmap): New name
+	for cb_graph_dim_entry_destroy. We now connect it to the "unmap"
+	signal.
+	(wbcg_data_allocator_editor): Connect cb_graph_dim_entry_unmap to
+	the "unmap" signal.
+
 2003-09-13  Jody Goldberg <jody@gnome.org>
 
 	* gnumeric.spec.in:

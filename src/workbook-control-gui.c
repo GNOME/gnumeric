@@ -5536,10 +5536,10 @@ cb_graph_dim_editor_update (G_GNUC_UNUSED GnmExprEntry *gee,
 	gog_dataset_set_dim (editor->dataset, editor->dim_i, data, NULL);
 }
 
-static void *
-cb_graph_dim_entry_destroy (GnmExprEntry *gee, GraphDimEditor *editor)
+static void
+cb_graph_dim_entry_unmap (GnmExprEntry *gee, GraphDimEditor *editor)
 {
-	cb_graph_dim_editor_update (gee, NULL, editor);
+	cb_graph_dim_editor_update (gee, FALSE, editor);
 }
 
 static gpointer
@@ -5571,8 +5571,8 @@ wbcg_data_allocator_editor (GogDataAllocator *dalloc,
 		"update",
 		G_CALLBACK (cb_graph_dim_editor_update), editor);
 	g_signal_connect (G_OBJECT (editor->entry),
-		"destroy",
-		G_CALLBACK (cb_graph_dim_entry_destroy), editor);
+		"unmap",
+		G_CALLBACK (cb_graph_dim_entry_unmap), editor);
 	g_object_set_data_full (G_OBJECT (editor->entry),
 		"editor", editor, (GDestroyNotify) g_free);
 
