@@ -1,3 +1,11 @@
+1998-07-04  Chris Lahey  <clahey@umich.edu>
+
+	* src/Makefile.am (bin_PROGRAMS): Added test-format to compile the
+	formatting tests.
+
+	* src/format.c (format_time): Added date formatting.
+	(format_text): More accurate numeric formatting.
+
 1998-07-03  Chris Lahey  <clahey@umich.edu>
 
 	* src/format.c: New file to do excel style number formatting.

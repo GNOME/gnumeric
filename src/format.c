@@ -20,16 +20,77 @@
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
+#include <gnome.h>
+#include <time.h>
 gchar *format_text( gchar *format, gdouble number );
+gchar *format_time( gchar *format, const time_t timec );
+
+gchar *day_short[] =
+{
+  N_( "Sun" ),
+  N_( "Mon" ),
+  N_( "Tue" ),
+  N_( "Wed" ),
+  N_( "Thu" ),
+  N_( "Fri" ),
+  N_( "Sat" )
+};
+
+gchar *day_long[] =
+{
+  N_( "Sunday" ),
+  N_( "Monday" ),
+  N_( "Tuesday" ),
+  N_( "Wednesday" ),
+  N_( "Thursday" ),
+  N_( "Friday" ),
+  N_( "Saturday" )
+};
+
+gchar *month_short[] =
+{
+  N_( "Jan" ),
+  N_( "Feb" ),
+  N_( "Mar" ),
+  N_( "Apr" ),
+  N_( "May" ),
+  N_( "Jun" ),
+  N_( "Jul" ),
+  N_( "Aug" ),
+  N_( "Sep" ),
+  N_( "Oct" ),
+  N_( "Nov" ),
+  N_( "Dec" )
+};
+
+gchar *month_long[] =
+{
+  N_( "January" ),
+  N_( "Februrary" ),
+  N_( "March" ),
+  N_( "April" ),
+  N_( "May" ),
+  N_( "June" ),
+  N_( "July" ),
+  N_( "August" ),
+  N_( "September" ),
+  N_( "October" ),
+  N_( "November" ),
+  N_( "December" )
+};
 
 void
 test()
 {
+  int timec = 1220000000;
   printf( "%s|\n", format_text( "??0000.00?", 12.3456789 ) );
   printf( "%s|\n", format_text( "??0000.00?", 12.3 ) );
   printf( "%s|\n", format_text( "??0000.00?", 12345.6789 ) );
-  printf( "%s|\n", format_text( "??????.00?", 0.123456789 ) );
-  printf( "%s|\n", format_text( "0.000,,", 12200000 ) );
+  printf( "%s|\n", format_text( "???????.00", 0.123456789 ) );
+  printf( "%s|\n", format_text( "???0.000??#,,", 12200000 ) );
+  printf( "%s|\n", format_time( "hh:mm:ss", timec ) );
+  printf( "%s|\n", format_time( "mmmm dd, yyyy", timec ) );
+  printf( "%s|\n", format_time( "mmm d, yy h:m:s", timec ) );
 }
 
 int
@@ -72,6 +133,7 @@ format_text( gchar *format, gdouble number )
 #endif
   gchar *returnvalue;
   gint zero_count;
+  gint nine_count;
 
   for ( i = 0; format[i] == '#'; i++ )
     /* Empty statement */;
@@ -168,6 +230,7 @@ format_text( gchar *format, gdouble number )
     }
 
   zero_count = 0;
+  nine_count = 0;
   
   for ( ; right_allowed > 0; right_allowed -- )
     {
@@ -182,6 +245,9 @@ format_text( gchar *format, gdouble number )
 	  else
 	    {
 	      digit = 0;
+	      right_spaces -= zero_count;
+	      zero_count = nine_count;
+	      right_spaces += zero_count;
 	      roundup( string );
 	    }
 	}
@@ -192,6 +258,10 @@ format_text( gchar *format, gdouble number )
 	  right_spaces -= zero_count + 1;
 	  zero_count = 0;
 	}
+      if ( digit == 9 )
+	nine_count ++;
+      else
+	nine_count = 0;
       g_string_append_c( string, digit + '0' );
     }
 
@@ -201,6 +271,178 @@ format_text( gchar *format, gdouble number )
   for ( ; right_spaces > 0; right_spaces -- )
     {
       g_string_append_c( string, ' ' );
+    }
+  
+  returnvalue = g_malloc0( string->len + 1);
+  strncpy( returnvalue, string->str, string->len );
+  returnvalue[string->len] = 0;
+
+  g_string_free( string, TRUE );
+  
+  return returnvalue;
+}
+
+/* Parses the year field at the beginning of the format.  Returns the
+   number of characters used. */
+int append_year( GString *string, gchar *format, struct tm *time_split )
+{
+  gchar temp[5];
+  if ( format[ 1 ] != 'y' )
+    {
+      g_string_append_c( string, 'y' );
+      return 1;
+    }
+  if ( format[ 2 ] != 'y' || format[ 3 ] != 'y' )
+    {
+      sprintf( temp, "%02d", time_split->tm_year );
+      g_string_append( string, temp );
+      return 2;
+    }
+  sprintf( temp, "%04d", time_split->tm_year + 1900);
+  g_string_append( string, temp );
+  return 4;
+}
+
+/* Parses the month field at the beginning of the format.  Returns the
+   number of characters used. */
+int append_month( GString *string, gchar *format, struct tm *time_split )
+{
+  gchar temp[3];
+  if ( format[ 1 ] != 'm' )
+    {
+      sprintf( temp, "%d", time_split->tm_mon );
+      g_string_append( string, temp );
+      return 1;
+    }
+  if ( format[ 2 ] != 'm' )
+  {
+    sprintf( temp, "%02d", time_split->tm_mon );
+    g_string_append( string, temp );
+    return 2;
+  }
+  if ( format[ 3 ] != 'm' )
+  {
+    g_string_append( string, _( month_short[time_split->tm_mon] ) );
+    return 3;
+  }
+  g_string_append( string, _( month_long[time_split->tm_mon] ) );
+  return 4;
+}
+
+/* Parses the hour field at the beginning of the format.  Returns the
+   number of characters used. */
+int append_hour( GString *string, gchar *format, struct tm *time_split )
+{
+  gchar temp[3];
+  if ( format[ 1 ] != 'h' )
+    {
+      sprintf( temp, "%d", time_split->tm_hour );
+      g_string_append( string, temp );
+      return 1;
+    }
+  sprintf( temp, "%02d", time_split->tm_hour );
+  g_string_append( string, temp );
+  return 2;
+}
+
+/* Parses the day field at the beginning of the format.  Returns the
+   number of characters used. */
+int append_day( GString *string, gchar *format, struct tm *time_split )
+{
+  gchar temp[3];
+  if ( format[ 1 ] != 'd' )
+    {
+      sprintf( temp, "%d", time_split->tm_mday );
+      g_string_append( string, temp );
+      return 1;
+    }
+  if ( format[ 2 ] != 'd' )
+  {
+    sprintf( temp, "%02d", time_split->tm_mday );
+    g_string_append( string, temp );
+    return 2;
+  }
+  if ( format[ 3 ] != 'd' )
+  {
+    g_string_append( string, _( day_short[time_split->tm_wday] ) );
+    return 3;
+  }
+  g_string_append( string, _( day_long[time_split->tm_wday] ) );
+  return 4;
+}
+
+/* Parses the minute field at the beginning of the format.  Returns the
+   number of characters used. */
+int append_minute( GString *string, gchar *format, struct tm *time_split )
+{
+  gchar temp[3];
+  if ( format[ 1 ] != 'm' )
+    {
+      sprintf( temp, "%d", time_split->tm_min );
+      g_string_append( string, temp );
+      return 1;
+    }
+  sprintf( temp, "%02d", time_split->tm_min );
+  g_string_append( string, temp );
+  return 2;
+}
+
+/* Parses the second field at the beginning of the format.  Returns the
+   number of characters used. */
+int append_second( GString *string, gchar *format, struct tm *time_split )
+{
+  gchar temp[3];
+  if ( format[ 1 ] != 's' )
+    {
+      sprintf( temp, "%d", time_split->tm_sec );
+      g_string_append( string, temp );
+      return 1;
+    }
+  sprintf( temp, "%02d", time_split->tm_sec );
+  g_string_append( string, temp );
+  return 2;
+}
+
+gchar *format_time( gchar *format, const time_t timec )
+{
+  struct tm *time_split = localtime( &timec );
+  GString *string = g_string_new( "" );
+  int i;
+  int length = strlen( format );
+  gboolean minute_mode = FALSE;
+  gchar *returnvalue;
+
+  for ( i = 0; i < length; i++ )
+    {
+      switch ( format[i] )
+	{
+	case 'm':
+	  if ( minute_mode )
+	    i += append_minute( string, format + i, time_split ) - 1;
+	  else
+	    i += append_month( string, format + i, time_split ) - 1;
+	  minute_mode = FALSE;
+	  break;
+	case 'y':
+	  i += append_year( string, format + i, time_split ) - 1;
+	  minute_mode = FALSE;
+	  break;
+	case 'h':
+	  i += append_hour( string, format + i, time_split ) - 1;
+	  minute_mode = TRUE;
+	  break;
+	case 'd':
+	  i += append_day( string, format + i, time_split ) - 1;
+	  minute_mode = FALSE;
+	  break;
+	case 's':
+	  i += append_second( string, format + i, time_split ) - 1;
+	  minute_mode = FALSE;
+	  break;
+	default:
+	  g_string_append_c( string, format[i] );
+	  break;
+	}
     }
   
   returnvalue = g_malloc0( string->len + 1);

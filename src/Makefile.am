@@ -2,7 +2,7 @@ CFLAGS += -Wall 	\
 	-Wshadow             -Wpointer-arith  	\
 	-Wmissing-prototypes -Wmissing-declarations 
 
-bin_PROGRAMS = gnumeric
+bin_PROGRAMS = gnumeric test-format
 
 INCLUDES = 			\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" \
@@ -24,3 +24,9 @@ gnumeric_LDADD = \
 	$(GNOME_LIBDIR) \
 	$(GNOMEUI_LIBS)	\
 	$(INTLLIBS)
+
+test_format_SOURCES = format.c
+
+test_format_LDADD = \
+	$(GNOME_LIBDIR) \
+	$(GNOMEUI_LIBS)
