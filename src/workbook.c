@@ -395,9 +395,19 @@ workbook_new (void)
 
 	/* Assign a default name */
 	do {
-		char *name = g_strdup_printf (_("Book%d.%s"), ++count, extension);
+		char *name, *nameutf8;
+
+		count++;
+		nameutf8 = g_strdup_printf (_("Book%d.%s"), count, extension);
+		name = g_filename_from_utf8 (nameutf8, -1, NULL, NULL, NULL);
+		if (!name) {
+			name = g_strdup_printf ("Book%d.%s", count, extension);
+		}
+
 		is_unique = workbook_set_filename (wb, name);
+
 		g_free (name);
+		g_free (nameutf8);
 	} while (!is_unique);
 	return wb;
 }
@@ -477,7 +487,8 @@ workbook_new_with_sheets (int sheet_count)
 gboolean
 workbook_set_filename (Workbook *wb, char const *name)
 {
-	char *base_name;
+	char *base_name, *base_name_utf8;
+
 	g_return_val_if_fail (wb != NULL, FALSE);
 	g_return_val_if_fail (name != NULL, FALSE);
 
@@ -486,9 +497,11 @@ workbook_set_filename (Workbook *wb, char const *name)
 
 	wb->filename = g_strdup (name);
 	base_name = g_path_get_basename (name);
+	base_name_utf8 = g_filename_to_utf8 (base_name, -1, NULL, NULL, NULL);
 
 	WORKBOOK_FOREACH_CONTROL (wb, view, control,
-		wb_control_title_set (control, base_name););
+		wb_control_title_set (control, base_name_utf8););
+	g_free (base_name_utf8);
 	g_free (base_name);
 
 	g_signal_emit (G_OBJECT (wb), signals [FILENAME_CHANGED], 0);
@@ -501,6 +514,20 @@ workbook_get_filename (Workbook *wb)
 	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
 
 	return wb->filename;
+}
+
+char *
+workbook_get_filename_utf8 (Workbook *wb, gboolean basename)
+{
+	const char *filename = workbook_get_filename (wb);
+
+	if (filename == NULL)
+		return NULL;
+
+	if (basename)
+		filename = g_path_get_basename (filename);
+
+	return g_filename_to_utf8 (filename, -1, NULL, NULL, NULL);
 }
 
 void

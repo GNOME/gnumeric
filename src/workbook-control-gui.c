@@ -1956,6 +1956,7 @@ cb_file_send (GtkWidget *widget, WorkbookControlGUI *wbcg)
 					     attachment_data, &ev);
 	CORBA_free (info);
 #else
+#error "FIXME filename is not UTF-8."
 	filename = workbook_get_filename (wb_view_workbook (wb_control_view (
 						WORKBOOK_CONTROL (wbcg))));
 	GNOME_Evolution_Composer_attachData (composer, "application/x-gnumeric",

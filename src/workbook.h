@@ -44,8 +44,10 @@ gboolean    workbook_sheet_reorganize    (Workbook *wb,
 					  CommandContext *cc);
 
 /* IO Routines */
-gboolean       workbook_set_filename	(Workbook *wb, char const *);
-char const    *workbook_get_filename	(Workbook *wb);
+gboolean       workbook_set_filename	(Workbook *wb, char const *); /* Filesys name, not UTF-8.  */
+char const    *workbook_get_filename	(Workbook *wb); /* Filesys name, not UTF-8.  */
+char          *workbook_get_filename_utf8 (Workbook *wb, gboolean basename);
+
 gboolean       workbook_set_saveinfo	(Workbook *wb,
 					 FileFormatLevel, GnmFileSaver *);
 GnmFileSaver *workbook_get_file_saver	(Workbook *wb);

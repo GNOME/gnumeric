@@ -158,27 +158,35 @@ stf_read_workbook (GnmFileOpener const *fo,  gchar const *enc,
 		   IOContext *context, WorkbookView *wbv, GsfInput *input)
 {
 	DialogStfResult_t *dialogresult = NULL;
-	char *name;
+	char *name, *nameutf8;
 	char *data;
 	Sheet *sheet;
 	Workbook *book;
-
-	data = stf_preparse (COMMAND_CONTEXT (context), input, enc);
-	if (!data)
-		return;
 
 	/* FIXME : how to do this cleanly ? */
 	if (!IS_WORKBOOK_CONTROL_GUI (context->impl))
 		return;
 
-	/* Add Sheet */
 	name = g_path_get_basename (gsf_input_name (input));
+	nameutf8 = g_filename_to_utf8 (name, -1, NULL, NULL, NULL);
+	g_free (name);
+	if (!nameutf8) {
+		g_warning ("Failed to convert filename to UTF-8.  This shouldn't happen here.");
+		return;
+	}
+
+	data = stf_preparse (COMMAND_CONTEXT (context), input, enc);
+	if (!data) {
+		g_free (nameutf8);
+		return;
+	}
+
+	/* Add Sheet */
 	book = wb_view_workbook (wbv);
-	sheet = sheet_new (book, name);
+	sheet = sheet_new (book, nameutf8);
 	workbook_sheet_attach (book, sheet, NULL);
 
-	dialogresult = stf_dialog (WORKBOOK_CONTROL_GUI (context->impl), enc, name, data);
-	g_free (name);
+	dialogresult = stf_dialog (WORKBOOK_CONTROL_GUI (context->impl), enc, nameutf8, data);
 	if (dialogresult != NULL && stf_store_results (dialogresult, sheet, 0, 0)) {
 		workbook_recalc (book);
 		sheet_queue_respan (sheet, 0, SHEET_MAX_ROWS-1);
@@ -194,6 +202,7 @@ stf_read_workbook (GnmFileOpener const *fo,  gchar const *enc,
 	}
 
 	g_free (data);
+	g_free (nameutf8);
 	if (dialogresult != NULL)
 		stf_dialog_result_free (dialogresult);
 }

@@ -1,3 +1,19 @@
+2003-06-10  Morten Welinder  <terra@gnome.org>
+
+	* src/stf.c (stf_read_workbook): Make filename handling UTF-8
+	safe.
+	* src/workbook-view.c (wb_view_attach_control): Ditto.
+	(wb_view_save): Ditto.
+	(workbook_view_new): Ditto.
+	(wbv_save_to_file): Ditto.
+	* src/workbook.c (workbook_set_filename): Ditto.
+	* src/print-info.c (render_file): Ditto.
+	* src/gui-file.c (can_try_save_to): Ditto.
+
+	* src/workbook.c (workbook_get_filename_utf8): New function.
+
+	* src/gutils.c (gnumeric_valid_filename): Delete.  No longer useful.
+
 2003-06-10  Abel Cheung  <maddog@linux.org.hk>
 
 	* configure.in: Removed en_CA and en_AU from ALL_LINGUAS. They are

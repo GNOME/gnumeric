@@ -84,8 +84,6 @@ const char *gnm_strunescape (GString *target, const char *string);
 
 char *    gnumeric_utf8_strcapital (const char *p, ssize_t len);
 
-gboolean  gnumeric_valid_filename (const char *filename);
-
 gnm_mem_chunk *gnm_mem_chunk_new (const char *, size_t, size_t);
 void gnm_mem_chunk_destroy (gnm_mem_chunk *, gboolean);
 gpointer gnm_mem_chunk_alloc (gnm_mem_chunk *);

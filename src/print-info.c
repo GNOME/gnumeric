@@ -497,9 +497,11 @@ render_time (GString *target, HFRenderInfo *info, char const *args)
 static void
 render_file (GString *target, HFRenderInfo *info, char const *args)
 {
-	if (info->sheet != NULL && info->sheet->workbook != NULL)
-		g_string_append (target,
-			workbook_get_filename (info->sheet->workbook));
+	if (info->sheet != NULL && info->sheet->workbook != NULL) {
+		char *filename_utf8 = workbook_get_filename_utf8 (info->sheet->workbook, FALSE);
+		g_string_append (target, filename_utf8);
+		g_free (filename_utf8);
+	}
 }
 
 static struct {

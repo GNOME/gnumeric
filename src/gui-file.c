@@ -222,37 +222,45 @@ gui_file_open (WorkbookControlGUI *wbcg)
  *
  * FIXME: The message boxes should really be children of the file selector,
  * not the workbook.
+ *
+ * Note: filename is filesys, not UTF-8 encoded.
  */
 static gboolean
 can_try_save_to (WorkbookControlGUI *wbcg, char const *name)
 {
 	gboolean result = TRUE;
 	gchar *msg;
+	char *filename_utf8 = name
+		? g_filename_to_utf8 (name, -1, NULL, NULL, NULL)
+		: NULL;
 
 	if (name == NULL || name[0] == '\0') {
 		result = FALSE;
+	} else if (filename_utf8 == NULL) {
+		result = FALSE;
 	} else if (name [strlen (name) - 1] == '/' ||
 	    g_file_test (name, G_FILE_TEST_IS_DIR)) {
-		msg = g_strdup_printf (_("%s\nis a directory name"), name);
+		msg = g_strdup_printf (_("%s\nis a directory name"), filename_utf8);
 		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR, msg);
 		g_free (msg);
 		result = FALSE;
 	} else if (access (name, W_OK) != 0 && errno != ENOENT) {
 		msg = g_strdup_printf (
 		      _("You do not have permission to save to\n%s"),
-		      name);
+		      filename_utf8);
 		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR, msg);
 		g_free (msg);
 		result = FALSE;
 	} else if (g_file_test (name, G_FILE_TEST_EXISTS)) {
 		msg = g_strdup_printf (
 		      _("Workbook %s already exists.\n"
-		      "Do you want to save over it?"), name);
+		      "Do you want to save over it?"), filename_utf8);
 		result = gnumeric_dialog_question_yes_no (
 			wbcg, msg, gnm_app_prefs->file_overwrite_default_answer);
 		g_free (msg);
 	}
 
+	g_free (filename_utf8);
 	return result;
 }
 
@@ -281,6 +289,9 @@ check_multiple_sheet_support_if_needed (GnmFileSaver *fs,
 	return (ret_val);
 }
 
+/*
+ * Note: filename is filesys, not UTF-8 encoded.
+ */
 static gboolean
 do_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view,
             GnmFileSaver *fs, char const *name)
@@ -288,7 +299,7 @@ do_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view,
 	char *filename = NULL;
 	gboolean success = FALSE;
 
-	if (*name == 0 || name [strlen (name) - 1] == '/') {
+	if (*name == 0 || name[strlen (name) - 1] == '/') {
 		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
 				 _("Please enter a file name,\nnot a directory"));
 		return FALSE;
