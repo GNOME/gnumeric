@@ -1,3 +1,8 @@
+1999-11-17  Arturo Tena  <arturo@directmail.org>
+
+	* Revert the last change. I will study pps_encode_tree_chain later and
+	  purpose a better (and working) solution.
+
 1999-11-16  Arturo Tena  <arturo@directmail.org>
 
 	* ms-ole.c (pps_create): Added MsOle *f parameter, this fix a bug when
