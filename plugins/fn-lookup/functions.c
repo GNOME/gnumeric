@@ -241,14 +241,12 @@ find_index_bisection (FunctionEvalInfo *ei, Value *find, Value *data,
 			gboolean rev = FALSE;
 
 			if (height) {
-				v = value_area_fetch_x_y (ei->pos,
+				v = value_area_get_x_y (ei->pos,
 							  data, 0, mid);
 			} else {
-				v = value_area_fetch_x_y (ei->pos,
+				v = value_area_get_x_y (ei->pos,
 							  data, mid, 0);
 			}
-
-			g_return_val_if_fail (v != NULL, -1);
 
 			if (find_compare_type_valid (find, v)) {
 				break;
@@ -512,7 +510,7 @@ static const char *help_vlookup = {
 	   "correct function; in this case it finds the row with value less "
 	   "than @value.  It returns the value in the row found at a 1 based "
 	   "offset in @column columns into the @range.  @as_index returns the "
-	   "offset that matched rather than the value"
+	   "0 based offset that matched rather than the value"
 	   "\n"
 	   "Returns #NUM! if @column < 0. "
 	   "Returns #REF! if @column falls outside @range."
