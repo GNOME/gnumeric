@@ -49,6 +49,7 @@ Morten:
 	* Fix XL save crash.  [#155371]
 	* Limit the width of search window.  [#136421]
 	* Protect against crash in inter-process paste.
+	* Make URLs work from Nautilus.  [#156456]
 
 Yukihiro Nakai:
 	* Improve perl plugin.

@@ -1,3 +1,8 @@
+2004-10-26  Morten Welinder  <terra@gnome.org>
+
+	* Makefile.am (gnumeric.desktop): Use %U or %F for Exec as
+	appropritate.
+
 2004-10-25  Yukihiro Nakai  <nakai@gnome.gr.jp>
 
 	* src/plugin-loader.c: (gnm_plugin_loader_load_base)

@@ -57,6 +57,15 @@ gnumeric.keys: gnumeric.keys.in Makefile
 	sed -e 's^\@gnumeric_icondir\@^$(gnumeric_icondir)^g' < $(srcdir)/gnumeric.keys.in > gnumeric.keys.tmp \
 	&& mv gnumeric.keys.tmp gnumeric.keys 
 
+gnumeric.desktop: gnumeric.desktop.in Makefile $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po)
+	 LC_ALL=C $(INTLTOOL_MERGE) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@.tmp
+if WITH_GNOME
+	sed -e 's/F_OR_U/U/' <$@.tmp >$@
+else
+	sed -e 's/F_OR_U/F/' <$@.tmp >$@
+endif
+	rm -f $@.tmp
+
 dist-hook: gnumeric.spec
 	-cd $(distdir) ; rm -f $(server_in_files) $(server_DATA)
 	mkdir $(distdir)/samples
