@@ -1,5 +1,10 @@
 1998-10-28  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/fn-date.c (gnumeric_date): Fix longstanding off by one
+	error.
+	(gnumeric_today): ditto
+	(gnumeric_now): ditto.
+
 	* Prepare for 0.4 release.
 	
 	* configure.in: Add test for new GTK+ selection code. 

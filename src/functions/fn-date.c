@@ -52,7 +52,7 @@ gnumeric_date (struct FunctionDefinition *fd, Value *argv [], char **error_strin
 	}
 	v = value_int (
 		calc_days (year, month, day) -
-		calc_days (1900, 1, 1) + 1);
+		calc_days (1900, 1, 1));
 
 	return v;
 }
@@ -79,7 +79,7 @@ gnumeric_today (FunctionDefinition *fd, Value *argv [], char **error_string)
 
 	v = value_int (
 		calc_days (tm->tm_year + 1900, tm->tm_mon + 1, tm->tm_mday) -
-		calc_days (1900, 1, 1) + 1);
+		calc_days (1900, 1, 1));
 
 	return v;
 }
@@ -115,7 +115,7 @@ gnumeric_now (FunctionDefinition *fd, Value *argv [], char **error_string)
 	v = value_float (
 		calc_days (tm->tm_year + 1900, tm->tm_mon + 1, tm->tm_mday) +
 		((tm->tm_hour * 3600 + tm->tm_min * 60 + tm->tm_sec)/(double)DAY_SECONDS) -
-		calc_days (1900, 1, 1) + 1);
+		calc_days (1900, 1, 1));
 
 	return v;
 }
