@@ -844,11 +844,12 @@ cell_draw (Cell *cell, void *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y
 				break;
 				
 			case HALIGN_RIGHT:
-				x_offset = cell->col->pixels - cell->col->margin_b - gdk_string_width (font, str);
+				x_offset = cell->col->pixels - cell->col->margin_b -
+					gdk_string_width (font, str);
 				break;
 
 			case HALIGN_CENTER:
-				x_offset = (cell->col->pixels - cell->width) / 2;
+				x_offset = (cell->col->pixels - gdk_string_width (font, str)) / 2;
 				break;
 			default:
 				g_warning ("Multi-line justification style not supported\n");

@@ -577,6 +577,22 @@ gnumeric_sheet_key (GtkWidget *widget, GdkEventKey *event)
 				return 1;
 			}
 		}
+
+		if ((event->state & GDK_SHIFT_MASK) != 0){
+
+			switch (event->keyval) {
+				/* select row */
+			case GDK_space:
+				sheet_selection_reset_only (sheet);
+				sheet_selection_append_range (
+					sheet,
+					sheet->cursor_col, sheet->cursor_row,
+					0, sheet->cursor_row,
+					SHEET_MAX_COLS-1, sheet->cursor_row);
+				sheet_redraw_all (sheet);
+				return 1;
+			}
+		}
 	}
 
 	switch (event->keyval){
