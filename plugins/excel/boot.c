@@ -16,18 +16,11 @@
 #include <ctype.h>
 #include <gnome.h>
 #include "gnumeric.h"
-#include "gnumeric-util.h"
-#include "gnome-xml/tree.h"
-#include "gnome-xml/parser.h"
-#include "color.h"
-#include "sheet-object.h"
-#include "style.h"
+#include "sheet.h"
+#include "file.h"
 
 #include "ms-ole.h"
-#include "ms-biff.h"
-#include "ms-formula.h"
 #include "ms-excel.h"
-#include "ms-excel-biff.h"
 #include "boot.h"
 
 static gboolean
@@ -56,6 +49,12 @@ excel_load (const char *filename)
 		return NULL;
 
 	wb = ms_excelReadWorkbook (f);
+	if (wb) {
+		char *name = g_strconcat (filename, ".gnumeric", NULL);
+		workbook_set_filename (wb, name);
+		g_free(name);
+	}
+
 	ms_ole_destroy (f);
 
 	return wb;

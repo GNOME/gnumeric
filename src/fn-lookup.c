@@ -363,10 +363,10 @@ gnumeric_rows (struct FunctionDefinition *i, Value *argv [], char **error_string
 FunctionDefinition lookup_functions [] = {
 	{ "column",    "?",    "ref",                      &help_column,   gnumeric_column, NULL },
 	{ "columns",   "A",    "ref",                      &help_column,   NULL, gnumeric_columns },
-	{ "hlookup",   "Arf|b","val,range,col_idx,approx", &help_hlookup,  NULL, gnumeric_hlookup },
+	{ "hlookup",   "?Af|b","val,range,col_idx,approx", &help_hlookup,  NULL, gnumeric_hlookup },
 	{ "row",       "?",    "ref",                      &help_row,      gnumeric_row, NULL },
 	{ "rows",      "A",    "ref",                      &help_rows,     NULL, gnumeric_rows },
-	{ "vlookup",   "Arf|b","val,range,col_idx,approx", &help_vlookup,  NULL, gnumeric_vlookup },
+	{ "vlookup",   "?Af|b","val,range,col_idx,approx", &help_vlookup,  NULL, gnumeric_vlookup },
 	{ NULL, NULL }
 };
 

@@ -159,6 +159,7 @@ pps_get_text (BYTE *ptr, int length)
 {
 	int lp, skip;
 	char *ans;
+	guint16 c;
 	BYTE *inb;
 	
 	if (!length) 
@@ -166,14 +167,14 @@ pps_get_text (BYTE *ptr, int length)
 	
 	ans = (char *)g_malloc (sizeof(char) * length + 1);
 	
-	skip = (ptr[0] < 0x30); /* Magic unicode number */
-	if (skip)
+	c = GET_GUINT16(ptr);
+	if (c<0x30) /* Magic unicode number I made up */
 		inb = ptr + 2;
 	else
 		inb = ptr;
-	for (lp=0;lp<length;lp++)
-	{
-		ans[lp] = (char) *inb;
+	for (lp=0;lp<length;lp++) {
+		c = GET_GUINT16(inb);
+		ans[lp] = (char)c;
 		inb+=2;
 	}
 	ans[lp] = 0;
@@ -529,7 +530,7 @@ ms_ole_new (const char *name)
 		ms_ole_destroy(f);
 		return 0;
 	}
-	printf ("New OLE file\n");
+	printf ("New OLE file '%s'\n", name);
 	return f;
 }
 
@@ -1265,7 +1266,8 @@ ms_ole_directory_new (MS_OLE *f)
 static void
 directory_setup (MS_OLE_DIRECTORY *d)
 {
-	printf ("Setup pps = %d\n", d->pps);
+	if (OLE_DEBUG>0)
+		printf ("Setup pps = %d\n", d->pps);
 	g_free (d->name);
 	d->name   = PPS_NAME(d->file, d->pps);
 	d->type   = PPS_GET_TYPE(d->file, d->pps);
@@ -1300,7 +1302,8 @@ ms_ole_directory_next (MS_OLE_DIRECTORY *d)
 		    tmp != PPS_END_OF_CHAIN)
 		{
 			offset--;
-			printf ("Back trace by %d\n", offset);
+			if (OLE_DEBUG>0)
+				printf ("Back trace by %d\n", offset);
 			tmp = d->primary_entry;
 			while (offset > 0)
 			{
@@ -1318,11 +1321,13 @@ ms_ole_directory_next (MS_OLE_DIRECTORY *d)
 	if (tmp == PPS_END_OF_CHAIN)
 		return 0;
 
-	printf ("Forward trace\n");
+	if (OLE_DEBUG>0)
+		printf ("Forward trace\n");
 	d->pps = tmp;
 
 	directory_setup(d);
-	printf ("Next '%s' %d %d\n", d->name, d->type, d->length);
+	if (OLE_DEBUG>0)
+		printf ("Next '%s' %d %d\n", d->name, d->type, d->length);
 	return 1;
 }
 

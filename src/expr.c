@@ -689,6 +689,11 @@ eval_funcall (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **e
 				if (v->type != VALUE_ARRAY &&
 				    v->type != VALUE_CELLRANGE)
 					type_mismatch = 1;
+
+				if (v->type == VALUE_CELLRANGE) {
+					cell_ref_make_absolute (&v->v.cell_range.cell_a, eval_col, eval_row);
+					cell_ref_make_absolute (&v->v.cell_range.cell_b, eval_col, eval_row);
+				}
 				break;
 			}
 			if (type_mismatch){

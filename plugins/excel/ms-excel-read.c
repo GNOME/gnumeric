@@ -816,9 +816,10 @@ ms_excel_set_cell_colors (MS_EXCEL_SHEET * sheet, Cell * cell, BIFF_XF_DATA * xf
 		fore = basefore;
 		back = ms_excel_palette_get (sheet->wb->palette, xf->pat_foregnd_col);
 	}
-	g_return_if_fail (fore);
-	g_return_if_fail (back);
-	cell_set_color_from_style (cell, fore, back);
+	if (fore && back)
+		cell_set_color_from_style (cell, fore, back);
+	else if (EXCEL_DEBUG>0)
+		printf ("Missing color\n");
 }
 
 /**
@@ -1333,8 +1334,11 @@ ms_excel_workbook_detach (MS_EXCEL_WORKBOOK * wb, MS_EXCEL_SHEET * ans)
 	int    idx = 0 ;
 	GList *list = wb->excel_sheets ;
 
-	if (ans->gnum_sheet)
-		workbook_detach_sheet (wb->gnum_wb, ans->gnum_sheet);
+	if (ans->gnum_sheet) {
+		if (!workbook_detach_sheet (wb->gnum_wb, ans->gnum_sheet))
+			printf ("Error detaching sheet: '%s'\n",
+				ans->gnum_sheet->name?ans->gnum_sheet->name:"noname");
+	}
 	
 	while (list)
 		if (list->data == ans)

@@ -1,5 +1,21 @@
 1999-04-15  Michael Meeks  <michael@mejm2.dow.cam.ac.uk>
 
+	* boot.c: Fixed includes to remove annoying warning.
+	(excel_load): Add workbook_set_filename for style.
+
+	* ms-excel.c (ms_excel_workbook_detach): Added debug
+	if can't remove sheet for some reason.
+
+	* ms-ole.c (pps_get_text): Hacked in some better
+	unicode support. Might work cross-platform now.
+	(ms_ole_new): Added name printout to help debug.
+	(ms_ole_directory_next): Conditional'd debug.
+	(directory_setup): clean debug.
+
+	* ms-excel.c (ms_excel_set_cell_colors): Removed debug.
+
+1999-04-15  Michael Meeks  <michael@mejm2.dow.cam.ac.uk>
+
 	* ms-formula.c (ms_excel_parse_formula): PTG_AREAN added,
 	and PTG_AREA updated to include 'shared' flag.
 	(ms_excel_parse_formula): Added PTG_ARRAY code.
