@@ -1,3 +1,10 @@
+2002-10-06  Jody Goldberg <jody@gnome.org>
+
+	Patch from peninguy.nicolas@wanadoo.fr (Nicolas Peninguy)
+	* src/formats.c : replace the currency and accounting format
+	  classification engines with a cleaner, more accurate regexp based
+	  approach.
+
 2002-10-04  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook.c (workbook_metadata) : new.

@@ -15,6 +15,7 @@
 
 #include "format.h"
 #include <string.h>
+#include <stdio.h>
 
 /* The various formats */
 static char const * const
@@ -161,12 +162,50 @@ cell_formats [] = {
 	NULL
 };
 
+/* The compiled regexp for cell_format_classify */
+static regex_t re_number_currency;
+static regex_t re_percent_science;
+
 void
 currency_date_format_init (void)
 {
 	gboolean precedes, space_sep;
 	char const *curr = format_get_currency (&precedes, &space_sep);
 	char *pre, *post, *pre_rep, *post_rep;
+
+	/* Compile the regexps for format classification */
+
+	/* This is the regexp for FMT_NUMBER and FMT_CURRENCY */
+	
+	/*
+	 *  1.  "$ #,##0.000"
+	 *   (currency symbol before number)
+	 *  2.  "$ "
+	 *  3.  "$"
+	 *  4.  " " (space after currency)
+	 *  5.  "#,##"
+	 *  6.  ".000"
+	 *   (currency symbol after number)
+	 *  7.  " $"
+	 *  8.  " " (space before currency)
+	 *  9.  "$"
+	 * 10.  11 or 13
+	 * 11.  ";[Red]\1"   (\1 means same string as 1)
+	 * 12.  "[Red]"
+	 * 13.  "_);[Red](\1)"
+	 * 14.  "[Red]"
+	 */
+
+	char const *pattern_number_currency = "^\\(\\(\\(\\$\\|£\\|¥\\|€\\|\\[\\$[A-Z][A-Z][A-Z]\\]\\)\\(\\\\\\? \\)\\?\\)\\?\\(#,##\\)\\?0\\(\\.0\\{1,30\\}\\)\\?\\(\\(\\\\\\? \\)\\?\\(\\$\\|£\\|¥\\|€\\|\\[\\$[A-Z][A-Z][A-Z]\\]\\)\\)\\?\\)\\(\\(;\\(\\[Red\\]\\)\\?\\1\\)\\|\\(_);\\(\\[Red\\]\\)\\?(\\1)\\)\\)\\?$";
+	
+	/* This one is for FMT_PERCENT and FMT_SCIENCE */
+	char const *pattern_percent_science = "^0\\(.0\\{1,30\\}\\)\\?\\(%\\|E+00\\)$";
+
+	if ((regcomp(&re_number_currency, pattern_number_currency, 0)) != 0)
+		fprintf(stderr, "Error in regcomp()\n");
+	
+	if ((regcomp(&re_percent_science, pattern_percent_science, 0)) != 0)
+		fprintf(stderr, "Error in regcomp()\n");
 
 	if (precedes) {
 		post_rep = post = (char *)"";
@@ -431,160 +470,91 @@ CurrencySymbol const currency_symbols[] =
 	{ NULL, NULL }
 };
 
-/* Returns a+n if b[0..n-1] is a prefix to a */
-static char const *
-strncmp_inc (char const * const a, char const * const b, unsigned const n)
+/* Returns the index in currency_symbols of the symbol in ptr */
+static int 
+find_currency(char const *ptr, int len)
 {
-	if (strncmp (a, b, n) == 0)
-		return a+n;
-	return NULL;
-}
-
-/* Returns a+strlen(b) if b is a prefix to a */
-static char const *
-strcmp_inc (char const * const a, char const * const b)
-{
-	int const len = strlen (b);
-	if (strncmp (a, b, len) == 0)
-		return a+len;
-	return NULL;
+	int i;
+	
+	for (i = 0; currency_symbols[i].symbol; i++) {
+		if (strncmp(currency_symbols[i].symbol, ptr, len) == 0)
+			return i;
+	}
+	
+	return -1;
 }
 
 static FormatFamily
 cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 {
 	FormatFamily result = FMT_NUMBER;
-	gboolean has_sep = FALSE;
-	int use_paren = 0;
-	int use_red = 0;
-	int num_decimals = 0;
-	char const *ptr = fmt, *end, *tmp;
-	int const fmt_len = strlen (fmt);
+	char const *ptr = fmt;
 	int cur = -1;
+	
+#define MATCH_SIZE 15	
+	regmatch_t match[MATCH_SIZE];	
 
-	if (fmt_len < 1)
-		return FMT_UNKNOWN;
-
-	/* Check for prepended currency */
-	switch (ptr[0]) {
-	case '$' : cur = 1; break;
-	case '�' : cur = 2; break;
-	case '�' : cur = 3; break;
-	case '�' : cur = 4; break;
-	default :
-	if (ptr[0] == '[' && ptr[1] == '$') {
-		char const * const end = strchr (ptr, ']');
-
-		if (end != NULL && end[1] == ' ') {
-			/* FIXME : Look up the correct index */
-			info->currency_symbol_index = 1;
+	/* FMT_CURRENCY or FMT_NUMBER ? */
+	if (regexec(&re_number_currency, fmt, MATCH_SIZE, match, 0) == 0) {
+		
+		/* match[3] and match[9] contain the Currency symbol */
+		if (match[3].rm_eo == -1 && match[9].rm_eo == -1)
+			result = FMT_NUMBER;
+		else {
 			result = FMT_CURRENCY;
-			ptr = end + 1;
-		} else
-			return FMT_UNKNOWN;
-	}
-	};
-
-	if (cur > 0) {
-		info->currency_symbol_index = cur;
-		result = FMT_CURRENCY;
-		++ptr;
-	}
-
-	/* Check for thousands separator */
-	if (ptr[0] == '#') {
-		if (ptr[1] == ',')
-			++ptr;
-		else
-			return FMT_UNKNOWN;
-		ptr = strncmp_inc (ptr, "##", 2);
-		if (ptr == NULL)
-			return FMT_UNKNOWN;
-		has_sep = TRUE;
-	}
-
-	if (ptr[0] != '0')
-		return FMT_UNKNOWN;
-	++ptr;
-
-	/* Check for decimals */
-	if (ptr [0] == '.') {
-		num_decimals = 0;
-		ptr++;
-		while (ptr[num_decimals] == '0')
-			++num_decimals;
-		ptr += num_decimals;
-	}
-
-	if (ptr[0] == '%') {
-		if (!has_sep && info->currency_symbol_index == 0) {
-			info->num_decimals = num_decimals;
-			return FMT_PERCENT;
+			if (match[9].rm_eo == -1)
+				cur = find_currency(ptr + match[3].rm_so,
+						    match[3].rm_eo
+						    - match[3].rm_so);
+			else if (match[3].rm_eo == -1)
+				cur = find_currency(ptr + match[9].rm_so,
+						    match[9].rm_eo
+						    - match[9].rm_so);
+			else
+				return FMT_UNKNOWN;
+			
+			if (cur == -1)
+				return FMT_UNKNOWN;
+			info->currency_symbol_index = cur;
 		}
-		return FMT_UNKNOWN;
-	}
-	if (NULL != (tmp = strcmp_inc (ptr, "E+00"))) {
-		if (!has_sep && info->currency_symbol_index == 0 && *tmp == '\0') {
-			info->num_decimals = num_decimals;
-			return FMT_SCIENCE;
-		}
-		return FMT_UNKNOWN;
-	}
-
-	if (ptr[0] != ';' && ptr[0] != '_' && ptr[0])
-		return FMT_UNKNOWN;
-
-	/* We have now handled decimals, and thousands separators */
-	info->thousands_sep = has_sep;
-	info->num_decimals = num_decimals;
-	info->negative_fmt = 0; /* Temporary, we may change this below */
-
-	/* No special negative handling */
-	if (ptr[0] == '\0')
+		
+		/* match[5] contains the #,## string */
+		if (match[5].rm_eo != -1)
+			info->thousands_sep = TRUE;
+		
+		/* match[6] contains the .0000... string */
+		info->num_decimals = 0;
+		if (match[6].rm_eo != -1)
+			info->num_decimals = match[6].rm_eo -
+				match[6].rm_so - 1;
+		
+		info->negative_fmt = 0;
+		/* match[12] and match[14] contain the [Red] string */
+		if ((match[12].rm_eo != -1) || (match[14].rm_eo != -1))
+			info->negative_fmt++;
+		/* match[13] contains _);(...) */
+		if (match[13].rm_eo != -1)
+			info->negative_fmt += 2;
+		
 		return result;
-
-	/* Save this position */
-	end = ptr;
-
-	/* Handle Trailing '_)' */
-	if (ptr[0] == '_') {
-		if (ptr[1] != ')')
-			return FMT_UNKNOWN;
-		ptr += 2;
-		use_paren = 2;
 	}
 
-	if (ptr[0] != ';')
-		return FMT_UNKNOWN;
-	++ptr;
-
-	if (ptr[0] == '[') {
-		if (g_ascii_strncasecmp (_("[Red]"), ptr, 5) != 0)
-			return FMT_UNKNOWN;
-		ptr += 5;
-		use_red = 1;
+	/* FMT_PERCENT or FMT_SCIENCE ? */
+	if (regexec(&re_percent_science, fmt, MATCH_SIZE, match, 0) == 0) {
+		
+		info->num_decimals = 0;
+		if (match[1].rm_eo != -1)
+			info->num_decimals = match[1].rm_eo -
+				match[1].rm_so - 1;
+		
+		if (ptr[match[2].rm_so] == '%')
+			return FMT_PERCENT;
+		else
+			return FMT_SCIENCE;
 	}
-
-	if (use_paren) {
-		if (ptr[0] != '(')
-			return FMT_UNKNOWN;
-		++ptr;
-	}
-
-	/* The next segment should match the original */
-	ptr = strncmp_inc (ptr, fmt, end-fmt);
-	if (ptr == NULL)
-		return FMT_UNKNOWN;
-
-	if (use_paren) {
-		if (ptr[0] != ')')
-			return FMT_UNKNOWN;
-		++ptr;
-	}
-
-	info->negative_fmt = use_paren + use_red;
-
-	return result;
+	
+	return FMT_UNKNOWN;
+	
 }
 
 FormatFamily
