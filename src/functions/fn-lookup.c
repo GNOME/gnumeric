@@ -325,7 +325,7 @@ static char *help_address = {
 	   "column.  If @abs_num is 3 ADDRESS returns relative row and "
 	   "absolute column. "
 	   "If @abs_num is 4 ADDRESS returns relative reference. "
-	   "If @abs_num is greater than 4 ADDRESS returns #NUM! error. "
+	   "If @abs_num is greater than 4 ADDRESS returns #VALUE! error. "
 	   "\n"
 	   "@a1 is a logical value that specifies the reference style.  If "
 	   "@a1 is TRUE or omitted, ADDRESS returns an A1-style reference, "
@@ -335,7 +335,7 @@ static char *help_address = {
 	   "@text specifies the name of the worksheet to be used as the "
 	   "external reference.  "
 	   "\n"
-	   "If @row_num or @col_num is less than one, ADDRESS returns #NUM! "
+	   "If @row_num or @col_num is less than one, ADDRESS returns #VALUE! "
 	   "error. "
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -357,9 +357,9 @@ gnumeric_address (FunctionEvalInfo *ei, Value **args)
 	col = value_get_as_int (args[1]);
 
 	if (row < 1 || col < 1)
-	        return value_new_error (ei->pos, gnumeric_err_NUM);
+	        return value_new_error (ei->pos, gnumeric_err_VALUE);
 
-	abs_num = args[2] ? value_get_as_int (args [2]) : 1;
+	abs_num = args[2] ? value_get_as_int (args[2]) : 1;
 
 	if (args[3] == NULL)
 	        a1 = 1;
@@ -386,25 +386,25 @@ gnumeric_address (FunctionEvalInfo *ei, Value **args)
 	buf = g_new (gchar, strlen (text) + 50);
 
 	switch (abs_num) {
-	case 1:
+	case 1: case 5:
 	        if (a1)
 		        sprintf (buf, "%s$%s$%d", text, col_name (col - 1), row);
 		else
 		        sprintf (buf, "%sR%dC%d", text, row, col);
 		break;
-	case 2:
+	case 2: case 6:
 	        if (a1)
 		        sprintf (buf, "%s%s$%d", text, col_name (col - 1), row);
 		else
 		        sprintf (buf, "%sR%dC[%d]", text, row, col);
 		break;
-	case 3:
+	case 3: case 7:
 	        if (a1)
 		        sprintf (buf, "%s$%s%d", text, col_name (col - 1), row);
 		else
 		        sprintf (buf, "%sR[%d]C%d", text, row, col);
 		break;
-	case 4:
+	case 4: case 8:
 	        if (a1)
 		        sprintf (buf, "%s%s%d", text, col_name (col - 1), row);
 		else
@@ -413,7 +413,7 @@ gnumeric_address (FunctionEvalInfo *ei, Value **args)
 	default:
 	        g_free (text);
 	        g_free (buf);
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 	}
 	v = value_new_string (buf);
 	g_free (text);

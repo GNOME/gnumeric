@@ -1,5 +1,8 @@
 2002-01-08  Morten Welinder  <terra@diku.dk>
 
+	* fn-lookup.c (gnumeric_address): Fix most of the errors from the
+	new sheet.
+
 	* fn-eng.c (gnumeric_convert): Kill comma before closing brace.
 	* fn-information.c (enum Value_Class): Ditto.
 

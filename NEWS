@@ -15,6 +15,7 @@ Morten:
 	* Fix search crash.
 	* Make functions that take numeric arguments accept also strings
 	  that parse as numbers.
+	* Partly fix ADDRESS.
 
 --------------------------------------------------------------------------
 Gnumeric 1.0.1
