@@ -7,7 +7,6 @@
 # Pablo Saratxaga <pablo@mandrakesoft.com>, 1999-2000.
 # Germán Poo Caamaño <gpoo@ubiobio.cl>, 2001.
 # Juan Manuel García Molina <juanma_gm@wanadoo.es>, 2002.
-# Francisco Javier Fernández <serrador@arrakis.es>, 2003
 # Francisco Javier F. Serrador <serrador@arrakis.es>, 2003
 #
 msgid ""
@@ -15,7 +14,7 @@ msgstr ""
 "Project-Id-Version: gnumeric.HEAD.es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-06-25 19:48-0400\n"
-"PO-Revision-Date: 2003-06-13 16:56+0000\n"
+"PO-Revision-Date: 2003-06-29 23:28+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@arrakis.es>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -91,7 +90,7 @@ msgid "Provides a CORBA scripting interface"
 msgstr "Proporciona un interfaz para scripts de CORBA"
 
 #: plugins/derivatives/options.c:142
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=CUM_BIV_NORM_DIST\n"
 "@SYNTAX=CUM_BIV_NORM_DIST(a,b,rho)\n"
@@ -101,7 +100,7 @@ msgstr ""
 "@FUNCTION=CUM_BIV_NORM_DIST\n"
 "@SYNTAX=CUM_BIV_NORM_DIST(a,b,rho)\n"
 "@DESCRIPTION=CUM_BIV_NORM_DIST calcula la distribución acumulada "
-"bivariadanormal con los parámetros a, b & rho"
+"bivariada normal con los parámetros a, b y rho"
 
 #: plugins/derivatives/options.c:194
 msgid ""
@@ -749,8 +748,7 @@ msgstr ""
 #: plugins/derivatives/options.c:1630 plugins/derivatives/options.c:1635
 #: plugins/derivatives/options.c:1650
 msgid "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"
-msgstr ""
-"marca_call_put, spot, strike, tiempo,tasa, volatilidad, coste_de_ejecución"
+msgstr "marca_call_put, spot, strike, tiempo,tasa, volatilidad, coste_de_ejecución"
 
 #: plugins/derivatives/options.c:1640 plugins/derivatives/options.c:1645
 msgid "spot, strike, time, rate, volatility, cost_of_carry"
@@ -761,8 +759,7 @@ msgid "a, b, rho"
 msgstr "a, b, rho"
 
 #: plugins/derivatives/options.c:1660
-msgid ""
-"call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
+msgid "call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
 msgstr ""
 "marca_call_put, spot, strike, tiempo, tasa_nacional, tasa_extranjera, "
 "volatilidad"
@@ -778,16 +775,14 @@ msgid "call_put_flag, spot, strike, time, rate, volatility, lambda, gamma"
 msgstr "marca_call_put, spot, strike, tiempo, tasa, volatilidad, lambda, gamma"
 
 #: plugins/derivatives/options.c:1675
-msgid ""
-"call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
+msgid "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
 msgstr ""
 "marca_call_put, spot, strike, tiempo, tasa, volatilidad, coste_de_ejecución, "
 "lambda"
 
 #: plugins/derivatives/options.c:1680 plugins/derivatives/options.c:1690
 msgid "call_put_flag, spot, strike, time, rate, cost_of_carry, volatility"
-msgstr ""
-"marca_call_put, spot, strike, tiempo, tasa, coste_de_ejecución, volatilidad"
+msgstr "marca_call_put, spot, strike, tiempo, tasa, coste_de_ejecución, volatilidad"
 
 #: plugins/derivatives/options.c:1685
 msgid ""
@@ -802,15 +797,13 @@ msgid "call_put_flag, spot, strike, t1, t2, rate, d, volatility"
 msgstr "marca_call_put, spot, strike, t1, t2, tasa, d, volatilidad"
 
 #: plugins/derivatives/options.c:1700
-msgid ""
-"call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
+msgid "call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
 msgstr ""
 "marca_call_put, spot, alpha, tiempo1, time, tasa, volatilidad, "
 "coste_de_ejecución"
 
 #: plugins/derivatives/options.c:1705
-msgid ""
-"call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"
+msgid "call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"
 msgstr ""
 "marca_call_put, spot, strike, a, tiempo, m, dt, tasa, coste_de_ejecución, "
 "volatilidad"
@@ -888,8 +881,7 @@ msgstr ""
 #: plugins/dif/dif.c:244
 #, c-format
 msgid "Unexpected end of file at line %d while reading header."
-msgstr ""
-"Fin de archivo inesperado mientras se procesaba el encabezado en la línea %d."
+msgstr "Fin de archivo inesperado mientras se procesaba el encabezado en la línea %d."
 
 #: plugins/dif/dif.c:248
 #, c-format
@@ -919,8 +911,7 @@ msgid "Data Interchange Format (DIF) module"
 msgstr "Módulo de formato de intercambio de datos (DIF)"
 
 #: plugins/dif/plugin.xml.in.h:3
-msgid ""
-"Reads and writes information stored in the Data Interchange Format (*.dif)"
+msgid "Reads and writes information stored in the Data Interchange Format (*.dif)"
 msgstr ""
 "Lee y escribe información almacenada en formato de intercambio de datos (*."
 "dif)"
@@ -1029,21 +1020,21 @@ msgstr ""
 "problemas de codificación."
 
 #: plugins/excel/ms-excel-write.c:3751
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95.It only supports %"
 "d rows, and this workbook has %d"
 msgstr ""
-"Se perderá algo de contenido si lo guarda como Excel 95. Sólo soporta %d "
+"Se perderá algo de contenido si lo guarda como MS Excel 95. Sólo soporta %d "
 "columnas, y este libro de cuentas tiene %d"
 
 #: plugins/excel/ms-excel-write.c:3758
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm).It only supports %d "
 "rows, and this workbook has %d"
 msgstr ""
-"Algunos contenidos se perderán al guardar como Excel. Excel sólo soporta %d "
+"Algunos contenidos se perderán al guardar como MS Excel. Excel sólo soporta %d "
 "columnas y este libro de cuentas tiene %d."
 
 #: plugins/excel/ms-excel-write.c:4162
@@ -1060,8 +1051,7 @@ msgstr "Función rota"
 
 #: plugins/excel/ms-formula-write.c:435
 #, c-format
-msgid ""
-"Too many arguments for function, MS Excel expects exactly %d and we have more"
+msgid "Too many arguments for function, MS Excel expects exactly %d and we have more"
 msgstr ""
 "Demasiados argumentos para la función. MS Excel esperaba exactamente %d y "
 "hay más"
@@ -1472,7 +1462,6 @@ msgstr ""
 "@SEEALSO=IMLN"
 
 #: plugins/fn-complex/functions.c:506
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARGUMENT\n"
 "@SYNTAX=IMARGUMENT(inumber)\n"
@@ -1492,7 +1481,7 @@ msgstr ""
 "@FUNCTION=IMARGUMENT\n"
 "@SYNTAX=IMARGUMENT(inum)\n"
 "@DESCRIPTION=Devuelve el argumento theta de un número complejo, esto es el "
-"ángulo( en radianes) que forma la representación del número complejo (en "
+"ángulo ( en radianes) que forma la representación del número complejo (en "
 "coordenadas polares) con el eje real.\n"
 "\n"
 "* Si @inum no es un número complejo válido, IMARGUMENT devuelve el error "
@@ -2389,7 +2378,6 @@ msgid "Functions for complex numbers"
 msgstr "Funciones para números complejos"
 
 #: plugins/fn-database/functions.c:264
-#, fuzzy
 msgid ""
 "@FUNCTION=DAVERAGE\n"
 "@SYNTAX=DAVERAGE(database,field,criteria)\n"
@@ -2439,7 +2427,7 @@ msgid ""
 "@SEEALSO=DCOUNT"
 msgstr ""
 "@FUNCTION=DAVERAGE\n"
-"@SYNTAX=DAVERAGE(base-datos, campo,criterio)\n"
+"@SYNTAX=DAVERAGE(base-datos,campo,criterio)\n"
 "@DESCRIPTION=La función DAVERAGE devuelve la media de los valores en una "
 "lista o base de datos que coincida con las condiciones especificadas.\n"
 "\n"
@@ -2488,7 +2476,6 @@ msgstr ""
 "@SEEALSO=DCOUNT"
 
 #: plugins/fn-database/functions.c:336
-#, fuzzy
 msgid ""
 "@FUNCTION=DCOUNT\n"
 "@SYNTAX=DCOUNT(database,field,criteria)\n"
@@ -2537,7 +2524,7 @@ msgid ""
 "@SEEALSO=DAVERAGE"
 msgstr ""
 "@FUNCTION=DCOUNT\n"
-"@SYNTAX=DCOUNT(base-datos, campo,criterio)\n"
+"@SYNTAX=DCOUNT(base-datos,campo,criterio)\n"
 "@DESCRIPTION=La función DCOUNT cuenta las celdas que contienen números en "
 "una base de datos que coincida con las condiciones especificadas.\n"
 "\n"
@@ -2585,7 +2572,6 @@ msgstr ""
 "@SEEALSO=DAVERAGE"
 
 #: plugins/fn-database/functions.c:407
-#, fuzzy
 msgid ""
 "@FUNCTION=DCOUNTA\n"
 "@SYNTAX=DCOUNTA(database,field,criteria)\n"
@@ -2682,7 +2668,6 @@ msgstr ""
 "@SEEALSO=DAVERAGE"
 
 #: plugins/fn-database/functions.c:476
-#, fuzzy
 msgid ""
 "@FUNCTION=DGET\n"
 "@SYNTAX=DGET(database,field,criteria)\n"
@@ -2737,7 +2722,7 @@ msgstr ""
 "@DESCRIPTION=La función DGET devuelve un valor sencillo de una columna que "
 "coincida con las condiciones especificadas..\n"
 "\n"
-"@basededatos es un rango de celdas en las cuales las filas de información "
+"@base-datos es un rango de celdas en las cuales las filas de información "
 "relacionada son registros y las columnas de datos son campos. La primera "
 "fila de la base de datos contiene etiquetas para cada columna.\n"
 "\n"
@@ -2751,11 +2736,11 @@ msgstr ""
 "para los que se aplican los criterios.  Las celdas de abajo de las etiquetas "
 "especifican condiciones, por ejemplo, «>3» o «<9». La condición de igualdad "
 "puede darse simplemente dándole un valor, ej: «3» o «Juan». Cada columna en "
-"@criterio especifica una condición distinta, ej: una fila en @basededatos "
+"@criterio especifica una condición distinta, ej: una fila en @base-datos "
 "coincide con una de las filas en @criterio entonces esa columna se cuenta en "
 "(hablando técnicamente OR lógico entre las filas en @criterio). Si @criterio "
 "especifica más de una columna entonces cada una de las condiciones en esa "
-"columna debe ser verdad para que la fila en @basededatos coincida (otra vez "
+"columna debe ser verdad para que la fila en @base-datos coincida (otra vez "
 "técnicamente hablando AND lógico entre las columnas en cada fila de "
 "@criterios). \n"
 "@EXAMPLES=\n"
@@ -2785,7 +2770,6 @@ msgstr ""
 "@SEEALSO=DCOUNTA"
 
 #: plugins/fn-database/functions.c:557
-#, fuzzy
 msgid ""
 "@FUNCTION=DMAX\n"
 "@SYNTAX=DMAX(database,field,criteria)\n"
@@ -2838,7 +2822,7 @@ msgstr ""
 "@DESCRIPTION=La función DMAX devuelve el mayor número en una columna que "
 "coincide con las condiciones especificadas.\n"
 "\n"
-"@basededatos es un rango de celdas en las cuales las filas de información "
+"@base-datos es un rango de celdas en las cuales las filas de información "
 "relacionada son registros y las columnas de datos son campos. La primera "
 "fila de la base de datos contiene etiquetas para cada columna.\n"
 "\n"
@@ -2852,11 +2836,11 @@ msgstr ""
 "para los que se aplican los criterios.  Las celdas de abajo de las etiquetas "
 "especifican condiciones, por ejemplo, «>3» o «<9». La condición de igualdad "
 "puede darse simplemente dándole un valor, ej: «3» o «Juan». Cada columna en "
-"@criterio especifica una condición distinta, ej: una fila en @basededatos "
+"@criterio especifica una condición distinta, ej: una fila en @base-datos "
 "coincide con una de las filas en @criterio entonces esa columna se cuenta en "
 "(hablando técnicamente OR lógico entre las filas en @criterio). Si @criterio "
 "especifica más de una columna entonces cada una de las condiciones en esa "
-"columna debe ser verdad para que la fila en @basededatos coincida (otra vez "
+"columna debe ser verdad para que la fila en @base-datos coincida (otra vez "
 "técnicamente hablando AND lógico entre las columnas en cada fila de "
 "@criterios). \n"
 "@EXAMPLES=\n"
@@ -2882,7 +2866,6 @@ msgstr ""
 "@SEEALSO=DMIN"
 
 #: plugins/fn-database/functions.c:630
-#, fuzzy
 msgid ""
 "@FUNCTION=DMIN\n"
 "@SYNTAX=DMIN(database,field,criteria)\n"
@@ -2934,7 +2917,7 @@ msgstr ""
 "@DESCRIPTION=La función DMIN devuelve el mínimo número en una columna que "
 "coincide con las condiciones especificadas.\n"
 "\n"
-"@basededatos es un rango de celdas en las cuales las filas de información "
+"@base-datos es un rango de celdas en las cuales las filas de información "
 "relacionada son registros y las columnas de datos son campos. La primera "
 "fila de la base de datos contiene etiquetas para cada columna.\n"
 "\n"
@@ -2948,11 +2931,11 @@ msgstr ""
 "para los que se aplican los criterios.  Las celdas de abajo de las etiquetas "
 "especifican condiciones, por ejemplo, «>3» o «<9». La condición de igualdad "
 "puede darse simplemente dándole un valor, ej: «3» o «Juan». Cada columna en "
-"@criterio especifica una condición distinta, ej: una fila en @basededatos "
+"@criterio especifica una condición distinta, ej: una fila en @base-datos "
 "coincide con una de las filas en @criterio entonces esa columna se cuenta en "
 "(hablando técnicamente O booleano entre las filas en @criterio). Si "
 "@criterio especifica más de una columna entonces cada una de las condiciones "
-"en esa columna debe ser verdad para que la fila en @basededatos coincida "
+"en esa columna debe ser verdad para que la fila en @base-datos coincida "
 "(otra vez técnicamente hablando AND lógico entre las columnas en cada fila "
 "de @criterios). \n"
 "@EXAMPLES=\n"
@@ -2977,7 +2960,6 @@ msgstr ""
 "@SEEALSO=DMIN"
 
 #: plugins/fn-database/functions.c:700
-#, fuzzy
 msgid ""
 "@FUNCTION=DPRODUCT\n"
 "@SYNTAX=DPRODUCT(database,field,criteria)\n"
@@ -3028,7 +3010,7 @@ msgstr ""
 "@DESCRIPTION=La función DPRODUCT devuelve el producto de números en una "
 "columna que coincide con las condiciones especificadas.\n"
 "\n"
-"@basededatos es un rango de celdas en las cuales las filas de información "
+"@base-datos es un rango de celdas en las cuales las filas de información "
 "relacionada son registros y las columnas de datos son campos. La primera "
 "fila de la base de datos contiene etiquetas para cada columna.\n"
 "\n"
@@ -3042,11 +3024,11 @@ msgstr ""
 "para los que se aplican los criterios.  Las celdas de abajo de las etiquetas "
 "especifican condiciones, por ejemplo, «>3» o «<9». La condición de igualdad "
 "puede darse simplemente dándole un valor, ej: «3» o «Juan». Cada columna en "
-"@criterio especifica una condición distinta, ej: una fila en @basededatos "
+"@criterio especifica una condición distinta, ej: una fila en @base-datos "
 "coincide con una de las filas en @criterio entonces esa columna se cuenta en "
 "(hablando técnicamente O booleano entre las filas en @criterio). Si "
 "@criterio especifica más de una columna entonces cada una de las condiciones "
-"en esa columna debe ser verdad para que la fila en @basededatos coincida "
+"en esa columna debe ser verdad para que la fila en @base-datos coincida "
 "(otra vez técnicamente hablando AND lógico entre las columnas en cada fila "
 "de @criterios). \n"
 "@EXAMPLES=\n"
@@ -3070,7 +3052,6 @@ msgstr ""
 "@SEEALSO=DSUM"
 
 #: plugins/fn-database/functions.c:770
-#, fuzzy
 msgid ""
 "@FUNCTION=DSTDEV\n"
 "@SYNTAX=DSTDEV(database,field,criteria)\n"
@@ -3124,7 +3105,7 @@ msgstr ""
 "estándar de una población pasada en una muestra. La población consiste en "
 "números que coincidan con las condiciones especificadas\n"
 "\n"
-"@basededatos es un rango de celdas en las cuales las filas de información "
+"@base-datos es un rango de celdas en las cuales las filas de información "
 "relacionada son registros y las columnas de datos son campos. La primera "
 "fila de la base de datos contiene etiquetas para cada columna.\n"
 "\n"
@@ -3138,11 +3119,11 @@ msgstr ""
 "para los que se aplican los criterios.  Las celdas de abajo de las etiquetas "
 "especifican condiciones, por ejemplo, «>3» o «<9». La condición de igualdad "
 "puede darse simplemente dándole un valor, ej: «3» o «Juan». Cada columna en "
-"@criterio especifica una condición distinta, ej: una fila en @basededatos "
+"@criterio especifica una condición distinta, ej: una fila en @base-datos "
 "coincide con una de las filas en @criterio entonces esa columna se cuenta en "
 "(hablando técnicamente O booleano entre las filas en @criterio). Si "
 "@criterio especifica más de una columna entonces cada una de las condiciones "
-"en esa columna debe ser verdad para que la fila en @basededatos coincida "
+"en esa columna debe ser verdad para que la fila en @base-datos coincida "
 "(otra vez técnicamente hablando AND lógico entre las columnas en cada fila "
 "de @criterios). \n"
 "@EXAMPLES=\n"
@@ -3167,7 +3148,6 @@ msgstr ""
 "@SEEALSO=DSTDEVP"
 
 #: plugins/fn-database/functions.c:841
-#, fuzzy
 msgid ""
 "@FUNCTION=DSTDEVP\n"
 "@SYNTAX=DSTDEVP(database,field,criteria)\n"
@@ -3221,7 +3201,7 @@ msgstr ""
 "población basada en poblaciones completas. Las poblaciones consisten en "
 "números que coinciden con las condiciones especificadas\n"
 "\n"
-"@basededatos es un rango de celdas en las cuales las filas de información "
+"@base-datos es un rango de celdas en las cuales las filas de información "
 "relacionada son registros y las columnas de datos son campos. La primera "
 "fila de la base de datos contiene etiquetas para cada columna.\n"
 "\n"
@@ -3235,11 +3215,11 @@ msgstr ""
 "para los que se aplican los criterios.  Las celdas de abajo de las etiquetas "
 "especifican condiciones, por ejemplo, «>3» o «<9». La condición de igualdad "
 "puede darse simplemente dándole un valor, ej: «3» o «Juan». Cada columna en "
-"@criterio especifica una condición distinta, ej: una fila en @basededatos "
+"@criterio especifica una condición distinta, ej: una fila en @base-datos "
 "coincide con una de las filas en @criterio entonces esa columna se cuenta en "
 "(hablando técnicamente O booleano entre las filas en @criterio). Si "
 "@criterio especifica más de una columna entonces cada una de las condiciones "
-"en esa columna debe ser verdad para que la fila en @basededatos coincida "
+"en esa columna debe ser verdad para que la fila en @base-datos coincida "
 "(otra vez técnicamente hablando AND lógico entre las columnas en cada fila "
 "de @criterios). \n"
 "@EXAMPLES=\n"
@@ -3264,7 +3244,6 @@ msgstr ""
 "@SEEALSO=DSTDEV"
 
 #: plugins/fn-database/functions.c:912
-#, fuzzy
 msgid ""
 "@FUNCTION=DSUM\n"
 "@SYNTAX=DSUM(database,field,criteria)\n"
@@ -3316,7 +3295,7 @@ msgstr ""
 "@DESCRIPTION=La función DSUM devuelve la suma de números en una columna que "
 "coincida con condiciones especificadas.\n"
 "\n"
-"@basededatos es un rango de celdas en las cuales las filas de información "
+"@base-datos es un rango de celdas en las cuales las filas de información "
 "relacionada son registros y las columnas de datos son campos. La primera "
 "fila de la base de datos contiene etiquetas para cada columna.\n"
 "\n"
@@ -3330,11 +3309,11 @@ msgstr ""
 "para los que se aplican los criterios.  Las celdas de abajo de las etiquetas "
 "especifican condiciones, por ejemplo, «>3» o «<9». La condición de igualdad "
 "puede darse simplemente dándole un valor, ej: «3» o «Juan». Cada columna en "
-"@criterio especifica una condición distinta, ej: una fila en @basededatos "
+"@criterio especifica una condición distinta, ej: una fila en @base-datos "
 "coincide con una de las filas en @criterio entonces esa columna se cuenta en "
 "(hablando técnicamente O booleano entre las filas en @criterio). Si "
 "@criterio especifica más de una columna entonces cada una de las condiciones "
-"en esa columna debe ser verdad para que la fila en @basededatos coincida "
+"en esa columna debe ser verdad para que la fila en @base-datos coincida "
 "(otra vez técnicamente hablando AND lógico entre las columnas en cada fila "
 "de @criterios). \n"
 "@EXAMPLES=\n"
@@ -3359,7 +3338,6 @@ msgstr ""
 "@SEEALSO=DPRODUCT"
 
 #: plugins/fn-database/functions.c:983
-#, fuzzy
 msgid ""
 "@FUNCTION=DVAR\n"
 "@SYNTAX=DVAR(database,field,criteria)\n"
@@ -3413,7 +3391,7 @@ msgstr ""
 "población asada en una muestra. Las poblaciones consisten en números que "
 "coinciden con las condiciones especificadas.\n"
 "\n"
-"@basededatos es un rango de celdas en las cuales las filas de información "
+"@base-datos es un rango de celdas en las cuales las filas de información "
 "relacionada son registros y las columnas de datos son campos. La primera "
 "fila de la base de datos contiene etiquetas para cada columna.\n"
 "\n"
@@ -3427,11 +3405,11 @@ msgstr ""
 "para los que se aplican los criterios.  Las celdas de abajo de las etiquetas "
 "especifican condiciones, por ejemplo, «>3» o «<9». La condición de igualdad "
 "puede darse simplemente dándole un valor, ej: «3» o «Juan». Cada columna en "
-"@criterio especifica una condición distinta, ej: una fila en @basededatos "
+"@criterio especifica una condición distinta, ej: una fila en @base-datos "
 "coincide con una de las filas en @criterio entonces esa columna se cuenta en "
 "(hablando técnicamente O booleano entre las filas en @criterio). Si "
 "@criterio especifica más de una columna entonces cada una de las condiciones "
-"en esa columna debe ser verdad para que la fila en @basededatos coincida "
+"en esa columna debe ser verdad para que la fila en @base-datos coincida "
 "(otra vez técnicamente hablando AND lógico entre las columnas en cada fila "
 "de @criterios). \n"
 "@EXAMPLES=\n"
@@ -3456,7 +3434,6 @@ msgstr ""
 "@SEEALSO=DVARP"
 
 #: plugins/fn-database/functions.c:1054
-#, fuzzy
 msgid ""
 "@FUNCTION=DVARP\n"
 "@SYNTAX=DVARP(database,field,criteria)\n"
@@ -3510,7 +3487,7 @@ msgstr ""
 "en poblaciones completas. Las poblaciones consisten en números que coinciden "
 "con las condiciones especificadas.\n"
 "\n"
-"@basededatos es un rango de celdas en las cuales las filas de información "
+"@base-datos es un rango de celdas en las cuales las filas de información "
 "relacionada son registros y las columnas de datos son campos. La primera "
 "fila de la base de datos contiene etiquetas para cada columna.\n"
 "\n"
@@ -3524,11 +3501,11 @@ msgstr ""
 "para los que se aplican los criterios.  Las celdas de abajo de las etiquetas "
 "especifican condiciones, por ejemplo, «>3» o «<9». La condición de igualdad "
 "puede darse simplemente dándole un valor, ej: «3» o «Juan». Cada columna en "
-"@criterio especifica una condición distinta, ej: una fila en @basededatos "
+"@criterio especifica una condición distinta, ej: una fila en @base-datos "
 "coincide con una de las filas en @criterio entonces esa columna se cuenta en "
 "(hablando técnicamente O booleano entre las filas en @criterio). Si "
 "@criterio especifica más de una columna entonces cada una de las condiciones "
-"en esa columna debe ser verdad para que la fila en @basededatos coincida "
+"en esa columna debe ser verdad para que la fila en @base-datos coincida "
 "(otra vez técnicamente hablando AND lógico entre las columnas en cada fila "
 "de @criterios). \n"
 "@EXAMPLES=\n"
@@ -3920,7 +3897,6 @@ msgstr ""
 "@SEEALSO=HOUR,MINUTE"
 
 #: plugins/fn-date/functions.c:526
-#, fuzzy
 msgid ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (date)\n"
@@ -3937,7 +3913,7 @@ msgid ""
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 msgstr ""
 "@FUNCTION=HOUR\n"
-"@SYNTAX=HOUR (número_serie)\n"
+"@SYNTAX=HOUR (número-serie)\n"
 "@DESCRIPTION=Convierte el número de serie en una hora.  La hora se devuelve "
 "como un entero en el rango 0 (12:00 A.M.) a 23 (11:00 P.M.).\n"
 "\n"
@@ -3951,7 +3927,6 @@ msgstr ""
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 
 #: plugins/fn-date/functions.c:555
-#, fuzzy
 msgid ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (date)\n"
@@ -3968,7 +3943,7 @@ msgid ""
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 msgstr ""
 "@FUNCTION=MINUTE\n"
-"@SYNTAX=MINUTE (número_serie)\n"
+"@SYNTAX=MINUTE (numero-serie)\n"
 "@DESCRIPTION=Convierte el número de serie a minutos. Los minutos son dados "
 "como un entero en el rango de 0 a 59.\n"
 "\n"
@@ -3982,7 +3957,6 @@ msgstr ""
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 
 #: plugins/fn-date/functions.c:585
-#, fuzzy
 msgid ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (date)\n"
@@ -3999,7 +3973,7 @@ msgid ""
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
 msgstr ""
 "@FUNCTION=SECOND\n"
-"@SYNTAX=SECOND (número_serie)\n"
+"@SYNTAX=SECOND (numero-serie)\n"
 "@DESCRIPTION=Convierte el número de serie a segundos. Los segundos son dados "
 "como un entero dentro del rango de 0 a 59.\n"
 "\n"
@@ -4013,7 +3987,6 @@ msgstr ""
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
 
 #: plugins/fn-date/functions.c:615
-#, fuzzy
 msgid ""
 "@FUNCTION=YEAR\n"
 "@SYNTAX=YEAR (date)\n"
@@ -4029,7 +4002,7 @@ msgid ""
 "@SEEALSO=DAY, MONTH, TIME, NOW"
 msgstr ""
 "@FUNCTION=YEAR\n"
-"@SYNTAX=YEAR (número_serie)\n"
+"@SYNTAX=YEAR (numero-serie)\n"
 "@DESCRIPTION=Convierte el número de serie a un año.\n"
 "\n"
 "* Note que Gnumeric hará la conversión de una cadena de texto a un número de "
@@ -4042,7 +4015,6 @@ msgstr ""
 "@SEEALSO=DAY, MONTH, TIME, NOW"
 
 #: plugins/fn-date/functions.c:646
-#, fuzzy
 msgid ""
 "@FUNCTION=MONTH\n"
 "@SYNTAX=MONTH (date)\n"
@@ -4058,7 +4030,7 @@ msgid ""
 "@SEEALSO=DAY, TIME, NOW, YEAR"
 msgstr ""
 "@FUNCTION=MONTH\n"
-"@SYNTAX=MONTH (número_serie)\n"
+"@SYNTAX=MONTH (numero-serie)\n"
 "@DESCRIPTION=Convierte el número de serie en un mes.\n"
 "\n"
 "* Note que Gnumeric hará la conversión de una cadena de texto a un número de "
@@ -4071,7 +4043,6 @@ msgstr ""
 "@SEEALSO=DAY, TIME, NOW, YEAR"
 
 #: plugins/fn-date/functions.c:677
-#, fuzzy
 msgid ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (date)\n"
@@ -4087,7 +4058,7 @@ msgid ""
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 msgstr ""
 "@FUNCTION=DAY\n"
-"@SYNTAX=DAY (número_serie)\n"
+"@SYNTAX=DAY (numero-serie)\n"
 "@DESCRIPTION=Convierte el número de serie a un día del mes.\n"
 "\n"
 "* Note que Gnumeric hará la conversión de una cadena de texto a un número de "
@@ -4100,7 +4071,6 @@ msgstr ""
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
 #: plugins/fn-date/functions.c:708
-#, fuzzy
 msgid ""
 "@FUNCTION=WEEKDAY\n"
 "@SYNTAX=WEEKDAY (date[, method])\n"
@@ -4123,7 +4093,7 @@ msgid ""
 "@SEEALSO=DAY, MONTH, TIME, NOW, YEAR"
 msgstr ""
 "@FUNCTION=WEEKDAY\n"
-"@SYNTAX=WEEKDAY (número_serie[, método])\n"
+"@SYNTAX=WEEKDAY (fecha[, método])\n"
 "@DESCRIPTION=Convierte un número de serie en un día de la semana.\n"
 "\n"
 "Esta función devuelve un entero indicando el día de la semana.\n"
@@ -4167,7 +4137,7 @@ msgid ""
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 msgstr ""
 "@FUNCTION=DAYS360\n"
-"@SYNTAX=DAYS360 (fecha1;fecha2;método)\n"
+"@SYNTAX=DAYS360 (fecha1,fecha2,método)\n"
 "@DESCRIPTION=Devuelve la cantidad de días entre @fecha1 y @fecha2 siguiendo "
 "un calendario de 360 días con todos los meses de 30 días.\n"
 "\n"
@@ -4207,7 +4177,7 @@ msgid ""
 "@SEEALSO=MONTH"
 msgstr ""
 "@FUNCTION=EOMONTH\n"
-"@SYNTAX=EOMONTH (fecha_inicio;meses)\n"
+"@SYNTAX=EOMONTH (fecha_inicio,meses)\n"
 "@DESCRIPTION=Devuelve el último día del mes que viene @meses meses después "
 "que @fecha_inicio .\n"
 "\n"
@@ -4259,7 +4229,6 @@ msgid "Unimplemented"
 msgstr "No implementado"
 
 #: plugins/fn-date/functions.c:974
-#, fuzzy
 msgid ""
 "@FUNCTION=NETWORKDAYS\n"
 "@SYNTAX=NETWORKDAYS (start_date,end_date,holidays)\n"
@@ -4290,7 +4259,6 @@ msgstr ""
 "@SEEALSO=WORKDAY"
 
 #: plugins/fn-date/functions.c:1099
-#, fuzzy
 msgid ""
 "@FUNCTION=ISOWEEKNUM\n"
 "@SYNTAX=ISOWEEKNUM (date)\n"
@@ -4328,7 +4296,6 @@ msgstr ""
 "@SEEALSO=WEEKNUM"
 
 #: plugins/fn-date/functions.c:1133
-#, fuzzy
 msgid ""
 "@FUNCTION=ISOYEAR\n"
 "@SYNTAX=ISOYEAR (date)\n"
@@ -4365,7 +4332,6 @@ msgstr ""
 "@SEEALSO=ISOWEEKNUM"
 
 #: plugins/fn-date/functions.c:1180
-#, fuzzy
 msgid ""
 "@FUNCTION=WEEKNUM\n"
 "@SYNTAX=WEEKNUM (date, method)\n"
@@ -4394,11 +4360,12 @@ msgstr ""
 "dado.\n"
 "\n"
 "@método es 1 por omisión.\n"
-"\tPara el método 1, la semana empieza el domingo, y los días anteriores al "
+"\n"
+"  Para el @método=1, la semana empieza el domingo, y los días anteriores al "
 "domingo están en la semana 0.\n"
-"\tPara el método 2, la semana empieza el lunes, y los días anteriores al "
+"  Para el @método=2, la semana empieza el lunes, y los días anteriores al "
 "lunes están en la semana 0.\n"
-"\tPara el método 150, se devuelve el número de semana ISO 8601.\n"
+"  Para el @método=150, se devuelve el número de semana ISO 8601.\n"
 "\n"
 "* Devuelve #NUM! si la fecha o el método no son válidos.\n"
 "* Esta función es compatible con Excel, salvo que Excel no soporta números "
@@ -4409,7 +4376,6 @@ msgstr ""
 "@SEEALSO=ISOWEEKNUM"
 
 #: plugins/fn-date/functions.c:1225
-#, fuzzy
 msgid ""
 "@FUNCTION=YEARFRAC\n"
 "@SYNTAX=YEARFRAC (start_date, end_date, basis)\n"
@@ -4438,7 +4404,6 @@ msgid "date_str"
 msgstr "date_str"
 
 #: plugins/fn-date/functions.c:1254
-#, fuzzy
 msgid "date1,date2,interval"
 msgstr "fecha1,fecha2,intervalo"
 
@@ -4456,9 +4421,8 @@ msgid "date1,date2,method"
 msgstr "fecha1,fecha2,método"
 
 #: plugins/fn-date/functions.c:1266
-#, fuzzy
 msgid "date,months"
-msgstr "fecha_inicio,meses"
+msgstr "fecha,meses"
 
 #: plugins/fn-date/functions.c:1270
 msgid "start_date,months"
@@ -4891,7 +4855,6 @@ msgstr ""
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
 #: plugins/fn-eng/functions.c:456
-#, fuzzy
 msgid ""
 "@FUNCTION=BESSELK\n"
 "@SYNTAX=BESSELK(x,y)\n"
@@ -4926,7 +4889,6 @@ msgstr ""
 "@SEEALSO=BESSELI,BESSELJ,BESSELY"
 
 #: plugins/fn-eng/functions.c:493
-#, fuzzy
 msgid ""
 "@FUNCTION=BESSELJ\n"
 "@SYNTAX=BESSELJ(x,y)\n"
@@ -4959,7 +4921,6 @@ msgstr ""
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
 #: plugins/fn-eng/functions.c:529
-#, fuzzy
 msgid ""
 "@FUNCTION=BESSELY\n"
 "@SYNTAX=BESSELY(x,y)\n"
@@ -5297,7 +5258,6 @@ msgstr ""
 "@SEEALSO=ERF"
 
 #: plugins/fn-eng/functions.c:1060
-#, fuzzy
 msgid ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
@@ -6005,7 +5965,6 @@ msgstr ""
 "@SEEALSO=SLN,SYD"
 
 #: plugins/fn-financial/functions.c:1008
-#, fuzzy
 msgid ""
 "@FUNCTION=SLN\n"
 "@SYNTAX=SLN(cost,salvage_value,life)\n"
@@ -6039,7 +5998,7 @@ msgstr ""
 "@FUNCTION=SLN\n"
 "@SYNTAX=SLN(coste,valor_recuperación,vida)\n"
 "@DESCRIPTION=La función SLN determinará la recta de depreciación de un "
-"activo en un solo período.\n"
+"activo en un sólo período.\n"
 "\n"
 "La cantidad que paga por el activo es el @coste, @recuperación es el valor "
 "del activo al final de su vida útil y @vida es el número de períodos sobre "
@@ -6048,9 +6007,8 @@ msgstr ""
 "\n"
 "La fórmula usada para la recta de depreciación es:\n"
 "\n"
-"Costo de depreciación = \n"
-"\t( @coste - @valor_recuperación ) / @vida\n"
-"\t\n"
+"Costo de depreciación = ( @coste - @valor_recuperación ) / @vida\n"
+"\n"
 "@coste es el coste de un activo al adquirirlo (valor de mercado).\n"
 "@valor_recuperación es la cantidad que obtiene cuando se vende el activo al "
 "final de la vida útil del activo.\n"
@@ -6133,7 +6091,6 @@ msgstr ""
 "@SEEALSO=SLN"
 
 #: plugins/fn-financial/functions.c:1122
-#, fuzzy
 msgid ""
 "@FUNCTION=DOLLARDE\n"
 "@SYNTAX=DOLLARDE(fractional_dollar,fraction)\n"
@@ -6155,11 +6112,12 @@ msgstr ""
 "@DESCRIPTION=Convierte un precio en dólares expresado como fracción, a un "
 "precio en dólares expresado con decimales. \n"
 "\n"
-"@dólar_fraccional es el numerador a ser convertido.  @fracción es el "
+"@dólar_fraccional número fraccional a ser convertido.  @fracción es el "
 "denominador de la fracción.\n"
 "\n"
-"* Si @fracción no es un entero, será truncado. Si @fracción <= 0 DOLLARDE "
-"devuelve el error #NUM! .\n"
+"* Si @fracción no es un entero, será truncado. "
+"* Si @fracción <= 0 DOLLARDE devuelve el error #NUM! .\n"
+"\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DOLLARFR"
@@ -6334,7 +6292,6 @@ msgstr ""
 "@SEEALSO=PV,FV"
 
 #: plugins/fn-financial/functions.c:1512
-#, fuzzy
 msgid ""
 "@FUNCTION=IRR\n"
 "@SYNTAX=IRR(values[,guess])\n"
@@ -6363,9 +6320,9 @@ msgstr ""
 "(NPV). La IRR es la tasa de interés para una serie de fujos de capital donde "
 "el valor neto actual es cero.\n"
 "\n"
-"@valores contiene la serie de flujos de capital generados por la inversión.  "
+"@valores contiene la serie de flujos de caja generados por la inversión.  "
 "Los pagos deberían ocurrir a intervalos regulares.  El parámetro opcional "
-"@estimación es el valor inicial para calcular la IRR.  No tiene qye usarlo, "
+"@estimación es el valor inicial para calcular la IRR.  No tiene que usarlo, "
 "sólo se proporciona para compatibilidad con Excel.\n"
 "\n"
 "* Esta función es compatible con Excel.\n"
@@ -6461,7 +6418,6 @@ msgstr ""
 "@SEEALSO=NPV,PV"
 
 #: plugins/fn-financial/functions.c:1790
-#, fuzzy
 msgid ""
 "@FUNCTION=XIRR\n"
 "@SYNTAX=XIRR(values,dates[,guess])\n"
@@ -6490,8 +6446,8 @@ msgstr ""
 "@SYNTAX=XIRR(valores,fechas[,estimar])\n"
 "@DESCRIPTION=XIRR calcula y devuelve la tasa interna de retorno de una "
 "inversión que no tiene necesariamente pagos periódicos. Esta función está "
-"relacionada cercanamente con función de valor presente (NPV y XNPV).  La "
-"función XIRR es la tasa de interés para una serie de flujo de capital donde "
+"relacionada cercanamente con la función de valor presente (NPV y XNPV).  La "
+"función XIRR es la tasa de interés para una serie de flujo de caja donde "
 "el XNPV es cero.\n"
 "\n"
 "@valores contiene la serie de flujo de capitales generados por la inversión. "
@@ -6627,7 +6583,6 @@ msgstr ""
 "@SEEALSO=PPMT,PV,FV"
 
 #: plugins/fn-financial/functions.c:2021
-#, fuzzy
 msgid ""
 "@FUNCTION=PPMT\n"
 "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
@@ -6657,7 +6612,7 @@ msgstr ""
 "donde:\n"
 "\n"
 "PMT = Pago recibido en renta vitalicia\n"
-"IPMT(per) = cantidad de interés para el periodo per\n"
+"IPMT(per) = cantidad de interés para el periodo @per\n"
 "\n"
 "* Si se omite @vf, se asume que es 0.\n"
 "* Si se omite @tipo, se asume que es 0.\n"
@@ -6709,7 +6664,6 @@ msgstr ""
 "@SEEALSO=PPMT,PV,FV"
 
 #: plugins/fn-financial/functions.c:2124
-#, fuzzy
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(settlement,maturity,coup,yield,freq[,basis])\n"
@@ -6755,10 +6709,9 @@ msgstr ""
 "\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO="
+"@SEEALSO=G_DURATION,MDURATION"
 
 #: plugins/fn-financial/functions.c:2180
-#, fuzzy
 msgid ""
 "@FUNCTION=G_DURATION\n"
 "@SYNTAX=G_DURATION(rate,pv,fv)\n"
@@ -6787,7 +6740,7 @@ msgstr ""
 "\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=PPMT,PV,FV"
+"@SEEALSO=PPMT,PV,FV,DURATION,MDURATION"
 
 #: plugins/fn-financial/functions.c:2221
 msgid ""
@@ -7239,7 +7192,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-financial/functions.c:2842
-#, fuzzy
 msgid ""
 "@FUNCTION=ODDLPRICE\n"
 "@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,"
@@ -7275,7 +7227,8 @@ msgstr ""
 "@liquidación es la fecha de liquidación de la acción. @vencimiento es la "
 "fecha de vencimiento de la acción. @frecuencia es el número de pagos al "
 "cupón por año. Las frecuencias permitidas son: 1 = anual, 2 = semi, 4 = "
-"cuatro veces al año. @base es el tipo de sistema de conteo de días a usar:\n"
+"cuatro veces al año. "
+"@base es el tipo de sistema de conteo de días a usar:\n"
 "\n"
 "  0  US 30/360\n"
 "  1  días actuales/días actuales\n"
@@ -7387,8 +7340,7 @@ msgstr ""
 "  4  europeo 30/360\n"
 "\n"
 "\n"
-"* Si @frecuencia es distinto de 1, 2, o 4, AMORDEGRC devuelve un "
-"error#NUM!.\n"
+"* Si @frecuencia es distinto de 1, 2, o 4, AMORDEGRC devuelve un error#NUM!.\n"
 "* Si se omite @base se aplica US 30/360.\n"
 "* Si @base no está entre 0 y 4, se devuelve un error #NUM!.\n"
 "\n"
@@ -7484,7 +7436,7 @@ msgstr ""
 "@liquidación es la fecha de liquidación de la acción.\n"
 "@vencimiento es la fecha de vencimiento de la acción.\n"
 "@frecuencia es el número de pagos al cupón por año\n"
-"@eom = VERDADERO trata el final de las fechas de vencimiento mensuales "
+"@eom = TRUE trata el final de las fechas de vencimiento mensuales "
 "especiales.\n"
 "Las frecuencias permitidas son: 1 = anual, 2 = semi, 4 = 4 veces al año, 6 = "
 "6 veces al año, 12 = 12 meses al año.\n"
@@ -7552,7 +7504,7 @@ msgstr ""
 "@liquidación es la fecha de liquidación de la acción.\n"
 "@vencimiento es la fecha de vencimiento de la acción.\n"
 "@frecuencia es el número de pagos al cupón por año\n"
-"@fdv = VERDADERO trata el final de las fechas de vencimiento mensuales "
+"@fdv = TRUE trata el final de las fechas de vencimiento mensuales "
 "especiales.\n"
 "Las frecuencias permitidas son: 1 = anual, 2 = semi, 4 = 4 veces al año, 6 = "
 "6 veces al año, 12 = 12 meses al año.\n"
@@ -7620,7 +7572,7 @@ msgstr ""
 "@liquidación es la fecha de liquidación de la acción.\n"
 "@vencimiento es la fecha de vencimiento de la acción.\n"
 "@frecuencia es el número de pagos al cupón por año\n"
-"@fdv = VERDADERO trata el final de las fechas de vencimiento mensuales "
+"@fdv = TRUE trata el final de las fechas de vencimiento mensuales "
 "especiales.\n"
 "Las frecuencias permitidas son: 1 = anual, 2 = semi, 4 = 4 veces al año, 6 = "
 "6 veces al año, 12 = 12 meses al año.\n"
@@ -7686,7 +7638,7 @@ msgstr ""
 "@liquidación es la fecha de liquidación de la acción.\n"
 "@vencimiento es la fecha de vencimiento de la acción.\n"
 "@frecuencia es el número de pagos al cupón por año\n"
-"@fdv = VERDADERO trata el final de las fechas de vencimiento mensuales "
+"@fdv = TRUE trata el final de las fechas de vencimiento mensuales "
 "especiales.\n"
 "Las frecuencias permitidas son: 1 = anual, 2 = semi, 4 = 4 veces al año, 6 = "
 "6 veces al año, 12 = 12 meses al año.\n"
@@ -7712,7 +7664,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-financial/functions.c:3247
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPPCD\n"
 "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis,eom])\n"
@@ -7746,14 +7697,14 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=COUPPCD\n"
-"@SYNTAX=COUPPCD(liquidación,vencimiento,frecuencia[,base,fdv])\n"
+"@SYNTAX=COUPPCD(liquidación,vencimiento,frecuencia[,base,eom])\n"
 "@DESCRIPTION=COUPPCD devuelve la fecha de cupón precedente a la "
 "liquidación.\n"
 "\n"
 "@liquidación es la fecha de liquidación de la acción.\n"
 "@vencimiento es la fecha de vencimiento de la acción.\n"
 "@frecuencia es el número de pagos al cupón por año\n"
-"@eom = VERDADERO trata el final de las fechas de vencimiento mensuales "
+"@eom = TRUE trata el final de las fechas de vencimiento mensuales "
 "especiales.\n"
 "Las frecuencias permitidas son: 1 = anual, 2 = semi, 4 = 4 veces al año, 6 = "
 "6 veces al año, 12 = 12 meses al año.\n"
@@ -7817,7 +7768,7 @@ msgstr ""
 "@liquidación es la fecha de liquidación de la acción.\n"
 "@vencimiento es la fecha de vencimiento de la acción.\n"
 "@frecuencia es el número de pagos al cupón por año\n"
-"@eom = VERDADERO trata el final de las fechas de vencimiento mensuales "
+"@eom = TRUE trata el final de las fechas de vencimiento mensuales "
 "especiales.\n"
 "Las frecuencias permitidas son: 1 = anual, 2 = semi, 4 = 4 veces al año, 6 = "
 "6 veces al año, 12 = 12 meses al año.\n"
@@ -7914,7 +7865,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-financial/functions.c:3435
-#, fuzzy
 msgid ""
 "@FUNCTION=MDURATION\n"
 "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
@@ -7945,12 +7895,6 @@ msgstr ""
 "@DESCRIPTION=MDURATION devuelve la duración de Macauley para una inversión "
 "con valor par 100.\n"
 "\n"
-"@liquidación es la fecha de liquidación de la acción.\n"
-"@vencimiento es la fecha de vencimiento de la acción.\n"
-"@frecuencia es el número de pagos al cupón por año\n"
-"\n"
-"Las frecuencias permitidas son: 1 = anual, 2 = semi, 4 = 4 veces al año, 6 = "
-"6 veces al año, 12 = 12 meses al año.\n"
 "@base es el tipo de sistema de conteo de días que quiere usar:\n"
 "\n"
 "  0  MSRB 30/360 (MSRB Rule G33 (e))\n"
@@ -7960,17 +7904,13 @@ msgstr ""
 "  4  europeo 30/360\n"
 "  5  europeo+ 30/360\n"
 "\n"
-"(Vea el manual de Gnumeric para una descripción detallada de estas bases).\n"
-"\n"
-"* Si la @liquidación o el @vencimiento no son fechas válidas, MDURATION "
-"devuelve un error #NUM!\n"
-"* Si la @frecuencia es distinta de 1,2, o 4 inválida,MDURATION devuelve un "
-"error#NUM!\n"
+"* Si la @liquidación o el @vencimiento no son fechas válidas, MDURATION devuelve un error #NUM!\n"
+"* Si la @frecuencia es distinta de 1,2, o 4 inválida,MDURATION devuelve un error#NUM!\n"
 "* Si la @base se omite, se aplica MSRB 30/360.\n"
 "* Si la @base es inválida, se devuelve un error #NUM!\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO="
+"@SEEALSO=DURATION,G_DURATION"
 
 #: plugins/fn-financial/functions.c:3493
 msgid ""
@@ -8008,9 +7948,8 @@ msgstr ""
 "@SEEALSO=DB"
 
 #: plugins/fn-financial/plugin.xml.in.h:1
-#, fuzzy
 msgid "Finance"
-msgstr "Financiero"
+msgstr "Finanzas"
 
 #: plugins/fn-financial/plugin.xml.in.h:2
 msgid "Financial Functions"
@@ -8202,12 +8141,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISERROR\n"
 "@SYNTAX=ISERROR(valor)\n"
-"@DESCRIPTION=Devuelve VERDADERO si la expresión contiene un error.\n"
+"@DESCRIPTION=Devuelve TRUE si la expresión contiene un error.\n"
 "\n"
 "* Esta función es compatible con Excel. \n"
 "\n"
 "@EXAMPLES=\n"
-"ISERROR(NA()) es igual a VERDADERO.\n"
+"ISERROR(NA()) es igual a TRUE.\n"
 "\n"
 "@SEEALSO=ERROR"
 
@@ -8226,12 +8165,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISNA\n"
 "@SYNTAX=ISNA(valor)\n"
-"@DESCRIPTION=ISNA devuelve VERDADERO si el valor es el error #N/D.\n"
+"@DESCRIPTION=ISNA devuelve TRUE si el valor es el error #N/D.\n"
 "\n"
 "* Esta función es compatible con Excel. \n"
 "\n"
 "@EXAMPLES=\n"
-"ISNA(NA()) es igual a VERDADERO.\n"
+"ISNA(NA()) es igual a TRUE.\n"
 "\n"
 "@SEEALSO=NA"
 
@@ -8250,18 +8189,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISERR\n"
 "@SYNTAX=ISERR(valor)\n"
-"@DESCRIPTION=ISERR devuelve VERDADERO si @valor es un error cualquiera, "
+"@DESCRIPTION=ISERR devuelve TRUE si @valor es un error cualquiera, "
 "excepto #N/D.\n"
 "\n"
 "Esta función es compatible con Excel. \n"
 "\n"
 "@EXAMPLES=\n"
-"ISERR(NA()) es igual a FALSO.\n"
+"ISERR(NA()) es igual a FALSE.\n"
 "\n"
 "@SEEALSO="
 
 #: plugins/fn-info/functions.c:1409
-#, fuzzy
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
 "@SYNTAX=ERROR.TYPE(value)\n"
@@ -8283,16 +8221,16 @@ msgid ""
 "@SEEALSO=ISERROR"
 msgstr ""
 "@FUNCTION=ERROR.TYPE\n"
-"@SYNTAX=ERROR(valor)\n"
+"@SYNTAX=ERROR.TYPE(valor)\n"
 "@DESCRIPTION=ERROR.TYPE devuelve un número de error que corresponde al valor "
 "de error dado. Los números de errores según el valor de error son:\n"
 "\n"
-"\t#DIV/0!\t\t2\n"
-"\t#VALOR!\t\t3\n"
-"\t#REF!\t\t4\n"
-"\t#NOMBRE?\t5\n"
-"\t#NUM!\t\t6\n"
-"\t#N/D!\t\t7\n"
+"\t#DIV/0!  \t\t2\n"
+"\t#VALOR!  \t\t3\n"
+"\t#REF!  \t\t4\n"
+"\t#NOMBRE?  \t5\n"
+"\t#NUM!  \t\t6\n"
+"\t#N/D!    \t\t7\n"
 "\n"
 "* Esta función es compatible con Excel. \n"
 "\n"
@@ -8360,7 +8298,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISBLANK\n"
 "@SYNTAX=ISBLANK(valor)\n"
-"@DESCRIPTION=Devuelve VERDADERO si @valor está vacío. \n"
+"@DESCRIPTION=Devuelve TRUE si @valor está vacío. \n"
 "\n"
 "* Esta función es compatible con Excel. \n"
 "\n"
@@ -8389,12 +8327,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISEVEN\n"
 "@SYNTAX=ISEVEN(valor)\n"
-"@DESCRIPTION=Devuelve VERDADERO si el @valor es par. \n"
+"@DESCRIPTION=Devuelve TRUE si el @valor es par. \n"
 "\n"
 "* Esta función es compatible con Excel. \n"
 "\n"
 "@EXAMPLES=\n"
-"ISEVEN(4) es igual a VERDADERO.\n"
+"ISEVEN(4) es igual a TRUE.\n"
 "\n"
 "@SEEALSO=ISODD"
 
@@ -8413,7 +8351,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISLOGICAL\n"
 "@SYNTAX=ISLOGICAL(valor)\n"
-"@DESCRIPTION=Devuelve VERDADERO si @valor es un valor lógico. \n"
+"@DESCRIPTION=Devuelve TRUE si @valor es un valor lógico. \n"
 "\n"
 "* Esta función es compatible con Excel. \n"
 "\n"
@@ -8437,12 +8375,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISNONTEXT\n"
 "@SYNTAX=ISNONTEXT(valor)\n"
-"@DESCRIPTION=Devuelve VERDADERO si @valor no es una cadena de texto. \n"
+"@DESCRIPTION=Devuelve TRUE si @valor no es una cadena de texto. \n"
 "\n"
 "* Esta función es compatible con Excel. \n"
 "\n"
 "@EXAMPLES=\n"
-"ISNONTEXT(\"texto\") es igual a FALSO.\n"
+"ISNONTEXT(\"texto\") es igual a FALSE.\n"
 "\n"
 "@SEEALSO=ISTEXT"
 
@@ -8461,12 +8399,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISNUMBER\n"
 "@SYNTAX=ISNUMBER(valor)\n"
-"@DESCRIPTION=Devuelve VERDADERO si @valor es un número.\n"
+"@DESCRIPTION=Devuelve TRUE si @valor es un número.\n"
 "\n"
 "* Esta función es compatible con Excel. \n"
 "\n"
 "@EXAMPLES=\n"
-"ISNUMBER(\"texto\") es igual a FALSO.\n"
+"ISNUMBER(\"texto\") es igual a FALSE.\n"
 "\n"
 "@SEEALSO="
 
@@ -8485,12 +8423,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISODD\n"
 "@SYNTAX=ISODD(valor)\n"
-"@DESCRIPTION=Devuelve VERDADERO si @valor es un número impar. \n"
+"@DESCRIPTION=Devuelve TRUE si @valor es un número impar. \n"
 "\n"
 "* Esta función es compatible con Excel.\n"
 "\n"
 "@EXAMPLES=\n"
-"ISODD(3) es igual a VERDADERO.\n"
+"ISODD(3) es igual a TRUE.\n"
 "\n"
 "@SEEALSO=ISEVEN"
 
@@ -8509,12 +8447,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISREF\n"
 "@SYNTAX=ISREF(valor)\n"
-"@DESCRIPTION=Devuelve VERDADERO si @valor es una referencia.\n"
+"@DESCRIPTION=Devuelve TRUE si @valor es una referencia.\n"
 "\n"
 "* Esta función es compatible con Excel. \n"
 "\n"
 "@EXAMPLES=\n"
-"ISREF(A1) es igual a VERDADERO.\n"
+"ISREF(A1) es igual a TRUE.\n"
 "\n"
 "@SEEALSO="
 
@@ -8533,12 +8471,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISTEXT\n"
 "@SYNTAX=ISTEXT(valor)\n"
-"@DESCRIPTION=Devuelve VERDADERO si @valor es una cadena de texto. \n"
+"@DESCRIPTION=Devuelve TRUE si @valor es una cadena de texto. \n"
 "\n"
 "* Esta función es compatible con Excel. \n"
 "\n"
 "@EXAMPLES=\n"
-"ISTEXT(\"texto\") es igual a VERDADERO.\n"
+"ISTEXT(\"texto\") es igual a TRUE.\n"
 "\n"
 "@SEEALSO=ISNONTEXT"
 
@@ -8605,7 +8543,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-info/functions.c:1795
-#, fuzzy
 msgid ""
 "@FUNCTION=GETENV\n"
 "@SYNTAX=GETENV(string)\n"
@@ -8619,9 +8556,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=GETENV\n"
 "@SYNTAX=GETENV(cadena)\n"
-"@DESCRIPTION=GETENV recupera una valor del entorno de ejecución.\n"
+"@DESCRIPTION=GETENV recupera un valor del entorno de ejecución.\n"
 "\n"
-"* Si la variable especificada por @CADENA no existe, se devuelve #N/D!.  "
+"* Si la variable especificada por @cadena no existe, se devuelve #N/D!.  "
 "Note que los nombres de variable son sensibles a mayúsculas.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -8680,7 +8617,6 @@ msgid "Information Functions"
 msgstr "Funciones de información"
 
 #: plugins/fn-logical/functions.c:44
-#, fuzzy
 msgid ""
 "@FUNCTION=AND\n"
 "@SYNTAX=AND(b1, b2, ...)\n"
@@ -8706,26 +8642,24 @@ msgid ""
 msgstr ""
 "@FUNCTION=AND\n"
 "@SYNTAX=AND(b1, b2, ...)\n"
-"@DESCRIPTION=AND implementa la función lógica Y. El resultado es VERDADERO "
-"si todas las expresiones se evalúan a VERDADERO; en otro caso, devuelve "
-"FALSO.\n"
+"@DESCRIPTION=AND implementa la función lógica AND. El resultado es TRUE "
+"si todas las expresiones se evalúan a TRUE; en otro caso, devuelve "
+"FALSE.\n"
 "\n"
-"@b1 .. @bN son expresiones que se deberían evaluar a VERDADERO o FALSO,  Si "
+"@b1 .. @bN son expresiones que se deberían evaluar a TRUE o FALSE,  Si "
 "se proporciona un entero o un valor en coma flotante, el cero se considera "
-"FALSO y cualquier otra cosa es VERDADERO.\n"
+"FALSE y cualquier otra cosa es TRUE.\n"
 "\n"
-"* Si los valores contienen cadenas o celdas vacías, esos valores se "
-"ignoran.\n"
-"* Si no se proporcionan valores lógicos, entonces se devuelve el error "
-"#VALOR!.\n"
+"* Si los valores contienen cadenas o celdas vacías, esos valores se ignoran.\n"
+"* Si no se proporcionan valores lógicos, entonces se devuelve el error #VALOR!.\n"
 "* Esta función es compatible con Excel. \n"
 "\n"
 "@EXAMPLES=\n"
-"AND(VERDADERO,VERDADERO) igual a VERDADERO\n"
-"AND(VERDADERO,FALSO) igual a FALSO\n"
+"AND(TRUE,TRUE) igual a TRUE\n"
+"AND(TRUE,FALSE) igual a FALSE\n"
 "\n"
 "Asumamos que A1 alberga el número cinco y A2 el número uno.  Entonces\n"
-"AND(A1>3,A2<2) igual a VERDADERO.\n"
+"AND(A1>3,A2<2) igual a TRUE.\n"
 "\n"
 "@SEEALSO=OR, NOT"
 
@@ -8746,7 +8680,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=NOT\n"
 "@SYNTAX=NOT(número)\n"
-"@DESCRIPTION=Implementa la función lógica NO: el resultado es TRUE si "
+"@DESCRIPTION=Implementa la función lógica NOT: el resultado es TRUE si "
 "@número es cero; si no el resultado es FALSE. \n"
 "\n"
 "* Esta función es compatible con Excel. \n"
@@ -8759,10 +8693,9 @@ msgstr ""
 
 #: plugins/fn-logical/functions.c:127
 msgid "Type Mismatch"
-msgstr "Tipo Erróneo"
+msgstr "Tipo co erróneo"
 
 #: plugins/fn-logical/functions.c:134
-#, fuzzy
 msgid ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1, b2, ...)\n"
@@ -8788,24 +8721,21 @@ msgstr ""
 "@DESCRIPTION=OR implementa la función lógica O: el resultado es TRUE si "
 "cualquiera de los valores evaluados es TRUE.\n"
 "\n"
-"@b1 .. @bN son expresiones lógicas que se deberían evaluar a VERDADERO o "
-"FALSO,  Si se proporciona un entero o un valor en coma flotante, el cero se "
+"@b1 .. @bN son expresiones lógicas que se deberían evaluar a TRUE o "
+"FALSE,  Si se proporciona un entero o un valor en coma flotante, el cero se "
 "considera FALSE y cualquier otra cosa es TRUE.\n"
 "\n"
-"* Si los valores contienen cadenas o celdas vacías, esos valores se "
-"ignoran.\n"
-"* Si no se proporcionan valores lógicos, entonces se devuelve el error "
-"#VALOR!.\n"
+"* Si los valores contienen cadenas o celdas vacías, esos valores se ignoran.\n"
+"* Si no se proporcionan valores lógicos, entonces se devuelve el error #VALOR!.\n"
 "* Esta función es compatible con Excel. \n"
 "\n"
 "@EXAMPLES=\n"
-"OR(VERDADERO,FALSO) igual TRUE -VERDADERO-.\n"
-"OR(3>4,4<3) igual a FALSE -FALSO-.\n"
+"OR(TRUE,FALSE) igual a TRUE.\n"
+"OR(3>4,4<3) igual a FALSE.\n"
 "\n"
 "@SEEALSO=AND, NOT"
 
 #: plugins/fn-logical/functions.c:193
-#, fuzzy
 msgid ""
 "@FUNCTION=XOR\n"
 "@SYNTAX=XOR(b1, b2, ...)\n"
@@ -8826,21 +8756,19 @@ msgid ""
 msgstr ""
 "@FUNCTION=XOR\n"
 "@SYNTAX=XOR(b1, b2, ...)\n"
-"@DESCRIPTION=XOR implementa la función O exclusiva: el resultado es TRUE si "
+"@DESCRIPTION=XOR implementa la función ORexclusiva: el resultado es TRUE si "
 "hay un número impar de valores evaluados a TRUE.\n"
 "\n"
-"@b1 .. @bN son expresiones que se deberían evaluar a VERDADERO o FALSO,  Si "
+"@b1 .. @bN son expresiones que se deberían evaluar a TRUE o FALSE,  Si "
 "se proporciona un entero o un valor en coma flotante, el cero se considera "
-"FALSO y cualquier otra cosa es VERDADERA.\n"
+"FALSE y cualquier otra cosa es TRUE.\n"
 "\n"
-"* Si los valores contienen cadenas o celdas vacías, esos valores se "
-"ignoran. \n"
-"* Si no se proporcionan valores lógicos, entonces se devuelve el error "
-"#VALOR!\n"
+"* Si los valores contienen cadenas o celdas vacías, esos valores se ignoran. \n"
+"* Si no se proporcionan valores lógicos, entonces se devuelve el error #VALOR!\n"
 "\n"
 "@EXAMPLES=\n"
-"XOR(TRUE,FALSE) igual a VERDADERO.\n"
-"XOR(3>4,4<3) igual a FALSO.\n"
+"XOR(TRUE,FALSE) igual a TRUE.\n"
+"XOR(3>4,4<3) igual a FALSE.\n"
 "\n"
 "@SEEALSO=OR, AND, NOT"
 
@@ -8868,12 +8796,12 @@ msgstr ""
 "distinto de cero, el resultado de la expresión IF es la expresión @si-"
 "cierto; en otro caso, IF evalúa al valor de @si-falso. \n"
 "\n"
-"* Si se omite @si-cierto por omisión se toma VERDADERO y si se omite @si-"
-"falso se presupone FALSO.\n"
+"* Si se omite @si-cierto por omisión se toma TRUE y si se omite @si-"
+"falso se presupone FALSE.\n"
 "* Esta función es compatible con Excel. \n"
 "\n"
 "@EXAMPLES=\n"
-"IF(FALSO,VERDADERO,FALSO) igual a FALSO.\n"
+"IF(FALSE,TRUE,FALSE) igual a FALSE.\n"
 "\n"
 "@SEEALSO="
 
@@ -8897,7 +8825,7 @@ msgstr ""
 "* Esta función es compatible con Excel. \n"
 "\n"
 "@EXAMPLES=\n"
-"TRUE() es igual a VERDADERO.\n"
+"TRUE() es igual a TRUE.\n"
 "\n"
 "@SEEALSO=FALSE"
 
@@ -8921,7 +8849,7 @@ msgstr ""
 "* Esta función es compatible con Excel. \n"
 "\n"
 "@EXAMPLES=\n"
-"FALSE() es igual a FALSO.\n"
+"FALSE() es igual a FALSE.\n"
 "\n"
 "@SEEALSO=TRUE"
 
@@ -8977,12 +8905,10 @@ msgid "Functions for manipulating truth values"
 msgstr "Funciones para manipular valores de verdad"
 
 #: plugins/fn-logical/plugin.xml.in.h:2
-#, fuzzy
 msgid "Logic"
-msgstr "Lógicas"
+msgstr "Lógica"
 
 #: plugins/fn-logical/plugin.xml.in.h:3
-#, fuzzy
 msgid "Logic Functions"
 msgstr "Funciones lógicas"
 
@@ -9021,7 +8947,7 @@ msgstr ""
 "\n"
 "\n"
 "@a1 es un valor lógico que especifica el estilo de referencia.  Si @a1 es "
-"VERDADERO o se omite, ADDRESS devuelve una referencia de estilo A1, por "
+"TRUE o se omite, ADDRESS devuelve una referencia de estilo A1, por "
 "ejemplo $D$4.  En otro caso, ADDRESS devuelve una referencia de estilo R1C1, "
 "por ejemplo R4C4. \n"
 "\n"
@@ -9041,12 +8967,11 @@ msgstr ""
 "@EXAMPLES=\n"
 "ADDRESS(5,4) igual a \"$D$5\".\n"
 "ADDRESS(5,4,4) igual a \"D5\".\n"
-"ADDRESS(5,4,3,FALSO) igual a \"R[5]C4\".\n"
+"ADDRESS(5,4,3,FALSE) igual a \"R[5]C4\".\n"
 "\n"
 "@SEEALSO=COLUMNNUMBER"
 
 #: plugins/fn-lookup/functions.c:431
-#, fuzzy
 msgid ""
 "@FUNCTION=AREAS\n"
 "@SYNTAX=AREAS(reference)\n"
@@ -9058,7 +8983,7 @@ msgid ""
 "@SEEALSO=ADDRESS,INDEX,INDIRECT,OFFSET"
 msgstr ""
 "@FUNCTION=AREAS\n"
-"@SYNTAX=AREAS(referencias)\n"
+"@SYNTAX=AREAS(referencia)\n"
 "@DESCRIPTION=AREAS devuelve el número de áreas en @referencia. .\n"
 "\n"
 "@EXAMPLES=\n"
@@ -9094,7 +9019,6 @@ msgstr ""
 "@SEEALSO=IF"
 
 #: plugins/fn-lookup/functions.c:557
-#, fuzzy
 msgid ""
 "@FUNCTION=VLOOKUP\n"
 "@SYNTAX=VLOOKUP(value,range,column[,approximate,as_index])\n"
@@ -9124,15 +9048,14 @@ msgstr ""
 "el @rango.  @como_índice devuelve el desplazamiento de base 0 que coincida "
 "con el valor\n"
 "\n"
-"* Devuelve #NUM! si @columna < 0. \n"
-"* Devuelve #REF! si @columna cae fuera del @rango.\n"
+"* VLOOKUP devuelve #NUM! si @columna < 0. \n"
+"* VLOOKUP devuelve #REF! si @columna cae fuera del @rango.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=HLOOKUP"
 
 #: plugins/fn-lookup/functions.c:615
-#, fuzzy
 msgid ""
 "@FUNCTION=HLOOKUP\n"
 "@SYNTAX=HLOOKUP(value,range,row[,approximate,as_index])\n"
@@ -9162,15 +9085,14 @@ msgstr ""
 "@filas del @rango.  @como_índice devuelve el desplazamiento que coincide con "
 "el valor\n"
 "\n"
-"* Si @fila < 0 devuelve un error #NUM!.\n"
-"* Si @fila cae fuera del @rango devuelve el error #REF!.\n"
+"* HLOOKUP devuelve #NUM si @fila < 0.\n"
+"* HLOOKUP devuelve #REF! si @fila cae fuera del @rango.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=VLOOKUP"
 
 #: plugins/fn-lookup/functions.c:674
-#, fuzzy
 msgid ""
 "@FUNCTION=LOOKUP\n"
 "@SYNTAX=LOOKUP(value,vector1[,vector2])\n"
@@ -9194,8 +9116,7 @@ msgstr ""
 "área es mayor que su ancho se rota el sentido de la búsqueda. "
 "Alternativamente se puede usar un array simple.\n"
 "\n"
-"* Si LOOKUP no encuentra el @valor usa el siguiente valor más grande menor "
-"que el valor.\n"
+"* Si LOOKUP no encuentra el @valor usa el siguiente valor más grande menor que el valor.\n"
 "* Los datos deben estar ordenados.\n"
 "* Si el @valor es menor que el primer valor devuelve #N/D\n"
 "\n"
@@ -9204,7 +9125,6 @@ msgstr ""
 "@SEEALSO=VLOOKUP,HLOOKUP"
 
 #: plugins/fn-lookup/functions.c:737
-#, fuzzy
 msgid ""
 "@FUNCTION=MATCH\n"
 "@SYNTAX=MATCH(seek,vector[,type])\n"
@@ -9228,9 +9148,9 @@ msgid ""
 "@SEEALSO=LOOKUP"
 msgstr ""
 "@FUNCTION=MATCH\n"
-"@SYNTAX=MATCH(objetivo,array[,tipo])\n"
+"@SYNTAX=MATCH(buscar,vector[,tipo])\n"
 "@DESCRIPTION=La función MATCH busca el índice de la fila del @objetivo en el "
-"@array y lo devuelve.\n"
+"@vector y lo devuelve.\n"
 "\n"
 "Si el área es mayor que su ancho entonces se rota el sentido de la búsqueda. "
 "Alternativamente se puede usar un array simple.\n"
@@ -9249,7 +9169,6 @@ msgstr ""
 "@SEEALSO=LOOKUP"
 
 #: plugins/fn-lookup/functions.c:797
-#, fuzzy
 msgid ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text,[format])\n"
@@ -9313,7 +9232,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-lookup/functions.c:907
-#, fuzzy
 msgid ""
 "@FUNCTION=COLUMN\n"
 "@SYNTAX=COLUMN([reference])\n"
@@ -9330,10 +9248,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=COLUMN\n"
 "@SYNTAX=COLUMN([referencia])\n"
-"@DESCRIPTION=La función COLUMN devuelve un array de los números de columna "
-"tomando un argumento predeterminado de la posición que contiene la celda.\n"
+"@DESCRIPTION=La función COLUMN devuelve el número de columna del a celda actual "
+"a no ser que se de @referencia. En ese caso, devuelve un array de los números de columna "
+"tomando de todas las celdas en @referencia.\n"
 "\n"
-"* Si @referencia no es ni un array ni una referencia ni un rango, devuelve "
+"* Si @referencia no es ni un array ni una referencia ni un rango, COLUMN devuelve "
 "el error #VALOR!.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -9396,7 +9315,6 @@ msgstr ""
 "@SEEALSO=COLUMN,ROW,ROWS"
 
 #: plugins/fn-lookup/functions.c:1019
-#, fuzzy
 msgid ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(range,row,col[,height[,width]])\n"
@@ -9412,13 +9330,13 @@ msgid ""
 "@SEEALSO=COLUMN,COLUMNS,ROWS,INDEX,INDIRECT,ADDRESS"
 msgstr ""
 "@FUNCTION=OFFSET\n"
-"@SYNTAX=OFFSET(rango,fila,col,alto,ancho)\n"
+"@SYNTAX=OFFSET(rango,fila,col,altura,anchura)\n"
 "@DESCRIPTION=La función OFFSET devuelve un rango de celdas. El rango de "
-"celdas se inicia en el desplazamiento (@col,@row) del @rango, y es de altura "
-"@alto y de anchura @ancho.\n"
+"celdas se inicia en el desplazamiento (@fila,@col) desde @rango, y es de altura "
+"@altura y de anchura @anchura.\n"
 "\n"
-"* Si el rango no es una referencia ni un rango devuelve #VALOR!\n"
-"* Si se omite el alto o el ancho se usa la altura o anchura de referencia.\n"
+"* Si el rango no es una referencia ni un rango, OFFSET devuelve #VALOR!\n"
+"* Si cualquiera de @altura o @anchura se omite se usa la altura o anchura de referencia.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -9454,7 +9372,6 @@ msgstr ""
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 
 #: plugins/fn-lookup/functions.c:1130
-#, fuzzy
 msgid ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(reference)\n"
@@ -9474,13 +9391,13 @@ msgstr ""
 "@DESCRIPTION=La función ROWS devuelve la cantidad de filas en el área o "
 "array de @referencia.\n"
 "\n"
-"* Si @referencia no es ni un array, ni una referencia, ni un rango; la "
-"función devuelve el error #VALOR!.\n"
+"* Si @referencia no es ni un array, ni una referencia, ni un rango, ROWS "
+"devuelve el error #VALOR!.\n"
 "\n"
 "@EXAMPLES=\n"
 "ROWS(H7:I13) es igual a 7.\n"
 "\n"
-"@SEEALSO=COLUMN,ROW,ROWS"
+"@SEEALSO=COLUMN,COLUMNS,ROW"
 
 #: plugins/fn-lookup/functions.c:1155
 msgid ""
@@ -9589,7 +9506,6 @@ msgid "Lookup Functions"
 msgstr "Funciones de búsqueda"
 
 #: plugins/fn-math/functions.c:141
-#, fuzzy
 msgid ""
 "@FUNCTION=GCD\n"
 "@SYNTAX=GCD(number1,number2,...)\n"
@@ -9607,7 +9523,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=GCD\n"
 "@SYNTAX=GCD(número1,numero2,...)\n"
-"@DESCRIPTION=Devuelve el máximo común divisor entre los números dados.\n"
+"@DESCRIPTION=Devuelve el máximo común divisor de los números dados.\n"
 "\n"
 "* Si uno de los argumentos es menor que cero, GCD devuelve el error #NUM!.\n"
 "* Si alguno de los argumentos no es un entero, será truncado.\n"
@@ -9832,7 +9748,6 @@ msgstr ""
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 
 #: plugins/fn-math/functions.c:424
-#, fuzzy
 msgid ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
@@ -9851,16 +9766,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
-"@DESCRIPTION=Calcula la tangente hiperbólica inversa de @x; o sea, el valor "
-"cuya tangente hiperbólica es @x. \n"
+"@DESCRIPTION=Calcula el arco tangente hiperbólico inverso de @x; o sea, el valor cuya tangente hiperbólica es @x. \n"
 "\n"
-"* Si el valor absoluto de @x es superior a 1,0 ATANH devuelve el error "
-"#NUM!.\n"
+"* Si el valor absoluto de @x es mayor que 1,0 ATANH devuelve el error #NUM!.\n"
 "* Esta función es compatible con Excel. \n"
 "\n"
 "@EXAMPLES=\n"
-"ATANH(0.5) es igual a 0.549306.\n"
-"ATANH(0.8) es igual a 1.098612.\n"
+"ATANH(0.5) es igual a 0,549306.\n"
+"ATANH(0.8) es igual a 1,098612.\n"
 "\n"
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 
@@ -10177,7 +10090,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-math/functions.c:917
-#, fuzzy
 msgid ""
 "@FUNCTION=BETA\n"
 "@SYNTAX=BETA(a,b)\n"
@@ -10192,14 +10104,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=BETA\n"
 "@SYNTAX=BETA(a,b)\n"
-"@DESCRIPTION=La función BETA devuelve el valor de la función matemática beta "
-"extendida a todos los números reales enteros no negativos.\n"
+"@DESCRIPTION=La función BETA devuelve el valor de la función matemática beta extendida a todos los números reales excepto el 0 y los enteros negativos.\n"
 "\n"
-"* Si @a o @b son enteros no positivos, BETA devuelve el error #NUM!.\n"
+"* Si @a o @b son 0 o enteros negativo, BETA devuelve el error #NUM!.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=BETA,GAMMALN"
+"@SEEALSO=BETALN,GAMMA"
 
 #: plugins/fn-math/functions.c:944
 msgid ""
@@ -10449,7 +10360,6 @@ msgstr ""
 "@SEEALSO=EXP, LOG2, LOG"
 
 #: plugins/fn-math/functions.c:1217
-#, fuzzy
 msgid ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
@@ -10466,14 +10376,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(número,divisor)\n"
-"@DESCRIPTION=Devuelve el resto de efectuar la división @numero entre "
-"@divisor.\n"
+"@DESCRIPTION=La función MOD devuelve el resto de efectuar la división @número entre @divisor.\n"
 "\n"
 "* Si el @divisor es cero devuelve el error #DIV/0! .\n"
 "* Esta función es compatible con Excel. \n"
 "\n"
 "@EXAMPLES=\n"
-"MOD(23;7) es igual a 2.\n"
+"MOD(23,7) es igual a 2.\n"
 "\n"
 "@SEEALSO=INT,FLOOR,CEIL"
 
@@ -11386,7 +11295,6 @@ msgstr ""
 "@SEEALSO=COUNT,SUM"
 
 #: plugins/fn-math/functions.c:2695
-#, fuzzy
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
@@ -11403,12 +11311,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matriz)\n"
-"@DESCRIPTION=La función MINVERSE devuelve la matriz inversa de una matriz "
-"dada.\n"
+"@DESCRIPTION=La función MINVERSE devuelve la matriz inversa de la @matriz.\n"
 "\n"
 "* Si la @matriz no se puede invertir, MINVERSE devuelve el error #NUM!.\n"
-"* Si la @matriz no contiene igual número de filas y columnas, MINVERSE "
-"devuelve el error #VALOR!\n"
+"* Si la @matriz no contiene igual número de filas y columnas, MINVERSE devuelve el error #VALOR!\n"
 "* Esta función es compatible con Excel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -11587,7 +11493,7 @@ msgstr "array1,array2"
 
 #: plugins/fn-math/functions.c:3273 plugins/fn-math/functions.c:3277
 msgid "array,matrix_type,bandsize"
-msgstr "array,tipo_matriz,tambanda"
+msgstr "array,tipo_matriz,tam-banda"
 
 #: plugins/fn-math/plugin.xml.in.h:1
 msgid "Math Functions"
@@ -11599,12 +11505,10 @@ msgstr "Funciones matemáticas"
 
 #. *************************************************************************
 #: plugins/fn-math/plugin.xml.in.h:3 src/func-builtin.c:124
-#, fuzzy
 msgid "Mathematics"
-msgstr "Coincide"
+msgstr "Matemáticas"
 
 #: plugins/fn-random/functions.c:49
-#, fuzzy
 msgid ""
 "@FUNCTION=RAND\n"
 "@SYNTAX=RAND()\n"
@@ -11619,12 +11523,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=RAND\n"
 "@SYNTAX=RAND()\n"
-"@DESCRIPTION=Devuelve un número aleatorio mayor de entre 0 y 1 ([0..1]).\n"
+"@DESCRIPTION=Devuelve un número aleatorio entre 0 y 1.\n"
 "\n"
 "* Esta función es compatible con Excel. \n"
 "\n"
 "@EXAMPLES=\n"
-"RAND() devuelve un número aleatorio entre 0 y 1.\n"
+"RAND() devuelve un número aleatorio mayor que 0 y menor que uno.\n"
 "\n"
 "@SEEALSO=RANDBETWEEN"
 
@@ -11804,7 +11708,6 @@ msgstr ""
 "@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:350
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p,failures)\n"
@@ -11821,11 +11724,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p,fallos)\n"
-"@DESCRIPTION=RANDNEGBINOM devuelve un número aleatorio binomialmente "
-"distribuido negativo. \n"
+"@DESCRIPTION=RANDNEGBINOM devuelve un número aleatorio binomialmente distribuido negativo. \n"
 "\n"
 "* Si @p < 0 ó @p > 1, RANDNEGBINOM devuelve el error #NUM!.\n"
-"* Si @fallos, RANDNEGBINOM devuelve el error #NUM!. \n"
+"* Si @fallos < 1, RANDNEGBINOM devuelve el error #NUM!. \n"
 "\n"
 "@EXAMPLES=\n"
 "RANDNEGBINOM(0.5,2).\n"
@@ -12208,7 +12110,6 @@ msgstr ""
 "@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:780
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDLOG\n"
 "@SYNTAX=RANDLOG(p)\n"
@@ -12223,13 +12124,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDLOG\n"
 "@SYNTAX=RANDLOG(p)\n"
-"@DESCRIPTION=RANDLOG devuelve un número aleatorio logarítmicamente "
-"distribuido.\n"
+"@DESCRIPTION=RANDLOG devuelve un número aleatorio logarítmicamente distribuido.\n"
 "\n"
 "* Si @p < 0 o @p > 1 RANDLOG devuelve un error #NUM!\n"
 "\n"
 "@EXAMPLES=\n"
-"RANDHYPERG(0.72).\n"
+"RANDLOG(0.72).\n"
 "\n"
 "@SEEALSO=RAND"
 
@@ -12275,7 +12175,6 @@ msgstr ""
 "@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:854
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDGUMBEL\n"
 "@SYNTAX=RANDGUMBEL(a,b[,type])\n"
@@ -12293,9 +12192,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDGUMBEL\n"
 "@SYNTAX=RANDGUMBEL(a,b[,tipo])\n"
-"@DESCRIPTION=RANDGUMBEL devuelve un número aleatorio según una distribución "
-"de Tipo I o Tipo II de Gumbel. @tipo es o 1 o 2 y especifica el tipo de "
-"distribución  (Tipo II o Tipo II).\n"
+"@DESCRIPTION=RANDGUMBEL devuelve un número aleatorio según una distribución de Tipo I o Tipo II de Gumbel. @tipo es o 1 o 2 y especifica el tipo de distribución  (Tipo II o Tipo II).\n"
 "\n"
 "* Si @tipo no es 1 o 2, RANDGUMBEL devuelve un error #NUM!\n"
 "* Si @tipo se omite, se asume Tipo I.\n"
@@ -12306,7 +12203,6 @@ msgstr ""
 "@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:890
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDLEVY\n"
 "@SYNTAX=RANDLEVY(c,alpha[,beta])\n"
@@ -12341,7 +12237,6 @@ msgstr ""
 "@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:925
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDEXPPOW\n"
 "@SYNTAX=RANDEXPPOW(a,b)\n"
@@ -12361,14 +12256,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDEXPPOW\n"
 "@SYNTAX=RANDEXPPOW(a,b)\n"
-"@DESCRIPTION=RANDEXPPOW devuelve una variación aleatoria de la distribución "
-"exponencial con parámetro de escala @a y exponente @b. La distribución es,\n"
+"@DESCRIPTION=RANDEXPPOW devuelve una variación aleatoria de la distribución exponencial con parámetro de escala @a y exponente @b. La distribución es,\n"
 "\n"
 "\tp(x) dx = {1 sobre 2 a Gamma(1+1/b)} exp(-|x/a|^b) dx, para x >= 0.\n"
 "\n"
 "* Para b = 1 esto se reduce a la distribución de Laplace.\n"
-"* Para b = 2 esto tiene la misma forma que una distribución gaussiana, pero "
-"con  a = sqrt{2} sigma.\n"
+"* Para b = 2 esto tiene la misma forma que una distribución gaussiana, pero con  sigma = a/ sqrt(2).\n"
 "\n"
 "@EXAMPLES=\n"
 "RANDEXPPOW(0.5,0.1).\n"
@@ -12414,7 +12307,6 @@ msgstr ""
 "@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:984
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDGAUSSIANTAIL\n"
 "@SYNTAX=RANDGAUSSIANTAIL(a,sigma)\n"
@@ -12439,20 +12331,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDGAUSSIANTAIL\n"
 "@SYNTAX=RANDGAUSSIANTAIL(a,sigma)\n"
-"@DESCRIPTION=RANDGAUSSIANTAIL devuelve una variación aleatoria desde la cola "
-"superior de una distribución gaussiana con desviación estándar sigma. los "
-"valores devueltos son más grandes que el límite inferior a, que debe ser "
-"positivo. El método está basado en el famoso algoritmo rectángulo.borde-cola "
-"de Margsalia (Ann Math Stat 32, 894-899 (1961)), con este aspecto explicado "
-"en Knuth, v2, 3º ed, p139, 586 (ejercicio 11).\n"
+"@DESCRIPTION=RANDGAUSSIANTAIL devuelve una variación aleatoria desde la cola superior de una distribución gaussiana con desviación estándar sigma. Los valores devueltos son más grandes que el límite inferior a, que debe ser positivo. El método está basado en el famoso algoritmo rectángulo-borde-cola de Margsalia (Ann Math Stat 32, 894-899 (1961)), con este aspecto explicado en Knuth, v2, 3º ed, p139, 586 (ejercicio 11).\n"
 "\n"
-"La distribución de probabilidad para una variación de una cola Gaussiana "
-"aleatoria es,\n"
+"La distribución de probabilidad para una variación de una cola Gaussiana aleatoria es,\n"
 "\n"
 "\tp(x) dx = {1 over N(a;sigma)} exp (- x^2/(2 sigma^2)) dx,\n"
 "\n"
-"para  x > a donde N(a;sigma) es la constante de normalización, N(a;sigma) = "
-"(1/2) erfc(a / sqrt(2 sigma^2)).\n"
+"para  x > a donde N(a;sigma) es la constante de normalización, N(a;sigma) = (1/2) erfc(a / sqrt(2 sigma^2)).\n"
 "\n"
 "@EXAMPLES=\n"
 "RANDGAUSSIANTAIL(0.5,0.1).\n"
@@ -12460,7 +12345,6 @@ msgstr ""
 "@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:1020
-#, fuzzy
 msgid ""
 "@FUNCTION=SIMTABLE\n"
 "@SYNTAX=SIMTABLE(d1, d2, ..., dN)\n"
@@ -12493,30 +12377,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=SIMTABLE\n"
 "@SYNTAX=SIMTABLE(d1, d2, ..., dN)\n"
-"@DESCRIPTION=SIMTABLE devuelve uno de los valores en la  lista de argumentos "
-"dada dependiendo del redondeo de la herramienta de simulación. Cuando la "
-"herramienta de simulación no es activada, SIMTABLE  devuelve @d1.\n"
+"@DESCRIPTION=SIMTABLE devuelve uno de los valores en la  lista de argumentos dada dependiendo del redondeo de la herramienta de simulación. Cuando la herramienta de simulación no es activada, SIMTABLE  devuelve @d1.\n"
 "\n"
-"Con la herramienta de simulación y la función SIMTABLE puede probar "
-"variables de decisión dadas. Cada función SIMTABLE contiene los posibles "
-"valores de una variable de simulación. En la mayoría de los modelos de "
-"simulación debería haber el mismo número de valores @dN para todas las "
-"variables de decisión. Si la simulación se ejecuta más veces que los valores "
-"que están definidos, SIMTABLE devuelve un error #N/A! (ej: si A1 contiene "
-"`=SIMTABLE(1)' y A2 `=SIMTABLE(1,2)', A1 da un error #N/A! la segunda "
-"ronda).\n"
+"Con la herramienta de simulación y la función SIMTABLE puede probar variables de decisión dadas. Cada función SIMTABLE contiene los posibles valores de una variable de simulación. En la mayoría de los modelos de simulación debería haber el mismo número de valores @dN para todas las variables de decisión. Si la simulación se ejecuta más veces que los valores que están definidos, SIMTABLE devuelve un error #N/A! (ej: si A1 contiene `=SIMTABLE(1)' y A2 `=SIMTABLE(1,2)', A1 da un error #N/A! la segunda ronda).\n"
 "\n"
-"El uso sucesivo de la herramienta de simulación también requiere  que le dé "
-"a la herramienta al menos una variable de entrada teniendo RAND() o "
-"cualquier otra función RAND<nombre de distribución>() en ella. En cada "
-"ronda, la herramienta de simulación itera el número dado de veces por las "
-"variables de entrada para reevaluarlas. En cada iteración, los valores de "
-"las variables de salida se almacenasen, y cuando la ronda termina, se crea "
-"información estadística descriptiva de acuerdo con los valores.\n"
+"El uso sucesivo de la herramienta de simulación también requiere  que le dé a la herramienta al menos una variable de entrada teniendo RAND() o cualquier otra función RAND<nombre de distribución>() en ella. En cada ronda, la herramienta de simulación itera el número dado de veces por las variables de entrada para reevaluarlas. En cada iteración, los valores de las variables de salida se almacenasen, y cuando la ronda termina, se crea información estadística descriptiva de acuerdo con los valores.\n"
 "\n"
 "@EXAMPLES=\n"
-"SIMTABLE(TRUE,FALSE) devuelve VERDADERO en la primera ronda de simulación y "
-"FALSO en la segunda ronda.\n"
+"SIMTABLE(TRUE,FALSE) devuelve TRUE en la primera ronda de simulación y FALSE en la segunda ronda.\n"
 "SIMTABLE(223,225,227,229) devuelve 227 en la ronda de simulación #3.\n"
 "\n"
 "@SEEALSO="
@@ -12638,7 +12506,6 @@ msgstr ""
 "@SEEALSO=AVERAGE,DVAR,DVARP,STDEV,VAR"
 
 #: plugins/fn-stat/functions.c:221
-#, fuzzy
 msgid ""
 "@FUNCTION=VAR\n"
 "@SYNTAX=VAR(b1, b2, ...)\n"
@@ -12658,17 +12525,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=VAR\n"
 "@SYNTAX=VAR(b1, b2, ...)\n"
-"@DESCRIPTION=VAR estima la varianza de una muestra de población. Para "
-"obtener la varianza real de una población completa, use @VARP.\n"
+"@DESCRIPTION=VAR estima la varianza de una muestra de población. Para obtener la varianza real de una población completa, use @VARP.\n"
 "\n"
-"* VAR también se conoce como varianza-N-1.  En condiciones razonables, es el "
-"estimador de bondad máximo de la verdadera varianza.\n"
+"* VAR también se conoce como varianza-N-1.  En condiciones razonables, es el estimador de bondad máximo de la verdadera varianza.\n"
 "* Esta función es compatible con Excel.\n"
 "\n"
 "@EXAMPLES=\n"
-"Supongamos que las celdas A1, A2, ..., A5 contienen los números 11.4, 17.3, "
-"21.3, 25.9, y 40.1.  Entonces\n"
-"VAR(A1:A5) igual a 117.64.\n"
+"Supongamos que las celdas A1, A2, ..., A5 contienen los números 11.4, 17.3, 21.3, 25.9, y 40.1.  Entonces\n"
+"VAR(A1:A5) igual a 117,64.\n"
 "\n"
 "@SEEALSO=VARP,STDEV"
 
@@ -12690,14 +12554,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=STDEV\n"
 "@SYNTAX=STDEV(b1; b2; ...)\n"
-"@DESCRIPTION=STDEV calcula la desviación estándar, cada número es el miembro "
-"de una población. \n"
+"@DESCRIPTION=STDEV calcula la desviación estándar de un conjunto de números tratando estos\n"
+"núemros como miembros de una población. \n"
 "\n"
 "* Esta función es compatible con Excel.\n"
 "\n"
 "@EXAMPLES=\n"
-"Suponiendo que las celdas A1, A2, ..., A5 contengan los números 11,4; "
-"17,3;21,3; 25,9 y 40,1.  Entonces,\n"
+"Suponiendo que las celdas A1, A2, ..., A5 contengan los números 11,4; 17,3;21,3; 25,9 y 40,1.  Entonces,\n"
 "STDEV(A1:A5) devuelve 10,84619749.\n"
 "\n"
 "@SEEALSO=AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR"
@@ -12961,7 +12824,6 @@ msgstr ""
 "@SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST"
 
 #: plugins/fn-stat/functions.c:632
-#, fuzzy
 msgid ""
 "@FUNCTION=LOGNORMDIST\n"
 "@SYNTAX=LOGNORMDIST(x,mean,stddev)\n"
@@ -12980,13 +12842,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=LOGNORMDIST\n"
 "@SYNTAX=LOGNORMDIST(x,media,desvest)\n"
-"@DESCRIPTION=La función LOGNORMDIST devuelve la distribución lognormal. @x "
-"es el valor para el que quiere la distribución, @media es la media de la "
-"distribución y @desvest es la desviación estándar de la distribución.\n"
+"@DESCRIPTION=La función LOGNORMDIST devuelve la distribución lognormal. @x es el valor para el que quiere la distribución, @media es la media de la distribución y @desvest es la desviación estándar de la distribución.\n"
 "\n"
 "* Si @desvest = 0, LOGNORMDIST devuelve el error #DIV/0!.\n"
-"* Si @x <= 0, @significado < 0 ó @desvest < 0, LOGNORMDIST devuelve el error "
-"#NUM!.\n"
+"* Si @x <= 0, @significado < 0 ó @desvest < 0, LOGNORMDIST devuelve el error #NUM!.\n"
 "* Esta función es compatible con Excel. \n"
 "\n"
 "@EXAMPLES=\n"
@@ -12995,7 +12854,6 @@ msgstr ""
 "@SEEALSO=NORMDIST"
 
 #: plugins/fn-stat/functions.c:672
-#, fuzzy
 msgid ""
 "@FUNCTION=LOGINV\n"
 "@SYNTAX=LOGINV(p,mean,stddev)\n"
@@ -13014,10 +12872,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=LOGINV\n"
 "@SYNTAX=LOGINV(p,media,desvest)\n"
-"@DESCRIPTION=La función LOGINV devuelve la inversa de la distribución "
-"acumulativa lognormal. @p es la probabilidad dada correspondiente a la "
-"distribución normal. @media es la media aritmética de la distribución y "
-"@desvest es la desviación estándar de la distribución.\n"
+"@DESCRIPTION=La función LOGINV devuelve la inversa de la distribución acumulativa lognormal. @p es la probabilidad dada correspondiente a la distribución normal. @media es la media aritmética de la distribución y @desvest es la desviación estándar de la distribución.\n"
 "\n"
 "* Si @p < 0 ó @p > 1 ó @desvest <= 0, LOGINV devuelve el error #NUM!.\n"
 "* Esta función es compatible con Excel.\n"
@@ -13244,7 +13099,6 @@ msgstr ""
 "@SEEALSO=SUM, COUNT"
 
 #: plugins/fn-stat/functions.c:952
-#, fuzzy
 msgid ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1, b2, ...)\n"
@@ -13263,21 +13117,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1;b2;...)\n"
-"@DESCRIPTION=Devuelve el valor del elemento pasado en argumento cuyo valor "
-"es inferior a todos los demás. Los valores negativos se consideran "
-"inferiores a los positivos.\n"
+"@DESCRIPTION=Devuelve el valor del elemento pasado en argumento cuyo valor es menor a todos los demás. Los valores negativos se consideran menores a los positivos.\n"
 "\n"
 "* Esta función es compatible con Excel. \n"
 "\n"
 "@EXAMPLES=\n"
-"Suponiendo que las celdas A1, A2, ..., A5 contengan los números 11,4; 17,3; "
-"21,3; 25,9; y 40,1.  Entonces\n"
+"Suponiendo que las celdas A1, A2, ..., A5 contengan los números 11,4; 17,3; 21,3; 25,9; y 40,1.  Entonces\n"
 "MIN(A1:A5) es igual a 11,4.\n"
 "\n"
 "@SEEALSO=MAX,ABS"
 
 #: plugins/fn-stat/functions.c:994
-#, fuzzy
 msgid ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
@@ -13296,21 +13146,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1;b2;...)\n"
-"@DESCRIPTION=Devuelve el valor del elemento de los valores pasados que tiene "
-"el valor más grande. Los valores negativos se consideran inferiores a los "
-"positivos.\n"
+"@DESCRIPTION=Devuelve el valor del elemento de los valores pasados que es mayor a todos los demás. Los valores negativos se consideran menores que los números positivos.\n"
 "\n"
 "* Esta función es compatible con Excel. \n"
 "\n"
 "@EXAMPLES=\n"
-"Suponiendo que las celdas A1, A2, ..., A5 contengan los números 11,4; 17,3; "
-"21,3; 25,9; y 40,1.  Entonces\n"
+"Suponiendo que las celdas A1, A2, ..., A5 contengan los números 11,4; 17,3; 21,3; 25,9; y 40,1.  Entonces\n"
 "MAX(A1:A5) es igual a 40,1.\n"
 "\n"
 "@SEEALSO=MIN,ABS"
 
 #: plugins/fn-stat/functions.c:1036
-#, fuzzy
 msgid ""
 "@FUNCTION=SKEW\n"
 "@SYNTAX=SKEW(n1, n2, ...)\n"
@@ -13334,20 +13180,16 @@ msgid ""
 msgstr ""
 "@FUNCTION=SKEW\n"
 "@SYNTAX=SKEW(n1, n2, ...)\n"
-"@DESCRIPTION=SKEW devuelve una estimación de la desviación de una "
-"distribución.\n"
+"@DESCRIPTION=SKEW devuelve una estimación de la desviación de una distribución.\n"
 "\n"
-"Note que esto sólo tiene significado si la distribución subyacente realmente "
-"tiene un tercer momento. La desviación de una distribución simétrica (ej., "
-"normal)  es cero.\n"
+"Note que esto sólo tiene significado si la distribución subyacente realmente tiene un tercer momento. La desviación de una distribución simétrica (ej., normal)  es cero.\n"
 "\n"
-"* Las cadenas y las celdas vacías se ignoran. * Si se dan menos de tres "
-"números, SKEW devuelve un error #DIV/0!\n"
+"* Las cadenas y las celdas vacías se ignoran.\n"
+"* Si se dan menos de tres números, SKEW devuelve un error #DIV/0!\n"
 "* Esta función es compatible con Excel.\n"
 "\n"
 "@EXAMPLES=\n"
-"Asumamos que las celdas A1, A2, ..., A5 contienen los números 11,4; 17,3; "
-"21,3; 25,9; y 40,1.  entonces SKEW(A1:A5) es igual a  0,976798268.\n"
+"Asumamos que las celdas A1, A2, ..., A5 contienen los números 11,4; 17,3; 21,3; 25,9; y 40,1.  entonces SKEW(A1:A5) es igual a  0,976798268.\n"
 "\n"
 "@SEEALSO=AVERAGE,VAR,SKEWP,KURT"
 
@@ -13500,7 +13342,7 @@ msgstr ""
 "@FUNCTION=GAMMADIST\n"
 "@SYNTAX=GAMMADIST(x,alfa,beta,acum)\n"
 "@DESCRIPTION=La función GAMMADIST devuelve la distribución gamma. Si @acum "
-"es VERDADERO, GAMMADIST devuelve la función gamma incompleta. En otro caso, "
+"es TRUE, GAMMADIST devuelve la función gamma incompleta. En otro caso, "
 "devuelve la función de probabilidad de masa.\n"
 "\n"
 "* Si @x < 0, GAMMADIST devuelve el error #NUM!.\n"
@@ -13633,7 +13475,6 @@ msgstr ""
 "@SEEALSO=CHIDIST,CHIINV"
 
 #: plugins/fn-stat/functions.c:1514
-#, fuzzy
 msgid ""
 "@FUNCTION=BETADIST\n"
 "@SYNTAX=BETADIST(x,alpha,beta[,a,b])\n"
@@ -13653,9 +13494,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=BETADIST\n"
 "@SYNTAX=BETADIST(x,alfa,beta[,a,b])\n"
-"@DESCRIPTION=La función BETADIST devuelve la distribución beta acumulada. @a "
-"es el límite inferior opcional de @x y @b es el límite superior opcional de "
-"@x. \n"
+"@DESCRIPTION=La función BETADIST devuelve la distribución beta acumulada. @a es el límite inferior opcional de @x y @b es el límite superior opcional de @x. \n"
 "\n"
 "* Si no se da @a, BETADIST usa 0. \n"
 "* Si no se da @b, BETADIST usa 1.\n"
@@ -13670,7 +13509,6 @@ msgstr ""
 "@SEEALSO=BETAINV"
 
 #: plugins/fn-stat/functions.c:1555
-#, fuzzy
 msgid ""
 "@FUNCTION=BETAINV\n"
 "@SYNTAX=BETAINV(p,alpha,beta[,a,b])\n"
@@ -13692,9 +13530,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=BETAINV\n"
 "@SYNTAX=BETAINV(p,alfa,beta[,a,b])\n"
-"@DESCRIPTION=La función BETAINV devuelve la inversa de la distribución beta "
-"acumulada.  @a es el límite inferior opcional de @x y @b es el límite "
-"superior opcional de @x. \n"
+"@DESCRIPTION=La función BETAINV devuelve la inversa de la distribución beta acumulada.  @a es el límite inferior opcional de @x y @b es el límite superior opcional de @x. \n"
 "\n"
 "* Si no se de @a, BETAINV usa 0. \n"
 "* Si no se da @b, BETAINV usa 1.\n"
@@ -13851,7 +13687,6 @@ msgstr ""
 "@SEEALSO=FDIST"
 
 #: plugins/fn-stat/functions.c:1882
-#, fuzzy
 msgid ""
 "@FUNCTION=BINOMDIST\n"
 "@SYNTAX=BINOMDIST(n,trials,p,cumulative)\n"
@@ -13918,7 +13753,6 @@ msgstr ""
 "@SEEALSO=RANDCAUCHY"
 
 #: plugins/fn-stat/functions.c:1968
-#, fuzzy
 msgid ""
 "@FUNCTION=CRITBINOM\n"
 "@SYNTAX=CRITBINOM(trials,p,alpha)\n"
@@ -14056,7 +13890,6 @@ msgstr ""
 "@SEEALSO=AVERAGE"
 
 #: plugins/fn-stat/functions.c:2123
-#, fuzzy
 msgid ""
 "@FUNCTION=STANDARDIZE\n"
 "@SYNTAX=STANDARDIZE(x,mean,stddev)\n"
@@ -14129,7 +13962,6 @@ msgstr ""
 "@SEEALSO=POISSON"
 
 #: plugins/fn-stat/functions.c:2207
-#, fuzzy
 msgid ""
 "@FUNCTION=NORMDIST\n"
 "@SYNTAX=NORMDIST(x,mean,stddev,cumulative)\n"
@@ -14160,7 +13992,6 @@ msgstr ""
 "@SEEALSO=POISSON"
 
 #: plugins/fn-stat/functions.c:2252
-#, fuzzy
 msgid ""
 "@FUNCTION=NORMINV\n"
 "@SYNTAX=NORMINV(p,mean,stddev)\n"
@@ -14193,7 +14024,6 @@ msgstr ""
 "@SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST"
 
 #: plugins/fn-stat/functions.c:2290
-#, fuzzy
 msgid ""
 "@FUNCTION=KURT\n"
 "@SYNTAX=KURT(n1, n2, ...)\n"
@@ -14330,7 +14160,6 @@ msgstr ""
 "@SEEALSO=STDEV"
 
 #: plugins/fn-stat/functions.c:2426
-#, fuzzy
 msgid ""
 "@FUNCTION=FISHER\n"
 "@SYNTAX=FISHER(x)\n"
@@ -14445,7 +14274,6 @@ msgstr ""
 "@SEEALSO=CORREL,COVAR,INTERCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND"
 
 #: plugins/fn-stat/functions.c:2559
-#, fuzzy
 msgid ""
 "@FUNCTION=MEDIAN\n"
 "@SYNTAX=MEDIAN(n1, n2, ...)\n"
@@ -14480,7 +14308,6 @@ msgstr ""
 "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM"
 
 #: plugins/fn-stat/functions.c:2593
-#, fuzzy
 msgid ""
 "@FUNCTION=SSMEDIAN\n"
 "@SYNTAX=SSMEDIAN(array[,interval)]\n"
@@ -14501,22 +14328,20 @@ msgid ""
 "\n"
 "@SEEALSO=MEDIAN"
 msgstr ""
-"@FUNCTION=PERCENTILE\n"
-"@SYNTAX=PERCENTILE(array,k)\n"
-"@DESCRIPTION=La función PERCENTILE devuelve el 100*@k-ésimo percentil de los "
-"puntos de datos dados (esto es, un número x tal que una fracción @k de los "
-"puntos de datos es menor que x.).  \n"
+"@FUNCTION=SSMEDIAN\n"
+"@SYNTAX=SSMEDIAN(array[,intervalo]))\n"
+"@DESCRIPTION=La función SSMEDIAN devuelve la media para datos agrupados como los que se determinan comúnmente en las ciencias sociales. Los puntos de datos dados en e@array se asumen que son el resultado de ña agrupación de datos em omtervalos de longitus @intervalo.\n"
 "\n"
-"* Si @array está vacío, PERCENTILE devuelve el error #NUM!.\n"
-"* Si @k < 0 o @k > 1, PERCENTILE devuelve el error #NUM!.\n"
-"* Esta función es compatible con Excel.\n"
+"* Si no se da @intervalo, SSMEDIAN usa 1.\n"
+"* Si @array está vacío, SSMEDIAN devuelve el error #NUM!.\n"
+"* Si @intervalo <= 0, SSMEDIAN  devuelve el error #NUM!.\n"
+"* ssmedian no comprueba si los puntos de datos son al menos un @intervalo a parte.\n"
 "\n"
 "@EXAMPLES=\n"
-"Supongamos que las celdas A1, A2, ..., A5 contienen los números 11.4, 17.3, "
-"21.3, 25.9 y 40.1.  Entonces\n"
-"PERCENTILE(A1:A5,0.42) igual a 20.02.\n"
+"Supongamos que las celdas A1, A2, A3 contienen los números 7, 8, 8.  Entonces\n"
+"SSMEDIAN(A1:A3, 1) igual a 7.75.\n"
 "\n"
-"@SEEALSO=QUARTILE"
+"@SEEALSO=MEDIAN"
 
 #: plugins/fn-stat/functions.c:2696
 msgid ""
@@ -14723,8 +14548,8 @@ msgstr ""
 "@DESCRIPTION=Calcula el promedio de los valores y celdas referenciados en la "
 "lista de argumentos. Se incluyen en el cálculo los números y también los "
 "textos y expresiones lógicas. Si la celda contiene texto o la expresión "
-"lógica FALSO, se contará como un cero (0). Si contiene un valor lógico "
-"VERDADERO se contará como un uno (1). Note que las celdas vacías no son "
+"lógica FALSE, se contará como un cero (0). Si contiene un valor lógico "
+"TRUE se contará como un uno (1). Note que las celdas vacías no son "
 "contadas.\n"
 "\n"
 "* Esta función es compatible con Excel.\n"
@@ -14759,8 +14584,8 @@ msgstr ""
 "@SYNTAX=MAXA(número1,número2,...)\n"
 "@DESCRIPTION=MAXA devuelve el mayor valor de los argumentos dados.  También "
 "se incluyen en el cálculo números, texto y valores lógicos. Si la celda "
-"contiene texto o el argumento se evalúa a FALSO, se cuenta como valor cero "
-"(0).  Si el argumento se evalúa a VERDADERO, se cuenta como uno (1).  Note "
+"contiene texto o el argumento se evalúa a FALSE, se cuenta como valor cero "
+"(0).  Si el argumento se evalúa a TRUE, se cuenta como uno (1).  Note "
 "que las celdas vacías no se cuentan.\n"
 "\n"
 "* Esta función es compatible con Excel.\n"
@@ -14795,8 +14620,8 @@ msgstr ""
 "@SYNTAX=MINA(número1,número2,...)\n"
 "@DESCRIPTION=MINA devuelve el menor valor de los argumentos dados.  También "
 "se incluyen en el cálculo números, texto y valores lógicos. Si la celda "
-"contiene texto o el argumento se evalúa a FALSO, se cuenta como valor cero "
-"(0).  Si el argumento se evalúa a VERDADERO, se cuenta como uno (1).  Note "
+"contiene texto o el argumento se evalúa a FALSE, se cuenta como valor cero "
+"(0).  Si el argumento se evalúa a TRUE, se cuenta como uno (1).  Note "
 "que las celdas vacías no se cuentan.\n"
 "\n"
 "Esta función es compatible con Excel.\n"
@@ -14831,8 +14656,8 @@ msgstr ""
 "@SYNTAX=VARA(número1,número2,...)\n"
 "@DESCRIPTION=VARA devuelve la varianza basada en una muestra.  También se "
 "incluyen en el cálculo números, texto y valores lógicos. Si la celda "
-"contiene texto o el argumento se evalúa a FALSO, se cuenta como valor cero "
-"(0).  Si el argumento se evalúa a VERDADERO, se cuenta como uno (1).  Note "
+"contiene texto o el argumento se evalúa a FALSE, se cuenta como valor cero "
+"(0).  Si el argumento se evalúa a TRUE, se cuenta como uno (1).  Note "
 "que las celdas vacías no se cuentan.\n"
 "\n"
 "* Esta función es compatible con Excel.\n"
@@ -14845,7 +14670,6 @@ msgstr ""
 "@SEEALSO=VAR,VARPA"
 
 #: plugins/fn-stat/functions.c:3286
-#, fuzzy
 msgid ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(number1,number2,...)\n"
@@ -14941,7 +14765,7 @@ msgstr ""
 "@DESCRIPTION=STDEVPA devuelve la desviación estándar basada en una la "
 "población entera.  También se incluyen en el cálculo números, texto y "
 "valores lógicos. Si la celda contiene texto o el argumento se evalúa a "
-"FALSO, se cuenta como valor cero (0).  Si el argumento se evalúa a TRUE, se "
+"FALSE, se cuenta como valor cero (0).  Si el argumento se evalúa a TRUE, se "
 "cuenta como uno (1).  Note que las celdas vacías no se cuentan.\n"
 "\n"
 "* Esta función es compatible con Excel.\n"
@@ -15210,7 +15034,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-stat/functions.c:3902
-#, fuzzy
 msgid ""
 "@FUNCTION=LINEST\n"
 "@SYNTAX=LINEST(known_y's[,known_x's[,const[,stat]]])\n"
@@ -15252,7 +15075,7 @@ msgstr ""
 "la línea de regresión y=mx+b se da en la primera columna y la y intercepta a "
 "(b) en la segunda.\n"
 "\n"
-"Si @estad es VERDADERO, se devolverá información estadística extra. Debajo "
+"Si @estad es TRUE, se devolverá información estadística extra. Debajo "
 "de la los coeficientes de la línea de regresión se escribe información "
 "estadística extra en el array resultado.  La información estadística extra "
 "consiste en cuatro filas de datos. En la primera fila se representan los "
@@ -15265,9 +15088,9 @@ msgstr ""
 "* Si se omite @x_conocido, se usa un array {1, 2, 3, ...}.\n"
 "* Si @y_conocido y @x_conocido tienen distinto número de puntos de datos, "
 "LINEST devuelve un error #NUM!.\n"
-"* Si @const es FALSO, se forzará que la línea pase por el origen, por "
-"ejemplo, b será cero. De forma predeterminada, es VERDADERO.\n"
-"* De forma predeterminada, @estad es FALSO.\n"
+"* Si @const es FALSE, se forzará que la línea pase por el origen, por "
+"ejemplo, b será cero. De forma predeterminada, es TRUE.\n"
+"* De forma predeterminada, @estad es FALSE.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -15323,10 +15146,10 @@ msgstr ""
 "Si @y_conocido y @x_conocido tienen distintos números de puntos de datos, "
 "LOGREG devuelve el error #NUM!.\n"
 "\n"
-"Si @const es FALSO, la curva se forzará para que pase por [0,1], por "
-"ejemplo, b sería cero.  De forma predeterminada, es VERDADERO.\n"
+"Si @const es FALSE, la curva se forzará para que pase por [0,1], por "
+"ejemplo, b sería cero.  De forma predeterminada, es TRUE.\n"
 "\n"
-"Si @estad es VERDADERO, se devolverá información estadística extra. La "
+"Si @estad es TRUE, se devolverá información estadística extra. La "
 "información estadística extra se aplica al estado ANTES de la transformación "
 "a z..  La información estadística extra consiste en cuatro filas de datos. "
 "En la primera fila, los valores de error estándar para los coeficientes m, "
@@ -15334,7 +15157,7 @@ msgstr ""
 "estándar para el y estimado.  La tercera fila contiene el valor observado de "
 "F y los grados de libertad.  La última fila contiene la suma de regresión de "
 "los cuadrados y la suma residual de los cuadrados. \n"
-"El valor predeterminado de @estad es FALSO.\n"
+"El valor predeterminado de @estad es FALSE.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=LOGFIT,LINEST,LOGEST"
@@ -15406,7 +15229,6 @@ msgstr ""
 "@SEEALSO=LOGREG,LINEST,LOGEST"
 
 #: plugins/fn-stat/functions.c:4549
-#, fuzzy
 msgid ""
 "@FUNCTION=TREND\n"
 "@SYNTAX=TREND(known_y's[,known_x's[,new_x's[,const]]])\n"
@@ -15432,28 +15254,20 @@ msgid ""
 "@SEEALSO=LINEST"
 msgstr ""
 "@FUNCTION=TREND\n"
-"@SYNTAX=TREND(y_conocido[,x_conocido],x_nuevo])\n"
-"@DESCRIPTION=La función TREND estima los valores futuros de un conjunto de "
-"datos dado usando la línea de «cuadrados mínimos» que mejor se ajuste a sus "
-"datos. @y_conocido son los valores de y donde y=mx+b, y @x_conocido contiene "
-"los valores correspondientes de x.  @x_nuevo contiene los valores de x para "
-"los que quiere estimar los valores de y.\n"
+"@SYNTAX=TREND(y_conocido[,x_conocido[,x_nuevo[,const]]])\n"
+"@DESCRIPTION=La función TREND estima los valores futuros de un conjunto de datos dado usando la línea de «cuadrados mínimos» que mejor se ajuste a sus datos. @y_conocido son los valores de y donde y=mx+b, y @x_conocido contiene los valores correspondientes de x.  @x_nuevo contiene los valores de x para los que quiere estimar los valores de y.\n"
 "\n"
 "* Si se omite @x_conocido, se usa un array {1, 2, 3, ...}.\n"
 "* Si se omite @x_nuevo, se asume que es el mismo que @x_conocido.\n"
-"* Si @y_conocido y @x_conocido tienen distinto número de puntos de datos, "
-"TREND devuelve el error #NUM!.\n"
+"* Si @y_conocido y @x_conocido tienen distinto número de puntos de datos, TREND devuelve el error #NUM!.\n"
 "\n"
 "@EXAMPLES=\n"
-"Supongamos que las celdas A1, A2, ..., A5 contienen los números 11.4, 17.3, "
-"21.3, 25.9 y 40.1, y las celdas B1, B2, ... B5 23.2, 25.8, 29.9, 33.5 y "
-"42.7.  Entonces\n"
+"Supongamos que las celdas A1, A2, ..., A5 contienen los números 11.4, 17.3, 21.3, 25.9 y 40.1, y las celdas B1, B2, ... B5 23.2, 25.8, 29.9, 33.5 y 42.7.  Entonces\n"
 "TREND(A1:A5,B1:B5) igual a 156.52.\n"
 "\n"
 "@SEEALSO=LINEST"
 
 #: plugins/fn-stat/functions.c:4664
-#, fuzzy
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -15545,8 +15359,8 @@ msgstr ""
 "* Si se omite @x_nuevo, se asume que es el mismo que @x_conocido.\n"
 "* Si @y_conocido y @x_conocido tienen distinto número de puntos de datos, "
 "GROWTH devuelve el error #NUM!.\n"
-"* Si @const es FALSO, se forzará a que la línea pase por el origen, por "
-"ejemplo, b sería cero. Por omisión es VERDADERO.\n"
+"* Si @const es FALSE, se forzará a que la línea pase por el origen, por "
+"ejemplo, b sería cero. Por omisión es TRUE.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -16014,7 +15828,6 @@ msgid "f,t,p"
 msgstr "f,t,p"
 
 #: plugins/fn-stat/functions.c:5837
-#, fuzzy
 msgid "x,mean,stddev,cumulative"
 msgstr "x,media,desvest,acumulado"
 
@@ -16040,7 +15853,7 @@ msgstr "array,cuart"
 
 #: plugins/fn-stat/functions.c:5883
 msgid "array,interval"
-msgstr ""
+msgstr "array,intervalo"
 
 #: plugins/fn-stat/functions.c:5911
 msgid "x,dof,tails"
@@ -16119,7 +15932,6 @@ msgstr ""
 "@SEEALSO=CODE"
 
 #: plugins/fn-string/functions.c:102
-#, fuzzy
 msgid ""
 "@FUNCTION=UNICHAR\n"
 "@SYNTAX=UNICHAR(x)\n"
@@ -16205,19 +16017,18 @@ msgid ""
 msgstr ""
 "@FUNCTION=EXACT\n"
 "@SYNTAX=EXACT(cadena1, cadena2)\n"
-"@DESCRIPTION=Devuelve VERDADERO si la @cadena1 es exactamente idéntica a la "
+"@DESCRIPTION=Devuelve TRUE si la @cadena1 es exactamente idéntica a la "
 "@cadena2 (esta rutina distingue mayúsculas y minúsculas).\n"
 "\n"
 "* Esta función es compatible con Excel.\n"
 "\n"
 "@EXAMPLES=\n"
-"EXACT(\"key\",\"key\") es igual a VERDADERO.\n"
-"EXACT(\"key\",\"Key\") es igual a FALSO.\n"
+"EXACT(\"key\",\"key\") es igual a TRUE.\n"
+"EXACT(\"key\",\"Key\") es igual a FALSE.\n"
 "\n"
 "@SEEALSO=LEN, SEARCH, DELTA"
 
 #: plugins/fn-string/functions.c:230
-#, fuzzy
 msgid ""
 "@FUNCTION=LEN\n"
 "@SYNTAX=LEN(string)\n"
@@ -16370,7 +16181,6 @@ msgstr ""
 "@SEEALSO=LOWER"
 
 #: plugins/fn-string/functions.c:421
-#, fuzzy
 msgid ""
 "@FUNCTION=CONCATENATE\n"
 "@SYNTAX=CONCATENATE(string1[,string2...])\n"
@@ -16714,7 +16524,6 @@ msgstr ""
 "@SEEALSO=FIXED, TEXT, VALUE"
 
 #: plugins/fn-string/functions.c:1058
-#, fuzzy
 msgid ""
 "@FUNCTION=SEARCH\n"
 "@SYNTAX=SEARCH(search_string,text[,start_num])\n"
@@ -16803,11 +16612,11 @@ msgstr "texto,núm"
 
 #: plugins/fn-string/functions.c:1183
 msgid "search_string,text,start_num"
-msgstr ""
+msgstr "buscar_cadena,texto,núm_inicio"
 
 #: plugins/fn-string/functions.c:1186
 msgid "text,old,new,num"
-msgstr "texto,viejo,nuevo,núm"
+msgstr "texto,antiguo,nuevo,núm"
 
 #: plugins/fn-string/functions.c:1192
 msgid "value,format_text"
@@ -16935,7 +16744,6 @@ msgid "Format: readDBTable(dsn,user,password,table)"
 msgstr "Formato: readDBTable(dsn,usuario,contraseña,tabla)"
 
 #: plugins/gda/plugin.xml.in.h:2
-#, fuzzy
 msgid "Database functions for retrieval of data from a database."
 msgstr ""
 "Funciones de base de datos que permiten la recuperación de información desde "
@@ -17018,13 +16826,12 @@ msgid "TROFF (*.me)"
 msgstr "TROFF (*.me)"
 
 #: plugins/html/plugin.xml.in.h:9
-#, fuzzy
 msgid "XHTML (*.html)"
-msgstr "XHTML (*.xhtml)"
+msgstr "XHTML (*.html)"
 
 #: plugins/html/plugin.xml.in.h:10
 msgid "XHTML range - for export to clipboard"
-msgstr ""
+msgstr "Rango XHTML - para exportar al portapapeles"
 
 #: plugins/lotus-123/boot.c:61
 msgid "Error while reading lotus workbook."
@@ -17162,7 +16969,6 @@ msgstr ""
 
 #. xgettext: you can translate the funny character as an 'o' if unicode is not available.
 #: plugins/numtheory/numtheory.c:247
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
@@ -17255,7 +17061,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISPRIME\n"
 "@SYNTAX=ISPRIME(i)\n"
-"@DESCRIPTION=La función ISPRIME devuelve VERDADERO si @i es primo y FALSO en "
+"@DESCRIPTION=La función ISPRIME devuelve TRUE si @i es primo y FALSE en "
 "caso contrario.\n"
 "\n"
 "@SEEALSO=ITHPRIME, NT_D, NT_SIGMA"
@@ -17381,13 +17187,12 @@ msgid "Number Theory"
 msgstr "Teoría de números"
 
 #: plugins/numtheory/plugin.xml.in.h:3
-#, fuzzy
 msgid ""
 "Several basic utilities for prime numbers, pi, phi, sigma. It also holds "
 "some simple bitwise operations."
 msgstr ""
-"Utilidades básicas para números primos, pi, phi, sigma.  También permite "
-"algunas operaciones de bits sencillas"
+"Algunas utilidaddes básicas para números primos, pi, fi, signa. También contiene\n"
+"algunas operaciones de bits."
 
 #: plugins/oleo/plugin.xml.in.h:1
 msgid "GNU Oleo"
@@ -17416,25 +17221,21 @@ msgid "Unable to parse '%s' because '%s'"
 msgstr "Es imposible analizar «%s» debido a «%s»"
 
 #: plugins/openoffice/openoffice-read.c:496
-#, fuzzy
 msgid "Invalid array expression does not specify number of columns."
 msgstr "La expresión del array no indica el número de columnas"
 
 #: plugins/openoffice/openoffice-read.c:499
-#, fuzzy
 msgid "Invalid array expression does not specify number of rows."
 msgstr "La expresión del array no indica el número de filas"
 
 #: plugins/openoffice/openoffice-read.c:747
 #, c-format
 msgid "Unable to parse position for expression '%s' @ '%s' because '%s'"
-msgstr ""
-"Imposible analizar la posición para la expresión «%s» @ «%s» porque «%s»"
+msgstr "Imposible analizar la posición para la expresión «%s» @ «%s» porque «%s»"
 
 #: plugins/openoffice/openoffice-read.c:760
 #, c-format
-msgid ""
-"Unable to parse position for expression '%s' with value '%s' because '%s'"
+msgid "Unable to parse position for expression '%s' with value '%s' because '%s'"
 msgstr ""
 "Imposible analizar la posición para la expresión «%s» con valor «%s» debido "
 "a «%s»"
@@ -17470,8 +17271,7 @@ msgstr "PLN: La hoja de cálculo tiene contraseña encriptada"
 #: plugins/plan-perfect/pln.c:571
 #, c-format
 msgid "Ignoring data that claims to be in row %u which is > max row %u"
-msgstr ""
-"Ignorando dato que dice estar en fila %u que es > que la fila máxima %u"
+msgstr "Ignorando dato que dice estar en fila %u que es > que la fila máxima %u"
 
 #: plugins/plan-perfect/pln.c:575
 #, c-format
@@ -17738,7 +17538,7 @@ msgid "Hello World"
 msgstr "Hola Mundo"
 
 #: plugins/uihello/uihello.c:24
-#, fuzzy, c-format
+#, c-format
 msgid "This is message from the \"%s\" plugin."
 msgstr "Este es un mensaje del plugin «%s»"
 
@@ -17795,10 +17595,13 @@ msgid ""
 "ISO-8859-1 (Latin1). To use the UTF-8 files, you must have the ucs LaTeX "
 "package installed."
 msgstr ""
+"Este ejuste determina si los archivo LaTeX creados usan UTF-8 (unicode) o \n"
+"ISO-8859-1 (Latin1). Para usar los archivos UTF-8, debe tener el paquete\n"
+"LaTeX ucs instalado"
 
 #: schemas/gnumeric-plugins.schemas.in.h:2
 msgid "Use UTF-8 in LaTeX Export"
-msgstr ""
+msgstr "Usar UTF-8 al exportar a LaTeX"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:1
 msgid "Activate New Plugins"
@@ -17865,14 +17668,12 @@ msgid "Maximum Length of Recently Used Functions List"
 msgstr "Máxima longitud de la lista de funciones recientemente usadas."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:17
-#, fuzzy
 msgid "Page Footer"
-msgstr "Orden de las páginas"
+msgstr "Pie de página"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:18
-#, fuzzy
 msgid "Page Header"
-msgstr "Orden de las páginas"
+msgstr "Cabecera de página"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:19
 msgid "Print Config"
@@ -17885,7 +17686,7 @@ msgid ""
 "entry even the entry does not have keyboard focus."
 msgstr ""
 "Algunos diálogos contienen un único campo de entrada que permite selecciones "
-"de rangos en el libro de cuentas. Definir esta variable a VERDADERO dirige "
+"de rangos en el libro de cuentas. Definir esta variable a TRUE dirige "
 "las selecciones a esta entrada incluso cuando la entrada no tiene el foco "
 "del teclado."
 
@@ -17918,12 +17719,16 @@ msgid ""
 "The default page footer for new documents that can be modified using the "
 "page setup dialog."
 msgstr ""
+"El pie de página predeterminado para los documentos nuevos puede modificarse\n"
+"usando el diálogo «configurar página»"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:26
 msgid ""
 "The default page header for new documents that can be modified using the "
 "page setup dialog."
 msgstr ""
+"La cabecera de página predeterminada para los documentos nuevos puede modificarse\n"
+"usando el diálogo «Configurar página»"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:27
 msgid ""
@@ -17950,8 +17755,7 @@ msgid "This directory contains the pre-installed autoformat templates."
 msgstr "Este directorio contiene las plantillas de autoformato preinstaladas."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:31
-msgid ""
-"This list contains all extra directories containing autoformat templates."
+msgid "This list contains all extra directories containing autoformat templates."
 msgstr ""
 "Esta lista contiene todos los directorios extra que contienen plantillas de "
 "autoformato."
@@ -17987,10 +17791,8 @@ msgstr ""
 "de impresión se aplica a todas las hojas simultáneamente."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:37
-msgid ""
-"This variable determines whether to activate every new encountered plugin."
-msgstr ""
-"Esta variable determina si se debe activar cada extensión nueva encontrada."
+msgid "This variable determines whether to activate every new encountered plugin."
+msgstr "Esta variable determina si se debe activar cada extensión nueva encontrada."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:38
 msgid "User Directory for Autoformats"
@@ -18153,7 +17955,6 @@ msgid "Sort is Case-Sensitive"
 msgstr "La ordenación es sensible a la capitalización"
 
 #: schemas/gnumeric-general.schemas.in.h:31
-#, fuzzy
 msgid "Sorting Preserves Formats"
 msgstr "La ordenación conserva los formatos"
 
@@ -18174,8 +17975,7 @@ msgid "The default font size for new workbooks."
 msgstr "El tamaño de tipografía inicial para los libros de trabajo nuevos."
 
 #: schemas/gnumeric-general.schemas.in.h:36
-msgid ""
-"The file menu shows a list of recently used functions. This is that list."
+msgid "The file menu shows a list of recently used functions. This is that list."
 msgstr ""
 "El menú de archivo muestra una lista de las funciones recientemente usadas. "
 "Esta es esa lista."
@@ -18195,15 +17995,11 @@ msgid "The number of sheets initially created in a new workbook."
 msgstr "El número de hojas creadas inicialmente en un libro de cuentas nuevo."
 
 #: schemas/gnumeric-general.schemas.in.h:40
-#, fuzzy
 msgid ""
 "This integer (between 0 and 9) specifies the amount of compression performed "
 "by Gnumeric when saving files in the default file format. 0 is no "
 "compression while 9 is maximum compression."
-msgstr ""
-"Este entero (entre 0 y 9) da la cantidad de compresión que Gnumeric aplica "
-"al guardar archivos en el formato de archivo predeterminado. 0 es sin "
-"compresión y 9 es compresión máxima."
+msgstr "Este entero (entre 0 y 9) especifica la cantidad de compresión que Gnumeric aplica al guardar archivos en el formato de archivo predeterminado. 0 es sin compresión y 9 es compresión máxima."
 
 #: schemas/gnumeric-general.schemas.in.h:41
 msgid ""
@@ -18243,24 +18039,17 @@ msgstr ""
 "configurable."
 
 #: schemas/gnumeric-general.schemas.in.h:45
-msgid ""
-"This value determines the maximum number of items in the undo/redo list."
+msgid "This value determines the maximum number of items in the undo/redo list."
 msgstr ""
 "Este valor determina el máximo número de elementos en la lista hacer/"
 "deshacer."
 
 #: schemas/gnumeric-general.schemas.in.h:46
-#, fuzzy
-msgid ""
-"This value determines whether the default font for a new workbook is bold."
-msgstr ""
-"Este valor determina si la tipografía predeterminada para un libro de "
-"trabajo nuevo es negrita."
+msgid "This value determines whether the default font for a new workbook is bold."
+msgstr "Este valor determina si la tipografía predeterminada para un libro de cuentas nuevo es negrita."
 
 #: schemas/gnumeric-general.schemas.in.h:47
-#, fuzzy
-msgid ""
-"This value determines whether the default font for a new workbook is italic."
+msgid "This value determines whether the default font for a new workbook is italic."
 msgstr ""
 "Este valor determina si la tipografía predeterminada para un libro de "
 "cuentas nuevo es itálica."
@@ -18317,7 +18106,7 @@ msgid ""
 "legacy PRIMARY selections. Set to FALSE if you have to deal with older "
 "applications, like Xterm or Emacs, which set only the PRIMARY selection."
 msgstr ""
-"Cuando sea VERDADERO, Gnumeric preferirá la selección moderna del "
+"Cuando sea TRUE, Gnumeric preferirá la selección moderna del "
 "PORTAPAPELES antes que las selecciones PRIMARIAS heredadas. Establezcalo a "
 "falso si tiene que tratar con otras aplicaciones, como Xterm o Emacs, que "
 "establecen sólo la selección PRIMARIA"
@@ -18387,8 +18176,7 @@ msgstr "Efectuar una corrección ortográfica simple en forma automática"
 
 #: src/GNOME_Gnumeric.xml.h:14 src/workbook-control-gui.c:3863
 msgid "Automatically save the current document at regular intervals"
-msgstr ""
-"Guardar el documento en forma automática en intervalos de tiempo regulares"
+msgstr "Guardar el documento en forma automática en intervalos de tiempo regulares"
 
 #: src/GNOME_Gnumeric.xml.h:15 src/dialogs/cell-format.glade.h:16
 #: src/dialogs/dialog-cell-format.c:2274 src/workbook-format-toolbar.c:830
@@ -18482,17 +18270,15 @@ msgstr "Elimina los formatos de las celdas seleccionadas"
 
 #: src/GNOME_Gnumeric.xml.h:36 src/workbook-control-gui.c:3411
 msgid "Clear the selected cells' formats, comments, and contents"
-msgstr ""
-"Limpia los formatos, comentarios y contenidos de las celdas seleccionadas"
+msgstr "Limpia los formatos, comentarios y contenidos de las celdas seleccionadas"
 
 #: src/GNOME_Gnumeric.xml.h:37
 msgid "Close the current file"
 msgstr "Cierra el archivo actual"
 
 #: src/GNOME_Gnumeric.xml.h:38 src/workbook-control-gui.c:3522
-#, fuzzy
 msgid "Co_mment..."
-msgstr "Co_mentarios"
+msgstr "Co_mentar..."
 
 #: src/GNOME_Gnumeric.xml.h:39 src/dialogs/print.glade.h:7
 #: src/workbook-control-gui.c:3416
@@ -18512,31 +18298,24 @@ msgid "Combo Box"
 msgstr "Casilla combinada"
 
 #: src/GNOME_Gnumeric.xml.h:43 src/workbook-control-gui.c:3789
-#, fuzzy
 msgid "Comparing two population means for two paired samples: t-test"
-msgstr ""
-"Comparar dos medias de población para dos muestras emparejadas.: t-test"
+msgstr "Comparar dos medias de población para dos muestras emparejadas.: t-test"
 
 #: src/GNOME_Gnumeric.xml.h:44 src/workbook-control-gui.c:3793
-#, fuzzy
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with equal variances: t-test"
-msgstr ""
-"Comparar dos medias de población para dos muestras de la población sin "
-"emparejarcon igual var.: t-test"
+msgstr "Comparar dos medias de población para dos muestras de la población con varianzas iguales: t-test"
 
 #: src/GNOME_Gnumeric.xml.h:45 src/workbook-control-gui.c:3798
-#, fuzzy
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with unequal variances: t-test"
 msgstr ""
-"Comparar dos medias de población para dos muestras de población sin "
-"emparejar con distinta var.: t-test"
+"Comparar dos medias de población para dos muestras de población \n"
+"sin emparejar con distinta varianza: t-test"
 
 #: src/GNOME_Gnumeric.xml.h:46 src/workbook-control-gui.c:3803
-#, fuzzy
 msgid ""
 "Comparing two population means from populations with known variances or "
 "using a large sample: z-test"
@@ -18720,8 +18499,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:3669
 msgid "Ensure rows are just tall enough to display content"
-msgstr ""
-"Asegura que las filas sean lo suficientemente altas para mostrar el contenido"
+msgstr "Asegura que las filas sean lo suficientemente altas para mostrar el contenido"
 
 #: src/GNOME_Gnumeric.xml.h:89 src/workbook-control-gui.c:3776
 msgid "Exponential smoothing"
@@ -18932,8 +18710,7 @@ msgstr "Recalcular iterativamente hasta encontrar el valor objetivo"
 
 #: src/GNOME_Gnumeric.xml.h:138 src/workbook-control-gui.c:3873
 msgid "Iteratively recalculate with constraints to approach a target value"
-msgstr ""
-"Recalcular iterativamente con restricciones para encontrar el valor objetivo"
+msgstr "Recalcular iterativamente con restricciones para encontrar el valor objetivo"
 
 #: src/GNOME_Gnumeric.xml.h:139 src/workbook-control-gui.c:3547
 msgid "Jump to a specified cell"
@@ -19002,8 +18779,7 @@ msgid "Merge a range of cells"
 msgstr "Combinar un rango de celdas"
 
 #: src/GNOME_Gnumeric.xml.h:154 src/workbook-control-gui.c:3460
-msgid ""
-"Merges columnar data into a sheet creating duplicate sheets for each row"
+msgid "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr ""
 "Combina los datos de columnas en una hoja, creando hojas duplicadas para "
 "cada fila."
@@ -19380,8 +19156,7 @@ msgstr "Mostrar los ceros como blancos"
 
 #: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:3925
 msgid "Toggle whether to display column outlines on the left or right"
-msgstr ""
-"Cambia la visualización de los esquemas de columna entre izquierda y derecha"
+msgstr "Cambia la visualización de los esquemas de columna entre izquierda y derecha"
 
 #: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:3919
 msgid "Toggle whether to display row outlines on top or bottom"
@@ -19408,14 +19183,12 @@ msgid "Undo the last action"
 msgstr "Deshacer la operación"
 
 #: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:3792
-#, fuzzy
 msgid "Unpaired Samples, _Equal Variances: T-Test"
-msgstr "Muestras sin paridad, _igual var.: prueba T"
+msgstr "Muestras sin paridad, varianzas iguales.: T-Test"
 
 #: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:3797
-#, fuzzy
 msgid "Unpaired Samples, _Unequal Variances: T-Test"
-msgstr "Muestras sin paridad, _distinta var.: prueba T"
+msgstr "Muestras sin paridad, varianzas desiguales: T-Test"
 
 #: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:3965
 msgid "Validate input with preset criteria"
@@ -19945,8 +19718,7 @@ msgstr "Debiera dividir un array"
 #: src/commands.c:253
 #, c-format
 msgid "%s is locked. Unprotect the workbook to enable editing."
-msgstr ""
-"%s está bloqueado. Desproteja el libro de cuentas para activar la edición."
+msgstr "%s está bloqueado. Desproteja el libro de cuentas para activar la edición."
 
 #: src/commands.c:254
 #, c-format
@@ -20395,9 +20167,8 @@ msgstr "Leyenda"
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:115
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
 #: src/cut-n-paste-code/goffice/graph/gog-legend.c:130
-#, fuzzy
 msgid "Title"
-msgstr "Título:"
+msgstr "Título"
 
 #: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:246
 msgid "H"
@@ -20432,9 +20203,8 @@ msgid "Configure Graph"
 msgstr "Configure la gráfica"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1081
-#, fuzzy
 msgid "_Plot Type"
-msgstr "Tipo de dibujo"
+msgstr "Tipo de _dibujo"
 
 #. Set up sample button
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1171
@@ -20453,11 +20223,11 @@ msgstr "Descripción"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:1
 msgid "GNOME Office Graph"
-msgstr ""
+msgstr "Diagrama de GNOME Office"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:2
 msgid "TODO : Unfinished"
-msgstr ""
+msgstr "Para hacer: No terminado"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:3
 #: src/dialogs/autocorrect.glade.h:12 src/dialogs/consolidate.glade.h:26
@@ -20472,9 +20242,8 @@ msgid "_Bottom"
 msgstr "Aba_jo"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:5
-#, fuzzy
 msgid "_Decrease"
-msgstr "Decrementar"
+msgstr "_Decrementar"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:6
 #: src/dialogs/names.glade.h:7 src/dialogs/solver.glade.h:31
@@ -20482,24 +20251,21 @@ msgid "_Delete"
 msgstr "_Borrar"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:7
-#, fuzzy
 msgid "_Increase"
-msgstr "Aumentar"
+msgstr "_Aumentar"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:8
-#, fuzzy
 msgid "_Order"
-msgstr "Borde"
+msgstr "_Orden"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:9
 #: src/dialogs/autoformat.glade.h:24 src/dialogs/cell-format.glade.h:107
 msgid "_Top"
-msgstr "_Arriba"
+msgstr "_Encima"
 
 #: src/cut-n-paste-code/goffice/graph/gog-label.c:111
-#, fuzzy
 msgid "_Text:"
-msgstr "Texto"
+msgstr "_Texto:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:52
 msgid "Plot Engine"
@@ -20561,28 +20327,24 @@ msgid "Configure Filled Object"
 msgstr "Configurar objeto rellenado"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:5
-#, fuzzy
 msgid "Fill _Color:"
-msgstr "Color de _relleno:"
+msgstr "_Color de relleno:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:6
-#, fuzzy
 msgid "Gradient"
-msgstr "Imprimir"
+msgstr "Gradiente"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:7
 msgid "Gradient:"
-msgstr ""
+msgstr "Gradiente:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:8
-#, fuzzy
 msgid "Image"
-msgstr "_Imagen..."
+msgstr "Imagen"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
-#, fuzzy
 msgid "Left to right"
-msgstr "Alinea a la izquierda"
+msgstr "De izquierda a derecha"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:10
 #: src/dialogs/cell-format.glade.h:52 src/dialogs/dialog-cell-format.c:72
@@ -20591,9 +20353,8 @@ msgid "None"
 msgstr "Ninguno"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:11
-#, fuzzy
 msgid "Not available..."
-msgstr "< No disponible >"
+msgstr "No disponible..."
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:12
 #: src/dialogs/so-fill.glade.h:4
@@ -20606,14 +20367,12 @@ msgid "Pattern"
 msgstr "Patrón"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:14
-#, fuzzy
 msgid "S_tart Color:"
-msgstr "_Color:"
+msgstr "_Color de inicio:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:15
-#, fuzzy
 msgid "Select an _image file:"
-msgstr "Seleccionar una columna completa"
+msgstr "Seleccionar un archivod de _imagen:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:16
 #: src/dialogs/cell-format.glade.h:66
@@ -20622,35 +20381,31 @@ msgstr "Sólido"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:17
 msgid "Stretched"
-msgstr ""
+msgstr "Ajustado"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:18
-#, fuzzy
 msgid "Top left to bottom right"
-msgstr "Bajar objetos al final"
+msgstr "De arriba a la izquierda hasta abajo a la derecha"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:19
 msgid "Top right to bottom left"
-msgstr ""
+msgstr "De arriba a la derecha hasta abajo a la izquierda"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:20
-#, fuzzy
 msgid "Top to bottom"
-msgstr "Bordes arriba y abajo"
+msgstr "De arriba hasta abajo"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:21
 msgid "Wallpaper"
-msgstr ""
+msgstr "Tapiz"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:22
-#, fuzzy
 msgid "_End Color:"
-msgstr "_Color:"
+msgstr "Color de _fin:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:23
-#, fuzzy
 msgid "_Fill type:"
-msgstr "_Tipo de archivo:"
+msgstr "_Tipo de relleno:"
 
 #. outline colour
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:147
@@ -20662,9 +20417,8 @@ msgid "Transparent"
 msgstr "Transparente"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:291
-#, fuzzy
 msgid "Select an image file"
-msgstr "Seleccionar una columna completa"
+msgstr "Seleccionar un archivo de imagen"
 
 #. An MS Excel-ish theme * TODO : have a look at apple's themes
 #: src/cut-n-paste-code/goffice/graph/gog-theme.c:229
@@ -20686,8 +20440,7 @@ msgstr "%"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:3
 msgid "How far the bars/cols overlap as a percentage of the width"
-msgstr ""
-"Hasta donde las barras/columnas se superponen como un porcentaje del ancho"
+msgstr "Hasta donde las barras/columnas se superponen como un porcentaje del ancho"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:4
 msgid "Separation between groups as a percentage of bar/col width"
@@ -20747,13 +20500,11 @@ msgstr "Columnas adyacentes"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:9
 msgid "Adjacent horizontal 3D bars grouped by major and minor categories."
-msgstr ""
-"Barras 3D horizontales adyacentes agrupadas por categorías mayores y menores"
+msgstr "Barras 3D horizontales adyacentes agrupadas por categorías mayores y menores"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:10
 msgid "Adjacent horizontal bars grouped by major and minor categories."
-msgstr ""
-"Barras horizontales adyacentes agrupadas por categorías mayores y menores"
+msgstr "Barras horizontales adyacentes agrupadas por categorías mayores y menores"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:11
 msgid "Adjacent vertical 3D columns grouped by major and minor categories."
@@ -20761,8 +20512,7 @@ msgstr "Columnas 3D adyacentes agrupadas por categorías mayores y menores."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:12
 msgid "Adjacent vertical columns grouped by major and minor categories."
-msgstr ""
-"Columnas verticales adyacentes agrupadas por categorías mayores y menores."
+msgstr "Columnas verticales adyacentes agrupadas por categorías mayores y menores."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:13
 msgid "Bar"
@@ -20806,8 +20556,7 @@ msgstr ""
 "verticales, agrupadas por categoría mayor."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:19
-msgid ""
-"Minor categories stacked in horizontal 3D bars, grouped by major category."
+msgid "Minor categories stacked in horizontal 3D bars, grouped by major category."
 msgstr ""
 "Categorías menores apiladas en barras 3D horizontales, agrupadas por "
 "categoría mayor."
@@ -20819,8 +20568,7 @@ msgstr ""
 "mayor."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:21
-msgid ""
-"Minor categories stacked in vertical 3D columns, grouped by major category."
+msgid "Minor categories stacked in vertical 3D columns, grouped by major category."
 msgstr ""
 "Categorías menores apiladas en columnas 3D verticales, agrupadas por "
 "categoría mayor."
@@ -20865,8 +20613,7 @@ msgstr "Tipos de dibujado preestablecidos para Barras/Columnas"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:3
 msgid "Degrees counter clockwise from 3 O'Clock"
-msgstr ""
-"grados contando en el sentido de las agujas del reloj desde las 3 en punto"
+msgstr "grados contando en el sentido de las agujas del reloj desde las 3 en punto"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:4
 msgid "Slices start _at:"
@@ -20901,8 +20648,7 @@ msgid "3D Split Pie"
 msgstr "Tarta partida 3D"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:3
-msgid ""
-"Major totals as percentages with each wedge subdivided into secondary pies."
+msgid "Major totals as percentages with each wedge subdivided into secondary pies."
 msgstr ""
 "Mayorar totales como porcentajes con cada porción subdividida en tartas "
 "secundarias."
@@ -21225,9 +20971,8 @@ msgstr "Agrupado por:"
 #: src/dialogs/histogram.glade.h:13 src/dialogs/moving-averages.glade.h:10
 #: src/dialogs/random-generation.glade.h:7 src/dialogs/rank.glade.h:6
 #: src/dialogs/regression.glade.h:8 src/dialogs/sampling.glade.h:9
-#, fuzzy
 msgid "O_ptions"
-msgstr "Opciones"
+msgstr "O_pciones"
 
 #: src/dialogs/anova-one.glade.h:9 src/dialogs/anova-two.glade.h:10
 #: src/dialogs/correlation.glade.h:6 src/dialogs/covariance.glade.h:6
@@ -21252,9 +20997,8 @@ msgid "Retain Output Range Formatting"
 msgstr "Retener formato del rango de salida"
 
 #: src/dialogs/anova-one.glade.h:11 src/dialogs/anova-two.glade.h:12
-#, fuzzy
 msgid "_Alpha = "
-msgstr "_Alfa:"
+msgstr "_Alfa = "
 
 #: src/dialogs/anova-one.glade.h:12 src/dialogs/correlation.glade.h:8
 #: src/dialogs/covariance.glade.h:8 src/dialogs/descriptive-stats.glade.h:18
@@ -21271,9 +21015,8 @@ msgstr "Á_reas"
 #: src/dialogs/mean-tests.glade.h:20 src/dialogs/moving-averages.glade.h:15
 #: src/dialogs/rank.glade.h:13 src/dialogs/regression.glade.h:15
 #: src/dialogs/sampling.glade.h:19
-#, fuzzy
 msgid "_Input"
-msgstr "Entrada"
+msgstr "_Entrada"
 
 #: src/dialogs/anova-one.glade.h:15 src/dialogs/anova-two.glade.h:14
 #: src/dialogs/correlation.glade.h:11 src/dialogs/covariance.glade.h:11
@@ -21305,9 +21048,8 @@ msgstr "E_tiquetas"
 #: src/dialogs/mean-tests.glade.h:23 src/dialogs/moving-averages.glade.h:18
 #: src/dialogs/random-generation.glade.h:14 src/dialogs/rank.glade.h:17
 #: src/dialogs/regression.glade.h:18 src/dialogs/sampling.glade.h:22
-#, fuzzy
 msgid "_Output"
-msgstr "Salida"
+msgstr "_Salida"
 
 #: src/dialogs/anova-two.glade.h:3 src/dialogs/descriptive-stats.glade.h:4
 #: src/dialogs/random-generation.glade.h:2 src/dialogs/sampling.glade.h:2
@@ -21319,9 +21061,8 @@ msgid "ANOVA - Two-Factor"
 msgstr "ANOVA - Dos factores"
 
 #: src/dialogs/anova-two.glade.h:8
-#, fuzzy
 msgid "Number of Rows _Per Sample:"
-msgstr "_Número de muestras:"
+msgstr "Número de filas _por muestra:"
 
 #: src/dialogs/autocorrect.glade.h:2
 msgid "Auto Correct"
@@ -21500,9 +21241,8 @@ msgid "Autoformat"
 msgstr "Autoformato"
 
 #: src/dialogs/autoformat.glade.h:10
-#, fuzzy
 msgid "C_ategory:"
-msgstr "Categoría:"
+msgstr "C_ategoría:"
 
 #: src/dialogs/autoformat.glade.h:11
 msgid "Category:"
@@ -22167,9 +21907,8 @@ msgid "Shift cells _up"
 msgstr "Desplazar las celdas hacia a_rriba"
 
 #: src/dialogs/descriptive-stats.glade.h:1
-#, fuzzy
 msgid "(1 - alpha) = "
-msgstr "(1 - alfa):"
+msgstr "(1 - alfa) = "
 
 #: src/dialogs/descriptive-stats.glade.h:3
 msgid ".95"
@@ -22186,7 +21925,7 @@ msgstr "Estadística descriptiva"
 
 #: src/dialogs/descriptive-stats.glade.h:10
 msgid "K = "
-msgstr ""
+msgstr "K = "
 
 #: src/dialogs/descriptive-stats.glade.h:11
 msgid "Kth Largest"
@@ -22259,16 +21998,14 @@ msgstr "John Gotts, paquetes RPM."
 #. xgettext:
 #. * The funny character between "G" and "l" here is a \"u.
 #: src/dialogs/dialog-about.c:64
-#, fuzzy
 msgid "Andreas J. Gülzow, Gnumeric hacker."
-msgstr "Andreas J. Guelzow, hacker de Gnumeric."
+msgstr "Andreas J. Gülzow, hacker de Gnumeric."
 
 #. xgettext:
 #. * The funny character between "K" and "r" here is 'aring'.
 #: src/dialogs/dialog-about.c:67
-#, fuzzy
 msgid "Jon Kåre Hellan, Gnumeric hacker."
-msgstr "Jon Kre Hellan, hacker de Gnumeric."
+msgstr "Jon Kare Hellan, hacker de Gnumeric."
 
 #: src/dialogs/dialog-about.c:68
 msgid "Ross Ihaka, special functions."
@@ -22427,18 +22164,15 @@ msgstr "No se puede crear el diálogo para la herramienta de covarianza."
 
 #: src/dialogs/dialog-analysis-tools.c:822
 msgid "Could not create the Rank and Percentile Tools dialog."
-msgstr ""
-"No se puede crear el diálogo para las herramientas de rangos y porcentajes."
+msgstr "No se puede crear el diálogo para las herramientas de rangos y porcentajes."
 
 #: src/dialogs/dialog-analysis-tools.c:912
 msgid "Could not create the Fourier Analysis Tool dialog."
-msgstr ""
-"No se puede crear el diálogo para la herramienta de análisis de Fourier."
+msgstr "No se puede crear el diálogo para la herramienta de análisis de Fourier."
 
 #: src/dialogs/dialog-analysis-tools.c:1074
 msgid "Could not create the Descriptive Statistics Tool dialog."
-msgstr ""
-"No se puede crear el diálogo para la herramienta de estadística descriptiva."
+msgstr "No se puede crear el diálogo para la herramienta de estadística descriptiva."
 
 #: src/dialogs/dialog-analysis-tools.c:1216
 msgid ""
@@ -22486,8 +22220,7 @@ msgstr "No se puede crear el diálogo para la herramienta de muestreo."
 
 #: src/dialogs/dialog-analysis-tools.c:1967 src/tools/analysis-tools.c:2158
 #: src/tools/analysis-tools.c:2237
-msgid ""
-"There must be an equal number of entries for each variable in the regression."
+msgid "There must be an equal number of entries for each variable in the regression."
 msgstr ""
 "Debe existir un número equivalente de registros por cada variable en la "
 "regresión."
@@ -22510,8 +22243,7 @@ msgstr "No se ha podido crear el diálogo de Suavizado exponencial."
 
 #: src/dialogs/dialog-analysis-tools.c:2348
 msgid "Could not create the Moving Average Tool dialog."
-msgstr ""
-"No se puede crear el diálogo para la herramienta de las medias móviles."
+msgstr "No se puede crear el diálogo para la herramienta de las medias móviles."
 
 #: src/dialogs/dialog-analysis-tools.c:2573 src/dialogs/histogram.glade.h:3
 msgid "Bin _Range:"
@@ -22569,8 +22301,7 @@ msgstr "El rango de entrada dado debe contener al menos dos filas de datos."
 
 #: src/dialogs/dialog-analysis-tools.c:2857
 msgid "The number of data rows must be a multiple of the replication number."
-msgstr ""
-"El número de filas de datos debe ser múltiplo del número de replicación."
+msgstr "El número de filas de datos debe ser múltiplo del número de replicación."
 
 #: src/dialogs/dialog-analysis-tools.c:2961
 msgid "Could not create the ANOVA (two factor) tool dialog."
@@ -22578,8 +22309,7 @@ msgstr "No se puede crear el diálogo para la herramienta ANOVA (dos factores)."
 
 #: src/dialogs/dialog-autocorrect.c:323
 msgid "Could not create the AutoCorrect dialog."
-msgstr ""
-"No se puede crear el diálogo para la herramienta de Corrección automática."
+msgstr "No se puede crear el diálogo para la herramienta de Corrección automática."
 
 #: src/dialogs/dialog-autoformat.c:70
 msgid "Jan"
@@ -22590,9 +22320,8 @@ msgid "Feb"
 msgstr "Feb"
 
 #: src/dialogs/dialog-autoformat.c:70
-#, fuzzy
 msgid "Mar"
-msgstr "*Mar"
+msgstr "Mar"
 
 #: src/dialogs/dialog-autoformat.c:70 src/dialogs/dialog-autoformat.c:74
 #: src/tools/analysis-tools.c:3359 src/tools/analysis-tools.c:3369
@@ -22767,8 +22496,7 @@ msgstr "Cambiar el ancho estándar/predeterminado de columna"
 
 #: src/dialogs/dialog-col-width.c:233
 #, c-format
-msgid ""
-"Set column width of selection on <span style='italic' weight='bold'>%s</span>"
+msgid "Set column width of selection on <span style='italic' weight='bold'>%s</span>"
 msgstr ""
 "Fijar el ancho de columna de selección a <span style='italic' weight='bold'>%"
 "s</span>"
@@ -22904,9 +22632,8 @@ msgid "Prepare an email"
 msgstr "Preparar un correo electrónico"
 
 #: src/dialogs/dialog-hyperlink.c:203
-#, fuzzy
 msgid "_Web Link"
-msgstr "Pegar enlace"
+msgstr "Enlace _web"
 
 #: src/dialogs/dialog-hyperlink.c:205
 msgid "Browse to the specified URL"
@@ -22996,9 +22723,8 @@ msgid "Formats"
 msgstr "Formatos"
 
 #: src/dialogs/dialog-paste-special.c:49
-#, fuzzy
 msgid "Add"
-msgstr "Añadir "
+msgstr "Añadir"
 
 #: src/dialogs/dialog-paste-special.c:50
 msgid "Subtract"
@@ -23061,8 +22787,7 @@ msgid ""
 "The following extra plugins must be activated in order to activate this "
 "one:\n"
 "\n"
-msgstr ""
-"Las siguientes extensiones deben ser activadas para poder activar esta:\n"
+msgstr "Las siguientes extensiones deben ser activadas para poder activar esta:\n"
 
 #: src/dialogs/dialog-plugin-manager.c:570
 #, c-format
@@ -23108,13 +22833,13 @@ msgstr "Directorio"
 #: src/number-match.c:1041 src/value-sheet.c:33 src/value.c:403
 #: src/value.c:773
 msgid "TRUE"
-msgstr "VERDADERO"
+msgstr "TRUE"
 
 #: src/dialogs/dialog-preferences.c:376 src/format.c:1711
 #: src/number-match.c:1043 src/value-sheet.c:33 src/value.c:404
 #: src/value.c:773
 msgid "FALSE"
-msgstr "FALSO"
+msgstr "FALSE"
 
 #: src/dialogs/dialog-preferences.c:672
 msgid "The items on this page customize the behaviour of the undo/redo system."
@@ -23396,10 +23121,8 @@ msgstr "Fija la altura de fila estándar/predeterminada"
 
 #: src/dialogs/dialog-row-height.c:233
 #, c-format
-msgid ""
-"Set row height of selection on <span style='italic' weight='bold'>%s</span>"
-msgstr ""
-"Fija la altura de la selección a <span style='italic' weigth='bold'>%s</span>"
+msgid "Set row height of selection on <span style='italic' weight='bold'>%s</span>"
+msgstr "Fija la altura de la selección a <span style='italic' weigth='bold'>%s</span>"
 
 #: src/dialogs/dialog-scenarios.c:116
 msgid "Invalid changing cells"
@@ -23614,10 +23337,8 @@ msgstr ""
 "informes."
 
 #: src/dialogs/dialog-solver.c:765
-msgid ""
-"The Target Cell value specified does not converge!  The program is unbounded."
-msgstr ""
-"El valor de la celda objetivo no converge.  El programa no tiene límites."
+msgid "The Target Cell value specified does not converge!  The program is unbounded."
+msgstr "El valor de la celda objetivo no converge.  El programa no tiene límites."
 
 #: src/dialogs/dialog-solver.c:779
 msgid ""
@@ -23876,8 +23597,7 @@ msgstr "Columna %d"
 msgid ""
 "Actual processing will start at this line, any previous lines will be "
 "ignored."
-msgstr ""
-"El procesamiento comenzará en esta línea, las líneas previas serán ignoradas."
+msgstr "El procesamiento comenzará en esta línea, las líneas previas serán ignoradas."
 
 #: src/dialogs/dialog-stf.glade.h:5
 msgid "Add a new column"
@@ -23901,7 +23621,7 @@ msgstr "E_xclamación (!)"
 
 #: src/dialogs/dialog-stf.glade.h:10
 msgid "CSV"
-msgstr ""
+msgstr "CSV"
 
 #: src/dialogs/dialog-stf.glade.h:11
 msgid "C_ustom"
@@ -23909,18 +23629,17 @@ msgstr "Pe_rsonalizado"
 
 # Mejorar traduccion
 #: src/dialogs/dialog-stf.glade.h:12
-#, fuzzy
 msgid ""
 "Character interpreted as quote character. If a termination or separation "
 "character is encountered within quotes it will be considered part of the "
 "column text."
 msgstr ""
-"El carácter interpretado como carácter de comilla. Si se encuentra un "
-"carácter de separación o de terminación entre las comillas, será ignorado."
+"El carácter interpretado como carácter de comilla. Si se encuentra un carácter de separación o de terminación \n"
+"entre las comillas, será considerado como parte del texto de columna."
 
 #: src/dialogs/dialog-stf.glade.h:13
 msgid "Clear list of columns"
-msgstr "Limpiar la lista de columnas"
+msgstr "Vaciar la lista de columnas"
 
 #: src/dialogs/dialog-stf.glade.h:14
 msgid "Co_lumn end: "
@@ -23935,9 +23654,8 @@ msgid "Columns"
 msgstr "Columnas"
 
 #: src/dialogs/dialog-stf.glade.h:18
-#, fuzzy
 msgid "Custom separator, this can be any character."
-msgstr "Personalizar separador (puede ser cualquier carácter)"
+msgstr "Separador personalizado, puede ser cualquier carácter."
 
 #: src/dialogs/dialog-stf.glade.h:20
 msgid "Define the width of each column manually."
@@ -23961,17 +23679,15 @@ msgstr "Fin"
 
 #: src/dialogs/dialog-stf.glade.h:24
 msgid "F_inish"
-msgstr ""
+msgstr "Term_inar"
 
 #: src/dialogs/dialog-stf.glade.h:25
-#, fuzzy
 msgid "Fixed"
-msgstr "Archivo/"
+msgstr "Fijado"
 
 #: src/dialogs/dialog-stf.glade.h:26
-#, fuzzy
 msgid "Format"
-msgstr "_Formato"
+msgstr "Formato"
 
 #: src/dialogs/dialog-stf.glade.h:27
 msgid "Fr_om line:"
@@ -23983,16 +23699,15 @@ msgstr "_Guión (-)"
 
 #: src/dialogs/dialog-stf.glade.h:29
 msgid "Line breaks:"
-msgstr ""
+msgstr "Saltos de línea:"
 
 #: src/dialogs/dialog-stf.glade.h:30
 msgid "Lines to import"
 msgstr "Líneas a importar"
 
 #: src/dialogs/dialog-stf.glade.h:31
-#, fuzzy
 msgid "Main"
-msgstr "Mínimo"
+msgstr "Principal"
 
 #: src/dialogs/dialog-stf.glade.h:33
 msgid "Number of lines to import"
@@ -24043,10 +23758,8 @@ msgid "See two successive separators as one."
 msgstr "Considerar separadores consecutivos como uno solo"
 
 #: src/dialogs/dialog-stf.glade.h:45
-msgid ""
-"See two successive text indicators as one that does not terminate the cell."
-msgstr ""
-"Ver dos indicadores de texto sucesivos como uno solo que no termina la celda."
+msgid "See two successive text indicators as one that does not terminate the cell."
+msgstr "Ver dos indicadores de texto sucesivos como uno solo que no termina la celda."
 
 #: src/dialogs/dialog-stf.glade.h:46
 msgid "Semicolo_n (;)"
@@ -24069,45 +23782,41 @@ msgid "Source Format"
 msgstr "Formato de origen"
 
 #: src/dialogs/dialog-stf.glade.h:51
-#, fuzzy
 msgid "Source Locale:"
-msgstr "Áreas de origen"
+msgstr "Localización del origen (i18n)"
 
 #: src/dialogs/dialog-stf.glade.h:52
 msgid "Ta_b"
-msgstr "_Pestaña"
+msgstr "_Solapa"
 
 #: src/dialogs/dialog-stf.glade.h:53
 msgid "Te_xt indicator: "
-msgstr "Indicador de _texto: "
+msgstr "Indicador de te_xto:"
 
 #: src/dialogs/dialog-stf.glade.h:54
-#, fuzzy
 msgid "Text indicator"
-msgstr "Indicador de _texto: "
+msgstr "Indicador de texto"
 
 #: src/dialogs/dialog-stf.glade.h:55
 msgid "The carriage return character (ASCII code 13) breaks lines"
-msgstr ""
+msgstr "El caracter de retorno de carro (código ASCII 13) salta a la línea siguiente"
 
 #: src/dialogs/dialog-stf.glade.h:56
 msgid "The line feed character (ASCII code 10) breaks lines"
-msgstr ""
+msgstr "El carácter de alimentación de línea (código ASCII 10) salta a la línea siguiente"
 
 #: src/dialogs/dialog-stf.glade.h:57
 msgid ""
 "The sequence of carriage return and line feed (ASCII codes 13 and 10) breaks "
 "lines"
-msgstr ""
+msgstr "La secuencia de retorno de carro y alimentar línea (códigos ASCII 13 y 10) saltan a la siguinete línea"
 
 # Mejorar traduccion
 #: src/dialogs/dialog-stf.glade.h:58
 msgid ""
 "Trim leading and trailing spaces from each column, if you are unsure you "
 "should leave this at the default setting."
-msgstr ""
-"Eliminar los espacios que sobran en cada columna.  Si no está seguro, deje "
-"la opción por omisión."
+msgstr "Eliminar los espacios prefijos y sufijos de cada columna.  Si no está seguro, deje la opción por omisión."
 
 #: src/dialogs/dialog-stf.glade.h:59
 msgid "Trim:"
@@ -24115,20 +23824,19 @@ msgstr "Eliminar espacios:"
 
 #: src/dialogs/dialog-stf.glade.h:61
 msgid "_Adjacent text indicators escaped"
-msgstr "Indicadores de escape de texto _adjunto"
+msgstr "Indicadores de escape de texto _adyacente"
 
 #: src/dialogs/dialog-stf.glade.h:63
 msgid "_Colon (:)"
 msgstr "_Dos puntos (:)"
 
 #: src/dialogs/dialog-stf.glade.h:64
-#, fuzzy
 msgid "_Fixed width"
-msgstr "_Ancho fijo"
+msgstr "Ancho _fijo"
 
 #: src/dialogs/dialog-stf.glade.h:65
 msgid "_Macintosh (CR)"
-msgstr ""
+msgstr "_Macintosh (CR)"
 
 #: src/dialogs/dialog-stf.glade.h:67
 msgid "_Separated"
@@ -24140,15 +23848,15 @@ msgstr "_A línea: "
 
 #: src/dialogs/dialog-stf.glade.h:69
 msgid "_Unix (LF)"
-msgstr ""
+msgstr "_Unix (LF)"
 
 #: src/dialogs/dialog-stf.glade.h:70
 msgid "_Windows (CR+LF)"
-msgstr ""
+msgstr "_Windows (CR+LF)"
 
 #: src/dialogs/dialog-stf.glade.h:72
 msgid "dialog1"
-msgstr ""
+msgstr "diálogo1"
 
 #: src/dialogs/dialog-tabulate.c:146
 msgid "Tabulation"
@@ -24348,14 +24056,12 @@ msgid "Size:"
 msgstr "Tamaño:"
 
 #: src/dialogs/format-selector.glade.h:2
-#, fuzzy
 msgid "<b>Preview</b>"
-msgstr "Vista preliminar"
+msgstr "<b>Previsualizar</b>"
 
 #: src/dialogs/format-selector.glade.h:3
-#, fuzzy
 msgid "Ca_tegories:"
-msgstr "Categoría:"
+msgstr "Ca_tegorías:"
 
 #: src/dialogs/format-selector.glade.h:4
 msgid "Deci_mal places:"
@@ -24363,51 +24069,47 @@ msgstr "Ubicación de deci_mal:"
 
 #: src/dialogs/format-selector.glade.h:5
 msgid "Display amounts in traditional accounting styles."
-msgstr ""
+msgstr "Mostrar cantidades en estilos de cuenta tradicionales"
 
 #: src/dialogs/format-selector.glade.h:6
 msgid "Display and input values as strings with no interpretation."
-msgstr ""
+msgstr "Mostrar y entrar valores como cadenas sin interpretación"
 
 #: src/dialogs/format-selector.glade.h:7
 msgid "Display currency amounts."
-msgstr ""
+msgstr "Mostar cantidades monetarias"
 
 #: src/dialogs/format-selector.glade.h:8
 msgid "Display dates and optionally times of day."
-msgstr ""
+msgstr "Mostrar fechas y opcionalmente horas del día."
 
 #: src/dialogs/format-selector.glade.h:9
 msgid "Display numeric values with a fixed number of decimals."
-msgstr ""
+msgstr "Mostrar los valores numéricos con un número fijo de decimales."
 
 #: src/dialogs/format-selector.glade.h:10
-#, fuzzy
 msgid "Display times of day."
-msgstr "Mostrar _esquemas"
+msgstr "Mostrar horas del día."
 
 #: src/dialogs/format-selector.glade.h:11
 msgid "Display values as closest fractional approximation."
-msgstr ""
+msgstr "Mostrar valoras como la aproximación fraccional más cercana"
 
 #: src/dialogs/format-selector.glade.h:12
-#, fuzzy
 msgid "Display values as percentages."
-msgstr "Mostrar el valor exacto que fue ingresado"
+msgstr "Mostrar valores como porcentajes."
 
 #: src/dialogs/format-selector.glade.h:13
 msgid "Display values with power-of-ten scaling."
-msgstr ""
+msgstr "Mostrar valores con escala en potencia de diez."
 
 #: src/dialogs/format-selector.glade.h:14
-#, fuzzy
 msgid "Format c_ode:"
-msgstr "_Formato:"
+msgstr "Formato del _código:"
 
 #: src/dialogs/format-selector.glade.h:15
-#, fuzzy
 msgid "Negative number _format:"
-msgstr "Formato del número negativo:"
+msgstr "_Formato del número negativo:"
 
 #: src/dialogs/format-selector.glade.h:16
 msgid "S_ymbol:"
@@ -24415,11 +24117,11 @@ msgstr "_Símbolo:"
 
 #: src/dialogs/format-selector.glade.h:17
 msgid "Select an appropriate format automatically."
-msgstr ""
+msgstr "Seleccione un formato apropiado automáticamente."
 
 #: src/dialogs/format-selector.glade.h:18
 msgid "Specify an XL-style format directly"
-msgstr ""
+msgstr "Especificar un estilo XL de formato directamente"
 
 #: src/dialogs/format-selector.glade.h:19
 msgid "_Format:"
@@ -24540,73 +24242,62 @@ msgstr "Má_x:"
 
 #: src/dialogs/histogram.glade.h:11 src/dialogs/mean-tests.glade.h:8
 #: src/dialogs/moving-averages.glade.h:8 src/dialogs/sampling.glade.h:7
-#, fuzzy
 msgid "New _Sheet"
-msgstr "Hoja nueva"
+msgstr "_Hoja nueva"
 
 #: src/dialogs/histogram.glade.h:12 src/dialogs/mean-tests.glade.h:9
 #: src/dialogs/moving-averages.glade.h:9 src/dialogs/sampling.glade.h:8
-#, fuzzy
 msgid "New _Workbook"
-msgstr "Libro de cuentas nuevo"
+msgstr "_Libro de cuentas nuevo"
 
 #: src/dialogs/histogram.glade.h:14 src/dialogs/moving-averages.glade.h:11
 #: src/dialogs/sampling.glade.h:10
-#, fuzzy
 msgid "Output _Range:"
-msgstr "Rango de _salida:"
+msgstr "_Rango de salida:"
 
 #: src/dialogs/histogram.glade.h:15
 msgid "Pareto (_Sorted)"
 msgstr "Pareto (_Ordenado)"
 
 #: src/dialogs/histogram.glade.h:16
-#, fuzzy
 msgid "Retain Output Range _Comments"
-msgstr "Retener comentarios del rango de salida"
+msgstr "Retener _comentarios del rango de salida"
 
 #: src/dialogs/histogram.glade.h:17
-#, fuzzy
 msgid "Retain Output Range _Formatting"
-msgstr "Retener formato del rango de salida"
+msgstr "Retener _formato del rango de salida"
 
 #: src/dialogs/histogram.glade.h:19
-#, fuzzy
 msgid "_Autofit Columns"
-msgstr "A_utoajustar columnas"
+msgstr "_Autoajustar columnas"
 
 #: src/dialogs/histogram.glade.h:20
-#, fuzzy
 msgid "_Bins"
-msgstr "Binarios"
+msgstr "_Binarios"
 
 #: src/dialogs/histogram.glade.h:21
 msgid "_Calculated Bins"
 msgstr "Binarios _calculados"
 
 #: src/dialogs/histogram.glade.h:22
-#, fuzzy
 msgid "_Chart Output"
-msgstr "Diagrama de salida"
+msgstr "_Diagrama de salida"
 
 #: src/dialogs/histogram.glade.h:23
-#, fuzzy
 msgid "_Clear Output Range"
-msgstr "Limpiar rango de salida"
+msgstr "Va_ciar rango de salida"
 
 #: src/dialogs/histogram.glade.h:26
 msgid "_N:"
 msgstr "_N:"
 
 #: src/dialogs/histogram.glade.h:28
-#, fuzzy
 msgid "_Percentages"
-msgstr "_Porcentaje"
+msgstr "_Porcentajes"
 
 #: src/dialogs/histogram.glade.h:29
-#, fuzzy
 msgid "_Predetermined Bins"
-msgstr "Binarios pre_determinados"
+msgstr "Binarios _predeterminados"
 
 #: src/dialogs/hyperlink.glade.h:2
 msgid "<small>Optional</small>"
@@ -24665,9 +24356,8 @@ msgid "E_qual"
 msgstr "I_guales"
 
 #: src/dialogs/mean-tests.glade.h:7
-#, fuzzy
 msgid "Hypothesized Mean _Difference:"
-msgstr "Diferencia de la media de la _hipótesis:"
+msgstr "_Diferencia de la media de la hipótesis:"
 
 #: src/dialogs/mean-tests.glade.h:10
 msgid "Population Variances are:"
@@ -24678,18 +24368,16 @@ msgid "Testing the Difference of 2 Means"
 msgstr "Prueba de la diferencia de dos medias"
 
 #: src/dialogs/mean-tests.glade.h:14
-#, fuzzy
 msgid "Variable _1 Population Variance:"
-msgstr "Varianza de población de la variable 1:"
+msgstr "Varianza de población de la variable _1:"
 
 #: src/dialogs/mean-tests.glade.h:15 src/dialogs/variance-tests.glade.h:12
 msgid "Variable _1 Range:"
 msgstr "Rango de la variable _1:"
 
 #: src/dialogs/mean-tests.glade.h:16
-#, fuzzy
 msgid "Variable _2 Population Variance:"
-msgstr "Varianza de población de la variable 2:"
+msgstr "Varianza de población de la variable _2:"
 
 #: src/dialogs/mean-tests.glade.h:17 src/dialogs/variance-tests.glade.h:13
 msgid "Variable _2 Range:"
@@ -24700,9 +24388,8 @@ msgid "Variables are:"
 msgstr "Las variables son:"
 
 #: src/dialogs/mean-tests.glade.h:19
-#, fuzzy
 msgid "_Alpha ="
-msgstr "_Alfa:"
+msgstr "_Alfa ="
 
 #: src/dialogs/mean-tests.glade.h:21
 msgid "_Known"
@@ -24713,31 +24400,26 @@ msgid "_Paired"
 msgstr "_Pareadas"
 
 #: src/dialogs/mean-tests.glade.h:26
-#, fuzzy
 msgid "_Population Variances are:"
-msgstr "Las varianzas de la población son:"
+msgstr "Las varianzas de la _población son:"
 
 #: src/dialogs/mean-tests.glade.h:27
-#, fuzzy
 msgid "_Populations"
-msgstr "_Opciones"
+msgstr "_Poblaciones"
 
 #: src/dialogs/mean-tests.glade.h:28
-#, fuzzy
 msgid "_Test"
-msgstr "Prueba-z"
+msgstr "_Test"
 
 #: src/dialogs/mean-tests.glade.h:29
 msgid "_Unequal"
 msgstr "D_istintas"
 
 #: src/dialogs/mean-tests.glade.h:30
-#, fuzzy
 msgid "_Unknown"
-msgstr "Desconocido"
+msgstr "_Desconocido"
 
 #: src/dialogs/mean-tests.glade.h:31
-#, fuzzy
 msgid "_Unpaired"
 msgstr "No pa_readas"
 
@@ -24899,9 +24581,8 @@ msgid "Apply _to:"
 msgstr "Aplicar _a:"
 
 #: src/dialogs/print.glade.h:5
-#, fuzzy
 msgid "Apply to _all sheets of this workbook."
-msgstr "Aplicar a _todas las hojas."
+msgstr "Aplicar a _todas las hojas de este libro de cuentas."
 
 #: src/dialogs/print.glade.h:6
 msgid "Center on page"
@@ -24949,7 +24630,7 @@ msgstr "_Encabezados de las filas y columnas"
 
 #: src/dialogs/print.glade.h:19
 msgid "Save as Default Settings"
-msgstr ""
+msgstr "Guardar como ajustes predeterminados"
 
 #: src/dialogs/print.glade.h:20
 msgid "Scale"
@@ -25036,9 +24717,8 @@ msgid "_Distribution:"
 msgstr "_Distribución:"
 
 #: src/dialogs/random-generation.glade.h:16
-#, fuzzy
 msgid "_Random Numbers"
-msgstr "Generación de números aleatorios"
+msgstr "_Números aleatorios"
 
 #: src/dialogs/rank.glade.h:2
 msgid "Average _Rank"
@@ -25266,9 +24946,8 @@ msgid "The search text is a regular expression"
 msgstr "El texto a buscar es una expresión regular"
 
 #: src/dialogs/search-replace.glade.h:33 src/dialogs/search.glade.h:27
-#, fuzzy
 msgid "The search text is taken literally."
-msgstr "El texto a buscar es un literal"
+msgstr "El texto a buscar es literal"
 
 #: src/dialogs/search-replace.glade.h:34
 msgid "Turn unparsable entries into string values"
@@ -25857,8 +25536,7 @@ msgid "Tabulate Dependency"
 msgstr "Dependencia tabular"
 
 #: src/dialogs/tabulate.glade.h:10
-msgid ""
-"Use down for first source, right for second, and multiple sheets for third"
+msgid "Use down for first source, right for second, and multiple sheets for third"
 msgstr ""
 "Use abajo para el primer origen, derecha para el segundo múltiples hojas "
 "para el tercero"
@@ -26054,8 +25732,7 @@ msgstr ""
 "antiguo de este tipo."
 
 #: src/file.c:554
-msgid ""
-"You can turn this safety feature off by editing appropriate plugin.xml file."
+msgid "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
 "Puede desactivar esta característica en forma segura, para la edición "
 "apropiada del archivo XML de la extensión."
@@ -26073,14 +25750,12 @@ msgid "Is not an autoformat template file"
 msgstr "No es una plantilla de autoformato"
 
 #: src/format-template.c:493
-#, fuzzy
 msgid "Invalid xml file. Tree is empty?"
 msgstr "El archivo xml no es válido: ¿Está vacío el árbol?"
 
 #: src/format-template.c:826
 #, c-format
-msgid ""
-"The target region is too small.  It should be at least %d rows by %d columns"
+msgid "The target region is too small.  It should be at least %d rows by %d columns"
 msgstr ""
 "La región de destino es muy pequeña, debe tener al menos %d filas por %d "
 "columnas"
@@ -26088,14 +25763,12 @@ msgstr ""
 #: src/format-template.c:830
 #, c-format
 msgid "The target region is too small.  It should be at least %d columns wide"
-msgstr ""
-"La región de destino es muy pequeña, debe tener al menos %d columnas de ancho"
+msgstr "La región de destino es muy pequeña, debe tener al menos %d columnas de ancho"
 
 #: src/format-template.c:834
 #, c-format
 msgid "The target region is too small.  It should be at least %d rows high"
-msgstr ""
-"La región de destino es muy pequeña, debe tener al menos %d filas de alto"
+msgstr "La región de destino es muy pequeña, debe tener al menos %d filas de alto"
 
 #: src/format.c:631
 msgid "Black"
@@ -26796,33 +26469,32 @@ msgid "Communaute Financiere Africaine BCEAO, Francs"
 msgstr "Comunidad Financiera Africana (BCEAO), francos"
 
 #: src/formats.c:535
-#, fuzzy
 msgid "Palladium, Ounces"
-msgstr "Onzas de paladio"
+msgstr "Paladio, onzas"
 
 #: src/formats.c:536
 msgid "Comptoirs Francais du Pacifique Francs"
-msgstr "Comores francesas del Pacífico, francos"
+msgstr "Francos de las Comores francesas del Pacífico"
 
 #: src/formats.c:537
 msgid "Platinum, Ounces"
-msgstr "Platino, Onzas"
+msgstr "Platino, onzas"
 
 #: src/formats.c:538
 msgid "Yemen, Rials"
-msgstr "Yemen, Rial yemení"
+msgstr "Yemen, Rial"
 
 #: src/formats.c:539
 msgid "Yugoslavia, New Dinars"
-msgstr "Yugoslavia, nuevo dinar"
+msgstr "Yugoslavia, Nuevo dinar"
 
 #: src/formats.c:540
 msgid "South Africa, Rand"
-msgstr "Sudáfrica, Rand sudafricano"
+msgstr "Sudáfrica, Rand"
 
 #: src/formats.c:541
 msgid "Zambia, Kwacha"
-msgstr "Zambia, Kwacha zambiano"
+msgstr "Zambia, Kwacha"
 
 #: src/formats.c:542
 msgid "Zimbabwe, Zimbabwe Dollars"
@@ -26886,7 +26558,6 @@ msgstr ""
 "@SEEALSO=SUM, COUNT, G_PRODUCT"
 
 #: src/func-builtin.c:103
-#, fuzzy
 msgid ""
 "@FUNCTION=GNUMERIC_VERSION\n"
 "@SYNTAX=GNUMERIC_VERSION()\n"
@@ -26898,7 +26569,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=GNUMERIC_VERSION\n"
 "@SYNTAX=GNUMERIC_VERSION()\n"
-"@DESCRIPTION=Devuelve la versión de gnumeric como una cadena de caracteres.\n"
+"@DESCRIPTION=GNUMERIC_VERSION devuelve la versión de gnumeric como una cadena de caracteres.\n"
 "@EXAMPLES=\n"
 "GNUMERIC_VERSION().\n"
 "\n"
@@ -26974,14 +26645,12 @@ msgid "Format as alternative Number"
 msgstr "Formato numérico alternativo"
 
 #: src/gui-clipboard.c:114
-#, fuzzy
 msgid "clipboard"
-msgstr "Portapapeles"
+msgstr "portapapeles"
 
 #: src/gui-clipboard.c:122
 msgid "Parse error while trying to parse data into cellregion"
-msgstr ""
-"Error de análisis al intentar analizar los datos de la región de celdas"
+msgstr "Error de análisis al intentar analizar los datos de la región de celdas"
 
 #: src/gui-file.c:74
 msgid "Automatically detected"
@@ -27199,8 +26868,7 @@ msgstr "Activar algunas funciones de depuración relativas a dependencias"
 
 #: src/main-application.c:70
 msgid "Enables some debugging functions for expression sharing"
-msgstr ""
-"Activar algunas funciones de depuración para compartición de expresiones"
+msgstr "Activar algunas funciones de depuración para compartición de expresiones"
 
 #: src/main-application.c:72
 msgid "Enables some print debugging behavior"
@@ -27225,7 +26893,6 @@ msgstr ""
 "pruebas)."
 
 #: src/main-application.c:112
-#, fuzzy
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -27249,7 +26916,7 @@ msgstr ""
 "informar algún fallo.  Para mayores detalles\n"
 "consulte http://www.gnumeric.org/\n"
 "\n"
-"-- El equipo de Gnumeric"
+"-- El equipo de Gnumeric."
 
 #: src/main-application.c:142
 #, c-format
@@ -27319,13 +26986,11 @@ msgstr "En en este contexto no es soportado disponer de múltiples expresiones"
 
 #: src/parser.y:1319
 msgid "Could not find matching opening parenthesis"
-msgstr ""
-"No coinciden los paréntesis abiertos y cerrados (faltan paréntesis abiertos)"
+msgstr "No coinciden los paréntesis abiertos y cerrados (faltan paréntesis abiertos)"
 
 #: src/parser.y:1323
 msgid "Could not find matching closing parenthesis"
-msgstr ""
-"No coinciden los paréntesis abiertos y cerrados (faltan paréntesis cerrados)"
+msgstr "No coinciden los paréntesis abiertos y cerrados (faltan paréntesis cerrados)"
 
 #: src/parser.y:1327
 msgid "Invalid expression"
@@ -27587,8 +27252,7 @@ msgstr ""
 #: src/plugin.c:826
 #, c-format
 msgid "No services defined for plugin with id=\"%s\"."
-msgstr ""
-"No hay servicios definidos para la extensión cuyo identificador es «%s»."
+msgstr "No hay servicios definidos para la extensión cuyo identificador es «%s»."
 
 #: src/plugin.c:836
 #, c-format
@@ -27838,9 +27502,8 @@ msgid "Clear Co_ntents"
 msgstr "_Vaciar Contenido"
 
 #: src/sheet-control-gui.c:1508
-#, fuzzy
 msgid "Edit Co_mment..."
-msgstr "Co_mentarios"
+msgstr "Editar co_mentarios"
 
 #: src/sheet-control-gui.c:1514
 msgid "_Format Cells..."
@@ -27923,17 +27586,14 @@ msgstr "RadioButton"
 
 #. Oh, yeah?
 #: src/sheet-style.c:446
-#, fuzzy
 msgid ""
 "This is a special version of Gnumeric.  It has been compiled\n"
 "with support for a very large number of columns.  Access to the\n"
 "column named TRUE may conflict with the constant of the same\n"
 "name.  Expect weirdness."
 msgstr ""
-"Esta es una versión especial de Gnumeric compilada con soporte para un gran "
-"número de\n"
-"filas. Acceder a la columna nombrada TRUE puede crear conflictos con la "
-"constante del mismo nombre. Espere comportamiento anómalos."
+"Esta es una versión especial de Gnumeric compilada con soporte para un gran número de\n"
+"filas. Acceder a la columna nombrada TRUE puede crear conflictos con la constante del mismo nombre. Espere comportamiento anómalos."
 
 #: src/sheet.c:1942
 msgid "Target region contains merged cells"
@@ -27990,7 +27650,7 @@ msgstr "Ha ocurrido un error al procesar los datos en la hoja"
 
 #: src/stf.c:352
 msgid "That file is not in the given encoding."
-msgstr ""
+msgstr "Ese archivo no está en la codificación dada."
 
 #: src/stf.c:369
 msgid "Parse error while trying to parse data into sheet"
@@ -28086,7 +27746,6 @@ msgid "Descriptive Statistics (%s)"
 msgstr "Estadística descriptiva (%s)"
 
 #: src/tools/analysis-tools.c:1251
-#, fuzzy
 msgid "The requested sample size is too large for a periodic sample."
 msgstr ""
 "El tamaño de la muestra solicitada es demasiado grande para una muestra "
@@ -28210,7 +27869,6 @@ msgstr ""
 "Deben existir tantos puntos de datos como variables libres."
 
 #: src/tools/analysis-tools.c:2219
-#, fuzzy
 msgid ""
 "Two or more of the independent variables are nearly linearly\n"
 "dependent.  All numerical precision was lost in the computation."
@@ -28267,13 +27925,12 @@ msgstr ""
 "valor t"
 
 #: src/tools/analysis-tools.c:2409
-#, fuzzy
 msgid ""
 "Two or more of the independent variables are nearly linearly\n"
 "dependent.  Treat the regression result with great care!"
 msgstr ""
 "Dos o más variables independientes son casi dependientes linealmente.\n"
-"  Trate el resultado de la regresión con sumo cuidado."
+"Trate el resultado de la regresión con sumo cuidado."
 
 #: src/tools/analysis-tools.c:2424
 #, c-format
@@ -28508,25 +28165,21 @@ msgid "Random Numbers"
 msgstr "Generación de números aleatorios"
 
 #: src/tools/scenarios.c:628
-#, fuzzy
 msgid "Result Cells:"
-msgstr "Celda resultado"
+msgstr "Celdas resultado:"
 
 #: src/tools/scenarios.c:695 src/tools/scenarios.c:731
-#, fuzzy
 msgid "Scenario Summary"
-msgstr "Mostrar escenario"
+msgstr "Resumen del escenario"
 
 #. Titles.
 #: src/tools/scenarios.c:698
-#, fuzzy
 msgid "Current Values"
-msgstr "Valor actual:"
+msgstr "Valores actuales"
 
 #: src/tools/scenarios.c:699
-#, fuzzy
 msgid "Changing Cells:"
-msgstr "Celdas de variación:"
+msgstr "Celdas de que han cambiado:"
 
 #: src/tools/simulation.c:101
 msgid ""
@@ -28639,7 +28292,6 @@ msgid "Not Binding"
 msgstr "Sin enlazar"
 
 #: src/tools/solver/reports-write.c:180 src/tools/solver/reports-write.c:890
-#, fuzzy
 msgid "Assume that all variables are integers."
 msgstr "Asumir que todas las variables son enteras."
 
@@ -28749,9 +28401,8 @@ msgid "Performance Report"
 msgstr "Informe de rendimiento"
 
 #: src/tools/solver/reports-write.c:520
-#, fuzzy
 msgid "Number of Iterations"
-msgstr "Nbr de iteraciones"
+msgstr "Número de iteraciones"
 
 # Mejorar traduccion
 #: src/tools/solver/reports-write.c:526
@@ -28795,12 +28446,10 @@ msgid "Variables"
 msgstr "Variables"
 
 #: src/tools/solver/reports-write.c:573
-#, fuzzy
 msgid "Integer Constraints"
-msgstr "Restricciones de int"
+msgstr "Restricciones de enteros"
 
 #: src/tools/solver/reports-write.c:574
-#, fuzzy
 msgid "Boolean Constraints"
 msgstr "Restricciones booleanas"
 
@@ -29060,243 +28709,217 @@ msgstr "#RECALCULAR!"
 
 #. This is the default custom color
 #: src/widgets/color-palette.c:375
-#, fuzzy
 msgid "custom"
-msgstr "Personalizado"
+msgstr "personalizado"
 
 #. "Custom" color - we'll pop up a GnomeColorPicker
 #: src/widgets/color-palette.c:417
-#, fuzzy
 msgid "Custom Color:"
-msgstr "Personalizar el pié de página"
+msgstr "Color personalizado:"
 
 #: src/widgets/color-palette.c:425
-#, fuzzy
 msgid "Choose Custom Color"
-msgstr "Elija las hojas a exportar"
+msgstr "Elija un color personalizado"
 
 #: src/widgets/color-palette.c:558
-#, fuzzy
 msgid "black"
-msgstr "Descuidado"
+msgstr "negro"
 
 #: src/widgets/color-palette.c:559
 msgid "light brown"
-msgstr ""
+msgstr "marrón pálido"
 
 #: src/widgets/color-palette.c:560
 msgid "brown gold"
-msgstr ""
+msgstr "marrón dorado"
 
 #: src/widgets/color-palette.c:561
 msgid "dark green #2"
-msgstr ""
+msgstr "verde oscuro nº2"
 
 #: src/widgets/color-palette.c:562
-#, fuzzy
 msgid "navy"
-msgstr "Lunes"
+msgstr "azul marino"
 
 #: src/widgets/color-palette.c:563 src/widgets/color-palette.c:619
 msgid "dark blue"
-msgstr ""
+msgstr "azul oscuro"
 
 #: src/widgets/color-palette.c:564
 msgid "purple #2"
-msgstr ""
+msgstr "púrpura nº2"
 
 #: src/widgets/color-palette.c:565
 msgid "very dark gray"
-msgstr ""
+msgstr "gris muy oscuro"
 
 #: src/widgets/color-palette.c:568 src/widgets/color-palette.c:624
 msgid "dark red"
-msgstr ""
+msgstr "rojo oscuro"
 
 #: src/widgets/color-palette.c:569
-#, fuzzy
 msgid "red-orange"
-msgstr "rango"
+msgstr "rojo anaranjado"
 
 #: src/widgets/color-palette.c:570
-#, fuzzy
 msgid "gold"
-msgstr "Negritas"
+msgstr "dorado"
 
 #: src/widgets/color-palette.c:571
 msgid "dark green"
-msgstr ""
+msgstr "verde oscuro"
 
 #: src/widgets/color-palette.c:572 src/widgets/color-palette.c:625
-#, fuzzy
 msgid "dull blue"
-msgstr "Valor de la celda"
+msgstr "azul mate"
 
 #: src/widgets/color-palette.c:573 src/widgets/color-palette.c:626
-#, fuzzy
 msgid "blue"
-msgstr "Azul"
+msgstr "azul"
 
 #: src/widgets/color-palette.c:574
 msgid "dull purple"
-msgstr ""
+msgstr "púrpura mate"
 
 #: src/widgets/color-palette.c:575
-#, fuzzy
 msgid "dark gray"
-msgstr "array"
+msgstr "gris oscuro"
 
 #: src/widgets/color-palette.c:578
-#, fuzzy
 msgid "red"
-msgstr "Rojo"
+msgstr "rojo"
 
 #: src/widgets/color-palette.c:579
-#, fuzzy
 msgid "orange"
-msgstr "rango"
+msgstr "naranja"
 
 #: src/widgets/color-palette.c:580
-#, fuzzy
 msgid "lime"
-msgstr "hora"
+msgstr "lima"
 
 #: src/widgets/color-palette.c:581
 msgid "dull green"
-msgstr ""
+msgstr "verde mate"
 
 #: src/widgets/color-palette.c:582
 msgid "dull blue #2"
-msgstr ""
+msgstr "azul mate #2"
 
 #: src/widgets/color-palette.c:583
 msgid "sky blue #2"
-msgstr ""
+msgstr "azul cielo #2"
 
 #: src/widgets/color-palette.c:584 src/widgets/color-palette.c:623
 msgid "purple"
-msgstr ""
+msgstr "púrpura"
 
 #: src/widgets/color-palette.c:585
-#, fuzzy
 msgid "gray"
-msgstr "array"
+msgstr "gris"
 
 #: src/widgets/color-palette.c:588 src/widgets/color-palette.c:620
-#, fuzzy
 msgid "magenta"
-msgstr "Rosa"
+msgstr "magenta"
 
 #: src/widgets/color-palette.c:589
 msgid "bright orange"
-msgstr ""
+msgstr "naranja brillante"
 
 #: src/widgets/color-palette.c:590 src/widgets/color-palette.c:621
-#, fuzzy
 msgid "yellow"
-msgstr "Amarillo"
+msgstr "amarillo"
 
 #: src/widgets/color-palette.c:591
-#, fuzzy
 msgid "green"
-msgstr "Verde"
+msgstr "verde"
 
 #: src/widgets/color-palette.c:592 src/widgets/color-palette.c:622
-#, fuzzy
 msgid "cyan"
-msgstr "Océano"
+msgstr "océano"
 
 #: src/widgets/color-palette.c:593
 msgid "bright blue"
-msgstr ""
+msgstr "azul brillante"
 
 #: src/widgets/color-palette.c:594 src/widgets/color-palette.c:611
 msgid "red purple"
-msgstr ""
+msgstr "rojo púrpura"
 
 #: src/widgets/color-palette.c:595
 msgid "light gray"
-msgstr ""
+msgstr "gris pálido"
 
 #: src/widgets/color-palette.c:598 src/widgets/color-palette.c:615
-#, fuzzy
 msgid "pink"
-msgstr "Hiperenlace"
+msgstr "rosa"
 
 #: src/widgets/color-palette.c:599
-#, fuzzy
 msgid "light orange"
-msgstr "Alinea a la derecha"
+msgstr "naranja pálido"
 
 #: src/widgets/color-palette.c:600 src/widgets/color-palette.c:612
 msgid "light yellow"
-msgstr ""
+msgstr "amarillo pálido"
 
 #: src/widgets/color-palette.c:601
-#, fuzzy
 msgid "light green"
-msgstr "Alinea a la derecha"
+msgstr "verde pálido"
 
 #: src/widgets/color-palette.c:602
-#, fuzzy
 msgid "light cyan"
-msgstr "Alinea a la derecha"
+msgstr "océano pálido"
 
 #: src/widgets/color-palette.c:603 src/widgets/color-palette.c:613
 msgid "light blue"
-msgstr ""
+msgstr "azul pálido"
 
 #: src/widgets/color-palette.c:604 src/widgets/color-palette.c:617
 msgid "light purple"
-msgstr ""
+msgstr "púrpura pálido"
 
 #: src/widgets/color-palette.c:605
-#, fuzzy
 msgid "white"
-msgstr "Blanco"
+msgstr "blanco"
 
 #: src/widgets/color-palette.c:610
 msgid "purplish blue"
-msgstr ""
+msgstr "azul purpúreo"
 
 #: src/widgets/color-palette.c:614
 msgid "dark purple"
-msgstr ""
+msgstr "púrpura oscuro"
 
 #: src/widgets/color-palette.c:616
-#, fuzzy
 msgid "sky blue"
-msgstr "Por valor"
+msgstr "azul cielo"
 
 #: src/widgets/gnumeric-expr-entry.c:1239
 msgid "Expecting a single range"
 msgstr "Se espera un rango simple"
 
 #: src/widgets/gnumeric-optionmenu.c:199
-#, fuzzy
 msgid "Menu"
-msgstr "Media"
+msgstr "Menú"
 
 #: src/widgets/gnumeric-optionmenu.c:200
 msgid "The menu of options"
-msgstr ""
+msgstr "El menú de opciones"
 
 #: src/widgets/gnumeric-optionmenu.c:206
 msgid "Indicator Size"
-msgstr ""
+msgstr "Tamaño del indicador"
 
 #: src/widgets/gnumeric-optionmenu.c:207
 msgid "Size of dropdown indicator"
-msgstr ""
+msgstr "Tamaño del indicador de despliegue"
 
 #: src/widgets/gnumeric-optionmenu.c:212
-#, fuzzy
 msgid "Indicator Spacing"
-msgstr "Relleno interno"
+msgstr "Indicador de espaciado"
 
 #: src/widgets/gnumeric-optionmenu.c:213
 msgid "Spacing around indicator"
-msgstr ""
+msgstr "Espaciado alrededor del indicador"
 
 #: src/widgets/widget-charmap-selector.c:69
 msgid "Arabic"
@@ -29704,70 +29327,60 @@ msgid "Bold italic"
 msgstr "Negritas cursivas"
 
 #: src/widgets/widget-format-selector.c:61
-#, fuzzy
 msgid "Currency"
-msgstr "_Divisa"
+msgstr "Divisa"
 
 #: src/widgets/widget-format-selector.c:62
-#, fuzzy
 msgid "Accounting"
-msgstr "F_inanciero"
+msgstr "Financiero"
 
 #: src/widgets/widget-format-selector.c:66
-#, fuzzy
 msgid "Fraction"
-msgstr "F_racción"
+msgstr "Fracción"
 
 #: src/widgets/widget-format-selector.c:67
-#, fuzzy
 msgid "Scientific"
-msgstr "Científic_o"
+msgstr "Científico"
 
 #: src/widgets/widget-format-selector.c:69
-#, fuzzy
 msgid "Special"
-msgstr "_Especial"
+msgstr "Especial"
 
 #: src/widgets/widget-format-selector.c:908
 msgid "Negative Number Format"
-msgstr "Formato del número negativo:"
+msgstr "Formato del número negativo"
 
 #: src/widgets/widget-format-selector.c:939
 msgid "Number Formats"
 msgstr "Formatos numéricos"
 
 #: src/widgets/widget-locale-selector.c:64
-#, fuzzy
 msgid "Western Europe"
-msgstr "Oeste"
+msgstr "Europa occidental"
 
 #: src/widgets/widget-locale-selector.c:65
-#, fuzzy
 msgid "Eastern Europe"
-msgstr "Centroeuropeo"
+msgstr "Europa oriental"
 
 #: src/widgets/widget-locale-selector.c:66
 msgid "North America"
-msgstr ""
+msgstr "Norteamérica"
 
 #: src/widgets/widget-locale-selector.c:67
 msgid "South & Central America"
-msgstr ""
+msgstr "Centroamérica y sudamérica"
 
 #: src/widgets/widget-locale-selector.c:68
-#, fuzzy
 msgid "Asia"
-msgstr "sigma"
+msgstr "Asia"
 
 #: src/widgets/widget-locale-selector.c:69
-#, fuzzy
 msgid "Africa"
-msgstr "Árabe"
+msgstr "África"
 
 #: src/widgets/widget-locale-selector.c:70
-#, fuzzy
 msgid "Australia"
-msgstr "Australia, dólar australiano"
+msgstr "Australia"
 
 #.
 #. * The format here is "Country/Language (locale)" or just
@@ -29779,641 +29392,587 @@ msgstr "Australia, dólar australiano"
 #.
 #: src/widgets/widget-locale-selector.c:102
 msgid "United States/English (C)"
-msgstr ""
+msgstr "Estados Unidos/Inglés (C)"
 
 #: src/widgets/widget-locale-selector.c:103
-#, fuzzy
 msgid "South Africa Afrikaans (af_ZA)"
-msgstr "Sudáfrica, Rand sudafricano"
+msgstr "Sudáfrica/Afrikaans (af_ZA)"
 
 #: src/widgets/widget-locale-selector.c:104
 msgid "Ethiopia/Amharic (am_ET)"
-msgstr ""
+msgstr "Etiopía/Amharico (am_ET)"
 
 #: src/widgets/widget-locale-selector.c:105
-#, fuzzy
 msgid "United Arab Emirates (ar_AE)"
-msgstr "Emiratos Árabes Unidos, Dirhams"
+msgstr "Emiratos Árabes Unidos/Árabe (ar_AE)"
 
 #: src/widgets/widget-locale-selector.c:106
-#, fuzzy
 msgid "Bahrain (ar_BH)"
-msgstr "Baharein, dinar bahrainí"
+msgstr "Baharein/Árabe (ar_BH)"
 
 #: src/widgets/widget-locale-selector.c:107
 msgid "Algeria (ar_DZ)"
-msgstr ""
+msgstr "Argelia/Árabe (ar_DZ)"
 
 #: src/widgets/widget-locale-selector.c:108
 msgid "Egypt (ar_EG)"
-msgstr ""
+msgstr "Egipto/Árabe (ar_EG)"
 
 #: src/widgets/widget-locale-selector.c:109
 msgid "India/Arabic (ar_IN)"
-msgstr ""
+msgstr "India/Árabe (ar_IN)"
 
 #: src/widgets/widget-locale-selector.c:110
 msgid "Iraq (ar_IQ)"
-msgstr ""
+msgstr "Iraq/Árabe (ar_IQ)"
 
 #: src/widgets/widget-locale-selector.c:111
-#, fuzzy
 msgid "Jordan (ar_JO)"
-msgstr "Jordania, dinar de Jordania"
+msgstr "Jordania/Árabe (ar_JO)"
 
 #: src/widgets/widget-locale-selector.c:112
-#, fuzzy
 msgid "Kuwait (ar_KW)"
-msgstr "Kuwait, dinar kuwaití"
+msgstr "Kuwait/Árabe (ar_KW)"
 
 #: src/widgets/widget-locale-selector.c:113
 msgid "Lebanon (ar_LB)"
-msgstr ""
+msgstr "Líbano/Árabe (ar_LB)"
 
 #: src/widgets/widget-locale-selector.c:114
-#, fuzzy
 msgid "Libya (ar_LY)"
-msgstr "Libia, dinar libanés"
+msgstr "Libia/Árabe (ar_LY)"
 
 #: src/widgets/widget-locale-selector.c:115
 msgid "Morocco (ar_MA)"
-msgstr ""
+msgstr "Marruecos/Árabe (ar_MA)"
 
 #: src/widgets/widget-locale-selector.c:116
 msgid "Oman (ar_OM)"
-msgstr ""
+msgstr "Omán/Árabe (ar_OM)"
 
 #: src/widgets/widget-locale-selector.c:117
 msgid "Qatar (ar_QA)"
-msgstr ""
+msgstr "Qatar/Árabe (ar_QA)"
 
 #: src/widgets/widget-locale-selector.c:118
-#, fuzzy
 msgid "Saudi Arabia (ar_SA)"
-msgstr "Arabia Saudí, Rial "
+msgstr "Arabia Saudí/Árabe (ar_SA) "
 
 #: src/widgets/widget-locale-selector.c:119
-#, fuzzy
 msgid "Sudan (ar_SD)"
-msgstr "Sudán, dinar"
+msgstr "Sudán/Árabe (ar_SD)"
 
 #: src/widgets/widget-locale-selector.c:120
 msgid "Syria (ar_SY)"
-msgstr ""
+msgstr "Siria/Árabe (ar_SY)"
 
 #: src/widgets/widget-locale-selector.c:121
-#, fuzzy
 msgid "Tunisia (ar_TN)"
-msgstr "Túnez, dinar"
+msgstr "Túnez/Árabe (ar_TN)"
 
 #: src/widgets/widget-locale-selector.c:122
 msgid "Yemen (ar_YE)"
-msgstr ""
+msgstr "Yemen/Árabe (ar_YE)"
 
 #: src/widgets/widget-locale-selector.c:123
-#, fuzzy
 msgid "Azerbaijan (az_AZ)"
-msgstr "Azerbaijan, Manats"
+msgstr "Azerbaiján/Árabe (ar_AZ)"
 
 #: src/widgets/widget-locale-selector.c:124
-#, fuzzy
 msgid "Belarus (be_BY)"
-msgstr "Bielorrusia, rublo Beloruso"
+msgstr "Bielorrusia/Bielorruso (be_BY)"
 
 #: src/widgets/widget-locale-selector.c:125
-#, fuzzy
 msgid "Bulgaria (bg_BG)"
-msgstr "Bulgaria, Lev búlgaro"
+msgstr "Bulgaria/Búlgaro (bg_GB)"
 
 #: src/widgets/widget-locale-selector.c:126
-#, fuzzy
 msgid "Bangladesh (bn_BD)"
-msgstr "Bangladesh, Taka bangladesí"
+msgstr "Bangladesh/Bangladesí (bn_BN)"
 
 #: src/widgets/widget-locale-selector.c:127
 msgid "India/Bengali (bn_IN)"
-msgstr ""
+msgstr "India/Bengalí (bn_IN)"
 
 #: src/widgets/widget-locale-selector.c:128
 msgid "France/Breton (br_FR)"
-msgstr ""
+msgstr "Francia/Bretón (br_FR)"
 
 #: src/widgets/widget-locale-selector.c:129
-#, fuzzy
 msgid "Bosnia and Herzegowina (bs_BA)"
-msgstr "Bosnia y Herzegovina, Marka convertible "
+msgstr "Bosnia y Herzegovina/Bosnio (bs_BA)"
 
 #: src/widgets/widget-locale-selector.c:130
 msgid "Spain/Catalan (ca_ES)"
-msgstr ""
+msgstr "España/Catalán (ca_ES)"
 
 #: src/widgets/widget-locale-selector.c:131
-#, fuzzy
 msgid "Czech Republic (cs_CZ)"
-msgstr "República Checa, corona checa"
+msgstr "República Checa/Checo (cs_CZ)"
 
 #: src/widgets/widget-locale-selector.c:132
 msgid "Great Britain/Welsh (cy_GB)"
-msgstr ""
+msgstr "Gran Bretaña/Galés (cy_GB)"
 
 #: src/widgets/widget-locale-selector.c:133
-#, fuzzy
 msgid "Denmark (da_DK)"
-msgstr "Dinamarca, coronas danesas"
+msgstr "Dinamarca/Danés (da_DK)"
 
 #: src/widgets/widget-locale-selector.c:134
 msgid "Austria (de_AT)"
-msgstr ""
+msgstr "Austria/Alemán (de_AT)"
 
 #: src/widgets/widget-locale-selector.c:135
 msgid "Belgium/German (de_BE)"
-msgstr ""
+msgstr "Bélgica/Alemán (de_BE)"
 
 #: src/widgets/widget-locale-selector.c:136
-#, fuzzy
 msgid "Switzerland/German (de_CH)"
-msgstr "Suiza, francos"
+msgstr "Suiza/Alemán (de_CH)"
 
 #: src/widgets/widget-locale-selector.c:137
 msgid "Germany (de_DE)"
-msgstr ""
+msgstr "Alemania/Alemán (de_DE)"
 
 #: src/widgets/widget-locale-selector.c:138
 msgid "Luxembourg/German (de_LU)"
-msgstr ""
+msgstr "Luxemburgo/Alemán (de_LU)"
 
 #: src/widgets/widget-locale-selector.c:139
 msgid "Greece (el_GR)"
-msgstr ""
+msgstr "Grecia/Griego (el_GR)"
 
 #: src/widgets/widget-locale-selector.c:140
 msgid "Australia (en_AU)"
-msgstr ""
+msgstr "Australia/Inglés (en_AU)"
 
 #: src/widgets/widget-locale-selector.c:141
 msgid "Botswana (en_BW)"
-msgstr ""
+msgstr "Botswana/Inglés (en_BW)"
 
 #: src/widgets/widget-locale-selector.c:142
 msgid "Canada/English (en_CA)"
-msgstr ""
+msgstr "Canadá/Inglés (en_CA)"
 
 #: src/widgets/widget-locale-selector.c:143
 msgid "Great Britain (en_GB)"
-msgstr ""
+msgstr "Gran Bretaña/Inglés (en_GB)"
 
 #: src/widgets/widget-locale-selector.c:144
 msgid "Hong Kong/English (en_HK)"
-msgstr ""
+msgstr "Hong Kong/Inglés (en_HK)"
 
 #: src/widgets/widget-locale-selector.c:145
 msgid "Ireland (en_IE)"
-msgstr ""
+msgstr "Irlanda/Ingles (en_IE)"
 
 #: src/widgets/widget-locale-selector.c:146
-#, fuzzy
 msgid "India/English (en_IN)"
-msgstr "Inglés (ASCII)"
+msgstr "India/Inglés /en_IN)"
 
 #: src/widgets/widget-locale-selector.c:147
-#, fuzzy
 msgid "New Zealand (en_NZ)"
-msgstr "Nueva Zelanda, dólar neozelandés"
+msgstr "Nueva Zelanda/Inglés (en_NZ)"
 
 #: src/widgets/widget-locale-selector.c:148
-#, fuzzy
 msgid "Philippines (en_PH)"
-msgstr "Filipinas, peso filipino"
+msgstr "Filipinas/Inglés (en_PH)"
 
 #: src/widgets/widget-locale-selector.c:149
 msgid "Singapore/English (en_SG)"
-msgstr ""
+msgstr "Singapur/Inglés (en_SG)"
 
 #: src/widgets/widget-locale-selector.c:150
 msgid "United States/English (en_US)"
-msgstr ""
+msgstr "Estados Unidos/Inglés (en_US)"
 
 #: src/widgets/widget-locale-selector.c:151
-#, fuzzy
 msgid "South Africa/English (en_ZA)"
-msgstr "Sudáfrica, Rand sudafricano"
+msgstr "Sudáfrica/Inglés (en_ZA)"
 
 #: src/widgets/widget-locale-selector.c:152
 msgid "Zimbabwe (en_ZW)"
-msgstr ""
+msgstr "Zimbabwe/Inglés (en_ZW)"
 
 #: src/widgets/widget-locale-selector.c:153
 msgid "Esperanto (eo_EO)"
-msgstr ""
+msgstr "Esperanto (eo_EO)"
 
 #: src/widgets/widget-locale-selector.c:154
-#, fuzzy
 msgid "Argentina (es_AR)"
-msgstr "Argentina, pesos"
+msgstr "Argentina/Español (es_AR)"
 
 #: src/widgets/widget-locale-selector.c:155
 msgid "Bolivia (es_BO)"
-msgstr ""
+msgstr "Bolivia/Español (es_BO)"
 
 #: src/widgets/widget-locale-selector.c:156
-#, fuzzy
 msgid "Chile (es_CL)"
-msgstr "Chile, Peso chileno"
+msgstr "Chile/Español (es_CL)"
 
 #: src/widgets/widget-locale-selector.c:157
-#, fuzzy
 msgid "Colombia (es_CO)"
-msgstr "Colombia, Peso colombiano"
+msgstr "Colombia/Español (es_CO)"
 
 #: src/widgets/widget-locale-selector.c:158
-#, fuzzy
 msgid "Costa Rica (es_CR)"
-msgstr "Costa Rica, Colón costaricense"
+msgstr "Costa Rica/Español (es_CR)"
 
 #: src/widgets/widget-locale-selector.c:159
-#, fuzzy
 msgid "Dominican Republic (es_DO)"
-msgstr "República Dominicana, Peso dominicano"
+msgstr "República Dominicana/Español (es_DO)"
 
 #: src/widgets/widget-locale-selector.c:160
 msgid "Ecuador (es_EC)"
-msgstr ""
+msgstr "Ecuador/Español (es_EC)"
 
 #: src/widgets/widget-locale-selector.c:161
-#, fuzzy
 msgid "Spain (es_ES)"
-msgstr "Muestreo (%s)"
+msgstr "España/Español (es_ES)"
 
 #: src/widgets/widget-locale-selector.c:162
-#, fuzzy
 msgid "Guatemala (es_GT)"
-msgstr "Guatemala, quetzal"
+msgstr "Guatemala/Español (es_GT)"
 
 #: src/widgets/widget-locale-selector.c:163
-#, fuzzy
 msgid "Honduras (es_HN)"
-msgstr "Honduras, lempira "
+msgstr "Honduras/Español (es_HN)"
 
 #: src/widgets/widget-locale-selector.c:164
-#, fuzzy
 msgid "Mexico (es_MX)"
-msgstr "Mexico, Peso mexicano"
+msgstr "México/Español (es_MX)"
 
 #: src/widgets/widget-locale-selector.c:165
 msgid "Nicaragua (es_NI)"
-msgstr ""
+msgstr "Nicaragua/Español (es_NI)"
 
 #: src/widgets/widget-locale-selector.c:166
 msgid "Panama (es_PA)"
-msgstr ""
+msgstr "Panamá/Español (es_PA)"
 
 #: src/widgets/widget-locale-selector.c:167
 msgid "Peru (es_PE)"
-msgstr ""
+msgstr "Perú/Español (es_PE)"
 
 #: src/widgets/widget-locale-selector.c:168
 msgid "Puerto Rico (es_PR)"
-msgstr ""
+msgstr "Puerto Rico/Español (es_PR)"
 
 #: src/widgets/widget-locale-selector.c:169
 msgid "Paraguay (es_PY)"
-msgstr ""
+msgstr "Paraguay/Español (es_PY)"
 
 #: src/widgets/widget-locale-selector.c:170
-#, fuzzy
 msgid "El Salvador (es_SV)"
-msgstr "El salvador, colón salvadoreño"
+msgstr "El Salvador/Español (es_PY)"
 
 #: src/widgets/widget-locale-selector.c:171
 msgid "United States/Spanish (es_US)"
-msgstr ""
+msgstr "Estados Unidos/Español (es_US)"
 
 #: src/widgets/widget-locale-selector.c:172
-#, fuzzy
 msgid "Uruguay (es_UY)"
-msgstr "Uruguay, peso uruguayo"
+msgstr "Uruguay/Español (es_UY)"
 
 #: src/widgets/widget-locale-selector.c:173
-#, fuzzy
 msgid "Venezuela (es_VE)"
-msgstr "Venezuela, bolívar"
+msgstr "Venezuela/Español (es_VE)"
 
 #: src/widgets/widget-locale-selector.c:174
 msgid "Estonia (et_EE)"
-msgstr ""
+msgstr "Estonia/Estonio (et_EE)"
 
 #: src/widgets/widget-locale-selector.c:175
 msgid "spain/Basque (eu_ES)"
-msgstr ""
+msgstr "España/Vasco (eu_ES)"
 
 #: src/widgets/widget-locale-selector.c:176
 msgid "Iran (fa_IR)"
-msgstr ""
+msgstr "Irán (fa_IR)"
 
 #: src/widgets/widget-locale-selector.c:177
 msgid "Finland/Finnish (fi_FI)"
-msgstr ""
+msgstr "Finlandia/Finlandés (fi_FI)"
 
 #: src/widgets/widget-locale-selector.c:178
 msgid "Faroe Islands (fo_FO)"
-msgstr ""
+msgstr "Faroe Islands (fo_FO)"
 
 #: src/widgets/widget-locale-selector.c:179
 msgid "Belgium/French (fr_BE)"
-msgstr ""
+msgstr "Bélgica/Francés (fr_BE)"
 
 #: src/widgets/widget-locale-selector.c:180
 msgid "Canada/French (fr_CA)"
-msgstr ""
+msgstr "Canadá/Francés (fr_CA)"
 
 #: src/widgets/widget-locale-selector.c:181
-#, fuzzy
 msgid "Switzerland/French (fr_CH)"
-msgstr "Suiza, francos"
+msgstr "Suiza/Francés (fr_CH)"
 
 #: src/widgets/widget-locale-selector.c:182
 msgid "France (fr_FR)"
-msgstr ""
+msgstr "Francia/Francés (fr_FR)"
 
 #: src/widgets/widget-locale-selector.c:183
 msgid "Ireland/Gaelic (ga_IE)"
-msgstr ""
+msgstr "Irlanda/Gaélico (ga_IE)"
 
 #: src/widgets/widget-locale-selector.c:184
 msgid "Great Britain/Scottish Gaelic (gd_GB)"
-msgstr ""
+msgstr "Gran Bretaña/Escocés gaélico (gd_GB)"
 
 #: src/widgets/widget-locale-selector.c:185
 msgid "Spain/Galician (gl_ES)"
-msgstr ""
+msgstr "España/Gallego (gl_ES)"
 
 #: src/widgets/widget-locale-selector.c:186
 msgid "Great Britain/Manx Gaelic (gv_GB)"
-msgstr ""
+msgstr "Gran Bretaña/Gaélico Manx (gv_GB)"
 
 #: src/widgets/widget-locale-selector.c:187
 msgid "India/Hindu (hi_IN)"
-msgstr ""
+msgstr "India/Hindú (hi_IN)"
 
 #: src/widgets/widget-locale-selector.c:188
 msgid "Croatia (hr_HR)"
-msgstr ""
+msgstr "Croacia/Croata (hr_HR)"
 
 #: src/widgets/widget-locale-selector.c:189
 msgid "Hungary (hu_HU)"
-msgstr ""
+msgstr "Hungría/Húngaro (hu_HU)"
 
 #: src/widgets/widget-locale-selector.c:190
-#, fuzzy
 msgid "Armenia (hy_AM)"
-msgstr "Armenio (ARMSCII-8)"
+msgstr "Armenia (hy_AM)"
 
 #: src/widgets/widget-locale-selector.c:191
 msgid "(i18n)"
-msgstr ""
+msgstr "(i18n)"
 
 #: src/widgets/widget-locale-selector.c:192
-#, fuzzy
 msgid "Indonesia (id_ID)"
-msgstr "Indonesia, rupias"
+msgstr "Indonesia/Indonesio (id_ID)"
 
 #: src/widgets/widget-locale-selector.c:193
 msgid "Iceland (is_IS)"
-msgstr ""
+msgstr "Islandia/Islandés (is_IS)"
 
 #: src/widgets/widget-locale-selector.c:194
 msgid "(iso14651_t1)"
-msgstr ""
+msgstr "(iso14651_t1)"
 
 #: src/widgets/widget-locale-selector.c:195
 msgid "Switzerland/Italian (it_CH)"
-msgstr ""
+msgstr "Suiza/Italiano (it_CH)"
 
 #: src/widgets/widget-locale-selector.c:196
 msgid "Italy (it_IT)"
-msgstr ""
+msgstr "Italia/Italiano (it_IT)"
 
 #: src/widgets/widget-locale-selector.c:197
 msgid "Israel/Hebrew (iw_IL)"
-msgstr ""
+msgstr "Israel/Hebreo (iw_IL)"
 
 #: src/widgets/widget-locale-selector.c:198
-#, fuzzy
 msgid "Japan (ja_JP)"
-msgstr "Japonés (EUC-JP)"
+msgstr "Japón/Japonés (ja_JP)"
 
 #: src/widgets/widget-locale-selector.c:199
-#, fuzzy
 msgid "Georgia (ka_GE)"
-msgstr "Georgiano (GEOSTD8)"
+msgstr "Georgia/Georgiano (ka_GE)"
 
 #: src/widgets/widget-locale-selector.c:200
 msgid "Greenland (kl_GL)"
-msgstr ""
+msgstr "Groenlandia (kl_GL)"
 
 #: src/widgets/widget-locale-selector.c:201
-#, fuzzy
 msgid "Korea (ko_KR)"
-msgstr "Coreano (EUC-KR)"
+msgstr "Corea/Coreano (ko_KR)"
 
 #: src/widgets/widget-locale-selector.c:202
 msgid "Great Britain/Cornish (kw_GB)"
-msgstr ""
+msgstr "Gran Bretaña/Cornish (kw_GB)"
 
 #: src/widgets/widget-locale-selector.c:203
-#, fuzzy
 msgid "Lithuania (lt_LT)"
-msgstr "Lithuania, Litai"
+msgstr "Lithuania/Lituano (lt_LT)"
 
 #: src/widgets/widget-locale-selector.c:204
-#, fuzzy
 msgid "Latvia (lv_LV)"
-msgstr "Latvia, Lati"
+msgstr "Latvia (lv_LV)"
 
 #: src/widgets/widget-locale-selector.c:205
 msgid "New Zealand/Maori (mi_NZ)"
-msgstr ""
+msgstr "Nueva Zelanda/Maorí (mi_NZ)"
 
 #: src/widgets/widget-locale-selector.c:206
 msgid "Macedonia (mk_MK)"
-msgstr ""
+msgstr "Macedonia (mk_MK)"
 
 #: src/widgets/widget-locale-selector.c:207
 msgid "India/Marathi (mr_IN)"
-msgstr ""
+msgstr "India/Marathi (mr_IN)"
 
 #: src/widgets/widget-locale-selector.c:208
 msgid "Malaysia (ms_MY)"
-msgstr ""
+msgstr "Malaysia (ms_MY)"
 
 #: src/widgets/widget-locale-selector.c:209
 msgid "Malta (mt_MT)"
-msgstr ""
+msgstr "Malta (mt_MT)"
 
 #: src/widgets/widget-locale-selector.c:210
 msgid "Belgium/Flemish (nl_BE)"
-msgstr ""
+msgstr "Bélgica/Flamenco (nl_BE)"
 
 #: src/widgets/widget-locale-selector.c:211
 msgid "The Netherlands (nl_NL)"
-msgstr ""
+msgstr "Holanda/Holandés (nl_NL)"
 
 #: src/widgets/widget-locale-selector.c:212
 msgid "Norway/Nynorsk (nn_NO)"
-msgstr ""
+msgstr "Noruega/Nynorsk (nn_NO)"
 
 #: src/widgets/widget-locale-selector.c:213
 msgid "Norway/Bokmal (no_NO)"
-msgstr ""
+msgstr "Noruega/Bokmal (no_NO)"
 
 #: src/widgets/widget-locale-selector.c:214
 msgid "France/Occitan (oc_FR)"
-msgstr ""
+msgstr "Francia/Occitan (oc_FR)"
 
 #: src/widgets/widget-locale-selector.c:215
 msgid "Poland (pl_PL)"
-msgstr ""
+msgstr "Polonia/Polaco (pl_PL)"
 
 #: src/widgets/widget-locale-selector.c:216
 msgid "Brazil (pt_BR)"
-msgstr ""
+msgstr "Brasil/Portugués (pt_BR)"
 
 #: src/widgets/widget-locale-selector.c:217
 msgid "Portugal (pt_PT)"
-msgstr ""
+msgstr "Portugal/Portugués (pt_PT)"
 
 #: src/widgets/widget-locale-selector.c:218
 msgid "Romania (ro_RO)"
-msgstr ""
+msgstr "Rumanía (ro_RO)"
 
 #: src/widgets/widget-locale-selector.c:219
-#, fuzzy
 msgid "Russia (ru_RU)"
-msgstr "Ruso (CP-866)"
+msgstr "Rusia/Ruso (ru_RU)"
 
 #: src/widgets/widget-locale-selector.c:220
-#, fuzzy
 msgid "Ukraine/Russian (ru_UA)"
-msgstr "Ucraniano (KOI8-U)"
+msgstr "Ucraniano/Ruso (ru_UA)"
 
 #: src/widgets/widget-locale-selector.c:221
 msgid "Norway/Saami (se_NO)"
-msgstr ""
+msgstr "Noruega/Saami (se_NO)"
 
 #: src/widgets/widget-locale-selector.c:222
-#, fuzzy
 msgid "Slovakia (sk_SK)"
-msgstr "Eslovaquia, corona eslovaca"
+msgstr "Eslovaquia/Eslovaco (sk_SK)"
 
 #: src/widgets/widget-locale-selector.c:223
-#, fuzzy
 msgid "Slovenia (sl_SI)"
-msgstr "Eslovenia, tolar"
+msgstr "Eslovenia/Esloveno (sl_SL)"
 
 #: src/widgets/widget-locale-selector.c:224
-#, fuzzy
 msgid "Albania (sq_AL)"
-msgstr "Albania, Lek"
+msgstr "Albania (sq_AL)"
 
 #: src/widgets/widget-locale-selector.c:225
-#, fuzzy
 msgid "Yugoslavia (sr_YU)"
-msgstr "Yugoslavia, nuevo dinar"
+msgstr "Yugoslavia (sr_YU)"
 
 #: src/widgets/widget-locale-selector.c:226
 msgid "Finland/Swedish (sv_FI)"
-msgstr ""
+msgstr "Finlandia/Sueco (sv_FI)"
 
 #: src/widgets/widget-locale-selector.c:227
 msgid "Sweden (sv_SE)"
-msgstr ""
+msgstr "Suecia/Sueco (sv_SE)"
 
 #: src/widgets/widget-locale-selector.c:228
 msgid "India/Tamil (ta_IN)"
-msgstr ""
+msgstr "India/Tamil (ta_IN)"
 
 #: src/widgets/widget-locale-selector.c:229
 msgid "India/Telugu (te_IN)"
-msgstr ""
+msgstr "India/Telugu (te_IN)"
 
 #: src/widgets/widget-locale-selector.c:230
-#, fuzzy
 msgid "Tajikistan (tg_TJ)"
-msgstr "Tajikistán, rublo"
+msgstr "Tajikistan (tg_TJ)"
 
 #: src/widgets/widget-locale-selector.c:231
-#, fuzzy
 msgid "Thailand (th_TH)"
-msgstr "Tailandia, Baht"
+msgstr "Tailandia (th_TH)"
 
 #: src/widgets/widget-locale-selector.c:232
 msgid "Eritrea (ti_ER)"
-msgstr ""
+msgstr "Eritrea (ti_ER)"
 
 #: src/widgets/widget-locale-selector.c:233
 msgid "Ethiopia/Tigrinya (ti_ET)"
-msgstr ""
+msgstr "Etiopía/Tigrinya (ti_ET)"
 
 #: src/widgets/widget-locale-selector.c:234
 msgid "Philippines/Tagalog (tl_PH)"
-msgstr ""
+msgstr "Filipinas/Tagalo (tl_PH)"
 
 #: src/widgets/widget-locale-selector.c:235
 msgid "Turkey (tr_TR)"
-msgstr ""
+msgstr "Turquía (tr_TR)"
 
 #: src/widgets/widget-locale-selector.c:236
 msgid "Russia/Tatar (tt_RU)"
-msgstr ""
+msgstr "Rusia/Tatar (tt_RU)"
 
 #: src/widgets/widget-locale-selector.c:237
-#, fuzzy
 msgid "Ukraine (uk_UA)"
-msgstr "Ucraniano (KOI8-U)"
+msgstr "Ucrania (uk_UA)"
 
 #: src/widgets/widget-locale-selector.c:238
-#, fuzzy
 msgid "Pakistan (ur_PK)"
-msgstr "Pakistán, rupia pakistaní"
+msgstr "Pakistán (ur_PK)"
 
 #: src/widgets/widget-locale-selector.c:239
-#, fuzzy
 msgid "Uzbekistan (uz_UZ)"
-msgstr "Uzbekistan, Sums"
+msgstr "Uzbekistan (uz_UZ)"
 
 #: src/widgets/widget-locale-selector.c:240
-#, fuzzy
 msgid "Vietnam (vi_VN)"
-msgstr "Vietnamita (TCVN)"
+msgstr "Vietnam (vi_VN)"
 
 #: src/widgets/widget-locale-selector.c:241
 msgid "Belgium/Walloon (wa_BE)"
-msgstr ""
+msgstr "Bélgica/Balón (wa_BE)"
 
 #: src/widgets/widget-locale-selector.c:242
 msgid "United States/Yiddish (yi_US)"
-msgstr ""
+msgstr "Estados Unidos/Yiddish (yi_US)"
 
 #: src/widgets/widget-locale-selector.c:243
 msgid "China (zh_CN)"
-msgstr ""
+msgstr "China (zh_CN)"
 
 #: src/widgets/widget-locale-selector.c:244
 msgid "Hong Kong/Chinese (zh_HK)"
-msgstr ""
+msgstr "Hong Kong/Chino (zh_HK)"
 
 #: src/widgets/widget-locale-selector.c:245
 msgid "Singapore/Chinese (zh_SG)"
-msgstr ""
+msgstr "Singapur/Chino (zh_SG)"
 
 #: src/widgets/widget-locale-selector.c:246
 msgid "Taiwan (zh_TW)"
-msgstr ""
+msgstr "Taiwan (zh_TW)"
 
 #: src/widgets/widget-locale-selector.c:435
-#, fuzzy
 msgid "Current Locale: "
-msgstr "Valor actual:"
+msgstr "Localización actual (i18n): "
 
 #: src/workbook-cmd-format.c:49
 msgid "Add Borders"
@@ -30472,7 +30031,7 @@ msgstr "Desb_loquear paneles"
 
 #: src/workbook-control-gui.c:1499
 msgid "Unfreeze the top left of the sheet"
-msgstr "Desbloquear la esquina izquierda de la hoja"
+msgstr "Desbloquear la esquina superior izquierda de la hoja"
 
 #: src/workbook-control-gui.c:1514
 msgid "Remove _Auto Filter"
@@ -30795,9 +30354,9 @@ msgid "Internal ERROR"
 msgstr "ERROR interno"
 
 #: src/workbook-view.c:552
-#, fuzzy, c-format
+#, c-format
 msgid "Can't open '%s' for writing: %s"
-msgstr "No se puede abrir «%s» : %s"
+msgstr "No se puede abrir «%s» para escritura: %s"
 
 #: src/workbook-view.c:576
 #, c-format
@@ -30809,9 +30368,8 @@ msgstr "Ocurrió un error inexplicable mientras se guardaba %s"
 #. * gnumeric `echo -e '\377\376'`
 #.
 #: src/workbook-view.c:583 src/workbook-view.c:826
-#, fuzzy
 msgid "The filename given is not valid in the current encoding."
-msgstr "El nombre del archivo dado no es válido."
+msgstr "El nombre del archivo dado no está en la codificación actual."
 
 #: src/workbook-view.c:668
 msgid "Default file saver is not available."
@@ -30870,302 +30428,3 @@ msgstr "Ha ocurrido un error al guardar el archivo"
 msgid "Gnumeric XML file format"
 msgstr "Formato de archivo XML de Gnumeric"
 
-#~ msgid "serial_number,months"
-#~ msgstr "número_serie,meses"
-
-#~ msgid "Maths / Trig."
-#~ msgstr "Matem. / Trigon."
-
-#~ msgid "x,meean,stdev"
-#~ msgstr "x,media,desvest"
-
-#~ msgid "p,mean,stdev"
-#~ msgstr "p,media,desvest"
-
-#~ msgid "find,within,start_num"
-#~ msgstr "buscar,con,núm_inicio"
-
-#~ msgid "Is not an Gnumeric Workbook file"
-#~ msgstr "No es un libro de cuentas Gnumeric"
-
-#~ msgid "Graph Guru"
-#~ msgstr "Asistente para diagramas"
-
-#~ msgid "Launch the Graph Guru"
-#~ msgstr "Llamar al asistente de los diagramas"
-
-#~ msgid "_Add / Modify comment..."
-#~ msgstr "_Añadir/Modificar comentario..."
-
-#~ msgid "A unique name for the action."
-#~ msgstr "Un único nombre para la acción"
-
-#~ msgid "The label used for menu items and buttons that activate this action."
-#~ msgstr ""
-#~ "La etiqueta usada para los elementos del menú y los botones que activan "
-#~ "esta acción."
-
-#~ msgid "Short label"
-#~ msgstr "Etiqueta corta"
-
-#~ msgid "A shorter label that may be used on toolbar buttons."
-#~ msgstr ""
-#~ "Una etiqueta más corta que puede usarse en los botones de la barra de "
-#~ "herramientas"
-
-#~ msgid "Tooltip"
-#~ msgstr "Consejo"
-
-#~ msgid "A tooltip for this action."
-#~ msgstr "Un consejo para esta acción."
-
-#~ msgid "Stock Icon"
-#~ msgstr "Icono de Stock"
-
-#~ msgid "The stock icon displayed in widgets representing this action."
-#~ msgstr ""
-#~ "El icono de stock mostrado en los widgets representando esta acción."
-
-#~ msgid "Sensitive"
-#~ msgstr "Sensible"
-
-#~ msgid "Whether the action is enabled."
-#~ msgstr "Indica si la acción está activada"
-
-#~ msgid "Visible"
-#~ msgstr "Visible"
-
-#~ msgid "Whether the action is visible."
-#~ msgstr "Indica si la acción es visible."
-
-#~ msgid "Unknown attribute '%s' on line %d char %d"
-#~ msgstr "El atributo «%s» en la línea %d carácter %d es desconocido"
-
-#~ msgid "Unknown tag '%s' on line %d char %d"
-#~ msgstr "La marca «%s» en la línea %d carácter %d es desconocido"
-
-#~ msgid "The orientation of the toolbar"
-#~ msgstr "La orientación de la barra de herramientas"
-
-#~ msgid "How to draw the toolbar"
-#~ msgstr "Cómo se dibuja la barra de herramientas"
-
-#~ msgid "Show Arrow"
-#~ msgstr "Mostrar flecha"
-
-#~ msgid "If an arrow should be shown if the toolbar doesn't fit"
-#~ msgstr ""
-#~ "Indica si se deberá mostrar una flecha cuando no quepa la barra de "
-#~ "herramientas"
-
-#~ msgid "Spacer size"
-#~ msgstr "Tamaño del espaciador"
-
-#~ msgid "Size of spacers"
-#~ msgstr "Tamaño de los espaciadores"
-
-#~ msgid "Amount of border space between the toolbar shadow and the buttons"
-#~ msgstr ""
-#~ "Cantidad de espacio del borde entre el sombreado de la barra de "
-#~ "herramientas y los botones"
-
-#~ msgid "Space style"
-#~ msgstr "Estilo de espacio"
-
-#~ msgid "Whether spacers are vertical lines or just blank"
-#~ msgstr "Indica si los separadores son líneas verticales o sólo blancos."
-
-#~ msgid "Button relief"
-#~ msgstr "Relieve del botón"
-
-#~ msgid "Type of bevel around toolbar buttons"
-#~ msgstr ""
-#~ "Tipo de biselado alrededor de los botones de la barra de herramientas"
-
-#~ msgid "Shadow type"
-#~ msgstr "Tipo de sombra"
-
-#~ msgid "Style of bevel around the toolbar"
-#~ msgstr "Estilo de biselado alrededor de la barra de herramientas"
-
-#~ msgid "Text to show in the item."
-#~ msgstr "Texto a mostrar en el elemento."
-
-#~ msgid "Use underline"
-#~ msgstr "Usar subrayado"
-
-#~ msgid "Interpret underlines in the item label."
-#~ msgstr "Interpretar guiones bajos en la etiqueta del elemento."
-
-#~ msgid "Stock Id"
-#~ msgstr "Id de Stock"
-
-#~ msgid "The stock icon displayed on the item."
-#~ msgstr "El icono de stock mostrado en el elemento"
-
-#~ msgid "Icon set"
-#~ msgstr "Conjunto de icono"
-
-#~ msgid "Icon set to use to draw the item's icon."
-#~ msgstr ""
-#~ "Conjunto de iconos que se usarán para dibujar el icono del elemento."
-
-#~ msgid "Icon widget"
-#~ msgstr "Widget del icono"
-
-#~ msgid "Icon widget to display in the item."
-#~ msgstr "Icono para mostrar el elemento."
-
-#~ msgid "Visible when horizontal"
-#~ msgstr "Visible en posición horizontal"
-
-#~ msgid ""
-#~ "Whether the toolbar item is visible when the toolbar is in a horizontal "
-#~ "orientation."
-#~ msgstr ""
-#~ "Indica si el elemento de la barra de tareas es visible cuando la barra de "
-#~ "tareas está en orientación horizontal."
-
-#~ msgid "Visible when vertical"
-#~ msgstr "Visible en posición vertical"
-
-#~ msgid ""
-#~ "Whether the toolbar item is visible when the toolbar is in a vertical "
-#~ "orientation."
-#~ msgstr ""
-#~ "Indica si el elemento de la barra de tareas es visible cuando la barra de "
-#~ "tareas está en orientación vertical."
-
-#~ msgid "Homogeneous size"
-#~ msgstr "Tamaño homogéneo"
-
-#~ msgid ""
-#~ "Whether the toolbar item should be the same size as other homogeneous "
-#~ "items."
-#~ msgstr ""
-#~ "Indica si el elemento de la barra de tareas debería tener el mismo tamaño "
-#~ "que otros elementos homogéneos."
-
-#~ msgid "Basic Types"
-#~ msgstr "Tipos básicos"
-
-#~ msgid "_Rows Per Sample:"
-#~ msgstr "_Filas por muestra:"
-
-#~ msgid "The current category"
-#~ msgstr "Categoría actual"
-
-#~ msgid "_Category"
-#~ msgstr "_Categoría"
-
-#~ msgid "Cust_om"
-#~ msgstr "Personali_zado"
-
-#~ msgid "De_lete Format"
-#~ msgstr "_Borrar formato"
-
-#~ msgid "Formatted Sample"
-#~ msgstr "Muestra formateada"
-
-#~ msgid ""
-#~ "General format cells attempt to select an appropriate format depending on "
-#~ "the value of the cell."
-#~ msgstr ""
-#~ "El formato general intenta seleccionar el formato adecuado dependiendo "
-#~ "del valor de la celda."
-
-#~ msgid "Sp_ecial"
-#~ msgstr "_Especial"
-
-#~ msgid "Te_xt"
-#~ msgstr "_Texto"
-
-#~ msgid "_Number"
-#~ msgstr "_Numérico"
-
-#~ msgid "_Time"
-#~ msgstr "_Hora"
-
-#~ msgid "K:"
-#~ msgstr "K:"
-
-#~ msgid "Mrt"
-#~ msgstr "Mar"
-
-#~ msgid "_URL"
-#~ msgstr "_URL"
-
-#~ msgid "Column formatting"
-#~ msgstr "Formateando columna"
-
-# Mejorar traduccion
-#~ msgid "Customize the columns using the buttons or the mouse"
-#~ msgstr "Personalizar las columnas utilizando los botones o el ratón"
-
-#~ msgid "Data type and number of lines"
-#~ msgstr "Tipos de datos y cantidad líneas"
-
-#~ msgid "Fixed width customization"
-#~ msgstr "Personalizar ancho fijo"
-
-#~ msgid "Formatting for the selected column"
-#~ msgstr "Dando formato a la columna seleccionada"
-
-#~ msgid "Importing structured text"
-#~ msgstr "Importando texto estructurado"
-
-#~ msgid "Misc"
-#~ msgstr "Misceláneos"
-
-#~ msgid ""
-#~ "Select the format for each column. You can click in the column list on "
-#~ "the left or in the example to select a column. You can then enter a "
-#~ "custom format or select one from the list on the right."
-#~ msgstr ""
-#~ "Seleccione el formato de cada columna.  Puede seleccionar la columna en "
-#~ "la lista o en el ejemplo.  Además, puede personalizar el formato en el "
-#~ "cuadro de texto de la derecha."
-
-#~ msgid ""
-#~ "Select the separators that appear in the text (you can choose multiple "
-#~ "separators if desired and also enter a custom one)"
-#~ msgstr ""
-#~ "Seleccione los separadores que aparecen en el texto (puede indicar "
-#~ "múltiples separadores y también puede personalizar uno)"
-
-#~ msgid "Select the structure of the text that most closely matches the data."
-#~ msgstr "Seleccione la estructura del texto que mejor describa a los datos."
-
-#~ msgid "Separation customization"
-#~ msgstr "Personalizar separación"
-
-#~ msgid "Per_centages"
-#~ msgstr "Por_centaje"
-
-#~ msgid "Ro_ws"
-#~ msgstr "_Filas"
-
-#~ msgid "Unkno_wn"
-#~ msgstr "_Desconocidas"
-
-#~ msgid "Unknown Pop. Var. are:"
-#~ msgstr "Las var. desconocidas de la pobl. son:"
-
-#~ msgid "Variable 1 Range:"
-#~ msgstr "Rango de la 1ª variable:"
-
-#~ msgid "Variable 2 Range:"
-#~ msgstr "Rango de la 2ª variable:"
-
-#~ msgid ";[Red]"
-#~ msgstr ";[Red]"
-
-#~ msgid "_);("
-#~ msgstr "_);("
-
-#~ msgid "_);[Red]("
-#~ msgstr "_);[Red]("
-
-#~ msgid "Error while trying to pre-convert clipboard data"
-#~ msgstr ""
-#~ "Ha ocurrido un error al intentar pre-convertir los datos del portapapeles."
