@@ -49,6 +49,7 @@
 #include <gtk/gtktreeselection.h>
 #include <gtk/gtkstock.h>
 #include <gtk/gtkliststore.h>
+#include <gtk/gtkicontheme.h>
 #include <gtk/gtkbox.h>
 #include <string.h>
 #include <stdio.h>
