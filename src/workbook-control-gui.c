@@ -1004,10 +1004,10 @@ wbcg_paste_from_selection (WorkbookControl *wbc, PasteTarget const *pt, guint32 
 }
 
 static gboolean
-wbcg_claim_selection  (WorkbookControl *wbc)
+wbcg_claim_selection (WorkbookControl *wbc)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
-	return gtk_selection_owner_set (GTK_WIDGET (wbcg->table),
+	return gtk_selection_owner_set (GTK_WIDGET (wbcg->toplevel),
 					GDK_SELECTION_PRIMARY,
 					GDK_CURRENT_TIME);
 }

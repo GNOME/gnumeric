@@ -1,5 +1,9 @@
 2001-06-20  Almer S. Tigelaar  <almer@gnome.org>
 
+	* src/workbook-control-gui.c (wbcg_claim_selection):
+	Use wbcg->toplevel, not wbcg->table. This fixes
+	copying from Gnumeric to another application.
+
 	* src/print-info.c (print_info_new): Default to scale
 	factor 1 not 100.
 
