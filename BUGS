@@ -16,6 +16,8 @@ Release Critical
 
     - Ctrl-C does not seem to work for me.  Why?  (Ctrl-Z does work.)
 
+    - Fix queue region.
+
 Pending Patches
 ---------------
 
