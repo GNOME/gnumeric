@@ -431,20 +431,42 @@ font_init (void)
 						       scale, FALSE, FALSE);
 
 	if (!gnumeric_default_font) {
-		gnumeric_notice (NULL, GNOME_MESSAGE_BOX_ERROR, 
-			 _("Gnumeric failed to find a suitable default font.\n"
-			   "\n"
-			   "Please verify your gnome-print installation and that your fontmap file\n"
-			   "(typically located in /usr/local/share/fonts/fontmap) is not empty or\n"
-			   "near empty.\n"
-			   "\n"
-			   "If you still have no luck, please file a proper bug report (see\n"
-			   "http://bugs.gnome.org) including the following extra items:\n"
-			   "\n"
-			   "1. Values of LC_ALL and LANG environment variables.\n"
-			   "2. Your fontmap file, see above.\n"
-			   "\n"
-			   "Thanks -- the Gnumeric Team\n"));
+		char *lc_all = getenv ("LC_ALL");
+		char *lang = getenv ("LANG");
+		char *msg;
+		char *fontmap_fn = gnome_datadir_file ("fonts/fontmap");
+		gboolean exists = (fontmap_fn != NULL);
+
+		if (!exists)
+			fontmap_fn = gnome_unconditional_datadir_file ("fonts/fontmap");
+
+		if (lc_all == NULL)
+			lc_all = _("<Has not been set>");
+		if (lang == NULL)
+			lang = _("<Has not been set>");
+
+		msg = g_strdup_printf (
+			_("Gnumeric failed to find a suitable default font.\n"
+			"Please verify your gnome-print installation\n."
+			"Your fontmap file (typically located\n"
+			"in %s) %s"
+			"\n"
+			"If you still have no luck, please file a proper bug report (see\n"
+			"http://bugs.gnome.org) including the following extra items:\n"
+			"\n"
+			"1) The value of the LC_ALL environment variable\n"
+			"\tLC_ALL=%s\n"
+			"2) The value of the LANG environment variable\n"
+			"\tLANG=%s\n"
+			"3) Your content of the fontmap file, if it exists.\n"
+			"4) What version of libxml gnumeric is running with.\n"
+			"   You may be able to use the 'ldd' command to get that information.\n"
+			"\n"
+			"Thanks -- the Gnumeric Team\n"), fontmap_fn, exists
+			? _("does not have a valid entry for Helvetica")
+			: _("could not be found in the expected location"),
+			lc_all, lang);
+		gnumeric_notice (NULL, GNOME_MESSAGE_BOX_ERROR, msg);
 		exit (1);
 	}
 

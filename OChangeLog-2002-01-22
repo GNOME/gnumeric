@@ -1,5 +1,8 @@
 2000-06-15  Jody Goldberg <jgoldberg@home.com>
 
+	* src/style.c (font_init) : Improve error message to include the most
+	  probable location of the fontmap file.
+
 	* src/sheet-view.c (sheet_view_size_allocate) : Disable jump to edit
 	  pos to avoid unintended jumping when a sheet is added.
 
