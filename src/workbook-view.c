@@ -747,7 +747,7 @@ wb_view_open_custom (WorkbookView *wbv, WorkbookControl *wbc,
 		}
 
 		wb_control_menu_state_sensitivity (wbc, TRUE);
-		gtk_object_destroy (GTK_OBJECT (io_context));
+		gtk_object_unref (GTK_OBJECT (io_context));
 	} else {
 		new_wb = workbook_new_with_sheets (1);
 		new_wbv = workbook_view_new (new_wb);

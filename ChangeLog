@@ -1,3 +1,7 @@
+2001-10-12  Morten Welinder  <terra@diku.dk>
+
+	* src/workbook-view.c (wb_view_open_custom): Plug leak.
+
 2001-10-12  Jody Goldberg <jgoldberg@home.com>
 
 	* idl/GNOME_Gnumeric_Graph.idl :  simplify my life
