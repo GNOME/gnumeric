@@ -405,7 +405,6 @@ cb_image_file_select (GtkWidget *cc, StylePrefState *state)
 	GogStyle *style = gog_object_get_style (state->obj);
 	GtkFileSelection *fs;
 	GtkWidget *w;
-	gint result;
 
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (GOG_FILL_STYLE_IMAGE == style->fill.type);
@@ -417,11 +416,10 @@ cb_image_file_select (GtkWidget *cc, StylePrefState *state)
 	if (style->fill.u.image.filename != NULL)
 		gtk_file_selection_set_filename (fs, style->fill.u.image.filename);
 
-	/* SHOULD BE USING gnumeric_dialog_file_selection
-	 * and should not be modal
+	/* 
+	 * should not be modal
 	 **/
-	result = gtk_dialog_run (GTK_DIALOG (fs));
-	if (result == GTK_RESPONSE_OK) {
+	if (gnumeric_dialog_image_file_selection (NULL, fs)) {
 		style = gog_style_dup (style);
 
 		if (style->fill.u.image.image != NULL)

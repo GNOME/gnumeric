@@ -171,10 +171,13 @@ fsel_key_event (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 gboolean
 gnumeric_dialog_file_selection (WorkbookControlGUI *wbcg, GtkFileSelection *fsel)
 {
+	/* Note: wbcg will be NULL if called (indirectly) from gog-style.c  */
 	gboolean result = FALSE;
 
 	gtk_window_set_modal (GTK_WINDOW (fsel), TRUE);
-	gnumeric_set_transient (wbcg_toplevel (wbcg), GTK_WINDOW (fsel));
+	if (wbcg)
+		gnumeric_set_transient (wbcg_toplevel (wbcg), 
+					GTK_WINDOW (fsel));
 	g_signal_connect (G_OBJECT (fsel->ok_button),
 		"clicked",
 		G_CALLBACK (fsel_handle_ok), &result);
@@ -245,6 +248,7 @@ cb_file_open_selchanged (GtkTreeSelection *sel,
 gboolean
 gnumeric_dialog_image_file_selection (WorkbookControlGUI *wbcg, GtkFileSelection *fsel)
 {
+	/* Note: wbcg will be NULL if called from gog-style.c  */
 	GtkTreeSelection *tree_sel;
 	gnumeric_dialog_image_file_selection_data_t data;
 

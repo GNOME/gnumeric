@@ -1,5 +1,10 @@
 2003-08-25  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	* src/gui-util.c (gnumeric_dialog_file_selection):
+	  watch for NULL wbcg
+	
+2003-08-25  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* src/gui-util.c (selchanged_foreach): new
 	(cb_file_open_selchanged): new
 	(gnumeric_dialog_image_file_selection): new
