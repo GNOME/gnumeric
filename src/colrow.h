@@ -31,7 +31,6 @@ struct _ColRowCollection
 };
 
 #define COL_INTERNAL_WIDTH(col) ((col)->size_pixels - ((col)->margin_b + (col)->margin_a + 1))
-#define ROW_INTERNAL_HEIGHT(row) ((row)->size_pixels - ((row)->margin_b + (row)->margin_a + 1))
 
 gboolean col_row_foreach (ColRowCollection const *infos,
 			  int first, int last,

@@ -2663,13 +2663,6 @@ workbook_new (void)
 	wb->show_vertical_scrollbar = TRUE;
 	wb->show_notebook_tabs = TRUE;
 
-	gtk_window_set_policy (GTK_WINDOW (wb->toplevel), 1, 1, 0);
-	sx = MAX (gdk_screen_width  () - 64, 600);
-	sy = MAX (gdk_screen_height () - 64, 200);
-	sx = (sx * 3) / 4;
-	sy = (sy * 3) / 4;
-	workbook_view_set_size (wb, sx, sy);
-
 	/* Assign a default name */
 	do {
 		char *name = g_strdup_printf (_("Book%d.gnumeric"), ++count);
@@ -2757,6 +2750,15 @@ workbook_new (void)
 	gtk_signal_connect (GTK_OBJECT (wb->toplevel), "button-release-event",
 			    GTK_SIGNAL_FUNC (cb_scroll_wheel_support),
 			    wb);
+
+	/* Now that everything is initialized set the size */
+	/* TODO : use gnome-config ? */
+	gtk_window_set_policy (GTK_WINDOW (wb->toplevel), TRUE, TRUE, FALSE);
+	sx = MAX (gdk_screen_width  () - 64, 600);
+	sy = MAX (gdk_screen_height () - 64, 200);
+	sx = (sx * 3) / 4;
+	sy = (sy * 3) / 4;
+	workbook_view_set_size (wb, sx, sy);
 
 	gtk_widget_show_all (wb->priv->table);
 

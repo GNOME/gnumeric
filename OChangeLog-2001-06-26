@@ -1,3 +1,15 @@
+2000-08-15  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c (workbook_new) : Set the size after initializing
+	  everything else.
+
+	* src/workbook-view.c (workbook_view_set_size) : size the notebook,
+	  not the toplevel window.
+
+	* src/colrow.h (ROW_INTERNAL_HEIGHT) : Delete.
+
+	* configure.in : CVS bonobo is 0.18.
+
 2000-08-14  Jody Goldberg <jgoldberg@home.com>
 
 	* src/print-cell.c (print_cell) : Sync with 
