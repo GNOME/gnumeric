@@ -59,6 +59,7 @@ glade_DATA = 				\
 	cell-sort.glade
 
 glade_msgs = 				\
+	cell-sort.glade.h		\
 	col-width.glade.h		\
 	font-sel.glade.h		\
 	hf-config.glade.h		\
