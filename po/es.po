@@ -1902,7 +1902,6 @@ msgstr ""
 msgid "Array version not implemented!"
 msgstr "¡La versión de vectores aún no está impelmentada!"
 
-# fuzzy
 #: src/fn-math.c:2117
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
@@ -1916,8 +1915,17 @@ msgid ""
 "returns #N/A! error. \n"
 "@SEEALSO=SUMSQ"
 msgstr ""
+"@FUNCTION=SUMX2PY2\n"
+"@SYNTAX=SUMX2PY2(vector1,vector2)\n"
+"@DESCRIPTION=La función SUMX2PY2 devuelve la suma de la suma de los "
+"cuadrados de los valores correspondientes de los dos vectores. @vector1 es "
+"el primer vector o rango de datos y @array2 es el segundo vector o @rango "
+"de datos. La equación de SUMX2PY2 es SUM(x^2 + y^2). \n"
+"Las cadenas de texto y las celdas vacías son simplemente ignoradas.\n"
+"Si @vector1 y @vector2 tienen una cantidad diferente de elementos, SUMX2PY2 "
+"devuelve el error #N/D! .\n"
+"@SEEALSO=SUMSQ"
 
-# fuzzy
 #: src/fn-math.c:2214
 msgid ""
 "@FUNCTION=SUMXMY2\n"
@@ -1931,6 +1939,16 @@ msgid ""
 "#N/A! error. \n"
 "@SEEALSO=SUMSQ"
 msgstr ""
+"@FUNCTION=SUMXMY2\n"
+"@SYNTAX=SUMXMY2(vector1,vector2)\n"
+"@DESCRIPTION=La función SUMXMY2 devuelve la suma de los cuadrados de las "
+"diferencias de los valores correspondientes de los dos vectores. @vector1 es "
+"el primer vector o rango de datos y @array2 es el segundo vector o @rango "
+"de datos. La equación de SUMXMY2 es SUM((x - y)^2). \n"
+"Las cadenas de texto y las celdas vacías son simplemente ignoradas.\n"
+"Si @vector1 y @vector2 tienen una cantidad diferente de elementos, SUMXMY2 "
+"devuelve el error #N/D! .\n"
+"@SEEALSO=SUMSQ"
 
 #: src/fn-misc.c:18
 msgid ""
