@@ -3674,10 +3674,10 @@ static GnomeUIInfo workbook_menu_tools_scenarios [] = {
 
 static GnomeUIInfo workbook_menu_tools_anova [] = {
 
-	GNOMEUIINFO_ITEM_NONE (N_("_One Factor"),
+	GNOMEUIINFO_ITEM_NONE (N_("_One Factor..."),
 		N_("One Factor Analysis of Variance..."),
 		cb_tools_anova_one_factor),
-	GNOMEUIINFO_ITEM_NONE (N_("_Two Factor"),
+	GNOMEUIINFO_ITEM_NONE (N_("_Two Factor..."),
 		N_("Two Factor Analysis of Variance..."),
 		cb_tools_anova_two_factor),
 
@@ -3686,11 +3686,11 @@ static GnomeUIInfo workbook_menu_tools_anova [] = {
 
 static GnomeUIInfo workbook_menu_tools_forecasting [] = {
 
-	GNOMEUIINFO_ITEM_NONE (N_("_Exponential Smoothing"),
+	GNOMEUIINFO_ITEM_NONE (N_("_Exponential Smoothing..."),
 		N_("Exponential smoothing..."),
 		cb_tools_exp_smoothing),
 
-	GNOMEUIINFO_ITEM_NONE (N_("_Moving Average"),
+	GNOMEUIINFO_ITEM_NONE (N_("_Moving Average..."),
 		N_("Moving average..."),
 		cb_tools_average),
 
@@ -3699,21 +3699,21 @@ static GnomeUIInfo workbook_menu_tools_forecasting [] = {
 
 static GnomeUIInfo workbook_menu_tools_two_means [] = {
 
-	GNOMEUIINFO_ITEM_NONE (N_("_Paired Samples: T-Test"),
+	GNOMEUIINFO_ITEM_NONE (N_("_Paired Samples: T-Test..."),
 		N_("Comparing two population means for two paired samples: t-test..."),
 		cb_tools_ttest_paired),
 
-	GNOMEUIINFO_ITEM_NONE (N_("Unpaired Samples, _Equal Variances: T-Test"),
+	GNOMEUIINFO_ITEM_NONE (N_("Unpaired Samples, _Equal Variances: T-Test..."),
 		N_("Comparing two population means for two unpaired samples "
 		   "from populations with equal variances: t-test..."),
 		cb_tools_ttest_equal_var),
 
-	GNOMEUIINFO_ITEM_NONE (N_("Unpaired Samples, _Unequal Variances: T-Test"),
+	GNOMEUIINFO_ITEM_NONE (N_("Unpaired Samples, _Unequal Variances: T-Test..."),
 		N_("Comparing two population means for two unpaired samples "
 		   "from populations with unequal variances: t-test..."),
 		cb_tools_ttest_unequal_var),
 
-	GNOMEUIINFO_ITEM_NONE (N_("_Known Variances or Large Sample: Z-Test"),
+	GNOMEUIINFO_ITEM_NONE (N_("_Known Variances or Large Sample: Z-Test..."),
 		N_("Comparing two population means from populations "
 		   "with known variances "
 		   "or using a large sample: z-test..."),
@@ -3904,6 +3904,7 @@ static GnomeUIInfo workbook_menu_data [] = {
 static GnomeUIInfo workbook_menu_help [] = {
 	GNOMEUIINFO_HELP ((char *)"gnumeric"),
         GNOMEUIINFO_MENU_ABOUT_ITEM (cb_help_about, NULL),
+
 	GNOMEUIINFO_END
 };
 
