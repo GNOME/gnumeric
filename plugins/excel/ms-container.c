@@ -249,7 +249,8 @@ append_txorun (PangoAttribute *src, TXORun *run)
 	return FALSE;
 }
 PangoAttrList *
-ms_container_read_markup (MSContainer const *c, guint8 const *data, int txo_len)
+ms_container_read_markup (MSContainer const *c,
+			  guint8 const *data, int txo_len, char const *str)
 {
 	TXORun txo_run;
 
@@ -258,7 +259,8 @@ ms_container_read_markup (MSContainer const *c, guint8 const *data, int txo_len)
 	txo_run.last = G_MAXINT;
 	txo_run.accum = pango_attr_list_new ();
 	for (txo_len -= 16 ; txo_len >= 0 ; txo_len -= 8) {
-		txo_run.first = GSF_LE_GET_GUINT16 (data + txo_len);
+		txo_run.first = g_utf8_offset_to_pointer (str,
+			GSF_LE_GET_GUINT16 (data + txo_len)) - str;
 		pango_attr_list_filter (ms_container_get_markup (
 			c, GSF_LE_GET_GUINT16 (data + txo_len + 2)),
 			(PangoAttrFilterFunc) append_txorun, &txo_run);

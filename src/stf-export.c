@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * stf-export.c : Structured Text Format Exporter (STF-E)
  *                Engine to construct CSV files
@@ -370,7 +371,7 @@ static gboolean
 stf_export_sheet (StfExportOptions_t *export_options, Sheet *sheet)
 {
 	GString *separator;
-	gboolean error = FALSE;
+	char const *newline;
 	int col, row;
 	GnmRange r;
 
@@ -385,45 +386,27 @@ stf_export_sheet (StfExportOptions_t *export_options, Sheet *sheet)
 	separator = g_string_new (NULL);
 	g_string_append_unichar (separator, export_options->cell_separator);
 
+	switch (export_options->terminator_type) {
+	default:
+		g_warning ("Unknown line terminator, defaulting to \\n");
+	case TERMINATOR_TYPE_LINEFEED :		newline = "\n"; break;
+	case TERMINATOR_TYPE_RETURN :		newline = "\r"; break;
+	case TERMINATOR_TYPE_RETURN_LINEFEED :	newline = "\r\n"; break;
+	}
+
 	r = sheet_get_extent (sheet, FALSE);
-
 	for (row = r.start.row; row <= r.end.row; row++) {
-
-		for (col = r.start.col; col <= r.end.col; col++) {
-			GnmCell *cell = sheet_cell_get (sheet, col, row);
-
-			if (!stf_export_cell (export_options, cell)) {
+		for (col = r.start.col; col <= r.end.col; col++)
+			if (!stf_export_cell (export_options,
+					      sheet_cell_get (sheet, col, row)) ||
+			    (col != r.end.col &&
+			     !export_options->write_func (separator->str,
+							  export_options->write_data))) {
 				g_string_free (separator, TRUE);
 				return FALSE;
 			}
 
-			if (col != r.end.col)
-				if (!export_options->write_func (separator->str, export_options->write_data)) {
-					g_string_free (separator, TRUE);
-					return FALSE;
-				}
-		}
-
-		error = FALSE;
-		switch (export_options->terminator_type) {
-		case TERMINATOR_TYPE_LINEFEED :
-			if (!export_options->write_func ("\n", export_options->write_data))
-				error = TRUE;
-			break;
-		case TERMINATOR_TYPE_RETURN :
-			if (!export_options->write_func ("\r", export_options->write_data))
-				error = TRUE;
-			break;
-		case TERMINATOR_TYPE_RETURN_LINEFEED :
-			if (!export_options->write_func ("\r\n", export_options->write_data))
-				error = TRUE;
-			break;
-		default :
-			g_warning ("STF-E : Unknown terminator type");
-			break;
-		}
-
-		if (error) {
+		if (!export_options->write_func (newline, export_options->write_data)) {
 			g_string_free (separator, TRUE);
 			return FALSE;
 		}
@@ -431,7 +414,6 @@ stf_export_sheet (StfExportOptions_t *export_options, Sheet *sheet)
 
 	return TRUE;
 }
-
 
 /**
  * stf_export:
@@ -445,7 +427,7 @@ stf_export_sheet (StfExportOptions_t *export_options, Sheet *sheet)
 gboolean
 stf_export (StfExportOptions_t *export_options)
 {
-	GSList *iterator;
+	GSList *ptr;
 
 	g_return_val_if_fail (export_options != NULL, FALSE);
 	g_return_val_if_fail (export_options->terminator_type != TERMINATOR_TYPE_UNKNOWN, FALSE);
@@ -453,20 +435,10 @@ stf_export (StfExportOptions_t *export_options)
 	g_return_val_if_fail (export_options->sheet_list != NULL, FALSE);
 	g_return_val_if_fail (export_options->quoting_mode != QUOTING_MODE_UNKNOWN, FALSE);
 
-	iterator = export_options->sheet_list;
-
-	while (iterator) {
-
+	for (ptr = export_options->sheet_list; ptr != NULL ; ptr = ptr->next)
 		if (!stf_export_sheet (export_options, iterator->data))
 			break;
-
-		iterator = g_slist_next (iterator);
-	}
-
-	if (iterator) /* hmm, something went wrong */
-		return FALSE;
-	else
-		return TRUE;
+	return ptr == NULL;
 }
 
 

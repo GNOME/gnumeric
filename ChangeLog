@@ -1,3 +1,7 @@
+2004-04-20  Jody Goldberg <jody@gnome.org>
+
+	* src/stf-export.c (stf_export_sheet) : simplify
+
 2004-04-20  Morten Welinder  <terra@gnome.org>
 
 	* src/stf-parse.c (stf_parse_sheet): Handle the case of more

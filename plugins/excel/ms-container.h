@@ -57,6 +57,8 @@ GnmExpr	const *ms_container_parse_expr   (MSContainer *c,
 Sheet       *ms_container_sheet	    (MSContainer const *c);
 GnmFormat	*ms_container_get_fmt	 (MSContainer const *c, unsigned indx);
 PangoAttrList	*ms_container_get_markup (MSContainer const *c, unsigned indx);
-PangoAttrList	*ms_container_read_markup (MSContainer const *c, guint8 const *data, int txo_len);
+PangoAttrList	*ms_container_read_markup (MSContainer const *c,
+					   guint8 const *data, int txo_len,
+					   char const *str);
 
 #endif /* MS_OFFICE_CONTAINER_H */

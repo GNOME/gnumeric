@@ -378,7 +378,7 @@ ms_read_TXO (BiffQuery *q, MSContainer *c, PangoAttrList **markup)
 
 		if (ms_biff_query_peek_next (q, &op) && op == BIFF_CONTINUE) {
 			ms_biff_query_next (q);
-			*markup = ms_container_read_markup (c, q->data, q->length);
+			*markup = ms_container_read_markup (c, q->data, q->length, text);
 		} else
 			g_warning ("Unusual, TXO text with no formatting has 0x%x @ 0x%x", op, q->streamPos);
 	} else {
@@ -423,19 +423,35 @@ ms_obj_dump_impl (guint8 const *data, int len, int data_left, char const *name)
 
 static gboolean
 read_pre_biff8_read_str (BiffQuery *q, MSContainer *container, MSObj *obj,
-			 MSObjAttrID id, guint8 const **first, unsigned len)
+			 MSObjAttrID text_id, guint8 const **first,
+			 unsigned len, unsigned txo_len)
 {
 	guint8 const *last = q->data + q->length;
+	char *str;
 
 	g_return_val_if_fail (*first + len <= last, TRUE);
+	g_return_val_if_fail (text_id != MS_OBJ_ATTR_NONE, TRUE);
 
-	if (id != MS_OBJ_ATTR_NONE)
-		ms_obj_attr_bag_insert (obj->attrs,
-			ms_obj_attr_new_ptr (id, ms_biff_get_chars (*first, len, FALSE)));
+	str = ms_biff_get_chars (*first, len, FALSE);
+	ms_obj_attr_bag_insert (obj->attrs, ms_obj_attr_new_ptr (text_id, str));
 
 	*first += len;
 	if (((*first - q->data) & 1))
 		(*first)++; /* pad to word bound */
+
+	if (txo_len > 0) {
+		guint8 const *last = q->data + q->length;
+		PangoAttrList *markup;
+
+		g_return_val_if_fail ((*first + txo_len) <= last, TRUE);
+
+		markup = ms_container_read_markup (container, *first, txo_len, str);
+		ms_obj_attr_bag_insert (obj->attrs,
+			ms_obj_attr_new_markup (MS_OBJ_ATTR_MARKUP, markup));
+		pango_attr_list_unref (markup);
+
+		*first += txo_len;
+	}
 
 	return FALSE;
 }
@@ -471,30 +487,6 @@ read_pre_biff8_read_expr (BiffQuery *q, MSContainer *container, MSObj *obj,
 	return FALSE;
 }
 
-static gboolean
-read_pre_biff8_read_markup (BiffQuery *q, MSContainer *container, MSObj *obj,
-			    MSObjAttrID id, guint8 const **first,
-			    int txo_len, unsigned if_empty)
-{
-	if (txo_len > 0) {
-		guint8 const *last = q->data + q->length;
-		PangoAttrList *markup;
-
-		g_return_val_if_fail ((*first + txo_len) <= last, TRUE);
-
-		markup = ms_container_read_markup (container, *first, txo_len);
-		ms_obj_attr_bag_insert (obj->attrs,
-			ms_obj_attr_new_markup (MS_OBJ_ATTR_MARKUP, markup));
-		pango_attr_list_unref (markup);
-
-		*first += txo_len;
-	} else
-		ms_obj_attr_bag_insert (obj->attrs,
-			ms_obj_attr_new_markup (MS_OBJ_ATTR_MARKUP,
-				ms_container_get_markup (container, if_empty)));
-	return FALSE;
-}
-
 static guint8 const *
 read_pre_biff8_read_name_and_fmla (BiffQuery *q, MSContainer *container, MSObj *obj,
 				   gboolean has_name, unsigned offset)
@@ -503,8 +495,8 @@ read_pre_biff8_read_name_and_fmla (BiffQuery *q, MSContainer *container, MSObj *
 	gboolean const fmla_len = GSF_LE_GET_GUINT16 (q->data+26);
 
 	if (has_name &&
-	    read_pre_biff8_read_str (q, container, obj,
-				     MS_OBJ_ATTR_OBJ_NAME, &data, *(data++)))
+	    read_pre_biff8_read_str (q, container, obj, MS_OBJ_ATTR_OBJ_NAME,
+				     &data, *(data++), 0))
 		return NULL;
 	if (read_pre_biff8_read_expr (q, container, obj,
 				      MS_OBJ_ATTR_NONE, &data, fmla_len))
@@ -597,10 +589,13 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 		data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 70);
 		if (data == NULL ||
 		    read_pre_biff8_read_str (q, c, obj,
-			MS_OBJ_ATTR_TEXT, &data, len) ||
-		    read_pre_biff8_read_markup (q, c, obj,
-			MS_OBJ_ATTR_MARKUP, &data, txo_len, if_empty))
+			MS_OBJ_ATTR_TEXT, &data, len, txo_len))
 			return TRUE;
+
+		if (txo_len == 0)
+			ms_obj_attr_bag_insert (obj->attrs,
+				ms_obj_attr_new_markup (MS_OBJ_ATTR_MARKUP,
+					ms_container_get_markup (c, if_empty)));
 		break;
 
 	case 7: /* button */
@@ -664,9 +659,7 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 		data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 70);
 		if (data == NULL ||
 		    read_pre_biff8_read_str (q, c, obj,
-			MS_OBJ_ATTR_TEXT, &data, len) ||
-		    read_pre_biff8_read_markup (q, c, obj,
-			MS_OBJ_ATTR_MARKUP, &data, 16, 0))
+			MS_OBJ_ATTR_TEXT, &data, len, 16))
 			return TRUE;
 		break;
 	case 0xF  : /* dialog frame */

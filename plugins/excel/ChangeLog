@@ -1,3 +1,8 @@
+2004-04-20  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (sst_read_string) : Use the right string when
+	  calculating offsets.
+
 2004-04-19  Jody Goldberg <jody@gnome.org>
 
 	* ms-chart.c (BC_R(end)) : graph style wants outline not line

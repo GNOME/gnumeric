@@ -1,5 +1,6 @@
 2004-04-19  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=127411
 	* graph/gog-chart.c (gog_chart_view_render) : render the style.
 
 2004-04-17  Jody Goldberg <jody@gnome.org>

@@ -906,7 +906,8 @@ append_markup (PangoAttribute *src, TXORun *run)
 }
 
 static PangoAttrList *
-excel_read_LABEL_markup (BiffQuery *q, ExcelReadSheet *esheet, unsigned str_len)
+excel_read_LABEL_markup (BiffQuery *q, ExcelReadSheet *esheet,
+			 char const *str, unsigned str_len)
 {
 	guint8 const * const end  = q->data + q->length;
 	guint8 const *ptr = q->data + 8 + str_len;
@@ -926,7 +927,8 @@ excel_read_LABEL_markup (BiffQuery *q, ExcelReadSheet *esheet, unsigned str_len)
 		txo_run.accum = pango_attr_list_new ();
 		while (n > 0) {
 			n -= 4;
-			txo_run.first = GSF_LE_GET_GUINT16 (ptr + n);
+			txo_run.first = g_utf8_offset_to_pointer (str,
+				GSF_LE_GET_GUINT16 (ptr + n)) - str;
 			pango_attr_list_filter (ms_container_get_markup (
 				c, GSF_LE_GET_GUINT16 (ptr + n + 2)),
 				(PangoAttrFilterFunc) append_markup, &txo_run);
@@ -942,7 +944,8 @@ excel_read_LABEL_markup (BiffQuery *q, ExcelReadSheet *esheet, unsigned str_len)
 		txo_run.accum = pango_attr_list_new ();
 		while (n > 0) {
 			n -= 2;
-			txo_run.first = GSF_LE_GET_GUINT8 (ptr + n);
+			txo_run.first = g_utf8_offset_to_pointer (str,
+				GSF_LE_GET_GUINT8 (ptr + n)) - str;
 			pango_attr_list_filter (ms_container_get_markup (
 				c, GSF_LE_GET_GUINT8 (ptr + n + 1)),
 				(PangoAttrFilterFunc) append_markup, &txo_run);
@@ -1003,8 +1006,8 @@ sst_read_string (BiffQuery *q, MSContainer const *c,
 		for (i = total_n_markup ; i-- > 0 ; offset += 4) {
 			offset = ms_biff_query_bound_check (q, offset, 4);
 			if ((q->length - offset) >= 4) {
-				txo_run.last = g_utf8_offset_to_pointer (str,
-					GSF_LE_GET_GUINT16 (q->data+offset)) - str;
+				txo_run.last = g_utf8_offset_to_pointer (res->str,
+					GSF_LE_GET_GUINT16 (q->data+offset)) - res->str;
 				if (prev_markup != NULL) {
 					pango_attr_list_filter (prev_markup,
 						(PangoAttrFilterFunc) append_markup, &txo_run);
@@ -5006,11 +5009,14 @@ excel_read_LABEL (BiffQuery *q, ExcelReadSheet *esheet, gboolean has_markup)
 
 	excel_set_xf (esheet, q);
 	if (txt != NULL) {
+		GnmFormat *fmt = NULL;
+		if (has_markup)
+			fmt = style_format_new_markup (
+				excel_read_LABEL_markup (q, esheet, txt, str_len));
+
+		/* might free txt, do not do this until after parsing markup */
 		v = value_new_string_nocopy (txt);
-		if (has_markup) {
-			PangoAttrList *markup =
-				excel_read_LABEL_markup (q, esheet, str_len);
-			GnmFormat     *fmt = style_format_new_markup (markup);
+		if (fmt != NULL) {
 			value_set_fmt (v, fmt);
 			style_format_unref (fmt);
 		}
