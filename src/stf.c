@@ -49,7 +49,6 @@
 #include "parse-util.h"
 
 #include <gsf/gsf-input.h>
-#include <ctype.h>
 #include <string.h>
 #include <glade/glade.h>
 #include <gsf/gsf-output.h>
