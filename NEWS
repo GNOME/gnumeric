@@ -9,6 +9,7 @@ Jody:
 	* Add tooltip for object resizing
 	* Misc ancient array formula parsing and entry problems
 	* Jump to lp_solve 5.0
+	* Jump to GLPK 4.5
 	* Add a View -> Windows menu
 
 Morten:

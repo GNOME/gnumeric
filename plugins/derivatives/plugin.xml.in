@@ -33,6 +33,13 @@
 				<function name="opt_complex_chooser"/>
 				<function name="opt_on_options"/>
 				<function name="opt_extendible_writer"/>
+				<function name="opt_2_asset_correlation"/>
+				<function name="opt_euro_exchange"/>
+				<function name="opt_amer_exchange"/>
+				<function name="opt_spread_approx"/>
+				<function name="opt_float_strk_lkbk"/>
+				<function name="opt_fixed_strk_lkbk"/>
+				<function name="opt_binomial"/>
 			</functions>
 		</service>
 	</services>

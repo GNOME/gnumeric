@@ -105,7 +105,7 @@ typedef struct {
 
 static algorithm_def_t algorithm_defs [] = {
 	{ N_("Simplex (LP Solve 5.0)"), LPSolve, SolverLPModel },
-	{ N_("Revised Simplex (GLPK 4.2)"), GLPKSimplex, SolverLPModel },
+	{ N_("Revised Simplex (GLPK 4.5)"), GLPKSimplex, SolverLPModel },
 	{ N_("< Not available >"), QPDummy, SolverQPModel },
 	{ NULL, 0, 0 }
 };
