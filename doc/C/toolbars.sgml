@@ -88,7 +88,7 @@ system.</para>
       <varlistentry>
 	<term>
 	  <guiicon><inlinegraphic fileref="figures/button-new.png"></inlinegraphic>
-	    New File.
+	    New File
 	  </guiicon>
 	</term>
 	<listitem>
@@ -340,7 +340,7 @@ system.</para>
       <varlistentry>
 	<term>
 	  <guiicon><inlinegraphic fileref="figures/button-font-type.png"></inlinegraphic>
-	    Font Chooser.
+	    Font Chooser
 	  </guiicon>
 	</term>
 	<listitem>
@@ -408,7 +408,7 @@ of the entry box and selecting the perferred size.</para>
       <varlistentry>
 	<term>
 	  <guiicon><inlinegraphic fileref="figures/button-align-left.png"></inlinegraphic>
-	    Left justify..
+	    Left Justify
 	  </guiicon>
 	</term>
 	<listitem>
@@ -445,11 +445,15 @@ of the entry box and selecting the perferred size.</para>
       <varlistentry>
 	<term>
 	  <guiicon><inlinegraphic fileref="figures/button-center-across-selection.png"></inlinegraphic>
-	    Right Justify
+	    Center Across Selection
 	  </guiicon>
 	</term>
 	<listitem>
-	  <para>Justify the content of the cells to the right side of the cells</para>
+	  <para>
+	    Centers the cell's contents so the middle of each line is
+	    aligned with the middle of other lines.  This only works
+	    with multiple cells.
+	  </para>
 	</listitem>
       </varlistentry>
 
@@ -459,11 +463,16 @@ of the entry box and selecting the perferred size.</para>
       <varlistentry>
 	<term>
 	  <guiicon><inlinegraphic fileref="figures/button-merge.png"></inlinegraphic>
-	    Left justify.
+	    Merge selected cells
 	  </guiicon>
 	</term>
 	<listitem>
-	  <para>Justify the contents of the cell to the left of the cell.</para>
+	<para>
+	  Create a single cell out of the selected region.
+	  A contiguous region must be selected.
+	  The merged cell will hold
+	  the contents of the top left cell in the region.
+	</para>
 	</listitem>
       </varlistentry>
 
@@ -471,11 +480,16 @@ of the entry box and selecting the perferred size.</para>
       <varlistentry>
 	<term>
 	  <guiicon><inlinegraphic fileref="figures/button-split.png"></inlinegraphic>
-	    Center
+	    Split merged cells
 	  </guiicon>
 	</term>
 	<listitem>
-	  <para>Center the content of the cells.</para>
+	<para>
+	  Split a merged cells back into
+	  their component cells.
+	  The selected cell(s)
+	  must previously have been merged.
+	</para>
 	</listitem>
       </varlistentry>
 
@@ -518,7 +532,7 @@ of the entry box and selecting the perferred size.</para>
       <varlistentry>
 	<term>
 	  <guiicon><inlinegraphic fileref="figures/button-increase-precision.png"></inlinegraphic>
-	    Increase the displayed precision.
+	    Increase the displayed precision
 	  </guiicon>
 	</term>
 	<listitem>
@@ -529,7 +543,7 @@ of the entry box and selecting the perferred size.</para>
       <varlistentry>
 	<term>
 	  <guiicon><inlinegraphic fileref="figures/button-decrease-precision.png"></inlinegraphic>
-          Decrease the displayed precision.
+          Decrease the displayed precision
 	  </guiicon>
 	</term>
 	<listitem>
@@ -541,7 +555,7 @@ of the entry box and selecting the perferred size.</para>
       <varlistentry>
 	<term>
 	  <guiicon><inlinegraphic fileref="figures/button-decrease-indent.png"></inlinegraphic>
-          Decrease the displayed indentation.
+          Decrease the displayed indentation
 	  </guiicon>
 	</term>
 	<listitem>
@@ -553,7 +567,7 @@ of the entry box and selecting the perferred size.</para>
       <varlistentry>
 	<term>
 	  <guiicon><inlinegraphic fileref="figures/button-increase-indent.png"></inlinegraphic>
-          Increase the displayed indentation.
+          Increase the displayed indentation
 	  </guiicon>
 	</term>
 	<listitem>
@@ -566,7 +580,7 @@ of the entry box and selecting the perferred size.</para>
       <varlistentry>
 	<term>
 	  <guiicon><inlinegraphic fileref="figures/button-borders.png"></inlinegraphic>
-          Change the display borders.
+          Change the display borders
 	  </guiicon>
 	</term>
 	<listitem>
@@ -580,7 +594,7 @@ borders of all the cells in the selection.</para>
       <varlistentry>
 	<term>
 	  <guiicon><inlinegraphic fileref="figures/button-fill.png"></inlinegraphic>
-          Set the Background Colour.
+          Set the Background Colour
 	  </guiicon>
 	</term>
 	<listitem>
@@ -641,7 +655,7 @@ colour.</para>
       <varlistentry>
 	<term>
 	  <guiicon><inlinegraphic fileref="figures/button-label.png"></inlinegraphic>
-          Insert a label.
+          Insert a label
 	  </guiicon>
 	</term>
 	<listitem>
@@ -653,7 +667,7 @@ worksheet.</para>
       <varlistentry>
 	<term>
 	  <guiicon><inlinegraphic fileref="figures/button-frame.png"></inlinegraphic>
-          Insert a Frame.
+          Insert a Frame
 	  </guiicon>
 	</term>
 	<listitem>
@@ -664,7 +678,7 @@ worksheet.</para>
       <varlistentry>
 	<term>
 	  <guiicon><inlinegraphic fileref="figures/button-checkbox.png"></inlinegraphic>
-          Insert a Checkbox.
+          Insert a Checkbox
 	  </guiicon>
 	</term>
 	<listitem>
@@ -677,7 +691,7 @@ worksheet.</para>
       <varlistentry>
 	<term>
 	  <guiicon><inlinegraphic fileref="figures/button-list.png"></inlinegraphic>
-          Insert a List.
+          Insert a List
 	  </guiicon>
 	</term>
 	<listitem>
