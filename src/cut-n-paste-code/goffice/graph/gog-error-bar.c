@@ -131,11 +131,10 @@ cb_type_changed (GtkWidget *w, GogErrorBarEditor *editor)
 			gtk_widget_destroy (GTK_WIDGET(data));
 		g_object_set_data (G_OBJECT (w), "plus", NULL);
 		g_object_set_data (G_OBJECT (w), "minus", NULL);
-		gtk_widget_hide (glade_xml_get_widget (gui, "plus_label"));
-		gtk_widget_hide (glade_xml_get_widget (gui, "minus_label"));
-		gtk_widget_hide (glade_xml_get_widget (gui, "values_label"));
+		gtk_widget_hide (glade_xml_get_widget (gui, "values_box"));
+		gtk_widget_hide (glade_xml_get_widget (gui, "style_box"));
 	} else {
-		GtkWidget *table = glade_xml_get_widget (gui, "gog_error_bar_prefs");
+		GtkWidget *table = glade_xml_get_widget (gui, "values_table");
 		if (!editor->bar) {
 			editor->bar = g_object_new (GOG_ERROR_BAR_TYPE, NULL);
 			editor->bar->style->line.color = editor->color;
@@ -152,16 +151,17 @@ cb_type_changed (GtkWidget *w, GogErrorBarEditor *editor)
 		data = g_object_get_data (G_OBJECT (w), "plus");
 		if (!data) {
 			GtkWidget* al = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, editor->bar->error_i, FALSE));
-			gtk_table_attach (GTK_TABLE (table), al, 1, 5, 7, 8, GTK_FILL | GTK_EXPAND, 0, 5, 3);
+			gtk_table_attach (GTK_TABLE (table), al, 1, 2, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 			g_object_set_data (G_OBJECT (w), "plus", al);
 		}
 		data = g_object_get_data (G_OBJECT (w), "minus");
 		if (!data) {
 			GtkWidget* al = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, editor->bar->error_i + 1, FALSE));
-			gtk_table_attach (GTK_TABLE (table), al, 1, 5, 8, 9, GTK_FILL | GTK_EXPAND, 0, 5, 3);
+			gtk_table_attach (GTK_TABLE (table), al, 1, 2, 1, 2, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 			g_object_set_data (G_OBJECT (w), "minus", al);
 		}
-		gtk_widget_show_all (table);
+		gtk_widget_show_all (glade_xml_get_widget (gui, "values_box"));
+		gtk_widget_show (glade_xml_get_widget (gui, "style_box"));
 	}
 	gog_object_request_update (GOG_OBJECT (editor->series));
 }
@@ -174,9 +174,9 @@ gog_error_bar_prefs (GogSeries *series,
 			GnmCmdContext *cc)
 {
 	GladeXML *gui;
-	GtkWidget *w;
+	GtkWidget *w, *bar_prefs;
 	GOComboPixmaps *cpx;
-	GtkTable *table;
+	GtkTable *style_table, *values_table;
 	GogDataset *set;
 	GdkPixbuf *pixbuf;
 	GogErrorBarEditor *editor;
@@ -202,21 +202,25 @@ gog_error_bar_prefs (GogSeries *series,
 
 	gui = gnm_glade_xml_new (cc, "gog-error-bar-prefs.glade", "gog_error_bar_prefs", NULL);
 
+	/* Style properties */
+
+	/* Width */
 	w = glade_xml_get_widget (gui, "width");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), editor->width);
 	g_signal_connect (gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (w)),
 		"value_changed",
 		G_CALLBACK (cb_width_changed), editor);
-
+	
+	/* Line width */
 	w = glade_xml_get_widget (gui, "line_width");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), editor->line_width);
 	g_signal_connect (gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (w)),
 		"value_changed",
 		G_CALLBACK (cb_line_width_changed), editor);
 
-	table = GTK_TABLE (glade_xml_get_widget (gui, "gog_error_bar_prefs"));
-	g_signal_connect (table, "destroy", G_CALLBACK (cb_destroy), editor);
+	style_table = GTK_TABLE (glade_xml_get_widget (gui, "style_table"));
 
+	/* Color */
 	w = go_combo_color_new (NULL, _("Automatic"), RGBA_BLACK,
 		go_color_group_fetch ("color", NULL));
 	go_combo_color_set_instant_apply (GO_COMBO_COLOR (w), FALSE);
@@ -227,77 +231,80 @@ gog_error_bar_prefs (GogSeries *series,
 	g_signal_connect (G_OBJECT (w),
 		"color_changed",
 		G_CALLBACK (cb_color_changed), editor);
-	gtk_table_attach (GTK_TABLE (table), w, 4, 5, 4, 5, 0, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (style_table), w, 1, 2, 3, 4, 0, 0, 0, 0);
+	
+	/* Display style */
 	cpx = go_combo_pixmaps_new (4);
 	pixbuf = gdk_pixbuf_new_from_file (GNUMERICICONDIR"/bar-none.png", NULL);
 	go_combo_pixmaps_add_element  (cpx,
-					  pixbuf,
-					  GOG_ERROR_BAR_DISPLAY_NONE,
-					  _("No error bar displayed"));
+				       pixbuf,
+				       GOG_ERROR_BAR_DISPLAY_NONE,
+				       _("No error bar displayed"));
 	if (horizontal) {
 		pixbuf = gdk_pixbuf_new_from_file (GNUMERICICONDIR"/bar-hplus.png", NULL);
 		go_combo_pixmaps_add_element  (cpx,
-						pixbuf,
-						GOG_ERROR_BAR_DISPLAY_POSITIVE,
-						_("Positive error bar displayed"));
+					       pixbuf,
+					       GOG_ERROR_BAR_DISPLAY_POSITIVE,
+					       _("Positive error bar displayed"));
 		pixbuf = gdk_pixbuf_new_from_file (GNUMERICICONDIR"/bar-hminus.png", NULL);
 		go_combo_pixmaps_add_element  (cpx,
-						pixbuf,
-						GOG_ERROR_BAR_DISPLAY_NEGATIVE,
-						_("Negative error bar displayed"));
+					       pixbuf,
+					       GOG_ERROR_BAR_DISPLAY_NEGATIVE,
+					       _("Negative error bar displayed"));
 		pixbuf = gdk_pixbuf_new_from_file (GNUMERICICONDIR"/bar-hboth.png", NULL);
 		go_combo_pixmaps_add_element  (cpx,
-						pixbuf,
-						GOG_ERROR_BAR_DISPLAY_BOTH,
-						_("Full error bar displayed"));
+					       pixbuf,
+					       GOG_ERROR_BAR_DISPLAY_BOTH,
+					       _("Full error bar displayed"));
 	} else {
 		pixbuf = gdk_pixbuf_new_from_file (GNUMERICICONDIR"/bar-vplus.png", NULL);
 		go_combo_pixmaps_add_element  (cpx,
-						pixbuf,
-						GOG_ERROR_BAR_DISPLAY_POSITIVE,
-						_("Positive error bar displayed"));
+					       pixbuf,
+					       GOG_ERROR_BAR_DISPLAY_POSITIVE,
+					       _("Positive error bar displayed"));
 		pixbuf = gdk_pixbuf_new_from_file (GNUMERICICONDIR"/bar-vminus.png", NULL);
 		go_combo_pixmaps_add_element  (cpx,
-						pixbuf,
-						GOG_ERROR_BAR_DISPLAY_NEGATIVE,
-						_("Negative error bar displayed"));
+					       pixbuf,
+					       GOG_ERROR_BAR_DISPLAY_NEGATIVE,
+					       _("Negative error bar displayed"));
 		pixbuf = gdk_pixbuf_new_from_file (GNUMERICICONDIR"/bar-vboth.png", NULL);
 		go_combo_pixmaps_add_element  (cpx,
-						pixbuf,
-						GOG_ERROR_BAR_DISPLAY_BOTH,
-						_("Full error bar displayed"));
+					       pixbuf,
+					       GOG_ERROR_BAR_DISPLAY_BOTH,
+					       _("Full error bar displayed"));
 	}
-	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET(cpx), 4, 5, 1, 2, 0, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (style_table), GTK_WIDGET(cpx), 1, 2, 0, 1, 0, 0, 0, 0);
 	go_combo_pixmaps_select_id (cpx, editor->display);
 	g_signal_connect (G_OBJECT (cpx), "changed", G_CALLBACK (cb_display_changed), editor);
 
-	w = gtk_combo_box_new_text ();
-	gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("None"));
-	gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Absolute"));
-	gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Relative"));
-	gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Percent"));
+	/* Category property*/
+	w = glade_xml_get_widget (gui, "category_combo");
 	gtk_combo_box_set_active (GTK_COMBO_BOX (w), (editor->bar)? (int) editor->bar->type: 0);
-	gtk_table_attach (table, w, 0, 2, 1, 2, 0, 0, 5, 3);
 	g_object_set_data_full (G_OBJECT (w), "gui", gui, (GDestroyNotify)g_object_unref);
 	g_object_set_data (G_OBJECT (w), "allocator", dalloc);
 	g_signal_connect (G_OBJECT (w), "changed", G_CALLBACK (cb_type_changed), editor);
-	gtk_widget_show_all (GTK_WIDGET(table));
 
+	/* Value properties */
+	bar_prefs = glade_xml_get_widget (gui, "gog_error_bar_prefs");
+	g_signal_connect (bar_prefs, "destroy", G_CALLBACK (cb_destroy), editor);
+	gtk_widget_show_all (bar_prefs);
+
+	values_table = GTK_TABLE (glade_xml_get_widget (gui, "values_table"));
 	if (editor->bar) {
 		GtkWidget* al = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, editor->bar->error_i, FALSE));
 		gtk_widget_show (al);
-		gtk_table_attach (table, al, 1, 5, 7, 8, GTK_FILL | GTK_EXPAND, 0, 5, 3);
+		gtk_table_attach (values_table, al, 1, 2, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 		g_object_set_data (G_OBJECT (w), "plus", al);
 		al = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, editor->bar->error_i + 1, FALSE));
 		gtk_widget_show (al);
-		gtk_table_attach (table, al, 1, 5, 8, 9, GTK_FILL | GTK_EXPAND, 0, 5, 3);
+		gtk_table_attach (values_table, al, 1, 2, 1, 2, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 		g_object_set_data (G_OBJECT (w), "minus", al);
 	} else {
-		gtk_widget_hide (glade_xml_get_widget (gui, "plus_label"));
-		gtk_widget_hide (glade_xml_get_widget (gui, "minus_label"));
-		gtk_widget_hide (glade_xml_get_widget (gui, "values_label"));
+		gtk_widget_hide (glade_xml_get_widget (gui, "values_box"));
+		gtk_widget_hide (glade_xml_get_widget (gui, "style_box"));
 	}
-	return GTK_WIDGET(table);
+
+	return GTK_WIDGET(bar_prefs);
 }
 #endif
 

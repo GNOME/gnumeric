@@ -1,3 +1,10 @@
+2004-09-25  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* graph/gog-error-bar-prefs.glade: layout rework.
+	* graph/gog-error-bar.c (cb_type_changed): use new layout. Hide styles
+	when category is none.
+	(gog_error_bar_prefs): ditto.
+
 2004-09-23  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* graph/gog-axis.c (gog_axis_view_render): draw_minor and draw_major
