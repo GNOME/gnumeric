@@ -76,6 +76,43 @@ gnm_usr_plugin_dir (void)
 	return gnm_usr_dir (PLUGIN_SUFFIX);
 }
 
+int
+gnumeric_regcomp_XL (go_regex_t *preg, char const *pattern, int cflags)
+{
+	GString *res = g_string_new (NULL);
+	int retval;
+
+	while (*pattern) {
+		switch (*pattern) {
+		case '~':
+			pattern++;
+			if (*pattern == '*')
+				g_string_append (res, "\\*");
+			else
+				g_string_append_c (res, *pattern);
+			if (*pattern) pattern++;
+			break;
+
+		case '*':
+			g_string_append (res, ".*");
+			pattern++;
+			break;
+
+		case '?':
+			g_string_append_c (res, '.');
+			pattern++;
+			break;
+
+		default:
+			pattern = go_regexp_quote1 (res, pattern);
+		}
+	}
+
+	retval = go_regcomp (preg, res->str, cflags);
+	g_string_free (res, TRUE);
+	return retval;
+}
+
 #if 0
 static const char *
 color_to_string (PangoColor color)
