@@ -1,5 +1,8 @@
 2004-04-01  Jody Goldberg <jody@gnome.org>
 
+	* src/style-border.c (style_border_draw_diag) : sync with the printing
+	  code to not draw into the center of bordering double borders
+
 	* src/item-edit.c (item_edit_event) : basic cursor position support.
 
 	* src/print-cell.c (print_cell_background) : draw diagonals.
