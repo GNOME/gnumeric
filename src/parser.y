@@ -357,7 +357,8 @@ gnumeric_parse_error (ParserState *state, ParseErrorID id, char *message, int en
 		state->error->message    = message;
 		state->error->begin_char = (end - relative_begin);
 		state->error->end_char   = end;
-	}
+	} else
+		g_free (message);
 
 	return ERROR;
 }

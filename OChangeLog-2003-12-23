@@ -1,5 +1,7 @@
 2002-04-11  Morten Welinder  <terra@diku.dk>
 
+	* src/parser.y (gnumeric_parse_error): Plug leak.
+
 	* src/item-edit.c (item_edit_destroy): Fix memory corruption on
 	double destroys.
 
