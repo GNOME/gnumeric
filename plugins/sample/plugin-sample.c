@@ -11,21 +11,16 @@
 #include "../../src/func.h"
 #include "../../src/plugin.h"
 
-static Value *
-func_plusone (const FuncPos *fp, Value *argv [], FuncScratch *s)
+static FuncReturn *
+func_plusone (FunctionEvalInfo *ei, Value *argv [])
 {
 	Value *v = g_new (Value, 1);
 	
 	v->type = VALUE_FLOAT;
 	v->v.v_float = value_get_as_float (argv [0]) + 1.0;
 	
-	return v;
+	FUNC_RETURN_VAL(v);
 }
-
-static FunctionDefinition plugin_functions [] = {
-	{ "plusone",     "f",    "number",    NULL, NULL, func_plusone },
-	{ NULL, NULL },
-};
 
 static int
 can_unload (PluginData *pd)
@@ -51,7 +46,10 @@ cleanup_plugin (PluginData *pd)
 int
 init_plugin (PluginData *pd)
 {
-	install_symbols (plugin_functions, "Sample Plugin");
+	FunctionCategory *cat = function_get_category (_("Sample Plugin"));
+
+	function_add_args (cat, "plusone", "f", "number", NULL, func_plusone);
+
 	pd->can_unload = can_unload;
 	pd->cleanup_plugin = cleanup_plugin;
 	pd->title = g_strdup ("PlusOne Plugin");

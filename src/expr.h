@@ -11,6 +11,16 @@ typedef struct _CellRef CellRef;
 #include "numbers.h"
 #include "str.h"
 
+/* Some utility constants to make sure we all spell correctly */
+/* TODO : These should really be const, but can't until error_string changes */
+extern char * gnumeric_err_NULL;
+extern char * gnumeric_err_DIV0;
+extern char * gnumeric_err_VALUE;
+extern char * gnumeric_err_REF;
+extern char * gnumeric_err_NAME;
+extern char * gnumeric_err_NUM;
+extern char * gnumeric_err_NA;
+
 typedef enum {
 	OPER_EQUAL,		/* Compare value equal */
 	OPER_GT,		/* Compare value greather than  */
@@ -141,8 +151,8 @@ struct _ErrorMessage {
 
 ErrorMessage *error_message_new       (void);
 void          error_message_set       (ErrorMessage *em, const char *message);
-void          error_message_set_small (ErrorMessage *em, const char *message);
 void          error_message_set_alloc (ErrorMessage *em, char *message);
+void          error_message_set_small (ErrorMessage *em, const char *message);
 const char   *error_message_txt       (ErrorMessage *em);
 void          error_message_free      (ErrorMessage *em);
 
@@ -151,6 +161,9 @@ struct _FunctionEvalInfo {
 	ErrorMessage       *error;
 	FunctionDefinition *func_def;
 };
+
+FuncReturn *function_error (FunctionEvalInfo *fe, char *error_string);
+
 /* Transition functions */
 EvalPosition     *eval_pos_init       (EvalPosition *, Sheet *s, int col, int row);
 EvalPosition     *eval_pos_cell       (EvalPosition *, Cell *);

@@ -17,7 +17,7 @@ extern void logical_functions_init(void);
 extern void database_functions_init(void);
 extern void information_functions_init(void);
 
-typedef int (*FunctionIterateCallback)(Sheet *sheet, Value *value, char **error_string, void *);
+typedef int (*FunctionIterateCallback)(Sheet *sheet, Value *value, ErrorMessage *error, void *);
 
 /*
  * function_iterate_argument_values
@@ -28,7 +28,7 @@ typedef int (*FunctionIterateCallback)(Sheet *sheet, Value *value, char **error_
  * expr_node_list:   a GList of ExprTrees (what a Gnumeric function would get).
  * eval_col:         Context column in which expressions are evaluated
  * eval_row:         Context row in which expressions are evaluated
- * error_string:     a pointer to a char* where an error message is stored.
+ * error:            a pointer to an ErrorMessage where an error description is stored.
  *
  * Return value:
  *    TRUE  if no errors were reported.
@@ -44,22 +44,22 @@ function_iterate_argument_values (const EvalPosition           *fp,
 				  FunctionIterateCallback callback,
 				  void                    *callback_closure,
 				  GList                   *expr_node_list,
-				  char                    **error_string);
+				  ErrorMessage            *error);
 				  
 /*
  * function_call_with_values
  */
-Value      *function_call_with_values     (Sheet     *sheet,
-					   const char      *name,
-					   int argc,
-					   Value *values [],
-					   char **error_string);
+FuncReturn      *function_call_with_values     (Sheet     *sheet,
+						const char      *name,
+						int argc,
+						Value *values [],
+						ErrorMessage *error);
 
-Value      *function_def_call_with_values (Sheet              *sheet,
-					   FunctionDefinition *fd,
-					   int                 argc,
-					   Value              *values [],
-					   char               **error_string);
+FuncReturn      *function_def_call_with_values (Sheet              *sheet,
+						FunctionDefinition *fd,
+						int                 argc,
+						Value              *values [],
+						ErrorMessage       *error);
 
 int
 function_iterate_do_value (Sheet                   *sheet,
@@ -68,8 +68,7 @@ function_iterate_do_value (Sheet                   *sheet,
 			   int                     eval_col,
 			   int                     eval_row,
 			   Value                   *value,
-			   char                    **error_string);
-
+			   ErrorMessage            *error);
 
 /*
  * Gnumeric function defintion API.
@@ -80,13 +79,13 @@ struct _FunctionCategory {
 	GList *functions;
 };
 FunctionCategory   *function_get_category (gchar *description);
-FunctionDefinition *function_new_args  (FunctionCategory *parent,
+FunctionDefinition *function_add_args  (FunctionCategory *parent,
 				        char *name,
 				        char *args,
 				        char *arg_names,
 				        char **help,
 				        FunctionArgs *fn);
-FunctionDefinition *function_new_nodes (FunctionCategory *parent,
+FunctionDefinition *function_add_nodes (FunctionCategory *parent,
 					char *name,
 					char *args,
 					char *arg_names,

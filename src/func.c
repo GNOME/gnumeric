@@ -20,7 +20,7 @@ static GList *categories = NULL;
 typedef struct {
 	FunctionIterateCallback  callback;
 	void                     *closure;
-	char                     **error_string;
+	ErrorMessage             *error;
 } IterateCallbackClosure;
 
 /*
@@ -51,7 +51,7 @@ iterate_cellrange_callback (Sheet *sheet, int col, int row, Cell *cell, void *us
 		return TRUE;
 	}
 	
-	cont = (*data->callback)(sheet, cell->value, data->error_string, data->closure);
+	cont = (*data->callback)(sheet, cell->value, data->error, data->closure);
 
 	return cont;
 }
@@ -68,7 +68,7 @@ function_iterate_do_value (Sheet                   *sheet,
 			   int                     eval_col,
 			   int                     eval_row,
 			   Value                   *value,
-			   char                    **error_string)
+			   ErrorMessage            *error)
 {
 	int ret = TRUE;
 	
@@ -76,7 +76,7 @@ function_iterate_do_value (Sheet                   *sheet,
 	case VALUE_INTEGER:
 	case VALUE_FLOAT:
 	case VALUE_STRING:
-		ret = (*callback)(sheet, value, error_string, closure);
+		ret = (*callback)(sheet, value, error, closure);
 			break;
 			
 	case VALUE_ARRAY:
@@ -88,7 +88,7 @@ function_iterate_do_value (Sheet                   *sheet,
 				ret = function_iterate_do_value (
 					sheet, callback, closure,
 					eval_col, eval_row,
-					value->v.array.vals [x][y], error_string);
+					value->v.array.vals [x][y], error);
 				if (ret == FALSE)
 					return FALSE;
 			}
@@ -101,7 +101,7 @@ function_iterate_do_value (Sheet                   *sheet,
 		
 		data.callback = callback;
 		data.closure  = closure;
-		data.error_string = error_string;
+		data.error    = error;
 		
 		cell_get_abs_col_row (&value->v.cell_range.cell_a,
 				      eval_col, eval_row,
@@ -127,7 +127,7 @@ function_iterate_argument_values (const EvalPosition           *fp,
 				  FunctionIterateCallback callback,
 				  void                    *callback_closure,
 				  GList                   *expr_node_list,
-				  char                    **error_string)
+				  ErrorMessage            *error)
 {
 	int result = TRUE;
 	FunctionEvalInfo fs;
@@ -136,19 +136,19 @@ function_iterate_argument_values (const EvalPosition           *fp,
 		ExprTree *tree = (ExprTree *) expr_node_list->data;
 		Value *val;
 
-		val = (Value *)eval_expr (func_eval_info_pos (&fs, fp, *error_string), tree);
+		func_eval_info_pos (&fs, fp);
+		fs.error = error;
+		val = (Value *)eval_expr (&fs, tree);
 
 		if (val){
 			result = function_iterate_do_value (
 				fp->sheet, callback, callback_closure,
 				fp->eval_col, fp->eval_row, val,
-				error_string);
+				error);
 			
 			value_release (val);
 		}
 	}
-	if (!result)
-		*error_string = fs.error_string;
 	return result;
 }
 
@@ -253,8 +253,7 @@ FunctionCategory *function_get_category (gchar *description)
 static void
 fn_def_init (FunctionDefinition *fd, char *name, char *args, char *arg_names, char **help)
 {
-	g_return_val_if_fail (fn, NULL);
-	g_return_val_if_fail (parent, NULL);
+	g_return_if_fail (fd);
 
 	fd->name      = name;
 	fd->args      = args;
@@ -269,7 +268,11 @@ FunctionDefinition *function_new_nodes (FunctionCategory *parent,
 					char **help,
 					FunctionNodes *fn)
 {
-	FunctionDefinition *fd = g_new (FunctionDefinition, 1);
+	FunctionDefinition *fd;
+
+	g_return_val_if_fail (parent, NULL);
+
+	fd = g_new (FunctionDefinition, 1);
 	fn_def_init (fd, name, args, arg_names, help);
 
 	fd->fn_type   = FUNCTION_NODES;
@@ -310,6 +313,17 @@ functions_init (void)
 	database_functions_init();
 	information_functions_init();
 }
+
+/* Initialize temporarily with statics.  The real versions from the locale
+ * will be setup in constants_init
+ */
+char * gnumeric_err_NULL = "#NULL!";
+char * gnumeric_err_DIV0 = "#DIV/0!";
+char * gnumeric_err_VALUE = "#VALUE!";
+char * gnumeric_err_REF = "#REF!";
+char * gnumeric_err_NAME = "#NAME?";
+char * gnumeric_err_NUM = "#NUM!";
+char * gnumeric_err_NA = "#N/A";
 
 void
 constants_init (void)

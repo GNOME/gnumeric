@@ -97,7 +97,7 @@ error_message_set (ErrorMessage *em, const char *message)
 }
 
 void
-error_message_set (ErrorMessage *em, const char *message)
+error_message_set_alloc (ErrorMessage *em, char *message)
 {
 	g_return_if_fail (em);
 
@@ -105,11 +105,11 @@ error_message_set (ErrorMessage *em, const char *message)
 }
 
 void
-error_message_set (ErrorMessage *em, const char *message)
+error_message_set_small (ErrorMessage *em, const char *message)
 {
 	g_return_if_fail (em);
 	g_return_if_fail (message);
-	g_return_if_fail (g_strlen(message) < 19);
+	g_return_if_fail (strlen(message) < 19);
 
 	strcpy (em->small_err, message);
 }
@@ -135,6 +135,16 @@ error_message_free (ErrorMessage *em)
 		em->err_alloced = 0;
 	}
 	g_free (em);
+}
+
+FuncReturn *
+function_error (FunctionEvalInfo *fe, char *error_string)
+{
+	g_return_if_fail (fe);
+	g_return_if_fail (error_string);
+
+	error_message_set (fe->error, error_string);
+	return NULL;
 }
        
 ExprTree *
@@ -920,17 +930,18 @@ eval_funcall (FunctionEvalInfo *s, ExprTree *tree)
 	return v;
 }
 
-Value *
+FuncReturn *
 function_def_call_with_values (Sheet              *sheet,
 			       FunctionDefinition *fd,
 			       int                 argc,
 			       Value              *values [],
 			       ErrorMessage       *error)
 {
-	Value *retval;
+	FuncReturn *retval;
 	FunctionEvalInfo s;
 
 	func_eval_info_init (&s, sheet, 0, 0);
+	s.error = error;
 
 	if (fd->fn_type == FUNCTION_NODES) {
 		/*
@@ -953,21 +964,15 @@ function_def_call_with_values (Sheet              *sheet,
 			}
 		}
 
-		s.a.nodes = l;
-		retval = (Value *)fd->fn (&s);
+		retval = ((FunctionNodes *)fd->fn) (&s, l);
 
 		if (tree){
 			g_free (tree);
 			g_list_free (l);
 		}
 
-	} else {
-		s.a.args = values;
-		retval = (Value *)fd->fn (&s);
-	}
-
-	if (!retval)
-		*error_string = error_message_txt (s->error);
+	} else
+		retval = ((FunctionArgs *)fd->fn) (&s, values);
 
 	return retval;
 }
@@ -976,11 +981,11 @@ function_def_call_with_values (Sheet              *sheet,
  * Use this to invoke a register function: the only drawback is that
  * you have to compute/expand all of the values to use this
  */
-Value *
-function_call_with_values (Sheet *sheet, const char *name, int argc, Value *values[], char **error_string)
+FuncReturn *
+function_call_with_values (Sheet *sheet, const char *name, int argc, Value *values[], ErrorMessage *error)
 {
 	FunctionDefinition *fd;
-	Value *retval;
+	FuncReturn *retval;
 	Symbol *sym;
 
 	g_return_val_if_fail (sheet != NULL, NULL);
@@ -989,11 +994,11 @@ function_call_with_values (Sheet *sheet, const char *name, int argc, Value *valu
 
 	sym = symbol_lookup (global_symbol_table, name);
 	if (sym == NULL){
-		*error = error_message_new ( _("Function does not exist");
+		error_message_set (error, _("Function does not exist"));
 		return NULL;
 	}
 	if (sym->type != SYMBOL_FUNCTION){
-		*error = error_message_new ( _("Calling non-function");
+		error_message_set (error, _("Calling non-function"));
 		return NULL;
 	}
 
@@ -1001,7 +1006,7 @@ function_call_with_values (Sheet *sheet, const char *name, int argc, Value *valu
 
 	symbol_ref (sym);
 	retval = function_def_call_with_values ( sheet, fd, argc,
-						 values, error_string);
+						 values, error);
 	
 	symbol_unref (sym);
 
@@ -1234,7 +1239,7 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 					value_release (a);
 					value_release (b);
 					value_release (res);
-					s->error = error_message_new ( _("Division by zero");
+					error_message_set (s->error, _("Division by zero"));
 					return NULL;
 				}
 				res->type = VALUE_FLOAT;
@@ -1356,7 +1361,7 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 				if (cell->text)
 					error_message_set (s->error, cell->text->str);
 				else
-					error_message_set (s->error, _("Reference to newborn cell");
+					error_message_set (s->error, _("Reference to newborn cell"));
 				return NULL;
 			}
 		}
@@ -1387,7 +1392,7 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 		return (FuncReturn *)res;
 	}
 
-	error_message_new (s->error, _("Unknown evaluation error"));
+	error_message_set (s->error, _("Unknown evaluation error"));
 	return NULL;
 }
 

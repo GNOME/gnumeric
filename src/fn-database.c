@@ -347,9 +347,8 @@ static char *help_daverage = {
 };
 
 static FuncReturn *
-gnumeric_daverage (FunctionEvalInfo *s)
+gnumeric_daverage (FunctionEvalInfo *ei, Value **argv)
 {
-	Value       **argv = s->a.args;
         Value       *database, *criteria;
 	GSList      *criterias;
 	GSList      *cells, *current;
@@ -361,15 +360,12 @@ gnumeric_daverage (FunctionEvalInfo *s)
 	criteria = argv[2];
 
 	field = find_column_of_field(database, argv[1]);
-	if (field < 0) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (field < 0)
+		return function_error (ei, gnumeric_err_NUM);
 	criterias = parse_database_criteria(database, criteria);
-	if (criterias == NULL) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (criterias == NULL)
+		return function_error (ei, gnumeric_err_NUM);
+
 	cells = find_cells_that_match(database, field, criterias);
 
 	current = cells;
@@ -415,9 +411,8 @@ static char *help_dcount = {
 };
 
 static FuncReturn *
-gnumeric_dcount (FunctionEvalInfo *s)
+gnumeric_dcount (FunctionEvalInfo *ei, Value **argv)
 {
-	Value       **argv = s->a.args;
         Value       *database, *criteria;
 	GSList      *criterias;
 	GSList      *cells, *current;
@@ -428,15 +423,13 @@ gnumeric_dcount (FunctionEvalInfo *s)
 	criteria = argv[2];
 
 	field = find_column_of_field(database, argv[1]);
-	if (field < 0) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (field < 0)
+		return function_error (ei, gnumeric_err_NUM);
+
 	criterias = parse_database_criteria(database, criteria);
-	if (criterias == NULL) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (criterias == NULL)
+		return function_error (ei, gnumeric_err_NUM);
+
 	cells = find_cells_that_match(database, field, criterias);
 
 	current = cells;
@@ -481,9 +474,8 @@ static char *help_dcounta = {
 };
 
 static FuncReturn *
-gnumeric_dcounta (FunctionEvalInfo *s)
+gnumeric_dcounta (FunctionEvalInfo *ei, Value **argv)
 {
-	Value       **argv = s->a.args;
         Value       *database, *criteria;
 	GSList      *criterias;
 	GSList      *cells, *current;
@@ -494,15 +486,13 @@ gnumeric_dcounta (FunctionEvalInfo *s)
 	criteria = argv[2];
 
 	field = find_column_of_field(database, argv[1]);
-	if (field < 0) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (field < 0)
+		return function_error (ei, gnumeric_err_NUM);
+
 	criterias = parse_database_criteria(database, criteria);
-	if (criterias == NULL) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (criterias == NULL)
+		return function_error (ei, gnumeric_err_NUM);
+
 	cells = find_cells_that_match(database, field, criterias);
 
 	current = cells;
@@ -549,9 +539,8 @@ static char *help_dget = {
 };
 
 static FuncReturn *
-gnumeric_dget (FunctionEvalInfo *s)
+gnumeric_dget (FunctionEvalInfo *ei, Value **argv)
 {
-	Value       **argv = s->a.args;
         Value       *database, *criteria;
 	GSList      *criterias;
 	GSList      *cells, *current;
@@ -564,17 +553,13 @@ gnumeric_dget (FunctionEvalInfo *s)
 
 	field = find_column_of_field(database, argv[1]);
 
-	if (field < 0) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (field < 0)
+		return function_error (ei, gnumeric_err_NUM);
 
 	criterias = parse_database_criteria(database, criteria);
 
-	if (criterias == NULL) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (criterias == NULL)
+		error_message_set (ei->error, gnumeric_err_NUM);
 
 	cells = find_cells_that_match(database, field, criterias);
 
@@ -590,14 +575,11 @@ gnumeric_dget (FunctionEvalInfo *s)
 	g_slist_free(cells);
 	free_criterias(criterias);
 
-	if (count == 0) {
-		s->error_string = _("#VALUE!");
-		return NULL;
-	}
-	if (count > 1) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (count == 0)
+		return function_error (ei, gnumeric_err_VALUE);
+
+	if (count > 1)
+		return function_error (ei, gnumeric_err_NUM);
 
         return (FuncReturn *)value_new_float (value_get_as_float (cell->value));
 }
@@ -627,9 +609,8 @@ static char *help_dmax = {
 };
 
 static FuncReturn *
-gnumeric_dmax (FunctionEvalInfo *s)
+gnumeric_dmax (FunctionEvalInfo *ei, Value **argv)
 {
-	Value       **argv = s->a.args;
         Value       *database, *criteria;
 	GSList      *criterias;
 	GSList      *cells, *current;
@@ -641,20 +622,17 @@ gnumeric_dmax (FunctionEvalInfo *s)
 	criteria = argv[2];
 
 	field = find_column_of_field(database, argv[1]);
-	if (field < 0) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (field < 0)
+		return function_error (ei, gnumeric_err_NUM);
+
 	criterias = parse_database_criteria(database, criteria);
-	if (criterias == NULL) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (criterias == NULL)
+		return function_error (ei, gnumeric_err_NUM);
+
 	cells = find_cells_that_match(database, field, criterias);
-	if (cells == NULL) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (cells == NULL)
+		return function_error (ei, gnumeric_err_NUM);
+
 	current = cells;
 	cell = current->data;
 	max = value_get_as_float (cell->value);
@@ -700,9 +678,8 @@ static char *help_dmin = {
 };
 
 static FuncReturn *
-gnumeric_dmin (FunctionEvalInfo *s)
+gnumeric_dmin (FunctionEvalInfo *ei, Value **argv)
 {
-	Value       **argv = s->a.args;
         Value       *database, *criteria;
 	GSList      *criterias;
 	GSList      *cells, *current;
@@ -714,20 +691,17 @@ gnumeric_dmin (FunctionEvalInfo *s)
 	criteria = argv[2];
 
 	field = find_column_of_field(database, argv[1]);
-	if (field < 0) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (field < 0)
+		return function_error (ei, gnumeric_err_NUM);
+
 	criterias = parse_database_criteria(database, criteria);
-	if (criterias == NULL) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (criterias == NULL)
+		return function_error (ei, gnumeric_err_NUM);
+
 	cells = find_cells_that_match(database, field, criterias);
-	if (cells == NULL) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (cells == NULL)
+		return function_error (ei, gnumeric_err_NUM);
+
 	current = cells;
 	cell = current->data;
 	min = value_get_as_float (cell->value);
@@ -773,9 +747,8 @@ static char *help_dproduct = {
 };
 
 static FuncReturn *
-gnumeric_dproduct (FunctionEvalInfo *s)
+gnumeric_dproduct (FunctionEvalInfo *ei, Value **argv)
 {
-	Value       **argv = s->a.args;
         Value       *database, *criteria;
 	GSList      *criterias;
 	GSList      *cells, *current;
@@ -787,20 +760,17 @@ gnumeric_dproduct (FunctionEvalInfo *s)
 	criteria = argv[2];
 
 	field = find_column_of_field(database, argv[1]);
-	if (field < 0) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (field < 0)
+		return function_error (ei, gnumeric_err_NUM);
+
 	criterias = parse_database_criteria(database, criteria);
-	if (criterias == NULL) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (criterias == NULL)
+		return function_error (ei, gnumeric_err_NUM);
+
 	cells = find_cells_that_match(database, field, criterias);
-	if (cells == NULL) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (cells == NULL)
+		return function_error (ei, gnumeric_err_NUM);
+
 	current = cells;
 	product = 1;
 	cell = current->data;
@@ -846,9 +816,8 @@ static char *help_dstdev = {
 };
 
 static FuncReturn *
-gnumeric_dstdev (FunctionEvalInfo *s)
+gnumeric_dstdev (FunctionEvalInfo *ei, Value **argv)
 {
-	Value       **argv = s->a.args;
         Value          *database, *criteria;
 	GSList         *criterias;
 	GSList         *cells, *current;
@@ -860,20 +829,17 @@ gnumeric_dstdev (FunctionEvalInfo *s)
 	criteria = argv[2];
 
 	field = find_column_of_field(database, argv[1]);
-	if (field < 0) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (field < 0)
+		return function_error (ei, gnumeric_err_NUM);
+
 	criterias = parse_database_criteria(database, criteria);
-	if (criterias == NULL) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (criterias == NULL)
+		return function_error (ei, gnumeric_err_NUM);
+
 	cells = find_cells_that_match(database, field, criterias);
-	if (cells == NULL) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (cells == NULL)
+		return function_error (ei, gnumeric_err_NUM);
+
 	current = cells;
 	setup_stat_closure (&p);
 	cell = current->data;
@@ -888,10 +854,8 @@ gnumeric_dstdev (FunctionEvalInfo *s)
 	g_slist_free(cells);
 	free_criterias(criterias);
 
-	if (p.N - 1 == 0) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (p.N - 1 == 0)
+		return function_error (ei, gnumeric_err_NUM);
 
         return (FuncReturn *)value_new_float (sqrt(p.Q / (p.N - 1)));
 }
@@ -922,9 +886,8 @@ static char *help_dstdevp = {
 };
 
 static FuncReturn *
-gnumeric_dstdevp (FunctionEvalInfo *s)
+gnumeric_dstdevp (FunctionEvalInfo *ei, Value **argv)
 {
-	Value       **argv = s->a.args;
         Value          *database, *criteria;
 	GSList         *criterias;
 	GSList         *cells, *current;
@@ -936,20 +899,17 @@ gnumeric_dstdevp (FunctionEvalInfo *s)
 	criteria = argv[2];
 
 	field = find_column_of_field(database, argv[1]);
-	if (field < 0) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (field < 0)
+		return function_error (ei, gnumeric_err_NUM);
+
 	criterias = parse_database_criteria(database, criteria);
-	if (criterias == NULL) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (criterias == NULL)
+		return function_error (ei, gnumeric_err_NUM);
+
 	cells = find_cells_that_match(database, field, criterias);
-	if (cells == NULL) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (cells == NULL)
+		return function_error (ei, gnumeric_err_NUM);
+
 	current = cells;
 	setup_stat_closure (&p);
 	cell = current->data;
@@ -964,10 +924,8 @@ gnumeric_dstdevp (FunctionEvalInfo *s)
 	g_slist_free(cells);
 	free_criterias(criterias);
 
-	if (p.N == 0) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (p.N == 0)
+		return function_error (ei, gnumeric_err_NUM);
 
         return (FuncReturn *)value_new_float (sqrt(p.Q / p.N));
 }
@@ -997,9 +955,8 @@ static char *help_dsum = {
 };
 
 static FuncReturn *
-gnumeric_dsum (FunctionEvalInfo *s)
+gnumeric_dsum (FunctionEvalInfo *ei, Value **argv)
 {
-	Value       **argv = s->a.args;
         Value       *database, *criteria;
 	GSList      *criterias;
 	GSList      *cells, *current;
@@ -1011,20 +968,17 @@ gnumeric_dsum (FunctionEvalInfo *s)
 	criteria = argv[2];
 
 	field = find_column_of_field(database, argv[1]);
-	if (field < 0) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (field < 0)
+		return function_error (ei, gnumeric_err_NUM);
+
 	criterias = parse_database_criteria(database, criteria);
-	if (criterias == NULL) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (criterias == NULL)
+		return function_error (ei, gnumeric_err_NUM);
+
 	cells = find_cells_that_match(database, field, criterias);
-	if (cells == NULL) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (cells == NULL)
+		return function_error (ei, gnumeric_err_NUM);
+
 	current = cells;
 	sum = 0;
 	cell = current->data;
@@ -1070,9 +1024,8 @@ static char *help_dvar = {
 };
 
 static FuncReturn *
-gnumeric_dvar (FunctionEvalInfo *s)
+gnumeric_dvar (FunctionEvalInfo *ei, Value **argv)
 {
-	Value       **argv = s->a.args;
         Value          *database, *criteria;
 	GSList         *criterias;
 	GSList         *cells, *current;
@@ -1084,20 +1037,17 @@ gnumeric_dvar (FunctionEvalInfo *s)
 	criteria = argv[2];
 
 	field = find_column_of_field(database, argv[1]);
-	if (field < 0) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (field < 0)
+		return function_error (ei, gnumeric_err_NUM);
+
 	criterias = parse_database_criteria(database, criteria);
-	if (criterias == NULL) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (criterias == NULL)
+		return function_error (ei, gnumeric_err_NUM);
+
 	cells = find_cells_that_match(database, field, criterias);
-	if (cells == NULL) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (cells == NULL)
+		return function_error (ei, gnumeric_err_NUM);
+
 	current = cells;
 	setup_stat_closure (&p);
 	cell = current->data;
@@ -1112,10 +1062,8 @@ gnumeric_dvar (FunctionEvalInfo *s)
 	g_slist_free(cells);
 	free_criterias(criterias);
 
-	if (p.N - 1 == 0) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (p.N - 1 == 0)
+		return function_error (ei, gnumeric_err_NUM);
 
         return (FuncReturn *)value_new_float (p.Q / (p.N - 1));
 }
@@ -1146,9 +1094,8 @@ static char *help_dvarp = {
 };
 
 static FuncReturn *
-gnumeric_dvarp (FunctionEvalInfo *s)
+gnumeric_dvarp (FunctionEvalInfo *ei, Value **argv)
 {
-	Value       **argv = s->a.args;
         Value          *database, *criteria;
 	GSList         *criterias;
 	GSList         *cells, *current;
@@ -1160,20 +1107,17 @@ gnumeric_dvarp (FunctionEvalInfo *s)
 	criteria = argv[2];
 
 	field = find_column_of_field(database, argv[1]);
-	if (field < 0) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (field < 0)
+		return function_error (ei, gnumeric_err_NUM);
+
 	criterias = parse_database_criteria(database, criteria);
-	if (criterias == NULL) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (criterias == NULL)
+		return function_error (ei, gnumeric_err_NUM);
+
 	cells = find_cells_that_match(database, field, criterias);
-	if (cells == NULL) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (cells == NULL)
+		return function_error (ei, gnumeric_err_NUM);
+
 	current = cells;
 	setup_stat_closure (&p);
 	cell = current->data;
@@ -1188,10 +1132,8 @@ gnumeric_dvarp (FunctionEvalInfo *s)
 	g_slist_free(cells);
 	free_criterias(criterias);
 
-	if (p.N == 0) {
-		s->error_string = _("#NUM!");
-		return NULL;
-	}
+	if (p.N == 0)
+		return function_error (ei, gnumeric_err_NUM);
 
         return (FuncReturn *) value_new_float (p.Q / p.N);
 }
@@ -1201,28 +1143,28 @@ database_functions_init(void)
 {
 	FunctionCategory *cat = function_get_category (_("Database"));
 	
-	function_new (cat,  "daverage", "r?r", "database,field,criteria", &help_daverage,
-		      FUNCTION_ARGS, gnumeric_daverage );
-	function_new (cat,  "dcount",   "r?r", "database,field,criteria", &help_dcount,
-		      FUNCTION_ARGS, gnumeric_dcount );
-	function_new (cat,  "dcounta",  "r?r", "database,field,criteria", &help_dcounta,
-		      FUNCTION_ARGS, gnumeric_dcounta );
-	function_new (cat,  "dget",     "r?r", "database,field,criteria", &help_dget,
-		      FUNCTION_ARGS, gnumeric_dget );
-	function_new (cat,  "dmax",     "r?r", "database,field,criteria", &help_dmax,
-		      FUNCTION_ARGS, gnumeric_dmax );
-	function_new (cat,  "dmin",     "r?r", "database,field,criteria", &help_dmin,
-		      FUNCTION_ARGS, gnumeric_dmin );
-	function_new (cat,  "dproduct", "r?r", "database,field,criteria", &help_dproduct,
-		      FUNCTION_ARGS, gnumeric_dproduct );
-	function_new (cat,  "dstdev",   "r?r", "database,field,criteria", &help_dstdev,
-		      FUNCTION_ARGS, gnumeric_dstdev );
-	function_new (cat,  "dstdevp",  "r?r", "database,field,criteria", &help_dstdevp,
-		      FUNCTION_ARGS, gnumeric_dstdevp );
-	function_new (cat,  "dsum",     "r?r", "database,field,criteria", &help_dsum,
-		      FUNCTION_ARGS, gnumeric_dsum );
-	function_new (cat,  "dvar",     "r?r", "database,field,criteria", &help_dvar,
-		      FUNCTION_ARGS, gnumeric_dvar );
-	function_new (cat,  "dvarp",    "r?r", "database,field,criteria", &help_dvarp,
-		      FUNCTION_ARGS, gnumeric_dvarp );
+	function_add_args (cat,  "daverage", "r?r", "database,field,criteria", &help_daverage,
+			   gnumeric_daverage );
+	function_add_args (cat,  "dcount",   "r?r", "database,field,criteria", &help_dcount,
+			   gnumeric_dcount );
+	function_add_args (cat,  "dcounta",  "r?r", "database,field,criteria", &help_dcounta,
+			   gnumeric_dcounta );
+	function_add_args (cat,  "dget",     "r?r", "database,field,criteria", &help_dget,
+			   gnumeric_dget );
+	function_add_args (cat,  "dmax",     "r?r", "database,field,criteria", &help_dmax,
+			   gnumeric_dmax );
+	function_add_args (cat,  "dmin",     "r?r", "database,field,criteria", &help_dmin,
+			   gnumeric_dmin );
+	function_add_args (cat,  "dproduct", "r?r", "database,field,criteria", &help_dproduct,
+			   gnumeric_dproduct );
+	function_add_args (cat,  "dstdev",   "r?r", "database,field,criteria", &help_dstdev,
+			   gnumeric_dstdev );
+	function_add_args (cat,  "dstdevp",  "r?r", "database,field,criteria", &help_dstdevp,
+			   gnumeric_dstdevp );
+	function_add_args (cat,  "dsum",     "r?r", "database,field,criteria", &help_dsum,
+			   gnumeric_dsum );
+	function_add_args (cat,  "dvar",     "r?r", "database,field,criteria", &help_dvar,
+			   gnumeric_dvar );
+	function_add_args (cat,  "dvarp",    "r?r", "database,field,criteria", &help_dvarp,
+			   gnumeric_dvarp );
 }
