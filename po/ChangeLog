@@ -1,3 +1,11 @@
+1999-08-22  Karsten Weiss  <karsten@addx.au.s.shuttle.de>
+
+	* de.po: Cleanup. The de.po was in a very bad condition.
+	 before: 155 translated messages, 130 fuzzy translations, 134 untranslated messages.
+	  after: 264 translated messages, 9 fuzzy translations, 146 untranslated messages.
+	  I don't intend to do the rest as I'm not a gnumeric user myself.
+	  Is someone interested to finish the job?
+	
 1999-08-20  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* es.po: Remove spurious "s.
