@@ -1,3 +1,10 @@
+2000-06-07  Ariel Rios  <ariel@arcavia.com>
+
+	* plugin.c: Removal of unused code. Found some nasty problems
+	that need to be addresed urgently in ranges and arrays.
+
+	* doc/guile-gnumeric.txt: Updated.
+
 2000-05-26  Jody Goldberg <jgoldberg@home.com>
 
 	* plugin.c (init_plugin) : rename

@@ -45,7 +45,12 @@ list_to_scm (GList *list, CellRef eval_cell)
 				/* FIXME: implement this */
 	return SCM_EOL;
 }
-
+/*
+  FIXME: 
+  This funcs are useless, since we really don't care about
+  the starting position of the range, we do care on the values
+  of each cell and that is not given bu this functions.
+*/
 static SCM
 cell_ref_to_scm (CellRef cell, CellRef eval_cell)
 {
@@ -93,7 +98,6 @@ value_to_scm (Value const *val, CellRef cell_ref)
 			return gh_bool2scm (val->v_bool.val);	
 			
 		case VALUE_ERROR :
-			/* FIXME ?? what belongs here */
 			return scm_makfrom0str (val->v_err.mesg->str);
 
 		case VALUE_STRING :
@@ -136,18 +140,16 @@ static Value*
 scm_to_value (SCM scm)
 {
 	if (SCM_NIMP(scm) && SCM_STRINGP(scm)) {
-		/* assuming (wrongly?) that scm strings are zero-terminated */
 		return value_new_string (SCM_CHARS(scm));
 
 	} else if (SCM_NFALSEP(scm_number_p(scm))) {
-		/* We do not need to do any distinction between an integer or
-		 *  a float here. If we do so, we can crash gnumeric if the
-                 *  size of scm is bigger than the size of int
-		 */
 		return value_new_float ((float_t)scm_num2dbl(scm, 0));
-
+		
 	} else if (SCM_NIMP(scm) && SCM_CONSP(scm))
 	{
+		/*
+		  FIXME;
+		*/
 		if (scm_eq_p(SCM_CAR(scm), scm_symbolfrom0str("cell-range"))
 		    && SCM_NIMP(SCM_CDR(scm)) && SCM_CONSP(SCM_CDR(scm)))
 		{

@@ -93,7 +93,7 @@ fibo)
 ;"test" "a"
 ;"@FUNCTION=TEST
 ;@SYNTAX=TEST(num)
-;@DESCRIPTION=Prueba"
+;@DESCRIPTION=test"
 ;test)
 
 
