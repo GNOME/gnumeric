@@ -1,3 +1,13 @@
+1999-06-16  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* samples/finfuns.xls: A new file for financial functions.
+
+	* samples/engfuns.xls: A new file for engineering functions.
+	
+	* samples/mathfuns.xls: COMBIN and FACT fixed.
+
+	* samples/statfuns.xls: Accuracy dropped again.
+
 1999-06-16  Morten Welinder  <terra@diku.dk>
 
 	* src/workbook.c (workbook_feedback_set): Block the "clicked"
