@@ -128,6 +128,7 @@
         <applyto>/apps/gnumeric/file/history/files</applyto>
         <owner>Gnumeric</owner>
         <type>list</type>
+	<list_type>string</list_type>
         <locale name="C">
         <short>List of recently used files</short>
         <long>The file menu shows a list of recently used functions. This is that list.</long>

@@ -1,3 +1,9 @@
+2003-02-09  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* schemas/gnumeric-dialogs.schemas.in,
+	schemas/gnumeric-general.schemas.in: Added <list_type>s to fix the
+	warnings on schema installation.
+
 2003-02-08  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : remove mr_IN until there is content

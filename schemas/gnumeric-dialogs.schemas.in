@@ -5,6 +5,7 @@
         <applyto>/apps/gnumeric/functionselector/recentfunctions</applyto>
         <owner>Gnumeric</owner>
         <type>list</type>
+	<list_type>string</list_type>
         <locale name="C">
         <short>List of recently used functions.</short>
         <long>The function selector keeps a list of recently used functions. This is that list.</long>
@@ -37,6 +38,7 @@
         <applyto>/apps/gnumeric/autocorrect/init-caps-list</applyto>
         <owner>Gnumeric</owner>
         <type>list</type>
+	<list_type>string</list_type>
         <locale name="C">
         <short>List of Init Caps Exceptions</short>
         <long>The autocorrect engine does not correct the inital caps for words in this list.</long>
@@ -58,6 +60,7 @@
         <applyto>/apps/gnumeric/autocorrect/first-letter-list</applyto>
         <owner>Gnumeric</owner>
         <type>list</type>
+	<list_type>string</list_type>
         <locale name="C">
         <short>List of First Letter Exceptions</short>
         <long>The autocorrect engine does not correct the first letter for words in this list.</long>
@@ -101,6 +104,7 @@
         <applyto>/apps/gnumeric/plugins/active</applyto>
         <owner>Gnumeric</owner>
         <type>list</type>
+	<list_type>string</list_type>
         <locale name="C">
         <short>List of Active Plugins.</short>
         <long>This list contains all plugins that are supposed to be automatically activated.</long>
@@ -111,6 +115,7 @@
         <applyto>/apps/gnumeric/plugins/known</applyto>
         <owner>Gnumeric</owner>
         <type>list</type>
+	<list_type>string</list_type>
         <locale name="C">
         <short>List of Known Plugins.</short>
         <long>This list contains all known plugins.</long>
@@ -121,6 +126,7 @@
         <applyto>/apps/gnumeric/plugins/file-states</applyto>
         <owner>Gnumeric</owner>
         <type>list</type>
+	<list_type>string</list_type>
         <locale name="C">
         <short>List of Plugin File States.</short>
         <long>This list contains all plugin file states.</long>
@@ -131,6 +137,7 @@
         <applyto>/apps/gnumeric/plugins/extra-dirs</applyto>
         <owner>Gnumeric</owner>
         <type>list</type>
+	<list_type>string</list_type>
         <locale name="C">
         <short>List of Extra Plugin Directories.</short>
         <long>This list contains all extra directories containing plugins.</long>
@@ -141,6 +148,7 @@
         <applyto>/apps/gnumeric/autoformat/extra-dirs</applyto>
         <owner>Gnumeric</owner>
         <type>list</type>
+	<list_type>string</list_type>
         <locale name="C">
         <short>List of Extra Autoformat Directories.</short>
         <long>This list contains all extra directories containing autoformat templates.</long>
