@@ -1,3 +1,7 @@
+2000-06-21  Michael Meeks  <michael@helixcode.com>
+
+	* src/embeddable-grid.c (embeddable_grid_init_anon): fix.
+
 2000-06-20  Morten Welinder  <terra@diku.dk>
 
 	* src/commands.c (cmd_ins_del_row_col_undo): Leak and assertion
