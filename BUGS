@@ -7,10 +7,6 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-- gnm_expr_entry_rangesel_start calls the parser an obscene number of times.
-  (Thousands if you take operator.xls, cell EXP!C37 and just click before
-  "Result".)
-
 - http://bugzilla.gnome.org/show_bug.cgi?id=71551
 - We need to somehow add --export-dynamic to the gnumeric link line, or else
   plugins won't load on Solaris/gcc.  (This might just be my bastard libtool.)
