@@ -1063,6 +1063,7 @@ expr_parse_str (char const *expr_text, ParsePos const *pos,
 					g_strdup (_("Multiple expressions are not supported in this context")),
 					(pstate.expr_text - pstate.expr_backup) + 1,
 					(pstate.expr_text - pstate.expr_backup));
+				expr = NULL;
 			}
 		} else {
 			/* Free the list, do not unref the content */

@@ -13,6 +13,7 @@ Andreas:
 	* Set cell format for percentiles in rank and percentile tool
 	* Fix crash on copy between different invocations of gnumeric
 	* Fix search in comments (# 65159)
+	* Fix crash in parser (# 65896)
 
 Jody:
 	* Tricky corner cases for style applications.

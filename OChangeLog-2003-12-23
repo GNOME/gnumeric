@@ -1,3 +1,7 @@
+2001-12-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/parser.y (expr_parse_str) Initialize expr to NULL
+
 2001-12-02  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/workbook-control-gui.c (show_gui) : implement complete 
