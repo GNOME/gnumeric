@@ -288,6 +288,21 @@ else
     AC_MSG_ERROR(Did not find GTK+ installed)
 fi
 
+dnl ******************************
+dnl Check for Applix SHELF
+dnl ******************************
+try_applix_shelf=false
+applix_shelf=
+applix_shelf_msg=no
+have_applix_shelf=false
+AC_ARG_WITH(applix_shelf,
+	[--{with,without}-shelf   Compile with Applix SHELF support or without it],
+	if test x$withval = xyes; then
+		try_applix_shelf=true
+	fi
+)
+dnl ***************************************
+
 EXTRA_GNOME_LIBS=`gnome-config --libs gnomeui print libglade $bonobo`
 EXTRA_GNOME_CFLAGS=`gnome-config --cflags gnomeui print libglade $bonobo`
 AC_SUBST(EXTRA_GNOME_LIBS)
@@ -349,6 +364,7 @@ Configuration:
 	
 	GB Support:		${gb_msg}
 	Bonobo Support:		${bonobo_msg}
+	Applix SHELF Support:	${applix_shelf_msg}
 "
 if $have_bonobo; then
 	echo "
