@@ -276,7 +276,7 @@ go_file_split_uris (const char *data)
 /* ------------------------------------------------------------------------- */
 
 /*
- * Respect rfc2368
+ * go_url_decode: decode the result of go_url_encode.
  */
 gchar*
 go_url_decode (gchar const *text)
@@ -307,7 +307,7 @@ go_url_decode (gchar const *text)
 }
 
 /**
- * go_url_decode: url-encode a string according to RFC 2368.
+ * go_url_encode: url-encode a string according to RFC 2368.
  */
 gchar*
 go_url_encode (gchar const *text)
