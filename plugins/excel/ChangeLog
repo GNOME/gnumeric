@@ -1,3 +1,13 @@
+1999-05-31  Michael Meeks  <michael@edenproject.org>
+
+	* ms-excel-write.c (biff_bof_write): Fixed _major_
+	bug in BOF writing.
+
+	* boot.c (excel_init): Changed 98->97 in text.
+
+	* ms-excel-write.c (write_workbook): Fix serious list
+	bug freeing list then using it !
+
 1999-05-30  Michael Meeks  <michael@edenproject.org>
 
 	* ms-excel-write.c: Changed to biff_put_commit

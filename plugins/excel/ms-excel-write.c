@@ -59,7 +59,7 @@ struct _WORKBOOK {
  *  FIXME: see S59D47.HTM for full description
  *  it returns the length of the string.
  **/
-static void
+static int
 biff_put_text (BIFF_PUT *bp, char *txt, eBiff_version ver, gboolean write_len)
 {
 #define BLK_LEN 16
@@ -67,8 +67,8 @@ biff_put_text (BIFF_PUT *bp, char *txt, eBiff_version ver, gboolean write_len)
 	guint8 data[BLK_LEN];
 	guint32 chunks, pos, lpc, lp, len, ans;
 
-	g_return_if_fail (bp);
-	g_return_if_fail (txt);
+	g_return_val_if_fail (bp, 0);
+	g_return_val_if_fail (txt, 0);
 
 	len = strlen (txt);
 /*	printf ("Write '%s' len = %d\n", txt, len); */
@@ -84,7 +84,7 @@ biff_put_text (BIFF_PUT *bp, char *txt, eBiff_version ver, gboolean write_len)
 		}
 	} else { /* Byte length */
 		if (write_len) {
-			g_return_if_fail (len<256);
+			g_return_val_if_fail (len<256, 0);
 			BIFF_SET_GUINT8(data, len);
 			ms_biff_put_var_write (bp, data, 1);
 			ans = len + 1;
@@ -112,6 +112,7 @@ biff_put_text (BIFF_PUT *bp, char *txt, eBiff_version ver, gboolean write_len)
 	}
 /* ans is the length but do we need it ? */
 #undef BLK_LEN
+	return ans;
 }
 
 /**
@@ -121,7 +122,15 @@ static void
 biff_bof_write (BIFF_PUT *bp, eBiff_version ver,
 		eBiff_filetype type)
 {
-	guint8 *data = ms_biff_put_len_next (bp, 0, 4);
+	guint   len;
+	guint8 *data;
+
+	if (ver >= eBiffV8)
+		len = 16;
+	else
+		len = 8;
+
+	data = ms_biff_put_len_next (bp, 0, len);
 
 	bp->ls_op = BIFF_BOF;
 	switch (ver) {
@@ -171,6 +180,28 @@ biff_bof_write (BIFF_PUT *bp, eBiff_version ver,
 		g_warning ("Unknown type\n");
 		break;
 	}
+
+	/* Magic version numbers: build date etc. */
+	switch (ver) {
+	case eBiffV8:
+		BIFF_SET_GUINT16 (data+4, 0x0dbb);
+		BIFF_SET_GUINT16 (data+6, 0x07cc);
+		g_assert (len > 11);
+		/* Quandry: can we tell the truth about our history */
+		BIFF_SET_GUINT32 (data+ 8, 0x00000004);
+		BIFF_SET_GUINT16 (data+12, 0x06000908); /* ? */
+		break;
+	case eBiffV7:
+	case eBiffV5:
+		BIFF_SET_GUINT16 (data+4, 0x096c);
+		BIFF_SET_GUINT16 (data+6, 0x07c9);
+		break;
+	default:
+		printf ("FIXME: I need some magic numbers\n");
+		BIFF_SET_GUINT16 (data+4, 0x0);
+		BIFF_SET_GUINT16 (data+6, 0x0);
+		break;
+	}
 	ms_biff_put_commit (bp);
 }
 
@@ -207,13 +238,20 @@ write_constants (BIFF_PUT *bp, eBiff_version ver)
 
 	/* See: S59E1A.HTM */
 	ms_biff_put_var_next (bp, BIFF_WRITEACCESS);
-	biff_put_text (bp, "the Free Software Foundation", ver, TRUE);
+	biff_put_text (bp, "the free software foundation ", ver, TRUE);
 	ms_biff_put_commit (bp);
 
 	/* See: S59D66.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_CODEPAGE, 2);
 	BIFF_SET_GUINT16 (data, 0x04e4); /* ANSI */
 	ms_biff_put_commit (bp);
+
+	/* See: S59D8A.HTM */
+	if (ver >= eBiffV7) {
+		data = ms_biff_put_len_next (bp, BIFF_FNGROUPCOUNT, 2);
+		BIFF_SET_GUINT16 (data, 0xe0);
+		ms_biff_put_commit (bp);
+	}
 }
 
 /**
@@ -563,6 +601,37 @@ write_sheet (BIFF_PUT *bp, SHEET *sheet)
 }
 
 static void
+write_externsheets (BIFF_PUT *bp, WORKBOOK *wb)
+{
+	guint32 num_sheets = wb->sheets->len;
+	guint8 *data;
+	int lp;
+
+	if (wb->ver > eBiffV7) {
+		printf ("Need some cunning BiffV8 stuff ?\n");
+		return;
+	}
+
+	g_assert (num_sheets < 0xffff);
+	data = ms_biff_put_len_next (bp, BIFF_EXTERNCOUNT, 2);
+	BIFF_SET_GUINT16(data, num_sheets);
+	ms_biff_put_commit (bp);
+
+	for (lp=0;lp<num_sheets;lp++) {
+		SHEET *sheet = g_ptr_array_index (wb->sheets, lp);
+		gint len = strlen (sheet->gnum_sheet->name);
+		guint8 data[8];
+
+		ms_biff_put_var_next (bp, BIFF_EXTERNSHEET);
+		BIFF_SET_GUINT8(data, len);
+		BIFF_SET_GUINT8(data+1, 3); /* Magic */
+		ms_biff_put_var_write (bp, data, 2);
+		biff_put_text (bp, sheet->gnum_sheet->name, wb->ver, FALSE);
+		ms_biff_put_commit (bp);
+	}
+}
+
+static void
 new_sheet (WORKBOOK *wb, Sheet *value)
 {
 	SHEET     *sheet = g_new (SHEET, 1);
@@ -595,13 +664,14 @@ write_workbook (BIFF_PUT *bp, Workbook *gwb, eBiff_version ver)
 		new_sheet (wb, sheets->data);
 		sheets = g_list_next (sheets);
 	}
-	g_list_free (sheets);
 
 	/* Workbook */
 	biff_bof_write (bp, ver, eBiffTWorkbook);
 
 	write_magic_interface (bp, ver);
-	write_constants (bp, ver);
+	write_constants       (bp, ver);
+	write_externsheets    (bp, wb);
+
 	wb->fonts = write_fonts (bp, wb);
 	write_xf (bp, wb);
 	wb->pal   = write_palette (bp, wb);
@@ -630,6 +700,8 @@ write_workbook (BIFF_PUT *bp, Workbook *gwb, eBiff_version ver)
 
 	fonts_free (wb->fonts);
 	palette_free (wb->pal);
+
+	g_list_free (sheets);
 }
 
 int

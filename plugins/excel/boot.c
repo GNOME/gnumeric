@@ -114,7 +114,7 @@ void
 excel_init (void)
 {
 	char *descr  = _("Microsoft(R) Excel file format");
-	char *descr2 = _("Excel(R) 98 file format");
+	char *descr2 = _("Excel(R) 97 file format");
 	char *descr3 = _("Excel(R) 95 file format");
 
 	/* We register Excel format with a precendence of 100 */

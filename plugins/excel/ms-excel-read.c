@@ -2232,7 +2232,7 @@ ms_excel_read_workbook (MS_OLE * file)
 						printf ("FIXME: bad docs\n");
 				}
 				break;
-			case BIFF_EXTERNSHEET:
+			case BIFF_EXTERNSHEET: /* See: S59D82.HTM */
 			{
 				if ( ver->version == eBiffV8 )
 				{
