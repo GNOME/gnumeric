@@ -534,6 +534,7 @@ eval_funcall (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **e
 					*error_string = _("Type mismatch");
 					return NULL;
 				}
+				break ;
 			case 'r':
 				if (v->type != VALUE_CELLRANGE) {
 					free_values (values, arg);
@@ -542,6 +543,7 @@ eval_funcall (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **e
 				}
 				cell_ref_make_absolute (&v->v.cell_range.cell_a, eval_col, eval_row) ;
 				cell_ref_make_absolute (&v->v.cell_range.cell_b, eval_col, eval_row) ;
+				break ;
 			}
 			values [arg] = v;
 		}
