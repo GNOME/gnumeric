@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
-"POT-Creation-Date: 2002-02-13 10:01+0200\n"
-"PO-Revision-Date: 2002-02-13 12:42+0200\n"
+"POT-Creation-Date: 2002-02-14 10:39+0200\n"
+"PO-Revision-Date: 2002-02-14 16:06+0200\n"
 "Last-Translator: Yuriy Syrota <yuri@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -283,7 +283,7 @@ msgstr "Аркуш%d"
 #: plugins/excel/ms-excel-read.c:567
 #, c-format
 msgid "Macro%d"
-msgstr ""
+msgstr "Макрос%d"
 
 #: plugins/excel/ms-excel-read.c:570
 #, c-format
@@ -293,7 +293,7 @@ msgstr ""
 #: plugins/excel/ms-excel-read.c:573
 #, c-format
 msgid "Module%d"
-msgstr ""
+msgstr "Модуль%d"
 
 #: plugins/excel/ms-excel-read.c:4480
 msgid "No book or workbook streams found."
@@ -365,7 +365,7 @@ msgstr "Помилка в проекті \"%s\""
 
 #: plugins/gb/plugin.xml.in.h:1
 msgid "Enables Gnome Basic support"
-msgstr ""
+msgstr "Вмикає підтримку GNOME BASIC"
 
 #: plugins/gb/plugin.xml.in.h:2
 msgid "Gnome Basic"
@@ -416,11 +416,11 @@ msgstr "База даних"
 
 #: plugins/gda/plugin.xml.in.h:2
 msgid "Database functions for allowing the retrieval of data from a database"
-msgstr ""
+msgstr "Функції роботи з базою даних, що дозволяють отримувати дані з бази даних"
 
 #: plugins/gnome-glossary/plugin.xml.in.h:1
 msgid "Gnome Glossary"
-msgstr ""
+msgstr "Словник термінів GNOME"
 
 #: plugins/gnome-glossary/plugin.xml.in.h:2
 #, fuzzy
@@ -534,9 +534,8 @@ msgstr "Інше значення"
 
 #. Print 'Status'.
 #: plugins/mps/mps.c:292
-#, fuzzy
 msgid "Feasible"
-msgstr "Збій"
+msgstr "Очікуване"
 
 #.
 #. * Add objective function stuff into the sheet.
@@ -655,7 +654,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=The NT_MU function (MцІbius mu function) returns \n"
+"@DESCRIPTION=The NT_MU function (Möbius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "-1 if @n has an odd  number of different prime factors .\n"
@@ -956,7 +955,7 @@ msgstr "Завантажувач доповнень Python"
 
 #: plugins/python-loader/plugin.xml.in.h:2
 msgid "This plugin provides support for Python plugins"
-msgstr ""
+msgstr "Це доповнення надає підтримку доповнень на Python"
 
 #: plugins/python-loader/py-gnumeric.c:273
 #: plugins/python-loader/py-gnumeric.c:313
@@ -977,7 +976,7 @@ msgstr "Вийняткова ситуація Python (%s)"
 
 #: plugins/python-loader/py-gnumeric.c:456
 msgid "Python list is not an array"
-msgstr ""
+msgstr "Список Python не є масивом"
 
 #: plugins/python-loader/py-gnumeric.c:463
 #, c-format
@@ -1149,11 +1148,11 @@ msgstr ""
 
 #: plugins/xml_sax/xml-sax-read.c:2092
 msgid "xmlCreateFileParserCtxt () failed."
-msgstr ""
+msgstr "Збій xmlCreateFileParserCtxt()."
 
 #: plugins/xml_sax/xml-sax-read.c:2101
 msgid "XML document not well formed!"
-msgstr ""
+msgstr "Документ XML сформовано неправильно!"
 
 #: src/GNOME_Gnumeric.xml.h:1
 msgid "About this application"
@@ -1256,14 +1255,12 @@ msgid "Center"
 msgstr "Центрувати"
 
 #: src/GNOME_Gnumeric.xml.h:20
-#, fuzzy
 msgid "CenterAcrossSelection"
-msgstr "Сентрувати поперек вибраного"
+msgstr "Сентрувати через вибране"
 
 #: src/GNOME_Gnumeric.xml.h:21
-#, fuzzy
 msgid "Centers across the selected cells"
-msgstr "Сентрувати поперек вибраного"
+msgstr "Сентрує через вибрані комірки"
 
 #: src/GNOME_Gnumeric.xml.h:22
 msgid "Centers the text in each selection"
@@ -1340,9 +1337,8 @@ msgid "Collapse an outline group"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:37
-#, fuzzy
 msgid "Combo Box"
-msgstr "Колір"
+msgstr "Комбінований список"
 
 #: src/GNOME_Gnumeric.xml.h:38
 #: src/workbook-control-gui.c:2964
@@ -1406,9 +1402,8 @@ msgid "Create a checkbox"
 msgstr "Створити графу для відмітки"
 
 #: src/GNOME_Gnumeric.xml.h:51
-#, fuzzy
 msgid "Create a combo box"
-msgstr "Створює нову книгу"
+msgstr "Створити комбінований список"
 
 #: src/GNOME_Gnumeric.xml.h:52
 msgid "Create a frame"
@@ -1450,9 +1445,8 @@ msgid "Create a radio button"
 msgstr "Створити перемикач"
 
 #: src/GNOME_Gnumeric.xml.h:61
-#, fuzzy
 msgid "Create a scrollbar"
-msgstr "Створити кадр"
+msgstr "Створити панель прокрутки"
 
 #: src/GNOME_Gnumeric.xml.h:62
 msgid "Create an arrow"
@@ -1956,9 +1950,8 @@ msgstr "Вставка з необов'язковими фільтрами та 
 
 #: src/GNOME_Gnumeric.xml.h:164
 #: src/workbook-control-gui.c:2990
-#, fuzzy
 msgid "Pearson Correlation"
-msgstr "Кореляція"
+msgstr "Кореляція Пірсона"
 
 #: src/GNOME_Gnumeric.xml.h:165
 #: src/analysis-tools.c:2741
@@ -1988,9 +1981,8 @@ msgid "Print Preview"
 msgstr "Перегляд друку"
 
 #: src/GNOME_Gnumeric.xml.h:170
-#, fuzzy
 msgid "Print S_etup..."
-msgstr "Параметри принтера"
+msgstr "_Налаштування друку..."
 
 #: src/GNOME_Gnumeric.xml.h:171
 #: src/print.c:1191
@@ -2051,9 +2043,8 @@ msgstr "Повторити відмінену операцію"
 
 #: src/GNOME_Gnumeric.xml.h:183
 #: src/workbook-control-gui.c:3011
-#, fuzzy
 msgid "Regression Analysis"
-msgstr "Реґресія"
+msgstr "Реґресивний аналіз"
 
 #: src/GNOME_Gnumeric.xml.h:184
 #: src/workbook-control-gui.c:3068
@@ -2112,9 +2103,8 @@ msgstr "Зберегти поточну книгу"
 
 #: src/GNOME_Gnumeric.xml.h:196
 #: src/workbook-object-toolbar.c:142
-#, fuzzy
 msgid "Scrollbar"
-msgstr "Долар США"
+msgstr "Панель прокрутки"
 
 #: src/GNOME_Gnumeric.xml.h:197
 #: src/workbook-control-gui.c:2736
@@ -2123,14 +2113,13 @@ msgstr "Пошук і заміна..."
 
 #: src/GNOME_Gnumeric.xml.h:198
 #: src/workbook-control-gui.c:2731
-#, fuzzy
 msgid "Search for some text"
-msgstr "Шукати на"
+msgstr "Пошук тексту"
 
 #: src/GNOME_Gnumeric.xml.h:199
 #: src/workbook-control-gui.c:2737
 msgid "Search for some text and replace it with something else"
-msgstr ""
+msgstr "Пошук і заміна тексту"
 
 #: src/GNOME_Gnumeric.xml.h:200
 #: src/workbook-control-gui.c:2730
@@ -2239,9 +2228,8 @@ msgstr "Розбити об'єднані діапазони комірок"
 
 #: src/GNOME_Gnumeric.xml.h:222
 #: src/workbook-control-gui.c:3052
-#, fuzzy
 msgid "Statistical Anal_ysis"
-msgstr "Статистичні методи"
+msgstr "Статистичний _аналіз"
 
 #: src/GNOME_Gnumeric.xml.h:223
 #: src/workbook-control-gui.c:3190
@@ -2349,9 +2337,8 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:243
 #: src/workbook-control-gui.c:2996
-#, fuzzy
 msgid "Various summary statistics"
-msgstr "Зведена статистика"
+msgstr "Різна зведена статистика"
 
 #: src/GNOME_Gnumeric.xml.h:244
 #: src/workbook-control-gui.c:2768
@@ -2428,9 +2415,8 @@ msgstr "Скопіювати"
 
 #: src/GNOME_Gnumeric.xml.h:258
 #: src/workbook-control-gui.c:2989
-#, fuzzy
 msgid "_Correlation"
-msgstr "Кореляція"
+msgstr "_Кореляція"
 
 #: src/GNOME_Gnumeric.xml.h:259
 #: src/workbook-control-gui.c:3136
@@ -2450,9 +2436,8 @@ msgstr "Стерти..."
 
 #: src/GNOME_Gnumeric.xml.h:262
 #: src/workbook-control-gui.c:2995
-#, fuzzy
 msgid "_Descriptive Statistics"
-msgstr "Описова статистика"
+msgstr "_Описова статистика"
 
 #: src/GNOME_Gnumeric.xml.h:263
 #: src/workbook-control-gui.c:2677
@@ -2497,7 +2482,7 @@ msgstr "Аналіз _Фур'є"
 #: src/workbook-control-gui.c:958
 #: src/workbook-control-gui.c:2770
 msgid "_Freeze Panes"
-msgstr ""
+msgstr "За_фіксувати панелі"
 
 #: src/GNOME_Gnumeric.xml.h:272
 #: src/workbook-control-gui.c:3042
@@ -2740,9 +2725,8 @@ msgstr "Показати"
 
 #: src/GNOME_Gnumeric.xml.h:319
 #: src/workbook-control-gui.c:3109
-#, fuzzy
 msgid "_Validate..."
-msgstr "_Ширина..."
+msgstr "_Перевірити..."
 
 #: src/GNOME_Gnumeric.xml.h:320
 msgid "_View"
@@ -2783,7 +2767,7 @@ msgstr "Двійкове"
 #: src/analysis-tools.c:205
 #, c-format
 msgid "Area %i"
-msgstr ""
+msgstr "Ділянка %i"
 
 #: src/analysis-tools.c:810
 #: src/analysis-tools.c:813
@@ -3237,9 +3221,9 @@ msgid "all"
 msgstr "всі"
 
 #: src/commands.c:1324
-#, fuzzy, c-format
+#, c-format
 msgid "Clearing %s in %s"
-msgstr "Набір \"%s%s\" в %s"
+msgstr "Очищення %s в %s"
 
 #: src/commands.c:1519
 #, c-format
@@ -3252,30 +3236,30 @@ msgid "Rename sheet '%s' '%s'"
 msgstr "Перейменування аркушу \"%s\" \"%s\""
 
 #: src/commands.c:1701
-#, fuzzy, c-format
+#, c-format
 msgid "Autofitting column %s"
-msgstr "Стирання стовпчика %s"
+msgstr "Автопідгін стовпчика %s"
 
 #: src/commands.c:1702
-#, fuzzy, c-format
+#, c-format
 msgid "Autofitting row %s"
-msgstr "Стирання стовпчика %d"
+msgstr "Автопідгін рядка %s"
 
 #: src/commands.c:1705
-#, fuzzy, c-format
+#, c-format
 msgid "Setting width of column %s to %d pixels"
-msgstr "Встановлення ширини стовпчиків"
+msgstr "Зміна ширини стовпчика %s до %d точок"
 
 #: src/commands.c:1707
-#, fuzzy, c-format
+#, c-format
 msgid "Setting height of row %s to %d pixels"
-msgstr "Встановлення висоти рядків"
+msgstr "Зміна висоти рядка %s до %d точок"
 
 #: src/commands.c:1712
 #: src/commands.c:1713
-#, fuzzy, c-format
+#, c-format
 msgid "Autofitting columns %s"
-msgstr "Стирання стовпчика %s"
+msgstr "Автопідгін стовпчиків %s"
 
 #: src/commands.c:1716
 #, c-format
@@ -3410,14 +3394,14 @@ msgid "Search and Replace"
 msgstr "Пошук і заміна"
 
 #: src/commands.c:3595
-#, fuzzy, c-format
+#, c-format
 msgid "Setting default width of columns to %.2fpts"
-msgstr "Встановлення ширини стовпчиків"
+msgstr "Зміна типової ширини стовпчиків до %.2f пунктів"
 
 #: src/commands.c:3596
-#, fuzzy, c-format
+#, c-format
 msgid "Setting default height of rows to %.2fpts"
-msgstr "Встановлення висоти рядків"
+msgstr "Зміна типової ширини рядків до %.2f пунктів"
 
 #. Changed in initial redo.
 #: src/commands.c:3681
@@ -3749,24 +3733,20 @@ msgid "Contract Support"
 msgstr ""
 
 #: src/dialogs/dialog-advanced-filter.c:162
-#, fuzzy
 msgid "The list range is invalid."
-msgstr "Текст пошуку заданий буквально"
+msgstr "Діапазон списку неправильний."
 
 #: src/dialogs/dialog-advanced-filter.c:172
-#, fuzzy
 msgid "The criteria range is invalid."
-msgstr "Текст пошуку заданий буквально"
+msgstr "Діапазон критерію неправильний."
 
 #: src/dialogs/dialog-advanced-filter.c:184
-#, fuzzy
 msgid "The output range is invalid."
-msgstr "Текст пошуку заданий буквально"
+msgstr "Діапазон виводу неправильний."
 
 #: src/dialogs/dialog-advanced-filter.c:239
-#, fuzzy
 msgid "The given criteria are invalid."
-msgstr "Текст пошуку заданий буквально"
+msgstr "Вказаний критерій неправильний."
 
 #: src/dialogs/dialog-advanced-filter.c:245
 msgid "No matching records were found."
@@ -3792,14 +3772,12 @@ msgid "An unexpected error has occurred: %d."
 msgstr "Сталася неочікувана помилка: %d."
 
 #: src/dialogs/dialog-advanced-filter.c:373
-#, fuzzy
 msgid "_List Range:"
-msgstr "Діапазон списку: "
+msgstr "Діапазон _списку:"
 
 #: src/dialogs/dialog-advanced-filter.c:374
-#, fuzzy
 msgid "Criteria _Range:"
-msgstr "Діапазон критерію:"
+msgstr "Діапазон _критерію:"
 
 #: src/dialogs/dialog-advanced-filter.c:378
 #, fuzzy
@@ -4193,7 +4171,6 @@ msgid "Could not remove template"
 msgstr "Не вдалося видалити шаблон"
 
 #: src/dialogs/dialog-autoformat.c:668
-#, fuzzy
 msgid "An error occurred while reading the category list"
 msgstr "Сталася помилка під час зчитування списку категорій"
 
@@ -4250,9 +4227,8 @@ msgid "None"
 msgstr "Немає"
 
 #: src/dialogs/dialog-cell-format.c:2108
-#, fuzzy
 msgid "Source"
-msgstr "Джерело дисперсії"
+msgstr "Джерело"
 
 #: src/dialogs/dialog-cell-format.c:2109
 msgid "Criteria"
@@ -4318,9 +4294,8 @@ msgid "Sort"
 msgstr "Сортувати"
 
 #: src/dialogs/dialog-cell-sort.c:620
-#, fuzzy
 msgid "Row/Column"
-msgstr "Стовпчик"
+msgstr "Рядок/стовпчик"
 
 #: src/dialogs/dialog-cell-sort.c:628
 #, fuzzy
@@ -4472,9 +4447,8 @@ msgid "Plot name"
 msgstr "Назва рисунка"
 
 #: src/dialogs/dialog-graph-guru.c:1022
-#, fuzzy
 msgid "Series name"
-msgstr "Назва аркушу"
+msgstr "Назва серій"
 
 #: src/dialogs/dialog-insert-cells.c:84
 msgid "Insert"
@@ -4740,51 +4714,44 @@ msgid "Tabulation"
 msgstr ""
 
 #: src/dialogs/dialog-tabulate.c:384
-#, fuzzy
 msgid "You should introduce a single valid cell as dependency cell"
-msgstr "Потрібно ввести вірну назву встановлюваної комірки"
+msgstr "Необхідно вказати одну правильну комірку в залежної"
 
 #: src/dialogs/dialog-tabulate.c:390
 msgid "The dependency cells should not contain an expression"
 msgstr ""
 
 #: src/dialogs/dialog-tabulate.c:399
-#, fuzzy
 msgid "You should introduce a valid number as minimum"
-msgstr "Необхідно ввести вірні назви комірок в діапазоні списку"
+msgstr "Необхідно ввести правильне число у якості мінімума"
 
 #: src/dialogs/dialog-tabulate.c:410
-#, fuzzy
 msgid "You should introduce a valid number as maximum"
-msgstr "Необхідно ввести вірні назви комірок в діапазоні списку"
+msgstr "Необхідно ввести правильне число у якості максимума"
 
 #: src/dialogs/dialog-tabulate.c:419
 msgid "The maximum value should be bigger than the minimum"
 msgstr "Максимальне значання має бути більше мінімального"
 
 #: src/dialogs/dialog-tabulate.c:429
-#, fuzzy
 msgid "You should introduce a valid number as step size"
-msgstr "Необхідно ввести вірні назви комірок в діапазоні списку"
+msgstr "Необхідно ввести правильне число у якості розміру кроку"
 
 #: src/dialogs/dialog-tabulate.c:438
 msgid "The step size should be positive"
 msgstr "Розмір кроку має бути позитивним"
 
 #: src/dialogs/dialog-tabulate.c:450
-#, fuzzy
 msgid "You should introduce one or more dependency cells"
-msgstr "Потрібно ввести вірну назву встановлюваної комірки"
+msgstr "Необхідно ввести одну або декілька залежних комірок"
 
 #: src/dialogs/dialog-tabulate.c:460
-#, fuzzy
 msgid "You should introduce a single valid cell as result cell"
-msgstr "Потрібно ввести вірну назву встановлюваної комірки"
+msgstr "Необхідно вказати одну правильну комірку в якості результуючої"
 
 #: src/dialogs/dialog-tabulate.c:467
-#, fuzzy
 msgid "The target cell should contain an expression"
-msgstr "Текст пошуку є реґулярним виразом"
+msgstr "Комірка призначення має містити вираз"
 
 #: src/dialogs/dialog-workbook-attr.c:165
 msgid "Workbook Attributes"
@@ -5793,7 +5760,7 @@ msgstr "[$NGN]"
 
 #: src/formats.c:360
 msgid "Nigerian naira"
-msgstr ""
+msgstr "Ніґерійські наіри"
 
 #: src/formats.c:361
 msgid "[$NIO]"
@@ -6193,7 +6160,7 @@ msgstr "[$WST]"
 
 #: src/formats.c:410
 msgid "Samoan tala"
-msgstr ""
+msgstr "Самоанські тали"
 
 #: src/formats.c:411
 msgid "[$XCD]"
@@ -10733,6 +10700,16 @@ msgid ""
 "\n"
 "@SEEALSO=COVAR,FISHER,FISHERINV"
 msgstr ""
+"@FUNCTION=CORREL\n"
+"@SYNTAX=CORREL(масив1,масив2)\n"
+"@DESCRIPTION=CORREL повертає кофіцієнт кореляції двох множин даних.\n"
+"Рядки та порожні комірки просто іґноруються.\n"
+"Ця функція сумісна з Excel.\n"
+"@EXAMPLES=\n"
+"Давайте припустимо, що комірки A1, A2, ..., A5 містять числа 11.4, 17.3, 21.3, 25.9, і 40.1, а комірки B1, B2, ... B5 – 23.2, 25.8, 29.9, 33.5, і 42.7.  Тоді\n"
+"CORREL(A1:A5,B1:B5) дорівнюватиме 0.996124788.\n"
+"\n"
+"@SEEALSO=COVAR,FISHER,FISHERINV"
 
 #: src/functions/fn-stat.c:503
 msgid ""
@@ -12308,34 +12285,32 @@ msgstr ""
 
 #: src/gnumeric-canvas.c:94
 msgid "Format as Number"
-msgstr "Сформатувати як число"
+msgstr "Формат - число"
 
 #: src/gnumeric-canvas.c:98
 msgid "Format as Currency"
-msgstr "Сформатувати як гроші"
+msgstr "Формат - валютний"
 
 #: src/gnumeric-canvas.c:102
 #: src/workbook-format-toolbar.c:311
 msgid "Format as Percentage"
-msgstr "Сформатувати як відсотки"
+msgstr "Формат - відсотки"
 
 #: src/gnumeric-canvas.c:106
-#, fuzzy
 msgid "Format as Scientific"
-msgstr "Накопичені відсотки"
+msgstr "Формат - науковий"
 
 #: src/gnumeric-canvas.c:110
 msgid "Format as Date"
-msgstr "Сформатувати як дату"
+msgstr "Формат - дата"
 
 #: src/gnumeric-canvas.c:114
 msgid "Format as Time"
-msgstr "Сформатувати як час"
+msgstr "Формат - час"
 
 #: src/gnumeric-canvas.c:118
-#, fuzzy
 msgid "Format as alternative Number"
-msgstr "Накопичені відсотки"
+msgstr "Формат - альтернативне число"
 
 #: src/gnumeric-canvas.c:534
 #, c-format
@@ -12362,9 +12337,8 @@ msgstr ""
 "Напевно у вас помилкові установки локалізації."
 
 #: src/gui-clipboard.c:102
-#, fuzzy
 msgid "Parse error while trying to parse data into cellregion"
-msgstr "Помилка аналізу даних в аркуші"
+msgstr "Помилка аналізу під час спроби проаналізувати дані в діапазоні комірок"
 
 #: src/gui-file.c:73
 msgid "File format:"
@@ -12431,9 +12405,8 @@ msgid "Which file format would you like?"
 msgstr ""
 
 #: src/gui-util.c:274
-#, fuzzy
 msgid "Multiple errors"
-msgstr "Помножити"
+msgstr "Множинні помилки"
 
 #: src/gui-util.c:305
 msgid "Detailed error message"
@@ -12549,17 +12522,16 @@ msgid "Enables some dependency related debugging functions"
 msgstr "Дозволити деякі налагоджувальні функції стосовно залежностей"
 
 #: src/main.c:95
-#, fuzzy
 msgid "Enables some print debugging behavior"
-msgstr "Дозволити деякі налагоджувальні функції"
+msgstr "Вмикає деякі налагоджувальні функції"
 
 #: src/main.c:98
 msgid "Specify the size and location of the initial window"
-msgstr ""
+msgstr "Вказати розмір і розміщення початкового вікна"
 
 #: src/main.c:98
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
-msgstr ""
+msgstr "ШИРИНАxВИСОТА+ЗСУВ_X+ЗСУВ_Y"
 
 #: src/main.c:102
 msgid "Exit immediately after loading the selected books (useful for testing)."
@@ -12648,9 +12620,9 @@ msgid "Unknown workbook '%s'"
 msgstr "Невідома книга \"%s\""
 
 #: src/parser.y:492
-#, fuzzy, c-format
+#, c-format
 msgid "Name '%s' does not exist in workbook '%s'"
-msgstr "Відкриває існуючу книгу"
+msgstr "Назви \"%s\" не ісує в книзі \"%s\""
 
 #: src/parser.y:517
 #: src/parser.y:540
@@ -12668,7 +12640,7 @@ msgstr ""
 #: src/parser.y:833
 #: src/parser.y:866
 msgid "The number is out of range"
-msgstr ""
+msgstr "Число за межами діапазону"
 
 #: src/parser.y:894
 msgid "Could not find matching closing quote"
@@ -12711,7 +12683,7 @@ msgstr "Неможливо відкрити файл модуля \"%s\"."
 #: src/plugin-loader-module.c:595
 #, c-format
 msgid "Module file \"%s\" has invalid format."
-msgstr ""
+msgstr "Файл модуля \"%s\" має неправильний формат."
 
 #: src/plugin-loader-module.c:135
 msgid "File doesn't contain (\"plugin_file_struct\" symbol)."
@@ -12722,15 +12694,13 @@ msgid "File has a bad magic number."
 msgstr "Файл має неправильне магічне число."
 
 #: src/plugin-loader-module.c:143
-#, fuzzy, c-format
+#, c-format
 msgid "Plugin version \"%s\" is different from application \"%s\"."
-msgstr ""
-"Не вдалося відкрити доповнення \"%s\"\n"
-"Версія доповнення \"%s\" відрізняється від версії програми \"%s\"."
+msgstr "Версія доповнення \"%s\" відрізняється від версії програми \"%s\"."
 
 #: src/plugin-loader-module.c:152
 msgid "Dynamic module loading is not supported in this system."
-msgstr ""
+msgstr "В цій системі не підтримується динамічне завантаження модулів."
 
 #: src/plugin-loader-module.c:171
 #, c-format
@@ -12778,7 +12748,7 @@ msgstr "Помилка під час завантаження доповненн
 
 #: src/plugin-service.c:124
 msgid "Initializing function inside plugin returned error."
-msgstr ""
+msgstr "Функція ініціалізації в доповненні повернула помилку."
 
 #: src/plugin-service.c:129
 #: src/plugin-service.c:1075
@@ -12788,7 +12758,7 @@ msgstr "Помилка під час завантаження послуги д�
 
 #: src/plugin-service.c:163
 msgid "Cleanup function inside plugin returned error."
-msgstr ""
+msgstr "Функція очищення в доповненні повернула помилку."
 
 #: src/plugin-service.c:302
 msgid "Error while reading file."
@@ -12922,9 +12892,9 @@ msgid "Unknown plugin name."
 msgstr "Невідома назва доповнення."
 
 #: src/plugin.c:830
-#, fuzzy, c-format
+#, c-format
 msgid "Errors while reading loader info for plugin with id=\"%s\"."
-msgstr "Сталася помилка під час зчитування списку категорій"
+msgstr "Помилка під час зчитування інформації завантажувача для доповнення з ідентифікатором \"%s\"."
 
 #: src/plugin.c:835
 #, c-format
@@ -12932,9 +12902,9 @@ msgid "No loader defined for plugin with id=\"%s\"."
 msgstr ""
 
 #: src/plugin.c:843
-#, fuzzy, c-format
+#, c-format
 msgid "Errors while reading services for plugin with id=\"%s\"."
-msgstr "Сталася помилка під час зчитування списку категорій"
+msgstr "Помилка під час зчитування послуг для доповнення з ідентифікатором \"%s\"."
 
 #: src/plugin.c:848
 #, c-format
@@ -12944,7 +12914,7 @@ msgstr ""
 #: src/plugin.c:998
 #, c-format
 msgid "Error initializing plugin loader (\"%s\")."
-msgstr ""
+msgstr "Помилка ініціалізації завантажувача доповнення (\"%s\")."
 
 #: src/plugin.c:1039
 #, c-format
@@ -13093,9 +13063,8 @@ msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
 #: src/print.c:986
-#, fuzzy
 msgid "Print Region"
-msgstr "Перегляд друку"
+msgstr "Надрукувати ділянку"
 
 #: src/print.c:1099
 msgid "Print Sheets"
@@ -13219,11 +13188,9 @@ msgid "can't create object for '%s'"
 msgstr "неможливо створити об'єкт для \"%s\""
 
 #: src/sheet-object-container.c:184
-#, fuzzy, c-format
+#, c-format
 msgid "Could not load file: %s"
-msgstr ""
-"Неможливо створити файл %s\n"
-""
+msgstr "Не вдалося завантажити файл %s"
 
 #: src/sheet-object-graphic.c:445
 msgid "Configure line or arrow"
@@ -13234,24 +13201,20 @@ msgid "Color"
 msgstr "Колір"
 
 #: src/sheet-object-graphic.c:461
-#, fuzzy
 msgid "Line Width"
-msgstr "Фіксована ширина"
+msgstr "Ширина лінії"
 
 #: src/sheet-object-graphic.c:465
-#, fuzzy
 msgid "Arrow tip"
-msgstr "Стрілка"
+msgstr "Тип стрілки"
 
 #: src/sheet-object-graphic.c:467
-#, fuzzy
 msgid "Arrow length"
-msgstr "Помилка"
+msgstr "Довжина стрілки"
 
 #: src/sheet-object-graphic.c:469
-#, fuzzy
 msgid "Arrow width"
-msgstr "Тло"
+msgstr "Ширина стрілки"
 
 #: src/sheet-object-graphic.c:503
 msgid "Distance from tip of arrowhead to the center point"
@@ -13270,35 +13233,30 @@ msgid "Configure filled object"
 msgstr ""
 
 #: src/sheet-object-graphic.c:853
-#, fuzzy
 msgid "Outline color"
-msgstr "Контур"
+msgstr "Колір контура"
 
 #: src/sheet-object-graphic.c:855
 msgid "Fill color"
 msgstr ""
 
 #: src/sheet-object-graphic.c:857
-#, fuzzy
 msgid "Border width"
-msgstr "Тло"
+msgstr "Ширина поля"
 
 #: src/sheet-object-graphic.c:863
 #: src/sheet-object-graphic.c:869
-#, fuzzy
 msgid "Transparent"
-msgstr "Перемістити"
+msgstr "Прозорий"
 
 #: src/sheet-object-widget.c:727
-#, fuzzy
 msgid "Scrollbar Configure"
-msgstr "Конфіґурація графи відмітки"
+msgstr "Налаштування панелі прокрутки"
 
 #: src/sheet-object-widget.c:743
 #: src/sheet-object-widget.c:1209
-#, fuzzy
 msgid "Link to :"
-msgstr "Розтягувати за розміром"
+msgstr "Зв'язати з:"
 
 #: src/sheet-object-widget.c:757
 msgid "Increment :"
@@ -13309,9 +13267,9 @@ msgid "Page :"
 msgstr "Сторінка:"
 
 #: src/sheet-object-widget.c:968
-#, fuzzy, c-format
+#, c-format
 msgid "CheckBox %d"
-msgstr "Графа для відмітки"
+msgstr "Графа для відмітки %d"
 
 #: src/sheet-object-widget.c:1194
 msgid "Checkbox Configure"
@@ -13326,14 +13284,12 @@ msgid "Target region contains merged cells"
 msgstr "Діапазон призначення містить об'єднані комірки"
 
 #: src/sheet.c:2184
-#, fuzzy
 msgid "cannot operate on merged cells"
-msgstr "не працює на об'єднаних комірках"
+msgstr "неможливо оперувати на об'єднаних комірках"
 
 #: src/sheet.c:2195
-#, fuzzy
 msgid "cannot operate on array formulae"
-msgstr "не працює на формулах масиву"
+msgstr "неиожливл оперувати на формулах масиву"
 
 #: src/sheet.c:3047
 msgid "Clear"
@@ -13498,14 +13454,12 @@ msgid "Error while trying to write csv file"
 msgstr "Помилка при спробі запису cvs-файлу"
 
 #: src/stf.c:438
-#, fuzzy
 msgid "Text File import (customizable)"
-msgstr "Експорт текстового файлу (*.cvs)"
+msgstr "Імпорт текстового файлу (з налаштуванням)"
 
 #: src/stf.c:441
-#, fuzzy
 msgid "Text File import (default csv)"
-msgstr "Експорт текстового файлу (*.cvs)"
+msgstr "Імпорт текстового файлу (типово cvs)"
 
 #: src/stf.c:446
 msgid "Text File Export (*.csv)"
@@ -13554,22 +13508,22 @@ msgstr ""
 #: src/validation.c:139
 #, c-format
 msgid "Cell %s is not permitted to be blank"
-msgstr ""
+msgstr "Комірка \"%s\" не може бути порожньою"
 
 #: src/validation.c:159
 #, c-format
 msgid "'%f' is not an integer"
-msgstr ""
+msgstr "\"%f\" не ціле"
 
 #: src/validation.c:169
-#, fuzzy, c-format
+#, c-format
 msgid "'%f' is not a number"
-msgstr "Номер першої сторінки:"
+msgstr "\"%f\" – не число"
 
 #: src/validation.c:176
-#, fuzzy, c-format
+#, c-format
 msgid "'%s' is not a number"
-msgstr "Номер першої сторінки:"
+msgstr "\"%s\" – не число"
 
 #: src/validation.c:260
 #, c-format
@@ -13583,9 +13537,8 @@ msgid ""
 msgstr ""
 
 #: src/validation.c:280
-#, fuzzy
 msgid "Gnumeric : Validation"
-msgstr "Джерело дисперсії"
+msgstr "Gnumeric: Перевірка"
 
 #: src/value.c:703
 msgid "Terminate"
@@ -13601,34 +13554,32 @@ msgid "Italic"
 msgstr "Курсивний"
 
 #: src/workbook-cmd-format.c:50
-#, fuzzy
 msgid "Add Borders"
-msgstr "Всі поля"
+msgstr "Додати поля"
 
 #: src/workbook-cmd-format.c:50
-#, fuzzy
 msgid "Remove borders"
-msgstr "Зменшити розряди"
+msgstr "Видалити поля"
 
 #: src/workbook-cmd-format.c:132
-#, fuzzy, c-format
+#, c-format
 msgid "You entered an invalid column width value.  It must be bigger than %d"
-msgstr "Ви ввели невірне значення ширини стовпчика. Воно мусить бути більше за 0"
+msgstr "Ви ввели невірне значення ширини стовпчика. Воно мусить бути більше за %d."
 
 #: src/workbook-cmd-format.c:195
-#, fuzzy, c-format
+#, c-format
 msgid "You entered an invalid row height value.  It must be bigger than %d"
-msgstr "Ви ввели невірне значення висоти рядка. Воно мусить бути більше за 0"
+msgstr "Ви ввели невірне значення висоти рядка. Воно має бути більше за %d."
 
 #: src/workbook-cmd-format.c:246
-#, fuzzy, c-format
+#, c-format
 msgid "The default column width must be > %d."
-msgstr "Змінити типову ширину стопчика"
+msgstr "Типова ширина рядка має бути більша %d."
 
 #: src/workbook-cmd-format.c:276
-#, fuzzy, c-format
+#, c-format
 msgid "The default row height must be > %d."
-msgstr "Змінити типову висоту рядка"
+msgstr "Типова висота рядка має бути більша %d."
 
 #: src/workbook-control-gui.c:295
 msgid " : Gnumeric"
@@ -13661,9 +13612,8 @@ msgid "Nothing"
 msgstr "Нічого"
 
 #: src/workbook-control-gui.c:958
-#, fuzzy
 msgid "Un_freeze Panes"
-msgstr "Стерти..."
+msgstr "Роз_фіксувати панелі"
 
 #: src/workbook-control-gui.c:1020
 #: src/workbook-control-gui.c:3177
@@ -13712,7 +13662,7 @@ msgstr ""
 #: src/workbook-control-gui.c:1778
 #, c-format
 msgid "Comment in cell %s!%s"
-msgstr ""
+msgstr "Коментар в комірці %s!%s"
 
 #. TODO : No need to check simplicty.  XL applies for each non-discrete
 #. * selected region, (use selection_apply).  Arrays and Merged regions
@@ -13901,19 +13851,17 @@ msgid "Send the current file in email"
 msgstr "Відіслати поточний файл електронною поштою"
 
 #: src/workbook-control-gui.c:4335
-#, fuzzy
 msgid "Re-Edit"
-msgstr "Виправити"
+msgstr "Перевиправити"
 
 #: src/workbook-control-gui.c:4336
 #: src/workbook-control-gui.c:4341
-#, fuzzy
 msgid "Discard"
-msgstr "Дискретне"
+msgstr "Відкинути"
 
 #: src/workbook-control-gui.c:4340
 msgid "Accept"
-msgstr ""
+msgstr "Прийняти"
 
 #: src/workbook-control.c:218
 msgid "Define Name"
@@ -13924,14 +13872,12 @@ msgid "Address"
 msgstr "Адреса"
 
 #: src/workbook-edit.c:116
-#, fuzzy
 msgid "Edit Expression"
-msgstr "Вираз"
+msgstr "Виправити вираз"
 
 #: src/workbook-edit.c:116
-#, fuzzy
 msgid "Discard Expression"
-msgstr "Вираз"
+msgstr "Відкинути вираз"
 
 #: src/workbook-format-toolbar.c:86
 msgid "Set Horizontal Alignment"
@@ -13951,7 +13897,7 @@ msgstr "Встановити розмір шрифту"
 
 #: src/workbook-format-toolbar.c:305
 msgid "Format as Money"
-msgstr "Сформатувати як гроші"
+msgstr "Формат - гроші"
 
 #: src/workbook-format-toolbar.c:318
 msgid "Format with thousands separator"
@@ -14002,9 +13948,8 @@ msgid "Right justifies the cell contents"
 msgstr "Вирівнює всміст комірки праворуч"
 
 #: src/workbook-format-toolbar.c:447
-#, fuzzy
 msgid "Center across selection"
-msgstr "Сентрувати поперек вибраного"
+msgstr "Сентрувати через вибране"
 
 #: src/workbook-format-toolbar.c:460
 msgid "Money format"
@@ -14067,9 +14012,8 @@ msgid "Top and Thick Bottom"
 msgstr "Вгорі та товсте знизу"
 
 #: src/workbook-format-toolbar.c:728
-#, fuzzy
 msgid "Set Borders"
-msgstr "Поля"
+msgstr "Встановити поля"
 
 #: src/workbook-format-toolbar.c:777
 msgid "Size"
@@ -14088,9 +14032,8 @@ msgid "Creates a button"
 msgstr "Створити кнопку"
 
 #: src/workbook-object-toolbar.c:142
-#, fuzzy
 msgid "Creates a scrollbar"
-msgstr "Створити позначку"
+msgstr "Створює панель прокрутки"
 
 #: src/workbook-object-toolbar.c:145
 msgid "Creates a checkbox"
@@ -14113,9 +14056,8 @@ msgid "Combo"
 msgstr "Комбінований список"
 
 #: src/workbook-object-toolbar.c:157
-#, fuzzy
 msgid "Creates a combo box"
-msgstr "Створює нову книгу"
+msgstr "Створює комбінований список"
 
 #: src/workbook-object-toolbar.c:160
 msgid "Creates a line object"
@@ -14144,7 +14086,7 @@ msgstr "Внутрішня ПОМИЛКА"
 
 #: src/workbook-view.c:562
 msgid "Default file saver is not available."
-msgstr ""
+msgstr "Типова функція збереження недоступна."
 
 #: src/workbook-view.c:653
 msgid "No sheets in workbook."
