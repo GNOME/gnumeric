@@ -14,6 +14,10 @@ Jody:
 	* Paper over the most common technique for blowing the stack.
 	* Disable clipboard operations during object editing.
 	* Enable labels in charts
+	* Fix Pie/Ring style editor
+	* Begin font support for chart attributes
+	* Fix gradient's in pie/ring slices
+	* http://bugzilla.gnome.org/show_bug.cgi?id=121045
 
 Morten:
 	* Support End+Home key sequence.

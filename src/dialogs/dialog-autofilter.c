@@ -204,9 +204,9 @@ init_operator (AutoFilterState *state, GnmFilterOp op, Value const *v,
 		gboolean ends   = (len > 1 && str[len-1] == '*' && str[len-2] != '~');
 
 		if (starts)
-			i += (ends ? 10 : 8);
+			i += (ends ? 10 : 6);
 		else if (ends)
-			i += 6;
+			i += 8;
 	}
 	gtk_option_menu_set_history (GTK_OPTION_MENU (w), i);
 
