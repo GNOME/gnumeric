@@ -1,3 +1,8 @@
+2002-10-11  Jon K Hellan  <hellan@acm.org>
+
+	* developer/python-gnumeric.txt: Note that the plugin has been
+	removed.
+
 2002-09-30  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.9

@@ -1,3 +1,21 @@
+IMPORTANT
+
+This document describes an obsolete Python plugin which is no longer
+part of Gnumeric. The current Python plugin support is based on the
+plugin loader in plugins/python-loader. This will be documented
+later. For now, plugins/py-func and plugins/gnome-glossary serve as
+examples. 
+
+Jon Kåre Hellan <hellan@acm.org>                       Oct 11, 2002
+-------------------------------------------------------------------
+
+
+
+
+
+
+
+
 Python plugin for Gnumeric
 --------------------------
 
