@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 0.42\n"
-"POT-Creation-Date: 1999-12-31 14:24+0100\n"
-"PO-Revision-Date: 1999-12-31 14:30+01:00\n"
+"Project-Id-Version: gnumeric 0.46\n"
+"POT-Creation-Date: 2000-01-02 00:03+0100\n"
+"PO-Revision-Date: 2000-01-02 00:06+01:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2163,24 +2163,29 @@ msgstr "Ukjent evalueringsfeil"
 msgid "Could not read file %s"
 msgstr "Kunne ikke lese fil %s"
 
-#: src/file.c:439
+#: src/file.c:346
+#, c-format
+msgid "Could not import file %s"
+msgstr "Kunne ikke importere fil %s"
+
+#: src/file.c:443
 msgid "File format:"
 msgstr "Filformat:"
 
-#: src/file.c:494
+#: src/file.c:498
 msgid "Save workbook as"
 msgstr "Lagre arbeidsbok som"
 
-#: src/file.c:538
+#: src/file.c:542
 msgid "Sorry, there are no file savers loaded, I cannot save"
 msgstr "Beklager, ingen fillagrere er lastet, Kan ikke lagre"
 
-#: src/file.c:552 src/file.c:577
+#: src/file.c:556 src/file.c:581
 #, c-format
 msgid "Could not save to file %s"
 msgstr "Kunne ikke lagre til fil %s"
 
-#: src/file.c:590
+#: src/file.c:594
 msgid "Load file"
 msgstr "Last fil"
 
@@ -9703,9 +9708,8 @@ msgstr "[Rød]"
 
 #. TODO : Say which argument is empty to improve error messages
 #: src/func.c:153
-#, fuzzy
 msgid "Missing argument"
-msgstr "Manglende apostrof"
+msgstr "Manglende argument"
 
 #: src/func.c:715
 msgid "Function does not exist"
@@ -10755,74 +10759,3 @@ msgstr "Gnumeric: "
 #: src/xml-io.c:2378
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML filformat"
-
-#~ msgid ""
-#~ "While opening %s\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Under åpning av %s\n"
-#~ "%s"
-
-#~ msgid "OK"
-#~ msgstr "OK"
-
-#~ msgid ">="
-#~ msgstr ">="
-
-#~ msgid "Close"
-#~ msgstr "Lukk"
-
-#~ msgid "Add..."
-#~ msgstr "Legg til..."
-
-#~ msgid "P_aste special..."
-#~ msgstr "Lim inn spesi_al..."
-
-#~ msgid "Selection must be a finite range"
-#~ msgstr "Utvalget må bestå av et endelig område"
-
-#~ msgid "could not alloc FuncDef"
-#~ msgstr "kunne ikke allokere FuncDef"
-
-#~ msgid "Column:"
-#~ msgstr "Kolonne:"
-
-#~ msgid "Asc"
-#~ msgstr "Asc"
-
-#~ msgid "Desc"
-#~ msgstr "Beskr"
-
-#~ msgid "more clauses than rows ?"
-#~ msgstr "flere klausuler enn rader ?"
-
-#~ msgid "too many clauses"
-#~ msgstr "for mange klausuler"
-
-#~ msgid ""
-#~ "$\n"
-#~ "None\n"
-#~ msgstr ""
-#~ "$\n"
-#~ "Ingen\n"
-
-#~ msgid "Book%d"
-#~ msgstr "Bok%d"
-
-#~ msgid "Argument must be a Guile expression"
-#~ msgstr "Argumentet må være et Guile uttrykk"
-
-#~ msgid "First argument to SCM must be a Guile expression"
-#~ msgstr "Første argument til SCM må være et Guile uttrykk"
-
-#~ msgid "Undefined scheme function"
-#~ msgstr "Udefinert scheme funksjon"
-
-#~ msgid "Could not evaluate argument"
-#~ msgstr "Kunne ikke evaluere argumentet"
-
-#~ msgid "Unable to lookup Guile function."
-#~ msgstr "Kan ikke finne Guile funksjonen."
-
-#~ msgid "Guile Plugin"
-#~ msgstr "Guile tillegg"
