@@ -1,4 +1,10 @@
-Gnumeric 1.1.13
+Gnumeric 1.1.15
+
+Jon Kåre:
+	* Open DB connections read only
+
+--------------------------------------------------------------------------
+Gnumeric 1.1.13/1.1.14
 
 Andreas:
 	* Fix some stf bugs
