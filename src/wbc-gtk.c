@@ -83,6 +83,8 @@ struct _WBCgtk {
 };
 typedef WorkbookControlGUIClass WBCgtkClass;
 
+static GObjectClass *parent_class = NULL;
+
 /*****************************************************************************/
 
 static void
@@ -598,7 +600,7 @@ static void
 wbc_gtk_reload_recent_file_menu (WorkbookControlGUI const *wbcg)
 {
 	WBCgtk *gtk = (WBCgtk *)wbcg;
-	GSList const *ptr = gnm_app_history_get_list (FALSE);
+	GSList const *ptr;
 	unsigned i;
 
 	if (gtk->file_history.merge_id != 0)
@@ -1034,12 +1036,28 @@ wbc_gtk_init (GObject *obj)
 }
 
 static void
+wbc_gtk_finalize (GObject *obj)
+{
+	WBCgtk *gtk = (WBCgtk *)obj;
+
+	if (gtk->file_history.merge_id != 0)
+		gtk_ui_manager_remove_ui (gtk->ui, gtk->file_history.merge_id);
+	if (gtk->file_history.actions != NULL)
+		g_object_unref (gtk->file_history.actions);
+	g_object_unref (gtk->ui);
+
+	parent_class->finalize (obj);
+}
+
+static void
 wbc_gtk_class_init (GObjectClass *object_class)
 {
 	WorkbookControlClass *wbc_class =
 		WORKBOOK_CONTROL_CLASS (object_class);
 	WorkbookControlGUIClass *wbcg_class =
 		WORKBOOK_CONTROL_GUI_CLASS (object_class);
+
+	parent_class = g_type_class_peek_parent (object_class);
 
 	wbc_class->control_new		= wbc_gtk_control_new;
 	wbc_class->undo_redo.truncate	= wbc_gtk_undo_redo_truncate;
@@ -1055,6 +1073,8 @@ wbc_gtk_class_init (GObjectClass *object_class)
 	wbcg_class->set_action_sensitivity	= wbc_gtk_set_action_sensitivity;
 	wbcg_class->set_action_label		= wbc_gtk_set_action_label;
 	wbcg_class->set_toggle_action_state	= wbc_gtk_set_toggle_action_state;
+
+	object_class->finalize = wbc_gtk_finalize;
 }
 
 GSF_CLASS (WBCgtk, wbc_gtk,

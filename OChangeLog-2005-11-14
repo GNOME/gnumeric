@@ -1,3 +1,8 @@
+2004-04-02  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (wbc_gtk_finalize): New function.
+	(wbc_gtk_class_init): Hook it up.
+
 2004-04-01  Jody Goldberg <jody@gnome.org>
 
 	* src/style-border.c (style_border_draw_diag) : sync with the printing
