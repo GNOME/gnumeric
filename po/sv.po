@@ -1,0 +1,2746 @@
+# Swedish translation of gnumeric.
+# Copyright (C) 1998,1999 Free Software Foundation, Inc.
+# Richard Hult <rhult@hem2.passagen.se>, 1999.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnumeric 0.25\n"
+"POT-Creation-Date: 1999-06-15 21:20+0200\n"
+"PO-Revision-Date: 1999-06-15 21:20+0200\n"
+"Last-Translator: Richard Hult <rhult@hem2.passagen.se>\n"
+"Language-Team: Swedish <sv@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8-bit\n"
+
+#: plugins/excel/boot.c:75
+msgid "Saving over old files disabled for safety"
+msgstr "Överskrivning av gamla filer är inaktiverad pga säkerhetskäl"
+
+#: plugins/excel/boot.c:83
+msgid "Can't open"
+msgstr "Kan inte öppna"
+
+#: plugins/excel/boot.c:116
+msgid "Microsoft(R) Excel file format"
+msgstr "Microsoft(R) Excel filformat"
+
+#: plugins/excel/boot.c:117
+msgid "Excel(R) 97 file format"
+msgstr "Excel(R) 97 filformat"
+
+#: plugins/excel/boot.c:118
+msgid "Excel(R) 95 file format"
+msgstr "Excel(R) 95 filformat"
+
+#: plugins/guile/plugin.c:220
+msgid "Argument must be a Guile expression"
+msgstr "Argumentet måste vara ett Guile-uttryck"
+
+#: plugins/guile/plugin.c:241 src/expr.c:725 src/fn-sheet.c:34
+#: src/fn-string.c:314
+msgid "Invalid number of arguments"
+msgstr "Ogiltigt antal argument"
+
+#: plugins/guile/plugin.c:248 plugins/guile/plugin.c:254
+msgid "First argument to SCM must be a Guile expression"
+msgstr "Första argumentet till SCM måste vara ett Guile-uttryck"
+
+#: plugins/guile/plugin.c:260
+msgid "Undefined scheme function"
+msgstr "Odefinierad scheme-funktion"
+
+#: plugins/guile/plugin.c:278
+msgid "Could not evaluate argument"
+msgstr "Kunde inte evaluera argumentet"
+
+#: plugins/guile/plugin.c:386
+msgid "Unable to lookup Guile function."
+msgstr "Kan inte hitta Guile-funktionen."
+
+#: plugins/guile/plugin.c:454
+msgid "Guile Plugin"
+msgstr "Guile-tillägg"
+
+#: plugins/python/python.c:99
+msgid "Unable to lookup Python code object."
+msgstr "Kan inte hitta Python-kodobjektet."
+
+#: plugins/python/python.c:115
+msgid "Python exception."
+msgstr "Python-undantag"
+
+#: plugins/python/python.c:137
+msgid "object must be callable"
+msgstr "objektet måste vara anropningsbart"
+
+#: plugins/python/python.c:143
+msgid "could not alloc FuncDef"
+msgstr "kunde inte allokera FuncDef"
+
+#: plugins/python/python.c:177
+msgid "Gnumeric/Python module initialized\n"
+msgstr "Gnumeric/Python-modul initialiserad\n"
+
+#: plugins/python/python.c:190
+msgid "Python Plugin"
+msgstr "Python-tillägg"
+
+#: plugins/stat/stat.c:27
+msgid "OLD Statistics Plugin, not required anymore"
+msgstr "GAMMALT Statistiktillägg, krävs inte längre"
+
+#: src/about.c:23
+msgid "Miguel de Icaza, main programmer."
+msgstr "Miguel de Icaza, huvudprogrammerare."
+
+#: src/about.c:24
+msgid "Daniel Veillard, XML support."
+msgstr "Daniel Veillard, XML-stöd."
+
+#: src/about.c:25
+msgid "Chris Lahey, Number format engine."
+msgstr "Chris Lahey, Talformateringsmotor."
+
+#: src/about.c:26
+msgid "Tom Dyas, Plugin support."
+msgstr "Tom Dyas, Tilläggsstöd."
+
+#: src/about.c:27
+msgid "Federico Mena, Canvas support."
+msgstr "Federico Mena, Canvas-stöd."
+
+#: src/about.c:28
+msgid "Adrian Likins, Documentation, debugging"
+msgstr "Adrian Likins, Dokumentation, felsökning"
+
+#: src/about.c:29
+msgid "Jakub Jelinek, Gnumeric hacker"
+msgstr "Jakub Jelinek, Gnumeric-hacker"
+
+#: src/about.c:30
+msgid "Michael Meeks, Excel and OLE2 importing"
+msgstr "Michael Meeks, Excel- och OLE2-importering"
+
+#: src/about.c:31
+msgid "Sean Atkinson, Excel functions"
+msgstr "Sean Atkinson, Excel-funktioner"
+
+#: src/about.c:32
+msgid "Bruno Unna, Excel code"
+msgstr "Bruno Unna, Excel-kod"
+
+#: src/about.c:33
+msgid "Mark Probst, Guile support"
+msgstr "Mark Probst, Guile-stöd"
+
+#: src/about.c:34
+msgid "Vincent Renardias, CSV support"
+msgstr "Vincent Renardias, CSV-stöd"
+
+#: src/about.c:35
+msgid "Vladimir Vuksan, financial functions"
+msgstr "Vladimir Vuksan, finansiella funktioner"
+
+#: src/about.c:36
+msgid "Takashi Matsuda, simple text plugin"
+msgstr "Takashi Matsuda, enkel text-tillägg"
+
+#: src/about.c:37
+msgid "Jukka-Pekka Iivonen, numerous functions"
+msgstr "Jukka-Pekka Iivonen, många funktioner"
+
+#: src/about.c:38
+msgid "Morten Welinder, Gnumeric hacker"
+msgstr "Morten Welinder, Gnumeric-hacker"
+
+#: src/about.c:52
+msgid "Gnumeric"
+msgstr "Gnumeric"
+
+#: src/about.c:55
+msgid ""
+"The GNOME spreadsheet.\n"
+"http://www.gnome.org/gnumeric/"
+msgstr ""
+"GNOME kalkylprogram.\n"
+"http://www.gnome.org/gnumeric"
+
+#: src/dates.c:14
+msgid "*Sun"
+msgstr "*Sön"
+
+#: src/dates.c:15
+msgid "*Mon"
+msgstr "*Mån"
+
+#: src/dates.c:16
+msgid "*Tue"
+msgstr "*Tis"
+
+#: src/dates.c:17
+msgid "*Wed"
+msgstr "*Ons"
+
+#: src/dates.c:18
+msgid "*Thu"
+msgstr "*Tor"
+
+#: src/dates.c:19
+msgid "*Fri"
+msgstr "*Fre"
+
+#: src/dates.c:20
+msgid "*Sat"
+msgstr "*Lör"
+
+#: src/dates.c:26
+msgid "Sunday"
+msgstr "Söndag"
+
+#: src/dates.c:27
+msgid "Monday"
+msgstr "Måndag"
+
+#: src/dates.c:28
+msgid "Tuesday"
+msgstr "Tisdag"
+
+#: src/dates.c:29
+msgid "Wednesday"
+msgstr "Onsdag"
+
+#: src/dates.c:30
+msgid "Thursday"
+msgstr "Torsdag"
+
+#: src/dates.c:31
+msgid "Friday"
+msgstr "Fredag"
+
+#: src/dates.c:32
+msgid "Saturday"
+msgstr "Lördag"
+
+#: src/dates.c:38
+msgid "*Jan"
+msgstr "*Jan"
+
+#: src/dates.c:39
+msgid "*Feb"
+msgstr "*Feb"
+
+#: src/dates.c:40
+msgid "*Mar"
+msgstr "*Mar"
+
+#: src/dates.c:41
+msgid "*Apr"
+msgstr "*Apr"
+
+#: src/dates.c:42
+msgid "*May"
+msgstr "*Maj"
+
+#: src/dates.c:43
+msgid "*Jun"
+msgstr "*Jun"
+
+#: src/dates.c:44
+msgid "*Jul"
+msgstr "*Jul"
+
+#: src/dates.c:45
+msgid "*Aug"
+msgstr "*Aug"
+
+#: src/dates.c:46
+msgid "*Sep"
+msgstr "*Sep"
+
+#: src/dates.c:47
+msgid "*Oct"
+msgstr "*Okt"
+
+#: src/dates.c:48
+msgid "*Nov"
+msgstr "*Nov"
+
+#: src/dates.c:49
+msgid "*Dec"
+msgstr "*Dec"
+
+#: src/dates.c:55
+msgid "January"
+msgstr "Januari"
+
+#: src/dates.c:56
+msgid "February"
+msgstr "Februari"
+
+#: src/dates.c:57
+msgid "March"
+msgstr "Mars"
+
+#: src/dates.c:58
+msgid "April"
+msgstr "April"
+
+#: src/dates.c:59
+msgid "May"
+msgstr "Maj"
+
+#: src/dates.c:60
+msgid "June"
+msgstr "Juni"
+
+#: src/dates.c:61
+msgid "July"
+msgstr "Juli"
+
+#: src/dates.c:62
+msgid "August"
+msgstr "Augusti"
+
+#: src/dates.c:63
+msgid "September"
+msgstr "September"
+
+#: src/dates.c:64
+msgid "October"
+msgstr "Oktober"
+
+#: src/dates.c:65
+msgid "November"
+msgstr "November"
+
+#: src/dates.c:66
+msgid "December"
+msgstr "December"
+
+#: src/dialog-cell-format.c:66
+msgid "Numbers"
+msgstr "Tal"
+
+#: src/dialog-cell-format.c:67
+msgid "Accounting"
+msgstr "Redovisning"
+
+#: src/dialog-cell-format.c:68
+msgid "Date"
+msgstr "Datum"
+
+#: src/dialog-cell-format.c:69
+msgid "Time"
+msgstr "Tid"
+
+#: src/dialog-cell-format.c:70
+msgid "Percent"
+msgstr "Procent"
+
+#: src/dialog-cell-format.c:71
+msgid "Fraction"
+msgstr "Bråk"
+
+#: src/dialog-cell-format.c:72
+msgid "Scientific"
+msgstr "Matematik"
+
+#: src/dialog-cell-format.c:73
+msgid "Text"
+msgstr "Text"
+
+#: src/dialog-cell-format.c:74
+msgid "Money"
+msgstr "Valuta"
+
+#. 1. Categories
+#: src/dialog-cell-format.c:256
+msgid "Categories"
+msgstr "Kategorier"
+
+#. 2.1 Input line
+#: src/dialog-cell-format.c:288
+msgid "Code:"
+msgstr "Kod:"
+
+#. 2.2 Sample
+#: src/dialog-cell-format.c:297
+msgid "Sample:"
+msgstr "Exempel:"
+
+#: src/dialog-cell-format.c:309
+msgid "Format codes"
+msgstr "Formatkoder"
+
+#: src/dialog-cell-format.c:358 src/formats.c:16 src/number-match.c:457
+msgid "General"
+msgstr "Allmänt"
+
+#: src/dialog-cell-format.c:359
+msgid "Left"
+msgstr "Vänster"
+
+#: src/dialog-cell-format.c:360 src/dialog-cell-format.c:369
+#: src/workbook.c:990
+msgid "Center"
+msgstr "Centrera"
+
+#: src/dialog-cell-format.c:361
+msgid "Right"
+msgstr "Höger"
+
+#: src/dialog-cell-format.c:362
+msgid "Fill"
+msgstr "Fyll"
+
+#: src/dialog-cell-format.c:363 src/dialog-cell-format.c:371
+msgid "Justify"
+msgstr "Justera"
+
+#: src/dialog-cell-format.c:368
+msgid "Top"
+msgstr "Överkant"
+
+#: src/dialog-cell-format.c:370
+msgid "Bottom"
+msgstr "Underkant"
+
+#. Vertical alignment
+#: src/dialog-cell-format.c:426
+msgid "Vertical"
+msgstr "Vertikal"
+
+#. Horizontal alignment
+#: src/dialog-cell-format.c:430
+msgid "Horizontal"
+msgstr "Horisontell"
+
+#: src/dialog-cell-format.c:433
+msgid "Auto return"
+msgstr "Radbyte"
+
+#: src/dialog-cell-format.c:602
+msgid "Text color"
+msgstr "Textfärg"
+
+#. The radio buttons
+#: src/dialog-cell-format.c:606 src/dialog-cell-format.c:639
+#: src/dialog-paste-special.c:28
+msgid "None"
+msgstr "Ingen"
+
+#: src/dialog-cell-format.c:608
+msgid "Use this color"
+msgstr "Använd denna färg"
+
+#: src/dialog-cell-format.c:610 src/dialog-cell-format.c:645
+msgid "No change"
+msgstr "Ingen ändring"
+
+#: src/dialog-cell-format.c:633
+msgid "Background configuration"
+msgstr "Bakgrundsinställning"
+
+#: src/dialog-cell-format.c:641
+msgid "Use solid color"
+msgstr "Använd solid färg"
+
+#: src/dialog-cell-format.c:643
+msgid "Use a pattern"
+msgstr "Använd mönster"
+
+#: src/dialog-cell-format.c:914
+msgid "Number"
+msgstr "Tal"
+
+#: src/dialog-cell-format.c:915
+msgid "Alignment"
+msgstr "Justering"
+
+#: src/dialog-cell-format.c:916
+msgid "Font"
+msgstr "Typsnitt"
+
+#: src/dialog-cell-format.c:917
+msgid "Coloring"
+msgstr "Färger"
+
+#: src/dialog-define-names.c:23
+msgid "Define names"
+msgstr "Definiera namn"
+
+#: src/dialog-define-names.c:26 src/dialog-paste-special.c:29
+#, fuzzy
+msgid "Add"
+msgstr "Lägg till..."
+
+#: src/dialog-define-names.c:27 src/plugin-manager.c:132
+msgid "Remove"
+msgstr "Ta bort"
+
+#: src/dialog-define-names.c:42
+msgid "Names in the workbook"
+msgstr "Namn i arbetsboken"
+
+#: src/dialog-define-names.c:49
+msgid "Refers to"
+msgstr "Refererar till"
+
+#: src/dialog-delete-cells.c:25
+msgid "delete cells"
+msgstr "ta bort celler"
+
+#: src/dialog-delete-cells.c:29
+msgid "Delete cells"
+msgstr "Ta bort celler"
+
+#: src/dialog-delete-cells.c:32 src/item-grid.c:535
+msgid "Delete"
+msgstr "Ta bort"
+
+#: src/dialog-delete-cells.c:33
+msgid "Shift cells left"
+msgstr "Flytta celler åt vänster"
+
+#: src/dialog-delete-cells.c:34
+msgid "Shift cells up"
+msgstr "Flytta celler uppåt"
+
+#: src/dialog-delete-cells.c:35
+msgid "Delete row(s)"
+msgstr "Ta bort rad(er)"
+
+#: src/dialog-delete-cells.c:36
+msgid "Delete column(s)"
+msgstr "To bort kolumn(er)"
+
+#: src/dialog-goto-cell.c:42
+msgid "Cell"
+msgstr "Cell"
+
+#: src/dialog-goto-cell.c:45
+msgid "Go to..."
+msgstr "Gå till..."
+
+#: src/dialog-goto-cell.c:47
+msgid "Special..."
+msgstr "Special..."
+
+#: src/dialog-insert-cells.c:26
+msgid "insert cells"
+msgstr "infoga celler"
+
+#: src/dialog-insert-cells.c:30
+msgid "Insert cells"
+msgstr "Infoga celler"
+
+#: src/dialog-insert-cells.c:33 src/item-grid.c:534
+msgid "Insert"
+msgstr "Infoga"
+
+#: src/dialog-insert-cells.c:34
+msgid "Shift cells right"
+msgstr "Flytta celler åt höger"
+
+#: src/dialog-insert-cells.c:35
+msgid "Shift cells down"
+msgstr "Flytta celler nedåt"
+
+#: src/dialog-insert-cells.c:36
+msgid "Insert row(s)"
+msgstr "Infoga rad(er)"
+
+#: src/dialog-insert-cells.c:37
+msgid "Insert column(s)"
+msgstr "Infoga kolumn(er)"
+
+#: src/dialog-paste-special.c:20
+msgid "All"
+msgstr "Allt"
+
+#: src/dialog-paste-special.c:21
+msgid "Formulas"
+msgstr "Formler"
+
+#: src/dialog-paste-special.c:22
+msgid "Values"
+msgstr "Värden"
+
+#: src/dialog-paste-special.c:23
+msgid "Formats"
+msgstr "Format"
+
+#: src/dialog-paste-special.c:30
+msgid "Substract"
+msgstr "Subtrahera"
+
+#: src/dialog-paste-special.c:31
+msgid "Multiply"
+msgstr "Multiplicera"
+
+#: src/dialog-paste-special.c:32
+msgid "Divide"
+msgstr "Dividera"
+
+#: src/dialog-paste-special.c:57 src/item-grid.c:532
+msgid "Paste special"
+msgstr "Klistra in special"
+
+#: src/dialog-paste-special.c:62
+msgid "Paste type"
+msgstr "Klistra in"
+
+#: src/dialog-paste-special.c:66
+msgid "Operation"
+msgstr "Åtgärd"
+
+#: src/dialog-zoom.c:47 src/dialog-zoom.c:50
+msgid "Zoom"
+msgstr "Zoom"
+
+#: src/dialog-zoom.c:56
+msgid "Custom"
+msgstr "Egen"
+
+#: src/dialog-zoom.c:87
+#, c-format
+msgid "Zoom factor should be at least 50%"
+msgstr "Zoomfaktorn bör vara minst 50%"
+
+#: src/dialog-zoom.c:93
+#, c-format
+msgid "Zoom factor should be at most 900%"
+msgstr "Zoomfaktorn bör inte vara över 900%"
+
+#: src/dump.c:31
+#, c-format
+msgid "Can not create file %s\n"
+msgstr "Kan inte skapa fil %s\n"
+
+#: src/expr.c:34
+msgid "Syntax error"
+msgstr "Syntaxfel"
+
+#: src/expr.c:38
+msgid "Missing quote"
+msgstr "Apostrof saknas"
+
+#: src/expr.c:42
+msgid "Impossible!"
+msgstr "Omöjligt!"
+
+#: src/expr.c:792 src/expr.c:1063 src/expr.c:1254 src/fn-misc.c:202
+#: src/fn-string.c:57 src/fn-string.c:82 src/fn-string.c:106
+#: src/fn-string.c:165 src/fn-string.c:201 src/fn-string.c:282
+#: src/fn-string.c:363 src/fn-string.c:401 src/fn-string.c:585
+#: src/fn-string.c:629 src/fn-string.c:700 src/fn-string.c:745
+msgid "Type mismatch"
+msgstr "Typerna stämmer inte överens"
+
+#: src/expr.c:863
+msgid "Function does not exist"
+msgstr "Funktionen existerar inte"
+
+#: src/expr.c:867
+msgid "Calling non-function"
+msgstr "Anropar icke-funktion"
+
+#: src/expr.c:1004
+msgid "Type error"
+msgstr "Typfel"
+
+#: src/expr.c:1237
+msgid "Reference to newborn cell"
+msgstr "Referens till nyfödd cell"
+
+#: src/expr.c:1269
+msgid "Unknown evaluation error"
+msgstr "Okänt evalueringsfel"
+
+#: src/file.c:244
+msgid "File format:"
+msgstr "Filformat:"
+
+#: src/file.c:288
+msgid "Save workbook as"
+msgstr "Spara arbetsbok som"
+
+#: src/file.c:327
+msgid "Sorry, there are no file savers loaded, I cannot save"
+msgstr "Inga filsparare är laddade, kan inte spara"
+
+#: src/file.c:380
+msgid "Load file"
+msgstr "Öppna fil"
+
+#: src/fn-date.c:59
+msgid ""
+"@FUNCTION=DATE\n"
+"@SYNTAX=DATE (year,month,day)\n"
+"@DESCRIPTION=Computes the number of days since the 1st of january of "
+"1900(the date serial number) for the given year, month and day.\n"
+"The day might be negative (to count backwards) and it is relative to the "
+"previous month.  The years should be at least 1900.\n"
+"@SEEALSO=TODAY, NOW"
+msgstr ""
+"@FUNCTION=DATE\n"
+"SYNTAX=DATE (år,månad,dag)\n"
+"@DESCRIPTION=Beräknar antalet dagar sedan 1 januari 1900 (datumserienumret) "
+"för angivna år, månad och dag.\n"
+"Dagen kan vara negativ (för att räkna baklänges) och den är relativt "
+"föregående månad. Året bör vara minst 1900.\n"
+"@SEEALSO=TODAY, NOW"
+
+#: src/fn-date.c:92
+msgid "Invalid month or year"
+msgstr "Ogiltig månad eller år"
+
+#: src/fn-date.c:107
+msgid "Invalid day"
+msgstr "Ogiltig dag"
+
+#: src/fn-date.c:118
+msgid ""
+"@FUNCTION=DATEVALUE\n"
+"@SYNTAX=DATEVALUE(date_str)\n"
+"@DESCRIPTION=DATEVALUE returns the serial number of the date.  @date_str is "
+"the string that contains the date.  For example, DATEVALUE(\"1/1/1999\") "
+"equals to 36160. \n"
+"@SEEALSO=DATE"
+msgstr ""
+"@FUNCTION=DATEVALUE\n"
+"@SYNTAX=DATEVALUE(date_str)\n"
+"@DESCRIPTION=DATEVALUE returnerar datumets serienummer. @date_str är "
+"strängen som innehåller datumet. Till exempel, DATEVALUE(\"1/1/1999\") är "
+"lika med 36160. \n"
+"@SEEALSO=DATE"
+
+#: src/fn-date.c:138
+msgid ""
+"@FUNCTION=EDATE\n"
+"@SYNTAX=EDATE(serial_number,months)\n"
+"@DESCRIPTION=EDATE returns the serial number of the date that is the "
+"specified number of months before or after a given date.  @date is the "
+"serial number of the initial date and @months is the number of months before "
+"(negative number) or after (positive number) the initial date.\n"
+"If @months is not an integer, it is truncated.\n"
+"@SEEALSO=DATE"
+msgstr ""
+"@FUNCTION=EDATE\n"
+"@SYNTAX=EDATE(serial_number,months)\n"
+"@DESCRIPTION=EDATE returnerar serienumret för datumet som är det "
+"specifierade antalet månader före eller efter en givet datum.  @date är "
+"serienumret för det ursprungliga datumet och @months är antalet månader före "
+"(negativt tal) eller efter (positivt tal) det ursprungliga datumet \n"
+"Om @months inte är ett heltal, avrundas det nedåt till närmsta heltal.\n"
+"@SEEALSO=DATE"
+
+#: src/fn-date.c:184
+msgid ""
+"@FUNCTION=TODAY\n"
+"@SYNTAX=TODAY ()\n"
+"@DESCRIPTION=Returns the serial number for today (the number of days elapsed "
+"since the 1st of January of 1900)\n"
+"@SEEALSO=TODAY, NOW"
+msgstr ""
+"@FUNCTION=TODAY\n"
+"@SYNTAX=TODAY ()\n"
+"@DESCRIPTION=Returnerar serienumret för dagens datum (antalet dagar som har "
+"gått sedan den första januari 1900)\n"
+"@SEEALSO=TODAY, NOW"
+
+#: src/fn-date.c:208
+msgid ""
+"@FUNCTION=NOW\n"
+"@SYNTAX=NOW ()\n"
+"@DESCRIPTION=Returns the serial number for the date and time at the time it "
+"is evaluated.\n"
+"Serial Numbers in Gnumeric are represented as follows:The integral part is "
+"the number of days since the 1st of January of 1900.  The decimal part "
+"represent the fraction of the day and is mapped into hour, minutes and "
+"seconds\n"
+"For example: .0 represents the beginning of the day, and 0.5 represents "
+"noon\n"
+"@SEEALSO=TODAY, NOW"
+msgstr ""
+"@FUNCTION=NOW\n"
+"@SYNTAX=NOW ()\n"
+"@DESCRIPTION=Returnerar serienumret för datumet och klockslaget då uttrycket "
+"evalueras.\n"
+"Serienumber i Gnumeric representeras enligt följande: Heltalsdelen är det "
+"antal dagar som passerat sedan 1 januari 1900. Decimaldelen representerar "
+"hur stor del av dagen som passerat och motsvarar timmar, minuter och "
+"sekunder\n"
+"Till exempel: 0.0 representerar början av dagen, och 0.5 mitt på dagen\n"
+"@SEEALSO=TODAY, NOW"
+
+#: src/fn-date.c:244
+msgid ""
+"@FUNCTION=TIME\n"
+"@SYNTAX=TIME (hours,minutes,seconds)\n"
+"@DESCRIPTION=Returns a fraction representing the time of day.\n"
+"@SEEALSO=HOUR"
+msgstr ""
+"@FUNCTION=TIME\n"
+"@SYNTAX=TIME (timmar,minuter,sekunder)\n"
+"@DESCRIPTION=Returnerar en bråkdel som representerar det nuvarande "
+"klockslaget.\n"
+"@SEEALSO=HOUR"
+
+#: src/fn-date.c:269
+msgid ""
+"@FUNCTION=TIMEVALUE\n"
+"@SYNTAX=TIMEVALUE (timetext)\n"
+"@DESCRIPTION=Returns a fraction representing the time of day, a number "
+"between 0 and 1.\n"
+"@SEEALSO=HOUR"
+msgstr ""
+
+#: src/fn-date.c:288
+msgid ""
+"@FUNCTION=HOUR\n"
+"@SYNTAX=HOUR (serial_number)\n"
+"@DESCRIPTION=Converts a serial number to an hour.  The hour is returned as "
+"an integer in the range 0 (12:00 A.M.) to 23 (11:00 P.M.)\n"
+"Note that Gnumeric will perform regular string to serial number conversion "
+"for you, so you can enter a date as a string.\n"
+"@SEEALSO=MINUTE, NOW, TIME, SECOND"
+msgstr ""
+
+#: src/fn-date.c:313
+msgid ""
+"@FUNCTION=MINUTE\n"
+"@SYNTAX=MINUTE (serial_number)\n"
+"@DESCRIPTION=Converts a serial number to a minute.  The minute is returned "
+"as an integer in the range 0 to 59\n"
+"Note that Gnumeric will perform regular string to serial number conversion "
+"for you, so you can enter a date as a string.\n"
+"@SEEALSO=HOUR, NOW, TIME, SECOND"
+msgstr ""
+
+#: src/fn-date.c:338
+msgid ""
+"@FUNCTION=SECOND\n"
+"@SYNTAX=SECOND (serial_number)\n"
+"@DESCRIPTION=Converts a serial number to a second.  The second is returned "
+"as an integer in the range 0 to 59\n"
+"Note that Gnumeric will perform regular string to serial number conversion "
+"for you, so you can enter a date as a string.\n"
+"@SEEALSO=HOUR, MINUTE, NOW, TIME"
+msgstr ""
+
+#: src/fn-date.c:363
+msgid ""
+"@FUNCTION=YEAR\n"
+"@SYNTAX=YEAR (serial_number)\n"
+"@DESCRIPTION=Converts a serial number to a year.\n"
+"Note that Gnumeric will perform regular string to serial number conversion "
+"for you, so you can enter a date as a string.\n"
+"@SEEALSO=DAY, MONTH, TIME, NOW"
+msgstr ""
+
+#: src/fn-date.c:388
+msgid ""
+"@FUNCTION=MONTH\n"
+"@SYNTAX=MONTH (serial_number)\n"
+"@DESCRIPTION=Converts a serial number to a month.\n"
+"Note that Gnumeric will perform regular string to serial number conversion "
+"for you, so you can enter a date as a string.\n"
+"@SEEALSO=DAY, TIME, NOW, YEAR"
+msgstr ""
+
+#: src/fn-date.c:413
+msgid ""
+"@FUNCTION=DAY\n"
+"@SYNTAX=DAY (serial_number)\n"
+"@DESCRIPTION=Converts a serial number to a day.\n"
+"Note that Gnumeric will perform regular string to serial number conversion "
+"for you, so you can enter a date as a string.\n"
+"@SEEALSO=MONTH, TIME, NOW, YEAR"
+msgstr ""
+
+#: src/fn-date.c:438
+msgid ""
+"@FUNCTION=WEEKDAY\n"
+"@SYNTAX=WEEKDAY (serial_number)\n"
+"@DESCRIPTION=Converts a serial number to a weekday.  FIXME: explain.\n"
+"Note that Gnumeric will perform regular string to serial number conversion "
+"for you, so you can enter a date as a string.\n"
+"@SEEALSO=MONTH, TIME, NOW, YEAR"
+msgstr ""
+
+#: src/fn-date.c:463
+msgid ""
+"@FUNCTION=DAY\n"
+"@SYNTAX=DAYS360 (date1,date2,method)\n"
+"@DESCRIPTION=Returns the number of days from @date1 to @date2 following a "
+"360-day calendar in which all months are assumed to have 30 days.\n"
+"If method is true, the European method will be used.  In this case, if the "
+"day of the month is 31 it will be considered as 30.\n"
+"If method is false or omitted, the US method will be used.  This is a "
+"somewhat complicated industry standard method.\n"
+"Note that Gnumeric will perform regular string to serial number conversion "
+"for you, so you can enter a date as a string.\n"
+"@SEEALSO=MONTH, TIME, NOW, YEAR"
+msgstr ""
+
+#: src/fn-date.c:496
+msgid "Unsupported method"
+msgstr ""
+
+#: src/fn-math.c:17
+msgid ""
+"@FUNCTION=NAME\n"
+"@SYNTAX=(b1, b2, ...)\n"
+"@DESCRIPTION\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-math.c:156
+msgid ""
+"@FUNCTION=GCD\n"
+"@SYNTAX=GCD(a,b)\n"
+"@DESCRIPTION=GCD returns the greatest common divisor of two numbers. \n"
+"If any of the arguments is less than zero, GCD returns #NUM! error. \n"
+"@SEEALSO=LCM"
+msgstr ""
+
+#: src/fn-math.c:186
+msgid ""
+"@FUNCTION=LCM\n"
+"@SYNTAX=LCM(number1,number2,...)\n"
+"@DESCRIPTION=LCM returns the least common multiple of integers.  The least "
+"common multiple is the smallest positive number that is a multiple of all "
+"integer arguments given. \n"
+"If any of the arguments is less than one, LCM returns #NUM! error. \n"
+"@SEEALSO=GCD"
+msgstr ""
+
+#: src/fn-math.c:242
+msgid ""
+"@FUNCTION=ABS\n"
+"@SYNTAX=ABS(b1)\n"
+"@DESCRIPTION=Implements the Absolute Value function:  the result is to drop "
+"the negative sign (if present).  This can be done for integers and floating "
+"point numbers.\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=CEIL, FLOOR"
+msgstr ""
+
+#: src/fn-math.c:262
+msgid ""
+"@FUNCTION=ACOS\n"
+"@SYNTAX=ACOS(x)\n"
+"@DESCRIPTION=The ACOS function calculates the arc cosine of x; that  is the "
+"value whose cosine is x.  If x  falls  outside  the  range -1 to 1, ACOS "
+"fails and returns the error 'acos - domain error'.  The value it returns is "
+"in radians. \n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
+"@SEEALSO=COS, SIN, DEGREES, RADIANS"
+msgstr ""
+
+#: src/fn-math.c:285
+msgid "acos - domain error"
+msgstr "acos - domänfel"
+
+#: src/fn-math.c:292
+msgid ""
+"@FUNCTION=ACOSH\n"
+"@SYNTAX=ACOSH(x)\n"
+"@DESCRIPTION=The ACOSH  function  calculates  the inverse hyperbolic cosine "
+"of x; that is the value whose hyperbolic cosine is x. If x is less than 1.0, "
+"acosh() returns the error  'acosh - domain error'\n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
+"@SEEALSO=ACOS, DEGREES, RADIANS "
+msgstr ""
+
+#: src/fn-math.c:315
+msgid "acosh - domain error"
+msgstr "acosh - domänfel"
+
+#: src/fn-math.c:322
+msgid ""
+"@FUNCTION=ASIN\n"
+"@SYNTAX=ASIN(x)\n"
+"@DESCRIPTION=The ASIN function calculates the arc sine of x; that is the "
+"value whose sine is x. If x falls outside  the  range -1 to 1, ASIN fails "
+"and returns the error 'asin - domain error'   \n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
+"@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
+msgstr ""
+
+#: src/fn-math.c:344
+msgid "asin - domain error"
+msgstr "asin - domänfel"
+
+#: src/fn-math.c:351
+msgid ""
+"@FUNCTION=ASINH\n"
+"@SYNTAX=ASINH(x)\n"
+"@DESCRIPTION=The ASINH  function  calculates  the inverse hyperbolic  sine "
+"of x; that is the value whose hyperbolic sine is x. \n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
+"@SEEALSO=ASIN, SIN, COS, DEGREES, RADIANS"
+msgstr ""
+
+#: src/fn-math.c:373
+msgid ""
+"@FUNCTION=ATAN\n"
+"@SYNTAX=ATAN(x)\n"
+"@DESCRIPTION=The ATAN function calculates the arc tangent of x; that  is the "
+"value whose tangent is x.Return value is in radians.\n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
+"@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
+msgstr ""
+
+#: src/fn-math.c:397
+msgid ""
+"@FUNCTION=ATANH\n"
+"@SYNTAX=ATANH(x)\n"
+"@DESCRIPTION=The  ATANH  function  calculates  the inverse hyperbolic "
+"tangent of x; that is the value whose  hyperbolic  tangent is  x.   If  the  "
+"absolute value of x is greater than 1.0,  ATANH returns an error of 'atanh: "
+"domain error'      \n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
+"@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
+msgstr ""
+
+#: src/fn-math.c:421
+msgid "atanh: domain error"
+msgstr "atanh: domänfel"
+
+#: src/fn-math.c:428
+msgid ""
+"@FUNCTION=ATAN2\n"
+"@SYNTAX=ATAN2(b1,b2)\n"
+"@DESCRIPTION=The ATAN2 function calculates the arc tangent of the two "
+"variables b1 and b2.  It is similar to calculating  the  arc tangent  of b2 "
+"/ b1, except that the signs of both arguments are used to determine the "
+"quadrant of the result. The result is in Radians.\n"
+"Performing this function on a string or empty cell simply does nothing. \n"
+"@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
+msgstr ""
+
+#: src/fn-math.c:453
+msgid ""
+"@FUNCTION=CEIL\n"
+"@SYNTAX=CEIL(x)\n"
+"@DESCRIPTION=The CEIL function rounds x up to the next nearest integer.\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=ABS, FLOOR, INT"
+msgstr ""
+
+#: src/fn-math.c:473
+msgid ""
+"@FUNCTION=COUNTIF\n"
+"@SYNTAX=COUNTIF(range,criteria)\n"
+"@DESCRIPTION=COUNTIF function counts the number of cells in the given range "
+"that meet the given criteria. \n"
+"@SEEALSO=COUNT,SUMIF"
+msgstr ""
+
+#: src/fn-math.c:535
+msgid ""
+"@FUNCTION=SUMIF\n"
+"@SYNTAX=SUMIF(range,criteria)\n"
+"@DESCRIPTION=SUMIF function sums the values in the given range that meet the "
+"given criteria. \n"
+"@SEEALSO=COUNTIF,SUM"
+msgstr ""
+
+#: src/fn-math.c:603
+msgid ""
+"@FUNCTION=CEILING\n"
+"@SYNTAX=CEILING(x,significance)\n"
+"@DESCRIPTION=The CEILING function rounds x up to the nearest multiple of "
+"significance. \n"
+"If x or significance is non-numeric CEILING returns #VALUE! error. If n and "
+"significance have different signs CEILING returns #NUM! error. \n"
+"@SEEALSO=CEIL"
+msgstr ""
+
+#: src/fn-math.c:639
+msgid ""
+"@FUNCTION=COS\n"
+"@SYNTAX=COS(x)\n"
+"@DESCRIPTION=The  COS  function  returns  the cosine of x, where x is given "
+"in radians.  \n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
+"@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
+msgstr ""
+
+#: src/fn-math.c:660
+msgid ""
+"@FUNCTION=COSH\n"
+"@SYNTAX=COSH(x)\n"
+"@DESCRIPTION=The COSH  function  returns the hyperbolic cosine of x,  which "
+"is defined mathematically as (exp(x) + exp(-x)) / 2.    x is in radians. \n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
+"@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
+msgstr ""
+
+#: src/fn-math.c:682
+msgid ""
+"@FUNCTION=DEGREES\n"
+"@SYNTAX=DEGREES(x)\n"
+"@DESCRIPTION=Computes the number of degrees equivalent to  x radians.\n"
+"Performing this function on a string or empty cell simply does nothing. \n"
+"@SEEALSO=RADIANS, PI"
+msgstr ""
+
+#: src/fn-math.c:704
+msgid ""
+"@FUNCTION=EXP\n"
+"@SYNTAX=EXP(x)\n"
+"@DESCRIPTION=Computes the value of e(the base of natural logarithmns) raised "
+"to the power of x. \n"
+"Performing this function on a string or empty cell returns an error.\n"
+"@SEEALSO=LOG, LOG2, LOG10"
+msgstr ""
+
+#: src/fn-math.c:732
+msgid ""
+"@FUNCTION=FACT\n"
+"@SYNTAX=FACT(x)\n"
+"@DESCRIPTION=Computes the factorial of x. ie, x!\n"
+"Performing this function on a string or empty cell returns an error\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-math.c:773
+msgid ""
+"@FUNCTION=COMBIN\n"
+"@SYNTAX=COMBIN(n,k)\n"
+"@DESCRIPTION=Computes the number of combinations.\n"
+"Performing this function on a non-integer or a negative number returns an "
+"error. Also if n is less than k returns an error.\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-math.c:819
+msgid ""
+"@FUNCTION=FLOOR\n"
+"@SYNTAX=FLOOR(x,significance)\n"
+"@DESCRIPTION=The FLOOR function rounds x down to the next nearest multiple "
+"of @significance.  @significance defaults to 1.\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=CEIL, ABS, INT"
+msgstr ""
+
+#: src/fn-math.c:852
+msgid ""
+"@FUNCTION=INT\n"
+"@SYNTAX=INT(b1, b2, ...)\n"
+"@DESCRIPTION=The INT function round b1 now to the nearest int. Where "
+"'nearest' implies being closer to zero. Equivalent to FLOOR(b1) for b1 >= 0, "
+"amd CEIL(b1) for b1 < 0. \n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=FLOOR, CEIL, ABS"
+msgstr ""
+
+#: src/fn-math.c:881
+msgid ""
+"@FUNCTION=LOG\n"
+"@SYNTAX=LOG(x[,base])\n"
+"@DESCRIPTION=Computes the logarithm of x in the given base.  If no base is "
+"given LOG returns the logarithm in base 10. \n"
+"@SEEALSO=LN, LOG2, LOG10"
+msgstr ""
+
+#: src/fn-math.c:913
+msgid ""
+"@FUNCTION=LN\n"
+"@SYNTAX=LN(x)\n"
+"@DESCRIPTION=LN returns the natural logarithm of x. \n"
+"@SEEALSO=EXP, LOG2, LOG10"
+msgstr ""
+
+#: src/fn-math.c:939
+msgid ""
+"@FUNCTION=POWER\n"
+"@SYNTAX=POWER(x,y)\n"
+"@DESCRIPTION=Returns the value of x raised to the power y.\n"
+"Performing this function on a string or empty cell returns an error.\n"
+"@SEEALSO=EXP"
+msgstr ""
+
+#: src/fn-math.c:968
+msgid ""
+"@FUNCTION=LOG2\n"
+"@SYNTAX=LOG2(x)\n"
+"@DESCRIPTION=Computes the base-2 logarithm  of x. \n"
+"Performing this function on a string or empty cell returns an error. \n"
+"@SEEALSO=EXP, LOG10, LOG"
+msgstr ""
+
+#: src/fn-math.c:987
+msgid "log2: domain error"
+msgstr "log2: domänfel"
+
+#: src/fn-math.c:994
+msgid ""
+"@FUNCTION=LOG10\n"
+"@SYNTAX=LOG10(x)\n"
+"@DESCRIPTION=Computes the base-10 logarithm  of x. \n"
+"Performing this function on a string or empty cell returns an error. \n"
+"@SEEALSO=EXP, LOG2, LOG"
+msgstr ""
+
+#: src/fn-math.c:1014
+msgid "log10: domain error"
+msgstr "log10: domänfel"
+
+#: src/fn-math.c:1021
+msgid ""
+"@FUNCTION=MOD\n"
+"@SYNTAX=MOD(number,divisor)\n"
+"@DESCRIPTION=Implements modulo arithmetic.Returns the remainder when divisor "
+"is divided into abs(number).\n"
+"Returns #DIV/0! if divisor is zero.@SEEALSO=INT,FLOOR,CEIL"
+msgstr ""
+
+#: src/fn-math.c:1064
+msgid ""
+"@FUNCTION=RADIANS\n"
+"@SYNTAX=RADIANS(x)\n"
+"@DESCRIPTION=Computes the number of radians equivalent to  x degrees. \n"
+"Performing this function on a string or empty cell simply does nothing. \n"
+"@SEEALSO=PI,DEGREES"
+msgstr ""
+
+#: src/fn-math.c:1086
+msgid ""
+"@FUNCTION=RAND\n"
+"@SYNTAX=RAND()\n"
+"@DESCRIPTION=Returns a random number greater than or equal to 0 and less "
+"than 1.\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-math.c:1105
+msgid ""
+"@FUNCTION=SIN\n"
+"@SYNTAX=SIN(x)\n"
+"@DESCRIPTION=The SIN function returns the sine of x, where x is given  in "
+"radians.\n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
+"@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
+msgstr ""
+
+#: src/fn-math.c:1126
+msgid ""
+"@FUNCTION=SINH\n"
+"@SYNTAX=SINH(x)\n"
+"@DESCRIPTION=The SINH function returns the hyperbolic sine of @x, which is "
+"defined mathematically as (exp(x) - exp(-x)) / 2.\n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
+"@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
+msgstr ""
+
+#: src/fn-math.c:1147
+msgid ""
+"@FUNCTION=SQRT\n"
+"@SYNTAX=SQRT(x)\n"
+"@DESCRIPTION=The SQRT function returns the square root of @x.\n"
+"If x is negative returns #NUM!.This function only takes one argument.\n"
+"@SEEALSO=POW"
+msgstr ""
+
+#: src/fn-math.c:1173
+msgid ""
+"@FUNCTION=SUM\n"
+"@SYNTAX=SUM(value1, value2, ...)\n"
+"@DESCRIPTION=Computes the sum of all the values and cells referenced in the "
+"argument list. \n"
+"@SEEALSO=AVERAGE, COUNT"
+msgstr ""
+
+#: src/fn-math.c:1264
+msgid ""
+"@FUNCTION=SUMA\n"
+"@SYNTAX=SUMA(value1, value2, ...)\n"
+"@DESCRIPTION=Computes the sum of all the values and cells referenced in the "
+"argument list.  Numbers, text and logical values are included in the "
+"calculation too.  If the cell contains text or the argument evaluates to "
+"FALSE, it is counted as value zero (0). If the argument evaluates to TRUE, "
+"it is counted as one (1). Note that empty cells are not counted.\n"
+"@SEEALSO=AVERAGE, SUM, COUNT"
+msgstr ""
+
+#: src/fn-math.c:1297
+msgid ""
+"@FUNCTION=SUMSQ\n"
+"@SYNTAX=SUMSQ(value1, value2, ...)\n"
+"@DESCRIPTION=SUMSQ returns the sum of the squares of all the values and "
+"cells referenced in the argument list. \n"
+"@SEEALSO=SUM, COUNT"
+msgstr ""
+
+#: src/fn-math.c:1352
+msgid ""
+"@FUNCTION=MULTINOMIAL\n"
+"@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
+"@DESCRIPTION=MULTINOMIAL returns the ratio of the factorial of a sum of "
+"values to the product of factorials. \n"
+"@SEEALSO=SUM"
+msgstr ""
+
+#: src/fn-math.c:1410
+msgid ""
+"@FUNCTION=PRODUCT\n"
+"@SYNTAX=PRODUCT(value1, value2, ...)\n"
+"@DESCRIPTION=PRODUCT returns the product of all the values and cells "
+"referenced in the argument list. \n"
+"@SEEALSO=SUM, COUNT"
+msgstr ""
+
+#: src/fn-math.c:1465
+msgid ""
+"@FUNCTION=TAN\n"
+"@SYNTAX=TAN(x)\n"
+"@DESCRIPTION=The TAN function  returns the tangent of @x, where @x is given "
+"in radians.\n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
+"@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
+msgstr ""
+
+#: src/fn-math.c:1486
+msgid ""
+"@FUNCTION=TANH\n"
+"@SYNTAX=TANH(x)\n"
+"@DESCRIPTION= The TANH function returns the hyperbolic tangent of x,  which "
+"is defined mathematically as sinh(x) / cosh(x). \n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
+"@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
+msgstr ""
+
+#: src/fn-math.c:1507
+msgid ""
+"@FUNCTION=PI\n"
+"@SYNTAX=PI()\n"
+"@DESCRIPTION=The PI functions returns the value of Pi as defined by M_PI.\n"
+"This function is called with no arguments.\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-math.c:1527
+msgid ""
+"@FUNCTION=TRUNC\n"
+"@SYNTAX=TRUNC(number[,digits])\n"
+"@DESCRIPTION=The TRUNC function returns the value of @number truncated to "
+"the number of digits specified.  If @digits is omitted then @digits defaults "
+"to zero.\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-math.c:1561
+msgid ""
+"@FUNCTION=EVEN\n"
+"@SYNTAX=EVEN(number)\n"
+"@DESCRIPTION=EVEN function returns the number rounded up to the nearest even "
+"integer. \n"
+"@SEEALSO=ODD"
+msgstr ""
+
+#: src/fn-math.c:1593
+msgid ""
+"@FUNCTION=ODD\n"
+"@SYNTAX=ODD(number)\n"
+"@DESCRIPTION=ODD function returns the number rounded up to the nearest odd "
+"integer. \n"
+"@SEEALSO=EVEN"
+msgstr ""
+
+#: src/fn-math.c:1625
+msgid ""
+"@FUNCTION=FACTDOUBLE\n"
+"@SYNTAX=FACTDOUBLE(number)\n"
+"@DESCRIPTION=FACTDOUBLE function returns the double factorial of a number. \n"
+"If @number is not an integer, it is truncated. If @number is negative "
+"FACTDOUBLE returns #NUM! error. \n"
+"@SEEALSO=FACT"
+msgstr ""
+
+#: src/fn-math.c:1657
+msgid ""
+"@FUNCTION=QUOTIENT\n"
+"@SYNTAX=QUOTIENT(num,den)\n"
+"@DESCRIPTION=QUOTIENT function returns the integer portion of a division. "
+"@num is the divided and @den is the divisor. \n"
+"@SEEALSO=MOD"
+msgstr ""
+
+#: src/fn-math.c:1679
+msgid ""
+"@FUNCTION=SIGN\n"
+"@SYNTAX=SIGN(num)\n"
+"@DESCRIPTION=SIGN function returns 1 if the number is positive, zero if the "
+"number is 0, and -1 if the number is negative. \n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-math.c:1705
+msgid ""
+"@FUNCTION=SQRTPI\n"
+"@SYNTAX=SQRTPI(number)\n"
+"@DESCRIPTION=SQRTPI function returns the square root of a number multiplied "
+"by pi. \n"
+"@SEEALSO=PI"
+msgstr ""
+
+#: src/fn-math.c:1730
+msgid ""
+"@FUNCTION=RANDBETWEEN\n"
+"@SYNTAX=RANDBETWEEN(bottom,top)\n"
+"@DESCRIPTION=RANDBETWEEN function returns a random integer number between "
+"@bottom and @top.\n"
+"If @bottom or @top is non-integer, they are truncated. If @bottom > @top, "
+"RANDBETWEEN returns #NUM! error.\n"
+"@SEEALSO=RAND"
+msgstr ""
+
+#: src/fn-math.c:1763
+msgid ""
+"@FUNCTION=ROUNDDOWN\n"
+"@SYNTAX=ROUNDDOWN(number[,digits])\n"
+"@DESCRIPTION=ROUNDDOWN function rounds a given number down, towards zero. "
+"@number is the number you want rounded down and @digits is the number of "
+"digits to which you want to round that number. \n"
+"If digits is greater than zero, number is rounded down to the given number "
+"of digits. If digits is zero or omitted, number is rounded down to the "
+"nearest integer. If digits is less than zero, number is rounded down to the "
+"left of the decimal point. \n"
+"@SEEALSO=ROUNDUP"
+msgstr ""
+
+#: src/fn-math.c:1802
+msgid ""
+"@FUNCTION=ROUND\n"
+"@SYNTAX=ROUND(number[,digits])\n"
+"@DESCRIPTION=ROUND function rounds a given number. @number is the number you "
+"want rounded and @digits is the number of digits to which you want to round "
+"that number. \n"
+"If digits is greater than zero, number is rounded to the given number of "
+"digits. If digits is zero or omitted, number is rounded to the nearest "
+"integer. If digits is less than zero, number is rounded to the left of the "
+"decimal point. \n"
+"@SEEALSO=ROUNDDOWN,ROUNDUP"
+msgstr ""
+
+#: src/fn-math.c:1838
+msgid ""
+"@FUNCTION=ROUNDUP\n"
+"@SYNTAX=ROUNDUP(number[,digits])\n"
+"@DESCRIPTION=ROUNDUP function rounds a given number up, away from zero. "
+"@number is the number you want rounded up and @digits is the number of "
+"digits to which you want to round that number. \n"
+"If digits is greater than zero, number is rounded up to the given number of "
+"digits. If digits is zero or omitted, number is rounded up to the nearest "
+"integer. If digits is less than zero, number is rounded up to the left of "
+"the decimal point. \n"
+"@SEEALSO=ROUNDDOWN"
+msgstr ""
+
+#: src/fn-math.c:1877
+msgid ""
+"@FUNCTION=MROUND\n"
+"@SYNTAX=MROUND(number,multiple)\n"
+"@DESCRIPTION=MROUND function rounds a given number to the desired multiple. "
+"@number is the number you want rounded and @multiple is the the multiple to "
+"which you wnat to round the number. For example, MROUND(1.7, 0.2) equals "
+"1.8. \n"
+"If the number and the multiple have different sign, MROUND returns #NUM! "
+"error. \n"
+"@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
+msgstr ""
+
+#: src/fn-math.c:1923
+msgid ""
+"@FUNCTION=ROMAN\n"
+"@SYNTAX=ROMAN(number[,type])\n"
+"@DESCRIPTION=ROMAN function returns an arabic number in the roman numeral "
+"style, as text. @number is the number you want to convert and @type is the "
+"type of roman numeral you want. \n"
+"If @type is 0 or it is omitted, ROMAN returns classic roman numbers. Types "
+"1,2,3, and 4 are not implemented yet. If @number is negative or greater than "
+"3999, ROMAN returns #VALUE! error. \n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-math.c:1972
+msgid "#Unimplemented!"
+msgstr "#Oimplementerat!"
+
+#: src/fn-math.c:2005
+msgid ""
+"@FUNCTION=SUMX2MY2\n"
+"@SYNTAX=SUMX2MY2(array1,array2)\n"
+"@DESCRIPTION=SUMX2MY2 function returns the sum of the difference of squares "
+"of corresponding values in two arrays. @array1 is the first array or range "
+"of data points and @array2 is the second array or range of data points. The "
+"equation of SUMX2MY2 is SUM (x^2-y^2). \n"
+"Strings and empty cells are simply ignored.\n"
+"If @array1 and @array2 have different number of data points, SUMX2MY2 "
+"returns #N/A! error. \n"
+"@SEEALSO=SUMSQ"
+msgstr ""
+
+#: src/fn-math.c:2053 src/fn-math.c:2071 src/fn-math.c:2150 src/fn-math.c:2168
+#: src/fn-math.c:2247 src/fn-math.c:2265
+msgid "Array version not implemented!"
+msgstr "Arrayversion inte implementerad!"
+
+#: src/fn-math.c:2102
+msgid ""
+"@FUNCTION=SUMX2PY2\n"
+"@SYNTAX=SUMX2PY2(array1,array2)\n"
+"@DESCRIPTION=SUMX2PY2 function returns the sum of the sum of squares of "
+"corresponding values in two arrays. @array1 is the first array or range of "
+"data points and @array2 is the second array or range of data points. The "
+"equation of SUMX2PY2 is SUM (x^2+y^2). \n"
+"Strings and empty cells are simply ignored.\n"
+"If @array1 and @array2 have different number of data points, SUMX2PY2 "
+"returns #N/A! error. \n"
+"@SEEALSO=SUMSQ"
+msgstr ""
+
+#: src/fn-math.c:2199
+msgid ""
+"@FUNCTION=SUMXMY2\n"
+"@SYNTAX=SUMXMY2(array1,array2)\n"
+"@DESCRIPTION=SUMXMY2 function returns the sum of squares of differences of "
+"corresponding values in two arrays. @array1 is the first array or range of "
+"data points and @array2 is the second array or range of data points. The "
+"equation of SUMXMY2 is SUM (x-y)^2. \n"
+"Strings and empty cells are simply ignored.\n"
+"If @array1 and @array2 have different number of data points, SUMXMY2 returns "
+"#N/A! error. \n"
+"@SEEALSO=SUMSQ"
+msgstr ""
+
+#: src/fn-math.c:2296
+msgid ""
+"@FUNCTION=SUBTOTAL\n"
+"@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
+"@DESCRIPTION=SUBTOTAL function returns a subtotal of given list of "
+"arguments. @function_nbr is the number that specifies which function to use "
+"in calculating the subtotal. The following functions are available:\n"
+"1   AVERAGE\n"
+"2   COUNT\n"
+"3   COUNTA\n"
+"4   MAX\n"
+"5   MIN\n"
+"6   PRODUCT\n"
+"7   STDEV\n"
+"8   STDEVP\n"
+"9   SUM\n"
+"10   VAR\n"
+"11   VARP\n"
+"\n"
+"@SEEALSO=COUNT,SUM"
+msgstr ""
+
+#: src/fn-math.c:2390
+msgid ""
+"@FUNCTION=SERIESSUM\n"
+"@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
+"@DESCRIPTION=SERIESSUM function returns the sum of a power series.  @x is "
+"the base of the power serie, @n is the initial power to raise @x, @m is the "
+"increment to the power for each term in the series, and @coefficients is the "
+"coefficents by which each successive power of @x is multiplied. \n"
+"@SEEALSO=COUNT,SUM"
+msgstr ""
+
+#: src/fn-misc.c:22
+msgid "Argument mismatch"
+msgstr "Fel typ på argument"
+
+#: src/fn-misc.c:37
+msgid ""
+"@FUNCTION=ISERROR\n"
+"@SYNTAX=ISERROR(exp)\n"
+"@DESCRIPTION=Returns a TRUE value if the expression has an error\n"
+"\n"
+"@SEEALSO=ERROR"
+msgstr ""
+
+#: src/fn-misc.c:66
+#, fuzzy
+msgid ""
+"@FUNCTION=ISNA\n"
+"@SYNTAX=ISNA()\n"
+"@DESCRIPTION=ISNA Returns TRUE if the value is the #N/A error value. \n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=TIME\n"
+"@SYNTAX=TIME (timmar,minuter,sekunder)\n"
+"@DESCRIPTION=Returnerar en bråkdel som representerar det nuvarande "
+"klockslaget.\n"
+"@SEEALSO=HOUR"
+
+#: src/fn-misc.c:98
+msgid ""
+"@FUNCTION=ISERR\n"
+"@SYNTAX=ISERR()\n"
+"@DESCRIPTION=ISERR Returns TRUE if the value is any error value except #N/A. "
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-misc.c:126
+msgid ""
+"@FUNCTION=ERROR.TYPE\n"
+"@SYNTAX=ERROR(exp)\n"
+"@DESCRIPTION=FIXME\n"
+"@SEEALSO=ISERROR"
+msgstr ""
+
+#: src/fn-misc.c:169
+msgid ""
+"@FUNCTION=NA\n"
+"@SYNTAX=NA()\n"
+"@DESCRIPTION=NA Returns the error value #N/A. \n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-misc.c:188
+msgid ""
+"@FUNCTION=ERROR\n"
+"@SYNTAX=ERROR(text)\n"
+"@DESCRIPTION=Return the specified error\n"
+"\n"
+"@SEEALSO=ISERROR"
+msgstr ""
+
+#: src/fn-sheet.c:15
+msgid ""
+"@FUNCTION=SELECTION\n"
+"@SYNTAX=SELECTION(x)\n"
+"@DESCRIPTION=The SELECTION function returns a list with the values in the "
+"current mouse cursor. This is usually used to implement on-the-flight "
+"computation of values\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-string.c:17
+msgid ""
+"@FUNCTION=CHAR\n"
+"@SYNTAX=CHAR(x)\n"
+"@DESCRIPTION=Returns the ascii character represented by the number x.\n"
+"@SEEALSO=CODE"
+msgstr ""
+
+#: src/fn-string.c:40
+msgid ""
+"@FUNCTION=CODE\n"
+"@SYNTAX=CODE(char)\n"
+"@DESCRIPTION=Returns the ASCII number for the character char.\n"
+"@SEEALSO=CHAR"
+msgstr ""
+
+#: src/fn-string.c:66
+msgid ""
+"@FUNCTION=EXACT\n"
+"@SYNTAX=EXACT(string1, string2)\n"
+"@DESCRIPTION=Returns true if string1 is exactly equal to string2 (this "
+"routine is case sensitive).\n"
+"@SEEALSO=LEN"
+msgstr ""
+
+#: src/fn-string.c:91
+msgid ""
+"@FUNCTION=LEN\n"
+"@SYNTAX=LEN(string)\n"
+"@DESCRIPTION=Returns the length in characters of the string @string.\n"
+"@SEEALSO=CHAR, CODE"
+msgstr ""
+
+#: src/fn-string.c:114
+msgid ""
+"@FUNCTION=LEFT\n"
+"@SYNTAX=LEFT(text[,num_chars])\n"
+"@DESCRIPTION=Returns the leftmost num_chars characters or the left character "
+"if num_chars is not specified\n"
+"@SEEALSO=MID, RIGHT"
+msgstr ""
+
+#: src/fn-string.c:148
+msgid ""
+"@FUNCTION=LOWER\n"
+"@SYNTAX=LOWER(text)\n"
+"@DESCRIPTION=Returns a lower-case version of the string in @text\n"
+"@SEEALSO=UPPER"
+msgstr ""
+
+#: src/fn-string.c:180
+msgid ""
+"@FUNCTION=MID\n"
+"@SYNTAX=MID(string, position, length)\n"
+"@DESCRIPTION=Returns a substring from @string starting at @position for "
+"@length characters.\n"
+"@SEEALSO=LEFT, RIGHT"
+msgstr ""
+
+#: src/fn-string.c:209 src/fn-string.c:638
+msgid "Invalid arguments"
+msgstr "Ogiltiga argument"
+
+#: src/fn-string.c:227
+msgid ""
+"@FUNCTION=RIGHT\n"
+"@SYNTAX=RIGHT(text[,num_chars])\n"
+"@DESCRIPTION=Returns the rightmost num_chars characters or the right "
+"character if num_chars is not specified\n"
+"@SEEALSO=MID, LEFT"
+msgstr ""
+
+#: src/fn-string.c:265
+msgid ""
+"@FUNCTION=UPPER\n"
+"@SYNTAX=UPPER(text)\n"
+"@DESCRIPTION=Returns a upper-case version of the string in @text\n"
+"@SEEALSO=LOWER"
+msgstr ""
+
+#: src/fn-string.c:298
+msgid ""
+"@FUNCTION=CONCATENATE\n"
+"@SYNTAX=CONCATENATE(string1[,string2...])\n"
+"@DESCRIPTION=Returns up appended strings.\n"
+"@SEEALSO=LEFT, MID, RIGHT"
+msgstr ""
+
+#: src/fn-string.c:345
+msgid ""
+"@FUNCTION=REPT\n"
+"@SYNTAX=REPT(string,num)\n"
+"@DESCRIPTION=Returns @num repetitions of @string.\n"
+"@SEEALSO=CONCATENATE"
+msgstr ""
+
+#. start position too high or low
+#: src/fn-string.c:366 src/fn-string.c:445 src/fn-string.c:452
+#: src/fn-string.c:492
+msgid "Invalid argument"
+msgstr "Ogiltigt argument"
+
+#: src/fn-string.c:384
+msgid ""
+"@FUNCTION=CLEAN\n"
+"@SYNTAX=CLEAN(string)\n"
+"@DESCRIPTION=Cleans the string from any non-printable characters.\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-string.c:421
+msgid ""
+"@FUNCTION=FIND\n"
+"@SYNTAX=FIND(string1,string2[,start])\n"
+"@DESCRIPTION=Returns position of @string1 in @string2 (case-sesitive), "
+"searching only from character @start onwards (assumed 1 if omitted).\n"
+"@SEEALSO=EXACT, LEN, MID, SEARCH"
+msgstr ""
+
+#: src/fn-string.c:460
+msgid ""
+"@FUNCTION=FIXED\n"
+"@SYNTAX=FIXED(num, [decimals, no_commas])\n"
+"@DESCRIPTION=Returns @num as a formatted string with @decimals numbers after "
+"the decimal point, omitting commas if requested by @no_commas.\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-string.c:567
+msgid ""
+"@FUNCTION=PROPER\n"
+"@SYNTAX=PROPER(string)\n"
+"@DESCRIPTION=Returns @string with initial of each word capitalised.\n"
+"@SEEALSO=LOWER, UPPER"
+msgstr ""
+
+#: src/fn-string.c:609
+msgid ""
+"@FUNCTION=REPLACE\n"
+"@SYNTAX=REPLACE(old,start,num,new)\n"
+"@DESCRIPTION=Returns @old with @new replacing @num characters from @start.\n"
+"@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
+msgstr ""
+
+#: src/fn-string.c:660
+msgid ""
+"@FUNCTION=T\n"
+"@SYNTAX=T(value)\n"
+"@DESCRIPTION=Returns @value if and only if it is text, otherwise a blank "
+"string.\n"
+"@SEEALSO=CELL, N, VALUE"
+msgstr ""
+
+#: src/fn-string.c:683
+msgid ""
+"@FUNCTION=TRIM\n"
+"@SYNTAX=TRIM(text)\n"
+"@DESCRIPTION=Returns @text with only single spaces between words.\n"
+"@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
+msgstr ""
+
+#: src/fn-string.c:731
+msgid ""
+"@FUNCTION=VALUE\n"
+"@SYNTAX=VALUE(text)\n"
+"@DESCRIPTION=Returns numeric value of @text.\n"
+"@SEEALSO=DOLLAR, FIXED, TEXT"
+msgstr ""
+
+#: src/fn-string.c:791
+msgid ""
+"@FUNCTION=SUBSTITUTE\n"
+"@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
+"@DESCRIPTION=Replaces @old with @new in @text.  Substitutions are only "
+"applied to instance @num of @old in @text, otherwise every one is changed.\n"
+"@SEEALSO=REPLACE, TRIM"
+msgstr ""
+
+#: src/fn-string.c:863
+msgid ""
+"@FUNCTION=DOLLAR\n"
+"@SYNTAX=DOLLAR(num,[decimals])\n"
+"@DESCRIPTION=Returns @num formatted as currency.\n"
+"@SEEALSO=FIXED, TEXT, VALUE"
+msgstr ""
+
+#: src/fn-string.c:912
+msgid ""
+"@FUNCTION=SEARCH\n"
+"@SYNTAX=SEARCH(text,within[,start_num])\n"
+"@DESCRIPTION=Returns the location of a character or text string within "
+"another string.  @text is the string or character to be searched. @within is "
+"the string in which you want to search.  @start_num is the start position of "
+"the search in @within.  If @start_num is omitted, it is assumed to be one.  "
+"The search is not case sensitive. \n"
+"@text can contain wildcard characters (*) and question marks (?) to control "
+"the search.  A question mark matches with any character and wildcard matches "
+"with any string including empty string.  If you want the actual wildcard or "
+"question mark to be searched, use tilde (~) before the character. \n"
+"If @text is not found, SEARCH returns #VALUE! error. If @start_num is less "
+"than one or it is greater than the length of @within, SEARCH returns #VALUE! "
+"error. \n"
+"@SEEALSO=FIND"
+msgstr ""
+
+#: src/format.c:397
+msgid "black"
+msgstr "svart"
+
+#: src/format.c:398
+msgid "blue"
+msgstr "blå"
+
+#: src/format.c:399
+msgid "cyan"
+msgstr "cyan"
+
+#: src/format.c:400
+msgid "green"
+msgstr "grön"
+
+#: src/format.c:401
+msgid "magenta"
+msgstr "magenta"
+
+#: src/format.c:402
+msgid "red"
+msgstr "röd"
+
+#: src/format.c:403
+msgid "white"
+msgstr "vit"
+
+#: src/format.c:404
+msgid "yellow"
+msgstr "gul"
+
+#: src/format.c:1023
+msgid "0.0########"
+msgstr ""
+
+#: src/format.c:1040
+msgid "CELLRANGE"
+msgstr ""
+
+#: src/format.c:1043
+msgid "ARRAY"
+msgstr ""
+
+#: src/formats.c:17
+msgid "0"
+msgstr ""
+
+#: src/formats.c:18
+msgid "0.00"
+msgstr ""
+
+#: src/formats.c:19
+msgid "#,##0"
+msgstr ""
+
+#: src/formats.c:20
+msgid "#,##0.00"
+msgstr ""
+
+#: src/formats.c:21
+msgid "#,##0_);(#,##0)"
+msgstr ""
+
+#: src/formats.c:22
+msgid "#,##0_);[red](#,##0)"
+msgstr ""
+
+#: src/formats.c:23
+msgid "#,##0.00_);(#,##0.00)"
+msgstr ""
+
+#: src/formats.c:24
+msgid "#,##0.00_);[red](#,##0.00)"
+msgstr ""
+
+#: src/formats.c:25
+msgid "0.0"
+msgstr ""
+
+#: src/formats.c:30
+msgid "_($*#,##0_);_($*(#,##0);_($*\"-\"_);_(@_)"
+msgstr ""
+
+#: src/formats.c:31
+msgid "_(*$,$$0_);_(*(#,##0);_(*\"-\"_);_(@_)"
+msgstr ""
+
+#: src/formats.c:32
+msgid "_($*#,##0.00_);_($*(#,##0.00);_($*\"-\"??_);_(@_)"
+msgstr ""
+
+#: src/formats.c:33
+msgid "_(*#,##0.00_);_(*(#,##0.00);_(*\"-\"??_);_(@_)"
+msgstr ""
+
+#: src/formats.c:38
+msgid "m/d/yy"
+msgstr "m/d/åå"
+
+#: src/formats.c:39
+msgid "m/d/yyyy"
+msgstr "m/d/åååå"
+
+#: src/formats.c:40
+msgid "d-mmm-yy"
+msgstr "d-mmm-åå"
+
+#: src/formats.c:41
+msgid "d-mmm-yyyy"
+msgstr "d-mmm-åååå"
+
+#: src/formats.c:42
+msgid "d-mmm"
+msgstr "d-mmm"
+
+#: src/formats.c:43
+msgid "d-mm"
+msgstr "d-mm"
+
+#: src/formats.c:44
+msgid "mmm/d"
+msgstr "mmm/d"
+
+#: src/formats.c:45
+msgid "mm/d"
+msgstr "mm/d"
+
+#: src/formats.c:46
+msgid "mm/dd/yy"
+msgstr "mm/dd/åå"
+
+#: src/formats.c:47
+msgid "mm/dd/yyyy"
+msgstr "mm/dd/åååå"
+
+#: src/formats.c:48
+msgid "mmm/dd/yy"
+msgstr "mmm/dd/åå"
+
+#: src/formats.c:49
+msgid "mmm/dd/yyyy"
+msgstr "mmm/dd/åååå"
+
+#: src/formats.c:50
+msgid "mmm/ddd/yy"
+msgstr "mmm/ddd/åå"
+
+#: src/formats.c:51
+msgid "mmm/ddd/yyyy"
+msgstr "mmm/ddd/åååå"
+
+#: src/formats.c:52
+msgid "mm/ddd/yy"
+msgstr "mm/ddd/åå"
+
+#: src/formats.c:53
+msgid "mm/ddd/yyyy"
+msgstr "mm/ddd/åååå"
+
+#: src/formats.c:54
+msgid "mmm-yy"
+msgstr "mmm-åå"
+
+#: src/formats.c:55
+msgid "mmm-yyyy"
+msgstr "mmm-åååå"
+
+#: src/formats.c:56 src/formats.c:66
+msgid "m/d/yy h:mm"
+msgstr "m/d/åå t:mm"
+
+#: src/formats.c:57
+msgid "m/d/yyyy h:mm"
+msgstr "m/d/åååå t:mm"
+
+#: src/formats.c:62
+msgid "h:mm AM/PM"
+msgstr "t:mm AM/PM"
+
+#: src/formats.c:63
+msgid "h:mm:ss AM/PM"
+msgstr "t:mm:ss AM/PM"
+
+#: src/formats.c:64
+msgid "h:mm"
+msgstr "t:mm"
+
+#: src/formats.c:65
+msgid "h:mm:ss"
+msgstr "t:mm:ss"
+
+#: src/formats.c:67
+msgid "mm:ss"
+msgstr "mm:ss"
+
+#: src/formats.c:68
+msgid "mm:ss.0"
+msgstr "mm:ss.0"
+
+#: src/formats.c:69
+msgid "[h]:mm:ss"
+msgstr "[t]:mm:ss"
+
+#: src/formats.c:74
+#, c-format
+msgid "0%"
+msgstr ""
+
+#: src/formats.c:75
+#, c-format
+msgid "0.00%"
+msgstr ""
+
+#: src/formats.c:80
+msgid "# ?/?"
+msgstr ""
+
+#: src/formats.c:81
+msgid "# ??/??"
+msgstr ""
+
+#: src/formats.c:86
+msgid "0.00E+00"
+msgstr ""
+
+#: src/formats.c:87
+msgid "##0.0E+0"
+msgstr ""
+
+#: src/formats.c:97
+msgid "$#,##0_);($#,##0)"
+msgstr ""
+
+#: src/formats.c:98
+msgid "$#,##0_);[red]($#,##0)"
+msgstr ""
+
+#: src/formats.c:99
+msgid "$#,##0.00_);($#,##0.00)"
+msgstr ""
+
+#: src/formats.c:100
+msgid "$#,##0.00_);[red]($#,##0.00)"
+msgstr ""
+
+#: src/gnumeric-sheet.c:911
+#, c-format
+msgid "75%"
+msgstr "75%"
+
+#: src/gnumeric-sheet.c:914
+#, c-format
+msgid "50%"
+msgstr "50%"
+
+#: src/gnumeric-sheet.c:917
+#, c-format
+msgid "25%"
+msgstr "25%"
+
+#: src/gnumeric-sheet.c:920
+#, c-format
+msgid "12%"
+msgstr "12%"
+
+#: src/gnumeric-sheet.c:923
+#, c-format
+msgid "6%"
+msgstr "6%"
+
+#: src/gnumeric-sheet.c:926
+msgid "Horizontal lines"
+msgstr "Horisontella linjer"
+
+#: src/gnumeric-sheet.c:929
+msgid "Vertical lines"
+msgstr "Vertikala linjer"
+
+#: src/gnumeric-sheet.c:932 src/gnumeric-sheet.c:935 src/gnumeric-sheet.c:938
+#: src/gnumeric-sheet.c:941
+msgid "Diagonal lines"
+msgstr "Diagonala linjer"
+
+#: src/gnumeric-sheet.c:944
+msgid "Crossed diagonals"
+msgstr "Korsande diagonaler"
+
+#: src/gnumeric-sheet.c:947
+msgid "Bricks"
+msgstr "Tegelstenar"
+
+#: src/item-cursor.c:499
+msgid ""
+"The cells dragged will overwrite the contents of the\n"
+"existing cells in that range.  Do you want me to replace\n"
+"the contents in this region?"
+msgstr ""
+"Cellerna som dras kommer att skriva över innehållet i de\n"
+"existerande cellerna i det området. Vill du ersätta\n"
+"innehållet i området?"
+
+#: src/item-cursor.c:580 src/item-grid.c:530 src/workbook.c:978
+msgid "Copy"
+msgstr "Kopiera"
+
+#: src/item-cursor.c:581
+msgid "Move"
+msgstr "Flytta"
+
+#: src/item-cursor.c:582
+msgid "Copy formats"
+msgstr "Kopiera formatering"
+
+#: src/item-cursor.c:583
+msgid "Copy values"
+msgstr "Kopiera värden"
+
+#: src/item-cursor.c:584
+msgid "Shift cells down and copy"
+msgstr "Flytta celler nedåt och kopiera"
+
+#: src/item-cursor.c:585
+msgid "Shift cells right and copy"
+msgstr "Flytta celler åt höger och kopiera"
+
+#: src/item-cursor.c:586
+msgid "Shift cells down and move"
+msgstr "Flytta celler nedåt och flytta"
+
+#: src/item-cursor.c:587
+msgid "Shift cells right and move"
+msgstr "Flytta celler åt höger och flytta"
+
+#: src/item-grid.c:529 src/workbook.c:975
+msgid "Cut"
+msgstr "Klipp ut"
+
+#: src/item-grid.c:531 src/workbook.c:981
+msgid "Paste"
+msgstr "Klistra in"
+
+#: src/item-grid.c:536
+msgid "Erase content"
+msgstr "Ta bort innehåll"
+
+#: src/item-grid.c:538
+msgid "Cell format"
+msgstr "Cellformatering"
+
+#: src/main.c:39
+msgid "Dumps the function definitions"
+msgstr "Dumpa funktionsdefinitionerna"
+
+#: src/main.c:39
+msgid "FILE"
+msgstr "FIL"
+
+#: src/main.c:41
+msgid "Enables some debugging functions"
+msgstr "Aktiverar felsökningsfunktioner"
+
+#: src/main.c:41
+msgid "LEVEL"
+msgstr "NIVÅ"
+
+#: src/number-match.c:150
+msgid "(([-+]?[0-9,])?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
+msgstr ""
+
+#: src/plugin-manager.c:95 src/plugin-manager.c:96
+msgid "Name"
+msgstr "Namn"
+
+#: src/plugin-manager.c:95 src/plugin-manager.c:96
+msgid "File"
+msgstr "Fil"
+
+#: src/plugin-manager.c:126
+msgid "Close"
+msgstr "Stäng"
+
+#: src/plugin-manager.c:129
+msgid "Add..."
+msgstr "Lägg till..."
+
+#: src/plugin.c:40
+msgid "unable to open module file: "
+msgstr "kan inte öppna modulfilen: "
+
+#: src/plugin.c:51
+msgid "Plugin must contain init_plugin function."
+msgstr "Tillägg måste innehålla funktionen init_plugin."
+
+#: src/plugin.c:57
+msgid "init_plugin returned error"
+msgstr "init_plugin returnerade felvärde"
+
+#: src/plugin.c:77
+msgid "Plugin is still in use.\n"
+msgstr "Tillägget används fortfarande.\n"
+
+#: src/sheet-view.c:337 src/sheet-view.c:411
+#, c-format
+msgid "Row: %d"
+msgstr "Rad: %d"
+
+#: src/sheet-view.c:344 src/sheet-view.c:383
+#, c-format
+msgid "Column: %s"
+msgstr "Kolumn: %s"
+
+#: src/sheet.c:670
+msgid "ERROR"
+msgstr "FEL"
+
+#: src/sheet.c:2568
+msgid "The command `"
+msgstr "Kommandot `"
+
+#: src/sheet.c:2570
+msgid "' cannot be performed with multiple selections"
+msgstr "' kan inte utföras på flera markeringar"
+
+#: src/sheet.c:2585
+msgid "copy"
+msgstr "kopiera"
+
+#: src/sheet.c:2610
+msgid "cut"
+msgstr "klipp ut"
+
+#: src/sheet.c:2659
+msgid "paste"
+msgstr "klistra in"
+
+#: src/sheet.c:3556
+#, c-format
+msgid "I was not able to activate object %s"
+msgstr "Kunde inte aktivera objekt %s"
+
+#: src/sheet.c:3568
+msgid "I was unable to the bind object"
+msgstr "Kunde inte binda objektet"
+
+#: src/workbook.c:369
+msgid "Warning"
+msgstr "Varning"
+
+#: src/workbook.c:377
+#, c-format
+msgid "Workbook %s has unsaved changes, save them?"
+msgstr "Arbetsboken %s har osparade ändringar, spara dem?"
+
+#: src/workbook.c:380
+msgid "Workbook has unsaved changes, save them?"
+msgstr "Arbetsboken har osparade ändringar, spara dem?"
+
+#: src/workbook.c:568
+msgid "Insert cols"
+msgstr "Infoga kolumner"
+
+#: src/workbook.c:584
+msgid "Insert rows"
+msgstr "Infoga rader"
+
+#: src/workbook.c:677
+msgid ">mm/dd/yyyy"
+msgstr ">mm/dd/åååå"
+
+#: src/workbook.c:696
+msgid ">hh:mm"
+msgstr ">tt:mm"
+
+#: src/workbook.c:781
+msgid "_New"
+msgstr "_Nytt"
+
+#: src/workbook.c:781
+msgid "Create a new spreadsheet"
+msgstr "Skapa ett nytt kalkylark"
+
+#: src/workbook.c:792
+msgid "Plu_g-ins..."
+msgstr "Tillä_gg..."
+
+#: src/workbook.c:792
+msgid "Gnumeric plugins"
+msgstr "Gnumeric-tillägg"
+
+#: src/workbook.c:806
+msgid "_All"
+msgstr "_Allt"
+
+#: src/workbook.c:807
+msgid "Clear the selected cells' formats, comments, and contents"
+msgstr "Ta bort markerade cellers formatering, kommentarer och innehåll"
+
+#: src/workbook.c:809
+msgid "_Formats"
+msgstr "Formatering"
+
+#: src/workbook.c:810
+msgid "Clear the selected cells' formats"
+msgstr "Ta bort markerade cellers formatering"
+
+#: src/workbook.c:811
+msgid "_Comments"
+msgstr "Kommentarer"
+
+#: src/workbook.c:812
+msgid "Clear the selected cells' comments"
+msgstr "Ta bort markerade cellers kommentarer"
+
+#: src/workbook.c:813
+msgid "_Content"
+msgstr "Innehåll"
+
+#: src/workbook.c:814
+msgid "Clear the selected cells' contents"
+msgstr "Ta bort markerade cellers innehåll"
+
+#: src/workbook.c:822
+msgid "P_aste special..."
+msgstr "Klistra in special..."
+
+#: src/workbook.c:823
+msgid "C_lear"
+msgstr "Ta bort"
+
+#: src/workbook.c:824
+msgid "Clear the selected cell(s)"
+msgstr "Ta bort markerade cell(er)"
+
+#: src/workbook.c:828
+msgid "_Select All"
+msgstr "Markera allt"
+
+#: src/workbook.c:829
+msgid "Select all cells in the spreadsheet"
+msgstr "Markera alla celler på kalkylarket"
+
+#: src/workbook.c:831
+msgid "_Goto cell.."
+msgstr "Gå till cell.."
+
+#: src/workbook.c:832
+msgid "Jump to a specified cell"
+msgstr "Gå till specifierad cell"
+
+#: src/workbook.c:838
+msgid "Insert object..."
+msgstr "Infoga objekt"
+
+#: src/workbook.c:839
+msgid "Inserts a Bonobo object"
+msgstr "Infogar ett Bonobo-objekt"
+
+#: src/workbook.c:846
+msgid "_Define cell names"
+msgstr "_Definera cellnamn"
+
+#: src/workbook.c:850
+msgid "_Recalculate"
+msgstr "_Räkna om"
+
+#: src/workbook.c:851
+msgid "Recalculate the spreadsheet"
+msgstr "Räkna om kalkylbladet"
+
+#: src/workbook.c:859
+msgid "_Zoom..."
+msgstr "_Zooma..."
+
+#: src/workbook.c:860
+msgid "Zoom the spreadsheet in or out"
+msgstr "Zooma in eller ut i kalkylbladet"
+
+#: src/workbook.c:867
+msgid "Current _date"
+msgstr "Nuvarande datum"
+
+#: src/workbook.c:868
+msgid "Insert the current data into the selected cell(s)"
+msgstr "Infoga dagens datum i markerade cell(er)"
+
+#: src/workbook.c:871
+msgid "Current _time"
+msgstr "Nuvarande klockslag"
+
+#: src/workbook.c:872
+msgid "Insert the current time into the selected cell(s)"
+msgstr "Infoga nuvarande tid i markerade cell(er)"
+
+#: src/workbook.c:879 src/workbook.c:925
+msgid "_Sheet"
+msgstr "_Blad"
+
+#: src/workbook.c:879
+msgid "Insert a new spreadsheet"
+msgstr "Infoga ett nytt kalkylblad"
+
+#: src/workbook.c:881 src/workbook.c:919
+msgid "_Cells..."
+msgstr "_Celler..."
+
+#: src/workbook.c:881
+msgid "Insert new cells"
+msgstr "Infoga nya celler"
+
+#: src/workbook.c:883
+msgid "_Rows"
+msgstr "_Rader"
+
+#: src/workbook.c:883
+msgid "Insert new rows"
+msgstr "Infoga nya rader"
+
+#: src/workbook.c:885
+msgid "C_olumns"
+msgstr "K_olumner"
+
+#: src/workbook.c:885
+msgid "Insert new columns"
+msgstr "Infoga nya kolumner"
+
+#: src/workbook.c:890
+msgid "_Add/modify comment"
+msgstr "_Lägg till/ändra kommentar"
+
+#: src/workbook.c:891
+msgid "Edit the selected cell's comment"
+msgstr "Ändra den markerade cellens kommentar"
+
+#: src/workbook.c:892
+msgid "_Special"
+msgstr "_Special"
+
+#: src/workbook.c:901 src/workbook.c:907
+msgid "_Autoadjust"
+msgstr "_Autojustera"
+
+#: src/workbook.c:902
+msgid "_Width"
+msgstr "_Bredd"
+
+#: src/workbook.c:908
+msgid "_Height"
+msgstr "_Höjd"
+
+#: src/workbook.c:913
+msgid "_Change name"
+msgstr "_Ändra namn"
+
+#: src/workbook.c:920
+msgid "Modify the formatting of the selected cells"
+msgstr "Ändra formateringen på markerade celler"
+
+#: src/workbook.c:923
+msgid "C_olumn"
+msgstr "K_olumn"
+
+#: src/workbook.c:924
+msgid "_Row"
+msgstr "_Rad"
+
+#: src/workbook.c:932
+msgid "_Sort"
+msgstr "_Sortera"
+
+#: src/workbook.c:933
+msgid "Sort the selected cells"
+msgstr "Sortera merkerade cell(er)"
+
+#: src/workbook.c:934
+msgid "_Goal Seek..."
+msgstr "_Målsökning..."
+
+#: src/workbook.c:936
+msgid "_Solver..."
+msgstr "_Problemlösare"
+
+#: src/workbook.c:952
+msgid "_Insert"
+msgstr "_Infoga"
+
+#: src/workbook.c:953
+msgid "F_ormat"
+msgstr "F_ormat"
+
+#: src/workbook.c:954
+msgid "_Tools"
+msgstr "Verk_tyg"
+
+#: src/workbook.c:963
+msgid "New"
+msgstr "Nytt"
+
+#: src/workbook.c:963
+#, fuzzy
+msgid "Creates a new sheet"
+msgstr "Skapa ett nytt kalkylblad"
+
+#: src/workbook.c:966
+msgid "Open"
+msgstr "Öppna"
+
+#: src/workbook.c:966
+#, fuzzy
+msgid "Opens an existing workbook"
+msgstr "Öppna en existerande arbetsbok"
+
+#: src/workbook.c:969
+msgid "Save"
+msgstr "Spara"
+
+#: src/workbook.c:969
+#, fuzzy
+msgid "Saves the workbook"
+msgstr "Spara arbetsboken"
+
+#: src/workbook.c:975
+#, fuzzy
+msgid "Cuts the selection to the clipboard"
+msgstr "Klipp ut markeringen till urklippet"
+
+#: src/workbook.c:978
+#, fuzzy
+msgid "Copies the selection to the clipboard"
+msgstr "Kopiera markeringen till urklippet"
+
+#: src/workbook.c:981
+#, fuzzy
+msgid "Pastes the clipboard"
+msgstr "Klistra in från urklippet"
+
+#: src/workbook.c:987
+msgid "Left align"
+msgstr "Vänsterjusterat"
+
+#: src/workbook.c:987
+#, fuzzy
+msgid "Left justifies the cell contents"
+msgstr "Vänsterjustera cellinnehållet"
+
+#: src/workbook.c:990
+#, fuzzy
+msgid "Centers the cell contents"
+msgstr "Centrera cellinnehållet"
+
+#: src/workbook.c:993
+msgid "Right align"
+msgstr "Högerjustera"
+
+#: src/workbook.c:993
+#, fuzzy
+msgid "Right justifies the cell contents"
+msgstr "Högerjustera cellinnehållet"
+
+#: src/workbook.c:998
+msgid "Bold"
+msgstr "Fetstil"
+
+#: src/workbook.c:998
+#, fuzzy
+msgid "Sets the bold font"
+msgstr "Fetstil"
+
+#: src/workbook.c:1001
+msgid "Italic"
+msgstr "Kursiv"
+
+#: src/workbook.c:1001
+#, fuzzy
+msgid "Makes the font italic"
+msgstr "Kursivt"
+
+#: src/workbook.c:1008
+msgid "Graphic"
+msgstr "Diagram"
+
+#: src/workbook.c:1008
+#, fuzzy
+msgid "Creates a graphic in the spreadsheet"
+msgstr "Skapa ett diagram på kalkylbladet"
+
+#: src/workbook.c:1012
+msgid "Line"
+msgstr "Linje"
+
+#: src/workbook.c:1012
+#, fuzzy
+msgid "Creates a line object"
+msgstr "Rita en linje"
+
+#: src/workbook.c:1015
+msgid "Arrow"
+msgstr "Pil"
+
+#: src/workbook.c:1015
+#, fuzzy
+msgid "Creates an arrow object"
+msgstr "Rita en pil"
+
+#: src/workbook.c:1018
+msgid "Rectangle"
+msgstr "Rektangel"
+
+#: src/workbook.c:1018
+#, fuzzy
+msgid "Creates a rectangle object"
+msgstr "Rita en rektangel"
+
+#: src/workbook.c:1021
+msgid "Ellipse"
+msgstr "Ellips"
+
+#: src/workbook.c:1021
+#, fuzzy
+msgid "Creates an ellipse object"
+msgstr "Rita en ellips"
+
+#: src/workbook.c:1134
+msgid "You should introduce a valid cell name"
+msgstr "Du måste ange ett giltigt cellnamn"
+
+#: src/workbook.c:1141
+msgid "Column out of range"
+msgstr "Kolumn utanför giltigt område"
+
+#: src/workbook.c:1147
+msgid "Row number out of range"
+msgstr "Radnummer utanför giltigt område"
+
+#: src/workbook.c:1236
+msgid "Selection must be a single range"
+msgstr "Markeringen måste bestå av ett enkelt område"
+
+#: src/workbook.c:1348
+msgid "Sum"
+msgstr "Sum"
+
+#: src/workbook.c:1349
+msgid "Min"
+msgstr "Min"
+
+#: src/workbook.c:1350
+msgid "Max"
+msgstr "Max"
+
+#: src/workbook.c:1351
+msgid "Average"
+msgstr "Medelvärde"
+
+#: src/workbook.c:1352
+msgid "Count"
+msgstr "Räkna"
+
+#: src/workbook.c:1544
+msgid "Untitled.gnumeric"
+msgstr "Namnlös.gnumeric"
+
+#: src/workbook.c:1641
+msgid "Zoom out"
+msgstr "Zooma ut"
+
+#: src/workbook.c:1648
+msgid "Zoom in"
+msgstr "Zooma in"
+
+#: src/workbook.c:1733
+#, c-format
+msgid "Are you sure you want to remove the sheet called `%s' "
+msgstr "Är du säker på att du vill ta bort bladet med namn `%s' "
+
+#: src/workbook.c:1752
+msgid "Other sheets depend on the values on this sheet; I cannot remove it"
+msgstr "Andra blad refererar till värden på detta blad; kan inte ta bort det"
+
+#: src/workbook.c:1772
+msgid "Add another sheet"
+msgstr "Lägg till ett nytt blad"
+
+#: src/workbook.c:1773
+msgid "Remove this sheet"
+msgstr "Ta bort detta blad"
+
+#: src/workbook.c:2030 src/workbook.c:2066
+#, c-format
+msgid "Sheet %d"
+msgstr "Blad %d"
+
+#: src/workbook.c:2130
+msgid "Gnumeric: "
+msgstr ""
+
+#: src/xml-io.c:1667
+msgid "Gnumeric XML file format"
+msgstr "Gnumeric XML filformat"
