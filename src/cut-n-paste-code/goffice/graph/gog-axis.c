@@ -330,19 +330,6 @@ gog_axis_update (GogObject *obj)
 }
 
 static void
-make_dim_editor (GtkTable *table, unsigned row, char const *name, GtkWidget *editor)
-{
-	char *txt = g_strconcat (name, ":", NULL);
-	GtkWidget *label = gtk_check_button_new_with_mnemonic (txt);
-	g_free (txt);
-
-	gtk_table_attach (table, label,
-		0, 1, row, row+1, GTK_FILL, 0, 5, 3);
-	gtk_table_attach (table, editor,
-		1, 2, row, row+1, GTK_FILL | GTK_EXPAND, 0, 5, 3);
-}
-
-static void
 cb_pos_changed (GtkToggleButton *toggle_button, GObject *axis)
 {
 	g_object_set (axis,
@@ -357,6 +344,33 @@ cb_axis_toggle_changed (GtkToggleButton *toggle_button, GObject *axis)
 		gtk_widget_get_name (GTK_WIDGET (toggle_button)),
 		gtk_toggle_button_get_active (toggle_button),
 		NULL);
+}
+
+static void
+cb_enable_dim (GtkToggleButton *toggle_button, GtkWidget *editor)
+{
+	gtk_widget_set_sensitive (editor,
+		!gtk_toggle_button_get_active (toggle_button));
+}
+
+static void
+make_dim_editor (GogDataset *set, GtkTable *table,
+		 unsigned row, char const *name, GtkWidget *editor)
+{
+	GOData *dat = gog_dataset_get_dim (set, row-1);
+	char *txt = g_strconcat (name, ":", NULL);
+	GtkWidget *toggle = gtk_check_button_new_with_mnemonic (txt);
+	g_free (txt);
+
+	g_signal_connect (G_OBJECT (toggle),
+		"toggled",
+		G_CALLBACK (cb_enable_dim), editor);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle), dat == NULL);
+
+	gtk_table_attach (table, toggle,
+		0, 1, row, row+1, GTK_FILL, 0, 5, 3);
+	gtk_table_attach (table, editor,
+		1, 2, row, row+1, GTK_FILL | GTK_EXPAND, 0, 5, 3);
 }
 
 static gpointer
@@ -390,19 +404,20 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, CommandContext *cc)
 	notebook = gtk_notebook_new ();
 	w = gtk_table_new (1, 2, FALSE);
 	table = GTK_TABLE (w);
-	gtk_table_attach (table, gtk_label_new (_("Automatic")),
-		0, 1, 0, 1, GTK_FILL, 0, 5, 3);
+	w = gtk_label_new (_("Automatic"));
+	gtk_misc_set_alignment (GTK_MISC (w), 0., .5);
+	gtk_table_attach (table, w, 0, 1, 0, 1, GTK_FILL, 0, 5, 3);
 	for (row = AXIS_ELEM_MIN; row < AXIS_ELEM_MAX_ENTRY ; row++)
-		make_dim_editor (table, row+1, _(name[row]),
+		make_dim_editor (set, table, row+1, _(name[row]),
 			gog_data_allocator_editor (dalloc, set, row, TRUE));
-	gtk_widget_show_all (w);
-	gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), w,
+	gtk_widget_show_all (GTK_WIDGET (table));
+	gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), GTK_WIDGET (table),
 		gtk_label_new (_("Bounds")));
 
 	gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook),
 		glade_xml_get_widget (gui, "axis_pref_table"),
 		gtk_label_new (_("Details")));
-	gog_style_editor (gobj, cc, notebook, GOG_STYLE_LINE),
+	gog_style_editor (gobj, cc, notebook, GOG_STYLE_LINE | GOG_STYLE_FONT),
 
 	w = glade_xml_get_widget (gui, "axis_low"),
 	g_signal_connect_object (G_OBJECT (w),

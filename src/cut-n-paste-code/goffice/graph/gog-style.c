@@ -1485,7 +1485,8 @@ gog_style_set_marker (GogStyle *style, GOMarker *marker)
 	g_return_if_fail (GO_MARKER (marker) != NULL);
 
 	if (style->marker != marker) {
-		g_object_unref (style->marker);
+		if (style->marker != NULL)
+			g_object_unref (style->marker);
 		style->marker = marker;
 	}
 }

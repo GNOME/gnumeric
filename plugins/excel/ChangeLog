@@ -1,3 +1,9 @@
+2003-09-13  Jody Goldberg <jody@gnome.org>
+
+	* ms-chart.c (BC_R(color)) : disable debug spew.
+	(BC_R(lineformat)) : impl.
+	(BC_R(markerformat)) : impl.
+
 2003-09-10  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.90

@@ -21,7 +21,6 @@ Release Critical
     - connect up or disable axis editor (1.14.{10,11,13})
     - Get 'auto' working for fills so that we don't wipe a users selection when
       merging the theme.
-    - more xls format import (1.7.5.{2,3})
 
 * When we release 1.1.18, we should ask people to nominate certain foreign
   encodings as major.
@@ -98,10 +97,10 @@ Short Term Goals
 	1.7.2) Add gog_object_set_position
 	1.7.3) Handle 'use_one_style'				(DONE)
 	1.7.4) override auto series indexing for xls
-	1.7.5) styles
+	1.7.5) styles						(DONE)
 	    1.7.5.1) Area					(DONE)
-	    1.7.5.2) Line
-	    1.7.5.3) Marker
+	    1.7.5.2) Line					(DONE)
+	    1.7.5.3) Marker					(DONE)
 	1.7.6) Avoid leaking GODatas when faced with an unknown	(DONE)
 	       plot type.
     1.8) data sources

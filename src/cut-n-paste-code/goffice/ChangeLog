@@ -1,5 +1,10 @@
 2003-09-13  Jody Goldberg <jody@gnome.org>
 
+	* graph/gog-axis.c (gog_axis_editor) : we want font too.
+	  Align the Auto header nicely.
+	(make_dim_editor) : some initial work to give the Auto button's some
+	  feedback.
+
 	* graph/gog-style.c (cb_line_color_changed) : set auto_color.
 	(cb_outline_color_changed) : ditto.
 

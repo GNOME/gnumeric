@@ -64,7 +64,7 @@ typedef struct {
 	float	 width;
 	GOColor	 color;
 	gboolean auto_color;
-	/* border type from gnumeric */
+	unsigned pattern; /* TODO border type from gnumeric */
 } GogStyleLine;
 
 struct _GogStyle {

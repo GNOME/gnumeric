@@ -31,9 +31,12 @@
 #include <goffice/graph/gog-plot-impl.h>
 #include <goffice/graph/gog-series-impl.h>
 #include <goffice/graph/gog-object.h>
+#include <goffice/graph/gog-styled-object.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-plot-engine.h>
 #include <goffice/utils/go-color.h>
+#include <goffice/utils/go-pattern.h>
+#include <goffice/utils/go-marker.h>
 
 #include <gsf/gsf-utils.h>
 #include <math.h>
@@ -65,6 +68,7 @@ typedef struct {
 	GogGraph	*graph;
 	GogChart	*chart;
 	GogPlot		*plot;
+	GogObject	*axis;
 
 	GogStyle	*style;
 	int		 style_element;
@@ -132,7 +136,7 @@ BC_R(color) (guint8 const *data, char const *type)
 {
 	guint32 const rgb = GSF_LE_GET_GUINT32 (data);
 
-	d (-1, {
+	d (1, {
 		guint16 const r = (rgb >>  0) & 0xff;
 		guint16 const g = (rgb >>  8) & 0xff;
 		guint16 const b = (rgb >> 16) & 0xff;
@@ -415,27 +419,23 @@ BC_R(axesused)(XLChartHandler const *handle,
 
 /****************************************************************************/
 
-typedef enum
-{
-	MS_AXIS_X	= 0,
-	MS_AXIS_Y	= 1,
-	MS_AXIS_SERIES	= 2,
-	MS_AXIS_MAX	= 3
-} MS_AXIS;
-static char const *const ms_axis[] =
-{
-	"X-axis", "Y-axis", "series-axis"
-};
-
 static gboolean
 BC_R(axis)(XLChartHandler const *handle,
 	   XLChartReadState *s, BiffQuery *q)
 {
+	static char const *const ms_axis[] = {
+		"X-Axis", "Y-Axis", "Series-Axis"
+	};
+
 	guint16 const axis_type = GSF_LE_GET_GUINT16 (q->data);
-	MS_AXIS atype;
-	g_return_val_if_fail (axis_type < MS_AXIS_MAX, TRUE);
-	atype = axis_type;
-	d (0, fprintf (stderr, "This is a %s .\n", ms_axis[atype]););
+
+	g_return_val_if_fail (axis_type < G_N_ELEMENTS (ms_axis), TRUE);
+	g_return_val_if_fail (s->axis == NULL, TRUE);
+
+	s->axis = gog_object_add_by_name (GOG_OBJECT (s->chart),
+					  ms_axis [axis_type], NULL);
+
+	d (0, fprintf (stderr, "This is a %s .\n", ms_axis[axis_type]););
 	return FALSE;
 }
 
@@ -917,66 +917,55 @@ BC_R(line)(XLChartHandler const *handle,
 
 /****************************************************************************/
 
-typedef enum
-{
-	MS_LINE_PATTERN_SOLID		= 0,
-	MS_LINE_PATTERN_DASH		= 1,
-	MS_LINE_PATTERN_DOT		= 2,
-	MS_LINE_PATTERN_DASH_DOT	= 3,
-	MS_LINE_PATTERN_DASH_DOT_DOT	= 4,
-	MS_LINE_PATTERN_NONE		= 5,
-	MS_LINE_PATTERN_DARK_GRAY	= 6,
-	MS_LINE_PATTERN_MED_GRAY	= 7,
-	MS_LINE_PATTERN_LIGHT_GRAY	= 8,
-	MS_LINE_PATTERN_MAX	= 9
-} MS_LINE_PATTERN;
-static char const *const ms_line_pattern[] =
-{
-	"solid", "dashed", "doted", "dash doted", "dash dot doted", "invisible",
-	"dark gray", "medium gray", "light gray"
-};
-
-typedef enum
-{
-	MS_LINE_WGT_MIN	= -2,
-	MS_LINE_WGT_HAIRLINE	= -1,
-	MS_LINE_WGT_NORMAL	= 0,
-	MS_LINE_WGT_MEDIUM	= 1,
-	MS_LINE_WGT_WIDE	= 2,
-	MS_LINE_WGT_MAX	= 3
-} MS_LINE_WGT;
-static char const *const ms_line_wgt[] =
-{
-	"hairline", "normal", "medium", "extra"
+static char const *const ms_line_pattern[] = {
+	"solid",
+	"dashed",
+	"dotted",
+	"dash dotted",
+	"dash dot dotted",
+	"invisible",
+	"dark gray",
+	"medium gray",
+	"light gray"
 };
 
 static gboolean
 BC_R(lineformat)(XLChartHandler const *handle,
 		 XLChartReadState *s, BiffQuery *q)
 {
-	guint16 const pattern = GSF_LE_GET_GUINT16 (q->data+4);
-	gint16  const weight = GSF_LE_GET_GUINT16 (q->data+6);
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+8);
-	gboolean	auto_format, draw_ticks;
-	MS_LINE_PATTERN pat;
-	MS_LINE_WGT	wgt;
+	GogStyle *style = s->style;
 
-	g_return_val_if_fail (pattern < MS_LINE_PATTERN_MAX, TRUE);
-	pat = pattern;
-	d (0, fprintf (stderr, "Lines have a %s pattern.\n", ms_line_pattern[pat]););
-
-	g_return_val_if_fail (weight < MS_LINE_WGT_MAX, TRUE);
-	g_return_val_if_fail (weight > MS_LINE_WGT_MIN, TRUE);
-	wgt = weight;
-
-	d (0, fprintf (stderr, "Lines are %s wide.\n", ms_line_wgt[wgt+1]););
-	auto_format = (flags & 0x01) ? TRUE : FALSE;
-	draw_ticks = (flags & 0x04) ? TRUE : FALSE;
-	if (s->currentSeries != NULL) {
-		BC_R(color) (q->data, "LineColour");
-		fprintf (stderr, "flag = %hx\n", flags);
-		dump_biff (q);
+	if (style == NULL) {
+		if (s->axis != NULL)
+			style = gog_styled_object_get_style (GOG_STYLED_OBJECT (s->axis));
+		if (style == NULL)
+			return FALSE;
 	}
+
+	switch (GSF_LE_GET_GUINT16 (q->data+6)) {
+	default :
+	case -1 : style->line.width = 0; /* hairline */
+		break;
+	case  0 : style->line.width = 1; /* 'normal' */
+		break;
+	case  1 : style->line.width = 3; /* 'medium' */
+		break;
+	case  2 : style->line.width = 5; /* 'wide' */
+		break;
+	}
+	style->line.color      = BC_R(color) (q->data, "LineColor");
+	style->line.auto_color = (flags & 0x01) ? TRUE : FALSE;
+	style->line.pattern    = GSF_LE_GET_GUINT16 (q->data+4);
+
+	if (s->axis != NULL)
+		g_object_set (G_OBJECT (s->axis),
+			"major-tick-labeled",	((flags & 0x04) ? TRUE : FALSE),
+			NULL);
+
+	d (0, fprintf (stderr, "Lines are %f pts wide.\n", s->style->line.width););
+	d (0, fprintf (stderr, "Lines have a %s pattern.\n",
+		       ms_line_pattern [s->style->line.pattern ]););
 
 	return FALSE;
 }
@@ -987,43 +976,50 @@ static gboolean
 BC_R(markerformat)(XLChartHandler const *handle,
 		   XLChartReadState *s, BiffQuery *q)
 {
-#if 0
 	static char const *const ms_chart_marker[] = {
 		"none", "square", "diamond", "triangle", "x", "star",
 		"dow", "std", "circle", "plus"
 	};
-	guint16 const tmp = GSF_LE_GET_GUINT16 (q->data+8);
+	static GOMarkerShape const shape_map[] = {
+		GO_MARKER_NONE,
+		GO_MARKER_SQUARE,
+		GO_MARKER_DIAMOND,
+		GO_MARKER_TRIANGLE_UP,
+		GO_MARKER_X,
+		GO_MARKER_ASTERISK,
+		GO_MARKER_HALF_BAR,
+		GO_MARKER_BAR,
+		GO_MARKER_CIRCLE,
+		GO_MARKER_CROSS
+	};
+	GOMarker *marker;
+	guint16 shape = GSF_LE_GET_GUINT16 (q->data+8);
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+10);
-	gboolean const auto_color = (flags & 0x01) ? TRUE : FALSE;
-	gboolean const no_fore	= (flags & 0x10) ? TRUE : FALSE;
-	gboolean const no_back = (flags & 0x20) ? TRUE : FALSE;
-	xmlNode *marker;
+	/* gboolean const auto_color = (flags & 0x01) ? TRUE : FALSE; */
 
-	g_return_val_if_fail (s->xml.style, TRUE);
+	if (s->style == NULL)
+		return FALSE;
 
-	marker = e_xml_get_child_by_name (s->xml.style, (xmlChar *)"Marker");
-	if (marker == NULL)
-		marker = xmlNewChild (s->xml.style, s->xml.ns,
-				      (xmlChar *)"Marker", NULL);
+	marker = go_marker_new ();
 
-	g_return_val_if_fail (tmp < 10, TRUE);
+	d (0, fprintf (stderr, "Marker = %s\n", ms_chart_marker [shape]););
+	if (shape >= G_N_ELEMENTS (shape_map))
+		shape = 1; /* square */
+	go_marker_set_shape (marker, shape_map [shape]);
 
-	d (0, fprintf (stderr, "Marker = %s\n", ms_chart_marker [tmp]););
-	if (tmp > 0)
-		xmlSetProp (marker, (xmlChar *)"shape", (xmlChar *)ms_chart_marker [tmp]);
-
-	if (!auto_color) {
-		BC_R(color) (q->data, (xmlChar *)"BorderColour", marker, no_fore);
-		BC_R(color) (q->data+4, (xmlChar *)"InteriorColour", marker, no_back);
-	}
+	go_marker_set_outline_color (marker, 
+		(flags & 0x20) ? 0 : BC_R(color) (q->data + 0, "MarkerFore"));
+	go_marker_set_fill_color (marker, 
+		(flags & 0x10) ? 0 : BC_R(color) (q->data + 4, "MarkerBack"));
 
 	if (s->container.ver >= MS_BIFF_V8) {
-		d (1, {
 		guint32 const marker_size = GSF_LE_GET_GUINT32 (q->data+16);
-		fprintf (stderr, "Marker is %u\n", marker_size);
-		});
+		go_marker_set_size (marker, marker_size);
+		d (1, fprintf (stderr, "Marker is %u\n", marker_size););
 	}
-#endif
+
+	gog_style_set_marker (s->style, marker);
+
 	return FALSE;
 }
 
@@ -1202,8 +1198,8 @@ BC_R(scatter)(XLChartHandler const *handle,
 
 		/* Has bubbles */
 		if (flags & 0x01) {
-			guint16 const size_type = GSF_LE_GET_GUINT16 (q->data+2);
 #if 0
+			guint16 const size_type = GSF_LE_GET_GUINT16 (q->data+2);
 			if (!(flags & 0x02))	/* hide negatives */
 			if (flags & 0x04)	/* in_3d */
 
@@ -1611,6 +1607,10 @@ BC_R(end)(XLChartHandler const *handle,
 	s->stack = g_array_remove_index_fast (s->stack, s->stack->len-1);
 
 	switch (popped_state) {
+	case BIFF_CHART_axis :
+		s->axis = NULL;
+		break;
+
 	case BIFF_CHART_series :
 		g_return_val_if_fail (s->currentSeries != NULL, TRUE);
 		s->currentSeries = NULL;
@@ -1642,12 +1642,11 @@ BC_R(end)(XLChartHandler const *handle,
 		break;
 	}
 
-	case BIFF_CHART_dataformat : {
+	case BIFF_CHART_dataformat :
 		g_return_val_if_fail (s->style != NULL, TRUE);
 		g_object_unref (s->style);
 		s->style = NULL;
 		break;
-	}
 
 	default :
 		break;
@@ -1848,6 +1847,7 @@ ms_excel_read_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 		state.chart = NULL;
 	}
 	state.plot  = NULL;
+	state.axis  = NULL;
 	state.style = NULL;
 
 	d (0, fputs ("{ CHART", stderr););

@@ -31,7 +31,7 @@
 
 static struct {
 	GOGradientDirection dir;
-	const gchar  *name;
+	char const *name;
 } grad_dir_names[] = {
 	{ GO_GRADIENT_N_TO_S,            "n-s" },
 	{ GO_GRADIENT_S_TO_N,            "s-n" },
@@ -52,7 +52,7 @@ static struct {
 };
 
 GOGradientDirection
-go_gradient_dir_from_str (const gchar *name)
+go_gradient_dir_from_str (char const *name)
 {
 	unsigned i;
 	GOGradientDirection ret = GO_GRADIENT_N_TO_S;
@@ -67,11 +67,11 @@ go_gradient_dir_from_str (const gchar *name)
 	return ret;
 }
 
-const gchar *
+char const *
 go_gradient_dir_as_str (GOGradientDirection dir)
 {
 	unsigned i;
-	const gchar *ret = "pattern";
+	char const *ret = "pattern";
 
 	for (i = 0; i < sizeof grad_dir_names / sizeof grad_dir_names[0]; i++) {
 		if (grad_dir_names[i].dir == dir) {
@@ -85,7 +85,7 @@ go_gradient_dir_as_str (GOGradientDirection dir)
 GtkWidget *
 go_gradient_selector (GOColor start, GOColor end)
 {
-	/*PixmapComboElement data for the graident combo, inline_gdkpixbuf initially set to NULL*/
+#warning Add names to these after release
 	static PixmapComboElement elements[] = {
 		{ NULL, NULL, GO_GRADIENT_N_TO_S },
 		{ NULL, NULL, GO_GRADIENT_S_TO_N },
@@ -111,7 +111,7 @@ go_gradient_selector (GOColor start, GOColor end)
 	ArtRender *render;
 	ArtGradientLinear gradient;
 	ArtGradientStop stops[2];
-	const int sizex = 20, sizey = 20;
+	int const sizex = 20, sizey = 20;
 	GdkPixbuf *pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, sizex, sizey);
 	int rowstride = gdk_pixbuf_get_rowstride (pixbuf);
 	void *pixels = gdk_pixbuf_get_pixels (pixbuf);
