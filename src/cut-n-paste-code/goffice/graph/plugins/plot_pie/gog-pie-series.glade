@@ -11,6 +11,11 @@
   <property name="modal">False</property>
   <property name="resizable">True</property>
   <property name="destroy_with_parent">False</property>
+  <property name="decorated">True</property>
+  <property name="skip_taskbar_hint">False</property>
+  <property name="skip_pager_hint">False</property>
+  <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
+  <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
 
   <child>
     <widget class="GtkTable" id="gog_pie_series_element_prefs">
@@ -19,7 +24,7 @@
       <property name="n_columns">3</property>
       <property name="homogeneous">False</property>
       <property name="row_spacing">6</property>
-      <property name="column_spacing">6</property>
+      <property name="column_spacing">12</property>
 
       <child>
 	<widget class="GtkLabel" id="label64">

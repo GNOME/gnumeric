@@ -1340,9 +1340,9 @@ make_dim_editor (GogDataset *set, GtkTable *table, unsigned dim,
 		closure, FALSE);
 
 	gtk_table_attach (table, toggle,
-		0, 1, dim + 1, dim + 2, GTK_FILL, 0, 5, 3);
+		0, 1, dim + 1, dim + 2, GTK_FILL, 0, 0, 0);
 	gtk_table_attach (table, editor,
-		1, 2, dim + 1, dim + 2, GTK_FILL | GTK_EXPAND, 0, 5, 3);
+		1, 2, dim + 1, dim + 2, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 }
 
 static void
@@ -1435,7 +1435,7 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 	}
 	if (axis->is_discrete) {
 		/* Hide minor tick properties */
-		w = glade_xml_get_widget (gui, "minor_tick_frame");
+		w = glade_xml_get_widget (gui, "minor_tick_box");
 		gtk_widget_hide (w);
 	}
 
@@ -1444,7 +1444,10 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 	table = GTK_TABLE (w);
 	w = gtk_label_new (_("Automatic"));
 	gtk_misc_set_alignment (GTK_MISC (w), 0., .5);
-	gtk_table_attach (table, w, 0, 1, 0, 1, GTK_FILL, 0, 5, 3);
+	gtk_table_set_row_spacings (table, 6);
+	gtk_table_set_col_spacings (table, 12);
+	gtk_container_set_border_width (GTK_CONTAINER (table), 12);
+	gtk_table_attach (table, w, 0, 1, 0, 1, GTK_FILL, 0, 0, 0);
 	if (axis->is_discrete) {
 		static char const * const dim_names[] = {
 			NULL,

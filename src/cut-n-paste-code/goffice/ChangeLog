@@ -1,5 +1,24 @@
 2004-09-29  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
+	* graph/gog-guru-type-selector.glade: new.
+	* graph/Makefile.am: add gog-guru-type-selector.glade.
+	* graph/gog-axis-prefs.glade: fix layout.
+	* graph/gog-axis.c (make_dim_editor): ditto.
+	(gog_axis_editor): ditto.
+	* graph/gog-guru.c (cb_attr_tree_selection_change): allways use a
+	notebook, but hide tabs when there's only one page.
+	(graph_guru_type_selector_new): load layout from glade file.
+	* graph/gog-guru-glade: remove scrollbar around property notebook.
+	Make object menu unshrinkable. Fix layout.
+	* graph/gog-series.c (gog_series_element_editor): fix layout.
+	* graph/gog-style.c (font_int): ditto.
+	* graph/plugins/plot_barcol/gog-barcol-prefs.glade: ditto.
+	* graph/plugins/plot_pie/gog-pie-series.glade: ditto.
+	* graph/plugins/plot_pie/gog-ring-prefs.glade: ditto.
+	* graph/plugins/plot_xye/gog-xy-prefs.glade: ditto.
+		
+2004-09-29  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=153402
 	* graph/plugins/gog-radar-prefs.c: removed.
 	* graph/plugins/gog-radar-prefs.glade: removed.

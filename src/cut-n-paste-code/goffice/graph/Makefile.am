@@ -75,10 +75,11 @@ libgoffice_graph_la_SOURCES = \
 	gog-renderer-svg.c		\
 	gog-renderer-svg.h
 
-gnumeric_glade_DATA = \
+gnumeric_glade_DATA = 			\
 	gog-guru.glade			\
+	gog-guru-type-selector.glade	\
 	gog-style-prefs.glade		\
-	gog-axis-prefs.glade \
+	gog-axis-prefs.glade		\
 	gog-error-bar-prefs.glade
 
 EXTRA_DIST = $(gnumeric_glade_DATA)

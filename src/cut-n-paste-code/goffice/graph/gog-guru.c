@@ -81,7 +81,7 @@ struct _GraphGuruState {
 
 	FooCanvasItem	  *sample_graph_item;
 
-	GtkContainer  	  *prop_frame;
+	GtkContainer  	  *prop_container;
 	GtkTreeSelection  *prop_selection;
 	GtkTreeView	  *prop_view;
 	GtkTreeStore	  *prop_model;
@@ -104,6 +104,7 @@ struct _GraphGuruState {
 };
 
 struct _GraphGuruTypeSelector {
+	GladeXML    	*gui;
 	GtkWidget	*canvas;
 	GtkWidget	*sample_button;
 	GtkLabel	*label;
@@ -682,8 +683,7 @@ cb_attr_tree_selection_change (GraphGuruState *s)
 	gboolean dec_ok = FALSE;
 	GtkTreeModel *model;
 	GogObject  *obj = NULL;
-	GtkWidget *w, *editor;
-	GtkShadowType shadow = GTK_SHADOW_OUT;
+	GtkWidget *w, *editor, *notebook;
 
 	if (gtk_tree_selection_get_selected (s->prop_selection, &model, &s->prop_iter))
 		gtk_tree_model_get (model, &s->prop_iter,
@@ -695,9 +695,9 @@ cb_attr_tree_selection_change (GraphGuruState *s)
 
 	/* remove the old prop page */
 	s->prop_object = obj;
-	w = gtk_bin_get_child (GTK_BIN (s->prop_frame));
+	w = gtk_bin_get_child (GTK_BIN (s->prop_container));
 	if (w != NULL)
-		gtk_container_remove (s->prop_frame, w);
+		gtk_container_remove (s->prop_container, w);
 
 	if (s->prop_object != NULL) {
 		/* Setup up the additions menu */
@@ -768,14 +768,19 @@ cb_attr_tree_selection_change (GraphGuruState *s)
 
 		/* create a prefs page for the graph obj */
 		editor = gog_object_get_editor (obj, s->dalloc, s->cc);
-		if (editor != NULL) {
-			if (GTK_IS_NOTEBOOK (editor))
-				shadow = GTK_SHADOW_NONE;
-			gtk_container_add (s->prop_frame, editor);
+		if (GTK_IS_NOTEBOOK (editor)) {
+			notebook = editor;
+		} else {
+			notebook = gtk_notebook_new ();
+			gtk_notebook_set_show_tabs (GTK_NOTEBOOK (notebook), FALSE);
+			if (editor == NULL) 
+				editor = gtk_label_new (NULL); /* dummy widget for empty page */ 
+			gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), editor, NULL);
 			gtk_widget_show (editor);
 		}
+		gtk_container_add (s->prop_container, notebook);
+		gtk_widget_show (notebook);
 	}
-	gtk_frame_set_shadow_type (GTK_FRAME (s->prop_frame), shadow);
 
 	gtk_widget_set_sensitive (s->delete_button, delete_ok);
 	gtk_widget_set_sensitive (s->add_menu,	    add_ok);
@@ -846,9 +851,9 @@ cb_find_child_removed (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter
 		s->search_target = NULL;
 		/* remove the tree element and the prop page */
 		gtk_tree_store_remove (s->prop_model, iter);
-		w = gtk_bin_get_child (GTK_BIN (s->prop_frame));
+		w = gtk_bin_get_child (GTK_BIN (s->prop_container));
 		if (w != NULL)
-			gtk_container_remove (s->prop_frame, w);
+			gtk_container_remove (s->prop_container, w);
 		return TRUE;
 	}
 
@@ -1037,8 +1042,8 @@ graph_guru_init_format_page (GraphGuruState *s)
 		G_CALLBACK (cb_canvas_select_item), s);
 	gtk_widget_show (w);
 
-	w = glade_xml_get_widget (s->gui, "prop_frame");
-	s->prop_frame = GTK_CONTAINER (w);
+	w = glade_xml_get_widget (s->gui, "prop_alignment");
+	s->prop_container = GTK_CONTAINER (w);
 	s->prop_model = gtk_tree_store_new (PLOT_ATTR_NUM_COLUMNS,
 				    G_TYPE_STRING, G_TYPE_POINTER);
 	s->prop_view = GTK_TREE_VIEW (gtk_tree_view_new_with_model (
@@ -1175,7 +1180,10 @@ graph_guru_type_selector_new (GraphGuruState *s)
 {
 	GtkTreeSelection *selection;
 	GraphGuruTypeSelector *typesel;
-	GtkWidget *tmp, *vbox, *hbox;
+	GtkWidget *selector;
+	GladeXML *gui;
+
+	gui = gnm_glade_xml_new (s->cc, "gog-guru-type-selector.glade", "type_selector", NULL);
 
 	typesel = g_new0 (GraphGuruTypeSelector, 1);
 	typesel->state = s;
@@ -1184,16 +1192,15 @@ graph_guru_type_selector_new (GraphGuruState *s)
 	typesel->current_type = NULL;
 	typesel->sample_graph_item = NULL;
 
-	hbox = gtk_hbox_new (FALSE, 5);
+	selector = glade_xml_get_widget (gui, "type_selector");
 
 	/* List of family types */
 	typesel->model = gtk_list_store_new (PLOT_FAMILY_NUM_COLUMNS,
 					     GDK_TYPE_PIXBUF,
 					     G_TYPE_STRING,
 					     G_TYPE_POINTER);
-	typesel->list_view = GTK_TREE_VIEW (gtk_tree_view_new_with_model (
-		GTK_TREE_MODEL (typesel->model)));
-
+	typesel->list_view = GTK_TREE_VIEW (glade_xml_get_widget (gui, "type_treeview"));
+	gtk_tree_view_set_model (typesel->list_view, GTK_TREE_MODEL (typesel->model));
 	gtk_tree_view_append_column (typesel->list_view,
 		gtk_tree_view_column_new_with_attributes ("",
 			gtk_cell_renderer_pixbuf_new (),
@@ -1204,9 +1211,6 @@ graph_guru_type_selector_new (GraphGuruState *s)
 			gtk_cell_renderer_text_new (),
 			"text", PLOT_FAMILY_TYPE_NAME,
 			NULL));
-	gtk_box_pack_start (GTK_BOX (hbox), GTK_WIDGET (typesel->list_view),
-			    FALSE, TRUE, 0);
-
 	selection = gtk_tree_view_get_selection (typesel->list_view);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
 	g_signal_connect_swapped (selection,
@@ -1229,16 +1233,12 @@ graph_guru_type_selector_new (GraphGuruState *s)
 		"swapped_signal::focus_in_event", G_CALLBACK (typesel_set_selection_color), typesel,
 		"swapped_signal::focus_out_event", G_CALLBACK (typesel_set_selection_color), typesel,
 		NULL);
-
 	gtk_widget_set_size_request (typesel->canvas,
 		MINOR_PIXMAP_WIDTH*3 + BORDER*5,
 		MINOR_PIXMAP_HEIGHT*3 + BORDER*5);
 	foo_canvas_scroll_to (FOO_CANVAS (typesel->canvas), 0, 0);
-
-	tmp = gtk_frame_new (NULL);
-	gtk_frame_set_shadow_type (GTK_FRAME (tmp), GTK_SHADOW_IN);
-	gtk_container_add (GTK_CONTAINER (tmp), typesel->canvas);
-	gtk_box_pack_start (GTK_BOX (hbox), tmp, TRUE, TRUE, 0);
+	gtk_container_add (GTK_CONTAINER (glade_xml_get_widget (gui, "canvas_container")), 
+			   typesel->canvas);
 
 	/* Init the list and the canvas group for each family */
 	g_hash_table_foreach ((GHashTable *)gog_plot_families (),
@@ -1254,25 +1254,10 @@ graph_guru_type_selector_new (GraphGuruState *s)
 	typesel_set_selection_color (typesel);
 
 	/* Setup the description label */
-	typesel->label = GTK_LABEL (gtk_label_new (""));
-	gtk_label_set_justify (typesel->label, GTK_JUSTIFY_LEFT);
-	gtk_label_set_line_wrap (typesel->label, TRUE);
-	gtk_misc_set_alignment (GTK_MISC (typesel->label), 0., .2);
-	gtk_misc_set_padding (GTK_MISC (typesel->label), 5, 5);
-
-	/* ICK ! How can I set the number of lines without looking at fonts */
-	gtk_widget_set_size_request (GTK_WIDGET (typesel->label), 350, 65);
-
-	vbox = gtk_vbox_new (FALSE, 5);
-	gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
-
-	hbox = gtk_hbox_new (FALSE, 5);
-	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 0);
+	typesel->label = GTK_LABEL (glade_xml_get_widget (gui, "description_label"));
 
 	/* Set up sample button */
-	typesel->sample_button = gnumeric_button_new_with_stock_image (
-		_("Show\nSample"), GTK_STOCK_DIALOG_INFO);
-	gtk_widget_set_sensitive (typesel->sample_button, FALSE);
+	typesel->sample_button = glade_xml_get_widget (gui, "sample_button");
 	g_signal_connect_swapped (G_OBJECT (typesel->sample_button),
 		"pressed",
 		G_CALLBACK (cb_sample_pressed), typesel);
@@ -1280,15 +1265,12 @@ graph_guru_type_selector_new (GraphGuruState *s)
 		"released",
 		G_CALLBACK (cb_sample_released), typesel);
 
-	tmp = gtk_frame_new (_("Description"));
-	gtk_container_add (GTK_CONTAINER (tmp), GTK_WIDGET (typesel->label));
-	gtk_box_pack_start (GTK_BOX (hbox), tmp, TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (hbox), typesel->sample_button, TRUE, TRUE, 0);
-
-	g_object_set_data_full (G_OBJECT (vbox),
+	g_object_set_data_full (G_OBJECT (selector),
 		"state", typesel, (GDestroyNotify) g_free);
 
-	return vbox;
+	g_object_unref (G_OBJECT (gui));
+
+	return selector;
 }
 
 static gboolean

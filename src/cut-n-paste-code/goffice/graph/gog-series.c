@@ -140,8 +140,8 @@ gog_series_element_editor (GogObject *gobj,
 		return gog_styled_object_editor (GOG_STYLED_OBJECT (gobj), cc, NULL);
 
 	vbox = gtk_vbox_new (FALSE, 6);
-	gtk_container_set_border_width (GTK_CONTAINER (vbox), 6);
-	w = gtk_hbox_new (FALSE, 6);
+	gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
+	w = gtk_hbox_new (FALSE, 12);
 	gtk_box_pack_start (GTK_BOX (w), gtk_label_new (_("Index:")),
 			    FALSE, FALSE, 0);
 	spin_button = gtk_spin_button_new_with_range (0, G_MAXINT, 1);
@@ -321,9 +321,9 @@ make_dim_editor (GtkTable *table, unsigned row, GtkWidget *editor,
 	g_free (txt);
 
 	gtk_table_attach (table, label,
-		0, 1, row, row+1, GTK_FILL, 0, 5, 3);
+		0, 1, row, row+1, GTK_FILL, 0, 0, 0);
 	gtk_table_attach (table, editor,
-		1, 2, row, row+1, GTK_FILL | GTK_EXPAND, 0, 5, 3);
+		1, 2, row, row+1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), editor);
 	gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
 
@@ -367,6 +367,9 @@ gog_series_editor (GogObject *gobj,
 
 	w = gtk_table_new (desc->num_dim + (has_shared ? 2 : 1), 2, FALSE);
 	table = GTK_TABLE (w);
+	gtk_table_set_row_spacings (table, 6);
+	gtk_table_set_col_spacings (table, 12);
+	gtk_container_set_border_width (GTK_CONTAINER (table), 12);
 
 	row = make_dim_editor (table, row,
 		gog_data_allocator_editor (dalloc, set, -1, TRUE),
@@ -381,7 +384,7 @@ gog_series_editor (GogObject *gobj,
 
 	if (has_shared) {
 		gtk_table_attach (table, gtk_hseparator_new (),
-			0, 2, row, row+1, GTK_FILL, 0, 5, 3);
+			0, 2, row, row+1, GTK_FILL, 0, 0, 0);
 		row++;
 	}
 
@@ -393,7 +396,7 @@ gog_series_editor (GogObject *gobj,
 				desc->dim[i].name, desc->dim[i].priority, TRUE);
 
 	gtk_table_attach (table, gtk_hseparator_new (),
-		0, 2, row, row+1, GTK_FILL, 0, 5, 3);
+		0, 2, row, row+1, GTK_FILL, 0, 0, 0);
 	row++;
 	w = gtk_check_button_new_with_mnemonic ("_Show in Legend");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
@@ -402,7 +405,7 @@ gog_series_editor (GogObject *gobj,
 		"toggled",
 		G_CALLBACK (cb_show_in_legend), series);
 	gtk_table_attach (table, w,
-		0, 2, row, row+1, GTK_FILL, 0, 5, 3);
+		0, 2, row, row+1, GTK_FILL, 0, 0, 0);
 	gtk_widget_show_all (GTK_WIDGET (table));
 
 	w = gtk_notebook_new ();

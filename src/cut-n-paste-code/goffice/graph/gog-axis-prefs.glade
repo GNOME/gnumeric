@@ -22,23 +22,43 @@
       <property name="border_width">12</property>
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
-      <property name="spacing">18</property>
+      <property name="spacing">24</property>
 
       <child>
-	<widget class="GtkVBox" id="vbox1">
+	<widget class="GtkVBox" id="vbox7">
 	  <property name="visible">True</property>
 	  <property name="homogeneous">False</property>
 	  <property name="spacing">12</property>
 
 	  <child>
-	    <widget class="GtkFrame" id="frame1">
+	    <widget class="GtkVBox" id="position_box">
 	      <property name="visible">True</property>
-	      <property name="label_xalign">0</property>
-	      <property name="label_yalign">0.5</property>
-	      <property name="shadow_type">GTK_SHADOW_NONE</property>
+	      <property name="homogeneous">False</property>
+	      <property name="spacing">0</property>
 
 	      <child>
-		<widget class="GtkAlignment" id="alignment4">
+		<widget class="GtkLabel" id="label1">
+		  <property name="visible">True</property>
+		  <property name="label" translatable="yes">&lt;b&gt;Position&lt;/b&gt;</property>
+		  <property name="use_underline">False</property>
+		  <property name="use_markup">True</property>
+		  <property name="justify">GTK_JUSTIFY_LEFT</property>
+		  <property name="wrap">False</property>
+		  <property name="selectable">False</property>
+		  <property name="xalign">0</property>
+		  <property name="yalign">0.5</property>
+		  <property name="xpad">0</property>
+		  <property name="ypad">0</property>
+		</widget>
+		<packing>
+		  <property name="padding">0</property>
+		  <property name="expand">False</property>
+		  <property name="fill">False</property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkAlignment" id="alignment8">
 		  <property name="visible">True</property>
 		  <property name="xalign">0.5</property>
 		  <property name="yalign">0.5</property>
@@ -46,14 +66,14 @@
 		  <property name="yscale">1</property>
 		  <property name="top_padding">6</property>
 		  <property name="bottom_padding">0</property>
-		  <property name="left_padding">18</property>
+		  <property name="left_padding">12</property>
 		  <property name="right_padding">0</property>
 
 		  <child>
 		    <widget class="GtkVBox" id="vbox3">
 		      <property name="visible">True</property>
 		      <property name="homogeneous">False</property>
-		      <property name="spacing">0</property>
+		      <property name="spacing">6</property>
 
 		      <child>
 			<widget class="GtkRadioButton" id="axis_low">
@@ -142,43 +162,49 @@
 		    </widget>
 		  </child>
 		</widget>
-	      </child>
-
-	      <child>
-		<widget class="GtkLabel" id="label1">
-		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">&lt;b&gt;Position&lt;/b&gt;</property>
-		  <property name="use_underline">False</property>
-		  <property name="use_markup">True</property>
-		  <property name="justify">GTK_JUSTIFY_LEFT</property>
-		  <property name="wrap">False</property>
-		  <property name="selectable">False</property>
-		  <property name="xalign">0.5</property>
-		  <property name="yalign">0.5</property>
-		  <property name="xpad">0</property>
-		  <property name="ypad">0</property>
-		</widget>
 		<packing>
-		  <property name="type">label_item</property>
+		  <property name="padding">0</property>
+		  <property name="expand">False</property>
+		  <property name="fill">False</property>
 		</packing>
 	      </child>
 	    </widget>
 	    <packing>
 	      <property name="padding">0</property>
 	      <property name="expand">False</property>
-	      <property name="fill">True</property>
+	      <property name="fill">False</property>
 	    </packing>
 	  </child>
 
 	  <child>
-	    <widget class="GtkFrame" id="frame2">
+	    <widget class="GtkVBox" id="mapping_box">
 	      <property name="visible">True</property>
-	      <property name="label_xalign">0</property>
-	      <property name="label_yalign">0.5</property>
-	      <property name="shadow_type">GTK_SHADOW_NONE</property>
+	      <property name="homogeneous">False</property>
+	      <property name="spacing">0</property>
 
 	      <child>
-		<widget class="GtkAlignment" id="alignment5">
+		<widget class="GtkLabel" id="label2">
+		  <property name="visible">True</property>
+		  <property name="label" translatable="yes">&lt;b&gt;Mapping&lt;/b&gt;</property>
+		  <property name="use_underline">False</property>
+		  <property name="use_markup">True</property>
+		  <property name="justify">GTK_JUSTIFY_LEFT</property>
+		  <property name="wrap">False</property>
+		  <property name="selectable">False</property>
+		  <property name="xalign">0</property>
+		  <property name="yalign">0.5</property>
+		  <property name="xpad">0</property>
+		  <property name="ypad">0</property>
+		</widget>
+		<packing>
+		  <property name="padding">0</property>
+		  <property name="expand">False</property>
+		  <property name="fill">False</property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkAlignment" id="alignment9">
 		  <property name="visible">True</property>
 		  <property name="xalign">0.5</property>
 		  <property name="yalign">0.5</property>
@@ -186,14 +212,14 @@
 		  <property name="yscale">1</property>
 		  <property name="top_padding">6</property>
 		  <property name="bottom_padding">0</property>
-		  <property name="left_padding">18</property>
+		  <property name="left_padding">12</property>
 		  <property name="right_padding">0</property>
 
 		  <child>
 		    <widget class="GtkVBox" id="vbox4">
 		      <property name="visible">True</property>
 		      <property name="homogeneous">False</property>
-		      <property name="spacing">0</property>
+		      <property name="spacing">6</property>
 
 		      <child>
 			<widget class="GtkCheckButton" id="invert-axis">
@@ -218,7 +244,7 @@
 			<widget class="GtkHBox" id="map_type_box">
 			  <property name="visible">True</property>
 			  <property name="homogeneous">False</property>
-			  <property name="spacing">6</property>
+			  <property name="spacing">12</property>
 
 			  <child>
 			    <widget class="GtkLabel" id="map_label">
@@ -262,56 +288,62 @@
 		    </widget>
 		  </child>
 		</widget>
-	      </child>
-
-	      <child>
-		<widget class="GtkLabel" id="label2">
-		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">&lt;b&gt;Mapping&lt;/b&gt;</property>
-		  <property name="use_underline">False</property>
-		  <property name="use_markup">True</property>
-		  <property name="justify">GTK_JUSTIFY_LEFT</property>
-		  <property name="wrap">False</property>
-		  <property name="selectable">False</property>
-		  <property name="xalign">0.5</property>
-		  <property name="yalign">0.5</property>
-		  <property name="xpad">0</property>
-		  <property name="ypad">0</property>
-		</widget>
 		<packing>
-		  <property name="type">label_item</property>
+		  <property name="padding">0</property>
+		  <property name="expand">False</property>
+		  <property name="fill">False</property>
 		</packing>
 	      </child>
 	    </widget>
 	    <packing>
 	      <property name="padding">0</property>
 	      <property name="expand">False</property>
-	      <property name="fill">True</property>
+	      <property name="fill">False</property>
 	    </packing>
 	  </child>
 	</widget>
 	<packing>
 	  <property name="padding">0</property>
 	  <property name="expand">False</property>
-	  <property name="fill">True</property>
+	  <property name="fill">False</property>
 	</packing>
       </child>
 
       <child>
-	<widget class="GtkVBox" id="vbox2">
+	<widget class="GtkVBox" id="vbox10">
 	  <property name="visible">True</property>
 	  <property name="homogeneous">False</property>
 	  <property name="spacing">12</property>
 
 	  <child>
-	    <widget class="GtkFrame" id="frame3">
+	    <widget class="GtkVBox" id="major_tick_box">
 	      <property name="visible">True</property>
-	      <property name="label_xalign">0</property>
-	      <property name="label_yalign">0.5</property>
-	      <property name="shadow_type">GTK_SHADOW_NONE</property>
+	      <property name="homogeneous">False</property>
+	      <property name="spacing">0</property>
 
 	      <child>
-		<widget class="GtkAlignment" id="alignment6">
+		<widget class="GtkLabel" id="major_tick_header">
+		  <property name="visible">True</property>
+		  <property name="label" translatable="yes">&lt;b&gt;Major ticks&lt;/b&gt;</property>
+		  <property name="use_underline">False</property>
+		  <property name="use_markup">True</property>
+		  <property name="justify">GTK_JUSTIFY_LEFT</property>
+		  <property name="wrap">False</property>
+		  <property name="selectable">False</property>
+		  <property name="xalign">0</property>
+		  <property name="yalign">0.5</property>
+		  <property name="xpad">0</property>
+		  <property name="ypad">0</property>
+		</widget>
+		<packing>
+		  <property name="padding">0</property>
+		  <property name="expand">False</property>
+		  <property name="fill">False</property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkAlignment" id="alignment10">
 		  <property name="visible">True</property>
 		  <property name="xalign">0.5</property>
 		  <property name="yalign">0.5</property>
@@ -319,14 +351,14 @@
 		  <property name="yscale">1</property>
 		  <property name="top_padding">6</property>
 		  <property name="bottom_padding">0</property>
-		  <property name="left_padding">18</property>
+		  <property name="left_padding">12</property>
 		  <property name="right_padding">0</property>
 
 		  <child>
 		    <widget class="GtkVBox" id="vbox5">
 		      <property name="visible">True</property>
 		      <property name="homogeneous">False</property>
-		      <property name="spacing">0</property>
+		      <property name="spacing">6</property>
 
 		      <child>
 			<widget class="GtkCheckButton" id="major-tick-labeled">
@@ -387,43 +419,49 @@
 		    </widget>
 		  </child>
 		</widget>
-	      </child>
-
-	      <child>
-		<widget class="GtkLabel" id="major_tick_header">
-		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">&lt;b&gt;Major ticks&lt;/b&gt;</property>
-		  <property name="use_underline">False</property>
-		  <property name="use_markup">True</property>
-		  <property name="justify">GTK_JUSTIFY_LEFT</property>
-		  <property name="wrap">False</property>
-		  <property name="selectable">False</property>
-		  <property name="xalign">0.5</property>
-		  <property name="yalign">0.5</property>
-		  <property name="xpad">0</property>
-		  <property name="ypad">0</property>
-		</widget>
 		<packing>
-		  <property name="type">label_item</property>
+		  <property name="padding">0</property>
+		  <property name="expand">False</property>
+		  <property name="fill">False</property>
 		</packing>
 	      </child>
 	    </widget>
 	    <packing>
 	      <property name="padding">0</property>
 	      <property name="expand">False</property>
-	      <property name="fill">True</property>
+	      <property name="fill">False</property>
 	    </packing>
 	  </child>
 
 	  <child>
-	    <widget class="GtkFrame" id="minor_tick_frame">
+	    <widget class="GtkVBox" id="minor_tick_box">
 	      <property name="visible">True</property>
-	      <property name="label_xalign">0</property>
-	      <property name="label_yalign">0.5</property>
-	      <property name="shadow_type">GTK_SHADOW_NONE</property>
+	      <property name="homogeneous">False</property>
+	      <property name="spacing">0</property>
 
 	      <child>
-		<widget class="GtkAlignment" id="alignment7">
+		<widget class="GtkLabel" id="minor_tick_header">
+		  <property name="visible">True</property>
+		  <property name="label" translatable="yes">&lt;b&gt;Minor ticks&lt;/b&gt;</property>
+		  <property name="use_underline">False</property>
+		  <property name="use_markup">True</property>
+		  <property name="justify">GTK_JUSTIFY_LEFT</property>
+		  <property name="wrap">False</property>
+		  <property name="selectable">False</property>
+		  <property name="xalign">0</property>
+		  <property name="yalign">0.5</property>
+		  <property name="xpad">0</property>
+		  <property name="ypad">0</property>
+		</widget>
+		<packing>
+		  <property name="padding">0</property>
+		  <property name="expand">False</property>
+		  <property name="fill">False</property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkAlignment" id="alignment11">
 		  <property name="visible">True</property>
 		  <property name="xalign">0.5</property>
 		  <property name="yalign">0.5</property>
@@ -431,14 +469,14 @@
 		  <property name="yscale">1</property>
 		  <property name="top_padding">6</property>
 		  <property name="bottom_padding">0</property>
-		  <property name="left_padding">18</property>
+		  <property name="left_padding">12</property>
 		  <property name="right_padding">0</property>
 
 		  <child>
 		    <widget class="GtkVBox" id="vbox6">
 		      <property name="visible">True</property>
 		      <property name="homogeneous">False</property>
-		      <property name="spacing">0</property>
+		      <property name="spacing">6</property>
 
 		      <child>
 			<widget class="GtkCheckButton" id="minor-tick-out">
@@ -480,38 +518,24 @@
 		    </widget>
 		  </child>
 		</widget>
-	      </child>
-
-	      <child>
-		<widget class="GtkLabel" id="minor_tick_header">
-		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">&lt;b&gt;Minor ticks&lt;/b&gt;</property>
-		  <property name="use_underline">False</property>
-		  <property name="use_markup">True</property>
-		  <property name="justify">GTK_JUSTIFY_LEFT</property>
-		  <property name="wrap">False</property>
-		  <property name="selectable">False</property>
-		  <property name="xalign">0.5</property>
-		  <property name="yalign">0.5</property>
-		  <property name="xpad">0</property>
-		  <property name="ypad">0</property>
-		</widget>
 		<packing>
-		  <property name="type">label_item</property>
+		  <property name="padding">0</property>
+		  <property name="expand">False</property>
+		  <property name="fill">False</property>
 		</packing>
 	      </child>
 	    </widget>
 	    <packing>
 	      <property name="padding">0</property>
 	      <property name="expand">False</property>
-	      <property name="fill">True</property>
+	      <property name="fill">False</property>
 	    </packing>
 	  </child>
 	</widget>
 	<packing>
 	  <property name="padding">0</property>
 	  <property name="expand">False</property>
-	  <property name="fill">True</property>
+	  <property name="fill">False</property>
 	</packing>
       </child>
     </widget>

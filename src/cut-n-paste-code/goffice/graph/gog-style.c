@@ -816,6 +816,7 @@ font_init (StylePrefState *state, guint32 enable, gpointer optional_notebook)
 	g_return_if_fail (GTK_NOTEBOOK (optional_notebook) != NULL);
 
 	box = gtk_vbox_new (FALSE, 5);
+	gtk_container_set_border_width (GTK_CONTAINER (box), 12);
 
 #if 0
 	w = gtk_check_button_new_with_label (_("Automatic"));
