@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * dialog-advanced-filter.c:
  *
@@ -18,7 +19,6 @@
 #include <analysis-tools.h>
 
 #include <libgnome/gnome-i18n.h>
-#include <libgnome/gnome-help.h>
 #include <glade/glade.h>
 
 #define OK               0
@@ -148,16 +148,10 @@ new_workbook_toggled (GtkWidget *widget, filter_t *filter)
 }
 
 static void
-dialog_help_cb (GtkWidget *button, gchar *helpfile)
+dialog_help_cb (GtkWidget *ignored, gchar *link)
 {
-        if (helpfile != NULL) {
-	        GnomeHelpMenuEntry help_ref;
-		help_ref.name = "gnumeric";
-		help_ref.path = helpfile;
-		gnome_help_display (NULL, &help_ref);
-	}
+	gnumeric_help_display (link);
 }
-
 
 void
 dialog_advanced_filter (WorkbookControlGUI *wbcg)
@@ -174,7 +168,6 @@ dialog_advanced_filter (WorkbookControlGUI *wbcg)
 	GtkWidget *radiobutton;
 	GtkWidget *helpbutton;
 	Sheet     *sheet;
-	gchar     *helpfile = "filters.html";
 	gint      v, error_flag;
 	Range	  list, crit;
 	gchar const *text;
@@ -214,7 +207,7 @@ dialog_advanced_filter (WorkbookControlGUI *wbcg)
 			    &f);
 	helpbutton = glade_xml_get_widget (gui, "helpbutton");
 	gtk_signal_connect (GTK_OBJECT (helpbutton), "clicked",
-			    GTK_SIGNAL_FUNC (dialog_help_cb), helpfile);
+			    GTK_SIGNAL_FUNC (dialog_help_cb), "filters.html");
 
         if (unique_only_flag)
 	        gtk_toggle_button_set_active ((GtkToggleButton *)

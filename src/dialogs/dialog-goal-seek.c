@@ -30,7 +30,6 @@
 #include <widgets/gnumeric-expr-entry.h>
 
 #include <libgnome/gnome-i18n.h>
-#include <libgnome/gnome-help.h>
 #include <math.h>
 #ifdef HAVE_IEEEFP_H
 #include <ieeefp.h>
@@ -56,7 +55,6 @@ typedef struct {
 	GtkWidget *solution_label;
 	GtkWidget *result_label;
 	GtkWidget *result_frame;
-	char *helpfile;
 	Sheet	  *sheet;
 	Workbook  *wb;
 	WorkbookControlGUI  *wbcg;
@@ -248,23 +246,10 @@ gnumeric_goal_seek (GoalSeekState *state)
 }
 
 
-/**
- * dialog_help_cb:
- * @button:
- * @state:
- *
- * Provide help.
- **/
 static void
-dialog_help_cb (GtkWidget *button, GoalSeekState *state)
+dialog_help_cb (GtkWidget *button, char const *link)
 {
-	if (state->helpfile != NULL) {
-		GnomeHelpMenuEntry help_ref;
-		help_ref.name = "gnumeric";
-		help_ref.path = state->helpfile;
-		gnome_help_display (NULL, &help_ref);		
-	}
-	return;
+	gnumeric_help_display (link);
 }
 
 /**
@@ -576,7 +561,7 @@ dialog_init (GoalSeekState *state)
 			    GTK_SIGNAL_FUNC (cb_dialog_apply_clicked), state);
 	state->help_button     = glade_xml_get_widget (state->gui, "helpbutton");
 	gtk_signal_connect (GTK_OBJECT (state->help_button), "clicked",
-			    GTK_SIGNAL_FUNC (dialog_help_cb), state);
+			    GTK_SIGNAL_FUNC (dialog_help_cb), "goal-seek.html");
 	state->to_value_entry = glade_xml_get_widget (state->gui, "to_value_entry");
 	state->at_least_entry = glade_xml_get_widget (state->gui, "at_least-entry");
 	state->at_most_entry = glade_xml_get_widget (state->gui, "at_most-entry");
@@ -661,7 +646,6 @@ dialog_goal_seek (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
-	state->helpfile = "goal-seek.html";
 
 	if (dialog_init (state)) {
 		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,

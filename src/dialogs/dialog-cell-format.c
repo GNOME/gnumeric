@@ -2540,7 +2540,6 @@ set_initial_focus (FormatState *state)
 static void
 fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 {
-	static GnomeHelpMenuEntry help_ref = { "gnumeric", "formatting.html" };
 	static struct {
 		char const * const name;
 		StyleBorderType const pattern;
@@ -2763,8 +2762,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 
 	draw_border_preview (state);
 
-	gtk_signal_connect (GTK_OBJECT (dialog), "help",
-			    GTK_SIGNAL_FUNC (gnome_help_pbox_goto), &help_ref);
+	gnumeric_pbox_init_help	(dialog, "formatting.html");
 	gtk_signal_connect (GTK_OBJECT (dialog), "apply",
 			    GTK_SIGNAL_FUNC (cb_fmt_dialog_dialog_apply), state);
 	gtk_signal_connect (GTK_OBJECT (dialog), "destroy",

@@ -3,6 +3,8 @@
 	* src/gui-util.c (gnumeric_toolbar_new) : delete the old basicly
 	  useless class and move the relevant convenience routines here.
 	(gnumeric_toolbar_get_widget) : ditto.
+	(gnumeric_help_display) : simple wrapper routine to simplify porting
+	  to gnome2.
 
 	* src/gnumeric.h : define G_OBJECT_GET_CLASS to simplify porting to 2.0
 

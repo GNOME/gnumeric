@@ -17,7 +17,6 @@
 #include <workbook-edit.h>
 
 #include <libgnome/gnome-i18n.h>
-#include <libgnome/gnome-help.h>
 #include <glade/glade.h>
 
 typedef struct {
@@ -180,14 +179,9 @@ cb_autocorrect_key_press (GtkWidget *widget, GdkEventKey *event,
 }
 
 static void
-cb_dialog_help (GtkWidget *button, gchar *helpfile)
+cb_dialog_help (GtkWidget *button, gchar *link)
 {
-        if (helpfile != NULL) {
-	        GnomeHelpMenuEntry help_ref;
-                help_ref.name = "gnumeric";
-                help_ref.path = helpfile;
-                gnome_help_display (NULL, &help_ref);
-	}
+	gnumeric_help_display (link);
 }
 
 static void

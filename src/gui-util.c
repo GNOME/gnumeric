@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * gnumeric-util.c:  Various GUI utility functions.
  *
@@ -27,6 +28,7 @@
 
 #include <libgnome/gnome-util.h>
 #include <libgnome/gnome-i18n.h>
+#include <libgnome/gnome-help.h>
 
 gboolean
 gnumeric_dialog_question_yes_no (WorkbookControlGUI *wbcg,
@@ -1099,4 +1101,29 @@ gnumeric_toolbar_get_widget (GtkToolbar *toolbar, int pos)
 	} while (children);
 
 	return NULL;
+}
+
+void
+gnumeric_help_display (char const *link)
+{
+	GnomeHelpMenuEntry help_ref;
+
+        g_return_if_fail (link != NULL);
+
+	help_ref.name = "gnumeric";
+	help_ref.path = (char *)link;
+	gnome_help_display (NULL, &help_ref);
+}
+
+static void
+gnumeric_help_pbox_goto (void *ignore, int ignore2, char const *link)
+{
+	gnumeric_help_display (link);
+}
+
+void
+gnumeric_pbox_init_help (GtkWidget *dialog, char const *link)
+{
+	gtk_signal_connect (GTK_OBJECT (dialog), "help",
+		GTK_SIGNAL_FUNC (gnumeric_help_pbox_goto), (gpointer)link);
 }

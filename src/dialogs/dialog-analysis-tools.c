@@ -31,7 +31,6 @@
 #include <widgets/gnumeric-expr-entry.h>
 
 #include <libgnome/gnome-i18n.h>
-#include <libgnome/gnome-help.h>
 #include <glade/glade.h>
 #include <string.h>
 
@@ -103,7 +102,7 @@ typedef struct {
 	GtkWidget *cancel_button;
 	GtkWidget *apply_button;
 	GtkWidget *help_button;
-	char *helpfile;
+	char *help_link;
 	char *input_var1_str;
 	char *input_var2_str;
 	GtkWidget *new_sheet;
@@ -126,7 +125,7 @@ typedef struct {
 	GtkWidget *cancel_button;
 	GtkWidget *apply_button;
 	GtkWidget *help_button;
-	char *helpfile;
+	char *help_link;
 	char *input_var1_str;
 	char *input_var2_str;
 	GtkWidget *new_sheet;
@@ -164,7 +163,7 @@ typedef struct {
 	GtkWidget *cancel_button;
 	GtkWidget *apply_button;
 	GtkWidget *help_button;
-	char *helpfile;
+	char *help_link;
 	char *input_var1_str;
 	char *input_var2_str;
 	GtkWidget *new_sheet;
@@ -205,7 +204,7 @@ typedef struct {
 	GtkWidget *cancel_button;
 	GtkWidget *apply_button;
 	GtkWidget *help_button;
-	char *helpfile;
+	char *help_link;
 	char *input_var1_str;
 	char *input_var2_str;
 	GtkWidget *new_sheet;
@@ -238,7 +237,7 @@ typedef struct {
 	GtkWidget *cancel_button;
 	GtkWidget *apply_button;
 	GtkWidget *help_button;
-	char *helpfile;
+	char *help_link;
 	char *input_var1_str;
 	char *input_var2_str;
 	GtkWidget *new_sheet;
@@ -263,7 +262,7 @@ typedef struct {
         GtkWidget *cancel_button;
         GtkWidget *apply_button;
         GtkWidget *help_button;
-        char *helpfile;
+        char *help_link;
         char *input_var1_str;
         char *input_var2_str;
         GtkWidget *new_sheet;
@@ -288,7 +287,7 @@ typedef struct {
 	GtkWidget *cancel_button;
 	GtkWidget *apply_button;
 	GtkWidget *help_button;
-	char *helpfile;
+	char *help_link;
 	char *input_var1_str;
 	char *input_var2_str;
 	GtkWidget *new_sheet;
@@ -313,7 +312,7 @@ typedef struct {
 	GtkWidget *cancel_button;
 	GtkWidget *apply_button;
 	GtkWidget *help_button;
-	char *helpfile;
+	char *help_link;
 	char *input_var1_str;
 	char *input_var2_str;
 	GtkWidget *new_sheet;
@@ -337,7 +336,7 @@ typedef struct {
 	GtkWidget *cancel_button;
 	GtkWidget *apply_button;
 	GtkWidget *help_button;
-	char *helpfile;
+	char *help_link;
 	char *input_var1_str;
 	char *input_var2_str;
 	GtkWidget *new_sheet;
@@ -363,7 +362,7 @@ typedef struct {
 	GtkWidget *cancel_button;
 	GtkWidget *apply_button;
 	GtkWidget *help_button;
-	char *helpfile;
+	char *help_link;
 	char *input_var1_str;
 	char *input_var2_str;
 	GtkWidget *new_sheet;
@@ -388,7 +387,7 @@ typedef struct {
 	GtkWidget *cancel_button;
 	GtkWidget *apply_button;
 	GtkWidget *help_button;
-	char *helpfile;
+	char *help_link;
 	char *input_var1_str;
 	char *input_var2_str;
 	GtkWidget *new_sheet;
@@ -666,23 +665,10 @@ focus_on_entry (GtkWidget *widget, GtkWidget *entry)
 }
 
 
-/**
- * tool_help_cb:
- * @button:
- * @state:
- *
- * Provide help.
- **/
 static void
 tool_help_cb (GtkWidget *button, GenericToolState *state)
 {
-	if (state->helpfile != NULL) {
-		GnomeHelpMenuEntry help_ref;
-		help_ref.name = "gnumeric";
-		help_ref.path = state->helpfile;
-		gnome_help_display (NULL, &help_ref);
-	}
-	return;
+	gnumeric_help_display (state->help_link);
 }
 
 /**
@@ -842,7 +828,6 @@ dialog_tool_init_buttons (GenericToolState *state, GtkSignalFunc ok_function)
 	if (state->help_button != NULL )
 		gtk_signal_connect (GTK_OBJECT (state->help_button), "clicked",
 				    GTK_SIGNAL_FUNC (tool_help_cb), state);
-	return;
 }
 
 /**
@@ -1145,7 +1130,7 @@ dialog_correlation_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
-	state->helpfile = "correlation-tool.html";
+	state->help_link = "correlation-tool.html";
 	state->input_var1_str = NULL;
 	state->input_var2_str = NULL;
 
@@ -1260,7 +1245,7 @@ dialog_covariance_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
-	state->helpfile = "covariance-tool.html";
+	state->help_link = "covariance-tool.html";
 	state->input_var1_str = NULL;
 	state->input_var2_str = NULL;
 
@@ -1491,7 +1476,7 @@ dialog_descriptive_stat_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
-	state->helpfile = "descriptive-statistics-tool.html";
+	state->help_link = "descriptive-statistics-tool.html";
 	state->input_var1_str = NULL;
 	state->input_var2_str = NULL;
 
@@ -1587,7 +1572,7 @@ dialog_ranking_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
-	state->helpfile = "rank-and-percentile-tool.html";
+	state->help_link = "rank-and-percentile-tool.html";
 	state->input_var1_str = NULL;
 	state->input_var2_str = NULL;
 
@@ -1999,7 +1984,7 @@ dialog_ttest_tool (WorkbookControlGUI *wbcg, Sheet *sheet, ttest_type test)
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
 	state->invocation = test;
-	state->helpfile = "t-test.html";
+	state->help_link = "t-test.html";
 	state->input_var1_str = _("Var_iable 1 Range:");
 	state->input_var2_str = _("_Variable 2 Range:");;
 
@@ -2241,7 +2226,7 @@ dialog_ftest_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
-	state->helpfile = "ftest-two-sample-for-variances-tool.html";
+	state->help_link = "ftest-two-sample-for-variances-tool.html";
 	state->input_var1_str = _("Var_iable 1 Range");
 	state->input_var2_str = _("_Variable 2 Range");
 
@@ -2496,7 +2481,7 @@ dialog_sampling_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
-	state->helpfile = "sampling-tool.html";
+	state->help_link = "sampling-tool.html";
 	state->input_var1_str = NULL;
 	state->input_var2_str = NULL;
 
@@ -3034,7 +3019,7 @@ dialog_random_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
-	state->helpfile = "random-number-generation-tool.html";
+	state->help_link = "random-number-generation-tool.html";
 	state->input_var1_str = NULL;
 	state->input_var2_str = NULL;
 
@@ -3302,7 +3287,7 @@ dialog_regression_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
-	state->helpfile = "regression-tool.html";
+	state->help_link = "regression-tool.html";
 
 	if (dialog_regression_tool_init (state)) {
 		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
@@ -3472,7 +3457,7 @@ dialog_exp_smoothing_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
-	state->helpfile = "exp-smoothing-tool.html";
+	state->help_link = "exp-smoothing-tool.html";
 	state->input_var1_str = NULL;
 	state->input_var2_str = NULL;
 
@@ -3643,7 +3628,7 @@ dialog_average_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
-	state->helpfile = "moving-average-tool.html";
+	state->help_link = "moving-average-tool.html";
 	state->input_var1_str = NULL;
 	state->input_var2_str = NULL;
 
@@ -3733,7 +3718,7 @@ dialog_fourier_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
-	state->helpfile = "fourier-analysis-tool.html";
+	state->help_link = "fourier-analysis-tool.html";
 	state->input_var1_str = NULL;
 	state->input_var2_str = NULL;
 
@@ -3945,7 +3930,7 @@ dialog_histogram_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
-	state->helpfile = "histogram-tool.html";
+	state->help_link = "histogram-tool.html";
 	state->input_var1_str = _("_Input Range:");
 	state->input_var2_str = _("Bin _Range:");
 
@@ -4123,7 +4108,7 @@ dialog_anova_single_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
-	state->helpfile = "anova.html#ANOVA-SINGLE-FACTOR-TOOL";
+	state->help_link = "anova.html#ANOVA-SINGLE-FACTOR-TOOL";
 	state->input_var1_str = NULL;
 	state->input_var2_str = NULL;
 
@@ -4327,7 +4312,7 @@ dialog_anova_two_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
-	state->helpfile = "anova.html#ANOVA-TWO-FACTOR-TOOL";
+	state->help_link = "anova.html#ANOVA-TWO-FACTOR-TOOL";
 	state->input_var1_str = NULL;
 	state->input_var2_str = NULL;
 
@@ -4419,14 +4404,9 @@ selection_made (GtkWidget *clist, gint row, gint column,
 }
 
 static void
-dialog_help_cb (GtkWidget *button, gchar *helpfile)
+dialog_help_cb (GtkWidget *button, gchar *link)
 {
-        if (helpfile != NULL) {
-	        GnomeHelpMenuEntry help_ref;
-		help_ref.name = "gnumeric";
-		help_ref.path = helpfile;
-		gnome_help_display (NULL, &help_ref);
-	}
+	gnumeric_help_display (link);
 }
 
 void
@@ -4436,7 +4416,6 @@ dialog_data_analysis (WorkbookControlGUI *wbcg, Sheet *sheet)
 	GtkWidget *dialog;
 	GtkWidget *tool_list;
 	GtkWidget *helpbutton;
-	gchar     *helpfile = "analysis-tools.html";
 	int       i, selection;
 
  dialog_loop:
@@ -4452,7 +4431,8 @@ dialog_data_analysis (WorkbookControlGUI *wbcg, Sheet *sheet)
 
         helpbutton = glade_xml_get_widget (gui, "helpbutton");
 	gtk_signal_connect (GTK_OBJECT (helpbutton), "clicked",
-			    GTK_SIGNAL_FUNC (dialog_help_cb), helpfile);
+			    GTK_SIGNAL_FUNC (dialog_help_cb),
+			    "analysis-tools.html");
 
 	tool_list = glade_xml_get_widget (gui, "clist1");
 	gtk_signal_connect (GTK_OBJECT (tool_list), "select_row",

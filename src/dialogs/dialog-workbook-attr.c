@@ -159,8 +159,6 @@ attr_dialog_init_view_page (AttrState *state)
 static void
 attr_dialog_impl (AttrState *state)
 {
-	static GnomeHelpMenuEntry help_ref = { "gnumeric", "" };
-
 	GtkWidget *dialog = glade_xml_get_widget (state->gui, "WorkbookAttr");
 	g_return_if_fail (dialog != NULL);
 
@@ -182,16 +180,12 @@ attr_dialog_impl (AttrState *state)
 		"switch_page", GTK_SIGNAL_FUNC (cb_page_select),
 		NULL);
 
-	/* Setup help */
-	gtk_signal_connect (GTK_OBJECT (dialog), "help",
-			    GTK_SIGNAL_FUNC (gnome_help_pbox_goto), &help_ref);
+	/* FIXME : do we have real docs for this ? */
+	gnumeric_pbox_init_help	(dialog, "workbook.html");
 
-	/* Handle apply */
 	gtk_signal_connect (GTK_OBJECT (dialog), "apply",
 			    GTK_SIGNAL_FUNC (cb_attr_dialog_dialog_apply),
 			    state);
-
-	/* Handle destroy */
 	gtk_signal_connect (GTK_OBJECT (dialog), "destroy",
 			    GTK_SIGNAL_FUNC (cb_attr_dialog_dialog_destroy),
 			    state);

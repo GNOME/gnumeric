@@ -26,7 +26,6 @@
 #include <widgets/gnumeric-expr-entry.h>
 
 #include <libgnome/gnome-i18n.h>
-#include <libgnome/gnome-help.h>
 #include <string.h>
 #include <glade/glade.h>
 
@@ -48,7 +47,6 @@ typedef struct {
 	GnumericExprEntry *rhs_entry;
 	GtkOptionMenu *type_combo;
 	GtkCList *constraint_list;
-	char *helpfile;
 	gint selected_row;
 	gnum_float ov_target;
 	GSList *ov;
@@ -470,25 +468,11 @@ dialog_destroy (GtkObject *w, SolverState  *state)
 	return FALSE;
 }
 
-/**
- * dialog_help_cb:
- * @button:
- * @state:
- *
- * Provide help.
- **/
 static void
-dialog_help_cb (GtkWidget *button, SolverState *state)
+dialog_help_cb (GtkWidget *button, char const *link)
 {
-	if (state->helpfile != NULL) {
-		GnomeHelpMenuEntry help_ref;
-		help_ref.name = "gnumeric";
-		help_ref.path = state->helpfile;
-		gnome_help_display (NULL, &help_ref);		
-	}
-	return;
+	gnumeric_help_display (link);
 }
-
 
 /**
  * restore_original_values:
@@ -916,7 +900,7 @@ dialog_init (SolverState *state)
 
 	state->help_button     = glade_xml_get_widget (state->gui, "helpbutton");
 	gtk_signal_connect (GTK_OBJECT (state->help_button), "clicked",
-			    GTK_SIGNAL_FUNC (dialog_help_cb), state);
+			    GTK_SIGNAL_FUNC (dialog_help_cb), "solver.html");
 
 	state->add_button  = glade_xml_get_widget (state->gui, "addbutton");
 	gtk_signal_connect (GTK_OBJECT (state->add_button), "clicked",
@@ -1103,7 +1087,6 @@ dialog_solver (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
-	state->helpfile = "solver.html";
 	state->ov = NULL;
 	state->ov_stack = NULL;
 	state->ov_cell_stack = NULL;

@@ -21,7 +21,6 @@
 #include <style.h>
 
 #include <libgnome/gnome-i18n.h>
-#include <libgnome/gnome-help.h>
 #include <glade/glade.h>
 
 #define PREVIEW_X 170
@@ -1065,10 +1064,9 @@ hf_customize_apply (GnomePropertyBox *dialog, gint page_num, PrinterSetupState *
 }
 
 static void
-hf_customize_help (GnomePropertyBox *dialog, gint page_num, gpointer data)
+hf_customize_help (GnomePropertyBox *dialog, gint page_num, gpointer ignore)
 {
-	GnomeHelpMenuEntry help_ref = { "gnumeric", "print-setup.html#PRINT-SETUP-HEADER-CONFIG" };
-	gnome_help_display (NULL, &help_ref);
+	gnumeric_help_display ("print-setup.html#PRINT-SETUP-HEADER-CONFIG");
 }
 
 /*

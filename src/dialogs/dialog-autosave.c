@@ -16,7 +16,6 @@
 #include <gui-util.h>
 
 #include <libgnome/gnome-i18n.h>
-#include <libgnome/gnome-help.h>
 #include <glade/glade.h>
 
 typedef struct {
@@ -127,8 +126,7 @@ loop:
 		} else
 			wbcg_autosave_set (wbcg, 0, FALSE);
 	} else if (v == 2) {
-		GnomeHelpMenuEntry help_ref = { "gnumeric", "autosave.html" };
-		gnome_help_display (NULL, &help_ref);
+		gnumeric_help_display ("autosave.html");
 		goto loop;
 	}
 

@@ -108,4 +108,7 @@ GtkWidget *gnumeric_toolbar_new (WorkbookControlGUI *wbcg, GnomeUIInfo *info,
 				  char const *name, gint band_num, gint band_position, gint offset);
 GtkWidget *gnumeric_toolbar_get_widget (GtkToolbar *toolbar, int pos);
 
+void gnumeric_help_display	(char const *link);
+void gnumeric_pbox_init_help	(GtkWidget *dialog, char const *link);
+
 #endif /* GNUMERIC_GUI_UTIL_H */

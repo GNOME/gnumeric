@@ -8,16 +8,15 @@ Release Critical
 ----------------
 
 - name refering to deleted sheet
+- names refereing to other names
 - research reports graph data guru crash
 - Changing the summary info does not dirty a workbook.
 
 Pending Patches
 ---------------
 
-    libole2 + vfs support.
-    Yukihiro's multibyte stf patch
     Yukihiro's IM support
-    The dbf patch
+    libole2 + vfs support.
 
 Long term breakage
 ------------------
