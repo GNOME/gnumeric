@@ -1,6 +1,6 @@
 1999-05-19  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
-	* src/fn-math.c: SUBTOTAL() and SUMA() added.
+	* src/fn-math.c: SERIESSUM(), SUBTOTAL() and SUMA() added.
 
 	* src/fn-stat.c: SLOPE(), AVERAGEA(), MAXA(), MINA(), STDEVA(),
  	STDEVPA(), VARA(), and VARPA() added.
