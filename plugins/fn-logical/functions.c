@@ -331,11 +331,11 @@ gnumeric_false (FunctionEvalInfo *ei, GnmValue **args)
 /***************************************************************************/
 
 const GnmFuncDescriptor logical_functions[] = {
-	{ "and", 0, N_("number,number,"), &help_and, NULL,
+	{ "and", NULL, N_("number,number,"), &help_and, NULL,
 	  gnumeric_and, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "or", 0, N_("number,number,"), &help_or, NULL,
+	{ "or", NULL, N_("number,number,"), &help_or, NULL,
 	  gnumeric_or, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
@@ -355,7 +355,7 @@ const GnmFuncDescriptor logical_functions[] = {
 	  NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
-	{ "xor", 0, N_("number,number,"), &help_xor, NULL,
+	{ "xor", NULL, N_("number,number,"), &help_xor, NULL,
 	  gnumeric_xor, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	  GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },

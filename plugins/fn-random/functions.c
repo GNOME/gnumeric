@@ -1187,7 +1187,7 @@ const GnmFuncDescriptor random_functions[] = {
         { "randweibull", "ff", N_("a,b"), &help_randweibull,
 	  gnumeric_randweibull, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-	{ "simtable", 0, N_("d1,d2,...,dN"), &help_simtable,
+	{ "simtable", NULL, N_("d1,d2,...,dN"), &help_simtable,
 	  NULL,	gnumeric_simtable, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 

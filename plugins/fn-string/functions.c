@@ -1131,7 +1131,7 @@ const GnmFuncDescriptor string_functions[] = {
         { "unicode",    "S",     N_("text"),                    &help_unicode,
 	  gnumeric_unicode, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
-        { "concatenate", 0,      N_("text,text,"),            &help_concatenate,
+        { "concatenate", NULL,   N_("text,text,"),            &help_concatenate,
 	  NULL, gnumeric_concatenate, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
         { "dollar",     "f|f",   N_("num,decimals"),            &help_dollar,

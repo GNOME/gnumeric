@@ -1465,7 +1465,7 @@ static struct {
 	{ "IPAYMT", "IPMT" },
 	{ "PAYMT", "PMT" },
 	{ "PPAYMT", "PPMT" },
-	{ 0, 0 }
+	{ NULL, NULL }
 };
 
 static GnmExpr const *
