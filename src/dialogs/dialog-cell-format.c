@@ -2069,6 +2069,15 @@ fmt_dialog_init_validation_page (FormatState *state)
 {
 	g_return_if_fail (state != NULL);
 
+	/*
+	 * NOTE: This should be removed when the feature
+	 * is implemented.
+	 */
+#if 1
+	gtk_notebook_remove_page (GTK_NOTEBOOK (GNOME_PROPERTY_BOX (state->dialog)->notebook), 6);
+	return;
+#endif
+
 	/* Setup widgets */
 	state->validation.criteria_table  = GTK_TABLE           (glade_xml_get_widget (state->gui, "validation_criteria_table"));
 	state->validation.constraint_type = GTK_OPTION_MENU     (glade_xml_get_widget (state->gui, "validation_constraint_type"));
@@ -2137,9 +2146,11 @@ fmt_dialog_init_input_msg_page (FormatState *state)
 	/*
 	 * NOTE: This should be removed when the feature
 	 * is implemented.
+	 * NOTE2: Change the number from 6 to 7 when validation
+	 * is enabled, but not input messages.
 	 */
 #if 1
-	gtk_notebook_remove_page (GTK_NOTEBOOK (GNOME_PROPERTY_BOX (state->dialog)->notebook), 7);
+	gtk_notebook_remove_page (GTK_NOTEBOOK (GNOME_PROPERTY_BOX (state->dialog)->notebook), 6);
 	return;
 #endif
 	

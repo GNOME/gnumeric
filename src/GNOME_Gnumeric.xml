@@ -483,6 +483,12 @@
 		_label="_Filter..."
 		_tip="Filter data with given criteria"/>
 
+<!-- ENABLE Once validation works
+	    <menuitem name="DataValidate" verb=""
+		_label="_Validate..."
+		_tip="Validate input with preset criteria"/>
+-->
+
 	    <menuitem name="DataConsolidate" verb=""
 		_label="_Consolidate..."
 		_tip="Consolidate regions using a function"/>

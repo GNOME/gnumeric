@@ -1,4 +1,19 @@
 2001-10-14  Almer S. Tigelaar  <almer@gnome.org>
+ 
+ 	* validate.glade: Burn.
+ 
+ 	* dialog-validate.c: Burn.
+ 
+ 	* Makefile.am: Cope for burning.
+ 
+ 	* dialogs.h: Idem and add new dialog pages to
+ 	cell format dialog enum.
+
+	* dialog-cell-format.c (fmt_dialog_init_validation_page):
+	Temporarily disable validation dialog before release.
+	(fmt_dialog_init_input_msg_page): Remove the right page.
+
+2001-10-14  Almer S. Tigelaar  <almer@gnome.org>
 
 	* cell-format.glade: Tidy and add new option to validation
 	error action selection menu.

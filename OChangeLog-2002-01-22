@@ -1,3 +1,12 @@
+2001-10-14  Almer S. Tigelaar  <almer@gnome.org>
+ 
+ 	* src/workbook-control-gui.c (cb_data_validate):
+ 	Pop-up validation page of format dialog. Disabled
+	for now.
+ 
+ 	* src/GNOME_Gnumeric.xml: Add validate menu
+ 	item. Commented out for now.
+
 2001-10-13  Morten Welinder  <terra@diku.dk>
 
 	* src/search.c (search_match_string): Fix last change.

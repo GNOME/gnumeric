@@ -14,7 +14,9 @@ typedef enum {
 	FD_BORDER,
 	FD_BACKGROUND,
 	FD_PROTECTION,
-	FD_LAST = FD_PROTECTION
+	FD_VALIDATION,
+	FD_INPUT_MSG,
+	FD_LAST = FD_INPUT_MSG
 } FormatDialogPosition_t;
 
 #ifdef ENABLE_BONOBO
@@ -38,7 +40,6 @@ void   	 dialog_cell_sort       (WorkbookControlGUI *wbcg, Sheet *sheet);
 void   	 dialog_workbook_attr   (WorkbookControlGUI *wbcg);
 void   	 dialog_goal_seek       (WorkbookControlGUI *wbcg, Sheet *sheet);
 void   	 dialog_solver          (WorkbookControlGUI *wbcg, Sheet *sheet);
-void     dialog_validate        (WorkbookControlGUI *wbcg, Sheet *sheet);
 void   	 dialog_printer_setup   (WorkbookControlGUI *wbcg, Sheet *sheet);
 void   	 dialog_summary_update  (WorkbookControlGUI *wbcg, SummaryInfo *sin);
 void     dialog_autocorrect     (WorkbookControlGUI *wbcg);

@@ -2206,7 +2206,7 @@ static void
 cb_data_validate (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_validate (wbcg, wb_control_cur_sheet (wbc));
+	dialog_cell_format (wbcg, wb_control_cur_sheet (wbc), FD_VALIDATION);	
 }
 #endif
 
