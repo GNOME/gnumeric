@@ -21,6 +21,7 @@ my @files =
      "chebyshev.c",
      "lgammacor.c",
      "lbeta.c",
+     "dt.c",
      "pt.c",
      "qt.c",
      "pf.c",
@@ -36,7 +37,7 @@ my @files =
      "pnbinom.c",
      "qnbinom.c",
      "dbeta.c",
-     "pbeta.c",
+     # "pbeta.c",
      # "qbeta.c",
      "dhyper.c",
      "phyper.c",
@@ -105,7 +106,10 @@ sub import_file {
 	    s/\bRboolean\b/gboolean/g;
 
 	    # Improve precision of "log(1-x)".
-	    s/\blog\s*\(1\s*-\s*([a-zA-Z0-9_]+)\s*\)/log1pgnum (-$1)/g;
+	    s/\blog\s*\(\s*1\s*-\s*([a-zA-Z0-9_]+)\s*\)/log1pgnum (-$1)/g;
+
+	    # Improve precision of "log(1+x)".
+	    s/\blog\s*\(\s*1\s*\+\s*/log1pgnum \(/g;
 
 	    s/\bISNAN\b/isnangnum/g;
 	    s/\bR_FINITE\b/finitegnum/g;
@@ -142,17 +146,15 @@ sub import_file {
 	    s/\bML_NEGINF\b/gnm_ninf/g;
 	    s/\bML_POSINF\b/gnm_pinf/g;
 
+	    # Improve precision of "lgammagnum(x+1)".
+	    s/\blgammagnum\s*\(([^()]*\S)\s*\+\s*1(.0*)?\s*\)/lgamma1p ($1)/;
+
 	    # Somewhat risky.
 	    s/\%([-0-9.]*)([efgEFG])/\%$1\" GNUM_FORMAT_$2 \"/g;
 
 	    s/int give_log/gboolean give_log/g;
 	    s/int log_p/gboolean log_p/g;
 	    s/int lower_tail/gboolean lower_tail/g;
-
-	    if ($filename =~ m|/pgeom\.c$| && /^(\s*)return R_DT_Cval/) {
-		print "$1if (lower_tail && !log_p)\n";
-		print "$1  return -expm1gnum ((x + 1) * log1pgnum (-p));\n";
-	    }
 
 	    if ($filename =~ m|/qbeta\.c$| && /xinbta = 0\.5;/) {
 		s/0\.5/(xinbta < lower) ? sqrtgnum (lower) : 1 - sqrtgnum (lower)/;

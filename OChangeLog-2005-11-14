@@ -1,3 +1,8 @@
+2004-04-09  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (pbeta): New implementation.
+	(lgamma1p, swap_log_tail, log1pmx): New function.
+
 2004-04-08  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (check_underlines): Make UTF-8 safe.

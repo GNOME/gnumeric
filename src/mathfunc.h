@@ -34,6 +34,10 @@ gnm_float gnumeric_fake_trunc (gnm_float x);
 
 /* ------------------------------------------------------------------------- */
 
+gnm_float log1pmx (gnm_float x);
+gnm_float swap_log_tail (gnm_float lp);
+gnm_float lgamma1p (gnm_float a);
+
 gnm_float beta (gnm_float a, gnm_float b);
 gnm_float lbeta3 (gnm_float a, gnm_float b, int *sign);
 
@@ -64,6 +68,7 @@ gnm_float pbeta (gnm_float x, gnm_float pin, gnm_float qin, gboolean lower_tail,
 gnm_float qbeta (gnm_float alpha, gnm_float p, gnm_float q, gboolean lower_tail, gboolean log_p);
 
 /* The t distribution.  */
+gnm_float dt (gnm_float x, gnm_float n, gboolean give_log);
 gnm_float pt (gnm_float x, gnm_float n, gboolean lower_tail, gboolean log_p);
 gnm_float qt (gnm_float p, gnm_float ndf, gboolean lower_tail, gboolean log_p);
 

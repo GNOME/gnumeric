@@ -10,6 +10,8 @@ Morten:
 	* Make it possible to hide toolbars.
 	* Make it possible to hide the statusbar.
 	* A few multihead fixes.
+	* Upgrade to R's development version.
+	* Replace R's pbeta function.
 
 --------------------------------------------------------------------------
 
