@@ -10,7 +10,6 @@
 #include <sys/types.h>
 #include <fcntl.h>
 #include <errno.h>
-#include <assert.h>
 #include <config.h>
 #include <stdio.h>
 #include <ctype.h>
@@ -120,12 +119,12 @@ xbase_field_as_value (XBrecord *record, guint num)
 	case 'I':
 		return value_new_int (GINT32_FROM_LE((gint32) *s));
 	case 'F':
-		assert (sizeof(float_t) == field->len);
+		g_assert (sizeof(float_t) == field->len);
 		return value_new_float (XB_GETDOUBLE(s));
 	case 'B': {
 		gint64 tmp = GINT64_FROM_LE (*s);
 		g_warning ("FIXME: \"BINARY\" field type doesn't work");
-		assert (sizeof(tmp) == field->len);
+		g_assert (sizeof(tmp) == field->len);
 		return value_new_int (tmp);
 	}
 	default: {
