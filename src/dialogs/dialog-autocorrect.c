@@ -203,18 +203,6 @@ cb_autocorrect_destroy (G_GNUC_UNUSED GtkObject *w,
 	return TRUE;
 }
 
-static gint
-cb_autocorrect_key_press (G_GNUC_UNUSED GtkWidget *widget,
-			  GdkEventKey *event,
-			  AutoCorrectState *state)
-{
-	if (event->keyval == GDK_Escape) {
-		gtk_object_destroy (GTK_OBJECT (state->dialog));
-		return TRUE;
-	} else
-		return FALSE;
-}
-
 static void
 cb_cancel_button_clicked (G_GNUC_UNUSED GtkWidget *button,
 			  AutoCorrectState *state)
@@ -305,9 +293,6 @@ dialog_init (AutoCorrectState *state)
 	g_signal_connect (G_OBJECT (state->dialog),
 		"destroy",
 		G_CALLBACK (cb_autocorrect_destroy), state);
-	g_signal_connect (G_OBJECT (state->dialog),
-		"key_press_event",
-		G_CALLBACK (cb_autocorrect_key_press), state);
 
 	return FALSE;
 }

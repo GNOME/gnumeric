@@ -509,6 +509,4 @@ dialog_function_select (WorkbookControlGUI *wbcg, char const *key)
 			       FUNCTION_SELECT_KEY);
 
 	gtk_widget_show_all (state->dialog);
-
-	return;
 }

@@ -1,3 +1,10 @@
+2003-03-13  Jody Goldberg <jody@gnome.org>
+
+	* dialog-autocorrect.c (cb_autocorrect_key_press) : delete.
+	(dialog_init) : keyed_dialog handles the Escape now.
+
+	* dialog-about.c : remove unnecessary include
+
 2003-03-05  Morten Welinder  <terra@diku.dk>
 
 	* dialog-stf-preview.c (stf_preview_render): Don't barf on lack of
