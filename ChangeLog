@@ -1,3 +1,11 @@
+2002-09-06  Morten Welinder  <terra@diku.dk>
+
+	* src/workbook-control-gui.c (setup_progress_bar): Use
+	gnumeric_inject_widget_into_bonoboui, thus plugging leak.
+
+	* src/gui-util.c (gnumeric_inject_widget_into_bonoboui): Plug
+	leak.
+
 2002-09-05  Jody Goldberg <jody@gnome.org>
 
 	* src/xml-io.c (xml_write_style) : fix writing styles now that links

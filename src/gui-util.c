@@ -851,6 +851,7 @@ gnumeric_inject_widget_into_bonoboui (WorkbookControlGUI *wbcg, GtkWidget *widge
 		wbcg->uic, path,
 		BONOBO_OBJREF (control),
 		NULL);
+	bonobo_object_unref (BONOBO_OBJECT (control));
 }
 #endif
 

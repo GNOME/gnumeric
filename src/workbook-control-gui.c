@@ -4136,7 +4136,6 @@ static void
 setup_progress_bar (WorkbookControlGUI *wbcg)
 {
 	GtkProgressBar *progress_bar;
-	BonoboControl  *control;
 
 	progress_bar = (GTK_PROGRESS_BAR (gtk_progress_bar_new ()));
 
@@ -4146,16 +4145,9 @@ setup_progress_bar (WorkbookControlGUI *wbcg)
 		progress_bar, GTK_PROGRESS_CONTINUOUS);
 
 	wbcg->progress_bar = GTK_WIDGET (progress_bar);
-	gtk_widget_show (wbcg->progress_bar);
 
-	control = bonobo_control_new (wbcg->progress_bar);
-	g_return_if_fail (control != NULL);
-
-	bonobo_ui_component_object_set (
-		wbcg->uic,
-		"/status/Progress",
-		BONOBO_OBJREF (control),
-		NULL);
+	gnumeric_inject_widget_into_bonoboui (wbcg, wbcg->progress_bar,
+					      "/status/Progress");
 }
 #endif
 
@@ -4755,7 +4747,7 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	bonobo_ui_component_add_verb_list_with_data (wbcg->uic, verbs, wbcg);
 
 	{
-		char *dir = gnumeric_sys_data_dir (NULL);
+		const char *dir = gnumeric_sys_data_dir (NULL);
 		bonobo_ui_util_set_ui (wbcg->uic, dir,
 			"GNOME_Gnumeric.xml", "gnumeric", NULL);
 	}
