@@ -1,5 +1,10 @@
 2000-11-18  Jody Goldberg <jgoldberg@home.com>
 
+	* configure.in : Bump to 0.60 post release
+	* NEWS : ditto
+
+2000-11-18  Jody Goldberg <jgoldberg@home.com>
+
 	* Release 0.59
 
 2000-11-18  Jody Goldberg <jgoldberg@home.com>
