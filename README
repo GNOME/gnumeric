@@ -28,7 +28,7 @@ You need:
 	gnome-print	>= 0.29
 	gnome-xml   	>= 1.8.14 (gnome-xml 2.x not supported yet)
 	NOTE : gnome-xml is also known as libxml
-	libole2	    	>= 0.2.3
+	libole2	    	>= 0.2.4
 	NOTE : libole2 is also known as libgnomeole2
 
 Optionally:

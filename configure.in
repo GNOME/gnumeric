@@ -332,13 +332,13 @@ else
 fi
 
 dnl Check for libole2
-AC_MSG_CHECKING(for libole2 >= 0.2.3						)
+AC_MSG_CHECKING(for libole2 >= 0.2.4						)
 libole2_ok=no
 if gnome-config --libs libole2 > /dev/null 2>&1; then
 	verstxt=`gnome-config --modversion libole2`
 	vers=`echo "$verstxt" | sed -e "s/^libole2-//" | \
 		awk -F. '{ printf "%d", $1 * 10000 + $2 * 100 + $3; }'`
-	if test "$vers" -ge 203; then
+	if test "$vers" -ge 204; then
 		AC_MSG_RESULT($marker_ok found $verstxt)
 		libole2_ok=yes
 	else
@@ -373,7 +373,7 @@ AC_ARG_WITH(bonobo,
 )
 
 if $try_bonobo; then
-	AC_MSG_CHECKING(for Bonobo >= 1.09						)
+	AC_MSG_CHECKING(for Bonobo >= 1.0.9						)
 	if gnome-config --libs bonobo > /dev/null 2>&1; then
 		verstxt=`gnome-config --modversion bonobo`
 		vers=`echo "$verstxt" | sed -e "s/^bonobo-//" | \

@@ -27,7 +27,7 @@ Requires: gnome-libs >= 1.0.57
 Requires: gnome-print >= 0.29
 Requires: libglade >= 0.16
 Requires: libxml >= 1.8.14
-Requires: libole2 >= 0.2.3
+Requires: libole2 >= 0.2.4
 Requires: gal >= 0.14
 # The help menu requires gnome-help-browser.
 Requires: gnome-core
@@ -159,6 +159,9 @@ fi
 ##%{prefix}/lib/gnumeric/%{bonobover}/plugins/*/*.la
 
 %changelog
+* Sun Nov  4 2001 Jody Goldberg <jgoldberg@home.com>
+- bump the libole req
+
 * Wed Oct  9 2001 John Gotts <jgotts@linuxsavvy.com>
 - gnome-core added as a requirement because gnumeric requires
   gnome-help-browser.  Also added bonobo >= 1.0.9 as a requirement.
