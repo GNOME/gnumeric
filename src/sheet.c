@@ -2271,6 +2271,13 @@ sheet_destroy (Sheet *sheet)
 static Value *
 cb_empty_cell (Sheet *sheet, int col, int row, Cell *cell, gpointer flag)
 {
+#if 0
+	/* TODO : here and other places flag a need to update the
+	 * row/col maxima.
+	 */
+	if (row >= sheet->rows.max_used || col >= sheet->cols.max_used)
+#endif
+
 	/* If there is a comment keep the cell */
 	if (cell_has_comment(cell) && GPOINTER_TO_INT(flag))
 		cell_set_value (cell, value_new_empty (), NULL);

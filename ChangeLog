@@ -1,3 +1,9 @@
+2000-11-11  Jody Goldberg <jgoldberg@home.com>
+
+	Patch from Tyler & James Christensen
+	* src/analysis-tools.c (anova_single_factor_tool) : Correct handling
+	  of variables stored in rows rather than columns.
+
 2000-11-11  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/dependent.c (dependent_list_filter): Correct "for" loop

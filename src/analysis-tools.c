@@ -2312,9 +2312,10 @@ int ranking_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range,
  *
  **/
 
-int anova_single_factor_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
-			      int columns_flag, float_t alpha,
-			      data_analysis_output_t *dao)
+int
+anova_single_factor_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
+			  int columns_flag, float_t alpha,
+			  data_analysis_output_t *dao)
 {
         data_set_t *data_sets;
 	int        vars, cols, rows, col, i;
@@ -2441,7 +2442,7 @@ int anova_single_factor_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
 		}
 	}
 	df_b = cols-1;
-	df_w = n_total - cols;
+	df_w = n_total - vars;
 	df_t = n_total - 1;
 	ms_b = ssb / df_b;
 	ms_w = ssw / df_w;
