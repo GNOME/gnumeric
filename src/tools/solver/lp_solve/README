@@ -4,9 +4,11 @@ be integrated into the Gnumeric spreadsheet.
 The lp_solve is a command line linear optimization tool that is
 distributed under LGPL.
 
+The API and the internals of this library is explaned in doc.txt.
 
-Original lp_solve 3.2 README
-============================
+Original lp_solve 3.2 README is attached bellow.
+
+<---------------------------------------------------------------------------->
 
 This is the lp_solve 3.2 release
 
