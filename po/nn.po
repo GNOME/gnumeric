@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.99.0\n"
-"POT-Creation-Date: 2002-06-03 16:38-0400\n"
+"POT-Creation-Date: 2002-06-18 01:32-0400\n"
 "PO-Revision-Date: 2002-01-15 03:14+0100\n"
 "Last-Translator: Roy-Magne Mo <rmo@sunnmore.net>\n"
 "Language-Team: Norwegian/Nynorsk <no@li.org>\n"
@@ -246,7 +246,7 @@ msgid ""
 "opt_bs_gamma"
 msgstr ""
 
-#: plugins/derivatives/plugin.xml.in.h:1 src/functions/fn-financial.c:3123
+#: plugins/derivatives/plugin.xml.in.h:1 src/functions/fn-financial.c:3128
 msgid "Financial"
 msgstr "Finansiell"
 
@@ -10895,6 +10895,7 @@ msgid ""
 "    FIM     (Finland)\n"
 "    FRF     (France)\n"
 "    IEP     (Ireland)\n"
+"    GRD     (Greek)\n"
 "    ITL     (Italy)\n"
 "    LUF     (Luxemburg)\n"
 "    NLG     (Netherlands)\n"
@@ -10907,7 +10908,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2252
+#: src/functions/fn-financial.c:2257
 msgid ""
 "@FUNCTION=PRICE\n"
 "@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,frequency[,basis])\n"
@@ -10931,7 +10932,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2342
+#: src/functions/fn-financial.c:2347
 msgid ""
 "@FUNCTION=YIELD\n"
 "@SYNTAX=YIELD(settle,mat,rate,price,redemption_price,frequency[,basis])\n"
@@ -10954,7 +10955,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2432
+#: src/functions/fn-financial.c:2437
 msgid ""
 "@FUNCTION=YIELDDISC\n"
 "@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption[,basis])\n"
@@ -10978,7 +10979,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2468
+#: src/functions/fn-financial.c:2473
 msgid ""
 "@FUNCTION=YIELDMAT\n"
 "@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr[,basis])\n"
@@ -11003,7 +11004,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2505
+#: src/functions/fn-financial.c:2510
 msgid ""
 "@FUNCTION=ODDFPRICE\n"
 "@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,"
@@ -11029,7 +11030,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2608
+#: src/functions/fn-financial.c:2613
 msgid ""
 "@FUNCTION=ODDFYIELD\n"
 "@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,"
@@ -11054,7 +11055,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2645
+#: src/functions/fn-financial.c:2650
 msgid ""
 "@FUNCTION=ODDLPRICE\n"
 "@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,"
@@ -11080,7 +11081,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2682
+#: src/functions/fn-financial.c:2687
 msgid ""
 "@FUNCTION=ODDLYIELD\n"
 "@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,"
@@ -11105,7 +11106,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2719
+#: src/functions/fn-financial.c:2724
 msgid ""
 "@FUNCTION=AMORDEGRC\n"
 "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -11129,7 +11130,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2753
+#: src/functions/fn-financial.c:2758
 msgid ""
 "@FUNCTION=AMORLINC\n"
 "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -11153,7 +11154,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2787
+#: src/functions/fn-financial.c:2792
 msgid ""
 "@FUNCTION=COUPDAYBS\n"
 "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis])\n"
@@ -11186,7 +11187,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2829
+#: src/functions/fn-financial.c:2834
 msgid ""
 "@FUNCTION=COUPDAYS\n"
 "@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis,eom])\n"
@@ -11220,7 +11221,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2872
+#: src/functions/fn-financial.c:2877
 msgid ""
 "@FUNCTION=COUPDAYSNC\n"
 "@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis,eom])\n"
@@ -11253,7 +11254,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2914
+#: src/functions/fn-financial.c:2919
 msgid ""
 "@FUNCTION=COUPNCD\n"
 "@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis,eom])\n"
@@ -11285,7 +11286,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2955
+#: src/functions/fn-financial.c:2960
 msgid ""
 "@FUNCTION=COUPPCD\n"
 "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis,eom])\n"
@@ -11317,7 +11318,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2996
+#: src/functions/fn-financial.c:3001
 msgid ""
 "@FUNCTION=COUPNUM\n"
 "@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis,eom])\n"
@@ -11347,7 +11348,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3036
+#: src/functions/fn-financial.c:3041
 msgid ""
 "@FUNCTION=CUMIPMT\n"
 "@SYNTAX=CUMIPMT(rate,nper,pv,start_period,end_period,type)\n"
@@ -11358,7 +11359,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3056
+#: src/functions/fn-financial.c:3061
 msgid ""
 "@FUNCTION=CUMPRINC\n"
 "@SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)\n"
@@ -11369,7 +11370,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3076
+#: src/functions/fn-financial.c:3081
 msgid ""
 "@FUNCTION=MDURATION\n"
 "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
@@ -11380,7 +11381,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3097
+#: src/functions/fn-financial.c:3102
 msgid ""
 "@FUNCTION=VDB\n"
 "@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor,switch])\n"
@@ -13646,7 +13647,7 @@ msgstr ""
 #: src/functions/fn-math.c:2484 src/functions/fn-math.c:2503
 #: src/functions/fn-math.c:2597 src/functions/fn-math.c:2617
 #: src/functions/fn-math.c:2709 src/functions/fn-math.c:2729
-#: src/functions/fn-stat.c:2619 src/functions/fn-stat.c:2649
+#: src/functions/fn-stat.c:2620 src/functions/fn-stat.c:2650
 msgid "Array version not implemented!"
 msgstr "Orsak - ikkje implementert"
 
@@ -14153,7 +14154,7 @@ msgid ""
 "@SEEALSO=AVERAGE"
 msgstr ""
 
-#: src/functions/fn-stat.c:848
+#: src/functions/fn-stat.c:849
 msgid ""
 "@FUNCTION=COUNTA\n"
 "@SYNTAX=COUNTA(b1, b2, ...)\n"
@@ -14168,7 +14169,7 @@ msgid ""
 "@SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM"
 msgstr ""
 
-#: src/functions/fn-stat.c:890
+#: src/functions/fn-stat.c:891
 msgid ""
 "@FUNCTION=AVERAGE\n"
 "@SYNTAX=AVERAGE(value1, value2,...)\n"
@@ -14184,7 +14185,7 @@ msgid ""
 "@SEEALSO=SUM, COUNT"
 msgstr ""
 
-#: src/functions/fn-stat.c:922
+#: src/functions/fn-stat.c:923
 msgid ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1, b2, ...)\n"
@@ -14200,7 +14201,7 @@ msgid ""
 "@SEEALSO=MAX,ABS"
 msgstr ""
 
-#: src/functions/fn-stat.c:964
+#: src/functions/fn-stat.c:965
 msgid ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
@@ -14216,7 +14217,7 @@ msgid ""
 "@SEEALSO=MIN,ABS"
 msgstr ""
 
-#: src/functions/fn-stat.c:1006
+#: src/functions/fn-stat.c:1007
 msgid ""
 "@FUNCTION=SKEW\n"
 "@SYNTAX=SKEW(n1, n2, ...)\n"
@@ -14236,7 +14237,7 @@ msgid ""
 "@SEEALSO=AVERAGE,VAR,SKEWP,KURT"
 msgstr ""
 
-#: src/functions/fn-stat.c:1044
+#: src/functions/fn-stat.c:1045
 msgid ""
 "@FUNCTION=SKEWP\n"
 "@SYNTAX=SKEWP(n1, n2, ...)\n"
@@ -14251,7 +14252,7 @@ msgid ""
 "@SEEALSO=AVERAGE,VARP,SKEW,KURTP"
 msgstr ""
 
-#: src/functions/fn-stat.c:1077
+#: src/functions/fn-stat.c:1078
 msgid ""
 "@FUNCTION=EXPONDIST\n"
 "@SYNTAX=EXPONDIST(x,y,cumulative)\n"
@@ -14266,7 +14267,7 @@ msgid ""
 "@SEEALSO=POISSON"
 msgstr ""
 
-#: src/functions/fn-stat.c:1120
+#: src/functions/fn-stat.c:1121
 #, fuzzy
 msgid ""
 "@FUNCTION=GAMMALN\n"
@@ -14293,7 +14294,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 
-#: src/functions/fn-stat.c:1157
+#: src/functions/fn-stat.c:1158
 msgid ""
 "@FUNCTION=GAMMADIST\n"
 "@SYNTAX=GAMMADIST(x,alpha,beta,cum)\n"
@@ -14309,7 +14310,7 @@ msgid ""
 "@SEEALSO=GAMMAINV"
 msgstr ""
 
-#: src/functions/fn-stat.c:1198
+#: src/functions/fn-stat.c:1199
 msgid ""
 "@FUNCTION=GAMMAINV\n"
 "@SYNTAX=GAMMAINV(p,alpha,beta)\n"
@@ -14324,7 +14325,7 @@ msgid ""
 "@SEEALSO=GAMMADIST"
 msgstr ""
 
-#: src/functions/fn-stat.c:1234
+#: src/functions/fn-stat.c:1235
 msgid ""
 "@FUNCTION=CHIDIST\n"
 "@SYNTAX=CHIDIST(x,dof)\n"
@@ -14339,7 +14340,7 @@ msgid ""
 "@SEEALSO=CHIINV,CHITEST"
 msgstr ""
 
-#: src/functions/fn-stat.c:1270
+#: src/functions/fn-stat.c:1271
 #, fuzzy
 msgid ""
 "@FUNCTION=CHIINV\n"
@@ -14365,7 +14366,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 
-#: src/functions/fn-stat.c:1304
+#: src/functions/fn-stat.c:1305
 msgid ""
 "@FUNCTION=CHITEST\n"
 "@SYNTAX=CHITEST(actual_range,theoretical_range)\n"
@@ -14380,7 +14381,7 @@ msgid ""
 "@SEEALSO=CHIDIST,CHIINV"
 msgstr ""
 
-#: src/functions/fn-stat.c:1442
+#: src/functions/fn-stat.c:1443
 msgid ""
 "@FUNCTION=BETADIST\n"
 "@SYNTAX=BETADIST(x,alpha,beta[,a,b])\n"
@@ -14397,7 +14398,7 @@ msgid ""
 "@SEEALSO=BETAINV"
 msgstr ""
 
-#: src/functions/fn-stat.c:1482
+#: src/functions/fn-stat.c:1483
 msgid ""
 "@FUNCTION=BETAINV\n"
 "@SYNTAX=BETAINV(p,alpha,beta[,a,b])\n"
@@ -14414,7 +14415,7 @@ msgid ""
 "@SEEALSO=BETADIST"
 msgstr ""
 
-#: src/functions/fn-stat.c:1522
+#: src/functions/fn-stat.c:1523
 msgid ""
 "@FUNCTION=TDIST\n"
 "@SYNTAX=TDIST(x,dof,tails)\n"
@@ -14430,7 +14431,7 @@ msgid ""
 "@SEEALSO=TINV,TTEST"
 msgstr ""
 
-#: src/functions/fn-stat.c:1562
+#: src/functions/fn-stat.c:1563
 #, fuzzy
 msgid ""
 "@FUNCTION=TINV\n"
@@ -14456,7 +14457,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 
-#: src/functions/fn-stat.c:1596
+#: src/functions/fn-stat.c:1597
 msgid ""
 "@FUNCTION=FDIST\n"
 "@SYNTAX=FDIST(x,dof1,dof2)\n"
@@ -14472,7 +14473,7 @@ msgid ""
 "@SEEALSO=FINV"
 msgstr ""
 
-#: src/functions/fn-stat.c:1633
+#: src/functions/fn-stat.c:1634
 #, fuzzy
 msgid ""
 "@FUNCTION=FINV\n"
@@ -14499,7 +14500,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 
-#: src/functions/fn-stat.c:1669
+#: src/functions/fn-stat.c:1670
 msgid ""
 "@FUNCTION=BINOMDIST\n"
 "@SYNTAX=BINOMDIST(n,trials,p,cumulative)\n"
@@ -14517,7 +14518,7 @@ msgid ""
 "@SEEALSO=POISSON"
 msgstr ""
 
-#: src/functions/fn-stat.c:1715
+#: src/functions/fn-stat.c:1716
 msgid ""
 "@FUNCTION=CRITBINOM\n"
 "@SYNTAX=CRITBINOM(trials,p,alpha)\n"
@@ -14535,7 +14536,7 @@ msgid ""
 "@SEEALSO=BINOMDIST"
 msgstr ""
 
-#: src/functions/fn-stat.c:1755
+#: src/functions/fn-stat.c:1756
 msgid ""
 "@FUNCTION=PERMUT\n"
 "@SYNTAX=PERMUT(n,k)\n"
@@ -14550,7 +14551,7 @@ msgid ""
 "@SEEALSO=COMBIN"
 msgstr ""
 
-#: src/functions/fn-stat.c:1790
+#: src/functions/fn-stat.c:1791
 msgid ""
 "@FUNCTION=HYPGEOMDIST\n"
 "@SYNTAX=HYPGEOMDIST(x,n,M,N)\n"
@@ -14567,7 +14568,7 @@ msgid ""
 "@SEEALSO=BINOMDIST,POISSON"
 msgstr ""
 
-#: src/functions/fn-stat.c:1830
+#: src/functions/fn-stat.c:1831
 msgid ""
 "@FUNCTION=CONFIDENCE\n"
 "@SYNTAX=CONFIDENCE(x,stddev,size)\n"
@@ -14583,7 +14584,7 @@ msgid ""
 "@SEEALSO=AVERAGE"
 msgstr ""
 
-#: src/functions/fn-stat.c:1871
+#: src/functions/fn-stat.c:1872
 msgid ""
 "@FUNCTION=STANDARDIZE\n"
 "@SYNTAX=STANDARDIZE(x,mean,stdev)\n"
@@ -14598,7 +14599,7 @@ msgid ""
 "@SEEALSO=AVERAGE"
 msgstr ""
 
-#: src/functions/fn-stat.c:1909
+#: src/functions/fn-stat.c:1910
 msgid ""
 "@FUNCTION=WEIBULL\n"
 "@SYNTAX=WEIBULL(x,alpha,beta,cumulative)\n"
@@ -14615,7 +14616,7 @@ msgid ""
 "@SEEALSO=POISSON"
 msgstr ""
 
-#: src/functions/fn-stat.c:1955
+#: src/functions/fn-stat.c:1956
 msgid ""
 "@FUNCTION=NORMDIST\n"
 "@SYNTAX=NORMDIST(x,mean,stdev,cumulative)\n"
@@ -14630,7 +14631,7 @@ msgid ""
 "@SEEALSO=POISSON"
 msgstr ""
 
-#: src/functions/fn-stat.c:2000
+#: src/functions/fn-stat.c:2001
 msgid ""
 "@FUNCTION=NORMINV\n"
 "@SYNTAX=NORMINV(p,mean,stdev)\n"
@@ -14646,7 +14647,7 @@ msgid ""
 "@SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST"
 msgstr ""
 
-#: src/functions/fn-stat.c:2038
+#: src/functions/fn-stat.c:2039
 msgid ""
 "@FUNCTION=KURT\n"
 "@SYNTAX=KURT(n1, n2, ...)\n"
@@ -14667,7 +14668,7 @@ msgid ""
 "@SEEALSO=AVERAGE,VAR,SKEW,KURTP"
 msgstr ""
 
-#: src/functions/fn-stat.c:2078
+#: src/functions/fn-stat.c:2079
 msgid ""
 "@FUNCTION=KURTP\n"
 "@SYNTAX=KURTP(n1, n2, ...)\n"
@@ -14683,7 +14684,7 @@ msgid ""
 "@SEEALSO=AVERAGE,VARP,SKEWP,KURT"
 msgstr ""
 
-#: src/functions/fn-stat.c:2112
+#: src/functions/fn-stat.c:2113
 msgid ""
 "@FUNCTION=AVEDEV\n"
 "@SYNTAX=AVEDEV(n1, n2, ...)\n"
@@ -14698,7 +14699,7 @@ msgid ""
 "@SEEALSO=STDEV"
 msgstr ""
 
-#: src/functions/fn-stat.c:2143
+#: src/functions/fn-stat.c:2144
 msgid ""
 "@FUNCTION=DEVSQ\n"
 "@SYNTAX=DEVSQ(n1, n2, ...)\n"
@@ -14714,7 +14715,7 @@ msgid ""
 "@SEEALSO=STDEV"
 msgstr ""
 
-#: src/functions/fn-stat.c:2176
+#: src/functions/fn-stat.c:2177
 #, fuzzy
 msgid ""
 "@FUNCTION=FISHER\n"
@@ -14740,7 +14741,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 
-#: src/functions/fn-stat.c:2211
+#: src/functions/fn-stat.c:2212
 msgid ""
 "@FUNCTION=POISSON\n"
 "@SYNTAX=POISSON(x,mean,cumulative)\n"
@@ -14756,7 +14757,7 @@ msgid ""
 "@SEEALSO=NORMDIST, WEIBULL"
 msgstr ""
 
-#: src/functions/fn-stat.c:2254
+#: src/functions/fn-stat.c:2255
 msgid ""
 "@FUNCTION=PEARSON\n"
 "@SYNTAX=PEARSON(array1,array2)\n"
@@ -14769,7 +14770,7 @@ msgid ""
 "@SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX"
 msgstr ""
 
-#: src/functions/fn-stat.c:2279
+#: src/functions/fn-stat.c:2280
 msgid ""
 "@FUNCTION=RSQ\n"
 "@SYNTAX=RSQ(array1,array2)\n"
@@ -14782,7 +14783,7 @@ msgid ""
 "@SEEALSO=CORREL,COVAR,INTERCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:2309
+#: src/functions/fn-stat.c:2310
 msgid ""
 "@FUNCTION=MEDIAN\n"
 "@SYNTAX=MEDIAN(n1, n2, ...)\n"
@@ -14798,7 +14799,7 @@ msgid ""
 "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM"
 msgstr ""
 
-#: src/functions/fn-stat.c:2343
+#: src/functions/fn-stat.c:2344
 msgid ""
 "@FUNCTION=LARGE\n"
 "@SYNTAX=LARGE(n1, n2, ..., k)\n"
@@ -14815,7 +14816,7 @@ msgid ""
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL"
 msgstr ""
 
-#: src/functions/fn-stat.c:2390
+#: src/functions/fn-stat.c:2391
 msgid ""
 "@FUNCTION=SMALL\n"
 "@SYNTAX=SMALL(n1, n2, ..., k)\n"
@@ -14832,7 +14833,7 @@ msgid ""
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE"
 msgstr ""
 
-#: src/functions/fn-stat.c:2461
+#: src/functions/fn-stat.c:2462
 msgid ""
 "@FUNCTION=PROB\n"
 "@SYNTAX=PROB(x_range,prob_range,lower_limit[,upper_limit])\n"
@@ -14849,7 +14850,7 @@ msgid ""
 "@SEEALSO=BINOMDIST,CRITBINOM"
 msgstr ""
 
-#: src/functions/fn-stat.c:2555
+#: src/functions/fn-stat.c:2556
 msgid ""
 "@FUNCTION=STEYX\n"
 "@SYNTAX=STEYX(known_y's,known_x's)\n"
@@ -14867,7 +14868,7 @@ msgid ""
 "@SEEALSO=PEARSON,RSQ,SLOPE"
 msgstr ""
 
-#: src/functions/fn-stat.c:2710
+#: src/functions/fn-stat.c:2711
 msgid ""
 "@FUNCTION=ZTEST\n"
 "@SYNTAX=ZTEST(ref,x)\n"
@@ -14883,7 +14884,7 @@ msgid ""
 "@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE"
 msgstr ""
 
-#: src/functions/fn-stat.c:2791
+#: src/functions/fn-stat.c:2792
 msgid ""
 "@FUNCTION=AVERAGEA\n"
 "@SYNTAX=AVERAGEA(number1,number2,...)\n"
@@ -14901,7 +14902,7 @@ msgid ""
 "@SEEALSO=AVERAGE"
 msgstr ""
 
-#: src/functions/fn-stat.c:2826
+#: src/functions/fn-stat.c:2827
 msgid ""
 "@FUNCTION=MAXA\n"
 "@SYNTAX=MAXA(number1,number2,...)\n"
@@ -14919,7 +14920,7 @@ msgid ""
 "@SEEALSO=MAX,MINA"
 msgstr ""
 
-#: src/functions/fn-stat.c:2861
+#: src/functions/fn-stat.c:2862
 msgid ""
 "@FUNCTION=MINA\n"
 "@SYNTAX=MINA(number1,number2,...)\n"
@@ -14937,7 +14938,7 @@ msgid ""
 "@SEEALSO=MIN,MAXA"
 msgstr ""
 
-#: src/functions/fn-stat.c:2896
+#: src/functions/fn-stat.c:2897
 msgid ""
 "@FUNCTION=VARA\n"
 "@SYNTAX=VARA(number1,number2,...)\n"
@@ -14955,7 +14956,7 @@ msgid ""
 "@SEEALSO=VAR,VARPA"
 msgstr ""
 
-#: src/functions/fn-stat.c:2931
+#: src/functions/fn-stat.c:2932
 msgid ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(number1,number2,...)\n"
@@ -14973,7 +14974,7 @@ msgid ""
 "@SEEALSO=VARP,VARP"
 msgstr ""
 
-#: src/functions/fn-stat.c:2966
+#: src/functions/fn-stat.c:2967
 msgid ""
 "@FUNCTION=STDEVA\n"
 "@SYNTAX=STDEVA(number1,number2,...)\n"
@@ -14991,7 +14992,7 @@ msgid ""
 "@SEEALSO=STDEV,STDEVPA"
 msgstr ""
 
-#: src/functions/fn-stat.c:3001
+#: src/functions/fn-stat.c:3002
 msgid ""
 "@FUNCTION=STDEVPA\n"
 "@SYNTAX=STDEVPA(number1,number2,...)\n"
@@ -15009,7 +15010,7 @@ msgid ""
 "@SEEALSO=STDEVA,STDEVP"
 msgstr ""
 
-#: src/functions/fn-stat.c:3036
+#: src/functions/fn-stat.c:3037
 msgid ""
 "@FUNCTION=PERCENTRANK\n"
 "@SYNTAX=PERCENTRANK(array,x[,significance])\n"
@@ -15029,7 +15030,7 @@ msgid ""
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL"
 msgstr ""
 
-#: src/functions/fn-stat.c:3146
+#: src/functions/fn-stat.c:3147
 msgid ""
 "@FUNCTION=PERCENTILE\n"
 "@SYNTAX=PERCENTILE(array,k)\n"
@@ -15047,7 +15048,7 @@ msgid ""
 "@SEEALSO=QUARTILE"
 msgstr ""
 
-#: src/functions/fn-stat.c:3195
+#: src/functions/fn-stat.c:3196
 msgid ""
 "@FUNCTION=QUARTILE\n"
 "@SYNTAX=QUARTILE(array,quart)\n"
@@ -15072,7 +15073,7 @@ msgid ""
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL"
 msgstr ""
 
-#: src/functions/fn-stat.c:3251
+#: src/functions/fn-stat.c:3252
 msgid ""
 "@FUNCTION=FTEST\n"
 "@SYNTAX=FTEST(array1,array2)\n"
@@ -15088,7 +15089,7 @@ msgid ""
 "@SEEALSO=FDIST,FINV"
 msgstr ""
 
-#: src/functions/fn-stat.c:3301
+#: src/functions/fn-stat.c:3302
 msgid ""
 "@FUNCTION=TTEST\n"
 "@SYNTAX=TTEST(array1,array2,tails,type)\n"
@@ -15118,7 +15119,7 @@ msgid ""
 "@SEEALSO=FDIST,FINV"
 msgstr ""
 
-#: src/functions/fn-stat.c:3475
+#: src/functions/fn-stat.c:3476
 msgid ""
 "@FUNCTION=FREQUENCY\n"
 "@SYNTAX=FREQUENCY(data_array,bins_array)\n"
@@ -15134,7 +15135,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-stat.c:3550
+#: src/functions/fn-stat.c:3551
 msgid ""
 "@FUNCTION=LINEST\n"
 "@SYNTAX=LINEST(known_y's[,known_x's[,const[,stat]]])\n"
@@ -15162,7 +15163,7 @@ msgid ""
 "@SEEALSO=LOGEST,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:3821
+#: src/functions/fn-stat.c:3822
 msgid ""
 "@FUNCTION=TREND\n"
 "@SYNTAX=TREND(known_y's[,known_x's],new_x's])\n"
@@ -15183,7 +15184,7 @@ msgid ""
 "@SEEALSO=LINEST"
 msgstr ""
 
-#: src/functions/fn-stat.c:3933
+#: src/functions/fn-stat.c:3934
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -15210,7 +15211,7 @@ msgid ""
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4188
+#: src/functions/fn-stat.c:4189
 msgid ""
 "@FUNCTION=GROWTH\n"
 "@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
@@ -15230,7 +15231,7 @@ msgid ""
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4302
+#: src/functions/fn-stat.c:4303
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -15250,7 +15251,7 @@ msgid ""
 "@SEEALSO=INTERCEPT,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4373
+#: src/functions/fn-stat.c:4374
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -15269,7 +15270,7 @@ msgid ""
 "@SEEALSO=FORECAST,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4422
+#: src/functions/fn-stat.c:4423
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
@@ -15284,7 +15285,7 @@ msgid ""
 "@SEEALSO=STDEV,STDEVPA"
 msgstr ""
 
-#: src/functions/fn-stat.c:4470
+#: src/functions/fn-stat.c:4471
 msgid "Statistics"
 msgstr "Statistikk"
 
@@ -15867,7 +15868,7 @@ msgstr "Formater som alternativt nummer"
 msgid "File \"%s\" has unknown format."
 msgstr "Fila «%s» har ukjent format"
 
-#: src/gnumeric-graph.c:1063
+#: src/gnumeric-graph.c:1075
 msgid "Data..."
 msgstr "Data ..."
 
@@ -17092,7 +17093,7 @@ msgstr ""
 msgid "Gnumeric : Validation"
 msgstr "Gnumeric: validering"
 
-#: src/value.c:678
+#: src/value.c:674
 msgid "Terminate"
 msgstr "Avslutt"
 

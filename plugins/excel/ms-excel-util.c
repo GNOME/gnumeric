@@ -382,7 +382,7 @@ get_locale_charset_name (void)
 	charset = nl_langinfo (CODESET);
 #else
 	{
-		char *locale = setlocale (LC_CTYPE, "");
+		char *locale = setlocale (LC_CTYPE, NULL);
 		if (locale != NULL) {
 			char *tmp = strchr (locale,'.');
 			if (tmp != NULL)
@@ -448,7 +448,7 @@ excel_iconv_win_codepage (void)
 		char *lang;
 
 		if ((lang = getenv("WINDOWS_LANGUAGE")) == NULL) {
-			char const *locale = setlocale (LC_CTYPE, "");
+			char const *locale = setlocale (LC_CTYPE, NULL);
 			if (locale != NULL) {
 				char const *lang_sep = strchr (locale, '.');
 				if (lang_sep)
