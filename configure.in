@@ -427,7 +427,7 @@ unset libglade_ok
 dnl ******************************
 dnl Gnome App Lib checking
 dnl ******************************
-AC_MSG_CHECKING(for Gnome App libraries (GAL) >= 0.7.99.0
+AC_MSG_CHECKING(for Gnome App libraries (GAL) >= 0.7.99.0			)
 gal_ok=no
 if gnome-config --libs gal > /dev/null 2>&1; then 
     verstxt=`gnome-config --modversion gal`

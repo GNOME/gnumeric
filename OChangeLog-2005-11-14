@@ -1,3 +1,7 @@
+2001-04-17  Jon K Hellan  <hellan@acm.org>
+
+	* configure.in: Fix typo
+
 2001-04-16  Jody Goldberg <jgoldberg@home.com>
 
 	* configure.in : bump GAL version reqs.
