@@ -111,7 +111,7 @@ gog_label_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 	gtk_widget_show_all (hbox);
 	gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), hbox,
 		gtk_label_new (_("Data")));
-	gog_style_editor (GOG_STYLED_OBJECT (gobj), cc, notebook);
+	gog_styled_object_editor (GOG_STYLED_OBJECT (gobj), cc, notebook);
 	gog_style_handle_notebook (notebook, &label_pref_page);
 	return notebook;
 }

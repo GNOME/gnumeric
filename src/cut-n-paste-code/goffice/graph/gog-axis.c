@@ -642,7 +642,7 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 	gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook),
 		glade_xml_get_widget (gui, "axis_pref_table"),
 		gtk_label_new (_("Details")));
-	gog_style_editor (GOG_STYLED_OBJECT (gobj), cc, notebook);
+	gog_styled_object_editor (GOG_STYLED_OBJECT (gobj), cc, notebook);
 
 	w = glade_xml_get_widget (gui, "axis_low");
 	if (axis->pos == GOG_AXIS_AT_LOW)

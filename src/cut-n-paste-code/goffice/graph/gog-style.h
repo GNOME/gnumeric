@@ -122,7 +122,12 @@ gboolean   gog_style_is_different_size	(GogStyle const *a, GogStyle const *b);
 gboolean   gog_style_is_marker_visible	(GogStyle const *style);
 gboolean   gog_style_is_line_visible	(GogStyle const *style);
 
-gpointer   gog_style_editor		(GogStyledObject *obj, GnmCmdContext *cc,
+gpointer   gog_style_editor		(GogStyle *style,
+					 GogStyle *default_style,
+					 GnmCmdContext *cc,
+					 gpointer optional_notebook);
+gpointer   gog_styled_object_editor	(GogStyledObject *gso,
+					 GnmCmdContext *cc,
 					 gpointer optional_notebook);
 
 /* move this to the widget utils dir when we get one */

@@ -1,3 +1,14 @@
+2004-01-22 Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+	* graph/gog-style.c (gog_style_editor) : edit a GogStyle, not
+	GogStyledObject.
+	(gog_styled_object_editor) : new.
+	* graph/gog-axis.c : use gog_styled_object_editor instead of
+	gog_style_editor.
+	* graph/gog-label.c : ditto.
+	* graph/gog-series.c : ditto.
+	* graph/gog-styled-object.c : ditto. rename gog_styled_object_editor
+	to styled_object_editor.
+
 2004-01-17 Jean Brefort <jean.brefort@ac-dijon.fr>
 	* graph/plugins/plot_xy/* : add initial support for bubble plots
 

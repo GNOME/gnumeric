@@ -109,9 +109,10 @@ gog_styled_object_finalize (GObject *obj)
 }
 
 static gpointer
-gog_styled_object_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
+styled_object_editor (GogObject *gobj, GogDataAllocator *dalloc,
+		      GnmCmdContext *cc)
 {
-	return gog_style_editor	(GOG_STYLED_OBJECT (gobj), cc, NULL);
+	return gog_styled_object_editor (GOG_STYLED_OBJECT (gobj), cc, NULL);
 }
 
 static void
@@ -152,7 +153,7 @@ gog_styled_object_class_init (GogObjectClass *gog_klass)
 	gobject_klass->set_property = gog_styled_object_set_property;
 	gobject_klass->get_property = gog_styled_object_get_property;
 	gobject_klass->finalize	    = gog_styled_object_finalize;
-	gog_klass->editor    	    = gog_styled_object_editor;
+	gog_klass->editor    	    = styled_object_editor;
 	gog_klass->parent_changed   = gog_styled_object_parent_changed;
 	style_klass->init_style	    = gog_styled_object_init_style;
 
