@@ -1,3 +1,11 @@
+2003-07-24  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf-fixed-page.c (make_new_column): New function, largely
+	split out from cb_col_event.
+	(cb_col_event): Call make_new_column.
+	(cb_treeview_event): New function.
+	(stf_dialog_fixed_page_init): Connect to cb_treeview_event.
+
 2003-07-24  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* dialog-goal-seek.c (dialog_destroy): call cmd_goal_seek

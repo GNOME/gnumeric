@@ -102,8 +102,8 @@ activate_column (StfDialogData *pagedata, int i)
 	
 }
 
-static void cb_col_check_clicked (GtkToggleButton *togglebutton,
-                                            gpointer _i)
+static void
+cb_col_check_clicked (GtkToggleButton *togglebutton, gpointer _i)
 {
 	int i = GPOINTER_TO_INT (_i);
 	StfDialogData *pagedata =

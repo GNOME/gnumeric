@@ -84,8 +84,88 @@ fixed_page_autodiscover (StfDialogData *pagedata)
 	}
 }
 
-
 static void fixed_page_update_preview (StfDialogData *pagedata);
+
+static void
+make_new_column (StfDialogData *pagedata, int col, int dx, GtkWidget *w)
+{
+	PangoLayout *layout;
+	PangoFontDescription *font_desc;
+	int charindex, width;
+	GtkCellRenderer *cell =	stf_preview_get_cell_renderer (pagedata->fixed.renderdata, col);
+	int i, colstart, colend;
+	char *row[2];
+
+	if (col == 0)
+		colstart = 0;
+	else {
+		gtk_clist_get_text (pagedata->fixed.fixed_collist, col - 1, 1, row);
+		colstart = atoi (row[0]);
+	}
+	gtk_clist_get_text (pagedata->fixed.fixed_collist, col, 1, row);
+	colend = atoi (row[0]);
+
+	g_object_get (G_OBJECT (cell), "font_desc", &font_desc, NULL);
+	layout = gtk_widget_create_pango_layout (w, "x");
+	pango_layout_set_font_description (layout, font_desc);
+	pango_layout_get_pixel_size (layout, &width, NULL);
+	if (width < 1) width = 1;
+	charindex = colstart + (dx + width / 2) / width;
+	g_object_unref (layout);
+	pango_font_description_free (font_desc);
+
+	if (charindex <= colstart || (colend != -1 && charindex >= colend))
+		return;
+
+	row[0] = g_strdup_printf ("%d", col + 1);
+	row[1] = g_strdup_printf ("%d", charindex);
+	gtk_clist_insert (pagedata->fixed.fixed_collist, col, row);
+	g_free (row[0]);
+	g_free (row[1]);
+
+	/* Patch the following column numbers in the list.  */
+	for (i = col; i < GTK_CLIST (pagedata->fixed.fixed_collist)->rows; i++) {
+		char *text = g_strdup_printf ("%d", i);
+		gtk_clist_set_text (pagedata->fixed.fixed_collist, i, 0, text);
+		g_free (text);
+	}
+
+	fixed_page_update_preview (pagedata);
+}
+
+
+static gint
+cb_treeview_event (GtkWidget *treeview,
+		   GdkEvent *event,
+		   StfDialogData *pagedata)
+{
+	if (event->type == GDK_BUTTON_PRESS) {
+		GdkEventButton *bevent = (GdkEventButton *)event;
+
+		if (bevent->button == 1) {
+			/* Split column.  */
+			int dx = (int)bevent->x;
+			int col;
+
+			/* Figure out what column we pressed in.  */
+			for (col = 0; col < GTK_CLIST (pagedata->fixed.fixed_collist)->rows; col++) {
+				GtkTreeViewColumn *column =
+					stf_preview_get_column (pagedata->fixed.renderdata, col);
+				GtkWidget *w = GTK_BIN (column->button)->child;
+				if (dx < w->allocation.x + w->allocation.width) {
+					dx -= w->allocation.x;
+					break;
+				}
+			}
+
+			make_new_column (pagedata, col, dx, treeview);
+			return TRUE;
+		}
+
+	}
+	return FALSE;
+}
+
 
 static gint
 cb_col_event (GtkWidget *button,
@@ -100,67 +180,11 @@ cb_col_event (GtkWidget *button,
 
 		if (bevent->button == 1) {
 			/* Split column.  */
-			GtkCellRenderer *cell =	stf_preview_get_cell_renderer
-				(data->fixed.renderdata, col);
-			char *row[2];
-			int i, charindex, colstart, colend;
-			PangoLayout *layout;
-			PangoFontDescription *font_desc;
-			int dx, width;
-
-			if (data->fixed.renderdata->colcount >= SHEET_MAX_COLS) {
-				char *msg = g_strdup_printf
-					(_("You cannot have more than %d columns in "
-					   "this version of Gnumeric."),
-					 SHEET_MAX_COLS);
-				gnumeric_notice (data->wbcg, GTK_MESSAGE_ERROR, msg);
-				g_free (msg);
-				return TRUE;
-			}
-
-			if (col == 0)
-				colstart = 0;
-			else {
-				gtk_clist_get_text (data->fixed.fixed_collist, col - 1, 1, row);
-				colstart = atoi (row[0]);
-			}
-
-			gtk_clist_get_text (data->fixed.fixed_collist, col, 1, row);
-			colend = atoi (row[0]);
+			int dx;
 
 			dx = (int)bevent->x - (GTK_BIN (button)->child->allocation.x - button->allocation.x);
+			make_new_column (data, col, dx, button);
 
-			layout = gtk_widget_create_pango_layout (button, "x");
-
-			g_object_get (G_OBJECT (cell), "font_desc", &font_desc, NULL);
-			pango_layout_set_font_description (layout, font_desc);
-			pango_layout_get_pixel_size (layout, &width, NULL);
-			if (width < 1) width = 1;
-			charindex = colstart + (dx + width / 2) / width;
-			g_object_unref (layout);
-			pango_font_description_free (font_desc);
-
-#if 0
-			g_print ("Start at %d; end at %d; charindex=%d\n", colstart, colend, charindex);
-#endif
-
-			if (charindex <= colstart || (colend != -1 && charindex >= colend))
-				return TRUE;
-
-			row[0] = g_strdup_printf ("%d", col + 1);
-			row[1] = g_strdup_printf ("%d", charindex);
-			gtk_clist_insert (data->fixed.fixed_collist, col, row);
-			g_free (row[0]);
-			g_free (row[1]);
-
-			/* Patch the following column numbers in the list.  */
-			for (i = col; i < GTK_CLIST (data->fixed.fixed_collist)->rows; i++) {
-				char *text = g_strdup_printf ("%d", i);
-				gtk_clist_set_text (data->fixed.fixed_collist, i, 0, text);
-				g_free (text);
-			}
-
-			fixed_page_update_preview (data);
 			return TRUE;
 		}
 
@@ -498,4 +522,7 @@ stf_dialog_fixed_page_init (GladeXML *gui, StfDialogData *pagedata)
 	g_signal_connect (G_OBJECT (pagedata->fixed.fixed_auto),
 		"clicked",
 		G_CALLBACK (fixed_page_auto_clicked), pagedata);
+	g_signal_connect (G_OBJECT (pagedata->fixed.renderdata->tree_view),
+		"event",
+		 G_CALLBACK (cb_treeview_event), pagedata);
 }
