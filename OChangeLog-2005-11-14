@@ -1,5 +1,8 @@
 2003-06-12  Morten Welinder  <terra@gnome.org>
 
+	* src/gui-clipboard.c (text_to_cell_region): Add fixed_encoding
+	argument as for stf_dialog.  All callers changed.
+
 	* src/stf-parse.c (compile_terminators): New function.
 	(stf_parse_options_add_line_terminator,
 	stf_parse_options_remove_line_terminator,

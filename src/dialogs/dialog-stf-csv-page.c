@@ -139,8 +139,6 @@ csv_page_prepare (G_GNUC_UNUSED GnomeDruidPage *page,
 		  G_GNUC_UNUSED GnomeDruid *druid,
 		  DruidPageData_t *pagedata)
 {
-	stf_parse_options_set_trim_spaces (pagedata->parseoptions, pagedata->trim);
-
 	if (format_get_arg_sep () == ',')
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_comma), TRUE);
 	else

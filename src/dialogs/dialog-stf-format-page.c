@@ -39,20 +39,29 @@ static void
 format_page_trim_menu_deactivate (G_GNUC_UNUSED GtkMenu *menu,
 				  DruidPageData_t *data)
 {
+	StfTrimType_t trim;
 	int trimtype = gtk_option_menu_get_history (data->format.format_trim);
 
 	switch (trimtype) {
 	case -1:
-	case 0 : data->trim = (TRIM_TYPE_LEFT | TRIM_TYPE_RIGHT);
+	case 0:
+		trim = TRIM_TYPE_LEFT | TRIM_TYPE_RIGHT;
 		break;
-	case 1 : data->trim = TRIM_TYPE_NEVER;
+	default:
+		g_warning ("Unknown trim type selected (%d)", trimtype);
+		/* Fall through.  */
+	case 1:
+		trim = TRIM_TYPE_NEVER;
 		break;
-	case 2 : data->trim = TRIM_TYPE_LEFT;
+	case 2:
+		trim = TRIM_TYPE_LEFT;
 		break;
-	case 3 : data->trim = TRIM_TYPE_RIGHT;
+	case 3:
+		trim = TRIM_TYPE_RIGHT;
 		break;
-	default : g_warning ("Unknown trim type selected (%d)", trimtype);
 	}
+
+	stf_parse_options_set_trim_spaces (data->parseoptions, trim);
 }
 
 

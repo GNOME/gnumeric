@@ -1,5 +1,9 @@
 2003-06-12  Morten Welinder  <terra@gnome.org>
 
+	* dialog-stf.c (stf_dialog): New argument fixed_encoding which,
+	when TRUE, will use the specified encoding with no user override.
+	All callers changed.
+
 	* dialog-stf-preview.c (render_get_value): Change tabs into spaces
 	here.
 	(stf_preview_set_lines): Clear the table here too.

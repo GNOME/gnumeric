@@ -435,12 +435,17 @@ stf_dialog_editables_enter (DruidPageData_t *pagedata)
 DialogStfResult_t*
 stf_dialog (WorkbookControlGUI *wbcg,
 	    const char *opt_encoding,
+	    gboolean fixed_encoding,
 	    const char *source,
 	    const char *data)
 {
 	GladeXML *gui;
 	DialogStfResult_t *dialogresult;
 	DruidPageData_t pagedata;
+
+	g_return_val_if_fail (opt_encoding != NULL || !fixed_encoding, NULL);
+	g_return_val_if_fail (source != NULL, NULL);
+	g_return_val_if_fail (data != NULL, NULL);
 
 	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
 		"dialog-stf.glade", NULL, NULL);
@@ -450,6 +455,7 @@ stf_dialog (WorkbookControlGUI *wbcg,
 	pagedata.canceled = FALSE;
 
 	pagedata.encoding    = g_strdup (opt_encoding);
+	pagedata.fixed_encoding = fixed_encoding;
 	pagedata.wbcg	     = wbcg;
 	pagedata.source      = source;
 	pagedata.raw_data    = data;
@@ -496,7 +502,6 @@ stf_dialog (WorkbookControlGUI *wbcg,
 		dialogresult->encoding = pagedata.encoding;
 		pagedata.encoding = NULL;
 
-		dialogresult->lines = pagedata.importlines;
 		dialogresult->rowcount = pagedata.format.renderdata->lines->len;
 
 		dialogresult->parseoptions = pagedata.parseoptions;

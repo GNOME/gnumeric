@@ -257,11 +257,6 @@ fixed_page_collist_select_row (GtkCList *clist, int row,
 {
 	char *t[2];
 
-	if (data->fixed.manual) {
-		data->fixed.manual = FALSE;
-		return;
-	}
-
 	data->fixed.index = row;
 
 	gtk_clist_get_text (clist, row, 1, t);
@@ -491,10 +486,7 @@ stf_dialog_fixed_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	pagedata->fixed.renderdata    =
 		stf_preview_new (pagedata->fixed.fixed_data_container,
 				 NULL);
-	pagedata->fixed.manual        = FALSE;
 	pagedata->fixed.index         = -1;
-	pagedata->fixed.mousedown     = FALSE;
-	pagedata->fixed.xorigin       = 0;
 
 	gtk_clist_column_titles_passive (pagedata->fixed.fixed_collist);
 

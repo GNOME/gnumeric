@@ -131,9 +131,8 @@ main_page_import_range_changed (DruidPageData_t *data)
 	data->cur = stf_parse_find_line (data->parseoptions, data->utf8_data, startrow - 1);
 	data->cur_end = stf_parse_find_line (data->parseoptions, data->utf8_data, stoprow);
 
-	data->importlines = (stoprow - startrow) + 1;
 	linescaption = g_strdup_printf (_("%d of %d lines to import"),
-					data->importlines,
+					(stoprow - startrow) + 1,
 					renderdata->lines->len);
 	gtk_label_set_text (data->main.main_lines, linescaption);
 	g_free (linescaption);
@@ -298,6 +297,8 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	gtk_container_add (GTK_CONTAINER (glade_xml_get_widget (gui, "encoding_hbox")),
 			   GTK_WIDGET (pagedata->main.charmap_selector));
 	gtk_widget_show_all (GTK_WIDGET (pagedata->main.charmap_selector));
+	gtk_widget_set_sensitive (GTK_WIDGET (pagedata->main.charmap_selector),
+				  !pagedata->fixed_encoding);
 
 	renderdata = pagedata->main.renderdata = stf_preview_new
 		(pagedata->main.main_data_container,
