@@ -1,3 +1,7 @@
+2000-04-24  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c : format police.
+
 2000-04-21  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_sheet_insert) : Use cell_set_value

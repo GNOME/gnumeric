@@ -142,8 +142,7 @@ biff_get_text (guint8 const *pos, guint32 length, guint32 *byte_length)
 		byte_length = &byte_len;
 	*byte_length = 0;
 
-	if (!length)
-	{
+	if (!length) {
 		/* FIXME FIXME FIXME : What about the 1 byte for the header ?
 		 *                     The length may be wrong in this case.
 		 */
@@ -251,8 +250,7 @@ char const *
 biff_get_error_text (const guint8 err)
 {
 	char const *buf;
-	switch (err)
-	{
+	switch (err) {
 	case 0:  buf = gnumeric_err_NULL;  break;
 	case 7:  buf = gnumeric_err_DIV0;  break;
 	case 15: buf = gnumeric_err_VALUE; break;
@@ -300,8 +298,7 @@ ms_biff_bof_data_new (BiffQuery *q)
 					ms_ole_dump (q->data, q->length);
 				}
 #endif
-				switch (MS_OLE_GET_GUINT16 (q->data))
-				{
+				switch (MS_OLE_GET_GUINT16 (q->data)) {
 				case 0x0600:
 					ans->version = eBiffV8;
 					break;
@@ -764,7 +761,6 @@ EXCEL_PALETTE_ENTRY const excel_default_palette[EXCEL_DEF_PAL_LEN] = {
 
 	{  0, 51,102}, { 51,153,102},  {  0, 51,  0},  { 51, 51,  0},
 	{153, 51,  0}, {153, 51,102},  { 51, 51,153},  { 51, 51, 51}
-
 };
 
 static ExcelPalette *
@@ -772,8 +768,7 @@ ms_excel_default_palette ()
 {
 	static ExcelPalette *pal = NULL;
 
-	if (!pal)
-	{
+	if (!pal) {
 		int entries = EXCEL_DEF_PAL_LEN;
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_color_debug > 3) {
@@ -1156,19 +1151,15 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 	 */
 
 	/* Lets guess the state table for setting auto colours */
-	if (font_index == 127)
-	{
+	if (font_index == 127) {
 		/* The font is auto.  Lets look for info elsewhere */
-		if (back_index == 64 || back_index == 65 || back_index == 0)
-		{
+		if (back_index == 64 || back_index == 65 || back_index == 0) {
 			/* Everything is auto default to black text/pattern on white */
 			/* FIXME : This should use the 'Normal' Style */
-			if (pattern_index == 64 || pattern_index == 65 || pattern_index == 0)
-			{
+			if (pattern_index == 64 || pattern_index == 65 || pattern_index == 0) {
 				back_color = style_color_white ();
 				font_color = pattern_color = style_color_black ();
-			} else
-			{
+			} else {
 				pattern_color =
 					ms_excel_palette_get (sheet->wb->palette,
 							      pattern_index);
@@ -1180,8 +1171,7 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 				    : black_or_white_contrast (pattern_color);
 				font_color = black_or_white_contrast (back_color);
 			}
-		} else
-		{
+		} else {
 			back_color = ms_excel_palette_get (sheet->wb->palette,
 							   back_index);
 
@@ -1196,22 +1186,18 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 					ms_excel_palette_get (sheet->wb->palette,
 							      pattern_index);
 		}
-	} else
-	{
+	} else {
 		/* Use the font as a baseline */
 		font_color = ms_excel_palette_get (sheet->wb->palette,
 						   font_index);
 
-		if (back_index == 64 || back_index == 65 || back_index == 0)
-		{
+		if (back_index == 64 || back_index == 65 || back_index == 0) {
 			/* contrast back to font and pattern to back */
-			if (pattern_index == 64 || pattern_index == 65 || pattern_index == 0)
-			{
+			if (pattern_index == 64 || pattern_index == 65 || pattern_index == 0) {
 				/* Contrast back to font, and pattern to back */
 				back_color = black_or_white_contrast (font_color);
 				pattern_color = black_or_white_contrast (back_color);
-			} else
-			{
+			} else {
 				pattern_color =
 					ms_excel_palette_get (sheet->wb->palette,
 							      pattern_index);
@@ -1219,8 +1205,7 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 				/* Contrast back to pattern */
 				back_color = black_or_white_contrast (pattern_color);
 			}
-		} else
-		{
+		} else {
 			back_color = ms_excel_palette_get (sheet->wb->palette,
 							   back_index);
 
@@ -2333,8 +2318,7 @@ ms_excel_read_name (BiffQuery *q, ExcelSheet *sheet)
 
 	/* FIXME FIXME FIXME : Disable for now */
 	if (0 && name_len == 1 && *ptr <= 0x0c) {
-		switch (*ptr)
-		{
+		switch (*ptr) {
 		case 0x00 :	name = "Consolidate_Area"; break;
 		case 0x01 :	name = "Auto_Open"; break;
 		case 0x02 :	name = "Auto_Close"; break;
@@ -2683,8 +2667,7 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 
 		range_end = i = lastcol;
 		prev_xf = -1;
-		do
-		{
+		do {
 			ptr -= 2;
 			xf_index = MS_OLE_GET_GUINT16 (ptr);
 #ifndef NO_DEBUG_EXCEL
@@ -2787,8 +2770,8 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 		lastcol = MS_OLE_GET_GUINT16(q->data+q->length-2);
 /*		g_assert ((lastcol-firstcol)*6 == q->length-6 */
 		g_assert (lastcol>=col);
-		while (col<=lastcol)
-		{ /* 2byte XF, 4 byte RK */
+		while (col<=lastcol) {
+			/* 2byte XF, 4 byte RK */
 			v = biff_get_rk(ptr+2);
 			ms_excel_sheet_insert_val (sheet, MS_OLE_GET_GUINT16(ptr),
 						   col, row, v);
@@ -3191,8 +3174,7 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 
 		case BIFF_HEADER: /* FIXME : S59D94 */
 		{
-			if (q->length)
-			{
+			if (q->length) {
 				char *const str =
 					biff_get_text (q->data+1,
 						       MS_OLE_GET_GUINT8(q->data),
@@ -3461,8 +3443,7 @@ ms_excel_read_supporting_wb (BIFF_BOF_DATA *ver, BiffQuery *q)
 	if (ms_excel_read_debug > 0) {
 		printf("Supporting workbook with %d Tabs\n", numTabs);
 		printf("--> SUPBOOK VirtPath encoding = ");
-		switch (encodeType)
-		{
+		switch (encodeType) {
 		case 0x00 : /* chEmpty */
 			puts("chEmpty");
 			break;
@@ -3534,8 +3515,7 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 		 * are unique and not versioned.
 		 */
 		if (0x1 == q->ms_op) {
-			switch (q->opcode)
-			{
+			switch (q->opcode) {
 			case BIFF_DSF :
 #ifndef NO_DEBUG_EXCEL
 				if (ms_excel_read_debug > 0)
@@ -3574,10 +3554,8 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 			continue;
 		}
 
-		switch (q->ls_op)
-		{
-		case BIFF_BOF:
-		{
+		switch (q->ls_op) {
+		case BIFF_BOF: {
 			/* The first BOF seems to be OK, the rest lie ? */
 			eBiff_version vv = eBiffVUnknown;
 			if (ver) {
@@ -3614,8 +3592,7 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 							   &q->streamPos);
 				if (!bsh)
 					printf ("Sheet offset in stream of %x not found in list\n", q->streamPos);
-				else
-				{
+				else {
 					ExcelSheet *sheet = ms_excel_workbook_get_sheet (wb, current_sheet);
 					gboolean    kill  = FALSE;
 
@@ -3720,13 +3697,11 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 
 			tmp = q->data + 8;
 			tot_len = 8;
-			for (k = 0; k < wb->global_string_max; k++)
-			{
+			for (k = 0; k < wb->global_string_max; k++) {
 				guint32 byte_len;
 				length = MS_OLE_GET_GUINT16 (tmp);
 				wb->global_strings[k] = biff_get_text (tmp+2, length, &byte_len);
-				if (wb->global_strings[k] == NULL)
-				{
+				if (wb->global_strings[k] == NULL) {
 #ifdef NO_DEBUG_EXCEL
 					if (ms_excel_read_debug > 4)
 						printf ("Blank string in table at : 0x%x with length %d\n",
@@ -3833,8 +3808,7 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 			guint16 const codepage = MS_OLE_GET_GUINT16 (q->data);
 #ifndef NO_DEBUG_EXCEL
 			if (ms_excel_read_debug > 0) {
-				switch(codepage)
-				{
+				switch(codepage) {
 				case 437 :
 					/* US.  */
 					puts("CodePage = IBM PC (US)");
