@@ -1,5 +1,8 @@
 2002-01-04  Jody Goldberg <jody@gnome.org>
 
+	* src/eval.c (dependent_unlink) : add some safety.  Default to A1 if
+	  no position is supplied.
+
 	* src/gnumeric-graph.c (gnm_graph_series_get_dimension) : more
 	  protection for missing series.
 	(gnm_graph_series_add_dimension) : ditto.

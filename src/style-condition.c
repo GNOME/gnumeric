@@ -174,11 +174,10 @@ style_condition_link (StyleCondition *sc, Sheet *sheet)
 void
 style_condition_unlink (StyleCondition *sc)
 {
-	static CellPos const pos = { 0, 0 };
 	g_return_if_fail (sc != NULL);
 	do {
 		if (sc->u.expr.dep.expression != NULL)
-			dependent_unlink (&sc->u.expr.dep, &pos);
+			dependent_unlink (&sc->u.expr.dep, NULL);
 		sc = sc->next;
 	} while (sc != NULL);
 }
