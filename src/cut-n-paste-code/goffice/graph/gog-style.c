@@ -80,13 +80,14 @@ gog_style_extension_class_init (GogStyleExtensionClass *klass)
 gpointer
 gog_style_extension_editor (GogStyleExtension *gse, GnmCmdContext *cc)
 {
+	GogStyleExtensionClass *klass;
+
 	if (gse == NULL)
 		return NULL;
-	
-	GogStyleExtensionClass *klass = GOG_STYLE_EXTENSION_GET_CLASS (gse);
 
 	g_return_val_if_fail (IS_GOG_STYLE_EXTENSION (gse), NULL);
 
+	klass = GOG_STYLE_EXTENSION_GET_CLASS (gse);
 	return (klass->editor ? (*klass->editor) (gse, cc) : NULL);
 }
 

@@ -1,3 +1,8 @@
+2004-02-13  Morten Welinder  <terra@gnome.org>
+
+	* graph/gog-style.c (gog_style_extension_editor): Fix declaration
+	and check order.
+
 2004-02-13  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* graph/gog-style.[ch] : new GogStyleExtension object.
