@@ -358,8 +358,7 @@ dif_file_save (GnumFileSaver const *fs, IOContext *io_context,
 
 	sheet = wbv->current_sheet;
 	if (sheet == NULL) {
-		gnumeric_io_error_info_set (io_context, error_info_new_str (
-		_("Cannot get default sheet.")));
+		gnumeric_io_error_string (io_context, _("Cannot get default sheet."));
 		return;
 	}
 
@@ -391,8 +390,7 @@ dif_file_save (GnumFileSaver const *fs, IOContext *io_context,
 	fputs ("-1,0\n" "EOD\n", f);
 
 	if (ferror (f)) {
-		gnumeric_io_error_info_set (io_context, error_info_new_str (
-		_("Error while saving DIF file.")));
+		gnumeric_io_error_string (io_context, _("Error while saving DIF file."));
 	}
 
 	fclose (f);

@@ -5,9 +5,14 @@ INCLUDES = \
     $(GNOME_INCLUDEDIR)
 
 gnumeric_plugin_difdir = $(gnumeric_plugindir)/dif
-gnumeric_plugin_dif_DATA = plugin.xml
+xmldir = $(gnumeric_plugin_difdir)
 gnumeric_plugin_dif_LTLIBRARIES = dif.la
 dif_la_LDFLAGS = -module -avoid-version
 dif_la_SOURCES = dif.c
 
-EXTRA_DIST = $(gnumeric_plugin_dif_DATA)
+xml_in_files = plugin.xml.in
+xml_DATA = $(xml_in_files:.xml.in=.xml)
+
+@XML_I18N_MERGE_XML_RULE@
+
+EXTRA_DIST = $(xml_in_files) $(xml_DATA)

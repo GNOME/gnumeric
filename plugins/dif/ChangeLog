@@ -1,3 +1,14 @@
+2001-08-21  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* plugin.xml: Removed
+
+	* plugin.xml.in: Copied from plugin.xml, prepared for localization.
+
+	* Makefile.am: Use xml-i18n-tools to create plugin.xml (with
+	translations merged from .po file).
+
+	* dif.c (dif_file_save): Use gnumeric_io_error_string.
+
 2001-08-20  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.70
