@@ -1,3 +1,9 @@
+2004-10-29  Jon K Hellan  <hellan@acm.org>
+
+	* plugin.xml.in: Enable UI service.
+
+	* ui-console-menu.xml: Adapt to GtkAction
+
 2004-10-05  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.3.91

@@ -10,12 +10,11 @@
 	</loader>
 	<services>
 		<service type="plugin_loader" id="python"></service>
-	<!--
 		<service type="ui" id="console" file="ui-console-menu.xml">
-			<verbs>
-				<verb name="ShowConsole" id="console"/>
-			</verbs>
+			<actions>
+				<action name="ShowConsole"
+				label="Python console"/>	
+			</actions>
 		</service>
-	-->
 	</services>
 </plugin>
