@@ -1,3 +1,7 @@
+2002-02-23  Jon K Hellan  <hellan@acm.org>
+
+	* plugin.xml.in: Recognize *.xlt extension.
+
 2002-02-21  Morten Welinder  <terra@diku.dk>
 
 	* ms-excel-write.c (init_base_char_width_for_write): Constify.
