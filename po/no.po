@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.66\n"
 "POT-Creation-Date: 2001-12-26 00:56-0500\n"
-"PO-Revision-Date: 2001-12-12 22:38+0100\n"
+"PO-Revision-Date: 2001-12-30 01:48+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -327,9 +327,8 @@ msgid "HTML & TeX"
 msgstr "HTML & TeX"
 
 #: plugins/html/plugin.xml.in.h:3
-#, fuzzy
 msgid "HTML (*.html) fragment"
-msgstr "HTML 4.0 (*.html)"
+msgstr "HTML (*.html) fragment"
 
 #: plugins/html/plugin.xml.in.h:4
 msgid "HTML 3.2 (*.html)"
@@ -2030,9 +2029,8 @@ msgid "_Goto cell..."
 msgstr "_Gå til celle..."
 
 #: src/GNOME_Gnumeric.xml.h:244
-#, fuzzy
 msgid "_Graph"
-msgstr "_Grupper"
+msgstr "_Graf"
 
 #: src/GNOME_Gnumeric.xml.h:245
 msgid "_Group"
@@ -8599,7 +8597,6 @@ msgstr ""
 "@SEEALSO="
 
 #: src/functions/fn-date.c:27
-#, fuzzy
 msgid ""
 "@FUNCTION=DATE\n"
 "@SYNTAX=DATE (year,month,day)\n"
@@ -8620,12 +8617,9 @@ msgid ""
 "@SEEALSO=TODAY, NOW"
 msgstr ""
 "@FUNCTION=DATE\n"
-"SYNTAX= DATE(år,måned,dag)\n"
-"@DESCRIPTION=Beregner antallet dager siden 1 januar i 1900 "
-"(datoserienummeret) for oppgitt år, måned og dag.\n"
-"@dag kan være negativ (for å telle bakover) og den er relativ til "
-"forutgående @måned. @år må være minst 1900. Hvis @år <= 30, antas det å være "
-"2000 + @år. Hvis 30 < @år < 100 antas 1900 + @år.\n"
+"SYNTAX= DATE (år,måned,dag)\n"
+"@DESCRIPTION=DATE returnerer antall dager siden 1 januar i 1900 (datoserienummeret) for oppgitt år, måned og dag.\n"
+"@år må være minst 1900. Hvis @år < 1900, antas det å være 1900 + @år.\n"
 "Hvis oppgitt dato ikke er gyldig returnerer DATE en #VERDI!-feil.\n"
 "Denne funksjonen er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
@@ -8634,7 +8628,6 @@ msgstr ""
 "@SEEALSO=TODAY, NOW"
 
 #: src/functions/fn-date.c:97
-#, fuzzy
 msgid ""
 "@FUNCTION=DATEVALUE\n"
 "@SYNTAX=DATEVALUE(date_str)\n"
@@ -8647,10 +8640,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=DATEVALUE\n"
 "@SYNTAX=DATEVALUE(dato_str)\n"
-"@DESCRIPTION=DATOVERDI returnerer datoens serienummer. @date_str er strengen "
-"som inneholder datoen.\n"
+"@DESCRIPTION=DATOVERDI returnerer datoens serienummer. @date_str er strengen som inneholder datoen.\n"
+"Denne funksjonen er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
-"DATEVALUE(\"1/1/1999\") er lik 36160.\n"
+"DATEVALUE(\"1/1/1999\") er lik 36161.\n"
 " \n"
 "@SEEALSO=DATE"
 
@@ -14359,12 +14352,9 @@ msgstr ""
 "@FUNCTION=MEDIAN\n"
 "@SYNTAX=GEOMEAN(n1, n2, ...)\n"
 "@DESCRIPTION=MEDIAN returnerer medianen av det gitte datasettet.\n"
-"Strenger og tomme celler ignoreres. Hvis like tall er gitt returnerer MEDIAN "
-"middelverdien av de to midterste tallene. Denne funksjonen er Excel "
-"kompatibel.\n"
+"Strenger og tomme celler ignoreres. Hvis like tall er gitt returnerer MEDIAN middelverdien av de to midterste tallene. Denne funksjonen er Excel kompatibel.\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
-"25.9, og 40.1. Da får vi\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, 25.9, og 40.1. Da får vi\n"
 "MEDIAN(A1:A5) er lik 21.3.\n"
 "\n"
 "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM"
@@ -16105,8 +16095,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=COUNT\n"
 "@SYNTAX=COUNT(b1, b2, ...)\n"
-"@DESCRIPTION=Returnerer det totale antall heltalls eller flyttallsargumenter "
-"som gis.\n"
+"@DESCRIPTION=Returnerer det totale antall heltalls eller flyttallsargumenter som gis.\n"
 "Bruk av denne funksjonen på en streng eller en tom celle gjør ingenting. \n"
 "@EXAMPLES=\n"
 "\n"
@@ -17043,9 +17032,8 @@ msgid "Unable to open file '%s'"
 msgstr "Kunne ikke åpne fil '%s'"
 
 #: src/gui-validation.c:45
-#, fuzzy
 msgid "The value you entered :\n"
-msgstr "Verdien du skriver inn :\n"
+msgstr "Verdien du oppga :\n"
 
 #: src/gui-validation.c:78
 #, c-format
@@ -17123,9 +17111,8 @@ msgid "Can be blank\n"
 msgstr "Kan være tom\n"
 
 #: src/gui-validation.c:146
-#, fuzzy
 msgid "Re-Edit"
-msgstr "_Rediger"
+msgstr "Rediger på nytt"
 
 #: src/gui-validation.c:146 src/gui-validation.c:151
 msgid "Discard"
@@ -18209,25 +18196,24 @@ msgid "Remove borders"
 msgstr "Fjern kanter"
 
 #: src/workbook-cmd-format.c:132
-#, fuzzy, c-format
+#, c-format
 msgid "You entered an invalid column width value.  It must be bigger than %d"
-msgstr ""
-"Du skrev inn en ugyldig verdi for kolonnebredde. Den må være større enn 0"
+msgstr "Du oppga en ugyldig verdi for kolonnebredde. Den må være større enn %d"
 
 #: src/workbook-cmd-format.c:195
-#, fuzzy, c-format
+#, c-format
 msgid "You entered an invalid row height value.  It must be bigger than %d"
-msgstr "Du oppga en ugyldig verdi for radhøyde. Den må være større enn 0"
+msgstr "Du oppga en ugyldig verdi for radhøyde. Den må være større enn %d"
 
 #: src/workbook-cmd-format.c:246
-#, fuzzy, c-format
+#, c-format
 msgid "The default column width must be > %d."
-msgstr "Endre forvalgt kolonnenebredde"
+msgstr "Forvalgt kolonnenebredde må være > %d."
 
 #: src/workbook-cmd-format.c:276
-#, fuzzy, c-format
+#, c-format
 msgid "The default row height must be > %d."
-msgstr "Endre forvalgt radhøyde"
+msgstr "Forvalgt radhøyde må være > %d."
 
 #: src/workbook-control-gui.c:291
 msgid " : Gnumeric"
@@ -18511,15 +18497,16 @@ msgid "Discard Expression"
 msgstr "Forkast uttrykk"
 
 #: src/workbook-edit.c:165
-#, fuzzy
 msgid "Gnumeric : Validation"
-msgstr "Gnumeric: Bekrefting av inndata"
+msgstr "Gnumeric: Validering"
 
 #: src/workbook-edit.c:167
 msgid ""
 "That value is invalid.\n"
 "Restrictions have been placed on this cell's content."
 msgstr ""
+"Denne verdien er ugyldig.\n"
+"Restriksjoner er satt for denne cellens innhold."
 
 #: src/workbook-format-toolbar.c:86
 msgid "Set Horizontal Alignment"
@@ -18789,14 +18776,12 @@ msgid "Error while trying to build tree from autoformat template file"
 msgstr "Feil under forsøk på å bygge tre fra autoformat malfil"
 
 #: src/xml-io.c:2871
-#, fuzzy
 msgid "Unparsable xml in clipboard"
-msgstr "Lim inn fra utklippstavlen"
+msgstr "Ugyldig xml på utklippstavlen"
 
 #: src/xml-io.c:2878
-#, fuzzy
 msgid "Clipboard is in unknown format"
-msgstr "Filen \"%s\" har ukjent format."
+msgstr "Utklippstavlen har ukjent format"
 
 #.
 #. * Pass 2: read the contents
