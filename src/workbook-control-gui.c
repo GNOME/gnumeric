@@ -2408,7 +2408,9 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("EditRecalc", cb_edit_recalc),
 
 	BONOBO_UI_UNSAFE_VERB ("ViewZoom", cb_view_zoom),
+#if 0
 	BONOBO_UI_UNSAFE_VERB ("ViewFreezePanes", cb_view_freeze_panes),
+#endif
 	BONOBO_UI_UNSAFE_VERB ("ViewNewShared", cb_view_new_shared),
 	BONOBO_UI_UNSAFE_VERB ("ViewNewUnshared", cb_view_new_unshared),
 
@@ -2462,7 +2464,9 @@ static BonoboUIVerb verbs [] = {
 
 	BONOBO_UI_UNSAFE_VERB ("DataSort", cb_data_sort),
 	BONOBO_UI_UNSAFE_VERB ("DataFilter", cb_data_filter),
+#if 0
 	BONOBO_UI_UNSAFE_VERB ("DataValidate", cb_data_validate),
+#endif
 
 	BONOBO_UI_UNSAFE_VERB ("AutoSum", cb_autosum),
 	BONOBO_UI_UNSAFE_VERB ("FunctionGuru", cb_formula_guru),

@@ -1,3 +1,8 @@
+2001-03-15  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook-control-gui.c (verbs): Fix the build for bonobo by
+	  ifdefing out verbs for cb_data_validate and cb_view_freeze_panes.
+
 2001-03-14  Jody Goldberg <jgoldberg@home.com>
 
 	* src/parser.y : Add portability.h to help on Tru64
