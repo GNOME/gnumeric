@@ -21,6 +21,8 @@ Release Critical
       ===> property area is blank.
       move the pane divider a pixel down
       ===> property sheet gets redrawn and appears.
+      exit
+      ** (gnumeric:2344): CRITICAL **: file go-font.c: line 33 (go_font_free): assertion `font->ref_count == 1' failed
 
 
 Worries
