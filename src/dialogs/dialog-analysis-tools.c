@@ -2826,7 +2826,7 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 		break;
 	default:
 		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
-		error_in_entry (state->wbcg, GTK_WIDGET (state->input_entry), text);
+		gnumeric_notice (state->wbcg, GNOME_MESSAGE_BOX_ERROR, text);
 		g_free (text);		
 		break;
 	}

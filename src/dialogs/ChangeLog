@@ -1,3 +1,9 @@
+2001-11-20  Andreas J. Guelzow  <guelzow@kirkman.taliesin.ca>
+
+	* dialog-analysis-tools.c (random_tool_ok_clicked_cb) : Don't use 
+	  non-existing entry field.
+	  Bug: http://bugzilla.gnome.org/show_bug.cgi?id=64934
+
 2001-11-19  Andreas J. Guelzow <aguelzow@taliesin.ca>
 	* dialog-analysis-tools.c : replace all atof and atoi with calls to
 	  entry_to_float and entry_to_int, wrappers around format_match_number.
