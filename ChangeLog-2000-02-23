@@ -1,4 +1,10 @@
+1998-08-04    <miguel@nuclecu.unam.mx>
+
+	* src/func.c (gnumeric_cosh): More functions.
+
 1998-08-05    <miguel@nuclecu.unam.mx>
+
+	* src/item-edit.c (item_edit_set_arg): 
 
 	* src/gnumeric-sheet.c (cancel_pending_input): Cancel changes
 	made.
