@@ -20,7 +20,6 @@
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
-#include <ctype.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
@@ -311,7 +310,7 @@ gnumeric_ascii_strcase_hash (gconstpointer v)
 	guint h = 0, g;
 
 	for(p = s; *p != '\0'; p += 1) {
-		h = ( h << 4 ) + tolower (*p);
+		h = ( h << 4 ) + g_ascii_tolower (*p);
 		if ( ( g = h & 0xf0000000 ) ) {
 			h = h ^ (g >> 24);
 			h = h ^ g;
