@@ -319,7 +319,7 @@
 
 	* src/analysis-tools.c (get_data) : handle blanks better.
 
-2001-11-08  Morten Welinder  <welinder@rentec.com>
+2001-11-08  Morten Welinder  <terra@diku.dk>
 
 	* src/number-match.c (format_match_init): Track failed regexp
 	generation to avoid leaks.
