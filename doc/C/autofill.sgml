@@ -1,17 +1,14 @@
 <sect1 id="autofill-intro">
   <title>AutoFill</title>
   
-  <para>When dealing with spreadsheets it's pretty typical to want to
+  <para>When dealing with spreadsheets it's typical to want to
     add a set of cells that contain a series of numbers or dates or other
     values. While this can be done by hand, Gnumeric implements an autofill
     option to allow these sorts of series to be easily filled in.</para>
   
   <para>A typical example of when you want to use this feature is to fill
     a series of numbers, maybe a list of part numbers, or a perhaps a list
-    of TV channels. To create a list like this, all the user needs to do
-    is to enter the first number into a cell, click on the autofill
-    cursor in the bottom right corner of the cell border, and finally drag it in
-    the direction to fill. If the first cell contains a '1', for example,
+    of TV channels. If the first cell contains a '1', for example,
     dragging the autofill button(see <xref linkend="celltobautofilled">) down three or four cells
       will fill the cells with '1','2','3', and '4' automatically.(see <xref linkend="cellsautofilled">)</para>
 
@@ -49,8 +46,8 @@
   </figure>
   
   <para>As handy as being able to simply and quickly generate series of 
-    numbers incremented by one is, autofill can do much much more. The next simplest
-    example is autofilling with a series using an increment other than 1. For example,
+    numbers incremented by one is, autofill can do much much more. The next 
+    example is autofill with a series using an increment other than 1. For example,
     to create a series that consist of odd numbers starting at 11, just enter 
 	'11' into
     a cell and '13' into the next cell. Then select both cells, and stretch the 

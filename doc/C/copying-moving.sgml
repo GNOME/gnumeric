@@ -16,10 +16,7 @@
       cell to its new location. </para>
 
     
-    <para>The basic procedure to quickly drag and drop a cell to
-      a new location is to click on the border, and drag the cell
-      to its new location and release. The contents of the cell
-      will be moved to the new cell.</para>
+    <para></para>
     
       <procedure>
 	<step>
@@ -41,7 +38,8 @@
     
     <para>This is the simplest method and most common use the drag and drop
       cell moving and copying. The key bindings give you a good set of options
-      for quick moving and copying.</para>
+      for quick moving and copying.  The contents of the cell
+      will be moved to the new cell.</para>
 
     </sect2>
   

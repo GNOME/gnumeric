@@ -1,3 +1,15 @@
+2001-12-27  Kevin Breit  <mrproper@ximian.com>
+
+	* editing.sgml: Got ready for 1.0.
+
+	* formulas.sgml: Got ready for 1.0.  This means basic editing.
+
+	* copying-moving.sgml: Got ready for 1.0.
+
+	* autofill.sgml: Got ready for 1.0.
+
+	* number-format.sgml: Got ready for 1.0.  Added a bit, edited a bit, removed a bit.
+
 2001-12-26 Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* files.sgml : add example images

@@ -1,10 +1,9 @@
 <sect1 id="formulas">
   <title>Formulas</title>
   
-  <para>Formulas are the key to the whole ball of wax when it comes to
-    spreadsheets. A formula can take almost anything as its arguments
+  <para>Formulas are the key to making a powerful spreadsheet. A formula can take almost anything as its arguments
     including single numbers, cell references, ranges of cells, arrays
-    of cells, etc. </para>
+    of cells, and more. </para>
     
   <sect2>
     <title>Syntax</title>

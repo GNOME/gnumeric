@@ -61,7 +61,7 @@
   categories, and some convenience tools for manipulating the formats
   in each category.</para>
 
-  <para>There is also a Sample output of what the new formatting should look like.
+  <para>There is also a Sample output of what the new formatting looks like.
   </para>
 </sect2>    
 
@@ -76,7 +76,7 @@ font size.</para>
 <para>To change the font for cells, simply open the file format
 dialog (see <xref linkend="format-dialog">), and select the font
 tab. This will open the standard Gnome font selection dialog.</para>
-<!-- FIXME link to doc on the font dialog when they exist -->
+
 
 <figure id="number-format-font-dialog">
    <title>The Font selection dialog</title>
@@ -85,9 +85,6 @@ tab. This will open the standard Gnome font selection dialog.</para>
    </screenshot>
 </figure>
 
-<!-- FIXME -->
-<para>Reference docs on how to use the font dialog here.</para>
-<!-- FIXME -->
 
 <procedure>
   <title>To change a cells font</title>
@@ -108,7 +105,7 @@ tab. This will open the standard Gnome font selection dialog.</para>
             <xref linkend="number-format-font-dialog"> for a look at
             the dialog.</para>
 </step>
-   <step><para>TELL PEOPLE HOW TO USE THE FONT DIALOG HERE</para></step>
+   <step><para>Select your font and the font properties and click <guibutton>OK</guibutton>.</para></step>
 
 </procedure>
 
@@ -134,8 +131,8 @@ See <xref linkend="number-format-bold-italics"></para>
        the font selection part of the dialog. See 
        <xref linkend="number-format-color-dialog"> for a look at the dialog.</para>
    </step>
-   <step><para>TELL PEOPLE HOW TO USE THE COLOR PICKER HERE</para></step>
-    <!--  FIXME FIXME FIXME -->
+   <step><para>Select your color and click <guibutton>OK</guibutton>.</para></step>
+
 </procedure>
 
 </sect2>
@@ -144,7 +141,7 @@ See <xref linkend="number-format-bold-italics"></para>
 <title>Changing the cell's Background Colors and Patterns</title>
 
 <para>A cell in gnumeric can be assigned a solid background color, and an
-pattern with a potentially different colour.
+pattern with a potentially different color.
 </para>
 
 <figure id="number-format-color-dialog">
@@ -165,7 +162,7 @@ choose a color from the color selector dialog. </para>
 <para>To set a pattern for the cell background, 
 click on the <guibutton>use a pattern</guibutton> button
 and select a pattern by clicking on the pattern the user wants.
-there is a solid black border that should outline the currently
+There is a solid black border that should outline the currently
 selected pattern. </para>
 
 </sect2>
@@ -174,7 +171,7 @@ selected pattern. </para>
 <title>Cell content justification and alignment</title>
 
   
-<para>The contents of cell can be justified and aligned
+<para>The contents of a cell can be justified and aligned
 as needed. There are several justification options. See
 <xref linkend="number-format-justification">.</para>
 
@@ -213,7 +210,7 @@ as needed. There are several justification options. See
      </para>
     </step>
    <step>
-     <para>Choose a horizontal and Vertical justification type by clicking on
+     <para>Choose a horizontal and vertical justification type by clicking on
      one of the buttons. Only one choice from each option group is allowed. </para>
    </step>
 </procedure>
@@ -248,19 +245,28 @@ as needed. There are several justification options. See
    <varlistentry>
      <term><guibutton>Fill</guibutton></term>
        <listitem>
-          <para>Fill the cell with the contents. This will repeat the cells
+          <para>Fill the cell with the contents. This will stretch the cells
                 contents to fill the space.</para>
        </listitem>
-    </varlistentry>
-   <varlistentry>
-     <term><guibutton>Justify</guibutton></term>
-         <listitem>
-           <para>Left justify and verticaly center the cells contents.</para>
-         </listitem>
       </varlistentry>
-</variablelist>
+      <varlistentry>
+	<term><guibutton>Justify</guibutton></term>
+	<listitem>
+	  <para>Left justify and vertically center the cells contents.</para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term><guibutton>Center across selection</guibutton></term>
+	<listitem>
+	  <para>
+	    Centers the cell's contents so the middle of each line is
+	    aligned with the middle of other lines.  This only works
+	    with multiple cells.
+	  </para>
+	</listitem>
+      </varlistentry>
+    </variablelist>
 
-<!--FIXME I dont belive alignment is implemented yet -->
 <variablelist>
    <title>Vertical Justification options.</title>
 <varlistentry>
@@ -277,8 +283,8 @@ as needed. There are several justification options. See
 </varlistentry>
 <varlistentry>
    <term><guibutton>Justify</guibutton></term>
-   <listitem><para>FIXME FIXME</para></listitem>
-   <!--FIXME -->
+   <listitem><para>Lays out the lines in even spaces to fill the
+   entire cell.  This only works with cells that have text that can wrap.</para></listitem>
 </varlistentry>
 </variablelist>
 
@@ -314,7 +320,7 @@ as needed. There are several justification options. See
     various simple conditions.
   </para>
 
-  <para> <xref linkend="number-format-list"> The available catagories of
+  <para> The available catagories of
   pre-defined formats are :
   <example id="number-format-list">
     <title>Number Format Categories</title>
@@ -417,7 +423,7 @@ as needed. There are several justification options. See
 <title>Date and Time formatting</title>
    <para>Gnumeric supports a wide variety of date and time formatting.</para>
 
-   <para>These formats can be used to convert an existing time serial number
+   <para>These formats can be used to convert an existing time
    into a new more readable format, or dates can be entered in these formats
    and Gnumeric will automatically convert them to a serial number with the
    proper cell format. See <xref linkend="entering-dates-and-numbers"> for more

@@ -72,9 +72,8 @@
       <title>Advanced Editing mode</title>
       
       <para>For a more complete set of editing options, especially for
-	longer entries, there is an advanced editing mode. </para>
-      
-      <para>This mode is accessed by pressing <keycap>F2</keycap>. This shifts the
+	longer entries, there is an advanced editing mode.
+	This mode is accessed by pressing <keycap>F2</keycap>. This shifts the
 	focus from the current cell to the editing region in the worksheet. This
 	allows more complete control over the text and data in the cell. This includes
 	the use of the cursor keys to position the cursor within the data in the cell.
@@ -147,7 +146,7 @@
     <para>When entering a formula, if the cursor is at a point
       where a cell reference may be appropriate, the user just needs
       to click on a cell to automatically enter its cell reference 
-      into the formula. Then finish the formula as normal.</para>
+      into the formula; then finish the formula as normal.</para>
 
     <procedure>
       <title>Using the mouse to enter a cell reference into a formula</title>
