@@ -33,7 +33,7 @@ to features that already work.
        CUMIPMT, CUMPRINC, MDURATION, ODDFYIELD, and VDB.
 
    + Fix or finish the following functions :
-     - ODDFPRICE, YIELD, DURATION, and YIELDDISC.
+     - ODDFPRICE, YIELD, and YIELDDISC.
 
 * Data Analysis Tools
   - Exponential smoothing
