@@ -1924,7 +1924,7 @@ cmd_resize_colrow (WorkbookControl *wbc, Sheet *sheet,
 		if (new_size < 0)
 			me->cmd.cmd_descriptor = is_cols
 				? g_strdup_printf (_("Autofitting columns %s"), list->str)
-				: g_strdup_printf (_("Autofitting columns %s"), list->str);
+				: g_strdup_printf (_("Autofitting rows %s"), list->str);
 		else if (new_size >  0)
 			me->cmd.cmd_descriptor = is_cols
 				? g_strdup_printf (_("Setting width of columns %s to %d pixels"),
