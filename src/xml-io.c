@@ -518,7 +518,7 @@ xml_read_selection_info (XmlParseContext *ctxt, Sheet *sheet, xmlNodePtr tree)
 	if (selections == NULL)
 		return;
 
-	sheet_selection_reset_only (sheet);
+	sheet_selection_reset (sheet);
 	for (sel = selections->childs; sel; sel = sel->next) {
 		if (xml_read_range (sel, &r))
 			sheet_selection_add_range (sheet,

@@ -73,7 +73,7 @@ move_cursor (GnumericSheet *gsheet, int col, int row, gboolean clear_selection)
 	 */
 
 	if (clear_selection)
-		sheet_selection_reset_only (sheet);
+		sheet_selection_reset (sheet);
 
 	/* Set the cursor BEFORE making it visible to decrease flicker */
 	workbook_finish_editing (gsheet->scg->wbcg, TRUE);

@@ -3237,7 +3237,7 @@ ms_excel_read_selection (ExcelSheet *sheet, BiffQuery *q)
 		return;
 	}
 
-	sheet_selection_reset_only (sheet->gnum_sheet);
+	sheet_selection_reset (sheet->gnum_sheet);
 	for (refs = q->data + 9; num_refs > 0; refs += 6, num_refs--) {
 		int const start_row = MS_OLE_GET_GUINT16(refs + 0);
 		int const start_col = MS_OLE_GET_GUINT8(refs + 4);

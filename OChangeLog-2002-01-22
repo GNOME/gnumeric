@@ -1,3 +1,16 @@
+2001-01-30  Almer S. Tigelaar  <almer1@dds.nl>
+
+	* src/selection.c, src/selection.h:
+	(sheet_selection_reset_only): Rename to sheet_selection_reset.
+	
+	* src/cmd-edit.c: s/sheet_selection_reset_only/sheet_selection_reset.
+	* src/commands.c: Ditto.
+	* src/gnumeric-sheet.c: Ditto.
+	* src/item-grid.c: Ditto.
+	* src/sheet.c: Ditto.
+	* src/sheet-control-gui.c: Ditto.
+	* src/xml-io.c: Ditto.
+
 2001-01-29  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* src/sheet.h: Add flags for insert cols/rows and paste special.

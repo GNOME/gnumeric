@@ -577,7 +577,7 @@ sheet_selection_free (Sheet *sheet)
  * be taken care on the calling routine.
  */
 void
-sheet_selection_reset_only (Sheet *sheet)
+sheet_selection_reset (Sheet *sheet)
 {
 	GList *list, *tmp;
 

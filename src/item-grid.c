@@ -793,7 +793,7 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 	workbook_finish_editing (gsheet->scg->wbcg, TRUE);
 
 	if (!(event->state & (GDK_CONTROL_MASK|GDK_SHIFT_MASK)))
-		sheet_selection_reset_only (scg->sheet);
+		sheet_selection_reset (scg->sheet);
 
 	item_grid->selecting = ITEM_GRID_SELECTING_CELL_RANGE;
 

@@ -3678,7 +3678,7 @@ sheet_clone_selection (Sheet const *src, Sheet *dst)
 		return;
 
 	/* A new sheet has A1 selected by default */
-	sheet_selection_reset_only (dst);
+	sheet_selection_reset (dst);
 
 	selections = g_list_copy (src->selections);
 	selections = g_list_reverse (selections);

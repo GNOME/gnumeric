@@ -2061,7 +2061,7 @@ cmd_paste_copy_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	me->has_been_through_cycle = TRUE;
 
 	/* Make the newly pasted content the selection (this queues a redraw) */
-	sheet_selection_reset_only (me->dst.sheet);
+	sheet_selection_reset (me->dst.sheet);
 	sheet_selection_add_range (me->dst.sheet,
 				   me->dst.range.start.col, me->dst.range.start.row,
 				   me->dst.range.start.col, me->dst.range.start.row,
@@ -2167,7 +2167,7 @@ cmd_autofill_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 		return TRUE;
 
 	/* Make the newly pasted content the selection (this queues a redraw) */
-	sheet_selection_reset_only (me->dst.sheet);
+	sheet_selection_reset (me->dst.sheet);
 	sheet_selection_add_range (me->dst.sheet,
 				   me->base_col, me->base_row,
 				   me->base_col, me->base_row,
@@ -2216,7 +2216,7 @@ cmd_autofill_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 			me->end_col, me->end_row);
 
 	/* Make the newly filled content the selection (this queues a redraw) */
-	sheet_selection_reset_only (me->dst.sheet);
+	sheet_selection_reset (me->dst.sheet);
 	sheet_selection_add_range (me->dst.sheet,
 				   me->base_col, me->base_row,
 				   me->base_col, me->base_row,

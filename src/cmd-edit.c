@@ -50,7 +50,7 @@ cmd_select_all (Sheet *sheet)
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	sheet_selection_reset_only (sheet);
+	sheet_selection_reset (sheet);
 	sheet_selection_add_range (sheet, 0, 0, 0, 0,
 				   SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
 
@@ -69,7 +69,7 @@ cmd_select_cur_row (Sheet *sheet)
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	sheet_selection_reset_only (sheet);
+	sheet_selection_reset (sheet);
 	sheet_selection_add_range (sheet,
 		sheet->edit_pos.col, sheet->edit_pos.row,
 		0, sheet->edit_pos.row,
@@ -89,7 +89,7 @@ cmd_select_cur_col (Sheet *sheet)
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	sheet_selection_reset_only (sheet);
+	sheet_selection_reset (sheet);
 	sheet_selection_add_range (sheet,
 		sheet->edit_pos.col, sheet->edit_pos.row,
 		sheet->edit_pos.col, 0,
@@ -120,7 +120,7 @@ cmd_select_cur_array (Sheet *sheet)
 	if (array == NULL)
 		return;
 
-	sheet_selection_reset_only (sheet);
+	sheet_selection_reset (sheet);
 	/*
 	 * leave the edit cell where it is,
 	 * select the entire array.
@@ -172,7 +172,7 @@ cmd_select_cur_depends (Sheet *sheet)
 	if (deps == NULL)
 		return;
 
-	sheet_selection_reset_only (sheet);
+	sheet_selection_reset (sheet);
 
 	/* Short circuit */
 	if (g_list_length (deps) == 1) {

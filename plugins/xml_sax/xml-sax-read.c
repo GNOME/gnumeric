@@ -593,7 +593,7 @@ xml2ParseSelection (XML2ParseState *state, CHAR const **attrs)
 {
 	int col = -1, row = -1;
 
-	sheet_selection_reset_only (state->sheet);
+	sheet_selection_reset (state->sheet);
 
 	for (; attrs[0] && attrs[1] ; attrs += 2)
 		if (xml2ParseAttrInt (attrs, "CursorCol", &col)) ;

@@ -405,7 +405,7 @@ scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
 		}
 	} else {
 		if (!rangesel && !(modifiers & GDK_CONTROL_MASK))
-			sheet_selection_reset_only (sheet);
+			sheet_selection_reset (sheet);
 
 		if (is_cols) {
 			if (rangesel)
