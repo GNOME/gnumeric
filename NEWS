@@ -20,6 +20,9 @@ Morten:
 	  tool, regression tool, ANOVA tools..)
 	* Fix precision of our versions of various long-double functions
 	  that Solaris lacks.  (Fixes, for example, ERF.)
+	* Improve precision of FISHER.
+	* Improve precision of EFFECT, NOMINAL, MIRR, IRR, XNPV, NPV, PMT,
+	  RATE, PV, FV, IPMT, PPMT for small rates.
 
 --------------------------------------------------------------------------
 
