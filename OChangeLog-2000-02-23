@@ -1,5 +1,13 @@
 1998-08-06  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/sheet.c (CRowSort): Sort in the other direction my list of
+	cells.
+	(sheet_cell_foreach_range): Iterate over the lists with ->next,
+	not with ->data.   Important bug fix.
+
+	* src/parser.y (return_cellref): Fix the cell parsing routine to
+	store the correct information.
+
 	* src/fn-math.c: Moved the math functions to this file. 
 	(gnumeric_sum): Make it use the new function_iterate_argument_values.
 	(gnumeric_and): Implement AND function.
