@@ -89,8 +89,10 @@ applix_write (IOContext *io_context, WorkbookView *wb_view, FILE *file)
 	state.wb_view     = wb_view;
 	state.wb          = wb_view_workbook (wb_view);
 
+	d (1, fprintf (stderr, "------------Start writing"););
 	applix_write_header (&state);
 	applix_write_colormap (&state);
+	d (1, fprintf (stderr, "------------Finish writing"););
 
 	if (state.parse_error != NULL)
 		gnumeric_io_error_info_set (io_context, state.parse_error);
