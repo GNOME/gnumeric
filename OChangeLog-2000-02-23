@@ -1,7 +1,24 @@
-2000-01-12  Jody Goldberg <jgoldberg@home.com>
+2000-01-13  Jody Goldberg <jgoldberg@home.com>
+
+	* src/application.c (application_clipboard_copy,
+	  application_clipboard_cut) : Use application_set_selected_sheet.
+	(application_set_selected_sheet) : New routine that manages exporting
+	  selection to X too.
+
+	* src/clipboard.c (x_selection_clear) : Something else now has the
+	  selection.  Clear ours.
+	(clipboard_export_cell_region) : Delete.
+	(find_local_workbook_with_selection) : Delete.
+	(workbook_selection_locator) : Delete.
+
+	* ./src/item-grid.c (item_grid_popup_menu) : Always enable paste,
+	  only enable paste special when we have a local cut.  This matches
+	  the behavior of the menus and toolbar.
 
 	* gnumeric.spec.in : Add a depend on libgtk+ >= 1.2.2 because 1.2.1
 	  did not have gtk_object_get.
+
+	* configure.in :  Ditto.
 
 2000-01-12  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 

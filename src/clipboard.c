@@ -435,7 +435,7 @@ x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data, guint 
 static gint
 x_selection_clear (GtkWidget *widget, GdkEventSelection *event, Workbook *wb)
 {
-	wb->have_x_selection = FALSE;
+	application_clipboard_clear ();
 
 	return TRUE;
 }
@@ -449,7 +449,6 @@ x_selection_clear (GtkWidget *widget, GdkEventSelection *event, Workbook *wb)
 void
 x_clipboard_bind_workbook (Workbook *wb)
 {
-	wb->have_x_selection = FALSE;
 	wb->clipboard_paste_callback_data = NULL;
 
 	gtk_signal_connect (
@@ -467,21 +466,6 @@ x_clipboard_bind_workbook (Workbook *wb)
 	gtk_selection_add_target (
 		wb->toplevel,
 		GDK_SELECTION_PRIMARY, GDK_SELECTION_TYPE_STRING, 0);
-}
-
-/**
- * clipboard_export_cell_region:
- *
- * This routine exports a CellRegion to the X selection
- */
-static void
-clipboard_export_cell_region (Workbook *wb)
-{
-	wb->have_x_selection = gtk_selection_owner_set (
-		wb->toplevel,
-		GDK_SELECTION_PRIMARY,
-		GDK_CURRENT_TIME);
-
 }
 
 typedef struct {
@@ -540,30 +524,7 @@ clipboard_copy_cell_range (Sheet *sheet,
 	/* reverse the list so that upper left corner is first */
 	c.r->list = g_list_reverse (c.r->list);
 
-	clipboard_export_cell_region (sheet->workbook);
-
 	return c.r;
-}
-
-static gboolean
-workbook_selection_locator (Workbook *wb, gpointer data)
-{
-	Workbook **target = data;
-
-	if (wb->have_x_selection)
-		*target = wb;
-
-	return TRUE;
-}
-
-static Workbook *
-find_local_workbook_with_selection (void)
-{
-	Workbook *result = NULL;
-
-	workbook_foreach (workbook_selection_locator, &result);
-
-	return result;
 }
 
 /**
@@ -584,7 +545,7 @@ clipboard_paste_region (CommandContext *context,
 			int paste_flags,    guint32 time)
 {
 	clipboard_paste_closure_t *data;
-	Workbook *workbook_holding_selection;
+	Sheet *sheet_holding_selection;
 
 	g_return_if_fail (dest_sheet != NULL);
 	g_return_if_fail (IS_SHEET (dest_sheet));
@@ -618,8 +579,8 @@ clipboard_paste_region (CommandContext *context,
 	 * we get from X
 	 */
 
-	workbook_holding_selection = find_local_workbook_with_selection ();
-	if (workbook_holding_selection && region) {
+	sheet_holding_selection = application_clipboard_sheet_get ();
+	if (sheet_holding_selection && region) {
 		CellRegion *content;
 
 		content = region;
@@ -628,8 +589,8 @@ clipboard_paste_region (CommandContext *context,
 				       content, dest_sheet->selections->data, data);
 
 		/* Check that this has not already been freed */
-		if (workbook_holding_selection->clipboard_paste_callback_data != NULL) {
-			workbook_holding_selection->clipboard_paste_callback_data = NULL;
+		if (sheet_holding_selection->workbook->clipboard_paste_callback_data != NULL) {
+			sheet_holding_selection->workbook->clipboard_paste_callback_data = NULL;
 			g_free (data);
 		}
 		return;

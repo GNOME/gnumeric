@@ -111,7 +111,6 @@ struct _Workbook {
 	 * to the asyncronous paste callback
 	 */
 	void       *clipboard_paste_callback_data;
-	gboolean    have_x_selection;
 
 	void       *corba_server;
 

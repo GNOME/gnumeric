@@ -248,6 +248,21 @@ else
     AC_MSG_ERROR(Did not find libGlade installed)
 fi
 
+dnl ******************************
+dnl gtk+ checking
+dnl ******************************
+AC_MSG_CHECKING(for GTK >= 1.2.2)
+if gtk-config --version > /dev/null 2>&1; then 
+    vers=`gtk-config --version`
+    case x$vers
+    in
+	x1.2.[[234567]]) AC_MSG_RESULT(found) ;;
+	*) AC_MSG_ERROR(You need at least gtk+ 1.2.2 for this version of Gnumeric) ;;
+    esac
+else
+    AC_MSG_ERROR(Did not find gtk+ installed)
+fi
+
 EXTRA_GNOME_LIBS=`gnome-config --libs gnomeui print libglade $bonobo $gb`
 EXTRA_GNOME_CFLAGS=`gnome-config --cflags gnomeui print libglade $bonobo $gb`
 AC_SUBST(EXTRA_GNOME_LIBS)

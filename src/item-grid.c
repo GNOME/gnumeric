@@ -625,7 +625,6 @@ context_row_height (GtkWidget *widget, Sheet *sheet)
 typedef enum {
 	IG_ALWAYS,
 	IG_SEPARATOR,
-	IG_PASTE,
 	IG_PASTE_SPECIAL,
 	IG_ROW	   = 0x8,
 	IG_COLUMN  = 0x10,
@@ -643,7 +642,7 @@ static struct {
 	{ N_("_Copy"),          GNOME_STOCK_PIXMAP_COPY,
 	    &context_copy_cmd,          IG_ALWAYS },
 	{ N_("_Paste"),         GNOME_STOCK_PIXMAP_PASTE,
-	    &context_paste_cmd,         IG_PASTE },
+	    &context_paste_cmd,         IG_ALWAYS },
 	{ N_("Paste _Special"),	NULL,
 	    &context_paste_special_cmd, IG_PASTE_SPECIAL },
 
@@ -681,7 +680,6 @@ static struct {
 
 static GtkWidget *
 create_popup_menu (Sheet *sheet,
-		   gboolean const include_paste,
 		   gboolean const include_paste_special,
 		   gboolean const is_col,
 		   gboolean const is_row)
@@ -707,7 +705,7 @@ create_popup_menu (Sheet *sheet,
 			break;
 
 		/* Desesitize later */
-		case IG_PASTE : case IG_PASTE_SPECIAL :
+		case IG_PASTE_SPECIAL :
 		case IG_ROW :	case IG_COLUMN :
 		case IG_ALWAYS:
 		{
@@ -740,8 +738,7 @@ create_popup_menu (Sheet *sheet,
 			g_warning ("Never reached");
 		}
 
-		if ((type == IG_PASTE && !include_paste) ||
-		    (type == IG_PASTE_SPECIAL && !include_paste_special) ||
+		if ((type == IG_PASTE_SPECIAL && !include_paste_special) ||
 		    item_grid_context_menu [i].fn == NULL)
 			gtk_widget_set_sensitive (GTK_WIDGET (item), FALSE);
 
@@ -775,13 +772,16 @@ item_grid_popup_menu (Sheet *sheet, GdkEvent *event, int col, int row,
 {
 	GtkWidget *menu;
 
-	/* We can paste if there is something in the clipboard */
-	gboolean const show_paste = !application_clipboard_is_empty ();
-	/* Paste special only applies to copied cells not cut */
-	gboolean const show_paste_special = show_paste &&
+	/*
+	 * Paste special does not apply to cut cells.  Enable
+	 * when there is nothing in the local clipboard, or when
+	 * the clipboard has the results of a copy.
+	 */
+	gboolean const show_paste_special =
+	    application_clipboard_is_empty () ||
 	    (application_clipboard_contents_get () != NULL);
 
-	menu = create_popup_menu (sheet, show_paste, show_paste_special,
+	menu = create_popup_menu (sheet, show_paste_special,
 				  is_col, is_row);
 
 	gnumeric_popup_menu (GTK_MENU (menu), (GdkEventButton *) event);
