@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+<svg
+   id="svg101"
+   sodipodi:version="0.31"
+   width="64pt"
+   height="60pt"
+   sodipodi:docbase="///home/manu/"
+   sodipodi:docname="///home/manu/chart_area_1_1.svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs
+     id="defs103" />
+  <sodipodi:namedview
+     id="base"
+     showgrid="true"
+     gridspacingx="8pt"
+     gridoriginx="8pt"
+     gridspacingy="6pt"
+     snaptoguides="true"
+     gridoriginy="6pt"
+     snaptogrid="true" />
+  <path
+     style="fill:#bab98c;stroke:#000000;stroke-opacity:1;stroke-width:1.25;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;fill-rule:evenodd;stroke-dasharray:none;"
+     d="M 10 67.5 L 30 60 C 30 59.7612 50 7.5 50 7.5 C 50 7.5 60 22.5 60 22.5 L 70 15 L 70 67.5 L 10 67.5 "
+     id="path116"
+     sodipodi:nodetypes="ccccccc" />
+  <path
+     style="fill:#f29109;stroke:#000000;stroke-opacity:1;stroke-width:1.25;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;fill-rule:evenodd;stroke-dasharray:none;"
+     d="M 10 67.5 L 10 60 L 30 22.5 C 30 22.5 40 45 40 45 C 40 45 60 30 60 30 L 70 45 L 70 67.5 L 10 67.5 z "
+     id="path117"
+     sodipodi:nodetypes="cccccccc" />
+  <path
+     style="fill:none;stroke:black;stroke-opacity:1;stroke-width:1.25;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;fill-rule:evenodd;stroke-dasharray:none;"
+     d="M 10 7.5 C 10 7.5 10 67.5 10 67.5 L 70 67.5 "
+     id="path112"
+     sodipodi:nodetypes="ccc" />
+</svg>
