@@ -236,7 +236,7 @@ gnumeric_rank (FunctionEvalInfo *ei, Value **argv)
 	        p.order = 0;
 	p.rank = 1;
 	ret = sheet_cell_foreach_range (
-	        argv[1]->v.cell_range.cell_a.sheet, TRUE,
+	        eval_sheet (argv[1]->v.cell_range.cell_a.sheet, ei->pos.sheet), TRUE,
 		argv[1]->v.cell_range.cell_a.col,
 		argv[1]->v.cell_range.cell_a.row,
 		argv[1]->v.cell_range.cell_b.col,
@@ -1291,7 +1291,7 @@ gnumeric_chitest (FunctionEvalInfo *ei, Value **argv)
 	GSList           *tmp;
 	int              col, row, ret, dof;
 
-	sheet = argv[0]->v.cell.sheet;
+	sheet = eval_sheet (argv[0]->v.cell.sheet, ei->pos.sheet);
 	col = argv[0]->v.cell.col;
 	row = argv[0]->v.cell.row;
 	p1.cols = argv[0]->v.cell_range.cell_b.col -
@@ -2346,13 +2346,13 @@ gnumeric_prob (FunctionEvalInfo *ei, Value **argv)
 
         if (range_x->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
-		  range_x->v.cell_range.cell_a.sheet, TRUE,
-		  range_x->v.cell_range.cell_a.col,
-		  range_x->v.cell_range.cell_a.row,
-		  range_x->v.cell_range.cell_b.col,
-		  range_x->v.cell_range.cell_b.row,
-		  callback_function_list,
-		  &items_x);
+			eval_sheet (range_x->v.cell_range.cell_a.sheet, ei->pos.sheet), TRUE,
+			range_x->v.cell_range.cell_a.col,
+			range_x->v.cell_range.cell_a.row,
+			range_x->v.cell_range.cell_b.col,
+			range_x->v.cell_range.cell_b.row,
+			callback_function_list,
+			&items_x);
 		if (ret == FALSE) {
 			list1 = items_x.list;
 			list2 = items_prob.list;
@@ -2374,13 +2374,13 @@ gnumeric_prob (FunctionEvalInfo *ei, Value **argv)
 
         if (prob_range->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
-		  prob_range->v.cell_range.cell_a.sheet, TRUE,
-		  prob_range->v.cell_range.cell_a.col,
-		  prob_range->v.cell_range.cell_a.row,
-		  prob_range->v.cell_range.cell_b.col,
-		  prob_range->v.cell_range.cell_b.row,
-		  callback_function_list,
-		  &items_prob);
+			eval_sheet (prob_range->v.cell_range.cell_a.sheet, ei->pos.sheet), TRUE,
+			prob_range->v.cell_range.cell_a.col,
+			prob_range->v.cell_range.cell_a.row,
+			prob_range->v.cell_range.cell_b.col,
+			prob_range->v.cell_range.cell_b.row,
+			callback_function_list,
+			&items_prob);
 		if (ret == FALSE) {
 			list1 = items_x.list;
 			list2 = items_prob.list;
@@ -2488,13 +2488,13 @@ gnumeric_steyx (FunctionEvalInfo *ei, Value **argv)
 
         if (known_x->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
-		  known_x->v.cell_range.cell_a.sheet, TRUE,
-		  known_x->v.cell_range.cell_a.col,
-		  known_x->v.cell_range.cell_a.row,
-		  known_x->v.cell_range.cell_b.col,
-		  known_x->v.cell_range.cell_b.row,
-		  callback_function_list,
-		  &items_x);
+			eval_sheet (known_x->v.cell_range.cell_a.sheet, ei->pos.sheet), TRUE,
+			known_x->v.cell_range.cell_a.col,
+			known_x->v.cell_range.cell_a.row,
+			known_x->v.cell_range.cell_b.col,
+			known_x->v.cell_range.cell_b.row,
+			callback_function_list,
+			&items_x);
 		if (ret == FALSE) {
 			list1 = items_x.list;
 			list2 = items_y.list;
@@ -2516,13 +2516,13 @@ gnumeric_steyx (FunctionEvalInfo *ei, Value **argv)
 
         if (known_y->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
-		  known_y->v.cell_range.cell_a.sheet, TRUE,
-		  known_y->v.cell_range.cell_a.col,
-		  known_y->v.cell_range.cell_a.row,
-		  known_y->v.cell_range.cell_b.col,
-		  known_y->v.cell_range.cell_b.row,
-		  callback_function_list,
-		  &items_y);
+			eval_sheet (known_y->v.cell_range.cell_a.sheet, ei->pos.sheet),TRUE,
+			known_y->v.cell_range.cell_a.col,
+			known_y->v.cell_range.cell_a.row,
+			known_y->v.cell_range.cell_b.col,
+			known_y->v.cell_range.cell_b.row,
+			callback_function_list,
+			&items_y);
 		if (ret == FALSE) {
 			list1 = items_x.list;
 			list2 = items_y.list;
@@ -2877,13 +2877,13 @@ gnumeric_slope (FunctionEvalInfo *ei, Value **argv)
 
         if (known_x->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
-		  known_x->v.cell_range.cell_a.sheet, TRUE,
-		  known_x->v.cell_range.cell_a.col,
-		  known_x->v.cell_range.cell_a.row,
-		  known_x->v.cell_range.cell_b.col,
-		  known_x->v.cell_range.cell_b.row,
-		  callback_function_list,
-		  &items_x);
+			eval_sheet (known_x->v.cell_range.cell_a.sheet, ei->pos.sheet), TRUE,
+			known_x->v.cell_range.cell_a.col,
+			known_x->v.cell_range.cell_a.row,
+			known_x->v.cell_range.cell_b.col,
+			known_x->v.cell_range.cell_b.row,
+			callback_function_list,
+			&items_x);
 		if (ret == FALSE) {
 			list1 = items_x.list;
 			list2 = items_y.list;
@@ -2905,13 +2905,13 @@ gnumeric_slope (FunctionEvalInfo *ei, Value **argv)
 
         if (known_y->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
-		  known_y->v.cell_range.cell_a.sheet, TRUE,
-		  known_y->v.cell_range.cell_a.col,
-		  known_y->v.cell_range.cell_a.row,
-		  known_y->v.cell_range.cell_b.col,
-		  known_y->v.cell_range.cell_b.row,
-		  callback_function_list,
-		  &items_y);
+			eval_sheet (known_y->v.cell_range.cell_a.sheet, ei->pos.sheet), TRUE,
+			known_y->v.cell_range.cell_a.col,
+			known_y->v.cell_range.cell_a.row,
+			known_y->v.cell_range.cell_b.col,
+			known_y->v.cell_range.cell_b.row,
+			callback_function_list,
+			&items_y);
 		if (ret == FALSE) {
 			list1 = items_x.list;
 			list2 = items_y.list;
@@ -3060,7 +3060,7 @@ gnumeric_percentrank (FunctionEvalInfo *ei, Value **argv)
 		        return function_error (ei, gnumeric_err_NUM);
 	}
 
-	sheet = argv[0]->v.cell.sheet;
+	sheet = eval_sheet (argv[0]->v.cell.sheet, ei->pos.sheet);
 	col = argv[0]->v.cell.col;
 	row = argv[0]->v.cell.row;
 
@@ -3122,7 +3122,7 @@ gnumeric_ftest (FunctionEvalInfo *ei, Value *argv [])
 	expr_node_list = g_list_append(NULL, tree);
 
 	if (!function_iterate_argument_values
-	    (eval_pos_init (&ep, argv[0]->v.cell_range.cell_a.sheet,
+	    (eval_pos_init (&ep, eval_sheet (argv[0]->v.cell_range.cell_a.sheet, ei->pos.sheet),
 			    argv[0]->v.cell_range.cell_a.col,
 			    argv[0]->v.cell_range.cell_a.row),
 	     callback_function_stat,
@@ -3147,7 +3147,7 @@ gnumeric_ftest (FunctionEvalInfo *ei, Value *argv [])
 	expr_node_list = g_list_append(NULL, tree);
 
 	if (!function_iterate_argument_values
-	        (eval_pos_init (&ep, argv[1]->v.cell_range.cell_a.sheet,
+	        (eval_pos_init (&ep, eval_sheet (argv[1]->v.cell_range.cell_a.sheet, ei->pos.sheet),
 				argv[1]->v.cell_range.cell_a.col,
 				argv[1]->v.cell_range.cell_a.row),
 		 callback_function_stat,
@@ -3264,7 +3264,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv [])
 		expr_node_list = g_list_append(NULL, tree);
 
 		if (!function_iterate_argument_values
-		    (eval_pos_init (&ep, argv[0]->v.cell_range.cell_a.sheet,
+		    (eval_pos_init (&ep, eval_sheet (argv[0]->v.cell_range.cell_a.sheet, ei->pos.sheet),
 				    argv[0]->v.cell_range.cell_a.col,
 				    argv[0]->v.cell_range.cell_a.row),
 		     callback_function_ttest,
@@ -3284,7 +3284,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv [])
 		expr_node_list = g_list_append(NULL, tree);
 
 		if (!function_iterate_argument_values
-		    (eval_pos_init (&ep, argv[1]->v.cell_range.cell_a.sheet,
+		    (eval_pos_init (&ep, eval_sheet (argv[1]->v.cell_range.cell_a.sheet, ei->pos.sheet),
 				    argv[1]->v.cell_range.cell_a.col,
 				    argv[1]->v.cell_range.cell_a.row),
 		     callback_function_ttest,
@@ -3333,7 +3333,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv [])
 		expr_node_list = g_list_append(NULL, tree);
 
 		if (!function_iterate_argument_values
-		    (eval_pos_init (&ep, argv[0]->v.cell_range.cell_a.sheet,
+		    (eval_pos_init (&ep, eval_sheet (argv[0]->v.cell_range.cell_a.sheet, ei->pos.sheet),
 				    argv[0]->v.cell_range.cell_a.col,
 				    argv[0]->v.cell_range.cell_a.row),
 		     callback_function_stat,
@@ -3359,7 +3359,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv [])
 		expr_node_list = g_list_append(NULL, tree);
 
 		if (!function_iterate_argument_values
-		    (eval_pos_init (&ep, argv[1]->v.cell_range.cell_a.sheet,
+		    (eval_pos_init (&ep, eval_sheet (argv[1]->v.cell_range.cell_a.sheet, ei->pos.sheet),
 				    argv[1]->v.cell_range.cell_a.col,
 				    argv[1]->v.cell_range.cell_a.row),
 		     callback_function_stat,
@@ -3488,7 +3488,7 @@ gnumeric_forecast (FunctionEvalInfo *ei, Value *argv [])
 	expr_node_list = g_list_append(NULL, tree);
 
 	if (!function_iterate_argument_values
-	    (eval_pos_init (&ep, argv[1]->v.cell_range.cell_a.sheet,
+	    (eval_pos_init (&ep, eval_sheet (argv[1]->v.cell_range.cell_a.sheet, ei->pos.sheet),
 			    argv[1]->v.cell_range.cell_a.col,
 			    argv[1]->v.cell_range.cell_a.row),
 	     callback_function_lrstat, &cl, expr_node_list,
@@ -3507,7 +3507,7 @@ gnumeric_forecast (FunctionEvalInfo *ei, Value *argv [])
 	expr_node_list = g_list_append(NULL, tree);
 
 	if (!function_iterate_argument_values
-	    (eval_pos_init (&ep, argv[2]->v.cell_range.cell_a.sheet,
+	    (eval_pos_init (&ep, eval_sheet (argv[2]->v.cell_range.cell_a.sheet, ei->pos.sheet),
 			    argv[2]->v.cell_range.cell_a.col,
 			    argv[2]->v.cell_range.cell_a.row),
 	     callback_function_lrstat, &cl, expr_node_list,
@@ -3567,7 +3567,7 @@ gnumeric_intercept (FunctionEvalInfo *ei, Value *argv [])
 	expr_node_list = g_list_append(NULL, tree);
 
 	if (!function_iterate_argument_values
-	    (eval_pos_init (&ep, argv[0]->v.cell_range.cell_a.sheet,
+	    (eval_pos_init (&ep, eval_sheet (argv[0]->v.cell_range.cell_a.sheet, ei->pos.sheet),
 			    argv[0]->v.cell_range.cell_a.col,
 			    argv[0]->v.cell_range.cell_a.row),
 	     callback_function_lrstat, &cl, expr_node_list,
@@ -3586,7 +3586,7 @@ gnumeric_intercept (FunctionEvalInfo *ei, Value *argv [])
 	expr_node_list = g_list_append(NULL, tree);
 
 	if (!function_iterate_argument_values
-	    (eval_pos_init (&ep, argv[1]->v.cell_range.cell_a.sheet,
+	    (eval_pos_init (&ep, eval_sheet (argv[1]->v.cell_range.cell_a.sheet, ei->pos.sheet),
 			    argv[1]->v.cell_range.cell_a.col,
 			    argv[1]->v.cell_range.cell_a.row),
 	     callback_function_lrstat, &cl, expr_node_list,

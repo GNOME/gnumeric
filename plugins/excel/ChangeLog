@@ -1,3 +1,11 @@
+1999-07-10  Michael Meeks  <michael@edenproject.org>
+
+	* ms-formula-read.c (formula_func_data): Fix REPT = 2 args,
+	add VDB = var arg.
+
+	* ms-excel-read.c (biff_get_externsheet_name): Silly but fatal bug
+	a child could spot: written by yours truly :-)
+
 1999-07-09  Jody Goldberg  <jgoldberg@home.com>
 
 	* ms-obj.c : Conditionalize the debug info for text objects.

@@ -955,12 +955,11 @@ value_area_get_height (const EvalPosition *ep, Value *v)
 	if (v->type == VALUE_ARRAY)
 		return v->v.array.y;
 	else { /* FIXME: 3D references, may not clip correctly */
-		Sheet *sheeta = v->v.cell_range.cell_a.sheet ?
-			v->v.cell_range.cell_a.sheet:ep->sheet;
+		Sheet *sheeta = eval_sheet (v->v.cell_range.cell_a.sheet, ep->sheet);
 		guint ans = v->v.cell_range.cell_b.row -
 		            v->v.cell_range.cell_a.row + 1;
 		if (sheeta && sheeta->max_row_used < ans) /* Clip */
-			ans = sheeta->max_row_used+1;
+			ans = sheeta->max_row_used + 1;
 		return ans;
 	}
 }
@@ -1168,10 +1167,6 @@ eval_funcall (FunctionEvalInfo *s, ExprTree *tree)
 				g_assert (t->oper == OPER_VAR);
 				v = value_new_cellrange (&t->u.ref,
 							 &t->u.ref);
-				if (!v->v.cell_range.cell_a.sheet)
-					v->v.cell_range.cell_a.sheet = sheet;
-				if (!v->v.cell_range.cell_b.sheet)
-					v->v.cell_range.cell_b.sheet = sheet;
 			}
 
 			switch (*arg_type){
@@ -1637,7 +1632,7 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 		ref = &tree->u.ref;
 		cell_get_abs_col_row (ref, s->pos.eval_col, s->pos.eval_row, &col, &row);
 
-		cell_sheet = ref->sheet ? ref->sheet : s->pos.sheet;
+		cell_sheet = eval_sheet (ref->sheet, s->pos.sheet);
 
 		cell = sheet_cell_get (cell_sheet, col, row);
 

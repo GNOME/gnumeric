@@ -95,7 +95,7 @@ FormulaFuncData formula_func_data[FORMULA_FUNC_DATA_LEN] =
 /* 27 */	{ "ROUND", 2 },
 /* 28 */	{ "LOOKUP", -1 },
 /* 29 */	{ "INDEX", },
-/* 30 */	{ "REPT", -1 },
+/* 30 */	{ "REPT", 2 },
 /* 31 */	{ "MID", 3 },
 /* 32 */	{ "LEN", 1 },
 /* 33 */	{ "VALUE", 1 },
@@ -287,7 +287,7 @@ FormulaFuncData formula_func_data[FORMULA_FUNC_DATA_LEN] =
 /* 219 */	{ "ADDRESS", -1 },	/* abs_num is optional */
 /* 220 */	{ "DAYS360", -1 },	/* method is optional */
 /* 221 */	{ "TODAY", 0 },
-/* 222 Unknown*/{ "UnknownFunction222", -2 },
+/* 222 */       { "VDB", -1 },
 /* 223 Unknown*/{ "UnknownFunction223", -2 },
 /* 224 Unknown*/{ "UnknownFunction224", -2 },
 /* 225 Unknown*/{ "UnknownFunction225", -2 },

@@ -188,6 +188,12 @@ struct _FunctionEvalInfo {
 	FunctionDefinition *func_def;
 };
 
+/*
+ * Used for getting a valid Sheet * from a CellRef
+ * Syntax is CellRef, valid Sheet *
+ */
+#define eval_sheet(a,b)     (a?a:b)
+
 Value *function_error       (FunctionEvalInfo *fe,
 			     char *error_string);
 Value *function_error_alloc (FunctionEvalInfo *fe,

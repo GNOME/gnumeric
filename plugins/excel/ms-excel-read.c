@@ -2418,8 +2418,10 @@ biff_get_externsheet_name(ExcelWorkbook *wb, guint16 idx, gboolean get_first)
 	index = get_first ? bed->first_tab : bed->last_tab;
 
 	bsd = g_hash_table_lookup (wb->boundsheet_data_by_index, &index);
-	if (!bsd)
+	if (!bsd || !bsd->sheet) {
 		printf ("Duff sheet index %d\n", index);
+		return NULL;
+	}
 	return bsd->sheet->gnum_sheet;
 }
 

@@ -128,8 +128,7 @@ function_iterate_do_value (const EvalPosition      *ep,
 				      eval_col, eval_row,
 				      &end_col, &end_row);
 
-		if (!(sheet = value->v.cell_range.cell_a.sheet))
-			sheet = ep->sheet;
+		sheet = eval_sheet (value->v.cell_range.cell_a.sheet, ep->sheet);
 		ret = sheet_cell_foreach_range (
 			sheet, TRUE,
 			start_col, start_row,

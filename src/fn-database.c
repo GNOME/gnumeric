@@ -102,7 +102,7 @@ criteria_test_greater_or_equal(Value *x, Value *y)
 /* Finds a column index of a field. 
  */
 static int
-find_column_of_field(Value *database, Value *field)
+find_column_of_field (const EvalPosition *ep, Value *database, Value *field)
 {
         Sheet *sheet;
         Cell  *cell;
@@ -119,7 +119,7 @@ find_column_of_field(Value *database, Value *field)
 	if (field->type != VALUE_STRING)
 	        return -1;
 
-	sheet = database->v.cell_range.cell_a.sheet;
+	sheet = eval_sheet (database->v.cell_range.cell_a.sheet, ep->sheet);
 	field_name = value_get_as_string (field);
 	column = -1;
 
@@ -206,7 +206,7 @@ parse_criteria(char *criteria, criteria_test_fun_t *fun, Value **test_value)
 /* Parses the criteria cell range.
  */
 static GSList *
-parse_database_criteria(Value *database, Value *criteria)
+parse_database_criteria (const EvalPosition *ep, Value *database, Value *criteria)
 {
 	Sheet               *sheet;
 	database_criteria_t *new_criteria;
@@ -217,7 +217,7 @@ parse_database_criteria(Value *database, Value *criteria)
 	int   b_col, b_row, e_col, e_row;
 	int   field_ind;
 
-	sheet = database->v.cell_range.cell_a.sheet;
+	sheet = eval_sheet (database->v.cell_range.cell_a.sheet, ep->sheet);
 	b_col = criteria->v.cell_range.cell_a.col;
 	b_row = criteria->v.cell_range.cell_a.row;
 	e_col = criteria->v.cell_range.cell_b.col;
@@ -231,7 +231,7 @@ parse_database_criteria(Value *database, Value *criteria)
 		if (cell == NULL || cell->value == NULL)
 		        continue;
 		new_criteria = g_new(database_criteria_t, 1);
-	        field_ind = find_column_of_field(database, cell->value);
+	        field_ind = find_column_of_field (ep, database, cell->value);
 		if (field_ind == -1) {
 		        free_criterias(criterias);
 		        return NULL;
@@ -269,12 +269,12 @@ parse_database_criteria(Value *database, Value *criteria)
 /* Finds the cells from the given column that match the criteria.
  */
 static GSList *
-find_cells_that_match(Value *database, int field, GSList *criterias)
+find_cells_that_match (const EvalPosition *ep, Value *database, int field, GSList *criterias)
 {
         Sheet  *sheet;
 	GSList *current, *conditions, *cells;
         int    row, first_row, last_row, add_flag;
-	sheet = database->v.cell_range.cell_a.sheet;
+	sheet = eval_sheet (database->v.cell_range.cell_a.sheet, ep->sheet);
 	last_row = database->v.cell_range.cell_b.row;
 	cells = NULL;
 	first_row = database->v.cell_range.cell_a.row + 1;
@@ -356,15 +356,15 @@ gnumeric_daverage (FunctionEvalInfo *ei, Value **argv)
 	database = argv[0];
 	criteria = argv[2];
 
-	field = find_column_of_field(database, argv[1]);
+	field = find_column_of_field (&ei->pos, database, argv[1]);
 	if (field < 0)
 		return function_error (ei, gnumeric_err_NUM);
 
-	criterias = parse_database_criteria(database, criteria);
+	criterias = parse_database_criteria (&ei->pos, database, criteria);
 	if (criterias == NULL)
 		return function_error (ei, gnumeric_err_NUM);
 
-	cells = find_cells_that_match(database, field, criterias);
+	cells = find_cells_that_match (&ei->pos, database, field, criterias);
 
 	current = cells;
 	count = 0;
@@ -420,15 +420,15 @@ gnumeric_dcount (FunctionEvalInfo *ei, Value **argv)
 	database = argv[0];
 	criteria = argv[2];
 
-	field = find_column_of_field(database, argv[1]);
+	field = find_column_of_field (&ei->pos, database, argv[1]);
 	if (field < 0)
 		return function_error (ei, gnumeric_err_NUM);
 
-	criterias = parse_database_criteria(database, criteria);
+	criterias = parse_database_criteria (&ei->pos, database, criteria);
 	if (criterias == NULL)
 		return function_error (ei, gnumeric_err_NUM);
 
-	cells = find_cells_that_match(database, field, criterias);
+	cells = find_cells_that_match (&ei->pos, database, field, criterias);
 
 	current = cells;
 	count = 0;
@@ -483,15 +483,15 @@ gnumeric_dcounta (FunctionEvalInfo *ei, Value **argv)
 	database = argv[0];
 	criteria = argv[2];
 
-	field = find_column_of_field(database, argv[1]);
+	field = find_column_of_field (&ei->pos, database, argv[1]);
 	if (field < 0)
 		return function_error (ei, gnumeric_err_NUM);
 
-	criterias = parse_database_criteria(database, criteria);
+	criterias = parse_database_criteria (&ei->pos, database, criteria);
 	if (criterias == NULL)
 		return function_error (ei, gnumeric_err_NUM);
 
-	cells = find_cells_that_match(database, field, criterias);
+	cells = find_cells_that_match (&ei->pos, database, field, criterias);
 
 	current = cells;
 	count = 0;
@@ -549,17 +549,17 @@ gnumeric_dget (FunctionEvalInfo *ei, Value **argv)
 	database = argv[0];
 	criteria = argv[2];
 
-	field = find_column_of_field(database, argv[1]);
+	field = find_column_of_field (&ei->pos, database, argv[1]);
 
 	if (field < 0)
 		return function_error (ei, gnumeric_err_NUM);
 
-	criterias = parse_database_criteria(database, criteria);
+	criterias = parse_database_criteria (&ei->pos, database, criteria);
 
 	if (criterias == NULL)
 		error_message_set (ei->error, gnumeric_err_NUM);
 
-	cells = find_cells_that_match(database, field, criterias);
+	cells = find_cells_that_match (&ei->pos, database, field, criterias);
 
 	current = cells;
 	count = 0;
@@ -619,15 +619,15 @@ gnumeric_dmax (FunctionEvalInfo *ei, Value **argv)
 	database = argv[0];
 	criteria = argv[2];
 
-	field = find_column_of_field(database, argv[1]);
+	field = find_column_of_field (&ei->pos, database, argv[1]);
 	if (field < 0)
 		return function_error (ei, gnumeric_err_NUM);
 
-	criterias = parse_database_criteria(database, criteria);
+	criterias = parse_database_criteria (&ei->pos, database, criteria);
 	if (criterias == NULL)
 		return function_error (ei, gnumeric_err_NUM);
 
-	cells = find_cells_that_match(database, field, criterias);
+	cells = find_cells_that_match (&ei->pos, database, field, criterias);
 	if (cells == NULL)
 		return function_error (ei, gnumeric_err_NUM);
 
@@ -688,15 +688,15 @@ gnumeric_dmin (FunctionEvalInfo *ei, Value **argv)
 	database = argv[0];
 	criteria = argv[2];
 
-	field = find_column_of_field(database, argv[1]);
+	field = find_column_of_field (&ei->pos, database, argv[1]);
 	if (field < 0)
 		return function_error (ei, gnumeric_err_NUM);
 
-	criterias = parse_database_criteria(database, criteria);
+	criterias = parse_database_criteria (&ei->pos, database, criteria);
 	if (criterias == NULL)
 		return function_error (ei, gnumeric_err_NUM);
 
-	cells = find_cells_that_match(database, field, criterias);
+	cells = find_cells_that_match (&ei->pos, database, field, criterias);
 	if (cells == NULL)
 		return function_error (ei, gnumeric_err_NUM);
 
@@ -757,16 +757,16 @@ gnumeric_dproduct (FunctionEvalInfo *ei, Value **argv)
 	database = argv[0];
 	criteria = argv[2];
 
-	field = find_column_of_field(database, argv[1]);
+	field = find_column_of_field (&ei->pos, database, argv[1]);
 	if (field < 0)
 		return function_error (ei, gnumeric_err_NUM);
 
-	criterias = parse_database_criteria(database, criteria);
+	criterias = parse_database_criteria (&ei->pos, database, criteria);
 
 	if (criterias == NULL)
 		return function_error (ei, gnumeric_err_NUM);
 
-	cells = find_cells_that_match(database, field, criterias);
+	cells = find_cells_that_match (&ei->pos, database, field, criterias);
 
 	if (cells == NULL)
 		return function_error (ei, gnumeric_err_NUM);
@@ -829,15 +829,15 @@ gnumeric_dstdev (FunctionEvalInfo *ei, Value **argv)
 	database = argv[0];
 	criteria = argv[2];
 
-	field = find_column_of_field(database, argv[1]);
+	field = find_column_of_field (&ei->pos, database, argv[1]);
 	if (field < 0)
 		return function_error (ei, gnumeric_err_NUM);
 
-	criterias = parse_database_criteria(database, criteria);
+	criterias = parse_database_criteria (&ei->pos, database, criteria);
 	if (criterias == NULL)
 		return function_error (ei, gnumeric_err_NUM);
 
-	cells = find_cells_that_match(database, field, criterias);
+	cells = find_cells_that_match (&ei->pos, database, field, criterias);
 	if (cells == NULL)
 		return function_error (ei, gnumeric_err_NUM);
 
@@ -900,15 +900,15 @@ gnumeric_dstdevp (FunctionEvalInfo *ei, Value **argv)
 	database = argv[0];
 	criteria = argv[2];
 
-	field = find_column_of_field(database, argv[1]);
+	field = find_column_of_field (&ei->pos, database, argv[1]);
 	if (field < 0)
 		return function_error (ei, gnumeric_err_NUM);
 
-	criterias = parse_database_criteria(database, criteria);
+	criterias = parse_database_criteria (&ei->pos, database, criteria);
 	if (criterias == NULL)
 		return function_error (ei, gnumeric_err_NUM);
 
-	cells = find_cells_that_match(database, field, criterias);
+	cells = find_cells_that_match (&ei->pos, database, field, criterias);
 	if (cells == NULL)
 		return function_error (ei, gnumeric_err_NUM);
 
@@ -969,15 +969,15 @@ gnumeric_dsum (FunctionEvalInfo *ei, Value **argv)
 	database = argv[0];
 	criteria = argv[2];
 
-	field = find_column_of_field(database, argv[1]);
+	field = find_column_of_field (&ei->pos, database, argv[1]);
 	if (field < 0)
 		return function_error (ei, gnumeric_err_NUM);
 
-	criterias = parse_database_criteria(database, criteria);
+	criterias = parse_database_criteria (&ei->pos, database, criteria);
 	if (criterias == NULL)
 		return function_error (ei, gnumeric_err_NUM);
 
-	cells = find_cells_that_match(database, field, criterias);
+	cells = find_cells_that_match (&ei->pos, database, field, criterias);
 	if (cells == NULL)
 		return function_error (ei, gnumeric_err_NUM);
 
@@ -1039,15 +1039,15 @@ gnumeric_dvar (FunctionEvalInfo *ei, Value **argv)
 	database = argv[0];
 	criteria = argv[2];
 
-	field = find_column_of_field(database, argv[1]);
+	field = find_column_of_field (&ei->pos, database, argv[1]);
 	if (field < 0)
 		return function_error (ei, gnumeric_err_NUM);
 
-	criterias = parse_database_criteria(database, criteria);
+	criterias = parse_database_criteria (&ei->pos, database, criteria);
 	if (criterias == NULL)
 		return function_error (ei, gnumeric_err_NUM);
 
-	cells = find_cells_that_match(database, field, criterias);
+	cells = find_cells_that_match (&ei->pos, database, field, criterias);
 	if (cells == NULL)
 		return function_error (ei, gnumeric_err_NUM);
 
@@ -1111,16 +1111,16 @@ gnumeric_dvarp (FunctionEvalInfo *ei, Value **argv)
 	database = argv[0];
 	criteria = argv[2];
 
-	field = find_column_of_field(database, argv[1]);
+	field = find_column_of_field (&ei->pos, database, argv[1]);
 	if (field < 0)
 		return function_error (ei, gnumeric_err_NUM);
 
-	criterias = parse_database_criteria(database, criteria);
+	criterias = parse_database_criteria (&ei->pos, database, criteria);
 
 	if (criterias == NULL)
 		return function_error (ei, gnumeric_err_NUM);
 
-	cells = find_cells_that_match(database, field, criterias);
+	cells = find_cells_that_match (&ei->pos, database, field, criterias);
 
 	if (cells == NULL)
 		return function_error (ei, gnumeric_err_NUM);

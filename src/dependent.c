@@ -166,12 +166,10 @@ add_cell_range_deps (Cell *cell, const CellRef *a, const CellRef *b)
 	cell_get_abs_col_row (b, col, row, &range.range.end_col,   &range.range.end_row);
 
 	range.ref_count = 0;
-	if (a->sheet != b->sheet)
+	if (b->sheet && a->sheet != b->sheet)
 		g_warning ("FIXME: 3D references need work");
-	if (a->sheet)
-		range.sheet = a->sheet;
-	else
-		cell->sheet;
+
+	range.sheet = eval_sheet (a->sheet, cell->sheet);
 	add_cell_range_dep (cell, &range);
 }
 

@@ -516,8 +516,7 @@ gnumeric_countif (FunctionEvalInfo *ei, Value **argv)
 		tmpvalue = items.test_value;
 	}
 
-	if (!(sheet = range->v.cell_range.cell_a.sheet))
-		sheet = ei->pos.sheet;
+	sheet = eval_sheet (range->v.cell_range.cell_a.sheet, ei->pos.sheet);
 	ret = sheet_cell_foreach_range (
 		sheet, TRUE,
 		range->v.cell_range.cell_a.col,
@@ -633,13 +632,13 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 	        items.actual_range = FALSE;
 
 	ret = sheet_cell_foreach_range (
-	  range->v.cell_range.cell_a.sheet, TRUE,
-	  range->v.cell_range.cell_a.col,
-	  range->v.cell_range.cell_a.row,
-	  range->v.cell_range.cell_b.col,
-	  range->v.cell_range.cell_b.row,
-	  callback_function_criteria,
-	  &items);
+		eval_sheet (range->v.cell_range.cell_a.sheet, ei->pos.sheet), TRUE,
+		range->v.cell_range.cell_a.col,
+		range->v.cell_range.cell_a.row,
+		range->v.cell_range.cell_b.col,
+		range->v.cell_range.cell_b.row,
+		callback_function_criteria,
+		&items);
 
 	if (tmpvalue)
 		value_release (tmpvalue);
@@ -663,13 +662,14 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 	      items.current = items.list;
 	      items.sum = items.total_num = 0;
  	      ret = sheet_cell_foreach_range (
-		actual_range->v.cell_range.cell_a.sheet, TRUE,
-		actual_range->v.cell_range.cell_a.col,
-		actual_range->v.cell_range.cell_a.row,
-		actual_range->v.cell_range.cell_b.col,
-		actual_range->v.cell_range.cell_b.row,
-		callback_function_sumif,
-		&items);
+		      eval_sheet (actual_range->v.cell_range.cell_a.sheet, ei->pos.sheet),
+		      TRUE,
+		      actual_range->v.cell_range.cell_a.col,
+		      actual_range->v.cell_range.cell_a.row,
+		      actual_range->v.cell_range.cell_b.col,
+		      actual_range->v.cell_range.cell_b.row,
+		      callback_function_sumif,
+		      &items);
 	      sum = items.sum;
 	}
 
@@ -1893,14 +1893,15 @@ gnumeric_sumx2my2 (FunctionEvalInfo *ei, Value **argv)
 
         if (values_x->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
-		  values_x->v.cell_range.cell_a.sheet, TRUE,
-		  values_x->v.cell_range.cell_a.col,
-		  values_x->v.cell_range.cell_a.row,
-		  values_x->v.cell_range.cell_b.col,
-		  values_x->v.cell_range.cell_b.row,
-		  callback_function_sumxy,
-		  &items_x);
-
+			eval_sheet (values_x->v.cell_range.cell_a.sheet, ei->pos.sheet),
+			TRUE,
+			values_x->v.cell_range.cell_a.col,
+			values_x->v.cell_range.cell_a.row,
+			values_x->v.cell_range.cell_b.col,
+			values_x->v.cell_range.cell_b.row,
+			callback_function_sumxy,
+			&items_x);
+		
 		if (ret == FALSE)
 		        return function_error (ei, gnumeric_err_VALUE);
 	} else
@@ -1908,13 +1909,13 @@ gnumeric_sumx2my2 (FunctionEvalInfo *ei, Value **argv)
 
         if (values_y->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
-		  values_y->v.cell_range.cell_a.sheet, TRUE,
-		  values_y->v.cell_range.cell_a.col,
-		  values_y->v.cell_range.cell_a.row,
-		  values_y->v.cell_range.cell_b.col,
-		  values_y->v.cell_range.cell_b.row,
-		  callback_function_sumxy,
-		  &items_y);
+			eval_sheet (values_y->v.cell_range.cell_a.sheet, ei->pos.sheet), TRUE,
+			values_y->v.cell_range.cell_a.col,
+			values_y->v.cell_range.cell_a.row,
+			values_y->v.cell_range.cell_b.col,
+			values_y->v.cell_range.cell_b.row,
+			callback_function_sumxy,
+			&items_y);
 		if (ret == FALSE)
 		        return function_error (ei, gnumeric_err_VALUE);
 	} else
@@ -1980,13 +1981,14 @@ gnumeric_sumx2py2 (FunctionEvalInfo *ei, Value **argv)
 
         if (values_x->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
-		  values_x->v.cell_range.cell_a.sheet, TRUE,
-		  values_x->v.cell_range.cell_a.col,
-		  values_x->v.cell_range.cell_a.row,
-		  values_x->v.cell_range.cell_b.col,
-		  values_x->v.cell_range.cell_b.row,
-		  callback_function_sumxy,
-		  &items_x);
+			eval_sheet (values_x->v.cell_range.cell_a.sheet, ei->pos.sheet),
+			TRUE,
+			values_x->v.cell_range.cell_a.col,
+			values_x->v.cell_range.cell_a.row,
+			values_x->v.cell_range.cell_b.col,
+			values_x->v.cell_range.cell_b.row,
+			callback_function_sumxy,
+			&items_x);
 		if (ret == FALSE)
 		        return function_error (ei, gnumeric_err_VALUE);
 	} else
@@ -1994,13 +1996,13 @@ gnumeric_sumx2py2 (FunctionEvalInfo *ei, Value **argv)
 
         if (values_y->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
-		  values_y->v.cell_range.cell_a.sheet, TRUE,
-		  values_y->v.cell_range.cell_a.col,
-		  values_y->v.cell_range.cell_a.row,
-		  values_y->v.cell_range.cell_b.col,
-		  values_y->v.cell_range.cell_b.row,
-		  callback_function_sumxy,
-		  &items_y);
+			eval_sheet (values_y->v.cell_range.cell_a.sheet, ei->pos.sheet), TRUE,
+			values_y->v.cell_range.cell_a.col,
+			values_y->v.cell_range.cell_a.row,
+			values_y->v.cell_range.cell_b.col,
+			values_y->v.cell_range.cell_b.row,
+			callback_function_sumxy,
+			&items_y);
 		if (ret == FALSE)
 		        return function_error (ei, gnumeric_err_VALUE);
 	} else
@@ -2066,13 +2068,13 @@ gnumeric_sumxmy2 (FunctionEvalInfo *ei, Value **argv)
 
         if (values_x->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
-		  values_x->v.cell_range.cell_a.sheet, TRUE,
-		  values_x->v.cell_range.cell_a.col,
-		  values_x->v.cell_range.cell_a.row,
-		  values_x->v.cell_range.cell_b.col,
-		  values_x->v.cell_range.cell_b.row,
-		  callback_function_sumxy,
-		  &items_x);
+			eval_sheet (values_x->v.cell_range.cell_a.sheet, ei->pos.sheet), TRUE,
+			values_x->v.cell_range.cell_a.col,
+			values_x->v.cell_range.cell_a.row,
+			values_x->v.cell_range.cell_b.col,
+			values_x->v.cell_range.cell_b.row,
+			callback_function_sumxy,
+			&items_x);
 		if (ret == FALSE)
 		        return function_error (ei, gnumeric_err_VALUE);
 	} else
@@ -2080,13 +2082,13 @@ gnumeric_sumxmy2 (FunctionEvalInfo *ei, Value **argv)
 
         if (values_y->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
-		  values_y->v.cell_range.cell_a.sheet, TRUE,
-		  values_y->v.cell_range.cell_a.col,
-		  values_y->v.cell_range.cell_a.row,
-		  values_y->v.cell_range.cell_b.col,
-		  values_y->v.cell_range.cell_b.row,
-		  callback_function_sumxy,
-		  &items_y);
+			eval_sheet (values_y->v.cell_range.cell_a.sheet, ei->pos.sheet), TRUE,
+			values_y->v.cell_range.cell_a.col,
+			values_y->v.cell_range.cell_a.row,
+			values_y->v.cell_range.cell_b.col,
+			values_y->v.cell_range.cell_b.row,
+			callback_function_sumxy,
+			&items_y);
 		if (ret == FALSE)
 		        return function_error (ei, gnumeric_err_VALUE);
 	} else
@@ -2354,23 +2356,21 @@ validate_range_numeric_matrix (const EvalPosition *ep, Value * matrix,
 	    return FALSE;
 
 	if (matrix->v.cell_range.cell_a.sheet !=
-	    matrix->v.cell_range.cell_b.sheet)
-	{
+	    matrix->v.cell_range.cell_b.sheet) {
 		*error_string = _("#3D MULT?");
 		return TRUE;
 	}
 
 	res = sheet_cell_foreach_range (
-	  matrix->v.cell_range.cell_a.sheet, TRUE,
-	  matrix->v.cell_range.cell_a.col,
-	  matrix->v.cell_range.cell_a.row,
-	  matrix->v.cell_range.cell_b.col,
-	  matrix->v.cell_range.cell_b.row,
-	  callback_function_mmult_validate,
-	  &cell_count);
+		eval_sheet (matrix->v.cell_range.cell_a.sheet, ep->sheet), TRUE,
+		matrix->v.cell_range.cell_a.col,
+		matrix->v.cell_range.cell_a.row,
+		matrix->v.cell_range.cell_b.col,
+		matrix->v.cell_range.cell_b.row,
+		callback_function_mmult_validate,
+		&cell_count);
 
-	if (!res || cell_count != (*rows * *cols))
-	{
+	if (!res || cell_count != (*rows * *cols)) {
 		/* As specified in the Excel Docs */
 		*error_string = gnumeric_err_VALUE;
 		return TRUE;

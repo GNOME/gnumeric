@@ -147,7 +147,7 @@ static char *help_countblank = {
 };
 
 static Value *
-gnumeric_countblank (FunctionEvalInfo *s, Value **args)
+gnumeric_countblank (FunctionEvalInfo *ei, Value **args)
 {
         Sheet *sheet;
         Value *range;
@@ -156,7 +156,7 @@ gnumeric_countblank (FunctionEvalInfo *s, Value **args)
 	int   count;
 
 	range = args[0];
-	sheet = range->v.cell_range.cell_a.sheet;
+	sheet = eval_sheet (range->v.cell_range.cell_a.sheet, ei->pos.sheet);
 	col_a = range->v.cell_range.cell_a.col;
 	col_b = range->v.cell_range.cell_b.col;
 	row_a = range->v.cell_range.cell_a.row;
