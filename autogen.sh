@@ -6,8 +6,8 @@ test -z "$srcdir" && srcdir=.
 
 PKG_NAME="Gnumeric"
 
-if test -d libglade; then
-    > libglade/NO-AUTO-GEN
+if test -d ${srcdir}/libglade; then
+    > ${srcdir}/libglade/NO-AUTO-GEN
 else
     echo you need to checkout gnumeric again 
     exit 1
