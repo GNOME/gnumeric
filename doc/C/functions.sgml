@@ -7065,7 +7065,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The ERFC function returns the complimentary error function, defined as 1 - erf(x). erfc(x) is calculated more accurately than erf(x) for arguments larger than about 0.5.</para>
+        <para>The ERFC function returns the complementary error function, defined as 1 - erf(x). erfc(x) is calculated more accurately than 1 - erf(x) for arguments larger than about 0.5.</para>
         <para>If @x is not numeric a #VALUE! error is returned.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -7642,11 +7642,11 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>PV(rate,nper,pmt,fv,type)</synopsis>
+      <synopsis>PV(rate,nper,pmt[,fv,type])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>PV calculates the present value of an investment. @rate is the periodic interest rate, @nper is the number of periods used for compounding. @pmt is the payment made each period, @fv is the future value and @type is when the payment is made. If @type = 1 then the payment is made at the begining of the period. If @type = 0 it is made at the end of each period.@EXAMPLES=</para>
+        <para>PV calculates the present value of an investment. @rate is the periodic interest rate, @nper is the number of periods used for compounding. @pmt is the payment made each period, @fv is the future value and @type is when the payment is made. If @type = 1 then the payment is made at the begining of the period. If @type = 0 (or omitted) it is made at the end of each period.@EXAMPLES=</para>
         <para></para>
     </refsect1>
     <refsect1><title>See also</title>
@@ -7964,7 +7964,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>DELTA function test for numerical equivilance of two arguments returning 1 in equality @y is optional, and defaults to 0.</para>
+        <para>The DELTA function tests for numerical equivalence of two arguments returning 1 in case of equality.  @y is optional, and defaults to 0.</para>
         <para>If either argument is non-numeric returns a #VALUE! error. This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -10173,7 +10173,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>IMLN returns the natural logarithm of a complex number. (The result will have an imaginary part between -pi an +pi.  The natural logarithm is not uniquely defined on complex numbers. You may need to add or subtract an even multiple of pi to the imaginary part.)</para>
+        <para>IMLN returns the natural logarithm of a complex number. (The result will have an imaginary part between -pi and +pi.  The natural logarithm is not uniquely defined on complex numbers. You may need to add or subtract an even multiple of pi to the imaginary part.)</para>
         <para>This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>

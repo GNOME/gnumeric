@@ -1,27 +1,10 @@
 #
 # Gnumeric's Makefile.
 # Author: Miguel de Icaza (miguel@kernel.org)
-#
-# This Makefile has targets for three programs:
-#
-# gnumeric: 
-#	the plain spreadsheet
-#
-# gnumeric-bonobo:
-#       spreadsheet with CORBA and Bonobo additions
-# 
-# 
 
 SUBDIRS = dialogs functions widgets
 
-if BONOBO
-bin_PROGRAMS = gnumeric-bonobo
-CLEANFILES  += gnumeric
-else
 bin_PROGRAMS = gnumeric
-CLEANFILES  +=gnumeric-bonobo
-endif
-
 #noinst_PROGRAMS = number-match
 
 INCLUDES = 								\
@@ -135,6 +118,7 @@ GNUMERIC_BASE_SOURCES =				\
 	item-grid.c				\
 	item-grid.h				\
 	main.h					\
+	main.c					\
 	mathfunc.c				\
 	mathfunc.h				\
 	module-plugin-defs.h			\
@@ -266,36 +250,14 @@ GNUMERIC_BONOBO_SOURCES = 			\
 	sheet-object-container.h		\
 	sheet-object-item.c			\
 	sheet-object-item.h
-#	workbook-control-bonobo.h 		\
-#	workbook-control-bonobo.c
 
+if BONOBO
 gnumeric_SOURCES =				\
-	main.c					\
-	normal-args.c				\
-	$(GNUMERIC_BASE_SOURCES)
-
-gnumeric_bonobo_SOURCES =			\
-	main.c					\
-	corba-args.c				\
 	$(GNUMERIC_BASE_SOURCES)		\
+	corba-args.c				\
 	$(GNUMERIC_BONOBO_SOURCES)
 
-gnumeric_LDFLAGS = -export-dynamic
-
-gnumeric_libs =					\
-	dialogs/libdialogs.a			\
-	widgets/libwidgets.a			\
-	functions/libfunctions.a
-
-gnumeric_LDADD = 				\
-	$(gnumeric_libs)			\
-	$(EXTRA_GNOME_LIBS)			\
-	$(GNOME_XML_LIB) 			\
-	$(GUILE_LIBS)				\
-	$(INTLLIBS)
-#	$(PSPELL_LIBS)
-
-gnumeric_bonobo_LDADD =				\
+gnumeric_LDADD =				\
 	$(gnumeric_libs)			\
 	-lbonobo-print				\
 	../idl/libGnumericIDL.a			\
@@ -304,6 +266,25 @@ gnumeric_bonobo_LDADD =				\
 	$(GUILE_LIBS)				\
 	$(PSPELL_LIBS)				\
 	$(INTLLIBS)
+else
+gnumeric_SOURCES =				\
+	$(GNUMERIC_BASE_SOURCES)		\
+	normal-args.c
+
+gnumeric_LDADD = 				\
+	$(gnumeric_libs)			\
+	$(EXTRA_GNOME_LIBS)			\
+	$(GNOME_XML_LIB) 			\
+	$(GUILE_LIBS)				\
+	$(INTLLIBS)
+endif
+
+gnumeric_LDFLAGS = -export-dynamic
+
+gnumeric_libs =					\
+	dialogs/libdialogs.a			\
+	widgets/libwidgets.a			\
+	functions/libfunctions.a
 
 dist-hook:
 	-mkdir $(distdir)/pixmaps

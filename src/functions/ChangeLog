@@ -1,3 +1,8 @@
+2001-06-25  Jody Goldberg <jgoldberg@home.com>
+
+	* fn-information.c (translate_table) : partial patch.  Should this be
+	  tied to the current locale ?
+
 2001-06-22  Morten Welinder  <terra@diku.dk>
 
 	* fn-financial.c (gnumeric_rate, gnumeric_irr): No longer respect

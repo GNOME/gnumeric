@@ -1832,13 +1832,13 @@ xml_not_used_old_array_spec (Cell *cell, char *content)
 	rows = strtol (ptr = expr_end + 2, &end, 10);
 	if (end == ptr || *end != ',')
 		return TRUE;
-	cols = strtol (ptr = ++end, &end, 10);
+	cols = strtol (ptr = end + 1, &end, 10);
 	if (end == ptr || end[0] != ')' || end[1] != '[')
 		return TRUE;
-	row = strtol (ptr = (end += 2), &end, 10);
+	row = strtol (ptr = (end + 2), &end, 10);
 	if (end == ptr || end[0] != ']' || end[1] != '[')
 		return TRUE;
-	col = strtol (ptr = (end += 2), &end, 10);
+	col = strtol (ptr = (end + 2), &end, 10);
 	if (end == ptr || end[0] != ']' || end[1] != '\0')
 		return TRUE;
 

@@ -1,8 +1,4 @@
-if BONOBO
-gnumeric = gnumeric-bonobo
-else
 gnumeric = gnumeric
-endif
 
 gnumeric_helpdir = $(datadir)/gnome/help/gnumeric/ja
 
