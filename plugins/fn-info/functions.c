@@ -255,6 +255,51 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
+static char *help_expression = {
+	N_("@FUNCTION=EXPRESSION\n"
+	   "@SYNTAX=EXPRESSION(cell)\n"
+	   "@DESCRIPTION="
+	   "EXPRESSION returns expression in @cell as a string, or"
+	   "empty if the cell is not an expression.\n"
+	   "@EXAMPLES=\n"
+	   "in A1 EXPRESSION(A2) equals 'EXPRESSION(A3)'.\n"
+	   "in A2 EXPRESSION(A3) equals empty.\n"
+	   "\n"
+	   "@SEEALSO=TEXT")
+};
+
+static Value *
+gnumeric_expression (FunctionEvalInfo *ei, Value **args)
+{
+	Value const * const v = args[0];
+	if (v->type == VALUE_CELLRANGE) {
+		Cell *cell;
+		CellRef const * a = &v->v_range.cell.a;
+		CellRef const * b = &v->v_range.cell.b;
+
+		if (a->col != b->col || a->row == b->row || a->sheet !=b->sheet)
+			return value_new_error (ei->pos, gnumeric_err_REF);
+
+		cell = sheet_cell_get (eval_sheet (a->sheet, ei->pos->sheet),
+				       a->col, a->row);
+
+		if (cell_has_expr (cell)) {
+			ParsePos pos;
+			char * expr_string =
+			    expr_tree_as_string (cell->base.expression,
+				parse_pos_init_evalpos (&pos, ei->pos));
+			Value * res = value_new_string (expr_string);
+			g_free (expr_string);
+			return res;
+		}
+	}
+
+	return value_new_empty ();
+}
+
+
+/***************************************************************************/
+
 static char *help_countblank = {
         N_("@FUNCTION=COUNTBLANK\n"
            "@SYNTAX=COUNTBLANK(range)\n"
@@ -880,6 +925,7 @@ gnumeric_type (FunctionEvalInfo *ei, GList *expr_node_list)
 /***************************************************************************/
 
 void information_functions_init (void);
+
 void
 information_functions_init (void)
 {
@@ -893,6 +939,8 @@ information_functions_init (void)
 			    &help_error,   gnumeric_error);
 	function_add_nodes (cat, "error.type", NULL, "",
 			    &help_error_type, gnumeric_error_type);
+	function_add_args  (cat, "expression", "r",   "cell",
+			    &help_expression, gnumeric_expression);
 	function_add_args  (cat, "info", "s", "info_type",
 			    &help_info, gnumeric_info);
 	function_add_nodes (cat, "isblank", NULL, "value",

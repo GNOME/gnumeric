@@ -1,5 +1,10 @@
 2001-07-07  Morten Welinder  <terra@diku.dk>
 
+	* fn-information.c (gnumeric_expression, help_expression): Moved
+ 	from fn-string.c.
+
+2001-07-07  Morten Welinder  <terra@diku.dk>
+
 	* fn-string.c (gnumeric_concatenate): Handle errors properly.
   	Don't leak like crazy.
 
