@@ -306,6 +306,8 @@ BC_R(ai)(ExcelChartHandler const *handle,
 			char * desc = style_format_as_XL (fmt, FALSE);
 			d (2, printf ("Format = '%s';\n", desc););
 			g_free (desc);
+
+			style_format_unref (fmt);
 		}
 	} else {
 		d (2, puts ("Uses number format from data source"););
@@ -1127,6 +1129,8 @@ BC_R(ifmt)(ExcelChartHandler const *handle,
 		char * desc = style_format_as_XL (fmt, FALSE);
 		d (0, printf ("Format = '%s';\n", desc););
 		g_free (desc);
+
+		style_format_unref (fmt);
 	}
 
 	return FALSE;
@@ -1813,11 +1817,12 @@ BC_R(seriestext)(ExcelChartHandler const *handle,
 {
 	guint16 const id = MS_OLE_GET_GUINT16 (q->data);	/* must be 0 */
 	int const slen = MS_OLE_GET_GUINT8 (q->data + 2);
-	char *str = biff_get_text (q->data + 3, slen, NULL);
-
-	d (2, puts (str););
+	char *str;
 
 	g_return_val_if_fail (id == 0, FALSE);
+
+	str = biff_get_text (q->data + 3, slen, NULL);
+	d (2, puts (str););
 
 	/* A quick heuristic */
 	if (s->currentSeries != NULL &&
@@ -1834,6 +1839,8 @@ BC_R(seriestext)(ExcelChartHandler const *handle,
 	}
 
 	/* TODO : handle axis and chart titles */
+
+	g_free (str);
 
 	return FALSE;
 }
