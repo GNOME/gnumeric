@@ -1,3 +1,67 @@
+1999-10-07  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/mstyle.c (check_sorted): update check & add comment.
+
+	* src/ranges.c (range_overlap): implement.
+	(range_fragment): stubbed.
+
+	* src/sheet-style.c (sheet_selection_get_uniq_style): Use range_overlap.
+
+	* src/style.h (DEFAULT_SIZE, DEFAULT_SIZE): move here from style.c
+
+	* src/workbook-format-toolbar.c (workbook_feedback_set): Set
+	non bold / italic as the default + kill warning + add default size.
+
+	* src/xml-io.c (xml_read_style_border, xml_write_style_border):
+	in-line border structure.
+
+	* src/style.c (style_hash, style_compare): kill
+	(style_new, style_mstyle_new, style_destroy, style_duplicate): 
+	remove old border (style_merge_to): cull.
+	(border_hash, style_init, style_shutdown): kill border bits.
+	(border_equal): ditto.
+
+	* src/sheet-autofill.c (autofill_cell): comment out style bits.
+
+	* src/item-grid.c (item_grid_draw_cell): Kill debug border rendering.
+
+	* src/print-cell.c (print_border, print_cell_border): #ifdef out.
+	(print_cell): comment out border call.
+
+	* src/mstyle.h: Make borders in-line structures.
+
+	* src/style.c (style_border_new_plain, style_border_new),
+	(style_border_ref, style_border_unref): kill.
+
+	* src/style.h: Kill StyleBorderOrient + StyleBorder in favor
+	of MStyleBorder.
+
+	* src/corba-sheet.c (cb_range_set_format): kill.
+	(Sheet_range_set_format): fixup.
+
+	* src/mstyle.c (mstyle_unref, mstyle_ref): Implemented.
+
+	* src/sheet.h: Add ref-count to MStyle.
+
+	* src/ranges.c (range_list_foreach_full): typo.
+	(range_style_apply_cb, range_set_style): Add.
+
+	* src/corba-sheet.c (Sheet_cell_set_font): cut.
+	(Sheet_cell_set_comment): re-enable.
+	(Sheet_cell_get_font): implement.
+	(Sheet_cell_get_font, Sheet_cell_set_background),
+	(Sheet_cell_get_background, Sheet_cell_get_pattern),
+	(Sheet_cell_set_pattern, Sheet_cell_set_alignment),
+	(Sheet_cell_get_alignment): deprecated.
+	(Sheet_range_set_format): Implemented.
+
+	* src/cell.h: Comment out the old cell_set_* API except for
+	cell_set_format*.
+
+	* src/cell.c (cell_get_horizontal_align): Fixup.
+	(cell_set_formula): hack format setting.
+	(cell_set_format_simple): fixup.
+
 1999-10-07  Jon K Hellan  <Jon.K.Hellan@item.ntnu.no>
 
         * dialog-cell-format.c 

@@ -38,6 +38,11 @@ static ExcelSheet *ms_excel_sheet_new       (ExcelWorkbook *wb,
 static void        ms_excel_workbook_attach (ExcelWorkbook *wb,
 					     ExcelSheet *ans);
 
+#define STYLE_TOP     (MSTYLE_BORDER_TOP    - MSTYLE_BORDER_TOP)
+#define STYLE_BOTTOM  (MSTYLE_BORDER_BOTTOM - MSTYLE_BORDER_TOP)
+#define STYLE_LEFT    (MSTYLE_BORDER_LEFT   - MSTYLE_BORDER_TOP)
+#define STYLE_RIGHT   (MSTYLE_BORDER_RIGHT  - MSTYLE_BORDER_TOP)
+
 /*static guint16
 ms_bug_get_padding (const BiffQuery *q, guint16 opcode)
 {
@@ -452,27 +457,6 @@ biff_boundsheet_data_destroy (gpointer key, BiffBoundsheetData *d, gpointer user
 	return 1;
 }
 
-static StyleFont*
-biff_font_data_get_style_font (BiffFontData *fd)
-{
-	StyleFont *ans;
-
-	if (!fd->fontname) {
-#ifndef NO_DEBUG_EXCEL
-		if (ms_excel_read_debug > 0) {
-			printf ("Curious no font name on %d\n", fd->index);
-		}
-#endif
-		style_font_ref (gnumeric_default_font);
-		return gnumeric_default_font;
-	}
-
-	ans = style_font_new (fd->fontname, fd->height / 20.0, 1.0,
-			      fd->boldness >= 0x2bc, fd->italic);
-
-	return ans;
-}
-
 /**
  * NB. 'fount' is the correct, and original _English_
  **/
@@ -531,8 +515,6 @@ biff_font_data_new (ExcelWorkbook *wb, BiffQuery *q)
 			fd->fontname, fd->height / 20, fd->color_idx);
 	}
 #endif
-	fd->style_font = biff_font_data_get_style_font (fd);
-
         fd->index = g_hash_table_size (wb->font_data);
 	if (fd->index >= 4) /* Wierd: for backwards compatibility */
 		fd->index++;
@@ -543,8 +525,6 @@ static gboolean
 biff_font_data_destroy (gpointer key, BiffFontData *fd, gpointer userdata)
 {
 	g_free (fd->fontname);
-	if (fd->style_font)
-		style_font_unref (fd->style_font);
 	g_free (fd);
 	return 1;
 }
@@ -992,13 +972,29 @@ static StyleColor *
 ms_excel_set_cell_font (ExcelSheet *sheet, Cell *cell, BiffXFData const *xf)
 {
 	BiffFontData const * fd = ms_excel_get_font (sheet, xf->font_idx);
+	MStyleElement e;
+	MStyle *style;
+
 	if (fd == NULL)
 		return NULL;
 
-	if (fd->style_font)
-		cell_set_font_from_style (cell, fd->style_font);
-	else
-		printf ("Duff StyleFont\n");
+	e.type = MSTYLE_FONT_NAME;
+	e.u.font.name = g_strdup (fd->fontname);
+	style = mstyle_new_elem (NULL, e);
+
+	e.type = MSTYLE_FONT_SIZE;
+	e.u.font.size = fd->height / 20.0;
+	mstyle_add (style, e);
+
+	e.type = MSTYLE_FONT_BOLD;
+	e.u.font.bold = fd->boldness >= 0x2bc;
+	mstyle_add (style, e);
+
+	e.type = MSTYLE_FONT_ITALIC;
+	e.u.font.italic = fd->italic;
+	mstyle_add (style, e);
+
+	cell_set_style (cell, style);
 
 	return ms_excel_palette_get (sheet->wb->palette, fd->color_idx, NULL);
 }
@@ -1024,28 +1020,45 @@ ms_excel_set_cell_xf (ExcelSheet *sheet, Cell *cell, guint16 xfidx)
 	BiffXFData const *xf = ms_excel_get_xf (sheet, xfidx);
 	StyleColor *fore, *back, *basefore;
 	int back_index;
+	MStyleElement e;
+	MStyle *style;
 
 	g_return_if_fail (xf);
 	g_return_if_fail (cell->value);
 
-	/*
-	 * Well set it up then ! FIXME: hack !
-	 */
-	cell_set_alignment (cell, xf->halign, xf->valign, ORIENT_HORIZ,
-			    xf->wrap);
+	e.type = MSTYLE_ALIGN_V;
+	e.u.align.v = xf->valign;
+	style = mstyle_new_elem (NULL, e);
+
+	e.type = MSTYLE_ALIGN_H;
+	e.u.align.h = xf->halign;
+	mstyle_add (style, e);
+
+	e.type = MSTYLE_FIT_IN_CELL;
+	e.u.fit_in_cell = xf->wrap;
+	mstyle_add (style, e);
+
 	basefore = ms_excel_set_cell_font (sheet, cell, xf);
 	if (sheet->wb->palette) {
-		int lp;
- 		StyleColor *tmp[4];
- 		for (lp=0;lp<4;lp++)
-			tmp[lp] = ms_excel_palette_get (sheet->wb->palette,
-							xf->border_color[lp],
-							NULL);
-		cell_set_border (cell, xf->border_type, tmp);
+		int i;
+ 		for (i = 0; i < 4; i++) {
+			e.type = MSTYLE_BORDER_TOP + i;
+			e.u.border.top.color =
+				ms_excel_palette_get (sheet->wb->palette,
+						      xf->border_color[i],
+						      NULL);
+			/* FIXME: this has to be broken */
+			e.u.border.top.type = xf->border_type [i];
+		}
 	}
 
-	if (xf->style_format)
-		cell_set_format_from_style (cell, xf->style_format);
+	if (xf->style_format) {
+		e.type = MSTYLE_FORMAT;
+		style_format_ref (xf->style_format);
+		e.u.format = xf->style_format;
+		mstyle_add (style, e);
+	}
+
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_color_debug > 0) {
@@ -1084,8 +1097,18 @@ ms_excel_set_cell_xf (ExcelSheet *sheet, Cell *cell, guint16 xfidx)
 	if (xf->fill_pattern_idx == 0)
 		back_index = 0;
 	back = ms_excel_palette_get (sheet->wb->palette, back_index, fore);
+
 	g_return_if_fail (back && fore);
-	cell_set_color_from_style (cell, fore, back);
+
+	e.type = MSTYLE_COLOR_FORE;
+	e.u.color.fore = fore;
+	mstyle_add (style, e);
+
+	e.type = MSTYLE_COLOR_BACK;
+	e.u.color.back = back;
+	mstyle_add (style, e);
+
+	cell_set_style (cell, style);
 }
 
 static StyleBorderType

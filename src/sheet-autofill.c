@@ -432,8 +432,9 @@ autofill_destroy_fill_items (GList *all_items)
 static void
 autofill_cell (Cell *cell, int idx, FillItem *fi)
 {
-	Style *style = cell_get_style (fi->reference);
-	cell_set_style (cell, style);
+	g_warning ("FIXME: Autofill style");
+/*	Style *style = cell_get_style (fi->reference);
+	cell_set_style (cell, style);*/
 	
 	switch (fi->type) {
 	case FILL_EMPTY:

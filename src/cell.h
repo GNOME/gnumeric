@@ -130,12 +130,14 @@ void        cell_set_array_formula       (Sheet *sheet, int rowa, int cola,
 void        cell_set_format              (Cell *cell, const char *format);
 void        cell_set_format_simple       (Cell *cell, const char *format);
 void        cell_set_format_from_style   (Cell *cell, StyleFormat *style_format);
-void        cell_set_style               (Cell *cell, Style *reference_style);
 void        cell_set_comment             (Cell *cell, const char *str);
 void        cell_comment_destroy         (Cell *cell);
 void        cell_comment_reposition      (Cell *cell);
-void        cell_set_font_from_style     (Cell *cell, StyleFont *style_font);
 char       *cell_get_comment             (Cell *cell);
+
+/*
+void        cell_set_font_from_style     (Cell *cell, StyleFont *style_font);
+void        cell_set_style               (Cell *cell, Style *reference_style);
 void        cell_set_foreground          (Cell *cell, gushort red,
 					  gushort green, gushort blue);
 void        cell_set_background          (Cell *cell, gushort red,
@@ -149,8 +151,10 @@ void        cell_set_border              (Cell *cell,
 void        cell_set_alignment           (Cell *cell, int halign, int valign,
 					  int orientation, int auto_return);
 void        cell_set_halign              (Cell *cell, StyleHAlignFlags const halign);
+*/
 void        cell_set_rendered_text       (Cell *cell, const char *rendered_text);
-Style      *cell_get_style               (Cell *cell);
+Style      *cell_get_style               (const Cell *cell);
+void        cell_set_style               (const Cell *cell, MStyle *style);
 void        cell_relocate                (Cell *cell,
 					  int col_diff, int row_diff);
 void        cell_get_span                (Cell *cell, int *col1, int *col2);

@@ -89,9 +89,31 @@ mstyle_new (const gchar *name)
 		pst->name = g_strdup (name);
 	} else
 		pst->name = NULL;
-	pst->elements = g_array_new (FALSE, FALSE, sizeof (MStyleElement));
+	pst->elements  = g_array_new (FALSE, FALSE, sizeof (MStyleElement));
+	pst->ref_count = 1;
 
 	return (MStyle *)pst;
+}
+
+void
+mstyle_ref (MStyle *st)
+{
+	PrivateStyle *pst = (PrivateStyle *)st;
+	g_return_if_fail (st->ref_count > 0);
+	pst->ref_count++;
+}
+
+void
+mstyle_unref (MStyle *st)
+{
+	PrivateStyle *pst = (PrivateStyle *)st;
+
+	g_return_if_fail (st->ref_count > 0);
+
+	pst->ref_count--;
+
+	if (pst->ref_count == 0)
+		mstyle_destroy (st);
 }
 
 MStyle *
@@ -279,7 +301,11 @@ check_sorted (const GList *list)
 
 	while (l) {
 		PrivateStyle *pst = l->data;
-		if (pst->stamp >= stamp) {
+		/*
+		 *  We can have several copies of a style with the same stamp
+		 * in the queue, each is ref-counted.
+		 */
+		if (pst->stamp > stamp) {
 			printf ("Error on style sorting:");
 			dump_style_list (list);
 			return FALSE;

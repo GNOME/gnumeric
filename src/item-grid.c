@@ -294,6 +294,8 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 		gdk_gc_set_stipple (gc, NULL);
 	}
 
+#if 0
+	/* FIXME: we need border rendering. */
 	if ((gnumeric_debugging > 0) &&
 	    (style->valid_flags & STYLE_BORDER) &&
 	    style->border) {
@@ -325,6 +327,7 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 			gdk_draw_line (drawable, gc, x1 + w, y1, x1 + w, y1 + h);
 		}
 	}
+#endif
 
 	count = cell_draw (cell, item_grid->sheet_view, gc, drawable, x1, y1);
 

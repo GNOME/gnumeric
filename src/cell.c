@@ -93,15 +93,8 @@ cell_set_formula (Cell *cell, const char *text)
 		return;
 	}
 
-	if (desired_format) {
-		Style *style = cell_get_style (cell);
-		if (strcmp (style->format->format, "General") == 0) {
-			g_warning ("Duff style set");
-/*			style_format_unref (cell->style->format);
-			cell->style->format = style_format_new (desired_format);*/
-		}
-		style_destroy (style);
-	}
+	if (desired_format)
+		cell_set_format (cell, desired_format);
 
 	if (new_expr->oper == OPER_ARRAY){
 		/* The corner sets up the entire array block */
@@ -144,28 +137,7 @@ cell_set_formula (Cell *cell, const char *text)
 void
 cell_set_alignment (Cell *cell, int halign, int valign, int orient, int auto_return)
 {
-/*	g_return_if_fail (cell != NULL);
-	g_return_if_fail (cell->style != NULL);
-
-	if ((cell->style->halign      == halign) &&
-	    (cell->style->valign      == valign) &&
-	    (cell->style->fit_in_cell == auto_return) &&
-	    (cell->style->orientation == orient))
-		return;
-
-	cell_modified (cell);
-
-	cell_queue_redraw (cell);
-
-	cell->style->halign = halign;
-	cell->style->valign = valign;
-	cell->style->orientation = orient;
-	cell->style->fit_in_cell = auto_return;
-
-	cell_calc_dimensions (cell);
-
-	cell_queue_redraw (cell);*/
-	g_warning ("FIXME");
+	g_warning ("FIXME set alignment");
 }
 
 void
@@ -189,41 +161,7 @@ cell_set_halign (Cell *cell, StyleHAlignFlags const halign)
 void
 cell_set_font_from_style (Cell *cell, StyleFont *style_font)
 {
-/*	g_return_if_fail (cell != NULL);
-	g_return_if_fail (style_font != NULL);
-
-	cell_modified (cell);
-
-	cell_queue_redraw (cell);
-
-	style_font_ref (style_font);
-	style_font_unref (cell->style->font);
-
-	cell->style->font = style_font;
-	cell->style->valid_flags |= STYLE_FONT;
-
-	cell_calc_dimensions (cell);
-
-	cell_queue_redraw (cell);*/
-	g_warning ("FIXME");
-}
-
-void
-cell_set_style (Cell *cell, Style *reference_style)
-{
-/*	g_return_if_fail (cell != NULL);
-	g_return_if_fail (reference_style != NULL);
-
-	cell_modified (cell);
-
-	cell_queue_redraw (cell);
-	style_destroy (cell->style);
-	cell->style = style_duplicate (reference_style);
-	if (cell->value)
-		cell_render_value (cell);
-	cell_calc_dimensions (cell);
-	cell_queue_redraw (cell);*/
-	g_warning ("FIXME - cell_set_style");
+	g_warning ("Deprecated set_font_from_style");
 }
 
 void
@@ -436,7 +374,7 @@ cell_set_foreground (Cell *cell, gushort red, gushort green, gushort blue)
 	cell->style->fore_color = style_color_new (red, green, blue);
 
 	cell_queue_redraw (cell);*/
-	g_warning ("FIXME");
+	g_warning ("FIXME set foreground");
 }
 
 void
@@ -453,7 +391,7 @@ cell_set_background (Cell *cell, gushort red, gushort green, gushort blue)
 	cell->style->back_color = style_color_new (red, green, blue);
 
 	cell_queue_redraw (cell);*/
-	g_warning ("set background");
+	g_warning ("FIXME set background");
 }
 
 /**
@@ -490,7 +428,7 @@ cell_set_color_from_style (Cell *cell, StyleColor *foreground,
 	cell->style->fore_color = foreground;
 
 	cell_queue_redraw (cell);*/
-	g_warning ("FIXME");
+	g_warning ("FIXME set color from style");
 }
 
 
@@ -505,7 +443,7 @@ cell_set_pattern (Cell *cell, int pattern)
 	cell->style->pattern = pattern;
 
 	cell_queue_redraw (cell);*/
-	g_warning ("FIXME");
+	g_warning ("FIXME set pattern");
 }
 
 /**
@@ -531,7 +469,7 @@ cell_set_border (Cell *cell,
 	cell->style->border = style_border_new (border_type, border_color);
 
 	cell_queue_redraw (cell);*/
-	g_warning ("FIXME");
+	g_warning ("FIXME set border");
 }
 
 /*
@@ -580,9 +518,8 @@ cell_render_value (Cell *cell)
 		cell->render_color = NULL;
 	}
 
-	{
+	{ /* FIXME: serious performance issues here */
 		Style *style = cell_get_style (cell);
-		g_warning ("performance");
 		str = format_value (style->format, cell->value, &color);
 		style_destroy (style);
 	}
@@ -1002,18 +939,12 @@ cell_queue_redraw (Cell *cell)
 void
 cell_set_format_simple (Cell *cell, const char *format)
 {
-/*	g_return_if_fail (cell != NULL);
-	g_return_if_fail (format != NULL);
+	MStyleElement e;
 
-	if (strcmp (format, cell->style->format->format) == 0)
-		return;
+	e.type = MSTYLE_FORMAT;
+	e.u.format = g_strdup (format);
 
-	*//* Change the format *//*
-	cell_modified (cell);
-	style_format_unref (cell->style->format);
-	cell->style->format = style_format_new (format);
-	cell->flags |= CELL_FORMAT_SET;*/
-	g_warning ("FIXME: set_format_simple");
+	cell_set_style (cell, mstyle_new_elem (NULL, e));
 }
 
 /*
@@ -1153,21 +1084,8 @@ cell_make_value (Cell *cell)
 int
 cell_get_horizontal_align (const Cell *cell)
 {
-/*	g_return_val_if_fail (cell != NULL, HALIGN_LEFT);
-
-	if (cell->style->halign == HALIGN_GENERAL){
-		if (cell->value){
-			if (cell->value->type== VALUE_FLOAT ||
-			    cell->value->type == VALUE_INTEGER)
-				return HALIGN_RIGHT;
-			else
-				return HALIGN_LEFT;
-		} else
-			return HALIGN_RIGHT;
-	} else
-	return cell->style->halign;*/
-	g_warning ("Unimplemented");
-	return HALIGN_GENERAL;
+	Style *style = cell_get_style (cell);
+	return style->halign;
 }
 
 int
@@ -1488,16 +1406,14 @@ cell_get_text (Cell *cell)
 
 	if (cell->entered_text)
 		return g_strdup (cell->entered_text->str);
-	else {
+	else { /* FIXME: serious performance issues here */
 		Style *style = cell_get_style (cell);
 		char  *txt;
-		g_warning ("performance");
 		txt = format_value (style->format, cell->value, NULL);
 		style_destroy (style);
 		return txt;
 	}
 }
-
 
 /**
  * cell_get_content:
@@ -1574,10 +1490,22 @@ cell_is_error (Cell const *cell)
 }
 
 Style *
-cell_get_style (Cell *cell)
+cell_get_style (const Cell *cell)
 {
 	return sheet_style_compute (cell->sheet,
 				    cell->col->pos,
 				    cell->row->pos);
+}
+
+void
+cell_set_style (const Cell *cell, MStyle *style)
+{
+	Range         range;
+
+	range.start.col = cell->col->pos;
+	range.start.row = cell->row->pos;
+	range.end       = range.start;
+
+	sheet_style_attach (cell->sheet, range, style);
 }
 

@@ -16,6 +16,7 @@ typedef struct {
 } Range;
 
 typedef struct {
+	guint32  ref_count;
 	gchar   *name;
 	guint32  stamp;
 	GArray  *elements;

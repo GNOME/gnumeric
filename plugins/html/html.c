@@ -347,22 +347,15 @@ html_get_string (char *s, int *flags)
 static void
 html_cell_bold (Cell *cell)
 {
-	Style *style;
-	StyleFont *sf, *cf;
+	MStyleElement e;
 
 	if (!cell)
 		return;
-	style = cell_get_style (cell);
-	if (!style)
-		return;
-	cf = style->font;
-	if (!cf)
-		return;
-	sf = style_font_new_simple (cf->font_name, cf->size, cf->scale,
-			1, cf->is_italic);
-	if (sf) {
-		cell_set_font_from_style (cell, sf);
-	}
+
+	e.type = MSTYLE_FONT_BOLD;
+	e.u.font.bold = TRUE;
+
+	cell_set_style (cell, mstyle_new_elem (NULL, e));
 }
 
 /*
@@ -371,22 +364,15 @@ html_cell_bold (Cell *cell)
 static void
 html_cell_italic (Cell *cell)
 {
-	Style *style;
-	StyleFont *sf, *cf;
+	MStyleElement e;
 
 	if (!cell)
 		return;
-	style = cell_get_style (cell);
-	if (!style)
-		return;
-	cf = style->font;
-	if (!cf)
-		return;
-	sf = style_font_new_simple (cf->font_name, cf->size, cf->scale,
-			cf->is_bold, 1);
-	if (sf) {
-		cell_set_font_from_style (cell, sf);
-	}
+
+	e.type = MSTYLE_FONT_ITALIC;
+	e.u.font.italic = TRUE;
+
+	cell_set_style (cell, mstyle_new_elem (NULL, e));
 }
 
 /*
@@ -477,10 +463,20 @@ html_read (Workbook *wb, const char *filename)
 								html_cell_italic (cell);
 							}
 							if (flags & HTML_RIGHT) {
-								cell_set_halign (cell, HALIGN_RIGHT);
+								MStyleElement e;
+								
+								e.type = MSTYLE_ALIGN_H;
+								e.u.align.h = HALIGN_RIGHT;
+								
+								cell_set_style (cell, mstyle_new_elem (NULL, e));
 							}
 							if (flags & HTML_CENTER) {
-								cell_set_halign (cell, HALIGN_CENTER);
+								MStyleElement e;
+								
+								e.type = MSTYLE_ALIGN_H;
+								e.u.align.h = HALIGN_CENTER;
+								
+								cell_set_style (cell, mstyle_new_elem (NULL, e));
 							}
 						}
 						/* set the content of the cell */

@@ -1,3 +1,10 @@
+1999-10-07  Michael Meeks  <mmeeks@gnu.org>
+
+	* ms-excel-read.c (ms_excel_set_cell_xf): Large hack to new style
+	code. (biff_font_data_get_style_font): kill it.
+	(biff_font_data_new): remove setting up fd->style_font.
+	(biff_font_data_destroy): kill style_font bits.
+
 1999-09-26  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* ms-excel-read.c (biff_name_data_new): add sheet scope.

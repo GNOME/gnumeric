@@ -153,7 +153,8 @@ range_list_foreach_full (GSList *ranges, void (*callback)(Cell *cell, void *data
 		static int message_shown;
 
 		if (!message_shown){
-			g_warning ("This routine should also iterate trough the sheets in the ranges");
+			g_warning ("This routine should also iterate"
+				   "through the sheets in the ranges");
 			message_shown = TRUE;
 		}
 	}
@@ -195,6 +196,48 @@ range_list_foreach (GSList *ranges, void (*callback)(Cell *cell, void *data),
 		    void *data)
 {
 	range_list_foreach_full (ranges, callback, data, FALSE);
+}
+
+/**
+ * range_list_foreach_full:
+ * @sheet:     The current sheet.
+ * @ranges:    The list of ranges.
+ * @callback:  The user function
+ * @user_data: Passed to callback intact.
+ * 
+ * Iterates over the ranges calling the callback with the
+ * range, sheet and user data set
+ **/
+void
+range_list_foreach_area (Sheet *sheet, GSList *ranges,
+			 void (*callback)(Sheet       *sheet,
+					  const Range *range,
+					  gpointer     user_data),
+			 gpointer user_data)
+{
+	GSList *l;
+
+	g_return_if_fail (sheet != NULL);
+
+	for (l = ranges; l; l = l->next) {
+		Value *value = l->data;
+		Sheet *s;
+		Range   range;
+		
+		g_assert (value->type == VALUE_CELLRANGE);
+
+		range.start.col = value->v.cell_range.cell_a.col;
+		range.start.row = value->v.cell_range.cell_a.row;
+		range.end.col   = value->v.cell_range.cell_b.col;
+		range.end.row   = value->v.cell_range.cell_b.row;
+
+		s = sheet;
+		if (value->v.cell_range.cell_b.sheet)
+			s = value->v.cell_range.cell_b.sheet;
+		if (value->v.cell_range.cell_a.sheet)
+			s = value->v.cell_range.cell_a.sheet;
+		callback (s, &range, user_data);
+	}
 }
 
 gboolean
@@ -246,9 +289,61 @@ range_equal (Range const *a, Range const *b)
 		return FALSE;
 	return TRUE;
 }
+
+/*
+ * This is totaly commutative of course; hence the symmetry.
+ */
+gboolean
+range_overlap (Range const *a, Range const *b)
+{
+	if (a->end.row < b->start.row)
+		return FALSE;
+
+	if (b->end.row < a->start.row)
+		return FALSE;
+
+	if (a->end.col < b->start.col)
+		return FALSE;
+
+	if (b->end.col < a->start.col)
+		return FALSE;
+
+	/* FIXME: I'm not convinced: this needs more thought */
+	return TRUE;
+}
+/**
+ * range_fragment:
+ * @ranges: A list of possibly overlapping ranges.
+ * 
+ *  Converts the ranges into non-overlapping sub-ranges.
+ * 
+ * Return value: new list of fully overlapping ranges.
+ **/
  
+GList *
+range_fragment (GList *ranges)
+{
+	g_warning ("Please implement me soon");
+	return NULL;
+}
+
 gboolean
 range_is_singleton (Range const *r)
 {
 	return r->start.col == r->end.col && r->start.row == r->end.row;
+}
+
+static void
+range_style_apply_cb (Sheet *sheet, const Range *range, gpointer user_data)
+{
+	mstyle_ref ((MStyle *)user_data);
+	sheet_style_attach (sheet, *range, (MStyle *)user_data);
+}
+
+void
+range_set_style (Sheet *sheet, GSList *ranges, MStyle *style)
+{
+	range_list_foreach_area (sheet, ranges,
+				 range_style_apply_cb, style);
+	mstyle_unref (style);
 }

@@ -4,6 +4,7 @@
 #include <gdk/gdk.h>
 #include <libgnomeprint/gnome-font.h>
 
+typedef struct _MStyleBorder      MStyleBorder;
 typedef struct _MStyleElement     MStyleElement;
 typedef enum   _MStyleElementType MStyleElementType;
 
@@ -45,6 +46,27 @@ enum _MStyleElementType {
 };
 extern const char *mstyle_names[MSTYLE_ELEMENT_MAX];
 
+/**
+ *  The order of the following two records
+ * is assumed in xml-io
+ **/
+typedef enum {
+ 	BORDER_NONE,
+ 	BORDER_THIN,
+ 	BORDER_MEDIUM,
+ 	BORDER_DASHED,
+ 	BORDER_DOTTED,
+ 	BORDER_THICK,
+ 	BORDER_DOUBLE,
+ 	BORDER_HAIR,
+
+ 	BORDER_MAX
+} StyleBorderType;
+
+struct _MStyleBorder {
+	StyleBorderType  type;
+	StyleColor      *color;
+};
 struct _MStyleElement {
 	MStyleElementType type;
 	union {
@@ -53,10 +75,10 @@ struct _MStyleElement {
 			StyleColor *back;
 		}                color;
 		union {
-			MStyleBorder *top;
-			MStyleBorder *bottom;
-			MStyleBorder *left;
-			MStyleBorder *right;
+			MStyleBorder top;
+			MStyleBorder bottom;
+			MStyleBorder left;
+			MStyleBorder right;
 		}                border;
 		guint32          pattern;
 
@@ -79,6 +101,10 @@ struct _MStyleElement {
 MStyle     *mstyle_new         (const gchar *name);
 MStyle     *mstyle_new_elem    (const gchar *name, MStyleElement e);
 MStyle     *mstyle_new_array   (const gchar *name, const GArray *elements);
+void        mstyle_ref         (MStyle *st);
+void        mstyle_unref       (MStyle *st);
+void        mstyle_destroy     (MStyle *st);
+
 /* No pre-existance checking */
 void        mstyle_add         (MStyle *st, MStyleElement e);
 void        mstyle_add_array   (MStyle *st, const GArray *elements);
@@ -87,7 +113,6 @@ void        mstyle_set         (MStyle *st, MStyleElement e);
 
 /* commutative */
 MStyle     *mstyle_merge       (const MStyle *sta, const MStyle *stb);
-void        mstyle_destroy     (MStyle *st);
 char       *mstyle_to_string   (const MStyle *st); /* Debug only ! leaks like a sieve */
 void        mstyle_dump        (const MStyle *st);
 

@@ -147,12 +147,7 @@ sheet_selection_get_uniq_style (Sheet *sheet)
 	MStyleElement *mash = g_new (MStyleElement, MSTYLE_ELEMENT_MAX);
 	GList *l;
 	GList *style_list;
-	int col, row;
 	Range const * range = selection_first_range (sheet);
-
-	g_warning ("need range_overlap function");
-	col = range->start.col;
-	row = range->start.row;
 
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
@@ -166,7 +161,7 @@ sheet_selection_get_uniq_style (Sheet *sheet)
 	/* Look in the styles applied to the sheet */
 	for (l = sheet->style_list; l; l = l->next) {
 		StyleRegion *sr = l->data;
-		if (range_contains (&sr->range, col, row)) {
+		if (range_overlap (&sr->range, &range)) {
 			range_dump (&sr->range);
 			mstyle_dump (sr->style);
 			style_list = g_list_prepend (style_list,

@@ -22,8 +22,11 @@
 #define CELL_HEIGHT(cell) CELL_DIM(cell,row)
 #define CELL_WIDTH(cell)  CELL_DIM(cell,col)
 
+#if 0
+/* FIXME: need border support. */
 static void
-print_border (GnomePrintContext *pc, double x1, double y1, double x2, double y2, StyleBorder *b, int idx)
+print_border (GnomePrintContext *pc, double x1, double y1, double x2, double y2,
+	      StyleBorder *b, int idx)
 {
 	double width;
 	int dash_mode, dupit;
@@ -73,7 +76,7 @@ print_border (GnomePrintContext *pc, double x1, double y1, double x2, double y2,
 	if (!dupit)
 		return;
 
-	if (x1 == x2){
+	if (x1 == x2) {
 		gnome_print_moveto (pc, x1 + 1, y1);
 		gnome_print_lineto (pc, x2 + 1, y2);
 		gnome_print_stroke (pc);
@@ -84,6 +87,7 @@ print_border (GnomePrintContext *pc, double x1, double y1, double x2, double y2,
 	}
 }
 
+
 static void
 print_cell_border (GnomePrintContext *context, StyleBorder *border,
 		   double x1, double y1, double x2, double y2)
@@ -93,6 +97,7 @@ print_cell_border (GnomePrintContext *context, StyleBorder *border,
 	for (i = 0; i < STYLE_ORIENT_MAX; ++i)
 		print_border (context, x1, y1, x1, y2, border, i);
 }
+#endif
 
 static void
 print_overflow (GnomePrintContext *context, Cell *cell)
@@ -364,7 +369,7 @@ print_cell (GnomePrintContext *context, Cell *cell,
 	g_assert (cell != NULL);
 
 	gnome_print_setrgbcolor (context, 0, 0, 0);
-	print_cell_border (context, style->border, x1, y1, x2, y2);
+/*	print_cell_border (context, style->border, x1, y1, x2, y2); */
 	print_cell_background (context, style->back_color, x1, y1, x2, y2);
 	
 	gnome_print_setrgbcolor (context,

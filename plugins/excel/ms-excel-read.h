@@ -65,7 +65,6 @@ typedef struct _BiffFontData
 	int script;         /* sub = -1, none = 0, super = 1 */
 	eBiffFontUnderline underline;
 	char *fontname;
-	StyleFont *style_font;
 } BiffFontData;
 
 typedef struct _BiffExternSheetData {

@@ -615,8 +615,8 @@ xml_write_style_border (parse_xml_context_t *ctxt, MStyleElement *style)
 	
 	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_RIGHT; i++) {
 		if (style [i].type) {
-			StyleBorderType t = style [i].u.border.top->type;
-			StyleColor *col   = style [i].u.border.top->color;
+			StyleBorderType t = style [i].u.border.top.type;
+			StyleColor *col   = style [i].u.border.top.color;
  			side = xmlNewChild (cur, ctxt->ns,
 					    StyleSideNames [i - MSTYLE_BORDER_TOP],
  					    BorderTypes [t]);
@@ -646,9 +646,9 @@ xml_read_style_border (parse_xml_context_t *ctxt, xmlNodePtr tree, MStyleElement
 					      StyleSideNames [i - MSTYLE_BORDER_TOP])) != NULL) {
  			/* FIXME: need to read the proper type */
  			style [i].type = i;
-			style [i].u.border.top = g_new (MStyleBorder, 1);
-			style [i].u.border.top->type = BORDER_THICK;
- 			xml_get_color_value (side, "Color", &style [i].u.border.top->color);
+			style [i].u.border.top.type = BORDER_THICK;
+ 			xml_get_color_value (side, "Color",
+					     &style [i].u.border.top.color);
  		}
 	}
 }

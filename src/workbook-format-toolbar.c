@@ -453,8 +453,7 @@ workbook_feedback_set (Workbook *workbook, MStyleElement *styles)
 			gtk_signal_handler_unblock_by_func (GTK_OBJECT (t),
 							    (GtkSignalFunc)&bold_cmd,
 							    workbook);
-		} else
-			g_warning ("default missing");
+		} else ; /* Not bold */
 	else
 		g_warning ("Bold conflict");
 
@@ -472,21 +471,19 @@ workbook_feedback_set (Workbook *workbook, MStyleElement *styles)
 			gtk_signal_handler_unblock_by_func (GTK_OBJECT (t),
 							    (GtkSignalFunc)&italic_cmd,
 							    workbook);
-		} else
-			g_warning ("default missing");
+		} else ; /* Not italic */
 	else
 		g_warning ("Italic conflict");
 
-	if (styles [MSTYLE_FONT_SIZE].type != MSTYLE_ELEMENT_CONFLICT)
-		if (styles [MSTYLE_FONT_SIZE].type) {
-			char size_str [40];
-			
+	if (styles [MSTYLE_FONT_SIZE].type != MSTYLE_ELEMENT_CONFLICT) {
+		char size_str [40];
+		if (styles [MSTYLE_FONT_SIZE].type)
 			sprintf (size_str, "%g", styles [MSTYLE_FONT_SIZE].u.font.size);
-			gtk_entry_set_text (
-				GTK_ENTRY (workbook->priv->size_widget), size_str);
-		} else
-			g_warning ("default size missing");
-	else
+		else
+			sprintf (size_str, "%g", DEFAULT_SIZE);
+		gtk_entry_set_text (GTK_ENTRY (workbook->priv->size_widget),
+				    size_str);
+	} else
 		g_warning ("Size conflict");
 
 	/*

@@ -4,12 +4,13 @@
 #include <gdk/gdk.h>
 #include <libgnomeprint/gnome-font.h>
 
+#define DEFAULT_FONT "Helvetica"
+#define DEFAULT_SIZE 12.0
+
 typedef struct _Style            Style;
 typedef struct _StyleFont        StyleFont;
 typedef struct _StyleColor       StyleColor;
-typedef struct _StyleBorder      StyleBorder;
 typedef struct _StyleFormat      StyleFormat;
-typedef struct _MStyleBorder     MStyleBorder;
 typedef struct _StyleFormatEntry StyleFormatEntry;
 
 /* Alignment definitions */
@@ -35,31 +36,6 @@ typedef enum {
 	ORIENT_VERT_VERT_TEXT  = 4,
 	ORIENT_VERT_VERT_TEXT2 = 8
 } StyleOrientation;
-
-/**
- *  The order of the following two records
- * is assumed in xml-io
- **/
-typedef enum {
- 	BORDER_NONE,
- 	BORDER_THIN,
- 	BORDER_MEDIUM,
- 	BORDER_DASHED,
- 	BORDER_DOTTED,
- 	BORDER_THICK,
- 	BORDER_DOUBLE,
- 	BORDER_HAIR,
-
- 	BORDER_MAX
-} StyleBorderType;
-
-typedef enum {
-	STYLE_TOP    = 0,
- 	STYLE_BOTTOM = 1,
- 	STYLE_LEFT   = 2,
- 	STYLE_RIGHT  = 3,
- 	STYLE_ORIENT_MAX  = 4
-} StyleBorderOrient;
 
 #include "mstyle.h"
 
@@ -97,24 +73,6 @@ struct _StyleColor {
 	gushort  blue;
 };
 
-struct _MStyleBorder {
-	StyleBorderType  type;
-	StyleColor      *color;
-};
-
-struct _StyleBorder {
-	int      ref_count;
-
-	/**
-	 * if the value is BORDER_NONE, then the respective
-	 * color is not allocated, otherwise, it has a
-	 * valid color.
-	 * NB. Use StyleBorderOrient to get orientation
-	 **/
- 	StyleBorderType type[STYLE_ORIENT_MAX];
- 	StyleColor  *color[STYLE_ORIENT_MAX];
-};
-
 #define STYLE_FORMAT       1
 #define STYLE_FONT         2
 #define STYLE_BORDER       4
@@ -131,7 +89,6 @@ struct _StyleBorder {
 struct _Style {
 	StyleFormat   *format;
 	StyleFont     *font;
-	StyleBorder   *border;
 	StyleColor    *fore_color;
 	StyleColor    *back_color;
 
@@ -174,12 +131,6 @@ void           style_font_unref       (StyleFont *sf);
 StyleColor    *style_color_new        (gushort red, gushort green, gushort blue);
 void           style_color_ref        (StyleColor *sc);
 void           style_color_unref      (StyleColor *sc);
-
-StyleBorder   *style_border_new_plain (void);
-void           style_border_ref       (StyleBorder *sb);
-void           style_border_unref     (StyleBorder *sb);
-StyleBorder   *style_border_new       (StyleBorderType const border_type[STYLE_ORIENT_MAX],
- 				       StyleColor *border_color[STYLE_ORIENT_MAX]);
 
 /*
  * For hashing Styles

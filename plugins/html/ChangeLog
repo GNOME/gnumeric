@@ -1,3 +1,8 @@
+1999-10-07  Michael Meeks  <mmeeks@gnu.org>
+
+	* html.c (html_cell_bold): Update to new style api.
+	(html_cell_italic, html_read): ditto.
+
 1999-09-28  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* html.c (html_write_cell32): Update style api.
