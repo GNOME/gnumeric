@@ -36,12 +36,6 @@ Automatic completion of names is done per column (looked backwards)
 
 Alt-down arrow pops up a list of available choices for the autofill
 
-Insert blank cells
-Inser columns
-Insert rows
-Copy cells
-copy characters withing a cell 
-
 * FORMULAS:
 	
 	Operators, cell references, values, worsheet functions,

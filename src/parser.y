@@ -70,7 +70,7 @@ static int  yyerror (char *s);
 %left '<' '>' '=' GTE LTE NE
 %left '-' '+' '&'
 %left '*' '/'
-%left NEG
+%left NEG PLUS
 %left '!'
 %right '^'
 
@@ -179,6 +179,11 @@ exp:	  NUMBER 	{ $$ = $1 }
 		$$->oper = OP_NEG;
 		$$->u.value = $2;
 	}
+
+        | '+' exp %prec PLUS {
+		$$ = $2;
+	}
+
 	| exp '&' exp {
 		$$ = p_new (ExprTree);
 		$$->ref_count = 1;

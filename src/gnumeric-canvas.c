@@ -610,11 +610,35 @@ gnumeric_sheet_key (GtkWidget *widget, GdkEventKey *event)
 
 	case GDK_KP_Delete:
 	case GDK_Delete: 
-		sheet_selection_clear (gsheet->sheet_view->sheet);
+		sheet_selection_clear (sheet);
 		break;
 
-	case GDK_Tab:
 	case GDK_Return:
+		if ((event->state & GDK_CONTROL_MASK) != 0){
+			if (gsheet->item_editor){
+				Cell *cell;
+
+				sheet_accept_pending_output (sheet);
+				cell = sheet_cell_get (sheet,
+						       sheet->cursor_col,
+						       sheet->cursor_row);
+
+				/* I am assuming sheet_accept_pending_output
+				 * will always create the cell with the given
+				 * input (based on the fact that we had an
+				 * gsheet->item_editor when we entered this
+				 * part of the code
+				 */
+				g_return_val_if_fail (cell != NULL, 1);
+				g_return_val_if_fail (cell->entered_text != NULL, 1);
+				sheet_fill_selection_with (
+					sheet, cell->entered_text->str);
+			}
+			return 1;
+		}
+		/* fall down */
+		
+	case GDK_Tab:
 	{
 		int col, row;
 		int walking_selection;

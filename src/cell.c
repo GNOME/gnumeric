@@ -157,12 +157,14 @@ cell_set_rendered_text (Cell *cell, char *rendered_text)
 void
 cell_render_value (Cell *cell)
 {
+	char *color_name;
 	char *str;
 	
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (cell->value != NULL);
 
 	str = format_value (cell->style->format, cell->value, NULL);
+		
 	cell_set_rendered_text (cell, str);
 	g_free (str);
 }

@@ -163,6 +163,8 @@ int         sheet_selection_is_cell_selected  (Sheet *sheet, int col, int row);
 gboolean    sheet_verify_selection_simple     (Sheet *sheet, char *command_name);
 
 /* Cell management */
+void        sheet_set_text                (Sheet *sheet, int col, int row,
+					   char *str);
 Cell       *sheet_cell_new                (Sheet *sheet, int col, int row);
 void        sheet_cell_add                (Sheet *sheet, Cell *cell,
 				           int col, int row);
@@ -263,6 +265,11 @@ void        sheet_cancel_pending_input    (Sheet *sheet);
 void        sheet_load_cell_val           (Sheet *sheet);
 void        sheet_selection_col_extend_to (Sheet *sheet, int col);
 void        sheet_selection_row_extend_to (Sheet *sheet, int row);
+
+/*
+ * Callback routines.
+ */
+void        sheet_fill_selection_with     (Sheet *sheet, char *text);
 
 /*
  * Workbook

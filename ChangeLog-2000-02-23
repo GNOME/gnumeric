@@ -1,3 +1,14 @@
+1998-09-05  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/parser.y: Add unary '+'
+
+	* src/gnumeric-sheet.c: Add keybinding for Control-Enter which
+	fills the selection with the current text.
+
+	* src/sheet.c (sheet_set_text): New function: sets the contents of
+	an arbitrary cell to the text as if it were typed by the user.
+	(sheet_fill_selection_with): Fill the selection with a string.
+	
 1998-09-04  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/gnumeric-sheet.c (gnumeric_sheet_key): Fix the way the

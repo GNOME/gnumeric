@@ -580,18 +580,14 @@ sheet_get_selection_name (Sheet *sheet)
 }
 
 void
-sheet_set_current_value (Sheet *sheet)
+sheet_set_text (Sheet *sheet, int col, int row, char *str)
 {
 	GList *l;
 	Cell *cell;
-	int  col, row;
 	
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	col = sheet->cursor_col;
-	row = sheet->cursor_row;
-	
 	cell = sheet_cell_get (sheet, col, row);
 	
 	if (!cell)
@@ -606,6 +602,19 @@ sheet_set_current_value (Sheet *sheet)
 	}
 
 	workbook_recalc (sheet->workbook);
+	
+}
+
+void
+sheet_set_current_value (Sheet *sheet)
+{
+	char *str;
+	
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	str = gtk_entry_get_text (GTK_ENTRY (sheet->workbook->ea_input));
+	sheet_set_text (sheet, sheet->cursor_col, sheet->cursor_row, str);
 }
 
 static void
@@ -2769,3 +2778,21 @@ sheet_cursor_set (Sheet *sheet, int start_col, int start_row, int end_col, int e
 	}
 }
 
+void
+sheet_fill_selection_with (Sheet *sheet, char *str)
+{
+	GList *l;
+	int  col, row;
+	
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (str != NULL);
+
+	for (l = sheet->selections; l; l = l->next){
+		SheetSelection *ss = l->data;
+
+		for (col = ss->start_col; col <= ss->end_col; col++)
+			for (row = ss->start_row; row <= ss->end_row; row++)
+				sheet_set_text (sheet, col, row, str);
+	}
+}
