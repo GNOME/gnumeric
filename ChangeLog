@@ -1,3 +1,9 @@
+2004-10-13  Jean Brefort <jean.brefort@normalesup.org>
+
+	* src/graph.c: (gnm_go_data_vector_load_values),
+	(gnm_go_data_matrix_load_values): fixes VALUE_STRING case, if a value
+	is found, take it into account for minimum and maximum.
+
 2004-10-13  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (regenerate_window_menu): Escape underscore in
