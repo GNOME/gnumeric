@@ -262,14 +262,14 @@ module GNOME {
 			 */
 			void  set (in short pos, in Value val);
 
-			void set_notify (in DataNotify);
+			void set_notify (in DataNotify dn);
 
 			/**
 			 * count:
 			 *
 			 * Returns the number of objects in this collection
 			 */
-			short count (void);
+			short count ();
 		};
 
 	};
