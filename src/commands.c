@@ -1832,7 +1832,11 @@ cmd_paste_copy_undo (GnumericCommand *cmd, CommandContext *context)
 	g_return_val_if_fail (me->content != NULL, TRUE);
 
 	content = clipboard_copy_range (me->dst.sheet, &me->dst.range);
-	clipboard_paste_region (context, &me->dst, me->content);
+	if (clipboard_paste_region (context, &me->dst, me->content)) {
+		/* There was a problem, avoid leaking */
+		clipboard_release (content);
+		return TRUE;
+	}
 
 	if (me->release_content)
 		clipboard_release (me->content);
@@ -1864,7 +1868,8 @@ cmd_paste_copy_destroy (GtkObject *cmd)
 	CmdPasteCopy *me = CMD_PASTE_COPY(cmd);
 
 	if (me->content) {
-		clipboard_release (me->content);
+		if (me->release_content)
+			clipboard_release (me->content);
 		me->content = NULL;
 	}
 	gnumeric_command_destroy (cmd);

@@ -52,7 +52,7 @@ struct _PasteTarget {
 
 CellRegion *clipboard_copy_range   (Sheet *sheet, Range const *r);
 void        clipboard_release      (CellRegion *region);
-void	    clipboard_paste_region (CommandContext *context,
+gboolean    clipboard_paste_region (CommandContext *context,
 				    PasteTarget const *pt,
 				    CellRegion *content);
 void 	    clipboard_paste	   (CommandContext *context,

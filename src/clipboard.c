@@ -87,7 +87,7 @@ paste_cell_flags (Sheet *dest_sheet, int target_col, int target_row,
 }
 
 /**
- * clipboard_paste_region: Main entry point for the paste code.
+ * clipboard_paste_region:
  * @context : The context for error handling.
  * @pt : Where to paste the values.
  * @content : The CellRegion to paste.
@@ -96,8 +96,10 @@ paste_cell_flags (Sheet *dest_sheet, int target_col, int target_row,
  * PasteTarget (@pt).  This operation is not undoable.  It does not auto grow
  * the destination if the target is a singleton.  This is a simple interface to
  * paste a region.
+ *
+ * returns : TRUE if there was a problem.
  */
-void
+gboolean
 clipboard_paste_region (CommandContext *context,
 			PasteTarget const *pt,
 			CellRegion *content)
@@ -124,7 +126,7 @@ clipboard_paste_region (CommandContext *context,
 			dst_cols, src_cols);
 		gnumeric_error_invalid (context, _("Unable to paste"), msg);
 		g_free (msg);
-		return;
+		return TRUE;
 	}
 
 	repeat_vertical = dst_rows/src_rows;
@@ -135,14 +137,14 @@ clipboard_paste_region (CommandContext *context,
 			dst_rows, src_rows);
 		gnumeric_error_invalid (context, _("Unable to paste"), msg);
 		g_free (msg);
-		return;
+		return TRUE;
 	}
 
-	if ((pt->range.start.col + dst_cols) >= SHEET_MAX_COLS ||
-	    (pt->range.start.row + dst_rows) >= SHEET_MAX_ROWS) {
+	if ((pt->range.start.col + dst_cols) > SHEET_MAX_COLS ||
+	    (pt->range.start.row + dst_rows) > SHEET_MAX_ROWS) {
 		gnumeric_error_invalid (context, _("Unable to paste"), 
 					_("result passes the sheet boundary"));
-		return;
+		return TRUE;
 	}
 
 	tmp = 0;
@@ -210,6 +212,8 @@ clipboard_paste_region (CommandContext *context,
 		sheet_range_calc_spans (pt->sheet, pt->range, SPANCALC_RENDER);
 		sheet_flag_status_update_range (pt->sheet, &pt->range);
 	}
+
+	return FALSE;
 }
 
 typedef struct {
