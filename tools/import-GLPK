@@ -12,7 +12,7 @@
 #         distribution
 #       - creates the necessary 'Makefile.am's
 #       - uses gnm_float instead of double in all places
-#	- uses sqrtgnum, ... instead of sqrt, ... in all places
+#	- uses gnm_sqrt, ... instead of sqrt, ... in all places
 #
 #
 # Author:
