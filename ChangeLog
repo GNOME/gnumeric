@@ -1,3 +1,10 @@
+2003-06-27  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/stf.c (stf_read_workbook): do not post a cancelled "error"
+	* src/workbook-view.c (wb_view_new_from_input): if the workbook
+	  has no sheet but we didn't have an error, the user must have
+	  cancelled
+
 2003-07-08  Jody Goldberg <jody@gnome.org>
 
 	* src/application.c (gnumeric_application_setup_icons) : add

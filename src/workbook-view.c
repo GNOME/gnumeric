@@ -865,6 +865,11 @@ wb_view_new_from_input  (GsfInput *input,
 		if (gnumeric_io_error_occurred (io_context)) {
 			g_object_unref (G_OBJECT (new_wb));
 			new_wbv = NULL;
+		} else if (workbook_sheet_count (new_wb) == 0) {
+			/* we didn't get a sheet nor an error, */
+			/* the user must have cancelled        */
+			g_object_unref (G_OBJECT (new_wb));
+			new_wbv = NULL;			
 		} else {
 			workbook_recalc (new_wb);
 			workbook_set_dirty (new_wb, FALSE);

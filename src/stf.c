@@ -207,13 +207,8 @@ stf_read_workbook (GnmFileOpener const *fo,  gchar const *enc,
 		workbook_recalc (book);
 		sheet_queue_respan (sheet, 0, SHEET_MAX_ROWS-1);
 	} else {
-		/*
-		 * FIXME: we have to set an error somehow so the caller notices
-		 * that we did nothing.  This makes it pop up an error message
-		 * which isn't quite right.
-		 */
-		gnumeric_error_read (COMMAND_CONTEXT (context),
-			_("Cancelled"));
+		/* the user has cancelled */
+                /* the caller should notice that we have no sheets */
 		workbook_sheet_detach (book, sheet);
 	}
 
