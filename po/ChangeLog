@@ -1,3 +1,7 @@
+2000-05-23  Kenneth Christiansen  <kenneth@gnu.org>
+
+        * da.po: update
+
 2000-05-23  Karl Eichwalder  <ke@suse.de>
 
 	* de.po: Update.
@@ -46,6 +50,17 @@
 
 	* no.po: Updated Norwegian translation.
 	
+2000-05-15  Kenneth Christiansen  <kenneth@gnome.org>
+
+        * update.sh: New version - new --missing tag
+          try --help for info
+          
+        * POTFILES.in: Added new files
+
+        * gnumeric.pot: New from new POTFILES.in sources
+
+        * da.po: updated / merged with new potfile
+
 2000-05-15  Jesus Bravo Alvarez  <jba@pobox.com>
 
 	* gl.po: Added first Galician translation (not too much by now).
