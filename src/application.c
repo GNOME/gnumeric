@@ -104,6 +104,10 @@ application_set_selected_sheet (Sheet *sheet)
 {
 	g_return_val_if_fail (sheet != NULL, FALSE);
 
+	/* Short circuit if we already have the selection */
+	if (app.clipboard_sheet == sheet)
+		return TRUE;
+
 	application_clipboard_clear ();
 
 	if (gtk_selection_owner_set (sheet->workbook->toplevel,

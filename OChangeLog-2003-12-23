@@ -1,5 +1,8 @@
 2000-05-19  Jody Goldberg <jgoldberg@home.com>
 
+	* src/application.c (application_set_selected_sheet) : No need to
+	  clear the X selection if we already own it.
+
 	* src/commands.c (cmd_format_undo) : It is necessary to respan, resize
 	  things when some format elements change.
 
