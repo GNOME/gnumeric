@@ -3,12 +3,12 @@ doc/translating.sgml for details on some issues regarding Gnumeric.
 
 "File/Print preview" and "Print preview" has to be translated with the
 same word for "Print preview" otherwise the recent opened sheets menu
-will *NOT* show up! This is importain, so please check.
+will *NOT* show up! This is important, so please check.
 
 Also the File part needs to be translated like in the gnome-libs po file
-ie, in danish the GNOMEUIINFO_MENU_FILE_TREE in gnome-libs uses 'Filer'
+ie, in danish the GNOMEUIINFO_MENU_FILE_TREE in gnome-libs uses 'Filer'.
 
 So Danish, should be "Filer/Vis udskrift" and not "Fil/Vis udskrift" for
-instance
+instance.
 
 - Kenneth @gnu.org
