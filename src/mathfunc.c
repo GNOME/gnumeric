@@ -6090,7 +6090,7 @@ lbeta3 (gnm_float a, gnm_float b, int *sign)
 	res_ab = lgammagnum (ab); sign_ab = signgam;
 
 	*sign = sign_a * sign_b * sign_ab;
-	return res_b + res_b - res_ab;
+	return res_a + res_b - res_ab;
 }
 
 
