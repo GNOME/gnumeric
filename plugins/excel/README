@@ -9,6 +9,19 @@ For information on the Excel file format simply see:
 
 OR mail me, ( you don't want to use that 'J++' applet ).
 
+If you are going to work on the excel import or export functionality you
+need to do the following:
+
+checkout CVS module libole2
+build libole2
+sym link libole2/test/test-ole to plugins/excel/ole
+
+Read the following; it is vital to run the program from that directory
+since it parses the headers to annotate the dumps.
+
+I am not very interested in recieving patches that havn't been developed
+using the 'biffraw' functionality; biffraw & diff are your friends.
+
 The 'ole' helper program is designed to let you inspect the contents of
 OLE2 files. It has a complicated syntax, as described in the help you get
 when you just run it.
