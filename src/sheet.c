@@ -252,8 +252,8 @@ sheet_new (Workbook *wb, char const *name)
 	sheet->display_outlines = TRUE;
 	sheet->outline_symbols_below = TRUE;
 	sheet->outline_symbols_right = TRUE;
-	sheet->frozen.top_left.col = sheet->frozen.top_left.row =
-	sheet->frozen.bottom_right.col = sheet->frozen.bottom_right.row = -1;
+	sheet->frozen_top_left.col = sheet->frozen_top_left.row =
+	sheet->unfrozen_top_left.col = sheet->unfrozen_top_left.row = -1;
 
 	/* Init menu states */
 	sheet->priv->enable_insert_rows = TRUE;
@@ -819,8 +819,8 @@ sheet_update_only_grid (Sheet const *sheet)
 	if (p->reposition_objects.row < SHEET_MAX_ROWS ||
 	    p->reposition_objects.col < SHEET_MAX_COLS) {
 		if (sheet_is_frozen (sheet)) {
-			if (p->reposition_objects.col <= sheet->frozen.bottom_right.col ||
-			    p->reposition_objects.row <= sheet->frozen.bottom_right.row) {
+			if (p->reposition_objects.col < sheet->unfrozen_top_left.col ||
+			    p->reposition_objects.row < sheet->unfrozen_top_left.row) {
 				SHEET_FOREACH_CONTROL(sheet, control,
 						      sc_resize (control, FALSE););
 			}
@@ -4427,44 +4427,46 @@ sheet_duplicate	(Sheet const *src)
 
 /**
  * sheet_freeze_panes :
- * @sheet : the sheet
- * @top_left   : Where to freeze
- * @bottom_right   : Where to freeze
+ * @sheet    : the sheet
+ * @frozen   : top left corner of the frozen region
+ * @unfrozen : top left corner of the unfrozen region
+ *
+ * By definition the unfrozen region must be below the frozen.
  */
 void
 sheet_freeze_panes (Sheet *sheet,
-		    CellPos const *top_left,
-		    CellPos const *bottom_right)
+		    CellPos const *frozen,
+		    CellPos const *unfrozen)
 {
 	g_return_if_fail (IS_SHEET (sheet));
 
-	if (top_left != NULL) {
-		g_return_if_fail (bottom_right != NULL);
-		g_return_if_fail (bottom_right->col >= top_left->col);
-		g_return_if_fail (bottom_right->row >= top_left->row);
+	if (frozen != NULL) {
+		g_return_if_fail (unfrozen != NULL);
+		g_return_if_fail (unfrozen->col > frozen->col);
+		g_return_if_fail (unfrozen->row > frozen->row);
 
 		/* Just in case */
-		if (bottom_right->col != (SHEET_MAX_COLS-1) &&
-		    bottom_right->row != (SHEET_MAX_ROWS-1)) {
-			g_return_if_fail (bottom_right->row >= top_left->row);
-			sheet->frozen.top_left = *top_left;
-			sheet->frozen.bottom_right = *bottom_right;
+		if (unfrozen->col != (SHEET_MAX_COLS-1) &&
+		    unfrozen->row != (SHEET_MAX_ROWS-1)) {
+			g_return_if_fail (unfrozen->row > frozen->row);
+			sheet->frozen_top_left = *frozen;
+			sheet->unfrozen_top_left = *unfrozen;
 		} else
-			top_left = bottom_right = NULL;
+			frozen = unfrozen = NULL;
 	} 
 
-	if (top_left == NULL) {
-		g_return_if_fail (bottom_right == NULL);
+	if (frozen == NULL) {
+		g_return_if_fail (unfrozen == NULL);
 
 		/* no change */
-		if (sheet->frozen.top_left.col < 0 &&
-		    sheet->frozen.top_left.row < 0 &&
-		    sheet->frozen.bottom_right.col < 0 &&
-		    sheet->frozen.bottom_right.row < 0)
+		if (sheet->frozen_top_left.col < 0 &&
+		    sheet->frozen_top_left.row < 0 &&
+		    sheet->unfrozen_top_left.col < 0 &&
+		    sheet->unfrozen_top_left.row < 0)
 			return;
 
-		sheet->frozen.top_left.col = sheet->frozen.top_left.row =
-		sheet->frozen.bottom_right.col = sheet->frozen.bottom_right.row = -1;
+		sheet->frozen_top_left.col = sheet->frozen_top_left.row =
+		sheet->unfrozen_top_left.col = sheet->unfrozen_top_left.row = -1;
 	}
 
 	SHEET_FOREACH_CONTROL (sheet, control,
@@ -4488,8 +4490,8 @@ sheet_is_frozen	(Sheet const *sheet)
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 
 	/* be flexible, in the future we will support 2 way splits too */
-	return sheet->frozen.bottom_right.col >= 0 ||
-		sheet->frozen.bottom_right.row >= 0;
+	return sheet->unfrozen_top_left.col >= 0 ||
+		sheet->unfrozen_top_left.row >= 0;
 }
 
 /**

@@ -1,3 +1,21 @@
+2001-07-15  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-control-gui.c (scg_resize) : Adust to change in semantics
+	  and name from sheet::frozen::bottom_right ->
+	                sheet::unfrozen_top_left.
+	(scg_scrollbar_config) : ditto.
+	(scg_set_left_col) : ditto.
+	(scg_set_top_row) : ditto.
+	(scg_make_cell_visible) : ditto.
+	(scg_set_panes) : ditto.
+	* src/sheet.c (sheet_new) : ditto.
+	(sheet_update_only_grid) : ditto.
+	(sheet_freeze_panes) : ditto.
+	(sheet_is_frozen) : ditto.
+
+	* src/sheet-merge.c (sheet_merge_add) : don't regen the spans until
+	  after the merge is listed.
+
 2001-07-14  Jody Goldberg <jgoldberg@home.com>
 
 	* src/gnumeric-sheet.c (gnumeric_sheet_handle_motion) : support

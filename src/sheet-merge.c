@@ -65,6 +65,7 @@ sheet_merge_add (WorkbookControl *wbc,
 	Cell   *cell;
 	MStyle *style;
 	CellComment *comment;
+	int dummy;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (range_is_sane (r), TRUE);
@@ -92,13 +93,13 @@ sheet_merge_add (WorkbookControl *wbc,
 					    r->start.col+1, r->start.row,
 					    r->end.col, r->end.row,
 					    CLEAR_VALUES | CLEAR_COMMENTS |
-					    CLEAR_NOCHECKARRAY);
+					    CLEAR_NOCHECKARRAY | CLEAR_NORESPAN);
 		if (r->start.row != r->end.row)
 			sheet_clear_region (wbc, sheet,
 					    r->start.col, r->start.row+1,
 	    /* yes I mean start.col */	    r->start.col, r->end.row,
 					    CLEAR_VALUES | CLEAR_COMMENTS |
-					    CLEAR_NOCHECKARRAY);
+					    CLEAR_NOCHECKARRAY | CLEAR_NORESPAN);
 
 		/* Apply the corner style to the entire region */
 		style = mstyle_copy (sheet_style_get (sheet, r->start.col,
@@ -121,6 +122,10 @@ sheet_merge_add (WorkbookControl *wbc,
 		cell->base.flags |= CELL_IS_MERGED;
 		cell_unregister_span (cell);
 	}
+	sheet_regen_adjacent_spans (sheet,
+				    r->start.col, r->start.row,
+				    r->start.col, r->end.row,
+				    &dummy, &dummy);
 
 	/* Ensure that edit pos is not in the center of a region. */
 	if (range_contains (r, sheet->edit_pos.col, sheet->edit_pos.row))

@@ -78,10 +78,8 @@ struct _Sheet {
 	SheetPrivate     *priv;
 	PrintInformation *print_info;
 
-	struct {
-		CellPos top_left;
-		CellPos bottom_right;
-	} frozen;
+	CellPos frozen_top_left;
+	CellPos unfrozen_top_left;
 };
 
 #define SHEET_SIGNATURE 0x12349876
@@ -93,8 +91,8 @@ void        sheet_destroy		(Sheet *sheet);
 void        sheet_destroy_contents	(Sheet *sheet);
 void        sheet_rename		(Sheet *sheet, char const *new_name);
 void	    sheet_freeze_panes		(Sheet *sheet,
-					 CellPos const *top_left,
-					 CellPos const *bottom_right);
+					 CellPos const *frozen_top_left,
+					 CellPos const *unfrozen_top_left);
 gboolean    sheet_is_frozen		(Sheet const *sheet);
 
 void        sheet_set_zoom_factor	(Sheet *sheet, double factor,

@@ -226,16 +226,16 @@ scg_resize (SheetControl *sc, gboolean force_scroll)
 		gnome_canvas_set_scroll_region (scg->pane[0].row.canvas,
 			0, 0, w / zoom, GNUMERIC_SHEET_FACTOR_Y / zoom);
 	} else {
-		CellPos const *tl = &sheet->frozen.top_left;
-		CellPos const *br = &sheet->frozen.bottom_right;
+		CellPos const *tl = &sheet->frozen_top_left;
+		CellPos const *br = &sheet->unfrozen_top_left;
 		int const l = scg_colrow_distance_get (scg, TRUE,
 			0, tl->col);
 		int const r = scg_colrow_distance_get (scg, TRUE,
-			tl->col, br->col + 1) + l;
+			tl->col, br->col) + l;
 		int const t = scg_colrow_distance_get (scg, FALSE,
 			0, tl->row);
 		int const b = scg_colrow_distance_get (scg, FALSE,
-			tl->row, br->row + 1) + t;
+			tl->row, br->row) + t;
 		int i;
 
 		/* pane 0 has already been done */
@@ -337,8 +337,8 @@ scg_scrollbar_config (SheetControl const *sc)
 	int max_row = last_row;
 
 	if (sheet_is_frozen (sheet)) {
-		ha->lower = sheet->frozen.bottom_right.col+1;
-		va->lower = sheet->frozen.bottom_right.row+1;
+		ha->lower = sheet->unfrozen_top_left.col;
+		va->lower = sheet->unfrozen_top_left.row;
 	} else
 		ha->lower = va->lower = 0;
 
@@ -622,9 +622,9 @@ scg_set_left_col (SheetControlGUI *scg, int col)
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
 	if (scg->active_panes > 1) {
-		int right = scg->sheet_control.sheet->frozen.bottom_right.col;
-		if (col <= right)
-			col = right + 1;
+		int right = scg->sheet_control.sheet->unfrozen_top_left.col;
+		if (col < right)
+			col = right;
 		gnumeric_sheet_set_left_col (scg_pane (scg, 3), col);
 	}
 	gnumeric_sheet_set_left_col (scg_pane (scg, 0), col);
@@ -670,9 +670,9 @@ scg_set_top_row (SheetControlGUI *scg, int row)
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
 	if (scg->active_panes > 1) {
-		int bottom = scg->sheet_control.sheet->frozen.bottom_right.row;
-		if (row <= bottom)
-			row = bottom + 1;
+		int bottom = scg->sheet_control.sheet->unfrozen_top_left.row;
+		if (row < bottom)
+			row = bottom;
 		gnumeric_sheet_set_top_row (scg_pane (scg, 1), row);
 	}
 	gnumeric_sheet_set_top_row (scg_pane (scg, 0), row);
@@ -812,23 +812,23 @@ scg_make_cell_visible (SheetControlGUI *scg, int col, int row,
 		return;
 	}
 
-	tl = &sheet->frozen.top_left;
-	br = &sheet->frozen.bottom_right;
-	if (col <= br->col) {
-		if (row > br->row) {	/* pane 1 */
+	tl = &sheet->frozen_top_left;
+	br = &sheet->unfrozen_top_left;
+	if (col < br->col) {
+		if (row >= br->row) {	/* pane 1 */
 			if (col < tl->col)
 				col = tl->col;
 			gnumeric_sheet_make_cell_visible (scg->pane[1].gsheet,
 				col, row, force_scroll);
 			gnumeric_sheet_set_top_left (scg->pane[0].gsheet,
 				     couple_panes
-				     ? br->col + 1
+				     ? br->col
 				     : scg->pane[0].gsheet->col.first,
 				     scg->pane[1].gsheet->row.first,
 				     force_scroll);
 			if (couple_panes)
 				gnumeric_sheet_set_left_col (scg->pane[3].gsheet,
-					br->col + 1);
+					br->col);
 		} else if (couple_panes) { /* pane 2 */
 			/* FIXME : We may need to change the way this routine
 			 * is used to fix this.  Because we only know what the
@@ -843,7 +843,7 @@ scg_make_cell_visible (SheetControlGUI *scg, int col, int row,
 			} else
 				scg_set_left_col (scg, col);
 		}
-	} else if (row <= br->row) {	/* pane 3 */
+	} else if (row < br->row) {	/* pane 3 */
 		if (row < tl->row)
 			row = tl->row;
 		gnumeric_sheet_make_cell_visible (scg->pane[3].gsheet,
@@ -851,12 +851,12 @@ scg_make_cell_visible (SheetControlGUI *scg, int col, int row,
 		gnumeric_sheet_set_top_left (scg->pane[0].gsheet,
 			scg->pane[3].gsheet->col.first,
 			couple_panes
-			? br->row + 1
+			? br->row
 			: scg->pane[0].gsheet->row.first,
 			force_scroll);
 		if (couple_panes)
 			gnumeric_sheet_set_top_row (scg->pane[1].gsheet,
-				br->row + 1);
+				br->row);
 	} else {			 /* pane 0 */
 		gnumeric_sheet_make_cell_visible (scg->pane[0].gsheet,
 			col, row, force_scroll);
@@ -892,22 +892,22 @@ scg_set_panes (SheetControl *sc)
 
 	/* TODO : support just h or v split */
 	if (being_frozen) {
-		CellPos const *tl = &sc->sheet->frozen.top_left;
-		CellPos const *br = &sc->sheet->frozen.bottom_right;
+		CellPos const *tl = &sc->sheet->frozen_top_left;
+		CellPos const *br = &sc->sheet->unfrozen_top_left;
 
 		gnumeric_pane_init (scg->pane + 1, scg, FALSE, 1);
 		gnumeric_pane_init (scg->pane + 2, scg, TRUE,  2);
 		gnumeric_pane_init (scg->pane + 3, scg, FALSE, 3);
 		scg->active_panes = 4;
 		gnumeric_pane_set_bounds (scg->pane + 0,
-					  br->col+1, br->row+1,
+					  br->col, br->row,
 					  SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
 		gnumeric_pane_set_bounds (scg->pane + 1,
-					  tl->col, br->row+1, br->col, SHEET_MAX_ROWS-1);
+					  tl->col, br->row, br->col-1, SHEET_MAX_ROWS-1);
 		gnumeric_pane_set_bounds (scg->pane + 2,
-					  tl->col, tl->row, br->col, br->row);
+					  tl->col, tl->row, br->col-1, br->row-1);
 		gnumeric_pane_set_bounds (scg->pane + 3,
-					  br->col+1, tl->row, SHEET_MAX_COLS-1, br->row);
+					  br->col, tl->row, SHEET_MAX_COLS-1, br->row-1);
 
 		gtk_table_attach (scg->inner_table, GTK_WIDGET (scg->pane[2].col.canvas),
 				  1, 2, 0, 1,
@@ -955,16 +955,16 @@ scg_set_panes (SheetControl *sc)
 
 	if (being_frozen) {
 		/* scroll to starting points */
-		CellPos const *tl = &sc->sheet->frozen.top_left;
-		CellPos const *br = &sc->sheet->frozen.bottom_right;
+		CellPos const *tl = &sc->sheet->frozen_top_left;
+		CellPos const *br = &sc->sheet->unfrozen_top_left;
 		gnumeric_sheet_set_top_left (scg->pane[3].gsheet,
-					     br->col+1, tl->row, FALSE);
+					     br->col, tl->row, FALSE);
 		gnumeric_sheet_set_top_left (scg->pane[2].gsheet,
 					     tl->col, tl->row, FALSE);
 		gnumeric_sheet_set_top_left (scg->pane[1].gsheet,
-					     tl->col, br->row+1, FALSE);
+					     tl->col, br->row, FALSE);
 		gnumeric_sheet_set_top_left (scg->pane[0].gsheet,
-					     br->col+1, br->row+1, FALSE);
+					     br->col, br->row, FALSE);
 	} else
 		gnumeric_sheet_set_top_left (scg->pane[0].gsheet,
 					     col, row, FALSE);
