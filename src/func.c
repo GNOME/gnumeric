@@ -715,7 +715,7 @@ function_def_get_arg_name (FunctionDefinition const *fn_def,
 /* ------------------------------------------------------------------------- */
 
 static inline Value *
-function_marshal_arg (FunctionEvalInfo *ei,
+function_marshal_arg (FunctionEvalInfo *ei, GnmExprEvalFlags flags,
 		      GnmExpr         *t,
 		      char              arg_type,
 		      Value            **type_mismatch)
@@ -724,36 +724,30 @@ function_marshal_arg (FunctionEvalInfo *ei,
 
 	*type_mismatch = NULL;
 
-	/*
-	 *  This is so we don't dereference 'A1' by accident
-	 * when we want a range instead.
-	 */
+	/* Don't dereference 'A1' by accident when all we want is a range  */
 	if (t->any.oper == GNM_EXPR_OP_CELLREF &&
-	    (arg_type == 'A' ||
-	     arg_type == 'r'))
+	    (arg_type == 'A' || arg_type == 'r'))
 		v = value_new_cellrange (&t->cellref.ref, &t->cellref.ref,
 					 ei->pos->eval.col,
 					 ei->pos->eval.row);
 	else
 		/* force scalars whenever we are certain */
 		v = gnm_expr_eval (t, ei->pos,
-			       (arg_type == 'r' || arg_type == 'a' ||
-				arg_type == 'A' || arg_type == '?')
+			((flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR) ||
+			 arg_type == 'r' || arg_type == 'a' ||
+			 arg_type == 'A' || arg_type == '?')
 			       ? GNM_EXPR_EVAL_PERMIT_NON_SCALAR : GNM_EXPR_EVAL_STRICT);
 
 	switch (arg_type) {
 
 	case 'f':
 	case 'b':
-		if (v->type == VALUE_CELLRANGE) {
+		if (v->type == VALUE_CELLRANGE)
 			v = value_intersection (v, ei->pos);
-			if (v == NULL)
-				break;
-		} else if (v->type == VALUE_ARRAY) {
+		else if (v->type == VALUE_ARRAY)
 			v = gnm_expr_array_intersection (v);
-			if (v == NULL)
-				break;
-		}
+		if (v == NULL)
+			break;
 
 		if (v->type == VALUE_STRING) {
 			Value *newv = format_match_number (value_peek_string (v), NULL);
@@ -777,15 +771,12 @@ function_marshal_arg (FunctionEvalInfo *ei,
 		break;
 
 	case 's':
-		if (v->type == VALUE_CELLRANGE) {
+		if (v->type == VALUE_CELLRANGE)
 			v = value_intersection (v, ei->pos);
-			if (v == NULL)
-				break;
-		} else if (v->type == VALUE_ARRAY) {
+		else if (v->type == VALUE_ARRAY)
 			v = gnm_expr_array_intersection (v);
-			if (v == NULL)
-				break;
-		}
+		if (v == NULL)
+			break;
 
 		if (v->type == VALUE_ERROR) {
 			*type_mismatch = v;
@@ -835,15 +826,10 @@ function_marshal_arg (FunctionEvalInfo *ei,
 		break;
 
 	case 'S':
-		if (v->type == VALUE_CELLRANGE) {
+		if (v->type == VALUE_CELLRANGE)
 			v = value_intersection (v, ei->pos);
-			if (v == NULL)
-				break;
-		} else if (v->type == VALUE_ARRAY) {
+		else if (v->type == VALUE_ARRAY)
 			v = gnm_expr_array_intersection (v);
-			if (v == NULL)
-				break;
-		}
 		break;
 
 	default :
@@ -910,8 +896,8 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 
 		arg_type = fn_def->fn.args.arg_types[arg];
 
-		values[arg] = function_marshal_arg (ei, l->data, arg_type,
-						     &type_mismatch);
+		values[arg] = function_marshal_arg (ei, flags,
+			l->data, arg_type, &type_mismatch);
 
 		if (type_mismatch || values[arg] == NULL) {
 			free_values (values, arg + 1);

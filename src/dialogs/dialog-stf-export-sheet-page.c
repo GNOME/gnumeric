@@ -358,16 +358,16 @@ gboolean
 stf_export_dialog_sheet_page_can_continue (GtkWidget *window, StfE_SheetPageData_t *data)
 {
 	if (data->sheet_export->rows < 1) {
-		GtkWidget *dialog = gnome_error_dialog_parented (_("You need to select at least one sheet to export"),
-								 GTK_WINDOW (window));
-
-		gnome_dialog_run (GNOME_DIALOG (dialog));
-
+		GtkWidget *dialog = gtk_message_dialog_new (GTK_WINDOW (window),
+			GTK_DIALOG_DESTROY_WITH_PARENT,
+			GTK_MESSAGE_ERROR,
+			GTK_BUTTONS_OK,
+			_("You need to select at least one sheet to export"));
+		gtk_dialog_run (GTK_DIALOG (dialog));
+		gtk_widget_destroy (dialog);
 		return FALSE;
-	}
-	else {
+	} else
 		return TRUE;
-	}
 }
 
 /**

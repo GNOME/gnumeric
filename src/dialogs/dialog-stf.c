@@ -25,8 +25,8 @@
 
 #include <format.h>
 #include <command-context.h>
-#include <workbook-control.h>
 #include <gui-util.h>
+#include <gdk/gdkkeysyms.h>
 
 #define GLADE_FILE "dialog-stf.glade"
 
@@ -98,19 +98,8 @@ stf_dialog_set_scroll_region_and_prevent_center (GnomeCanvas *canvas, GnomeCanva
 static gboolean
 stf_dialog_druid_page_cancel (GnomeDruidPage *page, GnomeDruid *druid, DruidPageData_t *data)
 {
-	GtkWidget *dialog, *no_button;
-	int ret;
-
-	dialog = gnome_question_dialog_parented (_("Are you sure you want to cancel?"),
-						 NULL,
-						 NULL,
-						 data->window);
-
-	no_button = g_list_last (GNOME_DIALOG (dialog)->buttons)->data;
-	gtk_widget_grab_focus (no_button);
-	ret = gnome_dialog_run (GNOME_DIALOG (dialog));
-
-	return (ret==1);
+	return gnumeric_dialog_question_yes_no (data->wbcg,
+		_("Are you sure you want to cancel?"), FALSE);
 }
 
 /**
@@ -515,6 +504,7 @@ stf_dialog (WorkbookControlGUI *wbcg, const char *filename, const char *data)
 
 	pagedata.canceled = FALSE;
 
+	pagedata.wbcg	  = wbcg;
 	pagedata.filename = filename;
 	pagedata.data     = data;
 	pagedata.cur      = data;

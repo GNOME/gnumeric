@@ -184,7 +184,7 @@ wbcg_set_transient_for (WorkbookControlGUI *wbcg, GtkWindow *window)
 	gnumeric_set_transient (wbcg, window);
 }
 
-//#warning merge these and clarfy whether we want the visible scg, or the logical (view) scg
+/*#warning merge these and clarfy whether we want the visible scg, or the logical (view) scg */
 
 /**
  * wbcg_focus_cur_scg :

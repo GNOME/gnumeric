@@ -39,6 +39,10 @@
 #include <libgnomeprint/gnome-print-master.h>
 #include <libgnomeprint/gnome-print-unit.h>
 #include <libgnomeprintui/gnome-print-paper-selector.h>
+#include <libgnomecanvas/gnome-canvas-util.h>
+#include <libgnomecanvas/gnome-canvas-line.h>
+#include <libgnomecanvas/gnome-canvas-text.h>
+#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include <glade/glade.h>
 
 #define PREVIEW_X 170

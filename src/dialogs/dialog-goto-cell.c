@@ -37,6 +37,7 @@
 #include <workbook-view.h>
 
 #include <workbook-edit.h>
+#include <libgnomeui/gnome-entry.h>
 
 #define GLADE_FILE "goto.glade"
 

@@ -44,6 +44,7 @@
 
 #include <gdk/gdkkeysyms.h>
 #include <locale.h>
+#include <string.h>
 
 #define GLADE_FILE "formula-guru.glade"
 

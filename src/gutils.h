@@ -5,9 +5,6 @@
 #include "numbers.h"
 #include <sys/types.h>
 
-char const *gnm_extension_pointer (char const * path);
-void	    gnm_iconv_close (GIConv handle);
-
 void     gnumeric_time_counter_push (void);
 gdouble  gnumeric_time_counter_pop (void);
 

@@ -24,6 +24,9 @@
 #include <gsf/gsf-impl-utils.h>
 #include <gal/widgets/e-colors.h>
 #include <gal/widgets/widget-color-combo.h>
+#include <libgnomecanvas/gnome-canvas-line.h>
+#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
+#include <libgnomecanvas/gnome-canvas-polygon.h>
 #include <math.h>
 
 #define SHEET_OBJECT_CONFIG_KEY "sheet-object-arrow-key"

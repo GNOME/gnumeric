@@ -44,6 +44,7 @@
 #include <selection.h>
 #include <ranges.h>
 
+#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include <glade/glade.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gal/util/e-util.h>

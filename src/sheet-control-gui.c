@@ -1615,8 +1615,6 @@ scg_mode_edit_object (SheetControlGUI *scg, SheetObject *so)
 		scg_set_display_cursor (scg);
 	}
 	g_object_unref (G_OBJECT (so));
-
-	puts (g_type_name_from_instance	(so));
 }
 
 /**

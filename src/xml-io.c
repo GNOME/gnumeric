@@ -49,6 +49,7 @@
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-input-gzip.h>
+#include <gsf/gsf-utils.h>
 
 #include <libxml/parser.h>
 #include <libxml/parserInternals.h>
@@ -3306,7 +3307,7 @@ xml_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 	GnumericXMLVersion version;
 
 	if (pl == FILE_PROBE_FILE_NAME) {
-		char const *extension = gnm_extension_pointer (gsf_input_name (input));
+		char const *extension = gsf_extension_pointer (gsf_input_name (input));
 
 		return (extension != NULL &&
 		        (g_strcasecmp (extension, "gnumeric") == 0 ||
@@ -3468,7 +3469,7 @@ gnumeric_xml_write_workbook (GnumFileSaver const *fs,
 	xml_parse_ctx_destroy (ctxt);
 
 	/* If the suffix is .xml disable compression */
-	extension = gnm_extension_pointer (filename);
+	extension = gsf_extension_pointer (filename);
 	compression =
 		(extension != NULL && g_strcasecmp (extension, "xml") == 0)
 		? 0 : -1;

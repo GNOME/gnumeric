@@ -46,6 +46,9 @@
 #include <value.h>
 #include <style.h>
 
+#include <libgnomecanvas/gnome-canvas-util.h>
+#include <libgnomecanvas/gnome-canvas-line.h>
+
 /******************************************************************************************************************
  * BASIC DRAWING FUNCTIONS
  ******************************************************************************************************************/

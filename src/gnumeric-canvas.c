@@ -4,6 +4,7 @@
  *
  * Author:
  *     Miguel de Icaza (miguel@kernel.org)
+ *     Jody Goldberg (jody@gnome.org)
  */
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
@@ -34,6 +35,7 @@
 #endif
 #include <gal/widgets/e-cursors.h>
 #include <gsf/gsf-impl-utils.h>
+#include <gdk/gdkkeysyms.h>
 
 static GnomeCanvasClass *gcanvas_parent_class;
 

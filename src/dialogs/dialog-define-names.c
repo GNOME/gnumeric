@@ -175,12 +175,14 @@ name_guru_in_list (const gchar *name, NameGuruState *state)
 
 	for (list = state->expr_names; list; list = list->next) {
 		expression = (GnmNamedExpr *) list->data;
+
 		g_return_val_if_fail (expression != NULL, FALSE);
 		g_return_val_if_fail (expression->name != NULL, FALSE);
 		g_return_val_if_fail (expression->name->str != NULL, FALSE);
-		if (strcasecmp (name, expression->name->str) == 0) {
+
+		/* no need for utf8 or collation magic, just equality */
+		if (strcmp (name, expression->name->str) == 0)
 			return TRUE;
-		}
 	}
 
 	return FALSE;

@@ -23,7 +23,8 @@
 #include "gnumeric-gconf.h"
 
 #include <libgnome/gnome-util.h>
-#include <errno.h>
+#include <unistd.h>
+#include <string.h>
 #include <sys/stat.h>
 #include <gtk/gtk.h>
 #include <glade/glade.h>
@@ -54,7 +55,7 @@ make_format_chooser (GList *list, GtkOptionMenu *omenu)
 	GtkMenu *menu;
 
 	/* Make format chooser */
-	box = GTK_BOX (gtk_hbox_new (0, GNOME_PAD));
+	box = GTK_BOX (gtk_hbox_new (0, 8));
 	menu = GTK_MENU (gtk_menu_new ());
 	for (l = list; l != NULL; l = l->next) {
 		GtkWidget *item;
@@ -72,8 +73,8 @@ make_format_chooser (GList *list, GtkOptionMenu *omenu)
 	}
 	gtk_option_menu_set_menu (omenu, GTK_WIDGET (menu));
 	gtk_box_pack_start (box, gtk_label_new (_("File format:")),
-			    FALSE, FALSE, GNOME_PAD);
-	gtk_box_pack_start (box, GTK_WIDGET (omenu), FALSE, TRUE, GNOME_PAD);
+			    FALSE, FALSE, 8);
+	gtk_box_pack_start (box, GTK_WIDGET (omenu), FALSE, TRUE, 8);
 
 	return (GTK_WIDGET (box));
 }

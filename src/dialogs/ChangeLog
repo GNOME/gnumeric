@@ -1,3 +1,29 @@
+2002-08-28  Jody Goldberg <jody@gnome.org>
+
+	* dialog-about.c : begin tighening the include requirements.
+	* dialog-analysis-tools.c : ditto.
+	* dialog-autocorrect.c : ditto.
+	* dialog-autoformat.c : ditto.
+	* dialog-formula-guru.c : ditto.
+	* dialog-goto-cell.c : ditto.
+	* dialog-printer-setup.c : ditto.
+	* dialog-random-generator.c : ditto.
+	* dialog-search-replace.c : ditto. ditto.
+	* dialog-search.c : ditto.
+	* dialog-stf-export-private.h : ditto.
+	* dialog-stf-preview.c : ditto.
+
+	* dialog-stf.c (stf_dialog_druid_page_cancel) : convert to
+	  gtkmessagedialog.
+	* dialog-stf-export-sheet-page.c (stf_export_dialog_sheet_page_result)
+	  ditto.
+	* dialog-stf-export.c (stf_export_dialog_druid_page_cancel) : ditto.
+
+	* dialog-define-names.c (name_guru_in_list) : no need to be case
+	  insensitive here.
+
+	* dialog-simulation.c (simulation_ok_clicked_cb) : fix const.
+
 2002-08-25  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.8

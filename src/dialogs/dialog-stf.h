@@ -4,6 +4,9 @@
 #include "dialog-stf-preview.h"
 #include "gui-util.h"
 #include <stf-parse.h>
+#include <libgnomecanvas/gnome-canvas-text.h>
+#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
+#include <libgnomeui/gnome-druid.h>
 
 #define LINE_DISPLAY_LIMIT 128
 #define RAW_LINE_DISPLAY_LIMIT 4096
@@ -103,6 +106,7 @@ typedef enum {
 typedef struct {
 	DruidPosition_t position;                                        /* Current position */
 
+	WorkbookControlGUI	*wbcg;
 	GtkWindow      *window;                                            /* The main window */
 	GnomeDruid     *druid;                                             /* The gnome druid */
 	GnomeDruidPage *main_page, *csv_page, *fixed_page, *format_page;   /* Rest of the pages */

@@ -2,7 +2,7 @@
 # Gnumeric's Makefile.
 # Author: Miguel de Icaza (miguel@kernel.org)
 
-SUBDIRS = pixmaps dialogs widgets tools
+SUBDIRS = pixmaps dialogs widgets tools cut-n-paste-code
 
 if WITH_BONOBO
 component = gnumeric-component
@@ -325,7 +325,8 @@ gnumeric_app_libs =				\
 	tools/libtools.a			\
 	tools/solver/libsolver.a		\
 	tools/solver/glpk/source/libglpk.a	\
-	tools/solver/lp_solve/liblp_solve.a
+	tools/solver/lp_solve/liblp_solve.a	\
+	cut-n-paste-code/egg/menu/libegg-menu.a
 
 
 if WITH_BONOBO

@@ -43,6 +43,7 @@
 #include <gal/e-table/e-table-simple.h>
 #include <gal/e-table/e-table.h>
 #include <gal/e-table/e-table-scrolled.h>
+#include <libgnomeui/gnome-entry.h>
 #include <glade/glade.h>
 
 /*#include <gal/util/e-unicode-i18n.h>*/

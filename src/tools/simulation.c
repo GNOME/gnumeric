@@ -352,7 +352,7 @@ create_reports (WorkbookControl *wbc, simulation_t *sim, simstats_t **stats,
  * Monte Carlo Simulation tool.  Helps decision making by generating
  * random numbers for given input variables.
  */
-gchar *
+gchar const *
 simulation_tool (WorkbookControl        *wbc,
 		 data_analysis_output_t *dao,
 		 simulation_t           *sim)
@@ -361,7 +361,7 @@ simulation_tool (WorkbookControl        *wbc,
 	gnum_float   **outputs;
 	simstats_t   **stats;
 	Sheet        *sheet;
-	gchar        *err;
+	gchar const  *err;
 	WorkbookView *wbv;
 	GSList       *cur;
 

@@ -249,16 +249,6 @@ next_button_cb (GtkWidget *button, SimulationState *state)
 	update_results_view (current_sim);
 }
 
-static void
-min_button_cb (GtkWidget *button, simulation_t *sim)
-{
-}
-
-static void
-max_button_cb (GtkWidget *button, simulation_t *sim)
-{
-}
-
 /**
  * simulation_ok_clicked_cb:
  * @button:
@@ -273,7 +263,7 @@ simulation_ok_clicked_cb (GtkWidget *button, SimulationState *state)
 {
 	data_analysis_output_t  dao;
 	GtkWidget               *w;
-	gchar                   *err;
+	gchar const		*err;
 	static simulation_t     sim;
 
 	simulation_tool_destroy (current_sim);

@@ -19,6 +19,7 @@
 #include <gutils.h>
 
 #include <gsf/gsf-input.h>
+#include <gsf/gsf-utils.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
@@ -59,5 +60,5 @@ lotus_file_open (GnumFileOpener const *fo, IOContext *io_context,
 		gnumeric_io_error_string (io_context,
 			_("Error while reading lotus workbook."));
 
-	gnm_iconv_close (state.converter);
+	gsf_iconv_close (state.converter);
 }

@@ -20,6 +20,7 @@
 #include "gui-util.h"
 #include "stf-export.h"
 #include <glade/glade.h>
+#include <libgnomeui/gnome-druid.h>
 
 /* for the sheet page */
 typedef struct {
@@ -56,6 +57,7 @@ typedef enum {
 typedef struct {
 	StfE_DruidPosition_t   active_page;                /* The currently active page */
 
+	WorkbookControlGUI    *wbcg;
 	GtkWindow             *window;                     /* The main window */
 	GnomeDruid            *druid;                      /* The gnome druid */
 	GnomeDruidPage        *sheet_page, *format_page;   /* Rest of the pages */

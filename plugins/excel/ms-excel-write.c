@@ -49,7 +49,7 @@
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-output.h>
 #include <gsf/gsf-outfile.h>
-#include <gsf/gsf-msole-metadata.h>
+#include <gsf/gsf-msole-utils.h>
 
 #include <ctype.h>
 #include <math.h>
@@ -3512,7 +3512,7 @@ write_workbook (IOContext *context, BiffPut *bp, ExcelWorkbook *wb, MsBiffVersio
 					    s->streamPos);
 	}
 	/* End Finalised workbook */
-	gnm_iconv_close (current_workbook_iconv);
+	gsf_iconv_close (current_workbook_iconv);
 	current_workbook_iconv = NULL;
 }
 

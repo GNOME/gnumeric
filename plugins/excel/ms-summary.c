@@ -251,7 +251,7 @@ ms_summary_read (MsOle *f, SummaryInfo *sin)
 		printf ("ms_summary_read: Unable to open DocumentSummaryInformation.\n");
 #endif
 	}
-	gnm_iconv_close (current_summary_iconv);
+	gsf_iconv_close (current_summary_iconv);
 	current_summary_iconv = NULL;
 }
 
@@ -366,7 +366,7 @@ ms_summary_write (MsOle *f, SummaryInfo *sin)
 	si = ms_ole_docsummary_create (f);
 	if (si == NULL) {
 		g_warning ("ms_summary_write: doc summary NOT created.");
-		gnm_iconv_close (current_summary_iconv);
+		gsf_iconv_close (current_summary_iconv);
 		current_summary_iconv = NULL;
 		return;
 	}
@@ -380,6 +380,6 @@ ms_summary_write (MsOle *f, SummaryInfo *sin)
 	g_list_free (si_list);
 
 	ms_ole_summary_close (si);
-	gnm_iconv_close (current_summary_iconv);
+	gsf_iconv_close (current_summary_iconv);
 	current_summary_iconv = NULL;
 }

@@ -25,6 +25,8 @@
 
 #include <workbook.h>
 #include <gui-util.h>
+#include <libgnomeui/gnome-about.h>
+#include <libgnomeui/gnome-href.h>
 
 #define ABOUT_KEY          "about-dialog"
 

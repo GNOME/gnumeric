@@ -47,7 +47,7 @@ typedef struct {
 	simstats_t **stats;
 } simulation_t;
 
-gchar *simulation_tool (WorkbookControl        *wbc,
+gchar const *simulation_tool (WorkbookControl        *wbc,
 			data_analysis_output_t *dao,
 			simulation_t           *sim);
 void   simulation_tool_destroy (simulation_t *sim);

@@ -1,3 +1,11 @@
+2002-08-28  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (ms_excel_read_workbook) : gnm_iconv_close moved to
+	  libgsf.
+	* ms-excel-write.c (write_workbook) : ditto.
+	* ms-summary.c (ms_summary_read) : ditto.
+	(ms_summary_write) : ditto.
+
 2002-08-25  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.8

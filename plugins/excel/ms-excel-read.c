@@ -4881,7 +4881,7 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 			/* MW: And on Excel seems to drive the display
 			   of currency amounts.  */
 			guint16 const codepage = GSF_LE_GET_GUINT16 (q->data);
-			gnm_iconv_close (current_workbook_iconv);
+			gsf_iconv_close (current_workbook_iconv);
 			current_workbook_iconv = excel_iconv_open_for_import (codepage);
 			d (0, {
 				switch (codepage) {
@@ -5034,7 +5034,7 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 		fflush (stdout);
 	}
 #endif
-	gnm_iconv_close (current_workbook_iconv);
+	gsf_iconv_close (current_workbook_iconv);
 	current_workbook_iconv = NULL;
 	if (wb) {
 		/* Cleanup */

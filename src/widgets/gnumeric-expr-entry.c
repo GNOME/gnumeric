@@ -31,6 +31,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtkentry.h>
 #include <gtk/gtkcelleditable.h>
+#include <gdk/gdkkeysyms.h>
 #include <ctype.h>
 #include <stdio.h>
 

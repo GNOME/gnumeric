@@ -26,6 +26,7 @@
 #include "dialog-stf-export-private.h"
 
 #include <command-context.h>
+#include <gdk/gdkkeysyms.h>
 
 #define GLADE_FILE "dialog-stf-export.glade"
 
@@ -40,25 +41,11 @@
  * returns : TRUE if the user actually wants to cancel, FALSE otherwise.
  **/
 static gboolean
-stf_export_dialog_druid_page_cancel (GnomeDruidPage *page, GnomeDruid *druid, StfE_DruidData_t *druid_data)
+stf_export_dialog_druid_page_cancel (GnomeDruidPage *page, GnomeDruid *druid,
+				     StfE_DruidData_t *druid_data)
 {
-	GtkWidget *dialog, *no_button;
-	int ret;
-
-	g_return_val_if_fail (page != NULL, TRUE);
-	g_return_val_if_fail (druid != NULL, TRUE);
-	g_return_val_if_fail (druid_data != NULL, TRUE);
-
-	dialog = gnome_question_dialog_parented (_("Are you sure you want to cancel?"),
-						 NULL,
-						 NULL,
-						 druid_data->window);
-
-	no_button = g_list_last (GNOME_DIALOG (dialog)->buttons)->data;
-	gtk_widget_grab_focus (no_button);
-	ret = gnome_dialog_run (GNOME_DIALOG (dialog));
-
-	return (ret==1);
+	return gnumeric_dialog_question_yes_no (druid_data->wbcg,
+		_("Are you sure you want to cancel?"), FALSE);
 }
 
 /**
@@ -385,6 +372,7 @@ stf_export_dialog (WorkbookControlGUI *wbcg, Workbook *wb)
 		return NULL;
 	}
 
+	druid_data.wbcg             = wbcg;
 	druid_data.canceled         = FALSE;
 	druid_data.sheet_page_data  = stf_export_dialog_sheet_page_init (gui, wb);
 	druid_data.format_page_data = stf_export_dialog_format_page_init (gui);

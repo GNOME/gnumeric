@@ -30,6 +30,7 @@
 #include <workbook-edit.h>
 #include <selection.h>
 
+#include <libgnomeui/gnome-entry.h>
 #include <glade/glade.h>
 
 #define SEARCH_REPLACE_KEY "search-replace-dialog"

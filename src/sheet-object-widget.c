@@ -46,10 +46,11 @@
 #include "dialogs.h"
 #include "widgets/gnumeric-combo-text.h"
 
+#include <gsf/gsf-impl-utils.h>
 #include <libxml/globals.h>
+#include <libgnomecanvas/gnome-canvas-widget.h>
 #include <gdk/gdkkeysyms.h>
 #include <math.h>
-#include <gsf/gsf-impl-utils.h>
 
 #define SHEET_OBJECT_CONFIG_KEY "sheet-object-config-dialog"
 

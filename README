@@ -29,18 +29,18 @@ Requirements
 
 You need:
 
-	glib		>= 1.3.10
-	gtk+		>= 1.3.10
-	libgnome	>= 1.105.0	??
-	libgnomeui	>= 1.106.0	??
-	libbonobo	>= 1.106.0	??
-	libbonoboui	>= 1.106.0	??
-	libgnomeprint	>= 1.106.0	??
-	libgnomeprintui	>= 1.106.0	??
-	libgsf		>= 1.1.0
+	glib		>= 2.0.0
+	gtk+		>= 2.0.0
+	libgnome	>= 2.0.0
+	libgnomeui	>= 2.0.0
+	libbonobo	>= 2.0.0
+	libbonoboui	>= 2.0.0
+	libgnomeprint	>= 2.0.0
+	libgnomeprintui	>= 2.0.0
+	libgsf		>= 1.4.0
+	libglade	>= 2.0.0
 	intltools	>= 0.9
-	libglade	>= 1.99.4
-	gal-2		>= 0.0.0	(gal-2 branch of module gal)
+	gal-2		>= 0.0.5	(gal-2 branch of module gal)
 	gnome-xml   	>= 2.4.12
 	NOTE : gnome-xml is also known as libxml
 

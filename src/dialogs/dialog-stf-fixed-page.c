@@ -74,13 +74,12 @@ fixed_page_autodiscover (DruidPageData_t *pagedata)
 	 */
 
 	if (info->fixed_run_parseoptions->splitpositions->len < 1) {
-		GtkWidget *dialog;
-
-		dialog = gnome_ok_dialog_parented (_("Autodiscovery did not find any columns in the text. Try manually"),
-						   pagedata->window);
-
-
-		gnome_dialog_run (GNOME_DIALOG (dialog));
+		GtkWidget *dialog = gtk_message_dialog_new (NULL,
+			GTK_DIALOG_DESTROY_WITH_PARENT,
+			GTK_MESSAGE_INFO,
+			GTK_BUTTONS_OK,
+			_("Autodiscovery did not find any columns in the text. Try manually"));
+		gnumeric_dialog_run (pagedata->wbcg, GTK_DIALOG (dialog));
 	}
 }
 
