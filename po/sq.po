@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.gnumeric-1-2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-07-07 04:37+0200\n"
+"POT-Creation-Date: 2004-07-10 04:43+0200\n"
 "PO-Revision-Date: 2004-06-29 13:01+0200\n"
 "Last-Translator: Laurent Dhima <laurenti@alblinux.net>\n"
 "Language-Team: Albanian <gnome-albanian-perkthyesit@lists.sourceforge.net>\n"
@@ -19378,7 +19378,6 @@ msgstr ""
 msgid "_Iteration"
 msgstr ""
 
-#. GRUT modified this item
 #: src/dialogs/workbook-attr.glade.h:16
 msgid "_Manual"
 msgstr "_Manual"
@@ -22116,10 +22115,11 @@ msgstr ""
 msgid "Unknown"
 msgstr "Nuk njihet"
 
+#. GRUT modified this item
 #: src/tools/solver/reports-write.c:688
 #, c-format
 msgid "%s (%s)"
-msgstr ""
+msgstr "%s (%s)"
 
 #: src/tools/solver/reports-write.c:703 src/tools/solver/reports-write.c:711
 msgid "Model Assumptions:"
