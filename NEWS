@@ -8,6 +8,8 @@ Jon Kåre:
 
 Morten:
 	* Semi-smart undo/redo list truncation.
+	* Fix serious crash during gnumeric-format save.
+	* Plug leaks.
 
 --------------------------------------------------------------------------
 Gnumeric 0.59
