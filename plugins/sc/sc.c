@@ -11,7 +11,6 @@
 #include <string.h>
 #include <errno.h>
 #include <stdio.h>
-#include <ctype.h>
 #include "plugin.h"
 #include "plugin-util.h"
 #include "module-plugin-defs.h"
@@ -56,17 +55,17 @@ sc_cellname_to_coords (const char *cellname, int *col, int *row)
 	g_return_val_if_fail (col, FALSE);
 	g_return_val_if_fail (row, FALSE);
 
-	if (!cellname || !*cellname || !isalpha((unsigned char)*cellname))
+	if (!cellname || !*cellname || !g_ascii_isalpha (*cellname))
 		goto err_out;
 
-	mult = toupper((unsigned char)*cellname) - 'A';
+	mult = g_ascii_toupper (*cellname) - 'A';
 	if (mult < 0 || mult > 25)
 		goto err_out;
 
 	cellname++;
 
-	if (isalpha((unsigned char)*cellname)) {
-		int ofs = toupper((unsigned char)*cellname) - 'A';
+	if (g_ascii_isalpha (*cellname)) {
+		int ofs = g_ascii_toupper (*cellname) - 'A';
 		if (ofs < 0 || ofs > 25)
 			goto err_out;
 		*col = ((mult + 1) * 26) + ofs;
@@ -79,7 +78,7 @@ sc_cellname_to_coords (const char *cellname, int *col, int *row)
 
 	/* XXX need to replace this block with strtol+error checking */
 	if (1) {
-		if (!isdigit((unsigned char)*cellname))
+		if (!g_ascii_isdigit (*cellname))
 			goto err_out;
 
 		*row = atoi (cellname);
@@ -367,7 +366,7 @@ sc_parse_sheet (GsfInputTextline *input, Sheet *sheet, GIConv ic)
 		g_strchomp (data);
 		utf8data = g_convert_with_iconv (data, -1, ic, NULL, NULL, NULL);
 
-		if (isalpha (*data) && !sc_parse_line (sheet, utf8data)) {
+		if (g_ascii_isalpha (*data) && !sc_parse_line (sheet, utf8data)) {
 			g_free (utf8data);
 			return error_info_new_str (_("Error parsing line"));
 		}
