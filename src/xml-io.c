@@ -318,6 +318,26 @@ xml_node_set_print_unit (xmlNodePtr node, char const *name,
 }
 
 static void
+xml_node_set_print_margins (xmlNodePtr node, char const *name,
+			    double points)
+{
+	xmlNodePtr  child;
+	const char *txt = "points";
+	xmlChar       *tstr;
+
+	if (name == NULL)
+		return;
+
+	child = xmlNewChild (node, NULL, (xmlChar const *)name, NULL);
+
+	xml_node_set_points (child, "Points", points);
+
+	tstr = xmlEncodeEntitiesReentrant (node->doc, (xmlChar const *)txt);
+	xml_node_set_cstr (child, "PrefUnit", (const char *)tstr);
+	if (tstr) xmlFree (tstr);
+}
+
+static void
 xml_node_get_print_unit (xmlNodePtr node, PrintUnit * const pu)
 {
 	gchar       *txt;
@@ -338,6 +358,14 @@ xml_node_get_print_unit (xmlNodePtr node, PrintUnit * const pu)
 			pu->desired_display = UNIT_INCH;
 		xmlFree (txt);
 	}
+}
+
+static void
+xml_node_get_print_margin (xmlNodePtr node, double *points)
+{
+	g_return_if_fail (node != NULL);
+
+	xml_node_get_double (node, "Points", points);
 }
 
 static gboolean
@@ -959,18 +987,20 @@ static xmlNodePtr
 xml_write_print_info (XmlParseContext *ctxt, PrintInformation *pi)
 {
 	xmlNodePtr cur, child;
+	double header = 0, footer = 0, left = 0, right = 0;
 
 	g_return_val_if_fail (pi != NULL, NULL);
 
+	print_info_get_margins (pi, &header, &footer, &left, &right);
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, (xmlChar const *)"PrintInformation", NULL);
 
 	child = xmlNewChild (cur, ctxt->ns, (xmlChar const *)"Margins", NULL);
 	xml_node_set_print_unit (child, "top",    &pi->margins.top);
 	xml_node_set_print_unit (child, "bottom", &pi->margins.bottom);
-	xml_node_set_print_unit (child, "left",   &pi->margins.left);
-	xml_node_set_print_unit (child, "right",  &pi->margins.right);
-	xml_node_set_print_unit (child, "header", &pi->margins.header);
-	xml_node_set_print_unit (child, "footer", &pi->margins.footer);
+	xml_node_set_print_margins (child, "left", left);
+	xml_node_set_print_margins (child, "right", right);
+	xml_node_set_print_margins (child, "header", header);
+	xml_node_set_print_margins (child, "footer", footer);
 
 	child = xmlNewChild (cur, ctxt->ns, (xmlChar const *)"Scale", NULL);
 	if (pi->scaling.type == PERCENTAGE) {
@@ -1036,11 +1066,21 @@ xml_write_print_info (XmlParseContext *ctxt, PrintInformation *pi)
 static void
 xml_print_info_fix_margins (PrintInformation *pi)
 {
-	if (pi->margins.top.points < pi->margins.header.points)
-		DSWAP (pi->margins.top.points, pi->margins.header.points);
-	if (pi->margins.bottom.points < pi->margins.footer.points)
-		DSWAP (pi->margins.bottom.points, pi->margins.footer.points);
+	double header = 0, footer = 0, left = 0, right = 0;
+	gboolean switched = FALSE;
 
+	print_info_get_margins (pi, &header, &footer, &left, &right);
+
+	if (pi->margins.top.points < header) {
+		switched = TRUE;
+		DSWAP (pi->margins.top.points, header);
+	}
+	if (pi->margins.bottom.points < footer) {
+		switched = TRUE;
+		DSWAP (pi->margins.bottom.points, footer);
+	}
+	if (switched)
+		print_info_set_margins (pi, header, footer, left, right);
 }
 
 static void
@@ -1048,6 +1088,7 @@ xml_read_print_margins (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	xmlNodePtr child;
 	PrintInformation *pi;
+	double header = 0, footer = 0, left = 0, right = 0;
 
 	g_return_if_fail (ctxt != NULL);
 	g_return_if_fail (tree != NULL);
@@ -1062,13 +1103,15 @@ xml_read_print_margins (XmlParseContext *ctxt, xmlNodePtr tree)
 	if ((child = e_xml_get_child_by_name (tree, (xmlChar const *)"bottom")))
 		xml_node_get_print_unit (child, &pi->margins.bottom);
 	if ((child = e_xml_get_child_by_name (tree, (xmlChar const *)"left")))
-		xml_node_get_print_unit (child, &pi->margins.left);
+		xml_node_get_print_margin (child, &left);
 	if ((child = e_xml_get_child_by_name (tree, (xmlChar const *)"right")))
-		xml_node_get_print_unit (child, &pi->margins.right);
+		xml_node_get_print_margin (child, &right);
 	if ((child = e_xml_get_child_by_name (tree, (xmlChar const *)"header")))
-		xml_node_get_print_unit (child, &pi->margins.header);
+		xml_node_get_print_margin (child, &header);
 	if ((child = e_xml_get_child_by_name (tree, (xmlChar const *)"footer")))
-		xml_node_get_print_unit (child, &pi->margins.footer);
+		xml_node_get_print_margin (child, &footer);
+
+	print_info_set_margins (pi, header, footer, left, right);
 	xml_print_info_fix_margins (pi);
 }
 

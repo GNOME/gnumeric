@@ -1,3 +1,12 @@
+2002-05-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* ms-excel-read.c (ms_excel_init_margins) : margins are now in 
+	  print_config 
+	(ms_excel_read_setup) : ditto
+	(ms_excel_read_sheet) : ditto
+	* ms-excel-write.c (margin_write) : ditto
+	(write_sheet_head) : use modified margin_write
+
 2002-05-05  Jody Goldberg <jody@gnome.org>
 
 	* ms-obj.c (ms_obj_read_biff8_obj) : tack on a flag to handle the

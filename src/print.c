@@ -274,10 +274,10 @@ static void
 print_hf_element (PrintJobInfo const *pj, char const *format,
 		  HFSide side, double y)
 {
-	PrintMargins *pm;
 	char *text;
 	double x;
 	double len;
+	double header = 0, footer = 0, left = 0, right = 0;
 
 	/* Be really really anal in case Bug
 	 * http://bugs.gnome.org/db/82/8200.html exists
@@ -297,18 +297,18 @@ print_hf_element (PrintJobInfo const *pj, char const *format,
 
 	len = get_width_string (pj->decoration_font, text);
 
-	pm = &pj->pi->margins;
+	print_info_get_margins   (pj->pi, &header, &footer, &left, &right);	
 	switch (side){
 	case LEFT_HEADER:
-		x = pm->left.points;
+		x = left;
 		break;
 
 	case RIGHT_HEADER:
-		x = pj->width - pm->right.points - len;
+		x = pj->width - right - len;
 		break;
 
 	case MIDDLE_HEADER:
-		x = (pj->x_points - len)/2 + pm->left.points;
+		x = (pj->x_points - len)/2 + left;
 		break;
 
 	default:
@@ -386,15 +386,18 @@ print_headers (PrintJobInfo const *pj)
 {
 	PrintMargins const *pm = &pj->pi->margins;
 	double top, bottom, y, ascender;
+	double header = 0, footer = 0, left = 0, right = 0;
+
+	print_info_get_margins   (pj->pi, &header, &footer, &left, &right);	
 
 	ascender = gnome_font_get_ascender (pj->decoration_font);
-	y = pj->height - pm->header.points - ascender;
-	top    =  1 + pj->height - MIN (pm->header.points, pm->top.points);
-	bottom = -1 + pj->height - MAX (pm->header.points, pm->top.points);
+	y = pj->height - header - ascender;
+	top    =  1 + pj->height - MIN (header, pm->top.points);
+	bottom = -1 + pj->height - MAX (header, pm->top.points);
 
 	print_hf_line (pj, pj->pi->header, y,
-		       -1 + pm->left.points, bottom,
-		       pj->width - pm->right.points, top);
+		       -1 + left, bottom,
+		       pj->width - right, top);
 }
 
 /*
@@ -409,18 +412,21 @@ print_footers (PrintJobInfo const *pj)
 {
 	PrintMargins *pm = &pj->pi->margins;
 	double top, bottom, y;
+	double header = 0, footer = 0, left = 0, right = 0;
 
-	y = pm->footer.points
+	print_info_get_margins   (pj->pi, &header, &footer, &left, &right);	
+
+	y = footer
 		- gnome_font_get_descender (pj->decoration_font);
-	top    =  1 + MAX (pm->footer.points, pm->bottom.points);
-	bottom = -1 + MIN (pm->footer.points, pm->bottom.points);
+	top    =  1 + MAX (footer, pm->bottom.points);
+	bottom = -1 + MIN (footer, pm->bottom.points);
 
 	/* Clip path for the header
 	 * NOTE : postscript clip paths exclude the border, gdk includes it.
 	 */
 	print_hf_line (pj, pj->pi->footer, y,
-		       -1 + pm->left.points, bottom,
-		       pj->width - pm->right.points, top);
+		       -1 + left, bottom,
+		       pj->width - right, top);
 }
 
 static void
@@ -472,6 +478,7 @@ print_page (PrintJobInfo const *pj, Sheet const *sheet, Range *range,
 	char *pagenotxt;
 	gboolean printed;
 	GList *l;
+	double header = 0, footer = 0, left = 0, right = 0;
 
 	/* FIXME: Can col / row space calculation be factored out? */
 
@@ -557,9 +564,10 @@ print_page (PrintJobInfo const *pj, Sheet const *sheet, Range *range,
 		x = (pj->x_points - w)/2;
 	}
 
+	print_info_get_margins   (pj->pi, &header, &footer, &left, &right);
 	/* Margins */
-	x += margins->left.points;
-	y += MAX (margins->top.points, margins->header.points);
+	x += left;
+	y += MAX (margins->top.points, header);
 	if (pj->pi->print_grid_lines) {
 		/* the initial grid lines */
 		x += 1.;
@@ -1023,6 +1031,7 @@ print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
 	PrintJobInfo *pj;
 	PrintMargins *pm = &sheet->print_info->margins;
 	double width = 1.0, height = 1.0;
+	double header = 0, footer = 0, left = 0, right = 0;
 
 	pj = g_new0 (PrintJobInfo, 1);
 
@@ -1051,10 +1060,11 @@ print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
 	pj->height = height;
 
 
-	pj->x_points = pj->width - (pm->left.points + pm->right.points);
+	print_info_get_margins   (pj->pi, &header, &footer, &left, &right);	
+	pj->x_points = pj->width - (left + right);
 	pj->y_points = pj->height -
-		(MAX (pm->top.points, pm->header.points) +
-		 MAX (pm->bottom.points, pm->footer.points));
+		(MAX (pm->top.points, header) +
+		 MAX (pm->bottom.points, footer));
 
 	/*
 	 * Setup render info

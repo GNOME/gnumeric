@@ -45,12 +45,8 @@ typedef struct {
  * Margins.  In Points
  */
 typedef struct {
-	PrintUnit top;
+	PrintUnit top;     /* see print.c for the definition (these are header/footer) */
 	PrintUnit bottom;
-	PrintUnit left;
-	PrintUnit right;
-	PrintUnit header;
-	PrintUnit footer;
 } PrintMargins;
 
 /* Header/Footer definition */
@@ -132,6 +128,15 @@ double      unit_convert             (double value, UnitName source, UnitName ta
 
 void        print_init               (void);
 void        print_shutdown           (void);
+
+gboolean    print_info_get_margins   (PrintInformation const *pi, 
+				      double *header, double *footer, double *left, double *right);
+void        print_info_set_margins   (PrintInformation *pi, 
+				      double header, double footer, double left, double right);
+void        print_info_set_margin_header   (PrintInformation *pi, double header);
+void        print_info_set_margin_footer   (PrintInformation *pi, double footer);
+void        print_info_set_margin_left     (PrintInformation *pi, double left);
+void        print_info_set_margin_right    (PrintInformation *pi, double right);
 
 /* Formats known */
 extern GList *hf_formats;

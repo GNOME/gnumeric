@@ -253,6 +253,9 @@ print_info_new (void)
 
 	pi->print_config = gnome_print_config_default ();
 
+	/* FIXME: The print_config default configuration is probably not right! */
+	/* Specifically we should load the default paper size and formats       */
+
 	gnome_config_push_prefix ("/Gnumeric/Print/");
 
 	pi->n_copies = gnome_config_get_int ("num_copies=1");
@@ -273,12 +276,6 @@ print_info_new (void)
 	s = g_strdup_printf ("%.13g", unit_convert (1.0, UNIT_CENTIMETER, UNIT_POINTS));
 	load_margin ("margin_top", &pi->margins.top,       s);
 	load_margin ("margin_bottom", &pi->margins.bottom, s);
-	load_margin ("margin_left", &pi->margins.left,     s);
-	load_margin ("margin_right", &pi->margins.right,   s);
-	g_free (s);
-	s = g_strdup_printf ("%.13g", unit_convert (0.5, UNIT_CENTIMETER, UNIT_POINTS));
-	load_margin ("margin_header", &pi->margins.header, s);
-	load_margin ("margin_footer", &pi->margins.footer, s);
 	g_free (s);
 
 	pi->header = load_hf ("header", "", _("&[TAB]"), "");
@@ -382,6 +379,9 @@ destroy_formats (void)
 void
 print_info_save (PrintInformation const *pi)
 {
+	/* FIXME: The print_config  configuration should be saved               */
+	/* Specifically we should save the default paper size and formats       */
+
 	gnome_config_push_prefix ("/Gnumeric/Print/");
 
 	gnome_config_set_int ("num_copies", pi->n_copies);
@@ -393,10 +393,6 @@ print_info_save (PrintInformation const *pi)
 
 	save_margin ("margin_top", &pi->margins.top);
 	save_margin ("margin_bottom", &pi->margins.bottom);
-	save_margin ("margin_left", &pi->margins.left);
-	save_margin ("margin_right", &pi->margins.right);
-	save_margin ("margin_header", &pi->margins.header);
-	save_margin ("margin_footer", &pi->margins.footer);
 
 	gnome_config_set_bool ("center_horizontally", pi->center_horizontally);
 	gnome_config_set_bool ("center_vertically", pi->center_vertically);
@@ -724,13 +720,9 @@ print_info_dup (PrintInformation const *src_pi)
 	dst_pi->scaling.dim.cols   = src_pi->scaling.dim.cols;
 	dst_pi->scaling.dim.rows   = src_pi->scaling.dim.rows;
 
-	/* Margins */
+	/* Margins (note that the others are copied as part of print_config) */
 	print_info_margin_copy (&src_pi->margins.top,    &dst_pi->margins.top);
 	print_info_margin_copy (&src_pi->margins.bottom, &dst_pi->margins.bottom);
-	print_info_margin_copy (&src_pi->margins.left,   &dst_pi->margins.left);
-	print_info_margin_copy (&src_pi->margins.right,  &dst_pi->margins.right);
-	print_info_margin_copy (&src_pi->margins.header, &dst_pi->margins.header);
-	print_info_margin_copy (&src_pi->margins.footer, &dst_pi->margins.footer);
 
 	/* Booleans */
 	dst_pi->center_vertically	  = src_pi->center_vertically;
@@ -753,4 +745,87 @@ print_info_dup (PrintInformation const *src_pi)
 	dst_pi->repeat_left = src_pi->repeat_left;
 
 	return dst_pi;
+}
+
+gboolean    
+print_info_get_margins (PrintInformation const *pi, 
+			double *top, double *bottom, double *left, double *right)
+{
+	gboolean res_top, res_bottom, res_left, res_right;
+
+	g_return_val_if_fail (pi->print_config != NULL, FALSE);
+
+
+	res_top = gnome_print_config_get_length (pi->print_config, 
+						 GNOME_PRINT_KEY_PAGE_MARGIN_TOP, 
+						 top, NULL);
+	res_bottom = gnome_print_config_get_length (pi->print_config, 
+						    GNOME_PRINT_KEY_PAGE_MARGIN_BOTTOM, 
+						    bottom, NULL);
+	res_left = gnome_print_config_get_length (pi->print_config, 
+						  GNOME_PRINT_KEY_PAGE_MARGIN_LEFT, 
+						  left, NULL);
+	res_right = gnome_print_config_get_length (pi->print_config, 
+						   GNOME_PRINT_KEY_PAGE_MARGIN_RIGHT, 
+						   right, NULL);
+	return res_top && res_bottom && res_left && res_right;
+}
+
+void        
+print_info_set_margin_header   (PrintInformation *pi, double top)
+{
+	g_return_if_fail (pi->print_config != NULL);
+
+	gnome_print_config_set_length (pi->print_config, 
+				       GNOME_PRINT_KEY_PAGE_MARGIN_TOP, 
+				       top, GNOME_PRINT_PS_UNIT);
+}
+
+void        
+print_info_set_margin_footer   (PrintInformation *pi, double bottom)
+{
+	g_return_if_fail (pi->print_config != NULL);
+
+	gnome_print_config_set_length (pi->print_config, 
+				       GNOME_PRINT_KEY_PAGE_MARGIN_BOTTOM, 
+				       bottom, GNOME_PRINT_PS_UNIT);
+}
+
+void        
+print_info_set_margin_left     (PrintInformation *pi, double left)
+{
+	g_return_if_fail (pi->print_config != NULL);
+
+	gnome_print_config_set_length (pi->print_config, 
+				       GNOME_PRINT_KEY_PAGE_MARGIN_LEFT, 
+				       left, GNOME_PRINT_PS_UNIT);
+}
+
+void        
+print_info_set_margin_right    (PrintInformation *pi, double right)
+{
+	double right_here = 0;
+	g_return_if_fail (pi->print_config != NULL);
+
+	gnome_print_config_set_length (pi->print_config, 
+				       GNOME_PRINT_KEY_PAGE_MARGIN_RIGHT, 
+				       right, GNOME_PRINT_PS_UNIT);
+	g_print ("Setting margin to: %f\n", right);
+	gnome_print_config_get_length (pi->print_config, 
+				       GNOME_PRINT_KEY_PAGE_MARGIN_RIGHT, 
+				       &right_here, NULL);
+	g_print ("Reading_back: %f\n", right_here);
+	
+}
+
+void
+print_info_set_margins (PrintInformation *pi, 
+			double top, double bottom, double left, double right)
+{
+	g_return_if_fail (pi->print_config != NULL);
+
+	print_info_set_margin_header (pi, top);
+	print_info_set_margin_footer (pi, bottom);
+	print_info_set_margin_left (pi, left);
+	print_info_set_margin_right (pi, right);
 }

@@ -1,3 +1,32 @@
+2002-05-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* configure.in : bump lignomeprintui req to 0.115.0
+	* src/print-info.c (print_info_new) : margins are now in print_config
+	(print_info_save) : ditto
+	(print_info_dup) : ditto
+	(print_info_get_margins) : new
+	(print_info_set_margin_header) : new
+	(print_info_set_margin_footer) : new
+	(print_info_set_margin_left) : new
+	(print_info_set_margin_right) : new
+	(print_info_set_margins) : new
+	* src/print-info.h (print_info_get_margins) : new
+	(print_info_set_margin_header) : new
+	(print_info_set_margin_footer) : new
+	(print_info_set_margin_left) : new
+	(print_info_set_margin_right) : new
+	(print_info_set_margins) : new
+	* src/print.c (print_hf_element) : margins are now in print_config
+	(print_headers) : ditto
+	(print_footers) : ditto
+	(print_page) : ditto
+	(print_job_info_get) : ditto
+	* src/xml-io.c (xml_node_set_print_margins) : new
+	(xml_node_get_print_margin) : new
+	(xml_write_print_info) : margins are now in print_config
+	(xml_print_info_fix_margins) : ditto
+	(xml_read_print_margins) : ditto
+
 2002-05-15  Morten Welinder  <terra@diku.dk>
 
 	* src/main-application.c (warn_about_ancient_gnumerics): Don't

@@ -480,6 +480,8 @@ static void
 ms_excel_init_margins (ExcelSheet *esheet)
 {
 	PrintInformation *pi;
+	double points;
+	double short_points;
 
 	g_return_if_fail (esheet != NULL);
 	g_return_if_fail (esheet->gnum_sheet != NULL);
@@ -488,10 +490,10 @@ ms_excel_init_margins (ExcelSheet *esheet)
 	pi = esheet->gnum_sheet->print_info;
 	ms_excel_print_unit_init_inch (&pi->margins.top, 1.0);
 	ms_excel_print_unit_init_inch (&pi->margins.bottom, 1.0);
-	ms_excel_print_unit_init_inch (&pi->margins.left, 0.75);
-	ms_excel_print_unit_init_inch (&pi->margins.right, 0.75);
-	ms_excel_print_unit_init_inch (&pi->margins.header, 0.5);
-	ms_excel_print_unit_init_inch (&pi->margins.footer, 0.5);
+
+	points = unit_convert (0.75, UNIT_INCH, UNIT_POINTS);
+	short_points = unit_convert (0.5, UNIT_INCH, UNIT_POINTS);
+	print_info_set_margins (pi, short_points, short_points, points, points);
 }
 
 static ExcelSheet *
@@ -3185,10 +3187,10 @@ ms_excel_read_setup (BiffQuery *q, ExcelSheet *esheet)
 	}
 #endif
 
-	ms_excel_print_unit_init_inch (&pi->margins.header,
-		gnumeric_get_le_double (q->data + 16));
-	ms_excel_print_unit_init_inch (&pi->margins.footer,
-		gnumeric_get_le_double (q->data + 24));
+	print_info_set_margin_header 
+		(pi, unit_convert (gnumeric_get_le_double (q->data + 16), UNIT_INCH, UNIT_POINTS));
+	print_info_set_margin_footer 
+		(pi, unit_convert (gnumeric_get_le_double (q->data + 24), UNIT_INCH, UNIT_POINTS));
 }
 
 static guint8 const *
@@ -4006,12 +4008,14 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
 			break;
 
 		case BIFF_LEFT_MARGIN:
-			ms_excel_print_unit_init_inch (&pi->margins.left,
-				gnumeric_get_le_double (q->data));
+			print_info_set_margin_left 
+				(pi, unit_convert (gnumeric_get_le_double (q->data), 
+						   UNIT_INCH, UNIT_POINTS));
 			break;
 		case BIFF_RIGHT_MARGIN:
-			ms_excel_print_unit_init_inch (&pi->margins.right,
-				gnumeric_get_le_double (q->data));
+			print_info_set_margin_right
+				(pi, unit_convert (gnumeric_get_le_double (q->data), 
+						   UNIT_INCH, UNIT_POINTS));
 			break;
 		case BIFF_TOP_MARGIN:
 			ms_excel_print_unit_init_inch (&pi->margins.top,

@@ -717,40 +717,23 @@ xml_sax_sheet_zoom (XMLSaxParseState *state)
 		state->sheet_zoom = zoom;
 }
 
-static void
-xml_sax_print_margins (XMLSaxParseState *state, xmlChar const **attrs)
+static double
+xml_sax_print_margins_get_double (XMLSaxParseState *state, xmlChar const **attrs)
 {
-	PrintInformation *pi;
-	PrintUnit *pu;
 	double points;
-
-	g_return_if_fail (state->sheet != NULL);
-	g_return_if_fail (state->sheet->print_info != NULL);
-
-	pi = state->sheet->print_info;
-	switch (state->state) {
-	case STATE_PRINT_MARGIN_TOP:
-		pu = &pi->margins.top;
-		break;
-	case STATE_PRINT_MARGIN_BOTTOM:
-		pu = &pi->margins.bottom;
-		break;
-	case STATE_PRINT_MARGIN_LEFT:
-		pu = &pi->margins.left;
-		break;
-	case STATE_PRINT_MARGIN_RIGHT:
-		pu = &pi->margins.right;
-		break;
-	case STATE_PRINT_MARGIN_HEADER:
-		pu = &pi->margins.header;
-		break;
-	case STATE_PRINT_MARGIN_FOOTER:
-		pu = &pi->margins.footer;
-		break;
-	default:
-		return;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (xml_sax_attr_double (attrs, "Points", &points))
+			return points;
+		else if (strcmp (attrs[0], "PrefUnit"))
+			xml_sax_unknown_attr (state, attrs, "Margin");
 	}
+	return 0.0;
+}
 
+static void
+xml_sax_print_margins_unit (XMLSaxParseState *state, xmlChar const **attrs, PrintUnit *pu)
+{
+	double points;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (xml_sax_attr_double (attrs, "Points", &points))
 			pu->points = points;
@@ -767,6 +750,42 @@ xml_sax_print_margins (XMLSaxParseState *state, xmlChar const **attrs)
 			xml_sax_unknown_attr (state, attrs, "Margin");
 	}
 }
+
+static void
+xml_sax_print_margins (XMLSaxParseState *state, xmlChar const **attrs)
+{
+	PrintInformation *pi;
+
+	g_return_if_fail (state->sheet != NULL);
+	g_return_if_fail (state->sheet->print_info != NULL);
+
+	pi = state->sheet->print_info;
+	switch (state->state) {
+	case STATE_PRINT_MARGIN_TOP:
+		xml_sax_print_margins_unit (state, attrs,  &pi->margins.top);
+		break;
+	case STATE_PRINT_MARGIN_BOTTOM:
+		xml_sax_print_margins_unit (state, attrs,  &pi->margins.bottom);
+		break;
+	case STATE_PRINT_MARGIN_LEFT:
+		print_info_set_margin_left (pi, xml_sax_print_margins_get_double (state, attrs));
+		break;
+	case STATE_PRINT_MARGIN_RIGHT:
+		print_info_set_margin_right (pi, xml_sax_print_margins_get_double (state, attrs));
+		break;
+	case STATE_PRINT_MARGIN_HEADER:
+		print_info_set_margin_header (pi, xml_sax_print_margins_get_double (state, attrs));
+		break;
+	case STATE_PRINT_MARGIN_FOOTER:
+		print_info_set_margin_footer (pi, xml_sax_print_margins_get_double (state, attrs));
+		break;
+	default:
+		return;
+	}
+}
+
+
+
 
 static void
 xml_sax_print_scale (XMLSaxParseState *state, xmlChar const **attrs)

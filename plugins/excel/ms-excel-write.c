@@ -2909,12 +2909,12 @@ write_wsbool (BiffPut *bp, ExcelSheet *esheet)
 }
 
 static void
-margin_write (BiffPut *bp, guint16 op, PrintUnit *pu)
+margin_write (BiffPut *bp, guint16 op, double points)
 {
 	guint8 *data;
 	double  margin;
 
-	margin = unit_convert (pu->points, UNIT_POINTS, UNIT_INCH);
+	margin = unit_convert (points, UNIT_POINTS, UNIT_INCH);
 
 	data = ms_biff_put_len_next (bp, op, 8);
 	gnumeric_set_le_double (data, margin);
@@ -3112,6 +3112,7 @@ write_sheet_head (BiffPut *bp, ExcelSheet *esheet)
 	PrintInformation *pi;
 	MsBiffVersion ver = esheet->wb->ver;
 	Workbook *wb = esheet->gnum_sheet->workbook;
+	double header = 0, footer = 0, left = 0, right = 0;
 
 	g_return_if_fail (esheet != NULL);
 	g_return_if_fail (esheet->gnum_sheet != NULL);
@@ -3198,10 +3199,11 @@ write_sheet_head (BiffPut *bp, ExcelSheet *esheet)
 	MS_OLE_SET_GUINT16 (data, pi->center_vertically);
 	ms_biff_put_commit (bp);
 
-	margin_write (bp, BIFF_LEFT_MARGIN,   &pi->margins.left);
-	margin_write (bp, BIFF_RIGHT_MARGIN,  &pi->margins.right);
-	margin_write (bp, BIFF_TOP_MARGIN,    &pi->margins.top);
-	margin_write (bp, BIFF_BOTTOM_MARGIN, &pi->margins.bottom);
+	print_info_get_margins (pi, &header, &footer, &left, &right);
+	margin_write (bp, BIFF_LEFT_MARGIN,   left);
+	margin_write (bp, BIFF_RIGHT_MARGIN,  right);
+	margin_write (bp, BIFF_TOP_MARGIN,    pi->margins.top.points);
+	margin_write (bp, BIFF_BOTTOM_MARGIN, pi->margins.bottom.points);
 
 	write_setup (bp, esheet);
 	write_externsheets (bp, esheet->wb, esheet);

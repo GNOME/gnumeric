@@ -1,3 +1,19 @@
+2002-05-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-printer-setup.c (get_printable_width) : deleted
+	(set_horizontal_bounds) : deleted
+	(get_printable_height) : margins are now in print_config
+	(set_vertical_bounds) : ditto
+	(draw_margin) : ditto
+	(do_setup_margin) : ditto
+	(do_fetch_margins) : ditto
+	(canvas_update) : no horizontal bounds needed
+	(notebook_flipped) : adjusted for moved items
+	(unit_changed) : simplify
+	(do_setup_page) : use new libgnomeprinntui api to get margin 
+	  adjustments (this requires 0.114.0 or newer)
+	* print.glade : rearrange items and delete margin spin buttons
+
 2002-05-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-graph-guru.c : fix warning

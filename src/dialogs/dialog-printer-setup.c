@@ -60,7 +60,7 @@
 
 #define PRINTER_SETUP_KEY "printer-setup-dialog"
 
-#define MARGIN_PAGE 1
+#define HF_PAGE 1
 
 /* FIXME: Now that we have added a header/footer sample
  * preview widget, we should rename the preview widget for the margins
@@ -121,8 +121,7 @@ typedef struct {
 	GtkWidget        *sheet_selector;
 
 	struct {
-		UnitInfo top, bottom;
-		UnitInfo left, right;
+		UnitInfo top, bottom, left, right;
 		UnitInfo header, footer;
 	} margins;
 
@@ -250,23 +249,6 @@ get_paper_psheight (PrinterSetupState *state)
 }
 
 /**
- * get_printable_width
- * @state  :
- * @unit unit
- *
- * Return page width minus margins in specified unit.
- */
-static double
-get_printable_width (PrinterSetupState *state, UnitName unit)
-{
-	return unit_convert (get_paper_pswidth (state), UNIT_POINTS, unit)
-		- unit_convert (state->margins.left.value,
-				state->margins.left.unit, unit)
-		- unit_convert (state->margins.right.value,
-				state->margins.right.unit, unit);
-}
-
-/**
  * get_printable_height
  * @state :
  * @unit unit
@@ -276,47 +258,13 @@ get_printable_width (PrinterSetupState *state, UnitName unit)
 static double
 get_printable_height (PrinterSetupState *state, UnitName unit)
 {
-	return unit_convert (get_paper_psheight (state), UNIT_POINTS, unit)
-		- unit_convert (state->margins.top.value,
-				state->margins.top.unit, unit)
-		- unit_convert (state->margins.bottom.value,
-				state->margins.bottom.unit, unit)
+	double header = 0, footer = 0, left = 0, right = 0;
+	print_info_get_margins   (state->pi, &header, &footer, &left, &right);
+	return unit_convert (get_paper_psheight (state) - header - footer, UNIT_POINTS, unit)
 		- unit_convert (state->margins.header.value,
 				state->margins.header.unit, unit)
 		- unit_convert (state->margins.footer.value,
 				state->margins.footer.unit, unit);
-}
-
-/**
- * set_horizontal_bounds
- * @state :
- * @margin_fixed  margin to remain unchanged
- * @unit          unit
- *
- * Set the upper bounds for left and right margins.
- * If margin_fixed is one of those margins, it kept unchanged. This is to
- * avoid the possibility of an endless loop.
- */
-static void
-set_horizontal_bounds (PrinterSetupState *state,
-		       MarginOrientation margin_fixed,
-		       UnitName unit)
-{
-	double printable_width = get_printable_width (state, unit);
-
-	if (margin_fixed != MARGIN_LEFT)
-		printable_width
-			= spin_button_set_bound (state->margins.left.spin,
-						 printable_width,
-						 unit,
-						 state->margins.left.unit);
-
-	if (margin_fixed != MARGIN_RIGHT)
-		printable_width
-			= spin_button_set_bound (state->margins.right.spin,
-						 printable_width,
-						 unit,
-						 state->margins.right.unit);
 }
 
 /**
@@ -335,20 +283,6 @@ set_vertical_bounds (PrinterSetupState *state,
 		     UnitName unit)
 {
 	double printable_height = get_printable_height (state, unit);
-
-	if (margin_fixed != MARGIN_TOP)
-		printable_height
-			= spin_button_set_bound (state->margins.top.spin,
-						 printable_height,
-						 unit,
-						 state->margins.top.unit);
-
-	if (margin_fixed != MARGIN_BOTTOM)
-		printable_height
-			= spin_button_set_bound (state->margins.bottom.spin,
-						 printable_height,
-						 unit,
-						 state->margins.bottom.unit);
 
 	if (margin_fixed != MARGIN_HEADER)
 		printable_height
@@ -421,8 +355,8 @@ static void
 draw_margin (UnitInfo *uinfo, PrinterSetupState *state)
 {
 	double x1, y1, x2, y2;
-	double val = unit_convert (uinfo->value,
-				   uinfo->unit, UNIT_POINTS);
+	double top = 0, bottom = 0, left = 0, right = 0;
+	print_info_get_margins (state->pi, &top, &bottom, &left, &right);
 
 	x1 = uinfo->bound_x1;
 	y1 = uinfo->bound_y1;
@@ -432,47 +366,43 @@ draw_margin (UnitInfo *uinfo, PrinterSetupState *state)
 	switch (uinfo->orientation)
 	{
 	case MARGIN_LEFT:
-		x1 += uinfo->pi->scale * val;
+		x1 += uinfo->pi->scale * left;
 		if (x1 < x2)
 			x2 = x1;
 		else
 			x1 = x2;
 		break;
 	case MARGIN_RIGHT:
-		x2 -= uinfo->pi->scale * val;
+		x2 -= uinfo->pi->scale * right;
 		if (x2 < x1)
 			x2 = x1;
 		else
 			x1 = x2;
 		break;
 	case MARGIN_TOP:
-		y1 += uinfo->pi->scale * val;
+		y1 += uinfo->pi->scale * top;
 		if (y1 < y2)
 			y2 = y1;
 		else
 			y1 = y2;
-		draw_margin (&state->margins.header, state);
 		break;
 	case MARGIN_BOTTOM:
-		y2 -= uinfo->pi->scale * val;
+		y2 -= uinfo->pi->scale * bottom;
 		if (y2 < y1)
 			y2 = y1;
 		else
 			y1 = y2;
-		draw_margin (&state->margins.footer, state);
 		break;
 	case MARGIN_HEADER:
-		y1 += (uinfo->pi->scale * unit_convert (state->margins.top.value,
-							state->margins.top.unit,
-							UNIT_POINTS)
-		       + uinfo->pi->scale * val);
+		y1 += (uinfo->pi->scale * top + 
+		       uinfo->pi->scale * unit_convert (uinfo->value,
+							uinfo->unit, UNIT_POINTS));
 		y2 = y1;
 		break;
 	case MARGIN_FOOTER:
-		y2 -= (uinfo->pi->scale * unit_convert (state->margins.bottom.value,
-							state->margins.bottom.unit,
-							UNIT_POINTS)
-		       + uinfo->pi->scale * val);
+		y2 -= (uinfo->pi->scale * bottom + 
+		       uinfo->pi->scale * unit_convert (uinfo->value,
+							uinfo->unit, UNIT_POINTS));
 		y1 = y2;
 		break;
 	default:
@@ -582,8 +512,6 @@ canvas_update (PrinterSetupState *state)
 {
 		preview_page_destroy (state);
 		preview_page_create (state);
-		set_horizontal_bounds (state, MARGIN_NONE,
-				       state->margins.top.unit);
 		set_vertical_bounds (state, MARGIN_NONE,
 				     state->margins.top.unit);
 }
@@ -594,7 +522,7 @@ notebook_flipped (GtkNotebook *notebook,
 		  gint page_num,
 		  PrinterSetupState *state)
 {
-	if (page_num == MARGIN_PAGE)
+	if (page_num == HF_PAGE)
 		canvas_update (state);	
 }
 
@@ -723,18 +651,9 @@ unit_changed (GtkSpinButton *spin_button, UnitInfo_cbdata *data)
 {
 	data->target->value = data->target->adj->value;
 
-	switch (data->target->orientation) {
-	case MARGIN_LEFT:
-	case MARGIN_RIGHT:
-		set_horizontal_bounds (data->state,
-				       data->target->orientation,
-				       data->target->unit);
-		break;
-	default:
-		set_vertical_bounds (data->state,
-				     data->target->orientation,
-				     data->target->unit);
-	}
+	set_vertical_bounds (data->state,
+			     data->target->orientation,
+			     data->target->unit);
 
 	/* Adjust the display to the current values */
 	draw_margin (data->target, data->state);
@@ -822,8 +741,11 @@ do_setup_margin (PrinterSetupState *state)
 	GtkBox *container;
 	PrintMargins *pm;
 	UnitName displayed_unit;
+	double header = 0, footer = 0, left = 0, right = 0;
 
 	g_return_if_fail (state && state->pi);
+
+	print_info_get_margins   (state->pi, &header, &footer, &left, &right);
 
 	pm = &state->pi->margins;
 	displayed_unit = pm->top.desired_display;
@@ -850,20 +772,11 @@ do_setup_margin (PrinterSetupState *state)
 	gtk_option_menu_set_history (GTK_OPTION_MENU (option_menu),
 				     displayed_unit);
 
-	unit_editor_configure (&state->margins.top, state, "spin-top",
-			       pm->header.points,
-			       displayed_unit);
 	unit_editor_configure (&state->margins.header, state, "spin-header",
-			       MAX (pm->top.points - pm->header.points, 0.0),
+			       MAX (pm->top.points - header, 0.0),
 			       displayed_unit);
-	unit_editor_configure (&state->margins.left, state, "spin-left",
-			       pm->left.points, displayed_unit);
-	unit_editor_configure (&state->margins.right, state, "spin-right",
-			       pm->right.points, displayed_unit);
-	unit_editor_configure (&state->margins.bottom, state, "spin-bottom",
-			       pm->footer.points, displayed_unit);
 	unit_editor_configure (&state->margins.footer, state, "spin-footer",
-			       MAX (pm->bottom.points - pm->footer.points, 0.0),
+			       MAX (pm->bottom.points - footer, 0.0),
 			       displayed_unit);
 
 	container = GTK_BOX (glade_xml_get_widget (state->gui,
@@ -1520,9 +1433,10 @@ do_setup_page (PrinterSetupState *state)
 	const char *toggle;
 
 	gui = state->gui;
-	table = GTK_TABLE (glade_xml_get_widget (gui, "table-orient"));
+	table = GTK_TABLE (glade_xml_get_widget (gui, "table-paper-selector"));
 
-	paper_selector =  gnome_paper_selector_new (pi->print_config);
+	paper_selector = gnome_paper_selector_new_with_flags (pi->print_config, 
+							      GNOME_PAPER_SELECTOR_MARGINS);
 	gtk_widget_show (paper_selector);
 	gtk_table_attach_defaults (table, paper_selector, 0, 1, 0, 1);
 
@@ -1821,16 +1735,15 @@ do_fetch_margins (PrinterSetupState *state)
 {
 	PrintMargins *m = &state->pi->margins;
 	GtkToggleButton *t;
+	double header = 0, footer = 0, left = 0, right = 0;
 
-	m->header = unit_info_to_print_unit (&state->margins.top);
-	m->footer = unit_info_to_print_unit (&state->margins.bottom);
-	m->left   = unit_info_to_print_unit (&state->margins.left);
-	m->right  = unit_info_to_print_unit (&state->margins.right);
-	m->top    = unit_info_to_print_unit (&state->margins.header);
+	print_info_get_margins   (state->pi, &header, &footer, &left, &right);
+
+	m->top = unit_info_to_print_unit (&state->margins.header);
 	m->bottom = unit_info_to_print_unit (&state->margins.footer);
 
-	m->top.points    += m->header.points;
-	m->bottom.points += m->footer.points;
+	m->top.points += header;
+	m->bottom.points += footer;
 
 	t = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "center-horizontal"));
 	state->pi->center_horizontally = t->active;
