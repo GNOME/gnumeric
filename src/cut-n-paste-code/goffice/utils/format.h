@@ -1,6 +1,7 @@
 #ifndef GOFFICE_FORMAT_H
 #define GOFFICE_FORMAT_H
 
+#include <goffice/utils/numbers.h>
 #include <goffice/utils/goffice-utils.h>
 #include <pango/pango-attributes.h>
 #include <goffice/cut-n-paste/pcre/pcreposix.h>
@@ -101,7 +102,7 @@ typedef struct {
 	gboolean group_thousands;
 	gboolean has_fraction;
 } format_info_t;
-void render_number (GString *result, double number, format_info_t const *info);
+void render_number (GString *result, gnm_float number, format_info_t const *info);
 
 /* Locale support routines */
 void	       gnm_set_untranslated_bools (void);

@@ -1,3 +1,8 @@
+2005-02-08  Jon K Hellan  <hellan@acm.org>
+
+	* utils/format.h: Include numbers.h.
+	(render_number): Make declaration match	definition. 
+
 2005-02-08  Morten Welinder  <terra@gnome.org>
 
 	* utils/go-font.c (go_fonts_init): Plug leak.
