@@ -294,16 +294,19 @@ stf_text_to_columns (WorkbookControl *wbc, CommandContext *cc)
 				   NULL, FALSE, NULL, FALSE,
 				   _("Text to Columns"), data, data_len);
 
-	if (dialogresult == NULL ||
-	    !stf_store_results (dialogresult, target_sheet,
-				target.start.col, target.start.row)) {
-		gnumeric_error_read (COMMAND_CONTEXT (cc),
-			_("Error while trying to parse data into sheet"));
-	} else {
-		sheet_flag_status_update_range (target_sheet, &target);
-		sheet_queue_respan (target_sheet, target.start.row, target.end.row);
-		workbook_recalc (target_sheet->workbook);
-		sheet_redraw_all (target_sheet, FALSE);
+	if (dialogresult != NULL) {
+		if (!stf_store_results (dialogresult, target_sheet,
+					target.start.col, target.start.row)) {
+			gnumeric_error_read (COMMAND_CONTEXT (cc),
+					     _("Error while trying to "
+					       "parse data into sheet"));
+		} else {
+			sheet_flag_status_update_range (target_sheet, &target);
+			sheet_queue_respan (target_sheet, target.start.row, 
+					    target.end.row);
+			workbook_recalc (target_sheet->workbook);
+			sheet_redraw_all (target_sheet, FALSE);
+		}
 	}
 
 	g_object_unref (G_OBJECT (buf));

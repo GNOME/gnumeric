@@ -1,4 +1,8 @@
-2003-06-27  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+2003-07-09  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/stf.c (stf_text_to_columns): do not post an error on user cancel.
+
+2003-07-09  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/stf.c (stf_read_workbook): do not post a cancelled "error"
 	* src/workbook-view.c (wb_view_new_from_input): if the workbook
