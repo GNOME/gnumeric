@@ -134,7 +134,7 @@ sheet_object_bonobo_load_from_file (SheetObjectBonobo *sob, const char *fname)
 				Bonobo_PersistStream_load (
 					ps,
 					(Bonobo_Stream) bonobo_object_corba_objref (
-						BONOBO_OBJECT (stream)), &ev);
+						BONOBO_OBJECT (stream)), "", &ev);
 			}
 		}
 		Bonobo_Unknown_unref ((Bonobo_Unknown) ps, &ev);
@@ -181,7 +181,7 @@ sheet_object_bonobo_load (SheetObjectBonobo *sob,
 			Bonobo_PersistStream_load (
 				ret,
 				(Bonobo_Stream) bonobo_object_corba_objref (
-					BONOBO_OBJECT (stream)), &ev);
+					BONOBO_OBJECT (stream)), "", &ev);
 		}
 		Bonobo_Unknown_unref ((Bonobo_Unknown) ret, &ev);
 		CORBA_Object_release (ret, &ev);

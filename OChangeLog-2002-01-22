@@ -1,3 +1,10 @@
+2000-05-27  Michael Meeks  <michael@helixcode.com>
+
+	* src/sheet-object-bonobo.c (sheet_object_bonobo_load),
+	(sheet_object_bonobo_load_from_file): update for new PersistStream API.
+
+	* configure.in (gnumeric_executable): check for bonobo 0.14
+
 2000-05-29  Jody Goldberg <jgoldberg@home.com>
 
 	* src/expr.c (cellrange_relocate) : Only relocate a range if both
