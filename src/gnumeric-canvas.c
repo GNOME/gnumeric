@@ -14,7 +14,6 @@
 #include "sheet-control-gui-priv.h"
 #include "gui-util.h"
 #include "mstyle.h"
-#include "style-color.h"
 #include "selection.h"
 #include "parse-util.h"
 #include "ranges.h"
@@ -488,7 +487,7 @@ gnm_canvas_realize (GtkWidget *w)
 	/* Set the default background color of the canvas itself to white.
 	 * This makes the redraws when the canvas scrolls flicker less. */
 	style = gtk_style_copy (w->style);
-	style->bg [GTK_STATE_NORMAL] = gs_white;
+	style->bg[GTK_STATE_NORMAL] = style->white;
 	gtk_widget_set_style (w, style);
 	g_object_unref (style);
 

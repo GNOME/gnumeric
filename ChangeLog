@@ -1,5 +1,8 @@
 2003-05-20  Morten Welinder  <terra@gnome.org>
 
+	* src/gnumeric-canvas.c (gnm_canvas_realize): Plug "white" out of
+	the style.
+
 	* src/style-color.c (gnumeric_color_init): Make gs_yellow an
 	unallocated colour.  Eliminate unused gs_red.
 
