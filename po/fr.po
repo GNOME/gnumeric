@@ -27852,12 +27852,12 @@ msgstr "Largeur de _colonne..."
 #: src/sheet-control-gui.c:1544 src/sheet-control-gui.c:1552
 #: src/wbcg-actions.c:1723 src/wbcg-actions.c:1740
 msgid "_Hide"
-msgstr "Cac_her"
+msgstr "_Cacher"
 
 #: src/sheet-control-gui.c:1546 src/sheet-control-gui.c:1554
 #: src/wbcg-actions.c:1726 src/wbcg-actions.c:1743
 msgid "_Unhide"
-msgstr "_Afficher"
+msgstr "A_fficher"
 
 #. Row specific (Note some labels duplicate col labels)
 #: src/sheet-control-gui.c:1550
@@ -29336,7 +29336,7 @@ msgstr "_Effacer"
 
 #: src/wbcg-actions.c:1434
 msgid "S_heet"
-msgstr "F_euille"
+msgstr "_Feuille"
 
 #: src/wbcg-actions.c:1435
 msgid "_Select"
@@ -29533,9 +29533,8 @@ msgid "Edit descriptive information"
 msgstr "Information supplémentaire "
 
 #: src/wbcg-actions.c:1521
-#, fuzzy
 msgid "Pre_ferences..."
-msgstr "Préféren_ces..."
+msgstr "Pr_éféren_ces..."
 
 #: src/wbcg-actions.c:1522
 msgid "Change Gnumeric Preferences"
@@ -29732,7 +29731,6 @@ msgid "Edit the selected cell's comment"
 msgstr "Edite le commentaire de la cellule sélectionnée"
 
 #: src/wbcg-actions.c:1627
-#, fuzzy
 msgid "_Find..."
 msgstr "_Largeur..."
 
@@ -29742,9 +29740,8 @@ msgid "Search for something"
 msgstr "Recherche un texte"
 
 #: src/wbcg-actions.c:1630
-#, fuzzy
 msgid "R_eplace..."
-msgstr "Re_mplacer :"
+msgstr "Re_mplacer ..."
 
 #: src/wbcg-actions.c:1631
 #, fuzzy
@@ -29842,7 +29839,7 @@ msgstr "Insérer une image"
 
 #: src/wbcg-actions.c:1676
 msgid "Hyper_link..."
-msgstr "Hyper_lien"
+msgstr "_Hyperlien"
 
 #: src/wbcg-actions.c:1677
 msgid "Insert a Hyperlink"
@@ -29903,7 +29900,7 @@ msgstr "Modifie le formatage des cellules sélectionnées"
 
 #: src/wbcg-actions.c:1706
 msgid "_Workbook..."
-msgstr "_Classeur..."
+msgstr "Cla_sseur..."
 
 #: src/wbcg-actions.c:1707
 msgid "Modify the workbook attributes"
@@ -29936,7 +29933,7 @@ msgstr "Changer la largeur des colonnes sélectionnés"
 
 #: src/wbcg-actions.c:1720 src/wbcg-actions.c:1737
 msgid "_Auto fit selection"
-msgstr "L_argeur automatique"
+msgstr "Largeur _automatique"
 
 #: src/wbcg-actions.c:1721
 msgid "Ensure columns are just wide enough to display content"
@@ -29952,7 +29949,7 @@ msgstr "Rend visibles toutes les colonnes de la sélection"
 
 #: src/wbcg-actions.c:1729
 msgid "_Standard Width"
-msgstr "_Largeur standard"
+msgstr "Largeur _standard"
 
 #: src/wbcg-actions.c:1730
 msgid "Change the default column width"
@@ -29981,7 +29978,7 @@ msgstr "Rendre visibles toutes les lignes cachées de la sélection."
 
 #: src/wbcg-actions.c:1746
 msgid "_Standard Height"
-msgstr "_Hauteur standard"
+msgstr "Hauteur _standard"
 
 #: src/wbcg-actions.c:1747
 msgid "Change the default row height"
@@ -30157,7 +30154,7 @@ msgstr "Co_variance ..."
 
 #: src/wbcg-actions.c:1819
 msgid "_Descriptive Statistics..."
-msgstr "Statistiques _Descriptives ..."
+msgstr "Statistiques D_escriptives ..."
 
 #: src/wbcg-actions.c:1820
 msgid "Various summary statistics"
@@ -30193,7 +30190,7 @@ msgstr "Statistiques de régression"
 
 #: src/wbcg-actions.c:1834
 msgid "_Sampling..."
-msgstr "É_chantillonage ..."
+msgstr "Écha_ntillonage ..."
 
 #: src/wbcg-actions.c:1835
 msgid "Periodic and random samples"
@@ -30234,7 +30231,7 @@ msgstr "Filtrer les données saisies avec les critères donnés"
 
 #: src/wbcg-actions.c:1851
 msgid "_Text to Columns..."
-msgstr "_Texte vers colonnes"
+msgstr "Texte vers co_lonnes..."
 
 #: src/wbcg-actions.c:1852
 msgid "Parse the text in the selection into data"
@@ -30300,7 +30297,7 @@ msgstr "Ajouter ou supprimer un filtre"
 
 #: src/wbcg-actions.c:1882
 msgid "_Show All"
-msgstr "_Afficher tout"
+msgstr "Afficher _tout"
 
 #: src/wbcg-actions.c:1883
 msgid "Show all filtered and hidden rows"
@@ -30596,7 +30593,7 @@ msgstr "Place l'affichage des groupes de lignes en haut ou en bas"
 
 #: src/wbcg-actions.c:2045
 msgid "Outlines _Right"
-msgstr "Contours à _droite"
+msgstr "Contours à d_roite"
 
 #: src/wbcg-actions.c:2046
 msgid "Toggle whether to display column outlines on the left or right"
@@ -30620,7 +30617,7 @@ msgstr "Inverser l'affichage des zéros comme des cellules vides"
 
 #: src/wbcg-actions.c:2054
 msgid "Hide _Gridlines"
-msgstr "Cacher les lignes de _grille"
+msgstr "Cacher les lignes de g_rille"
 
 #: src/wbcg-actions.c:2055
 msgid "Toggle whether or not to display gridlines"
