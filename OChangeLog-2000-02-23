@@ -1,3 +1,12 @@
+1999-06-01  Morten Welinder  <terra@diku.dk>
+
+	* src/format.c (format_value): Mark format for translation.
+	(format_number): Locale improvements.
+
+	* src/parser.y (yylex): Translate locale's decimal point into a
+ 	dot.
+	(gnumeric_expr_parser): Extract locale's decimal point.
+
 1999-06-01 Akira Higuchi <a-higuti@math.sci.hokudai.ac.jp>
 
 	* src/gnumeric-util.c (font_change_component): Extend the size of

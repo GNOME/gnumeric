@@ -27,6 +27,7 @@
 #include <time.h>
 #include <math.h>
 #include <locale.h>
+#include <limits.h>
 #include <ctype.h>
 #ifdef HAVE_IEEEFP_H
 #    include <ieeefp.h>
@@ -38,6 +39,11 @@
 
 /* Points to the locale information for number display */
 static struct lconv *lc;
+
+#define DECIMAL_CHAR_OF_LC(lc) ((lc)->decimal_point[0] ? (lc)->decimal_point[0] : '.')
+#define THOUSAND_CHAR_OF_LC(lc) ((lc)->thousands_sep[0] ? (lc)->thousands_sep[0] : ',')
+#define CHAR_DECIMAL (CHAR_MAX + 1)
+#define CHAR_THOUSAND (CHAR_MAX + 2)
 
 static void style_entry_free (gpointer data, gpointer user_data);
 
@@ -679,17 +685,23 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 	struct tm *time_split = 0;
 	char *res;
 
+	if (!lc)
+		lc = localeconv ();
+
 	memset (&info, 0, sizeof (info));
 	if (number < 0.0){
 		info.negative = TRUE;
 		number = -number;
 	}
 
-	if (!lc)
-		lc = localeconv ();
-
 	while (*format){
-		switch (*format){
+		int c = *format;
+		if (c == DECIMAL_CHAR_OF_LC (lc))
+			c = CHAR_DECIMAL;
+		else if (c == THOUSAND_CHAR_OF_LC (lc))
+			c = CHAR_THOUSAND;
+
+		switch (c) {
 		case '#':
 			can_render_number = 1;
 			if (info.decimal_separator_seen)
@@ -716,20 +728,20 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 			}
 			break;
 
-		case ',': case '.': {
-			if (*format == lc->decimal_point [0]){
-				int c = *(format+1);
+		case CHAR_DECIMAL: {
+			int c = *(format+1);
 
-				can_render_number = 1;
-				if (c && (c != '0' && c != '#' && c != '?'))
-					number /= 1000;
-				else
-					info.decimal_separator_seen = TRUE;
-				break;
-			} else {
-				info.comma_separator_seen = TRUE;
-				break;
-			}
+			can_render_number = 1;
+			if (c && (c != '0' && c != '#' && c != '?'))
+				number /= 1000;
+			else
+				info.decimal_separator_seen = TRUE;
+			break;
+		}
+
+		case CHAR_THOUSAND: {
+			info.comma_separator_seen = TRUE;
+			break;
 		}
 
 		case 'E': case 'e':
@@ -750,8 +762,8 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 			}
 			/* FIXME: this is a gross hack */
 			{
-				char buffer [40];
-				sprintf (buffer, "%g", number);
+				char buffer [40 + DBL_DIG];
+				sprintf (buffer, "%.*g", DBL_DIG, number);
 
 				g_string_append (result, buffer);
 				goto finish;
@@ -1003,16 +1015,16 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color)
 
 	switch (value->type){
 	case VALUE_FLOAT:
-		if (is_general){
-			if (floor (value->v.v_float) == value->v.v_float)
-				entry.format = "0";
-			else
-				entry.format = "0.0########";
-		}
-		if (finite (value->v.v_float))
+		if (finite (value->v.v_float)) {
+			if (is_general){
+				if (floor (value->v.v_float) == value->v.v_float)
+					entry.format = "0";
+				else
+					entry.format = _("0.0########");
+			}
 			v = format_number (value->v.v_float, &entry);
-		else
-			return g_strdup ("#VAL");
+		} else
+			return g_strdup (_("#VAL!"));
 		break;
 
 	case VALUE_INTEGER:

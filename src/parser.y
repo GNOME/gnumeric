@@ -10,6 +10,7 @@
 #include <config.h>
 #include <ctype.h>
 #include <string.h>
+#include <locale.h>
 #include <gnome.h>
 #include "gnumeric.h"
 #include "number-match.h"
@@ -68,6 +69,9 @@ static int parser_col, parser_row;
 
 /* The suggested format to use for this expression */
 static const char **parser_desired_format;
+
+/* Locale info.  */
+static char parser_decimal_point;
 
 static ExprTree **parser_result;
 
@@ -380,6 +384,10 @@ int yylex (void)
 	c = *parser_expr++;
         if (c == '(' || c == ',' || c == ')')
                 return c;
+
+	/* Translate locale's decimal marker into a dot.  */
+	if (c == parser_decimal_point)
+		c = '.';
 
 	switch (c){
         case '0': case '1': case '2': case '3': case '4': case '5':
@@ -736,6 +744,8 @@ ParseErr
 gnumeric_expr_parser (const char *expr, Sheet *sheet, int col, int row,
 		      const char **desired_format, ExprTree **result)
 {
+	struct lconv *locinfo;
+
 	parser_error = PARSE_OK;
 	parser_expr = expr;
 	parser_sheet = sheet;
@@ -746,6 +756,13 @@ gnumeric_expr_parser (const char *expr, Sheet *sheet, int col, int row,
 
 	if (parser_desired_format)
 		*parser_desired_format = NULL;
+
+	locinfo = localeconv ();
+	if (locinfo->decimal_point && locinfo->decimal_point[0] &&
+	    locinfo->decimal_point[1] == 0)
+		parser_decimal_point = locinfo->decimal_point[0];
+	else
+		parser_decimal_point = '.';
 
 	yyparse ();
 
