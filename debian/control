@@ -7,6 +7,7 @@ Standards-Version: 2.4.0.0
 Package: gnumeric
 Architecture: any
 Depends: ${shlibs:Depends}
+Replaces: zh-trans (<< 0.8-1)
 Description: GNOME SpreadSheet
  The goal of this spreadsheet is to become as powerful as other
  spreadsheets on the market and do this cleanly and smartly.  We have
@@ -15,7 +16,3 @@ Description: GNOME SpreadSheet
  If you are familiar with Excel, you should be ready to use
  Gnumeric.  We have tried to clone all of the good features and stay as
  compatible as possible with Excel in terms of usability.  
- .
- Gnumeric is still a young program and it is advancing steadily.  If
- you are interested in contributing to the development of Gnumeric, you
- probably will want to read the doc/Design file.

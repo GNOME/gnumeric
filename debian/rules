@@ -19,12 +19,12 @@ build-stamp:
 clean:
 	dh_testdir
 	dh_testroot
-	-rm -rf build-stamp debian/substvars debian/*~ debian/tmp
+	-rm -rf build-stamp debian/substvars debian/*~ debian/tmp config.log
 
 	# Add here commands to clean up after the build process.
 	-$(MAKE) distclean
 	rm -f libglade/macros/Makefile libglade/doc/Makefile plugins/perl/ext/Makefile.PL plugins/perl/ext/Makefile \
-	plugins/perl/xsinit.c plugins/guile/Makefile gnumeric.keys
+	plugins/perl/xsinit.c plugins/guile/Makefile gnumeric.keys config.cache
 	dh_clean
 
 # Build architecture-independent files here.
@@ -39,8 +39,7 @@ binary-arch: build
 	dh_clean -k
 	dh_installdirs
 
-	# Add here commands to install the files into debian/tmp
-	$(MAKE) install prefix=`pwd`/debian/tmp/usr
+	$(MAKE) install prefix=`pwd`/debian/tmp/usr sysconfdir=`pwd`/debian/tmp/etc
 
 	rm -f `find ./debian/tmp/usr/ -name \*.a`
 	dh_installdocs
@@ -51,6 +50,7 @@ binary-arch: build
 	dh_installmanpages
 	dh_installchangelogs
 	dh_strip
+	dh_installmime
 	dh_compress
 	dh_fixperms
 	dh_installdeb

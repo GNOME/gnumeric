@@ -1,3 +1,86 @@
+gnumeric (0.45-1) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Vincent Renardias <vincent@debian.org>  Mon,  6 Dec 1999 13:57:04 +0100
+
+gnumeric (0.44-1) unstable; urgency=low
+
+  * New upstream version.
+  * Now depends on a fixed (0.10-3) version of gnome-print.
+
+ -- Vincent Renardias <vincent@debian.org>  Tue, 23 Nov 1999 12:03:00 +0100
+
+gnumeric (0.43-1) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Vincent Renardias <vincent@debian.org>  Fri, 19 Nov 1999 13:07:44 +0100
+
+gnumeric (0.41-1) unstable; urgency=low
+
+  * New upstream version.
+    (Third of the week... ;)
+
+ -- Vincent Renardias <vincent@debian.org>  Mon, 25 Oct 1999 11:53:44 +0200
+
+gnumeric (0.40-1) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Vincent Renardias <vincent@debian.org>  Fri, 22 Oct 1999 12:25:44 +0200
+
+gnumeric (0.39-1) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Vincent Renardias <vincent@debian.org>  Wed, 20 Oct 1999 15:27:55 +0200
+
+gnumeric (0.38-3) unstable; urgency=low
+
+  * fix description;
+    closes: #46227: gnumeric: package description references non-existent file doc/Design
+  * Now replaces zh-trans (<<0.8);
+    closes: #45934: gnumeric: Should replace zh-trans
+  * Upgrading to gnumeric 0.38-3 and gnome-print 0.9-2 should fix this;
+    closes: #46028: gnumeric: /usr/share/fonts/fontmap file is invalid for Gnumeric
+
+ -- Vincent Renardias <vincent@debian.org>  Fri,  1 Oct 1999 14:57:27 +0200
+
+gnumeric (0.38-2) unstable; urgency=low
+
+  * Fix rules file;
+    closes: #46361: gnumeric: etc build problem [patch].
+  * rebuilt with newer libs.
+
+ -- Vincent Renardias <vincent@debian.org>  Fri,  1 Oct 1999 14:57:17 +0200
+
+gnumeric (0.38-1) unstable; urgency=low
+
+  * New upstream version.
+    (Bug fix release)
+
+ -- Vincent Renardias <vincent@debian.org>  Fri, 24 Sep 1999 12:17:05 +0200
+
+gnumeric (0.36-1) unstable; urgency=low
+
+  * New upstream version.
+  * 'clean' now cleans better.
+
+ -- Vincent Renardias <vincent@debian.org>  Thu, 23 Sep 1999 12:56:07 +0200
+
+gnumeric (0.32-1) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Vincent Renardias <vincent@debian.org>  Mon, 23 Aug 1999 10:37:49 +0200
+
+gnumeric (0.29-1) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Vincent Renardias <vincent@debian.org>  Mon, 12 Jul 1999 19:05:09 +0200
+
 gnumeric (0.27-1) unstable; urgency=low
 
   * New upstream version.
