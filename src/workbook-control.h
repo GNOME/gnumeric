@@ -25,6 +25,7 @@ void wb_control_format_feedback	     (WorkbookControl *wbc);
 void wb_control_zoom_feedback	     (WorkbookControl *wbc);
 void wb_control_edit_line_set        (WorkbookControl *wbc, char const *text);
 void wb_control_selection_descr_set  (WorkbookControl *wbc, char const *text);
+void wb_control_set_sensitive	     (WorkbookControl *wbc, gboolean sensitive);
 void wb_control_edit_set_sensitive   (WorkbookControl *wbc,
 				      gboolean ok_cancel_flag,
 				      gboolean func_guru_flag);
@@ -69,10 +70,10 @@ enum {
 #define MS_GURU_MENU_ITEMS \
         (MS_PRINT_SETUP | MS_SEARCH_REPLACE | MS_DEFINE_NAME | MS_CONSOLIDATE)
 
-void wb_control_menu_state_update      (WorkbookControl *wbc, Sheet const *s, int flags);
-void wb_control_menu_state_sheet_prefs (WorkbookControl *wbc, Sheet const *s);
-void wb_control_menu_state_sensitivity (WorkbookControl *wbc, gboolean sensitive);
-void wb_control_menu_state_sheet_count  (WorkbookControl *wbc);
+void wb_control_menu_state_sheet_prefs	(WorkbookControl *wbc, Sheet const *s);
+void wb_control_menu_state_sheet_count	(WorkbookControl *wbc);
+void wb_control_menu_state_update	(WorkbookControl *wbc, Sheet const *s,
+					 int flags);
 
 void wb_control_paste_from_selection (WorkbookControl *wbc,
 				      PasteTarget const *pt);

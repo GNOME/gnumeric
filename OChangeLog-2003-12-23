@@ -1,3 +1,19 @@
+2002-05-16  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-view.c (wb_view_open) : Use wb_control_set_sensitive.
+
+	* src/workbook-control-priv.h :
+	  remove menu.set_sensitivity 
+	  add set_sensitive
+	* src/workbook-control.[ch] : ditto.
+
+	* src/workbook-control-gui.c (cb_thaw_ui_toolbar) : call
+	  wbcg_menu_state_sensitivity directly.
+	(wbcg_edit_set_sensitive) : ditto.
+	(wbcg_set_sensitive) : new.
+	(workbook_control_gui_ctor_class) : register wbcg_set_sensitive and
+	  remove wbcg_menu_state_sensitivity.
+
 2002-05-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
 	* src/print-info.c (print_info_set_margin_right) : remove some 
 	  debugging code

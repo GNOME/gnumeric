@@ -73,6 +73,9 @@ WBC_VIRTUAL (edit_line_set,
 	(WorkbookControl *wbc, char const *text), (wbc, text))
 WBC_VIRTUAL (selection_descr_set,
 	(WorkbookControl *wbc, char const *text), (wbc, text))
+WBC_VIRTUAL_FULL (set_sensitive, set_sensitive,
+        (WorkbookControl *wbc, gboolean sensitive),
+	(wbc, sensitive))
 WBC_VIRTUAL (edit_set_sensitive,
 	(WorkbookControl *wbc,
 	 gboolean ok_cancel_flag, gboolean func_guru_flag),
@@ -109,9 +112,6 @@ WBC_VIRTUAL_FULL (menu_state_sheet_prefs, menu_state.sheet_prefs,
 WBC_VIRTUAL_FULL (menu_state_update, menu_state.update,
         (WorkbookControl *wbc, Sheet const *sheet, int flags),
 	(wbc, sheet, flags))
-WBC_VIRTUAL_FULL (menu_state_sensitivity, menu_state.sensitivity,
-        (WorkbookControl *wbc, gboolean sensitive),
-	(wbc, sensitive))
 WBC_VIRTUAL_FULL (menu_state_sheet_count, menu_state.sheet_count,
 	(WorkbookControl *wbc), (wbc))
 
