@@ -44,6 +44,7 @@ plugins/gb/plugin.xml.in
 plugins/gda/plugin-gda.c
 plugins/gda/plugin.xml.in
 plugins/gnome-glossary/plugin.xml.in
+plugins/gnumeric_1_0/xml-io.c
 plugins/guile/plugin.c
 plugins/guile/plugin.xml.in
 plugins/guile/smob-value.c
@@ -93,6 +94,7 @@ src/bonobo-io.c
 src/cell.c
 src/clipboard.c
 src/cmd-edit.c
+src/command-context.c
 src/command-context-stderr.c
 src/commands.c
 src/corba-args.c
@@ -196,6 +198,7 @@ src/dialogs/sampling.glade
 src/dialogs/search-replace.glade
 src/dialogs/search.glade
 src/dialogs/sheet-order.glade
+src/dialogs/simulation.glade
 src/dialogs/so-arrow.glade
 src/dialogs/so-checkbox.glade
 src/dialogs/so-fill.glade
@@ -251,6 +254,7 @@ src/sheet-object-container.c
 src/sheet-object-graphic.c
 src/sheet-object-widget.c
 src/sheet-object.c
+src/sheet-style.c
 src/sheet-view.c
 src/sheet.c
 src/stf-export.c
