@@ -13,7 +13,7 @@ Url:http://www.gnome.org/gnumeric
 BuildRoot:/var/tmp/gnumeric-%{PACKAGE_VERSION}-root
 Docdir: %{prefix}/doc
 
-Requires: gnome-libs >= 0.99.8
+Requires: gnome-libs >= 1.0.0
 
 %description
 GNOME based spreadsheet
@@ -22,7 +22,11 @@ GNOME based spreadsheet
 %setup
 
 %build
-./configure --prefix=%prefix
+%ifarch alpha
+  CFLAGS="$RPM_OPT_FLAGS" ./configure --host=alpha-redhat-linux --prefix=%prefix
+%else
+  CFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=%prefix 
+%endif
 
 if [ "$SMP" != "" ]; then
   (make "MAKE=make -k -j $SMP"; exit 0)
