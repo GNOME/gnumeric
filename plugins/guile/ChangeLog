@@ -1,3 +1,7 @@
+2002-10-13  Jon K Hellan  <hellan@acm.org>
+
+	* plugin.c (scm_register_function): Switch to gnm_func_add.
+
 2002-09-30  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.9

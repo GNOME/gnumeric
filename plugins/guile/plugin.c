@@ -181,8 +181,8 @@ scm_register_function (SCM scm_name, SCM scm_args, SCM scm_help, SCM scm_categor
 {
 	GnmFunc *fndef;
 	FunctionCategory   *cat;
-	char const         **help;
 	GnmFuncDescriptor    desc;
+	char     *help;
 
 	SCM_ASSERT (SCM_NIMP (scm_name) && SCM_STRINGP (scm_name), scm_name, SCM_ARG1, "scm_register_function");
 	SCM_ASSERT (SCM_NIMP (scm_args) && SCM_STRINGP (scm_args), scm_args, SCM_ARG2, "scm_register_function");
@@ -193,22 +193,20 @@ scm_register_function (SCM scm_name, SCM scm_args, SCM scm_help, SCM scm_categor
 
 	scm_permanent_object (scm_function);
 
-	desc.fn_name	= SCM_CHARS (scm_name);
-	desc.args	= SCM_CHARS (scm_args);
+	desc.name	= g_strdup (SCM_CHARS (scm_name));
+	desc.arg_spec	= g_strdup (SCM_CHARS (scm_args));
 	desc.arg_names	= NULL;
-				   help, func_marshal_func, NULL);
-	char const **help;
-	GnmFuncArgs	  fn_args;
-	GnmFuncNodes	  fn_nodes;
-	GnmFuncLink	  linker;
-	GnmFuncUnlink	  unlinker;
-	GnmFuncFlags	  flags;
-	GnmFuncImplStatus impl_status;
-	GnmFuncTestStatus test_status;
-	gboolean	  free_strings;
-};
+	help            = g_strdup (SCM_CHARS (scm_help));
+	desc.help       = &help;
+	desc.fn_args    = func_marshal_func;
+	desc.fn_nodes   = NULL;
+	desc.linker     = NULL;
+	desc.unlinker   = NULL;
+	desc.flags      = 0;
+	desc.ref_notify = NULL;
+	desc.impl_status = GNM_FUNC_IMPL_STATUS_NOT_IN_EXCEL;
+	desc.test_status = GNM_FUNC_TEST_STATUS_UNKNOWN;
 
-	*help = g_strdup (SCM_CHARS (scm_help));
 	cat   = function_get_category (SCM_CHARS (scm_category));
 	fndef = gnm_func_add (cat, &desc);
 
