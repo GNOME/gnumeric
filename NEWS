@@ -6,6 +6,7 @@ Almer:
 	* Simplify background/pattern preview in cell-format dialog.
 	* Make sure entered text never gets lost.
 	* Equalize the look of all the dialogs.
+	* More work on group/ungroup.
 
 Andreas:
 	* Rewrite descriptive statistics analysis improving error checks

@@ -1,3 +1,10 @@
+2001-07-27  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/workbook-control-gui.c (hide_show_detail): helper which
+	implements the actual meat of the show/hide operations.
+	(cb_data_hide_detail): Implement using hide_show_detail.
+	(cb_data_show_detail): Idem.
+
 2001-07-26  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (sheet_init_sc) : Don't allow positioning during the
