@@ -2167,8 +2167,10 @@ workbook_rename_sheet (Workbook *wb, const char *old_name, const char *new_name)
 		this_sheet = gtk_object_get_data (GTK_OBJECT (w), "sheet");
 
 		if (this_sheet == sheet) {
-			gtk_notebook_set_tab_label_text 
-				(notebook, w, new_name);
+			EditableLabel *label =
+				gtk_object_get_data (GTK_OBJECT (w), "sheet_label");
+			g_return_val_if_fail (label != NULL, FALSE);
+			editable_label_set_text (label, new_name);
 		}
 	}
 
@@ -2393,6 +2395,7 @@ workbook_attach_sheet (Workbook *wb, Sheet *sheet)
 	gtk_object_set_data (GTK_OBJECT (t), "sheet", sheet);
 
 	sheet_label = editable_label_new (sheet->name);
+	gtk_object_set_data (GTK_OBJECT (t), "sheet_label", sheet_label);
 	gtk_signal_connect (
 		GTK_OBJECT (sheet_label), "text_changed",
 		GTK_SIGNAL_FUNC (sheet_label_text_changed_signal), wb);

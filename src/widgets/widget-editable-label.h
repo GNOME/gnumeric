@@ -18,6 +18,7 @@ typedef struct {
 	GnomeCanvasItem *text_item;
 
 	char            *text;
+	GtkWidget       *toplevel;
 	GtkWidget       *entry;
 	GnomeCanvasItem *cursor;
 	GnomeCanvasItem *background;

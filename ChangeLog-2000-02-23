@@ -1,3 +1,12 @@
+1999-11-12  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/workbook.c (workbook_attach_sheet): Attach the 
+	editable_label pointer to the sheet tab.
+	(workbook_rename_sheet): Fix _really_ broken label setting code #3134.
+
+	* src/widgets/widget-editable-label.c (el_stop_editing): make
+	toplevel destruction more explicit.
+
 1999-11-11  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/ranges.c (range_fragment_list_clip): Fix heinous range bug,

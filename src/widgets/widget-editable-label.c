@@ -90,7 +90,7 @@ el_edit_sync (El *el)
 
 	gnome_canvas_points_free (points);
 	
-	if (!el->background){
+	if (!el->background) {
 		el->background = gnome_canvas_item_new (
 			root_group, gnome_canvas_rect_get_type (),
 			"x1",                (double) 0,
@@ -118,8 +118,6 @@ el_edit_sync (El *el)
 static void
 el_start_editing (El *el, const char *text)
 {
-	GtkWidget *toplevel;
-
 	gtk_widget_grab_focus (GTK_WIDGET (el));
 
 	/*
@@ -129,10 +127,10 @@ el_start_editing (El *el, const char *text)
 	gtk_entry_set_text (GTK_ENTRY (el->entry), text);
 	gtk_signal_connect (GTK_OBJECT (el->entry), "activate",
 			    GTK_SIGNAL_FUNC (el_entry_activate), el);
-	toplevel = gtk_window_new (GTK_WINDOW_POPUP);
-	gtk_container_add (GTK_CONTAINER (toplevel), el->entry);
-	gtk_widget_set_uposition (toplevel, 20000, 20000);
-	gtk_widget_show_all (toplevel);
+	el->toplevel = gtk_window_new (GTK_WINDOW_POPUP);
+	gtk_container_add (GTK_CONTAINER (el->toplevel), el->entry);
+	gtk_widget_set_uposition (el->toplevel, 20000, 20000);
+	gtk_widget_show_all (el->toplevel);
 
 	gtk_grab_add (GTK_WIDGET (el));
 	
@@ -146,10 +144,9 @@ el_start_editing (El *el, const char *text)
 static void
 el_stop_editing (El *el)
 {
-	if (el->entry) {
-		GtkWidget *toplevel = gtk_widget_get_toplevel (el->entry);
-		
-		gtk_object_destroy (GTK_OBJECT (toplevel));
+	if (el->toplevel) {
+		gtk_object_destroy (GTK_OBJECT (el->toplevel));
+		el->toplevel = NULL;
 		el->entry = NULL;
 	}
 
@@ -358,14 +355,14 @@ editable_label_set_text (EditableLabel *el, const char *text)
 	g_return_if_fail (IS_EDITABLE_LABEL (el));
 
 	/* This code is usually invoked with el->text as the name */
-	if (text != el->text){
+	if (text != el->text) {
 		if (el->text)
 			g_free (el->text);
 
 		el->text = g_strdup (text);
 	}
 
-	if (!el->text_item){
+	if (!el->text_item) {
 		GnomeCanvasGroup *root_group;
 
 		root_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (el)->root);
