@@ -1,5 +1,11 @@
 2003-10-26  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=125361
+	* dialog-printer-setup.c (cb_do_print): cb_do_print_ok causes
+	  state to be freed. So don't use it afterwards.
+
+2003-10-26  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* dialog-preferences.c: add Default Header/Footer Font Selector
 	(pref_font_hf_initializer): new
 	(cb_pref_font_hf_has_changed): new

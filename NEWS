@@ -4,6 +4,8 @@ Andreas:
 	* Updated some docs.
 	* Also use fallback-fonts for the page decorations when printing.
 	* Add default header/footer font selector to preference dialog.
+	http://bugzilla.gnome.org/show_bug.cgi?id=125361
+	* Fix printing from Page Setup dialog
 
 Jody:
 	* More renaming

@@ -1501,9 +1501,12 @@ cb_do_print_ok (G_GNUC_UNUSED GtkWidget *w,
 static void
 cb_do_print (G_GNUC_UNUSED GtkWidget *w, PrinterSetupState *state)
 {
+	WorkbookControlGUI *wbcg = state->wbcg;
+	Sheet *sheet = state->sheet;
+
 	cb_do_print_ok (NULL, state);
 
-	sheet_print (state->wbcg, state->sheet, 
+	sheet_print (wbcg, sheet, 
 		     FALSE, PRINT_ACTIVE_SHEET);
 }
 
