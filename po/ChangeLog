@@ -1,4 +1,4 @@
-2002-11-30  Jan Morén  <jan.moren@lucs.lu.se>
+2002-11-30  Jan MorÃ©n  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -8,7 +8,7 @@
 
 2002-11-25  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokmål) translation.
+	* no.po: Updated Norwegian (bokmÃ¥l) translation.
 
 2002-11-22  Christian Neumair  <chris@gnome-de.org>
 
@@ -113,7 +113,7 @@
 
 2002-09-23  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokmål) translation.
+	* no.po: Updated Norwegian (bokmÃ¥l) translation.
 
 2002-09-23  Christian Neumair  <chris@gnome-de.org>
 
@@ -133,7 +133,7 @@
 
 2002-09-21  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokmål) translation.
+	* no.po: Updated Norwegian (bokmÃ¥l) translation.
 
 2002-09-16 Pablo Gonzalo del Campo <pablodc@bigfoot.com>
 
@@ -217,7 +217,7 @@
 
 2002-08-13  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokmål) translation.
+	* no.po: Updated Norwegian (bokmÃ¥l) translation.
 
 2002-08-12  Jody Goldberg <jody@gnome.org>
 
@@ -350,7 +350,7 @@
 2002-06-11  German Poo-Caaman~o  <gpoo@ubiobio.cl>
 
 	* es.po: Updated spanish translation by
-	  Juan Manuel García Molina <juanma_gm@wanadoo.es>
+	  Juan Manuel GarcÃ­a Molina <juanma_gm@wanadoo.es>
 
 2002-06-10  Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>
 
@@ -395,7 +395,7 @@
 
 2002-05-17  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokmål) translation.
+	* no.po: Updated Norwegian (bokmÃ¥l) translation.
 
 2002-05-14  Pablo Saratxaga  <pablo@mandrakesoft.com>
 
@@ -509,7 +509,7 @@
 
 	* POTFILES.in : added src/dialogs/goto.glade
 
-2002-03-16  Carlos Perell-Aó Marín <carlos@gnome-db.org>$)B
+2002-03-16  Carlos Perell-AÃ³ MarÃ­n <carlos@gnome-db.org>$)B
 
 	* POTFILES.in: /s/GNOME_Gnumeric.server.in/GNOME_Gnumeric.server.in.in/
 
@@ -599,11 +599,11 @@
 
 2002-02-22  Fatih Demir <kabalak@gtranslator.org>
 
-	* tr.po: Committed updated Turkish translation by Nilg-Aün & Deniz.$)B
+	* tr.po: Committed updated Turkish translation by Nilg-AÃ¼n & Deniz.$)B
 
 2002-02-22  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm-Aål) translation.$)B
+	* no.po: Updated Norwegian (bokm-AÃ¥l) translation.$)B
 
 2002-02-18  Jarkko Ranta  <jjranta@cc.joensuu.fi>
 
@@ -646,7 +646,7 @@
 
 2002-01-27  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm-Aål) translation.$)B
+	* no.po: Updated Norwegian (bokm-AÃ¥l) translation.$)B
 
 2002-01-27  Christian Rose  <menthos@menthos.com>
 
@@ -674,7 +674,7 @@
 
 2002-01-22  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm-Aål) translation.$)B
+	* no.po: Updated Norwegian (bokm-AÃ¥l) translation.$)B
 
 2002-01-21  Christian Rose  <menthos@menthos.com>
 
@@ -767,7 +767,7 @@
 
 2002-01-12  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm-Aål) translation.$)B
+	* no.po: Updated Norwegian (bokm-AÃ¥l) translation.$)B
 
 2002-01-11  Christian Rose  <menthos@menthos.com>
 
@@ -811,7 +811,7 @@
 2002-01-06  Christian Rose  <menthos@menthos.com>
 
 	* sv.po: Updated Swedish translation, and made some changes.
-	Thanks to J-Aörgen Tegnér <jorgen.tegner@telia.com> for his suggestions.$)B
+	Thanks to J-AÃ¶rgen TegnÃ©r <jorgen.tegner@telia.com> for his suggestions.$)B
 
 2002-01-06  Duarte Loreto <happyguy_pt@hotmail.com>
 
@@ -843,7 +843,7 @@
 
 	* sv.po: Updated Swedish translation, and also fixed some errors.
 	Thanks to Tommy Pettersson <ptp@lysator.liu.se> for his continued
-	review and to G-Aöran Uddeborg <goeran@uddeborg.pp.se> for suggestions.$)B
+	review and to G-AÃ¶ran Uddeborg <goeran@uddeborg.pp.se> for suggestions.$)B
 
 2002-01-02  Stanislav Visnovsky  <visnovsky@nenya.ms.mff.cuni.cz>
 
@@ -892,14 +892,14 @@
 	* zh_TW.po: Updated traditional Chinese translation a bit, and
 	revert back to native encoding instead of UTF-8.
 
-2001-12-30  T-Aõivo Leedjärv  <leedjarv@interest.ee>$)B
+2001-12-30  T-AÃµivo LeedjÃ¤rv  <leedjarv@interest.ee>$)B
 
 	* et.po: Updated Estonian translation
 	by Ain Vagula <ain@riiska.ee>
 
 2001-12-12  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm-Aål) translation.$)B
+	* no.po: Updated Norwegian (bokm-AÃ¥l) translation.$)B
 
 2001-12-30  Christian Rose  <menthos@menthos.com>
 
@@ -940,13 +940,13 @@
 
 2001-12-26  Fatih Demir <kabalak@gtranslator.org>
 
-	* tr.po: Committed updated Turkish translation by Nilg-Aün.$)B
+	* tr.po: Committed updated Turkish translation by Nilg-AÃ¼n.$)B
 
 2001-12-25  Jody Goldberg <jody@gnome.org>
 
 	* Release 0.99.1
 
-2001-12-23  Germ-Aán Poo-Caamaño  <gpoo@ubiobio.cl>$)B
+2001-12-23  GermÂ-AÃ¡n Poo-CaamaÂÃ±o  <gpoo@ubiobio.cl>$)B
 
 	* es.po: Updated spanish translation
 
@@ -962,19 +962,19 @@
 
 	* ja.po: Updated Japanese translation.
 
-2001-12-23  Germ-Aán Poo-Caamaño  <gpoo@ubiobio.cl>$)B
+2001-12-23  GermÂ-AÃ¡n Poo-CaamaÂÃ±o  <gpoo@ubiobio.cl>$)B
 
 	* es.po: Updated spanish translation
 
-2001-12-23  Germ-Aán Poo-Caamaño  <gpoo@ubiobio.cl>$)B
+2001-12-23  GermÂ-AÃ¡n Poo-CaamaÂÃ±o  <gpoo@ubiobio.cl>$)B
 
 	* es.po: Updated spanish translation.
 
-2001-12-22  Germ-Aán Poo-Caamaño  <gpoo@ubiobio.cl>$)B
+2001-12-22  GermÂ-AÃ¡n Poo-CaamaÂÃ±o  <gpoo@ubiobio.cl>$)B
 
 	* es.po: Updated spanish translation.
 
-2001-12-22  Germ-Aán Poo-Caamaño  <gpoo@ubiobio.cl>$)B
+2001-12-22  GermÂ-AÃ¡n Poo-CaamaÂÃ±o  <gpoo@ubiobio.cl>$)B
 
 	* es.po: Updated spanish translation.
 
@@ -995,7 +995,7 @@
 	* pl.po: Updated Polish translation by
 	GNOME PL Team <translators@gnome.pl>.
 
-2001-12-21  Germ-Aán Poo-Caamaño  <gpoo@ubiobio.cl>$)B
+2001-12-21  GermÂ-AÃ¡n Poo-CaamaÂÃ±o  <gpoo@ubiobio.cl>$)B
 
 	* es.po: Updated spanish translation.
 
@@ -1084,7 +1084,7 @@
 
 2001-12-12  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm’Ã¥l) translation.
+	* no.po: Updated Norwegian (bokmÂ’ÃƒÂ¥l) translation.
 
 2001-12-12  Abel Cheung  <maddog@linux.org.hk>
 
@@ -1119,7 +1119,7 @@
 
 2001-12-06  Fatih Demir <kabalak@gtranslator.org>
 
-	* tr.po: Committed updated Turkish translation by Nilg’Ã¼n.
+	* tr.po: Committed updated Turkish translation by NilgÂ’ÃƒÂ¼n.
 
 2001-12-06  Jarkko Ranta  <jjranta@cc.joensuu.fi>
 
@@ -1156,7 +1156,7 @@
 
 2001-11-29  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm’Ã¥l) translation.
+	* no.po: Updated Norwegian (bokmÂ’ÃƒÂ¥l) translation.
 
 2001-11-29  Abel Cheung  <maddog@linux.org.hk>
 
@@ -1177,7 +1177,7 @@
 
 2001-11-25  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm’Ã¥l) translation.
+	* no.po: Updated Norwegian (bokmÂ’ÃƒÂ¥l) translation.
 
 2001-11-22  Christian Rose  <menthos@menthos.com>
 
@@ -1205,7 +1205,7 @@
 
 2001-11-15  Fatih Demir <kabalak@gtranslator.org>
 
-	* tr.po: Committed updated Turkish translation by Nilg’Ã¼n.
+	* tr.po: Committed updated Turkish translation by NilgÂ’ÃƒÂ¼n.
 
 2000-11-15  Christophe Merlet  <christophe@merlet.net>
 
@@ -1251,7 +1251,7 @@
 
 2001-11-06  Fatih Demir <kabalak@gtranslator.org>
 
-	* tr.po: Committed updated Turkish translation by Nilg’Ã¼n.
+	* tr.po: Committed updated Turkish translation by NilgÂ’ÃƒÂ¼n.
 
 2001-11-06  Jody Goldberg <jgoldberg@home.com>
 
@@ -1403,7 +1403,7 @@
 
 2001-10-01  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm’Ã¥l) translation.
+	* no.po: Updated Norwegian (bokmÂ’ÃƒÂ¥l) translation.
 
 2001-09-28  Valek Filippov  <frob@df.ru>
 
@@ -1428,13 +1428,13 @@
 
 2001-09-14  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm’Ã¥l) translation.
+	* no.po: Updated Norwegian (bokmÂ’ÃƒÂ¥l) translation.
 
 2001-09-03  Christian Rose  <menthos@menthos.com>
 
 	* POTFILES.in: Removed non-existant src/gnumeric-util.c.
 	* sv.po: Added additional translations from
-	J’Ã¶rgen Tegnir <jorgen.tegner@telia.com>, and updated
+	JÂ’ÃƒÂ¶rgen Tegnir <jorgen.tegner@telia.com>, and updated
 	some more.
 
 2001-08-31  Abel Cheung  <maddog@linux.org.hk>
@@ -1491,7 +1491,7 @@
 
 2001-08-08  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm’Ã¥l) translation.
+	* no.po: Updated Norwegian (bokmÂ’ÃƒÂ¥l) translation.
 	* nn.po: Updated Norwegian (nynorsk) translation from
 	Roy-Magne Mo <rmo@sunnmore.net>.	
 
@@ -1546,7 +1546,7 @@
 
 2001-08-08  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm’Ã¥l) translation.
+	* no.po: Updated Norwegian (bokmÂ’ÃƒÂ¥l) translation.
 	
 2001-08-07  Yukihiro Nakai <ynakai@redhat.com>
 
@@ -1960,7 +1960,7 @@
 
 2001-02-21  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm’Ã¥l) translation.
+	* no.po: Updated Norwegian (bokmÂ’ÃƒÂ¥l) translation.
 
 2001-02-21  Jody Goldberg <jgoldberg@home.com>
 
@@ -2021,7 +2021,7 @@
 
 2001-02-12  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokm’Ã¥l) translation.
+	* no.po: Updated Norwegian (bokmÂ’ÃƒÂ¥l) translation.
 
 2001-02-12  Valek Filippov  <frob@df.ru>
 
