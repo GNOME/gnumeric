@@ -3451,7 +3451,7 @@ static GnomeUIInfo workbook_menu_insert [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_ITEM_STOCK (N_("_Chart..."),
+	GNOMEUIINFO_ITEM_STOCK (N_("C_hart..."),
 		N_("Launch the Chart Guru"),
 		cb_launch_chart_guru, "Gnumeric_GraphGuru"),
 

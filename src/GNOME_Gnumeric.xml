@@ -344,7 +344,7 @@
 
 	    <menuitem name="InsertChart" verb="ChartGuru"
 		pixtype="stock" pixname="Gnumeric_GraphGuru"
-		_label="_Chart..."
+		_label="C_hart..."
 		_tip="Launch the Chart Guru"/>
 
             <!-- These don't work yet for Gnome 2 
