@@ -1,3 +1,8 @@
+2001-02-08  Morten Welinder  <terra@diku.dk>
+
+	* src/file-autoft.c (category_group_list_get): Plug leak.
+	(category_group_free): Plug grave leak.
+
 2001-02-07  Morten Welinder  <terra@diku.dk>
 
 	* src/commands.c (cmd_search_replace_do_cell): Improve quoting

@@ -267,6 +267,7 @@ category_group_list_get (void)
 		category_groups = g_list_prepend (category_groups, current_group);
 	}
 
+	g_list_free (categories);
 	e_free_string_list (dir_list);
 
 	return category_groups;
@@ -324,6 +325,7 @@ category_group_free (FormatTemplateCategoryGroup *category_group)
 	g_free (category_group->orig_name);
 	g_free (category_group->name);
 	g_free (category_group->description);
+	category_list_free (category_group->categories);
 	g_free (category_group);
 }
 
@@ -339,7 +341,8 @@ category_group_list_free (GList *category_groups)
 	g_return_if_fail (category_groups);
 
 	for (l = category_groups; l != NULL; l = l->next) {
-		category_group_free ((FormatTemplateCategoryGroup *) l->data);
+		FormatTemplateCategoryGroup *group = l->data;
+		category_group_free (group);
 	}
 	g_list_free (category_groups);
 }
