@@ -78,7 +78,7 @@ typedef struct {
 static const char *mode_group[] = {
 	"mode_visual",
 	"mode_coordinate",
-	0
+	NULL
 };
 
 /* ------------------------------------------------------------------------- */

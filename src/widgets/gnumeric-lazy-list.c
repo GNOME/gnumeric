@@ -151,7 +151,7 @@ lazy_list_iter_children (GtkTreeModel *tree_model,
 	 */
 
 	iter->stamp = ll->stamp;
-	iter->user_data = 0;
+	iter->user_data = NULL;
 	return ll->rows > 0;
 }
 

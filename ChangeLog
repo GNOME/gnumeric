@@ -1,3 +1,8 @@
+2004-07-27  Morten Welinder  <terra@gnome.org>
+
+	* src/gnumeric-gconf.c (gnm_conf_init_printer_decoration_font): (void).
+	* src/application.c (cb_flag_windows_changed): Ditto.
+
 2004-07-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* configure.in: use AM_PROG_LEX rather than AC_PROG_LEX

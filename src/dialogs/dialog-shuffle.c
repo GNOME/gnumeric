@@ -55,7 +55,7 @@ static char const *shuffle_by[] = {
 	"shuffle_cols",
 	"shuffle_rows",
 	"shuffle_area",
-	0
+	NULL
 };
 
 /**

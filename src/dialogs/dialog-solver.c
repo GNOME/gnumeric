@@ -120,14 +120,14 @@ static const char *problem_type_group[] = {
 	"min_button",
 	"max_button",
 	"equal_to_button",
-	0
+	NULL
 };
 
 static const char *model_type_group[] = {
 	"lp_model_button",
 	"qp_model_button",
 	"nlp_model_button",
-	0
+	NULL
 };
 
 static GList *lp_alg_name_list = NULL;

@@ -172,7 +172,7 @@ const char *dao_group[] = {
 	"newworkbook-button",
 	"outputrange-button",
 	"inplace-button",
-	0
+	NULL
 };
 
 static void

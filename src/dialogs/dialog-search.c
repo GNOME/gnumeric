@@ -81,20 +81,20 @@ typedef struct {
 static const char *search_type_group[] = {
 	"search_type_text",
 	"search_type_regexp",
-	0
+	NULL
 };
 
 static const char *scope_group[] = {
 	"scope_workbook",
 	"scope_sheet",
 	"scope_range",
-	0
+	NULL
 };
 
 static const char *direction_group[] = {
 	"row_major",
 	"column_major",
-	0
+	NULL
 };
 
 /* ------------------------------------------------------------------------- */
@@ -399,8 +399,7 @@ static const struct {
 	{ N_("Sheet"), "text" },
 	{ N_("Cell"), "text" },
 	{ N_("Type"), "text" },
-	{ N_("Content"), "text" },
-	{ 0, 0 }
+	{ N_("Content"), "text" }
 };
 
 static GtkTreeView *
@@ -415,7 +414,7 @@ make_matches_table (GtkTreeModel *model)
 	g_object_set (tree_view, "fixed_height_mode", TRUE, NULL);
 #endif
 
-	for (i = 0; columns[i].title; i++) {
+	for (i = 0; i < G_N_ELEMENTS (columns); i++) {
 		GtkCellRenderer *cell = gtk_cell_renderer_text_new ();
 		GtkTreeViewColumn *column =
 			gtk_tree_view_column_new_with_attributes (_(columns[i].title), cell,

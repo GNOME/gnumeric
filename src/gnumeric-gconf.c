@@ -500,7 +500,7 @@ go_conf_add_monitor (char const *key,
 #endif
 
 static void
-gnm_conf_init_printer_decoration_font ()
+gnm_conf_init_printer_decoration_font (void)
 {
 	gchar *name;
 	if (prefs.printer_decoration_font == NULL)

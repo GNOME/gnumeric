@@ -56,26 +56,26 @@ static const char *error_group[] = {
 	"error_query",
 	"error_error",
 	"error_string",
-	0
+	NULL
 };
 
 static const char *search_type_group[] = {
 	"search_type_text",
 	"search_type_regexp",
-	0
+	NULL
 };
 
 static const char *scope_group[] = {
 	"scope_workbook",
 	"scope_sheet",
 	"scope_range",
-	0
+	NULL
 };
 
 static const char *direction_group[] = {
 	"row_major",
 	"column_major",
-	0
+	NULL
 };
 
 static gboolean

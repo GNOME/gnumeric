@@ -70,7 +70,7 @@ static GnumericPopupMenuElement const popup_elements[] = {
 	{ N_("Delete and Merge _Right"), GTK_STOCK_REMOVE,
 	  0, 1 << CONTEXT_STF_IMPORT_MERGE_RIGHT, CONTEXT_STF_IMPORT_MERGE_RIGHT },
 	{ "", NULL, 0, 0, 0 },
-	{ N_("_Split"), 0,
+	{ N_("_Split"), NULL,
 	  0, 1 << CONTEXT_STF_IMPORT_SPLIT, CONTEXT_STF_IMPORT_SPLIT },
 	{ "", NULL, 0, 0, 0 },
 	{ N_("_Widen"), GTK_STOCK_GO_FORWARD,
