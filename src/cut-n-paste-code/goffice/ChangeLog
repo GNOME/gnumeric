@@ -1,3 +1,7 @@
+2004-06-01  Morten Welinder  <terra@gnome.org>
+
+	* gui-utils/go-combo-text.c (go_combo_text_set_text): Plug leak.
+
 2004-05-31  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-view.c (gog_view_find_child_view) : new

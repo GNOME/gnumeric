@@ -321,7 +321,7 @@ go_combo_text_set_text (GoComboText *ct, const gchar *text,
 	GtkTreeIter iter;
 	GtkTreeModel *store;
 	GtkTreeSelection *selection = gtk_tree_view_get_selection (list);
-	char const *label;
+	char *label;
 
 	/* Be careful */
 	result = start != GO_COMBO_TEXT_FROM_TOP &&
@@ -334,6 +334,7 @@ go_combo_text_set_text (GoComboText *ct, const gchar *text,
 			gtk_tree_model_get (store, &iter, 0, &label, -1);
 			if (ct->cmp_func (label, text))
 				break;
+			g_free (label);
 		}
 	} else
 		store = gtk_tree_view_get_model (list);
@@ -345,6 +346,7 @@ go_combo_text_set_text (GoComboText *ct, const gchar *text,
 			gtk_tree_model_get (store, &iter, 0, &label, -1);
 			if (ct->cmp_func (label, text))
 				break;
+			g_free (label);
 		}
 
 	g_signal_handlers_block_by_func (G_OBJECT (selection),
@@ -359,6 +361,7 @@ go_combo_text_set_text (GoComboText *ct, const gchar *text,
 		gtk_tree_view_set_cursor (GTK_TREE_VIEW (ct->list), path, NULL, FALSE);
 		gtk_tree_path_free (path);
 		gtk_entry_set_text (GTK_ENTRY (ct->entry), label);
+		g_free (label);
 		found = TRUE;
 	} else
 		gtk_entry_set_text (GTK_ENTRY (ct->entry), text);
