@@ -161,14 +161,8 @@ cb_list_mapped (GtkWidget *widget, gpointer user_data)
 {
 	GtkList *list = GTK_LIST (widget);
 
-	if (g_list_length (list->children) == 0)
-		return;
-	
-	if (g_list_length (list->selection) == 0)
-		/* FIXME: Should we block signal? */
-		gtk_list_select_item (list, 0); 
-	
-	gtk_widget_grab_focus (GTK_WIDGET ((list->selection->data)));
+	if (g_list_length (list->selection) > 0)
+		gtk_widget_grab_focus (GTK_WIDGET ((list->selection->data)));
 }
 
 static void

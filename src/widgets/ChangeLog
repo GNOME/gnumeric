@@ -1,5 +1,9 @@
 2000-05-18  Jon K Hellan  <hellan@acm.org>
 
+	* gtk-combo-text.c (cb_list_mapped): Do nothing if no selection.
+
+2000-05-18  Jon K Hellan  <hellan@acm.org>
+
 	* gtk-combo-text.c (cb_list_mapped): New callback function. Sets
 	focus to selected item, which also happens to make it visible.
 	(gtk_combo_text_construct): Call
