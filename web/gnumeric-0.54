@@ -1,9 +1,3 @@
-To: gnumeric-list@gnome.org, gnome-announce-list@gnome.org
-Cc: 
-Bcc: 
-Subject: Gnumeric 0.54 released
-Reply-To: 
-
 We've released Gnumeric 0.54 aka 'Grandma Chema'.  This version has lots of
 bug fixes and a few new features.  It requires the latest and greatest
     - libglade (0.13)
@@ -37,7 +31,7 @@ Lots of thanks to the legions of bugs reporters.
 
 	* A few brown paper bags. (Anonymous)
 
-	* Emedding gnumeric should work again. (Michael)
+	* Embedding Gnumeric should work again. (Michael)
 
 * Translations
 
