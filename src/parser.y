@@ -174,7 +174,7 @@ unregister_allocation (const void *data)
 		g_ptr_array_index (deallocate_stack, pos + 1) =
 			g_ptr_array_index (deallocate_stack, pos + 3);
 
-		g_ptr_array_set_size (deallocate_stack, pos);
+		g_ptr_array_set_size (deallocate_stack, pos + 2);
 		return;
 	}
 
@@ -356,7 +356,13 @@ line:	  exp {
 		*parser_result = $1;
 	}
 
-	| error 	{ parser_error = PARSE_ERR_SYNTAX; }
+	| error 	{
+		parser_error = PARSE_ERR_SYNTAX;
+		if (*parser_result) {
+			expr_tree_unref (*parser_result);
+			*parser_result = NULL;
+		}
+	}
 	;
 
 exp:	  CONSTANT 	{ $$ = $1; }
@@ -776,6 +782,7 @@ gnumeric_expr_parser (const char *expr, const ParsePos *pp,
 	parser_pos  = pp;
 	parser_desired_format = desired_format;
 	parser_result = result;
+	*parser_result = NULL;
 
 	if (parser_desired_format)
 		*parser_desired_format = NULL;
@@ -814,7 +821,6 @@ gnumeric_expr_parser (const char *expr, const ParsePos *pp,
 	} else {
 		fprintf (stderr, "Unable to parse '%s'\n", expr);
 		deallocate_all ();
-		*parser_result = NULL;
 		if (desired_format && *desired_format) {
 			style_format_unref (*desired_format);
 			*desired_format = NULL;

@@ -1,3 +1,10 @@
+2000-10-31  Morten Welinder  <terra@diku.dk>
+
+	* src/parser.y (unregister_allocation): plug leak.
+	("line = error"): deallocate the result, just in case the parser
+ 	discovers the error after reducing the regular line production.
+	(gnumeric_expr_parser): Initialise *parser_result.
+
 2000-10-31  Jody Goldberg <jgoldberg@home.com>
 
 	* src/commands.c (cmd_ins_del_row_col_undo) : Correct target range.
