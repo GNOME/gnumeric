@@ -1,3 +1,8 @@
+2004-03-11  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+ 
+	* graph/plugins/plot_xy/gog-xy.c : draw markers when they are in plot
+ 	area and a margin half marker size wide (partly fix 135621).
+ 	
 2004-03-03  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=136088

@@ -1,5 +1,8 @@
 Gnumeric 1.2.7
 
+  Emmanuel Pacaud:
+ 	* Fix rounding issue for markers in xy plots (partly fix 135621)
+	
 Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=97216
 	* Go back to the primary sheet when creating an object
