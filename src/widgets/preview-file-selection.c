@@ -31,6 +31,7 @@
 #include "gui-util.h"
 #include <gtk/gtkimage.h>
 #include <gtk/gtkhbox.h>
+#include <gtk/gtkvbox.h>
 #include <gtk/gtkframe.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtktreeview.h>

@@ -25,7 +25,6 @@
 #define __PREVIEW_FILE_SELECTION_H__
 
 #include <gtk/gtkfilesel.h>
-#include <libgnomeui/gnome-file-entry.h>
 
 G_BEGIN_DECLS
 
