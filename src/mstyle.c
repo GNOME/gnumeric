@@ -615,16 +615,19 @@ mstyle_new_default (void)
 {
 	GConfClient *client = application_get_gconf_client ();
 	char *font_name;
+	double font_size;
 	MStyle *mstyle = mstyle_new ();
 
 	/* From the gconf configuration */
 	font_name =  gconf_client_get_string (client,
 					      GCONF_DEFAULT_FONT, NULL);
+	if (!font_name)
+		font_name = g_strdup (DEFAULT_FONT);
 	mstyle_set_font_name   (mstyle, font_name);
 	g_free (font_name);
 
-	mstyle_set_font_size   (mstyle, gconf_client_get_float (client,
-						   GCONF_DEFAULT_SIZE, NULL));
+	font_size = gconf_client_get_float (client, GCONF_DEFAULT_SIZE, NULL);
+	mstyle_set_font_size   (mstyle, font_size >= 1 ? font_size : DEFAULT_SIZE);
 	mstyle_set_font_bold   (mstyle, gconf_client_get_bool (client,
 							       GCONF_FONT_BOLD, NULL));
 	mstyle_set_font_italic (mstyle, gconf_client_get_bool (client,

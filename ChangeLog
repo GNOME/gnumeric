@@ -1,5 +1,12 @@
 2002-04-01  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/mstyle.c (mstyle_new_default) : protect against faulty
+	  schema installation
+	* src/style.c (font_init) : protect against faulty
+	  schema installation and also configure bold and italic default fonts.
+
+2002-04-01  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* schemas/gnumeric-general.schemas : add default font schemas
 	* src/application.[ch] : add central preferences dialog
 	* src/main.c : dispose of preference dialog on exit

@@ -345,11 +345,11 @@ font_init (void)
 					  GCONF_DEFAULT_FONT, NULL);
 	double font_size = gconf_client_get_float (client,
 						   GCONF_DEFAULT_SIZE, NULL);
+	gnumeric_default_font = NULL;
 	
-	gnumeric_default_font = style_font_new_simple (font_name, font_size,
-						       1., FALSE, FALSE);
-	g_free (font_name);
-
+	if (font_name && font_size >= 1)
+		gnumeric_default_font = style_font_new_simple (font_name, font_size,
+							       1., FALSE, FALSE);
 	if (!gnumeric_default_font) {
 		g_warning ("Configured default font not available, trying fallback...");
 		gnumeric_default_font = style_font_new_simple (DEFAULT_FONT, DEFAULT_SIZE,
@@ -360,18 +360,19 @@ font_init (void)
 		exit (1);
 
 	gnumeric_default_bold_font = style_font_new_simple (
-		DEFAULT_FONT, DEFAULT_SIZE, 1., TRUE, FALSE);
+		font_name, font_size, 1., TRUE, FALSE);
 	if (gnumeric_default_bold_font == NULL){
 	    gnumeric_default_bold_font = gnumeric_default_font;
 	    style_font_ref (gnumeric_default_bold_font);
 	}
 
 	gnumeric_default_italic_font = style_font_new_simple (
-		DEFAULT_FONT, DEFAULT_SIZE, 1., FALSE, TRUE);
+		font_name, font_size, 1., FALSE, TRUE);
 	if (gnumeric_default_italic_font == NULL){
 		gnumeric_default_italic_font = gnumeric_default_font;
 		style_font_ref (gnumeric_default_italic_font);
 	}
+	g_free (font_name);
 }
 
 void
