@@ -1,3 +1,8 @@
+2003-04-25  Morten Welinder  <terra@gnome.org>
+
+	* src/Makefile (gnm-marshalers.c): Add an #include to the
+	generated file.
+
 2003-04-23  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-edit.c (wbcg_edit_ctor) : set the wbcg early.

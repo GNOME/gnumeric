@@ -328,6 +328,7 @@ gnumeric_app_libs =				\
 	tools/solver/libsolver.a		\
 	tools/solver/glpk/source/libglpk.a	\
 	tools/solver/lp_solve/liblp_solve.a	\
+	cut-n-paste-code/goffice/graph/libgoffice-graph.a	\
 	cut-n-paste-code/foocanvas/libfoocanvas/libfoocanvas.a
 
 if WITH_BONOBO
@@ -352,7 +353,11 @@ test_pango_SOURCES =				\
 gnm-marshalers.h : gnm-marshalers.list $(GLIB_GENMARSHAL)
 	$(GLIB_GENMARSHAL) $< --header --prefix=gnm_ > $@
 gnm-marshalers.c : gnm-marshalers.list $(GLIB_GENMARSHAL)
-	$(GLIB_GENMARSHAL) $< --body --prefix=gnm_ > $@
+	$(GLIB_GENMARSHAL) $< --body --prefix=gnm_ > $@.tmp
+	echo '/* This file has been automatically generated.  Do not edit.  */' >$@
+	echo '#include "'$*.h'"' >>$@
+	cat $@.tmp >>$@
+	rm -f $@.tmp
 
 # include conditional files to ensure everything gets distributed no matter
 # what the build
