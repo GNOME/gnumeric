@@ -1,3 +1,8 @@
+2000-01-18  Morten Welinder  <terra@diku.dk>
+
+	* src/functions/fn-stat.c (stat_functions_init): Add auto-format
+ 	hints to deserving functions.
+
 2000-01-18  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/dialogs/dialog-autocorrect.c: Made the exceptions of first

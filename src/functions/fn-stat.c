@@ -14,6 +14,7 @@
 #include "utils.h"
 #include "func.h"
 #include "collect.h"
+#include "auto-format.h"
 
 static guint
 float_hash (const float_t *d)
@@ -4677,171 +4678,273 @@ gnumeric_slope (FunctionEvalInfo *ei, Value **argv)
 void
 stat_functions_init (void)
 {
+	FunctionDefinition *def;
 	FunctionCategory *cat = function_get_category (_("Statistics"));
 
-        function_add_nodes (cat, "avedev",    0,      "",
-			    &help_avedev, gnumeric_avedev);
-	function_add_nodes (cat, "average", 0,      "",
-			    &help_average, gnumeric_average);
-	function_add_nodes (cat, "averagea", 0,      "",
-			    &help_averagea, gnumeric_averagea);
-	function_add_args  (cat, "betadist", "fff|ff", "",
-			    &help_betadist, gnumeric_betadist);
-	function_add_args  (cat, "betainv", "fff|ff", "",
-			    &help_betainv, gnumeric_betainv);
-	function_add_args  (cat, "binomdist", "fffb", "n,t,p,c",
-			    &help_binomdist, gnumeric_binomdist);
-	function_add_args  (cat, "chidist",   "ff",  "",
-			    &help_chidist, gnumeric_chidist);
-	function_add_args  (cat, "chiinv",    "ff",  "",
-			    &help_chiinv, gnumeric_chiinv);
-	function_add_args  (cat, "chitest",   "rr",  "",
-			    &help_chitest, gnumeric_chitest);
-	function_add_args  (cat, "confidence", "fff",  "x,stddev,size",
-			    &help_confidence, gnumeric_confidence);
-	function_add_nodes (cat, "count",     0,      "",
-			    &help_count, gnumeric_count);
-	function_add_nodes (cat, "counta",    0,      "",
-			    &help_counta, gnumeric_counta);
-	function_add_args  (cat, "critbinom",  "fff",  "trials,p,alpha",
-			    &help_critbinom, gnumeric_critbinom);
-        function_add_args  (cat, "correl",     "AA",   "array1,array2",
-			    &help_correl, gnumeric_correl);
-        function_add_args  (cat, "covar",      "AA",   "array1,array2",
-			    &help_covar, gnumeric_covar);
-        function_add_nodes (cat, "devsq",      0,      "",
-			    &help_devsq, gnumeric_devsq);
-	function_add_args  (cat, "permut",    "ff",  "n,k",
-			    &help_permut, gnumeric_permut);
-	function_add_args  (cat, "poisson",   "ffb",  "",
-			    &help_poisson, gnumeric_poisson);
-	function_add_args  (cat, "expondist", "ffb",  "",
-			    &help_expondist, gnumeric_expondist);
-	function_add_args  (cat, "fdist",   "fff",  "",
-			    &help_fdist, gnumeric_fdist);
-	function_add_args  (cat, "finv",   "fff",  "",
-			    &help_finv, gnumeric_finv);
-        function_add_args  (cat, "fisher",    "f",    "",
-			    &help_fisher, gnumeric_fisher);
-        function_add_args  (cat, "fisherinv", "f",    "",
-			    &help_fisherinv, gnumeric_fisherinv);
-        function_add_args  (cat, "forecast", "frr",   "",
-			    &help_forecast, gnumeric_forecast);
-	function_add_args  (cat, "frequency", "AA", "data_array,bins_array",
-			    &help_frequency, gnumeric_frequency);
-	function_add_args  (cat, "ftest",     "rr",   "arr1,arr2",
-			    &help_ftest, gnumeric_ftest);
-	function_add_args  (cat, "gammaln",   "f",    "number",
-			    &help_gammaln, gnumeric_gammaln);
-	function_add_args  (cat, "gammadist", "fffb", "number,alpha,beta,cum",
-			    &help_gammadist, gnumeric_gammadist);
-	function_add_args  (cat, "gammainv", "fff",   "number,alpha,beta",
-			    &help_gammainv, gnumeric_gammainv);
-	function_add_nodes (cat, "geomean",   0,      "",
-			    &help_geomean, gnumeric_geomean);
-	function_add_args  (cat, "growth",  "A|AAb",
-			    "known_y's[,known_x's,new_x's,const]",
-			    &help_growth, gnumeric_growth);
-	function_add_nodes (cat, "harmean",   0,      "",
-			    &help_harmean, gnumeric_harmean);
-	function_add_args  (cat, "hypgeomdist", "ffff", "x,n,M,N",
-			    &help_hypgeomdist, gnumeric_hypgeomdist);
-        function_add_args  (cat, "intercept", "AA",   "",
-			    &help_intercept, gnumeric_intercept);
-        function_add_nodes (cat, "kurt",      0,      "",
-			    &help_kurt, gnumeric_kurt);
-        function_add_nodes (cat, "kurtp",     0,      "",
-			    &help_kurtp, gnumeric_kurtp);
-	function_add_nodes (cat, "large",  0,      "",
-			    &help_large, gnumeric_large);
-	function_add_args  (cat, "linest",  "A|Abb",
-			    "known_y's[,known_x's,const,stat]",
-			    &help_linest, gnumeric_linest);
-	function_add_args  (cat, "logest",  "A|Abb",
-			    "known_y's[,known_x's,const,stat]",
-			    &help_logest, gnumeric_logest);
-	function_add_args  (cat, "loginv",  "fff",  "",
-			    &help_loginv, gnumeric_loginv);
-	function_add_args  (cat, "lognormdist",  "fff",  "",
-			    &help_lognormdist, gnumeric_lognormdist);
-	function_add_nodes (cat, "max",     0,      "",
-			    &help_max, gnumeric_max);
-	function_add_nodes (cat, "maxa",    0,      "",
-			    &help_maxa, gnumeric_maxa);
-	function_add_nodes (cat, "median",    0,      "",
-			    &help_median, gnumeric_median);
-	function_add_nodes (cat, "min",     0,      "",
-			    &help_min, gnumeric_min);
-	function_add_nodes (cat, "mina",    0,      "",
-			    &help_mina, gnumeric_mina);
-	function_add_nodes (cat, "mode",      0,      "",
-			    &help_mode, gnumeric_mode);
-	function_add_args  (cat, "negbinomdist", "fff", "f,t,p",
-			    &help_negbinomdist, gnumeric_negbinomdist);
-	function_add_args  (cat, "normdist",   "fffb",  "",
-			    &help_normdist, gnumeric_normdist);
-	function_add_args  (cat, "norminv",    "fff",  "",
-			    &help_norminv, gnumeric_norminv);
-	function_add_args  (cat, "normsdist",  "f",  "",
-			    &help_normsdist, gnumeric_normsdist);
-	function_add_args  (cat, "normsinv",  "f",  "",
-			    &help_normsinv, gnumeric_normsinv);
-        function_add_args  (cat, "percentile",   "Af",  "array,k",
-			    &help_percentile, gnumeric_percentile);
-	function_add_args  (cat, "percentrank", "Af|f", "array,x,significance",
-			    &help_percentrank, gnumeric_percentrank);
-        function_add_args  (cat, "pearson",     "AA",   "array1,array2",
-			    &help_pearson, gnumeric_pearson);
-	function_add_args  (cat, "prob", "AAf|f",
-			    "x_range,prob_range,lower_limit,upper_limit",
-			    &help_prob, gnumeric_prob);
-        function_add_args  (cat, "quartile",    "Af",   "array,quart",
-			    &help_quartile, gnumeric_quartile);
-	function_add_args  (cat, "rank", "fr|f",      "",
-			    &help_rank, gnumeric_rank);
-        function_add_args  (cat, "rsq",         "AA",   "array1,array2",
-			    &help_rsq, gnumeric_rsq);
-	function_add_nodes (cat, "skew",      0,      "",
-			    &help_skew, gnumeric_skew);
-	function_add_nodes (cat, "skewp",     0,      "",
-			    &help_skewp, gnumeric_skewp);
-	function_add_args  (cat, "slope", "AA", "known_y's,known_x's",
-			    &help_slope, gnumeric_slope);
-	function_add_nodes (cat, "small",  0,      "",
-			    &help_small, gnumeric_small);
-	function_add_args  (cat, "standardize", "fff",  "x,mean,stddev",
-			    &help_standardize, gnumeric_standardize);
-	function_add_nodes (cat, "stdev",     0,      "",
-			    &help_stdev, gnumeric_stdev);
-	function_add_nodes (cat, "stdeva",    0,      "",
-			    &help_stdeva, gnumeric_stdeva);
-	function_add_nodes (cat, "stdevp",    0,      "",
-			    &help_stdevp, gnumeric_stdevp);
-	function_add_nodes (cat, "stdevpa",   0,      "",
-			    &help_stdevpa, gnumeric_stdevpa);
-	function_add_args  (cat, "steyx", "AA", "known_y's,known_x's",
-			    &help_steyx, gnumeric_steyx);
-	function_add_args  (cat, "tdist",   "fff",    "",
-			    &help_tdist, gnumeric_tdist);
-	function_add_args  (cat, "tinv",    "ff",     "",
-			    &help_tinv, gnumeric_tinv);
-	function_add_args  (cat, "trend",  "A|AAb",
-			    "known_y's[,known_x's,new_x's,const]",
-			    &help_trend, gnumeric_trend);
-	function_add_nodes (cat, "trimmean",  0,      "",
-			    &help_trimmean, gnumeric_trimmean);
-	function_add_args  (cat, "ttest",   "rrff",   "",
-			    &help_ttest, gnumeric_ttest);
-	function_add_nodes (cat, "var",       0,      "",
-			    &help_var, gnumeric_var);
-	function_add_nodes (cat, "vara",      0,      "",
-			    &help_vara, gnumeric_vara);
-	function_add_nodes (cat, "varp",      0,      "",
-			    &help_varp, gnumeric_varp);
-	function_add_nodes (cat, "varpa",     0,      "",
-			    &help_varpa, gnumeric_varpa);
-        function_add_args  (cat, "weibull", "fffb",  "",
-			    &help_weibull, gnumeric_weibull);
-	function_add_nodes (cat, "ztest",  0,      "",
-			    &help_ztest, gnumeric_ztest);
+        def = function_add_nodes (cat, "avedev",    0,      "",
+				  &help_avedev, gnumeric_avedev);
+	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
+
+	def = function_add_nodes (cat, "average", 0,      "",
+				  &help_average, gnumeric_average);
+	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
+
+	def = function_add_nodes (cat, "averagea", 0,      "",
+				  &help_averagea, gnumeric_averagea);
+	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
+
+	def = function_add_args  (cat, "betadist", "fff|ff", "",
+				  &help_betadist, gnumeric_betadist);
+
+	def = function_add_args  (cat, "betainv", "fff|ff", "",
+				  &help_betainv, gnumeric_betainv);
+
+	def = function_add_args  (cat, "binomdist", "fffb", "n,t,p,c",
+				  &help_binomdist, gnumeric_binomdist);
+
+	def = function_add_args  (cat, "chidist",   "ff",  "",
+				  &help_chidist, gnumeric_chidist);
+
+	def = function_add_args  (cat, "chiinv",    "ff",  "",
+				  &help_chiinv, gnumeric_chiinv);
+
+	def = function_add_args  (cat, "chitest",   "rr",  "",
+				  &help_chitest, gnumeric_chitest);
+
+	def = function_add_args  (cat, "confidence", "fff",  "x,stddev,size",
+				  &help_confidence, gnumeric_confidence);
+
+	def = function_add_nodes (cat, "count",     0,      "",
+				  &help_count, gnumeric_count);
+
+	def = function_add_nodes (cat, "counta",    0,      "",
+				  &help_counta, gnumeric_counta);
+
+	def = function_add_args  (cat, "critbinom",  "fff",  "trials,p,alpha",
+				  &help_critbinom, gnumeric_critbinom);
+
+        def = function_add_args  (cat, "correl",     "AA",   "array1,array2",
+				  &help_correl, gnumeric_correl);
+
+        def = function_add_args  (cat, "covar",      "AA",   "array1,array2",
+				  &help_covar, gnumeric_covar);
+
+        def = function_add_nodes (cat, "devsq",      0,      "",
+				  &help_devsq, gnumeric_devsq);
+
+	def = function_add_args  (cat, "permut",    "ff",  "n,k",
+				  &help_permut, gnumeric_permut);
+
+	def = function_add_args  (cat, "poisson",   "ffb",  "",
+				  &help_poisson, gnumeric_poisson);
+
+	def = function_add_args  (cat, "expondist", "ffb",  "",
+				  &help_expondist, gnumeric_expondist);
+
+	def = function_add_args  (cat, "fdist",   "fff",  "",
+				  &help_fdist, gnumeric_fdist);
+
+	def = function_add_args  (cat, "finv",   "fff",  "",
+				  &help_finv, gnumeric_finv);
+
+        def = function_add_args  (cat, "fisher",    "f",    "",
+				  &help_fisher, gnumeric_fisher);
+
+        def = function_add_args  (cat, "fisherinv", "f",    "",
+				  &help_fisherinv, gnumeric_fisherinv);
+
+        def = function_add_args  (cat, "forecast", "frr",   "",
+				  &help_forecast, gnumeric_forecast);
+
+	def = function_add_args  (cat, "frequency", "AA", "data_array,bins_array",
+				  &help_frequency, gnumeric_frequency);
+
+	def = function_add_args  (cat, "ftest",     "rr",   "arr1,arr2",
+				  &help_ftest, gnumeric_ftest);
+
+	def = function_add_args  (cat, "gammaln",   "f",    "number",
+				  &help_gammaln, gnumeric_gammaln);
+
+	def = function_add_args  (cat, "gammadist", "fffb", "number,alpha,beta,cum",
+				  &help_gammadist, gnumeric_gammadist);
+
+	def = function_add_args  (cat, "gammainv", "fff",   "number,alpha,beta",
+				  &help_gammainv, gnumeric_gammainv);
+
+	def = function_add_nodes (cat, "geomean",   0,      "",
+				  &help_geomean, gnumeric_geomean);
+	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
+
+	def = function_add_args  (cat, "growth",  "A|AAb",
+				  "known_y's[,known_x's,new_x's,const]",
+				  &help_growth, gnumeric_growth);
+
+	def = function_add_nodes (cat, "harmean",   0,      "",
+				  &help_harmean, gnumeric_harmean);
+	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
+
+	def = function_add_args  (cat, "hypgeomdist", "ffff", "x,n,M,N",
+				  &help_hypgeomdist, gnumeric_hypgeomdist);
+
+        def = function_add_args  (cat, "intercept", "AA",   "",
+				  &help_intercept, gnumeric_intercept);
+
+        def = function_add_nodes (cat, "kurt",      0,      "",
+				  &help_kurt, gnumeric_kurt);
+
+        def = function_add_nodes (cat, "kurtp",     0,      "",
+				  &help_kurtp, gnumeric_kurtp);
+
+	def = function_add_nodes (cat, "large",  0,      "",
+				  &help_large, gnumeric_large);
+	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
+
+	def = function_add_args  (cat, "linest",  "A|Abb",
+				  "known_y's[,known_x's,const,stat]",
+				  &help_linest, gnumeric_linest);
+
+	def = function_add_args  (cat, "logest",  "A|Abb",
+				  "known_y's[,known_x's,const,stat]",
+				  &help_logest, gnumeric_logest);
+
+	def = function_add_args  (cat, "loginv",  "fff",  "",
+				  &help_loginv, gnumeric_loginv);
+
+	def = function_add_args  (cat, "lognormdist",  "fff",  "",
+				  &help_lognormdist, gnumeric_lognormdist);
+
+	def = function_add_nodes (cat, "max",     0,      "",
+				  &help_max, gnumeric_max);
+	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
+
+	def = function_add_nodes (cat, "maxa",    0,      "",
+				  &help_maxa, gnumeric_maxa);
+	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
+
+	def = function_add_nodes (cat, "median",    0,      "",
+				  &help_median, gnumeric_median);
+	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
+
+	def = function_add_nodes (cat, "min",     0,      "",
+				  &help_min, gnumeric_min);
+	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
+
+	def = function_add_nodes (cat, "mina",    0,      "",
+				  &help_mina, gnumeric_mina);
+	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
+
+	def = function_add_nodes (cat, "mode",      0,      "",
+				  &help_mode, gnumeric_mode);
+	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
+
+	def = function_add_args  (cat, "negbinomdist", "fff", "f,t,p",
+				  &help_negbinomdist, gnumeric_negbinomdist);
+
+	def = function_add_args  (cat, "normdist",   "fffb",  "",
+				  &help_normdist, gnumeric_normdist);
+
+	def = function_add_args  (cat, "norminv",    "fff",  "",
+				  &help_norminv, gnumeric_norminv);
+
+	def = function_add_args  (cat, "normsdist",  "f",  "",
+				  &help_normsdist, gnumeric_normsdist);
+
+	def = function_add_args  (cat, "normsinv",  "f",  "",
+				  &help_normsinv, gnumeric_normsinv);
+
+        def = function_add_args  (cat, "percentile",   "Af",  "array,k",
+				  &help_percentile, gnumeric_percentile);
+
+	def = function_add_args  (cat, "percentrank", "Af|f", "array,x,significance",
+				  &help_percentrank, gnumeric_percentrank);
+
+        def = function_add_args  (cat, "pearson",     "AA",   "array1,array2",
+				  &help_pearson, gnumeric_pearson);
+
+	def = function_add_args  (cat, "prob", "AAf|f",
+				  "x_range,prob_range,lower_limit,upper_limit",
+				  &help_prob, gnumeric_prob);
+
+        def = function_add_args  (cat, "quartile",    "Af",   "array,quart",
+				  &help_quartile, gnumeric_quartile);
+
+	def = function_add_args  (cat, "rank", "fr|f",      "",
+				  &help_rank, gnumeric_rank);
+
+        def = function_add_args  (cat, "rsq",         "AA",   "array1,array2",
+				  &help_rsq, gnumeric_rsq);
+
+	def = function_add_nodes (cat, "skew",      0,      "",
+				  &help_skew, gnumeric_skew);
+
+	def = function_add_nodes (cat, "skewp",     0,      "",
+				  &help_skewp, gnumeric_skewp);
+
+	def = function_add_args  (cat, "slope", "AA", "known_y's,known_x's",
+				  &help_slope, gnumeric_slope);
+
+	def = function_add_nodes (cat, "small",  0,      "",
+				  &help_small, gnumeric_small);
+	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
+
+	def = function_add_args  (cat, "standardize", "fff",  "x,mean,stddev",
+				  &help_standardize, gnumeric_standardize);
+
+	def = function_add_nodes (cat, "stdev",     0,      "",
+				  &help_stdev, gnumeric_stdev);
+	/*
+	 * Note: since stdev is sort-of a difference, we should actually guess
+	 * "number" when the arguments are dates.  We guess "date".  Tough.
+	 */
+	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
+
+	def = function_add_nodes (cat, "stdeva",    0,      "",
+				  &help_stdeva, gnumeric_stdeva);
+	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
+
+	def = function_add_nodes (cat, "stdevp",    0,      "",
+				  &help_stdevp, gnumeric_stdevp);
+	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
+
+	def = function_add_nodes (cat, "stdevpa",   0,      "",
+				  &help_stdevpa, gnumeric_stdevpa);
+	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
+
+	def = function_add_args  (cat, "steyx", "AA", "known_y's,known_x's",
+				  &help_steyx, gnumeric_steyx);
+
+	def = function_add_args  (cat, "tdist",   "fff",    "",
+				  &help_tdist, gnumeric_tdist);
+
+	def = function_add_args  (cat, "tinv",    "ff",     "",
+				  &help_tinv, gnumeric_tinv);
+
+	def = function_add_args  (cat, "trend",  "A|AAb",
+				  "known_y's[,known_x's,new_x's,const]",
+				  &help_trend, gnumeric_trend);
+
+	def = function_add_nodes (cat, "trimmean",  0,      "",
+				  &help_trimmean, gnumeric_trimmean);
+	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
+
+	def = function_add_args  (cat, "ttest",   "rrff",   "",
+				  &help_ttest, gnumeric_ttest);
+
+	def = function_add_nodes (cat, "var",       0,      "",
+				  &help_var, gnumeric_var);
+
+	def = function_add_nodes (cat, "vara",      0,      "",
+				  &help_vara, gnumeric_vara);
+
+	def = function_add_nodes (cat, "varp",      0,      "",
+				  &help_varp, gnumeric_varp);
+
+	def = function_add_nodes (cat, "varpa",     0,      "",
+				  &help_varpa, gnumeric_varpa);
+
+        def = function_add_args  (cat, "weibull", "fffb",  "",
+				  &help_weibull, gnumeric_weibull);
+
+	def = function_add_nodes (cat, "ztest",  0,      "",
+				  &help_ztest, gnumeric_ztest);
 }
