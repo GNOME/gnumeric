@@ -142,7 +142,7 @@ load_margin (const char *str, PrintUnit *p, char *def)
 
 	p->points = gnome_config_get_float (pts);
 	s = gnome_config_get_string (pts_units);
-	p->desired_display = unit_name_to_unit (s);
+	p->desired_display = unit_name_to_unit (s, FALSE);
 	g_free (pts_units);
 	g_free (pts);
 	g_free (s);
@@ -321,7 +321,7 @@ save_margin (const char *prefix, PrintUnit *p)
 	char *x = g_strconcat (prefix, "_units", NULL);
 
 	gnome_config_set_float (prefix, p->points);
-	gnome_config_set_string (x, unit_name_get_name (p->desired_display));
+	gnome_config_set_string (x, unit_name_get_name (p->desired_display, FALSE));
 	g_free (x);
 }
 
@@ -440,20 +440,63 @@ static struct {
 	{ NULL, NULL, 0.0 }
 };
 
+/*
+ * unit_name_get_short_name :
+ * @unit : The unit.
+ * @translated : Should the name be translated
+ *
+ * Returns the optionally translated short name of the @unit.
+ */
 const char *
-unit_name_get_short_name (UnitName name)
+unit_name_get_short_name (UnitName name, gboolean translated)
 {
 	g_assert (name >= UNIT_POINTS && name < UNIT_LAST);
 
-	return _(units [name].short_name);
+	return translated
+		? _(units [name].short_name)
+		:   units [name].short_name;
 }
 
+/*
+ * unit_name_get_name :
+ * @unit : The unit.
+ * @translated : Should the name be translated
+ *
+ * Returns the optionally translated standard name of the @unit.
+ */
 const char *
-unit_name_get_name (UnitName name)
+unit_name_get_name (UnitName name, gboolean translated)
 {
 	g_assert (name >= UNIT_POINTS && name < UNIT_LAST);
 
-	return _(units [name].full_name);
+	return translated
+		? _(units [name].full_name)
+		:   units [name].full_name;
+}
+
+/*
+ * unit_name_to_unit :
+ * @str : A string with a unit name.
+ * @translated : Is @str localized.
+ *
+ * Returns the unit associated with the possiblely translated @str.
+ */
+UnitName
+unit_name_to_unit (const char *s, gboolean translated)
+{
+	int i;
+
+	for (i = 0; units [i].full_name != NULL; i++){
+		if (translated) {
+			if (strcmp (s, _(units [i].full_name)) == 0)
+				return (UnitName) i;
+		} else {
+			if (strcmp (s, units [i].full_name) == 0)
+				return (UnitName) i;
+		}
+	}
+
+	return UNIT_POINTS;
 }
 
 double
@@ -475,19 +518,6 @@ unit_convert (double value, UnitName source, UnitName target)
 		return value;
 
 	return (units [source].factor * value) / units [target].factor;
-}
-
-UnitName
-unit_name_to_unit (const char *s)
-{
-	int i;
-
-	for (i = 0; units [i].short_name != NULL; i++){
-		if (strcmp (s, units [i].full_name) == 0)
-			return (UnitName) i;
-	}
-
-	return UNIT_POINTS;
 }
 
 static void

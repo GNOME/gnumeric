@@ -602,7 +602,7 @@ add_unit (GtkWidget *menu, int i, dialog_print_info_t *dpi,
 {
 	GtkWidget *item;
 
-	item = gtk_menu_item_new_with_label (unit_name_get_short_name (i));
+	item = gtk_menu_item_new_with_label (unit_name_get_short_name (i), TRUE);
 	gtk_widget_show (item);
 	gtk_menu_append (GTK_MENU (menu), item);
 

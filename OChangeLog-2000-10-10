@@ -1,3 +1,13 @@
+2000-09-28  Jody Goldberg <jgoldberg@home.com>
+
+	* src/print-info.c (unit_name_get_name) : Control translation.
+	(unit_name_get_short_name) : Ditto.
+	(unit_name_to_unit) : Ditto.
+
+2000-09-27  Jody Goldberg <jgoldberg@home.com>
+
+	* gnumericConf.sh.in : Fix to match gnome-config's expectations.
+
 2000-09-27  Morten Welinder  <terra@diku.dk>
 
 	* src/print-info.c: Use constant expression to make factors easier
