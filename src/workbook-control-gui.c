@@ -1222,8 +1222,12 @@ wbcg_close_control (WorkbookControlGUI *wbcg)
 	g_return_val_if_fail (IS_WORKBOOK_VIEW (wb_view), TRUE);
 	g_return_val_if_fail (wb_view->wb_controls != NULL, TRUE);
 
-	/* If we were editing when the quit request came in abort the edit. */
-	wbcg_edit_finish (wbcg, FALSE);
+	/*
+	 * If we were editing when the quit request came make sure we don't
+	 * lose any entered text
+	 */
+	if (!wbcg_edit_finish (wbcg, TRUE))
+		return TRUE;
 
 	/* This is the last control */
 	if (wb_view->wb_controls->len <= 1) {

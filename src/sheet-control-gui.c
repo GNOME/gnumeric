@@ -450,7 +450,8 @@ scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
 	gboolean const rangesel = wbcg_rangesel_possible (scg->wbcg);
 
 	if (!rangesel)
-		wbcg_edit_finish (scg->wbcg, TRUE);
+		if (!wbcg_edit_finish (scg->wbcg, TRUE))
+			return;
 
 	if (rangesel && !scg->rangesel.active)
 		scg_rangesel_start (scg, index, index);

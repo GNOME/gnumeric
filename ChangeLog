@@ -1,5 +1,13 @@
 2001-07-26  Almer S. Tigelaar  <almer@gnome.org>
 
+	* src/sheet-control-gui.c (scg_colrow_select): Avoid loss of
+	an invalid expression.
+
+	* src/workbook-control-gui.c (wbcg_close_control): Avoid loss of
+	any entered text.
+
+2001-07-26  Almer S. Tigelaar  <almer@gnome.org>
+
 	* src/workbook-control-gui.c (cb_notebook_switch_page):
 	Accept input and flip page in one step (don't require two clicks).
 
