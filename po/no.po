@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.46\n"
 "POT-Creation-Date: 2000-01-16 17:48-0600\n"
-"PO-Revision-Date: 2000-01-14 12:47-05:00\n"
+"PO-Revision-Date: 2000-01-17 07:54-05:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -155,7 +155,6 @@ msgid "GNU Oleo import plugin"
 msgstr "Tillegg for import/eksport av Oleo filer"
 
 #: plugins/python/python.c:104
-#, fuzzy
 msgid "Python exception"
 msgstr "Python unntak"
 
@@ -168,9 +167,8 @@ msgid "object must be callable"
 msgstr "objektet må kunne kalles"
 
 #: plugins/python/python.c:258
-#, fuzzy
 msgid "Python"
-msgstr "Python tillegg"
+msgstr "Python"
 
 #: plugins/python/python.c:302
 msgid "Python Plugin"
@@ -386,9 +384,8 @@ msgstr "Sletter rad %d"
 
 #. TODO : Something more descriptive ? maybe the range name
 #: src/commands.c:761
-#, fuzzy
 msgid "Clear"
-msgstr "T_øm"
+msgstr "Tøm"
 
 #. FIXME : improve on this
 #: src/commands.c:871
@@ -10173,9 +10170,8 @@ msgid "Enables some style related debugging functions"
 msgstr "Slår på noen stilrelaterte debugging funksjoner"
 
 #: src/main.c:60
-#, fuzzy
 msgid "Enables some dependency related debugging functions"
-msgstr "Slår på noen stilrelaterte debugging funksjoner"
+msgstr "Slår på noen avhengighetsrelaterte debugging funksjoner"
 
 #: src/main.c:63
 msgid "Exit immediately after loading the selected books (useful for testing)."
@@ -10756,9 +10752,8 @@ msgid "Clear the selected cell(s)"
 msgstr "Tøm valgte celle(r)"
 
 #: src/workbook.c:1054
-#, fuzzy
 msgid "De_lete Sheet"
-msgstr "S_lett format"
+msgstr "S_lett ark"
 
 #: src/workbook.c:1059
 msgid "_Select All"
@@ -10805,9 +10800,8 @@ msgid "Toggle the display of formulas"
 msgstr "Slå av/på visning av formler"
 
 #: src/workbook.c:1084
-#, fuzzy
 msgid "Display _Grid lines"
-msgstr "_Linjer for rutenett"
+msgstr "Vis linjer i rutenett"
 
 #: src/workbook.c:1092
 msgid "Current _date"
@@ -10910,13 +10904,12 @@ msgid "_Row"
 msgstr "_Rad"
 
 #: src/workbook.c:1165
-#, fuzzy
 msgid "Auto _Correct..."
-msgstr "_Autolagre..."
+msgstr "Auto_korrigér..."
 
 #: src/workbook.c:1165
 msgid "Auto Correct"
-msgstr ""
+msgstr "Autokorrigér"
 
 #: src/workbook.c:1167
 msgid "_Auto Save..."
@@ -10959,9 +10952,8 @@ msgid "_Tools"
 msgstr "Verk_tøy"
 
 #: src/workbook.c:1199
-#, fuzzy
 msgid "_Data"
-msgstr "_Dato"
+msgstr "_Data"
 
 #: src/workbook.c:1210
 msgid "New"
@@ -11121,15 +11113,3 @@ msgstr "Ark%d"
 #: src/xml-io.c:2407
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML filformat"
-
-#~ msgid "Perl"
-#~ msgstr "Perl"
-
-#~ msgid "Gnumeric/Python module initialized\n"
-#~ msgstr "Gnumeric/Python modul initialisert\n"
-
-#~ msgid "C_olumns"
-#~ msgstr "K_olonner"
-
-#~ msgid "Gnumeric: "
-#~ msgstr "Gnumeric: "
