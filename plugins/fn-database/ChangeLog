@@ -1,3 +1,9 @@
+2002-10-17  Jon K Hellan  <hellan@acm.org>
+
+	* plugin.xml.in: Change category from Database/Time to Database.
+	(GDA plugin also has the same category. The plugin system handles
+	this fine, but these are very different beasts.)
+
 2002-10-14  Jody Goldberg <jody@gnome.org>
 
 	* functions.c : inline the example docs because gettext can not handle

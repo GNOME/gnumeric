@@ -9,7 +9,7 @@
 	</loader>
 	<services>
 		<service type="function_group" id="database">
-			<_category>Database/Time</_category>
+			<_category>Database</_category>
 			<functions>
 				<function name="daverage"/>
 				<function name="dcount"/>
