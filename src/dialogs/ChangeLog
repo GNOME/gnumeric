@@ -1,3 +1,17 @@
+2004-10-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=156604
+	* dialog-stf-export.c (set_sheet_selection_count): compare with
+	  number of non-empty sheets only.
+	(cb_set_sheet): do not set empty sheets to be exported
+	(cb_sheet_select_all): `all' means all non-empty sheets.
+	(stf_export_dialog_sheet_page_init): check which sheets are 
+	  non-empty
+	(stf_export_dialog_switch_page): ignore the sheet selection  page 
+	  if there is only one empty sheet.
+	(stf_export_dialog): ditto. Moreover, warn the user if there is no 
+	  content that can be exported.
+
 2004-10-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=156531
