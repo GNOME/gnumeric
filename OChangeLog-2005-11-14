@@ -1,3 +1,13 @@
+2003-08-26  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/gui-util.c (gnumeric_dialog_image_file_selection): deleted
+	(selchanged_foreach) : deleted
+	(cb_file_open_selchanged) : deleted
+	* src/gui-util.h (gnumeric_dialog_image_file_selection): deleted
+	* src/workbook-control-gui.c (cb_insert_image):  use 
+	  preview_file_selection_new and not
+	  gnumeric_dialog_image_file_selection
+	
 2003-08-25  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/gui-util.c (gnumeric_dialog_file_selection):

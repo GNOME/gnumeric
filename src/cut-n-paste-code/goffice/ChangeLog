@@ -1,3 +1,9 @@
+2003-08-26  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* graph/gog-style.c (cb_image_file_select): use 
+	  preview_file_selection_new and not
+	  gnumeric_dialog_image_file_selection
+	
 2003-08-26  Morten Welinder  <terra@gnome.org>
 
 	* utils/go-pattern.c (go_pattern_selector): Get the args to

@@ -13,8 +13,6 @@ gboolean   gnumeric_dialog_question_yes_no (WorkbookControlGUI *wbcg,
                                             gboolean default_answer);
 gboolean   gnumeric_dialog_file_selection (WorkbookControlGUI *wbcg, 
 					   GtkFileSelection *fsel);
-gboolean   gnumeric_dialog_image_file_selection (WorkbookControlGUI *wbcg, 
-						 GtkFileSelection *fsel);
 gboolean   gnumeric_dialog_dir_selection (WorkbookControlGUI *wbcg, 
 					  GtkFileSelection *fsel);
 void       gnumeric_notice (WorkbookControlGUI *wbcg, GtkMessageType type, 

@@ -30,6 +30,7 @@
 #include <widgets/widget-color-combo.h>
 #include <widgets/color-palette.h>
 #include <widgets/widget-pixmap-combo.h>
+#include <widgets/preview-file-selection.h>
 #include <gdk-pixbuf/gdk-pixdata.h>
 
 #include <gsf/gsf-impl-utils.h>
@@ -409,7 +410,7 @@ cb_image_file_select (GtkWidget *cc, StylePrefState *state)
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (GOG_FILL_STYLE_IMAGE == style->fill.type);
 
-	fs = GTK_FILE_SELECTION (gtk_file_selection_new (_("Select an image")));
+	fs = GTK_FILE_SELECTION (preview_file_selection_new (_("Select an image"), TRUE));
 	gtk_window_set_modal (GTK_WINDOW (fs), TRUE);
 	gtk_file_selection_hide_fileop_buttons (fs);
 
@@ -419,7 +420,7 @@ cb_image_file_select (GtkWidget *cc, StylePrefState *state)
 	/* 
 	 * should not be modal
 	 **/
-	if (gnumeric_dialog_image_file_selection (NULL, fs)) {
+	if (gnumeric_dialog_file_selection (NULL, fs)) {
 		style = gog_style_dup (style);
 
 		if (style->fill.u.image.image != NULL)

@@ -1,3 +1,9 @@
+2003-08-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* preview-file-selection.c: new (abbreviated version of the file
+	  with the same name from background capplet)
+	* preview-file-selection.h: ditto
+
 2003-08-21  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.20

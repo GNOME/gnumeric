@@ -21,6 +21,8 @@ libwidgets_a_SOURCES =				\
 	gtk-combo-box.h				\
 	gtk-combo-stack.c			\
 	gtk-combo-stack.h			\
+	preview-file-selection.c		\
+	preview-file-selection.h		\
 	widget-charmap-selector.c		\
 	widget-charmap-selector.h		\
 	widget-locale-selector.c		\
