@@ -6,6 +6,8 @@
  */
 #include <config.h>
 #include "series.h"
+#include "reference.h"
+#include "data-source.h"
 
 struct _SeriesName {
 	Reference *ref;
@@ -91,17 +93,17 @@ series_new (DataSource *source, const char *value_spec)
 	Series *series;
 	
 	g_return_val_if_fail (source != NULL, NULL);
-	g_return_val_if_fail (name_spec != NULL, NULL);
+	g_return_val_if_fail (value_spec != NULL, NULL);
 
 	series = g_new (Series, 1);
 
 	series->source = source;
 	gtk_object_ref (GTK_OBJECT (series->source));
 
-	series->name_spec = NULL
+	series->series_name = NULL;
 	series->value_spec = g_strdup (value_spec);
 
-	return series
+	return series;
 }
 
 void
@@ -110,18 +112,18 @@ series_set_name (Series *series, SeriesName *series_name)
 	g_return_if_fail (series != NULL);
 	g_return_if_fail (series_name != NULL);
 
-	if (series->name_spec)
-		series_name_destroy (series->name_spec);
+	if (series->series_name)
+		series_name_destroy (series->series_name);
 
-	series->name_spec = series_name;
+	series->series_name = series_name;
 }
 
 void
 series_set_source (Series *series, DataSource *source, const char *value_spec)
 {
-	g_return_val_if_fail (source != NULL, NULL);
-	g_return_val_if_fail (value_spec != NULL, NULL);
-	g_return_val_if_fail (series != NULL, NULL);
+	g_return_if_fail (source != NULL);
+	g_return_if_fail (value_spec != NULL);
+	g_return_if_fail (series != NULL);
 
 	gtk_object_unref (GTK_OBJECT (series->source));
 	series->source = source;
@@ -134,8 +136,8 @@ series_set_source (Series *series, DataSource *source, const char *value_spec)
 void
 series_destroy (Series *series)
 {
-	if (series->name_spec)
-		series_name_destroy (series->name_spec);
+	if (series->series_name)
+		series_name_destroy (series->series_name);
 	gtk_object_unref (GTK_OBJECT (series->source));
 	g_free (series->value_spec);
 	g_free (series);
@@ -146,7 +148,7 @@ series_get_series_name (Series *series)
 {
 	g_return_val_if_fail (series != NULL, NULL);
 
-	return series->name_spec;
+	return series->series_name;
 }
 
 char *
@@ -154,21 +156,22 @@ series_get_name (Series *series)
 {
 	g_return_val_if_fail (series != NULL, NULL);
 
-	return series_name_get_string (series->name_spec);
+	return series_name_get_string (series->series_name);
 }
 
 Value *
 series_get_value (Series *series, int n)
 {
-	g_return_val_if_fail (series != NULL);
+	g_return_val_if_fail (series != NULL, NULL);
 
-	return data_source_fetch_value (series->data_source, series->value_spec, n);
+	return data_source_get_value (series->source, series->value_spec, n);
 }
 
-void
-data_set_set_value (Series *series, int n, Value *value)
+gboolean
+series_set_value (Series *series, int n, Value *value)
 {
-	g_return_val_if_fail (series != NULL);p
+	g_return_val_if_fail (series != NULL, FALSE);
 
-	return data_source_set_value (series->data_source, series->value_spec, n, value);
+	return data_source_set_value (series->source, series->value_spec, n, value);
 }
+

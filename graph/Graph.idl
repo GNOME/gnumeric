@@ -7,8 +7,9 @@
  * (C) 1999 International GNOME Support (http://www.gnome-support.com)
  */
 
-#include <Gnumeric-value.idl>
-#include <gnome-unknown.idl>
+#include <bonobo.idl>
+#include "Gnumeric-value.idl"
+
 
 module GNOME {
 

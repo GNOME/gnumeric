@@ -4,6 +4,7 @@
 
 #include <libgnome/gnome-defs.h>
 #include <bonobo/gnome-object.h>
+#include "Graph.h"
 
 BEGIN_GNOME_DECLS
 
@@ -13,7 +14,7 @@ BEGIN_GNOME_DECLS
 #define IS_GRAPH(o)       (GTK_CHECK_TYPE ((o), GRAPH_TYPE))
 #define IS_GRAPH_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), GRAPH_TYPE))
 
-struct Graph {
+typedef struct {
 	GnomeObject base;
 
 	GNOME_Graph_ChartType     chart_type;
@@ -27,11 +28,16 @@ struct Graph {
 	GNOME_Graph_ScatterPoints scatter_mode;
 	GNOME_Graph_ScatterConn   scatter_conn;
 	GNOME_Graph_SurfaceMode   surface_mode;
-};
 
-struct GraphClass {
+	GSList *views;
+
+	int      frozen;
+	gboolean need_update;
+} Graph;
+
+typedef struct {
 	GnomeObjectClass parent_class;
-};
+} GraphClass;
 
 GtkType     graph_get_type (void);
 
