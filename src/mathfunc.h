@@ -95,6 +95,7 @@ gnum_float pexp (gnum_float x, gnum_float scale, gboolean lower_tail, gboolean l
 
 /* Binomial distribution.  */
 gnum_float dbinom (gnum_float x, gnum_float n, gnum_float p, gboolean give_log);
+gnum_float dbinom_raw(gnum_float x, gnum_float n, gnum_float p, gnum_float q, gboolean give_log);
 gnum_float pbinom (gnum_float x, gnum_float n, gnum_float p, gboolean lower_tail, gboolean log_p);
 gnum_float qbinom (gnum_float x, gnum_float n, gnum_float p, gboolean lower_tail, gboolean log_p);
 
@@ -103,6 +104,10 @@ gnum_float dnbinom (gnum_float x, gnum_float n, gnum_float p, gboolean give_log)
 
 /* Hyper-geometrical distribution.  */
 gnum_float dhyper (gnum_float x, gnum_float r, gnum_float b, gnum_float n, gboolean give_log);
+
+/* Geometrical distribution.  */
+gnum_float dgeom (gnum_float x, gnum_float p);
+gnum_float pgeom (gnum_float x, gnum_float p, int lower_tail, int log_p);
 
 /* Random number generation. */
 gnum_float random_01             (void);

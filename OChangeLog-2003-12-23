@@ -1,7 +1,11 @@
+2002-07-22  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* src/mathfunc.[ch] (dgeom, pgeom): Added.
+
 2002-07-21  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* src/mathfunc.[ch] (random_gaussian_tail): Added.
-
+	
 2002-07-21  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* src/mathfunc.[ch] (random_landau): Added.

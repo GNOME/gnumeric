@@ -2798,7 +2798,7 @@ gnum_float pbinom(gnum_float x, gnum_float n, gnum_float p, gboolean lower_tail,
  */
 
 
-static gnum_float dbinom_raw(gnum_float x, gnum_float n, gnum_float p, gnum_float q, gboolean give_log)
+gnum_float dbinom_raw(gnum_float x, gnum_float n, gnum_float p, gnum_float q, gboolean give_log)
 {
     gnum_float f, lc;
 
@@ -4293,6 +4293,29 @@ L420:
 	    (*ncalc)++;
 	}
     }
+}
+
+gnum_float
+dgeom (gnum_float x, gnum_float p)
+{ 
+        gnum_float prob;
+
+	/* prob = (1-p)^x, stable for small p */
+	prob = dbinom_raw (0.0, x, p,1 - p, FALSE);
+
+	return p * prob;
+}
+
+gnum_float
+pgeom (gnum_float x, gnum_float p, int lower_tail, int log_p)
+{
+        x = floorgnum (x + 1e-7);
+
+	if (x < 0. || p == 0.) return 0;
+
+	if (log_p && !lower_tail)
+	        return loggnum (1 - p) * (x + 1);
+	return R_DT_Cval (powgnum (1 - p, x + 1));
 }
 
 /* ------------------------------------------------------------------------ */
