@@ -377,7 +377,7 @@ msgstr ""
 #: src/dialog-cell-format.c:360 src/dialog-cell-format.c:369
 #: src/workbook.c:990
 msgid "Center"
-msgstr ""
+msgstr "Centre"
 
 #: src/dialog-cell-format.c:361
 msgid "Right"
@@ -415,7 +415,7 @@ msgstr ""
 
 #: src/dialog-cell-format.c:602
 msgid "Text color"
-msgstr ""
+msgstr "Text colour"
 
 #. The radio buttons
 #: src/dialog-cell-format.c:606 src/dialog-cell-format.c:639
@@ -425,7 +425,7 @@ msgstr ""
 
 #: src/dialog-cell-format.c:608
 msgid "Use this color"
-msgstr ""
+msgstr "Use this colour"
 
 #: src/dialog-cell-format.c:610 src/dialog-cell-format.c:645
 msgid "No change"
@@ -437,7 +437,7 @@ msgstr ""
 
 #: src/dialog-cell-format.c:641
 msgid "Use solid color"
-msgstr ""
+msgstr "Use solid colour"
 
 #: src/dialog-cell-format.c:643
 msgid "Use a pattern"
@@ -457,7 +457,7 @@ msgstr ""
 
 #: src/dialog-cell-format.c:918
 msgid "Coloring"
-msgstr ""
+msgstr "Colouring"
 
 #: src/dialog-define-names.c:23
 msgid "Define names"
@@ -2415,7 +2415,7 @@ msgstr ""
 
 #: src/workbook.c:990
 msgid "Centers the cell contents"
-msgstr ""
+msgstr "Centres the cell contents"
 
 #: src/workbook.c:993
 msgid "Right align"
