@@ -19,6 +19,8 @@
 #include <string.h>
 #include <gal/widgets/e-colors.h>
 
+#define AGGRESSIVE_CACHING
+
 #undef DEBUG_REF_COUNT
 #undef DEBUG_FONTS
 
@@ -47,7 +49,9 @@ style_font_new_simple (const char *font_name, double size, double scale,
 	key.scale     = scale;
 
 	font = (StyleFont *) g_hash_table_lookup (style_font_hash, &key);
-	if (!font) {
+	if (font) {
+		font->ref_count++;
+	} else {
 		if (g_hash_table_lookup (style_font_negative_hash, &key))
 			return NULL;
 
@@ -57,6 +61,7 @@ style_font_new_simple (const char *font_name, double size, double scale,
 		font->scale     = scale;
 		font->is_bold   = bold;
 		font->is_italic = italic;
+		font->ref_count = 1;
 
 		font->dfont = gnome_get_display_font (
 			font_name,
@@ -95,8 +100,6 @@ style_font_new_simple (const char *font_name, double size, double scale,
 
 		g_hash_table_insert (style_font_hash, font, font);
 	}
-
-	font->ref_count++;
 
 #ifdef DEBUG_REF_COUNT
 	fprintf (stderr, __FUNCTION__ " font=%p name=%s%s%s ref_count=%d\n",
@@ -187,12 +190,16 @@ style_font_unref (StyleFont *sf)
 	if (sf->ref_count != 0)
 		return;
 
+#ifdef AGGRESSIVE_CACHING
+	/* Leave font in cache with ref_count == 0.  */
+#else
 	gtk_object_unref (GTK_OBJECT (sf->font));
 	gdk_font_unref (sf->gdk_font);
 
 	g_hash_table_remove (style_font_hash, sf);
 	g_free (sf->font_name);
 	g_free (sf);
+#endif
 }
 
 /*

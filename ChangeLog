@@ -1,5 +1,12 @@
 2001-08-21  Morten Welinder  <terra@diku.dk>
 
+	* src/style.c (style_font_unref) [AGGRESSIVE_CACHING]: Leave font
+ 	in cache.
+	(style_font_new_simple): Rearrange ref-counting slightly for
+ 	clarity.
+
+2001-08-21  Morten Welinder  <terra@diku.dk>
+
 	* src/style.c (style_font_new_simple): Don't measure the font size
  	unless we just created the font.
 
