@@ -12,6 +12,7 @@
 #include <libgnome/libgnome.h>
 #include <gal/util/e-xml-utils.h>
 #include <gal/util/e-util.h>
+#include "portability.h"
 #include "gnumeric.h"
 #include "workbook.h"
 #include "workbook-view.h"
@@ -27,6 +28,7 @@ typedef enum {FILE_PATTERN_SHELL, FILE_PATTERN_REGEXP, FILE_PATTERN_LAST} InputF
 
 struct _InputFilePattern {
 	InputFilePatternType pattern_type;
+	gboolean case_sensitive;
 	gchar *value;
 };
 
@@ -213,8 +215,20 @@ gnum_plugin_file_opener_probe (GnumFileOpener const *fo, const gchar *file_name)
 		pattern = (InputFilePattern *) l->data;
 		switch (pattern->pattern_type) {
 		case FILE_PATTERN_SHELL: {
-			if (fnmatch (pattern->value, base_file_name, FNM_PATHNAME) == 0) {
-				file_name_matches = TRUE;
+			if (pattern->case_sensitive) {
+				if (fnmatch (pattern->value, base_file_name, FNM_PATHNAME) == 0) {
+					file_name_matches = TRUE;
+				}
+			} else {
+				gchar *pattern_str, *name_str;
+
+				pattern_str = g_alloca (strlen (pattern->value) + 1);
+				name_str = g_alloca (strlen (base_file_name) + 1);
+				g_strdown (strcpy (pattern_str, pattern->value));
+				g_strdown (strcpy (name_str, base_file_name));
+				if (fnmatch (pattern_str, name_str, FNM_PATHNAME) == 0) {
+					file_name_matches = TRUE;
+				}
 			}
 			break;
 		}
@@ -413,6 +427,8 @@ plugin_service_file_opener_read (xmlNode *tree, ErrorInfo **ret_error)
 					file_pattern->pattern_type = FILE_PATTERN_SHELL;
 				} else if (g_strcasecmp (type_str, "shell_pattern") == 0) {
 					file_pattern->pattern_type = FILE_PATTERN_SHELL;
+					file_pattern->case_sensitive = e_xml_get_bool_prop_by_name_with_default (
+					                               node, "case_sensitive", FALSE);
 				} else if (g_strcasecmp (type_str, "regexp") == 0) {
 					file_pattern->pattern_type = FILE_PATTERN_REGEXP;
 				} else {

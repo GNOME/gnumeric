@@ -1,5 +1,14 @@
 2001-05-23  Zbigniew Chyla  <cyba@gnome.pl>
 
+	* src/plugin-service.c
+	(struct _InputFilePattern): Added "case_sensitive" field.
+	(gnum_plugin_file_opener_probe): Support "case_sensitive" attribute when
+	checking if file name matches the pattern.
+	(plugin_service_file_opener_read): Support "case_sensitive" attribute.
+	Now matching is case _insensitive_ by default.
+
+2001-05-23  Zbigniew Chyla  <cyba@gnome.pl>
+
 	* src/bonobo-io.c, src/clipboard.c, src/file.c, src/plugin.c,
 	src/sheet-object.c, src/stf.c, src/workbook.c:
 	Removed #include "xml-io.h".
