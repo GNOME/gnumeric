@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.40\n"
 "POT-Creation-Date: 2000-12-07 20:18-0500\n"
-"PO-Revision-Date: 2000-12-03 02:30+01:00\n"
+"PO-Revision-Date: 2000-12-07 02:30+01:00\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -1978,27 +1978,22 @@ msgid "$"
 msgstr "kr"
 
 #: po/tmp/cell-format.glade.h:7
-#, c-format
 msgid "12.5% Grey"
 msgstr "12.5% grå"
 
 #: po/tmp/cell-format.glade.h:8
-#, c-format
 msgid "25% Grey"
 msgstr "25% grå"
 
 #: po/tmp/cell-format.glade.h:9
-#, c-format
 msgid "50% Grey"
 msgstr "50% grå"
 
 #: po/tmp/cell-format.glade.h:10
-#, c-format
 msgid "6.25% Grey"
 msgstr "6.25% grå"
 
 #: po/tmp/cell-format.glade.h:11
-#, c-format
 msgid "75% Grey"
 msgstr "75% grå"
 
@@ -3877,9 +3872,8 @@ msgstr "_Fil-detaljer"
 #. * DO NOT compile this file as part of your application.
 #.
 #: po/tmp/print.glade.h:6
-#, c-format
 msgid "% of normal size"
-msgstr "%% af normal størrelse"
+msgstr "% af normal størrelse"
 
 #: po/tmp/print.glade.h:7
 msgid "Center on page"
@@ -14883,13 +14877,13 @@ msgid "Enables extra consistancy checking while reading ole files"
 msgstr "Aktivérer ekstra konsistenskontrol ved læsning af gamle filer"
 
 #: src/main.c:158
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "gnumeric version '%s'\n"
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 msgstr ""
-"gnumeric version %s\n"
+"gnumeric version '%s.\n"
 "datadir := %s\n"
 "libdir := %s\n"
 
@@ -15127,24 +15121,20 @@ msgid "_Delete..."
 msgstr "_Slet..."
 
 #: src/sheet-control-gui.c:1147
-#, fuzzy
 msgid "_Insert Column(s)"
-msgstr "Indsæt kolonner"
+msgstr "_Indsæt kolonner"
 
 #: src/sheet-control-gui.c:1149
-#, fuzzy
 msgid "_Delete Column(s)"
-msgstr "Slet kolonner"
+msgstr "_Slet kolonner"
 
 #: src/sheet-control-gui.c:1151
-#, fuzzy
 msgid "_Insert Row(s)"
-msgstr "Indsæt rækker"
+msgstr "_Indsæt rækker"
 
 #: src/sheet-control-gui.c:1153
-#, fuzzy
 msgid "_Delete Row(s)"
-msgstr "Slet rækker"
+msgstr "_Slet rækker"
 
 #: src/sheet-control-gui.c:1156
 msgid "Clear Co_ntents"
@@ -15502,7 +15492,6 @@ msgid "Right justifies the cell contents"
 msgstr "Højrejusterer cellens indhold"
 
 #: src/workbook-format-toolbar.c:407
-#, fuzzy
 msgid "Center across selection"
 msgstr "Midtersektionsvalg"
 
@@ -16337,9 +16326,8 @@ msgid "C_lear..."
 msgstr "_Ryd..."
 
 #: po/tmp/gnumeric.xml.h:22
-#, fuzzy
 msgid "CenterAcrossSelection"
-msgstr "Midtersektionsvalg"
+msgstr "MidterSektionsValg"
 
 #: po/tmp/gnumeric.xml.h:23
 msgid "Centers the text in each selection"
@@ -16755,57 +16743,8 @@ msgstr "Gentag"
 
 #: po/tmp/gnumeric.xml.h:233
 msgid "_Undo"
-msgstr "Fortryd"
+msgstr "_Fortryd"
 
 #: po/tmp/gnumeric.xml.h:235
 msgid "_View"
 msgstr "_Vis"
-
-#~ msgid "_Object..."
-#~ msgstr "_Objekt..."
-
-#~ msgid "Database Access"
-#~ msgstr "Database tilgang"
-
-#~ msgid "Enables database access"
-#~ msgstr "Aktiverer database tilgang"
-
-#~ msgid "None\n"
-#~ msgstr "Ingen"
-
-#~ msgid "Single\n"
-#~ msgstr "Enkel"
-
-#, fuzzy
-#~ msgid "\"\n"
-#~ msgstr "\""
-
-#, fuzzy
-#~ msgid "pts\n"
-#~ msgstr "pkt"
-
-#, fuzzy
-#~ msgid "mm\n"
-#~ msgstr "mm"
-
-#, fuzzy
-#~ msgid "cm\n"
-#~ msgstr "cm"
-
-#~ msgid "Formulas"
-#~ msgstr "Formler"
-
-#~ msgid "Values"
-#~ msgstr "Værdier"
-
-#~ msgid "N_ames"
-#~ msgstr "_Navne"
-
-#~ msgid "&lt;- Remove"
-#~ msgstr "&lt;- Fjern"
-
-#~ msgid "&quot;"
-#~ msgstr "&quot;"
-
-#~ msgid "Add -&gt;"
-#~ msgstr "Tilføj -&gt;"
