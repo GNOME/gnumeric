@@ -54,6 +54,18 @@ typedef struct {
 #define CELL_TEXT_GET(cell) ((cell)->text ? cell->text->str : cell->entered_text->str)
 #define CELL_IS_FORMULA(cell) (cell->entered_text->str [0] == '=')
 
+typedef struct {
+	int col_offset, row_offset; /* Position of the cell */
+	Cell *cell;
+} CellCopy;
+
+typedef GList CellCopyList;
+
+typedef struct {
+	int            cols, rows;
+	CellCopyList *list;
+} CellRegion;
+
 void        cell_set_text             (Cell *cell, char *text);
 void        cell_set_formula          (Cell *cell, char *text);
 void        cell_calc_dimensions      (Cell *cell);

@@ -21,9 +21,43 @@ quit_cmd (void)
 }
 
 static void
-save_cmd (void)
+save_cmd (GtkWidget *widget, Workbook *wb)
 {
         gnumericWriteXmlWorkbook (current_workbook, "default.wb");
+}
+
+static void
+paste_cmd (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet;
+	GnumericSheet *gsheet;
+
+	sheet = workbook_get_current_sheet (wb);
+	gsheet = GNUMERIC_SHEET (sheet->sheet_view);
+	sheet_selection_paste (sheet, gsheet->cursor_col, gsheet->cursor_row, PASTE_DEFAULT);
+}
+
+static void
+copy_cmd (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet;
+
+	sheet = workbook_get_current_sheet (wb);
+	sheet_selection_copy (sheet);
+}
+
+static void
+cut_cmd (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet;
+	
+	sheet = workbook_get_current_sheet (wb);
+	sheet_selection_cut (sheet);
+}
+
+static void
+paste_special_cmd (GtkWidget *widget, Workbook *wb)
+{
 }
 
 static GnomeUIInfo workbook_menu_file [] = {
@@ -34,8 +68,21 @@ static GnomeUIInfo workbook_menu_file [] = {
 	GNOMEUIINFO_END
 };
 
+static GnomeUIInfo workbook_menu_edit [] = {
+	{ GNOME_APP_UI_ITEM, N_("Cut"), NULL, cut_cmd, NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_CUT },
+	{ GNOME_APP_UI_ITEM, N_("Copy"), NULL, copy_cmd, NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_COPY },
+	{ GNOME_APP_UI_ITEM, N_("Paste"), NULL, paste_cmd, NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_PASTE },
+	{ GNOME_APP_UI_ITEM, N_("Paste special"), NULL, paste_special_cmd, NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_PASTE },
+	GNOMEUIINFO_END
+};
+
 static GnomeUIInfo workbook_menu [] = {
 	{ GNOME_APP_UI_SUBTREE, N_("File"), NULL, &workbook_menu_file },
+	{ GNOME_APP_UI_SUBTREE, N_("Edit"), NULL, &workbook_menu_edit },
 	GNOMEUIINFO_END
 };
 
@@ -306,7 +353,7 @@ workbook_new (void)
 	workbook_setup_edit_area (wb);
 	workbook_setup_sheets (wb);
 	gnome_app_set_contents (GNOME_APP (wb->toplevel), wb->table);
-	gnome_app_create_menus (GNOME_APP (wb->toplevel), workbook_menu);
+	gnome_app_create_menus_with_data (GNOME_APP (wb->toplevel), workbook_menu, wb);
 
 	/* Set the default operation to be performed over selections */
 	workbook_set_auto_expr (wb, "SUM", "SUM(SELECTION())");

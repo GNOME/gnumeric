@@ -156,7 +156,8 @@ cell_copy (Cell *cell)
 
 	/* now copy propertly the rest */
 	string_ref      (new_cell->entered_text);
-	expr_tree_ref   (new_cell->parsed_node);
+	if (new_cell->parsed_node)
+		expr_tree_ref   (new_cell->parsed_node);
 	string_ref      (new_cell->text);
 	
 	new_cell->style = style_duplicate (new_cell->style);

@@ -15,6 +15,8 @@ GNOME_XML_LIB = -lxml
 GNUMERIC_BASE_SOURCES =		\
 	cell.h			\
 	cell.c			\
+	clipboard.c		\
+	clipboard.h		\
 	eval.c			\
 	expr.c			\
 	expr.h			\
@@ -24,6 +26,8 @@ GNUMERIC_BASE_SOURCES =		\
 	fn-math.c		\
 	gnumeric-sheet.c	\
 	gnumeric-sheet.h	\
+	gnumeric-util.c		\
+	gnumeric-util.h		\
 	gnumeric.h		\
 	item-bar.c		\
 	item-bar.h		\

@@ -11,6 +11,7 @@
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
 #include "utils.h"
+#include "gnumeric-util.h"
 
 static void sheet_selection_col_extend_to (Sheet *sheet, int col);
 static void sheet_selection_row_extend_to (Sheet *sheet, int row);
@@ -1308,16 +1309,11 @@ CRowSort (gconstpointer a, gconstpointer b)
 	return ca->row->pos - cb->row->pos;
 }
 
-Cell *
-sheet_cell_new (Sheet *sheet, int col, int row)
+void
+sheet_cell_add (Sheet *sheet, Cell *cell, int col, int row)
 {
-	Cell *cell;
 	CellPos *cellref;
 	
-	g_return_val_if_fail (sheet != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET (sheet), NULL); 
-
-	cell = g_new0 (Cell, 1);
 	cell->sheet = sheet;
 	cell->col   = sheet_col_get (sheet, col);
 	cell->row   = sheet_row_get (sheet, row);
@@ -1332,6 +1328,18 @@ sheet_cell_new (Sheet *sheet, int col, int row)
 	g_hash_table_insert (sheet->cell_hash, cellref, cell);
 	cell->col->data = g_list_insert_sorted (cell->col->data, cell, CRowSort);
 
+}
+
+Cell *
+sheet_cell_new (Sheet *sheet, int col, int row)
+{
+	Cell *cell;
+	
+	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL); 
+
+	cell = g_new0 (Cell, 1);
+	sheet_cell_add (sheet, cell, col, row);
 	return cell;
 }
 
@@ -1339,7 +1347,7 @@ void
 sheet_cell_remove (Sheet *sheet, Cell *cell)
 {
 	CellPos cellref;
-	
+
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -1349,27 +1357,107 @@ sheet_cell_remove (Sheet *sheet, Cell *cell)
 	
 	g_hash_table_remove (sheet->cell_hash, &cellref);
 	cell->col->data = g_list_remove (cell->col->data, cell);
+
+	sheet_redraw_cell_region (sheet,
+				  cellref.col, cellref.row, 
+				  cellref.col, cellref.row);
 }
 
 static int
-clear_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
+assemble_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {
-	sheet_cell_remove (sheet, cell);
-	cell_destroy (cell);
-	
+	GList **l = (GList **) user_data;
+
+	*l = g_list_prepend (*l, cell);
 	return TRUE;
 }
 
+/*
+ * Clears are region of cells
+ *
+ * We assemble a list of cells to destroy, since we will be making changes
+ * to the structure being manipulated by the sheet_cell_foreach_range routine
+ */
 void
 sheet_clear_region (Sheet *sheet, int start_col, int start_row, int end_col, int end_row)
 {
+	GList *destroyable_cells, *l;
+	
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (start_col <= end_col);
 	g_return_if_fail (start_row <= end_row);
-	
+
+	destroyable_cells = NULL;
 	sheet_cell_foreach_range (
 		sheet, TRUE,
-		start_col, start_row,end_col, end_row,
-		clear_cell, NULL);
+		start_col, start_row,
+		end_col, end_row,
+		assemble_cell, &destroyable_cells);
+
+	for (l = destroyable_cells; l; l = l->next){
+		Cell *cell = l->data;
+		
+		sheet_cell_remove (sheet, cell);
+		cell_destroy (cell);
+	}
+	g_list_free (destroyable_cells);
 }
+
+void
+sheet_selection_copy (Sheet *sheet)
+{
+	SheetSelection *ss;
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	if (g_list_length (sheet->selections) != 1){
+		gnumeric_notice (_("Can not copy non-contiguous selections"));
+		return;
+	}
+	
+	ss = sheet->selections->data;
+
+	if (sheet->workbook->clipboard_contents)
+		clipboard_release (sheet->workbook->clipboard_contents);
+
+	sheet->workbook->clipboard_contents = clipboard_copy_cell_range (
+		sheet,
+		ss->start_col, ss->start_row,
+		ss->end_col, ss->end_row);
+}
+
+void
+sheet_selection_cut (Sheet *sheet)
+{
+	SheetSelection *ss;
+	
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	if (g_list_length (sheet->selections) != 1){
+		gnumeric_notice (_("Can not cut non-contiguous selections"));
+		return;
+	}
+
+	ss = sheet->selections->data;
+
+	sheet_selection_copy (sheet);
+	sheet_clear_region (sheet, ss->start_col, ss->start_row, ss->end_col, ss->end_row);
+}
+
+void
+sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row, int paste_flags)
+{
+	CellRegion *content;
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	content = sheet->workbook->clipboard_contents;
+	
+	if (!content)
+		return;
+	
+	clipboard_paste_region (content, sheet, dest_col, dest_row, paste_flags);
+}
+

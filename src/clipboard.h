@@ -1,17 +1,20 @@
 #ifndef CLIPBOARD_H
 #define CLIPBOARD_H
 
-typedef struct {
-	int col_offset, pos_offset; /* Position of the cell */
-	Cell *cell;
-} CellCopy;
+enum {
+	PASTE_TEXT     = 0,	/* NOte that Text/Formulas are mutually exclusive */
+	PASTE_FORMULAS = 1,
+	PASTE_FORMATS  = 2,
 
-typedef GList CellRegionList;
+	/* Operations that can be performed at paste time on a cell */
+	PASTE_OP_ADD   = 4,
+	PASTE_OP_SUB   = 8,
+	PASTE_OP_MULT  = 16,
+	PASTE_OP_DIV   = 32
+};
 
-typedef struct {
-	int            cols, rows;
-	CelLRegionList list;
-} CellRegion;
+#define PASTE_DEFAULT (PASTE_FORMULAS | PASTE_FORMATS)
+#define PASTE_OP_MASK (PASTE_OP_ADD | PASTE_OP_SUB | PASTE_OP_MULT | PASTE_OP_DIV)
 
 CellRegion *clipboard_copy_cell_range    (Sheet *sheet,
 					  int start_col, int start_row,
@@ -20,5 +23,8 @@ CellRegion *clipboard_copy_cell_range    (Sheet *sheet,
 void        clipboard_paste_region       (CellRegion *region,
 					  Sheet      *dest_sheet,
 					  int         dest_col,
-					  int         dest_row);
+					  int         dest_row,
+					  int         paste_flags);
+
+void        clipboard_release            (CellRegion *region);
 #endif

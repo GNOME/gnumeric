@@ -34,6 +34,9 @@ typedef struct {
 	GList      *eval_queue;
 	int        max_iterations;
 	guchar     generation;
+
+	/* The clipboard for this workbook */
+	CellRegion *clipboard_contents;
 } Workbook;
 
 typedef struct {
@@ -111,12 +114,21 @@ void        sheet_selection_append_range (Sheet *sheet,
 					  int start_col, int start_row,
 					  int end_col,   int end_row);
 
+/* Cut/Copy/Paste on the workbook selection */
+void        sheet_selection_copy         (Sheet *sheet);
+void        sheet_selection_cut          (Sheet *sheet);
+void        sheet_selection_paste        (Sheet *sheet,
+					  int dest_col, int dest_row,
+					  int paste_flags);
+
 void        sheet_selection_extend_horizontal (Sheet *sheet, int count);
 void        sheet_selection_extend_vertical   (Sheet *sheet, int count);
 int         sheet_selection_is_cell_selected  (Sheet *sheet, int col, int row);
 
 /* Cell management */
 Cell       *sheet_cell_new            (Sheet *sheet, int col, int row);
+void        sheet_cell_add            (Sheet *sheet, Cell *cell,
+				       int col, int row);
 void        sheet_cell_remove         (Sheet *sheet, Cell *cell);
 int         sheet_cell_foreach_range  (Sheet *sheet, int only_existing,
 				       int start_col, int start_row,
