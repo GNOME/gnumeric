@@ -57,19 +57,16 @@ msgid "Unexpected end of file at line %d while reading data."
 msgstr ""
 
 #: plugins/dif/dif.c:329
-#, fuzzy
 msgid "Error while reading DIF file."
-msgstr "Помилка при спроб╕ запису cvs-файлу"
+msgstr "Помилка п╕д час зчитування файлу DIF."
 
 #: plugins/dif/dif.c:361
-#, fuzzy
 msgid "Cannot get default sheet."
-msgstr "Неможливо створити файл %s\n"
+msgstr "Неможливо отримати типову стор╕нку."
 
 #: plugins/dif/dif.c:394
-#, fuzzy
 msgid "Error while saving dif file."
-msgstr "Помилка при спроб╕ запису cvs-файлу"
+msgstr "Помилка п╕д час збереження файлу dif."
 
 #: plugins/excel/boot.c:153
 msgid ""
@@ -129,12 +126,12 @@ msgstr "Нев╕дома помилка GNOME BASIC"
 #: plugins/gb/plugin.c:373
 #, c-format
 msgid "Error initializing gb '%s'"
-msgstr ""
+msgstr "Помилка ╕н╕ц╕ал╕зац╕╖ gb \"%s\""
 
 #: plugins/gb/plugin.c:388
 #, c-format
 msgid "Error in project '%s'"
-msgstr ""
+msgstr "Помилка в проект╕ \"%s\""
 
 #: plugins/gda/plugin-gda.c:109
 msgid ""
@@ -514,9 +511,8 @@ msgstr ""
 #: plugins/python-loader/py-gnumeric.c:270
 #: plugins/python-loader/py-gnumeric.c:310 src/gnumeric-util.c:192
 #: src/gnumeric-util.c:227
-#, fuzzy
 msgid "Unknown error"
-msgstr "Нев╕дома помилка GNOME BASIC"
+msgstr "Нев╕дома помилка"
 
 #: plugins/python-loader/py-gnumeric.c:276
 #: plugins/python-loader/py-gnumeric.c:318
@@ -540,9 +536,8 @@ msgid "Unsupported Python type: %s"
 msgstr "Метод не п╕дтриму╓ться"
 
 #: plugins/sc/sc.c:387
-#, fuzzy
 msgid "Error parsing line"
-msgstr "помилка анал╕зу рядка\n"
+msgstr "Помилка анал╕зу рядка"
 
 #: plugins/sc/sc.c:433
 #, fuzzy
@@ -581,14 +576,12 @@ msgid "XML document not well formed!"
 msgstr ""
 
 #: src/about.c:28
-#, fuzzy
 msgid "Miguel de Icaza, creator."
-msgstr "Miguel de Icaza, головний програм╕ст."
+msgstr "Miguel de Icaza, творець."
 
 #: src/about.c:29
-#, fuzzy
 msgid "Jody Goldberg, maintainer."
-msgstr "Jody Goldberg, хакер."
+msgstr "Jody Goldberg, головний програм╕ст."
 
 #: src/about.c:30
 msgid "Sean Atkinson, functions and X-Base importing."
@@ -599,9 +592,8 @@ msgid "Grandma Chema Celorio, Tester and sheet copy."
 msgstr ""
 
 #: src/about.c:32
-#, fuzzy
 msgid "Frank Chiulli, OLE support."
-msgstr "Daniel Veillard, п╕дтримка XML."
+msgstr "Frank Chiulli, п╕дтримка OLE."
 
 #: src/about.c:33
 msgid "Kenneth Christiansen, i18n, misc stuff."
@@ -609,7 +601,7 @@ msgstr "Kenneth Christiansen, ╕нтернац╕онал╕зац╕я, р╕зне."
 
 #: src/about.c:34
 msgid "Zbigniew Chyla, plugin system, i18n."
-msgstr ""
+msgstr "Zbigniew Chyla, система доповнень, ╕нтернац╕онал╕зац╕я."
 
 #: src/about.c:35
 msgid "Tom Dyas, plugin support."
@@ -655,9 +647,8 @@ msgid "Michael Meeks, Excel and OLE2 importing."
 msgstr "Michael Meeks, ╕мпортування з Excel та OLE2."
 
 #: src/about.c:48
-#, fuzzy
 msgid "Federico M. Quintero, canvas support."
-msgstr "Federico Mena, п╕дтримка канви."
+msgstr "Federico M. Quintero, п╕дтримка полотна."
 
 #: src/about.c:49
 msgid "Mark Probst, Guile support."
@@ -676,14 +667,12 @@ msgid "Ariel Rios, Guile support."
 msgstr "Ariel Rios, п╕дтримка Guile."
 
 #: src/about.c:53
-#, fuzzy
 msgid "Arturo Tena, OLE support."
-msgstr "Federico Mena, п╕дтримка канви."
+msgstr "Arturo Tena, п╕дтримка OLE."
 
 #: src/about.c:54
-#, fuzzy
 msgid "Almer S. Tigelaar, Gnumeric hacker."
-msgstr "Jon K Hellan, хакер."
+msgstr "Almer S. Tigelaar, хакер."
 
 #: src/about.c:55
 msgid "Bruno Unna, Excel bits."
@@ -706,9 +695,8 @@ msgid "Gnumeric"
 msgstr "Gnumeric"
 
 #: src/about.c:76
-#, fuzzy
 msgid "(C) 1998-2001 Miguel de Icaza"
-msgstr "© 1998-2000 Miguel de Icaza"
+msgstr "© 1998-2001 Miguel de Icaza"
 
 #: src/about.c:83
 msgid "Gnumeric Home Page"
@@ -12241,7 +12229,7 @@ msgstr ""
 
 #: src/plugin.c:1712
 msgid "Errors while activating plugins."
-msgstr ""
+msgstr "Помилки п╕д час активац╕╖ доповнень."
 
 #: src/plugin.c:1718
 msgid "Errors while initializing plugin system."
@@ -12290,9 +12278,8 @@ msgid "Unable to close module file \"%s\": %s"
 msgstr "неможливо в╕дкрити файл модулю: \"%s\": %s"
 
 #: src/plugin-loader-module.c:192
-#, fuzzy
 msgid "Module file name"
-msgstr "Назва файлу:"
+msgstr "Назва файлу модуля"
 
 #: src/plugin-loader-module.c:335
 #, fuzzy
@@ -12329,9 +12316,8 @@ msgid "Service not supported by loader."
 msgstr ""
 
 #: src/plugin-loader.c:289
-#, fuzzy
 msgid "Error while loading plugin."
-msgstr "Помилка: нема╓ аркуша"
+msgstr "Помилка п╕д час завантаження доповнення."
 
 #: src/print-info.c:20 src/print-info.c:23 src/print-info.c:24
 #: src/print-info.c:276
@@ -12571,14 +12557,12 @@ msgid "Checkbox Configure"
 msgstr "Конф╕╜урац╕я графи в╕дм╕тки"
 
 #: src/sheet-object-widget.c:844
-#, fuzzy
 msgid "Cell :"
-msgstr "Ком╕рка"
+msgstr "Ком╕рка:"
 
 #: src/sheet-object-widget.c:847
-#, fuzzy
 msgid "Label :"
-msgstr "Позначка"
+msgstr "Позначка:"
 
 #: src/sheet-object.c:83
 msgid "Configure"
@@ -12850,19 +12834,16 @@ msgid "Set Horizontal Alignment"
 msgstr "Вертикальне вир╕внювання"
 
 #: src/workbook-format-toolbar.c:185
-#, fuzzy
 msgid "Set Font Style"
-msgstr "Стиль шрифту:"
+msgstr "Встановити стиль шрифту"
 
 #: src/workbook-format-toolbar.c:252
-#, fuzzy
 msgid "Set Font"
-msgstr "Вибрати шрифт"
+msgstr "Встановити шрифт"
 
 #: src/workbook-format-toolbar.c:285
-#, fuzzy
 msgid "Set Font Size"
-msgstr "Розм╕р шрифту"
+msgstr "Встановити розм╕р шрифту"
 
 #: src/workbook-format-toolbar.c:307
 #, fuzzy
@@ -12880,26 +12861,22 @@ msgid "Format with thousands seperator"
 msgstr "Розд╕лювач розряд╕в"
 
 #: src/workbook-format-toolbar.c:348
-#, fuzzy
 msgid "Increase precision"
 msgstr "Зб╕льшити точн╕сть"
 
 #: src/workbook-format-toolbar.c:354
-#, fuzzy
 msgid "Decrease precision"
 msgstr "Зменшити точн╕сть"
 
 #: src/GNOME_Gnumeric.xml.h:94 src/workbook-format-toolbar.c:377
 #: src/workbook-format-toolbar.c:482
-#, fuzzy
 msgid "Increase Indent"
-msgstr "Зб╕льшити"
+msgstr "Зб╕льшити в╕дступ"
 
 #: src/GNOME_Gnumeric.xml.h:58 src/workbook-format-toolbar.c:399
 #: src/workbook-format-toolbar.c:479
-#, fuzzy
 msgid "Decrease Indent"
-msgstr "Зменшити"
+msgstr "Зменшити в╕дступ"
 
 #: src/workbook-format-toolbar.c:410
 msgid "Select font"
@@ -13016,14 +12993,12 @@ msgid "Aligns the contents to the left and increases the indent"
 msgstr ""
 
 #: src/workbook-format-toolbar.c:536
-#, fuzzy
 msgid "Set Foreground Color"
-msgstr "Суц╕льний передн╕й план"
+msgstr "Встановити кол╕р переднього плану"
 
 #: src/workbook-format-toolbar.c:570
-#, fuzzy
 msgid "Set Background Color"
-msgstr "Кол╕р тла"
+msgstr "Встановити кол╕р тла"
 
 #: src/workbook-format-toolbar.c:631
 msgid "Clear Borders"
@@ -13166,9 +13141,8 @@ msgid "No sheets in workbook."
 msgstr "Модиф╕кувати назви таблиць та книг"
 
 #: src/workbook-view.c:745
-#, fuzzy
 msgid "Unsupported file format."
-msgstr "Метод не п╕дтриму╓ться"
+msgstr "Формат файлу не п╕дтриму╓ться"
 
 #: src/workbook-control-gui.c:271
 msgid " : Gnumeric"
@@ -13777,9 +13751,8 @@ msgid "Uncollapse an outline group"
 msgstr ""
 
 #: src/workbook-control-gui.c:2401
-#, fuzzy
 msgid "_Group..."
-msgstr "Про..."
+msgstr "Згрупувати..."
 
 #: src/GNOME_Gnumeric.xml.h:5 src/workbook-control-gui.c:2402
 #, fuzzy
@@ -13787,9 +13760,8 @@ msgid "Add an outline group"
 msgstr "Додати новий стовпчик"
 
 #: src/workbook-control-gui.c:2404
-#, fuzzy
 msgid "_Ungroup..."
-msgstr "Про..."
+msgstr "Розгрупувати..."
 
 #: src/GNOME_Gnumeric.xml.h:162 src/workbook-control-gui.c:2405
 msgid "Remove an outline group"
@@ -14361,9 +14333,8 @@ msgid "_File"
 msgstr "Файл"
 
 #: src/GNOME_Gnumeric.xml.h:234
-#, fuzzy
 msgid "_Group"
-msgstr "Зверху"
+msgstr "Згрупувати"
 
 #: src/GNOME_Gnumeric.xml.h:237
 msgid "_Help"
@@ -14400,344 +14371,3 @@ msgstr "Розгрупувати"
 #: src/GNOME_Gnumeric.xml.h:266
 msgid "_View"
 msgstr "Вигляд"
-
-#~ msgid "DIF : Failed to load sheet"
-#~ msgstr "DIF: Не вдалось завантажити аркуш"
-
-#~ msgid ""
-#~ "Could not read file %s\n"
-#~ "%%s"
-#~ msgstr ""
-#~ "Неможливо зчитати файл %s\n"
-#~ "%%s"
-
-#~ msgid ""
-#~ "Could not save to file %s\n"
-#~ "%%s"
-#~ msgstr ""
-#~ "Неможливо зберегти у файл╕ %s\n"
-#~ "%%s"
-
-#~ msgid "pv - domain error"
-#~ msgstr "PV: помилка д╕апазону"
-
-#, fuzzy
-#~ msgid ""
-#~ "Could not import file %s\n"
-#~ "%%s"
-#~ msgstr ""
-#~ "Неможливо зчитати файл %s\n"
-#~ "%%s"
-
-#, fuzzy
-#~ msgid "Too many rows in data to parse: %d"
-#~ msgstr "Надто багато рядк╕в для цього формату"
-
-#~ msgid "Saving over old files disabled for safety"
-#~ msgstr "Збереження в старий файл заборонено для безпеки"
-
-#~ msgid "Microsoft(R) Excel file format"
-#~ msgstr "Формат файлу Microsoft(R) Excel"
-
-#~ msgid "Excel(R) 97 file format"
-#~ msgstr "Формат файлу Excel(R) 97"
-
-#~ msgid "Excel(R) 95 file format"
-#~ msgstr "Формат файлу Excel(R) 95"
-
-#~ msgid "Almer S. Tigelaar, text import."
-#~ msgstr "Almer S. Tigelaar, ╕мпорт тексту."
-
-#~ msgid "Gnumeric Support page"
-#~ msgstr "Стор╕нка супроводу Gnumeric"
-
-#~ msgid "Format cells"
-#~ msgstr "Формат ком╕рок"
-
-#~ msgid "Merge Cells"
-#~ msgstr "Об'╓днати ком╕рки"
-
-#~ msgid "Gnumeric: Autoformat"
-#~ msgstr "Gnumeric: Автоформатування"
-
-#~ msgid "C_olor"
-#~ msgstr "Кол╕р"
-
-#~ msgid "Pick a Background color"
-#~ msgstr "Вибер╕ть кол╕р тла"
-
-#~ msgid "Pick a Pattern color"
-#~ msgstr "Вказати кол╕р шаблону"
-
-#~ msgid "Pick a border color"
-#~ msgstr "Вибрати кол╕р тла"
-
-#~ msgid "Pick a font color"
-#~ msgstr "Вибрати кол╕р шрифту"
-
-#~ msgid "_Automatic"
-#~ msgstr "Автоматично"
-
-#~ msgid "_No Color"
-#~ msgstr "Без кольору"
-
-#, fuzzy
-#~ msgid "Gnumeric: Input Validation"
-#~ msgstr "Gnumeric: Автоформатування"
-
-#, fuzzy
-#~ msgid "St_yle :"
-#~ msgstr "Стиль:"
-
-#, fuzzy
-#~ msgid "_Error message :"
-#~ msgstr "Пов╕домлення про помилку:"
-
-#~ msgid "Syntax error"
-#~ msgstr "Синтаксична помилка"
-
-#~ msgid "Invalid argument"
-#~ msgstr "Нев╕рний ар╜умент"
-
-#~ msgid "Enables some style related debugging functions"
-#~ msgstr "Дозволити деяк╕ налагоджувальн╕ функц╕╖ стосовно стил╕в"
-
-#~ msgid "Enables debugging mesgs while reading excel workbooks"
-#~ msgstr ""
-#~ "Дозволити налагоджувальн╕ пов╕домлення при зчитуванн╕ робочо╖ книги Excel"
-
-#~ msgid "Enables debugging mesgs while reading excel functions"
-#~ msgstr "Дозволити налагоджувальн╕ пов╕домлення при зчитуванн╕ функц╕й Excel"
-
-#, fuzzy
-#~ msgid "Enables debugging mesgs while reading excel colors & patterns"
-#~ msgstr ""
-#~ "Дозволити налагоджувальн╕ пов╕домлення при зчитуванн╕ кольор╕в та шаблон╕в "
-#~ "Excel"
-
-#~ msgid "Enables debugging mesgs while reading excel objects"
-#~ msgstr "Дозволя╓ налагоджувальн╕ пов╕домлення при зчитуванн╕ об'╓кт╕в Excel"
-
-#~ msgid "Enables debugging mesgs while reading excel charts"
-#~ msgstr "Дозволя╓ налагоджувальн╕ пов╕домлення при зчитуванн╕ д╕аграм Excel"
-
-#~ msgid "ERROR"
-#~ msgstr "ПОМИЛКА"
-
-#~ msgid "Selection must be a single range"
-#~ msgstr "Вибране ма╓ бути в одному д╕апазон╕"
-
-#~ msgid "Insert cols"
-#~ msgstr "Вставити стовпчики"
-
-#~ msgid "Applix (*.as) file format"
-#~ msgstr "Формат файлу Applix (*.as)"
-
-#~ msgid "Data Interchange Format (*.dif) file format"
-#~ msgstr "Формат файлу Data Interchange Format (*.dif)"
-
-#~ msgid "Data Interchange Format (*.dif)"
-#~ msgstr "Data Interchange Format (*.dif)"
-
-#~ msgid "HTML 3.2 file format (*.html)"
-#~ msgstr "Формат файлу HTML 3.2 (*.html)"
-
-#~ msgid "HTML 4.0 file format (*.html)"
-#~ msgstr "Формат файлу HTML 4.0 (*.html)"
-
-#~ msgid "HTML file made by gnumeric"
-#~ msgstr "Файл HTML створений gnumeric"
-
-#~ msgid "LaTeX file format (*.tex)"
-#~ msgstr "Формат файлу LaTeX (*.tex)"
-
-#~ msgid "LaTeX2e file format (*.tex)"
-#~ msgstr "Формат файлу LaTeX2e (*.tex)"
-
-#~ msgid "DVI TeX file format (via groff)"
-#~ msgstr "Формат файлу DVI TeX (через groff)"
-
-#~ msgid "TROFF file format (*.me)"
-#~ msgstr "Формат файлу TROFF (*.me)"
-
-#~ msgid "PDF file format (via groff/gs)"
-#~ msgstr "Формат файлу PDF (через groff/gs)"
-
-#~ msgid "EPS file format (*.eps)"
-#~ msgstr "Формат файлу EPS (*.eps)"
-
-#~ msgid "Lotus file format (*.wk1)"
-#~ msgstr "Формат файлу Lotus (*.wk1)"
-
-#~ msgid "Number Theory"
-#~ msgstr "Теор╕я чисел"
-
-#~ msgid "Bitwise Operations"
-#~ msgstr "Б╕тов╕ операц╕╖"
-
-#~ msgid "GNU Oleo (*.oleo) file format"
-#~ msgstr "Формат файлу GNU Oleo (*.oleo)"
-
-#~ msgid "Plan Perfect Format (PLN) import"
-#~ msgstr "╤мпорт файлу Plan Perfect (PLN)"
-
-#~ msgid "SC/xspread file import"
-#~ msgstr "╤мпорт файлу SC/XSpread"
-
-#~ msgid "MultiPlan (SYLK) import"
-#~ msgstr "╤мпорт MultiPlan (SYLK)"
-
-#~ msgid "Xbase (*.dbf) file format"
-#~ msgstr "Формат файлу Xbase (*.bdf)"
-
-#~ msgid "EXPERIMENTAL Gnumeric (*.gnumeric) XML based file format"
-#~ msgstr ""
-#~ "ЕКСПЕРИМЕНТАЛЬНИЙ Формат файлу Gnumeric (*.gnumeric), що базу╓ться на XML"
-
-#~ msgid "Gnumeric (*.gnumeric) XML based file format"
-#~ msgstr "Формат файлу Gnumeric (*.gnumeric), що базу╓ться на XML"
-
-#~ msgid "_Title:"
-#~ msgstr "Заголовок:"
-
-#, fuzzy
-#~ msgid "Unknown activation type."
-#~ msgstr "Нев╕домий тип Python"
-
-#, fuzzy
-#~ msgid "Function init_plugin inside \"%s\" returned error."
-#~ msgstr "Функц╕я init_plugin в \"%s\" повернула помилку"
-
-#~ msgid "Applix"
-#~ msgstr "Applix"
-
-#~ msgid "Imports version 4.[234] spreadsheets"
-#~ msgstr "╤мпорт таблиць верс╕╖ 4.[234]"
-
-#~ msgid "Data Interchange Format (CSV) module"
-#~ msgstr "Модуль Data Interchange Format (CSV)"
-
-#~ msgid ""
-#~ "Reads and writes information stored in the Data Interchange Format (*.dif)"
-#~ msgstr ""
-#~ "Зчитування та запис ╕нформац╕╖ збережено╖ в формат╕ Data Interchange Format "
-#~ "(*.dif)"
-
-#~ msgid "Gnome Basic"
-#~ msgstr "GNOME BASIC"
-
-#~ msgid "Enables Gnome Basic support"
-#~ msgstr "Вмика╓ п╕дтримку GNOME BASIC"
-
-#~ msgid ""
-#~ "Database functions for allowing the retrieval of data from a database"
-#~ msgstr "Функц╕╖ баз даних, що дозволяють отримувати дан╕ з бази даних"
-
-#~ msgid "This plugin enables Guile(scheme) support in Gnumeric"
-#~ msgstr "Це доповнення вмика╓ п╕дтримку Guile(scheme) в Gnumeric"
-
-#~ msgid "HTML"
-#~ msgstr "HTML"
-
-#~ msgid "Import/Export of HTML, TeX, DVI, roff and pdf"
-#~ msgstr "╤мпорт та експорт HTML, TeX, DVI, roff та pdf"
-
-#~ msgid "Lotus 123"
-#~ msgstr "Lotus 123"
-
-#~ msgid "Imports Lotus 123 files"
-#~ msgstr "╤мпорт файл╕в Lotus 123"
-
-#~ msgid ""
-#~ "Several basic utilities for prime numbers, pi, phi, sigma. It also hold some "
-#~ "simple bitwise operations"
-#~ msgstr ""
-#~ "Дек╕лька основних засоб╕в для простих чисел, П╕, Ф╕, Си╜ма. Також ма╓ деяк╕ "
-#~ "прост╕ б╕тов╕ операц╕╖"
-
-#~ msgid "GNU Oleo"
-#~ msgstr "GNU Oleo"
-
-#~ msgid "Imports GNU Oleo documents"
-#~ msgstr "╤мпорт документ╕в GNU Oleo"
-
-#~ msgid "Perl"
-#~ msgstr "PERL"
-
-#~ msgid "Enables the creation of functions in PERL"
-#~ msgstr "Дозволити створення функц╕й в PERL"
-
-#~ msgid "Plan Perfect"
-#~ msgstr "Plan Perfect"
-
-#~ msgid "Imports Plan Perfect Formatted Documents"
-#~ msgstr "╤мпорт файл╕в Plan Perfect"
-
-#~ msgid "SC/XSpread "
-#~ msgstr "SC/XSpread "
-
-#~ msgid "Imports SC/XSpread files"
-#~ msgstr "╤мпорт файл╕в SC/XSpread"
-
-#~ msgid "MultiPlan (SYLK)"
-#~ msgstr "MultiPlan (SYLK)"
-
-#~ msgid "Imports MultiPlan (SYLK) files"
-#~ msgstr "╤мпорт файл╕в MultiPlan (SYLK)"
-
-#~ msgid "XBase"
-#~ msgstr "XBase"
-
-#~ msgid "Imports XBase files"
-#~ msgstr "╤мпорт файл╕в XBase"
-
-#~ msgid "EXPERIMENTAL XML"
-#~ msgstr "ЕКСПЕРИМЕНТАЛЬНИЙ XML"
-
-#~ msgid "The next generation sax based xml I/O subsystem"
-#~ msgstr "Наступне покол╕ння п╕дсистеми вводу/виводу xml, що базу╓ться на sax"
-
-#~ msgid "_Merge Cells"
-#~ msgstr "Об'╓днати ком╕рки"
-
-#~ msgid "File name: %s"
-#~ msgstr "Назва файлу: %s"
-
-#~ msgid "Size: %ld bytes"
-#~ msgstr "Розм╕р (байт╕в): %ld"
-
-#~ msgid "Modified:"
-#~ msgstr "Модиф╕ковано:"
-
-#~ msgid "%c"
-#~ msgstr "%c"
-
-#~ msgid "Modified: %s"
-#~ msgstr "Модиф╕ковано: %s"
-
-#~ msgid "Path:"
-#~ msgstr "Шлях:"
-
-#~ msgid "Missing quote"
-#~ msgstr "В╕дсутня лапка"
-
-#~ msgid "Impossible!"
-#~ msgstr "Неможливо!"
-
-#~ msgid "Couldn't determine size or modification date for plugin \"%s\"."
-#~ msgstr "Не вдалось визначити розм╕р чи дату модиф╕кац╕╖ доповнення \"%s\"."
-
-#~ msgid ""
-#~ "Unable to open plugin '%s'\n"
-#~ "The plugin did not check it's version.\n"
-#~ "It is probably for a different version of Gnumeric than '%s'."
-#~ msgstr ""
-#~ "Не вдалося в╕дкрити доповнення \"%s\"\n"
-#~ "Доповнення не перев╕ря╓ верс╕ю.\n"
-#~ "Можливо воно для верс╕╖ Gnumeric в╕дм╕нно╖ в╕д \"%s\"."
-
-#~ msgid "Print pre_view"
-#~ msgstr "Перегляд друку"
-
-#~ msgid "_Add\\modify comment..."
-#~ msgstr "Додати\\зм╕нити коментар..."
