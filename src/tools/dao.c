@@ -185,7 +185,7 @@ dao_prepare_output (WorkbookControl *wbc, data_analysis_output_t *dao,
 {
 	char *unique_name;
 
-	dao_update_sheet_pointer (dao);
+	dao_update_sheet_pointer (dao, TRUE);
 
 	if (wbc)
 		dao->wbc = wbc;
@@ -974,11 +974,14 @@ dao_redraw_respan (data_analysis_output_t *dao)
 
 
 void 
-dao_update_sheet_pointer (data_analysis_output_t *dao)
+dao_update_sheet_pointer (data_analysis_output_t *dao, gboolean old_only)
 {
 	g_return_if_fail (dao != NULL);
-	
-	dao->sheet = (dao->sheet_idx == -1) ? NULL :
-		workbook_sheet_by_index (wb_control_workbook (dao->wbc), 
-					 dao->sheet_idx);
+
+	if (!old_only || dao->type == RangeOutput 
+	    || dao->type == InPlaceOutput)
+		dao->sheet = (dao->sheet_idx == -1) ? NULL :
+			workbook_sheet_by_index 
+			(wb_control_workbook (dao->wbc), 
+			 dao->sheet_idx);
 }

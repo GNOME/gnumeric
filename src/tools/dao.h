@@ -116,6 +116,6 @@ gboolean dao_put_formulas (data_analysis_output_t *dao);
 
 void dao_convert_to_values (data_analysis_output_t *dao);
 void dao_redraw_respan (data_analysis_output_t *dao);
-void dao_update_sheet_pointer (data_analysis_output_t *dao);
+void dao_update_sheet_pointer (data_analysis_output_t *dao, gboolean old_only);
 
 #endif

@@ -5002,7 +5002,7 @@ cmd_analysis_tool_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
-	dao_update_sheet_pointer (me->dao);
+	dao_update_sheet_pointer (me->dao, FALSE);
 
 	switch (me->type) {
 	case NewSheetOutput:
@@ -5050,7 +5050,7 @@ cmd_analysis_tool_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
-	dao_update_sheet_pointer (me->dao);
+	dao_update_sheet_pointer (me->dao, TRUE);
 
 	if (me->col_info)
 		me->col_info = colrow_state_list_destroy (me->col_info);
