@@ -262,7 +262,6 @@ gog_barcol_plot_class_init (GogPlotClass *plot_klass)
 		plot_klass->desc.series.dim = dimensions;
 		plot_klass->desc.series.num_dim = G_N_ELEMENTS(dimensions);
 	}
-	plot_klass->desc.num_axis = 2;
 	plot_klass->desc.num_series_min = 1;
 	plot_klass->desc.num_series_max = G_MAXINT;
 	plot_klass->series_type = gog_barcol_series_get_type ();

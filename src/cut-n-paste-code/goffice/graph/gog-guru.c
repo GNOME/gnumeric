@@ -557,8 +557,6 @@ cb_graph_guru_add_plot (GtkWidget *w, GraphGuruState *s)
 	GogPlot *plot = gog_plot_new_by_type (type);
 	gog_object_add_by_name (GOG_OBJECT (s->prop_object),
 		"Plot", GOG_OBJECT (plot));
-	populate_graph_item_list (GOG_OBJECT (plot), GOG_OBJECT (plot),
-				  s, &s->prop_iter, TRUE);
 }
 
 static void
@@ -671,11 +669,19 @@ cb_attr_tree_selection_change (GraphGuruState *s)
 			gtk_widget_show_all (s->add_menu);
 		}
 
-		/* Can we be removed */
+		obj = s->prop_object;
+
+		/* if we ever go back to the typeselector be sure to 
+		 * add the plot to the last selected chart */
+		s->chart = (GogChart *)
+			gog_object_get_parent_typed (obj, GOG_CHART_TYPE);
+		s->plot = (GogPlot *)
+			gog_object_get_parent_typed (obj, GOG_PLOT_TYPE);
+		gtk_widget_set_sensitive (s->button_navigate, s->chart != NULL);
+
 		delete_ok = gog_object_is_deletable (s->prop_object);
 
 		/* open or create a prefs page for the graph obj */
-		obj = s->prop_object;
 		gtk_container_foreach (GTK_CONTAINER (s->prop_notebook),
 			(GtkCallback) cb_select_prop_page, &obj);
 		if (obj != NULL) {
@@ -730,7 +736,7 @@ cb_find_child_added (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter,
 	gtk_tree_model_get (model, iter, PLOT_ATTR_OBJECT, &obj, -1);
 	if (obj == s->search_target) {
 		s->search_target = NULL;
-		populate_graph_item_list (s->new_child, NULL, s, iter, TRUE);
+		populate_graph_item_list (s->new_child, s->new_child, s, iter, TRUE);
 		return TRUE;
 	}
 
@@ -780,6 +786,13 @@ cb_obj_child_removed (GogObject *parent, GogObject *child, GraphGuruState *s)
 	s->search_target = child;
 	gtk_tree_model_foreach (GTK_TREE_MODEL (s->prop_model),
 		(GtkTreeModelForeachFunc) cb_find_child_removed, s);
+
+	if (s->chart == (gpointer)child) {
+		s->chart = NULL;
+		s->plot = NULL;
+		gtk_widget_set_sensitive (s->button_navigate, FALSE);
+	} else if (s->plot == (gpointer)child)
+		s->plot = NULL;
 }
 
 static void
@@ -977,7 +990,7 @@ graph_guru_set_page (GraphGuruState *s, int page)
 	case 1:
 		if (s->initial_page == 0) {
 			name = _("Step 2 of 2: Configure Graph");
-			gtk_widget_set_sensitive (s->button_navigate, TRUE);
+			gtk_widget_set_sensitive (s->button_navigate, s->chart != NULL);
 			gtk_button_set_label (GTK_BUTTON (s->button_navigate),
 					      GTK_STOCK_GO_BACK);
 		} else {

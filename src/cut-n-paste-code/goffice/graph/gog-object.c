@@ -21,7 +21,7 @@
 
 #include <gnumeric-config.h>
 #include <goffice/graph/gog-object.h>
-#include <goffice/graph/gog-graph-impl.h>
+#include <goffice/graph/gog-graph-impl.h> /* for gog_graph_request_update */
 
 #include <gsf/gsf-impl-utils.h>
 #include <src/gnumeric-i18n.h>
@@ -151,14 +151,33 @@ gog_object_generate_name (GogObject *obj)
  * gog_object_get_parent :
  * @obj : a #GogObject
  *
- * Returns the items parent, potentially NULL if it has not been added to a heirarchy yet.
- * does not change ref-count in any way.
+ * Returns @obj's parent, potentially NULL if it has not been added to a
+ * heirarchy yet.  does not change ref-count in any way.
  **/
 GogObject *
 gog_object_get_parent (GogObject const *obj)
 {
 	g_return_val_if_fail (GOG_OBJECT (obj) != NULL, NULL);
 	return obj->parent;
+}
+
+/**
+ * gog_object_get_parent_typed :
+ * @obj : a #GogObject
+ * @type : a #GType
+ *
+ * Returns @obj's parent of type @type, potentially NULL if it has not been
+ * added to a heirarchy yet or none of the parents are of type @type.
+ **/
+GogObject *
+gog_object_get_parent_typed (GogObject const *obj, GType t)
+{
+	g_return_val_if_fail (GOG_OBJECT (obj) != NULL, NULL);
+
+	for (; obj != NULL ; obj = obj->parent)
+		if (G_TYPE_CHECK_INSTANCE_TYPE (obj, t))
+			return GOG_OBJECT (obj); /* const cast */
+	return NULL;
 }
 
 /**
@@ -177,7 +196,6 @@ gog_object_get_graph (GogObject const *obj)
 			return GOG_GRAPH (obj);
 	return NULL;
 }
-
 
 /**
  * gog_object_get_name :
@@ -239,6 +257,9 @@ gboolean
 gog_object_is_deletable (GogObject const *obj)
 {
 	g_return_val_if_fail (GOG_OBJECT (obj) != NULL, FALSE);
+
+	if (IS_GOG_GRAPH (obj))
+		return FALSE;
 
 	return obj->role == NULL || obj->role->can_remove == NULL ||
 		(obj->role->can_remove) (obj);

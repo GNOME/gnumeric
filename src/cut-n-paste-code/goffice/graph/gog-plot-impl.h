@@ -31,9 +31,6 @@
 G_BEGIN_DECLS
 
 struct _GogPlotDesc {
-	unsigned	   num_axis;	/* how many axis are _required_ */
-	GogAxisType const *axis;	
-
 	unsigned  num_series_min, num_series_max;
 	GogSeriesDesc series;
 };
@@ -59,9 +56,10 @@ typedef struct {
 	GType		series_type;
 
 	/* Virtuals */
-	unsigned (*carnality)    (GogPlot *plot);
-	gboolean (*foreach_elem) (GogPlot *plot,
-				  GogEnumFunc handler, gpointer data);
+	GogAxisType const *(*axis_info)	   (GogPlot const *plot, unsigned *num);
+	unsigned	   (*carnality)    (GogPlot *plot);
+	gboolean 	   (*foreach_elem) (GogPlot *plot,
+					    GogEnumFunc handler, gpointer data);
 } GogPlotClass;
 
 #define GOG_PLOT_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST ((k), GOG_PLOT_TYPE, GogPlotClass))

@@ -1,0 +1,20 @@
+2003-05-26  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-guru.c (graph_guru_set_page) : we can't run the
+	  typeselector without a chart selected.
+	(cb_graph_guru_add_plot) : the child_added handler already populates
+	  things.
+	(cb_find_child_added) : It may happen that something else will add an
+	  item while we're editing, and the change of focus may not be
+	  welcome,  However, it is far more likely that we just added it.
+
+	* graph/gog-object.c (gog_object_is_deletable) : don't let the guru
+	  delete the top level graph.
+
+	* graph/gog-guru.glade : Add border to the menu bar to align it with
+	  the scrolled window.
+	Add a 'Precedence' menu.
+
+2003-05-25  Jody Goldberg <jody@gnome.org>
+
+	The code is in CVS time to start keeping a changelog.

@@ -212,7 +212,6 @@ gog_pie_plot_class_init (GogPlotClass *plot_klass)
 		plot_klass->desc.series.dim = dimensions;
 		plot_klass->desc.series.num_dim = G_N_ELEMENTS(dimensions);
 	}
-	plot_klass->desc.num_axis = 0;
 	plot_klass->desc.num_series_min = plot_klass->desc.num_series_max = 1;
 	plot_klass->series_type  = gog_pie_series_get_type ();
 	plot_klass->carnality    = gog_pie_plot_carnality;

@@ -91,21 +91,22 @@ typedef struct {
 
 GType gog_object_get_type (void);
 
-GogObject   *gog_object_get_parent	(GogObject const *obj);
-GogGraph    *gog_object_get_graph	(GogObject const *obj);
-char const  *gog_object_get_id		(GogObject const *obj);
-char const  *gog_object_get_name	(GogObject const *obj);
-void	     gog_object_set_name	(GogObject *obj, char *name, GError **err);
-GSList      *gog_object_get_children	(GogObject const *obj);
-gpointer     gog_object_get_editor	(GogObject *obj,
-					 GogDataAllocator *dalloc, CommandContext *cc);
-GogView	    *gog_object_new_view	(GogObject const *obj, GogView *view);
-gboolean     gog_object_is_deletable	(GogObject const *obj);
-GSList   *gog_object_possible_additions	(GogObject const *obj);
-GogObject   *gog_object_add_by_role	(GogObject *parent,
-					 GogObjectRole const *role, GogObject *child);
-GogObject   *gog_object_add_by_name	(GogObject *parent,
-					 char const *role, GogObject *child);
+GogObject   *gog_object_get_parent	 (GogObject const *obj);
+GogObject   *gog_object_get_parent_typed (GogObject const *obj, GType t);
+GogGraph    *gog_object_get_graph	 (GogObject const *obj);
+char const  *gog_object_get_id		 (GogObject const *obj);
+char const  *gog_object_get_name	 (GogObject const *obj);
+void	     gog_object_set_name	 (GogObject *obj, char *name, GError **err);
+GSList      *gog_object_get_children	 (GogObject const *obj);
+gpointer     gog_object_get_editor	 (GogObject *obj,
+					  GogDataAllocator *dalloc, CommandContext *cc);
+GogView	    *gog_object_new_view	 (GogObject const *obj, GogView *view);
+gboolean     gog_object_is_deletable	 (GogObject const *obj);
+GSList   *gog_object_possible_additions	 (GogObject const *obj);
+GogObject   *gog_object_add_by_role	 (GogObject *parent,
+					  GogObjectRole const *role, GogObject *child);
+GogObject   *gog_object_add_by_name	 (GogObject *parent,
+					  char const *role, GogObject *child);
 GogObjectRole const *gog_object_find_role_by_name (GogObject const *obj,
 						   char const *role);
 
