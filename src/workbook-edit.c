@@ -155,11 +155,10 @@ entry_changed (GtkEntry *entry, void *data)
 
 	/*
 	 * Turn off auto-completion if the user has edited or the text
-	 * does not begin with an alphabetic character, or this is an expression.
+	 * does not begin with an alphabetic character.
 	 */
 	if (text_len < wb->priv->auto_max_size ||
-	    !isalpha((unsigned char)*text) ||
-	    gnumeric_char_start_expr_p (text))
+	    !isalpha((unsigned char)*text))
 		wb->priv->auto_completing = FALSE;
 
 	if (application_use_auto_complete_get () && wb->priv->auto_completing)
@@ -185,16 +184,17 @@ void
 workbook_start_editing_at_cursor (Workbook *wb, gboolean blankp,
 				  gboolean cursorp)
 {
+	static gboolean inside_editing = 0;
 	Sheet *sheet;
 	Cell *cell;
-	static int inside_editing = 0;
+	char *text = NULL;
 
 	g_return_if_fail (wb != NULL);
 
 	if (inside_editing)
 		return;
 
-	inside_editing = 1;
+	inside_editing = TRUE;
 
 	sheet = wb->current_sheet;
 	g_return_if_fail (sheet != NULL);
@@ -205,32 +205,32 @@ workbook_start_editing_at_cursor (Workbook *wb, gboolean blankp,
 			       sheet->cursor.edit_pos.col,
 			       sheet->cursor.edit_pos.row);
 
-	if (blankp)
-		gtk_entry_set_text (workbook_get_entry (wb), "");
-	else {
+	if (!blankp) {
+		if (cell != NULL)
+			text = cell_get_entered_text (cell);
+
 		/*
 		 * If this is part of an array we need to remove the
 		 * '{' '}' and the size information from the display.
 		 * That is not actually part of the parsable expression.
 		 */
-		if (NULL != cell_is_array (cell)) {
-			char *text = cell_get_entered_text (cell);
-
+		if (NULL != cell_is_array (cell))
 			gtk_entry_set_text (workbook_get_entry (wb), text);
-			g_free (text);
-		}
-	}
+	} else
+		gtk_entry_set_text (workbook_get_entry (wb), "");
 
-	/* Redraw the cell contents in case there was a span */
 	if (cursorp) {
 		int const col = sheet->cursor.edit_pos.col;
 		int const row = sheet->cursor.edit_pos.row;
 
 		sheet_create_edit_cursor (sheet);
+
+		/* Redraw the cell contents in case there was a span */
 		sheet_redraw_cell_region (sheet, col, row, col, row);
 
-		/* Activate auto-completion */
-		if (application_use_auto_complete_get ()) {
+		/* Activate auto-completion if this is not an expression */
+		if (application_use_auto_complete_get () &&
+		    (text == NULL || isalpha((unsigned char)*text))) {
 			wb->priv->auto_complete = complete_sheet_new (
 				sheet, col, row,
 				workbook_edit_complete_notify, wb);
@@ -268,7 +268,10 @@ workbook_start_editing_at_cursor (Workbook *wb, gboolean blankp,
 		GTK_OBJECT (workbook_get_entry (wb)), "changed",
 		GTK_SIGNAL_FUNC (entry_changed), wb);
 
-	inside_editing = 0;
+	if (text)
+		g_free (text);
+
+	inside_editing = FALSE;
 }
 
 GtkEntry *
