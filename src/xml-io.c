@@ -13,6 +13,7 @@
 #include "gnome-xml/tree.h"
 #include "gnome-xml/parser.h"
 #include "color.h"
+#include "sheet-object.h"
 #include "xml-io.h"
 
 /*
@@ -60,6 +61,31 @@ static const char *xmlGetValue(xmlNodePtr node, const char *name) {
 }
 
 /*
+ * Get a String value for a node either carried as an attibute or as
+ * the content of a child.
+ */
+String *xmlGetStringValue(xmlNodePtr node, const char *name) {
+    const char *val;
+    String *ret;
+    xmlNodePtr child;
+
+    val = xmlGetProp(node, name);
+    if (val != NULL) {
+        ret = string_get((char *) val);
+	return(ret);
+    }
+    child = node->childs;
+    while (child != NULL) {
+        if ((!strcmp(child->name, name)) && (child->content != NULL)) {
+	    ret = string_get((char *) child->content);
+	    return(ret);
+	}
+	child = child->next;
+    }
+    return(NULL);
+}
+
+/*
  * Get an integer value for a node either carried as an attibute or as
  * the content of a child.
  */
@@ -89,7 +115,7 @@ static int xmlGetIntValue(xmlNodePtr node, const char *name, int *val) {
  * Get a float value for a node either carried as an attibute or as
  * the content of a child.
  */
-static int xmlGetFloatValue(xmlNodePtr node, const char *name, float *val) {
+int xmlGetFloatValue(xmlNodePtr node, const char *name, float *val) {
     const char *ret;
     xmlNodePtr child;
     float f;
@@ -138,6 +164,127 @@ static int xmlGetDoubleValue(xmlNodePtr node, const char *name, double *val) {
 }
 
 /*
+ * Get a set of coodinates for a node, carried as the content of a child.
+ */
+
+int xmlGetCoordinate(xmlNodePtr node, const char *name,
+                     double *x, double *y) {
+    xmlNodePtr child;
+    float X, Y;
+
+    child = node->childs;
+    while (child != NULL) {
+        if ((!strcmp(child->name, name)) && (child->content != NULL)) {
+	    if (sscanf(child->content, "(%f %f)", &X, &Y) == 2) {
+	        *x = X;
+	        *y = Y;
+		return(1);
+            }
+	    return(0);
+	}
+	child = child->next;
+    }
+    return(0);
+}
+
+/*
+ * Get a pair of coodinates for a node, carried as the content of a child.
+ */
+
+static int xmlGetCoordinates(xmlNodePtr node, const char *name,
+                     double *x1, double *y1, double *x2, double *y2) {
+    xmlNodePtr child;
+    float X1, Y1, X2, Y2;
+
+    child = node->childs;
+    while (child != NULL) {
+        if ((!strcmp(child->name, name)) && (child->content != NULL)) {
+	    if (sscanf(child->content, "(%f %f)(%f %f)",
+	               &X1, &Y1, &X2, &Y2) == 4) {
+	        *x1 = X1;
+	        *y1 = Y1;
+	        *x2 = X2;
+	        *y2 = Y2;
+		return(1);
+            }
+	    return(0);
+	}
+	child = child->next;
+    }
+    return(0);
+}
+
+/*
+ * Get a GnomeCanvasPoints for a node, carried as the content of a child.
+ */
+
+GnomeCanvasPoints *xmlGetGnomeCanvasPoints(xmlNodePtr node,
+                                                  const char *name) {
+    GnomeCanvasPoints *ret = NULL;
+    int res;
+    const char *ptr;
+    xmlNodePtr child;
+    int index = 0, i;
+    float coord[20]; /* TODO: must be dynamic !!!! */
+
+    child = node->childs;
+    while (child != NULL) {
+        if ((!strcmp(child->name, name)) && (child->content != NULL)) {
+	    ptr = child->content;
+	    do {
+	        while ((*ptr) && (*ptr != '(')) ptr++;
+		if (*ptr == 0) break;
+	        res = sscanf(ptr, "(%f %f)", &coord[index], &coord[index + 1]);
+		if (res != 2) break;
+		index += 2;
+		ptr++;
+	    } while (res > 0);
+	    if (index >= 2)
+		ret = gnome_canvas_points_new(index / 2);
+	    if (ret == NULL) return(NULL);
+	    for (i = 0;i < index;i++)
+	         ret->coords[i] = coord[i];
+	    break;
+	}
+	child = child->next;
+    }
+    return(ret);
+}
+
+/*
+ * Set a string value for a node either carried as an attibute or as
+ * the content of a child.
+ */
+static void xmlSetGnomeCanvasPoints(xmlNodePtr node, const char *name, 
+                        GnomeCanvasPoints *val) {
+    xmlNodePtr child;
+    char *str, *base;
+    int i;
+
+    if (val == NULL) return;
+    if ((val->num_points < 0) || (val->num_points > 5000)) return;
+    base = str = malloc(val->num_points * 30 * sizeof(char));
+    if (str == NULL) return;
+    for (i = 0;i < val->num_points;i++) {
+        str += sprintf(str, "(%f %f)", val->coords[2 * i],
+	               val->coords[2 * i + 1]);
+    }
+
+    child = node->childs;
+    while (child != NULL) {
+        if (!strcmp(child->name, name)) {
+            xmlNodeSetContent(child, base);
+	    free(base);
+	    return;
+	}
+	child = child->next;
+    }
+    xmlNewChild(node, NULL, name, base);
+    free(base);
+}
+
+
+/*
  * Set a string value for a node either carried as an attibute or as
  * the content of a child.
  */
@@ -159,6 +306,30 @@ static void xmlSetValue(xmlNodePtr node, const char *name, const char *val) {
 	child = child->next;
     }
     xmlSetProp(node, name, val);
+}
+
+/*
+ * Set a String value for a node either carried as an attibute or as
+ * the content of a child.
+ */
+static void xmlSetStringValue(xmlNodePtr node, const char *name, String *val) {
+    const char *ret;
+    xmlNodePtr child;
+
+    ret = xmlGetProp(node, name);
+    if (ret != NULL) {
+	xmlSetProp(node, name, val->str);
+	return;
+    }
+    child = node->childs;
+    while (child != NULL) {
+        if (!strcmp(child->name, name)) {
+            xmlNodeSetContent(child, val->str);
+	    return;
+	}
+	child = child->next;
+    }
+    xmlSetProp(node, name, val->str);
 }
 
 /*
@@ -191,7 +362,7 @@ static void xmlSetIntValue(xmlNodePtr node, const char *name, int val) {
  * Set a float value for a node either carried as an attibute or as
  * the content of a child.
  */
-static void xmlSetFloatValue(xmlNodePtr node, const char *name, float val) {
+void xmlSetFloatValue(xmlNodePtr node, const char *name, float val) {
     const char *ret;
     xmlNodePtr child;
     char str[101];
@@ -217,7 +388,7 @@ static void xmlSetFloatValue(xmlNodePtr node, const char *name, float val) {
  * Set a double value for a node either carried as an attibute or as
  * the content of a child.
  */
-static void xmlSetDoubleValue(xmlNodePtr node, const char *name, double val) {
+void xmlSetDoubleValue(xmlNodePtr node, const char *name, double val) {
     const char *ret;
     xmlNodePtr child;
     char str[101];
@@ -274,7 +445,6 @@ static int xmlGetColorValue(xmlNodePtr node, const char *name,
     const char *ret;
     xmlNodePtr child;
     GdkColormap *colormap;
-    GdkColor col;
     int red, green, blue;
     
 
@@ -858,6 +1028,92 @@ static ColRowInfo *readXmlColRowInfo(parseXmlContextPtr ctxt,
 }
 
 /*
+ * Create an XML subtree of doc equivalent to the given Object.
+ */
+static xmlNodePtr writeXmlObject(parseXmlContextPtr ctxt, SheetObject *object) {
+    xmlNodePtr cur = NULL;
+    
+    switch (object->type) {
+        case SHEET_OBJECT_RECTANGLE: {
+	    SheetFilledObject *fo = (SheetFilledObject *) object;
+
+	    cur = xmlNewNode(ctxt->ns, "Rectangle", NULL);
+	    if (fo->fill_color != NULL)
+	        xmlSetStringValue(cur, "FillColor", fo->fill_color);
+	    xmlSetIntValue(cur, "Pattern", fo->pattern);
+	    break;
+	}
+	case SHEET_OBJECT_ELLIPSE: {
+	    SheetFilledObject *fo = (SheetFilledObject *) object;
+
+	    cur = xmlNewNode(ctxt->ns, "Ellipse", NULL);
+	    if (fo->fill_color != NULL)
+	        xmlSetStringValue(cur, "FillColor", fo->fill_color);
+	    xmlSetIntValue(cur, "Pattern", fo->pattern);
+	    break;
+	}
+	case SHEET_OBJECT_ARROW:
+	    cur = xmlNewNode(ctxt->ns, "Arrow", NULL);
+	    break;
+	case SHEET_OBJECT_LINE:
+	    cur = xmlNewNode(ctxt->ns, "Line", NULL);
+	    break;
+    }
+    if (cur == NULL) return(NULL);
+    xmlSetGnomeCanvasPoints(cur, "Points", object->points);
+    xmlSetIntValue(cur, "Width", object->width);
+    xmlSetStringValue(cur, "Color", object->color);
+    return(cur);
+}
+
+/*
+ * Create a Object equivalent to the XML subtree of doc.
+ */
+static SheetObject *readXmlObject(parseXmlContextPtr ctxt, xmlNodePtr tree) {
+    SheetObject *ret;
+    SheetFilledObject *fo;
+    char *color;
+    char *fill_color;
+    int type;
+    double x1, y1, x2, y2;
+    int width = 1;
+    int pattern;
+
+    if (!strcmp(tree->name, "Rectangle")) {
+        type = SHEET_OBJECT_RECTANGLE;
+    } else if (!strcmp(tree->name, "Ellipse")) {
+        type = SHEET_OBJECT_ELLIPSE;
+    } else if (!strcmp(tree->name, "Arrow")) {
+        type = SHEET_OBJECT_ARROW;
+    } else if (!strcmp(tree->name, "Line")) {
+        type = SHEET_OBJECT_LINE;
+    } else {
+        fprintf(stderr,
+"readXmlObject: invalid element type %s, 'Rectangle/Ellipse ...' expected`\n",
+		tree->name);
+	return(NULL);
+    }
+    color = (char *) xmlGetValue(tree, "Color");
+    xmlGetCoordinates(tree, "Points", &x1, &y1, &x2, &y2);
+    xmlGetIntValue(tree, "Width", &width);
+    if ((type == SHEET_OBJECT_RECTANGLE) || 
+        (type == SHEET_OBJECT_ELLIPSE)) {
+	fill_color = (char *) xmlGetValue(tree, "FillColor");
+	xmlGetIntValue(tree, "Pattern", &pattern);
+	ret = sheet_object_create_filled(ctxt->sheet, type,
+	            x1, y1, x2, y2, fill_color, color, width);
+	if (ret != NULL) {
+	    fo = (SheetFilledObject *) ret;
+	    fo->pattern = pattern;
+	}
+    } else 
+        ret = sheet_object_create_line(ctxt->sheet, type,
+	            x1, y1, x2, y2, color, width);
+    
+    return(ret);
+}
+
+/*
  * Create an XML subtree of doc equivalent to the given Cell.
  */
 static xmlNodePtr writeXmlCell(parseXmlContextPtr ctxt, Cell *cell) {
@@ -893,7 +1149,7 @@ static Cell *readXmlCell(parseXmlContextPtr ctxt, xmlNodePtr tree) {
     if (tree->content != NULL)
         cell_set_text(ret, tree->content);
     
-    return(NULL);
+    return(ret);
 }
 
 /*
@@ -916,6 +1172,7 @@ static xmlNodePtr writeXmlSheet(parseXmlContextPtr ctxt, Sheet *sheet) {
     xmlNodePtr rows;
     xmlNodePtr cols;
     xmlNodePtr cells;
+    xmlNodePtr objects;
     GList *l;
     char str[50];
 
@@ -957,6 +1214,26 @@ static xmlNodePtr writeXmlSheet(parseXmlContextPtr ctxt, Sheet *sheet) {
     /*
      * Style : TODO ...
      */
+
+    /*
+     * Objects
+     * NOTE: seems that objects == NULL while current_object != NULL
+     * is possible
+     */
+    if (sheet->objects != NULL) {
+        objects = xmlNewChild(cur, ctxt->ns, "Objects", NULL);
+	l = sheet->objects;
+	while (l) {
+	    child = writeXmlObject(ctxt, l->data);
+	    if (child) xmlAddChild(objects, child);
+	    l = l->next;
+	}
+    } else if (sheet->current_object != NULL) {
+        objects = xmlNewChild(cur, ctxt->ns, "Objects", NULL);
+	child = writeXmlObject(ctxt, sheet->current_object);
+	if (child) xmlAddChild(objects, child);
+    }
+
     /*
      * Cells informations
      */
@@ -976,6 +1253,7 @@ static Sheet *readXmlSheet(parseXmlContextPtr ctxt, xmlNodePtr tree) {
     xmlNodePtr regions;
     /* xmlNodePtr styles; */
     xmlNodePtr cells;
+    xmlNodePtr objects;
     Sheet *ret;
     const char *val;
 
@@ -1033,6 +1311,14 @@ static Sheet *readXmlSheet(parseXmlContextPtr ctxt, xmlNodePtr tree) {
 	    if (info != NULL)
 		sheet_row_add(ret, info);
 	    rows = rows->next;
+	}
+    }
+    child = xmlSearchChild(tree, "Objects");
+    if (child != NULL) {
+	objects = child->childs;
+	while (objects != NULL) {
+	    readXmlObject(ctxt, objects);
+	    objects = objects->next;
 	}
     }
     child = xmlSearchChild(tree, "Cells");

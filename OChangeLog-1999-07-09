@@ -1,3 +1,7 @@
+Wed Sep 16 23:56:59 EDT 1998 Daniel Veillard <Daniel.Veillard@w3.org>
+
+	* src/xml-io.c: started working on object saving/loading.
+
 1998-09-16  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/cursors.c (cursors_shutdown): Fix bug.  Destroy the ith
