@@ -75,6 +75,21 @@ my_gptrarray_len (const GPtrArray *a)
 	return (int)a->len;
 }
 
+static inline gboolean
+comp_term (gunichar const s, StfParseOptions_t *parseoptions)
+{
+	return (parseoptions->terminator == s);
+}
+			
+static inline gboolean
+compare_terminator (char const *s, StfParseOptions_t *parseoptions)
+{
+        return comp_term (g_utf8_get_char (s), parseoptions);
+}
+
+
+
+
 
 /*******************************************************************************************************
  * STF PARSE OPTIONS : StfParseOptions related
@@ -151,12 +166,24 @@ stf_parse_options_set_type (StfParseOptions_t *parseoptions, StfParseType_t cons
  * terminator to anything other than a newline
  **/
 void
-stf_parse_options_set_line_terminator (StfParseOptions_t *parseoptions, char const terminator)
+stf_parse_options_set_line_terminator (StfParseOptions_t *parseoptions, gunichar const terminator)
 {
 	g_return_if_fail (parseoptions != NULL);
 
 	parseoptions->terminator = terminator;
 }
+
+void
+stf_parse_options_set_line_terminator_char (StfParseOptions_t *parseoptions, char const terminator)
+{
+	gunichar unichar = g_utf8_get_char_validated (&terminator, 1);
+	
+	g_return_if_fail (g_unichar_validate(unichar));
+	stf_parse_options_set_line_terminator (parseoptions, unichar);
+}
+
+
+
 
 /**
  * stf_parse_options_set_lines_to_parse:
@@ -352,6 +379,7 @@ static inline char const *
 stf_parse_csv_is_separator (char const *character, char const *chr, GSList const *str)
 {
 	g_return_val_if_fail (character != NULL, NULL);
+	g_return_val_if_fail (!chr || g_utf8_validate (chr, -1, NULL), NULL);
 
 	if (str) {
 		GSList const *l;
@@ -359,27 +387,22 @@ stf_parse_csv_is_separator (char const *character, char const *chr, GSList const
 		for (l = str; l != NULL; l = l->next) {
 			char const *s = l->data;
 			char const *r;
-			int cnt;
-			int const len = strlen (s);
+			glong cnt;
+			glong const len = g_utf8_strlen (s, -1);
 
 			/* Don't compare past the end of the buffer! */
-			for (r = character, cnt = 0; cnt < len; cnt++, r++)
+			for (r = character, cnt = 0; cnt < len; cnt++, r = g_utf8_next_char (r))
 				if (*r == '\0')
 					break;
 
-			if ((cnt == len) && (strncmp (character, s, len) == 0))
-				return character + len;
+			if ((cnt == len) && (memcmp (character, s, len) == 0))
+				return g_utf8_offset_to_pointer (character, len);
 		}
 	}
 
-	if (chr) {
-		char const *s;
-
-		for (s = chr; *s != '\0'; s++) {
-			if (*character == *s)
-				return character + 1;
-		}
-	}
+	if (chr && g_utf8_strchr (chr, -1,
+				  g_utf8_get_char (character)))
+		return g_utf8_next_char(character);
 
 	return NULL;
 }
@@ -392,72 +415,94 @@ stf_parse_csv_is_separator (char const *character, char const *chr, GSList const
 static inline char *
 stf_parse_csv_cell (Source_t *src, StfParseOptions_t *parseoptions)
 {
-	GString *res;
 	char const *cur;
-	gboolean sawstringterm;
-	int len = 0;
+	char const *next = NULL;
+	GString *res;
+	StfTokenType_t ttype;
 
 	g_return_val_if_fail (src != NULL, NULL);
 	g_return_val_if_fail (parseoptions != NULL, NULL);
 
 	cur = src->position;
-
-	/* A leading quote is always a quote */
-	if (*cur == parseoptions->stringindicator) {
-		cur++;
-		sawstringterm = FALSE;
-	} else
-		sawstringterm = TRUE;
-
-	res = g_string_new (NULL);
-
-	while (*cur != '\0') {
-		if (!sawstringterm) {
-			if (*cur == parseoptions->stringindicator) {
-				/* two stringindicators in a row represent a
-				 * single stringindicator character that does
-				 * not terminate the cell
-				 */
-				cur++;
-				if (*cur != parseoptions->stringindicator ||
-				    !parseoptions->indicator_2x_is_single) {
-					sawstringterm = TRUE;
-					continue;
-				}
-			}
-		} else {
-			char const *s;
-
-			if (*cur == parseoptions->terminator)
+	g_return_val_if_fail (cur != NULL, NULL);
+	
+	res = g_string_sized_new (30);
+	
+	while (cur && *cur && !compare_terminator (cur, parseoptions))
+		if ((next = stf_parse_csv_is_separator (cur, parseoptions->sep.chr, parseoptions->sep.str)))
+			break;
+		else {
+			char const *here, *there;
+			
+			next = stf_parse_next_token (cur, parseoptions->stringindicator, 
+						     parseoptions->indicator_2x_is_single, &ttype);
+			here = cur;
+			there = next;
+			switch (ttype) {
+			case STF_TOKEN_STRING:
+				there = g_utf8_find_prev_char (here, there);
+				/* break */   /* fall through */
+			case STF_TOKEN_STRING_INC:
+				here = g_utf8_find_next_char (here, there);
+				/* break */   /* fall through */
+			case STF_TOKEN_CHAR:
+				if (here && there)
+					res = g_string_append_len (res, here, there - here);
 				break;
-
-			if ((s = stf_parse_csv_is_separator (cur, parseoptions->sep.chr, parseoptions->sep.str))) {
-				cur = s;
-				if (parseoptions->duplicates) {
-					if (stf_parse_csv_is_separator (s, parseoptions->sep.chr, parseoptions->sep.str))
-						continue;
-				}
+			case STF_TOKEN_UNDEF:
+				g_warning ("Undefined stf token type encountered!");
 				break;
 			}
+			cur = next;
 		}
+	
+	src->position = next;
+	
+	if (parseoptions->indicator_2x_is_single) {
+		gboolean second = TRUE;
+		gunichar quote = parseoptions->stringindicator;
+		int len = res->len;
+		char *found;
 
-		g_string_append_c (res, *cur);
-
-		len++;
-		cur++;
+		while ((found = g_utf8_strrchr (res->str, len, quote))) {
+			len = found - res->str;
+			if (second) {
+				res = g_string_erase (res, len, g_utf8_next_char(found)-found);
+				second = FALSE;
+			} else 
+				second = TRUE;
+		}
 	}
-
-	src->position = cur;
-
-	if (len != 0) {
-		char *tmp = res->str;
-		g_string_free (res, FALSE);
-		return tmp;
-	}
-
-	g_string_free (res, TRUE);
-	return NULL;
+	
+	
+	return g_string_free (res, FALSE);
 }
+
+/*
+ * stf_parse_eat_separators:
+ *
+ * skip over leading separators 
+ *
+ */
+
+static void
+stf_parse_eat_separators (Source_t *src, StfParseOptions_t *parseoptions)
+{
+	char const *cur, *next;
+	
+	g_return_if_fail (src != NULL);
+        g_return_if_fail (parseoptions != NULL);
+
+	cur = src->position;
+
+	if (compare_terminator (cur, parseoptions))
+		return;
+	while ((next = stf_parse_csv_is_separator (cur, parseoptions->sep.chr, parseoptions->sep.str)))
+		cur = next;
+	src->position = cur;
+	return;
+}
+
 
 /**
  * stf_parse_csv_line:
@@ -479,9 +524,11 @@ stf_parse_csv_line (Source_t *src, StfParseOptions_t *parseoptions)
 	g_return_val_if_fail (src != NULL, NULL);
 	g_return_val_if_fail (parseoptions != NULL, NULL);
 
-	while (*src->position != '\0' && *src->position != parseoptions->terminator) {
+	while (*src->position != '\0' && !compare_terminator (src->position, parseoptions)) {
 		char *field = stf_parse_csv_cell (src, parseoptions);
-
+		if (parseoptions->duplicates)
+			stf_parse_eat_separators (src, parseoptions);
+		
 		trim_spaces_inplace (field, parseoptions);
 		list = g_list_prepend (list, field);
 
@@ -518,7 +565,7 @@ stf_parse_fixed_cell (Source_t *src, StfParseOptions_t *parseoptions)
 	else
 		splitval = -1;
 
-	while (*cur != '\0' && *cur != parseoptions->terminator && splitval != src->linepos) {
+	while (*cur != '\0' && !compare_terminator (cur, parseoptions) && splitval != src->linepos) {
 		g_string_append_c (res, *cur);
 
 		src->linepos++;
@@ -561,7 +608,7 @@ stf_parse_fixed_line (Source_t *src, StfParseOptions_t *parseoptions)
 	src->linepos = 0;
 	src->splitpos = 0;
 
-	while (*src->position != '\0' && *src->position != parseoptions->terminator) {
+	while (*src->position != '\0' && !compare_terminator (src->position, parseoptions)) {
 		char *field = stf_parse_fixed_cell (src, parseoptions);
 
 		trim_spaces_inplace (field, parseoptions);
@@ -610,7 +657,8 @@ stf_parse_general (StfParseOptions_t *parseoptions, char const *data)
 	g_return_val_if_fail (parseoptions != NULL, NULL);
 	g_return_val_if_fail (data != NULL, NULL);
 	g_return_val_if_fail (stf_parse_options_valid (parseoptions), NULL);
-
+	g_return_val_if_fail (g_utf8_validate (data, -1, NULL), NULL);
+	
 	src.position = data;
 	row = 0;
 
@@ -653,7 +701,7 @@ stf_parse_get_rowcount (StfParseOptions_t *parseoptions, char const *data)
 	g_return_val_if_fail (data != NULL, 0);
 
 	for (s = data; *s != '\0'; s++) {
-		if (*s == parseoptions->terminator) {
+		if (compare_terminator (s, parseoptions)) {
 			rowcount++;
 			last_row_empty = TRUE;
 		} else
@@ -687,7 +735,7 @@ stf_parse_get_colcount (StfParseOptions_t *parseoptions, char const *data)
 		while (*iterator != '\0') {
 			char const *s;
 
-			if (*iterator == parseoptions->terminator) {
+			if (compare_terminator (iterator, parseoptions)) {
 				if (tempcount > colcount)
 					colcount = tempcount;
 				tempcount = 0;
@@ -729,7 +777,7 @@ stf_parse_get_longest_row_width (StfParseOptions_t *parseoptions, char const *da
 	g_return_val_if_fail (data != NULL, 0);
 
 	for (s = data; *s != '\0'; s++) {
-		if (*s == parseoptions->terminator || s[1] == '\0') {
+		if (compare_terminator (s, parseoptions) || s[1] == '\0') {
 			if (len > longest)
 				longest = len;
 			len = 0;
@@ -781,7 +829,7 @@ stf_parse_get_colwidth (StfParseOptions_t *parseoptions, char const *data, int c
 				col++;
 			} else {
 				colwidth++;
-				if (*iterator == parseoptions->terminator) {
+				if (compare_terminator (iterator, parseoptions)) {
 					if (col == index && colwidth > width)
 						width = colwidth;
 					col = 0;
@@ -803,7 +851,7 @@ stf_parse_get_colwidth (StfParseOptions_t *parseoptions, char const *data, int c
 			int len = 0, templen = 0;
 
 			for (s = data; *s != '\0'; s++) {
-				if (*s == parseoptions->terminator) {
+				if (compare_terminator (s, parseoptions)) {
 					if (templen > len)
 						len = templen;
 					templen = 0;
@@ -934,7 +982,7 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int const
 		AutoDiscovery_t *disc = NULL;
 		int position = 0;
 
-		while (*iterator && *iterator != parseoptions->terminator) {
+		while (*iterator && !compare_terminator (iterator, parseoptions)) {
 
 			if (!begin_recorded && *iterator == ' ') {
 
@@ -1047,7 +1095,7 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int const
 
 				num_spaces   = -1;
 				spaces_start = 0;
-				while (*iterator && *iterator != parseoptions->terminator) {
+				while (*iterator && !compare_terminator (iterator, parseoptions)) {
 
 					if (pos == begin) {
 
@@ -1122,7 +1170,7 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int const
 				gboolean trigger = FALSE;
 				int pos = 0;
 
-				while (*iterator && *iterator != parseoptions->terminator) {
+				while (*iterator && !compare_terminator (iterator, parseoptions)) {
 
 
 					if (pos == begin)
@@ -1288,3 +1336,49 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data)
 
 	return cr;
 }
+
+/*
+ * stf_parse_next_token: find the next token. A token is a single character or 
+ *                       a sequence of quoted characters
+ * @data      : string to consider (guaranteed to be utf-8)
+ * @quote     : quote character
+ * @adj_escaped : if true then 2 adjacent quote characters represent one 
+ *                literal quote character
+ *
+ * returns the next token or NULL if there are no more tokens 
+ */
+
+char *
+stf_parse_next_token (char const *data, gunichar quote, 
+		      gboolean adj_escaped, StfTokenType_t *tokentype)
+{
+	char *character;
+	StfTokenType_t ttype;
+	
+	g_return_val_if_fail (data != NULL, NULL);
+	g_return_val_if_fail (g_utf8_validate (data, -1, NULL), NULL);
+	
+	ttype = STF_TOKEN_CHAR;
+	character = g_utf8_find_next_char (data, NULL);
+	if (g_utf8_get_char (data) == quote) {
+		ttype = STF_TOKEN_STRING_INC;
+		while (character && *character) {
+			if (g_utf8_get_char (character) == quote) {
+				character = g_utf8_find_next_char (character, NULL);
+				if (!adj_escaped || 
+				    g_utf8_get_char(character) != quote) {
+					ttype = STF_TOKEN_STRING;
+					break;
+				}
+				
+			}
+			character = g_utf8_find_next_char (character, NULL);
+		}
+	}
+	if (tokentype)
+		*tokentype = ttype;
+	return character;
+}
+
+
+

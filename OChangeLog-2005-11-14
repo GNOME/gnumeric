@@ -1,3 +1,26 @@
+2003-05-06  Andreas Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=80806
+	* src/stf-parse.h (StfTokenType_t): new enumeration
+	(stf_parse_options_set_line_terminator): change argument type
+	(stf_parse_options_set_line_terminator_char): new
+	(stf_parse_next_token): new
+	
+	* src/stf-parse.c 
+	(stf_parse_options_set_line_terminator): change argument type
+	(stf_parse_options_set_line_terminator_char): new
+	(stf_parse_next_token): new
+	(comp_term): new inline
+	(compare_terminator): new inline and use throughout the file
+	(stf_parse_csv_is_separator): rewrite
+	(stf_parse_csv_cell): rewrite
+	(stf_parse_eat_separators): new
+	(stf_parse_csv_line): make utf-8 clean
+	
+	* src/stf.c (stf_read_workbook): fix released memory access (thanks Morten)
+	(stf_read_workbook_auto_csvtab): make utf-8 clean and adjust guess to make
+	  it more likely to guess tsv rather than csv
+
 2003-05-06  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (qbeta): Improve guess in log_p and lower_tail

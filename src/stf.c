@@ -266,9 +266,9 @@ stf_read_workbook (GnmFileOpener const *fo, IOContext *context, WorkbookView *wb
 	book = wb_view_workbook (wbv);
 	sheet = sheet_new (book, name);
 	workbook_sheet_attach (book, sheet, NULL);
-	g_free (name);
 
 	dialogresult = stf_dialog (WORKBOOK_CONTROL_GUI (context->impl), name, data);
+	g_free (name);
 	if (dialogresult != NULL && stf_store_results (dialogresult, sheet, 0, 0)) {
 		workbook_recalc (book);
 		sheet_queue_respan (sheet, 0, SHEET_MAX_ROWS-1);
@@ -397,21 +397,24 @@ stf_read_workbook_auto_csvtab (GnmFileOpener const *fo, gchar const *enc,
 	unsigned int comma = 0, semi = 0, tab = 0, lines = 0;
 	int i;
 	gboolean last_was_newline = FALSE;
-	
-	gunichar guni_comma = g_utf8_get_char (",");
-	gunichar guni_semicolon = g_utf8_get_char (";");
-        gunichar guni_tab = g_utf8_get_char ("\t");
-	gunichar guni_newline = g_utf8_get_char ("\n");
-	gunichar guni_carriage = g_utf8_get_char ("\r");
-	
+
+	gunichar guni_comma = ',';
+	gunichar guni_semicolon = ';';
+        gunichar guni_tab = '\t';
+	gunichar guni_newline = '\n';
+	gunichar guni_carriage = '\r';
+	gunichar guni_quote = '\"';
 
 	book = wb_view_workbook (wbv);
 	data = stf_preparse (COMMAND_CONTEXT (context), input, enc);
 	if (!data)
 		return;
 
-        for (i = STF_PROBE_SIZE, pos = data ; *pos && i-- > 0; pos = g_utf8_next_char(pos)) {
-		gunichar this_char = g_utf8_get_char (pos);
+        for (i = STF_PROBE_SIZE, pos = data ; pos && *pos && i-- > 0; 
+	     pos = stf_parse_next_token (pos, guni_quote, TRUE, NULL)) {
+		gunichar this_char;
+		
+		this_char = g_utf8_get_char (pos);
 		if (this_char == guni_comma) {
 			++comma; 
 			last_was_newline = FALSE;
@@ -421,13 +424,12 @@ stf_read_workbook_auto_csvtab (GnmFileOpener const *fo, gchar const *enc,
 		} else if (this_char == guni_tab) {
 			++tab;
 			last_was_newline = FALSE;
-                } else if ((this_char == guni_newline || this_char == guni_carriage) 
+		} else if ((this_char == guni_newline || this_char == guni_carriage) 
 			   && !last_was_newline) {
 			++lines;
 			last_was_newline = TRUE;
 		}
 	}
-	
 
 	name = g_path_get_basename (gsf_input_name (input));
 	sheet = sheet_new (book, name);
@@ -441,7 +443,7 @@ stf_read_workbook_auto_csvtab (GnmFileOpener const *fo, gchar const *enc,
 	stf_parse_options_set_lines_to_parse (po, -1);
 
 	stf_parse_options_csv_set_stringindicator (po, '"');
-	stf_parse_options_csv_set_indicator_2x_is_single (po, FALSE);
+	stf_parse_options_csv_set_indicator_2x_is_single (po, TRUE);
 	stf_parse_options_csv_set_duplicates (po, FALSE);
 
 	/* Guess */

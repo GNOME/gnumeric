@@ -9,6 +9,13 @@
 #include "cell.h"
 
 typedef enum {
+	STF_TOKEN_UNDEF = 0,
+	STF_TOKEN_CHAR,
+	STF_TOKEN_STRING,
+	STF_TOKEN_STRING_INC
+} StfTokenType_t;
+
+typedef enum {
 	PARSE_TYPE_NOTSET    = 1 << 0,
 	PARSE_TYPE_CSV       = 1 << 1,
 	PARSE_TYPE_FIXED     = 1 << 2
@@ -22,7 +29,7 @@ typedef enum {
 
 typedef struct {
 	StfParseType_t       parsetype;             /* The type of import to do */
-	char                 terminator;            /* Line terminator */
+	gunichar             terminator;            /* Line terminator */
 	int                  parselines;            /* Number of lines to parse */
 	StfTrimType_t        trim_spaces;           /* Trim spaces in fields ? */
 
@@ -52,7 +59,9 @@ void                stf_parse_options_free                            (StfParseO
 void                stf_parse_options_set_type                        (StfParseOptions_t *parseoptions,
 								       StfParseType_t const parsetype);
 void                stf_parse_options_set_line_terminator             (StfParseOptions_t *parseoptions,
-								       char const terminator);
+                                                                       gunichar const terminator);
+void                stf_parse_options_set_line_terminator_char        (StfParseOptions_t *parseoptions,
+                                                                       char const terminator);
 void                stf_parse_options_set_lines_to_parse              (StfParseOptions_t *parseoptions,
 								       int const lines);
 void                stf_parse_options_set_trim_spaces                 (StfParseOptions_t *parseoptions,
@@ -93,6 +102,9 @@ char const         *stf_parse_is_valid_data                           (char cons
 void                stf_parse_options_fixed_autodiscover              (StfParseOptions_t *parseoptions,
 								       int const data_lines, char const *data);
 
+char               *stf_parse_next_token                              (char const *data, gunichar quote, 
+								       gboolean adj_escaped, StfTokenType_t *tokentype);
+
 /* Higher level functions, can be used for directly parsing into an application specific data container */
 gboolean	    stf_parse_sheet                                   (StfParseOptions_t *parseoptions,
 								       char const *data, Sheet *sheet,
@@ -100,5 +112,4 @@ gboolean	    stf_parse_sheet                                   (StfParseOptions_
 
 CellRegion         *stf_parse_region                                  (StfParseOptions_t *parseoptions,
 								       char const *data);
-
 #endif
