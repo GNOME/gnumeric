@@ -20,19 +20,21 @@ CFLAGS += $(PERL_CCCDLFLAGS)				\
 	$(GNOME_INCLUDEDIR)
 
 
-plugin_PROGRAMS = perl.so
+noinst_PROGRAMS = perl.so
 
 .c.o:
 	$(CC) $(CFLAGS) -c $<
 
+perl_so_SOURCES = perl.c
+
 perl.so: perl.o xsinit.o ext.timestamp
-	$(PERL_LD) $(PERL_LDDLFLAGS) -o perl.so perl.o xsinit.o $(PERL_LDOPTS)
+	-$(PERL_LD) $(PERL_LDDLFLAGS) -o perl.so perl.o xsinit.o $(PERL_LDOPTS)
 
 xsinit.c:
-	perl -MExtUtils::Embed -e xsinit -- -o xsinit.c
+	-perl -MExtUtils::Embed -e xsinit -- -o xsinit.c
 
 ext.timestamp:
-	( cd ext ; perl Makefile.PL LIB=$(datadir)/gnumeric/perl/lib )
+	-( cd ext ; perl Makefile.PL LIB=$(datadir)/gnumeric/perl/lib )
 	touch ext.timestamp
 
 Perlscriptsdir = $(datadir)/gnumeric/perl
@@ -40,3 +42,7 @@ Perlscriptsdir = $(datadir)/gnumeric/perl
 Perlscripts_DATA = startup.pl
 
 EXTRA_DIST = startup.pl
+
+dist-hook:
+	mkdir $(distdir)/ext
+	cp $(srcdir)/ext/Gnumeric.* $(srcdir)/ext/Makefile.PL.in $(distdir)/ext

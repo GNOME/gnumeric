@@ -1,8 +1,27 @@
-# CFLAGS += -g -Wall 	\
-# 	-Wshadow             -Wpointer-arith  	\
-# 	-Wmissing-prototypes -Wmissing-declarations 
+#
+# Gnumeric's Makefile.
+# Author: Miguel de Icaza (miguel@kernel.org)
+#
+# This Makefile has targets for three programs:
+#
+# gnumeric: 
+#	the plain spreadsheet
+#
+# gnumeric-corba:
+#       spreadsheet with CORBA additions
+#
+# gnumeric-bonobo:
+#       spreadsheet with CORBA and Bonobo additions
+# 
+# Note that gnumeric/gnumeric-corba and gnumeric-bonobo are mutually
+# exclusive.
+# 
 
-bin_PROGRAMS = gnumeric gnumeric-corba
+if BONOBO
+bin_PROGRAMS = gnumeric-bonobo
+else
+bin_PROGRAMS = gnumeric
+endif
 
 #noinst_PROGRAMS = number-match
 
@@ -10,6 +29,7 @@ INCLUDES = 						\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
 	-DGNUMERIC_VERSION=\""$(VERSION)"\"		\
 	-I$(includedir)				 	\
+	-I$(top_srcdir)/libglade			\
 	$(GNOME_INCLUDEDIR)				\
 	-I/gnome/include/libgnomeprint			\
 	$(GUILE_INCS)
@@ -31,11 +51,16 @@ GNUMERIC_BASE_SOURCES =			\
 	dialog-cell-comment.c		\
 	dialog-cell-format.c		\
 	dialog-goto-cell.c		\
+	dialog-cell-sort.c		\
+	dialog-function-select.c	\
+	dialog-function-wizard.c	\
+	dialog-goal-seek.c		\
 	dialog-insert-cells.c		\
 	dialog-define-names.c		\
 	dialog-delete-cells.c		\
 	dialog-paste-special.c		\
 	dialog-printer-setup.c		\
+	dialog-solver.c			\
 	dialog-zoom.c			\
 	dialogs.h			\
 	dump.c				\
@@ -50,13 +75,22 @@ GNUMERIC_BASE_SOURCES =			\
 	formats.c			\
 	func.c				\
 	func.h				\
+	fn-database.c			\
 	fn-date.c			\
+	fn-eng.c			\
+	fn-financial.c			\
+	fn-information.c		\
+	fn-logical.c			\
+	fn-lookup.c			\
 	fn-math.c			\
 	fn-misc.c			\
 	fn-sheet.c			\
+	fn-stat.c			\
 	fn-string.c			\
 	format.c			\
 	format.h			\
+	goal-seek.c			\
+	goal-seek.h			\
 	gnumeric-sheet.c		\
 	gnumeric-sheet.h		\
 	gnumeric-util.c			\
@@ -73,6 +107,8 @@ GNUMERIC_BASE_SOURCES =			\
 	item-grid.c			\
 	item-grid.h			\
 	main.h				\
+	mathfunc.c			\
+	mathfunc.h			\
 	number-match.c			\
 	number-match.h			\
 	numbers.h			\
@@ -83,6 +119,8 @@ GNUMERIC_BASE_SOURCES =			\
 	plugin.c			\
 	plugin.h			\
 	plugin-manager.c		\
+	ranges.c			\
+	ranges.h			\
 	print-cell.c			\
 	print-info.c			\
 	print-info.h			\
@@ -94,8 +132,12 @@ GNUMERIC_BASE_SOURCES =			\
 	sheet-autofill.h		\
 	sheet-object.c			\
 	sheet-object.h			\
+	sheet-object-graphic.c		\
+	sheet-object-graphic.h		\
 	sheet-view.c			\
 	sheet-view.h			\
+	solver-lp.c                    	\
+	solver.h			\
 	str.c				\
 	str.h				\
 	style.c				\
@@ -108,54 +150,76 @@ GNUMERIC_BASE_SOURCES =			\
 	widget-editable-label.h		\
 	workbook.c			\
 	xml-io.c			\
-	xml-io.h
 
-GNUMERIC_CORBA_GENERATED =		\
-	Gnumeric-common.c		\
-	Gnumeric-skels.c		\
-	Gnumeric-stubs.c		\
+GNUMERIC_CORBA_GENERATED = 			\
+	Gnumeric-common.c			\
+	Gnumeric-skels.c			\
+	Gnumeric-stubs.c			\
 	Gnumeric.h
+
+GNUMERIC_BONOBO_SOURCES = 			\
+	sheet-object-container.c		\
+	sheet-object-container.h
+
+BUILT_SOURCES = $(GNUMERIC_CORBA_GENERATED)
 
 Gnumeric-impl.c: Gnumeric.h
 
 $(GNUMERIC_CORBA_GENERATED): Gnumeric.idl
-	orbit-idl -I`gnome-config --datadir`/idl $(srcdir)/Gnumeric.idl
+	orbit-idl -I`$(GNOME_CONFIG) --datadir`/idl $(srcdir)/Gnumeric.idl
 
 gnumeric_SOURCES =			\
 	main.c				\
 	normal-args.c			\
 	$(GNUMERIC_BASE_SOURCES)
 
-gnumeric_corba_SOURCES = 		\
-	main.c				\
-	corba-args.c			\
-	Gnumeric-impl.c			\
-	$(GNUMERIC_CORBA_GENERATED)	\
-	$(GNUMERIC_BASE_SOURCES)
+gnumeric_bonobo_SOURCES =			\
+	main.c					\
+	corba-args.c				\
+	corba-sheet.c				\
+	corba-workbook.c			\
+	corba-workbook-factory.c		\
+	$(GNUMERIC_CORBA_GENERATED)		\
+	$(GNUMERIC_BASE_SOURCES)		\
+	$(GNUMERIC_BONOBO_SOURCES)
 
-gnumeric_LDFLAGS = -export-dynamic `gnome-config --libs print`
+gnumeric_LDFLAGS = -export-dynamic
 
-gnumeric_corba_LDFLAGS = $(gnumeric_LDFLAGS)
-
-gnumeric_LDADD = 			\
-	../plugins/excel/libexcel.a	\
-	$(GNOME_LIBDIR) 		\
-	$(GNOMEUI_LIBS)			\
-	$(GNOME_XML_LIB) 		\
-	$(GUILE_LIBS)			\
+gnumeric_LDADD = 				\
+	../plugins/excel/libexcel.a		\
+	../plugins/excel/libole2/libole2.a 	\
+	../libglade/glade/libglade.a		\
+	$(GNOME_LIBDIR) 			\
+	$(GNOMEUI_LIBS)				\
+	$(GNOME_XML_LIB) 			\
+	`gnome-config --libs gnomeprint`	\
+	$(GUILE_LIBS)				\
 	$(INTLLIBS)
 
-gnumeric_corba_LDADD = $(gnumeric_LDADD) $(GNOMEGNORBA_LIBS)
+gnumeric_bonobo_LDADD =				\
+	../plugins/excel/libexcel.a		\
+	../plugins/excel/libole2/libole2.a 	\
+	../libglade/glade/libglade.a		\
+	$(BONOBO_LIBS)				\
+	$(GNOME_XML_LIB) 			\
+	$(GUILE_LIBS)				\
+	$(INTLLIBS)
+
 
 wc:
 	wc -l $(gnumeric_SOURCES)
+
+wc_bonobo:
+	wc -l $(gnumeric_SOURCES) $(GNUMERIC_BONOBO_SOURCES)
 
 dist-hook:
 	mkdir $(distdir)/pixmaps
 	cp $(srcdir)/pixmaps/*.xpm $(distdir)/pixmaps
 	cp $(srcdir)/pixmaps/*.png $(distdir)/pixmaps
+	touch $(distdir)/Gnumeric.idl
 
-EXTRA_DIST = Gnumeric.idl
+idldir=$(datadir)/idl
+idl_DATA=Gnumeric.idl
 
 #number_match_SOURCES = number-match.c  formats.c dates.c number-match-test.c
 

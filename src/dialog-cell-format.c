@@ -60,8 +60,8 @@ make_radio_notify_change (GSList *list, GtkWidget *prop_win)
 }
 
 static struct {
-	char *name;
-	char **formats;	
+	const char *name;
+	const char *const *formats;	
 } cell_formats [] = {
 	{ N_("Numbers"),    cell_format_numbers    },
 	{ N_("Accounting"), cell_format_accounting },
@@ -79,7 +79,7 @@ static void
 format_list_fill (int n)
 {
 	GtkCList *cl = GTK_CLIST (number_format_list);
-	char **texts;
+	const char *const *texts;
 	int i;
 
 	g_return_if_fail (n >= 0);
@@ -105,10 +105,10 @@ format_list_fill (int n)
  * format that applies to this cell
  */
 static int
-format_find (char *format)
+format_find (const char *format)
 {
 	int i, row;
-	char **p;
+	const char *const *p;
 	
 	for (i = 0; cell_formats [i].name; i++){
 		p = cell_formats [i].formats;
@@ -147,6 +147,9 @@ render_formated_version (char *format)
 		Value *v = first_cell->value;
 		char *str;
 
+		if (v == NULL)
+			return;
+		
 		style_format = style_format_new (format);
 		str = format_value (style_format, v, NULL);
 
@@ -270,7 +273,9 @@ create_number_format_page (GtkWidget *prop_win, CellList *cells)
 	/* 1.2 Fill the category list */
 	gtk_clist_freeze (GTK_CLIST (number_cat_list));
 	for (i = 0; cell_formats [i].name; i++){
-		gchar *text [1] = { _(cell_formats [i].name) };
+		gchar *text [1];
+
+		text [0] = _(cell_formats [i].name);
 		
 		gtk_clist_append (GTK_CLIST (number_cat_list), text);
 	}
@@ -593,7 +598,7 @@ make_color_picker_notify (GtkWidget *widget, GtkWidget *prop_win)
 static GtkWidget *
 create_foreground_radio (GtkWidget *prop_win)
 {
-	GtkWidget *frame, *table, *r1, *r2;
+	GtkWidget *frame, *table, *r1, *r2, *r3;
 	int e = GTK_FILL | GTK_EXPAND;
 	
 	frame = gtk_frame_new (_("Text color"));
@@ -603,8 +608,10 @@ create_foreground_radio (GtkWidget *prop_win)
 	r1 = gtk_radio_button_new_with_label (NULL, _("None"));
 	r2 = gtk_radio_button_new_with_label_from_widget (
 		GTK_RADIO_BUTTON (r1), _("Use this color"));
+	r3 = gtk_radio_button_new_with_label_from_widget (
+		GTK_RADIO_BUTTON (r1), _("No change"));
 
-	foreground_radio_list = GTK_RADIO_BUTTON (r2)->group;
+	foreground_radio_list = GTK_RADIO_BUTTON (r3)->group;
 
 	foreground_cs = gnome_color_picker_new ();
 
@@ -612,6 +619,7 @@ create_foreground_radio (GtkWidget *prop_win)
 	
 	gtk_table_attach (GTK_TABLE (table), r1, 0, 1, 0, 1, e, 0, 4, 2);
 	gtk_table_attach (GTK_TABLE (table), r2, 0, 1, 1, 2, e, 0, 4, 2);
+	gtk_table_attach (GTK_TABLE (table), r3, 0, 1, 2, 3, e, 0, 4, 2);
 	gtk_table_attach (GTK_TABLE (table), foreground_cs,
 			  1, 2, 1, 2, 0, 0, 0, 0); 
 
@@ -621,7 +629,7 @@ create_foreground_radio (GtkWidget *prop_win)
 static GtkWidget *
 create_background_radio (GtkWidget *prop_win)
 {
-	GtkWidget *frame, *table, *r1, *r2, *r3, *p;
+	GtkWidget *frame, *table, *r1, *r2, *r3, *r4, *p;
 	int e = GTK_FILL | GTK_EXPAND;
 	
 	frame = gtk_frame_new (_("Background configuration"));
@@ -635,8 +643,10 @@ create_background_radio (GtkWidget *prop_win)
 		GTK_RADIO_BUTTON (r1), _("Use solid color"));
 	r3 = gtk_radio_button_new_with_label_from_widget (
 		GTK_RADIO_BUTTON (r1), _("Use a pattern"));
+	r4 = gtk_radio_button_new_with_label_from_widget (
+		GTK_RADIO_BUTTON (r1), _("No change"));
 
-	background_radio_list = GTK_RADIO_BUTTON (r3)->group;
+	background_radio_list = GTK_RADIO_BUTTON (r4)->group;
 
 	/* The color selectors */
 	background_cs = gnome_color_picker_new ();
@@ -649,6 +659,7 @@ create_background_radio (GtkWidget *prop_win)
 	gtk_table_attach (GTK_TABLE (table), r1, 0, 1, 0, 1, e, 0, 4, 2);
 	gtk_table_attach (GTK_TABLE (table), r2, 0, 1, 1, 2, e, 0, 4, 2);
 	gtk_table_attach (GTK_TABLE (table), r3, 0, 1, 2, 3, e, 0, 4, 2);
+	gtk_table_attach (GTK_TABLE (table), r4, 0, 1, 4, 5, e, 0, 4, 2);
 
 	gtk_table_attach (GTK_TABLE (table), background_cs, 1, 2, 1, 2, 0, 0, 4, 2);
 	gtk_table_attach (GTK_TABLE (table), p, 0, 2, 3, 4, GTK_FILL | GTK_EXPAND, GTK_FILL|GTK_EXPAND, 0, 0);
@@ -667,7 +678,7 @@ create_coloring_page (GtkWidget *prop_win, CellList *cells)
 	gushort back_red, back_green, back_blue;
 	GList *l;
 	int ok_fore, ok_back, foreground_flag, background_flag;
-	
+
 	t = (GtkTable *) gtk_table_new (0, 0, 0);
 
 	fore = create_foreground_radio (prop_win);
@@ -750,6 +761,8 @@ create_coloring_page (GtkWidget *prop_win, CellList *cells)
 				gtk_radio_button_select (foreground_radio_list, 1);
 				gnome_color_picker_set_d (GNOME_COLOR_PICKER (foreground_cs), rd, gd, bd, ad);
 			}
+		} else {
+			gtk_radio_button_select (foreground_radio_list, 2);
 		}
 		if (ok_back != 0){
 			if (background_flag == 0){
@@ -763,6 +776,8 @@ create_coloring_page (GtkWidget *prop_win, CellList *cells)
 				gtk_radio_button_select (background_radio_list, 1);
 				gnome_color_picker_set_d (GNOME_COLOR_PICKER (background_cs), rd, gd, bd, ad);
 			}
+		} else {
+			gtk_radio_button_select (background_radio_list, 3);
 		}
 	}
 
@@ -770,7 +785,7 @@ create_coloring_page (GtkWidget *prop_win, CellList *cells)
 	make_radio_notify_change (background_radio_list, prop_win);
 	
 	gtk_table_attach (t, fore, 0, 1, 0, 1, e, 0, 4, 4);
-/*	gtk_table_attach (t, back, 0, 1, 1, 2, e, 0, 4, 4); */
+	gtk_table_attach (t, back, 0, 1, 1, 2, e, 0, 4, 4);
 
 	gtk_widget_show_all (GTK_WIDGET (t));
 
@@ -781,34 +796,50 @@ static void
 apply_coloring_format (Style *style, Sheet *sheet, CellList *cells)
 {
 	double rd, gd, bd, ad;
-	gushort fore_red, fore_green, fore_blue;
-	gushort back_red, back_green, back_blue;
+	gushort fore_change = FALSE, back_change = FALSE;
+	gushort fore_red=0, fore_green=0, fore_blue=0;
+	gushort back_red=0xff, back_green=0xff, back_blue=0xff;
 
-	CellList *cl;
 	Cell *cell;
 
 	/*
 	 * Let's check the foreground first
 	 */
-	if (gtk_radio_group_get_selected (foreground_radio_list) == 1){
-		gnome_color_picker_get_d (GNOME_COLOR_PICKER (foreground_cs), &rd, &gd, &bd, &ad);
-
-		fore_red   = rd * 65535;
-		fore_green = gd * 65535;
-		fore_blue  = bd * 65535;
-		style->valid_flags |= STYLE_FORE_COLOR;
-	} else {
+	switch (gtk_radio_group_get_selected (foreground_radio_list)) {
+	/*
+	 * case 0 means no foreground
+	 */
+	case 0:
 		fore_red   = 0;
 		fore_green = 0;
 		fore_blue  = 0;
 		style->valid_flags &= ~STYLE_FORE_COLOR;
+		fore_change = TRUE;
+		break;
+	/*
+	 * case 1 means colored foreground
+	 */
+	case 1:
+		gnome_color_picker_get_d (GNOME_COLOR_PICKER (foreground_cs), &rd, &gd, &bd, &ad);
+		fore_red   = rd * 65535;
+		fore_green = gd * 65535;
+		fore_blue  = bd * 65535;
+		style->valid_flags |= STYLE_FORE_COLOR;
+		fore_change = TRUE;
+		break;
+	/*
+	 * case 2 means no change
+	 */
+	case 2:
+		fore_change = FALSE;
+		break;
 	}
 
 	/*
 	 * Now, the background
-	 * FIXME: What about the cell pattern?
+	 * FIXME: What is going on with the cell patterns?
 	 */
-	switch (gtk_radio_group_get_selected (background_radio_list)){
+	switch (gtk_radio_group_get_selected (background_radio_list)) {
 	/*
 	 * case 0 means no background
 	 */
@@ -818,6 +849,7 @@ apply_coloring_format (Style *style, Sheet *sheet, CellList *cells)
 		back_blue  = 0xffff;
 		style->valid_flags &= ~STYLE_BACK_COLOR;
 		style->valid_flags &= ~STYLE_PATTERN;
+		back_change = TRUE;
 		break;
 
 	/*
@@ -831,18 +863,26 @@ apply_coloring_format (Style *style, Sheet *sheet, CellList *cells)
 		back_blue  = bd * 65535;
 		style->valid_flags |= STYLE_BACK_COLOR;
 		style->valid_flags &= ~STYLE_PATTERN;
+		back_change = TRUE;
 		break;
 
 	/*
 	 * case 2 means a pattern background
 	 */
-	default:
+	case 2:
 		back_red = 0xffff;
 		back_green = 0xffff;
 		back_blue = 0xffff;
 		
 		style->valid_flags &= ~STYLE_BACK_COLOR;
 		style->valid_flags |= STYLE_PATTERN;
+		back_change = TRUE;
+		break;
+	/*
+	 * case 3 means no change
+	 */
+	case 3:
+		back_change = FALSE;
 		break;
 	}
 
@@ -850,13 +890,22 @@ apply_coloring_format (Style *style, Sheet *sheet, CellList *cells)
 	for (; cells; cells = cells->next){
 		cell = cells->data;
 
-		cell_set_foreground (cell, fore_red, fore_green, fore_blue);
-		cell_set_background (cell, back_red, back_green, back_blue);
-/*		cell_set_pattern    (cell, 2); */
+		if (fore_change==TRUE) {
+			cell_set_foreground (
+				cell, fore_red, fore_green, fore_blue);
+		}
+		if (back_change==TRUE) {
+			cell_set_background (cell, back_red, back_green, back_blue);
+/*			cell_set_pattern    (cell, 2); */
+		}
 	}
 
-	style->fore_color  = style_color_new (fore_red, fore_green, fore_blue);
-	style->back_color  = style_color_new (back_red, back_green, back_blue);
+	if (fore_change==TRUE) {
+		style->fore_color  = style_color_new (fore_red, fore_green, fore_blue);
+	}
+	if (back_change==TRUE) {
+		style->back_color  = style_color_new (back_red, back_green, back_blue);
+	}
 }
 
 static struct {

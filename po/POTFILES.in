@@ -1,3 +1,6 @@
+plugins/excel/boot.c
+plugins/guile/plugin.c
+plugins/python/python.c
 plugins/stat/stat.c
 src/about.c
 src/dates.c
@@ -8,6 +11,7 @@ src/dialog-goto-cell.c
 src/dialog-insert-cells.c
 src/dialog-paste-special.c
 src/dialog-zoom.c
+src/dump.c
 src/expr.c
 src/file.c
 src/fn-date.c

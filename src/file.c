@@ -7,6 +7,7 @@
 #include <config.h>
 #include <gnome.h>
 #include "gnumeric.h"
+#include "gnumeric-util.h"
 #include "dialogs.h"
 #include "xml-io.h"
 #include "file.h"
@@ -18,8 +19,8 @@ static FileSaver *current_saver = NULL;
 static gint
 file_priority_sort (gconstpointer a, gconstpointer b)
 {
-	FileOpener *fa = (FileOpener *)a;
-	FileOpener *fb = (FileOpener *)b;
+	const FileOpener *fa = (const FileOpener *)a;
+	const FileOpener *fb = (const FileOpener *)b;
 
 	return fb->priority - fa->priority;
 }
@@ -36,15 +37,16 @@ file_priority_sort (gconstpointer a, gconstpointer b)
  * its XML-based format at priority 50.
  */
 void
-file_format_register_open (int priority, char *desc, FileFormatProbe probe_fn, FileFormatOpen open_fn)
+file_format_register_open (int priority, const char *desc,
+			   FileFormatProbe probe_fn, FileFormatOpen open_fn)
 {
 	FileOpener *fo = g_new (FileOpener, 1);
 
 	g_return_if_fail (probe_fn != NULL);
 	g_return_if_fail (open_fn != NULL);
-	
+
 	fo->priority = priority;
-	fo->format_description = desc;
+	fo->format_description = desc ? g_strdup (desc) : NULL;
 	fo->probe = probe_fn;
 	fo->open  = open_fn;
 
@@ -68,6 +70,10 @@ file_format_unregister_open (FileFormatProbe probe, FileFormatOpen open)
 
 		if (fo->probe == probe && fo->open == open){
 			gnumeric_file_openers = g_list_remove_link (gnumeric_file_openers, l);
+			g_list_free_1 (l);
+			if (fo->format_description)
+				g_free (fo->format_description);
+			g_free (fo);
 			return;
 		}
 	}
@@ -82,17 +88,19 @@ file_format_unregister_open (FileFormatProbe probe, FileFormatOpen open)
  * This routine registers a file format save routine with Gnumeric
  */
 void
-file_format_register_save (char *extension, char *format_description, FileFormatSave save_fn)
+file_format_register_save (char *extension, const char *format_description,
+			   FileFormatSave save_fn)
 {
 	FileSaver *fs = g_new (FileSaver, 1);
 
 	g_return_if_fail (save_fn != NULL);
-	
+
 	fs->extension = extension;
-	fs->format_description = format_description;
+	fs->format_description =
+		format_description ? g_strdup (format_description) : NULL;
 	fs->save = save_fn;
 
-	gnumeric_file_savers = g_list_prepend (gnumeric_file_savers, fs);
+	gnumeric_file_savers = g_list_append (gnumeric_file_savers, fs);
 }
 
 /**
@@ -112,8 +120,12 @@ file_format_unregister_save (FileFormatSave save)
 		if (fs->save == save){
 			if (fs == current_saver)
 				current_saver = NULL;
-			
+
 			gnumeric_file_savers = g_list_remove_link (gnumeric_file_savers, l);
+			g_list_free_1 (l);
+			if (fs->format_description)
+				g_free (fs->format_description);
+			g_free (fs);
 			return;
 		}
 	}
@@ -127,10 +139,10 @@ workbook_read (const char *filename)
 	g_return_val_if_fail (filename != NULL, NULL);
 
 	for (l = gnumeric_file_openers; l; l = l->next){
-		FileOpener *fo = l->data;
-		Workbook *w;
-		
+		const FileOpener *fo = l->data;
+
 		if ((*fo->probe) (filename)){
+			Workbook *w;
 			w = (*fo->open) (filename);
 
 			if (w)
@@ -159,7 +171,7 @@ saver_activate (GtkMenuItem *item, FileSaver *saver)
 
 	for (l = gnumeric_file_savers; l; l = l->next){
 		FileSaver *fs = l->data;
-		
+
 		if (fs == saver)
 			current_saver = saver;
 	}
@@ -175,9 +187,13 @@ file_saver_is_default_format (FileSaver *saver)
 {
 	if (current_saver == saver)
 		return TRUE;
+	
+	if (current_saver == NULL)
+		if (strcmp (saver->extension, ".gnumeric") == 0) {
+			current_saver = saver;
+			return TRUE;
+		}
 
-	if (strcmp (saver->extension, ".gnumeric") == 0)
-		return TRUE;
 	return FALSE;
 }
 
@@ -185,23 +201,27 @@ static void
 fill_save_menu (GtkOptionMenu *omenu, GtkMenu *menu)
 {
 	GList *l;
-	int i;
-	
+	int i, selected=-1;
+
 	for (i = 0, l = gnumeric_file_savers; l; l = l->next, i++){
 		GtkWidget *menu_item;
 		FileSaver *fs = l->data;
 
 		menu_item = gtk_menu_item_new_with_label (fs->format_description);
 		gtk_widget_show (menu_item);
-		
+
 		gtk_menu_append (menu, menu_item);
 
 		if (file_saver_is_default_format (fs))
-			gtk_option_menu_set_history (omenu, i);
+			selected = i;
 
 		gtk_signal_connect (GTK_OBJECT (menu_item), "activate",
 				    GTK_SIGNAL_FUNC(saver_activate), fs);
 	}
+
+	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), GTK_WIDGET (menu));
+	if (selected > 0)
+		gtk_option_menu_set_history (omenu, selected);
 }
 
 static GtkWidget *
@@ -216,14 +236,34 @@ make_format_chooser (void)
 	menu = gtk_menu_new ();
 
 	fill_save_menu (GTK_OPTION_MENU (omenu), GTK_MENU (menu));
-	
+
 	gtk_box_pack_start (GTK_BOX (box), label, FALSE, FALSE, GNOME_PAD);
 	gtk_box_pack_start (GTK_BOX (box), omenu, FALSE, TRUE, GNOME_PAD);
 	gtk_widget_show_all (box);
 
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
-	
 	return box;
+}
+
+static FileSaver *
+insure_saver (FileSaver *current)
+{
+	GList *l;
+
+	if (current)
+		return current;
+
+	for (l = gnumeric_file_savers; l; l = l->next){
+		return l->data;
+	}
+	g_assert_not_reached ();
+	return NULL;
+}
+
+static guint
+file_dialog_delete_event (GtkWidget *widget, GdkEventAny *event)
+{
+	gtk_main_quit ();
+	return TRUE;
 }
 
 void
@@ -232,11 +272,11 @@ workbook_save_as (Workbook *wb)
 	GtkFileSelection *fsel;
 	gboolean accepted = FALSE;
 	GtkWidget *format_selector;
-	
+
 	g_return_if_fail (wb != NULL);
 
-	fsel = (GtkFileSelection *)gtk_file_selection_new (_("Save workbook as"));
-	
+	fsel = GTK_FILE_SELECTION (gtk_file_selection_new (_("Save workbook as")));
+
 	gtk_window_set_modal (GTK_WINDOW (fsel), TRUE);
 	if (wb->filename)
 		gtk_file_selection_set_filename (fsel, wb->filename);
@@ -245,15 +285,22 @@ workbook_save_as (Workbook *wb)
 	format_selector = make_format_chooser ();
 	gtk_box_pack_start (GTK_BOX (fsel->action_area), format_selector,
 			    FALSE, TRUE, 0);
-	
+
 	/* Connect the signals for Ok and Cancel */
 	gtk_signal_connect (GTK_OBJECT (fsel->ok_button), "clicked",
 			    GTK_SIGNAL_FUNC (set_ok), &accepted);
 	gtk_signal_connect (GTK_OBJECT (fsel->cancel_button), "clicked",
 			    GTK_SIGNAL_FUNC (gtk_main_quit), NULL);
 	gtk_window_set_position (GTK_WINDOW (fsel), GTK_WIN_POS_MOUSE);
-	
+
+	/*
+	 * Make sure that we quit the main loop if the window is destroyed 
+	 */
+	gtk_signal_connect (GTK_OBJECT (fsel), "delete_event",
+			    GTK_SIGNAL_FUNC (file_dialog_delete_event), NULL);
+									   
 	/* Run the dialog */
+
 	gtk_widget_show (GTK_WIDGET (fsel));
 	gtk_grab_add (GTK_WIDGET (fsel));
 	gtk_main ();
@@ -262,9 +309,24 @@ workbook_save_as (Workbook *wb)
 		char *name = gtk_file_selection_get_filename (fsel);
 
 		if (name [strlen (name)-1] != '/'){
-			workbook_set_filename (wb, name);
+			char *base = g_basename (name);
 
-			current_saver->save (wb, wb->filename);
+			current_saver = insure_saver (current_saver);
+			if (!current_saver)
+				gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+						 _("Sorry, there are no file savers loaded, I cannot save"));
+			else {
+				if (strchr (base, '.') == NULL){
+					name = g_strconcat (name, current_saver->extension, NULL);
+				} else
+					name = g_strdup (name);
+
+				workbook_set_filename (wb, name);
+
+				current_saver->save (wb, wb->filename);
+
+				g_free (name);
+			}
 		}
 	}
 	gtk_widget_destroy (GTK_WIDGET (fsel));
@@ -274,7 +336,7 @@ void
 workbook_save (Workbook *wb)
 {
 	g_return_if_fail (wb != NULL);
-	
+
 	if (!wb->filename){
 		workbook_save_as (wb);
 		return;
@@ -287,20 +349,26 @@ char *
 dialog_query_load_file (Workbook *wb)
 {
 	GtkFileSelection *fsel;
-	gboolean accepted;
+	gboolean accepted = FALSE;
 	char *result;
-	
-	fsel = (GtkFileSelection *) gtk_file_selection_new (_("Load file"));
+
+	fsel = GTK_FILE_SELECTION (gtk_file_selection_new (_("Load file")));
 	gtk_window_set_modal (GTK_WINDOW (fsel), TRUE);
 
 	gtk_window_set_transient_for (GTK_WINDOW (fsel), GTK_WINDOW (wb->toplevel));
-	
+
 	/* Connect the signals for Ok and Cancel */
 	gtk_signal_connect (GTK_OBJECT (fsel->ok_button), "clicked",
 			    GTK_SIGNAL_FUNC (set_ok), &accepted);
 	gtk_signal_connect (GTK_OBJECT (fsel->cancel_button), "clicked",
 			    GTK_SIGNAL_FUNC (gtk_main_quit), NULL);
 	gtk_window_set_position (GTK_WINDOW (fsel), GTK_WIN_POS_MOUSE);
+
+	/*
+	 * Make sure that we quit the main loop if the window is destroyed 
+	 */
+	gtk_signal_connect (GTK_OBJECT (fsel), "delete_event",
+			    GTK_SIGNAL_FUNC (file_dialog_delete_event), NULL);
 
 	/* Run the dialog */
 	gtk_widget_show (GTK_WIDGET (fsel));

@@ -93,7 +93,7 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		       dy + hd - (font->ascent + font->descent));
 	gdk_draw_text (drawable, font, canvas->style->black_gc,
 		       dx + first_part_len,
-		       dy + hd - font->descent,
+		       dy + hd - font->descent - 1,
 		       text + cursor_pos, text_len - cursor_pos);
 }
 
@@ -215,6 +215,7 @@ entry_event (GtkEntry *entry, GdkEvent *event, ItemEdit *item_edit)
 		queue_sync (item_edit);
 
 	default:
+		break;
 	}
 	return FALSE;
 }

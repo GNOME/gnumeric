@@ -19,7 +19,7 @@ $help_foobar = <<'EOS';
 Adds two numbers. It is just an example function.
 EOS
 
-Gnumeric::register_function("adder", "ff", "a,b", $help_foobar, \&foobar);
+Gnumeric::register_function("perl_adder", "ff", "a,b", $help_foobar, \&foobar);
 
 print "Hello World.\n";
 

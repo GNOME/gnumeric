@@ -17,7 +17,7 @@ func_plusone (FunctionDefinition * fndef, Value *argv [], char **error_string)
 	Value *v = g_new (Value, 1);
 	
 	v->type = VALUE_FLOAT;
-	v->v.v_float = value_get_as_double (argv [0]) + 1.0;
+	v->v.v_float = value_get_as_float (argv [0]) + 1.0;
 	
 	return v;
 }
@@ -51,7 +51,7 @@ cleanup_plugin (PluginData *pd)
 int
 init_plugin (PluginData *pd)
 {
-	install_symbols (plugin_functions);
+	install_symbols (plugin_functions, "Sample Plugin");
 	pd->can_unload = can_unload;
 	pd->cleanup_plugin = cleanup_plugin;
 	pd->title = g_strdup ("PlusOne Plugin");

@@ -25,7 +25,7 @@ StyleFont *gnumeric_default_bold_font;
 StyleFont *gnumeric_default_italic_font;
 
 StyleFormat *
-style_format_new (char *name)
+style_format_new (const char *name)
 {
 	StyleFormat *format;
 
@@ -37,7 +37,7 @@ style_format_new (char *name)
 		format = g_new0 (StyleFormat, 1);
 		format->format = g_strdup (name);
 		format_compile (format);
-		g_hash_table_insert (style_format_hash, name, format);
+		g_hash_table_insert (style_format_hash, format->format, format);
 	}
 	format->ref_count++;
 
@@ -103,6 +103,7 @@ style_font_new_simple (char *font_name, double size, double scale, int bold, int
 			size);
 			
 		font = g_new0 (StyleFont, 1);
+
 		font->font_name = g_strdup (font_name);
 		font->size      = size;
 		font->scale     = scale;
@@ -118,7 +119,7 @@ style_font_new_simple (char *font_name, double size, double scale, int bold, int
 }
 
 StyleFont *
-style_font_new (char *font_name, double size, double scale, int bold, int italic)
+style_font_new (const char *font_name, double size, double scale, int bold, int italic)
 {
 	StyleFont *font;
 
@@ -225,14 +226,14 @@ style_border_new (StyleBorderType  border_type  [4],
 
 {
 	StyleBorder key, *border;
-	int lp ;
+	int lp;
 
- 	memcpy (&key.type, border_type, sizeof(key.type)) ;
+ 	memcpy (&key.type, border_type, sizeof(key.type));
  	for (lp = 0; lp < 4; lp++){
 		if (border_color [lp])
-			key.color [lp] = border_color [lp] ;
+			key.color [lp] = border_color [lp];
 		else
- 			key.color [lp] = NULL ;
+ 			key.color [lp] = NULL;
  	}
 	
 	border = (StyleBorder *) g_hash_table_lookup (style_border_hash,
@@ -273,10 +274,10 @@ style_border_unref (StyleBorder *sb)
 StyleBorder *
 style_border_new_plain (void)
 {
- 	StyleBorderType style [4] = { BORDER_NONE, BORDER_NONE, BORDER_NONE, BORDER_NONE } ;
- 	StyleColor *color [4] = { NULL, NULL, NULL, NULL } ;
+ 	StyleBorderType style [4] = { BORDER_NONE, BORDER_NONE, BORDER_NONE, BORDER_NONE };
+ 	StyleColor *color [4] = { NULL, NULL, NULL, NULL };
 
-	return style_border_new (style, color) ;
+	return style_border_new (style, color);
 }
 
 StyleColor *
@@ -398,7 +399,7 @@ style_destroy (Style *style)
 
 
 Style *
-style_duplicate (Style *original)
+style_duplicate (const Style *original)
 {
 	Style *style;
 
@@ -442,8 +443,8 @@ style_duplicate (Style *original)
 static gint
 font_equal (gconstpointer v, gconstpointer v2)
 {
-	StyleFont *k1 = (StyleFont *) v;
-	StyleFont *k2 = (StyleFont *) v2;
+	const StyleFont *k1 = (const StyleFont *) v;
+	const StyleFont *k2 = (const StyleFont *) v2;
 
 	if (k1->size != k2->size)
 		return 0;
@@ -459,7 +460,7 @@ font_equal (gconstpointer v, gconstpointer v2)
 static guint
 font_hash (gconstpointer v)
 {
-	StyleFont *k = (StyleFont *) v;
+	const StyleFont *k = (const StyleFont *) v;
 
 	return k->size + g_str_hash (k->font_name);
 }
@@ -467,14 +468,14 @@ font_hash (gconstpointer v)
 static gint
 border_equal (gconstpointer v, gconstpointer v2)
 {
-	StyleBorder *k1 = (StyleBorder *) v;
-	StyleBorder *k2 = (StyleBorder *) v2;
-	int lp ;
+	const StyleBorder *k1 = (const StyleBorder *) v;
+	const StyleBorder *k2 = (const StyleBorder *) v2;
+	int lp;
 
  	for (lp = 0; lp < 4; lp++)
  	{
  		if (k1->type [lp] != k2->type [lp])
- 			return 0 ;
+ 			return 0;
  		if (k1->type [lp] != BORDER_NONE &&
 		    k1->color [lp] != k2->color [lp])
 			return 0;
@@ -486,18 +487,18 @@ border_equal (gconstpointer v, gconstpointer v2)
 static guint
 border_hash (gconstpointer v)
 {
-	StyleBorder *k = (StyleBorder *) v;
+	const StyleBorder *k = (const StyleBorder *) v;
 
  	return (k->type [STYLE_LEFT] << 12) | (k->type [STYLE_RIGHT] << 8) |
-	       (k->type [STYLE_TOP] << 4)   | (k->type [STYLE_BOTTOM]) ;
+	       (k->type [STYLE_TOP] << 4)   | (k->type [STYLE_BOTTOM]);
 
 }
 
 static gint
 color_equal (gconstpointer v, gconstpointer v2)
 {
-	StyleColor *k1 = (StyleColor *) v;
-	StyleColor *k2 = (StyleColor *) v2;
+	const StyleColor *k1 = (const StyleColor *) v;
+	const StyleColor *k2 = (const StyleColor *) v2;
 
 	if (k1->color.red   == k2->color.red &&
 	    k1->color.green == k2->color.green &&
@@ -510,7 +511,7 @@ color_equal (gconstpointer v, gconstpointer v2)
 static guint
 color_hash (gconstpointer v)
 {
-	StyleColor *k = (StyleColor *)v;
+	const StyleColor *k = (const StyleColor *)v;
 
 	return (k->color.red << 16) | (k->color.green << 8) | (k->color.blue);
 }

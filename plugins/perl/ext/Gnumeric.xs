@@ -7,6 +7,8 @@ extern "C" {
 #endif
 #include "EXTERN.h"
 #include "perl.h"
+#undef _
+#undef dirty
 #include "XSUB.h"
 #ifdef __cplusplus
 }

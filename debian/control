@@ -1,13 +1,12 @@
 Source: gnumeric
 Section: math
 Priority: optional
-Maintainer: Vincent Renardias <vincent@waw.com>
+Maintainer: Vincent Renardias <vincent@debian.org>
 Standards-Version: 2.4.0.0
 
 Package: gnumeric
 Architecture: any
 Depends: ${shlibs:Depends}
-Suggests: python-base
 Description: GNOME SpreadSheet
  The goal of this spreadsheet is to become as powerful as other
  spreadsheets on the market and do this cleanly and smartly.  We have

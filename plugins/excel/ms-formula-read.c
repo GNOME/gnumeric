@@ -14,581 +14,1147 @@
 
 #include "utils.h"
 
-#include "ms-excel.h"
-#include "ms-excel-biff.h"
-#include "ms-formula.h"
+#include "excel.h"
+#include "ms-biff.h"
+#include "ms-formula-read.h"
+
+#define FORMULA_DEBUG 0
 
 #define NO_PRECEDENCE 256
+
+typedef struct _FORMULA_FUNC_DATA
+{
+	char *prefix ;
+	int num_args ; /* -1 for multi-arg */
+} FORMULA_FUNC_DATA ;
 
 /**
  * Various bits of data for operators
  * see S59E2B.HTM for formula_ptg values
  * formula PTG, prefix, middle, suffix, precedence
  **/
-FORMULA_OP_DATA formula_op_data[] = {
+
+typedef struct _FORMULA_OP_DATA
+{
+	Operation op;
+} FORMULA_OP_DATA ;
+
   /* Binary operator tokens */
-  { 0x03, 1, "+",  30  }, /* ptgAdd : Addition */
-  { 0x04, 1, "-",  30  }, /* ptgSub : Subtraction */
-  { 0x05, 1, "*",  48 }, /* ptgMul : Multiplication */
-  { 0x06, 1, "/",  32 }, /* ptgDiv : Division */
-  { 0x07, 1, "^",  60 }, /* ptgPower : Exponentiation */
-  { 0x09, 1, "<",  24 }, /* ptgLT : Less Than */
-  { 0x0a, 1, "<=", 24 }, /* ptgLTE : Less Than or Equal */
-  { 0x0b, 1, "=",  20 }, /* ptgEQ : Equal */
-  { 0x0c, 1, ">=", 24 }, /* ptgGTE : Greater Than or Equal */
-  { 0x0d, 1, ">" , 24 }, /* ptgGT : Greater Than */
-  { 0x0e, 1, "<>", 20 }, /* ptgNE : Not Equal */
-  { 0x0f, 1, " " , 62 }, /* ptgIsect : Intersection */
-  { 0x10, 1, "," , 62 }, /* ptgUnion : Union */
-  { 0x11, 1, ":" , 63 }, /* ptgRange : Range */
-  /* Unary operator tokens */
-  { 0x12, 0, "+",  64 }, /* ptgUplus : Unary Plus */
-  { 0x13, 0, "-",  64 }, /* ptgUminux : Unary Minus */
-  { 0x14, 0, "%",  64 }  /* ptgPercent : Percent Sign */
+FORMULA_OP_DATA formula_op_data[] = {
+	{ OPER_ADD  }, /* ptgAdd : Addition */
+	{ OPER_SUB  }, /* ptgSub : Subtraction */
+	{ OPER_MULT }, /* ptgMul : Multiplication */
+	{ OPER_DIV }, /* ptgDiv : Division */
+	{ OPER_EXP }, /* ptgPower : Exponentiation */
+	{ OPER_CONCAT }, /* ptgConcat : Concatenation */
+	{ OPER_LT }, /* ptgLT : Less Than */
+	{ OPER_LTE }, /* ptgLTE : Less Than or Equal */
+	{ OPER_EQUAL }, /* ptgEQ : Equal */
+	{ OPER_GTE }, /* ptgGTE : Greater Than or Equal */
+	{ OPER_GT }, /* ptgGT : Greater Than */
+	{ OPER_NOT_EQUAL }, /* ptgNE : Not Equal */
+/* FIXME: These need implementing ... */
+	{ OPER_ADD }, /* ptgIsect : Intersection */
+	{ OPER_ADD }, /* ptgUnion : Union */
+	{ OPER_ADD }, /* ptgRange : Range */
 } ;
 #define FORMULA_OP_DATA_LEN   (sizeof(formula_op_data)/sizeof(FORMULA_OP_DATA))
+#define FORMULA_OP_START      0x03
 
-/* FIXME: the standard function indexes need to be found from xlcall.h */
 /**
- * Various bits of data for functions
- * function index, prefix, middle, suffix, multiple args?, precedence
+ * FIXME: This table needs properly populating, preferably from xlcall.h (?)
+ * Functions in order, zero based, with number of arguments or '-1' for vararg.
  **/
 FORMULA_FUNC_DATA formula_func_data[] =
 {
-  { 0x04, "SUM (", 0,  ")", 1, 0 },
-  { 0x05, "AVERAGE (", 0,  ")", 1, 0 },
-  { 0x06, "MIN (", 0,  ")", 1, 0 },
-  { 0x07, "MAX (", 0,  ")", 1, 0 },
-  { 0x24, "AND (", 0,  ")", 1, 0 },
-  { 0x25, "OR (",  0,  ")", 1, 0 },
-  { 0x65, "HLOOKUP (", 0, ")", 1, 0 },
-  { 0x66, "VLOOKUP (", 0, ")", 1, 0 }
+	{ "COUNT", -1 },
+	{ "IF", -1 },
+	{ "ISNA", 1 },
+	{ "ISERROR", 1 },
+	{ "SUM", -1 },
+	{ "AVERAGE", -1 },
+	{ "MIN", -1 },
+	{ "MAX", -1 },
+	{ "0x8", 8 },
+	{ "COLUMN", -1 },
+	{ "0xa", 0 }, /* NA */
+	{ "0xb", 8 },
+	{ "STDEV", -1 },
+	{ "DOLLAR", 1 },
+	{ "FIXED", 1 },
+	{ "SIN", 1 },
+	{ "COS", 1 },
+	{ "TAN", 1 },
+	{ "ATAN", 1 },
+	{ "ATAN2", 2 },
+	{ "SQRT", 1 },
+	{ "EXP", 1 },
+	{ "LN", 1 },
+	{ "LOG10", 1 },
+	{ "ABS", 1 },
+	{ "INT", 1 },
+	{ "SIGN", 1 },
+	{ "ROUND", 2 },
+	{ "LOOKUP", -1 },
+	{ "INDEX", -1 },
+	{ "REPT", 2 },
+	{ "MID", 3 },
+	{ "LEN", 1 },
+	{ "VALUE", 1 },
+	{ "0x22", 8 },
+	{ "0x23", 8 }, /* FALSE */
+	{ "AND", -1 },
+	{ "OR", -1 },
+	{ "NOT", 1 },
+	{ "MOD", 2 },
+	{ "DCOUNT", 3 },
+	{ "DSUM", 3 },
+	{ "DAVERAGE", 3 },
+	{ "DMIN", 3 },
+	{ "DMAX", 3 },
+	{ "DSTDEV", 3 },
+	{ "VAR", -1 },
+	{ "DVAR", 3 },
+	{ "REPLACE", 2 },
+	{ "LINEST", 2 },
+	{ "TREND", 4 },
+	{ "LOGEST", 1 },
+	{ "GROWTH", -1 },
+	{ "0x35", 8 },
+	{ "0x36", 8 },
+	{ "0x37", 8 },
+	{ "0x38", 8 },
+	{ "FV", 5 },
+	{ "0x3a", 8 },
+	{ "0x3b", 8 },
+	{ "0x3c", 8 },
+	{ "0x3d", 8 },
+	{ "IRR", 2 },
+	{ "RAND", 0 },
+	{ "MATCH", 3 },
+	{ "DATE", 3 },
+	{ "TIME", 3 },
+	{ "DAY", 1 },
+	{ "MONTH", 1 },
+	{ "YEAR", 1 },
+	{ "WEEKDAY", 1 },
+	{ "HOUR", 1 },
+	{ "MINUTE", 1 },
+	{ "SECOND", 1 },
+	{ "NOW", 0 },
+	{ "AREAS", 1 },
+	{ "ROWS", 1 },
+	{ "COLUMNS", 1 },
+	{ "OFFSET", -1 },
+	{ "0x4f", 8 },
+	{ "0x50", 8 },
+	{ "0x51", 8 },
+	{ "SEARCH", 3 },
+	{ "0x53", 8 },
+	{ "0x54", 8 },
+	{ "0x55", 8 },
+	{ "TYPE", 1 },
+	{ "0x57", 8 },
+	{ "0x58", 8 },
+	{ "0x59", 8 },
+	{ "0x5a", 8 },
+	{ "0x5b", 8 },
+	{ "0x5c", 8 },
+	{ "0x5d", 8 },
+	{ "0x5e", 8 },
+	{ "0x5f", 8 },
+	{ "0x60", 8 },
+	{ "ATAN2", 2 },
+	{ "ASIN", 1 },
+	{ "ACOS", 1 },
+	{ "CHOOSE", -1 },
+	{ "HLOOKUP", -1 },
+	{ "VLOOKUP", -1 },
+	{ "0x67", 8 },
+	{ "0x68", 8 },
+	{ "ISREF", 1 },
+	{ "0x6a", 8 },
+	{ "0x6b", 8 },
+	{ "0x6c", 8 },
+	{ "LOG", 1 },
+	{ "0x6e", 8 },
+	{ "CHAR", 1 },
+	{ "LOWER", 1 },
+	{ "UPPER", 1 },
+	{ "PROPER", 1 },
+	{ "LEFT", 2 },
+	{ "RIGHT", 2 },
+	{ "EXACT", 2 },
+	{ "TRIM", 1 },
+	{ "0x77", 2 },
+	{ "SUBSTITUTE", -1 },
+	{ "CODE", 1 },
+	{ "0x7a", 8 },
+	{ "0x7b", 8 },
+	{ "FIND", -1 },
+	{ "CELL", 2 },
+	{ "ISERR", 1 },
+	{ "ISTEXT", 1 },
+	{ "ISNUMBER", 1 },
+	{ "ISBLANK", 1 },
+	{ "T", 1 },
+	{ "N", 1 },
+	{ "0x84", 8 },
+	{ "0x85", 8 },
+	{ "0x86", 8 },
+	{ "0x87", 8 },
+	{ "0x88", 8 },
+	{ "0x89", 8 },
+	{ "0x8a", 8 },
+	{ "0x8b", 8 },
+	{ "DATEVALUE", 1 },
+	{ "0x8d", 8 },
+	{ "0x8e", 8 },
+	{ "0x8f", 8 },
+	{ "DDB", 5 },
+	{ "0x91", 8 },
+	{ "0x92", 8 },
+	{ "0x93", 8 },
+	{ "INDIRECT", -1 },
+	{ "0x95", 8 },
+	{ "0x96", 8 },
+	{ "0x97", 8 },
+	{ "0x98", 8 },
+	{ "0x99", 8 },
+	{ "0x9a", 8 },
+	{ "0x9b", 8 },
+	{ "0x9c", 8 },
+	{ "0x9d", 8 },
+	{ "0x9e", 8 },
+	{ "0x9f", 8 },
+	{ "0xa0", 8 },
+	{ "0xa1", 8 },
+	{ "CLEAN", 1 },
+	{ "0xa3", 8 },
+	{ "0xa4", 8 },
+	{ "0xa5", 8 },
+	{ "0xa6", 8 },
+	{ "IPMT", 6 },
+	{ "0xa8", 8 },
+	{ "COUNTA", -1 },
+	{ "0xaa", 8 },
+	{ "0xab", 8 },
+	{ "0xac", 8 },
+	{ "0xa8", 8 },
+	{ "0xae", 8 },
+	{ "0xaf", 8 },
+	{ "0xb0", 8 },
+	{ "0xb1", 8 },
+	{ "0xb2", 8 },
+	{ "0xb3", 8 },
+	{ "0xb4", 8 },
+	{ "0xb5", 8 },
+	{ "0xb6", 8 },
+	{ "0xb7", 8 },
+	{ "FACT", 1 },
+	{ "0xb9", 8 },
+	{ "0xba", 8 },
+	{ "0xbb", 8 },
+	{ "0xbc", 8 },
+	{ "DPRODUCT", 3 },
+	{ "ISNONTEXT", 1 },
+	{ "0xbf", 8 },
+	{ "0xc0", 8 },
+	{ "STDEVP", -1 },
+	{ "VARP", -1 },
+	{ "DSTDEVP", 3 },
+	{ "DVARP", 3 },
+	{ "TRUNC", 1 },
+	{ "ISLOGICAL", 1 },
+	{ "DCOUNTA", 3 },
+	{ "0xc8", 8 },
+	{ "0xc9", 8 },
+	{ "0xca", 8 },
+	{ "0xcb", 8 },
+	{ "0xcc", 8 },
+	{ "0xcd", 8 },
+	{ "0xce", 8 },
+	{ "0xcf", 8 },
+	{ "0xd0", 8 },
+	{ "0xd1", 8 },
+	{ "0xd2", 8 },
+	{ "0xd3", 8 },
+	{ "0xd4", 8 },
+	{ "0xd5", 8 },
+	{ "0xd6", 8 },
+	{ "0xd7", 8 },
+	{ "RANK", -1 },
+	{ "0xd9", 8 },
+	{ "0xda", 8 },
+	{ "ADDRESS", -1 },
+	{ "DAYS360", 2 },
+	{ "TODAY", 0 },
+	{ "0xde", 8 },
+	{ "0xdf", 8 },
+	{ "0xe0", 8 },
+	{ "0xe1", 8 },
+	{ "0xe2", 8 },
+	{ "MEDIAN", -1 },
+	{ "0xe4", 8 },
+	{ "SINH", 1 },
+	{ "COSH", 1 },
+	{ "TANH", 1 },
+	{ "ASINH", 1 },
+	{ "ACOSH", 1 },
+	{ "ATANH", 1 },
+	{ "DGET", 3 },
+	{ "0xec", 8 },
+	{ "0xed", 8 },
+	{ "0xee", 8 },
+	{ "0xef", 8 },
+	{ "0xf0", 8 },
+	{ "0xf1", 8 },
+	{ "0xf2", 8 },
+	{ "0xf3", 8 },
+	{ "INFO", 1 },
+	{ "0xf5", 8 },
+	{ "0xf6", 8 },
+	{ "DB", 5 },
+	{ "0xf8", 8 },
+	{ "0xf9", 8 },
+	{ "0xfa", 8 },
+	{ "0xfb", 8 },
+	{ "FREQUENCY", 2 },
+	{ "0xfd", 8 },
+	{ "0xfe", 8 },
+	{ "MAGIC", -1 }, /* Dodgy special case */
+	{ "0x100", 8 },
+	{ "0x101", 8 },
+	{ "0x102", 8 },
+	{ "0x103", 8 },
+	{ "0x104", 8 },
+	{ "ERROR.TYPE", 1 },
+	{ "0x106", 8 },
+	{ "0x107", 8 },
+	{ "0x108", 8 },
+	{ "0x109", 8 },
+	{ "0x10a", 8 },
+	{ "0x10b", 8 },
+	{ "0x10c", 8 },
+	{ "AVEDEV", -1 },
+	{ "BETADIST", -1 },
+	{ "GAMMALN", 1 },
+	{ "BETAINV", 3 },
+	{ "BINOMDIST", 4 },
+	{ "CHIDIST", 2 },
+	{ "CHIINV", 2 },
+	{ "COMBIN", 2 },
+	{ "CONFIDENCE", 3 },
+	{ "CRITBINOM", 3 },
+	{ "EVEN", 1 },
+	{ "EXPONDIST", 3 },
+	{ "FDIST", 3 },
+	{ "FINV", 3 },
+	{ "FISHER", 1 },
+	{ "FISHERINV", 1 },
+	{ "FLOOR", 2 },
+	{ "GAMMADIST", 4 },
+	{ "GAMMAINV", 3 },
+	{ "CEILING", 2 },
+	{ "HYPGEOMDIST", 4 },
+	{ "LOGNORMDIST", 3 },
+	{ "LOGINV", 3 },
+	{ "NEGBINOMDIST", 3 },
+	{ "NORMDIST", 4 },
+	{ "NORMSDIST", 1 },
+	{ "NORMINV", 3 },
+	{ "NORMSINV", 1 },
+	{ "STANDARDIZE", 3 },
+	{ "ODD", 1 },
+	{ "PERMUT", 2 },
+	{ "POISSON", 3 },
+	{ "TDIST", 3 },
+	{ "WEIBULL", 4 },
+	{ "ZTEST", 3 },
+	{ "0x130", 8 },
+	{ "0x131", 8 },
+	{ "CHITEST", 2 },
+	{ "CORREL", 2 },
+	{ "COVAR", 2 },
+	{ "FORECAST", 3 },
+	{ "FTEST", 2 },
+	{ "INTERCEPT", 2 },
+	{ "PEARSON", 2 },
+	{ "RSQ", 2 },
+	{ "STEYX", 2 },
+	{ "SLOPE", 2 },
+	{ "TTEST", 4 },
+	{ "PROB", 3 },
+	{ "DEVSQ", -1 },
+	{ "GEOMEAN", -1 },
+	{ "HARMEAN", -1 },
+	{ "0x141", 8 },
+	{ "KURT", -1 },
+	{ "SKEW", -1 },
+	{ "ZTEST", 3 },
+	{ "LARGE", 2 },
+	{ "SMALL", 2 },
+	{ "QUARTILE", 2 },
+	{ "PERCENTILE", 2 },
+	{ "PERCENTRANK", 2 },
+	{ "MODE", -1 },
+	{ "TRIMMEAN", 2 },
+	{ "TINV", 2 },
+	{ "0x14d", 8 },
+	{ "0x14e", 8 },
+	{ "0x14f", 8 },
+	{ "CONCATENATE", 2 },
+	{ "POWER", 2 },
+	{ "0x152", 8 },
+	{ "0x153", 8 },
+	{ "0x154", 8 },
+	{ "0x155", 8 },
+	{ "RADIANS", 1 },
+	{ "DEGREES", 1 },
+	{ "0x158", 8 },
+	{ "0x159", 8 },
+	{ "COUNTIF", 2 },
+	{ "COUNTBLANK", 1 },
+	{ "0x15c", 8 },
+	{ "0x15d", 8 },
+	{ "0x15e", 8 },
+	{ "0x15f", 8 },
+	{ "0x160", 8 },
+	{ "0x161", 8 },
+	{ "ROMAN", 2 },
+	{ "0x163", 8 },
+	{ "0x164", 8 },
+	{ "0x165", 8 },
+	{ "0x166", 8 },
+	{ "HYPERLINK", -1 },
+	{ "0x168", 8 },
+	{ "AVERAGEA", -1 },
+	{ "MAXA", -1 },
+	{ "MINA", -1 },
+	{ "0x16c", 8 },
+	{ "0x16d", 8 },
+	{ "0x16e", 8 },
+	{ "0x16f", 8 },
 };
 #define FORMULA_FUNC_DATA_LEN (sizeof(formula_func_data)/sizeof(FORMULA_FUNC_DATA))
 
+
+
+
+
+/**
+ * Scads of nasty helper functions
+ **/
+
+static ExprTree *
+expr_tree_string (const char *str)
+{
+	ExprTree *e = expr_tree_new();
+	e->oper = OPER_CONSTANT;
+	e->u.constant = value_new_string (str);
+	return e;
+}
+
+static ExprTree *
+expr_tree_value (Value *v)
+{
+	ExprTree *e = expr_tree_new();
+	e->oper = OPER_CONSTANT;
+	e->u.constant = v;
+	return e;
+}
+
+static ExprTree *
+expr_tree_cellref (const CellRef *r)
+{
+	ExprTree *e = expr_tree_new();
+	e->oper = OPER_VAR;
+	e->u.ref = *r;
+	return e;
+}
+
+static ExprTree *
+expr_tree_unary (Operation op, ExprTree *tr)
+{
+	ExprTree *e;
+	g_return_val_if_fail (op==OPER_NEG, tr);
+	e = expr_tree_new ();
+	e->oper = op;
+	e->u.value = tr;
+	return e;
+}
+
+/**
+ * End of nasty helper functions
+ **/
+
+
+
+
+
+
 /**
  *  A useful routine for extracting data from a common
  * storage structure.
  **/
-static CellRef *getRefV7(MS_EXCEL_SHEET *sheet, BYTE col, WORD gbitrw, int curcol, int currow)
+static CellRef *
+getRefV7(MS_EXCEL_SHEET *sheet, BYTE col, WORD gbitrw, int curcol, int currow, int shrfmla)
 {
-  CellRef *cr = (CellRef *)g_malloc(sizeof(CellRef)) ;
-  cr->col          = col ;
-  cr->row          = (gbitrw & 0x3fff) ;
-  cr->row_relative = (gbitrw & 0x8000)==0x8000 ;
-  cr->col_relative = (gbitrw & 0x4000)==0x4000 ;
-  if (cr->row_relative)
-    cr->row-= currow ;
-  if (cr->col_relative)
-    cr->col-= curcol ;
-  cr->sheet = sheet->gnum_sheet ;
-  /*  printf ("7Out : %d, %d  at %d, %d\n", cr->col, cr->row, curcol, currow) ; */
-  return cr ;
+	gint8 row_offset= 0, col_offset= 0;
+	CellRef *cr = (CellRef *)g_malloc(sizeof(CellRef)) ;
+	cr->col          = col ;
+	cr->row          = (gbitrw & 0x3fff) ;
+	cr->row_relative = (gbitrw & 0x8000)==0x8000 ;
+	cr->col_relative = (gbitrw & 0x4000)==0x4000 ;
+	cr->sheet = sheet->gnum_sheet ;
+	if (FORMULA_DEBUG>2)
+		printf ("7In : 0x%x, 0x%x  at %d, %d shared %d\n", col, gbitrw,
+			curcol, currow, shrfmla) ; 
+	if (shrfmla && cr->row_relative) {
+		gint8 t = (cr->row&0x00ff);
+		cr->row = currow+t ;
+	}
+	if (shrfmla && cr->col_relative) {
+		gint8 t = (cr->col&0x00ff);
+		cr->col = curcol+t ;
+	}
+	if (cr->row_relative)
+		cr->row-= currow ;
+	if (cr->col_relative)
+		cr->col-= curcol ;
+	return cr ;
 }
 /**
  *  A useful routine for extracting data from a common
  * storage structure.
  **/
-static CellRef *getRefV8(MS_EXCEL_SHEET *sheet, WORD row, WORD gbitcl, int curcol, int currow)
+static CellRef *
+getRefV8(MS_EXCEL_SHEET *sheet, WORD row, WORD gbitcl, int curcol, int currow, int shrfmla)
 {
-  CellRef *cr = (CellRef *)g_malloc(sizeof(CellRef)) ;
-  cr->row          = row ;
-  cr->col          = (gbitcl & 0x3fff) ;
-  cr->row_relative = (gbitcl & 0x8000)==0x8000 ;
-  cr->col_relative = (gbitcl & 0x4000)==0x4000 ;
-  if (cr->row_relative)
-    cr->row-= currow ;
-  if (cr->col_relative)
-    cr->col-= curcol ;
-  cr->sheet = sheet->gnum_sheet ;
-  /*  printf ("8Out : %d, %d  at %d, %d\n", cr->col, cr->row, curcol, currow) ; */
-  return cr ;
+	CellRef *cr = (CellRef *)g_malloc(sizeof(CellRef)) ;
+	cr->sheet = sheet->gnum_sheet ;
+	if (FORMULA_DEBUG>2)
+		printf ("8In : 0x%x, 0x%x  at %d, %d shared %d\n", row, gbitcl,
+			curcol, currow, shrfmla) ;
+	cr->row          = row ;
+	cr->col          = (gbitcl & 0x3fff) ;
+	cr->row_relative = (gbitcl & 0x8000)==0x8000 ;
+	cr->col_relative = (gbitcl & 0x4000)==0x4000 ;
+	if (shrfmla && cr->row_relative) {  /* Should be correct now -- NJL */
+		gint8 t = (cr->row&0x00ff);
+		cr->row = currow+t ;
+	}
+	if (shrfmla && cr->col_relative) {  /* Should be correct now -- NJL */
+		gint8 t = (cr->col&0x00ff);
+		cr->col = curcol+t ;
+	}
+	if (cr->row_relative)
+		cr->row-= currow ;
+	if (cr->col_relative)
+		cr->col-= curcol ;
+	if (FORMULA_DEBUG>2)
+		printf ("Returns : %d,%d Rel:(%d %d)\n", cr->col, cr->row,
+			cr->col_relative, cr->row_relative);
+	return cr ;
 }
 
-typedef struct _PARSE_DATA
-{
-  char *name ;
-  int  precedence ;
-} PARSE_DATA ;
+typedef ExprTree PARSE_DATA;
+typedef GList    PARSE_LIST;
 
-static PARSE_DATA *parse_data_new (char *buffer, int precedence)
+static void
+parse_list_push (PARSE_LIST **list, ExprTree *pd)
 {
-  PARSE_DATA *ans = (PARSE_DATA *)g_malloc(sizeof(PARSE_DATA)) ;
-  ans->name = buffer ;
-  ans->precedence = precedence ;
-  return ans ;
+	if (FORMULA_DEBUG > 0 && !pd)
+		printf ("FIXME: Pushing nothing onto stack\n");
+	*list = g_list_append (*list, pd) ;
+}
+static void
+parse_list_push_raw (PARSE_LIST **list, Value *v)
+{
+	parse_list_push (list, expr_tree_value (v));
 }
 
-static void parse_data_free (PARSE_DATA *ptr)
+static ExprTree *
+parse_list_pop (PARSE_LIST **list)
 {
-  if (ptr->name)
-    g_free (ptr->name) ;
-  g_free (ptr) ;
-}
-
-typedef struct _PARSE_LIST
-{
-  GList *data ;
-  int   length ;
-} PARSE_LIST ;
-
-static PARSE_LIST *parse_list_new ()
-{
-  PARSE_LIST *ans = (PARSE_LIST *)g_malloc (sizeof(PARSE_LIST)) ;
-  ans->data   = 0 ;
-  ans->length = 0 ;
-  return ans ;
-}
-
-static void parse_list_push (PARSE_LIST *list, PARSE_DATA *pd)
-{
-  /*  printf ("Pushing '%s'\n", pd->name) ; */
-  list->data = g_list_append (list->data, pd) ;
-  list->length++ ;
-}
-
-static void parse_list_push_raw (PARSE_LIST *list, char *buffer, int precedence)
-{
-  parse_list_push(list, parse_data_new (buffer, precedence)) ;
-}
-
-static PARSE_DATA *parse_list_pop (PARSE_LIST *list)
-{
-  GList *tmp ;
-  PARSE_DATA *ans ;
-  tmp   = g_list_last (list->data) ;
-  if (tmp == 0)
-    printf ("Warning not enough arguments on stack\n") ;
-  list->data = g_list_remove_link (list->data, tmp) ;
-  ans  = tmp->data ;
-  g_list_free (tmp) ;
-  list->length-- ;
-  return ans ;
-}
-
-static void parse_list_free (PARSE_LIST *list)
-{
-  while (list->data)
-    parse_data_free (parse_list_pop(list)) ;
-}
-
-static PARSE_DATA *parse_list_pop_front (PARSE_LIST *list)
-{
-  PARSE_DATA *ans ;
-  GList *tmp ;
-  tmp   = g_list_first (list->data) ;
-  if (tmp == 0)
-    printf ("Warning not enough arguments on stack\n") ;
-  list->data = g_list_remove_link (list->data, tmp) ;
-  ans  = tmp->data ;
-  g_list_free (tmp) ;
-  list->length-- ;
-  return ans ;
+	GList *tmp ;
+	PARSE_DATA *ans ;
+	tmp = g_list_last (*list) ;
+	if (tmp == 0)
+		return expr_tree_string ("WrongArgs");
+	*list = g_list_remove_link (*list, tmp) ;
+	ans  = tmp->data ;
+	g_list_free (tmp) ;
+	return ans ;
 }
 
 /**
- * This pops a load of arguments off the stack,
- * comman delimits them sticking result in 'into'
- * frees the stack space.
+ * Returns a new list composed of the last n items pop'd off the list.
  **/
-static void parse_list_comma_delimit_n (PARSE_LIST *list, char *into, int n)
+static GList *
+parse_list_last_n (PARSE_LIST **list, gint n)
 {
-  char *buffer = into ;
-  int lp, start ;
-  GList *ptr ;
-
-  start = list->length - n ;
-  ptr = g_list_nth (list->data, start) ;
-  for (lp=0;lp<n;lp++)
-    {      
-      char *str   = &buffer[strlen(buffer)] ;
-      PARSE_DATA  *dat = ptr->data ;
-      char *appnd = dat->name ;
-      ptr = ptr->next ;
-      sprintf (str, "%s%c", appnd, ptr?',':' ') ;
-    }
-
-  for (lp=0;lp<n;lp++)
-    {
-      PARSE_DATA *dat = parse_list_pop (list) ;
-      parse_data_free (dat) ;
-    }
+	GList *l=0;
+	while (n-->0)
+		l=g_list_prepend (l, parse_list_pop(list));
+	return l;
 }
 
-/**
- * Prepends an '=' and handles nasty cases
- **/
-static char *parse_list_to_equation (PARSE_LIST *list)
+
+static void 
+parse_list_free (PARSE_LIST **list)
 {
-  if (list->length > 0 && list->data)
-    {
-      PARSE_DATA *pd ;
-      char *formula ;
-      
-      pd = g_list_first (list->data)->data ;
-      if (!pd)
-	return "Stack too short" ;
-      if (!pd->name)
-	return "No data in stack entry" ;
-      if (list->length>1)
-	return "Too much data on stack\n" ;
-
-      formula = (char *)g_malloc(strlen(pd->name)+2) ;
-      if (!formula)
-	return "Out of memory" ;
-
-      strcpy (formula, "=") ;
-      strcat (formula, pd->name) ;
-      printf ("Formula : '%s'\n", formula) ;
-      return formula ;
-    }
-  else
-    return "Nothing on stack" ;
+	while (*list)
+		expr_tree_unref (parse_list_pop(list));
 }
 
-/**
- * Should be in cell.c ?
- **/
-static Cell *
-duplicate_formula (Sheet *sheet, int src_col, int src_row, int dest_col, int dest_row)
+static void
+make_inter_sheet_ref (MS_EXCEL_WORKBOOK *wb, guint16 extn_idx, CellRef *a, CellRef *b)
 {
-  Cell *ref_cell, *new_cell;
-  
-  ref_cell = sheet_cell_get (sheet, src_col, src_row);
-  if (!ref_cell || !ref_cell->parsed_node)
-      return 0;
-  
-  new_cell = sheet_cell_new (sheet, dest_col, dest_row);
-  cell_set_formula_tree_simple (new_cell, ref_cell->parsed_node);
-  return new_cell ;
+	g_return_if_fail (wb);
+	g_return_if_fail (a);
+
+	a->sheet = biff_get_externsheet_name (wb, extn_idx, 1) ;
+	if (b)
+		b->sheet = biff_get_externsheet_name (wb, extn_idx, 0) ;
+}
+
+static void
+make_inter_sheet_ref_v7 (MS_EXCEL_WORKBOOK *wb, guint16 extn_idx,
+			 guint16 first, guint16 second, CellRef *a, CellRef *b)
+{
+	MS_EXCEL_SHEET *sheet;
+
+	g_return_if_fail (wb);
+	g_return_if_fail (a);
+
+	if ((gint16)extn_idx>0) {
+		printf ("FIXME: BIFF 7 ExternSheet 3D ref\n");
+		return;
+	}
+
+	g_return_if_fail (wb->excel_sheets);
+	g_return_if_fail (first<wb->excel_sheets->len);
+	
+	sheet = g_ptr_array_index (wb->excel_sheets, first);
+	g_return_if_fail (sheet);
+	a->sheet = sheet->gnum_sheet;
+
+	if (b) {
+		g_return_if_fail (second < wb->excel_sheets->len);
+		sheet = g_ptr_array_index (wb->excel_sheets, second);
+		g_return_if_fail (sheet);
+		b->sheet = sheet->gnum_sheet;
+	}
+}
+
+static gboolean
+make_function (PARSE_LIST **stack, int fn_idx, int numargs)
+{
+	int lp ;
+	ExprTree *fn = expr_tree_new();
+	Symbol *name=NULL;
+	fn->oper = OPER_FUNCALL;
+
+	if (fn_idx == 0xff && numargs>1) /* Dodgy Special Case */
+	{
+		ExprTree *tmp;
+		fn->u.function.arg_list = parse_list_last_n (stack, numargs-1);
+		tmp = parse_list_pop (stack) ;
+		if (!tmp || tmp->oper != OPER_CONSTANT ||
+		    tmp->u.constant->type != VALUE_STRING) {
+			parse_list_free (&fn->u.function.arg_list);
+			parse_list_push (stack, expr_tree_string (_("Broken function")));
+			return 0;
+		}
+		else {
+			name = symbol_lookup (global_symbol_table, tmp->u.constant->v.str->str);
+			if (!name) {
+				printf ("Fn : '%s'\n", tmp->u.constant->v.str->str);
+				parse_list_free (&fn->u.function.arg_list);
+				parse_list_push (stack, expr_tree_string (g_strdup_printf ("Duff fn '%s'", 
+											   tmp->u.constant->v.str->str)));
+				return 0;
+			}
+			symbol_ref (name);
+			fn->u.function.symbol = name;
+			parse_list_push (stack, fn);
+		}
+		return 1 ;
+	}
+	else
+		if (fn_idx >= 0 && fn_idx < FORMULA_FUNC_DATA_LEN)
+		{
+			const FORMULA_FUNC_DATA *fd = &formula_func_data[fn_idx] ;
+			
+			if (fd->num_args != -1) /* Right args for multi-arg funcs. */
+				numargs = fd->num_args ;
+
+			fn->u.function.arg_list = parse_list_last_n (stack, numargs);
+			if (fd->prefix)
+				name = symbol_lookup (global_symbol_table, fd->prefix);
+			if (!name) {
+				printf ("Unknown fn '%s'\n", fd->prefix);
+				parse_list_free (&fn->u.function.arg_list);
+				parse_list_push (stack, expr_tree_string (g_strdup_printf ("Duff fn '%s'", 
+											   fd->prefix?fd->prefix:"Umm...")));
+				return 0;
+			}
+			symbol_ref (name);
+			fn->u.function.symbol = name;
+			parse_list_push (stack, fn);
+			return 1 ;
+		}
+		else
+			printf ("FIXME, unimplemented fn 0x%x, with %d args\n", fn_idx, numargs) ;
+	return 0 ;
 }
 
 /**
  * Parse that RP Excel formula, see S59E2B.HTM
- * Sadly has to be parsed to text and back !
+ * Return a dynamicaly allocated string containing the formula, never NULL
  **/
-void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
-			     int fn_col, int fn_row)
+ExprTree *
+ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
+			int fn_col, int fn_row, int shared,
+			guint16 length)
 {
-  Cell *cell ;
-  BYTE *cur ;
-  int length ;
-  PARSE_LIST *stack ;
-  int error = 0 ;
-  char *ans ;
-  int array_col_first, array_col_last ;
-  int array_row_first, array_row_last ;
-  int fn_xf ;
-
-  if (q->ls_op == BIFF_FORMULA)
-    {
-      fn_xf           = EX_GETXF(q) ;
-/*      printf ("Formula at [%d, %d] XF %d :\n", fn_col, fn_row, fn_xf) ;
-      printf ("formula data : \n") ;
-      dump (q->data +22, q->length-22) ; */
-      /* This will be safe when we collate continuation records in get_query */
-      length = BIFF_GETWORD(q->data + 20) ;
-      /* NB. the effective '+1' here is so that the offsets and lengths
-	 are identical to those in the documentation */
-      cur = q->data + 22 + 1 ;
-      array_col_first = fn_col ;
-      array_col_last  = fn_col ;
-      array_row_first = fn_row ;
-      array_row_last  = fn_row ;
-    }
-  else
-    {
-      g_assert (q->ls_op == BIFF_ARRAY) ;
-      fn_xf = 0 ;
-/*      printf ("Array at [%d, %d] XF %d :\n", fn_col, fn_row, fn_xf) ;
-      printf ("Array data : \n") ;
-      dump (q->data +22, q->length-22) ; */
-      /* This will be safe when we collate continuation records in get_query */
-      length = BIFF_GETWORD(q->data + 12) ;
-      /* NB. the effective '+1' here is so that the offsets and lengths
-	 are identical to those in the documentation */
-      cur = q->data + 14 + 1 ;
-      array_row_first = BIFF_GETWORD(q->data + 0) ;
-      array_row_last  = BIFF_GETWORD(q->data + 2) ;
-      array_col_first = BIFF_GETBYTE(q->data + 4) ;
-      array_col_last  = BIFF_GETBYTE(q->data + 5) ;
-    }
-
-  stack = parse_list_new() ;      
-  while (length>0 && !error)
-    {
-      int ptg_length = 0 ;
-      int ptg = BIFF_GETBYTE(cur-1) ;
-      int ptgbase = ((ptg & 0x40) ? (ptg | 0x20): ptg) & 0x3F ;
-      if (ptg > FORMULA_PTG_MAX)
-	break ;
-      switch (ptgbase)
+	Cell *cell ;
+	int len_left = length ;
+	guint8 *cur = mem + 1 ; /* this is so that the offsets and lengths
+				   are identical to those in the documentation */
+	guint8 *array_data = mem + 3 + length; /* Sad but true */
+	PARSE_LIST *stack = NULL;
+	int error = 0 ;
+	char *ans ;
+	
+	while (len_left>0 && !error)
 	{
-	case FORMULA_PTG_REF:
-	  {
-	    CellRef *ref ;
-	    char *buffer ;
-	    if (sheet->ver == eBiffV8)
-	      {
-		ref = getRefV8 (sheet, BIFF_GETWORD(cur), BIFF_GETWORD(cur + 2), fn_col, fn_row) ;
-		ptg_length = 4 ;
-	      }
-	    else
-	      {
-		ref = getRefV7 (sheet, BIFF_GETBYTE(cur+2), BIFF_GETWORD(cur), fn_col, fn_row) ;
-		ptg_length = 3 ;
-	      }
-	    buffer = cellref_name (ref, sheet->gnum_sheet, fn_col, fn_row) ;
-	    parse_list_push_raw(stack, buffer, NO_PRECEDENCE) ;
-/*	    printf ("%s\n", buffer) ; */
-	    g_free (ref) ;
-	  }
-	  break ;
-	case FORMULA_PTG_REF_3D:
-	  {
-	    CellRef *ref ;
-	    char *buffer ;
-	    
-	    /* Need to look at EXTERNSHEETS, these need to go into gnum_sheet struct, S59DA9.HTM and then be referenced */
+		int ptg_length = 0 ;
+		int ptg = BIFF_GETBYTE(cur-1) ;
+		int ptgbase = ((ptg & 0x40) ? (ptg | 0x20): ptg) & 0x3F ;
+		if (ptg > FORMULA_PTG_MAX)
+			break ;
+		if (FORMULA_DEBUG>0)
+			printf ("Ptg : 0x%x -> 0x%x\n", ptg, ptgbase) ;
+		switch (ptgbase)
+		{
+		case FORMULA_PTG_REFN:
+		case FORMULA_PTG_REF:
+		{
+			CellRef *ref=0;
+			if (sheet->ver == eBiffV8)
+			{
+				ref = getRefV8 (sheet, BIFF_GETWORD(cur), BIFF_GETWORD(cur + 2),
+						fn_col, fn_row, shared) ;
+				ptg_length = 4 ;
+			}
+			else
+			{
+				ref = getRefV7 (sheet, BIFF_GETBYTE(cur+2), BIFF_GETWORD(cur),
+						fn_col, fn_row, shared) ;
+				ptg_length = 3 ;
+			}
+			parse_list_push (&stack, expr_tree_cellref (ref));
+			if (ref) g_free (ref) ;
+			break ;
+		}
+		case FORMULA_PTG_NAME_X: /* FIXME: Not using sheet_idx at all ... */
+		{
+			char *txt ;
+			guint16 extn_sheet_idx, extn_name_idx ;
+			
+			if (sheet->ver == eBiffV8)
+			{
+				extn_sheet_idx = BIFF_GETWORD(cur) ;
+				extn_name_idx  = BIFF_GETWORD(cur+2) ;
+/*				printf ("FIXME: v8 NameX : %d %d\n", extn_sheet_idx, extn_name_idx) ; */
+				ptg_length = 6 ;
+			}
+			else
+			{
+				extn_sheet_idx = BIFF_GETWORD(cur) ;
+				extn_name_idx  = BIFF_GETWORD(cur+10) ;
+/*				printf ("FIXME: v7 NameX : %d %d\n", extn_sheet_idx, extn_name_idx) ; */
+				ptg_length = 24 ;
+			}
+			if ((txt = biff_name_data_get_name (sheet, extn_name_idx)))
+				parse_list_push_raw (&stack, value_new_string (txt));
+			else
+				parse_list_push_raw (&stack, value_new_string ("DuffName"));
+			break ;
+		}
+		case FORMULA_PTG_REF_3D: /* see S59E2B.HTM */
+		{
+			CellRef *ref=0;
+			if (sheet->ver == eBiffV8)
+			{
+				guint16 extn_idx = BIFF_GETWORD(cur) ;
+				ref = getRefV8 (sheet, BIFF_GETWORD(cur+2), BIFF_GETWORD(cur + 4),
+						fn_col, fn_row, 0) ;
+				make_inter_sheet_ref (sheet->wb, extn_idx, ref, 0) ;
+				parse_list_push (&stack, expr_tree_cellref (ref));
+				ptg_length = 6 ;
+			} else {
+				guint16 extn_idx, first_idx, second_idx;
 
-	    if (sheet->ver == eBiffV8)
-	      {
-		printf ("FIXME: proper sheet names needed from EXTERNSHEET table\n") ;
-		ref = getRefV8 (sheet, BIFF_GETWORD(cur+2), BIFF_GETWORD(cur + 4), fn_col, fn_row) ;
-		ptg_length = 6 ;
-	      }
-	    else
-	      {
-		printf ("FIXME: Biff V7 3D refs are ugly !\n") ;
-		error = 1 ;
-		ref = 0 ;
-		ptg_length = 16 ;
-	      }
-	    if (ref)
-	      {
-		buffer = cellref_name (ref, sheet->gnum_sheet, fn_col, fn_row) ;
-		parse_list_push_raw(stack, buffer, NO_PRECEDENCE) ;
-/*		printf ("%s\n", buffer) ; */
-		g_free (ref) ;
-	      }
-	  }
-	  break ;
-	case FORMULA_PTG_AREA:
-	  {
-	    CellRef *first, *last ;
-	    char buffer[64] ;
-	    char *ptr ;
-	    if (sheet->ver == eBiffV8)
-	      {
-		first = getRefV8(sheet, BIFF_GETBYTE(cur+0), BIFF_GETWORD(cur+4), fn_col, fn_row) ;
-		last  = getRefV8(sheet, BIFF_GETBYTE(cur+2), BIFF_GETWORD(cur+6), fn_col, fn_row) ;
-		ptg_length = 8 ;
-	      }
-	    else
-	      {
-		first = getRefV7(sheet, BIFF_GETBYTE(cur+4), BIFF_GETWORD(cur+0), fn_col, fn_row) ;
-		last  = getRefV7(sheet, BIFF_GETBYTE(cur+5), BIFF_GETWORD(cur+2), fn_col, fn_row) ;
-		ptg_length = 6 ;
-	      }
-	    strcpy (buffer, (ptr = cellref_name (first, sheet->gnum_sheet, fn_col, fn_row))) ;
-	    g_free (ptr) ;
-	    strcat (buffer, ":") ;
-	    strcat (buffer, (ptr=cellref_name (last, sheet->gnum_sheet, fn_col, fn_row))) ;
-	    g_free (ptr) ;
-	    parse_list_push_raw(stack, strdup (buffer), NO_PRECEDENCE) ;
-/*	    printf ("%s\n", buffer) ; */
-	    g_free (first) ;
-	    g_free (last) ;
-	  }
-	  break ;
-	case FORMULA_PTG_FUNC_VAR:
-	  {
-	    int numargs = (BIFF_GETBYTE( cur ) & 0x7f) ;
-	    int prompt  = (BIFF_GETBYTE( cur ) & 0x80) ;   /* Prompts the user ?  */
-	    int iftab   = (BIFF_GETWORD(cur+1) & 0x7fff) ; /* index into fn table */
-	    int cmdquiv = (BIFF_GETWORD(cur+1) & 0x8000) ; /* is a command equiv.?*/
-	    GList *args=0, *tmp ;
-	    int lp ;
-	    char buffer[4096] ; /* Nasty ! */
-/*	    printf ("Found formula %d with %d args\n", iftab, numargs) ; */
+				ref = getRefV7 (sheet, BIFF_GETBYTE(cur+16), BIFF_GETWORD(cur+14),
+						fn_col, fn_row, 0) ;
+				extn_idx   = BIFF_GETWORD(cur);
+				first_idx  = BIFF_GETWORD(cur + 10);
+				second_idx = BIFF_GETWORD(cur + 12);
+				make_inter_sheet_ref_v7 (sheet->wb, extn_idx, first_idx, second_idx, ref, 0) ;
+				parse_list_push (&stack, expr_tree_cellref (ref));
+				ptg_length = 17 ;
+			}
+			if (ref) g_free (ref) ;
+			break ;
+		}
+		case FORMULA_PTG_AREA_3D: /* see S59E2B.HTM */
+		{
+			CellRef *first=0, *last=0 ;
+			
+			if (sheet->ver == eBiffV8)
+			{
+				guint16 extn_idx = BIFF_GETWORD(cur) ;
 
-	    for (lp=0;lp<FORMULA_FUNC_DATA_LEN;lp++)
-	      {
-		if (formula_func_data[lp].function_idx == iftab && formula_func_data[lp].multi_arg)
-		  {
-		    const FORMULA_FUNC_DATA *fd = &formula_func_data[lp] ;
-		    GList *ptr ;
+				first = getRefV8(sheet, BIFF_GETBYTE(cur+2), BIFF_GETWORD(cur+6),
+						 fn_col, fn_row, 0) ;
+				last  = getRefV8(sheet, BIFF_GETBYTE(cur+4), BIFF_GETWORD(cur+8),
+						 fn_col, fn_row, 0) ;
 
-		    strcpy (buffer, (fd->prefix)?fd->prefix:"") ;
+				make_inter_sheet_ref (sheet->wb, extn_idx, first, last) ;
+				parse_list_push_raw (&stack, value_new_cellrange (first, last));
+				ptg_length = 10 ;
+			} else {
+				guint16 extn_idx, first_idx, second_idx;
 
-		    parse_list_comma_delimit_n (stack, &buffer[strlen(buffer)], numargs) ;
+				first = getRefV7 (sheet, BIFF_GETBYTE(cur+18), BIFF_GETWORD(cur+14),
+						  fn_col, fn_row, 0) ;
+				last  = getRefV7 (sheet, BIFF_GETBYTE(cur+19), BIFF_GETWORD(cur+16),
+						  fn_col, fn_row, 0) ;
+				extn_idx   = BIFF_GETWORD(cur);
+				first_idx  = BIFF_GETWORD(cur + 10);
+				second_idx = BIFF_GETWORD(cur + 12);
+				make_inter_sheet_ref_v7 (sheet->wb, extn_idx, first_idx,
+							 second_idx, first, last) ;
+				parse_list_push_raw (&stack, value_new_cellrange (first, last));
+				ptg_length = 20 ;
+			}
+			if (first) g_free (first) ;
+			if (last)  g_free (last) ;
+		}
+		break ;
+		case FORMULA_PTG_AREAN:
+		case FORMULA_PTG_AREA:
+		{
+			CellRef *first=0, *last=0 ;
+			if (sheet->ver == eBiffV8)
+			{
+				first = getRefV8(sheet, BIFF_GETBYTE(cur+0), BIFF_GETWORD(cur+4),
+						 fn_col, fn_row, shared) ;
+				last  = getRefV8(sheet, BIFF_GETBYTE(cur+2), BIFF_GETWORD(cur+6),
+						 fn_col, fn_row, shared) ;
+				ptg_length = 8 ;
+			}
+			else
+			{
+				first = getRefV7(sheet, BIFF_GETBYTE(cur+4), BIFF_GETWORD(cur+0), fn_col, fn_row, shared) ;
+				last  = getRefV7(sheet, BIFF_GETBYTE(cur+5), BIFF_GETWORD(cur+2), fn_col, fn_row, shared) ;
+				ptg_length = 6 ;
+			}
 
-		    strcat (buffer, fd->suffix?fd->suffix:"") ;
-		    parse_list_push_raw(stack, strdup (buffer), fd->precedence) ;
-		    break ;
-		  }
-	      }
-	    if (lp==FORMULA_FUNC_DATA_LEN)
-	      printf ("FIXME, unimplemented vararg fn %d, with %d args\n", iftab, numargs), error=1 ;
-	    ptg_length = 3 ;
-	  }
-	  break ;
-	case FORMULA_PTG_EXP: /* FIXME: the formula is the same as another record ... we need a cell_get_funtion call ! */
-	  {
-	    cell = sheet_cell_fetch (sheet->gnum_sheet, fn_col, fn_row) ;
-	    if (!cell->text) /* FIXME: work around cell.c bug, we can't have formatting with no text in a cell ! */
-		cell_set_text_simple(cell, "") ;
-	    ms_excel_set_cell_xf (sheet, cell, fn_xf) ;
-	    return ;
-	  }
-	  break ;
-	case FORMULA_PTG_PAREN:
+			parse_list_push_raw (&stack, value_new_cellrange (first, last));
+
+			if (first) g_free (first) ;
+			if (last)  g_free (last) ;
+			break ;
+		}
+		case FORMULA_PTG_ARRAY:
+		{
+			Value *v;
+			guint32 cols=BIFF_GETBYTE(cur+0)+1; /* NB. the spec. is wrong here, these */
+			guint32 rows=BIFF_GETWORD(cur+1)+1; /*     are zero offset numbers */ 
+			guint16 lpx,lpy;
+			
+			v = value_array_new (cols, rows);
+			ptg_length = 7;
+#if FORMULA_DEBUG > 1
+			printf ("An Array how interesting: (%d,%d)\n", cols, rows);
+			dump (mem, length);
+#endif
+			for (lpy=0;lpy<rows;lpy++) {
+				for (lpx=0;lpx<cols;lpx++) {
+					Value *set_val=0;
+					guint8 opts=BIFF_GETBYTE(array_data);
+#if FORMULA_DEBUG > 0
+					printf ("Opts 0x%x\n", opts);
+#endif
+					if (opts == 1) {
+						set_val = value_new_float (BIFF_GETDOUBLE(array_data+1));
+						array_data+=9;
+					} else if (opts == 2) {
+						guint32 len;
+						char *str;
+
+						if (sheet->ver >= eBiffV8) { /* Cunningly not mentioned in spec. ! */
+							str = biff_get_text (array_data+3,
+									     BIFF_GETWORD(array_data+1),
+									     &len);
+							array_data+=len+3;
+						} else {
+							str = biff_get_text (array_data+2,
+									     BIFF_GETBYTE(array_data+1),
+									     &len);
+							array_data+=len+2;
+						}
+						if (str) {
+							set_val = value_new_string (str);
+#if FORMULA_DEBUG > 0
+							printf ("String '%s'\n", str);
+#endif
+							g_free (str);
+						} else
+							set_val = value_new_string ("");
+					} else {
+						printf ("FIXME: Duff array item type\n");
+						break;
+					}
+					value_array_set (v, lpx, lpy, set_val);
+				}
+			}
+			parse_list_push_raw (&stack, v);
+			break;
+		}
+		case FORMULA_PTG_FUNC:
+		{
+			if (!make_function (&stack, BIFF_GETWORD(cur), -1)) error = 1 ;
+			ptg_length = 2 ;
+			break ;
+		}
+		case FORMULA_PTG_FUNC_VAR:
+		{
+			int numargs = (BIFF_GETBYTE( cur ) & 0x7f) ;
+			int prompt  = (BIFF_GETBYTE( cur ) & 0x80) ;   /* Prompts the user ?  */
+			int iftab   = (BIFF_GETWORD(cur+1) & 0x7fff) ; /* index into fn table */
+			int cmdquiv = (BIFF_GETWORD(cur+1) & 0x8000) ; /* is a command equiv.?*/
+
+			if (!make_function (&stack, iftab, numargs)) error = 1 ;
+			ptg_length = 3 ;
+			break ;
+		}
+/*FIXME: REIMPLEMENT		case FORMULA_PTG_NAME:
+		{
+		guint16 name_idx ; *//* 1 based */
+/*			char *txt;
+			if (sheet->ver == eBiffV8)
+				name_idx = BIFF_GETWORD(cur+2) ;
+			else
+				name_idx = BIFF_GETWORD(cur) ;
+			txt = biff_name_data_get_name (sheet, name_idx);
+			if (!txt) {
+				if (FORMULA_DEBUG>0) {
+					printf ("FIXME: Ptg Name not found: %d\n", name_idx) ;
+					dump(mem, length) ;
+				}
+				parse_list_push_raw (&stack, g_strdup("Unknown name"), NO_PRECEDENCE) ;
+			} else
+				parse_list_push_raw (&stack, g_strdup(txt), NO_PRECEDENCE) ;
+		}*/
+		case FORMULA_PTG_EXP:
+		{
+			int top_left_col = BIFF_GETWORD(cur+2) ;
+			int top_left_row = BIFF_GETWORD(cur+0) ;
+			ExprTree *tr;
+			tr = ms_excel_sheet_shared_formula (sheet, top_left_col,
+							    top_left_row,
+							    fn_col, fn_row) ;
+			if (!tr) tr = expr_tree_string ("");
+			parse_list_push (&stack, tr);
+			ptg_length = length; /* Force it to be the only token 4 ; */
+			break ;
+		}
+		case FORMULA_PTG_U_PLUS: /* Discard */
+			break;
+		case FORMULA_PTG_U_MINUS:
+			parse_list_push (&stack, expr_tree_unary (OPER_NEG,
+								  parse_list_pop (&stack)));
+			break;
+		case FORMULA_PTG_PAREN:
 /*	  printf ("Ignoring redundant parenthesis ptg\n") ; */
-		ptg_length = 0 ;
-		break ;
-	case FORMULA_PTG_FUNC:
-	{
-		int iftab   = BIFF_GETWORD(cur) ;
-		printf ("FIXME, unimplemented function table pointer %d\n", iftab), error=1 ;
-		ptg_length = 2 ;
-		break ;
-	}
-	case FORMULA_PTG_INT:
-	{
-		char buf[8]; /* max. "65535" */
-		guint16 num = BIFF_GETWORD(cur) ;
-		sprintf(buf,"%u",num);
-		parse_list_push_raw (stack, strdup(buf), NO_PRECEDENCE) ;
-		ptg_length = 2 ;
-		break;
-	}
-	case FORMULA_PTG_BOOL:
-	{
-		parse_list_push_raw (stack, strdup(BIFF_GETBYTE(cur) ? "TRUE" : "FALSE" ), NO_PRECEDENCE) ;
-		ptg_length = 1 ;
-		break ;
-	}
-	case FORMULA_PTG_NUM:
-	{
-		double tmp = BIFF_GETDOUBLE(cur) ;
-		char buf[65] ; /* should be long enough? */
-		snprintf (buf, 64, "%f", tmp) ;
-		parse_list_push_raw (stack, strdup(buf), NO_PRECEDENCE) ;
-		ptg_length = 8 ;
-		break ;
-	}
-	case FORMULA_PTG_STR:
-	{ /* FIXME: Len should only be a byte but seems to be a word ! */
-		guint32 len = BIFF_GETWORD(cur) ;
-		char *str = (char *)g_malloc(len+3) ;
-		guint32 lp ;
-		for (lp=0;lp<len;lp++)
-			str[lp+1] = BIFF_GETBYTE(cur+2+lp) ;
-		str[lp]   = '"' ;
-		str[lp+1] = '\0' ;
-		str[0]    = '"' ;
-		parse_list_push_raw (stack, str, NO_PRECEDENCE) ;
-/*		printf ("Found string '%s'\n", str) ; */
-		ptg_length = 2 + len ;
-	}
-	break ;
-	default:
-	  {
-	    int lp ;
+			ptg_length = 0 ;
+			break ;
+		case FORMULA_PTG_MISSARG: /* FIXME: Need Null Arg. type. */
+			parse_list_push_raw (&stack, value_new_string (""));
+			ptg_length = 0 ;
+			break ;
+		case FORMULA_PTG_ATTR: /* FIXME: not fully implemented */
+		{
+			guint8  grbit = BIFF_GETBYTE(cur) ;
+			guint16 w     = BIFF_GETWORD(cur+1) ;
+			ptg_length = 3 ;
+			if (grbit & 0x01) {
+				if (FORMULA_DEBUG>0)
+					printf ("A volatile function: so what\n") ;
+			} else if (grbit & 0x02) { /* AttrIf: 'optimised' IF function */
+				/* Who cares if the TRUE expr has a goto at the end */
+				ExprTree *tr;
+				if (FORMULA_DEBUG>2) {
+					printf ("Optimised IF 0x%x 0x%x\n", grbit, w) ;
+					dump (mem, length) ;
+				}
+				if (w)
+					tr = ms_excel_parse_formula (sheet, cur+ptg_length,
+								      fn_col, fn_row, shared,
+								      w) ;
+				else
+					tr = expr_tree_value (value_new_string (""));
+				parse_list_push (&stack, tr);
+				ptg_length += w ;
+			} else if (grbit & 0x04) { /* AttrChoose 'optimised' my foot. */
+				guint16 len, lp;
+				guint32 offset=0;
+				guint8 *data=cur+3;
+				ExprTree *tr;
 
+				if (FORMULA_DEBUG>1) {
+					printf ("'Optimised' choose\n");
+					dump (mem,length);
+				}
+				for (lp=0;lp<w;lp++) { /* w = wCases */
+					offset= BIFF_GETWORD(data);
+					len = BIFF_GETWORD(data+2) - offset;
+					if (FORMULA_DEBUG>1)
+						printf ("Get from %d len %d [ = 0x%x ]\n",
+							ptg_length+offset, len, *(cur+ptg_length+offset));
+					tr = ms_excel_parse_formula (sheet, cur+ptg_length+offset,
+								     fn_col, fn_row, shared,
+								     len);
+					data+=2;
+					parse_list_push (&stack, tr);
+				}
+				ptg_length+=BIFF_GETWORD(data);
+			} else if (grbit & 0x08) { /* AttrGoto */
+				if (FORMULA_DEBUG>2) {
+					printf ("Goto %d: cur = 0x%x\n", w, (int)(cur-mem)) ;
+					dump (mem, length) ;
+				}
+				ptg_length = w ;
+			} else if (grbit & 0x10) { /* AttrSum: 'optimised' SUM function */
+				if (!make_function (&stack, 0x04, 1))
+				{
+					error = 1 ;
+					printf ("Error in optimised SUM\n") ;
+				}
+			} else if (grbit & 0x40) { /* AttrSpace */
+				guint8 num_space = BIFF_GETBYTE(cur+2) ;
+				guint8 attrs     = BIFF_GETBYTE(cur+1) ;
+				if (attrs == 00) /* bitFSpace : ignore it */
+				/* Could perhaps pop top arg & append space ? */ ;
+				else
+#if FORMULA_DEBUG > 1
+					printf ("Redundant whitespace in formula 0x%x count %d\n", attrs, num_space) ;
+#else
+				;
+#endif
+			} else {
+#if FORMULA_DEBUG > 0
+				printf ("Unknown PTG Attr 0x%x 0x%x\n", grbit, w) ;
+#endif
+				error = 1 ;
+			}
+		break ;
+		}
+		case FORMULA_PTG_ERR:
+		{
+			parse_list_push_raw (&stack,
+					     value_new_string (biff_get_error_text(BIFF_GETBYTE(cur))));
+			ptg_length = 1 ;
+			break ;
+		}
+		case FORMULA_PTG_INT:
+		{
+			guint16 num = BIFF_GETWORD(cur) ;
+			parse_list_push_raw (&stack, value_new_int (num));
+			ptg_length = 2 ;
+			break;
+		}
+		case FORMULA_PTG_BOOL:  /* FIXME: True / False */
+		{
+			parse_list_push_raw (&stack, value_new_int (BIFF_GETBYTE(cur)));
+			ptg_length = 1 ;
+			break ;
+		}
+		case FORMULA_PTG_NUM:
+		{
+			double tmp = BIFF_GETDOUBLE(cur) ;
+			parse_list_push_raw (&stack, value_new_float (tmp));
+			ptg_length = 8 ;
+			break ;
+		}
+		case FORMULA_PTG_STR:
+		{
+			char *str;
+			guint32 len;
+/*			dump (mem, length) ;*/
+			if (sheet->ver == eBiffV8)
+			{
+				str = biff_get_text (cur+2, BIFF_GETWORD(cur), &len) ;
+				ptg_length = 2 + len ;
+/*				printf ("v8+ PTG_STR '%s'\n", str) ; */
+			}
+			else
+			{
+				str = biff_get_text (cur+1, BIFF_GETBYTE(cur), &len) ;
+				ptg_length = 1 + len ;
+/*				printf ("<v7 PTG_STR '%s' len %d ptglen %d\n", str, len, ptg_length) ; */
+			}
+			if (!str) str = g_strdup("");
+			parse_list_push_raw (&stack, value_new_string (str));
+			if (str)  g_free (str);
+			break ;
+		}
+		default:
+		{
 /*	    printf ("Search %d records\n", (int)FORMULA_OP_DATA_LEN) ; */
-	    for (lp=0;lp<FORMULA_OP_DATA_LEN;lp++)
-	      {
-		if (ptgbase == formula_op_data[lp].formula_ptg)
-		  {
-		    PARSE_DATA *arg1=0, *arg2 ;
-		    GList *tmp ;
-		    char buffer[2048] ;
-		    FORMULA_OP_DATA *fd = &formula_op_data[lp] ;
-		    int bracket_arg2 ;
-    		    int bracket_arg1 ;
-
-		    buffer[0] = '\0' ; /* Terminate string */
-		    arg2 = parse_list_pop (stack) ;
-		    bracket_arg2 = arg2->precedence<fd->precedence ;
-                    if (fd->infix)
-		    {
-		      arg1 = parse_list_pop (stack) ;
-		      bracket_arg1 = arg1->precedence<fd->precedence ; 
-		      if (bracket_arg1)
-		        strcat (buffer, "(") ;
-		      strcat (buffer, arg1->name) ;
-		      if (bracket_arg1)
-		        strcat (buffer, ")") ;
-		    }
-		    strcat (buffer, fd->mid?fd->mid:"") ;
-		    if (bracket_arg2)
-		      strcat (buffer, "(") ;
-		    strcat (buffer, arg2->name) ;
-		    if (bracket_arg2)
-		      strcat (buffer, ")") ;
-
-/*		    printf ("Op : '%s'\n", buffer) ; */
-		    parse_list_push_raw(stack, strdup (buffer), fd->precedence) ;
-		    if (fd->infix)
-		      parse_data_free (arg1) ;
-		    parse_data_free (arg2) ;
-		    break ;
-		  }
-	      }
-	    if (lp==FORMULA_OP_DATA_LEN)
-	      printf ("Unknown PTG 0x%x base %x\n", ptg, ptgbase), error=1 ;
-	  }
+			if (ptgbase >= FORMULA_OP_START && ptgbase < FORMULA_OP_START+FORMULA_OP_DATA_LEN) {
+				FORMULA_OP_DATA *fd =
+					&formula_op_data[ptgbase - FORMULA_OP_START];
+				ExprTree *tr = expr_tree_new ();
+				
+				tr->oper = fd->op;
+				tr->u.binary.value_b = parse_list_pop (&stack);
+				tr->u.binary.value_a = parse_list_pop (&stack);
+				parse_list_push (&stack, tr);
+			} else {
+#if FORMULA_DEBUG > 0
+				printf ("Unknown PTG 0x%x base %x\n", ptg, ptgbase);
+#endif
+				error=1 ;
+			}
+		}
+		break ;
+		}
+/*		printf ("Ptg 0x%x length (not inc. ptg byte) %d\n", ptgbase, ptg_length) ; */
+		cur+=    (ptg_length+1) ;
+		len_left-= (ptg_length+1) ;
 	}
-/*      printf ("Ptg 0x%x length (not inc. ptg byte) %d\n", ptgbase, ptg_length) ; */
-      cur+=    (ptg_length+1) ;
-      length-= (ptg_length+1) ;
-    }
-  if (error)
-    {
-      int xlp, ylp ;
-
-      printf ("Unknown Formula/Array at [%d, %d] XF %d :\n", fn_col, fn_row, fn_xf) ;
-      printf ("formula data : \n") ;
-      dump (q->data +22, q->length-22) ;
-
-      for (xlp=array_col_first;xlp<=array_col_last;xlp++)
-	  for (ylp=array_row_first;ylp<=array_row_last;ylp++)
-	    ms_excel_sheet_insert (sheet, fn_xf, xlp, ylp, "Unknown formula") ;
-      parse_list_free (stack) ;
-      return ;
-    }
-  
-  ans = parse_list_to_equation(stack) ;
-  if (ans)
-    {
-      int xlp, ylp ;
-      for (xlp=array_col_first;xlp<=array_col_last;xlp++)
-	  for (ylp=array_row_first;ylp<=array_row_last;ylp++)
-	    {
-	      cell = sheet_cell_fetch (sheet->gnum_sheet, EX_GETCOL(q), EX_GETROW(q)) ;
-	      /* FIXME: this _should_ be a set_formula with the formula, and a
-		 set_text_simple with the current value */
-	      cell_set_text (cell, ans) ;
-	      ms_excel_set_cell_xf (sheet, cell, EX_GETXF(q)) ;
-   	    }
-      g_free (ans) ;
-    }
-  parse_list_free (stack) ;
+	if (error) {
+		if (FORMULA_DEBUG>0) {
+			printf ("Unknown Formula/Array at [%d, %d]\n", fn_col, fn_row) ;
+			printf ("formula data : \n") ;
+			dump (mem, length) ;
+		}
+		
+		parse_list_free (&stack) ;
+		return expr_tree_string (_(" Unknown formula")) ;
+	}
+	
+	if (!stack)
+		return expr_tree_string ("Stack too short - unusual");
+	if (g_list_length(stack) > 1)
+		return expr_tree_string ("Too much data on stack - probable cause: "
+					 "fixed args function is var-arg, put '-1' in the table above");
+	return parse_list_pop (&stack);
 }
 
-void ms_excel_fixup_array_formulae (MS_EXCEL_SHEET *sheet)
-{
-  GList *tmp = sheet->array_formulae ;
-  while (tmp)
-    {
-      FORMULA_ARRAY_DATA *dat = tmp->data ;
-      printf ("Copying formula from %d,%d to %d,%d\n",
-			 dat->src_col, dat->src_row,
-			 dat->dest_col, dat->dest_row) ;
-      duplicate_formula (sheet->gnum_sheet,
-			 dat->src_col, dat->src_row,
-			 dat->dest_col, dat->dest_row) ;
-      tmp = tmp->next ;
-    }
-}

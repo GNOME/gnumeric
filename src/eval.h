@@ -1,6 +1,9 @@
 #ifndef GNUMERIC_EVAL_H
 #define GNUMERIC_EVAL_H
 
+#include "sheet.h"
+#include "cell.h"
+
 /*
  * A DependencyRange defines a range of cells whose values
  * are used by another Cell in the spreadsheet.
@@ -28,7 +31,7 @@ void    cell_drop_dependencies   (Cell *cell);
  * Returns a newly allocated list with Cells inside that
  * depend on the value at Sheet, col, row
  */
-GList   *cell_get_dependencies   (Sheet *shet, int col, int row);
+GList   *cell_get_dependencies   (Sheet *sheet, int col, int row);
 
 /*
  * Returns a newly allocated list with Cells inside that
@@ -45,10 +48,11 @@ void cell_queue_recalc           (Cell *cell);
 
 void cell_queue_recalc_list      (GList *list);
 
+void cell_unqueue_from_recalc    (Cell *cell);
+
 /*
  * Evaluate a cell
  */
 void cell_eval                   (Cell *cell);
 
 #endif /* GNUMERIC_EVAL_H */
-

@@ -7,11 +7,15 @@
  */
 #include <config.h>
 #include <gnome.h>
-#include "math.h"
+#include <math.h>
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
 #include "utils.h"
 #include "func.h"
+#include "eval.h"
+
+/* The list of categories */
+static GPtrArray *categories = NULL;
 
 typedef struct {
 	FunctionIterateCallback  callback;
@@ -30,6 +34,13 @@ iterate_cellrange_callback (Sheet *sheet, int col, int row, Cell *cell, void *us
 {
 	IterateCallbackClosure *data = user_data;
 	int cont;
+
+	if (cell->generation != sheet->workbook->generation){
+		cell->generation = sheet->workbook->generation;
+
+		if (cell->parsed_node)
+			cell_eval (cell);
+	}
 	
 	if (!cell->value){
 		/*
@@ -50,7 +61,7 @@ iterate_cellrange_callback (Sheet *sheet, int col, int row, Cell *cell, void *us
  *
  * Helper routine for function_iterate_argument_values.
  */ 
-static int
+int
 function_iterate_do_value (Sheet                   *sheet,
 			   FunctionIterateCallback callback,
 			   void                    *closure,
@@ -59,7 +70,6 @@ function_iterate_do_value (Sheet                   *sheet,
 			   Value                   *value,
 			   char                    **error_string)
 {
-	GList *list;
 	int ret = TRUE;
 	
 	switch (value->type){
@@ -70,19 +80,21 @@ function_iterate_do_value (Sheet                   *sheet,
 			break;
 			
 	case VALUE_ARRAY:
-		for (list = value->v.array; list; list = list->next){
-			Value *array_v = (Value *) list->data;
+	{
+		int x, y;
 
-			ret = function_iterate_do_value (
-				sheet, callback, closure,
-				eval_col, eval_row,
-				array_v, error_string);
-			
-			if (ret == FALSE)
-				return FALSE;
+		for (x = 0; x < value->v.array.x; x++){
+			for (y = 0; y < value->v.array.y; y++){
+				ret = function_iterate_do_value (
+					sheet, callback, closure,
+					eval_col, eval_row,
+					value->v.array.vals [x][y], error_string);
+				if (ret == FALSE)
+					return FALSE;
+			}
 		}
 		break;
-
+	}
 	case VALUE_CELLRANGE: {
 		IterateCallbackClosure data;
 		int start_col, start_row, end_col, end_row;
@@ -98,9 +110,9 @@ function_iterate_do_value (Sheet                   *sheet,
 		cell_get_abs_col_row (&value->v.cell_range.cell_b,
 				      eval_col, eval_row,
 				      &end_col, &end_row);
-		
+
 		ret = sheet_cell_foreach_range (
-			sheet, TRUE,
+			value->v.cell_range.cell_a.sheet, TRUE,
 			start_col, start_row,
 			end_col, end_row,
 			iterate_cellrange_callback,
@@ -127,20 +139,115 @@ function_iterate_argument_values (Sheet                   *sheet,
 
 		val = eval_expr (sheet, tree, eval_col, eval_row, error_string);
 
-		result = function_iterate_do_value (
-			sheet, callback, callback_closure,
-			eval_col, eval_row, val,
-			error_string);
-		
-		value_release (val);
+		if (val){
+			result = function_iterate_do_value (
+				sheet, callback, callback_closure,
+				eval_col, eval_row, val,
+				error_string);
+			
+			value_release (val);
+		}
 	}
 	return result;
 }
 
+GPtrArray *
+function_categories_get (void)
+{
+	return categories;
+}
+
+TokenizedHelp *
+tokenized_help_new (FunctionDefinition *fd)
+{
+	TokenizedHelp *tok;
+
+	g_return_val_if_fail (fd != NULL, NULL);
+
+	tok = g_new (TokenizedHelp, 1);
+
+	tok->fd = fd;
+
+	if (fd->help && fd->help [0]){
+		char *ptr;
+		int seek_att = 1;
+		int last_newline = 1;
+		
+		tok->help_copy = g_strdup (fd->help [0]);
+		tok->sections = g_ptr_array_new ();
+		ptr = tok->help_copy;
+		
+		while (*ptr){
+			if (*ptr == '\\' && *(ptr+1))
+				ptr+=2;
+			
+			if (*ptr == '@' && seek_att && last_newline){
+				*ptr = 0;
+				g_ptr_array_add (tok->sections, (ptr+1));
+				seek_att = 0;
+			} else if (*ptr == '=' && !seek_att){
+				*ptr = 0;
+				g_ptr_array_add (tok->sections, (ptr+1));
+				seek_att = 1;
+			}
+			last_newline = (*ptr == '\n');
+
+			ptr++;
+		}
+	} else {
+		tok->help_copy = NULL;
+		tok->sections = NULL;
+	}
+	
+	return tok;
+}
+
+/**
+ * Use to find a token eg. "FUNCTION"'s value.
+ **/
+char *
+tokenized_help_find (TokenizedHelp *tok, char *token)
+{
+	int lp;
+
+	if (!tok || !tok->sections)
+		return "Incorrect Function Description.";
+	
+	for (lp = 0; lp < tok->sections->len-1; lp++){
+		char *cmp = g_ptr_array_index (tok->sections, lp);
+
+		if (strcasecmp (cmp, token) == 0){
+			return g_ptr_array_index (tok->sections, lp+1);
+		}
+	}
+	return "Can not find token";
+}
+
 void
-install_symbols (FunctionDefinition *functions)
+tokenized_help_destroy (TokenizedHelp *tok)
+{
+	g_return_if_fail (tok != NULL);
+
+	if (tok->help_copy)
+		g_free (tok->help_copy);
+
+	if (tok->sections)
+		g_ptr_array_free (tok->sections, FALSE);
+
+	g_free (tok);
+}
+
+void
+install_symbols (FunctionDefinition *functions, gchar *description)
 {
 	int i;
+	FunctionCategory *fn_cat = g_new (FunctionCategory, 1);
+	
+	g_return_if_fail (categories);
+
+	fn_cat->name = description;
+	fn_cat->functions = functions;
+	g_ptr_array_add (categories, fn_cat); 
 	
 	for (i = 0; functions [i].name; i++){
 		symbol_install (global_symbol_table, functions [i].name,
@@ -151,11 +258,20 @@ install_symbols (FunctionDefinition *functions)
 void
 functions_init (void)
 {
-	install_symbols (math_functions);
-	install_symbols (sheet_functions);
-	install_symbols (misc_functions);
-	install_symbols (date_functions);
-	install_symbols (string_functions);
+	categories = g_ptr_array_new ();
+
+	install_symbols (math_functions, _("Maths / Trig."));
+	install_symbols (sheet_functions, _("Sheet"));
+	install_symbols (misc_functions, _("Miscellaneous"));
+	install_symbols (date_functions, _("Date / Time"));
+	install_symbols (string_functions, _("String"));
+	install_symbols (stat_functions, _("Statistics"));
+	install_symbols (finance_functions, _("Financial"));
+	install_symbols (eng_functions, _("Engineering"));
+	install_symbols (lookup_functions, _("Data / Lookup"));
+	install_symbols (logical_functions, _("Logical"));
+	install_symbols (database_functions, _("Database"));
+	install_symbols (information_functions, _("Information"));
 }
 
 void
@@ -181,4 +297,8 @@ constants_init (void)
 	symbol_install (global_symbol_table, "FALSE", SYMBOL_VALUE, false);
 	symbol_install (global_symbol_table, "TRUE", SYMBOL_VALUE, true);
 	symbol_install (global_symbol_table, "GNUMERIC_VERSION", SYMBOL_VALUE, version);
+
+	/* Global helper value for arrays */
+	value_zero = value_new_float (0);
 }
+

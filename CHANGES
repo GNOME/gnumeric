@@ -1,0 +1,36 @@
+Changes between version 0.26 and 0.27
+
+
+Jukka has added the following functions:
+	* SEARCH(), ADDRESS(), CHITEST(), BETAINV(), PERCENTRANK(),
+	* SERIESSUM(), SUMA(), SUBTOTAL(), SLOPE(), AVERAGEA(),
+	* MAXA(), MINA(), STDEVA(), STDEVPA(), VARA(), and VARPA().
+
+And fixed these:
+	* BETADIST(), NORMDIST(), and POISSON().
+
+Morten:
+	* Found everyone else's bugs.
+	* Reworked the insert/delete column/row again.
+	* Reworked the Goal Seek function to produce more accurate
+	  result faster, and fail less often.
+
+Miguel
+	* Worked on other things
+
+Michael
+	* Re-wrote the OLE block layer again...
+	* Tentative alpha Excel sheet writing
+	 - StarOffice is only tested importer
+	 - Only Excel 95 likely to work
+	 - only basic numbers and text are stored.
+	* Fix writing code to preserve sheet order.
+
+Nick Lamb
+	* Lots of work adding excel function mappings.
+	* Fixed absolute shared formulae cell refereces.
+
+Several translations updated: thanks to our translators
+
+And lots of bugs fixed.
+

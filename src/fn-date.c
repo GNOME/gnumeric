@@ -1,12 +1,13 @@
 /*
  * fn-date.c:  Built in date functions.
  *
- * Author:
+ * Authors:
  *   Miguel de Icaza (miguel@gnu.org)
+ *   Jukka-Pekka Iivonen (iivonen@iki.fi)
  */
 #include <config.h>
 #include <gnome.h>
-#include "math.h"
+#include <math.h>
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
 #include "utils.h"
@@ -37,9 +38,9 @@ gnumeric_date (struct FunctionDefinition *fd, Value *argv [], char **error_strin
 	int year, month, day;
 	GDate date;
 	
-	year  = value_get_as_double (argv [0]);
-	month = value_get_as_double (argv [1]);
-	day   = value_get_as_double (argv [2]);
+	year  = value_get_as_float (argv [0]);
+	month = value_get_as_float (argv [1]);
+	day   = value_get_as_float (argv [2]);
 
         if (!g_date_valid_dmy(1, month, year))
           {
@@ -62,9 +63,90 @@ gnumeric_date (struct FunctionDefinition *fd, Value *argv [], char **error_strin
                   return NULL;
           }
 
-	v = value_int (g_date_serial (&date));
+	v = value_new_int (g_date_serial (&date));
 
 	return v;
+}
+
+
+static char *help_datevalue = {
+	N_("@FUNCTION=DATEVALUE\n"
+	   "@SYNTAX=DATEVALUE(date_str)\n"
+
+	   "@DESCRIPTION="
+	   "DATEVALUE returns the serial number of the date.  @date_str is "
+	   "the string that contains the date.  For example, "
+	   "DATEVALUE(\"1/1/1999\") equals to 36160. "
+	   "\n"	   
+	   ""
+	   "@SEEALSO=DATE")
+};
+
+static Value *
+gnumeric_datevalue (struct FunctionDefinition *fd,
+		    Value *argv [], char **error_string)
+{
+	const gchar *datestr;
+	GDate       date;
+
+	if (argv[0]->type != VALUE_STRING) {
+                  *error_string = _("#NUM!");
+                  return NULL;
+	}
+	datestr = argv[0]->v.str->str;
+	g_date_set_parse (&date, datestr);
+	if (!g_date_valid(&date)) {
+                  *error_string = _("#VALUE!");
+                  return NULL;
+	}
+
+	return value_new_int (g_date_serial (&date));
+}
+
+static char *help_edate = {
+	N_("@FUNCTION=EDATE\n"
+	   "@SYNTAX=EDATE(serial_number,months)\n"
+
+	   "@DESCRIPTION="
+	   "EDATE returns the serial number of the date that is the "
+	   "specified number of months before or after a given date.  "
+	   "@date is the serial number of the initial date and @months "
+	   "is the number of months before (negative number) or after "
+	   "(positive number) the initial date. "
+	   "\n"
+	   "If @months is not an integer, it is truncated. "
+	   "\n"
+	   "@SEEALSO=DATE")
+};
+
+static Value *
+gnumeric_edate (struct FunctionDefinition *fd,
+		Value *argv [], char **error_string)
+{
+	int    serial, months;
+	GDate* date;
+	
+	serial = value_get_as_int(argv[0]);
+	months = value_get_as_int(argv[1]);
+
+	date = g_date_new_serial (serial);
+
+	if (!g_date_valid(date)) {
+                  *error_string = _("#VALUE!");
+                  return NULL;
+	}
+
+	if (months > 0)
+	        g_date_add_months (date, months);
+	else
+	        g_date_subtract_months (date, -months);
+
+	if (!g_date_valid(date)) {
+                  *error_string = _("#NUM!");
+                  return NULL;
+	}
+		
+	return value_new_int (g_date_serial (date));
 }
 
 static char *help_today = {
@@ -91,7 +173,7 @@ gnumeric_today (FunctionDefinition *fd, Value *argv [], char **error_string)
 	
 	g_date_set_time (&date, time (NULL));
 	
-	v = value_int (g_date_serial (&date));
+	v = value_new_int (g_date_serial (&date));
 
 	return v;
 }
@@ -129,7 +211,7 @@ gnumeric_now (FunctionDefinition *fd, Value *argv [], char **error_string)
 	
 	g_date_set_time (&date, t);
 
-	v = value_float (g_date_serial(&date) +
+	v = value_new_float (g_date_serial(&date) +
 			 ((tm->tm_hour * 3600 + tm->tm_min * 60 
 			   + tm->tm_sec)/(double)DAY_SECONDS));
 
@@ -154,11 +236,11 @@ gnumeric_time (FunctionDefinition *fd, Value *argv [], char **error_string)
 	Value *v;
 	float_t hours, minutes, seconds;
 
-	hours   = value_get_as_double (argv [0]);
-	minutes = value_get_as_double (argv [1]);
-	seconds = value_get_as_double (argv [2]);
+	hours   = value_get_as_float (argv [0]);
+	minutes = value_get_as_float (argv [1]);
+	seconds = value_get_as_float (argv [2]);
 
-	v = value_float ((hours * 3600 + minutes * 60 + seconds) / DAY_SECONDS);
+	v = value_new_float ((hours * 3600 + minutes * 60 + seconds) / DAY_SECONDS);
 
 	return v;
 }
@@ -217,7 +299,7 @@ gnumeric_hour_min_sec (FunctionDefinition *fd, Value *argv [], char **error_stri
 	Value *v = g_new (Value, 1);
 	float_t serial;
 
-	serial   = value_get_as_double (argv [0]);
+	serial   = value_get_as_float (argv [0]);
 	serial = serial - floor (serial);
 	
 	v->type = VALUE_INTEGER;
@@ -277,7 +359,7 @@ static Value *
 gnumeric_year_month_day (FunctionDefinition *fd, Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
-	guint32 serial = floor (value_get_as_double (argv [0]));
+	guint32 serial = floor (value_get_as_float (argv [0]));
 	GDate* date = g_date_new_serial (serial);
 
 	v->type = VALUE_INTEGER;
@@ -295,20 +377,29 @@ gnumeric_year_month_day (FunctionDefinition *fd, Value *argv [], char **error_st
 }
 
 FunctionDefinition date_functions [] = {
-	{ "date",    "fff",  "year,month,day", &help_date,    NULL, gnumeric_date  },
-	{ "day",     "f",    "serial_number",  &help_day,     NULL, gnumeric_year_month_day  },
-	{ "hour",    "f",    "serial_number",  &help_hour,    NULL, gnumeric_hour_min_sec },
-	{ "minute",  "f",    "serial_number",  &help_minute,  NULL, gnumeric_hour_min_sec },
-	{ "month",   "f",    "serial_number",  &help_month,   NULL, gnumeric_year_month_day  },
-	{ "now",     "",     "",               &help_now,     NULL, gnumeric_now },
-	{ "second",  "f",    "serial_number",  &help_second,  NULL, gnumeric_hour_min_sec },
-	{ "time",    "fff",  "hours,minutes,seconds", &help_time, NULL, gnumeric_time },
-	{ "today",   "",     "",               &help_today,   NULL, gnumeric_today },
-	{ "year",    "f",    "serial_number",  &help_year,    NULL, gnumeric_year_month_day  },
+	{ "date",      "fff",  "year,month,day",        &help_date,
+	  NULL, gnumeric_date  },
+	{ "datevalue", "s",    "date_str",              &help_datevalue,
+	  NULL, gnumeric_datevalue  },
+	{ "day",       "f",    "serial_number",         &help_day,
+	  NULL, gnumeric_year_month_day  },
+	{ "edate",     "ff",   "serial_number,months",  &help_edate,
+	  NULL, gnumeric_edate  },
+	{ "hour",      "f",    "serial_number",         &help_hour,
+	  NULL, gnumeric_hour_min_sec },
+	{ "minute",    "f",    "serial_number",         &help_minute,
+	  NULL, gnumeric_hour_min_sec },
+	{ "month",     "f",    "serial_number",         &help_month,
+	  NULL, gnumeric_year_month_day  },
+	{ "now",       "",     "",                      &help_now,
+	  NULL, gnumeric_now },
+	{ "second",    "f",    "serial_number",         &help_second,
+	  NULL, gnumeric_hour_min_sec },
+	{ "time",      "fff",  "hours,minutes,seconds", &help_time,
+	  NULL, gnumeric_time },
+	{ "today",     "",     "",                      &help_today,
+	  NULL, gnumeric_today },
+	{ "year",      "f",    "serial_number",         &help_year,
+	  NULL, gnumeric_year_month_day  },
 	{ NULL, NULL },
 };
-
-
-
-
-

@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
-"POT-Creation-Date: 1999-02-06 22:52-0600\n"
+"POT-Creation-Date: 1999-05-18 07:20-0500\n"
 "PO-Revision-Date: 1998-08-01 13:46+0202\n"
 "Last-Translator: Németh Péter <qgenpete@gold.uni-miskolc.hu>\n"
 "Language-Team: Németh Péter <qgenpete@gold.uni-miskolc.hu>\n"
@@ -10,48 +10,153 @@ msgstr ""
 "Content-Type: text/plain; charset=iso-8859-2\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: plugins/stat/stat.c:10
-msgid ""
-"@FUNCTION=STDEV\n"
-"@SYNTAX = STDEV(value1, value2, ...)@DESCRIPTION=Computes the standard "
-"deviation of all the values and cells referenced in the argument list. This "
-"is equivalent to the square root of the variance.\n"
-"@SEEALSO=VARIANCE"
+#: plugins/excel/boot.c:74
+msgid "Saving over old files disabled for safety"
 msgstr ""
 
-#: plugins/stat/stat.c:21
-msgid ""
-"@FUNCTION=VARIANCE\n"
-"@SYNTAX = VARIANCE(value1, value2, ...)@DESCRIPTION=Computes the variation "
-"of all the values and cells referenced in the argument list. This "
-"is\tequivalent to the sum of (value - average)^2, divided by the number of "
-"values minus 1. If you want it divided by N instead of N - 1, use "
-"NVARIANCE.@SEEALSO=AVERAGE, NVARIANCE"
+#: plugins/excel/boot.c:82
+msgid "Can't open"
 msgstr ""
 
-#: plugins/stat/stat.c:32
-msgid ""
-"@FUNCTION=NVARIANCE\n"
-"@SYNTAX = NVARIANVE(value1, value2, ...)@DESCRIPTION=Computes the variation "
-"of all the values and cells references in the argument list. This is "
-"equivalent to the sum of (value - average)^2, divided by the number of "
-"values. If you want it divided by N - 1 instead of N, use "
-"VARIANCE.@SEEALSO=AVERAGE, VARIANCE"
+#: plugins/excel/boot.c:115
+msgid "Microsoft(R) Excel file format"
 msgstr ""
 
-#: plugins/stat/stat.c:67
-msgid "Statistics Plugin"
+#: plugins/excel/boot.c:116
+msgid "Excel(R) 98 file format"
 msgstr ""
 
-#: plugins/stat/stat.c:100
-msgid "variance - division by 0"
+#: plugins/excel/boot.c:117
+msgid "Excel(R) 95 file format"
+msgstr ""
+
+#: plugins/guile/plugin.c:220
+msgid "Argument must be a Guile expression"
+msgstr ""
+
+#: plugins/guile/plugin.c:241 src/expr.c:711 src/fn-math.c:1509
+#: src/fn-sheet.c:37 src/fn-string.c:302
+msgid "Invalid number of arguments"
+msgstr "Az argumentumok száma nem megfelelõ"
+
+#: plugins/guile/plugin.c:248 plugins/guile/plugin.c:254
+msgid "First argument to SCM must be a Guile expression"
+msgstr ""
+
+#: plugins/guile/plugin.c:260
+msgid "Undefined scheme function"
+msgstr ""
+
+#: plugins/guile/plugin.c:278
+msgid "Could not evaluate argument"
+msgstr ""
+
+#: plugins/guile/plugin.c:386
+msgid "Unable to lookup Guile function."
+msgstr ""
+
+#: plugins/guile/plugin.c:454
+#, fuzzy
+msgid "Guile Plugin"
+msgstr "Függõleges vonalas"
+
+#: plugins/python/python.c:99
+msgid "Unable to lookup Python code object."
+msgstr ""
+
+#: plugins/python/python.c:115
+msgid "Python exception."
+msgstr ""
+
+#: plugins/python/python.c:137
+msgid "object must be callable"
+msgstr ""
+
+#: plugins/python/python.c:143
+msgid "could not alloc FuncDef"
+msgstr ""
+
+#: plugins/python/python.c:177
+msgid "Gnumeric/Python module initialized\n"
+msgstr ""
+
+#: plugins/python/python.c:190
+msgid "Python Plugin"
+msgstr ""
+
+#: plugins/stat/stat.c:27
+msgid "OLD Statistics Plugin, not required anymore"
+msgstr ""
+
+#: src/about.c:23
+msgid "Miguel de Icaza, main programmer."
+msgstr ""
+
+#: src/about.c:24
+msgid "Daniel Veillard, XML support."
+msgstr ""
+
+#: src/about.c:25
+msgid "Chris Lahey, Number format engine."
+msgstr ""
+
+#: src/about.c:26
+msgid "Tom Dyas, Plugin support."
+msgstr ""
+
+#: src/about.c:27
+msgid "Federico Mena, Canvas support."
+msgstr ""
+
+#: src/about.c:28
+msgid "Adrian Likins, Documentation, debugging"
+msgstr ""
+
+#: src/about.c:29
+msgid "Jakub Jelinek, Gnumeric hacker"
+msgstr ""
+
+#: src/about.c:30
+msgid "Michael Meeks, Excel and OLE2 importing"
+msgstr ""
+
+#: src/about.c:31
+msgid "Sean Atkinson, Excel functions"
+msgstr ""
+
+#: src/about.c:32
+msgid "Bruno Unna, Excel code"
+msgstr ""
+
+#: src/about.c:33
+msgid "Mark Probst, Guile support"
+msgstr ""
+
+#: src/about.c:34
+msgid "Vincent Renardias, CSV support"
+msgstr ""
+
+#: src/about.c:35
+msgid "Vladimir Vuksan, financial functions"
+msgstr ""
+
+#: src/about.c:36
+msgid "Takashi Matsuda, simple text plugin"
 msgstr ""
 
 #: src/about.c:37
+msgid "Jukka-Pekka Iivonen, numerous functions"
+msgstr ""
+
+#: src/about.c:38
+msgid "Morten Welinder, Gnumeric hacker"
+msgstr ""
+
+#: src/about.c:52
 msgid "Gnumeric"
 msgstr ""
 
-#: src/about.c:40
+#: src/about.c:55
 msgid ""
 "The GNOME spreadsheet.\n"
 "http://www.gnome.org/gnumeric"
@@ -248,110 +353,115 @@ msgid "Money"
 msgstr "Pénznem"
 
 #. 1. Categories
-#: src/dialog-cell-format.c:253
+#: src/dialog-cell-format.c:256
 msgid "Categories"
 msgstr "Kategória:"
 
 #. 2.1 Input line
-#: src/dialog-cell-format.c:283
+#: src/dialog-cell-format.c:288
 msgid "Code:"
 msgstr "Formátumkód:"
 
 #. 2.2 Sample
-#: src/dialog-cell-format.c:292
+#: src/dialog-cell-format.c:297
 msgid "Sample:"
 msgstr "Minta:"
 
-#: src/dialog-cell-format.c:304
+#: src/dialog-cell-format.c:309
 msgid "Format codes"
 msgstr "Formátumkódok:"
 
-#: src/dialog-cell-format.c:353 src/formats.c:16 src/number-match.c:450
+#: src/dialog-cell-format.c:358 src/formats.c:16 src/number-match.c:455
 msgid "General"
 msgstr "Általános"
 
-#: src/dialog-cell-format.c:354
+#: src/dialog-cell-format.c:359
 msgid "Left"
 msgstr "Balra"
 
-#: src/dialog-cell-format.c:355 src/dialog-cell-format.c:364
-#: src/workbook.c:849
+#: src/dialog-cell-format.c:360 src/dialog-cell-format.c:369
+#: src/workbook.c:990
 msgid "Center"
 msgstr "Középre"
 
-#: src/dialog-cell-format.c:356
+#: src/dialog-cell-format.c:361
 msgid "Right"
 msgstr "Jobbra"
 
-#: src/dialog-cell-format.c:357
+#: src/dialog-cell-format.c:362
 msgid "Fill"
 msgstr "Kitöltve"
 
-#: src/dialog-cell-format.c:358 src/dialog-cell-format.c:366
+#: src/dialog-cell-format.c:363 src/dialog-cell-format.c:371
 msgid "Justify"
 msgstr "Sorkizárt"
 
-#: src/dialog-cell-format.c:363
+#: src/dialog-cell-format.c:368
 msgid "Top"
 msgstr "Fent"
 
-#: src/dialog-cell-format.c:365
+#: src/dialog-cell-format.c:370
 msgid "Bottom"
 msgstr "Lent"
 
 #. Vertical alignment
-#: src/dialog-cell-format.c:421
+#: src/dialog-cell-format.c:426
 msgid "Vertical"
 msgstr "Függõlegesen:"
 
 #. Horizontal alignment
-#: src/dialog-cell-format.c:425
+#: src/dialog-cell-format.c:430
 msgid "Horizontal"
 msgstr "Vízszintesen:"
 
-#: src/dialog-cell-format.c:428
+#: src/dialog-cell-format.c:433
 msgid "Auto return"
 msgstr ""
 
-#: src/dialog-cell-format.c:597
+#: src/dialog-cell-format.c:602
 msgid "Text color"
 msgstr "Szín:"
 
 #. The radio buttons
-#: src/dialog-cell-format.c:601 src/dialog-cell-format.c:631
+#: src/dialog-cell-format.c:606 src/dialog-cell-format.c:639
 #: src/dialog-paste-special.c:28
 msgid "None"
 msgstr "Nincs"
 
-#: src/dialog-cell-format.c:603
+#: src/dialog-cell-format.c:608
 msgid "Use this color"
 msgstr ""
 
-#: src/dialog-cell-format.c:625
+#: src/dialog-cell-format.c:610 src/dialog-cell-format.c:645
+#, fuzzy
+msgid "No change"
+msgstr "Nincs"
+
+#: src/dialog-cell-format.c:633
 msgid "Background configuration"
 msgstr "Háttér beállítása"
 
-#: src/dialog-cell-format.c:633
+#: src/dialog-cell-format.c:641
 msgid "Use solid color"
 msgstr ""
 
-#: src/dialog-cell-format.c:635
+#: src/dialog-cell-format.c:643
 msgid "Use a pattern"
 msgstr ""
 
-#: src/dialog-cell-format.c:865
+#: src/dialog-cell-format.c:915
 msgid "Number"
 msgstr "Szám"
 
-#: src/dialog-cell-format.c:866
+#: src/dialog-cell-format.c:916
 msgid "Alignment"
 msgstr "Igazítás"
 
-#: src/dialog-cell-format.c:867
+#: src/dialog-cell-format.c:917
 msgid "Font"
 msgstr "Betûtípus"
 
-#: src/dialog-cell-format.c:868
+#: src/dialog-cell-format.c:918
 msgid "Coloring"
 msgstr ""
 
@@ -363,7 +473,7 @@ msgstr ""
 msgid "Add"
 msgstr "Összeadás"
 
-#: src/dialog-define-names.c:27 src/plugin-manager.c:131
+#: src/dialog-define-names.c:27 src/plugin-manager.c:132
 msgid "Remove"
 msgstr "Eltávolítás"
 
@@ -384,7 +494,7 @@ msgstr ""
 msgid "Delete cells"
 msgstr "Törlés"
 
-#: src/dialog-delete-cells.c:32 src/item-grid.c:528
+#: src/dialog-delete-cells.c:32 src/item-grid.c:534
 msgid "Delete"
 msgstr "Törlés"
 
@@ -424,7 +534,7 @@ msgstr "Beszúrás"
 msgid "Insert cells"
 msgstr "Beszúrás"
 
-#: src/dialog-insert-cells.c:33 src/item-grid.c:527
+#: src/dialog-insert-cells.c:33 src/item-grid.c:533
 msgid "Insert"
 msgstr "Beszúrás"
 
@@ -472,7 +582,7 @@ msgstr "Szorzás"
 msgid "Divide"
 msgstr "Osztás"
 
-#: src/dialog-paste-special.c:56 src/item-grid.c:525
+#: src/dialog-paste-special.c:56 src/item-grid.c:531
 msgid "Paste special"
 msgstr "Irányított beillesztés"
 
@@ -506,48 +616,73 @@ msgstr ""
 "A szám 50 és 900 között lehet. Próbálkozzon újra ebbe a tartományba esõ szám "
 "beírásával."
 
-#: src/expr.c:59
+#: src/dump.c:31
+#, c-format
+msgid "Can not create file %s\n"
+msgstr ""
+
+#: src/expr.c:34
 msgid "Syntax error"
 msgstr "Szintaktikai hiba"
 
-#: src/expr.c:63
+#: src/expr.c:38
 msgid "Missing quote"
 msgstr ""
 
-#: src/expr.c:479 src/fn-sheet.c:38 src/fn-sheet.c:83
-msgid "Invalid number of arguments"
-msgstr "Az argumentumok száma nem megfelelõ"
-
-#: src/expr.c:707
-msgid "Type error"
+#: src/expr.c:42
+msgid "Impossible!"
 msgstr ""
 
-#: src/expr.c:765 src/expr.c:927 src/fn-misc.c:34
+#: src/expr.c:776 src/expr.c:1056 src/expr.c:1251 src/fn-misc.c:63
+#: src/fn-string.c:54 src/fn-string.c:76 src/fn-string.c:98
+#: src/fn-string.c:155 src/fn-string.c:192 src/fn-string.c:271
+#: src/fn-string.c:350 src/fn-string.c:390 src/fn-string.c:571
+#: src/fn-string.c:612 src/fn-string.c:681 src/fn-string.c:726
 msgid "Type mismatch"
 msgstr ""
 
-#: src/expr.c:791 src/expr.c:827
+#: src/expr.c:853
+msgid "Function does not exist"
+msgstr ""
+
+#: src/expr.c:857
+msgid "Calling non-function"
+msgstr ""
+
+#: src/expr.c:997
+msgid "Type error"
+msgstr ""
+
+#: src/expr.c:1106 src/expr.c:1143
 msgid "Division by zero"
 msgstr "Osztás nullával"
 
-#: src/expr.c:942
+#: src/expr.c:1231
+msgid "Reference to newborn cell"
+msgstr ""
+
+#: src/expr.c:1266
 msgid "Unknown evaluation error"
 msgstr ""
 
-#: src/file.c:214
+#: src/file.c:220
 #, fuzzy
 msgid "File format:"
 msgstr "Cellaformázás..."
 
-#: src/file.c:238
+#: src/file.c:259
 msgid "Save workbook as"
 msgstr "Munkafüzet mentése másként"
 
-#: src/file.c:293
+#: src/file.c:291
+msgid "Sorry, there are no file savers loaded, I can not save"
+msgstr ""
+
+#: src/file.c:329
 msgid "Load file"
 msgstr ""
 
-#: src/fn-date.c:18
+#: src/fn-date.c:19
 msgid ""
 "@FUNCTION=DATE\n"
 "@SYNTAX=DATE (year,month,day)\n"
@@ -558,15 +693,54 @@ msgid ""
 "@SEEALSO=TODAY, NOW"
 msgstr ""
 
-#: src/fn-date.c:46
+#: src/fn-date.c:47
 msgid "Invalid month or year"
 msgstr ""
 
-#: src/fn-date.c:61
+#: src/fn-date.c:62
 msgid "Invalid day"
 msgstr ""
 
-#: src/fn-date.c:71
+#: src/fn-date.c:73
+msgid ""
+"@FUNCTION=DATEVALUE\n"
+"@SYNTAX=DATEVALUE(date_str)\n"
+"@DESCRIPTION=DATEVALUE returns the serial number of the date.  @date_str is "
+"the string that contains the date.  For example, DATEVALUE(\"1/1/1999\") "
+"equals to 36160. \n"
+"@SEEALSO=DATE"
+msgstr ""
+
+#. -0
+#: src/fn-date.c:94 src/fn-date.c:147 src/fn-math.c:168 src/fn-math.c:225
+#: src/fn-math.c:626 src/fn-math.c:771 src/fn-math.c:776 src/fn-math.c:833
+#: src/fn-math.c:1038 src/fn-math.c:1046 src/fn-math.c:1160 src/fn-math.c:1631
+#: src/fn-math.c:1705 src/fn-math.c:1735 src/fn-math.c:1921 src/fn-math.c:1982
+msgid "#NUM!"
+msgstr ""
+
+#: src/fn-date.c:100 src/fn-date.c:137 src/fn-math.c:490 src/fn-math.c:510
+#: src/fn-math.c:553 src/fn-math.c:573 src/fn-math.c:619 src/fn-math.c:909
+#: src/fn-math.c:935 src/fn-math.c:1363 src/fn-math.c:1974 src/fn-math.c:2064
+#: src/fn-math.c:2082 src/fn-math.c:2161 src/fn-math.c:2179 src/fn-math.c:2258
+#: src/fn-math.c:2276
+#, fuzzy
+msgid "#VALUE!"
+msgstr "#ÉRTÉK!"
+
+#: src/fn-date.c:108
+msgid ""
+"@FUNCTION=EDATE\n"
+"@SYNTAX=EDATE(serial_number,months)\n"
+"@DESCRIPTION=EDATE returns the serial number of the date that is the "
+"specified number of months before or after a given date.  @date is the "
+"serial number of the initial date and @months is the number of months before "
+"(negative number) or after (positive number) the initial date. \n"
+"If @months is not an integer, it is truncated. \n"
+"@SEEALSO=DATE"
+msgstr ""
+
+#: src/fn-date.c:155
 msgid ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY ()\n"
@@ -580,7 +754,7 @@ msgstr ""
 "január 1.-tõl eltelt napokat jelzi.\n"
 "@SEEALSO=TODAY, NOW"
 
-#: src/fn-date.c:100
+#: src/fn-date.c:184
 msgid ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
@@ -605,7 +779,7 @@ msgstr ""
 "szimbolizálja.\n"
 "@SEEALSO=TODAY, NOW"
 
-#: src/fn-date.c:140
+#: src/fn-date.c:224
 msgid ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (hours,minutes,seconds)\n"
@@ -617,7 +791,7 @@ msgstr ""
 "@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
 "@SEEALSO=HOUR"
 
-#: src/fn-date.c:167
+#: src/fn-date.c:251
 msgid ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (serial_number)\n"
@@ -628,7 +802,7 @@ msgid ""
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 msgstr ""
 
-#: src/fn-date.c:182
+#: src/fn-date.c:266
 msgid ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (serial_number)\n"
@@ -639,7 +813,7 @@ msgid ""
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 msgstr ""
 
-#: src/fn-date.c:197
+#: src/fn-date.c:281
 msgid ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (serial_number)\n"
@@ -650,7 +824,7 @@ msgid ""
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
 msgstr ""
 
-#: src/fn-date.c:235
+#: src/fn-date.c:319
 msgid ""
 "@FUNCTION=YEAR\n"
 "@SYNTAX=YEAR (serial_number)\n"
@@ -660,7 +834,7 @@ msgid ""
 "@SEEALSO=DAY, MONTH, TIME, NOW"
 msgstr ""
 
-#: src/fn-date.c:249
+#: src/fn-date.c:333
 msgid ""
 "@FUNCTION=MONTH\n"
 "@SYNTAX=MONTH (serial_number)\n"
@@ -670,7 +844,7 @@ msgid ""
 "@SEEALSO=DAY, TIME, NOW, YEAR"
 msgstr ""
 
-#: src/fn-date.c:263
+#: src/fn-date.c:347
 msgid ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (serial_number)\n"
@@ -680,7 +854,7 @@ msgid ""
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 msgstr ""
 
-#: src/fn-math.c:27
+#: src/fn-math.c:19
 msgid ""
 "@FUNCTION=NAME\n"
 "@SYNTAX=(b1, b2, ...)\n"
@@ -689,7 +863,27 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-math.c:48
+#: src/fn-math.c:146
+msgid ""
+"@FUNCTION=GCD\n"
+"@SYNTAX=GCD(a,b)\n"
+"@DESCRIPTION=GCD returns the greatest common divisor of two numbers. \n"
+"If any of the arguments is less than zero, GCD returns #NUM! error. \n"
+"@SEEALSO=LCM"
+msgstr ""
+
+#: src/fn-math.c:176
+msgid ""
+"@FUNCTION=LCM\n"
+"@SYNTAX=LCM(number1,number2,...)\n"
+"@DESCRIPTION=LCM returns the least common multiple of integers.  The least "
+"common multiple is the smallest positive number that is a multiple of all "
+"integer arguments given. \n"
+"If any of the arguments is less than one, LCM returns #NUM! error. \n"
+"@SEEALSO=GCD"
+msgstr ""
+
+#: src/fn-math.c:233
 msgid ""
 "@FUNCTION=ABS\n"
 "@SYNTAX=ABS(b1)\n"
@@ -700,7 +894,7 @@ msgid ""
 "@SEEALSO=CEIL, FLOOR"
 msgstr ""
 
-#: src/fn-math.c:67
+#: src/fn-math.c:253
 #, fuzzy
 msgid ""
 "@FUNCTION=ACOS\n"
@@ -720,11 +914,11 @@ msgstr ""
 "függvénynek csak egy argumentuma lehet.\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
-#: src/fn-math.c:89
+#: src/fn-math.c:276
 msgid "acos - domain error"
 msgstr "acos: nincs értelmezve"
 
-#: src/fn-math.c:96
+#: src/fn-math.c:283
 #, fuzzy
 msgid ""
 "@FUNCTION=ACOSH\n"
@@ -743,29 +937,11 @@ msgstr ""
 "függvénynek csak egy argumentuma lehet.\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
-#: src/fn-math.c:118
+#: src/fn-math.c:306
 msgid "acosh - domain error"
 msgstr "acosh: nincs értelmezve"
 
-#: src/fn-math.c:125
-msgid ""
-"@FUNCTION=AND\n"
-"@SYNTAX=AND(b1, b2, ...)\n"
-"@DESCRIPTION=Implements the logical AND function: the result is TRUE if all "
-"of the expression evaluates to TRUE, otherwise it returns FALSE.\n"
-"b1, trough bN are expressions that should evaluate to TRUE or FALSE. If an "
-"integer or floating point value is provided zero is considered FALSE and "
-"anything else is TRUE.\n"
-"If the values contain strings or empty cells those values are ignored.  If "
-"no logical values are provided, then the error '#VALUE!' is returned. \n"
-"@SEEALSO=OR"
-msgstr ""
-
-#: src/fn-math.c:188 src/fn-math.c:919
-msgid "#VALUE"
-msgstr "#ÉRTÉK!"
-
-#: src/fn-math.c:195
+#: src/fn-math.c:313
 #, fuzzy
 msgid ""
 "@FUNCTION=ASIN\n"
@@ -784,11 +960,11 @@ msgstr ""
 "függvénynek csak egy argumentuma lehet.\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
-#: src/fn-math.c:216
+#: src/fn-math.c:335
 msgid "asin - domain error"
 msgstr "asin: nincs értelmezve"
 
-#: src/fn-math.c:223
+#: src/fn-math.c:342
 #, fuzzy
 msgid ""
 "@FUNCTION=ASINH\n"
@@ -806,7 +982,7 @@ msgstr ""
 "függvénynek csak egy argumentuma lehet.\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
-#: src/fn-math.c:244
+#: src/fn-math.c:364
 #, fuzzy
 msgid ""
 "@FUNCTION=ATAN\n"
@@ -824,7 +1000,7 @@ msgstr ""
 "függvénynek csak egy argumentuma lehet.\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
-#: src/fn-math.c:267
+#: src/fn-math.c:388
 #, fuzzy
 msgid ""
 "@FUNCTION=ATANH\n"
@@ -844,11 +1020,11 @@ msgstr ""
 "függvénynek csak egy argumentuma lehet.\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
-#: src/fn-math.c:290
+#: src/fn-math.c:412
 msgid "atanh: domain error"
 msgstr "log: nincs értelmezve"
 
-#: src/fn-math.c:297
+#: src/fn-math.c:419
 #, fuzzy
 msgid ""
 "@FUNCTION=ATAN2\n"
@@ -867,17 +1043,7 @@ msgstr ""
 "függvénynek csak egy argumentuma lehet.\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
-#: src/fn-math.c:321
-msgid ""
-"@FUNCTION=AVERAGE\n"
-"@SYNTAX=AVERAGE(value1, value2,...)\n"
-"@DESCRIPTION=Computes the average of all the values and cells referenced in "
-"the argument list.  This is equivalent to the sum of the arguments divided "
-"by the count of the arguments.\n"
-"@SEEALSO=SUM, COUNT"
-msgstr ""
-
-#: src/fn-math.c:366
+#: src/fn-math.c:444
 #, fuzzy
 msgid ""
 "@FUNCTION=CEIL\n"
@@ -893,24 +1059,48 @@ msgstr ""
 "függvénynek csak egy argumentuma lehet.\n"
 "@SEEALSO=PI,DEGREES"
 
-#: src/fn-math.c:385
+#: src/fn-math.c:464
 #, fuzzy
 msgid ""
-"@FUNCTION=BIN2DEC\n"
-"@SYNTAX=BIN2DEC(x)\n"
-"@DESCRIPTION=The BIN2DEC function converts a binary number in string or "
-"number to its decimal equivalent.\n"
-"Performing this function on a string or empty cell simply does nothing.\n"
-"@SEEALSO=DEC2BIN"
+"@FUNCTION=COUNTIF\n"
+"@SYNTAX=COUNTIF(range,criteria)\n"
+"@DESCRIPTION=COUNTIF function counts the number of cells in the given range "
+"that meet the given criteria. \n"
+"@SEEALSO=COUNT,SUMIF"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
+"@FUNCTION=TODAY\n"
+"@SYNTAX=TODAY ()\n"
+"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
+"január 1.-tõl eltelt napokat jelzi.\n"
+"@SEEALSO=TODAY, NOW"
 
-#: src/fn-math.c:435
+#: src/fn-math.c:526
+#, fuzzy
+msgid ""
+"@FUNCTION=SUMIF\n"
+"@SYNTAX=SUMIF(range,criteria)\n"
+"@DESCRIPTION=SUMIF function sums the values in the given range that meet the "
+"given criteria. \n"
+"@SEEALSO=COUNTIF,SUM"
+msgstr ""
+"@FUNCTION=TODAY\n"
+"@SYNTAX=TODAY ()\n"
+"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
+"január 1.-tõl eltelt napokat jelzi.\n"
+"@SEEALSO=TODAY, NOW"
+
+#: src/fn-math.c:594
+msgid ""
+"@FUNCTION=CEILING\n"
+"@SYNTAX=CEILING(x,significance)\n"
+"@DESCRIPTION=The CEILING function rounds x up to the nearest multiple of "
+"significance. \n"
+"If x or significance is non-numeric CEILING returns #VALUE! error. If n and "
+"significance have different signs CEILING returns #NUM! error. \n"
+"@SEEALSO=CEIL"
+msgstr ""
+
+#: src/fn-math.c:651
 #, fuzzy
 msgid ""
 "@FUNCTION=COS\n"
@@ -928,7 +1118,7 @@ msgstr ""
 "függvénynek csak egy argumentuma lehet.\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: src/fn-math.c:455
+#: src/fn-math.c:672
 #, fuzzy
 msgid ""
 "@FUNCTION=COSH\n"
@@ -946,16 +1136,7 @@ msgstr ""
 "függvénynek csak egy argumentuma lehet.\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
-#: src/fn-math.c:496
-msgid ""
-"@FUNCTION=COUNT\n"
-"@SYNTAX=COUNT(b1, b2, ...)\n"
-"@DESCRIPTION=Returns the total number of arguments passed.\n"
-"Performing this function on a string or empty cell simply does nothing.\n"
-"@SEEALSO=AVERAGE"
-msgstr ""
-
-#: src/fn-math.c:524
+#: src/fn-math.c:694
 #, fuzzy
 msgid ""
 "@FUNCTION=DEGREES\n"
@@ -971,7 +1152,7 @@ msgstr ""
 "függvénynek csak egy argumentuma lehet.\n"
 "@SEEALSO=PI,DEGREES"
 
-#: src/fn-math.c:545
+#: src/fn-math.c:716
 #, fuzzy
 msgid ""
 "@FUNCTION=EXP\n"
@@ -987,7 +1168,7 @@ msgstr ""
 "A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk.\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
-#: src/fn-math.c:572
+#: src/fn-math.c:744
 #, fuzzy
 msgid ""
 "@FUNCTION=FACT\n"
@@ -1003,7 +1184,24 @@ msgstr ""
 "A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk.\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
-#: src/fn-math.c:619
+#: src/fn-math.c:792
+#, fuzzy
+msgid ""
+"@FUNCTION=COMBIN\n"
+"@SYNTAX=COMBIN(n,k)\n"
+"@DESCRIPTION=Computes the number of combinations.\n"
+"Performing this function on a non-integer or a negative number returns an "
+"error. Also if n is less than k returns an error.\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=LOG\n"
+"@SYNTAX=LOG(szám)\n"
+"@DESCRIPTION=Egy szám természetes alapú logaritmusát számítja ki.\n"
+"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk.\n"
+"@SEEALSO=EXP, LOG2, LOG10"
+
+#: src/fn-math.c:838
 #, fuzzy
 msgid ""
 "@FUNCTION=FLOOR\n"
@@ -1019,7 +1217,7 @@ msgstr ""
 "függvénynek csak egy argumentuma lehet.\n"
 "@SEEALSO=PI,DEGREES"
 
-#: src/fn-math.c:638
+#: src/fn-math.c:858
 #, fuzzy
 msgid ""
 "@FUNCTION=INT\n"
@@ -1037,13 +1235,27 @@ msgstr ""
 "függvénynek csak egy argumentuma lehet.\n"
 "@SEEALSO=PI,DEGREES"
 
-#: src/fn-math.c:664
+#: src/fn-math.c:885
 #, fuzzy
 msgid ""
 "@FUNCTION=LOG\n"
-"@SYNTAX=LOG(x)\n"
-"@DESCRIPTION=Computes the natural logarithm  of x. \n"
-"Performing this function on a string or empty cell returns an error. \n"
+"@SYNTAX=LOG(x[,base])\n"
+"@DESCRIPTION=Computes the logarithm of x in the given base.  If no base is "
+"given LOG returns the logarithm in base 10. \n"
+"@SEEALSO=LN, LOG2, LOG10"
+msgstr ""
+"@FUNCTION=LOG\n"
+"@SYNTAX=LOG(szám)\n"
+"@DESCRIPTION=Egy szám természetes alapú logaritmusát számítja ki.\n"
+"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk.\n"
+"@SEEALSO=EXP, LOG2, LOG10"
+
+#: src/fn-math.c:917
+#, fuzzy
+msgid ""
+"@FUNCTION=LN\n"
+"@SYNTAX=LN(x)\n"
+"@DESCRIPTION=LN returns the natural logarithm of x. \n"
 "@SEEALSO=EXP, LOG2, LOG10"
 msgstr ""
 "@FUNCTION=LOG\n"
@@ -1052,11 +1264,22 @@ msgstr ""
 "A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk.\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
-#: src/fn-math.c:682
-msgid "log: domain error"
-msgstr "log: nincs értelmezve"
+#: src/fn-math.c:943
+#, fuzzy
+msgid ""
+"@FUNCTION=POWER\n"
+"@SYNTAX=POWER(x,y)\n"
+"@DESCRIPTION=Returns the value of x raised to the power y\n"
+"Performing this function on a string or empty cell returns an error. \n"
+"@SEEALSO=EXP"
+msgstr ""
+"@FUNCTION=LOG\n"
+"@SYNTAX=LOG(szám)\n"
+"@DESCRIPTION=Egy szám természetes alapú logaritmusát számítja ki.\n"
+"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk.\n"
+"@SEEALSO=EXP, LOG2, LOG10"
 
-#: src/fn-math.c:689
+#: src/fn-math.c:963
 #, fuzzy
 msgid ""
 "@FUNCTION=LOG2\n"
@@ -1070,11 +1293,11 @@ msgstr ""
 "A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk.\n"
 "@SEEALSO=EXP, LOG10, LOG"
 
-#: src/fn-math.c:707
+#: src/fn-math.c:982
 msgid "log2: domain error"
 msgstr "log2: nincs értelmezve"
 
-#: src/fn-math.c:714
+#: src/fn-math.c:989
 #, fuzzy
 msgid ""
 "@FUNCTION=LOG10\n"
@@ -1088,47 +1311,24 @@ msgstr ""
 "A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk.\n"
 "@SEEALSO=EXP, LOG2, LOG"
 
-#: src/fn-math.c:733
+#: src/fn-math.c:1009
 msgid "log10: domain error"
 msgstr "log10: nincs értelmezve"
 
-#: src/fn-math.c:740
+#: src/fn-math.c:1016
 msgid ""
-"@FUNCTION=MIN\n"
-"@SYNTAX=MIN(b1, b2, ...)\n"
-"@DESCRIPTION=MIN returns the value of the element of the values passed that "
-"has the smallest value. With negative numbers considered smaller than "
-"positive numbers.\n"
-"Performing this function on a string or empty cell simply does nothing.\n"
-"@SEEALSO=MAX,ABS"
+"@FUNCTION=MOD\n"
+"@SYNTAX=MOD(number,divisor)\n"
+"@DESCRIPTION=Implements modulo arithmetic.Returns the remainder when divisor "
+"is divided into abs(number).\n"
+"Returns #DIV/0! if divisor is zero.@SEEALSO=INT,FLOOR,CEIL"
 msgstr ""
 
-#: src/fn-math.c:754
-msgid ""
-"@FUNCTION=MAX\n"
-"@SYNTAX=MAX(b1, b2, ...)\n"
-"@DESCRIPTION=MAX returns the value of the element of the values passed that "
-"has the largest value. With negative numbers considered smaller than "
-"positive numbers.\n"
-"Performing this function on a string or empty cell simply does nothing.\n"
-"@SEEALSO=MIN,ABS"
+#: src/fn-math.c:1050
+msgid "#DIV/0!"
 msgstr ""
 
-#: src/fn-math.c:858
-msgid ""
-"@FUNCTION=OR\n"
-"@SYNTAX=OR(b1, b2, ...)\n"
-"@DESCRIPTION=Implements the logical OR function: the result is TRUE if any "
-"of the values evaluated to TRUE.\n"
-"b1, trough bN are expressions that should evaluate to TRUE or FALSE. If an "
-"integer or floating point value is provided zero is considered FALSE and "
-"anything else is TRUE.\n"
-"If the values contain strings or empty cells those values are ignored.  If "
-"no logical values are provided, then the error '#VALUE!'is returned.\n"
-"@SEEALSO=AND"
-msgstr ""
-
-#: src/fn-math.c:926
+#: src/fn-math.c:1058
 #, fuzzy
 msgid ""
 "@FUNCTION=RADIANS\n"
@@ -1144,7 +1344,23 @@ msgstr ""
 "függvénynek csak egy argumentuma lehet.\n"
 "@SEEALSO=PI,DEGREES"
 
-#: src/fn-math.c:947
+#: src/fn-math.c:1080
+#, fuzzy
+msgid ""
+"@FUNCTION=RAND\n"
+"@SYNTAX=RAND()\n"
+"@DESCRIPTION=Returns a random number greater than or equal to 0 and less "
+"than 1.\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=TODAY\n"
+"@SYNTAX=TODAY ()\n"
+"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
+"január 1.-tõl eltelt napokat jelzi.\n"
+"@SEEALSO=TODAY, NOW"
+
+#: src/fn-math.c:1099
 #, fuzzy
 msgid ""
 "@FUNCTION=SIN\n"
@@ -1162,7 +1378,7 @@ msgstr ""
 "függvénynek csak egy argumentuma lehet.\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: src/fn-math.c:967
+#: src/fn-math.c:1120
 #, fuzzy
 msgid ""
 "@FUNCTION=SINH\n"
@@ -1180,7 +1396,24 @@ msgstr ""
 "függvénynek csak egy argumentuma lehet.\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
-#: src/fn-math.c:988
+#: src/fn-math.c:1142
+#, fuzzy
+msgid ""
+"@FUNCTION=SQRT\n"
+"@SYNTAX=SQRT(x)\n"
+"@DESCRIPTION=The SQRT  function  returns  the  square root of x, \n"
+"If x is negative returns #NUM!.This function only takes one argument.\n"
+"@SEEALSO=POW"
+msgstr ""
+"@FUNCTION=PI\n"
+"@SYNTAX=PI()\n"
+"@DESCRIPTION=A pi értékét adja meg 21 jegy pontossággal "
+"(3.14159265358979323846)\n"
+"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk. A "
+"függvénynek nem lehet argumentuma.\n"
+"@SEEALSO="
+
+#: src/fn-math.c:1167
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -1189,7 +1422,40 @@ msgid ""
 "@SEEALSO=AVERAGE, COUNT"
 msgstr ""
 
-#: src/fn-math.c:1052
+#: src/fn-math.c:1258
+msgid ""
+"@FUNCTION=SUMSQ\n"
+"@SYNTAX=SUMSQ(value1, value2, ...)\n"
+"@DESCRIPTION=SUMSQ returns the sum of the squares of all the values and "
+"cells referenced in the argument list. \n"
+"@SEEALSO=SUM, COUNT"
+msgstr ""
+
+#: src/fn-math.c:1313
+msgid ""
+"@FUNCTION=MULTINOMIAL\n"
+"@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
+"@DESCRIPTION=MULTINOMIAL returns the ratio of the factorial of a sum of "
+"values to the product of factorials. \n"
+"@SEEALSO=SUM"
+msgstr ""
+
+#: src/fn-math.c:1371
+#, fuzzy
+msgid ""
+"@FUNCTION=PRODUCT\n"
+"@SYNTAX=PRODUCT(value1, value2, ...)\n"
+"@DESCRIPTION=PRODUCT returns the product of all the values and cells "
+"referenced in the argument list. \n"
+"@SEEALSO=SUM, COUNT"
+msgstr ""
+"@FUNCTION=TODAY\n"
+"@SYNTAX=TODAY ()\n"
+"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
+"január 1.-tõl eltelt napokat jelzi.\n"
+"@SEEALSO=TODAY, NOW"
+
+#: src/fn-math.c:1426
 #, fuzzy
 msgid ""
 "@FUNCTION=TAN\n"
@@ -1207,7 +1473,7 @@ msgstr ""
 "függvénynek csak egy argumentuma lehet.\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
-#: src/fn-math.c:1072
+#: src/fn-math.c:1447
 #, fuzzy
 msgid ""
 "@FUNCTION=TANH\n"
@@ -1225,7 +1491,7 @@ msgstr ""
 "függvénynek csak egy argumentuma lehet.\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
-#: src/fn-math.c:1092
+#: src/fn-math.c:1468
 #, fuzzy
 msgid ""
 "@FUNCTION=PI\n"
@@ -1242,26 +1508,281 @@ msgstr ""
 "függvénynek nem lehet argumentuma.\n"
 "@SEEALSO="
 
+#: src/fn-math.c:1488
+#, fuzzy
+msgid ""
+"@FUNCTION=TRUNC\n"
+"@SYNTAX=TRUNC(number[,digits])\n"
+"@DESCRIPTION=The TRUNC function returns the value of number truncated to the "
+"number of digits specified.  If digits is omited then digits defaults to "
+"zero.\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=PI\n"
+"@SYNTAX=PI()\n"
+"@DESCRIPTION=A pi értékét adja meg 21 jegy pontossággal "
+"(3.14159265358979323846)\n"
+"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk. A "
+"függvénynek nem lehet argumentuma.\n"
+"@SEEALSO="
+
+#: src/fn-math.c:1545
+#, fuzzy
+msgid ""
+"@FUNCTION=EVEN\n"
+"@SYNTAX=EVEN(number)\n"
+"@DESCRIPTION=EVEN function returns the number rounded up to the nearest even "
+"integer. \n"
+"@SEEALSO=ODD"
+msgstr ""
+"@FUNCTION=TODAY\n"
+"@SYNTAX=TODAY ()\n"
+"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
+"január 1.-tõl eltelt napokat jelzi.\n"
+"@SEEALSO=TODAY, NOW"
+
+#: src/fn-math.c:1577
+#, fuzzy
+msgid ""
+"@FUNCTION=ODD\n"
+"@SYNTAX=ODD(number)\n"
+"@DESCRIPTION=ODD function returns the number rounded up to the nearest odd "
+"integer. \n"
+"@SEEALSO=EVEN"
+msgstr ""
+"@FUNCTION=TODAY\n"
+"@SYNTAX=TODAY ()\n"
+"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
+"január 1.-tõl eltelt napokat jelzi.\n"
+"@SEEALSO=TODAY, NOW"
+
+#: src/fn-math.c:1609
+msgid ""
+"@FUNCTION=FACTDOUBLE\n"
+"@SYNTAX=FACTDOUBLE(number)\n"
+"@DESCRIPTION=FACTDOUBLE function returns the double factorial of a number. \n"
+"If @number is not an integer, it is truncated. If @number is negative "
+"FACTDOUBLE returns #NUM! error. \n"
+"@SEEALSO=FACT"
+msgstr ""
+
+#: src/fn-math.c:1640
+#, fuzzy
+msgid ""
+"@FUNCTION=QUOTIENT\n"
+"@SYNTAX=QUOTIENT(num,den)\n"
+"@DESCRIPTION=QUOTIENT function returns the integer portion of a division. "
+"@num is the divided and @den is the divisor. \n"
+"@SEEALSO=MOD"
+msgstr ""
+"@FUNCTION=PI\n"
+"@SYNTAX=PI()\n"
+"@DESCRIPTION=A pi értékét adja meg 21 jegy pontossággal "
+"(3.14159265358979323846)\n"
+"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk. A "
+"függvénynek nem lehet argumentuma.\n"
+"@SEEALSO="
+
+#: src/fn-math.c:1662
+#, fuzzy
+msgid ""
+"@FUNCTION=SIGN\n"
+"@SYNTAX=SIGN(num)\n"
+"@DESCRIPTION=SIGN function returns 1 if the number is positive, zero if the "
+"number is 0, and -1 if the number is negative. \n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=TODAY\n"
+"@SYNTAX=TODAY ()\n"
+"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
+"január 1.-tõl eltelt napokat jelzi.\n"
+"@SEEALSO=TODAY, NOW"
+
+#: src/fn-math.c:1688
+#, fuzzy
+msgid ""
+"@FUNCTION=SQRTPI\n"
+"@SYNTAX=SQRTPI(number)\n"
+"@DESCRIPTION=SQRTPI function returns the square root of a number multiplied "
+"by pi. \n"
+"@SEEALSO=PI"
+msgstr ""
+"@FUNCTION=PI\n"
+"@SYNTAX=PI()\n"
+"@DESCRIPTION=A pi értékét adja meg 21 jegy pontossággal "
+"(3.14159265358979323846)\n"
+"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk. A "
+"függvénynek nem lehet argumentuma.\n"
+"@SEEALSO="
+
+#: src/fn-math.c:1713
+msgid ""
+"@FUNCTION=RANDBETWEEN\n"
+"@SYNTAX=RANDBETWEEN(bottom,top)\n"
+"@DESCRIPTION=RANDBETWEEN function returns a random integer number between "
+"@bottom and @top. \n"
+"If @bottom or @top is non-integer it is truncated. If @bottom > @top "
+"RANDBETWEEN returns #NUM! error. \n"
+"@SEEALSO=RAND"
+msgstr ""
+
+#: src/fn-math.c:1739 src/fn-math.c:2091 src/fn-math.c:2188 src/fn-math.c:2285
+msgid "#N/A!"
+msgstr ""
+
+#: src/fn-math.c:1747
+msgid ""
+"@FUNCTION=ROUNDDOWN\n"
+"@SYNTAX=ROUNDDOWN(number[,digits])\n"
+"@DESCRIPTION=ROUNDDOWN function rounds a given number down, towards zero. "
+"@number is the number you want rounded down and @digits is the number of "
+"digits to which you want to round that number. \n"
+"If digits is greater than zero, number is rounded down to the given number "
+"of digits. If digits is zero or omitted, number is rounded down to the "
+"nearest integer. If digits is less than zero, number is rounded down to the "
+"left of the decimal point. \n"
+"@SEEALSO=ROUNDUP"
+msgstr ""
+
+#: src/fn-math.c:1794
+msgid ""
+"@FUNCTION=ROUND\n"
+"@SYNTAX=ROUND(number[,digits])\n"
+"@DESCRIPTION=ROUND function rounds a given number. @number is the number you "
+"want rounded and @digits is the number of digits to which you want to round "
+"that number. \n"
+"If digits is greater than zero, number is rounded to the given number of "
+"digits. If digits is zero or omitted, number is rounded to the nearest "
+"integer. If digits is less than zero, number is rounded to the left of the "
+"decimal point. \n"
+"@SEEALSO=ROUNDDOWN,ROUNDUP"
+msgstr ""
+
+#: src/fn-math.c:1841
+msgid ""
+"@FUNCTION=ROUNDUP\n"
+"@SYNTAX=ROUNDUP(number[,digits])\n"
+"@DESCRIPTION=ROUNDUP function rounds a given number up, away from zero. "
+"@number is the number you want rounded up and @digits is the number of "
+"digits to which you want to round that number. \n"
+"If digits is greater than zero, number is rounded up to the given number of "
+"digits. If digits is zero or omitted, number is rounded up to the nearest "
+"integer. If digits is less than zero, number is rounded up to the left of "
+"the decimal point. \n"
+"@SEEALSO=ROUNDDOWN"
+msgstr ""
+
+#: src/fn-math.c:1892
+msgid ""
+"@FUNCTION=MROUND\n"
+"@SYNTAX=MROUND(number,multiple)\n"
+"@DESCRIPTION=MROUND function rounds a given number to the desired multiple. "
+"@number is the number you want rounded and @multiple is the the multiple to "
+"which you wnat to round the number. For example, MROUND(1.7, 0.2) equals "
+"1.8. \n"
+"If the number and the multiple have different sign, MROUND returns #NUM! "
+"error. \n"
+"@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
+msgstr ""
+
+#: src/fn-math.c:1938
+msgid ""
+"@FUNCTION=ROMAN\n"
+"@SYNTAX=ROMAN(number[,type])\n"
+"@DESCRIPTION=ROMAN function returns an arabic number in the roman numeral "
+"style, as text. @number is the number you want to convert and @type is the "
+"type of roman numeral you want. \n"
+"If @type is 0 or it is omitted, ROMAN returns classic roman numbers. Types "
+"1,2,3, and 4 are not implemented yet. If @number is negative or greater than "
+"3999, ROMAN returns #VALUE! error. \n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-math.c:1987
+msgid "#Unimplemented!"
+msgstr ""
+
+#: src/fn-math.c:2020
+msgid ""
+"@FUNCTION=SUMX2MY2\n"
+"@SYNTAX=SUMX2MY2(array1,array2)\n"
+"@DESCRIPTION=SUMX2MY2 function returns the sum of the difference of squares "
+"of corresponding values in two arrays. @array1 is the first array or range "
+"of data points and @array2 is the second array or range of data points. The "
+"equation of SUMX2MY2 is SUM (x^2-y^2). \n"
+"Strings and empty cells are simply ignored.\n"
+"If @array1 and @array2 have different number of data points, SUMX2MY2 "
+"returns #N/A! error. \n"
+"@SEEALSO=SUMSQ"
+msgstr ""
+
+#: src/fn-math.c:2068 src/fn-math.c:2086 src/fn-math.c:2165 src/fn-math.c:2183
+#: src/fn-math.c:2262 src/fn-math.c:2280
+msgid "Array version not implemented!"
+msgstr ""
+
+#: src/fn-math.c:2117
+msgid ""
+"@FUNCTION=SUMX2PY2\n"
+"@SYNTAX=SUMX2PY2(array1,array2)\n"
+"@DESCRIPTION=SUMX2PY2 function returns the sum of the sum of squares of "
+"corresponding values in two arrays. @array1 is the first array or range of "
+"data points and @array2 is the second array or range of data points. The "
+"equation of SUMX2PY2 is SUM (x^2+y^2). \n"
+"Strings and empty cells are simply ignored.\n"
+"If @array1 and @array2 have different number of data points, SUMX2PY2 "
+"returns #N/A! error. \n"
+"@SEEALSO=SUMSQ"
+msgstr ""
+
+#: src/fn-math.c:2214
+msgid ""
+"@FUNCTION=SUMXMY2\n"
+"@SYNTAX=SUMXMY2(array1,array2)\n"
+"@DESCRIPTION=SUMXMY2 function returns the sum of squares of differences of "
+"corresponding values in two arrays. @array1 is the first array or range of "
+"data points and @array2 is the second array or range of data points. The "
+"equation of SUMXMY2 is SUM (x-y)^2. \n"
+"Strings and empty cells are simply ignored.\n"
+"If @array1 and @array2 have different number of data points, SUMXMY2 returns "
+"#N/A! error. \n"
+"@SEEALSO=SUMSQ"
+msgstr ""
+
 #: src/fn-misc.c:18
+#, fuzzy
 msgid ""
-"@FUNCTION=CLEAN\n"
-"@SYNTAX=CLEAN(string)\n"
-"@DESCRIPTION=Cleans the string from any non-printable characters.\n"
-"@SEEALSO="
+"@FUNCTION=ISERROR\n"
+"@SYNTAX=ISERROR(exp)\n"
+"@DESCRIPTION=Returns a TRUE value if the expression has an error\n"
+"\n"
+"@SEEALSO=ERROR"
+msgstr ""
+"@FUNCTION=TIME\n"
+"@SYNTAX=TIME (óra, perc, másodperc)\n"
+"@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
+"@SEEALSO=HOUR"
+
+#: src/fn-misc.c:34
+msgid "Argument mismatch"
 msgstr ""
 
-#: src/fn-sheet.c:17
+#: src/fn-misc.c:49
+#, fuzzy
 msgid ""
-"@FUNCTION=IF\n"
-"@SYNTAX=IF(condition,if-true,if-false)\n"
-"@DESCRIPTION=Use the IF statement to evaluate conditionally other "
-"expressions IF evaluates @condition.  If @condition returns a non-zero value "
-"the result of the IF expression is the @if-true expression, otherwise IF "
-"evaluates to the value of @if-false\n"
-"@SEEALSO="
+"@FUNCTION=ERROR\n"
+"@SYNTAX=ERROR(text)\n"
+"@DESCRIPTION=Return the specified error\n"
+"\n"
+"@SEEALSO=ISERROR"
 msgstr ""
+"@FUNCTION=TIME\n"
+"@SYNTAX=TIME (óra, perc, másodperc)\n"
+"@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
+"@SEEALSO=HOUR"
 
-#: src/fn-sheet.c:64
+#: src/fn-sheet.c:18
 #, fuzzy
 msgid ""
 "@FUNCTION=SELECTION\n"
@@ -1279,7 +1800,7 @@ msgstr ""
 "függvénynek nem lehet argumentuma.\n"
 "@SEEALSO="
 
-#: src/fn-string.c:17
+#: src/fn-string.c:18
 #, fuzzy
 msgid ""
 "@FUNCTION=CHAR\n"
@@ -1292,7 +1813,7 @@ msgstr ""
 "@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
 "@SEEALSO=HOUR"
 
-#: src/fn-string.c:39
+#: src/fn-string.c:40
 #, fuzzy
 msgid ""
 "@FUNCTION=CODE\n"
@@ -1306,21 +1827,21 @@ msgstr ""
 "január 1.-tõl eltelt napokat jelzi.\n"
 "@SEEALSO=TODAY, NOW"
 
-#: src/fn-string.c:61
+#: src/fn-string.c:62
 #, fuzzy
 msgid ""
 "@FUNCTION=EXACT\n"
 "@SYNTAX=EXACT(string1, string2)\n"
 "@DESCRIPTION=Returns true if string1 is exactly equal to string2 (this "
 "routine is case sensitive).\n"
-"@SEEALSO="
+"@SEEALSO=LEN"
 msgstr ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (óra, perc, másodperc)\n"
 "@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
 "@SEEALSO=HOUR"
 
-#: src/fn-string.c:83
+#: src/fn-string.c:84
 #, fuzzy
 msgid ""
 "@FUNCTION=LEN\n"
@@ -1333,7 +1854,7 @@ msgstr ""
 "@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
 "@SEEALSO=HOUR"
 
-#: src/fn-string.c:140
+#: src/fn-string.c:106
 msgid ""
 "@FUNCTION=LEFT\n"
 "@SYNTAX=LEFT(text[,num_chars])\n"
@@ -1342,7 +1863,7 @@ msgid ""
 "@SEEALSO=MID, RIGHT"
 msgstr ""
 
-#: src/fn-string.c:176
+#: src/fn-string.c:139
 #, fuzzy
 msgid ""
 "@FUNCTION=LOWER\n"
@@ -1355,16 +1876,26 @@ msgstr ""
 "@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
 "@SEEALSO=HOUR"
 
-#: src/fn-string.c:207
+#: src/fn-string.c:172
+#, fuzzy
 msgid ""
 "@FUNCTION=MID\n"
 "@SYNTAX=MID(string, position, length)\n"
 "@DESCRIPTION=Returns a substring from @string starting at @position for "
-"@lenght characters.\n"
+"@length characters.\n"
 "@SEEALSO=LEFT, RIGHT"
 msgstr ""
+"@FUNCTION=TIME\n"
+"@SYNTAX=TIME (óra, perc, másodperc)\n"
+"@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
+"@SEEALSO=HOUR"
 
-#: src/fn-string.c:255
+#: src/fn-string.c:200 src/fn-string.c:621
+#, fuzzy
+msgid "Invalid arguments"
+msgstr "Az argumentumok száma nem megfelelõ"
+
+#: src/fn-string.c:218
 msgid ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(text[,num_chars])\n"
@@ -1373,7 +1904,7 @@ msgid ""
 "@SEEALSO=MID, LEFT"
 msgstr ""
 
-#: src/fn-string.c:295
+#: src/fn-string.c:255
 #, fuzzy
 msgid ""
 "@FUNCTION=UPPER\n"
@@ -1386,37 +1917,193 @@ msgstr ""
 "@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
 "@SEEALSO=HOUR"
 
-#: src/format.c:403
+#: src/fn-string.c:289
+#, fuzzy
+msgid ""
+"@FUNCTION=CONCATENATE\n"
+"@SYNTAX=CONCATENATE(string1[,string2...])\n"
+"@DESCRIPTION=Returns up appended strings\n"
+"@SEEALSO=LEFT, MID, RIGHT"
+msgstr ""
+"@FUNCTION=TIME\n"
+"@SYNTAX=TIME (óra, perc, másodperc)\n"
+"@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
+"@SEEALSO=HOUR"
+
+#: src/fn-string.c:335
+#, fuzzy
+msgid ""
+"@FUNCTION=REPT\n"
+"@SYNTAX=REPT(string,num)\n"
+"@DESCRIPTION=Returns @num repetitions of @string\n"
+"@SEEALSO=CONCATENATE"
+msgstr ""
+"@FUNCTION=TIME\n"
+"@SYNTAX=TIME (óra, perc, másodperc)\n"
+"@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
+"@SEEALSO=HOUR"
+
+#. start position too high or low
+#: src/fn-string.c:353 src/fn-string.c:433 src/fn-string.c:440
+#: src/fn-string.c:479
+#, fuzzy
+msgid "Invalid argument"
+msgstr "Az argumentumok száma nem megfelelõ"
+
+#: src/fn-string.c:373
+msgid ""
+"@FUNCTION=CLEAN\n"
+"@SYNTAX=CLEAN(string)\n"
+"@DESCRIPTION=Cleans the string from any non-printable characters.\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-string.c:412
+msgid ""
+"@FUNCTION=FIND\n"
+"@SYNTAX=FIND(string1,string2[,start])\n"
+"@DESCRIPTION=Returns position of @string1 in @string2 (case-sesitive), "
+"searching only from character @start onwards (assumed 1 if omitted)\n"
+"@SEEALSO=EXACT, LEN, MID, SEARCH"
+msgstr ""
+
+#: src/fn-string.c:451
+msgid ""
+"@FUNCTION=FIXED\n"
+"@SYNTAX=FIXED(num, [decimals, no_commas])\n"
+"@DESCRIPTION=Returns @num as a formatted string with @decimals numbers after "
+"the decimal point, omitting commas if requested by @no_commas\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-string.c:556
+#, fuzzy
+msgid ""
+"@FUNCTION=PROPER\n"
+"@SYNTAX=PROPER(string)\n"
+"@DESCRIPTION=Returns @string with initial of each word capitalised\n"
+"@SEEALSO=LOWER, UPPER"
+msgstr ""
+"@FUNCTION=TIME\n"
+"@SYNTAX=TIME (óra, perc, másodperc)\n"
+"@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
+"@SEEALSO=HOUR"
+
+#: src/fn-string.c:595
+#, fuzzy
+msgid ""
+"@FUNCTION=REPLACE\n"
+"@SYNTAX=REPLACE(old,start,num,new)\n"
+"@DESCRIPTION=Returns @old with @new replacing @num characters from @start\n"
+"@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
+msgstr ""
+"@FUNCTION=TIME\n"
+"@SYNTAX=TIME (óra, perc, másodperc)\n"
+"@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
+"@SEEALSO=HOUR"
+
+#: src/fn-string.c:644
+#, fuzzy
+msgid ""
+"@FUNCTION=T\n"
+"@SYNTAX=T(value)\n"
+"@DESCRIPTION=Returns @value if and only if it is text, otherwise a blank "
+"string\n"
+"@SEEALSO=CELL, N, VALUE"
+msgstr ""
+"@FUNCTION=TIME\n"
+"@SYNTAX=TIME (óra, perc, másodperc)\n"
+"@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
+"@SEEALSO=HOUR"
+
+#: src/fn-string.c:667
+#, fuzzy
+msgid ""
+"@FUNCTION=TRIM\n"
+"@SYNTAX=TRIM(text)\n"
+"@DESCRIPTION=Returns @text with only single spaces between words\n"
+"@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
+msgstr ""
+"@FUNCTION=TIME\n"
+"@SYNTAX=TIME (óra, perc, másodperc)\n"
+"@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
+"@SEEALSO=HOUR"
+
+#: src/fn-string.c:714
+#, fuzzy
+msgid ""
+"@FUNCTION=VALUE\n"
+"@SYNTAX=VALUE(text)\n"
+"@DESCRIPTION=Returns numeric value of @text\n"
+"@SEEALSO=DOLLAR, FIXED, TEXT"
+msgstr ""
+"@FUNCTION=TIME\n"
+"@SYNTAX=TIME (óra, perc, másodperc)\n"
+"@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
+"@SEEALSO=HOUR"
+
+#: src/fn-string.c:775
+msgid ""
+"@FUNCTION=SUBSTITUTE\n"
+"@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
+"@DESCRIPTION=Replaces @old with @new in @text.  Substitutions are only "
+"applied to instance @num of @old in @text, otherwise every one is changed.\n"
+"@SEEALSO=REPLACE, TRIM"
+msgstr ""
+
+#: src/fn-string.c:845
+#, fuzzy
+msgid ""
+"@FUNCTION=DOLLAR\n"
+"@SYNTAX=DOLLAR(num,[decimals])\n"
+"@DESCRIPTION=Returns @num formatted as currency \n"
+"@SEEALSO=FIXED, TEXT, VALUE"
+msgstr ""
+"@FUNCTION=TODAY\n"
+"@SYNTAX=TODAY ()\n"
+"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
+"január 1.-tõl eltelt napokat jelzi.\n"
+"@SEEALSO=TODAY, NOW"
+
+#: src/format.c:389
 msgid "black"
 msgstr "Fekete"
 
-#: src/format.c:404
+#: src/format.c:390
 msgid "blue"
 msgstr "Kék"
 
-#: src/format.c:405
+#: src/format.c:391
 msgid "cyan"
 msgstr "Cián"
 
-#: src/format.c:406
+#: src/format.c:392
 msgid "green"
 msgstr "Zöld"
 
-#: src/format.c:407
+#: src/format.c:393
 msgid "magenta"
 msgstr "Bíbor"
 
-#: src/format.c:408
+#: src/format.c:394
 msgid "red"
 msgstr "Piros"
 
-#: src/format.c:409
+#: src/format.c:395
 msgid "white"
 msgstr "Fehér"
 
-#: src/format.c:410
+#: src/format.c:396
 msgid "yellow"
 msgstr "Sárga"
+
+#: src/format.c:1026
+msgid "CELLRANGE"
+msgstr ""
+
+#: src/format.c:1029
+msgid "ARRAY"
+msgstr ""
 
 #: src/formats.c:17
 msgid "0"
@@ -1620,113 +2307,120 @@ msgstr ""
 msgid "$#,##0.00_);[red]($#,##0.00)"
 msgstr "$#,##0.00_);[Piros]($#,##0.00)"
 
-#: src/gnumeric-sheet.c:887
+#: src/gnumeric-sheet.c:890
 #, c-format
 msgid "75%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:890
+#: src/gnumeric-sheet.c:893
 #, c-format
 msgid "50%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:893
+#: src/gnumeric-sheet.c:896
 #, c-format
 msgid "25%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:896
+#: src/gnumeric-sheet.c:899
 #, c-format
 msgid "12%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:899
+#: src/gnumeric-sheet.c:902
 #, c-format
 msgid "6%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:902
+#: src/gnumeric-sheet.c:905
 msgid "Horizontal lines"
 msgstr "Vízszintes vonalas"
 
-#: src/gnumeric-sheet.c:905
+#: src/gnumeric-sheet.c:908
 msgid "Vertical lines"
 msgstr "Függõleges vonalas"
 
-#: src/gnumeric-sheet.c:908 src/gnumeric-sheet.c:911 src/gnumeric-sheet.c:914
-#: src/gnumeric-sheet.c:917
+#: src/gnumeric-sheet.c:911 src/gnumeric-sheet.c:914 src/gnumeric-sheet.c:917
+#: src/gnumeric-sheet.c:920
 msgid "Diagonal lines"
 msgstr "Átlós vonalas"
 
-#: src/gnumeric-sheet.c:920
+#: src/gnumeric-sheet.c:923
 msgid "Crossed diagonals"
 msgstr "Keresztmintás vonalas"
 
-#: src/gnumeric-sheet.c:923
+#: src/gnumeric-sheet.c:926
 msgid "Bricks"
 msgstr "Téglamintás"
 
-#: src/item-cursor.c:554 src/item-grid.c:523 src/workbook.c:837
+#: src/item-cursor.c:499
+msgid ""
+"The cells dragged will overwrite the contents of the\n"
+"existing cells in that range.  Do you want me to replace\n"
+"the contents in this region?"
+msgstr ""
+
+#: src/item-cursor.c:580 src/item-grid.c:529 src/workbook.c:978
 msgid "Copy"
 msgstr "Másolás"
 
-#: src/item-cursor.c:555
+#: src/item-cursor.c:581
 msgid "Move"
 msgstr "Áthelyezés"
 
-#: src/item-cursor.c:556
+#: src/item-cursor.c:582
 msgid "Copy formats"
 msgstr "Csak formátum másolása ide"
 
-#: src/item-cursor.c:557
+#: src/item-cursor.c:583
 msgid "Copy values"
 msgstr "Csak érték másolása ide"
 
-#: src/item-cursor.c:558
+#: src/item-cursor.c:584
 msgid "Shift cells down and copy"
 msgstr "Lefelé tolás és másolás"
 
-#: src/item-cursor.c:559
+#: src/item-cursor.c:585
 msgid "Shift cells right and copy"
 msgstr "Jobbra tolás és másolás"
 
-#: src/item-cursor.c:560
+#: src/item-cursor.c:586
 msgid "Shift cells down and move"
 msgstr "Lefelé tolás és áthelyezés"
 
-#: src/item-cursor.c:561
+#: src/item-cursor.c:587
 msgid "Shift cells right and move"
 msgstr "Jobbra tolás és áthelyezés"
 
-#: src/item-grid.c:522 src/workbook.c:834
+#: src/item-grid.c:528 src/workbook.c:975
 msgid "Cut"
 msgstr "Kivágás"
 
-#: src/item-grid.c:524 src/sheet.c:2432 src/workbook.c:840
+#: src/item-grid.c:530 src/workbook.c:981
 msgid "Paste"
 msgstr "Beillesztés"
 
-#: src/item-grid.c:529
+#: src/item-grid.c:535
 msgid "Erase content"
 msgstr "Tartalom törlése"
 
-#: src/item-grid.c:531
+#: src/item-grid.c:537
 msgid "Cell format"
 msgstr "Cellaformázás..."
 
-#: src/main.c:36
+#: src/main.c:39
 msgid "Dumps the function definitions"
 msgstr ""
 
-#: src/main.c:36
+#: src/main.c:39
 msgid "FILE"
 msgstr "FÁJL"
 
-#: src/main.c:38
+#: src/main.c:41
 msgid "Enables some debugging functions"
 msgstr ""
 
-#: src/main.c:38
+#: src/main.c:41
 msgid "LEVEL"
 msgstr ""
 
@@ -1734,440 +2428,581 @@ msgstr ""
 msgid "(([-+]?[0-9,])?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
 msgstr ""
 
-#: src/plugin-manager.c:94 src/plugin-manager.c:95
+#: src/plugin-manager.c:95 src/plugin-manager.c:96
 msgid "Name"
 msgstr "Név"
 
-#: src/plugin-manager.c:94 src/plugin-manager.c:95
+#: src/plugin-manager.c:95 src/plugin-manager.c:96
 msgid "File"
 msgstr "Fájl"
 
-#: src/plugin-manager.c:125
+#: src/plugin-manager.c:126
 msgid "Close"
 msgstr "Mégse"
 
-#: src/plugin-manager.c:128
+#: src/plugin-manager.c:129
 msgid "Add..."
 msgstr "Hozzáadás..."
 
-#: src/plugin.c:36
+#: src/plugin.c:40
 msgid "unable to open module file: "
 msgstr ""
 
-#: src/plugin.c:45
+#: src/plugin.c:51
 msgid "Plugin must contain init_plugin function."
 msgstr ""
 
-#: src/plugin.c:51
+#: src/plugin.c:57
 msgid "init_plugin returned error"
 msgstr "Az init_plugin függvény hibát jelez!"
 
-#: src/plugin.c:71
+#: src/plugin.c:77
 msgid "Plugin is still in use.\n"
 msgstr ""
 
-#: src/sheet-view.c:336 src/sheet-view.c:410
+#: src/sheet-view.c:337 src/sheet-view.c:411
 #, c-format
 msgid "Row: %d"
 msgstr "Sor: %d"
 
-#: src/sheet-view.c:343 src/sheet-view.c:382
+#: src/sheet-view.c:344 src/sheet-view.c:383
 #, c-format
 msgid "Column: %s"
 msgstr "Oszlop: %s"
 
-#: src/workbook.c:282
+#: src/sheet.c:668
+msgid "ERROR"
+msgstr ""
+
+#: src/sheet.c:2548
+msgid "The command `"
+msgstr ""
+
+#: src/sheet.c:2550
+msgid "' can not be performed with multiple selections"
+msgstr ""
+
+#: src/sheet.c:2565
+#, fuzzy
+msgid "copy"
+msgstr "Másolás"
+
+#: src/sheet.c:2590
+#, fuzzy
+msgid "cut"
+msgstr "Kivágás"
+
+#: src/sheet.c:2639
+#, fuzzy
+msgid "paste"
+msgstr "Beillesztés"
+
+#: src/sheet.c:3532
+#, c-format
+msgid "I was not able to activate object %s"
+msgstr ""
+
+#: src/sheet.c:3544
+msgid "I was unable to the bind object"
+msgstr ""
+
+#: src/workbook.c:367
 msgid "Warning"
 msgstr ""
 
-#: src/workbook.c:290
+#: src/workbook.c:375
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr ""
 
-#: src/workbook.c:293
+#: src/workbook.c:378
 msgid "Workbook has unsaved changes, save them?"
 msgstr ""
 
-#: src/workbook.c:482 src/workbook.c:498
+#: src/workbook.c:566
+#, fuzzy
+msgid "Insert cols"
+msgstr "Beszúrás"
+
+#: src/workbook.c:582
 msgid "Insert rows"
 msgstr "Sorok beszúrása"
 
-#: src/workbook.c:585
+#: src/workbook.c:678
 msgid ">mm/dd/yyyy"
 msgstr ">yyyy/mm/dd"
 
-#: src/workbook.c:604
+#: src/workbook.c:697
 msgid ">hh:mm"
 msgstr ""
 
-#: src/workbook.c:660
+#: src/workbook.c:781
 msgid "_New"
 msgstr "Új dok_umentum"
 
-#: src/workbook.c:660
+#: src/workbook.c:781
 #, fuzzy
 msgid "Create a new spreadsheet"
 msgstr "Új munkalap"
 
-#: src/workbook.c:671
+#: src/workbook.c:792
 msgid "Plu_g-ins..."
 msgstr ""
 
-#: src/workbook.c:671
+#: src/workbook.c:792
 #, fuzzy
 msgid "Gnumeric plugins"
 msgstr "Függõleges vonalas"
 
-#: src/workbook.c:685
+#: src/workbook.c:806
 msgid "_All"
 msgstr "Min_dent"
 
-#: src/workbook.c:686
+#: src/workbook.c:807
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr ""
 
-#: src/workbook.c:688
+#: src/workbook.c:809
 msgid "_Formats"
 msgstr "_Formátumot"
 
-#: src/workbook.c:689
+#: src/workbook.c:810
 msgid "Clear the selected cells' formats"
 msgstr ""
 
-#: src/workbook.c:690
+#: src/workbook.c:811
 #, fuzzy
 msgid "_Comments"
 msgstr "_Képletet"
 
-#: src/workbook.c:691
+#: src/workbook.c:812
 #, fuzzy
 msgid "Clear the selected cells' comments"
 msgstr "Középre zárás"
 
-#: src/workbook.c:692
+#: src/workbook.c:813
 msgid "_Content"
 msgstr "_Képletet"
 
-#: src/workbook.c:693
+#: src/workbook.c:814
 #, fuzzy
 msgid "Clear the selected cells' contents"
 msgstr "Középre zárás"
 
-#: src/workbook.c:701
+#: src/workbook.c:822
 #, fuzzy
 msgid "P_aste special..."
 msgstr "Irányított beillesztés..."
 
-#: src/workbook.c:702
+#: src/workbook.c:823
 msgid "C_lear"
 msgstr "_Törlés"
 
-#: src/workbook.c:703
+#: src/workbook.c:824
 msgid "Clear the selected cell(s)"
 msgstr ""
 
-#: src/workbook.c:707
+#: src/workbook.c:828
 msgid "_Select All"
 msgstr "Mindent kijelöl"
 
-#: src/workbook.c:708
+#: src/workbook.c:829
 msgid "Select all cells in the spreadsheet"
 msgstr ""
 
-#: src/workbook.c:710
+#: src/workbook.c:831
 msgid "_Goto cell.."
 msgstr "_Ugrás..."
 
-#: src/workbook.c:711
+#: src/workbook.c:832
 msgid "Jump to a specified cell"
 msgstr ""
 
-#: src/workbook.c:717
+#: src/workbook.c:838
+msgid "Insert object..."
+msgstr ""
+
+#: src/workbook.c:839
+#, fuzzy
+msgid "Inserts a Bonobo object"
+msgstr "Vonalrajzolás"
+
+#: src/workbook.c:846
 #, fuzzy
 msgid "_Define cell names"
 msgstr "Törlés"
 
-#: src/workbook.c:721
+#: src/workbook.c:850
 #, fuzzy
 msgid "_Recalculate"
 msgstr "Újraszámolás"
 
-#: src/workbook.c:722
+#: src/workbook.c:851
 msgid "Recalculate the spreadsheet"
 msgstr ""
 
-#: src/workbook.c:730
+#: src/workbook.c:859
 msgid "_Zoom..."
 msgstr "_Nagyítás..."
 
-#: src/workbook.c:731
+#: src/workbook.c:860
 msgid "Zoom the spreadsheet in or out"
 msgstr ""
 
-#: src/workbook.c:738
+#: src/workbook.c:867
 #, fuzzy
 msgid "Current _date"
 msgstr "Jelenlegi dátum"
 
-#: src/workbook.c:739
+#: src/workbook.c:868
 msgid "Insert the current data into the selected cell(s)"
 msgstr ""
 
-#: src/workbook.c:742
+#: src/workbook.c:871
 #, fuzzy
 msgid "Current _time"
 msgstr "Jelenlegi idõ"
 
-#: src/workbook.c:743
+#: src/workbook.c:872
 msgid "Insert the current time into the selected cell(s)"
 msgstr ""
 
-#: src/workbook.c:750 src/workbook.c:796
+#: src/workbook.c:879 src/workbook.c:925
 msgid "_Sheet"
 msgstr "M_unkalap"
 
-#: src/workbook.c:750
+#: src/workbook.c:879
 #, fuzzy
 msgid "Insert a new spreadsheet"
 msgstr "Új munkalap"
 
-#: src/workbook.c:752 src/workbook.c:790
+#: src/workbook.c:881 src/workbook.c:919
 msgid "_Cells..."
 msgstr "_Cellák..."
 
-#: src/workbook.c:752
+#: src/workbook.c:881
 #, fuzzy
 msgid "Insert new cells"
 msgstr "Beszúrás"
 
-#: src/workbook.c:754
+#: src/workbook.c:883
 msgid "_Rows"
 msgstr "_Sorok"
 
-#: src/workbook.c:754
+#: src/workbook.c:883
 #, fuzzy
 msgid "Insert new rows"
 msgstr "Sorok beszúrása"
 
-#: src/workbook.c:756
+#: src/workbook.c:885
 msgid "C_olumns"
 msgstr "Os_zlopok"
 
-#: src/workbook.c:756
+#: src/workbook.c:885
 #, fuzzy
 msgid "Insert new columns"
 msgstr "Egész oszlopot szúr be"
 
-#: src/workbook.c:761
-msgid "_Add/Modify comment"
+#: src/workbook.c:890
+msgid "_Add/modify comment"
 msgstr ""
 
-#: src/workbook.c:762
+#: src/workbook.c:891
 msgid "Edit the selected cell's comment"
 msgstr ""
 
-#: src/workbook.c:763
+#: src/workbook.c:892
 #, fuzzy
 msgid "_Special"
 msgstr "Speciális"
 
-#: src/workbook.c:772 src/workbook.c:778
+#: src/workbook.c:901 src/workbook.c:907
 msgid "_Autoadjust"
 msgstr ""
 
-#: src/workbook.c:773
+#: src/workbook.c:902
 msgid "_Width"
 msgstr ""
 
-#: src/workbook.c:779
+#: src/workbook.c:908
 msgid "_Height"
 msgstr ""
 
-#: src/workbook.c:784
+#: src/workbook.c:913
 msgid "_Change name"
 msgstr ""
 
-#: src/workbook.c:791
+#: src/workbook.c:920
 msgid "Modify the formatting of the selected cells"
 msgstr ""
 
-#: src/workbook.c:794
+#: src/workbook.c:923
 msgid "C_olumn"
 msgstr "_Oszlop"
 
-#: src/workbook.c:795
+#: src/workbook.c:924
 msgid "_Row"
 msgstr "So_r"
 
-#: src/workbook.c:812
+#: src/workbook.c:932
+#, fuzzy
+msgid "_Sort"
+msgstr "Formá_tum"
+
+#: src/workbook.c:933
+#, fuzzy
+msgid "Sort the selected cells"
+msgstr "Középre zárás"
+
+#: src/workbook.c:934
+msgid "_Goal Seek..."
+msgstr ""
+
+#: src/workbook.c:936
+msgid "_Solver..."
+msgstr ""
+
+#: src/workbook.c:952
 msgid "_Insert"
 msgstr "_Beszúrás"
 
-#: src/workbook.c:813
+#: src/workbook.c:953
 msgid "F_ormat"
 msgstr "Formá_tum"
 
-#: src/workbook.c:822
+#: src/workbook.c:954
+msgid "_Tools"
+msgstr ""
+
+#: src/workbook.c:963
 msgid "New"
 msgstr "Új"
 
-#: src/workbook.c:822
-msgid "Create a new sheet"
+#: src/workbook.c:963
+#, fuzzy
+msgid "Creates a new sheet"
 msgstr "Új munkalap"
 
-#: src/workbook.c:825
+#: src/workbook.c:966
 msgid "Open"
 msgstr "Megnyitás"
 
-#: src/workbook.c:825
+#: src/workbook.c:966
 msgid "Opens an existing workbook"
 msgstr "Egy létezõ munkafüzet megnyitása"
 
-#: src/workbook.c:828
+#: src/workbook.c:969
 msgid "Save"
 msgstr "Mentés"
 
-#: src/workbook.c:828
+#: src/workbook.c:969
 msgid "Saves the workbook"
 msgstr "Munkafüzet mentése"
 
-#: src/workbook.c:834
+#: src/workbook.c:975
 msgid "Cuts the selection to the clipboard"
 msgstr "Kivágás"
 
-#: src/workbook.c:837
+#: src/workbook.c:978
 msgid "Copies the selection to the clipboard"
 msgstr "Másolás"
 
-#: src/workbook.c:840
+#: src/workbook.c:981
 msgid "Pastes the clipboard"
 msgstr "Beillesztés"
 
-#: src/workbook.c:846
+#: src/workbook.c:987
 msgid "Left align"
 msgstr "Balra zárás"
 
-#: src/workbook.c:846
-msgid "Sets the cell alignment to the left"
-msgstr "Balra igazítja a cella tartalmát"
+#: src/workbook.c:987
+#, fuzzy
+msgid "Left justifies the cell contents"
+msgstr "Középre zárás"
 
-#: src/workbook.c:849
+#: src/workbook.c:990
 msgid "Centers the cell contents"
 msgstr "Középre zárás"
 
-#: src/workbook.c:852
+#: src/workbook.c:993
 msgid "Right align"
 msgstr "Jobbra zárás"
 
-#: src/workbook.c:852
-msgid "Sets the cell alignment to the right"
-msgstr "Jobbra igazítja a cella tartalmát"
+#: src/workbook.c:993
+#, fuzzy
+msgid "Right justifies the cell contents"
+msgstr "Középre zárás"
 
-#: src/workbook.c:857
+#: src/workbook.c:998
 msgid "Bold"
 msgstr "Félkövér"
 
-#: src/workbook.c:857
-msgid "Sets the bold attribute on the cell"
+#: src/workbook.c:998
+#, fuzzy
+msgid "Sets the bold font"
 msgstr "A kijelölt cella formázása félkövér lesz"
 
-#: src/workbook.c:860
+#: src/workbook.c:1001
 msgid "Italic"
 msgstr "Dõlt"
 
-#: src/workbook.c:860
-msgid "Sets the italic attribute on the cell"
-msgstr "Dõlt stílusura formázza a kijelölt cellát"
+#: src/workbook.c:1001
+msgid "Makes the font italic"
+msgstr ""
 
-#: src/workbook.c:866
+#: src/workbook.c:1008
+msgid "Graphic"
+msgstr ""
+
+#: src/workbook.c:1008
+#, fuzzy
+msgid "Creates a graphic in the spreadsheet"
+msgstr "Új munkalap"
+
+#: src/workbook.c:1012
 msgid "Line"
 msgstr "Vonal"
 
-#: src/workbook.c:866
+#: src/workbook.c:1012
 msgid "Creates a line object"
 msgstr "Vonalrajzolás"
 
-#: src/workbook.c:869
+#: src/workbook.c:1015
 msgid "Arrow"
 msgstr "Nyíl"
 
-#: src/workbook.c:869
+#: src/workbook.c:1015
 msgid "Creates an arrow object"
 msgstr "Nyílrajzolás"
 
-#: src/workbook.c:872
+#: src/workbook.c:1018
 msgid "Rectangle"
 msgstr "Téglalap"
 
-#: src/workbook.c:872
+#: src/workbook.c:1018
 msgid "Creates a rectangle object"
 msgstr "Téglalaprajzolás"
 
-#: src/workbook.c:875
+#: src/workbook.c:1021
 msgid "Ellipse"
 msgstr "Ellipszis"
 
-#: src/workbook.c:875
+#: src/workbook.c:1021
 msgid "Creates an ellipse object"
 msgstr "Ellipszisrajzolás"
 
-#: src/workbook.c:955
+#: src/workbook.c:1135
 msgid "You should introduce a valid cell name"
 msgstr "A beírt szöveg nem érvényes hivatkozás vagy létezõ név"
 
-#: src/workbook.c:962
+#: src/workbook.c:1142
 msgid "Column out of range"
 msgstr "Tartományon kívüli oszlophivatkozás"
 
-#: src/workbook.c:968
+#: src/workbook.c:1148
 msgid "Row number out of range"
 msgstr "Tartományon kívüli sorhivatkozás"
 
-#: src/workbook.c:1074
+#: src/workbook.c:1237
+msgid "Selection must be a single range"
+msgstr ""
+
+#: src/workbook.c:1349
 msgid "Sum"
 msgstr "Összeg"
 
-#: src/workbook.c:1075
+#: src/workbook.c:1350
 msgid "Min"
 msgstr "Minimum"
 
-#: src/workbook.c:1076
+#: src/workbook.c:1351
 msgid "Max"
 msgstr "Maximum"
 
-#: src/workbook.c:1077
+#: src/workbook.c:1352
 msgid "Average"
 msgstr "Átlag"
 
-#: src/workbook.c:1078
+#: src/workbook.c:1353
 msgid "Count"
 msgstr "Darabszám"
 
-#: src/workbook.c:1268
+#: src/workbook.c:1544
 msgid "Untitled.gnumeric"
 msgstr "Névtelen.gnumeric"
 
-#: src/workbook.c:1352
+#: src/workbook.c:1641
 msgid "Zoom out"
 msgstr "Kicsinyítés"
 
-#: src/workbook.c:1359
+#: src/workbook.c:1648
 msgid "Zoom in"
 msgstr "Nagyítás"
 
-#: src/workbook.c:1490 src/workbook.c:1511
+#: src/workbook.c:1733
+#, c-format
+msgid "Are you sure you want to remove the sheet called `%s' "
+msgstr ""
+
+#: src/workbook.c:1752
+msgid "Other sheets depend on the values on this sheet, I can not remove it"
+msgstr ""
+
+#: src/workbook.c:1772
+msgid "Add another sheet"
+msgstr ""
+
+#: src/workbook.c:1773
+msgid "Remove this sheet"
+msgstr ""
+
+#: src/workbook.c:2030 src/workbook.c:2066
 #, c-format
 msgid "Sheet %d"
 msgstr "Munka%d"
 
-#: src/xml-io.c:1408
-msgid "NoName"
-msgstr "Névtelen"
+#: src/workbook.c:2130
+#, fuzzy
+msgid "Gnumeric: "
+msgstr "Függõleges vonalas"
 
-#: src/xml-io.c:1598
+#: src/xml-io.c:1653
 msgid "Gnumeric XML file format"
 msgstr ""
+
+#~ msgid "#VALUE"
+#~ msgstr "#ÉRTÉK!"
+
+#~ msgid "log: domain error"
+#~ msgstr "log: nincs értelmezve"
+
+#~ msgid "NoName"
+#~ msgstr "Névtelen"
+
+#~ msgid "Sets the cell alignment to the left"
+#~ msgstr "Balra igazítja a cella tartalmát"
+
+#~ msgid "Sets the cell alignment to the right"
+#~ msgstr "Jobbra igazítja a cella tartalmát"
+
+#~ msgid "Sets the italic attribute on the cell"
+#~ msgstr "Dõlt stílusura formázza a kijelölt cellát"
+
+#, fuzzy
+#~ msgid ""
+#~ "@FUNCTION=BIN2DEC\n"
+#~ "@SYNTAX=BIN2DEC(x)\n"
+#~ "@DESCRIPTION=The BIN2DEC function converts a binary number in string or "
+#~ "number to its decimal equivalent.\n"
+#~ "Performing this function on a string or empty cell simply does nothing.\n"
+#~ "@SEEALSO=DEC2BIN"
+#~ msgstr ""
+#~ "@FUNCTION=RADIANS\n"
+#~ "@SYNTAX=RADIANS(szög)\n"
+#~ "@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
+#~ "A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
+#~ "függvénynek csak egy argumentuma lehet.\n"
+#~ "@SEEALSO=PI,DEGREES"
 
 #~ msgid "Notice"
 #~ msgstr "Megjegyzés"

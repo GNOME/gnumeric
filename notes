@@ -2,7 +2,7 @@
 Control-Enter after finishing entering some data into a cell
 sets the whole range of selected cells to that value.
 
-On a selection: Enter, COntrol Enter, Tab, Shift-Tab navigate trought
+On a selection: Enter, Control Enter, Tab, Shift-Tab navigate trought
 the selected cells.
 
 Double clicking on a column division automatically adjusts the column
@@ -71,7 +71,7 @@ Alt-down arrow pops up a list of available choices for the autofill
 	to the two references
 
 ** Wierd things
-	="1"+"2" yields 3, Excel does the converion to itegers
+	="1"+"2" yields 3, Excel does the converion to integers
 	="A"&TRUE, Excel convers TRUE to a string: ATRUE
 
 ** Display

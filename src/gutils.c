@@ -3,6 +3,7 @@
  *
  * Author:
  *    Miguel de Icaza (miguel@gnu.org)
+ *    Jukka-Pekka Iivonen (iivonen@iki.fi)
  */
 #include <config.h>
 #include <stdlib.h>
@@ -11,21 +12,25 @@
 #include <string.h>
 #include <string.h>
 #include <ctype.h>
+#include <gnome.h>
 #include "numbers.h"
+#include "mathfunc.h"
 #include "symbol.h"
 #include "str.h"
 #include "expr.h"
 #include "utils.h"
+#include "gnumeric.h"
+#include "sheet.h"
 
 #define SMALL_BUF_SIZE 40
 static char small_buffer [SMALL_BUF_SIZE];
 
 void
-float_get_from_range (char *start, char *end, float_t *t)
+float_get_from_range (const char *start, const char *end, float_t *t)
 {
 	char *p;
 	int  size = end - start;
-	
+
 	if (size < SMALL_BUF_SIZE-1){
 		p = small_buffer;
 		strncpy (small_buffer, start, size);
@@ -46,11 +51,11 @@ float_get_from_range (char *start, char *end, float_t *t)
 }
 
 void
-int_get_from_range (char *start, char *end, int_t *t)
+int_get_from_range (const char *start, const char *end, int_t *t)
 {
 	char *p;
 	int  size = end - start;
-	
+
 	if (size < SMALL_BUF_SIZE-1){
 		p = small_buffer;
 		strncpy (small_buffer, start, size);
@@ -70,18 +75,18 @@ int_get_from_range (char *start, char *end, int_t *t)
 		g_free (p);
 }
 
-char *
+const char *
 cell_name (int col, int row)
 {
 	static char buffer [2 + 4 * sizeof (long)];
 	char *p = buffer;
-	
+
 	if (col <= 'Z'-'A'){
 		*p++ = col + 'A';
 	} else {
 		int a = col / ('Z'-'A'+1);
 		int b = col % ('Z'-'A'+1);
-		
+
 		*p++ = a + 'A' - 1;
 		*p++ = b + 'A';
 	}
@@ -90,12 +95,12 @@ cell_name (int col, int row)
 	return buffer;
 }
 
-char *
+const char *
 col_name (int col)
 {
 	static char buffer [20];
 	char *p = buffer;
-	
+
 	if (col <= 'Z'-'A'){
 		*p++ = col + 'A';
 	} else {
@@ -110,6 +115,28 @@ col_name (int col)
 	return buffer;
 }
 
+/**
+ * Converts a column name into an integer
+ **/
+int
+col_from_name (const char *cell_str)
+{
+	char c;
+	int col = 0;
+
+	c = toupper (*cell_str++);
+	if (c < 'A' || c > 'Z')
+		return FALSE;
+	col = c - 'A';
+	c = toupper (*cell_str);
+	if (c >= 'A' && c <= 'Z')
+		col = ((col + 1) * ('Z' - 'A' + 1)) + (c - 'A');
+	if (col >= SHEET_MAX_COLS)
+		return FALSE;
+	else
+		return col;
+}
+
 /*
  * parse_cell_name
  * @cell_name:   a string representation of a cell name.
@@ -119,32 +146,36 @@ col_name (int col)
  * Return value: true if the cell_name could be successfully parsed
  */
 int
-parse_cell_name (char *cell_str, int *col, int *row)
+parse_cell_name (const char *cell_str, int *col, int *row)
 {
-	*col = 0;
-	*row = 0;
+	char c;
 
-	if (!isalpha (*cell_str))
+	/* Parse column name: one or two letters.  */
+	c = toupper (*cell_str++);
+	if (c < 'A' || c > 'Z')
+		return FALSE;
+	*col = c - 'A';
+	c = toupper (*cell_str);
+	if (c >= 'A' && c <= 'Z') {
+		*col = ((*col + 1) * ('Z' - 'A' + 1)) + (c - 'A');
+		cell_str++;
+	}
+	if (*col >= SHEET_MAX_COLS)
 		return FALSE;
 
-	*col = toupper (*cell_str++) - 'A';
-
-	if (isalpha (*cell_str))
-		*col = ((*col+1) * ('Z' - 'A' + 1)) + (toupper (*cell_str++) - 'A');
-
-	if (!isdigit (*cell_str))
-		return FALSE;
-
-	for (;*cell_str; cell_str++){
+	/* Parse row number: a sequence of digits.  */
+	for (*row = 0; *cell_str; cell_str++) {
 		if (!isdigit (*cell_str))
 			return FALSE;
 		*row = *row * 10 + (*cell_str - '0');
+		if (*row > SHEET_MAX_ROWS) /* Note: ">" is deliberate.  */
+			return FALSE;
 	}
 	if (*row == 0)
 		return FALSE;
 
+	/* Internal row numbers are one less than the displayed.  */
 	(*row)--;
-	
 	return TRUE;
 }
 
@@ -158,10 +189,10 @@ gnumeric_strcase_equal (gconstpointer v, gconstpointer v2)
 guint
 gnumeric_strcase_hash (gconstpointer v)
 {
-	const char *s = (char*)v;
+	const char *s = (const char*)v;
 	const char *p;
 	guint h=0, g;
-	
+
 	for(p = s; *p != '\0'; p += 1) {
 		h = ( h << 4 ) + tolower (*p);
 		if ( ( g = h & 0xf0000000 ) ) {
@@ -169,26 +200,26 @@ gnumeric_strcase_hash (gconstpointer v)
 			h = h ^ g;
 		}
 	}
-	
+
 	return h /* % M */;
 }
 
 static guint32
-january_1900()
+january_1900 (void)
 {
 	static guint32 julian = 0;
 
 	if (!julian) {
 		GDate* date = g_date_new_dmy (1, 1, 1900);
-		/* Day 1 means 1st of jannuary of 1900 */
+		/* Day 1 means 1st of January of 1900 */
 		julian = g_date_julian (date) - 1;
 		g_date_free (date);
 	}
-	
+
 	return julian;
 }
 
-guint32 
+guint32
 g_date_serial (GDate* date)
 {
 	return g_date_julian (date) - january_1900 ();
@@ -198,4 +229,100 @@ GDate*
 g_date_new_serial (guint32 serial)
 {
 	return g_date_new_julian (serial + january_1900 ());
+}
+
+/*
+ * Returns a list of cells in a string.  If the named cells does not
+ * exist, they are created.  If the input string is not valid
+ * error_flag is set.
+ */
+GSList *
+parse_cell_name_list (Sheet *sheet,
+		      const char *cell_name_str,
+		      int *error_flag)
+{
+        char     *buf;
+	GSList   *cells = NULL;
+	Cell     *cell;
+	int      i, n, col, row;
+
+	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+	g_return_val_if_fail (cell_name_str != NULL, NULL);
+	g_return_val_if_fail (error_flag != NULL, NULL);
+
+	buf = g_malloc (strlen (cell_name_str) + 1);
+	for (i = n = 0; 1; i++){
+
+	        if ((cell_name_str [i] == ',') || (cell_name_str [i] == '\0')){
+		        buf [n] = '\0';
+
+			if (!parse_cell_name (buf, &col, &row)){
+			        *error_flag = 1;
+				free (buf);
+				g_slist_free (cells);
+				return NULL;
+			}
+
+			cell = sheet_cell_get (sheet, col, row);
+
+			if (cell == NULL){
+			        cell = sheet_cell_new (sheet, col, row);
+				cell_set_text (cell, "");
+			}
+			cells = g_slist_append (cells, (gpointer) cell);
+			n = 0;
+		} else
+		        buf [n++] = cell_name_str [i];
+
+		if (cell_name_str [i] == '\0')
+		        break;
+	}
+
+	*error_flag = 0;
+	free (buf);
+	return cells;
+}
+
+
+/*
+ * Conservative random number generator.  The result is (supposedly) uniform
+ * and between 0 and 1.  (0 possible, 1 not.)  The result should have about
+ * 64 bits randomness.
+ */
+double
+random_01 (void)
+{
+#ifdef HAVE_RANDOM
+	int r1, r2;
+
+	r1 = random () & 2147483647;
+	r2 = random () & 2147483647;
+
+	return (r1 + (r2 / 2147483648.0)) / 2147483648.0;
+#elif defined (HAVE_DRAND48)
+	return drand48 ();
+#else
+	/* We try to work around lack of randomness in rand's lower bits.  */
+	int prime = 65537;
+	int r1, r2, r3, r4;
+
+	g_assert (RAND_MAX > ((1 << 12) - 1));
+
+	r1 = (rand () ^ (rand () << 12)) % prime;
+	r2 = (rand () ^ (rand () << 12)) % prime;
+	r3 = (rand () ^ (rand () << 12)) % prime;
+	r4 = (rand () ^ (rand () << 12)) % prime;
+
+	return (r1 + (r2 + (r3 + r4 / (double)prime) / prime) / prime) / prime;
+#endif
+}
+
+/*
+ * Generate a N(0,1) distributed number.
+ */
+double
+random_normal (void)
+{
+	return qnorm (random_01 (), 0, 1);
 }

@@ -14,6 +14,7 @@
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
 #include "item-cursor.h"
+#include "utils.h"
 
 static GtkTableClass *sheet_view_parent_class;
 
@@ -387,7 +388,7 @@ horizontal_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetView *sheet
 	{
 		GnumericSheet  *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
 		SheetSelection *ss = sheet_view->sheet->selections->data;
-		int col, distance;
+		int col;
 		
 		gtk_widget_destroy (gtk_widget_get_toplevel (sheet_view->tip));
 		sheet_view->tip = NULL;
@@ -415,7 +416,7 @@ vertical_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetView *sheet_v
 	{
 		GnumericSheet  *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
 		SheetSelection *ss = sheet_view->sheet->selections->data;
-		int row, distance;
+		int row;
 		
 		gtk_widget_destroy (gtk_widget_get_toplevel (sheet_view->tip));
 		sheet_view->tip = NULL;
@@ -687,4 +688,13 @@ sheet_view_comment_relocate (SheetView *sheet_view, int col, int row, GnomeCanva
 	gnome_canvas_item_set (o, "points", points, NULL);
 }
 
-
+#ifdef ENABLE_BONOBO
+void
+sheet_view_insert_object (SheetView *sheet_view, GnomeObjectClient *object)
+{
+	GtkWidget *view;
+	
+	view = gnome_bonobo_object_new_view (object);
+	g_warning ("Stick this into the SheetView");
+}
+#endif

@@ -6,7 +6,7 @@ PYTHON =
 endif
 
 if WITH_PERL
-PERL = 
+PERL = perl
 else
 PERL =
 endif
@@ -17,4 +17,4 @@ else
 GUILE_DIR =
 endif
 
-SUBDIRS = sample stat excel ff-csv $(PYTHON) $(PERL) $(GUILE_DIR)
+SUBDIRS = sample stat excel ff-csv text $(PYTHON) $(PERL) $(GUILE_DIR)

@@ -1,10 +1,22 @@
 #ifndef GNUMERIC_CELL_H
 #define GNUMERIC_CELL_H
 
+/* Forward references for structures.  */
+typedef struct _Cell Cell;
+typedef struct _CellRegion CellRegion;
+typedef GList CellList;
+typedef struct _ColRowInfo ColRowInfo;
+
+#include "style.h"
+#include "sheet.h"
+#include "sheet-view.h"
+#include "str.h"
+#include "expr.h"
+
 typedef unsigned char  ColType;
 typedef unsigned short RowType;
 
-typedef struct {
+struct _ColRowInfo {
 	int        pos;			/* the column or row number */
 
 	/* The height */
@@ -15,14 +27,21 @@ typedef struct {
 
 	unsigned   int hard_size:1;     /* has the user explicitly set the dimensions? */
 	void       *data;
-} ColRowInfo;
+};
 
 #define COL_INTERNAL_WIDTH(col) ((col)->pixels - ((col)->margin_b + (col)->margin_a))
 #define ROW_INTERNAL_HEIGHT(row) ((row)->pixels - ((row)->margin_b + (row)->margin_a))
 
-#define CELL_ERROR       1
-#define CELL_HAS_COMMENT 2
-#define CELL_FORMAT_SET  4
+/* Cell has a computation error */
+#define CELL_ERROR             1
+
+/* Cell container a comment */
+#define CELL_HAS_COMMENT       2
+
+#define CELL_FORMAT_SET        4
+
+/* Cell has been queued for recalc */
+#define CELL_QUEUED_FOR_RECALC 8
 
 /**
  * CellComment:
@@ -44,8 +63,8 @@ typedef struct {
  *
  * Definition of a Gnumeric Cell
  */
-typedef struct {
-	void        *sheet;
+struct _Cell {
+	Sheet       *sheet;
 	ColRowInfo  *col;
 	ColRowInfo  *row;
 
@@ -67,9 +86,7 @@ typedef struct {
 	CellComment *comment;
 	int         flags;
 	char        generation;
-} Cell;
-
-typedef GList CellList;
+};
 
 /* #define CELL_TEXT_GET(cell)      ((cell)->text ? cell->text->str : cell->entered_text->str) */
 #define CELL_IS_FORMAT_SET(cell) ((cell)->flags & CELL_FORMAT_SET)
@@ -94,24 +111,27 @@ typedef struct {
 
 typedef GList CellCopyList;
 
-typedef struct {
+struct _CellRegion {
 	int          cols, rows;
 	CellCopyList *list;
-} CellRegion;
+};
 
 char       *value_format                 (Value *value, StyleFormat *format, char **color);
 
-void        cell_set_text                (Cell *cell, char *text);
-void        cell_set_text_simple         (Cell *cell, char *text);
+void        cell_set_text                (Cell *cell, const char *text);
+void        cell_set_text_simple         (Cell *cell, const char *text);
+void        cell_set_value               (Cell *cell, Value *v);
+void        cell_set_value_simple        (Cell *cell, Value *v);
 void        cell_content_changed         (Cell *cell);
-void        cell_set_formula             (Cell *cell, char *text);
+void        cell_set_formula             (Cell *cell, const char *text);
 void        cell_set_formula_tree        (Cell *cell, ExprTree *formula);
 void        cell_set_formula_tree_simple (Cell *cell, ExprTree *formula);
-void        cell_set_format              (Cell *cell, char *format);
-void        cell_set_format_simple       (Cell *cell, char *format);
-void        cell_set_font                (Cell *cell, char *font_name);
+void        cell_set_format              (Cell *cell, const char *format);
+void        cell_set_format_simple       (Cell *cell, const char *format);
+void        cell_set_format_from_style   (Cell *cell, StyleFormat *style_format);
+void        cell_set_font                (Cell *cell, const char *font_name);
 void        cell_set_style               (Cell *cell, Style *reference_style);
-void        cell_set_comment             (Cell *cell, char *str);
+void        cell_set_comment             (Cell *cell, const char *str);
 void        cell_comment_destroy         (Cell *cell);
 void        cell_comment_reposition      (Cell *cell);
 void        cell_set_font_from_style     (Cell *cell, StyleFont *style_font);
@@ -119,6 +139,8 @@ void        cell_set_foreground          (Cell *cell, gushort red,
 					  gushort green, gushort blue);
 void        cell_set_background          (Cell *cell, gushort red,
 					  gushort green, gushort blue);
+void        cell_set_color_from_style    (Cell *cell, StyleColor *foreground, 
+					  StyleColor *background) ;
 void        cell_set_pattern             (Cell *cell, int pattern);
 void        cell_set_border              (Cell *cell,
 					  StyleBorderType border_type [4],
@@ -126,7 +148,7 @@ void        cell_set_border              (Cell *cell,
 void        cell_set_alignment           (Cell *cell, int halign, int valign,
 					  int orientation, int auto_return);
 void        cell_set_halign              (Cell *cell, StyleHAlignFlags halign);
-void        cell_set_rendered_text       (Cell *cell, char *rendered_text);
+void        cell_set_rendered_text       (Cell *cell, const char *rendered_text);
 void        cell_relocate                (Cell *cell,
 					  int col_diff, int row_diff);
 void        cell_get_span                (Cell *cell, int *col1, int *col2);
@@ -136,17 +158,17 @@ char       *cell_get_value_as_text       (Cell *cell);
 void        cell_make_value              (Cell *cell);
 void        cell_render_value            (Cell *cell);
 void        cell_calc_dimensions         (Cell *cell);
-Cell       *cell_copy                    (Cell *cell);
+Cell       *cell_copy                    (const Cell *cell);
 void        cell_destroy                 (Cell *cell);
 void        cell_formula_changed         (Cell *cell);
 void        cell_queue_redraw            (Cell *cell);
-int         cell_get_horizontal_align    (Cell *cell);
+int         cell_get_horizontal_align    (const Cell *cell);
 
-int         cell_draw                    (Cell *cell, void *sheet_view,
+int         cell_draw                    (Cell *cell, SheetView *sheet_view,
 					  GdkGC *gc, GdkDrawable *drawable,
 					  int x, int y);
 
-void        calc_text_dimensions         (int is_number, Style *style, char *text,
+void        calc_text_dimensions         (int is_number, Style *style, const char *text,
 					  int cell_w, int cell_h, int *h, int *w);
 
 void        cell_realize                 (Cell *cell);
@@ -157,6 +179,12 @@ void        cell_unrealize               (Cell *cell);
  */
 void        cell_thaw_redraws            (void);
 void        cell_freeze_redraws          (void);
+
+/*
+ * Optimizations to stop any queueing of redraws.
+ */
+void        cell_deep_thaw_redraws            (void);
+void        cell_deep_freeze_redraws          (void);
 
 /*
  * Routines used to lookup which cells displays on a given column
@@ -171,4 +199,3 @@ void        row_init_span                (ColRowInfo *ri);
 void        row_destroy_span             (ColRowInfo *ri);
 
 #endif /* GNUMERIC_CELL_H */
-

@@ -14,6 +14,8 @@
 #include "color.h"
 #include "dialogs.h"
 #include "cursors.h"
+#include "gnumeric-util.h"
+#include "clipboard.h"
 
 static GnomeCanvasItem *item_grid_parent_class;
 
@@ -231,8 +233,12 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 		GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_grid);
 		int p = cell->style->pattern - 1;
 		
-		gdk_gc_set_stipple (gc, GNUMERIC_SHEET (item->canvas)->patterns [p]);
-		gdk_gc_set_fill (gc, GDK_STIPPLED);
+		/*
+		 * Next two lines are commented since the pattern display code of the cell
+		 * have not been tested (written?)
+		 */
+		/* gdk_gc_set_stipple (gc, GNUMERIC_SHEET (item->canvas)->patterns [p]); */
+		/* gdk_gc_set_fill (gc, GDK_STIPPLED); */
 		gdk_draw_rectangle (drawable, gc, TRUE,
 				    x1, y1,
 				    cell->col->pixels,
@@ -582,7 +588,7 @@ item_grid_popup_menu (ItemGrid *item_grid, GdkEvent *event, int col, int row)
 
 	menu = create_popup_menu (item_grid, show_paste);
 
-	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 3, event->button.time);
+	gnumeric_popup_menu (GTK_MENU (menu), (GdkEventButton *) event);
 }
 
 static int

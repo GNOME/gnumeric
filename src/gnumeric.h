@@ -1,11 +1,4 @@
-#include "numbers.h"
-#include <libgnomeprint/gnome-font.h>
-#include "style.h"
-#include "symbol.h"
-#include "str.h"
-#include "expr.h"
-#include "cell.h"
-#include "sheet.h"
-#include "sheet-view.h"
-#include "clipboard.h"
-#include "utils.h"
+#ifdef ENABLE_BONOBO
+#    include <bonobo/gnome-container.h>
+#    include <bonobo/gnome-client-site.h>
+#endif

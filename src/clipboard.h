@@ -2,15 +2,15 @@
 #define GNUMERIC_CLIPBOARD_H
 
 enum {
-	PASTE_VALUES   = 0,
-	PASTE_FORMULAS = 1,
-	PASTE_FORMATS  = 2,
+	PASTE_VALUES   = 1 << 0,
+	PASTE_FORMULAS = 1 << 1,
+	PASTE_FORMATS  = 1 << 2,
 
 	/* Operations that can be performed at paste time on a cell */
-	PASTE_OPER_ADD   = 4,
-	PASTE_OPER_SUB   = 8,
-	PASTE_OPER_MULT  = 16,
-	PASTE_OPER_DIV   = 32
+	PASTE_OPER_ADD   = 1 << 3,
+	PASTE_OPER_SUB   = 1 << 4,
+	PASTE_OPER_MULT  = 1 << 5,
+	PASTE_OPER_DIV   = 1 << 6
 };
 
 #define PASTE_ALL_TYPES (PASTE_FORMULAS | PASTE_VALUES | PASTE_FORMATS)

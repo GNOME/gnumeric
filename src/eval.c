@@ -17,7 +17,7 @@ static GHashTable *dependency_hash;
 void
 cell_eval (Cell *cell)
 {
-	char *error_msg = NULL;
+	char *error_msg = _("ERROR") ;
 	Value *v;
 
 	g_return_if_fail (cell != NULL);
@@ -27,8 +27,10 @@ cell_eval (Cell *cell)
 		       cell->row->pos,
 		       &error_msg);
 
-	if (cell->value)
+	if (cell->value){
 		value_release (cell->value);
+		cell->value = NULL;
+	}
 	
 	if (v == NULL){
 		cell_set_rendered_text (cell, error_msg);
@@ -53,8 +55,8 @@ cell_eval (Cell *cell)
 static gint
 dependency_equal (gconstpointer v, gconstpointer v2)
 {
-	DependencyRange *r1 = (DependencyRange *) v;
-	DependencyRange *r2 = (DependencyRange *) v2;
+	const DependencyRange *r1 = (const DependencyRange *) v;
+	const DependencyRange *r2 = (const DependencyRange *) v2;
 
 	if (r1->sheet != r2->sheet)
 		return 0;
@@ -98,7 +100,7 @@ dependency_hash_init (void)
  * We compute the location from cell->row->pos and cell->col->pos
  */
 static void
-add_cell_range_deps (Cell *cell, CellRef *a, CellRef *b)
+add_cell_range_deps (Cell *cell, const CellRef *a, const CellRef *b)
 {
 	DependencyRange range, *result;
 	int col = cell->col->pos;
@@ -141,10 +143,8 @@ add_cell_range_deps (Cell *cell, CellRef *a, CellRef *b)
  * Adds the dependencies for a Value
  */
 static void
-add_value_deps (Cell *cell, Value *value)
+add_value_deps (Cell *cell, const Value *value)
 {
-	GList *l;
-	
 	switch (value->type){
 	case VALUE_STRING:
 	case VALUE_INTEGER:
@@ -154,10 +154,15 @@ add_value_deps (Cell *cell, Value *value)
 		
 		/* Check every element of the array */
 	case VALUE_ARRAY:
-		for (l = value->v.array; l; l = l->next)
-			add_value_deps (cell, l->data);
-		break;
+	{
+		int x, y;
 		
+		for (x = 0; x < value->v.array.x; x++)
+			for (y = 0; y < value->v.array.y; y++)
+				add_value_deps (cell,
+						value->v.array.vals [x][y]);
+		break;
+	}
 	case VALUE_CELLRANGE:
 		add_cell_range_deps (
 			cell,
@@ -177,22 +182,15 @@ add_tree_deps (Cell *cell, ExprTree *tree)
 	GList *l;
 	
 	switch (tree->oper){
-	case OPER_EQUAL:
-	case OPER_NOT_EQUAL:
-	case OPER_GT:
-	case OPER_GTE:
-	case OPER_LT:
-	case OPER_LTE:
-	case OPER_ADD:
-	case OPER_SUB:
-	case OPER_MULT:
-	case OPER_DIV:
-	case OPER_EXP:
-	case OPER_CONCAT:
+	case OPER_ANY_BINARY:
 		add_tree_deps (cell, tree->u.binary.value_a);
 		add_tree_deps (cell, tree->u.binary.value_b);
 		return;
 
+	case OPER_ANY_UNARY:
+		add_tree_deps (cell, tree->u.value);
+		return;
+	
 	case OPER_VAR: 
 		add_cell_range_deps (
 			cell,
@@ -209,10 +207,6 @@ add_tree_deps (Cell *cell, ExprTree *tree)
 			add_tree_deps (cell, l->data);
 		return;
 
-	case OPER_NEG:
-		add_tree_deps (cell, tree->u.value);
-		return;
-	
 	} /* switch */
 }
 
@@ -226,7 +220,7 @@ cell_add_dependencies (Cell *cell)
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (cell->parsed_node != NULL);
-	
+
 	if (!dependency_hash)
 		dependency_hash_init ();
 
@@ -245,14 +239,15 @@ static void
 dependency_remove_cell (gpointer key, gpointer value, gpointer the_cell)
 {
 	DependencyRange *range = value;
-	GList *list = range->cell_list;
+	GList *list;
 
 	list = g_list_find (range->cell_list, the_cell);
 	if (!list)
 		return;
 
 	range->cell_list = g_list_remove_link (range->cell_list, list);
-	
+	g_list_free_1 (list);
+
 	range->ref_count--;
 
 	if (range->ref_count == 0)
@@ -288,7 +283,6 @@ cell_drop_dependencies (Cell *cell)
 }
 
 typedef struct {
-	Range range;
 	int   start_col, start_row;
 	int   end_col, end_row;
 	Sheet *sheet;
@@ -298,7 +292,8 @@ typedef struct {
 static gboolean
 intersects (Sheet *sheet, int col, int row, DependencyRange *range)
 {
-	if (range_contains (&range->range, col, row) && (sheet = range->sheet))
+	if ((sheet == range->sheet) &&
+	    range_contains (&range->range, col, row))
 		return TRUE;
 
 	return FALSE;
@@ -312,12 +307,14 @@ search_cell_deps (gpointer key, gpointer value, gpointer closure)
 	Sheet *sheet = c->sheet;
 	GList *l;
 
+	/* No intersection is the common case */
+
 	if (!(intersects (sheet, c->start_col, c->start_row, range) ||
 	      intersects (sheet, c->end_col,   c->end_row,   range) ||
 	      intersects (sheet, c->start_col, c->end_row,   range) ||
 	      intersects (sheet, c->end_col,   c->start_row, range)))
 		return;
-			
+
 	for (l = range->cell_list; l; l = l->next){
 		Cell *cell = l->data;
 
@@ -333,10 +330,10 @@ region_get_dependencies (Sheet *sheet, int start_col, int start_row, int end_col
 	if (!dependency_hash)
 		dependency_hash_init ();
 	
-	closure.range.start_col = start_col;
-	closure.range.start_row = start_row;
-	closure.range.end_col = end_col;
-	closure.range.end_row = end_row;
+	closure.start_col = start_col;
+	closure.start_row = start_row;
+	closure.end_col = end_col;
+	closure.end_row = end_row;
 	closure.sheet = sheet;
 	closure.list = NULL;
 
@@ -365,6 +362,12 @@ cell_get_dependencies (Sheet *sheet, int col, int row)
 	return closure.list;
 }
 
+/*
+ * cell_queue_recalc:
+ * @cell: the cell that contains the formula that must be recomputed
+ *
+ * Queues the cell @cell for recalculation.
+ */
 void
 cell_queue_recalc (Cell *cell)
 {
@@ -372,8 +375,35 @@ cell_queue_recalc (Cell *cell)
 
 	g_return_if_fail (cell != NULL);
 	
+	if (cell->flags & CELL_QUEUED_FOR_RECALC)
+		return;
+
 	wb = ((Sheet *)cell->sheet)->workbook;
 	wb->eval_queue = g_list_prepend (wb->eval_queue, cell);
+	cell->flags |= CELL_QUEUED_FOR_RECALC;
+}
+
+/*
+ * cell_unqueue_from_recalc:
+ * @cell: the cell to remove from the recomputation queue
+ *
+ * Removes a cell that has been previously added to the recomputation
+ * queue.  Used internally when a cell that was queued no longer contains
+ * a formula.
+ */
+void
+cell_unqueue_from_recalc (Cell *cell)
+{
+	Workbook *wb;
+	
+	g_return_if_fail (cell != NULL);
+
+	if (!(cell->flags & CELL_QUEUED_FOR_RECALC))
+		return;
+
+	wb = ((Sheet *)(cell->sheet))->workbook;
+	wb->eval_queue = g_list_remove (wb->eval_queue, cell);
+	cell->flags &= ~CELL_QUEUED_FOR_RECALC;
 }
 
 void
@@ -381,14 +411,27 @@ cell_queue_recalc_list (GList *list)
 {
 	Workbook *wb;
 	Cell *first_cell;
-	
+	GList *list0 = list;
+
 	if (!list)
 		return;
 
 	first_cell = list->data;
 	wb = ((Sheet *)(first_cell->sheet))->workbook;
 
-	wb->eval_queue = g_list_concat (wb->eval_queue, list);
+	while (list) {
+		Cell *cell = list->data;
+		list = list->next;
+
+		if (cell->flags & CELL_QUEUED_FOR_RECALC)
+			continue;
+
+		wb->eval_queue = g_list_prepend (wb->eval_queue, cell);
+
+		cell->flags |= CELL_QUEUED_FOR_RECALC;
+	}
+
+	g_list_free (list0);
 }
 
 static Cell *
@@ -401,6 +444,9 @@ pick_next_cell_from_queue (Workbook *wb)
 	
 	cell = wb->eval_queue->data;
 	wb->eval_queue = g_list_remove (wb->eval_queue, cell);
+	if (!(cell->flags & CELL_QUEUED_FOR_RECALC))
+		printf ("De-queued cell here\n");
+	cell->flags &= ~CELL_QUEUED_FOR_RECALC;
 	return cell;
 }
 
@@ -469,5 +515,4 @@ workbook_recalc_all (Workbook *workbook)
 	}
 	workbook_recalc (workbook);
 }
-
 

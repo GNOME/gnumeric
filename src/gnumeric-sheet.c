@@ -15,14 +15,12 @@
 #include "sheet-object.h"
 #include "color.h"
 #include "cursors.h"
+#include "utils.h"
 
-#define CURSOR_COL(gsheet) gsheet->sheet_view->sheet->cursor_col
-#define CURSOR_ROW(gsheet) gsheet->sheet_view->sheet->cursor_row
+#undef DEBUG_POSITIONS
 
-/* Public colors: shared by all of our items in Gnumeric */
-
-GdkColor gs_white, gs_black, gs_light_gray, gs_dark_gray, gs_red;
-
+#define CURSOR_COL(gsheet) (gsheet)->sheet_view->sheet->cursor_col
+#define CURSOR_ROW(gsheet) (gsheet)->sheet_view->sheet->cursor_row
 
 static GnomeCanvasClass *sheet_parent_class;
 
@@ -33,7 +31,7 @@ gnumeric_sheet_destroy (GtkObject *object)
 
 	/* Add shutdown code here */
 	gsheet = GNUMERIC_SHEET (object);
-	
+
 	if (GTK_OBJECT_CLASS (sheet_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (sheet_parent_class)->destroy)(object);
 }
@@ -43,7 +41,7 @@ gnumeric_sheet_create (SheetView *sheet_view, GtkWidget *entry)
 {
 	GnumericSheet *gsheet;
 	GnomeCanvas   *canvas;
-	
+
 	gsheet = gtk_type_new (gnumeric_sheet_get_type ());
 	canvas = GNOME_CANVAS (gsheet);
 
@@ -51,7 +49,7 @@ gnumeric_sheet_create (SheetView *sheet_view, GtkWidget *entry)
 	gsheet->top_col = 0;
 	gsheet->top_row = 0;
 	gsheet->entry   = entry;
-	
+
 	return gsheet;
 }
 
@@ -59,12 +57,12 @@ void
 gnumeric_sheet_get_cell_bounds (GnumericSheet *gsheet, int col, int row, int *x, int *y, int *w, int *h)
 {
 	Sheet *sheet;
-	
+
 	g_return_if_fail (gsheet != NULL);
-	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet)); 
+	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
 
 	sheet = gsheet->sheet_view->sheet;
-	
+
 	*x = sheet_col_get_distance (sheet, gsheet->top_col, col);
 	*y = sheet_row_get_distance (sheet, gsheet->top_row, row);
 
@@ -86,7 +84,7 @@ gnumeric_sheet_cursor_set (GnumericSheet *gsheet, int col, int row)
 {
 	GtkAdjustment *ha, *va;
 	SheetView *sheet_view;
-	
+
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
 
 	sheet_view = gsheet->sheet_view;
@@ -94,12 +92,23 @@ gnumeric_sheet_cursor_set (GnumericSheet *gsheet, int col, int row)
 	if (sheet_view->ha){
 		ha = GTK_ADJUSTMENT (sheet_view->ha);
 		va = GTK_ADJUSTMENT (sheet_view->va);
-		ha->value = col;
-		va->value = row;
-		
+		ha->value = gsheet->top_col;
+		va->value = gsheet->top_row;
+
+#ifdef DEBUG_POSITIONS
+		{
+			char *top_str = g_strdup (cell_name (gsheet->top_col, gsheet->top_row));
+			char *lv_str = g_strdup (cell_name (gsheet->last_visible_col, gsheet->last_visible_row));
+			printf ("top=%s lv=%s\n", top_str, lv_str);
+			g_free (top_str);
+			g_free (lv_str);
+		}
+#endif
+
 		gtk_adjustment_value_changed (ha);
 		gtk_adjustment_value_changed (va);
 	}
+
 }
 
 /*
@@ -188,14 +197,14 @@ move_cursor_horizontal (GnumericSheet *gsheet, int count)
 {
 	Sheet *sheet = gsheet->sheet_view->sheet;
 	int new_left;
-	
+
 	new_left = sheet->cursor_col + count;
 
 	if (new_left < 0)
 		new_left = 0;
 	if (new_left > SHEET_MAX_COLS-1)
 		new_left = SHEET_MAX_COLS-1;
-	
+
 	move_cursor (gsheet, new_left, sheet->cursor_row, TRUE);
 }
 
@@ -218,7 +227,7 @@ move_cursor_vertical (GnumericSheet *gsheet, int count)
 		new_top = 0;
 	if (new_top > SHEET_MAX_ROWS-1)
 		new_top = SHEET_MAX_ROWS-1;
-	
+
 	move_cursor (gsheet, sheet->cursor_col, new_top, TRUE);
 }
 
@@ -253,25 +262,25 @@ gnumeric_sheet_can_move_cursor (GnumericSheet *gsheet)
 
 	if (!gsheet->sheet_view->sheet->editing)
 		return FALSE;
-	
+
 	if (gsheet->item_editor && gsheet->selecting_cell)
 		return TRUE;
-	
+
 	entry = GTK_ENTRY (gsheet->entry);
 	cursor_pos = GTK_EDITABLE (entry)->current_pos;
-	
+
 	if (entry->text [0] != '=')
 		return FALSE;
 	if (cursor_pos == 0)
 		return FALSE;
-		
+
 	switch (entry->text [cursor_pos-1]){
-	case '=': case '-': case '*': case '/': case '^': 
+	case '=': case '-': case '*': case '/': case '^':
 	case '+': case '&': case '(': case '%': case '!':
 	case ':': case ',':
 		return TRUE;
 	}
-	
+
 	return FALSE;
 }
 
@@ -280,9 +289,9 @@ start_cell_selection_at (GnumericSheet *gsheet, int col, int row)
 {
 	GnomeCanvas *canvas = GNOME_CANVAS (gsheet);
 	GnomeCanvasGroup *group = GNOME_CANVAS_GROUP (canvas->root);
-	
+
 	g_return_if_fail (gsheet->selecting_cell == FALSE);
-	
+
 	gsheet->selecting_cell = TRUE;
 	gsheet->selection = ITEM_CURSOR (gnome_canvas_item_new (
 		group,
@@ -293,7 +302,7 @@ start_cell_selection_at (GnumericSheet *gsheet, int col, int row)
 	gsheet->selection->base_col = col;
 	gsheet->selection->base_row = row;
 	item_cursor_set_bounds (ITEM_CURSOR (gsheet->selection), col, row, col, row);
-				
+
 	gsheet->sel_cursor_pos = GTK_EDITABLE (gsheet->entry)->current_pos;
 	gsheet->sel_text_len = 0;
 }
@@ -326,7 +335,7 @@ gnumeric_sheet_stop_cell_selection (GnumericSheet *gsheet)
 
 	if (!gsheet->selecting_cell)
 		return;
-	
+
 	gsheet->selecting_cell = FALSE;
 	gtk_object_destroy (GTK_OBJECT (gsheet->selection));
 	gsheet->selection = NULL;
@@ -343,12 +352,12 @@ gnumeric_sheet_create_editing_cursor (GnumericSheet *gsheet)
 	sheet = gsheet->sheet_view->sheet;
 	col = sheet->cursor_col;
 	row = sheet->cursor_row;
-	
+
 	item = gnome_canvas_item_new (GNOME_CANVAS_GROUP(canvas->root),
 				      item_edit_get_type (),
 				      "ItemEdit::Sheet",    sheet,
 				      "ItemEdit::Grid",     gsheet->item_grid,
-				      "ItemEdit::Col",      col, 
+				      "ItemEdit::Col",      col,
 				      "ItemEdit::Row",      row,
 				      "ItemEdit::GtkEntry", sheet->workbook->ea_input,
 				      NULL);
@@ -360,7 +369,7 @@ static void
 destroy_item_editor (GnumericSheet *gsheet)
 {
 	g_return_if_fail (gsheet->item_editor);
-	
+
 	gtk_object_destroy (GTK_OBJECT (gsheet->item_editor));
 	gsheet->item_editor = NULL;
 }
@@ -370,9 +379,9 @@ gnumeric_sheet_destroy_editing_cursor (GnumericSheet *gsheet)
 {
 	g_return_if_fail (gsheet != NULL);
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
-	
+
 	gnumeric_sheet_stop_cell_selection (gsheet);
-	
+
 	if (!gsheet->item_editor)
 		return;
 
@@ -432,7 +441,7 @@ void
 gnumeric_sheet_selection_extend (GnumericSheet *gsheet, int col, int row)
 {
 	ItemCursor *ic;
-	
+
 	g_return_if_fail (gsheet != NULL);
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
 	g_return_if_fail (gsheet->selecting_cell);
@@ -458,15 +467,15 @@ void
 gnumeric_sheet_selection_cursor_place (GnumericSheet *gsheet, int col, int row)
 {
 	ItemCursor *ic;
-	
+
 	g_return_if_fail (gsheet != NULL);
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
 	g_return_if_fail (gsheet->selecting_cell);
 	g_return_if_fail (col < SHEET_MAX_COLS);
 	g_return_if_fail (row < SHEET_MAX_ROWS);
-	
+
 	ic = gsheet->selection;
-	
+
 	selection_remove_selection_string (gsheet);
 	item_cursor_set_bounds (ic, col, row, col, row);
 	selection_insert_selection_string (gsheet);
@@ -478,7 +487,7 @@ selection_cursor_move_horizontal (GnumericSheet *gsheet, int dir)
 	ItemCursor *ic;
 
 	g_return_if_fail (dir == -1 || dir == 1);
-	
+
 	if (!gsheet->selecting_cell)
 		start_cell_selection (gsheet);
 
@@ -490,11 +499,11 @@ selection_cursor_move_horizontal (GnumericSheet *gsheet, int dir)
 		if (ic->end_col + 1 > (SHEET_MAX_COLS-1))
 			return;
 	}
-	
+
 	selection_remove_selection_string (gsheet);
-	item_cursor_set_bounds (ic, 
+	item_cursor_set_bounds (ic,
 				ic->start_col + dir,
-				ic->start_row, 
+				ic->start_row,
 				ic->end_col + dir,
 				ic->end_row);
 	selection_insert_selection_string (gsheet);
@@ -548,7 +557,7 @@ selection_expand_horizontal (GnumericSheet *gsheet, int dir)
 
 	if (dir == -1 && ic->start_col == ic->end_col)
 		return;
-	
+
 	selection_remove_selection_string (gsheet);
 	item_cursor_set_bounds (ic,
 				ic->start_col,
@@ -571,13 +580,13 @@ selection_expand_vertical (GnumericSheet *gsheet, int dir)
 	}
 
 	ic = gsheet->selection;
-	
+
 	if (ic->end_row == SHEET_MAX_ROWS-1)
 		return;
 
 	if (dir == -1 && ic->start_row == ic->end_row)
 		return;
-	
+
 	selection_remove_selection_string (gsheet);
 	item_cursor_set_bounds (ic,
 				ic->start_col,
@@ -598,7 +607,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	void (*movefn_horizontal) (GnumericSheet *, int);
 	void (*movefn_vertical)   (GnumericSheet *, int);
 	int  cursor_move = gnumeric_sheet_can_move_cursor (gsheet);
-	
+
 	if ((event->state & GDK_SHIFT_MASK) != 0){
 		if (cursor_move){
 			movefn_horizontal = selection_expand_horizontal;
@@ -634,7 +643,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	 * but if the editor is running we forward the events to it.
 	 */
 	if (!gsheet->item_editor){
-		
+
 		if ((event->state & GDK_CONTROL_MASK) != 0) {
 
 			switch (event->keyval) {
@@ -711,7 +720,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		break;
 
 	case GDK_KP_Delete:
-	case GDK_Delete: 
+	case GDK_Delete:
 		sheet_selection_clear (sheet);
 		break;
 
@@ -721,7 +730,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 			if (gsheet->item_editor){
 				Cell *cell;
 				char *text;
-				
+
 				sheet_accept_pending_input (sheet);
 				cell = sheet_cell_get (sheet,
 						       sheet->cursor_col,
@@ -737,11 +746,13 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 				text = cell_get_text (cell);
 				sheet_fill_selection_with (sheet, text);
 				g_free (text);
+			} else {
+				gtk_widget_grab_focus (gsheet->entry);
 			}
 			return 1;
 		}
 		/* fall down */
-		
+
 	case GDK_Tab:
 	{
 		int col, row;
@@ -751,7 +762,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		/* Figure out the direction */
 		direction = (event->state & GDK_SHIFT_MASK) ? 0 : 1;
 		horizontal = (event->keyval == GDK_Tab) ? 1 : 0;
-		
+
 		walking_selection = sheet_selection_walk_step (
 			sheet, direction, horizontal,
 			sheet->cursor_col, sheet->cursor_row,
@@ -763,7 +774,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	case GDK_Escape:
 		sheet_cancel_pending_input (sheet);
 		break;
-		
+
 	case GDK_F2:
 		gtk_window_set_focus (GTK_WINDOW (wb->toplevel), wb->ea_input);
 		sheet->editing = TRUE;
@@ -773,13 +784,13 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		if (!gsheet->item_editor){
 			if ((event->state & (GDK_MOD1_MASK|GDK_CONTROL_MASK)) != 0)
 				return 0;
-			
+
 			if ((event->keyval >= 0x20 && event->keyval <= 0xff) ||
 			    (event->keyval >= GDK_KP_Add && event->keyval <= GDK_KP_9))
 				sheet_start_editing_at_cursor (sheet);
 		}
 		gnumeric_sheet_stop_cell_selection (gsheet);
-		
+
 		/* Forward the keystroke to the input line */
 		return gtk_widget_event (gsheet->entry, (GdkEvent *) event);
 	}
@@ -791,7 +802,7 @@ static gint
 gnumeric_sheet_key_mode_object (GnumericSheet *gsheet, GdkEventKey *event)
 {
 	Sheet *sheet = gsheet->sheet_view->sheet;
-	
+
 	switch (event->keyval){
 	case GDK_Escape:
 		sheet_set_mode_type (sheet, SHEET_MODE_SHEET);
@@ -799,7 +810,7 @@ gnumeric_sheet_key_mode_object (GnumericSheet *gsheet, GdkEventKey *event)
 
 	case GDK_BackSpace:
 	case GDK_Delete:
-		sheet_object_destroy (sheet->current_object);
+		gtk_object_destroy (GTK_OBJECT (sheet->current_object));
 		sheet_set_mode_type (sheet, SHEET_MODE_SHEET);
 		break;
 
@@ -814,7 +825,7 @@ gnumeric_sheet_key (GtkWidget *widget, GdkEventKey *event)
 {
 	GnumericSheet *gsheet = GNUMERIC_SHEET (widget);
 	Sheet *sheet = gsheet->sheet_view->sheet;
-	
+
 	switch (sheet->mode){
 	case SHEET_MODE_SHEET:
 		return gnumeric_sheet_key_mode_sheet (gsheet, event);
@@ -838,7 +849,7 @@ gnumeric_sheet_new (SheetView *sheet_view, ItemBar *colbar, ItemBar *rowbar)
 	GtkWidget *entry;
 	Sheet     *sheet;
 	Workbook  *workbook;
-	
+
 	g_return_val_if_fail (sheet_view  != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET_VIEW (sheet_view), NULL);
 	g_return_val_if_fail (colbar != NULL, NULL);
@@ -848,10 +859,10 @@ gnumeric_sheet_new (SheetView *sheet_view, ItemBar *colbar, ItemBar *rowbar)
 
 	sheet = sheet_view->sheet;
 	workbook = sheet->workbook;
-	
+
 	entry = workbook->ea_input;
 	gsheet = gnumeric_sheet_create (sheet_view, entry);
-	
+
 	/* FIXME: figure out some real size for the canvas scrolling region */
 	gnome_canvas_set_scroll_region (GNOME_CANVAS (gsheet), 0, 0, 1000000, 1000000);
 
@@ -861,7 +872,7 @@ gnumeric_sheet_new (SheetView *sheet_view, ItemBar *colbar, ItemBar *rowbar)
 
 	gsheet->colbar = colbar;
 	gsheet->rowbar = rowbar;
-	
+
 	/* The grid */
 	item = gnome_canvas_item_new (gsheet_group,
 				      item_grid_get_type (),
@@ -877,7 +888,7 @@ gnumeric_sheet_new (SheetView *sheet_view, ItemBar *colbar, ItemBar *rowbar)
 				      NULL);
 	gsheet->item_cursor = ITEM_CURSOR (item);
 	item_cursor_set_bounds (gsheet->item_cursor, 0, 0, 1, 1);
-		
+
 	widget = GTK_WIDGET (gsheet);
 
 	return widget;
@@ -895,7 +906,7 @@ gnumeric_sheet_pattern_t gnumeric_sheet_patterns [GNUMERIC_SHEET_PATTERNS] = {
 
 	{ N_("12%"),
 	  { 0x01, 0x08, 0x40, 0x02, 0x10, 0x80, 0x04, 0x20 } },
-	
+
 	{ N_("6%"),
 	  { 0x80, 0x00, 0x04, 0x00, 0x80, 0x00, 0x04, 0x00 } },
 
@@ -931,7 +942,7 @@ gnumeric_sheet_realize (GtkWidget *widget)
 	GnumericSheet *gsheet = GNUMERIC_SHEET (widget);
 	GdkWindow *window;
 	int i;
-	
+
 	if (GTK_WIDGET_CLASS (sheet_parent_class)->realize)
 		(*GTK_WIDGET_CLASS (sheet_parent_class)->realize)(widget);
 
@@ -955,14 +966,14 @@ gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet)
 	pixels = 0;
 	col = gsheet->top_col;
 	width = GTK_WIDGET (canvas)->allocation.width;
-	
+
 	do {
 		ColRowInfo *ci;
 		int cb;
-		
+
 		ci = sheet_col_get_info (gsheet->sheet_view->sheet, col);
 		cb = pixels + ci->pixels;
-		
+
 		if (cb == width){
 			gsheet->last_visible_col = col;
 			gsheet->last_full_col = col;
@@ -984,16 +995,16 @@ gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet)
 	do {
 		ColRowInfo *ri;
 		int cb;
-		
+
 		ri = sheet_row_get_info (gsheet->sheet_view->sheet, row);
 		cb = pixels + ri->pixels;
-		
+
 		if (cb == height){
 			gsheet->last_visible_row = row;
 			gsheet->last_full_row = row;
 		} if (cb > height){
 			gsheet->last_visible_row = row;
-			if (col == gsheet->top_row)
+			if (row == gsheet->top_row)
 				gsheet->last_full_row = gsheet->top_row;
 			else
 				gsheet->last_full_row = row - 1;
@@ -1021,7 +1032,7 @@ gnumeric_sheet_bar_set_top_row (GnumericSheet *gsheet, int new_top_row)
 
 	gnome_canvas_get_scroll_offsets (rowc, &x, NULL);
 	gnome_canvas_scroll_to (rowc, x, row_distance);
-	
+
 	return row_distance;
 }
 
@@ -1029,13 +1040,16 @@ void
 gnumeric_sheet_set_top_row (GnumericSheet *gsheet, int new_top_row)
 {
 	int distance, x;
-	
+
 	g_return_if_fail (gsheet != NULL);
 	g_return_if_fail (new_top_row >= 0 && new_top_row <= SHEET_MAX_ROWS-1);
 
-	distance = gnumeric_sheet_bar_set_top_row (gsheet, new_top_row);
-	gnome_canvas_get_scroll_offsets (GNOME_CANVAS (gsheet), &x, NULL);
-	gnome_canvas_scroll_to (GNOME_CANVAS (gsheet), x, distance);
+	if (gsheet->top_row != new_top_row) {
+		distance = gnumeric_sheet_bar_set_top_row (gsheet, new_top_row);
+		gnome_canvas_get_scroll_offsets (GNOME_CANVAS (gsheet), &x, NULL);
+		gnumeric_sheet_compute_visible_ranges (gsheet);
+		gnome_canvas_scroll_to (GNOME_CANVAS (gsheet), x, distance);
+	}
 }
 
 static int
@@ -1057,7 +1071,7 @@ gnumeric_sheet_bar_set_top_col (GnumericSheet *gsheet, int new_top_col)
 
 	gnome_canvas_get_scroll_offsets (colc, NULL, &y);
 	gnome_canvas_scroll_to (colc, col_distance, y);
-	
+
 	return col_distance;
 }
 
@@ -1065,13 +1079,16 @@ void
 gnumeric_sheet_set_top_col (GnumericSheet *gsheet, int new_top_col)
 {
 	int distance, y;
-	
+
 	g_return_if_fail (gsheet != NULL);
 	g_return_if_fail (new_top_col >= 0 && new_top_col <= SHEET_MAX_COLS-1);
 
-	distance = gnumeric_sheet_bar_set_top_col (gsheet, new_top_col);
-	gnome_canvas_get_scroll_offsets (GNOME_CANVAS (gsheet), NULL, &y);
-	gnome_canvas_scroll_to (GNOME_CANVAS (gsheet), distance, y);
+	if (gsheet->top_col != new_top_col) {
+		distance = gnumeric_sheet_bar_set_top_col (gsheet, new_top_col);
+		gnome_canvas_get_scroll_offsets (GNOME_CANVAS (gsheet), NULL, &y);
+		gnumeric_sheet_compute_visible_ranges (gsheet);
+		gnome_canvas_scroll_to (GNOME_CANVAS (gsheet), distance, y);
+	}
 }
 
 void
@@ -1082,7 +1099,7 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row)
 	int   did_change = 0;
 	int   new_top_col, new_top_row;
 	int   col_distance, row_distance;
-	
+
 	g_return_if_fail (gsheet != NULL);
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
 	g_return_if_fail (col >= 0);
@@ -1124,7 +1141,7 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row)
 
 		for (first_row = row; first_row > 0; first_row--){
 			ri = sheet_row_get_info (sheet, first_row);
-			
+
 			if (allocated + ri->pixels > height)
 				break;
 			allocated += ri->pixels;
@@ -1136,7 +1153,7 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row)
 	/* Determine if scrolling is required */
 
 	gnome_canvas_get_scroll_offsets (GNOME_CANVAS (gsheet), &col_distance, &row_distance);
-	
+
 	if (gsheet->top_col != new_top_col){
 		col_distance = gnumeric_sheet_bar_set_top_col (gsheet, new_top_col);
 		did_change = 1;
@@ -1149,7 +1166,7 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row)
 
 	if (!did_change)
 		return;
-	
+
 	gnumeric_sheet_compute_visible_ranges (gsheet);
 
 	gnome_canvas_scroll_to (GNOME_CANVAS (gsheet), col_distance, row_distance);
@@ -1163,6 +1180,7 @@ gnumeric_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 	gnumeric_sheet_compute_visible_ranges (GNUMERIC_SHEET (widget));
 }
 
+#if 0
 static gint
 gnumeric_button_press (GtkWidget *widget, GdkEventButton *event)
 {
@@ -1171,6 +1189,7 @@ gnumeric_button_press (GtkWidget *widget, GdkEventButton *event)
 
 	return FALSE;
 }
+#endif
 
 static void
 gnumeric_sheet_class_init (GnumericSheetClass *class)
@@ -1182,12 +1201,12 @@ gnumeric_sheet_class_init (GnumericSheetClass *class)
 	object_class = (GtkObjectClass *) class;
 	widget_class = (GtkWidgetClass *) class;
 	canvas_class = (GnomeCanvasClass *) class;
-	
+
 	sheet_parent_class = gtk_type_class (gnome_canvas_get_type ());
 
 	/* Method override */
 	object_class->destroy = gnumeric_sheet_destroy;
-	
+
 	widget_class->realize              = gnumeric_sheet_realize;
  	widget_class->size_allocate        = gnumeric_size_allocate;
 	widget_class->key_press_event      = gnumeric_sheet_key;
@@ -1197,7 +1216,7 @@ static void
 gnumeric_sheet_init (GnumericSheet *gsheet)
 {
 	GnomeCanvas *canvas = GNOME_CANVAS (gsheet);
-	
+
 	GTK_WIDGET_SET_FLAGS (canvas, GTK_CAN_FOCUS);
 	GTK_WIDGET_SET_FLAGS (canvas, GTK_CAN_DEFAULT);
 }
@@ -1224,4 +1243,3 @@ gnumeric_sheet_get_type (void)
 
 	return gnumeric_sheet_type;
 }
-

@@ -131,7 +131,7 @@ sheet_view_font (SheetView *sheet_view, Cell *cell)
  * Returns the number of columns used for the draw
  */
 int 
-cell_draw (Cell *cell, void *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y1)
+cell_draw (Cell *cell, SheetView *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y1)
 {
 	Style        *style = cell->style;
 	GdkFont      *font;

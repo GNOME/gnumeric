@@ -8,7 +8,9 @@
 #include <glib.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdio.h>
 #include "symbol.h"
+#include "utils.h"
 
 SymbolTable *global_symbol_table;
 
@@ -18,7 +20,7 @@ SymbolTable *global_symbol_table;
  * @str: string to be looked up in the symbol table
  */
 Symbol *
-symbol_lookup (SymbolTable *st, char *str)
+symbol_lookup (SymbolTable *st, const char *str)
 {
 	Symbol *sym;
 
@@ -30,7 +32,7 @@ symbol_lookup (SymbolTable *st, char *str)
 }
 
 Symbol *
-symbol_lookup_substr (SymbolTable *st, char *buffer, int len)
+symbol_lookup_substr (SymbolTable *st, const char *buffer, int len)
 {
 	char *str;
 	Symbol *sym;
@@ -57,12 +59,15 @@ symbol_lookup_substr (SymbolTable *st, char *buffer, int len)
  * @data: information attached to the symbol
  */
 Symbol *
-symbol_install (SymbolTable *st, char *str, SymbolType type, void *data)
+symbol_install (SymbolTable *st, const char *str, SymbolType type, void *data)
 {
 	Symbol *sym;
 
 	g_return_val_if_fail (str != NULL, NULL);
 	g_return_val_if_fail (st != NULL, NULL);
+
+	sym = (Symbol *) g_hash_table_lookup (st->hash, str);
+	if (sym) printf ("Symbol [%s] redefined.\n", str);
 
 	sym = g_new (Symbol, 1);
 	sym->ref_count = 1;
@@ -99,7 +104,7 @@ symbol_ref (Symbol *sym)
  * symbol is created
  */
 Symbol *
-symbol_ref_string (SymbolTable *st, char *str)
+symbol_ref_string (SymbolTable *st, const char *str)
 {
 	Symbol *sym;
 
@@ -134,37 +139,12 @@ symbol_unref (Symbol *sym)
 	}
 }
 
-static gint
-g_strcase_equal (gconstpointer v1, gconstpointer v2)
-{
-	return strcasecmp ((const gchar*) v1, (const gchar*) v2) == 0;
-}
-
-
-static guint
-g_strcase_hash (gconstpointer v)
-{
-	const char *s = (char *) v;
-	const char *p;
-	guint h = 0, g;
-	
-	for (p = s; *p != '\0'; p += 1){
-		h = (h << 4) + toupper (*p);
-		if ((g = h & 0xf0000000)){
-			h = h ^ (g >> 24);
-			h = h ^ g;
-		}
-	}
-	
-	return h /* % M */;
-}
-
 SymbolTable *
 symbol_table_new (void)
 {
 	SymbolTable *st = g_new (SymbolTable, 1);
 
-	st->hash = g_hash_table_new (g_strcase_hash, g_strcase_equal);
+	st->hash = g_hash_table_new (gnumeric_strcase_hash, gnumeric_strcase_equal);
 
 	return st;
 }
@@ -174,7 +154,7 @@ symbol_table_new (void)
  * @st: The symbol table to destroy
  *
  * This only releases the resources associated with a SymbolTable.
- * Note that the symols on the Symbol Table are not unrefed, it is
+ * Note that the symbols on the SymbolTable are not unrefed, it is
  * up to the caller to unref them.
  */
 void
@@ -191,4 +171,3 @@ global_symbol_init (void)
 {
 	global_symbol_table = symbol_table_new ();
 }
-

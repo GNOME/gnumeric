@@ -22,16 +22,16 @@ typedef struct {
 SymbolTable *symbol_table_new      (void);
 void         symbol_table_destroy  (SymbolTable *st);
 
-Symbol      *symbol_lookup         (SymbolTable *st, char *str);
-Symbol      *symbol_lookup_substr  (SymbolTable *st, char *buffer, int len);
-Symbol      *symbol_install        (SymbolTable *st, char *str,
+Symbol      *symbol_lookup         (SymbolTable *st, const char *str);
+Symbol      *symbol_lookup_substr  (SymbolTable *st, const char *buffer, int len);
+Symbol      *symbol_install        (SymbolTable *st, const char *str,
 				    SymbolType type, void *data);
 
 void         symbol_ref            (Symbol *);
 void         symbol_unref          (Symbol *);
 void         symbol_unref_ptr      (Symbol **);
 
-Symbol      *symbol_ref_string     (SymbolTable *st, char *str);
+Symbol      *symbol_ref_string     (SymbolTable *st, const char *str);
 
 void         global_symbol_init    (void);
 

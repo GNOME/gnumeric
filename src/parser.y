@@ -10,9 +10,14 @@
 #include <config.h>
 #include <ctype.h>
 #include <string.h>
+#include <locale.h>
 #include <gnome.h>
 #include "gnumeric.h"
 #include "number-match.h"
+#include "symbol.h"
+#include "expr.h"
+#include "sheet.h"
+#include "utils.h"
 	
 /* Allocation with disposal-on-error */ 
 static void *alloc_buffer    (int size);
@@ -22,7 +27,7 @@ static void  alloc_glist     (GList *l);
 static void  forget_glist    (GList *list);
 static void  forget_tree     (ExprTree *tree);
 static void  alloc_list_free (void); 
-static void *v_new (void);
+static Value*v_new (void);
 	
 #define ERROR -1
  
@@ -50,17 +55,37 @@ static void dump_tree (ExprTree *tree);
 static int  yylex (void);
 static int  yyerror (char *s);
 
+/* The expression being parsed */
+static const char *parser_expr;
+
+/* The error returned from the */
+static ParseErr parser_error;
+
+/* The sheet where the parsing takes place */
+static Sheet *parser_sheet;
+
+/* Location where the parsing is taking place */
+static int parser_col, parser_row;
+
+/* The suggested format to use for this expression */
+static const char **parser_desired_format;
+
+/* Locale info.  */
+static char parser_decimal_point;
+
+static ExprTree **parser_result;
+
 #define p_new(type) ((type *) alloc_buffer ((unsigned) sizeof (type)))
 
 static ExprTree *
 build_binop (ExprTree *l, Operation op, ExprTree *r)
 {
-  ExprTree *res = p_new (ExprTree);
-  res->ref_count = 1;
-  res->u.binary.value_a = l;
-  res->oper = op;
-  res->u.binary.value_b = r;
-  return res;
+	ExprTree *res = p_new (ExprTree);
+	res->ref_count = 1;
+	res->u.binary.value_a = l;
+	res->oper = op;
+	res->u.binary.value_b = r;
+	return res;
 }
 
 %}
@@ -77,22 +102,17 @@ build_binop (ExprTree *l, Operation op, ExprTree *r)
 %token <sheetref> SHEETREF
 %type  <tree>     cellref
 
+%left '&'
 %left '<' '>' '=' GTE LTE NE
-%left '-' '+' '&'
+%left '-' '+' 
 %left '*' '/'
 %left NEG PLUS
 %left '!'
 %right '^'
 
 %%
-line:	  exp           { parser_result = $1;
-                          /* dump_tree (parser_result);*/
-                          alloc_list_free (); 
-                        }
-	| error 	{
-				alloc_clean ();
-				parser_error = PARSE_ERR_SYNTAX;
-			}
+line:	  exp           { *parser_result = $1; }
+	| error 	{ parser_error = PARSE_ERR_SYNTAX; }
 	;
 
 exp:	  NUMBER 	{ $$ = $1 }
@@ -125,18 +145,13 @@ exp:	  NUMBER 	{ $$ = $1 }
 	}
 
         | cellref ':' cellref {
-		CellRef a, b;
-
-		a = $1->u.ref;
-		b = $3->u.ref;
-
 		$$ = p_new (ExprTree);
 		$$->ref_count = 1;
 		$$->oper = OPER_CONSTANT;
 		$$->u.constant = v_new ();
 		$$->u.constant->type = VALUE_CELLRANGE;
-		$$->u.constant->v.cell_range.cell_a = a;
-		$$->u.constant->v.cell_range.cell_b = b;
+		$$->u.constant->v.cell_range.cell_a = $1->u.ref;
+		$$->u.constant->v.cell_range.cell_b = $3->u.ref;
 
 		forget_tree ($1);
 		forget_tree ($3);
@@ -214,7 +229,7 @@ return_cellref (char *p)
 	/*  Ok, parsed successfully, create the return value */
 	e = p_new (ExprTree);
 	e->ref_count = 1;
-	
+
 	e->oper = OPER_VAR;
 
 	ref = &e->u.ref;
@@ -233,7 +248,7 @@ return_cellref (char *p)
 	ref->col_relative = col_relative;
 	ref->row_relative = row_relative;
 	ref->sheet = parser_sheet;
-	
+
 	yylval.tree = e;
 
 	return CELLREF;
@@ -252,7 +267,6 @@ make_string_return (char *string)
 	ExprTree *e;
 	Value *v;
 	double fv;
-	int type;
 	char *format;
 
 	e = p_new (ExprTree);
@@ -268,8 +282,8 @@ make_string_return (char *string)
 	if (format_match (string, &fv, &format)){
 		v->type = VALUE_FLOAT;
 		v->v.v_float = fv;
-		if (!parser_desired_format)
-			parser_desired_format = format;
+		if (parser_desired_format && *parser_desired_format == NULL)
+			*parser_desired_format = format;
 	} else {
 		v->v.str = string_get (string);
 		v->type = VALUE_STRING;
@@ -361,15 +375,19 @@ try_symbol (char *string, gboolean try_cellref)
 int yylex (void)
 {
 	int c;
-	char *p, *tmp;
-	int is_float;
-	
+	const char *p, *tmp;
+	int is_float, digits;
+
         while(isspace (*parser_expr))
-                parser_expr++;                                                                                       
+                parser_expr++;
 
 	c = *parser_expr++;
         if (c == '(' || c == ',' || c == ')')
                 return c;
+
+	/* Translate locale's decimal marker into a dot.  */
+	if (c == parser_decimal_point)
+		c = '.';
 
 	switch (c){
         case '0': case '1': case '2': case '3': case '4': case '5':
@@ -381,10 +399,16 @@ int yylex (void)
 		is_float = c == '.';
 		p = parser_expr-1;
 		tmp = parser_expr;
-		
-                while (isdigit (*tmp) || (!is_float && *tmp=='.' && ++is_float))
-                        tmp++;
-		
+
+		digits = 1;
+		while (isdigit (*tmp) || (!is_float && *tmp=='.' && ++is_float)) {
+			tmp++;
+			digits++;
+		}
+
+		/* Can't store it in a gint32 */
+		is_float |= (digits > 9);
+
 		if (*tmp == 'e' || *tmp == 'E') {
 			is_float = 1;
 			tmp++;
@@ -446,7 +470,7 @@ int yylex (void)
 	}
 	
 	if (isalpha (c) || c == '_' || c == '$'){
-		char *start = parser_expr - 1;
+		const char *start = parser_expr - 1;
 		char *str;
 		int  len;
 		
@@ -459,10 +483,8 @@ int yylex (void)
 		str [len] = 0;
 		return try_symbol (str, TRUE);
 	}
-	if (c == '\n')
-		return 0;
-	
-	if (c == EOF)
+
+	if (c == '\n' || c == 0)
 		return 0;
 
 	if (c == '<'){
@@ -491,12 +513,14 @@ int yylex (void)
 int
 yyerror (char *s)
 {
-    printf ("Error: %s\n", s);
-    return 0;
+#if 0
+	printf ("Error: %s\n", s);
+#endif
+	return 0;
 }
 
 static void
-alloc_register (void *a_info)
+alloc_register (AllocRec *a_info)
 {
 	alloc_list = g_list_prepend (alloc_list, a_info);
 }
@@ -515,7 +539,7 @@ void *
 alloc_buffer (int size)
 {
 	AllocRec *a_info = g_new (AllocRec, 1);
-	char *res = g_malloc (size);
+	void *res = g_malloc (size);
 
 	a_info->type = ALLOC_BUFFER;
 	a_info->data = res;
@@ -524,11 +548,11 @@ alloc_buffer (int size)
 	return res;
 }
 
-static void *
+static Value *
 v_new (void)
 {
 	AllocRec *a_info = g_new (AllocRec, 1);
-	char *res = g_malloc (sizeof (Value));
+	Value *res = g_new (Value, 1);
 
 	a_info->type = ALLOC_VALUE;
 	a_info->data = res;
@@ -565,7 +589,7 @@ alloc_clean (void)
 		g_free (rec);
 	}
 
-	g_list_free (l);
+	g_list_free (alloc_list);
 	alloc_list = NULL;
 }
 
@@ -577,7 +601,7 @@ alloc_list_free (void)
 	for (; l; l = l->next)
 		g_free (l->data);
 
-	g_list_free (l);
+	g_list_free (alloc_list);
 	alloc_list = NULL;
 }
 
@@ -601,6 +625,8 @@ forget (AllocType type, void *data)
 
 		if (a_info->type == type && a_info->data == data){
 			alloc_list = g_list_remove_link (alloc_list, l);
+			g_list_free_1 (l);
+			g_free (a_info);
 			return;
 		}
 	}
@@ -615,12 +641,12 @@ forget_glist (GList *list)
 static void
 forget_tree (ExprTree *tree)
 {
+	expr_tree_unref (tree);
 	forget (ALLOC_BUFFER, tree);
-	expr_tree_unref (tree); 
 }
 
 void
-value_dump (Value *value)
+value_dump (const Value *value)
 {
 	switch (value->type){
 	case VALUE_STRING:
@@ -636,13 +662,24 @@ value_dump (Value *value)
 		break;
 
 	case VALUE_ARRAY: {
-		GList *l;
-
+		int x, y;
+		
 		printf ("Array: { ");
-		for (l = value->v.array; l; l = l->next){
-			value_dump (l->data);
-		}
+		for (y = 0; y < value->v.array.y; y++)
+			for (x = 0; x < value->v.array.x; x++)
+				value_dump (value->v.array.vals [x][y]);
 		printf ("}\n");
+		break;
+	}
+	case VALUE_CELLRANGE: {
+		const CellRef *c = &value->v.cell_range.cell_a;
+		printf ("CellRange\n");
+		printf ("%p: %d,%d rel? %d,%d\n", c->sheet, c->col, c->row,
+			c->col_relative, c->row_relative);
+		c = &value->v.cell_range.cell_b;
+		printf ("%p: %d,%d rel? %d,%d\n", c->sheet, c->col, c->row,
+			c->col_relative, c->row_relative);
+		break;
 	}
 	default:
 		printf ("Unhandled item type\n");
@@ -657,7 +694,7 @@ dump_tree (ExprTree *tree)
 	
 	switch (tree->oper){
 	case OPER_VAR:
-		cr = &tree->u.constant->v.cell;
+		cr = &tree->u.ref;
 		printf ("Cell: %s%c%s%d\n",
 			cr->col_relative ? "" : "$",
 			cr->col + 'A',
@@ -674,18 +711,7 @@ dump_tree (ExprTree *tree)
 		printf ("Function call: %s\n", s->str);
 		break;
 
-	case OPER_EQUAL:
-	case OPER_NOT_EQUAL:
-	case OPER_LT:
-	case OPER_LTE:
-	case OPER_GT:
-	case OPER_GTE:
-	case OPER_ADD:
-	case OPER_SUB:
-	case OPER_MULT:
-	case OPER_DIV:
-	case OPER_EXP:
-	case OPER_CONCAT:
+	case OPER_ANY_BINARY:
 		dump_tree (tree->u.binary.value_a);
 		dump_tree (tree->u.binary.value_b);
 		switch (tree->oper){
@@ -712,4 +738,40 @@ dump_tree (ExprTree *tree)
 		break;
 		
 	}
+}
+
+ParseErr
+gnumeric_expr_parser (const char *expr, Sheet *sheet, int col, int row,
+		      const char **desired_format, ExprTree **result)
+{
+	struct lconv *locinfo;
+
+	parser_error = PARSE_OK;
+	parser_expr = expr;
+	parser_sheet = sheet;
+	parser_col   = col;
+	parser_row   = row;
+	parser_desired_format = desired_format;
+	parser_result = result;
+
+	if (parser_desired_format)
+		*parser_desired_format = NULL;
+
+	locinfo = localeconv ();
+	if (locinfo->decimal_point && locinfo->decimal_point[0] &&
+	    locinfo->decimal_point[1] == 0)
+		parser_decimal_point = locinfo->decimal_point[0];
+	else
+		parser_decimal_point = '.';
+
+	yyparse ();
+
+	if (parser_error == PARSE_OK)
+		alloc_list_free ();
+	else {
+		alloc_clean ();
+		*parser_result = NULL;
+	}
+
+	return parser_error;
 }

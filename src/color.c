@@ -12,7 +12,10 @@
 #include "color.h"
 
 static int color_inited;
-GdkColorContext *gnumeric_color_context;
+static GdkColorContext *gnumeric_color_context;
+
+/* Public colors: shared by all of our items in Gnumeric */
+GdkColor gs_white, gs_black, gs_light_gray, gs_dark_gray, gs_red;
 
 int 
 color_alloc (gushort red, gushort green, gushort blue)
@@ -37,7 +40,7 @@ color_alloc_gdk (GdkColor *c)
 }
 
 void
-color_alloc_name (char *name, GdkColor *c)
+color_alloc_name (const char *name, GdkColor *c)
 {
 	int failed;
 	

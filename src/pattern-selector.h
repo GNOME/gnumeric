@@ -1,9 +1,11 @@
 #ifndef GNUMERIC_PATTERN_SELECTOR_H
 #define GNUMERIC_PATTERN_SELECTOR_H
 
+#include "gnumeric-sheet.h"
+
 #define PATTERN_SELECTOR_TYPE     (pattern_selector_get_type ())
 #define PATTERN_SELECTOR(obj)     (GTK_CHECK_CAST((obj), PATTERN_SELECTOR_TYPE, PatternSelector))
-#define PATTERN_SELECTOR_CLASS(k) (GTK_CHECK_CLASS_CAST((obj), PATTERN_SELECTOR_TYPE))
+#define PATTERN_SELECTOR_CLASS(k) (GTK_CHECK_CLASS_CAST((k), PATTERN_SELECTOR_TYPE))
 #define IS_PATTERN_SELECTOR(o)    (GTK_CHECK_TYPE((o), PATTERN_SELECTOR_TYPE))
 
 typedef struct {

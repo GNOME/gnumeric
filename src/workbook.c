@@ -9,6 +9,7 @@
 #include <gnome.h>
 #include <gdk/gdkkeysyms.h>
 #include "gnumeric.h"
+#include "eval.h"
 #include "gnumeric-util.h"
 #include "gnumeric-sheet.h"
 #include "sheet-object.h"
@@ -19,6 +20,8 @@
 #include "print-info.h"
 #include "plugin.h"
 #include "pixmaps.h"
+#include "clipboard.h"
+#include "utils.h"
 #include "widget-editable-label.h"
 
 #include <gnome-printer.h>
@@ -162,6 +165,27 @@ italic_cmd (GtkWidget *widget, Workbook *wb)
 	change_selection_font (wb, -1, t->active);
 }
 
+/*
+ * Temporary hack:
+ */
+void (*graphic_wizard_hook)(Workbook *wb) = 0;
+
+#ifdef ENABLE_BONOBO
+static void
+create_graphic_cmd (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet;
+
+	if (graphic_wizard_hook){
+		printf ("Invoking graphic wizard...\n");
+		graphic_wizard_hook (wb);
+	} else {
+		sheet = workbook_get_current_sheet (wb);
+		sheet_set_mode_type (sheet, SHEET_MODE_CREATE_GRAPHIC);
+	}
+}
+#endif
+
 static void
 create_line_cmd (GtkWidget *widget, Workbook *wb)
 {
@@ -199,23 +223,77 @@ create_ellipse_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
+cb_sheet_do_erase (gpointer key, gpointer value, gpointer user_data)
+{
+	Sheet *sheet = value;
+
+	sheet_clear_region (sheet, 0, 0, SHEET_MAX_COLS - 1, SHEET_MAX_ROWS - 1);
+}
+
+static void
 workbook_do_destroy (Workbook *wb)
 {
-	if (wb->filename)
-	       g_free (wb->filename);
+	/* First do all deletions that leave the workbook in a working
+	   order.  */
 
-	g_list_free (wb->eval_queue);
+	/* Erase all cells.  In particular this removes all links between
+	   sheets.  */
+	g_hash_table_foreach (wb->sheets, cb_sheet_do_erase, NULL);
 
 	if (wb->auto_expr){
 		expr_tree_unref (wb->auto_expr);
+		wb->auto_expr = NULL;
 		string_unref (wb->auto_expr_desc);
 	}
 
+	/* Problems with insert/delete column/row caused formula_cell_list
+	   to be messed up.  */
+	if (wb->formula_cell_list) {
+		fprintf (stderr, "Reminder: FIXME in workbook_do_destroy\n");
+		g_list_free (wb->formula_cell_list);
+		wb->formula_cell_list = NULL;
+	}
+
+	/* Just drop the eval queue.  */
+	g_list_free (wb->eval_queue);
+	wb->eval_queue = NULL;
+
+	/* Detach and destroy all sheets.  */
+	{
+		GList *sheets, *l;
+
+		sheets = workbook_sheets (wb);
+		for (l = sheets; l ; l = l->next) {
+			Sheet *sheet = l->data;
+
+			workbook_detach_sheet (sheet->workbook, sheet, TRUE);
+			sheet_destroy (sheet);
+		}
+		g_list_free (sheets);
+	}
+
+	if (wb->clipboard_contents)
+		clipboard_release (wb->clipboard_contents);
+	wb->clipboard_contents = NULL;
+
+	/* Remove ourselves from the list of workbooks.  */
 	workbook_list = g_list_remove (workbook_list, wb);
 	workbook_count--;
 
+	/* Now do deletions that will put this workbook into a weird
+	   state.  Careful here.  */
+
+	g_hash_table_destroy (wb->sheets);
+
+	if (wb->filename)
+	       g_free (wb->filename);
+
+	g_free (wb->toolbar);
+
 	symbol_table_destroy (wb->symbol_names);
-	
+
+	g_free (wb);
+
 	if (workbook_count == 0)
 		gtk_main_quit ();
 }
@@ -233,11 +311,20 @@ workbook_widget_destroy (GtkWidget *widget, Workbook *wb)
 }
 
 static void
-cb_sheet_mark_clean (gpointer key, gpointer value, gpointer user_data)
+cb_sheet_mark_dirty (gpointer key, gpointer value, gpointer user_data)
 {
 	Sheet *sheet = value;
+	int dirty = GPOINTER_TO_INT (user_data);
 
-	sheet_mark_clean (sheet);
+	sheet_set_dirty (sheet, dirty);
+}
+
+void
+workbook_set_dirty (Workbook *wb, gboolean is_dirty)
+{
+	g_return_if_fail (wb != NULL);
+
+	g_hash_table_foreach (wb->sheets, cb_sheet_mark_dirty, GINT_TO_POINTER (is_dirty));
 }
 
 void
@@ -245,7 +332,7 @@ workbook_mark_clean (Workbook *wb)
 {
 	g_return_if_fail (wb != NULL);
 
-	g_hash_table_foreach (wb->sheets, cb_sheet_mark_clean, NULL);
+	g_hash_table_foreach (wb->sheets, cb_sheet_mark_dirty, GINT_TO_POINTER (0));
 }
 
 typedef enum {
@@ -261,7 +348,7 @@ cb_sheet_check_dirty (gpointer key, gpointer value, gpointer user_data)
 	GtkWidget *d, *l;
 	int *allow_close = user_data;
 	int button;
-	char *f, *s;
+	char *s;
 	
 	if (!sheet->modified)
 		return;
@@ -290,7 +377,7 @@ cb_sheet_check_dirty (gpointer key, gpointer value, gpointer user_data)
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG(d)->vbox), l, TRUE, TRUE, 0);
 
 	gtk_window_set_position (GTK_WINDOW (d), GTK_WIN_POS_MOUSE);
-	button = gnome_dialog_run (GNOME_DIALOG (d));
+	button = gnome_dialog_run_and_close (GNOME_DIALOG (d));
 
 	switch (button){
 		/* YES */
@@ -311,8 +398,6 @@ cb_sheet_check_dirty (gpointer key, gpointer value, gpointer user_data)
 		break;
 
 	} 
-
-	gtk_widget_destroy (d);
 }
 
 static int
@@ -399,7 +484,8 @@ cut_cmd (GtkWidget *widget, Workbook *wb)
 		sheet_selection_cut (sheet);
 	else {
 		if (sheet->current_object){
-			sheet_object_destroy (sheet->current_object);
+			gtk_object_unref (GTK_OBJECT (sheet->current_object));
+			sheet->current_object = NULL;
 			sheet_set_mode_type (sheet, SHEET_MODE_SHEET);
 		} else
 			printf ("no object selected\n");
@@ -429,19 +515,19 @@ select_all_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
-goto_cell_cmd (GtkWidget *widget, Workbook *wb)
+goto_cell_cmd (GtkWidget *unused, Workbook *wb)
 {
 	dialog_goto_cell (wb);
 }
 
 static void
-define_cell_cmd (GtkWidget *widget, Workbook *wb)
+define_cell_cmd (GtkWidget *unused, Workbook *wb)
 {
 	dialog_define_names (wb);
 }
 
 static void
-insert_sheet_cmd (GtkWidget *widget, Workbook *wb)
+insert_sheet_cmd (GtkWidget *unused, Workbook *wb)
 {
 	Sheet *sheet;
 	char *name;
@@ -454,7 +540,7 @@ insert_sheet_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
-insert_cells_cmd (GtkWidget *widget, Workbook *wb)
+insert_cells_cmd (GtkWidget *unused, Workbook *wb)
 {
 	Sheet *sheet;
 
@@ -463,14 +549,14 @@ insert_cells_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
-insert_cols_cmd (GtkWidget *widget, Workbook *wb)
+insert_cols_cmd (GtkWidget *unused, Workbook *wb)
 {
 	SheetSelection *ss;
 	Sheet *sheet;
 	int cols;
 	
 	sheet = workbook_get_current_sheet (wb);
-	if (!sheet_verify_selection_simple (sheet, _("Insert rows")))
+	if (!sheet_verify_selection_simple (sheet, _("Insert cols")))
 		return;
 	
 	ss = sheet->selections->data;
@@ -479,7 +565,7 @@ insert_cols_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
-insert_rows_cmd (GtkWidget *widget, Workbook *wb)
+insert_rows_cmd (GtkWidget *unused, Workbook *wb)
 {
 	SheetSelection *ss;
 	Sheet *sheet;
@@ -546,6 +632,15 @@ format_cells_cmd (GtkWidget *widget, Workbook *wb)
 	
 	sheet = workbook_get_current_sheet (wb);
 	dialog_cell_format (wb, sheet);
+}
+
+static void
+sort_cells_cmd (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet;
+
+	sheet = workbook_get_current_sheet (wb);
+	dialog_cell_sort (wb, sheet);
 }
 
 static void
@@ -643,6 +738,23 @@ print_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
+goal_seek_cmd (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet;
+	sheet = workbook_get_current_sheet (wb) ;
+	dialog_goal_seek (wb, sheet) ;
+}
+
+static void
+solver_cmd (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet;
+
+	sheet = workbook_get_current_sheet (wb);
+	dialog_solver (wb, sheet);
+}
+
+static void
 about_cmd (GtkWidget *widget, Workbook *wb)
 {
 	dialog_about (wb);
@@ -671,6 +783,17 @@ filenames_dropped (GtkWidget * widget,
 		tmp_list = tmp_list->next;
 	}
 }
+
+#ifdef ENABLE_BONOBO
+static void
+insert_object_cmd (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet = workbook_get_current_sheet (wb);
+	char *repoid = "IDL:Sample/server:1.0";
+
+/*	sheet_insert_object (sheet, repoid); */
+}
+#endif
 
 /* File menu */
 
@@ -738,6 +861,14 @@ static GnomeUIInfo workbook_menu_edit [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
+#ifdef ENABLE_BONOBO
+	GNOMEUIINFO_ITEM_NONE(N_("Insert object..."),
+			      N_("Inserts a Bonobo object"),
+			      insert_object_cmd),
+#endif
+
+	GNOMEUIINFO_SEPARATOR,
+
 #if 0
 	{ GNOME_APP_UI_ITEM, N_("_Define cell names"), NULL, define_cell_cmd },
 	GNOMEUIINFO_SEPARATOR,
@@ -783,7 +914,7 @@ static GnomeUIInfo workbook_menu_insert [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-	{ GNOME_APP_UI_ITEM, N_("_Add/Modify comment"),
+	{ GNOME_APP_UI_ITEM, N_("_Add/modify comment"),
 	  N_("Edit the selected cell's comment"), workbook_edit_comment },
 	{ GNOME_APP_UI_SUBTREE, N_("_Special"), NULL, workbook_menu_insert_special },
 
@@ -823,6 +954,17 @@ static GnomeUIInfo workbook_menu_format [] = {
 	GNOMEUIINFO_END
 };
 
+/* Tools menu */
+static GnomeUIInfo workbook_menu_tools [] = {
+	{ GNOME_APP_UI_ITEM, N_("_Sort"),
+	  N_("Sort the selected cells"), sort_cells_cmd },
+	{ GNOME_APP_UI_ITEM, N_("_Goal Seek..."), NULL, goal_seek_cmd },
+#if 0
+	{ GNOME_APP_UI_ITEM, N_("_Solver..."),    NULL, solver_cmd },
+#endif
+	GNOMEUIINFO_END
+};
+
 static GnomeUIInfo workbook_menu_help [] = {
         GNOMEUIINFO_MENU_ABOUT_ITEM(about_cmd, NULL),
 	GNOMEUIINFO_SEPARATOR,
@@ -836,6 +978,7 @@ static GnomeUIInfo workbook_menu [] = {
 	GNOMEUIINFO_MENU_VIEW_TREE(workbook_menu_view),
 	{ GNOME_APP_UI_SUBTREE, N_("_Insert"), NULL, workbook_menu_insert },
 	{ GNOME_APP_UI_SUBTREE, N_("F_ormat"), NULL, workbook_menu_format },
+	{ GNOME_APP_UI_SUBTREE, N_("_Tools"), NULL, workbook_menu_tools },
 	GNOMEUIINFO_MENU_HELP_TREE(workbook_menu_help),
 	GNOMEUIINFO_END
 };
@@ -844,7 +987,7 @@ static GnomeUIInfo workbook_menu [] = {
 #define TOOLBAR_ITALIC_BUTTON_INDEX 13
 static GnomeUIInfo workbook_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("New"), N_("Create a new sheet"),
+		N_("New"), N_("Creates a new sheet"),
 		new_cmd, GNOME_STOCK_PIXMAP_NEW),
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Open"), N_("Opens an existing workbook"),
@@ -868,25 +1011,30 @@ static GnomeUIInfo workbook_toolbar [] = {
 	GNOMEUIINFO_SEPARATOR,
 
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Left align"), N_("Sets the cell alignment to the left"),
+		N_("Left align"), N_("Left justifies the cell contents"),
 		left_align_cmd, GNOME_STOCK_PIXMAP_ALIGN_LEFT),
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Center"), N_("Centers the cell contents"),
 		center_cmd, GNOME_STOCK_PIXMAP_ALIGN_CENTER),
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Right align"), N_("Sets the cell alignment to the right"),
+		N_("Right align"), N_("Right justifies the cell contents"),
 		right_align_cmd, GNOME_STOCK_PIXMAP_ALIGN_RIGHT),
 
 	GNOMEUIINFO_SEPARATOR,
 
-	{ GNOME_APP_UI_TOGGLEITEM, N_("Bold"), N_("Sets the bold attribute on the cell"),
+	{ GNOME_APP_UI_TOGGLEITEM, N_("Bold"), N_("Sets the bold font"),
 	  bold_cmd, NULL, NULL, GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_TEXT_BOLD },
 
-	{ GNOME_APP_UI_TOGGLEITEM, N_("Italic"), N_("Sets the italic attribute on the cell"),
+	{ GNOME_APP_UI_TOGGLEITEM, N_("Italic"), N_("Makes the font italic"),
 	  italic_cmd, NULL, NULL, GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_TEXT_ITALIC },
 	
 	GNOMEUIINFO_SEPARATOR,
 
+#ifdef ENABLE_BONOBO
+	GNOMEUIINFO_ITEM_DATA (
+		N_("Graphic"), N_("Creates a graphic in the spreadsheet"),
+		create_graphic_cmd, NULL, graphic_xpm),
+#endif
 	GNOMEUIINFO_ITEM_DATA (
 		N_("Line"), N_("Creates a line object"),
 		create_line_cmd, NULL, line_xpm),
@@ -918,6 +1066,7 @@ workbook_setup_sheets (Workbook *wb)
 				  GTK_SIGNAL_FUNC(do_focus_sheet), wb);
 				  
 	gtk_notebook_set_tab_pos (GTK_NOTEBOOK (wb->notebook), GTK_POS_BOTTOM);
+	gtk_notebook_set_tab_border (GTK_NOTEBOOK (wb->notebook), 0);
 		
 	gtk_table_attach (GTK_TABLE (wb->table), wb->notebook,
 			  0, WB_COLS, WB_EA_SHEETS, WB_EA_SHEETS+1,
@@ -957,6 +1106,38 @@ workbook_focus_current_sheet (Workbook *wb)
 	return sheet;
 }
 
+void
+workbook_focus_sheet (Sheet *sheet)
+{
+	GtkNotebook *notebook;
+	int sheets, i;
+
+	g_return_if_fail (sheet);
+	g_return_if_fail (sheet->workbook);
+	g_return_if_fail (sheet->workbook->notebook);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	notebook = GTK_NOTEBOOK (sheet->workbook->notebook);
+	sheets = workbook_sheet_count (sheet->workbook);
+
+	if (sheets == 1)
+		return;
+
+	for (i = 0; i < sheets; i++){
+		Sheet *this_sheet;
+		GtkWidget *w;
+
+		w = gtk_notebook_get_nth_page (notebook, i);
+
+		this_sheet = gtk_object_get_data (GTK_OBJECT (w), "sheet");
+
+		if (this_sheet == sheet){
+			gtk_notebook_set_page (notebook, i);
+			break;
+		}
+	}
+}
+
 static void
 wb_input_finished (GtkEntry *entry, Workbook *wb)
 {
@@ -969,7 +1150,7 @@ wb_input_finished (GtkEntry *entry, Workbook *wb)
 }
 
 int
-workbook_parse_and_jump (Workbook *wb, char *text)
+workbook_parse_and_jump (Workbook *wb, const char *text)
 {
 	int col, row;
 
@@ -1003,14 +1184,14 @@ workbook_parse_and_jump (Workbook *wb, char *text)
 static void
 wb_jump_to_cell (GtkEntry *entry, Workbook *wb)
 {
-	char *text = gtk_entry_get_text (entry);
+	const char *text = gtk_entry_get_text (entry);
 
 	workbook_parse_and_jump (wb, text);
 	workbook_focus_current_sheet (wb);
 }
 
 void
-workbook_set_region_status (Workbook *wb, char *str)
+workbook_set_region_status (Workbook *wb, const char *str)
 {
 	g_return_if_fail (wb != NULL);
 	g_return_if_fail (str != NULL);
@@ -1037,10 +1218,81 @@ cancel_input (GtkWidget *widget, Workbook *wb)
 }
 
 static void
+wizard_input (GtkWidget *widget, Workbook *wb)
+{
+	FunctionDefinition *fd = dialog_function_select (wb);
+	GtkEntry *entry = GTK_ENTRY(wb->ea_input);
+	gchar *txt, *edittxt;
+	int pos;
+
+	if (!fd)
+		return;
+	
+	txt = dialog_function_wizard (wb, fd);
+
+       	if (!txt || !wb || !entry)
+		return;
+	
+	pos = gtk_editable_get_position (GTK_EDITABLE (entry));
+
+	gtk_editable_insert_text (GTK_EDITABLE(entry),
+				  txt, strlen(txt), &pos);
+	g_free (txt);
+	txt = gtk_entry_get_text (entry);
+
+	if (txt [0] != '=')
+	        edittxt = g_strconcat ("=", txt, NULL);
+	else
+		edittxt = g_strdup (txt);
+	gtk_entry_set_text (entry, edittxt);
+	g_free (edittxt);
+}
+
+static void
+deps_output (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet = workbook_get_current_sheet (wb);
+	int col, row, dummy;
+	Cell *cell;
+	GList *list;
+
+	if (!sheet_selection_first_range (
+		sheet, &dummy, &dummy, &col, &row, &dummy, &dummy)){
+		gnumeric_notice (
+			wb, GNOME_MESSAGE_BOX_ERROR,
+			_("Selection must be a single range"));
+		return;
+	}
+	printf ("The cells that depend on %s\n", cell_name (col, row));
+
+	if (!(cell = sheet_cell_get (sheet, col, row))){
+		printf ("must contain some data\n");
+		return;
+	}
+
+	list = cell_get_dependencies (sheet, col, row);
+	if (!list)
+		printf ("No dependencies\n");
+
+	while (list){
+		Cell *cell = list->data;
+
+		list = g_list_next (list);
+		if (!cell)
+			continue;
+
+		if (sheet != cell->sheet && cell->sheet)
+			printf ("%s", cell->sheet->name);
+		
+		printf ("%s\n", cell_name (cell->col->pos, cell->row->pos));
+	}
+}
+
+static void
 workbook_setup_edit_area (Workbook *wb)
 {
-	GtkWidget *ok_button, *cancel_button, *box, *box2;
-	GtkWidget *pix;
+	GtkWidget *ok_button, *cancel_button, *wizard_button;
+	GtkWidget *pix, *deps_button, *box, *box2;
 	
 	wb->ea_status = gtk_entry_new ();
 	wb->ea_input  = gtk_entry_new ();
@@ -1065,9 +1317,33 @@ workbook_setup_edit_area (Workbook *wb)
 	gtk_signal_connect (GTK_OBJECT (cancel_button), "clicked",
 			    GTK_SIGNAL_FUNC(cancel_input), wb);
 	
+
 	gtk_box_pack_start (GTK_BOX (box2), wb->ea_status, 0, 0, 0);
 	gtk_box_pack_start (GTK_BOX (box), ok_button, 0, 0, 0);
 	gtk_box_pack_start (GTK_BOX (box), cancel_button, 0, 0, 0);
+
+	/* Function Wizard, currently only enabled if you run with --debug=1 */
+	if (gnumeric_debugging){
+		wizard_button = gtk_button_new ();
+		pix = gnome_stock_pixmap_widget_new (wb->toplevel, GNOME_STOCK_PIXMAP_BOOK_GREEN);
+		gtk_container_add (GTK_CONTAINER (wizard_button), pix);
+		GTK_WIDGET_UNSET_FLAGS (wizard_button, GTK_CAN_FOCUS);
+		gtk_signal_connect (GTK_OBJECT (wizard_button), "clicked",
+				    GTK_SIGNAL_FUNC(wizard_input), wb);
+		gtk_box_pack_start (GTK_BOX (box), wizard_button, 0, 0, 0);
+	}
+	
+	/* Dependency Debugger, currently only enabled if you run with --debug=10 */
+	if (gnumeric_debugging > 9){
+		deps_button = gtk_button_new ();
+		pix = gnome_stock_pixmap_widget_new (wb->toplevel, GNOME_STOCK_PIXMAP_BOOK_RED);
+		gtk_container_add (GTK_CONTAINER (deps_button), pix);
+		GTK_WIDGET_UNSET_FLAGS (deps_button, GTK_CAN_FOCUS);
+		gtk_signal_connect (GTK_OBJECT (deps_button), "clicked",
+				    GTK_SIGNAL_FUNC(deps_output), wb);
+		gtk_box_pack_start (GTK_BOX (box), deps_button, 0, 0, 0);
+	}
+	
 	gtk_box_pack_start (GTK_BOX (box2), box, 0, 0, 0);
 	gtk_box_pack_end   (GTK_BOX (box2), wb->ea_input, 1, 1, 0);
 
@@ -1109,7 +1385,7 @@ static struct {
  * selection in the sheet changes
  */
 static char *
-workbook_set_auto_expr (Workbook *wb, char *description, char *expression)
+workbook_set_auto_expr (Workbook *wb, const char *description, const char *expression)
 {
 	char *error = NULL;
 	
@@ -1138,28 +1414,26 @@ change_auto_expr (GtkWidget *item, Workbook *wb)
 static void
 change_auto_expr_menu (GtkWidget *widget, GdkEventButton *event, Workbook *wb)
 {
-	static GtkWidget *menu;
-
-	if (!menu){
-		GtkWidget *item;
-		int i;
+	GtkWidget *menu;
+	GtkWidget *item;
+	int i;
 		
-		menu = gtk_menu_new ();
+	menu = gtk_menu_new ();
 
-		for (i = 0; quick_compute_routines [i].displayed_name; i++){
-			item = gtk_menu_item_new_with_label (
-				_(quick_compute_routines [i].displayed_name));
-			gtk_menu_append (GTK_MENU (menu), item);
-			gtk_widget_show (item);
-			gtk_signal_connect (GTK_OBJECT (item), "activate",
-					    GTK_SIGNAL_FUNC(change_auto_expr), wb);
-			gtk_object_set_data (GTK_OBJECT (item), "expr",
-					     quick_compute_routines [i].function);
-			gtk_object_set_data (GTK_OBJECT (item), "name",
-					     _(quick_compute_routines [i].displayed_name));
-		}
+	for (i = 0; quick_compute_routines [i].displayed_name; i++){
+		item = gtk_menu_item_new_with_label (
+			_(quick_compute_routines [i].displayed_name));
+		gtk_menu_append (GTK_MENU (menu), item);
+		gtk_widget_show (item);
+		gtk_signal_connect (GTK_OBJECT (item), "activate",
+				    GTK_SIGNAL_FUNC(change_auto_expr), wb);
+		gtk_object_set_data (GTK_OBJECT (item), "expr",
+				     quick_compute_routines [i].function);
+		gtk_object_set_data (GTK_OBJECT (item), "name",
+				     _(quick_compute_routines [i].displayed_name));
 	}
-	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, 0, NULL, event->button, event->time);
+
+	gnumeric_popup_menu (GTK_MENU (menu), event);
 }
 
 /*
@@ -1189,6 +1463,7 @@ workbook_setup_auto_calc (Workbook *wb)
 	canvas = gnome_canvas_new ();
 
 	l = gtk_label_new ("Info");
+	gtk_widget_ensure_style (l);
 	
 	/* The canvas that displays text */
 	root = GNOME_CANVAS_GROUP (GNOME_CANVAS (canvas)->root);
@@ -1237,7 +1512,7 @@ workbook_setup_status_area (Workbook *wb)
 }
 
 void
-workbook_auto_expr_label_set (Workbook *wb, char *text)
+workbook_auto_expr_label_set (Workbook *wb, const char *text)
 {
 	char *res;
 
@@ -1262,8 +1537,10 @@ workbook_configure_minimized_pixmap (Workbook *wb)
 	/* FIXME: Use the new function provided by Raster */
 }
 
-/*
- * Sets up the workbook.
+/**
+ * workbook_new:
+ * 
+ * Creates a new empty Workbook.
  */
 Workbook *
 workbook_new (void)
@@ -1289,6 +1566,7 @@ workbook_new (void)
 	wb->symbol_names = symbol_table_new ();
 
 	gtk_window_set_policy(GTK_WINDOW(wb->toplevel), 1, 1, 0);
+	gtk_window_set_default_size (GTK_WINDOW(wb->toplevel), 600, 400);
 
 	wb->max_iterations = 1;
 
@@ -1300,7 +1578,10 @@ workbook_new (void)
 	gnome_app_set_contents (GNOME_APP (wb->toplevel), wb->table);
 	gnome_app_create_menus_with_data (GNOME_APP (wb->toplevel), workbook_menu, wb);
 	gnome_app_install_menu_hints(GNOME_APP (wb->toplevel), workbook_menu);
-	gnome_app_create_toolbar_with_data (GNOME_APP (wb->toplevel), workbook_toolbar, wb);
+
+	wb->toolbar = g_malloc (sizeof (workbook_toolbar));
+	memcpy (wb->toolbar, &workbook_toolbar, sizeof (workbook_toolbar));
+	gnome_app_create_toolbar_with_data (GNOME_APP (wb->toplevel), (GnomeUIInfo *) wb->toolbar, wb);
 
 	item = gnome_app_get_dock_item_by_name (GNOME_APP (wb->toplevel), GNOME_APP_TOOLBAR_NAME);
 	toolbar = gnome_dock_item_get_child (item);
@@ -1339,13 +1620,23 @@ workbook_new (void)
 		GTK_SIGNAL_FUNC (workbook_delete_event), wb);
 	
 	/* Set the default operation to be performed over selections */
-	workbook_set_auto_expr (wb, "SUM", "SUM(SELECTION())");
+	workbook_set_auto_expr (
+		wb,
+		_(quick_compute_routines [0].displayed_name),
+		quick_compute_routines [0].function);
 
 	workbook_count++;
 
 	workbook_list = g_list_prepend (workbook_list, wb);
 	
 	gtk_widget_show_all (wb->table);
+
+#ifdef ENABLE_BONOBO
+	wb->gnome_container = GNOME_CONTAINER (gnome_container_new ());
+#endif
+
+	workbook_corba_setup (wb);
+	
 	return wb;
 }
 
@@ -1457,6 +1748,114 @@ sheet_label_text_changed_signal (EditableLabel *el, const char *new_name, Workbo
 }
 
 /**
+ * sheet_action_add_sheet:
+ * Invoked when the user selects the option to add a sheet
+ */
+static void
+sheet_action_add_sheet (GtkWidget *widget, Sheet *current_sheet)
+{
+	insert_sheet_cmd (NULL, current_sheet->workbook);
+}
+
+/**
+ * sheet_action_delete_sheet:
+ * Invoked when the user selects the option to remove a sheet
+ */
+static void
+sheet_action_delete_sheet (GtkWidget *widget, Sheet *current_sheet)
+{
+	GtkWidget *d;
+	Workbook *wb = current_sheet->workbook;
+	char *message;
+	int r;
+
+	/*
+	 * If this is the last sheet left, ignore the request
+	 */
+	if (workbook_sheet_count (wb) == 1)
+		return;
+	
+	message = g_strdup_printf (
+		_("Are you sure you want to remove the sheet called `%s' "),
+		current_sheet->name);
+
+	d = gnome_message_box_new (
+		message, GNOME_MESSAGE_BOX_QUESTION,
+		GNOME_STOCK_BUTTON_YES,
+		GNOME_STOCK_BUTTON_NO,
+		NULL);
+	g_free (message);
+	gnome_dialog_set_parent (GNOME_DIALOG (d), GTK_WINDOW (wb->toplevel));
+
+	r = gnome_dialog_run (GNOME_DIALOG (d));
+
+	if (r != 0)
+		return;
+
+	if (!workbook_can_detach_sheet (wb, current_sheet)){
+		gnumeric_notice (
+			wb, GNOME_MESSAGE_BOX_ERROR,
+			_("Other sheets depend on the values on this sheet; "
+			  "I cannot remove it"));
+		return;
+	}
+
+	/*
+	 * All is fine, remove the sheet
+	 */
+	workbook_detach_sheet (wb, current_sheet, FALSE);
+	sheet_destroy (current_sheet);
+	workbook_recalc_all (wb);
+}
+
+#define SHEET_CONTEXT_TEST_SIZE 1
+
+struct {
+	const char *text;
+	void (*function) (GtkWidget *widget, Sheet *sheet);
+	int  flags;
+} sheet_label_context_actions [] = {
+	{ N_("Add another sheet"), sheet_action_add_sheet, 0 },
+	{ N_("Remove this sheet"), sheet_action_delete_sheet, SHEET_CONTEXT_TEST_SIZE },
+	{ NULL, NULL }
+};
+
+
+/**
+ * sheet_menu_label_run:
+ *
+ */
+static void
+sheet_menu_label_run (Sheet *sheet, GdkEventButton *event)
+{
+	GtkWidget *menu;
+	GtkWidget *item;
+	int i;
+	
+	menu = gtk_menu_new ();
+	
+	for (i = 0; sheet_label_context_actions [i].text != NULL; i++){
+		int flags = sheet_label_context_actions [i].flags;
+
+		if (flags & SHEET_CONTEXT_TEST_SIZE){
+			if (workbook_sheet_count (sheet->workbook) < 2)
+				continue;
+		}
+		item = gtk_menu_item_new_with_label (
+			_(sheet_label_context_actions [i].text));
+		gtk_menu_append (GTK_MENU (menu), item);
+		gtk_widget_show (item);
+		
+		gtk_signal_connect (
+			GTK_OBJECT (item), "activate",
+			GTK_SIGNAL_FUNC (sheet_label_context_actions [i].function),
+			sheet);
+	}
+
+	gnumeric_popup_menu (GTK_MENU (menu), event);
+}
+
+/**
  * sheet_label_button_press:
  *
  * Invoked when the user has clicked on the EditableLabel widget.
@@ -1465,24 +1864,64 @@ sheet_label_text_changed_signal (EditableLabel *el, const char *new_name, Workbo
 static gint
 sheet_label_button_press (GtkWidget *widget, GdkEventButton *event, GtkWidget *child)
 {
-	if (event->type == GDK_BUTTON_PRESS && event->button == 1){
-		GtkWidget *notebook;
-		gint number;
+	GtkWidget *notebook;
+	gint page_number;
+	Sheet *sheet;
+	
+	if (event->type != GDK_BUTTON_PRESS)
+		return FALSE;
 
-		notebook = child->parent;
-		
-		number = gtk_notebook_page_num (GTK_NOTEBOOK (notebook), child);
-		gtk_notebook_set_page (GTK_NOTEBOOK (notebook), number);
+	sheet = gtk_object_get_data (GTK_OBJECT (child), "sheet");
+	g_return_val_if_fail (sheet != NULL, FALSE);
+	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
+	
+	notebook = child->parent;
+	page_number = gtk_notebook_page_num (GTK_NOTEBOOK (notebook), child);
+	
+	if (event->button == 1){
+		gtk_notebook_set_page (GTK_NOTEBOOK (notebook), page_number);
 		return TRUE;
 	}
+
+	if (event->button == 3){
+		sheet_menu_label_run (sheet, event);
+		return TRUE;
+	}
+	
 	return FALSE;
 }
 
+int
+workbook_sheet_count (Workbook *wb)
+{
+	g_return_val_if_fail (wb != NULL, 0);
+
+	return g_hash_table_size (wb->sheets);
+}
+ 
+/**
+ * workbook_attach_sheet:
+ * @wb: the target workbook
+ * @sheet: a sheet
+ *
+ * Attaches the @sheet to the @wb.
+ */
 void
 workbook_attach_sheet (Workbook *wb, Sheet *sheet)
 {
 	GtkWidget *t, *sheet_label;
 
+	g_return_if_fail (wb != NULL);
+	g_return_if_fail (sheet != NULL);
+
+	/*
+	 * We do not want to attach sheets that are attached
+	 * to a different workbook.
+	 */
+	g_return_if_fail (sheet->workbook == wb || sheet->workbook == NULL);
+
+	sheet->workbook = wb;
+	
 	g_hash_table_insert (wb->sheets, sheet->name, sheet);
 
 	t = gtk_table_new (0, 0, 0);
@@ -1509,8 +1948,108 @@ workbook_attach_sheet (Workbook *wb, Sheet *sheet)
 				  t, sheet_label);
 }
 
+/**
+ * workbook_can_detach_sheet:
+ * @wb: workbook.
+ * @sheet: the sheet that we want to detach from the workbook
+ *
+ * Returns true whether the sheet can be safely detached from the
+ * workbook.
+ */
+gboolean
+workbook_can_detach_sheet (Workbook *wb, Sheet *sheet)
+{
+	GList *dependency_list;
+
+	g_return_val_if_fail (wb != NULL, FALSE);
+	g_return_val_if_fail (sheet != NULL, FALSE);
+	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
+	g_return_val_if_fail (sheet->workbook != NULL, FALSE);
+	g_return_val_if_fail (sheet->workbook == wb, FALSE);
+	g_return_val_if_fail (workbook_sheet_lookup (wb, sheet->name) == sheet, FALSE);
+
+	dependency_list = region_get_dependencies (sheet, 0, 0, SHEET_MAX_COLS, SHEET_MAX_ROWS);
+	if (dependency_list == NULL)
+		return TRUE;
+
+	g_list_free (dependency_list);
+
+	return FALSE;
+}
+
+/**
+ * workbook_detach_sheet:
+ * @wb: workbook.
+ * @sheet: the sheet that we want to detach from the workbook
+ *
+ * Detaches @sheet from the workbook @wb.
+ */
+gboolean
+workbook_detach_sheet (Workbook *wb, Sheet *sheet, gboolean force)
+{
+	GtkNotebook *notebook;
+	int sheets, i;
+	
+	g_return_val_if_fail (wb != NULL, FALSE);
+	g_return_val_if_fail (sheet != NULL, FALSE);
+	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
+	g_return_val_if_fail (sheet->workbook != NULL, FALSE);
+	g_return_val_if_fail (sheet->workbook == wb, FALSE);
+	g_return_val_if_fail (workbook_sheet_lookup (wb, sheet->name) == sheet, FALSE);
+
+	notebook = GTK_NOTEBOOK (wb->notebook);
+	sheets = workbook_sheet_count (sheet->workbook);
+
+	if (!force) {
+		if (sheets == 1)
+			return FALSE;
+
+		if (!workbook_can_detach_sheet (wb, sheet))
+			return FALSE;
+	}
+
+	/*
+	 * Remove our reference to this sheet
+	 */
+	g_hash_table_remove (wb->sheets, sheet->name);
+
+	for (i = 0; i < sheets; i++){
+		Sheet *this_sheet;
+		GtkWidget *w;
+
+		w = gtk_notebook_get_nth_page (notebook, i);
+
+		this_sheet = gtk_object_get_data (GTK_OBJECT (w), "sheet");
+
+		if (this_sheet == sheet){
+			gtk_notebook_remove_page (notebook, i);
+			break;
+		}
+	}
+	
+	/*
+	 * Make the sheet drop its workbook pointer.
+	 */
+	sheet->workbook = NULL;
+
+	/*
+	 * Queue a recalc
+	 */
+	workbook_recalc_all (wb);
+
+	return TRUE;
+}
+
+/**
+ * workbook_sheet_lookup:
+ * @wb: workbook to lookup the sheet on
+ * @sheet_name: the sheet name we are looking for.
+ *
+ * Returns a pointer to a Sheet or NULL if the sheet
+ * was not found.
+ */
 Sheet *
-workbook_sheet_lookup (Workbook *wb, char *sheet_name)
+workbook_sheet_lookup (Workbook *wb, const char *sheet_name)
 {
 	Sheet *sheet;
 	
@@ -1522,23 +2061,41 @@ workbook_sheet_lookup (Workbook *wb, char *sheet_name)
 	return sheet;
 }
 
+/**
+ * workbook_sheet_get_free_name:
+ * @wb: workbook to look for
+ *
+ * Gets a new name for a sheets such that it does
+ * not exist on the workbook.
+ *
+ * Returns the name assigned to the sheet.
+ */
 char *
 workbook_sheet_get_free_name (Workbook *wb)
 {
-	char name [80];
+        const char *name_format = _("Sheet %d");
+	char *name = g_malloc (strlen (name_format) + 4 * sizeof (int));
 	int  i;
-	
+
 	g_return_val_if_fail (wb != NULL, NULL);
 
 	for (i = 0; ; i++){
-		g_snprintf (name, sizeof (name), _("Sheet %d"), i);
+		sprintf (name, name_format, i);
 		if (workbook_sheet_lookup (wb, name) == NULL)
-			return g_strdup (name);
+			return name;
 	}
 	g_assert_not_reached ();
+	g_free (name);
 	return NULL;
 }
 
+/**
+ * workbook_new_with_sheets:
+ * @sheet_count: initial number of sheets to create.
+ *
+ * Returns a Workbook with @sheet_count allocated
+ * sheets on it
+ */
 Workbook *
 workbook_new_with_sheets (int sheet_count)
 {
@@ -1578,6 +2135,7 @@ void
 workbook_feedback_set (Workbook *workbook, WorkbookFeedbackType type, void *data)
 {
 	GtkToggleButton *t;
+	GnomeUIInfo *toolbar = workbook->toolbar;
 	int set;
 	
 	g_return_if_fail (workbook != NULL);
@@ -1585,7 +2143,7 @@ workbook_feedback_set (Workbook *workbook, WorkbookFeedbackType type, void *data
 	switch (type){
 	case WORKBOOK_FEEDBACK_BOLD:
 		t = GTK_TOGGLE_BUTTON (
-			workbook_toolbar [TOOLBAR_BOLD_BUTTON_INDEX].widget);
+			toolbar [TOOLBAR_BOLD_BUTTON_INDEX].widget);
 		set = data != NULL;
 
 		gtk_toggle_button_set_active (t, set);
@@ -1593,29 +2151,45 @@ workbook_feedback_set (Workbook *workbook, WorkbookFeedbackType type, void *data
 		
 	case WORKBOOK_FEEDBACK_ITALIC:
 		t = GTK_TOGGLE_BUTTON (
-			workbook_toolbar [TOOLBAR_ITALIC_BUTTON_INDEX].widget);
+			toolbar [TOOLBAR_ITALIC_BUTTON_INDEX].widget);
 		set = data != NULL;
 
 		gtk_toggle_button_set_active (t, set);
 	}
 }
 
+/**
+ * workbook_set_title:
+ * @wb: the workbook to modify
+ * @title: the title for the toplevel window
+ *
+ * Sets the toplelve window title of @wb to be @title
+ */
 void
-workbook_set_title (Workbook *wb, char *title)
+workbook_set_title (Workbook *wb, const char *title)
 {
 	char *full_title;
 	
 	g_return_if_fail (wb != NULL);
 	g_return_if_fail (title != NULL);
 
-	full_title = g_strconcat ("Gnumeric: ", title, NULL);
+	full_title = g_strconcat (_("Gnumeric: "), title, NULL);
 	
  	gtk_window_set_title (GTK_WINDOW (wb->toplevel), full_title);
 	g_free (full_title);
 }
 
+/**
+ * workbook_set_filename:
+ * @wb: the workbook to modify
+ * @name: the file name for this worksheet.
+ *
+ * Sets the internal filename to @name and changes
+ * the title bar for the toplevel window to be the name
+ * of this file.
+ */
 void
-workbook_set_filename (Workbook *wb, char *name)
+workbook_set_filename (Workbook *wb, const char *name)
 {
 	g_return_if_fail (wb != NULL);
 	g_return_if_fail (name != NULL);
@@ -1631,4 +2205,189 @@ workbook_set_filename (Workbook *wb, char *name)
 void
 workbook_print (Workbook *wb)
 {
+}
+
+void
+workbook_foreach (WorkbookCallback cback, gpointer data)
+{
+	GList *l;
+	
+	for (l = workbook_list; l; l = l->next){
+		Workbook *wb = l->data;
+		
+		if (!(*cback)(wb, data))
+			return;
+	}
+}
+
+/**
+ * workbook_fixup_references:
+ * @wb: the workbook to modify
+ * @sheet: the sheet containing the column/row that was moved
+ * @col: starting column that was moved.
+ * @row: starting row that was moved.
+ * @coldelta: signed column distance that cells were moved.
+ * @rowcount: signed row distance that cells were moved.
+ *
+ * Fixes references after a column or row move.
+ */
+
+void
+workbook_fixup_references (Workbook *wb, Sheet *sheet, int col, int row,
+			   int coldelta, int rowdelta)
+{
+	GList *cells, *l;
+
+	g_return_if_fail (wb != NULL);
+
+	if (coldelta == 0 && rowdelta == 0) return;
+
+	/* Copy the list since it will change underneath us.  */
+	cells = g_list_copy (wb->formula_cell_list);
+
+	for (l = cells; l; l = l->next)	{
+		Cell *cell = l->data;
+		ExprTree *newtree;
+
+		newtree = expr_tree_fixup_references (cell->parsed_node, cell->sheet,
+						      cell->col->pos, cell->row->pos,
+						      sheet,
+						      col, row, coldelta, rowdelta);
+		if (newtree)
+			cell_set_formula_tree (cell, newtree);
+	}
+
+	g_list_free (cells);
+}
+
+/**
+ * workbook_invalidate_references:
+ * @wb: the workbook to modify
+ * @sheet:  the sheet containing column and row to be invalidated
+ * @col: starting column to be invalidated.
+ * @row: starting row to be invalidated.
+ * @colcount: number of columns to be invalidated.
+ * @rowcount: number of rows to be invalidated.
+ *
+ * Invalidates *either* a number of columns *or* a number of rows.
+ */
+
+void
+workbook_invalidate_references (Workbook *wb, Sheet *sheet, int col, int row,
+				int colcount, int rowcount)
+{
+	GList *cells, *l;
+
+	g_return_if_fail (wb != NULL);
+	g_return_if_fail (colcount == 0 || rowcount == 0);
+	g_return_if_fail (colcount >= 0 && rowcount >= 0);
+
+	if (colcount == 0 && rowcount == 0) return;
+
+	/* Copy the list since it will change underneath us.  */
+	cells = g_list_copy (wb->formula_cell_list);
+
+	for (l = cells; l; l = l->next)	{
+		Cell *cell = l->data;
+		ExprTree *newtree;
+
+		newtree = expr_tree_invalidate_references (cell->parsed_node, cell->sheet,
+							   cell->col->pos, cell->row->pos,
+							   sheet,
+							   col, row, colcount, rowcount);
+		if (newtree)
+			cell_set_formula_tree (cell, newtree);
+	}
+
+	g_list_free (cells);
+}
+
+
+/* Old code discarded the order
+static void
+cb_workbook_sheets (gpointer key, gpointer value, gpointer user_data)
+{
+	Sheet *sheet = value;
+	GList **l = user_data;
+
+	*l = g_list_prepend (*l, sheet);
+}
+*/
+
+GList *
+workbook_sheets (Workbook *wb)
+{
+	GList *list = NULL;
+	GtkNotebook *notebook;
+	int sheets, i;
+
+	g_return_val_if_fail (wb, NULL);
+	g_return_val_if_fail (wb->notebook, NULL);
+
+	notebook = GTK_NOTEBOOK (wb->notebook);
+	sheets = workbook_sheet_count (wb);
+
+	for (i = 0; i < sheets; i++){
+		Sheet *this_sheet;
+		GtkWidget *w;
+
+		w = gtk_notebook_get_nth_page (notebook, i);
+		this_sheet = gtk_object_get_data (GTK_OBJECT (w), "sheet");
+		
+		list = g_list_append (list, this_sheet);
+	}
+
+	return list;
+}
+
+typedef struct {
+	Sheet   *base_sheet;
+	GString *result;
+} selection_assemble_closure_t;
+
+static void
+cb_assemble_selection (gpointer key, gpointer value, gpointer user_data)
+{
+	selection_assemble_closure_t *info = (selection_assemble_closure_t *) user_data;
+	Sheet *sheet = value;
+	gboolean include_prefix;
+	char *sel;
+	
+	if (*info->result->str)
+		g_string_append_c (info->result, ',');
+
+	/*
+	 * If a base sheet is specified, use this to avoid prepending
+	 * the full path to the cell region.
+	 */
+	if (info->base_sheet && (info->base_sheet != value))
+		include_prefix = TRUE;
+	else
+		include_prefix = FALSE;
+	
+	sel = sheet_selection_to_string (sheet, include_prefix);
+	g_string_append (info->result, sel);
+	g_free (sel);
+}
+
+char *
+workbook_selection_to_string (Workbook *wb, Sheet *base_sheet)
+{
+	selection_assemble_closure_t info;
+	char *result;
+	
+	g_return_val_if_fail (wb != NULL, NULL);
+
+	if (base_sheet == NULL){
+		g_return_val_if_fail (IS_SHEET (base_sheet), NULL);
+	}
+
+	info.result = g_string_new ("");
+	info.base_sheet = base_sheet;
+	g_hash_table_foreach (wb->sheets, cb_assemble_selection, &info);
+
+	result = info.result->str;
+	g_string_free (info.result, FALSE);
+
+	return result;
 }

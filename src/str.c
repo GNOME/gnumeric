@@ -13,7 +13,7 @@
 static GHashTable *string_hash_table;
 
 String *
-string_lookup (char *s)
+string_lookup (const char *s)
 {
 	String *string;
 
@@ -23,7 +23,7 @@ string_lookup (char *s)
 }
 
 String *
-string_get (char *s)
+string_get (const char *s)
 {
 	String *string;
 

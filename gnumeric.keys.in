@@ -6,3 +6,4 @@ application/x-gnumeric:
 application/vnd.ms-excel:
 	open=gnumeric %f
 	view=gnumeric %f
+	icon-filename=@icondir@/gnome-gnumeric-xl.png

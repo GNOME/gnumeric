@@ -5,6 +5,7 @@
  * Author:
  *   Tom Dyas (tdyas@romulus.rutgers.edu)
  */
+#include <config.h>
 #include <glib.h>
 #include <gnome.h>
 #include "gnumeric.h"

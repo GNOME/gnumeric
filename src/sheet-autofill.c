@@ -64,7 +64,7 @@ typedef enum {
 
 typedef struct {
 	int    count;
-	char **items;
+	const char *const *items;
 } AutoFillList;
 
 struct FillItem {
@@ -100,10 +100,10 @@ typedef struct FillItem FillItem;
 static GList *autofill_lists;
 
 void
-autofill_register_list (char **list)
+autofill_register_list (const char *const *list)
 {
 	AutoFillList *afl;
-	char **p = list;
+	const char *const *p = list;
 	
 	while (*p)
 		p++;
@@ -116,17 +116,17 @@ autofill_register_list (char **list)
 }
 
 static AutoFillList *
-matches_list (String *str, int *n, int *is_i18n)
+matches_list (const String *str, int *n, int *is_i18n)
 {
 	GList *l;
-	char *s = str->str;
+	const char *s = str->str;
 
 	for (l = autofill_lists; l; l = l->next){
 		AutoFillList *afl = l->data;
 		int i;
 		
 		for (i = 0; i < afl->count; i++){
-			char *english_text, *translated_text;
+			const char *english_text, *translated_text;
 
 			english_text = afl->items [i];
 			if (*english_text == '*')
@@ -196,6 +196,7 @@ fill_item_destroy (FillItem *fi)
 		break;
 		
 	default:
+		break;
 	}
 	g_free (fi);
 }
@@ -214,9 +215,6 @@ fill_item_new (Cell *cell)
 	if (!cell)
 		return fi;
 
-	value = cell->value;
-	value_type = value->type;
-	
 	if (cell->parsed_node){
 		fi->type = FILL_FORMULA;
 		fi->v.formula = cell->parsed_node;
@@ -224,6 +222,12 @@ fill_item_new (Cell *cell)
 		return fi;
 	}
 
+	value = cell->value;
+	if (!value)
+		return fi;
+
+	value_type = value->type;
+	
 	if (value_type == VALUE_INTEGER || value_type == VALUE_FLOAT){
 		fi->type    = FILL_NUMBER;
 		fi->v.value = value;
@@ -290,8 +294,8 @@ autofill_compute_delta (GList *list_last, GList *fill_item_list)
 			return;
 		}
 
-		a = value_get_as_double (lfi->v.value);
-		b = value_get_as_double (fi->v.value);
+		a = value_get_as_float (lfi->v.value);
+		b = value_get_as_float (fi->v.value);
 
 		fi->delta_is_float = TRUE;
 		fi->delta.d_float = b - a;
@@ -489,7 +493,7 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 	
 	case FILL_STRING_LIST: {
 		FillItem *last = fi->group_last;
-		char *text;
+		const char *text;
 		int n;
 		
 		n = last->v.list.num + idx * last->delta.d_int;
@@ -512,6 +516,8 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 	}
 		
 	case FILL_FORMULA: {
+		/* FIXME: we should invalidate cell refs that are now outside
+		   the valid range.  */
 		cell_set_formula_tree (cell, fi->v.formula);
 		return;
 	}

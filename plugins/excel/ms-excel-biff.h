@@ -14,12 +14,12 @@
 #define EX_GETXF(p)       (BIFF_GETWORD(p->data + 4))
 #define EX_GETSTRLEN(p)   (BIFF_GETWORD(p->data + 6))
 
+#define EX_SETROW(p,d)    (BIFF_SET_GUINT16(p + 0, d))
+#define EX_SETCOL(p,d)    (BIFF_SET_GUINT16(p + 2, d))
+#define EX_SETXF(p,d)     (BIFF_SET_GUINT16(p + 4, d))
+#define EX_SETSTRLEN(p,d) (BIFF_SET_GUINT16(p + 6, d))
 
 /* Version info types as found in various Biff records */
-typedef enum _eBiff_version { eBiffV2=2, eBiffV3=3,
-			      eBiffV4=4, eBiffV5=5,
-			      eBiffV7=7,
-			      eBiffV8=8, eBiffVUnknown=0} eBiff_version ;
 typedef enum _eBiff_filetype { eBiffTWorkbook=0, eBiffTVBModule=1, eBiffTWorksheet=2,
 			       eBiffTChart=3, eBiffTMacrosheet=4, eBiffTWorkspace=5,
 			       eBiffTUnknown=6 } eBiff_filetype ;
@@ -53,42 +53,12 @@ typedef struct _BIFF_BOF_DATA
   eBiff_filetype type ;
 } BIFF_BOF_DATA ;
 
-extern BIFF_BOF_DATA *new_ms_biff_bof_data (BIFF_QUERY *pos) ;
-extern void free_ms_biff_bof_data (BIFF_BOF_DATA *data) ;
+extern BIFF_BOF_DATA *new_ms_biff_bof_data  (BIFF_QUERY *pos) ;
+extern void           free_ms_biff_bof_data (BIFF_BOF_DATA *data) ;
 
-/**
- * See S59D52.HTM for the spec.
- * As you add low numbers, check you don't glup an odd-ball
- **/
+#include "biff-types.h"
 
-#define BIFF_DIMENSIONS                 0x00
-#define BIFF_BLANK                      0x01
-#define BIFF_NUMBER                     0x03
-#define BIFF_LABEL                      0x04
-#define BIFF_FORMULA                    0x06
-#define BIFF_ROW                        0x08
-#define BIFF_BOF                        0x09
-#define BIFF_EOF                        0x0a
-#define BIFF_PRECISION                  0x0e
-#define BIFF_HEADER                     0x14
-#define BIFF_FOOTER                     0x15
-#define BIFF_ARRAY                      0x21
-#define BIFF_FONT                       0x31
-#define BIFF_XF_OLD                     0x43
-
-#define BIFF_RK                         0x7e
-#define BIFF_BOUNDSHEET                 0x85
-#define BIFF_PALETTE                    0x92
-#define BIFF_MULBLANK                   0xbe
-#define BIFF_RSTRING                    0xd6
-#define BIFF_XF                         0xe0
-
-#define BIFF_STRINGS			0xfc
-#define BIFF_STRING_REF			0xfd
-
-/* Odd balls */
-#define BIFF_DV                        0x1be
-#define BIFF_BOOLERR                   0x205
-#define BIFF_STRING                    0x207
 #endif
+
+
 

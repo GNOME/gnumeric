@@ -1,77 +1,166 @@
 # Copyright (C) 1999 Free Software Foundation, Inc.
 # Valek Filippov <val@comptek.ru>, 1999.
-# beta version (some lines aren't translated yet)
-# Gnumeric ver. 0.8.1
+# Gnumeric ver. 0.24 (12-func + 2-string untransltd)
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 1999-02-03 14:42-0600\n"
-"PO-Revision-Date: 1999-02-03 14:42-0600\n"
+"POT-Creation-Date: 1999-05-18 07:20-0500\n"
+"PO-Revision-Date: 1999-04-19 14:42-0600\n"
 "Last-Translator: Valek Filippov <val@comptek.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=koi8-r\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: plugins/stat/stat.c:10
-msgid ""
-"@FUNCTION=STDEV\n"
-"@SYNTAX = STDEV(value1, value2, ...)@DESCRIPTION=Computes the standard "
-"deviation of all the values and cells referenced in the argument list. This "
-"is equivalent to the square root of the variance.\n"
-"@SEEALSO=VARIANCE"
-msgstr ""
-"@FUNCTION=STDEV\n"
-"@SYNTAX = STDEV(value1, value2, ...)@DESCRIPTION=Вычисляет стандартное "
-"отклонение всех значений и ячеек указанных в списке аргументов. Оно "
-"равняется квадратному корню из отклонения (variance).\n"
-"@SEEALSO=VARIANCE"
-
-#: plugins/stat/stat.c:21
-msgid ""
-"@FUNCTION=VARIANCE\n"
-"@SYNTAX = VARIANCE(value1, value2, ...)@DESCRIPTION=Computes the variation "
-"of all the values and cells referenced in the argument list. This "
-"is\tequivalent to the sum of (value - average)^2, divided by the number of "
-"values minus 1. If you want it divided by N instead of N - 1, use "
-"NVARIANCE.@SEEALSO=AVERAGE, NVARIANCE"
-msgstr ""
-"@FUNCTION=VARIANCE\n"
-"@SYNTAX = VARIANCE(value1, value2, ...)@DESCRIPTION=Вычисляет "
-"отклонение всех значений и ячеек указанных в списке аргументов. Оно "
-"равняется сумме (значение - среднее)^2, разделенной на число "
-"значений минус 1. Если Вы хотите разделить на N, а не на N - 1, используйте "
-"NVARIANCE.@SEEALSO=AVERAGE, NVARIANCE"
-
-#: plugins/stat/stat.c:32
-msgid ""
-"@FUNCTION=NVARIANCE\n"
-"@SYNTAX = NVARIANVE(value1, value2, ...)@DESCRIPTION=Computes the variation "
-"of all the values and cells references in the argument list. This is "
-"equivalent to the sum of (value - average)^2, divided by the number of "
-"values. If you want it divided by N - 1 instead of N, use "
-"VARIANCE.@SEEALSO=AVERAGE, VARIANCE"
-msgstr ""
-"@FUNCTION=NVARIANCE\n"
-"@SYNTAX = NVARIANVE(value1, value2, ...)@DESCRIPTION=Вычисляет "
-"отклонение всех значений и ячеек указанных в списке аргументов. Оно "
-"равняется сумме (значение - среднее)^2, разделенной на число "
-"значений. Если Вы хотите разделить на N - 1, а не на N, используйте "
-"VARIANCE.@SEEALSO=AVERAGE, VARIANCE"
-
-#: plugins/stat/stat.c:67
-msgid "Statistics Plugin"
+#: plugins/excel/boot.c:74
+msgid "Saving over old files disabled for safety"
 msgstr ""
 
-#: plugins/stat/stat.c:100
-msgid "variance - division by 0"
-msgstr "variance - деление на 0"
+#: plugins/excel/boot.c:82
+msgid "Can't open"
+msgstr ""
+
+#: plugins/excel/boot.c:115
+msgid "Microsoft(R) Excel file format"
+msgstr "Формат файла Microsoft(R) Excel"
+
+#: plugins/excel/boot.c:116
+#, fuzzy
+msgid "Excel(R) 98 file format"
+msgstr "Формат файла Microsoft(R) Excel"
+
+#: plugins/excel/boot.c:117
+#, fuzzy
+msgid "Excel(R) 95 file format"
+msgstr "Формат файла Microsoft(R) Excel"
+
+#: plugins/guile/plugin.c:220
+msgid "Argument must be a Guile expression"
+msgstr "Аргумент должен быть выражением Guile"
+
+#: plugins/guile/plugin.c:241 src/expr.c:711 src/fn-math.c:1509
+#: src/fn-sheet.c:37 src/fn-string.c:302
+msgid "Invalid number of arguments"
+msgstr "Неверное число аргументов"
+
+#: plugins/guile/plugin.c:248 plugins/guile/plugin.c:254
+msgid "First argument to SCM must be a Guile expression"
+msgstr "Первый аргумент SCM должен быть выражением Guile"
+
+#: plugins/guile/plugin.c:260
+msgid "Undefined scheme function"
+msgstr "Неопределенная функция scheme"
+
+#: plugins/guile/plugin.c:278
+msgid "Could not evaluate argument"
+msgstr "Невозможно проверить аргумент"
+
+#: plugins/guile/plugin.c:386
+msgid "Unable to lookup Guile function."
+msgstr "Hе удалось найти функцию Guile."
+
+#: plugins/guile/plugin.c:454
+msgid "Guile Plugin"
+msgstr "Дополнение Guile"
+
+#: plugins/python/python.c:99
+msgid "Unable to lookup Python code object."
+msgstr "Hе удалось найти обьект кода Python"
+
+#: plugins/python/python.c:115
+msgid "Python exception."
+msgstr "Исключение Python."
+
+#: plugins/python/python.c:137
+msgid "object must be callable"
+msgstr "обьект должен быть вызываемым"
+
+#: plugins/python/python.c:143
+msgid "could not alloc FuncDef"
+msgstr ""
+
+#: plugins/python/python.c:177
+msgid "Gnumeric/Python module initialized\n"
+msgstr "Модуль Gnumeric/Python инициализирован\n"
+
+#: plugins/python/python.c:190
+msgid "Python Plugin"
+msgstr "Дополнение Python"
+
+#: plugins/stat/stat.c:27
+msgid "OLD Statistics Plugin, not required anymore"
+msgstr "СТАРОЕ дополнение статистики, больше не требуется"
+
+#: src/about.c:23
+msgid "Miguel de Icaza, main programmer."
+msgstr "Miguel de Icaza, ведущий программист."
+
+#: src/about.c:24
+msgid "Daniel Veillard, XML support."
+msgstr "Daniel Veillard, поддержка XML."
+
+#: src/about.c:25
+msgid "Chris Lahey, Number format engine."
+msgstr "Chris Lahey, обработка числовых форматов."
+
+#: src/about.c:26
+msgid "Tom Dyas, Plugin support."
+msgstr "Tom Dyas, поддержка дополнений."
+
+#: src/about.c:27
+msgid "Federico Mena, Canvas support."
+msgstr "Federico Mena, поддержка канвы."
+
+#: src/about.c:28
+msgid "Adrian Likins, Documentation, debugging"
+msgstr "Adrian Likins, документация, отладка."
+
+#: src/about.c:29
+msgid "Jakub Jelinek, Gnumeric hacker"
+msgstr "Jakub Jelinek, программист."
+
+#: src/about.c:30
+msgid "Michael Meeks, Excel and OLE2 importing"
+msgstr "Michael Meeks, импорт Excel и OLE2."
+
+#: src/about.c:31
+msgid "Sean Atkinson, Excel functions"
+msgstr "Sean Atkinson, функции Excel."
+
+#: src/about.c:32
+msgid "Bruno Unna, Excel code"
+msgstr "Bruno Unna, код Excel."
+
+#: src/about.c:33
+msgid "Mark Probst, Guile support"
+msgstr "Mark Probst, поддержка Guile."
+
+#: src/about.c:34
+msgid "Vincent Renardias, CSV support"
+msgstr "Vincent Renardias, поддержка CSV."
+
+#: src/about.c:35
+msgid "Vladimir Vuksan, financial functions"
+msgstr "Vladimir Vuksan, финансовые функции."
 
 #: src/about.c:36
+msgid "Takashi Matsuda, simple text plugin"
+msgstr "Takashi Matsuda, дополнение простого текста."
+
+#: src/about.c:37
+msgid "Jukka-Pekka Iivonen, numerous functions"
+msgstr "Jukka-Pekka Iivonen, численные функции."
+
+#: src/about.c:38
+#, fuzzy
+msgid "Morten Welinder, Gnumeric hacker"
+msgstr "Jakub Jelinek, программист."
+
+#: src/about.c:52
 msgid "Gnumeric"
 msgstr ""
 
-#: src/about.c:39
+#: src/about.c:55
 msgid ""
 "The GNOME spreadsheet.\n"
 "http://www.gnome.org/gnumeric"
@@ -237,7 +326,7 @@ msgstr "Числовой"
 
 #: src/dialog-cell-format.c:67
 msgid "Accounting"
-msgstr "Учетный [FIXME]"
+msgstr "Бухгалтерский"
 
 #: src/dialog-cell-format.c:68
 msgid "Date"
@@ -268,110 +357,114 @@ msgid "Money"
 msgstr "Денежный"
 
 #. 1. Categories
-#: src/dialog-cell-format.c:253
+#: src/dialog-cell-format.c:256
 msgid "Categories"
 msgstr "Категории"
 
 #. 2.1 Input line
-#: src/dialog-cell-format.c:283
+#: src/dialog-cell-format.c:288
 msgid "Code:"
 msgstr "Коды:"
 
 #. 2.2 Sample
-#: src/dialog-cell-format.c:292
+#: src/dialog-cell-format.c:297
 msgid "Sample:"
 msgstr "Образцы:"
 
-#: src/dialog-cell-format.c:304
+#: src/dialog-cell-format.c:309
 msgid "Format codes"
 msgstr "Формат кодов"
 
-#: src/dialog-cell-format.c:353 src/formats.c:16 src/number-match.c:450
+#: src/dialog-cell-format.c:358 src/formats.c:16 src/number-match.c:455
 msgid "General"
 msgstr "Общий"
 
-#: src/dialog-cell-format.c:354
+#: src/dialog-cell-format.c:359
 msgid "Left"
 msgstr "Влево"
 
-#: src/dialog-cell-format.c:355 src/dialog-cell-format.c:364
-#: src/workbook.c:849
+#: src/dialog-cell-format.c:360 src/dialog-cell-format.c:369
+#: src/workbook.c:990
 msgid "Center"
 msgstr "По центру"
 
-#: src/dialog-cell-format.c:356
+#: src/dialog-cell-format.c:361
 msgid "Right"
 msgstr "Вправо"
 
-#: src/dialog-cell-format.c:357
+#: src/dialog-cell-format.c:362
 msgid "Fill"
 msgstr "Заполнение"
 
-#: src/dialog-cell-format.c:358 src/dialog-cell-format.c:366
+#: src/dialog-cell-format.c:363 src/dialog-cell-format.c:371
 msgid "Justify"
 msgstr "По формату"
 
-#: src/dialog-cell-format.c:363
+#: src/dialog-cell-format.c:368
 msgid "Top"
 msgstr "Вверх"
 
-#: src/dialog-cell-format.c:365
+#: src/dialog-cell-format.c:370
 msgid "Bottom"
 msgstr "Вниз"
 
 #. Vertical alignment
-#: src/dialog-cell-format.c:421
+#: src/dialog-cell-format.c:426
 msgid "Vertical"
 msgstr "По вертикали"
 
 #. Horizontal alignment
-#: src/dialog-cell-format.c:425
+#: src/dialog-cell-format.c:430
 msgid "Horizontal"
 msgstr "По горизонтали"
 
-#: src/dialog-cell-format.c:428
+#: src/dialog-cell-format.c:433
 msgid "Auto return"
-msgstr "Авто перевод строки"
+msgstr "Автоперевод строки"
 
-#: src/dialog-cell-format.c:597
+#: src/dialog-cell-format.c:602
 msgid "Text color"
 msgstr "Цвет текста"
 
 #. The radio buttons
-#: src/dialog-cell-format.c:601 src/dialog-cell-format.c:631
+#: src/dialog-cell-format.c:606 src/dialog-cell-format.c:639
 #: src/dialog-paste-special.c:28
 msgid "None"
 msgstr "Нет"
 
-#: src/dialog-cell-format.c:603
+#: src/dialog-cell-format.c:608
 msgid "Use this color"
 msgstr "Использовать этот цвет"
 
-#: src/dialog-cell-format.c:625
+#: src/dialog-cell-format.c:610 src/dialog-cell-format.c:645
+msgid "No change"
+msgstr "Нет изменений"
+
+#: src/dialog-cell-format.c:633
 msgid "Background configuration"
 msgstr "Конфигурация фона"
 
-#: src/dialog-cell-format.c:633
+#: src/dialog-cell-format.c:641
 msgid "Use solid color"
 msgstr "Использовать сплошной цвет"
 
-#: src/dialog-cell-format.c:635
+#: src/dialog-cell-format.c:643
 msgid "Use a pattern"
 msgstr "Использовать шаблон"
 
-#: src/dialog-cell-format.c:865
+#: src/dialog-cell-format.c:915
 msgid "Number"
 msgstr "Числовой"
 
-#: src/dialog-cell-format.c:866
+#: src/dialog-cell-format.c:916
 msgid "Alignment"
 msgstr "Выравнивание"
 
-#: src/dialog-cell-format.c:867
+#: src/dialog-cell-format.c:917
 msgid "Font"
 msgstr "Шрифт"
 
-#: src/dialog-cell-format.c:868
+#: src/dialog-cell-format.c:918
 msgid "Coloring"
 msgstr "Окрашивание"
 
@@ -383,7 +476,7 @@ msgstr "Определить имена"
 msgid "Add"
 msgstr "Добавить"
 
-#: src/dialog-define-names.c:27 src/plugin-manager.c:131
+#: src/dialog-define-names.c:27 src/plugin-manager.c:132
 msgid "Remove"
 msgstr "Удалить"
 
@@ -393,7 +486,7 @@ msgstr "Имена в книге"
 
 #: src/dialog-define-names.c:49
 msgid "Refers to"
-msgstr ""
+msgstr "Ссылка на"
 
 #: src/dialog-delete-cells.c:25
 msgid "delete cells"
@@ -403,7 +496,7 @@ msgstr "удалить ячейки"
 msgid "Delete cells"
 msgstr "Удалить ячейки"
 
-#: src/dialog-delete-cells.c:32 src/item-grid.c:528
+#: src/dialog-delete-cells.c:32 src/item-grid.c:534
 msgid "Delete"
 msgstr "Удалить"
 
@@ -443,7 +536,7 @@ msgstr "вставить ячейки"
 msgid "Insert cells"
 msgstr "Вставить ячейки"
 
-#: src/dialog-insert-cells.c:33 src/item-grid.c:527
+#: src/dialog-insert-cells.c:33 src/item-grid.c:533
 msgid "Insert"
 msgstr "Вставить"
 
@@ -491,9 +584,9 @@ msgstr "Перемножить"
 msgid "Divide"
 msgstr "Разделить"
 
-#: src/dialog-paste-special.c:56 src/item-grid.c:525
+#: src/dialog-paste-special.c:56 src/item-grid.c:531
 msgid "Paste special"
-msgstr "Cпециальная вставка"
+msgstr "Cспециальная вставка"
 
 #: src/dialog-paste-special.c:61
 msgid "Paste type"
@@ -511,53 +604,83 @@ msgstr "Масштаб"
 msgid "Custom"
 msgstr "Пользовательский"
 
-#: src/dialog-zoom.c:83
+#: src/dialog-zoom.c:84
 #, c-format
 msgid "Zoom factor should be at least 50%"
 msgstr "Значение масштаба должно быть не меньше 50%"
 
-#: src/dialog-zoom.c:88
+#: src/dialog-zoom.c:90
 #, c-format
 msgid "Zoom factor should be at most 900%"
 msgstr "Значение масштаба должно быть не больше 900%"
 
-#: src/expr.c:59
+#: src/dump.c:31
+#, c-format
+msgid "Can not create file %s\n"
+msgstr "Невозможно создать файл %s\n"
+
+#: src/expr.c:34
 msgid "Syntax error"
 msgstr "Синтаксическая ошибка"
 
-#: src/expr.c:63
+#: src/expr.c:38
 msgid "Missing quote"
 msgstr "Ошибочная кавычка"
 
-#: src/expr.c:479 src/fn-sheet.c:38 src/fn-sheet.c:83
-msgid "Invalid number of arguments"
-msgstr "Неверное число аргументов"
+#: src/expr.c:42
+msgid "Impossible!"
+msgstr "Невозможно!"
 
-#: src/expr.c:707
-msgid "Type error"
-msgstr "Ошибка типа (!fixme)"
-
-#: src/expr.c:765 src/expr.c:927 src/fn-misc.c:34
+#: src/expr.c:776 src/expr.c:1056 src/expr.c:1251 src/fn-misc.c:63
+#: src/fn-string.c:54 src/fn-string.c:76 src/fn-string.c:98
+#: src/fn-string.c:155 src/fn-string.c:192 src/fn-string.c:271
+#: src/fn-string.c:350 src/fn-string.c:390 src/fn-string.c:571
+#: src/fn-string.c:612 src/fn-string.c:681 src/fn-string.c:726
 msgid "Type mismatch"
-msgstr "Ошибка типа (!fixme2)"
+msgstr "Несоответствие типов"
 
-#: src/expr.c:791 src/expr.c:827
+#: src/expr.c:853
+msgid "Function does not exist"
+msgstr ""
+
+#: src/expr.c:857
+msgid "Calling non-function"
+msgstr ""
+
+#: src/expr.c:997
+msgid "Type error"
+msgstr "Ошибка типа"
+
+#: src/expr.c:1106 src/expr.c:1143
 msgid "Division by zero"
 msgstr "Деление на ноль"
 
-#: src/expr.c:942
+#: src/expr.c:1231
+msgid "Reference to newborn cell"
+msgstr "Ссылка на новую ячейку"
+
+#: src/expr.c:1266
 msgid "Unknown evaluation error"
 msgstr "Неизвестная ошибка в выражении"
 
-#: src/file.c:154
+#: src/file.c:220
+msgid "File format:"
+msgstr "Формат файла:"
+
+#: src/file.c:259
 msgid "Save workbook as"
 msgstr "Сохранить книгу как..."
 
-#: src/file.c:203
+#: src/file.c:291
+msgid "Sorry, there are no file savers loaded, I can not save"
+msgstr ""
+"К сожалению, модуль для сохранения файлов не загружен, сохранение невозможно"
+
+#: src/file.c:329
 msgid "Load file"
 msgstr "Загрузить файл"
 
-#: src/fn-date.c:18
+#: src/fn-date.c:19
 msgid ""
 "@FUNCTION=DATE\n"
 "@SYNTAX=DATE (year,month,day)\n"
@@ -569,21 +692,59 @@ msgid ""
 msgstr ""
 "@FUNCTION=DATE\n"
 "@SYNTAX=DATE (год,месяц,день)\n"
-"@DESCRIPTION=Вычисляет число дней прошедших с 1-ого января 1900 года"
-"(serial number даты) до указанного года, месяца и дня.\n"
+"@DESCRIPTION=Вычисляет число дней прошедших с 1-ого января 1900 года(serial "
+"number даты) до указанного года, месяца и дня.\n"
 "День может быть отрицательным (отсчитанным назад) тогда он относится к "
 "предыдущему месяцу.  Год должен быть не меньше 1900\n"
 "@SEEALSO=TODAY, NOW"
 
-#: src/fn-date.c:46
+#: src/fn-date.c:47
 msgid "Invalid month or year"
 msgstr "Неверный месяц или год"
 
-#: src/fn-date.c:61
+#: src/fn-date.c:62
 msgid "Invalid day"
 msgstr "Неверный день"
 
-#: src/fn-date.c:71
+#: src/fn-date.c:73
+msgid ""
+"@FUNCTION=DATEVALUE\n"
+"@SYNTAX=DATEVALUE(date_str)\n"
+"@DESCRIPTION=DATEVALUE returns the serial number of the date.  @date_str is "
+"the string that contains the date.  For example, DATEVALUE(\"1/1/1999\") "
+"equals to 36160. \n"
+"@SEEALSO=DATE"
+msgstr ""
+
+#. -0
+#: src/fn-date.c:94 src/fn-date.c:147 src/fn-math.c:168 src/fn-math.c:225
+#: src/fn-math.c:626 src/fn-math.c:771 src/fn-math.c:776 src/fn-math.c:833
+#: src/fn-math.c:1038 src/fn-math.c:1046 src/fn-math.c:1160 src/fn-math.c:1631
+#: src/fn-math.c:1705 src/fn-math.c:1735 src/fn-math.c:1921 src/fn-math.c:1982
+msgid "#NUM!"
+msgstr ""
+
+#: src/fn-date.c:100 src/fn-date.c:137 src/fn-math.c:490 src/fn-math.c:510
+#: src/fn-math.c:553 src/fn-math.c:573 src/fn-math.c:619 src/fn-math.c:909
+#: src/fn-math.c:935 src/fn-math.c:1363 src/fn-math.c:1974 src/fn-math.c:2064
+#: src/fn-math.c:2082 src/fn-math.c:2161 src/fn-math.c:2179 src/fn-math.c:2258
+#: src/fn-math.c:2276
+msgid "#VALUE!"
+msgstr ""
+
+#: src/fn-date.c:108
+msgid ""
+"@FUNCTION=EDATE\n"
+"@SYNTAX=EDATE(serial_number,months)\n"
+"@DESCRIPTION=EDATE returns the serial number of the date that is the "
+"specified number of months before or after a given date.  @date is the "
+"serial number of the initial date and @months is the number of months before "
+"(negative number) or after (positive number) the initial date. \n"
+"If @months is not an integer, it is truncated. \n"
+"@SEEALSO=DATE"
+msgstr ""
+
+#: src/fn-date.c:155
 msgid ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY ()\n"
@@ -597,7 +758,7 @@ msgstr ""
 "прошедших с 1-ого января 1900 года)\n"
 "@SEEALSO=DATE, NOW"
 
-#: src/fn-date.c:100
+#: src/fn-date.c:184
 msgid ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
@@ -615,15 +776,13 @@ msgstr ""
 "@SYNTAX=NOW ()\n"
 "@DESCRIPTION=Возвращает serial number для даты и время на тот момент когда "
 "произошло выполнение.\n"
-"Serial Numbers в Gnumeric представляется так: целая часть - это "
-"число дней прошедших с 1-ого января 1900 года. Десятичная часть "
-"представляет часть дня и отображается в часы, минуты и "
-"секунды\n"
-"Например: .0 означает начало дня, а 0.5 означает "
-"полдень\n"
+"Serial Numbers в Gnumeric представляется так: целая часть - это число дней "
+"прошедших с 1-ого января 1900 года. Десятичная часть представляет часть дня "
+"и отображается в часы, минуты и секунды\n"
+"Например: .0 означает начало дня, а 0.5 означает полдень\n"
 "@SEEALSO= DATE, TODAY"
 
-#: src/fn-date.c:140
+#: src/fn-date.c:224
 msgid ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (hours,minutes,seconds)\n"
@@ -635,7 +794,7 @@ msgstr ""
 "@DESCRIPTION=Возвращает дробь представляющую час\n"
 "@SEEALSO=HOUR"
 
-#: src/fn-date.c:167
+#: src/fn-date.c:251
 msgid ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (serial_number)\n"
@@ -647,13 +806,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=HOUR (час)\n"
 "@SYNTAX=HOUR (serial_number)\n"
-"@DESCRIPTION=Превращает serial number в час.  Час возвращается как "
-"целое в диапазоне от 0 (12:00 A.M.) до 23 (11:00 P.M.)\n"
-"Учтите, что Gnumeric будет выполнять за Вас преобразование обычной строки  "
-"в serial number, так что Вы можете вводить дату в виде строки\n"
+"@DESCRIPTION=Превращает serial number в час.  Час возвращается как целое в "
+"диапазоне от 0 (12:00 A.M.) до 23 (11:00 P.M.)\n"
+"Учтите, что Gnumeric будет выполнять за Вас преобразование обычной строки  в "
+"serial number, так что Вы можете вводить дату в виде строки\n"
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 
-#: src/fn-date.c:182
+#: src/fn-date.c:266
 msgid ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (serial_number)\n"
@@ -667,11 +826,11 @@ msgstr ""
 "@SYNTAX=MINUTE (serial_number)\n"
 "@DESCRIPTION=Превращает serial number в минуту.  Минута возвращается как "
 "целое в диапазоне от 0 до 59\n"
-"Учтите, что Gnumeric будет выполнять за Вас преобразование обычной строки  "
-"в serial number, так что Вы можете вводить дату в виде строки\n"
+"Учтите, что Gnumeric будет выполнять за Вас преобразование обычной строки  в "
+"serial number, так что Вы можете вводить дату в виде строки\n"
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 
-#: src/fn-date.c:197
+#: src/fn-date.c:281
 msgid ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (serial_number)\n"
@@ -685,11 +844,11 @@ msgstr ""
 "@SYNTAX=SECOND (serial_number)\n"
 "@DESCRIPTION=Превращает serial number в секунду.  Секунда возвращается как "
 "целое в диапазоне от 0 до 59\n"
-"Учтите, что Gnumeric будет выполнять за Вас преобразование обычной строки  "
-"в serial number, так что Вы можете вводить дату в виде строки\n"
+"Учтите, что Gnumeric будет выполнять за Вас преобразование обычной строки  в "
+"serial number, так что Вы можете вводить дату в виде строки\n"
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
 
-#: src/fn-date.c:235
+#: src/fn-date.c:319
 msgid ""
 "@FUNCTION=YEAR\n"
 "@SYNTAX=YEAR (serial_number)\n"
@@ -701,11 +860,11 @@ msgstr ""
 "@FUNCTION=YEAR\n"
 "@SYNTAX=YEAR (serial_number)\n"
 "@DESCRIPTION=Превращает serial number в год.\n"
-"Учтите, что Gnumeric будет выполнять за Вас преобразование обычной строки  "
-"в serial number, так что Вы можете вводить дату в виде строки\n"
+"Учтите, что Gnumeric будет выполнять за Вас преобразование обычной строки  в "
+"serial number, так что Вы можете вводить дату в виде строки\n"
 "@SEEALSO=DAY, MONTH, NOW, TIME"
 
-#: src/fn-date.c:249
+#: src/fn-date.c:333
 msgid ""
 "@FUNCTION=MONTH\n"
 "@SYNTAX=MONTH (serial_number)\n"
@@ -717,11 +876,11 @@ msgstr ""
 "@FUNCTION=MONTH\n"
 "@SYNTAX=MONTH (serial_number)\n"
 "@DESCRIPTION=Превращает serial number в месяц.\n"
-"Учтите, что Gnumeric будет выполнять за Вас преобразование обычной строки  "
-"в serial number, так что Вы можете вводить дату в виде строки\n"
+"Учтите, что Gnumeric будет выполнять за Вас преобразование обычной строки  в "
+"serial number, так что Вы можете вводить дату в виде строки\n"
 "@SEEALSO=DAY, NOW, TIME, YEAR"
 
-#: src/fn-date.c:263
+#: src/fn-date.c:347
 msgid ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (serial_number)\n"
@@ -733,11 +892,11 @@ msgstr ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (serial_number)\n"
 "@DESCRIPTION=Превращает serial number в день.\n"
-"Учтите, что Gnumeric будет выполнять за Вас преобразование обычной строки  "
-"в serial number, так что Вы можете вводить дату в виде строки\n"
+"Учтите, что Gnumeric будет выполнять за Вас преобразование обычной строки  в "
+"serial number, так что Вы можете вводить дату в виде строки\n"
 "@SEEALSO=NOW, MONTH, TIME, YEAR"
 
-#: src/fn-math.c:27
+#: src/fn-math.c:19
 msgid ""
 "@FUNCTION=NAME\n"
 "@SYNTAX=(b1, b2, ...)\n"
@@ -746,7 +905,34 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-math.c:48
+#: src/fn-math.c:146
+#, fuzzy
+msgid ""
+"@FUNCTION=GCD\n"
+"@SYNTAX=GCD(a,b)\n"
+"@DESCRIPTION=GCD returns the greatest common divisor of two numbers. \n"
+"If any of the arguments is less than zero, GCD returns #NUM! error. \n"
+"@SEEALSO=LCM"
+msgstr ""
+"@FUNCTION=FACTDOUBLE\n"
+"@SYNTAX=FACTDOUBLE(число)\n"
+"@DESCRIPTION=Функция FACTDOUBLE возвращает двойной факториал числа. \n"
+"Если число не целое, то дробная часть отбрасывается . Если число "
+"отрицательное, FACTDOUBLE возвращает ошибку #NUM!. \n"
+"@SEEALSO=FACT"
+
+#: src/fn-math.c:176
+msgid ""
+"@FUNCTION=LCM\n"
+"@SYNTAX=LCM(number1,number2,...)\n"
+"@DESCRIPTION=LCM returns the least common multiple of integers.  The least "
+"common multiple is the smallest positive number that is a multiple of all "
+"integer arguments given. \n"
+"If any of the arguments is less than one, LCM returns #NUM! error. \n"
+"@SEEALSO=GCD"
+msgstr ""
+
+#: src/fn-math.c:233
 msgid ""
 "@FUNCTION=ABS\n"
 "@SYNTAX=ABS(b1)\n"
@@ -758,13 +944,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=ABS\n"
 "@SYNTAX=ABS(b1)\n"
-"@DESCRIPTION=Функция ABS(b1) вычисляет абсолютное значение b1: у результата отбрасывается "
-"знак минуса (если он был). Она может быть выполнена для целых чисел и чисел с"
-"плавающей точкой.\n"
+"@DESCRIPTION=Функция ABS(b1) вычисляет абсолютное значение b1: у результата "
+"отбрасывается знак минуса (если он был). Она может быть выполнена для целых "
+"чисел и чисел с плавающей точкой.\n"
 "Со строками и пустыми ячейками эта функция ничего не делает.\n"
 "@SEEALSO=CEIL, FLOOR"
 
-#: src/fn-math.c:67
+#: src/fn-math.c:253
 msgid ""
 "@FUNCTION=ACOS\n"
 "@SYNTAX=ACOS(x)\n"
@@ -778,19 +964,19 @@ msgid ""
 msgstr ""
 "@FUNCTION=ACOS\n"
 "@SYNTAX=ACOS(x)\n"
-"@DESCRIPTION=Функция ACOS(х) вычисляет арккосинус x; косинус этой величины "
+"@DESCRIPTION=Функция ACOS(х) вычисляет арк-косинус x; косинус этой величины "
 "равен x. Значение результата возвращается в радианах. Если x не принадлежит "
-"диапазону от -1 до 1, ACOS не вычисляется и возвращает ошибку "
-"'acos - domain error'.\n"
+"диапазону от -1 до 1, ACOS не вычисляется и возвращает ошибку 'acos - domain "
+"error'.\n"
 "У этой функции может быть только один аргумент. Со строками и пустыми "
 "ячейками эта функция ничего не делает.\n"
 "@SEEALSO=COS, SIN, DEGREES, RADIANS"
 
-#: src/fn-math.c:89
+#: src/fn-math.c:276
 msgid "acos - domain error"
 msgstr ""
 
-#: src/fn-math.c:96
+#: src/fn-math.c:283
 msgid ""
 "@FUNCTION=ACOSH\n"
 "@SYNTAX=ACOSH(x)\n"
@@ -803,46 +989,18 @@ msgid ""
 msgstr ""
 "@FUNCTION=ACOSH\n"
 "@SYNTAX=ACOSH(x)\n"
-"@DESCRIPTION=Функция ACOSH(х) вычисляет обратный гиперболический косинус "
-"x; гиперболический косинус этой величины равен x. Если x меньше чем 1.0, "
+"@DESCRIPTION=Функция ACOSH(х) вычисляет обратный гиперболический косинус x; "
+"гиперболический косинус этой величины равен x. Если x меньше чем 1.0, "
 "ACOSH() возвращает ошибку 'acosh - domain error'\n"
 "У этой функции может быть только один аргумент. Со строками и пустыми "
 "ячейками эта функция ничего не делает.\n"
 "@SEEALSO=ACOS, DEGREES, RADIANS "
 
-#: src/fn-math.c:118
+#: src/fn-math.c:306
 msgid "acosh - domain error"
 msgstr ""
 
-#: src/fn-math.c:125
-msgid ""
-"@FUNCTION=AND\n"
-"@SYNTAX=AND(b1, b2, ...)\n"
-"@DESCRIPTION=Implements the logical AND function: the result is TRUE if all "
-"of the expression evaluates to TRUE, otherwise it returns FALSE.\n"
-"b1, trough bN are expressions that should evaluate to TRUE or FALSE. If an "
-"integer or floating point value is provided zero is considered FALSE and "
-"anything else is TRUE.\n"
-"If the values contain strings or empty cells those values are ignored.  If "
-"no logical values are provided, then the error '#VALUE!' is returned. \n"
-"@SEEALSO=OR"
-msgstr ""
-"@FUNCTION=AND\n"
-"@SYNTAX=AND(b1, b2, ...)\n"
-"@DESCRIPTION=Выполняет функцию 'логическое И': результат TRUE (истина), если "
-"значения всех аргументов TRUE (истина), иначе результат - FALSE (ложь).\n"
-"b1 ... bN - выражения, значения которых должны быть TRUE (истина) или FALSE (ложь). "
-"Для числа, если его величина 0, то значение - FALSE (ложь), во всех остальных "
-"случаях его значение - TRUE (истина).\n"
-"Значения содержащие строки или пустые ячейки игнорируются.  Если "
-"логическое значение не поддерживается, то возвращается ошибка '#VALUE!'. \n"
-"@SEEALSO=OR"
-
-#: src/fn-math.c:188 src/fn-math.c:919
-msgid "#VALUE"
-msgstr ""
-
-#: src/fn-math.c:195
+#: src/fn-math.c:313
 msgid ""
 "@FUNCTION=ASIN\n"
 "@SYNTAX=ASIN(x)\n"
@@ -855,18 +1013,19 @@ msgid ""
 msgstr ""
 "@FUNCTION=ASIN\n"
 "@SYNTAX=ASIN(x)\n"
-"@DESCRIPTION=Функция ASIN(х) вычисляет арксинус x; синус ее результата равен x. Значение результата возвращается в радианах."
-"Если x не принадлежит диапазону от -1 до 1, ASIN не вычисляется "
-"и возвращает ошибку 'asin - domain error'.\n"
+"@DESCRIPTION=Функция ASIN(х) вычисляет арк-синус x; синус ее результата "
+"равен x. Значение результата возвращается в радианах.Если x не принадлежит "
+"диапазону от -1 до 1, ASIN не вычисляется и возвращает ошибку 'asin - domain "
+"error'.\n"
 "У этой функции может быть только один аргумент. Со строками и пустыми "
 "ячейками эта функция ничего не делает.\n"
 "@SEEALSO=ASINH, COS, DEGREES, RADIANS"
 
-#: src/fn-math.c:216
+#: src/fn-math.c:335
 msgid "asin - domain error"
 msgstr ""
 
-#: src/fn-math.c:223
+#: src/fn-math.c:342
 msgid ""
 "@FUNCTION=ASINH\n"
 "@SYNTAX=ASINH(x)\n"
@@ -878,13 +1037,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=ASINH\n"
 "@SYNTAX=ASINH(x)\n"
-"@DESCRIPTION=Функция ASINH(х) вычисляет обратный гиперболический синус "
-"x; гиперболический синус этой величины равен x.\n"
+"@DESCRIPTION=Функция ASINH(х) вычисляет обратный гиперболический синус x; "
+"гиперболический синус этой величины равен x.\n"
 "У этой функции может быть только один аргумент. Со строками и пустыми "
 "ячейками эта функция ничего не делает.\n"
 "@SEEALSO=ASIN, SIN, COS, DEGREES, RADIANS"
 
-#: src/fn-math.c:244
+#: src/fn-math.c:364
 msgid ""
 "@FUNCTION=ATAN\n"
 "@SYNTAX=ATAN(x)\n"
@@ -896,13 +1055,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=ATAN\n"
 "@SYNTAX=ATAN(x)\n"
-"@DESCRIPTION=Функция ATAN(х) вычисляет арктангенс x; тангенс "
-"этой величины равен x. Результат возвращается в радианах.\n"
+"@DESCRIPTION=Функция ATAN(х) вычисляет арк-тангенс x; тангенс этой величины "
+"равен x. Результат возвращается в радианах.\n"
 "У этой функции может быть только один аргумент. Со строками и пустыми "
 "ячейками эта функция ничего не делает.\n"
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 
-#: src/fn-math.c:267
+#: src/fn-math.c:388
 msgid ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
@@ -916,19 +1075,18 @@ msgid ""
 msgstr ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
-"@DESCRIPTION=Функция ATANH(х) вычисляет обратный гиперболический тангенс "
-"x; гиперболический тангенс этой величины равен x. Если абсолютное значение "
-"x больше чем 1.0,  ATANH возвращает ошибку 'atanh: "
-"domain error'\n"
+"@DESCRIPTION=Функция ATANH(х) вычисляет обратный гиперболический тангенс x; "
+"гиперболический тангенс этой величины равен x. Если абсолютное значение x "
+"больше чем 1.0,  ATANH возвращает ошибку 'atanh: domain error'\n"
 "У этой функции может быть только один аргумент. Со строками и пустыми "
 "ячейками эта функция ничего не делает.\n"
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 
-#: src/fn-math.c:290
+#: src/fn-math.c:412
 msgid "atanh: domain error"
 msgstr ""
 
-#: src/fn-math.c:297
+#: src/fn-math.c:419
 msgid ""
 "@FUNCTION=ATAN2\n"
 "@SYNTAX=ATAN2(b1,b2)\n"
@@ -941,30 +1099,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=ATAN2\n"
 "@SYNTAX=ATAN2(b1,b2)\n"
-"@DESCRIPTION=Функция ATAN2(b1,b2) вычисляет арктангенс двух "
-"переменных b1 и b2.  Это подобно вычислению арктангенса b2 "
-"/ b1, кроме того, что знак обоих аргументов используется для определения "
-"квадранта результата. Результат возвращается в радианах.\n"
+"@DESCRIPTION=Функция ATAN2(b1,b2) вычисляет арк-тангенс двух переменных b1 и "
+"b2.  Это подобно вычислению арк-тангенса b2 / b1, кроме того, что знак обоих "
+"аргументов используется для определения квадранта результата. Результат "
+"возвращается в радианах.\n"
 "Со строками и пустыми ячейками эта функция ничего не делает.\n"
 "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
 
-#: src/fn-math.c:321
-msgid ""
-"@FUNCTION=AVERAGE\n"
-"@SYNTAX=AVERAGE(value1, value2,...)\n"
-"@DESCRIPTION=Computes the average of all the values and cells referenced in "
-"the argument list.  This is equivalent to the sum of the arguments divided "
-"by the count of the arguments.\n"
-"@SEEALSO=SUM, COUNT"
-msgstr ""
-"@FUNCTION=AVERAGE\n"
-"@SYNTAX=AVERAGE(value1, value2,...)\n"
-"@DESCRIPTION=Вычисляет среднее всех величин и ячеек указанных в списке"
-"аргументов.  Оно равно сумме всех аргументов деленной на "
-"их количество.\n"
-"@SEEALSO=SUM, COUNT"
-
-#: src/fn-math.c:366
+#: src/fn-math.c:444
 msgid ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
@@ -978,23 +1120,48 @@ msgstr ""
 "Со строками и пустыми ячейками эта функция ничего не делает.\n"
 "@SEEALSO=ABS, FLOOR, INT"
 
-#: src/fn-math.c:385
+#: src/fn-math.c:464
+#, fuzzy
 msgid ""
-"@FUNCTION=BIN2DEC\n"
-"@SYNTAX=BIN2DEC(x)\n"
-"@DESCRIPTION=The BIN2DEC function converts a binary number in string or "
-"number to its decimal equivalent.\n"
-"Performing this function on a string or empty cell simply does nothing.\n"
-"@SEEALSO=DEC2BIN"
+"@FUNCTION=COUNTIF\n"
+"@SYNTAX=COUNTIF(range,criteria)\n"
+"@DESCRIPTION=COUNTIF function counts the number of cells in the given range "
+"that meet the given criteria. \n"
+"@SEEALSO=COUNT,SUMIF"
 msgstr ""
-"@FUNCTION=BIN2DEC\n"
-"@SYNTAX=BIN2DEC(x)\n"
-"@DESCRIPTION=Функция BIN2DEC(х) превращает двоичное число в строку или "
-"в эквивалентное десятичное число.\n"
-"Со строками и пустыми ячейками эта функция ничего не делает.\n"
-"@SEEALSO=DEC2BIN"
+"@FUNCTION=EVEN\n"
+"@SYNTAX=EVEN(число)\n"
+"@DESCRIPTION=Функция EVEN возвращает число округленное до ближайшего четного "
+"целого.\n"
+"@SEEALSO=ODD"
 
-#: src/fn-math.c:435
+#: src/fn-math.c:526
+#, fuzzy
+msgid ""
+"@FUNCTION=SUMIF\n"
+"@SYNTAX=SUMIF(range,criteria)\n"
+"@DESCRIPTION=SUMIF function sums the values in the given range that meet the "
+"given criteria. \n"
+"@SEEALSO=COUNTIF,SUM"
+msgstr ""
+"@FUNCTION=SUM\n"
+"@SYNTAX=SUM(value1, value2, ...)\n"
+"@DESCRIPTION=Вычисляет сумму всех значений и ячеек заданных в списке "
+"аргументов.\n"
+"@SEEALSO=AVERAGE, COUNT"
+
+#: src/fn-math.c:594
+msgid ""
+"@FUNCTION=CEILING\n"
+"@SYNTAX=CEILING(x,significance)\n"
+"@DESCRIPTION=The CEILING function rounds x up to the nearest multiple of "
+"significance. \n"
+"If x or significance is non-numeric CEILING returns #VALUE! error. If n and "
+"significance have different signs CEILING returns #NUM! error. \n"
+"@SEEALSO=CEIL"
+msgstr ""
+
+#: src/fn-math.c:651
 msgid ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
@@ -1012,7 +1179,7 @@ msgstr ""
 "ячейками эта функция ничего не делает.\n"
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: src/fn-math.c:455
+#: src/fn-math.c:672
 msgid ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
@@ -1030,21 +1197,7 @@ msgstr ""
 "ячейками эта функция ничего не делает.\n"
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 
-#: src/fn-math.c:496
-msgid ""
-"@FUNCTION=COUNT\n"
-"@SYNTAX=COUNT(b1, b2, ...)\n"
-"@DESCRIPTION=Returns the total number of arguments passed.\n"
-"Performing this function on a string or empty cell simply does nothing.\n"
-"@SEEALSO=AVERAGE"
-msgstr ""
-"@FUNCTION=COUNT\n"
-"@SYNTAX=COUNT(b1, b2, ...)\n"
-"@DESCRIPTION=Функция COUNT(b1, b2, ...) возвращает количество переданных "
-"аргументов.\n Со строками и пустыми ячейками эта функция ничего не делает.\n"
-"@SEEALSO=AVERAGE"
-
-#: src/fn-math.c:524
+#: src/fn-math.c:694
 msgid ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
@@ -1058,7 +1211,7 @@ msgstr ""
 "Со строками и пустыми ячейками эта функция ничего не делает.\n"
 "@SEEALSO=RADIANS, PI"
 
-#: src/fn-math.c:545
+#: src/fn-math.c:716
 msgid ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
@@ -1069,12 +1222,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
-"@DESCRIPTION=Вычисляет значение e (основание натурального логарифма) возведенного "
-"в степень x. \n"
+"@DESCRIPTION=Вычисляет значение e (основание натурального логарифма) "
+"возведенного в степень x. \n"
 "Применение этой функции к строкам и пустым ячейкам вызывает ошибку.\n"
 "@SEEALSO=LOG, LOG2, LOG10"
 
-#: src/fn-math.c:572
+#: src/fn-math.c:744
 msgid ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
@@ -1090,7 +1243,25 @@ msgstr ""
 "Применение этой функции к строкам и пустым ячейкам вызывает ошибку.\n"
 "@SEEALSO="
 
-#: src/fn-math.c:619
+#: src/fn-math.c:792
+msgid ""
+"@FUNCTION=COMBIN\n"
+"@SYNTAX=COMBIN(n,k)\n"
+"@DESCRIPTION=Computes the number of combinations.\n"
+"Performing this function on a non-integer or a negative number returns an "
+"error. Also if n is less than k returns an error.\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=COMBIN\n"
+"@SYNTAX=COMBIN(n,k)\n"
+"@DESCRIPTION=Вычисляет число комбинаций из n по k.\n"
+"Применение этой функции к нецелым или отрицательным числам вызывает ошибку. "
+"Ошибка возникает также если n меньше чем k.\n"
+"\n"
+"@SEEALSO="
+
+#: src/fn-math.c:838
 msgid ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x)\n"
@@ -1104,7 +1275,7 @@ msgstr ""
 "Со строками и пустыми ячейками эта функция ничего не делает.\n"
 "@SEEALSO=CEIL, ABS, INT"
 
-#: src/fn-math.c:638
+#: src/fn-math.c:858
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(b1, b2, ...)\n"
@@ -1117,30 +1288,57 @@ msgstr ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(b1, b2, ...)\n"
 "@DESCRIPTION=Функция INT округляет b1 до ближайшего целого. Здесь "
-"'ближайшее' означает ближайшее к 0. Равносильно FLOOR(b1) для b1 >0, "
-"и CEIL(b1) для b1 < 0. \n"
+"'ближайшее' означает ближайшее к 0. Равносильно FLOOR(b1) для b1 >0, и "
+"CEIL(b1) для b1 < 0. \n"
 "Со строками и пустыми ячейками эта функция ничего не делает.\n"
 "@SEEALSO=FLOOR, CEIL, ABS"
 
-#: src/fn-math.c:664
+#: src/fn-math.c:885
+#, fuzzy
 msgid ""
 "@FUNCTION=LOG\n"
+"@SYNTAX=LOG(x[,base])\n"
+"@DESCRIPTION=Computes the logarithm of x in the given base.  If no base is "
+"given LOG returns the logarithm in base 10. \n"
+"@SEEALSO=LN, LOG2, LOG10"
+msgstr ""
+"@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x)\n"
-"@DESCRIPTION=Computes the natural logarithm  of x. \n"
-"Performing this function on a string or empty cell returns an error. \n"
+"@DESCRIPTION=Вычисляет натуральный логарифм от x.\n"
+" Применение этой функции к строкам и пустым ячейкам вызывает ошибку 'log: "
+"domain error'.\n"
+"@SEEALSO=EXP, LOG2, LOG10"
+
+#: src/fn-math.c:917
+#, fuzzy
+msgid ""
+"@FUNCTION=LN\n"
+"@SYNTAX=LN(x)\n"
+"@DESCRIPTION=LN returns the natural logarithm of x. \n"
 "@SEEALSO=EXP, LOG2, LOG10"
 msgstr ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x)\n"
-"@DESCRIPTION=Вычисляет натуральный логарифм от x.\n Применение этой "
-"функции к строкам и пустым ячейкам вызывает ошибку 'log: domain error'.\n"
+"@DESCRIPTION=Вычисляет натуральный логарифм от x.\n"
+" Применение этой функции к строкам и пустым ячейкам вызывает ошибку 'log: "
+"domain error'.\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
-#: src/fn-math.c:682
-msgid "log: domain error"
+#: src/fn-math.c:943
+msgid ""
+"@FUNCTION=POWER\n"
+"@SYNTAX=POWER(x,y)\n"
+"@DESCRIPTION=Returns the value of x raised to the power y\n"
+"Performing this function on a string or empty cell returns an error. \n"
+"@SEEALSO=EXP"
 msgstr ""
+"@FUNCTION=POWER\n"
+"@SYNTAX=POWER(x,y)\n"
+"@DESCRIPTION=Возвращает значение x возведенного в степень y\n"
+"Применение этой функции к строкам и пустым ячейкам вызывает ошибку.\n"
+"@SEEALSO=EXP"
 
-#: src/fn-math.c:689
+#: src/fn-math.c:963
 msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
@@ -1150,15 +1348,16 @@ msgid ""
 msgstr ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
-"@DESCRIPTION=Вычисляет двоичный логарифм от x.\n Применение этой "
-"функции к строкам и пустым ячейкам вызывает ошибку 'log2: domain error'.\n"
+"@DESCRIPTION=Вычисляет двоичный логарифм от x.\n"
+" Применение этой функции к строкам и пустым ячейкам вызывает ошибку 'log2: "
+"domain error'.\n"
 "@SEEALSO=EXP, LOG10, LOG"
 
-#: src/fn-math.c:707
+#: src/fn-math.c:982
 msgid "log2: domain error"
 msgstr ""
 
-#: src/fn-math.c:714
+#: src/fn-math.c:989
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
@@ -1168,75 +1367,34 @@ msgid ""
 msgstr ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
-"@DESCRIPTION=Вычисляет десятичный логарифм от x.\n Применение этой "
-"функции к строкам и пустым ячейкам вызывает ошибку 'log10: domain error'.\n"
+"@DESCRIPTION=Вычисляет десятичный логарифм от x.\n"
+" Применение этой функции к строкам и пустым ячейкам вызывает ошибку 'log10: "
+"domain error'.\n"
 "@SEEALSO=EXP, LOG2, LOG"
 
-#: src/fn-math.c:733
+#: src/fn-math.c:1009
 msgid "log10: domain error"
 msgstr ""
 
-#: src/fn-math.c:740
+#: src/fn-math.c:1016
 msgid ""
-"@FUNCTION=MIN\n"
-"@SYNTAX=MIN(b1, b2, ...)\n"
-"@DESCRIPTION=MIN returns the value of the element of the values passed that "
-"has the smallest value. With negative numbers considered smaller than "
-"positive numbers.\n"
-"Performing this function on a string or empty cell simply does nothing.\n"
-"@SEEALSO=MAX,ABS"
+"@FUNCTION=MOD\n"
+"@SYNTAX=MOD(number,divisor)\n"
+"@DESCRIPTION=Implements modulo arithmetic.Returns the remainder when divisor "
+"is divided into abs(number).\n"
+"Returns #DIV/0! if divisor is zero.@SEEALSO=INT,FLOOR,CEIL"
 msgstr ""
-"@FUNCTION=MIN\n"
-"@SYNTAX=MIN(b1, b2, ...)\n"
-"@DESCRIPTION=Функция MIN возвращает значение наименьшего из переданных "
-"аргументов. Отрицательные числа считаются меньшими чем положительные"
-".\n"
-"Со строками и пустыми ячейками эта функция ничего не делает.\n"
-"@SEEALSO=MAX,ABS"
+"@FUNCTION=MOD\n"
+"@SYNTAX=MOD(число,делитель)\n"
+"@DESCRIPTION=Implements modulo arithmetic.Returns the remainder when divisor "
+"is divided into abs(number).\n"
+"Вызывает сообщение \"#DIV/0!\" если делитель равен 0.@SEEALSO=INT,FLOOR,CEIL"
 
-#: src/fn-math.c:754
-msgid ""
-"@FUNCTION=MAX\n"
-"@SYNTAX=MAX(b1, b2, ...)\n"
-"@DESCRIPTION=MAX returns the value of the element of the values passed that "
-"has the largest value. With negative numbers considered smaller than "
-"positive numbers.\n"
-"Performing this function on a string or empty cell simply does nothing.\n"
-"@SEEALSO=MIN,ABS"
+#: src/fn-math.c:1050
+msgid "#DIV/0!"
 msgstr ""
-"@FUNCTION=MAX\n"
-"@SYNTAX=MAX(b1, b2, ...)\n"
-"@DESCRIPTION=Функция MAX возвращает значение наибольшего из переданных "
-"аргументов. Отрицательные числа считаются меньшими чем положительные"
-".\n"
-"Со строками и пустыми ячейками эта функция ничего не делает.\n"
-"@SEEALSO=MIN,ABS"
 
-#: src/fn-math.c:858
-msgid ""
-"@FUNCTION=OR\n"
-"@SYNTAX=OR(b1, b2, ...)\n"
-"@DESCRIPTION=Implements the logical OR function: the result is TRUE if any "
-"of the values evaluated to TRUE.\n"
-"b1, trough bN are expressions that should evaluate to TRUE or FALSE. If an "
-"integer or floating point value is provided zero is considered FALSE and "
-"anything else is TRUE.\n"
-"If the values contain strings or empty cells those values are ignored.  If "
-"no logical values are provided, then the error '#VALUE!'is returned.\n"
-"@SEEALSO=AND"
-msgstr ""
-"@FUNCTION=OR\n"
-"@SYNTAX=OR(b1, b2, ...)\n"
-"@DESCRIPTION=OR() выполняет функцию 'логическое ИЛИ': результат TRUE (истина) "
-"если значение любого аргумента TRUE.\n"
-"b1 ... bN выражения, которые должны иметь значение TRUE или FALSE (ложь). "
-"Для числа, если его величина 0, то значение - FALSE (ложь), во всех остальных "
-"случаях его значение - TRUE (истина).\n"
-"Значения содержащие строки или пустые ячейки игнорируются.  Если "
-"логическое значение не поддерживается, то возвращается ошибка '#VALUE!'. \n"
-"@SEEALSO=AND"
-
-#: src/fn-math.c:926
+#: src/fn-math.c:1058
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -1246,11 +1404,27 @@ msgid ""
 msgstr ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
-"@DESCRIPTION=Вычисляет число радиан в x градусах. \n"
+"@DESCRIPTION=Вычисляет число радиант в x градусах. \n"
 "Со строками и пустыми ячейками эта функция ничего не делает.\n"
 "@SEEALSO=PI,DEGREES"
 
-#: src/fn-math.c:947
+#: src/fn-math.c:1080
+msgid ""
+"@FUNCTION=RAND\n"
+"@SYNTAX=RAND()\n"
+"@DESCRIPTION=Returns a random number greater than or equal to 0 and less "
+"than 1.\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=RAND\n"
+"@SYNTAX=RAND()\n"
+"@DESCRIPTION=Возвращает случайное число большее или равное 0 и меньшее 1.\n"
+"\n"
+"\n"
+"@SEEALSO="
+
+#: src/fn-math.c:1099
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -1268,7 +1442,7 @@ msgstr ""
 "ячейками эта функция ничего не делает.\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: src/fn-math.c:967
+#: src/fn-math.c:1120
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -1286,7 +1460,22 @@ msgstr ""
 "ячейками эта функция ничего не делает.\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
-#: src/fn-math.c:988
+#: src/fn-math.c:1142
+msgid ""
+"@FUNCTION=SQRT\n"
+"@SYNTAX=SQRT(x)\n"
+"@DESCRIPTION=The SQRT  function  returns  the  square root of x, \n"
+"If x is negative returns #NUM!.This function only takes one argument.\n"
+"@SEEALSO=POW"
+msgstr ""
+"@FUNCTION=SQRT\n"
+"@SYNTAX=SQRT(x)\n"
+"@DESCRIPTION=Функция SQRT(x) возвращает квадратный корень x.\n"
+"Если x отрицательное, возвращается #NUM!. Эта функция принимает только один "
+"аргумент.\n"
+"@SEEALSO=POW"
+
+#: src/fn-math.c:1167
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -1300,7 +1489,52 @@ msgstr ""
 "аргументов.\n"
 "@SEEALSO=AVERAGE, COUNT"
 
-#: src/fn-math.c:1052
+#: src/fn-math.c:1258
+#, fuzzy
+msgid ""
+"@FUNCTION=SUMSQ\n"
+"@SYNTAX=SUMSQ(value1, value2, ...)\n"
+"@DESCRIPTION=SUMSQ returns the sum of the squares of all the values and "
+"cells referenced in the argument list. \n"
+"@SEEALSO=SUM, COUNT"
+msgstr ""
+"@FUNCTION=SUM\n"
+"@SYNTAX=SUM(value1, value2, ...)\n"
+"@DESCRIPTION=Вычисляет сумму всех значений и ячеек заданных в списке "
+"аргументов.\n"
+"@SEEALSO=AVERAGE, COUNT"
+
+#: src/fn-math.c:1313
+#, fuzzy
+msgid ""
+"@FUNCTION=MULTINOMIAL\n"
+"@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
+"@DESCRIPTION=MULTINOMIAL returns the ratio of the factorial of a sum of "
+"values to the product of factorials. \n"
+"@SEEALSO=SUM"
+msgstr ""
+"@FUNCTION=SUM\n"
+"@SYNTAX=SUM(value1, value2, ...)\n"
+"@DESCRIPTION=Вычисляет сумму всех значений и ячеек заданных в списке "
+"аргументов.\n"
+"@SEEALSO=AVERAGE, COUNT"
+
+#: src/fn-math.c:1371
+#, fuzzy
+msgid ""
+"@FUNCTION=PRODUCT\n"
+"@SYNTAX=PRODUCT(value1, value2, ...)\n"
+"@DESCRIPTION=PRODUCT returns the product of all the values and cells "
+"referenced in the argument list. \n"
+"@SEEALSO=SUM, COUNT"
+msgstr ""
+"@FUNCTION=SUM\n"
+"@SYNTAX=SUM(value1, value2, ...)\n"
+"@DESCRIPTION=Вычисляет сумму всех значений и ячеек заданных в списке "
+"аргументов.\n"
+"@SEEALSO=AVERAGE, COUNT"
+
+#: src/fn-math.c:1426
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -1318,7 +1552,7 @@ msgstr ""
 "ячейками эта функция ничего не делает.\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
-#: src/fn-math.c:1072
+#: src/fn-math.c:1447
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -1330,13 +1564,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
-"@DESCRIPTION=Функция TANH(х) возвращает значение гиперболического тангенса x, "
-"который определяется как sinh(x) / cosh(x).\n"
+"@DESCRIPTION=Функция TANH(х) возвращает значение гиперболического тангенса "
+"x, который определяется как sinh(x) / cosh(x).\n"
 "У этой функции может быть только один аргумент. Со строками и пустыми "
 "ячейками эта функция ничего не делает.\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
-#: src/fn-math.c:1092
+#: src/fn-math.c:1468
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -1346,41 +1580,293 @@ msgid ""
 msgstr ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
-"@DESCRIPTION=Функция PI() возвращает значение числа Пи, которое определяется как M_PI.\n"
+"@DESCRIPTION=Функция PI() возвращает значение числа Пи, которое определяется "
+"как M_PI.\n"
 "Эта функция вызывается без аргументов.\n"
 "@SEEALSO="
 
+#: src/fn-math.c:1488
+msgid ""
+"@FUNCTION=TRUNC\n"
+"@SYNTAX=TRUNC(number[,digits])\n"
+"@DESCRIPTION=The TRUNC function returns the value of number truncated to the "
+"number of digits specified.  If digits is omited then digits defaults to "
+"zero.\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=TRUNC\n"
+"@SYNTAX=TRUNC(number[,digits])\n"
+"@DESCRIPTION=Функция TRUNC возвращает значение числа укороченного до "
+"заданного числа цифр. Если число цифр не задано, то подразумевается ноль.\n"
+"\n"
+"@SEEALSO="
+
+#: src/fn-math.c:1545
+msgid ""
+"@FUNCTION=EVEN\n"
+"@SYNTAX=EVEN(number)\n"
+"@DESCRIPTION=EVEN function returns the number rounded up to the nearest even "
+"integer. \n"
+"@SEEALSO=ODD"
+msgstr ""
+"@FUNCTION=EVEN\n"
+"@SYNTAX=EVEN(число)\n"
+"@DESCRIPTION=Функция EVEN возвращает число округленное до ближайшего четного "
+"целого.\n"
+"@SEEALSO=ODD"
+
+#: src/fn-math.c:1577
+msgid ""
+"@FUNCTION=ODD\n"
+"@SYNTAX=ODD(number)\n"
+"@DESCRIPTION=ODD function returns the number rounded up to the nearest odd "
+"integer. \n"
+"@SEEALSO=EVEN"
+msgstr ""
+"@FUNCTION=ODD\n"
+"@SYNTAX=ODD(число)\n"
+"@DESCRIPTION=Функция ODD возвращает число округленное до ближайшего "
+"нечетного целого.\n"
+"@SEEALSO=EVEN"
+
+#: src/fn-math.c:1609
+msgid ""
+"@FUNCTION=FACTDOUBLE\n"
+"@SYNTAX=FACTDOUBLE(number)\n"
+"@DESCRIPTION=FACTDOUBLE function returns the double factorial of a number. \n"
+"If @number is not an integer, it is truncated. If @number is negative "
+"FACTDOUBLE returns #NUM! error. \n"
+"@SEEALSO=FACT"
+msgstr ""
+"@FUNCTION=FACTDOUBLE\n"
+"@SYNTAX=FACTDOUBLE(число)\n"
+"@DESCRIPTION=Функция FACTDOUBLE возвращает двойной факториал числа. \n"
+"Если число не целое, то дробная часть отбрасывается . Если число "
+"отрицательное, FACTDOUBLE возвращает ошибку #NUM!. \n"
+"@SEEALSO=FACT"
+
+#: src/fn-math.c:1640
+msgid ""
+"@FUNCTION=QUOTIENT\n"
+"@SYNTAX=QUOTIENT(num,den)\n"
+"@DESCRIPTION=QUOTIENT function returns the integer portion of a division. "
+"@num is the divided and @den is the divisor. \n"
+"@SEEALSO=MOD"
+msgstr ""
+"@FUNCTION=QUOTIENT\n"
+"@SYNTAX=QUOTIENT(число,делитель)\n"
+"@DESCRIPTION=Функция QUOTIENT возвращает целую часть частного от деления. "
+"Аргемент \"число\" - делимое. \n"
+"@SEEALSO=MOD"
+
+#: src/fn-math.c:1662
+#, fuzzy
+msgid ""
+"@FUNCTION=SIGN\n"
+"@SYNTAX=SIGN(num)\n"
+"@DESCRIPTION=SIGN function returns 1 if the number is positive, zero if the "
+"number is 0, and -1 if the number is negative. \n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=EVEN\n"
+"@SYNTAX=EVEN(число)\n"
+"@DESCRIPTION=Функция EVEN возвращает число округленное до ближайшего четного "
+"целого.\n"
+"@SEEALSO=ODD"
+
+#: src/fn-math.c:1688
+#, fuzzy
+msgid ""
+"@FUNCTION=SQRTPI\n"
+"@SYNTAX=SQRTPI(number)\n"
+"@DESCRIPTION=SQRTPI function returns the square root of a number multiplied "
+"by pi. \n"
+"@SEEALSO=PI"
+msgstr ""
+"@FUNCTION=SQRT\n"
+"@SYNTAX=SQRT(x)\n"
+"@DESCRIPTION=Функция SQRT(x) возвращает квадратный корень x.\n"
+"Если x отрицательное, возвращается #NUM!. Эта функция принимает только один "
+"аргумент.\n"
+"@SEEALSO=POW"
+
+#: src/fn-math.c:1713
+msgid ""
+"@FUNCTION=RANDBETWEEN\n"
+"@SYNTAX=RANDBETWEEN(bottom,top)\n"
+"@DESCRIPTION=RANDBETWEEN function returns a random integer number between "
+"@bottom and @top. \n"
+"If @bottom or @top is non-integer it is truncated. If @bottom > @top "
+"RANDBETWEEN returns #NUM! error. \n"
+"@SEEALSO=RAND"
+msgstr ""
+"@FUNCTION=RANDBETWEEN\n"
+"@SYNTAX=RANDBETWEEN(низ,верх)\n"
+"@DESCRIPTION=Функция RANDBETWEEN возвращает случайное целое число в "
+"диапазоне между значениями аргументов \"низ\" и \"верх\". \n"
+"Если \"низ\" или \"верх\" не целые, дробная часть отбрасывается. Если "
+"\"низ\" > \"верх\" RANDBETWEEN возвращает ошибку #NUM!. \n"
+"@SEEALSO=RAND"
+
+#: src/fn-math.c:1739 src/fn-math.c:2091 src/fn-math.c:2188 src/fn-math.c:2285
+msgid "#N/A!"
+msgstr ""
+
+#: src/fn-math.c:1747
+msgid ""
+"@FUNCTION=ROUNDDOWN\n"
+"@SYNTAX=ROUNDDOWN(number[,digits])\n"
+"@DESCRIPTION=ROUNDDOWN function rounds a given number down, towards zero. "
+"@number is the number you want rounded down and @digits is the number of "
+"digits to which you want to round that number. \n"
+"If digits is greater than zero, number is rounded down to the given number "
+"of digits. If digits is zero or omitted, number is rounded down to the "
+"nearest integer. If digits is less than zero, number is rounded down to the "
+"left of the decimal point. \n"
+"@SEEALSO=ROUNDUP"
+msgstr ""
+
+#: src/fn-math.c:1794
+msgid ""
+"@FUNCTION=ROUND\n"
+"@SYNTAX=ROUND(number[,digits])\n"
+"@DESCRIPTION=ROUND function rounds a given number. @number is the number you "
+"want rounded and @digits is the number of digits to which you want to round "
+"that number. \n"
+"If digits is greater than zero, number is rounded to the given number of "
+"digits. If digits is zero or omitted, number is rounded to the nearest "
+"integer. If digits is less than zero, number is rounded to the left of the "
+"decimal point. \n"
+"@SEEALSO=ROUNDDOWN,ROUNDUP"
+msgstr ""
+
+#: src/fn-math.c:1841
+msgid ""
+"@FUNCTION=ROUNDUP\n"
+"@SYNTAX=ROUNDUP(number[,digits])\n"
+"@DESCRIPTION=ROUNDUP function rounds a given number up, away from zero. "
+"@number is the number you want rounded up and @digits is the number of "
+"digits to which you want to round that number. \n"
+"If digits is greater than zero, number is rounded up to the given number of "
+"digits. If digits is zero or omitted, number is rounded up to the nearest "
+"integer. If digits is less than zero, number is rounded up to the left of "
+"the decimal point. \n"
+"@SEEALSO=ROUNDDOWN"
+msgstr ""
+
+#: src/fn-math.c:1892
+msgid ""
+"@FUNCTION=MROUND\n"
+"@SYNTAX=MROUND(number,multiple)\n"
+"@DESCRIPTION=MROUND function rounds a given number to the desired multiple. "
+"@number is the number you want rounded and @multiple is the the multiple to "
+"which you wnat to round the number. For example, MROUND(1.7, 0.2) equals "
+"1.8. \n"
+"If the number and the multiple have different sign, MROUND returns #NUM! "
+"error. \n"
+"@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
+msgstr ""
+
+#: src/fn-math.c:1938
+msgid ""
+"@FUNCTION=ROMAN\n"
+"@SYNTAX=ROMAN(number[,type])\n"
+"@DESCRIPTION=ROMAN function returns an arabic number in the roman numeral "
+"style, as text. @number is the number you want to convert and @type is the "
+"type of roman numeral you want. \n"
+"If @type is 0 or it is omitted, ROMAN returns classic roman numbers. Types "
+"1,2,3, and 4 are not implemented yet. If @number is negative or greater than "
+"3999, ROMAN returns #VALUE! error. \n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-math.c:1987
+msgid "#Unimplemented!"
+msgstr ""
+
+#: src/fn-math.c:2020
+msgid ""
+"@FUNCTION=SUMX2MY2\n"
+"@SYNTAX=SUMX2MY2(array1,array2)\n"
+"@DESCRIPTION=SUMX2MY2 function returns the sum of the difference of squares "
+"of corresponding values in two arrays. @array1 is the first array or range "
+"of data points and @array2 is the second array or range of data points. The "
+"equation of SUMX2MY2 is SUM (x^2-y^2). \n"
+"Strings and empty cells are simply ignored.\n"
+"If @array1 and @array2 have different number of data points, SUMX2MY2 "
+"returns #N/A! error. \n"
+"@SEEALSO=SUMSQ"
+msgstr ""
+
+#: src/fn-math.c:2068 src/fn-math.c:2086 src/fn-math.c:2165 src/fn-math.c:2183
+#: src/fn-math.c:2262 src/fn-math.c:2280
+msgid "Array version not implemented!"
+msgstr ""
+
+#: src/fn-math.c:2117
+msgid ""
+"@FUNCTION=SUMX2PY2\n"
+"@SYNTAX=SUMX2PY2(array1,array2)\n"
+"@DESCRIPTION=SUMX2PY2 function returns the sum of the sum of squares of "
+"corresponding values in two arrays. @array1 is the first array or range of "
+"data points and @array2 is the second array or range of data points. The "
+"equation of SUMX2PY2 is SUM (x^2+y^2). \n"
+"Strings and empty cells are simply ignored.\n"
+"If @array1 and @array2 have different number of data points, SUMX2PY2 "
+"returns #N/A! error. \n"
+"@SEEALSO=SUMSQ"
+msgstr ""
+
+#: src/fn-math.c:2214
+msgid ""
+"@FUNCTION=SUMXMY2\n"
+"@SYNTAX=SUMXMY2(array1,array2)\n"
+"@DESCRIPTION=SUMXMY2 function returns the sum of squares of differences of "
+"corresponding values in two arrays. @array1 is the first array or range of "
+"data points and @array2 is the second array or range of data points. The "
+"equation of SUMXMY2 is SUM (x-y)^2. \n"
+"Strings and empty cells are simply ignored.\n"
+"If @array1 and @array2 have different number of data points, SUMXMY2 returns "
+"#N/A! error. \n"
+"@SEEALSO=SUMSQ"
+msgstr ""
+
 #: src/fn-misc.c:18
+#, fuzzy
 msgid ""
-"@FUNCTION=CLEAN\n"
-"@SYNTAX=CLEAN(string)\n"
-"@DESCRIPTION=Cleans the string from any non-printable characters.\n"
-"@SEEALSO="
+"@FUNCTION=ISERROR\n"
+"@SYNTAX=ISERROR(exp)\n"
+"@DESCRIPTION=Returns a TRUE value if the expression has an error\n"
+"\n"
+"@SEEALSO=ERROR"
 msgstr ""
-"@FUNCTION=CLEAN\n"
-"@SYNTAX=CLEAN(строка)\n"
-"@DESCRIPTION=Очищает строку от любых непечатаемых символов.\n"
+"@FUNCTION=ISERROR\n"
+"@SYNTAX=ISERROR(exp)\n"
+"@DESCRIPTION=Возвращает TRUE(истина) если выражение не корректно\n"
+"\n"
 "@SEEALSO="
 
-#: src/fn-sheet.c:17
+#: src/fn-misc.c:34
+msgid "Argument mismatch"
+msgstr "Несоответствие аргументов"
+
+#: src/fn-misc.c:49
+#, fuzzy
 msgid ""
-"@FUNCTION=IF\n"
-"@SYNTAX=IF(condition,if-true,if-false)\n"
-"@DESCRIPTION=Use the IF statement to evaluate conditionally other "
-"expressions IF evaluates @condition.  If @condition returns a non-zero value "
-"the result of the IF expression is the @if-true expression, otherwise IF "
-"evaluates to the value of @if-false\n"
-"@SEEALSO="
+"@FUNCTION=ERROR\n"
+"@SYNTAX=ERROR(text)\n"
+"@DESCRIPTION=Return the specified error\n"
+"\n"
+"@SEEALSO=ISERROR"
 msgstr ""
-"@FUNCTION=IF\n"
-"@SYNTAX=IF(condition,if-true,if-false)\n"
-"@DESCRIPTION=Функция IF используется для вычисления значения выражения "
-"в зависимости от значения @condition. Если @condition возвращает не нулевое "
-"значение, то IF возвращает значение выражения @if-true, в противном случае IF "
-"возвращает значение выражения @if-false\n"
+"@FUNCTION=ISERROR\n"
+"@SYNTAX=ISERROR(exp)\n"
+"@DESCRIPTION=Возвращает TRUE(истина) если выражение не корректно\n"
+"\n"
 "@SEEALSO="
 
-#: src/fn-sheet.c:64
+#: src/fn-sheet.c:18
 msgid ""
 "@FUNCTION=SELECTION\n"
 "@SYNTAX=SELECTION(x)\n"
@@ -1391,16 +1877,16 @@ msgid ""
 msgstr ""
 "@FUNCTION=SELECTION\n"
 "@SYNTAX=SELECTION(x)\n"
-"@DESCRIPTION=Функция SELECTION возвращает список со значениями в "
-"текущей позиции указателя мыши. Обычно используется для вычисления "
-"значений 'налету'\n"
+"@DESCRIPTION=Функция SELECTION возвращает список со значениями в текущей "
+"позиции указателя мыши. Обычно используется для вычисления значений "
+"'налету'\n"
 "@SEEALSO="
 
-#: src/fn-string.c:17
+#: src/fn-string.c:18
 msgid ""
 "@FUNCTION=CHAR\n"
 "@SYNTAX=CHAR(x)\n"
-"@DESCRIPTION=Returns the ascii character reprensented by the number x.\n"
+"@DESCRIPTION=Returns the ascii character represented by the number x.\n"
 "@SEEALSO=CODE"
 msgstr ""
 "@FUNCTION=CHAR\n"
@@ -1408,7 +1894,7 @@ msgstr ""
 "@DESCRIPTION=Возвращает символ представляемый ASCII-кодом x.\n"
 "@SEEALSO=CODE"
 
-#: src/fn-string.c:39
+#: src/fn-string.c:40
 msgid ""
 "@FUNCTION=CODE\n"
 "@SYNTAX=CODE(char)\n"
@@ -1420,21 +1906,21 @@ msgstr ""
 "@DESCRIPTION=Возвращает ASCII-код для символа char.\n"
 "@SEEALSO=CHAR"
 
-#: src/fn-string.c:61
+#: src/fn-string.c:62
 msgid ""
 "@FUNCTION=EXACT\n"
 "@SYNTAX=EXACT(string1, string2)\n"
 "@DESCRIPTION=Returns true if string1 is exactly equal to string2 (this "
-"routine is case sensitive.\n"
-"@SEEALSO="
+"routine is case sensitive).\n"
+"@SEEALSO=LEN"
 msgstr ""
 "@FUNCTION=EXACT\n"
 "@SYNTAX=EXACT(string1, string2)\n"
-"@DESCRIPTION=Возвращает TRUE если string1 совпадает с string2 (эта "
-"функция учитывает регистр.\n"
-"@SEEALSO="
+"@DESCRIPTION=Возвращает TRUE(истина) если string1 совпадает с string2 (эта "
+"функция учитывает регистр).\n"
+"@SEEALSO=LEN"
 
-#: src/fn-string.c:83
+#: src/fn-string.c:84
 msgid ""
 "@FUNCTION=LEN\n"
 "@SYNTAX=LEN(string)\n"
@@ -1446,7 +1932,7 @@ msgstr ""
 "@DESCRIPTION=Возвращает число символов в строке @string.\n"
 "@SEEALSO=CHAR, CODE"
 
-#: src/fn-string.c:140
+#: src/fn-string.c:106
 msgid ""
 "@FUNCTION=LEFT\n"
 "@SYNTAX=LEFT(text[,num_chars])\n"
@@ -1456,11 +1942,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=LEFT\n"
 "@SYNTAX=LEFT(text[,num_chars])\n"
-"@DESCRIPTION=Возвращает num_chars символов от начала строки или первый символ "
-"если num_chars не указано\n"
+"@DESCRIPTION=Возвращает num_chars символов от начала строки или первый "
+"символ если num_chars не указано\n"
 "@SEEALSO=MID, RIGHT"
 
-#: src/fn-string.c:176
+#: src/fn-string.c:139
 msgid ""
 "@FUNCTION=LOWER\n"
 "@SYNTAX=LOWER(text)\n"
@@ -1472,12 +1958,12 @@ msgstr ""
 "@DESCRIPTION=Превращает все символы строки @text в строчные\n"
 "@SEEALSO=UPPER"
 
-#: src/fn-string.c:207
+#: src/fn-string.c:172
 msgid ""
 "@FUNCTION=MID\n"
 "@SYNTAX=MID(string, position, length)\n"
 "@DESCRIPTION=Returns a substring from @string starting at @position for "
-"@lenght characters.\n"
+"@length characters.\n"
 "@SEEALSO=LEFT, RIGHT"
 msgstr ""
 "@FUNCTION=MID\n"
@@ -1486,7 +1972,11 @@ msgstr ""
 "длиной @lenght символов.\n"
 "@SEEALSO=LEFT, RIGHT"
 
-#: src/fn-string.c:255
+#: src/fn-string.c:200 src/fn-string.c:621
+msgid "Invalid arguments"
+msgstr "Неверные аргументы"
+
+#: src/fn-string.c:218
 msgid ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(text[,num_chars])\n"
@@ -1496,11 +1986,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(text[,num_chars])\n"
-"@DESCRIPTION=Возвращает последние num_chars символов или последний "
-"символ, если num_chars не указано\n"
+"@DESCRIPTION=Возвращает последние num_chars символов или последний символ, "
+"если num_chars не указано\n"
 "@SEEALSO=MID, LEFT"
 
-#: src/fn-string.c:295
+#: src/fn-string.c:255
 msgid ""
 "@FUNCTION=UPPER\n"
 "@SYNTAX=UPPER(text)\n"
@@ -1512,89 +2002,207 @@ msgstr ""
 "@DESCRIPTION=Превращает все символы строки @text в прописные\n"
 "@SEEALSO=LOWER"
 
-#: src/format.c:403
+#: src/fn-string.c:289
+msgid ""
+"@FUNCTION=CONCATENATE\n"
+"@SYNTAX=CONCATENATE(string1[,string2...])\n"
+"@DESCRIPTION=Returns up appended strings\n"
+"@SEEALSO=LEFT, MID, RIGHT"
+msgstr ""
+
+#: src/fn-string.c:335
+msgid ""
+"@FUNCTION=REPT\n"
+"@SYNTAX=REPT(string,num)\n"
+"@DESCRIPTION=Returns @num repetitions of @string\n"
+"@SEEALSO=CONCATENATE"
+msgstr ""
+
+#. start position too high or low
+#: src/fn-string.c:353 src/fn-string.c:433 src/fn-string.c:440
+#: src/fn-string.c:479
+msgid "Invalid argument"
+msgstr "Неверный аргумент"
+
+#: src/fn-string.c:373
+msgid ""
+"@FUNCTION=CLEAN\n"
+"@SYNTAX=CLEAN(string)\n"
+"@DESCRIPTION=Cleans the string from any non-printable characters.\n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=CLEAN\n"
+"@SYNTAX=CLEAN(строка)\n"
+"@DESCRIPTION=Очищает строку от любых непечатаемых символов.\n"
+"@SEEALSO="
+
+#: src/fn-string.c:412
+msgid ""
+"@FUNCTION=FIND\n"
+"@SYNTAX=FIND(string1,string2[,start])\n"
+"@DESCRIPTION=Returns position of @string1 in @string2 (case-sesitive), "
+"searching only from character @start onwards (assumed 1 if omitted)\n"
+"@SEEALSO=EXACT, LEN, MID, SEARCH"
+msgstr ""
+
+#: src/fn-string.c:451
+msgid ""
+"@FUNCTION=FIXED\n"
+"@SYNTAX=FIXED(num, [decimals, no_commas])\n"
+"@DESCRIPTION=Returns @num as a formatted string with @decimals numbers after "
+"the decimal point, omitting commas if requested by @no_commas\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-string.c:556
+msgid ""
+"@FUNCTION=PROPER\n"
+"@SYNTAX=PROPER(string)\n"
+"@DESCRIPTION=Returns @string with initial of each word capitalised\n"
+"@SEEALSO=LOWER, UPPER"
+msgstr ""
+
+#: src/fn-string.c:595
+msgid ""
+"@FUNCTION=REPLACE\n"
+"@SYNTAX=REPLACE(old,start,num,new)\n"
+"@DESCRIPTION=Returns @old with @new replacing @num characters from @start\n"
+"@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
+msgstr ""
+
+#: src/fn-string.c:644
+msgid ""
+"@FUNCTION=T\n"
+"@SYNTAX=T(value)\n"
+"@DESCRIPTION=Returns @value if and only if it is text, otherwise a blank "
+"string\n"
+"@SEEALSO=CELL, N, VALUE"
+msgstr ""
+
+#: src/fn-string.c:667
+msgid ""
+"@FUNCTION=TRIM\n"
+"@SYNTAX=TRIM(text)\n"
+"@DESCRIPTION=Returns @text with only single spaces between words\n"
+"@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
+msgstr ""
+
+#: src/fn-string.c:714
+msgid ""
+"@FUNCTION=VALUE\n"
+"@SYNTAX=VALUE(text)\n"
+"@DESCRIPTION=Returns numeric value of @text\n"
+"@SEEALSO=DOLLAR, FIXED, TEXT"
+msgstr ""
+
+#: src/fn-string.c:775
+msgid ""
+"@FUNCTION=SUBSTITUTE\n"
+"@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
+"@DESCRIPTION=Replaces @old with @new in @text.  Substitutions are only "
+"applied to instance @num of @old in @text, otherwise every one is changed.\n"
+"@SEEALSO=REPLACE, TRIM"
+msgstr ""
+
+#: src/fn-string.c:845
+msgid ""
+"@FUNCTION=DOLLAR\n"
+"@SYNTAX=DOLLAR(num,[decimals])\n"
+"@DESCRIPTION=Returns @num formatted as currency \n"
+"@SEEALSO=FIXED, TEXT, VALUE"
+msgstr ""
+
+#: src/format.c:389
 msgid "black"
 msgstr "черный"
 
-#: src/format.c:404
+#: src/format.c:390
 msgid "blue"
 msgstr "синий"
 
-#: src/format.c:405
+#: src/format.c:391
 msgid "cyan"
 msgstr "голубой"
 
-#: src/format.c:406
+#: src/format.c:392
 msgid "green"
 msgstr "зеленый"
 
-#: src/format.c:407
+#: src/format.c:393
 msgid "magenta"
 msgstr "пурпурный"
 
-#: src/format.c:408
+#: src/format.c:394
 msgid "red"
 msgstr "красный"
 
-#: src/format.c:409
+#: src/format.c:395
 msgid "white"
 msgstr "белый"
 
-#: src/format.c:410
+#: src/format.c:396
 msgid "yellow"
 msgstr "желтый"
 
+#: src/format.c:1026
+msgid "CELLRANGE"
+msgstr ""
+
+#: src/format.c:1029
+msgid "ARRAY"
+msgstr ""
+
 #: src/formats.c:17
 msgid "0"
-msgstr ""
+msgstr "0"
 
 #: src/formats.c:18
 msgid "0.00"
-msgstr ""
+msgstr "0.00"
 
 #: src/formats.c:19
 msgid "#,##0"
-msgstr ""
+msgstr "#,##0"
 
 #: src/formats.c:20
 msgid "#,##0.00"
-msgstr ""
+msgstr "#,##0.00"
 
 #: src/formats.c:21
 msgid "#,##0_);(#,##0)"
-msgstr ""
+msgstr "#,##0_);(#,##0)"
 
 #: src/formats.c:22
 msgid "#,##0_);[red](#,##0)"
-msgstr ""
+msgstr "#,##0_);[red](#,##0)"
 
 #: src/formats.c:23
 msgid "#,##0.00_);(#,##0.00)"
-msgstr ""
+msgstr "#,##0.00_);(#,##0.00)"
 
 #: src/formats.c:24
 msgid "#,##0.00_);[red](#,##0.00)"
-msgstr ""
+msgstr "#,##0.00_);[red](#,##0.00)"
 
 #: src/formats.c:25
 msgid "0.0"
-msgstr ""
+msgstr "0.0"
 
 #: src/formats.c:30
 msgid "_($*#,##0_);_($*(#,##0);_($*\"-\"_);_(@_)"
-msgstr ""
+msgstr "_($*#,##0_);_($*(#,##0);_($*\"-\"_);_(@_)"
 
 #: src/formats.c:31
 msgid "_(*$,$$0_);_(*(#,##0);_(*\"-\"_);_(@_)"
-msgstr ""
+msgstr "_(*$,$$0_);_(*(#,##0);_(*\"-\"_);_(@_)"
 
 #: src/formats.c:32
 msgid "_($*#,##0.00_);_($*(#,##0.00);_($*\"-\"??_);_(@_)"
-msgstr ""
+msgstr "_($*#,##0.00_);_($*(#,##0.00);_($*\"-\"??_);_(@_)"
 
 #: src/formats.c:33
 msgid "_(*#,##0.00_);_(*(#,##0.00);_(*\"-\"??_);_(@_)"
-msgstr ""
+msgstr "_(*#,##0.00_);_(*(#,##0.00);_(*\"-\"??_);_(@_)"
 
 #: src/formats.c:38
 msgid "m/d/yy"
@@ -1707,579 +2315,826 @@ msgstr "[ч]:мм:сс"
 #: src/formats.c:74
 #, c-format
 msgid "0%"
-msgstr ""
+msgstr "0%"
 
 #: src/formats.c:75
 #, c-format
 msgid "0.00%"
-msgstr ""
+msgstr "0.00%"
 
 #: src/formats.c:80
 msgid "# ?/?"
-msgstr ""
+msgstr "# ?/?"
 
 #: src/formats.c:81
 msgid "# ??/??"
-msgstr ""
+msgstr "# ??/??"
 
 #: src/formats.c:86
 msgid "0.00E+00"
-msgstr ""
+msgstr "0.00E+00"
 
 #: src/formats.c:87
 msgid "##0.0E+0"
-msgstr ""
+msgstr "##0.0E+0"
 
 #: src/formats.c:97
 msgid "$#,##0_);($#,##0)"
-msgstr ""
+msgstr "$#,##0_);($#,##0)"
 
 #: src/formats.c:98
 msgid "$#,##0_);[red]($#,##0)"
-msgstr ""
+msgstr "$#,##0_);[red]($#,##0)"
 
 #: src/formats.c:99
 msgid "$#,##0.00_);($#,##0.00)"
-msgstr ""
+msgstr "$#,##0.00_);($#,##0.00)"
 
 #: src/formats.c:100
 msgid "$#,##0.00_);[red]($#,##0.00)"
-msgstr ""
-
-#: src/gnumeric-sheet.c:887
-#, c-format
-msgid "75%"
-msgstr ""
+msgstr "$#,##0.00_);[red]($#,##0.00)"
 
 #: src/gnumeric-sheet.c:890
 #, c-format
-msgid "50%"
-msgstr ""
+msgid "75%"
+msgstr "75%"
 
 #: src/gnumeric-sheet.c:893
 #, c-format
-msgid "25%"
-msgstr ""
+msgid "50%"
+msgstr "50%"
 
 #: src/gnumeric-sheet.c:896
 #, c-format
-msgid "12%"
-msgstr ""
+msgid "25%"
+msgstr "25%"
 
 #: src/gnumeric-sheet.c:899
 #, c-format
-msgid "6%"
-msgstr ""
+msgid "12%"
+msgstr "12%"
 
 #: src/gnumeric-sheet.c:902
+#, c-format
+msgid "6%"
+msgstr "6%"
+
+#: src/gnumeric-sheet.c:905
 msgid "Horizontal lines"
 msgstr "Горизонтальные линии"
 
-#: src/gnumeric-sheet.c:905
+#: src/gnumeric-sheet.c:908
 msgid "Vertical lines"
 msgstr "Вертикальные линии"
 
-#: src/gnumeric-sheet.c:908 src/gnumeric-sheet.c:911 src/gnumeric-sheet.c:914
-#: src/gnumeric-sheet.c:917
+#: src/gnumeric-sheet.c:911 src/gnumeric-sheet.c:914 src/gnumeric-sheet.c:917
+#: src/gnumeric-sheet.c:920
 msgid "Diagonal lines"
 msgstr "Диагональные линии"
 
-#: src/gnumeric-sheet.c:920
+#: src/gnumeric-sheet.c:923
 msgid "Crossed diagonals"
 msgstr "Пересекающиеся диагонали"
 
-#: src/gnumeric-sheet.c:923
+#: src/gnumeric-sheet.c:926
 msgid "Bricks"
 msgstr "Кирпичи"
 
-#: src/gnumeric-util.c:22
-msgid "Notice"
+#: src/item-cursor.c:499
+msgid ""
+"The cells dragged will overwrite the contents of the\n"
+"existing cells in that range.  Do you want me to replace\n"
+"the contents in this region?"
 msgstr ""
+"Переносимые ячейки перепишут содержимое существующих\n"
+"в этом месте ячеек. Вы хотите заменить содержимое\n"
+"в этой области?"
 
-#: src/item-cursor.c:554 src/item-grid.c:523 src/workbook.c:837
+#: src/item-cursor.c:580 src/item-grid.c:529 src/workbook.c:978
 msgid "Copy"
 msgstr "Скопировать"
 
-#: src/item-cursor.c:555
+#: src/item-cursor.c:581
 msgid "Move"
 msgstr "Переместить"
 
-#: src/item-cursor.c:556
+#: src/item-cursor.c:582
 msgid "Copy formats"
 msgstr "Скопировать формат"
 
-#: src/item-cursor.c:557
+#: src/item-cursor.c:583
 msgid "Copy values"
 msgstr "Скопировать значение"
 
-#: src/item-cursor.c:558
+#: src/item-cursor.c:584
 msgid "Shift cells down and copy"
 msgstr "Сдвинуть ячейки вниз и скопировать"
 
-#: src/item-cursor.c:559
+#: src/item-cursor.c:585
 msgid "Shift cells right and copy"
 msgstr "Сдвинуть ячейки вправо и скопировать"
 
-#: src/item-cursor.c:560
+#: src/item-cursor.c:586
 msgid "Shift cells down and move"
 msgstr "Сдвинуть ячейки вниз и переместить"
 
-#: src/item-cursor.c:561
+#: src/item-cursor.c:587
 msgid "Shift cells right and move"
 msgstr "Сдвинуть ячейки вправо и переместить"
 
-#: src/item-grid.c:522 src/workbook.c:834
+#: src/item-grid.c:528 src/workbook.c:975
 msgid "Cut"
 msgstr "Вырезать"
 
-#: src/item-grid.c:524 src/sheet.c:2428 src/workbook.c:840
+#: src/item-grid.c:530 src/workbook.c:981
 msgid "Paste"
 msgstr "Вставить"
 
-#: src/item-grid.c:529
+#: src/item-grid.c:535
 msgid "Erase content"
 msgstr "Очистить содержимое"
 
-#: src/item-grid.c:531
+#: src/item-grid.c:537
 msgid "Cell format"
 msgstr "Формат ячейки"
 
-#: src/main.c:28
+#: src/main.c:39
 msgid "Dumps the function definitions"
 msgstr "Выдать определения функций /!FIXME/"
 
-#: src/main.c:28
+#: src/main.c:39
 msgid "FILE"
 msgstr "ФАЙЛ"
 
-#: src/main.c:30
+#: src/main.c:41
 msgid "Enables some debugging functions"
 msgstr "Разрешить некоторые отладочные функции"
 
-#: src/main.c:30
+#: src/main.c:41
 msgid "LEVEL"
 msgstr "УРОВЕНЬ"
 
 #: src/number-match.c:150
 msgid "(([-+]?[0-9,])?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
-msgstr ""
+msgstr "(([-+]?[0-9,])?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
 
-#: src/plugin-manager.c:94 src/plugin-manager.c:95
+#: src/plugin-manager.c:95 src/plugin-manager.c:96
 msgid "Name"
 msgstr "Имя"
 
-#: src/plugin-manager.c:94 src/plugin-manager.c:95
+#: src/plugin-manager.c:95 src/plugin-manager.c:96
 msgid "File"
 msgstr "Файл"
 
-#: src/plugin-manager.c:125
+#: src/plugin-manager.c:126
 msgid "Close"
 msgstr "Закрыть"
 
-#: src/plugin-manager.c:128
+#: src/plugin-manager.c:129
 msgid "Add..."
 msgstr "Добавить..."
 
-#: src/plugin.c:36
+#: src/plugin.c:40
 msgid "unable to open module file: "
 msgstr "не удалось открыть файл модуля: "
 
-#: src/plugin.c:44
+#: src/plugin.c:51
 msgid "Plugin must contain init_plugin function."
-msgstr "Plugin должен содержать функцию init_plugin /!FIXME/"
+msgstr "Дополнение должно содержать функцию init_plugin"
 
-#: src/plugin.c:49
+#: src/plugin.c:57
 msgid "init_plugin returned error"
 msgstr "init_plugin возвратил ошибку"
 
-#: src/plugin.c:68
+#: src/plugin.c:77
 msgid "Plugin is still in use.\n"
-msgstr "Plugin еще используется.\n"
+msgstr "Дополнение еще используется.\n"
 
-#: src/sheet-view.c:336 src/sheet-view.c:410
+#: src/sheet-view.c:337 src/sheet-view.c:411
 #, c-format
 msgid "Row: %d"
 msgstr "Строка: %d"
 
-#: src/sheet-view.c:343 src/sheet-view.c:382
+#: src/sheet-view.c:344 src/sheet-view.c:383
 #, c-format
 msgid "Column: %s"
 msgstr "Столбец: %s"
 
-#: src/workbook.c:282
+#: src/sheet.c:668
+msgid "ERROR"
+msgstr "ОШИБКА"
+
+#: src/sheet.c:2548
+msgid "The command `"
+msgstr ""
+
+#: src/sheet.c:2550
+msgid "' can not be performed with multiple selections"
+msgstr ""
+
+#: src/sheet.c:2565
+#, fuzzy
+msgid "copy"
+msgstr "Скопировать"
+
+#: src/sheet.c:2590
+#, fuzzy
+msgid "cut"
+msgstr "Вырезать"
+
+#: src/sheet.c:2639
+#, fuzzy
+msgid "paste"
+msgstr "Вставить"
+
+#: src/sheet.c:3532
+#, c-format
+msgid "I was not able to activate object %s"
+msgstr ""
+
+#: src/sheet.c:3544
+msgid "I was unable to the bind object"
+msgstr ""
+
+#: src/workbook.c:367
 msgid "Warning"
 msgstr "Внимание"
 
-#: src/workbook.c:290
+#: src/workbook.c:375
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
-msgstr "В книге %s есть несохраненные изменения, сохранить их?"
+msgstr "В книге %s есть не сохраненные изменения, сохранить их?"
 
-#: src/workbook.c:293
+#: src/workbook.c:378
 msgid "Workbook has unsaved changes, save them?"
-msgstr "В книге есть несохраненные изменения, сохранить их?"
+msgstr "В книге есть не сохраненные изменения, сохранить их?"
 
-#: src/workbook.c:482 src/workbook.c:498
+#: src/workbook.c:566
+#, fuzzy
+msgid "Insert cols"
+msgstr "Вставить ячейки"
+
+#: src/workbook.c:582
 msgid "Insert rows"
 msgstr "Вставить строки"
 
-#: src/workbook.c:585
+#: src/workbook.c:678
 msgid ">mm/dd/yyyy"
 msgstr ">мм/дд/гггг"
 
-#: src/workbook.c:604
+#: src/workbook.c:697
 msgid ">hh:mm"
 msgstr ">чч:мм"
 
-#: src/workbook.c:660
+#: src/workbook.c:781
 msgid "_New"
 msgstr "Новый"
 
-#: src/workbook.c:660
+#: src/workbook.c:781
 msgid "Create a new spreadsheet"
 msgstr "Создать новую таблицу"
 
-#: src/workbook.c:671
+#: src/workbook.c:792
 msgid "Plu_g-ins..."
-msgstr ""
+msgstr "Дополнение..."
 
-#: src/workbook.c:671
+#: src/workbook.c:792
 msgid "Gnumeric plugins"
-msgstr ""
+msgstr "Дополнения Gnumeric"
 
-#: src/workbook.c:685
+#: src/workbook.c:806
 msgid "_All"
 msgstr "Все"
 
-#: src/workbook.c:686
+#: src/workbook.c:807
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Очистить в выделенных ячейках формат, комментарии и содержимое"
 
-#: src/workbook.c:688
+#: src/workbook.c:809
 msgid "_Formats"
 msgstr "Формат"
 
-#: src/workbook.c:689
+#: src/workbook.c:810
 msgid "Clear the selected cells' formats"
 msgstr "Очистить в выделенных ячейках формат"
 
-#: src/workbook.c:690
+#: src/workbook.c:811
 msgid "_Comments"
 msgstr "Комментарии"
 
-#: src/workbook.c:691
+#: src/workbook.c:812
 msgid "Clear the selected cells' comments"
 msgstr "Очистить в выделенных ячейках комментарии"
 
-#: src/workbook.c:692
+#: src/workbook.c:813
 msgid "_Content"
 msgstr "Содержимое"
 
-#: src/workbook.c:693
+#: src/workbook.c:814
 msgid "Clear the selected cells' contents"
 msgstr "Очистить в выделенных ячейках содержимое"
 
-#: src/workbook.c:701
+#: src/workbook.c:822
 msgid "P_aste special..."
 msgstr "Специальная вставка..."
 
-#: src/workbook.c:702
+#: src/workbook.c:823
 msgid "C_lear"
-msgstr "Очистить" 
+msgstr "Очистить"
 
-#: src/workbook.c:703
+#: src/workbook.c:824
 msgid "Clear the selected cell(s)"
 msgstr "Очистить выделенную ячейку(и)"
 
-#: src/workbook.c:707
+#: src/workbook.c:828
 msgid "_Select All"
 msgstr "Выделить все"
 
-#: src/workbook.c:708
+#: src/workbook.c:829
 msgid "Select all cells in the spreadsheet"
 msgstr "Выделить все ячейки в таблице"
 
-#: src/workbook.c:710
+#: src/workbook.c:831
 msgid "_Goto cell.."
 msgstr "Перейти к ячейке.."
 
-#: src/workbook.c:711
+#: src/workbook.c:832
 msgid "Jump to a specified cell"
 msgstr "Перейти к указанной ячейке"
 
-#: src/workbook.c:717
+#: src/workbook.c:838
+msgid "Insert object..."
+msgstr "Вставить об'ект..."
+
+#: src/workbook.c:839
+msgid "Inserts a Bonobo object"
+msgstr "Вставить об'ект Bonobo"
+
+#: src/workbook.c:846
 msgid "_Define cell names"
 msgstr "Задать имя ячейки"
 
-#: src/workbook.c:721
+#: src/workbook.c:850
 msgid "_Recalculate"
 msgstr "Пересчитать"
 
-#: src/workbook.c:722
+#: src/workbook.c:851
 msgid "Recalculate the spreadsheet"
 msgstr "Пересчитать таблицу"
 
-#: src/workbook.c:730
+#: src/workbook.c:859
 msgid "_Zoom..."
 msgstr "Масштаб..."
 
-#: src/workbook.c:731
+#: src/workbook.c:860
 msgid "Zoom the spreadsheet in or out"
 msgstr "Увеличение и уменьшение масштаба таблицы"
 
-#: src/workbook.c:738
+#: src/workbook.c:867
 msgid "Current _date"
 msgstr "Текущая дата"
 
-#: src/workbook.c:739
+#: src/workbook.c:868
 msgid "Insert the current data into the selected cell(s)"
 msgstr "Вставить текущую дату в выделенные ячейки"
 
-#: src/workbook.c:742
+#: src/workbook.c:871
 msgid "Current _time"
 msgstr "Текущее время"
 
-#: src/workbook.c:743
+#: src/workbook.c:872
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Вставить текущее время в выделенные ячейки"
 
-#: src/workbook.c:750 src/workbook.c:796
+#: src/workbook.c:879 src/workbook.c:925
 msgid "_Sheet"
 msgstr "Таблица"
 
-#: src/workbook.c:750
+#: src/workbook.c:879
 msgid "Insert a new spreadsheet"
 msgstr "Вставить новую таблицу"
 
-#: src/workbook.c:752 src/workbook.c:790
+#: src/workbook.c:881 src/workbook.c:919
 msgid "_Cells..."
 msgstr "Ячейки..."
 
-#: src/workbook.c:752
+#: src/workbook.c:881
 msgid "Insert new cells"
 msgstr "Вставить новые ячейки"
 
-#: src/workbook.c:754
+#: src/workbook.c:883
 msgid "_Rows"
 msgstr "Строки"
 
-#: src/workbook.c:754
+#: src/workbook.c:883
 msgid "Insert new rows"
 msgstr "Вставить новые строки"
 
-#: src/workbook.c:756
+#: src/workbook.c:885
 msgid "C_olumns"
 msgstr "Столбцы"
 
-#: src/workbook.c:756
+#: src/workbook.c:885
 msgid "Insert new columns"
 msgstr "Вставить новые столбцы"
 
-#: src/workbook.c:761
-msgid "_Add/Modify comment"
-msgstr "Добавить/Изменить комментарии"
+#: src/workbook.c:890
+msgid "_Add/modify comment"
+msgstr "Добавить/Изменить комментарий"
 
-#: src/workbook.c:762
+#: src/workbook.c:891
 msgid "Edit the selected cell's comment"
 msgstr "Правка комментариев для выделенных ячеек"
 
-#: src/workbook.c:763
+#: src/workbook.c:892
 msgid "_Special"
 msgstr "Специальный"
 
-#: src/workbook.c:772 src/workbook.c:778
+#: src/workbook.c:901 src/workbook.c:907
 msgid "_Autoadjust"
-msgstr ""
+msgstr "Авто-упорядочивание"
 
-#: src/workbook.c:773
+#: src/workbook.c:902
 msgid "_Width"
 msgstr "Ширина"
 
-#: src/workbook.c:779
+#: src/workbook.c:908
 msgid "_Height"
 msgstr "Высота"
 
-#: src/workbook.c:784
+#: src/workbook.c:913
 msgid "_Change name"
-msgstr "Изменить имя"
+msgstr "Изменить название"
 
-#: src/workbook.c:791
+#: src/workbook.c:920
 msgid "Modify the formatting of the selected cells"
-msgstr ""
+msgstr "Изменить форматирование выделенных ячеек"
 
-#: src/workbook.c:794
+#: src/workbook.c:923
 msgid "C_olumn"
 msgstr "Столбец"
 
-#: src/workbook.c:795
+#: src/workbook.c:924
 msgid "_Row"
 msgstr "Строка"
 
-#: src/workbook.c:812
+#: src/workbook.c:932
+msgid "_Sort"
+msgstr "Сортировка"
+
+#: src/workbook.c:933
+msgid "Sort the selected cells"
+msgstr "Сортировать выделенные ячейки"
+
+#: src/workbook.c:934
+msgid "_Goal Seek..."
+msgstr "Цель поиска..."
+
+#: src/workbook.c:936
+msgid "_Solver..."
+msgstr "Решение..."
+
+#: src/workbook.c:952
 msgid "_Insert"
 msgstr "Вставить"
 
-#: src/workbook.c:813
+#: src/workbook.c:953
 msgid "F_ormat"
 msgstr "Формат"
 
-#: src/workbook.c:822
+#: src/workbook.c:954
+#, fuzzy
+msgid "_Tools"
+msgstr "Инструменты"
+
+#: src/workbook.c:963
 msgid "New"
 msgstr "Новая"
 
-#: src/workbook.c:822
-msgid "Create a new sheet"
+#: src/workbook.c:963
+msgid "Creates a new sheet"
 msgstr "Создать новую таблицу"
 
-#: src/workbook.c:825
+#: src/workbook.c:966
 msgid "Open"
 msgstr "Открыть"
 
-#: src/workbook.c:825
+#: src/workbook.c:966
 msgid "Opens an existing workbook"
-msgstr "Открыть существующую книгу" 
+msgstr "Открыть существующую книгу"
 
-#: src/workbook.c:828
+#: src/workbook.c:969
 msgid "Save"
 msgstr "Сохранить"
 
-#: src/workbook.c:828
+#: src/workbook.c:969
 msgid "Saves the workbook"
 msgstr "Сохранить книгу"
 
-#: src/workbook.c:834
+#: src/workbook.c:975
 msgid "Cuts the selection to the clipboard"
 msgstr "Вырезать выделение в буфер обмена"
 
-#: src/workbook.c:837
+#: src/workbook.c:978
 msgid "Copies the selection to the clipboard"
 msgstr "Скопировать выделение в буфер обмена"
 
-#: src/workbook.c:840
+#: src/workbook.c:981
 msgid "Pastes the clipboard"
 msgstr "Вставить из буфера обмена"
 
-#: src/workbook.c:846
+#: src/workbook.c:987
 msgid "Left align"
-msgstr "Выключка влево"
+msgstr "Выровнять влево"
 
-#: src/workbook.c:846
-msgid "Sets the cell alignment to the left"
-msgstr "Установить в ячейках выравнивание по левому краю"
+#: src/workbook.c:987
+msgid "Left justifies the cell contents"
+msgstr "Выравнивать содержимое ячеек влево"
 
-#: src/workbook.c:849
+#: src/workbook.c:990
 msgid "Centers the cell contents"
 msgstr "Центрировать содержимое ячеек"
 
-#: src/workbook.c:852
+#: src/workbook.c:993
 msgid "Right align"
-msgstr "Выключка вправо"
+msgstr "Выровнять вправо"
 
-#: src/workbook.c:852
-msgid "Sets the cell alignment to the right"
-msgstr "Установить в ячейках выравнивание по правому краю"
+#: src/workbook.c:993
+msgid "Right justifies the cell contents"
+msgstr "Выравнивать содержимое ячеек вправо"
 
-#: src/workbook.c:857
+#: src/workbook.c:998
 msgid "Bold"
 msgstr "Полужирный"
 
-#: src/workbook.c:857
-msgid "Sets the bold attribute on the cell"
+#: src/workbook.c:998
+msgid "Sets the bold font"
 msgstr "Использовать в ячейках шрифт полужирного начертания"
 
-#: src/workbook.c:860
+#: src/workbook.c:1001
 msgid "Italic"
 msgstr "Курсив"
 
-#: src/workbook.c:860
-msgid "Sets the italic attribute on the cell"
-msgstr "Использовать в ячейках курсивный шрифт"
+#: src/workbook.c:1001
+msgid "Makes the font italic"
+msgstr "Использовать в ячейках шрифт наклонного начертания"
 
-#: src/workbook.c:866
+#: src/workbook.c:1008
+msgid "Graphic"
+msgstr "Изображения"
+
+#: src/workbook.c:1008
+msgid "Creates a graphic in the spreadsheet"
+msgstr "Создать изображение в таблице"
+
+#: src/workbook.c:1012
 msgid "Line"
 msgstr "Линия"
 
-#: src/workbook.c:866
+#: src/workbook.c:1012
 msgid "Creates a line object"
 msgstr "Создать линию"
 
-#: src/workbook.c:869
+#: src/workbook.c:1015
 msgid "Arrow"
 msgstr "Стрелка"
 
-#: src/workbook.c:869
+#: src/workbook.c:1015
 msgid "Creates an arrow object"
 msgstr "Создать стрелку"
 
-#: src/workbook.c:872
+#: src/workbook.c:1018
 msgid "Rectangle"
 msgstr "Прямоугольник"
 
-#: src/workbook.c:872
+#: src/workbook.c:1018
 msgid "Creates a rectangle object"
 msgstr "Создать прямоугольник"
 
-#: src/workbook.c:875
+#: src/workbook.c:1021
 msgid "Ellipse"
 msgstr "Овал"
 
-#: src/workbook.c:875
+#: src/workbook.c:1021
 msgid "Creates an ellipse object"
 msgstr "Создать овал"
 
-#: src/workbook.c:954
+#: src/workbook.c:1135
 msgid "You should introduce a valid cell name"
-msgstr "Вы должны ввести подходящее имя для ячейки"
+msgstr "Вы должны ввести подходящее название для ячейки"
 
-#: src/workbook.c:960
+#: src/workbook.c:1142
 msgid "Column out of range"
 msgstr "Номер столбца вне диапазона"
 
-#: src/workbook.c:965
+#: src/workbook.c:1148
 msgid "Row number out of range"
 msgstr "Номер строки вне диапазона"
 
-#: src/workbook.c:1071
+#: src/workbook.c:1237
+msgid "Selection must be a single range"
+msgstr ""
+
+#: src/workbook.c:1349
 msgid "Sum"
 msgstr "Сум"
 
-#: src/workbook.c:1072
+#: src/workbook.c:1350
 msgid "Min"
 msgstr "Мин"
 
-#: src/workbook.c:1073
+#: src/workbook.c:1351
 msgid "Max"
 msgstr "Макс"
 
-#: src/workbook.c:1074
+#: src/workbook.c:1352
 msgid "Average"
 msgstr "Среднее"
 
-#: src/workbook.c:1075
+#: src/workbook.c:1353
 msgid "Count"
 msgstr "Количество"
 
-#: src/workbook.c:1286
+#: src/workbook.c:1544
 msgid "Untitled.gnumeric"
 msgstr "Безымянный.gnumeric"
 
-#: src/workbook.c:1370
+#: src/workbook.c:1641
 msgid "Zoom out"
 msgstr "Уменьшить"
 
-#: src/workbook.c:1377
+#: src/workbook.c:1648
 msgid "Zoom in"
 msgstr "Увеличить"
 
-#: src/workbook.c:1508 src/workbook.c:1529
+#: src/workbook.c:1733
+#, c-format
+msgid "Are you sure you want to remove the sheet called `%s' "
+msgstr "Вы действительно хотите удалить таблицу `%s' ?"
+
+#: src/workbook.c:1752
+msgid "Other sheets depend on the values on this sheet, I can not remove it"
+msgstr ""
+"Другие таблицы зависят от значений в этой таблице, поэтому ее нельзя удалить"
+
+#: src/workbook.c:1772
+msgid "Add another sheet"
+msgstr "Добавить другую таблицу"
+
+#: src/workbook.c:1773
+msgid "Remove this sheet"
+msgstr "Удалить эту таблицу"
+
+#: src/workbook.c:2030 src/workbook.c:2066
 #, c-format
 msgid "Sheet %d"
 msgstr "Таблица %d"
 
-#: src/xml-io.c:1408
-msgid "NoName"
-msgstr "Без имени"
+#: src/workbook.c:2130
+#, fuzzy
+msgid "Gnumeric: "
+msgstr "Дополнения Gnumeric"
 
-#: src/xml-io.c:1598
+#: src/xml-io.c:1653
 msgid "Gnumeric XML file format"
-msgstr ""
+msgstr "Формат файла - Gnumeric XML"
+
+#~ msgid ""
+#~ "@FUNCTION=AND\n"
+#~ "@SYNTAX=AND(b1, b2, ...)\n"
+#~ "@DESCRIPTION=Implements the logical AND function: the result is TRUE if all "
+#~ "of the expression evaluates to TRUE, otherwise it returns FALSE.\n"
+#~ "b1, trough bN are expressions that should evaluate to TRUE or FALSE. If an "
+#~ "integer or floating point value is provided zero is considered FALSE and "
+#~ "anything else is TRUE.\n"
+#~ "If the values contain strings or empty cells those values are ignored.  If "
+#~ "no logical values are provided, then the error '#VALUE!' is returned. \n"
+#~ "@SEEALSO=OR, NOT"
+#~ msgstr ""
+#~ "@FUNCTION=AND\n"
+#~ "@SYNTAX=AND(b1, b2, ...)\n"
+#~ "@DESCRIPTION=Выполняет функцию 'логическое И': результат TRUE (истина), если "
+#~ "значения всех аргументов TRUE (истина), иначе результат - FALSE (ложь).\n"
+#~ "b1 ... bN - выражения, значения которых должны быть TRUE (истина) или FALSE "
+#~ "(ложь). Для числа, если его величина 0, то значение - FALSE (ложь), во всех "
+#~ "остальных случаях его значение - TRUE (истина).\n"
+#~ "Значения содержащие строки или пустые ячейки игнорируются.  Если логическое "
+#~ "значение не поддерживается, то возвращается ошибка '#VALUE!'. \n"
+#~ "@SEEALSO=OR, NOT"
+
+#~ msgid ""
+#~ "@FUNCTION=NOT\n"
+#~ "@SYNTAX=NOT(number)\n"
+#~ "@DESCRIPTION=Implements the logical NOT function: the result is TRUE if the "
+#~ "number is zero;  othewise the result is FALSE.\n"
+#~ "\n"
+#~ "@SEEALSO=AND, OR"
+#~ msgstr ""
+#~ "@FUNCTION=NOT\n"
+#~ "@SYNTAX=NOT(число)\n"
+#~ "@DESCRIPTION= Выполняет функцию \"логическое отрицание\": результат TRUE "
+#~ "если число равно 0; в противном случае результат FALSE.\n"
+#~ "\n"
+#~ "@SEEALSO=AND, OR"
+
+#~ msgid ""
+#~ "@FUNCTION=OR\n"
+#~ "@SYNTAX=OR(b1, b2, ...)\n"
+#~ "@DESCRIPTION=Implements the logical OR function: the result is TRUE if any "
+#~ "of the values evaluated to TRUE.\n"
+#~ "b1, trough bN are expressions that should evaluate to TRUE or FALSE. If an "
+#~ "integer or floating point value is provided zero is considered FALSE and "
+#~ "anything else is TRUE.\n"
+#~ "If the values contain strings or empty cells those values are ignored.  If "
+#~ "no logical values are provided, then the error '#VALUE!'is returned.\n"
+#~ "@SEEALSO=AND, NOT"
+#~ msgstr ""
+#~ "@FUNCTION=OR\n"
+#~ "@SYNTAX=OR(b1, b2, ...)\n"
+#~ "@DESCRIPTION=OR() выполняет функцию 'логическое ИЛИ': результат TRUE "
+#~ "(истина) если значение любого аргумента TRUE.\n"
+#~ "b1 ... bN выражения, которые должны иметь значение TRUE или FALSE (ложь). "
+#~ "Для числа, если его величина 0, то значение - FALSE (ложь), во всех "
+#~ "остальных случаях его значение - TRUE (истина).\n"
+#~ "Значения содержащие строки или пустые ячейки игнорируются.  Если логическое "
+#~ "значение не поддерживается, то возвращается ошибка '#VALUE!'. \n"
+#~ "@SEEALSO=AND, NOT"
+
+#~ msgid ""
+#~ "@FUNCTION=IF\n"
+#~ "@SYNTAX=IF(condition[,if-true,if-false])\n"
+#~ "@DESCRIPTION=Use the IF statement to evaluate conditionally other "
+#~ "expressions IF evaluates @condition.  If @condition returns a non-zero value "
+#~ "the result of the IF expression is the @if-true expression, otherwise IF "
+#~ "evaluates to the value of @if-false.If ommitted if-true defaults to TRUE and "
+#~ "if-false to FALSE.\n"
+#~ "@SEEALSO="
+#~ msgstr ""
+#~ "@FUNCTION=IF\n"
+#~ "@SYNTAX=IF(condition,if-true,if-false)\n"
+#~ "@DESCRIPTION=Функция IF используется для вычисления значения выражения в "
+#~ "зависимости от значения @condition. Если @condition возвращает не нулевое "
+#~ "значение, то IF возвращает значение выражения @if-true, в противном случае "
+#~ "IF возвращает значение выражения @if-false. If ommitted if-true defaults to "
+#~ "TRUE and if-false to FALSE.\n"
+#~ "@SEEALSO="
+
+#~ msgid ""
+#~ "@FUNCTION=AVERAGE\n"
+#~ "@SYNTAX=AVERAGE(value1, value2,...)\n"
+#~ "@DESCRIPTION=Computes the average of all the values and cells referenced in "
+#~ "the argument list.  This is equivalent to the sum of the arguments divided "
+#~ "by the count of the arguments.\n"
+#~ "@SEEALSO=SUM, COUNT"
+#~ msgstr ""
+#~ "@FUNCTION=AVERAGE\n"
+#~ "@SYNTAX=AVERAGE(value1, value2,...)\n"
+#~ "@DESCRIPTION=Вычисляет среднее всех величин и ячеек указанных в списке "
+#~ "аргументов.  Оно равно сумме всех аргументов деленной на их количество.\n"
+#~ "@SEEALSO=SUM, COUNT"
+
+#~ msgid ""
+#~ "@FUNCTION=COUNT\n"
+#~ "@SYNTAX=COUNT(b1, b2, ...)\n"
+#~ "@DESCRIPTION=Returns the total number of arguments passed.\n"
+#~ "Performing this function on a string or empty cell simply does nothing.\n"
+#~ "@SEEALSO=AVERAGE"
+#~ msgstr ""
+#~ "@FUNCTION=COUNT\n"
+#~ "@SYNTAX=COUNT(b1, b2, ...)\n"
+#~ "@DESCRIPTION=Функция COUNT(b1, b2, ...) возвращает количество переданных "
+#~ "аргументов.\n"
+#~ " Со строками и пустыми ячейками эта функция ничего не делает.\n"
+#~ "@SEEALSO=AVERAGE"
+
+#~ msgid ""
+#~ "@FUNCTION=MIN\n"
+#~ "@SYNTAX=MIN(b1, b2, ...)\n"
+#~ "@DESCRIPTION=MIN returns the value of the element of the values passed that "
+#~ "has the smallest value. With negative numbers considered smaller than "
+#~ "positive numbers.\n"
+#~ "Performing this function on a string or empty cell simply does nothing.\n"
+#~ "@SEEALSO=MAX,ABS"
+#~ msgstr ""
+#~ "@FUNCTION=MIN\n"
+#~ "@SYNTAX=MIN(b1, b2, ...)\n"
+#~ "@DESCRIPTION=Функция MIN возвращает значение наименьшего из переданных "
+#~ "аргументов. Отрицательные числа считаются меньшими чем положительные.\n"
+#~ "Со строками и пустыми ячейками эта функция ничего не делает.\n"
+#~ "@SEEALSO=MAX,ABS"
+
+#~ msgid ""
+#~ "@FUNCTION=MAX\n"
+#~ "@SYNTAX=MAX(b1, b2, ...)\n"
+#~ "@DESCRIPTION=MAX returns the value of the element of the values passed that "
+#~ "has the largest value. With negative numbers considered smaller than "
+#~ "positive numbers.\n"
+#~ "Performing this function on a string or empty cell simply does nothing.\n"
+#~ "@SEEALSO=MIN,ABS"
+#~ msgstr ""
+#~ "@FUNCTION=MAX\n"
+#~ "@SYNTAX=MAX(b1, b2, ...)\n"
+#~ "@DESCRIPTION=Функция MAX возвращает значение наибольшего из переданных "
+#~ "аргументов. Отрицательные числа считаются меньшими чем положительные.\n"
+#~ "Со строками и пустыми ячейками эта функция ничего не делает.\n"
+#~ "@SEEALSO=MIN,ABS"

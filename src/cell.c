@@ -13,15 +13,18 @@
 #include "format.h"
 #include "color.h"
 #include "cursors.h"
+#include "utils.h"
+#include <ctype.h>
 
-static int         redraws_frozen = 0;
+static int         redraws_frozen      = 0;
+static int         redraws_deep_frozen = 0;
 static GHashTable *cell_hash_queue;
 
 void
 cell_formula_changed (Cell *cell)
 {
 	g_return_if_fail (cell != NULL);
-	
+
 	sheet_cell_formula_link (cell);
 	cell_queue_recalc (cell);
 }
@@ -36,12 +39,13 @@ cell_modified (Cell *cell)
 		sheet->modified = TRUE;
 }
 
+
 void
-cell_set_formula (Cell *cell, char *text)
+cell_set_formula (Cell *cell, const char *text)
 {
-	char *error_msg = NULL;
-	char *desired_format = NULL;
-	
+	char *error_msg = _("ERROR");
+	const char *desired_format = NULL;
+
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
 
@@ -55,7 +59,7 @@ cell_set_formula (Cell *cell, char *text)
 	if (cell->parsed_node == NULL){
 		cell->flags |= CELL_ERROR;
 		cell_set_rendered_text (cell, error_msg);
-		
+
 		if (cell->value)
 			value_release (cell->value);
 		cell->value = NULL;
@@ -64,7 +68,7 @@ cell_set_formula (Cell *cell, char *text)
 		if (cell->flags & CELL_ERROR)
 			cell->flags &= ~CELL_ERROR;
 	}
-	
+
 	if (desired_format && strcmp (cell->style->format->format, "General") == 0){
 		style_format_unref (cell->style->format);
 		cell->style->format = style_format_new (desired_format);
@@ -98,12 +102,12 @@ cell_set_alignment (Cell *cell, int halign, int valign, int orient, int auto_ret
 	cell_modified (cell);
 
 	cell_queue_redraw (cell);
-	
+
 	cell->style->halign = halign;
 	cell->style->valign = valign;
 	cell->style->orientation = orient;
 	cell->style->fit_in_cell = auto_return;
-	
+
 	cell_calc_dimensions (cell);
 
 	cell_queue_redraw (cell);
@@ -135,19 +139,19 @@ cell_set_font_from_style (Cell *cell, StyleFont *style_font)
 	cell_modified (cell);
 
 	cell_queue_redraw (cell);
-	
+
 	style_font_unref (cell->style->font);
 	style_font_ref (style_font);
-	
+
 	cell->style->font = style_font;
 
 	cell_calc_dimensions (cell);
-	
+
 	cell_queue_redraw (cell);
 }
 
 void
-cell_set_font (Cell *cell, char *font_name)
+cell_set_font (Cell *cell, const char *font_name)
 {
 	StyleFont *style_font;
 	Sheet *sheet;
@@ -190,7 +194,7 @@ cell_comment_destroy (Cell *cell)
 {
 	CellComment *comment;
 	GList *l;
-	
+
 	g_return_if_fail (cell != NULL);
 
 	comment = cell->comment;
@@ -206,10 +210,10 @@ cell_comment_destroy (Cell *cell)
 
 	if (comment->window)
 		gtk_object_destroy (GTK_OBJECT (comment->window));
-	
+
 	for (l = comment->realized_list; l; l = l->next)
 		gtk_object_destroy (l->data);
-	
+
 	g_free (comment);
 }
 
@@ -220,19 +224,19 @@ cell_comment_cancel_timer (Cell *cell)
 		gtk_timeout_remove (cell->comment->timer_tag);
 		cell->comment->timer_tag = -1;
 	}
-		
+
 }
-      
+
 static void
 cell_display_comment (Cell *cell)
 {
 	GtkWidget *window, *label;
 	int x, y;
-	
+
 	g_return_if_fail (cell != NULL);
 
 	cell_comment_cancel_timer (cell);
-	
+
 	window = gtk_window_new (GTK_WINDOW_POPUP);
 	label = gtk_label_new (cell->comment->comment->str);
 	gtk_container_add (GTK_CONTAINER (window), label);
@@ -249,7 +253,7 @@ static gint
 cell_popup_comment (gpointer data)
 {
 	Cell *cell = data;
-	
+
 	cell->comment->timer_tag = -1;
 
 	cell_display_comment (cell);
@@ -274,7 +278,7 @@ cell_comment_clicked (GnomeCanvasItem *item, GdkEvent *event, Cell *cell)
 		if (event->button.button != 1)
 			return FALSE;
 		break;
-		
+
 	case GDK_ENTER_NOTIFY:
 		cell->comment->timer_tag = gtk_timeout_add (1000, cell_popup_comment, cell);
 		cursor_set_widget (canvas, GNUMERIC_CURSOR_ARROW);
@@ -287,7 +291,7 @@ cell_comment_clicked (GnomeCanvasItem *item, GdkEvent *event, Cell *cell)
 			cell->comment->window = NULL;
 		}
 		break;
-		
+
 	default:
 		return FALSE;
 	}
@@ -305,9 +309,9 @@ cell_comment_realize (Cell *cell)
 	for (l = ((Sheet *)cell->sheet)->sheet_views; l; l = l->next){
 		SheetView *sheet_view = SHEET_VIEW (l->data);
 		GnomeCanvasItem *o;
-		
+
 		o = sheet_view_comment_create_marker (
-			sheet_view, 
+			sheet_view,
 			cell->col->pos, cell->row->pos);
 
 		cell->comment->realized_list = g_list_prepend (
@@ -354,10 +358,10 @@ cell_unrealize (Cell *cell)
 }
 
 void
-cell_set_comment (Cell *cell, char *str)
+cell_set_comment (Cell *cell, const char *str)
 {
 	int had_comments = FALSE;
-	
+
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (str != NULL);
 
@@ -369,7 +373,7 @@ cell_set_comment (Cell *cell, char *str)
 	cell->comment->realized_list = NULL;
 	cell->comment->timer_tag = -1;
 	cell->comment->window = NULL;
-	
+
 	cell->comment->comment = string_get (str);
 
 	if (had_comments)
@@ -385,7 +389,7 @@ cell_set_foreground (Cell *cell, gushort red, gushort green, gushort blue)
 	g_return_if_fail (cell != NULL);
 
 	cell_modified (cell);
-	
+
 	if (cell->style->valid_flags & STYLE_FORE_COLOR)
 		style_color_unref (cell->style->fore_color);
 
@@ -399,7 +403,7 @@ void
 cell_set_background (Cell *cell, gushort red, gushort green, gushort blue)
 {
 	g_return_if_fail (cell != NULL);
-	
+
 	cell_modified (cell);
 
 	if (cell->style->valid_flags & STYLE_BACK_COLOR)
@@ -407,6 +411,46 @@ cell_set_background (Cell *cell, gushort red, gushort green, gushort blue)
 
 	cell->style->valid_flags |= STYLE_BACK_COLOR;
 	cell->style->back_color = style_color_new (red, green, blue);
+
+	cell_queue_redraw (cell);
+}
+
+/**
+ * Null pointers unset the style.
+ **/
+void
+cell_set_color_from_style (Cell *cell, StyleColor *foreground,
+			   StyleColor *background)
+{
+	g_return_if_fail (cell != NULL);
+
+	cell_modified (cell);
+
+	if (cell->style->valid_flags & STYLE_FORE_COLOR)
+	{
+		cell->style->valid_flags ^= STYLE_FORE_COLOR;
+		style_color_unref (cell->style->fore_color);
+	}
+
+	if (cell->style->valid_flags & STYLE_BACK_COLOR)
+	{
+		cell->style->valid_flags ^= STYLE_BACK_COLOR;
+		style_color_unref (cell->style->back_color);
+	}
+
+	if (background)
+	{
+		cell->style->valid_flags |= STYLE_BACK_COLOR;
+		style_color_ref (background);
+	}
+	cell->style->back_color = background;
+
+	if (foreground)
+	{
+		cell->style->valid_flags |= STYLE_FORE_COLOR;
+		style_color_ref (foreground);
+	}
+	cell->style->fore_color = foreground;
 
 	cell_queue_redraw (cell);
 }
@@ -429,7 +473,7 @@ cell_set_pattern (Cell *cell, int pattern)
  * cell_set_border:
  * @cell: the cell
  * @border_type: an array containing the borders for the cell
- * @border_color: an array of StyleColors with the 
+ * @border_color: an array of StyleColors with the
  * NB. don't unref the StyleColor *s you pass.
  */
 void
@@ -440,7 +484,7 @@ cell_set_border (Cell *cell,
 	g_return_if_fail (cell != NULL);
 
 	cell_modified (cell);
-	
+
   	if (cell->style->valid_flags & STYLE_BORDER)
 		style_border_unref (cell->style->border);
 
@@ -459,17 +503,20 @@ cell_set_border (Cell *cell,
  * it recomputes the bounding box for the cell as well
  */
 void
-cell_set_rendered_text (Cell *cell, char *rendered_text)
+cell_set_rendered_text (Cell *cell, const char *rendered_text)
 {
+	String *oldtext;
+
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (rendered_text != NULL);
-	
+
 	cell_modified (cell);
 
-	if (cell->text)
-		string_unref (cell->text);
-
+	oldtext = cell->text;
 	cell->text = string_get (rendered_text);
+	if (oldtext)
+		string_unref (oldtext);
+
 	cell_calc_dimensions (cell);
 }
 
@@ -484,7 +531,7 @@ cell_render_value (Cell *cell)
 {
 	StyleColor *color;
 	char *str;
-	
+
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (cell->value != NULL);
 
@@ -495,9 +542,67 @@ cell_render_value (Cell *cell)
 
 	str = format_value (cell->style->format, cell->value, &color);
 	cell->render_color = color;
-	
+
 	cell_set_rendered_text (cell, str);
 	g_free (str);
+}
+
+/*
+ * Sets the value for a cell:
+ *
+ * This is kind of an internal function and should be only called by
+ * routines that know what they are doing.  These are the important
+ * differences from cell_set_value:
+ *
+ *    - It does not queue redraws (so you have to queue the redraw yourself
+ *      or queue a full redraw).
+ *
+ *    - It does not queue any recomputations.  You have to queue the recompute
+ *      yourself.
+ */
+void
+cell_set_value_simple (Cell *cell, Value *v)
+{
+	g_return_if_fail (cell);
+	g_return_if_fail (v);
+
+	cell_modified (cell);
+
+	if (cell->entered_text)
+		string_unref (cell->entered_text);
+	cell->entered_text = NULL;
+
+	if (cell->value)
+		value_release (cell->value);
+
+	if (cell->parsed_node){
+		sheet_cell_formula_unlink (cell);
+
+		expr_tree_unref (cell->parsed_node);
+		cell->parsed_node = NULL;
+	}
+
+	cell->value = v;
+	cell_render_value (cell);
+}
+
+/*
+ * cell_set_value
+ *
+ * Changes the value of a cell
+ */
+void
+cell_set_value (Cell *cell, Value *v)
+{
+	g_return_if_fail (cell);
+	g_return_if_fail (v);
+
+	cell_queue_redraw (cell);
+
+	cell_set_value_simple (cell, v);
+	cell_content_changed (cell);
+
+	cell_queue_redraw (cell);
 }
 
 /*
@@ -514,10 +619,8 @@ cell_render_value (Cell *cell)
  *      yourself.
  */
 void
-cell_set_text_simple (Cell *cell, char *text)
+cell_set_text_simple (Cell *cell, const char *text)
 {
-	struct lconv *lconv;
-	
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
 
@@ -526,12 +629,12 @@ cell_set_text_simple (Cell *cell, char *text)
 	if (cell->entered_text)
 		string_unref (cell->entered_text);
 	cell->entered_text = string_get (text);
-					 
+
 	if (cell->value){
 		value_release (cell->value);
 		cell->value = NULL;
 	}
-	
+
 	if (cell->parsed_node){
 		sheet_cell_formula_unlink (cell);
 
@@ -540,70 +643,34 @@ cell_set_text_simple (Cell *cell, char *text)
 	}
 
  	if (text [0] == '=' && text [1] != 0){
-		cell_set_formula (cell, text); 
+		cell_set_formula (cell, text);
 	} else {
-		Value *v = g_new (Value, 1);
-		int is_text, is_float, maybe_float, has_digits;
-		int seen_exp;
-		char *p;
+		const char *p;
+		char *end;
+		long l;
 
-		lconv = localeconv ();
-		
-		is_text = is_float = maybe_float = has_digits = FALSE;
-		seen_exp = FALSE;
-		for (p = text; *p && !is_text; p++){
-			switch (*p){
-			case '0': case '1': case '2': case '3': case '4':
-			case '5': case '6': case '7': case '8': case '9':
-				has_digits = TRUE;
-				break;
+		/* Skip spaces, just in case.  */
+		p = text;
+		while (isspace (*p)) p++;
 
-			case '-':
-				if (p == text)
-					break;
-				if (seen_exp)
-					is_text = TRUE;
-				/* falldown */
-				
-			case 'E': case 'e': case '+': case ':': case '.': case ',':
-				if (*p == 'e' || *p == 'E')
-					seen_exp = TRUE;
-				
-				if (*p == ',' || *p == '.')
-					if (*lconv->decimal_point != *p){
-						is_text = TRUE;
-						break;
-					}
-				maybe_float = TRUE;
-				break;
-
-			default:
-				is_text = TRUE;
-			}
-		}
-		if (has_digits && maybe_float)
-			is_float = TRUE;
-		
-		if (has_digits && !is_text){
-			if (is_float){
-				v->type = VALUE_FLOAT;
-				float_get_from_range (text, text+strlen(text),
-						      &v->v.v_float);
-			} else {
-				v->type = VALUE_INTEGER;
-				int_get_from_range (text, text+strlen (text),
-						    &v->v.v_int);
-			}
+		l = strtol (p, &end, 10);
+		if (p != end && *end == 0) {
+			/* It is an int.  FIXME: long/int confusion here.  */
+			cell->value = value_new_int (l);
 		} else {
-			v->type = VALUE_STRING;
-			v->v.str = string_get (text);
+			double d;
+			d = strtod (p, &end);
+			if (p != end && *end == 0) {
+				/* It is a floating point number.  */
+				cell->value = value_new_float ((float_t)d);
+			} else {
+				/* It is text.  */
+				cell->value = value_new_string (text);
+			}
 		}
-		cell->value = v;
-		
+
 		cell_render_value (cell);
 	}
-
-	
 }
 
 /*
@@ -633,11 +700,11 @@ cell_content_changed (Cell *cell)
  * Changes the content of a cell
  */
 void
-cell_set_text (Cell *cell, char *text)
+cell_set_text (Cell *cell, const char *text)
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
-	
+
 	cell_queue_redraw (cell);
 
 	cell_set_text_simple (cell, text);
@@ -659,7 +726,7 @@ cell_set_text (Cell *cell, char *text)
  *     or queue a full redraw).
  *
  *   - It does not queue any recomputations.  YOu have to queue the
- *     recompute yourself. 
+ *     recompute yourself.
  */
 void
 cell_set_formula_tree_simple (Cell *cell, ExprTree *formula)
@@ -669,8 +736,10 @@ cell_set_formula_tree_simple (Cell *cell, ExprTree *formula)
 
 	cell_modified (cell);
 
-	if (cell->parsed_node)
+	if (cell->parsed_node) {
+		sheet_cell_formula_unlink (cell);
 		expr_tree_unref (cell->parsed_node);
+	}
 
 	cell->parsed_node = formula;
 	expr_tree_ref (formula);
@@ -694,13 +763,13 @@ cell_set_formula_tree (Cell *cell, ExprTree *formula)
  * cell_copy:
  * @cell: existing cell to duplicate
  *
- * Makes a copy of a Cell.  
+ * Makes a copy of a Cell.
  *
  * Returns a copy of the cell.  Note that the col, row and sheet
  * fields are set to NULL.
  */
 Cell *
-cell_copy (Cell *cell)
+cell_copy (const Cell *cell)
 {
 	Cell *new_cell;
 
@@ -714,18 +783,35 @@ cell_copy (Cell *cell)
 	new_cell->col   = NULL;
 	new_cell->row   = NULL;
 	new_cell->sheet = NULL;
-	
-	/* now copy propertly the rest */
-	if (new_cell->parsed_node)
-		expr_tree_ref   (new_cell->parsed_node);
-	string_ref      (new_cell->text);
-	
-	new_cell->style = style_duplicate (new_cell->style);
-	new_cell->value = value_duplicate (new_cell->value);
+	new_cell->flags &= ~CELL_QUEUED_FOR_RECALC;
 
-	new_cell->comment = NULL;
-	if (cell->comment)
+	/* now copy properly the rest */
+	if (new_cell->parsed_node)
+		expr_tree_ref (new_cell->parsed_node);
+
+	if (new_cell->text)
+		string_ref (new_cell->text);
+
+	if (new_cell->entered_text)
+		string_ref (new_cell->entered_text);
+
+	if (new_cell->style)
+		new_cell->style = style_duplicate (new_cell->style);
+
+	if (new_cell->render_color)
+		style_color_ref (new_cell->render_color);
+
+	/*
+	 * The cell->value can be NULL if the cell contains
+	 * an error
+	 */
+	if (new_cell->value)
+		new_cell->value = value_duplicate (new_cell->value);
+
+	if (cell->comment) {
+		new_cell->comment = NULL;
 		cell_set_comment (new_cell, cell->comment->comment->str);
+	}
 
 	return new_cell;
 }
@@ -735,22 +821,38 @@ cell_destroy (Cell *cell)
 {
 	g_return_if_fail (cell != NULL);
 
+	if (cell_hash_queue && g_hash_table_lookup (cell_hash_queue, cell)) {
+		g_warning ("FIXME: Deleting cell %s which was queued for redraw",
+			   cell_name (cell->col->pos, cell->row->pos));
+		g_hash_table_remove (cell_hash_queue, cell);
+	}
+
 	cell_modified (cell);
 
-	if (cell->parsed_node){
+	if (cell->parsed_node)
 		expr_tree_unref (cell->parsed_node);
-	}
+	cell->parsed_node = (void *)0xdeadbeef;
 
 	if (cell->render_color)
 		style_color_unref (cell->render_color);
+	cell->render_color = (void *)0xdeadbeef;
 
 	cell_comment_destroy (cell);
 
 	if (cell->text)
-		string_unref  (cell->text);
+		string_unref (cell->text);
+	cell->text = (void *)0xdeadbeef;
+
+	if (cell->entered_text)
+		string_unref (cell->entered_text);
+	cell->entered_text = (void *)0xdeadbeef;
 
 	style_destroy (cell->style);
-	value_release (cell->value);
+	cell->style = (void *)0xdeadbeef;
+
+	if (cell->value)
+		value_release (cell->value);
+	cell->value = (void *)0xdeadbeef;
 
 	g_free (cell);
 }
@@ -783,6 +885,19 @@ cell_thaw_redraws (void)
 		cell_hash_queue = NULL;
 	}
 }
+void
+cell_deep_freeze_redraws (void)
+{
+	redraws_deep_frozen++;
+}
+
+void
+cell_deep_thaw_redraws (void)
+{
+	redraws_deep_frozen--;
+	if (redraws_frozen < 0)
+		g_warning ("unbalanced deep freeze/thaw\n");
+}
 
 static void
 queue_cell (Cell *cell)
@@ -795,13 +910,17 @@ queue_cell (Cell *cell)
 void
 cell_queue_redraw (Cell *cell)
 {
+	/* You wake up dead after a deep freeze */
+	if (redraws_deep_frozen>0)
+		return;
+
 	g_return_if_fail (cell != NULL);
 
 	if (redraws_frozen){
 		queue_cell (cell);
 		return;
 	}
-	
+
 	sheet_redraw_cell_region (cell->sheet,
 				  cell->col->pos, cell->row->pos,
 				  cell->col->pos, cell->row->pos);
@@ -816,11 +935,11 @@ cell_queue_redraw (Cell *cell)
  * Make sure you queue a draw in the future for this cell.
  */
 void
-cell_set_format_simple (Cell *cell, char *format)
+cell_set_format_simple (Cell *cell, const char *format)
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (format != NULL);
-	
+
 	if (strcmp (format, cell->style->format->format) == 0)
 		return;
 
@@ -838,23 +957,34 @@ cell_set_format_simple (Cell *cell, char *format)
  * a number display format as specified on the manual
  */
 void
-cell_set_format (Cell *cell, char *format)
+cell_set_format (Cell *cell, const char *format)
 {
 	g_return_if_fail (cell != NULL);
-	g_return_if_fail (format != NULL);
+
+	cell_set_format_simple (cell, format);
+
+	/* re-render the cell text */
+	cell_render_value (cell);
+	cell_queue_redraw (cell);
+}
+
+void
+cell_set_format_from_style (Cell *cell, StyleFormat *style_format)
+{
+	g_return_if_fail (cell != NULL);
 	g_return_if_fail (cell->value);
-	
-	if (strcmp (format, cell->style->format->format) == 0)
-		return;
+	g_return_if_fail (style_format != NULL);
 
 	cell_modified (cell);
 	cell_queue_redraw (cell);
-	
+
 	/* Change the format */
 	style_format_unref (cell->style->format);
-	cell->style->format = style_format_new (format);
+	style_format_ref (style_format);
+
+	cell->style->format = style_format;
 	cell->flags |= CELL_FORMAT_SET;
-	
+
 	/* re-render the cell text */
 	cell_render_value (cell);
 	cell_queue_redraw (cell);
@@ -864,10 +994,10 @@ void
 cell_comment_reposition (Cell *cell)
 {
 	GList *l;
-	
+
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (cell->comment != NULL);
-	
+
 	for (l = cell->comment->realized_list; l; l = l->next){
 		GnomeCanvasItem *o = l->data;
 		SheetView *sheet_view = GNUMERIC_SHEET (o->canvas)->sheet_view;
@@ -895,19 +1025,12 @@ cell_relocate (Cell *cell, int col_diff, int row_diff)
 	cell_modified (cell);
 
 	/* 2. If the cell contains a formula, relocate the formula */
-	if (col_diff != 0 || row_diff != 0){
-		if (cell->parsed_node){
-			ExprTree *new_tree;
-			char *text, *formula;
-			
-			new_tree = expr_tree_relocate (cell->parsed_node, col_diff, row_diff);
-
-			expr_tree_unref (cell->parsed_node);
-			cell->parsed_node = new_tree;
-			cell_formula_changed (cell);
-		}
+	if (cell->parsed_node){
+		sheet_cell_formula_unlink (cell);
+		/* The following call also relinks the cell.  */
+		cell_formula_changed (cell);
 	}
-	
+
 	/* 3. Move any auxiliary canvas items */
 	if (cell->comment)
 		cell_comment_reposition (cell);
@@ -926,11 +1049,11 @@ cell_make_value (Cell *cell)
 }
 
 int
-cell_get_horizontal_align (Cell *cell)
+cell_get_horizontal_align (const Cell *cell)
 {
 	g_return_val_if_fail (cell != NULL, HALIGN_LEFT);
 
-	if (cell->style->halign == HALIGN_GENERAL)
+	if (cell->style->halign == HALIGN_GENERAL){
 		if (cell->value){
 			if (cell->value->type== VALUE_FLOAT ||
 			    cell->value->type == VALUE_INTEGER)
@@ -939,8 +1062,18 @@ cell_get_horizontal_align (Cell *cell)
 				return HALIGN_LEFT;
 		} else
 			return HALIGN_RIGHT;
-	else
+	} else
 		return cell->style->halign;
+}
+
+static inline int
+cell_is_number (const Cell *cell)
+{
+	if (cell->value)
+		if (cell->value->type == VALUE_FLOAT || cell->value->type == VALUE_INTEGER)
+			return TRUE;
+
+	return FALSE;
 }
 
 static inline int
@@ -966,7 +1099,7 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 	Sheet *sheet;
 	int align, left;
 	int row, pos, margin;
-	
+
 	g_return_if_fail (cell != NULL);
 
         /*
@@ -994,7 +1127,7 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 		pos = cell->col->pos + 1;
 		left = cell->width - COL_INTERNAL_WIDTH (cell->col);
 		margin = cell->col->margin_b;
-		
+
 		for (; left > 0 && pos < SHEET_MAX_COLS-1; pos++){
 			ColRowInfo *ci;
 			Cell *sibling;
@@ -1005,7 +1138,7 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 				return;
 
 			ci = sheet_col_get_info (sheet, pos);
-			
+
 			/* The space consumed is:
 			 *    - The margin_b from the last column
 			 *    - The width of the cell
@@ -1016,13 +1149,13 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 			(*col2)++;
 		}
 		return;
-		
+
 	case HALIGN_RIGHT:
 		*col1 = *col2 = cell->col->pos;
 		pos = cell->col->pos - 1;
 		left = cell->width - COL_INTERNAL_WIDTH (cell->col);
 		margin = cell->col->margin_a;
-		
+
 		for (; left > 0 && pos >= 0; pos--){
 			ColRowInfo *ci;
 			Cell *sibling;
@@ -1048,15 +1181,15 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 	case HALIGN_CENTER: {
 		int left_left, left_right;
 		int margin_a, margin_b;
-		
+
 		*col1 = *col2 = cell->col->pos;
 		left = cell->width -  COL_INTERNAL_WIDTH (cell->col);
-		
+
 		left_left  = left / 2 + (left % 2);
 		left_right = left / 2;
 		margin_a = cell->col->margin_a;
 		margin_b = cell->col->margin_b;
-		
+
 		for (; left_left > 0 || left_right > 0;){
 			ColRowInfo *ci;
 			Cell *left_sibling, *right_sibling;
@@ -1092,15 +1225,15 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 				}
 			} else
 				left_right = 0;
-			
+
 		} /* for */
 		break;
-		
+
 	default:
 		g_warning ("Unknown horizontal alignment type\n");
 		*col1 = *col2 = cell->col->pos;
 	} /* case HALIGN_CENTER */
-			
+
 	} /* switch */
 }
 
@@ -1115,10 +1248,10 @@ cell_get_span (Cell *cell, int *col1, int *col2)
  * @w:         return value: the width used.
  *
  * Computes the width and height used by the cell based on alignments
- * constraints in the style using the font specified on the style. 
+ * constraints in the style using the font specified on the style.
  */
 void
-calc_text_dimensions (int is_number, Style *style, char *text, int cell_w, int cell_h, int *h, int *w)
+calc_text_dimensions (int is_number, Style *style, const char *text, int cell_w, int cell_h, int *h, int *w)
 {
 	StyleFont *style_font = style->font;
 	GnomeFont *gnome_font = style_font->dfont->gnome_font;
@@ -1131,17 +1264,17 @@ calc_text_dimensions (int is_number, Style *style, char *text, int cell_w, int c
 		*w = text_width;
 		*h = font_height;
 		return;
-	} 
+	}
 
 	if (style->halign == HALIGN_JUSTIFY ||
 	    style->valign == VALIGN_JUSTIFY ||
 	    style->fit_in_cell){
-		char *ideal_cut_spot = NULL;
+		const char *ideal_cut_spot = NULL;
 		int  used, last_was_cut_point;
-		char *p = text;
+		const char *p = text;
 		*w = cell_w;
 		*h = font_height;
-		
+
 		used = 0;
 		last_was_cut_point = FALSE;
 
@@ -1197,18 +1330,18 @@ cell_calc_dimensions (Cell *cell)
 	g_return_if_fail (cell != NULL);
 
 	cell_unregister_span (cell);
-	
+
 	if (cell->text){
 		Style *style = cell->style;
 		int h, w;
-		
+
 		rendered_text = cell->text->str;
 		calc_text_dimensions (CELL_IS_NUMBER (cell),
 				      style, rendered_text,
 				      COL_INTERNAL_WIDTH (cell->col),
 				      ROW_INTERNAL_HEIGHT (cell->row),
 				      &h, &w);
-		
+
 		cell->width = cell->col->margin_a + cell->col->margin_b + w;
 		cell->height = cell->row->margin_a + cell->row->margin_b + h;
 
@@ -1238,12 +1371,12 @@ char *
 cell_get_text (Cell *cell)
 {
 	char *str;
-	
+
 	g_return_val_if_fail (cell != NULL, NULL);
 
-	if (cell->parsed_node){
+	if (cell->parsed_node && cell->sheet){
 		char *func, *ret;
-		
+
 		func = expr_decode_tree (cell->parsed_node, cell->sheet, cell->col->pos, cell->row->pos);
 		ret = g_strconcat ("=", func, NULL);
 		g_free (func);
@@ -1258,7 +1391,7 @@ cell_get_text (Cell *cell)
 		str = format_value (cell->style->format, cell->value, NULL);
 	else
 		str = g_strdup (cell->entered_text->str);
-	
+
 	return str;
 }
 
@@ -1277,12 +1410,12 @@ char *
 cell_get_content (Cell *cell)
 {
 	char *str;
-	
+
 	g_return_val_if_fail (cell != NULL, NULL);
 
 	if (cell->parsed_node){
 		char *func, *ret;
-		
+
 		func = expr_decode_tree (cell->parsed_node, cell->sheet, cell->col->pos, cell->row->pos);
 		ret = g_strconcat ("=", func, NULL);
 		g_free (func);
@@ -1291,12 +1424,12 @@ cell_get_content (Cell *cell)
 	}
 
 	/*
-	 * If a value is set, return that text formatted
+	 * Return the value wihtout parsing.
 	 */
 	if (cell->value)
-		str = value_string (cell->value);
+		str = value_get_as_string (cell->value);
 	else
 		str = g_strdup (cell->entered_text->str);
-	
+
 	return str;
 }

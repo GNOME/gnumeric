@@ -13,7 +13,7 @@
 #include "style.h"
 
 void
-gnumeric_notice (Workbook *wb, char *type, char *str)
+gnumeric_notice (Workbook *wb, const char *type, const char *str)
 {
 	GtkWidget *dialog;
 
@@ -112,8 +112,8 @@ gboolean
 range_contains (Range *range, int col, int row)
 {
 	if ((col >= range->start_col) &&
-	    (col <= range->end_col)   &&
 	    (row >= range->start_row) &&
+	    (col <= range->end_col)   &&
 	    (row <= range->end_row))
 		return TRUE;
 
@@ -121,9 +121,10 @@ range_contains (Range *range, int col, int row)
 }
 
 char *
-font_change_component (char *fontname, int idx, char *newvalue)
+font_change_component (const char *fontname, int idx, char *newvalue)
 {
-	char *components [15];
+	/* FIXME: don't work well for a comma-sepated fontset name */
+	char *components [15*10];
 	char *new = g_strdup (fontname), *res;
 	char *p = new;
 	int  n = 0, i, len;
@@ -134,6 +135,8 @@ font_change_component (char *fontname, int idx, char *newvalue)
 			*p = 0;
 			p++;
 			components [n++] = p;
+			if (n >= sizeof(components)/sizeof(components[0]))
+				break;
 		}
 	}
 
@@ -162,7 +165,7 @@ font_change_component (char *fontname, int idx, char *newvalue)
 
 #if 0
 char *
-font_get_bold_name (char *fontname)
+font_get_bold_name (const char *fontname)
 {
 	char *f;
 	
@@ -174,7 +177,7 @@ font_get_bold_name (char *fontname)
 }
 
 char *
-font_get_italic_name (char *fontname)
+font_get_italic_name (const char *fontname)
 {
 	char *f;
 	
@@ -188,13 +191,42 @@ font_get_italic_name (char *fontname)
 #endif
 
 char *
-font_get_bold_name (char *fontname)
+font_get_bold_name (const char *fontname)
 {
 	return NULL;
 }
 
 char *
-font_get_italic_name (char *fontname)
+font_get_italic_name (const char *fontname)
 {
 	return NULL;
+}
+
+static void
+kill_popup_menu (GtkWidget *widget, GtkMenu *menu)
+{
+	g_return_if_fail (menu != NULL);
+	g_return_if_fail (GTK_IS_MENU (menu));
+
+	gtk_object_unref (GTK_OBJECT (menu)); 
+}
+
+void
+gnumeric_auto_kill_popup_menu_on_hide (GtkMenu *menu)
+{
+	g_return_if_fail (menu != NULL);
+	g_return_if_fail (GTK_IS_MENU (menu));
+
+	gtk_signal_connect (GTK_OBJECT (menu), "hide",
+			    GTK_SIGNAL_FUNC (kill_popup_menu), menu);
+}
+
+void
+gnumeric_popup_menu (GtkMenu *menu, GdkEventButton *event)
+{
+	g_return_if_fail (menu != NULL);
+	g_return_if_fail (GTK_IS_MENU (menu));
+	
+	gnumeric_auto_kill_popup_menu_on_hide (menu);
+	gtk_menu_popup (menu, NULL, NULL, 0, NULL, event->button, event->time);	
 }

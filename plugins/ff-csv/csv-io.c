@@ -17,7 +17,7 @@
 #include <stdlib.h>
 #include <gnome.h>
 #include <unistd.h>
-#include <sys/fcntl.h>
+#include <fcntl.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -43,7 +43,7 @@ insert_csv_cell (Sheet* sheet, char *string, int start, int end, int col, int ro
 	if (start > 1 && end > 1){
 		p = g_malloc (end - start + 1);
 
-		g_assert (p > 0);
+		g_assert (p != NULL);
 		
 		for (i = start; i <= end; i++){
 			p [ii++] = string [i];
@@ -205,7 +205,7 @@ csv_init (void)
 {
 	char *desc = _("CSV (comma separated values)");
 	
-	file_format_register_open (101, desc, csv_probe, csv_read_workbook);
+	file_format_register_open (0, desc, csv_probe, csv_read_workbook);
 	/* file_format_register_save (".csv", desc, gnumericWriteCSVWorkbook);*/
 }
 
@@ -213,6 +213,8 @@ static int
 csv_cleanup_plugin (PluginData *pd)
 {
 	file_format_unregister_save (csv_read_workbook);
+
+	return TRUE;
 }
 
 static int
@@ -228,7 +230,7 @@ init_plugin (PluginData *pd)
 
 	pd->can_unload = csv_can_unload;
 	pd->cleanup_plugin = csv_cleanup_plugin;
-	pd->title = g_strdup (_("CSV (comma separated value file import/export plugin"));
+	pd->title = g_strdup (_("CSV (comma separated value file import/export plugin)"));
 	
 	return 0;
 }

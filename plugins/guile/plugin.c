@@ -1,4 +1,5 @@
 /* -*- mode: c; c-basic-offset: 8 -*- */
+#include <config.h>
 #include <glib.h>
 #include <assert.h>
 #include <stdio.h>
@@ -103,9 +104,9 @@ scm_to_value (SCM scm)
 	else if (SCM_NFALSEP(scm_number_p(scm)))
 	{
 		if (scm_integer_p(scm))
-			return value_int((int)scm_num2int(scm));
+			return value_new_int ((int)scm_num2int(scm));
 		else
-			return value_float((float)scm_num2dbl(scm, 0));
+			return value_new_float ((float)scm_num2dbl(scm, 0));
 	}
 	else if (SCM_NIMP(scm) && SCM_CONSP(scm))
 	{
@@ -216,7 +217,7 @@ func_scm_eval (FunctionDefinition *fn, Value *argv[], char **error_string)
 
 	if (argv[0]->type != VALUE_STRING)
 	{
-		*error_string = "Argument must be a Guile expression";
+		*error_string = _("Argument must be a Guile expression");
 		return NULL;
 	}
 
@@ -237,38 +238,44 @@ func_scm_apply (void *tsheet, GList *expr_node_list, int eval_col, int eval_row,
 
 	if (g_list_length(expr_node_list) < 1)
 	{
-		*error_string = "Invalid number of arguments";
+		*error_string = _("Invalid number of arguments");
 		return NULL;
 	}
 
 	value = eval_expr(tsheet, (ExprTree*)expr_node_list->data, eval_col, eval_row, error_string);
 	if (value == NULL)
 	{
-		*error_string = "First argument to SCM must be a Guile expression";
+		*error_string = _("First argument to SCM must be a Guile expression");
 		return NULL;
 	}
-	symbol = value_string(value);
+	symbol = value_get_as_string (value);
 	if (symbol == NULL)
 	{
-		*error_string = "First argument to SCM must be a Guile expression";
+		*error_string = _("First argument to SCM must be a Guile expression");
 		return NULL;
 	}
 	function = scm_eval_0str(symbol);
 	if (SCM_UNBNDP(function))
 	{
-		*error_string = "Undefined scheme function";
+		*error_string = _("Undefined scheme function");
 		return NULL;
 	}
 	value_release(value);
 
 	for (i = g_list_length(expr_node_list) - 1; i >= 1; --i)
 	{
-		CellRef eval_cell = { eval_col, eval_row, 0, 0 };
+		CellRef eval_cell;
 
+		eval_cell.col = eval_col;
+		eval_cell.row = eval_row;
+		eval_cell.col_relative = 0;
+		eval_cell.row_relative = 0;
+		eval_cell.sheet = NULL;
+		
 		value = eval_expr(tsheet, (ExprTree*)g_list_nth(expr_node_list, i)->data, eval_col, eval_row, error_string);
 		if (value == NULL)
 		{
-			*error_string = "Could not evaluate argument";
+			*error_string = _("Could not evaluate argument");
 			return NULL;
 		}
 		args = scm_cons(value_to_scm(value, eval_cell), args);
@@ -376,7 +383,7 @@ func_marshal_func (FunctionDefinition *fndef, Value *argv[], char **error_string
 	l = g_list_find_custom(funclist, fndef, (GCompareFunc)fndef_compare);
 	if (l == NULL)
 	{
-		*error_string = "Unable to lookup Guile function.";
+		*error_string = _("Unable to lookup Guile function.");
 		return NULL;
 	}
 
@@ -442,9 +449,9 @@ init_plugin (PluginData *pd)
 {
 	char *init_file_name;
 
-	install_symbols(plugin_functions);
+	install_symbols(plugin_functions, "Guile");
 	pd->can_unload = no_unloading_for_me;
-	pd->title = g_strdup("Guile Plugin");
+	pd->title = g_strdup(_("Guile Plugin"));
 
 	scm_make_gsubr("cell-value", 1, 0, 0, scm_cell_value);
 	scm_make_gsubr("cell-expr", 1, 0, 0, scm_cell_expr);

@@ -364,10 +364,13 @@ editable_label_set_text (EditableLabel *el, const char *text)
 	g_return_if_fail (text != NULL);
 	g_return_if_fail (IS_EDITABLE_LABEL (el));
 
-	if (el->text)
-		g_free (el->text);
+	/* This code is usually invoked with el->text as the name */
+	if (text != el->text){
+		if (el->text)
+			g_free (el->text);
 
-	el->text = g_strdup (text);
+		el->text = g_strdup (text);
+	}
 
 	if (!el->text_item){
 		GnomeCanvasGroup *root_group;
@@ -382,8 +385,6 @@ editable_label_set_text (EditableLabel *el, const char *text)
 			"y",        (double) 1,
 			NULL);
 	} else {
-		char *item_text;
-
 		el_change_text (el, text);
 	}
 }

@@ -1,6 +1,20 @@
 #ifndef GNUMERIC_SHEET_H
 #define GNUMERIC_SHEET_H
 
+typedef struct _Workbook Workbook;
+typedef struct _Sheet Sheet;
+
+#ifdef ENABLE_BONOBO
+#    include <bonobo/gnome-container.h>
+#endif
+
+#include "solver.h"
+#include "style.h"
+#include "expr.h"
+#include "str.h"
+#include "symbol.h"
+#include "cell.h"
+
 #define SHEET_MAX_ROWS (16 * 1024)
 #define SHEET_MAX_COLS 256
 
@@ -22,7 +36,7 @@ typedef struct {
 struct _PrintInformation;
 typedef struct _PrintInformation PrintInformation;
 
-typedef struct {
+struct _Workbook {
 	char       *filename;
 
         GtkWidget  *toplevel; 
@@ -73,7 +87,16 @@ typedef struct {
 	void       *clipboard_paste_callback_data;
 
 	PrintInformation *print_info;
-} Workbook;
+
+	void       *toolbar;
+
+#ifdef ENABLE_BONOBO
+	/* A GnomeContainer */
+	GnomeContainer *gnome_container;
+	
+#endif
+	void       *corba_server;
+};
 
 typedef struct {
 	int        base_col, base_row;
@@ -82,15 +105,23 @@ typedef struct {
 } SheetSelection;
 
 typedef enum {
+	/* Normal editing mode of the Sheet */
 	SHEET_MODE_SHEET,
+
+	/* Drawing object creation */
 	SHEET_MODE_CREATE_LINE,
 	SHEET_MODE_CREATE_BOX,
 	SHEET_MODE_CREATE_OVAL,
 	SHEET_MODE_CREATE_ARROW,
+
+	/* Selection for the region for a Graphics object */
+	SHEET_MODE_CREATE_GRAPHIC,
+
+	/* Object is selected */
 	SHEET_MODE_OBJECT_SELECTED,
 } SheetModeType;
 
-typedef struct {
+struct _Sheet {
 	int         signature;
 	
 	Workbook    *workbook;
@@ -140,10 +171,15 @@ typedef struct {
 	struct {
 		SheetSelection *current;
 	} walk_info;
-} Sheet;
+
+        /* Solver parameters */
+        SolverParameters solver_parameters;
+
+	void         *corba_server;
+};
 
 #define SHEET_SIGNATURE 0x12349876
-#define IS_SHEET(x) (((Sheet *) x)->signature == SHEET_SIGNATURE)
+#define IS_SHEET(x) ((x)->signature == SHEET_SIGNATURE)
 
 typedef  void (*sheet_col_row_callback)(Sheet *sheet, ColRowInfo *ci,
 					void *user_data);
@@ -151,7 +187,7 @@ typedef  void (*sheet_col_row_callback)(Sheet *sheet, ColRowInfo *ci,
 typedef  int (*sheet_cell_foreach_callback)(Sheet *sheet, int col, int row,
 					    Cell *cell, void *user_data);
 
-Sheet      *sheet_new                  	 (Workbook *wb, char *name);
+Sheet      *sheet_new                  	 (Workbook *wb, const char *name);
 void        sheet_rename                 (Sheet *sheet, const char *new_name);
 void        sheet_destroy              	 (Sheet *sheet);
 void        sheet_foreach_col          	 (Sheet *sheet,
@@ -183,7 +219,12 @@ void        sheet_selection_append_range (Sheet *sheet,
 					  int base_col,  int base_row,
 					  int start_col, int start_row,
 					  int end_col,   int end_row);
+int         sheet_selection_first_range  (Sheet *sheet,
+					  int *base_col,  int *base_row,
+					  int *start_col, int *start_row,
+					  int *end_col,   int *end_row);
 CellList   *sheet_selection_to_list      (Sheet *sheet);
+char       *sheet_selection_to_string    (Sheet *sheet, gboolean include_sheet_name_prefix);
 
 /* Operations on the selection */
 void        sheet_selection_clear             (Sheet *sheet);
@@ -204,12 +245,11 @@ int         sheet_selection_walk_step         (Sheet *sheet,
 void        sheet_selection_extend_horizontal (Sheet *sheet, int count);
 void        sheet_selection_extend_vertical   (Sheet *sheet, int count);
 int         sheet_selection_is_cell_selected  (Sheet *sheet, int col, int row);
-
-gboolean    sheet_verify_selection_simple     (Sheet *sheet, char *command_name);
+gboolean    sheet_verify_selection_simple     (Sheet *sheet, const char *command_name);
 
 /* Cell management */
 void        sheet_set_text                (Sheet *sheet, int col, int row,
-					   char *str);
+					   const char *str);
 Cell       *sheet_cell_new                (Sheet *sheet, int col, int row);
 void        sheet_cell_add                (Sheet *sheet, Cell *cell,
 				           int col, int row);
@@ -219,13 +259,17 @@ int         sheet_cell_foreach_range      (Sheet *sheet, int only_existing,
 				           int end_col, int end_row,
 				           sheet_cell_foreach_callback callback,
 				           void *closure);
+ /* Returns NULL if doesn't exist */
 Cell       *sheet_cell_get                (Sheet *sheet, int col, int row);
+ /* Returns new Cell if doesn't exist */
 Cell       *sheet_cell_fetch              (Sheet *sheet, int col, int row);
 void        sheet_cell_comment_link       (Cell *cell);
 void        sheet_cell_comment_unlink     (Cell *cell);
 
 void        sheet_cell_formula_link       (Cell *cell);
 void        sheet_cell_formula_unlink     (Cell *cell);
+gboolean    sheet_is_region_empty_or_selected (Sheet *sheet, int start_col, int start_row,
+					       int end_col, int end_row);
 
 /* Create new ColRowInfos from the default sheet style */
 ColRowInfo *sheet_col_new                  (Sheet *sheet);
@@ -297,7 +341,7 @@ void        sheet_redraw_all              (Sheet *sheet);
 void        sheet_update_auto_expr        (Sheet *sheet);
 
 void        sheet_mark_clean              (Sheet *sheet);
-
+void        sheet_set_dirty               (Sheet *sheet, gboolean is_dirty);
 /* Sheet information manipulation */
 void        sheet_insert_col              (Sheet *sheet,  int col, int count);
 void        sheet_delete_col              (Sheet *sheet,  int col, int count);
@@ -315,7 +359,7 @@ void        sheet_style_attach            (Sheet *sheet,
 					   int    start_col, int start_row,
 					   int    end_col,   int end_row,
 					   Style  *style);
-Sheet      *sheet_lookup_by_name          (Sheet *base, char *name);
+Sheet      *sheet_lookup_by_name          (Sheet *base, const char *name);
 
 /*
  * Sheet visual editing
@@ -338,7 +382,7 @@ void        sheet_set_mode_type           (Sheet *sheet, SheetModeType type);
 /*
  * Callback routines.
  */
-void        sheet_fill_selection_with     (Sheet *sheet, char *text);
+void        sheet_fill_selection_with     (Sheet *sheet, const char *text);
 
 /*
  * Hiding/showing the cursor
@@ -352,32 +396,44 @@ char        *cellref_name                 (CellRef *cell_ref,
 					   int eval_row);
 
 /*
+ * Sheet, Bobobo objects
+ */
+void sheet_insert_object (Sheet *sheet, char *repoid);
+
+/*
  * Workbook
  */
 Workbook   *workbook_new                 (void);
 void        workbook_destroy             (Workbook *wb);
 Workbook   *workbook_new_with_sheets     (int sheet_count);
 
-void        workbook_set_filename        (Workbook *, char *);
-void        workbook_set_title           (Workbook *, char *);
+void        workbook_set_filename        (Workbook *, const char *);
+void        workbook_set_title           (Workbook *, const char *);
 Workbook   *workbook_read                (const char *filename);
 
 void        workbook_save_as             (Workbook *);
 void        workbook_save                (Workbook *);
 void        workbook_print               (Workbook *);
 void        workbook_attach_sheet        (Workbook *, Sheet *);
+gboolean    workbook_detach_sheet        (Workbook *, Sheet *, gboolean);
 Sheet      *workbook_focus_current_sheet (Workbook *wb);
+void        workbook_focus_sheet         (Sheet *sheet);
 Sheet      *workbook_get_current_sheet   (Workbook *wb);
 char       *workbook_sheet_get_free_name (Workbook *wb);
-void        workbook_auto_expr_label_set (Workbook *wb, char *text);
+void        workbook_auto_expr_label_set (Workbook *wb, const char *text);
 void        workbook_next_generation     (Workbook *wb);
-void        workbook_set_region_status   (Workbook *wb, char *str);
-int         workbook_parse_and_jump      (Workbook *wb, char *text);
-Sheet      *workbook_sheet_lookup        (Workbook *wb, char *sheet_name);
+void        workbook_set_region_status   (Workbook *wb, const char *str);
+int         workbook_parse_and_jump      (Workbook *wb, const char *text);
+Sheet      *workbook_sheet_lookup        (Workbook *wb, const char *sheet_name);
 void        workbook_mark_clean          (Workbook *wb);
+void        workbook_set_dirty           (Workbook *wb, gboolean is_dirty);
 gboolean    workbook_rename_sheet        (Workbook *wb,
 					  const char *old_name,
 					  const char *new_name);
+int         workbook_sheet_count         (Workbook *wb);
+gboolean    workbook_can_detach_sheet    (Workbook *wb, Sheet *sheet);
+GList      *workbook_sheets              (Workbook *wb);
+char       *workbook_selection_to_string (Workbook *wb, Sheet *base_sheet);
 
 /*
  * Does any pending recalculations
@@ -390,6 +446,19 @@ void        workbook_recalc_all          (Workbook *wb);
  * is realized to allocate the default styles
  */
 void     workbook_realized            (Workbook *, GdkWindow *);
+
+typedef gboolean (*WorkbookCallback)(Workbook *, gpointer data);
+
+void     workbook_foreach             (WorkbookCallback cback,
+				       gpointer data);
+
+
+
+void	workbook_fixup_references	(Workbook *wb, Sheet *sheet, int col, int row,
+					 int coldelta, int rowdelta);
+
+void	workbook_invalidate_references	(Workbook *wb, Sheet *sheet, int col, int row,
+					 int colcount, int rowcount);
 
 /*
  * Feedback routines
@@ -404,5 +473,14 @@ void     workbook_feedback_set        (Workbook *,
 				       void *data);
 
 extern   Workbook *current_workbook;
+
+/*
+ * Hooks for CORBA bootstrap: they create the 
+ */
+void workbook_corba_setup    (Workbook *);
+void workbook_corba_shutdown (Workbook *);
+
+void sheet_corba_setup       (Sheet *);
+void sheet_corba_shutdown    (Sheet *);
 #endif /* GNUMERIC_SHEET_H */
 

@@ -1,0 +1,69 @@
+%define  ver     @VERSION@
+%define  rel     1
+%define  prefix  /usr
+
+Summary: the GNOME spreadsheet
+Name: 		gnumeric
+Version: 	%ver
+Release: 	%rel
+Copyright: 	GPL
+Group: 		Applications/Spreadsheets
+Source: ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric/gnumeric-%{ver}.tar.gz
+Url:		http://www.gnome.org/gnumeric
+BuildRoot:	/var/tmp/gnumeric-%{PACKAGE_VERSION}-root
+Obsoletes: 	gnumeric
+Docdir: 	%{prefix}/doc
+
+Requires: gnome-libs >= 1.0.0
+Requires: guile >= 1.3
+
+%description
+GNOME (GNU Network Object Model Environment) is a user-friendly set of
+applications and desktop tools to be used in conjunction with a window
+manager for the X Window System.  GNOME is similar in purpose and scope
+to CDE and KDE, but GNOME is based completely on free software.
+
+This is the Gnumeric, the GNOME spreadsheet program. If you are familiar with 
+Excel, you should be ready to use Gnumeric.  We have tried to clone all of 
+the good features and stay as compatible as possible with Excel in terms of 
+usability. Hopefully we left the bugs behind :).
+
+%prep
+%setup
+
+%build
+%ifarch alpha
+  MYARCH_FLAGS="--host=alpha-redhat-linux"
+%endif
+./configure --prefix=%prefix $MYARCH_FLAGS
+
+if [ "$SMP" != "" ]; then
+  (make "MAKE=make -k -j $SMP"; exit 0)
+  make
+else
+  make
+fi
+
+%install
+
+make prefix=$RPM_BUILD_ROOT%{prefix} install
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%changelog
+* Tue Mar 9  1999 Gregory McLean <gregm@comstar.net>
+- Updated the spec file.
+
+* Thu Sep 24 1998 Michael Fulbright <msf@redhat.com>
+- Version 0.2
+
+%files
+%defattr(-, root, root)
+
+%doc HACKING AUTHORS ChangeLog NEWS README COPYING TODO
+
+%{prefix}/bin/*
+%{prefix}/lib/gnumeric/*
+%{prefix}/share/*
+

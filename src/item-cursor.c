@@ -16,6 +16,7 @@
 #include "color.h"
 #include "cursors.h"
 #include "sheet-autofill.h"
+#include "clipboard.h"
 
 static GnomeCanvasItem *item_cursor_parent_class;
 
@@ -481,10 +482,34 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 static gboolean
 item_cursor_target_region_ok (ItemCursor *item_cursor)
 {
-	/* FIXME: check the destination range and if any cell
-	 * has values, ask for confirmation
-	 */
-	return TRUE;
+	GtkWidget *message;
+	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (item_cursor)->canvas;
+	GtkWidget *window;
+	int v;
+
+	v = sheet_is_region_empty_or_selected (
+		item_cursor->sheet,
+		item_cursor->start_col, item_cursor->start_row,
+		item_cursor->end_col, item_cursor->end_row);
+
+	if (v)
+		return TRUE;
+
+	message = gnome_message_box_new (
+		_("The cells dragged will overwrite the contents of the\n"
+		  "existing cells in that range.  Do you want me to replace\n"
+		  "the contents in this region?"),
+		GNOME_MESSAGE_BOX_WARNING,
+		GNOME_STOCK_BUTTON_YES,
+		GNOME_STOCK_BUTTON_NO,
+		NULL);
+	window = gtk_widget_get_toplevel (GTK_WIDGET (canvas));
+	gnome_dialog_set_parent (GNOME_DIALOG (message), GTK_WINDOW (window));
+	v = gnome_dialog_run (GNOME_DIALOG (message));
+
+	if (v == 0)
+		return TRUE;
+	return FALSE;
 }
 
 typedef enum {
@@ -511,8 +536,9 @@ item_cursor_do_action (ItemCursor *item_cursor, ActionType action, guint32 time)
 		return;
 		
 	case ACTION_COPY_CELLS:
-		if (!item_cursor_target_region_ok (item_cursor))
+		if (!item_cursor_target_region_ok (item_cursor)){
 			return;
+		}
 		if (!sheet_selection_copy (sheet))
 			return;
 		sheet_selection_paste (sheet, col, row, PASTE_ALL_TYPES, time);

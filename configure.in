@@ -1,17 +1,18 @@
 AC_INIT(src/gnumeric.h)
 
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(gnumeric,0.9)
+AM_INIT_AUTOMAKE(gnumeric,0.27)
 AM_MAINTAINER_MODE
 AM_ACLOCAL_INCLUDE(macros)
 
-GNOME_INIT
 AC_ISC_POSIX
 AC_PROG_CC
 AC_STDC_HEADERS
 AC_PROG_YACC
 AC_ARG_PROGRAM
 AM_PROG_LIBTOOL
+
+GNOME_INIT
 
 ## this should come after `AC_PROG_CC'
 GNOME_COMPILE_WARNINGS
@@ -23,9 +24,7 @@ AC_SUBST(TERMCAP_LIB)
 AC_SUBST(READLINE_LIB)
 AC_SUBST(GUILE_LIBS)
 AC_SUBST(GUILE_INCS)
-GNOME_CHECK_GUILE
-
-dnl AC_ARG_WITH(guile,[--with-guile   Include Guile support],[GNOME_CHECK_GUILE])
+AC_ARG_WITH(guile,[--with-guile   Include Guile support],[GNOME_CHECK_GUILE])
 
 AC_SUBST(CFLAGS)
 AC_SUBST(CPPFLAGS)
@@ -39,11 +38,18 @@ dnl
 dnl Check doc/translating.sgml for a description of how to translate
 dnl and why we have so many translations.
 dnl
-ALL_LINGUAS="cs de es es_DO es_GT es_HN es_MX es_PA es_PE es_SV fr hu it ja ko no no_NO pt ru"
+ALL_LINGUAS="cs de en_GB es es_DO es_GT es_HN es_MX es_PA es_PE es_SV fr hu it ja ko no pt ru pl sk"
 AM_GNU_GETTEXT
 AC_LINK_FILES($nls_cv_header_libgt, $nls_cv_header_intl)
 
 
+dnl
+dnl On Solaris finite() needs ieeefp.h
+dnl
+AC_CHECK_HEADERS(ieeefp.h)
+
+dnl Check for some functions
+AC_CHECK_FUNCS(random drand48)
 
 dnl **************************************************
 dnl * ORBit support
@@ -66,11 +72,13 @@ if $perl_val; then
     dnl Use ExtUtils::Embed to figure out the other options.
     PERL_CCCDLFLAGS=`perl -MConfig -e 'print $Config{cccdlflags},"\n";'`
     PERL_LDDLFLAGS=`perl -MConfig -e 'print $Config{lddlflags},"\n";'`
+    PERL_CC=`perl -MConfig -e 'print $Config{cc},"\n";'`
     PERL_LD=`perl -MConfig -e 'print $Config{ld},"\n";'`
     PERL_CCOPTS=`perl -MExtUtils::Embed -e ccopts`
     PERL_LDOPTS=`perl -MExtUtils::Embed -e ldopts`
     AC_SUBST(PERL_CCCDLFLAGS)
     AC_SUBST(PERL_LDDLFLAGS)
+    AC_SUBST(PERL_CC)
     AC_SUBST(PERL_LD)
     AC_SUBST(PERL_CCOPTS)
     AC_SUBST(PERL_LDOPTS)
@@ -111,23 +119,66 @@ if $python_val; then
 fi
 AM_CONDITIONAL(WITH_PYTHON, $python_val)
 
+dnl ******************************
+dnl Check for Bonobo
+dnl ******************************
+AM_PATH_BONOBO(0.1.0, [
+	AC_DEFINE(ENABLE_BONOBO)
+	have_bonobo=true
+],[
+	have_bonobo=false
+])
+AM_CONDITIONAL(BONOBO, $have_bonobo)
+
+dnl ******************************************
+dnl LibGlade tests:
+dnl    These duplicate the things 
+dnl    that are in libglade's configure.in
+dnl    so that we can include it in gnumeric.
+dnl ******************************************
+AC_PROG_AWK
+GDK_KEYSYMS="`$GTK_CONFIG --prefix`/include/gdk/gdkkeysyms.h"
+AC_SUBST(GDK_KEYSYMS)
+AC_DEFINE(ENABLE_GNOME)
+AM_CONDITIONAL(GNOME_SUPPORT, true)
+AM_CONDITIONAL(LIBGLADE_FULLDIST, false)
+XML_LIBS=`gnome-config --libs xml`
+XML_CFLAGS=`gnome-config --cflags xml`/gnome-xml
+AM_CONDITIONAL(HAVE_GTK_DOC, false)
+AC_SUBST(XML_LIBS)
+AC_SUBST(XML_CFLAGS)
+
+
 AC_OUTPUT([
+gnumeric.spec
 Makefile
 icons/Makefile
 src/Makefile
+wizards/Makefile
+wizards/graphics/Makefile
+libglade/Makefile
+libglade/glade/Makefile
+libglade/doc/Makefile
+libglade/macros/Makefile
 doc/Makefile
+doc/C/Makefile
+doc/es/Makefile
+corba-test/Makefile
 plugins/Makefile
 plugins/sample/Makefile
 plugins/excel/Makefile
+plugins/excel/libole2/Makefile
 plugins/python/Makefile
 plugins/perl/Makefile
 plugins/perl/ext/Makefile.PL
 plugins/stat/Makefile
 plugins/guile/Makefile
 plugins/ff-csv/Makefile
+plugins/text/Makefile
 intl/Makefile
 po/Makefile.in
 macros/Makefile
 stamp.h
 ],[sed -e "/POTFILES =/r po/POTFILES" po/Makefile.in > po/Makefile])
+
 

@@ -14,6 +14,7 @@
 #include "gnome-xml/parser.h"
 #include "color.h"
 #include "sheet-object.h"
+#include "sheet-object-graphic.h"
 #include "xml-io.h"
 #include "file.h"
 
@@ -55,7 +56,7 @@ xmlGetValue (xmlNodePtr node, const char *name)
 
 	ret = (char *) xmlGetProp (node, name);
 	if (ret != NULL)
-		return strdup (ret);
+		return ret;
 	child = node->childs;
 
 	while (child != NULL) {
@@ -73,6 +74,7 @@ xmlGetValue (xmlNodePtr node, const char *name)
 	return NULL;
 }
 
+#if 0
 /*
  * Get a String value for a node either carried as an attibute or as
  * the content of a child.
@@ -89,6 +91,7 @@ xmlGetStringValue (xmlNodePtr node, const char *name)
 	free(val);
 	return(ret);
 }
+#endif
 
 /*
  * Get an integer value for a node either carried as an attibute or as
@@ -113,6 +116,7 @@ xmlGetIntValue (xmlNodePtr node, const char *name, int *val)
 	return 0;
 }
 
+#if 0
 /*
  * Get a float value for a node either carried as an attibute or as
  * the content of a child.
@@ -122,7 +126,6 @@ xmlGetFloatValue (xmlNodePtr node, const char *name, float *val)
 {
 	int res;
 	char *ret;
-	xmlNodePtr child;
 	float f;
 
 	ret = xmlGetValue (node, name);
@@ -136,6 +139,7 @@ xmlGetFloatValue (xmlNodePtr node, const char *name, float *val)
 	}
 	return 0;
 }
+#endif
 
 /*
  * Get a double value for a node either carried as an attibute or as
@@ -146,7 +150,6 @@ xmlGetDoubleValue (xmlNodePtr node, const char *name, double *val)
 {
 	int res;
 	char *ret;
-	xmlNodePtr child;
 	float f;
 
 	ret = xmlGetValue (node, name);
@@ -161,17 +164,16 @@ xmlGetDoubleValue (xmlNodePtr node, const char *name, double *val)
 	return 0;
 }
 
+#if 0
 /*
  * Get a set of coodinates for a node, carried as the content of a child.
  */
-
 static int
 xmlGetCoordinate (xmlNodePtr node, const char *name,
 		  double *x, double *y)
 {
 	int res;
 	char *ret;
-	xmlNodePtr child;
 	float X, Y;
 
 	ret = xmlGetValue (node, name);
@@ -186,6 +188,7 @@ xmlGetCoordinate (xmlNodePtr node, const char *name,
 	}
 	return 0;
 }
+#endif
 
 /*
  * Get a pair of coodinates for a node, carried as the content of a child.
@@ -197,24 +200,22 @@ xmlGetCoordinates (xmlNodePtr node, const char *name,
 {
 	int res;
 	char *ret;
-	xmlNodePtr child;
-	float X1, Y1, X2, Y2;
 
 	ret = xmlGetValue (node, name);
 	if (ret == NULL) return(0);
 	res = sscanf (ret, "(%lf %lf)(%lf %lf)", x1, y1, x2, y2);
 	free(ret);
 	
-	if (res == 2) 
+	if (res == 4) 
 		return 1;
 
 	return 0;
 }
 
+#if 0
 /*
  * Get a GnomeCanvasPoints for a node, carried as the content of a child.
  */
-
 static GnomeCanvasPoints *
 xmlGetGnomeCanvasPoints (xmlNodePtr node, const char *name)
 {
@@ -222,12 +223,11 @@ xmlGetGnomeCanvasPoints (xmlNodePtr node, const char *name)
 	GnomeCanvasPoints *ret = NULL;
 	int res;
 	const char *ptr;
-	xmlNodePtr child;
 	int index = 0, i;
 	float coord[20];	/* TODO: must be dynamic !!!! */
 
 	val = xmlGetValue (node, name);
-	if (ret == NULL) return(NULL);
+	if (val == NULL) return(NULL);
 	ptr = val;
 	do {
 		while ((*ptr) && (*ptr != '('))
@@ -250,6 +250,7 @@ xmlGetGnomeCanvasPoints (xmlNodePtr node, const char *name)
 		ret->coords[i] = coord[i];
 	return ret;
 }
+#endif
 
 /*
  * Set a string value for a node either carried as an attibute or as
@@ -267,7 +268,7 @@ xmlSetGnomeCanvasPoints (xmlNodePtr node, const char *name,
 		return;
 	if ((val->num_points < 0) || (val->num_points > 5000))
 		return;
-	base = str = malloc (val->num_points * 30 * sizeof (char));
+	base = str = g_malloc (val->num_points * 30 * sizeof (char));
 	if (str == NULL)
 		return;
 	for (i = 0; i < val->num_points; i++){
@@ -285,7 +286,7 @@ xmlSetGnomeCanvasPoints (xmlNodePtr node, const char *name,
 		child = child->next;
 	}
 	xmlNewChild (node, NULL, name, xmlEncodeEntities(node->doc, base));
-	free (base);
+	g_free (base);
 }
 
 
@@ -367,6 +368,7 @@ xmlSetIntValue (xmlNodePtr node, const char *name, int val)
 	xmlSetProp (node, name, str);
 }
 
+#if 0
 /*
  * Set a float value for a node either carried as an attibute or as
  * the content of a child.
@@ -394,7 +396,9 @@ xmlSetFloatValue (xmlNodePtr node, const char *name, float val)
 	}
 	xmlSetProp (node, name, str);
 }
+#endif
 
+#if 0
 /*
  * Set a double value for a node either carried as an attibute or as
  * the content of a child.
@@ -422,6 +426,7 @@ xmlSetDoubleValue (xmlNodePtr node, const char *name, double val)
 	}
 	xmlSetProp (node, name, str);
 }
+#endif
 
 /*
  * Search a child by name, if needed go down the tree to find it. 
@@ -460,7 +465,6 @@ xmlGetColorValue (xmlNodePtr node, const char *name,
 			     StyleColor **color)
 {
 	char *ret;
-	xmlNodePtr child;
 	int red, green, blue;
 
 	ret = xmlGetValue (node, name);
@@ -757,30 +761,28 @@ static char *StyleSideNames[4] =
  	"Bottom",
  	"Left",
  	"Right"
-} ;
+};
 
 static xmlNodePtr
 writeXmlStyleBorder (parseXmlContextPtr ctxt, StyleBorder *border)
 {
 	xmlNodePtr cur;
 	xmlNodePtr side;
-	int lp ;
+	int lp;
        
-	for (lp=3;lp>=0;lp--)
-		if (border->type[lp] != BORDER_NONE)
-			break ;
-	if (lp<0)
-		return NULL ;
+	for (lp = 3; lp >= 0; lp--)
+		if (border->type [lp] != BORDER_NONE)
+			break;
+	if (lp < 0)
+		return NULL;
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "StyleBorder", NULL);
 	
-	for (lp=0;lp<4;lp++)
- 	{
- 		if (border->type[lp] != BORDER_NONE)
- 		{
- 			side = xmlNewChild (cur, ctxt->ns, StyleSideNames[lp],
- 					    BorderTypes[border->type[lp]]);
- 			xmlSetColorValue (side, "Color", border->color[lp]);
+	for (lp = 0; lp < 4; lp++){
+ 		if (border->type[lp] != BORDER_NONE){
+ 			side = xmlNewChild (cur, ctxt->ns, StyleSideNames [lp],
+ 					    BorderTypes [border->type [lp]]);
+ 			xmlSetColorValue (side, "Color", border->color [lp]);
  		}
 	}
 	return cur;
@@ -793,10 +795,10 @@ static StyleBorder *
 readXmlStyleBorder (parseXmlContextPtr ctxt, xmlNodePtr tree)
 {
 	StyleBorder *ret;
- 	StyleBorderType style[4] = { BORDER_NONE, BORDER_NONE, BORDER_NONE, BORDER_NONE } ;
- 	StyleColor *color[4] = { NULL, NULL, NULL, NULL } ;
+ 	StyleBorderType style [4] = { BORDER_NONE, BORDER_NONE, BORDER_NONE, BORDER_NONE };
+ 	StyleColor *color [4] = { NULL, NULL, NULL, NULL };
 	xmlNodePtr side;
-	int lp ;
+	int lp;
 
 	if (strcmp (tree->name, "StyleBorder")){
 		fprintf (stderr,
@@ -804,17 +806,17 @@ readXmlStyleBorder (parseXmlContextPtr ctxt, xmlNodePtr tree)
 			 tree->name);
 	}
 
- 	for (lp=0;lp<4;lp++)
+ 	for (lp = 0; lp < 4; lp++)
  	{
- 		if ((side = xmlSearchChild (tree, StyleSideNames[lp])) != NULL)
+ 		if ((side = xmlSearchChild (tree, StyleSideNames [lp])) != NULL)
  		{
  			/* FIXME: need to read the proper type */
- 			style[lp] = BORDER_THICK ;
- 			xmlGetColorValue (side, "Color", &color[lp]);
+ 			style [lp] = BORDER_THICK ;
+ 			xmlGetColorValue (side, "Color", &color [lp]);
  		}
 	}
 	
-	ret = style_border_new(style, color) ;
+	ret = style_border_new (style, color);
 
 	return NULL;
 }
@@ -885,7 +887,7 @@ static Style *
 readXmlStyle (parseXmlContextPtr ctxt, xmlNodePtr tree, Style * ret)
 {
 	xmlNodePtr child;
-	const char *prop;
+	char *prop;
 	int val;
 	StyleColor *c;
 
@@ -931,15 +933,16 @@ readXmlStyle (parseXmlContextPtr ctxt, xmlNodePtr tree, Style * ret)
 	prop = xmlGetValue (tree, "Format");
 	if (prop != NULL){
 		if (ret->format == NULL){
-			ret->format = style_format_new ((char *) prop);
+			ret->format = style_format_new ((const char *) prop);
 			ret->valid_flags |= STYLE_FORMAT;
 		}
+		free (prop);
 	}
 
 	child = tree->childs;
 	while (child != NULL){
 		if (!strcmp (child->name, "Font")){
-			const char *v;
+			char *v;
 
 			v = xmlGetValue (child, "NAME");
 			if (v){
@@ -956,6 +959,7 @@ readXmlStyle (parseXmlContextPtr ctxt, xmlNodePtr tree, Style * ret)
 					g_hash_table_insert (ctxt->nameTable, g_strdup (v), ret->font);
 					ret->valid_flags |= STYLE_FONT;
 				}
+				free (v);
 			} else {
 				StyleFont *font;
 
@@ -984,6 +988,7 @@ readXmlStyle (parseXmlContextPtr ctxt, xmlNodePtr tree, Style * ret)
 	return ret;
 }
 
+#if 0
 /*
  * Create an XML subtree of doc equivalent to the given StyleRegion.
  */
@@ -1005,6 +1010,7 @@ writeXmlStyleRegion (parseXmlContextPtr ctxt, StyleRegion *region)
 	}
 	return cur;
 }
+#endif
 
 /*
  * Create a StyleRegion equivalent to the XML subtree of doc.
@@ -1102,30 +1108,34 @@ readXmlColRowInfo (parseXmlContextPtr ctxt,
 static xmlNodePtr
 writeXmlObject (parseXmlContextPtr ctxt, SheetObject *object)
 {
+	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (object);
 	xmlNodePtr cur = NULL;
 
-	switch (object->type){
+	switch (sog->type){
 	case SHEET_OBJECT_RECTANGLE:{
-			SheetFilledObject *fo = (SheetFilledObject *) object;
+			SheetObjectFilled *sof = SHEET_OBJECT_FILLED (object);
 
 			cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Rectangle", NULL);
-			if (fo->fill_color != NULL)
-				xmlSetStringValue (cur, "FillColor", fo->fill_color);
-			xmlSetIntValue (cur, "Pattern", fo->pattern);
+			if (sof->fill_color != NULL)
+				xmlSetStringValue (cur, "FillColor", sof->fill_color);
+			xmlSetIntValue (cur, "Pattern", sof->pattern);
 			break;
 		}
+
 	case SHEET_OBJECT_ELLIPSE:{
-			SheetFilledObject *fo = (SheetFilledObject *) object;
+			SheetObjectFilled *sof = SHEET_OBJECT_FILLED (object);
 
 			cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Ellipse", NULL);
-			if (fo->fill_color != NULL)
-				xmlSetStringValue (cur, "FillColor", fo->fill_color);
-			xmlSetIntValue (cur, "Pattern", fo->pattern);
+			if (sof->fill_color != NULL)
+				xmlSetStringValue (cur, "FillColor", sof->fill_color);
+			xmlSetIntValue (cur, "Pattern", sof->pattern);
 			break;
 		}
+
 	case SHEET_OBJECT_ARROW:
 		cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Arrow", NULL);
 		break;
+
 	case SHEET_OBJECT_LINE:
 		cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Line", NULL);
 		break;
@@ -1133,9 +1143,10 @@ writeXmlObject (parseXmlContextPtr ctxt, SheetObject *object)
 	if (cur == NULL)
 		return NULL;
 	
-	xmlSetGnomeCanvasPoints (cur, "Points", object->points);
-	xmlSetIntValue (cur, "Width", object->width);
-	xmlSetStringValue (cur, "Color", object->color);
+	xmlSetGnomeCanvasPoints (cur, "Points", object->bbox_points);
+	xmlSetIntValue (cur, "Width", sog->width);
+	xmlSetStringValue (cur, "Color", sog->color);
+
 	return cur;
 }
 
@@ -1146,7 +1157,7 @@ static SheetObject *
 readXmlObject (parseXmlContextPtr ctxt, xmlNodePtr tree)
 {
 	SheetObject *ret;
-	SheetFilledObject *fo;
+	SheetObjectFilled *sof;
 	char *color;
 	char *fill_color;
 	int type;
@@ -1176,17 +1187,19 @@ readXmlObject (parseXmlContextPtr ctxt, xmlNodePtr tree)
 	    (type == SHEET_OBJECT_ELLIPSE)){
 		fill_color = (char *) xmlGetValue (tree, "FillColor");
 		xmlGetIntValue (tree, "Pattern", &pattern);
-		ret = sheet_object_create_filled (ctxt->sheet, type,
-			       x1, y1, x2, y2, fill_color, color, width);
+		ret = sheet_object_create_filled (
+			ctxt->sheet, type,
+			x1, y1, x2, y2, fill_color, color, width);
 		if (ret != NULL){
-			fo = (SheetFilledObject *) ret;
-			fo->pattern = pattern;
+			sof = SHEET_OBJECT_FILLED (ret);
+			sof->pattern = pattern;
 		}
 	} else {
-		ret = sheet_object_create_line (ctxt->sheet, type,
-					   x1, y1, x2, y2, color, width);
+		ret = sheet_object_create_line (
+			ctxt->sheet, type,
+			x1, y1, x2, y2, color, width);
 	}
-	sheet_object_realize (ctxt->sheet, ret);
+	sheet_object_realize (ret);
 	return ret;
 }
 
@@ -1207,7 +1220,8 @@ writeXmlCell (parseXmlContextPtr ctxt, Cell *cell)
 	if (child)
 		xmlAddChild (cur, child);
 	text = cell_get_content (cell);
-	xmlNewChild(cur, ctxt->ns, "Content", text);
+	xmlNewChild(cur, ctxt->ns, "Content",
+	            xmlEncodeEntities(ctxt->doc, text));
 	g_free (text);
 
 	return cur;
@@ -1233,6 +1247,8 @@ readXmlCell (parseXmlContextPtr ctxt, xmlNodePtr tree)
 	}
 	xmlGetIntValue (tree, "Col", &col);
 	xmlGetIntValue (tree, "Row", &row);
+
+	cell_deep_freeze_redraws ();
 
 	ret = sheet_cell_get (ctxt->sheet, col, row);
 	if (ret == NULL)
@@ -1270,6 +1286,8 @@ readXmlCell (parseXmlContextPtr ctxt, xmlNodePtr tree)
 		free (content);
 	} else
 		cell_set_text_simple (ret, "");
+
+	cell_deep_thaw_redraws ();
 
 	return ret;
 }
@@ -1388,25 +1406,28 @@ readXmlSheet (parseXmlContextPtr ctxt, xmlNodePtr tree)
 	/* xmlNodePtr styles; */
 	xmlNodePtr cells;
 	xmlNodePtr objects;
-	Sheet *ret;
-	const char *val;
+	Sheet *ret = NULL;
+	char *val;
 
 	if (strcmp (tree->name, "Sheet")){
 		fprintf (stderr,
-			 "readXmlSheet: invalid element type %s, 'Sheet' expected`\n",
+			 "readXmlSheet: invalid element type %s, 'Sheet' expected\n",
 			 tree->name);
 	}
 	child = tree->childs;
+
 	/*
-	 * Get the name to create the sheet
+	 * Get the name of the sheet.  If it does exist, use the existing
+	 * name, otherwise create a sheet (ie, for the case of only reading
+	 * a new sheet).
 	 */
 	val = xmlGetValue (tree, "Name");
 	if (val != NULL){
-		ret = sheet_new (ctxt->wb, (char *) val);
-	} else {
-		fprintf (stderr, "readXmlSheet: Sheet has no name\n");
-		ret = sheet_new (ctxt->wb, _ ("NoName"));
-	}
+		ret = workbook_sheet_lookup (ctxt->wb, (const char *) val);
+		if (ret == NULL)
+			ret = sheet_new (ctxt->wb, (const char *) val);
+		free (val);
+	} 
 
 	if (ret == NULL)
 		return NULL;
@@ -1470,23 +1491,6 @@ readXmlSheet (parseXmlContextPtr ctxt, xmlNodePtr tree)
 }
 
 /*
- * Create an XML subtree equivalent to the given sheet
- * and add it to the parent
- */
-static void
-writeXmlSheetTo (gpointer key, gpointer value, gpointer data)
-{
-	parseXmlContextPtr ctxt = (parseXmlContextPtr) data;
-	xmlNodePtr cur, parent;
-	Sheet *sheet = (Sheet *) value;
-
-	parent = ctxt->parent;
-	cur = writeXmlSheet (ctxt, sheet);
-	ctxt->parent = parent;
-	xmlAddChild (parent, cur);
-}
-
-/*
  * Create an XML subtree of doc equivalent to the given Workbook.
  */
 static xmlNodePtr
@@ -1494,6 +1498,7 @@ writeXmlWorkbook (parseXmlContextPtr ctxt, Workbook *wb)
 {
 	xmlNodePtr cur;
 	xmlNodePtr child;
+	GList *sheets;
 
 	/*
 	 * General informations about the Sheet.
@@ -1516,9 +1521,45 @@ writeXmlWorkbook (parseXmlContextPtr ctxt, Workbook *wb)
 	 */
 	child = xmlNewChild (cur, ctxt->ns, "Sheets", NULL);
 	ctxt->parent = child;
-	g_hash_table_foreach (wb->sheets, writeXmlSheetTo, ctxt);
-	
+
+	sheets = workbook_sheets (wb);
+	while (sheets) {
+		xmlNodePtr cur, parent;
+		Sheet *sheet = sheets->data;
+		
+		parent = ctxt->parent;
+		cur = writeXmlSheet (ctxt, sheet);
+		ctxt->parent = parent;
+		xmlAddChild (parent, cur);
+
+		sheets = g_list_next (sheets);
+	}
+	g_list_free (sheets);
 	return cur;
+}
+
+static void
+createXmlSheet (parseXmlContextPtr ctxt, xmlNodePtr tree)
+{
+	char *val;
+	xmlNodePtr child;
+	
+	if (strcmp (tree->name, "Sheet")){
+		fprintf (stderr,
+			 "createXmlSheet: invalid element type %s, 'Sheet' expected\n",
+			 tree->name);
+		return;
+	}
+	child = tree->childs;
+	val = xmlGetValue (tree, "Name");
+	if (val != NULL){
+		Sheet *sheet;
+		
+		sheet = sheet_new (ctxt->wb, (const char *) val);
+		workbook_attach_sheet (ctxt->wb, sheet);
+		free (val);
+	}
+	return;
 }
 
 /*
@@ -1529,7 +1570,7 @@ readXmlWorkbook (parseXmlContextPtr ctxt, xmlNodePtr tree)
 {
 	Workbook *ret;
 	Sheet *sheet;
-	xmlNodePtr child;
+	xmlNodePtr child, c;
 
 	if (strcmp (tree->name, "Workbook")){
 		fprintf (stderr,
@@ -1555,12 +1596,25 @@ readXmlWorkbook (parseXmlContextPtr ctxt, xmlNodePtr tree)
 	child = xmlSearchChild (tree, "Sheets");
 	if (child == NULL)
 		return ret;
-	child = child->childs;
-	while (child != NULL){
-		sheet = readXmlSheet (ctxt, child);
-		if (sheet != NULL)
-			workbook_attach_sheet (ret, sheet);
-		child = child->next;
+
+	/*
+	 * Pass 1: Create all the sheets, to make sure
+	 * all of the references to forward sheets are properly
+	 * handled
+	 */
+	c = child->childs;
+	while (c != NULL){
+		createXmlSheet (ctxt, c);
+		c = c->next;
+	}
+	
+	/*
+	 * Pass 2: read the contents
+	 */
+	c = child->childs;
+	while (c != NULL){
+		sheet = readXmlSheet (ctxt, c);
+		c = c->next;
 	}
 	
 	return ret;
@@ -1575,16 +1629,18 @@ xml_probe (const char *filename)
 {
 	xmlDocPtr res;
 	xmlNsPtr gmr;
-	
+
 	res = xmlParseFile (filename);
 	if (res == NULL)
 		return FALSE;
 
-	if (res->root == NULL)
+	if (res->root == NULL) {
+		xmlFreeDoc (res);
 		return FALSE;
+	}
 
 	gmr = xmlSearchNsByHref (res, res->root, "http://www.gnome.org/gnumeric/");
-	if (strcmp (res->root->name, "Workbook") || (gmr == NULL)){
+	if (res->root->name == NULL || strcmp (res->root->name, "Workbook") || (gmr == NULL)){
 		xmlFreeDoc (res);
 		return FALSE;
 	}

@@ -2,6 +2,13 @@
 
 GNOME Spread Sheet task list
 
+* Cell editing
+
+   Pressing F4 when editing a cell formula, should switch a cell
+   reference in the following cycle:
+
+     A4 -> $A$4 -> $A4 -> A$4 -> A4
+
 * Cell range naming
 
    Finish implementing.
@@ -17,6 +24,9 @@ GNOME Spread Sheet task list
 
 * 
 * Sheet
+
+** Cell data entry:
+   double click on cell allows editing as in main editing box.
 
 * Auditing
    Write the sheet auditing code.
@@ -56,42 +66,55 @@ GNOME Spread Sheet task list
   Add "hints" to the file save routine based on the registered
   formats.
 
-* CORBA exporting
-
-* Perl bindings.
-
 * Display Engine
 
 * Unicode support throughout
 
-** item-edit
-
-   This should be improved to use a cell rendering routine.
-   which should be shared between item-grid and item-edit, to
-   get life feedback on the result.
-
 * Workbooks:
 
 ** Notebook:
+
    Clicking on it chooses it
    Double clicking changes the name
    Right clicking gets:
      insert
-     
-
-* Cell selection
-
-   It does not shrink.
 
 * Excel importing
+
+   BIFF_NOTE ( comments ) importing.
+
+   BIFF_OBJ: Embedded objects. S59DAD.HTM
+
+   Re-engineer to use PtrArrays in several places instead
+   of hashing on an integer: speedup.
+
+   Fix odd integer formatting hiding some numbers,
+
+   Sort cycadelic colours.
 
    Add collation of BIFF continuation records to the
    previous record, to save many checks in the code.
 
-   Sort out formula conversion to use gnumerics representation
-   instead of strings.
+   Get correct RK values for _tiny_ floats coming through.
+
+   * Formulae
+   
+      Sort out PtgRefN family, convert to correct posn.
+
+   Get Nested OLE object streams working nicely.
 
 * OLE
 
-   Serious testing required.
-   Integrate 'advance' into read_copy, and write, and rename to lseek
+   Integrate into libvfs.
+   Update to better understanding of file, see wine.
+
+* Sheets
+
+When adding a sheet or renaming a sheet, should we reparse everything?
+
+* Clipboard
+
+Perhaps make a global clipboard and remove all the hacks in the
+current clipboard code to find the clipboard.=======
+
+

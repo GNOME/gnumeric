@@ -8,51 +8,71 @@
 #include <config.h>
 #include <gnome.h>
 #include <ctype.h>
-#include "math.h"
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
 #include "utils.h"
 #include "func.h"
 
-static char *help_clean = {
-	N_("@FUNCTION=CLEAN\n"
-	   "@SYNTAX=CLEAN(string)\n"
+static char *help_iserror = {
+	N_("@FUNCTION=ISERROR\n"
+	   "@SYNTAX=ISERROR(exp)\n"
 
 	   "@DESCRIPTION="
-	   "Cleans the string from any non-printable characters."
+	   "Returns a TRUE value if the expression has an error\n"
 	   "\n"
 	   
-	   "@SEEALSO=")
+	   "@SEEALSO=ERROR")
 };
+
 static Value *
-gnumeric_clean (FunctionDefinition *fn, Value *argv [], char **error_string)
+gnumeric_iserror (Sheet *sheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
 {
-	Value *res;
-	char *copy, *p, *q;
-	
+	Value *v, *retval;
+
+	if (g_list_length (expr_node_list) != 1){
+		*error_string = _("Argument mismatch");
+		return NULL;
+	}
+	v = eval_expr (sheet, (ExprTree *) expr_node_list->data, eval_col, eval_row, error_string);
+	if (v == NULL)
+		retval = value_new_int (1);
+	else {
+		retval = value_new_int (0);
+		value_release (v);
+	}
+
+	return retval;
+}
+
+static char *help_error = {
+	N_("@FUNCTION=ERROR\n"
+	   "@SYNTAX=ERROR(text)\n"
+
+	   "@DESCRIPTION="
+	   "Return the specified error\n"
+	   "\n"
+	   
+	   "@SEEALSO=ISERROR")
+};
+
+static Value *
+gnumeric_error (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
 	if (argv [0]->type != VALUE_STRING){
 		*error_string = _("Type mismatch");
 		return NULL;
 	}
-	p = argv [0]->v.str->str;
-	copy = q = g_malloc (strlen (p) + 1);
-	
-	while (p){
-		if (isprint (*p))
-			*q++ = *p;
-		p++;
-	}
-	*q = 0;
 
-	res = g_new (Value, 1);
-	res->type = VALUE_STRING;
-	res->v.str = string_get (copy);
-	g_free (copy);
-
-	return res;
+	/* The error signaling system is broken.  We really cannot allocate a
+	   dynamic error string.  Let's hope the string stays around for long
+	   enough...  */
+	*error_string = argv [0]->v.str->str;
+	return NULL;
 }
 
+
 FunctionDefinition misc_functions [] = {
-	{ "clean", "s",  "text",             &help_clean, NULL, gnumeric_clean },
+	{ "error",   "s",  "text",             &help_error,   NULL,             gnumeric_error },
+	{ "iserror", "",   "",                 &help_iserror, gnumeric_iserror, NULL           },
 	{ NULL, NULL }
 };

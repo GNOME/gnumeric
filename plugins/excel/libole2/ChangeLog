@@ -1,0 +1,189 @@
+1999-06-01  Michael Meeks  <michael@edenproject.org>
+
+	* ms-ole.c (pps_decode_tree): Added debug in case of
+	currupted directory.
+	(read_pps): Added check to make duff files fail on
+	probe.
+	(write_bb): Embarassing bug with block directories fixed.
+
+1999-05-26  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.c (ms_ole_create): Set parent corectly.
+	(ms_ole_directory_create): Set children correctly.
+
+1999-05-25  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.c: Really large overhaul of directory stuff, now
+	all chaining is stored in a tree in memory and the read /
+	write side is cleanly separate. All functions touched.
+	Breaks directory writing.
+	(read_bb): Fixed another unthinkable bug.
+
+1999-05-24  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.c (write_sb): Fixed up sbf chain.
+	(read_sb): Made sbf chain consistant.
+	(write_sb): Removed sillyness with late chaining of sbf.
+	(next_free_bb): Extend one block at a time.
+	Cleaned all references to dump_allocation, added
+	ms_ole_debug helper function.
+	(ms_ole_debug): Re-implemented dump_allocation with
+	(characterise_block): for extra spiffy debugging.
+	(read_bb): Stop us leaking BBD blocks all over the shop.
+
+1999-05-23  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.c (ms_ole_directory_create): Setup 'dir' properly
+	for streams tacked onto chain.
+	(PPS_SET_NAME_LEN): Removed factor of two.
+	(ms_ole_create): Updated magic from 0x0003003b to 0x0003003e
+
+1999-05-22  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.c (pps_encode): Fix for NULL names.
+	(ms_ole_directory_create): Silly bug chaining in filenames.
+	(next_free_sb): Actually mark the blocks we are using as used.
+	Re-adjust the calculations for extending the sbf.
+	(ms_ole_stream_close): Add check on array before free.
+	(free_allocation): Write the Small block writing code.
+	(ms_ole_directory_next): Recurse over NULL names.
+	Cleaned debug: silent except for errors.
+	Added 'dirty' flag to MS_OLE *, fo write-backs.
+	(read_sb): Trancate the SB chain to remove appended
+	unused blocks.
+	(write_pps): Fiddled.
+	(pps_encode): Silly bug in PPS name length setting &
+	setting start to END_OF_CHAIN.
+
+1999-05-21  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.c (ms_ole_stream_close): Leak fixed: thanks Morten.
+	(read_bb): Silly bug with lengths and header block.
+	(ms_ole_create): Changed creation method, parallel but discrete.
+	(ms_ole_directory_create): Cleaned up, bug not setting primary_entr
+	(ms_ole_cleanup): Fleshed out.
+	(next_free_pps): Serious bug klonked.
+	(write_pps, write_sb, write_bb): Implemented.
+	(ms_ole_append_block): Fix silly bug using sb not bb.
+	(next_free_bb): Add call to extend_file !
+	(ms_ole_write_sb): Simplified conversion and killed nasty
+	critical section checks.
+
+1999-05-20  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.c: Whole Block structure totaly re-written for the
+	third time ! Lots cleaner, and should support non-mmapped
+	architectures with time.
+
+1999-05-19  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.c (ms_ole_write_sb): Fix fatal bug with converting a
+	SB -> a BB file when mmap moves memory invalidating src ptr.
+	(ms_ole_create): Init header to UNUSED_BLOCK.
+
+1999-05-18  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.c (init_pps): Constricted name writing further.
+	Added missing factor of 2 to length.
+	(ms_ole_create): Remove silly set name length.
+	(pps_get_text): Added halving of length
+	(ms_ole_directory_create): Init startblock to END_OF_CHAIN.
+
+1999-05-17  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.c (dump_stream): Updated to use s->position.
+	(set_offset, get_offset): Culled ( dead ).
+	(dump): Removed spurious #undefs
+	(ms_ole_write_bb, ms_ole_write_sb): Fixed for mid-stream
+	writes.
+	(next_free_bb): Limit extension to 10 blocks.
+	Fix sillyness in UNUSED_BLOCK setting.
+	(ms_ole_create): Fix killer stupid bug ! setting whole map to
+	END_OF_CHAIN instead of UNUSED_BLOCK ! idiot !
+	Correctly terminated the root directory chain.
+	Added magic numbers.
+	(ms_ole_directory_create): Added magic numbers.
+
+	* ms-ole.h (struct _MS_OLE_STREAM): Add tell method, and fix
+	broken comments.
+	Added ms_ole_pos_t typedef.
+	
+	* ms-ole.c (directory_setup): Add check.
+	(ms_ole_directory_next): Fix leak from Morten.
+
+1999-05-15  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.c (ms_ole_create): Fixed stupid bug; created
+	ole file was opened read-only; also set mode = 'w'
+	Major re-working / bug-fixing...
+
+1999-05-14  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.h: Updated types to forward references.
+	Changed ms_ole_directory_get_root to ms_ole_get_root.
+
+1999-05-13  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.c (ms_ole_new, ms_ole_create, ms_ole_deanalyse): 
+	Fatal bug with uninitialised arrays fixed.
+
+1999-05-12  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.c (free_allocation): Major hassles here with
+	setting up sbf/sbd chain pointers.
+	(read_link_array): Checks for silly situations.
+	(ms_ole_directory_create): Check for name != NULL.
+	(next_free_sb): Added assert. Fix of out by 1 condition
+	for extending SBD.
+	Cleaned debug up throught and made conditional on OLE_DEBUG
+
+
+1999-05-11  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.c (next_free_bb): Removed recurse, and
+	added assert for speed and ease.
+	(ms_ole_lseek): Altered logic slightly on position
+	setting.
+	Major alteration of sbd_list, sbf_list, root_list to
+	GArray's: Touches everything.
+
+1999-05-10  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.c (next_free_bb): recurse for safety.
+	More debugging checks throught
+	More safty bracketing in macros.
+	(next_free_pps): Added read_root_list.
+	(extend_file): Removed redundant daft UNUSED setting
+	code.
+
+1999-05-08  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.c (ms_ole_directory_create): Added 'w' mode check.
+	Added check for name overruns.
+	(ms_ole_write_bb, ms_ole_write_bb): Major work, now OK for
+	some small files again.
+
+1999-05-08  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.c (ms_ole_stream_open): Checks mode before
+	returning handle;
+	(ms_ole_new): Added mode flag setting.
+	(ms_ole_read_ptr_bb, ms_ole_read_ptr_sb): A howler fixed.
+	(ms_ole_stream_open): More accuracy, in building block list.
+
+	* ms-ole.h (_MS_OLE): Added 'mode' flag.
+
+	* ms-ole.c (ms_ole_stream_close): Set size on exit
+	to save constantly updating it, if writing.
+	Re-sculpted many PPS_GET/SET_SIZE macros.
+	(ms_ole_stream_open): Removed redundant END_OF_CHAIN
+	block on the end of the blocks array.
+	(ms_ole_read_copy_bb): Remove check for END_OF_CHAIN,
+	and re-arrange.
+
+1999-05-08  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.c: Moved all biff code into ../ms-biff.c
+	Removed odd includes.
+	(pps_get_text): Changed types to guint8 from BYTE.
+	(ms_ole_stream_copy): Created, and made global.

@@ -59,6 +59,9 @@ dialog_zoom (Workbook *wb, Sheet *sheet)
 		GNOME_STOCK_BUTTON_OK,
 		GNOME_STOCK_BUTTON_CANCEL);
 
+	if (ret == NULL)
+		return;
+			
 	if (strcmp (ret, GNOME_STOCK_BUTTON_CANCEL) == 0)
 		return;
 

@@ -2,7 +2,7 @@ Main Gnumeric engine:
 	Miguel de Icaza <miguel@kernel.org> 
 
 XML file loading and saving:
-	Daniel Viellard (Daniel.Viellard@w3c.org)
+	Daniel Veillard (Daniel.Veillard@w3c.org)
 
 Plugin system:
 	Tom Dyas (tdyas@romulus.rutgers.edu)
@@ -15,3 +15,12 @@ Excel file loading code:
 
 CSV file loading code:
 	Vincent Renardias <vincent@ldsol.com>
+
+Financial functions code:
+	Vladimir Vuksan	<vuksan@veus.hr>
+
+TXT plugin for simple text import/export:
+	Takashii Matsuda <matsu@arch.comp.kyutech.ac.jp>
+
+Numerous functions:
+	Jukka-Pekka Iivonen <iivonen@iki.fi>

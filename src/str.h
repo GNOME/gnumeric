@@ -8,8 +8,8 @@ typedef struct {
 
 void    string_init           (void);
 
-String *string_lookup         (char *s);
-String *string_get            (char *s);
+String *string_lookup         (const char *s);
+String *string_get            (const char *s);
 String *string_ref            (String *);
 void    string_unref          (String *);
 void    string_unref_ptr      (String **);

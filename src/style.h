@@ -1,6 +1,8 @@
-
 #ifndef GNUMERIC_STYLE_H
 #define GNUMERIC_STYLE_H
+
+#include <gdk/gdk.h>
+#include <libgnomeprint/gnome-font.h>
 
 typedef struct {
         char     *format;
@@ -126,15 +128,15 @@ typedef struct {
 void           style_init  	      (void);
 Style         *style_new   	      (void);
 void           style_merge_to         (Style *target, Style *source);
-Style         *style_duplicate        (Style *style);
+Style         *style_duplicate        (const Style *style);
 void           style_destroy          (Style *style);
 Style         *style_new_empty        (void);
 
-StyleFormat   *style_format_new       (char *name);
+StyleFormat   *style_format_new       (const char *name);
 void           style_format_ref       (StyleFormat *sf);
 void           style_format_unref     (StyleFormat *sf);
 				      
-StyleFont     *style_font_new         (char *font_name,
+StyleFont     *style_font_new         (const char *font_name,
 				       double size, double scale,
 				       int bold, int italic);
 StyleFont     *style_font_new_simple  (char *font_name,
