@@ -1,3 +1,8 @@
+2005-03-23  Stepan Kasal  <kasal@ucw.cz>
+
+	* Makefile.in.in.own: Apply the patch from #171330, to fix the
+	  rule for refreshing file POTFILES.
+
 2005-03-23  Nikos Charonitakis  <charosn@her.forthnet.gr>
 
 	* el.po: Updated Greek translation.
