@@ -35,6 +35,11 @@
 #include "ms-escher.h"
 #include "escher-types.h"
 
+/**
+ * NB. SP = ShaPe
+ *     GR = GRoup
+ **/
+
 typedef struct { /* See: S59FDA.HTM */
 	guint    ver:4;
 	guint    instance:12;
@@ -173,7 +178,7 @@ typedef struct {
 	guint32  size;
 	guint32  ref_count;
 	guint32  delay_off; /* File offset into delay stream */
-	guint8   usage;
+	enum { eUsageDefault, eUsageTexture } usage;
 	guint8   name_len;
 	char *name;
 } FILE_BLIP_STORE_ENTRY;
@@ -183,6 +188,7 @@ BSE_new (ESH_HEADER *h)
 {
 	FILE_BLIP_STORE_ENTRY *fbse = g_new (FILE_BLIP_STORE_ENTRY, 1);
 	guint8 *data = h->data + ESH_HEADER_LEN;
+	guint32 tmp;
 	int lp;
 
 	fbse->win_type   = BIFF_GETBYTE(data+ 0);
@@ -192,7 +198,11 @@ BSE_new (ESH_HEADER *h)
 	fbse->size       = BIFF_GETLONG(data+20);
 	fbse->ref_count  = BIFF_GETLONG(data+24);
 	fbse->delay_off  = BIFF_GETLONG(data+28);
-	fbse->usage      = BIFF_GETBYTE(data+32);
+	tmp              = BIFF_GETBYTE(data+32);
+	if (tmp==1)		
+		fbse->usage = eUsageTexture;
+	else
+		fbse->usage = eUsageDefault;
 	fbse->name_len   = BIFF_GETBYTE(data+33);
 	if (fbse->name_len)
 		fbse->name = biff_get_text (data+36, fbse->name_len, 0);
@@ -202,8 +212,11 @@ BSE_new (ESH_HEADER *h)
 	printf ("FBSE: 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x '%s'\n",
 		fbse->win_type, fbse->mac_type, fbse->size, fbse->ref_count,
 		fbse->delay_off, fbse->usage, fbse->name);
+	for (lp=0;lp<16;lp++)
+		printf ("0x%x ", fbse->rbg_uid[lp]);
+	printf ("\n");
 
-	dump (data, h->length-ESH_HEADER_LEN);
+/*	dump (data, h->length-ESH_HEADER_LEN); */
 	return fbse;
 }
 static void
@@ -251,7 +264,7 @@ read_DggContainer (ESH_HEADER *h)
 {
 	ESH_HEADER *c = esh_header_new (h->data+ESH_HEADER_LEN,
 					h->length-ESH_HEADER_LEN);
-	printf ("Container\n");
+	printf ("Group Container\n");
 	while (esh_header_next(c)) {
 		switch (c->type) {
 		case Dgg:
@@ -263,6 +276,86 @@ read_DggContainer (ESH_HEADER *h)
 			break;
 		default:
 			printf ("Unknown Header: type 0x%x, inst 0x%x ver 0x%x len 0x%x\n",
+				c->type, c->instance, c->ver, c->length);
+			break;
+		}
+	}
+}
+
+static void
+SpContainer_new (ESH_HEADER *h)  /* See: S59FEB.HTM */
+{
+	ESH_HEADER *c = esh_header_new (h->data+ESH_HEADER_LEN,
+					h->length-ESH_HEADER_LEN);
+	while (esh_header_next (c)) {
+		switch (c->type) {
+		default:
+			printf ("Unknown shape container thing : type 0x%x, inst 0x%x ver 0x%x len 0x%x\n",
+				c->type, c->instance, c->ver, c->length);
+			break;
+		}
+	}
+	esh_header_destroy(c);
+}
+
+static void
+SpgrContainer_new (ESH_HEADER *h)  /* See: S59FEA.HTM */
+{
+	ESH_HEADER *c = esh_header_new (h->data+ESH_HEADER_LEN,
+					h->length-ESH_HEADER_LEN);
+	while (esh_header_next (c)) {
+		switch (c->type) {
+		case Dg: /* FIXME: duplicated, whats up here ? See S59FE8.HTM */
+		{
+			guint32 num_shapes = BIFF_GETLONG(c->data+ESH_HEADER_LEN);
+			/* spid_cur = last SPID given to an SP in this DG :-)  */
+			guint32 spid_cur   = BIFF_GETLONG(c->data+ESH_HEADER_LEN+4);
+			break;
+		}
+		case SpContainer:
+		{
+			SpContainer_new (c);
+			break;
+		}
+		case SpgrContainer: /* We contain ourselfs */
+		{
+			SpgrContainer_new (c);
+			break;
+		}
+		default:
+			printf ("Unknown shape group contained : type 0x%x, inst 0x%x ver 0x%x len 0x%x\n",
+				c->type, c->instance, c->ver, c->length);
+			break;
+		}
+	}
+	esh_header_destroy(c);
+}
+
+static void
+read_DgContainer (ESH_HEADER *h) /* See S59FE7.HTM */
+{
+	ESH_HEADER *c = esh_header_new (h->data+ESH_HEADER_LEN,
+					h->length-ESH_HEADER_LEN);
+	printf ("Container\n");
+	while (esh_header_next(c)) {
+		switch (c->type) {
+		case Dg: /* See S59FE8.HTM */
+		{
+			guint32 num_shapes = BIFF_GETLONG(c->data+ESH_HEADER_LEN);
+			/* spid_cur = last SPID given to an SP in this DG :-)  */
+			guint32 spid_cur   = BIFF_GETLONG(c->data+ESH_HEADER_LEN+4);
+			break;
+		}
+		case SpgrContainer: /* See: S59FEA.HTM */
+		{
+			printf ("Odd SPGR container thing\n");
+			dump (h->data+ESH_HEADER_LEN,
+			      h->length-ESH_HEADER_LEN);
+			SpgrContainer_new (h);
+			break;
+		}
+		default:
+			printf ("Unknown contained : type 0x%x, inst 0x%x ver 0x%x len 0x%x\n",
 				c->type, c->instance, c->ver, c->length);
 			break;
 		}
@@ -283,6 +376,9 @@ disseminate_stream (guint8 *data, gint32 length)
 		switch (h->type) {
 		case DggContainer:
 			read_DggContainer (h);
+			break;
+		case DgContainer:
+			read_DgContainer (h);
 			break;
 		default:
 			printf ("Unknown Header: type 0x%x, inst 0x%x ver 0x%x len 0x%x\n",
@@ -308,8 +404,12 @@ ms_escher_hack_get_drawing (const BIFF_QUERY *q)
 	guint32 len;
 	guint32 str_pos=q->streamPos;
 
+	printf ("------ Start Escher -------\n");
+
 	biff_to_flat_data (q, &data, &len);
 
 	disseminate_stream (data, len);
-	g_assert (q->streamPos==str_pos);
+
+	printf ("------ End Escher -------\n");
+
 }

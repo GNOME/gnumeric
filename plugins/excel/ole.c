@@ -236,15 +236,17 @@ biff_to_flat_data (const BIFF_QUERY *q, guint8 **data, guint32 *length)
 /* ---------------------------- End cut ---------------------------- */
 
 static void
-dump_escher (guint8 *data, guint32 len)
+dump_escher (guint8 *data, guint32 len, int level)
 {
 	ESH_HEADER *h = esh_header_new (data, len);
 	while (esh_header_next(h)) {
-		printf ("Header: type 0x%4x : '%s', inst 0x%x ver 0x%x len 0x%x\n",
+		int lp;
+		for (lp=0;lp<level;lp++) printf ("-");
+		printf ("Header: type 0x%4x : '%15s', inst 0x%x ver 0x%x len 0x%x\n",
 			h->type, get_escher_opcode_name (h->type), h->instance,
 			h->ver, h->length);
 		if (h->ver == 0xf) /* A container */
-			dump_escher (data+ESH_HEADER_LEN, len-ESH_HEADER_LEN);
+			dump_escher (h->data+ESH_HEADER_LEN, h->length-ESH_HEADER_LEN, level+1);
 	}
 	esh_header_destroy (h); 
 }
@@ -357,7 +359,7 @@ int main (int argc, char **argv)
 						guint32 str_pos=q->streamPos;
 						biff_to_flat_data (q, &data, &len);
 						printf("Drawing: '%s'\n", get_biff_opcode_name(q->opcode));
-						dump_escher (data, len);
+						dump_escher (data, len, 0);
 					}
 				}
 				printf ("\n");

@@ -1,3 +1,15 @@
+1999-04-14  Michael Meeks  <michael@mejm2.dow.cam.ac.uk>
+
+	* ole.c (dump_escher): Fatal Escher cockup removed, makes
+	the problem look more complex and realistic.
+	Indenting added.
+
+	* ms-escher.c (read_DgContainer): Created.
+	(SpgrContainer_new): Created.
+	(ms_escher_hack_get_drawing): Add debug.
+	(SpContainer_new): Created.
+	There must be a good way of doing this recursively.
+
 1999-04-13  Michael Meeks <michael@imaginator.com>
 
 	* ms-escher.c (esh_header_next): Fixedup to use correct lengths.
