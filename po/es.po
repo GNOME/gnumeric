@@ -1181,7 +1181,7 @@ msgstr "Definir nombres"
 
 #: src/dialogs/names.glade.h:8
 msgid "Names in workbook:"
-msgstr "Nombres en la hoja de trabajo:"
+msgstr "Nombres en el libro de trabajo:"
 
 #: src/dialogs/names.glade.h:11
 msgid "Refers to:"
@@ -1418,7 +1418,7 @@ msgstr "ya definido"
 
 #: src/expr-name.c:134
 msgid "no workbook"
-msgstr "ninguna hoja de trabajo"
+msgstr "ningún libro de trabajo"
 
 #: src/expr-name.c:139
 msgid "circular reference"
@@ -1479,7 +1479,7 @@ msgstr "Formato de archivo:"
 
 #: src/file.c:406
 msgid "Save workbook as"
-msgstr "Guardar la hoja de trabajo como"
+msgstr "Guardar el libro de trabajo como"
 
 #: src/file.c:445
 msgid "Sorry, there are no file savers loaded, I cannot save"
@@ -5994,6 +5994,7 @@ msgid ""
 "@SEEALSO=FDIST,FINV"
 msgstr ""
 
+# FIXME: is "Student" a person name ?
 #: src/functions/fn-stat.c:2897
 msgid ""
 "@FUNCTION=TTEST\n"
@@ -6869,7 +6870,7 @@ msgstr "Previsualizar para %s"
 
 #: src/print-preview.c:469
 msgid "the workbook"
-msgstr "la hoja de trabajo"
+msgstr "el libro de trabajo"
 
 #: src/print-preview.c:546
 msgid ""
@@ -6880,6 +6881,12 @@ msgid ""
 "\n"
 "We apologize for the inconvenience"
 msgstr ""
+"La funcionalidad de visualización antes de imprimr está\n"
+"en desarrollo. Su resultado no es actualmente satisfactorio,\n"
+"puede incluir un enlucido incorrecto (como bloques en negro\n"
+"o texto mal ubicado).\n"
+"\n"
+"Nos disculpamos por las molestias que esto ocasiona"
 
 #: src/sheet-object-container.c:197 src/workbook.c:909
 msgid "Select an object"
@@ -7149,7 +7156,7 @@ msgstr "Inserta la hora actual en las celdas seleccionadas"
 
 #: src/workbook.c:1029
 msgid "Insert a new spreadsheet"
-msgstr "Inserta una nueva hoja de cálculo en este libro de trabajo"
+msgstr "Inserta una nueva hoja de cálculo en este lbro de trabajo"
 
 #: src/workbook.c:1029 src/workbook.c:1075
 msgid "_Sheet"
@@ -7189,7 +7196,7 @@ msgstr "Edita el comentario de la celda seleccionada"
 
 #: src/workbook.c:1042
 msgid "_Special"
-msgstr "E_special"
+msgstr "_Especial"
 
 #: src/workbook.c:1051 src/workbook.c:1057
 msgid "_Autoadjust"
@@ -7229,7 +7236,7 @@ msgstr "Ordena las celdas seleccionadas"
 
 #: src/workbook.c:1084
 msgid "_Goal Seek..."
-msgstr "_Objetivo..."
+msgstr "Ob_jetivo..."
 
 #: src/workbook.c:1086
 msgid "_Solver..."
@@ -7265,7 +7272,7 @@ msgstr "Abrir"
 
 #: src/workbook.c:1120
 msgid "Opens an existing workbook"
-msgstr "Abre una hoja de trabajo existente"
+msgstr "Abre un libro de trabajo existente"
 
 #: src/workbook.c:1123
 msgid "Save"
@@ -7273,11 +7280,11 @@ msgstr "Guardar"
 
 #: src/workbook.c:1123
 msgid "Saves the workbook"
-msgstr "Guarda esta hoja de trabajo"
+msgstr "Guarda este libro de trabajo"
 
 #: src/workbook.c:1126
 msgid "Prints the workbook"
-msgstr "Imprime esta hoja de trabajo"
+msgstr "Imprime este libro de trabajo"
 
 #: src/workbook.c:1132
 msgid "Cuts the selection to the clipboard"
@@ -7425,29 +7432,3 @@ msgstr "Gnumeric: "
 msgid "Old Gnumeric XML file format"
 msgstr "Antiguo formato de archivo XML para Gnumeric"
 
-#~ msgid "bool"
-#~ msgstr "bool"
-
-#~ msgid "int"
-#~ msgstr "int"
-
-#~ msgid "="
-#~ msgstr "="
-
-#~ msgid "Titles of rows and columns."
-#~ msgstr "Títulos de los renglones y columnas."
-
-#~ msgid "Division lines"
-#~ msgstr "Lineas de división"
-
-#~ msgid "Right:"
-#~ msgstr "Derecha:"
-
-#~ msgid "Lower:"
-#~ msgstr "Inferior:"
-
-#~ msgid "Superior:"
-#~ msgstr "Superior:"
-
-#~ msgid "pages of height"
-#~ msgstr "páginas de alto"
