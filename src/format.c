@@ -188,7 +188,7 @@ typedef struct {
 	gboolean    want_am_pm;
 	gboolean    has_fraction;
         char        restriction_type;
-        int         restriction_value;
+        gnum_float  restriction_value;
 	StyleColor *color;
 } StyleFormatEntry;
 

@@ -1,5 +1,8 @@
 2002-03-25  Morten Welinder  <terra@diku.dk>
 
+	* src/format.c (StyleFormatEntry): Make the value field a
+	gnum_float at intended.
+
 	* src/main.c (main): Call g_set_prgname.
 	(main): Call value_init and value_shutdown appropriately.
 
