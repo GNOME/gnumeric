@@ -409,21 +409,21 @@ cb_sheet_object_view_finalized (SheetObject *so, GObject *view)
  *
  * Asks @so to create a view for the (@sc,@key) pair.
  **/
-void
+SheetObjectView *
 sheet_object_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
 	SheetObjectView *view;
 
-	g_return_if_fail (IS_SHEET_OBJECT (so));
-	g_return_if_fail (NULL != container);
+	g_return_val_if_fail (IS_SHEET_OBJECT (so), NULL);
+	g_return_val_if_fail (NULL != container, NULL);
 
 	view = sheet_object_get_view (so, container);
 	if (view != NULL)
-		return;
+		return NULL;
 
 	view = SO_CLASS (so)->new_view (so, container);
 
-	g_return_if_fail (IS_SHEET_OBJECT_VIEW (view));
+	g_return_val_if_fail (IS_SHEET_OBJECT_VIEW (view), NULL);
 
 	/* Store some useful information */
 	g_object_set_qdata (G_OBJECT (view), sov_so_quark, so);
@@ -432,6 +432,8 @@ sheet_object_new_view (SheetObject *so, SheetObjectViewContainer *container)
 		(GWeakNotify) cb_sheet_object_view_finalized, so);
 	so->realized_list = g_list_prepend (so->realized_list, view);
 	sheet_object_update_bounds (so, NULL);
+
+	return view;
 }
 
 gboolean

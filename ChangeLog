@@ -1,3 +1,13 @@
+2005-01-15  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=162631
+	* src/sheet-object.c (sheet_object_new_view) : return the new view, it
+	  may actually be useful.
+
+	* src/sheet-control-gui.c (cb_collect_objects_to_commit) : we actually
+	  need to create the view here if it does not exist, otherwise we lose
+	  the size
+
 2005-01-13  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=162631

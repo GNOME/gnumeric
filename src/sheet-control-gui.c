@@ -1958,8 +1958,9 @@ cb_collect_objects_to_commit (SheetObject *so, double *coords, CollectObjectsDat
 				gtk_object_destroy (GTK_OBJECT (ctrl_pts[9]));
 				ctrl_pts[9] = NULL;
 
-				if (NULL != sov)
-					sheet_object_view_set_bounds (sov, pts, TRUE);
+				if (NULL == sov)
+					sov = sheet_object_new_view (so, (SheetObjectViewContainer *)pane);
+				sheet_object_view_set_bounds (sov, pts, TRUE);
 			}
 		});
 	}

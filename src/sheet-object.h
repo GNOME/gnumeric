@@ -58,7 +58,7 @@ void	     sheet_object_update_bounds  (SheetObject *so, GnmCellPos const *p);
 void	     sheet_object_default_size	 (SheetObject *so, double *w, double *h);
 gint	     sheet_object_adjust_stacking(SheetObject *so, gint positions);
 gint         sheet_object_get_stacking   (SheetObject *so);
-void	     sheet_object_new_view	 (SheetObject *so,
+SheetObjectView *sheet_object_new_view	 (SheetObject *so,
 					  SheetObjectViewContainer *container);
 SheetObjectView	*sheet_object_get_view	 (SheetObject const *so,
 					  SheetObjectViewContainer *container);
