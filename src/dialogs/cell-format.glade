@@ -333,7 +333,6 @@
                             <property name="yalign">1</property>
                             <property name="xpad">0</property>
                             <property name="ypad">0</property>
-                            <property name="focus_target">format_number_decimals</property>
                             <property name="visible">yes</property>
                             <property name="use_underline">yes</property>
                           </widget>
@@ -410,7 +409,6 @@
                     <property name="yalign">0</property>
                     <property name="xpad">0</property>
                     <property name="ypad">0</property>
-                    <property name="focus_target">format_currency_symbol</property>
                     <property name="visible">yes</property>
                     <property name="use_underline">yes</property>
                   </widget>
@@ -491,7 +489,7 @@
                     <child>
                       <widget class="GtkCList" id="format_negatives">
                         <property name="can_focus">yes</property>
-                        <property name="columns">1</property>
+                        <property name="n-columns">1</property>
                         <property name="column_widths">80</property>
                         <property name="selection_mode">GTK_SELECTION_SINGLE</property>
                         <property name="show_titles">yes</property>
@@ -587,7 +585,7 @@
                     <child>
                       <widget class="GtkCList" id="format_list">
                         <property name="can_focus">yes</property>
-                        <property name="columns">1</property>
+                        <property name="n-columns">1</property>
                         <property name="column_widths">80</property>
                         <property name="selection_mode">GTK_SELECTION_SINGLE</property>
                         <property name="show_titles">no</property>
@@ -1201,11 +1199,6 @@
                               </packing>
                             </child>
 
-                            <child>
-                              <widget class="Placeholder" id="None">
-                                <property name="visible">yes</property>
-                              </widget>
-                            </child>
                           </widget>
                         </child>
                       </widget>
@@ -1253,7 +1246,6 @@
                                     <property name="yalign">0.5</property>
                                     <property name="xpad">0</property>
                                     <property name="ypad">0</property>
-                                    <property name="focus_target">combo-entry2</property>
                                     <property name="visible">yes</property>
                                     <property name="use_underline">yes</property>
                                   </widget>
@@ -1528,11 +1520,6 @@
                                 <property name="height-request">40</property>
                                 <property name="visible">yes</property>
 
-                                <child>
-                                  <widget class="Placeholder" id="None">
-                                    <property name="visible">yes</property>
-                                  </widget>
-                                </child>
                               </widget>
                             </child>
                           </widget>
@@ -1562,11 +1549,6 @@
                                 <property name="height-request">40</property>
                                 <property name="visible">yes</property>
 
-                                <child>
-                                  <widget class="Placeholder" id="None">
-                                    <property name="visible">yes</property>
-                                  </widget>
-                                </child>
                               </widget>
                             </child>
                           </widget>
@@ -1609,11 +1591,6 @@
                                 <property name="height-request">40</property>
                                 <property name="visible">yes</property>
 
-                                <child>
-                                  <widget class="Placeholder" id="None">
-                                    <property name="visible">yes</property>
-                                  </widget>
-                                </child>
                               </widget>
                             </child>
                           </widget>
@@ -1681,11 +1658,6 @@
                                 <property name="height-request">40</property>
                                 <property name="visible">yes</property>
 
-                                <child>
-                                  <widget class="Placeholder" id="None">
-                                    <property name="visible">yes</property>
-                                  </widget>
-                                </child>
                               </widget>
                             </child>
                           </widget>
@@ -1728,11 +1700,6 @@
                                 <property name="height-request">40</property>
                                 <property name="visible">yes</property>
 
-                                <child>
-                                  <widget class="Placeholder" id="None">
-                                    <property name="visible">yes</property>
-                                  </widget>
-                                </child>
                               </widget>
                             </child>
                           </widget>
@@ -1762,11 +1729,6 @@
                                 <property name="height-request">40</property>
                                 <property name="visible">yes</property>
 
-                                <child>
-                                  <widget class="Placeholder" id="None">
-                                    <property name="visible">yes</property>
-                                  </widget>
-                                </child>
                               </widget>
                             </child>
                           </widget>
@@ -1815,11 +1777,6 @@
                             <property name="height-request">45</property>
                             <property name="visible">yes</property>
 
-                            <child>
-                              <widget class="Placeholder" id="None">
-                                <property name="visible">yes</property>
-                              </widget>
-                            </child>
                           </widget>
                         </child>
                       </widget>
@@ -1848,11 +1805,6 @@
                             <property name="height-request">45</property>
                             <property name="visible">yes</property>
 
-                            <child>
-                              <widget class="Placeholder" id="None">
-                                <property name="visible">yes</property>
-                              </widget>
-                            </child>
                           </widget>
                         </child>
                       </widget>
@@ -1882,11 +1834,6 @@
                             <property name="height-request">45</property>
                             <property name="visible">yes</property>
 
-                            <child>
-                              <widget class="Placeholder" id="None">
-                                <property name="visible">yes</property>
-                              </widget>
-                            </child>
                           </widget>
                         </child>
                       </widget>
@@ -1915,11 +1862,6 @@
                             <property name="height-request">45</property>
                             <property name="visible">yes</property>
 
-                            <child>
-                              <widget class="Placeholder" id="None">
-                                <property name="visible">yes</property>
-                              </widget>
-                            </child>
                           </widget>
                         </child>
                       </widget>
@@ -1949,11 +1891,6 @@
                             <property name="height-request">45</property>
                             <property name="visible">yes</property>
 
-                            <child>
-                              <widget class="Placeholder" id="None">
-                                <property name="visible">yes</property>
-                              </widget>
-                            </child>
                           </widget>
                         </child>
                       </widget>
@@ -2040,11 +1977,6 @@
                                     <property name="active">no</property>
                                     <property name="visible">yes</property>
 
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -2065,11 +1997,6 @@
                                     <property name="active">no</property>
                                     <property name="visible">yes</property>
 
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -2090,11 +2017,6 @@
                                     <property name="active">no</property>
                                     <property name="visible">yes</property>
 
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -2115,11 +2037,6 @@
                                     <property name="active">no</property>
                                     <property name="visible">yes</property>
 
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -2140,11 +2057,6 @@
                                     <property name="active">no</property>
                                     <property name="visible">yes</property>
 
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -2165,11 +2077,6 @@
                                     <property name="active">no</property>
                                     <property name="visible">yes</property>
 
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -2190,11 +2097,6 @@
                                     <property name="active">no</property>
                                     <property name="visible">yes</property>
 
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">0</property>
@@ -2215,11 +2117,6 @@
                                     <property name="active">no</property>
                                     <property name="visible">yes</property>
 
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">0</property>
@@ -2240,11 +2137,6 @@
                                     <property name="active">no</property>
                                     <property name="visible">yes</property>
 
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">0</property>
@@ -2265,11 +2157,6 @@
                                     <property name="active">no</property>
                                     <property name="visible">yes</property>
 
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">0</property>
@@ -2290,11 +2177,6 @@
                                     <property name="active">no</property>
                                     <property name="visible">yes</property>
 
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">0</property>
@@ -2315,11 +2197,6 @@
                                     <property name="active">no</property>
                                     <property name="visible">yes</property>
 
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">0</property>
@@ -2340,11 +2217,6 @@
                                     <property name="active">no</property>
                                     <property name="visible">yes</property>
 
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -2426,11 +2298,6 @@
                               </packing>
                             </child>
 
-                            <child>
-                              <widget class="Placeholder" id="None">
-                                <property name="visible">yes</property>
-                              </widget>
-                            </child>
                           </widget>
                         </child>
                       </widget>
@@ -2522,11 +2389,6 @@
                               </packing>
                             </child>
 
-                            <child>
-                              <widget class="Placeholder" id="None">
-                                <property name="visible">yes</property>
-                              </widget>
-                            </child>
                           </widget>
                         </child>
                       </widget>
@@ -2586,11 +2448,6 @@
                                   </packing>
                                 </child>
 
-                                <child>
-                                  <widget class="Placeholder" id="None">
-                                    <property name="visible">yes</property>
-                                  </widget>
-                                </child>
                               </widget>
                               <packing>
                                 <property name="padding">0</property>
@@ -2619,11 +2476,6 @@
                                     <property name="height-request">29</property>
                                     <property name="visible">yes</property>
 
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -2648,11 +2500,6 @@
                                     <property name="height-request">29</property>
                                     <property name="visible">yes</property>
 
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">2</property>
@@ -2677,11 +2524,6 @@
                                     <property name="height-request">29</property>
                                     <property name="visible">yes</property>
 
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">3</property>
@@ -2706,11 +2548,6 @@
                                     <property name="height-request">29</property>
                                     <property name="visible">yes</property>
 
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">4</property>
@@ -2735,11 +2572,6 @@
                                     <property name="height-request">29</property>
                                     <property name="visible">yes</property>
 
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">5</property>
@@ -2764,11 +2596,6 @@
                                     <property name="height-request">29</property>
                                     <property name="visible">yes</property>
 
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">0</property>
@@ -2793,11 +2620,6 @@
                                     <property name="height-request">29</property>
                                     <property name="visible">yes</property>
 
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">0</property>
@@ -2822,11 +2644,6 @@
                                     <property name="height-request">29</property>
                                     <property name="visible">yes</property>
 
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -2851,11 +2668,6 @@
                                     <property name="height-request">29</property>
                                     <property name="visible">yes</property>
 
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -2880,11 +2692,6 @@
                                     <property name="height-request">29</property>
                                     <property name="visible">yes</property>
 
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">2</property>
@@ -2909,11 +2716,6 @@
                                     <property name="height-request">29</property>
                                     <property name="visible">yes</property>
 
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">2</property>
@@ -2938,11 +2740,6 @@
                                     <property name="height-request">29</property>
                                     <property name="visible">yes</property>
 
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">3</property>
@@ -2967,11 +2764,6 @@
                                     <property name="height-request">29</property>
                                     <property name="visible">yes</property>
 
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">3</property>
@@ -2996,11 +2788,6 @@
                                     <property name="height-request">29</property>
                                     <property name="visible">yes</property>
 
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">4</property>
@@ -3025,11 +2812,6 @@
                                     <property name="height-request">29</property>
                                     <property name="visible">yes</property>
 
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">5</property>
@@ -3054,11 +2836,6 @@
                                     <property name="height-request">29</property>
                                     <property name="visible">yes</property>
 
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">4</property>
@@ -3083,11 +2860,6 @@
                                     <property name="height-request">29</property>
                                     <property name="visible">yes</property>
 
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">5</property>
@@ -3112,11 +2884,6 @@
                                     <property name="height-request">29</property>
                                     <property name="visible">yes</property>
 
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">0</property>
@@ -3141,11 +2908,6 @@
                                     <property name="height-request">29</property>
                                     <property name="visible">yes</property>
 
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">5</property>
@@ -3170,11 +2932,6 @@
                                     <property name="height-request">29</property>
                                     <property name="visible">yes</property>
 
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">4</property>
@@ -3199,11 +2956,6 @@
                                     <property name="height-request">29</property>
                                     <property name="visible">yes</property>
 
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">3</property>
@@ -3228,11 +2980,6 @@
                                     <property name="height-request">29</property>
                                     <property name="visible">yes</property>
 
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">2</property>
@@ -3257,11 +3004,6 @@
                                     <property name="height-request">29</property>
                                     <property name="visible">yes</property>
 
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -3286,11 +3028,6 @@
                                     <property name="height-request">29</property>
                                     <property name="visible">yes</property>
 
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">0</property>
@@ -4311,7 +4048,6 @@
                     <property name="yalign">0.5</property>
                     <property name="xpad">0</property>
                     <property name="ypad">0</property>
-                    <property name="focus_target">input_msg_title</property>
                     <property name="visible">yes</property>
                   </widget>
                   <packing>
@@ -4399,7 +4135,6 @@
                     <property name="yalign">0</property>
                     <property name="xpad">0</property>
                     <property name="ypad">0</property>
-                    <property name="focus_target">input_msg_msg</property>
                     <property name="visible">yes</property>
                     <property name="use_underline">yes</property>
                   </widget>

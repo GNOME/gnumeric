@@ -231,7 +231,7 @@
             <child>
               <widget class="GtkCList" id="font-style-list">
                 <property name="can_focus">yes</property>
-                <property name="columns">1</property>
+                <property name="n-columns">1</property>
                 <property name="column_widths">80</property>
                 <property name="selection_mode">GTK_SELECTION_SINGLE</property>
                 <property name="show_titles">no</property>
@@ -289,7 +289,7 @@
             <child>
               <widget class="GtkCList" id="font-name-list">
                 <property name="can_focus">yes</property>
-                <property name="columns">1</property>
+                <property name="n-columns">1</property>
                 <property name="column_widths">80</property>
                 <property name="selection_mode">GTK_SELECTION_SINGLE</property>
                 <property name="show_titles">no</property>
@@ -347,7 +347,7 @@
             <child>
               <widget class="GtkCList" id="font-size-list">
                 <property name="can_focus">yes</property>
-                <property name="columns">1</property>
+                <property name="n-columns">1</property>
                 <property name="column_widths">80</property>
                 <property name="selection_mode">GTK_SELECTION_SINGLE</property>
                 <property name="show_titles">no</property>
