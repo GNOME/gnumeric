@@ -51,6 +51,7 @@
 #include <libxml/HTMLtree.h>
 #include <ctype.h>
 #include <string.h>
+#include <libgnome/gnome-i18n.h>
 
 #define HTML_BOLD	1
 #define HTML_ITALIC	2
@@ -67,6 +68,7 @@ static void
 html_read_buffer (IOContext *io_context, WorkbookView *wb_view, 
 		  guchar const *buf, int buf_size)
 {
+#if 0
 	Workbook *wb = wb_view_workbook (wb_view);
 	Sheet *sheet;
 	Cell *cell;
@@ -165,19 +167,115 @@ quick_hack :
 			}
 		}
 	}
+#endif
+}
+
+static Sheet *
+html_get_sheet (char const *name, Workbook *wb) 
+{
+	Sheet *sheet = NULL;
+
+	if (name) {
+		sheet = workbook_sheet_by_name (wb, name);
+		if (sheet == NULL) {
+			sheet = sheet_new (wb, name);
+			workbook_sheet_attach (wb, sheet, NULL);
+		}
+	} else
+		sheet = workbook_sheet_add (wb, NULL, FALSE);
+	return sheet;
 }
 
 static void
-html_search_for_tables (xmlNodePtr cur)
+html_read_row (htmlNodePtr cur, htmlDocPtr doc, Sheet *sheet, int row)
 {
-#if 0
-    const htmlElemDesc * info;
+	htmlNodePtr ptr, ptr2;
+	int col = -1;
+	
+	for (ptr = cur->children; ptr != NULL ; ptr = ptr->next) {
+		if (xmlStrEqual (ptr->name, "td") || xmlStrEqual (ptr->name, "th")) {
+			xmlBufferPtr buf;
 
+			col++;
+			buf = xmlBufferCreate ();
+			for (ptr2 = ptr->children; ptr2 != NULL ; ptr2 = ptr2->next) {
+				htmlNodeDump (buf, doc, ptr2);
+			}
+			if (buf->use > 0) {
+				char *name;
+				Cell *cell;
+
+				name = g_strndup (buf->content, buf->use);
+				cell = sheet_cell_fetch	(sheet, col, row);
+				cell_set_text (cell, name);
+				g_free (name);
+			}
+			xmlBufferFree (buf);			
+		}
+	}
+}
+
+static void
+html_read_table (htmlNodePtr cur, htmlDocPtr doc, WorkbookView *wb_view)
+{
+	Sheet *sheet = NULL;
+	Workbook *wb;
+	htmlNodePtr ptr, ptr2;
+	int row = -1;
+
+	g_return_if_fail (cur != NULL);
+	g_return_if_fail (wb_view != NULL);
+
+	wb = wb_view_workbook (wb_view);
+	for (ptr = cur->children; ptr != NULL ; ptr = ptr->next) {
+		if (ptr->type != XML_ELEMENT_NODE)
+			continue;
+		if (xmlStrEqual (ptr->name, "caption")) {
+			xmlBufferPtr buf;
+			buf = xmlBufferCreate ();
+			for (ptr2 = ptr->children; ptr2 != NULL ; ptr2 = ptr2->next) {
+				htmlNodeDump (buf, doc, ptr2);
+			}
+			if (buf->use > 0) {
+				char *name;
+				name = g_strndup (buf->content, buf->use);
+				sheet = html_get_sheet (name, wb);
+				g_free (name);
+			}
+			xmlBufferFree (buf);
+		}
+		if (xmlStrEqual (ptr->name, "tr")) {
+			row++;
+			if (sheet == NULL)
+				sheet = html_get_sheet (NULL, wb);
+			html_read_row (ptr, doc, sheet, row);
+		}
+	}
+}
+
+
+static void
+html_search_for_tables (htmlNodePtr cur, htmlDocPtr doc, WorkbookView *wb_view)
+{
     if (cur == NULL) {
         xmlGenericError(xmlGenericErrorContext,
 		"htmlNodeDumpFormatOutput : node == NULL\n");
 	return;
     }
+
+    if (cur->type == XML_ELEMENT_NODE) {
+	    if (!xmlStrEqual (cur->name, "table")) {
+		    htmlNodePtr ptr;
+		    for (ptr = cur->children; ptr != NULL ; ptr = ptr->next)
+			    html_search_for_tables (ptr, doc, wb_view);
+		    return;
+	    }
+	    html_read_table (cur, doc, wb_view);
+    }
+
+#if 0
+    const htmlElemDesc * info;
+
     /*
      * Special cases.
      */
@@ -322,7 +420,7 @@ html_file_open (GnumFileOpener const *fo, IOContext *io_context,
 	if (doc != NULL) {
 		xmlNodePtr ptr;
 		for (ptr = doc->children; ptr != NULL ; ptr = ptr->next)
-			html_search_for_tables (ptr);
+			html_search_for_tables (ptr, doc, wb_view);
 		xmlFreeDoc (doc);
 	} else
 		gnumeric_io_error_info_set (io_context,

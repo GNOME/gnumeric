@@ -41,6 +41,10 @@
 	s/GNOME_PRINT_KEY_PREF_UNIT/GNOME_PRINT_KEY_PREFERED_UNIT/
 	as it changed in libgnomeprint. You need CVS libgnomeprint.
 
+2002-05-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* cell-sort.glade : change option name (to make Morten happy)
+
 2002-05-22  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-printer-setup.c (cb_do_print) : consider printing to be

@@ -1,5 +1,8 @@
 Gnumeric 1.1.6
 
+Andreas:
+	* Fix html import (at a very rudimentary level)
+
 Jody:
 	* Have the stf dialog use the default font.
 	* Use GsfInput for importing.

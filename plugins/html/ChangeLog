@@ -1,3 +1,13 @@
+2002-06-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* html.h (html_file_open) : fix prototype 
+	* html_read.c (html_read_buffer) : disable
+	(html_get_sheet) : new
+	(html_read_row) : new
+	(html_read_table) : new
+	(html_search_for_tables) : really find tables
+	(html_read_buffer) : change invocation of html_search_for_tables
+
 2002-06-06  Jody Goldberg <jody@gnome.org>
 
 	* html_read.c (html_file_open) : convert to using libgsf.
