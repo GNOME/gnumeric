@@ -23,6 +23,7 @@ void wb_control_prefs_update	     (WorkbookControl *wbc);
 void wb_control_format_feedback	     (WorkbookControl *wbc);
 void wb_control_zoom_feedback	     (WorkbookControl *wbc);
 void wb_control_edit_line_set        (WorkbookControl *wbc, char const *text);
+void wb_control_finish_editing	     (WorkbookControl *wbc, gboolean accept);
 void wb_control_selection_descr_set  (WorkbookControl *wbc, char const *text);
 void wb_control_auto_expr_value	     (WorkbookControl *wbc);
 

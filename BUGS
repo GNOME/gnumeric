@@ -8,8 +8,6 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    - finish rename gnumeric.xml
-
     - defining file patterns in plugin spec overrides 'has_probe' flag silently.
 
     - pasting with singleton destination circumvents checks for arrays and

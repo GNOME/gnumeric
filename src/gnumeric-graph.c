@@ -66,8 +66,8 @@ typedef struct {
 #define GRAPH_VECTOR_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), GRAPH_VECTOR_TYPE, GraphVectorClass))
 #define IS_GRAPH_VECTOR(o)       (GTK_CHECK_TYPE ((o), GRAPH_VECTOR_TYPE))
 #define IS_GRAPH_VECTOR_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), GRAPH_VECTOR_TYPE))
-#define DEP_TO_GRAPH_VECTOR(ptr) (GraphVector *)(((void *)ptr) - GTK_STRUCT_OFFSET(GraphVector, dep))
-#define SERVANT_TO_GRAPH_VECTOR(ptr) (GraphVector *)(((void *)ptr) - GTK_STRUCT_OFFSET(GraphVector, servant))
+#define DEP_TO_GRAPH_VECTOR(ptr) (GraphVector *)(((char *)ptr) - GTK_STRUCT_OFFSET(GraphVector, dep))
+#define SERVANT_TO_GRAPH_VECTOR(ptr) (GraphVector *)(((char *)ptr) - GTK_STRUCT_OFFSET(GraphVector, servant))
 
 static GtkType graph_vector_get_type (void);
 

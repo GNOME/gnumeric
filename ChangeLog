@@ -1,3 +1,17 @@
+2001-04-15  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-control-gui.c (wbcg_finish_editing) : new virtual
+	(workbook_control_gui_ctor_class) : connect it here.
+	(wbcg_sheet_remove_all) : be sure we are no longer editing.
+
+	* src/workbook-control-priv.h : new virtual.
+	* src/workbook-control.c : ditto.
+	* src/workbook-control.h : ditto.
+
+	* src/colrow.c (colrow_visibility) : One last potential NULL.
+
+	* src/graph-vector.c : some portability fixes.
+
 2001-04-15  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/parser.y : Add detailed parser error messages.

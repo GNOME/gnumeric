@@ -465,7 +465,7 @@ colrow_visibility (Sheet const *sheet, struct colrow_visiblity * const dat,
 		dat->elements = g_slist_insert_sorted (dat->elements, res,
 					(GCompareFunc)colrow_index_cmp);
 
-		if (visible && cri->is_collapsed) {
+		if (visible && cri != NULL && cri->is_collapsed) {
 			i = colrow_find_outline_bound (
 				sheet, dat->is_cols, j,
 				cri->outline_level+1, FALSE);

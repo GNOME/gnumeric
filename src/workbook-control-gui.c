@@ -287,6 +287,11 @@ wbcg_edit_line_set (WorkbookControl *wbc, char const *text)
 	GtkEntry *entry = workbook_get_entry ((WorkbookControlGUI*)wbc);
 	gtk_entry_set_text (entry, text);
 }
+static void
+wbcg_finish_editing (WorkbookControl *wbc, gboolean accept)
+{
+	workbook_finish_editing ((WorkbookControlGUI*)wbc, accept);
+}
 
 static void
 wbcg_edit_selection_descr_set (WorkbookControl *wbc, char const *text)
@@ -594,6 +599,9 @@ wbcg_sheet_remove_all (WorkbookControl *wbc)
 
 	if (wbcg->notebook != NULL) {
 		GtkWidget *tmp = GTK_WIDGET (wbcg->notebook);
+
+		/* Be sure we are no longer editing */
+		workbook_finish_editing (wbcg, FALSE);
 
 		/* Clear notebook to disable updates as focus changes for pages
 		 * during destruction
@@ -3442,6 +3450,7 @@ workbook_control_gui_ctor_class (GtkObjectClass *object_class)
 	wbc_class->format_feedback	= wbcg_format_feedback;
 	wbc_class->zoom_feedback	= wbcg_zoom_feedback;
 	wbc_class->edit_line_set	= wbcg_edit_line_set;
+	wbc_class->finish_editing	= wbcg_finish_editing;
 	wbc_class->selection_descr_set	= wbcg_edit_selection_descr_set;
 	wbc_class->auto_expr_value	= wbcg_auto_expr_value;
 
