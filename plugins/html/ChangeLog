@@ -1,3 +1,7 @@
+2003-03-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* latex.c: add missing border connector (31) (Thanks Adrian!)
+
 2003-03-26  Jody Goldberg <jody@gnome.org>
 
 	* html.c (html_get_color) : no need to operate on the pixel directly.
