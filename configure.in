@@ -55,8 +55,8 @@ libglade-2.0		>= 2.0.0
 libgnomecanvas-2.0	>= 2.0.0
 libgnome-2.0		>= 2.0.0
 libgnomeui-2.0		>= 2.0.0
-libgnomeprint-2.2	>= 2.4.2
-libgnomeprintui-2.2	>= 2.4.2
+libgnomeprint-2.2	>= 2.5.2
+libgnomeprintui-2.2	>= 2.5.2
 libart-2.0		>= 2.3.11
 "
 
