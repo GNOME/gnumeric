@@ -182,6 +182,12 @@ install: build
 
 	dh_install --sourcedir=debian/tmp --list-missing
 
+	# gnumeric and gnumeric-common are always installed together; they
+	# can share a doc dir.
+	# (Note that's not the case with gnumeric-doc as it can be installed
+	# without having gnumeric installed)
+	dh_link -pgnumeric-common usr/share/doc/gnumeric/ usr/share/doc/gnumeric-common
+
 	dh_link usr/share/gnumeric/$(upstreamversion)/idl/GNOME_Gnumeric.idl usr/share/idl/GNOME_Gnumeric.idl
 
 	dh_link -pgnumeric-doc usr/share/pixmaps/gnome-logo-icon.png usr/share/gnome/help/gnumeric/C/stylesheet/gnome-logo-icon.png 

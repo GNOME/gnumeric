@@ -1,3 +1,15 @@
+gnumeric (1.2.6-2) unstable; urgency=low
+
+  * [debian/control] Bumped yelp build dependency to ensure the HTML
+    documentation links to the DocBook stylesheet images in their current
+    location under /usr/share/xml rather than /usr/share/sgml .
+  * [debian/control, debian/rules, debian/gnumeric.files,
+    debian/gnumeric-common.files] Introduced a gnumeric-common package for
+    architecture independent data. (Closes: #233367)
+  * [po/ChangeLog, po/el.po, po/hr.po, po/pt_BR.po] Updates from CVS.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Wed, 18 Feb 2004 20:42:59 +0100
+
 gnumeric (1.2.6-1) unstable; urgency=medium
 
   * New upstream bugfix release, bringing roundtrip saving of macros in xls.
