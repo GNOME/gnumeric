@@ -44,6 +44,7 @@ Morten:
 	* Fix compiler warnings.  (Well, fix the bugs they pointed out.)
 	* Partially clean up regression code.
 	* Fix regression's singularity test.
+	* Fix validation's use of abs to be fabs.
 
 --------------------------------------------------------------------------
 Gnumeric 1.0.3
