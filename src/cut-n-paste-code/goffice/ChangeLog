@@ -1,3 +1,8 @@
+2003-06-25  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-data-allocator.c (gog_dataset_get_type) : fix
+	  cut-n-paste-o.
+
 2003-06-25 Jean Brefort <jean.brefort@ac-dijon.fr>
 
 	* graph/gog-renderer-gnome-print.c: use alpha channel when

@@ -64,7 +64,7 @@ gog_dataset_get_type (void)
 
 	if (!gog_dataset_type) {
 		static GTypeInfo const gog_dataset_info = {
-			sizeof (GogDataAllocatorClass),	/* class_size */
+			sizeof (GogDatasetClass),	/* class_size */
 			NULL,		/* base_init */
 			NULL,		/* base_finalize */
 		};
