@@ -1,5 +1,10 @@
 2003-06-03  Jody Goldberg <jody@gnome.org>
 
+	* src/sheet-filter.c (gnm_filter_remove) : make filterered rows
+	  visible.
+	* src/workbook-control-gui.c (cb_auto_filter) : sheet_update on remove
+	  too.
+
 	* src/item-cursor.c : clear out deprecated GtkObject::Arg goo.
 	(item_cursor_draw) : pixel noise drawing zero sized animated cursors.
 

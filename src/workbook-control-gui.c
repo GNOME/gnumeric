@@ -2827,12 +2827,12 @@ cb_auto_filter (GtkWidget *widget, WorkbookControlGUI *wbcg)
 		}
 #warning Add undo/redo
 		gnm_filter_new (sv->sheet, src);
-		sheet_update (sv->sheet);
 	} else {
 		/* keep distinct to simplify undo/redo later */
 		gnm_filter_remove (filter);
 		gnm_filter_free (filter);
 	}
+	sheet_update (sv->sheet);
 	WORKBOOK_VIEW_FOREACH_CONTROL(sv->wbv, wbc,
 		wb_control_menu_state_update (wbc, MS_ADD_VS_REMOVE_FILTER););
 }

@@ -991,8 +991,11 @@ gnm_filter_remove (GnmFilter *filter)
 	sheet = filter->sheet;
 	sheet->filters = g_slist_remove (sheet->filters, filter);
 	for (i = filter->r.start.row; ++i <= filter->r.end.row ; ) {
-		ColRowInfo *ri = sheet_row_fetch (sheet, i);
-		ri->in_filter = FALSE;
+		ColRowInfo *ri = sheet_row_get (sheet, i);
+		if (ri != NULL) {
+			ri->in_filter = FALSE;
+			colrow_set_visibility (sheet, FALSE, TRUE, i, i);
+		}
 	}
 }
 
@@ -1052,12 +1055,8 @@ gnm_filter_set_condition (GnmFilter *filter, unsigned i,
 		 * field filtered
 		 */
 		if (existing_cond) {
-			for (r = filter->r.start.row; ++r <= filter->r.end.row ; ) {
-				ColRowInfo *ri = sheet_row_get (filter->sheet, r);
-				if (ri != NULL)
-					colrow_set_visibility (filter->sheet,
-							       FALSE, TRUE, r, r);
-			}
+			colrow_set_visibility (filter->sheet, FALSE, TRUE,
+				filter->r.start.row + 1, filter->r.end.row);
 			for (i = 0 ; i < filter->fields->len ; i++)
 				filter_field_apply (g_ptr_array_index (filter->fields, i));
 		} else
