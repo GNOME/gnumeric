@@ -144,10 +144,6 @@ workbook_destroy (GtkObject *wb_object)
 	workbook_deps_destroy (wb);
 	expr_name_invalidate_refs_wb (wb);
 
-	/* Just drop the eval queue.  */
-	g_slist_free (wb->eval_queue);
-	wb->eval_queue = NULL;
-
 	/* Copy the set of sheets, the list changes under us. */
 	sheets = workbook_sheets (wb);
 

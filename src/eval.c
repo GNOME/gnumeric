@@ -125,36 +125,13 @@ dependent_set_expr (Dependent *dep, ExprTree *expr)
  * queues it.
  * NOTE : it does NOT recursively dirty dependencies.
  */
-static void
-dependent_queue_recalc (Dependent *dep)
-{
-	g_return_if_fail (dep != NULL);
-
-	dep->flags |= DEPENDENT_NEEDS_RECALC;
-	if (!(dep->flags & DEPENDENT_IN_RECALC_QUEUE)) {
-		Workbook *wb;
-
-		g_return_if_fail (dep->sheet != NULL);
-
-#ifdef DEBUG_EVALUATION
-		if (dependency_debugging > 2) {
-			printf ("Queuing: ");
-			dependent_debug_name (dep, stdout);
-			puts ("");
-		}
-#endif
-		/* Use the wb associated with the current dependent in
-		 * case we have cross workbook depends
-		 */
-		wb = dep->sheet->workbook;
-		wb->eval_queue = g_slist_prepend (wb->eval_queue, dep);
-		dep->flags |= DEPENDENT_IN_RECALC_QUEUE;
-	}
-}
+#define dependent_queue_recalc (dep) dep->flags |= DEPENDENT_NEEDS_RECALC
 
 void
 cb_dependent_queue_recalc (Dependent *dep, gpointer ignore)
 {
+	g_return_if_fail (dep != NULL);
+
 	if (!(dep->flags & DEPENDENT_NEEDS_RECALC)) {
 		dependent_queue_recalc (dep);
 		if ((dep->flags & DEPENDENT_TYPE_MASK) == DEPENDENT_CELL)
@@ -180,25 +157,6 @@ dependent_queue_recalc_list (GSList const *list, gboolean recurse)
 		Dependent *dep = list->data;
 
 		dep->flags |= DEPENDENT_NEEDS_RECALC;
-		if (!(dep->flags & DEPENDENT_IN_RECALC_QUEUE)) {
-			Workbook *wb;
-
-			g_return_if_fail (dep->sheet != NULL);
-
-#ifdef DEBUG_EVALUATION
-			if (dependency_debugging > 2) {
-				printf ("Queuing: ");
-				dependent_debug_name (dep, stdout);
-				puts ("");
-			}
-#endif
-			/* Use the wb associated with the current dependent in
-			 * case we have cross workbook depends
-			 */
-			wb = dep->sheet->workbook;
-			wb->eval_queue = g_slist_prepend (wb->eval_queue, dep);
-			dep->flags |= DEPENDENT_IN_RECALC_QUEUE;
-		}
 
 		/* FIXME : it would be better if we queued the entire list then
 		 * recursed.  That would save time, but we need to keep track
@@ -224,59 +182,7 @@ dependent_unqueue (Dependent *dep)
 {
 	g_return_if_fail (dep != NULL);
 
-	if ((dep->flags & DEPENDENT_IN_RECALC_QUEUE)) {
-		Workbook *wb = dep->sheet->workbook;
-		wb->eval_queue = g_slist_remove (wb->eval_queue, dep);
-		dep->flags &= ~(DEPENDENT_IN_RECALC_QUEUE|DEPENDENT_NEEDS_RECALC);
-	} else {
-		g_return_if_fail (!(dep->flags & DEPENDENT_NEEDS_RECALC));
-	}
-}
-
-/**
- * dep_slist_filter_sheet :
- *
- * A utility routine to do a fast filter on a linked list of dependents.  It
- * should have O(n) and reverses the list as a side effect.
- */
-static GSList *
-dep_slist_filter_sheet (GSList *queue, Sheet const *sheet, int filter)
-{
-	GSList *refuse = NULL, *prev = NULL, *next, *ptr;
-
-	for (ptr = queue; ptr != NULL; ptr = next) {
-		Dependent *dep = ptr->data;
-		next = ptr->next;
-
-		if (dep->sheet == sheet) {
-			dep->flags &= filter;
-			ptr->next = refuse;
-			refuse = ptr;
-		} else {
-			ptr->next = prev;
-			prev = ptr;
-		}
-	}
-	g_slist_free (refuse);
-	return prev;
-}
-
-/**
- * dependent_unqueue_sheet:
- * @sheet : the sheet whose cells need to be unqueued.
- *
- * Remove all cells from the specified sheet from the recalc queue.
- */
-void
-dependent_unqueue_sheet (Sheet *sheet)
-{
-	Workbook *wb;
-
-	g_return_if_fail (IS_SHEET (sheet));
-
-	wb = sheet->workbook;
-	wb->eval_queue = dep_slist_filter_sheet (wb->eval_queue, sheet,
-		~(DEPENDENT_IN_RECALC_QUEUE|DEPENDENT_NEEDS_RECALC));
+	dep->flags &= ~(DEPENDENT_NEEDS_RECALC);
 }
 
 /**************************************************************************
@@ -656,12 +562,8 @@ dependent_unlink (Dependent *dep, CellPos const *pos)
 			handle_tree_deps (dep, pos, dep->expression, REMOVE_DEPS);
 
 		wb = dep->sheet->workbook;
-		dep->flags &= ~DEPENDENT_IN_EXPR_LIST;
+		dep->flags &= ~(DEPENDENT_IN_EXPR_LIST | DEPENDENT_NEEDS_RECALC);
 		UNLINK_DEP (wb, dep);
-
-		/* An optimization to avoid an expensive list lookup */
-		if (dep->flags & DEPENDENT_IN_RECALC_QUEUE)
-			dependent_unqueue (dep);
 	}
 }
 
@@ -687,7 +589,6 @@ dependent_unlink_sheet (Sheet *sheet)
 		 if (dep->sheet == sheet) {
 			 dep->flags &= ~DEPENDENT_IN_EXPR_LIST;
 			 UNLINK_DEP (wb, dep);
-			 dep->sheet = NULL;
 		 });
 }
 
@@ -702,7 +603,10 @@ dependent_unlink_sheet (Sheet *sheet)
 void
 dependent_changed (Dependent *dep, CellPos const *pos, gboolean queue_recalc)
 {
+	g_return_if_fail (dep != NULL);
+
 	dependent_link (dep, pos);
+
 	if (queue_recalc) {
 		if (dep->sheet->workbook->priv->recursive_dirty_enabled)
 			cb_dependent_queue_recalc (dep, NULL);
@@ -771,6 +675,8 @@ cell_eval (Cell *cell)
 void
 cell_queue_recalc (Cell const *cell)
 {
+	g_return_if_fail (cell != NULL);
+
 	if (!cell_needs_recalc (cell)) {
 		if (cell_has_expr (cell))
 			dependent_queue_recalc (CELL_TO_DEP (cell));
@@ -843,15 +749,6 @@ cell_foreach_single_dep (Sheet const *sheet, int col, int row,
 	single = g_hash_table_lookup (deps->single_hash, &lookup);
 	if (single == NULL)
 		return;
-
-#ifdef DEBUG_EVALUATION
-	if (dependency_debugging > 0) {
-		printf ("Single dependencies on %s %d\n",
-			cell_coord_name (col, row), g_list_length (l));
-
-		dump_cell_list (single->dependent_list);
-	}
-#endif
 
 	for (ptr = single->dependent_list ; ptr != NULL ; ptr = ptr->next) {
 		Dependent *dep = ptr->data;
@@ -946,7 +843,7 @@ sheet_region_queue_recalc (Sheet const *sheet, Range const *r)
 
 		/* TODO : Why not use sheet_foreach_cell ?
 		 * We would need to be more careful about queueing
-		 * things that depends on blanks, but that is not too hard.
+		 * things that depend on blanks, but that is not too hard.
 		 */
 		end_col = MIN (r->end.col, sheet->cols.max_used);
 		end_row = MIN (r->end.row, sheet->rows.max_used);
@@ -1139,12 +1036,10 @@ workbook_queue_all_recalc (Workbook *wb)
 void
 workbook_recalc (Workbook *wb)
 {
-	Dependent *dep;
+	g_return_if_fail (IS_WORKBOOK (wb));
 
-	while (NULL != wb->eval_queue) {
-		dep = wb->eval_queue->data;
-		wb->eval_queue = g_slist_remove (wb->eval_queue, dep);
-		dep->flags &= ~DEPENDENT_IN_RECALC_QUEUE;
+	WORKBOOK_FOREACH_DEPENDENT
+		(wb, dep,
 		if (dep->flags & DEPENDENT_NEEDS_RECALC) {
 			int const t = (dep->flags & DEPENDENT_TYPE_MASK);
 
@@ -1153,19 +1048,16 @@ workbook_recalc (Workbook *wb)
 
 				g_return_if_fail (klass);
 				(*klass->eval) (dep);
-
-				dep->flags &= ~DEPENDENT_NEEDS_RECALC;
 			} else {
 				gboolean finished = cell_eval_content (DEP_TO_CELL (dep));
 
 				/* This should always be the top of the stack */
 				g_return_if_fail (finished);
-
-				/* Don't clear flag until after in case we iterate */
-				dep->flags &= ~DEPENDENT_NEEDS_RECALC;
 			}
-		}
-	}
+
+			/* Don't clear flag until after in case we iterate */
+			dep->flags &= ~DEPENDENT_NEEDS_RECALC;
+		});
 }
 
 /**
@@ -1316,11 +1208,6 @@ sheet_dump_dependencies (Sheet const *sheet)
 			g_hash_table_foreach (deps->single_hash,
 					      dump_single_dep, NULL);
 		}
-	}
-
-	if (sheet->workbook->eval_queue) {
-		printf ("Unevaluated cells on queue:\n");
-		dump_dependent_list (sheet->workbook->eval_queue);
 	}
 }
 

@@ -2842,9 +2842,6 @@ sheet_destroy_contents (Sheet *sheet)
 	for (i = sheet->rows.max_used; i >= 0 ; --i)
 		row_destroy_span (sheet_row_get (sheet, i));
 
-	/* Remove any pending recalcs */
-	dependent_unqueue_sheet (sheet);
-
 	/* Unlink expressions from the workbook expr list */
 	dependent_unlink_sheet (sheet);
 
