@@ -12,13 +12,13 @@
 #include "graph-vector.h"
 #include "graph-view.h"
 
-static GnomeObjectClass *graph_parent_class;
+static BonoboObjectClass *graph_parent_class;
 
 /* The entry point vectors for the server we provide */
 POA_GNOME_Graph_Chart__epv  graph_epv;
 POA_GNOME_Graph_Chart__vepv graph_vepv;
 
-#define graph_from_servant(x) GRAPH (gnome_object_from_servant (x))
+#define graph_from_servant(x) GRAPH (bonobo_object_from_servant (x))
 
 static void
 graph_destroy (GtkObject *object)
@@ -447,14 +447,14 @@ init_graph_corba_class (void)
 	/*
 	 * The Vepv
 	 */
-	graph_vepv.GNOME_Unknown_epv = gnome_object_get_epv ();
+	graph_vepv.Bonobo_Unknown_epv = bonobo_object_get_epv ();
 	graph_vepv.GNOME_Graph_Chart_epv = &graph_epv;
 }
 
 static void
 graph_class_init (GtkObjectClass *object_class)
 {
-	graph_parent_class = gtk_type_class (gnome_object_get_type ());
+	graph_parent_class = gtk_type_class (bonobo_object_get_type ());
 	
 	object_class->destroy = graph_destroy;
 	
@@ -486,7 +486,7 @@ graph_get_type (void)
 			(GtkClassInitFunc) NULL
 		};
 
-		type = gtk_type_unique (gnome_object_get_type (), &info);
+		type = gtk_type_unique (bonobo_object_get_type (), &info);
 	}
 
 	return type;
@@ -514,12 +514,12 @@ graph_bind_view (Graph *graph, GraphView *graph_view)
 }
 
 GNOME_Graph_Chart
-graph_corba_object_create (GnomeObject *object)
+graph_corba_object_create (BonoboObject *object)
 {
 	POA_GNOME_Graph_Chart *servant;
 	CORBA_Environment ev;
 	
-	servant = (POA_GNOME_Graph_Chart *) g_new0 (GnomeObjectServant, 1);
+	servant = (POA_GNOME_Graph_Chart *) g_new0 (BonoboObjectServant, 1);
 	servant->vepv = &graph_vepv;
 
 	CORBA_exception_init (&ev);
@@ -531,7 +531,7 @@ graph_corba_object_create (GnomeObject *object)
 	}
 
 	CORBA_exception_free (&ev);
-	return (GNOME_View) gnome_object_activate_servant (object, servant);
+	return (Bonobo_View) bonobo_object_activate_servant (object, servant);
 }
 
 Graph *
@@ -542,12 +542,12 @@ graph_new (Layout *layout)
 		
 	graph = gtk_type_new (graph_get_type ());
 
-	graph_corba = graph_corba_object_create (GNOME_OBJECT (graph));
+	graph_corba = graph_corba_object_create (BONOBO_OBJECT (graph));
 	if (graph_corba == CORBA_OBJECT_NIL){
 		gtk_object_destroy (GTK_OBJECT (graph));
 		return NULL;
 	}
-	gnome_object_construct (GNOME_OBJECT (graph), graph_corba);
+	bonobo_object_construct (BONOBO_OBJECT (graph), graph_corba);
 	
 	graph->layout = layout;
 

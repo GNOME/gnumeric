@@ -12,7 +12,7 @@
 #include "layout-view.h"
 #include "graph-view.h"
 
-static GnomeViewClass *layout_view_parent_class;
+static BonoboViewClass *layout_view_parent_class;
 
 static void
 layout_view_destroy (GtkObject *object)
@@ -40,15 +40,15 @@ layout_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation, LayoutV
 		0, 0, allocation->width, allocation->height);
 }
 
-GnomeView *
+BonoboView *
 layout_view_new (Layout *layout)
 {
 	LayoutView *layout_view;
-	GNOME_View corba_layout_view;
+	Bonobo_View corba_layout_view;
 	
 	layout_view = gtk_type_new (LAYOUT_VIEW_TYPE);
 
-	corba_layout_view = gnome_view_corba_object_create (GNOME_OBJECT (layout_view));
+	corba_layout_view = bonobo_view_corba_object_create (BONOBO_OBJECT (layout_view));
 	if (corba_layout_view == CORBA_OBJECT_NIL){
 		gtk_object_destroy (GTK_OBJECT (corba_layout_view));
 		return NULL;
@@ -57,7 +57,7 @@ layout_view_new (Layout *layout)
 	layout_view->canvas = GNOME_CANVAS (gnome_canvas_new ());
 	gtk_widget_show (GTK_WIDGET (layout_view->canvas));
 
-	gnome_view_construct (GNOME_VIEW (layout_view), corba_layout_view, GTK_WIDGET (layout_view->canvas));
+	bonobo_view_construct (BONOBO_VIEW (layout_view), corba_layout_view, GTK_WIDGET (layout_view->canvas));
 	layout_view->graph_view = GRAPH_VIEW (gnome_canvas_item_new (
 		gnome_canvas_root (layout_view->canvas),
 		graph_view_get_type (),
@@ -68,7 +68,7 @@ layout_view_new (Layout *layout)
 	gtk_signal_connect (GTK_OBJECT (layout_view->canvas), "size_allocate",
 			    GTK_SIGNAL_FUNC (layout_view_size_allocate), layout_view);
 
-	return GNOME_VIEW (layout_view);
+	return BONOBO_VIEW (layout_view);
 }
 
 static void
@@ -76,7 +76,7 @@ layout_view_class_init (GtkObjectClass *object_class)
 {
 	object_class->destroy = layout_view_destroy;
 
-	layout_view_parent_class = gtk_type_class (gnome_view_get_type ());
+	layout_view_parent_class = gtk_type_class (bonobo_view_get_type ());
 }
 
 static void
@@ -101,7 +101,7 @@ layout_view_get_type (void)
 			(GtkClassInitFunc) NULL
 		};
 
-		type = gtk_type_unique (gnome_view_get_type (), &info);
+		type = gtk_type_unique (bonobo_view_get_type (), &info);
 	}
 
 	return type;

@@ -49,7 +49,7 @@ graph_view_line_plot (GraphView *graph_view, GdkDrawable *drawable,
 	int vector;
 	ViewDrawCtx ctx;
 
-	SETUP_VIEW_CTX (ctx, graph_view, drawable, x, y, width, height);
+	setup_view_ctx (&ctx, graph_view, drawable, graph_view->fill_gc, x, y, width, height);
 
 	for (vector = 1; vector < vector_count; vector ++){
 		double last_x, last_y;
@@ -84,7 +84,7 @@ graph_view_scatter_plot (GraphView *graph_view, GdkDrawable *drawable,
 	int xi;
 	ViewDrawCtx ctx;
 
-	SETUP_VIEW_CTX (ctx, graph_view, drawable, x, y, width, height);
+	setup_view_ctx (&ctx, graph_view, drawable, graph_view->fill_gc, x, y, width, height);
 	
 	ctx.dim = MIN (ctx.xl, ctx.yl) / 40;
 

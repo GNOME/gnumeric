@@ -3,7 +3,7 @@
 #define GNUMERIC_VECTOR_H_
 
 #include <libgnome/gnome-defs.h>
-#include <bonobo/gnome-object.h>
+#include <bonobo/bonobo-object.h>
 #include "Graph.h"
 
 BEGIN_GNOME_DECLS
@@ -28,7 +28,7 @@ typedef CORBA_boolean               (*VectorTypeFn)(
 	Vector *vec, void *data);
 
 struct _Vector {
-	GnomeObject base;
+	BonoboObject base;
 
 	VectorTypeFn    type;
 	VectorGetNumFn  get_numbers;
@@ -41,7 +41,7 @@ struct _Vector {
 };
 
 typedef struct {
-	GnomeObjectClass parent_class;
+	BonoboObjectClass parent_class;
 } VectorClass;
 
 GtkType      vector_get_type      (void);

@@ -7,14 +7,14 @@
  * (C) 1999 International GNOME Support (http://www.gnome-support.com)
  */
 #include <config.h>
-#include <bonobo/gnome-bonobo.h>
+#include <bonobo.h>
 #include "Graph.h"
 #include "layout.h"
 
 CORBA_Environment ev;
 CORBA_ORB orb;
 
-static GnomeEmbeddableFactory *factory;
+static BonoboEmbeddableFactory *factory;
 
 static int active_layouts;
 
@@ -39,12 +39,12 @@ layout_destroyed (GtkObject *layout_object)
 	if (active_layouts != 0)
 		return;
 		
-	gnome_object_unref (GNOME_OBJECT (factory));
+	bonobo_object_unref (BONOBO_OBJECT (factory));
 	gtk_main_quit ();
 }
 
-static GnomeObject *
-layout_factory (GnomeEmbeddableFactory *this, void *data)
+static BonoboObject *
+layout_factory (BonoboEmbeddableFactory *this, void *data)
 {
 	Layout *layout;
 
@@ -57,14 +57,14 @@ layout_factory (GnomeEmbeddableFactory *this, void *data)
 		GTK_OBJECT (layout), "destroy",
 		layout_destroyed, NULL);
 
-	return GNOME_OBJECT (layout);
+	return BONOBO_OBJECT (layout);
 }
 
 static void
 layout_factory_init (void)
 {
 	
-	factory = gnome_embeddable_factory_new (
+	factory = bonobo_embeddable_factory_new (
 		"GOADID:embeddable-factory:Graph:Layout", layout_factory, NULL);
 
 	if (factory == NULL)

@@ -229,7 +229,7 @@ graph_view_colbar_draw (GraphView *graph_view, GdkDrawable *drawable, int x, int
 	if (graph_view->graph->divisions == 0)
 		return;
 
-	SETUP_VIEW_CTX (ctx, graph_view, drawable, x, y, width, height);
+	setup_view_ctx (&ctx, graph_view, drawable, NULL, x, y, width, height);
 
 	is_bar = ctx.graph->direction == GNOME_Graph_DIR_BAR;
 

@@ -3,7 +3,7 @@
 #define GRAPH_LAYOUT_H_
 
 #include <libgnome/gnome-defs.h>
-#include <bonobo/gnome-embeddable.h>
+#include <bonobo/bonobo-embeddable.h>
 #include "graph-vector.h"
 
 BEGIN_GNOME_DECLS
@@ -18,7 +18,7 @@ typedef struct _Layout Layout;
 #define IS_LAYOUT_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), LAYOUT_TYPE))
 
 struct _Layout {
-	GnomeEmbeddable parent;
+	BonoboEmbeddable parent;
 
 	Graph  *graph;
 
@@ -30,7 +30,7 @@ struct _Layout {
 };
 
 typedef struct {
-	GnomeEmbeddableClass parent_class;
+	BonoboEmbeddableClass parent_class;
 } LayoutClass;
 
 GtkType      layout_get_type      (void);

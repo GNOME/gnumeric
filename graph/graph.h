@@ -3,7 +3,7 @@
 #define GRAPH_GRAPH_H_
 
 #include <libgnome/gnome-defs.h>
-#include <bonobo/gnome-object.h>
+#include <bonobo/bonobo-object.h>
 #include "Graph.h"
 
 BEGIN_GNOME_DECLS
@@ -21,7 +21,7 @@ typedef struct _GraphView GraphView;
 
 
 struct _Graph {
-	GnomeObject base;
+	BonoboObject base;
 
 	Layout *layout;
 
@@ -60,7 +60,7 @@ struct _Graph {
 };
 
 typedef struct {
-	GnomeObjectClass parent_class;
+	BonoboObjectClass parent_class;
 } GraphClass;
 
 #define DIRTY_BBOX  1

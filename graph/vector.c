@@ -8,16 +8,16 @@
  */
 #include <config.h>
 #include "Graph.h"
-#include <bonobo/gnome-object.h>
+#include <bonobo/bonobo-object.h>
 #include "vector.h"
 
-static GnomeObjectClass *vector_parent_class;
+static BonoboObjectClass *vector_parent_class;
 
 /* The entry point vectors for the server we provide */
 POA_GNOME_Gnumeric_Vector__epv  vector_epv;
 POA_GNOME_Gnumeric_Vector__vepv vector_vepv;
 
-#define vector_from_servant(x) VECTOR (gnome_object_from_servant (x))
+#define vector_from_servant(x) VECTOR (bonobo_object_from_servant (x))
 
 static void
 vector_destroy (GtkObject *object)
@@ -93,14 +93,14 @@ init_vector_corba_class (void)
 	vector_epv.count          = impl_vector_count;
 	vector_epv.set_notify     = impl_vector_set_notify;
 
-	vector_vepv.GNOME_Unknown_epv = gnome_object_get_epv ();
+	vector_vepv.Bonobo_Unknown_epv = bonobo_object_get_epv ();
 	vector_vepv.GNOME_Gnumeric_Vector_epv = &vector_epv;
 }
 
 static void
 vector_class_init (GtkObjectClass *object_class)
 {
-	vector_parent_class = gtk_type_class (gnome_object_get_type ());
+	vector_parent_class = gtk_type_class (bonobo_object_get_type ());
 	
 	object_class->destroy = vector_destroy;
 	
@@ -132,19 +132,19 @@ vector_get_type (void)
 			(GtkClassInitFunc) NULL
 		};
 
-		type = gtk_type_unique (gnome_object_get_type (), &info);
+		type = gtk_type_unique (bonobo_object_get_type (), &info);
 	}
 
 	return type;
 }
 
 GNOME_Gnumeric_Vector
-vector_corba_object_create (GnomeObject *object)
+vector_corba_object_create (BonoboObject *object)
 {
 	POA_GNOME_Gnumeric_Vector *servant;
 	CORBA_Environment ev;
 	
-	servant = (POA_GNOME_Gnumeric_Vector *) g_new0 (GnomeObjectServant, 1);
+	servant = (POA_GNOME_Gnumeric_Vector *) g_new0 (BonoboObjectServant, 1);
 	servant->vepv = &vector_vepv;
 
 	CORBA_exception_init (&ev);
@@ -156,7 +156,7 @@ vector_corba_object_create (GnomeObject *object)
 	}
 
 	CORBA_exception_free (&ev);
-	return (GNOME_View) gnome_object_activate_servant (object, servant);
+	return (Bonobo_View) bonobo_object_activate_servant (object, servant);
 }
 
 Vector *
@@ -174,13 +174,13 @@ vector_new (VectorGetNumFn get_numbers, VectorGetValFn get_values,
 
 	vector = gtk_type_new (vector_get_type ());
 
-	corba_vector = vector_corba_object_create (GNOME_OBJECT (vector));
+	corba_vector = vector_corba_object_create (BONOBO_OBJECT (vector));
 	if (corba_vector == NULL){
 		gtk_object_destroy (GTK_OBJECT (vector));
 		return NULL;
 	}
 	
-	gnome_object_construct (GNOME_OBJECT (vector), corba_vector);
+	bonobo_object_construct (BONOBO_OBJECT (vector), corba_vector);
 
 	vector->get_numbers = get_numbers;
 	vector->get_values = get_values;

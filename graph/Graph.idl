@@ -7,7 +7,7 @@
  * (C) 1999 International GNOME Support (http://www.gnome-support.com)
  */
 
-#include <bonobo.idl>
+#include <Bonobo.idl>
 #include "src/Gnumeric.idl"
 
 module GNOME {
@@ -176,7 +176,7 @@ module GNOME {
 			SURFACE_COLORED
 		};
 
-		interface Chart : GNOME::Unknown {
+		interface Chart : Bonobo::Unknown {
 			attribute ChartType     chart_type;
 			attribute PlotMode      plot_mode;
 			attribute ColBarMode    col_bar_mode;
@@ -205,7 +205,7 @@ module GNOME {
 		//   * The axis
 		//   * The chart background
 		//
-		interface Layout : GNOME::Embeddable {
+		interface Layout : Bonobo::Embeddable {
 			Chart get_chart ();
 			Axis  get_axis (in AxisType axis);
 

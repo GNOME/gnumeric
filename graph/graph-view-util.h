@@ -39,16 +39,7 @@ typedef struct {
 Symbol symbol_setup (ViewDrawCtx *ctx, int series);
 void   symbol_draw  (ViewDrawCtx *ctx, Symbol sym, int px, int py);
 
-#define SETUP_VIEW_CTX(ctx,gv,d,vx,vy,w,h) \
-	ctx.x = vx;\
-	ctx.y = vy;\
-	ctx.width = w;\
-	ctx.height = h;\
-	ctx.drawable = d;\
-	ctx.graph_view = gv;\
-	ctx.graph = gv->graph;\
-	ctx.yl = gv->bbox.y1 - gv->bbox.y0;\
-	ctx.xl = gv->bbox.x1 - gv->bbox.x0;
+void   setup_view_ctx (ViewDrawCtx *ctx, GraphView *gv, GdkDrawable *d, GdkGC *gc, int x, int y, int w, int h);
 
 /*
  * Macros used by various plotting modes.

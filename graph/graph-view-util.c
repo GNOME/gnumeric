@@ -108,3 +108,20 @@ symbol_draw (ViewDrawCtx *ctx, Symbol sym, int px, int py)
 	}
 }
 
+void
+setup_view_ctx (ViewDrawCtx *ctx, GraphView *gv, GdkDrawable *d, GdkGC *gc,
+		int x, int y, int width, int height)
+{
+	ctx->x = x;
+	ctx->y = y;
+	ctx->width = width;
+	ctx->height = height;
+	ctx->drawable = d;
+  	ctx->gc = gc;
+	ctx->graph_view = gv;
+	ctx->graph = gv->graph;
+	ctx->yl = gv->bbox.y1 - gv->bbox.y0;
+	ctx->xl = gv->bbox.x1 - gv->bbox.x0;
+}
+
+	

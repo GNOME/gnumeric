@@ -5,14 +5,14 @@
  */
 #include <gnome.h>
 #include <libgnorba/gnorba.h>
-#include <bonobo/gnome-bonobo.h>
+#include <bonobo.h>
 #include "Graph.h"
 #include "vector.h"
 
 /*
  * This is the handle to the graphics object server
  */
-GnomeObjectClient *object;
+BonoboObjectClient *object;
 
 /*
  * Interface pointer for the Layout interface
@@ -100,9 +100,9 @@ quit_cmd ()
 	/*
 	 * Unref the layout interface
 	 */
-	GNOME_Unknown_unref ((GNOME_Unknown) layout, &ev);
+	Bonobo_Unknown_unref ((Bonobo_Unknown) layout, &ev);
 
-	GNOME_Unknown_unref ((GNOME_Unknown) chart, &ev);
+	Bonobo_Unknown_unref ((Bonobo_Unknown) chart, &ev);
 	
 	/*
 	 * Destroy our initial handle
@@ -216,8 +216,8 @@ static GnomeUIInfo sample_menu [] = {
 static void
 create_gui (GtkWidget *content)
 {
-	GnomeUIHandlerMenuItem *list;
-	GnomeUIHandler *uih;
+	BonoboUIHandlerMenuItem *list;
+	BonoboUIHandler *uih;
 	GtkWidget *toplevel;
 	
 	toplevel = gnome_app_new ("Sample", "Sample");
@@ -229,33 +229,33 @@ create_gui (GtkWidget *content)
 	/*
 	 * Menus
 	 */
-	uih = gnome_ui_handler_new ();
-	gnome_ui_handler_set_app (uih, GNOME_APP (toplevel));
-	gnome_ui_handler_create_menubar (uih);
-	list = gnome_ui_handler_menu_parse_uiinfo_list_with_data (sample_menu, NULL);
-	gnome_ui_handler_menu_add_list (uih, "/", list);
-	gnome_ui_handler_menu_free_list (list);
+	uih = bonobo_ui_handler_new ();
+	bonobo_ui_handler_set_app (uih, GNOME_APP (toplevel));
+	bonobo_ui_handler_create_menubar (uih);
+	list = bonobo_ui_handler_menu_parse_uiinfo_list_with_data (sample_menu, NULL);
+	bonobo_ui_handler_menu_add_list (uih, "/", list);
+	bonobo_ui_handler_menu_free_list (list);
 }
 
 static GtkWidget *
 create_test ()
 {
 	GtkWidget *view_widget;
-	GnomeClientSite *client_site;
-	GnomeViewFrame *view_frame;
-	GnomeContainer *container;
+	BonoboClientSite *client_site;
+	BonoboViewFrame *view_frame;
+	BonoboContainer *container;
 	int i;
 	
-	container = gnome_container_new ();
-	client_site = gnome_client_site_new (container);
+	container = bonobo_container_new ();
+	client_site = bonobo_client_site_new (container);
 	
-	object = gnome_object_activate ("GOADID:embeddable:Graph:Layout", 0);
+	object = bonobo_object_activate ("GOADID:embeddable:Graph:Layout", 0);
 	if (!object){
 		printf ("Can not activate object\n");
 		exit (1);
 	}
 	
-	layout = gnome_object_query_interface (GNOME_OBJECT (object), "IDL:GNOME/Graph/Layout:1.0");
+	layout = bonobo_object_query_interface (BONOBO_OBJECT (object), "IDL:GNOME/Graph/Layout:1.0");
 	if (layout == CORBA_OBJECT_NIL)
 		g_error ("interface Layout not supported");
 
@@ -266,7 +266,7 @@ create_test ()
 	for (i = 0; i < VECS; i++){
 		GNOME_Graph_Layout_add_series (
 			layout,
-			gnome_object_corba_objref (GNOME_OBJECT (vecs [i].vector)),
+			bonobo_object_corba_objref (BONOBO_OBJECT (vecs [i].vector)),
 			&ev);
 		if (ev._major != CORBA_NO_EXCEPTION){
 			g_error ("Error while setting the vectors");
@@ -276,10 +276,10 @@ create_test ()
 	/*
 	 * User interface
 	 */
-	gnome_client_site_bind_embeddable (client_site, object);
+	bonobo_client_site_bind_embeddable (client_site, object);
 
-	view_frame = gnome_client_site_new_view (client_site);
-	view_widget = gnome_view_frame_get_wrapper (view_frame);
+	view_frame = bonobo_client_site_new_view (client_site);
+	view_widget = bonobo_view_frame_get_wrapper (view_frame);
 
 	return view_widget;
 }

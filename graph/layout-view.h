@@ -18,7 +18,7 @@ BEGIN_GNOME_DECLS
 typedef struct _LayoutView LayoutView;
 
 struct _LayoutView {
-	GnomeView   parent;
+	BonoboView   parent;
 	
 	GnomeCanvas *canvas;
 	Layout      *layout;
@@ -26,11 +26,11 @@ struct _LayoutView {
 };
 
 typedef struct {
-	GnomeViewClass parent_class;
+	BonoboViewClass parent_class;
 } LayoutViewClass;
 
 GtkType     layout_view_get_type      (void);
-GnomeView  *layout_view_new           (Layout *layout);
+BonoboView  *layout_view_new           (Layout *layout);
 
 END_GNOME_DECLS
 

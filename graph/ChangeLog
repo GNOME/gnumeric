@@ -1,3 +1,11 @@
+2000-01-30  Miguel de Icaza  <miguel@gnu.org>
+
+	* graph-view-scatter.c (graph_view_scatter_plot): Pass the proper
+	GC to the init routine.
+
+	* graph-view-util.c (setup_view_ctx): New function, replaces the
+	old SETUP_VIEW_CTX macro.
+
 2000-01-06  Miguel de Icaza  <miguel@gnu.org>
 
 	* vector.c (init_vector_corba_class): Use new convention for EPV

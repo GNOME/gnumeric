@@ -8,18 +8,18 @@
  * (C) 1999 International GNOME Support
  */
 #include <config.h>
-#include <bonobo/gnome-bonobo.h>
+#include <bonobo.h>
 #include "Graph.h"
 #include "layout.h"
 #include "layout-view.h"
 
-static GnomeEmbeddableClass *layout_parent_class;
+static BonoboEmbeddableClass *layout_parent_class;
 
 /* The entry point vectors for the server we provide */
 POA_GNOME_Graph_Layout__epv  layout_epv;
 POA_GNOME_Graph_Layout__vepv layout_vepv;
 
-#define layout_from_servant(x) LAYOUT (gnome_object_from_servant (x))
+#define layout_from_servant(x) LAYOUT (bonobo_object_from_servant (x))
 
 static void
 layout_destroy (GtkObject *object)
@@ -27,7 +27,7 @@ layout_destroy (GtkObject *object)
 	Layout *layout = LAYOUT (object);
 
 	if (layout->graph)
-		gnome_object_unref (GNOME_OBJECT (layout->graph));
+		bonobo_object_unref (BONOBO_OBJECT (layout->graph));
 	
 	GTK_OBJECT_CLASS (layout_parent_class)->destroy (object);
 }
@@ -36,11 +36,11 @@ static GNOME_Graph_Chart
 impl_get_chart (PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	Layout *layout = layout_from_servant (servant);
-	GnomeObject *graph = GNOME_OBJECT (layout->graph);
+	BonoboObject *graph = BONOBO_OBJECT (layout->graph);
 	GNOME_Graph_Chart graph_corba;
 
-	gnome_object_ref (graph);
-	graph_corba = gnome_object_corba_objref (graph);
+	bonobo_object_ref (graph);
+	graph_corba = bonobo_object_corba_objref (graph);
 	
 	return CORBA_Object_duplicate (graph_corba, ev);
 }
@@ -95,15 +95,15 @@ init_layout_corba_class (void)
 	layout_epv.reset_series = &impl_reset_series;
 	layout_epv.add_series   = &impl_add_series;
 
-	layout_vepv.GNOME_Unknown_epv = gnome_object_get_epv ();
-	layout_vepv.GNOME_Embeddable_epv = gnome_embeddable_get_epv ();
+	layout_vepv.Bonobo_Unknown_epv = bonobo_object_get_epv ();
+	layout_vepv.Bonobo_Embeddable_epv = bonobo_embeddable_get_epv ();
 	layout_vepv.GNOME_Graph_Layout_epv = &layout_epv;
 }
 
 static void
 layout_class_init (GtkObjectClass *object_class)
 {
-	layout_parent_class = gtk_type_class (gnome_embeddable_get_type ());
+	layout_parent_class = gtk_type_class (bonobo_embeddable_get_type ());
 	init_layout_corba_class ();
 
 	object_class->destroy = layout_destroy;
@@ -114,19 +114,19 @@ layout_init (GtkObject *object)
 {
 }
 
-static GnomeView *
-layout_view_factory (GnomeEmbeddable *embeddable, const GNOME_ViewFrame view_frame, void *data)
+static BonoboView *
+layout_view_factory (BonoboEmbeddable *embeddable, const Bonobo_ViewFrame view_frame, void *data)
 {
-	return GNOME_VIEW (layout_view_new (LAYOUT (embeddable)));
+	return BONOBO_VIEW (layout_view_new (LAYOUT (embeddable)));
 }
 
 static GNOME_Graph_Layout
-layout_corba_object_create (GnomeObject *layout)
+layout_corba_object_create (BonoboObject *layout)
 {
 	POA_GNOME_Graph_Layout *servant;
 	CORBA_Environment ev;
 	
-	servant = (POA_GNOME_Graph_Layout *) g_new0 (GnomeObjectServant, 1);
+	servant = (POA_GNOME_Graph_Layout *) g_new0 (BonoboObjectServant, 1);
 	servant->vepv = &layout_vepv;
 
 	CORBA_exception_init (&ev);
@@ -139,7 +139,7 @@ layout_corba_object_create (GnomeObject *layout)
 	}
 	CORBA_exception_free (&ev);
 
-	return gnome_object_activate_servant (layout, servant);
+	return bonobo_object_activate_servant (layout, servant);
 }
 
 Layout *
@@ -150,13 +150,13 @@ layout_new (void)
 	
 	layout = gtk_type_new (LAYOUT_TYPE);
 
-	corba_layout = layout_corba_object_create (GNOME_OBJECT (layout));
+	corba_layout = layout_corba_object_create (BONOBO_OBJECT (layout));
 	if (corba_layout == CORBA_OBJECT_NIL){
 		gtk_object_destroy (GTK_OBJECT (layout));
 		return NULL;
 	}
-	gnome_embeddable_construct (GNOME_EMBEDDABLE (layout),
-				    (GNOME_Embeddable) corba_layout,
+	bonobo_embeddable_construct (BONOBO_EMBEDDABLE (layout),
+				    (Bonobo_Embeddable) corba_layout,
 				    layout_view_factory, NULL);
 	layout->graph = graph_new (layout);
 	
@@ -180,7 +180,7 @@ layout_get_type (void)
 			(GtkClassInitFunc) NULL
 		};
 
-		type = gtk_type_unique (gnome_embeddable_get_type (), &info);
+		type = gtk_type_unique (bonobo_embeddable_get_type (), &info);
 	}
 
 	return type;
