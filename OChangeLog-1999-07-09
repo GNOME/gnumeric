@@ -6,7 +6,8 @@
 
 	* src/workbook.c: Made 'Goal seek' menu entry visible.
 
-	* src/fn-math.c: Added SIGN() and SQRTPI().
+	* src/fn-math.c: Added MULTINOMIAL(), PRODUCT(), SIGN(), SUMSQ(),
+ 	and SQRTPI().
 	
 1999-04-19  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
