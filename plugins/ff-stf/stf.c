@@ -270,7 +270,7 @@ stf_read_workbook (CommandContext *context, Workbook *book,
 		Range range = sheet_get_extent (src.sheet);
 
 		sheet_style_optimize (src.sheet, range);
-		sheet_range_calc_spans (src.sheet, range, TRUE);
+		sheet_range_calc_spans (src.sheet, range, SPANCALC_RENDER);
 	} else
 		workbook_detach_sheet (book, src.sheet, TRUE);
 

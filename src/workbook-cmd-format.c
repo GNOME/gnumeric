@@ -22,6 +22,7 @@ workbook_cmd_format_column_auto_fit (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
 	GList *l;
+	gboolean changed = FALSE;
 
 	/*
 	 * Apply autofit to any columns where the selection is
@@ -37,12 +38,14 @@ workbook_cmd_format_column_auto_fit (GtkWidget *widget, Workbook *wb)
 			if (ideal_size == 0)
 				continue;
 
+			changed = TRUE;
 			sheet_col_set_size_pixels (sheet, col, ideal_size, TRUE);
 			sheet_recompute_spans_for_col (sheet, col);
 		}
 	}
 
-	sheet_set_dirty (sheet, TRUE);
+	if (changed)
+		sheet_set_dirty (sheet, TRUE);
 	sheet_update (sheet);
 }
 
@@ -113,6 +116,7 @@ workbook_cmd_format_row_auto_fit (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
 	GList *l = sheet->selections;
+	gboolean changed = FALSE;
 
 	g_return_if_fail (l != NULL);
 
@@ -128,10 +132,12 @@ workbook_cmd_format_row_auto_fit (GtkWidget *widget, Workbook *wb)
 			if (ideal_size == 0)
 				continue;
 
+			changed = TRUE;
 			sheet_row_set_size_pixels (sheet, row, ideal_size, FALSE);
 		}
 	}
-	sheet_set_dirty (sheet, TRUE);
+	if (changed)
+		sheet_set_dirty (sheet, TRUE);
 	sheet_update (sheet);
 }
 

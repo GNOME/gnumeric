@@ -195,7 +195,7 @@ stf_read_workbook (CommandContext *context, Workbook *book, char const *filename
 		range = sheet_get_extent (sheet);
 		sheet_style_optimize (sheet, range);
 		workbook_recalc (book);
-		sheet_range_calc_spans (sheet, range, TRUE);
+		sheet_range_calc_spans (sheet, range, SPANCALC_RENDER);
 		workbook_set_saveinfo (book, filename, FILE_FL_MANUAL,
 				       gnumeric_xml_write_workbook);
 	} else {

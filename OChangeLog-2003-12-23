@@ -1,5 +1,20 @@
 2000-05-17  Jody Goldberg <jgoldberg@home.com>
 
+	* src/summary.c (summary_item_as_text) : Be careful to strdup all strings.
+	(g_str_case_equal) : Delete duplicate.
+	(g_str_case_hash) : Delete duplicate.
+	(summary_info_new) : Use gnumeric_strcase_hash & gnumeric_strcase_equal.
+
+	* src/workbook-cmd-format.c (workbook_cmd_format_{column,row}_auto_fit) :
+	  Only mark the sheet as dirty if something was changed.
+
+	* src/stf.c (stf_read_workbook) :  Bring up to date.
+
+	* src/xml-io.c (xml_write_attributes) : Do not use freed memory.
+
+	* src/item-bar.c (item_bar_event) : Autosizing an empty row/col
+	  returns 0.
+
 	* configure.in : Update required version of bonobo to 0.13.
 	* README : Ditto.
 
@@ -25,6 +40,7 @@
 	  sheet_style_get_extent until it is more intelligent.
 	(sheet_{insert,delete}_{cols,rows}) : Flag that the range content has
 	  changed so that the status areas will be updated.
+	(sheet_{col,row}_size_fit_pixels) : Return 0 if there are no cells.
 
 	* configure.in : Produce a Using OAF message in the non-bonobo case
 	  too.  Limit xml to version 1.x for now.

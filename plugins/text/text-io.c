@@ -328,16 +328,8 @@ readTextWorkbook (CommandContext *context, Workbook *book,
 
 			idx = text_parse_file (file, flen, idx, sheet);
 
-			if (idx >= 0){
-				Range range;
-				
-				sheet->modified = FALSE;
+			if (idx >= 0)
 				workbook_attach_sheet (book, sheet);
-
-				workbook_recalc (book);
-				range = sheet_get_extent (sheet);
-				sheet_range_calc_spans (sheet, range, TRUE);
-			}
 		}
 	}
 

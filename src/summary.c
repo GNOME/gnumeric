@@ -12,6 +12,7 @@
 #include <ctype.h>
 #include <glib.h>
 #include "summary.h"
+#include "gutils.h"
 
 /*
  *  NOTE:
@@ -109,40 +110,33 @@ summary_item_as_text (const SummaryItem *sit)
 	time_t  time;
 
 	g_return_val_if_fail (sit != NULL, NULL);
-	
+
 	switch (sit->type) {
 	case SUMMARY_STRING:
 		if (sit->v.txt)
 			return g_strdup (sit->v.txt);
-		else
-			return g_strdup ("Internal Error");
-		break;
+		return g_strdup ("Internal Error");
 
 	case SUMMARY_BOOLEAN:
-		if      (sit->v.boolean == 0)
-			return "False";
-			
-		else if (sit->v.boolean == 1)
-			return "True";
-			
-		else
-			return "Unrecognized boolean value";
-		break;
+		if (sit->v.boolean == 0)
+			return g_strdup ("False");
+
+		if (sit->v.boolean == 1)
+			return g_strdup ("True");
+
+		return "Unrecognized boolean value";
 
 	case SUMMARY_SHORT:
 		return g_strdup_printf ("%d", sit->v.short_i);
-		break;
 
 	case SUMMARY_INT:
 		return g_strdup_printf ("%d", sit->v.i);
-		break;
 
 	case SUMMARY_TIME:
 		time = (time_t)sit->v.time.tv_sec;
 		ch_time = ctime(&time);
 		ch_time[strlen(ch_time)-1] = '\0';
 		return g_strdup (ch_time);
-		break;
 
 	default:
 		return g_strdup ("Unhandled type");
@@ -181,44 +175,18 @@ summary_item_dump (SummaryItem *sit)
 	g_return_if_fail (sit->name);
 
 	printf (" '%s' = ", sit->name);
-	
+
 	txt = summary_item_as_text (sit);
 	printf (" %s\n", txt);
 	g_free (txt);
 }
 
-static gint
-g_str_case_equal (gconstpointer v, gconstpointer v2)
-{
-	  return g_strcasecmp ((const gchar*) v, (const gchar*)v2) == 0;
-}
-
-/* a char* hash function from ASU */
-static guint
-g_str_case_hash (gconstpointer v)
-{
-	const char *s = (char*)v;
-	const char *p;
-	guint h=0, g;
-	
-	for(p = s; *p != '\0'; p += 1) {
-		h = ( h << 4 ) + tolower (*p);
-		if ( ( g = h & 0xf0000000 ) ) {
-			h = h ^ (g >> 24);
-			h = h ^ g;
-		}
-	}
-	
-	return h /* % M */;
-}
-
-
 SummaryInfo *
 summary_info_new (void)
 {
 	SummaryInfo *sin = g_new (SummaryInfo, 1);
-	sin->names = g_hash_table_new (g_str_case_hash,
-				       g_str_case_equal);
+	sin->names = g_hash_table_new (&gnumeric_strcase_hash,
+				       &gnumeric_strcase_equal);
 	return sin;
 }
 
@@ -246,7 +214,7 @@ summary_info_add (SummaryInfo *sin, SummaryItem *sit)
 		g_hash_table_remove (sin->names, sit->name);
 		summary_item_free (tsit);
 	}
-	
+
 	g_hash_table_insert (sin->names, sit->name, sit);
 }
 

@@ -262,7 +262,6 @@ autofit_column (data_analysis_output_t *dao, int col)
 	        actual_col = dao->start_col + col;
 
 	ideal_size = sheet_col_size_fit_pixels (dao->sheet, actual_col);
-
 	if (ideal_size == 0)
 	        return;
 

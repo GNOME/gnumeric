@@ -933,28 +933,19 @@ cb_max_cell_width (Sheet *sheet, int col, int row, Cell *cell,
  * @sheet: The sheet
  * @col: the column that we want to query
  *
- * This routine computes the ideal size for the column to make all data fit
- * properly.  Return value is in size_pixels
+ * This routine computes the ideal size for the column to make the contents all
+ * cells in the column visible.
+ *
+ * Return : Maximum size in pixels INCLUDING margins and grid lines
+ *          or 0 if there are no cells.
  */
 int
 sheet_col_size_fit_pixels (Sheet *sheet, int col)
 {
-	ColRowInfo *ci;
 	int max = -1;
-	
-	g_return_val_if_fail (sheet != NULL, 0);
-	g_return_val_if_fail (IS_SHEET (sheet), 0);
-
-	ci = sheet_col_get_info (sheet, col);
+	ColRowInfo *ci = sheet_col_get (sheet, col);
 	if (ci == NULL)
 		return 0;
-
-	/*
-	 * If ci == sheet->cols.default_style then it means
-	 * no cells have been allocated here
-	 */
-	if (ci == &sheet->cols.default_style)
-		return ci->size_pixels;
 
 	sheet_cell_foreach_range (sheet, TRUE,
 				  col, 0,
@@ -962,12 +953,11 @@ sheet_col_size_fit_pixels (Sheet *sheet, int col)
 				  (ForeachCellCB)&cb_max_cell_width, &max);
 
 	/* Reset to the default width if the column was empty */
-	if (max < 0)
-		max = sheet->cols.default_style.size_pixels;
-	else
-		/* Cell width does not include margins or far grid line*/
-		max += ci->margin_a + ci->margin_b + 1;
+	if (max <= 0)
+		return 0;
 
+	/* Cell width does not include margins or far grid line*/
+	max += ci->margin_a + ci->margin_b + 1;
 	return max;
 }
 
@@ -993,27 +983,16 @@ cb_max_cell_height (Sheet *sheet, int col, int row, Cell *cell,
  * This routine computes the ideal size for the row to make all data fit
  * properly.
  *
- * Return : Size in pixels INCLUDING the margins and grid lines.
+ * Return : Maximum size in pixels INCLUDING margins and grid lines
+ *          or 0 if there are no cells.
  */
 int
 sheet_row_size_fit_pixels (Sheet *sheet, int row)
 {
-	ColRowInfo *ri;
 	int max = -1;
-	
-	g_return_val_if_fail (sheet != NULL, 0);
-	g_return_val_if_fail (IS_SHEET (sheet), 0);
-
-	ri = sheet_row_get_info (sheet, row);
+	ColRowInfo *ri = sheet_row_get (sheet, row);
 	if (ri == NULL)
 		return 0;
-
-	/*
-	 * If ri == sheet->rows.default_style then it means
-	 * no cells have been allocated here
-	 */
-	if (ri == &sheet->rows.default_style)
-		return ri->size_pixels;
 
 	sheet_cell_foreach_range (sheet, TRUE,
 				  0, row,
@@ -1021,12 +1000,11 @@ sheet_row_size_fit_pixels (Sheet *sheet, int row)
 				  (ForeachCellCB)&cb_max_cell_height, &max);
 
 	/* Reset to the default width if the column was empty */
-	if (max < 0)
-		max = sheet->rows.default_style.size_pixels;
-	else
-		/* Cell height does not include margins or far grid line */
-		max += ri->margin_a + ri->margin_b + 1;
+	if (max <= 0)
+		return 0;
 
+	/* Cell height does not include margins or far grid line */
+	max += ri->margin_a + ri->margin_b + 1;
 	return max;
 }
 

@@ -1168,18 +1168,14 @@ xml_write_attributes (parse_xml_context_t *ctxt, guint n_args, GtkArg *args)
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Attributes", NULL);
 
 	for (i=0; i < n_args; args++, i++) {
-		xmlNodePtr tmp;
-		xmlChar *tstr;
+		xmlNodePtr tmp = xmlNewDocNode (ctxt->doc, ctxt->ns, "Attribute", NULL);
+		xmlChar *tstr = xmlEncodeEntitiesReentrant (ctxt->doc, args->name);
 
-		tmp = xmlNewDocNode (ctxt->doc, ctxt->ns, "Attribute", NULL);
-
-		tstr = xmlEncodeEntitiesReentrant (ctxt->doc, args->name);
 		xmlNewChild (tmp, ctxt->ns, "name", tstr);
-		if (tstr) {
+		if (tstr)
 			xmlFree (tstr);
-		}
 
-		xmlNewChild (tmp, ctxt->ns, "type", tstr);
+		xmlNewChild (tmp, ctxt->ns, "type", NULL);
 		xml_set_value_int (tmp, "type", args->type);
 
 		xml_write_attribute (ctxt, tmp, args);

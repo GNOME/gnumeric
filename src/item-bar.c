@@ -664,7 +664,8 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		}
 		break;
 
-	case GDK_2BUTTON_PRESS: {
+	case GDK_2BUTTON_PRESS:
+	{
 		Sheet *sheet;
 		int new_size;
 		
@@ -684,9 +685,11 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		else
 			new_size = sheet_col_size_fit_pixels (sheet, item_bar->resize_pos);
 
-		item_bar_end_resize (item_bar, new_size);
-		}
+		/* autosizing an empty col/row returns 0 */
+		if (new_size > 0)
+			item_bar_end_resize (item_bar, new_size);
 		break;
+	}
 		
 	case GDK_BUTTON_RELEASE:
 	{
