@@ -65,7 +65,7 @@ typedef struct {
 	WorkbookView  *wb_view;
 	Workbook      *wb;
 	GHashTable    *exprs, *styles;
-	GPtrArray     *colours;
+	GPtrArray     *colors;
 	GPtrArray     *attrs;
 	GPtrArray     *font_names;
 
@@ -317,7 +317,7 @@ applix_read_colormap (ApplixReadState *state)
 			b = 255 - MIN(255, y+k); /* blue */
 
 			/* Store the result */
-			g_ptr_array_add	(state->colours,
+			g_ptr_array_add	(state->colors,
 					 style_color_new_i8 (r, g, b));
 #if 0
 			printf ("'%s' %ld %ld %ld %ld\n", buffer, numbers[1],
@@ -344,19 +344,19 @@ applix_read_typefaces (ApplixReadState *state)
 }
 
 static StyleColor *
-applix_get_colour (ApplixReadState *state, char **buf)
+applix_get_color (ApplixReadState *state, char **buf)
 {
 	/* Skip 'FG' or 'BG' */
 	char *start = *buf+2;
 	int num = strtol (start, buf, 10);
 
 	if (start == *buf) {
-		(void) applix_parse_error (state, "Invalid colour");
+		(void) applix_parse_error (state, "Invalid color");
 		return NULL;
 	}
 
-	if (num >= 0 && num < (int)state->colours->len)
-		return style_color_ref (g_ptr_array_index(state->colours, num));
+	if (num >= 0 && num < (int)state->colors->len)
+		return style_color_ref (g_ptr_array_index(state->colors, num));
 
 	return style_color_black ();
 }
@@ -616,7 +616,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 
 			case 'F' :
 				if (sep[1] == 'G' ) {
-					StyleColor *color = applix_get_colour (state, &sep);
+					StyleColor *color = applix_get_color (state, &sep);
 					if (color == NULL)
 						return NULL;
 					mstyle_set_color (style, MSTYLE_COLOR_FORE, color);
@@ -704,14 +704,14 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 				sep = end;
 
 				if (sep[0] == 'F' && sep[1] == 'G' ) {
-					StyleColor *color = applix_get_colour (state, &sep);
+					StyleColor *color = applix_get_color (state, &sep);
 					if (color == NULL)
 						return NULL;
 					mstyle_set_color (style, MSTYLE_COLOR_PATTERN, color);
 				}
 
 				if (sep[0] == 'B' && sep[1] == 'G') {
-					StyleColor *color = applix_get_colour (state, &sep);
+					StyleColor *color = applix_get_color (state, &sep);
 					if (color == NULL)
 						return NULL;
 					mstyle_set_color (style, MSTYLE_COLOR_BACK, color);
@@ -743,7 +743,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 				sep = end;
 
 				if (sep[0] == 'F' && sep[1] == 'G' ) {
-					color = applix_get_colour (state, &sep);
+					color = applix_get_color (state, &sep);
 					if (color == NULL)
 						return NULL;
 				} else
@@ -1522,7 +1522,7 @@ applix_read (IOContext *io_context, WorkbookView *wb_view, GsfInput *src)
 	state.wb          = wb_view_workbook (wb_view);
 	state.exprs       = g_hash_table_new (&g_str_hash, &g_str_equal);
 	state.styles      = g_hash_table_new (&g_str_hash, &g_str_equal);
-	state.colours     = g_ptr_array_new ();
+	state.colors      = g_ptr_array_new ();
 	state.attrs       = g_ptr_array_new ();
 	state.font_names  = g_ptr_array_new ();
 	state.buffer      = NULL;
@@ -1565,9 +1565,9 @@ applix_read (IOContext *io_context, WorkbookView *wb_view, GsfInput *src)
 	g_hash_table_foreach_remove (state.styles, &cb_remove_style, NULL);
 	g_hash_table_destroy (state.styles);
 
-	for (i = state.colours->len; --i >= 0 ; )
-		style_color_unref (g_ptr_array_index(state.colours, i));
-	g_ptr_array_free (state.colours, TRUE);
+	for (i = state.colors->len; --i >= 0 ; )
+		style_color_unref (g_ptr_array_index (state.colors, i));
+	g_ptr_array_free (state.colors, TRUE);
 
 	for (i = state.attrs->len; --i >= 0 ; )
 		mstyle_unref (g_ptr_array_index(state.attrs, i));
