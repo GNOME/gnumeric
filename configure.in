@@ -253,7 +253,7 @@ AC_MSG_CHECKING(for GTK >= 1.2.2)
 if gtk-config --version > /dev/null 2>&1; then 
     dnl We need the "%d" in order not to get e-notation on hpux.
     vers=`gtk-config --version | awk 'BEGIN { FS = "."; } { printf "%d", ($1 * 1000 + $2) * 1000 + $3;}'`
-    if test "$vers" -ge 10202; then
+    if test "$vers" -ge 1002002; then
         AC_MSG_RESULT(found)
     else
         AC_MSG_ERROR(You need at least GTK+ 1.2.2 for this version of Gnumeric)

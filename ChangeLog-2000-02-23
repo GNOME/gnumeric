@@ -1,3 +1,7 @@
+2000-01-14  Morten Welinder  <terra@diku.dk>
+
+	* configure.in (GTK+): Really do use base 1000.
+
 2000-01-14  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/mstyle.c: Removed extern from he too.
