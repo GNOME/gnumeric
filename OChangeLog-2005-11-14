@@ -1,3 +1,9 @@
+2004-05-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=142836
+	* src/stf.c (stf_write_csv): use current sheet rather than first 
+	  sheet. 
+	
 2004-05-17  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-autofill.c (autofill_cell): Handle default case, just

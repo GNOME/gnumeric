@@ -3,6 +3,8 @@ Gnumeric 1.3.1
 Andreas:
         http://bugzilla.gnome.org/show_bug.cgi?id=142219
         * Handle borders in latex export correctly
+	http://bugzilla.gnome.org/show_bug.cgi?id=142836
+	* Save current sheet as csv (rather than first sheet)
 
 Christian Neumair:
 	* Put delete actions from edit main menu into their own submenu.
