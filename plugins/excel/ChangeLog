@@ -1,3 +1,9 @@
+1999-09-05  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-write.c (write_value) : Always use mode 2 for ints.
+	  Add a comment to the write float code suggesting an extension to use
+	  mode 3 for doubles with only 2 digits after the decimal.
+
 1999-08-26  Michael Meeks  <michael@imaginator.com>
 
 	* ms-escher.c (biff_to_flat_data): Added back the full conditions

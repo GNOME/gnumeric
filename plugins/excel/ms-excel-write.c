@@ -813,15 +813,11 @@ write_value (BiffPut *bp, Value *v, eBiff_version ver,
 	case VALUE_INTEGER:
 	{
 		int_t vint = v->v.v_int;
-		guint head = 3;
+		guint head = 2;
 		guint8 *data;
 
-		if (vint%100==0)
-			vint/=100;
-		else
-			head = 2;
 #if EXCEL_DEBUG > 0
-		printf ("writing %d %d %d\n", vint, v->v.v_int, head);
+		printf ("writing %d %d %d\n", vint, v->v.v_int);
 #endif
 		if (((vint<<2)>>2) != vint) { /* Chain to floating point then. */
 			Value *vf = value_new_float (v->v.v_int);
@@ -832,7 +828,9 @@ write_value (BiffPut *bp, Value *v, eBiff_version ver,
 			EX_SETROW(data, row);
 			EX_SETCOL(data, col);
 			EX_SETXF (data, xf);
-			MS_OLE_SET_GUINT32 (data + 6, (vint<<2) + head);
+			/* Integers can always be represented as integers.
+			 * Use RK form 2 */
+			MS_OLE_SET_GUINT32 (data + 6, (vint<<2) + 2);
 			ms_biff_put_commit (bp);
 		}
 		break;
@@ -843,9 +841,13 @@ write_value (BiffPut *bp, Value *v, eBiff_version ver,
 		gboolean is_int = ((val - (int)val) == 0.0) &&
 			(((((int)val)<<2)>>2) == ((int)val));
 
-/*		printf ("%g is (%g %g) is int ? %d\n", val, 1.0*(int)val,
-		1.0*(val - (int)val), is_int); */
+		printf ("writing %g is (%g %g) is int ? %d\n", val, 1.0*(int)val,
+			1.0*(val - (int)val), is_int);
+#if EXCEL_DEBUG > 0
+#endif
 
+		/* FIXME : Add test for double with 2 digits of fraction
+		 * and represent it as a mode 3 RK (val*100) construct */
 		if (is_int) { /* not nice but functional */
 			Value *vi = value_new_int (val);
 			write_value (bp, vi, ver, col, row, xf);
