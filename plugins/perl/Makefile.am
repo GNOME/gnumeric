@@ -1,12 +1,12 @@
 # Do not build by default until we are ready.
-if WITH_PERL
+#if WITH_PERL
 PERL_TARGET = gnum_perl.so
-else
-PERL_TARGET =
-endif
+#else
+#PERL_TARGET =
+#endif
 
 gnperldir = $(gnumeric_datadir)/perl
-PERL_CFLAGS = $(PERL_CCCDLFLAGS)		\
+PERL_CFLAGS = -I../.. $(PERL_CCCDLFLAGS)		\
     -DGNOMELOCALEDIR=\""$(datadir)/locale"\"	\
     -I$(top_srcdir)	-I$(top_srcdir)/src	\
     $(PERL_CCOPTS)				\

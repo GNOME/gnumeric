@@ -37,6 +37,10 @@ value2perl(Value *v)
     SV *sv;
 
     switch (v->type) {
+    case VALUE_BOOLEAN:
+	sv = newSViv(v->v_bool.val);
+	break;
+	
     case VALUE_INTEGER:
 	sv = newSViv(v->v_int.val);
 	break;
@@ -81,44 +85,30 @@ perl2value(SV *sv)
     return v;
 }
 
-typedef struct {
-    FunctionDefinition *fndef;
-    SV * codeSV;
-} FuncData;
-
-static GList *funclist = NULL;
-
-static int
-fndef_compare(FuncData *fdata, FunctionDefinition *fndef)
-{
-    return (fdata->fndef != fndef);
-}
-
 static Value *
 marshal_func (FunctionEvalInfo *ei, Value *argv[])
 {
     dSP;
     FunctionDefinition const *fndef = ei->func_def;
     GList *l;
-    int count = strlen(fndef->args), r, i;
+    I32 r;
+    int i, min, max;
     SV * result;
     Value *v;
-
-    l = g_list_find_custom(funclist, (gpointer)fndef, (GCompareFunc) fndef_compare);
-    if (!l)
-	return value_new_error (ei->pos, "Unable to lookup Perl code object.");
 
     /* Read the perlcall man page for more information. */
     ENTER;
     SAVETMPS;
 
     PUSHMARK(sp);
-    for (i = 0; i < count; i++) {
+    function_def_count_args (fndef, &min, &max);
+
+    for (i = 0; i < max && argv[i] != NULL; i++) {
 	XPUSHs(sv_2mortal(value2perl(argv[i])));
     }
     PUTBACK;
 
-    r = perl_call_sv(((FuncData *)(l->data))->codeSV, G_SCALAR);
+    r = perl_call_sv(function_def_get_user_data (fndef), G_SCALAR);
     SPAGAIN;
     if (r != 1)
 	croak("uh oh, beter get maco");
@@ -145,7 +135,6 @@ register_function(name, args, named_args, help1, subref)
   PREINIT:
     FunctionCategory *fncat;
     FunctionDefinition *fndef;
-    FuncData *fdata;
     char **help = NULL;
   CODE:
     fncat = function_get_category ("Perl plugin");
@@ -155,11 +144,5 @@ register_function(name, args, named_args, help1, subref)
             *help = g_strdup (help1);
     }
     fndef = function_add_args (fncat, g_strdup(name), g_strdup(args),
-	g_strdup (named_args), help, marshal_func);
-
-    fdata = g_new (FuncData, 1);
-    fdata->fndef = fndef;
-    fdata->codeSV = newSVsv(subref);
-    funclist = g_list_append(funclist, fdata);
-
-
+			       g_strdup (named_args), help, marshal_func);
+    function_def_set_user_data (fndef, newSVsv(subref));

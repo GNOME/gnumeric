@@ -1,3 +1,14 @@
+2000-06-12  Jody Goldberg <jgoldberg@home.com>
+
+	* Makefile.am (PERL_CFLAGS) : files in ../.. first.  This allows
+	  us to include the config.h from gnumeric.
+
+	Make things comp[ile again.
+	* ext/Gnumeric.xs (marshal_func) : Use function_def_get_user_data
+	  and function_def_count_args.
+	(register_function) : Use function_def_set_user_data.
+	(value2perl) : Add boolean.
+
 2000-05-20  Jody Goldberg <jgoldberg@home.com>
 
         * Release 0.54
