@@ -197,6 +197,7 @@ paste_cell (Sheet *dest_sheet,
 	    GnmExprRewriteInfo const *rwinfo,
 	    CellCopy *c_copy, int paste_flags)
 {
+#warning we need to dup the author too
 	if ((paste_flags & PASTE_COMMENTS) && c_copy->comment) {
 		CellComment   *cell_comment;
 		CellPos       pos;

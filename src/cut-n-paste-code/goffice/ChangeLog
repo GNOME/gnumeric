@@ -1,3 +1,13 @@
+2003-09-07  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-style.c (gog_style_line_load) : support auto_color flags.
+	(gog_style_line_save) : ditto.
+	(gog_style_fill_load) : handle is_auto.
+	(gog_style_fill_save) : ditto.
+
+	* graph/gog-legend.c (gog_legend_view_render) : tune the padding.
+	(cb_render_elements) : ditto.
+
 2003-09-06  Jon K Hellan  <hellan@acm.org>
 
 	* graph/gog-theme.c (gog_theme_init_style): Merge styles instead

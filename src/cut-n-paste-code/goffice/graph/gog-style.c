@@ -949,10 +949,10 @@ static struct {
 	GogFillStyle fstyle;
 	const gchar  *name;
 } fill_names[] = {
-	GOG_FILL_STYLE_NONE,     "none",
-	GOG_FILL_STYLE_PATTERN,  "pattern",
-	GOG_FILL_STYLE_GRADIENT, "gradient",
-	GOG_FILL_STYLE_IMAGE,    "image"
+	{ GOG_FILL_STYLE_NONE,     "none" },
+	{ GOG_FILL_STYLE_PATTERN,  "pattern" },
+	{ GOG_FILL_STYLE_GRADIENT, "gradient" },
+	{ GOG_FILL_STYLE_IMAGE,    "image" }
 };
 
 static GogFillStyle
@@ -986,35 +986,45 @@ fill_style_as_str (GogFillStyle fstyle)
 }
 
 static void
-gog_style_line_load (xmlNode *node, float *width, GOColor *color)
+gog_style_line_load (xmlNode *node, GogStyleLine *line)
 {
 	char *str;
 	
 	str = xmlGetProp (node, "width");
 	if (str != NULL) {
-		*width = g_strtod (str, NULL);
+		line->width = g_strtod (str, NULL);
 		xmlFree (str);
 	}
 	str = xmlGetProp (node, "color");
 	if (str != NULL) {
-		*color = go_color_from_str (str);
+		line->color = go_color_from_str (str);
+		xmlFree (str);
+	}
+	str = xmlGetProp (node, "auto-color");
+	if (str != NULL) { 
+		line->auto_color =
+			g_ascii_tolower (*str) == 't' ||
+			g_ascii_tolower (*str) == 'y' ||
+			strtol (str, NULL, 0);
 		xmlFree (str);
 	}
 }
 
 static void
 gog_style_line_save (xmlNode *parent, xmlChar const *name, 
-		     float width, GOColor color)
+		     GogStyleLine *line)
 {
 	gchar *str;
 	xmlNode *node = xmlNewDocNode (parent->doc, NULL, name, NULL);
 
-	str = g_strdup_printf ("%f",  width);
+	str = g_strdup_printf ("%f",  line->width);
 	xmlSetProp (node, (xmlChar const *) "width", str);
 	g_free (str);
-	str = go_color_as_str (color);
+	str = go_color_as_str (line->color);
 	xmlSetProp (node, (xmlChar const *) "color", str);
 	g_free (str);
+	xmlSetProp (node, (xmlChar const *) "auto-color", 
+		    line->auto_color ? "TRUE" : "FALSE");
 	xmlAddChild (parent, node);
 }
 
@@ -1084,6 +1094,15 @@ gog_style_fill_load (xmlNode *node, GogStyle *style)
 	style->fill.type = str_as_fill_style (str);
 	xmlFree (str);
 
+	str = xmlGetProp (node, "is-auto");
+	if (str != NULL) { 
+		style->fill.is_auto =
+			g_ascii_tolower (*str) == 't' ||
+			g_ascii_tolower (*str) == 'y' ||
+			strtol (str, NULL, 0);
+		xmlFree (str);
+	}
+
 	switch (style->fill.type) {
 	case GOG_FILL_STYLE_PATTERN:
 		for (ptr = node->xmlChildrenNode ; 
@@ -1137,6 +1156,8 @@ gog_style_fill_save (xmlNode *parent, GogStyle *style)
 	xmlNode *child;
 	xmlSetProp (node, (xmlChar const *) "type", 
 		    fill_style_as_str (style->fill.type));
+	xmlSetProp (node, (xmlChar const *) "is-auto", 
+		    style->fill.is_auto ? "TRUE" : "FALSE");
 	switch (style->fill.type) {
 	case GOG_FILL_STYLE_NONE:
 		break;
@@ -1234,10 +1255,11 @@ gog_style_font_load (xmlNode *node, GogStyle *style)
 		xmlFree (str);
 	}
 	str = xmlGetProp (node, "auto-scale");
-	style->font.auto_scale = FALSE;
 	if (str != NULL) { 
-		if (strcmp (str, "true") == 0)
-				 style->font.auto_scale = TRUE;
+		style->font.auto_scale =
+			g_ascii_tolower (*str) == 't' ||
+			g_ascii_tolower (*str) == 'y' ||
+			strtol (str, NULL, 0);
 		xmlFree (str);
 	}
 }
@@ -1265,23 +1287,17 @@ gog_style_persist_dom_load (GogPersistDOM *gpd, xmlNode *node)
 {
 	GogStyle *style = GOG_STYLE (gpd);
 	xmlNode *ptr;
-	char *str;
 
 	for (ptr = node->xmlChildrenNode ; ptr != NULL ; ptr = ptr->next) {
 		if (xmlIsBlankNode (ptr) || ptr->name == NULL)
 			continue;
-		if (strcmp (ptr->name, "outline") == 0) {
-			gog_style_line_load (ptr, &style->outline.width, 
-					     &style->outline.color);
-			style->outline.auto_color = FALSE;
-		} else if (strcmp (ptr->name, "line") == 0) {
-			gog_style_line_load (ptr, &style->line.width, 
-					     &style->line.color);
-			style->line.auto_color = FALSE;
-		} else if (strcmp (ptr->name, "fill") == 0) {
+		if (strcmp (ptr->name, "outline") == 0)
+			gog_style_line_load (ptr, &style->outline);
+		else if (strcmp (ptr->name, "line") == 0)
+			gog_style_line_load (ptr, &style->line); 
+		else if (strcmp (ptr->name, "fill") == 0)
 			gog_style_fill_load (ptr, style);
-			style->fill.is_auto = FALSE;
-		} else if (strcmp (ptr->name, "marker") == 0)
+		else if (strcmp (ptr->name, "marker") == 0)
 			gog_style_marker_load (ptr, style);
 		else if (strcmp (ptr->name, "font") == 0)
 			gog_style_font_load (ptr, style);
@@ -1293,15 +1309,12 @@ static void
 gog_style_persist_dom_save (GogPersistDOM *gpd, xmlNode *parent)
 {
 	GogStyle *style = GOG_STYLE (gpd);
-	xmlNode *node;
 
 	xmlSetProp (parent, (xmlChar const *) "type", 
 		    g_type_name (GOG_STYLE_TYPE));
 
-	gog_style_line_save (parent, "outline", 
-			     style->outline.width, style->outline.color);
-	gog_style_line_save (parent, "line", 
-			     style->line.width, style->line.color);
+	gog_style_line_save (parent, "outline", &style->outline);
+	gog_style_line_save (parent, "line", &style->line);
 	gog_style_fill_save (parent, style);
 	gog_style_marker_save (parent, style);
 	gog_style_font_save (parent, style);

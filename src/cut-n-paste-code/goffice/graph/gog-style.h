@@ -56,18 +56,20 @@ typedef enum {
 	GOG_IMAGE_WALLPAPER,
 } GogImageType;
 
+typedef struct {
+	/* <0 == no outline,
+	 * =0 == hairline : unscaled, minimum useful (can be bigger than visible) size.
+	 * >0 in pts */
+	float	 width;
+	GOColor	 color;
+	gboolean auto_color;
+	/* border type from gnumeric */
+} GogStyleLine;
+
 struct _GogStyle {
 	GObject	base;
 
-	struct {
-		/* <0 == no outline,
-		 * =0 == hairline : unscaled, minimum useful (can be bigger than visible) size.
-		 * >0 in pts */
-		float	 width;
-		GOColor	 color;
-		gboolean auto_color;
-		/* border type from gnumeric */
-	} outline, line;
+	GogStyleLine	outline, line;
 	struct {
 		GogFillStyle	type;
 		gboolean	is_auto;

@@ -241,10 +241,10 @@ gog_legend_view_size_request (GogView *v, GogViewRequisition *avail)
 	GogViewRequisition res;
 	GogChart *chart = GOG_CHART (v->model->parent);
 	GogLegend *l = GOG_LEGEND (v->model);
+	double pad_y = gog_renderer_pt2r_y (
+		v->renderer, l->swatch_padding_pts);
 	double outline = gog_renderer_line_size (
 		v->renderer, l->base.style->outline.width);
-	double pad_x = gog_renderer_pt2r_x (v->renderer, l->swatch_padding_pts);
-	double pad_y = gog_renderer_pt2r_y (v->renderer, l->swatch_padding_pts);
 	unsigned n;
 
 #warning TODO : make this smarter (multiple columns and shrinking text)
@@ -263,17 +263,14 @@ gog_legend_view_size_request (GogView *v, GogViewRequisition *avail)
 		res.h += (n-1) * pad_y; /* between lines, not top or bottom */
 
 	gog_view_size_child_request (v, avail, &res);
-	avail->w = outline * 2 + res.w + pad_x;
-	avail->h = outline * 2 + res.h + pad_y;
+	avail->w = res.w;
+	avail->h = res.h;
+	if (outline > 0) {
+		double pad_x = gog_renderer_pt2r_x (v->renderer, l->swatch_padding_pts);
+		avail->w += outline * 2 + pad_x;
+		avail->h += outline * 2 + pad_y;
+	}
 }
-
-typedef struct {
-	GogView const *view;
-	GogViewAllocation swatch;
-	double step;
-	double pad_x;
-	double base_line;
-} render_closure;
 
 static void
 gog_legend_view_size_allocate (GogView *v, GogViewAllocation const *a)
@@ -282,25 +279,40 @@ gog_legend_view_size_allocate (GogView *v, GogViewAllocation const *a)
 	GogViewAllocation res = *a;
 	double outline = gog_renderer_line_size (
 		v->renderer, l->base.style->outline.width);
-	double pad_x = gog_renderer_pt2r_x (v->renderer, l->swatch_padding_pts);
-	double pad_y = gog_renderer_pt2r_y (v->renderer, l->swatch_padding_pts);
 
-	res.x += outline + pad_x/2;
-	res.y += outline + pad_y/2;
-	res.w -= outline * 2. + pad_x;
-	res.h -= outline * 2. + pad_y;
+	/* We only need internal padding if there is an outline */
+	if (outline > 0) {
+		double pad_x = gog_renderer_pt2r_x (v->renderer, l->swatch_padding_pts);
+		double pad_y = gog_renderer_pt2r_y (v->renderer, l->swatch_padding_pts);
+
+		res.x += outline + pad_x/2;
+		res.y += outline + pad_y/2;
+		res.w -= outline * 2. + pad_x;
+		res.h -= outline * 2. + pad_y;
+	}
 	(lview_parent_klass->size_allocate) (v, &res);
 }
+
+typedef struct {
+	GogView const *view;
+	GogViewAllocation swatch;
+	double step;
+	double pad_x;
+	double base_line;
+	double bottom;
+} render_closure;
 
 static void
 cb_render_elements (unsigned i, GogStyle const *base_style, char const *name,
 		    render_closure *data)
 {
 	GogViewAllocation swatch = data->swatch;
+	GogView  const   *v = data->view;
 	GogStyle *style = NULL;
 	ArtPoint pos;
 	
-	if (((i + 1) * data->step) >= data->view->residual.h)
+	swatch.y += i * data->step;
+	if (swatch.y > data->bottom)
 		return;
 
 #warning FIXME we need to delegate this to the plot to support colour gradients or area vs lines
@@ -308,15 +320,14 @@ cb_render_elements (unsigned i, GogStyle const *base_style, char const *name,
 	style->outline.width = 0; /* hairline */
 	style->outline.color = RGBA_BLACK;
 
-	swatch.y += i * data->step;
-	gog_renderer_push_style (data->view->renderer, style);
-	gog_renderer_draw_rectangle (data->view->renderer, &swatch);
+	gog_renderer_push_style (v->renderer, style);
+	gog_renderer_draw_rectangle (v->renderer, &swatch);
 
 	pos.x = swatch.x + data->pad_x;
 	pos.y = swatch.y;
-	gog_renderer_draw_text (data->view->renderer, &pos, name, NULL);
+	gog_renderer_draw_text (v->renderer, &pos, name, NULL);
 
-	gog_renderer_pop_style (data->view->renderer);
+	gog_renderer_pop_style (v->renderer);
 
 	if (style != base_style)
 		g_object_unref (style);
@@ -338,12 +349,14 @@ gog_legend_view_render (GogView *v, GogViewAllocation const *bbox)
 
 	dat.view = v;
 	dat.swatch.x  = v->residual.x;
-	dat.swatch.y  = v->residual.y + pad_y / 2.;
+	dat.swatch.y  = v->residual.y;
 	dat.swatch.w  = gog_renderer_pt2r_x (v->renderer, l->swatch_size_pts);
 	dat.swatch.h  = gog_renderer_pt2r_y (v->renderer, l->swatch_size_pts);
 	dat.pad_x     = dat.swatch.w + pad_x / 2.;
 	dat.step      = ((GogLegendView *)v)->line_height + pad_y;
 	dat.base_line = pad_y / 2.; /* bottom of the swatch */
+	dat.bottom    = v->residual.y + v->residual.h -
+		((GogLegendView *)v)->line_height;
 	gog_chart_foreach_elem (GOG_CHART (v->model->parent),
 		(GogEnumFunc) cb_render_elements, &dat);
 }

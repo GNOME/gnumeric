@@ -23,7 +23,6 @@
 #include "gog-xy.h"
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
-#include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/go-data.h>
