@@ -579,6 +579,15 @@ html40frag_file_save (GnmFileSaver const *fs, IOContext *io_context,
 	html_file_save (fs, io_context, wb_view, output, HTML40F);
 }
 
+/* Identical to html40_file_save, but fs->save_scope is different.
+ * The plugin system requires this function to exist. */
+void
+html40_range_file_save (GnmFileSaver const *fs, IOContext *io_context,
+			WorkbookView const *wb_view, GsfOutput *output)
+{
+	html40_file_save (fs, io_context, wb_view, output);
+}
+
 void
 xhtml_file_save (GnmFileSaver const *fs, IOContext *io_context,
 		 WorkbookView const *wb_view, GsfOutput *output)
@@ -586,10 +595,11 @@ xhtml_file_save (GnmFileSaver const *fs, IOContext *io_context,
 	html_file_save (fs, io_context, wb_view, output, XHTML);
 }
 
+/* Identical to xhtml_file_save, but fs->save_scope is different.
+ * The plugin system requires this function to exist. */
 void
 xhtml_range_file_save (GnmFileSaver const *fs, IOContext *io_context,
 		      WorkbookView const *wb_view, GsfOutput *output)
 {
-	/* Identical, but fs->save_scope is different */
 	xhtml_file_save (fs, io_context, wb_view, output);
 }

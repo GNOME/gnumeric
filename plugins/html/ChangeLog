@@ -1,3 +1,14 @@
+2003-06-29  Jon K Hellan  <hellan@acm.org>
+
+	* html_read.c (html_read_table): Pass in GnmHtmlTableCtxt from
+	outside. When page contains multiple tables, this lets us
+	concatenate them instead of creating multiple sheets.
+	(html_search_for_tables): Add GnmHtmlTableCtxt parameter. Don't
+	call the function recusively when this node is a table. This means
+	that tables within the table aren't treated as independent tables.
+	(html_file_open): Add a GnmHtmlTableCtxt local variable and pass
+	it as an argument to html_search_for_tables.
+
 2003-06-24  Jon K Hellan  <hellan@acm.org>
 
 	* plugin.xml.in: Add xhtml_range saver. Used when exporting to
