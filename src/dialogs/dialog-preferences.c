@@ -1319,7 +1319,7 @@ cb_dialog_pref_switch_page  (GtkNotebook *notebook, GtkNotebookPage *page,
 static gint startup_pages[] = {1, 0};
 
 void
-dialog_preferences (gint page)
+dialog_preferences (WorkbookControlGUI *wbcg, gint page)
 {
 	PrefState *state;
 	GladeXML *gui;
@@ -1382,5 +1382,6 @@ dialog_preferences (gint page)
 
 	gtk_notebook_set_current_page   (GTK_NOTEBOOK (state->notebook), startup_pages[page]);
 
+	wbcg_set_transient (wbcg, state->dialog);
 	gtk_widget_show (GTK_WIDGET (state->dialog));
 }

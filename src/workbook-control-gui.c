@@ -1584,7 +1584,7 @@ cb_file_summary (GtkWidget *widget, WorkbookControlGUI *wbcg)
 static void
 cb_file_preferences (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	dialog_preferences (0);
+	dialog_preferences (wbcg, 0);
 }
 
 static void
@@ -2254,7 +2254,7 @@ cb_workbook_attr (GtkWidget *unused, WorkbookControlGUI *wbcg)
 static void
 cb_format_preferences (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
-	dialog_preferences (1);
+	dialog_preferences (wbcg, 1);
 }
 
 
