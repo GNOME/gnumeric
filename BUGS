@@ -48,7 +48,7 @@ Pending Patches
     9.1) finish calculation ui in workbook attr dialog		(DONE)
 10) fix highlighting of completion code				(DONE)
 11) look into using the default gtk font rather than our own
-12) audit all of the import plugins to do UTF-8 conversions
+12) audit all of the import plugins to do UTF-8 conversions     (DONE)
     12.1)  excel						(DONE)
     12.2)  applix						(DONE)
     12.3)  lotus						(DONE)
@@ -60,7 +60,7 @@ Pending Patches
     12.9)  sc                                                   (DONE)
     12.10) sylk                                                 (DONE)
     12.11) dif                                                  (DONE)
-    12.12) psion
+    12.12) psion                                                (DONE)
 
 13) Reinstate auto-format
     13.1) Add characterization (units) to StyleFormat
