@@ -1,5 +1,8 @@
 2002-10-24  Morten Welinder  <terra@diku.dk>
 
+	* src/expr-name.c (gnm_named_expr_collection_check): Compare in a
+	different order so putify doesn't misunderstand gcc's smart code.
+
 	* src/expr.c (gnm_expr_eval): Debug default cases.
 	(do_gnm_expr_unref): Ditto.
 

@@ -113,8 +113,8 @@ cb_check_name (gpointer key, GnmNamedExpr *nexpr, CheckName *user)
 		if (v->type == VALUE_CELLRANGE) {
 			RangeRef const *ref = &v->v_range.cell;
 			if (!ref->a.col_relative &&
-			    !ref->a.row_relative &&
 			    !ref->b.col_relative &&
+			    !ref->a.row_relative &&
 			    !ref->b.row_relative &&
 			    eval_sheet (ref->a.sheet, user->sheet) == user->sheet &&
 			    eval_sheet (ref->b.sheet, user->sheet) == user->sheet &&
