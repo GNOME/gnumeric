@@ -9,10 +9,16 @@ noinst_LIBRARIES = libGnumericIDL.a
 endif
 
 GNUMERIC_GENERATED = 		\
-	Gnumeric-common.c		\
-	Gnumeric-skels.c		\
-	Gnumeric-stubs.c		\
-	Gnumeric.h
+	GNOME_Gnumeric-common.c		\
+	GNOME_Gnumeric-skels.c		\
+	GNOME_Gnumeric-stubs.c		\
+	GNOME_Gnumeric.h
+
+GNUMERIC_GRAPH_GENERATED = 	\
+	GNOME_Gnumeric_Graph-common.c	\
+	GNOME_Gnumeric_Graph-skels.c		\
+	GNOME_Gnumeric_Graph-stubs.c		\
+	GNOME_Gnumeric_Graph.h	
 
 if ENABLE_EVOLUTION
 EVOLUTION_GENERATED =		\
@@ -22,28 +28,22 @@ EVOLUTION_GENERATED =		\
 	Evolution-Composer-stubs.c
 endif
 
-GNUMERIC_GRAPHS_GENERATED = 	\
-	gnumeric-graphs-common.c	\
-	gnumeric-graphs-skels.c		\
-	gnumeric-graphs-stubs.c		\
-	gnumeric-graphs.h	
-
 libGnumericIDL_a_SOURCES =		\
 	$(GNUMERIC_GENERATED)		\
-	$(GNUMERIC_GRAPHS_GENERATED)	\
+	$(GNUMERIC_GRAPH_GENERATED)	\
 	$(EVOLUTION_GENERATED)
 
-stamp_gnumeric_idl : $(srcdir)/Gnumeric.idl 
+stamp_Gnumeric_idl : $(srcdir)/GNOME_Gnumeric.idl 
 	$(ORBIT_IDL) -I$(srcdir) $(IDL_FLAGS) $<
 	touch $@
 
-$(GNUMERIC_GENERATED): stamp_gnumeric_idl
+$(GNUMERIC_GENERATED): stamp_Gnumeric_idl
 
-stamp_gnumeric_graphs_idl : $(srcdir)/gnumeric-graphs.idl
+stamp_Gnumeric_Graph_idl : $(srcdir)/GNOME_Gnumeric_Graph.idl
 	$(ORBIT_IDL) -I$(srcdir) $(IDL_FLAGS) $<
 	touch $@
 
-$(GNUMERIC_GRAPHS_GENERATED): stamp_gnumeric_graphs_idl
+$(GNUMERIC_GRAPH_GENERATED): stamp_Gnumeric_Graph_idl
 
 if ENABLE_EVOLUTION
 stamp_evolution_idl :
@@ -55,15 +55,15 @@ $(EVOLUTION_GENERATED) : stamp_evolution_idl
 endif
 
 idldir   = $(gnumeric_datadir)/idl
-idl_DATA = gnumeric-graphs.idl Gnumeric.idl 
+idl_DATA = GNOME_Gnumeric_Graph.idl GNOME_Gnumeric.idl 
 
 EXTRA_DIST = $(idl_DATA)
 # Do not use built sources BUILT_SOURCES
 # it attempts to build the source even if it is not used.
 CLEANFILES  += $(GNUMERIC_GENERATED)		\
-	       $(GNUMERIC_GRAPHS_GENERATED)	\
+	       $(GNUMERIC_GRAPH_GENERATED)	\
 	       $(EVOLUTION_GENERATED)		\
-		stamp_gnumeric_idl stamp_gnumeric_graphs_idl stamp_evolution_idl
+		stamp_Gnumeric_idl stamp_Gnumeric_Graph_idl stamp_evolution_idl
 
 dist-hook :
 	cd $(distdir) && rm -f $(CLEANFILES)
