@@ -39,7 +39,7 @@
 #define CC2XML(s) ((const xmlChar *)(s))
 #define CXML2C(s) ((const char *)(s))
 
-#define ROW_COL_HASH(row,col) GINT_TO_POINTER ((row << 16) + col)
+#define ROW_COL_KEY(row,col) GINT_TO_POINTER (row * SHEET_MAX_COLS + col)
 
 /******************************************************************************
  * FormatTemplateMember - Getters/setters and creation
@@ -56,6 +56,9 @@ TemplateMember *
 format_template_member_new (void)
 {
 	TemplateMember *member;
+
+	/* Sanity check for ROW_COL_KEY.  */
+	g_assert (INT_MAX / SHEET_MAX_COLS > SHEET_MAX_ROWS);
 
 	member = g_new (TemplateMember, 1);
 
@@ -657,7 +660,8 @@ format_template_compare_name (gconstpointer a, gconstpointer b)
 {
 	FormatTemplate const *ft_a = (FormatTemplate const *) a;
 	FormatTemplate const *ft_b = (FormatTemplate const *) b;
-	return strcmp (ft_a->name, ft_b->name);
+
+	return g_utf8_collate (ft_a->name, ft_b->name);
 }
 
 /******************************************************************************
@@ -1037,7 +1041,7 @@ cb_format_hash_style (FormatTemplate *ft, Range *r, MStyle *mstyle, GHashTable *
 
 	for (row = r->start.row; row <= r->end.row; row++) {
 		for (col = r->start.col; col <= r->end.col; col++) {
-			g_hash_table_insert (table, ROW_COL_HASH (row, col),
+			g_hash_table_insert (table, ROW_COL_KEY (row, col),
 					     mstyle_copy (mstyle));
 		}
 	}
@@ -1106,7 +1110,7 @@ format_template_get_style (FormatTemplate *ft, int row, int col)
 		format_template_recalc_hash (ft);
 	}
 
-	return g_hash_table_lookup (ft->table, ROW_COL_HASH (row, col));
+	return g_hash_table_lookup (ft->table, ROW_COL_KEY (row, col));
 }
 
 
@@ -1179,8 +1183,7 @@ format_template_set_name (FormatTemplate *ft, char const *name)
 	g_return_if_fail (ft != NULL);
 	g_return_if_fail (name != NULL);
 
-	if (ft->name)
-		g_free (ft->name);
+	g_free (ft->name);
 	ft->name = g_strdup (name);
 }
 
@@ -1190,8 +1193,7 @@ format_template_set_author (FormatTemplate *ft, char const *author)
 	g_return_if_fail (ft != NULL);
 	g_return_if_fail (author != NULL);
 
-	if (ft->author)
-		g_free (ft->author);
+	g_free (ft->author);
 	ft->author = g_strdup (author);
 }
 
@@ -1201,7 +1203,6 @@ format_template_set_description (FormatTemplate *ft, char const *description)
 	g_return_if_fail (ft != NULL);
 	g_return_if_fail (description != NULL);
 
-	if (ft->description)
-		g_free (ft->description);
+	g_free (ft->description);
 	ft->description = g_strdup (description);
 }
