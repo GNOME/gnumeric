@@ -1,3 +1,8 @@
+2001-10-19  Morten Welinder  <terra@diku.dk>
+
+	* dialog-goal-seek.c (gnumeric_goal_seek): Fix determination of
+ 	whether set-cell contains a usable value.
+
 2001-10-19  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-analysis-tools.c (dialog_tool_init) Register as a guru.

@@ -124,7 +124,7 @@ gnumeric_goal_seek (GoalSeekState *state)
 	evaldata.ycell = state->set_cell;
 	evaldata.ytarget = state->target_value;
 
-	hadold = (state->change_cell->value != NULL);
+	hadold = !VALUE_IS_EMPTY_OR_ERROR (state->change_cell->value);
 	oldx = hadold ? value_get_as_float (state->change_cell->value) : 0;
 
 	/* PLAN A: Newton's iterative method from initial or midpoint.  */

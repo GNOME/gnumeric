@@ -18,12 +18,7 @@
 
 #include <stdlib.h>
 #include <math.h>
-
-/*
- * This value should be comfortably within the relative precision of a gnum_float.
- * For doubles, that means something like 10^-DBL_DIG.
- */
-#define XRELSTEP_MIN 1e-12
+#include <limits.h>
 
 #ifdef DEBUG_GOAL_SEEK
 #include <stdio.h>
@@ -38,7 +33,7 @@ update_data (gnum_float x, gnum_float y, GoalSeekData *data)
 				/*
 				 * When we have pos and neg, prefer the new point only
 				 * if it makes the pos-neg x-internal smaller.
-				 */				   
+				 */
 				if (fabs (x - data->xneg) < fabs (data->xpos - data->xneg)) {
 					data->xpos = x;
 					data->ypos = y;
@@ -60,7 +55,7 @@ update_data (gnum_float x, gnum_float y, GoalSeekData *data)
 				/*
 				 * When we have pos and neg, prefer the new point only
 				 * if it makes the pos-neg x-internal smaller.
-				 */				   
+				 */
 				if (fabs (x - data->xpos) < fabs (data->xpos - data->xneg)) {
 					data->xneg = x;
 					data->yneg = y;
@@ -90,13 +85,11 @@ update_data (gnum_float x, gnum_float y, GoalSeekData *data)
  * in a single point.
  */
 static GoalSeekStatus
-fake_df (GoalSeekFunction f, gnum_float x, gnum_float *dfx, gnum_float xrelstep,
+fake_df (GoalSeekFunction f, gnum_float x, gnum_float *dfx, gnum_float xstep,
 	 GoalSeekData *data, void *user_data)
 {
-	gnum_float xstep, xl, xr, yl, yr;
+	gnum_float xl, xr, yl, yr;
 	GoalSeekStatus status;
-
-	xstep = fabs (x) * xrelstep;
 
 	xl = x - xstep;
 	if (xl < data->xmin)
@@ -172,8 +165,11 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
 		  GoalSeekData *data, void *user_data, gnum_float x0)
 {
 	int iterations;
-	gnum_float xrelstep = 1e-3;
 	gnum_float precision = data->precision / 2;
+
+#ifdef DEBUG_GOAL_SEEK
+	printf ("goal_seek_newton\n");
+#endif
 
 	for (iterations = 0; iterations < 20; iterations++) {
 		gnum_float x1, y0, df0, stepsize;
@@ -187,13 +183,26 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
 		if (status != GOAL_SEEK_OK)
 			return status;
 
+#ifdef DEBUG_GOAL_SEEK
+		printf ("x0 = %.20g\n", x0);
+		printf ("                                        y0 = %.20g\n", y0);
+#endif
+
 		if (update_data (x0, y0, data))
 			return GOAL_SEEK_OK;
 
 		if (df)
 			status = df (x0, &df0, user_data);
-		else
-			status = fake_df (f, x0, &df0, xrelstep, data, user_data);
+		else {
+			gnum_float xstep;
+
+			if (data->havexneg && data->havexpos)
+				xstep = fabs (data->xpos - data->xneg) / 1e6;
+			else
+				xstep = (data->xmax - data->xmin) / 1e6;
+
+			status = fake_df (f, x0, &df0, xstep, data, user_data);
+		}
 		if (status != GOAL_SEEK_OK)
 			return status;
 
@@ -201,7 +210,11 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
 		if (df0 == 0)
 			return GOAL_SEEK_ERROR;
 
-		x1 = x0 - y0 / df0;
+		/*
+		 * Overshoot slightly to prevent us from staying on
+		 * just one side of the root.
+		 */
+		x1 = x0 - 1.000001 * y0 / df0;
 		if (x1 == x0) {
 			data->root = x0;
 			return GOAL_SEEK_OK;
@@ -210,21 +223,16 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
 		stepsize = fabs (x1 - x0) / (fabs (x0) + fabs (x1));
 
 #ifdef DEBUG_GOAL_SEEK
-		printf ("x0 = %.20g\n", x0);
-		printf ("                                        y0 = %.20g\n", y0);
+		printf ("                                        df0 = %.20g\n", df0);
 		printf ("                                        ss = %.20g\n", stepsize);
 #endif
+
+		x0 = x1;
 
 		if (stepsize < precision) {
 			data->root = x0;
 			return GOAL_SEEK_OK;
 		}
-
-		/* As we get closer to the root, improve the derivation.  */
-		if (stepsize * 1000 < xrelstep)
-			xrelstep = MAX (xrelstep / 1000, XRELSTEP_MIN);
-
-		x0 = x1;
 	}
 
 	return GOAL_SEEK_ERROR;
@@ -246,33 +254,53 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
  * the secant method).
  */
 
-#define SECANT_P(i) ((i) % 8 == 6)
-#define RIDDER_P(i) ((i) & 1)
-
 GoalSeekStatus
 goal_seek_bisection (GoalSeekFunction f, GoalSeekData *data, void *user_data)
 {
 	int iterations;
+	gnum_float stepsize;
+	int newton_submethod = 0;
+
+#ifdef DEBUG_GOAL_SEEK
+	printf ("goal_seek_bisection\n");
+#endif
 
 	if (!data->havexpos || !data->havexneg)
 		return GOAL_SEEK_ERROR;
 
-	for (iterations = 0; iterations < 100; iterations++) {
-		gnum_float xmid, ymid, stepsize;
-		GoalSeekStatus status;
+	stepsize = fabs (data->xpos - data->xneg)
+		/ (fabs (data->xpos) + fabs (data->xneg));
 
-		if (SECANT_P (iterations)) {
-			/* Use secant method.  */
+	/* log_2 (10) = 3.3219 < 4.  */
+	for (iterations = 0; iterations < 100 + DBL_DIG * 4; iterations++) {
+		gnum_float xmid, ymid;
+		GoalSeekStatus status;
+		enum { M_SECANT, M_RIDDER, M_NEWTON, M_MIDPOINT } method;
+
+		method = (iterations % 4 == 0)
+			? M_RIDDER
+			: ((iterations % 4 == 2)
+			   ? M_NEWTON
+			   : M_MIDPOINT);
+
+	again:
+		switch (method) {
+		default:
+			abort ();
+
+		case M_SECANT:
 			xmid = data->xpos - data->ypos *
 				((data->xneg - data->xpos) /
 				 (data->yneg - data->ypos));
-		} else if (RIDDER_P (iterations)) {
+			break;
+
+		case M_RIDDER: {
 			gnum_float det;
 
 			xmid = (data->xpos + data->xneg) / 2;
 			status = f (xmid, &ymid, user_data);
 			if (status != GOAL_SEEK_OK)
-				return status;
+				continue;
 			if (ymid == 0) {
 				update_data (xmid, ymid, data);
 				return GOAL_SEEK_OK;
@@ -280,34 +308,97 @@ goal_seek_bisection (GoalSeekFunction f, GoalSeekData *data, void *user_data)
 
 			det = sqrt (ymid * ymid - data->ypos * data->yneg);
 			if (det == 0)
-				return GOAL_SEEK_ERROR;
+				 /* This might happen with underflow, I guess. */
+				continue;
 
 			xmid += (xmid - data->xpos) * ymid / det;
-		} else {
-			/* Use plain midpoint.  */
+			break;
+		}
+
+		case M_MIDPOINT:
 			xmid = (data->xpos + data->xneg) / 2;
+			break;
+
+		case M_NEWTON: {
+			gnum_float x0, y0, xstep, df0;
+
+			/* This method is only effective close-in.  */
+			if (stepsize > 0.1) {
+				method = M_MIDPOINT;
+				goto again;
+			}
+
+			switch (newton_submethod++ % 4) {
+			case 0:	x0 = data->xpos; x0 = data->ypos; break;
+			case 2: x0 = data->xneg; y0 = data->yneg; break;
+			default:
+			case 3:
+			case 1:
+				x0 = (data->xpos + data->xneg) / 2;
+
+				status = f (x0, &y0, user_data);
+				if (status != GOAL_SEEK_OK)
+					continue;
+			}
+
+			xstep = fabs (data->xpos - data->xneg) / 1e6;
+			status = fake_df (f, x0, &df0, xstep, data, user_data);
+			if (status != GOAL_SEEK_OK)
+				continue;
+
+			if (df0 == 0)
+				continue;
+
+			/*
+			 * Overshoot by 1% to prevent us from staying on
+			 * just one side of the root.
+			 */
+			xmid = x0 - 1.01 * y0 / df0;
+			if ((xmid < data->xpos && xmid < data->xneg) ||
+			    (xmid > data->xpos && xmid > data->xneg))
+				/* We left the interval.  */
+				continue;
+		}
 		}
 
 		status = f (xmid, &ymid, user_data);
 		if (status != GOAL_SEEK_OK)
-			return status;
+			continue;
 
-		if (update_data (xmid, ymid, data))
+#ifdef DEBUG_GOAL_SEEK
+		{
+			const char *themethod;
+			switch (method) {
+			case M_MIDPOINT: themethod = "midpoint"; break;
+			case M_RIDDER: themethod = "Ridder"; break;
+			case M_SECANT: themethod = "secant"; break;
+			case M_NEWTON: themethod = "Newton"; break;
+			default: themethod = "?";
+			}
+
+			printf ("xmid = %.20g (%s)\n", xmid, themethod);
+			printf ("                                        ymid = %.20g\n", ymid);
+		}
+#endif
+
+		if (update_data (xmid, ymid, data)) {
 			return GOAL_SEEK_OK;
+		}
 
 		stepsize = fabs (data->xpos - data->xneg)
 			/ (fabs (data->xpos) + fabs (data->xneg));
 
 #ifdef DEBUG_GOAL_SEEK
-		printf ("xmid = %.20g (%s)\n", xmid,
-			SECANT_P (iterations) ? "secant" :
-			(RIDDER_P (iterations) ? "Ridder" :
-			 "mid-point"));
-		printf ("                                        ymid = %.20g\n", ymid);
 		printf ("                                          ss = %.20g\n", stepsize);
 #endif
 
 		if (stepsize < data->precision) {
+			if (data->yneg < ymid)
+				ymid = data->yneg, xmid = data->xneg;
+
+			if (data->ypos < ymid)
+				ymid = data->ypos, xmid = data->xpos;
+
 			data->root = xmid;
 			return GOAL_SEEK_OK;
 		}

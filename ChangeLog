@@ -1,3 +1,12 @@
+2001-10-19  Morten Welinder  <terra@diku.dk>
+
+	* src/goal-seek.c (goal_seek_newton): Deliberately overshoot in
+ 	each iteration.  This makes it more likely that we get to hit both
+ 	sides of the root.
+	(goal_seek_bisection): Introduce Newton steps when we're close to
+ 	a root.  Pick best of xmid, xneg, and xpos when we decide we have
+ 	the required precision.
+
 2001-10-19  Jody Goldberg <jgoldberg@home.com>
 
 	* configure.in : Until the gb plugin works with newer gb make
