@@ -663,9 +663,9 @@ gog_renderer_pixbuf_update (GogRendererPixbuf *prend, int w, int h, double zoom)
 		prend->base.scale_y = h / prend->base.logical_height_pts;
 		prend->base.scale = MIN (prend->base.scale_x, prend->base.scale_y);
 		prend->base.zoom  = zoom;
-		dpi_x = gog_renderer_pt2r_x (&prend->base, GO_IN_TO_PT (1.))
+		dpi_x = gog_renderer_pt2r_x (&prend->base, GO_IN_TO_PT ((double)1.))
 			/ zoom;
-		dpi_y = gog_renderer_pt2r_y (&prend->base, GO_IN_TO_PT (1.))
+		dpi_y = gog_renderer_pt2r_y (&prend->base, GO_IN_TO_PT ((double)1.))
 			/ zoom;
 
 		if (prend->buffer != NULL) {

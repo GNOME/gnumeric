@@ -208,8 +208,8 @@ gog_legend_class_init (GogLegendClass *klass)
 static void
 gog_legend_init (GogLegend *legend)
 {
-	legend->swatch_size_pts = GO_CM_TO_PT (.25);
-	legend->swatch_padding_pts = GO_CM_TO_PT (.2);
+	legend->swatch_size_pts = GO_CM_TO_PT ((double).25);
+	legend->swatch_padding_pts = GO_CM_TO_PT ((double).2);
 	legend->cached_count = 0;
 }
 

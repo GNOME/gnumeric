@@ -1,6 +1,8 @@
 noinst_LTLIBRARIES = libgoffice-ms-compat.la 
 
 libgoffice_ms_compat_la_SOURCES =	\
+	god-drawing-ms-client-handler.c	\
+	god-drawing-ms-client-handler.h	\
 	god-drawing-ms.c		\
 	god-drawing-ms.h		\
 	go-ms-parser.c			\

@@ -22,11 +22,12 @@
  **/
 
 
+#include <gnumeric-config.h>
 #include <stdio.h>
 #include <gsf/gsf-utils.h>
 #include <glib.h>
 
-#include "load-ppt.h"
+#include <libpresent/load-ppt.h>
 
 int
 main (int argc, char *argv[])

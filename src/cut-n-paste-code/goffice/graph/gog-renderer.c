@@ -433,8 +433,8 @@ gog_renderer_init (GogRenderer *rend)
 	rend->cur_style    = NULL;
 	rend->style_stack  = NULL;
 	rend->zoom = rend->scale = rend->scale_x = rend->scale_y = 1.;
-	rend->logical_width_pts    = GO_CM_TO_PT (12);
-	rend->logical_height_pts   = GO_CM_TO_PT (8);
+	rend->logical_width_pts    = GO_CM_TO_PT ((double)12);
+	rend->logical_height_pts   = GO_CM_TO_PT ((double)8);
 	rend->font_watcher = g_cclosure_new_swap (G_CALLBACK (cb_font_removed),
 		rend, NULL);
 	go_font_cache_register (rend->font_watcher);

@@ -16,6 +16,7 @@
 #include <glib-object.h>
 #include <glib.h>
 #include <drawing/god-property-table.h>
+#include <drawing/god-anchor.h>
 #include <drawing/god-text-model.h>
 
 G_BEGIN_DECLS
@@ -37,34 +38,43 @@ typedef struct {
 	GObjectClass parent_class;
 } GodShapeClass;
 
-GType             god_shape_get_type        (void);
-GodShape         *god_shape_new             (void);
+GType             god_shape_get_type         (void);
+GodShape         *god_shape_new              (void);
 
 /* Tree functions */
-void              god_shape_append_child    (GodShape         *parent,
-					     GodShape         *child);
-void              god_shape_insert_child    (GodShape         *parent,
-					     GodShape         *child,
-					     int               pos);
-void              god_shape_delete_child    (GodShape         *parent,
-					     int               pos);
-void              god_shape_reorder_child   (GodShape         *parent,
-					     int               old_pos,
-					     int               new_pos);
+void              god_shape_append_child     (GodShape         *parent,
+					      GodShape         *child);
+void              god_shape_insert_child     (GodShape         *parent,
+					      GodShape         *child,
+					      int               pos);
+void              god_shape_delete_child     (GodShape         *parent,
+					      int               pos);
+void              god_shape_reorder_child    (GodShape         *parent,
+					      int               old_pos,
+					      int               new_pos);
+int               god_shape_get_child_count  (GodShape         *parent);
+/* Return value is reffed. */
+GodShape         *god_shape_get_child        (GodShape         *parent,
+					      int               pos);
 
 /* Return value is reffed. */
-GodPropertyTable *god_shape_get_prop_table  (GodShape         *shape);
-void              god_shape_set_prop_table  (GodShape         *shape,
-					     GodPropertyTable *prop_table);
+GodPropertyTable *god_shape_get_prop_table   (GodShape         *shape);
+void              god_shape_set_prop_table   (GodShape         *shape,
+					      GodPropertyTable *prop_table);
 
 /* Return value is reffed. */
-GodTextModel          *god_shape_get_text_model  (GodShape         *shape);
-void              god_shape_set_text_model  (GodShape         *shape,
-					     GodTextModel          *text);
+GodAnchor        *god_shape_get_anchor       (GodShape         *shape);
+void              god_shape_set_anchor       (GodShape         *shape,
+					      GodAnchor        *anchor);
 
-const char       *god_shape_get_text        (GodShape         *shape);
-void              god_shape_set_text        (GodShape         *shape,
-					     const char       *text_value);
+/* Return value is reffed. */
+GodTextModel     *god_shape_get_text_model   (GodShape         *shape);
+void              god_shape_set_text_model   (GodShape         *shape,
+					      GodTextModel     *text);
+
+const char       *god_shape_get_text         (GodShape         *shape);
+void              god_shape_set_text         (GodShape         *shape,
+					      const char       *text_value);
 
 G_END_DECLS
 

@@ -21,8 +21,10 @@
  * Boston, MA 02111-1307, USA.
  **/
 
+#include <gnumeric-config.h>
 #include "load-ppt.h"
 #include "ppt-types.h"
+#include "god-drawing-ms-client-handler-ppt.h"
 
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-input-memory.h>
@@ -195,6 +197,49 @@ slide_list_with_text_parse_state_finish_slide (PresentPresentation *presentation
 #define STACK_SECOND GO_MS_PARSER_STACK_SECOND(stack)
 
 static void
+dump_shape (GodShape *shape, int depth)
+{
+	GodAnchor *anchor;
+	int i, count;
+	if (shape == NULL)
+		return;
+
+	anchor = god_shape_get_anchor(shape);
+	if (anchor) {
+		GoRect rect;
+		god_anchor_get_rect (anchor,
+				     &rect);
+		for (i = 0; i < depth; i++) {
+			g_print ("\t");
+		}
+		g_print ("%f, %f - %f, %f\n",
+			 GO_UN_TO_IN ((double)rect.top),
+			 GO_UN_TO_IN ((double)rect.left),
+			 GO_UN_TO_IN ((double)rect.bottom),
+			 GO_UN_TO_IN ((double)rect.right));
+	}
+	count = god_shape_get_child_count (shape);
+	for (i = 0; i < count; i++) {
+		GodShape *child;
+		child = god_shape_get_child (shape, i);
+		dump_shape (child, depth + 1);
+		g_object_unref (child);
+	}
+}
+
+static void
+dump_drawing (GodDrawing *drawing)
+{
+	GodShape *shape;
+	if (drawing == NULL)
+		return;
+	shape = god_drawing_get_root_shape (drawing);
+	dump_shape (shape, 0);
+	if (shape)
+		g_object_unref (shape);
+}
+
+static void
 handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInput *input, GError **err, gpointer user_data)
 {
 	PresentPresentation *presentation = user_data;
@@ -252,14 +297,17 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 #if 0
 	case PPDrawingGroup:
 		{
-			drawing_group = god_drawing_group_read_ms (stream, record->length, NULL);
+			drawing_group = god_drawing_group_read_ms (stream, record->length, handler, NULL);
 		}
 		break;
 #endif
 	case PPDrawing:
 		{
-			GodDrawing *drawing = god_drawing_read_ms (input, record->length, NULL);
+			GodDrawingMsClientHandler *handler = god_drawing_ms_client_handler_ppt_new ();
+			GodDrawing *drawing = god_drawing_read_ms (input, record->length, handler, NULL);
 			g_print ("Drawing read %p\n", drawing);
+			dump_drawing (drawing);
+			g_object_unref (handler);
 			if (drawing)
 				g_object_unref (drawing);
 		}

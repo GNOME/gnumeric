@@ -4,3 +4,4 @@ Makefile
 *.gladep
 *.lo
 *.loT
+test-ppt

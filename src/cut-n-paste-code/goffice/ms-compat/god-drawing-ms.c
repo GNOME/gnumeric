@@ -153,6 +153,7 @@ typedef struct {
 
 typedef struct {
 	GodPropertyTable *prop_table;
+	GodAnchor *anchor;
 	ShapeDetails sp;
 } ShapeParseState;
 
@@ -165,6 +166,12 @@ typedef struct {
 	GList *shapes; /* Of type GodShape */
 } DrawingParseState;
 
+typedef struct {
+	GodDrawing *drawing;
+	GodDrawingGroup *drawing_group;
+	GodDrawingMsClientHandler *handler;
+} ParseCallbackData;
+
 #define STACK_TOP GO_MS_PARSER_STACK_TOP(stack)
 #define STACK_SECOND GO_MS_PARSER_STACK_SECOND(stack)
 
@@ -173,101 +180,122 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 {
 
 	switch (record->opcode) {
-		case EscherSp:
-			{
-				ShapeParseState *parse_state;
+	case EscherClientAnchor:
+		{
+			ShapeParseState *parse_state;
+			ParseCallbackData *cb_data = user_data;
 
-				ERROR (STACK_TOP && STACK_TOP->opcode == EscherSpContainer, "Placement Error");
+			ERROR (STACK_TOP && STACK_TOP->opcode == EscherSpContainer, "Placement Error");
 
-				parse_state = STACK_TOP->parse_state;
+			parse_state = STACK_TOP->parse_state;
 
-				parse_state->sp.id = GSF_LE_GET_GUINT32 (data);
-				parse_state->sp.is_group = !!(data[4] & 0x01);
-				parse_state->sp.is_child = !!(data[4] & 0x02);
-				parse_state->sp.is_patriarch = !!(data[4] & 0x04);
-				parse_state->sp.is_deleted = !!(data[4] & 0x08);
-				parse_state->sp.is_ole_shape = !!(data[4] & 0x10);
-				parse_state->sp.have_master = !!(data[4] & 0x20);
-				parse_state->sp.is_flip_h = !!(data[4] & 0x40);
-				parse_state->sp.is_flip_v = !!(data[4] & 0x80);
-				parse_state->sp.is_connector = !!(data[5] & 0x01);
-				parse_state->sp.have_anchor = !!(data[5] & 0x02);
-				parse_state->sp.is_background = !!(data[5] & 0x04);
-				parse_state->sp.have_spt = !!(data[5] & 0x08);
+			ERROR (parse_state->anchor == NULL, "Placement Error");
+
+			if (cb_data->handler) {
+				parse_state->anchor = god_drawing_ms_client_handler_handle_client_anchor
+					(cb_data->handler,
+					 input,
+					 record->length,
+					 err);
 			}
-			break;
-		case EscherOPT:
-			{
-				int i;
-				guint complex_offset;
-				ShapeParseState *parse_state;
+		}
+		break;
+	case EscherOPT:
+		{
+			int i;
+			guint complex_offset;
+			ShapeParseState *parse_state;
 
-				ERROR (STACK_TOP && STACK_TOP->opcode == EscherSpContainer, "Placement Error");
+			ERROR (STACK_TOP && STACK_TOP->opcode == EscherSpContainer, "Placement Error");
 
-				parse_state = STACK_TOP->parse_state;
+			parse_state = STACK_TOP->parse_state;
 
-				ERROR (parse_state->prop_table == NULL, "Placement Error");
+			ERROR (parse_state->prop_table == NULL, "Placement Error");
 
-				parse_state->prop_table = god_property_table_new ();
-				complex_offset = 6 * record->inst;
-				ERROR (record->length >= complex_offset, "Length Error");
-				for (i = 0; i < record->inst; i++) {
-					int id = GSF_LE_GET_GUINT16 (data + i * 6);
-					gboolean is_bid = id & 0x4000;
-					gboolean is_complex = id & 0x8000;
-					guint32 opt_data = GSF_LE_GET_GUINT32 (data + i * 6 + 2);
+			parse_state->prop_table = god_property_table_new ();
+			complex_offset = 6 * record->inst;
+			ERROR (record->length >= complex_offset, "Length Error");
+			for (i = 0; i < record->inst; i++) {
+				int id = GSF_LE_GET_GUINT16 (data + i * 6);
+				gboolean is_bid = id & 0x4000;
+				gboolean is_complex = id & 0x8000;
+				guint32 opt_data = GSF_LE_GET_GUINT32 (data + i * 6 + 2);
 
-					id &= 0x3fff;
-					switch (id) {
-					case 128:
-						god_property_table_set_uint
-							(parse_state->prop_table,
-							 GOD_PROPERTY_LTXID,
-							 opt_data);
-						break;
-					case 129:
-						god_property_table_set_uint
-							(parse_state->prop_table,
-							 GOD_PROPERTY_DX_TEXT_LEFT,
-							 opt_data);
-						break;
-					case 130:
-						god_property_table_set_uint
-							(parse_state->prop_table,
-							 GOD_PROPERTY_DX_TEXT_TOP,
-							 opt_data);
-						break;
-					case 131:
-						god_property_table_set_uint
-							(parse_state->prop_table,
-							 GOD_PROPERTY_DX_TEXT_RIGHT,
-							 opt_data);
-						break;
-					case 132:
-						god_property_table_set_uint
-							(parse_state->prop_table,
-							 GOD_PROPERTY_DX_TEXT_BOTTOM,
-							 opt_data);
-						break;
-					}
-					d(g_print ("Opt  Id: %d, is_bid: %s, is_complex: %s, data: ", id, is_bid ? "true" : "false", is_complex ? "true" : "false");
-					  if (is_complex) {
-						  guint j;
-						  g_print ("(%d) ", opt_data);
-						  for (j = 0; j < opt_data; j++) {
-							  g_print ("%c", data[complex_offset + j]);
-						  }
-						  g_print("\n");
-					  } else {
-						  g_print ("%d = 0x%x\n", opt_data, opt_data);
+				id &= 0x3fff;
+				switch (id) {
+				case 128:
+					god_property_table_set_uint
+						(parse_state->prop_table,
+						 GOD_PROPERTY_LTXID,
+						 opt_data);
+					break;
+				case 129:
+					god_property_table_set_uint
+						(parse_state->prop_table,
+						 GOD_PROPERTY_DX_TEXT_LEFT,
+						 opt_data);
+					break;
+				case 130:
+					god_property_table_set_uint
+						(parse_state->prop_table,
+						 GOD_PROPERTY_DX_TEXT_TOP,
+						 opt_data);
+					break;
+				case 131:
+					god_property_table_set_uint
+						(parse_state->prop_table,
+						 GOD_PROPERTY_DX_TEXT_RIGHT,
+						 opt_data);
+					break;
+				case 132:
+					god_property_table_set_uint
+						(parse_state->prop_table,
+						 GOD_PROPERTY_DX_TEXT_BOTTOM,
+						 opt_data);
+					break;
+				}
+				d(g_print ("Opt  Id: %d, is_bid: %s, is_complex: %s, data: ", id, is_bid ? "true" : "false", is_complex ? "true" : "false");
+				  if (is_complex) {
+					  guint j;
+					  g_print ("(%d) ", opt_data);
+					  for (j = 0; j < opt_data; j++) {
+						  g_print ("%c", data[complex_offset + j]);
 					  }
-					  );
-					if (is_complex) {
-						complex_offset += opt_data;
-						ERROR (record->length >= complex_offset, "Length Error");
-					}
+					  g_print("\n");
+				  } else {
+					  g_print ("%d = 0x%x\n", opt_data, opt_data);
+				  }
+				  );
+				if (is_complex) {
+					complex_offset += opt_data;
+					ERROR (record->length >= complex_offset, "Length Error");
 				}
 			}
+		}
+		break;
+	case EscherSp:
+		{
+			ShapeParseState *parse_state;
+
+			ERROR (STACK_TOP && STACK_TOP->opcode == EscherSpContainer, "Placement Error");
+
+			parse_state = STACK_TOP->parse_state;
+
+			parse_state->sp.id = GSF_LE_GET_GUINT32 (data);
+			parse_state->sp.is_group = !!(data[4] & 0x01);
+			parse_state->sp.is_child = !!(data[4] & 0x02);
+			parse_state->sp.is_patriarch = !!(data[4] & 0x04);
+			parse_state->sp.is_deleted = !!(data[4] & 0x08);
+			parse_state->sp.is_ole_shape = !!(data[4] & 0x10);
+			parse_state->sp.have_master = !!(data[4] & 0x20);
+			parse_state->sp.is_flip_h = !!(data[4] & 0x40);
+			parse_state->sp.is_flip_v = !!(data[4] & 0x80);
+			parse_state->sp.is_connector = !!(data[5] & 0x01);
+			parse_state->sp.have_anchor = !!(data[5] & 0x02);
+			parse_state->sp.is_background = !!(data[5] & 0x04);
+			parse_state->sp.have_spt = !!(data[5] & 0x08);
+		}
+		break;
 	}
 }
 
@@ -330,6 +358,10 @@ end_container (GSList *stack, GsfInput *input, GError **err, gpointer user_data)
 				god_shape_set_prop_table (shape, parse_state->prop_table);
 				g_object_unref (parse_state->prop_table);
 			}
+			if (parse_state->anchor) {
+				god_shape_set_anchor (shape, parse_state->anchor);
+				g_object_unref (parse_state->anchor);
+			}
 			if (parse_state->sp.is_group) {
 				ShapeGroupParseState *parent_state = STACK_SECOND->parse_state;
 				ERROR (parent_state->main_shape == NULL, "Placement Error");
@@ -364,11 +396,11 @@ end_container (GSList *stack, GsfInput *input, GError **err, gpointer user_data)
 			DrawingParseState *parse_state = STACK_TOP->parse_state;
 			GList *list;
 			GodShape *root_shape;
-			GodDrawing **drawing = user_data;
+			ParseCallbackData *cb_data = user_data;
 
-			ERROR (*drawing == NULL, "Multiple EscherDgContainers");
-			*drawing = god_drawing_new();
-			root_shape = god_drawing_get_root_shape (*drawing);
+			ERROR (cb_data->drawing == NULL, "Multiple EscherDgContainers");
+			cb_data->drawing = god_drawing_new();
+			root_shape = god_drawing_get_root_shape (cb_data->drawing);
 
 			parse_state->shapes = g_list_reverse (parse_state->shapes);
 			for (list = parse_state->shapes; list; list = list->next) {
@@ -389,48 +421,54 @@ static GOMSParserCallbacks callbacks = { handle_atom,
 
 GodDrawing *
 god_drawing_read_ms (GsfInput   *input,
-		    gsf_off_t   length,
-		    GError    **err)
+		     gsf_off_t   length,
+		     GodDrawingMsClientHandler *handler,
+		     GError    **err)
 {
-	GodDrawing *drawing = NULL;
+	ParseCallbackData cb_data;
+
 	god_drawing_ms_init();
+
+	cb_data.drawing = NULL;
+	cb_data.drawing_group = NULL;
+	cb_data.handler = handler;
 
 	go_ms_parser_read (input,
 			   length,
 			   types,
 			   (sizeof (types) / sizeof (types[0])),
 			   &callbacks,
-			   &drawing,
+			   &cb_data,
 			   err);
 
-	if (drawing && !IS_GOD_DRAWING (drawing)) {
-		g_object_unref (drawing);
-		drawing = NULL;
-	}
-
-	return drawing;
+	if (cb_data.drawing_group)
+		g_object_unref (cb_data.drawing_group);
+	return cb_data.drawing;
 }
 
 GodDrawingGroup *
 god_drawing_group_read_ms  (GsfInput   *input,
-			   gsf_off_t   length,
-			   GError    **err)
+			    gsf_off_t   length,
+			    GodDrawingMsClientHandler *handler,
+			    GError    **err)
 {
-	GodDrawingGroup *drawing_group = NULL;
+	ParseCallbackData cb_data;
+
 	god_drawing_ms_init();
+
+	cb_data.drawing = NULL;
+	cb_data.drawing_group = NULL;
+	cb_data.handler = handler;
 
 	go_ms_parser_read (input,
 			   length,
 			   types,
 			   (sizeof (types) / sizeof (types[0])),
 			   &callbacks,
-			   &drawing_group,
+			   &cb_data,
 			   err);
 
-	if (drawing_group && !IS_GOD_DRAWING_GROUP (drawing_group)) {
-		g_object_unref (drawing_group);
-		drawing_group = NULL;
-	}
-
-	return drawing_group;
+	if (cb_data.drawing)
+		g_object_unref (cb_data.drawing);
+	return cb_data.drawing_group;
 }

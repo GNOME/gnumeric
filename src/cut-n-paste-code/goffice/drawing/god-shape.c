@@ -35,6 +35,7 @@ struct GodShapePrivate_ {
 	GodShape *parent;
 	GPtrArray *children; /* Of type GodShape. */
 	GodPropertyTable *prop_table;
+	GodAnchor *anchor;
 	GodTextModel *text_model;
 };
 
@@ -57,6 +58,14 @@ ensure_prop_table (GodShape *shape)
 	if (shape->priv->prop_table == NULL)
 		shape->priv->prop_table =
 			god_property_table_new();
+}
+
+static void
+ensure_anchor (GodShape *shape)
+{
+	if (shape->priv->anchor == NULL)
+		shape->priv->anchor =
+			god_anchor_new();
 }
 
 static void
@@ -123,6 +132,28 @@ god_shape_reorder_child  (GodShape       *parent,
 	g_object_unref (child);
 }
 
+int
+god_shape_get_child_count  (GodShape       *parent)
+{
+	return parent->priv->children->len;
+}
+
+GodShape *
+god_shape_get_child  (GodShape       *parent,
+		      int pos)
+{
+	GodShape *child;
+
+	g_return_val_if_fail (pos < god_shape_get_child_count (parent), NULL);
+
+	child = g_ptr_array_index (parent->priv->children, pos);
+
+	g_return_val_if_fail (child, NULL);
+
+	g_object_ref (child);
+	return child;
+}
+
 GodPropertyTable *
 god_shape_get_prop_table  (GodShape *shape)
 {
@@ -140,6 +171,25 @@ god_shape_set_prop_table  (GodShape *shape,
 	shape->priv->prop_table = prop_table;
 	if (shape->priv->prop_table)
 		g_object_ref (shape->priv->prop_table);
+}
+
+GodAnchor *
+god_shape_get_anchor  (GodShape *shape)
+{
+	ensure_anchor (shape);
+	g_object_ref (shape->priv->anchor);
+	return shape->priv->anchor;
+}
+
+void
+god_shape_set_anchor  (GodShape  *shape,
+		       GodAnchor *anchor)
+{
+	if (shape->priv->anchor)
+		g_object_unref (shape->priv->anchor);
+	shape->priv->anchor = anchor;
+	if (shape->priv->anchor)
+		g_object_ref (shape->priv->anchor);
 }
 
 GodTextModel *
@@ -201,6 +251,8 @@ god_shape_dispose (GObject *object)
 	g_ptr_array_free (shape->priv->children, TRUE);
 	if (shape->priv->prop_table)
 		g_object_unref (shape->priv->prop_table);
+	if (shape->priv->anchor)
+		g_object_unref (shape->priv->anchor);
 	if (shape->priv->text_model)
 		g_object_unref (shape->priv->text_model);
 	g_free (shape->priv);

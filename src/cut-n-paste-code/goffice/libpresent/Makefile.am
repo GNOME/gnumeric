@@ -1,6 +1,8 @@
 noinst_LTLIBRARIES = libgoffice-libpresent.la 
 
 libgoffice_libpresent_la_SOURCES =	\
+	god-drawing-ms-client-handler-ppt.c			\
+	god-drawing-ms-client-handler-ppt.h			\
 	load-ppt.c			\
 	load-ppt.h			\
 	present.h			\

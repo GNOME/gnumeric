@@ -85,7 +85,7 @@ gog_outlined_object_class_init (GObjectClass *gobject_klass)
 static void
 gog_outlined_object_init (GogOutlinedObject *goo)
 {
-	goo->padding_pts = GO_CM_TO_PT (.25);
+	goo->padding_pts = GO_CM_TO_PT ((double).25);
 }
 
 GSF_CLASS (GogOutlinedObject, gog_outlined_object,

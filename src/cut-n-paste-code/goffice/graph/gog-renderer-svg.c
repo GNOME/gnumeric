@@ -422,8 +422,8 @@ make_layout (GogRenderer *rend, char const *text)
 
 	/*assume horizontal and vertical resolutions are the same*/
 	pango_context = pango_ft2_get_context (
-			GO_IN_TO_PT(1. / gog_renderer_pt2r (rend, 1.0)),
-			GO_IN_TO_PT(1. / gog_renderer_pt2r (rend, 1.0)));
+			GO_IN_TO_PT((double)1. / gog_renderer_pt2r (rend, 1.0)),
+			GO_IN_TO_PT((double)1. / gog_renderer_pt2r (rend, 1.0)));
 
 	gog_debug (0, {
 		char *msg = pango_font_description_to_string (fd);

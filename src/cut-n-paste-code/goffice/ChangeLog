@@ -1,3 +1,47 @@
+2004-03-18  Christopher James Lahey  <clahey@ximian.com>
+
+	* drawing/god-shape.c, drawing/god-shape.h: Each shape has an
+	anchor.  Added functions to get the children of a shape.
+
+	* graph/gog-legend.c (gog_legend_init),
+	graph/gog-outlined-object.c (gog_outlined_object_init),
+	graph/gog-renderer-pixbuf.c (gog_renderer_pixbuf_update),
+	graph/gog-renderer-svg.c (make_layout), graph/gog-renderer.c
+	(gog_renderer_init): Cast to double before calling
+	GO_.._TO_.. unit conversion functions.
+
+	* libpresent/Makefile.am (libgoffice_libpresent_la_SOURCES): Added
+	god-drawing-ms-client-handler-ppt.c and
+	god-drawing-ms-client-handler-ppt.h.
+
+	* libpresent/god-drawing-ms-client-handler-ppt.c,
+	libpresent/god-drawing-ms-client-handler-ppt.h: New class.
+	Handles client functions for PPT.
+
+	* libpresent/load-ppt.c: Added #include <gnumeric-config.h>.
+	Created a GodDrawingMsClientHandlerPpt for use in parsing.  Added
+	code to dump the Escher drawing for testing purposes.
+
+	* ms-compat/Makefile.am (libgoffice_ms_compat_la_SOURCES): Added
+	god-drawing-ms-client-handler.c and
+	god-drawing-ms-client-handler.h.
+
+	* ms-compat/god-drawing-ms-client-handler.c,
+	ms-compat/god-drawing-ms-client-handler.h: New class.  Allows
+	Escher parser to let the host application handle Client records.
+
+	* ms-compat/god-drawing-ms.c, ms-compat/god-drawing-ms.h: Use
+	GodDrawingMsClientHandler to parse EscherClientAnchor records.
+
+	* test/.cvsignore: Ignore test-ppt.
+
+	* test/test-ppt.c: Fixed include here.  Added #include
+	<gnumeric-config.h>
+
+	* utils/go-unit.h: Changed these to use the math in whatever type
+	the input is.  If you pass a double, it uses double math.  If you
+	pass an integer type, it uses integer math.
+
 2004-03-18  Morten Welinder  <terra@gnome.org>
 
 	* libpresent/*.h: Add header guards.
@@ -6,15 +50,16 @@
 
 	* Makefile.am (SUBDIRS): Added libpresent and test.
 
-	* drawing/Makefile.am (libgoffice_drawing_la_SOURCES): Added god-anchor.c and
-	god-anchor.h.
+	* drawing/Makefile.am (libgoffice_drawing_la_SOURCES): Added
+	god-anchor.c and god-anchor.h.
 
-	* drawing/Makefile.am, drawing/god-drawing-group.c, drawing/god-drawing.c,
-	drawing/god-drawing.h, drawing/god-property-table.c,
-	drawing/god-shape.c, drawing/god-shape.h,
-	drawing/god-text-model.c, ms-compat/Makefile.am,
-	ms-compat/go-ms-parser.c, ms-compat/god-drawing-ms.c,
-	ms-compat/god-drawing-ms.h: Standardized #include lines.
+	* drawing/Makefile.am, drawing/god-drawing-group.c,
+	drawing/god-drawing.c, drawing/god-drawing.h,
+	drawing/god-property-table.c, drawing/god-shape.c,
+	drawing/god-shape.h, drawing/god-text-model.c,
+	ms-compat/Makefile.am, ms-compat/go-ms-parser.c,
+	ms-compat/god-drawing-ms.c, ms-compat/god-drawing-ms.h:
+	Standardized #include lines.
 
 	* utils/go-units.h: Added an underlying unit and added a type for
 	storing lengths.  Added point and rect types.
