@@ -29,7 +29,7 @@ autoformats = \
 	autoformat.List.lila.xml.in		\
 	autoformat.List.simple.xml.in
 
-EXTRA_DIST = $(autoformats) $(autoformat_categories:%=%.category)
+EXTRA_DIST = $(autoformats) $(autoformat_categories:%=%.category.in)
 
 install-data-local:
 	@echo "AutoFormats" ;						\

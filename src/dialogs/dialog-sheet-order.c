@@ -158,7 +158,6 @@ cb_selection_changed (G_GNUC_UNUSED GtkTreeSelection *ignored,
 		      SheetManager *state)
 {
 	GtkTreeIter  it, iter;
-	gint row;
 	Sheet *sheet;
 	gboolean is_deleted;
 	GdkColor *fore, *back;

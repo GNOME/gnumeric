@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-25 16:05+0900\n"
+"POT-Creation-Date: 2004-11-01 22:00-0500\n"
 "PO-Revision-Date: 2004-10-28 18:30+0900\n"
 "Last-Translator: Yukihiro Nakai <nakai@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
@@ -31,7 +31,7 @@ msgid "Gnumeric Workbook viewer factory"
 msgstr "Gnumericワークブックビューアファクトリ"
 
 #. Keep in sync with .desktop file
-#: gnumeric.desktop.in.h:1 src/main-application.c:287
+#: gnumeric.desktop.in.h:1 src/main-application.c:285
 msgid "Gnumeric Spreadsheet"
 msgstr "Gnumeric スプレッドシート"
 
@@ -91,6 +91,7 @@ msgid "Provides a CORBA scripting interface"
 msgstr "CORBAスクリプトインターフェースの生成"
 
 #: plugins/derivatives/options.c:159
+#, no-c-format
 msgid ""
 "@FUNCTION=CUM_BIV_NORM_DIST\n"
 "@SYNTAX=CUM_BIV_NORM_DIST(a,b,rho)\n"
@@ -135,13 +136,17 @@ msgid ""
 "@SEEALSO=OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA"
 msgstr ""
 "@FUNCTION=OPT_BS\n"
-"@SYNTAX=OPT_BS(コールプットフラグ,市場価格,行使価格,満期,レート,ボラティリティ [,持越費用])\n"
-"@DESCRIPTION=OPT_BSは'c'または'p'の@コールプットフラグ、@市場価格の資産を行使する@行使価格から、ブラックショールズモデルを使ってヨーロピアンオプションの価格を計算します。\n"
+"@SYNTAX=OPT_BS(コールプットフラグ,市場価格,行使価格,満期,レート,ボラティリ"
+"ティ [,持越費用])\n"
+"@DESCRIPTION=OPT_BSは'c'または'p'の@コールプットフラグ、@市場価格の資産を行使"
+"する@行使価格から、ブラックショールズモデルを使ってヨーロピアンオプションの価"
+"格を計算します。\n"
 "@満期 はオプションの満期の年数です。\n"
 "@レート は、安全金利です。\n"
 "@ボラティリティ は年間のボラティリティで、取り引きを行った期間に対する資産の"
 "百分率で表現します。\n"
-"@持越費用 は原資産の流出で、普通株の場合にはこれは配当利回りなどになります。\n"
+"@持越費用 は原資産の流出で、普通株の場合にはこれは配当利回りなどになりま"
+"す。\n"
 "* 返り値は、@行使価格と@市場価格と同じ単位で表現されます。\n"
 "\n"
 "@EXAMPLES=\n"
@@ -1413,7 +1418,7 @@ msgstr "#UNKNOWN!"
 #. name for multiple adds
 #: plugins/excel/ms-excel-read.c:1151 plugins/excel/ms-excel-read.c:1163
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:510
-#: src/dialogs/dialog-sheet-order.c:494 src/dialogs/dialog-sheet-order.c:498
+#: src/dialogs/dialog-sheet-order.c:432 src/dialogs/dialog-sheet-order.c:436
 #, c-format
 msgid "Sheet%d"
 msgstr "シート%d"
@@ -1495,11 +1500,11 @@ msgstr ""
 "MS Excel(tm)型式で保存すると失われるデータがあります。Excel型式は%d行までサ"
 "ポートしていますが、このワークブックには%d行あります"
 
-#: plugins/excel/ms-excel-write.c:4935
+#: plugins/excel/ms-excel-write.c:4936
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "書き込み用のストリーム'Book'を開けませんでした\n"
 
-#: plugins/excel/ms-excel-write.c:4955
+#: plugins/excel/ms-excel-write.c:4956
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "書き込み用のストリーム'Workbook'が開けませんでした\n"
 
@@ -5177,7 +5182,7 @@ msgstr "エンジニアリング関数"
 msgid "Functions for complex numbers, base conversions, and more"
 msgstr "複素数や基数変換などの関数"
 
-#: plugins/fn-erlang/functions.c:128
+#: plugins/fn-erlang/functions.c:122
 msgid ""
 "@FUNCTION=PROBBLOCK\n"
 "@SYNTAX=PROBBLOCK(traffic,circuits)\n"
@@ -5192,7 +5197,7 @@ msgid ""
 "@SEEALSO=OFFTRAF, DIMCIRC, OFFCAP"
 msgstr ""
 
-#: plugins/fn-erlang/functions.c:157
+#: plugins/fn-erlang/functions.c:151
 msgid ""
 "@FUNCTION=OFFTRAF\n"
 "@SYNTAX=OFFTRAF(traffic,circuits)\n"
@@ -5208,7 +5213,7 @@ msgid ""
 "@SEEALSO=PROBBLOCK, DIMCIRC, OFFCAP"
 msgstr ""
 
-#: plugins/fn-erlang/functions.c:223
+#: plugins/fn-erlang/functions.c:217
 msgid ""
 "@FUNCTION=DIMCIRC\n"
 "@SYNTAX=DIMCIRC(traffic,gos)\n"
@@ -5221,7 +5226,7 @@ msgid ""
 "@SEEALSO=OFFCAP, OFFTRAF, PROBBLOCK"
 msgstr ""
 
-#: plugins/fn-erlang/functions.c:265
+#: plugins/fn-erlang/functions.c:259
 msgid ""
 "@FUNCTION=OFFCAP\n"
 "@SYNTAX=OFFCAP(circuits,gos)\n"
@@ -5234,15 +5239,15 @@ msgid ""
 "@SEEALSO=DIMCIRC, OFFTRAF, PROBBLOCK"
 msgstr ""
 
-#: plugins/fn-erlang/functions.c:311 plugins/fn-erlang/functions.c:316
+#: plugins/fn-erlang/functions.c:323 plugins/fn-erlang/functions.c:328
 msgid "traffic,circuits"
 msgstr ""
 
-#: plugins/fn-erlang/functions.c:321
+#: plugins/fn-erlang/functions.c:333
 msgid "traffic,gos"
 msgstr ""
 
-#: plugins/fn-erlang/functions.c:326
+#: plugins/fn-erlang/functions.c:338
 msgid "circuits,gos"
 msgstr ""
 
@@ -7745,12 +7750,12 @@ msgstr "%s バージョン %s"
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #. Color
 #: plugins/fn-info/functions.c:1324
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1455
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1459
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:224
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:119
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:822
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:120
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:867
 #: src/dialogs/dialog-cell-format.c:2370 src/dialogs/dialog-cell-format.c:2375
-#: src/dialogs/dialog-cell-format.c:2385 src/wbc-gtk.c:535
+#: src/dialogs/dialog-cell-format.c:2385 src/wbc-gtk.c:536
 msgid "Automatic"
 msgstr "自動"
 
@@ -8466,19 +8471,19 @@ msgstr ""
 
 #: plugins/fn-logical/functions.c:334 plugins/fn-logical/functions.c:338
 #: plugins/fn-logical/functions.c:358 plugins/fn-math/functions.c:3317
-#: plugins/fn-stat/functions.c:5613 plugins/fn-stat/functions.c:5617
-#: plugins/fn-stat/functions.c:5621 plugins/fn-stat/functions.c:5659
-#: plugins/fn-stat/functions.c:5662 plugins/fn-stat/functions.c:5671
-#: plugins/fn-stat/functions.c:5707 plugins/fn-stat/functions.c:5721
-#: plugins/fn-stat/functions.c:5724 plugins/fn-stat/functions.c:5727
-#: plugins/fn-stat/functions.c:5749 plugins/fn-stat/functions.c:5753
-#: plugins/fn-stat/functions.c:5757 plugins/fn-stat/functions.c:5761
-#: plugins/fn-stat/functions.c:5765 plugins/fn-stat/functions.c:5769
-#: plugins/fn-stat/functions.c:5815 plugins/fn-stat/functions.c:5825
-#: plugins/fn-stat/functions.c:5829 plugins/fn-stat/functions.c:5833
-#: plugins/fn-stat/functions.c:5837 plugins/fn-stat/functions.c:5866
-#: plugins/fn-stat/functions.c:5869 plugins/fn-stat/functions.c:5872
-#: plugins/fn-stat/functions.c:5875 plugins/fn-stat/functions.c:5891
+#: plugins/fn-stat/functions.c:5633 plugins/fn-stat/functions.c:5637
+#: plugins/fn-stat/functions.c:5641 plugins/fn-stat/functions.c:5679
+#: plugins/fn-stat/functions.c:5682 plugins/fn-stat/functions.c:5691
+#: plugins/fn-stat/functions.c:5727 plugins/fn-stat/functions.c:5741
+#: plugins/fn-stat/functions.c:5744 plugins/fn-stat/functions.c:5747
+#: plugins/fn-stat/functions.c:5769 plugins/fn-stat/functions.c:5773
+#: plugins/fn-stat/functions.c:5777 plugins/fn-stat/functions.c:5781
+#: plugins/fn-stat/functions.c:5785 plugins/fn-stat/functions.c:5789
+#: plugins/fn-stat/functions.c:5835 plugins/fn-stat/functions.c:5845
+#: plugins/fn-stat/functions.c:5849 plugins/fn-stat/functions.c:5853
+#: plugins/fn-stat/functions.c:5857 plugins/fn-stat/functions.c:5886
+#: plugins/fn-stat/functions.c:5889 plugins/fn-stat/functions.c:5892
+#: plugins/fn-stat/functions.c:5895 plugins/fn-stat/functions.c:5911
 #: src/func-builtin.c:131 src/func-builtin.c:137
 msgid "number,number,"
 msgstr "数値,数値,"
@@ -8501,9 +8506,9 @@ msgstr "数値,数値,"
 #: plugins/fn-math/functions.c:3305 plugins/fn-math/functions.c:3308
 #: plugins/fn-math/functions.c:3311 plugins/fn-math/functions.c:3314
 #: plugins/fn-math/functions.c:3327 plugins/fn-math/functions.c:3339
-#: plugins/fn-math/functions.c:3342 plugins/fn-stat/functions.c:5683
-#: plugins/fn-stat/functions.c:5686 plugins/fn-stat/functions.c:5704
-#: plugins/fn-stat/functions.c:5782 plugins/fn-string/functions.c:1119
+#: plugins/fn-math/functions.c:3342 plugins/fn-stat/functions.c:5703
+#: plugins/fn-stat/functions.c:5706 plugins/fn-stat/functions.c:5724
+#: plugins/fn-stat/functions.c:5802 plugins/fn-string/functions.c:1119
 #: plugins/fn-string/functions.c:1122
 msgid "number"
 msgstr "数値"
@@ -10731,7 +10736,7 @@ msgstr ""
 #: plugins/fn-math/functions.c:2431 plugins/fn-math/functions.c:2451
 #: plugins/fn-math/functions.c:2544 plugins/fn-math/functions.c:2564
 #: plugins/fn-math/functions.c:2655 plugins/fn-math/functions.c:2675
-#: plugins/fn-stat/functions.c:2930 plugins/fn-stat/functions.c:2960
+#: plugins/fn-stat/functions.c:2934 plugins/fn-stat/functions.c:2964
 msgid "Array version not implemented!"
 msgstr "配列バージョンはまだ実装されてません"
 
@@ -10980,7 +10985,7 @@ msgstr "条件"
 msgid "number,significance"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3224 plugins/fn-stat/functions.c:5797
+#: plugins/fn-math/functions.c:3224 plugins/fn-stat/functions.c:5817
 msgid "n,k"
 msgstr ""
 
@@ -11030,8 +11035,8 @@ msgstr ""
 
 #: plugins/fn-math/functions.c:3330 plugins/fn-math/functions.c:3333
 #: plugins/fn-math/functions.c:3336 plugins/fn-math/functions.c:3352
-#: plugins/fn-stat/functions.c:5656 plugins/fn-stat/functions.c:5665
-#: plugins/fn-stat/functions.c:5788 plugins/fn-stat/functions.c:5844
+#: plugins/fn-stat/functions.c:5676 plugins/fn-stat/functions.c:5685
+#: plugins/fn-stat/functions.c:5808 plugins/fn-stat/functions.c:5864
 msgid "array1,array2"
 msgstr ""
 
@@ -11808,7 +11813,7 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-random/functions.c:1100 plugins/fn-random/functions.c:1136
-#: plugins/fn-random/functions.c:1154 plugins/fn-stat/functions.c:5785
+#: plugins/fn-random/functions.c:1154 plugins/fn-stat/functions.c:5805
 msgid "p"
 msgstr ""
 
@@ -11899,10 +11904,8 @@ msgstr "乱数"
 msgid ""
 "@FUNCTION=VARP\n"
 "@SYNTAX=VARP(b1, b2, ...)\n"
-"@DESCRIPTION=VARP calculates the variance of a set of numbers where each "
-"number is a member of a population and the set is the entire population.\n"
-"\n"
-"* VARP is also known as the N-variance.\n"
+"@DESCRIPTION=VARP calculates the variance of an entire population.\n"
+"VARP is also known as the N-variance.\n"
 "\n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
@@ -11922,16 +11925,16 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,DVAR,DVARP,STDEV,VAR"
 
-#: plugins/fn-stat/functions.c:171
+#: plugins/fn-stat/functions.c:168
 #, fuzzy
 msgid ""
 "@FUNCTION=VAR\n"
 "@SYNTAX=VAR(b1, b2, ...)\n"
-"@DESCRIPTION=VAR estimates the variance of a sample of a population. To get "
-"the true variance of a complete population use VARP.\n"
-"\n"
-"* VAR is also known as the N-1-variance. Under reasonable conditions, it is "
+"@DESCRIPTION=VAR calculates sample variance of the given sample. To get the "
+"true variance of a complete population use VARP.\n"
+"VAR is also known as the N-1-variance. Under reasonable conditions, it is "
 "the maximum-likelihood estimator for the true variance.\n"
+"\n"
 "* This function is Excel compatible.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -11954,13 +11957,18 @@ msgstr ""
 "\n"
 "@SEEALSO=VARP,STDEV"
 
-#: plugins/fn-stat/functions.c:205
+#: plugins/fn-stat/functions.c:202
 #, fuzzy
 msgid ""
 "@FUNCTION=STDEV\n"
 "@SYNTAX=STDEV(b1, b2, ...)\n"
-"@DESCRIPTION=STDEV returns standard deviation of a set of numbers treating "
-"these numbers as members of a population.\n"
+"@DESCRIPTION=STDEV returns the sample standard deviation of the given "
+"sample.\n"
+"To obtain the population standard deviation of a whole population use "
+"STDEVP.\n"
+"STDEV is also known as the N-1-standard deviation.\n"
+"Under reasonable conditions, it is the maximum-likelihood estimator for the "
+"true population standard deviation.\n"
 "\n"
 "* This function is Excel compatible.\n"
 "\n"
@@ -11971,24 +11979,27 @@ msgid ""
 "\n"
 "@SEEALSO=AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR"
 msgstr ""
-"@FUNCTION=STDEV\n"
-"@SYNTAX=STDEV(b1, b2, ...)\n"
-"@DESCRIPTION=STDEV 関数は引数を母集団の標本と見なして母集団に対する標準偏差を"
-"返します。\n"
+"@FUNCTION=VAR\n"
+"@SYNTAX=VAR(b1, b2, ...)\n"
+"@DESCRIPTION=VAR 関数は引数を母集団の標本と見なして母集団に対する分散を返しま"
+"す。引数を母集団全体と見なす場合、VARP 関数を使用してください。\n"
+"(VAR 関数も N-1-母集団全体 を使います。最適な条件下では、母集団全体の最大可能"
+"評価です。)\n"
 "この関数は Excel 互換です。\n"
 "@EXAMPLES=\n"
 "セル A1, A2, ..., A5 の値がそれぞれ 11.4, 17.3, 21.3, 25.9, 40.1 とすると\n"
-"STDEV(A1:A5) = 10.84619749 です。\n"
+"VAR(A1:A5) = 117.64 です。\n"
 "\n"
-"@SEEALSO=AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR"
+"@SEEALSO=VARP,STDEV"
 
-#: plugins/fn-stat/functions.c:235
+#: plugins/fn-stat/functions.c:238
 #, fuzzy
 msgid ""
 "@FUNCTION=STDEVP\n"
 "@SYNTAX=STDEVP(b1, b2, ...)\n"
-"@DESCRIPTION=STDEVP returns standard deviation of a set of numbers treating "
-"these numbers as members of a complete population.\n"
+"@DESCRIPTION=STDEVP returns the population standard deviation of the given "
+"population. \n"
+"This is also known as the N-standard deviation\n"
 "\n"
 "* This function is Excel compatible.\n"
 "\n"
@@ -12010,7 +12021,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVA,STDEVPA"
 
-#: plugins/fn-stat/functions.c:265
+#: plugins/fn-stat/functions.c:269
 #, fuzzy
 msgid ""
 "@FUNCTION=RANK\n"
@@ -12042,7 +12053,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PERCENTRANK"
 
-#: plugins/fn-stat/functions.c:359
+#: plugins/fn-stat/functions.c:363
 #, fuzzy
 msgid ""
 "@FUNCTION=TRIMMEAN\n"
@@ -12077,7 +12088,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE"
 
-#: plugins/fn-stat/functions.c:421
+#: plugins/fn-stat/functions.c:425
 #, fuzzy
 msgid ""
 "@FUNCTION=COVAR\n"
@@ -12107,7 +12118,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CORREL,FISHER,FISHERINV"
 
-#: plugins/fn-stat/functions.c:453
+#: plugins/fn-stat/functions.c:457
 #, fuzzy
 msgid ""
 "@FUNCTION=CORREL\n"
@@ -12137,7 +12148,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COVAR,FISHER,FISHERINV"
 
-#: plugins/fn-stat/functions.c:485
+#: plugins/fn-stat/functions.c:489
 #, fuzzy
 msgid ""
 "@FUNCTION=NEGBINOMDIST\n"
@@ -12169,7 +12180,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT"
 
-#: plugins/fn-stat/functions.c:523
+#: plugins/fn-stat/functions.c:527
 #, fuzzy
 msgid ""
 "@FUNCTION=NORMSDIST\n"
@@ -12193,7 +12204,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NORMDIST"
 
-#: plugins/fn-stat/functions.c:552
+#: plugins/fn-stat/functions.c:556
 #, fuzzy
 msgid ""
 "@FUNCTION=NORMSINV\n"
@@ -12221,7 +12232,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST"
 
-#: plugins/fn-stat/functions.c:584
+#: plugins/fn-stat/functions.c:588
 #, fuzzy
 msgid ""
 "@FUNCTION=LOGNORMDIST\n"
@@ -12253,7 +12264,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT"
 
-#: plugins/fn-stat/functions.c:624
+#: plugins/fn-stat/functions.c:628
 #, fuzzy
 msgid ""
 "@FUNCTION=LOGINV\n"
@@ -12284,7 +12295,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP,LN,LOG,LOG10,LOGNORMDIST"
 
-#: plugins/fn-stat/functions.c:661
+#: plugins/fn-stat/functions.c:665
 #, fuzzy
 msgid ""
 "@FUNCTION=FISHERINV\n"
@@ -12310,7 +12321,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FISHER"
 
-#: plugins/fn-stat/functions.c:688
+#: plugins/fn-stat/functions.c:692
 #, fuzzy
 msgid ""
 "@FUNCTION=MODE\n"
@@ -12342,7 +12353,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,MEDIAN"
 
-#: plugins/fn-stat/functions.c:724
+#: plugins/fn-stat/functions.c:728
 #, fuzzy
 msgid ""
 "@FUNCTION=HARMEAN\n"
@@ -12370,7 +12381,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,GEOMEAN,MEDIAN,MODE,TRIMMEAN"
 
-#: plugins/fn-stat/functions.c:756
+#: plugins/fn-stat/functions.c:760
 #, fuzzy
 msgid ""
 "@FUNCTION=GEOMEAN\n"
@@ -12398,7 +12409,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,HARMEAN,MEDIAN,MODE,TRIMMEAN"
 
-#: plugins/fn-stat/functions.c:787
+#: plugins/fn-stat/functions.c:791
 #, fuzzy
 msgid ""
 "@FUNCTION=COUNT\n"
@@ -12425,7 +12436,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: plugins/fn-stat/functions.c:830
+#: plugins/fn-stat/functions.c:834
 #, fuzzy
 msgid ""
 "@FUNCTION=COUNTA\n"
@@ -12454,7 +12465,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM"
 
-#: plugins/fn-stat/functions.c:872
+#: plugins/fn-stat/functions.c:876
 #, fuzzy
 msgid ""
 "@FUNCTION=AVERAGE\n"
@@ -12483,7 +12494,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 
-#: plugins/fn-stat/functions.c:904
+#: plugins/fn-stat/functions.c:908
 #, fuzzy
 msgid ""
 "@FUNCTION=MIN\n"
@@ -12512,7 +12523,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MAX,ABS"
 
-#: plugins/fn-stat/functions.c:946
+#: plugins/fn-stat/functions.c:950
 #, fuzzy
 msgid ""
 "@FUNCTION=MAX\n"
@@ -12541,7 +12552,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MIN,ABS"
 
-#: plugins/fn-stat/functions.c:988
+#: plugins/fn-stat/functions.c:992
 #, fuzzy
 msgid ""
 "@FUNCTION=SKEW\n"
@@ -12578,7 +12589,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,VAR,SKEWP,KURT"
 
-#: plugins/fn-stat/functions.c:1026
+#: plugins/fn-stat/functions.c:1030
 #, fuzzy
 msgid ""
 "@FUNCTION=SKEWP\n"
@@ -12607,7 +12618,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,VARP,SKEW,KURTP"
 
-#: plugins/fn-stat/functions.c:1059
+#: plugins/fn-stat/functions.c:1063
 #, fuzzy
 msgid ""
 "@FUNCTION=EXPONDIST\n"
@@ -12641,7 +12652,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: plugins/fn-stat/functions.c:1103
+#: plugins/fn-stat/functions.c:1107
 #, fuzzy
 msgid ""
 "@FUNCTION=BERNOULLI\n"
@@ -12666,7 +12677,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
-#: plugins/fn-stat/functions.c:1145
+#: plugins/fn-stat/functions.c:1149
 #, fuzzy
 msgid ""
 "@FUNCTION=GAMMALN\n"
@@ -12694,7 +12705,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: plugins/fn-stat/functions.c:1182
+#: plugins/fn-stat/functions.c:1186
 #, fuzzy
 msgid ""
 "@FUNCTION=GAMMADIST\n"
@@ -12725,7 +12736,7 @@ msgstr ""
 "\n"
 "@SEEALSO=GAMMAINV"
 
-#: plugins/fn-stat/functions.c:1223
+#: plugins/fn-stat/functions.c:1227
 #, fuzzy
 msgid ""
 "@FUNCTION=GAMMAINV\n"
@@ -12753,7 +12764,7 @@ msgstr ""
 "\n"
 "@SEEALSO=GAMMADIST"
 
-#: plugins/fn-stat/functions.c:1258
+#: plugins/fn-stat/functions.c:1262
 #, fuzzy
 msgid ""
 "@FUNCTION=CHIDIST\n"
@@ -12782,7 +12793,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CHIINV,CHITEST"
 
-#: plugins/fn-stat/functions.c:1294
+#: plugins/fn-stat/functions.c:1298
 #, fuzzy
 msgid ""
 "@FUNCTION=CHIINV\n"
@@ -12809,7 +12820,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CHIDIST,CHITEST"
 
-#: plugins/fn-stat/functions.c:1328
+#: plugins/fn-stat/functions.c:1332
 #, fuzzy
 msgid ""
 "@FUNCTION=CHITEST\n"
@@ -12837,7 +12848,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CHIDIST,CHIINV"
 
-#: plugins/fn-stat/functions.c:1466
+#: plugins/fn-stat/functions.c:1470
 #, fuzzy
 msgid ""
 "@FUNCTION=BETADIST\n"
@@ -12871,7 +12882,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BETAINV"
 
-#: plugins/fn-stat/functions.c:1507
+#: plugins/fn-stat/functions.c:1511
 #, fuzzy
 msgid ""
 "@FUNCTION=BETAINV\n"
@@ -12907,7 +12918,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BETADIST"
 
-#: plugins/fn-stat/functions.c:1548
+#: plugins/fn-stat/functions.c:1552
 #, fuzzy
 msgid ""
 "@FUNCTION=TDIST\n"
@@ -12941,7 +12952,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TINV,TTEST"
 
-#: plugins/fn-stat/functions.c:1589
+#: plugins/fn-stat/functions.c:1593
 #, fuzzy
 msgid ""
 "@FUNCTION=TINV\n"
@@ -12967,7 +12978,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TDIST,TTEST"
 
-#: plugins/fn-stat/functions.c:1623
+#: plugins/fn-stat/functions.c:1627
 #, fuzzy
 msgid ""
 "@FUNCTION=FDIST\n"
@@ -12998,7 +13009,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FINV"
 
-#: plugins/fn-stat/functions.c:1660
+#: plugins/fn-stat/functions.c:1664
 #, fuzzy
 msgid ""
 "@FUNCTION=LANDAU\n"
@@ -13018,7 +13029,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
-#: plugins/fn-stat/functions.c:1802
+#: plugins/fn-stat/functions.c:1806
 #, fuzzy
 msgid ""
 "@FUNCTION=FINV\n"
@@ -13046,7 +13057,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FDIST"
 
-#: plugins/fn-stat/functions.c:1838
+#: plugins/fn-stat/functions.c:1842
 #, fuzzy
 msgid ""
 "@FUNCTION=BINOMDIST\n"
@@ -13083,7 +13094,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: plugins/fn-stat/functions.c:1884
+#: plugins/fn-stat/functions.c:1888
 #, fuzzy
 msgid ""
 "@FUNCTION=CAUCHY\n"
@@ -13109,7 +13120,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
-#: plugins/fn-stat/functions.c:1924
+#: plugins/fn-stat/functions.c:1928
 #, fuzzy
 msgid ""
 "@FUNCTION=CRITBINOM\n"
@@ -13145,7 +13156,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BINOMDIST"
 
-#: plugins/fn-stat/functions.c:1964
+#: plugins/fn-stat/functions.c:1968
 #, fuzzy
 msgid ""
 "@FUNCTION=PERMUT\n"
@@ -13174,7 +13185,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COMBIN"
 
-#: plugins/fn-stat/functions.c:1999
+#: plugins/fn-stat/functions.c:2003
 #, fuzzy
 msgid ""
 "@FUNCTION=HYPGEOMDIST\n"
@@ -13212,7 +13223,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BINOMDIST,POISSON"
 
-#: plugins/fn-stat/functions.c:2043
+#: plugins/fn-stat/functions.c:2047
 #, fuzzy
 msgid ""
 "@FUNCTION=CONFIDENCE\n"
@@ -13245,7 +13256,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: plugins/fn-stat/functions.c:2084
+#: plugins/fn-stat/functions.c:2088
 #, fuzzy
 msgid ""
 "@FUNCTION=STANDARDIZE\n"
@@ -13274,7 +13285,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: plugins/fn-stat/functions.c:2122
+#: plugins/fn-stat/functions.c:2126
 #, fuzzy
 msgid ""
 "@FUNCTION=WEIBULL\n"
@@ -13310,7 +13321,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: plugins/fn-stat/functions.c:2168
+#: plugins/fn-stat/functions.c:2172
 #, fuzzy
 msgid ""
 "@FUNCTION=NORMDIST\n"
@@ -13338,7 +13349,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: plugins/fn-stat/functions.c:2213
+#: plugins/fn-stat/functions.c:2217
 #, fuzzy
 msgid ""
 "@FUNCTION=NORMINV\n"
@@ -13369,7 +13380,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST"
 
-#: plugins/fn-stat/functions.c:2251
+#: plugins/fn-stat/functions.c:2255
 #, fuzzy
 msgid ""
 "@FUNCTION=KURT\n"
@@ -13407,7 +13418,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,VAR,SKEW,KURTP"
 
-#: plugins/fn-stat/functions.c:2290
+#: plugins/fn-stat/functions.c:2294
 #, fuzzy
 msgid ""
 "@FUNCTION=KURTP\n"
@@ -13437,7 +13448,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,VARP,SKEWP,KURT"
 
-#: plugins/fn-stat/functions.c:2323
+#: plugins/fn-stat/functions.c:2327
 #, fuzzy
 msgid ""
 "@FUNCTION=AVEDEV\n"
@@ -13464,7 +13475,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV"
 
-#: plugins/fn-stat/functions.c:2354
+#: plugins/fn-stat/functions.c:2358
 #, fuzzy
 msgid ""
 "@FUNCTION=DEVSQ\n"
@@ -13493,7 +13504,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV"
 
-#: plugins/fn-stat/functions.c:2387
+#: plugins/fn-stat/functions.c:2391
 #, fuzzy
 msgid ""
 "@FUNCTION=FISHER\n"
@@ -13520,7 +13531,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SKEW"
 
-#: plugins/fn-stat/functions.c:2422
+#: plugins/fn-stat/functions.c:2426
 #, fuzzy
 msgid ""
 "@FUNCTION=POISSON\n"
@@ -13555,7 +13566,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NORMDIST, WEIBULL"
 
-#: plugins/fn-stat/functions.c:2465
+#: plugins/fn-stat/functions.c:2469
 #, fuzzy
 msgid ""
 "@FUNCTION=PEARSON\n"
@@ -13580,7 +13591,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX"
 
-#: plugins/fn-stat/functions.c:2490
+#: plugins/fn-stat/functions.c:2494
 #, fuzzy
 msgid ""
 "@FUNCTION=RSQ\n"
@@ -13605,7 +13616,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CORREL,COVAR,INTERCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND"
 
-#: plugins/fn-stat/functions.c:2520
+#: plugins/fn-stat/functions.c:2524
 #, fuzzy
 msgid ""
 "@FUNCTION=MEDIAN\n"
@@ -13637,7 +13648,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM"
 
-#: plugins/fn-stat/functions.c:2554
+#: plugins/fn-stat/functions.c:2558
 #, fuzzy
 msgid ""
 "@FUNCTION=SSMEDIAN\n"
@@ -13672,7 +13683,7 @@ msgstr ""
 "\n"
 "@SEEALSO=QUARTILE"
 
-#: plugins/fn-stat/functions.c:2657
+#: plugins/fn-stat/functions.c:2661
 #, fuzzy
 msgid ""
 "@FUNCTION=LARGE\n"
@@ -13706,7 +13717,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL"
 
-#: plugins/fn-stat/functions.c:2704
+#: plugins/fn-stat/functions.c:2708
 #, fuzzy
 msgid ""
 "@FUNCTION=SMALL\n"
@@ -13741,7 +13752,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE"
 
-#: plugins/fn-stat/functions.c:2774
+#: plugins/fn-stat/functions.c:2778
 #, fuzzy
 msgid ""
 "@FUNCTION=PROB\n"
@@ -13774,7 +13785,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BINOMDIST,CRITBINOM"
 
-#: plugins/fn-stat/functions.c:2866
+#: plugins/fn-stat/functions.c:2870
 #, fuzzy
 msgid ""
 "@FUNCTION=STEYX\n"
@@ -13808,7 +13819,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PEARSON,RSQ,SLOPE"
 
-#: plugins/fn-stat/functions.c:3021
+#: plugins/fn-stat/functions.c:3025
 #, fuzzy
 msgid ""
 "@FUNCTION=ZTEST\n"
@@ -13839,7 +13850,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE"
 
-#: plugins/fn-stat/functions.c:3075
+#: plugins/fn-stat/functions.c:3079
 #, fuzzy
 msgid ""
 "@FUNCTION=AVERAGEA\n"
@@ -13873,7 +13884,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: plugins/fn-stat/functions.c:3111
+#: plugins/fn-stat/functions.c:3115
 #, fuzzy
 msgid ""
 "@FUNCTION=MAXA\n"
@@ -13908,7 +13919,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MAX,MINA"
 
-#: plugins/fn-stat/functions.c:3147
+#: plugins/fn-stat/functions.c:3151
 #, fuzzy
 msgid ""
 "@FUNCTION=MINA\n"
@@ -13943,16 +13954,20 @@ msgstr ""
 "\n"
 "@SEEALSO=MAX,MINA"
 
-#: plugins/fn-stat/functions.c:3183
+#: plugins/fn-stat/functions.c:3187
 #, fuzzy
 msgid ""
 "@FUNCTION=VARA\n"
 "@SYNTAX=VARA(number1,number2,...)\n"
-"@DESCRIPTION=VARA returns the variance based on a sample.  Numbers, text and "
-"logical values are included in the calculation too. If the cell contains "
-"text or the argument evaluates to FALSE, it is counted as value zero (0).  "
-"If the argument evaluates to TRUE, it is counted as one (1).  Note that "
-"empty cells are not counted.\n"
+"@DESCRIPTION=VARA calculates sample variance of the given sample.\n"
+"To get the true variance of a complete population use VARPA.\n"
+"VARA is also known as the N-1-variance.\n"
+"Under reasonable conditions, it is the maximum-likelihood estimator for the "
+"true variance.\n"
+"Numbers, text and logical values are included in the calculation too. If the "
+"cell contains text or the argument evaluates to FALSE, it is counted as "
+"value zero (0).  If the argument evaluates to TRUE, it is counted as one "
+"(1).  Note that empty cells are not counted.\n"
 "\n"
 "* This function is Excel compatible.\n"
 "\n"
@@ -13978,12 +13993,13 @@ msgstr ""
 "\n"
 "@SEEALSO=VAR,VARPA"
 
-#: plugins/fn-stat/functions.c:3219
+#: plugins/fn-stat/functions.c:3229
 #, fuzzy
 msgid ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(number1,number2,...)\n"
-"@DESCRIPTION=VARPA returns the variance based on the entire population.  "
+"@DESCRIPTION=VARPA calculates the variance of an entire population.\n"
+"VARPA is also known as the N-variance.\n"
 "Numbers, text and logical values are included in the calculation too.  If "
 "the cell contains text or the argument evaluates to FALSE, it is counted as "
 "value zero (0).  If the argument evaluates to TRUE, it is counted as one "
@@ -14013,12 +14029,18 @@ msgstr ""
 "\n"
 "@SEEALSO=VARP,VARP"
 
-#: plugins/fn-stat/functions.c:3255
+#: plugins/fn-stat/functions.c:3266
 #, fuzzy
 msgid ""
 "@FUNCTION=STDEVA\n"
 "@SYNTAX=STDEVA(number1,number2,...)\n"
-"@DESCRIPTION=STDEVA returns the standard deviation based on a sample. "
+"@DESCRIPTION=STDEVA returns the sample standard deviation of the given "
+"sample.\n"
+"To obtain the population standard deviation of a whole population use "
+"STDEVPA.\n"
+"STDEVA is also known as the N-1-standard deviation.\n"
+"Under reasonable conditions, it is the maximum-likelihood estimator for the "
+"true population standard deviation.\n"
 "Numbers, text and logical values are included in the calculation too.  If "
 "the cell contains text or the argument evaluates to FALSE, it is counted as "
 "value zero (0).  If the argument evaluates to TRUE, it is counted as one "
@@ -14048,16 +14070,18 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
 
-#: plugins/fn-stat/functions.c:3291
+#: plugins/fn-stat/functions.c:3309
 #, fuzzy
 msgid ""
 "@FUNCTION=STDEVPA\n"
 "@SYNTAX=STDEVPA(number1,number2,...)\n"
-"@DESCRIPTION=STDEVPA returns the standard deviation based on the entire "
-"population.  Numbers, text and logical values are included in the "
-"calculation too.  If the cell contains text or the argument evaluates to "
-"FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, "
-"it is counted as one (1).  Note that empty cells are not counted.\n"
+"@DESCRIPTION=STDEVPA returns the population standard deviation of an entire "
+"population.\n"
+"This is also known as the N-standard deviation\n"
+"Numbers, text and logical values are included in the calculation too.  If "
+"the cell contains text or the argument evaluates to FALSE, it is counted as "
+"value zero (0).  If the argument evaluates to TRUE, it is counted as one "
+"(1).  Note that empty cells are not counted.\n"
 "\n"
 "* This function is Excel compatible.\n"
 "\n"
@@ -14083,7 +14107,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEVA,STDEVP"
 
-#: plugins/fn-stat/functions.c:3327
+#: plugins/fn-stat/functions.c:3347
 #, fuzzy
 msgid ""
 "@FUNCTION=PERCENTRANK\n"
@@ -14122,7 +14146,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL"
 
-#: plugins/fn-stat/functions.c:3437
+#: plugins/fn-stat/functions.c:3457
 #, fuzzy
 msgid ""
 "@FUNCTION=PERCENTILE\n"
@@ -14155,7 +14179,7 @@ msgstr ""
 "\n"
 "@SEEALSO=QUARTILE"
 
-#: plugins/fn-stat/functions.c:3486
+#: plugins/fn-stat/functions.c:3506
 #, fuzzy
 msgid ""
 "@FUNCTION=QUARTILE\n"
@@ -14203,7 +14227,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL"
 
-#: plugins/fn-stat/functions.c:3542
+#: plugins/fn-stat/functions.c:3562
 #, fuzzy
 msgid ""
 "@FUNCTION=FTEST\n"
@@ -14232,7 +14256,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FDIST,FINV"
 
-#: plugins/fn-stat/functions.c:3596
+#: plugins/fn-stat/functions.c:3616
 #, fuzzy
 msgid ""
 "@FUNCTION=TTEST\n"
@@ -14290,7 +14314,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FDIST,FINV"
 
-#: plugins/fn-stat/functions.c:3764
+#: plugins/fn-stat/functions.c:3784
 #, fuzzy
 msgid ""
 "@FUNCTION=FREQUENCY\n"
@@ -14321,7 +14345,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-stat/functions.c:3841
+#: plugins/fn-stat/functions.c:3861
 #, fuzzy
 msgid ""
 "@FUNCTION=LINEST\n"
@@ -14375,7 +14399,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,TREND"
 
-#: plugins/fn-stat/functions.c:4112
+#: plugins/fn-stat/functions.c:4132
 #, fuzzy
 msgid ""
 "@FUNCTION=LOGREG\n"
@@ -14430,7 +14454,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
 
-#: plugins/fn-stat/functions.c:4388
+#: plugins/fn-stat/functions.c:4408
 msgid ""
 "@FUNCTION=LOGFIT\n"
 "@SYNTAX=LOGFIT(known_y's,known_x's)\n"
@@ -14463,7 +14487,7 @@ msgid ""
 "@SEEALSO=LOGREG,LINEST,LOGEST"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:4488
+#: plugins/fn-stat/functions.c:4508
 #, fuzzy
 msgid ""
 "@FUNCTION=TREND\n"
@@ -14504,7 +14528,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LINEST"
 
-#: plugins/fn-stat/functions.c:4603
+#: plugins/fn-stat/functions.c:4623
 #, fuzzy
 msgid ""
 "@FUNCTION=LOGEST\n"
@@ -14556,7 +14580,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,TREND"
 
-#: plugins/fn-stat/functions.c:4855
+#: plugins/fn-stat/functions.c:4875
 #, fuzzy
 msgid ""
 "@FUNCTION=GROWTH\n"
@@ -14593,7 +14617,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
 
-#: plugins/fn-stat/functions.c:4967
+#: plugins/fn-stat/functions.c:4987
 #, fuzzy
 msgid ""
 "@FUNCTION=FORECAST\n"
@@ -14630,7 +14654,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INTERCEPT,TREND"
 
-#: plugins/fn-stat/functions.c:5038
+#: plugins/fn-stat/functions.c:5058
 #, fuzzy
 msgid ""
 "@FUNCTION=INTERCEPT\n"
@@ -14666,7 +14690,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FORECAST,TREND"
 
-#: plugins/fn-stat/functions.c:5088
+#: plugins/fn-stat/functions.c:5108
 #, fuzzy
 msgid ""
 "@FUNCTION=SLOPE\n"
@@ -14694,7 +14718,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
 
-#: plugins/fn-stat/functions.c:5132
+#: plugins/fn-stat/functions.c:5152
 #, fuzzy
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
@@ -14756,7 +14780,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT,SUM"
 
-#: plugins/fn-stat/functions.c:5232
+#: plugins/fn-stat/functions.c:5252
 msgid ""
 "@FUNCTION=CRONBACH\n"
 "@SYNTAX=CRONBACH(ref1,ref2,...)\n"
@@ -14767,7 +14791,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5361
+#: plugins/fn-stat/functions.c:5381
 #, fuzzy
 msgid ""
 "@FUNCTION=GEOMDIST\n"
@@ -14797,7 +14821,7 @@ msgstr ""
 "\n"
 "@SEEALSO=GAMMAINV"
 
-#: plugins/fn-stat/functions.c:5397
+#: plugins/fn-stat/functions.c:5417
 #, fuzzy
 msgid ""
 "@FUNCTION=LOGISTIC\n"
@@ -14819,7 +14843,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-stat/functions.c:5433
+#: plugins/fn-stat/functions.c:5453
 #, fuzzy
 msgid ""
 "@FUNCTION=PARETO\n"
@@ -14840,7 +14864,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
-#: plugins/fn-stat/functions.c:5471
+#: plugins/fn-stat/functions.c:5491
 #, fuzzy
 msgid ""
 "@FUNCTION=RAYLEIGH\n"
@@ -14861,7 +14885,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
-#: plugins/fn-stat/functions.c:5511
+#: plugins/fn-stat/functions.c:5531
 #, fuzzy
 msgid ""
 "@FUNCTION=RAYLEIGHTAIL\n"
@@ -14882,7 +14906,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
-#: plugins/fn-stat/functions.c:5554
+#: plugins/fn-stat/functions.c:5574
 #, fuzzy
 msgid ""
 "@FUNCTION=EXPPOWDIST\n"
@@ -14903,7 +14927,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
-#: plugins/fn-stat/functions.c:5585
+#: plugins/fn-stat/functions.c:5605
 msgid ""
 "@FUNCTION=LAPLACE\n"
 "@SYNTAX=LAPLACE(x,a)\n"
@@ -14923,189 +14947,189 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDLAPLACE"
 
-#: plugins/fn-stat/functions.c:5626 plugins/fn-stat/functions.c:5888
+#: plugins/fn-stat/functions.c:5646 plugins/fn-stat/functions.c:5908
 msgid "k,p"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5630
+#: plugins/fn-stat/functions.c:5650
 msgid "x,alpha,beta,a,b"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5633
+#: plugins/fn-stat/functions.c:5653
 msgid "p,alpha,beta,a,b"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5636
+#: plugins/fn-stat/functions.c:5656
 msgid "n,t,p,c"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5640
+#: plugins/fn-stat/functions.c:5660
 msgid "x,a,cum"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5644
+#: plugins/fn-stat/functions.c:5664
 msgid "x,dof"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5647 plugins/fn-stat/functions.c:5853
+#: plugins/fn-stat/functions.c:5667 plugins/fn-stat/functions.c:5873
 msgid "p,dof"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5650
+#: plugins/fn-stat/functions.c:5670
 msgid "act_range,theo_range"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5653
+#: plugins/fn-stat/functions.c:5673
 msgid "x,stddev,size"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5668
+#: plugins/fn-stat/functions.c:5688
 msgid "trials,p,alpha"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5674
+#: plugins/fn-stat/functions.c:5694
 #, fuzzy
 msgid "x,y,cumulative"
 msgstr "進捗 %"
 
-#: plugins/fn-stat/functions.c:5677
+#: plugins/fn-stat/functions.c:5697
 msgid "x,dof of num,dof of denom"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5680
+#: plugins/fn-stat/functions.c:5700
 msgid "p,dof of num,dof of denom"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5689
+#: plugins/fn-stat/functions.c:5709
 msgid "x,known y's,known x's"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5692
+#: plugins/fn-stat/functions.c:5712
 msgid "data_array,bins_array"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5695
+#: plugins/fn-stat/functions.c:5715
 msgid "arr1,arr2"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5698
+#: plugins/fn-stat/functions.c:5718
 msgid "number,alpha,beta,cum"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5701
+#: plugins/fn-stat/functions.c:5721
 msgid "number,alpha,beta"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5711 plugins/fn-stat/functions.c:5856
+#: plugins/fn-stat/functions.c:5731 plugins/fn-stat/functions.c:5876
 msgid "known_y's,known_x's,new_x's,const"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5718
+#: plugins/fn-stat/functions.c:5738
 #, fuzzy
 msgid "x,n,M,N,cumulative"
 msgstr "進捗 %"
 
-#: plugins/fn-stat/functions.c:5731 plugins/fn-stat/functions.c:5734
-#: plugins/fn-stat/functions.c:5746
+#: plugins/fn-stat/functions.c:5751 plugins/fn-stat/functions.c:5754
+#: plugins/fn-stat/functions.c:5766
 msgid "known_y's,known_x's,const,stat"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5737 plugins/fn-stat/functions.c:5812
-#: plugins/fn-stat/functions.c:5841
+#: plugins/fn-stat/functions.c:5757 plugins/fn-stat/functions.c:5832
+#: plugins/fn-stat/functions.c:5861
 msgid "known_y's,known_x's"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5740 plugins/fn-stat/functions.c:5779
+#: plugins/fn-stat/functions.c:5760 plugins/fn-stat/functions.c:5799
 msgid "p,mean,stddev"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5743 plugins/fn-stat/functions.c:5819
+#: plugins/fn-stat/functions.c:5763 plugins/fn-stat/functions.c:5839
 msgid "x,mean,stddev"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5773
+#: plugins/fn-stat/functions.c:5793
 msgid "f,t,p"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5776
+#: plugins/fn-stat/functions.c:5796
 #, fuzzy
 msgid "x,mean,stddev,cumulative"
 msgstr "進捗 %"
 
-#: plugins/fn-stat/functions.c:5791
+#: plugins/fn-stat/functions.c:5811
 #, fuzzy
 msgid "array,k"
 msgstr "配列"
 
-#: plugins/fn-stat/functions.c:5794
+#: plugins/fn-stat/functions.c:5814
 msgid "array,x,significance"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5800
+#: plugins/fn-stat/functions.c:5820
 #, fuzzy
 msgid "x,mean,cumulative"
 msgstr "進捗 %"
 
-#: plugins/fn-stat/functions.c:5803
+#: plugins/fn-stat/functions.c:5823
 msgid "x_range,prob_range,lower_limit,upper_limit"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5806
+#: plugins/fn-stat/functions.c:5826
 msgid "array,quart"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5822
+#: plugins/fn-stat/functions.c:5842
 msgid "array,interval"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5850
+#: plugins/fn-stat/functions.c:5870
 msgid "x,dof,tails"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5859
+#: plugins/fn-stat/functions.c:5879
 #, fuzzy
 msgid "ref,fraction"
 msgstr "演算"
 
-#: plugins/fn-stat/functions.c:5863
+#: plugins/fn-stat/functions.c:5883
 msgid "array1,array2,tails,type"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5878
+#: plugins/fn-stat/functions.c:5898
 msgid "x.alpha,beta,cumulative"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5881
+#: plugins/fn-stat/functions.c:5901
 msgid "ref,x"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5885 plugins/fn-stat/functions.c:5903
+#: plugins/fn-stat/functions.c:5905 plugins/fn-stat/functions.c:5923
 #, fuzzy
 msgid "x,a,b"
 msgstr "タブ"
 
-#: plugins/fn-stat/functions.c:5894
+#: plugins/fn-stat/functions.c:5914
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:228
 msgid "x"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5897 plugins/fn-stat/functions.c:5900
+#: plugins/fn-stat/functions.c:5917 plugins/fn-stat/functions.c:5920
 msgid "x,a"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5906
+#: plugins/fn-stat/functions.c:5926
 msgid "x,sigma"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5909
+#: plugins/fn-stat/functions.c:5929
 msgid "x,a,sigma"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5915
+#: plugins/fn-stat/functions.c:5935
 msgid "function_nbr,ref,ref,"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5918
+#: plugins/fn-stat/functions.c:5938
 msgid "ref,ref,"
 msgstr ""
 
@@ -15941,7 +15965,7 @@ msgstr "書式: execSQL(dsn,user,password,sql)"
 msgid "Database functions for retrieval of data from a database."
 msgstr "データベースからデータ復旧を可能にするデータベース関数"
 
-#: plugins/gnome-db/plugin-gnomedb.c:26
+#: plugins/gnome-db/plugin-gnomedb.c:25
 msgid "Could not run GNOME database configuration tool"
 msgstr ""
 
@@ -15951,15 +15975,6 @@ msgstr ""
 
 #: plugins/gnome-db/plugin.xml.in.h:2
 msgid "GNOME-DB"
-msgstr ""
-
-#: plugins/gnome-db/ui.xml.h:1
-#, fuzzy
-msgid "Data Sources..."
-msgstr "データ..."
-
-#: plugins/gnome-db/ui.xml.h:2
-msgid "View and manage data sources"
 msgstr ""
 
 #: plugins/gnome-glossary/plugin.xml.in.h:1
@@ -16052,7 +16067,7 @@ msgstr "HTML 3.2 (*.html)"
 msgid "XHTML range - for export to clipboard"
 msgstr ""
 
-#: plugins/lotus-123/boot.c:62
+#: plugins/lotus-123/boot.c:73
 msgid "Error while reading lotus workbook."
 msgstr "Lotus ワークブックの読み込み中にエラーが発生しました。"
 
@@ -16066,7 +16081,7 @@ msgstr "Lotus 123"
 
 #: plugins/lotus-123/plugin.xml.in.h:3
 #, fuzzy
-msgid "Lotus 123 (*.wk1, *.wks)"
+msgid "Lotus 123 (*.wk1, *.wks, *.123)"
 msgstr "Lotus 123 (*.wk1)"
 
 #: plugins/mps/mps.c:181
@@ -16090,7 +16105,7 @@ msgstr "オブジェクティブ関数:"
 msgid "Constraints:"
 msgstr "制約条件:"
 
-#: plugins/mps/mps.c:245 src/commands.c:6107
+#: plugins/mps/mps.c:245 src/commands.c:6112
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1057
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:379
 #: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:800
@@ -16540,9 +16555,49 @@ msgstr "Perl プラグイン"
 msgid "Enables the creation of functions in Perl"
 msgstr "Perl による関数作成を有効にします"
 
-#: plugins/perl/plugin.xml.in.h:2
+#: plugins/perl/plugin.xml.in.h:2 plugins/perl-func/plugin.xml.in.h:1
 msgid "Perl"
 msgstr "Perl"
+
+#: plugins/perl-func/plugin.xml.in.h:2
+#, fuzzy
+msgid "Perl functions"
+msgstr "特殊な関数"
+
+#: plugins/perl-func/plugin.xml.in.h:3
+#, fuzzy
+msgid "Sample Perl plugin providing some (useless) functions."
+msgstr "便利な機能を提供する Python プラグインのサンプルです。"
+
+#: plugins/perl-loader/perl-loader.c:109
+#, fuzzy
+msgid "Module name not given."
+msgstr "モジュール名が指定されていません。"
+
+#: plugins/perl-loader/perl-loader.c:135
+#, fuzzy
+msgid "perl_func.pl doesn't exit."
+msgstr "モジュール \"%s\" は存在しません。"
+
+#: plugins/perl-loader/perl-loader.c:179 plugins/perl-loader/perl-loader.c:198
+#, c-format
+msgid "Perl error: %s\n"
+msgstr ""
+
+#: plugins/perl-loader/perl-loader.c:257
+#, fuzzy
+msgid "Perl error: "
+msgstr "Guile エラー"
+
+#: plugins/perl-loader/plugin.xml.in.h:1
+#, fuzzy
+msgid "Perl plugin loader"
+msgstr "プラグイン・ローダー"
+
+#: plugins/perl-loader/plugin.xml.in.h:2
+#, fuzzy
+msgid "This plugin provides support for Perl plugins"
+msgstr "このプラグインは Python プラグインのサポートを提供します"
 
 #: plugins/plan-perfect/pln.c:504
 msgid "PLN : Spreadsheet is password encrypted"
@@ -16679,72 +16734,64 @@ msgstr "Python 例外 (%s: %s)"
 msgid "Python exception (%s)"
 msgstr "Python 例外 (%s)"
 
-#: plugins/python-loader/python-loader.c:81
+#: plugins/python-loader/python-loader.c:82
 msgid "Python module name not given."
 msgstr "Python モジュール名が指定されていません。"
 
-#: plugins/python-loader/python-loader.c:106
+#: plugins/python-loader/python-loader.c:107
 msgid "Cannot create new Python interpreter."
 msgstr "Pythonの新規インタプリタを作成できません。"
 
-#: plugins/python-loader/python-loader.c:127
+#: plugins/python-loader/python-loader.c:128
 #, c-format
 msgid "Module \"%s\" doesn't exist."
 msgstr "モジュール \"%s\" は存在しません。"
 
-#: plugins/python-loader/python-loader.c:145
+#: plugins/python-loader/python-loader.c:146
 #, c-format
 msgid "Execution of module \"%s\" failed."
 msgstr "モジュール \"%s\" の起動に失敗しました。"
 
-#: plugins/python-loader/python-loader.c:297
+#: plugins/python-loader/python-loader.c:296
 msgid "Some name"
 msgstr "何かの名前"
 
-#: plugins/python-loader/python-loader.c:359
-#: plugins/python-loader/python-loader.c:452
-#: plugins/python-loader/python-loader.c:675
-#: plugins/python-loader/python-loader.c:792
+#: plugins/python-loader/python-loader.c:358
+#: plugins/python-loader/python-loader.c:451
+#: plugins/python-loader/python-loader.c:674
+#: plugins/python-loader/python-loader.c:786
 #, c-format
 msgid "Python file \"%s\" has invalid format."
 msgstr "Python モジュールファイル \"%s\" のフォーマットが正しくありません。"
 
-#: plugins/python-loader/python-loader.c:363
-#: plugins/python-loader/python-loader.c:457 src/plugin-loader-module.c:360
-#: src/plugin-loader-module.c:421
+#: plugins/python-loader/python-loader.c:362
+#: plugins/python-loader/python-loader.c:456 src/plugin-loader-module.c:354
+#: src/plugin-loader-module.c:415
 #, c-format
 msgid "File doesn't contain \"%s\" function."
 msgstr "ファイルには関数 \"%s\" が含まれていません。"
 
-#: plugins/python-loader/python-loader.c:680
-#: plugins/python-loader/python-loader.c:797
+#: plugins/python-loader/python-loader.c:679
+#: plugins/python-loader/python-loader.c:791
 #, c-format
 msgid "File doesn't contain \"%s\" dictionary."
 msgstr "ファイルにはディレクトリ \"%s\" が含まれていません。"
 
-#: plugins/python-loader/python-loader.c:685
-#: plugins/python-loader/python-loader.c:802
+#: plugins/python-loader/python-loader.c:684
+#: plugins/python-loader/python-loader.c:796
 #, c-format
 msgid "Object \"%s\" is not a dictionary."
 msgstr "オブジェクト \"%s\" はディレクトリではありません。"
 
-#: plugins/python-loader/python-loader.c:740 src/plugin-loader-module.c:610
-#, c-format
-msgid "Unknown verb: %s"
-msgstr "不明な動詞: %s"
+#: plugins/python-loader/python-loader.c:734 src/plugin-loader-module.c:602
+#, fuzzy, c-format
+msgid "Unknown action: %s"
+msgstr "不明な関数"
 
-#: plugins/python-loader/python-loader.c:745
+#: plugins/python-loader/python-loader.c:739
 #, c-format
-msgid "Not a valid function for verb: %s"
+msgid "Not a valid function for action: %s"
 msgstr ""
-
-#: plugins/python-loader/ui-console-menu.xml.h:1
-msgid "Open the Python console"
-msgstr "Pythonコンソールを開く"
-
-#: plugins/python-loader/ui-console-menu.xml.h:2
-msgid "Python console"
-msgstr "Pythonコンソール"
 
 #: plugins/qpro/plugin.xml.in.h:1
 msgid "Imports Quatro Pro (tm) files"
@@ -16860,10 +16907,6 @@ msgstr "行の構文解析エラー\n"
 msgid "Error while reading sheet."
 msgstr "シートの読み込み中にエラーが発生しました。"
 
-#: plugins/uihello/hello.xml.h:1
-msgid "Hello World"
-msgstr "みなさんこんにちは"
-
 #: plugins/uihello/plugin.xml.in.h:1
 msgid "Hello World plugin using ui service"
 msgstr "UIサービスを使用したHello Worldプラグイン"
@@ -16872,7 +16915,7 @@ msgstr "UIサービスを使用したHello Worldプラグイン"
 msgid "UI Hello"
 msgstr "UI Hello"
 
-#: plugins/uihello/uihello.c:24
+#: plugins/uihello/uihello.c:22
 #, c-format
 msgid "This is message from the \"%s\" plugin."
 msgstr "これは\"%s\"プラグインからのメッセージです。"
@@ -16881,10 +16924,10 @@ msgstr "これは\"%s\"プラグインからのメッセージです。"
 msgid "Error while opening xbase file."
 msgstr "xBase ファイルのオープンでエラーが発生しました。"
 
-#: plugins/xbase/boot.c:175 src/commands.c:4901
+#: plugins/xbase/boot.c:175 src/commands.c:4906
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:409
-#: src/dialogs/dialog-stf-export.c:353 src/dialogs/print.glade.h:21
-#: src/print-info.c:391 src/workbook.c:1083 src/xml-io.c:3782
+#: src/dialogs/dialog-stf-export.c:443 src/dialogs/print.glade.h:21
+#: src/print-info.c:391 src/workbook.c:1091 src/xml-io.c:3782
 msgid "Sheet"
 msgstr "シート"
 
@@ -17266,35 +17309,35 @@ msgstr ""
 #: schemas/gnumeric-dialogs.schemas.in.h:68
 msgid ""
 "This value determines the default setting in the Print Setup dialog whether "
-"ro print row and column headers. Please use the Print Setup dialog to edit "
-"this value."
-msgstr ""
-
-#: schemas/gnumeric-dialogs.schemas.in.h:69
-msgid ""
-"This value determines the default setting in the Print Setup dialog whether "
 "to center pages horizontally. Please use the Print Setup dialog to edit this "
 "value."
 msgstr ""
 
-#: schemas/gnumeric-dialogs.schemas.in.h:70
+#: schemas/gnumeric-dialogs.schemas.in.h:69
 msgid ""
 "This value determines the default setting in the Print Setup dialog whether "
 "to print empty but formatted cells. Please use the Print Setup dialog to "
 "edit this value."
 msgstr ""
 
-#: schemas/gnumeric-dialogs.schemas.in.h:71
+#: schemas/gnumeric-dialogs.schemas.in.h:70
 msgid ""
 "This value determines the default setting in the Print Setup dialog whether "
 "to print first right then down. Please use the Print Setup dialog to edit "
 "this value."
 msgstr ""
 
-#: schemas/gnumeric-dialogs.schemas.in.h:72
+#: schemas/gnumeric-dialogs.schemas.in.h:71
 msgid ""
 "This value determines the default setting in the Print Setup dialog whether "
 "to print in only black and white. Please use the Print Setup dialog to edit "
+"this value."
+msgstr ""
+
+#: schemas/gnumeric-dialogs.schemas.in.h:72
+msgid ""
+"This value determines the default setting in the Print Setup dialog whether "
+"to print row and column headers. Please use the Print Setup dialog to edit "
 "this value."
 msgstr ""
 
@@ -17665,7 +17708,7 @@ msgstr ""
 msgid "Use UTF-8 in LaTeX Export"
 msgstr "LaTeXのエクスポートでUTF-8を使う"
 
-#: src/application.c:303
+#: src/application.c:306
 msgid "Cut Object"
 msgstr "オブジェクトの切り取り"
 
@@ -17766,444 +17809,444 @@ msgstr "%s はロックされています。シートを編集するには保護
 msgid "..."
 msgstr "..."
 
-#: src/commands.c:923 src/commands.c:1028 src/commands.c:1033
+#: src/commands.c:928 src/commands.c:1033 src/commands.c:1038
 msgid "Set Text"
 msgstr "テキスト設定"
 
-#: src/commands.c:948
+#: src/commands.c:953
 #, c-format
 msgid "Typing \"%s%s\" in %s"
 msgstr "%s に \"%s%s\" を入力"
 
-#: src/commands.c:1151
+#: src/commands.c:1156
 #, c-format
 msgid "Typing \"%s%s\""
 msgstr "\"%s%s\"を入力"
 
-#: src/commands.c:1188
+#: src/commands.c:1193
 msgid "Ins/Del Column/Row"
 msgstr "列/行を挿入/削除"
 
-#: src/commands.c:1295 src/commands.c:1300 src/sheet.c:3249
+#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3249
 msgid "Delete Columns"
 msgstr "列を削除"
 
-#: src/commands.c:1295 src/commands.c:1300 src/sheet.c:3367
+#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3367
 msgid "Delete Rows"
 msgstr "行を削除"
 
-#: src/commands.c:1448
+#: src/commands.c:1453
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "%d 列を %s の前に挿入"
 
-#: src/commands.c:1449
+#: src/commands.c:1454
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "%d 列を %s の前に挿入"
 
-#: src/commands.c:1464
+#: src/commands.c:1469
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "%d 行を %s の前に挿入"
 
-#: src/commands.c:1465
+#: src/commands.c:1470
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "%d 行を %s の前に挿入"
 
-#: src/commands.c:1476
+#: src/commands.c:1481
 #, c-format
 msgid "Deleting columns %s"
 msgstr "%s 列の削除"
 
-#: src/commands.c:1477
+#: src/commands.c:1482
 #, c-format
 msgid "Deleting column %s"
 msgstr "%s 行の削除"
 
-#: src/commands.c:1487
+#: src/commands.c:1492
 #, c-format
 msgid "Deleting rows %s"
 msgstr "%s 行の削除"
 
-#: src/commands.c:1488
+#: src/commands.c:1493
 #, c-format
 msgid "Deleting row %s"
 msgstr "%s 行の削除"
 
 #. Check for locked cells
-#: src/commands.c:1570 src/commands.c:1574 src/sheet.c:2861
+#: src/commands.c:1575 src/commands.c:1579 src/sheet.c:2861
 msgid "Clear"
 msgstr "消去"
 
-#: src/commands.c:1645
+#: src/commands.c:1650
 msgid "contents"
 msgstr "内容"
 
-#: src/commands.c:1647
+#: src/commands.c:1652
 msgid "formats"
 msgstr "書式"
 
-#: src/commands.c:1649
+#: src/commands.c:1654
 msgid "comments"
 msgstr "注釈"
 
-#: src/commands.c:1665
+#: src/commands.c:1670
 msgid "all"
 msgstr "全て"
 
-#: src/commands.c:1672
+#: src/commands.c:1677
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "%s のクリア (%s 内の)"
 
-#: src/commands.c:1755
+#: src/commands.c:1760
 msgid "Changing Format"
 msgstr "書式の変更"
 
-#: src/commands.c:1880
+#: src/commands.c:1885
 #, c-format
 msgid "Changing format of %s"
 msgstr "書式 %s の変更"
 
-#: src/commands.c:1990
+#: src/commands.c:1995
 #, c-format
 msgid "Autofitting column %s"
 msgstr "列 %s の自動調整"
 
-#: src/commands.c:1991
+#: src/commands.c:1996
 #, c-format
 msgid "Autofitting row %s"
 msgstr "行 %s の自動調整"
 
-#: src/commands.c:1994
+#: src/commands.c:1999
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "列 %s の幅を %d ピクセルに設定"
 
-#: src/commands.c:1996
+#: src/commands.c:2001
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "行 %s の高さを %d ピクセルに設定"
 
-#: src/commands.c:1999
+#: src/commands.c:2004
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "列 %s の幅をデフォルト値にします"
 
-#: src/commands.c:2002
+#: src/commands.c:2007
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr "列 %s の高さをデフォルト値にします"
 
-#: src/commands.c:2006
+#: src/commands.c:2011
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "列 %s の自動調整"
 
-#: src/commands.c:2007
+#: src/commands.c:2012
 #, c-format
 msgid "Autofitting rows %s"
 msgstr "行 %s の自動調整"
 
-#: src/commands.c:2010
+#: src/commands.c:2015
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "列 %s の幅を %d ピクセルに設定"
 
-#: src/commands.c:2012
+#: src/commands.c:2017
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "行 %s の高さを %d ピクセルに設定"
 
-#: src/commands.c:2016
+#: src/commands.c:2021
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "列 %s の幅をデフォルト値にします"
 
-#: src/commands.c:2018
+#: src/commands.c:2023
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr "行 %s の高さをデフォルト値にします"
 
-#: src/commands.c:2084 src/dialogs/dialog-preferences.c:816
+#: src/commands.c:2089 src/dialogs/dialog-preferences.c:816
 msgid "Sorting"
 msgstr "ソート"
 
-#: src/commands.c:2104
+#: src/commands.c:2109
 #, c-format
 msgid "Sorting %s"
 msgstr "%s を整列中"
 
-#: src/commands.c:2247
+#: src/commands.c:2252
 msgid "Unhide columns"
 msgstr "列を出す"
 
-#: src/commands.c:2247
+#: src/commands.c:2252
 msgid "Hide columns"
 msgstr "列を隠す"
 
-#: src/commands.c:2248
+#: src/commands.c:2253
 msgid "Unhide rows"
 msgstr "行を出す"
 
-#: src/commands.c:2248
+#: src/commands.c:2253
 msgid "Hide rows"
 msgstr "行を隠す"
 
-#: src/commands.c:2330
+#: src/commands.c:2335
 msgid "Expand columns"
 msgstr "列の展開"
 
-#: src/commands.c:2330
+#: src/commands.c:2335
 msgid "Collapse columns"
 msgstr "列を畳む"
 
-#: src/commands.c:2331
+#: src/commands.c:2336
 msgid "Expand rows"
 msgstr "行の展開"
 
-#: src/commands.c:2331
+#: src/commands.c:2336
 msgid "Collapse rows"
 msgstr "行を畳む"
 
-#: src/commands.c:2357
+#: src/commands.c:2362
 #, c-format
 msgid "Show column outline %d"
 msgstr "列のアウトライン %d を表示"
 
-#: src/commands.c:2357
+#: src/commands.c:2362
 #, c-format
 msgid "Show row outline %d"
 msgstr "行のアウトライン %d を表示"
 
-#: src/commands.c:2427
+#: src/commands.c:2432
 msgid "Those columns are already grouped"
 msgstr "これらの列は既にグループ化されています"
 
-#: src/commands.c:2428
+#: src/commands.c:2433
 msgid "Those rows are already grouped"
 msgstr "これらの行は既にグループ化されています"
 
-#: src/commands.c:2451
+#: src/commands.c:2456
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr ""
 "これらの列はグループ化されていません。グループ化を解除することは出来ません"
 
-#: src/commands.c:2452
+#: src/commands.c:2457
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr ""
 "これらの行はグループ化されていません。グループ化を解除することは出来ません"
 
-#: src/commands.c:2466
+#: src/commands.c:2471
 #, c-format
 msgid "Group columns %s"
 msgstr "列 %s のグループ化"
 
-#: src/commands.c:2466
+#: src/commands.c:2471
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "%s 列のグループ化解除"
 
-#: src/commands.c:2468
+#: src/commands.c:2473
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "行 %d:%d のグループ化"
 
-#: src/commands.c:2468
+#: src/commands.c:2473
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "行 %d:%d のグループ化解除"
 
-#: src/commands.c:2705
+#: src/commands.c:2710
 #, c-format
 msgid "Moving %s"
 msgstr "%sを移動中"
 
-#: src/commands.c:2714 src/commands.c:2941
+#: src/commands.c:2719 src/commands.c:2946
 msgid "is beyond sheet boundaries"
 msgstr "はシートの限界を超えています"
 
-#: src/commands.c:2777
+#: src/commands.c:2782
 msgid "Paste Copy"
 msgstr "コピーを貼り付け"
 
 #. FIXME?
-#: src/commands.c:2882
+#: src/commands.c:2887
 #, c-format
 msgid "Pasting into %s"
 msgstr "%s に貼り付け"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:2978 src/commands.c:3135 src/commands.c:3136
+#: src/commands.c:2983 src/commands.c:3140 src/commands.c:3141
 #: src/wbcg-actions.c:427
 msgid "Autofill"
 msgstr "自動で埋める"
 
 #. Changed in initial redo.
-#: src/commands.c:3158
+#: src/commands.c:3163
 #, c-format
 msgid "Autofilling %s"
 msgstr "%s の自動調整"
 
-#: src/commands.c:3476
+#: src/commands.c:3481
 #, c-format
 msgid "Autoformatting %s"
 msgstr "%s の自動書式調整"
 
-#: src/commands.c:3593
+#: src/commands.c:3598
 #, c-format
 msgid "Unmerging %s"
 msgstr "%s の結合解除"
 
-#: src/commands.c:3757
+#: src/commands.c:3762
 #, c-format
 msgid "Merge and Center %s"
 msgstr "%sの結合と中央揃え"
 
-#: src/commands.c:3757
+#: src/commands.c:3762
 #, c-format
 msgid "Merging %s"
 msgstr "%s の結合"
 
 #. Corrected below.
-#: src/commands.c:4138 src/dialogs/search-replace.glade.h:24
+#: src/commands.c:4143 src/dialogs/search-replace.glade.h:24
 msgid "Search and Replace"
 msgstr "検索と置換"
 
-#: src/commands.c:4233
+#: src/commands.c:4238
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "デフォルトで列の幅を %.2f [pts] に設定"
 
-#: src/commands.c:4234
+#: src/commands.c:4239
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "デフォルトで行の高さを %.2f に設定"
 
-#: src/commands.c:4349
+#: src/commands.c:4354
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "%s を %0.f%% に縮小"
 
-#: src/commands.c:4415
+#: src/commands.c:4420
 msgid "Delete Object"
 msgstr "オブジェクトの削除"
 
-#: src/commands.c:4576
+#: src/commands.c:4581
 msgid "Format Object"
 msgstr "オブジェクトの書式"
 
-#: src/commands.c:5175
+#: src/commands.c:5180
 msgid "Reordering Sheets"
 msgstr "シートの並びの変更"
 
-#: src/commands.c:5178
+#: src/commands.c:5183
 msgid "Renaming Sheets"
 msgstr "シート名の変更"
 
-#: src/commands.c:5181
+#: src/commands.c:5186
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "%i シートを追加しています"
 
-#: src/commands.c:5185
+#: src/commands.c:5190
 msgid "Changing Tab Colors"
 msgstr "タブの色の変更"
 
-#: src/commands.c:5188
+#: src/commands.c:5193
 msgid "Changing Sheet Protection"
 msgstr "シートの保護属性を変更します"
 
-#: src/commands.c:5191
+#: src/commands.c:5196
 msgid "Delete sheets"
 msgstr "シートの削除"
 
-#: src/commands.c:5194
+#: src/commands.c:5199
 msgid "Delete a sheet"
 msgstr "シートの削除"
 
-#: src/commands.c:5197
+#: src/commands.c:5202
 msgid "Changing Sheet Visibility"
 msgstr "シートの表示/非表示を変更します"
 
-#: src/commands.c:5200
+#: src/commands.c:5205
 msgid "Reorganizing Sheets"
 msgstr "シートの再構築"
 
-#: src/commands.c:5351
+#: src/commands.c:5356
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "%s の注釈のクリア"
 
-#: src/commands.c:5352
+#: src/commands.c:5357
 #, c-format
 msgid "Setting comment of %s"
 msgstr "%s の注釈のセット"
 
-#: src/commands.c:5732
+#: src/commands.c:5737
 #, c-format
 msgid "Merging data into %s"
 msgstr "%s へのデータの結合"
 
-#: src/commands.c:5834
+#: src/commands.c:5839
 msgid "Changing summary info"
 msgstr "サマリ情報の変更"
 
-#: src/commands.c:5923
+#: src/commands.c:5928
 msgid "Pull Object to the Front"
 msgstr "オブジェクトを最前面に移動します"
 
-#: src/commands.c:5926
+#: src/commands.c:5931
 msgid "Pull Object Forward"
 msgstr "Objectを1つ前面に移動します"
 
-#: src/commands.c:5929
+#: src/commands.c:5934
 msgid "Push Object Backward"
 msgstr "オブジェクトを1つ背面に移動します"
 
-#: src/commands.c:5932
+#: src/commands.c:5937
 msgid "Push Object to the Back"
 msgstr "オブジェクトを最背面に移動します"
 
-#: src/commands.c:6047
+#: src/commands.c:6052
 #, c-format
 msgid "Page Setup For %s"
 msgstr "%sの印刷設定"
 
-#: src/commands.c:6049
+#: src/commands.c:6054
 msgid "Page Setup For All Sheets"
 msgstr "シート全体のページ設定"
 
-#: src/commands.c:6164
+#: src/commands.c:6169
 msgid "has a circular reference"
 msgstr "が参照を繰り返しています"
 
-#: src/commands.c:6187
+#: src/commands.c:6192
 #, c-format
 msgid "Define Name %s"
 msgstr "名前 %s の定義"
 
-#: src/commands.c:6190
+#: src/commands.c:6195
 #, c-format
 msgid "Update Name %s"
 msgstr "名前 %s の更新"
 
-#: src/commands.c:6254
+#: src/commands.c:6259
 msgid "Add scenario"
 msgstr "シナリオの追加"
 
-#: src/commands.c:6329
+#: src/commands.c:6334
 msgid "Scenario Show"
 msgstr ""
 
-#: src/commands.c:6393
+#: src/commands.c:6398
 msgid "Shuffle Data"
 msgstr "データのシャッフル"
 
 #. FIXME?
-#: src/commands.c:6503
+#: src/commands.c:6508
 #, fuzzy, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "列を削除"
@@ -18213,28 +18256,28 @@ msgstr "列を削除"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/commands.c:6647 src/dialogs/solver.glade.h:17
+#: src/commands.c:6652 src/dialogs/solver.glade.h:17
 #: src/tools/solver/reports-write.c:193 src/tools/solver/reports-write.c:354
 #: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:743
 #: src/tools/solver/reports-write.c:904 src/tools/solver/reports-write.c:955
 msgid "Solver"
 msgstr "ソルバ"
 
-#: src/commands.c:6731
+#: src/commands.c:6736
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "ゴールシーク (%s)"
 
-#: src/commands.c:6876
+#: src/commands.c:6881
 #, c-format
 msgid "Duplicating %s"
 msgstr "%sの複製"
 
-#: src/commands.c:6955
+#: src/commands.c:6960
 msgid "Tabulating Dependencies"
 msgstr "依存関係を表にする"
 
-#: src/commands.c:7030
+#: src/commands.c:7035
 #, fuzzy
 msgid "Reconfigure Graph"
 msgstr "グラフを再設定します"
@@ -18274,47 +18317,47 @@ msgstr "対数"
 msgid "Logarithm mapping"
 msgstr "対数写像"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1411
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1415
 msgid "Details"
 msgstr "詳細"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1465
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1469
 msgid "Categories between _ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1466
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1470
 msgid "Categories between _labels"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1467
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1471
 #, fuzzy
 msgid "_Cross at category #"
 msgstr "カテゴリ(_C):"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1473
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1487
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1477
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1491
 #, fuzzy
 msgid "Bounds"
 msgstr "背景"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1476
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1480
 #: src/dialogs/solver.glade.h:7
 msgid "M_in"
 msgstr "最小(_I)"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1477
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1481
 msgid "M_ax"
 msgstr "最大(_A)"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1478
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1482
 msgid "Ma_jor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1479
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1483
 msgid "Mi_nor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1480
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1484
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:7
 #, fuzzy
 msgid "_Cross"
@@ -18324,22 +18367,22 @@ msgstr "閉じる(_C)"
 #. * We need a way to toggle auto vs user formats
 #. * but the selector is too tall already
 #. * disable for now
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1502
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1509
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1506
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1513
 #: src/dialogs/dialog-stf.glade.h:26
 msgid "Format"
 msgstr "書式"
 
 #. Object Toolbar
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1538 src/wbcg-actions.c:1911
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1542 src/wbcg-actions.c:1911
 msgid "Label"
 msgstr "ラベル"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1541
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1545
 msgid "MinorGrid"
 msgstr "マイナーグリッド"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1544
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1548
 msgid "MajorGrid"
 msgstr "メジャーグリッド"
 
@@ -18396,7 +18439,7 @@ msgid "_Show Labels"
 msgstr "ラベルの表示(_S)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:14
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:26
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:27
 #: src/dialogs/solver.glade.h:36
 msgid "_Type:"
 msgstr "型(_T):"
@@ -18572,18 +18615,6 @@ msgid "Push to _back"
 msgstr "最背面に送る(_B)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:6
-#: src/dialogs/autocorrect.glade.h:12 src/dialogs/names.glade.h:7
-#: src/dialogs/solver.glade.h:18
-msgid "_Add"
-msgstr "追加(_A)"
-
-#: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:7
-#: src/dialogs/names.glade.h:8 src/dialogs/solver.glade.h:23
-#: src/wbcg-actions.c:1435
-msgid "_Delete"
-msgstr "削除(_D)"
-
-#: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:8
 #: src/sheet-object.c:107
 msgid "_Order"
 msgstr "順序(_O)"
@@ -18629,17 +18660,17 @@ msgstr "設定(_S)"
 msgid "Point"
 msgstr "点"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:158 src/gui-file.c:359
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:159 src/gui-file.c:359
 #, c-format
 msgid "%d x %d"
 msgstr "%d x %d"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:836
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:881
 #: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:812
 msgid "Font"
 msgstr "フォント"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:924
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:969
 #: src/dialogs/pivottable.glade.h:4
 msgid "Style"
 msgstr "スタイル"
@@ -18698,63 +18729,68 @@ msgid "Si_ze:"
 msgstr "サイズ(_Z):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:15
+#, fuzzy
+msgid "St_yle:"
+msgstr "スタイル:"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:16
 #: src/dialogs/hyperlink.glade.h:5
 msgid "T_ype:"
 msgstr "タイプ(_Y):"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:16
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:17
 msgid "_Background:"
 msgstr "背景(_B):"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:17
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:18
 msgid "_Direction:"
 msgstr "方向(_D):"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:18
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:19
 msgid "_End:"
 msgstr "終了(_E):"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:19
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:20
 msgid "_Fill color:"
 msgstr "塗りつぶし(_F):"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:20
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:21
 msgid "_Fit:"
 msgstr "合わせる(_F):"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:21
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:22
 msgid "_Foreground:"
 msgstr "文字色(_F):"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:22
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:23
 msgid "_Pattern:"
 msgstr "パターン(_P):"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:23
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:24
 msgid "_Select..."
 msgstr "選択(_S)..."
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:24
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:25
 msgid "_Size:"
 msgstr "サイズ(_S):"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:25
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:26
 msgid "_Start:"
 msgstr "開始(_S):"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:27
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:28
 msgid "_brighter"
 msgstr "明るくする(_B)"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:28
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:29
 msgid "_darker"
 msgstr "暗くする(_D)"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:29
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:30
 msgid "pts"
 msgstr "pts"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:30
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:31
 #, fuzzy
 msgid ""
 "stretched\n"
@@ -18764,29 +18800,29 @@ msgstr "壁紙"
 #. TODO : have a look at apple's themes
 #. An MS Excel-ish theme
 #: src/cut-n-paste-code/goffice/graph/gog-theme.c:458
-#: src/dialogs/dialog-sheet-order.c:1049 src/dialogs/dialog-sheet-order.c:1058
+#: src/dialogs/dialog-sheet-order.c:987 src/dialogs/dialog-sheet-order.c:996
 msgid "Default"
 msgstr "デフォルト"
 
 #. Guppi
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:524
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:534
 msgid "Guppi"
 msgstr "Guppi"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:326
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:335
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:231
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar.c:225
 #: src/dialogs/consolidate.glade.h:7
 msgid "Labels"
 msgstr "ラベル"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:328
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:337
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:233
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar.c:227
 msgid "Values"
 msgstr "値"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:448
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:464
 msgid "Error bars"
 msgstr "エラーバー"
 
@@ -19679,6 +19715,44 @@ msgstr "ツールバーを結合する"
 msgid "Un dock the toolbar"
 msgstr "ツールバーの結合を解除"
 
+#: src/cut-n-paste-code/goffice/utils/go-line.c:51
+#: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-cell-format.c:91
+#: src/tools/solver/reports-write.c:718
+msgid "None"
+msgstr "なし"
+
+#: src/cut-n-paste-code/goffice/utils/go-line.c:52
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:95
+#: src/dialogs/cell-format.glade.h:72
+msgid "Solid"
+msgstr "色なし"
+
+#: src/cut-n-paste-code/goffice/utils/go-line.c:53
+msgid "Dash"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/utils/go-line.c:54
+msgid "Dot"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/utils/go-line.c:55
+msgid "Dash dot"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/utils/go-line.c:56
+msgid "Dash dot dot"
+msgstr ""
+
+#. xgettext : this will appear as 'Automatic (patternname)'
+#. xgettext : this will appear as 'Automatic (shapename)'
+#. xgettext : this will appear as 'Automatic (patternname)'
+#: src/cut-n-paste-code/goffice/utils/go-line.c:305
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:603
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:242
+#, fuzzy, c-format
+msgid "Automatic (%s)"
+msgstr "自動"
+
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:220
 msgid "none"
 msgstr "なし"
@@ -19738,19 +19812,6 @@ msgstr ""
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:234
 msgid "hourglass"
 msgstr ""
-
-#. xgettext : this will appear as 'Automatic (shapename)'
-#. xgettext : this will appear as 'Automatic (patternname)'
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:603
-#: src/cut-n-paste-code/goffice/utils/go-pattern.c:242
-#, fuzzy, c-format
-msgid "Automatic (%s)"
-msgstr "自動"
-
-#: src/cut-n-paste-code/goffice/utils/go-pattern.c:95
-#: src/dialogs/cell-format.glade.h:72
-msgid "Solid"
-msgstr "色なし"
 
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:96
 #: src/dialogs/cell-format.glade.h:12
@@ -20214,11 +20275,9 @@ msgstr "訂正しない(_N)"
 msgid "First Letter"
 msgstr "先頭の文字"
 
-#. This is a name of the "General" autoformat template category.
-#. Please use the same translation as in General.category XML file
-#: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:671
-#: src/format.c:2233 src/format.c:2398 src/format.c:2404 src/format.c:2477
-#: src/plugin-service.c:198 src/widgets/widget-format-selector.c:75
+#: src/dialogs/autocorrect.glade.h:9 src/format.c:2232 src/format.c:2520
+#: src/format.c:2526 src/format.c:2599 src/plugin-service.c:195
+#: src/widgets/widget-format-selector.c:75
 msgid "General"
 msgstr "標準"
 
@@ -20230,6 +20289,11 @@ msgstr "大文字と小文字"
 #: src/dialogs/autocorrect.glade.h:11
 msgid "Re_place:"
 msgstr "修正文字(_P)"
+
+#: src/dialogs/autocorrect.glade.h:12 src/dialogs/names.glade.h:7
+#: src/dialogs/solver.glade.h:18
+msgid "_Add"
+msgstr "追加(_A)"
 
 #: src/dialogs/autocorrect.glade.h:13 src/dialogs/pivottable.glade.h:12
 #: src/wbcg-actions.c:1613
@@ -20502,7 +20566,7 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:36 src/dialogs/dialog-cell-format.c:2380
-#: src/wbc-gtk.c:587 src/wbc-gtk.c:588 src/wbc-gtk.c:595
+#: src/wbc-gtk.c:588 src/wbc-gtk.c:589 src/wbc-gtk.c:596
 msgid "Background"
 msgstr "背景"
 
@@ -20510,7 +20574,7 @@ msgstr "背景"
 msgid "Border"
 msgstr "罫線"
 
-#: src/dialogs/cell-format.glade.h:38 src/wbc-gtk.c:208
+#: src/dialogs/cell-format.glade.h:38 src/wbc-gtk.c:209
 msgid "Bottom"
 msgstr "下"
 
@@ -20574,18 +20638,13 @@ msgstr "内側・垂直"
 msgid "J_ustify"
 msgstr "両端揃え(_U)"
 
-#: src/dialogs/cell-format.glade.h:61 src/wbc-gtk.c:200
+#: src/dialogs/cell-format.glade.h:61 src/wbc-gtk.c:201
 msgid "Left"
 msgstr "左"
 
 #: src/dialogs/cell-format.glade.h:62
 msgid "Locking cells or hiding formulas only affects protected worksheets."
 msgstr "セルのロックや式を隠すのは保護されたワークシートのみに有効です"
-
-#: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-cell-format.c:91
-#: src/tools/solver/reports-write.c:718
-msgid "None"
-msgstr "なし"
 
 #: src/dialogs/cell-format.glade.h:64
 msgid "Outline"
@@ -20599,7 +20658,7 @@ msgstr "保護"
 msgid "Reverse Diagonal"
 msgstr "右下がりの対角線"
 
-#: src/dialogs/cell-format.glade.h:68 src/wbc-gtk.c:202
+#: src/dialogs/cell-format.glade.h:68 src/wbc-gtk.c:203
 msgid "Right"
 msgstr "右"
 
@@ -21720,13 +21779,13 @@ msgstr "情報 (不正な入力も許可されます)"
 msgid "The validation criteria are unusable. Disable validation?"
 msgstr ""
 
-#: src/dialogs/dialog-cell-format.c:2375 src/wbc-gtk.c:178 src/wbc-gtk.c:311
-#: src/wbc-gtk.c:537 src/wbc-gtk.c:538 src/wbc-gtk.c:547 src/wbc-gtk.c:640
-#: src/wbc-gtk.c:691
+#: src/dialogs/dialog-cell-format.c:2375 src/wbc-gtk.c:179 src/wbc-gtk.c:312
+#: src/wbc-gtk.c:538 src/wbc-gtk.c:539 src/wbc-gtk.c:548 src/wbc-gtk.c:641
+#: src/wbc-gtk.c:692
 msgid "Foreground"
 msgstr "文字色"
 
-#: src/dialogs/dialog-cell-format.c:2380 src/wbc-gtk.c:585
+#: src/dialogs/dialog-cell-format.c:2380 src/wbc-gtk.c:586
 msgid "Clear Background"
 msgstr "背景を消去"
 
@@ -21966,7 +22025,7 @@ msgstr "ハイパーリンクの削除"
 msgid "Could not create the hyperlink dialog."
 msgstr "ハイパーリンクダイアログが作成できませんでした。"
 
-#: src/dialogs/dialog-insert-cells.c:136 src/workbook-control-gui.c:528
+#: src/dialogs/dialog-insert-cells.c:136 src/workbook-control-gui.c:538
 msgid "Insert"
 msgstr "挿入"
 
@@ -22192,7 +22251,7 @@ msgstr "ウィンドウ"
 msgid "Files"
 msgstr "ファイル"
 
-#: src/dialogs/dialog-preferences.c:815 src/wbc-gtk.c:471
+#: src/dialogs/dialog-preferences.c:815 src/wbc-gtk.c:472
 msgid "Undo"
 msgstr "元に戻す"
 
@@ -22543,23 +22602,23 @@ msgstr "この置換を行わない"
 msgid "Perform this replacement"
 msgstr "この置換を行わない"
 
-#: src/dialogs/dialog-sheet-order.c:371
+#: src/dialogs/dialog-sheet-order.c:350
 msgid "Current Name"
 msgstr "現在の名前"
 
-#: src/dialogs/dialog-sheet-order.c:381
+#: src/dialogs/dialog-sheet-order.c:360
 msgid "New Name"
 msgstr "新しい名前"
 
-#: src/dialogs/dialog-sheet-order.c:732
+#: src/dialogs/dialog-sheet-order.c:670
 msgid "At least one sheet must remain visible!"
 msgstr "少なくとも1つのシートは残して表示しなければなりません!"
 
-#: src/dialogs/dialog-sheet-order.c:737
+#: src/dialogs/dialog-sheet-order.c:675
 msgid "You may not delete all sheets in a workbook!"
 msgstr "ワークブックのシートをすべて削除したりはしないでしょう!"
 
-#: src/dialogs/dialog-sheet-order.c:742
+#: src/dialogs/dialog-sheet-order.c:680
 msgid ""
 "To replace all exisiting sheets, please delete the current workbook and "
 "create a new one!"
@@ -22567,7 +22626,7 @@ msgstr ""
 "存在するすべてのシートを置き換えるには、現在のワークブックを削除して新しく作"
 "成してください。"
 
-#: src/dialogs/dialog-sheet-order.c:987
+#: src/dialogs/dialog-sheet-order.c:925
 msgid "The sheet order has changed. Do you want to update the list?"
 msgstr "シートの順序が変更されました。リストを更新しますか?"
 
@@ -22612,16 +22671,16 @@ msgid "Variable"
 msgstr "変数"
 
 #: src/dialogs/dialog-simulation.c:237 src/tools/simulation.c:247
-#: src/workbook-control-gui.c:1822
+#: src/workbook-control-gui.c:1828
 msgid "Min"
 msgstr "最小"
 
-#: src/dialogs/dialog-simulation.c:237 src/workbook-control-gui.c:1824
+#: src/dialogs/dialog-simulation.c:237 src/workbook-control-gui.c:1830
 msgid "Average"
 msgstr "算術平均値"
 
 #: src/dialogs/dialog-simulation.c:237 src/tools/simulation.c:249
-#: src/workbook-control-gui.c:1823
+#: src/workbook-control-gui.c:1829
 msgid "Max"
 msgstr "最大"
 
@@ -22739,18 +22798,22 @@ msgstr "ソルバダイアログが作成できませんでした。"
 msgid "Are you sure you want to cancel?"
 msgstr "本当にキャンセルしますか?"
 
-#: src/dialogs/dialog-stf-export.c:350
+#: src/dialogs/dialog-stf-export.c:437
 msgid "Export"
 msgstr "エクスポート"
 
-#: src/dialogs/dialog-stf-export.c:400
-#: src/dialogs/dialog-stf-export.glade.h:33
+#: src/dialogs/dialog-stf-export.c:510
+#: src/dialogs/dialog-stf-export.glade.h:39
 msgid "_Next"
 msgstr "次へ(_N)"
 
-#: src/dialogs/dialog-stf-export.c:403
+#: src/dialogs/dialog-stf-export.c:513
 msgid "_Finish"
 msgstr "終了(_F)"
+
+#: src/dialogs/dialog-stf-export.c:572
+msgid "This workbook does not contain any exportable content."
+msgstr ""
 
 #: src/dialogs/dialog-stf-export.glade.h:1
 msgid ""
@@ -22781,31 +22844,65 @@ msgid "Choose export formatting:"
 msgstr "エクスポート形式の選択:"
 
 #: src/dialogs/dialog-stf-export.glade.h:11
-msgid "Choose sheets to export:"
-msgstr "エクスポートするシートの選択:"
+msgid "Choose sheets to export and determine export ordering of the sheets:"
+msgstr ""
 
 #: src/dialogs/dialog-stf-export.glade.h:12
+#, fuzzy
+msgid "Deselect all sheets for export."
+msgstr "エクスポートするシートの選択:"
+
+#: src/dialogs/dialog-stf-export.glade.h:13
 msgid "Export as Text"
 msgstr "テキストとしてエクスポート"
 
-#: src/dialogs/dialog-stf-export.glade.h:13
+#: src/dialogs/dialog-stf-export.glade.h:14
+msgid ""
+"Lower the selected sheet in the list of to be exported sheets to be exported "
+"later."
+msgstr ""
+
+#: src/dialogs/dialog-stf-export.glade.h:15
+msgid ""
+"Move the selected sheet to the end of the list of to be exported exported "
+"sheets to be exported last."
+msgstr ""
+
+#: src/dialogs/dialog-stf-export.glade.h:16
+msgid ""
+"Move the selected sheet to the top of the list of to be exported sheets to "
+"be exported first."
+msgstr ""
+
+#: src/dialogs/dialog-stf-export.glade.h:17
 msgid "Qu_oting:"
 msgstr "引用符の付け方(_O):"
 
-#: src/dialogs/dialog-stf-export.glade.h:14
+#: src/dialogs/dialog-stf-export.glade.h:18
 msgid "Quote _character:"
 msgstr "引用符文字(_C):"
 
-#: src/dialogs/dialog-stf-export.glade.h:15
+#: src/dialogs/dialog-stf-export.glade.h:19
+msgid ""
+"Raise the selected sheet in the list of to be exported sheets to be exported "
+"earlier."
+msgstr ""
+
+#: src/dialogs/dialog-stf-export.glade.h:20
 msgid "Select N_one"
 msgstr "選択解除(_O)"
 
 #. Edit -> Select
-#: src/dialogs/dialog-stf-export.glade.h:16 src/wbcg-actions.c:1560
+#: src/dialogs/dialog-stf-export.glade.h:21 src/wbcg-actions.c:1560
 msgid "Select _All"
 msgstr "全て選択(_A)"
 
-#: src/dialogs/dialog-stf-export.glade.h:17
+#: src/dialogs/dialog-stf-export.glade.h:22
+#, fuzzy
+msgid "Select all non-empty sheets for export."
+msgstr "エクスポートするシートを少なくとも１つ選んでください"
+
+#: src/dialogs/dialog-stf-export.glade.h:23
 msgid ""
 "Space\n"
 "Tab\n"
@@ -22829,7 +22926,7 @@ msgstr ""
 "スラッシュ (/)\n"
 "カスタム"
 
-#: src/dialogs/dialog-stf-export.glade.h:27
+#: src/dialogs/dialog-stf-export.glade.h:33
 msgid ""
 "Transliterate\n"
 "Escape"
@@ -22837,7 +22934,7 @@ msgstr ""
 "音訳\n"
 "エスケープ"
 
-#: src/dialogs/dialog-stf-export.glade.h:29
+#: src/dialogs/dialog-stf-export.glade.h:35
 msgid ""
 "Unix (linefeed)\n"
 "Macintosh (carriage return)\n"
@@ -22847,20 +22944,20 @@ msgstr ""
 "Macintosh (キャリッジリターン)\n"
 "Windows形式 (キャリッジリターン + ラインフィード)"
 
-#: src/dialogs/dialog-stf-export.glade.h:32
+#: src/dialogs/dialog-stf-export.glade.h:38
 msgid "_Line termination:"
 msgstr "行終端(_L):"
 
-#: src/dialogs/dialog-stf-export.glade.h:34
+#: src/dialogs/dialog-stf-export.glade.h:40
 #, fuzzy
 msgid "_Preserves Formats"
 msgstr "対象外の部分(_P)"
 
-#: src/dialogs/dialog-stf-export.glade.h:35
+#: src/dialogs/dialog-stf-export.glade.h:41
 msgid "_Separator:"
 msgstr "セパレータ(_S):"
 
-#: src/dialogs/dialog-stf-export.glade.h:36
+#: src/dialogs/dialog-stf-export.glade.h:42
 msgid "_Unknown characters:"
 msgstr "不明な文字(_U):"
 
@@ -22869,71 +22966,73 @@ msgid "Autodiscovery did not find any columns in the text. Try manually"
 msgstr "自動探索はテキストに列を検出できませんでした。手動でやってみてください"
 
 #: src/dialogs/dialog-stf-fixed-page.c:69
-msgid "Delete and Merge _Left"
-msgstr "削除して左に結合(_L)"
+#, fuzzy
+msgid "Merge with column on _left"
+msgstr "左の列をすべて無視"
 
 #: src/dialogs/dialog-stf-fixed-page.c:71
-msgid "Delete and Merge _Right"
-msgstr "削除して右に結合(_R)"
+#, fuzzy
+msgid "Merge with column on _right"
+msgstr "右の列をすべて無視"
 
 #: src/dialogs/dialog-stf-fixed-page.c:74
-msgid "_Split"
-msgstr "分割(_S)"
+#, fuzzy
+msgid "_Split this column"
+msgstr "列全体を選択します"
 
 #: src/dialogs/dialog-stf-fixed-page.c:77
-msgid "_Widen"
-msgstr "広くする(_W)"
+#, fuzzy
+msgid "_Widen this column"
+msgstr "列を隠す"
 
 #: src/dialogs/dialog-stf-fixed-page.c:79
-msgid "_Narrow"
-msgstr "狭くする(_N)"
+#, fuzzy
+msgid "_Narrow this column"
+msgstr "列のリストを消去"
 
-#: src/dialogs/dialog-stf-format-page.c:44
+#: src/dialogs/dialog-stf-format-page.c:45
 #, c-format
 msgid "Importing %i columns and ignoring none."
 msgstr "%i 列をインポートして無視するものはありません。"
 
-#: src/dialogs/dialog-stf-format-page.c:47
+#: src/dialogs/dialog-stf-format-page.c:48
 #, c-format
 msgid "Importing %i columns and ignoring %i."
 msgstr "%i 列をインポートして %i を無視します。"
 
-#: src/dialogs/dialog-stf-format-page.c:154
+#: src/dialogs/dialog-stf-format-page.c:155
+#: src/dialogs/dialog-stf-format-page.c:413
 #, c-format
 msgid "A maximum of %d columns can be imported."
 msgstr "最大%d列がインポートされます。"
 
-#: src/dialogs/dialog-stf-format-page.c:283
+#: src/dialogs/dialog-stf-format-page.c:284
 msgid "Ignore all columns on right"
 msgstr "右の列をすべて無視"
 
-#: src/dialogs/dialog-stf-format-page.c:284
+#: src/dialogs/dialog-stf-format-page.c:285
 msgid "Ignore all columns on left"
 msgstr "左の列をすべて無視"
 
-#: src/dialogs/dialog-stf-format-page.c:285
+#: src/dialogs/dialog-stf-format-page.c:286
 msgid "Import all columns on right"
 msgstr "右の列をすべてインポート"
 
-#: src/dialogs/dialog-stf-format-page.c:286
+#: src/dialogs/dialog-stf-format-page.c:287
 msgid "Import all columns on left"
 msgstr "左の列をすべてインポート"
 
-#: src/dialogs/dialog-stf-format-page.c:287
+#: src/dialogs/dialog-stf-format-page.c:288
 msgid "Copy format to right"
 msgstr "書式を右にコピー"
 
-#: src/dialogs/dialog-stf-format-page.c:430
+#: src/dialogs/dialog-stf-format-page.c:444
 msgid ""
 "If this checkbox is selected, the column will be imported into Gnumeric."
 msgstr ""
 "このチェックボックスが選択されていたら、列はGnumericにインポートされます。"
 
-#: src/dialogs/dialog-stf-format-page.c:433
-msgid "At most 256 columns can be imported at one time."
-msgstr "一度に256列までインポートできます。"
-
-#: src/dialogs/dialog-stf-format-page.c:573
+#: src/dialogs/dialog-stf-format-page.c:601
 #: src/dialogs/dialog-stf-preview.h:27
 #, c-format
 msgid "Column %d"
@@ -23813,6 +23912,11 @@ msgstr "名前の定義"
 #: src/dialogs/names.glade.h:6
 msgid "Workbook"
 msgstr "ワークブック"
+
+#: src/dialogs/names.glade.h:8 src/dialogs/solver.glade.h:23
+#: src/wbcg-actions.c:1435
+msgid "_Delete"
+msgstr "削除(_D)"
 
 #: src/dialogs/names.glade.h:9
 msgid "_Expression: "
@@ -24961,7 +25065,7 @@ msgstr "'%s' はシートで既に定義されています"
 msgid "'%s' is already defined in workbook"
 msgstr "'%s'はワークブックで既に定義されています"
 
-#: src/file-autoft.c:92
+#: src/file-autoft.c:91
 #, c-format
 msgid "Invalid template file: %s"
 msgstr "不正なテンプレートファイル: %s"
@@ -25018,7 +25122,7 @@ msgid "Yellow"
 msgstr "黄"
 
 #. Array of arrays ??
-#: src/format.c:2107
+#: src/format.c:2106
 msgid "ARRAY"
 msgstr "配列"
 
@@ -25903,23 +26007,23 @@ msgstr "自動検出"
 msgid "Load file"
 msgstr "ファイルを読み込みます"
 
-#: src/gui-file.c:224 src/gui-file.c:662
+#: src/gui-file.c:224 src/gui-file.c:666
 msgid "Select a file"
 msgstr "ファイルの選択"
 
-#: src/gui-file.c:242 src/gui-file.c:464 src/gui-file.c:676
+#: src/gui-file.c:242 src/gui-file.c:468 src/gui-file.c:680
 msgid "All Files"
 msgstr "すべてのファイル"
 
-#: src/gui-file.c:247 src/gui-file.c:681
+#: src/gui-file.c:247 src/gui-file.c:685
 msgid "Spreadsheets"
 msgstr "スプレッドシート"
 
-#: src/gui-file.c:284 src/gui-file.c:531 src/gui-file.c:705
+#: src/gui-file.c:284 src/gui-file.c:535 src/gui-file.c:709
 msgid "File _type:"
 msgstr "ファイルタイプ(_T):"
 
-#: src/gui-file.c:396
+#: src/gui-file.c:400
 #, c-format
 msgid ""
 "%s\n"
@@ -25928,14 +26032,14 @@ msgstr ""
 "%s\n"
 "はディレクトリ名です"
 
-#: src/gui-file.c:402
+#: src/gui-file.c:406
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
 "%s"
 msgstr "%s に保存するためのパーミッションがありません"
 
-#: src/gui-file.c:411
+#: src/gui-file.c:415
 #, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
@@ -25946,15 +26050,15 @@ msgstr ""
 "\n"
 "上書き保存しますか?"
 
-#: src/gui-file.c:469
+#: src/gui-file.c:473
 msgid "Images"
 msgstr "画像"
 
-#: src/gui-file.c:509
+#: src/gui-file.c:513
 msgid "Save as"
 msgstr "名前を付けて保存"
 
-#: src/gui-file.c:558 src/gui-file.c:754
+#: src/gui-file.c:562 src/gui-file.c:758
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -25962,11 +26066,11 @@ msgstr ""
 "指定されたファイルの拡張子は選択したファイルタイプと一致していません。この名"
 "前をとにかく使用しますか?"
 
-#: src/gui-file.c:585
+#: src/gui-file.c:589
 msgid "Select an Image"
 msgstr "画像の選択"
 
-#: src/gui-file.c:604
+#: src/gui-file.c:608
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -25988,7 +26092,7 @@ msgstr "複数のエラー\n"
 msgid "Unable to open file '%s'"
 msgstr "ファイル'%s'を開けません"
 
-#: src/gutils.c:538
+#: src/gutils.c:537
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "yngnum."
@@ -26009,12 +26113,12 @@ msgstr "URL'%s'をアクティブにできません"
 msgid "Unable to open '%s'"
 msgstr "ファイル'%s'を開けません"
 
-#: src/item-bar.c:764
+#: src/item-bar.c:765
 #, c-format
 msgid "Width: %.2f pts (%d pixels)"
 msgstr "幅: %.2f pts (%d ピクセル)"
 
-#: src/item-bar.c:767
+#: src/item-bar.c:768
 #, c-format
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "高さ: %.2f pts (%d ピクセル)"
@@ -26064,64 +26168,64 @@ msgstr "セルを右にずらして移動(_T)"
 msgid "C_ancel"
 msgstr "キャンセル(_A)"
 
-#: src/main-application.c:62 src/ssconvert.c:42
+#: src/main-application.c:60 src/ssconvert.c:38
 msgid "Display Gnumeric's version"
 msgstr "Gnumericのバージョンの表示"
 
-#: src/main-application.c:64 src/ssconvert.c:45
+#: src/main-application.c:62 src/ssconvert.c:41
 msgid "Set the root library directory"
 msgstr "rootライブラリのディレクトリのセット"
 
-#: src/main-application.c:66 src/ssconvert.c:47
+#: src/main-application.c:64 src/ssconvert.c:43
 msgid "Adjust the root data directory"
 msgstr "rootデータのディレクトリの調整"
 
-#: src/main-application.c:69 src/main-application.c:71
+#: src/main-application.c:67 src/main-application.c:69
 msgid "Dumps the function definitions"
 msgstr "関数定義のダンプ"
 
-#: src/main-application.c:69 src/main-application.c:71
+#: src/main-application.c:67 src/main-application.c:69
 msgid "FILE"
 msgstr "ファイル"
 
-#: src/main-application.c:74
+#: src/main-application.c:72
 msgid "Enables some debugging functions"
 msgstr "デバッグ関数を有効にする"
 
-#: src/main-application.c:74 src/main-application.c:77
-#: src/main-application.c:79 src/main-application.c:81
+#: src/main-application.c:72 src/main-application.c:75
+#: src/main-application.c:77 src/main-application.c:79
 msgid "LEVEL"
 msgstr "レベル"
 
-#: src/main-application.c:77
+#: src/main-application.c:75
 msgid "Enables some dependency related debugging functions"
 msgstr "デバッグ関数に関連する依存性を有効にする"
 
-#: src/main-application.c:79
+#: src/main-application.c:77
 msgid "Enables some debugging functions for expression sharing"
 msgstr "共有する式をデバッグする関数を有効にする"
 
-#: src/main-application.c:81
+#: src/main-application.c:79
 msgid "Enables some print debugging behavior"
 msgstr "印刷機能のデバッグを有効にする"
 
-#: src/main-application.c:84
+#: src/main-application.c:82
 msgid "Specify the size and location of the initial window"
 msgstr "起動時のウィンドウのサイズとジオメトリの指定"
 
-#: src/main-application.c:84
+#: src/main-application.c:82
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "WIDTHxHEIGHT+XOFF+YOFF"
 
-#: src/main-application.c:88
+#: src/main-application.c:86
 msgid "Don't show splash screen"
 msgstr "スプラッシュスクリーンを表示しない"
 
-#: src/main-application.c:91
+#: src/main-application.c:89
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr "指定したブックを読み込んだ後にすぐ終了する (テスト向け)"
 
-#: src/main-application.c:122
+#: src/main-application.c:120
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -26145,84 +26249,84 @@ msgstr ""
 "\n"
 "-- Gnumeric 開発チームより。"
 
-#: src/main-application.c:191
+#: src/main-application.c:189
 msgid "Gdk debugging flags to set"
 msgstr "セットするGdkデバッグフラグ"
 
-#: src/main-application.c:191 src/main-application.c:193
-#: src/main-application.c:205 src/main-application.c:207
+#: src/main-application.c:189 src/main-application.c:191
+#: src/main-application.c:203 src/main-application.c:205
 msgid "FLAGS"
 msgstr "フラグ"
 
-#: src/main-application.c:193
+#: src/main-application.c:191
 msgid "Gdk debugging flags to unset"
 msgstr "セットしないGdkデバッグフラグ"
 
-#: src/main-application.c:195
+#: src/main-application.c:193
 msgid "X display to use"
 msgstr "使用するXディスプレイ"
 
-#: src/main-application.c:195
+#: src/main-application.c:193
 msgid "DISPLAY"
 msgstr "ディスプレイ"
 
-#: src/main-application.c:197
+#: src/main-application.c:195
 msgid "X screen to use"
 msgstr "使用するXスクリーン"
 
-#: src/main-application.c:197
+#: src/main-application.c:195
 msgid "SCREEN"
 msgstr "スクリーン"
 
-#: src/main-application.c:199
+#: src/main-application.c:197
 msgid "Make X calls synchronous"
 msgstr "Xの呼出しを同期する"
 
-#: src/main-application.c:201
+#: src/main-application.c:199
 msgid "Program name as used by the window manager"
 msgstr "ウィンドウマネージャが使用するプログラム名"
 
-#: src/main-application.c:201
+#: src/main-application.c:199
 msgid "NAME"
 msgstr "名前"
 
-#: src/main-application.c:203
+#: src/main-application.c:201
 msgid "Program class as used by the window manager"
 msgstr "プログラムクラスはウィンドウマネージャが使用しています"
 
-#: src/main-application.c:203
+#: src/main-application.c:201
 msgid "CLASS"
 msgstr "クラス"
 
-#: src/main-application.c:205
+#: src/main-application.c:203
 msgid "Gtk+ debugging flags to set"
 msgstr "セットするGTK+デバッグフラグ"
 
-#: src/main-application.c:207
+#: src/main-application.c:205
 msgid "Gtk+ debugging flags to unset"
 msgstr "セットしないGTK+デバッグフラグ"
 
-#: src/main-application.c:209
+#: src/main-application.c:207
 msgid "Make all warnings fatal"
 msgstr "すべての警告をfatalにする"
 
-#: src/main-application.c:211
+#: src/main-application.c:209
 msgid "Load an additional Gtk module"
 msgstr "追加のGTK+モジュールを読みこむ"
 
-#: src/main-application.c:211
+#: src/main-application.c:209
 msgid "MODULE"
 msgstr "モジュール"
 
-#: src/main-application.c:217
+#: src/main-application.c:215
 msgid "Gnumeric options"
 msgstr "Gnumericオプション"
 
-#: src/main-application.c:219
+#: src/main-application.c:217
 msgid "GTK+ options"
 msgstr "GTK+オプション"
 
-#: src/main-application.c:258
+#: src/main-application.c:256
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -26461,146 +26565,146 @@ msgstr "プラグインの有効化中にエラーが発生しました。"
 msgid "Errors while initializing plugin system."
 msgstr "プラグインシステムの初期化中にエラーが発生しました。"
 
-#: src/plugin-loader.c:178
+#: src/plugin-loader.c:172
 msgid "Loader has no set_attributes method.\n"
 msgstr ""
 
-#: src/plugin-loader.c:205
+#: src/plugin-loader.c:199
 msgid "Loader has no load_base method.\n"
 msgstr ""
 
-#: src/plugin-loader.c:266 src/plugin-loader.c:306
+#: src/plugin-loader.c:258 src/plugin-loader.c:296
 #, c-format
 msgid "Service '%s' not supported by loader."
 msgstr "サービス '%s' は、ローダーはサポートしていません。"
 
-#: src/plugin-loader-module.c:71
+#: src/plugin-loader-module.c:69
 msgid "Module file name not given."
 msgstr "モジュール名が指定されていません。"
 
-#: src/plugin-loader-module.c:107
+#: src/plugin-loader-module.c:105
 #, c-format
 msgid "Unable to open module file \"%s\"."
 msgstr "モジュールファイル \"%s\" が開けません。"
 
-#: src/plugin-loader-module.c:112 src/plugin-loader-module.c:271
-#: src/plugin-loader-module.c:357 src/plugin-loader-module.c:417
-#: src/plugin-loader-module.c:501 src/plugin-loader-module.c:637
+#: src/plugin-loader-module.c:110 src/plugin-loader-module.c:265
+#: src/plugin-loader-module.c:351 src/plugin-loader-module.c:411
+#: src/plugin-loader-module.c:495 src/plugin-loader-module.c:629
 #, c-format
 msgid "Module file \"%s\" has invalid format."
 msgstr "モジュールファイル \"%s\" のフォーマットが正しくありません。"
 
-#: src/plugin-loader-module.c:117
+#: src/plugin-loader-module.c:115
 msgid "File doesn't contain (\"plugin_file_struct\" symbol)."
 msgstr "ファイルには (\"plugin_file_struct\" シンボル) が含まれていません。"
 
-#: src/plugin-loader-module.c:121
+#: src/plugin-loader-module.c:119
 msgid "File has a bad magic number."
 msgstr "おかしなマジック番号をもったファイルです。"
 
-#: src/plugin-loader-module.c:125
+#: src/plugin-loader-module.c:123
 #, c-format
 msgid "Plugin version \"%s\" is different from application \"%s\"."
 msgstr ""
 "プラグイン・バージョン \"%s\" はアプリケーション \"%s\" に対応していません。"
 
-#: src/plugin-loader-module.c:134
+#: src/plugin-loader-module.c:132
 msgid "Dynamic module loading is not supported in this system."
 msgstr ""
 "このシステムではダイナミック・モジュールの読み込みはサポートしてません。"
 
-#: src/plugin-loader-module.c:149
+#: src/plugin-loader-module.c:147
 #, c-format
 msgid "Unable to close module file \"%s\"."
 msgstr "モジュールファイル \"%s\" を閉じれません。"
 
-#: src/plugin-loader-module.c:276
+#: src/plugin-loader-module.c:270
 msgid "File doesn't contain \"plugin_init_general\" function."
 msgstr "ファイルには \"plugin_init_general\" 関数が含まれていません。"
 
-#: src/plugin-loader-module.c:281
+#: src/plugin-loader-module.c:275
 msgid "File doesn't contain \"plugin_cleanup_general\" function."
 msgstr "ファイルには \"plugin_cleanup_general 関数が含まれていません。"
 
-#: src/plugin-loader-module.c:505 src/plugin-loader-module.c:640
+#: src/plugin-loader-module.c:499 src/plugin-loader-module.c:632
 #, c-format
 msgid "File doesn't contain \"%s\" array."
 msgstr "ファイルには \"%s\" 配列が含まれていません。"
 
-#: src/plugin-loader-module.c:569
+#: src/plugin-loader-module.c:563
 #, c-format
 msgid "Module doesn't contain \"%s\" function."
 msgstr "モジュールには関数 \"%s\" が含まれていません。"
 
-#: src/plugin-service.c:162 src/plugin-service.c:252 src/plugin-service.c:1144
+#: src/plugin-service.c:159 src/plugin-service.c:249 src/plugin-service.c:1141
 msgid "Error while loading plugin service."
 msgstr "プラグイン・サービスの読み込み中にエラーが発生しました。"
 
-#: src/plugin-service.c:170
+#: src/plugin-service.c:167
 msgid "Initializing function inside plugin returned error."
 msgstr "プラグイン内の関数の初期化でエラーが返されました。"
 
-#: src/plugin-service.c:188
+#: src/plugin-service.c:185
 msgid "Cleanup function inside plugin returned error."
 msgstr "プラグイン無いの関数のクリンナップでエラーが返されました。"
 
-#: src/plugin-service.c:273
+#: src/plugin-service.c:270
 msgid "Clipboard"
 msgstr "クリップボード"
 
-#: src/plugin-service.c:411
+#: src/plugin-service.c:408
 msgid "File opener has no description"
 msgstr "ファイルオープナーには説明がありません"
 
-#: src/plugin-service.c:443
+#: src/plugin-service.c:440
 #, c-format
 msgid "File opener - %s"
 msgstr "ファイルオープナー - %s"
 
-#: src/plugin-service.c:562
+#: src/plugin-service.c:559
 msgid "Error while reading file."
 msgstr "ファイルの読み込み中にエラーが発生しました。"
 
-#: src/plugin-service.c:717
+#: src/plugin-service.c:714
 msgid "File saver has no description"
 msgstr "ファイルセーバーには説明がありません"
 
-#: src/plugin-service.c:763
+#: src/plugin-service.c:760
 #, c-format
 msgid "File saver - %s"
 msgstr "ファイルセーバー - %s"
 
-#: src/plugin-service.c:825
+#: src/plugin-service.c:822
 msgid "Error while saving file."
 msgstr "ファイルセーバーに ID がありません。"
 
-#: src/plugin-service.c:978
+#: src/plugin-service.c:975
 msgid "Missing function category name."
 msgstr "関数のカテゴリ名がありません。"
 
-#: src/plugin-service.c:982
+#: src/plugin-service.c:979
 msgid "Function group is empty."
 msgstr "関数グループは空です。"
 
-#: src/plugin-service.c:1012
+#: src/plugin-service.c:1009
 msgid "No func_desc_load method.\n"
 msgstr ""
 
-#: src/plugin-service.c:1082
+#: src/plugin-service.c:1079
 #, c-format
 msgid "%d function in category \"%s\""
 msgstr "%d の関数がカテゴリ\"%s\"にあります"
 
-#: src/plugin-service.c:1083
+#: src/plugin-service.c:1080
 #, c-format
 msgid "Group of %d functions in category \"%s\""
 msgstr "%d個の関数のグループがカテゴリ\"%s\"にあります"
 
-#: src/plugin-service.c:1179
+#: src/plugin-service.c:1176
 msgid "Plugin loader"
 msgstr "プラグイン・ローダー"
 
-#: src/plugin-service.c:1256
+#: src/plugin-service.c:1273
 msgid "Missing file name."
 msgstr "ファイル名が見当たりません"
 
@@ -26609,34 +26713,34 @@ msgstr "ファイル名が見当たりません"
 msgid "Cannot read UI description from XML file %s."
 msgstr "XMLファイル %s からUI情報が読み取れません。"
 
-#: src/plugin-service.c:1359
+#: src/plugin-service.c:1356
 #, c-format
 msgid "User interface with %d action"
 msgstr "%dアクションのユーザインターフェース"
 
-#: src/plugin-service.c:1360
+#: src/plugin-service.c:1357
 #, c-format
 msgid "User interface with %d actions"
 msgstr "%dアクションのユーザインターフェース"
 
-#: src/plugin-service.c:1390
+#: src/plugin-service.c:1385
 msgid "GObject loader"
 msgstr "GObjectローダー"
 
-#: src/plugin-service.c:1497
+#: src/plugin-service.c:1492
 msgid "No \"type\" attribute on \"service\" element."
 msgstr "\"type\"属性が\"service\"要素ありません。"
 
-#: src/plugin-service.c:1503
+#: src/plugin-service.c:1498
 #, c-format
 msgid "Unknown service type: %s."
 msgstr "不明なサービスタイプです: %s"
 
-#: src/plugin-service.c:1519
+#: src/plugin-service.c:1514
 msgid "Error reading service information."
 msgstr "サービス情報の読み込みでエラーが発生しました。"
 
-#: src/plugin-service.c:1581
+#: src/plugin-service.c:1576
 msgid ""
 "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
 "loading failed."
@@ -26895,19 +26999,19 @@ msgid "_Remove Hyperlink"
 msgstr "ハイパーリンクの削除(_R)"
 
 #. This is somewhat cheesy and should use ngettext
-#: src/sheet-control-gui.c:1956
+#: src/sheet-control-gui.c:1958
 msgid "Duplicate Object"
 msgstr "オブジェクトの複製"
 
-#: src/sheet-control-gui.c:1956
+#: src/sheet-control-gui.c:1958
 msgid "Insert Object"
 msgstr "オブジェクトの挿入"
 
-#: src/sheet-control-gui.c:1957
+#: src/sheet-control-gui.c:1959
 msgid "Move Object"
 msgstr "オブジェクトの移動"
 
-#: src/sheet-control-gui.c:1957
+#: src/sheet-control-gui.c:1959
 msgid "Resize Object"
 msgstr "オブジェクトのサイズ変更"
 
@@ -26971,23 +27075,23 @@ msgstr "'%s'のオブジェクトを作成できません"
 msgid "Could not load file: %s"
 msgstr "ファイルを読み込めませんでした: %s"
 
-#: src/sheet-object-graph.c:205 src/sheet-object-image.c:342
+#: src/sheet-object-graph.c:206 src/sheet-object-image.c:342
 msgid "SVG (vector graphics)"
 msgstr "SVG (ベクターグラフィックス)"
 
-#: src/sheet-object-graph.c:206 src/sheet-object-image.c:338
+#: src/sheet-object-graph.c:207 src/sheet-object-image.c:338
 msgid "PNG (raster graphics)"
 msgstr "PNG (ラスターグラフィックス)"
 
-#: src/sheet-object-graph.c:207 src/sheet-object-image.c:340
+#: src/sheet-object-graph.c:208 src/sheet-object-image.c:340
 msgid "JPEG (photograph)"
 msgstr "JPEG (写真)"
 
-#: src/sheet-object-graph.c:249 src/sheet-object-image.c:468
+#: src/sheet-object-graph.c:250 src/sheet-object-image.c:468
 msgid "Unknown failure while saving image"
 msgstr "画像の保存で不明なエラー"
 
-#: src/sheet-object-graph.c:262 src/sheet-object-image.c:483
+#: src/sheet-object-graph.c:263 src/sheet-object-image.c:483
 msgid "_Save as image"
 msgstr "画像として保存(_S)"
 
@@ -27037,33 +27141,64 @@ msgstr "コピー"
 msgid "Cut"
 msgstr "切り取り"
 
-#: src/ssconvert.c:50
+#: src/ssconvert.c:46
 msgid "Optionally specify an encoding for imported content"
 msgstr "インポートする内容のエンコーディングをオプションで指定します"
 
-#: src/ssconvert.c:50
+#: src/ssconvert.c:46
 msgid "ENCODING"
 msgstr "エンコーディング"
 
-#: src/ssconvert.c:52
+#: src/ssconvert.c:48
 msgid "Optionally specify which exporter to use"
 msgstr "使用するエクスポータをオプションで指定します"
 
-#: src/ssconvert.c:54
+#: src/ssconvert.c:50
 msgid "List the available exporters"
 msgstr "利用可能なエクスポータの一覧"
 
-#: src/ssconvert.c:56
+#: src/ssconvert.c:52
 msgid "List the available importers"
 msgstr "利用可能なインポータの一覧"
 
-#: src/ssconvert.c:58
+#: src/ssconvert.c:54
 msgid ""
 "Export a file for each sheet if the exporter only supports one sheet at a "
 "time."
 msgstr ""
 
-#: src/ssconvert.c:87
+#: src/ssconvert.c:102
+#, c-format
+msgid ""
+"Unknown exporter '%s'.\n"
+"Try --list-exporters to see a list of possibilities.\n"
+msgstr ""
+"エクスポータ '%s' は不明です。\n"
+"可能なエクスポータの一覧を表示するには--list-exportersを使ってみてくださ"
+"い。\n"
+
+#: src/ssconvert.c:126
+#, c-format
+msgid ""
+"Unable to guess exporter to use for '%s'.\n"
+"Try --list-exporters to see a list of possibilities.\n"
+msgstr ""
+
+#: src/ssconvert.c:133
+#, c-format
+msgid ""
+"An output file name or an explicit export type is required.\n"
+"Try --list-exporters to see a list of possibilities.\n"
+msgstr ""
+
+#: src/ssconvert.c:147
+#, c-format
+msgid ""
+"Selected exporter (%s) does not support saving multiple sheets in one file.\n"
+"Only the current sheet will be saved."
+msgstr ""
+
+#: src/ssconvert.c:174
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -27073,36 +27208,6 @@ msgstr ""
 "ssconvert バージョン '%s'\n"
 "データ格納パス    := '%s'\n"
 "ライブラリ格納パス := '%s'\n"
-
-#: src/ssconvert.c:153
-#, c-format
-msgid ""
-"Unknown exporter '%s'.\n"
-"Try --list-exporters to see a list of possibilities.\n"
-msgstr ""
-"エクスポータ '%s' は不明です。\n"
-"可能なエクスポータの一覧を表示するには--list-exportersを使ってみてください。\n"
-
-#: src/ssconvert.c:177
-#, c-format
-msgid ""
-"Unable to guess exporter to use for '%s'.\n"
-"Try --list-exporters to see a list of possibilities.\n"
-msgstr ""
-
-#: src/ssconvert.c:184
-#, c-format
-msgid ""
-"An output file name or an explicit export type is required.\n"
-"Try --list-exporters to see a list of possibilities.\n"
-msgstr ""
-
-#: src/ssconvert.c:198
-#, c-format
-msgid ""
-"Selected exporter (%s) does not support saving multiple sheets in one file.\n"
-"Only the current sheet will be saved."
-msgstr ""
 
 #: src/stf.c:114
 msgid "Error while trying to read file"
@@ -27713,7 +27818,7 @@ msgstr "尖度"
 msgid "Range"
 msgstr "範囲"
 
-#: src/tools/simulation.c:257 src/workbook-control-gui.c:1825
+#: src/tools/simulation.c:257 src/workbook-control-gui.c:1831
 msgid "Count"
 msgstr "回数"
 
@@ -28786,11 +28891,11 @@ msgstr "新規ビュー(_N)..."
 msgid "Create a new view of the workbook"
 msgstr "ワークブックの新規ビューを作成します"
 
-#: src/wbcg-actions.c:1647 src/workbook-control-gui.c:1017
+#: src/wbcg-actions.c:1647 src/workbook-control-gui.c:1023
 msgid "_Freeze Panes"
 msgstr "ペインの固定(_F)"
 
-#: src/wbcg-actions.c:1648 src/workbook-control-gui.c:1020
+#: src/wbcg-actions.c:1648 src/workbook-control-gui.c:1026
 msgid "Freeze the top left of the sheet"
 msgstr "シートの左上を固定します"
 
@@ -29281,7 +29386,7 @@ msgid "Remove an outline group"
 msgstr "外側のグループを削除します"
 
 #. Data -> Filter
-#: src/wbcg-actions.c:1881 src/workbook-control-gui.c:1028
+#: src/wbcg-actions.c:1881 src/workbook-control-gui.c:1034
 msgid "Add _Auto Filter"
 msgstr "オートフィルタの追加(_A)"
 
@@ -29315,8 +29420,8 @@ msgid "Import the text from a file"
 msgstr "ファイルからテキストをインポートします"
 
 #. Standard Toolbar
-#: src/wbcg-actions.c:1896 src/workbook-control-gui.c:1821
-#: src/workbook-view.c:544
+#: src/wbcg-actions.c:1896 src/workbook-control-gui.c:1827
+#: src/workbook-view.c:542
 msgid "Sum"
 msgstr "合計"
 
@@ -29617,7 +29722,7 @@ msgstr "行のヘッダの表示/非表示を切替えます"
 msgid "_Left Align"
 msgstr "左寄せ(_L)"
 
-#: src/wbcg-actions.c:2068 src/wbc-gtk.c:323
+#: src/wbcg-actions.c:2068 src/wbc-gtk.c:324
 msgid "Align left"
 msgstr "左揃え"
 
@@ -29625,7 +29730,7 @@ msgstr "左揃え"
 msgid "_Center"
 msgstr "中央(_C)"
 
-#: src/wbcg-actions.c:2071 src/wbc-gtk.c:324
+#: src/wbcg-actions.c:2071 src/wbc-gtk.c:325
 msgid "Center horizontally"
 msgstr "水平方向に中央揃え"
 
@@ -29633,7 +29738,7 @@ msgstr "水平方向に中央揃え"
 msgid "_Right Align"
 msgstr "右寄せ(_R)"
 
-#: src/wbcg-actions.c:2074 src/wbc-gtk.c:325
+#: src/wbcg-actions.c:2074 src/wbc-gtk.c:326
 msgid "Align right"
 msgstr "右揃え"
 
@@ -29641,7 +29746,7 @@ msgstr "右揃え"
 msgid "_Center Across Selection"
 msgstr "選択範囲を通しての中央揃え(_C)"
 
-#: src/wbcg-actions.c:2077 src/wbc-gtk.c:328
+#: src/wbcg-actions.c:2077 src/wbc-gtk.c:329
 msgid "Center horizontally across the selection"
 msgstr "選択範囲を通して中央に揃えます"
 
@@ -29657,7 +29762,7 @@ msgstr "選択範囲を1つのセルに結合して、水平方向に中央位�
 msgid "Align _Top"
 msgstr "上揃え(_T)"
 
-#: src/wbcg-actions.c:2089 src/wbc-gtk.c:335
+#: src/wbcg-actions.c:2089 src/wbc-gtk.c:336
 msgid "Align Top"
 msgstr "上揃え"
 
@@ -29673,7 +29778,7 @@ msgstr "垂直方向の中央"
 msgid "Align _Bottom"
 msgstr "下揃え(_B)"
 
-#: src/wbcg-actions.c:2095 src/wbc-gtk.c:337
+#: src/wbcg-actions.c:2095 src/wbc-gtk.c:338
 msgid "Align Bottom"
 msgstr "下揃え"
 
@@ -29736,115 +29841,115 @@ msgstr "二重下線(_D)"
 msgid "Double Underline"
 msgstr "二重下線"
 
-#: src/wbc-gtk.c:171
+#: src/wbc-gtk.c:172
 msgid "_Zoom"
 msgstr "ズーム(_Z)"
 
-#: src/wbc-gtk.c:201
+#: src/wbc-gtk.c:202
 msgid "Clear Borders"
 msgstr "罫線を消去"
 
-#: src/wbc-gtk.c:204
+#: src/wbc-gtk.c:205
 msgid "All Borders"
 msgstr "すべての罫線"
 
-#: src/wbc-gtk.c:205
+#: src/wbc-gtk.c:206
 msgid "Outside Borders"
 msgstr "外枠"
 
-#: src/wbc-gtk.c:206
+#: src/wbc-gtk.c:207
 msgid "Thick Outside Borders"
 msgstr "外枠太罫線"
 
-#: src/wbc-gtk.c:209
+#: src/wbc-gtk.c:210
 msgid "Double Bottom"
 msgstr "二重下罫線"
 
-#: src/wbc-gtk.c:210
+#: src/wbc-gtk.c:211
 msgid "Thick Bottom"
 msgstr "太下罫線"
 
-#: src/wbc-gtk.c:212
+#: src/wbc-gtk.c:213
 msgid "Top and Bottom"
 msgstr "上下"
 
-#: src/wbc-gtk.c:213
+#: src/wbc-gtk.c:214
 msgid "Top and Double Bottom"
 msgstr "上罫線と二重下罫線"
 
-#: src/wbc-gtk.c:214
+#: src/wbc-gtk.c:215
 msgid "Top and Thick Bottom"
 msgstr "上罫線と太下罫線"
 
-#: src/wbc-gtk.c:299
+#: src/wbc-gtk.c:300
 msgid "Set Borders"
 msgstr "罫線のセット"
 
-#: src/wbc-gtk.c:307 src/wbc-gtk.c:308
+#: src/wbc-gtk.c:308 src/wbc-gtk.c:309
 msgid "Borders"
 msgstr "罫線"
 
-#: src/wbc-gtk.c:326
+#: src/wbc-gtk.c:327
 msgid "Fill Horizontally"
 msgstr "水平方向に均等割り付け"
 
-#: src/wbc-gtk.c:327
+#: src/wbc-gtk.c:328
 msgid "Justify Horizontally"
 msgstr "水平方向に両端揃え"
 
-#: src/wbc-gtk.c:330
+#: src/wbc-gtk.c:331
 msgid "Align numbers right, and text left"
 msgstr "数字を右に、テキストを左に揃えます"
 
-#: src/wbc-gtk.c:336
+#: src/wbc-gtk.c:337
 msgid "Center Vertically"
 msgstr "垂直方向に中央揃え"
 
-#: src/wbc-gtk.c:359 src/wbc-gtk.c:360 src/wbc-gtk.c:363 src/wbc-gtk.c:378
+#: src/wbc-gtk.c:360 src/wbc-gtk.c:361 src/wbc-gtk.c:364 src/wbc-gtk.c:379
 msgid "Horzontal Alignment"
 msgstr "水平方向のアラインメント"
 
-#: src/wbc-gtk.c:374 src/wbc-gtk.c:375
+#: src/wbc-gtk.c:375 src/wbc-gtk.c:376
 msgid "Vertical Alignment"
 msgstr "垂直方向のアラインメント"
 
-#: src/wbc-gtk.c:472
+#: src/wbc-gtk.c:473
 msgid "Undo the last action"
 msgstr "直前の操作を取り消します"
 
-#: src/wbc-gtk.c:481
+#: src/wbc-gtk.c:482
 msgid "Redo"
 msgstr "もう一度"
 
-#: src/wbc-gtk.c:482
+#: src/wbc-gtk.c:483
 msgid "Redo the undone action"
 msgstr "元に戻した操作をやり直します"
 
-#: src/wbc-gtk.c:524
+#: src/wbc-gtk.c:525
 msgid "Set Foreground Color"
 msgstr "前景色のセット"
 
 #. Set background to NONE
-#: src/wbc-gtk.c:578
+#: src/wbc-gtk.c:579
 msgid "Set Background Color"
 msgstr "背景色のセット"
 
-#: src/wbc-gtk.c:615
+#: src/wbc-gtk.c:616
 #, c-format
 msgid "Font Name %s"
 msgstr "フォント名 %s"
 
-#: src/wbc-gtk.c:664
+#: src/wbc-gtk.c:665
 #, c-format
 msgid "Font Size %f"
 msgstr "フォントサイズ %f"
 
-#: src/wbc-gtk.c:731
+#: src/wbc-gtk.c:732
 #, c-format
 msgid "Open %s"
 msgstr "%sを開きます"
 
-#: src/wbc-gtk.c:796
+#: src/wbc-gtk.c:797
 msgid "Nothing"
 msgstr "なし"
 
@@ -29854,12 +29959,12 @@ msgstr "なし"
 #. * One slightly tricky point here is that in certain cases,
 #. * the same menu entry shows up in more than one menu.
 #.
-#: src/wbc-gtk.c:986
+#: src/wbc-gtk.c:987
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr "メニュー'%s'では、キー'%s'は'%s'と'%s'の両方に使われています。"
 
-#: src/wbc-gtk.c:1118
+#: src/wbc-gtk.c:1188
 #, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "ツールバー 「%s」 を表示/非表示にします"
@@ -30937,36 +31042,36 @@ msgstr "台湾 (zh_TW)"
 msgid "Current Locale: "
 msgstr "現在のロケール: "
 
-#: src/workbook.c:422
+#: src/workbook.c:429
 #, c-format
 msgid "Book%d.%s"
 msgstr "Book%d.%s"
 
-#: src/workbook.c:1290
+#: src/workbook.c:1298
 msgid "Sheet name is NULL"
 msgstr "シート名がNULLです"
 
-#: src/workbook.c:1301
+#: src/workbook.c:1309
 msgid "Sheet name is not valid utf-8"
 msgstr "シート名が正しいUTF-8ではありません"
 
-#: src/workbook.c:1310
+#: src/workbook.c:1318
 msgid "Sheet name must have at least 1 letter"
 msgstr "シート名は少なくとも 1文字必要です"
 
-#: src/workbook.c:1334
+#: src/workbook.c:1342
 msgid "There is already a sheet named"
 msgstr "その名前のシートは既にあります"
 
-#: src/workbook.c:1348
+#: src/workbook.c:1356
 msgid "You may not use this name twice"
 msgstr "この名前を二度使わないで下さい"
 
-#: src/workbook-control.c:249
+#: src/workbook-control.c:253
 msgid "Define Name"
 msgstr "定義名"
 
-#: src/workbook-control.c:269
+#: src/workbook-control.c:273
 msgid "Address"
 msgstr "アドレス"
 
@@ -30974,155 +31079,155 @@ msgstr "アドレス"
 msgid " : Gnumeric"
 msgstr " : Gnumeric"
 
-#: src/workbook-control-gui.c:526
+#: src/workbook-control-gui.c:536
 msgid "Manage sheets..."
 msgstr "シートの管理..."
 
-#: src/workbook-control-gui.c:529
+#: src/workbook-control-gui.c:539
 msgid "Append"
 msgstr "後ろに追加"
 
-#: src/workbook-control-gui.c:530
+#: src/workbook-control-gui.c:540
 msgid "Duplicate"
 msgstr "複製"
 
-#: src/workbook-control-gui.c:531
+#: src/workbook-control-gui.c:541
 msgid "Remove"
 msgstr "削除"
 
-#: src/workbook-control-gui.c:532
+#: src/workbook-control-gui.c:542
 msgid "Rename"
 msgstr "名前変更"
 
-#: src/workbook-control-gui.c:1016
+#: src/workbook-control-gui.c:1022
 msgid "Un_freeze Panes"
 msgstr "ペインの解除(_F)"
 
-#: src/workbook-control-gui.c:1019
+#: src/workbook-control-gui.c:1025
 msgid "Unfreeze the top left of the sheet"
 msgstr "シートの左上のフリーズを解除します"
 
-#: src/workbook-control-gui.c:1027
+#: src/workbook-control-gui.c:1033
 msgid "Remove _Auto Filter"
 msgstr "自動フィルタの削除(_A)"
 
-#: src/workbook-control-gui.c:1030
+#: src/workbook-control-gui.c:1036
 msgid "Remove a filter"
 msgstr "フィルタの削除"
 
-#: src/workbook-control-gui.c:1031
+#: src/workbook-control-gui.c:1037
 msgid "Add a filter"
 msgstr "フィルタの追加"
 
-#: src/workbook-control-gui.c:1042
+#: src/workbook-control-gui.c:1048
 msgid "_Undo"
 msgstr "元に戻す(_U)"
 
-#: src/workbook-control-gui.c:1043
+#: src/workbook-control-gui.c:1049
 msgid "_Redo"
 msgstr "やり直し(_R)"
 
-#: src/workbook-control-gui.c:1171
+#: src/workbook-control-gui.c:1177
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
 msgstr "閉じる前にワークブック'%s'への変更を保存しますか?"
 
-#: src/workbook-control-gui.c:1175
+#: src/workbook-control-gui.c:1181
 msgid "Save changes to workbook before closing?"
 msgstr "閉じる前にワークブックの変更を保存しますか?"
 
-#: src/workbook-control-gui.c:1181
+#: src/workbook-control-gui.c:1187
 msgid "If you close without saving, changes will be discarded."
 msgstr "保存しないで閉じると、変更はすべて破棄されます。"
 
-#: src/workbook-control-gui.c:1188
+#: src/workbook-control-gui.c:1194
 msgid "Discard all"
 msgstr "すべて破棄"
 
-#: src/workbook-control-gui.c:1190 src/workbook-control-gui.c:1199
-#: src/workbook-control-gui.c:1207
+#: src/workbook-control-gui.c:1196 src/workbook-control-gui.c:1205
+#: src/workbook-control-gui.c:1213
 msgid "Discard"
 msgstr "破棄"
 
-#: src/workbook-control-gui.c:1192
+#: src/workbook-control-gui.c:1198
 msgid "Save all"
 msgstr "すべてを保存"
 
-#: src/workbook-control-gui.c:1194 src/workbook-control-gui.c:1201
+#: src/workbook-control-gui.c:1200 src/workbook-control-gui.c:1207
 msgid "Don't quit"
 msgstr "終了しない"
 
-#: src/workbook-control-gui.c:1209
+#: src/workbook-control-gui.c:1215
 msgid "Don't close"
 msgstr "閉じない"
 
-#: src/workbook-control-gui.c:2231 src/workbook-control-gui.c:2246
+#: src/workbook-control-gui.c:2237 src/workbook-control-gui.c:2252
 msgid "_Re-Edit"
 msgstr "再編集(_R)"
 
-#: src/workbook-control-gui.c:2232 src/workbook-control-gui.c:2237
+#: src/workbook-control-gui.c:2238 src/workbook-control-gui.c:2243
 msgid "_Discard"
 msgstr "破棄(_D)"
 
-#: src/workbook-control-gui.c:2236 src/workbook-control-gui.c:2247
+#: src/workbook-control-gui.c:2242 src/workbook-control-gui.c:2253
 msgid "_Accept"
 msgstr "受諾(_A)"
 
-#: src/workbook-edit.c:566
+#: src/workbook-edit.c:570
 #, c-format
 msgid "%s!%s is locked"
 msgstr "%s!%s がロックされています"
 
-#: src/workbook-edit.c:570
+#: src/workbook-edit.c:574
 msgid "Unprotect the workbook to enable editing."
 msgstr "ワークブックは編集可能です (保護なし)"
 
-#: src/workbook-edit.c:571
+#: src/workbook-edit.c:575
 msgid "Unprotect the sheet to enable editing."
 msgstr "シートは編集可能です (保護なし)"
 
-#: src/workbook-view.c:275
+#: src/workbook-view.c:276
 #, c-format
 msgid "%dC"
 msgstr "%dC"
 
-#: src/workbook-view.c:277
+#: src/workbook-view.c:278
 #, c-format
 msgid "%dR"
 msgstr "%dR"
 
-#: src/workbook-view.c:279
+#: src/workbook-view.c:280
 #, c-format
 msgid "%dR x %dC"
 msgstr "%dR x %dC"
 
-#: src/workbook-view.c:421
+#: src/workbook-view.c:422
 msgid "Internal ERROR"
 msgstr "内部エラーです"
 
-#: src/workbook-view.c:570
+#: src/workbook-view.c:568
 #, c-format
 msgid "Can't open '%s' for writing: %s"
 msgstr "'%s'を書き込み用に開けません: %s"
 
-#: src/workbook-view.c:594
+#: src/workbook-view.c:592
 #, c-format
 msgid "An unexplained error happened while saving %s"
 msgstr "%sの保存で説明できないエラーが発生しました"
 
-#: src/workbook-view.c:679 src/workbook-view.c:854
+#: src/workbook-view.c:677 src/workbook-view.c:852
 msgid "Default file saver is not available."
 msgstr "デフォルトのファイルセーバーは無効です。"
 
-#: src/workbook-view.c:800
+#: src/workbook-view.c:798
 msgid "Failed to create temporary file for sending."
 msgstr "送信のためのテンポラリファイルが作成できません。"
 
-#: src/workbook-view.c:942
+#: src/workbook-view.c:940
 msgid "Unsupported file format."
 msgstr "未サポートのファイル書式です。"
 
-#: src/workbook-view.c:990
+#: src/workbook-view.c:988
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "%sを開いているときに説明できないエラーが発生しました"
@@ -31335,6 +31440,68 @@ msgstr "紫色のリストテンプレート"
 #: templates/autoformat/autoformat.List.simple.xml.in.h:1
 msgid "A simple list template"
 msgstr "シンプルなリストテンプレート"
+
+#, fuzzy
+#~ msgid ""
+#~ "@FUNCTION=STDEV\n"
+#~ "@SYNTAX=STDEV(b1, b2, ...)\n"
+#~ "@DESCRIPTION=STDEV returns standard deviation of a set of numbers "
+#~ "treating these numbers as members of a population.\n"
+#~ "\n"
+#~ "* This function is Excel compatible.\n"
+#~ "\n"
+#~ "@EXAMPLES=\n"
+#~ "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
+#~ "21.3, 25.9, and 40.1.  Then\n"
+#~ "STDEV(A1:A5) equals 10.84619749.\n"
+#~ "\n"
+#~ "@SEEALSO=AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR"
+#~ msgstr ""
+#~ "@FUNCTION=STDEV\n"
+#~ "@SYNTAX=STDEV(b1, b2, ...)\n"
+#~ "@DESCRIPTION=STDEV 関数は引数を母集団の標本と見なして母集団に対する標準偏"
+#~ "差を返します。\n"
+#~ "この関数は Excel 互換です。\n"
+#~ "@EXAMPLES=\n"
+#~ "セル A1, A2, ..., A5 の値がそれぞれ 11.4, 17.3, 21.3, 25.9, 40.1 とする"
+#~ "と\n"
+#~ "STDEV(A1:A5) = 10.84619749 です。\n"
+#~ "\n"
+#~ "@SEEALSO=AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR"
+
+#, fuzzy
+#~ msgid "Data Sources..."
+#~ msgstr "データ..."
+
+#~ msgid "Unknown verb: %s"
+#~ msgstr "不明な動詞: %s"
+
+#~ msgid "Open the Python console"
+#~ msgstr "Pythonコンソールを開く"
+
+#~ msgid "Python console"
+#~ msgstr "Pythonコンソール"
+
+#~ msgid "Hello World"
+#~ msgstr "みなさんこんにちは"
+
+#~ msgid "Delete and Merge _Left"
+#~ msgstr "削除して左に結合(_L)"
+
+#~ msgid "Delete and Merge _Right"
+#~ msgstr "削除して右に結合(_R)"
+
+#~ msgid "_Split"
+#~ msgstr "分割(_S)"
+
+#~ msgid "_Widen"
+#~ msgstr "広くする(_W)"
+
+#~ msgid "_Narrow"
+#~ msgstr "狭くする(_N)"
+
+#~ msgid "At most 256 columns can be imported at one time."
+#~ msgstr "一度に256列までインポートできます。"
 
 #~ msgid "3D"
 #~ msgstr "3次元"
@@ -32006,9 +32173,6 @@ msgstr "シンプルなリストテンプレート"
 #~ "濱田 充男 <mhamada@redhat.com>, 2000\n"
 #~ "中井 幸博 <nakai@gnome.gr.jp>, 2000-2001,2003\n"
 #~ "相花 毅 <aihana@gnome.gr.jp>, 2000-2002"
-
-#~ msgid "You need to select at least one sheet to export"
-#~ msgstr "エクスポートするシートを少なくとも１つ選んでください"
 
 #~ msgid "<- Remove"
 #~ msgstr "<- 削除"

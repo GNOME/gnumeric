@@ -1616,8 +1616,8 @@ plugin_services_init (void)
 		{ "file_opener",	plugin_service_file_opener_get_type},
 		{ "file_saver",		plugin_service_file_saver_get_type},
 		{ "function_group",	plugin_service_function_group_get_type},
-		{ "plugin_loader",	plugin_service_plugin_loader_get_type}
-		,{"ui",			plugin_service_ui_get_type}
+		{ "plugin_loader",	plugin_service_plugin_loader_get_type},
+		{ "ui",			plugin_service_ui_get_type}
 /* base classes, not really for direct external use,
  * put here for expositional purposes
  */

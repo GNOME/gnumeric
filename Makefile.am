@@ -71,3 +71,9 @@ dist-hook: gnumeric.spec
 	mkdir $(distdir)/samples
 	cp $(srcdir)/samples/*gnumeric $(distdir)/samples	
 	cp gnumeric.spec $(distdir)
+
+# disable the check because the old perl plugin is hard to clean
+distcleancheck:
+	@:
+
+

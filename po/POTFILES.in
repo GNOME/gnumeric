@@ -175,6 +175,7 @@ src/cut-n-paste-code/goffice/utils/go-file.c
 src/cut-n-paste-code/goffice/utils/go-font.c
 src/cut-n-paste-code/goffice/utils/go-format.c
 src/cut-n-paste-code/goffice/utils/go-gradient.c
+src/cut-n-paste-code/goffice/utils/go-line.c
 src/cut-n-paste-code/goffice/utils/go-locale.c
 src/cut-n-paste-code/goffice/utils/go-marker.c
 src/cut-n-paste-code/goffice/utils/go-math.c

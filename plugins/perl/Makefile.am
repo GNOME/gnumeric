@@ -1,10 +1,3 @@
-# Do not build by default until we are ready.
-#if WITH_PERL
-PERL_PROGRAMS_TARGET = perl.so
-#else
-#PERL_PROGRAMS_TARGET =
-#endif
-
 gnperldir = $(gnumeric_datadir)/perl
 PERL_CFLAGS = -I../.. $(PERL_CCCDLFLAGS)	\
     -DPLUGIN_ID=\"Gnumeric_perl\"		\
@@ -19,7 +12,8 @@ PERL_CFLAGS = -I../.. $(PERL_CCCDLFLAGS)	\
 
 gnumeric_plugin_perldir = $(gnumeric_plugindir)/perl
 xmldir = $(gnumeric_plugin_perldir)
-gnumeric_plugin_perl_PROGRAMS = $(PERL_PROGRAMS_TARGET)
+gnumeric_plugin_perl_PROGRAMS = perl.so
+
 perl_so_SOURCES = perl.c
 
 perl.so$(EXEEXT): perl.o xsinit.o ext.timestamp
@@ -60,6 +54,9 @@ ext/Makefile.PL: $(srcdir)/ext/Makefile.PL.in $(top_builddir)/config.status
 
 install-exec-local:
 	cd ext && $(MAKE) install
+
+uninstall-local:
+	cd ext && $(MAKE) purge
 
 check-local:
 	cd ext && $(MAKE) test

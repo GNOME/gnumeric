@@ -1308,6 +1308,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		}
 		prev_pid = pid;
 
+		name = NULL;
 		switch (pid) {
 	/* Transofrmation */
 		/* 0 : fixed point: 16.16 degrees */

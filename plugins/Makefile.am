@@ -30,8 +30,12 @@ endif
 
 if WITH_PERL
 PERL_DIR = perl
+PERL_FUNC_DIR = perl-func
+PERL_LOADER_DIR = perl-loader
 else
 PERL_DIR =
+PERL_FUNC_DIR =
+PERL_LOADER_DIR =
 endif
 
 if WITH_GUILE
@@ -73,11 +77,11 @@ SUBDIRS_FUNCTIONS = numtheory fn-database fn-date fn-eng fn-erlang fn-financial 
 	$(PERL_DIR) $(GUILE_DIR) \
 	$(GDA_DIR) $(GNOMEDB_DIR)
 
-SUBDIRS_LOADERS = $(PYTHON_LOADER_DIR) $(CORBA_DIR)
+SUBDIRS_LOADERS = $(PERL_LOADER_DIR) $(PYTHON_LOADER_DIR) $(CORBA_DIR)
 
 SUBDIRS_DATA_SOURCES = sample_datasource
 
-SUBDIRS_EXAMPLES = $(GNOME_GLOSSARY_DIR) $(PYFUNC_DIR) uihello
+SUBDIRS_EXAMPLES = $(GNOME_GLOSSARY_DIR) $(PERL_FUNC_DIR) $(PYFUNC_DIR) uihello
 ## Don't put comment on an assignment line!  It can trigger an automake bug.
 
 if PLUGIN_LIST_GIVEN

@@ -704,6 +704,7 @@ dnl **************************************************
 dnl * Check for Perl
 dnl **************************************************
 dnl
+perl_msg="yes"
 AC_CHECK_PROG(perl_val, perl, true, false)
 if $perl_val; then
   AC_MSG_CHECKING(for perl ExtUtils::Embed module				)
@@ -727,11 +728,13 @@ if $perl_val; then
   else
     AC_MSG_RESULT($marker_no)
     perl_val=false
+    perl_msg="problems rutting perl"
   fi
+else
+    perl_msg="disabled by request"
 fi
 
-dnl Disable perl until we have an active maintainer
-AM_CONDITIONAL(WITH_PERL, false)
+AM_CONDITIONAL(WITH_PERL, $perl_val)
 
 dnl **************************************************
 dnl * Check for mono
@@ -983,6 +986,8 @@ plugins/py-func/Makefile
 plugins/corba/Makefile
 plugins/perl/Makefile
 plugins/perl/ext/Makefile.PL
+plugins/perl-func/Makefile
+plugins/perl-loader/Makefile
 plugins/guile/Makefile
 plugins/xbase/Makefile
 plugins/html/Makefile
@@ -1016,8 +1021,10 @@ Configuration:
 
 	UI :			${ui_msg}
 
+	Perl Support:		${perl_msg}
 	Python Support:		${python_msg}
 	Guile Support:		${guile_msg}
+
 	GDA support:		${gda_msg}
 	GNOME-DB support:	${gnomedb_msg}
 	Psiconv support:        ${psiconv_msg}

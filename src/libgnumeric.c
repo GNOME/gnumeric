@@ -118,9 +118,10 @@ extern void libgoffice_init (void);
 void
 gnm_common_init (gboolean fast)
 {
-	g_object_new (GNM_APP_TYPE, NULL);
 	plugin_services_init ();
 	libgoffice_init ();
+
+	g_object_new (GNM_APP_TYPE, NULL);
 	mathfunc_init ();
 	gnm_string_init ();
 	mstyle_init ();

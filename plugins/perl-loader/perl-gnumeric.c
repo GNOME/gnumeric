@@ -58,7 +58,6 @@ marshal_func (FunctionEvalInfo *ei, GnmValue *argv[])
     dSP;
     GnmFunc const *func =
 	gnm_expr_get_func_def ((GnmExpr const *)ei->func_call);
-    GList *l;
     I32 r;
     int i, min, max;
     SV * result;

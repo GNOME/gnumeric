@@ -392,7 +392,7 @@ oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin;
 	GnmStyle *style = NULL;
-	double   *width_pts;
+	double   *width_pts = NULL;
 	int repeat_count = 1;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)

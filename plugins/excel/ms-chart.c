@@ -948,7 +948,7 @@ BC_R(gelframe) (XLChartHandler const *handle,
 	} else if (type == 6) { /* fill from center */
 		/* TODO */
 	} else if (type == 7) {
-		GOGradientDirection dir;
+		GOGradientDirection dir = GO_GRADIENT_S_TO_N;
 		guint32 angle = ms_obj_attr_get_uint (attrs, MS_OBJ_ATTR_FILL_ANGLE, 0);
 		gint32 focus = ms_obj_attr_get_int (attrs, MS_OBJ_ATTR_FILL_FOCUS, 0);
 
