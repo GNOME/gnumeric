@@ -9,6 +9,7 @@ Andreas:
 	* Use the paper selected in the print dialog [backported]
 	http://bugzilla.gnome.org/show_bug.cgi?id=132347
 	* Fix argument names for RATE.
+	* Some HIGfication inthe print setup dialog
 
 Emmanuel Pacaud:
 	* Work on single point formating for charts.
