@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.40\n"
-"POT-Creation-Date: 1999-11-18 21:30+0000\n"
+"POT-Creation-Date: 1999-12-03 20:25-0600\n"
 "PO-Revision-Date: 1999-10-22 21:20+02:00\n"
 "Last-Translator: Petr Vyyhnalek <petr.vyhnalek@email.cz>\n"
 "Language-Team: \n"
@@ -13,27 +13,27 @@ msgstr ""
 "Content-Type: text/plain; charset=iso-8859-2\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: plugins/excel/boot.c:80
+#: plugins/excel/boot.c:92
 msgid "Saving over old files disabled for safety"
 msgstr "Ukládání souborù pod pùvodním jménem je z dùvodù bezpeènosti zakázáno"
 
-#: plugins/excel/boot.c:88
+#: plugins/excel/boot.c:100
 msgid "Can't open"
 msgstr "Nelze otevøít"
 
-#: plugins/excel/boot.c:126
+#: plugins/excel/boot.c:141
 msgid "Microsoft(R) Excel file format"
 msgstr "Microsoft(R) formát Excel"
 
-#: plugins/excel/boot.c:127
+#: plugins/excel/boot.c:142
 msgid "Excel(R) 97 file format"
 msgstr "formát Excel(R) 97"
 
-#: plugins/excel/boot.c:128
+#: plugins/excel/boot.c:143
 msgid "Excel(R) 95 file format"
 msgstr "formát Excel(R) 95"
 
-#: plugins/excel/ms-excel-read.c:264
+#: plugins/excel/ms-excel-read.c:265
 msgid "#UNKNOWN!"
 msgstr "#NEZNÁMÝ!"
 
@@ -45,84 +45,84 @@ msgstr "Neznámá funkce"
 msgid "Broken function"
 msgstr "Chybná funkce"
 
-#: plugins/excel/ms-formula-read.c:1397
+#: plugins/excel/ms-formula-read.c:1442
 msgid " Unknown formula"
 msgstr " Chybný vzorec"
 
-#: plugins/ff-csv/csv-io.c:138 plugins/sylk/sylk.c:443
+#: plugins/ff-csv/csv-io.c:142 plugins/sylk/sylk.c:443
 #, c-format
 msgid "Imported %s"
 msgstr "Importován %s"
 
-#: plugins/ff-csv/csv-io.c:266
+#: plugins/ff-csv/csv-io.c:271
 msgid "Comma Separated Value (CSV) import"
 msgstr ""
 
-#: plugins/ff-csv/csv-io.c:269
+#: plugins/ff-csv/csv-io.c:274
 msgid "Comma Separated Value format (*.csv)"
 msgstr ""
 
-#: plugins/ff-csv/csv-io.c:272
+#: plugins/ff-csv/csv-io.c:277
 msgid "Comma Separated Value (CSV) module"
 msgstr ""
 
-#: plugins/html/boot.c:65
+#: plugins/html/boot.c:67
 msgid "HTML 3.2 file format (*.html)"
 msgstr "formát HTML verze 3.2 (*.html)"
 
-#: plugins/html/boot.c:67
+#: plugins/html/boot.c:69
 msgid "HTML 4.0 file format (*.html)"
 msgstr "formát HTML verze 4.0 (*.html)"
 
-#: plugins/html/boot.c:69
+#: plugins/html/boot.c:71
 msgid "HTML file made by gnumeric"
 msgstr "HTML soubor vytvoøený Gnumericem"
 
-#: plugins/html/boot.c:73
+#: plugins/html/boot.c:75
 msgid "LaTeX file format (*.tex)"
 msgstr "Formát LaTeX (*.tex)"
 
-#: plugins/html/boot.c:75
+#: plugins/html/boot.c:77
 msgid "LaTeX2e file format (*.tex)"
 msgstr "Formát LaTeX2e (*.tex)"
 
-#: plugins/html/boot.c:78
+#: plugins/html/boot.c:80
 msgid "PS file format (via groff)"
 msgstr "Forrmát PS (pøes groff)"
 
-#: plugins/html/boot.c:80
+#: plugins/html/boot.c:82
 msgid "DVI TeX file format (via groff)"
 msgstr ""
 
-#: plugins/html/boot.c:82
+#: plugins/html/boot.c:84
 msgid "TROFF file format (*.me)"
 msgstr ""
 
-#: plugins/html/boot.c:84
+#: plugins/html/boot.c:86
 msgid "PDF file format (via groff/gs)"
 msgstr ""
 
-#: plugins/html/boot.c:87
+#: plugins/html/boot.c:89
 msgid "EPS file format (*.eps)"
 msgstr ""
 
-#: plugins/html/boot.c:100
+#: plugins/html/boot.c:102
 msgid "HTML (simple html export/import plugin)"
 msgstr ""
 
-#: plugins/lotus-123/boot.c:88
+#: plugins/lotus-123/boot.c:89
 msgid "Lotus (*.wk1) file format"
 msgstr ""
 
-#: plugins/lotus-123/boot.c:94
+#: plugins/lotus-123/boot.c:95
 msgid "Lotus 123 file import/export plugin"
 msgstr ""
 
-#: plugins/oleo/boot.c:88
+#: plugins/oleo/boot.c:89
 msgid "GNU Oleo (*.oleo) file format"
 msgstr ""
 
-#: plugins/oleo/boot.c:94
+#: plugins/oleo/boot.c:95
 msgid "GNU Oleo import plugin"
 msgstr ""
 
@@ -163,11 +163,11 @@ msgstr ""
 msgid "OLD Statistics Plugin, not required anymore"
 msgstr ""
 
-#: plugins/sylk/sylk.c:501
+#: plugins/sylk/sylk.c:502
 msgid "MultiPlan (SYLK) import"
 msgstr ""
 
-#: plugins/sylk/sylk.c:506
+#: plugins/sylk/sylk.c:507
 msgid "MultiPlan (SYLK) file import module"
 msgstr ""
 
@@ -188,15 +188,15 @@ msgstr "BezJména"
 msgid "Simple Text Format"
 msgstr "Jednoduchý textový formát"
 
-#: plugins/text/text-io.c:458
+#: plugins/text/text-io.c:459
 msgid "TXT (simple text import/export plugin)"
 msgstr ""
 
-#: plugins/xbase/boot.c:207
+#: plugins/xbase/boot.c:208
 msgid "Xbase (*.dbf) file format"
 msgstr ""
 
-#: plugins/xbase/boot.c:214
+#: plugins/xbase/boot.c:215
 msgid "XBase file import/export plugin"
 msgstr ""
 
@@ -599,11 +599,11 @@ msgstr ""
 msgid "Standard Errors"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:203
+#: src/dialogs/cell-sort.glade.h:12 src/dialogs/dialog-analysis-tools.c:203
 msgid "Columns"
 msgstr "Sloupce"
 
-#: src/dialogs/dialog-analysis-tools.c:204
+#: src/dialogs/cell-sort.glade.h:11 src/dialogs/dialog-analysis-tools.c:204
 msgid "Rows"
 msgstr "Øádky"
 
@@ -835,58 +835,64 @@ msgstr ""
 msgid "_);[Red]("
 msgstr "#,##0_);[red](#,##0)"
 
-#: src/dialogs/dialog-cell-format.c:1956
+#: src/dialogs/dialog-cell-format.c:1955
 #, fuzzy
 msgid "Format Cells"
 msgstr "Seøadit buòky"
 
-#: src/dialogs/dialog-cell-sort.c:43
-msgid "Column:"
-msgstr "Sloupec:"
-
-#: src/dialogs/dialog-cell-sort.c:59
-msgid "Asc"
-msgstr "Vzest."
-
-#: src/dialogs/dialog-cell-sort.c:62
-msgid "Desc"
-msgstr "Sest."
-
-#: src/dialogs/dialog-cell-sort.c:276
-msgid "more clauses than rows ?"
+#: src/dialogs/dialog-cell-sort.c:133
+msgid "Ascending"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:279
-msgid "too many clauses"
+#: src/dialogs/dialog-cell-sort.c:136
+msgid "Descending"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:300
-msgid "Need at least one clause"
+#: src/dialogs/dialog-cell-sort.c:444
+msgid "At least one clause is required."
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:335 src/print.c:502 src/workbook.c:1457
+#: src/dialogs/dialog-cell-sort.c:453
+msgid "Can't add more than the selection length."
+msgstr ""
+
+#: src/dialogs/dialog-cell-sort.c:456
+msgid "Maximum number of clauses has been reached."
+msgstr ""
+
+#: src/dialogs/dialog-cell-sort.c:588 src/print.c:508 src/workbook.c:1501
 msgid "Selection must be a single range"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:347
+#: src/dialogs/dialog-cell-sort.c:600
 msgid "Selection must be a finite range"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:367
+#: src/dialogs/dialog-cell-sort.c:650
 msgid "then by"
 msgstr "potom podle"
 
-#: src/dialogs/dialog-cell-sort.c:367
+#: src/dialogs/cell-sort.glade.h:16 src/dialogs/dialog-cell-sort.c:650
 #, fuzzy
 msgid "Sort by"
 msgstr "seøadit podle"
 
-#: src/dialogs/dialog-cell-sort.c:405
+#: src/dialogs/dialog-cell-sort.c:685
 msgid "Column must be within range"
 msgstr "Sloupec musí být v rozsahu"
 
-#: src/dialogs/dialog-cell-sort.c:411
+#: src/dialogs/dialog-cell-sort.c:702
+#, fuzzy
+msgid "Row must be within range"
+msgstr "Sloupec musí být v rozsahu"
+
+#: src/dialogs/dialog-cell-sort.c:709
 msgid "First column must be valid"
+msgstr "První sloupec musí existovat"
+
+#: src/dialogs/dialog-cell-sort.c:709
+#, fuzzy
+msgid "First row must be valid"
 msgstr "První sloupec musí existovat"
 
 #: src/dialogs/dialog-delete-cells.c:79
@@ -901,7 +907,7 @@ msgstr ""
 msgid "String"
 msgstr "Øetìz"
 
-#: src/dialogs/cell-format.glade.h:32 src/dialogs/dialog-function-wizard.c:209
+#: src/dialogs/cell-format.glade.h:31 src/dialogs/dialog-function-wizard.c:209
 msgid "Number"
 msgstr "Èíslo"
 
@@ -1033,9 +1039,9 @@ msgstr "Hodnoty"
 msgid "Formats"
 msgstr "Formáty"
 
-#: src/dialogs/cell-format.glade.h:60 src/dialogs/cell-format.glade.h:71
-#: src/dialogs/cell-format.glade.h:78 src/dialogs/dialog-paste-special.c:28
-#: src/widgets/widget-color-combo.c:111
+#: src/dialogs/cell-format.glade.h:59 src/dialogs/cell-format.glade.h:70
+#: src/dialogs/cell-format.glade.h:77 src/dialogs/dialog-paste-special.c:28
+#: src/widgets/widget-color-combo.c:128
 msgid "None"
 msgstr "®ádný"
 
@@ -1112,11 +1118,11 @@ msgstr "<="
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:44 src/workbook.c:1573
+#: src/dialogs/dialog-solver.c:44 src/workbook.c:1617
 msgid "Max"
 msgstr "Max"
 
-#: src/dialogs/dialog-solver.c:45 src/workbook.c:1572
+#: src/dialogs/dialog-solver.c:45 src/workbook.c:1616
 msgid "Min"
 msgstr "Min"
 
@@ -1181,8 +1187,8 @@ msgid "Add Constraint"
 msgstr "Pøidat omezení"
 
 #. Constraint buttons
-#: src/dialogs/dialog-solver.c:235 src/dialogs/dialog-solver.c:407
-#: src/dialogs/names.glade.h:9
+#: src/dialogs/cell-sort.glade.h:13 src/dialogs/dialog-solver.c:235
+#: src/dialogs/dialog-solver.c:407 src/dialogs/names.glade.h:9
 msgid "Add"
 msgstr "Pøièíst"
 
@@ -1274,19 +1280,21 @@ msgid "Size:"
 msgstr "Velikost:"
 
 #: src/dialogs/font-sel.glade.h:11
-msgid "Preview:"
+#, fuzzy
+msgid "Preview"
 msgstr "Náhled:"
 
 #: src/dialogs/font-sel.glade.h:12
-msgid "AaBbCcDdEe12345"
+#, fuzzy
+msgid "AaBbCcDdEeJj12345"
 msgstr "AaBbCcDdEe12345ì¹èø¾ýáÌ©ÈØ®ÝÁ"
 
 #: src/dialogs/font-sel.glade.h:13
-msgid "label7"
+msgid "label8"
 msgstr ""
 
 #: src/dialogs/font-sel.glade.h:14
-msgid "label8"
+msgid "label7"
 msgstr ""
 
 #: src/dialogs/font-sel.glade.h:15
@@ -1315,7 +1323,7 @@ msgstr ""
 msgid "window2"
 msgstr "okno2"
 
-#: src/dialogs/cell-format.glade.h:47 src/dialogs/print.glade.h:8
+#: src/dialogs/cell-format.glade.h:46 src/dialogs/print.glade.h:8
 msgid "Orientation"
 msgstr "Orientace"
 
@@ -1407,7 +1415,7 @@ msgstr "_Vertikálnì"
 msgid "_Left:"
 msgstr "V_levo"
 
-#: src/dialogs/cell-format.glade.h:35 src/dialogs/print.glade.h:30
+#: src/dialogs/cell-format.glade.h:34 src/dialogs/print.glade.h:30
 msgid "_Right"
 msgstr "V_pravo"
 
@@ -1459,7 +1467,7 @@ msgstr ""
 msgid "_Rows to repeat on the upper region:"
 msgstr ""
 
-#: src/dialogs/print.glade.h:50 src/workbook.c:1084
+#: src/dialogs/print.glade.h:50 src/workbook.c:1128
 msgid "Print"
 msgstr "Tisk"
 
@@ -1467,7 +1475,7 @@ msgstr "Tisk"
 msgid "Row and co_lumn headings"
 msgstr ""
 
-#: src/dialogs/print.glade.h:52 src/workbook.c:913
+#: src/dialogs/print.glade.h:52 src/workbook.c:952
 msgid "Co_mments"
 msgstr "Komentáøe"
 
@@ -1569,7 +1577,7 @@ msgstr "Kopie"
 #. * Add this file to your project's POTFILES.in.
 #. * DO NOT compile it as part of your application.
 #.
-#: src/dialogs/cell-format.glade.h:7 src/dialogs/cell-format.glade.h:39
+#: src/dialogs/cell-format.glade.h:7 src/dialogs/cell-format.glade.h:38
 #, fuzzy
 msgid "_General"
 msgstr "Obecný"
@@ -1584,7 +1592,7 @@ msgid "_Currency"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:10
-msgid "_Acounting"
+msgid "_Accounting"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:11
@@ -1617,17 +1625,17 @@ msgstr "Vìdecký"
 msgid "Te_xt"
 msgstr "Text"
 
-#: src/dialogs/cell-format.glade.h:17 src/workbook.c:995
+#: src/dialogs/cell-format.glade.h:17
 #, fuzzy
-msgid "S_pecial"
+msgid "Sp_ecial"
 msgstr "Zvlá¹tnosti"
 
 #: src/dialogs/cell-format.glade.h:18
 #, fuzzy
-msgid "C_ustom"
+msgid "Cust_om"
 msgstr "Vyjmout"
 
-#: src/dialogs/cell-format.glade.h:19 src/dialogs/cell-format.glade.h:109
+#: src/dialogs/cell-format.glade.h:19 src/dialogs/cell-format.glade.h:108
 #, fuzzy
 msgid "Sample"
 msgstr "Pøíklad:"
@@ -1639,359 +1647,356 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:21
-msgid "_Decimal places:"
+msgid "Deci_mal places:"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:22
-msgid "_Use Seperator for 1000's"
+msgid "_Use Separator for 1000's"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:23
-msgid "_Symbol:"
+msgid "S_ymbol:"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:24
-#, fuzzy
-msgid ""
-"$\n"
-"None\n"
-msgstr "®ádný"
+msgid "\n"
+msgstr ""
 
-#: src/dialogs/cell-format.glade.h:27
+#: src/dialogs/cell-format.glade.h:26
 msgid "$"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:28
+#: src/dialogs/cell-format.glade.h:27
 #, fuzzy
-msgid "_Negative number:"
+msgid "Negat_ive number:"
 msgstr "Èíslo p_rvní stránky:"
 
-#: src/dialogs/cell-format.glade.h:29
+#: src/dialogs/cell-format.glade.h:28
 #, fuzzy
-msgid "_Delete format"
+msgid "De_lete format"
 msgstr "Formát buòky"
 
-#: src/dialogs/cell-format.glade.h:30
+#: src/dialogs/cell-format.glade.h:29
 #, fuzzy
 msgid "_Type"
 msgstr "Na_hoøe:"
 
-#: src/dialogs/cell-format.glade.h:31
+#: src/dialogs/cell-format.glade.h:30
 msgid "Display the value exactly as it was entered"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:33
+#: src/dialogs/cell-format.glade.h:32
 msgid "Horizontal"
 msgstr "Horizontálnì"
 
-#: src/dialogs/cell-format.glade.h:34
+#: src/dialogs/cell-format.glade.h:33
 #, fuzzy
 msgid "_Justify"
 msgstr "Zarovnávání"
 
-#: src/dialogs/cell-format.glade.h:36
+#: src/dialogs/cell-format.glade.h:35
 #, fuzzy
 msgid "_Fill"
 msgstr "Vyplnit"
 
-#: src/dialogs/cell-format.glade.h:37
+#: src/dialogs/cell-format.glade.h:36
 #, fuzzy
 msgid "_Center"
 msgstr "Doprosøed"
 
-#: src/dialogs/cell-format.glade.h:38
+#: src/dialogs/cell-format.glade.h:37
 #, fuzzy
 msgid "_Left"
 msgstr "V_levo"
 
-#: src/dialogs/cell-format.glade.h:40
+#: src/dialogs/cell-format.glade.h:39
 msgid "Vertical"
 msgstr "Vertikálnì"
 
-#: src/dialogs/cell-format.glade.h:41
+#: src/dialogs/cell-format.glade.h:40
 #, fuzzy
 msgid "J_ustify"
 msgstr "Zarovnávání"
 
-#: src/dialogs/cell-format.glade.h:42
+#: src/dialogs/cell-format.glade.h:41
 #, fuzzy
 msgid "_Top"
 msgstr "Na_hoøe:"
 
-#: src/dialogs/cell-format.glade.h:43
+#: src/dialogs/cell-format.glade.h:42
 #, fuzzy
 msgid "C_enter"
 msgstr "Doprosøed"
 
-#: src/dialogs/cell-format.glade.h:44
+#: src/dialogs/cell-format.glade.h:43
 #, fuzzy
 msgid "_Bottom"
 msgstr "_Dole:"
 
-#: src/dialogs/cell-format.glade.h:45
+#: src/dialogs/cell-format.glade.h:44
 #, fuzzy
 msgid "Control"
 msgstr "Souèet"
 
-#: src/dialogs/cell-format.glade.h:46
+#: src/dialogs/cell-format.glade.h:45
 msgid "_Wrap text"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:48
+#: src/dialogs/cell-format.glade.h:47
 msgid "Unfinished"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:49
+#: src/dialogs/cell-format.glade.h:48
 msgid "Alignment"
 msgstr "Zarovnávání"
 
-#: src/dialogs/cell-format.glade.h:50
+#: src/dialogs/cell-format.glade.h:49
 #, fuzzy
 msgid "Color"
 msgstr "Barvy"
 
-#: src/dialogs/cell-format.glade.h:51 src/dialogs/cell-format.glade.h:79
-#: src/dialogs/cell-format.glade.h:88
+#: src/dialogs/cell-format.glade.h:50 src/dialogs/cell-format.glade.h:78
+#: src/dialogs/cell-format.glade.h:87
 msgid "_Automatic"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:52 src/dialogs/cell-format.glade.h:80
-#: src/dialogs/cell-format.glade.h:89 src/dialogs/dialog-zoom.glade.h:15
+#: src/dialogs/cell-format.glade.h:51 src/dialogs/cell-format.glade.h:79
+#: src/dialogs/cell-format.glade.h:88 src/dialogs/dialog-zoom.glade.h:15
 #, fuzzy
 msgid "_Custom"
 msgstr "Vyjmout"
 
-#: src/dialogs/cell-format.glade.h:53
+#: src/dialogs/cell-format.glade.h:52
 msgid "Pick a font color"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:54
+#: src/dialogs/cell-format.glade.h:53
 msgid "Effects"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:55
+#: src/dialogs/cell-format.glade.h:54
 msgid "_Underline:"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:56
+#: src/dialogs/cell-format.glade.h:55
 msgid ""
 "None\n"
 "Single\n"
 "Double\n"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:61
+#: src/dialogs/cell-format.glade.h:60
 msgid "Sup_erscript"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:62
+#: src/dialogs/cell-format.glade.h:61
 msgid "Su_bscript"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:63
+#: src/dialogs/cell-format.glade.h:62
 msgid "Stri_kethrough"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:64
+#: src/dialogs/cell-format.glade.h:63
 msgid "Font"
 msgstr "Font"
 
-#: src/dialogs/cell-format.glade.h:65
+#: src/dialogs/cell-format.glade.h:64
 msgid "Reverse Diagonal"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:66
+#: src/dialogs/cell-format.glade.h:65
 msgid "Left"
 msgstr "Vlevo"
 
-#: src/dialogs/cell-format.glade.h:67
+#: src/dialogs/cell-format.glade.h:66
 msgid "Top"
 msgstr "Nahoru"
 
-#: src/dialogs/cell-format.glade.h:68
+#: src/dialogs/cell-format.glade.h:67
 msgid "Bottom"
 msgstr "Dolu"
 
-#: src/dialogs/cell-format.glade.h:69
+#: src/dialogs/cell-format.glade.h:68
 #, fuzzy
 msgid "Diagonal"
 msgstr "Diagonální èára"
 
-#: src/dialogs/cell-format.glade.h:70
+#: src/dialogs/cell-format.glade.h:69
 msgid "Right"
 msgstr "Vpravo"
 
-#: src/dialogs/cell-format.glade.h:72
+#: src/dialogs/cell-format.glade.h:71
 msgid "Outline"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:73
+#: src/dialogs/cell-format.glade.h:72
 #, fuzzy
 msgid "Inside Vertical"
 msgstr "Vertikálnì"
 
-#: src/dialogs/cell-format.glade.h:74
+#: src/dialogs/cell-format.glade.h:73
 #, fuzzy
 msgid "Inside"
 msgstr "Vlo¾"
 
-#: src/dialogs/cell-format.glade.h:75
+#: src/dialogs/cell-format.glade.h:74
 #, fuzzy
 msgid "Inside Horizontal"
 msgstr "Horizontálnì"
 
-#: src/dialogs/cell-format.glade.h:76 src/workbook.c:1124
+#: src/dialogs/cell-format.glade.h:75 src/workbook.c:1168
 msgid "Line"
 msgstr "Èára"
 
-#: src/dialogs/cell-format.glade.h:77
+#: src/dialogs/cell-format.glade.h:76
 msgid "_Style"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:81
+#: src/dialogs/cell-format.glade.h:80
 msgid "Pick a border color"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:82
+#: src/dialogs/cell-format.glade.h:81
 #, fuzzy
 msgid "Border"
 msgstr "Poøadí stránek"
 
-#: src/dialogs/cell-format.glade.h:83
+#: src/dialogs/cell-format.glade.h:82
 #, fuzzy
 msgid "Background Color"
 msgstr "Pozadí"
 
-#: src/dialogs/cell-format.glade.h:84
+#: src/dialogs/cell-format.glade.h:83
 msgid "_No Color"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:85
+#: src/dialogs/cell-format.glade.h:84
 #, fuzzy
 msgid "C_olor"
 msgstr "Barvy"
 
-#: src/dialogs/cell-format.glade.h:86
+#: src/dialogs/cell-format.glade.h:85
 #, fuzzy
 msgid "Pick a Background color"
 msgstr "Pozadí"
 
-#: src/dialogs/cell-format.glade.h:87
+#: src/dialogs/cell-format.glade.h:86
 #, fuzzy
 msgid "Pattern"
 msgstr "Vlo¾it"
 
-#: src/dialogs/cell-format.glade.h:90
+#: src/dialogs/cell-format.glade.h:89
 msgid "Pick a Pattern color"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:91
+#: src/dialogs/cell-format.glade.h:90
 #, c-format
 msgid "75% grey"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:92
+#: src/dialogs/cell-format.glade.h:91
 #, c-format
 msgid "50% Grey"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:93
+#: src/dialogs/cell-format.glade.h:92
 #, c-format
 msgid "25% Grey"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:94
+#: src/dialogs/cell-format.glade.h:93
 #, fuzzy, c-format
 msgid "12.5% Grey"
 msgstr "12,5%"
 
-#: src/dialogs/cell-format.glade.h:95
+#: src/dialogs/cell-format.glade.h:94
 #, fuzzy, c-format
 msgid "6.25% Grey"
 msgstr "6,25%"
 
-#: src/dialogs/cell-format.glade.h:96
+#: src/dialogs/cell-format.glade.h:95
 #, fuzzy
 msgid "Horizontal Stripe"
 msgstr "Horizontální èára"
 
-#: src/dialogs/cell-format.glade.h:97
+#: src/dialogs/cell-format.glade.h:96
 #, fuzzy
 msgid "Thin Horizontal Stripe"
 msgstr "Horizontální èára"
 
-#: src/dialogs/cell-format.glade.h:98
+#: src/dialogs/cell-format.glade.h:97
 #, fuzzy
 msgid "Vertical Stripe"
 msgstr "Vertikální èára"
 
-#: src/dialogs/cell-format.glade.h:99
+#: src/dialogs/cell-format.glade.h:98
 #, fuzzy
 msgid "Thin Vertical Stripe"
 msgstr "Vertikální èára"
 
-#: src/dialogs/cell-format.glade.h:100
+#: src/dialogs/cell-format.glade.h:99
 msgid "Reverse Diagonal Stripe"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:101
+#: src/dialogs/cell-format.glade.h:100
 msgid "Thin Reverse Diagonal Stripe"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:102
+#: src/dialogs/cell-format.glade.h:101
 #, fuzzy
 msgid "Diagonal Stripe"
 msgstr "Diagonální èára"
 
-#: src/dialogs/cell-format.glade.h:103
+#: src/dialogs/cell-format.glade.h:102
 #, fuzzy
 msgid "Thin Diagonal Stripe"
 msgstr "Diagonální èára"
 
-#: src/dialogs/cell-format.glade.h:104
+#: src/dialogs/cell-format.glade.h:103
 #, fuzzy
 msgid "Diagonal Crosshatch"
 msgstr "Diagonální èára"
 
-#: src/dialogs/cell-format.glade.h:105
+#: src/dialogs/cell-format.glade.h:104
 msgid "Thick Diagonal Crosshatch"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:106
+#: src/dialogs/cell-format.glade.h:105
 #, fuzzy
 msgid "Thin Horizontal Crosshatch"
 msgstr "Diagonální èára"
 
-#: src/dialogs/cell-format.glade.h:107
+#: src/dialogs/cell-format.glade.h:106
 msgid "Thin Diagonal Crosshatch"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:108
+#: src/dialogs/cell-format.glade.h:107
 #, fuzzy
 msgid "Solid"
 msgstr "Tuònì"
 
-#: src/dialogs/cell-format.glade.h:110 src/workbook-format-toolbar.c:425
+#: src/dialogs/cell-format.glade.h:109 src/workbook-format-toolbar.c:430
 msgid "Background"
 msgstr "Pozadí"
 
-#: src/dialogs/cell-format.glade.h:111
+#: src/dialogs/cell-format.glade.h:110
 msgid "_Locked"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:112
+#: src/dialogs/cell-format.glade.h:111
 msgid "_Hidden"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:113
+#: src/dialogs/cell-format.glade.h:112
 msgid "Locking cells or hiding formulas only affects protected worksheets."
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:114
-msgid "Worksheet protected"
+#: src/dialogs/cell-format.glade.h:113
+msgid "Worksheet _protected"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:115
+#: src/dialogs/cell-format.glade.h:114
 #, fuzzy
 msgid "Protection"
 msgstr "Zlomek"
@@ -2002,11 +2007,50 @@ msgstr "Zlomek"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/cell-sort.glade.h:7
-msgid "My selection has"
-msgstr ""
+#, fuzzy
+msgid "Sort..."
+msgstr "F_ormát"
 
 #: src/dialogs/cell-sort.glade.h:8
-msgid "A header row"
+#, fuzzy
+msgid "Selection has"
+msgstr "Zarovnání doleva"
+
+#: src/dialogs/cell-sort.glade.h:9
+#, fuzzy
+msgid "A header"
+msgstr "Hlavièka"
+
+#: src/dialogs/cell-sort.glade.h:10
+#, fuzzy
+msgid "Sort"
+msgstr "seøadit podle"
+
+#: src/dialogs/cell-sort.glade.h:14 src/plugin-manager.c:143
+#: src/sheet-object.c:978
+msgid "Remove"
+msgstr "Odstranit"
+
+#: src/dialogs/cell-sort.glade.h:15
+msgid "Advanced Sort Options"
+msgstr ""
+
+#: src/dialogs/cell-sort.glade.h:17
+#, fuzzy
+msgid "Value"
+msgstr "Hodnoty"
+
+#: src/dialogs/cell-sort.glade.h:18
+#, fuzzy
+msgid "Text"
+msgstr "Text"
+
+#: src/dialogs/cell-sort.glade.h:19
+msgid "Entries are"
+msgstr ""
+
+#: src/dialogs/cell-sort.glade.h:20
+msgid "Case sensitive"
 msgstr ""
 
 #.
@@ -2072,23 +2116,23 @@ msgstr "Nelze zapsat soubor %s\n"
 msgid "Embedded Sheet"
 msgstr "Vlo¾ený list"
 
-#: src/expr-name.c:175
+#: src/expr-name.c:177
 msgid "already defined"
 msgstr "ji¾ definován"
 
-#: src/expr-name.c:178
+#: src/expr-name.c:180
 msgid "no scope"
 msgstr ""
 
-#: src/expr-name.c:183
+#: src/expr-name.c:185
 msgid "circular reference"
 msgstr ""
 
-#: src/expr-name.c:336
+#: src/expr-name.c:338
 msgid "Builtin"
 msgstr ""
 
-#: src/expr-name.c:367
+#: src/expr-name.c:369
 msgid "Error: no sheet"
 msgstr ""
 
@@ -6906,24 +6950,24 @@ msgstr "bílá"
 msgid "yellow"
 msgstr "¾lutá"
 
-#: src/format.c:1334
+#: src/format.c:1370
 msgid "0.0########"
 msgstr ""
 
-#: src/format.c:1348 src/value-sheet.c:26 src/value.c:321
+#: src/format.c:1384 src/value-sheet.c:26 src/value.c:321
 msgid "TRUE"
 msgstr "PRAVDA"
 
-#: src/format.c:1348 src/value-sheet.c:26 src/value.c:321
+#: src/format.c:1384 src/value-sheet.c:26 src/value.c:321
 msgid "FALSE"
 msgstr "NEPRAVDA"
 
-#: src/format.c:1357
+#: src/format.c:1393
 msgid "CELLRANGE"
 msgstr ""
 
 #. Array of arrays ??
-#: src/format.c:1361
+#: src/format.c:1397
 msgid "ARRAY"
 msgstr "POLE"
 
@@ -7199,52 +7243,52 @@ msgstr ""
 msgid "You cannot change part of an array."
 msgstr ""
 
-#: src/item-bar.c:451
+#: src/item-bar.c:462
 #, fuzzy, c-format
 msgid "Height: %.2f"
 msgstr "Délka"
 
-#: src/item-bar.c:454
+#: src/item-bar.c:465
 #, c-format
 msgid "Width: %.2f"
 msgstr ""
 
-#: src/item-cursor.c:516
+#: src/item-cursor.c:578
 msgid ""
 "The cells dragged will overwrite the contents of the\n"
 "existing cells in that range.  Do you want me to replace\n"
 "the contents in this region?"
 msgstr ""
 
-#: src/item-cursor.c:597 src/workbook.c:1096
+#: src/item-cursor.c:659 src/workbook.c:1140
 msgid "Copy"
 msgstr "Kopie"
 
-#: src/item-cursor.c:598 src/print-preview.c:538
+#: src/item-cursor.c:660 src/print-preview.c:538
 msgid "Move"
 msgstr "Pøesun"
 
-#: src/item-cursor.c:599
+#: src/item-cursor.c:661
 msgid "Copy formats"
 msgstr "Kopie formátu"
 
-#: src/item-cursor.c:600
+#: src/item-cursor.c:662
 msgid "Copy values"
 msgstr "Kopie hodnot"
 
-#: src/item-cursor.c:601
+#: src/item-cursor.c:663
 msgid "Shift cells down and copy"
 msgstr "Posuò buòky dolu a kopíruj"
 
-#: src/item-cursor.c:602
+#: src/item-cursor.c:664
 msgid "Shift cells right and copy"
 msgstr "Posuò buòky doprava a kopíruj"
 
-#: src/item-cursor.c:603
+#: src/item-cursor.c:665
 msgid "Shift cells down and move"
 msgstr "Posuò buòky dolu a pøesuò"
 
-#: src/item-cursor.c:604
+#: src/item-cursor.c:666
 msgid "Shift cells right and move"
 msgstr "Posuò buòky doprava a pøesuò"
 
@@ -7273,7 +7317,7 @@ msgstr "Vlo¾it jinak"
 msgid "_Insert..."
 msgstr "Vlo¾it"
 
-#: src/item-grid.c:653 src/workbook.c:928
+#: src/item-grid.c:653 src/workbook.c:972
 #, fuzzy
 msgid "_Delete..."
 msgstr "Mazání"
@@ -7308,44 +7352,44 @@ msgstr ""
 msgid "_Row Height..."
 msgstr "Délka"
 
-#: src/main.c:47
+#: src/main.c:48
 msgid "Dumps the function definitions"
 msgstr ""
 
-#: src/main.c:47
+#: src/main.c:48
 msgid "FILE"
 msgstr "SOUBOR"
 
-#: src/main.c:49
+#: src/main.c:50
 msgid "Enables some debugging functions"
 msgstr ""
 
-#: src/main.c:49 src/main.c:51 src/main.c:56 src/main.c:60 src/main.c:64
-#: src/main.c:68 src/main.c:72
+#: src/main.c:50 src/main.c:52 src/main.c:57 src/main.c:61 src/main.c:65
+#: src/main.c:69 src/main.c:73 src/main.c:77
 msgid "LEVEL"
 msgstr "ÚROVEÒ"
 
-#: src/main.c:51
+#: src/main.c:52
 msgid "Enables some style related debugging functions"
 msgstr ""
 
-#: src/main.c:55
+#: src/main.c:56 src/main.c:72
 msgid "Enables debugging mesgs while reading excel workbooks"
 msgstr ""
 
-#: src/main.c:59
+#: src/main.c:60
 msgid "Enables debugging mesgs while reading excel functions"
 msgstr ""
 
-#: src/main.c:63
+#: src/main.c:64
 msgid "Enables debugging mesgs while reading excel colours & patterns"
 msgstr ""
 
-#: src/main.c:67
+#: src/main.c:68
 msgid "Enables debugging mesgs while reading excel charts"
 msgstr "Povoluje ladící zprávy pøi naèítaní diagramù excelu"
 
-#: src/main.c:71
+#: src/main.c:76
 msgid "Enables extra consistancy checking while reading ole files"
 msgstr ""
 
@@ -7368,10 +7412,6 @@ msgstr "Zavøít"
 #: src/plugin-manager.c:140
 msgid "Add..."
 msgstr "Pøidat.."
-
-#: src/plugin-manager.c:143 src/sheet-object.c:978
-msgid "Remove"
-msgstr "Odstranit"
 
 #: src/plugin.c:41
 msgid "unable to open module file: "
@@ -7539,7 +7579,7 @@ msgstr "Dal¹í"
 msgid "Last"
 msgstr "Poslední"
 
-#: src/print-preview.c:539 src/workbook.c:2104
+#: src/print-preview.c:539 src/workbook.c:2180
 msgid "Zoom in"
 msgstr "Zvìt¹ení"
 
@@ -7547,7 +7587,7 @@ msgstr "Zvìt¹ení"
 msgid "Zooms the page in"
 msgstr "Zvìt¹ení pohledu na stránku"
 
-#: src/print-preview.c:540 src/workbook.c:2097
+#: src/print-preview.c:540 src/workbook.c:2173
 msgid "Zoom out"
 msgstr "Zmen¹ení"
 
@@ -7568,7 +7608,7 @@ msgstr "list"
 msgid "the workbook"
 msgstr "se¹it"
 
-#: src/print.c:617
+#: src/print.c:623
 msgid "Printing failed -- bad filename?"
 msgstr ""
 
@@ -7585,17 +7625,17 @@ msgstr ""
 msgid "copy"
 msgstr "Kopie"
 
-#: src/selection.c:627
+#: src/selection.c:625
 #, fuzzy
 msgid "cut"
 msgstr "Vyjmout"
 
-#: src/selection.c:668
+#: src/selection.c:665
 #, fuzzy
 msgid "paste"
 msgstr "Vlo¾it"
 
-#: src/selection.c:691
+#: src/selection.c:688
 #, c-format
 msgid ""
 "The area can not be pasted into the selection because it\n"
@@ -7604,36 +7644,36 @@ msgid ""
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
 
-#: src/sheet-object.c:359 src/workbook.c:1114
+#: src/sheet-object.c:359 src/workbook.c:1158
 #, fuzzy
 msgid "Button"
 msgstr "Dolu"
 
-#: src/sheet-object.c:728 src/workbook.c:860
+#: src/sheet-object.c:728 src/workbook.c:899
 #, fuzzy
 msgid "Select an object"
 msgstr "Vytvoøí èáru"
 
-#: src/sheet-view.c:368
+#: src/sheet-view.c:369
 #, c-format
 msgid "Row: %d"
 msgstr "Øádek: %d"
 
-#: src/sheet-view.c:378
+#: src/sheet-view.c:379
 #, c-format
 msgid "Column: %s"
 msgstr "Sloupec: %s"
 
-#: src/sheet.c:990
+#: src/sheet.c:1005
 msgid "Internal ERROR"
 msgstr "Interní CHYBA"
 
-#: src/sheet.c:2976
+#: src/sheet.c:3001
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr ""
 
-#: src/sheet.c:2988
+#: src/sheet.c:3013
 msgid "I was unable to the bind object"
 msgstr ""
 
@@ -7684,7 +7724,7 @@ msgstr "Pøeru¹it"
 
 #. Placeholder: font selector
 #. Placeholder: size selector
-#: src/widgets/widget-font-selector.c:126 src/workbook-format-toolbar.c:258
+#: src/widgets/widget-font-selector.c:126 src/workbook-format-toolbar.c:259
 msgid "Bold"
 msgstr "Tuènì"
 
@@ -7692,7 +7732,7 @@ msgstr "Tuènì"
 msgid "Bold italic"
 msgstr "Tuèná kurzíva"
 
-#: src/widgets/widget-font-selector.c:128 src/workbook-format-toolbar.c:261
+#: src/widgets/widget-font-selector.c:128 src/workbook-format-toolbar.c:262
 msgid "Italic"
 msgstr "Kurzíva"
 
@@ -7704,554 +7744,574 @@ msgstr ""
 msgid "You entered an invalid row height value.  It must be bigger than 0"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:258
+#: src/workbook-format-toolbar.c:259
 #, fuzzy
 msgid "Sets the bold font"
 msgstr "Nastaví tuèné písmo v buòce"
 
-#: src/workbook-format-toolbar.c:261
+#: src/workbook-format-toolbar.c:262
 msgid "Makes the font italic"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:267
+#: src/workbook-format-toolbar.c:268
 msgid "Left align"
 msgstr "Zarovnání doleva"
 
-#: src/workbook-format-toolbar.c:267
+#: src/workbook-format-toolbar.c:268
 #, fuzzy
 msgid "Left justifies the cell contents"
 msgstr "Vycentruje buòku"
 
-#: src/workbook-format-toolbar.c:270
+#: src/workbook-format-toolbar.c:271
 msgid "Center"
 msgstr "Doprosøed"
 
-#: src/workbook-format-toolbar.c:270
+#: src/workbook-format-toolbar.c:271
 msgid "Centers the cell contents"
 msgstr "Vycentruje buòku"
 
-#: src/workbook-format-toolbar.c:273
+#: src/workbook-format-toolbar.c:274
 msgid "Right align"
 msgstr "Zarovnání doprava"
 
-#: src/workbook-format-toolbar.c:273
+#: src/workbook-format-toolbar.c:274
 #, fuzzy
 msgid "Right justifies the cell contents"
 msgstr "Vycentruje buòku"
 
-#: src/workbook-format-toolbar.c:279
+#: src/workbook-format-toolbar.c:280
 #, fuzzy
 msgid "Money format"
 msgstr "Kopie formátu"
 
-#: src/workbook-format-toolbar.c:279
+#: src/workbook-format-toolbar.c:280
 #, fuzzy
 msgid "Sets the format of the selected cells to monetary"
 msgstr "Vycentruje buòku"
 
-#: src/workbook-format-toolbar.c:282
+#: src/workbook-format-toolbar.c:283
 msgid "Percent"
 msgstr "Procenta"
 
-#: src/workbook-format-toolbar.c:282
+#: src/workbook-format-toolbar.c:283
 msgid "Sets the format of the selected cells to percentage"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:285
+#: src/workbook-format-toolbar.c:286
 msgid "Thousand separator"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:285
+#: src/workbook-format-toolbar.c:286
 msgid "Sets the format of the selected cells to include a thousands separator"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:288
+#: src/workbook-format-toolbar.c:289
 msgid "Add decimals"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:288
+#: src/workbook-format-toolbar.c:289
 msgid "Increases the number of decimal numbers displayed"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:291
+#: src/workbook-format-toolbar.c:292
 msgid "Remove decimals"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:291
+#: src/workbook-format-toolbar.c:292
 msgid "Decreases the number of decimal numbers displayed"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:383
+#: src/workbook-format-toolbar.c:388
 msgid "Font selector"
 msgstr "Výbìr zlomku"
 
-#: src/workbook-format-toolbar.c:399
+#: src/workbook-format-toolbar.c:404
 msgid "Size"
 msgstr "Velikost"
 
-#: src/workbook-format-toolbar.c:421
+#: src/workbook-format-toolbar.c:426
 msgid "Foreground"
 msgstr "Popøedí"
 
-#: src/workbook.c:415
+#: src/workbook.c:436
 msgid "Warning"
 msgstr "Varování"
 
-#: src/workbook.c:424
+#: src/workbook.c:445
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr "Se¹it %s byl zmìnìn, ulo¾it?"
 
-#: src/workbook.c:427
+#: src/workbook.c:448
 msgid "Workbook has unsaved changes, save them?"
 msgstr "Se¹it obsahuje neulo¾ené zmìny, ulo¾it je?"
 
-#: src/workbook.c:640
+#: src/workbook.c:679
 msgid "Insert cols"
 msgstr "Vlo¾ sloupce"
 
-#: src/workbook.c:660
+#: src/workbook.c:699
 msgid "Insert rows"
 msgstr "Vlo¾ øádky"
 
-#: src/workbook.c:755
+#: src/workbook.c:794
 msgid ">mm/dd/yyyy"
 msgstr ""
 
-#: src/workbook.c:774
+#: src/workbook.c:813
 msgid ">hh:mm"
 msgstr ""
 
-#: src/workbook.c:869
+#: src/workbook.c:908
 msgid "_New"
 msgstr "_Nový"
 
-#: src/workbook.c:869
+#: src/workbook.c:908
 #, fuzzy
 msgid "Create a new spreadsheet"
 msgstr "Vytvoø nový list"
 
-#: src/workbook.c:873
+#: src/workbook.c:912
 #, fuzzy
 msgid "_Import..."
 msgstr "F_ormát"
 
-#: src/workbook.c:873
+#: src/workbook.c:912
 #, fuzzy
 msgid "Imports a file"
 msgstr "Otevøít soubor"
 
-#: src/workbook.c:879
+#: src/workbook.c:918
 msgid "Su_mmary..."
 msgstr ""
 
-#: src/workbook.c:879
+#: src/workbook.c:918
 msgid "Summary information"
 msgstr ""
 
-#: src/workbook.c:884
+#: src/workbook.c:923
 msgid "Plu_g-ins..."
 msgstr ""
 
-#: src/workbook.c:884
+#: src/workbook.c:923
 #, fuzzy
 msgid "Gnumeric plugins"
 msgstr "Gnumeric"
 
-#: src/workbook.c:891 src/workbook.c:1087
+#: src/workbook.c:930 src/workbook.c:1131
 msgid "Print pre_view"
 msgstr ""
 
-#: src/workbook.c:891 src/workbook.c:1087
+#: src/workbook.c:930 src/workbook.c:1131
 msgid "Print preview"
 msgstr ""
 
-#: src/workbook.c:907
+#: src/workbook.c:946
 msgid "_All"
 msgstr "V¹e"
 
-#: src/workbook.c:908
+#: src/workbook.c:947
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr ""
 
-#: src/workbook.c:910
+#: src/workbook.c:949
 msgid "_Formats"
 msgstr "_Formáty"
 
-#: src/workbook.c:911
+#: src/workbook.c:950
 msgid "Clear the selected cells' formats"
 msgstr ""
 
-#: src/workbook.c:914
+#: src/workbook.c:953
 #, fuzzy
 msgid "Clear the selected cells' comments"
 msgstr "Vycentruje buòku"
 
-#: src/workbook.c:916
+#: src/workbook.c:955
 msgid "_Content"
 msgstr ""
 
-#: src/workbook.c:917
+#: src/workbook.c:956
 #, fuzzy
 msgid "Clear the selected cells' contents"
 msgstr "Vycentruje buòku"
 
-#: src/workbook.c:926
+#: src/workbook.c:970
 #, fuzzy
 msgid "P_aste special..."
 msgstr "Vlo¾it jinak"
 
-#: src/workbook.c:930
+#: src/workbook.c:974
 msgid "C_lear"
 msgstr "Vymazat"
 
-#: src/workbook.c:931
+#: src/workbook.c:975
 msgid "Clear the selected cell(s)"
 msgstr ""
 
-#: src/workbook.c:935
+#: src/workbook.c:979
 msgid "_Select All"
 msgstr "Vybrat v¹e"
 
-#: src/workbook.c:936
+#: src/workbook.c:980
 msgid "Select all cells in the spreadsheet"
 msgstr ""
 
-#: src/workbook.c:938
+#: src/workbook.c:982
 #, fuzzy
 msgid "_Goto cell..."
 msgstr "Jdi na buòku.."
 
-#: src/workbook.c:939
+#: src/workbook.c:983
 msgid "Jump to a specified cell"
 msgstr ""
 
-#: src/workbook.c:945
+#: src/workbook.c:989
 msgid "Insert object..."
 msgstr ""
 
-#: src/workbook.c:946
+#: src/workbook.c:990
 #, fuzzy
 msgid "Inserts a Bonobo object"
 msgstr "Vytvoøí èáru"
 
-#: src/workbook.c:950
+#: src/workbook.c:994
 #, fuzzy
 msgid "_Define cell names"
 msgstr "Smazání bunìk"
 
-#: src/workbook.c:953
+#: src/workbook.c:997
 #, fuzzy
 msgid "_Recalculate"
 msgstr "Pøepoèítat"
 
-#: src/workbook.c:954
+#: src/workbook.c:998
 msgid "Recalculate the spreadsheet"
 msgstr ""
 
-#: src/workbook.c:962
+#: src/workbook.c:1006
 msgid "_Zoom..."
 msgstr "Mìøítko..."
 
-#: src/workbook.c:963
+#: src/workbook.c:1007
 msgid "Zoom the spreadsheet in or out"
 msgstr ""
 
-#: src/workbook.c:970
+#: src/workbook.c:1014
 #, fuzzy
 msgid "Current _date"
 msgstr "Dne¹ní datum"
 
-#: src/workbook.c:971
+#: src/workbook.c:1015
 msgid "Insert the current date into the selected cell(s)"
 msgstr ""
 
-#: src/workbook.c:974
+#: src/workbook.c:1018
 #, fuzzy
 msgid "Current _time"
 msgstr "Souèasný èas"
 
-#: src/workbook.c:975
+#: src/workbook.c:1019
 msgid "Insert the current time into the selected cell(s)"
 msgstr ""
 
-#: src/workbook.c:982 src/workbook.c:1030
+#: src/workbook.c:1026 src/workbook.c:1074
 msgid "_Sheet"
 msgstr "List"
 
-#: src/workbook.c:982
+#: src/workbook.c:1026
 #, fuzzy
 msgid "Insert a new spreadsheet"
 msgstr "Vytvoø nový list"
 
-#: src/workbook.c:984 src/workbook.c:1025
+#: src/workbook.c:1028 src/workbook.c:1069
 msgid "_Cells..."
 msgstr "Buòky..."
 
-#: src/workbook.c:984
+#: src/workbook.c:1028
 #, fuzzy
 msgid "Insert new cells"
 msgstr "Vlo¾ buòky"
 
-#: src/workbook.c:986
+#: src/workbook.c:1030
 msgid "_Rows"
 msgstr "Øádky"
 
-#: src/workbook.c:986
+#: src/workbook.c:1030
 #, fuzzy
 msgid "Insert new rows"
 msgstr "Vlo¾ øádky"
 
-#: src/workbook.c:988
+#: src/workbook.c:1032
 msgid "C_olumns"
 msgstr "Sloupce"
 
-#: src/workbook.c:988
+#: src/workbook.c:1032
 #, fuzzy
 msgid "Insert new columns"
 msgstr "Vlo¾ sloupec(e)"
 
-#: src/workbook.c:993
+#: src/workbook.c:1037
 msgid "_Add/modify comment..."
 msgstr ""
 
-#: src/workbook.c:994
+#: src/workbook.c:1038
 msgid "Edit the selected cell's comment"
 msgstr ""
 
-#: src/workbook.c:1003 src/workbook.c:1011
+#: src/workbook.c:1039
+#, fuzzy
+msgid "S_pecial"
+msgstr "Zvlá¹tnosti"
+
+#: src/workbook.c:1047 src/workbook.c:1055
 #, fuzzy
 msgid "_Auto fit selection"
 msgstr "Zarovnání doleva"
 
-#: src/workbook.c:1005
+#: src/workbook.c:1049
 msgid "_Width"
 msgstr "©íøka"
 
-#: src/workbook.c:1013
+#: src/workbook.c:1057
 msgid "_Height"
 msgstr "Délka"
 
-#: src/workbook.c:1019
+#: src/workbook.c:1063
 msgid "_Change name"
 msgstr "Zmìò jméno"
 
-#: src/workbook.c:1026
+#: src/workbook.c:1070
 msgid "Modify the formatting of the selected cells"
 msgstr ""
 
-#: src/workbook.c:1028
+#: src/workbook.c:1072
 msgid "C_olumn"
 msgstr "Sloupec"
 
-#: src/workbook.c:1029
+#: src/workbook.c:1073
 msgid "_Row"
 msgstr "Øádek"
 
-#: src/workbook.c:1037
+#: src/workbook.c:1081
 #, fuzzy
 msgid "_Sort..."
 msgstr "F_ormát"
 
-#: src/workbook.c:1038
+#: src/workbook.c:1082
 #, fuzzy
 msgid "Sort the selected cells"
 msgstr "Vycentruje buòku"
 
-#: src/workbook.c:1039
+#: src/workbook.c:1083
 msgid "_Goal Seek..."
 msgstr ""
 
-#: src/workbook.c:1041
+#: src/workbook.c:1085
 msgid "_Solver..."
 msgstr ""
 
-#: src/workbook.c:1043
+#: src/workbook.c:1087
 msgid "_Data Analysis..."
 msgstr ""
 
-#: src/workbook.c:1059
+#: src/workbook.c:1103
 msgid "_Insert"
 msgstr "Vlo¾it"
 
-#: src/workbook.c:1060
+#: src/workbook.c:1104
 msgid "F_ormat"
 msgstr "F_ormát"
 
-#: src/workbook.c:1061
+#: src/workbook.c:1105
 msgid "_Tools"
 msgstr ""
 
-#: src/workbook.c:1072
+#: src/workbook.c:1116
 msgid "New"
 msgstr "Nový"
 
-#: src/workbook.c:1072
+#: src/workbook.c:1116
 #, fuzzy
 msgid "Creates a new sheet"
 msgstr "Vytvoø nový list"
 
-#: src/workbook.c:1075
+#: src/workbook.c:1119
 msgid "Open"
 msgstr "Otevøi"
 
-#: src/workbook.c:1075
+#: src/workbook.c:1119
 msgid "Opens an existing workbook"
 msgstr "Otevøe existující se¹it"
 
-#: src/workbook.c:1078
+#: src/workbook.c:1122
 msgid "Save"
 msgstr "Ulo¾"
 
-#: src/workbook.c:1078
+#: src/workbook.c:1122
 msgid "Saves the workbook"
 msgstr "Ulo¾í se¹it"
 
-#: src/workbook.c:1084
+#: src/workbook.c:1128
 #, fuzzy
 msgid "Prints the workbook"
 msgstr "Ulo¾í se¹it"
 
-#: src/workbook.c:1093
+#: src/workbook.c:1137
 msgid "Cut"
 msgstr "Vyjmout"
 
-#: src/workbook.c:1093
+#: src/workbook.c:1137
 msgid "Cuts the selection to the clipboard"
 msgstr "Vyjme oznaèené do schránky"
 
-#: src/workbook.c:1096
+#: src/workbook.c:1140
 msgid "Copies the selection to the clipboard"
 msgstr "Zkopíruje oznaèené do schránky"
 
-#: src/workbook.c:1099
+#: src/workbook.c:1143
 msgid "Paste"
 msgstr "Vlo¾it"
 
-#: src/workbook.c:1099
+#: src/workbook.c:1143
 msgid "Pastes the clipboard"
 msgstr "Vlo¾í schránky"
 
-#: src/workbook.c:1106
+#: src/workbook.c:1150
 msgid "Graphic"
 msgstr ""
 
-#: src/workbook.c:1106
+#: src/workbook.c:1150
 #, fuzzy
 msgid "Creates a graphic in the spreadsheet"
 msgstr "Vytvoø nový list"
 
-#: src/workbook.c:1109
-msgid "Bobobo Item"
+#: src/workbook.c:1153
+msgid "Bonobo Item"
 msgstr ""
 
-#: src/workbook.c:1109
+#: src/workbook.c:1153
 #, fuzzy
 msgid "Creates a Bonobo shaped item"
 msgstr "Vytvoø nový list"
 
-#: src/workbook.c:1114
+#: src/workbook.c:1158
 #, fuzzy
 msgid "Creates a button"
 msgstr "Vytvoøí èáru"
 
-#: src/workbook.c:1117
+#: src/workbook.c:1161
 msgid "Checkbox"
 msgstr ""
 
-#: src/workbook.c:1117
+#: src/workbook.c:1161
 #, fuzzy
 msgid "Creates a checkbox"
 msgstr "Vytvoø nový list"
 
-#: src/workbook.c:1124
+#: src/workbook.c:1168
 msgid "Creates a line object"
 msgstr "Vytvoøí èáru"
 
-#: src/workbook.c:1127
+#: src/workbook.c:1171
 msgid "Arrow"
 msgstr "©ipka"
 
-#: src/workbook.c:1127
+#: src/workbook.c:1171
 msgid "Creates an arrow object"
 msgstr "Vytvoøí ¹ipku"
 
-#: src/workbook.c:1130
+#: src/workbook.c:1174
 msgid "Rectangle"
 msgstr "Obdélník"
 
-#: src/workbook.c:1130
+#: src/workbook.c:1174
 msgid "Creates a rectangle object"
 msgstr "Vytvoøí obdélník"
 
-#: src/workbook.c:1133
+#: src/workbook.c:1177
 msgid "Ellipse"
 msgstr "Elipsa"
 
-#: src/workbook.c:1133
+#: src/workbook.c:1177
 msgid "Creates an ellipse object"
 msgstr "Vytvoøí elipsu"
 
-#: src/workbook.c:1351
+#: src/workbook.c:1395
 msgid "You should introduce a valid cell name"
 msgstr "Mu¾e¹ pøedstavit platné jméno buòky"
 
-#: src/workbook.c:1360
+#: src/workbook.c:1404
 msgid "Column out of range"
 msgstr "øádek je mimo povolený rozsah"
 
-#: src/workbook.c:1366
+#: src/workbook.c:1410
 msgid "Row number out of range"
 msgstr "Sloupec je mimo povolenmý rozsah"
 
-#: src/workbook.c:1571
+#: src/workbook.c:1615
 msgid "Sum"
 msgstr "Suma"
 
-#: src/workbook.c:1574
+#: src/workbook.c:1618
 msgid "Average"
 msgstr "Prumìr"
 
-#: src/workbook.c:1575
+#: src/workbook.c:1619
 msgid "Count"
 msgstr "Souèet"
 
-#: src/workbook.c:2005
-msgid "Untitled.gnumeric"
+#: src/workbook.c:2054
+#, fuzzy, c-format
+msgid "Book%d.gnumeric"
 msgstr "Bezjmena.gnumeric"
 
-#: src/workbook.c:2228
+#: src/workbook.c:2304
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr ""
 
-#: src/workbook.c:2277
+#: src/workbook.c:2353
 msgid "Add another sheet"
 msgstr ""
 
-#: src/workbook.c:2278
+#: src/workbook.c:2354
 msgid "Remove this sheet"
 msgstr ""
 
-#: src/workbook.c:2546 src/workbook.c:2590
+#: src/workbook.c:2622 src/workbook.c:2655
 #, fuzzy, c-format
 msgid "Sheet%d"
 msgstr "Se¹it %d"
 
-#: src/workbook.c:2582
-#, fuzzy, c-format
-msgid "Book%d"
-msgstr "Tuènì"
-
-#: src/workbook.c:2625
+#: src/workbook.c:2691
 #, fuzzy
 msgid "Gnumeric: "
 msgstr "Gnumeric"
 
-#: src/xml-io.c:2338
+#: src/xml-io.c:2344
 #, fuzzy
 msgid "Gnumeric XML file format"
 msgstr "XML formát star¹ích verzí Gnumericu"
+
+#~ msgid "Column:"
+#~ msgstr "Sloupec:"
+
+#~ msgid "Asc"
+#~ msgstr "Vzest."
+
+#~ msgid "Desc"
+#~ msgstr "Sest."
+
+#, fuzzy
+#~ msgid ""
+#~ "$\n"
+#~ "None\n"
+#~ msgstr "®ádný"
+
+#, fuzzy
+#~ msgid "Book%d"
+#~ msgstr "Tuènì"
 
 #~ msgid "Argument must be a Guile expression"
 #~ msgstr "Argument musí být výraz Guile"

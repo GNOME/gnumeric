@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 1999-11-18 21:30+0000\n"
+"POT-Creation-Date: 1999-12-03 20:25-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,27 +14,27 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: ENCODING\n"
 
-#: plugins/excel/boot.c:80
+#: plugins/excel/boot.c:92
 msgid "Saving over old files disabled for safety"
 msgstr "Failide ülekirjutamine on turvakaalutlustel välja lülitatud"
 
-#: plugins/excel/boot.c:88
+#: plugins/excel/boot.c:100
 msgid "Can't open"
 msgstr "Ei saa avada"
 
-#: plugins/excel/boot.c:126
+#: plugins/excel/boot.c:141
 msgid "Microsoft(R) Excel file format"
 msgstr "Microsoft(R) Excel failiformaat"
 
-#: plugins/excel/boot.c:127
+#: plugins/excel/boot.c:142
 msgid "Excel(R) 97 file format"
 msgstr "Excel(R) 97 failiformaat"
 
-#: plugins/excel/boot.c:128
+#: plugins/excel/boot.c:143
 msgid "Excel(R) 95 file format"
 msgstr "Excel(R) 95 failiformaat"
 
-#: plugins/excel/ms-excel-read.c:264
+#: plugins/excel/ms-excel-read.c:265
 msgid "#UNKNOWN!"
 msgstr "#TUNDMATU!"
 
@@ -46,86 +46,86 @@ msgstr "Tundmatu funktsioon"
 msgid "Broken function"
 msgstr "Vigane funktsioon"
 
-#: plugins/excel/ms-formula-read.c:1397
+#: plugins/excel/ms-formula-read.c:1442
 msgid " Unknown formula"
 msgstr "Tundmatu valem"
 
-#: plugins/ff-csv/csv-io.c:138 plugins/sylk/sylk.c:443
+#: plugins/ff-csv/csv-io.c:142 plugins/sylk/sylk.c:443
 #, c-format
 msgid "Imported %s"
 msgstr "Loetud %s"
 
-#: plugins/ff-csv/csv-io.c:266
+#: plugins/ff-csv/csv-io.c:271
 msgid "Comma Separated Value (CSV) import"
 msgstr "Komaga eraldatud väljade (CSV) lugemine"
 
-#: plugins/ff-csv/csv-io.c:269
+#: plugins/ff-csv/csv-io.c:274
 #, fuzzy
 msgid "Comma Separated Value format (*.csv)"
 msgstr "Komaga eraldatud väljade (CSV) lugemine"
 
-#: plugins/ff-csv/csv-io.c:272
+#: plugins/ff-csv/csv-io.c:277
 msgid "Comma Separated Value (CSV) module"
 msgstr "Komaga eraldatud väljade (CSV) moodul"
 
-#: plugins/html/boot.c:65
+#: plugins/html/boot.c:67
 msgid "HTML 3.2 file format (*.html)"
 msgstr "HTML 3.2 failiformaat (*.html)"
 
-#: plugins/html/boot.c:67
+#: plugins/html/boot.c:69
 msgid "HTML 4.0 file format (*.html)"
 msgstr "HTML 4.0 failiformaat (*.html)"
 
-#: plugins/html/boot.c:69
+#: plugins/html/boot.c:71
 msgid "HTML file made by gnumeric"
 msgstr "Gnumericu koostatud HTML fail"
 
-#: plugins/html/boot.c:73
+#: plugins/html/boot.c:75
 msgid "LaTeX file format (*.tex)"
 msgstr "LaTeX failiformaat (*.tex)"
 
-#: plugins/html/boot.c:75
+#: plugins/html/boot.c:77
 msgid "LaTeX2e file format (*.tex)"
 msgstr "LaTeX2e failiformaat (läbi groffi)"
 
-#: plugins/html/boot.c:78
+#: plugins/html/boot.c:80
 msgid "PS file format (via groff)"
 msgstr "PostScript failiformaat (läbi groffi)"
 
-#: plugins/html/boot.c:80
+#: plugins/html/boot.c:82
 msgid "DVI TeX file format (via groff)"
 msgstr "DVI TeX failiformaat (läbi groffi)"
 
-#: plugins/html/boot.c:82
+#: plugins/html/boot.c:84
 msgid "TROFF file format (*.me)"
 msgstr "TROFF failiformaat (*.me)"
 
-#: plugins/html/boot.c:84
+#: plugins/html/boot.c:86
 msgid "PDF file format (via groff/gs)"
 msgstr "PDF failiformaat (*.eps)"
 
-#: plugins/html/boot.c:87
+#: plugins/html/boot.c:89
 msgid "EPS file format (*.eps)"
 msgstr "EPS failiformaat (*.eps)"
 
-#: plugins/html/boot.c:100
+#: plugins/html/boot.c:102
 msgid "HTML (simple html export/import plugin)"
 msgstr "HTML (lihtne html lugemise/salvestamise liides)"
 
-#: plugins/lotus-123/boot.c:88
+#: plugins/lotus-123/boot.c:89
 msgid "Lotus (*.wk1) file format"
 msgstr "Lotus (*.wk1) failiformaat"
 
-#: plugins/lotus-123/boot.c:94
+#: plugins/lotus-123/boot.c:95
 msgid "Lotus 123 file import/export plugin"
 msgstr "Lotus 123 failide lugemise/salvestamise liides"
 
-#: plugins/oleo/boot.c:88
+#: plugins/oleo/boot.c:89
 #, fuzzy
 msgid "GNU Oleo (*.oleo) file format"
 msgstr "Lotus (*.wk1) failiformaat"
 
-#: plugins/oleo/boot.c:94
+#: plugins/oleo/boot.c:95
 #, fuzzy
 msgid "GNU Oleo import plugin"
 msgstr "XBase failide lugemise/salvestamise liides"
@@ -167,11 +167,11 @@ msgstr "Näidisliides"
 msgid "OLD Statistics Plugin, not required anymore"
 msgstr "VANA statistikaliides, praegu tarbetu"
 
-#: plugins/sylk/sylk.c:501
+#: plugins/sylk/sylk.c:502
 msgid "MultiPlan (SYLK) import"
 msgstr ""
 
-#: plugins/sylk/sylk.c:506
+#: plugins/sylk/sylk.c:507
 msgid "MultiPlan (SYLK) file import module"
 msgstr ""
 
@@ -192,15 +192,15 @@ msgstr "NoName"
 msgid "Simple Text Format"
 msgstr "Lihtne tekstiformaat"
 
-#: plugins/text/text-io.c:458
+#: plugins/text/text-io.c:459
 msgid "TXT (simple text import/export plugin)"
 msgstr "TXT (lihtne teksti lugemise/salvestamise liides)"
 
-#: plugins/xbase/boot.c:207
+#: plugins/xbase/boot.c:208
 msgid "Xbase (*.dbf) file format"
 msgstr "Xbase (*.dbf) failiformaat"
 
-#: plugins/xbase/boot.c:214
+#: plugins/xbase/boot.c:215
 msgid "XBase file import/export plugin"
 msgstr "XBase failide lugemise/salvestamise liides"
 
@@ -603,11 +603,11 @@ msgstr "Sildid"
 msgid "Standard Errors"
 msgstr "Standardvead"
 
-#: src/dialogs/dialog-analysis-tools.c:203
+#: src/dialogs/cell-sort.glade.h:12 src/dialogs/dialog-analysis-tools.c:203
 msgid "Columns"
 msgstr "Tulbad"
 
-#: src/dialogs/dialog-analysis-tools.c:204
+#: src/dialogs/cell-sort.glade.h:11 src/dialogs/dialog-analysis-tools.c:204
 msgid "Rows"
 msgstr "Read"
 
@@ -839,58 +839,66 @@ msgstr ""
 msgid "_);[Red]("
 msgstr "# ##0_);[Red](# ##0)"
 
-#: src/dialogs/dialog-cell-format.c:1956
+#: src/dialogs/dialog-cell-format.c:1955
 #, fuzzy
 msgid "Format Cells"
 msgstr "Sorteeri lahtrid"
 
-#: src/dialogs/dialog-cell-sort.c:43
-msgid "Column:"
-msgstr "Tulp:"
+#: src/dialogs/dialog-cell-sort.c:133
+#, fuzzy
+msgid "Ascending"
+msgstr "Raamatupidamine"
 
-#: src/dialogs/dialog-cell-sort.c:59
-msgid "Asc"
-msgstr "Üles"
+#: src/dialogs/dialog-cell-sort.c:136
+msgid "Descending"
+msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:62
-msgid "Desc"
-msgstr "Alla"
-
-#: src/dialogs/dialog-cell-sort.c:276
-msgid "more clauses than rows ?"
-msgstr "tingimusi on enam kui ridu?"
-
-#: src/dialogs/dialog-cell-sort.c:279
-msgid "too many clauses"
-msgstr "liiga palju tingimusi"
-
-#: src/dialogs/dialog-cell-sort.c:300
-msgid "Need at least one clause"
+#: src/dialogs/dialog-cell-sort.c:444
+#, fuzzy
+msgid "At least one clause is required."
 msgstr "Peab olema vähemalt üks tingimus"
 
-#: src/dialogs/dialog-cell-sort.c:335 src/print.c:502 src/workbook.c:1457
+#: src/dialogs/dialog-cell-sort.c:453
+msgid "Can't add more than the selection length."
+msgstr ""
+
+#: src/dialogs/dialog-cell-sort.c:456
+msgid "Maximum number of clauses has been reached."
+msgstr ""
+
+#: src/dialogs/dialog-cell-sort.c:588 src/print.c:508 src/workbook.c:1501
 msgid "Selection must be a single range"
 msgstr "Selektsioon peab olema üks piirkond"
 
-#: src/dialogs/dialog-cell-sort.c:347
+#: src/dialogs/dialog-cell-sort.c:600
 msgid "Selection must be a finite range"
 msgstr "Selektsioon peab olema lõplik piirkond"
 
-#: src/dialogs/dialog-cell-sort.c:367
+#: src/dialogs/dialog-cell-sort.c:650
 msgid "then by"
 msgstr "seejärel"
 
-#: src/dialogs/dialog-cell-sort.c:367
+#: src/dialogs/cell-sort.glade.h:16 src/dialogs/dialog-cell-sort.c:650
 #, fuzzy
 msgid "Sort by"
 msgstr "sorteeri"
 
-#: src/dialogs/dialog-cell-sort.c:405
+#: src/dialogs/dialog-cell-sort.c:685
 msgid "Column must be within range"
 msgstr "Tulp peab olema piirkonna sees"
 
-#: src/dialogs/dialog-cell-sort.c:411
+#: src/dialogs/dialog-cell-sort.c:702
+#, fuzzy
+msgid "Row must be within range"
+msgstr "Tulp peab olema piirkonna sees"
+
+#: src/dialogs/dialog-cell-sort.c:709
 msgid "First column must be valid"
+msgstr "Esimene tulp peab olema korrektne"
+
+#: src/dialogs/dialog-cell-sort.c:709
+#, fuzzy
+msgid "First row must be valid"
 msgstr "Esimene tulp peab olema korrektne"
 
 #: src/dialogs/dialog-delete-cells.c:79
@@ -905,7 +913,7 @@ msgstr "Valemi valik"
 msgid "String"
 msgstr "Märgijada"
 
-#: src/dialogs/cell-format.glade.h:32 src/dialogs/dialog-function-wizard.c:209
+#: src/dialogs/cell-format.glade.h:31 src/dialogs/dialog-function-wizard.c:209
 msgid "Number"
 msgstr "Number"
 
@@ -1037,9 +1045,9 @@ msgstr "Väärtused"
 msgid "Formats"
 msgstr "Formaadid"
 
-#: src/dialogs/cell-format.glade.h:60 src/dialogs/cell-format.glade.h:71
-#: src/dialogs/cell-format.glade.h:78 src/dialogs/dialog-paste-special.c:28
-#: src/widgets/widget-color-combo.c:111
+#: src/dialogs/cell-format.glade.h:59 src/dialogs/cell-format.glade.h:70
+#: src/dialogs/cell-format.glade.h:77 src/dialogs/dialog-paste-special.c:28
+#: src/widgets/widget-color-combo.c:128
 msgid "None"
 msgstr "Ei ole"
 
@@ -1116,11 +1124,11 @@ msgstr "<="
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:44 src/workbook.c:1573
+#: src/dialogs/dialog-solver.c:44 src/workbook.c:1617
 msgid "Max"
 msgstr "Max"
 
-#: src/dialogs/dialog-solver.c:45 src/workbook.c:1572
+#: src/dialogs/dialog-solver.c:45 src/workbook.c:1616
 msgid "Min"
 msgstr "Min"
 
@@ -1188,8 +1196,8 @@ msgid "Add Constraint"
 msgstr "Lisa piirang"
 
 #. Constraint buttons
-#: src/dialogs/dialog-solver.c:235 src/dialogs/dialog-solver.c:407
-#: src/dialogs/names.glade.h:9
+#: src/dialogs/cell-sort.glade.h:13 src/dialogs/dialog-solver.c:235
+#: src/dialogs/dialog-solver.c:407 src/dialogs/names.glade.h:9
 msgid "Add"
 msgstr "Lisa"
 
@@ -1282,19 +1290,21 @@ msgid "Size:"
 msgstr "Suurus:"
 
 #: src/dialogs/font-sel.glade.h:11
-msgid "Preview:"
+#, fuzzy
+msgid "Preview"
 msgstr "Näidis:"
 
 #: src/dialogs/font-sel.glade.h:12
-msgid "AaBbCcDdEe12345"
+#, fuzzy
+msgid "AaBbCcDdEeJj12345"
 msgstr "AaBbCcÕõÄä12345"
 
 #: src/dialogs/font-sel.glade.h:13
-msgid "label7"
+msgid "label8"
 msgstr ""
 
 #: src/dialogs/font-sel.glade.h:14
-msgid "label8"
+msgid "label7"
 msgstr ""
 
 #: src/dialogs/font-sel.glade.h:15
@@ -1323,7 +1333,7 @@ msgstr ""
 msgid "window2"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:47 src/dialogs/print.glade.h:8
+#: src/dialogs/cell-format.glade.h:46 src/dialogs/print.glade.h:8
 msgid "Orientation"
 msgstr "Paigutus"
 
@@ -1415,7 +1425,7 @@ msgstr "_Vertikaalselt"
 msgid "_Left:"
 msgstr "_Vasakult:"
 
-#: src/dialogs/cell-format.glade.h:35 src/dialogs/print.glade.h:30
+#: src/dialogs/cell-format.glade.h:34 src/dialogs/print.glade.h:30
 msgid "_Right"
 msgstr "_Paremalt"
 
@@ -1467,7 +1477,7 @@ msgstr "_Tulbad, mida korrata vasakul äärel:"
 msgid "_Rows to repeat on the upper region:"
 msgstr "_Read, mida korrata ülemises servas:"
 
-#: src/dialogs/print.glade.h:50 src/workbook.c:1084
+#: src/dialogs/print.glade.h:50 src/workbook.c:1128
 msgid "Print"
 msgstr "Trüki"
 
@@ -1475,7 +1485,7 @@ msgstr "Trüki"
 msgid "Row and co_lumn headings"
 msgstr "Ridade ja tulpade päised"
 
-#: src/dialogs/print.glade.h:52 src/workbook.c:913
+#: src/dialogs/print.glade.h:52 src/workbook.c:952
 msgid "Co_mments"
 msgstr "Ko_mmentaarid"
 
@@ -1577,7 +1587,7 @@ msgstr "Kopeeri"
 #. * Add this file to your project's POTFILES.in.
 #. * DO NOT compile it as part of your application.
 #.
-#: src/dialogs/cell-format.glade.h:7 src/dialogs/cell-format.glade.h:39
+#: src/dialogs/cell-format.glade.h:7 src/dialogs/cell-format.glade.h:38
 #, fuzzy
 msgid "_General"
 msgstr "Üldine"
@@ -1593,7 +1603,7 @@ msgstr ""
 
 #: src/dialogs/cell-format.glade.h:10
 #, fuzzy
-msgid "_Acounting"
+msgid "_Accounting"
 msgstr "Raamatupidamine"
 
 #: src/dialogs/cell-format.glade.h:11
@@ -1626,17 +1636,17 @@ msgstr "Teaduslik"
 msgid "Te_xt"
 msgstr "Tekst"
 
-#: src/dialogs/cell-format.glade.h:17 src/workbook.c:995
+#: src/dialogs/cell-format.glade.h:17
 #, fuzzy
-msgid "S_pecial"
+msgid "Sp_ecial"
 msgstr "_Spetsiaal"
 
 #: src/dialogs/cell-format.glade.h:18
 #, fuzzy
-msgid "C_ustom"
+msgid "Cust_om"
 msgstr "Suurenda"
 
-#: src/dialogs/cell-format.glade.h:19 src/dialogs/cell-format.glade.h:109
+#: src/dialogs/cell-format.glade.h:19 src/dialogs/cell-format.glade.h:108
 #, fuzzy
 msgid "Sample"
 msgstr "Näidis:"
@@ -1648,351 +1658,348 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:21
-msgid "_Decimal places:"
+msgid "Deci_mal places:"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:22
-msgid "_Use Seperator for 1000's"
+msgid "_Use Separator for 1000's"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:23
-msgid "_Symbol:"
+msgid "S_ymbol:"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:24
-#, fuzzy
-msgid ""
-"$\n"
-"None\n"
-msgstr "Ei ole"
+msgid "\n"
+msgstr ""
 
-#: src/dialogs/cell-format.glade.h:27
+#: src/dialogs/cell-format.glade.h:26
 msgid "$"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:28
+#: src/dialogs/cell-format.glade.h:27
 #, fuzzy
-msgid "_Negative number:"
+msgid "Negat_ive number:"
 msgstr "E_simese lehe number:"
 
-#: src/dialogs/cell-format.glade.h:29
+#: src/dialogs/cell-format.glade.h:28
 #, fuzzy
-msgid "_Delete format"
+msgid "De_lete format"
 msgstr "Lahtri formaat"
 
-#: src/dialogs/cell-format.glade.h:30
+#: src/dialogs/cell-format.glade.h:29
 #, fuzzy
 msgid "_Type"
 msgstr "Ü_levalt:"
 
-#: src/dialogs/cell-format.glade.h:31
+#: src/dialogs/cell-format.glade.h:30
 msgid "Display the value exactly as it was entered"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:33
+#: src/dialogs/cell-format.glade.h:32
 msgid "Horizontal"
 msgstr "Horisontaalne"
 
-#: src/dialogs/cell-format.glade.h:34
+#: src/dialogs/cell-format.glade.h:33
 #, fuzzy
 msgid "_Justify"
 msgstr "Joondatud"
 
-#: src/dialogs/cell-format.glade.h:36
+#: src/dialogs/cell-format.glade.h:35
 #, fuzzy
 msgid "_Fill"
 msgstr "Kogu laiuses"
 
-#: src/dialogs/cell-format.glade.h:37
+#: src/dialogs/cell-format.glade.h:36
 #, fuzzy
 msgid "_Center"
 msgstr "Keskel"
 
-#: src/dialogs/cell-format.glade.h:38
+#: src/dialogs/cell-format.glade.h:37
 #, fuzzy
 msgid "_Left"
 msgstr "_Vasakult:"
 
-#: src/dialogs/cell-format.glade.h:40
+#: src/dialogs/cell-format.glade.h:39
 msgid "Vertical"
 msgstr "Vertikaalne"
 
-#: src/dialogs/cell-format.glade.h:41
+#: src/dialogs/cell-format.glade.h:40
 #, fuzzy
 msgid "J_ustify"
 msgstr "Joondatud"
 
-#: src/dialogs/cell-format.glade.h:42
+#: src/dialogs/cell-format.glade.h:41
 #, fuzzy
 msgid "_Top"
 msgstr "Ü_levalt:"
 
-#: src/dialogs/cell-format.glade.h:43
+#: src/dialogs/cell-format.glade.h:42
 #, fuzzy
 msgid "C_enter"
 msgstr "Keskel"
 
-#: src/dialogs/cell-format.glade.h:44
+#: src/dialogs/cell-format.glade.h:43
 #, fuzzy
 msgid "_Bottom"
 msgstr "_Alt:"
 
-#: src/dialogs/cell-format.glade.h:45
+#: src/dialogs/cell-format.glade.h:44
 #, fuzzy
 msgid "Control"
 msgstr "Arv"
 
-#: src/dialogs/cell-format.glade.h:46
+#: src/dialogs/cell-format.glade.h:45
 msgid "_Wrap text"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:48
+#: src/dialogs/cell-format.glade.h:47
 msgid "Unfinished"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:49
+#: src/dialogs/cell-format.glade.h:48
 msgid "Alignment"
 msgstr "Paigutus"
 
-#: src/dialogs/cell-format.glade.h:50
+#: src/dialogs/cell-format.glade.h:49
 #, fuzzy
 msgid "Color"
 msgstr "Värvid"
 
-#: src/dialogs/cell-format.glade.h:51 src/dialogs/cell-format.glade.h:79
-#: src/dialogs/cell-format.glade.h:88
+#: src/dialogs/cell-format.glade.h:50 src/dialogs/cell-format.glade.h:78
+#: src/dialogs/cell-format.glade.h:87
 #, fuzzy
 msgid "_Automatic"
 msgstr "Automaatne"
 
-#: src/dialogs/cell-format.glade.h:52 src/dialogs/cell-format.glade.h:80
-#: src/dialogs/cell-format.glade.h:89 src/dialogs/dialog-zoom.glade.h:15
+#: src/dialogs/cell-format.glade.h:51 src/dialogs/cell-format.glade.h:79
+#: src/dialogs/cell-format.glade.h:88 src/dialogs/dialog-zoom.glade.h:15
 #, fuzzy
 msgid "_Custom"
 msgstr "Suurenda"
 
-#: src/dialogs/cell-format.glade.h:53
+#: src/dialogs/cell-format.glade.h:52
 msgid "Pick a font color"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:54
+#: src/dialogs/cell-format.glade.h:53
 msgid "Effects"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:55
+#: src/dialogs/cell-format.glade.h:54
 msgid "_Underline:"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:56
+#: src/dialogs/cell-format.glade.h:55
 msgid ""
 "None\n"
 "Single\n"
 "Double\n"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:61
+#: src/dialogs/cell-format.glade.h:60
 msgid "Sup_erscript"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:62
+#: src/dialogs/cell-format.glade.h:61
 msgid "Su_bscript"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:63
+#: src/dialogs/cell-format.glade.h:62
 msgid "Stri_kethrough"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:64
+#: src/dialogs/cell-format.glade.h:63
 msgid "Font"
 msgstr "Shrift"
 
-#: src/dialogs/cell-format.glade.h:65
+#: src/dialogs/cell-format.glade.h:64
 #, fuzzy
 msgid "Reverse Diagonal"
 msgstr "Tagurpidi diagonaaltriibud"
 
-#: src/dialogs/cell-format.glade.h:66
+#: src/dialogs/cell-format.glade.h:65
 msgid "Left"
 msgstr "Vasakul"
 
-#: src/dialogs/cell-format.glade.h:67
+#: src/dialogs/cell-format.glade.h:66
 msgid "Top"
 msgstr "Üleval"
 
-#: src/dialogs/cell-format.glade.h:68
+#: src/dialogs/cell-format.glade.h:67
 msgid "Bottom"
 msgstr "All"
 
-#: src/dialogs/cell-format.glade.h:69
+#: src/dialogs/cell-format.glade.h:68
 #, fuzzy
 msgid "Diagonal"
 msgstr "Diagonaaltriibud"
 
-#: src/dialogs/cell-format.glade.h:70
+#: src/dialogs/cell-format.glade.h:69
 msgid "Right"
 msgstr "Paremal"
 
-#: src/dialogs/cell-format.glade.h:72
+#: src/dialogs/cell-format.glade.h:71
 msgid "Outline"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:73
+#: src/dialogs/cell-format.glade.h:72
 #, fuzzy
 msgid "Inside Vertical"
 msgstr "Vertikaalne"
 
-#: src/dialogs/cell-format.glade.h:74
+#: src/dialogs/cell-format.glade.h:73
 #, fuzzy
 msgid "Inside"
 msgstr "Lisa"
 
-#: src/dialogs/cell-format.glade.h:75
+#: src/dialogs/cell-format.glade.h:74
 #, fuzzy
 msgid "Inside Horizontal"
 msgstr "Horisontaalne"
 
-#: src/dialogs/cell-format.glade.h:76 src/workbook.c:1124
+#: src/dialogs/cell-format.glade.h:75 src/workbook.c:1168
 msgid "Line"
 msgstr "Joon"
 
-#: src/dialogs/cell-format.glade.h:77
+#: src/dialogs/cell-format.glade.h:76
 msgid "_Style"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:81
+#: src/dialogs/cell-format.glade.h:80
 msgid "Pick a border color"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:82
+#: src/dialogs/cell-format.glade.h:81
 #, fuzzy
 msgid "Border"
 msgstr "Lehtede järjestus"
 
-#: src/dialogs/cell-format.glade.h:83
+#: src/dialogs/cell-format.glade.h:82
 #, fuzzy
 msgid "Background Color"
 msgstr "Tausta häälestus"
 
-#: src/dialogs/cell-format.glade.h:84
+#: src/dialogs/cell-format.glade.h:83
 msgid "_No Color"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:85
+#: src/dialogs/cell-format.glade.h:84
 #, fuzzy
 msgid "C_olor"
 msgstr "Värvid"
 
-#: src/dialogs/cell-format.glade.h:86
+#: src/dialogs/cell-format.glade.h:85
 msgid "Pick a Background color"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:87
+#: src/dialogs/cell-format.glade.h:86
 #, fuzzy
 msgid "Pattern"
 msgstr "Aseta"
 
-#: src/dialogs/cell-format.glade.h:90
+#: src/dialogs/cell-format.glade.h:89
 msgid "Pick a Pattern color"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:91
+#: src/dialogs/cell-format.glade.h:90
 #, c-format
 msgid "75% grey"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:92
+#: src/dialogs/cell-format.glade.h:91
 #, c-format
 msgid "50% Grey"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:93
+#: src/dialogs/cell-format.glade.h:92
 #, c-format
 msgid "25% Grey"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:94
+#: src/dialogs/cell-format.glade.h:93
 #, fuzzy, c-format
 msgid "12.5% Grey"
 msgstr "12,5%"
 
-#: src/dialogs/cell-format.glade.h:95
+#: src/dialogs/cell-format.glade.h:94
 #, fuzzy, c-format
 msgid "6.25% Grey"
 msgstr "6,25%"
 
-#: src/dialogs/cell-format.glade.h:96
+#: src/dialogs/cell-format.glade.h:95
 msgid "Horizontal Stripe"
 msgstr "Horisontaalsed triibud"
 
-#: src/dialogs/cell-format.glade.h:97
+#: src/dialogs/cell-format.glade.h:96
 msgid "Thin Horizontal Stripe"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:98
+#: src/dialogs/cell-format.glade.h:97
 msgid "Vertical Stripe"
 msgstr "Vertikaalsed triibud"
 
-#: src/dialogs/cell-format.glade.h:99
+#: src/dialogs/cell-format.glade.h:98
 msgid "Thin Vertical Stripe"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:100
+#: src/dialogs/cell-format.glade.h:99
 msgid "Reverse Diagonal Stripe"
 msgstr "Tagurpidi diagonaaltriibud"
 
-#: src/dialogs/cell-format.glade.h:101
+#: src/dialogs/cell-format.glade.h:100
 msgid "Thin Reverse Diagonal Stripe"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:102
+#: src/dialogs/cell-format.glade.h:101
 msgid "Diagonal Stripe"
 msgstr "Diagonaaltriibud"
 
-#: src/dialogs/cell-format.glade.h:103
+#: src/dialogs/cell-format.glade.h:102
 msgid "Thin Diagonal Stripe"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:104
+#: src/dialogs/cell-format.glade.h:103
 msgid "Diagonal Crosshatch"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:105
+#: src/dialogs/cell-format.glade.h:104
 msgid "Thick Diagonal Crosshatch"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:106
+#: src/dialogs/cell-format.glade.h:105
 msgid "Thin Horizontal Crosshatch"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:107
+#: src/dialogs/cell-format.glade.h:106
 msgid "Thin Diagonal Crosshatch"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:108
+#: src/dialogs/cell-format.glade.h:107
 msgid "Solid"
 msgstr "Ühtlane"
 
-#: src/dialogs/cell-format.glade.h:110 src/workbook-format-toolbar.c:425
+#: src/dialogs/cell-format.glade.h:109 src/workbook-format-toolbar.c:430
 msgid "Background"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:111
+#: src/dialogs/cell-format.glade.h:110
 msgid "_Locked"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:112
+#: src/dialogs/cell-format.glade.h:111
 msgid "_Hidden"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:113
+#: src/dialogs/cell-format.glade.h:112
 msgid "Locking cells or hiding formulas only affects protected worksheets."
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:114
-msgid "Worksheet protected"
+#: src/dialogs/cell-format.glade.h:113
+msgid "Worksheet _protected"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:115
+#: src/dialogs/cell-format.glade.h:114
 #, fuzzy
 msgid "Protection"
 msgstr "Murdarv"
@@ -2003,11 +2010,50 @@ msgstr "Murdarv"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/cell-sort.glade.h:7
-msgid "My selection has"
-msgstr ""
+#, fuzzy
+msgid "Sort..."
+msgstr "Sorteeri..."
 
 #: src/dialogs/cell-sort.glade.h:8
-msgid "A header row"
+#, fuzzy
+msgid "Selection has"
+msgstr "Vasak äär:"
+
+#: src/dialogs/cell-sort.glade.h:9
+#, fuzzy
+msgid "A header"
+msgstr "Päis"
+
+#: src/dialogs/cell-sort.glade.h:10
+#, fuzzy
+msgid "Sort"
+msgstr "sorteeri"
+
+#: src/dialogs/cell-sort.glade.h:14 src/plugin-manager.c:143
+#: src/sheet-object.c:978
+msgid "Remove"
+msgstr "Eemalda"
+
+#: src/dialogs/cell-sort.glade.h:15
+msgid "Advanced Sort Options"
+msgstr ""
+
+#: src/dialogs/cell-sort.glade.h:17
+#, fuzzy
+msgid "Value"
+msgstr "Väärtused"
+
+#: src/dialogs/cell-sort.glade.h:18
+#, fuzzy
+msgid "Text"
+msgstr "Tekst"
+
+#: src/dialogs/cell-sort.glade.h:19
+msgid "Entries are"
+msgstr ""
+
+#: src/dialogs/cell-sort.glade.h:20
+msgid "Case sensitive"
 msgstr ""
 
 #.
@@ -2072,23 +2118,23 @@ msgstr "Ei suuda luua faili %s\n"
 msgid "Embedded Sheet"
 msgstr ""
 
-#: src/expr-name.c:175
+#: src/expr-name.c:177
 msgid "already defined"
 msgstr "juba defineeritud"
 
-#: src/expr-name.c:178
+#: src/expr-name.c:180
 msgid "no scope"
 msgstr ""
 
-#: src/expr-name.c:183
+#: src/expr-name.c:185
 msgid "circular reference"
 msgstr "viited teevad ringi"
 
-#: src/expr-name.c:336
+#: src/expr-name.c:338
 msgid "Builtin"
 msgstr "Sisse ehitatud"
 
-#: src/expr-name.c:367
+#: src/expr-name.c:369
 msgid "Error: no sheet"
 msgstr "Viga: puudub leht"
 
@@ -6940,24 +6986,24 @@ msgstr "valge"
 msgid "yellow"
 msgstr "kollane"
 
-#: src/format.c:1334
+#: src/format.c:1370
 msgid "0.0########"
 msgstr "0,0########"
 
-#: src/format.c:1348 src/value-sheet.c:26 src/value.c:321
+#: src/format.c:1384 src/value-sheet.c:26 src/value.c:321
 msgid "TRUE"
 msgstr "ÕIGE"
 
-#: src/format.c:1348 src/value-sheet.c:26 src/value.c:321
+#: src/format.c:1384 src/value-sheet.c:26 src/value.c:321
 msgid "FALSE"
 msgstr "VALE"
 
-#: src/format.c:1357
+#: src/format.c:1393
 msgid "CELLRANGE"
 msgstr "PIIRKOND"
 
 #. Array of arrays ??
-#: src/format.c:1361
+#: src/format.c:1397
 msgid "ARRAY"
 msgstr "MASSIIV"
 
@@ -7231,17 +7277,17 @@ msgstr "mitte-funktsiooni käivitamine"
 msgid "You cannot change part of an array."
 msgstr "Massiivi osa ei saa muuta"
 
-#: src/item-bar.c:451
+#: src/item-bar.c:462
 #, fuzzy, c-format
 msgid "Height: %.2f"
 msgstr "Kõrgus"
 
-#: src/item-bar.c:454
+#: src/item-bar.c:465
 #, c-format
 msgid "Width: %.2f"
 msgstr ""
 
-#: src/item-cursor.c:516
+#: src/item-cursor.c:578
 msgid ""
 "The cells dragged will overwrite the contents of the\n"
 "existing cells in that range.  Do you want me to replace\n"
@@ -7251,35 +7297,35 @@ msgstr ""
 "lahtrite sisu. Soovite Te, et ma teeksin antud piirkonnas\n"
 "sellise asenduse?"
 
-#: src/item-cursor.c:597 src/workbook.c:1096
+#: src/item-cursor.c:659 src/workbook.c:1140
 msgid "Copy"
 msgstr "Kopeeri"
 
-#: src/item-cursor.c:598 src/print-preview.c:538
+#: src/item-cursor.c:660 src/print-preview.c:538
 msgid "Move"
 msgstr "Tõsta"
 
-#: src/item-cursor.c:599
+#: src/item-cursor.c:661
 msgid "Copy formats"
 msgstr "Kopeeri formaat"
 
-#: src/item-cursor.c:600
+#: src/item-cursor.c:662
 msgid "Copy values"
 msgstr "Kopeeri väärtused"
 
-#: src/item-cursor.c:601
+#: src/item-cursor.c:663
 msgid "Shift cells down and copy"
 msgstr "Nihuta lahtreid alla ja kopeeri"
 
-#: src/item-cursor.c:602
+#: src/item-cursor.c:664
 msgid "Shift cells right and copy"
 msgstr "Nihuta lahtreid paremale ja kopeeri"
 
-#: src/item-cursor.c:603
+#: src/item-cursor.c:665
 msgid "Shift cells down and move"
 msgstr "Nihuta lahtreid alla ja tõsta"
 
-#: src/item-cursor.c:604
+#: src/item-cursor.c:666
 msgid "Shift cells right and move"
 msgstr "Nihuta lahtreid paremale ja tõsta"
 
@@ -7308,7 +7354,7 @@ msgstr "Aseta spets"
 msgid "_Insert..."
 msgstr "Lisa"
 
-#: src/item-grid.c:653 src/workbook.c:928
+#: src/item-grid.c:653 src/workbook.c:972
 msgid "_Delete..."
 msgstr "_Kustuta..."
 
@@ -7343,44 +7389,44 @@ msgstr ""
 msgid "_Row Height..."
 msgstr "_Rea kõrgus:"
 
-#: src/main.c:47
+#: src/main.c:48
 msgid "Dumps the function definitions"
 msgstr ""
 
-#: src/main.c:47
+#: src/main.c:48
 msgid "FILE"
 msgstr ""
 
-#: src/main.c:49
+#: src/main.c:50
 msgid "Enables some debugging functions"
 msgstr ""
 
-#: src/main.c:49 src/main.c:51 src/main.c:56 src/main.c:60 src/main.c:64
-#: src/main.c:68 src/main.c:72
+#: src/main.c:50 src/main.c:52 src/main.c:57 src/main.c:61 src/main.c:65
+#: src/main.c:69 src/main.c:73 src/main.c:77
 msgid "LEVEL"
 msgstr ""
 
-#: src/main.c:51
+#: src/main.c:52
 msgid "Enables some style related debugging functions"
 msgstr ""
 
-#: src/main.c:55
+#: src/main.c:56 src/main.c:72
 msgid "Enables debugging mesgs while reading excel workbooks"
 msgstr ""
 
-#: src/main.c:59
+#: src/main.c:60
 msgid "Enables debugging mesgs while reading excel functions"
 msgstr ""
 
-#: src/main.c:63
+#: src/main.c:64
 msgid "Enables debugging mesgs while reading excel colours & patterns"
 msgstr ""
 
-#: src/main.c:67
+#: src/main.c:68
 msgid "Enables debugging mesgs while reading excel charts"
 msgstr ""
 
-#: src/main.c:71
+#: src/main.c:76
 msgid "Enables extra consistancy checking while reading ole files"
 msgstr ""
 
@@ -7403,10 +7449,6 @@ msgstr "Sulge"
 #: src/plugin-manager.c:140
 msgid "Add..."
 msgstr "Lisa..."
-
-#: src/plugin-manager.c:143 src/sheet-object.c:978
-msgid "Remove"
-msgstr "Eemalda"
 
 #: src/plugin.c:41
 msgid "unable to open module file: "
@@ -7575,7 +7617,7 @@ msgstr "Edasi"
 msgid "Last"
 msgstr "Viimane"
 
-#: src/print-preview.c:539 src/workbook.c:2104
+#: src/print-preview.c:539 src/workbook.c:2180
 msgid "Zoom in"
 msgstr "Suurenda"
 
@@ -7583,7 +7625,7 @@ msgstr "Suurenda"
 msgid "Zooms the page in"
 msgstr "Suurendab lehekülge"
 
-#: src/print-preview.c:540 src/workbook.c:2097
+#: src/print-preview.c:540 src/workbook.c:2173
 msgid "Zoom out"
 msgstr "Vähenda"
 
@@ -7604,7 +7646,7 @@ msgstr "leht"
 msgid "the workbook"
 msgstr "raamat"
 
-#: src/print.c:617
+#: src/print.c:623
 msgid "Printing failed -- bad filename?"
 msgstr ""
 
@@ -7621,17 +7663,17 @@ msgstr ""
 msgid "copy"
 msgstr "Kopeeri"
 
-#: src/selection.c:627
+#: src/selection.c:625
 #, fuzzy
 msgid "cut"
 msgstr "Lõika"
 
-#: src/selection.c:668
+#: src/selection.c:665
 #, fuzzy
 msgid "paste"
 msgstr "Aseta"
 
-#: src/selection.c:691
+#: src/selection.c:688
 #, c-format
 msgid ""
 "The area can not be pasted into the selection because it\n"
@@ -7640,34 +7682,34 @@ msgid ""
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
 
-#: src/sheet-object.c:359 src/workbook.c:1114
+#: src/sheet-object.c:359 src/workbook.c:1158
 msgid "Button"
 msgstr "Nupp"
 
-#: src/sheet-object.c:728 src/workbook.c:860
+#: src/sheet-object.c:728 src/workbook.c:899
 msgid "Select an object"
 msgstr "Valige objekt"
 
-#: src/sheet-view.c:368
+#: src/sheet-view.c:369
 #, c-format
 msgid "Row: %d"
 msgstr "Rida: %d"
 
-#: src/sheet-view.c:378
+#: src/sheet-view.c:379
 #, c-format
 msgid "Column: %s"
 msgstr "Tulp: %d"
 
-#: src/sheet.c:990
+#: src/sheet.c:1005
 msgid "Internal ERROR"
 msgstr "Sisemine VIGA"
 
-#: src/sheet.c:2976
+#: src/sheet.c:3001
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "Objekti %s ei õnnestunud aktiveerida"
 
-#: src/sheet.c:2988
+#: src/sheet.c:3013
 msgid "I was unable to the bind object"
 msgstr ""
 
@@ -7720,7 +7762,7 @@ msgstr "Lõpeta"
 
 #. Placeholder: font selector
 #. Placeholder: size selector
-#: src/widgets/widget-font-selector.c:126 src/workbook-format-toolbar.c:258
+#: src/widgets/widget-font-selector.c:126 src/workbook-format-toolbar.c:259
 msgid "Bold"
 msgstr "Poolpaks"
 
@@ -7728,7 +7770,7 @@ msgstr "Poolpaks"
 msgid "Bold italic"
 msgstr "Poolpaks kursiiv"
 
-#: src/widgets/widget-font-selector.c:128 src/workbook-format-toolbar.c:261
+#: src/widgets/widget-font-selector.c:128 src/workbook-format-toolbar.c:262
 msgid "Italic"
 msgstr "Kursiiv"
 
@@ -7740,523 +7782,549 @@ msgstr "Te sisestasite vale tulbalaiuse. Peab olema suurem 0-st"
 msgid "You entered an invalid row height value.  It must be bigger than 0"
 msgstr "Te sisestasite vale reakõrguse. peab olema suurem 0-st"
 
-#: src/workbook-format-toolbar.c:258
+#: src/workbook-format-toolbar.c:259
 msgid "Sets the bold font"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:261
+#: src/workbook-format-toolbar.c:262
 msgid "Makes the font italic"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:267
+#: src/workbook-format-toolbar.c:268
 msgid "Left align"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:267
+#: src/workbook-format-toolbar.c:268
 msgid "Left justifies the cell contents"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:270
+#: src/workbook-format-toolbar.c:271
 msgid "Center"
 msgstr "Keskel"
 
-#: src/workbook-format-toolbar.c:270
+#: src/workbook-format-toolbar.c:271
 msgid "Centers the cell contents"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:273
+#: src/workbook-format-toolbar.c:274
 msgid "Right align"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:273
+#: src/workbook-format-toolbar.c:274
 msgid "Right justifies the cell contents"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:279
+#: src/workbook-format-toolbar.c:280
 msgid "Money format"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:279
+#: src/workbook-format-toolbar.c:280
 msgid "Sets the format of the selected cells to monetary"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:282
+#: src/workbook-format-toolbar.c:283
 msgid "Percent"
 msgstr "Protsendid"
 
-#: src/workbook-format-toolbar.c:282
+#: src/workbook-format-toolbar.c:283
 msgid "Sets the format of the selected cells to percentage"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:285
+#: src/workbook-format-toolbar.c:286
 msgid "Thousand separator"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:285
+#: src/workbook-format-toolbar.c:286
 msgid "Sets the format of the selected cells to include a thousands separator"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:288
+#: src/workbook-format-toolbar.c:289
 msgid "Add decimals"
 msgstr "+ komakohti"
 
-#: src/workbook-format-toolbar.c:288
+#: src/workbook-format-toolbar.c:289
 msgid "Increases the number of decimal numbers displayed"
 msgstr "Suurendab komakohtade arvu"
 
-#: src/workbook-format-toolbar.c:291
+#: src/workbook-format-toolbar.c:292
 msgid "Remove decimals"
 msgstr "- komakohti"
 
-#: src/workbook-format-toolbar.c:291
+#: src/workbook-format-toolbar.c:292
 msgid "Decreases the number of decimal numbers displayed"
 msgstr "Vähendab komakohtade arvu"
 
-#: src/workbook-format-toolbar.c:383
+#: src/workbook-format-toolbar.c:388
 msgid "Font selector"
 msgstr "Shriftivalija"
 
-#: src/workbook-format-toolbar.c:399
+#: src/workbook-format-toolbar.c:404
 msgid "Size"
 msgstr "Suurus"
 
-#: src/workbook-format-toolbar.c:421
+#: src/workbook-format-toolbar.c:426
 msgid "Foreground"
 msgstr ""
 
-#: src/workbook.c:415
+#: src/workbook.c:436
 msgid "Warning"
 msgstr "Hoiatus"
 
-#: src/workbook.c:424
+#: src/workbook.c:445
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr "Raamatus %s on salvestamata muudatusi. Kas savestada need?"
 
-#: src/workbook.c:427
+#: src/workbook.c:448
 msgid "Workbook has unsaved changes, save them?"
 msgstr "Raamatus on salvestamata muudatusi. Kas salvestada need?"
 
-#: src/workbook.c:640
+#: src/workbook.c:679
 msgid "Insert cols"
 msgstr "Tulpi vahele"
 
-#: src/workbook.c:660
+#: src/workbook.c:699
 msgid "Insert rows"
 msgstr "Ridu vahele"
 
-#: src/workbook.c:755
+#: src/workbook.c:794
 msgid ">mm/dd/yyyy"
 msgstr ">dd/mm/yyyy"
 
-#: src/workbook.c:774
+#: src/workbook.c:813
 msgid ">hh:mm"
 msgstr ">hh:mm"
 
-#: src/workbook.c:869
+#: src/workbook.c:908
 msgid "_New"
 msgstr "_Uus"
 
-#: src/workbook.c:869
+#: src/workbook.c:908
 msgid "Create a new spreadsheet"
 msgstr "Loob uue tabeli"
 
-#: src/workbook.c:873
+#: src/workbook.c:912
 msgid "_Import..."
 msgstr "_Impordi..."
 
-#: src/workbook.c:873
+#: src/workbook.c:912
 msgid "Imports a file"
 msgstr "Impordib faili"
 
-#: src/workbook.c:879
+#: src/workbook.c:918
 msgid "Su_mmary..."
 msgstr "_Kokkuvõte..."
 
-#: src/workbook.c:879
+#: src/workbook.c:918
 msgid "Summary information"
 msgstr "Koondinformatsioon"
 
-#: src/workbook.c:884
+#: src/workbook.c:923
 msgid "Plu_g-ins..."
 msgstr "Plu_ginid..."
 
-#: src/workbook.c:884
+#: src/workbook.c:923
 msgid "Gnumeric plugins"
 msgstr "Gnumericu pluginid"
 
-#: src/workbook.c:891 src/workbook.c:1087
+#: src/workbook.c:930 src/workbook.c:1131
 msgid "Print pre_view"
 msgstr "Trüki_näidis"
 
-#: src/workbook.c:891 src/workbook.c:1087
+#: src/workbook.c:930 src/workbook.c:1131
 msgid "Print preview"
 msgstr "Väljatrüki näidis"
 
-#: src/workbook.c:907
+#: src/workbook.c:946
 msgid "_All"
 msgstr "_Kõik"
 
-#: src/workbook.c:908
+#: src/workbook.c:947
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Kustutab selekteeritud lahtrite sisu, formaadid ja kommentaarid"
 
-#: src/workbook.c:910
+#: src/workbook.c:949
 msgid "_Formats"
 msgstr "_Formaadid"
 
-#: src/workbook.c:911
+#: src/workbook.c:950
 msgid "Clear the selected cells' formats"
 msgstr "Kustutab selekteeritud lahtrite formaadid"
 
-#: src/workbook.c:914
+#: src/workbook.c:953
 msgid "Clear the selected cells' comments"
 msgstr "Kustutab selekteeritud lahtrite kommentaarid"
 
-#: src/workbook.c:916
+#: src/workbook.c:955
 msgid "_Content"
 msgstr "_Sisu"
 
-#: src/workbook.c:917
+#: src/workbook.c:956
 msgid "Clear the selected cells' contents"
 msgstr "Kustutab selekteeritud lahtrite sisu"
 
-#: src/workbook.c:926
+#: src/workbook.c:970
 msgid "P_aste special..."
 msgstr "Aseta eri..."
 
-#: src/workbook.c:930
+#: src/workbook.c:974
 msgid "C_lear"
 msgstr "Tühjenda"
 
-#: src/workbook.c:931
+#: src/workbook.c:975
 msgid "Clear the selected cell(s)"
 msgstr "Tühjendab selekteeritud lahtrid"
 
-#: src/workbook.c:935
+#: src/workbook.c:979
 msgid "_Select All"
 msgstr "_Selekteeri kõik"
 
-#: src/workbook.c:936
+#: src/workbook.c:980
 msgid "Select all cells in the spreadsheet"
 msgstr "Selekteerib kõik lahtrid tabelis"
 
-#: src/workbook.c:938
+#: src/workbook.c:982
 msgid "_Goto cell..."
 msgstr "_Mine lahtrile..."
 
-#: src/workbook.c:939
+#: src/workbook.c:983
 msgid "Jump to a specified cell"
 msgstr "Liigub näidatud lahtrile"
 
-#: src/workbook.c:945
+#: src/workbook.c:989
 msgid "Insert object..."
 msgstr "Lisa objekt..."
 
-#: src/workbook.c:946
+#: src/workbook.c:990
 msgid "Inserts a Bonobo object"
 msgstr "Lisab Bonobo objekti"
 
-#: src/workbook.c:950
+#: src/workbook.c:994
 msgid "_Define cell names"
 msgstr "Määra nimed"
 
-#: src/workbook.c:953
+#: src/workbook.c:997
 msgid "_Recalculate"
 msgstr "Arvuta uuesti"
 
-#: src/workbook.c:954
+#: src/workbook.c:998
 msgid "Recalculate the spreadsheet"
 msgstr "Arvutab funktsioonide väärtused uuesti"
 
-#: src/workbook.c:962
+#: src/workbook.c:1006
 msgid "_Zoom..."
 msgstr "Suurendus..."
 
-#: src/workbook.c:963
+#: src/workbook.c:1007
 msgid "Zoom the spreadsheet in or out"
 msgstr "Suurendab või vähendab esitust"
 
-#: src/workbook.c:970
+#: src/workbook.c:1014
 msgid "Current _date"
 msgstr "Praegune kuupäev"
 
-#: src/workbook.c:971
+#: src/workbook.c:1015
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Paneb selekteeritud lahtritesse praeguse kuupäeva"
 
-#: src/workbook.c:974
+#: src/workbook.c:1018
 msgid "Current _time"
 msgstr "Praegune kellaaeg"
 
-#: src/workbook.c:975
+#: src/workbook.c:1019
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Paneb selekteeritud lahtritesse praeguse kellaaja"
 
-#: src/workbook.c:982 src/workbook.c:1030
+#: src/workbook.c:1026 src/workbook.c:1074
 msgid "_Sheet"
 msgstr "Leht"
 
-#: src/workbook.c:982
+#: src/workbook.c:1026
 msgid "Insert a new spreadsheet"
 msgstr "Lisab uue tabeli"
 
-#: src/workbook.c:984 src/workbook.c:1025
+#: src/workbook.c:1028 src/workbook.c:1069
 msgid "_Cells..."
 msgstr "Lahtrid..."
 
-#: src/workbook.c:984
+#: src/workbook.c:1028
 msgid "Insert new cells"
 msgstr "Lisab lahtreid vahele"
 
-#: src/workbook.c:986
+#: src/workbook.c:1030
 msgid "_Rows"
 msgstr "Read"
 
-#: src/workbook.c:986
+#: src/workbook.c:1030
 msgid "Insert new rows"
 msgstr "Lisab ridu vahele"
 
-#: src/workbook.c:988
+#: src/workbook.c:1032
 msgid "C_olumns"
 msgstr "Tulbad"
 
-#: src/workbook.c:988
+#: src/workbook.c:1032
 msgid "Insert new columns"
 msgstr "Lisab tulpi vahele"
 
-#: src/workbook.c:993
+#: src/workbook.c:1037
 msgid "_Add/modify comment..."
 msgstr "Kommentaar..."
 
-#: src/workbook.c:994
+#: src/workbook.c:1038
 msgid "Edit the selected cell's comment"
 msgstr "Redigeerib selekteeritud lahtrite kommentaari"
 
-#: src/workbook.c:1003 src/workbook.c:1011
+#: src/workbook.c:1039
+#, fuzzy
+msgid "S_pecial"
+msgstr "_Spetsiaal"
+
+#: src/workbook.c:1047 src/workbook.c:1055
 msgid "_Auto fit selection"
 msgstr ""
 
-#: src/workbook.c:1005
+#: src/workbook.c:1049
 msgid "_Width"
 msgstr "Laius"
 
-#: src/workbook.c:1013
+#: src/workbook.c:1057
 msgid "_Height"
 msgstr "Kõrgus"
 
-#: src/workbook.c:1019
+#: src/workbook.c:1063
 msgid "_Change name"
 msgstr "Muuda nime"
 
-#: src/workbook.c:1026
+#: src/workbook.c:1070
 msgid "Modify the formatting of the selected cells"
 msgstr "Muudab selekteeritud lahtrite formaati"
 
-#: src/workbook.c:1028
+#: src/workbook.c:1072
 msgid "C_olumn"
 msgstr "Tulp"
 
-#: src/workbook.c:1029
+#: src/workbook.c:1073
 msgid "_Row"
 msgstr "Rida"
 
-#: src/workbook.c:1037
+#: src/workbook.c:1081
 msgid "_Sort..."
 msgstr "Sorteeri..."
 
-#: src/workbook.c:1038
+#: src/workbook.c:1082
 msgid "Sort the selected cells"
 msgstr "Sorteerib selekteeritud lahtrid"
 
-#: src/workbook.c:1039
+#: src/workbook.c:1083
 msgid "_Goal Seek..."
 msgstr "Otsi tulemust..."
 
-#: src/workbook.c:1041
+#: src/workbook.c:1085
 msgid "_Solver..."
 msgstr "_Lahendaja..."
 
-#: src/workbook.c:1043
+#: src/workbook.c:1087
 msgid "_Data Analysis..."
 msgstr "Andmetöötlus..."
 
-#: src/workbook.c:1059
+#: src/workbook.c:1103
 msgid "_Insert"
 msgstr "Lisa"
 
-#: src/workbook.c:1060
+#: src/workbook.c:1104
 msgid "F_ormat"
 msgstr "Formaat"
 
-#: src/workbook.c:1061
+#: src/workbook.c:1105
 msgid "_Tools"
 msgstr "Tööriistad"
 
-#: src/workbook.c:1072
+#: src/workbook.c:1116
 msgid "New"
 msgstr "Uus"
 
-#: src/workbook.c:1072
+#: src/workbook.c:1116
 msgid "Creates a new sheet"
 msgstr "Loob uue raamatu"
 
-#: src/workbook.c:1075
+#: src/workbook.c:1119
 msgid "Open"
 msgstr "Ava"
 
-#: src/workbook.c:1075
+#: src/workbook.c:1119
 msgid "Opens an existing workbook"
 msgstr "Avab raamatu"
 
-#: src/workbook.c:1078
+#: src/workbook.c:1122
 msgid "Save"
 msgstr "Salvesta"
 
-#: src/workbook.c:1078
+#: src/workbook.c:1122
 msgid "Saves the workbook"
 msgstr "Salvestab raamatu"
 
-#: src/workbook.c:1084
+#: src/workbook.c:1128
 msgid "Prints the workbook"
 msgstr "Trükib raamatu"
 
-#: src/workbook.c:1093
+#: src/workbook.c:1137
 msgid "Cut"
 msgstr "Lõika"
 
-#: src/workbook.c:1093
+#: src/workbook.c:1137
 msgid "Cuts the selection to the clipboard"
 msgstr ""
 
-#: src/workbook.c:1096
+#: src/workbook.c:1140
 msgid "Copies the selection to the clipboard"
 msgstr ""
 
-#: src/workbook.c:1099
+#: src/workbook.c:1143
 msgid "Paste"
 msgstr "Aseta"
 
-#: src/workbook.c:1099
+#: src/workbook.c:1143
 msgid "Pastes the clipboard"
 msgstr ""
 
-#: src/workbook.c:1106
+#: src/workbook.c:1150
 msgid "Graphic"
 msgstr "Graafik"
 
-#: src/workbook.c:1106
+#: src/workbook.c:1150
 msgid "Creates a graphic in the spreadsheet"
 msgstr ""
 
-#: src/workbook.c:1109
-msgid "Bobobo Item"
+#: src/workbook.c:1153
+msgid "Bonobo Item"
 msgstr ""
 
-#: src/workbook.c:1109
+#: src/workbook.c:1153
 #, fuzzy
 msgid "Creates a Bonobo shaped item"
 msgstr "Loob uue raamatu"
 
-#: src/workbook.c:1114
+#: src/workbook.c:1158
 msgid "Creates a button"
 msgstr ""
 
-#: src/workbook.c:1117
+#: src/workbook.c:1161
 msgid "Checkbox"
 msgstr "Linnuke"
 
-#: src/workbook.c:1117
+#: src/workbook.c:1161
 msgid "Creates a checkbox"
 msgstr ""
 
-#: src/workbook.c:1124
+#: src/workbook.c:1168
 msgid "Creates a line object"
 msgstr ""
 
-#: src/workbook.c:1127
+#: src/workbook.c:1171
 msgid "Arrow"
 msgstr "Nool"
 
-#: src/workbook.c:1127
+#: src/workbook.c:1171
 msgid "Creates an arrow object"
 msgstr ""
 
-#: src/workbook.c:1130
+#: src/workbook.c:1174
 msgid "Rectangle"
 msgstr "Nelinurk"
 
-#: src/workbook.c:1130
+#: src/workbook.c:1174
 msgid "Creates a rectangle object"
 msgstr ""
 
-#: src/workbook.c:1133
+#: src/workbook.c:1177
 msgid "Ellipse"
 msgstr "Ellips"
 
-#: src/workbook.c:1133
+#: src/workbook.c:1177
 msgid "Creates an ellipse object"
 msgstr ""
 
-#: src/workbook.c:1351
+#: src/workbook.c:1395
 msgid "You should introduce a valid cell name"
 msgstr ""
 
-#: src/workbook.c:1360
+#: src/workbook.c:1404
 msgid "Column out of range"
 msgstr "Tulp on väljaspool lubatud piirkonda"
 
-#: src/workbook.c:1366
+#: src/workbook.c:1410
 msgid "Row number out of range"
 msgstr "Rida on väljaspool lubatud piirkonda"
 
-#: src/workbook.c:1571
+#: src/workbook.c:1615
 msgid "Sum"
 msgstr "Summa"
 
-#: src/workbook.c:1574
+#: src/workbook.c:1618
 msgid "Average"
 msgstr "Keskmine"
 
-#: src/workbook.c:1575
+#: src/workbook.c:1619
 msgid "Count"
 msgstr "Arv"
 
-#: src/workbook.c:2005
-msgid "Untitled.gnumeric"
+#: src/workbook.c:2054
+#, fuzzy, c-format
+msgid "Book%d.gnumeric"
 msgstr "Nimetu.gnumeric"
 
-#: src/workbook.c:2228
+#: src/workbook.c:2304
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Soovite Te kindlasti eemaldada lehte '%s'?"
 
-#: src/workbook.c:2277
+#: src/workbook.c:2353
 msgid "Add another sheet"
 msgstr "Lisa uus leht"
 
-#: src/workbook.c:2278
+#: src/workbook.c:2354
 msgid "Remove this sheet"
 msgstr "Eemalda see leht"
 
-#: src/workbook.c:2546 src/workbook.c:2590
+#: src/workbook.c:2622 src/workbook.c:2655
 #, c-format
 msgid "Sheet%d"
 msgstr "Leht%d"
 
-#: src/workbook.c:2582
-#, fuzzy, c-format
-msgid "Book%d"
-msgstr "Poolpaks"
-
-#: src/workbook.c:2625
+#: src/workbook.c:2691
 msgid "Gnumeric: "
 msgstr "Gnumeric: "
 
-#: src/xml-io.c:2338
+#: src/xml-io.c:2344
 #, fuzzy
 msgid "Gnumeric XML file format"
 msgstr "Vana Gnumeric XML formaat"
+
+#~ msgid "Column:"
+#~ msgstr "Tulp:"
+
+#~ msgid "Asc"
+#~ msgstr "Üles"
+
+#~ msgid "Desc"
+#~ msgstr "Alla"
+
+#~ msgid "more clauses than rows ?"
+#~ msgstr "tingimusi on enam kui ridu?"
+
+#~ msgid "too many clauses"
+#~ msgstr "liiga palju tingimusi"
+
+#, fuzzy
+#~ msgid ""
+#~ "$\n"
+#~ "None\n"
+#~ msgstr "Ei ole"
+
+#, fuzzy
+#~ msgid "Book%d"
+#~ msgstr "Poolpaks"
 
 #~ msgid "Argument must be a Guile expression"
 #~ msgstr "Argument peab olema Guile avaldis"

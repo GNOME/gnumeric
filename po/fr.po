@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
-"POT-Creation-Date: 1999-11-23 18:36+0100\n"
+"POT-Creation-Date: 1999-12-03 20:25-0600\n"
 "PO-Revision-Date: 1998-08-01 13:46+0202\n"
 "Last-Translator: Vincent Renardias <vincent@ldsol.com>\n"
 "Language-Team: GNOME French Team <gnomefr@gnomefr.traduc.org>\n"
@@ -24,19 +24,19 @@ msgstr ""
 msgid "Can't open"
 msgstr "Impossible d'ouvrir"
 
-#: plugins/excel/boot.c:138
+#: plugins/excel/boot.c:141
 msgid "Microsoft(R) Excel file format"
 msgstr "format de fichier Microsoft(R) Excel"
 
-#: plugins/excel/boot.c:139
+#: plugins/excel/boot.c:142
 msgid "Excel(R) 97 file format"
 msgstr "format de fichier Excel(R) 97"
 
-#: plugins/excel/boot.c:140
+#: plugins/excel/boot.c:143
 msgid "Excel(R) 95 file format"
 msgstr "format de fichier Excel(R) 95"
 
-#: plugins/excel/ms-excel-read.c:264
+#: plugins/excel/ms-excel-read.c:265
 msgid "#UNKNOWN!"
 msgstr "#INCONNU!"
 
@@ -48,7 +48,7 @@ msgstr "Fonction inconnue"
 msgid "Broken function"
 msgstr "Mauvaise fonction"
 
-#: plugins/excel/ms-formula-read.c:1397
+#: plugins/excel/ms-formula-read.c:1442
 msgid " Unknown formula"
 msgstr " Formule inconnue"
 
@@ -602,11 +602,11 @@ msgstr "Titres"
 msgid "Standard Errors"
 msgstr "Erreurs moyennes"
 
-#: src/dialogs/dialog-analysis-tools.c:203
+#: src/dialogs/cell-sort.glade.h:12 src/dialogs/dialog-analysis-tools.c:203
 msgid "Columns"
 msgstr "Colonnes"
 
-#: src/dialogs/dialog-analysis-tools.c:204
+#: src/dialogs/cell-sort.glade.h:11 src/dialogs/dialog-analysis-tools.c:204
 msgid "Rows"
 msgstr "Lignes"
 
@@ -842,52 +842,62 @@ msgstr "_);("
 msgid "_);[Red]("
 msgstr "_);[Red]("
 
-#: src/dialogs/dialog-cell-format.c:1956
+#: src/dialogs/dialog-cell-format.c:1955
 msgid "Format Cells"
 msgstr "Formatter cellules"
 
-#: src/dialogs/dialog-cell-sort.c:54
+#: src/dialogs/dialog-cell-sort.c:133
 msgid "Ascending"
 msgstr "Croissant"
 
-#: src/dialogs/dialog-cell-sort.c:57
+#: src/dialogs/dialog-cell-sort.c:136
 msgid "Descending"
 msgstr "Décroissant"
 
-#: src/dialogs/dialog-cell-sort.c:325
+#: src/dialogs/dialog-cell-sort.c:444
 msgid "At least one clause is required."
 msgstr "Au moins une clause est nécessaire."
 
-#: src/dialogs/dialog-cell-sort.c:332
+#: src/dialogs/dialog-cell-sort.c:453
 msgid "Can't add more than the selection length."
 msgstr "Impossible d'ajouter plus que la longueur de la sélection."
 
-#: src/dialogs/dialog-cell-sort.c:335
+#: src/dialogs/dialog-cell-sort.c:456
 msgid "Maximum number of clauses has been reached."
 msgstr "Le nombre maximal de clauses a été atteinds."
 
-#: src/dialogs/dialog-cell-sort.c:396 src/print.c:502 src/workbook.c:1457
+#: src/dialogs/dialog-cell-sort.c:588 src/print.c:508 src/workbook.c:1501
 msgid "Selection must be a single range"
 msgstr "La sélection doit être un intervalle unique"
 
-#: src/dialogs/dialog-cell-sort.c:408
+#: src/dialogs/dialog-cell-sort.c:600
 msgid "Selection must be a finite range"
 msgstr "La sélection doit être un intervalle fermé"
 
-#: src/dialogs/dialog-cell-sort.c:431
+#: src/dialogs/dialog-cell-sort.c:650
 msgid "then by"
 msgstr "ensuite par"
 
-#: src/dialogs/dialog-cell-sort.c:431
+#: src/dialogs/cell-sort.glade.h:16 src/dialogs/dialog-cell-sort.c:650
 msgid "Sort by"
 msgstr "Trier par"
 
-#: src/dialogs/dialog-cell-sort.c:466
+#: src/dialogs/dialog-cell-sort.c:685
 msgid "Column must be within range"
 msgstr "La colonne doit être dans l'intervalle"
 
-#: src/dialogs/dialog-cell-sort.c:472
+#: src/dialogs/dialog-cell-sort.c:702
+#, fuzzy
+msgid "Row must be within range"
+msgstr "La colonne doit être dans l'intervalle"
+
+#: src/dialogs/dialog-cell-sort.c:709
 msgid "First column must be valid"
+msgstr "La première colonne doit être valide"
+
+#: src/dialogs/dialog-cell-sort.c:709
+#, fuzzy
+msgid "First row must be valid"
 msgstr "La première colonne doit être valide"
 
 #: src/dialogs/dialog-delete-cells.c:79
@@ -1114,11 +1124,11 @@ msgstr "<="
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:44 src/workbook.c:1573
+#: src/dialogs/dialog-solver.c:44 src/workbook.c:1617
 msgid "Max"
 msgstr "Max"
 
-#: src/dialogs/dialog-solver.c:45 src/workbook.c:1572
+#: src/dialogs/dialog-solver.c:45 src/workbook.c:1616
 msgid "Min"
 msgstr "Min"
 
@@ -1183,7 +1193,7 @@ msgid "Add Constraint"
 msgstr "Ajouter contrainte"
 
 #. Constraint buttons
-#: src/dialogs/cell-sort.glade.h:10 src/dialogs/dialog-solver.c:235
+#: src/dialogs/cell-sort.glade.h:13 src/dialogs/dialog-solver.c:235
 #: src/dialogs/dialog-solver.c:407 src/dialogs/names.glade.h:9
 msgid "Add"
 msgstr "Ajouter"
@@ -1463,7 +1473,7 @@ msgstr "_Colonnes à répéter sur la partie gauche :"
 msgid "_Rows to repeat on the upper region:"
 msgstr "_Lignes à répéter sur la région supérieure :"
 
-#: src/dialogs/print.glade.h:50 src/workbook.c:1084
+#: src/dialogs/print.glade.h:50 src/workbook.c:1128
 msgid "Print"
 msgstr "Imprimer"
 
@@ -1471,7 +1481,7 @@ msgstr "Imprimer"
 msgid "Row and co_lumn headings"
 msgstr "Entêtes de lignes et colonnes"
 
-#: src/dialogs/print.glade.h:52 src/workbook.c:913
+#: src/dialogs/print.glade.h:52 src/workbook.c:952
 msgid "Co_mments"
 msgstr "Co_mmentaires"
 
@@ -1817,7 +1827,7 @@ msgstr "Interieur"
 msgid "Inside Horizontal"
 msgstr "Horizontal"
 
-#: src/dialogs/cell-format.glade.h:75 src/workbook.c:1124
+#: src/dialogs/cell-format.glade.h:75 src/workbook.c:1168
 msgid "Line"
 msgstr "Ligne"
 
@@ -1935,7 +1945,7 @@ msgstr ""
 msgid "Solid"
 msgstr "Solide"
 
-#: src/dialogs/cell-format.glade.h:109 src/workbook-format-toolbar.c:429
+#: src/dialogs/cell-format.glade.h:109 src/workbook-format-toolbar.c:430
 msgid "Background"
 msgstr "Fond"
 
@@ -1949,7 +1959,9 @@ msgstr "Cac_hé"
 
 #: src/dialogs/cell-format.glade.h:112
 msgid "Locking cells or hiding formulas only affects protected worksheets."
-msgstr "Vérouiller des cellules ou cacher des formules affecte seulement les feuilles de calcul protégées."
+msgstr ""
+"Vérouiller des cellules ou cacher des formules affecte seulement les "
+"feuilles de calcul protégées."
 
 #: src/dialogs/cell-format.glade.h:113
 msgid "Worksheet _protected"
@@ -1969,17 +1981,46 @@ msgid "Sort..."
 msgstr "Tri..."
 
 #: src/dialogs/cell-sort.glade.h:8
-msgid "My selection has"
+#, fuzzy
+msgid "Selection has"
 msgstr "Ma sélection a"
 
 #: src/dialogs/cell-sort.glade.h:9
 msgid "A header"
 msgstr "Un haut de page"
 
-#: src/dialogs/cell-sort.glade.h:11 src/plugin-manager.c:143
+#: src/dialogs/cell-sort.glade.h:10
+#, fuzzy
+msgid "Sort"
+msgstr "Trier par"
+
+#: src/dialogs/cell-sort.glade.h:14 src/plugin-manager.c:143
 #: src/sheet-object.c:978
 msgid "Remove"
 msgstr "Enlever"
+
+#: src/dialogs/cell-sort.glade.h:15
+#, fuzzy
+msgid "Advanced Sort Options"
+msgstr "Options du solveur Gnumeric"
+
+#: src/dialogs/cell-sort.glade.h:17
+#, fuzzy
+msgid "Value"
+msgstr "Valeurs"
+
+#: src/dialogs/cell-sort.glade.h:18
+#, fuzzy
+msgid "Text"
+msgstr "Te_xte"
+
+#: src/dialogs/cell-sort.glade.h:19
+msgid "Entries are"
+msgstr ""
+
+#: src/dialogs/cell-sort.glade.h:20
+msgid "Case sensitive"
+msgstr ""
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -2042,23 +2083,23 @@ msgstr "Impossible de créer le fichier %s\n"
 msgid "Embedded Sheet"
 msgstr "Feuille Embarquée"
 
-#: src/expr-name.c:175
+#: src/expr-name.c:177
 msgid "already defined"
 msgstr "déjà défini"
 
-#: src/expr-name.c:178
+#: src/expr-name.c:180
 msgid "no scope"
 msgstr "pas de visibilité"
 
-#: src/expr-name.c:183
+#: src/expr-name.c:185
 msgid "circular reference"
 msgstr "référence circulaire"
 
-#: src/expr-name.c:336
+#: src/expr-name.c:338
 msgid "Builtin"
 msgstr "Incorporé"
 
-#: src/expr-name.c:367
+#: src/expr-name.c:369
 msgid "Error: no sheet"
 msgstr "Erreur: pas de feuille"
 
@@ -3968,6 +4009,7 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-financial.c:582
+#, fuzzy
 msgid ""
 "@FUNCTION=EFFECT\n"
 "@SYNTAX=EFFECT(r,nper)\n"
@@ -3987,6 +4029,8 @@ msgid ""
 "monthly you would type in:\n"
 "=EFFECT(.19,12) and you would get .2075 or 20.75%. That is the effective "
 "percentage you will pay on your loan.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=NOMINAL"
 msgstr ""
 "@FUNCTION=EFFECT\n"
@@ -4049,11 +4093,14 @@ msgid "nominal - domain error"
 msgstr "nominal - erreur de domaine"
 
 #: src/functions/fn-financial.c:672
+#, fuzzy
 msgid ""
 "@FUNCTION=ISPMT\n"
 "@SYNTAX=ISPMT(rate,per,nper,pv)\n"
 "@DESCRIPTION=ISPMT function returns the interest payed on a given period. \n"
 "If @per < 1 or @per > @nper, ISPMT returns #NUM! error. \n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=PV"
 msgstr ""
 "@FUNCTION=ISPMT\n"
@@ -9280,24 +9327,24 @@ msgstr "blanc"
 msgid "yellow"
 msgstr "jaune"
 
-#: src/format.c:1363
+#: src/format.c:1370
 msgid "0.0########"
 msgstr "0,0########"
 
-#: src/format.c:1377 src/value-sheet.c:26 src/value.c:321
+#: src/format.c:1384 src/value-sheet.c:26 src/value.c:321
 msgid "TRUE"
 msgstr "VRAI"
 
-#: src/format.c:1377 src/value-sheet.c:26 src/value.c:321
+#: src/format.c:1384 src/value-sheet.c:26 src/value.c:321
 msgid "FALSE"
 msgstr "FAUX"
 
-#: src/format.c:1386
+#: src/format.c:1393
 msgid "CELLRANGE"
 msgstr "INTERVALLECELL"
 
 #. Array of arrays ??
-#: src/format.c:1390
+#: src/format.c:1397
 msgid "ARRAY"
 msgstr "TABLEAU"
 
@@ -9581,7 +9628,7 @@ msgstr "_Hauteur"
 msgid "Width: %.2f"
 msgstr ""
 
-#: src/item-cursor.c:516
+#: src/item-cursor.c:578
 msgid ""
 "The cells dragged will overwrite the contents of the\n"
 "existing cells in that range.  Do you want me to replace\n"
@@ -9591,35 +9638,35 @@ msgstr ""
 "dans cette région. Voulez-vous remplacer le contenu des cellules de cette "
 "région?"
 
-#: src/item-cursor.c:597 src/workbook.c:1096
+#: src/item-cursor.c:659 src/workbook.c:1140
 msgid "Copy"
 msgstr "Copier"
 
-#: src/item-cursor.c:598 src/print-preview.c:538
+#: src/item-cursor.c:660 src/print-preview.c:538
 msgid "Move"
 msgstr "Déplacer"
 
-#: src/item-cursor.c:599
+#: src/item-cursor.c:661
 msgid "Copy formats"
 msgstr "Copier les formats"
 
-#: src/item-cursor.c:600
+#: src/item-cursor.c:662
 msgid "Copy values"
 msgstr "Copier les valeurs"
 
-#: src/item-cursor.c:601
+#: src/item-cursor.c:663
 msgid "Shift cells down and copy"
 msgstr "Décaler vers le bas et copier"
 
-#: src/item-cursor.c:602
+#: src/item-cursor.c:664
 msgid "Shift cells right and copy"
 msgstr "Décaler vers la droite et copier"
 
-#: src/item-cursor.c:603
+#: src/item-cursor.c:665
 msgid "Shift cells down and move"
 msgstr "Décaler vers le bas et déplacer"
 
-#: src/item-cursor.c:604
+#: src/item-cursor.c:666
 msgid "Shift cells right and move"
 msgstr "Décaler vers la droite et déplacer"
 
@@ -9646,7 +9693,7 @@ msgstr "Collage spécial"
 msgid "_Insert..."
 msgstr "_Insérer..."
 
-#: src/item-grid.c:653 src/workbook.c:928
+#: src/item-grid.c:653 src/workbook.c:972
 msgid "_Delete..."
 msgstr "_Effacer..."
 
@@ -9679,47 +9726,47 @@ msgstr ""
 msgid "_Row Height..."
 msgstr "_Hauteur de ligne..."
 
-#: src/main.c:47
+#: src/main.c:48
 msgid "Dumps the function definitions"
 msgstr "Liste les définitions de fonction"
 
-#: src/main.c:47
+#: src/main.c:48
 msgid "FILE"
 msgstr "FICHIER"
 
-#: src/main.c:49
+#: src/main.c:50
 msgid "Enables some debugging functions"
 msgstr "Activer quelques fonctions de débugage"
 
-#: src/main.c:49 src/main.c:51 src/main.c:56 src/main.c:60 src/main.c:64
-#: src/main.c:68 src/main.c:72
+#: src/main.c:50 src/main.c:52 src/main.c:57 src/main.c:61 src/main.c:65
+#: src/main.c:69 src/main.c:73 src/main.c:77
 msgid "LEVEL"
 msgstr "NIVEAU"
 
-#: src/main.c:51
+#: src/main.c:52
 #, fuzzy
 msgid "Enables some style related debugging functions"
 msgstr "Activer quelques fonctions de débugage"
 
-#: src/main.c:55
+#: src/main.c:56 src/main.c:72
 msgid "Enables debugging mesgs while reading excel workbooks"
 msgstr ""
 "Activer les messages de débugage à la lectures des feuilles de calcul excel"
 
-#: src/main.c:59
+#: src/main.c:60
 msgid "Enables debugging mesgs while reading excel functions"
 msgstr "Activer les messages de débugage à la lectures des fonctions excel"
 
-#: src/main.c:63
+#: src/main.c:64
 msgid "Enables debugging mesgs while reading excel colours & patterns"
 msgstr ""
 "Activer les messages de débugage à la lectures des couleurs & motifs excel"
 
-#: src/main.c:67
+#: src/main.c:68
 msgid "Enables debugging mesgs while reading excel charts"
 msgstr "Activer les messages de débugage à la lectures des graphiques excel"
 
-#: src/main.c:71
+#: src/main.c:76
 #, fuzzy
 msgid "Enables extra consistancy checking while reading ole files"
 msgstr "Activer les messages de débugage à la lectures des fonctions excel"
@@ -9910,7 +9957,7 @@ msgstr "Suivant"
 msgid "Last"
 msgstr "Dernier"
 
-#: src/print-preview.c:539 src/workbook.c:2113
+#: src/print-preview.c:539 src/workbook.c:2180
 msgid "Zoom in"
 msgstr "Zoom avant"
 
@@ -9918,7 +9965,7 @@ msgstr "Zoom avant"
 msgid "Zooms the page in"
 msgstr "Zoom avant"
 
-#: src/print-preview.c:540 src/workbook.c:2106
+#: src/print-preview.c:540 src/workbook.c:2173
 msgid "Zoom out"
 msgstr "Zoom arrière"
 
@@ -9939,7 +9986,7 @@ msgstr "la feuille"
 msgid "the workbook"
 msgstr "le classeur"
 
-#: src/print.c:617
+#: src/print.c:623
 msgid "Printing failed -- bad filename?"
 msgstr ""
 
@@ -9956,17 +10003,17 @@ msgstr ""
 msgid "copy"
 msgstr "Copier"
 
-#: src/selection.c:627
+#: src/selection.c:625
 #, fuzzy
 msgid "cut"
 msgstr "Couper"
 
-#: src/selection.c:668
+#: src/selection.c:665
 #, fuzzy
 msgid "paste"
 msgstr "Coller"
 
-#: src/selection.c:691
+#: src/selection.c:688
 #, c-format
 msgid ""
 "The area can not be pasted into the selection because it\n"
@@ -9975,11 +10022,11 @@ msgid ""
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
 
-#: src/sheet-object.c:359 src/workbook.c:1114
+#: src/sheet-object.c:359 src/workbook.c:1158
 msgid "Button"
 msgstr "Bouton"
 
-#: src/sheet-object.c:728 src/workbook.c:860
+#: src/sheet-object.c:728 src/workbook.c:899
 msgid "Select an object"
 msgstr "Sélectionner un objet"
 
@@ -9993,16 +10040,16 @@ msgstr "Ligne: %d"
 msgid "Column: %s"
 msgstr "Colonne: %s"
 
-#: src/sheet.c:990
+#: src/sheet.c:1005
 msgid "Internal ERROR"
 msgstr "Erreur interne"
 
-#: src/sheet.c:2980
+#: src/sheet.c:3001
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "Je n'ai pas pu activer l'objet %s"
 
-#: src/sheet.c:2992
+#: src/sheet.c:3013
 msgid "I was unable to the bind object"
 msgstr "Je n'ai pas pu associer l'objet"
 
@@ -10053,7 +10100,7 @@ msgstr "Terminer"
 
 #. Placeholder: font selector
 #. Placeholder: size selector
-#: src/widgets/widget-font-selector.c:126 src/workbook-format-toolbar.c:258
+#: src/widgets/widget-font-selector.c:126 src/workbook-format-toolbar.c:259
 msgid "Bold"
 msgstr "Gras"
 
@@ -10061,7 +10108,7 @@ msgstr "Gras"
 msgid "Bold italic"
 msgstr "Gras Italique"
 
-#: src/widgets/widget-font-selector.c:128 src/workbook-format-toolbar.c:261
+#: src/widgets/widget-font-selector.c:128 src/workbook-format-toolbar.c:262
 msgid "Italic"
 msgstr "Italique"
 
@@ -10073,525 +10120,526 @@ msgstr ""
 msgid "You entered an invalid row height value.  It must be bigger than 0"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:258
+#: src/workbook-format-toolbar.c:259
 msgid "Sets the bold font"
 msgstr "Définir une police grasse"
 
-#: src/workbook-format-toolbar.c:261
+#: src/workbook-format-toolbar.c:262
 msgid "Makes the font italic"
 msgstr "Utiliser une police italique"
 
-#: src/workbook-format-toolbar.c:267
+#: src/workbook-format-toolbar.c:268
 msgid "Left align"
 msgstr "Aligner à gauche"
 
-#: src/workbook-format-toolbar.c:267
+#: src/workbook-format-toolbar.c:268
 msgid "Left justifies the cell contents"
 msgstr "Justifier à gauche le contenu des cellules"
 
-#: src/workbook-format-toolbar.c:270
+#: src/workbook-format-toolbar.c:271
 msgid "Center"
 msgstr "Centre"
 
-#: src/workbook-format-toolbar.c:270
+#: src/workbook-format-toolbar.c:271
 msgid "Centers the cell contents"
 msgstr "Centrer le contenu des cellules"
 
-#: src/workbook-format-toolbar.c:273
+#: src/workbook-format-toolbar.c:274
 msgid "Right align"
 msgstr "Aligner à droite"
 
-#: src/workbook-format-toolbar.c:273
+#: src/workbook-format-toolbar.c:274
 msgid "Right justifies the cell contents"
 msgstr "Justifier à droite le contenu des cellules"
 
-#: src/workbook-format-toolbar.c:279
+#: src/workbook-format-toolbar.c:280
 msgid "Money format"
 msgstr "Format monétaire"
 
-#: src/workbook-format-toolbar.c:279
+#: src/workbook-format-toolbar.c:280
 #, fuzzy
 msgid "Sets the format of the selected cells to monetary"
 msgstr "Modifier le formatage des cellules sélectionnées"
 
-#: src/workbook-format-toolbar.c:282
+#: src/workbook-format-toolbar.c:283
 msgid "Percent"
 msgstr "Pourcentage"
 
-#: src/workbook-format-toolbar.c:282
+#: src/workbook-format-toolbar.c:283
 #, fuzzy
 msgid "Sets the format of the selected cells to percentage"
 msgstr "Modifier le formatage des cellules sélectionnées"
 
-#: src/workbook-format-toolbar.c:285
+#: src/workbook-format-toolbar.c:286
 msgid "Thousand separator"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:285
+#: src/workbook-format-toolbar.c:286
 msgid "Sets the format of the selected cells to include a thousands separator"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:288
+#: src/workbook-format-toolbar.c:289
 msgid "Add decimals"
 msgstr "Ajouter décimales"
 
-#: src/workbook-format-toolbar.c:288
+#: src/workbook-format-toolbar.c:289
 msgid "Increases the number of decimal numbers displayed"
 msgstr "Augmente le nombre de décimales affichées"
 
-#: src/workbook-format-toolbar.c:291
+#: src/workbook-format-toolbar.c:292
 msgid "Remove decimals"
 msgstr "Enlever décimales"
 
-#: src/workbook-format-toolbar.c:291
+#: src/workbook-format-toolbar.c:292
 msgid "Decreases the number of decimal numbers displayed"
 msgstr "Réduit le nombre de décimales affichées"
 
-#: src/workbook-format-toolbar.c:387
+#: src/workbook-format-toolbar.c:388
 msgid "Font selector"
 msgstr "Sélecteur de police"
 
-#: src/workbook-format-toolbar.c:403
+#: src/workbook-format-toolbar.c:404
 msgid "Size"
 msgstr "Taille"
 
-#: src/workbook-format-toolbar.c:425
+#: src/workbook-format-toolbar.c:426
 msgid "Foreground"
 msgstr "Avant-plan"
 
-#: src/workbook.c:415
+#: src/workbook.c:436
 msgid "Warning"
 msgstr "Avertissement"
 
-#: src/workbook.c:424
+#: src/workbook.c:445
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr ""
 "La feuille de calcul %s a des changements non enregistrés; les enregistrer "
 "maintenant?"
 
-#: src/workbook.c:427
+#: src/workbook.c:448
 msgid "Workbook has unsaved changes, save them?"
 msgstr ""
 "La feuille de calcul a des changements non enregistrés; les enregistrer "
 "maintenant?"
 
-#: src/workbook.c:640
+#: src/workbook.c:679
 msgid "Insert cols"
 msgstr "Insérer colonnes"
 
-#: src/workbook.c:660
+#: src/workbook.c:699
 msgid "Insert rows"
 msgstr "Insérer lignes"
 
-#: src/workbook.c:755
+#: src/workbook.c:794
 msgid ">mm/dd/yyyy"
 msgstr ">dd/mm/yyyy"
 
-#: src/workbook.c:774
+#: src/workbook.c:813
 msgid ">hh:mm"
 msgstr ">hh:mm"
 
-#: src/workbook.c:869
+#: src/workbook.c:908
 msgid "_New"
 msgstr "_Nouveau"
 
-#: src/workbook.c:869
+#: src/workbook.c:908
 msgid "Create a new spreadsheet"
 msgstr "Créer une nouvelle feuille"
 
-#: src/workbook.c:873
+#: src/workbook.c:912
 msgid "_Import..."
 msgstr "_Importer..."
 
-#: src/workbook.c:873
+#: src/workbook.c:912
 msgid "Imports a file"
 msgstr "Importe un fichier"
 
-#: src/workbook.c:879
+#: src/workbook.c:918
 msgid "Su_mmary..."
 msgstr "Résu_mé..."
 
-#: src/workbook.c:879
+#: src/workbook.c:918
 msgid "Summary information"
 msgstr "Informations résumées"
 
-#: src/workbook.c:884
+#: src/workbook.c:923
 msgid "Plu_g-ins..."
 msgstr "Plu_g-ins..."
 
-#: src/workbook.c:884
+#: src/workbook.c:923
 msgid "Gnumeric plugins"
 msgstr "plugins Gnumeric"
 
-#: src/workbook.c:891 src/workbook.c:1087
+#: src/workbook.c:930 src/workbook.c:1131
 msgid "Print pre_view"
 msgstr "_Aperçu avant impression"
 
-#: src/workbook.c:891 src/workbook.c:1087
+#: src/workbook.c:930 src/workbook.c:1131
 msgid "Print preview"
 msgstr "Aperçu avant impression"
 
-#: src/workbook.c:907
+#: src/workbook.c:946
 msgid "_All"
 msgstr "_Tous"
 
-#: src/workbook.c:908
+#: src/workbook.c:947
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Efface les cellules sélectionnées: formats, commentaires et contenu"
 
-#: src/workbook.c:910
+#: src/workbook.c:949
 msgid "_Formats"
 msgstr "_Formats"
 
-#: src/workbook.c:911
+#: src/workbook.c:950
 msgid "Clear the selected cells' formats"
 msgstr "Effacer les formats des cellules sélectionnées"
 
-#: src/workbook.c:914
+#: src/workbook.c:953
 msgid "Clear the selected cells' comments"
 msgstr "Effacer les commentaires des cellules sélectionnées"
 
-#: src/workbook.c:916
+#: src/workbook.c:955
 msgid "_Content"
 msgstr "_Contenu"
 
-#: src/workbook.c:917
+#: src/workbook.c:956
 msgid "Clear the selected cells' contents"
 msgstr "Effacer le contenu des cellules sélectionnées"
 
-#: src/workbook.c:926
+#: src/workbook.c:970
 msgid "P_aste special..."
 msgstr "Coll_age spécial..."
 
-#: src/workbook.c:930
+#: src/workbook.c:974
 msgid "C_lear"
 msgstr "Vi_der"
 
-#: src/workbook.c:931
+#: src/workbook.c:975
 msgid "Clear the selected cell(s)"
 msgstr "Vider la(les) cellule(s) sélectionnée(s)"
 
-#: src/workbook.c:935
+#: src/workbook.c:979
 msgid "_Select All"
 msgstr "Tout _sélectionner"
 
-#: src/workbook.c:936
+#: src/workbook.c:980
 msgid "Select all cells in the spreadsheet"
 msgstr "Sélectionner toutes les cellules dans la feuille"
 
-#: src/workbook.c:938
+#: src/workbook.c:982
 msgid "_Goto cell..."
 msgstr "_Aller à la cellule..."
 
-#: src/workbook.c:939
+#: src/workbook.c:983
 msgid "Jump to a specified cell"
 msgstr "Aller à une cellule spécifique"
 
-#: src/workbook.c:945
+#: src/workbook.c:989
 msgid "Insert object..."
 msgstr "Insérer objet..."
 
-#: src/workbook.c:946
+#: src/workbook.c:990
 msgid "Inserts a Bonobo object"
 msgstr "Insérer un objet Bonobo"
 
-#: src/workbook.c:950
+#: src/workbook.c:994
 msgid "_Define cell names"
 msgstr "_Définir les noms de cellules"
 
-#: src/workbook.c:953
+#: src/workbook.c:997
 msgid "_Recalculate"
 msgstr "_Recalculer"
 
-#: src/workbook.c:954
+#: src/workbook.c:998
 msgid "Recalculate the spreadsheet"
 msgstr "Recalculer la feuille"
 
-#: src/workbook.c:962
+#: src/workbook.c:1006
 msgid "_Zoom..."
 msgstr "_Zoom..."
 
-#: src/workbook.c:963
+#: src/workbook.c:1007
 msgid "Zoom the spreadsheet in or out"
 msgstr "Zoomer en avant ou en arrière"
 
-#: src/workbook.c:970
+#: src/workbook.c:1014
 msgid "Current _date"
 msgstr "_Date courante"
 
-#: src/workbook.c:971
+#: src/workbook.c:1015
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Insérer la date courante dans la(les) cellule(s) sélectionnée(s)"
 
-#: src/workbook.c:974
+#: src/workbook.c:1018
 msgid "Current _time"
 msgstr "_Heure courante"
 
-#: src/workbook.c:975
+#: src/workbook.c:1019
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Insérer l'heure courante dans la(les) cellule(s) sélectionnée(s)"
 
-#: src/workbook.c:982 src/workbook.c:1030
+#: src/workbook.c:1026 src/workbook.c:1074
 msgid "_Sheet"
 msgstr "_Feuille"
 
-#: src/workbook.c:982
+#: src/workbook.c:1026
 msgid "Insert a new spreadsheet"
 msgstr "Insérer une nouvelle feuille"
 
-#: src/workbook.c:984 src/workbook.c:1025
+#: src/workbook.c:1028 src/workbook.c:1069
 msgid "_Cells..."
 msgstr "_Cellules..."
 
-#: src/workbook.c:984
+#: src/workbook.c:1028
 msgid "Insert new cells"
 msgstr "Insérer de nouvelles cellules"
 
-#: src/workbook.c:986
+#: src/workbook.c:1030
 msgid "_Rows"
 msgstr "_Lignes"
 
-#: src/workbook.c:986
+#: src/workbook.c:1030
 msgid "Insert new rows"
 msgstr "Insérer de nouvelles lignes"
 
-#: src/workbook.c:988
+#: src/workbook.c:1032
 msgid "C_olumns"
 msgstr "C_olonnes"
 
-#: src/workbook.c:988
+#: src/workbook.c:1032
 msgid "Insert new columns"
 msgstr "Insérer de nouvelles colonnes"
 
-#: src/workbook.c:993
+#: src/workbook.c:1037
 msgid "_Add/modify comment..."
 msgstr "_Ajouter/modifier commentaire"
 
-#: src/workbook.c:994
+#: src/workbook.c:1038
 msgid "Edit the selected cell's comment"
 msgstr "Editer le commentaire de la cellule sélectionnée"
 
-#: src/workbook.c:995
+#: src/workbook.c:1039
 msgid "S_pecial"
 msgstr "S_pécial"
 
-#: src/workbook.c:1003 src/workbook.c:1011
+#: src/workbook.c:1047 src/workbook.c:1055
 msgid "_Auto fit selection"
 msgstr "L_argeur automatique"
 
-#: src/workbook.c:1005
+#: src/workbook.c:1049
 msgid "_Width"
 msgstr "_Largeur"
 
-#: src/workbook.c:1013
+#: src/workbook.c:1057
 msgid "_Height"
 msgstr "_Hauteur"
 
-#: src/workbook.c:1019
+#: src/workbook.c:1063
 msgid "_Change name"
 msgstr "_Changer nom"
 
-#: src/workbook.c:1026
+#: src/workbook.c:1070
 msgid "Modify the formatting of the selected cells"
 msgstr "Modifier le formatage des cellules sélectionnées"
 
-#: src/workbook.c:1028
+#: src/workbook.c:1072
 msgid "C_olumn"
 msgstr "C_olonne"
 
-#: src/workbook.c:1029
+#: src/workbook.c:1073
 msgid "_Row"
 msgstr "_Ligne"
 
-#: src/workbook.c:1037
+#: src/workbook.c:1081
 msgid "_Sort..."
 msgstr "_Tri..."
 
-#: src/workbook.c:1038
+#: src/workbook.c:1082
 msgid "Sort the selected cells"
 msgstr "Trie les cellules sélectionnées"
 
-#: src/workbook.c:1039
+#: src/workbook.c:1083
 msgid "_Goal Seek..."
 msgstr "_Résolveur..."
 
-#: src/workbook.c:1041
+#: src/workbook.c:1085
 msgid "_Solver..."
 msgstr "_Solveur..."
 
-#: src/workbook.c:1043
+#: src/workbook.c:1087
 msgid "_Data Analysis..."
 msgstr "Analyse des _Données..."
 
-#: src/workbook.c:1059
+#: src/workbook.c:1103
 msgid "_Insert"
 msgstr "_Insérer"
 
-#: src/workbook.c:1060
+#: src/workbook.c:1104
 msgid "F_ormat"
 msgstr "F_ormat"
 
-#: src/workbook.c:1061
+#: src/workbook.c:1105
 msgid "_Tools"
 msgstr "_Outils"
 
-#: src/workbook.c:1072
+#: src/workbook.c:1116
 msgid "New"
 msgstr "Nouveau"
 
-#: src/workbook.c:1072
+#: src/workbook.c:1116
 msgid "Creates a new sheet"
 msgstr "Crée une nouvelle feuille"
 
-#: src/workbook.c:1075
+#: src/workbook.c:1119
 msgid "Open"
 msgstr "Ouvrir"
 
-#: src/workbook.c:1075
+#: src/workbook.c:1119
 msgid "Opens an existing workbook"
 msgstr "Ouvrir une feuille existante"
 
-#: src/workbook.c:1078
+#: src/workbook.c:1122
 msgid "Save"
 msgstr "Enregistrer"
 
-#: src/workbook.c:1078
+#: src/workbook.c:1122
 msgid "Saves the workbook"
 msgstr "Enregistrer la feuille"
 
-#: src/workbook.c:1084
+#: src/workbook.c:1128
 msgid "Prints the workbook"
 msgstr "Imprimer la feuille"
 
-#: src/workbook.c:1093
+#: src/workbook.c:1137
 msgid "Cut"
 msgstr "Couper"
 
-#: src/workbook.c:1093
+#: src/workbook.c:1137
 msgid "Cuts the selection to the clipboard"
 msgstr "Coupe la sélection vers le presse-papier"
 
-#: src/workbook.c:1096
+#: src/workbook.c:1140
 msgid "Copies the selection to the clipboard"
 msgstr "Copie la sélection vers presse-papier"
 
-#: src/workbook.c:1099
+#: src/workbook.c:1143
 msgid "Paste"
 msgstr "Coller"
 
-#: src/workbook.c:1099
+#: src/workbook.c:1143
 msgid "Pastes the clipboard"
 msgstr "Colle le contenu du presse-papier"
 
-#: src/workbook.c:1106
+#: src/workbook.c:1150
 msgid "Graphic"
 msgstr "Graphique"
 
-#: src/workbook.c:1106
+#: src/workbook.c:1150
 msgid "Creates a graphic in the spreadsheet"
 msgstr "Créer un graphique dans la feuille"
 
-#: src/workbook.c:1109
-msgid "Bobobo Item"
+#: src/workbook.c:1153
+#, fuzzy
+msgid "Bonobo Item"
 msgstr "Élement bonobo"
 
-#: src/workbook.c:1109
+#: src/workbook.c:1153
 #, fuzzy
 msgid "Creates a Bonobo shaped item"
 msgstr "Crée une nouvelle feuille"
 
-#: src/workbook.c:1114
+#: src/workbook.c:1158
 msgid "Creates a button"
 msgstr "Créer un bouton"
 
-#: src/workbook.c:1117
+#: src/workbook.c:1161
 msgid "Checkbox"
 msgstr "Case à cocher"
 
-#: src/workbook.c:1117
+#: src/workbook.c:1161
 msgid "Creates a checkbox"
 msgstr "Crée une case à cocher"
 
-#: src/workbook.c:1124
+#: src/workbook.c:1168
 msgid "Creates a line object"
 msgstr "Créer une nouvelle ligne"
 
-#: src/workbook.c:1127
+#: src/workbook.c:1171
 msgid "Arrow"
 msgstr "Flèche"
 
-#: src/workbook.c:1127
+#: src/workbook.c:1171
 msgid "Creates an arrow object"
 msgstr "Créer une nouvelle flèche"
 
-#: src/workbook.c:1130
+#: src/workbook.c:1174
 msgid "Rectangle"
 msgstr "Rectangle"
 
-#: src/workbook.c:1130
+#: src/workbook.c:1174
 msgid "Creates a rectangle object"
 msgstr "Créer un nouveau rectangle"
 
-#: src/workbook.c:1133
+#: src/workbook.c:1177
 msgid "Ellipse"
 msgstr "Ellipse"
 
-#: src/workbook.c:1133
+#: src/workbook.c:1177
 msgid "Creates an ellipse object"
 msgstr "Créer une nouvelle ellipse"
 
-#: src/workbook.c:1351
+#: src/workbook.c:1395
 msgid "You should introduce a valid cell name"
 msgstr "Vous devez introduire un nom de cellule valide"
 
-#: src/workbook.c:1360
+#: src/workbook.c:1404
 msgid "Column out of range"
 msgstr "Colonne invalide"
 
-#: src/workbook.c:1366
+#: src/workbook.c:1410
 msgid "Row number out of range"
 msgstr "Numéro de ligne invalide"
 
-#: src/workbook.c:1571
+#: src/workbook.c:1615
 msgid "Sum"
 msgstr "Somme"
 
-#: src/workbook.c:1574
+#: src/workbook.c:1618
 msgid "Average"
 msgstr "Moyenne"
 
-#: src/workbook.c:1575
+#: src/workbook.c:1619
 msgid "Count"
 msgstr "Compte"
 
-#: src/workbook.c:2010
+#: src/workbook.c:2054
+#, c-format
 msgid "Book%d.gnumeric"
 msgstr "Livret%d.gnumeric"
 
-#: src/workbook.c:2237
+#: src/workbook.c:2304
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Voulez-vous vraiment enlever la feuille nommée `%s' ?"
 
-#: src/workbook.c:2286
+#: src/workbook.c:2353
 msgid "Add another sheet"
 msgstr "Ajouter une autre feuille"
 
-#: src/workbook.c:2287
+#: src/workbook.c:2354
 msgid "Remove this sheet"
 msgstr "Enlever cette feuille"
 
-#: src/workbook.c:2555 src/workbook.c:2588
+#: src/workbook.c:2622 src/workbook.c:2655
 #, c-format
 msgid "Sheet%d"
 msgstr "Feuille %d"
 
-#: src/workbook.c:2624
+#: src/workbook.c:2691
 msgid "Gnumeric: "
 msgstr "Gnumeric: "
 
 #: src/xml-io.c:2344
 msgid "Gnumeric XML file format"
 msgstr "Format de fichier Gnumeric XML"
-
