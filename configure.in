@@ -566,6 +566,17 @@ src/pixmaps/Makefile
 src/widgets/Makefile
 doc/Makefile
 doc/C/Makefile
+doc/de/Makefile
+doc/es/Makefile
+doc/hu/Makefile
+doc/ja/Makefile
+doc/nl/Makefile
+doc/no/Makefile
+doc/pl/Makefile
+doc/pt/Makefile
+doc/ru/Makefile
+doc/sk/Makefile
+doc/sv/Makefile
 omf-install/Makefile
 plugins/Makefile
 plugins/numtheory/Makefile
