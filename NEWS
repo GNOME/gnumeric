@@ -10,6 +10,7 @@ Morten:
 	* New function COLUMNNUMBER.
 	* Fix ABRs in imported pcre code.
 	* Leak fix for gnumeric xml saving.
+	* Leak fix for character encoding selection.
 
 --------------------------------------------------------------------------
 

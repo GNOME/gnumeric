@@ -296,6 +296,7 @@ connect_menu_signals (GtkMenu *menu, gpointer data)
 				data);
 	children = gtk_container_get_children (GTK_CONTAINER(menu));
 	g_list_foreach (children, (GFunc)connect_menu_signals_to_submenu, data);
+	g_list_free (children);
 }
 
 

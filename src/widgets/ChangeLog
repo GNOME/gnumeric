@@ -1,3 +1,7 @@
+2003-05-12  Morten Welinder  <terra@gnome.org>
+
+	* gnumeric-optionmenu.c (connect_menu_signals): Plug leak.
+
 2003-05-11  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.17
