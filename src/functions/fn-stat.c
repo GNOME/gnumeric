@@ -1411,7 +1411,7 @@ gnumeric_chitest (FunctionEvalInfo *ei, Value **argv)
 	ret = function_iterate_do_value (ei->pos, (FunctionIterateCallback)
 					 callback_function_chitest_actual,
 					 &p1, argv[0],
-					 TRUE);
+					 TRUE, TRUE);
 	if (ret != NULL)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
@@ -1422,7 +1422,7 @@ gnumeric_chitest (FunctionEvalInfo *ei, Value **argv)
 	ret = function_iterate_do_value (ei->pos, (FunctionIterateCallback)
 					 callback_function_chitest_theoretical,
 					 &p2, argv[1],
-					 TRUE);
+					 TRUE, TRUE);
 	if (ret != NULL)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
@@ -3181,7 +3181,7 @@ gnumeric_percentrank (FunctionEvalInfo *ei, Value **argv)
 	ret = function_iterate_do_value (ei->pos, (FunctionIterateCallback)
 					 callback_function_percentrank,
 					 &p, argv[0],
-					 TRUE);
+					 TRUE, TRUE);
 
 	if (ret != NULL || (p.smaller + p.greater + p.equal == 0))
 	        return value_new_error (ei->pos, gnumeric_err_NUM);

@@ -3289,10 +3289,10 @@ callback_function_sumproduct (const EvalPos *ep, Value *value,
 	math_sumproduct_t *mm = closure;
 	float_t           x;
 
-	if (!VALUE_IS_NUMBER (value))
-		x = 0;
-	else
+	if (value != NULL && VALUE_IS_NUMBER (value))
 	        x = value_get_as_float (value);
+	else
+		x = 0;
 
 	if (mm->first) {
 	        gpointer p;
@@ -3310,22 +3310,21 @@ callback_function_sumproduct (const EvalPos *ep, Value *value,
 }
 
 static Value *
-gnumeric_sumproduct (FunctionEvalInfo *ei, GList *expr_node_list)
+gnumeric_sumproduct (FunctionEvalInfo *ei, GList *args)
 {
         math_sumproduct_t p;
 	GSList            *current;
 	float_t           sum;
 	Value            *result=NULL;
 
-	if (expr_node_list == NULL)
+	if (args == NULL)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	p.components = NULL;
 	p.first      = TRUE;
 
-	for ( ; result == NULL && expr_node_list;
-	      expr_node_list = expr_node_list->next) {
-		ExprTree *tree = (ExprTree *) expr_node_list->data;
+	for ( ; result == NULL && args; args = args->next) {
+		ExprTree *tree = (ExprTree *) args->data;
 		Value    *val;
 
 		val = eval_expr (ei->pos, tree, EVAL_PERMIT_NON_SCALAR);
@@ -3334,7 +3333,7 @@ gnumeric_sumproduct (FunctionEvalInfo *ei, GList *expr_node_list)
 		        p.current = p.components;
 			result = function_iterate_do_value (
 				ei->pos, callback_function_sumproduct, &p,
-				val, TRUE);
+				val, FALSE, FALSE);
 
 			value_release (val);
 		} else
@@ -3342,16 +3341,19 @@ gnumeric_sumproduct (FunctionEvalInfo *ei, GList *expr_node_list)
 		p.first = FALSE;
 	}
 
-	sum = 0;
-	for (current=p.components; current != NULL ; current = current->next) {
-	        gpointer p = current->data;
-	        sum += *((float_t *) p);
-		g_free(current->data);
+	if (result == NULL) {
+		sum = 0;
+		for (current = p.components; current != NULL ; current = current->next) {
+			gpointer p = current->data;
+			sum += *((float_t *) p);
+			g_free(current->data);
+		}
 	}
 	
 	g_slist_free(p.components);
 
-	if (expr_node_list)
+	/* If something was a different size */
+	if (result != NULL)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	return value_new_float (sum);

@@ -42,6 +42,13 @@ iterate_cellrange_callback (Sheet *sheet, int col, int row,
 	EvalPos ep;
 	Value *res;
 
+	if (cell == NULL) {
+		ep.sheet = sheet;
+		ep.eval.col = col;
+		ep.eval.row = row;
+		return (*data->callback)(&ep, NULL, data->closure);
+	}
+
 	if (cell->generation != sheet->workbook->generation)
 		cell_eval (cell);
 
@@ -64,7 +71,8 @@ function_iterate_do_value (EvalPos      const *ep,
 			   FunctionIterateCallback  callback,
 			   void                    *closure,
 			   Value                   *value,
-			   gboolean                 strict)
+			   gboolean                 strict,
+			   gboolean		   ignore_blank)
 {
 	Value *res = NULL;
 
@@ -93,7 +101,7 @@ function_iterate_do_value (EvalPos      const *ep,
 				res = function_iterate_do_value (
 					ep, callback, closure,
 					value->v_array.vals [x][y],
-					strict);
+					strict, TRUE);
 				if (res != NULL)
 					return res;
 			}
@@ -107,7 +115,7 @@ function_iterate_do_value (EvalPos      const *ep,
 		data.closure  = closure;
 		data.strict   = strict;
 
-		res = workbook_foreach_cell_in_range (ep, value, TRUE,
+		res = workbook_foreach_cell_in_range (ep, value, ignore_blank,
 						      iterate_cellrange_callback,
 						      &data);
 	}
@@ -143,7 +151,7 @@ function_iterate_argument_values (const EvalPos      *ep,
 		}
 
 		result = function_iterate_do_value (ep, callback, callback_closure,
-						    val, strict);
+						    val, strict, TRUE);
 		value_release (val);
 	}
 	return result;

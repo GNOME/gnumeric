@@ -68,7 +68,8 @@ Value      *function_iterate_do_value     (const EvalPos      *fp,
 					   FunctionIterateCallback callback,
 					   void                    *closure,
 					   Value                   *value,
-					   gboolean                strict);
+					   gboolean                strict,
+					   gboolean		   ignore_blank);
 
 Value      *function_call_with_list       (FunctionEvalInfo        *ei,
 					   GList                   *args);

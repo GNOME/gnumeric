@@ -4,6 +4,9 @@ and longer term bugs.
 
 Release Critical
 ----------------
+- print preview is not drawing the background colours for cells.
+  This is likely a gnome-print problem.
+- Changing the size of all rows/cols creates big xml files.
 - Changing an expression name that is in use causes a crash.
 
 - Saving xml should not rely on changing the textdomain to disable translation
@@ -12,7 +15,6 @@ Release Critical
 - Importing fixed-width text (try "ls -l" output) with space stripping
   essentially requires columns to be selected right-to-left because
   stripping is done too early and mangles columns.
-
 
 Long term breakage
 ------------------
@@ -64,9 +66,7 @@ Dialogs
 Function Breakage
 -----------------
 - Index  : does not support 0,0 or reference syntax.
-- Sumif  : mis-handles blanks.
 - ftest : Needs auditing.  All calls to eval_pos_init_cellref are questionable.
-- sumproduct : bug 12042
 
 Printing
 --------
