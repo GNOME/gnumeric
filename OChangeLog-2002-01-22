@@ -1,3 +1,9 @@
+2000-10-31  Morten Welinder  <terra@diku.dk>
+
+	* src/analysis-tools.c (get_data_groupped_by_columns): Properly
+ 	offset col.  Constify.
+	(get_data_groupped_by_rows): Properly offset row.  Constify.
+
 2000-10-31  Jon K Hellan  <hellan@acm.org>
 
 	* src/io-context.c (gnumeric_io_error_system): Added it.

@@ -187,7 +187,7 @@ get_data (Sheet *sheet, Range *range, data_set_t *data)
 }
 
 static void
-get_data_groupped_by_columns (Sheet *sheet, Range *range, int col,
+get_data_groupped_by_columns (Sheet *sheet, const Range *range, int col,
 			      data_set_t *data)
 {
         gpointer p;
@@ -203,7 +203,7 @@ get_data_groupped_by_columns (Sheet *sheet, Range *range, int col,
 	data->array = NULL;
 
 	for (row = range->start.row; row <= range->end.row; row++) {
-		cell = sheet_cell_get (sheet, col, row);
+		cell = sheet_cell_get (sheet, col + range->start.col, row);
 		if (cell != NULL && cell->value != NULL) {
 			v = cell->value;
 			if (VALUE_IS_NUMBER (v))
@@ -233,7 +233,7 @@ get_data_groupped_by_columns (Sheet *sheet, Range *range, int col,
 }
 
 static void
-get_data_groupped_by_rows (Sheet *sheet, Range *range, int row,
+get_data_groupped_by_rows (Sheet *sheet, const Range *range, int row,
 			   data_set_t *data)
 {
         gpointer p;
@@ -249,7 +249,7 @@ get_data_groupped_by_rows (Sheet *sheet, Range *range, int row,
 	data->array = NULL;
 
 	for (col = range->start.col; col <= range->end.col; col++) {
-		cell = sheet_cell_get (sheet, col, row);
+		cell = sheet_cell_get (sheet, col, row + range->start.row);
 		if (cell != NULL && cell->value != NULL) {
 			v = cell->value;
 			if (VALUE_IS_NUMBER (v))
@@ -752,6 +752,15 @@ summary_statistics (WorkbookControl *wbc, data_set_t *data_set, int vars,
 
 	for (col = 0; col < vars; col++) {
 	        float_t var, stdev;
+
+		if (data_set[col].n == 0) {
+			int i;
+			for (i = 1; i <= 13; i++)
+				set_cell_na (dao, col + 1, i);
+			continue;
+		}
+
+		/* FIXME: What about n==1 in the following?  */
 
 		var = (data_set[col].sqrsum -
 		       data_set[col].sum2 / data_set[col].n) /
