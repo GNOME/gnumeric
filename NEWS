@@ -10,6 +10,7 @@ Morten:
 	* Fix dif importer to do ISO-8859-1 -> UTF-8 conversion.
 	* Attempt a fix for psiconv importer to do ISO-8859-1 -> UTF-8
 	  conversion.
+	* Make autofill UTF-8 safe and fix a bug with negative numbers.
 
 Jon Kåre:
         * Separate GUI for showing progress and messages before first 
