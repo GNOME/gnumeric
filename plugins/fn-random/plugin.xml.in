@@ -21,6 +21,7 @@
 				<function name="randexp"/>
 				<function name="randfdist"/>
 				<function name="randgamma"/>
+				<function name="randgaussian"/>
 				<function name="randgeom"/>
 				<function name="randhyperg"/>
 				<function name="randlaplace"/>
@@ -28,10 +29,10 @@
 				<function name="randlogistic"/>
 				<function name="randlognorm"/>
 				<function name="randnegbinom"/>
-				<function name="randnorm"/>
 				<function name="randpareto"/>
 				<function name="randpoisson"/>
 				<function name="randrayleigh"/>
+				<function name="randtdist"/>
 				<function name="randuniform"/>
 				<function name="randweibull"/>
 			</functions>

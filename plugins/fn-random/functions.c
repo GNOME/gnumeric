@@ -269,23 +269,23 @@ gnumeric_randbernoulli (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_randnorm = {
-        N_("@FUNCTION=RANDNORM\n"
-           "@SYNTAX=RANDNORM(mean,stdev)\n"
+static const char *help_randgaussian = {
+        N_("@FUNCTION=RANDGAUSSIAN\n"
+           "@SYNTAX=RANDGAUSSIAN(mean,stdev)\n"
 
            "@DESCRIPTION="
-           "RANDNORM returns a normal-distributed random number. "
+           "RANDGAUSSIAN returns a gaussian-distributed random number. "
            "\n"
-           "If @stdev < 0 RANDNORM returns #NUM! error. "
+           "If @stdev < 0 RANDGAUSSIAN returns #NUM! error. "
 	   "\n"
            "@EXAMPLES=\n"
-           "RANDNORM(0,1).\n"
+           "RANDGAUSSIAN(0,1).\n"
            "\n"
            "@SEEALSO=RAND")
 };
 
 static Value *
-gnumeric_randnorm (FunctionEvalInfo *ei, Value **argv)
+gnumeric_randgaussian (FunctionEvalInfo *ei, Value **argv)
 {
 	gnum_float mean  = value_get_as_float (argv[0]);
 	gnum_float stdev = value_get_as_float (argv[1]);
@@ -658,6 +658,29 @@ gnumeric_randchisq (FunctionEvalInfo *ei, Value **argv)
         return value_new_float (random_chisq (nu));
 }
 
+/***************************************************************************/
+
+static const char *help_randtdist = {
+        N_("@FUNCTION=RANDTDIST\n"
+           "@SYNTAX=RANDTDIST(nu)\n"
+
+           "@DESCRIPTION="
+           "RANDTDIST returns a T-distributed random number. "
+           "\n"
+           "@EXAMPLES=\n"
+           "RANDTDIST(0.5).\n"
+           "\n"
+           "@SEEALSO=RAND")
+};
+
+static Value *
+gnumeric_randtdist (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float nu = value_get_as_float (argv[0]);
+
+        return value_new_float (random_tdist (nu));
+}
+
 
 /***************************************************************************/
 
@@ -696,14 +719,16 @@ const ModulePluginFunctionInfo random_functions[] = {
 	  gnumeric_randlognorm, NULL, NULL, NULL },
         { "randnegbinom", "ff", N_("p,failures"), &help_randnegbinom,
 	  gnumeric_randnegbinom, NULL, NULL, NULL },
-        { "randnorm", "ff", N_("mean,stdev"), &help_randnorm,
-	  gnumeric_randnorm, NULL, NULL, NULL },
+        { "randgaussian", "ff", N_("mean,stdev"), &help_randgaussian,
+	  gnumeric_randgaussian, NULL, NULL, NULL },
         { "randpareto", "ff", N_("a,b"), &help_randpareto,
 	  gnumeric_randpareto, NULL, NULL, NULL },
         { "randpoisson", "f", N_("lambda"), &help_randpoisson,
 	  gnumeric_randpoisson, NULL, NULL, NULL },
         { "randrayleigh", "f", N_("sigma"), &help_randrayleigh,
 	  gnumeric_randrayleigh, NULL, NULL, NULL },
+        { "randtdist", "f", N_("nu"), &help_randtdist,
+	  gnumeric_randtdist, NULL, NULL, NULL },
         { "randuniform", "ff", N_("a,b"), &help_randuniform,
 	  gnumeric_randuniform, NULL, NULL, NULL },
         { "randweibull", "ff", N_("a,b"), &help_randweibull,
