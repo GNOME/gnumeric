@@ -73,8 +73,8 @@ dif_input_context_new (IOContext *io_context, Workbook *wb, char const *file_nam
 	ctxt->alloc_line_len = 0;
 	ctxt->sheet          = workbook_sheet_add (wb, NULL, FALSE);
 
-/*	gnumeric_io_progress_message (io_context, _("Reading file..."));
-	gnumeric_io_progress_helper_set_mem (io_context, ctxt->data, ctxt->data_size, 0.0, 1.0);*/
+	io_progress_message (io_context, _("Reading file..."));
+	memory_io_progress_set (io_context, ctxt->data, ctxt->data_size, 0.0, 1.0);
 
 	return ctxt;
 }
@@ -82,7 +82,7 @@ dif_input_context_new (IOContext *io_context, Workbook *wb, char const *file_nam
 static void
 dif_input_context_destroy (DifInputContext *ctxt)
 {
-/*	gnumeric_io_progress_helper_unset (ctxt->io_context);*/
+	io_progress_unset (ctxt->io_context);
 	munmap (ctxt->data, ctxt->data_size);
 	g_free (ctxt->line);
 	g_free (ctxt);
@@ -121,9 +121,9 @@ dif_get_line (DifInputContext *ctxt)
 		ctxt->cur = p + 1;
 	}
 
-/*	if ((++ctxt->line_no % N_INPUT_LINES_BETWEEN_UPDATES) == 0) {
-		gnumeric_io_progress_helper_mem_update (ctxt->io_context, ctxt->cur);
-	}*/
+	if ((++ctxt->line_no % N_INPUT_LINES_BETWEEN_UPDATES) == 0) {
+		memory_io_progress_update (ctxt->io_context, ctxt->cur);
+	}
 
 	return TRUE;
 }
@@ -148,9 +148,9 @@ dif_eat_line (DifInputContext *ctxt)
 		ctxt->cur = p + 1;
 	}
 
-/*	if ((++ctxt->line_no % N_INPUT_LINES_BETWEEN_UPDATES) == 0) {
-		gnumeric_io_progress_helper_mem_update (ctxt->io_context, ctxt->cur);
-	}*/
+	if ((++ctxt->line_no % N_INPUT_LINES_BETWEEN_UPDATES) == 0) {
+		memory_io_progress_update (ctxt->io_context, ctxt->cur);
+	}
 
 	return TRUE;
 }

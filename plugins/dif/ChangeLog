@@ -1,3 +1,8 @@
+2001-06-01  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* dif.c (dif_input_context_new, dif_input_context_destroy, dif_get_line,
+	dif_eat_line): Report reading progress via io_context.
+
 2001-05-31  Karl Eichwalder  <ke@suse.de>
 
 	* dif.c (dif_file_save): Normalize message string.
