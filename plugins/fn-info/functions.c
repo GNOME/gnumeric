@@ -1522,7 +1522,7 @@ gnumeric_isblank (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 		CellRef const *ref = &expr->cellref.ref;
 		Sheet const *sheet = eval_sheet (ref->sheet, ei->pos->sheet);
 		CellPos pos;
-		Cell const *cell;
+		Cell *cell;
 
 		cellref_get_abs_pos (ref, &ei->pos->eval, &pos);
 		cell = sheet_cell_get (sheet, pos.col, pos.row);
