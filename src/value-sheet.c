@@ -144,8 +144,6 @@ guint
 value_area_get_width (const EvalPos *ep, Value const *v)
 {
 	g_return_val_if_fail (v, 0);
-	g_return_val_if_fail (v->type == VALUE_ARRAY ||
-			      v->type == VALUE_CELLRANGE, 1);
 
 	if (v->type == VALUE_CELLRANGE) {
 		/* FIXME: 3D references, may not clip correctly */
@@ -161,16 +159,17 @@ value_area_get_width (const EvalPos *ep, Value const *v)
 		if (sheeta && sheeta->cols.max_used < ans) /* Clip */
 			ans = sheeta->cols.max_used+1;
 		return ans;
+	} else if (v->type == VALUE_ARRAY) {
+		return v->v_array.x;
+	} else {
+		return 1;
 	}
-	return v->v_array.x;
 }
 
 guint
 value_area_get_height (const EvalPos *ep, Value const *v)
 {
 	g_return_val_if_fail (v, 0);
-	g_return_val_if_fail (v->type == VALUE_ARRAY ||
-			      v->type == VALUE_CELLRANGE, 1);
 
 	if (v->type == VALUE_CELLRANGE) {
 		/* FIXME: 3D references, may not clip correctly */
@@ -185,8 +184,11 @@ value_area_get_height (const EvalPos *ep, Value const *v)
 		if (sheeta && sheeta->rows.max_used < ans) /* Clip */
 			ans = sheeta->rows.max_used + 1;
 		return ans;
+	} else if (v->type == VALUE_ARRAY) {
+		return v->v_array.y;
+	} else {
+		return 1;
 	}
-	return v->v_array.y;
 }
 
 Value const *
@@ -210,16 +212,13 @@ const Value *
 value_area_get_x_y (EvalPos const *ep, Value const *v, guint x, guint y)
 {
 	g_return_val_if_fail (v, NULL);
-	g_return_val_if_fail (v->type == VALUE_ARRAY ||
-			      v->type == VALUE_CELLRANGE,
-			      NULL);
 
 	if (v->type == VALUE_ARRAY){
 		g_return_val_if_fail (x < v->v_array.x &&
 				      y < v->v_array.y,
 				      NULL);
 		return v->v_array.vals [x][y];
-	} else {
+	} else if (v->type == VALUE_CELLRANGE) {
 		CellRef const * const a = &v->v_range.cell.a;
 		CellRef const * const b = &v->v_range.cell.b;
 		int a_col = a->col;
@@ -274,6 +273,8 @@ value_area_get_x_y (EvalPos const *ep, Value const *v, guint x, guint y)
 
 		if (cell && cell->value)
 			return cell->value;
+	} else {
+		return v;
 	}
 
 	return NULL;

@@ -3253,87 +3253,90 @@ static char *help_sumproduct = {
 	   "@SEEALSO=SUM,PRODUCT")
 };
 
-typedef struct {
-        GSList   *components;
-        GSList   *current;
-        gboolean first;
-} math_sumproduct_t;
-
-static Value *
-callback_function_sumproduct (const EvalPos *ep, Value *value,
-			      void *closure)
-{
-	math_sumproduct_t *mm = closure;
-	float_t           x;
-
-	if (value != NULL && VALUE_IS_NUMBER (value))
-	        x = value_get_as_float (value);
-	else
-		x = 0;
-
-	if (mm->first) {
-	        gpointer p;
-		p = g_new(float_t, 1);
-		*((float_t *) p) = x;
-		mm->components = g_slist_append(mm->components, p);
-	} else {
-	        if (mm->current == NULL)
-		        return value_terminate();
-		*((float_t *) mm->current->data) *= x;
-		mm->current = mm->current->next;
-	}
-
-	return NULL;
-}
-
 static Value *
 gnumeric_sumproduct (FunctionEvalInfo *ei, GList *args)
 {
-        math_sumproduct_t p;
-	GSList            *current;
-	float_t           sum = 0.;
-	Value            *result=NULL;
+	float_t **data;
+	Value *result;
+	int i, argc;
+	GList *l;
+	gboolean size_error = FALSE;
+	int sizex = -1, sizey = -1;
 
 	if (args == NULL)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	p.components = NULL;
-	p.first      = TRUE;
-
-	for ( ; result == NULL && args; args = args->next) {
-		ExprTree *tree = (ExprTree *) args->data;
-		Value    *val;
-
-		val = eval_expr (ei->pos, tree, EVAL_PERMIT_NON_SCALAR);
-
-		if (val) {
-		        p.current = p.components;
-			result = function_iterate_do_value (
-				ei->pos, callback_function_sumproduct, &p,
-				val, FALSE, FALSE);
-
-			value_release (val);
-		} else
-		        break;
-		p.first = FALSE;
-	}
-
-	if (result == NULL) {
-		sum = 0;
-		for (current = p.components; current != NULL ; current = current->next) {
-			gpointer p = current->data;
-			sum += *((float_t *) p);
-			g_free(current->data);
-		}
-	}
-	
-	g_slist_free(p.components);
-
-	/* If something was a different size */
-	if (result != NULL)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
-	return value_new_float (sum);
+	argc = g_list_length (args);
+	data = g_new0 (float_t *, argc);
+
+	for (l = args, i = 0; l; l = l->next, i++) {
+		int thissizex, thissizey, x, y;
+		ExprTree *tree = l->data;
+		Value    *val = eval_expr (ei->pos, tree,
+					   EVAL_PERMIT_NON_SCALAR | EVAL_PERMIT_EMPTY);
+
+		thissizex = value_area_get_width (ei->pos, val);
+		thissizey = value_area_get_height (ei->pos, val);
+
+		if (i == 0) {
+			sizex = thissizex;
+			sizey = thissizey;
+		} else if (sizex != thissizex || sizey != thissizey)
+			size_error = TRUE;
+
+		data[i] = g_new (float_t, thissizex * thissizey);
+		for (y = 0; y < thissizey; y++) {
+			for (x = 0; x < thissizex; x++) {
+				/* FIXME: efficiency worries?  */
+				const Value *v = value_area_fetch_x_y (ei->pos, val, x, y);
+				if (v->type == VALUE_ERROR) {
+					/*
+					 * We carefully tranverse the argument
+					 * list and then the arrays in such an
+					 * order that the first error we see is
+					 * the final result.
+					 *
+					 * args: left-to-right.
+					 * arrays: horizontal before vertical.
+					 *
+					 * Oh, size_error has the lowest
+					 * significance -- it will be checked
+					 * outside the arg loop.
+					 */
+					result = value_duplicate (v);
+					goto done;
+				}
+				data[i][y * thissizex + x] = value_get_as_float (v);
+			}
+		}
+
+	}
+
+	if (size_error) {
+		/*
+		 * If we found no errors in the data set and also the sizes
+		 * do not match, we will get here.
+		 */
+		result = value_new_error (ei->pos, gnumeric_err_VALUE);
+	} else {
+		float_t sum = 0;
+		int j;
+
+		for (j = 0; j < sizex * sizey; j++) {
+			float_t product = data[0][j];
+			for (i = 1; i < argc; i++)
+				product *= data[i][j];
+			sum += product;
+		}
+
+		result = value_new_float (sum);
+	}
+
+ done:
+	for (i = 0; i < argc; i++)
+		g_free (data[i]);
+	g_free (data);
+	return result;
 }
 
 /***************************************************************************/

@@ -8,6 +8,10 @@ Jody:
 	* Name and Graph gurus support range selection.
 	* Deadkey support.
 
+JPR:
+	* Put more effort into reverse engineering MATCH (and friends)
+	  than you want to know about.
+
 Jukka:
 	* Implementation of `Anova: Two-Factor With Replication'
 	  and `Histogram' data analysis tools mostly
@@ -18,6 +22,7 @@ Jukka:
 Morten:
 	* Cleanup analysis tool code.
 	* Eliminate many fixed limits in the code.  (Still some to go.)
+	* Rewrote SUMPRODUCT.
 
 Translations:
 	* Updated: de (Karl), no (Kjartan), maybe more.
