@@ -1,3 +1,7 @@
+2002-01-11 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* files.sgml : add short listing of formats to text import section
+
 2002-01-10  Alexander Kirillov  <kirillov@math.sunysb.edu>
 
 	* editing.sgml: I changed id of a table in  number-format.sgml but

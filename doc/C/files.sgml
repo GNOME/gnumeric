@@ -345,8 +345,8 @@
   <sect3 id="file-format-html40f">
   <title>HTML Fragment Format</title>
   <note><para>This format is only available when saving files.</para></note>
-  <para><application>Gnumeric</application> can create HTML fragments. All sheets of the c
-  urrent workbook are exported. 
+  <para><application>Gnumeric</application> can create HTML fragments. All sheets of the
+  current workbook are exported. 
   The tables in such a fragment file contain all cells, whether visible or not, including merged
   cells and spans. Horizontal as well as vertical alignment is preserved, as are some font 
   characteristics (italic, bold) as well as  cell background and font colors. These files 
@@ -603,6 +603,149 @@ Totals:,"$5400.00 ","$116400.00 ",($7200.00),
 	<graphic fileref="figures/files-csv-import-ex4.png" format="PNG"></graphic>
     </screenshot>
   </figure>  
+<para>After selecting a column on the left select the appropriate format on the right. In the preview section at the bottom of the dialog, you can immediately see the effect of selecting that format. The following types of formats are available:</para>
+  <variablelist>
+    <varlistentry>
+      <term>
+      General
+      </term>
+      <listitem>
+      <para>This format will guess for each field value whether it is text, 
+      a number, a date, etc.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>
+      Numbers
+      </term>
+      <listitem>
+      <para>You can choose between various number formats. The following list presents 
+      just a short selection of those formats:</para>
+  <figure id="file-format-numberformats">
+    <title>Some Number Formats</title>
+    <screen>
+0
+0.00
+#,##0
+#,##0_);(#,##0)
+#,##0.00_);[Red](#,##0.00)
+    </screen>
+  </figure>
+  <para>There are also formats facilitating the use of scientific notation, 
+  see <xref linkend="file-format-scientificformats">.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>
+      Currency Amounts
+      </term>
+      <listitem>
+     <para> You can choose between various currency formats. The following list presents 
+     just a short selection of those formats:</para>
+  <figure id="file-format-currenyformats">
+    <title>Some Currency Formats</title>
+    <screen>
+"$"#,##0
+"$"#,##0_);(#,##0)
+"$"#,##0.00_);[Red](#,##0.00)
+    </screen>
+  </figure>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>
+      Dates and Times
+      </term>
+      <listitem>
+      <para>You can choose between various date and time formats. Some of these formats will 
+      recognize combined date/time entries. The following list presents just a short 
+      selection of those formats:</para>
+  <figure id="file-format-dateformats">
+    <title>Some Date and Time Formats</title>
+    <screen>
+m/d/yy
+d-mmm-yyyy
+d-mm
+mmm/d
+mmm/ddd/yyyy
+mmmm-yyyy
+m/d/yyyy h:mm
+yyyy
+h:mm:ss AM/PM
+[h]:mm:ss
+    </screen>
+  </figure>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>
+      Percentages
+      </term>
+      <listitem>
+      <para>You can choose between various formats that recognize percentages. 
+      The following list presents just a short 
+      selection of those formats:</para>
+  <figure id="file-format-percentageformats">
+    <title>Some Percentage Formats</title>
+    <screen>
+0%
+0.00%
+    </screen>
+  </figure>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>
+      Fractions
+      </term>
+      <listitem>
+      <para>You can choose between a few formats that recognize fractions. 
+      The following list presents just a short 
+      selection of those formats:</para>
+  <figure id="file-format-fractionformats">
+    <title>Some Fraction Formats</title>
+    <screen>
+# ?/?
+# ??/??
+    </screen>
+  </figure>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>
+      Scientific Notation
+      </term>
+      <listitem>
+      <para>You can choose between a few formats that recognize numbers in scientific notation.. 
+      The following list presents just a short 
+      selection of those formats:</para>
+  <figure id="file-format-scientificformats">
+    <title>Some Scientific Formats</title>
+    <screen>
+0.00E+00
+##0.0E+0
+    </screen>
+  </figure>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>
+      Text
+      </term>
+      <listitem>
+      <para>If you want the importer to simply read the field value as text without 
+      attempting to interpret it in any way, use the following text format:</para>
+  <figure id="file-format-textformat">
+    <title>The Text Format</title>
+    <screen>
+@
+    </screen>
+  </figure>
+      </listitem>
+    </varlistentry>
+  </variablelist>
+  <para>More details on the various formats can be found in 
+    <xref linkend="format-dialog">.</para>
   </listitem>
   <listitem><para>
   Click the <quote><guibutton>Finish</guibutton></quote> button 
