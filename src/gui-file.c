@@ -80,7 +80,7 @@ make_format_chooser (GList *list, GtkOptionMenu *omenu)
 						GNM_FILE_SAVER (l->data));
 		item = gtk_menu_item_new_with_label (descr);
 		gtk_widget_show (item);
-		gtk_menu_append (menu, item);
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
 	}
 	gtk_option_menu_set_menu (omenu, GTK_WIDGET (menu));
 
@@ -496,4 +496,3 @@ gui_file_save_to_stream (BonoboStream *stream, WorkbookControlGUI *wbcg,
 }
 #endif
 #endif
-

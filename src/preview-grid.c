@@ -334,7 +334,7 @@ preview_grid_realize (FooCanvasItem *item)
 	style = gtk_style_copy (GTK_WIDGET (item->canvas)->style);
 	style->bg [GTK_STATE_NORMAL] = gs_white;
 	gtk_widget_set_style (GTK_WIDGET (item->canvas), style);
-	gtk_style_unref (style);
+	g_object_unref (style);
 
 	/* Configure the default grid gc */
 	pg->gc.fill  = gdk_gc_new (window);

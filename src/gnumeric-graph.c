@@ -96,7 +96,7 @@ typedef struct {
 } GnmGraphVectorClass;
 
 #define DEP_TO_GRAPH_VECTOR(ptr)	\
-	(GnmGraphVector *)(((char *)ptr) - GTK_STRUCT_OFFSET(GnmGraphVector, dep))
+	(GnmGraphVector *)(((char *)ptr) - G_STRUCT_OFFSET(GnmGraphVector, dep))
 
 char const * const gnm_graph_vector_type_name [] =
 {
@@ -717,7 +717,7 @@ gnm_graph_populate_menu (SheetObject *so,
 	g_signal_connect (G_OBJECT (item),
 		"activate",
 		G_CALLBACK (cb_graph_assign_data), obj_view);
-	gtk_menu_append (menu, item);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
 
 	if (SHEET_OBJECT_CLASS (gnm_graph_parent_class)->populate_menu)
 		SHEET_OBJECT_CLASS (gnm_graph_parent_class)->populate_menu (so, obj_view, menu);

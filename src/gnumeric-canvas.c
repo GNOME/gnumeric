@@ -489,7 +489,7 @@ gnm_canvas_realize (GtkWidget *w)
 	style = gtk_style_copy (w->style);
 	style->bg [GTK_STATE_NORMAL] = gs_white;
 	gtk_widget_set_style (w, style);
-	gtk_style_unref (style);
+	g_object_unref (style);
 
 	gtk_im_context_set_client_window (GNM_CANVAS (w)->im_context,
 		gtk_widget_get_toplevel (w)->window);

@@ -676,7 +676,7 @@ gnumeric_popup_menu (GtkMenu *menu, GdkEventButton *event)
 	g_return_if_fail (menu != NULL);
 	g_return_if_fail (GTK_IS_MENU (menu));
 
-	gtk_object_ref (GTK_OBJECT (menu));
+	g_object_ref (menu);
 	gtk_object_sink (GTK_OBJECT (menu));
 
 	g_signal_connect (G_OBJECT (menu),
@@ -939,7 +939,7 @@ gnumeric_create_popup_menu_list (GSList *elements,
 		}
 
 		gtk_widget_show (item);
-		gtk_menu_append (GTK_MENU (menu), item);
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 	}
 
 	gnumeric_popup_menu (GTK_MENU (menu), event);
@@ -1112,7 +1112,7 @@ focus_on_entry (GtkEntry *entry)
 		return;
 	gtk_widget_grab_focus (GTK_WIDGET(entry));
 	gtk_editable_set_position (GTK_EDITABLE (entry), 0);
-	gtk_entry_select_region (entry, 0, entry->text_length);
+	gtk_editable_select_region (GTK_EDITABLE (entry), 0, entry->text_length);
 }
 
 gboolean
