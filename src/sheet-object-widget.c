@@ -36,6 +36,7 @@
 #include "value.h"
 #include "selection.h"
 #include "workbook-edit.h"
+#include "workbook.h"
 
 #define SHEET_OBJECT_WIDGET_TYPE     (sheet_object_widget_get_type ())
 #define SHEET_OBJECT_WIDGET(obj)     (GTK_CHECK_CAST((obj), SHEET_OBJECT_WIDGET_TYPE, SheetObjectWidget))
@@ -396,9 +397,10 @@ sheet_widget_checkbox_toggled (GtkToggleButton *button,
 	if (swc->dep.expression && swc->dep.expression->any.oper == OPER_VAR) {
 		gboolean const new_val = gtk_toggle_button_get_active (button);
 		ExprVar	const *var = &swc->dep.expression->var;
-		Cell *cell = sheet_cell_fetch (swc->sow.parent_object.sheet,
-					       var->ref.col, var->ref.row);
+		Sheet *sheet = swc->sow.parent_object.sheet;
+		Cell *cell = sheet_cell_fetch (sheet, var->ref.col, var->ref.row);
 		sheet_cell_set_value (cell, value_new_bool (new_val), NULL);
+		workbook_recalc (sheet->workbook);
 	}
 }
 

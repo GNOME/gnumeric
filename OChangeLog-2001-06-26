@@ -1,3 +1,8 @@
+2000-12-04  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/sheet-object-widget.c (sheet_widget_checkbox_toggled): calling
+	workbook_recalc() after setting cell value based on checkbox state.
+
 2000-12-04  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-object.c (sheet_relocate_objects) : Remember to move the
