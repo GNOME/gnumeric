@@ -66,13 +66,6 @@ typedef struct {
 	gboolean   is_new;
 } HyperlinkState;
 
-/*
- * FIXME: The special GUI for email is nice, but it really requires proper
- * URL escaping/unescaping (not much code) and RFC 2047 header
- * encoding/decoding (much code). Disable for now.
- */
-#define GNM_NO_MAILTO
-
 static void
 dhl_free (HyperlinkState *state)
 {
@@ -172,6 +165,64 @@ dhl_get_target_external (HyperlinkState *state, gboolean *success)
 }
 
 static void
+dhl_set_target_email (HyperlinkState *state, const char* const target)
+{
+	GtkWidget *w = glade_xml_get_widget (state->gui, "email-address");
+	GtkWidget *w2 = glade_xml_get_widget (state->gui, "email-subject");
+	gchar* cursor;
+	gchar* subject;
+	gchar* guitext;
+
+	if (!target || *target == '\0')
+		return;
+
+	if( strncmp (target, "mailto:", strlen ("mailto:")) != 0)
+		return;
+
+	cursor = g_strdup (target + strlen ("mailto:"));
+
+	subject = strstr (cursor, "?subject=");
+	if (subject) {
+		gtk_entry_set_text (GTK_ENTRY (w2), subject + strlen ("?subject="));
+		*subject = '\0';
+	}
+
+	guitext = go_url_decode (cursor);
+
+	gtk_entry_set_text (GTK_ENTRY (w), guitext);
+
+	g_free (guitext);
+	g_free (cursor);
+}
+
+static const char*
+dhl_get_target_email (HyperlinkState *state, gboolean *success)
+{
+	GtkWidget *w = glade_xml_get_widget (state->gui, "email-address");
+	GtkWidget *w2 = glade_xml_get_widget (state->gui, "email-subject");
+	const char *address = gtk_entry_get_text (GTK_ENTRY (w));
+	const char *subject = gtk_entry_get_text (GTK_ENTRY (w2));
+	gchar* encoded;
+	gchar* result;
+
+	*success = TRUE;
+	if (!address || *address == '\0') {
+		return NULL;
+	}
+
+	if (!subject || *subject == '\0') {
+		return g_strconcat ("mailto:", address, NULL);
+	}
+
+	encoded = go_url_encode ((char*)subject);
+
+	result = g_strconcat ("mailto:", address, "?subject=", encoded, NULL);
+	g_free (encoded);
+
+	return result;
+}
+
+static void
 dhl_set_target_url (HyperlinkState *state, const char* const target)
 {
 	GtkWidget *w = glade_xml_get_widget (state->gui, "url");
@@ -209,11 +260,11 @@ static struct {
 	  N_("Open an external file with the specified name"),
 	  dhl_set_target_external,
 	  dhl_get_target_external },
-#ifndef GNM_NO_MAILTO
-	{ N_("Send _Email"),	"Gnumeric_Link_EMail",
+	{ N_("Email Link"),	"Gnumeric_Link_EMail",
 	  "GnmHLinkEMail",	"email-box" ,
-	  N_("Prepare an email"), NULL },
-#endif
+	  N_("Prepare an email"),
+	  dhl_set_target_email,
+	  dhl_get_target_email },
 	{ N_("Web Link"),		"Gnumeric_Link_URL",
 	  "GnmHLinkURL",	"url-box" ,
 	  N_("Browse to the specified URL"),

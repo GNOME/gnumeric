@@ -57,6 +57,9 @@ Yaacov Zamir:
 	* Fix graph printing to use pango layouts for text.
 	* Fix cell printing to use pango layouts.
 
+Yukihiro Nakai:
+	* Enable editing email links
+
 --------------------------------------------------------------------------
 
 Gnumeric 1.3.90

@@ -3,6 +3,7 @@
  * go-file.c :
  *
  * Copyright (C) 2004 Morten Welinder (terra@gnome.org)
+ * Copyright (C) 2004 Yukihiro Nakai  <nakai@gnome.gr.jp>
  * Copyright (C) 2003, Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
@@ -273,3 +274,68 @@ go_file_split_uris (const char *data)
 }
 
 /* ------------------------------------------------------------------------- */
+
+/*
+ * Respect rfc2368
+ */
+gchar*
+go_url_decode (gchar const *text)
+{
+	gchar const *cursor = text;
+	gchar* result;
+	gchar* rcursor;
+
+	g_return_val_if_fail (text != NULL, NULL);
+	g_return_val_if_fail (*text != '\0', NULL);
+
+	rcursor = result = g_new0 (gchar, strlen (text) + 1);
+
+	while (*cursor != '\0') {
+		if (*cursor == '%' && strlen (cursor) >= 3 && g_ascii_isxdigit (cursor[1]) && g_ascii_isxdigit (cursor[2])) {
+			*rcursor = g_ascii_xdigit_value (cursor[1]) << 4;
+			*rcursor++ |= g_ascii_xdigit_value (cursor[2]);
+			cursor += 3;
+		} else {
+			*rcursor++ = *cursor++;
+		}
+	}
+
+	return result;
+}
+
+/*
+ * Respect rfc2368
+ */
+gchar*
+go_url_encode (gchar const *text)
+{
+	gint i;
+	gint len;
+	gint count = 0;
+	gchar* result;
+
+	g_return_val_if_fail (text != NULL, NULL);
+	g_return_val_if_fail (*text != '\0', NULL);
+
+	len = strlen (text);
+
+	for (i = 0; i < len; i++) {
+		if (!g_ascii_isalnum (text[i]))
+			count++;
+	}
+
+	result = g_new0 (gchar, len + count * 3 + 1);
+
+	for (i = 0; i < len; i++) {
+		if (g_ascii_isalnum (text[i])) {
+			result[strlen (result)] = text[i];
+		} else {
+			gchar* buf = g_strdup_printf ("%%%02X", (guchar)text[i]);
+			strcat (result, buf);
+			g_free (buf);
+		}
+	}
+
+	return result;
+}
+

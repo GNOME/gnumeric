@@ -1,3 +1,11 @@
+2004-09-26  Jody Goldberg <jody@gnome.org>
+
+	From : Yukihiro Nakai  <nakai@gnome.gr.jp>
+	http://bugzilla.gnome.org/show_bug.cgi?id=148550
+	* utils/go-file.c (go_url_decode) : new
+	(go_url_encode) : new.  I'm not sure these belong in go vs gsf
+	  but lets keep them here for now until they get fleshed out.
+
 2004-09-25  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* graph/gog-error-bar-prefs.glade: 12 px between label and control.

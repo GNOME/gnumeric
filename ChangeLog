@@ -1,5 +1,10 @@
 2004-09-26  Jody Goldberg <jody@gnome.org>
 
+	* src/workbook-view.c (wb_view_sendto) : cleanup and use the new url
+	  encoding routine.
+
+2004-09-26  Jody Goldberg <jody@gnome.org>
+
 	* src/GNOME_Gnumeric-gtk.xml : Add InsertCurrentDateTime
 
 	* src/wbcg-actions.c (cb_insert_current_date_time) : new

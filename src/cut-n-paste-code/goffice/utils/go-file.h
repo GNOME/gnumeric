@@ -35,6 +35,9 @@ GsfOutput *go_file_create (char const *uri, GError **err);
 
 GSList *go_file_split_uris (const char *data);
 
+gchar *go_url_decode (gchar const *text);
+gchar *go_url_encode (gchar const *text);
+
 G_END_DECLS
 
 #endif /* GO_FILE_H */

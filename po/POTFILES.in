@@ -159,7 +159,14 @@ src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in
 src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c
 src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c
 src/cut-n-paste-code/goffice/gui-utils/go-dock-item-grip.c
+src/cut-n-paste-code/goffice/utils/go-color.c
+src/cut-n-paste-code/goffice/utils/go-file.c
+src/cut-n-paste-code/goffice/utils/go-font.c
+src/cut-n-paste-code/goffice/utils/go-format.c
+src/cut-n-paste-code/goffice/utils/go-gradient.c
+src/cut-n-paste-code/goffice/utils/go-locale.c
 src/cut-n-paste-code/goffice/utils/go-marker.c
+src/cut-n-paste-code/goffice/utils/go-math.c
 src/cut-n-paste-code/goffice/utils/go-pattern.c
 src/dates.c
 src/dependent.c

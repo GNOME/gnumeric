@@ -59,6 +59,9 @@
 #include <sys/stat.h>
 #include "mathfunc.h"
 #include <goffice/utils/go-file.h>
+#ifdef WITH_GNOME
+#include <libgnome/gnome-url.h>
+#endif
 
 /* WorkbookView signals */
 enum {
@@ -764,14 +767,57 @@ wb_view_sendto (WorkbookView *wbv, GnmCmdContext *context)
 		if (gnumeric_io_error_occurred (io_context)) {
 			problem = TRUE;
 		} else {
-			char *argv[3];
-			argv[0] = (char *)"evolution-1.4";
-			argv[1] = g_strdup_printf ("mailto:?attach=%s", full_name);
-			argv[2] = NULL;
-			problem = g_spawn_async (template,
-						 argv, NULL, G_SPAWN_SEARCH_PATH,
-						 NULL, NULL, NULL, NULL);
-			g_free (argv[1]);
+/****************************************************************
+ * This code does not belong here
+ * move to goffice
+ **/
+			/* mutt does not handle urls with no destination
+			 * so pick something to arbitrary */
+			char *url, *tmp = g_strdup_printf ("mailto:someone?attach=%s", full_name);
+			GError *err = NULL;
+
+			url = go_url_encode (tmp);
+			g_free (tmp);
+#ifdef WITH_GNOME
+			gnome_url_show (url, &err);
+#else
+			static struct {
+				char const *app;
+				char const *arg;
+			} fallback_mailers [] = {
+				{ "evolution",			NULL },
+				{ "evolution-1.6",		NULL },
+				{ "evolution-1.5",		NULL },
+				{ "evolution-1.4",		NULL },
+				{ "balsa"			"-m" },
+				{ "kmail"			NULL },
+				{ "Mozilla"			"-mail" },
+			unsigned i;
+			for (i = 0 ; i < G_N_ELEMENTS (fallback_mailers); i++)
+				if (g_find_program_in_path (fallback_mailers [i])) {
+					char *argv[4];
+					argv[0] = fallback_mailers [i].app;
+					if (fallback_mailers [i].arg -= NULL) {
+						argv[1] = url;
+						argv[2] = NULL;
+					} else {
+						argv[1] = fallback_mailers [i].arg;
+						argv[2] = url;
+						argv[3] = NULL;
+					}
+					problem = g_spawn_async (template,
+								 argv, NULL, G_SPAWN_SEARCH_PATH,
+								 NULL, NULL, NULL, &err);
+					break;
+				}
+#endif
+			if (err != NULL) {
+				gnm_cmd_context_error (GNM_CMD_CONTEXT (io_context), err);
+				g_error_free (err);
+				gnumeric_io_error_display (io_context);
+				problem = TRUE;
+			}
+			g_free (url);
 		}
 		g_free (template);
 
