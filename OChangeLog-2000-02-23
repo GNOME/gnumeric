@@ -1,3 +1,7 @@
+1998-09-23  Richard Hestilow  <hestgray@ionet.net>
+
+	* src/style.c: fixed hyphen vs hypen typo.
+	
 1998-09-23  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/style.c (font_compute_hints): At font creation time store a

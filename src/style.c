@@ -74,18 +74,18 @@ font_compute_hints (StyleFont *font)
 
 	for (;*p; p++){
 		if (*p == '-'){
-			hypens++;
+			hyphens++;
 
-			if (hypens == 3 && (strcmp (p+1, "bold") == 0)){
+			if (hyphens == 3 && (strcmp (p+1, "bold") == 0)){
 				font->hint_is_bold = 1;
 			}
 
-			if (hypens == 4){
+			if (hyphens == 4){
 				if (*(p+1) == 'o' || *(p+1) == 'i')
 					font->hint_is_italic = 1;
 			}
 
-			if (hypens > 5)
+			if (hyphens > 5)
 				break;
 		}
 	}
