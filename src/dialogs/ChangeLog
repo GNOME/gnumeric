@@ -1,3 +1,8 @@
+2001-04-18  Morten Welinder  <terra@diku.dk>
+
+	* dialog-define-names.c (cb_name_guru_destroy): Leak fix from Jon
+ 	Kaare.
+
 2001-04-18 Jon K Hellan  <hellan@acm.org>
 
 	* dialog-define-names.c (struct NameGuruState): Change type of

@@ -345,9 +345,8 @@ name_guru_populate_list (NameGuruState *state)
 	g_return_if_fail (state->list != NULL);
 
 	state->cur_name = NULL;
-	if (state->expr_names != NULL)
-		g_list_free (state->expr_names);
 
+	g_list_free (state->expr_names);
 	state->expr_names = expr_name_list (state->wb, state->sheet, FALSE);
 
 	list = GTK_CONTAINER (state->list);
@@ -561,6 +560,9 @@ cb_name_guru_destroy (GtkObject *w, NameGuruState *state)
 	workbook_finish_editing (state->wbcg, FALSE);
 
 	state->dialog = NULL;
+
+	g_list_free (state->expr_names);
+	state->expr_names = NULL;
 
 	g_free (state);
 
