@@ -1,3 +1,17 @@
+2005-03-15  Morten Welinder  <terra@gnome.org>
+
+	* dialog-search.c (dialog_search): Don't install as guru.  Attach
+	signal to close dialog if workbook has sheets removed.  Allow more
+	than one search open at a time.
+	(search_clicked): Install a new model.  That avoids inserting one
+	line at a time.
+
+	* dialog-stf-preview.c (stf_preview_free): Unref ->tree_view.
+	(stf_preview_new): Ref ->tree_view.
+	(stf_preview_set_lines): Switch in a new model for ->tree_view.
+	That avoids inserting one line at a time.  This also lifts the
+	limit of the column count.
+
 2005-03-14  Morten Welinder  <terra@gnome.org>
 
 	* dialog-sheet-order.c: Include fix.

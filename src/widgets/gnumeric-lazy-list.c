@@ -255,6 +255,7 @@ gnumeric_lazy_list_get_type (void)
 GnumericLazyList *
 gnumeric_lazy_list_new (GnumericLazyListValueGetFunc get_value,
 			gpointer user_data,
+			gint n_rows,
 			gint n_columns,
 			...)
 {
@@ -262,11 +263,13 @@ gnumeric_lazy_list_new (GnumericLazyListValueGetFunc get_value,
 	va_list args;
 	gint i;
 
+	g_return_val_if_fail (n_rows >= 0, NULL);
 	g_return_val_if_fail (n_columns >= 0, NULL);
 
 	retval = GNUMERIC_LAZY_LIST (g_object_new (gnumeric_lazy_list_get_type (), NULL));
 	retval->get_value = get_value;
 	retval->user_data = user_data;
+	retval->rows = n_rows;
 	retval->cols = n_columns;
 	retval->column_headers = g_new (GType, n_columns);
 
@@ -283,45 +286,11 @@ gnumeric_lazy_list_add_column (GnumericLazyList *ll, int count, GType typ)
 {
 	int i;
 
+	g_return_if_fail (GNUMERIC_IS_LAZY_LIST (ll));
+	g_return_if_fail (count >= 0);
+
 	ll->column_headers = g_renew (GType, ll->column_headers,
 				      ll->cols + count);
 	for (i = 0; i < count; i++)
 		ll->column_headers[ll->cols++] = typ;
-}
-
-
-void
-gnumeric_lazy_list_set_rows (GnumericLazyList *ll, gint rows)
-{
-	g_return_if_fail (GNUMERIC_IS_LAZY_LIST (ll));
-
-	while (ll->rows > rows) {
-		GtkTreeIter iter;
-		GtkTreePath *path;
-
-		iter.stamp = ll->stamp;
-		iter.user_data = GINT_TO_POINTER (ll->rows - 1);
-
-		path = lazy_list_get_path (GTK_TREE_MODEL (ll), &iter);
-		gtk_tree_model_row_deleted (GTK_TREE_MODEL (ll), path);
-		gtk_tree_path_free (path);
-
-		/* Chances are we should tell our data source...  */
-		ll->rows--;
-	}
-
-	while (ll->rows < rows) {
-		GtkTreeIter iter;
-		GtkTreePath *path;
-
-		iter.stamp = ll->stamp;
-		iter.user_data = GINT_TO_POINTER (ll->rows);
-
-		path = lazy_list_get_path (GTK_TREE_MODEL (ll), &iter);
-		gtk_tree_model_row_inserted (GTK_TREE_MODEL (ll), path, &iter);
-		gtk_tree_path_free (path);
-
-		/* Chances are we should tell our data source...  */
-		ll->rows++;
-	}
 }

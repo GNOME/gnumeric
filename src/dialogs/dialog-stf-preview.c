@@ -31,6 +31,7 @@
 #include <value.h>
 #include <style.h>
 #include <gtk/gtkcellrenderertext.h>
+#include <widgets/gnumeric-lazy-list.h>
 
 /******************************************************************************************************************
  * ADVANCED DRAWING FUNCTIONS
@@ -40,7 +41,7 @@ static void
 render_get_value (gint row, gint column, gpointer _rd, GValue *value)
 {
 	RenderData_t *rd = (RenderData_t *)_rd;
-	GnumericLazyList *ll = rd->ll;
+	GnumericLazyList *ll = GNUMERIC_LAZY_LIST (gtk_tree_view_get_model (rd->tree_view));
 	GPtrArray *lines = rd->lines;
 	GPtrArray *line = (row < (int)lines->len)
 		? g_ptr_array_index (lines, row)
@@ -84,6 +85,7 @@ stf_preview_new (GtkWidget *data_container,
 		 GODateConventions const *date_conv)
 {
 	RenderData_t* renderdata;
+	GnumericLazyList *ll;
 
 	g_return_val_if_fail (data_container != NULL, NULL);
 
@@ -98,16 +100,11 @@ stf_preview_new (GtkWidget *data_container,
 
 	renderdata->date_conv	   = date_conv;
 
-	renderdata->ll =
-		gnumeric_lazy_list_new (render_get_value, renderdata, 0);
-	gnumeric_lazy_list_add_column (renderdata->ll,
-#warning "FIXME: we should not need to limit the shown columns to 4 times SHEET_MAX_COLS"
-				       4 * SHEET_MAX_COLS,
-				       G_TYPE_STRING);
-
+	ll = gnumeric_lazy_list_new (render_get_value, renderdata, 0, 1, G_TYPE_STRING);
 	renderdata->tree_view =
-		GTK_TREE_VIEW (gtk_tree_view_new_with_model
-			       (GTK_TREE_MODEL (renderdata->ll)));
+		GTK_TREE_VIEW (gtk_tree_view_new_with_model (GTK_TREE_MODEL (ll)));
+	g_object_ref (renderdata->tree_view);
+	g_object_unref (ll);
 
 	renderdata->tooltips = gtk_tooltips_new ();
 	g_object_ref (renderdata->tooltips);
@@ -162,6 +159,8 @@ stf_preview_free (RenderData_t *renderdata)
 	stf_preview_set_lines (renderdata, NULL, NULL);
 	g_object_unref (renderdata->tooltips);
 
+	g_object_unref (renderdata->tree_view);
+
 	g_free (renderdata);
 }
 
@@ -171,12 +170,14 @@ stf_preview_set_lines (RenderData_t *renderdata,
 		       GPtrArray *lines)
 {
 	unsigned int i;
-	int colcount = 0;
+	int colcount = 1;
+	GnumericLazyList *ll;
 	
 	g_return_if_fail (renderdata != NULL);
 
 	/* Empty the table.  */
-	gnumeric_lazy_list_set_rows (renderdata->ll, 0);
+	gtk_tree_view_set_model (renderdata->tree_view, NULL);
+	renderdata->colcount = 0;
 
 	if (renderdata->lines != lines) {
 		if (renderdata->lines)
@@ -198,17 +199,6 @@ stf_preview_set_lines (RenderData_t *renderdata,
 		colcount = MAX (colcount, (int)line->len);
 	}
 
-	if (colcount <= 0)
-		colcount = 1;
-	/* See stf_preview_new.  */
-	colcount = MIN (colcount, 4 * SHEET_MAX_COLS);
-
-	/* Fix number of columns.  */
-	while (renderdata->colcount > colcount)
-		gtk_tree_view_remove_column
-			(renderdata->tree_view,
-			 gtk_tree_view_get_column (renderdata->tree_view,
-						   --(renderdata->colcount)));
 	while (renderdata->colcount < colcount) {
 		char *text = g_strdup_printf (_(COLUMN_CAPTION),
 					      renderdata->colcount + 1);
@@ -226,9 +216,12 @@ stf_preview_set_lines (RenderData_t *renderdata,
 		renderdata->colcount++;
 	}
 
-	/* Fill the table.  */
-	gnumeric_lazy_list_set_rows (renderdata->ll,
-				     MIN (lines->len, LINE_DISPLAY_LIMIT));
+	ll = gnumeric_lazy_list_new (render_get_value, renderdata,
+				     MIN (lines->len, LINE_DISPLAY_LIMIT),
+				     0);
+	gnumeric_lazy_list_add_column (ll, colcount, G_TYPE_STRING);
+	gtk_tree_view_set_model (renderdata->tree_view, GTK_TREE_MODEL (ll));
+	g_object_unref (ll);
 }
 
 /**

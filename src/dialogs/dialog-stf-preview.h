@@ -18,7 +18,6 @@
 
 #include <gui-gnumeric.h>
 #include <stf.h>
-#include <widgets/gnumeric-lazy-list.h>
 #include <gtk/gtkwidget.h>
 #include <gtk/gtktreeview.h>
 #include <gtk/gtktooltips.h>
@@ -30,7 +29,6 @@ typedef struct {
 	GtkWidget        *data_container;
 	GStringChunk     *lines_chunk;
 	GPtrArray        *lines;
-	GnumericLazyList *ll;
 	GtkTreeView      *tree_view;
 	GtkTooltips      *tooltips;
 

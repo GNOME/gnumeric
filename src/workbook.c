@@ -73,13 +73,14 @@ cb_saver_finalize (Workbook *wb, GOFileSaver *saver)
 }
 
 static void
-workbook_finalize (GObject *wb_object)
+workbook_dispose (GObject *wb_object)
 {
 	Workbook *wb = WORKBOOK (wb_object);
 	GList *sheets, *ptr;
 
 	wb->during_destruction = TRUE;
 
+#warning "Use workbook_set_saveinfo instead."
 	if (wb->file_saver != NULL) {
 		g_object_weak_unref (G_OBJECT (wb->file_saver),
 			(GWeakNotify) cb_saver_finalize, wb);
@@ -89,9 +90,6 @@ workbook_finalize (GObject *wb_object)
 	/* Remove all the sheet controls to avoid displaying while we exit */
 	WORKBOOK_FOREACH_CONTROL (wb, view, control,
 		wb_control_sheet_remove_all (control););
-
-	summary_info_free (wb->summary_info);
-	wb->summary_info = NULL;
 
 	command_list_release (wb->undo_commands);
 	command_list_release (wb->redo_commands);
@@ -144,6 +142,19 @@ workbook_finalize (GObject *wb_object)
 		if (wb->wb_views != NULL)
 			g_warning ("Unexpected left over views");
 	}
+
+	G_OBJECT_CLASS (workbook_parent_class)->dispose (wb_object);
+}
+
+
+
+static void
+workbook_finalize (GObject *wb_object)
+{
+	Workbook *wb = WORKBOOK (wb_object);
+
+	summary_info_free (wb->summary_info);
+	wb->summary_info = NULL;
 
 	if (wb->sheet_local_functions != NULL) {
 		g_hash_table_destroy (wb->sheet_local_functions);
@@ -352,6 +363,7 @@ workbook_class_init (GObjectClass *object_class)
 	workbook_parent_class = g_type_class_peek_parent (object_class);
 
 	object_class->finalize = workbook_finalize;
+	object_class->dispose = workbook_dispose;
 
 	signals [SUMMARY_CHANGED] = g_signal_new ("summary_changed",
 		WORKBOOK_TYPE,
@@ -1076,6 +1088,8 @@ workbook_sheet_detach (Workbook *wb, Sheet *sheet, gboolean recalc)
 	sheet_destroy (sheet);
 	g_object_unref (sheet);
 
+	g_signal_emit (G_OBJECT (wb), signals [SHEET_DELETED], 0);
+
 	if (recalc && still_visible_sheets)
 		workbook_recalc_all (wb);
 }
@@ -1160,8 +1174,6 @@ workbook_sheet_delete (Sheet *sheet)
 
 	/* All is fine, remove the sheet */
 	workbook_sheet_detach (wb, sheet, TRUE);
-
-	g_signal_emit (G_OBJECT (wb), signals [SHEET_DELETED], 0);
 }
 
 /**

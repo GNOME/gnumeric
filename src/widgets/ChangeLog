@@ -1,5 +1,9 @@
 2005-03-15  Morten Welinder  <terra@gnome.org>
 
+	* gnumeric-lazy-list.c (gnumeric_lazy_list_new): Add n_rows
+	argument.  All callers changed.
+	(gnumeric_lazy_list_set_rows): Delete.
+
 	* widget-editable-label.c (el_set_style_entry): Update.  Gtk+ bug
 	has long since been fixed.
 

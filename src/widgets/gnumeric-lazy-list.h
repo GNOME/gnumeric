@@ -36,10 +36,7 @@
 #include <glib.h>
 #include <glib-object.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
-
+G_BEGIN_DECLS
 
 #define GNUMERIC_TYPE_LAZY_LIST              (gnumeric_lazy_list_get_type ())
 #define GNUMERIC_LAZY_LIST(obj)              (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNUMERIC_TYPE_LAZY_LIST, GnumericLazyList))
@@ -51,7 +48,7 @@ extern "C" {
 
 typedef struct _GnumericLazyList       GnumericLazyList;
 typedef struct _GnumericLazyListClass  GnumericLazyListClass;
-typedef void (*GnumericLazyListValueGetFunc) (gint, gint, gpointer, GValue *);
+typedef void (*GnumericLazyListValueGetFunc) (gint row, gint col, gpointer user, GValue *result);
 
 struct _GnumericLazyList
 {
@@ -73,21 +70,16 @@ struct _GnumericLazyListClass
 };
 
 
-GType              gnumeric_lazy_list_get_type    (void) G_GNUC_CONST;
-GnumericLazyList  *gnumeric_lazy_list_new (GnumericLazyListValueGetFunc get_value,
-					   gpointer user_data,
-					   gint n_columns,
-					   ...);
-void               gnumeric_lazy_list_add_column (GnumericLazyList *ll,
-						  int count,
-						  GType typ);
+GType             gnumeric_lazy_list_get_type (void) G_GNUC_CONST;
+GnumericLazyList *gnumeric_lazy_list_new (GnumericLazyListValueGetFunc get_value,
+					  gpointer user_data,
+					  gint n_rows,
+					  gint n_columns,
+					  ...);
+void              gnumeric_lazy_list_add_column (GnumericLazyList *ll,
+						 int count,
+						 GType typ);
 
-void               gnumeric_lazy_list_set_rows (GnumericLazyList *ll,
-						gint rows);
-
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
-
+G_END_DECLS
 
 #endif /* __GNUMERIC _LAZY_LIST_H__ */

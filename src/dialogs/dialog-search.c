@@ -52,8 +52,6 @@
 #include <gtk/gtktable.h>
 #include <string.h>
 
-#define SEARCH_KEY "search-dialog"
-
 enum {
 	COL_SHEET = 0,
 	COL_CELL,
@@ -71,10 +69,9 @@ typedef struct {
 	GtkWidget *prev_button, *next_button;
 	GtkNotebook *notebook;
 	int notebook_matches_page;
+	gulong workbook_sheet_deleted_signal;
 
 	GtkTreeView *matches_table;
-	GtkTreeModel *matches_model;
-
 	GPtrArray *matches;
 } DialogState;
 
@@ -106,7 +103,7 @@ static void
 search_get_value (gint row, gint column, gpointer _dd, GValue *value)
 {
 	DialogState *dd = (DialogState *)_dd;
-	GnumericLazyList *ll = GNUMERIC_LAZY_LIST (dd->matches_model);
+	GnumericLazyList *ll = GNUMERIC_LAZY_LIST (gtk_tree_view_get_model (dd->matches_table));
 	SearchFilterResult *item = g_ptr_array_index (dd->matches, row);
 	GnmCell *cell = item->cell;
 
@@ -187,12 +184,27 @@ search_get_value (gint row, gint column, gpointer _dd, GValue *value)
 
 /* ------------------------------------------------------------------------- */
 
+static GnumericLazyList *
+make_matches_model (DialogState *dd, int rows)
+{
+	return gnumeric_lazy_list_new (search_get_value,
+				       dd,
+				       rows,
+				       4,
+				       G_TYPE_STRING,
+				       G_TYPE_STRING,
+				       G_TYPE_STRING,
+				       G_TYPE_STRING);
+}
+
 static void
 free_state (DialogState *dd)
 {
+	g_signal_handler_disconnect
+		(G_OBJECT (wb_control_workbook (WORKBOOK_CONTROL (dd->wbcg))),
+		 dd->workbook_sheet_deleted_signal);
 	search_filter_matching_free (dd->matches);
-	g_object_unref (G_OBJECT (dd->gui));
-	g_object_unref (G_OBJECT (dd->matches_model));
+	g_object_unref (dd->gui);
 	memset (dd, 0, sizeof (*dd));
 	g_free (dd);
 }
@@ -210,12 +222,14 @@ range_focused (G_GNUC_UNUSED GtkWidget *widget,
 static void
 dialog_destroy (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 {
+#ifdef USE_GURU
 	wbcg_edit_detach_guru (dd->wbcg);
+#endif
 	free_state (dd);
 }
 
 static void
-close_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
+close_clicked (G_GNUC_UNUSED GObject *dummy, DialogState *dd)
 {
 	GtkDialog *dialog = dd->dialog;
 	gtk_widget_destroy (GTK_WIDGET (dialog));
@@ -319,7 +333,7 @@ search_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 	err = search_replace_verify (sr, FALSE);
 	if (err) {
 		go_gtk_notice_dialog (GTK_WINDOW (dd->dialog),
-				 GTK_MESSAGE_ERROR, err);
+				      GTK_MESSAGE_ERROR, err);
 		g_free (err);
 		search_replace_free (sr);
 		return;
@@ -329,22 +343,26 @@ search_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 		   !sr->search_expression_results &&
 		   !sr->search_comments) {
 		go_gtk_notice_dialog (GTK_WINDOW (dd->dialog), GTK_MESSAGE_ERROR,
-				 _("You must select some cell types to search."));
+				      _("You must select some cell types to search."));
 		search_replace_free (sr);
 		return;
 	}
 
 	{
-		GnumericLazyList *ll = GNUMERIC_LAZY_LIST (dd->matches_model);
-		GPtrArray *cells = search_collect_cells (sr, wb_control_cur_sheet (wbc));
+		GnumericLazyList *ll;
+		GPtrArray *cells;
 
-		gnumeric_lazy_list_set_rows (ll, 0);
-
+		/* Clear current table.  */
+		gtk_tree_view_set_model (dd->matches_table, NULL);
 		search_filter_matching_free (dd->matches);
+
+		cells = search_collect_cells (sr, wb_control_cur_sheet (wbc));
 		dd->matches = search_filter_matching (sr, cells);
 		search_collect_cells_free (cells);
 
-		gnumeric_lazy_list_set_rows (ll, dd->matches->len);
+		ll = make_matches_model (dd, dd->matches->len);
+		gtk_tree_view_set_model (dd->matches_table, GTK_TREE_MODEL (ll));
+		g_object_unref (ll);
 
 		/* Set sensitivity of buttons.  */
 		cursor_change (dd->matches_table, dd);
@@ -413,9 +431,10 @@ static const struct {
 };
 
 static GtkTreeView *
-make_matches_table (GtkTreeModel *model)
+make_matches_table (DialogState *dd)
 {
 	GtkTreeView *tree_view;
+	GtkTreeModel *model = GTK_TREE_MODEL (make_matches_model (dd, 0));
 	int i;
 
 	tree_view = GTK_TREE_VIEW (gtk_tree_view_new_with_model (model));
@@ -438,9 +457,9 @@ make_matches_table (GtkTreeModel *model)
 		gtk_tree_view_append_column (tree_view, column);
 	}
 
+	g_object_unref (model);
 	return tree_view;
 }
-
 
 void
 dialog_search (WorkbookControlGUI *wbcg)
@@ -452,12 +471,11 @@ dialog_search (WorkbookControlGUI *wbcg)
 
 	g_return_if_fail (wbcg != NULL);
 
+#ifdef USE_GURU
 	/* Only one guru per workbook. */
 	if (wbcg_edit_get_guru (wbcg))
 		return;
-
-	if (gnumeric_dialog_raise_if_exists (wbcg, SEARCH_KEY))
-		return;
+#endif
 
 	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 		"search.glade", NULL, NULL);
@@ -504,15 +522,7 @@ dialog_search (WorkbookControlGUI *wbcg)
 	gtk_widget_grab_focus (GTK_WIDGET (dd->gentry));
 	gnumeric_editable_enters (GTK_WINDOW (dialog), GTK_WIDGET (dd->gentry));
 
-	dd->matches_model = GTK_TREE_MODEL
-		(gnumeric_lazy_list_new (search_get_value,
-					 dd,
-					 4,
-					 G_TYPE_STRING,
-					 G_TYPE_STRING,
-					 G_TYPE_STRING,
-					 G_TYPE_STRING));
-	dd->matches_table = make_matches_table (dd->matches_model);
+	dd->matches_table = make_matches_table (dd);
 
 	{
 		GtkWidget *scrolled_window =
@@ -559,13 +569,21 @@ dialog_search (WorkbookControlGUI *wbcg)
 		"toggled",
 		G_CALLBACK (cb_focus_on_entry), dd->rangetext);
 
+	dd->workbook_sheet_deleted_signal =
+		g_signal_connect (G_OBJECT (wb_control_workbook (WORKBOOK_CONTROL (wbcg))),
+				  "sheet_deleted",
+				  G_CALLBACK (close_clicked),
+				  dd);
+
 	gnumeric_init_help_button (
 		glade_xml_get_widget (gui, "help_button"),
 		GNUMERIC_HELP_LINK_SEARCH);
 
+#ifdef USE_GURU
 	wbcg_edit_attach_guru_with_unfocused_rs (wbcg, GTK_WIDGET (dialog), dd->rangetext);
+#endif
 
-	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (dialog), SEARCH_KEY);
+	wbcg_set_transient (wbcg, GTK_WINDOW (dialog));
 	gtk_widget_show_all (GTK_WIDGET (dialog));
 }
 
