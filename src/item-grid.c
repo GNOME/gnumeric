@@ -208,8 +208,8 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *grid,
 		/* FIXME : get the margins from the far col/row too */
 		cell_draw (cell, mstyle, grid->gc.cell, drawable,
 			   l, t,
-			   r - l - ci->margin_b - ci->margin_a,
-			   b - t - ri->margin_b - ri->margin_a, -1);
+			   r - l - (ci->margin_b + ci->margin_a + 1),
+			   b - t - (ri->margin_b + ri->margin_a + 1), -1);
 	}
 }
 
@@ -361,6 +361,8 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 			if ((r->start.row == row) ||
 			    (first_row && r->start.row < row)) {
+				ColRowInfo const *ci =
+					sheet_col_get_info (sheet, r->start.col);
 				GSList *tmp = ptr;
 				ptr = *lag = tmp->next;
 				g_slist_free_1 (tmp);
@@ -368,8 +370,9 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 							(GCompareFunc)merged_col_cmp);
 				MERGE_DEBUG (r, " : unused -> active\n");
 
-				item_grid_draw_merged_range (drawable, item_grid,
-							     diff_x, y, &view, r);
+				if (ci->visible)
+					item_grid_draw_merged_range (drawable, item_grid,
+								     diff_x, y, &view, r);
 			} else {
 				lag = &(ptr->next);
 				ptr = ptr->next;

@@ -1,5 +1,9 @@
 2001-04-15  Jody Goldberg <jgoldberg@home.com>
 
+	* src/item-grid.c (item_grid_draw) : Hide merged cells.
+	(item_grid_draw_merged_range) : calculate the size the same way we do
+	  it in cell_draw.
+
 	* src/workbook-control-gui.c (wbcg_finish_editing) : new virtual
 	(workbook_control_gui_ctor_class) : connect it here.
 	(wbcg_sheet_remove_all) : be sure we are no longer editing.
