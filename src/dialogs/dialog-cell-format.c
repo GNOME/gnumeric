@@ -666,24 +666,7 @@ fmt_dialog_init_format_page (FormatState *state)
 
 	state->format.box = GTK_BOX (glade_xml_get_widget (state->gui, "format_box"));
 
-	/* Setup format buttons to toggle between the format pages */
-	for (i = 0; (name = format_buttons[i]) != NULL; ++i) {
-		tmp = glade_xml_get_widget (state->gui, name);
-		if (tmp != NULL) {
-
-			/* HACK : FIXME : Default to custom for now */
-			if (i == 11)
-				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tmp), TRUE);
-
-			gtk_object_set_data (GTK_OBJECT (tmp), "index", 
-					     GINT_TO_POINTER (i));
-			gtk_signal_connect (GTK_OBJECT (tmp), "toggled",
-					    GTK_SIGNAL_FUNC (cb_format_changed),
-					    state);
-		}
-	}
-
-	/* Collect all the required format widgets */
+	/* Collect all the required format widgets and hide them */
 	for (i = 0; (name = widget_names[i]) != NULL; ++i) {
 		tmp = glade_xml_get_widget (state->gui, name);
 
@@ -752,11 +735,25 @@ fmt_dialog_init_format_page (FormatState *state)
 	gnome_dialog_editable_enters (GNOME_DIALOG (state->dialog),
 				      GTK_EDITABLE (state->format.widget[F_ENTRY]));
 	
-	/* HACK : Start on Custom for now so that we can see what format is
-	 * selected.  When the regexps are ready we can go to the correct
-	 * page.
-	 */
-	fmt_dialog_enable_widgets (state, 11);
+	/* Setup format buttons to toggle between the format pages */
+	for (i = 0; (name = format_buttons[i]) != NULL; ++i) {
+		tmp = glade_xml_get_widget (state->gui, name);
+		if (tmp != NULL) {
+			gtk_object_set_data (GTK_OBJECT (tmp), "index", 
+					     GINT_TO_POINTER (i));
+			gtk_signal_connect (GTK_OBJECT (tmp), "toggled",
+					    GTK_SIGNAL_FUNC (cb_format_changed),
+					    state);
+
+			/* HACK : Start on Custom for now so that we can see what format is
+			 * selected.  When the regexps are ready we can go to the correct
+			 * page.
+			 */
+			if (i == 11)
+				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tmp), TRUE);
+
+		}
+	}
 }
 
 /*****************************************************************************/
@@ -1501,6 +1498,9 @@ cb_fmt_dialog_dialog_apply (GtkObject *w, int page, FormatState *state)
 				     border_get_mstyle (state, BORDER_VERT));
 
 	cell_thaw_redraws ();
+
+	/* Get a fresh style to accumulate results in */
+	state->result = mstyle_new ();
 }
 
 static void
