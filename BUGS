@@ -72,6 +72,7 @@ Dialogs
     : Sizing sucks
     : Editing existing functions
     : Editing nested funtions
+    : Roll/Unroll should keep the dialog under the mouse.
 
 Function Breakage
 -----------------
