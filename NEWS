@@ -1,5 +1,11 @@
 Gnumeric 1.5.1
 
+Jody:
+	* Major re-org for goffice split.
+	* Fix xls import for fit to page.
+	* Fix OFFSET for asymetric ranges [#166764]
+	* Fix SUMIF for asymetric ranges [#166769]
+
 Morten:
 	* Work around Pango bug causing XL save crash.  [#166532]
 

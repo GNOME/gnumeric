@@ -3906,8 +3906,6 @@ excel_read_SETUP (BiffQuery *q, ExcelReadSheet *esheet)
 		guint16 n_across = GSF_LE_GET_GUINT16 (q->data + 6);
 		guint16 n_tall   = GSF_LE_GET_GUINT16 (q->data + 8);
 
-		g_warning ("%hd : %hd", n_across, n_tall);
-
 		if (n_across > 0 && n_tall > 0) {
 			pi->scaling.dim.cols = n_across;
 			pi->scaling.dim.rows = n_tall;

@@ -105,7 +105,7 @@ typedef GSList				GnmStyleList;
 typedef struct _FormatTemplate          FormatTemplate;	/* does not really belong here */
 
 typedef struct {
-	int col, row;
+	int col, row;	/* these must be int not unsigned in some places (eg SUMIF ) */
 } GnmCellPos;
 typedef struct {
 	GnmCellPos start, end;
