@@ -31,8 +31,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-10 16:49+0900\n"
-"PO-Revision-Date: 2004-11-10 16:51+0900\n"
+"POT-Creation-Date: 2004-11-15 13:15+0900\n"
+"PO-Revision-Date: 2004-11-15 13:31+0900\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1563,7 +1563,7 @@ msgstr "Finansiella derivat"
 msgid "Functions related to financial derivatives"
 msgstr "Funktioner relaterade till finansiella derivat"
 
-#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5743
+#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5830
 #: plugins/mps/mps.c:547 src/xml-io.c:4199
 msgid "Reading file..."
 msgstr "Läser fil..."
@@ -1656,7 +1656,7 @@ msgstr "Oväntat attribut %s::%s == \"%s\"."
 
 #: plugins/excel/excel-xml-read.c:198
 #: plugins/openoffice/openoffice-read.c:1479
-#: plugins/xml_sax/xml-sax-read.c:1649
+#: plugins/xml_sax/xml-sax-read.c:1653
 msgid "XML document not well formed!"
 msgstr "XML-dokumentet är inte korrekt utformat!"
 
@@ -1711,15 +1711,15 @@ msgstr ""
 "OLE-länkar stöds inte.\n"
 "Namn \"%s\" kommer förloras.\n"
 
-#: plugins/excel/ms-excel-read.c:5088
+#: plugins/excel/ms-excel-read.c:5175
 msgid "external references"
 msgstr "externa referenser"
 
-#: plugins/excel/ms-excel-read.c:5111
+#: plugins/excel/ms-excel-read.c:5198
 msgid "No password supplied"
 msgstr "Inget lösenord givet"
 
-#: plugins/excel/ms-excel-read.c:5969
+#: plugins/excel/ms-excel-read.c:6056
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Kunde inte hitta en giltig MS Excel-arbetsbok"
 
@@ -10399,7 +10399,6 @@ msgstr ""
 "@SEEALSO=GCD"
 
 #: plugins/fn-math/functions.c:252
-#, fuzzy
 msgid ""
 "@FUNCTION=HYPOT\n"
 "@SYNTAX=HYPOT(number1,number2,...)\n"
@@ -10411,17 +10410,15 @@ msgid ""
 "\n"
 "@SEEALSO=MIN,MAX"
 msgstr ""
-"@FUNCTION=ODD\n"
-"@SYNTAX=ODD(tal)\n"
-"@DESCRIPTION=Funktionen ODD returnerar @tal avrundat uppåt till närmsta udda "
-"heltal.\n"
-"\n"
-"* Denna funktion är kompatibel med Excel.\n"
+"@FUNCTION=HYPOT\n"
+"@SYNTAX=HYPOT(tal1;tal2;...)\n"
+"@DESCRIPTION=Funktionen HYPOT returnerar kvadratroten av summan av "
+"kvadraterna av argumenten.\n"
 "\n"
 "@EXAMPLES=\n"
-"ODD(4,4) är lika med 5.\n"
+"HYPOT(3;4) är lika med 5.\n"
 "\n"
-"@SEEALSO=EVEN"
+"@SEEALSO=MIN,MAX"
 
 #: plugins/fn-math/functions.c:279
 msgid ""
@@ -13411,7 +13408,6 @@ msgid "Random Numbers"
 msgstr "Slumptal"
 
 #: plugins/fn-stat/functions.c:139
-#, fuzzy
 msgid ""
 "@FUNCTION=VARP\n"
 "@SYNTAX=VARP(b1, b2, ...)\n"
@@ -13427,9 +13423,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=VARP\n"
 "@SYNTAX=VARP(b1; b2; ...)\n"
-"@DESCRIPTION=VARP beräknar variansen hos en grupp tal, där varje tal är en "
-"del av en population och hela mängden är hela populationen.\n"
-"\n"
+"@DESCRIPTION=VARP beräknar variansen hos en hel population.\n"
 "* VARP är även känt som N-variansen.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -13440,7 +13434,6 @@ msgstr ""
 "@SEEALSO=AVERAGE,DVAR,DVARP,STDEV,VAR"
 
 #: plugins/fn-stat/functions.c:168
-#, fuzzy
 msgid ""
 "@FUNCTION=VAR\n"
 "@SYNTAX=VAR(b1, b2, ...)\n"
@@ -13460,11 +13453,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=VAR\n"
 "@SYNTAX=VAR(b1; b2; ...)\n"
-"@DESCRIPTION=VAR uppskattar variansen hos ett stickprov av en population. "
+"@DESCRIPTION=VAR uppskattar variansen hos ett stickprov. "
 "För att få den exakta variansen av en komplett population, använd VARP.\n"
-"\n"
 "* VAR är även känd som N-1-variansen.  Under normala förhållanden är den en "
 "maximum-likelihood-uppskattning for variansen.\n"
+"\n"
 "* Denna funktion är kompatibel med Excel. \n"
 "\n"
 "@EXAMPLES=\n"
@@ -13475,7 +13468,6 @@ msgstr ""
 "@SEEALSO=VARP,STDEV"
 
 #: plugins/fn-stat/functions.c:202
-#, fuzzy
 msgid ""
 "@FUNCTION=STDEV\n"
 "@SYNTAX=STDEV(b1, b2, ...)\n"
@@ -13496,24 +13488,26 @@ msgid ""
 "\n"
 "@SEEALSO=AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR"
 msgstr ""
-"@FUNCTION=VAR\n"
-"@SYNTAX=VAR(b1; b2; ...)\n"
-"@DESCRIPTION=VAR uppskattar variansen hos ett stickprov av en population. "
-"För att få den exakta variansen av en komplett population, använd VARP.\n"
+"@FUNCTION=STDEV\n"
+"@SYNTAX=STDEV(b1; b2; ...)\n"
+"@DESCRIPTION=STDEV returnerar standardavvikelsen av det givna "
+"stickprovet.\n"
+"För att få den exakta standardavvikelsen av en komplett population, använd "
+"STDEVP.\n"
+"* STDEV är även känd som N-1-standardavvikelsen.\n"
+"Under normala förhållanden är den en "
+"maximum-likelihood-uppskattning for standardavvikelsen.\n"
 "\n"
-"* VAR är även känd som N-1-variansen.  Under normala förhållanden är den en "
-"maximum-likelihood-uppskattning for variansen.\n"
 "* Denna funktion är kompatibel med Excel. \n"
 "\n"
 "@EXAMPLES=\n"
 "Antag att cellerna A1; A2; ...; A5 innehåller talen 11,4; 17,3; 21,3; 25,9 "
 "och 40,1. Då är\n"
-"VAR(A1:A5) lika med 117,64.\n"
+"STDEV(A1:A5) lika med 10,84619749.\n"
 "\n"
-"@SEEALSO=VARP,STDEV"
+"@SEEALSO=AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR"
 
 #: plugins/fn-stat/functions.c:238
-#, fuzzy
 msgid ""
 "@FUNCTION=STDEVP\n"
 "@SYNTAX=STDEVP(b1, b2, ...)\n"
@@ -13532,8 +13526,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=STDEVP\n"
 "@SYNTAX=STDEVP(b1; b2; ...)\n"
-"@DESCRIPTION=STDEVP beräknar standardavvikelsen av en mängd tal, som om "
-"dessa utgjorde en komplett population.\n"
+"@DESCRIPTION=STDEVP beräknar standardavvikelsen av en population.\n"
+"Detta är även känt som N-standardavvikelsen\n"
 "\n"
 "* Denna funktion är kompatibel med Excel.\n"
 "\n"
@@ -14507,7 +14501,6 @@ msgstr ""
 "@SEEALSO=BETADIST"
 
 #: plugins/fn-stat/functions.c:1552
-#, fuzzy
 msgid ""
 "@FUNCTION=TDIST\n"
 "@SYNTAX=TDIST(x,dof,tails)\n"
@@ -14531,15 +14524,17 @@ msgstr ""
 "@SYNTAX=TDIST(x;fri;svansar)\n"
 "@DESCRIPTION=Funktionen TDIST returnerar Students t-fördelning. @fri är "
 "antalet frihetsgrader och @svansar är 1 eller 2 beroende på om du vill ha en "
-"ensidig eller tvåsidig fördelning. @svansar = 1 returnerar storleken på den "
-"högra svansen.\n"
+"ensidig eller tvåsidig fördelning.\n"
+"@svansar = 1 returnerar storleken på den högra svansen.\n"
 "\n"
 "* Om @fri < 1 returneras felvärdet #NUM!.\n"
 "* Om @svansar varken är 1 eller 2 returneras felvärdet #NUM!.\n"
-"* Denna funktion är kompatibel med Excel.\n"
+"* Denna funktion är kompatibel med Excel för icke-negativa @x.\n"
 "\n"
 "@EXAMPLES=\n"
 "TDIST(2;5;1) är lika med 0,050969739.\n"
+"TDIST(-2;5;1) är lika med 0,949030261.\n"
+"TDIST(0;5;2) är lika med 1.\n"
 "\n"
 "@SEEALSO=TINV,TTEST"
 
@@ -17885,7 +17880,7 @@ msgid "Constraints:"
 msgstr "Bivillkor:"
 
 #: plugins/mps/mps.c:245 src/commands.c:6112
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1057
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1058
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:379
 #: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:800
 #: src/dialogs/dialog-function-select.c:443
@@ -20454,19 +20449,25 @@ msgstr "Graf"
 msgid "Chart"
 msgstr "Diagram"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1083
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1084
 msgid "Step 1 of 2: Select Chart Type"
 msgstr "Steg 1 av 2: Välj typ av graf"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1091
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1092
 msgid "Step 2 of 2: Customize Chart"
 msgstr "Steg 2 av 2: Anpassa graf"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1096
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1097
 msgid "Customize Chart"
 msgstr "Anpassa graf"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1210
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1173
+#: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1442
+#: src/wbcg-actions.c:1600
+msgid "_Insert"
+msgstr "_Infoga"
+
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1231
 msgid "_Plot Type"
 msgstr "_Plottyp"
 
@@ -21309,11 +21310,11 @@ msgstr "PlotBubbla"
 msgid "Bubble"
 msgstr "Bubbel"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1019
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1021
 msgid "Y Error bars"
 msgstr "Y felstaplar"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1021
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1023
 msgid "X Error bars"
 msgstr "X felstaplar"
 
@@ -22077,7 +22078,7 @@ msgid "_Rows"
 msgstr "_Rader"
 
 #: src/dialogs/anova-two.glade.h:1 src/dialogs/autocorrect.glade.h:1
-#: src/dialogs/autofilter-expression.glade.h:27
+#: src/dialogs/autofilter-expression.glade.h:14
 #: src/dialogs/autoformat.glade.h:1 src/dialogs/autosave.glade.h:1
 #: src/dialogs/cell-format.glade.h:2 src/dialogs/descriptive-stats.glade.h:2
 #: src/dialogs/dialog-stf-export.glade.h:5 src/dialogs/dialog-stf.glade.h:3
@@ -22208,50 +22209,20 @@ msgstr ""
 "innehåller\n"
 "innehåller inte"
 
-#: src/dialogs/autofilter-expression.glade.h:14
-msgid ""
-"\n"
-"equals\n"
-"does not equal\n"
-"is greater than\n"
-"is greater than or equal to\n"
-"is_less_than\n"
-"is less than or equal to\n"
-"begins with\n"
-"does not begin with\n"
-"ends with\n"
-"does not end with\n"
-"contains\n"
-"does not contain"
-msgstr ""
-"\n"
-"är lika med\n"
-"är inte lika med\n"
-"är större än\n"
-"är större än eller lika med\n"
-"är mindre än\n"
-"är mindre än eller lika med\n"
-"börjar med\n"
-"börjar inte med\n"
-"slutar med\n"
-"slutar inte med\n"
-"innehåller\n"
-"innehåller inte"
-
-#: src/dialogs/autofilter-expression.glade.h:28
+#: src/dialogs/autofilter-expression.glade.h:15
 #: src/dialogs/autofilter-top10.glade.h:1
 msgid "Gnumeric : AutoFilter"
 msgstr "Gnumeric : AutoFilter"
 
-#: src/dialogs/autofilter-expression.glade.h:29
+#: src/dialogs/autofilter-expression.glade.h:16
 msgid "Show rows where:"
 msgstr "Visa rader där:"
 
-#: src/dialogs/autofilter-expression.glade.h:30
+#: src/dialogs/autofilter-expression.glade.h:17
 msgid "_And"
 msgstr "_Och"
 
-#: src/dialogs/autofilter-expression.glade.h:31
+#: src/dialogs/autofilter-expression.glade.h:18
 msgid "_Or"
 msgstr "_Eller"
 
@@ -23545,7 +23516,7 @@ msgstr "Antalet rader per sampel måste vara ett positivt heltal.."
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Kunde inte skapa ANOVA-verktygsdialogen (dubbel faktor)."
 
-#: src/dialogs/dialog-autocorrect.c:329
+#: src/dialogs/dialog-autocorrect.c:332
 msgid "Could not create the AutoCorrect dialog."
 msgstr "Kunde inte skapa autokorrigeringsdialogen."
 
@@ -24211,7 +24182,7 @@ msgstr ""
 
 #: src/dialogs/dialog-preferences.c:724
 #, fuzzy
-msgid "The items on this page arerelated to copy. cut and paste."
+msgid "The items on this page are related to copy. cut and paste."
 msgstr ""
 "Objekten på denna sida är relaterade till sparandet och öppnandet av filer."
 
@@ -25603,11 +25574,6 @@ msgstr "Funktionsväljare"
 #: src/dialogs/function-select.glade.h:5
 msgid "Select a function to insert:"
 msgstr "Välj en funktion att sätta in:"
-
-#: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1442
-#: src/wbcg-actions.c:1600
-msgid "_Insert"
-msgstr "_Infoga"
 
 #: src/dialogs/goalseek.glade.h:1
 msgid "(Ma_ximum):"
@@ -33516,6 +33482,35 @@ msgstr "Mallens namn"
 #, fuzzy
 msgid "A simple list template"
 msgstr "Mallens namn"
+
+#~ msgid ""
+#~ "\n"
+#~ "equals\n"
+#~ "does not equal\n"
+#~ "is greater than\n"
+#~ "is greater than or equal to\n"
+#~ "is_less_than\n"
+#~ "is less than or equal to\n"
+#~ "begins with\n"
+#~ "does not begin with\n"
+#~ "ends with\n"
+#~ "does not end with\n"
+#~ "contains\n"
+#~ "does not contain"
+#~ msgstr ""
+#~ "\n"
+#~ "är lika med\n"
+#~ "är inte lika med\n"
+#~ "är större än\n"
+#~ "är större än eller lika med\n"
+#~ "är mindre än\n"
+#~ "är mindre än eller lika med\n"
+#~ "börjar med\n"
+#~ "börjar inte med\n"
+#~ "slutar med\n"
+#~ "slutar inte med\n"
+#~ "innehåller\n"
+#~ "innehåller inte"
 
 #~ msgid "Various"
 #~ msgstr "Olika"
