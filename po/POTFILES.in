@@ -105,6 +105,7 @@ plugins/xml_sax/xml-sax-read.c
 schemas/gnumeric-dialogs.schemas.in
 schemas/gnumeric-general.schemas.in
 schemas/gnumeric-plugins.schemas.in
+src/application.c
 src/bonobo-io.c
 src/cell.c
 src/clipboard.c
@@ -407,3 +408,9 @@ templates/autoformat/autoformat.List.basic.xml.in
 templates/autoformat/autoformat.List.green.xml.in
 templates/autoformat/autoformat.List.lila.xml.in
 templates/autoformat/autoformat.List.simple.xml.in
+templates/autoformat/3D.category.in
+templates/autoformat/Classical.category.in
+templates/autoformat/Colourful.category.in
+templates/autoformat/Financial.category.in
+templates/autoformat/General.category.in
+templates/autoformat/List.category.in
