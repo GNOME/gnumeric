@@ -4391,11 +4391,13 @@ ms_excel_externsheet_v8 (BiffQuery const *q, ExcelWorkbook *ewb)
 			      sup_index, first, last););
 
 		if (sup_index >= 0) {
-			if (first != 0xfffe || last != 0xfffe) {
-				first_sheet = workbook_sheet_by_index (ewb->gnum_wb, first);
-				last_sheet  = workbook_sheet_by_index (ewb->gnum_wb, last);
-			} else /* record for local names */
-				first_sheet = last_sheet = NULL;
+			/* 0xffff == deleted, 0xfffe record for local names */
+			first_sheet = (first < 0xfffe)
+				? workbook_sheet_by_index (ewb->gnum_wb, first)
+				: NULL;
+			last_sheet = (last < 0xfffe)
+				? workbook_sheet_by_index (ewb->gnum_wb, last)
+				: NULL;
 		} else {
 			first_sheet = last_sheet = NULL;
 			g_warning ("external references not supported yet.");

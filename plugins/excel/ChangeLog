@@ -1,5 +1,8 @@
 2002-04-21  Jody Goldberg <jody@gnome.org>
 
+	* ms-excel-read.c (ms_excel_externsheet_v8) : handle references to
+	  deleted sheets.
+
 	* ms-escher.c (ms_escher_read_Blip) : remove some debug cruft.
 
 2002-04-15  Jon K Hellan  <hellan@acm.org>
