@@ -1,5 +1,9 @@
 2002-11-15  Jody Goldberg <jody@gnome.org>
 
+	* src/pixmaps/Makefile.am : convert to new add/remove decimal icons
+
+2002-11-15  Jody Goldberg <jody@gnome.org>
+
 	* configure.in : post release version bump
 
 2002-11-15  Jody Goldberg <jody@gnome.org>

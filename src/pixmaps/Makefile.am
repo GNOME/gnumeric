@@ -27,8 +27,8 @@ IMAGES = @STRIP_BEGIN@ 						\
 	comment_delete_16.xpm	\
 	comment_edit_16.xpm	\
 	\
-	add_decimals.xpm	\
-	remove_decimals.xpm	\
+	add_decimals.png	\
+	remove_decimals.png	\
 	format_money_24.png		\
 	format_percent_24.png		\
 	thousands.xpm		\
@@ -130,8 +130,8 @@ VARIABLES = @STRIP_BEGIN@ 									\
 	gnm_comment_delete_16			$(srcdir)/comment_delete_16.xpm			\
 	gnm_comment_edit_16			$(srcdir)/comment_edit_16.xpm			\
 	\
-	gnm_add_decimals			$(srcdir)/add_decimals.xpm			\
-	gnm_remove_decimals			$(srcdir)/remove_decimals.xpm			\
+	gnm_add_decimals			$(srcdir)/add_decimals.png			\
+	gnm_remove_decimals			$(srcdir)/remove_decimals.png			\
 	gnm_money				$(srcdir)/format_money_24.png			\
 	gnm_percent				$(srcdir)/format_percent_24.png			\
 	gnm_thousand				$(srcdir)/thousands.xpm				\

@@ -4085,8 +4085,8 @@ excel_read_HLINK (BiffQuery *q, ExcelSheet *esheet)
 	if ((options & 0x1e3) == 0x003 && !memcmp (data, url_guid, sizeof (url_guid))) {
 		guchar *url;
 
-		len = GSF_LE_GET_GUINT32 (data + sizeof (url_guid));
 		data += 4 + sizeof (url_guid);
+		len = GSF_LE_GET_GUINT32 (data);
 
 		g_return_if_fail (len + data - q->data <= (int)q->length);
 
@@ -4098,14 +4098,14 @@ excel_read_HLINK (BiffQuery *q, ExcelSheet *esheet)
 		range_dump (&r, " <-- local file\n");
 
 		data += sizeof (file_guid);
-		fprintf (stderr,"up count %hu\n", GSF_LE_GET_GUINT16 (data));
 		len = GSF_LE_GET_GUINT32 (data + 2);
+		fprintf (stderr,"up count %hu len %hx\n", GSF_LE_GET_GUINT16 (data), len);
 		data += 6;
 
-		g_return_if_fail (len*2 + data - q->data <= (int)q->length);
-		data += len;
+		gsf_mem_dump (data, q->length - (data - q->data));
 
-		gsf_mem_dump (data, 34);
+		g_return_if_fail (len + data - q->data <= (int)q->length);
+		data += len;
 
 	} else if ((options & 0x1e3) == 0x103) {
 		range_dump (&r, " <-- unc file\n");
