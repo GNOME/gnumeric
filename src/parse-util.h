@@ -3,32 +3,30 @@
 
 #include "gnumeric.h"
 
-/*
- * Names
- */
-const char *col_name                 (int col);
+char const  *col_name                 (int col);
+char const  *cols_name                (int start_col, int end_col);
 
 char        *cellref_name            (CellRef const *cell_ref,
 				      ParsePos const *pp, gboolean no_sheetname);
-gboolean     cellref_get             (CellRef *out, const char *in,
+gboolean     cellref_get             (CellRef *out, char const *in,
 				      CellPos const *pos);
-gboolean     cellref_a1_get          (CellRef *out, const char *in,
+gboolean     cellref_a1_get          (CellRef *out, char const *in,
 				      CellPos const *pos);
-gboolean     cellref_r1c1_get        (CellRef *out, const char *in,
+gboolean     cellref_r1c1_get        (CellRef *out, char const *in,
 				      CellPos const *pos);
 
-const char *cell_coord_name	     (int const col, int const row);
-const char *cell_pos_name	     (CellPos const *pos);
-const char *cell_name                (Cell const *cell);
+char const *cell_coord_name	     (int col, int row);
+char const *cell_pos_name	     (CellPos const *pos);
+char const *cell_name                (Cell const *cell);
 
 /* Various parsing routines */
-int         parse_col_name           (const char *cell_str, const char **endptr);
-gboolean    parse_cell_name          (const char *cell_str, int *col, int *row,
+int         parse_col_name           (char const *cell_str, char const **endptr);
+gboolean    parse_cell_name          (char const *cell_str, int *col, int *row,
 				      gboolean strict, int *chars_read);
-gboolean    parse_cell_name_or_range (const char *cell_str, int *col, int *row,
+gboolean    parse_cell_name_or_range (char const *cell_str, int *col, int *row,
 				      int *cols, int *rows, gboolean strict);
-gboolean    parse_cell_range         (Sheet *sheet, const char *range, Value **v);
-GSList     *parse_cell_name_list     (Sheet *sheet, const char *cell_name_str,
+gboolean    parse_cell_range         (Sheet *sheet, char const *range, Value **v);
+GSList     *parse_cell_name_list     (Sheet *sheet, char const *cell_name_str,
 				      int *error_flag, gboolean strict);
 
 StyleFormat *parse_text_value_or_expr (EvalPos const *pos,

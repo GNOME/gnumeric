@@ -124,11 +124,11 @@ int          value_area_get_height (const EvalPos *ep, Value const *v);
 
 /* Return Value(int 0) if non-existant */
 const Value *value_area_fetch_x_y  (const EvalPos *ep, Value const * v,
-				    guint x, guint y);
+				    int x, int y);
 
 /* Return NULL if non-existant */
 const Value * value_area_get_x_y (const EvalPos *ep, Value const * v,
-				  guint x, guint y);
+				  int x, int y);
 
 typedef  Value * (*value_area_foreach_callback)(EvalPos const *ep,
 						Value const *v, void *user_data);
@@ -137,8 +137,8 @@ Value * value_area_foreach (EvalPos const *ep, Value const *v,
 			    value_area_foreach_callback callback,
 			    void *closure);
 
-void value_array_set       (Value *array, guint col, guint row, Value *v);
-void value_array_resize    (Value *v, guint width, guint height);
+void value_array_set       (Value *array, int col, int row, Value *v);
+void value_array_resize    (Value *v, int width, int height);
 
 /* Some utility constants to make sure we all spell correctly */
 extern char const *gnumeric_err_NULL;

@@ -13,7 +13,6 @@
 #include "eval.h"
 #include "selection.h"
 #include "application.h"
-#include "render-ascii.h"
 #include "workbook-control-gui-priv.h"
 #include "workbook.h"
 #include "ranges.h"
@@ -42,7 +41,6 @@ x_selection_to_cell_region (WorkbookControlGUI *wbcg, const char *src, int len)
 {
 	DialogStfResult_t *dialogresult;
 	CellRegion *cr = NULL;
-	CellRegion *crerr;
 	unsigned char *data;
 	unsigned char *c;
 
@@ -50,17 +48,10 @@ x_selection_to_cell_region (WorkbookControlGUI *wbcg, const char *src, int len)
 	memcpy (data, src, len);
 	data[len] = 0;
 
-	crerr         = g_new (CellRegion, 1);
-	crerr->list   = NULL;
-	crerr->cols   = -1;
-	crerr->rows   = -1;
-	crerr->styles = NULL;
-	crerr->merged = NULL;
-
 	if (!stf_parse_convert_to_unix (data)) {
 		g_free (data);
 		g_warning (_("Error while trying to pre-convert clipboard data"));
-		return crerr;
+		return cellregion_new (NULL);
 	}
 
 	if ((c = stf_parse_is_valid_data (data)) != NULL) {
@@ -73,7 +64,7 @@ x_selection_to_cell_region (WorkbookControlGUI *wbcg, const char *src, int len)
 
 		g_free (data);
 
-		return crerr;
+		return cellregion_new (NULL);
 	}
 
 	/*
@@ -85,19 +76,16 @@ x_selection_to_cell_region (WorkbookControlGUI *wbcg, const char *src, int len)
 	 */
 	if (strchr (data, '\n') == NULL) {
 		CellCopy *ccopy;
-		
+
 		ccopy = g_new (CellCopy, 1);
 		ccopy->type = CELL_COPY_TYPE_TEXT;
 		ccopy->col_offset = 0;
 		ccopy->row_offset = 0;
 		ccopy->u.text = g_strdup (data);
 
-		cr         = g_new0 (CellRegion, 1);
-		cr->list   = g_list_prepend (cr->list, ccopy);
-		cr->cols   = 1;
-		cr->rows   = 1;
-		cr->styles = NULL;
-		cr->merged = NULL;
+		cr = cellregion_new (NULL);
+		cr->content = g_list_prepend (cr->content, ccopy);
+		cr->cols = cr->rows = 1;
 	} else {
 		dialogresult = stf_dialog (wbcg, "clipboard", data);
 
@@ -110,29 +98,24 @@ x_selection_to_cell_region (WorkbookControlGUI *wbcg, const char *src, int len)
 			if (cr == NULL) {
 				g_free (data);
 				g_warning (_("Parse error while trying to parse data into cellregion"));
-				return crerr;
+				return cellregion_new (NULL);
 			}
 
 			iterator = dialogresult->formats;
 			col = 0;
 			rowcount = stf_parse_get_rowcount (dialogresult->parseoptions, dialogresult->newstart);
 			while (iterator) {
-				StyleRegion *content = g_new (StyleRegion, 1);
-				MStyle *style = mstyle_new_default ();
-				Range range;
+				StyleRegion *sr = g_new (StyleRegion, 1);
 
-				mstyle_set_format (style, iterator->data);
+				sr->range.start.col = col;
+				sr->range.start.row = 0;
+				sr->range.end.col   = col;
+				sr->range.end.row   = rowcount;
+				sr->style = mstyle_new_default ();
+				mstyle_set_format (sr->style, iterator->data);
 
-				range.start.col = col;
-				range.start.row = 0;
-				range.end.col   = col;
-				range.end.row   = rowcount;
+				cr->styles = g_list_prepend (cr->styles, sr);
 
-				content->style = style;
-				content->range  = range;
-
-				cr->styles = g_list_prepend (cr->styles, content);
-				
 				iterator = g_slist_next (iterator);
 
 				col++;
@@ -141,11 +124,10 @@ x_selection_to_cell_region (WorkbookControlGUI *wbcg, const char *src, int len)
 			stf_dialog_result_free (dialogresult);
 		} else {
 			g_free (data);
-			return crerr;
+			return cellregion_new (NULL);
 		}
 	}
-	
-	g_free (crerr);
+
 	g_free (data);
 
 	return cr;
@@ -246,7 +228,7 @@ x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time,
 
 		/* Release the resources we used */
 		if (sel->length >= 0)
-			clipboard_release (content);
+			cellregion_free (content);
 	}
 
 	if (region_pastable || free_closure) {
@@ -315,7 +297,7 @@ x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data,
 
 		xmlFree (buffer);
 	} else {
-		char *rendered_selection = cell_region_render_ascii (clipboard);
+		char *rendered_selection = cellregion_to_string (clipboard);
 
 		gtk_selection_data_set (selection_data, GDK_SELECTION_TYPE_STRING, 8,
 					rendered_selection, strlen (rendered_selection));
@@ -334,7 +316,7 @@ x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data,
 				    a->end.col,   a->end.row,
 				    CLEAR_VALUES|CLEAR_COMMENTS);
 
-		clipboard_release (clipboard);
+		cellregion_free (clipboard);
 		application_clipboard_clear (TRUE);
 	}
 }

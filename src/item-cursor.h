@@ -53,7 +53,7 @@ struct _ItemCursor {
 	int      use_color:1;
 	/* Location of auto fill handle */
 	int      auto_fill_handle_at_top:1;
-	int      drag_button;
+	int	 drag_button;
 
 	GdkPixmap *stipple;
 	GdkColor  color;

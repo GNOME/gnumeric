@@ -601,7 +601,7 @@ sheet_widget_checkbox_construct_with_range (SheetObjectWidget *sow,
 static void
 sheet_widget_checkbox_construct (SheetObjectWidget *sow, Sheet *sheet)
 {
-	Range const * range = selection_first_range (sheet, TRUE);
+	Range const * range = selection_first_range (sheet, NULL, NULL);
 
 	sheet_widget_checkbox_construct_with_range (sow, sheet, range);
 }

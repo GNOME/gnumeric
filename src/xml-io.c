@@ -1058,7 +1058,7 @@ static xmlNodePtr
 xml_write_attributes (XmlParseContext *ctxt, guint n_args, GtkArg *args)
 {
 	xmlNodePtr cur;
-	gint i;
+	guint i;
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Attributes", NULL);
 
@@ -2796,12 +2796,7 @@ xml_read_selection_clipboard (XmlParseContext *ctxt, xmlNodePtr tree)
 
 	ctxt->sheet = NULL;
 
-	cr         = g_new (CellRegion, 1);
-	cr->list   = NULL;
-	cr->cols   = -1;
-	cr->rows   = 0;
-	cr->styles = NULL;
-	cr->merged = NULL;
+	cr = cellregion_new (NULL);
 
 	/*
 	 * This nicely puts all the styles into the cr->styles list
@@ -2815,32 +2810,20 @@ xml_read_selection_clipboard (XmlParseContext *ctxt, xmlNodePtr tree)
 	 * passed
 	 */
 	child = e_xml_get_child_by_name (tree, "Cells");
-	if (child != NULL){
-
-		cells = child->xmlChildrenNode;
-		while (cells != NULL){
-			CellCopy *cc;
-
-			cc = xml_read_cell_copy (ctxt, cells);
-
+	if (child != NULL) {
+		for (cells = child->xmlChildrenNode; cells != NULL ; cells = cells->next) {
+			CellCopy *cc = xml_read_cell_copy (ctxt, cells);
 			if (cc) {
+				if (cr->cols < cc->col_offset + 1)
+					cr->cols = cc->col_offset + 1;
+				if (cr->rows  < cc->row_offset + 1)
+					cr->rows  = cc->row_offset + 1;
 
-				if (cc->col_offset > cr->cols)
-					cr->cols = cc->col_offset;
-				if (cc->row_offset > cr->rows)
-					cr->rows = cc->row_offset;
-
-				cr->list = g_list_prepend (cr->list, cc);
+				cr->content = g_list_prepend (cr->content, cc);
 			}
-
-			cells = cells->next;
 		}
 	}
 
-	if (cr->cols != -1) {
-		cr->cols++;
-		cr->rows++;
-	}
 	xml_dispose_read_cell_styles (ctxt);
 
 	return cr;

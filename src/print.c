@@ -1029,12 +1029,9 @@ sheet_print_selection (WorkbookControlGUI *wbcg, Sheet *sheet, PrintJobInfo *pj)
 	Range const *sel;
 	Range extent;
 
-	if ((sel = selection_first_range (sheet, FALSE)) == NULL) {
-		gnumeric_notice (
-			wbcg, GNOME_MESSAGE_BOX_ERROR,
-			_("Selection must be a single range"));
+	if (!(sel = selection_first_range (sheet, WORKBOOK_CONTROL (wbcg), _("Print Region"))))
 		return;
-	}
+
 	extent = *sel;
 	extent.end.col++;
 	extent.end.row++;

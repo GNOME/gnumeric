@@ -67,7 +67,7 @@ sheet_merge_add (WorkbookControl *wbc,
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (range_is_sane (r), TRUE);
 
-	if (sheet_range_splits_array (sheet, r, wbc, _("Merge")))
+	if (sheet_range_splits_array (sheet, r, NULL, wbc, _("Merge")))
 		return TRUE;
 
 	test = sheet_merge_get_overlap (sheet, r);
@@ -108,7 +108,7 @@ sheet_merge_add (WorkbookControl *wbc,
 		sheet_style_apply_range (sheet, r, style);
 	}
 
-	r_copy = range_copy (r);
+	r_copy = range_dup (r);
 	g_hash_table_insert (sheet->hash_merged, &r_copy->start, r_copy);
 
 	/* Store in order from bottom to top then LEFT TO RIGHT (by start coord) */
@@ -275,14 +275,14 @@ sheet_merge_relocate (ExprRelocateInfo const *ri)
 {
 	GSList   *ptr, *copy, *to_move = NULL;
 	Range	 dest;
-	gboolean clear, change_sheets;
+	gboolean change_sheets;
 
 	g_return_if_fail (ri != NULL);
 	g_return_if_fail (IS_SHEET (ri->origin_sheet));
 	g_return_if_fail (IS_SHEET (ri->target_sheet));
 	    
 	dest = ri->origin;
-	clear = range_translate (&dest, ri->col_offset, ri->row_offset);
+	range_translate (&dest, ri->col_offset, ri->row_offset);
 	change_sheets = (ri->origin_sheet != ri->target_sheet);
 
 	/* Clear the destination range on the target sheet */
@@ -305,7 +305,7 @@ sheet_merge_relocate (ExprRelocateInfo const *ri)
 			/* Toss any objects that would be clipped. */
 			sheet_merge_remove (NULL, ri->origin_sheet, r);
 			if (!range_translate (&tmp, ri->col_offset, ri->row_offset))
-				to_move = g_slist_prepend (to_move, range_copy (&tmp));
+				to_move = g_slist_prepend (to_move, range_dup (&tmp));
 		} else if (!change_sheets &&
 			   range_contains (&dest, r->start.col, r->start.row))
 			sheet_merge_remove (NULL, ri->origin_sheet, r);

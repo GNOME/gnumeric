@@ -1,3 +1,7 @@
+2001-05-04  Jody Goldberg <jgoldberg@home.com>
+
+	* fn-string.c (gnumeric_value) : only remove leading spaces.
+
 2001-05-04  Morten Welinder  <terra@diku.dk>
 
 	* fn-string.c (gnumeric_exact, gnumeric_len, gnumeric_rept,

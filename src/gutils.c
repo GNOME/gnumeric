@@ -158,6 +158,23 @@ gnumeric_config_set_string_list (GList *items,
 	}
 }
 
+void
+g_ptr_array_insert (GPtrArray *array, gpointer value, int index)
+{
+	if ((int)array->len != index) {
+		int i = array->len - 1;
+		gpointer last = g_ptr_array_index (array, i);
+		g_ptr_array_add (array, last);
+
+		while (i-- > index) {
+			gpointer tmp = g_ptr_array_index (array, i);
+			g_ptr_array_index (array, i+1) = tmp;
+		}
+		g_ptr_array_index (array, index) = value;
+	} else
+		g_ptr_array_add (array, value);
+}
+
 /**
  * g_create_list:
  * @item1: First item.
@@ -322,20 +339,18 @@ gnumeric_strcase_hash (gconstpointer v)
 	return h /* % M */;
 }
 
+extern char *gnumeric_data_dir;
 char *
 gnumeric_sys_data_dir (const char *subdir)
 {
-	extern char *gnumeric_data_dir;
-
 	return g_strconcat (gnumeric_data_dir, G_DIR_SEPARATOR_S,
 			    subdir, G_DIR_SEPARATOR_S, NULL);
 }
 
+extern char *gnumeric_lib_dir;
 char *
 gnumeric_sys_lib_dir (const char *subdir)
 {
-	extern char *gnumeric_lib_dir;
-
 	return g_strconcat (gnumeric_lib_dir, G_DIR_SEPARATOR_S,
 			    subdir, G_DIR_SEPARATOR_S, NULL);
 }

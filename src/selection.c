@@ -1,3 +1,4 @@
+/* vim: set sw=8: */
 /*
  * selection.c:  Manage selection regions.
  *
@@ -5,7 +6,7 @@
  *  Miguel de Icaza (miguel@gnu.org)
  *  Jody Goldberg (jgoldberg@home.com)
  *
- *  (C) 1999, 2000 Jody Goldberg
+ *  (C) 1999-2001 Jody Goldberg
  */
 #include <config.h>
 #include "selection.h"
@@ -55,84 +56,34 @@ segments_intersect (int const s_a, int const e_a,
 }
 
 /**
- * Return 1st range.
- * Return NULL if there is more than 1 and @permit_complex is FALSE
- **/
-Range const *
-selection_first_range (Sheet const *sheet, gboolean const permit_complex)
-{
-	Range *ss;
-	GList *l;
-
-	g_return_val_if_fail (IS_SHEET (sheet), 0);
-
-	l = g_list_first (sheet->selections);
-	if (!l || !l->data)
-		return NULL;
-	ss = l->data;
-	if ((l = g_list_next (l)) && !permit_complex)
-		return NULL;
-
-	return ss;
-}
-
-static Value *
-cb_cell_is_array (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
-{
-	return cell_is_array (cell) ? value_terminate () : NULL;
-
-}
-
-/*
- * selection_is_simple
- * @wbc          : The calling context to report errors to (GUI or corba)
+ * selection_first_range
  * @sheet        : The sheet whose selection we are testing.
+ * @wbc          : The calling context to report errors to (GUI or corba)
  * @command_name : A string naming the operation requiring a single range.
  *
- * This function tests to see if multiple ranges are selected.  If so it
- * produces a warning.  It also ensures that the range does not contain any
- * arrays or merged cells.
+ * Returns the first range, if a control is supplied it displays an error if
+ *    there is more than one range.
  */
-gboolean
-selection_is_simple (WorkbookControl *wbc, Sheet const *sheet,
-		     char const *command_name,
-		     gboolean allow_merged, gboolean allow_arrays)
+Range const *
+selection_first_range (Sheet const *sheet, 
+		       WorkbookControl *wbc, char const *cmd_name)
 {
 	Range const *r;
-	GSList *merged;
+	GList *l;
 
-	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
-	if (g_list_length (sheet->selections) != 1) {
-		gnumeric_error_invalid (COMMAND_CONTEXT (wbc), command_name,
-			_("cannot be performed with multiple selections"));
-		return FALSE;
+	l = g_list_first (sheet->selections);
+	g_return_val_if_fail (l != NULL && l->data != NULL, NULL);
+
+	r = l->data;
+	if (wbc != NULL && l->next != NULL) {
+		gnumeric_error_invalid (COMMAND_CONTEXT (wbc), cmd_name,
+			_("cannot be performed with multiple ranges selected"));
+		return NULL;
 	}
 
-	r = sheet->selections->data;
-
-	if (!allow_merged) {
-		merged = sheet_merge_get_overlap (sheet, r);
-		if (merged != NULL) {
-			gnumeric_error_invalid (COMMAND_CONTEXT (wbc), command_name,
-				_("can not operate on merged cells"));
-			g_slist_free (merged);
-			return FALSE;
-		}
-	}
-
-	if (!allow_arrays) {
-		if (sheet_foreach_cell_in_range ((Sheet *)sheet, TRUE,
-					      r->start.col, r->start.row,
-					      r->end.col, r->end.row,
-					      cb_cell_is_array, NULL)) {
-			gnumeric_error_invalid (COMMAND_CONTEXT (wbc), command_name,
-				_("can not operate on array formulae"));
-			return FALSE;
-		}
-	}
-
-	return TRUE;
+	return r;
 }
 
 /**
@@ -629,19 +580,12 @@ sheet_selection_to_string (Sheet *sheet, gboolean include_sheet_name_prefix)
 gboolean
 sheet_selection_copy (WorkbookControl *wbc, Sheet *sheet)
 {
-	Range *ss;
+	Range const *sel;
 
-	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
-	g_return_val_if_fail (sheet->selections, FALSE);
-
-	/* FIXME FIXME : disable copying part of an array */
-
-	if (!selection_is_simple (wbc, sheet, _("Copy"), TRUE, TRUE))
+	if (!(sel = selection_first_range (sheet, wbc, _("Copy"))))
 		return FALSE;
 
-	ss = sheet->selections->data;
-
-	application_clipboard_copy (wbc, sheet, ss);
+	application_clipboard_copy (wbc, sheet, sel);
 
 	return TRUE;
 }
@@ -649,7 +593,7 @@ sheet_selection_copy (WorkbookControl *wbc, Sheet *sheet)
 gboolean
 sheet_selection_cut (WorkbookControl *wbc, Sheet *sheet)
 {
-	Range *ss;
+	Range const *sel;
 
 	/*
 	 * 'cut' is a poor description of what we're
@@ -664,14 +608,13 @@ sheet_selection_cut (WorkbookControl *wbc, Sheet *sheet)
 	 */
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 
-	if (!selection_is_simple (wbc, sheet, _("Cut"), TRUE, TRUE))
+	if (!(sel = selection_first_range (sheet, wbc, _("Cut"))))
 		return FALSE;
 
-	ss = sheet->selections->data;
-	if (sheet_range_splits_array (sheet, ss, wbc, ("cut")))
+	if (sheet_range_splits_region (sheet, sel, NULL, wbc, _("Cut")))
 		return FALSE;
 
-	application_clipboard_cut (wbc, sheet, ss);
+	application_clipboard_cut (wbc, sheet, sel);
 
 	return TRUE;
 }
@@ -698,12 +641,12 @@ selection_get_ranges (Sheet const *sheet, gboolean const allow_intersection)
 	 * single user proposed segment and accumulate distict regions.
 	 */
 	for (l = sheet->selections; l != NULL; l = l->next) {
-		Range const *ss = l->data;
+		Range const *r = l->data;
 
 		/* The set of regions that do not interset with b or
 		 * its predecessors */
 		GSList *clear = NULL;
-		Range *tmp, *b = range_copy (ss);
+		Range *tmp, *b = range_dup (r);
 
 		if (allow_intersection) {
 			proposed = g_slist_prepend (proposed, b);
@@ -814,7 +757,7 @@ selection_get_ranges (Sheet const *sheet, gboolean const allow_intersection)
 					}
 					if (a->start.col != b->start.col) {
 						/* Split existing range */
-						tmp = range_copy (a);
+						tmp = range_dup (a);
 						tmp->end.col = b->start.col - 1;
 						clear = g_slist_prepend (clear, tmp);
 					}
@@ -842,7 +785,7 @@ selection_get_ranges (Sheet const *sheet, gboolean const allow_intersection)
 				case 3 : /* overlap top */
 					/* Split region */
 					if (b->start.row > 0) {
-						tmp = range_copy (a);
+						tmp = range_dup (a);
 						tmp->start.col = b->start.col;
 						tmp->end.row = b->start.row - 1;
 						clear = g_slist_prepend (clear, tmp);
@@ -857,7 +800,7 @@ selection_get_ranges (Sheet const *sheet, gboolean const allow_intersection)
 				case 1 : /* overlap bottom */
 					/* Split region */
 					if (b->end.row < (SHEET_MAX_ROWS-1)) {
-						tmp = range_copy (a);
+						tmp = range_dup (a);
 						tmp->start.col = b->start.col;
 						tmp->start.row = b->end.row + 1;
 						clear = g_slist_prepend (clear, tmp);
@@ -898,7 +841,7 @@ selection_get_ranges (Sheet const *sheet, gboolean const allow_intersection)
 					}
 					if (a->start.row != b->start.row) {
 						/* Split region */
-						tmp = range_copy (a);
+						tmp = range_dup (a);
 						tmp->end.row = b->start.row - 1;
 						clear = g_slist_prepend (clear, tmp);
 					}
@@ -923,7 +866,7 @@ selection_get_ranges (Sheet const *sheet, gboolean const allow_intersection)
 
 				case 3 : /* overlap top */
 					/* Split region */
-					tmp = range_copy (a);
+					tmp = range_dup (a);
 					tmp->end.col = b->end.col;
 					tmp->end.row = b->start.row - 1;
 					clear = g_slist_prepend (clear, tmp);
@@ -936,7 +879,7 @@ selection_get_ranges (Sheet const *sheet, gboolean const allow_intersection)
 
 				case 1 : /* overlap bottom */
 					/* Split region */
-					tmp = range_copy (a);
+					tmp = range_dup (a);
 					tmp->end.col = b->end.col;
 					tmp->start.row = b->end.row + 1;
 
@@ -961,30 +904,6 @@ selection_get_ranges (Sheet const *sheet, gboolean const allow_intersection)
 	}
 
 	return proposed;
-}
-
-/**
- * selection_check_for_array:
- * @sheet: the sheet.
- * @selection : A list of ranges to check.
- * @wbc : The context that issued the command
- * @cmd : The translated command name.
- *
- * A utility to check whether the selection contains any partial arrays.
- */
-gboolean
-selection_check_for_array (Sheet const * sheet, GSList const *selection,
-			   WorkbookControl *wbc, char const *cmd)
-{
-	GSList const *l;
-
-	/* Check for array subdivision */
-	for (l = selection; l != NULL; l = l->next) {
-		Range const *r = l->data;
-		if (sheet_range_splits_array (sheet, r, wbc, cmd))
-			return TRUE;
-	}
-	return FALSE;
 }
 
 /**

@@ -21,7 +21,8 @@ void gnumeric_error_save	 (CommandContext *context, char const *msg);
 void gnumeric_error_plugin	 (CommandContext *context, char const *msg);
 void gnumeric_error_invalid	 (CommandContext *context,
 				  char const *msg, char const *val);
-void gnumeric_error_splits_array (CommandContext *context, char const *cmd);
+void gnumeric_error_splits_array (CommandContext *context,
+				  char const *cmd, Range const *array);
 void gnumeric_progress_set	 (CommandContext *context, gfloat f);
 
 /* Push a printf template to the list. The template is used to provide

@@ -461,7 +461,7 @@ static gboolean
 auto_complete_matches (WorkbookControlGUI *wbcg)
 {
 	GtkEntry *entry = GTK_ENTRY (workbook_get_entry (wbcg));
-	int cursor_pos = GTK_EDITABLE (entry)->current_pos;
+	size_t cursor_pos = GTK_EDITABLE (entry)->current_pos;
 	char *text = gtk_entry_get_text (entry);
 	gboolean equal;
 

@@ -263,7 +263,7 @@ void
 application_clipboard_clear (gboolean drop_selection)
 {
 	if (app.clipboard_copied_contents) {
-		clipboard_release (app.clipboard_copied_contents);
+		cellregion_free (app.clipboard_copied_contents);
 		app.clipboard_copied_contents = NULL;
 	}
 	if (app.clipboard_sheet != NULL) {
@@ -299,7 +299,7 @@ application_set_selected_sheet (WorkbookControl *wbc, Sheet *sheet)
 
 	application_clipboard_clear (FALSE);
 
-#warning how to do this on a per display basis ?
+	/* FIXME : how to do this on a per display basis ? */
 	if (wb_control_claim_selection (wbc)) {
 		app.clipboard_sheet = sheet;
 		return TRUE;

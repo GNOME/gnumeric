@@ -45,8 +45,6 @@ typedef void (*SelectionApplyFunc) (Sheet *sheet, Range const *, gpointer closur
 void selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 		      gboolean allow_intersection,
 		      void *closure);
-gboolean selection_check_for_array (Sheet const *sheet, GSList const *selection,
-				    WorkbookControl *wbc, char const *cmd);
 GSList  *selection_get_ranges      (Sheet const *sheet,
 				    gboolean allow_intersection);
 
@@ -55,10 +53,8 @@ char       *selection_to_string    (Sheet *sheet,
 				    gboolean include_sheet_name_prefix);
 
 /* Information about the selection */
-gboolean      selection_is_simple   (WorkbookControl *context, Sheet const *sheet,
-				     char const *command_name,
-				     gboolean allow_merged, gboolean allow_arrays);
-Range const * selection_first_range (Sheet const *sheet, gboolean const permit_complex);
+Range const *selection_first_range (Sheet const *sheet, 
+				    WorkbookControl *wbc, char const *cmd_name);
 gboolean    selection_foreach_range (Sheet *sheet, gboolean from_start,
 				     gboolean (*range_cb) (Sheet *sheet,
 							   Range const *range,

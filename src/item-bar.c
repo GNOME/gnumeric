@@ -364,6 +364,8 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 									gdk_draw_line (drawable, item_bar->lines,
 										       left+size/2, top+3,
 										       left+size/2, top+size-4);
+									if (!cri->is_collapsed)
+										g_warning ("expected collapsed %s", col_name (col));
 								}
 								gdk_draw_line (drawable, item_bar->lines,
 									       left+3,	    top+size/2,

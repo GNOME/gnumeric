@@ -153,7 +153,7 @@ search_replace_verify (SearchReplace *sr)
 				case '6': case '7': case '8': case '9':
 				{
 					int n = *s - '0';
-					if (n > sr->comp_search->re_nsub)
+					if (n > (int)sr->comp_search->re_nsub)
 						return g_strdup (_("Invalid $-specification in replacement."));
 					break;
 				}
@@ -220,7 +220,7 @@ calculate_replacement (SearchReplace *sr, const char *src, const regmatch_t *pm)
 				int n = s[1] - '0';
 				s++;
 
-				g_assert (n > 0 && n <= sr->comp_search->re_nsub);
+				g_assert (n > 0 && n <= (int)sr->comp_search->re_nsub);
 				for (i = pm[n].rm_so; i < pm[n].rm_eo; i++)
 					g_string_append_c (gres, src[i]);
 				break;

@@ -95,6 +95,9 @@ format_get_thousand (void)
  * 		should precede
  * @space_sep: a pointer to a boolean which is set to TRUE if the currency
  * 		should have a space separating it from the the value
+ *
+ * Play with the default logic so that things come out nicely for the default
+ * case.
  */
 char const *
 format_get_currency (gboolean *precedes, gboolean *space_sep)
@@ -102,10 +105,12 @@ format_get_currency (gboolean *precedes, gboolean *space_sep)
 	if (lc == NULL)
 		lc = localeconv ();
 
+	/* Use != 0 rather than == 1 so that CHAR_MAX (undefined) is true */
 	if (precedes)
 		*precedes = (lc->p_cs_precedes != 0);
+	/* Use == 1 rather than != 0 so that CHAR_MAX (undefined) is false */
 	if (space_sep)
-		*space_sep = (lc->p_sep_by_space != 0);
+		*space_sep = (lc->p_sep_by_space == 1);
 
 	if (lc->currency_symbol == NULL || *lc->currency_symbol == '\0')
 		return "$";

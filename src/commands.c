@@ -631,7 +631,7 @@ cmd_set_text (WorkbookControl *wbc,
 	cell = sheet_cell_get (sheet, pos->col, pos->row);
 	if (cell_is_partial_array (cell)) {
 		gnumeric_error_splits_array (COMMAND_CONTEXT (wbc),
-					     _("Set Text"));
+					     _("Set Text"), NULL);
 		return TRUE;
 	}
 
@@ -706,7 +706,7 @@ cmd_area_set_text_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 		clipboard_paste_region (wbc,
 					paste_target_init (&pt, me->pos.sheet, r, PASTE_CONTENT),
 					c);
-		clipboard_release (c);
+		cellregion_free (c);
 		me->old_content = g_slist_remove (me->old_content, c);
 	}
 	g_return_val_if_fail (me->old_content == NULL, TRUE);
@@ -725,7 +725,7 @@ cmd_area_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	g_return_val_if_fail (me != NULL, TRUE);
 
 	/* Check for array subdivision */
-	if (selection_check_for_array (me->pos.sheet, me->selection,
+	if (sheet_ranges_split_region (me->pos.sheet, me->selection,
 				       wbc, _("Set Text")))
 		return TRUE;
 
@@ -794,7 +794,7 @@ cmd_area_set_text_destroy (GtkObject *cmd)
 	if (me->old_content != NULL) {
 		GSList *l;
 		for (l = me->old_content ; l != NULL ; l = g_slist_remove (l, l->data))
-			clipboard_release (l->data);
+			cellregion_free (l->data);
 		me->old_content = NULL;
 	}
 	if (me->selection != NULL) {
@@ -909,7 +909,7 @@ cmd_ins_del_colrow_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	clipboard_paste_region (wbc,
 				paste_target_init (&pt, me->sheet, &r, PASTE_ALL_TYPES),
 				me->contents);
-	clipboard_release (me->contents);
+	cellregion_free (me->contents);
 	me->contents = NULL;
 
 	/* Throw away the undo info for the expressions after the action*/
@@ -947,8 +947,8 @@ cmd_ins_del_colrow_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	g_return_val_if_fail (me->contents == NULL, TRUE);
 
 	first = (me->is_insert)
-	    ? (((me->is_cols) ? SHEET_MAX_COLS : SHEET_MAX_ROWS) - me->count)
-	    : me->index;
+		? colrow_max (me->is_cols) - me->count
+		: me->index;
 
 	last = first + me->count - 1;
 	me->sizes = colrow_save_sizes (me->sheet, me->is_cols, first, last);
@@ -1043,7 +1043,7 @@ cmd_ins_del_colrow_destroy (GtkObject *cmd)
 		me->sizes = NULL;
 	}
 	if (me->contents) {
-		clipboard_release (me->contents);
+		cellregion_free (me->contents);
 		me->contents = NULL;
 	}
 	if (me->cutcopied)
@@ -1080,7 +1080,7 @@ cmd_ins_del_colrow (WorkbookControl *wbc,
 
 	/* We store the cut or/copied range if applicable */	
 	if (!application_clipboard_is_empty ()) {
-		me->cutcopied = range_copy (application_clipboard_area_get ());
+		me->cutcopied = range_dup (application_clipboard_area_get ());
 		me->is_cut    = application_clipboard_is_cut ();
 	} else
 		me->cutcopied = NULL;
@@ -1189,7 +1189,7 @@ cmd_clear_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 		clipboard_paste_region (wbc,
 					paste_target_init (&pt, me->sheet, r, me->paste_flags),
 					c);
-		clipboard_release (c);
+		cellregion_free (c);
 		me->old_content = g_slist_remove (me->old_content, c);
 		sheet_selection_add_range (me->sheet,
 					   r->start.col, r->start.row,
@@ -1212,7 +1212,7 @@ cmd_clear_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	g_return_val_if_fail (me->old_content == NULL, TRUE);
 
 	/* Check for array subdivision */
-	if (selection_check_for_array (me->sheet, me->selection,
+	if (sheet_ranges_split_region (me->sheet, me->selection,
 				       wbc, _("Undo Clear")))
 		return TRUE;
 
@@ -1241,7 +1241,7 @@ cmd_clear_destroy (GtkObject *cmd)
 	if (me->old_content != NULL) {
 		GSList *l;
 		for (l = me->old_content ; l != NULL ; l = g_slist_remove (l, l->data))
-			clipboard_release (l->data);
+			cellregion_free (l->data);
 		me->old_content = NULL;
 	}
 	if (me->selection != NULL) {
@@ -1711,7 +1711,7 @@ cmd_set_date_time (WorkbookControl *wbc,
 	cell = sheet_cell_get (sheet, pos->col, pos->row);
 	if (cell_is_partial_array (cell)) {
 		gnumeric_error_splits_array (COMMAND_CONTEXT (wbc),
-					     _("Set Date/Time"));
+					     _("Set Date/Time"), NULL);
 		return TRUE;
 	}
 
@@ -2061,7 +2061,7 @@ cmd_colrow_outline_change (WorkbookControl *wbc, Sheet *sheet,
 	CmdColRowHide *me;
 	ColRowInfo const *cri;
 	int first = -1, last = -1;
-	gboolean visible;
+	gboolean visible = FALSE;
 	int d;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
@@ -2209,7 +2209,7 @@ cmd_paste_cut_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 		me->paste_content = g_slist_remove (me->paste_content, pc);
 
 		clipboard_paste_region (wbc, &pc->pt, pc->contents);
-		clipboard_release (pc->contents);
+		cellregion_free (pc->contents);
 		g_free (pc);
 	}
 
@@ -2302,7 +2302,7 @@ cmd_paste_cut_destroy (GtkObject *cmd)
 	while (me->paste_content) {
 		PasteContent *pc = me->paste_content->data;
 		me->paste_content = g_slist_remove (me->paste_content, pc);
-		clipboard_release (pc->contents);
+		cellregion_free (pc->contents);
 		g_free (pc);
 	}
 	if (me->reloc_storage) {
@@ -2314,16 +2314,37 @@ cmd_paste_cut_destroy (GtkObject *cmd)
 
 gboolean
 cmd_paste_cut (WorkbookControl *wbc, ExprRelocateInfo const *info,
-	       gboolean move_selection)
+	       gboolean move_selection, char *descriptor)
 {
 	GtkObject *obj;
 	CmdPasteCut *me;
+	Range r;
 
-	/* FIXME: Do we want to show the destination range alwell? */
-	char *descriptor = g_strdup_printf (_("Moving %s"),
-					    range_name (&info->origin));
+	/* FIXME: Do we want to show the destination range as well ? */
+	if (descriptor == NULL)
+		descriptor = g_strdup_printf (_("Moving %s"),
+					      range_name (&info->origin));
 
 	g_return_val_if_fail (info != NULL, TRUE);
+
+	r = info->origin;
+	if (range_translate (&r, info->col_offset, info->row_offset)) {
+		char *msg = g_strdup_printf (_("to %s is beyond the sheet boundaries"),
+					     range_name (&r));
+
+		gnumeric_error_invalid (COMMAND_CONTEXT (wbc), descriptor, msg);
+		g_free (msg);
+		g_free (descriptor);
+		return TRUE;
+	}
+
+	/* Check array subdivision & merged regions */
+	if (sheet_range_splits_region (info->target_sheet, &r,
+		(info->origin_sheet == info->target_sheet)
+		? &info->origin : NULL, wbc, descriptor)) {
+		g_free (descriptor);
+		return TRUE;
+	}
 
 	obj = gtk_type_new (CMD_PASTE_CUT_TYPE);
 	me = CMD_PASTE_CUT (obj);
@@ -2384,12 +2405,12 @@ cmd_paste_copy_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	content = clipboard_copy_range (me->dst.sheet, &me->dst.range);
 	if (clipboard_paste_region (wbc, &me->dst, me->content)) {
 		/* There was a problem, avoid leaking */
-		clipboard_release (content);
+		cellregion_free (content);
 		return TRUE;
 	}
 
 	if (me->has_been_through_cycle)
-		clipboard_release (me->content);
+		cellregion_free (me->content);
 	else
 		/* Save the content */
 		me->dst.paste_flags = PASTE_CONTENT |
@@ -2422,7 +2443,7 @@ cmd_paste_copy_destroy (GtkObject *cmd)
 
 	if (me->content) {
 		if (me->has_been_through_cycle)
-			clipboard_release (me->content);
+			cellregion_free (me->content);
 		me->content = NULL;
 	}
 	gnumeric_command_destroy (cmd);
@@ -2500,7 +2521,7 @@ cmd_autofill_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	g_return_val_if_fail (me->content != NULL, TRUE);
 
 	res = clipboard_paste_region (wbc, &me->dst, me->content);
-	clipboard_release (me->content);
+	cellregion_free (me->content);
 	me->content = NULL;
 
 	if (res)
@@ -2522,25 +2543,10 @@ static gboolean
 cmd_autofill_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
 	GList *deps;
-	GSList *merged;
 	CmdAutofill *me = CMD_AUTOFILL (cmd);
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->content == NULL, TRUE);
-
-	/* Check for array subdivision */
-	if (sheet_range_splits_array (me->dst.sheet, &me->dst.range,
-				      wbc, _("Autofill")))
-		return TRUE;
-
-	merged = sheet_merge_get_overlap (me->dst.sheet, &me->dst.range);
-	if (merged) {
-		g_slist_free (merged);
-		gnumeric_error_invalid (COMMAND_CONTEXT (wbc), _("Autofill"),
-					_("Target region contains merged cells"));
-		return TRUE;
-	}
-
 
 	me->content = clipboard_copy_range (me->dst.sheet, &me->dst.range);
 	sheet_clear_region (wbc, me->dst.sheet,
@@ -2549,7 +2555,7 @@ cmd_autofill_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 			    CLEAR_VALUES | CLEAR_NOCHECKARRAY);
 
 	if (me->parent.size == 1)
-		me->parent.size += (g_list_length (me->content->list) +
+		me->parent.size += (g_list_length (me->content->content) +
 				    g_list_length (me->content->styles) +
 				    1);
 	sheet_autofill (me->dst.sheet,
@@ -2579,7 +2585,7 @@ cmd_autofill_destroy (GtkObject *cmd)
 	CmdAutofill *me = CMD_AUTOFILL (cmd);
 
 	if (me->content) {
-		clipboard_release (me->content);
+		cellregion_free (me->content);
 		me->content = NULL;
 	}
 	gnumeric_command_destroy (cmd);
@@ -2592,12 +2598,24 @@ cmd_autofill (WorkbookControl *wbc, Sheet *sheet,
 {
 	GtkObject *obj;
 	CmdAutofill *me;
+	Range r;
+
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
 	/* This would be meaningless */
 	if (base_col+w-1 == end_col && base_row+h-1 == end_row)
 		return FALSE;
 
-	g_return_val_if_fail (sheet != NULL, TRUE);
+	if (end_col != base_col + w - 1)
+		range_init (&r, base_col + w, base_row,
+			    end_col, end_row);
+	else
+		range_init (&r, base_col, base_row + h,
+			    end_col, end_row);
+
+	/* Check arrays or merged regions */
+	if (sheet_range_splits_region (sheet, &r, NULL, wbc, _("Autofill")))
+		return TRUE;
 
 	obj = gtk_type_new (CMD_AUTOFILL_TYPE);
 	me = CMD_AUTOFILL (obj);
@@ -2606,13 +2624,7 @@ cmd_autofill (WorkbookControl *wbc, Sheet *sheet,
 	me->content = NULL;
 	me->dst.sheet = sheet;
 	me->dst.paste_flags = PASTE_CONTENT | PASTE_FORMATS;
-
-	if (end_col != base_col + w - 1)
-		range_init (&me->dst.range, base_col + w, base_row,
-			    end_col, end_row);
-	else
-		range_init (&me->dst.range, base_col, base_row + h,
-			    end_col, end_row);
+	me->dst.range = r;
 
 	me->base_col = base_col;
 	me->base_row = base_row,
@@ -2803,7 +2815,7 @@ static gboolean
 cmd_unmerge_cells_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
 	CmdUnmergeCells *me = CMD_UNMERGE_CELLS (cmd);
-	int i;
+	unsigned i;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->unmerged_regions != NULL, TRUE);
@@ -2824,7 +2836,7 @@ static gboolean
 cmd_unmerge_cells_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
 	CmdUnmergeCells *me = CMD_UNMERGE_CELLS (cmd);
-	int i;
+	unsigned i;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->unmerged_regions == NULL, TRUE);
@@ -2914,7 +2926,7 @@ static gboolean
 cmd_merge_cells_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
 	CmdMergeCells *me = CMD_MERGE_CELLS (cmd);
-	int i;
+	unsigned i;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
@@ -2935,7 +2947,7 @@ cmd_merge_cells_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 					paste_target_init (&pt, me->parent.sheet, r,
 							   PASTE_CONTENT | PASTE_FORMATS),
 					c);
-		clipboard_release (c);
+		cellregion_free (c);
 		me->old_content = g_slist_remove (me->old_content, c);
 	}
 	g_return_val_if_fail (me->old_content == NULL, TRUE);
@@ -2948,7 +2960,7 @@ cmd_merge_cells_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
 	CmdMergeCells *me = CMD_MERGE_CELLS (cmd);
 	Sheet *sheet;
-	int i;
+	unsigned i;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
@@ -2979,7 +2991,7 @@ cmd_merge_cells_destroy (GtkObject *cmd)
 	if (me->old_content != NULL) {
 		GSList *l;
 		for (l = me->old_content ; l != NULL ; l = g_slist_remove (l, l->data))
-			clipboard_release (l->data);
+			cellregion_free (l->data);
 		me->old_content = NULL;
 	}
 
@@ -3320,7 +3332,7 @@ cmd_search_replace_do (CmdSearchReplace *me, Workbook *wb,
 	SearchReplace *sr = me->sr;
 	GPtrArray *cells = NULL;
 	gboolean result = FALSE;
-	int i;
+	unsigned i;
 
 	if (test_run) {
 		switch (sr->error_behaviour) {

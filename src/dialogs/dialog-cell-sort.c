@@ -333,7 +333,7 @@ dialog_cell_sort_ok (SortFlow *sf)
 
 	data = g_new (SortData, 1);
 	data->sheet = sf->sheet;
-	data->range = range_copy (sf->sel);
+	data->range = range_dup (sf->sel);
 	data->num_clause = sf->num_clause;
 	data->clauses = array;
 	data->top = sf->top;
@@ -483,16 +483,19 @@ dialog_cell_sort (WorkbookControlGUI *wbcg, Sheet *sheet)
 	SortFlow sort_flow;
 	gboolean cont;
 	int lp, btn;
+	Range const *sel;
 
 	g_return_if_fail (wbcg != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	/* We can't sort complex ranges */
-	if (!selection_is_simple (WORKBOOK_CONTROL (wbcg), sheet, _("Sort"), FALSE, FALSE))
+	if (!(sel = selection_first_range (sheet, WORKBOOK_CONTROL (wbcg), _("Sort"))))
 		return;
 
+#warning can not contain merged regions
+#warning can not contain arrays
+
 	/* Initialize some important stuff */
-	sort_flow.sel = range_copy (selection_first_range (sheet, TRUE));
+	sort_flow.sel = range_dup (sel);
 	sort_flow.sheet = sheet;
 	sort_flow.wbcg = wbcg;
 

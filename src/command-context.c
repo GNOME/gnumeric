@@ -86,11 +86,12 @@ gnumeric_error_invalid (CommandContext *context, char const *message, char const
 }
 
 void
-gnumeric_error_splits_array (CommandContext *context, char const *cmd)
+gnumeric_error_splits_array (CommandContext *context,
+			     char const *cmd, Range const *array)
 {
 	g_return_if_fail (IS_COMMAND_CONTEXT (context));
 
-	CC_CLASS (context)->error.splits_array (context, cmd);
+	CC_CLASS (context)->error.splits_array (context, cmd, array);
 }
 
 void

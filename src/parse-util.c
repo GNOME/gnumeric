@@ -90,7 +90,7 @@ cellref_name (CellRef const *cell_ref, ParsePos const *pp, gboolean no_sheetname
 }
 
 gboolean
-cellref_a1_get (CellRef *out, const char *in, CellPos const *pos)
+cellref_a1_get (CellRef *out, char const *in, CellPos const *pos)
 {
 	int col = 0;
 	int row = 0;
@@ -188,7 +188,7 @@ r1c1_get_item (int *num, unsigned char *rel, char const * *in)
 }
 
 gboolean
-cellref_r1c1_get (CellRef *out, const char *in, CellPos const *pos)
+cellref_r1c1_get (CellRef *out, char const *in, CellPos const *pos)
 {
 	g_return_val_if_fail (in != NULL, FALSE);
 	g_return_val_if_fail (out != NULL, FALSE);
@@ -230,7 +230,7 @@ cellref_r1c1_get (CellRef *out, const char *in, CellPos const *pos)
  * Return value: TRUE if no format errors found.
  **/
 gboolean
-cellref_get (CellRef *out, const char *in, CellPos const *pos)
+cellref_get (CellRef *out, char const *in, CellPos const *pos)
 {
 	return  cellref_a1_get (out, in, pos) ||
 		cellref_r1c1_get (out, in, pos);
@@ -268,26 +268,57 @@ gnumeric_char_start_expr_p (char const * c)
 	return NULL;
 }
 
-const char *
+static char *
+col_name_internal (char *buf, int col)
+{
+	g_return_val_if_fail (col < SHEET_MAX_COLS, buf);
+	g_return_val_if_fail (col >= 0, buf);
+
+	if (col <= 'Z'-'A'){
+		*buf++ = col + 'A';
+	} else {
+		int a = col / ('Z'-'A'+1);
+		int b = col % ('Z'-'A'+1);
+
+		*buf++ = a + 'A' - 1;
+		*buf++ = b + 'A';
+	}
+	return buf;
+}
+
+char const *
+col_name (int col)
+{
+	static char buffer [3];
+	char *res = col_name_internal (buffer, col);
+	*res = '\0';
+	return buffer;
+}
+
+char const *
+cols_name (int start_col, int end_col)
+{
+	static char buffer [16];
+	char *res = col_name_internal (buffer, start_col);
+
+	if (start_col != end_col) {
+		*res = ':';
+		res = col_name_internal (res+1, end_col);
+	}
+	*res = '\0';
+	return buffer;
+}
+
+char const *
 cell_coord_name (int col, int row)
 {
 	static char buffer [2 + 4 * sizeof (long)];
-	char *p = buffer;
-
-	if (col <= 'Z' - 'A'){
-		*p++ = col + 'A';
-	} else {
-		int a = col / ('Z' - 'A' + 1);
-		int b = col % ('Z' - 'A' + 1);
-
-		*p++ = a + 'A' - 1;
-		*p++ = b + 'A';
-	}
-	sprintf (p, "%d", row + 1);
-
+	char *res = col_name_internal (buffer, col);
+	sprintf (res, "%d", row + 1);
 	return buffer;
 }
-const char *
+
+char const *
 cell_pos_name (CellPos const *pos)
 {
 	g_return_val_if_fail (pos != NULL, "ERROR");
@@ -295,7 +326,7 @@ cell_pos_name (CellPos const *pos)
 	return cell_coord_name (pos->col, pos->row);
 }
 
-const char *
+char const *
 cell_name (Cell const *cell)
 {
 	g_return_val_if_fail (cell != NULL, "ERROR");
@@ -303,34 +334,11 @@ cell_name (Cell const *cell)
 	return cell_coord_name (cell->pos.col, cell->pos.row);
 }
 
-const char *
-col_name (int col)
-{
-	static char buffer [3];
-	char *p = buffer;
-
-	g_assert (col < SHEET_MAX_COLS);
-	g_assert (col >= 0);
-
-	if (col <= 'Z'-'A'){
-		*p++ = col + 'A';
-	} else {
-		int a = col / ('Z'-'A'+1);
-		int b = col % ('Z'-'A'+1);
-
-		*p++ = a + 'A' - 1;
-		*p++ = b + 'A';
-	}
-	*p = 0;
-
-	return buffer;
-}
-
 /**
  * Converts a column name into an integer
  **/
 int
-parse_col_name (const char *cell_str, const char **endptr)
+parse_col_name (char const *cell_str, char const **endptr)
 {
 	char c;
 	int col = 0;
@@ -369,7 +377,7 @@ parse_col_name (const char *cell_str, const char **endptr)
  * Return value: true if the cell_name could be successfully parsed
  */
 gboolean
-parse_cell_name (const char *cell_str, int *col, int *row, gboolean strict, int *chars_read)
+parse_cell_name (char const *cell_str, int *col, int *row, gboolean strict, int *chars_read)
 {
 	char const * const original = cell_str;
 	unsigned char c;
@@ -421,7 +429,7 @@ parse_cell_name (const char *cell_str, int *col, int *row, gboolean strict, int 
 }
 
 gboolean
-parse_cell_name_or_range (const char *cell_str, int *col, int *row, int *cols, int *rows, gboolean strict)
+parse_cell_name_or_range (char const *cell_str, int *col, int *row, int *cols, int *rows, gboolean strict)
 {
         int e_col, e_row;
 
@@ -446,7 +454,7 @@ parse_cell_name_or_range (const char *cell_str, int *col, int *row, int *cols, i
  */
 GSList *
 parse_cell_name_list (Sheet *sheet,
-		      const char *cell_name_str,
+		      char const *cell_name_str,
 		      int *error_flag,
 		      gboolean strict)
 {

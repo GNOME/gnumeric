@@ -3,7 +3,6 @@
  *
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)
- *
  */
 #include <config.h>
 #include <gnome.h>
@@ -12,20 +11,20 @@
 #include "gnumeric-util.h"
 #include "selection.h"
 #include "dialogs.h"
-#include "workbook-control.h"
 #include "workbook.h"
 #include "sheet.h"
 #include "commands.h"
+#include "ranges.h"
 #include "cmd-edit.h"
 
 #define GLADE_FILE "delete-cells.glade"
 
 static void
-dialog_delete_cells_impl (WorkbookControlGUI *wbcg, Sheet *sheet, GladeXML  *gui)
+dialog_delete_cells_impl (WorkbookControlGUI *wbcg, GladeXML *gui,
+			  Sheet *sheet, Range const *sel)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	GtkWidget *dialog, *radio_0;
-	Range *ss;
 	int  cols, rows;
 	int i, res;
 
@@ -43,24 +42,23 @@ dialog_delete_cells_impl (WorkbookControlGUI *wbcg, Sheet *sheet, GladeXML  *gui
 		i = gtk_radio_group_get_selected
 			(GTK_RADIO_BUTTON(radio_0)->group);
 
-		ss = sheet->selections->data;
-		cols = ss->end.col - ss->start.col + 1;
-		rows = ss->end.row - ss->start.row + 1;
+		cols = sel->end.col - sel->start.col + 1;
+		rows = sel->end.row - sel->start.row + 1;
 
 		if (i == 0)
 			cmd_shift_rows (wbc, sheet,
-					ss->start.col + cols,
-					ss->start.row,
-					ss->end.row, -cols);
+					sel->start.col + cols,
+					sel->start.row,
+					sel->end.row, -cols);
 		else if (i == 1)
 			cmd_shift_cols (wbc, sheet,
-					ss->start.col,
-					ss->end.col,
-					ss->start.row + rows, -rows);
+					sel->start.col,
+					sel->end.col,
+					sel->start.row + rows, -rows);
 		else if (i == 2)
-			cmd_delete_rows (wbc, sheet, ss->start.row, rows);
+			cmd_delete_rows (wbc, sheet, sel->start.row, rows);
 		else if (i == 3)
-			cmd_delete_cols (wbc, sheet, ss->start.col, cols);
+			cmd_delete_cols (wbc, sheet, sel->start.col, cols);
 	}
 
 	/* If user closed the dialog with prejudice, it's already destroyed */
@@ -73,38 +71,32 @@ dialog_delete_cells (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	GladeXML  *gui;
-	Range *ss;
+	Range const *sel;
 	int  cols, rows;
 
 	g_return_if_fail (wbcg != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	ss = sheet->selections->data;
-	cols = ss->end.col - ss->start.col + 1;
-	rows = ss->end.row - ss->start.row + 1;
+	if (!(sel = selection_first_range (sheet, wbc, _("Delete cells"))))
+		return;
+	cols = sel->end.col - sel->start.col + 1;
+	rows = sel->end.row - sel->start.row + 1;
 
-	/* short circuit the dialog if an entire row/column is selected */
-	if (ss->start.row == 0 && ss->end.row  >= SHEET_MAX_ROWS-1) {
-		cmd_delete_cols (wbc, sheet,
-				 ss->start.col, cols);
+	if (range_is_full (sel, FALSE)) {
+		cmd_delete_cols (wbc, sheet, sel->start.col, cols);
 		return;
 	}
-	if (ss->start.col == 0 && ss->end.col  >= SHEET_MAX_COLS-1) {
-		cmd_delete_rows (wbc, sheet,
-				 ss->start.row, rows);
+	if (range_is_full (sel, TRUE)) {
+		cmd_delete_rows (wbc, sheet, sel->start.row, rows);
 		return;
 	}
-
-	if (!selection_is_simple (wbc, sheet, _("Delete cells"), FALSE, FALSE))
-		return;
 
 	gui = gnumeric_glade_xml_new (wbcg, GLADE_FILE);
         if (gui == NULL)
                 return;
 
 	/* Wrapper to ensure the libglade object gets removed on error */
-	dialog_delete_cells_impl (wbcg, sheet, gui);
+	dialog_delete_cells_impl (wbcg, gui, sheet, sel);
 
 	gtk_object_unref (GTK_OBJECT (gui));
 }
-

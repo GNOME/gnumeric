@@ -238,7 +238,7 @@ dialog_paste_special (WorkbookControlGUI *wbcg)
 		if (do_skip_blanks)
 			result |= PASTE_SKIP_BLANKS;
 	} else if (v == BUTTON_PASTE_LINK) {
-		result = PASTE_DEFAULT | PASTE_LINK;
+		result = PASTE_LINK;
 	}
 	gtk_object_destroy (GTK_OBJECT (state->dialog));
 

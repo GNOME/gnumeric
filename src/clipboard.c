@@ -1,3 +1,4 @@
+/* vim: set sw=8: */
 /*
  * Clipboard.c: Implements the copy/paste operations
  *
@@ -19,7 +20,7 @@
 #include "eval.h"
 #include "selection.h"
 #include "application.h"
-#include "render-ascii.h"
+#include "rendered-value.h"
 #include "command-context.h"
 #include "workbook-control.h"
 #include "workbook.h"
@@ -153,25 +154,26 @@ paste_cell_with_operation (Sheet *dest_sheet,
 }
 
 static void
-paste_link (Sheet *dest_sheet,
-	    int source_col, int source_row,
-	    int target_col, int target_row)
+paste_link (CellRegion const *content, CellCopy const *c_copy,
+	    Sheet *target_sheet, int target_col, int target_row)
 {
 	ExprTree *expr;
 	Cell *cell;
 	CellRef source_cell_ref;
 
-	cell = sheet_cell_fetch (dest_sheet, target_col, target_row);
+	/* Not possible to link to arbitrary (non gnumeric) sources yet. */
+	if (c_copy->type != CELL_COPY_TYPE_CELL)
+		return;
 
-	/* FIXME : This is broken
-	 * 1) should be relative not absolute (add toggle ?)
-	 * 2) this is the WRONG SHEET !
-	 */
-	source_cell_ref.sheet = dest_sheet;
-	source_cell_ref.col = source_col;
-	source_cell_ref.row = source_row;
+	cell = sheet_cell_fetch (target_sheet, target_col, target_row);
+
+	/* TODO : support relative links ? */
 	source_cell_ref.col_relative = 0;
 	source_cell_ref.row_relative = 0;
+	source_cell_ref.col = content->base.col + c_copy->col_offset;
+	source_cell_ref.row = content->base.row + c_copy->row_offset;
+	source_cell_ref.sheet = (content->origin_sheet != target_sheet)
+		? content->origin_sheet : NULL;
 	expr = expr_tree_new_var (&source_cell_ref);
 
 	cell_set_expr (cell, expr, NULL);
@@ -246,26 +248,35 @@ paste_cell (Sheet *dest_sheet,
 gboolean
 clipboard_paste_region (WorkbookControl *wbc,
 			PasteTarget const *pt,
-			CellRegion *content)
+			CellRegion const *content)
 {
 	int tmp;
 	int repeat_horizontal, repeat_vertical;
-	int dst_cols = pt->range.end.col - pt->range.start.col + 1;
-	int dst_rows = pt->range.end.row - pt->range.start.row + 1;
+	int dst_cols = range_width (&pt->range);
+	int dst_rows = range_height (&pt->range);
 	int src_cols = content->cols;
 	int src_rows = content->rows;
 	gboolean has_content;
 
 	g_return_val_if_fail (pt != NULL, TRUE);
 
-	has_content = pt->paste_flags & (PASTE_CONTENT|PASTE_AS_VALUES);
-
-	g_return_val_if_fail (has_content != (PASTE_CONTENT|PASTE_AS_VALUES), TRUE);
+	/* Ensure that only 1 type is selected */
+	has_content = pt->paste_flags & (PASTE_CONTENT|PASTE_AS_VALUES|PASTE_LINK);
+	g_return_val_if_fail (has_content == PASTE_CONTENT ||
+			      has_content == PASTE_AS_VALUES ||
+			      has_content == PASTE_LINK, TRUE);
 
 	if (pt->paste_flags & PASTE_TRANSPOSE) {
 		int tmp = src_cols;
 		src_cols = src_rows;
 		src_rows = tmp;
+	}
+
+	if (content->not_as_content && (pt->paste_flags & PASTE_CONTENT)) {
+		gnumeric_error_invalid (COMMAND_CONTEXT (wbc),
+					_("Unable to paste"),
+					_("Content can only be pasted by value or by link."));
+		return TRUE;
 	}
 
 	/* calculate the tiling */
@@ -342,12 +353,11 @@ clipboard_paste_region (WorkbookControl *wbc,
 			rinfo->origin_sheet = rinfo->target_sheet = pt->sheet;
 
 			if (pt->paste_flags & PASTE_EXPR_RELOCATE) {
-				rinfo->origin.start.col = content->base_col;
-				rinfo->origin.end.col = content->base_col + content->cols -1;
-				rinfo->origin.start.row = content->base_row;
-				rinfo->origin.end.row = content->base_row + content->rows -1;
-				rinfo->col_offset = left - content->base_col;
-				rinfo->row_offset = top - content->base_row;
+				rinfo->origin.start = content->base;
+				rinfo->origin.end.col = content->base.col + content->cols - 1;
+				rinfo->origin.end.row = content->base.row + content->rows - 1;
+				rinfo->col_offset = left - content->base.col;
+				rinfo->row_offset = top - content->base.row;
 			} else {
 				rinfo->origin = pt->range;
 				rinfo->col_offset = 0;
@@ -376,7 +386,7 @@ clipboard_paste_region (WorkbookControl *wbc,
 			if (!has_content)
 				continue;
 
-			for (l = content->list; l; l = l->next) {
+			for (l = content->content; l; l = l->next) {
 				CellCopy *c_copy = l->data;
 				int target_col = left;
 				int target_row = top;
@@ -391,18 +401,15 @@ clipboard_paste_region (WorkbookControl *wbc,
 
 				rinfo->pos.sheet = pt->sheet;
 				if (pt->paste_flags & PASTE_EXPR_RELOCATE) {
-					rinfo->pos.eval.col = content->base_col + c_copy->col_offset;
-					rinfo->pos.eval.row = content->base_row + c_copy->row_offset;
+					rinfo->pos.eval.col = content->base.col + c_copy->col_offset;
+					rinfo->pos.eval.row = content->base.row + c_copy->row_offset;
 				} else {
 					rinfo->pos.eval.col = target_col;
 					rinfo->pos.eval.row = target_row;
 				}
 
 				if (pt->paste_flags & PASTE_LINK) {
-					int source_col = content->base_col + c_copy->col_offset;
-					int source_row = content->base_row + c_copy->row_offset;
-
-					paste_link (pt->sheet, source_col, source_row,
+					paste_link (content, c_copy, pt->sheet,
 						    target_col, target_row);
 				} else
 					paste_cell (pt->sheet, target_col, target_row,
@@ -428,16 +435,30 @@ clipboard_paste_region (WorkbookControl *wbc,
 static Value *
 clipboard_prepend_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {
-	CellRegion *c = user_data;
+	CellRegion *cr = user_data;
+	ExprArray const *a;
 	CellCopy *copy;
 
 	copy = g_new (CellCopy, 1);
 	copy->type       = CELL_COPY_TYPE_CELL;
 	copy->u.cell     = cell_copy (cell);
-	copy->u.cell->pos.col = copy->col_offset = col - c->base_col;
-	copy->u.cell->pos.row = copy->row_offset = row - c->base_row;
+	copy->u.cell->pos.col = copy->col_offset = col - cr->base.col;
+	copy->u.cell->pos.row = copy->row_offset = row - cr->base.row;
 
-	c->list = g_list_prepend (c->list, copy);
+	cr->content = g_list_prepend (cr->content, copy);
+
+	/* Check for array division */
+	if (!cr->not_as_content && NULL != (a = cell_is_array (cell))) {
+		int base;
+		base = copy->col_offset - a->x;
+		if (base < 0 || (base + a->cols) > cr->cols)
+			cr->not_as_content = TRUE;
+		else {
+			base = copy->row_offset - a->y;
+			if (base < 0 || (base + a->rows) > cr->rows)
+				cr->not_as_content = TRUE;
+		}
+	}
 
 	return NULL;
 }
@@ -450,83 +471,78 @@ clipboard_prepend_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_d
 CellRegion *
 clipboard_copy_range (Sheet *sheet, Range const *r)
 {
-	CellRegion *c;
+	CellRegion *cr;
 	GSList *merged, *ptr;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-	g_return_val_if_fail (r != NULL, NULL);
-	g_return_val_if_fail (r->start.col <= r->end.col, NULL);
-	g_return_val_if_fail (r->start.row <= r->end.row, NULL);
+	g_return_val_if_fail (range_is_sane (r), NULL);
 
-	c = g_new0 (CellRegion, 1);
+	cr = cellregion_new (sheet);
+	cr->base = r->start;
+	cr->cols = range_width (r);
+	cr->rows = range_height (r);
 
-	c->base_col = r->start.col;
-	c->base_row = r->start.row;
-	c->cols = r->end.col - r->start.col + 1;
-	c->rows = r->end.row - r->start.row + 1;
-
-	/*
-	 * We assume that the cells are traversed somehow starting at
-	 * the upper left corner.  We don't depend on whether it is
-	 * row-major or col-major.
-	 */
 	sheet_foreach_cell_in_range ( sheet, TRUE,
 		r->start.col, r->start.row,
 		r->end.col, r->end.row,
-		clipboard_prepend_cell, c);
-	/* reverse the list so that upper left corner is first */
-	c->list = g_list_reverse (c->list);
+		clipboard_prepend_cell, cr);
 
-	c->styles = sheet_style_get_list (sheet, r);
+	cr->styles = sheet_style_get_list (sheet, r);
 
-	c->merged = NULL;
 	merged = sheet_merge_get_overlap (sheet, r);
 	for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
-		Range *tmp = range_copy (ptr->data);
+		Range *tmp = range_dup (ptr->data);
 		range_translate (tmp, -r->start.col, -r->start.row);
-		c->merged = g_slist_prepend (c->merged, tmp);
+		cr->merged = g_slist_prepend (cr->merged, tmp);
 	}
 	g_slist_free (merged);
 
-	return c;
+	return cr;
+}
+
+PasteTarget*
+paste_target_init (PasteTarget *pt, Sheet *sheet, Range const *r, int flags)
+{
+	pt->sheet = sheet;
+	pt->range = *r;
+	pt->paste_flags = flags;
+	return pt;
 }
 
 /**
- * clipboard_paste :
- * @content:     a Cell Region that contains information to be pasted
- * @time:        Time at which the event happened.
+ * cellregion_new :
+ * @origin_sheet : optionally NULL.
+ *
+ * A convenience routine to create CellRegions and init the flags nicely.
  */
-void
-clipboard_paste (WorkbookControl *wbc, PasteTarget const *pt, guint32 time)
+CellRegion *
+cellregion_new (Sheet *origin_sheet)
 {
-	CellRegion *content;
+	CellRegion *cr = g_new0 (CellRegion, 1);
+	cr->origin_sheet	= origin_sheet;
+	cr->cols = cr->rows	= -1;
+	cr->not_as_content	= FALSE;
+	cr->content		= NULL;
+	cr->styles		= NULL;
+	cr->merged		= NULL;
 
-	g_return_if_fail (pt != NULL);
-	g_return_if_fail (IS_SHEET (pt->sheet));
-
-	content = application_clipboard_contents_get ();
-
-	/* If this application has marked a selection use it */
-	if (content) {
-		cmd_paste_copy (wbc, pt, content);
-		return;
-	}
-
-	/* See if the control has access to information to paste */
-	wb_control_paste_from_selection (wbc, pt, time);
+	return cr;
 }
 
-/*
- * Destroys the contents of a CellRegion
+/**
+ * cellregion_free :
+ * @content :
+ *
+ * A convenience routine to free the memory associated with a CellRegion.
  */
 void
-clipboard_release (CellRegion *content)
+cellregion_free (CellRegion *cr)
 {
 	CellCopyList *l;
 
-	g_return_if_fail (content != NULL);
+	g_return_if_fail (cr != NULL);
 
-	for (l = content->list; l; l = l->next) {
+	for (l = cr->content; l; l = l->next) {
 		CellCopy *this_cell = l->data;
 
 		if (this_cell->type == CELL_COPY_TYPE_CELL) {
@@ -540,29 +556,87 @@ clipboard_release (CellRegion *content)
 
 		g_free (this_cell);
 	}
-	if (content->styles != NULL) {
-		style_list_free (content->styles);
-		content->styles = NULL;
+	g_list_free (cr->content);
+	cr->content = NULL;
+
+	if (cr->styles != NULL) {
+		style_list_free (cr->styles);
+		cr->styles = NULL;
 	}
-	if (content->merged != NULL) {
+	if (cr->merged != NULL) {
 		GSList *ptr;
-		for (ptr = content->merged; ptr != NULL ; ptr = ptr->next)
+		for (ptr = cr->merged; ptr != NULL ; ptr = ptr->next)
 			g_free (ptr->data);
-		g_slist_free (content->merged);
-		content->merged = NULL;
+		g_slist_free (cr->merged);
+		cr->merged = NULL;
 	}
 
-	g_list_free (content->list);
-	content->list = NULL;
-
-	g_free (content);
+	g_free (cr);
 }
 
-PasteTarget*
-paste_target_init (PasteTarget *pt, Sheet *sheet, Range const *r, int flags)
+/**
+ * cellregion_to_string
+ * @cr :
+ *
+ * Renders a CellRegion as a sequence of strings.
+ */
+char *
+cellregion_to_string (CellRegion *cr)
 {
-	pt->sheet = sheet;
-	pt->range = *r;
-	pt->paste_flags = flags;
-	return pt;
+	GString *all, *line;
+	GList *l;
+	char ***data, *return_val;
+	int col, row;
+
+	g_return_val_if_fail (cr != NULL, NULL);
+
+	data = g_new0 (char **, cr->rows);
+
+	for (row = 0; row < cr->rows; row++)
+		data [row] = g_new0 (char *, cr->cols);
+
+	for (l = cr->content; l; l = l->next) {
+		CellCopy *c_copy = l->data;
+		char *v;
+
+		if (c_copy->type != CELL_COPY_TYPE_TEXT) {
+			MStyle const *mstyle = style_list_get_style (cr->styles,
+				&c_copy->u.cell->pos);
+			RenderedValue *rv = rendered_value_new (c_copy->u.cell,
+				mstyle, FALSE);
+			v = rendered_value_get_text (rv);
+			rendered_value_destroy (rv);
+		} else
+			v = g_strdup (c_copy->u.text);
+
+		data [c_copy->row_offset][c_copy->col_offset] = v;
+	}
+
+	all = g_string_new (NULL);
+	line = g_string_new (NULL);
+	for (row = 0; row < cr->rows; row++) {
+		g_string_assign (line, "");
+
+		for (col = 0; col < cr->cols; col++) {
+			if (data [row][col]) {
+				g_string_append (line, data [row][col]);
+				g_free (data [row][col]);
+			}
+			g_string_append_c (line, '\t');
+		}
+		g_string_append (all, line->str);
+		g_string_append_c (all, '\n');
+	}
+
+	return_val = g_strdup (all->str);
+
+	/* Release, everything we used */
+	g_string_free (line, TRUE);
+	g_string_free (all, TRUE);
+
+	for (row = 0; row < cr->rows; row++)
+		g_free (data [row]);
+	g_free (data);
+
+	return return_val;
 }

@@ -646,7 +646,7 @@ value_terminate (void)
 }
 
 void
-value_array_set (Value *array, guint col, guint row, Value *v)
+value_array_set (Value *array, int col, int row, Value *v)
 {
 	g_return_if_fail (v);
 	g_return_if_fail (array->type == VALUE_ARRAY);
@@ -661,7 +661,7 @@ value_array_set (Value *array, guint col, guint row, Value *v)
 }
 
 void
-value_array_resize (Value *v, guint width, guint height)
+value_array_resize (Value *v, int width, int height)
 {
 	int x, y, xcpy, ycpy;
 	Value *newval;

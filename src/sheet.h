@@ -208,9 +208,17 @@ void    sheet_col_row_gutter		  (Sheet *sheet,
 					   int max_col_indent,
 					   int max_row_indent);
 
-Range          sheet_get_extent           (Sheet const *sheet);
-gboolean       sheet_range_splits_array   (Sheet const *sheet, Range const *r,
-					   WorkbookControl *wbc, char const *cmd);
+gboolean sheet_range_splits_array    (Sheet const *sheet,
+				      Range const *r, Range const *ignore,
+				      WorkbookControl *wbc, char const *cmd);
+gboolean sheet_range_splits_region   (Sheet const *sheet,
+				      Range const *r, Range const *ignore,
+				      WorkbookControl *wbc, char const *cmd);
+gboolean sheet_ranges_split_region   (Sheet const *sheet,
+				      GSList const *ranges,
+				      WorkbookControl *wbc, char const *cmd);
+gboolean sheet_range_contains_region (Sheet const *sheet, Range const *r,
+				      WorkbookControl *wbc, char const *cmd);
 
 /* Redraw */
 void        sheet_redraw_all              (Sheet const *sheet);
@@ -238,9 +246,9 @@ void        sheet_adjust_preferences   	   (Sheet const *s,
 void        sheet_menu_state_enable_insert (Sheet *s,
 					    gboolean col, gboolean row);
 
-void        sheet_mark_clean              (Sheet *sheet);
 void        sheet_set_dirty               (Sheet *sheet, gboolean is_dirty);
-gboolean    sheet_is_pristine             (Sheet *sheet);
+gboolean    sheet_is_pristine             (Sheet const *sheet);
+Range       sheet_get_extent		  (Sheet const *sheet);
 
 /* Sheet information manipulation */
 void        sheet_move_range              (WorkbookControl *context,
@@ -275,11 +283,7 @@ SpanCalcFlags required_updates_for_style (MStyle *style);
 /* TODO : give this decent undo capabilities */
 void sheet_adjust_outline_dir (Sheet *sheet, gboolean is_cols);
 
-/*
- * Commands
- * These have undo/redo capabilities
- * and will route error messages to the caller appropriately.
- */
+/* Implementation for commands, no undo */
 gboolean  sheet_insert_cols (WorkbookControl *context, Sheet *sheet,
 			     int col, int count, GSList **reloc_storage);
 gboolean  sheet_delete_cols (WorkbookControl *context, Sheet *sheet,

@@ -680,7 +680,8 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		int final_col = ic->pos.end.col;
 		int final_row = ic->pos.end.col;
 
-		g_return_val_if_fail (ic->drag_button >= 0, TRUE);
+		if (ic->drag_button != (int)event->button.button)
+			return TRUE;
 
 		ic->drag_button = -1;
 
@@ -747,7 +748,14 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 	}
 
 	case GDK_BUTTON_PRESS:
-		g_return_val_if_fail (ic->drag_button < 0, TRUE);
+		/* scroll wheel events dont have corresponding release events */
+		if (event->button.button > 3)
+			return FALSE;
+
+		/* If another button is already down ignore this one */
+		if (ic->drag_button >= 0)
+			return TRUE;
+
 		ic->drag_button = event->button.button;
 
 		/* prepare to create fill or drag cursors, but dont until we
@@ -766,6 +774,9 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		return TRUE;
 
 	case GDK_BUTTON_RELEASE:
+		if (ic->drag_button != (int)event->button.button)
+			return TRUE;
+
 		/* Double clicks may have already released the drag prep */
 		if (ic->drag_button >= 0) {
 			ic->drag_button = -1;
@@ -939,9 +950,9 @@ item_cursor_do_drop (ItemCursor *ic, GdkEventButton *event)
 {
 	/* Only do the operation if something moved */
 	Sheet const *sheet = ic->scg->sheet;
-	Range const *target = selection_first_range (sheet, FALSE);
+	Range const *target = selection_first_range (sheet, NULL, NULL);
 
-	if (target == NULL || range_equal (target, &ic->pos)) {
+	if (range_equal (target, &ic->pos)) {
 		gtk_object_destroy (GTK_OBJECT (ic));
 		return;
 	}
@@ -1108,7 +1119,7 @@ item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 	switch (event->type){
 	case GDK_BUTTON_RELEASE:
 		/* Note : see comment below, and bug 30507 */
-		if (event->button.button == ic->drag_button) {
+		if ((int)event->button.button == ic->drag_button) {
 			scg_stop_sliding (ic->scg);
 			gnome_canvas_item_ungrab (item, event->button.time);
 			item_cursor_do_drop (ic, (GdkEventButton *) event);

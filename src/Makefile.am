@@ -173,8 +173,6 @@ GNUMERIC_BASE_SOURCES =				\
 	ranges.h				\
 	regression.c				\
 	regression.h				\
-	render-ascii.c				\
-	render-ascii.h				\
 	rendered-value.c			\
 	rendered-value.h			\
 	search.h				\

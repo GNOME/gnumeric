@@ -1,3 +1,4 @@
+/* vim: set sw=8: */
 /*
  * ranges.c: various functions for common operations on cell ranges.
  *
@@ -59,7 +60,7 @@ range_init_full_sheet (Range *r)
  * succesfully parsed or NULL on failure.
  */
 Value *
-range_parse (Sheet *sheet, const char *range, gboolean strict)
+range_parse (Sheet *sheet, char const *range, gboolean strict)
 {
 	CellRef a, b;
 	int n_read;
@@ -144,7 +145,7 @@ range_list_destroy (GSList *ranges)
  * Returns a GSList containing Values of type VALUE_CELLRANGE, or NULL on failure
  */
 GSList *
-range_list_parse (Sheet *sheet, const char *range_spec, gboolean strict)
+range_list_parse (Sheet *sheet, char const *range_spec, gboolean strict)
 {
 
 	char *copy, *range_copy, *r;
@@ -254,7 +255,7 @@ range_list_foreach (GSList *ranges, void (*callback)(Cell *cell, void *data),
 void
 range_list_foreach_area (Sheet *sheet, GSList *ranges,
 			 void (*callback)(Sheet       *sheet,
-					  const Range *range,
+					  Range const *range,
 					  gpointer     user_data),
 			 gpointer user_data)
 {
@@ -367,7 +368,7 @@ range_merge (Range const *a, Range const *b)
 	return ans;
 }
 
-const char *
+char const *
 range_name (Range const *src)
 {
 	static char buffer [(2 + 4 * sizeof (long)) * 2 + 1];
@@ -401,7 +402,7 @@ range_name (Range const *src)
  * Return value: Whether or not the range has a header
  **/
 gboolean
-range_has_header (const Sheet *sheet, const Range *src, gboolean top)
+range_has_header (Sheet const *sheet, Range const *src, gboolean top)
 {
 	Cell *ca, *cb;
 	Value *valuea, *valueb;
@@ -485,7 +486,7 @@ range_dump (Range const *src, char const *suffix)
 
 #ifdef RANGE_DEBUG
 static void
-ranges_dump (GList *l, const char *txt)
+ranges_dump (GList *l, char const *txt)
 {
 	fprintf (stderr, "%s: ", txt);
 	for (; l; l = l->next) {
@@ -537,7 +538,7 @@ range_contained (Range const *a, Range const *b)
  * Return value: A list of fragments.
  **/
 GList *
-range_split_ranges (const Range *hard, const Range *soft,
+range_split_ranges (Range const *hard, Range const *soft,
 		    RangeCopyFn copy_fn)
 {
 	/*
@@ -727,7 +728,7 @@ range_split_ranges (const Range *hard, const Range *soft,
 }
 
 /**
- * range_copy:
+ * range_dup:
  * @a: Source range to copy
  *
  * Copies the @a range.
@@ -735,7 +736,7 @@ range_split_ranges (const Range *hard, const Range *soft,
  * Return value: A copy of the Range.
  */
 Range *
-range_copy (const Range *a)
+range_dup (Range const *a)
 {
 	Range *r = g_new (Range, 1);
 	*r = *a;
@@ -756,7 +757,7 @@ range_copy (const Range *a)
  * simply a and b.
  **/
 GList *
-range_fragment (const Range *a, const Range *b)
+range_fragment (Range const *a, Range const *b)
 {
 	GList *split, *ans = NULL;
 
@@ -782,7 +783,7 @@ range_fragment (const Range *a, const Range *b)
  * Return value: new list of fully overlapping ranges.
  **/
 GList *
-range_fragment_list (const GList *ra)
+range_fragment_list (GList const *ra)
 {
 	return range_fragment_list_clip (ra, NULL);
 }
@@ -793,17 +794,17 @@ range_fragment_list (const GList *ra)
  * it is badly broken by design.
  **/
 GList *
-range_fragment_list_clip (const GList *ra, const Range *clip)
+range_fragment_list_clip (GList const *ra, Range const *clip)
 {
 	GList *ranges, *l, *a, *remove, *nexta;
 
 	if (clip)
-		ranges = g_list_prepend (NULL, range_copy (clip));
+		ranges = g_list_prepend (NULL, range_dup (clip));
 	else
 		ranges = NULL;
 
 	for (l = (GList *)ra; l; l = l->next)
-		ranges = g_list_prepend (ranges, range_copy (l->data));
+		ranges = g_list_prepend (ranges, range_dup (l->data));
 
 #ifdef RANGE_DEBUG
 	ranges_dump (ranges, "On entry");
@@ -1000,6 +1001,24 @@ range_is_singleton (Range const *r)
 }
 
 /**
+ * range_is_full:
+ * @r: the range.
+ *
+ *  This determines whether @r completely spans a sheet
+ * in the specified dimension.
+ *
+ * Return value: TRUE if it is infinite else FALSE
+ **/
+gboolean
+range_is_full (Range const *r, gboolean is_cols)
+{
+	if (is_cols)
+		return (r->start.col <= 0 && r->end.col >= SHEET_MAX_COLS - 1);
+	else
+		return (r->start.row <= 0 && r->end.row >= SHEET_MAX_ROWS - 1);
+}
+
+/**
  * range_is_infinite:
  * @r: the range.
  *
@@ -1011,15 +1030,7 @@ range_is_singleton (Range const *r)
 gboolean
 range_is_infinite (Range const *r)
 {
-	if (r->start.col == 0 &&
-	    r->end.col   >= SHEET_MAX_COLS - 1)
-		return TRUE;
-
-	if (r->start.row == 0 &&
-	    r->end.row   >= SHEET_MAX_ROWS - 1)
-		return TRUE;
-
-	return FALSE;
+	return range_is_full (r, TRUE) || range_is_full (r, TRUE);
 }
 
 void
@@ -1035,7 +1046,7 @@ range_clip_to_finite (Range *range, Sheet *sheet)
 }
 
 static void
-range_style_apply_cb (Sheet *sheet, const Range *range, gpointer user_data)
+range_style_apply_cb (Sheet *sheet, Range const *range, gpointer user_data)
 {
 	mstyle_ref ((MStyle *)user_data);
 	sheet_style_apply_range (sheet, range, (MStyle *)user_data);
@@ -1049,13 +1060,27 @@ ranges_set_style (Sheet *sheet, GSList *ranges, MStyle *mstyle)
 	mstyle_unref (mstyle);
 }
 
+int
+range_width (Range const *r)
+{
+	g_return_val_if_fail (r != NULL, 0);
+	return ABS (r->end.col - r->start.col) + 1;
+}
+
+int
+range_height (Range const *r)
+{
+	g_return_val_if_fail (r != NULL, 0);
+	return ABS (r->end.row - r->start.row) + 1;
+}
+
 /**
  * range_translate:
  * @range:
  * @col_offset:
  * @row_offset:
  *
- * Translate the range clipping to the sheet bounds as needed.
+ * Translate the range and return TRUE if it is invalidated.
  *
  * return TRUE if the range is no longer valid.
  **/
@@ -1067,24 +1092,12 @@ range_translate (Range *range, int col_offset, int row_offset)
 	range->start.row += row_offset;
 	range->end.row   += row_offset;
 
-	/* check for inversion */
-	if (range->start.col > range->end.col) {
-		int tmp = range->start.col;
-		range->start.col = range->end.col;
-		range->end.col = tmp;
-	}
-	if (range->start.row > range->end.row) {
-		int tmp = range->start.row;
-		range->start.row = range->end.row;
-		range->end.row = tmp;
-	}
-
 	/* check for completely out of bounds */
-	if (range->start.col >= SHEET_MAX_COLS || range->end.col < 0 ||
-	    range->start.row >= SHEET_MAX_ROWS || range->end.row < 0)
+	if (range->start.col >= SHEET_MAX_COLS || range->start.col < 0 ||
+	    range->start.row >= SHEET_MAX_ROWS || range->start.row < 0 ||
+	    range->end.col >= SHEET_MAX_COLS || range->end.col < 0 ||
+	    range->end.row >= SHEET_MAX_ROWS || range->end.row < 0)
 		return TRUE;
-
-	range_ensure_sanity (range);
 
 	return FALSE;
 }
@@ -1142,7 +1155,7 @@ range_is_sane	(Range const *range);
  * Return value: whether we clipped the range.
  **/
 gboolean
-range_transpose (Range *range, const CellPos *origin)
+range_transpose (Range *range, CellPos const *origin)
 {
 	gboolean clipped = FALSE;
 	Range    src;

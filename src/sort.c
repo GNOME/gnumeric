@@ -222,7 +222,7 @@ sort_permute (WorkbookControl *context, SortData *data, const int *perm, int len
 
 			pt.range = range2;
 			clipboard_paste_region (context, &pt, rcopy1);
-			clipboard_release (rcopy1);
+			cellregion_free (rcopy1);
 
 			/* This is one step behind.  */
 			rperm[i1] = i1;

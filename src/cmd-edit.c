@@ -286,6 +286,7 @@ cmd_paste (WorkbookControl *wbc, PasteTarget const *pt, guint32 time)
 	CellRegion  *content;
 	Range const *src_range;
 
+	g_return_if_fail (pt != NULL);
 	g_return_if_fail (pt->sheet != NULL);
 	g_return_if_fail (IS_SHEET (pt->sheet));
 
@@ -327,16 +328,16 @@ cmd_paste (WorkbookControl *wbc, PasteTarget const *pt, guint32 time)
 		rinfo.origin_sheet = src_sheet;
 		rinfo.target_sheet = pt->sheet;
 
-		cmd_paste_cut (wbc, &rinfo, TRUE);
-		application_clipboard_clear (TRUE);
-	} else
-		/*
-		 * Pasting a Copy or from the X selection
-		 * We cannot check the size of the range here.  The source may
-		 * be an X selection whose size is not known until later.
-		 * Check it then.
-		 */
-		clipboard_paste (wbc, pt, time);
+		if (!cmd_paste_cut (wbc, &rinfo, TRUE, NULL))
+			application_clipboard_clear (TRUE);
+
+	/* If this application has marked a selection use it */
+	} else if (content != NULL)
+		cmd_paste_copy (wbc, pt, content);
+
+	/* See if the control has access to information to paste */
+	else
+		wb_control_paste_from_selection (wbc, pt, time);
 }
 
 /**
@@ -350,17 +351,16 @@ cmd_paste (WorkbookControl *wbc, PasteTarget const *pt, guint32 time)
 void
 cmd_paste_to_selection (WorkbookControl *wbc, Sheet *dest_sheet, int paste_flags)
 {
-	Range const *dest_range;
+	Range const *r;
 	PasteTarget pt;
 
-	if (!selection_is_simple (wbc, dest_sheet, _("Paste"), TRUE, FALSE))
+	if (!(r = selection_first_range (dest_sheet, wbc, _("Paste"))))
 		return;
 
-	dest_range = selection_first_range (dest_sheet, FALSE);
-	g_return_if_fail (dest_range !=NULL);
+	g_return_if_fail (r !=NULL);
 
 	pt.sheet = dest_sheet;
-	pt.range = *dest_range;
+	pt.range = *r;
 	pt.paste_flags = paste_flags;
 	cmd_paste (wbc, &pt, GDK_CURRENT_TIME);
 }
@@ -385,6 +385,7 @@ cmd_shift_rows (WorkbookControl *wbc, Sheet *sheet,
 		int col, int start_row, int end_row, int count)
 {
 	ExprRelocateInfo rinfo;
+	char *desc;
 
 	rinfo.col_offset = count;
 	rinfo.row_offset = 0;
@@ -394,7 +395,10 @@ cmd_shift_rows (WorkbookControl *wbc, Sheet *sheet,
 	rinfo.origin.end.row = end_row;
 	rinfo.origin.end.col = SHEET_MAX_COLS-1;
 
-	cmd_paste_cut (wbc, &rinfo, FALSE);
+	desc = (start_row != end_row)
+		? g_strdup_printf (_("Shift rows %d:%d"), start_row+1, end_row+1)
+		: g_strdup_printf (_("Shift row %d"), start_row+1);
+	cmd_paste_cut (wbc, &rinfo, FALSE, desc);
 }
 
 /**
@@ -416,6 +420,7 @@ cmd_shift_cols (WorkbookControl *wbc, Sheet *sheet,
 		int start_col, int end_col, int row, int count)
 {
 	ExprRelocateInfo rinfo;
+	char *desc;
 
 	rinfo.col_offset = 0;
 	rinfo.row_offset = count;
@@ -425,6 +430,9 @@ cmd_shift_cols (WorkbookControl *wbc, Sheet *sheet,
 	rinfo.origin.end.col = end_col;
 	rinfo.origin.end.row = SHEET_MAX_ROWS-1;
 
-	cmd_paste_cut (wbc, &rinfo, FALSE);
+	desc = (start_col != end_col)
+		? g_strdup_printf (_("Shift columns %s"), cols_name (start_col, end_col))
+		: g_strdup_printf (_("Shift column %s"), col_name (start_col));
+	cmd_paste_cut (wbc, &rinfo, FALSE, desc);
 }
 

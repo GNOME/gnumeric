@@ -880,7 +880,7 @@ Sheet *
 workbook_sheet_by_index (Workbook *wb, int i)
 {
 	g_return_val_if_fail (IS_WORKBOOK (wb), 0);
-	g_return_val_if_fail (wb->sheets->len > i, 0);
+	g_return_val_if_fail ((int)wb->sheets->len > i, 0);
 
 	return g_ptr_array_index (wb->sheets, i);
 }
@@ -900,23 +900,6 @@ workbook_sheet_by_name (Workbook *wb, const char *sheet_name)
 	g_return_val_if_fail (sheet_name != NULL, NULL);
 
 	return g_hash_table_lookup (wb->sheet_hash_private, sheet_name);
-}
-
-static void
-g_ptr_array_insert (GPtrArray *array, gpointer value, int index)
-{
-	if (array->len != index) {
-		int i = array->len - 1;
-		gpointer last = g_ptr_array_index (array, i);
-		g_ptr_array_add (array, last);
-
-		while (i-- > index) {
-			gpointer tmp = g_ptr_array_index (array, i);
-			g_ptr_array_index (array, i+1) = tmp;
-		}
-		g_ptr_array_index (array, index) = value;
-	} else
-		g_ptr_array_add (array, value);
 }
 
 void
@@ -971,7 +954,7 @@ workbook_sheet_detach (Workbook *wb, Sheet *sheet)
 	if (!wb->priv->during_destruction) {
 		if (sheet_index > 0)
 			focus = g_ptr_array_index (wb->sheets, sheet_index-1);
-		else if ((sheet_index+1) < wb->sheets->len)
+		else if ((sheet_index+1) < (int)wb->sheets->len)
 			focus = g_ptr_array_index (wb->sheets, sheet_index+1);
 
 		if (focus != NULL) {

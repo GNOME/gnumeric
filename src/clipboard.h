@@ -54,11 +54,13 @@ typedef struct {
 typedef GList CellCopyList;
 
 struct _CellRegion {
-	int          base_col, base_row;
-	int          cols, rows;
-	CellCopyList *list;
-	GList        *styles;
-	GSList       *merged;
+	Sheet		*origin_sheet; /* can be NULL */
+	CellPos		 base;
+	int		 cols, rows;
+	CellCopyList	*content;
+	GList		*styles;
+	GSList		*merged;
+	gboolean	 not_as_content;
 };
 
 struct _PasteTarget {
@@ -68,13 +70,16 @@ struct _PasteTarget {
 };
 
 CellRegion *clipboard_copy_range   (Sheet *sheet, Range const *r);
-void        clipboard_release      (CellRegion *region);
 gboolean    clipboard_paste_region (WorkbookControl *wbc,
 				    PasteTarget const *pt,
-				    CellRegion *content);
+				    CellRegion const *content);
 void 	    clipboard_paste	   (WorkbookControl *wbc,
 				    PasteTarget const *pt, guint32 time);
 PasteTarget*paste_target_init      (PasteTarget *pt,
 				    Sheet *sheet, Range const *r, int flags);
+
+CellRegion *cellregion_new	 (Sheet *origin_sheet);
+void        cellregion_free      (CellRegion *content);
+char	   *cellregion_to_string (CellRegion *content);
 
 #endif /* GNUMERIC_CLIPBOARD_H */

@@ -15,10 +15,10 @@ gboolean cmd_set_text		(WorkbookControl *wbc, Sheet *sheet,
 				 CellPos const *pos, const char *new_text);
 
 gboolean cmd_area_set_text	(WorkbookControl *wbc, EvalPos const *pos,
-				 const char *text, gboolean as_array);
+				 char const *text, gboolean as_array);
 
 gboolean cmd_set_date_time	(WorkbookControl *wbc, Sheet *sheet,
-				 const CellPos *pos, gboolean is_date);
+				 CellPos const *pos, gboolean is_date);
 
 gboolean cmd_insert_cols	(WorkbookControl *wbc, Sheet *sheet,
 				 int start_col, int count);
@@ -34,13 +34,14 @@ gboolean cmd_resize_colrow	(WorkbookControl *wbc, Sheet *sheet,
 				 int new_size);
 
 gboolean cmd_paste_cut		(WorkbookControl *wbc,
-				 const ExprRelocateInfo *info,
-				 gboolean move_selection);
+				 ExprRelocateInfo const *info,
+				 gboolean move_selection,
+				 char *cmd_descriptor);
 gboolean cmd_paste_copy		(WorkbookControl *wbc,
-				 const PasteTarget *pt, CellRegion *content);
+				 PasteTarget const *pt, CellRegion *content);
 
 gboolean cmd_rename_sheet	(WorkbookControl *wbc,
-				 const char *old_name, const char *new_name);
+				 char const *old_name, char const *new_name);
 
 gboolean cmd_sort		(WorkbookControl *wbc, SortData *data);
 
@@ -53,7 +54,7 @@ gboolean cmd_autofill		(WorkbookControl *wbc, Sheet *sheet,
 				 int w, int h, int end_col, int end_row);
 
 gboolean cmd_clear_selection	(WorkbookControl *wbc, Sheet *sheet,
-				 int const clear_flags);
+				 int clear_flags);
 
 gboolean cmd_autoformat         (WorkbookControl *wbc, Sheet *sheet, FormatTemplate *ft);
 

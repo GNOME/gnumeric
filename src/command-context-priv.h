@@ -18,7 +18,8 @@ typedef struct {
 		void (*plugin)		(CommandContext *ctxt, char const *msg);
 		void (*read)		(CommandContext *ctxt, char const *msg);
 		void (*save)		(CommandContext *ctxt, char const *msg);
-		void (*splits_array)	(CommandContext *ctxt, char const *cmd);
+		void (*splits_array)	(CommandContext *ctxt,
+					 char const *cmd, Range const *array);
 		void (*invalid)		(CommandContext *ctxt,
 					 char const *msg, char const *val);
 	} error;

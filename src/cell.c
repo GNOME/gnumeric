@@ -113,8 +113,8 @@ cell_copy (Cell const *cell)
 	new_cell->rendered_value = NULL;
 
 	new_cell->value = (new_cell->value)
-	    ? value_duplicate (new_cell->value)
-	    : value_new_empty ();
+		? value_duplicate (new_cell->value)
+		: value_new_empty ();
 
 	if (cell->format)
 		style_format_ref (cell->format);

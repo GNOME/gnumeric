@@ -1401,21 +1401,11 @@ stf_parse_convert_to_unix (char *data)
 char *
 stf_parse_is_valid_data (char *data)
 {
-	char *iterator = data;
+	unsigned char *iterator = data;
 
-	while (*iterator) {
-
-		if (!isprint ((unsigned char)*iterator) &&
-		    *iterator != '\n' &&
-		    *iterator != '\r' &&
-		    *iterator != '\t' &&
-		    *iterator != '\f') {
-
-
-			return iterator;
-		}
-		iterator++;
-	}
+	for (; *iterator; iterator++)
+		if (!isprint (*iterator) && !isspace (*iterator))
+			return (char *)iterator;
 
 	return NULL;
 }
@@ -1768,7 +1758,7 @@ stf_parse_region (StfParseOptions_t *parseoptions, const char *data)
 	GSList *list;
 	GSList *list_start;
 	GSList *sublist;
-	GList *resultlist = NULL;
+	CellCopyList *content = NULL;
 	int row = 0, col = 0, colhigh = 0;
 
 	g_return_val_if_fail (parseoptions != NULL, NULL);
@@ -1806,7 +1796,7 @@ stf_parse_region (StfParseOptions_t *parseoptions, const char *data)
 				ccopy->row_offset = row;
 				ccopy->u.text = sublist->data;
 
-				resultlist = g_list_prepend (resultlist, ccopy);
+				content = g_list_prepend (content, ccopy);
 
 				/* we don't free sublist->data, simply because CellCopy will do this */
 			}
@@ -1826,12 +1816,10 @@ stf_parse_region (StfParseOptions_t *parseoptions, const char *data)
 
 	g_slist_free (list_start);
 
-	cr         = g_new (CellRegion, 1);
-	cr->list   = resultlist;
+	cr = cellregion_new (NULL);
+	cr->content = content;
 	cr->cols   = (colhigh > 0) ? colhigh : 1;
 	cr->rows   = row;
-	cr->styles = NULL;
-	cr->merged = NULL;
 
 	return cr;
 }

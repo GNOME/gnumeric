@@ -287,7 +287,7 @@ print_info_new (void)
 	pi->center_horizontally       = gnome_config_get_bool ("center_horizontally=false");
 	pi->center_vertically         = gnome_config_get_bool ("center_vertically=false");
 	pi->print_grid_lines          = gnome_config_get_bool ("print_grid_lines=false");
-	pi->print_even_if_only_styles = gnome_config_get_bool ("print_even_if_only_styles=true");
+	pi->print_even_if_only_styles = gnome_config_get_bool ("print_even_if_only_styles=false");
 	pi->print_black_and_white     = gnome_config_get_bool ("print_black_and_white=false");
 	pi->print_titles              = gnome_config_get_bool ("print_titles=false");
 

@@ -979,8 +979,10 @@ wbcg_error_invalid (CommandContext *cc, char const *msg, char const * value)
 	g_free (buf);
 }
 static void
-wbcg_error_splits_array (CommandContext *context, char const *cmd)
+wbcg_error_splits_array (CommandContext *context,
+			 char const *cmd, Range const *array)
 {
+#warning add range to message
 	gnumeric_error_invalid (context, cmd, _("Would split an array."));
 }
 
@@ -1534,27 +1536,17 @@ cb_insert_rows (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
-	Range *ss;
-	int rows;
+	Range const *sel;
 
 	workbook_finish_editing (wbcg, FALSE);
 
-	/* TODO : No need to check simplicty.  XL applies for each
-	 * non-discrete selected region, (use selection_apply)
-	 * we do need to check for arrays and merged cells 
+	/* TODO : No need to check simplicty.  XL applies for each non-discrete
+	 * selected region, (use selection_apply).  Arrays and Merged regions
+	 * are permitted.
 	 */
-	if (!selection_is_simple (wbc, sheet, _("Insert rows"), TRUE, TRUE))
+	if (!(sel = selection_first_range (sheet, wbc, _("Insert rows"))))
 		return;
-
-	ss = sheet->selections->data;
-
-	/* TODO : Have we have selected columns rather than rows
-	 * This menu item should be disabled when a full column is selected
-	 *
-	 * at minimum a warning if things are about to be cleared ?
-	 */
-	rows = ss->end.row - ss->start.row + 1;
-	cmd_insert_rows (wbc, sheet, ss->start.row, rows);
+	cmd_insert_rows (wbc, sheet, sel->start.row, range_height (sel));
 }
 
 static void
@@ -1562,27 +1554,17 @@ cb_insert_cols (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
-	Range *ss;
-	int cols;
+	Range const *sel;
 
 	workbook_finish_editing (wbcg, FALSE);
 
-	/* TODO : No need to check simplicty.  XL applies for each
-	 * non-discrete selected region, (use selection_apply)
-	 * we do need to check for arrays and merged cells 
+	/* TODO : No need to check simplicty.  XL applies for each non-discrete
+	 * selected region, (use selection_apply).  Arrays and Merged regions
+	 * are permitted.
 	 */
-	if (!selection_is_simple (wbc, sheet, _("Insert cols"), TRUE, TRUE))
+	if (!(sel = selection_first_range (sheet, wbc, _("Insert columns"))))
 		return;
-
-	ss = sheet->selections->data;
-
-	/* TODO : Have we have selected rows rather than columns
-	 * This menu item should be disabled when a full row is selected
-	 *
-	 * at minimum a warning if things are about to be cleared ?
-	 */
-	cols = ss->end.col - ss->start.col + 1;
-	cmd_insert_cols (wbc, sheet, ss->start.col, cols);
+	cmd_insert_cols (wbc, sheet, sel->start.col, range_width (sel));
 }
 
 static void
@@ -1885,6 +1867,7 @@ sort_cmd (WorkbookControlGUI *wbcg, int asc)
 {
 	Sheet *sheet;
 	Range *sel;
+	Range const *tmp;
 	SortData *data;
 	SortClause *clause;
 	int numclause, i;
@@ -1894,15 +1877,15 @@ sort_cmd (WorkbookControlGUI *wbcg, int asc)
 	sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 	g_return_if_fail (IS_SHEET (sheet));
 
-	/* We can't sort multiple ranges, or a range with arrays or merged cells */
-	if (!selection_is_simple (WORKBOOK_CONTROL (wbcg), sheet,
-				  _("Sort"), FALSE, FALSE))
+	if (!(tmp = selection_first_range (sheet, WORKBOOK_CONTROL (wbcg), _("Sort"))))
 		return;
+#warning can not contain merged regions
+#warning can not contain arrays
 
-	sel = range_copy (selection_first_range (sheet, TRUE));
+	sel = range_dup (tmp);
 	range_clip_to_finite (sel, sheet);
 
-	numclause = sel->end.col - sel->start.col + 1;
+	numclause = range_width (sel);
 	clause = g_new0 (SortClause, numclause);
 	for (i=0; i < numclause; i++) {
 		clause[i].offset = i;
@@ -2874,17 +2857,9 @@ cb_workbook_debug_info (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-	Range const * selection;
 
-	if (gnumeric_debugging > 3) {
+	if (gnumeric_debugging > 3)
 		summary_info_dump (wb->summary_info);
-
-		if ((selection = selection_first_range (sheet, FALSE)) == NULL) {
-			gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
-				_("Selection must be a single range"));
-			return;
-		}
-	}
 
 	if (dependency_debugging > 0) {
 		printf ("Dependencies\n");

@@ -1,3 +1,24 @@
+2001-05-04  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-cell-sort.c (dialog_cell_sort_ok) : changes to selection_is_simple.
+
+	* dialog-graph-guru.c (graph_guru_init_vectors) : use
+	  selection_first_range rather than selection_is_simple.  Use some of
+	  the new range_ convenience routines.
+
+	* dialog-delete-cells.c (dialog_delete_cells_impl) : Pass range in.
+	(dialog_delete_cells) : use selection_first_range rather than
+	  selection_is_simple.  Use some of the new range_ convenience
+	  routines.
+
+	* dialog-insert-cells.c (dialog_insert_cells_impl) : Pass range in.
+	(dialog_insert_cells) : use selection_first_range rather than
+	  selection_is_simple.  Use some of the new range_ convenience
+	  routines.
+
+	* dialog-paste-special.c (dialog_paste_special) : paste link is not
+	  the same as paste content.
+
 2001-05-04  Jon K Hellan  <hellan@acm.org>
 
 	* hf-config.glade: Set this one invisible, too.

@@ -864,30 +864,28 @@ static char *help_value = {
 static Value *
 gnumeric_value (FunctionEvalInfo *ei, Value **argv)
 {
-	char *arg, *p, *q;
-	Value *v;
-
 	switch (argv[0]->type) {
 	case VALUE_EMPTY:
 	case VALUE_INTEGER:
 	case VALUE_FLOAT:
 	case VALUE_BOOLEAN:
 		return value_duplicate (argv[0]);
-	default:
-		q = p = arg = value_get_as_string (argv[0]);
-		while (*p) {
-			if (!isspace ((unsigned char)*p))
-				*q++ = *p;
-			p++;
-		}
-		*q = 0;
 
-		v = format_match (arg, NULL, NULL);
+	default: {
+		Value *v;
+		unsigned char *p, *arg = value_get_as_string (argv[0]);
+
+		/* Skip leading spaces */
+		for (p = arg ; *p && isspace (*p) ; ++p)
+			;
+
+		v = format_match (p, NULL, NULL);
 		free (arg);
 
 		if (v)
 			return v;
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
+	}
 	}
 }
 

@@ -88,7 +88,7 @@ sheet_ant (Sheet *sheet, GList *ranges)
 	for (l = ranges; l != NULL; l = l->next) {
 		Range *ss = l->data;
 
-		sheet->ants = g_list_prepend (sheet->ants, range_copy (ss));
+		sheet->ants = g_list_prepend (sheet->ants, range_dup (ss));
 	}
 	sheet->ants = g_list_reverse (sheet->ants);
 	
@@ -1733,6 +1733,9 @@ typedef struct _ArrayCheckData {
 	Sheet const *sheet;
 	int flags;
 	int start, end;
+	Range const *ignore;
+
+	Range error;
 } ArrayCheckData;
 
 static gboolean
@@ -1740,17 +1743,37 @@ cb_check_array_horizontal (ColRowInfo *col, void *user)
 {
 	ArrayCheckData *data = user;
 	ExprArray const *a = NULL;
+	int e;
 
 	if (data->flags & CHECK_AND_LOAD_START) {
 		if ((a = sheet_is_cell_array (data->sheet, col->pos, data->start)) != NULL)
-			if (a->y != 0)		/* Top */
-				return TRUE;
+			if (a->y != 0) {	/* Top */
+				range_init (&data->error,
+					    col->pos - a->x,
+					    data->start - a->y,
+					    col->pos - a->x + a->cols -1,
+					    data->start - a->y + a->rows -1);
+				if (data->ignore == NULL ||
+				    !range_contained (&data->error, data->ignore))
+					return TRUE;
+			}
 	}
 	if (data->flags & LOAD_END)
-		a = sheet_is_cell_array (data->sheet, col->pos, data->end);
+		a = sheet_is_cell_array (data->sheet, col->pos, e = data->end);
+	else
+		e = data->start;
 
 	if (data->flags & CHECK_END)
-		return (a != NULL) && (a->y != (a->rows-1));	/* Bottom */
+		if (a != NULL && a->y != (a->rows-1)) {	/* Bottom */
+			range_init (&data->error,
+				    col->pos - a->x,
+				    e - a->y,
+				    col->pos - a->x + a->cols -1,
+				    e - a->y + a->rows -1);
+			if (data->ignore == NULL ||
+			    !range_contained (&data->error, data->ignore))
+				return TRUE;
+		}
 	return FALSE;
 }
 
@@ -1759,28 +1782,57 @@ cb_check_array_vertical (ColRowInfo *row, void *user)
 {
 	ArrayCheckData *data = user;
 	ExprArray const *a = NULL;
+	int e;
 
 	if (data->flags & CHECK_AND_LOAD_START) {
 		if ((a = sheet_is_cell_array (data->sheet, data->start, row->pos)) != NULL)
-			if (a->x != 0)		/* Left */
-				return TRUE;
+			if (a->x != 0) {		/* Left */
+				range_init (&data->error,
+					    data->start - a->x,
+					    row->pos - a->y,
+					    data->start - a->x + a->cols -1,
+					    row->pos - a->y + a->rows -1);
+				if (data->ignore == NULL ||
+				    !range_contained (&data->error, data->ignore))
+					return TRUE;
+			}
 	}
 	if (data->flags & LOAD_END)
-		a = sheet_is_cell_array (data->sheet, data->end, row->pos);
+		a = sheet_is_cell_array (data->sheet, e = data->end, row->pos);
+	else
+		e = data->start;
 
 	if (data->flags & CHECK_END)
-		return (a != NULL) && (a->x != (a->cols-1));	/* Right */
+		if (a != NULL && a->x != (a->cols-1)) {	/* Right */
+			range_init (&data->error,
+				    e - a->x,
+				    row->pos - a->y,
+				    e - a->x + a->cols -1,
+				    row->pos - a->y + a->rows -1);
+			if (data->ignore == NULL ||
+			    !range_contained (&data->error, data->ignore))
+				return TRUE;
+		}
 	return FALSE;
 }
 
 /**
- * sheet_range_splits_array : * Check the outer edges of range to ensure that
- *         if an array is within it then the entire array is within the range.
+ * sheet_range_splits_array :
+ * @sheet : The sheet.
+ * @r     : The range to chaeck
+ * @ignore: an optionally NULL range in which it is ok to have an array.
+ * @wbc   : an optional place to report an error.
+ * @cmd   : an optional cmd name used with @wbc.
+ *
+ * Check the outer edges of range @sheet!@r to ensure that if an array is
+ * within it then the entire array is within the range.  @ignore is useful when
+ * src & dest ranges may overlap.
  *
  * returns TRUE is an array would be split.
  */
 gboolean
-sheet_range_splits_array (Sheet const *sheet, Range const *r,
+sheet_range_splits_array (Sheet const *sheet,
+			  Range const *r, Range const *ignore,
 			  WorkbookControl *wbc, char const *cmd)
 {
 	ArrayCheckData closure;
@@ -1789,6 +1841,7 @@ sheet_range_splits_array (Sheet const *sheet, Range const *r,
 	g_return_val_if_fail (r->start.row <= r->end.row, FALSE);
 
 	closure.sheet = sheet;
+	closure.ignore = ignore;
 
 	closure.start = r->start.row;
 	closure.end = r->end.row;
@@ -1796,17 +1849,20 @@ sheet_range_splits_array (Sheet const *sheet, Range const *r,
 		closure.flags = (closure.end < sheet->rows.max_used)
 			? CHECK_END | LOAD_END
 			: 0;
-	} else {
+	} else if (closure.end < sheet->rows.max_used)
 		closure.flags = (closure.start == closure.end)
 			? CHECK_AND_LOAD_START | CHECK_END
 			: CHECK_AND_LOAD_START | CHECK_END | LOAD_END;
-	}
+	else
+		closure.flags = CHECK_AND_LOAD_START;
 
-	if (closure.flags && colrow_foreach (&sheet->cols,
-					     r->start.col, r->end.col,
-					     &cb_check_array_horizontal,
-					     &closure))
+	if (closure.flags &&
+	    colrow_foreach (&sheet->cols, r->start.col, r->end.col,
+			    &cb_check_array_horizontal, &closure)) {
+		gnumeric_error_splits_array (COMMAND_CONTEXT (wbc),
+					     cmd, &closure.error);
 		return TRUE;
+	}
 
 	closure.start = r->start.col;
 	closure.end = r->end.col;
@@ -1814,16 +1870,138 @@ sheet_range_splits_array (Sheet const *sheet, Range const *r,
 		closure.flags = (closure.end < sheet->cols.max_used)
 			? CHECK_END | LOAD_END
 			: 0;
-	} else {
+	} else if (closure.end < sheet->cols.max_used)
 		closure.flags = (closure.start == closure.end)
 			? CHECK_AND_LOAD_START | CHECK_END
 			: CHECK_AND_LOAD_START | CHECK_END | LOAD_END;
+	else
+		closure.flags = CHECK_AND_LOAD_START;
+
+	if (closure.flags &&
+	    colrow_foreach (&sheet->rows, r->start.row, r->end.row,
+			    &cb_check_array_vertical, &closure)) {
+		gnumeric_error_splits_array (COMMAND_CONTEXT (wbc),
+					     cmd, &closure.error);
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/**
+ * sheet_range_splits_region :
+ * @sheet: the sheet.
+ * @r : The range whose boundaries are checked
+ * @ignore : An optional range in which it is ok to have arrays and merges
+ * @wbc : The context that issued the command
+ * @cmd : The translated command name.
+ *
+ * A utility to see whether moving the range @r will split any arrays
+ * or merged regions.
+ */
+gboolean
+sheet_range_splits_region (Sheet const *sheet,
+			   Range const *r, Range const *ignore,
+			   WorkbookControl *wbc, char const *cmd_name)
+{
+	GSList *merged;
+
+	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
+
+	/* Check for array subdivision */
+	if (sheet_range_splits_array (sheet, r, ignore, wbc, cmd_name))
+		return TRUE;
+
+	merged = sheet_merge_get_overlap (sheet, r);
+	if (merged) {
+		GSList *ptr;
+
+		for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
+			Range const *m = ptr->data;
+			if (!range_contained (m, r))
+				break;
+		}
+		g_slist_free (merged);
+
+		if (ptr != NULL) {
+			gnumeric_error_invalid (COMMAND_CONTEXT (wbc), cmd_name,
+						_("Target region contains merged cells"));
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
+
+/**
+ * sheet_ranges_split_region:
+ * @sheet: the sheet.
+ * @ranges : A list of ranges to check.
+ * @wbc : The context that issued the command
+ * @cmd : The translated command name.
+ *
+ * A utility to see whether moving the any of the ranges @ranges will split any
+ * arrays or merged regions.
+ */
+gboolean
+sheet_ranges_split_region (Sheet const * sheet, GSList const *ranges,
+			   WorkbookControl *wbc, char const *cmd)
+{
+	GSList const *l;
+
+	/* Check for array subdivision */
+	for (l = ranges; l != NULL; l = l->next) {
+		Range const *r = l->data;
+		if (sheet_range_splits_region (sheet, r, NULL, wbc, cmd))
+			return TRUE;
+	}
+	return FALSE;
+}
+
+#if 0
+static Value *
+cb_cell_is_array (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
+{
+	return cell_is_array (cell) ? value_terminate () : NULL;
+
+}
+
+gboolean
+selection_is_simple (WorkbookControl *wbc, Sheet const *sheet,
+		     char const *command_name,
+		     gboolean allow_merged, gboolean allow_arrays)
+{
+	Range const *r;
+	GSList *merged;
+
+	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
+
+	r = sheet->selections->data;
+
+	if (!allow_merged) {
+		merged = sheet_merge_get_overlap (sheet, r);
+		if (merged != NULL) {
+			gnumeric_error_invalid (COMMAND_CONTEXT (wbc), command_name,
+				_("can not operate on merged cells"));
+			g_slist_free (merged);
+			return FALSE;
+		}
 	}
 
-	return closure.flags &&
-		colrow_foreach (&sheet->rows, r->start.row, r->end.row,
-				&cb_check_array_vertical, &closure);
+	if (!allow_arrays) {
+		if (sheet_foreach_cell_in_range ((Sheet *)sheet, TRUE,
+					      r->start.col, r->start.row,
+					      r->end.col, r->end.row,
+					      cb_cell_is_array, NULL)) {
+			gnumeric_error_invalid (COMMAND_CONTEXT (wbc), command_name,
+				_("can not operate on array formulae"));
+			return FALSE;
+		}
+	}
+
+	return TRUE;
 }
+#endif
+
+/***************************************************************************/
 
 /**
  * sheet_col_get:
@@ -2613,7 +2791,7 @@ sheet_clear_region (WorkbookControl *wbc, Sheet *sheet,
 	r.end.row = end_row;
 
 	if (clear_flags & CLEAR_VALUES && !(clear_flags & CLEAR_NOCHECKARRAY) &&
-	    sheet_range_splits_array (sheet, &r, wbc, _("Clear")))
+	    sheet_range_splits_array (sheet, &r, NULL, wbc, _("Clear")))
 		return;
 
 	/* Queue a redraw for cells being modified */
@@ -2826,17 +3004,6 @@ sheet_name_quote (char const *name_unquoted)
 }
 
 void
-sheet_mark_clean (Sheet *sheet)
-{
-	g_return_if_fail (IS_SHEET (sheet));
-
-	if (sheet->modified)
-		sheet->pristine = FALSE;
-
-	sheet->modified = FALSE;
-}
-
-void
 sheet_set_dirty (Sheet *sheet, gboolean is_dirty)
 {
 	g_return_if_fail (IS_SHEET (sheet));
@@ -2856,7 +3023,7 @@ sheet_set_dirty (Sheet *sheet, gboolean is_dirty)
  * Return value: TRUE if it is perfectly clean.
  **/
 gboolean
-sheet_is_pristine (Sheet *sheet)
+sheet_is_pristine (Sheet const *sheet)
 {
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 
@@ -2908,32 +3075,6 @@ cb_collect_cell (Sheet *sheet, int col, int row, Cell *cell,
 
 	sheet_cell_remove_from_hash (sheet, cell);
 	*l = g_list_prepend (*l, cell);
-	return NULL;
-}
-
-/*
- * Callback for sheet_foreach_cell_in_range to test whether a cell is in an
- * array-formula to the right of the leftmost column.
- */
-static Value *
-avoid_dividing_array_horizontal (Sheet *sheet, int col, int row, Cell *cell,
-				 void *user_data)
-{
-	if (cell_is_array (cell) && cell->base.expression->array.x > 0)
-		return value_terminate ();
-	return NULL;
-}
-
-/*
- * Callback for sheet_foreach_cell_in_range to test whether a cell is in an
- * array-formula below the top line.
- */
-static Value *
-avoid_dividing_array_vertical (Sheet *sheet, int col, int row, Cell *cell,
-			       void *user_data)
-{
-	if (cell_is_array (cell) && cell->base.expression->array.y > 0)
-		return value_terminate ();
 	return NULL;
 }
 
@@ -3010,6 +3151,7 @@ sheet_insert_cols (WorkbookControl *wbc, Sheet *sheet,
 		   int col, int count, GSList **reloc_storage)
 {
 	ExprRelocateInfo reloc_info;
+	Range region;
 	int   i;
 
 	g_return_val_if_fail (reloc_storage != NULL, TRUE);
@@ -3019,26 +3161,11 @@ sheet_insert_cols (WorkbookControl *wbc, Sheet *sheet,
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (count != 0, TRUE);
 
-	/* 0. Walk cells in displaced col and ensure arrays aren't divided. */
-	if (col > 0)	/* No need to test leftmost column */
-		if (sheet_foreach_cell_in_range (sheet, TRUE, col, 0,
-					      col, SHEET_MAX_ROWS-1,
-					      &avoid_dividing_array_horizontal,
-					      NULL) != NULL){
-			gnumeric_error_splits_array (COMMAND_CONTEXT (wbc),
-						     _("Insert Columns"));
-			return TRUE;
-		}
-
-	/* Walk the right edge to make sure nothing is split due to over run.  */
-	if (sheet_foreach_cell_in_range (sheet, TRUE, SHEET_MAX_COLS-count, 0,
-				      SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1,
-				      &avoid_dividing_array_horizontal,
-				      NULL) != NULL){
-		gnumeric_error_splits_array (COMMAND_CONTEXT (wbc),
-					     _("Insert Columns"));
+	/* 0. Check displaced region and ensure arrays aren't divided. */
+	range_init (&region, col, 0, SHEET_MAX_COLS-1-count, SHEET_MAX_ROWS-1);
+	if (sheet_range_splits_array (sheet, &region, NULL,
+				      wbc, _("Insert Columns")))
 		return TRUE;
-	}
 
 	/* 1. Delete all columns (and their cells) that will fall off the end */
 	for (i = sheet->cols.max_used; i >= SHEET_MAX_COLS - count ; --i)
@@ -3104,7 +3231,7 @@ sheet_delete_cols (WorkbookControl *wbc, Sheet *sheet,
 	reloc_info.row_offset = SHEET_MAX_ROWS; /*   to force invalidation */
 
 	/* 0. Walk cells in deleted cols and ensure arrays aren't divided. */
-	if (sheet_range_splits_array (sheet, &reloc_info.origin,
+	if (sheet_range_splits_array (sheet, &reloc_info.origin, NULL,
 				      wbc, _("Delete Columns")))
 		return TRUE;
 
@@ -3156,6 +3283,7 @@ sheet_insert_rows (WorkbookControl *wbc, Sheet *sheet,
 		   int row, int count, GSList **reloc_storage)
 {
 	ExprRelocateInfo reloc_info;
+	Range region;
 	int   i;
 
 	g_return_val_if_fail (reloc_storage != NULL, TRUE);
@@ -3165,27 +3293,11 @@ sheet_insert_rows (WorkbookControl *wbc, Sheet *sheet,
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (count != 0, TRUE);
 
-	/* 0. Walk cells in displaced row and ensure arrays aren't divided. */
-	if (row > 0)	/* No need to test leftmost column */
-		if (sheet_foreach_cell_in_range (sheet, TRUE,
-					      0, row,
-					      SHEET_MAX_COLS-1, row,
-					      &avoid_dividing_array_vertical,
-					      NULL) != NULL) {
-			gnumeric_error_splits_array (COMMAND_CONTEXT (wbc),
-						     _("Insert Rows"));
-			return TRUE;
-		}
-
-	/* Walk the lower edge to make sure nothing is split due to over run.  */
-	if (sheet_foreach_cell_in_range (sheet, TRUE, 0, SHEET_MAX_ROWS-count,
-				      SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1,
-				      &avoid_dividing_array_vertical,
-				      NULL) != NULL){
-		gnumeric_error_splits_array (COMMAND_CONTEXT (wbc),
-					     _("Insert Rows"));
+	/* 0. Check displaced region and ensure arrays aren't divided. */
+	range_init (&region, 0, row, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1-count);
+	if (sheet_range_splits_array (sheet, &region, NULL,
+				      wbc, _("Insert Rows")))
 		return TRUE;
-	}
 
 	/* 1. Delete all rows (and their cells) that will fall off the end */
 	for (i = sheet->rows.max_used; i >= SHEET_MAX_ROWS - count ; --i)
@@ -3251,7 +3363,7 @@ sheet_delete_rows (WorkbookControl *wbc, Sheet *sheet,
 	reloc_info.row_offset = SHEET_MAX_ROWS; /*   to force invalidation */
 
 	/* 0. Walk cells in deleted rows and ensure arrays aren't divided. */
-	if (sheet_range_splits_array (sheet, &reloc_info.origin,
+	if (sheet_range_splits_array (sheet, &reloc_info.origin, NULL,
 				      wbc, _("Delete Rows")))
 		return TRUE;
 
@@ -3339,7 +3451,7 @@ sheet_move_range (WorkbookControl *wbc,
 		    range_overlap (&rinfo->origin, &dst))
 			invalid = range_split_ranges (&rinfo->origin, &dst, NULL);
 		else
-			invalid = g_list_append (NULL, range_copy (&dst));
+			invalid = g_list_append (NULL, range_dup (&dst));
 
 		reloc_info.origin_sheet = reloc_info.target_sheet = rinfo->target_sheet;;
 		reloc_info.col_offset = SHEET_MAX_COLS; /* send to infinity */
@@ -3368,11 +3480,11 @@ sheet_move_range (WorkbookControl *wbc,
 
 	/* 3. Collect the cells */
 	sheet_foreach_cell_in_range (rinfo->origin_sheet, TRUE,
-				  rinfo->origin.start.col,
-				  rinfo->origin.start.row,
-				  rinfo->origin.end.col,
-				  rinfo->origin.end.row,
-				  &cb_collect_cell, &cells);
+				     rinfo->origin.start.col,
+				     rinfo->origin.start.row,
+				     rinfo->origin.end.col,
+				     rinfo->origin.end.row,
+				     &cb_collect_cell, &cells);
 	/* Reverse list so that we start at the top left (simplifies arrays). */
 	cells = g_list_reverse (cells);
 

@@ -449,9 +449,9 @@ graph_guru_init_vectors (GraphGuruState *state)
 	Range const * r;
 	int num_rows, num_cols;
 
-	r = selection_first_range (state->sheet, TRUE);
-	num_rows = r->end.row - r->start.row;
-	num_cols = r->end.col - r->start.col;
+	r = selection_first_range (state->sheet, NULL, NULL);
+	num_cols = range_width (r);
+	num_rows = range_height (r);
 
 	/* Excel docs claim that rows == cols uses rows */
 	state->is_columns = num_cols < num_rows;

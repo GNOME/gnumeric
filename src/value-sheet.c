@@ -154,8 +154,8 @@ value_area_get_width (const EvalPos *ep, Value const *v)
 		 */
 		Sheet *sheeta = v->v_range.cell.a.sheet ?
 			v->v_range.cell.a.sheet:ep->sheet;
-		guint ans = v->v_range.cell.b.col -
-			    v->v_range.cell.a.col + 1;
+		int ans = v->v_range.cell.b.col -
+			  v->v_range.cell.a.col + 1;
 		if (sheeta && sheeta->cols.max_used < ans) /* Clip */
 			ans = sheeta->cols.max_used+1;
 		return ans;
@@ -179,8 +179,8 @@ value_area_get_height (const EvalPos *ep, Value const *v)
 		 *         inversions ??
 		 */
 		Sheet *sheeta = eval_sheet (v->v_range.cell.a.sheet, ep->sheet);
-		guint ans = v->v_range.cell.b.row -
-		            v->v_range.cell.a.row + 1;
+		int ans = v->v_range.cell.b.row -
+			  v->v_range.cell.a.row + 1;
 		if (sheeta && sheeta->rows.max_used < ans) /* Clip */
 			ans = sheeta->rows.max_used + 1;
 		return ans;
@@ -192,7 +192,7 @@ value_area_get_height (const EvalPos *ep, Value const *v)
 }
 
 Value const *
-value_area_fetch_x_y (EvalPos const *ep, Value const *v, guint x, guint y)
+value_area_fetch_x_y (EvalPos const *ep, Value const *v, int x, int y)
 {
 	Value const * const res = value_area_get_x_y (ep, v, x, y);
 	static Value *value_zero = NULL;
@@ -209,7 +209,7 @@ value_area_fetch_x_y (EvalPos const *ep, Value const *v, guint x, guint y)
  * problems occur a NULL is returned.
  */
 const Value *
-value_area_get_x_y (EvalPos const *ep, Value const *v, guint x, guint y)
+value_area_get_x_y (EvalPos const *ep, Value const *v, int x, int y)
 {
 	g_return_val_if_fail (v, NULL);
 

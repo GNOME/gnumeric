@@ -1,3 +1,147 @@
+2001-05-04  Jody Goldberg <jgoldberg@home.com>
+
+	s/clipboard_release/cellregion_free/
+	s/range_copy/range_dup/
+	s/cell_region_render_ascii/cellregion_to_string/
+	s/clipboard_release/cellregion_free/
+
+	* src/commands.c (cmd_autofill) : Use sheet_range_contains_region.
+	(cmd_autofill_redo) : no need to test here.
+	(cmd_paste_cut) : test destination for validity and ensure that it
+	  does not slice up any merged regions or arrays.  Make the descriptor
+	  an argument so that other commands can use this one.
+	(cmd_ins_del_colrow_redo) : use colrow_max.
+	(cmd_area_set_text_redo) : use sheet_ranges_split_region.
+	(cmd_colrow_outline_change) : suppress warning.
+
+	* src/gui-clipboard.c (x_selection_to_cell_region) : simplify by using
+	  some of the convenience routines.
+
+	* src/gutils.c (gnumeric_sys_data_dir) : warning suppression.
+	(gnumeric_sys_lib_dir) : ditto.
+
+	* src/item-bar.c (item_bar_draw) : add missing warning.
+
+	* src/item-cursor.c (item_cursor_drag_event) : Don't assume the
+	  release came from the button that started the grab (think about
+	  multiple simultaneous button downs.
+	(item_cursor_selection_event) : ditto.
+	(item_cursor_do_drop) : changes to selection_first_range.
+
+	* src/parse-util.c (col_name_internal) : new routine split from
+	  col_name with better buffer handling.
+	(col_name) : used here.
+	(cols_name) : and in this new function.
+
+	* src/print.c (sheet_print_selection) : changes to
+	  selection_first_range.
+
+	* src/print-info.c (print_info_new) : default even_if_only_styles to
+	  false.  This is probably what most people want.
+
+	* src/ranges.c (range_translate) : don't invert.
+	(range_height) : new util.  could probably be #define.
+	(range_width) : new util.  could probably be #define.
+	(range_is_infinite) : use range_is_full.
+	(range_is_full) : new util.
+
+	* src/search.c (calculate_replacement) : warning suppression.
+
+	* src/selection.c (sheet_selection_cut) : Use
+	  sheet_range_splits_region and selection_first_range.
+	(sheet_selection_copy) : Use selection_first_range and remove TODO
+	  about supporting not paste by content for partial arrays.
+	(selection_first_range) : Add optional error reporting if there are
+	  multiple selection ranges.
+
+	* src/format.c (format_get_currency) : diddle the logic to get
+	  undefined to work the way people expect for locale C.
+
+	* src/sheet-merge.c (sheet_merge_relocate) : remove some dead code.
+	(sheet_merge_add) : changes to sheet_range_splits_array.
+
+	* src/sheet-object-widget.c (sheet_widget_checkbox_construct) :
+	  changes to selection_first_range.
+
+	* src/sheet.c (sheet_delete_{cols,rows}) : changes to
+	  sheet_range_splits_array.
+	(sheet_insert_{cols,rows}) : use sheet_range_splits_array.
+	(avoid_dividing_array_vertical) : delete.
+	(avoid_dividing_array_horizontal) : delete.
+	(sheet_is_pristine) : constness.
+	(sheet_mark_clean) : delete.
+	(sheet_clear_region) : changes to sheet_range_splits_array.
+	(sheet_ranges_split_region) : renamed from selection_check_for_array.
+	(sheet_range_splits_region) : new routine to check arrays and merged
+	  regions.
+	(sheet_range_splits_array) : improve and add hooks to be used for
+	  overlapping checks.
+	(cb_check_array_vertical) : report the array being split.
+	(cb_check_array_horizontal) : report the array being split.
+
+	* src/stf-parse.c (stf_parse_region) : use cellregion_new.
+	(stf_parse_is_valid_data) : simplify.
+
+	* src/value-sheet.c (value_area_get_width) : warning suppression.
+	(value_area_get_height) : warning suppression.
+	(value_area_fetch_x_y : signedness.
+	(value_area_get_x_y) : signedness.
+
+	* src/value.c (value_array_resize) : signedness.
+	(value_array_set) : signedness.
+
+	* src/workbook-control-gui.c (wbcg_error_splits_array) : signature
+	  change.
+	(cb_insert_rows) : use selection_first_range
+	(cb_insert_cols) : ditto.
+	(sort_cmd) : ditto.
+	(cb_workbook_debug_info) : clean out some deadwood.
+
+	* src/workbook-edit.c (auto_complete_matches) : warning suppression.
+
+	* src/workbook.c (workbook_sheet_detach) : warning suppression.
+	(g_ptr_array_insert) : warning suppression, moved to gutils.
+
+	* src/xml-io.c (xml_write_attributes) : warning suppression.
+	(xml_read_selection_clipboard) : use cellregion_new and tidyup.
+
+	* src/clipboard.c (paste_link) : Only make the link sheet specific if
+	  we need to.
+	(clipboard_paste_region) : constness, support being able to paste
+	  content only as link or value.
+	(clipboard_prepend_cell) : check for arrays.
+	(clipboard_copy_range) : use cellregion_new
+	(cellregion_new) : new function
+	(cellregion_free) : renamed from clipboard_release.
+	(cellregion_to_string) : moved here from render-ascii.
+
+	src/cmd-edit.c (cmd_paste) : more protection. Merge in
+	  application_paste.
+	(cmd_paste_to_selection) : handle changes to selection_is_simple and
+	  use selection_first_range
+	(cmd_shift_rows) : changes to cmd_paste_cut.
+	(cmd_shift_cols) : ditto.
+
+	* src/command-context-priv.h : change signature of splits array.
+	* src/command-context.h : ditto.
+	* src/command-context.c (gnumeric_error_splits_array) : ditto.
+
+	* src/application.c (application_clipboard_clear) :
+	(application_set_selected_sheet) : remove #warning, it is not portable.
+
+	* src/commands.c
+	* src/Makefile.am : remove render-ascii.[ch]  Move their content into
+	  clipboard.
+
+2001-05-01  Jody Goldberg <jgoldberg@home.com>
+
+	* src/clipboard.c (clipboard_prepend_cell) : remove ugly
+	  implementation.
+
+	* src/workbook-edit.c (auto_complete_matches) : remove warning.
+
+	* src/xml-io.c (xml_write_attributes) : remove warning.
+
 2001-05-04  Morten Welinder  <terra@diku.dk>
 
 	* src/expr.c (expr_parse_string): Plug leak.
