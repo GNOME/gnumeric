@@ -1,8 +1,8 @@
 # German message file for Gnumeric.
 # Copyright (C) YEAR Free Software Foundation, Inc.
-# Matthias Warkus <mawa@iname.com>, 1999, 2000.
 # Karl Eichwalder <ke@suse.de>, 1999, 2000, 2001.
 # Karsten Weiss <karsten@addx.au.s.shuttle.de>, 1999.
+# Matthias Warkus <mawa@iname.com>, 1999, 2000.
 # Ralf Baechle <ralf@gnu.org>, 1999.
 #
 # Future translators, please take care to translate error messages correctly:
@@ -35,8 +35,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.63cvs\n"
-"POT-Creation-Date: 2001-05-26 14:29+0200\n"
-"PO-Revision-Date: 2001-05-26 19:48+0200\n"
+"POT-Creation-Date: 2001-05-27 07:30+0200\n"
+"PO-Revision-Date: 2001-05-27 07:45+0200\n"
 "Last-Translator: Karl Eichwalder <ke@suse.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -77,16 +77,16 @@ msgstr "#UNBEKANNT!"
 msgid "Sheet%d"
 msgstr "Blatt%d"
 
-#: plugins/excel/ms-excel-read.c:3993
+#: plugins/excel/ms-excel-read.c:4033
 msgid "No book or workbook streams found."
 msgstr "Keine book- oder workbook-Streams gefunden."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4269
+#: plugins/excel/ms-excel-read.c:4309
 msgid "Password protected workbooks are not supported yet."
 msgstr "Passwortgeschützte Arbeitsbücher werden noch nicht unterstützt."
 
-#: plugins/excel/ms-excel-read.c:4391
+#: plugins/excel/ms-excel-read.c:4431
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Es ist nicht möglich, ein gültiges MS-Excel-Arbeitsbuch aufzufinden."
 
@@ -398,7 +398,7 @@ msgstr "Der Name des Python-Moduls wurde nicht angegeben."
 
 #: plugins/python-loader/python-loader.c:212 src/plugin-loader-module.c:188
 msgid "Loader"
-msgstr "Lader"
+msgstr "Starter"
 
 #: plugins/python-loader/python-loader.c:215
 msgid "Python module name"
@@ -613,7 +613,7 @@ msgstr "Vladimir Vuksan, kaufmännische Funktionen."
 msgid "Morten Welinder, Gnumeric hacker."
 msgstr "Morten Welinder, Gnumeric-Hacker."
 
-#: gnumeric.desktop.in.h:1 src/about.c:75 src/functions/fn-sheet.c:136
+#: gnumeric.desktop.in.in.h:1 src/about.c:75 src/functions/fn-sheet.c:136
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
@@ -1191,14 +1191,14 @@ msgid "Autofitting row %s"
 msgstr "Zeile %s automatisch anpassen"
 
 #: src/commands.c:1852
-#, fuzzy, c-format
+#, c-format
 msgid "Setting width of column %s to %d pixels"
-msgstr "Spaltenbreite einstellen"
+msgstr "Breite der Spalte %s auf %d Pixel festlegen"
 
 #: src/commands.c:1854
-#, fuzzy, c-format
+#, c-format
 msgid "Setting height of row %s to %d pixels"
-msgstr "Zeilenhöhe einstellen"
+msgstr "Höhe der Zeile %s auf %d Pixel festlegen"
 
 #: src/commands.c:1859 src/commands.c:1860
 #, c-format
@@ -1206,14 +1206,14 @@ msgid "Autofitting columns %s"
 msgstr "Spalten %s automatisch anpassen"
 
 #: src/commands.c:1863
-#, fuzzy, c-format
+#, c-format
 msgid "Setting width of columns %s to %d pixels"
-msgstr "Spaltenbreite einstellen"
+msgstr "Breite der Spalten %s auf %d Pixel festlegen"
 
 #: src/commands.c:1865
-#, fuzzy, c-format
+#, c-format
 msgid "Setting height of rows %s to %d pixels"
-msgstr "Zeilenhöhe einstellen"
+msgstr "Höhe der Zeilen %s auf %d Pixel festlegen"
 
 #: src/commands.c:1950
 #, c-format
@@ -1237,18 +1237,16 @@ msgid "Hide rows"
 msgstr "Zeilen verbergen"
 
 #: src/commands.c:2163
-#, fuzzy
 msgid "Expand columns"
-msgstr "Spalten hervorholen"
+msgstr "Spalten expandieren"
 
 #: src/commands.c:2163
 msgid "Collapse columns"
 msgstr "Spalten zusammenziehen"
 
 #: src/commands.c:2164
-#, fuzzy
 msgid "Expand rows"
-msgstr "Zeilen hervorholen"
+msgstr "Zeilen expandieren"
 
 #: src/commands.c:2164
 msgid "Collapse rows"
@@ -1261,7 +1259,7 @@ msgstr "Verschiebung: %s"
 
 #: src/commands.c:2375 src/commands.c:2559
 msgid "is beyond sheet boundaries"
-msgstr ""
+msgstr "ist außerhalb der Blattbegrenzungen"
 
 #. FIXME?
 #: src/commands.c:2530
@@ -1298,17 +1296,17 @@ msgstr "Verschmelzung: %s"
 #. Corrected below.
 #: src/commands.c:3553 src/dialogs/search-replace.glade.h:41
 msgid "Search and Replace"
-msgstr "S_uchen und Ersetzen"
+msgstr "Suchen und Ersetzen"
 
 #: src/commands.c:3649
-#, fuzzy, c-format
+#, c-format
 msgid "Setting default width of columns to %.2fpts"
-msgstr "Spaltenbreite einstellen"
+msgstr "Vorgabewert der Spaltenbreite auf %.2f Punkte festlegen"
 
 #: src/commands.c:3650
-#, fuzzy, c-format
+#, c-format
 msgid "Setting default height of rows to %.2fpts"
-msgstr "Zeilenhöhe einstellen"
+msgstr "Vorgabewert der Zeilenhöhe auf %.2f Punkte festlegen"
 
 #: src/commands.c:3764
 #, c-format
@@ -2675,10 +2673,8 @@ msgstr "Vertrauenswert:"
 
 #: src/dialogs/dialog-analysis-tools.c:2059
 #: src/dialogs/dialog-analysis-tools.c:2067
-#, fuzzy
 msgid "You should introduce a valid cell range in 'Input X Range'"
-msgstr ""
-"Sie sollten einen gültigen Zellenbereich bei 'Eingabebereich:' eintragen."
+msgstr "Sie sollten einen gültigen Zellenbereich bei 'x-Eingabebereich:' eintragen."
 
 #: src/dialogs/dialog-analysis-tools.c:2092
 msgid ""
@@ -3140,9 +3136,8 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/dialog-plugin-manager.c:217
-#, fuzzy
 msgid "Error while activating plugin loader"
-msgstr "Fehler beim Aktivieren des Plugins"
+msgstr "Fehler beim Aktivieren des Plugin-Starters"
 
 #: src/dialogs/dialog-plugin-manager.c:231
 #, c-format
@@ -4070,7 +4065,7 @@ msgid "Scale"
 msgstr "Skalierung"
 
 #: src/dialogs/print.glade.h:27 src/functions/fn-sheet.c:135
-#: src/workbook.c:1027 src/xml-io.c:2993
+#: src/workbook.c:1056 src/xml-io.c:2993
 msgid "Sheet"
 msgstr "Blatt"
 
@@ -4573,7 +4568,9 @@ msgstr "Ein Wert"
 
 #: src/dialogs/validate.glade.h:4
 msgid "Apply these changes to _other cells with the same settings"
-msgstr "Diese Änderungen _auch auf die Zellen anwenden, die die gleichen Einstellungen haben"
+msgstr ""
+"Diese Änderungen _auch auf die Zellen anwenden, die die gleichen "
+"Einstellungen haben"
 
 #: src/dialogs/validate.glade.h:5
 msgid "Clear All"
@@ -11883,11 +11880,11 @@ msgstr "Details"
 msgid "Unable to open file '%s'"
 msgstr "Datei »%s« kann nicht geöffnet werden."
 
-#: src/gui-file.c:188
+#: src/gui-file.c:189
 msgid "File format:"
 msgstr "Dateiformat:"
 
-#: src/gui-file.c:256
+#: src/gui-file.c:257
 #, c-format
 msgid ""
 "%s\n"
@@ -11896,7 +11893,7 @@ msgstr ""
 "%s\n"
 "ist ein Verzeichnisname."
 
-#: src/gui-file.c:262
+#: src/gui-file.c:263
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -11905,7 +11902,7 @@ msgstr ""
 "Sie haben nicht die Rechte nach\n"
 "%s zu speichern."
 
-#: src/gui-file.c:269
+#: src/gui-file.c:270
 #, c-format
 msgid ""
 "Workbook %s already exists.\n"
@@ -11914,7 +11911,7 @@ msgstr ""
 "Arbeitsbuch %s existiert bereits.\n"
 "Wollen Sie es beim Speichern überschreiben?"
 
-#: src/gui-file.c:288
+#: src/gui-file.c:289
 msgid ""
 "Please enter a file name,\n"
 "not a directory"
@@ -11922,11 +11919,11 @@ msgstr ""
 "Bitte geben Sie einen Dateinamen ein,\n"
 "kein Verzeichnis."
 
-#: src/gui-file.c:318
+#: src/gui-file.c:319
 msgid "Save workbook as"
 msgstr "Arbeitsbuch speichern unter"
 
-#: src/gui-file.c:366
+#: src/gui-file.c:367
 msgid "Load file"
 msgstr "Datei laden"
 
@@ -12163,9 +12160,9 @@ msgid "Unknown name"
 msgstr "Unbekannter Name."
 
 #: src/plugin.c:520
-#, fuzzy, c-format
+#, c-format
 msgid "Error while preparing loader \"%s\"."
-msgstr "Fehler beim Lesen der Plugin-Information des Typs »%s«."
+msgstr "Fehler beim Vorbereiten des Starters »%s«."
 
 #: src/plugin.c:530
 #, c-format
@@ -12173,9 +12170,9 @@ msgid "Unsupported loader type \"%s\"."
 msgstr ""
 
 #: src/plugin.c:628
-#, fuzzy, c-format
+#, c-format
 msgid "Error while reading service #%d info."
-msgstr "Fehler beim Versuch, eine csv-Datei zu schreiben"
+msgstr "Fehler beim Lesen der Info des Dienstes #%d."
 
 #: src/plugin.c:680
 msgid "Unspecified loader type."
@@ -12203,9 +12200,9 @@ msgid "Unknown plugin name."
 msgstr "Unbekannter Pluginname."
 
 #: src/plugin.c:811
-#, fuzzy, c-format
+#, c-format
 msgid "Errors while reading loader info for plugin with id=\"%s\"."
-msgstr "Fehler beim Lesen der Plugin-Information des Typs »%s«."
+msgstr "Fehler beim Lesen der Starter-Information des Plugins mit id=\"%s\"."
 
 #: src/plugin.c:816
 #, c-format
@@ -12223,9 +12220,9 @@ msgid "No services defined for plugin with id=\"%s\"."
 msgstr ""
 
 #: src/plugin.c:979
-#, fuzzy, c-format
+#, c-format
 msgid "Error initializing plugin loader (\"%s\")."
-msgstr "Fehler beim Initialisieren des Plugin-Systems."
+msgstr "Fehler beim Initialisieren des Plugin-Starters (»%s«)."
 
 #: src/plugin.c:1020
 #, c-format
@@ -12285,7 +12282,6 @@ msgid "Errors while initializing plugin system."
 msgstr "Fehler beim Initialisieren des Plugin-Systems."
 
 #: src/plugin-loader-module.c:81
-#, fuzzy
 msgid "Module file name not given."
 msgstr "Kein Dateiname des Moduls angegeben."
 
@@ -13886,18 +13882,19 @@ msgstr "_Formeln anzeigen"
 msgid "Toggle whether or not to display outline groups"
 msgstr "Umschalten, ob Gitterlinien angezeigt werden sollen oder nicht."
 
-#: src/GNOME_Gnumeric.xml.h:138 src/workbook-control-gui.c:2417
-msgid "Oulines _Below"
-msgstr ""
+#: src/workbook-control-gui.c:2417
+#, fuzzy
+msgid "Outlines _Below"
+msgstr "Umriss"
 
 #: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2418
 #, fuzzy
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr "Umschalten, ob Gitterlinien angezeigt werden sollen oder nicht."
 
-#: src/GNOME_Gnumeric.xml.h:139 src/workbook-control-gui.c:2423
+#: src/workbook-control-gui.c:2423
 #, fuzzy
-msgid "Oulines _Right"
+msgid "Outlines _Right"
 msgstr "_Rechts"
 
 #: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:2424
@@ -14043,20 +14040,20 @@ msgstr "Min"
 msgid "Max"
 msgstr "Max"
 
-#: src/workbook.c:455
+#: src/workbook.c:460
 #, c-format
 msgid "Book%d.gnumeric"
 msgstr "Buch%d.gnumeric"
 
-#: src/workbook.c:1176
+#: src/workbook.c:1205
 msgid "Sheet name"
 msgstr "Ein Blattname"
 
-#: src/workbook.c:1177
+#: src/workbook.c:1206
 msgid "must have at least 1 letter"
 msgstr "muss wenigstens einen Buchstaben haben"
 
-#: src/workbook.c:1190
+#: src/workbook.c:1219
 msgid "There is already a sheet named"
 msgstr "Es gibt bereits ein Blatt mit dem Namen"
 
@@ -14304,6 +14301,15 @@ msgstr "Ein Arbeitsblatt öffnen"
 msgid "Open an existing workbook"
 msgstr "Ein vorhandenes Arbeitsbuch öffnen"
 
+#: src/GNOME_Gnumeric.xml.h:138
+msgid "Oulines _Below"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:139
+#, fuzzy
+msgid "Oulines _Right"
+msgstr "_Rechts"
+
 #: src/GNOME_Gnumeric.xml.h:140
 msgid "Oval"
 msgstr "Oval"
@@ -14482,7 +14488,7 @@ msgstr "_Rückgängig"
 msgid "_View"
 msgstr "_Ansicht"
 
-#: gnumeric.desktop.in.h:2
+#: gnumeric.desktop.in.in.h:2
 msgid "The GNOME Spreadsheet"
 msgstr "Die GNOME-Tabellenkalkulation"
 
