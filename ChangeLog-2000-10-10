@@ -1,5 +1,10 @@
 2000-04-15  Karl EICHWALDER  <ke@suse.de>
 
+	* src/dialogs/dialog-zoom.glade, src/dialogs/dialog-zoom.glade.h
+	(N_): Make labels conforming.
+
+2000-04-15  Karl EICHWALDER  <ke@suse.de>
+
 	* configure.in (ALL_LINGUAS): Sort alphabetically.
 
 2000-04-15  Jon K Hellan  <hellan@acm.org>
