@@ -1,3 +1,7 @@
+2004-07-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* configure.in: use AM_PROG_LEX rather than AC_PROG_LEX
+	
 2004-07-27  Jody Goldberg <jody@gnome.org>
 
 	* src/wbc-gtk.c (cb_regenerate_window_menu) : new.
