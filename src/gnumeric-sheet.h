@@ -47,6 +47,8 @@ void       gnumeric_sheet_accept_pending_output  (GnumericSheet *sheet);
 void       gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet);
 void       gnumeric_sheet_set_current_value      (GnumericSheet *sheet);
 void       gnumeric_sheet_color_alloc            (GnomeCanvas *canvas);
+void       gnumeric_sheet_make_cell_visible      (GnumericSheet *gsheet,
+						  int col, int row);
 
 /* Colors used by any GnumericSheet item */
 extern GdkColor gs_white, gs_light_gray, gs_dark_gray, gs_black;

@@ -176,15 +176,17 @@ start_editing_at_cursor (GnumericSheet *sheet, GtkWidget *entry)
  *   cursor.
  */
 static void
-move_cursor (GnumericSheet *sheet, int col, int row)
+move_cursor (GnumericSheet *gsheet, int col, int row)
 {
-	ItemCursor *item_cursor = sheet->item_cursor;
+	ItemCursor *item_cursor = gsheet->item_cursor;
 
-	gnumeric_sheet_accept_pending_output (sheet);
-	gnumeric_sheet_cursor_set (sheet, col, row);
-	sheet_selection_clear (sheet->sheet);
+	gnumeric_sheet_accept_pending_output (gsheet);
+	gnumeric_sheet_cursor_set (gsheet, col, row);
+	sheet_selection_clear_only (gsheet->sheet);
+	gnumeric_sheet_make_cell_visible (gsheet, col, row);
+	sheet_selection_append (gsheet->sheet, col, row);
 	item_cursor_set_bounds (item_cursor, col, row, col, row);
-	gnumeric_sheet_load_cell_val (sheet);
+	gnumeric_sheet_load_cell_val (gsheet);
 }
 
 /*
@@ -204,14 +206,6 @@ move_cursor_horizontal (GnumericSheet *sheet, int count)
 	if (new_left < 0)
 		return;
 	
-	if (new_left < sheet->top_col){
-		g_warning ("do scroll\n");
-		return;
-	}
-
-	if (new_left < 0)
-		new_left = 0;
-
 	move_cursor (sheet, new_left, sheet->cursor_row);
 }
 
@@ -231,11 +225,6 @@ move_cursor_vertical (GnumericSheet *sheet, int count)
 
 	if (new_top < 0)
 		return;
-
-	if (new_top < sheet->top_row){
-		g_warning ("do scroll\n");
-		return;
-	}
 
 	move_cursor (sheet, sheet->cursor_col, new_top);
 }
@@ -650,6 +639,51 @@ gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet)
 	} while (pixels < canvas->height);
 }
 
+void
+gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row)
+{
+	GnomeCanvas *canvas;
+	Sheet *sheet;
+	
+	g_return_if_fail (gsheet != NULL);
+	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
+	g_return_if_fail (col >= 0);
+	g_return_if_fail (row >= 0);
+	g_return_if_fail (col < SHEET_MAX_COLS);
+	g_return_if_fail (row < SHEET_MAX_ROWS);
+
+	sheet = gsheet->sheet;
+	canvas = GNOME_CANVAS (gsheet);
+
+	old_original_top = gsheet->top_col;
+	
+	if (col < gsheet->top_col){
+		gsheet->top_col = col;
+	} else if (col > gsheet->last_visible_col){
+		ColRowInfo *ci;
+		int width = canvas->width;
+		int first_col = col;
+		int allocated = 0;
+
+		ci = sheet_col_get_info (sheet, col);
+		allocated = ci->pixels;
+		
+		do {
+			first_col--;
+			ci = sheet_col_get_info (sheet, first_col);
+			allocated += ci->pixels;
+		} while ((first_col > 0) && (width - allocated > 0));
+		
+		gsheet->top_col = first_col+1;
+	}
+
+	gnumeric_sheet_compute_visible_ranges (gsheet);
+	gnome_canvas_scroll_to (
+		canvas,
+		sheet_col_get_distance (sheet, 0, gsheet->top_col),
+		canvas->display_y1);
+}
+
 static void
 gnumeric_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 {
@@ -725,3 +759,4 @@ gnumeric_sheet_get_type (void)
 
 	return gnumeric_sheet_type;
 }
+

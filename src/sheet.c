@@ -5,6 +5,45 @@
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)
  *
+ * Recomputations:
+
+ update_cell (cell)
+{
+  cells_referenced = eval_expression (cell->formula);
+  if (cells_referenced){
+      push_refs (cells_referenced);
+      return;
+  }
+  cell->cycle = current_cycle;
+  return eval (cell);
+}
+
+push_refs (list)
+{
+	foreach i in (list){
+		cell = findcell (i);
+		if (cell->cell_cycle = current_cycle)
+			loop;
+		else
+			push_cell(cell);
+	}
+}
+
+int
+eval_next_cell()
+{
+	cell = pop_cell (cell);
+	if (cell){
+		if (cell->cell_cycle == current_cycle)
+			--loop_counter;
+		else
+			loop_counter = 40;
+		update_cell (cell);
+		return loop_counter;
+	} else
+		return 0;
+}
+
  */
 #include <config.h>
 #include <gnome.h>
@@ -251,17 +290,6 @@ sheet_new (Workbook *wb, char *name)
 	/* Dummy initialization */
 	sheet_init_dummy_stuff (sheet);
 
-	/* Create the gnumeric sheet and set the initial selection */
-	sheet->sheet_view = gnumeric_sheet_new (sheet);
-	sheet_selection_append (sheet, 0, 0);
-	
-	gtk_widget_show (sheet->sheet_view);
-	gtk_widget_show (sheet->toplevel);
-	
-	gtk_table_attach (GTK_TABLE (sheet->toplevel), sheet->sheet_view,
-			  1, 2, 1, 2,
-			  GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 0, 0);
-
 	/* Column canvas */
 	sheet->col_canvas = new_canvas_bar (sheet, GTK_ORIENTATION_HORIZONTAL, &sheet->col_item);
 	gtk_table_attach (GTK_TABLE (sheet->toplevel), sheet->col_canvas,
@@ -284,6 +312,17 @@ sheet_new (Workbook *wb, char *name)
 	gtk_signal_connect (GTK_OBJECT (sheet->row_item), "size_changed",
 			    GTK_SIGNAL_FUNC (sheet_row_size_changed),
 			    sheet);
+
+	/* Create the gnumeric sheet and set the initial selection */
+	sheet->sheet_view = gnumeric_sheet_new (sheet);
+	sheet_selection_append (sheet, 0, 0);
+	
+	gtk_widget_show (sheet->sheet_view);
+	gtk_widget_show (sheet->toplevel);
+	
+	gtk_table_attach (GTK_TABLE (sheet->toplevel), sheet->sheet_view,
+			  1, 2, 1, 2,
+			  GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 0, 0);
 
 	/* Scroll bars and their adjustments */
 	sheet->va = gtk_adjustment_new (0.0, 0.0, sheet->max_row_used, 1.0, rows_shown, 1.0);
