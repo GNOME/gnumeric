@@ -91,10 +91,15 @@ gchar *s = N_("Pattern");
 gchar *s = N_("_Automatic");
 gchar *s = N_("_Custom");
 gchar *s = N_("Pick a Pattern color");
+/* xgettext:no-c-format */
 gchar *s = N_("75% grey");
+/* xgettext:no-c-format */
 gchar *s = N_("50% Grey");
+/* xgettext:no-c-format */
 gchar *s = N_("25% Grey");
+/* xgettext:no-c-format */
 gchar *s = N_("12.5% Grey");
+/* xgettext:no-c-format */
 gchar *s = N_("6.25% Grey");
 gchar *s = N_("Horizontal Stripe");
 gchar *s = N_("Thin Horizontal Stripe");

@@ -6,12 +6,19 @@
 
 gchar *s = N_("Zoom");
 gchar *s = N_("Magnification");
+/* xgettext:no-c-format */
 gchar *s = N_("20_0 %");
+/* xgettext:no-c-format */
 gchar *s = N_("_100 %");
+/* xgettext:no-c-format */
 gchar *s = N_("_75 %");
+/* xgettext:no-c-format */
 gchar *s = N_("_50 %");
+/* xgettext:no-c-format */
 gchar *s = N_("_25 %");
+/* xgettext:no-c-format */
 gchar *s = N_("_Fit Selection %");
 gchar *s = N_("_Custom");
+/* xgettext:no-c-format */
 gchar *s = N_("%");
 gchar *s = N_("Sheets");
