@@ -4,7 +4,7 @@ dorami@bu.iij4u.or.jp:
 	* Begin to use Pango in cells.
 
 Jody:
-	* Add XL for polygon colours.
+	* Add XL import for polygon colours.
 	* More pango work.
 	* Fix icon assignment.
 	* Support pasting utf8
@@ -15,6 +15,11 @@ Jody:
 	* Fix documentation installtion to match libgnome's expectations
 	* locale -> utf8 conversion for lotus wk1 importer
 	* support for BITAND and BITOR in lotus wk1 importer
+	* Tweak XL export so that MS Excel does not produce a warning when
+	  reading our sheets.
+
+Jon Kåre:
+	* Port to new libgsf big file api
 
 Jukka:
 	* Solver improvements:
@@ -33,6 +38,11 @@ Morten:
 Christian Meyer:
 	* Renamed "Print Setup" to "Page Setup" in the file menu and the
 	  gnumeric documents.
+
+Zbigniew:
+	* Work on the plugins.
+	* Plugins can now register menu and toolbar items (bonobo only for now)
+	* Another step towards a gtk only build.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.7
