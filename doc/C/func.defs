@@ -1121,7 +1121,7 @@ EDATE(DATE(2001,12,30),2) returns 'Feb 28, 2002'.
 @SYNTAX=EOMONTH (start_date,months)
 @DESCRIPTION=EOMONTH returns the last day of the month which is @months from the @start_date.
 
-* EOMONTH returns #NUM! if start_date or months are invalid.
+* EOMONTH returns #NUM! if @start_date or @months are invalid.
 * This function is Excel compatible.
 
 @EXAMPLES=
@@ -1794,9 +1794,16 @@ Allowed frequencies are:
 @CATEGORY=Finance
 @FUNCTION=AMORDEGRC
 @SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,basis])
-@DESCRIPTION=AMORDEGRC returns the depreciation for each accounting period.
+@DESCRIPTION=AMORDEGRC: Calculates depreciation for each accounting period using French accounting conventions.   Assets purchased in the middle of a period take prorated depreciation into account.  This is similar to AMORLINC, except that a depreciation coefficient is applied in the calculation depending on the life of the assets.
+Named for AMORtissement DEGRessif Comptabilite
 
-@settlement is the settlement date of the security. @maturity is the maturity date of the security. @basis is the type of day counting system you want to use:
+@cost The value of the asset.
+@purchase_date The date the asset was purchased.
+@first_period The end of the first period.
+@salvage Asset value at maturity.
+@period The length of accounting periods.
+@rate rate of depreciation as a percentage.
+@basis is the type of day counting system you want to use:
 
   0  US 30/360
   1  actual days/actual days
@@ -1804,20 +1811,27 @@ Allowed frequencies are:
   3  actual days/365
   4  European 30/360
 
-* If @frequency is other than 1, 2, or 4, AMORDEGRC returns #NUM! error.
 * If @basis is omitted, US 30/360 is applied.
 * If @basis is not in between 0 and 4, #NUM! error is returned.
 
 @EXAMPLES=
+AMORDEGRC(2400,DATE(1998,8,19),DATE(1998,12,30),300,1,0.14,1) = 733
 
-@SEEALSO=
+@SEEALSO=AMORLINC
 
 @CATEGORY=Finance
 @FUNCTION=AMORLINC
 @SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,basis])
-@DESCRIPTION=AMORLINC returns the depreciation for each accounting period.
+@DESCRIPTION=AMORLINC: Calculates depreciation for each accounting period using French accounting conventions.   Assets purchased in the middle of a period take prorated depreciation into account.
+Named for AMORtissement LINeaire Comptabilite.
 
-@settlement is the settlement date of the security. @maturity is the maturity date of the security. @basis is the type of day counting system you want to use:
+@cost The value of the asset.
+@purchase_date The date the asset was purchased.
+@first_period The end of the first period.
+@salvage Asset value at maturity.
+@period The length of accounting periods.
+@rate rate of depreciation as a percentage.
+@basis is the type of day counting system you want to use:
 
   0  US 30/360
   1  actual days/actual days
@@ -1825,13 +1839,13 @@ Allowed frequencies are:
   3  actual days/365
   4  European 30/360
 
-* If @frequency is other than 1, 2, or 4, AMORLINC returns #NUM! error.
 * If @basis is omitted, US 30/360 is applied.
 * If @basis is not in between 0 and 4, #NUM! error is returned.
 
 @EXAMPLES=
+AMORLINC(2400,DATE(1998,8,19),DATE(1998,12,31),300,1,0.15,1) = 360
 
-@SEEALSO=
+@SEEALSO=AMORDEGRC
 
 @CATEGORY=Finance
 @FUNCTION=COUPDAYBS
@@ -1977,9 +1991,9 @@ Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. 6 = bimonthly, 12 
   4  European 30/360
   5  European+ 30/360
 
-* If @frequency is other than 1, 2, or 4, COUPNUM returns #NUM! error.
+* If @frequency is other than 1, 2, 4, 6 or 12, COUPNUM returns #NUM! error.
 * If @basis is omitted, MSRB 30/360 is applied.
-* If @basis is not in between 0 and 4, #NUM! error is returned.
+* If @basis is not in between 0 and 5, #NUM! error is returned.
 
 @EXAMPLES=
 COUPNUM (DATE(2002,11,29),DATE(2004,2,29),4,0) = 6
@@ -2142,10 +2156,14 @@ COUPPCD (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 29-Nov-2002
 
 @CATEGORY=Finance
 @FUNCTION=DURATION
-@SYNTAX=DURATION(settlement,maturity,coup,yield,freq[,basis])
+@SYNTAX=DURATION(settlement,maturity,coup,yield,frequency[,basis])
 @DESCRIPTION=DURATION calculates the duration of a security.
 
-@settlement is the settlement date of the security. @maturity is the maturity date of the security. @issue is the issue date of the security. @rate is the interest rate set to the security. @pr is the price per $100 face value of the security. @basis is the type of day counting system you want to use:
+@settlement is the settlement date of the security.
+@maturity is the maturity date of the security.
+@coup The annual coupon rate as a percentage.
+@yield The annualized yield of the security as a percentage.
+@frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:
 
   0  US 30/360
   1  actual days/actual days
@@ -2719,7 +2737,7 @@ One would expect this to always be a call option
 @DESCRIPTION=OPT_FRENCH values the theoretical price of a European option adjusted for trading day volatility, struck at @strike on an asset with spot price @spot.
 @call_put_flag is 'c' or 'p' to indicate whether the option is a call or a put.
 @volatility is the annualized volatility, in percent, of the asset for the period through to the exercise date.
- @time the number of calendar days to exercise divided by calander days in the year.
+ @time the number of calendar days to exercise divided by calendar days in the year.
 @t2 is the number of trading days to exercise divided by trading days in the year.
 @rate is the risk-free interest rate.
 @cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield to the exercise date, in percent.
@@ -3046,7 +3064,7 @@ Depreciation expense =
 * If @life <= 0, SYD returns #NUM! error.
 
 @EXAMPLES=
-For example say a company purchases a new computer for $5000 which has a salvage value of $200, and a useful life of three years. We would use the following to calculate the second year's depreciation using the SYD method:
+For example say a company purchases a new computer for $5000 which has a salvage value of $200, and a useful life of five years. We would use the following to calculate the second year's depreciation using the SYD method:
 =SYD(5000, 200, 5, 2) which returns 1,280.00.
 @SEEALSO=SLN
 
@@ -3186,7 +3204,6 @@ XIRR(A1:A5,B1:B5) returns 0.224838.
   3  actual days/365
   4  European 30/360
 
-* If @frequency is other than 1, 2, or 4, YIELDMAT returns #NUM! error.
 * If @basis is omitted, US 30/360 is applied.
 * If @basis is not in between 0 and 4, #NUM! error is returned.
 
@@ -3272,8 +3289,8 @@ ERROR.TYPE(NA()) equals 7.
 @SYNTAX=EXPRESSION(cell)
 @DESCRIPTION=EXPRESSION returns expression in @cell as a string, or empty if the cell is not an expression.
 @EXAMPLES=
-in A1 EXPRESSION(A2) equals 'EXPRESSION(A3)'.
-in A2 EXPRESSION(A3) equals empty.
+entering '=EXPRESSION(A3)' in A2 = empty (assuming there is nothing in A3).
+entering '=EXPRESSION(A2)' in A1 = 'EXPRESSION(A3)'.
 
 @SEEALSO=TEXT
 
@@ -3915,9 +3932,11 @@ ATANH(0.8) equals 1.098612.
 @SYNTAX=BETA(a,b)
 @DESCRIPTION=BETA function returns the value of the mathematic beta function extended to all real numbers except 0 and negative integers.
 
-* If @a or @b are 0 or negative integers, BETA returns #NUM! error.
+* If @a, @b, or (@a + @b) are non-positive integers, BETA returns #NUM! error.
 
 @EXAMPLES=
+BETA(2,3) equals 0.083333.
+BETA(-0.5,0.5) equals #NUM!.
 
 @SEEALSO=BETALN,GAMMALN
 
@@ -3926,9 +3945,10 @@ ATANH(0.8) equals 1.098612.
 @SYNTAX=BETALN(a,b)
 @DESCRIPTION=BETALN function returns the natural logarithm of the absolute value of the beta function.
 
-* If @a or @b are non-positive integers, BETALN returns #NUM! error.
-
+* If @a, @b, or (@a + @b) are non-positive integers, BETALN returns #NUM! 
 @EXAMPLES=
+BETALN(2,3) equals -2.48.
+BETALN(-0.5,0.5) equals #NUM!.
 
 @SEEALSO=BETA,GAMMALN
 
@@ -4130,7 +4150,7 @@ G_PRODUCT(2,5,9) equals 90.
 @SYNTAX=GCD(number1,number2,...)
 @DESCRIPTION=GCD returns the greatest common divisor of given numbers.
 
-* If any of the arguments is less than zero, GCD returns #NUM! error.
+* If any of the arguments is less than one, GCD returns #NUM! error.
 * If any of the arguments is non-integer, it is truncated.
 * This function is Excel compatible.
 
@@ -4158,7 +4178,8 @@ INT(-5.5) equals -6.
 @SYNTAX=LCM(number1,number2,...)
 @DESCRIPTION=LCM returns the least common multiple of integers.  The least common multiple is the smallest positive number that is a multiple of all integer arguments given.
 
-* If any of the arguments is less than one, LCM returns #NUM! error.
+* If any of the arguments is less than one, LCM returns #NUM!.
+* If any of the arguments is non-integer, it is truncated.
 * This function is Excel compatible.
 
 @EXAMPLES=
@@ -4327,6 +4348,10 @@ PI() equals about 3.141593.
 @SYNTAX=POWER(x,y)
 @DESCRIPTION=POWER returns the value of @x raised to the power @y.
 
+
+* If both @x and @y equals to 0, POWER returns #NUM! error.
+* If @x = 0 and @y < 0, POWER returns #DIV/0! error.
+* If @x < 0 and @y is non-integer, POWER returns #NUM! error.
 * This function is Excel compatible.
 
 @EXAMPLES=
@@ -4668,7 +4693,8 @@ TANH(2) equals 0.96402758.
 @SYNTAX=TRUNC(number[,digits])
 @DESCRIPTION=TRUNC function returns the value of @number truncated to the number of digits specified.
 
-* If @digits is omitted then @digits defaults to zero.
+* If @digits is omitted or negative then @digits defaults to zero.
+* If @digits is not an integer, it is truncated.
 * This function is Excel compatible.
  
 @EXAMPLES=
@@ -4853,7 +4879,7 @@ RANDEXP(0.5).
 	p(x) dx = {1 over 2 a Gamma(1+1/b)} exp(-|x/a|^b) dx, for x >= 0.
 
 * For @b = 1 this reduces to the Laplace distribution.
-* For @b = 2 it has the same form as a Gaussian distribution with sigma = a/sqrt(2).
+* For @b = 2 it has the same form as a normal distribution with sigma = a/sqrt(2).
 
 @EXAMPLES=
 RANDEXPPOW(0.5,0.1).
@@ -4879,34 +4905,6 @@ RANDFDIST(1,2).
 
 @EXAMPLES=
 RANDGAMMA(1,2).
-
-@SEEALSO=RAND
-
-@CATEGORY=Random Numbers
-@FUNCTION=RANDGAUSSIAN
-@SYNTAX=RANDGAUSSIAN(mean,stdev)
-@DESCRIPTION=RANDGAUSSIAN returns a Gaussian-distributed random number.
-
-* If @stdev < 0 RANDGAUSSIAN returns #NUM! error.
-
-@EXAMPLES=
-RANDGAUSSIAN(0,1).
-
-@SEEALSO=RAND
-
-@CATEGORY=Random Numbers
-@FUNCTION=RANDGAUSSIANTAIL
-@SYNTAX=RANDGAUSSIANTAIL(a,sigma)
-@DESCRIPTION=RANDGAUSSIANTAIL returns a random variates from the upper tail of a Gaussian distribution with standard deviation @sigma. The values returned are larger than the lower limit @a, which must be positive. The method is based on Marsaglia's famous rectangle-wedge-tail algorithm (Ann Math Stat 32, 894-899 (1961)), with this aspect explained in Knuth, v2, 3rd ed, p139, 586 (exercise 11).
-
-The probability distribution for Gaussian tail random variates is,
-
-	p(x) dx = {1 over N(a;sigma)} exp (- x^2/(2 sigma^2)) dx,
-
-for x > a where N(a;sigma) is the normalization constant, N(a;sigma) = (1/2) erfc(a / sqrt(2 sigma^2)).
-
-@EXAMPLES=
-RANDGAUSSIANTAIL(0.5,0.1).
 
 @SEEALSO=RAND
 
@@ -4983,7 +4981,7 @@ RANDLAPLACE(1).
 @DESCRIPTION=RANDLEVY returns a Levy-distributed random number. If @beta is omitted, it is assumed to be 0.
 
 * For @alpha = 1, @beta=0, we get the Lorentz distribution.
-* For @alpha = 2, @beta=0, we get the Gaussian distribution.
+* For @alpha = 2, @beta=0, we get the normal distribution.
 
 * If @alpha <= 0 or @alpha > 2, RANDLEVY returns #NUM! error.
 * If @beta < -1 or @beta > 1, RANDLEVY returns #NUM! error.
@@ -5039,6 +5037,34 @@ RANDLOGNORM(1,2).
 RANDNEGBINOM(0.5,2).
 
 @SEEALSO=RAND,RANDBETWEEN
+
+@CATEGORY=Random Numbers
+@FUNCTION=RANDNORM
+@SYNTAX=RANDNORM(mean,stdev)
+@DESCRIPTION=RANDNORM returns a normal-distributed random number.
+
+* If @stdev < 0 RANDNORM returns #NUM! error.
+
+@EXAMPLES=
+RANDNORM(0,1).
+
+@SEEALSO=RAND
+
+@CATEGORY=Random Numbers
+@FUNCTION=RANDNORMTAIL
+@SYNTAX=RANDNORMTAIL(a,sigma)
+@DESCRIPTION=RANDNORMTAIL returns a random variates from the upper tail of a normal distribution with standard deviation @sigma. The values returned are larger than the lower limit @a, which must be positive. The method is based on Marsaglia's famous rectangle-wedge-tail algorithm (Ann Math Stat 32, 894-899 (1961)), with this aspect explained in Knuth, v2, 3rd ed, p139, 586 (exercise 11).
+
+The probability distribution for normal tail random variates is,
+
+	p(x) dx = {1 over N(a;sigma)} exp (- x^2/(2 sigma^2)) dx,
+
+for x > a where N(a;sigma) is the normalization constant, N(a;sigma) = (1/2) erfc(a / sqrt(2 sigma^2)).
+
+@EXAMPLES=
+RANDNORMTAIL(0.5,0.1).
+
+@SEEALSO=RAND
 
 @CATEGORY=Random Numbers
 @FUNCTION=RANDPARETO
@@ -5101,9 +5127,8 @@ RANDTDIST(0.5).
 @SYNTAX=RANDUNIFORM(a,b)
 @DESCRIPTION=RANDUNIFORM returns a random variate from the uniform (flat) distribution from a to b. The distribution is,
 
-	p(x) dx = {1 over (b-a)} dx.
-
-* If a <= x < b and 0 otherwise.
+	p(x) dx = {1 over (b-a)} dx : for a <= x < b.
+p(x) dx = 0 : for x < a or b < x.
 * If @a > @b RANDUNIFORM returns #NUM! error.
 
 @EXAMPLES=

@@ -2382,7 +2382,7 @@
       <title>Description</title>
       <para>EOMONTH returns the last day of the month which is @months from the @start_date.</para>
       <para/>
-      <para>* EOMONTH returns #NUM! if start_date or months are invalid.</para>
+      <para>* EOMONTH returns #NUM! if @start_date or @months are invalid.</para>
       <para>* This function is Excel compatible.</para>
       <para/>
     </refsect1>
@@ -3849,9 +3849,16 @@
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
-      <para>AMORDEGRC returns the depreciation for each accounting period.</para>
+      <para>AMORDEGRC: Calculates depreciation for each accounting period using French accounting conventions.   Assets purchased in the middle of a period take prorated depreciation into account.  This is similar to AMORLINC, except that a depreciation coefficient is applied in the calculation depending on the life of the assets.</para>
+      <para>Named for AMORtissement DEGRessif Comptabilite</para>
       <para/>
-      <para>@settlement is the settlement date of the security. @maturity is the maturity date of the security. @basis is the type of day counting system you want to use:</para>
+      <para>@cost The value of the asset.</para>
+      <para>@purchase_date The date the asset was purchased.</para>
+      <para>@first_period The end of the first period.</para>
+      <para>@salvage Asset value at maturity.</para>
+      <para>@period The length of accounting periods.</para>
+      <para>@rate rate of depreciation as a percentage.</para>
+      <para>@basis is the type of day counting system you want to use:</para>
       <para/>
       <para>  0  US 30/360</para>
       <para>  1  actual days/actual days</para>
@@ -3859,7 +3866,6 @@
       <para>  3  actual days/365</para>
       <para>  4  European 30/360</para>
       <para/>
-      <para>* If @frequency is other than 1, 2, or 4, AMORDEGRC returns #NUM! error.</para>
       <para>* If @basis is omitted, US 30/360 is applied.</para>
       <para>* If @basis is not in between 0 and 4, #NUM! error is returned.</para>
       <para/>
@@ -3867,11 +3873,12 @@
     <refsect1>
       <title>Examples</title>
       <para/>
+      <para>AMORDEGRC(2400,DATE(1998,8,19),DATE(1998,12,30),300,1,0.14,1) = 733</para>
       <para/>
     </refsect1>
     <refsect1>
       <title>See also</title>
-      <para>
+      <para><link linkend="gnumeric-AMORLINC">AMORLINC</link>.
       </para>
     </refsect1>
   </refentry>
@@ -3888,9 +3895,16 @@
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
-      <para>AMORLINC returns the depreciation for each accounting period.</para>
+      <para>AMORLINC: Calculates depreciation for each accounting period using French accounting conventions.   Assets purchased in the middle of a period take prorated depreciation into account.</para>
+      <para>Named for AMORtissement LINeaire Comptabilite.</para>
       <para/>
-      <para>@settlement is the settlement date of the security. @maturity is the maturity date of the security. @basis is the type of day counting system you want to use:</para>
+      <para>@cost The value of the asset.</para>
+      <para>@purchase_date The date the asset was purchased.</para>
+      <para>@first_period The end of the first period.</para>
+      <para>@salvage Asset value at maturity.</para>
+      <para>@period The length of accounting periods.</para>
+      <para>@rate rate of depreciation as a percentage.</para>
+      <para>@basis is the type of day counting system you want to use:</para>
       <para/>
       <para>  0  US 30/360</para>
       <para>  1  actual days/actual days</para>
@@ -3898,7 +3912,6 @@
       <para>  3  actual days/365</para>
       <para>  4  European 30/360</para>
       <para/>
-      <para>* If @frequency is other than 1, 2, or 4, AMORLINC returns #NUM! error.</para>
       <para>* If @basis is omitted, US 30/360 is applied.</para>
       <para>* If @basis is not in between 0 and 4, #NUM! error is returned.</para>
       <para/>
@@ -3906,11 +3919,12 @@
     <refsect1>
       <title>Examples</title>
       <para/>
+      <para>AMORLINC(2400,DATE(1998,8,19),DATE(1998,12,31),300,1,0.15,1) = 360</para>
       <para/>
     </refsect1>
     <refsect1>
       <title>See also</title>
-      <para>
+      <para><link linkend="gnumeric-AMORDEGRC">AMORDEGRC</link>.
       </para>
     </refsect1>
   </refentry>
@@ -4140,9 +4154,9 @@
       <para>  4  European 30/360</para>
       <para>  5  European+ 30/360</para>
       <para/>
-      <para>* If @frequency is other than 1, 2, or 4, COUPNUM returns #NUM! error.</para>
+      <para>* If @frequency is other than 1, 2, 4, 6 or 12, COUPNUM returns #NUM! error.</para>
       <para>* If @basis is omitted, MSRB 30/360 is applied.</para>
-      <para>* If @basis is not in between 0 and 4, #NUM! error is returned.</para>
+      <para>* If @basis is not in between 0 and 5, #NUM! error is returned.</para>
       <para/>
     </refsect1>
     <refsect1>
@@ -4487,13 +4501,17 @@
       <refpurpose/>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>DURATION(settlement,maturity,coup,yield,freq[,basis])</synopsis>
+      <synopsis>DURATION(settlement,maturity,coup,yield,frequency[,basis])</synopsis>
     </refsynopsisdiv>
     <refsect1>
       <title>Description</title>
       <para>DURATION calculates the duration of a security.</para>
       <para/>
-      <para>@settlement is the settlement date of the security. @maturity is the maturity date of the security. @issue is the issue date of the security. @rate is the interest rate set to the security. @pr is the price per $100 face value of the security. @basis is the type of day counting system you want to use:</para>
+      <para>@settlement is the settlement date of the security.</para>
+      <para>@maturity is the maturity date of the security.</para>
+      <para>@coup The annual coupon rate as a percentage.</para>
+      <para>@yield The annualized yield of the security as a percentage.</para>
+      <para>@frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:</para>
       <para/>
       <para>  0  US 30/360</para>
       <para>  1  actual days/actual days</para>
@@ -5731,7 +5749,7 @@
       <para>OPT_FRENCH values the theoretical price of a European option adjusted for trading day volatility, struck at @strike on an asset with spot price @spot.</para>
       <para>@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a put.</para>
       <para>@volatility is the annualized volatility, in percent, of the asset for the period through to the exercise date.</para>
-      <para> @time the number of calendar days to exercise divided by calander days in the year.</para>
+      <para> @time the number of calendar days to exercise divided by calendar days in the year.</para>
       <para>@t2 is the number of trading days to exercise divided by trading days in the year.</para>
       <para>@rate is the risk-free interest rate.</para>
       <para>@cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield to the exercise date, in percent.</para>
@@ -6404,7 +6422,7 @@
     <refsect1>
       <title>Examples</title>
       <para/>
-      <para>For example say a company purchases a new computer for $5000 which has a salvage value of $200, and a useful life of three years. We would use the following to calculate the second year's depreciation using the SYD method:</para>
+      <para>For example say a company purchases a new computer for $5000 which has a salvage value of $200, and a useful life of five years. We would use the following to calculate the second year's depreciation using the SYD method:</para>
       <para>=SYD(5000, 200, 5, 2) which returns 1,280.00.</para>
     </refsect1>
     <refsect1>
@@ -6708,7 +6726,6 @@
       <para>  3  actual days/365</para>
       <para>  4  European 30/360</para>
       <para/>
-      <para>* If @frequency is other than 1, 2, or 4, YIELDMAT returns #NUM! error.</para>
       <para>* If @basis is omitted, US 30/360 is applied.</para>
       <para>* If @basis is not in between 0 and 4, #NUM! error is returned.</para>
       <para/>
@@ -6905,8 +6922,8 @@
     <refsect1>
       <title>Examples</title>
       <para/>
-      <para>in A1 EXPRESSION(A2) equals 'EXPRESSION(A3)'.</para>
-      <para>in A2 EXPRESSION(A3) equals empty.</para>
+      <para>entering '=EXPRESSION(A3)' in A2 = empty (assuming there is nothing in A3).</para>
+      <para>entering '=EXPRESSION(A2)' in A1 = 'EXPRESSION(A3)'.</para>
       <para/>
     </refsect1>
     <refsect1>
@@ -8480,12 +8497,14 @@
       <title>Description</title>
       <para>BETA function returns the value of the mathematic beta function extended to all real numbers except 0 and negative integers.</para>
       <para/>
-      <para>* If @a or @b are 0 or negative integers, BETA returns #NUM! error.</para>
+      <para>* If @a, @b, or (@a + @b) are non-positive integers, BETA returns #NUM! error.</para>
       <para/>
     </refsect1>
     <refsect1>
       <title>Examples</title>
       <para/>
+      <para>BETA(2,3) equals 0.083333.</para>
+      <para>BETA(-0.5,0.5) equals #NUM!.</para>
       <para/>
     </refsect1>
     <refsect1>
@@ -8510,12 +8529,13 @@
       <title>Description</title>
       <para>BETALN function returns the natural logarithm of the absolute value of the beta function.</para>
       <para/>
-      <para>* If @a or @b are non-positive integers, BETALN returns #NUM! error.</para>
-      <para/>
+      <para>* If @a, @b, or (@a + @b) are non-positive integers, BETALN returns #NUM!</para>
     </refsect1>
     <refsect1>
       <title>Examples</title>
       <para/>
+      <para>BETALN(2,3) equals -2.48.</para>
+      <para>BETALN(-0.5,0.5) equals #NUM!.</para>
       <para/>
     </refsect1>
     <refsect1>
@@ -9007,7 +9027,7 @@
       <title>Description</title>
       <para>GCD returns the greatest common divisor of given numbers.</para>
       <para/>
-      <para>* If any of the arguments is less than zero, GCD returns #NUM! error.</para>
+      <para>* If any of the arguments is less than one, GCD returns #NUM! error.</para>
       <para>* If any of the arguments is non-integer, it is truncated.</para>
       <para>* This function is Excel compatible.</para>
       <para/>
@@ -9073,7 +9093,8 @@
       <title>Description</title>
       <para>LCM returns the least common multiple of integers.  The least common multiple is the smallest positive number that is a multiple of all integer arguments given.</para>
       <para/>
-      <para>* If any of the arguments is less than one, LCM returns #NUM! error.</para>
+      <para>* If any of the arguments is less than one, LCM returns #NUM!.</para>
+      <para>* If any of the arguments is non-integer, it is truncated.</para>
       <para>* This function is Excel compatible.</para>
       <para/>
     </refsect1>
@@ -9491,6 +9512,10 @@
       <title>Description</title>
       <para>POWER returns the value of @x raised to the power @y.</para>
       <para/>
+      <para/>
+      <para>* If both @x and @y equals to 0, POWER returns #NUM! error.</para>
+      <para>* If @x = 0 and @y &lt; 0, POWER returns #DIV/0! error.</para>
+      <para>* If @x &lt; 0 and @y is non-integer, POWER returns #NUM! error.</para>
       <para>* This function is Excel compatible.</para>
       <para/>
     </refsect1>
@@ -10306,7 +10331,8 @@
       <title>Description</title>
       <para>TRUNC function returns the value of @number truncated to the number of digits specified.</para>
       <para/>
-      <para>* If @digits is omitted then @digits defaults to zero.</para>
+      <para>* If @digits is omitted or negative then @digits defaults to zero.</para>
+      <para>* If @digits is not an integer, it is truncated.</para>
       <para>* This function is Excel compatible.</para>
       <para/>
     </refsect1>
@@ -10812,7 +10838,7 @@
       <para>	p(x) dx = {1 over 2 a Gamma(1+1/b)} exp(-|x/a|^b) dx, for x &gt;= 0.</para>
       <para/>
       <para>* For @b = 1 this reduces to the Laplace distribution.</para>
-      <para>* For @b = 2 it has the same form as a Gaussian distribution with sigma = a/sqrt(2).</para>
+      <para>* For @b = 2 it has the same form as a normal distribution with sigma = a/sqrt(2).</para>
       <para/>
     </refsect1>
     <refsect1>
@@ -10878,70 +10904,6 @@
       <title>Examples</title>
       <para/>
       <para>RANDGAMMA(1,2).</para>
-      <para/>
-    </refsect1>
-    <refsect1>
-      <title>See also</title>
-      <para><link linkend="gnumeric-RAND">RAND</link>.
-      </para>
-    </refsect1>
-  </refentry>
-  <refentry id="gnumeric-RANDGAUSSIAN">
-    <refmeta>
-      <refentrytitle>RANDGAUSSIAN</refentrytitle>
-    </refmeta>
-    <refnamediv>
-      <refname>RANDGAUSSIAN</refname>
-      <refpurpose/>
-    </refnamediv>
-    <refsynopsisdiv>
-      <synopsis>RANDGAUSSIAN(mean,stdev)</synopsis>
-    </refsynopsisdiv>
-    <refsect1>
-      <title>Description</title>
-      <para>RANDGAUSSIAN returns a Gaussian-distributed random number.</para>
-      <para/>
-      <para>* If @stdev &lt; 0 RANDGAUSSIAN returns #NUM! error.</para>
-      <para/>
-    </refsect1>
-    <refsect1>
-      <title>Examples</title>
-      <para/>
-      <para>RANDGAUSSIAN(0,1).</para>
-      <para/>
-    </refsect1>
-    <refsect1>
-      <title>See also</title>
-      <para><link linkend="gnumeric-RAND">RAND</link>.
-      </para>
-    </refsect1>
-  </refentry>
-  <refentry id="gnumeric-RANDGAUSSIANTAIL">
-    <refmeta>
-      <refentrytitle>RANDGAUSSIANTAIL</refentrytitle>
-    </refmeta>
-    <refnamediv>
-      <refname>RANDGAUSSIANTAIL</refname>
-      <refpurpose/>
-    </refnamediv>
-    <refsynopsisdiv>
-      <synopsis>RANDGAUSSIANTAIL(a,sigma)</synopsis>
-    </refsynopsisdiv>
-    <refsect1>
-      <title>Description</title>
-      <para>RANDGAUSSIANTAIL returns a random variates from the upper tail of a Gaussian distribution with standard deviation @sigma. The values returned are larger than the lower limit @a, which must be positive. The method is based on Marsaglia's famous rectangle-wedge-tail algorithm (Ann Math Stat 32, 894-899 (1961)), with this aspect explained in Knuth, v2, 3rd ed, p139, 586 (exercise 11).</para>
-      <para/>
-      <para>The probability distribution for Gaussian tail random variates is,</para>
-      <para/>
-      <para>	p(x) dx = {1 over N(a;sigma)} exp (- x^2/(2 sigma^2)) dx,</para>
-      <para/>
-      <para>for x &gt; a where N(a;sigma) is the normalization constant, N(a;sigma) = (1/2) erfc(a / sqrt(2 sigma^2)).</para>
-      <para/>
-    </refsect1>
-    <refsect1>
-      <title>Examples</title>
-      <para/>
-      <para>RANDGAUSSIANTAIL(0.5,0.1).</para>
       <para/>
     </refsect1>
     <refsect1>
@@ -11123,7 +11085,7 @@
       <para>RANDLEVY returns a Levy-distributed random number. If @beta is omitted, it is assumed to be 0.</para>
       <para/>
       <para>* For @alpha = 1, @beta=0, we get the Lorentz distribution.</para>
-      <para>* For @alpha = 2, @beta=0, we get the Gaussian distribution.</para>
+      <para>* For @alpha = 2, @beta=0, we get the normal distribution.</para>
       <para/>
       <para>* If @alpha &lt;= 0 or @alpha &gt; 2, RANDLEVY returns #NUM! error.</para>
       <para>* If @beta &lt; -1 or @beta &gt; 1, RANDLEVY returns #NUM! error.</para>
@@ -11258,6 +11220,70 @@
       <title>See also</title>
       <para><link linkend="gnumeric-RAND">RAND</link>,
         <link linkend="gnumeric-RANDBETWEEN">RANDBETWEEN</link>.
+      </para>
+    </refsect1>
+  </refentry>
+  <refentry id="gnumeric-RANDNORM">
+    <refmeta>
+      <refentrytitle>RANDNORM</refentrytitle>
+    </refmeta>
+    <refnamediv>
+      <refname>RANDNORM</refname>
+      <refpurpose/>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>RANDNORM(mean,stdev)</synopsis>
+    </refsynopsisdiv>
+    <refsect1>
+      <title>Description</title>
+      <para>RANDNORM returns a normal-distributed random number.</para>
+      <para/>
+      <para>* If @stdev &lt; 0 RANDNORM returns #NUM! error.</para>
+      <para/>
+    </refsect1>
+    <refsect1>
+      <title>Examples</title>
+      <para/>
+      <para>RANDNORM(0,1).</para>
+      <para/>
+    </refsect1>
+    <refsect1>
+      <title>See also</title>
+      <para><link linkend="gnumeric-RAND">RAND</link>.
+      </para>
+    </refsect1>
+  </refentry>
+  <refentry id="gnumeric-RANDNORMTAIL">
+    <refmeta>
+      <refentrytitle>RANDNORMTAIL</refentrytitle>
+    </refmeta>
+    <refnamediv>
+      <refname>RANDNORMTAIL</refname>
+      <refpurpose/>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>RANDNORMTAIL(a,sigma)</synopsis>
+    </refsynopsisdiv>
+    <refsect1>
+      <title>Description</title>
+      <para>RANDNORMTAIL returns a random variates from the upper tail of a normal distribution with standard deviation @sigma. The values returned are larger than the lower limit @a, which must be positive. The method is based on Marsaglia's famous rectangle-wedge-tail algorithm (Ann Math Stat 32, 894-899 (1961)), with this aspect explained in Knuth, v2, 3rd ed, p139, 586 (exercise 11).</para>
+      <para/>
+      <para>The probability distribution for normal tail random variates is,</para>
+      <para/>
+      <para>	p(x) dx = {1 over N(a;sigma)} exp (- x^2/(2 sigma^2)) dx,</para>
+      <para/>
+      <para>for x &gt; a where N(a;sigma) is the normalization constant, N(a;sigma) = (1/2) erfc(a / sqrt(2 sigma^2)).</para>
+      <para/>
+    </refsect1>
+    <refsect1>
+      <title>Examples</title>
+      <para/>
+      <para>RANDNORMTAIL(0.5,0.1).</para>
+      <para/>
+    </refsect1>
+    <refsect1>
+      <title>See also</title>
+      <para><link linkend="gnumeric-RAND">RAND</link>.
       </para>
     </refsect1>
   </refentry>
@@ -11424,9 +11450,8 @@
       <title>Description</title>
       <para>RANDUNIFORM returns a random variate from the uniform (flat) distribution from a to b. The distribution is,</para>
       <para/>
-      <para>	p(x) dx = {1 over (b-a)} dx.</para>
-      <para/>
-      <para>* If a &lt;= x &lt; b and 0 otherwise.</para>
+      <para>	p(x) dx = {1 over (b-a)} dx : for a &lt;= x &lt; b.</para>
+      <para>p(x) dx = 0 : for x &lt; a or b &lt; x.</para>
       <para>* If @a &gt; @b RANDUNIFORM returns #NUM! error.</para>
       <para/>
     </refsect1>
