@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-24 12:52-0400\n"
-"PO-Revision-Date: 2004-09-24 11:36-0400\n"
+"POT-Creation-Date: 2004-09-25 15:45-0400\n"
+"PO-Revision-Date: 2004-09-25 11:36-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: English/Canada <adamw@FreeBSD.org>\n"
 "MIME-Version: 1.0\n"
@@ -8783,9 +8783,10 @@ msgid "%s version %s"
 msgstr "%s version %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
+#. Color
 #: plugins/fn-info/functions.c:1324
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1445
-#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:220
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:224
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:117
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:819
 #: src/dialogs/dialog-cell-format.c:2364 src/dialogs/dialog-cell-format.c:2369
@@ -18498,8 +18499,8 @@ msgid ""
 "print grid lines. Please use the Print Setup dialog to edit this value."
 msgstr ""
 ">This value determines the default setting in the Print Setup dialogue for "
-"whether to print grid lines. Please use the Print Setup dialogue to edit this "
-"value."
+"whether to print grid lines. Please use the Print Setup dialogue to edit "
+"this value."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:2
 msgid ""
@@ -18682,9 +18683,9 @@ msgid ""
 "in the workbook. Setting this variable to TRUE directs selections to this "
 "entry even the entry does not have keyboard focus."
 msgstr ""
-"Some dialogues contain only a single entry field that allows range selections "
-"in the workbook. Setting this variable to TRUE directs selections to this "
-"entry even the entry does not have keyboard focus."
+"Some dialogues contain only a single entry field that allows range "
+"selections in the workbook. Setting this variable to TRUE directs selections "
+"to this entry even the entry does not have keyboard focus."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:45
 msgid "System Directory for Autoformats"
@@ -18834,9 +18835,9 @@ msgid ""
 "ro print row and column headers. Please use the Print Setup dialog to edit "
 "this value."
 msgstr ""
-"This value determines the default setting in the Print Setup dialogue whether "
-"to print row and column headers. Please use the Print Setup dialogue to edit "
-"this value."
+"This value determines the default setting in the Print Setup dialogue "
+"whether to print row and column headers. Please use the Print Setup dialogue "
+"to edit this value."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:69
 msgid ""
@@ -18844,9 +18845,9 @@ msgid ""
 "to center pages horizontally. Please use the Print Setup dialog to edit this "
 "value."
 msgstr ""
-"This value determines the default setting in the Print Setup dialogue whether "
-"to centre pages horizontally. Please use the Print Setup dialogue to edit this "
-"value."
+"This value determines the default setting in the Print Setup dialogue "
+"whether to centre pages horizontally. Please use the Print Setup dialogue to "
+"edit this value."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:70
 msgid ""
@@ -18854,9 +18855,9 @@ msgid ""
 "to print empty but formatted cells. Please use the Print Setup dialog to "
 "edit this value."
 msgstr ""
-"This value determines the default setting in the Print Setup dialogue whether "
-"to print empty but formatted cells. Please use the Print Setup dialogue to "
-"edit this value."
+"This value determines the default setting in the Print Setup dialogue "
+"whether to print empty but formatted cells. Please use the Print Setup "
+"dialogue to edit this value."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:71
 msgid ""
@@ -18864,9 +18865,9 @@ msgid ""
 "to print first right then down. Please use the Print Setup dialog to edit "
 "this value."
 msgstr ""
-"This value determines the default setting in the Print Setup dialogue whether "
-"to print first right then down. Please use the Print Setup dialogue to edit "
-"this value."
+"This value determines the default setting in the Print Setup dialogue "
+"whether to print first right then down. Please use the Print Setup dialogue "
+"to edit this value."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:72
 msgid ""
@@ -18874,9 +18875,9 @@ msgid ""
 "to print in only black and white. Please use the Print Setup dialog to edit "
 "this value."
 msgstr ""
-"This value determines the default setting in the Print Setup dialogue whether "
-"to print in only black and white. Please use the Print Setup dialogue to edit "
-"this value."
+"This value determines the default setting in the Print Setup dialogue "
+"whether to print in only black and white. Please use the Print Setup "
+"dialogue to edit this value."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:73
 msgid ""
@@ -18884,17 +18885,17 @@ msgid ""
 "to scale pages by a given percentage. Please use the Print Setup dialog to "
 "edit this value."
 msgstr ""
-"This value determines the default setting in the Print Setup dialogue whether "
-"to scale pages by a given percentage. Please use the Print Setup dialogue to "
-"edit this value."
+"This value determines the default setting in the Print Setup dialogue "
+"whether to scale pages by a given percentage. Please use the Print Setup "
+"dialogue to edit this value."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:74
 msgid ""
 "This value determines whether by default the print set-up dialog applies to "
 "all sheets simultaneously."
 msgstr ""
-"This value determines whether by default the print set-up dialogue applies to "
-"all sheets simultaneously."
+"This value determines whether by default the print set-up dialogue applies "
+"to all sheets simultaneously."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:75
 msgid ""
@@ -20089,58 +20090,51 @@ msgid "<b>Values</b>"
 msgstr "<b>Values</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:6
-#: src/dialogs/so-arrow.glade.h:5
-msgid "Color:"
-msgstr "Colour:"
+msgid "Colo_r:"
+msgstr "Colo_ur:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:7
-msgid "Display:"
-msgstr "Display:"
+msgid "Dis_play:"
+msgstr "Dis_play:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:8
-msgid "Line width:"
-msgstr "Line width:"
+msgid ""
+"None\n"
+"Absolute\n"
+"Relative\n"
+"Percent"
+msgstr ""
+"None\n"
+"Absolute\n"
+"Relative\n"
+"Percent"
 
-#: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:9
-msgid "Width:"
-msgstr "Width:"
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:12
+msgid "_Line width:"
+msgstr "_Line width:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:236
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:13
+msgid "_Width:"
+msgstr "_Width:"
+
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:242
 msgid "No error bar displayed"
 msgstr "No error bar displayed"
 
-#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:242
-#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:258
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:248
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:264
 msgid "Positive error bar displayed"
 msgstr "Positive error bar displayed"
 
-#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:247
-#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:263
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:253
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:269
 msgid "Negative error bar displayed"
 msgstr "Negative error bar displayed"
 
-#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:252
-#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:268
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:258
+#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:274
 msgid "Full error bar displayed"
 msgstr "Full error bar displayed"
-
-#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:275
-#: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-cell-format.c:89
-#: src/dialogs/dialog-paste-special.c:55 src/tools/solver/reports-write.c:718
-msgid "None"
-msgstr "None"
-
-#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:276
-msgid "Absolute"
-msgstr "Absolute"
-
-#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:277
-msgid "Relative"
-msgstr "Relative"
-
-#: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:278
-msgid "Percent"
-msgstr "Percent"
 
 #. default
 #. Cheat and assign a name here, graphs will not have parents until we
@@ -22158,6 +22152,11 @@ msgstr "Left"
 msgid "Locking cells or hiding formulas only affects protected worksheets."
 msgstr "Locking cells or hiding formulas only affects protected worksheets."
 
+#: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-cell-format.c:89
+#: src/dialogs/dialog-paste-special.c:55 src/tools/solver/reports-write.c:718
+msgid "None"
+msgstr "None"
+
 #: src/dialogs/cell-format.glade.h:64
 msgid "Outline"
 msgstr "Outline"
@@ -23565,8 +23564,8 @@ msgid ""
 "The items on this page customize the inital settings of the sort dialog and "
 "the behaviour of the sort toolbar buttons."
 msgstr ""
-"The items on this page customize the inital settings of the sort dialogue and "
-"the behaviour of the sort toolbar buttons."
+"The items on this page customize the inital settings of the sort dialogue "
+"and the behaviour of the sort toolbar buttons."
 
 #: src/dialogs/dialog-preferences.c:728
 msgid "The items on this page customize the new default workbook."
@@ -26039,6 +26038,10 @@ msgstr "Arrow Width:"
 #: src/dialogs/so-arrow.glade.h:4
 msgid "Arrow/Line Properties"
 msgstr "Arrow/Line Properties"
+
+#: src/dialogs/so-arrow.glade.h:5
+msgid "Color:"
+msgstr "Colour:"
 
 #: src/dialogs/so-arrow.glade.h:6
 msgid "Distance from tip of arrowhead to the center point"
