@@ -4,6 +4,7 @@
 	adding epsilon, make sure that is <0.5.
 	(gnumeric_fake_round, gnumeric_fake_trunc): Simplify in terms of
 	gnumeric_fake_floor.
+	Fixes #166188.
 
 2005-02-03  Morten Welinder  <terra@gnome.org>
 
