@@ -989,14 +989,12 @@ msgid ">="
 msgstr ">="
 
 #: src/dialog-solver.c:22
-#, fuzzy
 msgid "int"
-msgstr ""
+msgstr "int""
 
 #: src/dialog-solver.c:23
-#, fuzzy
 msgid "bool"
-msgstr ""
+msgstr "bool""
 
 #: src/dialog-solver.c:41 src/workbook.c:1594
 msgid "Max"
@@ -1569,7 +1567,6 @@ msgstr ""
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 
 #: src/fn-date.c:316
-#, fuzzy
 msgid ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (serial_number)\n"
@@ -1581,13 +1578,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (número_de_serie)\n"
-"@DESCRIPTION=Convierte el número de serie a minutos en el rango de 0 a 59\n"
+"@DESCRIPTION=Convierte el número de serie a minutos. Los minutos son dados "
+"como un entero en el rango de 0 a 59.\n"
 "Note que Gnumeric hará la conversión de una cadena de texto a un número de "
 "serie; por lo tanto puede entrar la fecha como una cadena de texto.\n"
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 
 #: src/fn-date.c:341
-#, fuzzy
 msgid ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (serial_number)\n"
@@ -1599,7 +1596,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (número_de_serie)\n"
-"@DESCRIPTION=Convierte el número de serie a segundos en el rango de 0 a 59\n"
+"@DESCRIPTION=Convierte el número de serie a segundos. Los segundos son dados "
+"en el rango de 0 a 59.\n"
 "Note que Gnumeric hará la conversión de una cadena de texto a un número de "
 "serie; por lo tanto puede entrar la fecha como una cadena de texto.\n"
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
@@ -2454,7 +2452,6 @@ msgstr ""
 "@SEEALSO=DOLLARFR"
 
 #: src/fn-financial.c:299
-#, fuzzy
 msgid ""
 "@FUNCTION=DOLLARFR\n"
 "@SYNTAX=DOLLARFR(decimal_dollar,fraction)\n"
@@ -2464,13 +2461,13 @@ msgid ""
 "returns #NUM! error. \n"
 "@SEEALSO=DOLLARDE"
 msgstr ""
-"@FUNCTION=FACTDOUBLE\n"
-"@SYNTAX=FACTDOUBLE(número)\n"
-"@DESCRIPTION=La función FACTDOUBLE devuelve la factorial doble de un "
-"número.\n"
-"Si @número no es un entero, será troncado. Si @número es negativo FACTDOUBLE "
+"@FUNCTION=DOLLARFR\n"
+"@SYNTAX=DOLLARFR(decimal_dólar,fracción)\n"
+"@DESCRIPTION=DOLLARFR convierte un precio en dólares expresado en decimales,"
+" a un precio en dólares iexpresado como una fracción.\n"
+"Si @fracción no es un entero, será troncado. Si @fracción<=0 DOLLARDE "
 "devuelve el error #NUM! .\n"
-"@SEEALSO=FACT"
+"@SEEALSO=DOLLARDE"
 
 #: src/fn-financial.c:338
 msgid ""
@@ -2481,48 +2478,32 @@ msgid ""
 msgstr ""
 
 #: src/fn-financial.c:434
-#, fuzzy
 msgid ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(rate,nper,pmt,fv,type)\n"
 "@DESCRIPTION=Calculates the present value of an investment.\n"
 "@SEEALSO=FV"
 msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UUPER(texto)\n"
-"@DESCRIPTION=Devuelve una versión en mayúsculas de la cadena @texto.\n"
-"@SEEALSO=LOWER"
 
 #: src/fn-financial.c:456
-#, fuzzy
 msgid "pv - domain error"
-msgstr "acos - error de dominio"
+msgstr "pv - error de dominio"
 
 #: src/fn-financial.c:466
-#, fuzzy
 msgid ""
 "@FUNCTION=NPV\n"
 "@SYNTAX=NPV(rate,v1,v2,...)\n"
 "@DESCRIPTION=Calculates the net present value of an investment.\n"
 "@SEEALSO=PV"
 msgstr ""
-"@FUNCTION=NA\n"
-"@SYNTAX=NA()\n"
-"@DESCRIPTION=NA devuelve el valor de error #N/D. \n"
-"@SEEALSO="
 
 #: src/fn-financial.c:512
-#, fuzzy
 msgid ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rate,nper,pmt,pv,type)\n"
 "@DESCRIPTION=Calculates the future value of an investment.\n"
 "@SEEALSO=PV,PMT,PPMT"
 msgstr ""
-"@FUNCTION=VALUE\n"
-"@SYNTAX=VALUE(texto)\n"
-"@DESCRIPTION=Devuelve el valor numérico de @texto.\n"
-"@SEEALSO=DOLLAR, FIXED, TEXT"
 
 #: src/fn-financial.c:542
 msgid ""
@@ -2587,7 +2568,7 @@ msgstr ""
 
 #: src/fn-financial.c:714
 msgid "Financial"
-msgstr ""
+msgstr "Financiero"
 
 #: src/fn-information.c:67
 #, fuzzy
@@ -2604,23 +2585,20 @@ msgstr ""
 "@SEEALSO=UPPER"
 
 #: src/fn-information.c:206 src/fn-information.c:314
-#, fuzzy
 msgid "Unknown info_type"
-msgstr "Operador desconocido"
+msgstr "tipo_info desconocido"
 
 #: src/fn-information.c:211
-#, fuzzy
 msgid ""
 "@FUNCTION=COUNTBLANK\n"
 "@SYNTAX=COUNTBLANK(range)\n"
 "@DESCRIPTION=COUNTBLANK returns the number of blank cells in a @range. \n"
 "@SEEALSO=COUNT"
 msgstr ""
-"@FUNCTION=COUNTIF\n"
-"@SYNTAX=COUNTIF(rango,criterio)\n"
-"@DESCRIPTION=La función COUNTIF cuenta la cantidad de celdas en un rango que "
-"corresponde al criterio pasado en argumento.\n"
-"@SEEALSO=COUNT,SUMIF"
+"@FUNCTION=COUNTBLANK\n"
+"@SYNTAX=COUNTBLANK(rango)\n"
+"@DESCRIPTION=COUNTBLANK devuelve la cantidad de celdas vacias en @rango. \n"
+"@SEEALSO=COUNT"
 
 #: src/fn-information.c:246
 #, fuzzy
@@ -2637,25 +2615,22 @@ msgstr ""
 "@SEEALSO="
 
 #: src/fn-information.c:284
-#, fuzzy
 msgid "Unknown version"
-msgstr "Operador desconocido"
+msgstr "Versión desconocida"
 
 #: src/fn-information.c:286
 #, c-format
 msgid "%s version %s"
-msgstr ""
+msgstr "%s versión %s""
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: src/fn-information.c:295
-#, fuzzy
 msgid "Automatic"
-msgstr "_Autoajusta"
+msgstr "Automático"
 
 #: src/fn-information.c:304
-#, fuzzy
 msgid "Unknown system"
-msgstr "Operador desconocido"
+msgstr "sistema desconocido"
 
 #: src/fn-information.c:319
 #, fuzzy
@@ -2791,9 +2766,8 @@ msgstr ""
 "@SEEALSO="
 
 #: src/fn-information.c:565
-#, fuzzy
 msgid "Information"
-msgstr "Información en breve"
+msgstr "Información"
 
 #: src/fn-logical.c:15
 msgid ""
@@ -3082,7 +3056,6 @@ msgstr ""
 "@SEEALSO=CEIL, FLOOR"
 
 #: src/fn-math.c:267
-#, fuzzy
 msgid ""
 "@FUNCTION=ACOS\n"
 "@SYNTAX=ACOS(x)\n"
@@ -3096,8 +3069,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=ACOS\n"
 "@SYNTAX=ACOS(x)\n"
-"@DESCRIPTION=La función ACOS calcula el arco coseno de x; o sea el valor "
-"cuyo coseno es x. Si x cae fuera del rango de -1 a 1, ACOS devuelve el error "
+"@DESCRIPTION=La función ACOS calcula el arco coseno de @x; o sea el valor "
+"cuyo coseno es @x. Si @x cae fuera del rango de -1 a 1, ACOS devuelve el error "
 "'acos - error de dominio'. El valor devuelto se exprime en radianes. \n"
 "Aplicar este función sobre una cadena de texto o una celda vacia no hace "
 "nada. La función admite un solo argumento.\n"
@@ -3108,7 +3081,6 @@ msgid "acos - domain error"
 msgstr "acos - error de dominio"
 
 #: src/fn-math.c:295
-#, fuzzy
 msgid ""
 "@FUNCTION=ACOSH\n"
 "@SYNTAX=ACOSH(x)\n"
@@ -3121,8 +3093,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=ACOSH\n"
 "@SYNTAX=ACOSH(x)\n"
-"@DESCRIPTION=La función ACOSH calcula el coseno hiperbólico inverso de x; o "
-"sea el valor cuyo coseno hiperbólico es x. Si x es inferior a 1,0 ACOSH "
+"@DESCRIPTION=La función ACOSH calcula el coseno hiperbólico inverso de @x; o "
+"sea el valor cuyo coseno hiperbólico es @x. Si @x es inferior a 1,0 ACOSH "
 "devuelve el error 'acosh - error de dominio'.\n"
 "Aplicar este función sobre una cadena de texto o una celda vacia no hace "
 "nada. La función admite un solo argumento.\n"
@@ -3133,7 +3105,6 @@ msgid "acosh - domain error"
 msgstr "acosh - error de dominio"
 
 #: src/fn-math.c:323
-#, fuzzy
 msgid ""
 "@FUNCTION=ASIN\n"
 "@SYNTAX=ASIN(x)\n"
@@ -3146,8 +3117,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=ASIN\n"
 "@SYNTAX=ASIN(x)\n"
-"@DESCRIPTION=La función ASIN calcula el arco seno de x; o sea el valor cuyo "
-"seno es x. Si x cae fuera del rango de -1 a 1, ASIN devuelve el error 'asin "
+"@DESCRIPTION=La función ASIN calcula el arco seno de @x; o sea el valor cuyo "
+"seno es @x. Si @x cae fuera del rango de -1 a 1, ASIN devuelve el error 'asin "
 "- error de dominio'. El valor devuelto se exprime en radianes. \n"
 "Aplicar este función sobre una cadena de texto o una celda vacia no hace "
 "nada. La función admite un solo argumento.\n"
@@ -3158,7 +3129,6 @@ msgid "asin - domain error"
 msgstr "asin - error de dominio"
 
 #: src/fn-math.c:350
-#, fuzzy
 msgid ""
 "@FUNCTION=ASINH\n"
 "@SYNTAX=ASINH(x)\n"
@@ -3170,14 +3140,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=ASINH\n"
 "@SYNTAX=ASINH(x)\n"
-"@DESCRIPTION=La función ASINH calcula el seno hiperbólico inverso de x; o "
-"sea el valor cuyo seno hiperbólico es x. \n"
+"@DESCRIPTION=La función ASINH calcula el seno hiperbólico inverso de @x; o "
+"sea el valor cuyo seno hiperbólico es @x. \n"
 "Aplicar este función sobre una cadena de texto o una celda vacia no hace "
 "nada. La función admite un solo argumento.\n"
 "@SEEALSO=ASIN, SIN, COS, DEGREES, RADIANS"
 
 #: src/fn-math.c:371
-#, fuzzy
 msgid ""
 "@FUNCTION=ATAN\n"
 "@SYNTAX=ATAN(x)\n"
@@ -3189,14 +3158,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=ATAN\n"
 "@SYNTAX=ATAN(x)\n"
-"@DESCRIPTION=La función ATAN calcula el arco tangente de x; o sea el valor "
-"cuya tangente es x. El valor devuelto se exprime en radianes. \n"
+"@DESCRIPTION=La función ATAN calcula el arco tangente de @x; o sea el valor "
+"cuya tangente es @x. El valor devuelto se exprime en radianes. \n"
 "Aplicar este función sobre una cadena de texto o una celda vacia no hace "
 "nada. La función admite un solo argumento.\n"
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 
 #: src/fn-math.c:394
-#, fuzzy
 msgid ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
@@ -3210,8 +3178,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
-"@DESCRIPTION=La función ATANH calcula la tangente hiperbólica inversa de x; "
-"o sea el valor cuya tangente hiperbólica es x. Si el valor absoluto de x es "
+"@DESCRIPTION=La función ATANH calcula la tangente hiperbólica inversa de @x; "
+"o sea el valor cuya tangente hiperbólica es @x. Si el valor absoluto de @x es "
 "superior a 1,0 ATANH devuelve el error 'atanh - error de dominio'.\n"
 "Aplicar este función sobre una cadena de texto o una celda vacia no hace "
 "nada. La función admite un solo argumento.\n"
@@ -3222,7 +3190,6 @@ msgid "atanh: domain error"
 msgstr "atanh: error de dominio"
 
 #: src/fn-math.c:423
-#, fuzzy
 msgid ""
 "@FUNCTION=ATAN2\n"
 "@SYNTAX=ATAN2(b1,b2)\n"
@@ -3236,7 +3203,7 @@ msgstr ""
 "@FUNCTION=ATAN2\n"
 "@SYNTAX=ATAN2(b1,b2)\n"
 "@DESCRIPTION=La función ATAN2 calcula el arco tangente de las dos variables "
-"b1 y b2. Es similar a calcular el arco tangente de b2 / b1, salvo que el "
+"@b1 y @b2. Es similar a calcular el arco tangente de @b2 / @b1, salvo que el "
 "signo de ambos argumentos es usado para determinar el cuadrante del "
 "resultado. El valor devuelto se exprime en radianes. \n"
 "Aplicar este función sobre una cadena de texto o una celda vacia no hace "
@@ -3244,7 +3211,6 @@ msgstr ""
 "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
 
 #: src/fn-math.c:447
-#, fuzzy
 msgid ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
@@ -3254,13 +3220,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
-"@DESCRIPTION=La función CEIL redondea x hacia el próximo valor entero.\n"
+"@DESCRIPTION=La función CEIL redondea @x hacia el próximo valor entero.\n"
 "Efectuar esta función sobre una cadena de texto o sobre una celda vacía "
 "simplemente no hace nada.\n"
 "@SEEALSO=ABS, FLOOR, INT"
 
 #: src/fn-math.c:466
-#, fuzzy
 msgid ""
 "@FUNCTION=COUNTIF\n"
 "@SYNTAX=COUNTIF(range,criteria)\n"
@@ -3270,8 +3235,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=COUNTIF\n"
 "@SYNTAX=COUNTIF(rango,criterio)\n"
-"@DESCRIPTION=La función COUNTIF cuenta la cantidad de celdas en un rango que "
-"corresponde al criterio pasado en argumento.\n"
+"@DESCRIPTION=La función COUNTIF cuenta la cantidad de celdas en un @rango que "
+"corresponde al @criterio pasado en argumento.\n"
 "@SEEALSO=COUNT,SUMIF"
 
 #: src/fn-math.c:535
