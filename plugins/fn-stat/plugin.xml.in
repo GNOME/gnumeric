@@ -24,6 +24,7 @@
 				<function name="count"/>
 				<function name="counta"/>
 				<function name="critbinom"/>
+				<function name="cronbach"/>
 				<function name="correl"/>
 				<function name="covar"/>
 				<function name="devsq"/>

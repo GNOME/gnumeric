@@ -1,4 +1,9 @@
 2002-05-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* functions.c : added new function CRONBACH
+	* plugin.xml.in : added new function CRONBACH
+
+2002-05-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* functions.c : mark argument names for translation and adjust 
 	  them for use by the formula guru.

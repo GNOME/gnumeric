@@ -4561,6 +4561,138 @@ gnumeric_subtotal (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
+static const char *help_cronbach = {
+	N_("@FUNCTION=CRONBACH\n"
+	   "@SYNTAX=CRONBACH(ref1,ref2,...)\n"
+
+	   "@DESCRIPTION="
+	   "CRONBACH returns Cronbach's alpha for the given cases."
+	   "\n"
+	   "@ref1 is a data set, @ref2 the second data set, etc.."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=")
+};
+
+static inline void
+free_values (Value **values, int top)
+{
+	int i;
+
+	for (i = 0; i < top; i++)
+		if (values [i])
+			value_release (values [i]);
+	g_free (values);
+}
+
+static inline Value *
+function_marshal_arg (FunctionEvalInfo *ei,
+		      GnmExpr         *t,
+		      Value            **type_mismatch)
+{
+	Value *v;
+
+	*type_mismatch = NULL;
+
+	if (t->any.oper == GNM_EXPR_OP_CELLREF)
+		v = value_new_cellrange (&t->cellref.ref, &t->cellref.ref,
+					 ei->pos->eval.col,
+					 ei->pos->eval.row);
+	else
+		v = gnm_expr_eval (t, ei->pos, GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
+
+	if (v->type != VALUE_ARRAY &&
+	    v->type != VALUE_CELLRANGE) {
+		*type_mismatch = value_new_error (ei->pos,
+						  gnumeric_err_VALUE);
+	}
+	
+	if (v->type == VALUE_CELLRANGE) {
+		cellref_make_abs (&v->v_range.cell.a,
+				  &v->v_range.cell.a,
+				  ei->pos);
+		cellref_make_abs (&v->v_range.cell.b,
+				  &v->v_range.cell.b,
+				  ei->pos);
+	}
+	
+	return v;
+}
+
+static Value *
+gnumeric_cronbach (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
+{
+	int         k, i, j;
+	Value **values;
+	gnum_float sum_variance = 0.0;
+	gnum_float sum_covariance = 0.0;
+	GnmExprList *list = expr_node_list;
+	GnmExprList *short_list;
+
+	k = gnm_expr_list_length (expr_node_list);
+	if (k < 2)
+	        return value_new_error (ei->pos, gnumeric_err_VALUE);
+
+	for (i = 0; i < k && list; list = list->next, ++i) {
+		Value *fl_val;
+
+		short_list = gnm_expr_list_prepend (NULL, list->data);
+		fl_val = float_range_function (short_list, ei,
+					       range_var_pop, 0,
+					       gnumeric_err_VALUE);
+		gnm_expr_list_free (short_list);
+		if (!VALUE_IS_NUMBER (fl_val))
+			return fl_val;
+		sum_variance += value_get_as_float (fl_val);
+		value_release (fl_val);
+	}
+
+
+	values = g_new0 (Value *, k);
+	list = expr_node_list;
+
+	for (i = 0; list; list = list->next, ++i) {
+		Value *type_mismatch;
+		
+		values[i] = function_marshal_arg (ei, list->data, &type_mismatch);
+		if (type_mismatch || values[i] == NULL) {
+			free_values (values, i + 1);
+			if (type_mismatch)
+				return type_mismatch;
+			else
+				return value_new_error (ei->pos, gnumeric_err_VALUE);
+		}
+	}
+
+	g_return_val_if_fail (i == k, value_new_error (ei->pos, gnumeric_err_VALUE));
+
+	/* We now have an array of array values and an expression list */
+	for (i = 0; i < k; ++i) {
+		for (j = i + 1; j < k; ++j) {
+			Value *fl_val;
+			fl_val = float_range_function2 (values[i], values[j],
+							ei,
+							range_covar, 0,
+							gnumeric_err_VALUE);
+			if (!VALUE_IS_NUMBER (fl_val)) {
+				free_values (values, k);
+				return fl_val;
+			}
+			sum_covariance += value_get_as_float (fl_val);
+			value_release (fl_val);
+		}
+	}
+
+	free_values (values, k);
+	return  value_new_float 
+		(k * (1 - sum_variance / (sum_variance + 2 * sum_covariance)) / (k - 1));
+	
+
+}
+
+/***************************************************************************/
+
 const ModulePluginFunctionInfo stat_functions[] = {
         { "avedev",       0,      N_("number,number,"),
 	  &help_avedev, NULL, gnumeric_avedev, NULL, NULL },
@@ -4588,6 +4720,8 @@ const ModulePluginFunctionInfo stat_functions[] = {
 	  &help_counta, NULL, gnumeric_counta, NULL, NULL },
 	{ "critbinom",    "fff",  N_("trials,p,alpha"),
 	  &help_critbinom, gnumeric_critbinom, NULL, NULL, NULL },
+	{ "cronbach",        0,      N_("ref,ref,"),
+	  &help_cronbach, NULL, gnumeric_cronbach, NULL, NULL },
         { "correl",       "AA",   N_("array1,array2"),
 	  &help_correl, gnumeric_correl, NULL, NULL, NULL },
         { "covar",        "AA",   N_("array1,array2"),
