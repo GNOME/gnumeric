@@ -191,7 +191,7 @@ write_constraint_str (int lhs_col, int lhs_row, int rhs_col,
 		      int rhs_row, SolverConstraintType type,
 		      int cols, int rows)
 {
-	GString    *buf = g_string_new ("");
+	GString    *buf = g_string_new (NULL);
 	const char *type_str[] = { "<=", ">=", "=", "Int", "Bool" };
 	char       *result;
 

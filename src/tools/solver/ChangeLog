@@ -1,3 +1,7 @@
+2003-02-24  Morten Welinder  <terra@diku.dk>
+
+	* solver.c (write_constraint_str): Use g_string_new (NULL).
+
 2003-01-28  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.16
