@@ -670,6 +670,10 @@ dialog_autoformat (WorkbookControlGUI *wbcg)
 		gtk_widget_show_all (GTK_WIDGET (state->category));
 	}
 
+	gnumeric_init_help_button (
+		glade_xml_get_widget (state->gui, "help_button"),
+		"autoformat.html");
+
 	gtk_dialog_set_default_response (state->dialog, GTK_RESPONSE_OK);
 
 	/* a candidate for merging into attach guru */

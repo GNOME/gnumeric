@@ -25,6 +25,7 @@ Andreas:
         * Change layout of preference dialog
 	* Make fill->series undoable, redesign its dialog
 	* Make Data->Text_to_Columns undoable
+	* Add help button to autoformat and plugin manager
 
 Ben Liblit:
 	* Another attempt at configure time path generation.

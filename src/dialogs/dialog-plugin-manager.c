@@ -46,8 +46,11 @@
 
 #include <string.h>
 
+#define PLUGIN_MANAGER_DIALOG_KEY "zoom-dialog"
+
 typedef struct {
 	WorkbookControlGUI *wbcg;
+	GladeXML *gui;
 	GtkDialog *dialog_pm;
 	GtkNotebook *gnotebook;
 	GtkListStore  *model_plugins;
@@ -437,6 +440,14 @@ pm_dialog_cleanup (G_GNUC_UNUSED GObject *dialog,
 		g_object_weak_unref (
 			G_OBJECT (plugin), (GWeakNotify) cb_plugin_destroyed, pm_gui);
 	}
+
+	if (pm_gui->gui != NULL) {
+		g_object_unref (G_OBJECT (pm_gui->gui));
+		pm_gui->gui = NULL;
+	}
+
+	pm_gui->dialog_pm = NULL;
+	g_free (pm_gui);
 }
 
 static void
@@ -605,6 +616,14 @@ cb_active_toggled (G_GNUC_UNUSED GtkCellRendererToggle *celltoggle,
 	}
 }
 
+static void
+cb_pm_close_clicked (G_GNUC_UNUSED GtkWidget *button,
+			PluginManagerGUI *pm_gui)
+{
+	gtk_widget_destroy (GTK_WIDGET(pm_gui->dialog_pm));
+	return;
+}
+
 void
 dialog_plugin_manager (WorkbookControlGUI *wbcg)
 {
@@ -616,7 +635,11 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *rend;
 
+	g_return_if_fail (wbcg != NULL);
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
+
+	if (gnumeric_dialog_raise_if_exists (wbcg, PLUGIN_MANAGER_DIALOG_KEY))
+		return;
 
 	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
 		"plugin-manager.glade", NULL, NULL);
@@ -625,6 +648,7 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 
 	pm_gui = g_new (PluginManagerGUI, 1);
 	pm_gui->wbcg = wbcg;
+	pm_gui->gui = gui;
 	pm_gui->dialog_pm = GTK_DIALOG (glade_xml_get_widget (gui, "dialog_plugin_manager"));
 
 	/* Set-up plugin list  page */
@@ -733,8 +757,14 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 	pm_gui_load_directory_page (pm_gui);
 
 	pm_dialog_init (pm_gui);
-	(void) gnumeric_dialog_run (wbcg, pm_gui->dialog_pm);
+	gnumeric_init_help_button (
+		glade_xml_get_widget (gui, "help_button"),
+		"plugin.html");
+	g_signal_connect (glade_xml_get_widget (gui, "button_close_manager"),
+		"clicked",
+		G_CALLBACK (cb_pm_close_clicked), pm_gui);
 
-	g_free (pm_gui);
-	g_object_unref (G_OBJECT (gui));
+	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (pm_gui->dialog_pm),
+			       PLUGIN_MANAGER_DIALOG_KEY);
+	gtk_widget_show (GTK_WIDGET (pm_gui->dialog_pm));
 }

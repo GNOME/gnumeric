@@ -1,3 +1,12 @@
+2003-07-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* autoformat.glade: add help button
+	* plugin-manager.glade: add help button
+	* dialog-autoformat.c (dialog_autoformat): add help button
+	* dialog-plugin-manager.c (cb_pm_close_clicked): new
+	(pm_dialog_cleanup): delete state
+	(dialog_plugin_manager): setup help button
+
 2003-07-23  Morten Welinder  <terra@gnome.org>
 
 	* dialog-zoom.c (cb_zoom_ok_clicked): Stop silly
