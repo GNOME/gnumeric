@@ -1,17 +1,18 @@
 # Gnumeric Czech translation
 # Copyright (c) 1999,2000,2001,2002 The Free Software Foundation
+# Copyright (C) 2004 Miloslav Trmac <mitr@volny.cz>
 # Petr Vyhnalek <petr.vyhnalek@email.cz>, 1999.
 # David Sauer <davids@penguin.cz>, 1999.
 # Partially based on Slovak translation by Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>, 2002.
 # Michal Bukovjan <bukm@centrum.cz>, 2002,2003.
-# Miloslav Trmac <mitr@volny.cz>, 2003.
+# Miloslav Trmac <mitr@volny.cz>, 2003, 2004.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-01-18 15:54-0500\n"
-"PO-Revision-Date: 2003-11-12 11:25+0100\n"
+"POT-Creation-Date: 2004-01-21 04:33+0100\n"
+"PO-Revision-Date: 2004-01-21 18:22+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -21285,21 +21286,20 @@ msgid "PlotXY"
 msgstr "GrafXY"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:321
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:371
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:370
 msgid "X"
 msgstr "X"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:323
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:373
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:372
 msgid "Y"
 msgstr "Y"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:354
-#, fuzzy
 msgid "PlotBubble"
-msgstr "Bublina"
+msgstr "GrafBublina"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:375
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:374
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:1
 msgid "Bubble"
 msgstr "Bublina"
@@ -21320,9 +21320,8 @@ msgid "Markers at each point."
 msgstr "Značky v každém bodě."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:5
-#, fuzzy
 msgid "Multi-dimensional points with circle at each point."
-msgstr "Interpolovat mezi vícerozměrnými body s označeními v každém bodě."
+msgstr "Vícerozměrné body s označeními v každém bodě."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:6
 msgid "Plot X, Y and bubble size."
@@ -21350,9 +21349,8 @@ msgid "2D scatter plotting engine"
 msgstr "Engine kreslení koláčů"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:3
-#, fuzzy
 msgid "Bubble plotting engine"
-msgstr "Engine kreslení koláčů"
+msgstr "Engine kreslení bublin"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:4
 msgid "Stock Scatter plot types"
@@ -24085,9 +24083,8 @@ msgid "Could not create the Simulation dialog."
 msgstr "Nelze vytvořit dialog pro Simulaci."
 
 #: src/dialogs/dialog-solver.c:100
-#, fuzzy
 msgid "Revised Simplex (GLPK 4.2)"
-msgstr "Revidovaný Simplex (GLPK 3.2)"
+msgstr "Revidovaný Simplex (GLPK 4.2)"
 
 #: src/dialogs/dialog-solver.c:101
 msgid "Simplex (LP Solve 3.2)"
@@ -31363,9 +31360,6 @@ msgstr "Souborový formát Gnumeric XML"
 
 #~ msgid "_Summary"
 #~ msgstr "_Souhrn"
-
-#~ msgid "Sans Regular"
-#~ msgstr "Sans Regular"
 
 #~ msgid "Sheet 1"
 #~ msgstr "List 1"
