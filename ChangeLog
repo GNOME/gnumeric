@@ -1,5 +1,10 @@
 2002-04-10  Morten Welinder  <terra@diku.dk>
 
+	* src/clipboard.c (paste_cell_with_operation): Plug leak.
+	(paste_link): Ditto.
+
+2002-04-10  Morten Welinder  <terra@diku.dk>
+
 	* src/parse-util.c (cellref_a1_get): Fix toupper usage.  Make this
  	work for non-English.  Check for overflow in row number.
 
