@@ -7,6 +7,8 @@
  *   Morten Welinder <terra@diku.dk>
  *   Miguel de Icaza (miguel@gnu.org)
  *   Jukka-Pekka Iivonen (iivonen@iki.fi)
+ *   James Theiler (See also the second note below.)
+ *   Brian Gough (See also the second note below.)
  */
 
 /*
@@ -14,6 +16,15 @@
  * "R" is distributed under GPL licence, see file COPYING.
  * The relevant parts are copyright (C) 1998 Ross Ihaka and
  * 2000-2002 The R Development Core Team.
+ *
+ * Thank you!
+ */
+
+/*
+ * NOTE: most of the random distribution code comes from the GNU Scientific
+ * Library (GSL), notably version 1.1.1.  GSL is distributed under GPL licence,
+ * see COPYING. The relevant parts are copyright (C) 1996, 1997, 1998, 1999,
+ * 2000 James Theiler and Brian Gough.
  *
  * Thank you!
  */
@@ -4370,6 +4381,21 @@ random_normal (void)
 	return qnorm (random_01 (), 0, 1, TRUE, FALSE);
 }
 
+static gnum_float
+random_gaussian (gnum_float sigma)
+{
+        return sigma * random_normal ();
+}
+
+gnum_float
+random_gaussian_pdf (gnum_float x, gnum_float sigma)
+{
+        gnum_float u = x / gnumabs (sigma);
+
+	return (1 / (sqrtgnum (2 * M_PI) * gnumabs (sigma))) *
+	        expgnum (-u * u / 2);
+}
+
 /*
  * Generate a poisson distributed number.
  */
@@ -4523,6 +4549,12 @@ random_laplace (gnum_float a)
 	        return a * loggnum ( -u );
 	else
 	        return -a * loggnum ( u );
+}
+
+gnum_float
+random_laplace_pdf (gnum_float x, gnum_float a)
+{
+        return (1 / (2 * a)) * expgnum (-gnumabs (x) / a);
 }
 
 /*
@@ -4946,7 +4978,8 @@ random_levy (gnum_float c, gnum_float alpha)
 	return c * t * s;
 }
 
-/* The following routine for the skew-symmetric case was provided by
+/*
+ * The following routine for the skew-symmetric case was provided by
  * Keith Briggs.
  *
  * The stable Levy probability distributions have the form
@@ -4997,12 +5030,100 @@ random_levy_skew (gnum_float c, gnum_float alpha, gnum_float beta)
 		gnum_float B = atangnum (t) / alpha;
 		gnum_float S = powgnum (1 + t * t, 1 / (2 * alpha));
 
-		X = S * singnum (alpha * (V + B)) / powgnum (cosgnum (V), 1 / alpha)
+		X = S * singnum (alpha * (V + B)) / powgnum (cosgnum (V),
+							     1 / alpha)
 		        * powgnum (cosgnum (V - alpha * (V + B)) / W,
 				   (1 - alpha) / alpha);
 		return c * X;
 	}
 }
+
+gnum_float
+random_exppow_pdf (gnum_float x, gnum_float a, gnum_float b)
+{
+        gnum_float lngamma = lgamma (1 + 1 / b) ;
+
+	return (1 / (2 * a)) * expgnum (-powgnum (gnumabs (x / a),b) - lngamma);
+}
+
+/*
+ * The exponential power probability distribution is  
+ *
+ *  p(x) dx = (1/(2 a Gamma(1+1/b))) * exp(-|x/a|^b) dx
+ *
+ * for -infty < x < infty. For b = 1 it reduces to the Laplace
+ * distribution. 
+ *
+ * The exponential power distribution is related to the gamma
+ * distribution by E = a * pow(G(1/b),1/b), where E is an exponential
+ * power variate and G is a gamma variate.
+ *
+ * We use this relation for b < 1. For b >=1 we use rejection methods
+ * based on the laplace and gaussian distributions which should be
+ *  faster.
+ *
+ * See P. R. Tadikamalla, "Random Sampling from the Exponential Power
+ * Distribution", Journal of the American Statistical Association,
+ * September 1980, Volume 75, Number 371, pages 683-686.
+ * 
+ * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough
+ */
+
+gnum_float
+random_exppow (gnum_float a, gnum_float b)
+{
+        if (b < 1) {
+	        gnum_float u = random_01 ();
+		gnum_float v = random_gamma (1 / b, 1.0);
+		gnum_float z = a * powgnum (v, 1 / b) ;
+
+		if (u > 0.5)
+		        return z;
+		else 
+		        return -z;
+	} else if (b == 1) 
+	        return random_laplace (a);   /* Laplace distribution */
+	else if (b < 2) {
+	        /* Use laplace distribution for rejection method */
+	        gnum_float x, y, h, ratio, u;
+
+		/* Scale factor chosen by upper bound on ratio at b = 2 */
+		gnum_float s = 1.4489; 
+		do {
+		        x     = random_laplace (a);
+			y     = random_laplace_pdf (x, a);
+			h     = random_exppow_pdf (x, a, b);
+			ratio = h / (s * y);
+			u     = random_01 ();
+		} while (u > ratio);
+      
+		return x ;
+	} else if (b == 2)   /* Gaussian distribution */
+	        return random_gaussian (a / sqrtgnum (2.0));
+	else {
+	        /* Use gaussian for rejection method */
+	        gnum_float x, y, h, ratio, u;
+		const gnum_float sigma = a / sqrtgnum (2.0);
+
+		/* Scale factor chosen by upper bound on ratio at b = infinity.
+		 * This could be improved by using a rational function
+		 * approximation to the bounding curve. */
+
+		gnum_float s = 2.4091 ;  /* this is sqrt(pi) e / 2 */
+
+		do {
+		        x     = random_gaussian (sigma) ;
+			y     = random_gaussian_pdf (x, sigma) ;
+			h     = random_exppow_pdf (x, a, b) ;
+			ratio = h / (s * y) ;
+			u     = random_01 ();
+		} while (u > ratio);
+
+		return x;
+	}
+}
+
+/* ------------------------------------------------------------------------ */
 
 /*
  * Generate 2^n being careful not to overflow
