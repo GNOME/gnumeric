@@ -1,5 +1,9 @@
 2000-02-07  Miguel de Icaza  <miguel@gnu.org>
 
+	* src/dialogs/Makefile.am (glade_msgs): Add new glade.h files
+	* src/dialogs/*.glade.h: Touch up glade files that did not
+	generate the corresponding .glade.h file.
+
 	* src/solver-lp.c: Tag strings for internationalization.
 	* src/analysis-tools.c: ditto.
 

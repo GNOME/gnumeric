@@ -3096,17 +3096,17 @@ dialog_autosave_callback (gpointer *data)
 void
 workbook_autosave_cancel (Workbook *wb)
 {
-	if (wb->autosave_timer != -1)
+	if (wb->autosave_timer != 0)
 		gtk_timeout_remove (wb->autosave_timer);
-	wb->autosave_timer = -1;
+	wb->autosave_timer = 0;
 }
 
 void
 workbook_autosave_set (Workbook *wb, int minutes, gboolean prompt)
 {
-	if (wb->autosave_timer != -1){
+	if (wb->autosave_timer != 0){
 		gtk_timeout_remove (wb->autosave_timer);
-		wb->autosave_timer = -1;
+		wb->autosave_timer = 0;
 	}
 
 	wb->autosave_minutes = minutes;

@@ -31,6 +31,12 @@ src/dialogs/dialog-printer.c
 src/dialogs/dialog-printer-setup.c
 src/dialogs/dialog-solver.c
 src/dialogs/dialog-zoom.c
+src/dialogs/advanced-filter.glade.h
+src/dialogs/analysis-tools.glade.h
+src/dialogs/autocorrect.glade.h
+src/dialogs/autocorrect-exceptions.glade.h
+src/dialogs/autosave.glade.h
+src/dialogs/autosave-prompt.glade.h
 src/dialogs/col-width.glade.h
 src/dialogs/hf-config.glade.h
 src/dialogs/font-sel.glade.h
@@ -41,6 +47,10 @@ src/dialogs/import.glade.h
 src/dialogs/names.glade.h
 src/dialogs/row-height.glade.h
 src/dialogs/sheet-rename.glade.h
+src/dialogs/solver.glade.h
+src/dialogs/solver-options.glade.h
+src/dialogs/insert-cells.glade.h
+src/dialogs/delete-cells.glade.h
 src/dialogs/summary.glade.h
 src/dialogs/cell-format.glade.h
 src/dialogs/cell-sort.glade.h

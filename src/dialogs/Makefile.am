@@ -70,15 +70,24 @@ glade_DATA = 				\
 	cell-sort.glade
 
 glade_msgs = 				\
+	advanced-filter.glade.h		\
+	analysis-tools.glade.h		\
+	autocorrect.glade.h		\
+	autosave.glade.h		\
+	autosave-prompt.glade.h		\
 	cell-sort.glade.h		\
 	col-width.glade.h		\
 	font-sel.glade.h		\
 	hf-config.glade.h		\
 	import.glade.h			\
+	insert-cells.glade.h		\
+	delete-cells.glade.h		\
 	names.glade.h			\
 	print.glade.h			\
 	row-height.glade.h		\
 	sheet-rename.glade.h		\
+	solver.glade.h			\
+	solver-options.glade.h		\
 	summary.glade.h			\
 	dialog-zoom.glade.h		\
 	cell-format.glade.h		\

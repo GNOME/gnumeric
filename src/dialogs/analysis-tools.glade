@@ -21,15 +21,16 @@
   <handler_header_file>callbacks.h</handler_header_file>
   <support_source_file>support.c</support_source_file>
   <support_header_file>support.h</support_header_file>
-  <translatable_strings_file></translatable_strings_file>
+  <output_translatable_strings>True</output_translatable_strings>
+  <translatable_strings_file>analysis-tools.glade.h</translatable_strings_file>
 </project>
 
 <widget>
   <class>GnomeDialog</class>
   <name>AnalysisTools</name>
-  <visible>False</visible>
   <width>355</width>
   <height>254</height>
+  <visible>False</visible>
   <title>Data Analysis</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>
