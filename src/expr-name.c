@@ -259,9 +259,11 @@ expr_name_add (ParsePos const *pp, char const *name,
 			*error_msg = _("already globally defined ");
 	}
 
-	if (expr_name_lookup_list (*scope, name) != NULL)
+	if (expr_name_lookup_list (*scope, name) != NULL) {
+		gnm_expr_unref (expr);
 		return NULL;
-	if (name_refer_circular (name, expr)) {
+	} else if (name_refer_circular (name, expr)) {
+		gnm_expr_unref (expr);
 		*error_msg = _("'%s' has a circular reference");
 		return NULL;
 	}

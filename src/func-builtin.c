@@ -1,0 +1,139 @@
+/*
+ * func-builtin.c:  Built in functions.
+ *
+ * Authors:
+ *   Morten Welinder (terra@diku.dk)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+#include <gnumeric-config.h>
+#include <gnumeric.h>
+#include <func.h>
+#include <libgnome/gnome-i18n.h>
+#include <rangefunc.h>
+#include <auto-format.h>
+#include <collect.h>
+#include <value.h>
+
+/***************************************************************************/
+
+static const char *help_sum = {
+	N_("@FUNCTION=SUM\n"
+	   "@SYNTAX=SUM(value1, value2, ...)\n"
+
+	   "@DESCRIPTION="
+	   "SUM computes the sum of all the values and cells referenced "
+	   "in the argument list.\n"
+	   "This function is Excel compatible."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "11, 15, 17, 21, and 43.  Then\n"
+	   "SUM(A1:A5) equals 107.\n"
+	   "\n"
+	   "@SEEALSO=AVERAGE, COUNT")
+};
+
+Value *
+gnumeric_sum (FunctionEvalInfo *ei, GnmExprList *nodes)
+{
+	return float_range_function (nodes, ei,
+				     range_sum,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
+				     gnumeric_err_VALUE);
+}
+
+/***************************************************************************/
+
+static const char *help_product = {
+	N_("@FUNCTION=PRODUCT\n"
+	   "@SYNTAX=PRODUCT(value1, value2, ...)\n"
+
+	   "@DESCRIPTION="
+	   "PRODUCT returns the product of all the values and cells "
+	   "referenced in the argument list.\n"
+	   "This function is Excel compatible.  In particular, this means "
+	   "that if all cells are empty, the result will be 0."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "PRODUCT(2,5,9) equals 90.\n"
+	   "\n"
+	   "@SEEALSO=SUM, COUNT, G_PRODUCT")
+};
+
+static int
+range_bogusproduct (const gnum_float *xs, int n, gnum_float *res)
+{
+	if (n == 0) {
+		*res = 0;  /* Severe Excel brain damange.  */
+		return 0;
+	} else
+		return range_product (xs, n, res);
+}
+
+Value *
+gnumeric_product (FunctionEvalInfo *ei, GnmExprList *nodes)
+{
+	return float_range_function (nodes, ei,
+				     range_bogusproduct,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
+				     gnumeric_err_VALUE);
+}
+
+/***************************************************************************/
+
+static const char *mathcatname = N_("Maths / Trig.");
+static GSList *mathfuncs = NULL;
+
+void
+func_builtin_init (void)
+{
+	FunctionDefinition *def;
+	FunctionCategory *mathcat = function_get_category_with_translation
+		(mathcatname, _(mathcatname));
+
+	def = function_add_nodes (mathcat, "sum",     0,
+				  "number1,number2,...",
+				  &help_sum, gnumeric_sum);
+	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
+	mathfuncs = g_slist_prepend (mathfuncs, def);
+
+	def = function_add_nodes (mathcat, "product", 0,
+				  "number",    &help_product,  gnumeric_product);
+	mathfuncs = g_slist_prepend (mathfuncs, def);
+}
+
+void
+func_builtin_shutdown (void)
+{
+	GSList *tmp;
+	FunctionCategory *mathcat = function_get_category_with_translation
+		(mathcatname, _(mathcatname));
+
+	for (tmp = mathfuncs; tmp; tmp = tmp->next) {
+		FunctionDefinition *def = tmp->data;
+		const char *name = function_def_get_name (def);
+
+		auto_format_function_result_remove (name);
+		function_remove (mathcat, name);
+	}
+
+	g_slist_free (mathfuncs);
+	mathfuncs = NULL;
+}

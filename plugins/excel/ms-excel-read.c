@@ -2567,8 +2567,12 @@ ms_excel_parse_NAME (ExcelWorkbook *ewb, int sheet_index,
 	if (nexpr != NULL) {
 		/* Add a ref to keep it around after the excel-sheet/wb goes
 		 * away.  externames do not get references and are unrefed
-		 * after import finishes, which destyroys them if they are not
+		 * after import finishes, which destroys them if they are not
 		 * in use.
+		 */
+
+		/*
+		 * FIXME: We leak here for mathfuns.xls.
 		 */
 		expr_name_ref (nexpr);
 		return nexpr;

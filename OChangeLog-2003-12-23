@@ -1,5 +1,7 @@
 2002-04-18  Morten Welinder  <terra@diku.dk>
 
+	* src/expr-name.c (expr_name_add): Plug leaks.
+
 	* src/gnumeric-graph.c: Resurrect enough so that the excel plugin
 	will load.  This doens't mean things will work!
 
