@@ -32,6 +32,8 @@ static int dialog_ttest_eq_tool     	    (Workbook *wb, Sheet *sheet);
 static int dialog_ttest_neq_tool    	    (Workbook *wb, Sheet *sheet);
 static int dialog_ftest_tool        	    (Workbook *wb, Sheet *sheet);
 static int dialog_average_tool      	    (Workbook *wb, Sheet *sheet);
+static int dialog_fourier_tool      	    (Workbook *wb, Sheet *sheet);
+static int dialog_histogram_tool      	    (Workbook *wb, Sheet *sheet);
 static int dialog_random_tool       	    (Workbook *wb, Sheet *sheet);
 static int dialog_regression_tool   	    (Workbook *wb, Sheet *sheet);
 static int dialog_anova_single_factor_tool (Workbook *wb, Sheet *sheet);
@@ -88,6 +90,10 @@ static tool_list_t tools[] = {
 	  dialog_descriptive_stat_tool },
         { N_("F-Test: Two-Sample for Variances"),
 	  dialog_ftest_tool },
+        { N_("Fourier Analysis"),
+	  dialog_fourier_tool },
+        { N_("Histogram"),
+	  dialog_histogram_tool },
         { N_("Moving Average"),
 	  dialog_average_tool },
         { N_("Random Number Generation"),
@@ -589,7 +595,8 @@ dialog_correlation_tool (Workbook *wb, Sheet *sheet)
 	int      group, selection, x1, x2, y1, y2;
 	Range    range;
 
-	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),  "analysis-tools.glade");
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
+				      "analysis-tools.glade");
         if (gui == NULL)
                 return 0;
 
@@ -1122,7 +1129,8 @@ dialog_ttest_paired_tool (Workbook *wb, Sheet *sheet)
 	int      selection, x1, x2, y1, y2;
 	Range    range_input1, range_input2;
 
-	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),  "analysis-tools.glade");
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
+				      "analysis-tools.glade");
         if (gui == NULL)
                 return 0;
 
@@ -1255,7 +1263,8 @@ dialog_ttest_eq_tool (Workbook *wb, Sheet *sheet)
 	int      selection, x1, x2, y1, y2;
 	Range    range_input1, range_input2;
 
-	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),  "analysis-tools.glade");
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
+				      "analysis-tools.glade");
         if (gui == NULL)
                 return 0;
 
@@ -1388,7 +1397,8 @@ dialog_ttest_neq_tool (Workbook *wb, Sheet *sheet)
 	int      selection, x1, x2, y1, y2;
 	Range    range_input1, range_input2;
 
-	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),  "analysis-tools.glade");
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
+				      "analysis-tools.glade");
         if (gui == NULL)
                 return 0;
 
@@ -1521,7 +1531,8 @@ dialog_ftest_tool (Workbook *wb, Sheet *sheet)
 	int      selection, x1, x2, y1, y2;
 	Range    range_input1, range_input2;
 
-	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),  "analysis-tools.glade");
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
+				      "analysis-tools.glade");
         if (gui == NULL)
                 return 0;
 
@@ -1784,7 +1795,8 @@ dialog_random_tool (Workbook *wb, Sheet *sheet)
 	int   selection, x1, x2, y1, y2;
 	int   i, dist_str_no;
 	
-	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),  "analysis-tools.glade");
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
+				      "analysis-tools.glade");
         if (gui == NULL)
                 return 0;
 
@@ -2087,7 +2099,6 @@ dialog_loop:
 }
 
 
-
 static int
 dialog_average_tool (Workbook *wb, Sheet *sheet)
 {
@@ -2108,7 +2119,8 @@ dialog_average_tool (Workbook *wb, Sheet *sheet)
 	int      selection, x1, x2, y1, y2;
 	Range    range;
 
-	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),  "analysis-tools.glade");
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
+				      "analysis-tools.glade");
         if (gui == NULL)
                 return 0;
 
@@ -2204,6 +2216,257 @@ dialog_loop:
 	return 0;
 }
 
+static int
+dialog_fourier_tool (Workbook *wb, Sheet *sheet)
+{
+        GladeXML  *gui;
+	GtkWidget *range_entry;
+	GtkWidget *dialog;
+	GtkWidget *checkbutton;
+	GtkWidget *checkbutton2;
+	GtkWidget *output_range_entry;
+
+	data_analysis_output_t dao;
+
+	gboolean labels = FALSE;
+	gboolean standard_errors_flag = FALSE;
+	char     *text;
+	int      selection, x1, x2, y1, y2;
+	Range    range;
+
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
+				      "analysis-tools.glade");
+        if (gui == NULL)
+                return 0;
+
+	dao.type = NewSheetOutput;
+
+	dialog = glade_xml_get_widget (gui, "FourierAnalysis");
+        range_entry = glade_xml_get_widget (gui, "fa_entry1");
+	checkbutton = glade_xml_get_widget (gui, "fa_checkbutton");
+	checkbutton2 = glade_xml_get_widget (gui, "fa_checkbutton2");
+	output_range_entry
+		= glade_xml_get_widget (gui, "fa_output_range_entry");
+
+        if (!dialog || !range_entry || !output_range_entry || !checkbutton ||
+	    !checkbutton2) {
+                printf ("Corrupt file analysis-tools.glade\n");
+                return 0;
+        }
+
+	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
+				      GTK_EDITABLE (range_entry));
+	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
+				      GTK_EDITABLE (output_range_entry));
+
+	if (set_output_option_signals (gui, &dao, "fa"))
+	        return 0;
+
+	gtk_signal_connect (GTK_OBJECT (checkbutton), "toggled",
+			    GTK_SIGNAL_FUNC (checkbutton_toggled), &labels);
+	gtk_signal_connect (GTK_OBJECT (checkbutton2), "toggled",
+			    GTK_SIGNAL_FUNC (checkbutton_toggled),
+			    &standard_errors_flag);
+
+        gtk_widget_grab_focus (range_entry);
+
+dialog_loop:
+
+	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
+	if (selection == -1) {
+	        gtk_object_unref (GTK_OBJECT (gui));
+		return 1;
+	}
+	
+	if (selection != 0) {
+		gtk_object_destroy (GTK_OBJECT (dialog));
+		return 1;
+	}
+
+	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
+	if (!parse_range (text, &range.start.col,
+			  &range.start.row,
+			  &range.end.col,
+			  &range.end.row)) {
+	        error_in_entry(wb, range_entry, 
+			       _("You should introduce a valid cell range "
+			       "in 'Range:'"));
+		goto dialog_loop;
+	}
+
+	dao.labels_flag = labels;
+
+	if (dao.type == RangeOutput) {
+	        text = gtk_entry_get_text (GTK_ENTRY (output_range_entry));
+	        if (!parse_range (text, &x1, &y1, &x2, &y2)) {
+		        error_in_entry(wb, output_range_entry, 
+				       _("You should introduce a valid cell "
+					 "range in 'Output Range:'"));
+			goto dialog_loop;
+		} else {
+		        dao.start_col = x1;
+		        dao.start_row = y1;
+			dao.cols = x2-x1+1;
+			dao.rows = y2-y1+1;
+			dao.sheet = sheet;
+		}
+	}
+
+
+	error_in_entry(wb, output_range_entry, 
+		       _("Fourier analysis is not implemented yet.  Sorry."));
+
+	workbook_focus_sheet(sheet);
+
+	gtk_object_destroy (GTK_OBJECT (dialog));
+	gtk_object_unref (GTK_OBJECT (gui));
+
+	return 0;
+}
+
+static int
+dialog_histogram_tool (Workbook *wb, Sheet *sheet)
+{
+        GladeXML  *gui;
+	GtkWidget *range1_entry, *range2_entry;
+	GtkWidget *dialog;
+	GtkWidget *checkbutton;
+	GtkWidget *sorted_cb, *percentage_cb, *chart_cb;
+	GtkWidget *output_range_entry;
+
+	data_analysis_output_t dao;
+
+	gboolean labels = FALSE;
+	gboolean sorted = FALSE;
+	gboolean percentage = FALSE;
+	gboolean chart = FALSE;
+
+	char     *text;
+	int      selection, x1, x2, y1, y2, err;
+	Range    range_input1, range_input2;
+
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
+				      "analysis-tools.glade");
+        if (gui == NULL)
+                return 0;
+
+	dao.type = NewSheetOutput;
+
+	dialog = glade_xml_get_widget (gui, "Histogram");
+        range1_entry = glade_xml_get_widget (gui, "hist_entry1");
+        range2_entry = glade_xml_get_widget (gui, "hist_entry2");
+	checkbutton = glade_xml_get_widget (gui, "hist_checkbutton");
+	sorted_cb = glade_xml_get_widget (gui, "hist_checkbutton2");
+	percentage_cb = glade_xml_get_widget (gui, "hist_checkbutton3");
+	chart_cb = glade_xml_get_widget (gui, "hist_checkbutton4");
+	output_range_entry
+		= glade_xml_get_widget (gui, "hist_output_range_entry");
+
+        if (!dialog || !range1_entry || !range2_entry || 
+	    !output_range_entry || !checkbutton || !sorted_cb ||
+	    !percentage_cb || !chart_cb) {
+                printf ("Corrupt file analysis-tools.glade\n");
+                return 0;
+        }
+
+	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
+				      GTK_EDITABLE (range1_entry));
+	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
+				      GTK_EDITABLE (range2_entry));
+	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
+				      GTK_EDITABLE (output_range_entry));
+
+	if (set_output_option_signals (gui, &dao, "hist"))
+	        return 0;
+
+	gtk_signal_connect (GTK_OBJECT (checkbutton), "toggled",
+			    GTK_SIGNAL_FUNC (checkbutton_toggled), &labels);
+
+	gtk_signal_connect (GTK_OBJECT (sorted_cb), "toggled",
+			    GTK_SIGNAL_FUNC (checkbutton_toggled), &sorted);
+	gtk_signal_connect (GTK_OBJECT (percentage_cb), "toggled",
+			    GTK_SIGNAL_FUNC (checkbutton_toggled),
+			    &percentage);
+	gtk_signal_connect (GTK_OBJECT (chart_cb), "toggled",
+			    GTK_SIGNAL_FUNC (checkbutton_toggled), &chart);
+
+
+        gtk_widget_grab_focus (range1_entry);
+
+dialog_loop:
+
+	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
+	if (selection == -1) {
+	        gtk_object_unref (GTK_OBJECT (gui));
+		return 1;
+	}
+	
+	if (selection != 0) {
+		gtk_object_destroy (GTK_OBJECT (dialog));
+		return 1;
+	}
+
+	text = gtk_entry_get_text (GTK_ENTRY (range1_entry));
+	if (!parse_range (text, &range_input1.start.col,
+			  &range_input1.start.row,
+			  &range_input1.end.col,
+			  &range_input1.end.row)) {
+	        error_in_entry(wb, range1_entry, 
+			       _("You should introduce a valid cell range "
+			       "in 'Input Range:'"));
+		goto dialog_loop;
+	}
+
+	text = gtk_entry_get_text (GTK_ENTRY (range2_entry));
+	if (!parse_range (text, &range_input2.start.col,
+			  &range_input2.start.row,
+			  &range_input2.end.col,
+			  &range_input2.end.row)) {
+	        error_in_entry(wb, range2_entry, 
+			       _("You should introduce a valid cell range "
+			       "in 'Bin Range:'"));
+		goto dialog_loop;
+	}
+
+	if (dao.type == RangeOutput) {
+	        text = gtk_entry_get_text (GTK_ENTRY (output_range_entry));
+	        if (!parse_range (text, &x1, &y1, &x2, &y2)) {
+		        error_in_entry(wb, output_range_entry, 
+				       _("You should introduce a valid cell "
+					 "range in 'Output Range:'"));
+			goto dialog_loop;
+		} else {
+		        dao.start_col = x1;
+		        dao.start_row = y1;
+			dao.cols = x2-x1+1;
+			dao.rows = y2-y1+1;
+			dao.sheet = sheet;
+		}
+	}
+
+	dao.labels_flag = labels;
+
+	err = histogram_tool (wb, sheet, &range_input1, &range_input2,
+			      labels, sorted, percentage, chart, &dao);
+
+	if (err == 1) {
+	        error_in_entry(wb, range1_entry, 
+			       _("Given input range contains non-numeric "
+				 "data. "));
+	        goto dialog_loop;
+	} else if (err == 2) {
+	        error_in_entry(wb, range2_entry, 
+			       _("Given bin range contains non-numeric data."));
+	        goto dialog_loop;
+	}
+
+	workbook_focus_sheet(sheet);
+
+	gtk_object_destroy (GTK_OBJECT (dialog));
+	gtk_object_unref (GTK_OBJECT (gui));
+
+	return 0;
+}
 
 static int
 dialog_ranking_tool (Workbook *wb, Sheet *sheet)
@@ -2221,7 +2484,8 @@ dialog_ranking_tool (Workbook *wb, Sheet *sheet)
 	int      group, selection, x1, x2, y1, y2;
 	Range    range;
 
-	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),  "analysis-tools.glade");
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
+				      "analysis-tools.glade");
         if (gui == NULL)
                 return 0;
 
@@ -2325,7 +2589,8 @@ dialog_anova_single_factor_tool (Workbook *wb, Sheet *sheet)
 	int      group, selection, x1, x2, y1, y2;
 	Range    range;
 
-	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),  "analysis-tools.glade");
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
+				      "analysis-tools.glade");
         if (gui == NULL)
                 return 0;
 
@@ -2437,7 +2702,8 @@ dialog_anova_two_factor_without_r_tool (Workbook *wb, Sheet *sheet)
 	int      selection, x1, x2, y1, y2;
 	Range    range;
 
-	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),  "analysis-tools.glade");
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
+				      "analysis-tools.glade");
         if (gui == NULL)
                 return 0;
 
@@ -2680,7 +2946,8 @@ dialog_data_analysis (Workbook *wb, Sheet *sheet)
 	int       i, selection;
 
  dialog_loop:
-	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),  "analysis-tools.glade");
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
+				      "analysis-tools.glade");
         if (gui == NULL)
                 return;
 

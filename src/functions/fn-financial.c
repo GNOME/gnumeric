@@ -234,7 +234,7 @@ coupnum(GDate *settlement, GDate *maturity, int freq, int basis)
 	        + (g_date_is_leap_year (sy) && sd==28 && sm==2);
 
 	if (freq == 1)
-	        return years + (months > 0 || days > 0);
+	        return years + (months > 0) + (months == 0 && days > 0);
 	else if (freq == 2)
 	        return years*2
 		        + (months > 6) + (months == 6 && days > 0)

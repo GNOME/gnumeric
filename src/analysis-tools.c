@@ -131,14 +131,16 @@ set_cell_na (data_analysis_output_t *dao, int col, int row)
 }
 
 
-static void
+/* Returns 1 if non-numeric data was found, 0 otherwise.
+ */
+static int
 get_data (Sheet *sheet, Range *range, data_set_t *data)
 {
         gpointer p;
 	Cell     *cell;
 	Value    *v;
 	float_t  x;
-	int      row, col;
+	int      row, col, status = 0;
 
 	data->sum = 0;
 	data->sum2 = 0;
@@ -153,8 +155,10 @@ get_data (Sheet *sheet, Range *range, data_set_t *data)
 			        v = cell->value;
 				if (VALUE_IS_NUMBER (v))
 				        x = value_get_as_float (v);
-				else
+				else {
 				        x = 0;
+					status = 1;
+				}
 
 				p = g_new (float_t, 1);
 				* ((float_t *) p) = x;
@@ -171,10 +175,13 @@ get_data (Sheet *sheet, Range *range, data_set_t *data)
 					        data->max = x;
 				}
 				data->n++;
-			}
+			} else
+			        status = 1;
 		}
 
 	data->sum2 = data->sum * data->sum;
+
+	return status;
 }
 
 static void
@@ -335,6 +342,7 @@ set_italic (data_analysis_output_t *dao, int col1, int row1,
 	sheet_style_attach (dao->sheet, range, mstyle);
 }
 
+
 /************* Correlation Tool *******************************************
  *
  * The correlation tool calculates the correlation coefficient of two
@@ -489,8 +497,7 @@ correlation_tool (Workbook *wb, Sheet *sheet,
 	return 0;
 }
 
-
-
+
 /************* Covariance Tool ********************************************
  *
  * The covariance tool calculates the covariance of two data sets.
@@ -640,7 +647,7 @@ covariance_tool (Workbook *wb, Sheet *sheet,
 	return 0;
 }
 
-
+
 /************* Descriptive Statistics Tool *******************************
  *
  * Descriptive Statistics Tool calculates some useful statistical
@@ -932,8 +939,7 @@ descriptive_stat_tool (Workbook *wb, Sheet *current_sheet,
 	return 0;
 }
 
-
-
+
 /************* Sampling Tool *********************************************
  *
  * Sampling tool takes a sample from a given data set.  Sample can be
@@ -1044,8 +1050,7 @@ int sampling_tool (Workbook *wb, Sheet *sheet, Range *input_range,
 	return 0;
 }
 
-
-
+
 /************* z-Test: Two Sample for Means ******************************
  *
  * The results are given in a table which can be printed out in a new
@@ -1143,7 +1148,7 @@ int ztest_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
         return 0;
 }
 
-
+
 /************* t-Test Tools ********************************************
  *
  * The t-Test tool set consists of three kinds of tests to test the
@@ -1154,8 +1159,6 @@ int ztest_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
  * workbook, or simply into an existing sheet.
  *
  **/
-
-
 
 /* t-Test: Paired Two Sample for Means.
  */
@@ -1530,7 +1533,7 @@ ttest_neq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	return 0;
 }
 
-
+
 /************* F-Test Tool *********************************************
  *
  * The results are given in a table which can be printed out in a new
@@ -1638,8 +1641,7 @@ ftest_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	return 0;
 }
 
-
-
+
 /************* Random Number Generation Tool ******************************
  *
  * The results are given in a table which can be printed out in a new
@@ -1801,8 +1803,7 @@ int random_tool (Workbook *wb, Sheet *sheet, int vars, int count,
 	return 0;
 }
 
-
-
+
 /************* Regression Tool *********************************************
  *
  * The results are given in a table which can be printed out in a new
@@ -2084,7 +2085,7 @@ these values can be tiny.*/
 	return 0;
 }
 
-
+
 /************* Moving Average Tool *****************************************
  *
  * The moving average tool calculates moving averages of given data
@@ -2145,7 +2146,7 @@ int average_tool (Workbook *wb, Sheet *sheet, Range *range, int interval,
 	return 0;
 }
 
-
+
 /************* Rank and Percentile Tool ************************************
  *
  * The results are given in a table which can be printed out in a new
@@ -2291,7 +2292,7 @@ int ranking_tool (Workbook *wb, Sheet *sheet, Range *input_range,
 	return 0;
 }
 
-
+
 /************* Anova: Single Factor Tool **********************************
  *
  * The results are given in a table which can be printed out in a new
@@ -2457,7 +2458,7 @@ int anova_single_factor_tool (Workbook *wb, Sheet *sheet, Range *range,
         return 0;
 }
 
-
+
 /************* Anova: Two-Factor Without Replication Tool ****************
  *
  * The results are given in a table which can be printed out in a new
@@ -2612,6 +2613,7 @@ int anova_two_factor_without_r_tool (Workbook *wb, Sheet *sheet, Range *range,
 	return 0;
 }
 
+
 /************* Anova: Two-Factor With Replication Tool *******************
  *
  * The results are given in a table which can be printed out in a new
@@ -2765,3 +2767,89 @@ int anova_two_factor_with_r_tool (Workbook *wb, Sheet *sheet, Range *range,
 	return 0;
 }
 
+
+/************* Histogram Tool *********************************************
+ *
+ * The results are given in a table which can be printed out in a new
+ * sheet, in a new workbook, or simply into an existing sheet.
+ *
+ **/
+
+int histogram_tool (Workbook *wb, Sheet *sheet, Range *range, Range *bin_range,
+		    gboolean labels, gboolean sorted, gboolean percentage,
+		    gboolean chart, data_analysis_output_t *dao)
+{
+        data_set_t bin_set, set;
+	GSList     *list;
+	int        i, j, cols, rows, cum_sum;
+	float_t    *intval;
+	int        *count;
+
+	cols = bin_range->end.col - bin_range->start.col + 1;
+	rows = bin_range->end.row - bin_range->start.row + 1;
+
+	if (get_data (sheet, range, &set)) {
+	        free_data_set (&set);
+	        return 1;
+	}
+
+	if (get_data (sheet, bin_range, &bin_set)) {
+	        free_data_set (&set);
+	        free_data_set (&bin_set);
+	        return 2;
+	}
+
+	bin_set.array = g_slist_sort (bin_set.array,
+				      (GCompareFunc) float_compare);
+
+	prepare_output (wb, dao, _("Histogram"));
+
+	i = 1;
+	set_cell (dao, 0, 0, _("Bin"));
+	set_cell (dao, 1, 0, _("Frequency"));
+	if (percentage)
+	        set_cell (dao, ++i, 0, _("Cumulative %"));
+
+	set_italic (dao, 0, 0, i, 0);
+	
+	count = g_new (int, bin_set.n+1);
+	intval = g_new (float_t, bin_set.n);
+
+	list = bin_set.array;
+	for (i=0; i<bin_set.n; i++) {
+	        float_t x = *((float_t *) list->data);
+	        set_cell_float (dao, 0, i+1, x);
+		intval[i] = x;
+		count[i] = 0;
+		list = list->next;
+	}
+	set_cell (dao, 0, i+1, "More");
+	count[i] = 0;
+
+	list = set.array;
+	for (i=0; i<set.n; i++) {
+	        float_t x = *((float_t *) list->data);
+		/* FIXME: Slow!, O(n^2) */
+		for (j=0; j<bin_set.n; j++)
+		        if (x <= intval[j]) {
+			        count[j]++;
+				goto next;
+			}
+		count[j]++;
+	next:
+		list = list->next;
+	}
+
+	cum_sum = 0;
+	for (i=0; i<=bin_set.n; i++) {
+	        set_cell_int (dao, 1, i+1, count[i]);
+		cum_sum += count[i];
+		if (percentage)
+		        set_cell_float (dao, 2, i+1, 
+					(float_t) cum_sum / set.n);
+	}
+
+	free_data_set (&set);
+	free_data_set (&bin_set);
+	return 0;
+}

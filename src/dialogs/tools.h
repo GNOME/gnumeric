@@ -53,5 +53,9 @@ int anova_two_factor_without_r_tool (Workbook *wb, Sheet *sheet, Range *range,
 int anova_two_factor_with_r_tool (Workbook *wb, Sheet *sheet, Range *range,
 				  int rows_per_sample, float_t alpha, 
 				  data_analysis_output_t *dao);
+int histogram_tool (Workbook *wb, Sheet *sheet, Range *range1, Range *range2,
+		    gboolean labels, gboolean sorted, gboolean percentage,
+		    gboolean chart,
+		    data_analysis_output_t *dao);
 
 #endif

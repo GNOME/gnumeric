@@ -1,5 +1,15 @@
 2000-07-03  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
+	* src/analysis-tools.c: Implemented `Histogram' tool (mostly).
+
+	* src/dialogs/tools.h: Related changes.
+	
+	* src/dialogs/analysis-tools.glade, 
+	src/dialogs/dialog-analysis-tools.c: Added dialogs for `Histogram'
+	and `Fourier Analysis' tools.  The later is not implemented yet.
+	
+2000-07-03  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
 	* src/functions/fn-financial.c: Implemented COUPNUM().
 
 	* src/analysis-tools.c: Started the implementation of the third

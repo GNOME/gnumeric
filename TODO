@@ -37,12 +37,11 @@ Gnumeric Spread Sheet task list
     * CELL, COUPDAYS, and DURATION
 
 * Data Analysis Tools
-    * Finish `Anova: Two-Factor With Replication'
+    * Finish `Anova: Two-Factor With Replication' and `Histogram' tools
     * Implement `Patterned distribution' for `Random Number Generation'
     * Implement new tools:
       - `Exponential Smoothing'
-      - `Fourier Analysis'
-      - `Histogram'
+      - `Fourier Analysis' (the dialog is implemented)
     * Finish the documentation
 
 * Printing
