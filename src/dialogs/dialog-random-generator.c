@@ -130,6 +130,8 @@ static const DistributionStrs distribution_strs[] = {
 	  N_("Geometric"), N_("_p Value:"), NULL, FALSE },
 	{ LaplaceDistribution,
 	  N_("Laplace"), N_("_a Value:"), NULL, FALSE },
+	{ LevyDistribution,
+	  N_("Levy alpha-Stable"), N_("_c Value:"), N_("_alpha:"), FALSE },
 	{ LogarithmicDistribution,
 	  N_("Logarithmic"), N_("_p Value:"), NULL, FALSE },
 	{ LogisticDistribution,
@@ -277,6 +279,14 @@ random_tool_update_sensitivity_cb (GtkWidget *dummy, RandomToolState *state)
 			a_float > 0.0;
 		break;
 	case ParetoDistribution:
+		ready = ready &&
+			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
+			a_float > 0.0;
+		ready = ready &&
+			entry_to_float (GTK_ENTRY (state->par2_entry), &b_float, FALSE) == 0 &&
+			b_float > 0.0;
+		break;
+	case LevyDistribution:
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
 			a_float > 0.0;
@@ -565,6 +575,12 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 				      &data->param.lognormal.zeta, TRUE);
 		err = entry_to_float (GTK_ENTRY (state->par2_entry), 
 				      &data->param.lognormal.sigma, TRUE);
+		break;
+	case LevyDistribution:
+		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+				      &data->param.levy.c, TRUE);
+		err = entry_to_float (GTK_ENTRY (state->par2_entry), 
+				      &data->param.levy.alpha, TRUE);
 		break;
 	case FdistDistribution:
 		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
