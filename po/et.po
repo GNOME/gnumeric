@@ -1,21 +1,23 @@
+# translation of gnumeric.po to Estonian
 # Gnumericu eestikeelne tõlge.
 # Copyright (C) 2001-2003 Free Software Foundation, Inc.
 # Ain Vagula <ain@riiska.ee>, 2000-2004.
-# Priit Laes <amd@tt.ee>, 2003
+# Priit Laes <amd@tt.ee>, 2003.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 1.1.20CVS\n"
+"Project-Id-Version: openoffice\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-11-22 16:47-0500\n"
-"PO-Revision-Date: 2004-11-26 23:19+0200\n"
-"Last-Translator: Ain Vagula <avagula@gmail.com>\n"
-"Language-Team: Estonian <gnome-et@linux.ee>\n"
+"PO-Revision-Date: 2004-11-27 00:29+0200\n"
+"Last-Translator: Ain Vagula <ain@riiska.ee>\n"
+"Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Estonian\n"
 "X-Poedit-Country: ESTONIA\n"
+"X-Generator: KBabel 1.9.1\n"
 
 #: GNOME_Gnumeric.server.in.in.h:1
 msgid "Gnumeric Workbook"
@@ -1435,7 +1437,6 @@ msgstr ""
 "@SEEALSO=IMPRODUCT"
 
 #: plugins/fn-complex/functions.c:708
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSIN\n"
 "@SYNTAX=IMSIN(inumber)\n"
@@ -1452,7 +1453,10 @@ msgstr ""
 "@FUNCTION=IMSIN\n"
 "@SYNTAX=IMSIN(inumber)\n"
 "@DESCRIPTION=IMSIN tagastab kompleksarvu siinuse.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* Kui @inumber ei ole kompleksarv, tagastab IMSIN vea #VALUE!.\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
 "@EXAMPLES=\n"
 "IMSIN(\"1+j\") võrdub 1.29846+0.63496j.\n"
 "\n"
@@ -2516,12 +2520,12 @@ msgstr ""
 #: plugins/fn-database/functions.c:1229
 #: plugins/fn-database/functions.c:1232
 msgid "database,field,criteria"
-msgstr ""
+msgstr "andmebaas,väli,kriteerium"
 
 #. XL stores in lookup
 #: plugins/fn-database/functions.c:1237
 msgid "pivot_table,field_name"
-msgstr ""
+msgstr "risttabel,väljanimi"
 
 #: plugins/fn-database/plugin.xml.in.h:1
 #: plugins/gda/plugin.xml.in.h:1
@@ -3196,7 +3200,7 @@ msgstr "kuupäev,kuud"
 
 #: plugins/fn-date/functions.c:1241
 msgid "start_date,months"
-msgstr ""
+msgstr "alguspäev,kuud"
 
 #: plugins/fn-date/functions.c:1245
 #: plugins/fn-date/functions.c:1249
@@ -3242,7 +3246,6 @@ msgid "Functions manipulating dates and time"
 msgstr "Funktsioonid kuupäeva ja kellaaja käsitlemiseks"
 
 #: plugins/fn-eng/functions.c:116
-#, fuzzy
 msgid ""
 "@FUNCTION=BIN2DEC\n"
 "@SYNTAX=BIN2DEC(x)\n"
@@ -3258,7 +3261,9 @@ msgstr ""
 "@FUNCTION=BIN2DEC\n"
 "@SYNTAX=BIN2DEC(x)\n"
 "@DESCRIPTION=Funktsioon BIN2DEC teisendab kahendarvu stringiks või arvuks vastavalt tema kümnendarvulisele ekvivalendile. \n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
 "@EXAMPLES=\n"
 "BIN2DEC(101) võrdub 5.\n"
 "\n"
@@ -3992,7 +3997,7 @@ msgstr "Tehnilised funktsioonid"
 
 #: plugins/fn-eng/plugin.xml.in.h:3
 msgid "Functions for complex numbers, base conversions, and more"
-msgstr ""
+msgstr "Funktsioonid komplekarvude, baasteisenduste jms. jaoks"
 
 #: plugins/fn-erlang/functions.c:122
 msgid ""
@@ -4064,14 +4069,12 @@ msgid "Erlang"
 msgstr "Erlang"
 
 #: plugins/fn-erlang/plugin.xml.in.h:2
-#, fuzzy
 msgid "Erlang Functions"
-msgstr "Pythoni erand"
+msgstr "Erlangi funktsioonid"
 
 #: plugins/fn-erlang/plugin.xml.in.h:3
-#, fuzzy
 msgid "Functions to help Erlang Analysis"
-msgstr "Funktsioonid tekstitöötluseks"
+msgstr "Abistavad funktsioonid Erlangi analüüsil"
 
 #: plugins/fn-financial/functions.c:306
 #, fuzzy
@@ -13172,9 +13175,8 @@ msgstr ""
 "@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
 
 #: plugins/fn-string/functions.c:751
-#, fuzzy
 msgid "Arguments out of range"
-msgstr "Arv on väljaspool vahemikku"
+msgstr "Argumendid on väljaspool vahemikku"
 
 #: plugins/fn-string/functions.c:771
 #, fuzzy
@@ -14056,9 +14058,8 @@ msgid "Open/Star Calc (*.sxc)"
 msgstr "Open/Star Calc (*.sxc)"
 
 #: plugins/openoffice/plugin.xml.in.h:2
-#, fuzzy
 msgid "Open/Star Office spreadsheet"
-msgstr "Open/Star Office tabel"
+msgstr "Open/Star Office arvutustabel"
 
 #: plugins/openoffice/plugin.xml.in.h:3
 msgid "OpenCalc/StarCalc"
@@ -14070,14 +14071,12 @@ msgstr "OpenOffice OASIS _POOLIK_"
 
 #: plugins/paradox/paradox.c:73
 #: plugins/paradox/paradox.c:122
-#, fuzzy
 msgid "Error while opening paradox file."
-msgstr "Viga xbase faili avamisel."
+msgstr "Viga paradox'i faili avamisel."
 
 #: plugins/paradox/paradox.c:120
-#, fuzzy
 msgid "Could not allocate memory for record."
-msgstr "Ei suuda luua Nimeguru."
+msgstr "Kirje jaoks ei suudetud mälu eraldada."
 
 #: plugins/paradox/paradox.c:196
 #, c-format
@@ -14085,9 +14084,8 @@ msgid "Field type %d is not supported."
 msgstr "Välja tüüp %d ei ole toetatud."
 
 #: plugins/paradox/plugin.xml.in.h:1
-#, fuzzy
 msgid "Imports Paradox files"
-msgstr "Impordib SC/XSpread faile"
+msgstr "Impordib Paradox'i faile"
 
 #: plugins/paradox/plugin.xml.in.h:2
 msgid "Paradox"
@@ -14102,9 +14100,8 @@ msgid "Perl plugin"
 msgstr "Perli plugin"
 
 #: plugins/perl/plugin.xml.in.h:1
-#, fuzzy
 msgid "Enables the creation of functions in Perl"
-msgstr "Võimaldab luua uusi funktsioone Perlis"
+msgstr "Võimaldab luua funktsioone Perlis"
 
 #: plugins/perl/plugin.xml.in.h:2
 #: plugins/perl-func/plugin.xml.in.h:1
@@ -14116,19 +14113,16 @@ msgid "Perl functions"
 msgstr "Perli funktsioonid"
 
 #: plugins/perl-func/plugin.xml.in.h:3
-#, fuzzy
 msgid "Sample Perl plugin providing some (useless) functions."
-msgstr "Pythoni näidisplugin mõningate (kasutute) funktsioonidega."
+msgstr "Perli näidisplugin mõningate (kasutute) funktsioonidega."
 
 #: plugins/perl-loader/perl-loader.c:109
-#, fuzzy
 msgid "Module name not given."
-msgstr "Mooduli nimi andmata"
+msgstr "Mooduli nimi andmata."
 
 #: plugins/perl-loader/perl-loader.c:135
-#, fuzzy
 msgid "perl_func.pl doesn't exit."
-msgstr "Moodulit \"%s\" pole olemas."
+msgstr "perl_func.pl ei ole olemas."
 
 #: plugins/perl-loader/perl-loader.c:179
 #: plugins/perl-loader/perl-loader.c:198
@@ -14141,9 +14135,8 @@ msgid "Perl error: "
 msgstr "Perli viga:"
 
 #: plugins/perl-loader/plugin.xml.in.h:1
-#, fuzzy
 msgid "Perl plugin loader"
-msgstr "Ei suuda laadida plugina laadijat."
+msgstr "Perli pluginate laadija"
 
 #: plugins/perl-loader/plugin.xml.in.h:2
 msgid "This plugin provides support for Perl plugins"
@@ -14168,7 +14161,6 @@ msgid "Imports Plan Perfect Formatted Documents"
 msgstr "Impordib Plan Perfect'i poolt loodud dokumente"
 
 #: plugins/plan-perfect/plugin.xml.in.h:2
-#, fuzzy
 msgid "Plan Perfect"
 msgstr "Plan Perfect"
 
@@ -14193,21 +14185,18 @@ msgid "Error while reading psiconv file."
 msgstr "Viga psiconv faili lugemisel."
 
 #: plugins/psiconv/psiconv-read.c:618
-#, fuzzy
 msgid "Error while parsing Psion file."
-msgstr "Viga psiconv faili töötlemisel."
+msgstr "Viga Psioni faili töötlemisel."
 
 #: plugins/psiconv/psiconv-read.c:626
-#, fuzzy
 msgid "This Psion file is not a Sheet file."
-msgstr "Impordib Psion 5 seeria tabelifaile"
+msgstr "See Psioni fail ei ole lehefail."
 
 #: plugins/py-func/plugin.xml.in.h:1
 msgid "Python"
 msgstr "Python"
 
 #: plugins/py-func/plugin.xml.in.h:2
-#, fuzzy
 msgid "Python functions"
 msgstr "Pythoni funktsioonid"
 
@@ -14221,14 +14210,14 @@ msgstr ""
 
 #: plugins/python-loader/gnm-python.c:130
 #: plugins/python-loader/gnm-python.c:152
-#, fuzzy, c-format
+#, c-format
 msgid "Could not import %s."
-msgstr "Ei suuda laadida faili: %s"
+msgstr "Ei suuda importida %s"
 
 #: plugins/python-loader/gnm-python.c:137
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find %s."
-msgstr "Ei suuda laadida faili: %s"
+msgstr "Ei leia %s"
 
 #: plugins/python-loader/gnm-python.c:145
 #, c-format
@@ -14236,14 +14225,13 @@ msgid "Could not initialize Python bindings for Gtk+, etc: %s"
 msgstr ""
 
 #: plugins/python-loader/gnm-python.c:159
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find %s"
-msgstr "Ei suuda laadida faili: %s"
+msgstr "Ei leitud %s"
 
 #: plugins/python-loader/plugin.xml.in.h:1
-#, fuzzy
 msgid "Python plugin loader"
-msgstr "Pythoni pluginalaadija"
+msgstr "Pythoni pluginate laadija"
 
 #: plugins/python-loader/plugin.xml.in.h:2
 msgid "This plugin provides support for Python plugins"
@@ -14255,7 +14243,6 @@ msgid "*** Interpreter: %s\n"
 msgstr ""
 
 #: plugins/python-loader/py-console.c:160
-#, fuzzy
 msgid "Gnumeric Python console"
 msgstr "Gnumericu Pythoni konsool"
 
@@ -14265,9 +14252,8 @@ msgid "E_xecute in:"
 msgstr "Tegevus :"
 
 #: plugins/python-loader/py-console.c:214
-#, fuzzy
 msgid "C_ommand:"
-msgstr "Käsk:"
+msgstr "_Käsk:"
 
 #: plugins/python-loader/py-gnumeric.c:249
 msgid "Python list is not an array"
@@ -14298,7 +14284,7 @@ msgstr "Pythoni mooduli nimi pole antud."
 
 #: plugins/python-loader/python-loader.c:107
 msgid "Cannot create new Python interpreter."
-msgstr ""
+msgstr "Uut Pythoni interpretaatorit ei suudetud luua."
 
 #: plugins/python-loader/python-loader.c:128
 #, c-format
@@ -14344,9 +14330,9 @@ msgstr "Objekt \"%s\" ei ole sõnastik."
 
 #: plugins/python-loader/python-loader.c:734
 #: src/plugin-loader-module.c:602
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown action: %s"
-msgstr "Tundmatu funktsioon"
+msgstr "Tundmatu tegevus: %s"
 
 #: plugins/python-loader/python-loader.c:739
 #, c-format
@@ -14359,12 +14345,11 @@ msgstr "Impordib Quatro Pro (tm) faile"
 
 #: plugins/qpro/plugin.xml.in.h:2
 msgid "Quatro Pro (*.wb1, *.wb2, *.wb3)"
-msgstr ""
+msgstr "Quatro Pro (*.wb1, *.wb2, *.wb3)"
 
 #: plugins/qpro/plugin.xml.in.h:3
-#, fuzzy
 msgid "Quattro Pro(tm)"
-msgstr "Quatro Pro(tm)"
+msgstr "Quattro Pro(tm)"
 
 #: plugins/qpro/qpro-read.c:151
 #, c-format
@@ -14409,7 +14394,6 @@ msgid ""
 msgstr ""
 
 #: plugins/sc/plugin.xml.in.h:1
-#, fuzzy
 msgid "Imports SC/XSpread files"
 msgstr "Impordib SC/XSpread faile"
 
@@ -14455,7 +14439,7 @@ msgid "UI Hello"
 msgstr ""
 
 #: plugins/uihello/uihello.c:22
-#, fuzzy, c-format
+#, c-format
 msgid "This is message from the \"%s\" plugin."
 msgstr "See teade on pärit \"%s\" pluginast."
 
@@ -14507,9 +14491,8 @@ msgstr ""
 
 #: plugins/xml_sax/plugin.xml.in.h:3
 #: src/xml-io.c:4327
-#, fuzzy
 msgid "Gnumeric XML (*.gnumeric)"
-msgstr "Gnumericu XML failiformaat"
+msgstr "Gnumeric XML (*.gnumeric)"
 
 #: plugins/xml_sax/plugin.xml.in.h:4
 msgid "The next generation sax based xml I/O subsystem"
@@ -14539,7 +14522,6 @@ msgid ">This value determines the default setting in the Print Setup dialog whet
 msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:3
-#, fuzzy
 msgid "Activate New Plugins"
 msgstr "Aktiveeri uued pluginad"
 
@@ -14561,9 +14543,8 @@ msgid "Autocorrect initial caps"
 msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:8
-#, fuzzy
 msgid "Autocorrect names of days"
-msgstr "Päevade _nimed suurtähtedega"
+msgstr "Päevade nimede automaatkorrektuur"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:9
 #, fuzzy
@@ -14662,9 +14643,8 @@ msgid "Header/Footer Format (Right Portion)"
 msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:30
-#, fuzzy
 msgid "List of Active Plugins."
-msgstr "Aktiivsed pluginad"
+msgstr "Aktiivsete pluginate nimekiri."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:31
 msgid "List of Extra Autoformat Directories."
@@ -14700,14 +14680,12 @@ msgid "Maximum Length of Recently Used Functions List"
 msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:39
-#, fuzzy
 msgid "Page Footer"
-msgstr "Lehekülgede järjekord"
+msgstr "Lehekülje jalus"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:40
-#, fuzzy
 msgid "Page Header"
-msgstr "Lehekülgede järjekord"
+msgstr "Lehekülje päis"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:41
 msgid "Please use the Print Setup dialog to edit this value."
@@ -14719,9 +14697,8 @@ msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:43
 #: schemas/gnumeric-general.schemas.in.h:22
-#, fuzzy
 msgid "Sans"
-msgstr "Astakud"
+msgstr "Sans"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:44
 msgid "Some dialogs contain only a single entry field that allows range selections in the workbook. Setting this variable to TRUE directs selections to this entry even the entry does not have keyboard focus."
@@ -15125,7 +15102,6 @@ msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:56
 #: src/dialogs/dialog-preferences.c:666
-#, fuzzy
 msgid "Vertical DPI"
 msgstr "Püstsuunas DPI"
 
@@ -15253,9 +15229,8 @@ msgid "%s is locked. Unprotect the sheet to enable editing."
 msgstr ""
 
 #: src/commands.c:429
-#, fuzzy
 msgid "..."
-msgstr "Ava..."
+msgstr "..."
 
 #: src/commands.c:928
 #: src/commands.c:1033
@@ -15359,9 +15334,8 @@ msgid "Clearing %s in %s"
 msgstr "Eemaldatakse %s %s -s"
 
 #: src/commands.c:1760
-#, fuzzy
 msgid "Changing Format"
-msgstr "Muudetakse %s formaati"
+msgstr "Muudetakse formaati"
 
 #: src/commands.c:1885
 #, c-format
@@ -15430,9 +15404,8 @@ msgstr "Ridade %s kõrgus määratakse %d pikselit"
 
 #: src/commands.c:2089
 #: src/dialogs/dialog-preferences.c:770
-#, fuzzy
 msgid "Sorting"
-msgstr "Sorteerimine %s"
+msgstr "Sortimine"
 
 #: src/commands.c:2109
 #, c-format
@@ -15528,9 +15501,8 @@ msgid "is beyond sheet boundaries"
 msgstr "on väljaspool lehe piire"
 
 #: src/commands.c:2782
-#, fuzzy
 msgid "Paste Copy"
-msgstr "Aseta tüüp"
+msgstr "Aseta koopia"
 
 #. FIXME?
 #: src/commands.c:2887
@@ -15594,7 +15566,6 @@ msgid "Zoom %s to %.0f%%"
 msgstr "Suurendus %s kuni %.0f%%"
 
 #: src/commands.c:4452
-#, fuzzy
 msgid "Delete Object"
 msgstr "Kustuta objekt"
 
@@ -15628,14 +15599,12 @@ msgid "Changing Sheet Protection"
 msgstr ""
 
 #: src/commands.c:5228
-#, fuzzy
 msgid "Delete sheets"
-msgstr "Kustuta lahtrid"
+msgstr "Kustuta lehed"
 
 #: src/commands.c:5231
-#, fuzzy
 msgid "Delete a sheet"
-msgstr "Kustuta objekt"
+msgstr "Kustuta leht"
 
 #: src/commands.c:5234
 msgid "Changing Sheet Visibility"
@@ -15712,7 +15681,7 @@ msgstr ""
 
 #: src/commands.c:6291
 msgid "Add scenario"
-msgstr ""
+msgstr "Lisa stsenaarium"
 
 #: src/commands.c:6366
 msgid "Scenario Show"
@@ -15720,7 +15689,7 @@ msgstr ""
 
 #: src/commands.c:6430
 msgid "Shuffle Data"
-msgstr ""
+msgstr "Sega andmed"
 
 #. FIXME?
 #: src/commands.c:6540
@@ -15741,9 +15710,9 @@ msgid "Solver"
 msgstr "Lahendaja"
 
 #: src/commands.c:6768
-#, fuzzy, c-format
+#, c-format
 msgid "Goal Seek (%s)"
-msgstr "Sihtmärgi otsing"
+msgstr "Sihtmärgi otsing (%s)"
 
 #: src/commands.c:6913
 #, fuzzy, c-format
@@ -15783,27 +15752,24 @@ msgid "Discrete mapping"
 msgstr "Diskreetne"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:621
-#, fuzzy
 msgid "Linear"
-msgstr "Joon"
+msgstr "Lineaarne"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:621
 msgid "Linear mapping"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:627
-#, fuzzy
 msgid "Log"
-msgstr "Loogilised"
+msgstr "Log"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:627
 msgid "Logarithm mapping"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1415
-#, fuzzy
 msgid "Details"
-msgstr "_Peida üksikasjad"
+msgstr "Üksikasjad"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1469
 msgid "Categories between _ticks"
@@ -15830,9 +15796,8 @@ msgid "M_in"
 msgstr "M_in"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1481
-#, fuzzy
 msgid "M_ax"
-msgstr "Max"
+msgstr "M_ax"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1482
 msgid "Ma_jor Ticks"
@@ -15938,33 +15903,30 @@ msgid "_Type:"
 msgstr "_Tüüp:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:195
-#, fuzzy
 msgid "Legend"
-msgstr "Kahanev"
+msgstr "Legend"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:198
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:157
 #: src/cut-n-paste-code/goffice/graph/gog-legend.c:179
-#, fuzzy
 msgid "Title"
-msgstr "Pealkiri:"
+msgstr "Tiitel"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:201
-#, fuzzy
 msgid "Grid"
-msgstr "Reede"
+msgstr "Alusvõrk"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:204
 msgid "X-Axis"
-msgstr ""
+msgstr "X telg"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:208
 msgid "Y-Axis"
-msgstr ""
+msgstr "Y telg"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:212
 msgid "Z-Axis"
-msgstr ""
+msgstr "Z telg"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:216
 msgid "Circular-Axis"
@@ -15972,7 +15934,7 @@ msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:220
 msgid "Radial-Axis"
-msgstr ""
+msgstr "Radiaaltelg"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:224
 #, fuzzy
@@ -15984,18 +15946,16 @@ msgid "H"
 msgstr "H"
 
 #: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:233
-#, fuzzy
 msgid "Height"
-msgstr "_Kõrgus..."
+msgstr "Kõrgus"
 
 #: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:236
 msgid "W"
 msgstr "W"
 
 #: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:236
-#, fuzzy
 msgid "Width"
-msgstr "_Sellega:"
+msgstr "Laius"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:242
 msgid "No error bar displayed"
@@ -16041,9 +16001,8 @@ msgid "<b>Values</b>"
 msgstr "Valim"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:6
-#, fuzzy
 msgid "Colo_r:"
-msgstr "Värv:"
+msgstr "Vä_rv:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:7
 msgid "Dis_play:"
@@ -16058,14 +16017,12 @@ msgid ""
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:12
-#, fuzzy
 msgid "_Line width:"
-msgstr "Joone laius"
+msgstr "_Joone laius:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:13
-#, fuzzy
 msgid "_Width:"
-msgstr "_Sellega:"
+msgstr "_Laius:"
 
 #. default
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:115
@@ -16075,9 +16032,8 @@ msgid "Graph"
 msgstr "_Diagramm"
 
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:154
-#, fuzzy
 msgid "Chart"
-msgstr "Diagramm%d"
+msgstr "Diagramm"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1089
 #, fuzzy
@@ -16133,22 +16089,19 @@ msgid "_Order"
 msgstr "Või"
 
 #: src/cut-n-paste-code/goffice/graph/gog-label.c:109
-#, fuzzy
 msgid "_Text:"
-msgstr "Te_kst"
+msgstr "_Tekst:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-label.c:116
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:426
 #: src/dialogs/dialog-stf.glade.h:19
-#, fuzzy
 msgid "Data"
-msgstr "An_dmed"
+msgstr "Andmed"
 
 #: src/cut-n-paste-code/goffice/graph/gog-plot.c:182
 #: src/dialogs/fill-series.glade.h:8
-#, fuzzy
 msgid "Series"
-msgstr "_Jadad"
+msgstr "Jadad"
 
 #: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:54
 #, fuzzy
@@ -16165,14 +16118,12 @@ msgid "Chart Theme"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:145
-#, fuzzy
 msgid "Index:"
-msgstr "_Taandus"
+msgstr "Indeks:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:162
-#, fuzzy
 msgid "Settings"
-msgstr "Stringid"
+msgstr "Sätted"
 
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:452
 #: src/tools/analysis-tools.c:3919
@@ -16181,9 +16132,9 @@ msgstr "Punkt"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:159
 #: src/gui-file.c:348
-#, fuzzy, c-format
+#, c-format
 msgid "%d x %d"
-msgstr "%dR x %dC"
+msgstr "%d x %d"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:881
 #: src/dialogs/cell-format.glade.h:48
@@ -16193,9 +16144,8 @@ msgstr "Font"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:969
 #: src/dialogs/pivottable.glade.h:4
-#, fuzzy
 msgid "Style"
-msgstr "_Stiil"
+msgstr "Stiil"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:1
 #, fuzzy
@@ -16226,9 +16176,8 @@ msgid "<b>Outline</b>"
 msgstr "Eelvaade"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:7
-#, fuzzy
 msgid "Co_lor:"
-msgstr "Värv:"
+msgstr "Vä_rv:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:8
 msgid ""
@@ -16249,35 +16198,29 @@ msgid "Sha_pe:"
 msgstr "Skoop :"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:14
-#, fuzzy
 msgid "Si_ze:"
-msgstr "Suurus:"
+msgstr "_Suurus:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:15
-#, fuzzy
 msgid "St_yle:"
-msgstr "_Stiil"
+msgstr "S_tiil:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:16
 #: src/dialogs/hyperlink.glade.h:5
-#, fuzzy
 msgid "T_ype:"
-msgstr "_Tüüp:"
+msgstr "Tüü_p:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:17
-#, fuzzy
 msgid "_Background:"
-msgstr "Taust"
+msgstr "T_aust:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:18
-#, fuzzy
 msgid "_Direction:"
-msgstr "Kataloog"
+msgstr "S_uund:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:19
-#, fuzzy
 msgid "_End:"
-msgstr "Lõpp"
+msgstr "_Lõpp:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:20
 #, fuzzy
@@ -16285,7 +16228,6 @@ msgid "_Fill color:"
 msgstr "Täitmise värv"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:21
-#, fuzzy
 msgid "_Fit:"
 msgstr "_Mahuta:"
 
@@ -16295,34 +16237,28 @@ msgid "_Foreground:"
 msgstr "Esiplaan"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:23
-#, fuzzy
 msgid "_Pattern:"
-msgstr "Muster"
+msgstr "_Muster:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:24
-#, fuzzy
 msgid "_Select..."
-msgstr "_Vali"
+msgstr "_Vali..."
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:25
-#, fuzzy
 msgid "_Size:"
-msgstr "Suurus:"
+msgstr "_Suurus:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:26
-#, fuzzy
 msgid "_Start:"
-msgstr "_Sorteeri"
+msgstr "_Algus:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:28
-#, fuzzy
 msgid "_brighter"
-msgstr "erksinine"
+msgstr "_heledam"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:29
-#, fuzzy
 msgid "_darker"
-msgstr "tumepunane"
+msgstr "_tumedam"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:30
 msgid "pts"
@@ -16338,15 +16274,13 @@ msgstr ""
 #: src/cut-n-paste-code/goffice/graph/gog-theme.c:458
 #: src/dialogs/dialog-sheet-order.c:987
 #: src/dialogs/dialog-sheet-order.c:996
-#, fuzzy
 msgid "Default"
-msgstr "Kustuta"
+msgstr "Vaikimisi"
 
 #. Guppi
 #: src/cut-n-paste-code/goffice/graph/gog-theme.c:534
-#, fuzzy
 msgid "Guppi"
-msgstr "Grupeeri"
+msgstr "Guppi"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:335
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:231
@@ -16468,27 +16402,24 @@ msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:13
 #: src/func.c:679
-#, fuzzy
 msgid "Area"
-msgstr "_Alad"
+msgstr "Ala"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:14
 msgid "Area plot."
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:15
-#, fuzzy
 msgid "Areas"
-msgstr "_Alad"
+msgstr "Alad"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:16
 msgid "Bar"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:17
-#, fuzzy
 msgid "Column"
-msgstr "V_eerg"
+msgstr "Veerg"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:18
 #: src/dialogs/dialog-stf-main-page.c:370
@@ -16502,9 +16433,8 @@ msgid "Line plot."
 msgstr "Imporditavad read"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:20
-#, fuzzy
 msgid "Lines"
-msgstr "Joon"
+msgstr "Read"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:21
 msgid "Minor categories stacked as percentages of the minor total, in 3D horizontal bars, grouped by major category."
@@ -16694,9 +16624,8 @@ msgid "The amount this slice is separated from the center measured as a percenta
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:4
-#, fuzzy
 msgid "_Separation:"
-msgstr "Eraldaja :"
+msgstr "_Eraldamine:"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:3
 #, fuzzy
@@ -16704,9 +16633,8 @@ msgid "Cen_ter size:"
 msgstr "Kategooria:"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:1
-#, fuzzy
 msgid "3D Pie"
-msgstr "_Alusvõrk"
+msgstr "Ruumiline sektor"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:2
 #, fuzzy
@@ -16756,14 +16684,12 @@ msgid "Percentage of each contributor."
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:13
-#, fuzzy
 msgid "Pie"
-msgstr "Hind"
+msgstr "Sektor"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:14
-#, fuzzy
 msgid "Ring"
-msgstr "_Vahemik"
+msgstr "Ring"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:15
 #, fuzzy
@@ -16883,9 +16809,8 @@ msgid "Z"
 msgstr "Z"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plot-types.xml.in.h:1
-#, fuzzy
 msgid "Contour"
-msgstr "Loend"
+msgstr "Kontuur"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plot-types.xml.in.h:2
 #, fuzzy
@@ -16893,9 +16818,8 @@ msgid "Contour plot."
 msgstr "Imporditavad read"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plot-types.xml.in.h:3
-#, fuzzy
 msgid "Surface"
-msgstr "Lähtealad"
+msgstr "Pind"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plugin.xml.in.h:1
 #, fuzzy
@@ -17234,25 +17158,23 @@ msgstr "Kohandatud värv:"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:235
 #: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:236
-#, fuzzy
 msgid "Shadow type"
-msgstr "Vari"
+msgstr "Varju tüüp"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:246
 #: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:247
-#, fuzzy
 msgid "Orientation"
 msgstr "Suund"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:257
 #: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:258
 msgid "Preferred width"
-msgstr ""
+msgstr "Eelistatud laius"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:266
 #: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:267
 msgid "Preferred height"
-msgstr ""
+msgstr "Eelistatud kõrgus"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-dock-item-grip.c:260
 msgid "Dock the toolbar"
@@ -17278,42 +17200,39 @@ msgstr "Ühtlane"
 
 #: src/cut-n-paste-code/goffice/utils/go-line.c:53
 msgid "Dash"
-msgstr ""
+msgstr "Kriips"
 
 #: src/cut-n-paste-code/goffice/utils/go-line.c:54
 msgid "Dot"
-msgstr ""
+msgstr "Punkt"
 
 #: src/cut-n-paste-code/goffice/utils/go-line.c:55
-#, fuzzy
 msgid "Dash dot"
-msgstr "Taani kroon"
+msgstr "Kriips-punkt"
 
 #: src/cut-n-paste-code/goffice/utils/go-line.c:56
 msgid "Dash dot dot"
-msgstr ""
+msgstr "Kriips-punkt-punkt"
 
 #. xgettext : this will appear as 'Automatic (patternname)'
 #: src/cut-n-paste-code/goffice/utils/go-line.c:305
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:603
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:242
-#, fuzzy, c-format
+#, c-format
 msgid "Automatic (%s)"
-msgstr "Automaatne"
+msgstr "Automaatne (%s)"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:220
-#, fuzzy
 msgid "none"
-msgstr "Puudub"
+msgstr "puudub"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:221
 msgid "square"
-msgstr ""
+msgstr "ruut"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:222
-#, fuzzy
 msgid "diamond"
-msgstr "_Keskmine:"
+msgstr "briljant"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:223
 msgid "triangle down"
@@ -17334,19 +17253,16 @@ msgid "triangle left"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:227
-#, fuzzy
 msgid "circle"
-msgstr "fikseeritud"
+msgstr "ring"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:229
-#, fuzzy
 msgid "cross"
-msgstr "read"
+msgstr "rist"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:230
-#, fuzzy
 msgid "asterisk"
-msgstr "Aseta link"
+msgstr "tärn"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:231
 #, fuzzy
@@ -17359,11 +17275,11 @@ msgstr ""
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:233
 msgid "butterfly"
-msgstr ""
+msgstr "liblikas"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:234
 msgid "hourglass"
-msgstr ""
+msgstr "liivakell"
 
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:96
 #: src/dialogs/cell-format.glade.h:12
@@ -17725,9 +17641,8 @@ msgstr "Seadistused"
 #: src/dialogs/anova-one.glade.h:6
 #: src/dialogs/mean-tests.glade.h:13
 #: src/dialogs/variance-tests.glade.h:9
-#, fuzzy
 msgid "_Alpha:"
-msgstr "_Alfa ="
+msgstr "_Alfa:"
 
 #: src/dialogs/anova-one.glade.h:7
 #: src/dialogs/correlation.glade.h:5
@@ -17765,9 +17680,8 @@ msgstr "_Veerud"
 #: src/dialogs/fourier-analysis.glade.h:7
 #: src/dialogs/moving-averages.glade.h:9
 #: src/dialogs/rank.glade.h:10
-#, fuzzy
 msgid "_Input range:"
-msgstr "_Sisendi vahemik:"
+msgstr "_Sisendvahemik:"
 
 #: src/dialogs/anova-one.glade.h:10
 #: src/dialogs/anova-two.glade.h:10
@@ -17854,9 +17768,8 @@ msgstr "Dispersioonianalüüs - Kaks faktorit"
 
 #: src/dialogs/anova-two.glade.h:5
 #: src/dialogs/histogram.glade.h:7
-#, fuzzy
 msgid "Input _range:"
-msgstr "_Sisendi vahemik:"
+msgstr "Sisend_vahemik:"
 
 #: src/dialogs/anova-two.glade.h:8
 #, fuzzy
@@ -17864,9 +17777,8 @@ msgid "Rows per _sample:"
 msgstr "Ridade arv _valimi kohta:"
 
 #: src/dialogs/anova-two.glade.h:9
-#, fuzzy
 msgid "_Alpha: "
-msgstr "_Alfa ="
+msgstr "_Alfa: "
 
 #: src/dialogs/autocorrect.glade.h:2
 msgid "Auto Correct"
@@ -17894,9 +17806,8 @@ msgid "Do _not correct:"
 msgstr "Ära _korrigeeri:"
 
 #: src/dialogs/autocorrect.glade.h:8
-#, fuzzy
 msgid "First Letter"
-msgstr "_Esimene täht"
+msgstr "Esimene täht"
 
 #: src/dialogs/autocorrect.glade.h:9
 #: src/format.c:2232
@@ -17956,9 +17867,8 @@ msgstr ""
 
 #: src/dialogs/autofilter-expression.glade.h:15
 #: src/dialogs/autofilter-top10.glade.h:1
-#, fuzzy
 msgid "Gnumeric : AutoFilter"
-msgstr "Gnumeric : Automaatne filter"
+msgstr "Gnumeric : Automaatfilter"
 
 #: src/dialogs/autofilter-expression.glade.h:16
 msgid "Show rows where:"
@@ -18017,7 +17927,6 @@ msgid "Apply _Patterns"
 msgstr "Rakenda _muster"
 
 #: src/dialogs/autoformat.glade.h:8
-#, fuzzy
 msgid "Author:"
 msgstr "Autor:"
 
@@ -18031,17 +17940,14 @@ msgid "C_ategory:"
 msgstr "Kategooria:"
 
 #: src/dialogs/autoformat.glade.h:11
-#, fuzzy
 msgid "Category:"
 msgstr "Kategooria:"
 
 #: src/dialogs/autoformat.glade.h:12
-#, fuzzy
 msgid "Description:"
 msgstr "Kirjeldus:"
 
 #: src/dialogs/autoformat.glade.h:13
-#, fuzzy
 msgid "Edges"
 msgstr "Ääred"
 
@@ -18050,7 +17956,6 @@ msgid "Name of template"
 msgstr "Malli nimi"
 
 #: src/dialogs/autoformat.glade.h:15
-#, fuzzy
 msgid "Name:"
 msgstr "Nimi:"
 
@@ -18088,9 +17993,8 @@ msgid "_Right"
 msgstr "_Parem"
 
 #: src/dialogs/autoformat.glade.h:23
-#, fuzzy
 msgid "_Settings"
-msgstr "Stringid"
+msgstr "_Sätted"
 
 #: src/dialogs/autoformat.glade.h:24
 msgid "_Show Gridlines"
@@ -18118,7 +18022,6 @@ msgid "_minutes"
 msgstr "_minuti tagant"
 
 #: src/dialogs/cell-comment.glade.h:1
-#, fuzzy
 msgid "Cell Comment"
 msgstr "Lahtri märkus"
 
@@ -18328,7 +18231,7 @@ msgstr "Läbi_kriipsutatud"
 #: src/dialogs/cell-format.glade.h:74
 #, fuzzy
 msgid "Style:"
-msgstr "_Stiil"
+msgstr "Laad:"
 
 #: src/dialogs/cell-format.glade.h:75
 msgid "Su_bscript"
@@ -19354,7 +19257,7 @@ msgstr "Veebr"
 #: src/dialogs/dialog-autoformat.c:77
 #, fuzzy
 msgid "Mar"
-msgstr "*Märts"
+msgstr "märts"
 
 #: src/dialogs/dialog-autoformat.c:77
 #: src/dialogs/dialog-autoformat.c:81
@@ -19476,12 +19379,12 @@ msgstr "Arv"
 #: src/widgets/widget-format-selector.c:84
 #, fuzzy
 msgid "Text"
-msgstr "Te_kst"
+msgstr "Tekst"
 
 #: src/dialogs/dialog-cell-format.c:1817
 #, fuzzy
 msgid "Source"
-msgstr "Lähtealad"
+msgstr "Allikas"
 
 #: src/dialogs/dialog-cell-format.c:1818
 msgid "Criteria"
@@ -19577,7 +19480,7 @@ msgstr "Vasakus _veerus"
 #: src/dialogs/dialog-cell-sort.c:1030
 #, fuzzy
 msgid "Header"
-msgstr "Päis:"
+msgstr "Päis"
 
 #: src/dialogs/dialog-cell-sort.c:1035
 #, fuzzy
@@ -19902,7 +19805,7 @@ msgstr "Jaga"
 #: src/dialogs/dialog-paste-special.c:186
 #, fuzzy
 msgid "Paste Special"
-msgstr "Aseta _teisiti"
+msgstr "Teisiti asetamine"
 
 #: src/dialogs/dialog-paste-special.c:189
 #, fuzzy
@@ -19930,7 +19833,7 @@ msgstr "Jäta tühjad kohad vahele"
 #: src/dialogs/dialog-plugin-manager.c:277
 #, fuzzy
 msgid "Select Directory"
-msgstr "Kataloog"
+msgstr "Kataloogi valimine"
 
 #: src/dialogs/dialog-plugin-manager.c:399
 #, fuzzy
@@ -19985,7 +19888,7 @@ msgstr "Vead pluginate aktiveerimisel."
 #: src/dialogs/dialog-plugin-manager.c:708
 #, fuzzy
 msgid "Active"
-msgstr "Objektiivne"
+msgstr "Aktiivne"
 
 #: src/dialogs/dialog-plugin-manager.c:713
 #, fuzzy
@@ -20049,12 +19952,12 @@ msgstr ""
 #: src/dialogs/dialog-preferences.c:765
 #, fuzzy
 msgid "Files"
-msgstr "_Fail"
+msgstr "Failid"
 
 #: src/dialogs/dialog-preferences.c:766
 #, fuzzy
 msgid "Tools"
-msgstr "_Tööriistad"
+msgstr "Tööriistad"
 
 #: src/dialogs/dialog-preferences.c:767
 #: src/wbc-gtk.c:472
@@ -20069,12 +19972,12 @@ msgstr "Peida read"
 #: src/dialogs/dialog-preferences.c:769
 #, fuzzy
 msgid "Header/Footer"
-msgstr "Päise/jaluse seadistamine"
+msgstr "Päis/Jalus"
 
 #: src/dialogs/dialog-preferences.c:771
 #, fuzzy
 msgid "Screen"
-msgstr "Leht%d"
+msgstr "Ekraan"
 
 #: src/dialogs/dialog-printer-setup.c:873
 msgid "Customize header"
@@ -20401,7 +20304,7 @@ msgstr "Märkus"
 #: src/tools/solver/reports-write.c:411
 #, fuzzy
 msgid "Result"
-msgstr "Kustuta lahtrid"
+msgstr "Tulem"
 
 #: src/dialogs/dialog-search.c:142
 msgid "Expression"
@@ -20510,7 +20413,7 @@ msgstr ""
 #: src/dialogs/dialog-simulation.c:236
 #, fuzzy
 msgid "Variable"
-msgstr "X muutujad:"
+msgstr "Muutuv"
 
 #: src/dialogs/dialog-simulation.c:237
 #: src/tools/simulation.c:247
@@ -20628,7 +20531,7 @@ msgstr "Oled kindel, et tahad loobuda?"
 #: src/dialogs/dialog-stf-export.c:438
 #, fuzzy
 msgid "Export"
-msgstr "Raportid"
+msgstr "Ekspordi"
 
 #: src/dialogs/dialog-stf-export.c:511
 #: src/dialogs/dialog-stf-export.glade.h:39
@@ -20936,8 +20839,9 @@ msgid "Fi_xed width"
 msgstr "Fikseeritud lai_us"
 
 #: src/dialogs/dialog-stf.glade.h:25
+#, fuzzy
 msgid "Fixed"
-msgstr ""
+msgstr "Fikseeritud"
 
 #: src/dialogs/dialog-stf.glade.h:27
 #, fuzzy
@@ -21266,7 +21170,7 @@ msgstr "Kuupäev"
 #: src/tools/fill-series.c:409
 #, fuzzy
 msgid "Fill Series"
-msgstr "Fourier' analüüs"
+msgstr "Täida jadad"
 
 #: src/dialogs/fill-series.glade.h:7
 #, fuzzy
@@ -21286,7 +21190,7 @@ msgstr "_p väärtus:"
 #: src/dialogs/fill-series.glade.h:11
 #, fuzzy
 msgid "Type:"
-msgstr "_Tüüp:"
+msgstr "Tüüp:"
 
 #: src/dialogs/fill-series.glade.h:12
 #: src/dialogs/pivottable.glade.h:7
@@ -21407,7 +21311,7 @@ msgstr "Negat_iivne arv"
 #: src/dialogs/format-selector.glade.h:14
 #, fuzzy
 msgid "Preview:"
-msgstr "Eelvaade"
+msgstr "Eelvaade:"
 
 #: src/dialogs/format-selector.glade.h:15
 msgid "S_ymbol:"
@@ -21806,8 +21710,9 @@ msgid "_Update"
 msgstr "_Uuenda"
 
 #: src/dialogs/pivottable.glade.h:1
+#, fuzzy
 msgid "Layout"
-msgstr ""
+msgstr "Paigutus"
 
 #: src/dialogs/pivottable.glade.h:2
 msgid "Layout:"
@@ -21958,7 +21863,7 @@ msgstr "Lehekülg"
 #: src/dialogs/print.glade.h:16
 #, fuzzy
 msgid "Page Setup"
-msgstr "Trükkimise s_eadistamine..."
+msgstr "Lehekülje häälestus"
 
 #: src/dialogs/print.glade.h:17
 msgid "Print _area:"
@@ -22160,7 +22065,7 @@ msgstr ""
 #: src/dialogs/scenario-add.glade.h:3
 #, fuzzy
 msgid "Comment:"
-msgstr "Märkus"
+msgstr "Kommentaar:"
 
 #: src/dialogs/scenario-add.glade.h:4
 #, fuzzy
@@ -22206,7 +22111,7 @@ msgstr "Kustuta lahtrid"
 #: src/dialogs/scenario-manager.glade.h:11
 #, fuzzy
 msgid "Scenario Manager"
-msgstr "Pluginate haldur"
+msgstr "Stsenaariumihaldur"
 
 #: src/dialogs/scenario-manager.glade.h:12
 #, fuzzy
@@ -22667,7 +22572,7 @@ msgstr "Kokkuvõte"
 #: src/tools/solver/reports-write.c:568
 #, fuzzy
 msgid "Variables"
-msgstr "X muutujad:"
+msgstr "Muutujad"
 
 #: src/dialogs/so-checkbox.glade.h:2
 #, fuzzy
@@ -22689,7 +22594,7 @@ msgstr "Vähenda mahutamiseks"
 #: src/dialogs/so-frame.glade.h:2
 #, fuzzy
 msgid "Frame Properties"
-msgstr "Omadused..."
+msgstr "Paneeli omadused"
 
 #: src/dialogs/solver.glade.h:2
 msgid "Assume _Integer (Discrete)"
@@ -22729,7 +22634,7 @@ msgstr "Max"
 #: src/dialogs/solver.glade.h:10
 #, fuzzy
 msgid "Model"
-msgstr "Veel"
+msgstr "Mudel"
 
 #: src/dialogs/solver.glade.h:12
 #, fuzzy
@@ -22748,7 +22653,7 @@ msgstr "Raportid"
 #: src/dialogs/solver.glade.h:15
 #, fuzzy
 msgid "Scenarios"
-msgstr "Eraldajad"
+msgstr "Stsenaariumid"
 
 #: src/dialogs/solver.glade.h:16
 msgid "Solve"
@@ -22870,7 +22775,7 @@ msgstr "Asutus"
 #: src/dialogs/summary.glade.h:5
 #, fuzzy
 msgid "File:"
-msgstr "_Fail"
+msgstr "Fail:"
 
 #: src/dialogs/summary.glade.h:7
 #, fuzzy
@@ -22909,18 +22814,18 @@ msgstr ""
 #: src/dialogs/tabulate.glade.h:5
 #, fuzzy
 msgid "Maximum"
-msgstr "Maksimum :"
+msgstr "Maksimum"
 
 #: src/dialogs/tabulate.glade.h:6
 #, fuzzy
 msgid "Minimum"
-msgstr "Miinimum :"
+msgstr "Miinimum"
 
 #: src/dialogs/tabulate.glade.h:7
 #: src/tools/simulation.c:251
 #, fuzzy
 msgid "Mode"
-msgstr "Veel"
+msgstr "Režiim"
 
 #: src/dialogs/tabulate.glade.h:8
 #, fuzzy
@@ -24023,7 +23928,7 @@ msgstr "_Fail"
 #: src/gui-file.c:674
 #, fuzzy
 msgid "Spreadsheets"
-msgstr "Gnumericu Tabelitöötlus"
+msgstr "Arvutustabelid"
 
 #: src/gui-file.c:273
 #: src/gui-file.c:524
@@ -24850,7 +24755,7 @@ msgstr "&[DATE]"
 #: src/print-info.c:450
 #, fuzzy
 msgid "File Name"
-msgstr "Nimi"
+msgstr "Faili nimi"
 
 #: src/print-info.c:461
 #, fuzzy
@@ -25833,7 +25738,7 @@ msgstr "Tundlikkuse raport"
 #: src/tools/simulation.c:248
 #, fuzzy
 msgid "Mean"
-msgstr "_Keskmine:"
+msgstr "Keskmine"
 
 #: src/tools/simulation.c:250
 #, fuzzy
@@ -25860,7 +25765,7 @@ msgstr ""
 #: src/tools/simulation.c:256
 #, fuzzy
 msgid "Range"
-msgstr "_Vahemik"
+msgstr "Vahemik"
 
 #: src/tools/simulation.c:257
 #: src/workbook-control-gui.c:1831
@@ -25887,7 +25792,7 @@ msgstr ""
 #: src/tools/simulation.c:342
 #, fuzzy
 msgid "Report"
-msgstr "Raportid"
+msgstr "Aruanne"
 
 #: src/tools/simulation.c:389
 #, fuzzy
@@ -27589,7 +27494,7 @@ msgstr "Tee kontrollkast"
 #: src/wbcg-actions.c:1920
 #, fuzzy
 msgid "Scrollbar"
-msgstr "USA dollar"
+msgstr "Kerimisriba"
 
 #: src/wbcg-actions.c:1921
 #, fuzzy
@@ -27727,7 +27632,7 @@ msgstr "Vorminda valitud lahtrid protsendina"
 #: src/widgets/widget-format-selector.c:83
 #, fuzzy
 msgid "Scientific"
-msgstr "_Teaduslik"
+msgstr "Teaduslik"
 
 #: src/wbcg-actions.c:1975
 #, fuzzy
@@ -27777,7 +27682,7 @@ msgstr "Tsentreerib teksti kõikides valikutes"
 #: src/wbcg-actions.c:1990
 #, fuzzy
 msgid "Thousands Separator"
-msgstr "Tuhandete eraldaja"
+msgstr "Tuhandeliste eraldaja"
 
 #: src/wbcg-actions.c:1991
 #, fuzzy
@@ -27884,7 +27789,7 @@ msgstr "Vasak joondus"
 #: src/wbc-gtk.c:324
 #, fuzzy
 msgid "Align left"
-msgstr "Joondus"
+msgstr "Joonda vasakule"
 
 #: src/wbcg-actions.c:2070
 #, fuzzy
@@ -27906,7 +27811,7 @@ msgstr "Parem joondus"
 #: src/wbc-gtk.c:326
 #, fuzzy
 msgid "Align right"
-msgstr "Grupid paremal"
+msgstr "Joonda paremale"
 
 #: src/wbcg-actions.c:2076
 #, fuzzy
@@ -27934,8 +27839,9 @@ msgstr ""
 
 #: src/wbcg-actions.c:2089
 #: src/wbc-gtk.c:336
+#, fuzzy
 msgid "Align Top"
-msgstr ""
+msgstr "Joonda üles"
 
 #: src/wbcg-actions.c:2091
 #, fuzzy
@@ -27956,7 +27862,7 @@ msgstr "_Alumine"
 #: src/wbc-gtk.c:338
 #, fuzzy
 msgid "Align Bottom"
-msgstr "All paks joon"
+msgstr "Joonda alla"
 
 #: src/wbcg-actions.c:2098
 msgid "View _Statusbar"
@@ -28530,8 +28436,9 @@ msgid "Unicode (UTF-32LE)"
 msgstr "Unicode (UTF-32LE)"
 
 #: src/widgets/widget-charmap-selector.c:191
+#, fuzzy
 msgid "User Defined"
-msgstr ""
+msgstr "Kasutaja määratletud"
 
 #: src/widgets/widget-charmap-selector.c:192
 msgid "Vietnamese (TCVN)"
