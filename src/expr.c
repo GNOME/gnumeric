@@ -1485,7 +1485,6 @@ expr_rewrite (ExprTree const *expr, ExprRewriteInfo const *rwinfo)
 		 * flag the name as inactive and remove the reference here.
 		 */
 		if (!nexpr->active ||
-		    (rwinfo->type == EXPR_REWRITE_NAME && rwinfo->u.name == nexpr) ||
 		    (rwinfo->type == EXPR_REWRITE_SHEET && rwinfo->u.sheet == nexpr->pos.sheet) ||
 		    (rwinfo->type == EXPR_REWRITE_WORKBOOK && rwinfo->u.workbook == nexpr->pos.wb))
 			return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
@@ -1539,9 +1538,6 @@ expr_rewrite (ExprTree const *expr, ExprRewriteInfo const *rwinfo)
 			if (expr->var.ref.sheet != NULL &&
 			    expr->var.ref.sheet->workbook == rwinfo->u.workbook)
 				return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
-			return NULL;
-
-		case EXPR_REWRITE_NAME :
 			return NULL;
 
 		case EXPR_REWRITE_RELOCATE : {

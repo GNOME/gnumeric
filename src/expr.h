@@ -177,12 +177,10 @@ struct _ExprRelocateInfo {
 struct _ExprRewriteInfo {
 	enum { EXPR_REWRITE_SHEET,
 	       EXPR_REWRITE_WORKBOOK,
-	       EXPR_REWRITE_NAME,
 	       EXPR_REWRITE_RELOCATE } type;
 	union {
-		Sheet           *sheet;
-		Workbook        *workbook;
-		NamedExpression *name;
+		Sheet const     *sheet;
+		Workbook const  *workbook;
 		ExprRelocateInfo relocate;
 	} u;
 };

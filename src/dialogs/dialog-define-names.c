@@ -304,14 +304,14 @@ name_guru_populate_list (NameGuruState *state)
 }
 
 /**
- * cb_name_guru_remove:
+ * name_guru_remove:
  * @ignored:
  * @state:
  *
  * Remove the state->cur_name
  **/
 static void
-cb_name_guru_remove (GtkWidget *ignored, NameGuruState *state)
+name_guru_remove (GtkWidget *ignored, NameGuruState *state)
 {
 	g_return_if_fail (state != NULL);
 	g_return_if_fail (state->cur_name != NULL);
@@ -327,7 +327,7 @@ cb_name_guru_remove (GtkWidget *ignored, NameGuruState *state)
 }
 
 /**
- * cb_name_guru_add:
+ * name_guru_add:
  * @state:
  *
  * Update or add a NamedExpression from the values in the gtkentries.
@@ -335,7 +335,7 @@ cb_name_guru_remove (GtkWidget *ignored, NameGuruState *state)
  * Return Value: FALSE if the expression was invalid, TRUE otherwise
  **/
 static gboolean
-cb_name_guru_add (NameGuruState *state)
+name_guru_add (NameGuruState *state)
 {
 	NamedExpression *expr_name;
 	ParseError    perr;
@@ -418,7 +418,7 @@ cb_name_guru_clicked (GtkWidget *button, NameGuruState *state)
 	wbcg_set_entry (state->wbcg, NULL);
 
 	if (button == state->delete_button) {
-		cb_name_guru_remove (NULL, state);
+		name_guru_remove (NULL, state);
 		return;
 	}
 
@@ -426,7 +426,7 @@ cb_name_guru_clicked (GtkWidget *button, NameGuruState *state)
 	    button == state->update_button ||
 	    button == state->ok_button) {
 		/* If adding the name failed, do not exit */
-		if (!cb_name_guru_add (state)) {
+		if (!name_guru_add (state)) {
 			return;
 		}
 	}

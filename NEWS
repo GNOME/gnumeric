@@ -32,6 +32,7 @@ Jody:
 	* Fix format leak (thanks Morten)
 	* Fix data validation.
 	* Dirty workbook when modifying summary info.
+	* Invalidate names refering to deleted expressions.
 
 Morten:
 	* Fix DATE.

@@ -2896,7 +2896,6 @@ sheet_destroy (Sheet *sheet)
 	g_free (sheet->solver_parameters.input_entry_str);
 
 	sheet_deps_destroy (sheet);
-	expr_name_invalidate_refs_sheet (sheet);
 	sheet_destroy_contents (sheet);
 	sheet->names = expr_name_list_destroy (sheet->names);
 

@@ -26,21 +26,6 @@
 /* We don't expect that many global names ! */
 static GList *global_names = NULL;
 
-void
-expr_name_invalidate_refs_sheet (Sheet const *sheet)
-{
-	static gboolean warned = FALSE;
-	if (!warned)
-		g_warning ("Implement Me !. expr_name_invalidate_refs_sheet\n");
-	warned = TRUE;
-}
-
-void
-expr_name_invalidate_refs_wb (Workbook const *wb)
-{
-	WORKBOOK_FOREACH_SHEET(wb, sheet, expr_name_invalidate_refs_sheet (sheet););
-}
-
 static void
 cb_collect_name_deps (gpointer key, gpointer value, gpointer user_data)
 {
@@ -74,7 +59,7 @@ expr_name_link_deps (GSList *deps)
 	/* put them back */
 	for (; ptr != NULL ; ptr = ptr->next) {
 		Dependent *dep = ptr->data;
-		if (!dependent_is_linked (dep)) {
+		if (dep->sheet->deps != NULL && !dependent_is_linked (dep)) {
 			CellPos *pos = dependent_is_cell (dep)
 				? &(DEP_TO_CELL (dep)->pos) : NULL;
 			dependent_link (dep, pos);
@@ -85,16 +70,53 @@ expr_name_link_deps (GSList *deps)
 	g_slist_free (deps);
 }
 
+/**
+ * expr_name_handle_references : register or unregister a name with
+ *    all of the sheets it explicitly references.  This is necessary
+ *    beacuse names are not dependents, and if they reference a deleted
+ *    sheet we will not notice.
+ */
+static void
+expr_name_handle_references (NamedExpression *nexpr, gboolean add)
+{
+	GSList *sheets, *ptr;
+
+	sheets = expr_tree_referenced_sheets (nexpr->t.expr_tree);
+	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
+		Sheet *sheet = ptr->data;
+		NamedExpression *found;
+
+		/* No need to do anything during destruction */
+		if (sheet->deps == NULL)
+			continue;
+
+		found = g_hash_table_lookup (sheet->deps->names, nexpr);
+		if (add) {
+			if (found == NULL)  {
+				g_hash_table_insert (sheet->deps->names, nexpr, nexpr);
+			} else {
+				g_warning ("Name being registered multiple times ?");
+			}
+		} else {
+			if (found == NULL)  {
+				g_warning ("Unregistered name being being removed ?");
+			} else {
+				g_hash_table_remove (sheet->deps->names, nexpr);
+			}
+		}
+	}
+	g_slist_free (sheets);
+}
+
 
 static NamedExpression *
 expr_name_lookup_list (GList *p, char const *name)
 {
-	while (p) {
+	for (; p ; p = p->next) {
 		NamedExpression *nexpr = p->data;
 		g_return_val_if_fail (nexpr != NULL, 0);
 		if (g_strcasecmp (nexpr->name->str, name) == 0)
 			return nexpr;
-		p = g_list_next (p);
 	}
 	return NULL;
 }
@@ -237,9 +259,9 @@ expr_name_add (ParsePos const *pp, char const *name,
 		*error_msg = NULL;
 
 	nexpr = named_expr_new (name, FALSE);
-	nexpr->t.expr_tree = expr;
 	parse_pos_init (&nexpr->pos,
 			pp->wb, pp->sheet, pp->eval.col, pp->eval.row);
+	expr_name_set_expr (nexpr, expr);
 
 	*scope = g_list_append (*scope, nexpr);
 
@@ -302,10 +324,8 @@ expr_name_unref (NamedExpression *nexpr)
 		nexpr->name = NULL;
 	}
 
-	if (!nexpr->builtin && nexpr->t.expr_tree) {
-		expr_tree_unref (nexpr->t.expr_tree);
-		nexpr->t.expr_tree = NULL;
-	}
+	if (!nexpr->builtin && nexpr->t.expr_tree != NULL)
+		expr_name_set_expr (nexpr, NULL);
 
 	if (nexpr->dependents != NULL) {
 		g_hash_table_destroy (nexpr->dependents);
@@ -318,30 +338,31 @@ expr_name_unref (NamedExpression *nexpr)
 	g_free (nexpr);
 }
 
+/**
+ * expr_name_unlink :
+ *
+ * Linked names can be looked up and used.  It is possible to have a non-zero
+ * ref count and be unlinked.
+ */
 static void
 expr_name_unlink (NamedExpression *nexpr)
 {
-	Workbook *wb = NULL;
-	Sheet    *sheet = NULL;
+	g_return_if_fail (nexpr->active);
 
-	/* printf ("Removing : '%s'\n", nexpr->name->str);*/
 	if (nexpr->pos.sheet) {
-		sheet = nexpr->pos.sheet;
+		Sheet *sheet = nexpr->pos.sheet;
 		g_return_if_fail (g_list_find (sheet->names, nexpr) != NULL);
 		sheet->names = g_list_remove (sheet->names, nexpr);
 	} else if (nexpr->pos.wb) {
-		wb = nexpr->pos.wb;
+		Workbook *wb = nexpr->pos.wb;
 		g_return_if_fail (g_list_find (wb->names, nexpr) != NULL);
 		wb->names = g_list_remove (wb->names, nexpr);
 	} else {
 		g_return_if_fail (g_list_find (global_names, nexpr) != NULL);
 		global_names = g_list_remove (global_names, nexpr);
 	}
-}
-
-static void
-expr_name_invalidate_refs (NamedExpression *nexpr)
-{
+	expr_name_unref (nexpr);
+	nexpr->active = FALSE;
 }
 
 void
@@ -351,9 +372,7 @@ expr_name_remove (NamedExpression *nexpr)
 	g_return_if_fail (nexpr->active);
 
 	expr_name_unlink (nexpr);
-	expr_name_invalidate_refs (nexpr);
-	nexpr->active = FALSE;
-	expr_name_unref (nexpr);
+	expr_name_set_expr (nexpr, NULL);
 }
 
 /**
@@ -425,26 +444,26 @@ expr_name_eval (NamedExpression const *nexpr,
  */
 /**
  * expr_name_set_scope:
- * @expression: 
+ * @nexpr: 
  * @sheet: 
  * 
  * Return Value: FALSE or error, TRUE otherwise
  **/
 gboolean
-expr_name_set_scope (NamedExpression *expression, Sheet *sheet)
+expr_name_set_scope (NamedExpression *nexpr, Sheet *sheet)
 {
 	Workbook *wb;
 
-	g_return_val_if_fail (IS_SHEET (expression->pos.sheet), FALSE);
+	g_return_val_if_fail (IS_SHEET (nexpr->pos.sheet), FALSE);
 	
-	sheet = expression->pos.sheet;
+	sheet = nexpr->pos.sheet;
 	wb = sheet->workbook;
 	
-	expression->pos.sheet = NULL;
-	expression->pos.wb = wb;
+	nexpr->pos.sheet = NULL;
+	nexpr->pos.wb = wb;
 
-	wb->names    = g_list_prepend (wb->names, expression);
-	sheet->names = g_list_remove (sheet->names, expression);
+	wb->names    = g_list_prepend (wb->names, nexpr);
+	sheet->names = g_list_remove (sheet->names, nexpr);
 
 	sheet_set_dirty (sheet, TRUE);
 
@@ -459,11 +478,19 @@ expr_name_set_expr (NamedExpression *nexpr, ExprTree *new_expr)
 	g_return_if_fail (nexpr != NULL);
 	g_return_if_fail (!nexpr->builtin);
 
-	deps = expr_name_unlink_deps (nexpr);
-	expr_tree_ref (new_expr);
-	expr_tree_unref (nexpr->t.expr_tree);
+	if (new_expr != NULL)
+		expr_tree_ref (new_expr);
+	if (nexpr->t.expr_tree != NULL) {
+		deps = expr_name_unlink_deps (nexpr);
+		expr_name_handle_references (nexpr, FALSE);
+		expr_tree_unref (nexpr->t.expr_tree);
+	}
 	nexpr->t.expr_tree = new_expr;
-	expr_name_link_deps (deps);
+
+	if (new_expr != NULL) {
+		expr_name_link_deps (deps);
+		expr_name_handle_references (nexpr, TRUE);
+	}
 }
 
 void

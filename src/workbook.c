@@ -142,7 +142,6 @@ workbook_destroy (GtkObject *wb_object)
 	wb->redo_commands = NULL;
 
 	workbook_deps_destroy (wb);
-	expr_name_invalidate_refs_wb (wb);
 
 	/* Copy the set of sheets, the list changes under us. */
 	sheets = workbook_sheets (wb);
@@ -1105,7 +1104,6 @@ workbook_sheet_delete (Sheet *sheet)
 
 	/* Important to do these BEFORE detaching the sheet */
 	sheet_deps_destroy (sheet);
-	expr_name_invalidate_refs_sheet (sheet);
 
 	/* All is fine, remove the sheet */
 	workbook_sheet_detach (wb, sheet);

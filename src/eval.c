@@ -988,21 +988,19 @@ sheet_region_queue_recalc (Sheet const *sheet, Range const *r)
 
 /*******************************************************************/
 
-static void
+inline static void
 invalidate_refs (Dependent *dep, ExprRewriteInfo const *rwinfo)
 {
-	ExprTree *newtree;
+	ExprTree *newtree = expr_rewrite (dep->expression, rwinfo);
 
-	newtree = expr_rewrite (dep->expression, rwinfo);
-
-	/*
-	 * We are told this dependent depends on this region, hence if newtree
-	 * is null then either we did not depend on it ( ie. serious breakage )
-	 * or we had a duplicate reference and we have already removed it.
+	/* We are told this dependent depends on this region, hence if newtree
+	 * is null then either 
+	 * 1) we did not depend on it ( ie. serious breakage )
+	 * 2j we had a duplicate reference and we have already removed it.
+	 * 3) We depended on things via a name which will be invalidated elsewhere
 	 */
-	g_return_if_fail (newtree != NULL);
-
-	dependent_set_expr (dep, newtree);
+	if (newtree != NULL)
+		dependent_set_expr (dep, newtree);
 }
 
 /*
@@ -1039,6 +1037,15 @@ cb_dep_hash_invalidate (gpointer key, gpointer value, gpointer closure)
 
 	g_slist_free (deps);
 	g_free (depany);
+}
+
+static void
+cb_name_invalidate_sheet (gpointer key, gpointer value, gpointer rwinfo)
+{
+	NamedExpression *nexpr = key;
+	ExprTree *new_expr = expr_rewrite (nexpr->t.expr_tree, rwinfo);
+	g_return_if_fail (new_expr != NULL);
+	expr_name_set_expr (nexpr, new_expr);
 }
 
 /*
@@ -1086,6 +1093,8 @@ do_deps_destroy (Sheet *sheet, ExprRewriteInfo const *rwinfo)
 	}
 
 	if (deps->names) {
+		g_hash_table_foreach (deps->names, 
+			cb_name_invalidate_sheet, (gpointer)rwinfo);
 		g_hash_table_destroy (deps->names);
 		deps->names = NULL;
 	}

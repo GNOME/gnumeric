@@ -10,7 +10,7 @@ struct _NamedExpression {
 	String     *name;
 	ParsePos    pos;
 	GHashTable *dependents;
-	gboolean    active : 1;
+	gboolean    active  : 1;
 	gboolean    builtin : 1;
 	union {
 		ExprTree     *expr_tree;
@@ -36,8 +36,6 @@ void	 expr_name_add_dep    (NamedExpression *ne, Dependent *dep);
 void	 expr_name_remove_dep (NamedExpression *ne, Dependent *dep);
 
 GList	 *expr_name_list_destroy	  (GList *names);
-void      expr_name_invalidate_refs_sheet (Sheet const *sheet);
-void      expr_name_invalidate_refs_wb	  (Workbook const *wb);
 
 void expr_name_init       (void);
 

@@ -1,5 +1,21 @@
 2001-12-25  Jody Goldberg <jody@gnome.org>
 
+	* src/eval.c (invalidate_refs) : it is ok to not rewrite the
+	  expression here.
+	(cb_name_invalidate_sheet) : new.
+	(do_deps_destroy) : use here.
+
+	* src/expr-name.c (expr_name_invalidate_refs_sheet) : delete.
+	(expr_name_invalidate_refs_wb) : delete.
+	(expr_name_handle_references) : new.
+	(expr_name_set_expr) : use it here.
+	(expr_name_add) : Use expr_name_set_expr.
+	(expr_name_unref) : and here.
+	(expr_name_link_deps) : if the dependent being updated is going to be
+	  deleted do not relink or queue for recalc.
+
+2001-12-25  Jody Goldberg <jody@gnome.org>
+
 	* src/expr-name.c (expr_name_invalidate_refs_wb) : Implement in terms
 	  of expr_name_invalidate_refs_sheet.
 
