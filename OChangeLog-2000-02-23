@@ -1,7 +1,14 @@
 2000-01-29  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet.c (sheet_accept_pending_input) : Use
+	  gnumeric_sheet_destroy_editing_cursor.
+
 	* src/xml-io.c (gnumeric_xml_read_workbook) : Really return 0 on
 	  success.
+
+	* src/workbook.c (workbook_realized) : Delete unused function.
+	(accept_input) : Force the sheet into edit mode when a user activates
+	  the edit bar.
 
 2000-01-30  Jon K Hellan  <hellan@acm.org>
 

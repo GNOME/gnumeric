@@ -180,12 +180,6 @@ void        workbook_expr_unrelocate_free(GSList *info);
 void        workbook_recalc              (Workbook *wb);
 void        workbook_recalc_all          (Workbook *wb);
 
-/*
- * Callback routine: invoked when the first view ItemGrid
- * is realized to allocate the default styles
- */
-void     workbook_realized            (Workbook *, GdkWindow *);
-
 typedef gboolean (*WorkbookCallback)(Workbook *, gpointer data);
 
 void     workbook_foreach             (WorkbookCallback cback,

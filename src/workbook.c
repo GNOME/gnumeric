@@ -615,6 +615,9 @@ static void
 accept_input (GtkWidget *IGNORED, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
+
+	/* Force sheet into edit mode */
+	sheet->editing = TRUE;
 	sheet_accept_pending_input (sheet);
 	workbook_focus_current_sheet (wb);
 }
@@ -2699,15 +2702,6 @@ workbook_new_with_sheets (int sheet_count)
 	workbook_focus_current_sheet (wb);
 
 	return wb;
-}
-
-/*
- * This routine sets up the default styles for the
- * workbook
- */
-void
-workbook_realized (Workbook *workbook, GdkWindow *window)
-{
 }
 
 /**

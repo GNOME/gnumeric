@@ -1337,6 +1337,17 @@ sheet_accept_pending_input (Sheet *sheet)
 		return;
 	sheet_stop_editing (sheet);
 
+	/*
+	 * If user was editing on the input line, get the focus back
+	 */
+	workbook_focus_current_sheet (sheet->workbook);
+	
+	for (l = sheet->sheet_views; l; l = l->next){
+		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
+
+		gnumeric_sheet_destroy_editing_cursor (gsheet);
+	}
+
 	str = gtk_entry_get_text (GTK_ENTRY (sheet->workbook->ea_input));
 	g_return_if_fail (str != NULL);
 
@@ -1356,17 +1367,6 @@ sheet_accept_pending_input (Sheet *sheet)
 	/* Store the old value for undo */
 	if (!cmd_set_text (NULL, sheet, &r.start, str))
 		sheet_set_text (sheet, str, &r);
-
-	/*
-	 * If user was editing on the input line, get the focus back
-	 */
-	workbook_focus_current_sheet (sheet->workbook);
-	
-	for (l = sheet->sheet_views; l; l = l->next){
-		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
-
-		gnumeric_sheet_stop_editing (gsheet);
-	}
 
 	workbook_recalc (sheet->workbook);
 }
