@@ -1300,6 +1300,19 @@ static GNM_ACTION_DEF (cb_align_vcenter)
 static GNM_ACTION_DEF (cb_align_bottom)
 	{ set_selection_valign (wbcg, VALIGN_BOTTOM); }
 
+static GNM_ACTION_DEF (cb_view_standard_toolbar)
+{
+	wbcg_set_standard_toolbar_visible (wbcg, -1);
+}
+static GNM_ACTION_DEF (cb_view_format_toolbar)
+{
+	wbcg_set_format_toolbar_visible (wbcg, -1);
+}
+static GNM_ACTION_DEF (cb_view_object_toolbar)
+{
+	wbcg_set_object_toolbar_visible (wbcg, -1);
+}
+
 static GNM_ACTION_DEF (cb_merge_cells)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
@@ -2105,8 +2118,22 @@ static GtkToggleActionEntry toggle_actions[] = {
 		N_("Vertically Center"), G_CALLBACK (cb_align_vcenter), FALSE },
 	{ "AlignBottom", NULL,
 		N_("Align _Bottom"), NULL,
-		N_("Align Bottom"), G_CALLBACK (cb_align_bottom), FALSE }
+	        N_("Align Bottom"), G_CALLBACK (cb_align_bottom), FALSE },
+
+	{ "ViewStandardToolbar", NULL,
+	        N_("View _Standard Toolbar"), NULL,
+	        N_("Toggle visibility of standard toolbar"),
+	        G_CALLBACK (cb_view_standard_toolbar), TRUE },
+	{ "ViewFormatToolbar", NULL,
+	        N_("View _Format Toolbar"), NULL,
+	        N_("Toggle visibility of format toolbar"),
+	        G_CALLBACK (cb_view_format_toolbar), TRUE },
+	{ "ViewObjectToolbar", NULL,
+	        N_("View _Object Toolbar"), NULL,
+	        N_("Toggle visibility of object toolbar"),
+	        G_CALLBACK (cb_view_object_toolbar), TRUE }
 };
+
 static GtkToggleActionEntry font_toggle_actions[] = {
 	{ "FontBold", GTK_STOCK_BOLD,
 		N_("_Bold"), "<control>B",

@@ -1649,6 +1649,62 @@ wbcg_set_status_text (WorkbookControlGUI *wbcg, char const *text)
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
 	gtk_label_set_text (GTK_LABEL (wbcg->status_text), text);
 }
+
+/*
+ * Input: -2 [no change], -1 [toggle], 0 [invisible], 1 [visible].
+ * Output: -1 [no toolbar], 0 [was invisible], 1 [was visible].
+ */
+static int
+wbcg_set_toolbar_visible (GtkWidget *w, int visible)
+{
+	gboolean is_visible;
+
+	if (w == NULL)
+		return -1;
+
+	is_visible = GTK_WIDGET_VISIBLE (w);
+	switch (visible) {
+	case -1:
+		if (is_visible)
+			gtk_widget_hide (w);
+		else
+			gtk_widget_show (w);
+		break;
+	case 0:
+		gtk_widget_hide (w);
+		break;
+	case 1:
+		gtk_widget_show (w);
+		break;
+	default:
+		; /* Nothing */
+	}
+
+	return is_visible;
+}
+
+int
+wbcg_set_standard_toolbar_visible (WorkbookControlGUI *wbcg, int visible)
+{
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), -1);
+	return wbcg_set_toolbar_visible (wbcg->standard_toolbar, visible);
+}
+
+int
+wbcg_set_format_toolbar_visible (WorkbookControlGUI *wbcg, int visible)
+{
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), -1);
+	return wbcg_set_toolbar_visible (wbcg->format_toolbar, visible);
+}
+
+int
+wbcg_set_object_toolbar_visible (WorkbookControlGUI *wbcg, int visible)
+{
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), -1);
+	return wbcg_set_toolbar_visible (wbcg->object_toolbar, visible);
+}
+
+
 void
 wbcg_toggle_end_mode (WorkbookControlGUI *wbcg)
 {

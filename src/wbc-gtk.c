@@ -863,7 +863,10 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 		       GtkWidget *w, WBCgtk *gtk)
 {
 	if (GTK_IS_TOOLBAR (w)) {
+		WorkbookControlGUI *wbcg = (WorkbookControlGUI *)gtk;
 		GtkWidget *box = gtk_handle_box_new ();
+		const char *name;
+
 		gtk_container_add (GTK_CONTAINER (box), w);
 		g_object_connect (box,
 			"signal::child_attached", G_CALLBACK (cb_handlebox_dock_status), GINT_TO_POINTER (TRUE),
@@ -873,6 +876,14 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 		gtk_toolbar_set_show_arrow (GTK_TOOLBAR (w), TRUE);
 		gtk_toolbar_set_style (GTK_TOOLBAR (w), GTK_TOOLBAR_ICONS);
 		gtk_box_pack_start (GTK_BOX (gtk->toolbar_zone), box, FALSE, FALSE, 0);
+
+		name = gtk_widget_get_name (w);
+		if (name && strcmp (name, "StandardToolbar") == 0)
+			wbcg->standard_toolbar = box;
+		else if (name && strcmp (name, "FormatToolbar") == 0)
+			wbcg->format_toolbar = box;
+		else if (name && strcmp (name, "ObjectToolbar") == 0)
+			wbcg->object_toolbar = box;
 	} else
 		gtk_box_pack_start (GTK_BOX (gtk->menu_zone), w, FALSE, TRUE, 0);
 	gtk_widget_show_all (w);

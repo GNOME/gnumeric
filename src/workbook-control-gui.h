@@ -32,6 +32,12 @@ void       wbcg_autosave_set      (WorkbookControlGUI *wbcg,
 				   int minutes, gboolean prompt);
 void	   wbcg_set_status_text	  (WorkbookControlGUI *wbcg,
 				   char const *text);
+int	   wbcg_set_standard_toolbar_visible (WorkbookControlGUI *wbcg,
+					      int visible);
+int	   wbcg_set_format_toolbar_visible (WorkbookControlGUI *wbcg,
+					    int visible);
+int	   wbcg_set_object_toolbar_visible (WorkbookControlGUI *wbcg,
+					    int visible);
 void       wbcg_toggle_end_mode   (WorkbookControlGUI *wbcg);
 void       wbcg_set_end_mode      (WorkbookControlGUI *wbcg, gboolean flag);
 

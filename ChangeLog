@@ -1,3 +1,15 @@
+2004-04-05  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (cb_add_menus_toolbars): Identify toolbars.
+
+	* src/workbook-control-gui.c (wbcg_set_standard_toolbar_visible,
+	wbcg_set_format_toolbar_visible,
+	wbcg_set_object_toolbar_visible): New functions.
+
+	* src/wbcg-actions.c (cb_view_standard_toolbar,
+	cb_view_format_toolbar, cb_view_object_toolbar): New functions.
+	(var toggle_actions): Hook them up.
+
 2004-04-02  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-file.c (gui_file_open): Use savers' extensions as a

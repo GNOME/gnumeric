@@ -77,6 +77,10 @@
       <menuitem action="ViewNew"/>
       <menuitem action="ViewZoom"/>
       <menuitem action="ViewFreezeThawPanes"/>
+      <separator/>
+      <menuitem action="ViewStandardToolbar"/>
+      <menuitem action="ViewFormatToolbar"/>
+      <menuitem action="ViewObjectToolbar"/>
     </menu>
     <menu name="Insert" action="MenuInsert">
       <menuitem action="InsertCells"/>
