@@ -514,11 +514,7 @@ ScInterVDB (gnum_float cost, gnum_float salvage, gnum_float life,
 
         gnum_float fTerm, fLia;
         gnum_float fRestwert  = cost - salvage;
-        gnum_float fRestwert1 = fRestwert;
         gboolean   bNowLia    = FALSE;
-        gboolean   bFirstFlag = TRUE;
-        gboolean   b2Flag     = TRUE;
-        gnum_float fAbschlag  = 0;
 
         gnum_float fGda;
         int        i;

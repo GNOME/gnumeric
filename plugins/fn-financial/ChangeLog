@@ -1,3 +1,7 @@
+2002-08-07  Morten Welinder  <terra@diku.dk>
+
+	* sc-fin.c (ScInterVDB): Remove a few unused variables.
+
 2002-07-22  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* plugin.xml.in: Set loader type to "Gnumeric_Builtin:module".
