@@ -1,3 +1,9 @@
+2000-06-30  Morten Welinder  <terra@diku.dk>
+
+	* widget-font-selector.c (font_selector_set_points): Remove
+ 	borderline fixed limit.
+	(fs_fill_font_size_list): Ditto.
+
 2000-06-21  Jody Goldberg <jgoldberg@home.com>
 
 	* gtk-combo-stack.c (gtk_combo_stack_destroy) : warning suppression.

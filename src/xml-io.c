@@ -2168,7 +2168,6 @@ xml_read_solver (Sheet *sheet, parse_xml_context_t *ctxt, xmlNodePtr tree,
 		 SolverParameters *param)
 {
 	SolverConstraint *c;
-	static char      buf[256];
 	xmlNodePtr       child;
 	int              col, row;
 	String           *s;

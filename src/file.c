@@ -761,10 +761,10 @@ dialog_query_load_file (Workbook *wb)
 	gtk_grab_add (GTK_WIDGET (fsel));
 	gtk_main ();
 
-	if (accepted){
+	if (accepted) {
 		char *name = gtk_file_selection_get_filename (fsel);
 
-		if (name [strlen (name)-1] == '/')
+		if (*name && name [strlen (name) - 1] == '/')
 			result = NULL;
 		else
 			result = g_strdup (name);

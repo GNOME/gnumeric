@@ -1,5 +1,7 @@
 2000-06-30  Morten Welinder  <terra@diku.dk>
 
+	* src/file.c (dialog_query_load_file): Guard against empty entry.
+
 	* src/parse-util.c (parse_cell_name_list): Plug leak.
 
 	* src/solver-lp.c (write_constraint_str): Return an allocated

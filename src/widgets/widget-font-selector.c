@@ -211,9 +211,9 @@ fs_fill_font_size_list (FontSelector *fs)
 	int i;
 	
 	for (i = 0; gnumeric_point_sizes [i] != 0; i++) {
-		char buffer [10];
+		char buffer [4 * sizeof (int)];
 		char *array [1];
-		
+
 		sprintf (buffer, "%d", gnumeric_point_sizes [i]);
 		array [0] = buffer;
 		gtk_clist_append (GTK_CLIST (fs->font_size_list), array);
@@ -386,11 +386,10 @@ font_selector_set_points (FontSelector *fs,
 	}
 
 	if (gnumeric_point_sizes [i] == 0) {
-		char buffer [20];
-
-		sprintf (buffer, "%g", point_size);
-		
+		char *buffer;
+		buffer = g_strdup_printf ("%g", point_size);
 		gtk_entry_set_text (GTK_ENTRY (fs->font_size_entry), buffer);
+		g_free (buffer);
 	}
 }
 
