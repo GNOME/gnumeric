@@ -39,10 +39,24 @@ StyleFormat *parse_text_value_or_expr (EvalPos const *pos,
 /* Is this string potentially the start of an expression */
 char const * gnumeric_char_start_expr_p (char const * c);
 
+typedef enum {
+	PERR_NONE,
+	PERR_MISSING_PAREN_OPEN,
+	PERR_MISSING_PAREN_CLOSE,
+	PERR_MISSING_CLOSING_QUOTE,
+	PERR_INVALID_EXPRESSION,
+	PERR_INVALID_ARRAY_SEPARATOR,
+	PERR_UNKNOWN_SHEET,
+	PERR_UNKNOWN_EXPRESSION,
+	PERR_UNEXPECTED_TOKEN,
+	PERR_OUT_OF_RANGE,
+} ParseErrorID;
+
 /* In parser.y  */
 typedef struct {
-	char *message;
-	int begin_char, end_char;
+	ParseErrorID  id;
+	char         *message;
+	int           begin_char, end_char;
 } ParseError;
 ParseError *parse_error_init (ParseError *pe);
 void        parse_error_free (ParseError *pe);

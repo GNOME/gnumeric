@@ -3,8 +3,11 @@ Gnumeric 0.68
 Almer:
 	* Fix backspace key.
 	* Fix autosave dialog.
+	* Fix scrollbars.
 	* Shine-up string functions.
 	* Fix STF for CRLF terminated files.
+	* Add csv default importing + probing.
+	* Improve font preview in cell format dialog.
 
 Jody:
 	* Even more missing files.

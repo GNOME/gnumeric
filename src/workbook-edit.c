@@ -165,41 +165,68 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 
 		if (expr_txt != NULL) {
 			ParsePos    pp;
-			ParseError  perr;
+			ParseError  perr, perr_paren;
 			ExprTree   *tree;
+			char       *real_txt = NULL;
+			char const *real_expr_txt = NULL;
 
-			parse_pos_init (&pp, wb_control_workbook (wbc), sheet,
-					sheet->edit_pos.col, sheet->edit_pos.row);
-			parse_error_init (&perr);
+			while (TRUE) {
+				parse_pos_init (&pp, wb_control_workbook (wbc), sheet,
+						sheet->edit_pos.col, sheet->edit_pos.row);
+				parse_error_init (&perr);
 
-			tree = gnumeric_expr_parser (expr_txt, &pp, TRUE, FALSE, NULL, &perr);
+				tree = gnumeric_expr_parser (real_expr_txt ? real_expr_txt : expr_txt,
+							     &pp, TRUE, FALSE, NULL, &perr);
 
-			if (!tree) {
-				/*
-				 *If begin and end char are zero we'll simply
-				 * put the cursor at the end, otherwise we
-				 * select the region indicated.
-				 */
-				if (perr.begin_char == 0 && perr.end_char == 0)
-					gtk_editable_set_position (
+				if (!tree) {
+					/*
+					 * Try adding a single extra paren and see if it helps,
+					 * if an error still occurs we swap back the original
+					 * (closing paren) error and display that
+					 */
+					if (real_txt == NULL && perr.id == PERR_MISSING_PAREN_CLOSE) {
+						real_txt = g_strconcat (txt, ")", NULL);
+						real_expr_txt = gnumeric_char_start_expr_p (real_txt);
+						perr_paren = perr;
+						continue;
+					} else if (real_txt != NULL) {
+						parse_error_free (&perr);
+						perr = perr_paren;
+					}
+
+					/*
+					 * If begin and end char are zero we'll simply
+					 * put the cursor at the end, otherwise we
+					 * select the region indicated.
+					 */
+					if (perr.begin_char == 0 && perr.end_char == 0)
+						gtk_editable_set_position (
 						GTK_EDITABLE (wbcg_get_entry (wbcg)), -1);
-				else
-					gtk_entry_select_region (
-						GTK_ENTRY (wbcg_get_entry (wbcg)),
-						perr.begin_char, perr.end_char);
+					else
+						gtk_entry_select_region (
+							GTK_ENTRY (wbcg_get_entry (wbcg)),
+							perr.begin_char, perr.end_char);
 
-				gnome_error_dialog_parented (perr.message, wbcg->toplevel);
-				parse_error_free (&perr);
+					gnome_error_dialog_parented (perr.message, wbcg->toplevel);
 
-				gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel),
-						      GTK_WIDGET (wbcg_get_entry (wbcg)));
+					if (real_txt)
+						g_free (real_txt);
+					parse_error_free (&perr);
 
-				return FALSE;
-			} else {
-				cmd_set_text (wbc, sheet, &sheet->edit_pos, txt);
-				expr_tree_unref (tree);
+					gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel),
+							      GTK_WIDGET (wbcg_get_entry (wbcg)));
+					return FALSE;
+				} else {
+					cmd_set_text (wbc, sheet, &sheet->edit_pos, real_txt ? real_txt : txt);
+					expr_tree_unref (tree);
+					if (real_txt)
+						parse_error_free (&perr_paren);
+					break;
+				}
 			}
 
+			if (real_txt)
+				g_free (real_txt);
 			parse_error_free (&perr);
 		} else
 			/* Store the old value for undo */

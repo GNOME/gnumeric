@@ -329,10 +329,11 @@ parse_string_as_value_or_name (ExprTree *str)
 }
 
 static int
-gnumeric_parse_error (ParserState *state, char *message, int end, int relative_begin)
+gnumeric_parse_error (ParserState *state, ParseErrorID id, char *message, int end, int relative_begin)
 {
 	g_return_val_if_fail (state->error != NULL, ERROR);
 
+	state->error->id         = id;
 	state->error->message    = message;
 	state->error->begin_char = (end - relative_begin);
 	state->error->end_char   = end;
@@ -437,7 +438,8 @@ exp:	  CONSTANT 	{ $$ = $1; }
 		expr_name = expr_name_lookup (&pos, name);
 		if (expr_name == NULL) {
 			int retval = gnumeric_parse_error (
-				state, g_strdup_printf (_("Expression '%s' does not exist on sheet '%s'"), name, $1->name_quoted),
+				state, PERR_UNKNOWN_EXPRESSION,
+				g_strdup_printf (_("Expression '%s' does not exist on sheet '%s'"), name, $1->name_quoted),
 				state->expr_text - state->expr_backup + 1, strlen (name));
 
 			unregister_allocation ($2); expr_tree_unref ($2);
@@ -457,7 +459,8 @@ sheetref: string_opt_quote SHEET_SEP {
 		Sheet *sheet = sheet_lookup_by_name (state->pos->wb, name);
 		if (sheet == NULL) {
 			int retval = gnumeric_parse_error (
-				state, g_strdup_printf (_("Unknown sheet '%s'"), name),
+				state, PERR_UNKNOWN_SHEET,
+				g_strdup_printf (_("Unknown sheet '%s'"), name),
 				state->expr_text - state->expr_backup, strlen (name));
 
 			unregister_allocation ($1); expr_tree_unref ($1);
@@ -487,7 +490,8 @@ sheetref: string_opt_quote SHEET_SEP {
 		unregister_allocation ($2); expr_tree_unref ($2);
 		if (sheet == NULL) {
 			int retval = gnumeric_parse_error (
-				state, g_strdup_printf (_("Unknown sheet '%s'"), sheetname),
+				state, PERR_UNKNOWN_SHEET,
+				g_strdup_printf (_("Unknown sheet '%s'"), sheetname),
 				state->expr_text - state->expr_backup, strlen (sheetname));
 
 			unregister_allocation ($4); expr_tree_unref ($4);
@@ -579,7 +583,8 @@ array_row: array_exp {
 			register_expr_list_allocation ($$);
 		} else {
 			return gnumeric_parse_error (
-				state, g_strdup_printf (_("The character %c can not be used to separate array elements"),
+				state, PERR_INVALID_ARRAY_SEPARATOR,
+				g_strdup_printf (_("The character %c can not be used to separate array elements"),
 				state->array_col_separator), state->expr_text - state->expr_backup + 1, 1);
 		}
 	}
@@ -592,7 +597,8 @@ array_row: array_exp {
 		} else {
 			/* FIXME: Is this the right error to display? */
 			return gnumeric_parse_error (
-				state, g_strdup_printf (_("The character %c can not be used to separate array elements"),
+				state, PERR_INVALID_ARRAY_SEPARATOR,
+				g_strdup_printf (_("The character %c can not be used to separate array elements"),
 				state->array_col_separator), state->expr_text - state->expr_backup + 1, 1);
 		}
 	}
@@ -678,7 +684,6 @@ find_matching_close (char const *str, char const **res)
 	return str;
 }
 
-
 int
 yylex (void)
 {
@@ -741,7 +746,8 @@ yylex (void)
 				} else {
 					if (tolower (c) != 'e') {
 						gnumeric_parse_error (
-							state, g_strdup (_("The number is out of range")),
+							state, PERR_OUT_OF_RANGE,
+							g_strdup (_("The number is out of range")),
 							state->expr_text - state->expr_backup, end - start);
 						return INVALID_TOKEN;
 					} else {
@@ -752,7 +758,8 @@ yylex (void)
 						 * at the end.
 						 */
 						gnumeric_parse_error (
-							state, g_strdup (_("The number is out of range")),
+							state, PERR_OUT_OF_RANGE,
+							g_strdup (_("The number is out of range")),
 							0, 0);
 						return INVALID_TOKEN;
 					}
@@ -779,7 +786,8 @@ yylex (void)
 				} else {
 					if (l == LONG_MIN || l == LONG_MAX) {
 						gnumeric_parse_error (
-							state, g_strdup (_("The number is out of range")),
+							state, PERR_OUT_OF_RANGE,
+							g_strdup (_("The number is out of range")),
 							state->expr_text - state->expr_backup, end - start);
 						return INVALID_TOKEN;
 					}
@@ -808,7 +816,8 @@ yylex (void)
  		state->expr_text = find_char (state->expr_text, quotes_end);
 		if (!*state->expr_text) {
   			gnumeric_parse_error (
-  				state, g_strdup (_("Could not find matching closing quote")),
+  				state, PERR_MISSING_CLOSING_QUOTE,
+				g_strdup (_("Could not find matching closing quote")),
   				(p - state->expr_backup) + 1, 1);
 			return INVALID_TOKEN;
 		}
@@ -907,7 +916,7 @@ gnumeric_expr_parser (char const *expr_text, ParsePos const *pos,
 		*pstate.desired_format = NULL;
 
 	pstate.error = error;
-
+	
 	if (deallocate_stack == NULL)
 		deallocate_init ();
 
@@ -954,20 +963,20 @@ gnumeric_expr_parser (char const *expr_text, ParsePos const *pos,
 				char const *last = find_matching_close (str, &res);
 
 				if (*last)
-					gnumeric_parse_error (&pstate,
+					gnumeric_parse_error (&pstate, PERR_MISSING_PAREN_OPEN,
 						g_strdup (_("Could not find matching opening parenthesis")),
 						(last - str) + 2, 1);
 				else if (res != NULL)
-					gnumeric_parse_error (&pstate,
+					gnumeric_parse_error (&pstate, PERR_MISSING_PAREN_CLOSE,
 						g_strdup (_("Could not find matching closing parenthesis")),
 						(res - str) + 2, 1);
 				else
-					gnumeric_parse_error (&pstate,
+					gnumeric_parse_error (&pstate, PERR_INVALID_EXPRESSION,
 						g_strdup (_("Invalid expression")),
 						(pstate.expr_text - pstate.expr_backup) + 1,
 						(pstate.expr_text - pstate.expr_backup));
 			} else
-				gnumeric_parse_error (&pstate,
+				gnumeric_parse_error (&pstate, PERR_UNEXPECTED_TOKEN,
 					g_strdup_printf (_("Unexpected token %c"), *last_token),
 					(last_token - pstate.expr_backup) + 1, 1);
 		}

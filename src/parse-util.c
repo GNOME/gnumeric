@@ -616,6 +616,7 @@ parse_text_value_or_expr (EvalPos const *pos, char const *text,
 ParseError *
 parse_error_init (ParseError *pe)
 {
+	pe->id         = PERR_NONE;
 	pe->message    = NULL;
 	pe->begin_char = -1;
 	pe->end_char   = -1;

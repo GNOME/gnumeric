@@ -1,3 +1,20 @@
+2001-07-11  Almer S. Tigelaar  <almer@gnome.org>
+	
+	* src/parser.y : Add error ID's.
+	(gnumeric_parse_error): Accept ID and set ID on error struct.
+
+	* src/parse-util.[ch]
+	(parse_error_init): Initialize the error id.
+
+	* src/workbook-edit.c (wbcg_edit_finish): When there's a missing
+	closing paren, try appending one and see if it helps.
+
+	* src/stf-parse.c (stf_preparse): New, default preparsing of a file.
+	(stf_read_workbook): Use stf_preparse.
+	(stf_read_default_probe): Prober for reading.
+	(stf_read_workbook_csv_default): New, read a csv file in default formatting.
+	(stf_init): Register stf_read_workbook_csv_default.
+
 2001-07-10  Lutz Müller <urc8@rz.uni-karlsruhe.de>
 
 	* src/workbook-control-gui.c: Add a menu item "Send" to the file menu.
