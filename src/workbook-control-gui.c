@@ -992,8 +992,11 @@ static void
 wbcg_error_splits_array (CommandContext *context,
 			 char const *cmd, Range const *array)
 {
-#warning add range to message
-	gnumeric_error_invalid (context, cmd, _("Would split an array."));
+	char *message;
+
+	message = g_strdup_printf (_("Would split array %s"), range_name (array));
+	gnumeric_error_invalid (context, cmd, message);
+	g_free (message);
 }
 
 static char const * const preset_zoom [] = {
