@@ -30,6 +30,7 @@
 #include "format.h"
 #include <glib.h>
 #include <libgnome/lib_date.h>
+#include <locale.h>
 
 /* Points to the locale information for number display */
 static struct lconv *lc;
