@@ -1,3 +1,9 @@
+2002-01-07  Jody Goldberg <jody@gnome.org>
+
+	* lotus.c (attach_sheet) : Explicitly request a full respan for the
+	update after we load.  I had been relying on there being a col/row or
+	default col/row sizing to force it.
+
 2002-01-06  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.0.1

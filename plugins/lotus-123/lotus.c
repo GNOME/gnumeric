@@ -190,6 +190,12 @@ attach_sheet (Workbook *wb, int idx)
 	sheet_name = g_strdup_printf (_("Sheet%d"), idx);
 	sheet = sheet_new (wb, sheet_name);
 	g_free (sheet_name);
+
+	/* in case nothing forces a spanning, do it here so that any new content
+	 * will get spanned.
+	 */
+	sheet_flag_recompute_spans (sheet);
+
 	workbook_sheet_attach (wb, sheet, NULL);
 
 	return sheet;
