@@ -22,6 +22,7 @@ Release Critical
 - load/save of external references
 - String functions need to be UTF8ed: CHAR, CODE, SUBSTITUTE, SEARCH.
 - function_category_compare needs to be made UTF8 safe.
+- Auto-correct needs a lot of UTF8 love.
 - http://bugzilla.gnome.org/show_bug.cgi?id=83390 [drawing problem with large
   formulae]
 - http://bugzilla.gnome.org/show_bug.cgi?id=83363 [gross performance problems
