@@ -1,3 +1,7 @@
+2004-07-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.1
+
 2004-07-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* analysis-tools.c (cb_inputexpr_free): new

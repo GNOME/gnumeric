@@ -1,5 +1,17 @@
 2004-07-19  Jody Goldberg <jody@gnome.org>
 
+	* Release 1.3.1
+
+2004-07-19  Jody Goldberg <jody@gnome.org>
+
+	* src/ssconvert.c (main) : some typos
+
+2004-07-17  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : Add a test for signgam
+
+2004-07-19  Jody Goldberg <jody@gnome.org>
+
 	* src/wbcg-actions.c (wbcg_set_selection_halign) :  Make public
 	  somewhat.
 	(wbcg_set_selection_valign) : ditto.

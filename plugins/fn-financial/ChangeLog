@@ -1,3 +1,7 @@
+2004-07-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.1
+
 2004-04-12  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (calculate_fvifa, calculate_pvif,

@@ -1,3 +1,7 @@
+2004-07-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.1
+
 2004-05-28  Jody Goldberg <jody@gnome.org>
 
 	* functions.c : ceil is gnumeric spefic, ceiling is what's in XL.

@@ -48,7 +48,9 @@
 #include <sheet-style.h>
 #include <number-match.h>
 
+#ifdef HAVE_UNAME
 #include <sys/utsname.h>
+#endif
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
@@ -1297,6 +1299,7 @@ gnumeric_info (FunctionEvalInfo *ei, GnmValue **argv)
 		 * window, based on the current scrolling position.
 		 */
 		return value_new_error (ei->pos, _("Unimplemented"));
+#ifdef HAVE_UNAME
 	} else if (!g_ascii_strcasecmp (info_type, "osversion")) {
 		/* Current operating system version, as text.  */
 		struct utsname unamedata;
@@ -1310,12 +1313,19 @@ gnumeric_info (FunctionEvalInfo *ei, GnmValue **argv)
 						     unamedata.release);
 			return value_new_string_nocopy (tmp);
 		}
+#else
+#ifdef G_OS_WIN32
+	} else if (!g_ascii_strcasecmp (info_type, "osversion")) {
+		return value_new_string ("Windows (32-bit) NT 5.01");	/* fake XP */
+#endif
+#endif
 	} else if (!g_ascii_strcasecmp (info_type, "recalc")) {
 		/* Current recalculation mode; returns "Automatic" or "Manual".  */
 		return value_new_string (_("Automatic"));
 	} else if (!g_ascii_strcasecmp (info_type, "release")) {
 		/* Version of Gnumeric (Well, Microsoft Excel), as text.  */
 		return value_new_string (GNUMERIC_VERSION);
+#ifdef HAVE_UNAME
 	} else if (!g_ascii_strcasecmp (info_type, "system")) {
 		/* Name of the operating environment.  */
 		struct utsname unamedata;
@@ -1324,6 +1334,12 @@ gnumeric_info (FunctionEvalInfo *ei, GnmValue **argv)
 			return value_new_error (ei->pos, _("Unknown system"));
 		else
 			return value_new_string (unamedata.sysname);
+#else
+#ifdef G_OS_WIN32
+	} else if (!g_ascii_strcasecmp (info_type, "system")) {
+		return value_new_string ("pcdos");	/* seems constant */
+#endif
+#endif
 	} else if (!g_ascii_strcasecmp (info_type, "totmem")) {
 		/* Total memory available, including memory already in use, in
 		 * bytes.

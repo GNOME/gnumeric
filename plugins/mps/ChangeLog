@@ -1,3 +1,7 @@
+2004-07-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.1
+
 2004-07-16  Jody Goldberg <jody@gnome.org>
 
 	* mps.c : strip unnecessary unportable includes

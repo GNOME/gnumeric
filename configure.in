@@ -396,6 +396,13 @@ AC_CHECK_HEADERS(langinfo.h)
 dnl iswprint/iswspace are sometimes in wctype.h
 AC_CHECK_HEADERS(wctype.h)
 
+AC_CHECK_DECL(signgam,
+	[AC_DEFINE(HAVE_SIGNGAM, 1,
+		[Define if signgam component of gammal is available])],
+	[], [
+	#include "math.h"
+	])
+
 AC_C_LONG_DOUBLE
 float_msg=double
 have_ld=no

@@ -1,3 +1,7 @@
+2004-07-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.1
+
 2004-06-23  Jean Brefort  <jean.brefort@ac-dijon.fr>
 
 	* plugins/fn-string/functions.c: (gnumeric_search): replaced gnumeric_reg* by go_reg*
