@@ -1,3 +1,20 @@
+1999-08-02  Morten Welinder  <terra@diku.dk>
+
+	* src/expr.c (eval_expr_real): Handle integer operations more
+ 	carefully with respect to overflow.
+
+	* src/cell.c (cell_cleanout): Don't unlink unless there is a sheet
+ 	to unlink from.
+
+	* src/collect.c (float_range_function2): Actually call the right
+ 	function.
+	(collect_floats_value): Fix type of result.
+
+	* src/mathfunc.c (range_rsq_pop, range_rsq_est): New functions.
+
+	* src/fn-stat.c (gnumeric_pearson): Simplify.
+	(gnumeric_rsq): Simplify.
+
 1999-08-02  Jody Goldberg <jgoldberg@home.com>
 
 	* src/fn-information.c (gnumeric_n) : Fix boolean support.
@@ -5,11 +22,18 @@
 	* src/corba-sheet.c: Correct previous typo.
 
 1999-08-02  Elliot Lee <sopwith@redhat.com>
-	* gnumeric.spec.in: Fix the .spec file to include correct documentation pieces.
+
+	* gnumeric.spec.in: Fix the .spec file to include correct
+ 	documentation pieces.
+
 	* doc/C/Makefile.am: Work with builddir != srcdir
+
 	* plugins/lotus-123/Makefile.am: boot.h not needed. lotus-types.h is.
+
 	* plugins/xbase/Makefile.am: boot.h not needed.
+
 	* po/Makefile.in.in: v3
+
 	* src/corba-sheet.c: Use a compilable thing for error string.
 
 1999-08-02  Morten Welinder  <terra@diku.dk>

@@ -906,47 +906,61 @@ eval_expr_real (FunctionEvalInfo *s, ExprTree const *tree)
 		if (a->type != VALUE_FLOAT && b->type != VALUE_FLOAT){
 			int ia = value_get_as_int (a);
 			int ib = value_get_as_int (b);
+			double dres;
+			int ires;
+
 			value_release (a);
 			value_release (b);
 
+			/* FIXME: we could use simple (cheap) heuristics to
+			   catch most cases where overflow will not happen.  */
 			switch (tree->oper){
+			case OPER_ADD:
+				dres = (double)ia + (double)ib;
+				ires = (int)dres;
+				if (dres == ires)
+					return value_new_int (ires);
+				else
+					return value_new_float ((float_t) dres);
+
 			case OPER_SUB:
-			case OPER_ADD: {
-				int sum;
-
-				if (tree->oper == OPER_SUB)
-					ib = -ib;
-
-				sum = ia + ib;
-
-				if ((ia > 0) && (ib > 0)){
-					return (sum < ia)
-					    ? value_new_float((double)ia + ib)
-					    : value_new_int(sum);
-				} else if ((ia < 0) && (ib < 0)){
-					return (sum > ia)
-					    ? value_new_float((double)ia + ib)
-					    : value_new_int(sum);
-				}
-				return value_new_int(sum);
-			}
+				dres = (double)ia - (double)ib;
+				ires = (int)dres;
+				if (dres == ires)
+					return value_new_int (ires);
+				else
+					return value_new_float ((float_t) dres);
 
 			case OPER_MULT:
-			        return value_new_int(ia * ib);
+				dres = (double)ia * (double)ib;
+				ires = (int)dres;
+				if (dres == ires)
+					return value_new_int (ires);
+				else
+					return value_new_float ((float_t) dres);
 
 			case OPER_DIV:
-				return (ib == 0)
-				    ?  value_new_error (&s->pos,
-							gnumeric_err_DIV0)
-				    : value_new_float(ia / (float_t)ib);
+				if (ib == 0)
+					return value_new_error (&s->pos, gnumeric_err_DIV0);
+				dres = (double)ia / (double)ib;
+				ires = (int)dres;
+				if (dres == ires)
+					return value_new_int (ires);
+				else
+					return value_new_float ((float_t) dres);
 
 			case OPER_EXP:
-				if (ia == 0)
-					return value_new_error (&s->pos,
-								gnumeric_err_NUM);
-				return value_new_int(pow (ia, ib));
+				if (ia == 0 && ib < 0)
+					return value_new_error (&s->pos, gnumeric_err_NUM);
+				dres = pow ((double)ia, (double)ib);
+				ires = (int)dres;
+				if (dres == ires)
+					return value_new_int (ires);
+				else
+					return value_new_float ((float_t) dres);
+
 			default:
-				break;
+				abort ();
 			}
 		} else {
 			float_t const va = value_get_as_float(a);

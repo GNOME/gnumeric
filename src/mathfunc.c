@@ -428,6 +428,27 @@ range_correl_est (const float_t *xs, const float_t *ys, int n, float_t *res)
 	return 0;
 }
 
+int
+range_rsq_pop (const float_t *xs, const float_t *ys, int n, float_t *res)
+{
+	if (range_correl_pop (xs, ys, n, res))
+		return 1;
+
+	*res *= *res;
+	return 0;
+}
+
+
+int
+range_rsq_est (const float_t *xs, const float_t *ys, int n, float_t *res)
+{
+	if (range_correl_est (xs, ys, n, res))
+		return 1;
+
+	*res *= *res;
+	return 0;
+}
+
 
 
 double

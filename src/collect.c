@@ -132,7 +132,7 @@ collect_floats_value (Value *val, const EvalPosition *ep, CollectFlags flags,
 {
 	GList *exprlist;
 	ExprTree *expr_val;
-	Value *res;
+	float_t *res;
 
 	expr_val = expr_tree_new_constant (value_duplicate (val));
 	exprlist = g_list_prepend (NULL, expr_val);
@@ -195,7 +195,7 @@ float_range_function2 (Value *val0, Value *val1, FunctionEvalInfo *ei,
 	else {
 		float_t fres;
 
-		if (range_correl_pop (vals0, vals1, n0, &fres))
+		if (func (vals0, vals1, n0, &fres))
 			res = value_new_error (&ei->pos, func_error);
 		else
 			res = value_new_float (fres);

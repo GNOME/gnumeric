@@ -52,7 +52,9 @@ static void
 cell_cleanout (Cell *cell)
 {
 	if (cell->parsed_node){
-		sheet_cell_formula_unlink (cell);
+		/* Clipboard cells, e.g., are not attached to a sheet.  */
+		if (cell->sheet)
+			sheet_cell_formula_unlink (cell);
 		expr_tree_unref (cell->parsed_node);
 		cell->parsed_node = NULL;
 	}

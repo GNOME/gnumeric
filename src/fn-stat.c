@@ -339,42 +339,6 @@ static char *help_correl = {
 	   "@SEEALSO=COVAR,FISHER,FISHERINV")
 };
 
-typedef struct {
-	guint32 num;
-	int     count;
-        GSList  *array1;
-        GSList  *array2;
-        float_t sum1;
-        float_t sum2;
-        float_t sqrsum1;
-        float_t sqrsum2;
-} stat_correl_t;
-
-static Value *
-callback_function_correl (const EvalPosition *ep, Value *value, void *closure)
-{
-	stat_correl_t *mm = closure;
-	float_t x, *p;
-
-	if (!VALUE_IS_NUMBER (value))
-		return NULL;
-
-	p = g_new (float_t, 1);
-	*p = x = value_get_as_float (value);
-
-	if (mm->num < mm->count){
-		mm->array1 = g_slist_append (mm->array1, p);
-		mm->sum1 += x;
-		mm->sqrsum1 += x * x;
-	} else {
-		mm->array2 = g_slist_append (mm->array2, p);
-		mm->sum2 += x;
-		mm->sqrsum2 += x * x;
-	}
-	mm->num++;
-	return NULL;
-}
-
 static Value *
 gnumeric_correl (FunctionEvalInfo *ei, Value **argv)
 {
@@ -1907,64 +1871,11 @@ static char *help_pearson = {
 };
 
 static Value *
-gnumeric_pearson (FunctionEvalInfo *ei, GList *expr_node_list)
+gnumeric_pearson (FunctionEvalInfo *ei, Value **argv)
 {
-	stat_correl_t pr;
-	float_t sum;
-	int     count;
-	GSList  *list1, *list2;
-	Value *vtmp;
-
-	vtmp = gnumeric_count (ei, expr_node_list);
-			       
-	if (!vtmp)
-		return NULL;
-	count = value_get_as_int (vtmp);
-	value_release (vtmp);
-
-	if (count % 2 > 0)
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
-
-	pr.count   = count / 2;
-	pr.num     = 0;
-	pr.sum1    = 0.0;
-	pr.sum2    = 0.0;
-	pr.sqrsum1 = 0.0;
-	pr.sqrsum2 = 0.0;
-	pr.array1  = NULL;
-	pr.array2  = NULL;
-
-	/* FIXME what about blanks ? */
-	function_iterate_argument_values (&ei->pos, callback_function_correl,
-					  &pr, expr_node_list, TRUE);
-					  
-	list1 = pr.array1;
-	list2 = pr.array2;
-	sum = 0.0;
-
-	while (list1 != NULL && list2 != NULL){
-	        float_t *x, *y;
-		x = list1->data;
-		y = list2->data;
-	        sum += *x * *y;
-		g_free(x);
-		g_free(y);
-		list1 = list1->next;
-		list2 = list2->next;
-	}
-
-	g_slist_free(pr.array1);
-	g_slist_free(pr.array2);
-
-#if 0
-	if (error_message_is_set (ei->error))
-		return NULL;
-#endif
-
-	return value_new_float (((pr.count*sum - pr.sum1*pr.sum2)) /
-				sqrt((pr.count*pr.sqrsum1 - pr.sum1*pr.sum1) *
-				     (pr.count*pr.sqrsum2 - pr.sum2*pr.sum2)));
+	return gnumeric_correl (ei, argv);
 }
+
 
 static char *help_rsq = {
 	N_("@FUNCTION=RSQ\n"
@@ -1981,67 +1892,15 @@ static char *help_rsq = {
 };
 
 static Value *
-gnumeric_rsq (FunctionEvalInfo *ei, GList *expr_node_list)
+gnumeric_rsq (FunctionEvalInfo *ei, Value **argv)
 {
-	stat_correl_t pr;
-	float_t sum, r;
-	int     count;
-	GSList  *list1, *list2;
-	Value *vtmp;
-
-	vtmp = gnumeric_count (ei, expr_node_list);
-			       
-	if (!vtmp)
-		return NULL;
-	count = value_get_as_int (vtmp);
-	value_release (vtmp);
-
-	if (count % 2 > 0)
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
-
-	/* FIXME: what about count == 0?  */
-
-	pr.count   = count / 2;
-	pr.num     = 0;
-	pr.sum1    = 0.0;
-	pr.sum2    = 0.0;
-	pr.sqrsum1 = 0.0;
-	pr.sqrsum2 = 0.0;
-	pr.array1  = NULL;
-	pr.array2  = NULL;
-
-	/* FIXME what about blanks ? */
-	function_iterate_argument_values (&ei->pos, callback_function_correl,
-					  &pr, expr_node_list, TRUE);
-					  
-	list1 = pr.array1;
-	list2 = pr.array2;
-	sum = 0.0;
-
-	while (list1 != NULL && list2 != NULL){
-	        float_t *x, *y;
-		x = list1->data;
-		y = list2->data;
-	        sum += *x * *y;
-		g_free(x);
-		g_free(y);
-		list1 = list1->next;
-		list2 = list2->next;
-	}
-
-	g_slist_free(pr.array1);
-	g_slist_free(pr.array2);
-
-#if 0
-	if (error_message_is_set (ei->error))
-		return NULL;
-#endif
-
-	r = (((pr.count*sum - pr.sum1*pr.sum2)) /
-	     sqrt((pr.count*pr.sqrsum1 - pr.sum1*pr.sum1) *
-		  (pr.count*pr.sqrsum2 - pr.sum2*pr.sum2)));
-	return value_new_float (r * r);
+	return float_range_function2 (argv[0], argv[1],
+				      ei,
+				      range_rsq_pop,
+				      COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				      gnumeric_err_VALUE);
 }
+
 
 static char *help_median = {
        N_("@FUNCTION=MEDIAN\n"
@@ -3612,13 +3471,13 @@ void stat_functions_init()
 			    gnumeric_normsinv);
 	function_add_args  (cat, "percentrank", "Af|f", "array,x,significance",
 			    &help_percentrank,   gnumeric_percentrank);
-	function_add_nodes (cat, "pearson",   0,      "",          &help_pearson,
+        function_add_args  (cat, "pearson",     "AA",   "array1,array2",  &help_pearson,
 			    gnumeric_pearson);
 	function_add_args  (cat, "prob", "AAf|f", "x_range,prob_range,lower_limit,upper_limit",
 			    &help_prob,   gnumeric_prob);
 	function_add_args  (cat, "rank", "fr|f",      "",          &help_rank,
 			    gnumeric_rank);
-	function_add_nodes (cat, "rsq",       0,      "",          &help_rsq,
+        function_add_args  (cat, "rsq",         "AA",   "array1,array2",  &help_rsq,
 			    gnumeric_rsq);
 	function_add_nodes (cat, "skew",      0,      "",          &help_skew,
 			    gnumeric_skew);
