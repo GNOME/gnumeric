@@ -105,17 +105,21 @@ sheet_object_destroy (GtkObject *object)
 	SheetObject *so = SHEET_OBJECT (object);
 
 	g_return_if_fail (so != NULL);
-	g_return_if_fail (IS_SHEET (so->sheet));
 
 	sheet_object_unrealize (so);
 
-	/* If the object has already been inserted then mark sheet as dirty */
-	if (NULL != g_list_find	(so->sheet->sheet_objects, so)) {
-		so->sheet->sheet_objects  = g_list_remove (so->sheet->sheet_objects, so);
-		so->sheet->modified = TRUE;
-	}
+	if (so->sheet != NULL) {
+		g_return_if_fail (IS_SHEET (so->sheet));
 
-	so->sheet = NULL;
+		/* If the object has already been inserted then mark sheet as dirty */
+		if (NULL != g_list_find	(so->sheet->sheet_objects, so)) {
+			so->sheet->sheet_objects =
+				g_list_remove (so->sheet->sheet_objects, so);
+			so->sheet->modified = TRUE;
+		}
+
+		so->sheet = NULL;
+	}
 	(*sheet_object_parent_class->destroy)(object);
 }
 

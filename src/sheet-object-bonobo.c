@@ -321,8 +321,9 @@ sheet_object_bonobo_construct (SheetObjectBonobo *sob,
 	sob->object_id     = NULL;
 	sob->object_server = NULL;
 	sob->client_site = bonobo_client_site_new (sheet->workbook->priv->bonobo_container);
-	if (object_id != NULL)
-		sheet_object_bonobo_set_object_iid (sob, object_id);
+	if (object_id != NULL &&
+	    !sheet_object_bonobo_set_object_iid (sob, object_id))
+		return NULL;
 
 	return sob;
 }
@@ -335,6 +336,14 @@ sheet_object_bonobo_get_object_iid (SheetObjectBonobo const *sob)
 	return sob->object_id;
 }
 
+/**
+ * sheet_object_bonobo_set_object_iid :
+ *
+ * @sob : The Sheet bonobo object
+ * @object_id : An optional id
+ *
+ * returns TRUE if things succeed.
+ */
 gboolean
 sheet_object_bonobo_set_object_iid (SheetObjectBonobo *sob,
 				    char const *object_id)

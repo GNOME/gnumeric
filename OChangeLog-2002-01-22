@@ -1,3 +1,16 @@
+2000-12-20  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-control-gui.c (insert_bonobo_object) : utility routine
+	  to create objects and to catch errors.
+	(cb_insert_bonobo_object) : used here.
+	(select_component_id) : and here.
+
+	* src/sheet-object-bonobo.c (sheet_object_bonobo_set_object_iid) :
+	  handle object creation failure.
+
+	* src/sheet-object.c (sheet_object_destroy) : Handle the destruction
+	  of objects before they are attached to a sheet.
+
 2000-12-20  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/dialogs/dialog-autoformat.c (cb_get_cell_content): Reverted

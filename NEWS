@@ -3,6 +3,12 @@ Gnumeric 0.62
 Jody:
 	* Finish cursor handling for merged cells.
 
+Jon Kåre:
+	* Improve file save dialog.
+
+Zbigniew Chyla:
+	* Internationalization support for autoformat.
+
 --------------------------------------------------------------------------
 Gnumeric 0.61
 

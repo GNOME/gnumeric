@@ -1354,19 +1354,34 @@ cb_insert_cells (GtkWidget *unused, WorkbookControlGUI *wbcg)
 
 #ifdef ENABLE_BONOBO
 static void
-cb_insert_bonobo_object (GtkWidget *widget, WorkbookControlGUI *wbcg)
+insert_bonobo_object (WorkbookControlGUI *wbcg, char const **interfaces)
 {
 	SheetControlGUI *scg = wb_control_gui_cur_sheet (wbcg);
-	char  *obj_id;
+	char  *obj_id, *msg;
+	SheetObject *so = NULL;
 
-	obj_id = bonobo_selector_select_id (
-		_("Select an object to add"), NULL);
+	obj_id = bonobo_selector_select_id (_("Select an object to add"),
+					    interfaces);
 
-	if (obj_id != NULL)
-		scg_mode_create_object (scg,
-			sheet_object_container_new_object (scg->sheet, obj_id));
-	else
-		scg_mode_edit (scg);
+	if (obj_id != NULL) {
+		so = sheet_object_container_new_object (scg->sheet, obj_id);
+
+		if (so != NULL) {
+			scg_mode_create_object (scg, so);
+			return;
+		}
+		msg = g_strconcat (_("Unable to create object of type \'"),
+				   obj_id, "\'", NULL);
+		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR, msg);
+		g_free (msg);
+	}
+	scg_mode_edit (scg);
+}
+
+static void
+cb_insert_bonobo_object (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	insert_bonobo_object (wbcg, NULL);
 }
 #endif
 
@@ -1625,35 +1640,25 @@ cb_launch_graph_guru (GtkWidget *widget, WorkbookControlGUI *wbcg)
 }
 
 static void
-select_component_id (SheetControlGUI *scg, char const *interface)
+select_component_id (WorkbookControlGUI *wbcg, char const *interface)
 {
-	char *obj_id;
 	char const *required_interfaces [2];
 
 	required_interfaces [0] = interface;
 	required_interfaces [1] = NULL;
-
-	obj_id = bonobo_selector_select_id (_("Select an object to add"),
-					    required_interfaces);
-	if (obj_id != NULL)
-		scg_mode_create_object (scg,
-			sheet_object_container_new_object (scg->sheet, obj_id));
-	else
-		scg_mode_edit (scg);
+	insert_bonobo_object (wbcg, required_interfaces);
 }
 
 static void
 cb_insert_component (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	select_component_id (wb_control_gui_cur_sheet (wbcg),
-			     "IDL:Bonobo/Embeddable:1.0");
+	select_component_id (wbcg, "IDL:Bonobo/Embeddable:1.0");
 }
 
 static void
 cb_insert_shaped_component (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	select_component_id (wb_control_gui_cur_sheet (wbcg),
-			     "IDL:Bonobo/Canvas/Item:1.0");
+	select_component_id (wbcg, "IDL:Bonobo/Canvas/Item:1.0");
 }
 
 static void
