@@ -1249,7 +1249,7 @@ BC_R(objectlink)(XLChartHandler const *handle,
 			g_warning ("Unknown axis type %d", purpose);
 			return FALSE;
 		}
-		axes = gog_chart_get_axis (s->chart, t);
+		axes = gog_chart_get_axes (s->chart, t);
 
 		g_return_val_if_fail (axes != NULL, FALSE);
 
@@ -1813,11 +1813,11 @@ BC_R(valuerange)(XLChartHandler const *handle,
 {
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+40);
 
-	xl_axis_get_elem (s->axis, AXIS_ELEM_MIN,	  "Min Value",		flags&0x01, q->data+ 0);
-	xl_axis_get_elem (s->axis, AXIS_ELEM_MAX,	  "Max Value",		flags&0x02, q->data+ 8);
-	xl_axis_get_elem (s->axis, AXIS_ELEM_MAJOR_TICK,  "Major Increment",	flags&0x04, q->data+16);
-	xl_axis_get_elem (s->axis, AXIS_ELEM_MINOR_TICK,  "Minor Increment",	flags&0x08, q->data+24);
-	xl_axis_get_elem (s->axis, AXIS_ELEM_CROSS_POINT, "Cross over point",	flags&0x10, q->data+32);
+	xl_axis_get_elem (s->axis, GOG_AXIS_ELEM_MIN,	  	"Min Value",		flags&0x01, q->data+ 0);
+	xl_axis_get_elem (s->axis, GOG_AXIS_ELEM_MAX,	  	"Max Value",		flags&0x02, q->data+ 8);
+	xl_axis_get_elem (s->axis, GOG_AXIS_ELEM_MAJOR_TICK,  	"Major Increment",	flags&0x04, q->data+16);
+	xl_axis_get_elem (s->axis, GOG_AXIS_ELEM_MINOR_TICK,  	"Minor Increment",	flags&0x08, q->data+24);
+	xl_axis_get_elem (s->axis, GOG_AXIS_ELEM_CROSS_POINT, 	"Cross over point",	flags&0x10, q->data+32);
 
 	if (flags & 0x20) {
 		g_object_set (s->axis, "map-name", "Log", NULL);
@@ -2011,7 +2011,7 @@ BC_R(end)(XLChartHandler const *handle,
 				GogAxis	*y = gog_plot_get_axis (s->plot, GOG_AXIS_Y);
 				GogStyle *x_style, *y_style;
 				int i;
-				for (i = 0 ; i < AXIS_ELEM_MAX_ENTRY ; i++)
+				for (i = 0 ; i < GOG_AXIS_ELEM_MAX_ENTRY ; i++)
 					xl_axis_swap_elem (x, y, i);
 				g_object_get (G_OBJECT (x), "style", &x_style, NULL);
 				g_object_get (G_OBJECT (y), "style", &y_style, NULL);
@@ -3027,11 +3027,11 @@ chart_write_axis (XLChartWriteState *s, GogAxis const *axis,
 #endif
 		flags |= 0x100; /* UNDOCUMENTED */
 
-		flags |= xl_axis_set_elem (axis, AXIS_ELEM_MIN,	        0x01, data+ 0);
-		flags |= xl_axis_set_elem (axis, AXIS_ELEM_MAX,	        0x02, data+ 8);
-		flags |= xl_axis_set_elem (axis, AXIS_ELEM_MAJOR_TICK,  0x04, data+16);
-		flags |= xl_axis_set_elem (axis, AXIS_ELEM_MINOR_TICK,  0x08, data+24);
-		flags |= xl_axis_set_elem (axis, AXIS_ELEM_CROSS_POINT, 0x10, data+32);
+		flags |= xl_axis_set_elem (axis, GOG_AXIS_ELEM_MIN,	        0x01, data+ 0);
+		flags |= xl_axis_set_elem (axis, GOG_AXIS_ELEM_MAX,	        0x02, data+ 8);
+		flags |= xl_axis_set_elem (axis, GOG_AXIS_ELEM_MAJOR_TICK,  	0x04, data+16);
+		flags |= xl_axis_set_elem (axis, GOG_AXIS_ELEM_MINOR_TICK,  	0x08, data+24);
+		flags |= xl_axis_set_elem (axis, GOG_AXIS_ELEM_CROSS_POINT, 	0x10, data+32);
 		GSF_LE_SET_GUINT16 (data+40, flags);
 		ms_biff_put_commit (s->bp);
 	}
@@ -3248,7 +3248,7 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 
 		chart_write_BEGIN (s);
 		axis_set = sptr->data;
-		switch (gog_chart_axis_set (GOG_CHART (s->chart))) {
+		switch (gog_chart_get_axis_set (GOG_CHART (s->chart))) {
 		default :
 		case GOG_AXIS_SET_UNKNOWN :
 		case GOG_AXIS_SET_NONE :

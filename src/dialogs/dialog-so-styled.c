@@ -101,8 +101,8 @@ dialog_so_styled (WorkbookControlGUI *wbcg,
 		NULL);
 
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
-		gog_style_editor (orig, default_style,
-			GO_CMD_CONTEXT (wbcg), NULL, G_OBJECT (so)),
+		gog_style_get_editor (orig, default_style,
+			GO_CMD_CONTEXT (wbcg), G_OBJECT (so)),
 		TRUE, TRUE, TRUE);
 	g_object_unref (default_style);
 	g_signal_connect (G_OBJECT (dialog), "response",

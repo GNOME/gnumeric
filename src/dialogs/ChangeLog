@@ -1,3 +1,7 @@
+2005-03-13  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* dialog-so-styled (dialog_so_styled): use gog_style_get_editor.
+
 2005-03-06  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* dialog-plugin-manager.c (pm_gui_load_directory_page): add goffice

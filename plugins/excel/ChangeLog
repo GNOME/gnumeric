@@ -1,3 +1,9 @@
+2005-03-13  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* ms-chart.c (BC_R): use gog_chart_get_axes.
+	(chart_write_axis_sets): use gog_chart_get_axis_set.
+	s/AXIS_ELEM/GOG_AXIS_ELEM
+
 2005-03-12  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (excel_read_DV) : Lists also have no use for
