@@ -1,3 +1,10 @@
+gnumeric (1.2.5-2) unstable; urgency=high
+
+  * [debian/rules] Touch up the generated HTML documentation so references and
+    images work. (Closes: #227524)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue, 20 Jan 2004 15:16:48 +0100
+
 gnumeric (1.2.5-1) unstable; urgency=medium
 
   * New upstream release.

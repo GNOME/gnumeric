@@ -99,6 +99,10 @@ build-stamp:
 
 	cd build && $(MAKE)
 	cd doc/C && yelp-pregenerate gnumeric.xml
+	# Touch up the pregenerated HTML so that yelp will know how to
+	# follow references and how to find images.
+	cd doc/C && perl -spi -e 's|"ghelp:gnumeric.xml|"ghelp:gnumeric|g;' \
+			-e 's|<img src="file://./|<img src="|g' gnumeric.html
 
 	touch build-stamp
 
