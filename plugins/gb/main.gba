@@ -25,18 +25,18 @@ Function demo () As String
 
 ' Draw 'Gnu' with the selection
 
-	color (WKS.Range ("C4"), 1, vbBlue)
-	color (WKS.Range ("B5:B8"), 1, vbBlue)
-	color (WKS.Range ("C9"), 1, vbBlue)
-	color (WKS.Range ("D7:D8"), 1, vbBlue)
+	color (WKS.Range ("B4"), 1, vbBlue)
+	color (WKS.Range ("A5:A8"), 1, vbBlue)
+	color (WKS.Range ("B9"), 1, vbBlue)
+	color (WKS.Range ("C7:C8"), 1, vbBlue)
 
-	color (WKS.Range ("F6:F9"), 1, vbGreen)
-	color (WKS.Range ("G6"), 1, vbGreen)
-	color (WKS.Range ("H7:H9"), 1, vbGreen)
+	color (WKS.Range ("E6:E9"), 1, vbGreen)
+	color (WKS.Range ("F6"), 1, vbGreen)
+	color (WKS.Range ("G7:G9"), 1, vbGreen)
 
-	color (WKS.Range ("J6:J9"), 1, vbRed)
-	color (WKS.Range ("K9"), 1, vbRed)
-	color (WKS.Range ("L6:L9"), 1, vbRed)
+	color (WKS.Range ("I6:I9"), 1, vbRed)
+	color (WKS.Range ("J9"), 1, vbRed)
+	color (WKS.Range ("K6:K9"), 1, vbRed)
 
 ' Draw two rows of 'Not Unix'
 
@@ -60,16 +60,16 @@ Function demo () As String
 	col = 0
 
 	With WKS
-		.Range ("B12").Value = "Red"
-		.Range ("C12").Value = "Orange"
-		.Range ("D12").Value = "Green"
-		.Range ("E12").Value = "Blue"
-		.Range ("F12").Value = "Indigo"
-		.Range ("G12").Value = "Violet"
+		.Range ("A12").Value = "Red"
+		.Range ("B12").Value = "Orange"
+		.Range ("C12").Value = "Green"
+		.Range ("D12").Value = "Blue"
+		.Range ("E12").Value = "Indigo"
+		.Range ("F12").Value = "Violet"
 	End With
 
 	For y = 12 To 20
-		For x = 1 To 11
+		For x = 0 To 10
 			r = WKS.Cells (x, y)
 
 			r.Value = rnd ()
@@ -82,6 +82,10 @@ Function demo () As String
 			End If
 		Next x
 	Next y
+
+' Force a nice print area arrangement
+
+	WKS.Range ("K60").Value = "1"
 
 	demo = "Executed"
 End Function
