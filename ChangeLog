@@ -1,3 +1,7 @@
+2002-12-12  Morten Welinder  <terra@diku.dk>
+
+	* src/sheet-filter.c (cb_filter_expr): Fix "and" semantics.
+
 2002-12-11  Jon K Hellan  <hellan@acm.org>
 
 	* src/bonobo-io.c: Remove 10 unnecessary includes.

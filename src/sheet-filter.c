@@ -666,6 +666,8 @@ cb_filter_expr (Sheet *sheet, int col, int row, Cell *cell,
 		gboolean res = filter_expr_eval (data->cond->op[0],
 			data->val[0], data->regexp + 0, cell->value);
 		if (data->cond->op[1] != GNM_FILTER_UNUSED) {
+			if (data->cond->is_and && !res)
+				goto nope;
 			if (res && !data->cond->is_and)
 				return NULL;
 			res = filter_expr_eval (data->cond->op[1],
@@ -675,6 +677,7 @@ cb_filter_expr (Sheet *sheet, int col, int row, Cell *cell,
 			return NULL;
 	}
 
+ nope:
 	colrow_set_visibility (sheet, FALSE, FALSE, row, row);
 	return NULL;
 }
