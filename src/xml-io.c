@@ -3771,6 +3771,7 @@ maybe_convert (GsfInput *input, gboolean quiet)
 	gsf_off_t input_size;
 	GString *buffer;
 	guint ui;
+	GsfInput *old_input = input;
 
 	if (gsf_input_seek (input, 0, G_SEEK_SET))
 		return input;
@@ -3808,12 +3809,30 @@ maybe_convert (GsfInput *input, gboolean quiet)
 		}
 	}
 
-	if (!quiet)
-		g_warning ("Converted xml document with no encoding from pseudo-UTF-8 to UTF-8.");
-	g_object_unref (input);
-	input = GSF_INPUT (gsf_input_memory_new (buffer->str, buffer->len, TRUE));
-	g_string_free (buffer, FALSE);
+	if (g_get_charset (NULL)) {
+		input = GSF_INPUT (gsf_input_memory_new (buffer->str, buffer->len, TRUE));
+		g_string_free (buffer, FALSE);
+		if (!quiet)
+			g_warning ("Converted xml document with no encoding from pseudo-UTF-8 to UTF-8.");
+	} else {
+		gsize bytes_written;
+		char *converted =
+			g_locale_to_utf8 (buffer->str, buffer->len,
+					  NULL, &bytes_written, NULL);
+		g_string_free (buffer, TRUE);
+		if (!converted) {
+			gsf_input_seek (input, 0, G_SEEK_SET);
+			if (!quiet)
+				g_warning ("Failed to convert xml document with no encoding from locale to UTF-8.");
+			return input;
+		}
 
+		input = GSF_INPUT (gsf_input_memory_new (converted, bytes_written, TRUE));
+		if (!quiet)
+			g_warning ("Converted xml document with no encoding from locale to UTF-8.");
+	}
+
+	g_object_unref (old_input);
 	return input;
 }
 
