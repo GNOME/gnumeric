@@ -187,12 +187,9 @@ static GnomeUIInfo preview_edit_menu [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-#if 0
-	/* Shame, zoom in/zoom out is fully broken */
-	/* Text zooms in, but it stays on the same location, very strange */
 	{ GNOME_APP_UI_ITEM, N_("Zoom _in"), N_("Zooms in"), preview_zoom_in_cmd },
 	{ GNOME_APP_UI_ITEM, N_("Zoom _out"), N_("Zooms out"), preview_zoom_out_cmd },
-#endif
+
 	GNOMEUIINFO_END
 };
 

@@ -169,13 +169,14 @@ workbook_read (const char *filename)
 
 	g_return_val_if_fail (filename != NULL, NULL);
 
-	wb = workbook_new ();
 	if (!g_file_exists (filename)){
+		wb = workbook_new_with_sheets (1);
 		workbook_set_filename (wb, filename);
 
 		return wb;
 	}
 
+	wb = workbook_new ();
 	if (!workbook_load_from (wb, filename)){
 		gtk_object_destroy (GTK_OBJECT (wb));
 		wb = NULL;

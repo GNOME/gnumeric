@@ -1,3 +1,11 @@
+1999-09-01  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/file.c (workbook_read): If the file does not exist, create a
+	1-sheet worbook.
+
+	* src/print-preview.c: Re-enable zoom in and zoom out after the gnome-print
+	fixes
+
 1999-09-01  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (sheet_move_column, sheet_shift_row,

@@ -59,9 +59,11 @@ Gnumeric Spread Sheet task list
   * Load print information from workbook
   * Preview
   * Print setup: 
-    * Implement Print Preview, Options buttons
+    * Options buttons
     * Improve layout 
     * Provide GUI for margin editing.
+    * Provide preview of the headers/footers
+    * Make sure scaling works.
   * Add the missing options to the Print Dialog
   * Display printing status (pages to go).
   * Add column/row title printing

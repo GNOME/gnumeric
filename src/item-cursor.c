@@ -439,7 +439,8 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		
 		group = GNOME_CANVAS_GROUP (canvas->root);
 
-		/* determine which part of the cursor was clicked:
+		/*
+		 * determine which part of the cursor was clicked:
 		 * the border or the handlebox
 		 */
 		if (IS_LITTLE_SQUARE (item, x, y))
