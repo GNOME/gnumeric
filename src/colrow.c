@@ -433,7 +433,7 @@ colrow_restore_sizes (Sheet *sheet, gboolean const is_cols,
 	/* Notify sheet of pending update */
 	sheet->priv->recompute_visibility = TRUE;
 	if (is_cols) {
-		sheet->priv->recompute_spans = TRUE;
+		sheet_flag_recompute_spans (sheet);
 		if (sheet->priv->reposition_objects.col > first)
 			sheet->priv->reposition_objects.col = first;
 	} else {

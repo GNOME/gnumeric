@@ -552,7 +552,7 @@ sheet_set_zoom_factor (Sheet *sheet, double f, gboolean force, gboolean update)
 	 * rendered.
 	 */
 	if (update) {
-		sheet->priv->recompute_spans = TRUE;
+		sheet_flag_recompute_spans (sheet);
 		sheet->priv->reposition_objects.col =
 			sheet->priv->reposition_objects.row = 0;
 		sheet_update_only_grid (sheet);
@@ -3459,7 +3459,7 @@ sheet_insert_cols (WorkbookControl *wbc, Sheet *sheet,
 
 	/* 6. Notify sheet of pending updates */
 	sheet->priv->recompute_visibility = TRUE;
-	sheet->priv->recompute_spans = TRUE;
+	sheet_flag_recompute_spans (sheet);
 	sheet_flag_status_update_range (sheet, &reloc_info.origin);
 
 	return FALSE;
@@ -3529,7 +3529,7 @@ sheet_delete_cols (WorkbookControl *wbc, Sheet *sheet,
 
 	/* 7. Notify sheet of pending updates */
 	sheet->priv->recompute_visibility = TRUE;
-	sheet->priv->recompute_spans = TRUE;
+	sheet_flag_recompute_spans (sheet);
 	sheet_flag_status_update_range (sheet, &reloc_info.origin);
 
 	return FALSE;
@@ -3591,7 +3591,7 @@ sheet_insert_rows (WorkbookControl *wbc, Sheet *sheet,
 
 	/* 6. Notify sheet of pending updates */
 	sheet->priv->recompute_visibility = TRUE;
-	sheet->priv->recompute_spans = TRUE;
+	sheet_flag_recompute_spans (sheet);
 	sheet_flag_status_update_range (sheet, &reloc_info.origin);
 
 	return FALSE;
@@ -3661,7 +3661,7 @@ sheet_delete_rows (WorkbookControl *wbc, Sheet *sheet,
 
 	/* 7. Notify sheet of pending update */
 	sheet->priv->recompute_visibility = TRUE;
-	sheet->priv->recompute_spans = TRUE;
+	sheet_flag_recompute_spans (sheet);
 	sheet_flag_status_update_range (sheet, &reloc_info.origin);
 
 	return FALSE;
@@ -3802,7 +3802,7 @@ sheet_move_range (WorkbookControl *wbc,
 	sheet_region_queue_recalc (rinfo->target_sheet, NULL);
 
 	/* 9. Notify sheet of pending update */
-	rinfo->origin_sheet->priv->recompute_spans = TRUE;
+	sheet_flag_recompute_spans (rinfo->origin_sheet);
 	sheet_flag_status_update_range (rinfo->origin_sheet, &rinfo->origin);
 }
 
@@ -3900,7 +3900,7 @@ sheet_col_set_size_pts (Sheet *sheet, int col, double width_pts,
 	colrow_compute_pixels_from_pts (sheet, ci, TRUE);
 
 	sheet->priv->recompute_visibility = TRUE;
-	sheet->priv->recompute_spans = TRUE;
+	sheet_flag_recompute_spans (sheet);
 	if (sheet->priv->reposition_objects.col > col)
 		sheet->priv->reposition_objects.col = col;
 }
@@ -3923,7 +3923,7 @@ sheet_col_set_size_pixels (Sheet *sheet, int col, int width_pixels,
 	colrow_compute_pts_from_pixels (sheet, ci, TRUE);
 
 	sheet->priv->recompute_visibility = TRUE;
-	sheet->priv->recompute_spans = TRUE;
+	sheet_flag_recompute_spans (sheet);
 	if (sheet->priv->reposition_objects.col > col)
 		sheet->priv->reposition_objects.col = col;
 }
@@ -3963,7 +3963,7 @@ sheet_col_set_default_size_pts (Sheet *sheet, double width_pts)
 
 	sheet_col_row_default_calc (sheet, width_pts, 2, 2, TRUE, TRUE);
 	sheet->priv->recompute_visibility = TRUE;
-	sheet->priv->recompute_spans = TRUE;
+	sheet_flag_recompute_spans (sheet);
 	sheet->priv->reposition_objects.col = 0;
 }
 void
@@ -3973,7 +3973,7 @@ sheet_col_set_default_size_pixels (Sheet *sheet, int width_pixels)
 
 	sheet_col_row_default_calc (sheet, width_pixels, 2, 2, TRUE, FALSE);
 	sheet->priv->recompute_visibility = TRUE;
-	sheet->priv->recompute_spans = TRUE;
+	sheet_flag_recompute_spans (sheet);
 	sheet->priv->reposition_objects.col = 0;
 }
 
