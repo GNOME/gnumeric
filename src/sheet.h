@@ -52,6 +52,7 @@ typedef enum {
     SPANCALC_RESIZE	= 0x1,	/* Calculate the size of the rendered result */
     SPANCALC_RENDER	= 0x2,	/* render and size any unrendered cells */
     SPANCALC_RE_RENDER	= 0x4,	/* render of all cells */
+    SPANCALC_NO_DRAW	= 0x8,	/* Do not */
 } SpanCalcFlags;
 
 typedef struct _SheetPrivate SheetPrivate;
@@ -347,10 +348,10 @@ void sheet_cell_set_value (Cell *cell, Value *v, char const *optional_format);
 void sheet_cell_set_text  (Cell *cell, char const *str);
 void sheet_range_set_text (EvalPos const *pos, Range const *r, char const *str);
 
-void sheet_calc_spans (Sheet const *sheet, SpanCalcFlags const flags);
-void sheet_range_calc_spans (Sheet *sheet, Range r, SpanCalcFlags const flags);
-void sheet_cell_calc_span (Cell const *cell, SpanCalcFlags const flags);
-SpanCalcFlags required_updates_for_style (MStyle      *style);
+void sheet_calc_spans	    (Sheet const *sheet,	SpanCalcFlags flags);
+void sheet_range_calc_spans (Sheet *sheet, Range r,	SpanCalcFlags flags);
+void sheet_cell_calc_span   (Cell const *cell,		SpanCalcFlags flags);
+SpanCalcFlags required_updates_for_style (MStyle *style);
 
 /*
  * Sheet, Bobobo objects
