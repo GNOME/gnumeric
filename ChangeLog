@@ -1,3 +1,9 @@
+2004-11-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/gnumeric-gconf.c (go_conf_get_short_desc) return 
+	  NULL if we don't have a desription
+	(go_conf_get_long_desc): ditto
+
 2004-11-07  Jody Goldberg <jody@gnome.org>
 
 	From Jean Bréfort :

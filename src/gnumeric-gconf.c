@@ -203,21 +203,25 @@ char *
 go_conf_get_short_desc (char const *key)
 {
 	GConfSchema *schema = get_schema (key);
-	char *desc = g_strdup ((schema == NULL) ? 
-			       "" : gconf_schema_get_short_desc (schema));
-	if (schema != NULL)
+
+	if (schema != NULL) {
+		char *desc = g_strdup (gconf_schema_get_short_desc (schema));
 		gconf_schema_free (schema);
-	return desc;
+		return desc;
+	}
+	return NULL;
 }
 char *
 go_conf_get_long_desc  (char const *key)
 {
 	GConfSchema *schema = get_schema (key);
-	char *desc = g_strdup ((schema == NULL) ? 
-			       "" : gconf_schema_get_long_desc (schema));
-	if (schema != NULL)
+
+	if (schema != NULL) {
+		char *desc =  g_strdup (gconf_schema_get_long_desc (schema));
 		gconf_schema_free (schema);
-	return desc;
+		return desc;
+	}
+	return NULL;
 }
 
 GType
@@ -454,12 +458,12 @@ go_conf_load_str_list (G_GNUC_UNUSED char const *key)
 char *
 go_conf_get_short_desc (char const *key)
 {
-	return g_strdup ("Dummy short");
+	return NULL;
 }
 char *
 go_conf_get_long_desc  (char const *key)
 {
-	return g_strdup ("Dummy long");
+	return NULL;
 }
 
 GType

@@ -10,6 +10,8 @@ Andreas:
 	  layout
 	* Replace text entry boxes in preference dialog with
 	  checkboxes and spinbuttons.
+	* Ensure that the preference dialog inthe non-gnome build 
+	  looks reasonable.
 
 Jody:
 	* Fix perl and python tests in configure

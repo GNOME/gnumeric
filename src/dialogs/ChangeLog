@@ -1,5 +1,15 @@
 2004-11-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-preferences.c: add default text argument to
+	  all calls of *_pref_create_widget
+	(dialog_pref_load_description_from_key): use 
+	  dialog_pref_load_description
+	(bool_pref_create_widget): use default text
+	(int_pref_create_widget): ditto
+	(double_pref_create_widget): ditto
+
+2004-11-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=157239
 	* dialog-preferences.c (double_pref_conf_to_widget): for
 	  doubles use fabs not abs
