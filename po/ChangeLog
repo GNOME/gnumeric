@@ -1,3 +1,7 @@
+2001-02-16  Karl Eichwalder  <ke@suse.de>
+
+	* de.po: Update.
+
 2001-02-15  Christian Rose  <menthos@menthos.com>
 
 	* sv.po: Updated Swedish translation.
@@ -234,7 +238,7 @@
 
 2000-12-7  Jody Goldberg <jgoldberg@home.com>
 
-        * Release 0.60
+	* Release 0.60
 
 2000-12-06  Christian Rose  <menthos@menthos.com>
 
@@ -283,7 +287,7 @@
 
 2000-11-26  Kenneth Christiansen  <kenneth@gnu.org>
 
-        * ui-extract.pl: cleaned up script a little
+	* ui-extract.pl: cleaned up script a little
 
 2000-11-25  Christian Rose  <menthos@menthos.com>
 
@@ -1363,10 +1367,10 @@
 1999-03-28  Kjartan Maraas  <kmaraas@online.no>
 
 	* no.po: updated translation.
-	
+
 1999-02-14 Sergey Panov
 
-        *ru.po: Updates from Valek Filippov <val@comptek.ru>
+	* ru.po: Updates from Valek Filippov <val@comptek.ru>
 
 1998-12-04  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
@@ -1398,4 +1402,3 @@
 1998-07-25  Nuno Ferreira  <nmrf@rnl.ist.utl.pt>
 
 	* pt.po: Added Portuguese translation.
-

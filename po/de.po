@@ -35,8 +35,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.62cvs\n"
-"POT-Creation-Date: 2001-02-15 22:24-0500\n"
-"PO-Revision-Date: 2001-02-14 20:25+01:00\n"
+"POT-Creation-Date: 2001-02-16 06:49+0100\n"
+"PO-Revision-Date: 2001-02-16 07:17+01:00\n"
 "Last-Translator: Karl Eichwalder <ke@suse.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -747,8 +747,9 @@ msgid "F-Test"
 msgstr "F-Test"
 
 #: src/analysis-tools.c:1653
+#, fuzzy
 msgid "/Mean/Variance/Observations/df/F/P (F<=f) one-tail/F Critical one-tail"
-msgstr ""
+msgstr "/Mittel/Variance/Observations/df/F/P (F<=f) one-tail/F Critical one-tail"
 
 #: src/analysis-tools.c:1733 src/dialogs/dialog-analysis-tools.c:411
 msgid "Random"
@@ -880,9 +881,11 @@ msgstr "Varianz"
 msgid "ANOVA"
 msgstr "ANOVA"
 
+# Checkit
+# 2001-02-16 06:53:51 CET -ke-
 #: src/analysis-tools.c:2824
 msgid "Source of Variation"
-msgstr ""
+msgstr "Quelle der Abweichung"
 
 #: src/analysis-tools.c:2826 src/dialogs/dialog-analysis-tools.c:404
 #: src/dialogs/dialog-stf.glade.h:17
@@ -2111,9 +2114,8 @@ msgid "_Hidden"
 msgstr "_Verborgen"
 
 #: src/dialogs/cell-format.glade.h:95
-#, fuzzy
 msgid "_Indent"
-msgstr "L_inker Einzug"
+msgstr "_Einziehen"
 
 #: src/dialogs/cell-format.glade.h:96
 msgid "_Justify"
@@ -2873,17 +2875,17 @@ msgid "Goal seeking with cell %s found a solution"
 msgstr "Zielsuche mit Zelle %s war erfolgreich."
 
 #: src/dialogs/dialog-goal-seek.c:208
-#, c-format
+#, c-format, ycp-format
 msgid "Target value:   %12.2f"
 msgstr "Zielwert:       %12.2f"
 
 #: src/dialogs/dialog-goal-seek.c:211
-#, c-format
+#, c-format, ycp-format
 msgid "Current value:  %12.2f"
 msgstr "Aktueller Wert: %12.2f"
 
 #: src/dialogs/dialog-goal-seek.c:214
-#, c-format
+#, c-format, ycp-format
 msgid "Solution:       %12.2f"
 msgstr "Lösung:         %12.2f"
 
@@ -3480,6 +3482,8 @@ msgstr "Zwei aufeinander folgende Trennzeichen als eines sehen."
 msgid ""
 "See two successive text indicators as one that does not terminate the cell."
 msgstr ""
+"Zwei aufeinander folgende Text-Indikatoren als einen ansehen,\n"
+"der die Zelle nicht beendet."
 
 #: src/dialogs/dialog-stf.glade.h:49
 msgid ""
@@ -3528,7 +3532,7 @@ msgstr "_Reiter"
 
 #: src/dialogs/dialog-stf.glade.h:58
 msgid "Te_xt indicator : "
-msgstr ""
+msgstr "Te_xt-Indikator: "
 
 #: src/dialogs/dialog-stf.glade.h:59
 msgid "Trim :"
@@ -3545,7 +3549,7 @@ msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:62
 msgid "_Adjacent text indicators escaped"
-msgstr ""
+msgstr "_Aufeinander folgende Text-Indikatoren escapen"
 
 #: src/dialogs/dialog-stf.glade.h:63
 msgid "_Clear"
@@ -4029,7 +4033,7 @@ msgstr "Kommentare"
 
 #: src/dialogs/search-replace.glade.h:7
 msgid "Create =ERROR(\"...\")"
-msgstr ""
+msgstr "=ERROR(\"...\") erzeugen"
 
 #: src/dialogs/search-replace.glade.h:8
 msgid "Current sheet"
@@ -4061,11 +4065,11 @@ msgstr "Ausdrücke"
 
 #: src/dialogs/search-replace.glade.h:15
 msgid "Fail"
-msgstr ""
+msgstr "Fehlschlag"
 
 #: src/dialogs/search-replace.glade.h:16
 msgid "Fail without any changes actually being done to any cell"
-msgstr ""
+msgstr "Fehlschlag, ohne dass Änderungen tatsächlich an einer Zelle durchgeführt wurden"
 
 #: src/dialogs/search-replace.glade.h:17
 msgid "Ignore case"
@@ -4195,7 +4199,7 @@ msgstr ""
 
 #: src/dialogs/search-replace.glade.h:51
 msgid "When set, do not distinguish between upper and lower case letters"
-msgstr ""
+msgstr "Wenn eingeschaltet, nicht zwischen Groß- und Kleinbuchstaben unterscheiden"
 
 #: src/dialogs/sheet-order.glade.h:1
 msgid "Close this dialog"
@@ -4638,12 +4642,12 @@ msgid "yellow"
 msgstr "gelb"
 
 #. Is it a boolean?
-#: src/format.c:1650 src/number-match.c:971 src/value-sheet.c:33
+#: src/format.c:1650 src/number-match.c:979 src/value-sheet.c:33
 #: src/value.c:236 src/value.c:469
 msgid "TRUE"
 msgstr "WAHR"
 
-#: src/format.c:1650 src/number-match.c:973 src/value-sheet.c:33
+#: src/format.c:1650 src/number-match.c:981 src/value-sheet.c:33
 #: src/value.c:238 src/value.c:469
 msgid "FALSE"
 msgstr "FALSCH"
@@ -12037,27 +12041,29 @@ msgstr "Beim Lesen der Plugin-Informationen von Datei »%s« traten Fehler auf."
 #: src/plugin.c:418
 #, c-format
 msgid "Can't read plugin group info file (\"%s\")."
-msgstr ""
+msgstr "Es ist nicht möglich, die Datei (\"%s\") mit den Plugin-Gruppeninformationen zu lesen."
 
 #: src/plugin.c:422
 #, c-format
 msgid "File \"%s\" is not valid plugin group info file."
-msgstr ""
+msgstr "Die Datei \"%s\" ist keine gültige Datei mit Plugin-Gruppeninformationen."
 
 #: src/plugin.c:608
 #, c-format
 msgid "Couldn't activate plugin \"%s\" (ID: %s)."
-msgstr ""
+msgstr "Es war nicht möglich, das Plugin \"%s\" zu aktivieren (ID: %s)."
 
 #: src/plugin.c:652
 #, c-format
 msgid "Couldn't deactivate plugin \"%s\" (ID: %s)."
-msgstr ""
+msgstr "Es war nicht möglich, das Plugin \"%s\" zu deaktivieren (ID: %s)."
 
 #: src/plugin.c:663
 #, c-format
 msgid "Couldn't deactivate plugin \"%s\" (ID: %s): it's still in use."
 msgstr ""
+"Es war nicht möglich, das Plugin \"%s\" zu deaktivieren (ID: %s):\n"
+"Das Plugin ist noch in Benutzung."
 
 #: src/plugin.c:927
 msgid "Errors while reading info about available plugins."
@@ -12121,7 +12127,7 @@ msgstr "Datei weist keine »can_deactivate_plugin«-Funktion auf."
 msgid ""
 "File doesn't contain version information (\"gnumeric_plugin_version\" "
 "symbol)."
-msgstr ""
+msgstr "Die Datei beinhaltet keine Versionen-Information (Symbol »gnumeric_plugin_version«)."
 
 #: src/plugin.c:1129
 msgid "Dynamic module loading is not supported in this system."
@@ -12238,11 +12244,11 @@ msgstr "Ungültiges Suchmuster."
 
 #: src/search.c:157 src/search.c:161
 msgid "Invalid $-specification in replacement."
-msgstr ""
+msgstr "Ungültigen $-Angabe in der Ersetzung."
 
 #: src/search.c:166
 msgid "Invalid trailing backslash in replacement."
-msgstr ""
+msgstr "Ungültiger anhängender Rückstrich (\"trailing backslash\") in der Ersetzung."
 
 #: src/selection.c:108
 msgid "cannot be performed with multiple selections"
@@ -12250,7 +12256,7 @@ msgstr "kann nicht mit mehreren Markierungen durchgeführt werden."
 
 #: src/selection.c:118
 msgid "can not operate on merged cells"
-msgstr ""
+msgstr "kann nicht auf zusammengeführte Zellen angewendet werden"
 
 #: src/selection.c:130
 msgid "can not operate on array formulae"
@@ -12947,6 +12953,14 @@ msgid ""
 "\n"
 "The replace has been aborted and nothing has been changed."
 msgstr ""
+"In der Zelle %s würde der aktuelle Inhalt\n"
+"        %s\n"
+"durch\n"
+"        %s\n"
+"ersetzt werden; dies ist jedoch ungültig.\n"
+"\n"
+"Das Ersetzen wurde abgebrochen und es wurde nichts\n"
+"geändert."
 
 #. TODO : No need to check simplicty.  XL applies for each
 #. * non-discrete selected region, (use selection_apply)
@@ -13611,7 +13625,7 @@ msgstr "Die aktuelle Datei schließen"
 
 #: src/gnumeric.xml.h:32
 msgid "Combo Box"
-msgstr ""
+msgstr "Combobox"
 
 #: src/gnumeric.xml.h:34
 msgid "Copy the current selection to the clipboard"
@@ -13794,11 +13808,11 @@ msgstr "Den Inhalt jeder Zelle links ausrichten"
 
 #: src/gnumeric.xml.h:114
 msgid "Make any hidden columns in the selection visible"
-msgstr ""
+msgstr "Verborgene Spalten in der Auswahl sichtbar machen"
 
 #: src/gnumeric.xml.h:115
 msgid "Make any hidden rows in the selection visible"
-msgstr ""
+msgstr "Verborgene Zeilen in der Auswahl sichtbar machen"
 
 #: src/gnumeric.xml.h:116
 msgid "Make font bold"
@@ -14188,9 +14202,6 @@ msgstr "_Ansicht"
 #~ msgid "pts\n"
 #~ msgstr "pt"
 
-#~ msgid "_Object..."
-#~ msgstr "_Objekt..."
-
 #~ msgid "Error while trying to pre-convert clipboard data"
 #~ msgstr ""
 #~ "Fehler beim Versuch, Daten der Zwischenablage vorab zu konvertieren."
@@ -14279,48 +14290,6 @@ msgstr "_Ansicht"
 
 #~ msgid "You should introduce a valid cell name"
 #~ msgstr "Bitte geben Sie einen gültigen Zellennamen an"
-
-#~ msgid "0.0########"
-#~ msgstr "0,0########"
-
-#~ msgid "0.00"
-#~ msgstr "0,00"
-
-#~ msgid "#,##0"
-#~ msgstr "#.##0"
-
-#~ msgid "#,##0.00"
-#~ msgstr "#.##0,00"
-
-#~ msgid "#,##0_);(#,##0)"
-#~ msgstr "#,##0_);(#,##0)"
-
-#~ msgid "#,##0_);[Red](#,##0)"
-#~ msgstr "#,##0_);[Red](#,##0)"
-
-#~ msgid "#,##0.00_);(#,##0.00)"
-#~ msgstr "#,##0.00_);(#,##0.00)"
-
-#~ msgid "#,##0.00_);[Red](#,##0.00)"
-#~ msgstr "#,##0.00_);[Redt](#,##0.00)"
-
-#~ msgid "0.0"
-#~ msgstr "0,0"
-
-#~ msgid "$#,##0_);($#,##0)"
-#~ msgstr "$#,##0_);($#,##0)"
-
-#~ msgid "$#,##0_);[Red]($#,##0)"
-#~ msgstr "$#,##0_);[Red]($#,##0)"
-
-#~ msgid "$#,##0.00"
-#~ msgstr "$#,##0.00"
-
-#~ msgid "$#,##0.00_);($#,##0.00)"
-#~ msgstr "$#,##0.00_);($#,##0.00)"
-
-#~ msgid "$#,##0.00_);[Red]($#,##0.00)"
-#~ msgstr "$#,##0.00_);[Red]($#,##0.00)"
 
 #~ msgid "m/d/yy"
 #~ msgstr "d. m. yy"
@@ -14453,18 +14422,6 @@ msgstr "_Ansicht"
 
 #~ msgid "0.00%"
 #~ msgstr "0,00%"
-
-#~ msgid "# ?/?"
-#~ msgstr "# ?/?"
-
-#~ msgid "# ??/??"
-#~ msgstr "# ??/??"
-
-#~ msgid "0.00E+00"
-#~ msgstr "0,00E+00"
-
-#~ msgid "##0.0E+0"
-#~ msgstr "##0,0E+0"
 
 #~ msgid "Insert Object"
 #~ msgstr "Objekt einfügen"
