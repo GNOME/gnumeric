@@ -1,3 +1,9 @@
+2002-02-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/rangefuncs.c (range_sum) : improve precision through 2 pass
+	  algorithm
+	(range_sumsq) : ditto
+
 2002-02-06  Jody Goldberg <jody@gnome.org>
 
 	* src/auto-format.c (auto_style_format_suggest) : it is now the

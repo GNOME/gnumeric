@@ -16,28 +16,53 @@
 #include <string.h>
 
 /* Arithmetic sum.  */
+/* We are using the double pass algorithm 2.3.1 described in */
+/* Thisted: Elements of Statistical Computing                */
+/* Note: mathematically sum_2 should be zero, except that it */
+/* contains some of the numerical errors from the first pass */
 int
 range_sum (const gnum_float *xs, int n, gnum_float *res)
 {
-	gnum_float sum = 0;
+	gnum_float sum_1 = 0;
+	gnum_float sum_2 = 0;
+	gnum_float xbar = 0;
 	int i;
 
+	if (n == 0) {
+		*res = 0.0;
+		return 0;
+	}
+
 	for (i = 0; i < n; i++)
-		sum += xs[i];
-	*res = sum;
+		sum_1 += xs[i];
+	xbar = sum_1 / n;
+	for (i = 0; i < n; i++)
+		sum_2 += (xs[i] - xbar);
+	*res = sum_1 + sum_2;
 	return 0;
 }
 
 /* Arithmetic sum of squares.  */
+/* See the explanation for the Arithmetic sum above.*/
 int
 range_sumsq (const gnum_float *xs, int n, gnum_float *res)
 {
-	gnum_float sum = 0;
+	gnum_float sum_1 = 0;
+	gnum_float sum_2 = 0;
+	gnum_float xbar = 0;
 	int i;
 
+	if (n == 0) {
+		*res = 0.0;
+		return 0;
+	}
+
 	for (i = 0; i < n; i++)
-		sum += xs[i] * xs[i];
-	*res = sum;
+		sum_1 += xs[i] * xs[i];
+	xbar = sum_1 / n;
+	for (i = 0; i < n; i++)
+		sum_1 += ((xs[i] * xs[i]) - xbar);
+	*res = sum_1 + sum_2;
 	return 0;
 }
 
