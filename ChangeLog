@@ -1,3 +1,10 @@
+2002-03-17  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook-format-toolbar.c (cb_fore_color_changed): Handle
+	autocolors.
+	(cb_border_changed): Ditto.
+	(workbook_create_format_toolbar): Ditto.
+
 2002-03-16  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook.c (workbook_foreach_cell_in_range) : support 3d

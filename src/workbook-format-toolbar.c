@@ -519,16 +519,27 @@ cb_fore_color_changed (ColorCombo *combo, GdkColor *c,
 	if (!by_user)
 		return;
 
+	g_return_if_fail (c != NULL);
+	
 	mstyle = mstyle_new ();
+	
 	mstyle_set_color (mstyle, MSTYLE_COLOR_FORE,
-			  (c != NULL)
-			  ? style_color_new (c->red, c->green, c->blue)
-			  : style_color_black () /* FIXME: add auto colours ? */);
+			  is_default
+			  ? style_color_auto_font ()
+			  : style_color_new (c->red, c->green, c->blue));
 
 	/* Change the color for all views */
 	WORKBOOK_FOREACH_CONTROL (wb_control_workbook (wbc), view, control,
-				  if (control != wbc) color_combo_set_color (
-					  COLOR_COMBO (WORKBOOK_CONTROL_GUI (control)->fore_color), c););
+	{
+		ColorCombo *fore_combo = COLOR_COMBO
+			(WORKBOOK_CONTROL_GUI (control)->fore_color);
+		if (control != wbc) {
+			if (is_default)
+				color_combo_set_color_to_default (fore_combo);
+			else
+				color_combo_set_color (fore_combo, c);
+		}
+	});
 
 	cmd_format (wbc, sheet, mstyle, NULL,
 		    _("Set Foreground Color"));
@@ -647,8 +658,10 @@ cb_border_changed (PixmapCombo *pixmap_combo, int index, WorkbookControlGUI *wbc
 	switch (index) {
 	case 11 : /* left */
 		borders [STYLE_BORDER_LEFT] =
-		    style_border_fetch (STYLE_BORDER_THIN, style_color_black (),
-					style_border_get_orientation (MSTYLE_BORDER_LEFT));
+		    style_border_fetch
+			(STYLE_BORDER_THIN,
+			 sheet_style_get_auto_pattern_color (sheet),
+			 style_border_get_orientation (MSTYLE_BORDER_LEFT));
 		break;
 
 	case 12 : /* none */
@@ -658,37 +671,47 @@ cb_border_changed (PixmapCombo *pixmap_combo, int index, WorkbookControlGUI *wbc
 
 	case 13 : /* right */
 		borders [STYLE_BORDER_RIGHT] =
-		    style_border_fetch (STYLE_BORDER_THIN, style_color_black (),
-					style_border_get_orientation (MSTYLE_BORDER_RIGHT));
+		    style_border_fetch
+			(STYLE_BORDER_THIN,
+			 sheet_style_get_auto_pattern_color (sheet),
+			 style_border_get_orientation (MSTYLE_BORDER_RIGHT));
 		break;
 
 	case 21 : /* all */
 		for (i = STYLE_BORDER_HORIZ; i <= STYLE_BORDER_VERT; ++i)
-			borders [i] = style_border_fetch (STYLE_BORDER_THIN,
-				style_color_black (),
-				style_border_get_orientation (i));
+			borders [i] =
+				style_border_fetch
+				(STYLE_BORDER_THIN,
+				 sheet_style_get_auto_pattern_color (sheet),
+				 style_border_get_orientation (i));
 		/* fall through */
 
 	case 22 : /* outside */
 		for (i = STYLE_BORDER_TOP; i <= STYLE_BORDER_RIGHT; ++i)
-			borders [i] = style_border_fetch (STYLE_BORDER_THIN,
-				style_color_black (),
-				style_border_get_orientation (i));
+			borders [i] =
+				style_border_fetch
+				(STYLE_BORDER_THIN,
+				 sheet_style_get_auto_pattern_color (sheet),
+				 style_border_get_orientation (i));
 		break;
 
 	case 23 : /* thick_outside */
 		for (i = STYLE_BORDER_TOP; i <= STYLE_BORDER_RIGHT; ++i)
 			borders [i] =
-			    style_border_fetch (STYLE_BORDER_THICK, style_color_black (),
-						style_border_get_orientation (i));
+				style_border_fetch
+				(STYLE_BORDER_THICK,
+				 sheet_style_get_auto_pattern_color (sheet),
+				 style_border_get_orientation (i));
 		break;
 
 	case 41 : /* top_n_bottom */
 	case 42 : /* top_n_double_bottom */
 	case 43 : /* top_n_thick_bottom */
 		borders [STYLE_BORDER_TOP] =
-		    style_border_fetch (STYLE_BORDER_THIN, style_color_black (),
-					style_border_get_orientation (STYLE_BORDER_TOP));
+			style_border_fetch
+			(STYLE_BORDER_THIN,
+			 sheet_style_get_auto_pattern_color (sheet),
+			 style_border_get_orientation (STYLE_BORDER_TOP));
 	    /* Fall through */
 
 	case 31 : /* bottom */
@@ -702,8 +725,9 @@ cb_border_changed (PixmapCombo *pixmap_combo, int index, WorkbookControlGUI *wbc
 		    : STYLE_BORDER_THICK;
 
 		borders [STYLE_BORDER_BOTTOM] =
-		    style_border_fetch (t, style_color_black (),
-					style_border_get_orientation (STYLE_BORDER_BOTTOM));
+			style_border_fetch
+			(t, sheet_style_get_auto_pattern_color (sheet),
+			 style_border_get_orientation (STYLE_BORDER_BOTTOM));
 		break;
 	}
 
@@ -722,6 +746,7 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 	GtkWidget *fontsel, *fontsize, *entry;
 	GtkWidget *border_combo, *back_combo, *fore_combo;
 	ColorGroup *cg;
+	StyleColor *sc_auto_font = style_color_auto_font ();
 
 	GList *l;
 	int i, len;
@@ -815,8 +840,7 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 	cg = color_group_fetch ("fore_color_group", wb_control_view (WORKBOOK_CONTROL (wbcg)));
 	wbcg->fore_color = fore_combo = color_combo_new (
 		gdk_pixbuf_new_from_inline (-1, gnm_font, FALSE, NULL),
-		_("Automatic"), /* Draw black for the default */
-		&gs_black, cg);
+		_("Automatic"),	&sc_auto_font->color, cg);
 	g_signal_connect (G_OBJECT (fore_combo),
 		"color_changed",
 		G_CALLBACK (cb_fore_color_changed), wbcg);
@@ -837,6 +861,8 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 					  }
 				  });
 
+	style_color_unref (sc_auto_font);
+	
 #ifdef ENABLE_BONOBO
 	gnumeric_inject_widget_into_bonoboui (wbcg, fontsel, "/FormatToolbar/FontName");
 	gnumeric_inject_widget_into_bonoboui (wbcg, fontsize, "/FormatToolbar/FontSize");
