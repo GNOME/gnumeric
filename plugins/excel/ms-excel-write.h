@@ -9,7 +9,8 @@
 #ifndef GNUMERIC_MS_EXCEL_WRITE_H
 #define GNUMERIC_MS_EXCEL_WRITE_H
 
-#include "ms-ole.h"
+#include <libole2/ms-ole.h>
+
 #include "ms-biff.h"
 #include "ms-excel-biff.h"
 #include "ms-excel-util.h"

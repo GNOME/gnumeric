@@ -19,7 +19,8 @@
 
 #include <config.h>
 #include <glib.h>
-#include "ms-ole.h"
+#include <libole2/ms-ole.h>
+
 #include "ms-biff.h"
 #include "biff-types.h"
 

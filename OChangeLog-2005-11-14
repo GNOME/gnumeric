@@ -1,3 +1,11 @@
+2000-05-11  Michael Meeks  <michael@helixcode.com>
+
+	* src/Makefile.am (gnumeric_libs): kill libole2 libs kludge.
+
+2000-05-10  Michael Meeks  <michael@helixcode.com>
+
+	* configure.in: Add check for libole2 and add to gnome-config.
+
 2000-05-10  Karl Eichwalder  <ke@suse.de>
 
 	* Makefile.am: Typo.

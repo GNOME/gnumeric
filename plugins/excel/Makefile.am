@@ -2,7 +2,6 @@ INCLUDES = 						\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
 	-I$(includedir)				 	\
 	-I$(top_srcdir)/src				\
-	-I$(srcdir)/libole2				\
 	$(GNOME_INCLUDEDIR)
 
 noinst_LIBRARIES = libexcel.a
@@ -38,5 +37,3 @@ libexcel_a_SOURCES =		\
 	ms-chart.c		\
 	ms-summary.c		\
 	ms-summary.h
-
-SUBDIRS = libole2

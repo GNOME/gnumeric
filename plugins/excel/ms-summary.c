@@ -11,8 +11,9 @@
 
 #include <config.h>
 #include <glib.h>
-#include "ms-ole.h"
-#include "ms-ole-summary.h"
+#include <libole2/ms-ole.h>
+#include <libole2/ms-ole-summary.h>
+
 #include "ms-biff.h"
 #include "ms-summary.h"
 #include "summary.h"

@@ -1,7 +1,0 @@
-Optimise non mmaped block storage to allow contiguous ptr passing.
-Ref count ms_ole_stream & ms_ole 
-libvfs integration (?)
-write nice simple file handle style macros / wrappers.
-Is Makefile.am (INCLUDES) really really needed?
-Sort out small streams < 0x1000 bytes; something is duff in the
-PPS / chaining ( lots of work with hex editor ).

@@ -43,7 +43,7 @@
 #include "command-context.h"
 #include "workbook.h"
 
-#include "ms-ole.h"
+#include <libole2/ms-ole.h>
 #include "ms-biff.h"
 #include "excel.h"
 #include "ms-excel-write.h"

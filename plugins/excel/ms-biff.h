@@ -8,7 +8,8 @@
  **/
 #ifndef GNUMERIC_BIFF_H
 #define GNUMERIC_BIFF_H
-#include "ms-ole.h"
+
+#include <libole2/ms-ole.h>
 
 extern double biff_getdouble (const guint8 *p);
 extern void   biff_setdouble (guint8 *p, double d);

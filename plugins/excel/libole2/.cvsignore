@@ -1,8 +1,0 @@
-.deps
-Makefile.in
-Makefile
-.libs
-*.lo
-*.la
-version.c
-libole2.h
