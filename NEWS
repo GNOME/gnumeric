@@ -4,6 +4,9 @@ Gnumeric 0.71
 Morten:
 	* Speed up font handling a bit.
 
+Zbigniew:
+	* Support for translations in plugin.xml files using xml-i18n-tools
+	  (modified xml file structure a bit).
 
 --------------------------------------------------------------------------
 Gnumeric 0.70
