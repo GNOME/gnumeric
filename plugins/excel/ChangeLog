@@ -1,3 +1,7 @@
+1999-10-08  Morten Welinder  <terra@diku.dk>
+
+	* ms-formula-read.c (ms_excel_parse_formula): Plug leaks.
+
 1999-10-03  Jody Goldberg <jgoldberg@home.com>
 
 	* boot.c (excel_probe) : Only free the MsOle object if it

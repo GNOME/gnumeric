@@ -1090,6 +1090,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 					       cell_name (fn_col, fn_row)) ;
 				}
 #endif
+				parse_list_free (&stack);
 				return NULL;
 			}
 
@@ -1099,6 +1100,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 				else
 					printf ("EXCEL : unexpected array\n");
 
+				parse_list_free (&stack);
 				return NULL;
 			}
 
