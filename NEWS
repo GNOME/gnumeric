@@ -38,6 +38,7 @@ Jody:
 Jon Kåre:
 	* Enable bonobo
 	* fix hpux build
+	* Clean up Guile plugin
 
 Jukka:
 	* More solver improvements.
