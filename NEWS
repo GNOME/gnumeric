@@ -59,6 +59,7 @@ Morten:
 	* Unify our three regexp quoting functions into just one (correct)
 	  function.
 	* Make pretty-printing clarify trees like "-2^2" into "(-2)^2".
+	* Fix cell entry display for strings with initial quote.
 
 --------------------------------------------------------------------------
 

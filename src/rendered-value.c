@@ -386,7 +386,8 @@ cell_get_entered_text (Cell const *cell)
 		if (cell->value->type == VALUE_STRING) {
 			/* Try to be reasonably smart about adding a leading quote */
 			char const *tmp = cell->value->v_str.val->str;
-			if (NULL == gnm_expr_char_start_p (tmp)) {
+
+			if (tmp[0] != '\'' && !gnm_expr_char_start_p (tmp)) {
 				Value *val = format_match_number (tmp,
 					cell_get_format	(cell),
 					workbook_date_conv (cell->base.sheet->workbook));
