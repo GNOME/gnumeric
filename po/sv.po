@@ -30,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2003-08-13 20:24+0200\n"
-"PO-Revision-Date: 2003-08-13 20:26+0200\n"
+"POT-Creation-Date: 2003-08-21 15:16+0200\n"
+"PO-Revision-Date: 2003-08-21 15:20+0200\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1165,7 +1165,7 @@ msgstr "Finansiella derivat"
 msgid "Functions related to financial derivatives"
 msgstr "Funktioner relaterade till finansiella derivat"
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5151
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5149
 #: plugins/mps/mps.c:549 src/xml-io.c:3927
 msgid "Reading file..."
 msgstr "Läser fil..."
@@ -1261,7 +1261,7 @@ msgstr "Oväntat attribut %s::%s == \"%s\"."
 msgid "XML document not well formed!"
 msgstr "XML-dokumentet är inte korrekt utformat!"
 
-#: plugins/excel/ms-excel-read.c:999
+#: plugins/excel/ms-excel-read.c:999 src/value.c:60
 msgid "#UNKNOWN!"
 msgstr "#OKÄND!"
 
@@ -1320,15 +1320,15 @@ msgstr "Fel vid tolkning av AutoFilter."
 msgid "external references"
 msgstr "externa referenser"
 
-#: plugins/excel/ms-excel-read.c:5297
+#: plugins/excel/ms-excel-read.c:5295
 msgid "No password supplied"
 msgstr "Inget lösenord givet"
 
-#: plugins/excel/ms-excel-read.c:5301
+#: plugins/excel/ms-excel-read.c:5299
 msgid "Invalid password"
 msgstr "Ogiltigt lösenord"
 
-#: plugins/excel/ms-excel-read.c:5402
+#: plugins/excel/ms-excel-read.c:5400
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Kunde inte hitta en giltig MS Excel-arbetsbok"
 
@@ -8414,7 +8414,8 @@ msgstr "%s version %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:96
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:163
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:95
 #: src/dialogs/dialog-cell-format.c:2265 src/dialogs/dialog-cell-format.c:2270
 #: src/dialogs/dialog-cell-format.c:2280 src/workbook-format-toolbar.c:836
 msgid "Automatic"
@@ -18785,7 +18786,7 @@ msgstr "Skapa ett pilobjekt"
 msgid "Create an ellipse object"
 msgstr "Skapa ett ellipsobjekt"
 
-#: src/GNOME_Gnumeric.xml.h:72 src/sheet-control-gui.c:1476
+#: src/GNOME_Gnumeric.xml.h:72 src/sheet-control-gui.c:1477
 msgid "Cu_t"
 msgstr "Klipp _ut"
 
@@ -19082,7 +19083,7 @@ msgid "Jump to a specified cell"
 msgstr "Gå till specifierad cell"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:108
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:186
 #: src/sheet-object-graphic.c:1434 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Rubrik"
@@ -19497,7 +19498,7 @@ msgid "Statistical Anal_ysis"
 msgstr "Statistisk anal_ys"
 
 #: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:3977
-#: src/workbook-control-gui.c:4748 src/workbook-view.c:540
+#: src/workbook-control-gui.c:4771 src/workbook-view.c:540
 msgid "Sum"
 msgstr "Summa"
 
@@ -19656,7 +19657,7 @@ msgid "_Contents"
 msgstr "_Innehåll"
 
 #: src/GNOME_Gnumeric.xml.h:276 src/item-cursor.c:1016
-#: src/sheet-control-gui.c:1478
+#: src/sheet-control-gui.c:1479
 msgid "_Copy"
 msgstr "_Kopiera"
 
@@ -19673,7 +19674,7 @@ msgstr "_Data"
 msgid "_Define..."
 msgstr "_Definiera..."
 
-#: src/GNOME_Gnumeric.xml.h:280 src/sheet-control-gui.c:1496
+#: src/GNOME_Gnumeric.xml.h:280 src/sheet-control-gui.c:1497
 #: src/workbook-control-gui.c:3430
 msgid "_Delete..."
 msgstr "_Ta bort..."
@@ -19749,8 +19750,8 @@ msgstr "_Gruppera..."
 msgid "_Help"
 msgstr "_Hjälp"
 
-#: src/GNOME_Gnumeric.xml.h:298 src/sheet-control-gui.c:1521
-#: src/sheet-control-gui.c:1529 src/workbook-control-gui.c:3567
+#: src/GNOME_Gnumeric.xml.h:298 src/sheet-control-gui.c:1522
+#: src/sheet-control-gui.c:1530 src/workbook-control-gui.c:3567
 #: src/workbook-control-gui.c:3586
 msgid "_Hide"
 msgstr "_Dölj"
@@ -19817,7 +19818,7 @@ msgstr "_Öppna..."
 msgid "_Paired Samples: T-Test..."
 msgstr "_Parade prover: t-test..."
 
-#: src/GNOME_Gnumeric.xml.h:314 src/sheet-control-gui.c:1480
+#: src/GNOME_Gnumeric.xml.h:314 src/sheet-control-gui.c:1481
 msgid "_Paste"
 msgstr "Klistra i_n"
 
@@ -19951,8 +19952,8 @@ msgstr "_Ångra"
 msgid "_Ungroup..."
 msgstr "_Avgruppera..."
 
-#: src/GNOME_Gnumeric.xml.h:345 src/sheet-control-gui.c:1523
-#: src/sheet-control-gui.c:1531 src/workbook-control-gui.c:3570
+#: src/GNOME_Gnumeric.xml.h:345 src/sheet-control-gui.c:1524
+#: src/sheet-control-gui.c:1532 src/workbook-control-gui.c:3570
 #: src/workbook-control-gui.c:3589
 msgid "_Unhide"
 msgstr "_Visa"
@@ -20560,29 +20561,61 @@ msgstr "Duplicerar %s"
 msgid "Tabulating Dependencies"
 msgstr "Tabulerar beroenden"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:135
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:145
+#: src/dialogs/solver.glade.h:14
+msgid "M_in"
+msgstr "M_in"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:145
+msgid "M_ax"
+msgstr "M_ax"
+
+# ZZZ
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:146
+msgid "Ma_jor Ticks"
+msgstr "S_tora skalstreck"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:147
+msgid "Mi_nor Ticks"
+msgstr "S_må skalstreck"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:170
+msgid "Bounds"
+msgstr "Gränser"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:174
+msgid "Details"
+msgstr "Detaljer"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:177
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:135
+#: src/dialogs/pivottable.glade.h:4
+msgid "Style"
+msgstr "Stil"
+
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:147
 msgid "Plot"
 msgstr "Graf"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:138
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:150
 msgid "Legend"
 msgstr "Förklaring"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:141
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:153
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
 #: src/cut-n-paste-code/goffice/graph/gog-legend.c:159
 msgid "Title"
 msgstr "Titel"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:144
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:156
 msgid "X-Axis"
 msgstr "X-axel"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:148
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:160
 msgid "Y-Axis"
 msgstr "Y-axel"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:152
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:164
 msgid "Z-Axis"
 msgstr "Z-aAxel"
 
@@ -20710,11 +20743,6 @@ msgstr "Serier"
 #: src/dialogs/dialog-stf.glade.h:15
 msgid "Data"
 msgstr "Data"
-
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:135
-#: src/dialogs/pivottable.glade.h:4
-msgid "Style"
-msgstr "Stil"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:1
 msgid "2 Color"
@@ -20845,19 +20873,19 @@ msgstr "utsträckt"
 msgid "wallpaper"
 msgstr "bakgrundsbild"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:521
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:413
 msgid "Select an image"
 msgstr "Välj en bild"
 
 #. TODO : have a look at apple's themes
 #. An MS Excel-ish theme
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:234
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:236
 #: src/dialogs/dialog-sheet-order.c:953 src/dialogs/dialog-sheet-order.c:966
 msgid "Default"
 msgstr "Standard"
 
 #. Guppi
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:267
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:277
 msgid "Guppi"
 msgstr "Guppi"
 
@@ -23216,7 +23244,7 @@ msgstr "Lägg till hyperlänk"
 msgid "Edit Hyperlink"
 msgstr "Redigera Hyperlänk"
 
-#: src/dialogs/dialog-hyperlink.c:285 src/sheet-control-gui.c:1446
+#: src/dialogs/dialog-hyperlink.c:285 src/sheet-control-gui.c:1447
 msgid "Remove Hyperlink"
 msgstr "Ta bort hyperlänk"
 
@@ -23402,14 +23430,14 @@ msgstr "Katalog"
 
 #. Is it a boolean?
 #: src/dialogs/dialog-preferences.c:411 src/format.c:1964
-#: src/number-match.c:1089 src/value-sheet.c:33 src/value.c:403
-#: src/value.c:817
+#: src/number-match.c:1089 src/value-sheet.c:33 src/value.c:404
+#: src/value.c:818
 msgid "TRUE"
 msgstr "SANT"
 
 #: src/dialogs/dialog-preferences.c:412 src/format.c:1964
-#: src/number-match.c:1091 src/value-sheet.c:33 src/value.c:404
-#: src/value.c:817
+#: src/number-match.c:1091 src/value-sheet.c:33 src/value.c:405
+#: src/value.c:818
 msgid "FALSE"
 msgstr "FALSKT"
 
@@ -23872,16 +23900,16 @@ msgid "Variable"
 msgstr "Variabel"
 
 #: src/dialogs/dialog-simulation.c:249 src/tools/simulation.c:254
-#: src/workbook-control-gui.c:4749
+#: src/workbook-control-gui.c:4772
 msgid "Min"
 msgstr "Min"
 
-#: src/dialogs/dialog-simulation.c:249 src/workbook-control-gui.c:4751
+#: src/dialogs/dialog-simulation.c:249 src/workbook-control-gui.c:4774
 msgid "Average"
 msgstr "Medelvärde"
 
 #: src/dialogs/dialog-simulation.c:249 src/tools/simulation.c:256
-#: src/workbook-control-gui.c:4750
+#: src/workbook-control-gui.c:4773
 msgid "Max"
 msgstr "Max"
 
@@ -26039,10 +26067,6 @@ msgstr "Lika med:"
 msgid "Int"
 msgstr "Heltal"
 
-#: src/dialogs/solver.glade.h:14
-msgid "M_in"
-msgstr "M_in"
-
 #: src/dialogs/solver.glade.h:15 src/tools/solver/reports-write.c:705
 msgid "Max Iterations:"
 msgstr "Max iterationer:"
@@ -26336,15 +26360,15 @@ msgstr "\"%s\" är redan definierad i bladet"
 msgid "'%s' is already defined in workbook"
 msgstr "\"%s\" är redan definierad i arbetsboken"
 
-#: src/expr.c:741
+#: src/expr.c:681
 msgid "Internal type error"
 msgstr "Internt typfel"
 
-#: src/expr.c:891
+#: src/expr.c:890
 msgid "Unknown operator"
 msgstr "Okänd operator"
 
-#: src/expr.c:1101
+#: src/expr.c:1100
 msgid "Unknown evaluation error"
 msgstr "Okänt evalueringsfel"
 
@@ -27239,31 +27263,31 @@ msgstr "Vilken som helst"
 msgid "Function does not exist"
 msgstr "Funktionen finns inte"
 
-#: src/gnumeric-canvas.c:63
+#: src/gnumeric-canvas.c:64
 msgid "Format as Number"
 msgstr "Formatera som tal"
 
-#: src/gnumeric-canvas.c:67
+#: src/gnumeric-canvas.c:68
 msgid "Format as Currency"
 msgstr "Formatera som valuta"
 
-#: src/gnumeric-canvas.c:71 src/workbook-format-toolbar.c:317
+#: src/gnumeric-canvas.c:72 src/workbook-format-toolbar.c:317
 msgid "Format as Percentage"
 msgstr "Formatera som procent"
 
-#: src/gnumeric-canvas.c:75
+#: src/gnumeric-canvas.c:76
 msgid "Format as Scientific"
 msgstr "Formatera som vetenskaplig"
 
-#: src/gnumeric-canvas.c:79
+#: src/gnumeric-canvas.c:80
 msgid "Format as Date"
 msgstr "Formatera som datum"
 
-#: src/gnumeric-canvas.c:83
+#: src/gnumeric-canvas.c:84
 msgid "Format as Time"
 msgstr "Formatera som tid"
 
-#: src/gnumeric-canvas.c:87
+#: src/gnumeric-canvas.c:88
 msgid "Format as alternative Number"
 msgstr "Formatera som alternativt tal"
 
@@ -28090,7 +28114,7 @@ msgstr "Spara inte"
 msgid "Do not log out"
 msgstr "Stäng inte"
 
-#: src/sheet-control-gui.c:1482
+#: src/sheet-control-gui.c:1483
 msgid "Paste _Special"
 msgstr "Klistra in _special"
 
@@ -28101,77 +28125,77 @@ msgstr "Klistra in _special"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1494
+#: src/sheet-control-gui.c:1495
 msgid "_Insert..."
 msgstr "_Infoga..."
 
-#: src/sheet-control-gui.c:1498
+#: src/sheet-control-gui.c:1499
 msgid "_Insert Column(s)"
 msgstr "_Infoga kolumn(er)"
 
-#: src/sheet-control-gui.c:1500
+#: src/sheet-control-gui.c:1501
 msgid "_Delete Column(s)"
 msgstr "Ta _bort kolumn(er)"
 
-#: src/sheet-control-gui.c:1502
+#: src/sheet-control-gui.c:1503
 msgid "_Insert Row(s)"
 msgstr "_Infoga rad(er)"
 
-#: src/sheet-control-gui.c:1504
+#: src/sheet-control-gui.c:1505
 msgid "_Delete Row(s)"
 msgstr "Ta _bort rad(er)"
 
-#: src/sheet-control-gui.c:1507
+#: src/sheet-control-gui.c:1508
 msgid "Clear Co_ntents"
 msgstr "Ta bort i_nnehåll"
 
-#: src/sheet-control-gui.c:1509
+#: src/sheet-control-gui.c:1510
 msgid "Edit Co_mment..."
 msgstr "Ändra ko_mmentar..."
 
-#: src/sheet-control-gui.c:1515
+#: src/sheet-control-gui.c:1516
 msgid "_Format Cells..."
 msgstr "_Formatera celler..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1519
+#: src/sheet-control-gui.c:1520
 msgid "Column _Width..."
 msgstr "_Kolumnbredd..."
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1527
+#: src/sheet-control-gui.c:1528
 msgid "_Row Height..."
 msgstr "_Radhöjd..."
 
-#: src/sheet-control-gui.c:1534
+#: src/sheet-control-gui.c:1535
 msgid "_Hyperlink"
 msgstr "_Hyperlänk"
 
-#: src/sheet-control-gui.c:1537
+#: src/sheet-control-gui.c:1538
 msgid "Edit _Hyperlink"
 msgstr "Redigera _Hyperlänk"
 
-#: src/sheet-control-gui.c:1540
+#: src/sheet-control-gui.c:1541
 msgid "_Remove Hyperlink"
 msgstr "_Ta bort Hyperlänk"
 
-#: src/sheet-filter.c:358
+#: src/sheet-filter.c:357
 msgid "(All)"
 msgstr "(Allt)"
 
-#: src/sheet-filter.c:363
+#: src/sheet-filter.c:362
 msgid "(Top 10...)"
 msgstr "(Top 10...)"
 
-#: src/sheet-filter.c:370
+#: src/sheet-filter.c:369
 msgid "(Custom...)"
 msgstr "(Anpassad...)"
 
-#: src/sheet-filter.c:414
+#: src/sheet-filter.c:413
 msgid "(Blanks...)"
 msgstr "(Tomma...)"
 
-#: src/sheet-filter.c:420
+#: src/sheet-filter.c:419
 msgid "(Non Blanks...)"
 msgstr "(Ej tomma...)"
 
@@ -28210,6 +28234,11 @@ msgstr "Kryssruta %d"
 #: src/sheet-object-widget.c:1561 src/workbook-object-toolbar.c:164
 msgid "RadioButton"
 msgstr "Radioknapp"
+
+#: src/sheet-object.c:530
+#, c-format
+msgid "Unsupported object type '%s'"
+msgstr "Objekttypen \"%s\" stöds inte."
 
 #. Oh, yeah?
 #: src/sheet-style.c:492
@@ -28851,7 +28880,7 @@ msgstr "Kurtosis"
 msgid "Range"
 msgstr "Område"
 
-#: src/tools/simulation.c:264 src/workbook-control-gui.c:4752
+#: src/tools/simulation.c:264 src/workbook-control-gui.c:4775
 msgid "Count"
 msgstr "Antal"
 
@@ -30879,28 +30908,28 @@ msgstr "Ångra kommandot"
 msgid "Redo the operation"
 msgstr "Gör om kommandot"
 
-#: src/workbook-control-gui.c:5045
+#: src/workbook-control-gui.c:5068
 #, c-format
 msgid "File \"%s\" has unknown format."
 msgstr "Filen \"%s\" har ett ogiltigt format."
 
-#: src/workbook-control-gui.c:5091
+#: src/workbook-control-gui.c:5114
 msgid "Send"
 msgstr "Skicka"
 
-#: src/workbook-control-gui.c:5091
+#: src/workbook-control-gui.c:5114
 msgid "Send the current file in email"
 msgstr "Skicka den aktuella filen med e-post"
 
-#: src/workbook-control-gui.c:5324 src/workbook-control-gui.c:5339
+#: src/workbook-control-gui.c:5347 src/workbook-control-gui.c:5362
 msgid "_Re-Edit"
 msgstr "Redigera _om"
 
-#: src/workbook-control-gui.c:5325 src/workbook-control-gui.c:5330
+#: src/workbook-control-gui.c:5348 src/workbook-control-gui.c:5353
 msgid "_Discard"
 msgstr "_Förkasta"
 
-#: src/workbook-control-gui.c:5329 src/workbook-control-gui.c:5340
+#: src/workbook-control-gui.c:5352 src/workbook-control-gui.c:5363
 msgid "_Accept"
 msgstr "_Acceptera"
 
@@ -31033,7 +31062,7 @@ msgstr "Internt FEL"
 msgid "Can't open '%s' for writing: %s"
 msgstr "Kan inte öppna \"%s\"för att skriva: %s"
 
-#: src/workbook-view.c:600
+#: src/workbook-view.c:601
 #, c-format
 msgid "An unexplained error happened while saving %s"
 msgstr "Ett oförklarligt fel inträffade vid sparande av %s"
@@ -31042,23 +31071,23 @@ msgstr "Ett oförklarligt fel inträffade vid sparande av %s"
 #. * This should be quite rare.  To provoke, use
 #. * gnumeric `echo -e '\377\376'`
 #.
-#: src/workbook-view.c:607 src/workbook-view.c:966
+#: src/workbook-view.c:608 src/workbook-view.c:967
 msgid "The filename given is not valid in the current encoding."
 msgstr "Det givna filnamnet är inte giltigt i den nuvarande kodningen."
 
-#: src/workbook-view.c:692 src/workbook-view.c:808
+#: src/workbook-view.c:693 src/workbook-view.c:809
 msgid "Default file saver is not available."
 msgstr "Standardfilspararen är inte tillgänglig."
 
-#: src/workbook-view.c:767
+#: src/workbook-view.c:768
 msgid "Failed to create temporary file for sending."
 msgstr "Kan inte skapa temporär filför att skicka."
 
-#: src/workbook-view.c:901
+#: src/workbook-view.c:902
 msgid "Unsupported file format."
 msgstr "Filformatet stöds inte."
 
-#: src/workbook-view.c:959
+#: src/workbook-view.c:960
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Ett oförklarat fel inträffade vid öppnande av %s"
@@ -35862,9 +35891,6 @@ msgstr "Gnumeric XML-filformat"
 
 #~ msgid "Message"
 #~ msgstr "Meddelande"
-
-#~ msgid "Details"
-#~ msgstr "Detaljer"
 
 #~ msgid "Text File import"
 #~ msgstr "Import av textfil"
