@@ -999,6 +999,7 @@ value_area_get_x_y (EvalPosition const *ep, Value const *v, guint x, guint y)
 		 * rely on this for now.
 		 */
 		g_return_val_if_fail (a_row<=b_row, value_zero);
+		g_return_val_if_fail (a_col<=b_col, value_zero);
 
 		sheet = a->sheet?a->sheet:ep->sheet;
 		g_return_val_if_fail (sheet != NULL, NULL);
@@ -1670,7 +1671,7 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 				a = array->u.array.corner.func.value;
 			else
 				a = NULL;
-	}
+		}
 		g_return_val_if_fail (a != NULL,
 				      function_error (s, gnumeric_err_NA));
 
@@ -1682,7 +1683,7 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 				EvalPosition tmp_ep = s->pos; /* blit copy */
 				tmp_ep.eval_col -= x;
 				tmp_ep.eval_row -= y;
-				a = (Value *)value_area_fetch_x_y (&s->pos,
+				a = (Value *)value_area_fetch_x_y (&tmp_ep,
 								   a, x, y);
 			} else
 				return function_error (s, gnumeric_err_NA);
