@@ -200,7 +200,7 @@ days_monthly_basis (Value *issue_date, Value *maturity_date, int basis)
 		g_date_free (date_m);
 	} else {
 	        if (date_i) g_date_free (date_i);
-	        if (date_i) g_date_free (date_m);
+	        if (date_m) g_date_free (date_m);
 	        return -1;
 	}
 
@@ -4113,6 +4113,7 @@ finance_functions_init (void)
 	def = function_add_args  (cat, "tbillyield", "??f",
 				  "settlement,maturity,pr",
 				  &help_tbillyield, gnumeric_tbillyield);
+	auto_format_function_result (def, AF_PERCENT);
 
 	def = function_add_args	 (cat, "vdb", "fffff|ff",
 				  "cost,salvage,life,start_period,"
@@ -4132,6 +4133,7 @@ finance_functions_init (void)
 				  "settle,mat,rate,price,redemption_price,"
 				  "frequency,basis",
 				  &help_yield, gnumeric_yield);
+	auto_format_function_result (def, AF_PERCENT);
 
 	def = function_add_args  (cat, "yielddisc", "??fff",
 				  "settlement,maturity,pr,redemption,basis",
