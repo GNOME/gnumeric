@@ -13,6 +13,8 @@ plugins/excel/ms-excel-read.c
 plugins/excel/ms-excel-write.c
 plugins/excel/ms-formula-read.c
 plugins/excel/plugin.xml.in
+plugins/fn-complex/functions.c
+plugins/fn-complex/plugin.xml.in
 plugins/fn-database/functions.c
 plugins/fn-database/plugin.xml.in
 plugins/fn-date/functions.c
@@ -29,14 +31,12 @@ plugins/fn-lookup/functions.c
 plugins/fn-lookup/plugin.xml.in
 plugins/fn-math/functions.c
 plugins/fn-math/plugin.xml.in
+plugins/fn-random/functions.c
+plugins/fn-random/plugin.xml.in
 plugins/fn-stat/functions.c
 plugins/fn-stat/plugin.xml.in
 plugins/fn-string/functions.c
 plugins/fn-string/plugin.xml.in
-plugins/fn-random/functions.c
-plugins/fn-random/plugin.xml.in
-plugins/fn-complex/functions.c
-plugins/fn-complex/plugin.xml.in
 plugins/gb/plugin.c
 plugins/gb/plugin.xml.in
 plugins/gda/plugin-gda.c
@@ -205,6 +205,7 @@ src/gui-file.c
 src/gui-util.c
 src/gutils.c
 src/history.c
+src/hlink.c
 src/item-bar.c
 src/item-cursor.c
 src/item-grid.c
