@@ -25,7 +25,7 @@ typedef struct {
 #else
 
 /* No gcc -- no inline functions.  */
-#define GNUMERIC_COMPLEX_INLINE(p) extern p;
+#define GNUMERIC_COMPLEX_PROTO(p) extern p;
 #undef GNUMERIC_COMPLEX_BODY
 
 #endif
