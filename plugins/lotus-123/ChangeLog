@@ -1,3 +1,28 @@
+2002-08-02  Jody Goldberg <jody@gnome.org>
+
+	* lotus-formula.c (make_function) : generate placeholders for unknowns.
+	(attach_sheet) : use col_name to name the sheets in lotus like fashion.
+
+	* lotus-formula.c : support @@
+	Fix mapping for
+	    ISSTRING	-> ISTEXT
+	    LENGTH	-> LEN
+	    CHR		-> CHAR
+	    ASCII	-> CODE
+	    STD		-> STDEVP
+	    AVG		-> DAVERAGE
+	    DCNT	-> DCOUNT
+	    COLS	-> COLUMNS
+	    REPEAT	-> REPT
+	    STREQ	-> EXACT
+	    CTERM	-> NPER
+	    SOY??	-> SYD
+	    ROWS has 1 arg not  2
+	    FIND has 2 args not 3
+
+	Add a pile of things that WK4 generated for WK1
+	(lotus_parse_formula) : support strings in expressions.
+
 2002-07-21  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.6

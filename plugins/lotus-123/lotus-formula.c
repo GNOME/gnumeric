@@ -12,6 +12,7 @@
 #include "lotus-formula.h"
 
 #include <expr.h>
+#include <parse-util.h>
 #include <value.h>
 #include <gutils.h>
 #include <func.h>
@@ -27,114 +28,167 @@ typedef struct {
 } func_struct_t;
 
 const func_struct_t functions[] = {
-	{ 1, 0x08, "-", UNARY, GNM_EXPR_OP_UNARY_NEG },
-	{ 2, 0x09, "+", BINOP, GNM_EXPR_OP_ADD },
-	{ 2, 0x0A, "-", BINOP, GNM_EXPR_OP_SUB },
-	{ 2, 0x0B, "*", BINOP, GNM_EXPR_OP_MULT },
-	{ 2, 0x0C, "/", BINOP, GNM_EXPR_OP_DIV },
-	{ 2, 0x0D, "pow", BINOP, GNM_EXPR_OP_EXP },
-	{ 2, 0x0E, "EQ", BINOP, GNM_EXPR_OP_EQUAL },
-	{ 2, 0x0F, "NE", BINOP, GNM_EXPR_OP_NOT_EQUAL },
-	{ 2, 0x10, "LE", BINOP, GNM_EXPR_OP_LTE },
-	{ 2, 0x11, "GE", BINOP, GNM_EXPR_OP_GTE },
-	{ 2, 0x12, "LT", BINOP, GNM_EXPR_OP_LT },
-	{ 2, 0x13, "GT", BINOP, GNM_EXPR_OP_GT },
-/*	{ 2, 0x14, "bit-and", BINOP, OPER_AND },
-	{ 2, 0x15, "bit-or", BINOP, OPER_OR }, FIXME */
-	{ 1, 0x16, "NOT", NORMAL, 0 },
-	{ 1, 0x17, "+", UNARY, GNM_EXPR_OP_UNARY_PLUS },
-	{ 0, 0x1F, "NA", NORMAL, 0 },
-	{ 1, 0x20, "ERR", NORMAL, 0 },
-	{ 1, 0x21, "abs", NORMAL, 0 },
-	{ 1, 0x22, "floor", NORMAL, 0 },
-	{ 1, 0x23, "sqrt", NORMAL, 0 },
-	{ 1, 0x24, "LOG10", NORMAL, 0 },
-	{ 1, 0x25, "log", NORMAL, 0 },
-	{ 0, 0x26, "PI", NORMAL, 0 },
-	{ 1, 0x27, "sin", NORMAL, 0 },
-	{ 1, 0x28, "cos", NORMAL, 0 },
-	{ 1, 0x29, "tan", NORMAL, 0 },
-	{ 2, 0x2A, "ATAN2", NORMAL, 0 },
-	{ 1, 0x2B, "atan", NORMAL, 0 },
-	{ 1, 0x2C, "asin", NORMAL, 0 },
-	{ 1, 0x2D, "acos", NORMAL, 0 },
-	{ 1, 0x2E, "exp", NORMAL, 0 },
-	{ 2, 0x2F, "MOD", NORMAL, 0 },
-	{ -1, 0x30, "CHOOSE", NORMAL, 0 },
-	{ 1, 0x31, "ISNA", NORMAL, 0 },
-	{ 1, 0x32, "ISERR", NORMAL, 0 },
-	{ 0, 0x33, "FALSE", NORMAL, 0 },
-	{ 0, 0x34, "TRUE", NORMAL, 0 },
-	{ 0, 0x35, "RAND", NORMAL, 0 },
-	{ 3, 0x36, "DATE", NORMAL, 0 },
-	{ 0, 0x37, "TODAY", NORMAL, 0 },
-	{ 3, 0x38, "PMT", NORMAL, 0 },
-	{ 3, 0x39, "PV", NORMAL, 0 },
-	{ 3, 0x3A, "FV", NORMAL, 0 },
-	{ 3, 0x3B, "IF", NORMAL, 0 },
-	{ 1, 0x3C, "DAY", NORMAL, 0 },
-	{ 1, 0x3D, "MONTH", NORMAL, 0 },
-	{ 1, 0x3E, "YEAR", NORMAL, 0 },
-	{ 2, 0x3F, "ROUND", NORMAL, 0 },
-	{ 1, 0x40, "TIME", NORMAL, 0 },
-	{ 1, 0x41, "HOUR", NORMAL, 0 },
-	{ 1, 0x42, "MINUTE", NORMAL, 0 },
-	{ 1, 0x43, "SECOND", NORMAL, 0 },
-	{ 1, 0x44, "ISNUMBER", NORMAL, 0 },
-	{ 1, 0x45, "ISSTRING", NORMAL, 0 },
-	{ 1, 0x46, "LENGTH", NORMAL, 0 },
-	{ 1, 0x47, "VALUE", NORMAL, 0 },
-	{ 1, 0x48, "FIXED", NORMAL, 0 },
-	{ 3, 0x49, "MID", NORMAL, 0 },
-	{ 1, 0x4A, "CHR", NORMAL, 0 },
-	{ 1, 0x4B, "ASCII", NORMAL, 0 },
-	{ 3, 0x4C, "FIND", NORMAL, 0 },
-	{ 1, 0x4D, "DATEVALUE", NORMAL, 0 },
+	{ 1, 0x08, "-",		UNARY, GNM_EXPR_OP_UNARY_NEG },
+	{ 2, 0x09, "+",		BINOP, GNM_EXPR_OP_ADD },
+	{ 2, 0x0A, "-",		BINOP, GNM_EXPR_OP_SUB },
+	{ 2, 0x0B, "*",		BINOP, GNM_EXPR_OP_MULT },
+	{ 2, 0x0C, "/",		BINOP, GNM_EXPR_OP_DIV },
+	{ 2, 0x0D, "pow",	BINOP, GNM_EXPR_OP_EXP },
+	{ 2, 0x0E, "EQ",	BINOP, GNM_EXPR_OP_EQUAL },
+	{ 2, 0x0F, "NE",	BINOP, GNM_EXPR_OP_NOT_EQUAL },
+	{ 2, 0x10, "LE",	BINOP, GNM_EXPR_OP_LTE },
+	{ 2, 0x11, "GE",	BINOP, GNM_EXPR_OP_GTE },
+	{ 2, 0x12, "LT",	BINOP, GNM_EXPR_OP_LT },
+	{ 2, 0x13, "GT",	BINOP, GNM_EXPR_OP_GT },
+/*	{ 2, 0x14, "bit-and",	BINOP, OPER_AND },
+	{ 2, 0x15, "bit-or",	BINOP, OPER_OR }, FIXME */
+	{ 1, 0x16, "NOT",	NORMAL, 0 },
+	{ 1, 0x17, "+",		UNARY, GNM_EXPR_OP_UNARY_PLUS },
+	{ 0, 0x1F, "NA",	NORMAL, 0 },
+	{ 1, 0x20, "ERR",	NORMAL, 0 },
+	{ 1, 0x21, "abs",	NORMAL, 0 },
+	{ 1, 0x22, "floor",	NORMAL, 0 },
+	{ 1, 0x23, "sqrt",	NORMAL, 0 },
+	{ 1, 0x24, "LOG10",	NORMAL, 0 },
+	{ 1, 0x25, "log",	NORMAL, 0 },
+	{ 0, 0x26, "PI",	NORMAL, 0 },
+	{ 1, 0x27, "sin",	NORMAL, 0 },
+	{ 1, 0x28, "cos",	NORMAL, 0 },
+	{ 1, 0x29, "tan",	NORMAL, 0 },
+	{ 2, 0x2A, "ATAN2",	NORMAL, 0 },
+	{ 1, 0x2B, "atan",	NORMAL, 0 },
+	{ 1, 0x2C, "asin",	NORMAL, 0 },
+	{ 1, 0x2D, "acos",	NORMAL, 0 },
+	{ 1, 0x2E, "exp",	NORMAL, 0 },
+	{ 2, 0x2F, "MOD",	NORMAL, 0 },
+	{ -1, 0x30, "CHOOSE",	NORMAL, 0 },
+	{ 1, 0x31, "ISNA",	NORMAL, 0 },
+	{ 1, 0x32, "ISERR",	NORMAL, 0 },
+	{ 0, 0x33, "FALSE",	NORMAL, 0 },
+	{ 0, 0x34, "TRUE",	NORMAL, 0 },
+	{ 0, 0x35, "RAND",	NORMAL, 0 },
+	{ 3, 0x36, "DATE",	NORMAL, 0 },
+	{ 0, 0x37, "TODAY",	NORMAL, 0 },
+	{ 3, 0x38, "PMT",	NORMAL, 0 },
+	{ 3, 0x39, "PV",	NORMAL, 0 },
+	{ 3, 0x3A, "FV",	NORMAL, 0 },
+	{ 3, 0x3B, "IF",	NORMAL, 0 },
+	{ 1, 0x3C, "DAY",	NORMAL, 0 },
+	{ 1, 0x3D, "MONTH",	NORMAL, 0 },
+	{ 1, 0x3E, "YEAR",	NORMAL, 0 },
+	{ 2, 0x3F, "ROUND",	NORMAL, 0 },
+	{ 3, 0x40, "TIME",	NORMAL, 0 },
+	{ 1, 0x41, "HOUR",	NORMAL, 0 },
+	{ 1, 0x42, "MINUTE",	NORMAL, 0 },
+	{ 1, 0x43, "SECOND",	NORMAL, 0 },
+	{ 1, 0x44, "ISNUMBER",	NORMAL, 0 },
+	{ 1, 0x45, "ISTEXT",	NORMAL, 0 },
+	{ 1, 0x46, "LEN",	NORMAL, 0 },
+	{ 1, 0x47, "VALUE",	NORMAL, 0 },
+	{ 2, 0x48, "FIXED",	NORMAL, 0 },
+	{ 3, 0x49, "MID",	NORMAL, 0 },
+	{ 1, 0x4A, "CHAR",	NORMAL, 0 },
+	{ 1, 0x4B, "CODE",	NORMAL, 0 },
+	{ 2, 0x4C, "FIND",	NORMAL, 0 },
+	{ 1, 0x4D, "DATEVALUE",	NORMAL, 0 },
 	{ 1, 0x4E, "TIMEVALUE", NORMAL, 0 },
 	{ 1, 0x4F, "CELLPOINTER", NORMAL, 0 },
+
         /* 50-54 take an additional byte for the number of args */
-	{ -1, 0x50, "SUM", NORMAL, 0 },
-	{ -1, 0x51, "AVERAGE", NORMAL, 0 },
-	{ -1, 0x52, "COUNT", NORMAL, 0 },
-	{ -1, 0x53, "MIN", NORMAL, 0 },
-	{ -1, 0x54, "MAX", NORMAL, 0 },
-	{ 3, 0x55, "VLOOKUP", NORMAL, 0 },
-	{ 2, 0x56, "NPV", NORMAL, 0 },
-	{ 1, 0x57, "VAR", NORMAL, 0 },
-	{ 1, 0x58, "STD", NORMAL, 0 },
-	{ 2, 0x59, "IRR", NORMAL, 0 },
-	{ 3, 0x5A, "HLOOKUP", NORMAL, 0 },
-	{ 1, 0x5B, "DSUM", NORMAL, 0 },
-	{ 1, 0x5C, "AVG", NORMAL, 0 },
-	{ 1, 0x5D, "DCNT", NORMAL, 0 },
-	{ 1, 0x5E, "DMIN", NORMAL, 0 },
-	{ 1, 0x5F, "DMAX", NORMAL, 0 },
-	{ 1, 0x60, "DVAR", NORMAL, 0 },
-	{ 1, 0x61, "DSTD", NORMAL, 0 },
-	{ 3, 0x62, "INDEX", NORMAL, 0 },
-	{ 2, 0x63, "COLS", NORMAL, 0 },
-	{ 2, 0x64, "ROWS", NORMAL, 0 },
-	{ 2, 0x65, "REPEAT", NORMAL, 0 },
-	{ 1, 0x66, "UPPER", NORMAL, 0 },
-	{ 1, 0x67, "LOWER", NORMAL, 0 },
-	{ 2, 0x68, "LEFT", NORMAL, 0 },
-	{ 2, 0x69, "RIGHT", NORMAL, 0 },
-	{ 1, 0x6A, "REPLACE", NORMAL, 0 },
-	{ 1, 0x6B, "PROPER", NORMAL, 0 },
-	{ 2, 0x6C, "CELL", NORMAL, 0 },
-	{ 1, 0x6D, "TRIM", NORMAL, 0 },
-	{ 1, 0x6E, "CLEAN", NORMAL, 0 },
-	{ 2, 0x71, "STREQ", NORMAL, 0 },
-	{ 1, 0x72, "CALL", NORMAL, 0 },
-	{ 3, 0x74, "RATE", NORMAL, 0 },
-	{ 3, 0x75, "TERM", NORMAL, 0 },
-	{ 3, 0x76, "CTERM", NORMAL, 0 },
-	{ 3, 0x77, "SLN", NORMAL, 0 },
-	{ 4, 0x78, "SOY", NORMAL, 0 },
-	{ 3, 0x79, "DDB", NORMAL, 0 },
-	{ 1, 0x9C, "AAFSTART", NORMAL, 0 },
-	{ 1, 0xCE, "AAFUNKNOWN", NORMAL, 0 },
-	{ 1, 0xFF, "AAFEND", NORMAL, 0 }
+	{ -1, 0x50, "SUM",	NORMAL, 0 },
+	{ -1, 0x51, "AVERAGE",	NORMAL, 0 },
+	{ -1, 0x52, "COUNT",	NORMAL, 0 },
+	{ -1, 0x53, "MIN",	NORMAL, 0 },
+	{ -1, 0x54, "MAX",	NORMAL, 0 },
+	{ 3, 0x55, "VLOOKUP",	NORMAL, 0 },
+	{ 2, 0x56, "NPV",	NORMAL, 0 },
+	{ 1, 0x57, "VAR",	NORMAL, 0 },
+	{ 1, 0x58, "STDEVP",	NORMAL, 0 },
+	{ 2, 0x59, "IRR",	NORMAL, 0 },
+	{ 3, 0x5A, "HLOOKUP",	NORMAL, 0 },
+	{ 3, 0x5B, "DSUM",	NORMAL, 0 },
+	{ 3, 0x5C, "DAVERAGE",	NORMAL, 0 },
+	{ 3, 0x5D, "DCOUNT",	NORMAL, 0 },
+	{ 3, 0x5E, "DMIN",	NORMAL, 0 },
+	{ 3, 0x5F, "DMAX",	NORMAL, 0 },
+	{ 3, 0x60, "DVAR",	NORMAL, 0 },
+	{ 1, 0x61, "DSTD",	NORMAL, 0 },
+	{ 3, 0x62, "INDEX",	NORMAL, 0 },
+	{ 1, 0x63, "COLUMNS",	NORMAL, 0 },
+	{ 1, 0x64, "ROWS",	NORMAL, 0 },
+	{ 2, 0x65, "REPT",	NORMAL, 0 },
+	{ 1, 0x66, "UPPER",	NORMAL, 0 },
+	{ 1, 0x67, "LOWER",	NORMAL, 0 },
+	{ 2, 0x68, "LEFT",	NORMAL, 0 },
+	{ 2, 0x69, "RIGHT",	NORMAL, 0 },
+	{ 4, 0x6A, "REPLACE",	NORMAL, 0 },
+	{ 1, 0x6B, "PROPER",	NORMAL, 0 },
+	{ 2, 0x6C, "CELL",	NORMAL, 0 },
+	{ 1, 0x6D, "TRIM",	NORMAL, 0 },
+	{ 1, 0x6E, "CLEAN",	NORMAL, 0 },
+	{ 2, 0x71, "EXACT",	NORMAL, 0 },
+	{ 1, 0x72, "CALL",	NORMAL, 0 },
+	{ 1, 0x73, "INDIRECT",	NORMAL, 0 },
+	{ 3, 0x74, "RATE",	NORMAL, 0 },
+	{ 3, 0x75, "TERM",	NORMAL, 0 },
+	{ 3, 0x76, "NPER",	NORMAL, 0 },
+	{ 3, 0x77, "SLN",	NORMAL, 0 },
+	{ 4, 0x78, "SYD",	NORMAL, 0 },
+	{ 4, 0x79, "DDB",	NORMAL, 0 },
+
+	/* A pile of extras that WK4 and greater generates when writing WK1 */
+	{ 1, 0x9C, "SPLFUNC",	NORMAL, 0 },
+	{ 1, 0x9D, "LEVELS",	NORMAL, 0 },
+	{ 1, 0x9E, "INFO",	NORMAL, 0 },
+	{ 1, 0x9F, "SUMPROD",	NORMAL, 0 },
+	{ 1, 0xA0, "ISRANGE",	NORMAL, 0 },
+	{ 3, 0xA1, "DGET",	NORMAL, 0 },
+	{ 1, 0xA2, "DQUERY",	NORMAL, 0 },
+	{ 1, 0xA3, "COORD",	NORMAL, 0 },
+	{ 1, 0xA4, "DDB2",	NORMAL, 0 },
+	{ 1, 0xA5, "DVARS",	NORMAL, 0 },
+	{ 1, 0xA6, "DSTDS",	NORMAL, 0 },
+	{ 1, 0xA7, "VARS",	NORMAL, 0 },
+	{ 1, 0xA8, "STDS",	NORMAL, 0 },
+	{ 1, 0xA9, "D360",	NORMAL, 0 },
+	{ 1, 0xAA, "BLANK",	NORMAL, 0 },
+	{ 1, 0xAB, "ISAPP",	NORMAL, 0 },
+	{ 1, 0xAC, "ISAAF",	NORMAL, 0 },
+	{ 1, 0xAD, "WEEKDAY",	NORMAL, 0 },
+	{ 1, 0xAE, "DATEDIF",	NORMAL, 0 },
+	{ 1, 0xAF, "RANK",	NORMAL, 0 },
+	{ 1, 0xB0, "NUMBERSTR",	NORMAL, 0 },
+	{ 1, 0xB1, "DATESTR",	NORMAL, 0 },
+	{ 1, 0xB2, "DECIMAL",	NORMAL, 0 },
+	{ 1, 0xB3, "HEX",	NORMAL, 0 },
+	{ 1, 0xB4, "DB",	NORMAL, 0 },
+	{ 1, 0xB5, "GANRI",	NORMAL, 0 },
+	{ 1, 0xB6, "GANKIN",	NORMAL, 0 },
+	{ 1, 0xB7, "FULLP",	NORMAL, 0 },
+	{ 1, 0xB8, "HALFP",	NORMAL, 0 },
+	{ 1, 0xB9, "PUREAVG",	NORMAL, 0 },
+	{ 1, 0xBA, "PURECOUNT",	NORMAL, 0 },
+	{ 1, 0xBB, "PUREMAX",	NORMAL, 0 },
+	{ 1, 0xBC, "PUREMIN",	NORMAL, 0 },
+	{ 1, 0xBD, "PURESTD",	NORMAL, 0 },
+	{ 1, 0xBE, "PUREVAR",	NORMAL, 0 },
+	{ 1, 0xBF, "PURESTDS",	NORMAL, 0 },
+	{ 1, 0xC0, "PUREVARS",	NORMAL, 0 },
+	{ 1, 0xC1, "PMT1",	NORMAL, 0 },
+	{ 1, 0xC2, "PV1",	NORMAL, 0 },
+	{ 1, 0xC3, "FV1",	NORMAL, 0 },
+	{ 1, 0xC4, "TERM1",	NORMAL, 0 },
+	{ 1, 0xC5, "DSUMDIFF",	NORMAL, 0 },
+	{ 1, 0xC6, "DAVGDIFF",	NORMAL, 0 },
+	{ 1, 0xC7, "DCOUNTDIFF",NORMAL, 0 },
+	{ 1, 0xC8, "DMINDIFF",	NORMAL, 0 },
+	{ 1, 0xC9, "DMAXDIFF",	NORMAL, 0 },
+	{ 1, 0xCA, "DVARDIFF",	NORMAL, 0 },
+	{ 1, 0xCB, "DSTDDIFF",	NORMAL, 0 },
+	{ 1, 0xCC, "INDEXDIFF",	NORMAL, 0 },
+	{ 1, 0xCD, "QMARK",	NORMAL, 0 },
+	{ 1, 0xCE, "QQMARK",	NORMAL, 0 },
+	{ 1, 0xCF, "ISEMPTY",	NORMAL, 0 }
 };
 
 static void
@@ -151,7 +205,7 @@ parse_list_push_value (GnmExprList **list, Value *v)
 }
 
 static GnmExpr const *
-parse_list_pop (GnmExprList **list)
+parse_list_pop (GnmExprList **list, int col, int row)
 {
 	/* Get the head */
 	GnmExprList *tmp = g_slist_nth (*list, 0);
@@ -161,7 +215,8 @@ parse_list_pop (GnmExprList **list)
 		return ans ;
 	}
 
-	puts ("Incorrect number of parsed formula arguments");
+	g_warning ("%s : Incorrect number of parsed formula arguments",
+		   cell_coord_name (col, row));
 	return gnm_expr_new_constant (value_new_error (NULL, "WrongArgs"));
 }
 
@@ -169,19 +224,12 @@ parse_list_pop (GnmExprList **list)
  * Returns a new list composed of the last n items pop'd off the list.
  **/
 static GnmExprList *
-parse_list_last_n (GnmExprList **list, gint n)
+parse_list_last_n (GnmExprList **list, gint n, int col, int row)
 {
 	GnmExprList *l = NULL;
 	while (n-- > 0)
-		l = gnm_expr_list_prepend (l, parse_list_pop (list));
+		l = gnm_expr_list_prepend (l, parse_list_pop (list, col, row));
 	return l;
-}
-
-static void
-parse_list_free (GnmExprList **list)
-{
-	while (*list)
-		gnm_expr_unref (parse_list_pop (list));
 }
 
 static gint16
@@ -236,10 +284,10 @@ find_function (guint16 idx)
 }
 
 static gint32
-make_function (GnmExprList **stack, guint16 idx, guint8 const *data)
+make_function (GnmExprList **stack, guint16 idx, guint8 const *data, int col, int row)
 {
 	gint32 ans, numargs;
-	const func_struct_t *f = &functions[idx];
+	func_struct_t const *f = functions + idx;
 
 	if (f->args < 0) {
 		numargs = *(data + 1);
@@ -249,36 +297,32 @@ make_function (GnmExprList **stack, guint16 idx, guint8 const *data)
 		ans     = 1;
 	}
 
-	if (f->special == NORMAL) {
-		FunctionDefinition *func;
-		GnmExprList  *args = parse_list_last_n (stack, numargs);
+	switch (f->special) {
+	case NORMAL: {
+		GnmExprList  *args = parse_list_last_n (stack, numargs, col, row);
+		FunctionDefinition *func = func_lookup_by_name (f->name, NULL);
+		if (func == NULL)
+			func = function_add_placeholder (f->name, "Lotus ");
+		parse_list_push_expr (stack, gnm_expr_new_funcall (func, args));
+		break;
+	}
 
-		/* FIXME : Do we need to support workbook local functions ? */
-		func = func_lookup_by_name (f->name, NULL);
-		if (!func) {
-			char *txt;
-			txt = g_strdup_printf ("[Function '%s']",
-					       f->name ? f->name : "?");
-			printf ("Unknown %s\n", txt);
-			parse_list_push_expr (stack, gnm_expr_new_constant (value_new_error (NULL, txt)));
-			g_free (txt);
-
-			parse_list_free (&args);
-			return ans;
-		} else
-			parse_list_push_expr (stack,
-				gnm_expr_new_funcall (func, args));
-	} else if (f->special == BINOP) {
-		GnmExpr const *l, *r;
-		r = parse_list_pop (stack);
-		l = parse_list_pop (stack);
+	case BINOP: {
+		GnmExpr const *r = parse_list_pop (stack, col, row);
+		GnmExpr const *l = parse_list_pop (stack, col, row);
 		parse_list_push_expr (stack, gnm_expr_new_binary (l, f->data, r));
-	} else if (f->special == UNARY) {
-		GnmExpr const *r;
-		r = parse_list_pop (stack);
+		break;
+	}
+
+	case UNARY: {
+		GnmExpr const *r = parse_list_pop (stack, col, row);
 		parse_list_push_expr (stack, gnm_expr_new_unary (f->data, r));
-	} else
+		break;
+	}
+
+	default:
 		g_warning ("Unknown formula type");
+	};
 
 	return ans;
 }
@@ -322,47 +366,32 @@ lotus_parse_formula (Sheet *sheet, guint32 col, guint32 row,
 			i += 1; /* Ignore */
 			break;
 		case LOTUS_FORMULA_INTEGER:
-		{
-			gint16 num = gnumeric_get_le_int16 (data + i + 1);
-			v = value_new_int (num);
+			v = value_new_int (gnumeric_get_le_int16 (data + i + 1));
 			parse_list_push_value (&stack, v);
 			i += 3;
 			break;
-		}
+
+		case LOTUS_FORMULA_STRING:
+			v = value_new_string (data + i + 1);
+			parse_list_push_value (&stack, v);
+			i += 2 + strlen (data + i + 1);
+			break;
+
 		case LOTUS_FORMULA_UNARY_PLUS:
 			i++;
 			break;
-		case 0x06:
-/*
-			i++;
 
-			p1 = b;
-			*p1++ = '"';
-			while (data[i]) {
-				if (data[i] == '"' || data[i] == '\\') *p1++ = '\\';
-				*p1++ = data[i++];
-			}
-			*p1++ = '"';
-			*p1 = '\0';
-			push (cstrdup (b));
-			i++;
-			break;
-*/
-			error = TRUE;
-			done  = TRUE;
-			g_warning ("Undocumented PTG");
-			break;
 		default: /* Sacrifice speed for elegance every time */
 		{
 			gint32 idx = find_function (data[i]);
 			if (idx == -1) {
 				error = TRUE;
 				done  = TRUE;
-				g_warning ("Duff PTG");
+				g_warning ("%s : unknown PTG 0x%x", cell_coord_name (col, row), (unsigned)data[i]);
 			} else
-				i += make_function (&stack, idx, data + i);
+				i += make_function (&stack, idx, data + i, col, row);
 		}
 		}
 	}
-	return parse_list_pop (&stack);
+	return parse_list_pop (&stack, col, row);
 }

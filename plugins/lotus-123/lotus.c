@@ -21,6 +21,7 @@
 #include <gutils.h>
 #include <plugin-util.h>
 #include <error-info.h>
+#include <parse-util.h>
 
 #include <libgnome/gnome-i18n.h>
 #include <gsf/gsf-input.h>
@@ -199,15 +200,13 @@ insert_value (Sheet *sheet, guint32 col, guint32 row, Value *val)
 static Sheet *
 attach_sheet (Workbook *wb, int idx)
 {
-	Sheet *sheet;
-	char  *sheet_name;
+	/* Yes I do mean col_name.  Use that as an easy proxy for naming the sheets 
+	 * similarly to lotus.
+	 */
+	Sheet *sheet = sheet_new (wb, col_name (idx));
 
-	sheet_name = g_strdup_printf (_("Sheet%d"), idx);
-	sheet = sheet_new (wb, sheet_name);
-	g_free (sheet_name);
-
-	/* in case nothing forces a spanning, do it here so that any new content
-	 * will get spanned.
+	/* in case nothing forces a spanning, do it here so that any new
+	 * content will get spanned.
 	 */
 	sheet_flag_recompute_spans (sheet);
 
@@ -301,6 +300,7 @@ read_workbook (Workbook *wb, GsfInput *input)
 
 				expr = lotus_parse_formula (sheet, col, row,
 					r->data + 15, len);
+
 				v = NULL;
 				if (0x7ff0 == (gnumeric_get_le_uint16 (r->data + 11) & 0x7ff8)) {
 					/* I can not find normative definition
@@ -317,6 +317,7 @@ read_workbook (Workbook *wb, GsfInput *input)
 					v = value_new_float (gnumeric_get_le_double (r->data + 5));
 				cell = sheet_cell_fetch (sheet, col, row),
 				cell_set_expr_and_value (cell, expr, v, TRUE);
+
 				gnm_expr_unref (expr);
 				cell_set_format_from_lotus_format (cell, fmt);
 			}
