@@ -107,8 +107,10 @@ const struct poptOption gnumeric_popt_options [] = {
 
 #include "ranges.h"
 
-/* FIXME: We hardcode the GUI command context. Change once we are able
- * to tell whether we are in GUI or not. */
+/*
+ * FIXME: We hardcode the GUI command context. Change once we are able
+ * to tell whether we are in GUI or not.
+ */
 static void
 gnumeric_main (void *closure, int argc, char *argv [])
 {

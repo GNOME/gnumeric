@@ -1,3 +1,26 @@
+2000-03-25  Michael Meeks  <michael@helixcode.com>
+
+	* src/ranges.c (range_fragment_list_clip): totaly re-write.
+	(ranges_dump): implemented.
+
+	* src/sheet-style.c (sheet_unique_cb): use frags not middle_list to
+	calculate the style ( doh! ).
+
+2000-03-24  Michael Meeks  <michael@helixcode.com>
+
+	* src/ranges.c (range_overlap): kill (range_split_ranges): kill inline,
+	it ruins debugging.
+
+	* src/ranges.h (range_overlap): Macroify + add misc. documentation.
+
+	* src/ranges.c (range_fragment_list_clip): fix frightening logic bug.
+
+2000-03-22  Michael Meeks  <michael@helixcode.com>
+
+	* src/ranges.c (range_fragment_list_clip): kill supid bug removing
+	list items whilst iterating the list + add the clip region to the list
+	temporarily.
+
 2000-03-24  JP Rosevear  <jpr@arcavia.com>
 
 	* src/dialogs/workbook-attr.glade.h: Dialog translation header.
@@ -34,19 +57,19 @@
 
 2000-03-24  Jody Goldberg <jgoldberg@home.com>
 
-	* src/expr.c (cellref_relocate) : Simply code to implement correct logic.
+	* src/expr.c (cellref_relocate): Simply code to implement correct logic.
 
 	* src/main.c : Add debug_excel_objects.
 
 2000-03-24  Jody Goldberg <jgoldberg@home.com>
 
 	From: Sebastian Wilhelmi <wilhelmi@ira.uka.de>
-	* src/functions/fn-lookup.c (gnumeric_lookup) : Use the bound and the
+	* src/functions/fn-lookup.c (gnumeric_lookup): Use the bound and the
 	  index for the destination rather than the source.
 
 2000-03-24  Jody Goldberg <jgoldberg@home.com>
 
-	* src/gnumeric-sheet.c (gnumeric_sheet_set_left_col) : 
+	* src/gnumeric-sheet.c (gnumeric_sheet_set_left_col): 
 	Fix cut-n-paste-o.
 
 2000-03-24  Tuomas Kuosmanen  <tigert@gimp.org>
@@ -61,10 +84,10 @@
 
 2000-03-23  Jody Goldberg <jgoldberg@home.com>
 
-	* src/cell.c (cell_set_text_simple) : Do NOT set the entered text
-	  when importing non string values.  There are still gotchas
-	  elsewhere. eg enter 90 format to current and edit box shows
-	  something that we can not parse.
+	* src/cell.c (cell_set_text_simple): Do NOT set the entered text
+	when importing non string values.  There are still gotchas
+	elsewhere. eg enter 90 format to current and edit box shows
+	something that we can not parse.
 
 2000-04-23  Morten Welinder  <terra@diku.dk>
 
@@ -84,12 +107,12 @@
 2000-03-23  Jody Goldberg <jgoldberg@home.com>
 
 	* src/main.h : include popt-gnome.h rather than popt.h.  We may
-	  eventually need gnome-popt.h, but lets keep this simple for now.
-	  Does anyone know the right way to do this ?
+	eventually need gnome-popt.h, but lets keep this simple for now.
+	Does anyone know the right way to do this ?
 
 	* src/cell.c (cell_calculate_span) : Add CENTER_ACROSS_SELECTION.
 	(cell_set_text_simple) : Begin transition to checking
-	  format of current cell for match.  No real change yet.
+	format of current cell for match.  No real change yet.
 
 	* idl/Gnumeric.idl : Add CENTER_ACROSS_SELECTION.
 	* src/cell-draw.c (cell_draw) : Ditto.
@@ -102,10 +125,10 @@
 	* src/format.c : Move definition of _StyleFormatEntry from mstyle.h.
 
 	* src/number-match.c (format_create_regexp) : Extend to support
-	  currency names.
+	currency names.
 
 	* src/item-grid.c (item_grid_draw_border) : minor optimization for
-	  non-border case.
+	non-border case.
 
 2000-03-23  Miguel de Icaza  <miguel@helixcode.com>
 
@@ -126,11 +149,11 @@
 
 2000-03-23  Jody Goldberg <jgoldberg@home.com>
 
-	* src/gnumeric-sheet.c (gnumeric_sheet_set_{left_col, top_row}) :
-	  Replace scrolling.
+	* src/gnumeric-sheet.c (gnumeric_sheet_set_{left_col, top_row}):
+	Replace scrolling.
 
-	* src/item-grid.c (item_grid_find_row) : Add some old fixes that went
-	  into find_col but not find_row ??
+	* src/item-grid.c (item_grid_find_row): Add some old fixes that went
+	into find_col but not find_row ??
 
 2000-03-22  Michael Meeks  <michael@helixcode.com>
 

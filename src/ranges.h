@@ -6,10 +6,33 @@
 #include "cell.h"
 #include "style.h"
 
-#define range_equal(a,b) (((Range *)(a))->start.row == ((Range *)(b))->start.row && \
-			  ((Range *)(a))->end.row   == ((Range *)(b))->end.row && \
-			  ((Range *)(a))->start.col == ((Range *)(b))->start.col && \
-			  ((Range *)(a))->end.col   == ((Range *)(b))->end.col)
+/**
+ * range_equal:
+ * @a: First range
+ * @b: Second range
+ *
+ * NB. totaly commutative.
+ *
+ * Returns: True if both ranges are equal.
+ **/
+#define range_equal(a,b)   (((Range *)(a))->start.row == ((Range *)(b))->start.row && \
+			    ((Range *)(a))->end.row   == ((Range *)(b))->end.row && \
+			    ((Range *)(a))->start.col == ((Range *)(b))->start.col && \
+			    ((Range *)(a))->end.col   == ((Range *)(b))->end.col)
+
+/**
+ * range_overlap:
+ * @a: First range
+ * @b: Second range
+ *
+ * NB. totaly commutative, hence symmetry.
+ *
+ * Returns: True if the ranges overlap at all.
+ **/
+#define range_overlap(a,b) ((((Range *)(a))->end.row >= ((Range *)(b))->start.row) && \
+			    (((Range *)(b))->end.row >= ((Range *)(a))->start.row) && \
+			    (((Range *)(a))->end.col >= ((Range *)(b))->start.col) && \
+			    (((Range *)(b))->end.col >= ((Range *)(a))->start.col))
 
 /**
  * range_contains:
@@ -26,6 +49,9 @@
 				 ((x) >= ((Range *)(r))->start.col) && \
 				 ((x) <= ((Range *)(r))->end.col))
 
+/*
+ * Quickly Test if a range is valid
+ */
 #define range_valid(r)          (((Range *)(r))->start.col <= ((Range *)(r))->end.col && \
 				 ((Range *)(r))->start.row <= ((Range *)(r))->end.row)
 
@@ -54,33 +80,32 @@ void        range_list_foreach_area (Sheet *sheet, GSList *ranges,
 void        ranges_set_style        (Sheet  *sheet, GSList *ranges,
 				     MStyle *mstyle);
 
-gboolean    range_is_singleton  (Range const *r);
-gboolean    range_is_infinite   (Range const *r);
+gboolean    range_is_singleton  (const Range *r);
+gboolean    range_is_infinite   (const Range *r);
 void        range_clip_to_finite(Range *range, Sheet *sheet);
-gboolean    range_contained     (Range const *a, Range const *b);
-gboolean    range_adjacent      (Range const *a, Range const *b);
-gboolean    range_overlap       (Range const *a, Range const *b);
-Range       range_merge         (Range const *a, Range const *b);
+gboolean    range_contained     (const Range *a, const Range *b);
+gboolean    range_adjacent      (const Range *a, const Range *b);
+Range       range_merge         (const Range *a, const Range *b);
 gboolean    range_intersection  (Range *r,
-				 Range const *a,
-				 Range const *b);
-Range       range_union         (Range const *a, Range const *b);
+				 const Range *a,
+				 const Range *b);
+Range       range_union         (const Range *a, const Range *b);
 gboolean    range_translate     (Range *range, int col_offset, int row_offset);
 gboolean    range_transpose     (Range *range, const CellPos *origin);
 gboolean    range_expand        (Range *range,
 				 int d_tlx, int d_tly,
 				 int d_brx, int d_bry);
 
-const char *range_name          (Range const *src);
-void        range_dump          (Range const *src);
-Range      *range_copy          (Range const *src);
+const char *range_name          (const Range *src);
+void        range_dump          (const Range *src);
+Range      *range_copy          (const Range *src);
 
 typedef     Range *(*RangeCopyFn) (const Range *r);
-GList      *range_split_ranges  (const Range *hard, const Range *soft,
-				 RangeCopyFn copy_fn);
-GList      *range_fragment      (const Range *a, const Range *b);
-GList      *range_fragment_list (const GList *ranges);
+GList      *range_split_ranges    (const Range *hard, const Range *soft,
+				   RangeCopyFn copy_fn);
+GList      *range_fragment        (const Range *a, const Range *b);
+GList      *range_fragment_list   (const GList *ranges);
 GList      *range_fragment_list_clip (const GList *ranges, const Range *clip);
-void        range_fragment_free (GList *fragments);
+void        range_fragment_free   (GList *fragments);
 
 #endif /* GNUMERIC_RANGES_H */

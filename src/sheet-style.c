@@ -520,6 +520,8 @@ sheet_mstyle_compute_from_list (GList *list, int col, int row)
 	GList  *style_list;
 	MStyle *mstyle;
 
+	g_return_val_if_fail (list != NULL, mstyle_new_default ());
+
 	if (!list->next) { /* Short circuit */
 		StyleRegion *sr = list->data;
 
@@ -1622,16 +1624,18 @@ sheet_unique_cb (Sheet *sheet, Range const *range,
 		middle_list = NULL;
 
 	/* 5.1 Check the middle range */
-	frags = range_fragment_list_clip (middle_list, &middle);
-	for (l = frags; l; l = g_list_next (l)) {
-		Range  *r   = l->data;
-		MStyle *tmp = sheet_mstyle_compute_from_list (middle_list,
-							      r->start.col,
-							      r->start.row);
-		mstyle_compare (cl->mstyle, tmp);
-		mstyle_unref (tmp);
+	if (middle_valid) {
+		frags = range_fragment_list_clip (middle_list, &middle);
+		for (l = frags; l; l = g_list_next (l)) {
+			Range  *r   = l->data;
+			MStyle *tmp = sheet_mstyle_compute_from_list (middle_list,
+								      r->start.col,
+								      r->start.row);
+			mstyle_compare (cl->mstyle, tmp);
+			mstyle_unref (tmp);
+		}
+		range_fragment_free (frags);
 	}
-	range_fragment_free (frags);
 
 	/* 5.2 Move the vert / horiz. data into the array */
 	if (middle_valid) {

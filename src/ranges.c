@@ -21,6 +21,8 @@
 #include "ranges.h"
 #include "value.h"
 
+#undef RANGE_DEBUG
+
 Range *
 range_init (Range *r, int start_col, int start_row,
 	    int end_col, int end_row)
@@ -409,25 +411,13 @@ range_dump (Range const *src)
 		fputc ('\n', stderr);
 }
 
-/*
- * This is totaly commutative of course; hence the symmetry.
- */
-gboolean inline
-range_overlap (Range const *a, Range const *b)
+static void
+ranges_dump (GList *l, char *txt)
 {
-	if (a->end.row < b->start.row)
-		return FALSE;
-
-	if (b->end.row < a->start.row)
-		return FALSE;
-
-	if (a->end.col < b->start.col)
-		return FALSE;
-
-	if (b->end.col < a->start.col)
-		return FALSE;
-
-	return TRUE;
+	fprintf (stderr, "%s", txt);
+	for (; l; l = l->next)
+		range_dump (l->data);
+	fprintf (stderr, "\n");
 }
 
 /**
@@ -467,12 +457,9 @@ range_contained (Range const *a, Range const *b)
  * overlapping remainder of soft as the first list item
  * ( the central region in the pathalogical case ).
  *
- * FIXME: this can be optimized when we have copy_fn by
- * using it carefuly.
- * 
  * Return value: A list of fragments.
  **/
-inline GList *
+GList *
 range_split_ranges (const Range *hard, const Range *soft,
 		    RangeCopyFn copy_fn)
 {
@@ -696,13 +683,13 @@ range_fragment (const Range *a, const Range *b)
 {
 	GList *split, *ans = NULL;
 	
-	split  = range_split_ranges (a, b, NULL);
-	ans = g_list_concat (ans, split);
+	split = range_split_ranges (a, b, NULL);
+	ans   = g_list_concat (ans, split);
 	
-	split  = range_split_ranges (b, a, NULL);
+	split = range_split_ranges (b, a, NULL);
 	if (split) {
 		g_free (split->data);
-		split  = g_list_remove (split, split->data);
+		split = g_list_remove (split, split->data);
 	}
 	ans = g_list_concat (ans, split);
 
@@ -723,47 +710,102 @@ range_fragment_list (const GList *ra)
 	return range_fragment_list_clip (ra, NULL);
 }
 
+
+/**
+ *  The more I read this code the more I am convinced that
+ * it is badly broken by design.
+ **/
 GList *
 range_fragment_list_clip (const GList *ra, const Range *clip)
 {
-	GList *ranges = NULL;
-	GList *a; /* Order n*n: ugly */
+	GList *ranges, *l, *a, *remove, *nexta;
 
-	for (a = (GList *)ra; a; a = g_list_next (a)) {
-		GList *b;
+	if (clip)
+		ranges = g_list_prepend (NULL, range_copy (clip));
+	else
+		ranges = NULL;
+
+	for (l = (GList *)ra; l; l = l->next)
+		ranges = g_list_prepend (ranges, range_copy (l->data));
+
+#ifdef RANGE_DEBUG
+	ranges_dump (ranges, "On entry : ");
+#endif
+
+	remove = NULL;
+
+	for (a = ranges; a; a = nexta) {
+		GList   *b, *nextb;
 		gboolean done_split = FALSE;
+		
+		for (b = a->next; b && !done_split; b = nextb) {
+			nextb = b->next;
 
-		b = g_list_next (a);
+			if (range_equal (a->data, b->data)) {
+				g_free (b->data);
+				if (g_list_remove (ranges, b->data) != ranges)
+					g_error ("Impossible overwrite");
 
-		while (b) {
-			GList *next = g_list_next (b);
-
-			if (! range_equal   (a->data, b->data)
-			    & range_overlap (a->data, b->data)) {
+			} else if (range_overlap (a->data, b->data)) {
 				GList *split;
-
+				
 				split = range_fragment (a->data, b->data);
-				if (split)
-					ranges = g_list_concat (ranges, split);
+
+				g_assert (split);
+				if (g_list_concat (ranges, split) != ranges)
+					g_error ("Overwriting ourselfs");
+
 				done_split = TRUE;
+				break;
 			}
-			b = next;
 		}
-		if (!done_split)
-			ranges = g_list_append (ranges, range_copy (a->data));
-	}
-	if (ranges && clip) {
-		GList *l, *next;
-		for (l = ranges; l; l = next) {
-			next = l->next;
-			if (!range_valid (l->data))
-				g_warning ("Invalid range fragment");
-			else if (range_overlap (l->data, clip))
-				continue;
-			g_free (l->data);
-			ranges = g_list_remove (ranges, l->data);
+
+		nexta = a->next;
+		if (done_split) {
+			g_free (a->data);
+			ranges = g_list_remove (ranges, a->data);
+			
+			if (b == nexta)
+				nexta = b->next;
+
+			g_free (b->data);
+			ranges = g_list_remove (ranges, b->data);
 		}
 	}
+
+	if (clip) {
+#ifdef RANGE_DEBUG
+		fprintf (stderr, "Clip : ");
+		range_dump (clip);
+#endif
+		for (a = ranges; a; a = a->next) {
+			if (!range_contained (a->data, clip)) {
+#ifdef RANGE_DEBUG
+				fprintf (stderr, "Uncontained: ");
+				range_dump (a->data);
+#endif
+				remove = g_list_prepend (remove, a->data);
+			}
+		}
+	}
+
+#ifdef RANGE_DEBUG
+	ranges_dump (remove, "Removing : ");
+#endif
+	while (remove) {
+		gpointer kill;
+		
+		kill = remove->data;
+		
+		ranges = g_list_remove (ranges, kill);
+		remove = g_list_remove (remove, kill);
+		
+		g_free (kill);
+	}
+
+#ifdef RANGE_DEBUG
+	ranges_dump (ranges, "Answer : ");
+#endif
 
 	return ranges;
 }

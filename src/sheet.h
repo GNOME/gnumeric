@@ -256,7 +256,7 @@ void	    sheet_row_col_visible         (Sheet *sheet, gboolean const is_col,
 					   int index, int count);
 
 /* sheet-style.c */
-MStyle        *sheet_style_compute              (Sheet const *sheet,
+MStyle        *sheet_style_compute              (const Sheet *sheet,
 						 int col, int row);
 void           sheet_style_attach               (Sheet  *sheet, Range   range,
 						 MStyle *mstyle);
@@ -281,8 +281,8 @@ void           sheet_styles_dump                (Sheet *sheet);
 void           sheet_cells_update               (Sheet *sheet, Range r,
 						 gboolean render_text);
 Range          sheet_get_full_range             (void);
-void           sheet_style_get_extent           (Range *r, Sheet const *sheet);
-Range          sheet_get_extent                 (Sheet const *sheet);
+void           sheet_style_get_extent           (Range *r, const Sheet *sheet);
+Range          sheet_get_extent                 (const Sheet *sheet);
 
 GList         *sheet_get_styles_in_range        (Sheet *sheet, const Range *r);
 void           sheet_style_list_destroy         (GList *l);
