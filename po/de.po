@@ -59,8 +59,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0.x\n"
-"POT-Creation-Date: 2002-01-30 22:58-0500\n"
-"PO-Revision-Date: 2002-02-04 03:57+0100\n"
+"POT-Creation-Date: 2002-02-16 12:44+0100\n"
+"PO-Revision-Date: 2002-02-16 12:48+0100\n"
 "Last-Translator: Karsten Weiss <knweiss@gmx.de>\n"
 "Language-Team: GNOME-DE <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -189,7 +189,7 @@ msgid ""
 msgstr "LATER"
 
 #: plugins/derivatives/options.c:376
-#, no-c-format, fuzzy
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=opt_bs_call_rho\n"
 "@SYNTAX=opt_bs_call_rho(strike,price,volatility,days_to_maturity,rate)\n"
@@ -211,7 +211,7 @@ msgid ""
 msgstr "LATER"
 
 #: plugins/derivatives/options.c:400
-#, no-c-format, fuzzy
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=opt_bs_put_rho\n"
 "@SYNTAX=opt_bs_put_rho(strike,price,volatility,days_to_maturity,rate)\n"
@@ -297,7 +297,7 @@ msgid ""
 msgstr "LATER"
 
 #: plugins/derivatives/options.c:493
-#, no-c-format, fuzzy
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=opt_bs_vega\n"
 "@SYNTAX=opt_bs_bega(strike,price,volatility,days_to_maturity,rate)\n"
@@ -690,7 +690,7 @@ msgstr "Beschränkungen:"
 #: plugins/mps/mps.c:335 src/dialogs/plugin-manager.glade.h:10
 #: src/format-template.c:510 src/solver-lp.c:898 src/solver-lp.c:922
 #: src/solver-lp.c:955 src/solver-lp.c:1049 src/solver-lp.c:1096
-#: src/workbook-control.c:233
+#: src/workbook-control.c:234
 msgid "Name"
 msgstr "Name"
 
@@ -1323,7 +1323,7 @@ msgstr "Die aktuelle Auswahl automatisch füllen"
 
 #: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:3070
 msgid "Automatically perform simple spell checking"
-msgstr "Einfache Rechtschreibprüfung automatisch durchführen"
+msgstr "Automatisch eine einfache Rechtschreibprüfung durchführen"
 
 #: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:3073
 msgid "Automatically save the current document at regular intervals"
@@ -1452,28 +1452,35 @@ msgstr "Combobox"
 # CHECK
 #: src/GNOME_Gnumeric.xml.h:38 src/workbook-control-gui.c:3000
 msgid "Comparing two population means for two paired samples.: t-test"
-msgstr "Vergleich zweier Populations-Mittel nach zwei abhängige Stichproben: t-test"
+msgstr ""
+"Vergleich zweier Populations-Mittel nach zwei abhängige Stichproben: t-test"
 
 # CHECK
 #: src/GNOME_Gnumeric.xml.h:39 src/workbook-control-gui.c:3004
 msgid ""
 "Comparing two population means for two unpaired samples from pop. with equal "
 "var.: t-test"
-msgstr "Zwei Populations-Mittel wegen zwei unabhängiger Stichproben von Pop. mit gleicher Var. vergleichen: t-test"
+msgstr ""
+"Zwei Populations-Mittel wegen zwei unabhängiger Stichproben von Pop. mit "
+"gleicher Var. vergleichen: t-test"
 
 # CHECK
 #: src/GNOME_Gnumeric.xml.h:40 src/workbook-control-gui.c:3009
 msgid ""
 "Comparing two population means for two unpaired samples from pop. with "
 "unequal var.: t-test"
-msgstr "Zwei Populations-Mittel wegen zwei unabhängiger Strichproben von Pop. mit ungleicher Var. vergleichen: t-test"
+msgstr ""
+"Zwei Populations-Mittel wegen zwei unabhängiger Strichproben von Pop. mit "
+"ungleicher Var. vergleichen: t-test"
 
 # CHECK
 #: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:3014
 msgid ""
 "Comparing two population means from pop. with known variances or using a "
 "large sample: z- test"
-msgstr "Zwei Populations-Mittel wegen Pop. mit bekannter Var. oder große Stichprobe vergleichen: z-test"
+msgstr ""
+"Zwei Populations-Mittel wegen Pop. mit bekannter Var. oder große Stichprobe "
+"vergleichen: z-test"
 
 #: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3056
 msgid "Comparing two population variances"
@@ -1645,11 +1652,15 @@ msgstr "Kommentar der ausgewählten Zelle bearbeiten"
 
 #: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:2874
 msgid "Ensure columns are just wide enough to display content"
-msgstr "Sicherstellen, dass die Spalten breit genug sind, um den Inhalt anzeigen zu können"
+msgstr ""
+"Sicherstellen, dass die Spalten breit genug sind, um den Inhalt anzeigen zu "
+"können"
 
 #: src/GNOME_Gnumeric.xml.h:83 src/workbook-control-gui.c:2893
 msgid "Ensure rows are just tall enough to display content"
-msgstr "Sicherstellen, dass die Zeilen hoch genug sind, um den Inhalt anzeigen zu können"
+msgstr ""
+"Sicherstellen, dass die Zeilen hoch genug sind, um den Inhalt anzeigen zu "
+"können"
 
 #: src/GNOME_Gnumeric.xml.h:84
 msgid "Exit the program"
@@ -1694,7 +1705,7 @@ msgstr "Vordergrund"
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Formatiert einen Zellen-Bereich nach einer vordefinierten Vorlage"
 
-#: src/GNOME_Gnumeric.xml.h:94 src/analysis-tools.c:4078
+#: src/GNOME_Gnumeric.xml.h:94 src/analysis-tools.c:4094
 #: src/dialogs/fourier-analysis.glade.h:2 src/workbook-control-gui.c:3038
 msgid "Fourier Analysis"
 msgstr "Fourier-Analyse"
@@ -2098,7 +2109,8 @@ msgstr "Überblicksgruppe entfernen"
 
 #: src/GNOME_Gnumeric.xml.h:187
 msgid "Remove selected cells, shifting others into their place"
-msgstr "Ausgewählte Zellen entfernen und die anderen an deren Stelle verschieben"
+msgstr ""
+"Ausgewählte Zellen entfernen und die anderen an deren Stelle verschieben"
 
 #: src/GNOME_Gnumeric.xml.h:188 src/workbook-control-gui.c:2707
 msgid "Rename the current sheet"
@@ -2191,7 +2203,9 @@ msgstr "Alle Zellen des Arbeitsblatts auswählen"
 
 #: src/GNOME_Gnumeric.xml.h:209
 msgid "Select all the cells that depend on the current edit cell"
-msgstr "Alle die Zellen auswählen, die von der momentan in Bearbeitung befindlichen Zelle abhängig sind."
+msgstr ""
+"Alle die Zellen auswählen, die von der momentan in Bearbeitung befindlichen "
+"Zelle abhängig sind."
 
 #: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:2672
 msgid "Select an array of cells"
@@ -2207,7 +2221,9 @@ msgstr "Eine komplette Zeile auswählen"
 
 #: src/GNOME_Gnumeric.xml.h:213 src/workbook-format-toolbar.c:466
 msgid "Sets the format of the selected cells to include a thousands separator"
-msgstr "Bei der Darstellung der ausgewählten Zellen die Tausender-Unterteilung benutzen"
+msgstr ""
+"Bei der Darstellung der ausgewählten Zellen die Tausender-Unterteilung "
+"benutzen"
 
 #: src/GNOME_Gnumeric.xml.h:214 src/workbook-format-toolbar.c:460
 msgid "Sets the format of the selected cells to monetary"
@@ -2237,13 +2253,17 @@ msgstr "Ausgewählte Zellen sortieren"
 msgid ""
 "Sort the selected region in ascending order based on the first column "
 "selected"
-msgstr "Den ausgewählten Bereich in aufsteigender Reihenfolge sortieren (basierend auf der ersten ausgewählten Spalte)"
+msgstr ""
+"Den ausgewählten Bereich in aufsteigender Reihenfolge sortieren (basierend "
+"auf der ersten ausgewählten Spalte)"
 
 #: src/GNOME_Gnumeric.xml.h:221
 msgid ""
 "Sort the selected region in descending order based on the first column "
 "selected"
-msgstr "Den ausgewählten Bereich in absteigender Reihenfolge sortieren (basierend auf der ersten ausgewählten Spalte)"
+msgstr ""
+"Den ausgewählten Bereich in absteigender Reihenfolge sortieren (basierend "
+"auf der ersten ausgewählten Spalte)"
 
 #: src/GNOME_Gnumeric.xml.h:222 src/workbook-format-toolbar.c:454
 msgid "Split"
@@ -2294,11 +2314,13 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:233 src/workbook-control-gui.c:3123
 msgid "Toggle whether to display column outlines on the left or right"
-msgstr "Umschalten, ob der Spaltenüberblick links oder rechts angezeigt werden soll."
+msgstr ""
+"Umschalten, ob der Spaltenüberblick links oder rechts angezeigt werden soll."
 
 #: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:3117
 msgid "Toggle whether to display row outlines on top or bottom"
-msgstr "Umschalten, ob der Zeilenüberblick oben oder unten angezeigt werden soll."
+msgstr ""
+"Umschalten, ob der Zeilenüberblick oben oder unten angezeigt werden soll."
 
 #: src/GNOME_Gnumeric.xml.h:235 src/workbook-control-gui.c:2978
 msgid "Two Factor Analysis of Variance"
@@ -2707,12 +2729,12 @@ msgstr "A_rbeitsbuch..."
 msgid "_Zoom..."
 msgstr "Ansicht verändern (_Zoom)..."
 
-#: src/analysis-tools.c:195 src/analysis-tools.c:3218
+#: src/analysis-tools.c:195 src/analysis-tools.c:3234
 #, c-format
 msgid "Row %i"
 msgstr "Zeile %i"
 
-#: src/analysis-tools.c:198 src/analysis-tools.c:3210
+#: src/analysis-tools.c:198 src/analysis-tools.c:3226
 #, c-format
 msgid "Column %i"
 msgstr "Spalte %i"
@@ -2754,7 +2776,9 @@ msgstr "Statistischer Überblick"
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
-msgstr "/Mittel/Standardfehler/Median/Modus/Standardabweichung/Stichprobenvarianz/Kurtosis/Skewness/Bereich/Minimum/Maximum/Summe/Anzahl"
+msgstr ""
+"/Mittel/Standardfehler/Median/Modus/Standardabweichung/Stichprobenvarianz/"
+"Kurtosis/Skewness/Bereich/Minimum/Maximum/Summe/Anzahl"
 
 #: src/analysis-tools.c:1081
 msgid "Confidence Interval for the Mean"
@@ -2806,7 +2830,10 @@ msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
 "Critical two-tail"
-msgstr "/Mittel/Bekannte Varianz/Beobachtungen/Hypothetische Mitteldifferenz/Realisierte Mitteldifferenz/z/Einseitiges P (Z<=z)/ Einseitig Kritisches z/ZweiseitigesP (Z<=z)/Zweiseitig Kritisches z"
+msgstr ""
+"/Mittel/Bekannte Varianz/Beobachtungen/Hypothetische Mitteldifferenz/"
+"Realisierte Mitteldifferenz/z/Einseitiges P (Z<=z)/ Einseitig Kritisches z/"
+"ZweiseitigesP (Z<=z)/Zweiseitig Kritisches z"
 
 #: src/analysis-tools.c:1498 src/analysis-tools.c:1645
 #: src/analysis-tools.c:1773
@@ -2818,21 +2845,31 @@ msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
 "two-tail"
-msgstr "/Mittel/Varianz/Beobachtungen/Korrelationskoeffizient/Hypothetische Mitteldifferenz/df/t/Einseitiges P (Z<=z)/ Einseitig Kritisches z/Zweiseitiges P (Z<=z)/Zweiseitig Kritisches z"
+msgstr ""
+"/Mittel/Varianz/Beobachtungen/Korrelationskoeffizient/Hypothetische "
+"Mitteldifferenz/df/t/Einseitiges P (Z<=z)/ Einseitig Kritisches z/"
+"Zweiseitiges P (Z<=z)/Zweiseitig Kritisches z"
 
 #: src/analysis-tools.c:1648
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
 "(T<=t) two-tail/t Critical two-tail"
-msgstr "/Mittel/Varianz/Beobachtungen/Gemeinsame Varianz/Hypothetische Durchschnittsdifferenz/Beobachtete Durchschnittsdifferenz/df/t Stat/Einseitiger P-Wert/Einseitiger Kritischer t Wert/Zweisieitiger P Wert/ Zweiseitiger Kritischer t Wert"
+msgstr ""
+"/Mittel/Varianz/Beobachtungen/Gemeinsame Varianz/Hypothetische "
+"Durchschnittsdifferenz/Beobachtete Durchschnittsdifferenz/df/t Stat/"
+"Einseitiger P-Wert/Einseitiger Kritischer t Wert/Zweisieitiger P Wert/ "
+"Zweiseitiger Kritischer t Wert"
 
 #: src/analysis-tools.c:1776
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
 "t Critical two-tail"
-msgstr "/Mittel/Varianz/Beobachtungen/Hypothetische Mitteldifferenz/Realisierte Mitteldifferenz/df/t/Einseitiges P (Z<=z)/ Einseitig Kritisches z/Zweiseitiges P (Z<=z)/Zweiseitig Kritisches z"
+msgstr ""
+"/Mittel/Varianz/Beobachtungen/Hypothetische Mitteldifferenz/Realisierte "
+"Mitteldifferenz/df/t/Einseitiges P (Z<=z)/ Einseitig Kritisches z/"
+"Zweiseitiges P (Z<=z)/Zweiseitig Kritisches z"
 
 #: src/analysis-tools.c:1914
 msgid "F-Test"
@@ -2842,7 +2879,10 @@ msgstr "F-Test"
 msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
-msgstr "/Mittel/Varianz/Beobachtungen/df/F/Rechter P Wert/Rechter Kritischer F Wert/Linker P Wert/Linker Kritischer F Wert/Zweiseitiger P Wert/Zweiseitiger Kritischer F Wert"
+msgstr ""
+"/Mittel/Varianz/Beobachtungen/df/F/Rechter P Wert/Rechter Kritischer F Wert/"
+"Linker P Wert/Linker Kritischer F Wert/Zweiseitiger P Wert/Zweiseitiger "
+"Kritischer F Wert"
 
 #: src/analysis-tools.c:2038 src/analysis-tools.c:2096
 msgid "Random"
@@ -2904,117 +2944,119 @@ msgid "Rank"
 msgstr "Rang"
 
 #. We are ready to create the summary table
-#: src/analysis-tools.c:2828 src/analysis-tools.c:3008
-#: src/analysis-tools.c:3270
+#: src/analysis-tools.c:2829 src/analysis-tools.c:3024
+#: src/analysis-tools.c:3286
 msgid "Anova"
 msgstr "Varianzanalyse"
 
-#: src/analysis-tools.c:2830
+#: src/analysis-tools.c:2831
 msgid "Anova: Single Factor"
 msgstr "Varianzanalyse: Einfaktoriell"
 
-#: src/analysis-tools.c:2831 src/analysis-tools.c:3273
+#: src/analysis-tools.c:2832 src/analysis-tools.c:3289
 msgid "SUMMARY"
 msgstr "ZUSAMMENFASSUNG"
 
-#: src/analysis-tools.c:2832
+#: src/analysis-tools.c:2833
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Gruppen/Anzahl/Summe/Durchschnitt/Varianz"
 
-#: src/analysis-tools.c:2895
+#: src/analysis-tools.c:2889
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
-msgstr "/Varianzanalyse/Quelle der Abweichung/Zwischen Gruppen/Innerhalb von Gruppen/Total"
+msgstr ""
+"/Varianzanalyse/Quelle der Abweichung/Zwischen Gruppen/Innerhalb von Gruppen/"
+"Total"
 
 # CHECK
-#: src/analysis-tools.c:2900 src/analysis-tools.c:3090
-#: src/analysis-tools.c:3297
+#: src/analysis-tools.c:2894 src/analysis-tools.c:3106
+#: src/analysis-tools.c:3313
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/SS/df/MS/F/P-Wert/Kritisches F"
 
 # CHECK
-#: src/analysis-tools.c:3014
+#: src/analysis-tools.c:3030
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Doppelte Varianzanalyse: 1 Beobachtung je Kombination"
 
-#: src/analysis-tools.c:3015
+#: src/analysis-tools.c:3031
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr "/SUMMARY/Count/Sum/Durchschnitt/Varianz"
 
-#: src/analysis-tools.c:3084
+#: src/analysis-tools.c:3100
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/Varianzanalyse/Quelle der Abweichung/Zeilen/Spalten/Fehler/Total"
 
 # CHECK
-#: src/analysis-tools.c:3272
+#: src/analysis-tools.c:3288
 msgid "Anova: Two-Factor With Replication"
 msgstr "Doppelte Varianzanalyse: 2 Beobachtungen je Kombination"
 
 # There isn't enough space for "Gesamt"
-#: src/analysis-tools.c:3277 src/analysis-tools.c:3287
-#: src/analysis-tools.c:3295 src/dialogs/dialog-autoformat.c:74
+#: src/analysis-tools.c:3293 src/analysis-tools.c:3303
+#: src/analysis-tools.c:3311 src/dialogs/dialog-autoformat.c:74
 #: src/dialogs/dialog-autoformat.c:78
 msgid "Total"
 msgstr "Total"
 
-#: src/analysis-tools.c:3279
+#: src/analysis-tools.c:3295
 msgid "/Count/Sum/Average/Variance"
 msgstr "/Anzahl/Summe/Durchschnitt/Varianz"
 
-#: src/analysis-tools.c:3289
+#: src/analysis-tools.c:3305
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 msgstr "/Varianzanalyse/Quelle der Abweichung/Zeilen/Spalten/Fehler/Total"
 
-#: src/analysis-tools.c:3757
+#: src/analysis-tools.c:3773
 #, c-format
 msgid "<%s"
 msgstr "<%s"
 
-#: src/analysis-tools.c:3761
+#: src/analysis-tools.c:3777
 msgid "Too Small"
 msgstr "Zu klein"
 
-#: src/analysis-tools.c:3778
+#: src/analysis-tools.c:3794
 msgid "More"
 msgstr "Mehr"
 
-#: src/analysis-tools.c:3786
+#: src/analysis-tools.c:3802
 #, c-format
 msgid ">%s"
 msgstr ">%s"
 
-#: src/analysis-tools.c:3790
+#: src/analysis-tools.c:3806
 msgid "Too Large"
 msgstr "Zu groß"
 
-#: src/analysis-tools.c:3831 src/dialogs/histogram.glade.h:7
+#: src/analysis-tools.c:3847 src/dialogs/histogram.glade.h:7
 msgid "Histogram"
 msgstr "Histogramm"
 
 # CHECK, = numerisch?
 # 2001-02-11 07:05:07 CET -ke-
-#: src/analysis-tools.c:3836
+#: src/analysis-tools.c:3852
 msgid "Bin"
 msgstr "Num"
 
-#: src/analysis-tools.c:3861
+#: src/analysis-tools.c:3877
 msgid "Frequency"
 msgstr "Frequenz"
 
-#: src/analysis-tools.c:3863 src/dialogs/dialog-zoom.glade.h:2
+#: src/analysis-tools.c:3879 src/dialogs/dialog-zoom.glade.h:2
 #, no-c-format
 msgid "%"
 msgstr "%"
 
-#: src/analysis-tools.c:3866
+#: src/analysis-tools.c:3882
 #, no-c-format
 msgid "Cumulative %"
 msgstr "Kumulative %"
 
-#: src/analysis-tools.c:4098
+#: src/analysis-tools.c:4114
 msgid "Real"
 msgstr "Real"
 
-#: src/analysis-tools.c:4099
+#: src/analysis-tools.c:4115
 msgid "Imaginary"
 msgstr "Imaginär"
 
@@ -4576,13 +4618,17 @@ msgstr "Funktion, die beim Konsolidieren verwendet werden soll"
 msgid ""
 "The left column contains labels, these will not be consolidated, but used as "
 "key for comparison"
-msgstr "Die linke Spalte enthält Beschriftungen. Diese werden nicht konsolidiert, sondern als Schlüssel für Vergleiche verwendet"
+msgstr ""
+"Die linke Spalte enthält Beschriftungen. Diese werden nicht konsolidiert, "
+"sondern als Schlüssel für Vergleiche verwendet"
 
 #: src/dialogs/consolidate.glade.h:22
 msgid ""
 "The top row contains labels, these will not be consolidated, but used as key "
 "for comparison"
-msgstr "Die erste Zeile enthält Beschriftungen. Diese werden nicht konsolidiert, sondern als Schlüssel für Vergleiche verwendet"
+msgstr ""
+"Die erste Zeile enthält Beschriftungen. Diese werden nicht konsolidiert, "
+"sondern als Schlüssel für Vergleiche verwendet"
 
 #: src/dialogs/consolidate.glade.h:23
 msgid "Values"
@@ -4827,7 +4873,8 @@ msgstr ""
 
 #: src/dialogs/dialog-advanced-filter.c:273
 msgid "You should introduce a valid cell range in 'Copy To:'"
-msgstr "Sie sollten einen gültigen Zellenbereich bei 'Kopieren auf:' eintragen."
+msgstr ""
+"Sie sollten einen gültigen Zellenbereich bei 'Kopieren auf:' eintragen."
 
 #: src/dialogs/dialog-advanced-filter.c:320
 msgid ""
@@ -4880,7 +4927,9 @@ msgstr "Es war nicht möglich, den Kovarianz-Druiden zu erzeugen."
 
 #: src/dialogs/dialog-analysis-tools.c:1508
 msgid "Could not create the Descriptive Statistics Tool dialog."
-msgstr "Es war nicht möglich, den Druiden für die beschreibende Statistik zu erzeugen."
+msgstr ""
+"Es war nicht möglich, den Druiden für die beschreibende Statistik zu "
+"erzeugen."
 
 #: src/dialogs/dialog-analysis-tools.c:1611
 msgid "Could not create the Rank and  Percentile Tools dialog."
@@ -5094,7 +5143,9 @@ msgstr "Es war nicht möglich, den Fourier-Analyse-Druiden zu erzeugen."
 msgid ""
 "Each row of the bin range should contain one numeric value\n"
 "(ignoring the label if applicable)."
-msgstr "Jede Zeile der Klasseneinteilung sollte einen numerischen Wert enthalten (ohne die mögliche Beschriftung)"
+msgstr ""
+"Jede Zeile der Klasseneinteilung sollte einen numerischen Wert enthalten "
+"(ohne die mögliche Beschriftung)"
 
 #: src/dialogs/dialog-analysis-tools.c:4070 src/dialogs/histogram.glade.h:3
 msgid "Bin _Range:"
@@ -5106,11 +5157,14 @@ msgstr "Der Histogramm-Druide konnte nicht erzeugt werden."
 
 #: src/dialogs/dialog-analysis-tools.c:4252
 msgid "Could not create the ANOVA (single factor) tool dialog."
-msgstr "Der (einfaktorielle) Varianzanalyse-Druiden konnte nicht erzeugt werden."
+msgstr ""
+"Der (einfaktorielle) Varianzanalyse-Druiden konnte nicht erzeugt werden."
 
 #: src/dialogs/dialog-analysis-tools.c:4315
 msgid "Each sample must contain the same number of rows."
-msgstr "Jede Stichprobe sollte die gleiche Zeilenanzahl haben ('Zeilen je Stichprobe:')."
+msgstr ""
+"Jede Stichprobe sollte die gleiche Zeilenanzahl haben ('Zeilen je "
+"Stichprobe:')."
 
 #: src/dialogs/dialog-analysis-tools.c:4320
 msgid "Given input range contains non-numeric data."
@@ -5120,7 +5174,9 @@ msgstr "Der Eingabebereich enthält nicht-numerische Werte."
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
-msgstr "Der gegebene Eingabebereich sollte zumindest zwei Spalten mit Daten und die Beschriftungen umfassen."
+msgstr ""
+"Der gegebene Eingabebereich sollte zumindest zwei Spalten mit Daten und die "
+"Beschriftungen umfassen."
 
 #: src/dialogs/dialog-analysis-tools.c:4331
 msgid ""
@@ -5132,7 +5188,8 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:4455
 msgid "Could not create the ANOVA (two factor) tool dialog."
-msgstr "Der (Zweifaktorielle) Varianzanalyse-Druide konnte nicht erzeugt werden."
+msgstr ""
+"Der (Zweifaktorielle) Varianzanalyse-Druide konnte nicht erzeugt werden."
 
 #: src/dialogs/dialog-autocorrect.c:287
 msgid "Could not create the AutoCorrect dialog."
@@ -5439,7 +5496,8 @@ msgstr "Einen gültigen Zellennamen in 'Durch Ändern der Zelle' eintragen."
 
 #: src/dialogs/dialog-goal-seek.c:384
 msgid "The cell named in 'By changing cell' must not contain a formula."
-msgstr "Die in 'Durch Ändern der Zelle' angegebene Zelle darf keine Formel enthalten."
+msgstr ""
+"Die in 'Durch Ändern der Zelle' angegebene Zelle darf keine Formel enthalten."
 
 #: src/dialogs/dialog-goal-seek.c:397
 msgid "The value given in 'To Value:' is not valid."
@@ -5604,7 +5662,8 @@ msgid ""
 "restarting Gnumeric?"
 msgstr ""
 "Das Plugin kann nicht deaktiviert werden, da es gerade verwendet wird.\n"
-"Wollen Sie es für die Deaktivierung auswählen, so dass es bei nächsten Start von Gnumeric inaktiv ist?"
+"Wollen Sie es für die Deaktivierung auswählen, so dass es bei nächsten Start "
+"von Gnumeric inaktiv ist?"
 
 #: src/dialogs/dialog-plugin-manager.c:311
 msgid "Errors while activating plugins"
@@ -5915,7 +5974,9 @@ msgstr "Spalte %d"
 msgid ""
 "Actual processing will start at this line, any previous lines will be "
 "ignored."
-msgstr "Die tatsächliche Verarbeitung wird bei dieser Zeile beginnen. Alle vorangehenden Zellen werden ignoriert werden."
+msgstr ""
+"Die tatsächliche Verarbeitung wird bei dieser Zeile beginnen. Alle "
+"vorangehenden Zellen werden ignoriert werden."
 
 #: src/dialogs/dialog-stf.glade.h:4
 msgid "Add a new column"
@@ -6129,7 +6190,8 @@ msgid ""
 "format or select one from the list on the right."
 msgstr ""
 "Das Format für jede Spalte wählen. Sie können auf die Spaltenliste links\n"
-"klicken, um eine Spalte auszuwählen.  Dann können Sie ein benutzerdefiniertes\n"
+"klicken, um eine Spalte auszuwählen.  Dann können Sie ein "
+"benutzerdefiniertes\n"
 "Format eingeben oder eines aus der Liste rechts wählen."
 
 #: src/dialogs/dialog-stf.glade.h:50
@@ -7466,7 +7528,9 @@ msgstr "Abhängigkeit tabellieren"
 #: src/dialogs/tabulate.glade.h:10
 msgid ""
 "Use down for first source, right for second, and multiple sheets for third"
-msgstr "Benutzen Sie unten für die erste, rechts für die zweite und mehrere Blätter für die dritte Quelle"
+msgstr ""
+"Benutzen Sie unten für die erste, rechts für die zweite und mehrere Blätter "
+"für die dritte Quelle"
 
 #: src/dialogs/tabulate.glade.h:11
 msgid "_Coordinate"
@@ -7528,23 +7592,23 @@ msgstr "'%s' hat zirkulärer Verweis"
 # Checkit
 # or leave it untranslated: Builtin
 # 2001-02-10 01:51:26 CET -ke-
-#: src/expr-name.c:415
+#: src/expr-name.c:418
 msgid "Builtin"
 msgstr "Eingebaut"
 
-#: src/expr-name.c:515 src/expr-name.c:527
+#: src/expr-name.c:518 src/expr-name.c:530
 msgid "Error: no sheet"
 msgstr "Fehler: kein Blatt"
 
-#: src/expr.c:551
+#: src/expr.c:557
 msgid "Internal type error"
 msgstr "Interner Typenfehler"
 
-#: src/expr.c:730
+#: src/expr.c:736
 msgid "Unknown operator"
 msgstr "Unbekannter Operator"
 
-#: src/expr.c:959
+#: src/expr.c:965
 msgid "Unknown evaluation error"
 msgstr "Unbekannter Auswertungsfehler"
 
@@ -16573,7 +16637,8 @@ msgstr "Unbekanntes Blatt »%s«"
 #: src/parser.y:650 src/parser.y:664
 #, c-format
 msgid "The character %c cannot be used to separate array elements"
-msgstr "Der Buchstabe »%c« kann nicht benutzt werden um Feld-Elemente zu trennen."
+msgstr ""
+"Der Buchstabe »%c« kann nicht benutzt werden um Feld-Elemente zu trennen."
 
 #: src/parser.y:825 src/parser.y:835 src/parser.y:868
 msgid "The number is out of range"
@@ -17374,17 +17439,17 @@ msgstr "Fehler beim Versuch, die Daten in das Blatt einzupassen"
 msgid "Error while trying to write csv file"
 msgstr "Fehler beim Versuch, eine csv-Datei zu schreiben"
 
-#: src/stf.c:438
-msgid "Text File import (customizable)"
-msgstr "Textdatei-Import (konfigurierbar)"
-
-#: src/stf.c:441
-msgid "Text File import (default csv)"
+#: src/stf.c:439
+msgid "Text import (defaults to csv)"
 msgstr "Textdatei-Import (Vorgabe csv)"
 
-#: src/stf.c:446
-msgid "Text File Export (*.csv)"
-msgstr "Textdatei-Export (*.csv)"
+#: src/stf.c:443
+msgid "Text import (configurable)"
+msgstr "Textdatei-Import (konfigurierbar)"
+
+#: src/stf.c:447
+msgid "Text export (configurable)"
+msgstr "Textdatei-Export (konfigurierbar)"
 
 #: src/style.c:265 src/style.c:267
 msgid "<Has not been set>"
@@ -17449,32 +17514,42 @@ msgid "Your fontmap2 file could not be found in the expected location."
 msgstr ""
 "Ihre fontmap2-Datei konnte nicht an der üblichen Stelle gefunden werden."
 
-#: src/validation.c:138
+#: src/validation.c:137
 #, c-format
 msgid "Cell %s is not permitted to be blank"
 msgstr "Zelle %s darf nicht leer sein"
 
-#: src/validation.c:158
+#: src/validation.c:151
 #, c-format
 msgid "'%f' is not an integer"
 msgstr "'%f' ist keine Ganzzahl"
 
-#: src/validation.c:168
+#: src/validation.c:161
 #, c-format
-msgid "'%f' is not a number"
-msgstr "'%f' ist keine Zahl"
+msgid "'%s' is an error"
+msgstr "'%s' ist ein Fehler"
 
-#: src/validation.c:175
+#: src/validation.c:169
+#, c-format
+msgid "'%s' is not a valid date"
+msgstr "%s ist kein gültiges Datum"
+
+#: src/validation.c:171
+#, c-format
+msgid "'%s' is not a valid time"
+msgstr "'%s' ist keine gültige Zeit"
+
+#: src/validation.c:173
 #, c-format
 msgid "'%s' is not a number"
 msgstr "'%s' ist keine Zahl"
 
-#: src/validation.c:259
+#: src/validation.c:265
 #, c-format
 msgid "%s is not true."
 msgstr "%s ist nicht wahr."
 
-#: src/validation.c:272
+#: src/validation.c:278
 msgid ""
 "That value is invalid.\n"
 "Restrictions have been placed on this cell's content."
@@ -17482,7 +17557,7 @@ msgstr ""
 "Dieser Wert ist ungültig.\n"
 "Nur bestimmte Werte sind in dieser Zelle erlaubt."
 
-#: src/validation.c:279
+#: src/validation.c:285
 msgid "Gnumeric : Validation"
 msgstr "Gnumeric: Validierung"
 
@@ -17790,13 +17865,17 @@ msgstr "Funktion in der aktuellen Zelle bearbeiten"
 msgid ""
 "Sorts the selected region in ascending order based on the first column "
 "selected."
-msgstr "Den ausgewählten Bereich in aufsteigender Reihenfolge sortieren (basierend auf der ersten ausgewählten Spalte)."
+msgstr ""
+"Den ausgewählten Bereich in aufsteigender Reihenfolge sortieren (basierend "
+"auf der ersten ausgewählten Spalte)."
 
 #: src/workbook-control-gui.c:3236
 msgid ""
 "Sorts the selected region in descending order based on the first column "
 "selected."
-msgstr "Den ausgewählten Bereich in absteigender Reihenfolge sortieren (basierend auf der ersten ausgewählten Spalte)."
+msgstr ""
+"Den ausgewählten Bereich in absteigender Reihenfolge sortieren (basierend "
+"auf der ersten ausgewählten Spalte)."
 
 #: src/workbook-control-gui.c:4176
 msgid "Send"
@@ -17826,7 +17905,7 @@ msgstr "Ok"
 msgid "Define Name"
 msgstr "Name definieren"
 
-#: src/workbook-control.c:240
+#: src/workbook-control.c:241
 msgid "Address"
 msgstr "Adresse"
 
@@ -18111,3 +18190,9 @@ msgstr "Ist keine gnumeric-Arbeitsbuch-Datei"
 #: src/xml-io.c:3467
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric-XML-Dateiformat"
+
+#~ msgid "Text File Export (*.csv)"
+#~ msgstr "Textdatei-Export (*.csv)"
+
+#~ msgid "'%f' is not a number"
+#~ msgstr "'%f' ist keine Zahl"
