@@ -1,3 +1,10 @@
+1999-05-15  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* samples/statfuns.xls: Added a new file.  It can be used for
+ 	regression testing.  It is in Excel format so it tests the Excel
+ 	plugin's functionality in the same time too.
+
+
 1999-05-15  Michael Meeks  <michael@imaginator.com>
 
 	* src/file.c (file_format_register_save): Changed to append
