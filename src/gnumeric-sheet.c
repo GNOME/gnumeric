@@ -150,7 +150,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	 */
 	case GDK_KP_Enter:
 	case GDK_Return:
-		if (wbcg_rangesel_possible (wbcg) &&
+		if (wbcg->editing &&
 		    (event->state == GDK_CONTROL_MASK ||
 		     event->state == (GDK_CONTROL_MASK|GDK_SHIFT_MASK) ||
 		     event->state == GDK_MOD1_MASK))
