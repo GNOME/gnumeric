@@ -58,6 +58,7 @@
 #include "hlink.h"
 #include "sheet-filter.h"
 #include "pivottable.h"
+#include "scenarios.h"
 #include <gnumeric-i18n.h>
 #include <gtk/gtkmain.h>
 
@@ -2709,6 +2710,7 @@ sheet_destroy (Sheet *sheet)
 	g_free (sheet->name_unquoted_collate_key);
 	g_free (sheet->name_case_insensitive);
 	solver_param_destroy (sheet->solver_parameters);
+	scenario_free_all (sheet->scenarios);
 
 	sheet_deps_destroy (sheet);
 	sheet_destroy_contents (sheet);
@@ -3954,6 +3956,9 @@ sheet_dup (Sheet const *src)
 	/* Copy the solver */
 	solver_param_destroy (dst->solver_parameters);
 	dst->solver_parameters = solver_lp_copy (src->solver_parameters, dst);
+
+	/* Copy scenarios */
+	dst->scenarios = scenario_copy_all (src->scenarios, dst);
 
 	/* Force a respan and rerender */
 	sheet_set_zoom_factor (dst, src->last_zoom_factor_used, TRUE, TRUE);
