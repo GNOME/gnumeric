@@ -982,7 +982,10 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 			}
 			return res;
 		}
-		return handle_empty (res, flags);
+		if (res == NULL)
+			return (flags & GNM_EXPR_EVAL_PERMIT_EMPTY)
+			    ? NULL : value_new_int (0);
+		return res;
 	}
 
 	case GNM_EXPR_OP_NAME:

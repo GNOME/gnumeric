@@ -1,3 +1,7 @@
+2002-11-13  Jody Goldberg <jody@gnome.org>
+
+	* src/expr.c (gnm_expr_eval) : functions only check for NULL not empty.
+
 2002-11-13  Jon K Hellan  <hellan@acm.org>
 
 	* src/GNOME_Gnumeric.xml: Remove FileImport.
