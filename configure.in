@@ -13,11 +13,13 @@ AM_MAINTAINER_MODE
 # Make --disable-static the default
 AC_DISABLE_STATIC
 
+# We need intltool >= 0.27 to extrat the UTF-8 chars from source code
+AC_PROG_INTLTOOL([0.27])
+
 AC_ISC_POSIX
 AC_PROG_CC
 AC_PROG_YACC
 AM_PROG_LIBTOOL
-AC_PROG_INTLTOOL
 AM_PROG_LIBTOOL
 AC_STDC_HEADERS
 

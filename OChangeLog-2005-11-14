@@ -1,3 +1,8 @@
+2003-08-11  Carlos Perelló Marín <carlos@gnome.org>
+
+	* configure.in: Added a dependency with intltool 0.27 because
+	this project needs UTF-8 strings inside source code.
+
 2003-08-10  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/session.c (set_clone_restart): new
