@@ -71,7 +71,7 @@ Pending Patches
 
 2) stf								{Andreas}
     2.1) UTF-8 cleanliness
-    2.2) User specifiable character encoding
+    2.2) User specifiable character encoding                    (DONE)
     2.3) Replace UI for format selection
     2.4) Provide an optional mechanism for specifying the target location
          useful for text to columns, and import into sheet
@@ -79,6 +79,11 @@ Pending Patches
     2.6) Make it possible to ignore column on import, thus making it possible
          to import (parts of) files with more than 256 columns.  (Think of
          this as a special "format".)
+    2.7) Create interface for line terminator selection
+    2.8) Make listed separators locale dependent
+    2.9) User specifiable locale encoding
+    2.10) Fix stf bugs
+    2.11) Improve initial file preview
 
 3) hlinks
     3.1) Finish the edit dialog to load and store results 	(DONE)
@@ -225,6 +230,7 @@ Possibly Post 1.2 Targets
 - input message				(Stored)
 - load/save of external references
 - all the merged cell singleton bugs
+- fill->series
 
 Probably Post 1.2 Targets
 -------------------------
