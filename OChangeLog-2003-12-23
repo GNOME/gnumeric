@@ -1,5 +1,14 @@
 2001-08-20  Jody Goldberg <jgoldberg@home.com>
 
+	* Release 0.70
+
+2001-08-20  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-control-gui.c (scg_set_panes) : I do need to set the top &
+	  left of the new panes when freezing.
+
+2001-08-20  Jody Goldberg <jgoldberg@home.com>
+
 	* src/sheet-object.c (sheet_object_remove_cb) : All we need is a wbc.
 	(sheet_object_anchor_set) : new routine to replace range_set.
 	(sheet_object_anchor_get) : new.

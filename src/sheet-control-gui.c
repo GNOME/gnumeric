@@ -961,6 +961,15 @@ scg_set_panes (SheetControl *sc)
 	/* in case headers are hidden */
 	scg_adjust_preferences (SHEET_CONTROL (scg));
 	scg_resize (SHEET_CONTROL (scg), TRUE);
+
+	if (being_frozen) {
+		CellPos const *tl = &sc->sheet->frozen_top_left;
+
+		gnm_canvas_set_left_col (scg->pane[1].gcanvas, tl->col);
+		gnm_canvas_set_top_row (scg->pane[3].gcanvas, tl->row);
+		gnm_canvas_set_top_left (scg->pane[2].gcanvas,
+					 tl->col, tl->row, TRUE);
+	}
 }
 
 static void
