@@ -53,6 +53,7 @@ reload_preview (FontSelector *fs)
 		 fs->resolution_adjustment_factor);
 
 	 if (!display_font) {
+		 gtk_object_unref (GTK_OBJECT (gnome_font));
 		 g_warning ("Uh oh, cannot get the display font");
 		 return;
 	 }
@@ -61,6 +62,9 @@ reload_preview (FontSelector *fs)
 		 gtk_object_unref (GTK_OBJECT (gnome_font));
 		 return;
 	 }
+
+	 if (fs->gnome_font)
+		 gtk_object_unref (GTK_OBJECT (fs->gnome_font));
 
 	 fs->gnome_font = gnome_font;
 	 fs->display_font = display_font;
@@ -231,7 +235,10 @@ fs_init (FontSelector *fs)
 {
 	GtkWidget *toplevel;
 	GtkWidget *old_parent;
-	
+
+	fs->gnome_font = NULL;
+	fs->display_font = NULL;
+
 	fs->gui = glade_xml_new (GNUMERIC_GLADEDIR "/font-sel.glade", NULL);
 	if (!fs->gui) {
 		g_warning ("Could not load font-sel.glade");

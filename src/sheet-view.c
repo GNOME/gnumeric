@@ -851,7 +851,7 @@ sheet_view_comment_relocate (SheetView *sheet_view, int col, int row, GnomeCanva
 	points = sheet_view_comment_get_points (sheet_view, col, row);
 
 	gnome_canvas_item_set (o, "points", points, NULL);
-	g_free (points);
+	gnome_canvas_points_free (points);
 }
 
 void

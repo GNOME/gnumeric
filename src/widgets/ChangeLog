@@ -1,3 +1,7 @@
+2000-04-09  Morten Welinder  <terra@diku.dk>
+
+	* widget-font-selector.c (reload_preview): Plug leaks.
+
 2000-04-09  Jon K Hellan  <hellan@acm.org>
 
 	* gtk-combo-text.[ch]: Fix problem with mouseover: Mouseover from

@@ -2070,7 +2070,7 @@ ms_excel_sheet_insert_blank (ExcelSheet *sheet, int xfidx,
 }
 
 static void
-ms_excel_sheet_set_comment (ExcelSheet *sheet, int col, int row, char *text)
+ms_excel_sheet_set_comment (ExcelSheet *sheet, int col, int row, const char *text)
 {
 	if (text) {
 		Cell *cell = sheet_cell_get (sheet->gnum_sheet, col, row);
@@ -2083,7 +2083,7 @@ ms_excel_sheet_set_comment (ExcelSheet *sheet, int col, int row, char *text)
 }
 
 static void
-ms_excel_sheet_append_comment (ExcelSheet *sheet, int col, int row, char *text)
+ms_excel_sheet_append_comment (ExcelSheet *sheet, int col, int row, const char *text)
 {
 	if (text) {
 		Cell *cell = sheet_cell_fetch (sheet->gnum_sheet, col, row);
@@ -3146,6 +3146,7 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 					ms_excel_sheet_append_comment (sheet, col, row, text);
 				else
 					ms_excel_sheet_set_comment (sheet, col, row, text);
+				g_free (text);
 			}
 			break;
 		}

@@ -1673,14 +1673,10 @@ sheet_unique_cb (Sheet *sheet, Range const *range,
 			      range, &all, i, edge_valid [i]);
 
 	/* 6. Free up resources */
-	if (middle_list)
-		g_list_free (middle_list);
+	g_list_free (middle_list);
 	g_list_free (all_list);
-	for (i = STYLE_BORDER_TOP; i <= STYLE_BORDER_RIGHT; i++) {
-		if (edge_valid [i] && edge_list [i])
-			g_list_free (edge_list [i]);
-		edge_list [i] = NULL;
-	}
+	for (i = STYLE_BORDER_TOP; i <= STYLE_BORDER_RIGHT; i++)
+		g_list_free (edge_list [i]);
 
 	return TRUE;
 }

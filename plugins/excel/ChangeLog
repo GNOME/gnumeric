@@ -1,3 +1,9 @@
+2000-04-09  Morten Welinder  <terra@diku.dk>
+
+	* ms-excel-read.c (ms_excel_sheet_append_comment): Constify.
+	(ms_excel_sheet_set_comment): Ditto.
+	(ms_excel_read_sheet): Plug leak.
+
 2000-04-08  Jon K Hellan  <hellan@acm.org>
 
 	* ms-excel-read.c (ms_excel_set_xf, ms_excel_read_formula,
