@@ -2,5 +2,6 @@ Makefile.in
 Makefile
 .deps
 .libs
-*.lo
 liblotus.la
+*.lo
+*.la

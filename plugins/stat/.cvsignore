@@ -3,4 +3,4 @@ Makefile.in
 .deps
 .libs
 *.lo
-libstat.la
+*.la

@@ -3,4 +3,4 @@ Makefile
 .deps
 .libs
 *.lo
-liboleo.la
+*.la

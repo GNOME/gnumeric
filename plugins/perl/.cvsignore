@@ -3,6 +3,6 @@ Makefile.in
 .deps
 .libs
 *.lo
-libperl.la
+*.la
 xsinit.c
 ext.timestamp

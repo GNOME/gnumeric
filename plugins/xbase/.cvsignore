@@ -1,8 +1,7 @@
 Makefile
 Makefile.in
 libxbase.a
-libxbase.la
 *.lo
-*.lo
+*.la
 .libs
 .deps

@@ -4,4 +4,3 @@ Makefile.in
 Makefile
 *.lo
 *.la
-*.o
