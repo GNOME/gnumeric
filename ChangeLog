@@ -1,3 +1,9 @@
+2004-06-08  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=143577
+	* src/style-border.c (style_border_print_diag) : handle NULL and none
+	(style_border_set_pc) : back out my incorrect fix and sync with gui.
+
 2004-06-08  Morten Welinder  <terra@gnome.org>
 
 	* src/gutils.c (gnm_destroy_password): New function.

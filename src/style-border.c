@@ -373,7 +373,7 @@ static inline gboolean
 style_border_set_pc (GnmBorder const * const border,
 		     GnomePrintContext *context)
 {
-	if (border == NULL || border->line_type == STYLE_BORDER_NONE)
+	if (border == NULL)
 		return FALSE;
 
 	gnome_print_gsave (context);
@@ -821,7 +821,8 @@ style_border_print_diag (GnmStyle const *style,
 	GnmBorder const *diag;
 
 	diag = mstyle_get_border (style, MSTYLE_BORDER_REV_DIAGONAL);
-	if (style_border_set_pc (diag, context)) {
+	if (diag != NULL && diag->line_type != STYLE_BORDER_NONE) {
+		style_border_set_pc (diag, context);
 		if (diag->line_type == STYLE_BORDER_DOUBLE) {
 			gnome_print_moveto (context, x1+1.5,  y1-3.);
 			gnome_print_lineto (context, x2-2.,   y2+ .5);
@@ -837,7 +838,8 @@ style_border_print_diag (GnmStyle const *style,
 	}
 
 	diag = mstyle_get_border (style, MSTYLE_BORDER_DIAGONAL);
-	if (style_border_set_pc (diag, context)) {
+	if (diag != NULL && diag->line_type != STYLE_BORDER_NONE) {
+		style_border_set_pc (diag, context);
 		if (diag->line_type == STYLE_BORDER_DOUBLE) {
 			gnome_print_moveto (context, x1+1.5, y2+2.);
 			gnome_print_lineto (context, x2-2.,  y1-1.5);

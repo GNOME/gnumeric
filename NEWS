@@ -51,6 +51,8 @@ Jody:
 	* start work on OOo export
 	* Skip ticks/labels for discrete axes
 	* Drag files from nautilus -> gnumeric
+	http://bugzilla.gnome.org/show_bug.cgi?id=143577
+	* fix grid printing
 
 Morten:
 	* Fix crash related to database functions (#138600).  [backported]
