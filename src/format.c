@@ -1233,6 +1233,8 @@ format_number (gdouble number, int col_width, StyleFormatEntry const *entry)
 					if (!info.rendered) {
 						info.rendered = TRUE;
 						numerator += ((int)number) * denominator;
+						if (info.negative && !info.supress_minus)
+							g_string_prepend_c (result, '-');
 					}
 					if (numerator > 0) {
 						char buffer [30];
@@ -1246,11 +1248,11 @@ format_number (gdouble number, int col_width, StyleFormatEntry const *entry)
 		case '-':
 		case '(':
 		case '+':
-		case ' ':
 		case ':':
 			info.supress_minus = TRUE;
 			/* fall down */
 
+		case ' ': /* eg # ?/? */
 		case '$':
 		case '£':
 		case '¥':

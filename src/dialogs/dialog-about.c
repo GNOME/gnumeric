@@ -35,13 +35,15 @@ dialog_about (WorkbookControlGUI *wbcg)
         GtkWidget *about, *l, *href, *hbox;
 
         const gchar *authors[] = {
-		N_("Miguel de Icaza, main programmer."),
+		N_("Miguel de Icaza, creator."),
+		N_("Jody Goldberg, maintainer."),
 		N_("Sean Atkinson, functions and X-Base importing."),
+		N_("Grandma Chema Celorio Tester and sheet copy."),
+		N_("Frank Chiulli OLE support."),
 		N_("Kenneth Christiansen, i18n, misc stuff."),
 		N_("Zbigniew Chyla, plugin system, i18n."),
 		N_("Tom Dyas, plugin support."),
 		N_("Gergõ Érdi, Gnumeric hacker."),
-		N_("Jody Goldberg, Gnumeric hacker."),
 		N_("Jon K. Hellan, Gnumeric hacker."),
 		N_("Ross Ihaka, special functions."),
 		N_("Jukka-Pekka Iivonen, numerous functions and tools."),
@@ -55,6 +57,7 @@ dialog_about (WorkbookControlGUI *wbcg)
 		N_("Rasca, HTML, troff, LaTeX exporters."),
 		N_("Vincent Renardias, original CSV support, French localization."),
 		N_("Ariel Rios, Guile support."),
+		N_("Arturo Tena OLE support."),
 		N_("Almer S. Tigelaar, Gnumeric hacker."),
 		N_("Bruno Unna, Excel bits."),
 		N_("Daniel Veillard, XML support."),
@@ -80,16 +83,16 @@ dialog_about (WorkbookControlGUI *wbcg)
 	}
 
         about = gnome_about_new (_("Gnumeric"), VERSION,
-				 _("(C) 1998-2000 Miguel de Icaza"),
+				 _("(C) 1998-2001 Miguel de Icaza"),
 				 authors,
 				 NULL,
 				 NULL);
 
 	hbox = gtk_hbox_new (TRUE, 0);
-	l = gnome_href_new ("http://www.gnome.org/gnumeric",
+	l = gnome_href_new ("http://www.gnumeric.org",
 			    _("Gnumeric Home Page"));
-	href = gnome_href_new ("http://www.helixcode.com/gnumeric",
-			       _("Gnumeric Support page"));
+	href = gnome_href_new ("http://www.ximian.com/apps/gnumeric.php3",
+			       _("Contract Support"));
 	gtk_box_pack_start (GTK_BOX (hbox), l, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), href, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (about)->vbox),

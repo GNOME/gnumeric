@@ -1,3 +1,11 @@
+2001-04-30  Jody Goldberg <jgoldberg@home.com>
+
+	* src/about.c (dialog_about) : sync with website.
+
+	* src/format.c (format_number) : don't suppress the minus sign when
+	  faced with a space in the format.  Is there a counter example ?
+	(format_number) : handle negative improper fractions.
+
 2001-04-30  Morten Welinder  <terra@diku.dk>
 
 	* src/func.c (tokenized_help_find): Warning killer.
