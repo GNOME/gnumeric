@@ -1,3 +1,10 @@
+2002-06-15  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=84500
+	* dialog-goto-cell.c (cb_dialog_goto_go_clicked) : remove debug spew.
+	(cb_dialog_goto_update_sensitivity) : only actiavte if entry is valid.
+	(dialog_goto_init) : editable_enters is too coarse do it ourselves.
+
 2002-06-07  Jody Goldberg <jody@gnome.org>
 
 	* dialog-solver.c : #if 0 constraint_strs_untranslated.

@@ -117,14 +117,10 @@ static void
 cb_dialog_goto_go_clicked (GtkWidget *button, GotoState *state)
 {
 	char *text = g_strdup (gtk_entry_get_text 
-				    (GTK_ENTRY (gnome_entry_gtk_entry (state->goto_text))));
-	printf ("jumping to: %s\n", text);
+	       (GTK_ENTRY (gnome_entry_gtk_entry (state->goto_text))));
 
-	if (wb_control_parse_and_jump (WORKBOOK_CONTROL (state->wbcg), text)) {
-		printf ("jumped to: %s\n", text);
+	if (wb_control_parse_and_jump (WORKBOOK_CONTROL (state->wbcg), text))
 		gnome_entry_append_history (state->goto_text, TRUE, text);
-	}
-
 	g_free (text);
 	return;
 }
@@ -132,14 +128,15 @@ cb_dialog_goto_go_clicked (GtkWidget *button, GotoState *state)
 static void
 cb_dialog_goto_update_sensitivity (GtkWidget *dummy, GotoState *state)
 {
+	GtkEntry *entry = GTK_ENTRY (gnome_entry_gtk_entry (state->goto_text));
 	Value *val = global_range_parse (wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg)), 
-					 gtk_entry_get_text (GTK_ENTRY (gnome_entry_gtk_entry 
-							     (state->goto_text))));
+					 gtk_entry_get_text (entry));
 	if (val != NULL) {
 		gtk_widget_set_sensitive (state->go_button, TRUE);
 		value_release (val);
 	} else 
 		gtk_widget_set_sensitive (state->go_button, FALSE);
+	gtk_entry_set_activates_default (entry, (val != NULL));
 }
 
 static void
@@ -261,8 +258,6 @@ dialog_goto_init (GotoState *state)
 			  0, 1, 2, 3,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
-	gnumeric_editable_enters
-		(GTK_WINDOW (state->dialog), gnome_entry_gtk_entry (state->goto_text));
 	g_signal_connect_after (G_OBJECT (gnome_entry_gtk_entry (state->goto_text)),
 		"changed",
 		G_CALLBACK (cb_dialog_goto_update_sensitivity), state);
@@ -307,6 +302,7 @@ dialog_goto_init (GotoState *state)
 	g_signal_connect (G_OBJECT (state->go_button),
 		"clicked",
 		G_CALLBACK (cb_dialog_goto_go_clicked), state);
+	gtk_window_set_default (GTK_WINDOW (state->dialog), state->go_button);
 
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
