@@ -1,3 +1,13 @@
+2002-03-26  Morten Welinder  <terra@diku.dk>
+
+	* src/value.c (value_new_bool, value_new_int, value_release): Use
+	int/bool pool.
+	(value_init): Initialise int/bool pool.
+	(value_shutdown): Free int/bool pool.
+
+	* src/gutils.c (gnm_mem_chunk_new): Use smaller alignment when
+	known to be possible.
+
 2002-03-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* schemas/ : new directory for schema files

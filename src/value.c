@@ -35,10 +35,12 @@ value_new_empty (void)
 	return (Value *)&v;
 }
 
+/* Memory pool for ints and bools.  */
+static gnm_mem_chunk *value_int_pool;
 Value *
 value_new_bool (gboolean b)
 {
-	ValueBool *v = g_new (ValueBool, 1);
+	ValueBool *v = gnm_mem_chunk_alloc (value_int_pool);
 	*((ValueType *)&(v->type)) = VALUE_BOOLEAN;
 	v->fmt = NULL;
 	v->val = b;
@@ -48,7 +50,7 @@ value_new_bool (gboolean b)
 Value *
 value_new_int (int i)
 {
-	ValueInt *v = g_new (ValueInt, 1);
+	ValueInt *v = gnm_mem_chunk_alloc (value_int_pool);
 	*((ValueType *)&(v->type)) = VALUE_INTEGER;
 	v->fmt = NULL;
 	v->val = i;
@@ -337,10 +339,9 @@ value_release (Value *value)
 		return;
 
 	case VALUE_BOOLEAN:
-		break;
-
 	case VALUE_INTEGER:
-		break;
+		gnm_mem_chunk_free (value_int_pool, value);
+		return;
 
 	case VALUE_FLOAT:
 		gnm_mem_chunk_free (value_float_pool, value);
@@ -1041,14 +1042,24 @@ const ValueErr value_terminate_err = { VALUE_ERROR, NULL, NULL };
 void
 value_init (void)
 {
-	value_float_pool = gnm_mem_chunk_new ("value float pool",
-					      sizeof (ValueFloat),
-					      16 * 1024 - 128);
+	/* ValueInt and ValueBool ought to have the same size.  */
+	value_int_pool =
+		gnm_mem_chunk_new ("value int/bool pool",
+				   MAX (sizeof (ValueInt), sizeof (ValueBool)),
+				   16 * 1024 - 128);
+
+	value_float_pool =
+		gnm_mem_chunk_new ("value float pool",
+				   sizeof (ValueFloat),
+				   16 * 1024 - 128);
 }
 
 void
 value_shutdown (void)
 {
+	gnm_mem_chunk_destroy (value_int_pool, FALSE);
+	value_int_pool = NULL;
+
 	gnm_mem_chunk_destroy (value_float_pool, FALSE);
 	value_float_pool = NULL;
 }
