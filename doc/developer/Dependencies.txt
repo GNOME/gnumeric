@@ -71,7 +71,7 @@ the dependencies of this cell are queued on the workbook's eval_queue.
 Value (value.h) we can prune a huge chunk off the dependency tree by not
 bothering notifying dependencies of a change ( since there hasn't been one ).
 Hence cell_eval_content returns a gboolean indicating whether the cell's
-value has changed.
+value has changed.  (11/Apr/2000 JEG ??  It does not seem to. )
 
 
 3.     Dependencies the bottleneck

@@ -431,6 +431,11 @@ make_solver_arrays (Sheet *sheet, SolverParameters *param, int n_variables,
 	float_t    *c;
 	int        i, j, n, var;
 
+	if (n_variables < 1)
+		return SOLVER_LP_INVALID_LHS;
+	if (n_constraints < 1)
+		return SOLVER_LP_INVALID_RHS;
+
 	A = g_new (float_t, n_variables * n_constraints);
 	b = g_new (float_t, n_constraints);
 	c = g_new (float_t, n_variables);

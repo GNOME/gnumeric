@@ -1,3 +1,11 @@
+2000-04-11  Jody Goldberg <jgoldberg@home.com>
+
+	* src/solver-lp.c (make_solver_arrays) : Make more robust in the face
+	  of missing variables or constraints.
+
+	* src/eval.c (cell_eval_content) : Handle the case of a cell without a
+	  formula more gracefully.
+
 2000-04-10  Jody Goldberg <jgoldberg@home.com>
 
 	* src/file.c (workbook_read) : Force clean after post load recalc.

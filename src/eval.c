@@ -239,6 +239,9 @@ cell_eval_content (Cell *cell)
 	Value           *v;
 	EvalPosition	 pos;
 
+	if (NULL == cell->parsed_node)
+		return;
+
 #ifdef DEBUG_EVALUATION
 	if (dependency_debugging > 1) {
 		ParsePosition pp;
@@ -280,7 +283,6 @@ cell_eval_content (Cell *cell)
 	sheet_redraw_cell_region (cell->sheet,
 				  cell->col->pos, cell->row->pos,
 				  cell->col->pos, cell->row->pos);
-
 }
 
 void
