@@ -24,7 +24,7 @@ Depends: ${shlibs:Depends}, gsfonts, gnumeric-common (= ${Source-Version}), ${mi
 Suggests: gnumeric-doc (>= ${Upstream-Version}), gnumeric-plugins-extra
 Conflicts: gnumeric1.0, gnumeric1.0-doc, gnumeric-doc (<< ${Upstream-Version})
 Replaces: zh-trans (<< 0.8-1), gnumeric1.0
-Description: A GNOME spreadsheet application
+Description: GNOME spreadsheet application
  Gnumeric is a powerful spreadsheet application that interoperates well
  with other spreadsheets. It comes with plugins that enable it to deal with
  commonly used spreadsheet file formats.
@@ -59,7 +59,7 @@ Package: gnumeric-common
 Architecture: all
 Replaces: gnumeric (<= 1.2.6-1)
 Depends: gnumeric
-Description: Common files for Gnumeric, the GNOME spreadsheet application
+Description: common files for Gnumeric, the GNOME spreadsheet application
  This package contains architecture-independent data files needed by the
  "gnumeric" package.
 
@@ -70,7 +70,7 @@ Recommends: yelp (>= 2.6.0), gnome-desktop-data
 Suggests: gnumeric (>= ${Upstream-Version})
 Conflicts: gnumeric1.0-doc
 Replaces: gnumeric (<< 1.1.17-2), gnumeric1.0-doc
-Description: Documentation for Gnumeric, the GNOME spreadsheet application
+Description: documentation for Gnumeric, the GNOME spreadsheet application
  The `Gnumeric's User Manual' in Gnome Help (DocBook XML) format.
 
 Package: gnumeric-plugins-extra
@@ -78,7 +78,7 @@ Architecture: any
 Depends: gnumeric (= ${Source-Version}), ${shlibs:Depends}
 Conflicts: gnumeric1.0-python, gnumeric1.0-gda, gnumeric-python, gnumeric-gda
 Replaces: gnumeric1.0-gda, gnumeric1.0-python, gnumeric-python, gnumeric-gda, gnumeric (<= 1.3.92-1)
-Description: Additional plugins for the GNOME spreadsheet
+Description: additional plugins for the GNOME spreadsheet
  Gnumeric ships with a number of plugins; this package contains those
  plugins that require additional packages above what the 'gnumeric' package
  needs.
