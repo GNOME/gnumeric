@@ -6,4 +6,9 @@ src/cut-n-paste-code/goffice/graph/gog-guru-type-selector.glade
 src/cut-n-paste-code/goffice/gui-utils/go-font-sel.c
 src/cut-n-paste-code/goffice/gui-utils/go-font-sel.glade
 src/cut-n-paste-code/goffice/gui-utils/go-gui-utils.c
-
+src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c
+src/cut-n-paste-code/goffice/gui-utils/go-dock-item-grip.c
+plugins/gb/plugin.c
+plugins/gb/plugin.xml.in
+plugins/perl/ext/Gnumeric.xs
+plugins/perl/plugin.xml.in

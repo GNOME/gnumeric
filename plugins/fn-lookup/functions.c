@@ -1041,12 +1041,12 @@ gnumeric_offset (FunctionEvalInfo *ei, GnmValue **args)
 	a.row     += row_offset; b.row += row_offset;
 	a.col     += col_offset; b.col += col_offset;
 
-	width = (args[3] != NULL)
+	height = (args[3] != NULL)
 	    ? value_get_as_int (args[3])
-	    : value_area_get_width (args [0], ei->pos);
-	height = (args[4] != NULL)
-	    ? value_get_as_int (args[4])
 	    : value_area_get_height (args [0], ei->pos);
+	width = (args[4] != NULL)
+	    ? value_get_as_int (args[4])
+	    : value_area_get_width (args [0], ei->pos);
 
 	if (width < 1 || height < 1)
 		return value_new_error_VALUE (ei->pos);

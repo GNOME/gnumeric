@@ -93,7 +93,7 @@ typedef struct {
 	char const *format;
 	char const *output;
 } translate_t;
-static const translate_t translate_table[] = {
+static translate_t const translate_table[] = {
 	{ "General", "G" },
 	{ "0", "F0" },
 	{ "#,##0", ",0" },
@@ -116,7 +116,10 @@ static const translate_t translate_table[] = {
 	{ "d-mmm", "D2" },
 	{ "dd-mmm", "D2" },
 	{ "mmm-yy", "D3" },
+
+	/* This seems to be a catch all for all date formats with month then day */
 	{ "mm/dd", "D5" },
+
 	{ "h:mm am/pm", "D7" },
 	{ "h:mm:ss am/pm", "D6" },
 	{ "h:mm", "D9" },
@@ -137,6 +140,7 @@ translate_cell_format (GnmFormat const *format)
 
 	/*
 	 * TODO : What does this do in different locales ??
+	 * TODO : Use a hash
 	 */
 	for (i = 0; i < translate_table_count; i++) {
 		const translate_t *t = &translate_table[i];

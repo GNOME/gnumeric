@@ -43,8 +43,6 @@ plugins/fn-stat/functions.c
 plugins/fn-stat/plugin.xml.in
 plugins/fn-string/functions.c
 plugins/fn-string/plugin.xml.in
-plugins/gb/plugin.c
-plugins/gb/plugin.xml.in
 plugins/gda/plugin-gda.c
 plugins/gda/plugin.xml.in
 plugins/gnome-db/plugin-gnomedb.c
@@ -72,8 +70,6 @@ plugins/openoffice/openoffice-write.c
 plugins/openoffice/plugin.xml.in
 plugins/paradox/paradox.c
 plugins/paradox/plugin.xml.in
-plugins/perl/ext/Gnumeric.xs
-plugins/perl/plugin.xml.in
 plugins/perl-func/plugin.xml.in
 plugins/perl-loader/perl-loader.c
 plugins/perl-loader/plugin.xml.in
@@ -168,8 +164,6 @@ src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c
 src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in
 src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in
 src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c
-src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c
-src/cut-n-paste-code/goffice/gui-utils/go-dock-item-grip.c
 src/cut-n-paste-code/goffice/utils/go-color.c
 src/cut-n-paste-code/goffice/utils/go-file.c
 src/cut-n-paste-code/goffice/utils/go-font.c
