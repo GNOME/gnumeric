@@ -1,5 +1,10 @@
 2002-07-18  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
+	* src/mathfunc.[ch]: Added random_levy, random_levy_skew, 
+	random_gumbel1 and random_gumbel2.
+
+2002-07-18  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
 	* src/mathfunc.[ch]: Added random_tdist.
 
 2002-07-18  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>

@@ -128,6 +128,11 @@ gnum_float random_hypergeometric (unsigned int n1, unsigned int n2,
 gnum_float random_logarithmic    (gnum_float p);
 gnum_float random_chisq          (gnum_float nu);
 gnum_float random_tdist          (gnum_float nu);
+gnum_float random_gumbel1        (gnum_float a, gnum_float b);
+gnum_float random_gumbel2        (gnum_float a, gnum_float b);
+gnum_float random_levy           (gnum_float c, gnum_float alpha);
+gnum_float random_levy_skew      (gnum_float c, gnum_float alpha,
+				  gnum_float beta);
 
 /* ------------------------------------------------------------------------- */
 

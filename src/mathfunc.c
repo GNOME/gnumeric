@@ -4850,6 +4850,152 @@ random_tdist (gnum_float nu)
 }
 
 /*
+ * Generate a Type I Gumbel-distributed random number. From the GNU 
+ * Scientific library 1.1.1.
+ * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
+ */
+gnum_float
+random_gumbel1 (gnum_float a, gnum_float b)
+{
+        gnum_float x;
+
+	do {
+	        x = random_01 ();
+	} while (x == 0.0);
+
+	return (log (b) - log (-log (x))) / a;
+}
+
+/*
+ * Generate a Type II Gumbel-distributed random number. From the GNU 
+ * Scientific library 1.1.1.
+ * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
+ */
+gnum_float
+random_gumbel2 (gnum_float a, gnum_float b)
+{
+        gnum_float x;
+
+	do {
+	        x = random_01 ();
+	} while (x == 0.0);
+
+	return pow (-b / log (x), 1 / a);
+}
+
+/*
+ * Generate a stable Levy-distributed random number. From the GNU 
+ * Scientific library 1.1.1.
+ * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
+ *
+ * The stable Levy probability distributions have the form
+ *
+ * p(x) dx = (1/(2 pi)) \int dt exp(- it x - |c t|^alpha)
+ *
+ * with 0 < alpha <= 2. 
+ *
+ * For alpha = 1, we get the Cauchy distribution
+ * For alpha = 2, we get the Gaussian distribution with sigma = sqrt(2) c.
+ *
+ * Fromn Chapter 5 of Bratley, Fox and Schrage "A Guide to
+ * Simulation". The original reference given there is,
+ *
+ * J.M. Chambers, C.L. Mallows and B. W. Stuck. "A method for
+ * simulating stable random variates". Journal of the American
+ * Statistical Association, JASA 71 340-344 (1976).
+ */
+gnum_float
+random_levy (gnum_float c, gnum_float alpha)
+{
+        gnum_float u, v, t, s;
+
+	do {
+	        u = random_01 ();
+	} while (u == 0.0);
+
+	u = M_PI * (u - 0.5);
+
+	if (alpha == 1) {             /* cauchy case */
+	        t = tan (u);
+		return c * t;
+	}
+
+	do {
+	        v = random_exponential (1.0);
+	} while (v == 0);
+
+	if (alpha == 2) {            /* gaussian case */
+	        t = 2 * sin (u) * sqrt(v);
+		return c * t;
+	}
+
+	/* general case */
+
+	t = sin (alpha * u) / pow (cos (u), 1 / alpha);
+	s = pow (cos ((1 - alpha) * u) / v, (1 - alpha) / alpha);
+
+	return c * t * s;
+}
+
+/* The following routine for the skew-symmetric case was provided by
+ * Keith Briggs.
+ *
+ * The stable Levy probability distributions have the form
+ *
+ * 2*pi* p(x) dx
+ *
+ *  = int dt exp(mu*i*t-|sigma*t|^alpha*(1-i*beta*sign(t)*tan(pi*alpha/2))) for
+ *    alpha != 1
+ *  = int dt exp(mu*i*t-|sigma*t|^alpha*(1+i*beta*sign(t)*2/pi*log(|t|)))   for
+      alpha == 1
+ *
+ *  with 0<alpha<=2, -1<=beta<=1, sigma>0.
+ *
+ *  For beta=0, sigma=c, mu=0, we get gsl_ran_levy above.
+ *
+ *  For alpha = 1, beta=0, we get the Lorentz distribution
+ *  For alpha = 2, beta=0, we get the Gaussian distribution
+ *
+ *  See A. Weron and R. Weron: Computer simulation of Lévy alpha-stable 
+ *  variables and processes, preprint Technical University of Wroclaw.
+ *  http://www.im.pwr.wroc.pl/~hugo/Publications.html
+ */
+gnum_float
+random_levy_skew (gnum_float c, gnum_float alpha, gnum_float beta)
+{
+        gnum_float V, W, X;
+
+	if (beta == 0) /* symmetric case */
+	        return random_levy (c, alpha);
+
+	do {
+	        V = random_01 ();
+	} while (V == 0.0);
+
+	V = M_PI * (V - 0.5);
+
+	do {
+	        W = random_exponential (1.0);
+	} while (W == 0);
+
+	if (alpha == 1) {
+	        X = ((M_PI_2 + beta * V) * tan (V) -
+		     beta * log (M_PI_2 * W * cos (V) /
+				 (M_PI_2 + beta * V))) / M_PI_2;
+		return c * (X + beta * log (c) / M_PI_2);
+	} else {
+	        gnum_float t = beta * tan (M_PI_2 * alpha);
+		gnum_float B = atan (t) / alpha;
+		gnum_float S = pow (1 + t * t, 1/(2 * alpha));
+
+		X = S * sin (alpha * (V + B)) / pow (cos (V), 1 / alpha)
+		        * pow (cos (V - alpha * (V + B)) / W,
+			       (1 - alpha) / alpha);
+		return c * X;
+	}
+}
+
+/*
  * Generate 2^n being careful not to overflow
  */
 gnum_float
