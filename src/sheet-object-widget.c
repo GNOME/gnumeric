@@ -687,6 +687,17 @@ cb_scrollbar_config_ok_clicked (GtkWidget *button, ScrollbarConfigState *state)
 		gnm_expr_unref (expr);
 	}
 
+	state->swb->adjustment->lower = gtk_spin_button_get_value_as_int (
+		GTK_SPIN_BUTTON (state->min));
+	state->swb->adjustment->upper = gtk_spin_button_get_value_as_int (
+		GTK_SPIN_BUTTON (state->max)) + 1;
+	state->swb->adjustment->step_increment = gtk_spin_button_get_value_as_int (
+		GTK_SPIN_BUTTON (state->inc));
+	state->swb->adjustment->page_increment = gtk_spin_button_get_value_as_int (
+		GTK_SPIN_BUTTON (state->page));
+
+	gtk_adjustment_changed	(state->swb->adjustment);
+
 	gtk_widget_destroy (state->dialog);
 }
 
@@ -1069,7 +1080,8 @@ typedef struct {
 	GtkWidget *dialog;
 	GnumericExprEntry *expression;
 	GtkWidget *label;
-
+	
+	char *old_label;
 	GtkWidget *old_focus;
 
 	WorkbookControlGUI  *wbcg;
@@ -1113,6 +1125,8 @@ cb_checkbox_config_destroy (GtkObject *w, CheckboxConfigState *state)
 		state->gui = NULL;
 	}
 
+	g_free (state->old_label);
+	state->old_label = NULL;
 	state->dialog = NULL;
 	g_free (state);
 
@@ -1138,6 +1152,22 @@ cb_checkbox_config_ok_clicked (GtkWidget *button, CheckboxConfigState *state)
 static void
 cb_checkbox_config_cancel_clicked (GtkWidget *button, CheckboxConfigState *state)
 {
+	GList *list;
+ 	SheetWidgetCheckbox *swc;
+ 	swc = state->swc;
+
+ 	if (swc->label)
+ 		g_free (swc->label);
+ 	swc->label = g_strdup (state->old_label);
+
+ 	list = swc->sow.parent_object.realized_list;
+ 	for (; list != NULL; list = list->next) {
+ 		GnomeCanvasWidget *item = GNOME_CANVAS_WIDGET (list->data);
+ 		g_return_if_fail (GTK_IS_CHECK_BUTTON (item->widget));
+ 		g_return_if_fail (GTK_IS_LABEL (GTK_BIN (item->widget)->child));
+ 		gtk_label_set_text (GTK_LABEL (GTK_BIN (item->widget)->child), state->old_label);
+ 	}
+	
 	gtk_widget_destroy (state->dialog);
 }
 
@@ -1184,6 +1214,7 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *scg)
 	state->wbcg = wbcg;
 	state->sheet = sc_sheet	(SHEET_CONTROL (scg));
 	state->old_focus = NULL;
+	state->old_label = g_strdup (swc->label);
 	state->gui = gnumeric_glade_xml_new (wbcg, "so-checkbox.glade");
 	state->dialog = glade_xml_get_widget (state->gui, "SO-Checkbox");
 
@@ -1203,6 +1234,7 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *scg)
 
 
  	state->label = glade_xml_get_widget (state->gui, "label_entry");
+
  	gtk_entry_set_text (GTK_ENTRY (state->label), swc->label);
 
  	g_signal_connect (G_OBJECT (state->label),

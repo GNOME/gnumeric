@@ -393,31 +393,8 @@ cb_dialog_graphic_config_destroy (GtkObject *w, DialogGraphicData *state)
 }
 
 static void
-cb_dialog_graphic_config_apply_clicked (GtkWidget *button, DialogGraphicData *state)
-{
-	SheetObject *so = SHEET_OBJECT (state->sog);
-
-	sheet_object_graphic_width_set (state->sog,
-					gtk_spin_button_get_adjustment (
-						      state->spin_line_width)->value);
-	
-	sheet_object_graphic_fill_color_set (so, color_combo_get_style_color (
-						     state->fill_color_combo));
-	
-	if (state->sog->type == SHEET_OBJECT_ARROW)
-		sheet_object_graphic_abc_set (state->sog,
-					      gtk_spin_button_get_adjustment (
-						      state->spin_arrow_tip)->value,
-					      gtk_spin_button_get_adjustment (
-						      state->spin_arrow_length)->value,
-					      gtk_spin_button_get_adjustment (
-						      state->spin_arrow_width)->value);
-}
-
-static void
 cb_dialog_graphic_config_ok_clicked (GtkWidget *button, DialogGraphicData *state)
 {
-	cb_dialog_graphic_config_apply_clicked (button, state);
 	gtk_widget_destroy (state->dialog);
 }
 
@@ -439,16 +416,32 @@ cb_dialog_graphic_config_cancel_clicked (GtkWidget *button, DialogGraphicData *s
 static void
 cb_adjustment_value_changed (GtkAdjustment *adj, DialogGraphicData *state)
 {
+	sheet_object_graphic_width_set (state->sog,
+					gtk_spin_button_get_adjustment (
+						      state->spin_line_width)->value);
 	gnome_canvas_item_set (state->arrow,
-		"arrow_shape_a", (double) gtk_spin_button_get_adjustment (
-						      state->spin_arrow_tip)->value,
-		"arrow_shape_b", (double) gtk_spin_button_get_adjustment (
-						      state->spin_arrow_length)->value,
-		"arrow_shape_c", (double) gtk_spin_button_get_adjustment (
-						      state->spin_arrow_width)->value,
 		"width_units", (double) gtk_spin_button_get_adjustment (
 						      state->spin_line_width)->value,
 		NULL);
+
+	if (state->sog->type == SHEET_OBJECT_ARROW) {
+		sheet_object_graphic_abc_set (state->sog,
+					      gtk_spin_button_get_adjustment (
+						      state->spin_arrow_tip)->value,
+					      gtk_spin_button_get_adjustment (
+						      state->spin_arrow_length)->value,
+					      gtk_spin_button_get_adjustment (
+						      state->spin_arrow_width)->value);
+
+		gnome_canvas_item_set (state->arrow,
+				       "arrow_shape_a", (double) gtk_spin_button_get_adjustment (
+					       state->spin_arrow_tip)->value,
+				       "arrow_shape_b", (double) gtk_spin_button_get_adjustment (
+					       state->spin_arrow_length)->value,
+				       "arrow_shape_c", (double) gtk_spin_button_get_adjustment (
+					       state->spin_arrow_width)->value,
+				       NULL);
+	}
 }
 
 static void
@@ -456,6 +449,10 @@ cb_fill_color_changed (ColorCombo *color_combo, GdkColor *color,
 		       gboolean is_custom, gboolean by_user, gboolean is_default,
 		       DialogGraphicData *state)
 {
+	SheetObject *so = SHEET_OBJECT (state->sog);
+	sheet_object_graphic_fill_color_set (so, color_combo_get_style_color (
+						     state->fill_color_combo));
+	
 	gnome_canvas_item_set (state->arrow, "fill_color_gdk", color, NULL);
 }
 
@@ -580,9 +577,6 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControlGUI *scg)
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "ok_button")),
 			  "clicked",
 			  G_CALLBACK (cb_dialog_graphic_config_ok_clicked), state);
-	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "apply_button")),
-			  "clicked",
-			  G_CALLBACK (cb_dialog_graphic_config_apply_clicked), state);
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "cancel_button")),
 			  "clicked",
 			  G_CALLBACK (cb_dialog_graphic_config_cancel_clicked), state);
@@ -841,18 +835,22 @@ cb_dialog_filled_config_destroy (GtkObject *w, DialogFilledData *state)
 }
 
 static void
-cb_dialog_filled_config_apply_clicked (GtkWidget *button, DialogFilledData *state)
+cb_dialog_filled_adjustment_value_changed (GtkAdjustment *adj, DialogFilledData *state)
 {
 	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (state->sof);
-	SheetObject *so = SHEET_OBJECT (state->sof);
 
 	sheet_object_graphic_width_set (sog,
 					gtk_spin_button_get_adjustment (
-						state->spin_border_width)->value);
-					
-	
-	sheet_object_graphic_fill_color_set (so,
-					     color_combo_get_style_color (
+						      state->spin_border_width)->value);
+}
+
+static void
+cb_dialog_filled_color_changed (ColorCombo *color_combo, GdkColor *color,
+		       gboolean is_custom, gboolean by_user, gboolean is_default,
+		       DialogFilledData *state)
+{
+	SheetObject *so = SHEET_OBJECT (state->sof);
+	sheet_object_graphic_fill_color_set (so, color_combo_get_style_color (
 						     state->fill_color_combo));
 	sheet_object_filled_outline_color_set (so,
 					       color_combo_get_style_color (
@@ -862,7 +860,6 @@ cb_dialog_filled_config_apply_clicked (GtkWidget *button, DialogFilledData *stat
 static void
 cb_dialog_filled_config_ok_clicked (GtkWidget *button, DialogFilledData *state)
 {
-	cb_dialog_filled_config_apply_clicked (button, state);
 	gtk_widget_destroy (state->dialog);
 }
 
@@ -939,15 +936,23 @@ sheet_object_filled_user_config (SheetObject *so, SheetControlGUI *scg)
 	state->width = sog->width;
 	gtk_spin_button_set_value (state->spin_border_width, state->width);
 
+
+	g_signal_connect (G_OBJECT (state->fill_color_combo),
+			  "color_changed",
+			  G_CALLBACK (cb_dialog_filled_color_changed), state);
+	g_signal_connect (G_OBJECT (state->outline_color_combo),
+			  "color_changed",
+			  G_CALLBACK (cb_dialog_filled_color_changed), state);
+	g_signal_connect (G_OBJECT
+			  (gtk_spin_button_get_adjustment (state->spin_border_width)),
+			  "value_changed",
+			  G_CALLBACK (cb_dialog_filled_adjustment_value_changed), state);
 	g_signal_connect (G_OBJECT (state->dialog),
 			  "destroy",
 			  G_CALLBACK (cb_dialog_filled_config_destroy), state);
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "ok_button")),
 			  "clicked",
 			  G_CALLBACK (cb_dialog_filled_config_ok_clicked), state);
-	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "apply_button")),
-			  "clicked",
-			  G_CALLBACK (cb_dialog_filled_config_apply_clicked), state);
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "cancel_button")),
 			  "clicked",
 			  G_CALLBACK (cb_dialog_filled_config_cancel_clicked), state);

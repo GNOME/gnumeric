@@ -1,5 +1,11 @@
 2002-04-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* so-arrow.glade : remove apply button
+	* so-fill.glade : remove apply button
+	* dialog-sheet-order.c : don't reset the color combos
+
+2002-04-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-workbook-attr.c : do not use GnomePropertyBox
 	* workbook-attr.glade : ditto
 

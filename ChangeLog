@@ -1,3 +1,23 @@
+2002-04-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/sheet-object-graphic.c (cb_dialog_graphic_config_apply_clicked) :
+	  removed
+	(cb_dialog_graphic_config_ok_clicked) : don't call 
+	  cb_dialog_graphic_config_apply_clicked
+	(cb_adjustment_value_changed) : also change real sheet object
+	(cb_color_changed) : ditto
+	(cb_dialog_filled_config_apply_clicked) : removed
+	(cb_dialog_filled_adjustment_value_changed) : new
+	(cb_dialog_filled_color_changed) : new
+	(cb_dialog_filled_config_ok_clicked) : don't call 
+	  cb_dialog_filled_config_apply_clicked
+	(sheet_object_filled_user_config) : hook-up cb_dialog_filled_*_changed
+	* src/sheet-object-widget.c (cb_scrollbar_config_ok_clicked) : save
+	  all data
+	(cb_checkbox_config_destroy) : delete old_label
+	(cb_checkbox_config_cancel_clicked) : reset all data
+	(sheet_widget_checkbox_user_config) : save old label
+
 2002-04-11  Morten Welinder  <terra@diku.dk>
 
 	* */*: Make new plugins fn-eng from src/functions/fn-eng.c

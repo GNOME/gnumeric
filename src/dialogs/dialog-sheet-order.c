@@ -61,6 +61,7 @@ typedef struct {
 	GtkWidget *ccombo_back;
 	GtkWidget *ccombo_fore;
 
+	gboolean initial_colors_set;
 	GSList *old_order;
 } SheetManager;
 
@@ -176,10 +177,13 @@ cb_selection_changed (GtkTreeSelection *ignored, SheetManager *state)
 			    BACKGROUND_COLOUR_POINTER, &back,
 			    FOREGROUND_COLOUR_POINTER, &fore,
 			    -1);
-	color_combo_set_color  (COLOR_COMBO (state->ccombo_back), back);
+	if (!state->initial_colors_set) {
+		color_combo_set_color  (COLOR_COMBO (state->ccombo_back), back);
+		color_combo_set_color  (COLOR_COMBO (state->ccombo_fore), fore);
+		state->initial_colors_set = TRUE;
+	}
 	if (back)
 		gdk_color_free (back);
-	color_combo_set_color  (COLOR_COMBO (state->ccombo_fore), fore);
 	if (fore)
 		gdk_color_free (fore);
 	gtk_widget_set_sensitive (state->ccombo_back, TRUE);
@@ -637,6 +641,7 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 	state->ok_btn  = glade_xml_get_widget (gui, "ok_button");
 	state->cancel_btn  = glade_xml_get_widget (gui, "cancel_button");
 	state->old_order  = NULL;
+	state->initial_colors_set = FALSE; 
 	state->sheet_image =  gtk_widget_render_icon (state->dialog,
                                              "Gnumeric_MergeCells",
                                              GTK_ICON_SIZE_SMALL_TOOLBAR,

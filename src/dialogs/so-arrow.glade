@@ -5,7 +5,7 @@
   <widget class="GtkDialog" id="SO-Arrow">
     <property name="border_width">5</property>
     <property name="visible">no</property>
-    <property name="title" translatable="yes">Scrollbar Configure</property>
+    <property name="title" translatable="yes">Configure Arrow/Line</property>
     <property name="type">GTK_WINDOW_TOPLEVEL</property>
     <property name="modal">no</property>
     <property name="allow_shrink">no</property>
@@ -33,18 +33,6 @@
                     <property name="relief">GTK_RELIEF_NORMAL</property>
                     <property name="visible">yes</property>
                     <property name="label">gtk-cancel</property>
-                    <property name="use_stock">yes</property>
-                    <property name="use_underline">yes</property>
-                  </widget>
-                </child>
-
-                <child>
-                  <widget class="GtkButton" id="apply_button">
-                    <property name="can_default">yes</property>
-                    <property name="can_focus">yes</property>
-                    <property name="relief">GTK_RELIEF_NORMAL</property>
-                    <property name="visible">yes</property>
-                    <property name="label">gtk-apply</property>
                     <property name="use_stock">yes</property>
                     <property name="use_underline">yes</property>
                   </widget>
@@ -215,6 +203,7 @@
 		  <property name="snap_to_ticks">False</property>
 		  <property name="wrap">False</property>
 		  <property name="adjustment">0 0 3001 1 10 1</property>
+		  <property name="width_request">60</property>
 		</widget>
               <packing>
 		  <property name="left_attach">1</property>
@@ -223,7 +212,7 @@
 		  <property name="bottom_attach">2</property>
 		  <property name="x_padding">0</property>
 		  <property name="y_padding">0</property>
-		  <property name="x_options">expand|fill</property>
+		  <property name="x_options">shrink|fill</property>
 		  <property name="y_options"></property>
               </packing>
             </child>
@@ -239,6 +228,7 @@
 		  <property name="wrap">False</property>
 		  <property name="adjustment">0 0 3001 1 10 1</property>
                   <property name="tooltip" translatable="yes">Distance from tip of arrowhead to the center point</property>
+		  <property name="width_request">60</property>
 		</widget>
               <packing>
 		  <property name="left_attach">1</property>
@@ -247,7 +237,7 @@
 		  <property name="bottom_attach">3</property>
 		  <property name="x_padding">0</property>
 		  <property name="y_padding">0</property>
-		  <property name="x_options">expand|fill</property>
+		  <property name="x_options">shrink|fill</property>
 		  <property name="y_options"></property>
               </packing>
             </child>
@@ -263,6 +253,7 @@
 		  <property name="wrap">False</property>
 		  <property name="adjustment">0 0 3001 1 10 1</property>
                   <property name="tooltip" translatable="yes">Distance from tip of arrowhead to trailing point, measured along shaft</property>
+		  <property name="width_request">60</property>
 		</widget>
               <packing>
 		  <property name="left_attach">1</property>
@@ -271,7 +262,7 @@
 		  <property name="bottom_attach">4</property>
 		  <property name="x_padding">0</property>
 		  <property name="y_padding">0</property>
-		  <property name="x_options">expand|fill</property>
+		  <property name="x_options">shrink|fill</property>
 		  <property name="y_options"></property>
               </packing>
             </child>
@@ -287,6 +278,7 @@
 		  <property name="wrap">False</property>
 		  <property name="adjustment">0 0 3001 1 10 1</property>
                   <property name="tooltip" translatable="yes">Distance of trailing point from outside edge of shaft</property>
+		  <property name="width_request">60</property>
 		</widget>
               <packing>
 		  <property name="left_attach">1</property>
@@ -295,7 +287,7 @@
 		  <property name="bottom_attach">5</property>
 		  <property name="x_padding">0</property>
 		  <property name="y_padding">0</property>
-		  <property name="x_options">expand|fill</property>
+		  <property name="x_options">shrink|fill</property>
 		  <property name="y_options"></property>
               </packing>
             </child>
