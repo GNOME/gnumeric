@@ -16,19 +16,19 @@
 #define CCG_CLASS(o) CMD_CONTEXT_CORBA_CLASS (GTK_OBJECT (o)->klass)
 
 static void
-ccc_error_plugin_problem (CommandContext *context, char const * const app_ver)
+ccc_error_plugin_problem (CommandContext *context, char const * const message)
 {
 	/* FIXME set exception */
 }
 
 static void
-ccc_error_read (CommandContext *context, char const * const app_ver)
+ccc_error_read (CommandContext *context, char const * const message)
 {
 	/* FIXME set exception */
 }
 
 static void
-ccc_error_save (CommandContext *context, char const * const app_ver)
+ccc_error_save (CommandContext *context, char const * const message)
 {
 	/* FIXME set exception */
 }

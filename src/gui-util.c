@@ -21,6 +21,11 @@ gnumeric_no_modify_array_notice (Workbook *wb)
 			 _("You cannot change part of an array."));
 }
 
+/*
+ * TODO:
+ * Get rid of trailing newlines /whitespace.
+ * Wrap overlong lines.
+ */
 void
 gnumeric_notice (Workbook *wb, const char *type, const char *str)
 {

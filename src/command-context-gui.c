@@ -16,27 +16,27 @@
 #define CCG_CLASS(o) CMD_CONTEXT_GUI_CLASS (GTK_OBJECT (o)->klass)
 
 static void
-ccg_error_plugin_problem (CommandContext *context, char const * const app_ver)
+ccg_error_plugin_problem (CommandContext *context, char const * const message)
 {
 	CommandContextGui *ccg = COMMAND_CONTEXT_GUI (context);
 
-	gnumeric_notice (ccg->wb, GNOME_MESSAGE_BOX_ERROR, app_ver);
+	gnumeric_notice (ccg->wb, GNOME_MESSAGE_BOX_ERROR, message);
 }
 
 static void
-ccg_error_read (CommandContext *context, char const * const app_ver)
+ccg_error_read (CommandContext *context, char const * const message)
 {
 	CommandContextGui *ccg = COMMAND_CONTEXT_GUI (context);
 
-	gnumeric_notice (ccg->wb, GNOME_MESSAGE_BOX_ERROR, app_ver);
+	gnumeric_notice (ccg->wb, GNOME_MESSAGE_BOX_ERROR, message);
 }
 
 static void
-ccg_error_save (CommandContext *context, char const * const app_ver)
+ccg_error_save (CommandContext *context, char const * const message)
 {
 	CommandContextGui *ccg = COMMAND_CONTEXT_GUI (context);
 
-	gnumeric_notice (ccg->wb, GNOME_MESSAGE_BOX_ERROR, app_ver);
+	gnumeric_notice (ccg->wb, GNOME_MESSAGE_BOX_ERROR, message);
 }
 
 static void

@@ -1,3 +1,33 @@
+2000-02-14  Jon K Hellan  <hellan@acm.org>
+
+        * src/dialogs/import.glade: Add scrolled window
+	
+	* src/file.c (workbook_read, workbook_import, workbook_save_as,
+	workbook_save): Use error message template.
+
+	* src/command-context.h (struct _CommandContext): Add
+	template_list member.
+	(struct CommandContextClass): Call message parameter to methods
+	"message".
+	(command_context_push_template, command_context_pop_template):
+	Declare. 
+	
+	* src/command-context.c (command_context_push_template): New
+	function. Push a printf template for error messages to stack.
+	(command_context_pop_template): New function. Pop current template
+	from stack.
+	(format_message): New function. Format a message using template on
+	stack.
+	(gnumeric_error_plugin_problem, gnumeric_error_read,
+	gnumeric_error_save): Use format_message.
+
+	* src/command-context-corba.c (ccc_error_plugin_problem,
+	ccc_error_read, ccc_error_save): Call message parameter
+	"message". 
+	
+	* src/command-context-gui.c (ccg_error_plugin_problem,
+	ccg_error_read, ccg_error_save): Ditto.
+
 2000-02-14  Jody Goldberg <jgoldberg@home.com>
 
 	* src/cell-draw.c (cell_draw) : Cells can span in either direction.

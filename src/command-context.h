@@ -13,20 +13,29 @@
 
 struct _CommandContext {
 	GtkObject parent;
+	GSList *template_list;
 };
 
 typedef struct {
 	GtkObjectClass parent_class;
 	void (*error_plugin_problem) (CommandContext *context,
-				      char const * const app_ver);
+				      char const * const message);
 	void (*error_read) (CommandContext *context,
-			    char const * const app_ver);
+			    char const * const message);
 	void (*error_save) (CommandContext *context,
-			    char const * const app_ver);
+			    char const * const message);
 	void (*error_splits_array)   (CommandContext *context);
 } CommandContextClass;
 
 GtkType   command_context_get_type (void);
+
+/* Push a printf template to the list. The template is used to provide
+ * context for error messages. E.g.: "Could not read file: %s". */
+void
+command_context_push_template (CommandContext *context, const char *template);
+
+void
+command_context_pop_template (CommandContext *context);
 
 /*
  * These routines should be part of the eventual worbook-view

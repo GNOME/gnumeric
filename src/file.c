@@ -227,18 +227,23 @@ Workbook *
 workbook_read (CommandContext *context, const char *filename)
 {
 	Workbook *wb = NULL;
+	char * template;
 
 	g_return_val_if_fail (filename != NULL, NULL);
 
-	if (!g_file_exists (filename)) {
+	if (g_file_exists (filename)) {
+		template = g_strdup_printf (_("Could not read file %s\n%%s"),
+					    filename);
+		command_context_push_template (context, template);
+		wb = workbook_try_read (context, filename);
+		command_context_pop_template (context);
+		g_free (template);
+	} else {
 		wb = workbook_new_with_sheets (1);
 		workbook_set_filename (wb, filename);
-
-		return wb;
 	}
 
-	/* FIXME: We used to display "Could not read file <filename>" */
-	return workbook_try_read (context, filename);
+	return wb;
 }
 
 /*
@@ -303,13 +308,19 @@ workbook_import (CommandContext *context, Workbook *parent,
 	if (ret == 0 && clist->selection) {
 		FileOpener *fo;
 		int sel_row;
+		char * template;
 		
 		sel_row = GPOINTER_TO_INT (clist->selection->data);
 		
 		fo = gtk_clist_get_row_data (clist, sel_row);
 		
 		wb = workbook_new ();
+		template = g_strdup_printf (_("Could not import file %s\n%%s"),
+					    filename);
+		command_context_push_template (context, template);
 		ret = fo->open (context, wb, filename);
+		command_context_pop_template (context);
+		g_free (template);
 		if (ret != 0) {
 #ifdef ENABLE_BONOBO
 		        bonobo_object_destroy (BONOBO_OBJECT (wb));
@@ -317,9 +328,6 @@ workbook_import (CommandContext *context, Workbook *parent,
 			gtk_object_destroy   (GTK_OBJECT (wb));
 #endif
 			wb = NULL;
-			/* FIXME: Here's where we used to display
-			 * "Could not import file <fname>" unless this
-			 * was a cancel. */ 
 		} else {
 			workbook_mark_clean (wb);
 			/* We will want to change the name before saving */
@@ -507,6 +515,7 @@ workbook_save_as (CommandContext *context, Workbook *wb)
 
 	if (accepted) {
 		char *name = gtk_file_selection_get_filename (fsel);
+		char *template;
 
 		if (name [strlen (name)-1] != '/') {
 			char *base = g_basename (name);
@@ -521,6 +530,11 @@ workbook_save_as (CommandContext *context, Workbook *wb)
 				} else
 					name = g_strdup (name);
 
+				template = g_strdup_printf
+					(_("Could not save to file %s\n%%s"),
+					 name);
+				command_context_push_template
+					(context, template);
 				/* Files are expected to be in standard C format.  */
 				if (current_saver->save (context, wb, name)
 				    == 0) {
@@ -528,10 +542,9 @@ workbook_save_as (CommandContext *context, Workbook *wb)
 					workbook_mark_clean (wb);
 					success = TRUE;
 				}
-				/* FIXME: On failure, we used to
-				display "Could not save to file
-				<name>" */
 
+				command_context_pop_template (context);
+				g_free (template);
 				g_free (name);
 			}
 		}
@@ -544,20 +557,25 @@ workbook_save_as (CommandContext *context, Workbook *wb)
 gboolean
 workbook_save (CommandContext *context, Workbook *wb)
 {
+	char *template;
+	gboolean ret;
+
 	g_return_val_if_fail (wb != NULL, FALSE);
 
 	if (wb->needs_name)
 		return workbook_save_as (context, wb);
 
-	if (gnumeric_xml_write_workbook (context, wb, wb->filename) == 0) {
+	template = g_strdup_printf (_("Could not save to file %s\n%%s"),
+				    wb->filename);
+	command_context_push_template (context, template);
+	ret = (gnumeric_xml_write_workbook (context, wb, wb->filename) == 0);
+	if (ret == TRUE) 
 		workbook_mark_clean (wb);
-		return TRUE;
-	} else {
-		/* FIXME: On failure, we used to display "Could not save to
-		   file <filename>" */
-		return FALSE;
-	}
 
+	command_context_pop_template (context);
+	g_free (template);
+
+	return ret;
 }
 
 char *
