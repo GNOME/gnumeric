@@ -1,3 +1,11 @@
+2000-04-27  JP Rosevear  <jpr@arcavia.com>
+
+	* Makefile.am: Delete old gnumeric-config generation. 
+
+	* gnumeric-config.in: Use new variables exported from autoconf.
+
+	* configure.in: gnumeric-config magic
+
 2000-04-27  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook.c (workbook_sheet_get_free_name) : No need to translate "%s%d".

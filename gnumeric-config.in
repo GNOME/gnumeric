@@ -1,11 +1,11 @@
 #!/bin/sh
 
 version="@VERSION@"
-BONOBO="@BONOBO@"
-prefix="@prefix@"
-exec_prefix="@exec_prefix@"
-datadir="@datadir@"
-libdir="@libdir@"
+bonobo="@gnumeric_bonobo_enabled@"
+prefix="@gnumeric_prefix@"
+exec_prefix="@gnumeric_exec_prefix@"
+datadir="@gnumeric_datadir@"
+libdir="@gnumeric_libdir@"
 
 usage()
 {
@@ -59,11 +59,7 @@ while test $# -gt 0; do
 done
 
 if test "$echo_with_bonobo" = "yes"; then
-	if test "${BONOBO}x" = "x"; then
-	    echo no
-	else
-	    echo yes
-	fi
+        echo $bonobo
 fi
 
 if test "$echo_version" = "yes"; then

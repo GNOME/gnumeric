@@ -42,6 +42,23 @@ AC_SUBST(CPPFLAGS)
 AC_SUBST(LDFLAGS)
 
 dnl **************************************************
+dnl * gnumeric-config defaults
+dnl **************************************************
+gnumeric_prefix="$prefix"
+gnumeric_exec_prefix="$exec_prefix"
+gnumeric_datadir="$datadir"
+gnumeric_libdir="$libdir"
+
+test "x$gnumeric_prefix" = xNONE && gnumeric_prefix=$ac_default_prefix
+test "x$gnumeric_exec_prefix" = xNONE && gnumeric_exec_prefix=$gnumeric_prefix
+
+AC_SUBST(gnumeric_prefix)
+AC_SUBST(gnumeric_exec_prefix)
+AC_SUBST(gnumeric_datadir)
+AC_SUBST(gnumeric_libdir)
+AC_SUBST(gnumeric_bonobo_enabled)
+
+dnl **************************************************
 dnl * internationalization support
 dnl **************************************************
 dnl 
@@ -189,7 +206,9 @@ if $try_bonobo; then
 		AC_MSG_RESULT(not found)
 	fi
 fi
+gnumeric_bonobo_enabled=$bonobo_msg
 AM_CONDITIONAL(BONOBO, $have_bonobo)
+
 
 dnl ******************************
 dnl Kludge for Libole2 virtual link.
@@ -350,6 +369,7 @@ plugins/plan-perfect/Makefile
 intl/Makefile
 po/Makefile.in
 macros/Makefile
+gnumeric-config
 gnumeric.desktop
 stamp.h
 ],[sed -e "/POTFILES =/r po/POTFILES" po/Makefile.in > po/Makefile])

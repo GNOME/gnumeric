@@ -44,20 +44,3 @@ endif
 gnumeric_datadir = $(datadir)/gnumeric/$(gnumeric_version)
 gnumeric_libdir  =  $(libdir)/gnumeric/$(gnumeric_version)
 
-## We create gnumeric-config here and not from configure because we want
-## to get the paths expanded correctly.  Macros like srcdir are given
-## the value NONE in configure if the user doesn't specify them (this
-## is an autoconf feature, not a bug).
-
-gnumeric-config: gnumeric-config.in Makefile
-## Use sed and then mv to avoid problems if the user interrupts.
-	sed -e 's?\@VERSION\@?$(VERSION)?g' \
-	    -e 's?\@BONOBO\@?$(BONOBO)?g' \
-	    -e 's?\@prefix\@?$(prefix)?g' \
-	    -e 's?\@exec_prefix\@?$(exec_prefix)?g' \
-	    -e 's?\@datadir\@?$(gnumeric_datadir)?g' \
-	    -e 's?\@libdir\@?$(gnumeric_libdir)?g' \
-	    < $(srcdir)/gnumeric-config.in > gnumeric-config.tmp \
-	    && mv gnumeric-config.tmp gnumeric-config
-
-
