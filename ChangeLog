@@ -1,3 +1,7 @@
+2003-08-18  Morten Welinder  <terra@gnome.org>
+
+	* src/main-application.c (main): s/printf/g_print/, see 120124.
+
 2003-08-17  Jody Goldberg <jody@gnome.org>
 
 	* src/selection.c (characterize_vec) : handle empty cells at the end

@@ -140,8 +140,8 @@ main (int argc, char *argv [])
 	ctx = gnumeric_arg_parse (argc, argv);
 
 	if (gnumeric_show_version) {
-		printf (_("gnumeric version '%s'\ndatadir := '%s'\nlibdir := '%s'\n"),
-			GNUMERIC_VERSION, GNUMERIC_DATADIR, GNUMERIC_LIBDIR);
+		g_print (_("gnumeric version '%s'\ndatadir := '%s'\nlibdir := '%s'\n"),
+			 GNUMERIC_VERSION, GNUMERIC_DATADIR, GNUMERIC_LIBDIR);
 		return 0;
 	}
 
