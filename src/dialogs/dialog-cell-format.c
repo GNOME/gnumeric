@@ -1713,13 +1713,15 @@ cb_back_preview_color (__attribute__((unused)) ColorCombo *combo,
 
 	g_return_if_fail (c);
 
-	if (is_default)
+	if (is_default) {
 		sc = style_color_auto_back ();
-	else
+		mstyle_set_pattern (state->back.style, 0);
+	} else {
 		sc = style_color_new (c->red, c->green, c->blue);
+		mstyle_set_pattern (state->back.style, state->back.pattern.cur_index);
+	}
 
 	mstyle_set_color (state->back.style, MSTYLE_COLOR_BACK, sc);
-	mstyle_set_pattern (state->back.style, state->back.pattern.cur_index);
 	draw_pattern_preview (state);
 }
 

@@ -1,3 +1,8 @@
+2002-11-27  Jody Goldberg <jody@gnome.org>
+
+	* dialog-cell-format.c (cb_back_preview_color) : Assigning the default
+	  resets the pattern.
+
 2002-11-15  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.12
