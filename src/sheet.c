@@ -2222,16 +2222,12 @@ sheet_destroy_contents (Sheet *sheet)
 	for (i = sheet->rows.max_used; i >= 0 ; --i)
 		row_destroy_span (sheet_row_get (sheet, i));
 
-	/* Free the cells in a random order */
-	printf ("Size=%d\n", g_hash_table_size (sheet->cell_hash));
-
 	/* Delete in ascending order to avoid decrementing max_used each time */
 	for (i = 0; i <= max_col; ++i)
 		sheet_col_destroy (sheet, i, TRUE);
 
 	for (i = 0; i <= max_row; ++i)
 		sheet_row_destroy (sheet, i, TRUE);
-	printf ("Size=%d\n", g_hash_table_size (sheet->cell_hash));
 	
 	/* Free segments too */
 	for (i = COLROW_SEGMENT_INDEX (max_col); i >= 0 ; --i)
