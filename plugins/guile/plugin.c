@@ -105,7 +105,20 @@ value_to_scm (Value *val, CellRef cell_ref)
 						 cell_ref_to_scm(val->v.cell_range.cell_b, cell_ref)));
 
 		case VALUE_ARRAY :
-			return SCM_UNSPECIFIED;
+			{
+				int x, y, i, ii;
+				SCM ls;
+
+				x = val->v.array.x;
+				y = val->v.array.y;
+				
+				ls = gh_eval_str("'()");
+				
+				for(i = 0; i < y; i++)
+					for(ii = 0; i < x; i++)
+						ls = scm_cons(val->v.array.vals[ii][i], ls);
+				return ls; 
+			}
 	}
 
 	return SCM_UNSPECIFIED;

@@ -1,3 +1,8 @@
+1999-12-10  Ariel Rios <jarios@usa.net>
+
+	* plugin.c: (value_to_scm) We now handle the VALUE_ARRAY case passing the value
+	  as a scheme list by consing the elements of the list.
+
 1999-12-10  Michael Meeks  <mmeeks@gnu.org>
 
 	* Makefile.am: Fixup guile install.

@@ -83,14 +83,19 @@ fibo)
 ;;;;;;;;;;;;proof
 
 ;(define (test n)
-;  n)
+;  1)
 
 ;(register-function
-;"test" "f"
+;"test" "a"
 ;"@FUNCTION=TEST
 ;@SYNTAX=TEST(num)
 ;@DESCRIPTION=Prueba"
 ;test)
+
+
+
+
+
 
 
 
