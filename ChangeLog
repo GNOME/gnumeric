@@ -1,3 +1,65 @@
+2004-01-06  Jody Goldberg <jody@gnome.org>
+
+	The initial pass at GtkAction custom combos are mucho broken
+	* src/sheet.c (sheet_toggle_hide_zeros) : move this out of the macro
+	  in wbcg.
+	(sheet_toggle_show_formula) : ditto.
+
+	* src/sheet-object-graph.c (cb_save_as) : add jpg, and translate the
+	  error message now that string freeze is done.
+
+	* src/gui-util.c : restore DISABLE_DEPRECATED
+	(gnumeric_toolbar_insert_with_eventbox) : delete.
+	(gnumeric_toolbar_append_with_eventbox) : delete.
+	(gtk_button_stock_alignment_set) : delete.
+	(gnumeric_toolbar_new) : delete.
+	(gnumeric_inject_widget_into_bonoboui) : move the wbc-bonobo.c
+	(gnumeric_toolbar_get_widget) : delete.
+	(gnm_widget_disable_focus) : move here from workbook-format-toolbar.c
+
+	* workbook-format-toolbar.{c,h} : move contents into
+	* wbcg-actions.c : this new file
+	* wbc-gtk.c : or this new file
+	* wbc-bonobo.c : or this new file (WHICH DOES NOT COMPILE OR WORK)
+	  Should probably merge into workbook-control-component or something
+	  like that
+
+	* src/gnm-marshalers.list (VOID) : Use the stock marshallers in glib
+	  directly rather than adding our own wrappers.
+	* src/application.c : here
+
+	* src/GNOME_Gnumeric.xml : rename FileExit -> FileQuit to be consistent
+	* src/GNOME_Gnumeric-gtk.xml : new file for GtkAction
+	  NOTE NOTE NOTE
+	  You must be running in gnumeric/src
+	  I Repeat
+	  YOU MUST BE RUNNING IN gnumeric/src
+	  for anything to work right now.  I don't quite know how I want to
+	  handle the file yet (the bonobo approach was irritating) we'll see.
+
+	* configure.in :
+	- Add goffice/gui-utils
+	- Get rid of --with-bonobo
+	- Add --with-gnome
+	- Add --enable-bonobo-component
+	* plugins/Makefile.am : Adapt to that.
+	* src/Makefile.am : ditto, and add the new files.
+
+2004-01-05  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=130424
+	* src/commands.c (cmd_set_text_redo) : remove manual kludge.
+	* src/dependent.h (cell_eval) : move from here
+	* src/cell.h (cell_eval) : to here.  Add a new flag CELL_HAS_NEW_EXPR
+	* src/cell.c (cell_set_expr_internal) : set the flag here.
+	* src/rendered-value.c (rendered_value_new) : test it here.
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=130582
+	* src/sheet-control-gui.c (scg_cursor_move) : don't scroll the other
+	  panes unless we absolutely have to.  Apparently we only fuxed normal
+	  cursor movement for http://bugzilla.gnome.org/show_bug.cgi?id=77303
+	  This fixes rangesel too.
+
 2003-12-29  Jody Goldberg <jody@gnome.org>
 
 	* * : Move everything to glib/gi18n.h in place of gnumeric-i18n.h

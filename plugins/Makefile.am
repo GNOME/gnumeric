@@ -16,15 +16,10 @@ else
 CORBA_DIR =
 endif
 
-if WITH_BONOBO
 if WITH_GNOMEDB
-gnomedb_plugin = gnome-db
+GNOMEDB_DIR = gnome-db
 else
-gnomedb_plugin =
-endif
-BONOBO_PLUGINS =  $(gnomedb_plugin) uihello
-else
-BONOBO_PLUGINS =
+GNOMEDB_DIR =
 endif
 
 if WITH_PERL
@@ -37,12 +32,6 @@ if WITH_GUILE
 GUILE_DIR = guile
 else
 GUILE_DIR =
-endif
-
-if WITH_GB
-GB_DIR = gb
-else
-GB_DIR =
 endif
 
 if WITH_GDA
@@ -63,13 +52,13 @@ SUBDIRS_FILE_FORMATS = excel lotus-123 oleo sc sylk xbase html dif qpro \
 SUBDIRS_FUNCTIONS = numtheory fn-database fn-date fn-eng fn-financial fn-info \
 	fn-logical fn-complex fn-lookup fn-math fn-stat fn-string fn-random \
 	derivatives \
-	$(PERL_DIR) $(GUILE_DIR) $(GB_DIR) \
-	$(GDA_DIR)
+	$(PERL_DIR) $(GUILE_DIR) \
+	$(GDA_DIR) $(GNOMEDB_DIR)
 
 SUBDIRS_LOADERS = $(PYTHON_LOADER_DIR) $(CORBA_DIR)
 
 SUBDIRS_DATA_SOURCES = sample_datasource
 
-SUBDIRS_EXAMPLES = $(GNOME_GLOSSARY_DIR) $(PYFUNC_DIR) $(BONOBO_PLUGINS)
+SUBDIRS_EXAMPLES = $(GNOME_GLOSSARY_DIR) $(PYFUNC_DIR) # uiplugins
 
 SUBDIRS = $(SUBDIRS_FILE_FORMATS) $(SUBDIRS_FUNCTIONS) $(SUBDIRS_LOADERS) $(SUBDIRS_DATA_SOURCES) $(SUBDIRS_EXAMPLES)

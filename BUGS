@@ -8,7 +8,6 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    http://bugzilla.gnome.org/show_bug.cgi?id=128524	[invalid xl export]
     http://bugzilla.gnome.org/show_bug.cgi?id=127203	[x axis child pos]
     : X axis label seperation
     : text in boxes for text-xls/pivot.xls is white 	[xl95 pallette id=9]
@@ -32,12 +31,35 @@ Pending Patches
 1.3 Architecture Changes
 ------------------------
 
+- Merge wbc_init_state and wbc_set_view
+
 1) Format and number match rewrite
 2) Font handling
 3) Rework plugin system down to libgoffice.
 4) Function docs
     4.1) Use multiple tagged paragraphs
 5) GtkUIManager
+    5.1) Convert Stock menus				(DONE)
+    5.2) Convert basic Std toolbar			(DONE)
+    5.3) Convert Object toolbar				(DONE)
+    5.4) Convert basic Format toolbar			(DONE)
+    5.5) GOActionComboText
+	5.5.1) stub					(DONE)	
+	5.5.2) Move to TreeModel to simplify sharing
+    5.6) GOActionStack (undo/redo)
+	5.6.1) stub					(DONE)	
+	5.6.2) Move to TreeModel to simplify sharing
+    5.7) GOActionPixmaps (border)
+	5.7.1) stub					(DONE)	
+	5.7.2) Add some events
+    5.8) GOActionColor
+	5.8.1) stub					(DONE)	
+	5.8.2) Use GOColor
+	5.8.3) Cleanup
+    5.9) Move the hard coded accelerators out of
+	canvas into actions
+    5.11) Add indent/unindent icons to gtk
+
 6) Jump to zip file
     6.1) move existing code into plugin (easy)
     6.2) work on sax-ish exporter				(DONE)
@@ -88,7 +110,7 @@ Short Term Goals
 
 - Why do both mstyle_element_equal and mstyle_equal check types?
 
-0) Misc minor UI tweaks
+0) UI
     0.1)  Missing toolbar borders for color and stack combos	(DONE)
     0.2)  Add keynav for autoformat canvases			(DONE)
     0.3)  Make the 'apply' behavior of the color combo optional	(DONE)

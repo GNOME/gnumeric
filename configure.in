@@ -42,6 +42,7 @@ Please use another compiler, for example a gcc 2.95 series compiler.])
   fi
 fi
 
+# remove libgnome soon
 gnumeric_reqs="
 glib-2.0		>= 2.3.1
 gobject-2.0		>= 2.0.0
@@ -57,38 +58,58 @@ libgnomeprint-2.2	>= 2.4.2
 libgnomeprintui-2.2	>= 2.4.2
 libart-2.0		>= 2.3.11
 "
-dnl **************
-dnl Bonobo support
-dnl **************
-bonobo_msg="yes"
-AC_ARG_WITH(bonobo,
-	[--{with,without}-bonobo   Use the bonobo UI routines],
+
+dnl ************************************
+dnl Are the GNOME extensions available ?
+dnl ************************************
+gnome_msg="yes"
+gnome_extension_reqs="
+libbonobo-2.0	>= 2.2.0
+libbonoboui-2.0	>= 2.2.0
+libgnome-2.0	>= 2.0.0
+libgnomeui-2.0	>= 2.0.0
+libgsf-gnome-1	>= 1.8.2"
+
+AC_ARG_WITH(gnome,
+	[--{with,without}-gnome   Use GNOME extensions],
 	if test "x$withval" = xno; then
-		bonobo_msg="disabled by user"
+		gnome_msg="disabled by user"
 	fi
 )
-if test "x$bonobo_msg" = "xyes"; then
-	PKG_CHECK_MODULES(LIBBONOBO, [
-		libbonobo-2.0 >= 2.2.0
-		libbonoboui-2.0 >= 2.2.0
-		libgsf-gnome-1 >= 1.8.2
-		],	
-		[bonobo_msg="yes"],
-		[bonobo_msg="missing dependencies"])
+if test "x$gnome_msg" = "xyes"; then
+	PKG_CHECK_MODULES(GNOME, [$gnome_extension_reqs],	
+		[gnome_msg="yes"],
+		[gnome_msg="missing dependencies"])
 fi
 
-if test "x$bonobo_msg" = "xyes"; then
-	bonobo_suffix=-bonobo
-        gnumeric_bonobo_enabled=true
-	AC_DEFINE(WITH_BONOBO, 1, [Define if Bonobo is to be used])
-	gnumeric_reqs="$gnumeric_reqs
-libbonobo-2.0 >= 2.2.0
-libbonoboui-2.0 >= 2.2.0
-libgsf-gnome-1 >= 1.8.2"
+if test "x$gnome_msg" = "xyes"; then
+        gnumeric_with_gnome=true
+	AC_DEFINE(WITH_GNOME, 1, [Define if GNOME extensions are available])
+	gnumeric_reqs="$gnumeric_reqs $gnome_extension_reqs"
 else
-        gnumeric_bonobo_enabled=false
+        gnumeric_with_gnome=false
 fi
-AM_CONDITIONAL(WITH_BONOBO, $gnumeric_bonobo_enabled)
+AM_CONDITIONAL(WITH_GNOME, $gnumeric_with_gnome)
+
+dnl ************************************************
+dnl If we have GNOME do we want the bonobo component
+dnl ************************************************
+bonobo_component_msg="disabled until it compiles"
+gnumeric_enable_bonobo_component=false
+AC_ARG_ENABLE(bonobo-component,
+	[--{enable,disable}-bonobo-component   Build the optional bonobo component requires --with-gnome],
+	if test "x$enableval" = xyes; then
+		if test "x$gnome_msg" = "xyes"; then
+		    # gnumeric_enable_bonobo_component=true
+		    bonobo_component_msg="yes but DISABLED UNTIL IT COMPILES"
+		else
+		    bonobo_component_msg="disabled.  requires gnome"
+		fi
+	else
+	    bonobo_component_msg="disabled by user"
+	fi
+)
+AM_CONDITIONAL(ENABLE_BONOBO_COMPONENT, $gnumeric_enable_bonobo_component)
 
 dnl ****************************
 dnl now that we have selected out libraries the whole collection in one
@@ -647,7 +668,7 @@ dnl * Config defaults (Must be after bonobo)
 dnl **************************************************
 gnumeric_prefix='${prefix}'
 gnumeric_exec_prefix='${exec_prefix}'
-gnumeric_version="${VERSION}${bonobo_suffix}"
+gnumeric_version="${VERSION}"
 gnumeric_sysconfdir='${sysconfdir}'
 gnumeric_datadir='${datadir}/gnumeric/${gnumeric_version}'
 gnumeric_libdir='${libdir}/gnumeric/${gnumeric_version}'
@@ -673,7 +694,7 @@ AC_SUBST(gnumeric_gladedir)
 AC_SUBST(gnumeric_icondir)
 AC_SUBST(gnumeric_localedir)
 AC_SUBST(gnumeric_autoformatdir)
-AC_SUBST(gnumeric_bonobo_enabled)
+AC_SUBST(gnumeric_with_gnome)
 
 dnl ==============================================
 dnl Special GConf section  (stolen from libgnome)
@@ -741,6 +762,7 @@ src/cut-n-paste-code/foocanvas/libfoocanvas/Makefile
 src/cut-n-paste-code/pcre/Makefile
 src/cut-n-paste-code/goffice/Makefile
 src/cut-n-paste-code/goffice/utils/Makefile
+src/cut-n-paste-code/goffice/gui-utils/Makefile
 src/cut-n-paste-code/goffice/graph/Makefile
 src/cut-n-paste-code/goffice/graph/plugins/Makefile
 src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/Makefile
@@ -812,7 +834,8 @@ Configuration:
 
 	Python Support:		${python_msg}
 	Guile Support:		${guile_msg}
-	Bonobo Support:		${bonobo_msg}
+	GNOME Support:		${gnome_msg}
+	Bonobo Component 	${bonobo_component_msg}
 	GDA support:		${gda_msg}
 	GNOME-DB support:	${gnomedb_msg}
 "
