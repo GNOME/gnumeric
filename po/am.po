@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0\n"
-"POT-Creation-Date: 2003-01-28 00:35-0500\n"
-"PO-Revision-Date: 2003-01-14 11:02+EDT\n"
+"POT-Creation-Date: 2003-02-07 11:25+0100\n"
+"PO-Revision-Date: 2003-02-07 17:46+EDT\n"
 "Last-Translator: Ge'ez Frontier Foundation <locales@geez.org>\n"
 "Language-Team: Amharic <locales@geez.org>\n"
 "MIME-Version: 1.0\n"
@@ -545,7 +545,7 @@ msgstr ""
 msgid "Functions related to financial derivatives"
 msgstr ""
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5100
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5105
 #: plugins/gnumeric_1_0/xml-io.c:3369 plugins/mps/mps.c:549 src/xml-io.c:3586
 msgid "Reading file..."
 msgstr ""
@@ -654,42 +654,42 @@ msgstr ""
 msgid "Module%d"
 msgstr "አቅድ%d"
 
-#: plugins/excel/ms-excel-read.c:2668
+#: plugins/excel/ms-excel-read.c:2673
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:2724
+#: plugins/excel/ms-excel-read.c:2729
 #, c-format
 msgid ""
 "DDE links are no supported.\n"
 "Name '%s' will be lost.\n"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:2730
+#: plugins/excel/ms-excel-read.c:2735
 #, c-format
 msgid ""
 "OLE links are no supported.\n"
 "Name '%s' will be lost.\n"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:2782
+#: plugins/excel/ms-excel-read.c:2787
 msgid "Failure parsing AutoFilter."
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:4512
+#: plugins/excel/ms-excel-read.c:4517
 msgid "external references"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:5246
+#: plugins/excel/ms-excel-read.c:5251
 msgid "No password supplied"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:5250
+#: plugins/excel/ms-excel-read.c:5255
 msgid "Invalid password"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:5345
+#: plugins/excel/ms-excel-read.c:5350
 msgid "Unable to locate valid MS Excel workbook"
 msgstr ""
 
@@ -700,25 +700,25 @@ msgid ""
 "encoding problems."
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:3677
+#: plugins/excel/ms-excel-write.c:3678
 #, c-format
 msgid ""
 "Some content will be lost when saving as excel 95.It only supports %d rows, "
 "and this workbook has %d"
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:3684
+#: plugins/excel/ms-excel-write.c:3685
 #, c-format
 msgid ""
 "Some content will be lost when saving as excel.It only supports %d rows, and "
 "this workbook has %d"
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:4088
+#: plugins/excel/ms-excel-write.c:4089
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:4108
+#: plugins/excel/ms-excel-write.c:4109
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr ""
 
@@ -9952,7 +9952,7 @@ msgstr ""
 msgid "Constraints:"
 msgstr ""
 
-#: plugins/mps/mps.c:247 src/commands.c:5413
+#: plugins/mps/mps.c:247 src/commands.c:5414
 #: src/cut-n-paste-code/egg/menu/egg-action.c:120
 #: src/dialogs/dialog-define-names.c:499 src/dialogs/dialog-formula-guru.c:813
 #: src/dialogs/dialog-function-select.c:419
@@ -10218,11 +10218,11 @@ msgid ""
 "Unable to parse position for expression '%s' with value '%s' because '%s'"
 msgstr ""
 
-#: plugins/openoffice/openoffice-read.c:934
+#: plugins/openoffice/openoffice-read.c:935
 msgid "No stream named content.xml found."
 msgstr ""
 
-#: plugins/openoffice/openoffice-read.c:974
+#: plugins/openoffice/openoffice-read.c:975
 #: plugins/xml_sax/xml-sax-read.c:1501
 msgid "XML document not well formed!"
 msgstr ""
@@ -10259,10 +10259,6 @@ msgstr ""
 #: plugins/plan-perfect/pln.c:575
 #, c-format
 msgid "Ignoring data that claims to be in column %u which is > max column %u"
-msgstr ""
-
-#: plugins/plan-perfect/pln.c:668
-msgid "PLN : Not a PlanPerfect File"
 msgstr ""
 
 #: plugins/plan-perfect/plugin.xml.in.h:1
@@ -10414,22 +10410,22 @@ msgstr ""
 msgid "Python console"
 msgstr ""
 
-#: plugins/qpro/qpro-read.c:150
+#: plugins/qpro/qpro-read.c:151
 #, c-format
 msgid "Invalid '%s' record of length %hd instead of %d"
 msgstr ""
 
-#: plugins/qpro/qpro-read.c:774
+#: plugins/qpro/qpro-read.c:775
 #, c-format
 msgid "Invalid zoom %hd %%"
 msgstr ""
 
-#: plugins/qpro/qpro-read.c:816
+#: plugins/qpro/qpro-read.c:817
 #, c-format
 msgid "Invalid record %d of length %hd"
 msgstr ""
 
-#: plugins/qpro/qpro-read.c:847
+#: plugins/qpro/qpro-read.c:849
 msgid ""
 "Unable to find the PerfectOffice_MAIN stream.  Is this really a Quattro Pro "
 "file?"
@@ -10568,19 +10564,19 @@ msgid "About this application"
 msgstr "ስለዚህ ፕሮግራም"
 
 #: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:1356
-#: src/workbook-control-gui.c:3712
+#: src/workbook-control-gui.c:3729
 msgid "Add _Auto Filter"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:3 src/workbook-control-gui.c:3675
+#: src/GNOME_Gnumeric.xml.h:3 src/workbook-control-gui.c:3692
 msgid "Add an outline group"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:4 src/workbook-control-gui.c:3713
+#: src/GNOME_Gnumeric.xml.h:4 src/workbook-control-gui.c:3730
 msgid "Add or remove a filter"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:5 src/workbook-control-gui.c:3718
+#: src/GNOME_Gnumeric.xml.h:5 src/workbook-control-gui.c:3735
 msgid "Advanced _Filter..."
 msgstr ""
 
@@ -10596,23 +10592,23 @@ msgstr ""
 msgid "Arrow"
 msgstr "ቀስት"
 
-#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:3637
+#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:3654
 msgid "Auto _Correct..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:3243
+#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:3260
 msgid "Auto_fill"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:3244
+#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:3261
 msgid "Automatically fill the current selection"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:12 src/workbook-control-gui.c:3638
+#: src/GNOME_Gnumeric.xml.h:12 src/workbook-control-gui.c:3655
 msgid "Automatically perform simple spell checking"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:13 src/workbook-control-gui.c:3641
+#: src/GNOME_Gnumeric.xml.h:13 src/workbook-control-gui.c:3658
 msgid "Automatically save the current document at regular intervals"
 msgstr ""
 
@@ -10637,15 +10633,15 @@ msgstr "ወሰኖች"
 msgid "Button"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:18 src/workbook-control-gui.c:3391
+#: src/GNOME_Gnumeric.xml.h:18 src/workbook-control-gui.c:3408
 msgid "C_ells..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:19 src/workbook-control-gui.c:3300
+#: src/GNOME_Gnumeric.xml.h:19 src/workbook-control-gui.c:3317
 msgid "C_lear"
 msgstr "ሰርዝ"
 
-#: src/GNOME_Gnumeric.xml.h:20 src/workbook-control-gui.c:3521
+#: src/GNOME_Gnumeric.xml.h:20 src/workbook-control-gui.c:3538
 msgid "C_olumn"
 msgstr "ዐምድ"
 
@@ -10661,23 +10657,23 @@ msgstr ""
 msgid "Center across the selected cells"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:3185
+#: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:3202
 msgid "Change Gnumeric Preferences"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:3455
+#: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:3472
 msgid "Change height of the selected rows"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:3448
+#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:3465
 msgid "Change the default column width"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:3467
+#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:3484
 msgid "Change the default row height"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:28 src/workbook-control-gui.c:3436
+#: src/GNOME_Gnumeric.xml.h:28 src/workbook-control-gui.c:3453
 msgid "Change width of the selected columns"
 msgstr ""
 
@@ -10685,19 +10681,19 @@ msgstr ""
 msgid "Checkbox"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:3204
+#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:3221
 msgid "Clear the selected cells' comments"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:3207
+#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:3224
 msgid "Clear the selected cells' contents"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:3201
+#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:3218
 msgid "Clear the selected cells' formats"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:33 src/workbook-control-gui.c:3198
+#: src/GNOME_Gnumeric.xml.h:33 src/workbook-control-gui.c:3215
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr ""
 
@@ -10706,15 +10702,15 @@ msgid "Close the current file"
 msgstr "የአሁኑን ፋይል ዝጋ"
 
 #: src/GNOME_Gnumeric.xml.h:35 src/dialogs/print.glade.h:7
-#: src/workbook-control-gui.c:3203
+#: src/workbook-control-gui.c:3220
 msgid "Co_mments"
 msgstr "አስተያየቶች"
 
-#: src/GNOME_Gnumeric.xml.h:36 src/workbook-control-gui.c:3596
+#: src/GNOME_Gnumeric.xml.h:36 src/workbook-control-gui.c:3613
 msgid "Co_variance"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:37 src/workbook-control-gui.c:3669
+#: src/GNOME_Gnumeric.xml.h:37 src/workbook-control-gui.c:3686
 msgid "Collapse an outline group"
 msgstr ""
 
@@ -10722,29 +10718,29 @@ msgstr ""
 msgid "Combo Box"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:39 src/workbook-control-gui.c:3568
+#: src/GNOME_Gnumeric.xml.h:39 src/workbook-control-gui.c:3585
 msgid "Comparing two population means for two paired samples.: t-test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:40 src/workbook-control-gui.c:3572
+#: src/GNOME_Gnumeric.xml.h:40 src/workbook-control-gui.c:3589
 msgid ""
 "Comparing two population means for two unpaired samples from pop. with equal "
 "var.: t-test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:3577
+#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:3594
 msgid ""
 "Comparing two population means for two unpaired samples from pop. with "
 "unequal var.: t-test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3582
+#: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3599
 msgid ""
 "Comparing two population means from pop. with known variances or using a "
 "large sample: z- test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:43 src/workbook-control-gui.c:3624
+#: src/GNOME_Gnumeric.xml.h:43 src/workbook-control-gui.c:3641
 msgid "Comparing two population variances"
 msgstr ""
 
@@ -10752,12 +10748,12 @@ msgstr ""
 msgid "Configure toolbars"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:45 src/workbook-control-gui.c:3741
+#: src/GNOME_Gnumeric.xml.h:45 src/workbook-control-gui.c:3758
 msgid "Consolidate regions using a function"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:46 src/sheet-view.c:309
-#: src/workbook-control-gui.c:3797
+#: src/workbook-control-gui.c:3814
 msgid "Copy"
 msgstr "ቅጂ"
 
@@ -10765,13 +10761,13 @@ msgstr "ቅጂ"
 msgid "Copy the selection"
 msgstr "የተመረጠውን ቅዳ"
 
-#: src/GNOME_Gnumeric.xml.h:48 src/workbook-control-gui.c:3797
+#: src/GNOME_Gnumeric.xml.h:48 src/workbook-control-gui.c:3814
 msgid "Copy the selection to the clipboard"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:49 src/dialogs/covariance.glade.h:3
-#: src/tools/analysis-tools.c:892 src/tools/analysis-tools.c:895
-#: src/workbook-control-gui.c:3597
+#: src/tools/analysis-tools.c:894 src/tools/analysis-tools.c:897
+#: src/workbook-control-gui.c:3614
 msgid "Covariance"
 msgstr ""
 
@@ -10803,19 +10799,19 @@ msgstr ""
 msgid "Create a list"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:57 src/workbook-control-gui.c:3343
+#: src/GNOME_Gnumeric.xml.h:57 src/workbook-control-gui.c:3360
 msgid "Create a new shared view of the workbook"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:58 src/workbook-control-gui.c:3158
+#: src/GNOME_Gnumeric.xml.h:58 src/workbook-control-gui.c:3175
 msgid "Create a new spreadsheet"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:59 src/workbook-control-gui.c:3346
+#: src/GNOME_Gnumeric.xml.h:59 src/workbook-control-gui.c:3363
 msgid "Create a new unshared view of the workbook"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:60 src/workbook-control-gui.c:3773
+#: src/GNOME_Gnumeric.xml.h:60 src/workbook-control-gui.c:3790
 msgid "Create a new workbook"
 msgstr ""
 
@@ -10848,17 +10844,17 @@ msgid "Cu_t"
 msgstr "ቁረጥ"
 
 #. Default <Ctrl-;> (control semi-colon) to insert the current date
-#: src/GNOME_Gnumeric.xml.h:68 src/workbook-control-gui.c:3364
+#: src/GNOME_Gnumeric.xml.h:68 src/workbook-control-gui.c:3381
 msgid "Current _date"
 msgstr "የዛሬው ቀን"
 
 #. Default <Ctrl-:> (control colon) to insert the current time
-#: src/GNOME_Gnumeric.xml.h:69 src/workbook-control-gui.c:3370
+#: src/GNOME_Gnumeric.xml.h:69 src/workbook-control-gui.c:3387
 msgid "Current _time"
 msgstr "የአሁኑን ሰዓት"
 
 #: src/GNOME_Gnumeric.xml.h:70 src/sheet-view.c:334 src/sheet-view.c:337
-#: src/workbook-control-gui.c:3794
+#: src/workbook-control-gui.c:3811
 msgid "Cut"
 msgstr "ቁረጥ"
 
@@ -10866,7 +10862,7 @@ msgstr "ቁረጥ"
 msgid "Cut the selection"
 msgstr "የተመረጠውን ቁረጥ"
 
-#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:3794
+#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:3811
 msgid "Cut the selection to the clipboard"
 msgstr ""
 
@@ -10883,35 +10879,35 @@ msgstr ""
 msgid "Decrease the number of decimals displayed"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:76 src/workbook-control-gui.c:3482
+#: src/GNOME_Gnumeric.xml.h:76 src/workbook-control-gui.c:3499
 msgid "Display _Formulas"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:77 src/workbook-control-gui.c:3684
+#: src/GNOME_Gnumeric.xml.h:77 src/workbook-control-gui.c:3701
 msgid "Display _Outlines"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:78 src/workbook-control-gui.c:3483
+#: src/GNOME_Gnumeric.xml.h:78 src/workbook-control-gui.c:3500
 msgid "Display the value of a formula or the formula itself"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:79 src/workbook-control-gui.c:3828
+#: src/GNOME_Gnumeric.xml.h:79 src/workbook-control-gui.c:3845
 msgid "Edit a function in the current cell"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:80 src/workbook-control-gui.c:3181
+#: src/GNOME_Gnumeric.xml.h:80 src/workbook-control-gui.c:3198
 msgid "Edit descriptive information"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:81 src/workbook-control-gui.c:3379
+#: src/GNOME_Gnumeric.xml.h:81 src/workbook-control-gui.c:3396
 msgid "Edit sheet and workbook names"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:3529
+#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:3546
 msgid "Edit the Gnumeric Preferences"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:83 src/workbook-control-gui.c:3421
+#: src/GNOME_Gnumeric.xml.h:83 src/workbook-control-gui.c:3438
 msgid "Edit the selected cell's comment"
 msgstr ""
 
@@ -10919,27 +10915,27 @@ msgstr ""
 msgid "Ellipse"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:85 src/workbook-control-gui.c:3439
+#: src/GNOME_Gnumeric.xml.h:85 src/workbook-control-gui.c:3456
 msgid "Ensure columns are just wide enough to display content"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:86 src/workbook-control-gui.c:3458
+#: src/GNOME_Gnumeric.xml.h:86 src/workbook-control-gui.c:3475
 msgid "Ensure rows are just tall enough to display content"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:3555
+#: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:3572
 msgid "Exponential smoothing"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:3603
+#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:3620
 msgid "F_orecasting"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:89 src/workbook-control-gui.c:3764
+#: src/GNOME_Gnumeric.xml.h:89 src/workbook-control-gui.c:3781
 msgid "F_ormat"
 msgstr "ፎርማት"
 
-#: src/GNOME_Gnumeric.xml.h:90 src/workbook-control-gui.c:3719
+#: src/GNOME_Gnumeric.xml.h:90 src/workbook-control-gui.c:3736
 msgid "Filter data with given criteria"
 msgstr ""
 
@@ -10962,12 +10958,12 @@ msgstr "የፊደል ቅርጽ መጠን"
 msgid "Foreground"
 msgstr "ፊት ለፊት"
 
-#: src/GNOME_Gnumeric.xml.h:95 src/workbook-control-gui.c:3533
+#: src/GNOME_Gnumeric.xml.h:95 src/workbook-control-gui.c:3550
 msgid "Format a region of cells according to a pre-defined template"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:96 src/dialogs/fourier-analysis.glade.h:3
-#: src/workbook-control-gui.c:3606
+#: src/workbook-control-gui.c:3623
 msgid "Fourier Analysis"
 msgstr ""
 
@@ -10977,69 +10973,69 @@ msgid "Frame"
 msgstr "ፍሬም"
 
 #: src/GNOME_Gnumeric.xml.h:98 src/workbook-control-gui.c:1341
-#: src/workbook-control-gui.c:3355
+#: src/workbook-control-gui.c:3372
 msgid "Freeze the top left of the sheet"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:99 src/dialogs/function-select.glade.h:3
-#: src/workbook-control-gui.c:3827
+#: src/workbook-control-gui.c:3844
 msgid "Function"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:100 src/workbook-control-gui.c:3253
+#: src/GNOME_Gnumeric.xml.h:100 src/workbook-control-gui.c:3270
 msgid "Generate random numbers of a selection of distributions"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:101 src/workbook-control-gui.c:3748
+#: src/GNOME_Gnumeric.xml.h:101 src/workbook-control-gui.c:3765
 msgid "Get _External Data"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:102 src/dialogs/graph-guru.glade.h:2
-#: src/workbook-control-gui.c:3840
+#: src/workbook-control-gui.c:3857
 msgid "Graph Guru"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:103 src/workbook-control-gui.c:3454
+#: src/GNOME_Gnumeric.xml.h:103 src/workbook-control-gui.c:3471
 msgid "H_eight..."
 msgstr "እርዝማኔ"
 
-#: src/GNOME_Gnumeric.xml.h:104 src/workbook-control-gui.c:3500
+#: src/GNOME_Gnumeric.xml.h:104 src/workbook-control-gui.c:3517
 msgid "Hide _Column Headers"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:105 src/workbook-control-gui.c:3494
+#: src/GNOME_Gnumeric.xml.h:105 src/workbook-control-gui.c:3511
 msgid "Hide _Gridlines"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:3506
+#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:3523
 msgid "Hide _Row Headers"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:107 src/workbook-control-gui.c:3488
+#: src/GNOME_Gnumeric.xml.h:107 src/workbook-control-gui.c:3505
 msgid "Hide _Zeros"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:108 src/workbook-control-gui.c:3442
+#: src/GNOME_Gnumeric.xml.h:108 src/workbook-control-gui.c:3459
 msgid "Hide the selected columns"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:109 src/workbook-control-gui.c:3461
+#: src/GNOME_Gnumeric.xml.h:109 src/workbook-control-gui.c:3478
 msgid "Hide the selected rows"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:110 src/workbook-control-gui.c:3424
+#: src/GNOME_Gnumeric.xml.h:110 src/workbook-control-gui.c:3441
 msgid "Hyper_link..."
 msgstr "ማያያዣ ቁልፎች"
 
-#: src/GNOME_Gnumeric.xml.h:111 src/workbook-control-gui.c:3819
+#: src/GNOME_Gnumeric.xml.h:111 src/workbook-control-gui.c:3836
 msgid "Hyperlink"
 msgstr "ማያያዣ ቁልፎች"
 
-#: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:3705
+#: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:3722
 msgid "Import _Text File..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:3706
+#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:3723
 msgid "Import the text from a file"
 msgstr ""
 
@@ -11064,21 +11060,21 @@ msgstr ""
 msgid "Insert Shaped Component"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:119 src/workbook-control-gui.c:3425
-#: src/workbook-control-gui.c:3820
+#: src/GNOME_Gnumeric.xml.h:119 src/workbook-control-gui.c:3442
+#: src/workbook-control-gui.c:3837
 msgid "Insert a Hyperlink"
 msgstr "ማያያዣ ቁልፎች አስገባ"
 
-#: src/GNOME_Gnumeric.xml.h:120 src/workbook-control-gui.c:3415
+#: src/GNOME_Gnumeric.xml.h:120 src/workbook-control-gui.c:3432
 msgid "Insert a function into the selected cell"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:121 src/workbook-control-gui.c:609
-#: src/workbook-control-gui.c:3265
+#: src/workbook-control-gui.c:3282
 msgid "Insert a new sheet"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:122 src/workbook-control-gui.c:3401
+#: src/GNOME_Gnumeric.xml.h:122 src/workbook-control-gui.c:3418
 msgid "Insert a new spreadsheet"
 msgstr ""
 
@@ -11086,31 +11082,31 @@ msgstr ""
 msgid "Insert a shaped component into the spreadsheet"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:3411
+#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:3428
 msgid "Insert an image"
-msgstr ""
+msgstr "ምስል አስገባ"
 
 #: src/GNOME_Gnumeric.xml.h:125
 msgid "Insert an object into the spreadsheet"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:126 src/workbook-control-gui.c:3392
+#: src/GNOME_Gnumeric.xml.h:126 src/workbook-control-gui.c:3409
 msgid "Insert new cells"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:127 src/workbook-control-gui.c:3395
+#: src/GNOME_Gnumeric.xml.h:127 src/workbook-control-gui.c:3412
 msgid "Insert new columns"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:3398
+#: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:3415
 msgid "Insert new rows"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:129 src/workbook-control-gui.c:3365
+#: src/GNOME_Gnumeric.xml.h:129 src/workbook-control-gui.c:3382
 msgid "Insert the current date into the selected cell(s)"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:130 src/workbook-control-gui.c:3371
+#: src/GNOME_Gnumeric.xml.h:130 src/workbook-control-gui.c:3388
 msgid "Insert the current time into the selected cell(s)"
 msgstr ""
 
@@ -11122,7 +11118,7 @@ msgstr ""
 msgid "Inserts a Shaped Bonobo object"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:133 src/workbook-control-gui.c:3277
+#: src/GNOME_Gnumeric.xml.h:133 src/workbook-control-gui.c:3294
 msgid "Irrevocably remove an entire sheet"
 msgstr ""
 
@@ -11131,15 +11127,15 @@ msgstr ""
 msgid "Italic"
 msgstr "አይታሊክ ማድረጊያ"
 
-#: src/GNOME_Gnumeric.xml.h:135 src/workbook-control-gui.c:3647
+#: src/GNOME_Gnumeric.xml.h:135 src/workbook-control-gui.c:3664
 msgid "Iteratively recalculate to find a target value"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:3651
+#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:3668
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:3326
+#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:3343
 msgid "Jump to a specified cell"
 msgstr ""
 
@@ -11149,8 +11145,8 @@ msgstr ""
 msgid "Label"
 msgstr "መለያ"
 
-#: src/GNOME_Gnumeric.xml.h:139 src/workbook-control-gui.c:3407
-#: src/workbook-control-gui.c:3841
+#: src/GNOME_Gnumeric.xml.h:139 src/workbook-control-gui.c:3424
+#: src/workbook-control-gui.c:3858
 msgid "Launch the Graph Guru"
 msgstr ""
 
@@ -11171,28 +11167,28 @@ msgstr "መስመር"
 msgid "List"
 msgstr "ዝርዝር"
 
-#: src/GNOME_Gnumeric.xml.h:144 src/workbook-control-gui.c:3261
+#: src/GNOME_Gnumeric.xml.h:144 src/workbook-control-gui.c:3278
 msgid "Make a copy of the current sheet"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:145 src/workbook-control-gui.c:3250
+#: src/GNOME_Gnumeric.xml.h:145 src/workbook-control-gui.c:3267
 msgid "Make a table of a cell's value as a function of other cells"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:146 src/workbook-control-gui.c:3445
+#: src/GNOME_Gnumeric.xml.h:146 src/workbook-control-gui.c:3462
 msgid "Make any hidden columns in the selection visible"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:147 src/workbook-control-gui.c:3464
+#: src/GNOME_Gnumeric.xml.h:147 src/workbook-control-gui.c:3481
 msgid "Make any hidden rows in the selection visible"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:148 src/workbook-control-gui.c:3632
+#: src/GNOME_Gnumeric.xml.h:148 src/workbook-control-gui.c:3649
 msgid "Manage available plugin modules"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:3273
-#: src/workbook-control-gui.c:3477
+#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:3290
+#: src/workbook-control-gui.c:3494
 msgid "Manage the sheets in this workbook"
 msgstr ""
 
@@ -11206,20 +11202,20 @@ msgid "Merge a range of cells"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:152 src/dialogs/merge.glade.h:2
-#: src/workbook-control-gui.c:3246
+#: src/workbook-control-gui.c:3263
 msgid "Merge..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:3247
+#: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:3264
 msgid ""
 "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:154 src/workbook-control-gui.c:3518
+#: src/GNOME_Gnumeric.xml.h:154 src/workbook-control-gui.c:3535
 msgid "Modify the formatting of the selected cells"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:155 src/workbook-control-gui.c:3526
+#: src/GNOME_Gnumeric.xml.h:155 src/workbook-control-gui.c:3543
 msgid "Modify the workbook attributes"
 msgstr ""
 
@@ -11227,27 +11223,27 @@ msgstr ""
 msgid "Money"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:157 src/workbook-control-gui.c:3559
+#: src/GNOME_Gnumeric.xml.h:157 src/workbook-control-gui.c:3576
 msgid "Moving average"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:158 src/workbook-control-gui.c:3773
+#: src/GNOME_Gnumeric.xml.h:158 src/workbook-control-gui.c:3790
 msgid "New"
 msgstr "አዲስ"
 
-#: src/GNOME_Gnumeric.xml.h:159 src/workbook-control-gui.c:3342
+#: src/GNOME_Gnumeric.xml.h:159 src/workbook-control-gui.c:3359
 msgid "New _Shared"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:160 src/workbook-control-gui.c:3345
+#: src/GNOME_Gnumeric.xml.h:160 src/workbook-control-gui.c:3362
 msgid "New _Unshared"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:161 src/workbook-control-gui.c:3543
+#: src/GNOME_Gnumeric.xml.h:161 src/workbook-control-gui.c:3560
 msgid "One Factor Analysis of Variance"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:162 src/workbook-control-gui.c:3776
+#: src/GNOME_Gnumeric.xml.h:162 src/workbook-control-gui.c:3793
 msgid "Open"
 msgstr "ክፈት"
 
@@ -11255,15 +11251,15 @@ msgstr "ክፈት"
 msgid "Open a spreadsheet"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:3776
+#: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:3793
 msgid "Open an existing workbook"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:3690
+#: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:3707
 msgid "Outlines _Below"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:166 src/workbook-control-gui.c:3696
+#: src/GNOME_Gnumeric.xml.h:166 src/workbook-control-gui.c:3713
 msgid "Outlines _Right"
 msgstr ""
 
@@ -11272,16 +11268,16 @@ msgid "P_aste Special..."
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:168 src/GNOME_Gnumeric_Component.xml.h:4
-#: src/workbook-control-gui.c:3167
+#: src/workbook-control-gui.c:3184
 msgid "Page Set_up..."
-msgstr "የገጽ ቅንጅት"
+msgstr "የገጽ ቅንጅት... (U)"
 
-#: src/GNOME_Gnumeric.xml.h:169 src/workbook-control-gui.c:3738
+#: src/GNOME_Gnumeric.xml.h:169 src/workbook-control-gui.c:3755
 msgid "Parse the text in the selection into data"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:170 src/cmd-edit.c:344
-#: src/workbook-control-gui.c:3800
+#: src/workbook-control-gui.c:3817
 msgid "Paste"
 msgstr "ለጥፍ"
 
@@ -11289,15 +11285,15 @@ msgstr "ለጥፍ"
 msgid "Paste the clipboard"
 msgstr "ክሊፕቦርዱን ለጥፍ"
 
-#: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:3800
+#: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:3817
 msgid "Paste the contents of the clipboard"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:3295
+#: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:3312
 msgid "Paste with optional filters and transformations"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:174 src/workbook-control-gui.c:3594
+#: src/GNOME_Gnumeric.xml.h:174 src/workbook-control-gui.c:3611
 msgid "Pearson Correlation"
 msgstr ""
 
@@ -11305,30 +11301,30 @@ msgstr ""
 msgid "Percent"
 msgstr "መቶኛ"
 
-#: src/GNOME_Gnumeric.xml.h:176 src/workbook-control-gui.c:3618
+#: src/GNOME_Gnumeric.xml.h:176 src/workbook-control-gui.c:3635
 msgid "Periodic and random samples"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:177 src/workbook-control-gui.c:3184
+#: src/GNOME_Gnumeric.xml.h:177 src/workbook-control-gui.c:3201
 msgid "Preferen_ces..."
-msgstr "ምርጫዎች"
+msgstr "ምርጫዎች... (_C)"
 
 #: src/GNOME_Gnumeric.xml.h:178 src/dialogs/print.glade.h:14
-#: src/workbook-control-gui.c:3785
+#: src/workbook-control-gui.c:3802
 msgid "Print"
 msgstr "አትም"
 
-#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:3170
+#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:3187
 msgid "Print Pre_view..."
-msgstr "የቅድመ ህትመት ዕይታ"
+msgstr "የቅድመ ህትመት ዕይታ... (_V)"
 
-#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:3788
+#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:3805
 msgid "Print Preview"
 msgstr "የቅድመ ህትመት ዕይታ"
 
 #: src/GNOME_Gnumeric.xml.h:181 src/GNOME_Gnumeric_Component.xml.h:6
 #: src/dialogs/print.glade.h:16 src/print.c:1353
-#: src/workbook-control-gui.c:3171 src/workbook-control-gui.c:3788
+#: src/workbook-control-gui.c:3188 src/workbook-control-gui.c:3805
 msgid "Print preview"
 msgstr "የቅድመ ህትመት ዕይታ"
 
@@ -11336,14 +11332,14 @@ msgstr "የቅድመ ህትመት ዕይታ"
 msgid "Print the current file"
 msgstr "የአሁኑን ፋይል አትም"
 
-#: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:3785
+#: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:3802
 msgid "Print the workbook"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:184 src/GNOME_Gnumeric_Component.xml.h:8
-#: src/workbook-control-gui.c:3180
+#: src/workbook-control-gui.c:3197
 msgid "Proper_ties..."
-msgstr "ምርጫዎች"
+msgstr "ምርጫዎች... (_T)"
 
 #: src/GNOME_Gnumeric.xml.h:185
 msgid "Quit the application"
@@ -11357,20 +11353,20 @@ msgstr "ሬዲዮ ቁልፍ"
 msgid "Ranks and _Percentiles"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:188 src/workbook-control-gui.c:3612
+#: src/GNOME_Gnumeric.xml.h:188 src/workbook-control-gui.c:3629
 msgid "Ranks, placements and percentiles"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:3268
-#: src/workbook-control-gui.c:3473
+#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:3285
+#: src/workbook-control-gui.c:3490
 msgid "Re_name..."
-msgstr "እንደገና ሰይም"
+msgstr "እንደገና ሰይም... (_N)"
 
-#: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:3331
+#: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:3348
 msgid "Recalculate"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:3332
+#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:3349
 msgid "Recalculate the spreadsheet"
 msgstr ""
 
@@ -11378,15 +11374,15 @@ msgstr ""
 msgid "Rectangle"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:193 src/workbook-control-gui.c:4053
+#: src/GNOME_Gnumeric.xml.h:193 src/workbook-control-gui.c:4070
 msgid "Redo the undone action"
 msgstr "የተተወውን ድርጊት እንደገና አድርግ"
 
-#: src/GNOME_Gnumeric.xml.h:194 src/workbook-control-gui.c:3615
+#: src/GNOME_Gnumeric.xml.h:194 src/workbook-control-gui.c:3632
 msgid "Regression Analysis"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:195 src/workbook-control-gui.c:3678
+#: src/GNOME_Gnumeric.xml.h:195 src/workbook-control-gui.c:3695
 msgid "Remove an outline group"
 msgstr ""
 
@@ -11394,8 +11390,8 @@ msgstr ""
 msgid "Remove selected cells, shifting others into their place"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:197 src/workbook-control-gui.c:3269
-#: src/workbook-control-gui.c:3474
+#: src/GNOME_Gnumeric.xml.h:197 src/workbook-control-gui.c:3286
+#: src/workbook-control-gui.c:3491
 msgid "Rename the current sheet"
 msgstr ""
 
@@ -11407,21 +11403,21 @@ msgstr "በቀኝ ኰልኮያ"
 msgid "Right align"
 msgstr "በቀኝ ኰልኮያ"
 
-#: src/GNOME_Gnumeric.xml.h:200 src/workbook-control-gui.c:3307
+#: src/GNOME_Gnumeric.xml.h:200 src/workbook-control-gui.c:3324
 msgid "S_heet"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:3429
+#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:3446
 msgid "S_pecial"
-msgstr "የተለየ"
+msgstr "የተለየ (_P)"
 
-#: src/GNOME_Gnumeric.xml.h:202 src/workbook-control-gui.c:3779
+#: src/GNOME_Gnumeric.xml.h:202 src/workbook-control-gui.c:3796
 msgid "Save"
 msgstr "አስቀምጥ"
 
 #: src/GNOME_Gnumeric.xml.h:203
 msgid "Save _As..."
-msgstr "በሌላ ስም አስቀምጥ"
+msgstr "በሌላ ስም አስቀምጥ... (_A)"
 
 #: src/GNOME_Gnumeric.xml.h:204
 msgid "Save the current file"
@@ -11431,7 +11427,7 @@ msgstr "የአሁኑን ፋይል አስቀምጥ"
 msgid "Save the current file with a different name"
 msgstr "የአሁኑን ፋይል በተለየ ስም አስቀምጥ"
 
-#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:3779
+#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:3796
 msgid "Save the current workbook"
 msgstr ""
 
@@ -11439,60 +11435,60 @@ msgstr ""
 msgid "Scrollbar"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:3319
+#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:3336
 msgid "Search and Replace..."
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:209 src/GNOME_Gnumeric_Component.xml.h:10
-#: src/workbook-control-gui.c:3314
+#: src/workbook-control-gui.c:3331
 msgid "Search for some text"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:3320
+#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:3337
 msgid "Search for some text and replace it with something else"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:3313
+#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:3330
 msgid "Search..."
-msgstr "ፈልግ"
+msgstr "ፈልግ..."
 
-#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:3230
+#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:3247
 msgid "Select Arra_y"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:213 src/workbook-control-gui.c:3215
+#: src/GNOME_Gnumeric.xml.h:213 src/workbook-control-gui.c:3232
 msgid "Select _All"
-msgstr "ሁሉንም ምረጡ"
+msgstr "ሁሉንም ምረጡ (_A)"
 
-#: src/GNOME_Gnumeric.xml.h:214 src/workbook-control-gui.c:3220
+#: src/GNOME_Gnumeric.xml.h:214 src/workbook-control-gui.c:3237
 msgid "Select _Column"
-msgstr "ዐምዱ ምረጡ"
+msgstr "ዐምዱ ምረጡ (_C)"
 
-#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:3235
+#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:3252
 msgid "Select _Depends"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:3225
+#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:3242
 msgid "Select _Row"
-msgstr "ረድፍን ምረጡ"
+msgstr "ረድፍን ምረጡ (_R)"
 
-#: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:3216
+#: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:3233
 msgid "Select all cells in the spreadsheet"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:218 src/workbook-control-gui.c:3236
+#: src/GNOME_Gnumeric.xml.h:218 src/workbook-control-gui.c:3253
 msgid "Select all the cells that depend on the current edit cell"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:219 src/workbook-control-gui.c:3231
+#: src/GNOME_Gnumeric.xml.h:219 src/workbook-control-gui.c:3248
 msgid "Select an array of cells"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:220 src/workbook-control-gui.c:3221
+#: src/GNOME_Gnumeric.xml.h:220 src/workbook-control-gui.c:3238
 msgid "Select an entire column"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:221 src/workbook-control-gui.c:3226
+#: src/GNOME_Gnumeric.xml.h:221 src/workbook-control-gui.c:3243
 msgid "Select an entire row"
 msgstr ""
 
@@ -11509,34 +11505,34 @@ msgid "Set the format of the selected cells to percentage"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:225 src/GNOME_Gnumeric_Component.xml.h:11
-#: src/workbook-control-gui.c:3168
+#: src/workbook-control-gui.c:3185
 msgid "Setup the page settings for your current printer"
 msgstr "የገጹን አቀማመጥ አሁን ላለው ማተሚያ አስተካክሉ"
 
-#: src/GNOME_Gnumeric.xml.h:226 src/workbook-control-gui.c:3716
+#: src/GNOME_Gnumeric.xml.h:226 src/workbook-control-gui.c:3733
 msgid "Show all filtered and hidden rows"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:227 src/workbook-control-gui.c:3831
+#: src/GNOME_Gnumeric.xml.h:227 src/workbook-control-gui.c:3848
 #: schemas/gnumeric-general.schemas.in.h:28
 msgid "Sort Ascending"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:3834
+#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:3851
 msgid "Sort Descending"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:3728
+#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:3745
 msgid "Sort the selected region"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:230 src/workbook-control-gui.c:3832
+#: src/GNOME_Gnumeric.xml.h:230 src/workbook-control-gui.c:3849
 msgid ""
 "Sort the selected region in ascending order based on the first column "
 "selected"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:3835
+#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:3852
 msgid ""
 "Sort the selected region in descending order based on the first column "
 "selected"
@@ -11550,21 +11546,21 @@ msgstr ""
 msgid "Split merged ranges of cells"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:3661
+#: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:3678
 msgid "Statistical Anal_ysis"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:235 src/dialogs/consolidate.glade.h:19
-#: src/workbook-control-gui.c:3824 src/workbook-control-gui.c:4574
+#: src/workbook-control-gui.c:3841 src/workbook-control-gui.c:4591
 #: src/workbook-view.c:511
 msgid "Sum"
-msgstr "sum"
+msgstr "Sum"
 
-#: src/GNOME_Gnumeric.xml.h:236 src/workbook-control-gui.c:3825
+#: src/GNOME_Gnumeric.xml.h:236 src/workbook-control-gui.c:3842
 msgid "Sum into the current cell"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:237 src/workbook-control-gui.c:3655
+#: src/GNOME_Gnumeric.xml.h:237 src/workbook-control-gui.c:3672
 msgid ""
 "Test decision alternatives by using Monte Carlo simulation to find out "
 "probable outputs and risks related to them"
@@ -11574,43 +11570,43 @@ msgstr ""
 msgid "Thousands Separator"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:239 src/workbook-control-gui.c:3501
+#: src/GNOME_Gnumeric.xml.h:239 src/workbook-control-gui.c:3518
 msgid "Toggle whether or not to display column headers"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:3495
+#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:3512
 msgid "Toggle whether or not to display gridlines"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:3685
+#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:3702
 msgid "Toggle whether or not to display outline groups"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:3507
+#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:3524
 msgid "Toggle whether or not to display row headers"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:3489
+#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:3506
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:3697
+#: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:3714
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:3691
+#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:3708
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:246 src/workbook-control-gui.c:3546
+#: src/GNOME_Gnumeric.xml.h:246 src/workbook-control-gui.c:3563
 msgid "Two Factor Analysis of Variance"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:247 src/workbook-control-gui.c:3621
+#: src/GNOME_Gnumeric.xml.h:247 src/workbook-control-gui.c:3638
 msgid "Two _Means"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:3672
+#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:3689
 msgid "Uncollapse an outline group"
 msgstr ""
 
@@ -11618,73 +11614,73 @@ msgstr ""
 msgid "Underline"
 msgstr "የስር መስመር"
 
-#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:4050
+#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:4067
 msgid "Undo the last action"
 msgstr "የመጨረሻውን ትግባር ተወው"
 
-#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:3571
+#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:3588
 msgid "Unpaired Samples, _Equal Var.: T-Test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:3576
+#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:3593
 msgid "Unpaired Samples, _Unequal Var.: T-Test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:3732
+#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:3749
 msgid "Validate input with preset criteria"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:254 src/workbook-control-gui.c:3609
+#: src/GNOME_Gnumeric.xml.h:254 src/workbook-control-gui.c:3626
 msgid "Various frequency tables"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:255 src/workbook-control-gui.c:3600
+#: src/GNOME_Gnumeric.xml.h:255 src/workbook-control-gui.c:3617
 msgid "Various summary statistics"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:256 src/workbook-control-gui.c:3352
-#: src/workbook-control-gui.c:4056
+#: src/GNOME_Gnumeric.xml.h:256 src/workbook-control-gui.c:3369
+#: src/workbook-control-gui.c:4073
 msgid "Zoom the spreadsheet in or out"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:257 src/workbook-control-gui.c:3591
+#: src/GNOME_Gnumeric.xml.h:257 src/workbook-control-gui.c:3608
 msgid "_ANOVA"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:258
 msgid "_About"
-msgstr "ስለ"
+msgstr "ስለ (_A)"
 
 #: src/GNOME_Gnumeric.xml.h:259 src/sheet-control-gui.c:1482
-#: src/workbook-control-gui.c:3420
+#: src/workbook-control-gui.c:3437
 msgid "_Add / Modify comment..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:260 src/workbook-control-gui.c:3197
+#: src/GNOME_Gnumeric.xml.h:260 src/workbook-control-gui.c:3214
 msgid "_All"
-msgstr "ሁሉም"
+msgstr "ሁሉም (_A)"
 
-#: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:3640
+#: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:3657
 msgid "_Auto Save..."
-msgstr "በራሱ አስቀማጭ"
+msgstr "በራሱ አስቀማጭ... (A)"
 
-#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:3438
-#: src/workbook-control-gui.c:3457
+#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:3455
+#: src/workbook-control-gui.c:3474
 msgid "_Auto fit selection"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:3532
+#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:3549
 msgid "_Autoformat..."
 msgstr ""
 
 #. Default <Ctrl-1> invoke the format dialog
-#: src/GNOME_Gnumeric.xml.h:264 src/workbook-control-gui.c:3517
+#: src/GNOME_Gnumeric.xml.h:264 src/workbook-control-gui.c:3534
 msgid "_Cells..."
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:265
 msgid "_Close"
-msgstr "ዝጋ"
+msgstr "ዝጋ (_C)"
 
 #: src/GNOME_Gnumeric.xml.h:266 src/dialogs/anova-one.glade.h:13
 #: src/dialogs/colrow.glade.h:2 src/dialogs/correlation.glade.h:11
@@ -11693,222 +11689,222 @@ msgstr "ዝጋ"
 #: src/dialogs/fourier-analysis.glade.h:11 src/dialogs/histogram.glade.h:26
 #: src/dialogs/moving-averages.glade.h:12 src/dialogs/rank.glade.h:13
 #: src/dialogs/regression.glade.h:13 src/dialogs/sampling.glade.h:16
-#: src/workbook-control-gui.c:3394
+#: src/workbook-control-gui.c:3411
 msgid "_Columns"
-msgstr "ዐምዶች"
+msgstr "ዐምዶች (_C)"
 
-#: src/GNOME_Gnumeric.xml.h:267 src/workbook-control-gui.c:3740
+#: src/GNOME_Gnumeric.xml.h:267 src/workbook-control-gui.c:3757
 msgid "_Consolidate..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:3206
+#: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:3223
 msgid "_Contents"
-msgstr "ይዞታዎች"
+msgstr "ይዞታዎች (_C)"
 
 #: src/GNOME_Gnumeric.xml.h:269 src/item-cursor.c:1008
 #: src/sheet-control-gui.c:1451
 msgid "_Copy"
-msgstr "ቅጂ"
+msgstr "ቅጂ (_C)"
 
-#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:3593
+#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:3610
 msgid "_Correlation"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:271 src/dialogs/pivottable.glade.h:8
-#: src/workbook-control-gui.c:3766
+#: src/workbook-control-gui.c:3783
 msgid "_Data"
-msgstr "ዳታ"
+msgstr "ዳታ (_D)"
 
-#: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:3378
+#: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:3395
 msgid "_Define..."
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:273 src/sheet-control-gui.c:1469
-#: src/workbook-control-gui.c:3302
+#: src/workbook-control-gui.c:3319
 msgid "_Delete..."
-msgstr "አጥፉ"
+msgstr "አጥፉ... (_D)"
 
-#: src/GNOME_Gnumeric.xml.h:274 src/workbook-control-gui.c:3599
+#: src/GNOME_Gnumeric.xml.h:274 src/workbook-control-gui.c:3616
 msgid "_Descriptive Statistics"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:275 src/dialogs/sheet-order.glade.h:2
-#: src/workbook-control-gui.c:3260
+#: src/workbook-control-gui.c:3277
 msgid "_Duplicate"
-msgstr "አባዛ"
+msgstr "አባዛ (_D)"
 
 #: src/GNOME_Gnumeric.xml.h:276 src/GNOME_Gnumeric_Component.xml.h:15
 msgid "_Edit"
-msgstr "አስተካክል"
+msgstr "አስተካክል (_E)"
 
-#: src/GNOME_Gnumeric.xml.h:277 src/workbook-control-gui.c:3554
+#: src/GNOME_Gnumeric.xml.h:277 src/workbook-control-gui.c:3571
 msgid "_Exponential Smoothing"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:278 src/GNOME_Gnumeric_Component.xml.h:16
 msgid "_File"
-msgstr "ፋይል"
+msgstr "ፋይል (_F)"
 
 #: src/GNOME_Gnumeric.xml.h:279 src/dialogs/cell-format.glade.h:107
-#: src/workbook-control-gui.c:3311
+#: src/workbook-control-gui.c:3328
 msgid "_Fill"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:280 src/workbook-control-gui.c:3730
+#: src/GNOME_Gnumeric.xml.h:280 src/workbook-control-gui.c:3747
 msgid "_Filter"
-msgstr "አጣራ"
+msgstr "አጣራ (_F)"
 
-#: src/GNOME_Gnumeric.xml.h:281 src/workbook-control-gui.c:3200
+#: src/GNOME_Gnumeric.xml.h:281 src/workbook-control-gui.c:3217
 msgid "_Formats"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:282 src/workbook-control-gui.c:3605
+#: src/GNOME_Gnumeric.xml.h:282 src/workbook-control-gui.c:3622
 msgid "_Fourier Analysis"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:283 src/workbook-control-gui.c:1338
-#: src/workbook-control-gui.c:3354
+#: src/workbook-control-gui.c:3371
 msgid "_Freeze Panes"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:284 src/workbook-control-gui.c:3414
+#: src/GNOME_Gnumeric.xml.h:284 src/workbook-control-gui.c:3431
 msgid "_Function..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:285 src/workbook-control-gui.c:3528
+#: src/GNOME_Gnumeric.xml.h:285 src/workbook-control-gui.c:3545
 msgid "_Gnumeric..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:286 src/workbook-control-gui.c:3646
+#: src/GNOME_Gnumeric.xml.h:286 src/workbook-control-gui.c:3663
 msgid "_Goal Seek..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:287 src/workbook-control-gui.c:3325
+#: src/GNOME_Gnumeric.xml.h:287 src/workbook-control-gui.c:3342
 msgid "_Goto cell..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:288 src/workbook-control-gui.c:3406
+#: src/GNOME_Gnumeric.xml.h:288 src/workbook-control-gui.c:3423
 msgid "_Graph..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:289 src/workbook-control-gui.c:3744
+#: src/GNOME_Gnumeric.xml.h:289 src/workbook-control-gui.c:3761
 msgid "_Group and Outline"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:290 src/workbook-control-gui.c:3674
+#: src/GNOME_Gnumeric.xml.h:290 src/workbook-control-gui.c:3691
 msgid "_Group..."
-msgstr "የውይይት መድረክ"
+msgstr "የውይይት መድረክ... (_G)"
 
 #: src/GNOME_Gnumeric.xml.h:291 src/GNOME_Gnumeric_Component.xml.h:17
 msgid "_Help"
-msgstr "መረጃ"
+msgstr "መረጃ (_H)"
 
 #: src/GNOME_Gnumeric.xml.h:292 src/sheet-control-gui.c:1494
-#: src/sheet-control-gui.c:1502 src/workbook-control-gui.c:3441
-#: src/workbook-control-gui.c:3460
+#: src/sheet-control-gui.c:1502 src/workbook-control-gui.c:3458
+#: src/workbook-control-gui.c:3477
 msgid "_Hide"
-msgstr "ደብቅ"
+msgstr "ደብቅ (_H)"
 
-#: src/GNOME_Gnumeric.xml.h:293 src/workbook-control-gui.c:3668
+#: src/GNOME_Gnumeric.xml.h:293 src/workbook-control-gui.c:3685
 msgid "_Hide Detail"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:294 src/workbook-control-gui.c:3608
+#: src/GNOME_Gnumeric.xml.h:294 src/workbook-control-gui.c:3625
 msgid "_Histogram"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:295 src/workbook-control-gui.c:3410
+#: src/GNOME_Gnumeric.xml.h:295 src/workbook-control-gui.c:3427
 msgid "_Image..."
-msgstr "ምስል"
+msgstr "ምስል... (_I)"
 
-#: src/GNOME_Gnumeric.xml.h:296 src/workbook-control-gui.c:3264
-#: src/workbook-control-gui.c:3763
+#: src/GNOME_Gnumeric.xml.h:296 src/workbook-control-gui.c:3281
+#: src/workbook-control-gui.c:3780
 msgid "_Insert"
-msgstr "አስገባ"
+msgstr "አስገባ (_I)"
 
-#: src/GNOME_Gnumeric.xml.h:297 src/workbook-control-gui.c:3581
+#: src/GNOME_Gnumeric.xml.h:297 src/workbook-control-gui.c:3598
 msgid "_Known Variances or Large Sample: Z-Test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:298 src/workbook-control-gui.c:3272
-#: src/workbook-control-gui.c:3476
+#: src/GNOME_Gnumeric.xml.h:298 src/workbook-control-gui.c:3289
+#: src/workbook-control-gui.c:3493
 msgid "_Manage Sheets..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:299 src/workbook-control-gui.c:3558
+#: src/GNOME_Gnumeric.xml.h:299 src/workbook-control-gui.c:3575
 msgid "_Moving Average"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:300 src/workbook-control-gui.c:3418
+#: src/GNOME_Gnumeric.xml.h:300 src/workbook-control-gui.c:3435
 msgid "_Name"
-msgstr "ስም"
+msgstr "ስም (_N)"
 
-#: src/GNOME_Gnumeric.xml.h:301 src/workbook-control-gui.c:3158
+#: src/GNOME_Gnumeric.xml.h:301 src/workbook-control-gui.c:3175
 msgid "_New"
-msgstr "አዲስ"
+msgstr "አዲስ (_N)"
 
 #: src/GNOME_Gnumeric.xml.h:302
 msgid "_Object..."
-msgstr ""
+msgstr "ኦብጀክት... (_O)"
 
-#: src/GNOME_Gnumeric.xml.h:303 src/workbook-control-gui.c:3542
+#: src/GNOME_Gnumeric.xml.h:303 src/workbook-control-gui.c:3559
 msgid "_One Factor"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:304
 msgid "_Open..."
-msgstr "ክፈት"
+msgstr "ክፈት... (_O)"
 
-#: src/GNOME_Gnumeric.xml.h:305 src/workbook-control-gui.c:3567
+#: src/GNOME_Gnumeric.xml.h:305 src/workbook-control-gui.c:3584
 msgid "_Paired Samples: T-Test"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:306 src/sheet-control-gui.c:1453
 msgid "_Paste"
-msgstr "ለጥፍ"
+msgstr "ለጥፍ (_P)"
 
-#: src/GNOME_Gnumeric.xml.h:307 src/workbook-control-gui.c:3745
+#: src/GNOME_Gnumeric.xml.h:307 src/workbook-control-gui.c:3762
 msgid "_PivotTable..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:308 src/workbook-control-gui.c:3631
+#: src/GNOME_Gnumeric.xml.h:308 src/workbook-control-gui.c:3648
 msgid "_Plug-ins..."
-msgstr "የተጨማሪው ፕሮግራሞች"
+msgstr "የተጨማሪው ፕሮግራሞች... (_P)"
 
 #: src/GNOME_Gnumeric.xml.h:309 src/GNOME_Gnumeric_Component.xml.h:19
 msgid "_Print..."
-msgstr "አትም"
+msgstr "አትም... (_P)"
 
 #: src/GNOME_Gnumeric.xml.h:310
 msgid "_Quit"
 msgstr "&ውጣ"
 
-#: src/GNOME_Gnumeric.xml.h:311 src/workbook-control-gui.c:3252
+#: src/GNOME_Gnumeric.xml.h:311 src/workbook-control-gui.c:3269
 msgid "_Random Generator..."
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:312 src/workbook-control-gui.c:1382
 msgid "_Redo"
-msgstr "እንደገና አድርግ"
+msgstr "እንደገና አድርግ (_R)"
 
-#: src/GNOME_Gnumeric.xml.h:313 src/workbook-control-gui.c:3614
+#: src/GNOME_Gnumeric.xml.h:313 src/workbook-control-gui.c:3631
 msgid "_Regression"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:314 src/dialogs/autocorrect.glade.h:13
 #: src/dialogs/dialog-stf.glade.h:61 src/dialogs/pivottable.glade.h:12
-#: src/workbook-control-gui.c:3276
+#: src/workbook-control-gui.c:3293
 msgid "_Remove"
-msgstr "አስወግድ"
+msgstr "አስወግድ (_R)"
 
-#: src/GNOME_Gnumeric.xml.h:315 src/workbook-control-gui.c:3654
+#: src/GNOME_Gnumeric.xml.h:315 src/workbook-control-gui.c:3671
 msgid "_Risk Simulation..."
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:316 src/dialogs/pivottable.glade.h:13
-#: src/workbook-control-gui.c:3522
+#: src/workbook-control-gui.c:3539
 msgid "_Row"
-msgstr "ረድፍ"
+msgstr "ረድፍ (_R)"
 
 #: src/GNOME_Gnumeric.xml.h:317 src/dialogs/anova-one.glade.h:18
 #: src/dialogs/colrow.glade.h:3 src/dialogs/correlation.glade.h:16
@@ -11917,112 +11913,112 @@ msgstr "ረድፍ"
 #: src/dialogs/fourier-analysis.glade.h:16
 #: src/dialogs/moving-averages.glade.h:17 src/dialogs/rank.glade.h:18
 #: src/dialogs/regression.glade.h:18 src/dialogs/sampling.glade.h:23
-#: src/workbook-control-gui.c:3397
+#: src/workbook-control-gui.c:3414
 msgid "_Rows"
-msgstr "ረድፎች"
+msgstr "ረድፎች (_R)"
 
-#: src/GNOME_Gnumeric.xml.h:318 src/workbook-control-gui.c:3617
+#: src/GNOME_Gnumeric.xml.h:318 src/workbook-control-gui.c:3634
 msgid "_Sampling"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:319
 msgid "_Save"
-msgstr "አስቀምጥ"
+msgstr "አስቀምጥ (_S)"
 
-#: src/GNOME_Gnumeric.xml.h:320 src/workbook-control-gui.c:3309
+#: src/GNOME_Gnumeric.xml.h:320 src/workbook-control-gui.c:3326
 msgid "_Select"
-msgstr "ምረጥ"
+msgstr "ምረጥ (_S)"
 
 #: src/GNOME_Gnumeric.xml.h:321
 msgid "_Shaped Object"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:322 src/workbook-control-gui.c:3400
-#: src/workbook-control-gui.c:3523
+#: src/GNOME_Gnumeric.xml.h:322 src/workbook-control-gui.c:3417
+#: src/workbook-control-gui.c:3540
 msgid "_Sheet"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:323 src/workbook-control-gui.c:3715
+#: src/GNOME_Gnumeric.xml.h:323 src/workbook-control-gui.c:3732
 msgid "_Show All"
-msgstr "ሁሉንም አሳይ"
+msgstr "ሁሉንም አሳይ (_S)"
 
-#: src/GNOME_Gnumeric.xml.h:324 src/workbook-control-gui.c:3671
+#: src/GNOME_Gnumeric.xml.h:324 src/workbook-control-gui.c:3688
 msgid "_Show Detail"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:325 src/workbook-control-gui.c:3650
+#: src/GNOME_Gnumeric.xml.h:325 src/workbook-control-gui.c:3667
 msgid "_Solver..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:326 src/workbook-control-gui.c:3727
+#: src/GNOME_Gnumeric.xml.h:326 src/workbook-control-gui.c:3744
 msgid "_Sort..."
-msgstr "ቅደም ተከተል"
+msgstr "ቅደም ተከተል... (_S)"
 
-#: src/GNOME_Gnumeric.xml.h:327 src/workbook-control-gui.c:3466
+#: src/GNOME_Gnumeric.xml.h:327 src/workbook-control-gui.c:3483
 msgid "_Standard Height"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:328 src/workbook-control-gui.c:3447
+#: src/GNOME_Gnumeric.xml.h:328 src/workbook-control-gui.c:3464
 msgid "_Standard Width"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:329 src/workbook-control-gui.c:3249
+#: src/GNOME_Gnumeric.xml.h:329 src/workbook-control-gui.c:3266
 msgid "_Tabulate Dependency..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:330 src/workbook-control-gui.c:3737
+#: src/GNOME_Gnumeric.xml.h:330 src/workbook-control-gui.c:3754
 msgid "_Text to Columns..."
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:331
 msgid "_Toolbars..."
-msgstr "ቱልባሮች"
+msgstr "ቱልባሮች... (_T)"
 
-#: src/GNOME_Gnumeric.xml.h:332 src/workbook-control-gui.c:3765
+#: src/GNOME_Gnumeric.xml.h:332 src/workbook-control-gui.c:3782
 msgid "_Tools"
-msgstr "መሣሪያዎች"
+msgstr "መሣሪያዎች (_T)"
 
-#: src/GNOME_Gnumeric.xml.h:333 src/workbook-control-gui.c:3545
+#: src/GNOME_Gnumeric.xml.h:333 src/workbook-control-gui.c:3562
 msgid "_Two Factor"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:334 src/workbook-control-gui.c:3623
+#: src/GNOME_Gnumeric.xml.h:334 src/workbook-control-gui.c:3640
 msgid "_Two Variances: FTest"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:335 src/workbook-control-gui.c:1381
 msgid "_Undo"
-msgstr "ወደ ነበረበት መልስ"
+msgstr "ወደ ነበረበት መልስ (_U)"
 
-#: src/GNOME_Gnumeric.xml.h:336 src/workbook-control-gui.c:3677
+#: src/GNOME_Gnumeric.xml.h:336 src/workbook-control-gui.c:3694
 msgid "_Ungroup..."
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:337 src/sheet-control-gui.c:1496
-#: src/sheet-control-gui.c:1504 src/workbook-control-gui.c:3444
-#: src/workbook-control-gui.c:3463
+#: src/sheet-control-gui.c:1504 src/workbook-control-gui.c:3461
+#: src/workbook-control-gui.c:3480
 msgid "_Unhide"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:338 src/workbook-control-gui.c:3731
+#: src/GNOME_Gnumeric.xml.h:338 src/workbook-control-gui.c:3748
 msgid "_Validate..."
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:339
 msgid "_View"
-msgstr "ተመልከት"
+msgstr "ተመልከት (_V)"
 
-#: src/GNOME_Gnumeric.xml.h:340 src/workbook-control-gui.c:3435
+#: src/GNOME_Gnumeric.xml.h:340 src/workbook-control-gui.c:3452
 msgid "_Width..."
-msgstr "ስፋት"
+msgstr "ስፋት... (_W)"
 
-#: src/GNOME_Gnumeric.xml.h:341 src/workbook-control-gui.c:3525
+#: src/GNOME_Gnumeric.xml.h:341 src/workbook-control-gui.c:3542
 msgid "_Workbook..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:342 src/workbook-control-gui.c:3351
+#: src/GNOME_Gnumeric.xml.h:342 src/workbook-control-gui.c:3368
 msgid "_Zoom..."
-msgstr "በቅርበት አሳይ"
+msgstr "በቅርበት አሳይ... (_Z)"
 
 #: src/GNOME_Gnumeric_Component.xml.h:1
 msgid "About the Gnumeric spreadsheet program"
@@ -12038,7 +12034,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric_Component.xml.h:5
 msgid "Print Previe_w..."
-msgstr "የቅድመ ህትመት ዕይታ"
+msgstr "የቅድመ ህትመት ዕይታ... (_W)"
 
 #: src/GNOME_Gnumeric_Component.xml.h:9
 msgid "Search Workbook"
@@ -12142,7 +12138,7 @@ msgstr ""
 
 #: src/commands.c:421
 msgid "..."
-msgstr "*"
+msgstr "..."
 
 #: src/commands.c:850 src/commands.c:943 src/commands.c:948
 msgid "Set Text"
@@ -12153,403 +12149,403 @@ msgstr ""
 msgid "Typing \"%s%s\" in %s"
 msgstr ""
 
-#: src/commands.c:1065
+#: src/commands.c:1066
 #, c-format
 msgid "Typing \"%s%s\""
 msgstr ""
 
-#: src/commands.c:1189 src/commands.c:1194 src/sheet.c:3144
+#: src/commands.c:1190 src/commands.c:1195 src/sheet.c:3159
 msgid "Delete Columns"
 msgstr "ዐምዶች አጥፉ"
 
-#: src/commands.c:1189 src/commands.c:1194 src/sheet.c:3256
+#: src/commands.c:1190 src/commands.c:1195 src/sheet.c:3271
 msgid "Delete Rows"
 msgstr "ረድፍን አጥፉ"
 
-#: src/commands.c:1344
+#: src/commands.c:1345
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr ""
 
-#: src/commands.c:1345
+#: src/commands.c:1346
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr ""
 
-#: src/commands.c:1360
+#: src/commands.c:1361
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr ""
 
-#: src/commands.c:1361
+#: src/commands.c:1362
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr ""
 
-#: src/commands.c:1372
+#: src/commands.c:1373
 #, c-format
 msgid "Deleting columns %s"
 msgstr ""
 
-#: src/commands.c:1373
+#: src/commands.c:1374
 #, c-format
 msgid "Deleting column %s"
 msgstr ""
 
-#: src/commands.c:1383
+#: src/commands.c:1384
 #, c-format
 msgid "Deleting rows %s"
 msgstr ""
 
-#: src/commands.c:1384
+#: src/commands.c:1385
 #, c-format
 msgid "Deleting row %s"
 msgstr ""
 
 #. Check for locked cells
-#: src/commands.c:1461 src/commands.c:1465 src/sheet.c:2777
+#: src/commands.c:1462 src/commands.c:1466 src/sheet.c:2792
 msgid "Clear"
 msgstr "ሰርዝ"
 
-#: src/commands.c:1537
+#: src/commands.c:1538
 msgid "contents"
 msgstr "ይዞታዎች"
 
-#: src/commands.c:1539
+#: src/commands.c:1540
 msgid "formats"
 msgstr ""
 
-#: src/commands.c:1541
+#: src/commands.c:1542
 msgid "comments"
 msgstr "አስተያየቶች"
 
-#: src/commands.c:1557
+#: src/commands.c:1558
 msgid "all"
 msgstr "ሁሉም"
 
-#: src/commands.c:1564
+#: src/commands.c:1565
 #, c-format
 msgid "Clearing %s in %s"
 msgstr ""
 
-#: src/commands.c:1637
+#: src/commands.c:1638
 msgid "Changing Format"
 msgstr ""
 
-#: src/commands.c:1763
+#: src/commands.c:1764
 #, c-format
 msgid "Changing format of %s"
 msgstr ""
 
-#: src/commands.c:1876
+#: src/commands.c:1877
 #, c-format
 msgid "Autofitting column %s"
 msgstr ""
 
-#: src/commands.c:1877
+#: src/commands.c:1878
 #, c-format
 msgid "Autofitting row %s"
 msgstr ""
 
-#: src/commands.c:1880
+#: src/commands.c:1881
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr ""
 
-#: src/commands.c:1882
+#: src/commands.c:1883
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr ""
 
-#: src/commands.c:1885
+#: src/commands.c:1886
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr ""
 
-#: src/commands.c:1888
+#: src/commands.c:1889
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr ""
 
-#: src/commands.c:1892 src/commands.c:1893
+#: src/commands.c:1893 src/commands.c:1894
 #, c-format
 msgid "Autofitting columns %s"
 msgstr ""
 
-#: src/commands.c:1896
+#: src/commands.c:1897
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr ""
 
-#: src/commands.c:1898
+#: src/commands.c:1899
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr ""
 
-#: src/commands.c:1902
+#: src/commands.c:1903
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr ""
 
-#: src/commands.c:1904
+#: src/commands.c:1905
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr ""
 
-#: src/commands.c:1972
+#: src/commands.c:1973
 msgid "Sorting"
 msgstr ""
 
-#: src/commands.c:1992
+#: src/commands.c:1993
 #, c-format
 msgid "Sorting %s"
 msgstr ""
 
-#: src/commands.c:2125
+#: src/commands.c:2126
 msgid "Unhide columns"
 msgstr ""
 
-#: src/commands.c:2125
+#: src/commands.c:2126
 msgid "Hide columns"
 msgstr ""
 
-#: src/commands.c:2126
+#: src/commands.c:2127
 msgid "Unhide rows"
 msgstr ""
 
-#: src/commands.c:2126
+#: src/commands.c:2127
 msgid "Hide rows"
 msgstr ""
 
-#: src/commands.c:2209
+#: src/commands.c:2210
 msgid "Expand columns"
 msgstr ""
 
-#: src/commands.c:2209
+#: src/commands.c:2210
 msgid "Collapse columns"
 msgstr ""
 
-#: src/commands.c:2210
+#: src/commands.c:2211
 msgid "Expand rows"
 msgstr ""
 
-#: src/commands.c:2210
+#: src/commands.c:2211
 msgid "Collapse rows"
 msgstr ""
 
-#: src/commands.c:2237
+#: src/commands.c:2238
 #, c-format
 msgid "Show column outline %d"
 msgstr ""
 
-#: src/commands.c:2237
+#: src/commands.c:2238
 #, c-format
 msgid "Show row outline %d"
 msgstr ""
 
-#: src/commands.c:2304
+#: src/commands.c:2305
 msgid "Those columns are already grouped"
 msgstr ""
 
-#: src/commands.c:2305
+#: src/commands.c:2306
 msgid "Those rows are already grouped"
 msgstr ""
 
-#: src/commands.c:2328
+#: src/commands.c:2329
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr ""
 
-#: src/commands.c:2329
+#: src/commands.c:2330
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr ""
 
-#: src/commands.c:2343
+#: src/commands.c:2344
 #, c-format
 msgid "Group columns %s"
 msgstr ""
 
-#: src/commands.c:2343
+#: src/commands.c:2344
 #, c-format
 msgid "Ungroup columns %s"
 msgstr ""
 
-#: src/commands.c:2345
+#: src/commands.c:2346
 #, c-format
 msgid "Group rows %d:%d"
 msgstr ""
 
-#: src/commands.c:2345
+#: src/commands.c:2346
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr ""
 
-#: src/commands.c:2553
+#: src/commands.c:2554
 #, c-format
 msgid "Moving %s"
 msgstr ""
 
-#: src/commands.c:2562 src/commands.c:2773
+#: src/commands.c:2563 src/commands.c:2774
 msgid "is beyond sheet boundaries"
 msgstr ""
 
 #. FIXME?
-#: src/commands.c:2717
+#: src/commands.c:2718
 #, c-format
 msgid "Pasting into %s"
 msgstr ""
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:2951 src/commands.c:2952 src/workbook-control-gui.c:2225
+#: src/commands.c:2952 src/commands.c:2953 src/workbook-control-gui.c:2225
 msgid "Autofill"
 msgstr ""
 
 #. Changed in initial redo.
-#: src/commands.c:2975
+#: src/commands.c:2976
 #, c-format
 msgid "Autofilling %s"
 msgstr ""
 
-#: src/commands.c:3125
+#: src/commands.c:3126
 #, c-format
 msgid "Autoformatting %s"
 msgstr ""
 
-#: src/commands.c:3235
+#: src/commands.c:3236
 #, c-format
 msgid "Unmerging %s"
 msgstr ""
 
-#: src/commands.c:3373
+#: src/commands.c:3374
 #, c-format
 msgid "Merging %s"
 msgstr ""
 
 #. Corrected below.
-#: src/commands.c:3756 src/dialogs/search-replace.glade.h:22
+#: src/commands.c:3757 src/dialogs/search-replace.glade.h:22
 msgid "Search and Replace"
 msgstr ""
 
-#: src/commands.c:3854
+#: src/commands.c:3855
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr ""
 
-#: src/commands.c:3855
+#: src/commands.c:3856
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr ""
 
 #. Changed in initial redo.
-#: src/commands.c:3941
+#: src/commands.c:3942
 #, c-format
 msgid "Consolidating to %s!%s"
 msgstr ""
 
-#: src/commands.c:4060
+#: src/commands.c:4061
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr ""
 
-#: src/commands.c:4131
+#: src/commands.c:4132
 msgid "Insert object"
 msgstr ""
 
-#: src/commands.c:4191
+#: src/commands.c:4192
 msgid "Delete object"
 msgstr ""
 
-#: src/commands.c:4273
+#: src/commands.c:4274
 msgid "Resize object"
 msgstr ""
 
-#: src/commands.c:4273
+#: src/commands.c:4274
 msgid "Move object"
 msgstr ""
 
-#: src/commands.c:4517
+#: src/commands.c:4518
 msgid "Renaming Sheets"
 msgstr ""
 
-#: src/commands.c:4520
+#: src/commands.c:4521
 msgid "Reordering Sheets"
 msgstr ""
 
-#: src/commands.c:4525
+#: src/commands.c:4526
 msgid "Adding a sheet"
 msgstr ""
 
-#: src/commands.c:4528
+#: src/commands.c:4529
 #, c-format
 msgid "Adding sheet '%s'"
 msgstr ""
 
-#: src/commands.c:4532
+#: src/commands.c:4533
 #, c-format
 msgid "Rename sheet '%s' '%s'"
 msgstr ""
 
-#: src/commands.c:4537
+#: src/commands.c:4538
 msgid "Changing Tab Colors"
 msgstr ""
 
-#: src/commands.c:4540
+#: src/commands.c:4541
 msgid "Changing Sheet Protection"
 msgstr ""
 
-#: src/commands.c:4543
+#: src/commands.c:4544
 msgid "Reorganizing Sheets"
-msgstr ""
-
-#: src/commands.c:4672
-#, c-format
-msgid "Clearing comment of %s"
 msgstr ""
 
 #: src/commands.c:4673
 #, c-format
+msgid "Clearing comment of %s"
+msgstr ""
+
+#: src/commands.c:4674
+#, c-format
 msgid "Setting comment of %s"
 msgstr ""
 
-#: src/commands.c:5036
+#: src/commands.c:5037
 #, c-format
 msgid "Merging data into %s"
 msgstr ""
 
-#: src/commands.c:5138
+#: src/commands.c:5139
 msgid "Changing summary info"
 msgstr ""
 
-#: src/commands.c:5230
+#: src/commands.c:5231
 msgid "Raise object"
 msgstr ""
 
-#: src/commands.c:5233
+#: src/commands.c:5234
 msgid "Lower object"
 msgstr ""
 
-#: src/commands.c:5236
+#: src/commands.c:5237
 msgid "Raise object to top"
 msgstr ""
 
-#: src/commands.c:5239
+#: src/commands.c:5240
 msgid "Lower object to bottom"
 msgstr ""
 
-#: src/commands.c:5355
+#: src/commands.c:5356
 #, c-format
 msgid "Page Setup For %s"
 msgstr ""
 
-#: src/commands.c:5357
+#: src/commands.c:5358
 msgid "Page Setup For All Sheets"
 msgstr ""
 
-#: src/commands.c:5485
+#: src/commands.c:5486
 #, c-format
 msgid "Define Name %s"
 msgstr ""
 
-#: src/commands.c:5488
+#: src/commands.c:5489
 #, c-format
 msgid "Update Name %s"
 msgstr ""
@@ -13604,8 +13600,8 @@ msgstr "ቀኝ"
 msgid "S_ymbol:"
 msgstr "ምልክት"
 
-#: src/dialogs/cell-format.glade.h:69 src/tools/analysis-tools.c:1308
-#: src/tools/analysis-tools.c:1311
+#: src/dialogs/cell-format.glade.h:69 src/tools/analysis-tools.c:1310
+#: src/tools/analysis-tools.c:1313
 msgid "Sample"
 msgstr "ናሙና"
 
@@ -13862,7 +13858,7 @@ msgstr "&ምርጫዎች"
 msgid "Selection has"
 msgstr ""
 
-#: src/dialogs/cell-sort.glade.h:4 src/workbook-control-gui.c:3034
+#: src/dialogs/cell-sort.glade.h:4 src/workbook-control-gui.c:3051
 msgid "Sort"
 msgstr "ቅደም ተከተል"
 
@@ -13911,7 +13907,7 @@ msgid "Add the entered area to the list of source areas"
 msgstr ""
 
 #: src/dialogs/consolidate.glade.h:2 src/dialogs/dialog-simulation.c:204
-#: src/workbook-control-gui.c:4577
+#: src/workbook-control-gui.c:4594
 msgid "Average"
 msgstr ""
 
@@ -13924,7 +13920,7 @@ msgid "Clear the list of source areas"
 msgstr ""
 
 #: src/dialogs/consolidate.glade.h:5 src/tools/simulation.c:264
-#: src/workbook-control-gui.c:4578
+#: src/workbook-control-gui.c:4595
 msgid "Count"
 msgstr "ቆጠራ"
 
@@ -13957,12 +13953,12 @@ msgid "Labels"
 msgstr ""
 
 #: src/dialogs/consolidate.glade.h:13 src/dialogs/dialog-simulation.c:204
-#: src/tools/simulation.c:256 src/workbook-control-gui.c:4576
+#: src/tools/simulation.c:256 src/workbook-control-gui.c:4593
 msgid "Max"
 msgstr ""
 
 #: src/dialogs/consolidate.glade.h:14 src/dialogs/dialog-simulation.c:204
-#: src/tools/simulation.c:254 src/workbook-control-gui.c:4575
+#: src/tools/simulation.c:254 src/workbook-control-gui.c:4592
 msgid "Min"
 msgstr ""
 
@@ -14026,8 +14022,8 @@ msgstr ""
 msgid "_Put:"
 msgstr ""
 
-#: src/dialogs/correlation.glade.h:3 src/tools/analysis-tools.c:782
-#: src/tools/analysis-tools.c:785
+#: src/dialogs/correlation.glade.h:3 src/tools/analysis-tools.c:784
+#: src/tools/analysis-tools.c:787
 msgid "Correlation"
 msgstr ""
 
@@ -14067,8 +14063,8 @@ msgstr "95"
 msgid "Confidence Interval for the _Mean"
 msgstr ""
 
-#: src/dialogs/descriptive-stats.glade.h:7 src/tools/analysis-tools.c:1186
-#: src/tools/analysis-tools.c:1189
+#: src/dialogs/descriptive-stats.glade.h:7 src/tools/analysis-tools.c:1188
+#: src/tools/analysis-tools.c:1191
 msgid "Descriptive Statistics"
 msgstr ""
 
@@ -14358,8 +14354,8 @@ msgstr ""
 msgid "Could not create the Sampling Tool dialog."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1986 src/tools/analysis-tools.c:2156
-#: src/tools/analysis-tools.c:2231
+#: src/dialogs/dialog-analysis-tools.c:1986 src/tools/analysis-tools.c:2158
+#: src/tools/analysis-tools.c:2233
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr ""
@@ -14453,8 +14449,8 @@ msgid "Mrt"
 msgstr ""
 
 #: src/dialogs/dialog-autoformat.c:67 src/dialogs/dialog-autoformat.c:71
-#: src/tools/analysis-tools.c:3352 src/tools/analysis-tools.c:3362
-#: src/tools/analysis-tools.c:3370
+#: src/tools/analysis-tools.c:3354 src/tools/analysis-tools.c:3364
+#: src/tools/analysis-tools.c:3372
 msgid "Total"
 msgstr "አጠቃላይ"
 
@@ -14668,37 +14664,37 @@ msgstr ""
 msgid "Could not create the function selector dialog."
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:349
+#: src/dialogs/dialog-goal-seek.c:346
 msgid "You should introduce a valid cell name in 'Set Cell:'!"
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:361
+#: src/dialogs/dialog-goal-seek.c:358
 msgid "The cell named in 'Set Cell:' must contain a formula!"
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:374
+#: src/dialogs/dialog-goal-seek.c:371
 msgid "You should introduce a valid cell name in 'By Changing Cell:'!"
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:387
+#: src/dialogs/dialog-goal-seek.c:384
 msgid "The cell named in 'By changing cell' must not contain a formula."
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:400
+#: src/dialogs/dialog-goal-seek.c:397
 msgid "The value given in 'To Value:' is not valid."
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:443
+#: src/dialogs/dialog-goal-seek.c:442
 #, c-format
 msgid "Goal seeking with cell %s found a solution."
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:459
+#: src/dialogs/dialog-goal-seek.c:463
 #, c-format
 msgid "Goal seeking with cell %s did not find a solution."
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:614
+#: src/dialogs/dialog-goal-seek.c:618
 msgid "Could not create the Goal-Seek dialog."
 msgstr ""
 
@@ -15943,15 +15939,15 @@ msgstr ""
 msgid "The target cell should contain an expression"
 msgstr ""
 
-#: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:3968
+#: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:3970
 #, no-c-format
 msgid "%"
-msgstr "*"
+msgstr "%"
 
 #: src/dialogs/dialog-zoom.glade.h:4
 #, no-c-format
 msgid "20_0 %"
-msgstr "200"
+msgstr "20_0 %"
 
 #: src/dialogs/dialog-zoom.glade.h:5
 msgid "Magnification"
@@ -15961,33 +15957,33 @@ msgstr ""
 msgid "Sheets"
 msgstr ""
 
-#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:4016
+#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:4033
 msgid "Zoom"
 msgstr "በቅርበት አሳይ"
 
 #: src/dialogs/dialog-zoom.glade.h:9
 #, no-c-format
 msgid "_100 %"
-msgstr "100"
+msgstr "_100 %"
 
 #: src/dialogs/dialog-zoom.glade.h:11
 #, no-c-format
 msgid "_25 %"
-msgstr "25"
+msgstr "_25 %"
 
 #: src/dialogs/dialog-zoom.glade.h:13
 #, no-c-format
 msgid "_50 %"
-msgstr "50"
+msgstr "_50 %"
 
 #: src/dialogs/dialog-zoom.glade.h:15
 #, no-c-format
 msgid "_75 %"
-msgstr "75"
+msgstr "_75 %"
 
 #: src/dialogs/dialog-zoom.glade.h:16
 msgid "_Custom"
-msgstr "የተለየ"
+msgstr "የተለየ (_C)"
 
 #: src/dialogs/dialog-zoom.glade.h:18
 #, no-c-format
@@ -15996,10 +15992,10 @@ msgstr ""
 
 #: src/dialogs/exp-smoothing.glade.h:1
 msgid "0.2"
-msgstr "+0"
+msgstr "0.2"
 
-#: src/dialogs/exp-smoothing.glade.h:4 src/tools/analysis-tools.c:2688
-#: src/tools/analysis-tools.c:2691
+#: src/dialogs/exp-smoothing.glade.h:4 src/tools/analysis-tools.c:2690
+#: src/tools/analysis-tools.c:2693
 msgid "Exponential Smoothing"
 msgstr ""
 
@@ -16013,11 +16009,11 @@ msgstr ""
 
 #: src/dialogs/font-sel.glade.h:2
 msgid "Font style:"
-msgstr "የፊደል ቅርጽ ዘይቤ"
+msgstr "የፊደል ቅርጽ ዘይቤ፦"
 
 #: src/dialogs/font-sel.glade.h:3
 msgid "Font:"
-msgstr "የፊደል ቅርጽ"
+msgstr "የፊደል ቅርጽ፦"
 
 #: src/dialogs/font-sel.glade.h:5
 msgid "Size:"
@@ -16041,11 +16037,11 @@ msgstr ""
 
 #: src/dialogs/goalseek.glade.h:1
 msgid "(Ma_ximum):"
-msgstr "ከፍተኛ መጠን"
+msgstr "(ከፍተኛ መጠን)፦ (_X)"
 
 #: src/dialogs/goalseek.glade.h:2
 msgid "(_Minimum):"
-msgstr "በተቻለ መጠን"
+msgstr "(በተቻለ መጠን)፦ (_M)"
 
 #: src/dialogs/goalseek.glade.h:3
 msgid "Current Value:"
@@ -16085,7 +16081,7 @@ msgstr ""
 
 #: src/dialogs/goto.glade.h:1
 msgid "Go To..."
-msgstr "ሂድ ወደ"
+msgstr "ሂድ ወደ..."
 
 #: src/dialogs/graph-guru.glade.h:1
 msgid "Add"
@@ -16097,7 +16093,7 @@ msgstr "አስወግድ"
 
 #: src/dialogs/graph-guru.glade.h:4
 msgid "_Finish"
-msgstr "መጨረሻው"
+msgstr "መጨረሻው (_F)"
 
 #: src/dialogs/graph-guru.glade.h:5
 msgid "_Plot"
@@ -16139,8 +16135,8 @@ msgstr ""
 msgid "Chart Output"
 msgstr ""
 
-#: src/dialogs/histogram.glade.h:9 src/tools/analysis-tools.c:4069
-#: src/tools/analysis-tools.c:4072
+#: src/dialogs/histogram.glade.h:9 src/tools/analysis-tools.c:4071
+#: src/tools/analysis-tools.c:4074
 msgid "Histogram"
 msgstr ""
 
@@ -16190,7 +16186,7 @@ msgstr ""
 
 #: src/dialogs/hyperlink.glade.h:3
 msgid "Email _Address:"
-msgstr "ኢሜያል አድራሻ"
+msgstr "ኢሜያል አድራሻ፦ (_A)"
 
 #: src/dialogs/hyperlink.glade.h:4
 msgid "HyperLink"
@@ -16202,27 +16198,27 @@ msgstr ""
 
 #: src/dialogs/hyperlink.glade.h:6
 msgid "_File:"
-msgstr "ፋይል"
+msgstr "ፋይል፦ (_F)"
 
 #: src/dialogs/hyperlink.glade.h:7
 msgid "_Subject:"
-msgstr "ጉዳዩ"
+msgstr "ጉዳዩ፦ (_S)"
 
 #: src/dialogs/hyperlink.glade.h:8
 msgid "_Tip:"
-msgstr ""
+msgstr "ፍንጭ፦ (_T)"
 
 #: src/dialogs/hyperlink.glade.h:9
 msgid "_Web Address:"
-msgstr ""
+msgstr "የዌብ አድራሻ፦ (_W)"
 
 #: src/dialogs/insert-cells.glade.h:2
 msgid "Insert _column(s)"
-msgstr ""
+msgstr "ዐምድ(ዶች) አስገባ (_C)"
 
 #: src/dialogs/insert-cells.glade.h:3
 msgid "Insert _row(s)"
-msgstr ""
+msgstr "ረድፍ(ፎች) አስገባ (_R)"
 
 #: src/dialogs/insert-cells.glade.h:4
 msgid "Insert cells"
@@ -16316,8 +16312,8 @@ msgstr "3"
 msgid "In_terval:"
 msgstr ""
 
-#: src/dialogs/moving-averages.glade.h:7 src/tools/analysis-tools.c:2555
-#: src/tools/analysis-tools.c:2558
+#: src/dialogs/moving-averages.glade.h:7 src/tools/analysis-tools.c:2557
+#: src/tools/analysis-tools.c:2560
 msgid "Moving Average"
 msgstr ""
 
@@ -16449,13 +16445,13 @@ msgid "Gnumeric Preferences"
 msgstr ""
 
 #: src/dialogs/print.glade.h:2
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "% of _normal size"
-msgstr "የተለመደ መጠን"
+msgstr "% የተለመደ መጠን (_N)"
 
 #: src/dialogs/print.glade.h:4
 msgid "Apply _to:"
-msgstr "ለ አውል"
+msgstr "ለ... አውል፦ (_T)"
 
 #: src/dialogs/print.glade.h:5
 msgid "Apply to _all sheets."
@@ -16471,7 +16467,7 @@ msgstr ""
 
 #: src/dialogs/print.glade.h:9
 msgid "He_ader:"
-msgstr "የገጽ አናት"
+msgstr "የገጽ አናት፦ (_A)"
 
 #: src/dialogs/print.glade.h:10
 msgid "Headers and footers"
@@ -16614,8 +16610,8 @@ msgstr ""
 msgid "Confidence Level:"
 msgstr ""
 
-#: src/dialogs/regression.glade.h:9 src/tools/analysis-tools.c:2434
-#: src/tools/analysis-tools.c:2437
+#: src/dialogs/regression.glade.h:9 src/tools/analysis-tools.c:2436
+#: src/tools/analysis-tools.c:2439
 msgid "Regression"
 msgstr ""
 
@@ -18332,7 +18328,7 @@ msgid "File format:"
 msgstr "የፋይል ፎርማት"
 
 #. Pack it into file selector
-#: src/gui-file.c:143 src/workbook-control-gui.c:2985
+#: src/gui-file.c:143 src/workbook-control-gui.c:3002
 msgid "Load file"
 msgstr ""
 
@@ -18421,11 +18417,11 @@ msgstr ""
 #.
 #: src/history.c:130
 msgid "_File/Preferen_ces..."
-msgstr "ፋይል ምርጫዎች"
+msgstr "ፋይል (_F)/ምርጫዎች... (_C)"
 
 #: src/history.c:228
 msgid "File/"
-msgstr "ፋይል"
+msgstr "ፋይል/"
 
 #: src/hlink.c:170
 msgid "Link target"
@@ -19203,23 +19199,23 @@ msgid ""
 "name.  Expect weirdness."
 msgstr ""
 
-#: src/sheet.c:1943
+#: src/sheet.c:1956
 msgid "Target region contains merged cells"
 msgstr ""
 
-#: src/sheet.c:2005
+#: src/sheet.c:2018
 msgid "cannot operate on merged cells"
 msgstr ""
 
-#: src/sheet.c:2015
+#: src/sheet.c:2028
 msgid "cannot operate on array formulae"
 msgstr ""
 
-#: src/sheet.c:3086
+#: src/sheet.c:3101
 msgid "Insert Columns"
 msgstr ""
 
-#: src/sheet.c:3198
+#: src/sheet.c:3213
 msgid "Insert Rows"
 msgstr ""
 
@@ -19290,40 +19286,40 @@ msgstr ""
 msgid "Text export (configurable)"
 msgstr ""
 
-#: src/tools/analysis-tools.c:214 src/tools/analysis-tools.c:3296
+#: src/tools/analysis-tools.c:216 src/tools/analysis-tools.c:3298
 #, c-format
 msgid "Row %i"
 msgstr "ረድፍ %i"
 
-#: src/tools/analysis-tools.c:217 src/tools/analysis-tools.c:3288
+#: src/tools/analysis-tools.c:219 src/tools/analysis-tools.c:3290
 #, c-format
 msgid "Column %i"
 msgstr "ዐምድ %i"
 
-#: src/tools/analysis-tools.c:220
+#: src/tools/analysis-tools.c:222
 #, c-format
 msgid "Bin %i"
 msgstr ""
 
-#: src/tools/analysis-tools.c:224
+#: src/tools/analysis-tools.c:226
 #, c-format
 msgid "Area %i"
 msgstr ""
 
-#: src/tools/analysis-tools.c:710
+#: src/tools/analysis-tools.c:712
 msgid "Correlations"
 msgstr ""
 
-#: src/tools/analysis-tools.c:766
+#: src/tools/analysis-tools.c:768
 #, c-format
 msgid "Correlation (%s)"
 msgstr ""
 
-#: src/tools/analysis-tools.c:820
+#: src/tools/analysis-tools.c:822
 msgid "Covariances"
 msgstr ""
 
-#: src/tools/analysis-tools.c:876
+#: src/tools/analysis-tools.c:878
 #, c-format
 msgid "Covariance (%s)"
 msgstr ""
@@ -19335,143 +19331,143 @@ msgstr ""
 #. *
 #. * The items are bundled like this to increase translation context.
 #.
-#: src/tools/analysis-tools.c:939
+#: src/tools/analysis-tools.c:941
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
 msgstr ""
 
-#: src/tools/analysis-tools.c:1026
+#: src/tools/analysis-tools.c:1028
 #, c-format
 msgid "/%%%s%%%% CI for the Mean from/to"
 msgstr ""
 
-#: src/tools/analysis-tools.c:1064
+#: src/tools/analysis-tools.c:1066
 #, c-format
 msgid "Largest (%d)"
 msgstr ""
 
-#: src/tools/analysis-tools.c:1087
+#: src/tools/analysis-tools.c:1089
 #, c-format
 msgid "Smallest (%d)"
 msgstr ""
 
-#: src/tools/analysis-tools.c:1171
+#: src/tools/analysis-tools.c:1173
 #, c-format
 msgid "Descriptive Statistics (%s)"
 msgstr ""
 
-#: src/tools/analysis-tools.c:1249
+#: src/tools/analysis-tools.c:1251
 msgid "The requested sample size is to large for a periodic sample."
 msgstr ""
 
-#: src/tools/analysis-tools.c:1296
+#: src/tools/analysis-tools.c:1298
 #, c-format
 msgid "Sampling (%s)"
 msgstr ""
 
-#: src/tools/analysis-tools.c:1340 src/tools/analysis-tools.c:1342
-#: src/tools/analysis-tools.c:1475 src/tools/analysis-tools.c:1477
-#: src/tools/analysis-tools.c:1651 src/tools/analysis-tools.c:1653
-#: src/tools/analysis-tools.c:1793 src/tools/analysis-tools.c:1795
-#: src/tools/analysis-tools.c:1944 src/tools/analysis-tools.c:1946
+#: src/tools/analysis-tools.c:1342 src/tools/analysis-tools.c:1344
+#: src/tools/analysis-tools.c:1477 src/tools/analysis-tools.c:1479
+#: src/tools/analysis-tools.c:1653 src/tools/analysis-tools.c:1655
+#: src/tools/analysis-tools.c:1795 src/tools/analysis-tools.c:1797
+#: src/tools/analysis-tools.c:1946 src/tools/analysis-tools.c:1948
 #, c-format
 msgid "Variable %i"
 msgstr ""
 
-#: src/tools/analysis-tools.c:1345
+#: src/tools/analysis-tools.c:1347
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
 "Critical two-tail"
 msgstr ""
 
-#: src/tools/analysis-tools.c:1422
+#: src/tools/analysis-tools.c:1424
 #, c-format
 msgid "z-Test (%s)"
 msgstr ""
 
-#: src/tools/analysis-tools.c:1432 src/tools/analysis-tools.c:1435
+#: src/tools/analysis-tools.c:1434 src/tools/analysis-tools.c:1437
 msgid "z-Test"
 msgstr ""
 
-#: src/tools/analysis-tools.c:1483
+#: src/tools/analysis-tools.c:1485
 msgid "The 2 input ranges must have the same size."
 msgstr ""
 
-#: src/tools/analysis-tools.c:1492
+#: src/tools/analysis-tools.c:1494
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
 "two-tail"
 msgstr ""
 
-#: src/tools/analysis-tools.c:1612
+#: src/tools/analysis-tools.c:1614
 #, c-format
 msgid "t-Test, paired (%s)"
 msgstr ""
 
-#: src/tools/analysis-tools.c:1622 src/tools/analysis-tools.c:1625
-#: src/tools/analysis-tools.c:1767 src/tools/analysis-tools.c:1770
-#: src/tools/analysis-tools.c:1905 src/tools/analysis-tools.c:1908
+#: src/tools/analysis-tools.c:1624 src/tools/analysis-tools.c:1627
+#: src/tools/analysis-tools.c:1769 src/tools/analysis-tools.c:1772
+#: src/tools/analysis-tools.c:1907 src/tools/analysis-tools.c:1910
 msgid "t-Test"
 msgstr ""
 
-#: src/tools/analysis-tools.c:1656
+#: src/tools/analysis-tools.c:1658
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
 "(T<=t) two-tail/t Critical two-tail"
 msgstr ""
 
-#: src/tools/analysis-tools.c:1757 src/tools/analysis-tools.c:1895
+#: src/tools/analysis-tools.c:1759 src/tools/analysis-tools.c:1897
 #, c-format
 msgid "t-Test (%s)"
 msgstr ""
 
-#: src/tools/analysis-tools.c:1798
+#: src/tools/analysis-tools.c:1800
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
 "t Critical two-tail"
 msgstr ""
 
-#: src/tools/analysis-tools.c:1953
+#: src/tools/analysis-tools.c:1955
 msgid "A data set is empty"
 msgstr ""
 
-#: src/tools/analysis-tools.c:1961
+#: src/tools/analysis-tools.c:1963
 msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2063
+#: src/tools/analysis-tools.c:2065
 #, c-format
 msgid "F-Test (%s)"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2073 src/tools/analysis-tools.c:2076
+#: src/tools/analysis-tools.c:2075 src/tools/analysis-tools.c:2078
 msgid "F-Test"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2150
+#: src/tools/analysis-tools.c:2152
 msgid "Y Variable"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2208
+#: src/tools/analysis-tools.c:2210
 msgid ""
 "There are too few data points to conduct this regression.\n"
 "There must be at least as many data points as free variables."
 msgstr ""
 
-#: src/tools/analysis-tools.c:2215
+#: src/tools/analysis-tools.c:2217
 msgid ""
 "Two or more of the independent variables are nearly linear\n"
 "dependent.  All numerical precision was lost in the computation."
 msgstr ""
 
-#: src/tools/analysis-tools.c:2222
+#: src/tools/analysis-tools.c:2224
 msgid ""
 "Two or more of the independent variables are linearly\n"
 "dependent, and the regression cannot be calculated.\n"
@@ -19484,211 +19480,211 @@ msgstr ""
 #. analysis_tool_regression_engine_last_check
 #. we have to figure out which data we have to trnasfer from
 #. to here
-#: src/tools/analysis-tools.c:2247
+#: src/tools/analysis-tools.c:2249
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2270
+#: src/tools/analysis-tools.c:2272
 msgid "/df/SS/MS/F/Significance of F"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2277
+#: src/tools/analysis-tools.c:2279
 #, c-format
 msgid ""
 "/Coefficients/Standard Error/t Stat/P-value/Lower %%0.0%s%%%%/Upper %%0.0%s%%"
 "%%"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2294
+#: src/tools/analysis-tools.c:2296
 msgid ""
 "Probability of an observation's absolute value being larger than the t-"
 "value's"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2402
+#: src/tools/analysis-tools.c:2404
 msgid ""
 "Two or more of the independent variables are nearly linear\n"
 "dependent.  Treat the regression result with great care!"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2417
+#: src/tools/analysis-tools.c:2419
 #, c-format
 msgid "Regression (%s)"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2481
+#: src/tools/analysis-tools.c:2483
 msgid "Standard Error"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2542
+#: src/tools/analysis-tools.c:2544
 #, c-format
 msgid "Moving Average (%s)"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2675
+#: src/tools/analysis-tools.c:2677
 #, c-format
 msgid "Exponential Smoothing (%s)"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2743
+#: src/tools/analysis-tools.c:2745
 msgid "Point"
 msgstr "ነጥብ"
 
-#: src/tools/analysis-tools.c:2745
+#: src/tools/analysis-tools.c:2747
 msgid "Rank"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2746
+#: src/tools/analysis-tools.c:2748
 msgid "Percentile"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2806
+#: src/tools/analysis-tools.c:2808
 #, c-format
 msgid "Ranks (%s)"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2818 src/tools/analysis-tools.c:2821
+#: src/tools/analysis-tools.c:2820 src/tools/analysis-tools.c:2823
 msgid "Ranks"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2859
+#: src/tools/analysis-tools.c:2861
 msgid "Anova: Single Factor"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2860 src/tools/analysis-tools.c:3348
+#: src/tools/analysis-tools.c:2862 src/tools/analysis-tools.c:3350
 #: src/tools/simulation.c:343
 msgid "SUMMARY"
 msgstr "ማጠቃለያ"
 
-#: src/tools/analysis-tools.c:2861
+#: src/tools/analysis-tools.c:2863
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2915
+#: src/tools/analysis-tools.c:2917
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2920 src/tools/analysis-tools.c:3197
-#: src/tools/analysis-tools.c:3372
+#: src/tools/analysis-tools.c:2922 src/tools/analysis-tools.c:3199
+#: src/tools/analysis-tools.c:3374
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2998
+#: src/tools/analysis-tools.c:3000
 #, c-format
 msgid "Single Factor ANOVA (%s)"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3009 src/tools/analysis-tools.c:3679
+#: src/tools/analysis-tools.c:3011 src/tools/analysis-tools.c:3681
 msgid "Anova"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3012
+#: src/tools/analysis-tools.c:3014
 msgid "Single Factor ANOVA"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3119
+#: src/tools/analysis-tools.c:3121
 msgid "The input range contains non-numeric data."
 msgstr ""
 
-#: src/tools/analysis-tools.c:3127
+#: src/tools/analysis-tools.c:3129
 msgid "Anova: Two-Factor Without Replication"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3128
+#: src/tools/analysis-tools.c:3130
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3191
+#: src/tools/analysis-tools.c:3193
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3338
+#: src/tools/analysis-tools.c:3340
 msgid "One of the factor combinations does not contain any observations!"
 msgstr ""
 
 #. We are ready to create the summary table
-#: src/tools/analysis-tools.c:3347
+#: src/tools/analysis-tools.c:3349
 msgid "Anova: Two-Factor With Replication"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3354
+#: src/tools/analysis-tools.c:3356
 msgid "/Count/Sum/Average/Variance"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3364
+#: src/tools/analysis-tools.c:3366
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3663
+#: src/tools/analysis-tools.c:3665
 #, c-format
 msgid "Two Factor ANOVA (%s), no replication"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3664
+#: src/tools/analysis-tools.c:3666
 #, c-format
 msgid "Two Factor ANOVA (%s),  with replication"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3682
+#: src/tools/analysis-tools.c:3684
 msgid "Two Factor ANOVA"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3863
+#: src/tools/analysis-tools.c:3865
 #, c-format
 msgid "<%s"
 msgstr "<%s"
 
-#: src/tools/analysis-tools.c:3867
+#: src/tools/analysis-tools.c:3869
 msgid "Too Small"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3884
+#: src/tools/analysis-tools.c:3886
 msgid "More"
 msgstr "ተጨማሪ"
 
-#: src/tools/analysis-tools.c:3893
+#: src/tools/analysis-tools.c:3895
 #, c-format
 msgid ">%s"
 msgstr ">%s"
 
-#: src/tools/analysis-tools.c:3897
+#: src/tools/analysis-tools.c:3899
 msgid "Too Large"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3941
+#: src/tools/analysis-tools.c:3943
 msgid "Bin"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3966
+#: src/tools/analysis-tools.c:3968
 msgid "Frequency"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3971
+#: src/tools/analysis-tools.c:3973
 #, no-c-format
 msgid "Cumulative %"
 msgstr ""
 
-#: src/tools/analysis-tools.c:4050
+#: src/tools/analysis-tools.c:4052
 #, c-format
 msgid "Histogram (%s)"
 msgstr ""
 
-#: src/tools/analysis-tools.c:4157 src/tools/solver/reports-write.c:647
+#: src/tools/analysis-tools.c:4159 src/tools/solver/reports-write.c:647
 msgid "Real"
 msgstr ""
 
-#: src/tools/analysis-tools.c:4158
+#: src/tools/analysis-tools.c:4160
 msgid "Imaginary"
 msgstr ""
 
-#: src/tools/analysis-tools.c:4218
+#: src/tools/analysis-tools.c:4220
 #, c-format
 msgid "Fourier Series (%s)"
 msgstr ""
 
-#: src/tools/analysis-tools.c:4230 src/tools/analysis-tools.c:4233
+#: src/tools/analysis-tools.c:4232 src/tools/analysis-tools.c:4235
 msgid "Fourier Series"
 msgstr ""
 
@@ -20308,13 +20304,13 @@ msgstr "አጣራ አጋዥ"
 msgid "Add a filter"
 msgstr "አጣራ ጨምር"
 
-#: src/workbook-control-gui.c:1378 src/workbook-control-gui.c:3807
-#: src/workbook-control-gui.c:4028
+#: src/workbook-control-gui.c:1378 src/workbook-control-gui.c:3824
+#: src/workbook-control-gui.c:4045
 msgid "Undo"
 msgstr "ወደ ነበረበት መልስ"
 
-#: src/workbook-control-gui.c:1379 src/workbook-control-gui.c:3810
-#: src/workbook-control-gui.c:4035
+#: src/workbook-control-gui.c:1379 src/workbook-control-gui.c:3827
+#: src/workbook-control-gui.c:4052
 msgid "Redo"
 msgstr "እንደገና አድርግ"
 
@@ -20336,8 +20332,8 @@ msgid "Discard All"
 msgstr ""
 
 #: src/workbook-control-gui.c:1585 src/workbook-control-gui.c:1592
-#: src/workbook-control-gui.c:1598 src/workbook-control-gui.c:5150
-#: src/workbook-control-gui.c:5155
+#: src/workbook-control-gui.c:1598 src/workbook-control-gui.c:5167
+#: src/workbook-control-gui.c:5172
 msgid "Discard"
 msgstr ""
 
@@ -20372,103 +20368,103 @@ msgstr ""
 #.
 #: src/workbook-control-gui.c:2409
 msgid "Insert rows"
-msgstr ""
+msgstr "ረድፎች አስገባ"
 
 #: src/workbook-control-gui.c:2429
 msgid "Insert columns"
-msgstr ""
+msgstr "ዐምድዶች አስገባ"
 
-#: src/workbook-control-gui.c:2783
+#: src/workbook-control-gui.c:2800
 msgid "Add Filter"
 msgstr "አጣራ ጨምር"
 
-#: src/workbook-control-gui.c:2786
+#: src/workbook-control-gui.c:2803
 msgid "AutoFilter"
 msgstr ""
 
-#: src/workbook-control-gui.c:2786
+#: src/workbook-control-gui.c:2803
 msgid "Requires more than 1 row"
 msgstr ""
 
-#: src/workbook-control-gui.c:2843 src/workbook-control-gui.c:2862
+#: src/workbook-control-gui.c:2860 src/workbook-control-gui.c:2879
 msgid "Show Detail"
 msgstr ""
 
-#: src/workbook-control-gui.c:2843 src/workbook-control-gui.c:2862
+#: src/workbook-control-gui.c:2860 src/workbook-control-gui.c:2879
 msgid "Hide Detail"
 msgstr ""
 
-#: src/workbook-control-gui.c:2850
+#: src/workbook-control-gui.c:2867
 msgid "can only be performed on an existing group"
 msgstr ""
 
-#: src/workbook-control-gui.c:2908
+#: src/workbook-control-gui.c:2925
 msgid "Group"
 msgstr "የውይይት መድረክ"
 
-#: src/workbook-control-gui.c:2908
+#: src/workbook-control-gui.c:2925
 msgid "Ungroup"
 msgstr ""
 
-#: src/workbook-control-gui.c:3099
+#: src/workbook-control-gui.c:3116
 msgid "Select an object to add"
 msgstr ""
 
-#: src/workbook-control-gui.c:3110
+#: src/workbook-control-gui.c:3127
 #, c-format
 msgid "Unable to create object of type '%s'"
 msgstr ""
 
-#: src/workbook-control-gui.c:3294
+#: src/workbook-control-gui.c:3311
 msgid "P_aste special..."
 msgstr ""
 
-#: src/workbook-control-gui.c:3303
+#: src/workbook-control-gui.c:3320
 msgid "Remove selected cells, shifting other into their place"
 msgstr ""
 
-#: src/workbook-control-gui.c:3383
+#: src/workbook-control-gui.c:3400
 msgid "_Auto generate names..."
 msgstr ""
 
-#: src/workbook-control-gui.c:3384
+#: src/workbook-control-gui.c:3401
 msgid "Use the current selection to create names"
 msgstr ""
 
-#: src/workbook-control-gui.c:3611
+#: src/workbook-control-gui.c:3628
 msgid "Ranks And _Percentiles"
 msgstr ""
 
-#: src/workbook-control-gui.c:3746
+#: src/workbook-control-gui.c:3763
 msgid "Create a pivot table."
 msgstr ""
 
-#: src/workbook-control-gui.c:3807
+#: src/workbook-control-gui.c:3824
 msgid "Undo the operation"
 msgstr ""
 
-#: src/workbook-control-gui.c:3810
+#: src/workbook-control-gui.c:3827
 msgid "Redo the operation"
 msgstr ""
 
-#: src/workbook-control-gui.c:4866
+#: src/workbook-control-gui.c:4883
 #, c-format
 msgid "File \"%s\" has unknown format."
 msgstr ""
 
-#: src/workbook-control-gui.c:4917
+#: src/workbook-control-gui.c:4934
 msgid "Send"
 msgstr "ላክ"
 
-#: src/workbook-control-gui.c:4917
+#: src/workbook-control-gui.c:4934
 msgid "Send the current file in email"
 msgstr ""
 
-#: src/workbook-control-gui.c:5149 src/workbook-control-gui.c:5164
+#: src/workbook-control-gui.c:5166 src/workbook-control-gui.c:5181
 msgid "Re-Edit"
 msgstr ""
 
-#: src/workbook-control-gui.c:5154 src/workbook-control-gui.c:5165
+#: src/workbook-control-gui.c:5171 src/workbook-control-gui.c:5182
 msgid "Accept"
 msgstr ""
 
@@ -20600,7 +20596,7 @@ msgstr ""
 #. * This should be quite rare.  To provoke, use
 #. * gnumeric `echo -e '\377\376'`
 #.
-#: src/workbook-view.c:572 src/workbook-view.c:797
+#: src/workbook-view.c:572 src/workbook-view.c:805
 msgid "The filename given is not valid."
 msgstr ""
 
@@ -20608,11 +20604,11 @@ msgstr ""
 msgid "Default file saver is not available."
 msgstr ""
 
-#: src/workbook-view.c:743
+#: src/workbook-view.c:745
 msgid "Unsupported file format."
 msgstr ""
 
-#: src/workbook-view.c:790
+#: src/workbook-view.c:798
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr ""
