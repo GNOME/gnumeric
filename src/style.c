@@ -190,7 +190,7 @@ style_font_new (char const *font_name, double size_pts, double scale,
 }
 
 GdkFont *
-style_font_gdk_font (StyleFont const * const sf)
+style_font_gdk_font (StyleFont const *sf)
 {
 	g_return_val_if_fail (sf != NULL, NULL);
 
@@ -198,9 +198,10 @@ style_font_gdk_font (StyleFont const * const sf)
 }
 
 int
-style_font_get_height (StyleFont const * const sf)
+style_font_get_height (StyleFont const *sf)
 {
 	g_return_val_if_fail (sf != NULL, 0);
+	g_return_val_if_fail (sf->gdk_font != NULL, 0);
 
 	return sf->gdk_font->ascent + sf->gdk_font->descent;
 }

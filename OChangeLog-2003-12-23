@@ -1,3 +1,8 @@
+2002-03-17  Jody Goldberg <jody@gnome.org>
+
+	* src/style.c (style_font_get_height) : add some additional
+	  protection.
+
 2002-03-17  Jon K Hellan  <hellan@acm.org>
 
 	* src/workbook-format-toolbar.c (cb_fore_color_changed): Handle
