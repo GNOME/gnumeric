@@ -1,3 +1,8 @@
+2002-06-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/workbook-control-gui.c (workbook_close_if_user_permits) :
+	show "All" buttons only if multiple workbooks are open.
+	
 2002-06-13  Jody Goldberg <jody@gnome.org>
 
  	http://bugzilla.gnome.org/show_bug.cgi?id=85181

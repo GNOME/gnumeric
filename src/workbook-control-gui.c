@@ -1352,15 +1352,23 @@ workbook_close_if_user_permits (WorkbookControlGUI *wbcg,
 					    GTK_MESSAGE_WARNING,
 					    GTK_BUTTONS_NONE,
 					    msg); 
-		if (exiting)
-			gtk_dialog_add_buttons (GTK_DIALOG (d), 
-						_("Don't Quit"),  GTK_RESPONSE_CANCEL,
-						_("Discard All"), - GTK_RESPONSE_NO,
-						_("Discard"),	  GTK_RESPONSE_NO,
-						_("Save All"),	  - GTK_RESPONSE_YES,
-						GTK_STOCK_SAVE,   GTK_RESPONSE_YES,
-						NULL);
-		else
+		if (exiting) {
+			int n_of_wb = g_list_length (application_workbook_list ());
+			if (n_of_wb > 1)
+				gtk_dialog_add_buttons (GTK_DIALOG (d), 
+							_("Don't Quit"),  GTK_RESPONSE_CANCEL,
+							_("Discard All"), - GTK_RESPONSE_NO,
+							_("Discard"),	  GTK_RESPONSE_NO,
+							_("Save All"),	  - GTK_RESPONSE_YES,
+							GTK_STOCK_SAVE,   GTK_RESPONSE_YES,
+							NULL);
+			else
+				gtk_dialog_add_buttons (GTK_DIALOG (d), 
+							_("Don't Quit"),  GTK_RESPONSE_CANCEL,
+							_("Discard"),	  GTK_RESPONSE_NO,
+							GTK_STOCK_SAVE,   GTK_RESPONSE_YES,
+							NULL);				
+		} else
 			gtk_dialog_add_buttons (GTK_DIALOG (d), 
 						_("Don't Close"),  GTK_RESPONSE_CANCEL,
 						_("Discard"),	  GTK_RESPONSE_NO,
