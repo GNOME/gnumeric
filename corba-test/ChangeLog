@@ -1,0 +1,4 @@
+2000-05-18  Arturo Tena <arturo@directmail.org>
+
+	* Makefile.am (test_gnumeric_corba_SOURCES) :
+
