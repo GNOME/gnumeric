@@ -31,6 +31,13 @@ Pending Patches
     0.6) Add mnemonic_activate for ExprEntry			(DONE)
     0.7) Queue update for changed/deleted in ExprEntry ?
     0.8) menu mnemonics for Edit -> Fill -> merge & series
+    0.9) problem with colour combo:
+	> 1. start gnumeric
+	> 2. tear off the fg colour combo
+	> 3. untear it
+	> 4. exit
+	> ==> (gnumeric:8813): GLib-GObject-WARNING **: invalid unclassed pointer in cast to `GtkObject'
+	> ...
 
 1) graphs							{Jody}
     1.1) Split plot xml file engine, type, and family plugins	(DONE)
