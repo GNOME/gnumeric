@@ -10,8 +10,6 @@ Release Critical
 
 debian 272697
 
-    : File Sendto needs to uri-ify the name when opening tmp file
-    : Add <control>period == insert current date&time
     : editing text boxes
     : sync undo/redo text for object stacking with the menus
     : handle pasting clipboards with only objects

@@ -1,5 +1,20 @@
 2004-09-26  Jody Goldberg <jody@gnome.org>
 
+	* src/GNOME_Gnumeric-gtk.xml : Add InsertCurrentDateTime
+
+	* src/wbcg-actions.c (cb_insert_current_date_time) : new
+
+	* src/format.c (style_format_default_date_time) : new return
+	  concatination of default date and time formats
+
+2004-09-26  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-view.c (wbv_save_to_uri) : renamed from wbv_save_to_file
+	  to clarify that it does not work for a simple path.
+	(wb_view_sendto) : fix to use a uri.
+
+2004-09-26  Jody Goldberg <jody@gnome.org>
+
 	* src/gnumeric-pane.c (cb_sheet_object_canvas_event) : Use the pane in
 	  GnmCanvas rather than adding one to GnmSimpleCanvas
 

@@ -52,6 +52,7 @@ static GnmFormat *default_percentage_fmt;
 static GnmFormat *default_money_fmt;
 static GnmFormat *default_date_fmt;
 static GnmFormat *default_time_fmt;
+static GnmFormat *default_date_time_fmt;
 static GnmFormat *default_general_fmt;
 
 
@@ -2174,6 +2175,11 @@ number_format_shutdown (void)
 		default_time_fmt = NULL;
 	}
 
+	if (default_date_time_fmt) {
+		style_format_unref (default_date_time_fmt);
+		default_date_time_fmt = NULL;
+	}
+
 	if (default_general_fmt) {
 		style_format_unref (default_general_fmt);
 		default_general_fmt = NULL;
@@ -2561,6 +2567,19 @@ style_format_default_time (void)
 			style_format_new_XL (cell_formats[FMT_TIME][0], FALSE);
 
 	return default_time_fmt;
+}
+
+GnmFormat *
+style_format_default_date_time (void)
+{
+	if (!default_date_time_fmt) {
+		char *tmp = g_strconcat (cell_formats[FMT_DATE][0], " ",
+					 cell_formats[FMT_TIME][0], NULL);
+		default_date_time_fmt = style_format_new_XL (tmp, FALSE);
+		g_free (tmp);
+	}
+
+	return default_date_time_fmt;
 }
 
 GnmFormat *

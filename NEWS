@@ -36,6 +36,8 @@ Jody:
 	* Clipboard support for objects
 	* Support for symmetric object resize, and duplication via ctrl-click
 	* Cleanout the SheetObject menu code to restore model gui split
+	* Fix File -> Sendto
+	* Add ctrl-period == insert current date&time
 
 Jon Kåre:
 	* Fix the CORBA plugin

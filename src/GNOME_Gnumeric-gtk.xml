@@ -108,6 +108,7 @@
       <menu name="Special" action="MenuInsertSpecial">
         <menuitem action="InsertCurrentDate"/>
         <menuitem action="InsertCurrentTime"/>
+        <menuitem action="InsertCurrentDateTime"/>
       </menu>
     </menu>
     <menu name="Format" action="MenuFormat">

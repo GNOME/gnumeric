@@ -571,6 +571,19 @@ static GNM_ACTION_DEF (cb_view_freeze_panes)
 
 /****************************************************************************/
 
+static GNM_ACTION_DEF (cb_insert_current_date_time)
+{
+	if (wbcg_edit_start (wbcg, FALSE, FALSE)) {
+		Workbook const *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+		GnmValue *v = value_new_float (
+			datetime_timet_to_serial_raw (time (NULL), workbook_date_conv (wb)));
+		char *txt = format_value (style_format_default_date_time (), v, NULL, -1,
+				workbook_date_conv (wb));
+		value_release (v);
+		wb_control_edit_line_set (WORKBOOK_CONTROL (wbcg), txt);
+		g_free (txt);
+	}
+}
 static GNM_ACTION_DEF (cb_insert_current_date)
 {
 	if (wbcg_edit_start (wbcg, FALSE, FALSE)) {
@@ -589,7 +602,8 @@ static GNM_ACTION_DEF (cb_insert_current_time)
 {
 	if (wbcg_edit_start (wbcg, FALSE, FALSE)) {
 		Workbook const *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-		GnmValue *v = value_new_float (datetime_timet_to_seconds (time (NULL)) / (24.0 * 60 * 60));
+		GnmValue *v = value_new_float (
+			datetime_timet_to_seconds (time (NULL)) / (24.0 * 60 * 60));
 		char *txt = format_value (style_format_default_time (), v, NULL, -1,
 				workbook_date_conv (wb));
 		value_release (v);
@@ -1670,6 +1684,10 @@ static /* const 142334 */ GtkActionEntry actions[] = {
 	{ "InsertCurrentTime", NULL, N_("Current _time"),
 		"<control>colon", N_("Insert the current time into the selected cell(s)"),
 		G_CALLBACK (cb_insert_current_time) },
+
+	{ "InsertCurrentDateTime", NULL, N_("Current d_ate and time"),
+		"<control>period", N_("Insert the current date and time into the selected cell(s)"),
+		G_CALLBACK (cb_insert_current_date_time) },
 
 /* Insert -> Name */
 	{ "EditNames", NULL, N_("_Define..."),

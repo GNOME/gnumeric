@@ -556,8 +556,8 @@ workbook_view_new (Workbook *wb)
 }
 
 static void
-wbv_save_to_file (WorkbookView *wbv, GnmFileSaver const *fs,
-		  char const *uri, IOContext *io_context)
+wbv_save_to_uri (WorkbookView *wbv, GnmFileSaver const *fs,
+		 char const *uri, IOContext *io_context)
 {
 	char *msg = NULL;
 	GError *err = NULL;
@@ -625,7 +625,7 @@ wb_view_save_as (WorkbookView *wbv, GnmFileSaver *fs, char const *uri,
 	io_context = gnumeric_io_context_new (context);
 
 	gnm_cmd_context_set_sensitive (context, FALSE);
-	wbv_save_to_file (wbv, fs, uri, io_context);
+	wbv_save_to_uri (wbv, fs, uri, io_context);
 	gnm_cmd_context_set_sensitive (context, TRUE);
 
 	has_error   = gnumeric_io_error_occurred (io_context);
@@ -676,7 +676,7 @@ wb_view_save (WorkbookView *wbv, GnmCmdContext *context)
 			_("Default file saver is not available."));
 	else {
 		char const *uri = workbook_get_uri (wb);
-		wbv_save_to_file (wbv, fs, uri, io_context);
+		wbv_save_to_uri (wbv, fs, uri, io_context);
 	}
 
 	has_error   = gnumeric_io_error_occurred (io_context);
@@ -718,9 +718,8 @@ wb_view_sendto (WorkbookView *wbv, GnmCmdContext *context)
 
 	io_context = gnumeric_io_context_new (context);
 	if (fs != NULL) {
-		char *template;
+		char *template, *full_name, uri;
 		char *basename = g_path_get_basename (workbook_get_uri (wb));
-		char *full_name;
 
 #define GNM_SEND_DIR	".gnm-sendto-"
 #ifdef HAVE_MKDTEMP
@@ -754,8 +753,9 @@ wb_view_sendto (WorkbookView *wbv, GnmCmdContext *context)
 
 		full_name = g_build_filename (template, basename, NULL);
 		g_free (basename);
+		uri = go_filename_to_uri (full_name);
 
-		wbv_save_to_file (wbv, fs, full_name, io_context);
+		wbv_save_to_uri (wbv, fs, uri, io_context);
 
 		if (gnumeric_io_error_occurred (io_context) ||
 		    gnumeric_io_warning_occurred (io_context))
@@ -780,6 +780,7 @@ wb_view_sendto (WorkbookView *wbv, GnmCmdContext *context)
 		 * loaded by the mailer.
 		 */
 		g_timeout_add (1000 * 10, cb_cleanup_sendto, full_name);
+		g_free (uri);
 	} else {
 		gnm_cmd_context_error_export (GNM_CMD_CONTEXT (io_context),
 			_("Default file saver is not available."));
