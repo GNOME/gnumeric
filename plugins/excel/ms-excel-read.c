@@ -4128,6 +4128,13 @@ read_utf16_str (int word_len, guint8 const *data)
 	return g_utf16_to_utf8 (uni_text, word_len, NULL, NULL, NULL);
 }
 
+/*
+ * XL (at least XL 2000) stores URLs exactly as input by the user. No
+ * quoting, no mime encoding of email headers. If cgi parameters are
+ * separated by '&', '&' is stored, not '&amp;'. An email subject in
+ * cyrillic characters is stored as as cyrillic characters, not as an
+ * RFC 2047 MIME encoded header.
+ */
 static void
 excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 {
