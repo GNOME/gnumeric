@@ -19,6 +19,10 @@ J.H.M. Dassen (Ray):
 	* Updates to the build system.
 	* Some code janitor work.
 
+Olaf Till
+	* 2 new logarithmic regression functions, one of them
+	  with nonlinear fitting of a horizontal curve shift.
+
 --------------------------------------------------------------------------
 Gnumeric 1.1.11
 

@@ -11,6 +11,7 @@
 #include "gnumeric.h"
 #include "regression.h"
 #include "rangefunc.h"
+#include "mathfunc.h"
 
 #include <math.h>
 #include <string.h>
@@ -451,6 +452,195 @@ general_linear_regression (gnum_float **xss, int xdim,
 }
 
 /* ------------------------------------------------------------------------- */
+
+typedef struct {
+  gnum_float min_x;
+  gnum_float max_x;
+  gnum_float min_y;
+  gnum_float max_y;
+  gnum_float mean_y;
+} point_cloud_measure_type;
+
+/* Takes the current 'sign' (res[0]) and 'c' (res[3]) from the calling
+ * function, transforms xs to ln(sign*(x-c)), performs a simple
+ * linear regression to find the best fitting 'a' (res[1]) and 'b'
+ * (res[2]) for ys and transformed xs, and computes the sum of squared
+ * residuals.
+ * Needs 'sign' (i.e. +1 or -1) and 'c' so adjusted that (sign*(x-c)) is
+ * positive for all xs. n must be > 0. These conditions are trusted to be
+ * checked by the calling functions.
+ * Is called often, so do not make it too slow.
+ */
+
+static int
+transform_x_and_linear_regression_log_fitting (gnum_float *xs,
+					       gnum_float *transf_xs,
+					       const gnum_float *ys, int n,
+					       gnum_float *res,
+					       point_cloud_measure_type
+					       *point_cloud)
+{
+        int i;
+	int result = REG_ok;
+	gnum_float mean_transf_x, diff_x, resid_y;
+	gnum_float sum1 = 0;
+	gnum_float sum2 = 0;
+
+	/* log (always > 0) */
+	for (i=0; i<n; i++)
+	        transf_xs[i] = loggnum (res[0] * (xs[i] - res[3]));
+	range_average (transf_xs, n, &mean_transf_x);
+	for (i=0; i<n; i++) {
+	        diff_x = transf_xs[i] - mean_transf_x;
+		sum1 += diff_x * (ys[i] - point_cloud->mean_y);
+		sum2 += diff_x * diff_x;
+	}
+	res[2] = sum1 / sum2;
+	res[1] = point_cloud->mean_y - (res[2] * mean_transf_x);
+	res[4] = 0;
+	for (i=0; i<n; i++) {
+	        resid_y = res[1] + (res[2] * transf_xs[i]) - ys[i];
+		res[4] += resid_y * resid_y;
+	}
+	return result; /* not used for error checking for the sake of speed */
+}
+
+static int
+log_fitting (gnum_float *xs, const gnum_float *ys, int n,
+	     gnum_float *res, point_cloud_measure_type *point_cloud)
+{
+        int result = REG_ok;
+	gboolean sign_plus_ok = 1, sign_minus_ok = 1;
+	gnum_float x_range, c_step, c_accuracy_int, c_offset, c_accuracy;
+	gnum_float c_range, c_start, c_end, c_dist;
+	gnum_float *temp_res;
+        gnum_float *transf_xs;
+
+	temp_res = g_new (gnum_float, 5);
+	x_range = (point_cloud->max_x) - (point_cloud->min_x);
+	/* Not needed here, but allocate it once for all subfunction calls */
+	transf_xs = g_new (gnum_float, n);
+	/* Choose final accuracy of c with respect to range of xs.
+	 * Make accuracy be a whole power of 10. */
+	c_accuracy = log10gnum (x_range);
+	if (c_accuracy < 0)
+	        if (modfgnum (c_accuracy, &c_accuracy_int) != 0)
+		        c_accuracy--;
+	modfgnum (c_accuracy, &c_accuracy_int);
+	c_accuracy = c_accuracy_int;
+	c_accuracy = powgnum (10, c_accuracy);
+	c_accuracy *= LOGFIT_C_ACCURACY;
+
+	/* Determine sign. Take a c which is ``much to small'' since the part
+	 * of the curve cutting the point cloud is almost not bent.
+	 * If making c still smaller does not make things still worse,
+	 * assume that we have to change the direction of curve bending
+	 * by changing sign.
+	 */
+	c_step = x_range * LOGFIT_C_STEP_FACTOR;
+	c_range = x_range * LOGFIT_C_RANGE_FACTOR;
+	res[0] = 1; /* sign */
+	res[3] = point_cloud->min_x - c_range;
+	temp_res[0] = 1;
+	temp_res[3] = res[3] - c_step;
+	transform_x_and_linear_regression_log_fitting (xs, transf_xs, ys, n,
+						       res, point_cloud);
+	transform_x_and_linear_regression_log_fitting (xs, transf_xs, ys, n,
+						       temp_res, point_cloud);
+	if (temp_res[4] <= res[4]) 
+	        sign_plus_ok = 0;
+        /* check again with new sign */
+	res[0] = -1; /* sign */
+	res[3] = point_cloud->max_x + c_range;
+	temp_res[0] = -1;
+	temp_res[3] = res[3] + c_step;
+	transform_x_and_linear_regression_log_fitting (xs, transf_xs, ys, n,
+						       res, point_cloud);
+	transform_x_and_linear_regression_log_fitting (xs, transf_xs, ys, n,
+						       temp_res, point_cloud);
+	if (temp_res[4] <= res[4]) 
+	        sign_minus_ok = 0;
+	/* If not exactly one of plus or minus works, give up. 
+	 * This happens in point clouds which are very weakly bent. 
+	 */
+	if (sign_plus_ok && !sign_minus_ok)
+	        res[0] = 1;
+	else if (sign_minus_ok && !sign_plus_ok)
+	        res[0] = -1;
+	else {
+	        result = REG_invalid_data; 
+		goto out;
+	}
+	
+	/* Start of fitted c-range. Rounded to final accuracy of c. */
+	c_offset = (res[0] == 1) ? point_cloud->min_x : point_cloud->max_x;
+	c_offset = c_accuracy * ((res[0] == 1) ?
+				 floorgnum (c_offset / c_accuracy)
+				 : ceilgnum (c_offset /c_accuracy));
+
+	/* Now the adapting of c starts. Find a local minimum of sum
+	 * of squared residuals. */
+
+	/* First, catch some unsuitably shaped point clouds. */
+	res[3] = c_offset - res[0] * c_accuracy;
+	temp_res[3] = c_offset - res[0] * 2 * c_accuracy;
+	temp_res[0] = res[0];
+	transform_x_and_linear_regression_log_fitting (xs, transf_xs, ys, n,
+						       res, point_cloud);
+	transform_x_and_linear_regression_log_fitting (xs, transf_xs, ys, n,
+						       temp_res, point_cloud);
+	if (temp_res[4] >= res[4]) {
+	        result = REG_invalid_data;
+		goto out;
+	}
+	/* After the above check, any minimum reached will be NOT  at
+	 * the start of c-range (c_offset - sign * c_accuracy) */
+	c_start = c_offset;
+	c_end = c_start - res[0] * c_range;
+	c_dist = res[0] * (c_start - c_end) / 2;
+	res[3] = c_end + res[0] * c_dist;
+	do {
+	        c_dist /= 2;
+		transform_x_and_linear_regression_log_fitting (xs, transf_xs,
+							       ys, n, res,
+							       point_cloud);
+		temp_res[3] = res[3] + res[0] * c_dist;
+		transform_x_and_linear_regression_log_fitting (xs, transf_xs,
+							       ys, n, temp_res,
+							       point_cloud);
+		if (temp_res[4] <= res[4])
+		        memcpy (res, temp_res, 5 * sizeof (gnum_float));
+		else {
+		        temp_res[3] = res[3] - res[0] * c_dist;
+			transform_x_and_linear_regression_log_fitting (xs,
+							          transf_xs,
+								  ys, n,
+								  temp_res,
+							          point_cloud);
+			if (temp_res[4] <= res[4])
+			        memcpy (res, temp_res, 5*sizeof (gnum_float));
+		}
+	} while (c_dist > c_accuracy);
+
+	res[3] = c_accuracy * gnumeric_fake_round (res[3] / c_accuracy);
+	transform_x_and_linear_regression_log_fitting (xs, transf_xs, ys, n,
+						       res, point_cloud);
+
+	if ((res[0] * (res[3] - c_end)) < (1.1 * c_accuracy)) {
+	        /* Allowing for some inaccuracy, we are at the end of the
+		 * range, so this is probably no local minimum. 
+		 * The start of the range has been checked above. */
+	        result = REG_invalid_data;
+		goto out;
+	}
+
+ out:
+	g_free (transf_xs);
+	g_free (temp_res);
+	return result;
+}
+
+/* ------------------------------------------------------------------------- */
 /* Please refer to description in regression.h.  */
 
 RegressionResult
@@ -529,6 +719,106 @@ exponential_regression (gnum_float **xss, int dim,
 
  out:
 	g_free (log_ys);
+	return result;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Please refer to description in regression.h.  */
+
+RegressionResult
+logarithmic_regression (gnum_float **xss, int dim,
+			const gnum_float *ys, int n,
+			gboolean affine,
+			gnum_float *res,
+			regression_stat_t *regression_stat)
+{
+        gnum_float **log_xss;
+	RegressionResult result;
+	int i, j;
+
+	g_return_val_if_fail (dim >= 1, REG_invalid_dimensions);
+	g_return_val_if_fail (n >= 1, REG_invalid_dimensions);
+
+	ALLOC_MATRIX (log_xss, dim, n);
+	for (i = 0; i < dim; i++)
+	        for (j = 0; j < n; j++)
+		        if (xss[i][j] > 0)
+		                log_xss[i][j] = loggnum (xss[i][j]);
+			else {
+			        result = REG_invalid_data;
+				goto out;
+			}
+	
+
+	if (affine) {
+		gnum_float **log_xss2;
+		log_xss2 = g_new (gnum_float *, dim + 1);
+		log_xss2[0] = NULL;  /* Substitute for 1-vector.  */
+		memcpy (log_xss2 + 1, log_xss, dim * sizeof (gnum_float *));
+
+		result = general_linear_regression (log_xss2, dim + 1, ys, n,
+						    res, regression_stat,
+						    affine);
+		g_free (log_xss2);
+	} else {
+		res[0] = 0;
+		result = general_linear_regression (log_xss, dim, ys, n,
+						    res + 1, regression_stat,
+						    affine);
+	}
+
+ out:
+	FREE_MATRIX (log_xss, dim, n);
+	return result;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Please refer to description in regression.h.  */
+
+RegressionResult
+logarithmic_fit (gnum_float *xs, const gnum_float *ys, int n, gnum_float *res)
+{
+        point_cloud_measure_type point_cloud_measures;
+	int i, result;
+	gboolean more_2_y = 0, more_2_x = 0;
+
+	/* Store useful measures for using them here and in subfunctions.
+	 * The checking of n is paranoid -- the calling function should
+	 * have cared for that. */
+	g_return_val_if_fail (n > 2, REG_invalid_dimensions);
+	result = range_min (xs, n, &(point_cloud_measures.min_x));
+	result = range_max (xs, n, &(point_cloud_measures.max_x));
+	result = range_min (ys, n, &(point_cloud_measures.min_y));
+	result = range_max (ys, n, &(point_cloud_measures.max_y));
+	result = range_average (ys, n, &(point_cloud_measures.mean_y));
+	/* Checking of error conditions. */
+	/* less than 2 different ys or less than 2 different xs */
+	g_return_val_if_fail (((point_cloud_measures.min_y !=
+				point_cloud_measures.max_y) &&
+			       (point_cloud_measures.min_x !=
+				point_cloud_measures.max_x)),
+			      REG_invalid_data);
+	/* less than 3 different ys */
+	for (i=0; i<n; i++) {
+	        if ((ys[i] != point_cloud_measures.min_y) &&
+		    (ys[i] != point_cloud_measures.max_y)) {
+		        more_2_y = 1;
+			break;
+		}
+	}
+	g_return_val_if_fail (more_2_y, REG_invalid_data);
+	/* less than 3 different xs */
+	for (i=0; i<n; i++) {
+	        if ((xs[i] != point_cloud_measures.min_x) &&
+		    (xs[i] != point_cloud_measures.max_x)) {
+		        more_2_x = 1;
+			break;
+		}
+	}
+	g_return_val_if_fail (more_2_x, REG_invalid_data);
+
+	/* no errors */
+	result = log_fitting (xs, ys, n, res, &point_cloud_measures);
 	return result;
 }
 

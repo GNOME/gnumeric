@@ -4067,6 +4067,384 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 
 /***************************************************************************/
 
+static const char *help_logreg = {
+	N_("@FUNCTION=LOGREG\n"
+	   "@SYNTAX=LOGREG(known_y's[,known_x's[,const[,stat]]])\n"
+
+	   "@DESCRIPTION="
+	   "LOGREG function transforms your x's to z=ln(x) and "
+	   "applies the ``least squares'' method to fit the linear equation\n"
+           "y = m * z + b \n"
+	   "to your y's and z's --- equivalent to fitting the equation\n"
+	   "y = m * ln(x) + b \n"
+	   "to y's and x's. \n"
+	   "\n"
+	   "If @known_x's is omitted, an array {1, 2, 3, ...} is used. "
+           "LOGREG returns an array having two columns and one row. "
+           "m is given in the first column and b in the second. \n"
+	   "\n"
+	   "If @known_y's and @known_x's have unequal number of data points, "
+	   "LOGREG returns #NUM! error.\n"
+	   "\n"
+	   "If @const is FALSE, the curve will be forced to go through "
+	   "[1; 0], i.e., b will be zero. The default is TRUE.\n"
+	   "\n"
+	   "If @stat is TRUE, extra statistical information will be returned "
+	   "which applies to the state AFTER transformation to z, "
+	   "assuming that the z = ln(x) are normally distributed. "
+	   "Extra statistical information is written below m and b in the "
+	   "result array.  Extra statistical information consists of four "
+	   "rows of data.  In the first row the standard error values for the "
+	   "coefficients m, b are represented.  The second row "
+	   "contains the square of R and the standard error for the y "
+	   "estimate. The third row contains the F-observed value and the "
+	   "degrees of freedom.  The last row contains the regression sum "
+	   "of squares and the residual sum of squares."
+	   "The default of @stat is FALSE.\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=LOGFIT,LINEST,LOGEST")
+};
+/* The following is a copy of "gnumeric_linest" of Gnumeric version 1.1.9 
+ * with "linear_regression" replaced by "logarithmic_regression".
+ *
+ * In Excel, this functionality is not available as a function, but only
+ * as a "trend curve" within graphs.
+ *
+ * The function "logarithmic_regression" transforms x's logarithmically
+ * before calling "general_linear_regression" written by others.
+ * 
+ * I do not know if in statistical praxis logarithmically transformed x-data
+ * is useful for *multidimensional* regression, and also if extra statistical
+ * data is useful in this case, but since "general_linear_regression" written
+ * by others provides it I have passed this functionality to the user.
+ * But see comment to "gnumeric_linest" for problem with reading more than
+ * one x-range.
+ */
+
+static Value *
+gnumeric_logreg (FunctionEvalInfo *ei, Value *argv[])
+{
+	gnum_float        **xss = NULL, *ys = NULL;
+	Value             *result = NULL;
+	int               nx, ny, dim, i;
+	int               xarg = 0;
+	gnum_float        *logreg_res = NULL;
+	gboolean          affine, stat, err;
+	enum {
+		ARRAY      = 1,
+		SINGLE_COL = 2,
+		SINGLE_ROW = 3,
+		OTHER      = 4
+	}                 ytype;
+	regression_stat_t *extra_stat;
+
+	extra_stat = regression_stat_new ();
+	dim = 0;
+
+	if (argv[0] == NULL || (argv[0]->type != VALUE_ARRAY && argv[0]->type != VALUE_CELLRANGE)){
+	        goto out; /* Not a valid input for ys */
+	}
+
+	if (argv[0]->type == VALUE_ARRAY)
+		ytype = ARRAY;
+	else if (argv[0]->v_range.cell.a.col == argv[0]->v_range.cell.b.col)
+		ytype = SINGLE_COL;
+	else if (argv[0]->v_range.cell.a.row == argv[0]->v_range.cell.b.row)
+		ytype = SINGLE_ROW;
+	else ytype = OTHER;
+
+	if (argv[0]->type == VALUE_CELLRANGE)
+		ys = collect_floats_value (argv[0], ei->pos,
+					   COLLECT_IGNORE_STRINGS |
+					   COLLECT_IGNORE_BOOLS,
+					   &ny, &result);
+	else if (argv[0]->type == VALUE_ARRAY){
+	  /*
+	   * Get ys from array argument argv[0]
+	   */
+	}
+
+	if (result)
+		goto out;
+
+	/* TODO Better error-checking in next statement */
+
+	if (argv[1] == NULL || (ytype == ARRAY && argv[1]->type != VALUE_ARRAY) ||
+	    (ytype != ARRAY && argv[1]->type != VALUE_CELLRANGE)){
+		dim = 1;
+		xss = g_new (gnum_float *, 1);
+	        xss[0] = g_new (gnum_float, ny);
+	        for (nx = 0; nx < ny; nx++)
+		        xss[0][nx] = nx + 1;
+	}
+	else if (ytype == ARRAY){
+			xarg = 1;
+			/* Get xss from array argument argv[1] */
+	}
+	else if (ytype == SINGLE_COL){
+		int firstcol, lastcol;
+		Value *copy;
+		xarg = 1;
+		firstcol = argv[1]->v_range.cell.a.col;
+		lastcol  = argv[1]->v_range.cell.b.col;
+
+		if (firstcol < lastcol) {
+			int tmp = firstcol;
+			firstcol = lastcol;
+			lastcol = tmp;
+		}
+
+		dim = lastcol - firstcol + 1;
+		copy = value_duplicate (argv[1]);
+		xss = g_new (gnum_float *, dim);
+		for (i = firstcol; i <= lastcol; i++){
+			copy->v_range.cell.a.col = i;
+			copy->v_range.cell.b.col = i;
+			xss[i - firstcol] = collect_floats_value (copy, ei->pos,
+						       COLLECT_IGNORE_STRINGS |
+						       COLLECT_IGNORE_BOOLS,
+						       &nx, &result);
+			if (result){
+				value_release (copy);
+				dim = i - firstcol; /* How many got allocated before failure*/
+				goto out;
+			}
+			if (nx != ny){
+				value_release (copy);
+				dim = i - firstcol + 1;
+				result = value_new_error (ei->pos, gnumeric_err_NUM);
+				goto out;
+			}
+		}
+		value_release (copy);
+	}
+	else if (ytype == SINGLE_ROW){
+	int firstrow, lastrow;
+		Value *copy;
+		xarg = 1;
+		firstrow = argv[1]->v_range.cell.a.row;
+		lastrow  = argv[1]->v_range.cell.b.row;
+
+		if (firstrow < lastrow) {
+			int tmp = firstrow;
+			firstrow = lastrow;
+			lastrow = tmp;
+		}
+
+		dim = lastrow - firstrow + 1;
+		copy = value_duplicate (argv[1]);
+		xss = g_new (gnum_float *, dim);
+		for (i = firstrow; i <= lastrow; i++){
+			copy->v_range.cell.a.row = i;
+			copy->v_range.cell.b.row = i;
+			xss[i - firstrow] = collect_floats_value (copy, ei->pos,
+						       COLLECT_IGNORE_STRINGS |
+						       COLLECT_IGNORE_BOOLS,
+						       &nx, &result);
+			if (result){
+				value_release (copy);
+				dim = i - firstrow; /*How many got allocated before failure*/
+				goto out;
+			}
+			if (nx != ny){
+					value_release (copy);
+					dim = i - firstrow + 1;
+					result = value_new_error (ei->pos, gnumeric_err_NUM);
+					goto out;
+			}
+		}
+		value_release (copy);
+	}
+	else { /*Y is none of the above */
+		xarg = 1;
+		dim = 1;
+		xss = g_new (gnum_float *, dim);
+		xss[0] = collect_floats_value (argv[1], ei->pos,
+					       COLLECT_IGNORE_STRINGS |
+					       COLLECT_IGNORE_BOOLS,
+					       &nx, &result);
+		if (result){
+			dim = 0;
+			goto out;
+		}
+		if (nx != ny){
+			dim = 1;
+			result = value_new_error (ei->pos, gnumeric_err_NUM);
+			goto out;
+		}
+	}
+
+	if (argv[1 + xarg]) {
+		affine = value_get_as_bool (argv[1 + xarg], &err);
+		if (err) {
+			result = value_new_error (ei->pos, gnumeric_err_VALUE);
+			goto out;
+		}
+	} else
+		affine = TRUE;
+
+	if (argv[2 + xarg]) {
+		stat = value_get_as_bool (argv[2 + xarg], &err);
+		if (err) {
+			result = value_new_error (ei->pos,
+						  gnumeric_err_VALUE);
+			goto out;
+		}
+	} else
+		stat = FALSE;
+
+	logreg_res = g_new (gnum_float, dim + 1);
+
+	if (logarithmic_regression (xss, dim, ys, nx, affine,
+				    logreg_res, extra_stat) != REG_ok) {
+		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		goto out;
+	}
+
+	if (stat) {
+		result = value_new_array (dim + 1, 5);
+
+		value_array_set (result, 0, 2,
+				 value_new_float (extra_stat->sqr_r));
+		value_array_set (result, 1, 2,
+				 value_new_float (sqrtgnum (extra_stat->var)));
+		value_array_set (result, 0, 3,
+				 value_new_float (extra_stat->F));
+		value_array_set (result, 1, 3,
+				 value_new_float (extra_stat->df_resid));
+		value_array_set (result, 0, 4,
+				 value_new_float (extra_stat->ss_reg));
+		value_array_set (result, 1, 4,
+				 value_new_float (extra_stat->ss_resid));
+		for (i = 0; i < dim; i++)
+			value_array_set (result, dim - i - 1, 1,
+					 value_new_float (extra_stat->se[i+affine]));
+		value_array_set (result, dim, 1,
+				 value_new_float (extra_stat->se[0]));
+	} else
+		result = value_new_array (dim + 1, 1);
+
+	value_array_set (result, dim, 0, value_new_float (logreg_res[0]));
+	for (i = 0; i < dim; i++)
+		value_array_set (result, dim - i - 1, 0,
+				 value_new_float (logreg_res[i + 1]));
+
+ out:
+	if (xss) {
+		for (i = 0; i < dim; i++)
+			g_free (xss[i]);
+		g_free (xss);
+	}
+	g_free (ys);
+	g_free (logreg_res);
+	regression_stat_destroy (extra_stat);
+
+	return result;
+}
+
+/***************************************************************************/
+
+static const char *help_logfit = {
+	N_("@FUNCTION=LOGFIT\n"
+	   "@SYNTAX=LOGFIT(known_y's,known_x's)\n"
+
+	   "@DESCRIPTION="
+	   "LOGFIT function applies the ``least squares'' method to fit "
+	   "the logarithmic equation\n"
+	   "y = a + b * ln(sign * (x - c)) ,   sign = +1 or -1 \n"
+	   "to your data. The graph of the equation is a logarithmic curve "
+	   "moved horizontally by c and possibly mirrored across the y-axis "
+	   "(if sign = -1).\n"
+	   "\n"
+	   "LOGFIT returns an array having five columns and one row. "
+	   "`Sign' is given in the first column, `a', `b', and `c' are "
+	   "given in columns 2 to 4. Column 5 holds the sum of squared "
+	   "residuals.\n"
+	   "\n"
+	   "An error is returned when there are less than 3 different x's "
+	   "or y's, or when the shape of the point cloud is too different "
+	   "from a ``logarithmic'' one.\n"
+	   "\n"
+	   "You can use the above formula \n"
+	   "= a + b * ln(sign * (x - c)) \n"
+	   "or rearrange it to \n"
+	   "= (exp((y - a) / b)) / sign + c \n"
+	   "to compute unknown y's or x's, respectively. \n"
+	   "\n"
+	   "Technically, this is non-linear fitting by trial-and-error. "
+	   "The accuracy of `c' is: width of x-range -> rounded to the "
+	   "next smaller (10^integer), times 0.000001. There might be cases "
+	   "in which the returned fit is not the best possible.\n"
+           "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=LOGREG,LINEST,LOGEST")
+};
+
+/* This function is not available in Excel.
+ * It is intended for calculation of unknowns from a calibration curve.
+ * It adapts well to some types of scientific data.
+ * It does not do multidimensional regression or extra statistics.
+ *
+ * One could do this kind of non-linear fitting with a general solver, too,
+ * but then the success depends on the choosing of suitable starting values.
+ * Also, determination of `sign' would be complicated.
+ */
+static Value *
+gnumeric_logfit (FunctionEvalInfo *ei, Value *argv[])
+{
+        gnum_float         *xs = NULL, *ys = NULL;
+	Value              *result = NULL;
+	int                nx, ny, i;
+	gnum_float         *logfit_res = NULL;
+
+        if (argv[0] == NULL || argv[0]->type != VALUE_CELLRANGE)
+	        goto out;
+	ys = collect_floats_value (argv[0], ei->pos,
+				   COLLECT_IGNORE_BLANKS | /* zeroing blanks
+                                      is prone to produce unwanted results */
+				   COLLECT_IGNORE_STRINGS | /* dangerous, user
+should use validation tool to prevent erroneously inputting strings instead of
+numbers */
+				   COLLECT_IGNORE_BOOLS,
+				   &ny, &result);
+	if (result)
+	        goto out;
+	if (argv[1] == NULL || argv[1]->type != VALUE_CELLRANGE)
+	        goto out;
+	xs = collect_floats_value (argv[1], ei->pos,
+				   COLLECT_IGNORE_BLANKS |
+				   COLLECT_IGNORE_STRINGS |
+				   COLLECT_IGNORE_BOOLS,
+				   &nx, &result);
+	if (result)
+	        goto out;
+	if (nx != ny || nx < 3) {
+	        result = value_new_error (ei->pos, gnumeric_err_VALUE);
+		goto out;
+	}
+
+	logfit_res = g_new (gnum_float, 5);
+
+	if (logarithmic_fit (xs, ys, nx, logfit_res) != REG_ok) {
+	        result = value_new_error (ei->pos, gnumeric_err_NUM);
+		goto out;
+	}
+
+	result = value_new_array (5, 1);
+	for (i=0; i<5; i++)
+	        value_array_set (result, i, 0,
+				 value_new_float (logfit_res[i]));
+
+ out:
+	g_free (xs);
+	g_free (ys);
+	g_free (logfit_res);
+	return result;
+}
+
+/***************************************************************************/
+
 static const char *help_trend = {
 	N_("@FUNCTION=TREND\n"
 	   "@SYNTAX=TREND(known_y's[,known_x's],new_x's])\n"
@@ -5293,11 +5671,17 @@ const GnmFuncDescriptor stat_functions[] = {
 	{ "logest",       "A|Abb",  N_("known_y's,known_x's,const,stat"),
 	  &help_logest, gnumeric_logest, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "logfit",       "rr",  N_("known_y's,known_x's"),
+	  &help_logfit, gnumeric_logfit, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "loginv",       "fff",  N_("p,mean,stddev"),
 	  &help_loginv, gnumeric_loginv, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "lognormdist",  "fff",  N_("x,meean,stdev"),
 	  &help_lognormdist, gnumeric_lognormdist, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "logreg",       "A|Abb",  N_("known_y's,known_x's,const,stat"),
+	  &help_logreg, gnumeric_logreg, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "max",          0,      N_("number,number,"),
 	  &help_max, NULL, gnumeric_max, NULL, NULL, NULL,

@@ -57,9 +57,11 @@
 				<function name="large"/>
 				<function name="linest"/>
 				<function name="logest"/>
+				<function name="logfit"/>
 				<function name="loginv"/>
 				<function name="logistic"/>
 				<function name="lognormdist"/>
+				<function name="logreg"/>
 				<function name="max"/>
 				<function name="maxa"/>
 				<function name="median"/>
