@@ -120,8 +120,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-06-23 00:40-0400\n"
-"PO-Revision-Date: 2004-06-18 06:42+0200\n"
+"POT-Creation-Date: 2004-07-11 20:37+0200\n"
+"PO-Revision-Date: 2004-07-12 05:08+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: nl <vertaling@nl.linux.org>\n"
 "MIME-Version: 1.0\n"
@@ -1547,8 +1547,7 @@ msgid "MS Excel (tm) 97/2000/XP"
 msgstr "MS Excel (tm) 97/2000/XP"
 
 #: plugins/excel/plugin.xml.in.h:6
-#, fuzzy
-msgid "MS Excel (tm) 97/2000/XP & 5.0/95"
+msgid "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
 msgstr "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
 
 #: plugins/excel/plugin.xml.in.h:7
@@ -17664,8 +17663,7 @@ msgid "HTML"
 msgstr "HTML"
 
 #: plugins/html/plugin.xml.in.h:2
-#, fuzzy
-msgid "HTML & TeX"
+msgid "HTML &amp; TeX"
 msgstr "HTML &amp; TeX"
 
 #: plugins/html/plugin.xml.in.h:3
@@ -18472,7 +18470,7 @@ msgstr "Blad"
 
 #: plugins/xbase/xbase.c:142
 msgid "Failed to read DBF header."
-msgstr ""
+msgstr "Lezen van DBF header is mislukt."
 
 #: plugins/xbase/plugin.xml.in.h:1
 msgid "Imports XBase files"
