@@ -1,3 +1,8 @@
+2000-04-16  Morten Welinder  <terra@diku.dk>
+
+	* src/functions/fn-financial.c (finance_functions_init): Define a
+ 	ton of stubs.  (We appear to have everything now.)
+
 2000-04-16  Valek Filippov  <frob@df.ru>
 
 	* src/functions/fn-math.c: Typos fixed ("@" and "\n").

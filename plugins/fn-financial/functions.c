@@ -2151,6 +2151,231 @@ gnumeric_oddlyield (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
+static char *help_amordegrc = {
+	N_("@FUNCTION=AMORDEGRC\n"
+	   "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate,basis)\n"
+	   "@DESCRIPTION=Returns the depreciation for each accounting period."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=")
+};
+
+static Value *
+gnumeric_amordegrc (FunctionEvalInfo *ei, Value **argv)
+{
+	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+}
+
+/***************************************************************************/
+
+static char *help_amorlinc = {
+	N_("@FUNCTION=AMORLINC\n"
+	   "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate,basis)\n"
+	   "@DESCRIPTION=Returns the depreciation for each accounting period."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=")
+};
+
+static Value *
+gnumeric_amorlinc (FunctionEvalInfo *ei, Value **argv)
+{
+	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+}
+
+/***************************************************************************/
+
+static char *help_coupdaybs = {
+	N_("@FUNCTION=COUPDAYBS\n"
+	   "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis])\n"
+	   "@DESCRIPTION=Returns the number of days from the beginning "
+	   "of the coupon period to the settlement date."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=")
+};
+
+static Value *
+gnumeric_coupdaybs (FunctionEvalInfo *ei, Value **argv)
+{
+	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+}
+
+/***************************************************************************/
+
+static char *help_coupdays = {
+	N_("@FUNCTION=COUPDAYS\n"
+	   "@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis])\n"
+	   "@DESCRIPTION=Returns the number of days in the coupon period "
+	   "of the settlement date."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=")
+};
+
+static Value *
+gnumeric_coupdays (FunctionEvalInfo *ei, Value **argv)
+{
+	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+}
+
+/***************************************************************************/
+
+static char *help_coupdaysnc = {
+	N_("@FUNCTION=COUPDAYSNC\n"
+	   "@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis])\n"
+	   "@DESCRIPTION=Returns the number of days from the settlement date "
+	   "to the next coupon date."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=")
+};
+
+static Value *
+gnumeric_coupdaysnc (FunctionEvalInfo *ei, Value **argv)
+{
+	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+}
+
+/***************************************************************************/
+
+static char *help_coupncd = {
+	N_("@FUNCTION=COUPNCD\n"
+	   "@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis])\n"
+	   "@DESCRIPTION=Returns the coupon date following settlement."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=")
+};
+
+static Value *
+gnumeric_coupncd (FunctionEvalInfo *ei, Value **argv)
+{
+	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+}
+
+/***************************************************************************/
+
+static char *help_couppcd = {
+	N_("@FUNCTION=COUPPCD\n"
+	   "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis])\n"
+	   "@DESCRIPTION=Returns the coupon date preceeding settlement."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=")
+};
+
+static Value *
+gnumeric_couppcd (FunctionEvalInfo *ei, Value **argv)
+{
+	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+}
+
+/***************************************************************************/
+
+static char *help_coupnum = {
+	N_("@FUNCTION=COUPNUM\n"
+	   "@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis])\n"
+	   "@DESCRIPTION=Returns the numbers of coupons to be paid between "
+	   "the settlement and maturity dates, rounded up."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=")
+};
+
+static Value *
+gnumeric_coupnum (FunctionEvalInfo *ei, Value **argv)
+{
+	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+}
+
+/***************************************************************************/
+
+static char *help_cumipmt = {
+	N_("@FUNCTION=CUMIPMT\n"
+	   "@SYNTAX=CUMIPMT(rate,nper,pv,start_period,end_period,type)\n"
+	   "@DESCRIPTION=Returns the cumulative interest paid on a loan "
+	   "between @start_period and @end_period."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=")
+};
+
+static Value *
+gnumeric_cumipmt (FunctionEvalInfo *ei, Value **argv)
+{
+	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+}
+
+/***************************************************************************/
+
+static char *help_cumprinc = {
+	N_("@FUNCTION=CUMPRINC\n"
+	   "@SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)\n"
+	   "@DESCRIPTION=Returns the cumulative principal paid on a loan "
+	   "between @start_period and @end_period."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=")
+};
+
+static Value *
+gnumeric_cumprinc (FunctionEvalInfo *ei, Value **argv)
+{
+	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+}
+
+/***************************************************************************/
+
+static char *help_mduration = {
+	N_("@FUNCTION=MDURATION\n"
+	   "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
+	   "@DESCRIPTION=Returns the Macauley duration for a security with "
+	   "par value 100."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=")
+};
+
+static Value *
+gnumeric_mduration (FunctionEvalInfo *ei, Value **argv)
+{
+	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+}
+
+/***************************************************************************/
+
+static char *help_vdb = {
+	N_("@FUNCTION=VDB\n"
+	   "@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor,switch])\n"
+	   "@DESCRIPTION="
+	   "VDB calculates the depreciation of an asset for a given period "
+	   "or partial period using the double-declining balance method."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=DB")
+};
+
+static Value *
+gnumeric_vdb (FunctionEvalInfo *ei, Value **argv)
+{
+	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+}
+
+/***************************************************************************/
+
 void
 finance_functions_init (void)
 {
@@ -2166,6 +2391,52 @@ finance_functions_init (void)
 	def = function_add_args	 (cat, "accrintm", "??f|ff",
 				  "issue,maturity,rate[,par,basis]",
 				  &help_accrintm, gnumeric_accrintm);
+	auto_format_function_result (def, AF_MONETARY);
+
+	def = function_add_args	 (cat, "amordegrc", "fffffff",
+				  "cost,purchase_date,first_period,salvage,period,rate,basis",
+				  &help_amordegrc, gnumeric_amordegrc);
+	auto_format_function_result (def, AF_MONETARY);
+
+	def = function_add_args	 (cat, "amorlinc", "fffffff",
+				  "cost,purchase_date,first_period,salvage,period,rate,basis",
+				  &help_amorlinc, gnumeric_amorlinc);
+	auto_format_function_result (def, AF_MONETARY);
+
+	def = function_add_args	 (cat, "coupdaybs", "fff|f",
+				  "settlement,maturity,frequency[,basis]",
+				  &help_coupdaybs, gnumeric_coupdaybs);
+
+	def = function_add_args	 (cat, "coupdays", "fff|f",
+				  "settlement,maturity,frequency[,basis]",
+				  &help_coupdays, gnumeric_coupdays);
+
+	def = function_add_args	 (cat, "coupdaysnc", "fff|f",
+				  "settlement,maturity,frequency[,basis]",
+				  &help_coupdaysnc, gnumeric_coupdaysnc);
+
+	def = function_add_args	 (cat, "coupncd", "fff|f",
+				  "settlement,maturity,frequency[,basis]",
+				  &help_coupncd, gnumeric_coupncd);
+	auto_format_function_result (def, AF_DATE);
+
+	def = function_add_args	 (cat, "coupnum", "fff|f",
+				  "settlement,maturity,frequency[,basis]",
+				  &help_coupnum, gnumeric_coupnum);
+
+	def = function_add_args	 (cat, "couppcd", "fff|f",
+				  "settlement,maturity,frequency[,basis]",
+				  &help_couppcd, gnumeric_couppcd);
+	auto_format_function_result (def, AF_DATE);
+
+	def = function_add_args	 (cat, "cumipmt", "ffffff",
+				  "rate,nper,pv,start_period,end_period,type",
+				  &help_cumipmt, gnumeric_cumipmt);
+	auto_format_function_result (def, AF_MONETARY);
+
+	def = function_add_args	 (cat, "cumprinc", "ffffff",
+				  "rate,nper,pv,start_period,end_period,type",
+				  &help_cumprinc, gnumeric_cumprinc);
 	auto_format_function_result (def, AF_MONETARY);
 
 	def = function_add_args	 (cat, "db", "ffff|f",
@@ -2227,6 +2498,10 @@ finance_functions_init (void)
 	def = function_add_args	 (cat, "ispmt", "ffff",	   "rate,per,nper,pv",
 				  &help_ispmt,	gnumeric_ispmt);
 	auto_format_function_result (def, AF_MONETARY);
+
+	def = function_add_args	 (cat, "mduration", "fffff|f",
+				  "settlement,maturify,coupon,yield,frequency[,basis]",
+				  &help_mduration, gnumeric_mduration);
 
 	def = function_add_args	 (cat, "mirr", "Aff",
 				  "values,finance_rate,reinvest_rate",
@@ -2316,6 +2591,19 @@ finance_functions_init (void)
 				  "settlement,maturity,pr",
 				  &help_tbillyield, gnumeric_tbillyield);
 
+	def = function_add_args	 (cat, "vdb", "fffff|ff",
+				  "cost,salvage,life,start_period,end_period[,factor,switch]",
+				  &help_vdb, gnumeric_vdb);
+	auto_format_function_result (def, AF_MONETARY);
+
+	def = function_add_args	 (cat, "xirr", "AA|f", "values,dates[,guess]",
+				  &help_xirr,	  gnumeric_xirr);
+	auto_format_function_result (def, AF_PERCENT);
+
+	def = function_add_args	 (cat, "xnpv", "fAA", "rate,values,dates",
+				  &help_xnpv,	  gnumeric_xnpv);
+	auto_format_function_result (def, AF_MONETARY);
+
 	def = function_add_args  (cat, "yield", "??fff|ff",
 				  "settle,mat,rate,price,redemption_price,frequency,basis",
 				  &help_yield, gnumeric_yield);
@@ -2327,12 +2615,4 @@ finance_functions_init (void)
 	def = function_add_args  (cat, "yieldmat", "???fff",
 				  "settlement,maturity,issue,rate,pr,basis",
 				  &help_yieldmat,  gnumeric_yieldmat);
-
-	def = function_add_args	 (cat, "xirr", "AA|f", "values,dates[,guess]",
-				  &help_xirr,	  gnumeric_xirr);
-	auto_format_function_result (def, AF_PERCENT);
-
-	def = function_add_args	 (cat, "xnpv", "fAA", "rate,values,dates",
-				  &help_xnpv,	  gnumeric_xnpv);
-	auto_format_function_result (def, AF_MONETARY);
 }

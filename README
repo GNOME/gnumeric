@@ -28,7 +28,7 @@ Requirements
 You need:
 
 	gnome-libs-1.0.57
-	gnome-print-0.17
+	gnome-print-0.18
 	gnome-xml-1.8.5
 	libglade-0.11
 
