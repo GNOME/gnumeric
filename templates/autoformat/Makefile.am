@@ -41,13 +41,14 @@ install-data-local:
 		    < $(srcdir)/$$cat.category.in			\
 		    > $$dir/.category 	;				\
 		for f in $(srcdir)/autoformat.$$cat.*.xml.in ; do	\
-			echo "	$${f#$(srcdir)/autoformat.$$cat.}" ;	\
+			dst=$$dir/`basename $$f | sed -e 's/\.in//'` ;	\
+			echo "$$dst";					\
 			sed 						\
 				-e 's/ _author *=/ author=/'		\
 				-e 's/ _name *=/ name=/' 		\
 				-e 's/ _description *=/ description=/'	\
 			    < $$f 					\
-			    > $$dir/`basename $${f%.in}` ;		\
+			    > $dst ;					\
 		done							\
 	done
 

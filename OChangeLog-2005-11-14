@@ -1,7 +1,15 @@
 2005-03-22  Morten Welinder  <terra@gnome.org>
 
+	* templates/autoformat/Makefile.am (install-data-local): There's a
+	world that isn't bash.
+
+2005-03-22  Morten Welinder  <terra@gnome.org>
+
 	* src/workbook-control-gui.c (wbcg_update_action_sensitivity): Set
-	sensitivity of sheet tabs too.  Fixes #170958.
+	editability of sheet tabs too.  Fixes #170958.
+	(sheet_menu_label_run): If we have only one sheet, keep "Remove"
+	in the menu, but make it inactive.  Disable everything when we
+	have a guru.  Use an enum, not a define for bit fields.
 
 2005-03-22  Stepan Kasal  <kasal@ucw.cz>
 
