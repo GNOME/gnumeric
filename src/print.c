@@ -1007,6 +1007,12 @@ print_job_info_set_one_time_defaults (PrintJobInfo *pj)
 	str = gnm_gconf_get_printer_filename ();
 	gnome_print_config_set (pj->pi->print_config, "Settings.Transport.Backend.FileName", str);
 	g_free (str);
+	str = gnm_gconf_get_printer_command ();
+	gnome_print_config_set (pj->pi->print_config, "Settings.Transport.Backend.Command", str);
+	g_free (str);
+	str = gnm_gconf_get_printer_lpr_P ();
+	gnome_print_config_set (pj->pi->print_config, "Settings.Transport.Backend.Printer", str);
+	g_free (str);
 	str = gnm_gconf_get_printer ();
 	gnome_print_config_set (pj->pi->print_config, "Printer", str);
 	g_free (str);
@@ -1019,6 +1025,10 @@ print_job_info_save_one_time_defaults (PrintJobInfo *pj)
 		(gnome_print_config_get (pj->pi->print_config, "Settings.Transport.Backend"));
 	gnm_gconf_set_printer_filename
 		(gnome_print_config_get (pj->pi->print_config, "Settings.Transport.Backend.FileName"));
+	gnm_gconf_set_printer_command
+		(gnome_print_config_get (pj->pi->print_config, "Settings.Transport.Backend.Command"));
+	gnm_gconf_set_printer_lpr_P
+		(gnome_print_config_get (pj->pi->print_config, "Settings.Transport.Backend.Printer"));
 	gnm_gconf_set_printer
 		(gnome_print_config_get (pj->pi->print_config, "Printer"));
 }

@@ -213,6 +213,28 @@
        </locale>
       </schema>
       <schema>
+        <key>/schemas/apps/gnumeric/printing/backend.printer</key>
+        <applyto>/apps/gnumeric/printing/backend.printer</applyto>
+        <owner>Gnumeric</owner>
+        <type>string</type>
+	<default>lp</default>
+        <locale name="C">
+        <short>lpr Printer</short>
+        <long>The printer used with the lpr command</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printing/command</key>
+        <applyto>/apps/gnumeric/printing/command</applyto>
+        <owner>Gnumeric</owner>
+        <type>string</type>
+	<default>xpp</default>
+        <locale name="C">
+        <short>Printing Command</short>
+        <long>The custom printing command (lpr, xpp, ...)</long>
+        </locale>
+      </schema>
+      <schema>
         <key>/schemas/apps/gnumeric/dialogs/rs/unfocused</key>
         <applyto>/apps/gnumeric/dialogs/rs/unfocused</applyto>
         <owner>Gnumeric</owner>

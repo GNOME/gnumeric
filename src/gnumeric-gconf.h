@@ -135,6 +135,12 @@ void     gnm_gconf_set_printer_backend (gchar *str);
 gchar   *gnm_gconf_get_printer_filename (void);
 void     gnm_gconf_set_printer_filename (gchar *str);
 
+gchar   *gnm_gconf_get_printer_command (void);
+void     gnm_gconf_set_printer_command (gchar *str);
+
+gchar   *gnm_gconf_get_printer_lpr_P (void);
+void     gnm_gconf_set_printer_lpr_P (gchar *str);
+
 /* others */
 gnum_float gnm_gconf_get_horizontal_dpi (void);
 void     gnm_gconf_set_horizontal_dpi  (gnum_float val);

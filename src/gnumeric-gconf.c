@@ -808,3 +808,37 @@ void     gnm_gconf_set_printer_filename (gchar *str)
 	g_free (str);
 }
 
+gchar   *gnm_gconf_get_printer_command (void)
+{
+	return gconf_client_get_string (application_get_gconf_client (), 
+					PRINTING_GCONF_COMMAND,
+					NULL);
+}
+
+void     gnm_gconf_set_printer_command (gchar *str)
+{
+	if (str == NULL)
+		str = g_strdup ("");
+	gconf_client_set_string  (application_get_gconf_client (), 
+				  PRINTING_GCONF_COMMAND,
+                                  str, NULL);
+	g_free (str);
+}
+
+gchar   *gnm_gconf_get_printer_lpr_P (void)
+{
+	return gconf_client_get_string (application_get_gconf_client (), 
+					PRINTING_GCONF_BACKEND_PRINTER,
+					NULL);
+}
+
+void     gnm_gconf_set_printer_lpr_P (gchar *str)
+{
+	if (str == NULL)
+		str = g_strdup ("");
+	gconf_client_set_string  (application_get_gconf_client (), 
+				  PRINTING_GCONF_BACKEND_PRINTER,
+                                  str, NULL);
+	g_free (str);
+}
+
