@@ -30,14 +30,14 @@ Pending Patches
 - validate expression names to ensure that they are not simple values (eg TRUE)
 
 0) Misc minor UI tweaks
-    0.1)  Missing toolbar borders for colour and stack combos	(DONE)
+    0.1)  Missing toolbar borders for color and stack combos	(DONE)
     0.2)  Add keynav for autoformat canvases			(DONE)
     0.3)  Make the 'apply' behavior of the color combo optional
           so that we can do just selection.                     (DONE)
     0.4)  Add keynav for color combo                            (DONE)
     0.5)  center color combo swatches in the buttons		(DONE)
-    0.6)  alpha channel support for colour combos
-    0.7)  Add mnemonic_activate for colour combos		(DONE)
+    0.6)  alpha channel support for color combos
+    0.7)  Add mnemonic_activate for color combos		(DONE)
     0.8)  Add mnemonic_activate for ExprEntry			(DONE)
     0.9)  Queue update for changed/deleted in ExprEntry ?
     0.10) Menu mnemonics for Edit -> Fill -> merge & series	(DONE)
@@ -370,14 +370,6 @@ Pending Patches
     27.1) latex exporter                                        (DONE 20030611 AJG)
     27.2) html exporter
 
-Functions
-    ODDFPRICE	(test fails)
-    ODDFYEILD	(unimplementeD)
-    YIELDDISC   (basis 1 seems differnent)
-    Convert the code from sc to use our more accurate date routines
-    WORKDAY	Add holiday support
-    YEARFRAC	Implement
-
 1.2 Targets
 -----------
 - insert cut
@@ -531,6 +523,15 @@ Function Breakage
 -----------------
 - Function range_min_k uses an O(n*log n) algorithm.  It should use O(n)
   algorithm, see Knuth.
+- WORKDAY	Add holiday support
+- YEARFRAC	Move to fn-finance and use the available routines.
+
+* Convert the code from sc to use our more accurate date routines
+- ODDFPRICE	(test fails)
+- ODDFYIELD
+- ODDLPRICE	(test fails)
+- ODDLYIELD	(test fails)
+- YIELDDISC	(basis 1 seems different)
 
 Printing
 --------
