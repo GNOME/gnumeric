@@ -12,5 +12,12 @@ EXTRA_DIST = 				\
 	saving.txt			\
 	writing-functions.sgml		\
 	linux-expo-99-gnumeric.tex      \
-	guile-gnumeric.txt
-
+	linuxexpo.sty 			\
+	Dependencies.txt 		\
+	Styles.txt 			\
+	features.txt 			\
+	pref-attributes.txt 		\
+	guile-gnumeric.txt		\
+	python-gnumeric.txt 		\
+	stf-export.txt 			\
+	stf-parser.txt 
