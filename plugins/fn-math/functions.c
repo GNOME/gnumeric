@@ -1358,6 +1358,153 @@ gnumeric_trunc (void *tsheet, GList *expr_node_list, int eval_col, int eval_row,
 		return value_float (integral);
 }
 
+static char *help_even = {
+	N_("@FUNCTION=EVEN\n"
+	   "@SYNTAX=EVEN(number)\n"
+
+	   "@DESCRIPTION=EVEN function returns the number rounded up to the "
+	   "nearest even integer. "
+	   "\n"
+	   "@SEEALSO=ODD")
+};
+
+static Value *
+gnumeric_even (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+        float_t number, ceiled;
+	int     sign = 1;
+
+	number = value_get_as_double (argv[0]);
+	if (number < 0) {
+	        sign = -1;
+		number = -number;
+	}
+	ceiled = ceil(number);
+	if (fmod(ceiled, 2) == 0)
+	        if (number > ceiled)
+		        return value_int ((int) (sign * (ceiled + 2)));
+		else
+		        return value_int ((int) (sign * ceiled));
+	else
+	        return value_int ((int) (sign * (ceiled + 1)));
+}
+
+static char *help_odd = {
+	N_("@FUNCTION=ODD\n"
+	   "@SYNTAX=ODD(number)\n"
+
+	   "@DESCRIPTION=ODD function returns the number rounded up to the "
+	   "nearest odd integer. "
+	   "\n"
+	   "@SEEALSO=EVEN")
+};
+
+static Value *
+gnumeric_odd (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+        float_t number, ceiled;
+	int     sign = 1;
+
+	number = value_get_as_double (argv[0]);
+	if (number < 0) {
+	        sign = -1;
+		number = -number;
+	}
+	ceiled = ceil(number);
+	if (fmod(ceiled, 2) == 1)
+	        if (number > ceiled)
+		        return value_int ((int) (sign * (ceiled + 2)));
+		else
+		        return value_int ((int) (sign * ceiled));
+	else
+	        return value_int ((int) (sign * (ceiled + 1)));
+}
+
+static char *help_factdouble = {
+	N_("@FUNCTION=FACTDOUBLE\n"
+	   "@SYNTAX=FACTDOUBLE(number)\n"
+
+	   "@DESCRIPTION=FACTDOUBLE function returns the double factorial "
+	   "of a number. "
+	   "\n"
+	   "If @number is not an integer, it is truncated. "
+	   "If @number is negative FACTDOUBLE returns #NUM! error. "
+	   "\n"
+	   "@SEEALSO=FACT")
+};
+
+static Value *
+gnumeric_factdouble (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+        int number;
+	int n;
+	int product = 1;
+
+	number = value_get_as_int (argv[0]);
+	if (number < 0) {
+		*error_string = _("#NUM!") ;
+		return NULL ;
+	}
+	for (n=number; n > 0; n-=2)
+	        product *= n;
+	return value_int (product);
+}
+
+static char *help_quotient = {
+	N_("@FUNCTION=QUOTIENT\n"
+	   "@SYNTAX=QUOTIENT(num,den)\n"
+
+	   "@DESCRIPTION=QUOTIENT function returns the integer portion "
+	   "of a division. @num is the divided and @den is the divisor. "
+	   "\n"
+	   "@SEEALSO=MOD")
+};
+
+static Value *
+gnumeric_quotient (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+        float_t num, den;
+
+	num = value_get_as_double (argv[0]);
+	den = value_get_as_double (argv[1]);
+
+	return value_int ((int) (num / den));
+}
+
+
+static char *help_randbetween = {
+	N_("@FUNCTION=RANDBETWEEN\n"
+	   "@SYNTAX=RANDBETWEEN(bottom,top)\n"
+
+	   "@DESCRIPTION=RANDBETWEEN function returns a random integer number "
+	   "between @bottom and @top. "
+	   "\n"
+	   "If @bottom or @top is non-integer it is truncated. "
+	   "If @bottom > @top RANDBETWEEN returns #NUM! error. "
+	   "\n"
+	   "@SEEALSO=RAND")
+};
+
+static Value *
+gnumeric_randbetween (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+        int bottom, top;
+	int r = rand();
+
+	bottom = value_get_as_int (argv[0]);
+	top = value_get_as_int (argv[1]);
+	if (bottom > top) {
+		*error_string = _("#NUM!") ;
+		return NULL ;
+	}
+	if (top - bottom > RAND_MAX) {
+		*error_string = _("#N/A!") ;
+		return NULL ;
+	}
+
+	return value_int (r % (top-bottom+1) + bottom);
+}
+
 FunctionDefinition math_functions [] = {
 	{ "abs",     "f",    "number",    &help_abs,   NULL, gnumeric_abs },
 	{ "acos",    "f",    "number",    &help_acos,  NULL, gnumeric_acos },
@@ -1376,8 +1523,10 @@ FunctionDefinition math_functions [] = {
 	{ "ceil",    "f",    "number",    &help_ceil,    NULL, gnumeric_ceil },
 	{ "ceiling", "ff",   "number,significance",    &help_ceiling, NULL, gnumeric_ceiling },
 	{ "degrees", "f",    "number",    &help_degrees, NULL, gnumeric_degrees },
+	{ "even",    "f",    "number",    &help_even,    NULL, gnumeric_even },
 	{ "exp",     "f",    "number",    &help_exp,     NULL, gnumeric_exp },
 	{ "fact",    "f",    "number",    &help_fact,    NULL, gnumeric_fact },
+	{ "factdouble", "f", "number",    &help_factdouble,    NULL, gnumeric_factdouble },
 	{ "combin",  "ff",   "n,k",       &help_combin,  NULL, gnumeric_combin },
 	{ "floor",   "f",    "number",    &help_floor,   NULL, gnumeric_floor },
 	{ "int",     "f",    "number",    &help_int,     NULL, gnumeric_int },
@@ -1388,10 +1537,13 @@ FunctionDefinition math_functions [] = {
 	{ "min",     0,      "",          &help_min,     gnumeric_min, NULL },
 	{ "mod",     "ff",   "num,denom", &help_mod,     NULL, gnumeric_mod },
 	{ "not",     "f",    "number",    &help_not,     NULL, gnumeric_not },
+	{ "odd" ,    "f",    "number",    &help_odd,     NULL, gnumeric_odd },
 	{ "or",      0,      "",          &help_or,      gnumeric_or, NULL },
 	{ "power",   "ff",   "x,y",       &help_power,   NULL, gnumeric_power },
+	{ "quotient" , "ff",  "num,den",  &help_quotient, NULL, gnumeric_quotient},
 	{ "radians", "f",    "number",    &help_radians, NULL, gnumeric_radians },
 	{ "rand",    "",     "",          &help_rand,    NULL, gnumeric_rand },
+	{ "randbetween", "ff", "bottom,top", &help_randbetween, NULL, gnumeric_randbetween },
 	{ "sin",     "f",    "number",    &help_sin,     NULL, gnumeric_sin },
 	{ "sinh",    "f",    "number",    &help_sinh,    NULL, gnumeric_sinh },
 	{ "sqrt",    "f",    "number",    &help_sqrt,    NULL, gnumeric_sqrt },
