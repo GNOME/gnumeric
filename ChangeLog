@@ -1,3 +1,18 @@
+2000-12-04  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_{insert,delete}_{cols,rows}) : Call
+	  sheet_relocate_objects.
+	(sheet_move_range) : Ditto.
+
+	* src/sheet-object.c (sheet_object_unrealize) : restore this routine.
+	(sheet_object_destroy) : Use it here.
+	(sheet_object_position) : renamed from sheet_object_reposition.
+	(sheet_relocate_objects) : new routine.  Only handles current anchor
+	  format.  Will need to extend this.
+
+	* src/item-bar.c (item_bar_event) : Exit object edit mode when a
+	  button presses on the itembar.
+
 2000-12-02  Jody Goldberg <jgoldberg@home.com>
 
 	* src/expr.c (cellrange_relocate) : Still not doing the 'right' thing

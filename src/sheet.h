@@ -100,10 +100,6 @@ void	    sheet_update_cursor_pos	(Sheet const *sheet);
 void        sheet_set_edit_pos		(Sheet *sheet, int col, int row);
 void        sheet_make_cell_visible	(Sheet *sheet, int col, int row);
 
-/* Object Management */
-GList      *sheet_get_objects		(Sheet const *sheet,
-					 Range const *r, GtkType t);
-
 /* Cell management */
 Cell       *sheet_cell_get		(Sheet const *sheet, int col, int row);
 Cell       *sheet_cell_fetch		(Sheet *sheet, int col, int row);

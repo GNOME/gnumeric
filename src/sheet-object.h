@@ -47,7 +47,7 @@ void         sheet_object_print      (SheetObject const *so,
 				      SheetObjectPrintInfo const *pi);
 
 void	     sheet_object_realize	  (SheetObject *object);
-void         sheet_object_reposition	  (SheetObject *so, CellPos const *pos);
+void         sheet_object_position	  (SheetObject *so, CellPos const *pos);
 void	     sheet_object_position_pixels (SheetObject const *so, int *pos);
 void	     sheet_object_position_pts    (SheetObject const *so, double *pos);
 Range const *sheet_object_range_get	  (SheetObject const *so);
@@ -63,5 +63,9 @@ SheetControlGUI *sheet_object_view_control (GtkObject *view);
 /* DEPRECATED NON FUNCTIONAL */
 void    sheet_object_set_bounds (SheetObject *sheet_object,
 				 double l, double t, double r, double y);
+
+/* Object Management */
+void   sheet_relocate_objects	(ExprRelocateInfo const *rinfo);
+GList *sheet_get_objects	(Sheet const *sheet, Range const *r, GtkType t);
 
 #endif /* GNUMERIC_SHEET_OBJECT_H */

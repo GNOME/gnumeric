@@ -2374,7 +2374,7 @@ ms_sheet_obj_create (MSContainer *container, MSObj *obj)
 		return NULL;
 	}
 
-	return GTK_OBJECT (so);
+	return so ? GTK_OBJECT (so) : NULL;
 }
 
 static ExcelSheet *

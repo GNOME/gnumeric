@@ -7,7 +7,6 @@ Release Critical
 
 - Persistance of sheet objects.
 - Other anchor types for sheet objects
-- sheet object relocation (ins/del row/col, cut/paste)
 
 - new wb_controls do not display 
     : selection string

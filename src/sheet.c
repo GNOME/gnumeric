@@ -587,7 +587,7 @@ sheet_reposition_objects (Sheet const *sheet, CellPos const *pos)
 	g_return_if_fail (IS_SHEET (sheet));
 
 	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next )
-		sheet_object_reposition (SHEET_OBJECT (ptr->data), pos);
+		sheet_object_position (SHEET_OBJECT (ptr->data), pos);
 }
 
 /**
@@ -2116,7 +2116,7 @@ sheet_destroy_contents (Sheet *sheet)
 		/*
 		 * Remove everything.  This is faster than removing the
 		 * list elements as we see them.
-		 */		   
+		 */
 		g_hash_table_foreach_remove (sheet->hash_merged,
 					     cb_dummy_remove_func,
 					     NULL);
@@ -2372,7 +2372,7 @@ sheet_clear_region (WorkbookControl *wbc, Sheet *sheet,
 
 	if (clear_flags & CLEAR_COMMENTS) {
 		GList *comments, *ptr;
-		
+
 		comments = sheet_get_objects (sheet, &r, CELL_COMMENT_TYPE);
 		for (ptr = comments ; ptr != NULL ;ptr = ptr->next)
 			gtk_object_destroy (GTK_OBJECT (ptr->data));
@@ -2723,7 +2723,6 @@ colrow_move (Sheet *sheet,
 			cell->pos.row = new_pos;
 
 		sheet_cell_add_to_hash (sheet, cell);
-/* FIXME : move objects tied to this cell */
 		cell_relocate (cell, NULL);
 		cell_content_changed (cell);
 	}
@@ -2789,7 +2788,8 @@ sheet_insert_cols (WorkbookControl *wbc, Sheet *sheet,
 		colrow_move (sheet, i, 0, i, SHEET_MAX_ROWS-1,
 			     &sheet->cols, i, i + count);
 
-	/* 4. Slide all the StyleRegion's right */
+	/* 4. Slide the StyleRegions and SheetObjects to the right */
+	sheet_relocate_objects (&reloc_info);
 	sheet_style_insert_colrow (sheet, col, count, TRUE);
 
 	/* 5. Recompute dependencies */
@@ -2861,7 +2861,8 @@ sheet_delete_cols (WorkbookControl *wbc, Sheet *sheet,
 		colrow_move (sheet, i, 0, i, SHEET_MAX_ROWS-1,
 			     &sheet->cols, i, i-count);
 
-	/* 5. Slide all the StyleRegion's up */
+	/* 5. Slide the StyleRegions and SheetObjects left */
+	sheet_relocate_objects (&reloc_info);
 	sheet_style_delete_colrow (sheet, col, count, TRUE);
 
 	/* 6. Recompute dependencies */
@@ -2938,7 +2939,8 @@ sheet_insert_rows (WorkbookControl *wbc, Sheet *sheet,
 		colrow_move (sheet, 0, i, SHEET_MAX_COLS-1, i,
 			     &sheet->rows, i, i+count);
 
-	/* 4. Slide all the StyleRegion's right */
+	/* 4. Slide the StyleRegions and SheetObjects down */
+	sheet_relocate_objects (&reloc_info);
 	sheet_style_insert_colrow (sheet, row, count, FALSE);
 
 	/* 5. Recompute dependencies */
@@ -3010,7 +3012,8 @@ sheet_delete_rows (WorkbookControl *wbc, Sheet *sheet,
 		colrow_move (sheet, 0, i, SHEET_MAX_COLS-1, i,
 			     &sheet->rows, i, i-count);
 
-	/* 5. Slide all the StyleRegion's up */
+	/* 5. Slide the StyleRegions and SheetObjects up */
+	sheet_relocate_objects (&reloc_info);
 	sheet_style_delete_colrow (sheet, row, count, FALSE);
 
 	/* 6. Recompute dependencies */
@@ -3120,7 +3123,7 @@ sheet_move_range (WorkbookControl *wbc,
 		sheet_clear_region (wbc, rinfo->target_sheet,
 				    dst.start.col, dst.start.row,
 				    dst.end.col, dst.end.row,
-				    CLEAR_VALUES|CLEAR_COMMENTS); /* Do not to clear styles */
+				    CLEAR_VALUES); /* Do not to clear styles, or objects */
 
 	/* 5. Slide styles BEFORE the cells so that spans get computed properly */
 	sheet_style_relocate (rinfo);
@@ -3153,15 +3156,17 @@ sheet_move_range (WorkbookControl *wbc,
 		if (inter_sheet_expr)
 			dependent_link (CELL_TO_DEP (cell), &cell->pos);
 
-/* FIXME : move objects tied to this cell */
 		cell_relocate (cell, NULL);
 		cell_content_changed (cell);
 	}
 
-	/* 7. Recompute dependencies */
+	/* 7. Move objects in the range */
+	sheet_relocate_objects (rinfo);
+
+	/* 8. Recompute dependencies */
 	sheet_recalc_dependencies (rinfo->target_sheet);
 
-	/* 8. Notify sheet of pending update */
+	/* 9. Notify sheet of pending update */
 	rinfo->origin_sheet->priv->recompute_spans = TRUE;
 	sheet_flag_status_update_range (rinfo->origin_sheet, &rinfo->origin);
 }
@@ -3509,10 +3514,6 @@ sheet_row_set_size_pts (Sheet *sheet, int row, double height_pts,
  *
  * Sets height of a row in pixels, INCLUDING top and bottom margins, and the lower
  * grid line.
- *
- * FIXME : This should not be calling redraw or its relatives.
- *         We should store the fact that objects need moving and take care of
- *         that in redraw.
  */
 void
 sheet_row_set_size_pixels (Sheet *sheet, int row, int height_pixels,
@@ -3957,34 +3958,4 @@ sheet_region_is_merge_cell (Sheet const *sheet, CellPos const *pos)
 	g_return_val_if_fail (pos != NULL, NULL);
 
 	return g_hash_table_lookup (sheet->hash_merged, pos);
-}
-
-/**
- * sheet_get_objects :
- *
- * @sheet : the sheet.
- * @r     : an optional range to look in
- * @t     : The type of object to lookup
- *
- * Returns a list of which the caller must free (just the list not the content).
- * Containing all objects of exactly the specified type (inheritence does not count).
- */
-GList *
-sheet_get_objects (Sheet const *sheet, Range const *r, GtkType t)
-{
-	GList *res = NULL;
-	GList *ptr;
-	
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-
-	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next ){ 
-		GtkObject *obj = GTK_OBJECT (ptr->data);
-
-		if (obj->klass->type == t) {
-			SheetObject *so = SHEET_OBJECT (obj);
-			if (r == NULL || range_overlap (r, &so->cell_bound))
-				res = g_list_prepend (res, so);
-		}
-	}
-	return res;
 }

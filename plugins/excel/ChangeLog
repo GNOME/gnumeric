@@ -1,3 +1,7 @@
+2000-12-04  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_sheet_obj_create) : fix warnings.
+
 2000-12-02  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-escher.c (ms_escher_read_Blip) : Change image viewers.  The

@@ -662,6 +662,8 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		if (e->button.button > 3)
 			return FALSE;
 
+		scg_mode_edit (item_bar->scg);
+
 		if (is_vertical)
 			pos = e->button.y;
 		else

@@ -15,10 +15,8 @@
 #include "sheet-object-impl.h"
 #include "workbook-edit.h"
 #include "sheet.h"
-
-#ifdef ENABLE_BONOBO
-#include <bonobo.h>
-#endif
+#include "expr.h"
+#include "ranges.h"
 
 /* Returns the class for a SheetObject */
 #define SO_CLASS(so) SHEET_OBJECT_CLASS(GTK_OBJECT(so)->klass)
@@ -79,29 +77,39 @@ sheet_object_populate_menu (SheetObject *so,
 	}
 }
 
+/**
+ * sheet_object_unrealize:
+ *
+ * Clears all views of this object in its current sheet's controls.
+ */
+static void
+sheet_object_unrealize (SheetObject *so)
+{
+	g_return_if_fail (IS_SHEET_OBJECT (so));
+
+	/* The views remove themselves from the list */
+	while (so->realized_list != NULL)
+		gtk_object_destroy (GTK_OBJECT (so->realized_list->data));
+}
+
 static void
 sheet_object_destroy (GtkObject *object)
 {
 	SheetObject *so = SHEET_OBJECT (object);
-	Sheet *sheet;
 
 	g_return_if_fail (so != NULL);
-
-	sheet = so->sheet;
-	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (so->sheet));
 
 	gnome_canvas_points_free (so->bbox_points);
-	while (so->realized_list) {
-		GnomeCanvasItem *item = so->realized_list->data;
-		gtk_object_destroy (GTK_OBJECT (item));
-	}
+	sheet_object_unrealize (so);
 
 	/* If the object has already been inserted then mark sheet as dirty */
-	if (NULL != g_list_find	(sheet->sheet_objects, so)) {
-		sheet->sheet_objects  = g_list_remove (sheet->sheet_objects, so);
-		sheet->modified = TRUE;
+	if (NULL != g_list_find	(so->sheet->sheet_objects, so)) {
+		so->sheet->sheet_objects  = g_list_remove (so->sheet->sheet_objects, so);
+		so->sheet->modified = TRUE;
 	}
 
+	so->sheet = NULL;
 	(*sheet_object_parent_class->destroy)(object);
 }
 
@@ -174,7 +182,7 @@ sheet_object_get_view (SheetObject *so, SheetControlGUI *scg)
 }
 
 void
-sheet_object_reposition (SheetObject *so, CellPos const *pos)
+sheet_object_position (SheetObject *so, CellPos const *pos)
 {
 	GList *l;
 
@@ -207,7 +215,7 @@ sheet_object_construct (SheetObject *so, Sheet *sheet,
 
 	sheet->sheet_objects = g_list_prepend (sheet->sheet_objects, so);
 	so->sheet       = sheet;
-	sheet_object_reposition (so, NULL);
+	sheet_object_position (so, NULL);
 }
 
 /**
@@ -238,7 +246,7 @@ sheet_object_set_bounds (SheetObject *so,
 	so->bbox_points->coords [2] = r;
 	so->bbox_points->coords [3] = b;
 
-	sheet_object_reposition (so, NULL);
+	sheet_object_position (so, NULL);
 }
 
 static void
@@ -276,11 +284,11 @@ sheet_object_new_view (SheetObject *so, SheetControlGUI *scg)
 	SO_CLASS (so)->update_bounds (so, view, scg);
 }
 
-/*
- * sheet_object_realize
+/**
+ * sheet_object_realize:
  *
- * Realizes the on a Sheet (this in turn realizes the object
- * on every existing SheetControlGUI)
+ * Creates a view of an object for every control associated with the object's
+ * sheet.
  */
 void
 sheet_object_realize (SheetObject *so)
@@ -339,7 +347,7 @@ sheet_object_range_set (SheetObject *so, Range const *r,
 		for (i = 4; i-- > 0 ; )
 			so->anchor_type [i] = types [i];
 
-	sheet_object_reposition (so, NULL);
+	sheet_object_position (so, NULL);
 }
 
 static int
@@ -429,4 +437,99 @@ sheet_object_position_pts (SheetObject const *so, double *coords)
 		TRUE, so->anchor_type [2], so->offset [2]);
 	coords [3] += cell_offset_calc_pt (so->sheet, so->cell_bound.end.row,
 		FALSE, so->anchor_type [3], so->offset [3]);
+}
+
+/**
+ * sheet_relocate_objects :
+ *
+ * @sheet : the sheet.
+ * @rinfo : details on what should be moved.
+ */
+void
+sheet_relocate_objects (ExprRelocateInfo const *rinfo)
+{
+	GList   *ptr, *next;
+	Range	 dest;
+	gboolean clear, change_sheets;
+
+	g_return_if_fail (rinfo != NULL);
+	g_return_if_fail (IS_SHEET (rinfo->origin_sheet));
+	g_return_if_fail (IS_SHEET (rinfo->target_sheet));
+	    
+	dest = rinfo->origin;
+	clear = range_translate (&dest, rinfo->col_offset, rinfo->row_offset);
+	change_sheets = (rinfo->origin_sheet != rinfo->target_sheet);
+
+	/* Clear the destination range on the target sheet */
+	if (change_sheets) {
+		GList *copy = rinfo->target_sheet->sheet_objects;
+		for (ptr = copy; ptr != NULL ; ptr = next ) {
+			SheetObject *so = SHEET_OBJECT (ptr->data);
+			next = ptr->next;
+			if (range_contains (&dest,
+					    so->cell_bound.start.col,
+					    so->cell_bound.start.row))
+				gtk_object_destroy (GTK_OBJECT (so));
+		}
+		g_list_free (copy);
+	}
+
+	ptr = rinfo->origin_sheet->sheet_objects;
+	for (; ptr != NULL ; ptr = next ) {
+		SheetObject *so = SHEET_OBJECT (ptr->data);
+		next = ptr->next;
+		if (range_contains (&rinfo->origin,
+				    so->cell_bound.start.col,
+				    so->cell_bound.start.row)) {
+			/* FIXME : just movingthe range is insufficent for all anchor types */
+			/* Toss any objects that would be clipped. */
+			if (range_translate (&so->cell_bound, rinfo->col_offset, rinfo->row_offset)) {
+				gtk_object_destroy (GTK_OBJECT (so));
+				continue;
+			}
+		} else if (!change_sheets &&
+			   range_contains (&dest,
+					   so->cell_bound.start.col,
+					   so->cell_bound.start.row)) {
+			gtk_object_destroy (GTK_OBJECT (so));
+			continue;
+		}
+
+		if (change_sheets) {
+			sheet_object_unrealize (so);
+			so->sheet = rinfo->target_sheet;
+			sheet_object_realize (so);
+		}
+		sheet_object_position (so, NULL);
+	}
+}
+
+/**
+ * sheet_get_objects :
+ *
+ * @sheet : the sheet.
+ * @r     : an optional range to look in
+ * @t     : The type of object to lookup
+ *
+ * Returns a list of which the caller must free (just the list not the content).
+ * Containing all objects of exactly the specified type (inheritence does not count).
+ */
+GList *
+sheet_get_objects (Sheet const *sheet, Range const *r, GtkType t)
+{
+	GList *res = NULL;
+	GList *ptr;
+
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+
+	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next ) {
+		GtkObject *obj = GTK_OBJECT (ptr->data);
+
+		if (obj->klass->type == t) {
+			SheetObject *so = SHEET_OBJECT (obj);
+			if (r == NULL || range_overlap (r, &so->cell_bound))
+				res = g_list_prepend (res, so);
+		}
+	}
+	return res;
 }

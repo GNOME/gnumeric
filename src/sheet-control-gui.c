@@ -1367,7 +1367,7 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 		sheet_view_stop_sliding (scg);
 		scg->drag_object = NULL;
 		gnome_canvas_item_ungrab (ctrl_pt, event->button.time);
-		sheet_object_reposition (so, NULL);
+		sheet_object_position (so, NULL);
 		break;
 
 	case GDK_BUTTON_PRESS:
