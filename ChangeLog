@@ -1,3 +1,8 @@
+2004-09-29  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet.c (sheet_foreach_cell_in_range): Don't consider a cell
+	with an un-evaluated expression empty.  Add paranoia.
+
 2004-09-29  Jody Goldberg <jody@gnome.org>
 
 	* src/commands.c (cmd_object_move) : extend to handle insertion too.

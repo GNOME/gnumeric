@@ -2307,6 +2307,7 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 		for (j = start_col; j <= end_col; ++j) {
 			ColRowInfo const *ci = sheet_col_get (sheet, j);
 			GnmCell *cell = NULL;
+			gboolean ignore;
 
 			if (ci != NULL) {
 				if (visiblity_matters && !ci->visible)
@@ -2314,9 +2315,11 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 				cell = sheet_cell_get (sheet, j, i);
 			}
 
-			if ((only_existing && cell == NULL) ||
-			    (ignore_empty && cell->value->type == VALUE_EMPTY)) {
-				/* skip segments with no cells */
+			ignore = (cell == NULL)
+				? (only_existing || ignore_empty)
+				: (ignore_empty && VALUE_IS_EMPTY (cell->value) && !cell_needs_recalc (cell));
+
+			if (ignore) {
 				if (j == COLROW_SEGMENT_START (j)) {
 					ColRowSegment const *segment =
 						COLROW_GET_SEGMENT (&(sheet->cols), j);
