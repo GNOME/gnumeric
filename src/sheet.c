@@ -2386,6 +2386,9 @@ sheet_destroy (Sheet *sheet)
 	g_hash_table_foreach (sheet->cell_hash, cell_hash_free_key, NULL);
 	g_hash_table_destroy (sheet->cell_hash);
 
+	if (sheet->dependency_hash)
+		g_hash_table_destroy (sheet->dependency_hash);
+
 	sheet->signature = 0;
 	g_free (sheet);
 }

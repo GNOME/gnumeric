@@ -391,6 +391,7 @@ correlation_tool (Workbook *wb, Sheet *sheet,
 
 	for (i=0; i<vars; i++)
 	        free_data_set(&data_sets[i]);
+	g_free (data_sets);
 
 	return 0;
 }
@@ -537,6 +538,7 @@ covariance_tool (Workbook *wb, Sheet *sheet,
 
 	for (i=0; i<vars; i++)
 	        free_data_set(&data_sets[i]);
+	g_free (data_sets);
 
 	return 0;
 }
@@ -855,6 +857,7 @@ descriptive_stat_tool (Workbook *wb, Sheet *current_sheet,
 
 	for (i=0; i<vars; i++)
 	        free_data_set(&data_sets[i]);
+	g_free (data_sets);
 
 	return 0;
 }
@@ -927,7 +930,7 @@ int sampling_tool (Workbook *wb, Sheet *sheet, Range *input_range,
 			qsort(index_tbl, size, sizeof(int), 
 			      int_compare);
 			n = 0;
-			while (current != NULL) {
+			while (n < size) {
 			        if (counter++ == index_tbl[n]) {
 					sprintf(buf, "%f", 
 						*((float_t *) current->data));
@@ -2082,6 +2085,7 @@ int ranking_tool (Workbook *wb, Sheet *sheet, Range *input_range,
 
 	for (i=0; i<vars; i++)
 	        free_data_set(&data_sets[i]);
+	g_free (data_sets);
 
 	return 0;
 }
@@ -2271,6 +2275,7 @@ int anova_single_factor_tool (Workbook *wb, Sheet *sheet, Range *range,
 
 	for (i=0; i<vars; i++)
 	        free_data_set(&data_sets[i]);
+	g_free (data_sets);
 
         return 0;
 }

@@ -1,3 +1,16 @@
+1999-09-19  Morten Welinder  <terra@diku.dk>
+
+	* src/analysis-tools.c (covariance_tool): Plug leak.
+	(descriptive_stat_tool): Plug leak.
+	(correlation_tool): Plug leak.
+	(ranking_tool): Plug leak.
+	(anova_single_factor_tool): Plug leak.
+	(sampling_tool): Don't read past array.
+
+	* src/sheet.c (sheet_destroy): Plug leak.
+
+	* src/dialogs/dialog-cell-sort.c (dialog_cell_sort): Plug leak.
+
 1999-09-18  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (range_is_homogeneous) : Ignore results from

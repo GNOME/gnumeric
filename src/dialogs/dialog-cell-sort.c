@@ -405,6 +405,7 @@ dialog_cell_sort(Workbook * inwb, Sheet * sheet)
 				sort_cell_range(sheet, array, sort_flow.num_clause,
 						start_col, start_row,
 						end_col, end_row);
+			g_free (array);
 		} else
 			sort_flow.retry = 0;
 	}
