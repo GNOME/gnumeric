@@ -89,9 +89,7 @@ struct _PrintInformation {
 };
 
 typedef enum {
-	HF_RENDER_PRINT,
-	HF_RENDER_TO_ENGLISH,
-	HF_RENDER_TO_LOCALE
+	HF_RENDER_PRINT
 } HFRenderType;
 
 typedef struct {

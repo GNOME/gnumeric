@@ -474,7 +474,7 @@ render_tab (GString *target, HFRenderInfo *info, char const *args)
 	if (info->sheet)
 		g_string_append (target, info->sheet->name_unquoted);
 	else
-		g_string_append (target, _("Sheet 1"));
+		g_string_append (target, _("Sheet"));
 }
 
 static void
@@ -529,22 +529,46 @@ static void
 render_file (GString *target, HFRenderInfo *info, char const *args)
 {
 	if (info->sheet != NULL && info->sheet->workbook != NULL) {
-		char *filename_utf8 = workbook_get_filename_utf8 (info->sheet->workbook, FALSE);
+		char *filename_utf8 = workbook_get_filename_utf8 (info->sheet->workbook, TRUE);
 		g_string_append (target, filename_utf8);
 		g_free (filename_utf8);
-	}
+	} else 
+		g_string_append (target, _("File Name"));
+}
+
+static void
+render_path (GString *target, HFRenderInfo *info, char const *args)
+{
+	if (info->sheet != NULL && info->sheet->workbook != NULL) {
+		char *filename_utf8 = workbook_get_filename_utf8 
+			(info->sheet->workbook, FALSE);
+		if (g_path_is_absolute (filename_utf8))
+			g_string_append (target, filename_utf8);
+		else {
+			char *current_dir = g_get_current_dir ();
+			char *path = g_build_filename (current_dir, 
+						       filename_utf8, NULL);
+			g_string_append (target, path);
+			g_free (path);
+			g_free (current_dir);
+		}
+		g_free (filename_utf8);
+	} else 
+		g_string_append (target, _("Path & File Name"));
 }
 
 static struct {
 	char const *name;
 	void (*render)(GString *target, HFRenderInfo *info, char const *args);
-} const render_ops [] = {
-	{ N_("tab"),   render_tab   },
-	{ N_("page"),  render_page  },
-	{ N_("pages"), render_pages },
-	{ N_("date"),  render_date  },
-	{ N_("time"),  render_time  },
-	{ N_("file"),  render_file  },
+	char *name_trans;
+} render_ops [] = {
+	{ N_("tab"),   render_tab   , NULL},
+	{ N_("page"),  render_page  , NULL},
+	{ N_("pages"), render_pages , NULL},
+	{ N_("date"),  render_date  , NULL},
+	{ N_("time"),  render_time  , NULL},
+	{ N_("file"),  render_file  , NULL},
+	{ N_("path"),  render_path  , NULL},
 	{ NULL },
 };
 
@@ -557,38 +581,27 @@ render_opcode (GString *target, char /* non-const */ *opcode,
 	       HFRenderInfo *info, HFRenderType render_type)
 {
 	char *args;
+	char *opcode_trans;
 	int i;
 
+	args = g_utf8_strchr (opcode, -1, ':');
+	if (args) {
+		*args = 0;
+		args++;
+	}
+	opcode_trans = g_utf8_casefold (opcode, -1);
+
 	for (i = 0; render_ops [i].name; i++) {
-		if (render_type == HF_RENDER_TO_ENGLISH) {
-			if (g_ascii_strcasecmp (_(render_ops [i].name), opcode) == 0) {
-				g_string_append (target, render_ops [i].name);
-				continue;
-			}
+		if (render_ops [i].name_trans == NULL) {
+			render_ops [i].name_trans = g_utf8_casefold (_(render_ops [i].name), -1);
 		}
-
-		if (render_type == HF_RENDER_TO_LOCALE) {
-			if (g_ascii_strcasecmp (render_ops [i].name, opcode) == 0) {
-				g_string_append (target, render_ops [i].name);
-				continue;
-			}
-		}
-
-		/*
-		 * opcode then comes from a the user interface
-		 */
-		args = strchr (opcode, ':');
-		if (args) {
-			*args = 0;
-			args++;
-		}
-
+		
 		if ((g_ascii_strcasecmp (render_ops [i].name, opcode) == 0) ||
-		    (g_ascii_strcasecmp (_(render_ops [i].name), opcode) == 0)) {
+		    (g_utf8_collate (render_ops [i].name_trans, opcode_trans) == 0)) {
 			(*render_ops [i].render)(target, info, args);
 		}
-
 	}
+	g_free (opcode_trans);
 }
 
 char *

@@ -5,6 +5,10 @@ Andreas:
 	* Fix Scaled Printing
 	* Fix `Fit to' printing
 	* Fix histogram dialog (122155)
+	* Fix header/footer dialog preview
+	* Make &[FILE] Excel compatible
+	* Add &[PATH]
+	* Fix &[TIME:hh:mm:ss] and &[DATE:yyyy] style subformatting
 
 Christian Neumair:
 	* Start adding ATK relations to the dialogs.

@@ -737,9 +737,9 @@ display_hf_preview (PrinterSetupState *state, gboolean header)
 
 	hfi = hf_render_info_new ();
 
-	/* FIXME: Use real values. */
 	hfi->page = 1;
-	hfi->pages = 1;
+	hfi->pages = 99;
+	hfi->sheet = state->sheet;
 
 	if (header) {
 		pi = state->pi_header;

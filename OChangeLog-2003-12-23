@@ -1,3 +1,13 @@
+2003-09-13  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/print-info.h: remove unused enumeration items
+	* src/print-info.c (render_tab): simplify default name
+	(render_file): show basename only and provide default
+	(render_path): new
+	(render_opcode): remove unused code, don't strip and 
+	  forget subformatting, don't use g_ascii_strcasecmp on
+	  tranlated text.
+
 2003-09-13  Jody Goldberg <jody@gnome.org>
 
 	* src/graph.c (gnm_go_data_vector_load_values) : typo broke horizontal

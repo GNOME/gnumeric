@@ -1,5 +1,10 @@
 2003-09-13  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	* dialog-printer-setup.c (display_hf_preview): initialize 
+	  HFRenderInfo->sheet
+
+2003-09-13  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* dialog-analysis-tools.c (dialog_histogram_tool): connect 
 	  focus event handlers to an expression entry's entry
 	(histogram_tool_set_calculated): should return gboolean
