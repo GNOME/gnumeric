@@ -1224,7 +1224,7 @@ workbook_sheet_get_free_name (Workbook *wb,
 
 	limit = workbook_sheet_count (wb) + 2;
 	name = g_malloc (strlen (base_name) + strlen (name_format) + 10);
-	while (limit > 0) {
+	while (limit-- > 0) {
 		i++;
 		sprintf (name, name_format, base_name, i);
 		if (workbook_sheet_by_name (wb, name) == NULL) {
