@@ -1002,7 +1002,7 @@ print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
 	 * Handy pointers
 	 */
 	pj->sheet = sheet;
-	pj->pi    = sheet->print_info;
+	pj->pi    = print_info_dup (sheet->print_info);
 
 	/*
 	 * Values that should be entered in a dialog box
@@ -1045,6 +1045,7 @@ print_job_info_destroy (PrintJobInfo *pj)
 {
 	hf_render_info_destroy (pj->render_info);
 	g_object_unref (G_OBJECT (pj->decoration_font));
+	print_info_free (pj->pi);
 	g_free (pj);
 }
 
@@ -1071,10 +1072,6 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 
 	print_config = pj->pi->print_config;
 	pj->sorted_print = FALSE;
-	if (default_range == PRINT_SHEET_RANGE) {
-		pj->start_page = first-1;
-		pj->end_page = end-1;
-	}
 
   	if (!preview) {
 		gnome_print_dialog = g_object_new (GNOME_TYPE_PRINT_DIALOG,
@@ -1092,8 +1089,7 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 			GNOME_PRINT_DIALOG (gnome_print_dialog),
 			GNOME_PRINT_RANGE_CURRENT | GNOME_PRINT_RANGE_ALL |
 			GNOME_PRINT_RANGE_SELECTION | GNOME_PRINT_RANGE_RANGE,
-			1, workbook_sheet_count(sheet->workbook),
-			_("Act_ive sheet"), _("S_heets"));
+			first, end, _("Act_ive sheet"), _("S_heets"));
 
 		toplevel = wbcg_toplevel (wbcg);
 		if (GTK_WINDOW (gnome_print_dialog)->transient_parent != toplevel)
@@ -1133,24 +1129,32 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 		gtk_widget_destroy (gnome_print_dialog);
   	}
 
+	if (default_range == PRINT_SHEET_RANGE) {
+		pj->start_page = first-1;
+		pj->end_page = end-1;
+	}
 
 	gpm = gnome_print_master_new_from_config (print_config);
 	pj->print_context = gnome_print_master_get_context (gpm);
+	pj->range = default_range;
 
 	/* perform actual printing */
 	switch (pj->range) {
 
 	case PRINT_ACTIVE_SHEET:
+		printf ("Printing Active Sheet\n");
 		pj->render_info->pages = compute_pages (pj, NULL, sheet, NULL);
 		print_sheet (sheet, pj);
 		break;
 
 	case PRINT_ALL_SHEETS:
 	case PRINT_SHEET_RANGE:
+		printf ("Printing All Sheets\n");
 		workbook_print_all (pj, sheet->workbook);
 		break;
 
 	case PRINT_SHEET_SELECTION:
+		printf ("Selection\n");
 		sheet_print_selection (pj, sheet, WORKBOOK_CONTROL (wbcg));
 		break;
 

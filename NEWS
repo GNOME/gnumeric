@@ -9,6 +9,7 @@ Andreas:
 	* Make print-setup changes undoable.
 	* Add zoom factor preference.
 	* Add sheet selector to print-setup dialog.
+	* Fix print range selection.
 
 Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=79925

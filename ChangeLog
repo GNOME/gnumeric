@@ -1,5 +1,11 @@
 2002-05-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/print.c (print_job_info_get) : duplicate print_info
+	(print_job_info_destroy) : destroy print_info
+	(sheet_print) : use range info from print dialog
+
+2002-05-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* schemas/gnumeric-general.schemas : add print-setup-all-sheets schema
 	* src/gnumeric-gconf-priv.h : add print-setup-all-sheets key
 	* src/gnumeric-gconf.c : add print-setup-all-sheets get/set methods
