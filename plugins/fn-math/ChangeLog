@@ -2,6 +2,7 @@
 
 	* functions.c (gnumeric_floor): FLOOR(0,0)==0 for XL
 	compatibility.
+	(gnumeric_ceiling): CEILING(0,0==0.
 
 2004-12-20  Morten Welinder  <terra@gnome.org>
 
