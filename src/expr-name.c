@@ -52,13 +52,21 @@ expr_name_unlink_deps (NamedExpression *nexpr)
 }
 
 static void
-expr_name_link_deps (GSList *deps)
+expr_name_link_deps (GSList *deps, ExprRewriteInfo const *rwinfo)
 {
 	GSList *ptr = deps;
 
 	/* put them back */
 	for (; ptr != NULL ; ptr = ptr->next) {
 		Dependent *dep = ptr->data;
+		if (rwinfo != NULL) {
+			if (rwinfo->type == EXPR_REWRITE_WORKBOOK) {
+				if (rwinfo->u.workbook == dep->sheet->workbook)
+					continue;
+			} else if (rwinfo->type == EXPR_REWRITE_SHEET)
+				if (rwinfo->u.sheet == dep->sheet)
+					continue;
+		}
 		if (dep->sheet->deps != NULL && !dependent_is_linked (dep)) {
 			CellPos *pos = dependent_is_cell (dep)
 				? &(DEP_TO_CELL (dep)->pos) : NULL;
@@ -261,7 +269,7 @@ expr_name_add (ParsePos const *pp, char const *name,
 	nexpr = named_expr_new (name, FALSE);
 	parse_pos_init (&nexpr->pos,
 			pp->wb, pp->sheet, pp->eval.col, pp->eval.row);
-	expr_name_set_expr (nexpr, expr);
+	expr_name_set_expr (nexpr, expr, NULL);
 
 	*scope = g_list_append (*scope, nexpr);
 
@@ -325,7 +333,7 @@ expr_name_unref (NamedExpression *nexpr)
 	}
 
 	if (!nexpr->builtin && nexpr->t.expr_tree != NULL)
-		expr_name_set_expr (nexpr, NULL);
+		expr_name_set_expr (nexpr, NULL, NULL);
 
 	if (nexpr->dependents != NULL) {
 		g_hash_table_destroy (nexpr->dependents);
@@ -374,7 +382,7 @@ expr_name_remove (NamedExpression *nexpr)
 	/* Ref it so that we can clear it even if it is unused */
 	expr_name_ref (nexpr);
 	expr_name_unlink (nexpr);
-	expr_name_set_expr (nexpr, NULL);
+	expr_name_set_expr (nexpr, NULL, NULL);
 	expr_name_unref (nexpr);
 }
 
@@ -474,7 +482,8 @@ expr_name_set_scope (NamedExpression *nexpr, Sheet *sheet)
 }
 	
 void
-expr_name_set_expr (NamedExpression *nexpr, ExprTree *new_expr)
+expr_name_set_expr (NamedExpression *nexpr, ExprTree *new_expr,
+		    ExprRewriteInfo const *rwinfo)
 {
 	GSList *deps = NULL;
 
@@ -489,7 +498,7 @@ expr_name_set_expr (NamedExpression *nexpr, ExprTree *new_expr)
 		expr_tree_unref (nexpr->t.expr_tree);
 	}
 	nexpr->t.expr_tree = new_expr;
-	expr_name_link_deps (deps);
+	expr_name_link_deps (deps, rwinfo);
 	if (new_expr != NULL)
 		expr_name_handle_references (nexpr, TRUE);
 }

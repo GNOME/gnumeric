@@ -31,7 +31,8 @@ Value   *expr_name_eval       (NamedExpression const *ne,
 			       EvalPos const* pos, ExprEvalFlags flags);
 char    *expr_name_as_string  (NamedExpression const *ne, ParsePos const *pp);
 gboolean expr_name_set_scope  (NamedExpression *ne, Sheet *sheet);
-void	 expr_name_set_expr   (NamedExpression *ne, ExprTree *new_expr);
+void	 expr_name_set_expr   (NamedExpression *ne, ExprTree *new_expr,
+			       ExprRewriteInfo const *rwinfo);
 void	 expr_name_add_dep    (NamedExpression *ne, Dependent *dep);
 void	 expr_name_remove_dep (NamedExpression *ne, Dependent *dep);
 

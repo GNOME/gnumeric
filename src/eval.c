@@ -1238,12 +1238,20 @@ cb_dep_hash_invalidate (gpointer key, gpointer value, gpointer closure)
 }
 
 static void
-cb_name_invalidate_sheet (gpointer key, gpointer value, gpointer rwinfo)
+cb_name_invalidate (NamedExpression *nexpr, gpointer value,
+		    ExprRewriteInfo const *rwinfo)
 {
-	NamedExpression *nexpr = key;
-	ExprTree *new_expr = expr_rewrite (nexpr->t.expr_tree, rwinfo);
-	g_return_if_fail (new_expr != NULL);
-	expr_name_set_expr (nexpr, new_expr);
+	ExprTree *new_expr = NULL;
+
+	if (!nexpr->builtin &&
+	    ((rwinfo->type == EXPR_REWRITE_SHEET &&
+	     rwinfo->u.sheet != nexpr->pos.sheet) ||
+	    (rwinfo->type == EXPR_REWRITE_WORKBOOK &&
+	     rwinfo->u.workbook == nexpr->pos.wb))) {
+		new_expr = expr_rewrite (nexpr->t.expr_tree, rwinfo);
+		g_return_if_fail (new_expr != NULL);
+	}
+	expr_name_set_expr (nexpr, new_expr, rwinfo);
 }
 
 /*
@@ -1292,7 +1300,7 @@ do_deps_destroy (Sheet *sheet, ExprRewriteInfo const *rwinfo)
 
 	if (deps->names) {
 		g_hash_table_foreach (deps->names, 
-			cb_name_invalidate_sheet, (gpointer)rwinfo);
+			(GHFunc) cb_name_invalidate, (gpointer)rwinfo);
 		g_hash_table_destroy (deps->names);
 		deps->names = NULL;
 	}

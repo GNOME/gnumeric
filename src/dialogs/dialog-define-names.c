@@ -371,7 +371,7 @@ name_guru_add (NameGuruState *state)
 			 * FIXME: if the scope has been changed too, call scope
 			 * chaned first.
 			 */
-			expr_name_set_expr (expr_name, expr);
+			expr_name_set_expr (expr_name, expr, NULL);
 			dirty = TRUE;
 		} else
 			gnumeric_notice (state->wbcg, GNOME_MESSAGE_BOX_ERROR,

@@ -1,3 +1,11 @@
+Gnumeric 1.0.10
+
+Jody:
+	* Back port partial fix for named expressions.
+
+--------------------------------------------------------------------------
+Gnumeric 1.0.9
+
 Jody:
 	* Recompute spans after reading from applix.
 	* Fix the guia2 prop bag import warnings

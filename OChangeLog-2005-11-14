@@ -1,3 +1,12 @@
+2002-08-15  Jody Goldberg <jody@gnome.org>
+
+	* src/eval.c (cb_name_invalidate) : don't bother rewriting what we're
+	  going to throw away.  This is a partial backport of a fix in 1.1.x.
+	  I doubt it is leak proof or even fully correct but there is no way
+	  to fix names properly in 1.0.
+	* src/expr-name.c (expr_name_link_deps) : ditto.
+	(expr_name_set_expr) : ditto.
+
 2002-07-18  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.0.9
