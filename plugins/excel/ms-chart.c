@@ -1884,9 +1884,13 @@ ms_excel_read_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 	state.series	    = g_ptr_array_new ();
 	state.plot_counter  = -1;
 
-	state.sog = sog;
-	state.graph = sheet_object_graph_get_gog (sog);
-	state.chart = GOG_CHART (gog_object_add_by_name (GOG_OBJECT (state.graph), "Chart", NULL));
+	if (NULL != (state.sog = sog)) {
+		state.graph = sheet_object_graph_get_gog (sog);
+		state.chart = GOG_CHART (gog_object_add_by_name (GOG_OBJECT (state.graph), "Chart", NULL));
+	} else {
+		state.graph = NULL;
+		state.chart = NULL;
+	}
 	state.plot  = NULL;
 	state.style = NULL;
 

@@ -1,3 +1,8 @@
+2003-06-11  Jody Goldberg <jody@gnome.org>
+
+	* ms-chart.c (ms_excel_read_chart) : handle NULL sogs.  That currently
+	  indicates an attempt to read a chart in its own notebook tab.
+
 2003-06-07  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.19
