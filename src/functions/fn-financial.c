@@ -1603,16 +1603,10 @@ gnumeric_rate (FunctionEvalInfo *ei, Value **argv)
 #endif
 	goal_seek_initialise (&data);
 
-	/* Respect the sign of the guess.  */
-	if (rate0 >= 0) {
-		data.xmin = 0;
-		data.xmax = MIN (data.xmax,
-				 pow (DBL_MAX / 1e10, 1.0 / udata.nper) - 1);
-	} else {
-		data.xmin = MAX (data.xmin,
-				 -pow (DBL_MAX / 1e10, 1.0 / udata.nper) + 1);
-		data.xmax = 0;
-	}
+	data.xmin = MAX (data.xmin,
+			 -pow (DBL_MAX / 1e10, 1.0 / udata.nper) + 1);
+	data.xmax = MIN (data.xmax,
+			 pow (DBL_MAX / 1e10, 1.0 / udata.nper) - 1);
 
 	/* Newton search from guess.  */
 	status = goal_seek_newton (&gnumeric_rate_f, &gnumeric_rate_df,
@@ -1735,16 +1729,10 @@ gnumeric_irr (FunctionEvalInfo *ei, Value **argv)
 
 	goal_seek_initialise (&data);
 
-	/* Respect the sign of the guess.  */
-	if (rate0 >= 0) {
-		data.xmin = 0;
-		data.xmax = MIN (data.xmax,
-				 pow (DBL_MAX / 1e10, 1.0 / (p.n + 1)) - 1);
-	} else {
-		data.xmin = MAX (data.xmin,
-				 -pow (DBL_MAX / 1e10, 1.0 / (p.n + 1)) + 1);
-		data.xmax = 0;
-	}
+	data.xmin = MAX (data.xmin,
+			 -pow (DBL_MAX / 1e10, 1.0 / p.n) + 1);
+	data.xmax = MIN (data.xmax,
+			 pow (DBL_MAX / 1e10, 1.0 / p.n) - 1);
 
 	status = goal_seek_newton (&irr_npv, &irr_npv_df, &data, &p, rate0);
 	if (status != GOAL_SEEK_OK) {

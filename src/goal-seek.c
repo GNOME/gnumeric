@@ -34,8 +34,17 @@ update_data (gnum_float x, gnum_float y, GoalSeekData *data)
 {
 	if (y > 0) {
 		if (data->havexpos) {
-			if (data->havexneg &&
-			    fabs (x - data->xneg) < fabs (data->xpos - data->xneg)) {
+			if (data->havexneg) {
+				/*
+				 * When we have pos and neg, prefer the new point only
+				 * if it makes the pos-neg x-internal smaller.
+				 */				   
+				if (fabs (x - data->xneg) < fabs (data->xpos - data->xneg)) {
+					data->xpos = x;
+					data->ypos = y;
+				}
+			} else if (y < data->ypos) {
+				/* We have pos only and our neg y is closer to zero.  */
 				data->xpos = x;
 				data->ypos = y;
 			}
@@ -47,11 +56,21 @@ update_data (gnum_float x, gnum_float y, GoalSeekData *data)
 		return FALSE;
 	} else if (y < 0) {
 		if (data->havexneg) {
-			if (data->havexpos &&
-			    fabs (x - data->xpos) < fabs (data->xpos - data->xneg)) {
+			if (data->havexpos) {
+				/*
+				 * When we have pos and neg, prefer the new point only
+				 * if it makes the pos-neg x-internal smaller.
+				 */				   
+				if (fabs (x - data->xpos) < fabs (data->xpos - data->xneg)) {
+					data->xneg = x;
+					data->yneg = y;
+				}
+			} else if (-y < -data->yneg) {
+				/* We have neg only and our neg y is closer to zero.  */
 				data->xneg = x;
 				data->yneg = y;
 			}
+
 		} else {
 			data->xneg = x;
 			data->yneg = y;
