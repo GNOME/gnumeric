@@ -1295,7 +1295,7 @@ gnumeric_chiinv (FunctionEvalInfo *ei, Value **argv)
 	if (p < 0 || p > 1 || dof < 1)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (qchisq (1.0 - p, dof, TRUE, FALSE));
+	return value_new_float (qchisq (p, dof, FALSE, FALSE));
 }
 
 /***************************************************************************/
@@ -1584,7 +1584,7 @@ gnumeric_tinv (FunctionEvalInfo *ei, Value **argv)
 	if (p < 0 || p > 1 || dof < 1)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (qt (1 - p / 2, dof, TRUE, FALSE));
+	return value_new_float (qt (p / 2, dof, FALSE, FALSE));
 }
 
 /***************************************************************************/
@@ -1657,7 +1657,7 @@ gnumeric_finv (FunctionEvalInfo *ei, Value **argv)
 	if (p < 0 || p > 1 || dof1 < 1 || dof2 < 1)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (qf (1.0 - p, dof1, dof2, TRUE, FALSE));
+	return value_new_float (qf (p, dof1, dof2, FALSE, FALSE));
 }
 
 /***************************************************************************/

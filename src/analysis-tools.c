@@ -125,6 +125,7 @@ new_data_set (Value *range, gboolean ignore_non_num, gboolean read_label,
 
 	result = workbook_foreach_cell_in_range (pos, range, FALSE,
 						 cb_store_data, the_set);
+	g_free (pos);
 
 	if (result != NULL) value_release (result);
 	the_set->missing = g_slist_reverse (the_set->missing);
@@ -1423,13 +1424,13 @@ ztest_tool (WorkbookControl *wbc, Sheet *sheet,
 	set_cell_float_na (dao, 1, 7, p, no_error);
 
 	/* z Critical one-tail */
-	set_cell_float (dao, 1, 8, qnorm (1.0 - alpha, 0, 1, TRUE, FALSE));
+	set_cell_float (dao, 1, 8, qnorm (alpha, 0, 1, FALSE, FALSE));
 
 	/* P (Z<=z) two-tail */
 	set_cell_float_na (dao, 1, 9, 2 * p, no_error);
 
 	/* z Critical two-tail */
-	set_cell_float (dao, 1, 10, qnorm (1.0 - alpha / 2, 0, 1, TRUE, FALSE));
+	set_cell_float (dao, 1, 10, qnorm (alpha / 2, 0, 1, FALSE, FALSE));
 
 	set_italic (dao, 0, 0, 0, 10);
 	set_italic (dao, 0, 0, 2, 0);
@@ -1591,13 +1592,13 @@ ttest_paired_tool (WorkbookControl *wbc, Sheet *sheet,
 	set_cell_float_na (dao, 1, 8, p, var_diff_error == 0);
 
 	/* t Critical one-tail */
-	set_cell_float (dao, 1, 9, qt (1 - alpha, df, TRUE, FALSE));
+	set_cell_float (dao, 1, 9, qt (alpha, df, FALSE, FALSE));
 
 	/* P (T<=t) two-tail */
 	set_cell_float_na (dao, 1, 10, 2 * p, var_diff_error == 0);
 
 	/* t Critical two-tail */
-	set_cell_float (dao, 1, 11, qt (1.0 - alpha / 2, df, TRUE, FALSE));
+	set_cell_float (dao, 1, 11, qt (alpha / 2, df, FALSE, FALSE));
 
 	set_italic (dao, 0, 0, 0, 11);
 	set_italic (dao, 0, 0, 2, 0);
@@ -1726,13 +1727,13 @@ ttest_eq_var_tool (WorkbookControl *wbc, Sheet *sheet,
 	set_cell_float_na (dao, 1, 9, p, no_error && (var != 0));
 
 	/* t Critical one-tail */
-	set_cell_float (dao, 1, 10, qt (1.0 - alpha, df, TRUE, FALSE));
+	set_cell_float (dao, 1, 10, qt (alpha, df, FALSE, FALSE));
 
 	/* P (T<=t) two-tail */
 	set_cell_float_na (dao, 1, 11, 2 * p, no_error && (var != 0));
 
 	/* t Critical two-tail */
-	set_cell_float (dao, 1, 12, qt (1.0 - alpha / 2, df, TRUE, FALSE));
+	set_cell_float (dao, 1, 12, qt (alpha / 2, df, FALSE, FALSE));
 
 	set_italic (dao, 0, 0, 0, 12);
 	set_italic (dao, 0, 0, 2, 0);
@@ -1850,13 +1851,13 @@ ttest_neq_var_tool (WorkbookControl *wbc, Sheet *sheet,
 	set_cell_float_na (dao, 1, 8, p, no_error);
 
 	/* t Critical one-tail */
-	set_cell_float (dao, 1, 9, qt (1.0 - alpha, df, TRUE, FALSE));
+	set_cell_float (dao, 1, 9, qt (alpha, df, FALSE, FALSE));
 
 	/* P (T<=t) two-tail */
 	set_cell_float_na (dao, 1, 10, 2 * p, no_error);
 
 	/* t Critical two-tail */
-	set_cell_float (dao, 1, 11, qt (1.0 - alpha / 2, df, TRUE, FALSE));
+	set_cell_float (dao, 1, 11, qt (alpha / 2, df, FALSE, FALSE));
 
 	set_italic (dao, 0, 0, 0, 11);
 	set_italic (dao, 0, 0, 2, 0);
@@ -1957,16 +1958,16 @@ ftest_tool (WorkbookControl *wbc, Sheet *sheet,
 		if (!calc_error) {
 			f = var_1/var_2;
 			p_right_tail = pf (f, df_1, df_2, FALSE, FALSE);
-			q_right_tail = qf (1.0 - alpha, df_1, df_2, TRUE, FALSE);
+			q_right_tail = qf (alpha, df_1, df_2, FALSE, FALSE);
 			p_left_tail =  pf (f, df_1, df_2, TRUE, FALSE);
-			q_left_tail =  qf ( alpha, df_1, df_2, TRUE, FALSE);
+			q_left_tail =  qf (alpha, df_1, df_2, TRUE, FALSE);
 			if (p_right_tail < 0.5)
 				p_2_tail =  2 * p_right_tail;
 			else
 				p_2_tail =  2 * p_left_tail;
 
 			q_2_tail_left =  qf (alpha / 2.0, df_1, df_2, TRUE, FALSE);
-			q_2_tail_right  =  qf (1.0 - alpha / 2.0, df_1, df_2, TRUE, FALSE);
+			q_2_tail_right  =  qf (alpha / 2.0, df_1, df_2, FALSE, FALSE);
 		}
 
 		/* Mean */
@@ -2480,7 +2481,8 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 				2.0 * (pt (this_t,
 					   y_data->data->len - xdim - intercept, FALSE, FALSE)));
 
-		t = qt (1 - alpha / 2, y_data->data->len - xdim - intercept, TRUE, FALSE);
+		t = qt (alpha / 2, y_data->data->len - xdim - intercept,
+			FALSE, FALSE);
 
 		/* Slope / Lower 95% */
 		set_cell_float (dao, 5, 17 + i, this_res - t * this_se);
@@ -2920,7 +2922,7 @@ anova_single_factor_tool (WorkbookControl *wbc, Sheet *sheet,
 	ms_w = ss_w / df_w;
 	f    = ms_b / ms_w;
 	p    = pf (f, df_b, df_w, FALSE, FALSE);
-	f_c  = qf (1 - alpha, df_b, df_w, TRUE, FALSE);
+	f_c  = qf (alpha, df_b, df_w, FALSE, FALSE);
 
 	set_cell_float (dao, 1, 2, ss_b);
 	set_cell_float (dao, 1, 3, ss_w);
@@ -3082,8 +3084,8 @@ anova_two_factor_without_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *inpu
 	f2   = ms_c / ms_e;
 	p1   = pf (f1, df_r, df_e, FALSE, FALSE);
 	p2   = pf (f2, df_c, df_e, FALSE, FALSE);
-	f1_c = qf (1 - alpha, df_r, df_e, TRUE, FALSE);
-	f2_c = qf (1 - alpha, df_c, df_e, TRUE, FALSE);
+	f1_c = qf (alpha, df_r, df_e, FALSE, FALSE);
+	f2_c = qf (alpha, df_c, df_e, FALSE, FALSE);
 
 	set_cell_text_col (dao, 0, 6 + rows + cols, _("/ANOVA"
 						      "/Source of Variation"
@@ -3532,11 +3534,14 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *input,
 	set_cell_float_na (dao, 5, n_r * 6 + 13, p_c, ms_e != 0 && df_c > 0 && df_e > 0);
 	set_cell_float_na (dao, 5, n_r * 6 + 14, p_rc, ms_e != 0 && df_rc > 0 && df_e > 0);
 
-	set_cell_float_na (dao, 6, n_r * 6 + 12, qf (1 - alpha, df_r, df_e, TRUE, FALSE),
+	set_cell_float_na (dao, 6, n_r * 6 + 12,
+			   qf (alpha, df_r, df_e, FALSE, FALSE),
 			   df_r > 0 && df_e > 0);
-	set_cell_float_na (dao, 6, n_r * 6 + 13, qf (1 - alpha, df_c, df_e, TRUE, FALSE),
+	set_cell_float_na (dao, 6, n_r * 6 + 13,
+			   qf (alpha, df_c, df_e, FALSE, FALSE),
 			   df_c > 0 && df_e > 0);
-	set_cell_float_na (dao, 6, n_r * 6 + 14, qf (1 - alpha, df_rc, df_e, TRUE, FALSE),
+	set_cell_float_na (dao, 6, n_r * 6 + 14,
+			   qf (alpha, df_rc, df_e, FALSE, FALSE),
 			   df_rc > 0 && df_e > 0);
 
 	set_italic (dao, 0, n_r * 6 + 11, 6, n_r * 6 + 11);

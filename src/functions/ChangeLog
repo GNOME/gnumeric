@@ -1,3 +1,7 @@
+2002-02-27  Morten Welinder  <terra@diku.dk>
+
+	* fn-stat.c: Use new lower-tail flag for R's q* routines.
+
 2002-02-26  Morten Welinder  <terra@diku.dk>
 
 	* fn-stat.c (gnumeric_linest, gnumeric_logest): Use
