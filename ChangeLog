@@ -1,3 +1,10 @@
+2001-08-13  Morten Welinder  <terra@diku.dk>
+
+	* src/mathfunc.c (gnumeric_sub_epsilon): New function.  Dual of
+ 	gnumeric_add_epsilon.
+	(gnumeric_fake_ceil): Use gnumeric_sub_epsilon, not
+ 	gnumeric_add_epsilon.
+
 2001-08-13  Lutz Müller <urc8@rz.uni-karlsruhe.de>
 
 	* src/sheet.c (sheet_get_extent): Don't ignore the SheetObjects! They 

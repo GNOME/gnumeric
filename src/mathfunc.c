@@ -98,6 +98,19 @@ gnumeric_add_epsilon (double x)
 }
 
 double
+gnumeric_sub_epsilon (double x)
+{
+  if (!FINITE (x) || x == 0)
+    return x;
+  else {
+    int exp;
+    double mant = frexp (fabs (x), &exp);
+    double absres = ldexp (mant - DBL_EPSILON, exp);
+    return (x < 0) ? -absres : absres;
+  }
+}
+
+double
 gnumeric_fake_floor (double x)
 {
   return floor (gnumeric_add_epsilon (x));
@@ -106,7 +119,7 @@ gnumeric_fake_floor (double x)
 double
 gnumeric_fake_ceil (double x)
 {
-  return ceil (gnumeric_add_epsilon (x));
+  return ceil (gnumeric_sub_epsilon (x));
 }
 
 double

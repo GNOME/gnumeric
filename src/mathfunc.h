@@ -33,6 +33,7 @@
 /* ------------------------------------------------------------------------- */
 
 double gnumeric_add_epsilon (double x);
+double gnumeric_sub_epsilon (double x);
 double gnumeric_fake_floor (double x);
 double gnumeric_fake_ceil (double x);
 double gnumeric_fake_round (double x);
