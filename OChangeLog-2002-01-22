@@ -1,3 +1,9 @@
+2000-05-02  Almer. S. Tigelaar.  <almer1@dds.nl>
+
+	* src/file.c (workbook_import) : We called gtk_widget_destroy
+	_after_ gnome_dialog_close. This causes a weird "invalid cast"
+	message each time something was successfully imported.
+
 2000-05-01  Michael Meeks  <michael@helixcode.com>
 
 	* src/corba-args.c (gnumeric_arg_parse): fixup popt for oaf.
