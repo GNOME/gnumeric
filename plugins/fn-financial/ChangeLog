@@ -1,3 +1,12 @@
+2002-07-22  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* sc-fin.c (ScGetGDA, ScInterVDB, get_vdb): Imported from the OO
+	with some clean up.  The original code is quite a nightmare,
+	however, still a few identifiers are in German (Sprehen Sie
+	Deutch?).
+
+	* functions.c (gnumeric_vdb): Implemented.
+
 2002-07-21  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.6

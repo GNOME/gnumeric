@@ -3485,6 +3485,13 @@ static const char *help_vdb = {
 	   "VDB calculates the depreciation of an asset for a given period "
 	   "or partial period using the double-declining balance method."
 	   "\n"
+	   "If @start_period < 0, VDB returns #NUM! error. "
+	   "If @start_period > @end_period, VDB returns #NUM! error. "
+	   "If @end_period > @life, VDB returns #NUM! error. "
+	   "If @cost < 0, VDB returns #NUM! error. "
+	   "If @salvage > @cost, VDB returns #NUM! error. "
+	   "If @factor <= 0, VDB returns #NUM! error. "
+	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=DB")
@@ -3493,7 +3500,24 @@ static const char *help_vdb = {
 static Value *
 gnumeric_vdb (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+	gnum_float cost, salvage, life, factor, start_period, end_period;
+	gboolean   bflag;
+
+	cost         = value_get_as_float (argv[0]);
+	salvage      = value_get_as_float (argv[1]);
+	life         = value_get_as_float (argv[2]);
+	start_period = value_get_as_float (argv[3]);
+	end_period   = value_get_as_float (argv[4]);
+	factor       = value_get_as_float (argv[5]); /* Default could be 2.0 */
+        bflag        = argv[6] ? value_get_as_int (argv[6]) : FALSE;
+
+        if ( start_period < 0 || end_period < start_period
+	     || end_period > life || cost < 0 || salvage > cost
+	     || factor <= 0)
+		return value_new_error (ei->pos, gnumeric_err_NUM);
+
+	return get_vdb (cost, salvage, life, start_period, end_period, factor,
+			bflag);
 }
 
 /***************************************************************************/

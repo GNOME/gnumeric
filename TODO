@@ -29,8 +29,7 @@ to features that already work.
 * Functions
 
    + Implement more functions :
-     - AREAS and GETPIVOTDATA
-       ODDFYIELD, and VDB.
+     - AREAS, GETPIVOTDATA, and ODDFYIELD.
 
    + Fix or finish the following functions :
      - ODDFPRICE, XIRR, XNPV, and YIELDDISC.

@@ -28,7 +28,9 @@ Value *    get_cumprinc  (gnum_float fRate, gint nNumPeriods, gnum_float fVal,
 			  gint nStartPer, gint nEndPer, gint nPayType);
 Value *    get_cumipmt   (gnum_float fRate, gint nNumPeriods, gnum_float fVal,
 			  gint nStartPer, gint nEndPer, gint nPayType);
-
+Value *    get_vdb       (gnum_float cost, gnum_float salvage, gnum_float life,
+			  gnum_float start_period, gnum_float end_period,
+			  gnum_float factor, gboolean flag);
 
 #endif
 

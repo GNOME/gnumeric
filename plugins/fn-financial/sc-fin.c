@@ -464,3 +464,120 @@ Value *    get_cumipmt   (gnum_float fRate, gint nNumPeriods, gnum_float fVal,
 }
 
 /***************************************************************************/
+
+static gnum_float
+ScGetGDA (gnum_float fWert, gnum_float fRest, gnum_float fDauer,
+	  gnum_float fPeriode, gnum_float fFaktor)
+{
+        gnum_float fGda, fZins, fAlterWert, fNeuerWert;
+
+        fZins = fFaktor / fDauer;
+        if (fZins >= 1.0) {
+                fZins = 1.0;
+                if (fPeriode == 1.0)
+                        fAlterWert = fWert;
+                else
+                        fAlterWert = 0.0;
+        } else
+                fAlterWert = fWert * powgnum (1.0 - fZins, fPeriode - 1.0);
+        fNeuerWert = fWert * powgnum (1.0 - fZins, fPeriode);
+
+        if (fNeuerWert < fRest)
+                fGda = fAlterWert - fRest;
+        else
+                fGda = fAlterWert - fNeuerWert;
+        if (fGda < 0.0)
+                fGda = 0.0;
+        return fGda;
+}
+
+static gnum_float
+ScInterVDB (gnum_float cost, gnum_float salvage, gnum_float life,
+	    gnum_float life1, gnum_float period, gnum_float factor)
+{
+        gnum_float fVdb       = 0;
+        gnum_float fIntEnd    = ceilgnum (period);
+        int        nLoopEnd   = fIntEnd;
+
+        gnum_float fTerm, fLia;
+        gnum_float fRestwert  = cost - salvage;
+        gnum_float fRestwert1 = fRestwert;
+        gboolean   bNowLia    = FALSE;
+        gboolean   bFirstFlag = TRUE;
+        gboolean   b2Flag     = TRUE;
+        gnum_float fAbschlag  = 0;
+
+        gnum_float fGda;
+        int        i;
+
+        fLia = 0;
+        for ( i = 1; i <= nLoopEnd; i++ ) {
+                if (!bNowLia) {
+                        fGda = ScGetGDA (cost, salvage, life, i, factor);
+                        fLia = fRestwert / (life1 - (gnum_float) (i - 1));
+
+                        if (fLia > fGda) {
+                                fTerm   = fLia;
+                                bNowLia = TRUE;
+                        } else {
+                                fTerm      = fGda;
+                                fRestwert -= fGda;
+                        }
+                } else
+                        fTerm = fLia;
+
+                if ( i == nLoopEnd)
+                        fTerm *= ( period + 1.0 - fIntEnd );
+
+                fVdb += fTerm;
+        }
+        return fVdb;
+}
+
+Value *
+get_vdb (gnum_float cost, gnum_float salvage, gnum_float life,
+	 gnum_float start_period, gnum_float end_period, gnum_float factor,
+	 gboolean flag)
+{
+	gnum_float fVdb, fIntStart, fIntEnd;
+	int        i;
+	int        nLoopStart = (int) fIntStart;
+	int        nLoopEnd   = (int) fIntEnd;
+
+	fVdb      = 0.0;
+	fIntStart = floorgnum (fIntStart);
+	fIntEnd   = ceilgnum (fIntEnd);
+
+	if ( flag ) {
+		for (i = nLoopStart + 1; i <= nLoopEnd; i++) {
+			gnum_float fTerm;
+
+			fTerm = ScGetGDA (cost, salvage, life, i, factor);
+			if ( i == nLoopStart+1 )
+				fTerm *= ( MIN( end_period, fIntStart + 1.0 )
+					   - start_period );
+			else if ( i == nLoopEnd )
+				fTerm *= ( end_period + 1.0 - fIntEnd );
+			fVdb += fTerm;
+		}
+	} else {
+		gnum_float life1 = life;
+		gnum_float fPart;
+
+		if ( start_period != floorgnum (start_period) )
+			if (factor > 1) {
+				if (start_period >= life / 2) {
+					fPart        = start_period - life / 2;
+					start_period = life / 2;
+					end_period  -= fPart;
+					life1       += 1;
+				}
+			}
+		
+		cost -= ScInterVDB (cost, salvage, life, life1, start_period,
+				    factor);
+		fVdb = ScInterVDB (cost, salvage, life, life - start_period,
+				   end_period - start_period, factor);
+	}
+	return value_new_float (fVdb);
+}
