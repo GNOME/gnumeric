@@ -1,3 +1,9 @@
+2004-11-19  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-gconf.c (gnm_conf_init_printer_decoration_font) : add a
+	  default in case conf lookup fails.
+	(gnm_conf_init_essential) : fix swapped max and default for print zoom
+
 2004-11-18  Morten Welinder  <terra@gnome.org>
 
 	* src/print.c (sheet_print): Fix leak for preview.  (#158566)

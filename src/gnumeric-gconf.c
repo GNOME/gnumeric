@@ -158,7 +158,7 @@ go_conf_load_int (char const *key, int minima, int maxima, int default_val)
 
 double
 go_conf_load_double (char const *key,
-		   double minima, double maxima, double default_val)
+		     double minima, double maxima, double default_val)
 {
 	double res = -1;
 	GConfValue *val = go_conf_get (key, GCONF_VALUE_FLOAT);
@@ -511,12 +511,13 @@ gnm_conf_init_printer_decoration_font (void)
 		prefs.printer_decoration_font = mstyle_new ();
 
 	name = go_conf_load_string (PRINTSETUP_GCONF_HF_FONT_NAME);
-	if (name){
+	if (name) {
 		mstyle_set_font_name (prefs.printer_decoration_font, name);
 		g_free (name);
-	}
+	} else
+		mstyle_set_font_name (prefs.printer_decoration_font, DEFAULT_FONT);
 	mstyle_set_font_size (prefs.printer_decoration_font,
-		go_conf_load_double (PRINTSETUP_GCONF_HF_FONT_SIZE, 1., 100., 10.));
+		go_conf_load_double (PRINTSETUP_GCONF_HF_FONT_SIZE, 1., 100., DEFAULT_SIZE));
 	mstyle_set_font_bold (prefs.printer_decoration_font,
 		go_conf_load_bool (PRINTSETUP_GCONF_HF_FONT_BOLD, FALSE));
 	mstyle_set_font_italic (prefs.printer_decoration_font,
@@ -579,7 +580,7 @@ gnm_conf_init_essential (void)
 	prefs.print_scale_percentage = go_conf_load_bool 
 		(PRINTSETUP_GCONF_SCALE_PERCENTAGE, TRUE);
 	prefs.print_scale_percentage_value = go_conf_load_double 
-		(PRINTSETUP_GCONF_SCALE_PERCENTAGE_VALUE, 1, 100, 500);
+		(PRINTSETUP_GCONF_SCALE_PERCENTAGE_VALUE, 1, 500, 100);
 	prefs.print_scale_width = go_conf_load_int 
 		(PRINTSETUP_GCONF_SCALE_WIDTH, 0, 100, 1);
         prefs.print_scale_height = go_conf_load_int 
