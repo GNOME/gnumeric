@@ -27,5 +27,6 @@ libgnumguile_la_LIBADD = $(GUILE_LIBS)
 Guilescriptsdir = $(datadir)/gnumeric/guile
 
 Guilescripts_DATA = gnumeric_startup.scm
-
+Guilescripts_DATA = functions.scm
 EXTRA_DIST = gnumeric_startup.scm
+EXTRA_DIST = functions.scm

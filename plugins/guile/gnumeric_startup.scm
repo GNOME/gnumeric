@@ -6,6 +6,7 @@
 ;
 
 (display "Guile plug-in initializing\n")
+(load "functions.scm")
 
 ; cell-refs
 (define (make-cell-ref col row)
@@ -127,33 +128,7 @@
 	(else
 	 "ERROR")))
 
-; a few simple functions
-(define (sign num)
-  (cond ((negative? num) -1)
-	((zero? num) 0)
-	(else 1)))
 
-(register-function
- "sign" "f"
- "@FUNCTION=SIGN
-@SYNTAX=SIGN(number)
-@DESCRIPTION=Returns -1 if NUMBER is less than 0, 1 if NUMBER
-is greater than 0 and 0 if NUMBER is equal 0."
- sign)
-
-(register-function
- "lcm" "ff"
- "@FUNCTION=LCM
-@SYNTAX=LCM(n1,n2)
-@DESCRIPTION=Returns the least common multiplier of N1 and N2."
- lcm)
-
-(register-function
- "gcd" "ff"
- "@FUNCTION=GCD
-@SYNTAX=GCD(n1,n2)
-@DESCRIPTION=Returns the greatest common divisor of N1 and N2."
- gcd)
 
 ; symbolic differentiation with immediate evaluation
 ;; in case of a funcall this should do numeric differentiation

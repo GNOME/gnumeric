@@ -1,3 +1,14 @@
+1999-12-05  Ariel Rios <jarios@usa.net>
+
+	* plugins/guile/Makefile.am: Modified to include functions.scm
+	
+	* plugins/guile/gnumeric_startup.scm: We now load the scheme
+          functions from the new file functions.scm
+
+	* plugins/guile/functions.scm: The guile functions and their 
+          registration are now located in this file.
+          (=FIBO(num)): Added fibonacci formula.
+
 1999-12-04  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/dialogs/dialog-cell-sort.c (compare_values): Fix fatal bug
