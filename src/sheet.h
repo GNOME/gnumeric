@@ -35,14 +35,33 @@ typedef struct {
 typedef  void (*sheet_col_row_callback)(Sheet *sheet, ColRowInfo *ci, void *user_data);
 
 Sheet      *sheet_new                (Workbook *wb, char *name);
-ColRowInfo *sheet_get_col_info       (Sheet *, int col);
-ColRowInfo *sheet_get_row_info       (Sheet *, int row);
-int         sheet_col_get_distance   (Sheet *sheet, int from_col, int to_col);
-int         sheet_row_get_distance   (Sheet *sheet, int from_row, int to_row);
 void        sheet_foreach_col        (Sheet *sheet, sheet_col_row_callback, void *user_data);
 void        sheet_foreach_row        (Sheet *sheet, sheet_col_row_callback, void *user_data);
 void        sheet_set_zoom_factor    (Sheet *sheet, double factor);
 void        sheet_get_cell_bounds    (Sheet *sheet, ColType col, RowType row, int *x, int *y, int *w, int *h);
+
+/* Create new ColRowInfos from the default sheet style */
+ColRowInfo *sheet_col_new            (Sheet *sheet);
+ColRowInfo *sheet_row_new            (Sheet *sheet);
+
+/* Duplicates the information of a col/row */
+ColRowInfo *sheet_duplicate_colrow   (ColRowInfo *original);
+
+/* Retrieve information from a col/row */
+ColRowInfo *sheet_col_get_info       (Sheet *sheet, int col);
+ColRowInfo *sheet_row_get_info       (Sheet *sheet, int row);
+
+/* Add a ColRowInfo to the Sheet */
+void        sheet_col_add            (Sheet *sheet, ColRowInfo *cp);
+void        sheet_row_add            (Sheet *sheet, ColRowInfo *cp);
+
+/* Measure distances in pixels from one col/row to another */
+int         sheet_col_get_distance   (Sheet *sheet, int from_col, int to_col);
+int         sheet_row_get_distance   (Sheet *sheet, int from_row, int to_row);
+
+/* Sets the width/height of a column row in terms of pixels */
+void        sheet_col_set_width      (Sheet *sheet, int col, int width);
+void        sheet_row_set_height     (Sheet *sheet, int row, int width);
 
 Workbook   *workbook_new             (void);
 Workbook   *workbook_new_with_sheets (int sheet_count);

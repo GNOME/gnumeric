@@ -121,7 +121,7 @@ find_col (ItemGrid *item_grid, int x, int *col_origin)
 	int pixel = item_grid->left_offset;
 
 	do {
-		ColRowInfo *ci = sheet_get_col_info (item_grid->sheet, col);
+		ColRowInfo *ci = sheet_col_get_info (item_grid->sheet, col);
 		
 		if (x >= pixel && x <= pixel + ci->pixels){
 			if (col_origin)
@@ -143,7 +143,7 @@ find_row (ItemGrid *item_grid, int y, int *row_origin)
 	int pixel = item_grid->top_offset;
 
 	do {
-		ColRowInfo *ri = sheet_get_row_info (item_grid->sheet, row);
+		ColRowInfo *ri = sheet_row_get_info (item_grid->sheet, row);
 		
 		if (y >= pixel && y <= pixel + ri->pixels){
 			if (row_origin)
@@ -198,9 +198,9 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 	for (x_paint = -diff_x; x_paint < end_x; col++){
 		ColRowInfo *ci;
 
-		ci = sheet_get_col_info (sheet, col);
+		ci = sheet_col_get_info (sheet, col);
 		g_assert (ci->pixels != 0);
-		
+
 		gdk_draw_line (drawable, grid_gc, x_paint, 0, x_paint, height);
 		
 		x_paint += ci->pixels;
@@ -210,7 +210,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 	for (y_paint = -diff_y; y_paint < end_y; row++){
 		ColRowInfo *ri;
 
-		ri = sheet_get_row_info (sheet, row);
+		ri = sheet_row_get_info (sheet, row);
 		gdk_draw_line (drawable, grid_gc, 0, y_paint, width, y_paint);
 		y_paint += ri->pixels;
 	}
@@ -218,13 +218,13 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 	for (x_paint = -diff_x; x_paint < end_x; col++){
 		ColRowInfo *ci;
 
-		ci = sheet_get_col_info (sheet, col);
+		ci = sheet_col_get_info (sheet, col);
 
 		row = paint_row;
 		for (y_paint = -diff_y; y_paint < end_y; row++){
 			ColRowInfo *ri;
 
-			ri = sheet_get_row_info (sheet, row);
+			ri = sheet_row_get_info (sheet, row);
 #if 0
 			item_debug_cross (drawable, item_grid->grid_gc,
 					  x_paint, y_paint,

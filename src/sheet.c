@@ -3,48 +3,55 @@
 #include "gnumeric-sheet.h"
 
 static void
-sheet_init_dummy_stuff (Sheet *sheet)
+sheet_redraw_all (Sheet *sheet)
 {
-	int x, y;
-	ColRowInfo c, *cp, *rp;
+	gnome_canvas_request_redraw (
+		GNOME_CANVAS (sheet->sheet_view),
+		0, 0, INT_MAX, INT_MAX);
+}
 
-	c.pos        = 0;
-	c.style      = NULL;
-	c.units      = 40;
-	c.pixels     = 0;
-	c.margin_a   = 0;
-	c.margin_b   = 0;
-	c.selected   = 0;
-	
-	sheet->default_col_style = c;
+static void
+sheet_init_default_styles (Sheet *sheet)
+{
+	/* The default column style */
+	sheet->default_col_style.pos        = -1;
+	sheet->default_col_style.style      = style_new ();
+	sheet->default_col_style.units      = 40;
+	sheet->default_col_style.pixels     = 0;
+	sheet->default_col_style.margin_a   = 0;
+	sheet->default_col_style.margin_b   = 0;
+	sheet->default_col_style.selected   = 0;
 
-	/* Initialize some of the columns */
-	for (x = 0; x < 40; x += 2){
-		cp = g_new0 (ColRowInfo, 1);
-
-		*cp = c;
-		cp->pos = x;
-		cp->units = (x+1) * 30;
-		sheet->cols_info = g_list_append (sheet->cols_info, cp);
-	}
-
-	/* Rows, we keep them consistent for now */
-	sheet->default_row_style.pos      = 0;
-	sheet->default_row_style.style    = NULL;
+	/* The default row style */
+	sheet->default_row_style.pos      = -1;
+	sheet->default_row_style.style    = style_new ();
 	sheet->default_row_style.units    = 20;
 	sheet->default_row_style.pixels   = 0;
 	sheet->default_row_style.margin_a = 0;
 	sheet->default_row_style.margin_b = 0;
 	sheet->default_row_style.selected = 0;
+}
+
+/* Initialize some of the columns and rows, to test the display engine */
+static void
+sheet_init_dummy_stuff (Sheet *sheet)
+{
+	ColRowInfo *cp, *rp;
+	int x, y;
+
+	for (x = 0; x < 40; x += 2){
+		cp = sheet_row_new (sheet);
+		cp->pos = x;
+		cp->units = (x+1) * 30;
+		sheet_col_add (sheet, cp);
+	}
 
 	for (y = 0; y < 6; y += 2){
-		rp = g_new0 (ColRowInfo, 1);
-
-		*rp = sheet->default_row_style;
+		rp = sheet_row_new (sheet);
 		rp->pos = y;
 		rp->units = (20 * (y + 1));
 		rp->selected = 1;
-		sheet->rows_info = g_list_append (sheet->rows_info, rp);
+		sheet_row_add (sheet, rp);
 	}
 }
 
@@ -75,9 +82,34 @@ new_canvas_bar (Sheet *sheet, GtkOrientation o, GnomeCanvasItem **itemp)
 				      "ItemBar::Orientation", o,
 				      "ItemBar::First", 0,
 				      NULL);
+
 	*itemp = GNOME_CANVAS_ITEM (item);
 	gtk_widget_show (canvas);
 	return canvas;
+}
+
+static void
+sheet_col_selection_changed (ItemBar *item_bar, int column, Sheet *sheet)
+{
+	printf ("Sheet signal: Column %d selection changed\n", column);
+}
+
+static void
+sheet_col_size_changed (ItemBar *item_bar, int col, int width, Sheet *sheet)
+{
+	sheet_col_set_width (sheet, col, width);
+}
+
+static void
+sheet_row_selection_changed (ItemBar *item_bar, int row, Sheet *sheet)
+{
+	printf ("Sheet signal: Row %d selection changed\n", row);
+}
+
+static void
+sheet_row_size_changed (ItemBar *item_bar, int row, int height, Sheet *sheet)
+{
+	sheet_row_set_height (sheet, row, height);
 }
 
 Sheet *
@@ -90,7 +122,9 @@ sheet_new (Workbook *wb, char *name)
 	sheet->name = g_strdup (name);
 	sheet->last_zoom_factor_used = -1.0;
 	sheet->toplevel = gtk_table_new (0, 0, 0);
-		
+
+	sheet_init_default_styles (sheet);
+	
 	/* Dummy initialization */
 	sheet_init_dummy_stuff (sheet);
 	
@@ -107,12 +141,23 @@ sheet_new (Workbook *wb, char *name)
 	gtk_table_attach (GTK_TABLE (sheet->toplevel), sheet->col_canvas,
 			  1, 2, 0, 1,
 			  GTK_FILL | GTK_EXPAND, 0, 0, 0);
-	
+	gtk_signal_connect (GTK_OBJECT (sheet->col_item), "selection_changed",
+			    GTK_SIGNAL_FUNC (sheet_col_selection_changed),
+			    sheet);
+	gtk_signal_connect (GTK_OBJECT (sheet->col_item), "size_changed",
+			    GTK_SIGNAL_FUNC (sheet_col_size_changed),
+			    sheet);
 	/* Row canvas */
 	sheet->row_canvas = new_canvas_bar (sheet, GTK_ORIENTATION_VERTICAL, &sheet->row_item);
 	gtk_table_attach (GTK_TABLE (sheet->toplevel), sheet->row_canvas,
 			  0, 1, 1, 2,
 			  0, GTK_FILL | GTK_EXPAND, 0, 0);
+	gtk_signal_connect (GTK_OBJECT (sheet->row_item), "selection_changed",
+			    GTK_SIGNAL_FUNC (sheet_row_selection_changed),
+			    sheet);
+	gtk_signal_connect (GTK_OBJECT (sheet->row_item), "size_changed",
+			    GTK_SIGNAL_FUNC (sheet_row_size_changed),
+			    sheet);
 	
 	sheet_set_zoom_factor (sheet, 1.0);
 	return sheet;
@@ -187,7 +232,44 @@ sheet_set_zoom_factor (Sheet *sheet, double factor)
 }
 
 ColRowInfo *
-sheet_get_col_info (Sheet *sheet, int col)
+sheet_duplicate_colrow (ColRowInfo *original)
+{
+	ColRowInfo *info = g_new (ColRowInfo, 1);
+
+	*info = *original;
+	
+	info->style = style_duplicate (original->style);
+	
+	return info;
+}
+
+ColRowInfo *
+sheet_row_new (Sheet *sheet)
+{
+	return sheet_duplicate_colrow (&sheet->default_row_style);
+}
+
+ColRowInfo *
+sheet_col_new (Sheet *sheet)
+{
+	return sheet_duplicate_colrow (&sheet->default_col_style);
+}
+
+
+void
+sheet_col_add (Sheet *sheet, ColRowInfo *cp)
+{
+	sheet->cols_info = g_list_append (sheet->cols_info, cp);
+}
+
+void
+sheet_row_add (Sheet *sheet, ColRowInfo *rp)
+{
+	sheet->rows_info = g_list_append (sheet->rows_info, rp);
+}
+
+ColRowInfo *
+sheet_col_get_info (Sheet *sheet, int col)
 {
 	GList *l = sheet->cols_info;
 
@@ -202,7 +284,7 @@ sheet_get_col_info (Sheet *sheet, int col)
 }
 
 ColRowInfo *
-sheet_get_row_info (Sheet *sheet, int row)
+sheet_row_get_info (Sheet *sheet, int row)
 {
 	GList *l = sheet->rows_info;
 
@@ -214,6 +296,57 @@ sheet_get_row_info (Sheet *sheet, int row)
 	}
 
 	return &sheet->default_row_style;
+}
+
+static void
+colrow_set_units (Sheet *sheet,ColRowInfo *info)
+{
+	double pix = sheet->last_zoom_factor_used;
+	
+	info->units  = (info->pixels -
+			(info->margin_a + info->margin_b + 1))
+		/ pix;
+}
+
+void
+sheet_row_set_height (Sheet *sheet, int row, int height)
+{
+	ColRowInfo *ri;
+	int add = 0;
+	
+	ri = sheet_row_get_info (sheet, row);
+	if (ri == &sheet->default_row_style){
+		ri = sheet_duplicate_colrow (ri);
+		add = 1;
+	}
+
+	ri->pos = row;
+	ri->pixels = height;
+	colrow_set_units (sheet, ri);
+	if (add)
+		sheet_col_add (sheet, ri);
+	sheet_redraw_all (sheet);
+}
+
+void
+sheet_col_set_width (Sheet *sheet, int col, int width)
+{
+	ColRowInfo *ci;
+	int add = 0;
+	
+	ci = sheet_col_get_info (sheet, col);
+	if (ci == &sheet->default_col_style){
+		ci = sheet_duplicate_colrow (ci);
+		add = 1;
+	}
+
+	ci->pixels = width;
+	ci->pos = col;
+	colrow_set_units (sheet, ci);
+	if (add)
+		sheet_col_add (sheet, ci);
+
+	sheet_redraw_all (sheet);
 }
 
 /*
@@ -231,7 +364,7 @@ sheet_col_get_distance (Sheet *sheet, int from_col, int to_col)
 	 * of the ColRowInfo sets is going to change anyways
 	 */
 	for (i = from_col; i < to_col; i++){
-		ci = sheet_get_col_info (sheet, i);
+		ci = sheet_col_get_info (sheet, i);
 		pixels += ci->pixels;
 	}
 	return pixels;
@@ -252,7 +385,7 @@ sheet_row_get_distance (Sheet *sheet, int from_row, int to_row)
 	 * of the RowInfo, ColInfo sets is going to change anyways
 	 */
 	for (i = from_row; i < to_row; i++){
-		ri = sheet_get_row_info (sheet, i);
+		ri = sheet_row_get_info (sheet, i);
 		pixels += ri->pixels;
 	}
 	return pixels;

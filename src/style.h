@@ -78,8 +78,9 @@ typedef struct {
 	unsigned int orientation:4;
 } Style;
 
-void           style_init (void);
-Style         *style_new (void);
+void           style_init  	      (void);
+Style         *style_new   	      (void);
+Style         *style_duplicate        (Style *style);
 
 StyleFormat   *style_format_new       (char *name);
 void           style_format_ref       (StyleFormat *sf);
