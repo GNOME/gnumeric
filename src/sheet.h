@@ -294,6 +294,7 @@ typedef enum
 	CLEAR_COMMENTS	   = 0x4,
 	CLEAR_NOCHECKARRAY = 0x8,
 	CLEAR_NORESPAN	   = 0x10,
+	CLEAR_RECALC_DEPS  = 0x20,
 } SheetClearFlags;
 
 void  sheet_clear_region (WorkbookControl *context,

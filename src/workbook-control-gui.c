@@ -1802,7 +1802,7 @@ cb_sheet_pref_ ## flag (GtkWidget *ignored, WorkbookControlGUI *wbcg)	\
 
 TOGGLE_HANDLER (display_formulas,{
 	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-	g_list_foreach (wb->dependents, &cb_cell_rerender, NULL);
+	g_slist_foreach (wb->dependents, &cb_cell_rerender, NULL);
 	sheet_adjust_preferences (sheet, TRUE, FALSE);
 })
 TOGGLE_HANDLER (hide_zero, sheet_adjust_preferences (sheet, TRUE, FALSE);)

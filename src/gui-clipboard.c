@@ -312,7 +312,7 @@ x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data,
 		sheet_clear_region (wbc, sheet,
 				    a->start.col, a->start.row,
 				    a->end.col,   a->end.row,
-				    CLEAR_VALUES|CLEAR_COMMENTS);
+				    CLEAR_VALUES|CLEAR_COMMENTS|CLEAR_RECALC_DEPS);
 
 		cellregion_free (clipboard);
 		application_clipboard_clear (TRUE);

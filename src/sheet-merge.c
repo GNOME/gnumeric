@@ -108,6 +108,7 @@ sheet_merge_add (WorkbookControl *wbc,
 		for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_DIAGONAL; i++)
 			mstyle_unset_element (style, i);
 		sheet_style_apply_range (sheet, r, style);
+		sheet_region_queue_recalc (sheet, r);
 	}
 
 	r_copy = range_dup (r);

@@ -37,10 +37,10 @@ struct _Workbook {
 	GList      *names;
 
 	/* All objects with expressions */
-	GList      *dependents;
+	GSList     *dependents;
 
 	/* The dependents to be evaluated */
-	GList     *eval_queue;
+	GSList     *eval_queue;
 
 	/* Attached summary information */
 	SummaryInfo *summary_info;

@@ -145,11 +145,11 @@ workbook_destroy (GtkObject *wb_object)
 	 * All formulas are going to be removed.  Unqueue them before removing
 	 * the cells so that we need not search the lists.
 	 */
-	g_list_free (wb->dependents);
+	g_slist_free (wb->dependents);
 	wb->dependents = NULL;
 
 	/* Just drop the eval queue.  */
-	g_list_free (wb->eval_queue);
+	g_slist_free (wb->eval_queue);
 	wb->eval_queue = NULL;
 
 	/* Copy the set of sheets, the list changes under us. */
@@ -675,7 +675,7 @@ workbook_expr_unrelocate (Workbook *wb, GSList *info)
 GSList *
 workbook_expr_relocate (Workbook *wb, ExprRelocateInfo const *info)
 {
-	GList *dependents, *l;
+	GSList *dependents, *l;
 	GSList *undo_info = NULL;
 
 	if (info->col_offset == 0 && info->row_offset == 0 &&
@@ -685,7 +685,7 @@ workbook_expr_relocate (Workbook *wb, ExprRelocateInfo const *info)
 	g_return_val_if_fail (wb != NULL, NULL);
 
 	/* Copy the list since it will change underneath us.  */
-	dependents = g_list_copy (wb->dependents);
+	dependents = g_slist_copy (wb->dependents);
 
 	for (l = dependents; l; l = l->next)	{
 		Dependent *dep = l->data;
@@ -726,7 +726,7 @@ workbook_expr_relocate (Workbook *wb, ExprRelocateInfo const *info)
 		}
 	}
 
-	g_list_free (dependents);
+	g_slist_free (dependents);
 
 	return undo_info;
 }

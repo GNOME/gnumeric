@@ -186,6 +186,7 @@ typedef struct {
 	gboolean    has_fraction;
         char        restriction_type;
         int         restriction_value;
+	StyleColor *color;
 } StyleFormatEntry;
 
 struct _StyleFormat {
@@ -424,129 +425,17 @@ append_half (GString *string, const guchar *format, const struct tm *time_split)
 }
 #endif
 
-/*
- * Since the Excel formating codes contain a number of ambiguities,
- * this routine does some analysis on the format first.
- */
-static void
-pre_parse_format (StyleFormatEntry *style)
+static StyleFormatEntry *
+format_entry_ctor (void)
 {
-	const unsigned char *format;
+	StyleFormatEntry *entry;
 
-	style->want_am_pm = style->has_fraction = FALSE;
-	for (format = style->format; *format; format++){
-		switch (*format){
-		case '"':
-			format++;
-			while (*format && *format != '"')
-				format++;
-
-			if (!*format)
-				return;
-			break;
-
-		case '\\':
-			if (*(format+1))
-				format++;
-			else
-				return;
-			break;
-
-		case '/':
-			if (format [1] == '?' || isdigit (format[1])) {
-				style->has_fraction = TRUE;
-				format++;
-			}
-			break;
-		case 'a':
-		case 'p':
-		case 'A':
-		case 'P':
-			if (tolower (format[1]) == 'm')
-				style->want_am_pm = TRUE;
-			break;
-		default :
-			break;
-		}
-	}
-}
-
-typedef struct
-{
-	int decimal;
-	int timeformat;
-	int hasnumbers;
-} xformat_info;
-
-/*
- * This routine should always return, it cannot fail, in the worst
- * case it should just downgrade to simplistic formatting
- */
-static void
-format_compile (StyleFormat *format)
-{
-	GString *string = g_string_new ("");
-	int i;
-	int which = 0;
-	int length = strlen (format->format);
-	StyleFormatEntry standard_entries[4];
-	StyleFormatEntry *temp;
-
-	/* g_string_maybe_expand (string, length); */
-
-	for (i = 0; i < length; i++){
-
-		switch (format->format[i]){
-		case ';':
-			if (which < 4) {
-				standard_entries [which].restriction_type = '*';
-				standard_entries [which].format =
-					g_strndup (string->str, string->len + 1);
-				which++;
-			}
-			string = g_string_truncate (string, 0);
-			break;
-		default:
-			string = g_string_append_c (string, format->format [i]);
-			break;
-		}
-	}
-
-	if (which < 4) {
-		standard_entries[which].restriction_type = '*';
-		standard_entries[which].format =
-			g_strndup (string->str, string->len + 1);
-		which++;
-	}
-
-	/* Set up restriction types. */
-	standard_entries[1].restriction_type = '<';
-	standard_entries[1].restriction_value = 0;
-	switch (which){
-
-	case 4:
-		standard_entries[3].restriction_type = '@';
-		/* Fall through. */
-	case 3:
-		standard_entries[2].restriction_type = '=';
-		standard_entries[2].restriction_value = 0;
-		standard_entries[0].restriction_type = '>';
-		standard_entries[0].restriction_value = 0;
-		break;
-	case 2:
-		standard_entries[0].restriction_type = '.';  /* . >= */
-		standard_entries[0].restriction_value = 0;
-		break;
-	}
-
-	for (i = 0; i < which; i++){
-		temp = g_new (StyleFormatEntry, 1);
-		*temp = standard_entries[i];
-		pre_parse_format (temp);
-		format->entries = g_list_append (format->entries, temp);
-	}
-
-	g_string_free (string, TRUE);
+	entry = g_new (StyleFormatEntry, 1);
+	entry->restriction_type = '*';
+	entry->restriction_value = 0.;
+	entry->want_am_pm = entry->has_fraction = FALSE;
+	entry->color = NULL;
+	return entry;
 }
 
 /**
@@ -559,8 +448,153 @@ static void
 format_entry_dtor (gpointer data, gpointer user_data)
 {
 	StyleFormatEntry *entry = data;
+	if (entry->color != NULL) {
+		style_color_unref (entry->color);
+		entry->color = NULL;
+	}
 	g_free ((char *)entry->format);
 	g_free (entry);
+}
+
+static StyleColor * lookup_color (const char *str, const char *end);
+
+/*
+ * Since the Excel formating codes contain a number of ambiguities, this
+ * routine does some analysis on the format first.  This routine should always
+ * return, it cannot fail, in the worst case it should just downgrade to
+ * simplistic formatting
+ */
+static void
+format_compile (StyleFormat *format)
+{
+	unsigned char const *fmt, *real_start = NULL;
+	StyleFormatEntry *entry = format_entry_ctor ();
+	int num_entries = 1;
+
+	for (fmt = format->format; *fmt ; fmt++) {
+		if (NULL == real_start && '[' != *fmt)
+			real_start = fmt;
+
+		switch (*fmt) {
+		case ';': {
+			format->entries = g_list_append (format->entries, entry);
+			entry->format = g_strndup (real_start, fmt - real_start);
+			num_entries++;
+
+			entry = format_entry_ctor ();
+			real_start = NULL;
+			break;
+		}
+
+		case '[': {
+			unsigned char const *begin = fmt + 1;
+			unsigned char const *end = begin;
+
+			/* find end checking for escapes and quotes */
+			for (; *end && *end != ']' ; ++end) {
+				switch (*end) {
+				case '\\' :
+					if (end [1])
+						end++; /* skip escaped characters */
+					break;
+
+				case '\'' :
+				case '\"' : {
+					/* skip quoted strings */
+					char const match = *fmt;
+					for (; fmt < end && *fmt != match; fmt++)
+						if (fmt < end && *fmt == '\\')
+							fmt++;
+					break;
+				}
+
+				default :
+					break;
+				}
+			}
+
+			/* Check for conditional */
+			if (*begin == '<') {
+				if (begin [1] == '=') {
+					entry->restriction_type = ',';
+					begin += 2;
+				} else if (begin [1] == '>') {
+					entry->restriction_type = '+';
+					begin += 2;
+				} else {
+					entry->restriction_type = '<';
+					begin++;
+				}
+			} else if (*begin == '>') {
+				if (begin [1] == '=') {
+					entry->restriction_type = '.';
+					begin += 2;
+				} else {
+					entry->restriction_type = '>';
+					begin++;
+				}
+			} else if (*begin == '=') {
+				entry->restriction_type = '=';
+			} else if (*begin != '$' && entry->color == NULL) {
+				entry->color = lookup_color (begin, end);
+				/* Only the first colour counts */
+				if (NULL == entry->color) {
+					if (NULL == real_start)
+						real_start = fmt;
+					continue;
+				}
+				fmt = end;
+				continue;
+			} else {
+				if (NULL == real_start)
+					real_start = fmt;
+				continue;
+			}
+			fmt = end;
+#warning Get the value
+			break;
+		}
+
+		case '\\' :
+			if (fmt[1] != '\0')
+				fmt++; /* skip escaped characters */
+			break;
+
+		case '\'' :
+		case '\"' : {
+			/* skip quoted strings */
+			char const match = *fmt;
+			for (; *fmt && *fmt != match; fmt++)
+				if (*fmt == '\\' && fmt[1] != '\0')
+					fmt++;
+			break;
+		}
+
+		case '/':
+			if (fmt [1] == '?' || isdigit (fmt[1])) {
+				entry->has_fraction = TRUE;
+				fmt++;
+			}
+			break;
+
+		case 'a': case 'A':
+		case 'p': case 'P':
+			if (tolower (fmt [1]) == 'm') {
+				entry->want_am_pm = TRUE;
+				fmt += 2;
+			}
+			break;
+
+		default :
+			break;
+		}
+	}
+
+	format->entries = g_list_append (format->entries, entry);
+	entry->format = g_strndup (real_start, fmt-real_start);
+
+	/* num_entries; */
+#warning apply the default conditions
 }
 
 /*
@@ -619,7 +653,7 @@ format_color_shutdown (void)
 }
 
 static struct FormatColor const *
-lookup_color_by_name (const char *str, const char *end,
+lookup_color_by_name (unsigned char const *str, unsigned char const *end,
 		      gboolean const translate)
 {
 	int i, len;
@@ -1593,7 +1627,7 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color,
 	      float col_width)
 {
 	char *v = NULL;
-	StyleFormatEntry entry;
+	StyleFormatEntry const *entry;
 	gboolean is_general = FALSE;
 	GList *list;
 
@@ -1604,49 +1638,29 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color,
 
 	if (format) {
 		/* get format */
-		for (list = format->entries; list; list = g_list_next (list))
+		for (list = format->entries; list; list = list->next)
 			if (check_valid (list->data, value))
 				break;
 
-		if (list)
-			entry = *(StyleFormatEntry *)(list->data);
-		else
-			entry.format = format->format;
+		/* If nothing matches fall back on the first */
+		if (NULL == list)
+			list = format->entries;
+		entry = (StyleFormatEntry const *)(list->data);
 
-		/* Try to parse a color specification */
-		if (entry.format [0] == '['){
-			char *end = strchr (entry.format, ']');
-
-			if (end) {
-				char first_after_bracket = entry.format [1];
-
-				/*
-				 * Special [h*], [m*], [*s] is using for
-				 * and [$*] are for currencies.
-				 * measuring times, not for specifying colors.
-				 */
-				if (!(first_after_bracket == 'h' ||
-				      first_after_bracket == 's' ||
-				      first_after_bracket == 'm' ||
-				      first_after_bracket == '$')){
-					if (color)
-						*color = lookup_color (&entry.format [1], end);
-					entry.format = end+1;
-				}
-			}
-		}
+		if (color)
+			*color = entry->color;
 
 		/* Empty formats should be ignored */
-		if (entry.format [0] == '\0')
+		if (entry->format [0] == '\0')
 			return g_strdup ("");
 
 		/* Formatting a value as a text returns the entered text */
-		if (strcmp (entry.format, "@") == 0) {
+		if (strcmp (entry->format, "@") == 0) {
 			if (value->type == VALUE_STRING)
 				return g_strdup (value->v_str.val->str);
 
 			is_general = TRUE;
-		} else if (strcmp (entry.format, "General") == 0)
+		} else if (strcmp (entry->format, "General") == 0)
 			is_general = TRUE;
 	} else
 		is_general = TRUE;
@@ -1672,13 +1686,13 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color,
 			}
 			return fmt_general_float (val, col_width);
 		}
-		v = format_number (value->v_float.val, (int)col_width, &entry);
+		v = format_number (value->v_float.val, (int)col_width, entry);
 		break;
 
 	case VALUE_INTEGER:
 		if (is_general)
 			return fmt_general_int (value->v_int.val, col_width);
-		v = format_number (value->v_int.val, (int)col_width, &entry);
+		v = format_number (value->v_int.val, (int)col_width, entry);
 		break;
 
 	case VALUE_BOOLEAN:

@@ -2919,6 +2919,9 @@ sheet_clear_region (WorkbookControl *wbc, Sheet *sheet,
 		}
 	}
 
+	if (clear_flags & CLEAR_RECALC_DEPS)
+		sheet_region_queue_recalc (sheet, &r);
+
 	/* Always redraw */
 	sheet_redraw_cell_region (sheet,
 				  min_col, start_row,

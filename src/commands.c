@@ -588,7 +588,7 @@ cmd_set_text_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 		sheet_clear_region (wbc, me->pos.sheet,
 				    me->pos.eval.col, me->pos.eval.row,
 				    me->pos.eval.col, me->pos.eval.row,
-				    CLEAR_VALUES);
+				    CLEAR_VALUES|CLEAR_RECALC_DEPS);
 
 	me->text = new_text;
 
@@ -1228,7 +1228,7 @@ cmd_clear_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 		sheet_clear_region (wbc, me->sheet,
 				    r->start.col, r->start.row,
 				    r->end.col, r->end.row,
-				    me->clear_flags|CLEAR_NOCHECKARRAY);
+				    me->clear_flags|CLEAR_NOCHECKARRAY|CLEAR_RECALC_DEPS);
 	}
 	me->old_content = g_slist_reverse (me->old_content);
 
@@ -1648,7 +1648,7 @@ cmd_set_date_time_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 		sheet_clear_region (wbc, me->pos.sheet,
 				    me->pos.eval.col, me->pos.eval.row,
 				    me->pos.eval.col, me->pos.eval.row,
-				    CLEAR_VALUES);
+				    CLEAR_VALUES|CLEAR_RECALC_DEPS);
 
 	return FALSE;
 }

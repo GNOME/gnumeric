@@ -1,3 +1,22 @@
+2001-06-02  Jody Goldberg <jgoldberg@home.com>
+
+	* src/format.c (format_compile) : rewrite, not quite done.
+
+	* src/commands.c (cmd_set_text_undo) : queue a recalc.
+	(cmd_clear_redo) : ditto.
+	* src/corba-sheet.c (Sheet_clear_region) : ditto.
+	(Sheet_clear_region_content) : ditto.
+	* src/gui-clipboard.c (x_selection_handler) : ditto.
+	* src/sheet-merge.c (sheet_merge_add) : ditto.
+
+	* src/eval.c : switch the depend lists to be singly linked.
+	(dep_slist_filter_sheet) : convenience routine.
+	(dependent_unqueue_sheet) : Used here.
+	(dependent_unlink_sheet) : and here.
+
+	* src/workbook-control-gui.c (display_formulas) :  convert the single
+	  lists.
+
 2001-06-01  Zbigniew Chyla  <cyba@gnome.pl>
 
 	Support for reporting i/o progress via IOContext.

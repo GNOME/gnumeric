@@ -647,7 +647,7 @@ parse_ref_or_string (char const *string)
  * @c:
  *
  * Returns a pointer to character c in str.
- * Callers should check weather p is '\0'!
+ * Callers should check whether p is '\0'!
  **/
 static char const *
 find_char (char const *str, char c)
