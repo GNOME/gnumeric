@@ -1,5 +1,9 @@
 2004-10-29  Morten Welinder  <terra@gnome.org>
 
+	* src/io-context-gtk.c (icg_processing_file): Since the progress
+	bar truncates text at the right, limit the text we set to 40
+	characters (give or take) to ensure that the basename can be seen.
+
 	* src/plugin-service.c (plugin_service_ui_finalize): Free actions
 	using the right kind of freer.
 

@@ -58,6 +58,8 @@ Morten:
 	* Make URLs work from Nautilus.  [#156456]
 	* Fix pgamma accuracy for extreme arguments.
 	* Improve accuracy of a few complex number functions.
+	* Make sure basenames of files can be seen during splash for
+	  multiple files.
 
 Yukihiro Nakai:
 	* Improve perl plugin.
