@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2002-01-02 23:26+0000\n"
-"PO-Revision-Date: 2002-01-02 23:29+0000\n"
+"POT-Creation-Date: 2002-01-06 12:56+0000\n"
+"PO-Revision-Date: 2002-01-06 13:12+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <none@none.org>\n"
 "MIME-Version: 1.0\n"
@@ -42,7 +42,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Funções relacionadas com derivadas financeiras"
 
 #: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4465
-#: plugins/mps/mps.c:579 src/xml-io.c:3448
+#: plugins/mps/mps.c:579 src/xml-io.c:3447
 msgid "Reading file..."
 msgstr "A ler ficheiro..."
 
@@ -992,11 +992,11 @@ msgstr "XML baseado em SAX EXPERIMENTAL"
 msgid "The next generation sax based xml I/O subsystem"
 msgstr "O subsistema I/O xml baseado em sax de próxima geração"
 
-#: plugins/xml_sax/xml-sax-read.c:2228
+#: plugins/xml_sax/xml-sax-read.c:2227
 msgid "xmlCreateFileParserCtxt () failed."
 msgstr "xmlCreateFileParserCtxt () falhou."
 
-#: plugins/xml_sax/xml-sax-read.c:2237
+#: plugins/xml_sax/xml-sax-read.c:2236
 msgid "XML document not well formed!"
 msgstr "Documento XML não está bem formado!"
 
@@ -1857,7 +1857,7 @@ msgid "Statistical methods"
 msgstr "Métodos estatísticos"
 
 #: src/GNOME_Gnumeric.xml.h:204 src/dialogs/consolidate.glade.h:19
-#: src/workbook-control-gui.c:3000 src/workbook-control-gui.c:3601
+#: src/workbook-control-gui.c:3000 src/workbook-control-gui.c:3599
 #: src/workbook-view.c:518
 msgid "Sum"
 msgstr "Soma"
@@ -2506,7 +2506,7 @@ msgstr "% Cumulativa"
 msgid "Error '%s' opening workbook stream"
 msgstr "Erro '%s' ao abrir fluxo de livro de trabalho"
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3471
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3470
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Ficheiro xml inválido. Árvore está vazia ?"
 
@@ -3927,7 +3927,7 @@ msgstr "Largura _coluna (pts):"
 msgid "Add the entered area to the list of source areas"
 msgstr "Adicionar a área introduzida à lista de áreas fonte"
 
-#: src/dialogs/consolidate.glade.h:2 src/workbook-control-gui.c:3604
+#: src/dialogs/consolidate.glade.h:2 src/workbook-control-gui.c:3602
 msgid "Average"
 msgstr "Média"
 
@@ -3939,7 +3939,7 @@ msgstr "C_opiar etiquetas"
 msgid "Clear the list of source areas"
 msgstr "Limpar a lista de áreas fonte"
 
-#: src/dialogs/consolidate.glade.h:5 src/workbook-control-gui.c:3605
+#: src/dialogs/consolidate.glade.h:5 src/workbook-control-gui.c:3603
 msgid "Count"
 msgstr "Contagem"
 
@@ -3971,11 +3971,11 @@ msgstr "Na linha su_perior"
 msgid "Labels"
 msgstr "Etiquetas"
 
-#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3603
+#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3601
 msgid "Max"
 msgstr "Máx"
 
-#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3602
+#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3600
 msgid "Min"
 msgstr "Mín"
 
@@ -4449,10 +4449,10 @@ msgstr "Limite S_uperior:"
 #: src/dialogs/dialog-analysis-tools.c:2846
 msgid ""
 "The probability input range contains a non-numeric value.\n"
-"All probabilities must be positive numerbers."
+"All probabilities must be non-negative numbers."
 msgstr ""
 "A área de origem de probabilidades contém um valor não-numérico.\n"
-"Todas as probabilidades têm de ser números positivos."
+"Todas as probabilidades têm de ser números não-negativos."
 
 #: src/dialogs/dialog-analysis-tools.c:2851
 msgid "The probabilities may not all be 0!"
@@ -4945,31 +4945,31 @@ msgstr "Célula"
 msgid "Go to..."
 msgstr "Ir para..."
 
-#: src/dialogs/dialog-graph-guru.c:744
+#: src/dialogs/dialog-graph-guru.c:749
 msgid "Step 1 of 3: Select graph type"
 msgstr "Passo 1 de 3: Seleccionar tipo de gráfico"
 
-#: src/dialogs/dialog-graph-guru.c:750
+#: src/dialogs/dialog-graph-guru.c:755
 msgid "Step 2 of 3: Select data ranges"
 msgstr "Passo 2 de 3: Seleccionar áreas de dados"
 
-#: src/dialogs/dialog-graph-guru.c:752
+#: src/dialogs/dialog-graph-guru.c:757
 msgid "Graph Data"
 msgstr "Dados do Gráfico"
 
-#: src/dialogs/dialog-graph-guru.c:757
+#: src/dialogs/dialog-graph-guru.c:762
 msgid "Step 3 of 3: Customize graph"
 msgstr "Passo 3 de 3: Customizar gráfico"
 
-#: src/dialogs/dialog-graph-guru.c:759
+#: src/dialogs/dialog-graph-guru.c:764
 msgid "Format Graph"
 msgstr "Formatar Gráfico"
 
-#: src/dialogs/dialog-graph-guru.c:934
+#: src/dialogs/dialog-graph-guru.c:939
 msgid "Plot name"
 msgstr "Nome gráfico"
 
-#: src/dialogs/dialog-graph-guru.c:937
+#: src/dialogs/dialog-graph-guru.c:942
 msgid "Series name"
 msgstr "Nome da série"
 
@@ -6118,7 +6118,7 @@ msgid "Scale"
 msgstr "Escala"
 
 #: src/dialogs/print.glade.h:25 src/functions/fn-sheet.c:141
-#: src/workbook.c:1065 src/xml-io.c:3156
+#: src/workbook.c:1065 src/xml-io.c:3155
 msgid "Sheet"
 msgstr "Folha"
 
@@ -8700,6 +8700,54 @@ msgstr ""
 
 #: src/functions/fn-date.c:97
 msgid ""
+"@FUNCTION=UNIX2DATE\n"
+"@SYNTAX=UNIX2DATE(unixtime)\n"
+"@DESCRIPTION=UNIX2DATE converts a unix time into a spreadsheet date and "
+"time.\n"
+"\n"
+"A unix time is the number of seconds since midnight January 1, 1970.\n"
+"\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=NOW, DATE, DATE2UNIX"
+msgstr ""
+"@FUNCTION=UNIX2DATE\n"
+"@SYNTAX=UNIX2DATE(tempounix)\n"
+"@DESCRIPTION=UNIX2DATE converte um valor de tempo unix numa data e hora de "
+"folha de cálculo.\n"
+"\n"
+"Tempo unix é o número de segundos desde a meia-noite de 1 Janeiro 1970.\n"
+"\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=NOW, DATE, DATE2UNIX"
+
+#: src/functions/fn-date.c:127
+msgid ""
+"@FUNCTION=DATE2UNIX\n"
+"@SYNTAX=DATE2UNIX(serial)\n"
+"@DESCRIPTION=DATE2UNIX converts a spreadsheet date and time serial number "
+"into a unix time.\n"
+"\n"
+"A unix time is the number of seconds since midnight January 1, 1970.\n"
+"\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=NOW, DATE, UNIX2DATE"
+msgstr ""
+"@FUNCTION=DATE2UNIX\n"
+"@SYNTAX=DATE2UNIX(série)\n"
+"@DESCRIPTION=DATE2UNIX converte um número de série de data e hora de folha "
+"de cálculo em tempo unix.\n"
+"\n"
+"Tempo unix é o número de segundos desde a meia-noite de 1 Janeiro 1970.\n"
+"\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=NOW, DATE, UNIX2DATE"
+
+#: src/functions/fn-date.c:158
+msgid ""
 "@FUNCTION=DATEVALUE\n"
 "@SYNTAX=DATEVALUE(date_str)\n"
 "@DESCRIPTION=DATEVALUE returns the serial number of the date.  @date_str is "
@@ -8718,7 +8766,7 @@ msgstr ""
 "DATEVALUE(\"1/1/1999\") igual a 36160. \n"
 "@SEEALSO=DATE"
 
-#: src/functions/fn-date.c:122
+#: src/functions/fn-date.c:183
 msgid ""
 "@FUNCTION=DATEDIF\n"
 "@SYNTAX=DATEDIF(date1,date2,interval)\n"
@@ -8759,7 +8807,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DATE"
 
-#: src/functions/fn-date.c:289
+#: src/functions/fn-date.c:350
 msgid ""
 "@FUNCTION=EDATE\n"
 "@SYNTAX=EDATE(date,months)\n"
@@ -8787,7 +8835,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DATE"
 
-#: src/functions/fn-date.c:343
+#: src/functions/fn-date.c:404
 msgid ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY()\n"
@@ -8809,7 +8857,7 @@ msgstr ""
 " \n"
 "@SEEALSO=NOW"
 
-#: src/functions/fn-date.c:366
+#: src/functions/fn-date.c:427
 msgid ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
@@ -8841,7 +8889,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TODAY"
 
-#: src/functions/fn-date.c:397
+#: src/functions/fn-date.c:458
 msgid ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (hours,minutes,seconds)\n"
@@ -8861,7 +8909,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR"
 
-#: src/functions/fn-date.c:426
+#: src/functions/fn-date.c:487
 msgid ""
 "@FUNCTION=TIMEVALUE\n"
 "@SYNTAX=TIMEVALUE (timetext)\n"
@@ -8885,7 +8933,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR,MINUTE"
 
-#: src/functions/fn-date.c:455
+#: src/functions/fn-date.c:516
 msgid ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (serial_number)\n"
@@ -8911,7 +8959,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 
-#: src/functions/fn-date.c:484
+#: src/functions/fn-date.c:545
 msgid ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (serial_number)\n"
@@ -8937,7 +8985,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 
-#: src/functions/fn-date.c:514
+#: src/functions/fn-date.c:575
 msgid ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (serial_number)\n"
@@ -8963,7 +9011,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
 
-#: src/functions/fn-date.c:544
+#: src/functions/fn-date.c:605
 msgid ""
 "@FUNCTION=YEAR\n"
 "@SYNTAX=YEAR (serial_number)\n"
@@ -8987,7 +9035,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DAY, MONTH, TIME, NOW"
 
-#: src/functions/fn-date.c:581
+#: src/functions/fn-date.c:642
 msgid ""
 "@FUNCTION=MONTH\n"
 "@SYNTAX=MONTH (serial_number)\n"
@@ -9011,7 +9059,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DAY, TIME, NOW, YEAR"
 
-#: src/functions/fn-date.c:618
+#: src/functions/fn-date.c:679
 msgid ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (serial_number)\n"
@@ -9035,14 +9083,18 @@ msgstr ""
 "\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
-#: src/functions/fn-date.c:655
+#: src/functions/fn-date.c:716
 msgid ""
 "@FUNCTION=WEEKDAY\n"
-"@SYNTAX=WEEKDAY (serial_number)\n"
+"@SYNTAX=WEEKDAY (serial_number[, method])\n"
 "@DESCRIPTION=WEEKDAY converts a serial number to a weekday.\n"
 "\n"
-"This function returns an integer in the range 0-6, where Saturday is 0, "
-"Sunday is 1, etc.\n"
+"This function returns an integer indicating the day of week.\n"
+"@METHOD indicates the numbering system.  It defaults to 1.\n"
+"\n"
+"For @METHOD=1: Sunday is 1, Monday is 2, etc.\n"
+"For @METHOD=2: Monday is 1, Tuesday is 2, etc.\n"
+"For @METHOD=3: Monday is 0, Tuesday is 1, etc.\n"
 "\n"
 "Note that Gnumeric will perform regular string to serial number conversion "
 "for you, so you can enter a date as a string.\n"
@@ -9053,11 +9105,15 @@ msgid ""
 "@SEEALSO=DAY, MONTH, TIME, NOW, YEAR"
 msgstr ""
 "@FUNCTION=WEEKDAY\n"
-"@SYNTAX=WEEKDAY (número_série)\n"
+"@SYNTAX=WEEKDAY (número_série[, método])\n"
 "@DESCRIPTION=WEEKDAY converte um número de série num dia da semana.\n"
 "\n"
-"Esta função devolve um inteiro pertencente ao intrevalo 0-6, onde Sábado é "
-"0, Domingo é 1, etc.\n"
+"Esta função devolve um inteiro que indica o dia da semana.\n"
+"@MÉTODO indica o sistema de numeração. O defeito é 1.\n"
+"\n"
+"Para @MÉTODO=1: Domingo é 1, Segunda é 2, etc.\n"
+"Para @MÉTODO=2: Segunda é 1, Terça é 2, etc.\n"
+"Para @MÉTODO=3: Segunda é 0, Terça é 1, etc.\n"
 "\n"
 "Note que o Gnumeric irá realizar por sí uma conversão de texto para número "
 "de série, pelo que pode introduzir uma data como texto.\n"
@@ -9067,7 +9123,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DAY, MONTH, TIME, NOW, YEAR"
 
-#: src/functions/fn-date.c:695
+#: src/functions/fn-date.c:769
 msgid ""
 "@FUNCTION=DAYS360 \n"
 "@SYNTAX=DAYS360 (date1,date2,method)\n"
@@ -9102,11 +9158,11 @@ msgstr ""
 "\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
-#: src/functions/fn-date.c:733
+#: src/functions/fn-date.c:807
 msgid "Unsupported method"
 msgstr "Método não suportado"
 
-#: src/functions/fn-date.c:798
+#: src/functions/fn-date.c:872
 msgid ""
 "@FUNCTION=EOMONTH\n"
 "@SYNTAX=EOMONTH (start_date,months)\n"
@@ -9132,7 +9188,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MONTH"
 
-#: src/functions/fn-date.c:848
+#: src/functions/fn-date.c:922
 msgid ""
 "@FUNCTION=WORKDAY\n"
 "@SYNTAX=WORKDAY (start_date,days,holidays)\n"
@@ -9159,12 +9215,12 @@ msgstr ""
 "@SEEALSO=NETWORKDAYS"
 
 #. Path of the current directory or folder.
-#: src/functions/fn-date.c:884 src/functions/fn-eng.c:77
+#: src/functions/fn-date.c:958 src/functions/fn-eng.c:77
 #: src/functions/fn-information.c:395 src/functions/fn-information.c:411
 msgid "Unimplemented"
 msgstr "Não implementado"
 
-#: src/functions/fn-date.c:919
+#: src/functions/fn-date.c:993
 msgid ""
 "@FUNCTION=NETWORKDAYS\n"
 "@SYNTAX=NETWORKDAYS (start_date,end_date,holidays)\n"
@@ -9189,7 +9245,7 @@ msgstr ""
 "\n"
 "@SEEALSO=WORKDAY"
 
-#: src/functions/fn-date.c:1046
+#: src/functions/fn-date.c:1120
 msgid "Date / Time"
 msgstr "Data / Hora"
 
@@ -12785,7 +12841,29 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:983
+#: src/functions/fn-information.c:979
+msgid ""
+"@FUNCTION=GETENV\n"
+"@SYNTAX=GETENV(string)\n"
+"@DESCRIPTION=GETENV retrieves a value from the execution environment.\n"
+"\n"
+"If the variable specified by @STRING does not exist, #N/A! will be "
+"returned.  Note, that variable names are case sensitive.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=GETENV\n"
+"@SYNTAX=GETENV(expressão)\n"
+"@DESCRIPTION=GETENV obtém um valor do ambiente de execução.\n"
+"\n"
+"Se a variável especificada por @EXPRESSÃO não existir, será devolvido "
+"#N/A!.  Note que os nomes de variáveis são sensíveis à capitalização.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+
+#: src/functions/fn-information.c:1011
 msgid "Information"
 msgstr "Informação"
 
@@ -14509,9 +14587,10 @@ msgstr ""
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
-"@DESCRIPTION=PI functions returns the value of Pi. \n"
+"@DESCRIPTION=PI functions returns the value of pi. \n"
 "This function is called with no arguments.\n"
-"This function is Excel compatible. \n"
+"This function is Excel compatible, except that it returns pi with a better "
+"precision. \n"
 "@EXAMPLES=\n"
 "PI() equals 3.141593.\n"
 "\n"
@@ -14519,15 +14598,16 @@ msgid ""
 msgstr ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
-"@DESCRIPTION=A função PI devolve o valor de Pi. \n"
+"@DESCRIPTION=A função PI devolve o valor de pi.  \n"
 "Esta função é chamada sem passagem de argumentos.\n"
-"Esta função é compatível com o Excel. \n"
+"Esta função é compatível com o Excel, excepto em que devolve pi com maior "
+"precisão. \n"
 "@EXAMPLES=\n"
 "PI() igual a 3.141593.\n"
 "\n"
 "@SEEALSO=SQRTPI"
 
-#: src/functions/fn-math.c:1704
+#: src/functions/fn-math.c:1705
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -14553,7 +14633,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INT"
 
-#: src/functions/fn-math.c:1739
+#: src/functions/fn-math.c:1740
 msgid ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(number)\n"
@@ -14575,7 +14655,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ODD"
 
-#: src/functions/fn-math.c:1777
+#: src/functions/fn-math.c:1778
 msgid ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(number)\n"
@@ -14597,7 +14677,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EVEN"
 
-#: src/functions/fn-math.c:1815
+#: src/functions/fn-math.c:1816
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
@@ -14622,7 +14702,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FACT"
 
-#: src/functions/fn-math.c:1853
+#: src/functions/fn-math.c:1854
 msgid ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(num,den)\n"
@@ -14644,7 +14724,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MOD"
 
-#: src/functions/fn-math.c:1884
+#: src/functions/fn-math.c:1885
 msgid ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(number)\n"
@@ -14670,7 +14750,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-math.c:1918
+#: src/functions/fn-math.c:1919
 msgid ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(number)\n"
@@ -14692,7 +14772,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PI"
 
-#: src/functions/fn-math.c:1947
+#: src/functions/fn-math.c:1948
 msgid ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(bottom,top)\n"
@@ -14718,7 +14798,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND"
 
-#: src/functions/fn-math.c:1981
+#: src/functions/fn-math.c:1982
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -14756,7 +14836,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUND,ROUNDUP"
 
-#: src/functions/fn-math.c:2025
+#: src/functions/fn-math.c:2026
 msgid ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(number[,digits])\n"
@@ -14794,7 +14874,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 
-#: src/functions/fn-math.c:2066
+#: src/functions/fn-math.c:2067
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -14832,7 +14912,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUND,ROUNDDOWN"
 
-#: src/functions/fn-math.c:2110
+#: src/functions/fn-math.c:2111
 msgid ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(number,multiple)\n"
@@ -14863,7 +14943,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
 
-#: src/functions/fn-math.c:2160
+#: src/functions/fn-math.c:2161
 msgid ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(number[,type])\n"
@@ -14903,7 +14983,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-math.c:2426
+#: src/functions/fn-math.c:2427
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -14941,14 +15021,14 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2PY2"
 
-#: src/functions/fn-math.c:2482 src/functions/fn-math.c:2501
-#: src/functions/fn-math.c:2595 src/functions/fn-math.c:2615
-#: src/functions/fn-math.c:2707 src/functions/fn-math.c:2727
+#: src/functions/fn-math.c:2483 src/functions/fn-math.c:2502
+#: src/functions/fn-math.c:2596 src/functions/fn-math.c:2616
+#: src/functions/fn-math.c:2708 src/functions/fn-math.c:2728
 #: src/functions/fn-stat.c:2619 src/functions/fn-stat.c:2649
 msgid "Array version not implemented!"
 msgstr "Versão de array (matriz) não implementada!"
 
-#: src/functions/fn-math.c:2539
+#: src/functions/fn-math.c:2540
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -14986,7 +15066,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2"
 
-#: src/functions/fn-math.c:2651
+#: src/functions/fn-math.c:2652
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -15024,7 +15104,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2"
 
-#: src/functions/fn-math.c:2765
+#: src/functions/fn-math.c:2766
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
@@ -15082,7 +15162,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT,SUM"
 
-#: src/functions/fn-math.c:2847
+#: src/functions/fn-math.c:2848
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -15112,7 +15192,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT,SUM"
 
-#: src/functions/fn-math.c:2970
+#: src/functions/fn-math.c:2971
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
@@ -15138,11 +15218,11 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MDETERM"
 
-#: src/functions/fn-math.c:3018
+#: src/functions/fn-math.c:3019
 msgid "#3D MULT?"
 msgstr "#3D MULT?"
 
-#: src/functions/fn-math.c:3097
+#: src/functions/fn-math.c:3098
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -15164,7 +15244,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TRANSPOSE,MINVERSE"
 
-#: src/functions/fn-math.c:3173
+#: src/functions/fn-math.c:3174
 msgid ""
 "@FUNCTION=MDETERM\n"
 "@SYNTAX=MDETERM(matrix)\n"
@@ -15193,7 +15273,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MINVERSE"
 
-#: src/functions/fn-math.c:3231
+#: src/functions/fn-math.c:3232
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -15228,7 +15308,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM,PRODUCT"
 
-#: src/functions/fn-math.c:3349
+#: src/functions/fn-math.c:3350
 msgid "Maths / Trig."
 msgstr "Matem. / Trigon."
 
@@ -17179,12 +17259,14 @@ msgid ""
 "@DESCRIPTION=PERCENTRANK function returns the rank of a data point in a data "
 "set.  @array is the range of numeric values, @x is the data point which you "
 "want to rank, and the optional @significance indentifies the number of "
-"significant digits for the returned value.  If @significance is omitted, "
-"PERCENTRANK uses three digits.\n"
-"If @array contains no data points, PERCENTRANK returns #NUM! error. If "
-"@significance is less than one, PERCENTRANK returns #NUM! error. If @x does "
-"not match any of the values in @array or @x matches more than once, "
-"PERCENTRANK interpolates the returned value.\n"
+"significant digits for the returned value, truncating the remainder.  If "
+"@significance is omitted, PERCENTRANK uses three digits.\n"
+"If @array contains no data points, PERCENTRANK returns #NUM! error.\n"
+"If @significance is less than one, PERCENTRANK returns #NUM! error.\n"
+"If @x exceeds the largest value or is less than the smallest value in "
+"@array, PERCENTRANK returns #NUM! error.\n"
+"If @x does not match any of the values in @array or @x matches more than "
+"once, PERCENTRANK interpolates the returned value.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL"
@@ -17192,19 +17274,19 @@ msgstr ""
 "@FUNCTION=PERCENTRANK\n"
 "@SYNTAX=PERCENTRANK(matriz,x[,significância])\n"
 "@DESCRIPTION=A função PERCENTRANK devolve a posição de um ponto de dados num "
-"conjunto de dados. @matriz é o intrevalo de valores numéricos, @x é o ponto "
+"conjunto de dados.  @matriz é o intrevalo de valores numéricos, @x é o ponto "
 "de dados de que deseja saber a posição, e a @significância opcional "
-"indentifica o número de dígitos significantes para o valor devolvido. Se "
-"@significância for omitida, PERCENTRANK utiliza três dígitos.\n"
-"Se @matriz não contiver pontos de dados, PERCENTRANK devolve o erro #NUM!. "
-"Se @significância for menor do que um, PERCENTRANK devolve o erro #NUM!. Se "
-"@x não equivaler a nenhum dos valores na @matriz ou @x equivaler a mais do "
+"indentifica o número de dígitos significantes para o valor devolvido, truncando "
+"o remanescente. Se @significância for omitida, PERCENTRANK utiliza três dígitos.\n"
+"Se @matriz não contiver pontos de dados, PERCENTRANK devolve o erro #NUM!.\n"
+"Se @significância for menor do que um, PERCENTRANK devolve o erro #NUM!.\n"
+"Se @x não equivaler a nenhum dos valores na @matriz ou @x equivaler a mais do "
 "que um, PERCENTRANK interpola o valor devolvido.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL"
 
-#: src/functions/fn-stat.c:3151
+#: src/functions/fn-stat.c:3146
 msgid ""
 "@FUNCTION=PERCENTILE\n"
 "@SYNTAX=PERCENTILE(array,k)\n"
@@ -17236,7 +17318,7 @@ msgstr ""
 "\n"
 "@SEEALSO=QUARTILE"
 
-#: src/functions/fn-stat.c:3200
+#: src/functions/fn-stat.c:3195
 msgid ""
 "@FUNCTION=QUARTILE\n"
 "@SYNTAX=QUARTILE(array,quart)\n"
@@ -17282,7 +17364,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL"
 
-#: src/functions/fn-stat.c:3256
+#: src/functions/fn-stat.c:3251
 msgid ""
 "@FUNCTION=FTEST\n"
 "@SYNTAX=FTEST(array1,array2)\n"
@@ -17311,7 +17393,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FDIST,FINV"
 
-#: src/functions/fn-stat.c:3306
+#: src/functions/fn-stat.c:3301
 msgid ""
 "@FUNCTION=TTEST\n"
 "@SYNTAX=TTEST(array1,array2,tails,type)\n"
@@ -17369,7 +17451,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FDIST,FINV"
 
-#: src/functions/fn-stat.c:3480
+#: src/functions/fn-stat.c:3475
 msgid ""
 "@FUNCTION=FREQUENCY\n"
 "@SYNTAX=FREQUENCY(data_array,bins_array)\n"
@@ -17398,7 +17480,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-stat.c:3555
+#: src/functions/fn-stat.c:3550
 msgid ""
 "@FUNCTION=LINEST\n"
 "@SYNTAX=LINEST(known_y's[,known_x's[,const[,stat]]])\n"
@@ -17452,7 +17534,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,TREND"
 
-#: src/functions/fn-stat.c:3826
+#: src/functions/fn-stat.c:3821
 msgid ""
 "@FUNCTION=TREND\n"
 "@SYNTAX=TREND(known_y's[,known_x's],new_x's])\n"
@@ -17491,7 +17573,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LINEST"
 
-#: src/functions/fn-stat.c:3938
+#: src/functions/fn-stat.c:3933
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -17542,7 +17624,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
 
-#: src/functions/fn-stat.c:4193
+#: src/functions/fn-stat.c:4188
 msgid ""
 "@FUNCTION=GROWTH\n"
 "@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
@@ -17578,7 +17660,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
 
-#: src/functions/fn-stat.c:4307
+#: src/functions/fn-stat.c:4302
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -17614,7 +17696,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INTERCEPT,TREND"
 
-#: src/functions/fn-stat.c:4378
+#: src/functions/fn-stat.c:4373
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -17648,7 +17730,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FORECAST,TREND"
 
-#: src/functions/fn-stat.c:4427
+#: src/functions/fn-stat.c:4422
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
@@ -17674,7 +17756,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
 
-#: src/functions/fn-stat.c:4475
+#: src/functions/fn-stat.c:4470
 msgid "Statistics"
 msgstr "Estatísticas"
 
@@ -18865,7 +18947,7 @@ msgstr "Erro ao abrir o ficheiro \"%s\" para leitura."
 msgid "Unable to mmap the file."
 msgstr "Incapaz de fazer mmap do ficheiro."
 
-#: src/plugin-util.c:313 src/xml-io.c:3437
+#: src/plugin-util.c:313 src/xml-io.c:3436
 msgid "Cannot get file size."
 msgstr "Incapaz de obter tamanho de ficheiro."
 
@@ -19805,11 +19887,11 @@ msgstr ""
 "Ordena a área seleccionada por ordem descendente baseado na primeira coluna "
 "seleccionada."
 
-#: src/workbook-control-gui.c:3931
+#: src/workbook-control-gui.c:3929
 msgid "Send"
 msgstr "Enviar"
 
-#: src/workbook-control-gui.c:3931
+#: src/workbook-control-gui.c:3929
 msgid "Send the current file in email"
 msgstr "Envia o ficheiro actual por email"
 
@@ -20081,30 +20163,30 @@ msgstr ""
 "Erro ao tentar construir árvore a partir do ficheiro de modelo de auto-"
 "formatação"
 
-#: src/xml-io.c:2871
+#: src/xml-io.c:2870
 msgid "Unparsable xml in clipboard"
 msgstr "XML inparseável na área de transferência"
 
-#: src/xml-io.c:2878
+#: src/xml-io.c:2877
 msgid "Clipboard is in unknown format"
 msgstr "Área de transferência tem formato desconhecido"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3282
+#: src/xml-io.c:3281
 msgid "Processing file..."
 msgstr "A processar ficheiro..."
 
-#: src/xml-io.c:3445
+#: src/xml-io.c:3444
 msgid "Not enough memory to create zlib decompression state."
 msgstr "Memória insuficiente para criar o estado de descompressão zlib."
 
-#: src/xml-io.c:3480
+#: src/xml-io.c:3479
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Não é um ficheiro Livro de Trabalho Gnumeric"
 
-#: src/xml-io.c:3537
+#: src/xml-io.c:3536
 msgid "Gnumeric XML file format"
 msgstr "Formato de ficheiro XML Gnumeric"
 
