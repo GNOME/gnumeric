@@ -37,7 +37,7 @@ struct _ItemBar {
 	GnomeCanvasItem  canvas_item;
 
 	GnumericCanvas   *gcanvas;
-	GdkGC           *gc, *lines, *shade; /* Draw gc */
+	GdkGC           *text_gc, *lines, *shade;
 	GdkCursor       *normal_cursor;
 	GdkCursor       *change_cursor;
 	StyleFont	*normal_font, *bold_font;
@@ -156,7 +156,6 @@ item_bar_realize (GnomeCanvasItem *item)
 {
 	ItemBar *ib;
 	GdkWindow *window;
-	GdkGC *gc;
 	GtkStyle *style;
 	GtkWidget *button;
 
@@ -166,21 +165,21 @@ item_bar_realize (GnomeCanvasItem *item)
 	ib = ITEM_BAR (item);
 	window = GTK_WIDGET (item->canvas)->window;
 
-	/* We need to extract the colours from a real visible button,
-	 * choose this one because it is available.
-	 */
-	button = ib->gcanvas->scg->select_all_btn;
+	button = gtk_button_new ();
 
 	/* Configure our gc */
-	ib->gc = gc = gdk_gc_new (window);
 	gtk_widget_ensure_style (button);
 	style = gtk_widget_get_style (button);
-	gdk_gc_set_foreground (ib->gc, &style->text[GTK_STATE_NORMAL]);
-	ib->shade = gdk_gc_ref (style->dark_gc[GTK_STATE_NORMAL]);
+
+	ib->text_gc = gdk_gc_new (window);
+	gdk_gc_set_foreground (ib->text_gc, &style->text[GTK_STATE_NORMAL]);
+	ib->shade = gdk_gc_new (window);
+	gdk_gc_set_foreground (ib->shade, &style->dark[GTK_STATE_NORMAL]);
 	ib->lines = gdk_gc_new (window);
-	gdk_gc_copy (ib->lines, gc);
+	gdk_gc_copy (ib->lines, ib->text_gc);
 	gdk_gc_set_line_attributes (ib->lines, 2, GDK_LINE_SOLID,
 				    GDK_CAP_NOT_LAST, GDK_JOIN_MITER);
+	gtk_widget_destroy (button);
 
 	ib->normal_cursor = gdk_cursor_new (GDK_ARROW);
 	if (ib->is_col_header)
@@ -195,7 +194,7 @@ item_bar_unrealize (GnomeCanvasItem *item)
 {
 	ItemBar *ib = ITEM_BAR (item);
 
-	gdk_gc_unref (ib->gc);
+	gdk_gc_unref (ib->text_gc);
 	gdk_gc_unref (ib->lines);
 	gdk_gc_unref (ib->shade);
 	gdk_cursor_destroy (ib->change_cursor);
@@ -243,8 +242,8 @@ ib_draw_cell (ItemBar const * const ib,
 			    rect->x + 1, rect->y + 1, rect->width-2, rect->height-2);
 	gtk_draw_shadow (canvas->style, drawable, GTK_STATE_NORMAL, shadow,
 			 rect->x, rect->y, rect->width, rect->height);
-	gdk_gc_set_clip_rectangle (ib->gc, rect);
-	gdk_draw_string (drawable, font, ib->gc,
+	gdk_gc_set_clip_rectangle (ib->text_gc, rect);
+	gdk_draw_string (drawable, font, ib->text_gc,
 			 rect->x + (rect->width - len) / 2,
 			 rect->y + (rect->height - texth) / 2 + font->ascent + 1,
 			 str);

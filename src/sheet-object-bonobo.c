@@ -238,7 +238,7 @@ sheet_object_bonobo_populate_menu (SheetObject *so,
 	g_return_if_fail (sob != NULL);
 
 	if (sob->has_persist_file || sob->has_persist_stream) {
-		item = gtk_menu_item_new_with_label (_("Open"));
+		item = gtk_menu_item_new_with_label (_("Open..."));
 		gtk_signal_connect (GTK_OBJECT (item), "activate",
 				    GTK_SIGNAL_FUNC (open_cb), so);
 		gtk_menu_append (menu, item);

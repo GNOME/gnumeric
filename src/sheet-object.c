@@ -40,7 +40,7 @@ GtkType    sheet_object_get_type  (void);
 static GtkObjectClass *sheet_object_parent_class;
 
 static void
-sheet_object_remove_cb (GtkWidget *widget, GtkObject *so_view)
+cb_sheet_object_remove (GtkWidget *widget, GtkObject *so_view)
 {
 	Sheet *sheet;
 	SheetObject *so;
@@ -82,13 +82,7 @@ sheet_object_populate_menu (SheetObject *so,
 			    GtkObject *obj_view,
 			    GtkMenu *menu)
 {
-	GtkWidget *item = gnome_stock_menu_item (GNOME_STOCK_MENU_CLOSE,
-						 _("Delete"));
-
-	gtk_menu_append (menu, item);
-	gtk_signal_connect (GTK_OBJECT (item), "activate",
-			    GTK_SIGNAL_FUNC (sheet_object_remove_cb), obj_view);
-
+	GtkWidget *item;
 	if (SO_CLASS(so)->user_config != NULL) {
 		item = gnome_stock_menu_item (GNOME_STOCK_MENU_PROP,
 					      _("Properties..."));
@@ -96,6 +90,11 @@ sheet_object_populate_menu (SheetObject *so,
 				    GTK_SIGNAL_FUNC (cb_sheet_object_configure), obj_view);
 		gtk_menu_append (menu, item);
 	}
+
+	item = gnome_stock_menu_item (GNOME_STOCK_MENU_CLOSE, _("Delete"));
+	gtk_menu_append (menu, item);
+	gtk_signal_connect (GTK_OBJECT (item), "activate",
+			    GTK_SIGNAL_FUNC (cb_sheet_object_remove), obj_view);
 }
 
 /**

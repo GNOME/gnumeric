@@ -1,3 +1,20 @@
+2001-08-24  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-control-gui.c (scg_context_menu) : use the new artwork.
+
+	* configure.in : bump version req for gnome-print to ensure that
+	  we only see fontmap2.
+	* README : ditto.
+	* gnumeric.spec.in : ditto.
+
+	* src/style.c (font_init) : Mention only the file fontmap2.
+
+	* src/item-bar.c (item_bar_realize) : Don't attempt to use a gc from 
+	  an unrealized button.  Do it manually instead.
+
+	* src/sheet-object.c (sheet_object_populate_menu) : Put Properties
+	  above delete.
+
 2001-08-23  Jody Goldberg <jgoldberg@home.com>
 
 	* src/item-bar.c (item_bar_destroy) : remove debug msg.

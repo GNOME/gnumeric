@@ -326,25 +326,34 @@ gnm_graph_destroy (GtkObject *obj)
 }
 
 static void
+cb_graph_assign_data (GtkWidget *ignored, GnmGraph *graph)
+{
+}
+
+static void
 gnm_graph_populate_menu (SheetObject *so,
 			 GtkObject   *obj_view,
 			 GtkMenu     *menu)
 {
 	GnmGraph *graph;
+	GtkWidget *item;
 
 	graph = GNUMERIC_GRAPH (so);
 	g_return_if_fail (IS_GNUMERIC_GRAPH (so));
 
-#if 0
-	GtkWidget *item;
-	item = gtk_menu_item_new_with_label (_("Open"));
+	item = gtk_menu_item_new_with_label (_("Data..."));
 	gtk_signal_connect (GTK_OBJECT (item), "activate",
-			    GTK_SIGNAL_FUNC (open_cb), so);
+			    GTK_SIGNAL_FUNC (cb_graph_assign_data), graph);
 	gtk_menu_append (menu, item);
-#endif
 
 	if (SHEET_OBJECT_CLASS (gnm_graph_parent_class)->populate_menu)
 		SHEET_OBJECT_CLASS (gnm_graph_parent_class)->populate_menu (so, obj_view, menu);
+}
+
+static void
+gnm_graph_user_config (SheetObject	*sheet_object,
+		       SheetControlGUI	*s_control)
+{
 }
 
 static void
@@ -358,6 +367,7 @@ gnm_graph_class_init (GtkObjectClass *object_class)
 
 	sheet_object_class = SHEET_OBJECT_CLASS (object_class);
 	sheet_object_class->populate_menu = &gnm_graph_populate_menu;
+	sheet_object_class->user_config = &gnm_graph_user_config;
 }
 
 E_MAKE_TYPE (gnm_graph, "GnmGraph", GnmGraph,

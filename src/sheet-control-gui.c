@@ -1294,11 +1294,11 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 	};
 
 	static GnumericPopupMenuElement const popup_elements[] = {
-		{ N_("Cu_t"),           GNOME_STOCK_MENU_CUT,
+		{ N_("Cu_t"),           "Menu_Gnumeric_Cut",
 		    0, 0, CONTEXT_CUT },
-		{ N_("_Copy"),          GNOME_STOCK_MENU_COPY,
+		{ N_("_Copy"),          "Menu_Gnumeric_Copy",
 		    0, 0, CONTEXT_COPY },
-		{ N_("_Paste"),         GNOME_STOCK_MENU_PASTE,
+		{ N_("_Paste"),         "Menu_Gnumeric_Paste",
 		    0, 0, CONTEXT_PASTE },
 		{ N_("Paste _Special"),	NULL,
 		    0, CONTEXT_DISABLE_PASTE_SPECIAL, CONTEXT_PASTE_SPECIAL },

@@ -481,13 +481,13 @@ AC_SUBST(GB_LIBS)
 dnl ******************************
 dnl GnomePrint checking
 dnl ******************************
-AC_MSG_CHECKING(for GnomePrint libraries >= 0.25				)
+AC_MSG_CHECKING(for GnomePrint libraries >= 0.29				)
 gnomeprint_ok=no
 if gnome-config --libs print > /dev/null 2>&1; then 
     verstxt=`gnome-config --modversion print`
     vers=`echo "$verstxt" | sed -e "s/gnome-print-//" -e 's/cvs$//' -e 's/pre$//' | \
         awk -F. '{ printf "%d", $1 * 1000 + $2;}'`
-    if test "$vers" -ge 25; then
+    if test "$vers" -ge 29; then
 	AC_MSG_RESULT($marker_ok found $verstxt)
 	gnomeprint_ok=yes
     else
@@ -497,7 +497,7 @@ else
     AC_MSG_RESULT($marker_fail not found)
 fi
 if test "$gnomeprint_ok" = no; then
-    AC_MSG_ERROR(You need at least gnome-print-0.25 for this version of Gnumeric)
+    AC_MSG_ERROR(You need at least gnome-print-0.29 for this version of Gnumeric)
 fi
 unset gnomeprint_ok
 

@@ -25,7 +25,7 @@ You need:
 	xml-i18n-tools	>= 0.9	  (only required to build, not while running)
 	libglade	>= 0.16
 	gal		>= 0.8
-	gnome-print	>= 0.25
+	gnome-print	>= 0.29
 	gnome-xml   	>= 1.8.14 (gnome-xml 2.x not supported yet)
 	NOTE : gnome-xml is also known as libxml
 	libole2	    	>= 0.2.3
