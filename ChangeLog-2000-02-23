@@ -1,3 +1,8 @@
+2000-02-10  Jody Goldberg <jgoldberg@home.com>
+
+	* src/corba-workbook-factory.c (WorkbookFactory_read) : Include
+	  gnorba.
+
 2000-02-10  Michael Meeks  <michael@helixcode.com>
 
 	* src/corba-sheet.c: include cell.h & colrow.h
