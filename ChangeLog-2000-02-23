@@ -1,3 +1,12 @@
+1999-12-01  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/dialogs/dialog-cell-format.c (fmt_dialog_init_font_page):
+	Update to new API.
+
+	* src/widgets/widget-font-selector.c (font_selector_set): Kill.
+	(font_selector_set_points, font_selector_set_style),
+	(font_selector_set_name): create.
+
 1999-12-01  Federico Mena Quintero  <federico@redhat.com>
 
 	* src/item-grid.c: item_grid_parent_class should be a

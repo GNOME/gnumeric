@@ -100,7 +100,7 @@ Gnumeric Spread Sheet task list
 
     TODO :
 	  - Too much parsing is taking place when formating.  We should
-	    have set all that up before hand when the format was parsed.
+	    have set all that up beforehand when the format was parsed.
 	    A methodology similar to that used by the regexp compiler should
 	    be used.
 
@@ -181,12 +181,6 @@ Gnumeric Spread Sheet task list
 
 ** Style
 
-  Borders:
-
-  Font:
-    Font selector needs to display whether bold / italic / font name
-    is unique, and if so to show which it is.
-
   Protection:
     Bloqued/Hidden
 
@@ -254,12 +248,9 @@ Office 2000 and 'explorer' compatibility.
 
 * Rendering
 
-  * Sort out the mess with cell span's
-
+  * Sort out the cell span stuff
     * Have a 'merged cell' structure that can be overridden
     * have a 'user-set' feature for 'merge cells'
-    * Store merges as ( ranges a la. styles ) or GPtrArray's
-      linked from the leftmost existing cell.
 
 * Calculation
   * Rework dependencies to only supply one level of indirection.

@@ -40,7 +40,7 @@ reload_preview (FontSelector *fs)
 		 fs->is_bold ? GNOME_FONT_BOLD : GNOME_FONT_BOOK,
 		 fs->is_italic,
 		 fs->size);
-	 if (!gnome_font){
+	 if (!gnome_font) {
 		 g_warning ("Uh oh, cannot get the font!");
 		 return;
 	 }
@@ -52,12 +52,12 @@ reload_preview (FontSelector *fs)
 		 fs->size,
 		 1.0);
 
-	 if (!display_font){
+	 if (!display_font) {
 		 g_warning ("Uh oh, cannot get the display font");
 		 return;
 	 }
 
-	 if (!display_font->gdk_font){
+	 if (!display_font->gdk_font) {
 		 gtk_object_unref (GTK_OBJECT (gnome_font));
 		 return;
 	 }
@@ -104,7 +104,7 @@ fs_fill_font_name_list (FontSelector *fs)
 {
 	 GList *l;
 
-	 for (l = gnumeric_font_family_list; l; l = l->next){
+	 for (l = gnumeric_font_family_list; l; l = l->next) {
 		 char *name = l->data;
 		 char *array [1];
 
@@ -134,7 +134,7 @@ style_selected (GtkCList *style_list, int col, int row, GdkEvent *event, FontSel
 {
 	 row = GPOINTER_TO_INT (style_list->selection->data);
 
-	 switch (row){
+	 switch (row) {
 	 case 0:
 		 fs->is_bold = fs->is_italic = FALSE;
 		 break;
@@ -162,7 +162,7 @@ fs_fill_font_style_list (FontSelector *fs)
 	 GtkCList *style_list = GTK_CLIST (fs->font_style_list);
 	 int i;
 
-	 for (i = 0; styles [i] != NULL; i++){
+	 for (i = 0; styles [i] != NULL; i++) {
 		 char *array [1];
 		 array [0] = _(styles [i]);
 
@@ -195,7 +195,7 @@ size_changed (GtkEntry *entry, FontSelector *fs)
 
 	 text = gtk_entry_get_text (entry);
 	 size = atof (text);
-	 if (size > 0 && size < 128){
+	 if (size > 0 && size < 128) {
 		 fs->size = size;
 		 reload_preview (fs);
 	 }
@@ -206,7 +206,7 @@ fs_fill_font_size_list (FontSelector *fs)
 {
 	int i;
 	
-	for (i = 0; gnumeric_point_sizes [i] != 0; i++){
+	for (i = 0; gnumeric_point_sizes [i] != 0; i++) {
 		char buffer [10];
 		char *array [1];
 		
@@ -280,7 +280,7 @@ font_selector_get_type (void)
 {
 	static GtkType fs_type = 0;
 
-	if (!fs_type){
+	if (!fs_type) {
 		GtkTypeInfo fs_info = {
 			"FontSelector",
 			sizeof (FontSelector),
@@ -316,26 +316,37 @@ select_row (GtkWidget *list, int row)
 }
 
 void
-font_selector_set (FontSelector *fs,
-		   const char *name, gboolean is_bold, gboolean is_italic, double size)
+font_selector_set_name (FontSelector *fs,
+			const char *font_name)
 {
 	GList *l;
 	int row;
-	int n, i;
-	
+
 	g_return_if_fail (fs != NULL);
 	g_return_if_fail (IS_FONT_SELECTOR (fs));
-	g_return_if_fail (name != NULL);
+	g_return_if_fail (font_name != NULL);
 
-	for (row = 0, l = gnumeric_font_family_list; l; l = l->next, row++){
-		if (strcasecmp (name, l->data) == 0)
+	for (row = 0, l = gnumeric_font_family_list; l; l = l->next, row++) {
+		if (strcasecmp (font_name, l->data) == 0)
 			break;
 	}
 
 	if (l != NULL)
 		select_row (fs->font_name_list, row);
 
-	if (is_bold){
+}
+
+void
+font_selector_set_style (FontSelector *fs,
+			 gboolean is_bold,
+			 gboolean is_italic)
+{
+	int n;
+
+	g_return_if_fail (fs != NULL);
+	g_return_if_fail (IS_FONT_SELECTOR (fs));
+
+	if (is_bold) {
 		if (is_italic)
 			n = 2;
 		else
@@ -347,18 +358,28 @@ font_selector_set (FontSelector *fs,
 			n = 0;
 	}
 	select_row (fs->font_style_list, n);
+}
+
+void
+font_selector_set_points (FontSelector *fs,
+			  double point_size)
+{
+	int i;
+
+	g_return_if_fail (fs != NULL);
+	g_return_if_fail (IS_FONT_SELECTOR (fs));
 
 	for (i = 0; gnumeric_point_sizes [i] != 0; i++) {
-		if (gnumeric_point_sizes [i] == size) {
+		if (gnumeric_point_sizes [i] == point_size) {
 			select_row (fs->font_size_list, i);
 			break;
 		}
 	}
 
-	if (gnumeric_point_sizes [i] == 0){
+	if (gnumeric_point_sizes [i] == 0) {
 		char buffer [20];
 
-		sprintf (buffer, "%g", size);
+		sprintf (buffer, "%g", point_size);
 		
 		gtk_entry_set_text (GTK_ENTRY (fs->font_size_entry), buffer);
 	}

@@ -37,11 +37,13 @@ typedef struct {
 GtkType    font_selector_get_type (void);
 GtkWidget *font_selector_new      (void);
 
-void       font_selector_set      (FontSelector *fs,
-				   const char *fontname,
-				   gboolean bold,
-				   gboolean italic,
-				   double  point_size);
+void       font_selector_set_name   (FontSelector *fs,
+				     const char *font_name);
+void       font_selector_set_style  (FontSelector *fs,
+				     gboolean is_bold,
+				     gboolean is_italic);
+void       font_selector_set_points (FontSelector *fs,
+				     double point_size);
 				   
 #endif /* GNUMERIC_WIDGET_FONT_SELECTOR_H */
 

@@ -1185,19 +1185,18 @@ fmt_dialog_init_font_page (FormatState *state)
 
 	state->font.selector = FONT_SELECTOR (font_widget);
 
-	/* If there is a conflict dont initialize the font */
-	if (mstyle_is_element_conflict (state->style, MSTYLE_FONT_NAME) ||
-	    mstyle_is_element_conflict (state->style, MSTYLE_FONT_BOLD) ||
-	    mstyle_is_element_conflict (state->style, MSTYLE_FONT_ITALIC) ||
-	    mstyle_is_element_conflict (state->style, MSTYLE_FONT_SIZE))
-		return;
+	if (!mstyle_is_element_conflict (state->style, MSTYLE_FONT_NAME))
+		font_selector_set_name (state->font.selector,
+					mstyle_get_font_name (state->style));
 
-	/* Init the font selector with the current font */
-	font_selector_set (state->font.selector,
-			   mstyle_get_font_name (state->style),
-			   mstyle_get_font_bold (state->style),
-			   mstyle_get_font_italic (state->style),
-			   mstyle_get_font_size (state->style));
+	if (!mstyle_is_element_conflict (state->style, MSTYLE_FONT_BOLD) &&
+	    !mstyle_is_element_conflict (state->style, MSTYLE_FONT_ITALIC))
+		font_selector_set_style (state->font.selector,
+					 mstyle_get_font_bold (state->style),
+					 mstyle_get_font_italic (state->style));
+	if (!mstyle_is_element_conflict (state->style, MSTYLE_FONT_SIZE))
+		font_selector_set_points (state->font.selector,
+					  mstyle_get_font_size (state->style));
 }
 
 /*****************************************************************************/
