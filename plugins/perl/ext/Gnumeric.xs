@@ -24,12 +24,11 @@ typedef FILE * InputStream;
 typedef FILE * OutputStream;
 #endif
 
-#include <glib.h>
-#include <gnome.h>
-
 #include <gnumeric.h>
 #include <expr.h>
 #include <func.h>
+#include <value.h>
+#include <str.h>
 
 static SV *
 value2perl(Value *v)
@@ -89,7 +88,8 @@ static Value *
 marshal_func (FunctionEvalInfo *ei, Value *argv[])
 {
     dSP;
-    FunctionDefinition const *fndef = ei->func_def;
+    FunctionDefinition const *fndef =
+	gnm_expr_get_func_def ((GnmExpr const *)ei->func_call);
     GList *l;
     I32 r;
     int i, min, max;
@@ -135,12 +135,12 @@ register_function(name, args, named_args, help1, subref)
   PREINIT:
     FunctionCategory *fncat;
     FunctionDefinition *fndef;
-    char **help = NULL;
+    char const **help = NULL;
   CODE:
     fncat = function_get_category ("Perl plugin");
 
     if (help1) {
-	    help = g_new (char *, 1);
+	    help = g_new (char const *, 1);
             *help = g_strdup (help1);
     }
     fndef = function_add_args (fncat, g_strdup(name), g_strdup(args),
