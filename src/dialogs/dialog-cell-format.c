@@ -664,7 +664,7 @@ create_coloring_page (GtkWidget *prop_win, CellList *cells)
 	gushort fore_red, fore_green, fore_blue;
 	gushort back_red, back_green, back_blue;
 	GList *l;
-	int ok_fore, foreground_flag;
+	int ok_fore, ok_back, foreground_flag, background_flag;
 	
 	t = (GtkTable *) gtk_table_new (0, 0, 0);
 
@@ -678,36 +678,87 @@ create_coloring_page (GtkWidget *prop_win, CellList *cells)
 	 * not, right now this is broken in that regard
 	 */
 	if (cells){
-		foreground_flag = (((Cell *) (cells->data))->style->valid_flags | STYLE_FORE_COLOR) != 0;
-		/* FIXME: Next three lines should depend on the value of foreground_flag */
 		fore_red   = ((Cell *) (cells->data))->style->fore_color->color.red;
 		fore_green = ((Cell *) (cells->data))->style->fore_color->color.green;
 		fore_blue  = ((Cell *) (cells->data))->style->fore_color->color.blue;
+
+		back_red   = ((Cell *) (cells->data))->style->back_color->color.red;
+		back_green = ((Cell *) (cells->data))->style->back_color->color.green;
+		back_blue  = ((Cell *) (cells->data))->style->back_color->color.blue;
+
+		/*
+		 * What follows is ugly: I believe we should use the method illustrated
+		 * in the following two lines:
+		 * foreground_flag = (((Cell *) (cells->data))->style->valid_flags & STYLE_FORE_COLOR);
+		 * background_flag = (((Cell *) (cells->data))->style->valid_flags & STYLE_BACK_COLOR);
+		 * instead of what we are using, but it just does not work (even though the
+		 * flag is being set/cleared cell by cell and style-wise in function apply_coloring_format)
+		 */
+		if (fore_red   == 0 &&
+		    fore_green == 0 &&
+		    fore_blue  == 0) {
+			foreground_flag = 0;
+		} else {
+			foreground_flag = STYLE_FORE_COLOR;
+		}
+		if (back_red   == 0xffff &&
+		    back_green == 0xffff &&
+		    back_blue  == 0xffff) {
+			background_flag = 0;
+		} else {
+			background_flag = STYLE_BACK_COLOR;
+		}
 		
 		/*
-		 * FIXME: For the moment being, just check the
-		 * foreground. Once it works, we'll do the same
-		 * for the background
+		 * First scan is to find out whether all cells have the same foreground color,
+		 * second one is the equivalent for background
 		 */
-		ok_fore = 1;
-		for (l = cells; l; l = l->next){
+		for (ok_fore=1, l=cells; l; l = l->next){
 			Cell *cell = l->data;
-			
-			if ((cell->style->valid_flags | STYLE_FORE_COLOR)==0 ||
-			     cell->style->fore_color->color.red != fore_red ||
-			     cell->style->fore_color->color.green != fore_green ||
-			     cell->style->fore_color->color.blue != fore_blue) {
+
+			if (cell->style->fore_color->color.red != fore_red ||
+			    cell->style->fore_color->color.green != fore_green ||
+			    cell->style->fore_color->color.blue != fore_blue) {
 				ok_fore = 0;
 				break;
 			}
 		}
+		for (ok_back=1, l=cells; l; l = l->next){
+			Cell *cell = l->data;
+
+			if (cell->style->back_color->color.red != back_red ||
+			    cell->style->back_color->color.green != back_green ||
+			    cell->style->back_color->color.blue != back_blue) {
+				ok_back = 0;
+				break;
+			}
+		}
+
 		if (ok_fore != 0) {
-			rd = (gdouble) fore_red / 65535;
-			gd = (gdouble) fore_green / 65535;
-			bd = (gdouble) fore_blue / 65535;
-			ad = 1;
-			gnome_color_picker_set_d (GNOME_COLOR_PICKER (foreground_cs), rd, gd, bd, ad);
-			gtk_radio_button_select (foreground_radio_list, 1);
+			if (foreground_flag == 0) {
+				gtk_radio_button_select (foreground_radio_list, 0);
+				gnome_color_picker_set_d (GNOME_COLOR_PICKER (foreground_cs), 0, 0, 0, 0);
+			} else {
+				rd = (gdouble) fore_red / 65535;
+				gd = (gdouble) fore_green / 65535;
+				bd = (gdouble) fore_blue / 65535;
+				ad = 1;
+				gtk_radio_button_select (foreground_radio_list, 1);
+				gnome_color_picker_set_d (GNOME_COLOR_PICKER (foreground_cs), rd, gd, bd, ad);
+			}
+		}
+		if (ok_back != 0) {
+			if (background_flag == 0) {
+				gtk_radio_button_select (background_radio_list, 0);
+				gnome_color_picker_set_d (GNOME_COLOR_PICKER (background_cs), 1, 1, 1, 1);
+			} else {
+				rd = (gdouble) back_red / 65535;
+				gd = (gdouble) back_green / 65535;
+				bd = (gdouble) back_blue / 65535;
+				ad = 1;
+				gtk_radio_button_select (background_radio_list, 1);
+				gnome_color_picker_set_d (GNOME_COLOR_PICKER (background_cs), rd, gd, bd, ad);
+			}
 		}
 	}
 
@@ -715,7 +766,7 @@ create_coloring_page (GtkWidget *prop_win, CellList *cells)
 	make_radio_notify_change (background_radio_list, prop_win);
 	
 	gtk_table_attach (t, fore, 0, 1, 0, 1, e, 0, 4, 4);
-	gtk_table_attach (t, back, 0, 1, 1, 2, e, 0, 4, 4);
+/*	gtk_table_attach (t, back, 0, 1, 1, 2, e, 0, 4, 4);*/
 
 	gtk_widget_show_all (GTK_WIDGET (t));
 
@@ -729,39 +780,73 @@ apply_coloring_format (Style *style, Sheet *sheet, CellList *cells)
 	gushort fore_red, fore_green, fore_blue;
 	gushort back_red, back_green, back_blue;
 
+	CellList *cl;
+	Cell *cell;
+
+	/*
+	 * Let's check the foreground first
+	 */
 	if (gtk_radio_group_get_selected (foreground_radio_list) == 1){
 		gnome_color_picker_get_d (GNOME_COLOR_PICKER (foreground_cs), &rd, &gd, &bd, &ad);
 
 		fore_red   = rd * 65535;
 		fore_green = gd * 65535;
 		fore_blue  = bd * 65535;
+		style->valid_flags |= STYLE_FORE_COLOR;
 	} else {
 		fore_red   = 0;
 		fore_green = 0;
 		fore_blue  = 0;
+		style->valid_flags &= ~STYLE_FORE_COLOR;
 	}
 
-	if (gtk_radio_group_get_selected (background_radio_list) == 0){
+	/*
+	 * Now, the background
+	 * FIXME: What about the cell pattern?
+	 */
+	switch (gtk_radio_group_get_selected (background_radio_list)) {
+	/*
+	 * case 0 means no background
+	 */
+	case 0:
 		back_red   = 0xffff;
 		back_green = 0xffff;
 		back_blue  = 0xffff;
-	} else {
-		back_red   = 0;
-		back_green = 0;
-		back_blue  = 0;
+		style->valid_flags &= ~STYLE_BACK_COLOR;
+		style->valid_flags &= ~STYLE_PATTERN;
+		break;
+
+	/*
+	 * case 1 means solid color background
+	 */
+	case 1:
+		gnome_color_picker_get_d (GNOME_COLOR_PICKER (background_cs), &rd, &gd, &bd, &ad);
+
+		back_red   = rd * 65535;
+		back_green = gd * 65535;
+		back_blue  = bd * 65535;
+		style->valid_flags |= STYLE_BACK_COLOR;
+		style->valid_flags &= ~STYLE_PATTERN;
+		break;
+
+	/*
+	 * case 2 means a pattern background
+	 */
+	case 2:
+		style->valid_flags &= ~STYLE_BACK_COLOR;
+		style->valid_flags |= STYLE_PATTERN;
+		break;
 	}
-	
+
 	/* Apply the color to the cells */
 	for (; cells; cells = cells->next){
-		Cell *cell = cells->data;
+		cell = cells->data;
 
 		cell_set_foreground (cell, fore_red, fore_green, fore_blue);
 		cell_set_background (cell, back_red, back_green, back_blue);
 /*		cell_set_pattern    (cell, 2); */
 	}
 
-	style->valid_flags |= STYLE_FORE_COLOR | STYLE_BACK_COLOR;
-/*	style->valid_flags |= STYLE_FORE_COLOR | STYLE_PATTERN | STYLE_BACK_COLOR; */
 	style->fore_color  = style_color_new (fore_red, fore_green, fore_blue);
 	style->back_color  = style_color_new (back_red, back_green, back_blue);
 }
