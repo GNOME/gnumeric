@@ -966,16 +966,6 @@
 	    _label="Button"
 	    _tip="Create a button" verb="CreateButton"/>
 	-->
-
-	<toolitem name="Scrollbar"
-	    pixtype="stock" pixname="Gnumeric_ObjectScrollbar"
-	    _label="Scrollbar"
-	    _tip="Create a scrollbar" verb="CreateScrollbar"/>
-	<toolitem name="Checkbox"
-	    pixtype="stock" pixname="Gnumeric_ObjectCheckbox"
-	    _label="Checkbox"
-	    _tip="Create a checkbox" verb="CreateCheckbox"/>
-
 	<!-- think about how to handle groups
 	<toolitem name="RadioButton"
 	    pixtype="stock" pixname="Gnumeric_ObjectRadioButton"
@@ -983,6 +973,24 @@
 	    _tip="Create a radio button" verb="CreateRadioButton"/>
 	-->
 
+	<toolitem name="Checkbox"
+	    pixtype="stock" pixname="Gnumeric_ObjectCheckbox"
+	    _label="Checkbox"
+	    _tip="Create a checkbox" verb="CreateCheckbox"/>
+
+	<toolitem name="Scrollbar"
+	    pixtype="stock" pixname="Gnumeric_ObjectScrollbar"
+	    _label="Scrollbar"
+	    _tip="Create a scrollbar" verb="CreateScrollbar"/>
+	<toolitem name="SpinButton"
+	    pixtype="stock" pixname="Gnumeric_ObjectSpinButton"
+	    _label="Spin Button"
+	    _tip="Create a spin button" verb="CreateSpinButton"/>
+	<toolitem name="Slider"
+	    pixtype="stock" pixname="Gnumeric_ObjectSlider"
+	    _label="Slider"
+	    _tip="Create a slider" verb="CreateSlider"/>
+  
 	<toolitem name="List"
 	    pixtype="stock" pixname="Gnumeric_ObjectList"
 	    _label="List"

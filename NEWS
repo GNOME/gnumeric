@@ -61,7 +61,10 @@ Jody:
 	* Fix glitch in xls hyperlink import.
 	* Undocumented flag on cell comments in xls
 	* Import cell comments from >= xl97.
-	* Object text labels from >= xl97
+	* Object text labels from >= xl97.
+	* Fix export of strings > 8224 characters in xl97.
+	* Fix style export in the presence of validation and hyperlinks.
+	* Spinner/Scrollbar import for xl 95 & 97.
 
 John Gill:
 	* More More XLish heuristics for autofill range selection.
@@ -77,6 +80,10 @@ Jon Kåre:
  	  table/spreadsheet fails.
         * Import incomplete html fragments, as produced by
 	* e.g. Mozilla, from clipboard.
+
+Joseph Pingenot:
+	* Spin buttons
+	* Slider objects
 
 Morten:
 	* Hopefully fix NAN issues on Alphas.

@@ -366,12 +366,12 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 		if (obj->excel_type == 0x0B) {
 			sheet_widget_checkbox_set_link (obj->gnum_obj,
 				ms_obj_attr_get_expr (obj, MS_OBJ_ATTR_CHECKBOX_LINK, NULL));
-		} else if (obj->excel_type == 0x11) {
-			sheet_widget_scrollbar_set_details (obj->gnum_obj,
+		} else if (obj->excel_type == 0x10 || obj->excel_type == 0x11) {
+			sheet_widget_adjustment_set_details (obj->gnum_obj,
 				ms_obj_attr_get_expr (obj, MS_OBJ_ATTR_SCROLLBAR_LINK, NULL),
-				0,
+				ms_obj_attr_get_int (obj, MS_OBJ_ATTR_SCROLLBAR_VALUE, 0),
 				ms_obj_attr_get_int (obj, MS_OBJ_ATTR_SCROLLBAR_MIN, 0),
-				ms_obj_attr_get_int (obj, MS_OBJ_ATTR_SCROLLBAR_MAX, 100),
+				ms_obj_attr_get_int (obj, MS_OBJ_ATTR_SCROLLBAR_MAX, 100) - 1,
 				ms_obj_attr_get_int (obj, MS_OBJ_ATTR_SCROLLBAR_INC, 1),
 				ms_obj_attr_get_int (obj, MS_OBJ_ATTR_SCROLLBAR_PAGE, 10));
 		} else if (obj->excel_type == 0x19 &&
@@ -514,7 +514,8 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 		break;
 	case 0x0C: so = g_object_new (sheet_widget_radio_button_get_type (), NULL);
 		break;
-	case 0x10: so = sheet_object_box_new (FALSE);  break; /* Spinner */
+	case 0x10: so = g_object_new (sheet_widget_spinbutton_get_type (), NULL);
+	        break;
 	case 0x11: so = g_object_new (sheet_widget_scrollbar_get_type (), NULL);
 		break;
 	case 0x12: so = g_object_new (sheet_widget_list_get_type (), NULL);

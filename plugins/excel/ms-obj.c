@@ -522,9 +522,44 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 		break;
 	case 0xF  : /* dialog frame */
 		break;
-	case 0x10 : /* spinner */
-		break;
-	case 0x11 : /* scrollbar */
+	case 0x10 : /* spinner & scrollbar (layout is the same) */
+	case 0x11 :
+		ms_obj_attr_bag_insert (obj->attrs,
+			ms_obj_attr_new_uint (MS_OBJ_ATTR_SCROLLBAR_VALUE,
+				GSF_LE_GET_GUINT16 (q->data+48)));
+		ms_obj_attr_bag_insert (obj->attrs,
+			ms_obj_attr_new_uint (MS_OBJ_ATTR_SCROLLBAR_MIN,
+				GSF_LE_GET_GUINT16 (q->data+50)));
+		ms_obj_attr_bag_insert (obj->attrs,
+			ms_obj_attr_new_uint (MS_OBJ_ATTR_SCROLLBAR_MAX,
+				GSF_LE_GET_GUINT16 (q->data+52)));
+		ms_obj_attr_bag_insert (obj->attrs,
+			ms_obj_attr_new_uint (MS_OBJ_ATTR_SCROLLBAR_INC,
+				GSF_LE_GET_GUINT16 (q->data+54)));
+		ms_obj_attr_bag_insert (obj->attrs,
+			ms_obj_attr_new_uint (MS_OBJ_ATTR_SCROLLBAR_PAGE,
+				GSF_LE_GET_GUINT16 (q->data+56)));
+
+		{
+			GnmExpr const *ref;
+			guint16 len;
+			guint8 const *last = q->data + q->length;
+			guint8 const *ptr = q->data + 64;
+
+			ptr += 1 + *ptr;		/* object name */
+			if ((ptr - q->data) & 1) ptr++;	/* align on word */
+			if (ptr >= last) break;
+
+			ptr += 2 + GSF_LE_GET_GUINT16 (ptr); /* the macro */
+			if ((ptr - q->data) & 1) ptr++;	/* align on word */
+			if (ptr >= last) break;
+
+			len = GSF_LE_GET_GUINT16 (ptr+2); /* the assigned macro */
+			ref = ms_container_parse_expr (container, ptr + 8, len);
+			if (ref != NULL)
+				ms_obj_attr_bag_insert (obj->attrs,
+					ms_obj_attr_new_expr (MS_OBJ_ATTR_SCROLLBAR_LINK, ref));
+		}
 		break;
 	case 0x12 : /* list box */
 		break;
@@ -631,7 +666,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 			ms_obj_dump (data, len, data_len_left, "RadioButton");
 			break;
 
-		case GR_SCROLLBAR : {
+		case GR_SCROLLBAR :
 			ms_obj_attr_bag_insert (obj->attrs,
 				ms_obj_attr_new_uint (MS_OBJ_ATTR_SCROLLBAR_VALUE,
 					GSF_LE_GET_GUINT16 (data+8)));
@@ -649,7 +684,6 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 					GSF_LE_GET_GUINT16 (data+16)));
 			ms_obj_dump (data, len, data_len_left, "ScrollBar");
 			break;
-		}
 
 		case GR_NOTE_STRUCTURE :
 			ms_obj_dump (data, len, data_len_left, "Note");

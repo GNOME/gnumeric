@@ -79,6 +79,20 @@ cmd_create_scrollbar (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	create_object_command (wbcg,
 		g_object_new (sheet_widget_scrollbar_get_type(), NULL));
 }
+
+static void
+cmd_create_slider (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	create_object_command (wbcg,
+		g_object_new (sheet_widget_slider_get_type(), NULL));
+}
+static void
+cmd_create_spinbutton (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+  create_object_command (wbcg,
+		g_object_new (sheet_widget_spinbutton_get_type(), NULL));
+}
+
 static void
 cmd_create_checkbox (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
@@ -142,9 +156,6 @@ static GnomeUIInfo workbook_object_toolbar [] = {
 		&cmd_create_button, "Gnumeric_ObjectButton"),
 #endif
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Scrollbar"), N_("Create a scrollbar"),
-		&cmd_create_scrollbar, "Gnumeric_ObjectScrollbar"),
-	GNOMEUIINFO_ITEM_STOCK (
 		N_("Checkbox"), N_("Create a checkbox"),
 		&cmd_create_checkbox, "Gnumeric_ObjectCheckbox"),
 #if 0
@@ -172,6 +183,16 @@ static GnomeUIInfo workbook_object_toolbar [] = {
 		N_("Ellipse"), N_("Create an ellipse object"),
 		cmd_create_ellipse, "Gnumeric_ObjectEllipse"),
 
+	GNOMEUIINFO_ITEM_STOCK (
+		N_("Scrollbar"), N_("Create a scrollbar"),
+		&cmd_create_scrollbar, "Gnumeric_ObjectScrollbar"),
+	GNOMEUIINFO_ITEM_STOCK (
+		N_("SpinButton"), N_("Create a spin button"),
+		&cmd_create_spinbutton, "Gnumeric_ObjectSpinButton"),
+	GNOMEUIINFO_ITEM_STOCK (
+		N_("Slider"), N_("Create a slider"),
+		&cmd_create_slider, "Gnumeric_ObjectSlider"),
+
 	GNOMEUIINFO_END
 };
 
@@ -186,10 +207,14 @@ workbook_create_object_toolbar (WorkbookControlGUI *wbcg)
 static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("CreateLabel", cmd_create_label),
 	BONOBO_UI_UNSAFE_VERB ("CreateFrame", cmd_create_frame),
+
 	/* BONOBO_UI_UNSAFE_VERB ("CreateButton", cmd_create_button), */
-	BONOBO_UI_UNSAFE_VERB ("CreateScrollbar", cmd_create_scrollbar),
-	BONOBO_UI_UNSAFE_VERB ("CreateCheckbox", cmd_create_checkbox),
 	/* BONOBO_UI_UNSAFE_VERB ("CreateRadioButton", cmd_create_radiobutton), */
+	BONOBO_UI_UNSAFE_VERB ("CreateCheckbox", cmd_create_checkbox),
+
+	BONOBO_UI_UNSAFE_VERB ("CreateScrollbar", cmd_create_scrollbar),
+	BONOBO_UI_UNSAFE_VERB ("CreateSlider", cmd_create_slider),
+	BONOBO_UI_UNSAFE_VERB ("CreateSpinButton", cmd_create_spinbutton),
 	BONOBO_UI_UNSAFE_VERB ("CreateList", cmd_create_list),
 	BONOBO_UI_UNSAFE_VERB ("CreateCombo", cmd_create_combo),
 	BONOBO_UI_UNSAFE_VERB ("CreateLine", cmd_create_line),

@@ -3868,7 +3868,7 @@ excel_write_SST (ExcelWriteState *ewb)
 		ptr += 2;
 
 		if (char_len == byte_len) {
-			while ((ptr + 1 + char_len) >= last) {
+			while ((ptr + 1 + char_len) > last) {
 				*ptr++ = 0;	/* unicode header == 0 */
 				strncpy (ptr, str, last - ptr);
 				str += (last - ptr);
@@ -3880,11 +3880,9 @@ excel_write_SST (ExcelWriteState *ewb)
 				ms_biff_put_var_next (bp, BIFF_CONTINUE);
 			}
 
-			if (char_len > 0) {
-				*ptr = 0;	/* unicode header == 0 */
-				strncpy (ptr + 1, str, char_len);
-				ptr += char_len + 1;
-			}
+			*ptr = 0;	/* unicode header == 0 */
+			strncpy (ptr + 1, str, char_len);
+			ptr += char_len + 1;
 		} else {
 unicode_loop :
 			*ptr++ = 1;	/* unicode header == 1 */

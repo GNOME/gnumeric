@@ -1,5 +1,19 @@
 2003-07-18  Jody Goldberg <jody@gnome.org>
 
+	* src/sheet-object-widget.c (sheet_widget_slider_create_widget) : Mark
+	  the object as being in the process of an update when a new widget is
+	  created.  Otherwise the assignment of the new adjustment will look
+	  like an update and dirt the workbook.
+	(sheet_widget_spinbutton_create_widget) : ditto.
+	(sheet_widget_scrollbar_create_widget) : ditto.
+
+2003-07-18  Jody Goldberg <jody@gnome.org>
+
+	For Joseph Pingenot <trelane@digitasaru.net>
+	* src/sheet-object-widget.c : Add Spinner and Slider.
+
+2003-07-18  Jody Goldberg <jody@gnome.org>
+
 	* src/mstyle.c (mstyle_hash_internal) : renamed from mstyle_hash,
 	  internalized and generalized.
 	(mstyle_hash_XL) : new.

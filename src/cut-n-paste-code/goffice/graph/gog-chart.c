@@ -306,7 +306,7 @@ gog_chart_axis_set_is_valid (GogChart const *chart, GogAxisSet type)
 gboolean
 gog_chart_axis_set_assign (GogChart *chart, GogAxisSet axis_set)
 {
-	GogAxis	*axis[GOG_AXIS_TYPES];
+	gboolean has_axis[GOG_AXIS_TYPES];
 	GSList *ptr;
 	int type;
 
@@ -318,6 +318,7 @@ gog_chart_axis_set_assign (GogChart *chart, GogAxisSet axis_set)
 	chart->axis_set = axis_set;
 
 	/* remove any existing axis that do not fit this scheme */
+	memset (has_axis, 0, sizeof (gboolean) * sizeof (has_axis));
 	for (ptr = GOG_OBJECT (chart)->children ; ptr != NULL ; ptr = ptr->next)
 		if (IS_GOG_AXIS (ptr->data)) {
 			type = -1;
@@ -328,10 +329,15 @@ gog_chart_axis_set_assign (GogChart *chart, GogAxisSet axis_set)
 			}
 
 			if (0 == (axis_set & (1 << type))) {
-			}
+			} else
+				has_axis [type] = TRUE;
 		}
 
 	/* Add at least 1 instance of any required axis */
+	for (type = 0 ; type < (int)GOG_AXIS_TYPE ; type++)
+		if ((axis_set & (1 << type)) && ! has_axis [type]) {
+		}
+
 	return TRUE;
 }
 
