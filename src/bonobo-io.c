@@ -54,6 +54,7 @@ gnumeric_bonobo_read_from_stream (BonoboPersistStream       *ps,
 	g_return_if_fail (IS_WORKBOOK_CONTROL_COMPONENT (data));	
 
 	wbc = WORKBOOK_CONTROL (data);
+	wb = wb_control_workbook (wbc);
 	ioc = gnumeric_io_context_new (COMMAND_CONTEXT (wbc));
 	input = gsf_input_bonobo_new (stream, NULL);
 	wb_view = wb_view_new_from_input  (input, NULL, ioc);

@@ -54,7 +54,7 @@ Pending Patches
 
 8) Reinstate auto-format
     8.1) Add characterization (units) to StyleFormat
-    8.2) Move type information to function flags.              (DONE)
+    8.2) Move type information to function flags.		(DONE)
     8.3) Change commands to infer types.
 
 9) Manual recalc						(DONE)
