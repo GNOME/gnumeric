@@ -1,6 +1,6 @@
 -*- mode: m4 -*-
 AC_PREREQ(2.52)
-AC_INIT(gnumeric, 1.1.2,
+AC_INIT(gnumeric, 1.1.3,
 	http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric)
 
 AC_CONFIG_SRCDIR(src/sheet.h)
@@ -644,6 +644,7 @@ plugins/psiconv/Makefile
 plugins/mps/Makefile
 plugins/sample_datasource/Makefile
 po/Makefile.in
+schemas/Makefile
 templates/Makefile
 templates/english/Makefile
 templates/autoformat/Makefile
