@@ -6,7 +6,8 @@
 void command_undo (CommandContext *context, Workbook *wb);
 void command_redo (CommandContext *context, Workbook *wb);
 
-void command_list_release (GSList *cmds);
+void command_list_pop_top_undo (Workbook *wb);
+void command_list_release      (GSList *cmds);
 
 gboolean cmd_set_text (CommandContext *context,
 		       Sheet *sheet, CellPos const * const pos,

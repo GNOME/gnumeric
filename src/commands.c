@@ -73,16 +73,22 @@ static GNUMERIC_MAKE_TYPE(gnumeric_command, "GnumericCommand",
 			  GnumericCommand, NULL, NULL,
 			  gtk_object_get_type());
 
+/* Store the real GtkObject dtor pointer */
+static void (* gtk_object_dtor) (GtkObject *object) = NULL;
+
 static void
 gnumeric_command_destroy (GtkObject *obj)
 {
-	GnumericCommand *cmd = GNUMERIC_COMMAND(cmd);
+	GnumericCommand *cmd = GNUMERIC_COMMAND(obj);
 
 	g_return_if_fail (cmd != NULL);
 
 	/* The const was to avoid accidental changes elsewhere */
 	g_free ((gchar *)cmd->cmd_descriptor);
-	obj->klass->destroy(obj);
+
+	/* Call the base class dtor */
+	g_return_if_fail (gtk_object_dtor);
+	(*gtk_object_dtor) (obj);
 }
 
 #define GNUMERIC_MAKE_COMMAND(type, func) \
@@ -92,19 +98,17 @@ static gboolean \
 func ## _redo (GnumericCommand *me, CommandContext *context); \
 static void \
 func ## _destroy (GtkObject *object); \
-typedef struct { \
-	GnumericCommandClass parent_class; \
-} type ## Class; \
 static void \
-func ## _class_init (type ## Class *klass)	\
+func ## _class_init (GnumericCommandClass * const parent) \
 {	\
-	GnumericCommandClass * const parent = &klass->parent_class;	\
-	parent->undo_cmd = (UndoCmd)& func ## _undo;	\
-	parent->redo_cmd = (RedoCmd)& func ## _redo;	\
+	parent->undo_cmd = (UndoCmd)& func ## _undo;		\
+	parent->redo_cmd = (RedoCmd)& func ## _redo;		\
+	if (gtk_object_dtor == NULL)				\
+		gtk_object_dtor = parent->parent_class.destroy;	\
 	parent->parent_class.destroy = & func ## _destroy;	\
 } \
-static GNUMERIC_MAKE_TYPE(func, #type, type, func ## _class_init, NULL, \
-			  gnumeric_command_get_type())
+static GNUMERIC_MAKE_TYPE_WITH_PARENT(func, #type, type, GnumericCommandClass, func ## _class_init, NULL, \
+				      gnumeric_command_get_type())
 
 /******************************************************************/
 
@@ -198,6 +202,28 @@ command_redo (CommandContext *context, Workbook *wb)
 }
 
 /*
+ * command_list_pop_top : utility routine to free the top command on
+ *        the undo list, and to regenerate the menus if needed.
+ *
+ * @cmd_list : The set of commands to free from.
+ */
+void
+command_list_pop_top_undo (Workbook *wb)
+{
+	GtkObject *cmd;
+	
+	g_return_if_fail (wb->undo_commands != NULL);
+
+	cmd = GTK_OBJECT (wb->undo_commands->data);
+	g_return_if_fail (cmd != NULL);
+
+	gtk_object_unref (cmd);
+	wb->undo_commands = g_slist_remove (wb->undo_commands,
+					    wb->undo_commands->data);
+	undo_redo_menu_labels (wb);
+}
+
+/*
  * command_list_release : utility routine to free the resources associated
  *    with a list of commands.
  *
@@ -208,6 +234,9 @@ command_list_release (GSList *cmd_list)
 {
 	while (cmd_list != NULL) {
 		GtkObject *cmd = GTK_OBJECT (cmd_list->data);
+
+		g_return_if_fail (cmd != NULL);
+
 		gtk_object_unref (cmd);
 		cmd_list = g_slist_remove (cmd_list, cmd_list->data);
 	}
@@ -229,7 +258,6 @@ command_push_undo (Workbook *wb, GtkObject *cmd)
 	command_list_release (wb->redo_commands);
 	wb->redo_commands = NULL;
 
-	gtk_object_ref (cmd);
 	wb->undo_commands = g_slist_prepend (wb->undo_commands, cmd);
 
 	undo_redo_menu_labels (wb);
@@ -275,9 +303,10 @@ cmd_set_text_undo (GnumericCommand *cmd, CommandContext *context)
 	new_text = cell_get_text (cell);
 
 	/* Restore the old value (possibly empty) */
-	if (me->text != NULL)
+	if (me->text != NULL) {
 		cell_set_text (cell, me->text);
-	else
+		g_free (me->text);
+	} else
 		cell_set_value (cell, value_new_empty ());
 
 	me->text = new_text;
@@ -462,7 +491,7 @@ cmd_delete_cols (CommandContext *context,
 		mesg = g_strconcat (temp, col_name(start_col+count-1), ")", NULL);
 		g_free (temp);
 	} else
-		mesg = g_strdup_printf (_("Deleting column %d"), col_name(start_col));
+		mesg = g_strdup_printf (_("Deleting column %s"), col_name(start_col));
 
 	res = cmd_ins_del_row_col (context, sheet, TRUE, FALSE, mesg, start_col, count);
 	sheet_delete_cols (context, sheet, start_col, count);

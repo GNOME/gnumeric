@@ -1,7 +1,7 @@
 #ifndef GNUMERIC_GNUMERIC_TYPE_UTIL_H
 #define GNUMERIC_GNUMERIC_TYPE_UTIL_H
 
-#define GNUMERIC_MAKE_TYPE(l,str,t,ci,i,parent) \
+#define GNUMERIC_MAKE_TYPE_WITH_PARENT(l,str,t,pt,ci,i,parent) \
 GtkType l##_get_type(void)\
 {\
 	static GtkType type = 0;\
@@ -9,7 +9,7 @@ GtkType l##_get_type(void)\
 		GtkTypeInfo info = {\
 			str,\
 			sizeof (t),\
-			sizeof (t##Class),\
+			sizeof (pt),\
 			(GtkClassInitFunc) ci,\
 			(GtkObjectInitFunc) i,\
 			NULL, /* reserved 1 */\
@@ -20,5 +20,8 @@ GtkType l##_get_type(void)\
 	}\
 	return type;\
 }
+
+#define GNUMERIC_MAKE_TYPE(l,str,t,ci,i,parent) \
+	GNUMERIC_MAKE_TYPE_WITH_PARENT(l,str,t,t##Class,ci,i,parent)
 
 #endif /* GNUMERIC_GNUMERIC_TYPE_UTIL_H */

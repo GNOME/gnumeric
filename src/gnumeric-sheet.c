@@ -798,6 +798,12 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 				    (event->state & GDK_SHIFT_MASK);
 
 				sheet_accept_pending_input (sheet);
+				/* An undo record is placed on the stack
+				 * for the pseudo SetText associated with the
+				 * corner cell.
+				 */
+				command_list_pop_top_undo (wb);
+
 				cell = sheet_cell_get (sheet,
 						       sheet->cursor_col,
 						       sheet->cursor_row);

@@ -24,9 +24,11 @@ ccc_error_plugin_problem (CommandContext *context, char const * const app_ver)
 static void
 ccc_error_splits_array (CommandContext *context)
 {
+#if 0
 	CommandContextCorba *ccc = COMMAND_CONTEXT_CORBA (context);
 
 	/* FIXME set exception */
+#endif
 }
 
 static void
