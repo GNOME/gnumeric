@@ -1,5 +1,7 @@
 2003-04-19  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
+	* src/commands.c: Implemented Undo/Redo for data shuffling.
+
 	* src/commands.c: Implemented Undo/Redo for scenario->manager.
 
 2003-04-18  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>

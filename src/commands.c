@@ -69,6 +69,7 @@
 #include "tools/dao.h"
 #include "gnumeric-gconf.h"
 #include "scenarios.h"
+#include "data-shuffling.h"
 
 #include <gsf/gsf-impl-utils.h>
 
@@ -5635,6 +5636,67 @@ cmd_scenario_mngr (WorkbookControl *wbc, scenario_cmd_t *sc, Sheet *sheet)
 	dao_init (&dao, NewSheetOutput);
 	dao.sheet = me->cmd.sheet;
 	me->sc->redo = scenario_show (wbc, me->sc->undo, NULL, &dao);
+
+	return command_push_undo (wbc, object);
+}
+
+/******************************************************************/
+
+#define CMD_DATA_SHUFFLE_TYPE (cmd_data_shuffle_get_type ())
+#define CMD_DATA_SHUFFLE(o)   (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_DATA_SHUFFLE_TYPE, CmdDataShuffle))
+
+typedef struct
+{
+	GnumericCommand  cmd;
+	data_shuffling_t *ds;
+} CmdDataShuffle;
+
+GNUMERIC_MAKE_COMMAND (CmdDataShuffle, cmd_data_shuffle);
+
+static gboolean
+cmd_data_shuffle_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdDataShuffle *me = CMD_DATA_SHUFFLE (cmd);
+
+	data_shuffling_redo (me->ds);
+	return (FALSE);
+}
+
+static gboolean
+cmd_data_shuffle_undo (GnumericCommand *cmd,
+		       G_GNUC_UNUSED WorkbookControl *wbc)
+{
+	CmdDataShuffle *me = CMD_DATA_SHUFFLE (cmd);
+
+	data_shuffling_redo (me->ds);
+	return (FALSE);
+}
+
+static void
+cmd_data_shuffle_finalize (GObject *cmd)
+{
+	CmdDataShuffle *me = CMD_DATA_SHUFFLE (cmd);
+
+	data_shuffling_free (me->ds);
+	gnumeric_command_finalize (cmd);
+}
+
+gboolean
+cmd_data_shuffle (WorkbookControl *wbc, data_shuffling_t *sc, Sheet *sheet)
+{
+	CmdDataShuffle *me;
+	GObject         *object;
+
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
+
+	object = g_object_new (CMD_DATA_SHUFFLE_TYPE, NULL);
+	me     = CMD_DATA_SHUFFLE (object);
+
+	me->ds        = sc;
+	me->cmd.sheet = sheet;
+	me->cmd.size  = 1;
+	me->cmd.cmd_descriptor = g_strdup (_("Shuffle Data"));
 
 	return command_push_undo (wbc, object);
 }

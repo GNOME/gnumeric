@@ -10,10 +10,30 @@
 #define SHUFFLE_AREA  2
 
 
-void data_shuffling (WorkbookControl        *wbc,
-		     data_analysis_output_t *dao,
-		     Sheet                  *sheet,
-		     Value                  *input,
-		     int                    shuffling_type);
+typedef struct {
+	GSList  *changes;
+	int     a_col;
+	int     b_col;
+	int     a_row;
+	int     b_row;
+	int     cols;
+	int     rows;
+        int     type;
+
+        WorkbookControl *wbc;
+	data_analysis_output_t *dao;
+	Sheet                  *sheet;
+
+        Range tmp_area;
+} data_shuffling_t;
+
+
+void              data_shuffling_redo (data_shuffling_t *st);
+void              data_shuffling_free (data_shuffling_t *st);
+data_shuffling_t *data_shuffling      (WorkbookControl        *wbc,
+				       data_analysis_output_t *dao,
+				       Sheet                  *sheet,
+				       Value                  *input,
+				       int                    shuffling_type);
 
 #endif

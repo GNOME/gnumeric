@@ -43,30 +43,26 @@
 #include "mathfunc.h"
 #include "data-shuffling.h"
 #include "dao.h"
+#include "expr.h"
 
 
 typedef struct {
-	Value ***values;
-	int   a_col;
-	int   b_col;
-	int   a_row;
-	int   b_row;
-	int   cols;
-	int   rows;
-
-	data_analysis_output_t *dao;
-	Sheet                  *sheet;
-} data_shuffling_t;
-
+	CellPos a;
+	CellPos b;
+} swap_t;
 
 static void
 swap_values (data_shuffling_t *ds, 
 	     int col_a, int row_a, int col_b, int row_b)
 {
-	Value *tmp = ds->values [row_a][col_a];
+	swap_t *s = g_new (swap_t, 1);
 
-	ds->values [row_a][col_a] = ds->values [row_b][col_b];
-	ds->values [row_b][col_b] = tmp;
+	s->a.col = col_a;
+	s->a.row = row_a;
+	s->b.col = col_b;
+	s->b.row = row_b;
+
+	ds->changes = g_slist_prepend (ds->changes, s);
 }
 
 
@@ -78,10 +74,8 @@ shuffle_cols (data_shuffling_t *ds)
 	for (i = ds->a_col; i <= ds->b_col; i++) {
 		rnd_col = (int) (ds->cols * random_01 () + ds->a_col);
 
-		if (i == rnd_col)
-			continue;
-		for (j = ds->a_row; j <= ds->b_row; j++)
-			swap_values (ds, i, j, rnd_col, j);
+		if (i != rnd_col)
+			swap_values (ds, i, 0, rnd_col, 0);
 	}
 }
 
@@ -93,10 +87,8 @@ shuffle_rows (data_shuffling_t *ds)
 	for (i = ds->a_row; i <= ds->b_row; i++) {
 		rnd_row = (int) (ds->rows * random_01 () + ds->a_row);
 
-		if (i == rnd_row)
-			continue;
-		for (j = ds->a_col; j <= ds->b_col; j++)
-			swap_values (ds, j, i, j, rnd_row);
+		if (i != rnd_row)
+			swap_values (ds, 0, i, 0, rnd_row);
 	}
 }
 
@@ -125,76 +117,183 @@ init_shuffling_tool (data_shuffling_t *st, Sheet *sheet, Value *range,
 	Cell *cell;
 	int  i, j;
 
-	st->a_col = range->v_range.cell.a.col;
-	st->a_row = range->v_range.cell.a.row;
-	st->b_col = range->v_range.cell.b.col;
-	st->b_row = range->v_range.cell.b.row;
-	st->cols  = st->b_col - st->a_col + 1;
-	st->rows  = st->b_row - st->a_row + 1;
-	st->dao   = dao;
-	st->sheet = sheet;
-
-	/* Initialize an array for bookkeeping of the value pointers. */
-	st->values = g_new (Value **, st->rows);
-	for (i = 0; i < st->rows; i++)
-		st->values [i] = g_new0 (Value *, st->cols);
-
-
-	/* Read the values from the cells; all of these will be written
-	 * back by close_shuffling_tool. */
-	for (i = st->a_row; i <= st->b_row; i++) {
-		for (j = st->a_col; j <= st->b_col; j++) {
-			cell = sheet_cell_get (sheet, j, i);
-			st->values [i - st->a_row][j - st->a_col] =
-				(cell == NULL) ?
-				value_new_empty () :
-				value_duplicate (cell->value);
-		}
-	}
+	st->a_col   = range->v_range.cell.a.col;
+	st->a_row   = range->v_range.cell.a.row;
+	st->b_col   = range->v_range.cell.b.col;
+	st->b_row   = range->v_range.cell.b.row;
+	st->cols    = st->b_col - st->a_col + 1;
+	st->rows    = st->b_row - st->a_row + 1;
+	st->dao     = dao;
+	st->sheet   = sheet;
+	st->changes = NULL;
 }
 
 static void
-close_shuffling_tool (data_shuffling_t *st)
+do_swap_cells (data_shuffling_t *st, swap_t *sw)
 {
-	int i, j;
+        GnmExprRelocateInfo reverse;
 
-	/* Write back the values of the cells into the new places. */
-	for (i = 0; i < st->rows; i++) {
-		for (j = 0; j < st->cols; j++) {
-			dao_set_cell_value (st->dao, j + st->a_col,
-					    i + st->a_row, st->values [i][j]);
-		}
-	}
+        reverse.target_sheet = st->sheet;
+        reverse.origin_sheet = st->sheet;
+	st->tmp_area.end.col = st->tmp_area.start.col;
+	st->tmp_area.end.row = st->tmp_area.start.row;
 
-	/* Free the bookkeeping array. Since the Values are written into
-	 * a sheet using dao_set_cell_value, they don't have to be free'ed,
-	 * right?? */
-	for (i = 0; i < st->rows; i++)
-		g_free (st->values [i]);
-	g_free (st->values);
+	/* Move A to a tmp_area. */
+	range_init (&reverse.origin, sw->a.col, sw->a.row, sw->a.col,
+		    sw->a.row);
+        reverse.col_offset = st->tmp_area.start.col - sw->a.col;
+        reverse.row_offset = st->tmp_area.start.row - sw->a.row;
+	sheet_move_range (&reverse, NULL, COMMAND_CONTEXT (st->wbc));
+
+	/* Move B to A. */
+	range_init (&reverse.origin, sw->b.col, sw->b.row, sw->b.col,
+		    sw->b.row);
+        reverse.col_offset = sw->a.col - sw->b.col;
+        reverse.row_offset = sw->a.row - sw->b.row;
+	sheet_move_range (&reverse, NULL, COMMAND_CONTEXT (st->wbc));
+
+	/* Move tmp_area to B. */
+	range_init (&reverse.origin, st->tmp_area.start.col,
+		    st->tmp_area.start.row,
+		    st->tmp_area.end.col, st->tmp_area.end.row);
+        reverse.col_offset = sw->b.col - st->tmp_area.start.col;
+        reverse.row_offset = sw->b.row - st->tmp_area.start.row;
+	sheet_move_range (&reverse, NULL, COMMAND_CONTEXT (st->wbc));
 }
 
-void
+static void
+do_swap_cols (data_shuffling_t *st, swap_t *sw)
+{
+        GnmExprRelocateInfo reverse;
+
+        reverse.target_sheet = st->sheet;
+        reverse.origin_sheet = st->sheet;
+	st->tmp_area.end.col = st->tmp_area.start.col;
+	st->tmp_area.end.row = st->tmp_area.start.row + st->rows - 1;
+
+	/* Move A to a tmp_area. */
+	range_init (&reverse.origin, sw->a.col, st->a_row, sw->a.col,
+		    st->b_row);
+        reverse.col_offset = st->tmp_area.start.col - sw->a.col;
+        reverse.row_offset = st->tmp_area.start.row - st->a_row;
+	sheet_move_range (&reverse, NULL, COMMAND_CONTEXT (st->wbc));
+
+	/* Move B to A. */
+	range_init (&reverse.origin, sw->b.col, st->a_row, sw->b.col,
+		    st->b_row);
+        reverse.col_offset = sw->a.col - sw->b.col;
+        reverse.row_offset = 0;
+	sheet_move_range (&reverse, NULL, COMMAND_CONTEXT (st->wbc));
+
+	/* Move tmp_area to B. */
+	range_init (&reverse.origin, st->tmp_area.start.col,
+		    st->tmp_area.start.row,
+		    st->tmp_area.end.col, st->tmp_area.end.row);
+        reverse.col_offset = sw->b.col - st->tmp_area.start.col;
+        reverse.row_offset = st->a_row - st->tmp_area.start.row;
+	sheet_move_range (&reverse, NULL, COMMAND_CONTEXT (st->wbc));
+}
+
+static void
+do_swap_rows (data_shuffling_t *st, swap_t *sw)
+{
+        GnmExprRelocateInfo reverse;
+
+        reverse.target_sheet = st->sheet;
+        reverse.origin_sheet = st->sheet;
+	st->tmp_area.end.col = st->tmp_area.start.col + st->cols - 1;
+	st->tmp_area.end.row = st->tmp_area.start.row;
+
+	/* Move A to a tmp_area. */
+	range_init (&reverse.origin, st->a_col, sw->a.row, st->b_col,
+		    sw->a.row);
+        reverse.col_offset = st->tmp_area.start.col - st->a_col;
+        reverse.row_offset = st->tmp_area.start.row - sw->a.row;
+	sheet_move_range (&reverse, NULL, COMMAND_CONTEXT (st->wbc));
+
+	/* Move B to A. */
+	range_init (&reverse.origin, st->a_col, sw->b.row, st->b_col,
+		    sw->b.row);
+        reverse.col_offset = 0;
+        reverse.row_offset = sw->a.row - sw->b.row;
+	sheet_move_range (&reverse, NULL, COMMAND_CONTEXT (st->wbc));
+
+	/* Move tmp_area to B. */
+	range_init (&reverse.origin, st->tmp_area.start.col,
+		    st->tmp_area.start.row,
+		    st->tmp_area.end.col, st->tmp_area.end.row);
+        reverse.col_offset = st->a_col - st->tmp_area.start.col;
+        reverse.row_offset = sw->b.row - st->tmp_area.start.row;
+	sheet_move_range (&reverse, NULL, COMMAND_CONTEXT (st->wbc));	
+}
+
+static void
+run_shuffling_tool (data_shuffling_t *st)
+{
+	GSList *cur;
+
+	range_init (&st->tmp_area, 7, 0, 7, 0);
+
+	if (st->type == SHUFFLE_COLS)
+		for (cur = st->changes; cur; cur = cur->next)
+			do_swap_cols (st, (swap_t *) cur->data);
+	else if (st->type == SHUFFLE_ROWS)
+		for (cur = st->changes; cur; cur = cur->next)
+			do_swap_rows (st, (swap_t *) cur->data);
+	else /* SHUFFLE_AREA */
+		for (cur = st->changes; cur; cur = cur->next)
+			do_swap_cells (st, (swap_t *) cur->data);
+}
+
+data_shuffling_t *
 data_shuffling (WorkbookControl        *wbc,
 		data_analysis_output_t *dao,
 		Sheet                  *sheet,
 		Value                  *input_range, 
 		int                    shuffling_type)
 {
-	data_shuffling_t st;
+	data_shuffling_t *st = g_new (data_shuffling_t, 1);
 
 	dao_prepare_output (wbc, dao, "Shuffeled");
 
-	init_shuffling_tool (&st, sheet, input_range, dao);
+	init_shuffling_tool (st, sheet, input_range, dao);
+	st->type = shuffling_type;
+	st->wbc  = wbc;
 
 	if (shuffling_type == SHUFFLE_COLS)
-		shuffle_cols (&st);
+		shuffle_cols (st);
 	else if (shuffling_type == SHUFFLE_ROWS)
-		shuffle_rows (&st);
+		shuffle_rows (st);
 	else /* SHUFFLE_AREA */
-		shuffle_area (&st);
+		shuffle_area (st);
 
-	close_shuffling_tool (&st);
-	dao_autofit_columns (dao);
-	sheet_redraw_all (sheet, TRUE);
+	return st;
+}
+
+void
+data_shuffling_redo (data_shuffling_t *st)
+{
+	GSList *tmp;
+
+	run_shuffling_tool (st);
+	dao_autofit_columns (st->dao);
+	sheet_redraw_all (st->sheet, TRUE);
+
+	/* Reverse the list for undo. */
+	tmp = g_slist_reverse (st->changes);
+	st->changes = tmp;
+}
+
+static void
+cb_free (swap_t *data, gpointer ignore)
+{
+	g_free (data);
+}
+
+void
+data_shuffling_free (data_shuffling_t *st)
+{
+	g_free (st->dao);
+	g_slist_foreach (st->changes, (GFunc) cb_free, NULL);
+	g_slist_free (st->changes);	
 }
