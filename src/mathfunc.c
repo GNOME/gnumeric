@@ -6404,7 +6404,7 @@ random_levy_skew (gnm_float c, gnm_float alpha, gnm_float beta)
 	} else {
 		gnm_float t = beta * tangnum (M_PI_2gnum * alpha);
 		gnm_float B = atangnum (t) / alpha;
-		gnm_float S = powgnum (1 + t * t, 1 / (2 * alpha));
+		gnm_float S = pow1p (t * t, 1 / (2 * alpha));
 
 		X = S * singnum (alpha * (V + B)) / powgnum (cosgnum (V),
 							     1 / alpha)
@@ -6419,7 +6419,7 @@ random_exppow_pdf (gnm_float x, gnm_float a, gnm_float b)
 {
 	gnm_float lngamma = lgamma1p (1 / b);
 
-	return (1 / (2 * a)) * expgnum (-powgnum (gnumabs (x / a),b) - lngamma);
+	return (1 / (2 * a)) * expgnum (-powgnum (gnumabs (x / a), b) - lngamma);
 }
 
 /*

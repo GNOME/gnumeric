@@ -708,7 +708,7 @@ wbc_gtk_set_action_label (WorkbookControlGUI const *wbcg,
 		g_object_set (G_OBJECT (a), "label", suffix, NULL);
 
 	if (new_tip != NULL)
-		g_object_set (G_OBJECT (a), "tooltip", suffix, NULL);
+		g_object_set (G_OBJECT (a), "tooltip", new_tip, NULL);
 }
 
 static void

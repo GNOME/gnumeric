@@ -1,3 +1,7 @@
+2004-04-13  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (wbc_gtk_set_action_label): Set the right tooltip.
+
 2004-04-12  Jody Goldberg <jody@gnome.org>
 
 	* src/format.c (style_format_new_markup) : new.
@@ -7,6 +11,7 @@
 2004-04-12  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (pow1p, pow1pm1): New functions.
+	(random_levy_skew): Use pow1p.
 
 2004-04-12  Morten Welinder  <terra@gnome.org>
 
