@@ -1636,17 +1636,17 @@ sheet_clear_region (Sheet *sheet, int start_col, int start_row, int end_col, int
 	g_list_free (destroyable_cells);
 }
 
-void
+gboolean
 sheet_selection_copy (Sheet *sheet)
 {
 	SheetSelection *ss;
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (sheet->selections);
+	g_return_val_if_fail (sheet != NULL, FALSE);
+	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
+	g_return_val_if_fail (sheet->selections, FALSE);
 	
 	if (g_list_length (sheet->selections) != 1){
 		gnumeric_notice (_("Can not copy non-contiguous selections"));
-		return;
+		return FALSE;
 	}
 	
 	ss = sheet->selections->data;
@@ -1658,26 +1658,30 @@ sheet_selection_copy (Sheet *sheet)
 		sheet,
 		ss->start_col, ss->start_row,
 		ss->end_col, ss->end_row);
+
+	return TRUE;
 }
 
-void
+gboolean
 sheet_selection_cut (Sheet *sheet)
 {
 	SheetSelection *ss;
 	
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (sheet->selections);
+	g_return_val_if_fail (sheet != NULL, FALSE);
+	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
+	g_return_val_if_fail (sheet->selections, FALSE);
 	
 	if (g_list_length (sheet->selections) != 1){
 		gnumeric_notice (_("Can not cut non-contiguous selections"));
-		return;
+		return FALSE;
 	}
 
 	ss = sheet->selections->data;
 
 	sheet_selection_copy (sheet);
 	sheet_clear_region (sheet, ss->start_col, ss->start_row, ss->end_col, ss->end_row);
+
+	return TRUE;
 }
 
 void

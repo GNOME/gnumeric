@@ -14,6 +14,7 @@
 #include "item-cursor.h"
 #include "item-debug.h"
 #include "gnumeric-sheet.h"
+#include "gnumeric-util.h"
 
 static GnomeCanvasItem *item_cursor_parent_class;
 
@@ -306,10 +307,6 @@ item_cursor_request_redraw (ItemCursor *item_cursor)
 	int x, y, w, h;
 
 	item_cursor_get_pixel_coords (item_cursor, &x, &y, &w, &h);
-#if 0
-	printf ("Requesting redraw: %d %d %d %d\n",
-		x - 2, y - 2, x + w + 5, y + h + 5);
-#endif
 	gnome_canvas_request_redraw (canvas, x - 2, y - 2, x + w + 5, y + h + 5);
 }
 
@@ -427,13 +424,107 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 	
 }
 
+static gboolean
+item_cursor_target_region_ok (ItemCursor *item_cursor)
+{
+	/* FIXME: check the destination range and if any cell
+	 * has values, ask for confirmation
+	 */
+	return TRUE;
+}
+
+typedef enum {
+	ACTION_NONE = -1,
+	ACTION_COPY_CELLS,
+	ACTION_MOVE_CELLS,
+	ACTION_COPY_FORMATS,
+	ACTION_COPY_VALUES,
+	ACTION_SHIFT_DOWN_AND_COPY,
+	ACTION_SHIFT_RIGHT_AND_COPY,
+	ACTION_SHIFT_DOWN_AND_MOVE,
+	ACTION_SHIFT_RIGHT_AND_MOVE
+} ActionType;
+
+static void
+item_cursor_do_action (ItemCursor *item_cursor, ActionType action)
+{
+	Sheet *sheet = item_cursor->sheet;
+	int   col = item_cursor->start_col;
+	int   row = item_cursor->start_row;
+	
+	switch (action){
+	case ACTION_NONE:
+		return;
+		
+	case ACTION_COPY_CELLS:
+		if (!item_cursor_target_region_ok (item_cursor))
+			return;
+		if (!sheet_selection_copy (sheet))
+			return;
+		sheet_selection_paste (sheet, col, row, PASTE_ALL_TYPES);
+		return;
+		
+	case ACTION_MOVE_CELLS:
+		if (!item_cursor_target_region_ok (item_cursor))
+			return;
+		if (!sheet_selection_cut (sheet))
+			return;
+		sheet_selection_paste (sheet, col, row, PASTE_ALL_TYPES);
+		return;
+		
+	case ACTION_COPY_FORMATS:
+		if (!item_cursor_target_region_ok (item_cursor))
+			return;
+		if (!sheet_selection_copy (sheet))
+			return;
+		sheet_selection_paste (sheet, col, row, PASTE_FORMATS);
+		return;
+		
+	case ACTION_COPY_VALUES:
+		if (!item_cursor_target_region_ok (item_cursor))
+			return;
+		if (!sheet_selection_copy (sheet))
+			return;
+		sheet_selection_paste (sheet, col, row, PASTE_VALUES);
+		return;
+		
+	case ACTION_SHIFT_DOWN_AND_COPY:
+	case ACTION_SHIFT_RIGHT_AND_COPY:
+	case ACTION_SHIFT_DOWN_AND_MOVE:
+	case ACTION_SHIFT_RIGHT_AND_MOVE:
+		g_warning ("Operation not yet implemeneted\n");
+	}
+}
+
+static char *drop_context_actions [] = {
+	N_("Copy"),
+	N_("Move"),
+	N_("Copy formats"),
+	N_("Copy values"),
+	N_("Shift cells down and copy"),
+	N_("Shift cells right and copy"),
+	N_("Shift cells down and move"),
+	N_("Shift cells right and move"),
+	NULL,
+};
+
 /*
  * Invoked when the item has been dropped
  */
 static void
 item_cursor_do_drop (ItemCursor *item_cursor, GdkEvent *event)
 {
-	
+	ActionType action;
+
+	/* Find out what to do */
+	if (event->button.button == 3)
+		action = (ActionType) run_popup_menu (event, drop_context_actions);
+	else if (event->button.state & GDK_CONTROL_MASK)
+		action = ACTION_COPY_CELLS;
+	else
+		action = ACTION_MOVE_CELLS;
+
+	item_cursor_do_action (item_cursor, action);
 }
 
 static void

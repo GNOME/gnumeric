@@ -13,6 +13,7 @@
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
 #include "item-debug.h"
+#include "dialogs.h"
 
 static GnomeCanvasItem *item_grid_parent_class;
 
@@ -178,6 +179,7 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 	if (!cell)
 		return;
 
+	printf ("Drawing %d %d: ", col, row);
 	/* The offsets where we start drawing the text */
 	x_offset = y_offset = 0;
 
@@ -275,7 +277,7 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 	pixels = 0;
 	if (!cell->entered_text)
 		return;
-	
+
 	do {
 		char *text;
 

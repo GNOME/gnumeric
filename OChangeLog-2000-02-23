@@ -1,3 +1,14 @@
+1998-08-19  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/item-cursor.c (item_cursor_do_drop): New function:  Handles
+	the action from the cursor drag operation.
+
+	* src/gnumeric-util.c (run_popup_menu): New utility function to
+	popup menus created from an array of strings. 
+
+	* src/sheet.c (sheet_selection_cut, sheet_selection_copy): They
+	now return whether it was possible to perform the operation.
+
 1998-08-18  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/cell.c (cell_set_alignment): Provide a way to change the

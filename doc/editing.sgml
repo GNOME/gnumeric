@@ -1,0 +1,21 @@
+
+<section>Copying and moving cells</section>
+
+There are two ways of moving and copying cells in Gnumeric:
+
+	<item>Using copy/cut/paste operations</item>
+	<item>Using the mouse to drag the selection</item>
+
+<subsection>Using the mouse to drag the selection</subsection>
+
+Dragging the border of a selection to a target area will move the
+cells. 
+
+Dragging the border of a selection to a target area while holding the
+control key down will perform a move.
+
+If you use the right button for performing the drag, a menu with the
+possible options appears when you release it.
+
+    
+

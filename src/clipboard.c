@@ -269,7 +269,7 @@ dialog_paste_special (void)
 
 	result = 0;
 	i = gtk_radio_group_get_selected (group_type);
-	printf ("Seleccion: %d\n", i);
+
 	switch (i){
 	case 0: /* all */
 		result = PASTE_ALL_TYPES;

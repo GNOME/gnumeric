@@ -121,8 +121,8 @@ void        sheet_selection_append_range (Sheet *sheet,
 CellList   *sheet_selection_to_list      (Sheet *sheet);
 
 /* Cut/Copy/Paste on the workbook selection */
-void        sheet_selection_copy         (Sheet *sheet);
-void        sheet_selection_cut          (Sheet *sheet);
+gboolean    sheet_selection_copy         (Sheet *sheet);
+gboolean    sheet_selection_cut          (Sheet *sheet);
 void        sheet_selection_paste        (Sheet *sheet,
 					  int dest_col, int dest_row,
 					  int paste_flags);
