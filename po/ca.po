@@ -18573,8 +18573,7 @@ msgstr "Importa fitxers Quattro Pro (tm)"
 
 # fitxer: plugins.ca.po.10
 #: plugins/qpro/plugin.xml.in.h:2
-#, fuzzy
-msgid "Quatro Pro (*.wb1, *.wb2, *.wb3)"
+msgid "Quattro Pro (*.wb1, *.wb2, *.wb3)"
 msgstr "Quattro Pro (*.wb1, *.wb2, *.wb3)"
 
 # fitxer: plugins.ca.po.10

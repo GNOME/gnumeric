@@ -11291,7 +11291,7 @@ msgstr "Quattro Pro (tm) രചനകള് കൊണ‌്ടുവരുക"
 
 #: plugins/qpro/plugin.xml.in.h:2
 #, fuzzy
-msgid "Quatro Pro (*.wb1, *.wb2, *.wb3)"
+msgid "Quattro Pro (*.wb1, *.wb2, *.wb3)"
 msgstr "ലോട്ടസ് 123 (*.wk1)"
 
 #: plugins/qpro/plugin.xml.in.h:3

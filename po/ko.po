@@ -12100,7 +12100,7 @@ msgstr "쿼트로 프로 (tm) 파일을 가져옵니다"
 
 #: plugins/qpro/plugin.xml.in.h:2
 #, fuzzy
-msgid "Quatro Pro (*.wb1, *.wb2, *.wb3)"
+msgid "Quattro Pro (*.wb1, *.wb2, *.wb3)"
 msgstr "로터스 123 (*.wk1)"
 
 #: plugins/qpro/plugin.xml.in.h:3

@@ -16440,7 +16440,7 @@ msgstr "导入 Quattro Pro (tm) 文件"
 
 #: plugins/qpro/plugin.xml.in.h:2
 #, fuzzy
-msgid "Quatro Pro (*.wb1, *.wb2, *.wb3)"
+msgid "Quattro Pro (*.wb1, *.wb2, *.wb3)"
 msgstr "Lotus 123 (*.wk1, *.wks)"
 
 #: plugins/qpro/plugin.xml.in.h:3

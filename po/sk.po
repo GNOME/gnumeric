@@ -17249,7 +17249,7 @@ msgstr "Importuje súbory Quattro Pro (tm)"
 
 #: plugins/qpro/plugin.xml.in.h:2
 #, fuzzy
-msgid "Quatro Pro (*.wb1, *.wb2, *.wb3)"
+msgid "Quattro Pro (*.wb1, *.wb2, *.wb3)"
 msgstr "Lotus 123 (*.wk1)"
 
 #: plugins/qpro/plugin.xml.in.h:3
