@@ -5964,20 +5964,24 @@ continued_fraction (gnm_float val, int max_denom, int *res_num, int *res_denom)
 	do {
 		int a = (int) (x / y);
 		gnm_float newy = x - a * y;
-		int n3 = a * n2 + n1;
-		int d3 = a * d2 + d1;
+		int n3, d3;
+
+		if ((n2 && a > (INT_MAX - n1) / n2) ||
+		    (d2 && a > (INT_MAX - d1) / d2) ||
+		    a * d2 + d1 > max_denom) {
+			*res_num = n2;
+			*res_denom = d2;
+			return;
+		}
+
+		n3 = a * n2 + n1;
+		d3 = a * d2 + d1;
 
 		x = y;
 		y = newy;
 
 		n1 = n2; n2 = n3;
 		d1 = d2; d2 = d3;
-
-		if (d3 > max_denom) {
-		  *res_num = n1;
-		  *res_denom = d1;
-		  return;
-		}
 	} while (y > 1e-10);
 
 	*res_num = n2;
