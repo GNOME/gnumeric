@@ -1,5 +1,9 @@
 2004-10-29  Jon K Hellan  <hellan@acm.org>
 
+	* python-loader.c (gplp_func_exec_action): Fix order of arguments.
+
+2004-10-29  Jon K Hellan  <hellan@acm.org>
+
 	* plugin.xml.in: Enable UI service.
 
 	* ui-console-menu.xml: Adapt to GtkAction

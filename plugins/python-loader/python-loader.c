@@ -717,8 +717,8 @@ gplp_loader_data_ui_free (ServiceLoaderDataUI *loader_data)
 
 static void
 gplp_func_exec_action (GnmPluginService *service,
-		       WorkbookControl *wbc,
 		       GnmAction const *action,
+		       WorkbookControl *wbc,
 		       ErrorInfo **ret_error)
 {
 	ServiceLoaderDataUI *loader_data;
