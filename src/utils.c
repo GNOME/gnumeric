@@ -69,13 +69,13 @@ cell_name (int col, int row)
 	static char buffer [10];
 	char *p = buffer;
 	
-	if (col < 'Z'-'A'){
+	if (col <= 'Z'-'A'){
 		*p++ = col + 'A';
 	} else {
-		int a = col / ('Z'-'A');
-		int b = col % ('Z'-'A');
+		int a = col / ('Z'-'A'+1);
+		int b = col % ('Z'-'A'+1);
 		
-		*p++ = a + 'A';
+		*p++ = a + 'A' - 1;
 		*p++ = b + 'A';
 	}
 	sprintf (p, "%d", row+1);
@@ -158,7 +158,7 @@ parse_cell_name (char *cell_str, int *col, int *row)
 	*col = toupper (*cell_str++) - 'A';
 
 	if (isalpha (*cell_str))
-		*col = *col * ('Z' - 'A') + toupper (*cell_str++) - 'A';
+		*col = ((*col+1) * ('Z' - 'A' + 1)) + (toupper (*cell_str++) - 'A');
 
 	if (!isdigit (*cell_str))
 		return FALSE;

@@ -554,6 +554,16 @@ workbook_parse_and_jump (Workbook *wb, char *text)
 	} else {
 		Sheet *sheet = workbook_get_current_sheet (wb);
 
+		if (col > SHEET_MAX_COLS-2){
+			gnumeric_notice (_("Column out of range"));
+			return FALSE;
+		}
+
+		if (row > SHEET_MAX_ROWS-2){
+			gnumeric_notice (_("Row number out of range"));
+			return FALSE;
+		}
+			
 		sheet_cursor_move (sheet, col, row);
 		return TRUE;
 	}
@@ -582,7 +592,8 @@ accept_input (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = workbook_get_current_sheet (wb);
 
-	sheet_accept_pending_input (sheet);
+	sheet_set_current_value (sheet);
+	workbook_focus_current_sheet (wb);
 }
 
 static void
@@ -591,6 +602,7 @@ cancel_input (GtkWidget *widget, Workbook *wb)
 	Sheet *sheet = workbook_get_current_sheet (wb);
 
 	sheet_cancel_pending_input (sheet);
+	workbook_focus_current_sheet (wb);
 }
 
 static void

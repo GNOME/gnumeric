@@ -131,7 +131,7 @@ get_col_name (int n)
 }
 
 static void
-bar_draw_cell (ItemBar *item_bar, GdkDrawable *drawable, ColRowInfo *info, char *str, int x1, int y1, int x2, int y2)
+bar_draw_cell (ItemBar *item_bar, GdkDrawable *drawable, int draw_selected, char *str, int x1, int y1, int x2, int y2)
 {
 	GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (item_bar)->canvas);
 	GdkFont *font = canvas->style->font;
@@ -141,7 +141,7 @@ bar_draw_cell (ItemBar *item_bar, GdkDrawable *drawable, ColRowInfo *info, char 
 	len = gdk_string_width (font, str);
 	texth = font->ascent + font->descent;
 
-	if (info->selected){
+	if (draw_selected){
 		shadow = GTK_SHADOW_IN;
 		gc = canvas->style->dark_gc [GTK_STATE_NORMAL];
 	} else {
@@ -164,7 +164,7 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 	ItemBar *item_bar = ITEM_BAR (item);
 	Sheet   *sheet = item_bar->sheet_view->sheet;
 	ColRowInfo *cri;
-	int element, total, pixels, limit;
+	int element, total, pixels, limit, all_selected;
 	char *str;
 	
 	element = item_bar->first_element;
@@ -175,8 +175,15 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 		limit = x + width;
 	
 	total = 0;
+
+	if (sheet_is_all_selected (sheet))
+		all_selected = 1;
+	else
+		all_selected = 0;
+	
 	do {
 		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL){
+			
 			if (element >= SHEET_MAX_ROWS){
 				GtkWidget *canvas = GTK_WIDGET (item->canvas);
 				
@@ -193,10 +200,11 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 			
 			if (total + pixels >= y){
 				str = get_row_name (element);
-				bar_draw_cell (item_bar, drawable, cri, str,
-						  -x, 1 + total - y,
-						  item->canvas->width - x,
-						  1 + total + pixels - y);
+				bar_draw_cell (item_bar, drawable,
+					       cri->selected | all_selected,
+					       str, -x, 1 + total - y,
+					       item->canvas->width - x,
+					       1 + total + pixels - y);
 			}
 		} else {
 			if (element >= SHEET_MAX_COLS){
@@ -212,13 +220,14 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 				pixels = item_bar->resize_width;
 			else
 				pixels = cri->pixels;
-			
+
 			if (total + pixels >= x){
 				str = get_col_name (element);
-				bar_draw_cell (item_bar, drawable, cri, str, 
-						  1 + total - x, -y,
-						  1 + total + pixels - x,
-						  item->canvas->height - y);
+				bar_draw_cell (item_bar, drawable,
+					       cri->selected | all_selected,
+					       str, 1 + total - x, -y,
+					       1 + total + pixels - x,
+					       item->canvas->height - y);
 			}
 		}
 		
@@ -447,6 +456,15 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			pos = x;
 
 		cri = is_pointer_on_division (item_bar, pos, &start, &element);
+
+		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL){
+			if (element > SHEET_MAX_ROWS-1)
+				break;
+		} else {
+			if (element > SHEET_MAX_COLS-1)
+				break;
+		}
+		
 		if (cri){
 			/* Record the important bits */
 			item_bar->resize_pos = element;

@@ -20,6 +20,13 @@ typedef struct {
 	char     *font_name;
 	int      units;
 	GdkFont  *font;
+
+	/*
+	 * These are runtime optimizations, there is no need to save these
+	 * they get computed at StyleFont creation time.
+	 */
+	unsigned int hint_is_bold:1;
+	unsigned int hint_is_italic:1;
 } StyleFont;
 
 typedef struct {

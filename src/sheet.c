@@ -994,6 +994,25 @@ sheet_select_all (Sheet *sheet)
 	}
 }
 
+int
+sheet_is_all_selected (Sheet *sheet)
+{
+	SheetSelection *ss;
+
+	g_return_val_if_fail (sheet != NULL, FALSE);
+	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
+	
+	ss = sheet->selections->data;
+
+	if (ss->start_col == 0 &&
+	    ss->start_row == 0 &&
+	    ss->end_col == SHEET_MAX_COLS-1 &&
+	    ss->end_row == SHEET_MAX_ROWS-1)
+		return TRUE;
+	else
+		return FALSE;
+}
+
 /*
  * This routine is used to queue the redraw regions for the 
  * cell region specified.
@@ -1209,7 +1228,7 @@ sheet_selection_reset_only (Sheet *sheet)
 		for (l = sheet->sheet_views; l; l = l->next){
 			SheetView *sheet_view = l->data;
 
-			sheet_view_redraw_columns (sheet_view);
+			sheet_view_redraw_rows (sheet_view);
 		}
 }
 

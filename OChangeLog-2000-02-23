@@ -1,5 +1,32 @@
 1998-09-23  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/style.c (font_compute_hints): At font creation time store a
+	couple of the font attributes for quick retrieval.
+
+	* src/sheet-view.c (sheet_view_construct): Do not allow this
+	button to have the focus either.
+
+	* src/item-bar.c (item_bar_draw): If the whole sheet is selected,
+	draw all of the columns in pressed presenstation
+
+	* src/sheet.c (sheet_is_all_selected): Return wheter all the sheet
+	is selected.
+
+	* src/utils.c (cell_name): Fixed cell name computation.
+	(parse_cell_name): Fixed parsing of the cell name.
+
+	* src/item-grid.c (item_grid_event): More range checks.
+
+	* src/item-bar.c (item_bar_event): range checks here too.
+
+	* src/sheet-autofill.c (FillItem): Keep track of the originating
+	cell so that we can copy the format.
+	
+	* src/cell.c (cell_set_style): New function.
+
+	* src/sheet.c (sheet_selection_reset_only): Simple fix: For the
+	row case, redraw the rows, not the columns.  Cut/paste typo.
+
 	* src/dialog-goto-cell.c (dialog_goto_cell): Do not complain if
 	there was no target cell entered.
 

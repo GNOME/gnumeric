@@ -461,6 +461,7 @@ sheet_view_construct (SheetView *sheet_view)
 
 	/* The select-all button */
 	select_all = gtk_button_new ();
+	GTK_WIDGET_UNSET_FLAGS (select_all, GTK_CAN_FOCUS);
 	gtk_table_attach (table, select_all, 0, 1, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
 	gtk_signal_connect (GTK_OBJECT (select_all), "clicked",
 			    GTK_SIGNAL_FUNC (button_select_all), sheet_view);

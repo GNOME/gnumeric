@@ -127,6 +127,18 @@ cell_set_font (Cell *cell, char *font_name)
 }
 
 void
+cell_set_style (Cell *cell, Style *reference_style)
+{
+	g_return_if_fail (cell != NULL);
+	g_return_if_fail (reference_style != NULL);
+
+	cell_queue_redraw (cell);
+	cell->style = style_duplicate (reference_style);
+	cell_calc_dimensions (cell);
+	cell_queue_redraw (cell);
+}
+
+void
 cell_set_foreground (Cell *cell, gushort red, gushort green, gushort blue)
 {
 	g_return_if_fail (cell != NULL);

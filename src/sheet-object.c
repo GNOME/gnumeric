@@ -720,6 +720,24 @@ object_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject *object)
 	return TRUE;
 }
 
+/*
+ * new_control_point
+ * @group:  The canvas group to which this control point belongs
+ * @object: The object
+ * @idx:    control point index to be created
+ * @x:      x coordinate of control point
+ * @y:      y coordinate of control point
+ *
+ * This is used to create a number of control points in a sheet
+ * object, the meaning of them is used in other parts of the code
+ * to belong to the following locations:
+ *
+ *     0 -------- 1 -------- 2
+ *     |                     |
+ *     3                     4
+ *     |                     |
+ *     5 -------- 6 -------- 7
+ */
 static GnomeCanvasItem *
 new_control_point (GnomeCanvasGroup *group, SheetObject *object, int idx, double x, double y)
 {

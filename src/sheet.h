@@ -144,6 +144,7 @@ void        sheet_cursor_move            (Sheet *sheet, int col, int row);
 
 /* Selection management */
 void        sheet_select_all             (Sheet *sheet);
+int         sheet_is_all_selected        (Sheet *sheet);
 void        sheet_selection_append       (Sheet *sheet, int col, int row);
 void        sheet_selection_extend_to    (Sheet *sheet, int col, int row);
 void        sheet_selection_reset        (Sheet *sheet);

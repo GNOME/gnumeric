@@ -627,8 +627,13 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			convert (canvas, event->button.x, event->button.y, &x, &y);
 			col = item_grid_find_col (item_grid, x, NULL);
 			row = item_grid_find_row (item_grid, y, NULL);
-			
+
 			sheet_accept_pending_input (sheet);
+			if (col > SHEET_MAX_COLS-1)
+				return 1;
+			if (row > SHEET_MAX_ROWS-1)
+				return 1;
+			
 			sheet_cursor_move (sheet, col, row);
 			if (!(event->button.state & GDK_CONTROL_MASK))
 				sheet_selection_reset_only (sheet);

@@ -63,6 +63,34 @@ style_format_unref (StyleFormat *sf)
 	g_free (sf);
 }
 
+static void
+font_compute_hints (StyleFont *font)
+{
+	char *p = font->font_name;
+	int hyphens = 0;
+	
+	font->hint_is_bold = 0;
+	font->hint_is_italic = 0;
+
+	for (;*p; p++){
+		if (*p == '-'){
+			hypens++;
+
+			if (hypens == 3 && (strcmp (p+1, "bold") == 0)){
+				font->hint_is_bold = 1;
+			}
+
+			if (hypens == 4){
+				if (*(p+1) == 'o' || *(p+1) == 'i')
+					font->hint_is_italic = 1;
+			}
+
+			if (hypens > 5)
+				break;
+		}
+	}
+}
+
 StyleFont *
 style_font_new_simple (char *font_name, int units)
 {
@@ -88,6 +116,9 @@ style_font_new_simple (char *font_name, int units)
 		font->font_name = g_strdup (font_name);
 		font->units    = units;
 		font->font     = gdk_font_load (font_name);
+
+		font_compute_hints (font);
+		
 		g_hash_table_insert (style_font_hash, font, font);
 	}
 	font->ref_count++;
