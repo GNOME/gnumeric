@@ -1001,10 +1001,11 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		col = gnm_canvas_find_col (gcanvas, x, NULL);
 		row = gnm_canvas_find_row (gcanvas, y, NULL);
 
-		/* While a guru is up ignore clicks */
 		if (event->button.button == 1)
 			return item_grid_button_1 (scg, &event->button,
 						   ig, col, row, x, y);
+
+		/* While a guru is up ignore clicks */
 		if (wbcg_edit_has_guru (scg->wbcg))
 			return TRUE;
 

@@ -1,5 +1,15 @@
 2001-10-16  Jody Goldberg <jgoldberg@home.com>
 
+	* dialog-graph-guru.c (graph_guru_init_data_page) : handle component
+	  death.  Only init if we need to.
+	(graph_guru_apply_changes) : check the right guru.
+	(graph_guru_set_page) : unless we are canceling apply any pending
+	  edits on the data page to the guru.
+	(vector_state_apply_changes) : new split from
+	(cb_graph_guru_focus) : here.
+
+2001-10-16  Jody Goldberg <jgoldberg@home.com>
+
 	* graph-guru.glade : Make Finish the default button.
 
 	* dialog-graph-guru.c (cb_graph_guru_clicked) : don't start creating

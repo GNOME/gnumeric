@@ -376,8 +376,9 @@ gnm_graph_get_config_control (GnmGraph *graph, char const *which_control)
 		CORBA_exception_init (&ev);
 		control = MANAGER1 (configure) (graph->manager, which_control, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION) {
-			g_warning ("'%s' : while attempting to get aconfiguration control",
-				   bonobo_exception_get_text (&ev));
+			g_warning ("'%s' : while gettting graph %s control",
+				   bonobo_exception_get_text (&ev), which_control);
+			control = CORBA_OBJECT_NIL;
 		} else if (control == CORBA_OBJECT_NIL) {
 			g_warning ("Was this an unknown config control ??");
 		} else
@@ -655,6 +656,7 @@ gnm_graph_subscribe_vector (GnmGraph *graph, GnmGraphVector *vector)
 		vector->graph = graph;
 		vector->id = id;
 	} else {
+		vector->subscriber.any = CORBA_OBJECT_NIL;
 		g_warning ("'%s' : while subscribing vector %p",
 			   bonobo_exception_get_text (&ev), vector);
 	}
@@ -829,32 +831,6 @@ gnm_graph_new (Workbook *wb)
 		return NULL;
 	}
 	return graph;
-}
-
-GtkWidget *
-gnm_graph_type_selector (GnmGraph *graph)
-{
-	CORBA_Environment  ev;
-	GtkWidget	  *res = NULL;
-	Bonobo_Control	   control;
-
-	g_return_val_if_fail (IS_GNUMERIC_GRAPH (graph), NULL);
-
-	if (graph->manager == CORBA_OBJECT_NIL)
-		return FALSE;
-
-	CORBA_exception_init (&ev);
-	control = MANAGER1 (configure) (graph->manager, "Type", &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("'%s' : while attempting to activate a graphing component",
-			   bonobo_exception_get_text (&ev));
-	} else if (control == CORBA_OBJECT_NIL) {
-		g_warning ("A graphing component activated but return NUL ??");
-	} else
-		res = bonobo_widget_new_control_from_objref (control, CORBA_OBJECT_NIL);
-	CORBA_exception_free (&ev);
-
-	return res;
 }
 
 void

@@ -24,7 +24,8 @@ Jody:
 	* Improve parser's handling of integers larger than int.
 	* Improve cursor & scroll bounds checking.
 	* Fix graph leaks.
-	* Allow xls exporter to handle large format regions.
+	* Allow xls exporter to (poorly) handle large format regions.
+	* Fix changing data for graphs
 
 John Gotts:
 	* Make bonobo optional in the sample rpm specfile.

@@ -106,7 +106,6 @@ struct _GraphGuruState
 	Sheet		   *sheet;
 };
 
-static void graph_guru_init_data_page (GraphGuruState *s);
 static void graph_guru_select_plot (GraphGuruState *s, xmlNode *plot);
 
 static void
@@ -116,6 +115,40 @@ graph_guru_clear_xml (GraphGuruState *state)
 		xmlFreeDoc (state->xml_doc);
 		state->xml_doc = NULL;
 	}
+}
+
+static xmlNode *
+graph_guru_get_plot (GraphGuruState *s, int indx)
+{
+	xmlDoc *xml_doc = s->xml_doc;
+	xmlNode *plot = e_xml_get_child_by_name (xml_doc->xmlRootNode, "Plots");
+
+	g_return_val_if_fail (plot != NULL, NULL);
+
+	for (plot = plot->xmlChildrenNode; plot; plot = plot->next) {
+		if (strcmp (plot->name, "Plot"))
+			continue;
+		if (indx == e_xml_get_integer_prop_by_name_with_default (plot, "index", -1))
+			return plot;
+	}
+	return NULL;
+}
+
+static xmlNode *
+graph_guru_get_series (GraphGuruState *s, int indx)
+{
+	xmlNode *plot = graph_guru_get_plot (s, s->current_plot);
+	xmlNode *series = e_xml_get_child_by_name (plot, "Data");
+
+	g_return_val_if_fail (series != NULL, NULL);
+
+	for (series = series->xmlChildrenNode; series; series = series->next) {
+		if (strcmp (series->name, "Series"))
+			continue;
+		if (indx == e_xml_get_integer_prop_by_name_with_default (series, "index", -1))
+			return series;
+	}
+	return NULL;
 }
 
 static char *
@@ -280,6 +313,41 @@ vector_state_fill (VectorState *vs, xmlNode *series)
 				GNUM_EE_ABS_COL|GNUM_EE_ABS_ROW, GNUM_EE_MASK);
 		}
 	}
+}
+
+static void
+vector_state_apply_changes (VectorState *vs)
+{
+	char const *str;
+	ExprTree *expr = NULL;
+	gboolean changed;
+
+	if (vs == NULL || !vs->changed)
+		return;
+
+	str = gtk_entry_get_text (GTK_ENTRY (vs->entry));
+	/* If we are setting something */
+	if (*str != '\0') {
+		ParsePos pos;
+		expr = expr_parse_string (str,
+			parse_pos_init (&pos, NULL, vs->state->sheet, 0, 0),
+			NULL, NULL);
+		/* TODO : add some error dialogs split out
+		 * the code in workbok_edit.
+		 */
+		changed = (expr != NULL);
+	} else
+		/* or we are clearing something optional */
+		changed = (vs->is_optional && vs->vector != NULL);
+
+	if (changed)
+		vector_state_series_set_dimension (vs, expr);
+
+	vector_state_fill (vs, 
+		graph_guru_get_series (vs->state, vs->series_index));
+
+	vs->state->current_vector = NULL;
+	vs->changed = FALSE;
 }
 
 static void
@@ -598,28 +666,17 @@ graph_guru_select_plot (GraphGuruState *s, xmlNode *plot)
 }
 
 static void
-graph_guru_init_data_page (GraphGuruState *s)
-{
-	s->data_guru = gnm_graph_get_config_control (s->graph, "DataGuru"),
-	s->sample = bonobo_widget_new_control_from_objref (s->data_guru,
-		CORBA_OBJECT_NIL);
-	gtk_container_add (GTK_CONTAINER (s->sample_frame), s->sample);
-	gtk_widget_show_all (s->sample_frame);
-	graph_guru_get_spec (s);
-}
-
-static void
 graph_guru_apply_changes (GraphGuruState *state)
 {
 	CORBA_Environment  ev;
-	if (state->data_guru == CORBA_OBJECT_NIL)
-		return;
 
 	CORBA_exception_init (&ev);
 	switch (state->current_page) {
-	case 0: CONFIG_GURU1 (applyChanges) (state->type_selector, &ev);
+	case 0: if (state->type_selector != CORBA_OBJECT_NIL)
+			CONFIG_GURU1 (applyChanges) (state->type_selector, &ev);
 		break;
-	case 1: CONFIG_GURU1 (applyChanges) (state->data_guru, &ev);
+	case 1: if (state->data_guru != CORBA_OBJECT_NIL)
+			CONFIG_GURU1 (applyChanges) (state->data_guru, &ev);
 		break;
 	case 2:
 		break;
@@ -628,6 +685,23 @@ graph_guru_apply_changes (GraphGuruState *state)
 		break;
 	}
 	CORBA_exception_free (&ev);
+}
+
+static void
+graph_guru_init_data_page (GraphGuruState *s)
+{
+	if (s->data_guru != CORBA_OBJECT_NIL)
+		return;
+
+	s->data_guru = gnm_graph_get_config_control (s->graph, "DataGuru"),
+
+	g_return_if_fail (s->data_guru != CORBA_OBJECT_NIL);
+
+	s->sample = bonobo_widget_new_control_from_objref (s->data_guru,
+		CORBA_OBJECT_NIL);
+	gtk_container_add (GTK_CONTAINER (s->sample_frame), s->sample);
+	gtk_widget_show_all (s->sample_frame);
+	graph_guru_get_spec (s);
 }
 
 static void
@@ -675,7 +749,9 @@ cb_graph_guru_clicked (GtkWidget *button, GraphGuruState *state)
 	if (state->dialog == NULL)
 		return;
 
-	wbcg_set_entry (state->wbcg, NULL);
+	/* send any pending data edits to the guru */
+	if (button != state->button_cancel)
+		vector_state_apply_changes (state->current_vector);
 
 	if (button == state->button_prev) {
 		graph_guru_set_page (state, state->current_page - 1);
@@ -688,6 +764,7 @@ cb_graph_guru_clicked (GtkWidget *button, GraphGuruState *state)
 	}
 
 	if (button == state->button_finish) {
+		/* apply the changes in the guru back to the main graph */
 		graph_guru_apply_changes (state);
 		if (state->initial_page == 0) {
 			gtk_object_ref (GTK_OBJECT (state->graph));
@@ -696,40 +773,6 @@ cb_graph_guru_clicked (GtkWidget *button, GraphGuruState *state)
 	}
 
 	gtk_object_destroy (GTK_OBJECT (state->dialog));
-}
-
-static xmlNode *
-graph_guru_get_plot (GraphGuruState *s, int indx)
-{
-	xmlDoc *xml_doc = s->xml_doc;
-	xmlNode *plot = e_xml_get_child_by_name (xml_doc->xmlRootNode, "Plots");
-
-	g_return_val_if_fail (plot != NULL, NULL);
-
-	for (plot = plot->xmlChildrenNode; plot; plot = plot->next) {
-		if (strcmp (plot->name, "Plot"))
-			continue;
-		if (indx == e_xml_get_integer_prop_by_name_with_default (plot, "index", -1))
-			return plot;
-	}
-	return NULL;
-}
-
-static xmlNode *
-graph_guru_get_series (GraphGuruState *s, int indx)
-{
-	xmlNode *plot = graph_guru_get_plot (s, s->current_plot);
-	xmlNode *series = e_xml_get_child_by_name (plot, "Data");
-
-	g_return_val_if_fail (series != NULL, NULL);
-
-	for (series = series->xmlChildrenNode; series; series = series->next) {
-		if (strcmp (series->name, "Series"))
-			continue;
-		if (indx == e_xml_get_integer_prop_by_name_with_default (series, "index", -1))
-			return series;
-	}
-	return NULL;
 }
 
 static GtkWidget *
@@ -809,45 +852,18 @@ graph_guru_selector_init (GraphGuruState *s, char const *name, int i,
 static void
 cb_graph_guru_focus (GtkWindow *window, GtkWidget *focus, GraphGuruState *state)
 {
-	VectorState *vs = state->current_vector;
-
-	if (vs != NULL && vs->changed) {
-		char const *str = gtk_entry_get_text (GTK_ENTRY (vs->entry));
-		ExprTree *expr = NULL;
-		gboolean changed;
-
-		/* If we are setting something */
-		if (*str != '\0') {
-			ParsePos pos;
-			expr = expr_parse_string (str,
-				parse_pos_init (&pos, NULL, state->sheet, 0, 0),
-				NULL, NULL);
-			/* TODO : add some error dialogs split out
-			 * the code in workbok_edit.
-			 */
-			changed = (expr != NULL);
-		} else
-			/* or we are clearing something optional */
-			changed = (vs->is_optional && vs->vector != NULL);
-
-		if (changed)
-			vector_state_series_set_dimension (vs, expr);
-
-		vector_state_fill (vs, 
-			graph_guru_get_series (vs->state, vs->series_index));
-
-		state->current_vector = NULL;
-		vs->changed = FALSE;
-	}
+	vector_state_apply_changes (state->current_vector);
 
 	if (focus != NULL) {
-		vs = gtk_object_get_data (GTK_OBJECT (focus), "VectorState");
+		VectorState *vs = gtk_object_get_data (GTK_OBJECT (focus), "VectorState");
 		if (vs != NULL) {
 			state->current_vector = vs;
 			vs->changed = FALSE;
-			wbcg_set_entry (vs->state->wbcg, vs->entry);
+			wbcg_set_entry (state->wbcg, vs->entry);
+			return;
 		}
 	}
+	wbcg_set_entry (state->wbcg, NULL);
 }
 
 static gboolean
