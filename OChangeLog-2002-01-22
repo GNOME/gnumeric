@@ -1,3 +1,7 @@
+2000-10-31  Jon K Hellan  <hellan@acm.org>
+
+	* src/io-context.c (gnumeric_io_error_system): Added it.
+
 2000-10-31  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-view.c (wb_view_auto_expr) : Set LC_MONETARY and

@@ -13,6 +13,16 @@
 #include "command-context.h"
 
 void
+gnumeric_io_error_system (IOContext *context,
+			  char const *message)
+{
+	g_return_if_fail (context != NULL);
+	g_return_if_fail (context->impl != NULL);
+
+	gnumeric_error_system (COMMAND_CONTEXT (context->impl), message);
+}
+
+void
 gnumeric_io_error_read (IOContext *context,
 			char const *message)
 {
