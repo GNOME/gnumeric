@@ -1,6 +1,6 @@
 AC_INIT(src/gnumeric.h)
 
-AM_CONFIG_HEADER(config.h)
+AM_CONFIG_HEADER(gnumeric-config.h)
 AM_INIT_AUTOMAKE(gnumeric,0.99.1)
 AM_MAINTAINER_MODE
 AM_ACLOCAL_INCLUDE(macros)
@@ -414,7 +414,7 @@ gnumeric_plugindir="${gnumeric_libdir}/plugins"
 gnumeric_gladedir="${gnumeric_datadir}/glade"
 gnumeric_autoformatdir="${gnumeric_datadir}/autoformat-templates"
 
-dnl Export to config.h
+dnl Export to gnumeric-config.h
 AC_DEFINE_UNQUOTED(GNUMERIC_VERSION, "$gnumeric_version")
 
 AC_SUBST(gnumeric_prefix)
