@@ -2524,16 +2524,23 @@ gnumeric_yield (FunctionEvalInfo *ei, Value **argv)
 		goto out;
 	}
 
-	n = coupnum (udata.settlement, udata.maturity, udata.freq, udata.basis, TRUE);
+	n = coupnum (udata.settlement, udata.maturity, udata.freq, udata.basis,
+		     TRUE);
 	if (n <= 1.0) {
-		gnum_float a = coupdaybs (udata.settlement, udata.maturity, udata.freq, udata.basis, TRUE);
-		gnum_float d = coupdaysnc (udata.settlement, udata.maturity, udata.freq, udata.basis, TRUE);
-		gnum_float e = coupdays (udata.settlement, udata.maturity, udata.freq, udata.basis, TRUE);
+		gnum_float a = coupdaybs (udata.settlement, udata.maturity,
+					  udata.freq, udata.basis, TRUE);
+		gnum_float d = coupdaysnc (udata.settlement, udata.maturity,
+					   udata.freq, udata.basis, TRUE);
+		gnum_float e = coupdays (udata.settlement, udata.maturity,
+					 udata.freq, udata.basis, TRUE);
 
 	        gnum_float coeff = udata.freq * e / d;
-		gnum_float num = (udata.redemption / 100.0  +  udata.rate / udata.freq)
-		        - (udata.par / 100.0  +  (a / e  *  udata.rate / udata.freq));
-		gnum_float den = udata.par / 100.0  +  (a / e  *   udata.rate / udata.freq);
+		gnum_float num = (udata.redemption / 100.0  + 
+				  udata.rate / udata.freq)
+		        - (udata.par / 100.0  +  (a / e  * 
+						  udata.rate / udata.freq));
+		gnum_float den = udata.par / 100.0  +  (a / e  *  udata.rate /
+							udata.freq);
 
 		result = value_new_float (num / den * coeff);
 	} else {
@@ -2555,7 +2562,8 @@ gnumeric_yield (FunctionEvalInfo *ei, Value **argv)
 						 &udata, yield0);
 
 			/* Pray we got both sides of the root.  */
-			status = goal_seek_bisection (&gnumeric_yield_f, &data, &udata);
+			status = goal_seek_bisection (&gnumeric_yield_f, &data,
+						      &udata);
 		}
 
 		if (status == GOAL_SEEK_OK)
