@@ -3184,7 +3184,7 @@ msgstr "Soha"
 
 #: src/dialogs/dialog-stf-export.glade.h:22
 msgid "Pipe (|)"
-msgstr "Pipe (|)"
+msgstr "Csõvezeték (|)"
 
 #: src/dialogs/dialog-stf-export.glade.h:23
 msgid ""
