@@ -859,7 +859,7 @@ filter_field_apply (GnmFilterField *field)
 			data.count  = field->cond->count;
 			data.vals   = g_alloca (sizeof (Value *) * data.count);
 			sheet_foreach_cell_in_range (filter->dep.sheet,
-				CELL_ITER_IGNORE_HIDDEN,
+				CELL_ITER_IGNORE_HIDDEN | CELL_ITER_IGNORE_BLANK,
 				col, start_row, col, end_row,
 				(CellIterFunc) cb_filter_find_items, &data);
 			sheet_foreach_cell_in_range (filter->dep.sheet,

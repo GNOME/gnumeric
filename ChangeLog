@@ -1,3 +1,8 @@
+2002-12-09  Morten Welinder  <terra@diku.dk>
+
+	* src/sheet-filter.c (filter_field_apply): Filter out blanks per
+	jody.
+
 2002-12-08  Jon K Hellan  <hellan@acm.org>
 
 	* src/sheet-filter.c (do_focus_change): Use stack allocated events
