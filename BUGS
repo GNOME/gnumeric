@@ -13,9 +13,14 @@ Release Critical
     4. Drag onto c5.
     Things are now somewhat screwed up.  C5 thinks it an array cell whose upper
     left is b4.
-
     > ** CRITICAL **: file expr.c: line 201 (expr_tree_array_corner): assertion
     > `corner->base.expression->array.y == 0' failed.
+
+    1.  Select b3:c4.
+    2. Type "=2" and hit ctrl-shift-enter.
+    3. Grab the selected area's edge and drag one column left.
+    4. Undo.
+    ==> error message.
 
 Pending Patches
 ---------------
