@@ -6,7 +6,7 @@
 
 gchar *s = N_("Gnumeric : Importing structured text");
 gchar *s = N_("Data type and number of lines");
-gchar *s = N_("Select the structure and of the text that most closely matches the data. Separated means that the each column is separated by a 'separation' character and fixed width means that you can define the width of each column yourself. You should also select what part of the data you want to import by adjusting the from and to line.");
+gchar *s = N_("Select the structure of the text that most closely matches the data. Separated means that the each column is separated by a 'separation' character and fixed width means that you can define the width of each column yourself. You should also select what part of the data you want to import by adjusting the from and to line.");
 gchar *s = N_("Original data type");
 gchar *s = N_("_Separated");
 gchar *s = N_("_Fixed width");
