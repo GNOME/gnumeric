@@ -359,15 +359,26 @@ gog_plot_type_free (GogPlotType *type)
 	g_free (type);
 }
 
+static void
+create_plot_families (void)
+{
+	if (!plot_families)
+		plot_families = g_hash_table_new_full
+			(g_str_hash, g_str_equal,
+			 NULL, (GDestroyNotify) gog_plot_family_free);
+}
+
 GHashTable const *
 gog_plot_families (void)
 {
+	create_plot_families ();
 	pending_plot_types_load ();
 	return plot_families;
 }
 GogPlotFamily *
 gog_plot_family_by_name (char const *name)
 {
+	create_plot_families ();
 	pending_plot_types_load ();
 	return g_hash_table_lookup (plot_families, name);
 }
@@ -380,11 +391,8 @@ gog_plot_family_register (char const *name, char const *sample_image_file)
 	g_return_val_if_fail (name != NULL, NULL);
 	g_return_val_if_fail (sample_image_file != NULL, NULL);
 
-	if (plot_families != NULL)
-		g_return_val_if_fail (g_hash_table_lookup (plot_families, name) == NULL, NULL);
-	else
-		plot_families = g_hash_table_new_full (g_str_hash, g_str_equal,
-			NULL, (GDestroyNotify) gog_plot_family_free);
+	create_plot_families ();
+	g_return_val_if_fail (g_hash_table_lookup (plot_families, name) == NULL, NULL);
 
 	res = g_new0 (GogPlotFamily, 1);
 	res->name	       = g_strdup (name);
