@@ -775,136 +775,6 @@ cmd_clear_selection (CommandContext *context, Sheet *sheet, int const clear_flag
 
 /******************************************************************/
 
-#define CMD_PASTE_COPY_TYPE        (cmd_paste_copy_get_type ())
-#define CMD_PASTE_COPY(o)          (GTK_CHECK_CAST ((o), CMD_PASTE_COPY_TYPE, CmdPasteCopy))
-
-typedef struct
-{
-	GnumericCommand parent;
-} CmdPasteCopy;
-
-GNUMERIC_MAKE_COMMAND (CmdPasteCopy, cmd_paste_copy);
-
-static gboolean
-cmd_paste_copy_undo (GnumericCommand *cmd, CommandContext *context)
-{
-	CmdPasteCopy *me = CMD_PASTE_COPY(cmd);
-
-	g_return_val_if_fail (me != NULL, TRUE);
-
-	/* FIXME : Fill in */
-	return FALSE;
-}
-
-static gboolean
-cmd_paste_copy_redo (GnumericCommand *cmd, CommandContext *context)
-{
-	CmdPasteCopy *me = CMD_PASTE_COPY(cmd);
-
-	g_return_val_if_fail (me != NULL, TRUE);
-
-	/* FIXME : Fill in */
-	return FALSE;
-}
-static void
-cmd_paste_copy_destroy (GtkObject *cmd)
-{
-#if 0
-	CmdPasteCopy *me = CMD_PASTE_COPY(cmd);
-#endif
-	/* FIXME : Fill in */
-	gnumeric_command_destroy (cmd);
-}
-
-#if 0
-gboolean
-cmd_paste_copy (CommandContext *context,
-{
-	return FALSE;
-}
-#endif
-
-/******************************************************************/
-
-#define CMD_PASTE_CUT_TYPE        (cmd_paste_cut_get_type ())
-#define CMD_PASTE_CUT(o)          (GTK_CHECK_CAST ((o), CMD_PASTE_CUT_TYPE, CmdPasteCut))
-
-typedef struct
-{
-	GnumericCommand parent;
-} CmdPasteCut;
-
-GNUMERIC_MAKE_COMMAND (CmdPasteCut, cmd_paste_cut);
-
-static gboolean
-cmd_paste_cut_undo (GnumericCommand *cmd, CommandContext *context)
-{
-	CmdPasteCut *me = CMD_PASTE_CUT(cmd);
-
-	g_return_val_if_fail (me != NULL, TRUE);
-
-	/* FIXME : Fill in */
-	return FALSE;
-}
-
-static gboolean
-cmd_paste_cut_redo (GnumericCommand *cmd, CommandContext *context)
-{
-	CmdPasteCut *me = CMD_PASTE_CUT(cmd);
-
-	g_return_val_if_fail (me != NULL, TRUE);
-
-	/* FIXME : Fill in */
-	return FALSE;
-}
-static void
-cmd_paste_cut_destroy (GtkObject *cmd)
-{
-#if 0
-	CmdPasteCut *me = CMD_PASTE_CUT(cmd);
-#endif
-	/* FIXME : Fill in */
-	gnumeric_command_destroy (cmd);
-}
-
-gboolean
-cmd_paste_cut (CommandContext *context, ExprRelocateInfo const * const info)
-{
-	GtkObject *obj;
-	CmdPasteCut *me;
-	gboolean trouble;
-
-	/* FIXME : improve on this */
-	char *descriptor = g_strdup_printf (_("Moving cells") );
-
-	g_return_val_if_fail (info != NULL, TRUE);
-
-	obj = gtk_type_new (CMD_PASTE_CUT_TYPE);
-	me = CMD_PASTE_CUT (obj);
-
-	/* Store the specs for the object */
-
-	me->parent.cmd_descriptor = descriptor;
-
-	trouble = cmd_paste_cut_redo (GNUMERIC_COMMAND(me), context);
-
-	/* Register the command object */
-
-	/* NOTE : if the destination workbook is different from the source workbook
-	 * should we have undo elements in both menus ??  It seems poor form to
-	 * hit undo in 1 window and effect another ...
-	 *
-	 * Maybe queue it as 2 different commands, as a clear in one book and
-	 * a paste  in the other.    This is not symetric though.  What happens to the
-	 * cells in the original sheet that now reference the cells in the other.
-	 * When do they reset to the original ?  Probably when the clear in the original
-	 * is undone.
-	 */
-	return command_push_undo (info->target_sheet->workbook, obj, trouble);
-}
-
-/******************************************************************/
-
 #define CMD_FORMAT_TYPE        (cmd_format_get_type ())
 #define CMD_FORMAT(o)          (GTK_CHECK_CAST ((o), CMD_FORMAT_TYPE, CmdFormat))
 
@@ -1312,7 +1182,6 @@ cmd_sort_redo (GnumericCommand *cmd, CommandContext *context)
 	return FALSE;
 }
 
-
 gboolean
 cmd_sort (CommandContext *context, Sheet *sheet,
 	  Range *range, SortClause *clauses,
@@ -1434,6 +1303,136 @@ cmd_hide_selection_rows_cols (CommandContext *context, Sheet *sheet,
 	
 	/* Register the command object */
 	return command_push_undo (sheet->workbook, obj, FALSE);
+}
+
+/******************************************************************/
+
+#define CMD_PASTE_COPY_TYPE        (cmd_paste_copy_get_type ())
+#define CMD_PASTE_COPY(o)          (GTK_CHECK_CAST ((o), CMD_PASTE_COPY_TYPE, CmdPasteCopy))
+
+typedef struct
+{
+	GnumericCommand parent;
+} CmdPasteCopy;
+
+GNUMERIC_MAKE_COMMAND (CmdPasteCopy, cmd_paste_copy);
+
+static gboolean
+cmd_paste_copy_undo (GnumericCommand *cmd, CommandContext *context)
+{
+	CmdPasteCopy *me = CMD_PASTE_COPY(cmd);
+
+	g_return_val_if_fail (me != NULL, TRUE);
+
+	/* FIXME : Fill in */
+	return FALSE;
+}
+
+static gboolean
+cmd_paste_copy_redo (GnumericCommand *cmd, CommandContext *context)
+{
+	CmdPasteCopy *me = CMD_PASTE_COPY(cmd);
+
+	g_return_val_if_fail (me != NULL, TRUE);
+
+	/* FIXME : Fill in */
+	return FALSE;
+}
+static void
+cmd_paste_copy_destroy (GtkObject *cmd)
+{
+#if 0
+	CmdPasteCopy *me = CMD_PASTE_COPY(cmd);
+#endif
+	/* FIXME : Fill in */
+	gnumeric_command_destroy (cmd);
+}
+
+#if 0
+gboolean
+cmd_paste_copy (CommandContext *context,
+{
+	return FALSE;
+}
+#endif
+
+/******************************************************************/
+
+#define CMD_PASTE_CUT_TYPE        (cmd_paste_cut_get_type ())
+#define CMD_PASTE_CUT(o)          (GTK_CHECK_CAST ((o), CMD_PASTE_CUT_TYPE, CmdPasteCut))
+
+typedef struct
+{
+	GnumericCommand parent;
+} CmdPasteCut;
+
+GNUMERIC_MAKE_COMMAND (CmdPasteCut, cmd_paste_cut);
+
+static gboolean
+cmd_paste_cut_undo (GnumericCommand *cmd, CommandContext *context)
+{
+	CmdPasteCut *me = CMD_PASTE_CUT(cmd);
+
+	g_return_val_if_fail (me != NULL, TRUE);
+
+	/* FIXME : Fill in */
+	return FALSE;
+}
+
+static gboolean
+cmd_paste_cut_redo (GnumericCommand *cmd, CommandContext *context)
+{
+	CmdPasteCut *me = CMD_PASTE_CUT(cmd);
+
+	g_return_val_if_fail (me != NULL, TRUE);
+
+	/* FIXME : Fill in */
+	return FALSE;
+}
+static void
+cmd_paste_cut_destroy (GtkObject *cmd)
+{
+#if 0
+	CmdPasteCut *me = CMD_PASTE_CUT(cmd);
+#endif
+	/* FIXME : Fill in */
+	gnumeric_command_destroy (cmd);
+}
+
+gboolean
+cmd_paste_cut (CommandContext *context, ExprRelocateInfo const * const info)
+{
+	GtkObject *obj;
+	CmdPasteCut *me;
+	gboolean trouble;
+
+	/* FIXME : improve on this */
+	char *descriptor = g_strdup_printf (_("Moving cells") );
+
+	g_return_val_if_fail (info != NULL, TRUE);
+
+	obj = gtk_type_new (CMD_PASTE_CUT_TYPE);
+	me = CMD_PASTE_CUT (obj);
+
+	/* Store the specs for the object */
+
+	me->parent.cmd_descriptor = descriptor;
+
+	trouble = cmd_paste_cut_redo (GNUMERIC_COMMAND(me), context);
+
+	/* Register the command object */
+
+	/* NOTE : if the destination workbook is different from the source workbook
+	 * should we have undo elements in both menus ??  It seems poor form to
+	 * hit undo in 1 window and effect another ...
+	 *
+	 * Maybe queue it as 2 different commands, as a clear in one book and
+	 * a paste  in the other.    This is not symetric though.  What happens to the
+	 * cells in the original sheet that now reference the cells in the other.
+	 * When do they reset to the original ?  Probably when the clear in the original
+	 * is undone.
+	 */
+	return command_push_undo (info->target_sheet->workbook, obj, trouble);
 }
 
 /******************************************************************/
