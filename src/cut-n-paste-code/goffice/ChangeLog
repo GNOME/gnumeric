@@ -1,3 +1,10 @@
+2004-04-29  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=141405
+	* drawing/god-drawing-renderer-gdk.c
+	(god_drawing_renderer_gdk_render_shape) : explicitly set alignment for
+	  now.  Set layout bounds so that we wrap.
+
 2004-04-19  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=127411

@@ -294,9 +294,9 @@ god_drawing_renderer_gdk_render_shape (GodDrawingRendererGdk *renderer,
 			PangoLayout *layout;
 			int width, height;
 			layout = pango_layout_new (gdk_pango_context_get_for_screen(gdk_screen_get_default()));
-			pango_layout_set_text (layout,
-					       text,
-					       strlen (text));
+			pango_layout_set_text (layout, text, -1);
+			pango_layout_set_alignment (layout, PANGO_ALIGN_LEFT);
+			pango_layout_set_width (layout, rect.width*PANGO_SCALE);
 			pango_layout_get_pixel_size (layout, &width, &height);
 			gdk_draw_layout (renderer->priv->drawable,
 					 renderer->priv->gc,
