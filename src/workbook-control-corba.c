@@ -7,8 +7,9 @@
  */
 #include <config.h>
 #include "workbook-control-priv.h"
-#include "worbook-control-corba.h"
+#include "workbook-control-corba.h"
 #include "gnumeric-util.h"
+#include <gal/util/e-util.h>
 
 #define CCG_CLASS(o) CMD_CONTEXT_CORBA_CLASS (GTK_OBJECT (o)->klass)
 
