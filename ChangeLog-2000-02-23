@@ -1,3 +1,7 @@
+1999-07-09  Miguel de Icaza  <miguel@gnu.org>
+
+	* configure.in (GNOMEGNORBA_LIBS): Simplified the Bonobo detection code.
+
 1999-07-09  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/analysis-tools.c: Changed prototype of int_compare to

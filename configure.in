@@ -122,14 +122,26 @@ AM_CONDITIONAL(WITH_PYTHON, $python_val)
 dnl ******************************
 dnl Check for Bonobo
 dnl ******************************
-AM_PATH_BONOBO(0.1.0, [
+AC_MSG_CHECKING(For Bonobo > 0.2)
+if gnome-config --libs bonobo >& /dev/null; then
+	vers=`gnome-config --mod-version bonobo`
+	case $vers; in
+      	    bonobo-0.2) bonobo_ok=true ;;
+	    *) bonobo_ok=false ;;
+        esac
+else
+        ok=false
+fi
+
+if $bonobo_ok; then
+        AC_MSG_RESULT(found)
 	AC_DEFINE(ENABLE_BONOBO)
 	have_bonobo=true
 	bonobo=bonobo
-],[
-	have_bonobo=false
+else
+        AC_MSG_RESULT(not found)
 	bonobo=
-])
+fi
 AM_CONDITIONAL(BONOBO, $have_bonobo)
 
 dnl ******************************
