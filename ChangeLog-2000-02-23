@@ -1,3 +1,11 @@
+2000-01-13  Sergey Panov <sipan@mit.edu>
+
+	* src/functions(fn-eng.c fn-financial.c fn-logical.c
+        fn-lookup.c fn-math.c fn-sheet.c fn-stat.c fn-string.c):
+        Applied patches from Valek Filippov <frob@df.ru> ---
+	correcting format of the function descr. messages. 
+
+
 2000-01-13  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/dialogs/dialog-autosave.c: Implemented ``Auto Save'' tool.

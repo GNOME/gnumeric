@@ -165,7 +165,7 @@ static char *help_lower = {
 	   "@SYNTAX=LOWER(text)\n"
 
 	   "@DESCRIPTION="
-	   "LOWER returns a lower-case version of the string in @text"
+	   "LOWER returns a lower-case version of the string in @text."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "LOWER(\"J. F. Kennedy\") equals \"j. f. kennedy\".\n"

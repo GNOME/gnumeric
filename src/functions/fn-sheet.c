@@ -19,7 +19,7 @@ static char *help_selection = {
 
 	   "@DESCRIPTION="
 	   "The SELECTION function returns a list with the values in the current selection. "
-	   "This is usually used to implement on-the-fly computation of values."
+	   "This is usually used to implement on-the-fly computation of values. "
 	   "If @permit_intersection is TRUE the user specifed selection "
 	   "ranges are returned, EVEN IF THEY OVERLAP.  If @permit_intersection is FALSE "
 	   "a distict set of regions is returned, however, there may be more of them than "
