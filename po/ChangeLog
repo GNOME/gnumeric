@@ -1,3 +1,7 @@
+2000-06-10  Karl Eichwalder  <ke@suse.de>
+
+	* de.po: Update.
+
 2000-06-10  Yukihiro Nakai <nakai@gnome.gr.jp>
 
 	* ja.po: Fix small bugs.
@@ -9,7 +13,7 @@
 
 2000-06-01  Kenneth Christiansen <kenneth@gnu.org>
 
-        * desk.pl, update.pl: Two new scripts for helping
+	* desk.pl, update.pl: Two new scripts for helping
 	translation/i18n maintainance of Gnumeric
 
 	* README.tools: Added readme file, which explains the
@@ -23,16 +27,16 @@
 
 2000-05-29  Kenneth Christiansen  <kenneth@gnu.org>
 
-        * da.po: update, fixed the missing recent
+	* da.po: update, fixed the missing recent
           opened sheets menu, which jody pointed
           out the course of.
 
-        * README: Put a notice to the translators, please
+	* README: Put a notice to the translators, please
           go read
 
 2000-05-29  Kenneth Christiansen  <kenneth@gnu.org>
 
-        * da.po: update, Keld also fixed some string in this
+	* da.po: update, Keld also fixed some string in this
 
 2000-05-29  Kenneth Christiansen  <kenneth@gnu.org>
 
