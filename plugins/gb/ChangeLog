@@ -1,3 +1,8 @@
+2001-09-21  Jody Goldberg <jgoldberg@home.com>
+
+	* excel-gb-worksheet.c (excel_gb_worksheet_set_arg) : Use
+	  workbook_sheet_rename to ensure that the otherviews are updated.
+
 2001-08-21  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* plugin.xml: Removed

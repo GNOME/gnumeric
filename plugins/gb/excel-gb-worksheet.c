@@ -75,12 +75,18 @@ excel_gb_worksheet_set_arg (GBRunEvalContext *ec,
 			    GBValue          *val)
 {
 	ExcelGBWorksheet *worksheet = EXCEL_GB_WORKSHEET (object);
+	ExcelGBContext *context = EXCEL_GB_CONTEXT (ec);
 
 	switch (property) {
 
-	case NAME:
-		sheet_rename (worksheet->sheet, val->v.s->str);
+	case NAME: {
+		Sheet *sheet = worksheet->sheet;
+		workbook_sheet_rename (context->control,
+				       sheet->workbook,
+				       sheet->name_unquoted,
+				       val->v.s->str);
 		return TRUE;
+	}
 
 	default:
 		g_warning ("Unhandled property '%d'", property);
