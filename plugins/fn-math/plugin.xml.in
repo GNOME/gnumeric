@@ -46,13 +46,6 @@
 				<function name="g_product"/>
 				<function name="quotient"/>
 				<function name="radians"/>
-				<function name="rand"/>
-				<function name="randbernoulli"/>
-				<function name="randbetween"/>
-				<function name="randbinom"/>
-				<function name="randexp"/>
-				<function name="randnegbinom"/>
-				<function name="randpoisson"/>
 				<function name="roman"/>
 				<function name="round"/>
 				<function name="rounddown"/>

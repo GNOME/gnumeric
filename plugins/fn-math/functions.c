@@ -1230,167 +1230,6 @@ gnumeric_radians (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_rand = {
-	N_("@FUNCTION=RAND\n"
-	   "@SYNTAX=RAND()\n"
-
-	   "@DESCRIPTION="
-	   "RAND returns a random number between zero and one ([0..1]).\n"
-	   "This function is Excel compatible. "
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "RAND() returns a random number greater than zero but less "
-	   "than one.\n"
-	   "\n"
-	   "@SEEALSO=RANDBETWEEN")
-};
-
-static Value *
-gnumeric_rand (FunctionEvalInfo *ei, Value **argv)
-{
-	return value_new_float (random_01 ());
-}
-
-/***************************************************************************/
-
-static const char *help_randexp = {
-        N_("@FUNCTION=RANDEXP\n"
-           "@SYNTAX=RANDEXP(b)\n"
-
-           "@DESCRIPTION="
-           "RANDEXP returns a exponentially-distributed random number. "
-           "\n"
-           "@EXAMPLES=\n"
-           "RANDEXP(0.5).\n"
-           "\n"
-           "@SEEALSO=RAND,RANDBETWEEN")
-};
-
-static Value *
-gnumeric_randexp (FunctionEvalInfo *ei, Value **argv)
-{
-	gnum_float x = value_get_as_float (argv[0]);
-
-        return value_new_float (random_exponential (x));
-}
-
-/***************************************************************************/
-
-static const char *help_randpoisson = {
-        N_("@FUNCTION=RANDPOISSON\n"
-           "@SYNTAX=RANDPOISSON(lambda)\n"
-
-           "@DESCRIPTION="
-           "RANDPOISSON returns a poisson-distributed random number. "
-           "\n"
-           "@EXAMPLES=\n"
-           "RANDPOISSON(3).\n"
-           "\n"
-           "@SEEALSO=RAND,RANDBETWEEN")
-};
-
-static Value *
-gnumeric_randpoisson (FunctionEvalInfo *ei, Value **argv)
-{
-	gnum_float x = value_get_as_float (argv[0]);
-
-	if (x < 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-        return value_new_float (random_poisson (x));
-}
-
-/***************************************************************************/
-
-static const char *help_randbinom = {
-        N_("@FUNCTION=RANDBINOM\n"
-           "@SYNTAX=RANDBINOM(p,trials)\n"
-
-           "@DESCRIPTION="
-           "RANDBINOM returns a binomially-distributed random number. "
-           "\n"
-           "If @p < 0 or @p > 1 RANDBINOM returns #NUM! error. "
-           "If @trials < 0 RANDBINOM returns #NUM! error. "
-	   "\n"
-           "@EXAMPLES=\n"
-           "RANDBINOM(0.5,2).\n"
-           "\n"
-           "@SEEALSO=RAND,RANDBETWEEN")
-};
-
-static Value *
-gnumeric_randbinom (FunctionEvalInfo *ei, Value **argv)
-{
-	gnum_float p = value_get_as_float (argv[0]);
-	int     trials = value_get_as_int (argv[1]);
-
-	if (p < 0 || p > 1 || trials < 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-        return value_new_float (random_binomial (p, trials));
-}
-
-/***************************************************************************/
-
-static const char *help_randnegbinom = {
-        N_("@FUNCTION=RANDNEGBINOM\n"
-           "@SYNTAX=RANDNEGBINOM(p,failures)\n"
-
-           "@DESCRIPTION="
-           "RANDNEGBINOM returns a negative binomially-distributed random "
-           "number. "
-           "\n"
-           "If @p < 0 or @p > 1, RANDNEGBINOM returns #NUM! error. "
-           "If @failures RANDNEGBINOM returns #NUM! error. "
-	   "\n"
-           "@EXAMPLES=\n"
-           "RANDNEGBINOM(0.5,2).\n"
-           "\n"
-           "@SEEALSO=RAND,RANDBETWEEN")
-};
-
-static Value *
-gnumeric_randnegbinom (FunctionEvalInfo *ei, Value **argv)
-{
-	gnum_float p = value_get_as_float (argv[0]);
-	int failures = value_get_as_int (argv[1]);
-
-	if (p < 0 || p > 1 || failures < 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-        return value_new_float (random_negbinom (p, failures));
-}
-
-/***************************************************************************/
-
-static const char *help_randbernoulli = {
-        N_("@FUNCTION=RANDBERNOULLI\n"
-           "@SYNTAX=RANDBERNOULLI(p)\n"
-
-           "@DESCRIPTION="
-           "RANDBERNOULLI returns a Bernoulli-distributed random number. "
-           "\n"
-           "If @p < 0 or @p > 1 RANDBERNOULLI returns #NUM! error. "
-	   "\n"
-           "@EXAMPLES=\n"
-           "RANDBERNOULLI(0.5).\n"
-           "\n"
-           "@SEEALSO=RAND,RANDBETWEEN")
-};
-
-static Value *
-gnumeric_randbernoulli (FunctionEvalInfo *ei, Value **argv)
-{
-	gnum_float p = value_get_as_float (argv[0]);
-
-	if (p < 0 || p > 1)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-        return value_new_float (random_bernoulli (p));
-}
-
-/***************************************************************************/
-
 static const char *help_sin = {
 	N_("@FUNCTION=SIN\n"
 	   "@SYNTAX=SIN(x)\n"
@@ -1895,40 +1734,6 @@ gnumeric_sqrtpi (FunctionEvalInfo *ei, Value **argv)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (sqrtgnum (M_PIgnum * n));
-}
-
-/***************************************************************************/
-
-static const char *help_randbetween = {
-	N_("@FUNCTION=RANDBETWEEN\n"
-	   "@SYNTAX=RANDBETWEEN(bottom,top)\n"
-
-	   "@DESCRIPTION="
-	   "RANDBETWEEN function returns a random integer number "
-	   "between and including @bottom and @top.\n"
-	   "If @bottom or @top is non-integer, they are truncated. "
-	   "If @bottom > @top, RANDBETWEEN returns #NUM! error.\n"
-	   "This function is Excel compatible. "
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "RANDBETWEEN(3,7).\n"
-	   "\n"
-	   "@SEEALSO=RAND")
-};
-
-static Value *
-gnumeric_randbetween (FunctionEvalInfo *ei, Value **argv)
-{
-        int bottom, top;
-	gnum_float r;
-
-	bottom = value_get_as_int (argv[0]);
-	top    = value_get_as_int (argv[1]);
-	if (bottom > top)
-		return value_new_error (ei->pos, gnumeric_err_NUM );
-
-	r = bottom + floorgnum ((top + 1.0 - bottom) * random_01 ());
-	return value_new_int ((int)r);
 }
 
 /***************************************************************************/
@@ -3215,72 +3020,124 @@ gnumeric_sumproduct (FunctionEvalInfo *ei, GnmExprList *args)
 /***************************************************************************/
 
 const ModulePluginFunctionInfo math_functions[] = {
-	{ "abs",     "f", N_("number"),    &help_abs,      gnumeric_abs, NULL, NULL, NULL },
-	{ "acos",    "f", N_("number"),    &help_acos,     gnumeric_acos, NULL, NULL, NULL },
-	{ "acosh",   "f", N_("number"),    &help_acosh,    gnumeric_acosh, NULL, NULL, NULL },
-	{ "asin",    "f", N_("number"),    &help_asin,     gnumeric_asin, NULL, NULL, NULL },
-	{ "asinh",   "f", N_("number"),    &help_asinh,    gnumeric_asinh, NULL, NULL, NULL },
-	{ "atan",    "f", N_("number"),    &help_atan,     gnumeric_atan, NULL, NULL, NULL },
-	{ "atanh",   "f", N_("number"),    &help_atanh,    gnumeric_atanh, NULL, NULL, NULL },
-	{ "atan2",   "ff", N_("xnum,ynum"), &help_atan2,    gnumeric_atan2, NULL, NULL, NULL },
-	{ "cos",     "f", N_("number"),    &help_cos,      gnumeric_cos, NULL, NULL, NULL },
-	{ "cosh",    "f", N_("number"),    &help_cosh,     gnumeric_cosh, NULL, NULL, NULL },
-	{ "countif", "r?", N_("range,criteria"), &help_countif, gnumeric_countif, NULL, NULL, NULL },
-	{ "ceil",    "f", N_("number"),    &help_ceil,     gnumeric_ceil, NULL, NULL, NULL },
-	{ "ceiling", "ff", N_("number,significance"), &help_ceiling,     gnumeric_ceiling, NULL, NULL, NULL },
-	{ "degrees", "f", N_("number"),    &help_degrees,  gnumeric_degrees, NULL, NULL, NULL },
-	{ "even",    "f", N_("number"),    &help_even,     gnumeric_even, NULL, NULL, NULL },
-	{ "exp",     "f", N_("number"),    &help_exp,      gnumeric_exp, NULL, NULL, NULL },
-	{ "fact",    "f", N_("number"),    &help_fact,     gnumeric_fact, NULL, NULL, NULL },
-	{ "factdouble", "f", N_("number"), &help_factdouble, gnumeric_factdouble, NULL, NULL, NULL },
-	{ "combin",  "ff", N_("n,k"),      &help_combin,   gnumeric_combin, NULL, NULL, NULL },
-	{ "floor",   "f|f", N_("number"),  &help_floor,    gnumeric_floor, NULL, NULL, NULL },
-	{ "gcd",     0, N_("number,number"), &help_gcd,  NULL, gnumeric_gcd, NULL, NULL },
-	{ "int",     "f", N_("number"),    &help_int,      gnumeric_int, NULL, NULL, NULL },
-	{ "lcm",     0, "",            &help_lcm,      NULL, gnumeric_lcm, NULL, NULL },
-	{ "ln",      "f", N_("number"),    &help_ln,       gnumeric_ln, NULL, NULL, NULL },
-	{ "log",     "f|f", N_("number,base"), &help_log, gnumeric_log, NULL, NULL, NULL },
-	{ "log2",    "f", N_("number"),    &help_log2,     gnumeric_log2, NULL, NULL, NULL },
-	{ "log10",   "f", N_("number"),    &help_log10,    gnumeric_log10, NULL, NULL, NULL },
-	{ "mod",     "ff", N_("numerator,denominator"), &help_mod,     gnumeric_mod, NULL, NULL, NULL },
-	{ "mround",  "ff", N_("number,multiple"), &help_mround, gnumeric_mround, NULL, NULL, NULL },
-	{ "multinomial", 0, "", &help_multinomial, NULL, gnumeric_multinomial, NULL, NULL },
-	{ "odd" ,    "f", N_("number"),    &help_odd,      gnumeric_odd, NULL, NULL, NULL },
-	{ "power",   "ff", N_("base,exponent"),      &help_power,    gnumeric_power, NULL, NULL, NULL },
-	{ "g_product", 0, N_("number"),    &help_g_product, NULL, gnumeric_g_product, NULL, NULL },
-	{ "quotient" , "ff", N_("numerator,denominator"), &help_quotient, gnumeric_quotient, NULL, NULL, NULL },
-	{ "radians", "f", N_("number"),    &help_radians,  gnumeric_radians, NULL, NULL, NULL },
-	{ "rand",    "", "",           &help_rand,     gnumeric_rand, NULL, NULL, NULL },
-        { "randbernoulli", "f", N_("p"),   &help_randbernoulli, gnumeric_randbernoulli, NULL, NULL, NULL },
-        { "randbetween", "ff", N_("bottom,top"), &help_randbetween, gnumeric_randbetween, NULL, NULL, NULL },
-        { "randbinom", "ff", N_("p,trials"), &help_randbinom, gnumeric_randbinom, NULL, NULL, NULL },
-        { "randexp", "f", N_("b"),         &help_randexp,  gnumeric_randexp, NULL, NULL, NULL },
-        { "randnegbinom", "ff", N_("p,failures"), &help_randnegbinom, gnumeric_randnegbinom, NULL, NULL, NULL },
-        { "randpoisson", "f", N_("lambda"), &help_randpoisson, gnumeric_randpoisson, NULL, NULL, NULL },
-	{ "roman",      "f|f", N_("number,type"), &help_roman, gnumeric_roman, NULL, NULL, NULL },
-	{ "round",      "f|f", N_("number,digits"), &help_round,  gnumeric_round, NULL, NULL, NULL },
-	{ "rounddown",  "f|f", N_("number,digits"), &help_rounddown, gnumeric_rounddown, NULL, NULL, NULL },
-	{ "roundup",    "f|f", N_("number,digits"), &help_roundup, gnumeric_roundup, NULL, NULL, NULL },
-	{ "seriessum", 0, N_("x,n,m,coefficients"), &help_seriessum, NULL, gnumeric_seriessum, NULL, NULL },
-	{ "sign",    "f", N_("number"),    &help_sign,     gnumeric_sign, NULL, NULL, NULL },
-	{ "sin",     "f", N_("number"),    &help_sin,      gnumeric_sin, NULL, NULL, NULL },
-	{ "sinh",    "f", N_("number"),    &help_sinh,     gnumeric_sinh, NULL, NULL, NULL },
-	{ "sqrt",    "f", N_("number"),    &help_sqrt,     gnumeric_sqrt, NULL, NULL, NULL },
-	{ "sqrtpi",  "f", N_("number"),    &help_sqrtpi,   gnumeric_sqrtpi, NULL, NULL, NULL },
-	{ "suma",    0, N_("number,number,"), &help_suma, NULL, gnumeric_suma, NULL, NULL },
-	{ "sumif",   "r?|r", N_("range,criteria,actual_range"), &help_sumif, gnumeric_sumif, NULL, NULL, NULL },
-	{ "sumproduct", 0, N_("range,range,"), &help_sumproduct, NULL, gnumeric_sumproduct, NULL, NULL },
-	{ "sumsq",   0, N_("number"),      &help_sumsq,    NULL, gnumeric_sumsq, NULL, NULL },
-	{ "sumx2my2", "AA", N_("array1,array2"), &help_sumx2my2, gnumeric_sumx2my2, NULL, NULL, NULL },
-	{ "sumx2py2", "AA", N_("array1,array2"), &help_sumx2py2, gnumeric_sumx2py2, NULL, NULL, NULL },
-	{ "sumxmy2",  "AA", N_("array1,array2"), &help_sumxmy2,  gnumeric_sumxmy2, NULL, NULL, NULL },
-	{ "tan",     "f", N_("number"),    &help_tan,      gnumeric_tan, NULL, NULL, NULL },
-	{ "tanh",    "f", N_("number"),    &help_tanh,     gnumeric_tanh, NULL, NULL, NULL },
-	{ "trunc",   "f|f", N_("number,digits"), &help_trunc, gnumeric_trunc, NULL, NULL, NULL },
-	{ "pi",      "", "",           &help_pi,       gnumeric_pi, NULL, NULL, NULL },
-	{ "mmult",   "AA", N_("array1,array2"), &help_mmult, gnumeric_mmult, NULL, NULL, NULL },
-	{ "minverse","A", N_("array"),     &help_minverse,   gnumeric_minverse, NULL, NULL, NULL },
-	{ "mdeterm", "A", N_("array,matrix_type,bandsize"), &help_mdeterm, gnumeric_mdeterm, NULL, NULL, NULL },
+	{ "abs",     "f", N_("number"),    &help_abs,
+	  gnumeric_abs, NULL, NULL, NULL },
+	{ "acos",    "f", N_("number"),    &help_acos,
+	  gnumeric_acos, NULL, NULL, NULL },
+	{ "acosh",   "f", N_("number"),    &help_acosh,
+	  gnumeric_acosh, NULL, NULL, NULL },
+	{ "asin",    "f", N_("number"),    &help_asin,
+	  gnumeric_asin, NULL, NULL, NULL },
+	{ "asinh",   "f", N_("number"),    &help_asinh,
+	  gnumeric_asinh, NULL, NULL, NULL },
+	{ "atan",    "f", N_("number"),    &help_atan,
+	  gnumeric_atan, NULL, NULL, NULL },
+	{ "atanh",   "f", N_("number"),    &help_atanh,
+	  gnumeric_atanh, NULL, NULL, NULL },
+	{ "atan2",   "ff", N_("xnum,ynum"), &help_atan2,
+	  gnumeric_atan2, NULL, NULL, NULL },
+	{ "cos",     "f", N_("number"),    &help_cos,
+	  gnumeric_cos, NULL, NULL, NULL },
+	{ "cosh",    "f", N_("number"),    &help_cosh,
+	  gnumeric_cosh, NULL, NULL, NULL },
+	{ "countif", "r?", N_("range,criteria"), &help_countif,
+	  gnumeric_countif, NULL, NULL, NULL },
+	{ "ceil",    "f", N_("number"),    &help_ceil,
+	  gnumeric_ceil, NULL, NULL, NULL },
+	{ "ceiling", "ff", N_("number,significance"), &help_ceiling,
+	  gnumeric_ceiling, NULL, NULL, NULL },
+	{ "degrees", "f", N_("number"),    &help_degrees,
+	  gnumeric_degrees, NULL, NULL, NULL },
+	{ "even",    "f", N_("number"),    &help_even,
+	  gnumeric_even, NULL, NULL, NULL },
+	{ "exp",     "f", N_("number"),    &help_exp,
+	  gnumeric_exp, NULL, NULL, NULL },
+	{ "fact",    "f", N_("number"),    &help_fact,
+	  gnumeric_fact, NULL, NULL, NULL },
+	{ "factdouble", "f", N_("number"), &help_factdouble,
+	  gnumeric_factdouble, NULL, NULL, NULL },
+	{ "combin",  "ff", N_("n,k"),      &help_combin,
+	  gnumeric_combin, NULL, NULL, NULL },
+	{ "floor",   "f|f", N_("number"),  &help_floor,
+	  gnumeric_floor, NULL, NULL, NULL },
+	{ "gcd",     0, N_("number,number"), &help_gcd,
+	  NULL, gnumeric_gcd, NULL, NULL },
+	{ "int",     "f", N_("number"),    &help_int,
+	  gnumeric_int, NULL, NULL, NULL },
+	{ "lcm",     0, "",            &help_lcm,
+	  NULL, gnumeric_lcm, NULL, NULL },
+	{ "ln",      "f", N_("number"),    &help_ln,
+	  gnumeric_ln, NULL, NULL, NULL },
+	{ "log",     "f|f", N_("number,base"), &help_log,
+	  gnumeric_log, NULL, NULL, NULL },
+	{ "log2",    "f", N_("number"),    &help_log2,
+	  gnumeric_log2, NULL, NULL, NULL },
+	{ "log10",   "f", N_("number"),    &help_log10,
+	  gnumeric_log10, NULL, NULL, NULL },
+	{ "mod",     "ff", N_("numerator,denominator"), &help_mod,
+	  gnumeric_mod, NULL, NULL, NULL },
+	{ "mround",  "ff", N_("number,multiple"), &help_mround,
+	  gnumeric_mround, NULL, NULL, NULL },
+	{ "multinomial", 0, "", &help_multinomial,
+	  NULL, gnumeric_multinomial, NULL, NULL },
+	{ "odd" ,    "f", N_("number"),    &help_odd,
+	  gnumeric_odd, NULL, NULL, NULL },
+	{ "power",   "ff", N_("base,exponent"),      &help_power,
+	  gnumeric_power, NULL, NULL, NULL },
+	{ "g_product", 0, N_("number"),    &help_g_product,
+	  NULL, gnumeric_g_product, NULL, NULL },
+	{ "quotient" , "ff", N_("numerator,denominator"), &help_quotient,
+	  gnumeric_quotient, NULL, NULL, NULL },
+	{ "radians", "f", N_("number"),    &help_radians,
+	  gnumeric_radians, NULL, NULL, NULL },
+	{ "roman",      "f|f", N_("number,type"), &help_roman,
+	  gnumeric_roman, NULL, NULL, NULL },
+	{ "round",      "f|f", N_("number,digits"), &help_round,
+	  gnumeric_round, NULL, NULL, NULL },
+	{ "rounddown",  "f|f", N_("number,digits"), &help_rounddown,
+	  gnumeric_rounddown, NULL, NULL, NULL },
+	{ "roundup",    "f|f", N_("number,digits"), &help_roundup,
+	  gnumeric_roundup, NULL, NULL, NULL },
+	{ "seriessum", 0, N_("x,n,m,coefficients"), &help_seriessum,
+	  NULL, gnumeric_seriessum, NULL, NULL },
+	{ "sign",    "f", N_("number"),    &help_sign,
+	  gnumeric_sign, NULL, NULL, NULL },
+	{ "sin",     "f", N_("number"),    &help_sin,
+	  gnumeric_sin, NULL, NULL, NULL },
+	{ "sinh",    "f", N_("number"),    &help_sinh,
+	  gnumeric_sinh, NULL, NULL, NULL },
+	{ "sqrt",    "f", N_("number"),    &help_sqrt,
+	  gnumeric_sqrt, NULL, NULL, NULL },
+	{ "sqrtpi",  "f", N_("number"),    &help_sqrtpi,
+	  gnumeric_sqrtpi, NULL, NULL, NULL },
+	{ "suma",    0, N_("number,number,"), &help_suma,
+	  NULL, gnumeric_suma, NULL, NULL },
+	{ "sumif",   "r?|r", N_("range,criteria,actual_range"), &help_sumif,
+	  gnumeric_sumif, NULL, NULL, NULL },
+	{ "sumproduct", 0, N_("range,range,"), &help_sumproduct,
+	  NULL, gnumeric_sumproduct, NULL, NULL },
+	{ "sumsq",   0, N_("number"),      &help_sumsq,
+	  NULL, gnumeric_sumsq, NULL, NULL },
+	{ "sumx2my2", "AA", N_("array1,array2"), &help_sumx2my2,
+	  gnumeric_sumx2my2, NULL, NULL, NULL },
+	{ "sumx2py2", "AA", N_("array1,array2"), &help_sumx2py2,
+	  gnumeric_sumx2py2, NULL, NULL, NULL },
+	{ "sumxmy2",  "AA", N_("array1,array2"), &help_sumxmy2,
+	  gnumeric_sumxmy2, NULL, NULL, NULL },
+	{ "tan",     "f", N_("number"),    &help_tan,
+	  gnumeric_tan, NULL, NULL, NULL },
+	{ "tanh",    "f", N_("number"),    &help_tanh,
+	  gnumeric_tanh, NULL, NULL, NULL },
+	{ "trunc",   "f|f", N_("number,digits"), &help_trunc,
+	  gnumeric_trunc, NULL, NULL, NULL },
+	{ "pi",      "", "",           &help_pi,
+	  gnumeric_pi, NULL, NULL, NULL },
+	{ "mmult",   "AA", N_("array1,array2"), &help_mmult,
+	  gnumeric_mmult, NULL, NULL, NULL },
+	{ "minverse","A", N_("array"),     &help_minverse,
+	  gnumeric_minverse, NULL, NULL, NULL },
+	{ "mdeterm", "A", N_("array,matrix_type,bandsize"), &help_mdeterm,
+	  gnumeric_mdeterm, NULL, NULL, NULL },
 #if 0
 	{ "logmdeterm", "A|si", N_("array,matrix_type,bandsize"),
 	  &help_logmdeterm, gnumeric_logmdeterm, NULL, NULL, NULL },
