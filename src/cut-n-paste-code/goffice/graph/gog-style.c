@@ -147,6 +147,7 @@ init_solid_page (GogObject *gobj, GladeXML *gui, GogStyle *style)
 	w = color_combo_new (NULL, _("Transparent"),
 		NULL, color_group_fetch ("fill_color", cc));
 	color_combo_set_instant_apply (COLOR_COMBO (w), FALSE);
+	gtk_combo_box_set_tearable (GTK_COMBO_BOX (w), FALSE);
 	gnome_color_picker_set_use_alpha (COLOR_COMBO (w)->palette->picker, TRUE);
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (glade_xml_get_widget (gui, "fill_label")), w);
@@ -197,6 +198,7 @@ init_gradient_page (GogObject *gobj, GladeXML *gui, GogStyle *style)
 	w = color_combo_new (NULL, _("Transparent"),
 		NULL, color_group_fetch ("start_color", cc));
 	color_combo_set_instant_apply (COLOR_COMBO (w), FALSE);
+	gtk_combo_box_set_tearable (GTK_COMBO_BOX (w), FALSE);
 	gnome_color_picker_set_use_alpha (COLOR_COMBO (w)->palette->picker, TRUE);
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (glade_xml_get_widget (gui, "start_label")), w);
@@ -221,6 +223,7 @@ init_gradient_page (GogObject *gobj, GladeXML *gui, GogStyle *style)
 	w = color_combo_new (NULL, _("Transparent"),
 		NULL, color_group_fetch ("end_color", cc));
 	color_combo_set_instant_apply (COLOR_COMBO (w), FALSE);
+	gtk_combo_box_set_tearable (GTK_COMBO_BOX (w), FALSE);
 	gnome_color_picker_set_use_alpha (COLOR_COMBO (w)->palette->picker, TRUE);
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (glade_xml_get_widget (gui, "end_label")), w);
@@ -463,6 +466,7 @@ gog_style_editor (GogObject *gobj, CommandContext *cc, guint32 enable)
 	w = color_combo_new (NULL, _("Transparent"),
 		NULL, color_group_fetch ("border_color", cc));
 	color_combo_set_instant_apply (COLOR_COMBO (w), FALSE);
+	gtk_combo_box_set_tearable (GTK_COMBO_BOX (w), FALSE);
 	gnome_color_picker_set_use_alpha (COLOR_COMBO (w)->palette->picker, TRUE);
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (glade_xml_get_widget (gui, "border_label")), w);

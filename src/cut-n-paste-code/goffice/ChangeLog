@@ -1,3 +1,9 @@
+2003-07-03  Jon K Hellan  <hellan@acm.org>
+
+	* graph/gog-style.c (init_solid_page, init_gradient_page) 
+	(init_gradient_page, gog_style_editor): Turn off color combo
+	tearoff behaviour in dialogs.
+
 2003-07-02  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-renderer.c (gog_renderer_init) : tweak the default size to

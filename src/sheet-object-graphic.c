@@ -501,6 +501,8 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControl *sc)
 			       sog->fill_color ? &sog->fill_color->color : NULL);
 	color_combo_set_instant_apply 
 		(COLOR_COMBO (state->fill_color_combo), FALSE);
+	gtk_combo_box_set_tearable 
+		(GTK_COMBO_BOX (state->fill_color_combo), FALSE);
 	state->fill_color = style_color_ref (sog->fill_color);
 	gtk_table_attach_defaults (GTK_TABLE (table),
 				   state->fill_color_combo, 1, 2, 0, 1);
@@ -936,6 +938,8 @@ sheet_object_filled_user_config (SheetObject *so, SheetControl *sc)
 			       sof->outline_color ? &sof->outline_color->color : NULL);
 	color_combo_set_instant_apply 
 		(COLOR_COMBO (state->outline_color_combo), FALSE);
+	gtk_combo_box_set_tearable 
+		(GTK_COMBO_BOX (state->fill_color_combo), FALSE);
 	state->outline_color = style_color_ref (sof->outline_color);
 	gtk_table_attach_defaults (GTK_TABLE (table),
 				   state->outline_color_combo, 1, 2, 0, 1);
@@ -952,6 +956,8 @@ sheet_object_filled_user_config (SheetObject *so, SheetControl *sc)
 			       sog->fill_color ? &sog->fill_color->color : NULL);
 	color_combo_set_instant_apply 
 		(COLOR_COMBO (state->fill_color_combo), FALSE);
+	gtk_combo_box_set_tearable 
+		(GTK_COMBO_BOX (state->fill_color_combo), FALSE);
 	state->fill_color = style_color_ref (sog->fill_color);
 	gtk_table_attach_defaults (GTK_TABLE (table),
 				   state->fill_color_combo, 1, 2, 1, 2);
