@@ -1,3 +1,9 @@
+2002-10-29  Morten Welinder  <terra@diku.dk>
+
+	* src/dependent.c (dep_collection_release): New macro.
+	(unlink_single_dep): Release the collection.
+	(MICRO_HASH_hash): Be sane.
+
 2002-10-28  Jody Goldberg <jody@gnome.org>
 
 	* src/dependent.c (link_expr_dep) : DEPENDENT_USES_NAME flag.

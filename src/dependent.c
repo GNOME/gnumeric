@@ -309,19 +309,16 @@ typedef struct {
 
 #define MICRO_HASH_MIN_SIZE 11
 #define MICRO_HASH_MAX_SIZE 13845163
-#define MICRO_HASH_RESIZE(hash_table)				\
-G_STMT_START {							\
-	if ((hash_table->num_buckets > MICRO_HASH_MIN_SIZE &&		\
-	     hash_table->num_buckets >= 3 * hash_table->num_elements) || 	\
-	    (hash_table->num_buckets < MICRO_HASH_MAX_SIZE &&		\
-	     3 * hash_table->num_buckets <= hash_table->num_elements))	\
-		micro_hash_resize (hash_table);			\
+#define MICRO_HASH_RESIZE(hash_table)						\
+G_STMT_START {									\
+	if ((hash_table->num_buckets > MICRO_HASH_MIN_SIZE &&			\
+	     hash_table->num_buckets >= 3 * hash_table->num_elements) ||	\
+	    (hash_table->num_buckets < MICRO_HASH_MAX_SIZE &&			\
+	     3 * hash_table->num_buckets <= hash_table->num_elements))		\
+		micro_hash_resize (hash_table);					\
 } G_STMT_END
 
-/* The records are aligned so the bottom few bits don't hold much
- * entropy
- */
-#define MICRO_HASH_hash(key)	((guint)((int) (key) >> 9))
+#define MICRO_HASH_hash(key) ((guint)(key))
 
 static void
 micro_hash_resize (MicroHash *hash_table)
@@ -446,6 +443,8 @@ typedef MicroHash	DepCollection;
 	micro_hash_insert (&(dc), dep)
 #define dep_collection_remove(dc, dep)	\
 	micro_hash_remove (&(dc), dep)
+#define dep_collection_release(dc)      \
+	micro_hash_release (&(dc))
 #define dep_collection_is_empty(dc)				\
 	(dc.num_elements == 0)
 #define dep_collection_foreach_dep(dc, dep, code) do {		\
@@ -482,6 +481,8 @@ typedef GSList *	DepCollection;
 	if (!g_slist_find (dc, dep)) dc = g_slist_prepend (dc, dep)
 #define dep_collection_remove(dc, dep)	\
 	dc = g_slist_remove (dc, dep);
+#define dep_collection_release(dc)      \
+	g_slist_free (dc)
 #define dep_collection_is_empty(dc)	\
 	(dc == NULL)
 #define dep_collection_foreach_dep(dc, dep, code) do {		\
@@ -602,6 +603,7 @@ unlink_single_dep (Dependent *dep, CellPos const *pos, CellRef const *a)
 		dep_collection_remove (single->deps, dep);
 		if (dep_collection_is_empty (single->deps)) {
 			g_hash_table_remove (deps->single_hash, single);
+			dep_collection_release (single->deps);
 			gnm_mem_chunk_free (deps->single_pool, single);
 		}
 	}
