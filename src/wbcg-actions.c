@@ -1519,6 +1519,16 @@ static GNM_ACTION_DEF (cb_format_dec_indent)
 	}
 }
 
+static GNM_ACTION_DEF (cb_copydown)
+{
+	g_warning ("Killrow was here in cb_copydown");
+}
+
+static GNM_ACTION_DEF (cb_copyright)
+{
+	g_warning ("Killrow was here in cb_copyright");
+}
+
 static GtkActionEntry actions[] = {
 	{ "MenuFile",		NULL, N_("_File") },
 	{ "MenuEdit",		NULL, N_("_Edit") },
@@ -2038,6 +2048,9 @@ static GtkActionEntry actions[] = {
 		NULL, N_("Align the contents to the left and increase the indent"),
 		G_CALLBACK (cb_format_inc_indent) },
 #endif
+/* Unattached */
+	{ "CopyDown", NULL, "", "<control>D", NULL, G_CALLBACK (cb_copydown) },
+	{ "CopyRight", NULL, "", "<control>R", NULL, G_CALLBACK (cb_copyright) },
 };
 
 static GtkToggleActionEntry toggle_actions[] = {

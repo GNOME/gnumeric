@@ -268,4 +268,7 @@
     <toolitem action="CreateRectangle"/>
     <toolitem action="CreateEllipse"/>
   </toolbar>
+
+  <accelerator name="CopyRight" action="CopyRight"/>
+  <!-- waiting for bug 131035 <accelerator name="CopyDown" action="CopyDown"/> -->
 </ui>
