@@ -4,6 +4,7 @@ Jon:
 	* Tearoff combo boxes
 
 Jody:
+	* Improve doc generation.
 	* Bugs fixes.
 	* Rework canvas editor to behave nicely at boundaries and
 	  span correctly.

@@ -4,6 +4,8 @@ and longer term bugs.
 
 Release Critical
 ----------------
+why are item-cursor update requests ignored after the coloured range marker
+is displayed.  The current hack to force them is ugly.
 
 Long term breakage
 ------------------
