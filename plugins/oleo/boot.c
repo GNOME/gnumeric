@@ -33,12 +33,12 @@
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-void oleo_file_open (FileOpener const *fo, IOContext *io_context,
+void oleo_file_open (GnumFileOpener const *fo, IOContext *io_context,
                      WorkbookView *wb_view, const char *filename);
 
 
 void
-oleo_file_open (FileOpener const *fo, IOContext *io_context,
+oleo_file_open (GnumFileOpener const *fo, IOContext *io_context,
                 WorkbookView *wb_view, const char *filename)
 {
 	Workbook *wb = wb_view_workbook (wb_view);
