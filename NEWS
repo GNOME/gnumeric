@@ -49,6 +49,7 @@ Morten:
 	* Eliminate deep recursion during dependency dirtying.
 	* Fix the python and python-loader modules.  (Work around mind-
 	  boggling bug in python.  Again.)
+	* Various code cleanup.
 
 Toralf Lund:
 	* improve the oleo importer.
