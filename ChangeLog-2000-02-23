@@ -1,3 +1,27 @@
+1998-09-23  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/workbook.c: Added shortcuts to the File menu.
+
+	* src/item-cursor.c (item_cursor_autofill_event): Do not allow
+	under-the-base coordinates.
+
+	* src/sheet-autofill.c: Its "january" not "jannuary".
+
+	* src/cell.c (cell_set_text): Enhanced number detection.
+
+	* src/item-cursor.c (item_cursor_drag_event): Handle sheet
+	boundaries. 
+
+	* src/gnumeric-sheet.c (move_cursor_vertical,
+	move_cursor_horizontal): Handle sheet boundaries.
+
+	* src/item-grid.c (item_grid_event): Handle sheet boundaries.
+
+	* src/item-bar.c (item_bar_draw): Handle sheet boundaries.
+
+	* src/pixmaps/bold.xpm:  Oops.  Use the bold icon I created
+	yesterday. 
+	
 Wed, 23 Sep 1998 12:52:20 +0200 Paolo Molaro <lupus@debian.org>
 
 	* src/format.c: added #include <locale.h>

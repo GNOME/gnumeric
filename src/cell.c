@@ -241,13 +241,15 @@ cell_set_text (Cell *cell, char *text)
 		cell_set_formula (cell, text); 
 	} else {
 		Value *v = g_new (Value, 1);
-		int is_text = 0, is_float = 0;
+		int is_text, is_float, maybe_float, has_digits;
 		char *p;
-		
+
+		is_text = is_float = maybe_float = has_digits = FALSE;
 		for (p = text; *p && !is_text; p++){
 			switch (*p){
 			case '0': case '1': case '2': case '3': case '4':
 			case '5': case '6': case '7': case '8': case '9':
+				has_digits = TRUE;
 				break;
 
 			case '-':
@@ -256,16 +258,16 @@ cell_set_text (Cell *cell, char *text)
 				/* falldown */
 				
 			case 'E': case 'e': case '+': case ':': case '.':
-				is_float = 1;
+				maybe_float = TRUE;
 				break;
 			default:
-				is_text = 1;
+				is_text = TRUE;
 			}
 		}
-		if (is_text){
-			v->type = VALUE_STRING;
-			v->v.str = string_get (text);
-		} else {
+		if (has_digits && maybe_float)
+			is_float = TRUE;
+		
+		if (has_digits && !is_text){
 			if (is_float){
 				v->type = VALUE_FLOAT;
 				float_get_from_range (text, text+strlen(text),
@@ -275,6 +277,9 @@ cell_set_text (Cell *cell, char *text)
 				int_get_from_range (text, text+strlen (text),
 						    &v->v.v_int);
 			}
+		} else {
+			v->type = VALUE_STRING;
+			v->v.str = string_get (text);
 		}
 		cell->value = v;
 		

@@ -177,6 +177,14 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 	total = 0;
 	do {
 		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL){
+			if (element >= SHEET_MAX_ROWS){
+				GtkWidget *canvas = GTK_WIDGET (item->canvas);
+				
+				gtk_draw_shadow (canvas->style, drawable,
+						 GTK_STATE_NORMAL, GTK_SHADOW_OUT,
+						 x, y, width, height);
+				return;
+			}
 			cri = sheet_row_get_info (sheet, element);
 			if (item_bar->resize_pos == element)
 				pixels = item_bar->resize_width;
@@ -191,6 +199,14 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 						  1 + total + pixels - y);
 			}
 		} else {
+			if (element >= SHEET_MAX_COLS){
+				GtkWidget *canvas = GTK_WIDGET (item->canvas);
+				
+				gtk_draw_shadow (canvas->style, drawable,
+						 GTK_STATE_NORMAL, GTK_SHADOW_OUT,
+						 x, y, width, height);
+				return;
+			}
 			cri = sheet_col_get_info (sheet, element);
 			if (item_bar->resize_pos == element)
 				pixels = item_bar->resize_width;

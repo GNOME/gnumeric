@@ -318,6 +318,10 @@ item_cursor_set_bounds (ItemCursor *item_cursor, int start_col, int start_row, i
 	g_return_if_fail (start_col <= end_col);
 	g_return_if_fail (start_row <= end_row);
 	g_return_if_fail (item_cursor != NULL);
+	g_return_if_fail (start_col >= 0);
+	g_return_if_fail (end_col >= 0);
+	g_return_if_fail (end_col < SHEET_MAX_COLS);
+	g_return_if_fail (end_row < SHEET_MAX_ROWS);
 	g_return_if_fail (IS_ITEM_CURSOR (item_cursor));
 
 	item = GNOME_CANVAS_ITEM (item_cursor);
@@ -623,10 +627,15 @@ item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 			y = 0;
 		col = item_grid_find_col (item_cursor->item_grid, x, NULL);
 		row = item_grid_find_row (item_cursor->item_grid, y, NULL);
-		
+
 		w   = (item_cursor->end_col - item_cursor->start_col);
 		h   = (item_cursor->end_row - item_cursor->start_row);
 
+		if (col + w > SHEET_MAX_COLS-1)
+			return TRUE;
+		if (row + h > SHEET_MAX_ROWS-1)
+			return TRUE;
+		
 		item_cursor_set_bounds_visibly (item_cursor, col, row, col + w, row + h);
 		return TRUE;
 
@@ -681,7 +690,12 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 		col = item_grid_find_col (item_cursor->item_grid, x, NULL);
 		row = item_grid_find_row (item_cursor->item_grid, y, NULL);
 
+		if (col < item_cursor->base_col)
+			col = item_cursor->base_col;
 
+		if (row < item_cursor->base_row)
+			row = item_cursor->base_row;
+		
 		if ((item_cursor->base_x - x) > (item_cursor->base_y - y)){
 			item_cursor_set_bounds_visibly (
 				item_cursor,

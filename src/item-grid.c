@@ -612,6 +612,10 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			
 			col = item_grid_find_col (item_grid, x, NULL);
 			row = item_grid_find_row (item_grid, y, NULL);
+			if (col > SHEET_MAX_COLS-1)
+				col = SHEET_MAX_COLS-1;
+			if (row > SHEET_MAX_ROWS-1)
+				row = SHEET_MAX_ROWS-1;
 			sheet_selection_extend_to (sheet, col, row);
 			return 1;
 		}

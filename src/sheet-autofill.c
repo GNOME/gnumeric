@@ -573,7 +573,7 @@ sheet_autofill_dir (Sheet *sheet,
 }
 
 static char *months [] = {
-	N_("Jannuary"),
+	N_("January"),
 	N_("February"),
 	N_("March"),
 	N_("April"),

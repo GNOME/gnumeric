@@ -192,6 +192,8 @@ move_cursor_horizontal (GnumericSheet *gsheet, int count)
 
 	if (new_left < 0)
 		new_left = 0;
+	if (new_left > SHEET_MAX_COLS-1)
+		new_left = SHEET_MAX_COLS-1;
 	
 	move_cursor (gsheet, new_left, sheet->cursor_row, TRUE);
 }
@@ -213,7 +215,9 @@ move_cursor_vertical (GnumericSheet *gsheet, int count)
 
 	if (new_top < 0)
 		new_top = 0;
-
+	if (new_top > SHEET_MAX_ROWS-1)
+		new_top = SHEET_MAX_ROWS-1;
+	
 	move_cursor (gsheet, sheet->cursor_col, new_top, TRUE);
 }
 
