@@ -4,7 +4,7 @@
 #ifdef INTEGERTIME
 # include <time.h>
 #else
-# include <sys/timeb.h>
+# include <sys/time.h>
 #endif
 
 #include <stdlib.h>
@@ -282,10 +282,11 @@ double timeNow()
 #elif defined CLOCKTIME
   return((double)clock()/CLOCKS_PER_SEC /* CLK_TCK */);
 #else
-  struct timeb buf;
+  struct timeval buf;
+  struct timezone tzbuf;
 
-  ftime(&buf);
-  return((double)buf.time+((double) buf.millitm)/1000.0);
+  gettimeofday(&buf,&tzbuf);
+  return((double)buf.tv_sec+((double) buf.tv_usec)/1000000.0);
 #endif
 }
 

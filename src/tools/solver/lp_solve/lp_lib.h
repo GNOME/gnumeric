@@ -179,7 +179,6 @@
 #include <sys/types.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <malloc.h>
 #include <math.h>
 
 #if (LoadInverseLib==TRUE) || (LoadLanguageLib == TRUE)

@@ -9,6 +9,9 @@ Morten:
 	* Add bugzilla version number to desktop file.  [#159371]
 	* Fix arrows' direction used for printing and saving.  [#159922]
 
+Spudun:
+	* tidy up lp_solve code to build under OS/X
+
 --------------------------------------------------------------------------
 Gnumeric 1.4.0
 

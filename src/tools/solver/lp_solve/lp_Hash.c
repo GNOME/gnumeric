@@ -1,5 +1,4 @@
 
-#include <malloc.h>
 #include <string.h>
 #include "lp_lib.h"
 #include "lp_utils.h"
