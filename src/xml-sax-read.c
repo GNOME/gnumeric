@@ -1361,7 +1361,7 @@ xml_sax_orientation_end (GsfXMLIn *gsf_state, xmlChar const **attrs)
 	} else if (!strcmp(content, "landscape")) {
 		print_info_set_orientation (state->sheet->print_info, PRINT_ORIENT_HORIZONTAL);
 	} else {
-		g_warning ("Invalid content for orientation")
+		g_warning ("Invalid content for orientation");
 	}
 }
 
