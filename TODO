@@ -213,8 +213,15 @@ under "1.0" are more important.
 
    + This will really need to wait for a while.
 
-* Autofilter
+* Filtering
 
    + Most of the major elements are there to support in place
    filters.  All we'd need is a new Dependent type to manage the
-   filter results.
+   filter results. ==> Fix SUBTOTAL().
+   + Implement `AutoFilter' tool.
+   + Hide the sensitivity of `Show All' if there are no hidden/filtered rows.
+   + Implement filter columns???
+
++ Edit->Fill->Series...
+
+   + Implement `Fill Series' tool with linear, growth and date filling.
