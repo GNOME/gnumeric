@@ -6,14 +6,14 @@
 
 noinst_LIBRARIES = libwizard.a
 
-libwizard_la_SOURCES =			\
+libwizard_a_SOURCES =			\
 	main.c				\
 	graphic-context.c		\
 	graphic-type.c			\
 	graphic-context.h		\
 	wizard.h
 
-libwizard_la_LIBADD =			\
+libwizard_a_LIBADD =			\
 	$(GNOME_LIBDIR) 		\
 	$(GNOMEUI_LIBS)			\
 	$(INTLLIBS)
