@@ -149,7 +149,7 @@ attach_sheet (Workbook *wb, int idx)
 
 /* buf was old siag wb / sheet */
 static int
-read_workbook (Workbook *wb, FILE *f)
+read_workbook (CommandContext *context, Workbook *wb, FILE *f)
 {
 	int       sheetidx = 0;
 	Sheet    *sheet = NULL;
@@ -272,7 +272,7 @@ lotus_read (CommandContext *context, Workbook *wb, const char *filename)
 		
 	cell_deep_freeze_redraws ();
 
-	res = read_workbook (wb, f);
+	res = read_workbook (context, wb, f);
 	if (res == 0) {
 		workbook_recalc (wb);
 		cell_deep_thaw_redraws ();

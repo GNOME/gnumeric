@@ -19,10 +19,12 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#include <errno.h>
 #include <gnome.h>
 #include "config.h"
 #include "roff.h"
 #include "font.h"
+#include "command-context.h"
 
 
 /*
@@ -64,7 +66,7 @@ roff_fprintf (FILE *fp, const char *s)
  * write every sheet of the workbook to a roff file
  */
 static int
-write_wb_roff (Workbook *wb, FILE *fp)
+write_wb_roff (CommandContext *context, Workbook *wb, FILE *fp)
 {
 	GList *sheet_list;
 	Sheet *sheet;
@@ -95,6 +97,8 @@ write_wb_roff (Workbook *wb, FILE *fp)
 					fprintf (fp, "l");
 				} else {
 					MStyle *mstyle = cell_get_mstyle (cell);
+					if (!mstyle)
+						break;
 					if (mstyle_get_align_h (mstyle) & HALIGN_RIGHT)
 						fprintf (fp, "r");
 					else if (mstyle_get_align_h (mstyle) & HALIGN_CENTER)
@@ -177,12 +181,20 @@ html_write_wb_roff_ps (CommandContext *context, Workbook *wb,
 	g_return_val_if_fail (filename != NULL, -1);
 	cmd = g_malloc (strlen (filename) + 64);
 	if (!cmd)
-		return -1;
+		return -1;	/* Don't try to report this, we would
+				 * have to allocate memory to do so  */
 
 	sprintf (cmd, "groff -me -t -Tps - > %s", filename);
 	fp = popen (cmd, "w");
-	rc =  write_wb_roff (wb, fp);
+	if (!fp) {
+		gnumeric_error_save (context, g_strerror (errno));
+		rc = -1;
+		goto out;
+	}
+	rc =  write_wb_roff (context, wb, fp);
 	pclose (fp);
+
+out:
 	g_free (cmd);
 	return (rc);
 }
@@ -202,12 +214,20 @@ html_write_wb_roff_dvi (CommandContext *context, Workbook *wb,
 	g_return_val_if_fail (filename != NULL, -1);
 	cmd = g_malloc (strlen (filename) + 64);
 	if (!cmd)
-		return -1;
+		return -1;	/* Don't try to report this, we would
+				 * have to allocate memory to do so  */
 
 	sprintf (cmd, "groff -me -t -Tdvi - > %s", filename);
 	fp = popen (cmd, "w");
-	rc =  write_wb_roff (wb, fp);
+	if (!fp) {
+		gnumeric_error_save (context, g_strerror (errno));
+		rc = -1;
+		goto out;
+	}
+	rc =  write_wb_roff (context, wb, fp);
 	pclose (fp);
+
+out:
 	g_free (cmd);
 	return (rc);
 }
@@ -227,15 +247,23 @@ html_write_wb_roff_pdf (CommandContext *context, Workbook *wb,
 	g_return_val_if_fail (filename != NULL, -1);
 	cmd = g_malloc (strlen (filename) + 256);
 	if (!cmd)
-		return -1;
+		return -1;	/* Don't try to report this, we would
+				 * have to allocate memory to do so  */
 
 	sprintf (cmd,
 		"groff -me -t -Tps - |"
 		"gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile=%s"
 		" -c save pop -f -", filename);
 	fp = popen (cmd, "w");
-	rc =  write_wb_roff (wb, fp);
+	if (!fp) {
+		gnumeric_error_save (context, g_strerror (errno));
+		rc = -1;
+		goto out;
+	}
+	rc =  write_wb_roff (context, wb, fp);
 	pclose (fp);
+
+out:
 	g_free (cmd);
 	return (rc);
 }
@@ -254,7 +282,11 @@ html_write_wb_roff (CommandContext *context, Workbook *wb,
 	g_return_val_if_fail (filename != NULL, -1);
 
 	fp = fopen (filename, "w");
-	rc =  write_wb_roff (wb, fp);
+	if (!fp) {
+		gnumeric_error_save (context, g_strerror (errno));
+		return -1;
+	}
+	rc =  write_wb_roff (context, wb, fp);
 	fclose (fp);
 	return (rc);
 }

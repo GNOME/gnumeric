@@ -198,8 +198,10 @@ html_write_wb_html32 (CommandContext *context, Workbook *wb,
 	g_return_val_if_fail (filename != NULL, -1);
 
 	fp = fopen (filename, "w");
-	if (!fp)
+	if (!fp) {
+		gnumeric_error_save (context, g_strerror (errno));
 		return -1;
+	}
 
 	fprintf (fp, "<!DOCTYPE HTML PUBLIC \"-//W3C/DTD HTML 3.2/EN\">\n");
 	fprintf (fp, "<HTML>\n");
@@ -257,8 +259,10 @@ html_write_wb_html40 (CommandContext *context, Workbook *wb,
 	g_return_val_if_fail (filename != NULL, -1);
 
 	fp = fopen (filename, "w");
-	if (!fp)
+	if (!fp) {
+		gnumeric_error_save (context, g_strerror (errno));
 		return -1;
+	}
 
 	fprintf (fp, "<!DOCTYPE HTML PUBLIC \"-//W3C/DTD HTML 4.0/EN\">\n");
 	fprintf (fp, "<HTML>\n");

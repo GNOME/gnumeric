@@ -254,8 +254,8 @@ csv_write_workbook (CommandContext *context, Workbook *wb,
 	FILE *f = fopen (filename, "w");
 
 	if (!f) {
-		rc = -1;
-		goto out;
+		gnumeric_error_save (context, g_strerror (errno));
+		return -1;
 	}
 
 	setvbuf (f, NULL, _IOFBF, PAGE_SIZE);

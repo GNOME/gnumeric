@@ -19,11 +19,13 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#include <errno.h>
 #include <gnome.h>
 #include "config.h"
 #include "epsf.h"
 #include "ps.h"
 #include "font.h"
+#include "command-context.h"
 
 #define CELL_DIM(cell,p) \
 			(cell->p->units + cell->p->margin_a_pt + cell->p->margin_b_pt)
@@ -136,8 +138,10 @@ epsf_write_wb (CommandContext *context, Workbook *wb, const char *filename)
 	g_return_val_if_fail (filename != NULL, -1);
 
 	fp = fopen (filename, "w");
-	if (!fp)
+	if (!fp) {
+		gnumeric_error_save (context, g_strerror (errno));
 		return -1;
+	}
 
 	sheet = wb->current_sheet;
 	if (sheet) {

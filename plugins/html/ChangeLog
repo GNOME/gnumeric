@@ -1,3 +1,18 @@
+2000-01-31  Jon K Hellan  <hellan@acm.org>
+
+	* roff.c (write_wb_roff): Check missing style.
+	(html_write_wb_roff_ps, html_write_wb_roff_dvi,
+	html_write_wb_roff_pdf, html_write_wb_roff): Check popen result.
+	(write_wb_roff): Add command context.
+
+	* epsf.c (epsf_write_wb): Call gnumeric_error_save on
+	failure.
+
+	* html.c (html_write_wb_html32, html_write_wb_html40): Ditto.
+
+	* latex.c (html_write_wb_latex, html_write_wb_latex2e)): Call
+	gnumeric_error_save on failure. Dont't panic on missing style.
+
 2000-01-29  Jon K Hellan  <hellan@acm.org>
 
 	Megacommit.

@@ -1,4 +1,7 @@
 2000-01-31  Jon K Hellan  <hellan@acm.org>
+        * dif.c	(dif_write_workbook): Improve reporting.
+
+2000-01-31  Jon K Hellan  <hellan@acm.org>
 
 	* dif.c (dif_write_workbook): Call gnumeric_error_save on failure.
 

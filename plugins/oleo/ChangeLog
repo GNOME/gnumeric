@@ -1,3 +1,7 @@
+2000-01-31  Jon K Hellan  <hellan@acm.org>
+
+	* oleo.c (oleo_read): Really return 0 on success.
+
 2000-01-29  Jon K Hellan  <hellan@acm.org>
 
 	* oleo.c (oleo_read): Add CommandContext. Return 0 on success,

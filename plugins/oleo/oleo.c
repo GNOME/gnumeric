@@ -223,5 +223,5 @@ oleo_read (CommandContext *context, Workbook *wb, const char *filename)
 	}
 
 	fclose (f);
-	return -1;
+	return 0;
 }

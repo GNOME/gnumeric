@@ -1,5 +1,9 @@
 2000-01-31  Jon K Hellan  <hellan@acm.org>
 
+	* csv-io.c (csv_write_workbook): Improve reporting.
+
+2000-01-31  Jon K Hellan  <hellan@acm.org>
+
 	* csv-io.c (csv_write_workbook): Call gnumeric_error_save on
 	failure.
 

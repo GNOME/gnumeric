@@ -69,7 +69,7 @@ html_init (void)
 	desc = _("HTML 4.0 file format (*.html)");
 	file_format_register_save (".html", desc, html_write_wb_html40);
 	desc = _("HTML file made by gnumeric");
-		/* Q: what does the '100' mean? */
+		/* Register file format with priority 100 */
 	file_format_register_open (100, desc, NULL, html_read);
 
 	desc = _("LaTeX file format (*.tex)");

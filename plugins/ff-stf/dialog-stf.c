@@ -365,7 +365,10 @@ dialog_stf (CommandContext *context, FileSource_t *src)
 	gtk_widget_destroy (GTK_WIDGET (pagedata.window));
 	gtk_object_unref (GTK_OBJECT (gui));
 
-	return -1;
+	if (pagedata.canceled)
+		return -1;
+	else
+		return 0;
 }
 
 

@@ -407,7 +407,6 @@ sc_read_workbook (CommandContext *context, Workbook *book,
 
 	g_return_val_if_fail (book, -1);
 	g_return_val_if_fail (filename, -1);
-	g_return_val_if_fail (*filename, -1);
 
 	f = fopen (filename, "r");
 	if (!f) {

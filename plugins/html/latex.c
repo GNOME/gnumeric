@@ -19,10 +19,12 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#include <errno.h>
 #include <gnome.h>
 #include "config.h"
 #include "latex.h"
 #include "font.h"
+#include "command-context.h"
 
 /*
  * escape special characters
@@ -79,8 +81,10 @@ html_write_wb_latex (CommandContext *context, Workbook *wb,
 	g_return_val_if_fail (filename != NULL, -1);
 
 	fp = fopen (filename, "w");
-	if (!fp)
+	if (!fp) {
+		gnumeric_error_save (context, g_strerror (errno));
 		return -1;
+	}
 
 	fprintf (fp, "\\documentstyle[umlaut,a4]{article}\n");
 	fprintf (fp, "\\oddsidemargin -0.54cm\n\\textwidth 17cm\n");
@@ -106,7 +110,9 @@ html_write_wb_latex (CommandContext *context, Workbook *wb,
 						fprintf (fp, "\t\n");
 				} else {
 					MStyle *mstyle = cell_get_mstyle (cell);
-					g_return_val_if_fail (mstyle != NULL, 0);
+
+					if (!mstyle)
+						break;
 
 					if (col != 0)
 						fprintf (fp, "\t&");
@@ -169,8 +175,10 @@ html_write_wb_latex2e (CommandContext *context, Workbook *wb,
 	g_return_val_if_fail (filename != NULL, -1);
 
 	fp = fopen (filename, "w");
-	if (!fp)
+	if (!fp) {
+		gnumeric_error_save (context, g_strerror (errno));
 		return -1;
+	}
 
 	fprintf (fp, "\\documentclass[11pt]{article}\n");
 	fprintf (fp, "\t\\usepackage{umlaut}\n");
@@ -198,7 +206,8 @@ html_write_wb_latex2e (CommandContext *context, Workbook *wb,
 						fprintf (fp, "\t\n");
 				} else {
 					MStyle *mstyle = cell_get_mstyle (cell);
-					g_return_val_if_fail (mstyle != NULL, 0);
+					if (!mstyle)
+						break;
 					if (col != 0)
 						fprintf (fp, "\t&");
 					else

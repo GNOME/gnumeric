@@ -10,6 +10,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>
+#include <errno.h>
 #include <assert.h>
 #include <config.h>
 #include <stdio.h>
@@ -20,6 +21,7 @@
 #include "main.h"
 #include "sheet.h"
 #include "file.h"
+#include "command-context.h"
 
 #include "xbase.h"
 #include "plugin.h"
@@ -145,8 +147,10 @@ xbase_load (CommandContext *context, Workbook *wb, const char *filename)
 	Cell *cell;
 	Value *val;
 
-	if ((file = xbase_open (context, filename)) == NULL)
+	if (!(file = xbase_open (context, filename))) {
+		gnumeric_error_read (context, g_strerror (errno));
 		return -1;
+	}
 
 	if ((p = filename_ext (name)) != NULL)
 		*p = '\0'; /* remove "dbf" */
