@@ -3,6 +3,9 @@ Gnumeric 1.2.14
 Jody:
 	* Invalid metadata in xls is a warning not an error
 
+Morten:
+	* Fix IMCONJUGATE and IMABS for reals.  [#148323]
+
 --------------------------------------------------------------------------
 Gnumeric 1.2.13
 

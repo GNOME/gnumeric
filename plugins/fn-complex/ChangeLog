@@ -1,3 +1,8 @@
+2004-07-26  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_imabs): Accept plain numbers.
+	(gnumeric_imconjugate): Ditto.  Fixes 148323.
+
 2004-06-22  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.13

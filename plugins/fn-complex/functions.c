@@ -173,9 +173,6 @@ gnumeric_imabs (FunctionEvalInfo *ei, GnmValue **argv)
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_VALUE (ei->pos);
 
-	if (argv[0]->type != VALUE_STRING)
-		return value_new_error_VALUE (ei->pos);
-
 	return value_new_float (complex_mod (&c));
 }
 
@@ -237,9 +234,6 @@ gnumeric_imconjugate (FunctionEvalInfo *ei, GnmValue **argv)
 	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error_VALUE (ei->pos);
-
-	if (argv[0]->type != VALUE_STRING)
 		return value_new_error_VALUE (ei->pos);
 
 	complex_conj (&res, &c);
