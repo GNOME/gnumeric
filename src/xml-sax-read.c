@@ -52,6 +52,8 @@
 
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-input.h>
+#include <gsf/gsf-input-memory.h>
+#include <gsf/gsf-input-gzip.h>
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 #include <libxml/parserInternals.h>
@@ -1466,6 +1468,91 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", FALSE, TRUE, FALSE, &xml_sax_w
 };
 static GsfXMLInDoc *doc;
 
+static GsfInput *
+maybe_gunzip (GsfInput *input)
+{
+	GsfInput *gzip = GSF_INPUT (gsf_input_gzip_new (input, NULL));
+	if (gzip) {
+		g_object_unref (input);
+		return gzip;
+	} else
+		return input;
+}
+
+static GsfInput *
+maybe_convert (GsfInput *input, gboolean quiet)
+{
+	const char *noencheader = "<?xml version=\"1.0\"?>";
+	const char *encheader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+	guint8 const *buf;
+	gsf_off_t input_size;
+	GString *buffer;
+	guint ui;
+	GsfInput *old_input = input;
+
+	if (gsf_input_seek (input, 0, G_SEEK_SET))
+		return input;
+
+	buf = gsf_input_read (input, strlen (noencheader), NULL);
+	if (!buf || strncmp (noencheader, buf, strlen (noencheader)) != 0)
+		return input;
+
+	input_size = gsf_input_remaining (input);
+	buffer = g_string_sized_new (input_size + strlen (encheader));
+	g_string_append (buffer, encheader);
+	if (!gsf_input_read (input, input_size, buffer->str + strlen (encheader))) {
+		g_string_free (buffer, TRUE);
+		return input;
+	}
+	buffer->len = input_size + strlen (encheader);
+	buffer->str[buffer->len] = 0;
+
+	for (ui = 0; ui < buffer->len; ui++) {
+		if (buffer->str[ui] == '&' &&
+		    buffer->str[ui + 1] == '#' &&
+		    g_ascii_isdigit (buffer->str[ui + 2])) {
+			guint start = ui;
+			guint c = 0;
+			ui += 2;
+			while (g_ascii_isdigit (buffer->str[ui])) {
+				c = c * 10 + (buffer->str[ui] - '0');
+				ui++;
+			}
+			if (buffer->str[ui] == ';' && c >= 128 && c <= 255) {
+				buffer->str[start] = c;
+				g_string_erase (buffer, start + 1, ui - start);
+				ui = start;
+			}
+		}
+	}
+
+	if (g_get_charset (NULL)) {
+		input = GSF_INPUT (gsf_input_memory_new (buffer->str, buffer->len, TRUE));
+		g_string_free (buffer, FALSE);
+		if (!quiet)
+			g_warning ("Converted xml document with no encoding from pseudo-UTF-8 to UTF-8.");
+	} else {
+		gsize bytes_written;
+		char *converted =
+			g_locale_to_utf8 (buffer->str, buffer->len,
+					  NULL, &bytes_written, NULL);
+		g_string_free (buffer, TRUE);
+		if (!converted) {
+			gsf_input_seek (input, 0, G_SEEK_SET);
+			if (!quiet)
+				g_warning ("Failed to convert xml document with no encoding from locale to UTF-8.");
+			return input;
+		}
+
+		input = GSF_INPUT (gsf_input_memory_new (converted, bytes_written, TRUE));
+		if (!quiet)
+			g_warning ("Converted xml document with no encoding from locale to UTF-8.");
+	}
+
+	g_object_unref (old_input);
+	return input;
+}
+
 void
 xml_sax_file_open (GnmFileOpener const *fo, IOContext *io_context,
 		   WorkbookView *wb_view, GsfInput *input)
@@ -1497,10 +1584,16 @@ xml_sax_file_open (GnmFileOpener const *fo, IOContext *io_context,
 	state.expr_map = g_hash_table_new (g_direct_hash, g_direct_equal);
 	state.delayed_names = NULL;
 
+	g_object_ref (input);
+	input = maybe_gunzip (input);
+	input = maybe_convert (input, FALSE);
+
 	if (!gsf_xml_in_parse (&state.base, input))
 		gnumeric_io_error_string (io_context, _("XML document not well formed!"));
 	else
 		workbook_queue_all_recalc (state.wb);
+
+	g_object_unref (input);
 
 	/* cleanup */
 	g_hash_table_destroy (state.expr_map);
