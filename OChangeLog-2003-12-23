@@ -1,3 +1,10 @@
+2003-07-22  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-object-image.c (sheet_object_image_update_bounds):
+	Take care of placeholder tiling here.
+
+	* src/gui-util.c (gnm_pixbuf_tile): New function.
+
 2003-07-21  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=117409
