@@ -204,6 +204,7 @@ BC_R(alruns)(ExcelChartHandler const *handle,
 		 * FIXME FIXME FIXME :
 		 *        - don't toss font info
 		 *        - Merge streams of the same font together.
+		 *        - Combine with RTF support once merged
 		 */
 		guint32 const elem = BIFF_GET_GUINT32 (in);
 		*out = (char)((elem >> 16) & 0xff);

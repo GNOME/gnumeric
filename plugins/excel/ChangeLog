@@ -1,3 +1,15 @@
+1999-07-11  Jody Goldberg  <jgoldberg@home.com>
+
+	* ms-excel-read.c (biff_font_data_new) : don't delay creation of
+	  style_font.
+        (ms_excel_get_font) : new function split from.
+	(ms_excel_set_cell_font) : here.
+	(ms_excel_get_xf) : new function split from.
+	(ms_excel_set_cell_xf) : here.
+	(biff_xf_data_new) : dont delay setting the style_format.
+	(BIFF_COLINFO) : Attempt to use the XF->font->height as a proxy for
+	  charwidth ??  Anyone have a better idea ?
+
 1999-07-10  Jody Goldberg  <jgoldberg@home.com>
 
 	* ms-excel-read.c : BIFF_COLINFO adjust in charwidth magic number to

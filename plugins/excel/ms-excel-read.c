@@ -466,7 +466,8 @@ biff_font_data_new (ExcelWorkbook *wb, BiffQuery *q)
 			fd->fontname, fd->height / 20, fd->color_idx);
 	}
 #endif
-	fd->style_font = 0;
+	fd->style_font = biff_font_data_get_style_font (fd);
+
         fd->index = g_hash_table_size (wb->font_data);
 	if (fd->index >= 4) /* Wierd: for backwards compatibility */
 		fd->index++;
@@ -886,19 +887,23 @@ typedef struct _BiffXFData {
  * NB. index 4 is omitted supposedly for backwards compatiblity
  * Returns the font color if there is one.
  **/
-static StyleColor *
-ms_excel_set_cell_font (ExcelSheet *sheet, Cell *cell, BiffXFData *xf)
+static BiffFontData const *
+ms_excel_get_font (ExcelSheet *sheet, guint16 font_idx)
 {
-	BiffFontData *fd = g_hash_table_lookup (sheet->wb->font_data, &xf->font_idx);
+	BiffFontData const *fd = g_hash_table_lookup (sheet->wb->font_data,
+						      &font_idx);
 
-	if (!fd) {
-		printf ("Unknown font idx %d\n", xf->font_idx);
+	g_return_val_if_fail (fd != NULL, NULL); /* flag the problem */
+	g_return_val_if_fail (fd->index != 4, NULL); /* should not exist */
+	return fd;
+}
+
+static StyleColor *
+ms_excel_set_cell_font (ExcelSheet *sheet, Cell *cell, BiffXFData const *xf)
+{
+	BiffFontData const * fd = ms_excel_get_font (sheet, xf->font_idx);
+	if (fd == NULL)
 		return NULL;
-	}
-	g_assert (fd->index != 4);
-
-	if (!fd->style_font)
-		fd->style_font = biff_font_data_get_style_font (fd);
 
 	if (fd->style_font)
 		cell_set_font_from_style (cell, fd->style_font);
@@ -908,42 +913,41 @@ ms_excel_set_cell_font (ExcelSheet *sheet, Cell *cell, BiffXFData *xf)
 	return ms_excel_palette_get (sheet->wb->palette, fd->color_idx, NULL);
 }
 
+static BiffXFData const *
+ms_excel_get_xf (ExcelSheet *sheet, guint16 const xfidx)
+{
+	BiffXFData const *xf;
+	GPtrArray const * const p = sheet->wb->XF_cell_records;
+	guint16 const idx = xfidx - XF_MAGIC_OFFSET;
+
+	/* Normal cell formatting */
+	if (xfidx == 0)
+		return NULL;
+
+	/* Default cell formatting */
+	if (xfidx == 15)
+    		return NULL;
+
+	g_return_val_if_fail (p && idx < p->len, NULL);
+	xf = g_ptr_array_index (p, idx);
+
+	g_return_val_if_fail (xf, NULL);
+	g_return_val_if_fail (xf->xftype == eBiffXCell, NULL);
+	return xf;
+}
+
 static void
 ms_excel_set_cell_xf (ExcelSheet *sheet, Cell *cell, guint16 xfidx)
 {
-	BiffXFData *xf;
-	GPtrArray *p;
-	guint16 idx = xfidx - XF_MAGIC_OFFSET;
+	BiffXFData const *xf = ms_excel_get_xf (sheet, xfidx);
 	StyleColor *fore, *back, *basefore;
 	int back_index;
 
-	g_return_if_fail (cell->value);
-
-	if (xfidx == 0) {
-/*		printf ("Normal cell formatting\n"); */
+	/* IF this was an error, the message was already printed. */
+	if (xf == NULL)
 		return;
-	}
-	if (xfidx == 15) {
-/*		printf ("Default cell formatting\n"); */
-    		return;
-	}
 
-	p = sheet->wb->XF_cell_records;
-	if (p && p->len > idx)
-		xf = g_ptr_array_index (p, idx);
-        else {
-#ifndef NO_DEBUG_EXCEL
-		if (ms_excel_read_debug > 0) {
-			printf ("FIXME: No XF record for %d out of %d found :-(\n",
-				xfidx, p?p->len:-666);
-		}
-#endif
-	        return;
-	}
-	if (xf->xftype != eBiffXCell)
-	       printf ("FIXME: Error looking up XF\n");
-
-	g_return_if_fail (xf);
+	g_return_if_fail (cell->value);
 
 	/*
 	 * Well set it up then ! FIXME: hack !
@@ -961,15 +965,9 @@ ms_excel_set_cell_xf (ExcelSheet *sheet, Cell *cell, guint16 xfidx)
 		cell_set_border (cell, xf->border_type, tmp);
 	}
 
-	if (xf->format_idx>0) {
-		if (xf->style_format)
-			cell_set_format_from_style (cell, xf->style_format);
-		else {
-			xf->style_format = biff_format_data_lookup (sheet->wb, xf->format_idx);
-			if (xf->style_format)
-				cell_set_format_from_style (cell, xf->style_format);
-		}
-	}
+	if (xf->style_format)
+		cell_set_format_from_style (cell, xf->style_format);
+
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_color_debug > 0) {
 		printf ("%s : Pattern = %d\n",
@@ -1076,7 +1074,8 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
 
 	xf->font_idx = BIFF_GET_GUINT16 (q->data);
 	xf->format_idx = BIFF_GET_GUINT16 (q->data + 2);
-	xf->style_format = 0;
+	xf->style_format = (xf->format_idx > 0)
+	    ? biff_format_data_lookup (wb, xf->format_idx) : NULL;
 
 	data = BIFF_GET_GUINT16 (q->data + 4);
 	xf->locked = (data & 0x0001) ? eBiffLLocked : eBiffLUnlocked;
@@ -1276,7 +1275,7 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
 		/*printf ("Inserting into Cell XF hash with : %d\n", wb->XF_cell_records->len); */
 		g_ptr_array_add (wb->XF_cell_records, xf);
 	} else {
-		/*printf ("Inserting into style XF hash with : %d\n", wb->XF_style_records->len); */
+		/* printf ("Inserting into style XF hash with : %d\n", wb->XF_style_records->len); */
 		g_ptr_array_add (wb->XF_style_records, xf);
 	}
 #ifndef NO_DEBUG_EXCEL
@@ -2018,20 +2017,22 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 					   EX_GETROW (q), v);
 		break;
 	}
-	case BIFF_COLINFO: /* FIXME: See: S59D67.HTM */
+	case BIFF_COLINFO: /* See: S59D67.HTM */
 	{
-		int firstcol, lastcol, lp;
-		guint16 cols_xf, options, width;
-		int hidden, collapsed, outlining;
-		firstcol = BIFF_GET_GUINT16(q->data);
-		lastcol  = BIFF_GET_GUINT16(q->data+2);
-		width    = BIFF_GET_GUINT16(q->data+4);
-		cols_xf  = BIFF_GET_GUINT16(q->data+6);
-		options  = BIFF_GET_GUINT16(q->data+8);
-
-		hidden    = (options & 0x0001) != 0;
-		collapsed = (options & 0x1000) != 0;
-		outlining = (options & 0x0700) >> 8;
+		int lp;
+		int divisor;
+		BiffXFData const *xf;
+		BiffFontData const *fd;
+		guint16 const firstcol = BIFF_GET_GUINT16(q->data);
+		guint16 const lastcol  = BIFF_GET_GUINT16(q->data+2);
+		guint16       width    = BIFF_GET_GUINT16(q->data+4);
+		guint16 const cols_xf  = BIFF_GET_GUINT16(q->data+6);
+		guint16 const options  = BIFF_GET_GUINT16(q->data+8);
+		gboolean const hidden = (options & 0x0001) ? TRUE : FALSE;
+#if 0
+		gboolean const collapsed = (options & 0x1000) ? TRUE : FALSE;
+		int const outline_level = (options >> 8) & 0x7;
+#endif
 
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_read_debug > 1) {
@@ -2042,18 +2043,29 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 				firstcol, lastcol, width/256.0);
 		}
 #endif
-		if (width>>8 == 0) {
-			printf ("FIXME: Hidden columns need implementing\n");
-			width=40.0;
-		}
-
 		/*
 		 * FIXME FIXME FIXME 
-		 * 36 seems to match the sheet I calibrated against, but where
-		 * can we read that number for real ??
+		 * 1) As a default 36 seems seems to match the sheet I
+		 *    calibrated against.
+		 * 2) the docs say charwidth not height.  Is this correct ?
 		 */
+		if ((xf = ms_excel_get_xf (sheet, cols_xf)) != NULL &&
+		    (fd = ms_excel_get_font (sheet, xf->font_idx))) {
+			divisor = fd->height / 10;
+		} else
+			divisor = 36.;
+
+		if (width>>8 == 0) {
+			if (hidden)
+				printf ("FIXME: Hidden column unimplemented\n");
+			else
+				printf ("FIXME: 0 sized column ???\n");
+			width = 62 * divisor;
+		}
+
 		for (lp=firstcol;lp<=lastcol;lp++)
-			sheet_col_set_width (sheet->gnum_sheet, lp, width/36);
+			sheet_col_set_width (sheet->gnum_sheet, lp,
+					     width/divisor);
 		break;
 	}
 	case BIFF_RK: /* See: S59DDA.HTM */
