@@ -18,6 +18,8 @@ noinst_LIBRARIES = libtools.a
 libtools_a_SOURCES =					\
 	analysis-tools.c				\
 	analysis-tools.h				\
+	random-generator.c				\
+	random-generator.h				\
 	dao.c						\
 	dao.h						\
 	auto-correct.c					\

@@ -18,6 +18,7 @@
 
 #include "analysis-tools.h"
 #include "regression.h"
+#include "random-generator.h"
 
 /*******************************************************************/
 /* Section 1: gui utility functions for the tools                  */

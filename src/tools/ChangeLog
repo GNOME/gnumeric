@@ -1,11 +1,19 @@
-2002-03-29  Andreas J. Guelzow <aguelzow@taliesin.ca>
+2002-03-30  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/tools/analysis-tools.c : make F-, z- and t-tests undoable
-	* src/tools/analysis-tools.h : add selector
+	* random-generator.[ch] : new files extracted from
+	  analysis-tools.[ch]
+	* analysis-tools.[ch] : some code moved to 
+	  random-generator.[ch]
+	* Makefile.am : added random-generator.[ch]
+	  
+2002-03-30  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.c : make F-, z- and t-tests undoable
+	* analysis-tools.h : add selector
 	
 2002-03-30  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/tools/analysis-tools.c :  make fourier analysis, moving averages, 
+	* analysis-tools.c :  make fourier analysis, moving averages, 
 	  rank and percentile, and sampling tools undoable
 	* dao.c (dao_set_style) : new
 	(dao_set_percent) : use offsets by calling dao_set_style
@@ -13,23 +21,23 @@
 
 2002-03-29  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/tools/analysis-tools.c : make Fourier Analysis Tool undoable
+	* analysis-tools.c : make Fourier Analysis Tool undoable
 
 2002-03-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/tools/analysis-tools.c : make Descriptive Stats Tool undoable
+	* analysis-tools.c : make Descriptive Stats Tool undoable
 
 2002-03-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/tools/analysis-tools.c : make Covariance Tool undoable
+	* analysis-tools.c : make Covariance Tool undoable
 
 2002-03-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/tools/analysis-tools.c : make Correlation Tool undoable
+	* analysis-tools.c : make Correlation Tool undoable
 
 2002-03-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/tools/analysis-tools.c : make 2-factor ANOVA's undoable
+	* analysis-tools.c : make 2-factor ANOVA's undoable
 
 2002-03-25  Jody Goldberg <jody@gnome.org>
 

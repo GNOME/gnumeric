@@ -98,6 +98,7 @@ src/dialogs/dialog-merge.c
 src/dialogs/dialog-paste-special.c
 src/dialogs/dialog-plugin-manager.c
 src/dialogs/dialog-printer-setup.c
+src/dialogs/dialog-random-generator.c
 src/dialogs/dialog-search-replace.c
 src/dialogs/dialog-search.c
 src/dialogs/dialog-sheet-order.c
@@ -209,6 +210,7 @@ src/stf.c
 src/style.c
 src/tools/analysis-tools.c
 src/tools/dao.c
+src/tools/random-generator.c
 src/tools/solver/reports-write.c
 src/tools/solver/reports.c
 src/tools/solver/solver.c

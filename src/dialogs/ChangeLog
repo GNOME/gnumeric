@@ -1,5 +1,14 @@
 2002-03-30  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-random-generator.c : new file extracted from 
+	  dialog-analysis-tools.c 
+	* dialog-analysis-tools.c : some code moved to 
+	  dialog-random-generator.c
+	* Makefile.am : added dialog-random-generator.c 
+	* tools.h : include random-generator.h
+
+2002-03-30  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* tools.h : change F-, z- and t-test tools into 
 	  cmd_analysis_tools engine
 	* dialog-analysis-tools.c : make F-, z- and t-test tools
@@ -11,8 +20,8 @@
 	  and sampling_tool into cmd_analysis_tools engines
 	* dialog-analysis-tools.c : make fourier analysis, moving averages, 
 	  rank and percentile, and sampling tools undoable
-	* src/dialogs/dao-gui-utils.h (parse_output) : change return type
-	* src/dialogs/dao-gui-utils.c (parse_output) : return dao
+	* dao-gui-utils.h (parse_output) : change return type
+	* dao-gui-utils.c (parse_output) : return dao
 
 2002-03-29  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
