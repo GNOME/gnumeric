@@ -874,8 +874,8 @@ ms_excel_palette_get (ExcelPalette *pal, guint idx, StyleColor *contrast)
 
 #ifndef NO_DEBUG_EXCEL
 			if (ms_excel_color_debug > 1) {
-				printf ("Contrast 0x%x 0x%x 0x%x : 0x%x\n", 
-					contrast->color.red, 
+				printf ("Contrast 0x%x 0x%x 0x%x : 0x%x\n",
+					contrast->color.red,
 					contrast->color.green,
 					contrast->color.blue,
 					guess);
@@ -1016,7 +1016,7 @@ ms_excel_set_cell_xf (ExcelSheet *sheet, Cell *cell, guint16 xfidx)
 	BiffXFData const *xf = ms_excel_get_xf (sheet, xfidx);
 	StyleColor *fore, *back, *basefore;
 	int back_index;
-	
+
 	g_return_if_fail (xf);
 	g_return_if_fail (cell->value);
 
@@ -1046,7 +1046,7 @@ ms_excel_set_cell_xf (ExcelSheet *sheet, Cell *cell, guint16 xfidx)
 			xf->fill_pattern_idx);
 	}
 #endif
-	
+
 	if (!basefore) {
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_color_debug > 2) {
@@ -1069,7 +1069,7 @@ ms_excel_set_cell_xf (ExcelSheet *sheet, Cell *cell, guint16 xfidx)
 		fore = basefore;
 		back_index = xf->pat_foregnd_col;
 	}
-	
+
 	/* Use contrasting colour for background if the fill pattern is
 	 * 0 (transparent)
 	 */
@@ -1479,21 +1479,27 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 {
 	/*
 	 * NOTE : There must be _no_ path through this function that does
-	 *        not set the cell value. 
+	 *        not set the cell value.
 	 */
 
 	/* Pre-retrieve incase this is a string */
 	gboolean array_elem, is_string = FALSE;
 	guint16 const xf_index = EX_GETXF (q);
-	Cell *cell = sheet_cell_fetch (sheet->gnum_sheet,
-				       EX_GETCOL (q), EX_GETROW (q));
+	guint16 const col = EX_GETCOL (q);
+	guint16 const row = EX_GETROW (q);
+	Cell *cell = sheet_cell_fetch (sheet->gnum_sheet, col, row);
+	ExprTree *expr;
+	Value *val = NULL;
+
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_read_debug > 0)
+		printf ("Formula in %s%d;\n", col_name(col), row+1);
+#endif
 
 	/* TODO TODO TODO : Wishlist
 	 * We should make an array of minimum sizes for each BIFF type
 	 * and have this checking done there.
 	 */
-	ExprTree *expr;
-	Value *val = NULL;
 	if (q->length < 22) {
 		printf ("FIXME: serious formula error: "
 			"invalid FORMULA (0x%x) record with length %d (should >= 22)\n",
@@ -1525,23 +1531,23 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 			break;
 
 		case 1 : /* Boolean */
-			{
-				guint8 const v = MS_OLE_GET_GUINT8 (q->data+8);
-				val = value_new_bool (v ? TRUE : FALSE);
-			}
+		{
+			guint8 const v = MS_OLE_GET_GUINT8 (q->data+8);
+			val = value_new_bool (v ? TRUE : FALSE);
 			break;
+		}
 
 		case 2 : /* Error */
-			{
-				EvalPosition ep;
-				guint8 const v = MS_OLE_GET_GUINT8 (q->data+8);
-				char const *const err_str =
-				    biff_get_error_text (v);
+		{
+			EvalPosition ep;
+			guint8 const v = MS_OLE_GET_GUINT8 (q->data+8);
+			char const *const err_str =
+			    biff_get_error_text (v);
 
-				/* FIXME FIXME FIXME : Init ep */
-				val = value_new_error (&ep, err_str);
-			}
+			/* FIXME FIXME FIXME : Init ep */
+			val = value_new_error (&ep, err_str);
 			break;
+		}
 
 		case 3 : /* Empty */
 			/* TODO TODO TODO
@@ -1549,16 +1555,17 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 			 * accurate.
 			 */
 #ifndef NO_DEBUG_EXCEL
-		if (ms_excel_read_debug > 5) {
-			printf ("%s:%s : has type 3 contents.  "
-				"Is it an empty cell ?\n",
-				sheet->gnum_sheet->name,
-				cell_name (cell->col->pos, cell->row->pos));
-			dump (q->data+6, 8);
-		}
+			if (ms_excel_read_debug > 0) {
+				printf ("%s:%s : has type 3 contents.  "
+					"Is it an empty cell ?\n",
+					sheet->gnum_sheet->name,
+					cell_name (cell->col->pos, cell->row->pos));
+				if (ms_excel_read_debug > 5)
+					dump (q->data+6, 8);
+			}
 #endif
-		val = value_new_empty ();
-		break;
+			val = value_new_empty ();
+			break;
 
 		default :
 			printf ("Unknown type (%x) for cell's current val\n",
@@ -1568,7 +1575,7 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 
 	/* Now try to parse the formula */
 	expr = ms_excel_parse_formula (sheet->wb, sheet, (q->data + 22),
-				       EX_GETCOL (q), EX_GETROW (q),
+				       col, row,
 				       FALSE, MS_OLE_GET_GUINT16 (q->data+20),
 				       &array_elem);
 
@@ -1585,7 +1592,7 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 		expr_tree_unref (expr);
 	} else if (!array_elem && !ms_excel_formula_shared (q, sheet, cell))
 	{
-		/* 
+		/*
 		 * NOTE : Only the expression is screwed.
 		 * The value and format can still be set.
 		 */
@@ -2065,64 +2072,70 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 
 	switch (q->ls_op) {
 	case BIFF_BLANK:
-#if 0
-		printf ("Cell [%d, %d] XF = %x\n", EX_GETCOL(q), EX_GETROW(q),
-		EX_GETXF(q));
+	{
+		guint16 const xf = EX_GETXF (q);
+		guint16 const col = EX_GETCOL (q);
+		guint16 const row = EX_GETROW (q);
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_read_debug > 0)
+		    printf ("Blank in %s%d xf = 0x%x;\n", col_name(col), row+1, xf);
 #endif
-		ms_excel_sheet_insert_val (sheet, EX_GETXF (q),
-					   EX_GETCOL (q), EX_GETROW (q),
+		ms_excel_sheet_insert_val (sheet, xf, col, row,
 					   value_new_empty());
 		break;
+	}
 
 	case BIFF_MULBLANK:
 	{
 		/* S59DA7.HTM is extremely unclear, this is an educated guess */
-		int row, col, lastcol;
-		int incr;
-		guint8 const *ptr;
-
-		/*
-		 * dump (ptr, q->length);
-		 */
-		row = EX_GETROW (q);
-		col = EX_GETCOL (q);
-		ptr = (q->data + 4);
-		lastcol = MS_OLE_GET_GUINT16 (q->data + q->length - 2);
-#if 0
-		printf ("Cells in row %d are blank starting at col %d until col %d (0x%x)\n",
-			row, col, lastcol, lastcol);
+		int col = EX_GETCOL (q);
+		int const row = EX_GETROW (q);
+		int const lastcol = MS_OLE_GET_GUINT16 (q->data + q->length - 2);
+		guint8 const *ptr = (q->data + 4);
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_read_debug > 0) {
+			printf ("Cells in row %d are blank starting at col %s until col ",
+				row+1, col_name(col));
+			printf ("%s;\n",
+				col_name(lastcol));
+		}
 #endif
-		incr = (lastcol > col) ? 1 : -1;
-		while (col != lastcol) {
+		if (lastcol < col) {
+			int const tmp = col;
+			col = lastcol;
+			lastcol = tmp;
+		}
+		for (; col <= lastcol ; ++col, ptr += 2) {
 			ms_excel_sheet_insert_val (sheet,
 						   MS_OLE_GET_GUINT16 (ptr),
 						   col, EX_GETROW (q),
 						   value_new_empty());
-			col += incr;
-			ptr += 2;
 		}
 		break;
 	}
 
 	case BIFF_RSTRING: /* See: S59DDC.HTM */
 	{
-		char *txt;
-		/*
-		  printf ("Cell [%d, %d] = ", EX_GETCOL(q), EX_GETROW(q));
-		  dump (q->data, q->length);
-		  printf ("Rstring\n");
-		*/
-		ms_excel_sheet_insert (sheet, EX_GETXF (q),
-				       EX_GETCOL (q), EX_GETROW (q),
-				       (txt = biff_get_text (q->data + 8, EX_GETSTRLEN (q), NULL)));
+		guint16 const xf = EX_GETXF (q);
+		guint16 const col = EX_GETCOL (q);
+		guint16 const row = EX_GETROW (q);
+		char *txt = biff_get_text (q->data + 8, EX_GETSTRLEN (q), NULL);
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_read_debug > 0)
+		    printf ("Rstring in %s%d xf = 0x%x;\n", col_name(col), row+1, xf);
+#endif
+		ms_excel_sheet_insert (sheet, xf, col, row, txt);
 		g_free (txt);
 		break;
 	}
-	case BIFF_DBCELL: /* S59D6D.HTM */
+
+	/* S59D6D.HTM */
+	case BIFF_DBCELL:
 		/* Can be ignored on read side */
 		break;
 
-	case BIFF_NUMBER: /* S59DAC.HTM */
+	/* S59DAC.HTM */
+	case BIFF_NUMBER:
 	{
 		Value *v = value_new_float (BIFF_GETDOUBLE (q->data + 6));
 #ifndef NO_DEBUG_EXCEL
@@ -2135,7 +2148,43 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 					   EX_GETROW (q), v);
 		break;
 	}
-	case BIFF_COLINFO: /* See: S59D67.HTM */
+
+	/* See: S59DDB.HTM */
+	case BIFF_ROW:
+	{
+		guint16 const row = MS_OLE_GET_GUINT16(q->data);
+		guint16 const start_col = MS_OLE_GET_GUINT16(q->data+2);
+		guint16 const end_col = MS_OLE_GET_GUINT16(q->data+4) - 1;
+		guint16 const height = MS_OLE_GET_GUINT16(q->data+6);
+		guint16 const flags = MS_OLE_GET_GUINT16(q->data+12);
+		guint16 const xf = MS_OLE_GET_GUINT16(q->data+14) & 0xfff;
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_read_debug > 1)
+			printf ("Row %d height 0x%x;\n", row+1, height);
+#endif
+		/* FIXME : the height is specified in 1/20 of a point.
+		 * but we can not assume that 1pt = 1pixel.
+		 * MS seems to assume that it is closer to 1point = .7 pixels
+		 * verticaly.
+		 */
+		if ((height&0x8000) == 0)
+			sheet_row_set_height (sheet->gnum_sheet, row,
+					      height/(20 * .7), TRUE);
+
+		if (flags & 0x80) {
+#ifndef NO_DEBUG_EXCEL
+			if (ms_excel_read_debug > 1) {
+				printf ("row %d has flags 0x%x a default style %hd from col %s - ",
+					row+1, flags, xf, col_name(start_col));
+				printf ("%s;\n", col_name(end_col));
+			}
+#endif
+		}
+		break;
+	}
+
+	/* See: S59D67.HTM */
+	case BIFF_COLINFO:
 	{
 		int lp;
 		int char_width = 1;
@@ -2162,15 +2211,15 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 		}
 #endif
 		/*
-		 * FIXME FIXME FIXME 
+		 * FIXME FIXME FIXME
 		 * 1) As a default 12 seems seems to match the sheet I
 		 *    calibrated against.
 		 * 2) the docs say charwidth not height.  Is this correct ?
 		 */
 		if ((xf = ms_excel_get_xf (sheet, cols_xf)) != NULL &&
-		    (fd = ms_excel_get_font (sheet, xf->font_idx))) {
+		    (fd = ms_excel_get_font (sheet, xf->font_idx)))
 			char_width = fd->height / 20.;
-		} else
+		else
 			char_width = 12.;
 
 		if (width>>8 == 0) {
@@ -2182,15 +2231,23 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 			/* FIXME : Make the magic default col width a define or function somewhere */
 			width = 62;
 		} else
-			/* NOTE : Do not use *= we need to do the width*char_width before the division */
-			width = width * char_width / 256.;
+			/* NOTE : Do NOT use *= we need to do the width*char_width before the division */
+			width = (width * char_width) / 256.;
 
+		/* FIXME : the width is specified in points (1/72 of an inch)
+		 * but we can not assume that 1pt = 1pixel.
+		 * MS seems to assume that it is closer to 1 point = .7 pixels
+		 * horizontally. (NOTE : this is different from vertically)
+		 */
+		width *= .70;
 		for (lp=firstcol;lp<=lastcol;lp++)
 			sheet_col_set_width (sheet->gnum_sheet, lp,
 					     width);
 		break;
 	}
-	case BIFF_RK: /* See: S59DDA.HTM */
+
+	/* See: S59DDA.HTM */
+	case BIFF_RK:
 	{
 		Value *v = biff_get_rk(q->data+6);
 #ifndef NO_DEBUG_EXCEL
@@ -2203,7 +2260,9 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 					   EX_GETROW (q), v);
 		break;
 	}
-	case BIFF_MULRK: /* S59DA8.HTM */
+
+	/* S59DA8.HTM */
+	case BIFF_MULRK:
 	{
 		guint32 col, row, lastcol;
 		guint8 const *ptr = q->data;
@@ -2234,25 +2293,6 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 		ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q),
 				       (label = biff_get_text (q->data + 8, EX_GETSTRLEN (q), NULL)));
 		g_free (label);
-		break;
-	}
-
-	/* See: S59DDB.HTM */
-	case BIFF_ROW:
-	{
-		guint16 const row = MS_OLE_GET_GUINT16(q->data);
-		guint16 const height = MS_OLE_GET_GUINT16(q->data+6);
-#ifndef NO_DEBUG_EXCEL
-		if (ms_excel_read_debug > 1)
-			printf ("Row %d height 0x%x;\n", row, height);
-#endif
-		/* FIXME : the height is specified in 1/20 of a point.
-		 * but we can not assume that 1pt = 1pixel.
-		 * MS seems to assume that it is closer to 1point = 1.3pixels.
-		 */
-		if ((height&0x8000) == 0)
-			sheet_row_set_height (sheet->gnum_sheet, row,
-					      height/15., TRUE);
 		break;
 	}
 
@@ -2430,7 +2470,7 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 
 		switch (q->ls_op) {
 		case BIFF_EOF:
-			if (q->streamPos == blankSheetPos) { /* || sheet->blank) { */
+			if (q->streamPos == blankSheetPos) /* || sheet->blank) */ {
 #ifndef NO_DEBUG_EXCEL
 				if (ms_excel_read_debug > 1) {
 					printf ("Blank sheet\n");
@@ -2591,7 +2631,7 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 		case BIFF_PLS:
 			if (MS_OLE_GET_GUINT16 (q->data) == 0x00) {
 				/*
-				 * q->data + 2 -> q->data + q->length 
+				 * q->data + 2 -> q->data + q->length
 				 * map to a DEVMODE structure see MS' SDK.
 				 */
 			} else if (MS_OLE_GET_GUINT16 (q->data) == 0x01) {
@@ -2603,7 +2643,7 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 			break;
 
 		case BIFF_SETUP: /* See: S59DE3.HTM */
-			if (q->length == 34) { 
+			if (q->length == 34) {
 				guint16  grbit, fw, fh;
 				gboolean valid;
 
@@ -2659,7 +2699,7 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 		case BIFF_SCL:
 			if (q->length == 4) {
 				/* Zoom stored as an Egyptian fraction */
-				double zoom = (double)MS_OLE_GET_GUINT16 (q->data) /
+				double const zoom = (double)MS_OLE_GET_GUINT16 (q->data) /
 					MS_OLE_GET_GUINT16 (q->data + 2);
 				sheet_set_zoom_factor (sheet->gnum_sheet, zoom);
 			} else
@@ -2717,7 +2757,6 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 		ms_excel_sheet_destroy (sheet);
 	sheet = NULL;
 	printf ("Error, hit end without EOF\n");
-	return;
 }
 
 Sheet *
@@ -2935,7 +2974,7 @@ ms_excel_read_workbook (Workbook *workbook, MsOle *file)
 				printf ("Unknown BOF (%x)\n",ver->type);
 		}
 		break;
-		
+
 		case BIFF_EOF: /* FIXME: Perhaps we should finish here ? */
 #ifndef NO_DEBUG_EXCEL
 			if (ms_excel_read_debug > 0)
@@ -3122,7 +3161,7 @@ ms_excel_read_workbook (Workbook *workbook, MsOle *file)
 #endif
 			break;
 		}
-		
+
 		case BIFF_OBJPROTECT :
 		case BIFF_PROTECT :
 		{
@@ -3221,9 +3260,9 @@ ms_excel_read_workbook (Workbook *workbook, MsOle *file)
 		case BIFF_ADDMENU :
 #ifndef NO_DEBUG_EXCEL
 			if (ms_excel_read_debug > 1) {
-			    printf ("%smenu with %d sub items", 
-				    (MS_OLE_GET_GUINT8(q->data+6) == 1) ? "" : "Placeholder ",
-				    MS_OLE_GET_GUINT8(q->data+5));
+				printf ("%smenu with %d sub items",
+					(MS_OLE_GET_GUINT8(q->data+6) == 1) ? "" : "Placeholder ",
+					MS_OLE_GET_GUINT8(q->data+5));
 			}
 #endif
 			break;

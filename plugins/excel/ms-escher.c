@@ -211,13 +211,13 @@ ms_escher_read_CLSID (MSEscherState * state, MSEscherHeader * h)
 static gboolean
 ms_escher_read_ColorMRU (MSEscherState * state, MSEscherHeader * h)
 {
-	guint const num_colours = h->instance;
+	guint const num_Colours = h->instance;
 
-	printf ("There are %d colours in a record with remaining length %d;\n",
-		num_colours, (h->len - common_header_len));
+	printf ("There are %d Colours in a record with remaining length %d;\n",
+		num_Colours, (h->len - common_header_len));
 
 	/* Colors in order from left to right.  */
-	/* TODO : When we know how to parse a colour record read these */
+	/* TODO : When we know how to parse a Colour record read these */
 	return FALSE;
 }
 
@@ -529,43 +529,23 @@ ms_escher_read_Spgr (MSEscherState * state, MSEscherHeader * h)
 			"FlowChartMagneticDrum", "FlowChartDisplay", "FlowChartDelay",
 		/* 136 */ "TextPlainText",
 		/* 137 */ "TextStop",
-		/* 138 */ "TextTriangle",
-		/* 139 */ "TextTriangleInverted",
-		/* 140 */ "TextChevron",
-		/* 141 */ "TextChevronInverted",
-		/* 142 */ "TextRingInside",
-		/* 143 */ "TextRingOutside",
-		/* 144 */ "TextArchUpCurve",
-		/* 145 */ "TextArchDownCurve",
-		/* 146 */ "TextCircleCurve",
-		/* 147 */ "TextButtonCurve",
-		/* 148 */ "TextArchUpPour",
-		/* 149 */ "TextArchDownPour",
+		/* 138-139 */ "TextTriangle", "TextTriangleInverted",
+		/* 140-141 */ "TextChevron", "TextChevronInverted",
+		/* 142-143 */ "TextRingInside", "TextRingOutside",
+		/* 144-145 */ "TextArchUpCurve", "TextArchDownCurve",
+		/* 146-147 */ "TextCircleCurve", "TextButtonCurve",
+		/* 148-149 */ "TextArchUpPour", "TextArchDownPour",
 		/* 150 */ "TextCirclePour",
 		/* 151 */ "TextButtonPour",
-		/* 152 */ "TextCurveUp",
-		/* 153 */ "TextCurveDown",
-		/* 154 */ "TextCascadeUp",
-		/* 155 */ "TextCascadeDown",
-		/* 156 */ "TextWave1",
-		/* 157 */ "TextWave2",
-		/* 158 */ "TextWave3",
-		/* 159 */ "TextWave4",
-		/* 160 */ "TextInflate",
-		/* 161 */ "TextDeflate",
-		/* 162 */ "TextInflateBottom",
-		/* 163 */ "TextDeflateBottom",
-		/* 164 */ "TextInflateTop",
-		/* 165 */ "TextDeflateTop",
-		/* 166 */ "TextDeflateInflate",
-		/* 167 */ "TextDeflateInflateDeflate",
-		/* 168 */ "TextFadeRight",
-		/* 169 */ "TextFadeLeft",
-		/* 170 */ "TextFadeUp",
-		/* 171 */ "TextFadeDown",
-		/* 172 */ "TextSlantUp",
-		/* 173 */ "TextSlantDown",
-		/* 174 */ "TextCanUp",
+		/* 152-153 */ "TextCurveUp",	"TextCurveDown",
+		/* 154-155 */ "TextCascadeUp",	"TextCascadeDown",
+		/* 156-159 */ "TextWave1",		"TextWave2", "TextWave3", "TextWave4",
+		/* 160-161 */ "TextInflate",	"TextDeflate",
+		/* 162-163 */ "TextInflateBottom", "TextDeflateBottom",
+		/* 164-165 */ "TextInflateTop",	"TextDeflateTop",
+		/* 166-167 */ "TextDeflateInflate",	"TextDeflateInflateDeflate",
+		/* 168-171 */ "TextFadeRight", "TextFadeLeft", "TextFadeUp", "TextFadeDown",
+		/* 172-174 */ "TextSlantUp", "TextSlantDown", "TextCanUp",
 		/* 175 */ "TextCanDown",
 		/* 176 */ "FlowChartAlternateProcess",
 		/* 177 */ "FlowChartOffpageConnector",
@@ -574,8 +554,7 @@ ms_escher_read_Spgr (MSEscherState * state, MSEscherHeader * h)
 		/* 180 */ "BorderCallout90",
 		/* 181 */ "AccentBorderCallout90",
 		/* 182 */ "LeftRightUpArrow",
-		/* 183 */ "Sun",
-		/* 184 */ "Moon",
+		/* 183-184 */ "Sun",	"Moon",
 		/* 185 */ "BracketPair",
 		/* 186 */ "BracePair",
 		/* 187 */ "Seal4",
@@ -787,142 +766,130 @@ typedef struct
 {
 } EscherOption;
 
-/*  MSOSHAPEPATH */
 typedef enum
 {
-    msoshapeLines,        /*  A line of straight segments */
-    msoshapeLinesClosed,  /*  A closed polygonal object */
-    msoshapeCurves,       /*  A line of Bezier curve segments */
-    msoshapeCurvesClosed, /*  A closed shape with curved edges */
-    msoshapeComplex,      /*  pSegmentInfo must be non-empty */
-} MSOSHAPEPATH;
+    shape_Lines = 0,        /*  straight line segments */
+    shape_LinesClosed = 1,  /*  closed polygonal shape */
+    shape_Curves = 2,       /*  Bezier curve segments */
+    shape_CurvesClosed = 3, /*  A closed shape with curved edges */
+    shape_Complex = 4,      /*  pSegmentInfo must be non-empty */
+} ShapePath;
 
-/* WrapMode */
 typedef enum
 {
-    msowrapSquare,
-    msowrapByPoints,
-    msowrapNone,
-    msowrapTopBottom,
-    msowrapThrough,
+    wrap_Square = 0,
+    wrap_ByPoints = 1,
+    wrap_None = 2,
+    wrap_TopBottom = 3,
+    wrap_Through = 4,
 } WrapMode;
 
-/*  MSOBWMODE */
 typedef enum
 {
-    msobwColor,          /*  only used for predefined shades */
-    msobwAutomatic,      /*  depends on object type */
-    msobwGrayScale,      /*  shades of gray only */
-    msobwLightGrayScale, /*  shades of light gray only */
-    msobwInverseGray,    /*  dark gray mapped to light gray, etc. */
-    msobwGrayOutline,    /*  pure gray and white */
-    msobwBlackTextLine,  /*  black text and lines, all else grayscale */
-    msobwHighContrast,   /*  pure black and white mode (no grays) */
-    msobwBlack,          /*  solid black */
-    msobwWhite,          /*  solid white */
-    msobwDontShow,       /*  object not drawn */
-    msobwNumModes        /*  number of Black and white modes */
-} MSOBWMODE;
+    bw_Color = 0,          /*  only used for predefined shades */
+    bw_Automatic = 1,      /*  depends on object type */
+    bw_GrayScale = 2,      /*  shades of gray only */
+    bw_LightGrayScale = 3, /*  shades of light gray only */
+    bw_InverseGray = 4,    /*  dark gray mapped to light gray, etc. */
+    bw_GrayOutline = 5,    /*  pure gray and white */
+    bw_BlackTextLine = 6,  /*  black text and lines, all else grayscale */
+    bw_HighContrast = 7,   /*  pure black and white mode (no grays) */
+    bw_Black = 7,          /*  solid black */
+    bw_White = 8,          /*  solid white */
+    bw_DontShow = 9,       /*  object not drawn */
+} BlackWhiteMode;
 
-/*  AnchorType */
 typedef enum
 {
-    msoanchorTop,
-    msoanchorMiddle,
-    msoanchorBottom,
-    msoanchorTopCentered,
-    msoanchorMiddleCentered,
-    msoanchorBottomCentered,
-    msoanchorTopBaseline,
-    msoanchorBottomBaseline,
-    msoanchorTopCenteredBaseline,
-    msoanchorBottomCenteredBaseline
+    anchor_Top,
+    anchor_Middle,
+    anchor_Bottom,
+    anchor_TopCentered,
+    anchor_MiddleCentered,
+    anchor_BottomCentered,
+    anchor_TopBaseline,
+    anchor_BottomBaseline,
+    anchor_TopCenteredBaseline,
+    anchor_BottomCenteredBaseline
 } AnchorType;
 
-/*  RotationType */
 typedef enum
 {
-    msocdir0,       /*  Right */
-    msocdir90,      /*  Down */
-    msocdir180,     /*  Left */
-    msocdir270      /*  Up */
+    rotate_0 = 0,	/*  Right */
+    rotate_90 = 1,	/*  Down */
+    rotate_180 = 2,	/*  Left */
+    rotate_270 = 3	/*  Up */
 } RotationType;
 
-/*  MSOCXSTYLE - connector style */
 typedef enum
 {
-    msocxstyleStraight = 0,
-    msocxstyleBent,
-    msocxstyleCurved,
-    msocxstyleNone
-} MSOCXSTYLE;
+    connect_Straight = 0,
+    connect_Bent = 1,
+    connect_Curved = 2,
+    connect_None = 3
+} ConnectStyle;
 
 typedef enum
 {
-    msotxflHorzN,           /*  Horizontal non-@ */
-    msotxflTtoBA,           /*  Top to Bottom @-font */
-    msotxflBtoT,            /*  Bottom to Top non-@ */
-    msotxflTtoBN,           /*  Top to Bottom non-@ */
-    msotxflHorzA,           /*  Horizontal @-font */
-    msotxflVertN,           /*  Vertical, non-@ */
+    flow_HorzN = 0,	/*  Horizontal non-@ */
+    flow_TtoBA = 1,	/*  Top to Bottom @-font */
+    flow_BtoT = 2,	/*  Bottom to Top non-@ */
+    flow_TtoBN = 3,	/*  Top to Bottom non-@ */
+    flow_HorzA = 4,	/*  Horizontal @-font */
+    flow_VertN = 5,	/*  Vertical, non-@ */
 } TextFlow;
 
-/*  TextDirection - text direction (needed for Bi-Di support) */
 typedef enum
 {
-    msotxdirLTR,           /*  left-to-right text direction */
-    msotxdirRTL,           /*  right-to-left text direction */
-    msotxdirContext,      /*  context text direction */
+    textdir_LtoR = 0,
+    textdir_RtoL = 1,
+    textdir_Context = 2,	/*  depends on context */
 } TextDirection;
 
-/*  MSOSPCOT -- Callout Type */
 typedef enum
 {
-    msospcotRightAngle = 1,
-    msospcotOneSegment = 2,
-    msospcotTwoSegment = 3,
-    msospcotThreeSegment = 4,
-} MSOSPCOT;
+    callout_RightAngle = 1,
+    callout_OneSegment = 2,
+    callout_TwoSegment = 3,
+    callout_ThreeSegment = 4,
+} CalloutType;
 
-/*  MSOSPCOA -- Callout Angle */
 typedef enum
 {
-    msospcoaAny,
-    msospcoa30,
-    msospcoa45,
-    msospcoa60,
-    msospcoa90,
-    msospcoa0,
-} MSOSPCOA;
+    callout_angle_Any = 0,
+    callout_angle_30 = 1,
+    callout_angle_45 = 2,
+    callout_angle_60 = 3,
+    callout_angle_90 = 4,
+    callout_angle_0 = 5
+} CallOutAngle;
 
-/*  MSOSPCOD -- Callout Drop */
 typedef enum
 {
-    msospcodTop,
-    msospcodCenter,
-    msospcodBottom,
-    msospcodSpecified,
-} MSOSPCOD;
+    callout_drop_Top = 0,
+    callout_drop_Center = 1,
+    callout_drop_Bottom = 2,
+    callout_drop_Specified = 3,
+} CalloutDrop;
 
-/*  Alignment - WordArt alignment */
+/*  Alignment - WordArt only */
 typedef enum
 {
-    msoalignTextStretch,      /* Stretch each line of text to fit width. */
-    msoalignTextCenter,       /* Center text on width. */
-    msoalignTextLeft,         /* Left justify. */
-    msoalignTextRight,        /* Right justify. */
-    msoalignTextLetterJust,   /* Spread letters out to fit width. */
-    msoalignTextWordJust,     /* Spread words out to fit width. */
-    msoalignTextInvalid       /* Invalid */
+    align_TextStretch,      /* Stretch each line of text to fit width. */
+    align_TextCenter,       /* Center text on width. */
+    align_TextLeft,         /* Left justify. */
+    align_TextRight,        /* Right justify. */
+    align_TextLetterJust,   /* Spread letters out to fit width. */
+    align_TextWordJust,     /* Spread words out to fit width. */
+    align_TextInvalid       /* Invalid */
 } Alignment;
 
-/*  MSO3DRENDERMODE */
 typedef enum
 {
-    msoFullRender,      /*  Generate a full rendering */
-    msoWireframe,       /*  Generate a wireframe */
-    msoBoundingCube,    /*  Generate a bounding cube */
-} MSO3DRENDERMODE;
+    render_FullRender,
+    render_Wireframe,
+    render_BoundingCube,
+} RenderMode;
 
 /*  MSOXFORMTYPE */
 typedef enum
@@ -943,7 +910,7 @@ typedef enum
     msoshadowEmbossOrEngrave,
 } MSOSHADOWTYPE;
 
-/*  MSODZTYPE - the type of a (length) measurement */
+/*  LengthMeasure - the type of a (length) measurement */
 typedef enum
 {
     msodztypeMin          = 0,
@@ -961,27 +928,25 @@ typedef enum
     msodztypeVFixedBig    = 10, /*  Pixels, fixed aspect ratio */
     msodztypeShapeFixedBig= 11, /*  Proportion of shape, fixed aspect ratio */
     msodztypeMax         = 11
-} MSODZTYPE;
+} LengthMeasure;
 
-/*  MSOFILLTYPE */
 typedef enum
 {
-    msofillSolid,             /*  Fill with a solid color */
-    msofillPattern,           /*  Fill with a pattern (bitmap) */
-    msofillTexture,           /*  A texture (pattern with its own color map) */
-    msofillPicture,           /*  Center a picture in the shape */
-    msofillShade,             /*  Shade from start to end points */
-    msofillShadeCenter,       /*  Shade from bounding rectangle to end point */
-    msofillShadeShape,        /*  Shade from shape outline to end point */
-    msofillShadeScale,        /*  Similar to msofillShade, but the fillAngle */
-    /*  is additionally scaled by the aspect ratio of */
-    /*  the shape. If shape is square, it is the */
-    /*  same as msofillShade. */
-    msofillShadeTitle,        /*  special type - shade to title ---  for PP  */
-    msofillBackground         /*  Use the background fill color/pattern */
-} MSOFILLTYPE;
+    fill_Solid = 0,
+    fill_Pattern = 1,	/*  bitmap */
+    fill_Texture = 2,	/*  pattern with private Colour map) */
+    fill_Picture = 3,	/*  Center picture on the shape */
+    fill_Shade = 4,	/*  Shade from start to end points */
+    fill_ShadeCenter =5,/*  Shade from bounding rectangle to end point */
+    fill_ShadeShape = 6,/*  Shade from shape outline to end point */
+    fill_ShadeScale = 7,/*  Like fill_Shade, but fillAngle is also scaled by
+			    the aspect ratio of the shape. If shape is square,
+			    it is the same as fill_Shade. */
+    fill_ShadeTitle = 8,/*  shade to title  ?? what is this for */
+    fill_Background = 9	/*  Use background fill color/pattern */
+} FillType;
 
-/*  MSOSHADETYPE - how to interpret the colors in a shaded fill. */
+/*  Colours in a shaded fill. */
 typedef enum
 {
     msoshadeNone  = 0,        /*  Interpolate without correction between RGBs */
@@ -1001,9 +966,9 @@ typedef enum
 
     msoshadeDefault = (msoshadeGamma|msoshadeSigma|
 		       (16384<<msoshadeParameterShift))
-} MSOSHADETYPE;
+} ShadeType;
 
-/*    MSOLINESTYLE - compound line style */
+/*    LineStyle - compound line style */
 typedef enum
 {
     msolineSimple,            /*  Single line (of width lineWidth) */
@@ -1011,18 +976,17 @@ typedef enum
     msolineThickThin,         /*  Double lines, one thick, one thin */
     msolineThinThick,         /*  Double lines, reverse order */
     msolineTriple             /*  Three lines, thin, thick, thin */
-} MSOLINESTYLE;
+} LineStyle;
 
-/*  MSOLINETYPE - how to "fill" the line contour */
 typedef enum
 {
-    msolineSolidType,         /*  Fill with a solid color */
-    msolinePattern,           /*  Fill with a pattern (bitmap) */
-    msolineTexture,           /*  A texture (pattern with its own color map) */
-    msolinePicture            /*  Center a picture in the shape */
-} MSOLINETYPE;
+    linefill_SolidType,         /*  Fill with a solid color */
+    linefill_Pattern,           /*  Fill with a pattern (bitmap) */
+    linefill_Texture,           /*  A texture (pattern with its own color map) */
+    linefill_Picture            /*  Center a picture in the shape */
+} LineFill;
 
-/*  MSOLINEDASHING - dashed line style */
+/*  DashedLineStyle - dashed line style */
 typedef enum
 {
     msolineSolid,              /*  Solid (continuous) pen */
@@ -1036,34 +1000,31 @@ typedef enum
     msolineDashDotGEL,         /*  dash short dash */
     msolineLongDashDotGEL,     /*  long dash short dash */
     msolineLongDashDotDotGEL   /*  long dash short dash short dash */
-} MSOLINEDASHING;
+} DashedLineStyle;
 
-/*  MSOLINEEND - line end effect */
 typedef enum
 {
-    msolineNoEnd,
-    msolineArrowEnd,
-    msolineArrowStealthEnd,
-    msolineArrowDiamondEnd,
-    msolineArrowOvalEnd,
-    msolineArrowOpenEnd,
-} MSOLINEEND;
+    line_end_NoEnd,
+    line_end_ArrowEnd,
+    line_end_ArrowStealthEnd,
+    line_end_ArrowDiamondEnd,
+    line_end_ArrowOvalEnd,
+    line_end_ArrowOpenEnd,
+} LineEndStyle;
 
-/*  MSOLINEENDWIDTH - size of arrowhead */
 typedef enum
 {
-    msolineNarrowArrow,
-    msolineMediumWidthArrow,
-    msolineWideArrow
-} MSOLINEENDWIDTH;
+    arrow_width_Narrow = 0,
+    arrow_width_Medium = 1,
+    arrow_width_Wide = 2
+} ArrowWidth;
 
-/*    MSOLINEENDLENGTH - size of arrowhead */
 typedef enum
 {
-    msolineShortArrow,
-    msolineMediumLenArrow,
-    msolineLongArrow
-} MSOLINEENDLENGTH;
+    arrow_len_Short = 0,
+    arrow_len_Medium = 1,
+    arrow_len_Long = 2
+} ArrowLength;
 
 /*    MSOLINEJOIN - line join style. */
 typedef enum
@@ -1132,7 +1093,7 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader * h)
 		case 133 : name = "WrapMode wrap_test_at_margin"; break;
 		/* 0 : Text zoom/scale (used if fFitTextToShape) */
 		case 134 : name = "long scaleText"; break;
-		/* Top : How to anchor the text */
+		/* anchor_Top : How to anchor the text */
 		case 135 : name = "AnchorType anchorText"; break;
 		/* HorzN : Text flow */
 		case 136 : name = "TextFlow txflTextFlow"; break;
@@ -1214,7 +1175,7 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader * h)
 
 		/* What are BlipFlags ? */
 		/* Comment Blip flags */
-		case 262 : name = "BLIPFLAGS pibFlags"; break;
+		case 262 : name = "BlipType pibFlags"; break;
 
 		/* ~0 : transparent color (none if ~0UL)  */
 		case 263 : name = "long pictureTransparent"; break;
@@ -1231,7 +1192,7 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader * h)
 		/* 0 : Host-defined ID for OLE objects (usually a pointer) */
 		case 267 : name = "Long pictureId"; break;
 
-		/* undefined : Double shadow colour */
+		/* undefined : Double shadow Colour */
 		case 268 : name = "Colour pictureDblCrMod"; break;
 
 		/* undefined : */
@@ -1246,9 +1207,8 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader * h)
 		/* NULL : Blip file name */
 		case 272 : name = "wchar * pibPrintName"; break;
 
-		/* What are BlipFlags ? */
 		/* Comment Blip flags */
-		case 273 : name = "BLIPFLAGS pibPrintFlags"; break;
+		case 273 : name = "BlipType pibPrintFlags"; break;
 
 		/* FALSE : Do not hit test the picture */
 		case 316 : name = "bool fNoHitTestPicture"; break;
@@ -1271,7 +1231,7 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader * h)
 		/* 21600 :  */
 		case 323 : name = "long geoBottom"; break;
 		/* msoshapeLinesClosed :  */
-		case 324 : name = "MSOSHAPEPATH shapePath"; break;
+		case 324 : name = "ShapePath shapePath"; break;
 		/* NULL : An array of points, in G units. */
 		case 325 : name = "IMsoArray pVertices"; break;
 		/* NULL :  */
@@ -1313,17 +1273,17 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader * h)
 		case 383 : name = "bool fFillOK"; break;
 
 		/* Solid : Type of fill */
-		case 384 : name = "MSOFILLTYPE fillType"; break;
+		case 384 : name = "FillType fillType"; break;
 		/* white : Foreground color */
-		case 385 : name = "colour fillColor"; break;
+		case 385 : name = "Colour fillColor"; break;
 		/* 1<<16 : Fixed 16.16 */
 		case 386 : name = "long fillOpacity"; break;
 		/* white : Background color */
-		case 387 : name = "colour fillBackColor"; break;
+		case 387 : name = "Colour fillBackColor"; break;
 		/* 1<<16 : Shades only */
 		case 388 : name = "long fillBackOpacity"; break;
 		/* undefined : Modification for BW views */
-		case 389 : name = "colour fillCrMod"; break;
+		case 389 : name = "Colour fillCrMod"; break;
 		/* NULL : Pattern/texture */
 		case 390 : name = "IMsoBlip* fillBlip"; break;
 		/* NULL : Blip file name */
@@ -1357,7 +1317,7 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader * h)
 		/* 0 :  */
 		case 404 : name = "long fillRectBottom"; break;
 		/* Default :  */
-		case 405 : name = "MSODZTYPE fillDztype"; break;
+		case 405 : name = "LengthMeasure fillDztype"; break;
 		/* 0 : Special shades */
 		case 406 : name = "long fillShadePreset"; break;
 		/* NULL : a preset array of colors */
@@ -1371,7 +1331,7 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader * h)
 		/* 0 :  */
 		case 411 : name = "long fillShapeOriginY"; break;
 		/* Default : Type of shading, if a shaded (gradient) fill. */
-		case 412 : name = "MSOSHADETYPE fillShadeType"; break;
+		case 412 : name = "ShadeType fillShadeType"; break;
 		/* TRUE : Is shape filled? */
 		case 443 : name = "bool fFilled"; break;
 		/* TRUE : Should we hit test fill?  */
@@ -1384,15 +1344,15 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader * h)
 		case 447 : name = "bool fNoFillHitTest"; break;
 
 		/* black : Color of line */
-		case 448 : name = "colour lineColor"; break;
+		case 448 : name = "Colour lineColor"; break;
 		/* 1<<16 : Not implemented */
 		case 449 : name = "long lineOpacity"; break;
 		/* white : Background color */
-		case 450 : name = "colour lineBackColor"; break;
+		case 450 : name = "Colour lineBackColor"; break;
 		/* undefined : Modification for BW views */
-		case 451 : name = "colour lineCrMod"; break;
+		case 451 : name = "Colour lineCrMod"; break;
 		/* Solid : Type of line */
-		case 452 : name = "MSOLINETYPE lineType"; break;
+		case 452 : name = "LineFill lineType"; break;
 		/* NULL : Pattern/texture */
 		case 453 : name = "IMsoBlip* lineFillBlip"; break;
 		/* NULL : Blip file name */
@@ -1404,29 +1364,29 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader * h)
 		/* 0 :  */
 		case 457 : name = "long lineFillHeight"; break;
 		/* Default : How to interpret fillWidth/Height numbers. */
-		case 458 : name = "MSODZTYPE lineFillDztype"; break;
+		case 458 : name = "LengthMeasure lineFillDztype"; break;
 		/* 9525 : A units; 1pt == 12700 EMUs */
 		case 459 : name = "long lineWidth"; break;
 		/* 8<<16 : ratio (16.16) of width */
 		case 460 : name = "long lineMiterLimit"; break;
 		/* Simple : Draw parallel lines? */
-		case 461 : name = "MSOLINESTYLE lineStyle"; break;
+		case 461 : name = "LineStyle lineStyle"; break;
 		/* Solid : Can be overridden by: */
-		case 462 : name = "MSOLINEDASHING lineDashing"; break;
+		case 462 : name = "DashedLineStyle lineDashing"; break;
 		/* NULL : As Win32 ExtCreatePen */
 		case 463 : name = "IMsoArray lineDashStyle"; break;
 		/* NoEnd : Arrow at start */
-		case 464 : name = "MSOLINEEND lineStartArrowhead"; break;
+		case 464 : name = "LineEndStyle lineStartArrowhead"; break;
 		/* NoEnd : Arrow at end */
-		case 465 : name = "MSOLINEEND lineEndArrowhead"; break;
+		case 465 : name = "LineEndStyle lineEndArrowhead"; break;
 		/* MediumWidthArrow : Arrow at start */
-		case 466 : name = "MSOLINEENDWIDTH lineStartArrowWidth"; break;
+		case 466 : name = "ArrowWidth lineStartArrowWidth"; break;
 		/* MediumLenArrow : Arrow at end */
-		case 467 : name = "MSOLINEENDLENGTH lineStartArrowLength"; break;
+		case 467 : name = "ArrowLength lineStartArrowLength"; break;
 		/* MediumWidthArrow : Arrow at start */
-		case 468 : name = "MSOLINEENDWIDTH lineEndArrowWidth"; break;
+		case 468 : name = "ArrowWidth lineEndArrowWidth"; break;
 		/* MediumLenArrow : Arrow at end */
-		case 469 : name = "MSOLINEENDLENGTH lineEndArrowLength"; break;
+		case 469 : name = "ArrowLength lineEndArrowLength"; break;
 		/* JoinRound : How to join lines */
 		case 470 : name = "MSOLINEJOIN lineJoinStyle"; break;
 		/* EndCapFlat : How to end lines */
@@ -1445,11 +1405,11 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader * h)
 		/* Offset : Type of effect */
 		case 512 : name = "MSOSHADOWTYPE shadowType"; break;
 		/* 0x808080 : Foreground color */
-		case 513 : name = "colour shadowColor"; break;
+		case 513 : name = "Colour shadowColor"; break;
 		/* 0xCBCBCB : Embossed color */
-		case 514 : name = "colour shadowHighlight"; break;
+		case 514 : name = "Colour shadowHighlight"; break;
 		/* undefined : Modification for BW views */
-		case 515 : name = "colour shadowCrMod"; break;
+		case 515 : name = "Colour shadowCrMod"; break;
 		/* 1<<16 : Fixed 16.16 */
 		case 516 : name = "long shadowOpacity"; break;
 		/* 25400 : Offset shadow */
@@ -1529,9 +1489,9 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader * h)
 		/* FillThenLine : Basic color of extruded part of shape; the
 		 * lighting model used will determine the exact shades used
 		 * when rendering.  */
-		case 647 : name = "colour c3DExtrusionColor"; break;
+		case 647 : name = "Colour c3DExtrusionColor"; break;
 		/* undefined : Modification for BW views */
-		case 648 : name = "colour c3DCrMod"; break;
+		case 648 : name = "Colour c3DCrMod"; break;
 		/* FALSE : Does this shape have a 3D effect? */
 		case 700 : name = "bool f3D"; break;
 		/* 0 : Use metallic specularity? */
@@ -1560,7 +1520,7 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader * h)
 		/* 0 : rotation center z (absolute (emus)) */
 		case 712 : name = "long c3DRotationCenterZ"; break;
 		/* FullRender : Full,wireframe, or bcube */
-		case 713 : name = "MSO3DRENDERMODE c3DRenderMode"; break;
+		case 713 : name = "RenderMode c3DRenderMode"; break;
 		/* 30000 : pixels (16.16) */
 		case 714 : name = "long c3DTolerance"; break;
 		/* 1250000 : X view point (emus) */
@@ -1609,14 +1569,14 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader * h)
 		/* NULL : master shape */
 		case 769 : name = "MSOHSP pMaster"; break;
 		/* None : Type of connector */
-		case 771 : name = "MSOCXSTYLE cxstyle"; break;
+		case 771 : name = "ConnectStyle"; break;
 		/* Automatic : Settings for modifications to be made when in
 		 * different forms of black-and-white mode. */
-		case 772 : name = "MSOBWMODE bWMode"; break;
+		case 772 : name = "BlackWhiteMode bWMode"; break;
 		/* Automatic :  */
-		case 773 : name = "MSOBWMODE bWModePureBW"; break;
+		case 773 : name = "BlackWhiteMode bWModePureBW"; break;
 		/* Automatic :  */
-		case 774 : name = "MSOBWMODE bWModeBW"; break;
+		case 774 : name = "BlackWhiteMode bWModeBW"; break;
 		/* FALSE : For OLE objects, whether the object is in icon form */
 		case 826 : name = "bool fOleIcon"; break;
 		/* FALSE : For UI only. Prefer relative resizing.  */
@@ -1628,17 +1588,17 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader * h)
 		/* FALSE : If TRUE, this is the background shape. */
 		case 831 : name = "bool fBackground"; break;
 
-		/* TwoSegment : Callout type */
-		case 832 : name = "MSOSPCOT spcot"; break;
+		/* TwoSegment : CalloutType */
+		case 832 : name = "CalloutType spcot"; break;
 
 		/* 1/12" : Distance from box to first point.(EMUs) */
 		case 833 : name = "long dxyCalloutGap"; break;
 
 		/* Any : Callout angle */
-		case 834 : name = "MSOSPCOA spcoa"; break;
+		case 834 : name = "CallOutAngle spcoa"; break;
 
 		/* Specified : Callout drop type */
-		case 835 : name = "MSOSPCOD spcod"; break;
+		case 835 : name = "CalloutDrop spcod"; break;
 
 		/* 9 points : if msospcodSpecified, the actual drop distance */
 		case 836 : name = "long dxyCalloutDropSpecified"; break;

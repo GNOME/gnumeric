@@ -1,4 +1,21 @@
+1999-09-25  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_read_formula) : Improve debug
+	  printouts, to facilitate match problems cells to inputs
+	  behaviors.
+	(ms_excel_read_cell:MULBLANK) : Rework to include last_col
+	  and simplify logic on iteration. Plus more debug.
+	(ms_excel_read_cell:RSTING) : More debug.
+	(ms_excel_read_cell:BIFF_ROW) : Add explicit comment on
+	  unit -> pixel scaling factor.
+	(ms_excel_read_cell:BIFF_COLINFO) : Ditto.
+
+	* ms-escher.c : Continue work on OPT records.
+
 1999-09-24  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_read_cell) : Add and document
+	  point -> pixel scaling for rows and columns.
 
 	* ms-excel-read.c (ms_excel_palette_get) : Change my guess
 	  at what the therhold pseudo-luminosity is.
