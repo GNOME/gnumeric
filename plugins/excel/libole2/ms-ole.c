@@ -710,7 +710,6 @@ extend_file (MsOle *f, guint blocks)
 			f->length+= BB_BLOCK_SIZE;
 		}
 	} else {
-		struct stat st;
 		int file;
 		guint8 *newptr, zero = 0;
 		guint32 filesize;
@@ -1445,7 +1444,6 @@ MsOleErr
 ms_ole_open_vfs (MsOle **f, const char *name, gboolean try_mmap,
 		 MsOleSysWrappers *wrappers)
 {
-	struct stat st;
 	int prot = PROT_READ | PROT_WRITE;
 	int file;
 
@@ -1560,7 +1558,6 @@ MsOleErr
 ms_ole_create_vfs (MsOle **f, const char *name, gboolean try_mmap,
 		   MsOleSysWrappers *wrappers)
 {
-	struct stat st;
 	int file, zero=0;
 	int init_blocks = 1, lp;
 

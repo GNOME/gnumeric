@@ -418,8 +418,8 @@ sheet_style_compute (Sheet const *sheet, int col, int row)
 	}
 	style_list = g_list_reverse (style_list);
 
-	if (!mstyle_list_check_sorted (style_list))
-		g_warning ("Styles not sorted");
+/*	if (!mstyle_list_check_sorted (style_list))
+	g_warning ("Styles not sorted");*/
 	mstyle = mstyle_do_merge (style_list, MSTYLE_ELEMENT_MAX);
 	g_list_free (style_list);
 
@@ -520,8 +520,8 @@ sheet_unique_cb (Sheet *sheet, Range const *range,
 			}
 		}
 
-		if (!mstyle_list_check_sorted (style_list))
-			g_warning ("Styles not sorted");
+/*		if (!mstyle_list_check_sorted (style_list))
+		g_warning ("Styles not sorted");*/
 
 		tmp = mstyle_do_merge (style_list, MSTYLE_ELEMENT_MAX);
 

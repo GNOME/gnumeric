@@ -1,3 +1,8 @@
+1999-10-31  Michael Meeks  <mmeeks@gnu.org>
+
+	* ms-excel-write.c (new_sheet): Fix silly bug, rows not cols
+	for maxy. (write_names): add version precondition.
+
 1999-10-30  Daniel Risacher  <magnus@alum.mit.edu>
 
 	* ms-excel-read.c (biff_get_text): tiny fix to debugging code

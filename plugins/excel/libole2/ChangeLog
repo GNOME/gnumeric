@@ -1,3 +1,8 @@
+1999-10-31  Michael Meeks  <mmeeks@gnu.org>
+
+	* ms-ole.c (extend_file): kill struct stat st.
+	(ms_ole_open_vfs, ms_ole_create_vfs): ditto.
+
 1999-10-30  Arturo Tena <arturo@directmail.org>
 
 	* ms-ole.c, ms-ole.h: Delete fstat wrapper, created isregfile_wrap and

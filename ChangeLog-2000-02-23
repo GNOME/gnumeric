@@ -1,5 +1,11 @@
 1999-10-31  Michael Meeks  <mmeeks@gnu.org>
 
+	* src/sheet-style.c (sheet_style_compute, sheet_unique_cb): Kill
+	check_sorted; the style stamp stuff needs serious work. The stamp
+	should be on the StyleRegion _not_ the MStyle.
+
+1999-10-31  Michael Meeks  <mmeeks@gnu.org>
+
 	* NEWS (Daniel): credit.
 
 	* acconfig.h: add undef ENABLE_GB

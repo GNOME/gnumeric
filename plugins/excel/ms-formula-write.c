@@ -714,7 +714,7 @@ write_node (PolishData *pd, ExprTree *tree)
 			  g_ptr_array_index (pd->sheet->wb->names, idx))) {
 
 		MS_OLE_SET_GUINT8  (data + 0, FORMULA_PTG_NAME);
-		MS_OLE_SET_GUINT16 (data + 1, idx+1);
+		MS_OLE_SET_GUINT16 (data + 1, idx + 1);
 		ms_biff_put_var_write (pd->bp, data, 15);
 		return;
 	      }
@@ -725,7 +725,8 @@ write_node (PolishData *pd, ExprTree *tree)
 	case OPER_ARRAY:
 	default:
 	{
-		gchar *err = g_strdup_printf ("Unknown Operator %d", tree->oper);
+		gchar *err = g_strdup_printf ("Unknown Operator %d",
+					      tree->oper);
 		write_string (pd, err);
 		g_free (err);
 		printf ("Unhandled node type %d\n", tree->oper);

@@ -773,11 +773,13 @@ write_names (BiffPut *bp, ExcelWorkbook *wb)
 	Workbook* gwb = wb->gnum_wb;
 	GList *names = gwb->names;
 	ExcelSheet *sheet;
+
+	g_return_if_fail (wb->ver <= eBiffV7);
   
 	/* excel crashes if this isn't here and the names have Ref3Ds */
 	if (names)
 		write_externsheets (bp, wb, NULL);
-	sheet = g_ptr_array_index(wb->sheets,0);
+	sheet = g_ptr_array_index (wb->sheets, 0);
 	
 	while (names) {
 		guint8 data[20];
@@ -791,13 +793,13 @@ write_names (BiffPut *bp, ExcelWorkbook *wb)
 		
 		text = expr_name->name->str;
 		ms_biff_put_var_next (bp, BIFF_NAME);
-		name_len = strlen(expr_name->name->str);
-		MS_OLE_SET_GUINT8  (data+3, name_len); /* name_len */
+		name_len = strlen (expr_name->name->str);
+		MS_OLE_SET_GUINT8 (data + 3, name_len); /* name_len */
 		
 		/* This code will only work for eBiffV7. */
 		ms_biff_put_var_write (bp, data, 14);
 		biff_put_text (bp, text, wb->ver, FALSE, AS_PER_VER);
-		ms_biff_put_var_seekto (bp, 14+name_len);
+		ms_biff_put_var_seekto (bp, 14 + name_len);
 		len = ms_excel_write_formula (bp, sheet,
 					      expr_name->t.expr_tree,
 					      0, 0);
@@ -1516,7 +1518,7 @@ new_sheet (ExcelWorkbook *wb, Sheet *value)
 	sheet->streamPos  = 0x0deadbee;
 	sheet->wb         = wb;
 	sheet->maxx       = sheet->gnum_sheet->cols.max_used + 1;
-	sheet->maxy       = sheet->gnum_sheet->cols.max_used + 1;
+	sheet->maxy       = sheet->gnum_sheet->rows.max_used + 1;
 	sheet->dbcells    = g_array_new (FALSE, FALSE, sizeof (MsOlePos));
 
 	g_ptr_array_add (wb->sheets, sheet);
