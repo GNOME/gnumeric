@@ -30,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2003-07-25 21:03+0200\n"
-"PO-Revision-Date: 2003-07-25 21:06+0200\n"
+"POT-Creation-Date: 2003-07-29 00:35+0200\n"
+"PO-Revision-Date: 2003-07-29 00:38+0200\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1368,7 +1368,7 @@ msgstr "Kunde inte öppna ström \"Bok\" för skrivning\n"
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Kunde inte öppna ström \"Arbetsbok\" för skrivning\n"
 
-#: plugins/excel/ms-formula-read.c:615
+#: plugins/excel/ms-formula-read.c:614
 msgid "Broken function"
 msgstr "Trasig funktion"
 
@@ -8188,7 +8188,7 @@ msgid ""
 "error.\n"
 "* If @frequency is other than 1, 2, or 4, MDURATION returns #NUM! error.\n"
 "* If @basis is omitted, MSRB 30/360 is applied.\n"
-"* If @basis is not in between 0 and 4, #NUM! error is returned.\n"
+"* If @basis is invalid, #NUM! error is returned.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -8211,7 +8211,7 @@ msgstr ""
 "* Om @frekvens är en annan än 1, 2 eller 4 returnerar MDURATION felvärdet "
 "#NUM!.\n"
 "*Om @bas utelämnas används MSRB 30/360-system.\n"
-"* Om @bas inte är mellan 0 och 4 returneras felvärdet #NUM!.\n"
+"* Om @bas inte är giltigt returneras felvärdet #NUM!.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -19065,7 +19065,7 @@ msgstr "Gå till specifierad cell"
 
 #: src/GNOME_Gnumeric.xml.h:142
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:108
-#: src/sheet-object-graphic.c:1419 src/workbook-object-toolbar.c:147
+#: src/sheet-object-graphic.c:1429 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Rubrik"
 
@@ -20550,7 +20550,7 @@ msgstr "Förklaring"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:141
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
-#: src/cut-n-paste-code/goffice/graph/gog-legend.c:127
+#: src/cut-n-paste-code/goffice/graph/gog-legend.c:132
 msgid "Title"
 msgstr "Titel"
 
@@ -20815,7 +20815,7 @@ msgstr "Fyllnadst_yp:"
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:198
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:223
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:466
-#: src/sheet-object-graphic.c:921 src/sheet-object-graphic.c:938
+#: src/sheet-object-graphic.c:929 src/sheet-object-graphic.c:946
 msgid "Transparent"
 msgstr "Genomskinlig"
 
@@ -20825,13 +20825,13 @@ msgstr "Välj en bildfil"
 
 #. TODO : have a look at apple's themes
 #. An MS Excel-ish theme
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:225
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:228
 #: src/dialogs/dialog-sheet-order.c:928 src/dialogs/dialog-sheet-order.c:941
 msgid "Default"
 msgstr "Standard"
 
 #. Guppi
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:263
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:266
 msgid "Guppi"
 msgstr "Guppi"
 
@@ -20859,17 +20859,17 @@ msgstr "_Mellanrum:"
 msgid "_Overlap:"
 msgstr "_Överlappning:"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:126
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:129
 msgid "PlotBarCol"
 msgstr "PlotStapKol"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:284
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:287
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
 #: src/dialogs/consolidate.glade.h:10
 msgid "Labels"
 msgstr "Rubriker"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:286
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:289
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:194
 #: src/dialogs/consolidate.glade.h:22
 msgid "Values"
@@ -27123,7 +27123,7 @@ msgstr "Skalär"
 msgid "Any"
 msgstr "Vilken som helst"
 
-#: src/func.c:1002
+#: src/func.c:1004
 msgid "Function does not exist"
 msgstr "Funktionen finns inte"
 
@@ -28066,12 +28066,12 @@ msgstr "kan inte skapa object för \"%s\""
 msgid "Could not load file: %s"
 msgstr "Kunde inte läsa in fil: %s"
 
-#: src/sheet-object-widget.c:1119
+#: src/sheet-object-widget.c:1129
 #, c-format
 msgid "CheckBox %d"
 msgstr "Kryssruta %d"
 
-#: src/sheet-object-widget.c:1548 src/workbook-object-toolbar.c:164
+#: src/sheet-object-widget.c:1560 src/workbook-object-toolbar.c:164
 msgid "RadioButton"
 msgstr "Radioknapp"
 
@@ -29833,11 +29833,11 @@ msgstr "Vetenskaplig"
 msgid "Special"
 msgstr "Special"
 
-#: src/widgets/widget-format-selector.c:926
+#: src/widgets/widget-format-selector.c:929
 msgid "Negative Number Format"
 msgstr "Format för negativa tal"
 
-#: src/widgets/widget-format-selector.c:957
+#: src/widgets/widget-format-selector.c:960
 msgid "Number Formats"
 msgstr "Talformat"
 
