@@ -1804,6 +1804,7 @@ stf_parse_region (StfParseOptions_t *parseoptions, const char *data)
 	cr->cols   = (colhigh > 0) ? colhigh : 1;
 	cr->rows   = row;
 	cr->styles = NULL;
+	cr->merged = NULL;
 
 	return cr;
 }

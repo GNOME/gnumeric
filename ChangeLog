@@ -1,5 +1,10 @@
 2001-02-02  Jody Goldberg <jgoldberg@home.com>
 
+	* src/gui-clipboard.c (x_selection_to_cell_region) : Init
+	  CellRegion::merged.
+	* src/stf-parse.c (stf_parse_region) : Ditto.
+	* src/xml-io.c (xml_read_selection_clipboard) : Ditto.
+
 	* src/sheet-control-gui.c (scg_object_move) : split out from the
 	  control point motion handler.
 	(cb_control_point_event) : Use it here.

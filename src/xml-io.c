@@ -2732,6 +2732,7 @@ xml_read_selection_clipboard (XmlParseContext *ctxt, xmlNodePtr tree)
 	cr->cols   = -1;
 	cr->rows   = 0;
 	cr->styles = NULL;
+	cr->merged = NULL;
 
 	/*
 	 * This nicely puts all the styles into the cr->styles list

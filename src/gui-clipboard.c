@@ -55,6 +55,7 @@ x_selection_to_cell_region (WorkbookControlGUI *wbcg, const char *src, int len)
 	crerr->cols   = -1;
 	crerr->rows   = -1;
 	crerr->styles = NULL;
+	crerr->merged = NULL;
 
 	if (!stf_parse_convert_to_unix (data)) {
 		g_free (data);
