@@ -656,6 +656,32 @@ coupdaybs(GDate *settlement, GDate *maturity, int freq, int basis)
 	}
 }
 
+static int
+coupdaysnc_b123 (GDate *date1, GDateYear y2, GDateMonth m2, GDateDay d2,
+		 GDateYear new_y)
+{
+        GDateYear  y1;
+	GDate      *date2;
+	gint       serial1, serial2;
+
+	y1 = g_date_year (date1);
+	serial1 = g_date_julian (date1);
+
+	if (d2 == 29 && m2 == 2 && !g_date_is_leap_year (new_y))
+	        date2 = g_date_new_dmy (28, m2, new_y);
+	else if (d2 == 28 && m2 == 2
+		 && !g_date_is_leap_year (y2)
+		 && g_date_is_leap_year (new_y))
+	        date2 = g_date_new_dmy (29, m2, new_y);
+	else
+	        date2 = g_date_new_dmy (d2, m2, new_y);
+  
+	serial2 = g_date_julian (date2);
+	g_date_free (date2);
+
+	return serial2 - serial1;
+}
+
 /*
  * Returns the number of days from the settlement date to the next
  * coupon date.
@@ -663,7 +689,34 @@ coupdaybs(GDate *settlement, GDate *maturity, int freq, int basis)
 static int
 coupdaysnc(GDate *settlement, GDate *maturity, int freq, int basis)
 {
-        return -1; /* FIXME */
+        GDateYear  sy, my;
+	GDateMonth mm;
+	GDateDay   md;
+	gint       days;
+
+	sy = g_date_year (settlement);
+	my = g_date_year (maturity);
+	mm = g_date_month (maturity);
+	md = g_date_day (maturity);
+
+        switch (basis) {
+	case 1:
+	case 2:
+	case 3:
+	        days = coupdaysnc_b123 (settlement, my, mm, md, sy);
+		if (freq == 1 && days > 0)
+	                return days;
+		days = coupdaysnc_b123 (settlement, my, mm, md, sy+1);
+		if (freq == 1)
+	                return days;
+		else if (freq == 2) {
+		        return -1; /* FIXME */
+		} else {
+		        return -1; /* FIXME */
+		}
+	default:
+	        return -1; /* FIXME */
+	}
 }
 
 /* Returns the numbers of coupons to be paid between the settlement

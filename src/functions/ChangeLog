@@ -1,3 +1,9 @@
+2001-11-08  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* fn-financial.c (coupdaysnc): Implemented the frequency 1 for
+	basis 1, 2, and 3.
+	(coupdaysnc_b123): Wrote.
+
 2001-11-06  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* fn-*.c: Added examples and improved the documentation.

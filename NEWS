@@ -14,6 +14,7 @@ Jody:
 Jukka:
 	* Improved function documentation.
 	* Implemented Exponential Smoothing tool.
+	* Improved COUPDAYSNC().
 
 Morten:
 	* Leak plugging.
