@@ -66,7 +66,6 @@
 #include <goffice/graph/gog-data-set.h>
 
 #include "widgets/widget-editable-label.h"
-#include "widgets/preview-file-selection.h"
 #include <gtk/gtkactiongroup.h>
 #include <gtk/gtkstock.h>
 #include <glib/gi18n.h>

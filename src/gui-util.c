@@ -27,7 +27,6 @@
 #include "gnumeric-paths.h"
 
 #include <goffice/gui-utils/go-combo-color.h>
-#include <widgets/preview-file-selection.h>
 #include <glade/glade.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkfilechooser.h>
