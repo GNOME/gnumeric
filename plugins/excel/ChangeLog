@@ -12,8 +12,11 @@
 	(biff_name_data_new, biff_name_data_destroy) : Const add flag to
 	  log NAME vs EXTERNNAME.
 	(biff_name_data_get_name) : Remove vile hack for 1 vs 0 based names.
+	(ms_excel_read_name) : More version madness.
+	(BIFF_BOF) : More detailed version info.
 
 	ms-formula-read.c : ARRRGGGGHHHHH!  both NAME and NAME_X are 1 based.
+	(PTG_NAME) : Different versions, very different sizes.
 
 1999-07-13  Michael Meeks  <michael@edenproject.org>
 

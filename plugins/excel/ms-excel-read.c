@@ -597,6 +597,8 @@ biff_name_data_new (ExcelWorkbook *wb, char const *name,
 			externsheet,
 			wb->name_data->len, bnd->name);
 	}
+	if (ms_excel_read_debug > 2)
+		dump (bnd->v.store.data, bnd->v.store.len);
 #endif
 	g_ptr_array_add (wb->name_data, bnd);
 }
@@ -1335,7 +1337,7 @@ ms_excel_formula_shared (BiffQuery *q, ExcelSheet *sheet, Cell *cell)
 {
 	g_return_val_if_fail (ms_biff_query_next (q), FALSE);
 	if (q->ls_op != BIFF_SHRFMLA && q->ls_op != BIFF_ARRAY) {
-		printf ("EXCEL : unexpected record after a formula %x in '%s'\n",
+		printf ("EXCEL : unexpected record after a formula 0x%x in '%s'\n",
 			q->opcode, cell_name (cell->col->pos, cell->row->pos));
 		return FALSE;
 	} else {
@@ -1462,7 +1464,7 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 			}
 			break;
 
-		case 3 : /* Empty String */
+		case 3 : /* Empty */
 			/* TODO TODO TODO
 			 * This is undocumented and a big guess, but it seems
 			 * accurate.
@@ -1470,12 +1472,13 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_read_debug > 5) {
 			printf ("%s:%s : has type 3 contents.  "
-				"Is it an empty string ?\n",
+				"Is it an empty cell ?\n",
 				sheet->gnum_sheet->name,
 				cell_name (cell->col->pos, cell->row->pos));
 			dump (q->data+6, 8);
 		}
 #endif
+		/* FIXME FIXME FIXME : This should be empty, not null string */
 		val = value_new_string ("");
 		break;
 
@@ -1836,8 +1839,8 @@ ms_excel_read_name (BiffQuery *q, ExcelSheet *sheet)
 	guint8  kb_shortcut    = BIFF_GET_GUINT8  (q->data + 2);
 #endif
 	guint8  name_len       = BIFF_GET_GUINT8  (q->data + 3);
-	guint16 name_def_len   = BIFF_GET_GUINT16 (q->data + 4);
-	guint8 *name_def_data  = q->data + 15 + name_len;
+	guint16 name_def_len;
+	guint8 *name_def_data;
 #if 0
 	guint16 sheet_idx      = BIFF_GET_GUINT16 (q->data + 6);
 	guint16 ixals          = BIFF_GET_GUINT16 (q->data + 8); /* dup */
@@ -1849,8 +1852,24 @@ ms_excel_read_name (BiffQuery *q, ExcelSheet *sheet)
 	char *name, *menu_txt, *descr_txt, *help_txt, *status_txt;
 	guint8 const *ptr;
 
-/*	g_assert (ixals==sheet_idx); */
-	ptr = q->data + 14;
+#if 0
+	dump_biff (q);
+#endif
+	/* FIXME FIXME FIXME : Offsets have moved alot between versions.
+	 *                     track down the details */
+	if (sheet->ver >= eBiffV8) {
+		name_def_len   = BIFF_GET_GUINT16 (q->data + 4);
+		name_def_data  = q->data + 15 + name_len;
+		ptr = q->data + 14;
+	} else if (sheet->ver >= eBiffV7) {
+		name_def_len   = BIFF_GET_GUINT16 (q->data + 4);
+		name_def_data  = q->data + 14 + name_len;
+		ptr = q->data + 14;
+	} else {
+		name_def_len   = BIFF_GET_GUINT16 (q->data + 4);
+		name_def_data  = q->data + 5 + name_len;
+		ptr = q->data + 5;
+	}
 
 	/* FIXME FIXME FIXME : Disable for now */
 	if (0 && name_len == 1 && *ptr <= 0x0c) {
@@ -1887,7 +1906,7 @@ ms_excel_read_name (BiffQuery *q, ExcelSheet *sheet)
 	fn_grp_idx = (flags&0xfc0)>>6;
 
 #ifndef NO_DEBUG_EXCEL
-	if (ms_excel_read_debug > 1) {
+	if (ms_excel_read_debug > 5) {
 		printf ("Name record : '%s', '%s', '%s', '%s', '%s'\n",
 			name ? name : "(null)",
 			menu_txt ? menu_txt : "(null)",
@@ -2634,8 +2653,16 @@ ms_excel_read_workbook (MsOle *file)
 				wb->gnum_wb = workbook_new ();
 				if (ver->version >= eBiffV8)
 					printf ("Excel 97 +\n");
-				else
-					printf ("Excel 95 or older\n");
+				else if (ver->version >= eBiffV7)
+					printf ("Excel 95\n");
+				else if (ver->version >= eBiffV5)
+					printf ("Excel 5.x\n");
+				else if (ver->version >= eBiffV4)
+					printf ("Excel 4.x\n");
+				else if (ver->version >= eBiffV3)
+					printf ("Excel 3.x\n");
+				else if (ver->version >= eBiffV2)
+					printf ("Excel 2.x\n");
 			} else if (ver->type == eBiffTWorksheet) {
 				BiffBoundsheetData *bsh;
 

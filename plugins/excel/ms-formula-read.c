@@ -802,7 +802,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 		if (ptg > FORMULA_PTG_MAX)
 			break ;
 #ifndef NO_DEBUG_EXCEL
-		if (ms_excel_formula_debug > 0) {
+		if (ms_excel_formula_debug > 5) {
 			printf ("Ptg : 0x%02x", ptg);
 			if (ptg != ptgbase)
 				printf ("(0x%02x)", ptgbase);
@@ -1041,19 +1041,20 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 
 			if (wb->ver >= eBiffV8) {
 				name_idx = BIFF_GET_GUINT16 (cur) - 1;
-				ptg_length = 4;  /* Docs are wrong (?) +2 */
+				ptg_length = 4;  /* Docs are wrong, no ixti */
 			} else {
 				name_idx = BIFF_GET_GUINT16 (cur) - 1;
-				ptg_length = 4;  /* Docs are wrong (?) */
+				ptg_length = 14;
 			}
 			if (name_idx < 0)
 				printf ("FIXME: how odd; negative name calling is bad!\n");
-#if FORMULA_DEBUG > 0
-			printf ("Name idx %d\n", name_idx);
-#endif
 			parse_list_push (&stack,
 					 biff_name_data_get_name (sheet,
 								  name_idx));
+#ifndef NO_DEBUG_EXCEL
+			if (ms_excel_formula_debug > 2)
+				printf ("Name idx %d\n", name_idx);
+#endif
 		}
 		break;
 
