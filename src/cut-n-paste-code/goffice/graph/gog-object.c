@@ -21,8 +21,9 @@
 
 #include <gnumeric-config.h>
 #include <goffice/graph/gog-object.h>
-#include <goffice/graph/gog-data-set.h>
 #include <goffice/graph/gog-graph-impl.h> /* for gog_graph_request_update */
+#include <goffice/graph/gog-data-set.h>
+#include <goffice/graph/go-data.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <src/gnumeric-i18n.h>
@@ -174,6 +175,69 @@ gog_object_generate_name (GogObject *obj)
 		}
 	}
 	return g_strdup_printf ("%s%d", type_name, max_index + 1);
+}
+
+/**
+ * gog_object_dup :
+ * @src : #GogObject
+ * @new_parent : #GogObject the parent tree for the object (can be NULL)
+ *
+ * Create a deep copy of @obj using @new_parent as its parent.
+ **/
+GogObject *
+gog_object_dup (GogObject const *src, GogObject *new_parent)
+{
+	gint	     n, last;
+	GParamSpec **props;
+	GogObject   *dst = NULL;
+	GSList      *ptr;
+	GValue	     val = { 0 };
+
+	if (src == NULL)
+		return NULL;
+
+	g_return_val_if_fail (GOG_OBJECT (src) != NULL, NULL);
+
+	if (src->role == NULL || src->explicitly_typed_role)
+		dst = g_object_new (G_OBJECT_TYPE (src), NULL);
+	if (new_parent)
+		dst = gog_object_add_by_role (new_parent, src->role, dst);
+
+	g_warning (G_OBJECT_TYPE_NAME (dst));
+	/* properties */
+	props = g_object_class_list_properties (G_OBJECT_GET_CLASS (src), &n);
+	while (n-- > 0)
+		if (props[n]->flags & GOG_PARAM_PERSISTENT) {
+			g_value_init (&val, props[n]->value_type);
+			g_object_get_property (G_OBJECT (src), props[n]->name, &val);
+			g_object_set_property (G_OBJECT (src), props[n]->name, &val);
+			g_value_unset (&val);
+		}
+
+	if (IS_GOG_DATASET (src)) {	/* convenience to save data */
+		GOData const *src_dat;
+		GogDataset const *src_set = GOG_DATASET (src);
+		GOData     *dst_dat;
+		GogDataset *dst_set = GOG_DATASET (dst);
+		char *str;
+
+		gog_dataset_dims (src_set, &n, &last);
+		for ( ; n <= last ; n++) {
+			src_dat = gog_dataset_get_dim (src_set, n);
+			if (src_dat == NULL)
+				continue;
+			str = go_data_as_str (src_dat);
+			dst_dat = g_object_new (G_OBJECT_TYPE (src_dat), NULL);
+			if (dst_dat != NULL && go_data_from_str (dst_dat, str))
+				gog_dataset_set_dim (dst_set, n, dst_dat, NULL);
+			g_free (str);
+		}
+	}
+
+	for (ptr = src->children; ptr != NULL ; ptr = ptr->next)
+		gog_object_dup (ptr->data, dst);
+
+	return dst;
 }
 
 /**

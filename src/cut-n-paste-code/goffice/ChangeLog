@@ -1,3 +1,28 @@
+2003-08-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.20
+
+2003-08-21  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-object-xml.c (gog_object_new_from_xml) : don't mark newly
+	  reconstituted objects as explititly typed unless they really were.
+	(gog_dataset_save) : patch leak.
+
+	* graph/gog-object.c (gog_object_dup) : new.
+
+2003-08-21  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-axis-prefs.glade : Remove the ticks menu.  I'll handle it
+	  via roles later.
+
+	* graph/gog-axis.c (gog_axis_editor) : we're only interested in the
+	  line characteristics.
+
+	* utils/go-units.h : fix arg names
+
+	* graph/gog-chart.c (gog_chart_class_init) : add padding_pts.
+	* graph/gog-graph.c (gog_graph_class_init) : typo.
+
 2003-08-19  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-renderer.c (gog_renderer_draw_rectangle) : handle outlines

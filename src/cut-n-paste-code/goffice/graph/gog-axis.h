@@ -34,8 +34,7 @@ typedef enum {
 typedef enum {
 	GOG_AXIS_TICK_LEVEL_NONE = 0,
 	GOG_AXIS_TICK_LEVEL_MAJOR,
-	GOG_AXIS_TICK_LEVEL_MINOR,
-	GOG_AXIS_TICK_LEVEL_MICRO
+	GOG_AXIS_TICK_LEVEL_MINOR
 } GogAxisTickLevel;
 
 #define GOG_AXIS_TYPE	(gog_axis_get_type ())

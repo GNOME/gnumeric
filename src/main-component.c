@@ -251,6 +251,7 @@ main (int argc, char *argv [])
 	init_init (argv[0]);
 
 	BONOBO_FACTORY_INIT ("gnumeric-component", VERSION, &argc, argv);
+        bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	gnm_common_init ();
 
 	return bonobo_generic_factory_main ("OAFIID:GNOME_Gnumeric_Factory",

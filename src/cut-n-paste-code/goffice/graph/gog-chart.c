@@ -27,6 +27,7 @@
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-renderer.h>
+#include <goffice/utils/go-units.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <src/gnumeric-i18n.h>
@@ -35,6 +36,7 @@
 
 enum {
 	CHART_PROP_0,
+	CHART_PROP_PADDING_PTS,
 	CHART_PROP_CARDINALITY_VALID
 };
 
@@ -67,11 +69,30 @@ gog_chart_finalize (GObject *obj)
 }
 
 static void
+gog_chart_set_property (GObject *obj, guint param_id,
+			GValue const *value, GParamSpec *pspec)
+{
+	GogChart *chart = GOG_CHART (obj);
+	switch (param_id) {
+	case CHART_PROP_PADDING_PTS :
+		chart->padding_pts = g_value_get_double (value);
+		gog_object_emit_changed (GOG_OBJECT (obj), TRUE);
+		break;
+
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 return; /* NOTE : RETURN */
+	}
+}
+
+static void
 gog_chart_get_property (GObject *obj, guint param_id,
 			GValue *value, GParamSpec *pspec)
 {
 	GogChart *chart = GOG_CHART (obj);
 	switch (param_id) {
+	case CHART_PROP_PADDING_PTS :
+		g_value_set_double (value, chart->padding_pts);
+		break;
 	case CHART_PROP_CARDINALITY_VALID:
 		g_value_set_boolean (value, chart->cardinality_valid);
 		break;
@@ -173,7 +194,13 @@ gog_chart_class_init (GogObjectClass *gog_klass)
 
 	chart_parent_klass = g_type_class_peek_parent (gog_klass);
 	gobject_klass->finalize = gog_chart_finalize;
+	gobject_klass->set_property = gog_chart_set_property;
 	gobject_klass->get_property = gog_chart_get_property;
+
+	g_object_class_install_property (gobject_klass, CHART_PROP_PADDING_PTS,
+		g_param_spec_double ("padding_pts", "Padding Pts",
+			"# of pts separating charts in the grid.",
+			0, G_MAXDOUBLE, 0, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, CHART_PROP_CARDINALITY_VALID,
 		g_param_spec_boolean ("cardinality-valid", "cardinality-valid",
 			"Is the charts cardinality currently vaid",
@@ -192,6 +219,8 @@ gog_chart_init (GogChart *chart)
 	chart->y     = 0;
 	chart->cols  = 0;
 	chart->rows  = 0;
+	chart->padding_pts = GO_CM_TO_PT (.5);
+
 	/* start as true so that we can queue an update when it changes */
 	chart->cardinality_valid = TRUE;
 	chart->axis_set = GOG_AXIS_SET_UNKNOWN;
@@ -434,6 +463,8 @@ gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *allocation
 	GogViewRequisition req;
 	double outline = gog_renderer_line_size (
 		view->renderer, chart->base.style->outline.width);
+	outline += gog_renderer_line_size (
+		view->renderer, chart->padding_pts);
 
 	res.x += outline;
 	res.y += outline;
@@ -483,9 +514,10 @@ gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *allocation
 					}
 				break;
 				case GOG_AXIS_Y:
-					/* Y axis take just the middle */
-					tmp.y = res.y + pre_y;
-					tmp.h = res.h - pre_y - post_y;
+					/* Y axis take just the previous middle,
+					 * if it changes we'll iterate back */
+					tmp.y = res.y + old_pre_y;
+					tmp.h = res.h - old_pre_y - old_post_y;
 					tmp.w = req.w;
 					switch (gog_axis_pos (axis)) {
 						case GOG_AXIS_AT_LOW:

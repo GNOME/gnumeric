@@ -32,6 +32,8 @@ G_BEGIN_DECLS
 struct _GogChart {
 	GogStyledObject	 base;
 
+	double	 padding_pts;
+
 	GSList  *plots;
 	unsigned cardinality;
 	gboolean cardinality_valid;

@@ -1,3 +1,7 @@
+2003-08-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.20
+
 2003-08-03  Jon K Hellan  <hellan@acm.org>
 
 	* gnome_glossary.py (po_file_save): Change from wb.get_sheets() to

@@ -15,7 +15,7 @@
   <child>
     <widget class="GtkTable" id="axis_pref_table">
       <property name="visible">True</property>
-      <property name="n_rows">7</property>
+      <property name="n_rows">6</property>
       <property name="n_columns">2</property>
       <property name="homogeneous">False</property>
       <property name="row_spacing">0</property>
@@ -140,97 +140,6 @@
 	  <property name="right_attach">1</property>
 	  <property name="top_attach">5</property>
 	  <property name="bottom_attach">6</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkLabel" id="label2">
-	  <property name="visible">True</property>
-	  <property name="label" translatable="yes">_Ticks:</property>
-	  <property name="use_underline">True</property>
-	  <property name="use_markup">False</property>
-	  <property name="justify">GTK_JUSTIFY_LEFT</property>
-	  <property name="wrap">False</property>
-	  <property name="selectable">False</property>
-	  <property name="xalign">1</property>
-	  <property name="yalign">0.5</property>
-	  <property name="xpad">0</property>
-	  <property name="ypad">0</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">0</property>
-	  <property name="right_attach">1</property>
-	  <property name="top_attach">6</property>
-	  <property name="bottom_attach">7</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkAlignment" id="alignment1">
-	  <property name="visible">True</property>
-	  <property name="xalign">0</property>
-	  <property name="yalign">0.5</property>
-	  <property name="xscale">0</property>
-	  <property name="yscale">1</property>
-
-	  <child>
-	    <widget class="GtkOptionMenu" id="optionmenu3">
-	      <property name="visible">True</property>
-	      <property name="can_focus">True</property>
-	      <property name="history">0</property>
-
-	      <child>
-		<widget class="GtkMenu" id="menu1">
-
-		  <child>
-		    <widget class="GtkMenuItem" id="axis_no_tick">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">None</property>
-		      <property name="use_underline">True</property>
-		      <signal name="activate" handler="axis_none_activate" last_modification_time="Mon, 18 Aug 2003 05:47:17 GMT"/>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkMenuItem" id="axis_major_tick">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Major</property>
-		      <property name="use_underline">True</property>
-		      <signal name="activate" handler="axis_major_activate" last_modification_time="Mon, 18 Aug 2003 05:47:17 GMT"/>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkMenuItem" id="axis_minor_tick">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Minor</property>
-		      <property name="use_underline">True</property>
-		      <signal name="activate" handler="axis_minor_activate" last_modification_time="Mon, 18 Aug 2003 05:47:17 GMT"/>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkMenuItem" id="axis_micro_tick">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Micro</property>
-		      <property name="use_underline">True</property>
-		      <signal name="activate" handler="axis_micro_activate" last_modification_time="Mon, 18 Aug 2003 05:47:17 GMT"/>
-		    </widget>
-		  </child>
-		</widget>
-	      </child>
-	    </widget>
-	  </child>
-	</widget>
-	<packing>
-	  <property name="left_attach">1</property>
-	  <property name="right_attach">2</property>
-	  <property name="top_attach">6</property>
-	  <property name="bottom_attach">7</property>
 	  <property name="x_options">fill</property>
 	  <property name="y_options"></property>
 	</packing>

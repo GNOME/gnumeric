@@ -79,7 +79,6 @@ init_init (char const* gnumeric_binary)
 	setvbuf (stdout, NULL, _IOLBF, 0);
 
 	bindtextdomain (GETTEXT_PACKAGE, GNUMERIC_LOCALEDIR);
-        bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
 
 	/* Force all of the locale segments to update from the environment.

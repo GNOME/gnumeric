@@ -275,6 +275,8 @@ gog_dataset_save (GogDataset *set, xmlNode *parent)
 		tmp = go_data_as_str (dat);
 		child = xmlNewChild (node, NULL,
 			(xmlChar const *) ("dimension"), tmp);
+		g_free (tmp);
+
 		snprintf (buffer, sizeof buffer, "%d", i);
 		xmlSetProp (child, (xmlChar const *) "id", buffer);
 		xmlSetProp (child, (xmlChar const *) "type",
@@ -325,6 +327,7 @@ gog_object_new_from_xml (GogObject *parent, xmlNode *node)
 	xmlChar   *role, *name, *val, *type_name;
 	xmlNode   *ptr;
 	GogObject *res = NULL;
+	gboolean explicitly_typed_role = FALSE;
 
 	type_name = xmlGetProp (node, (xmlChar const *) "type");
 	if (type_name != NULL) {
@@ -335,6 +338,7 @@ gog_object_new_from_xml (GogObject *parent, xmlNode *node)
 		} else
 			res = g_object_new (type, NULL);
 		xmlFree (type_name);
+		explicitly_typed_role = TRUE;
 	}
 	role = xmlGetProp (node, (xmlChar const *) "role");
 	if (role == NULL) {
@@ -343,6 +347,8 @@ gog_object_new_from_xml (GogObject *parent, xmlNode *node)
 		res = gog_object_add_by_name (parent, role, res);
 
 	g_return_val_if_fail (res != NULL, NULL);
+
+	res->explicitly_typed_role = explicitly_typed_role;
 
 	if (IS_GOG_PERSIST_DOM (res))
 		gog_persist_dom_load (GOG_PERSIST_DOM (res), node);

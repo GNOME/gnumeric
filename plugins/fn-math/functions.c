@@ -2751,9 +2751,10 @@ validate_range_numeric_matrix (EvalPos const *ep, Value * matrix,
 	if (matrix->type == VALUE_ARRAY)
 	    return FALSE;
 
-	if (matrix->v_range.cell.a.sheet !=
-	    matrix->v_range.cell.b.sheet) {
-		*err = GNM_ERROR_UNKNOWN;  /*XXXX_("#3D MULT?"); */
+	if (matrix->v_range.cell.a.sheet != matrix->v_range.cell.b.sheet &&
+	    matrix->v_range.cell.a.sheet != NULL &&
+	    matrix->v_range.cell.b.sheet != NULL) {
+		*err = GNM_ERROR_VALUE;
 		return TRUE;
 	}
 

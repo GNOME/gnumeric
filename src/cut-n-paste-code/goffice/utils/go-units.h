@@ -33,10 +33,10 @@ G_BEGIN_DECLS
 
 #define GO_IN_TO_PT(inch)	((inch)*PT_PER_IN)
 #define GO_IN_TO_CM(inch)	((inch)*CM_PER_IN)
-#define GO_CM_TO_PT(inch)	((inch)*PT_PER_CM)
-#define GO_CM_TO_IN(inch)	((inch)*IN_PER_CM)
-#define GO_PT_TO_CM(inch)	((inch)*CM_PER_PT)
-#define GO_PT_TO_IN(inch)	((inch)*IN_PER_PT)
+#define GO_CM_TO_PT(cm)		((cm)*PT_PER_CM)
+#define GO_CM_TO_IN(cm)		((cm)*IN_PER_CM)
+#define GO_PT_TO_CM(pt)		((pt)*CM_PER_PT)
+#define GO_PT_TO_IN(pt)		((pt)*IN_PER_PT)
 
 G_END_DECLS
 

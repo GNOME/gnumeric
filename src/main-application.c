@@ -138,6 +138,7 @@ main (int argc, char *argv [])
 	init_init (argv[0]);
 
 	ctx = gnumeric_arg_parse (argc, argv);
+        bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 
 	if (gnumeric_show_version) {
 		g_print (_("gnumeric version '%s'\ndatadir := '%s'\nlibdir := '%s'\n"),

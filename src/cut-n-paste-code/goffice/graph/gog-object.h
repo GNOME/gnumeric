@@ -108,6 +108,7 @@ typedef struct {
 
 GType gog_object_get_type (void);
 
+GogObject   *gog_object_dup		 (GogObject const *obj, GogObject *new_parent);
 GogObject   *gog_object_get_parent	 (GogObject const *obj);
 GogObject   *gog_object_get_parent_typed (GogObject const *obj, GType t);
 GogGraph    *gog_object_get_graph	 (GogObject const *obj);

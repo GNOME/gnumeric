@@ -38,13 +38,12 @@ unsigned  gog_graph_num_cols	  (GogGraph const *graph);
 unsigned  gog_graph_num_rows	  (GogGraph const *graph);
 
 /* convenience wrappers */
-void	  gog_graph_add_chart	  (GogGraph *graph, GogChart *chart);
-void	  gog_graph_remove_chart  (GogGraph *graph, GogChart *chart);
+GogGraph *gog_graph_dup	  	  (GogGraph const *graph);
 GogTheme *gog_graph_get_theme	  (GogGraph const *graph);
 void	  gog_graph_set_theme	  (GogGraph *graph, GogTheme *theme);
 
 /* data management */
-GSList *gog_graph_get_data   (GogGraph const *graph);
+GSList   *gog_graph_get_data	  (GogGraph const *graph);
 
 /* internal routines for use by series */
 GOData *gog_graph_ref_data   (GogGraph *graph, GOData *dat);

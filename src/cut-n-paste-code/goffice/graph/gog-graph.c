@@ -205,7 +205,7 @@ gog_graph_class_init (GogGraphClass *klass)
 
 	g_object_class_install_property (gobject_klass, GRAPH_PROP_PADDING_PTS,
 		g_param_spec_double ("padding_pts", "Padding Pts",
-			"# of pts seperating charts in the grid.",
+			"# of pts separating charts in the grid.",
 			0, G_MAXDOUBLE, 0, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GRAPH_PROP_THEME,
 		g_param_spec_object ("theme", "Theme",
@@ -324,6 +324,19 @@ gog_graph_num_rows (GogGraph const *graph)
 {
 	g_return_val_if_fail (GOG_GRAPH (graph) != NULL, 1);
 	return graph->num_rows;
+}
+
+/**
+ * gog_graph_dup :
+ * @graph : #GogGraph
+ *
+ * A convenience wrapper to make a deep copy of @graph.
+ **/
+GogGraph *
+gog_graph_dup (GogGraph const *graph)
+{
+	GogObject *res = gog_object_dup (GOG_OBJECT (graph), NULL);
+	return GOG_GRAPH (res);
 }
 
 GogTheme *

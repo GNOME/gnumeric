@@ -216,11 +216,15 @@ sheet_object_graph_clone (SheetObject const *so, Sheet *sheet)
 {
 	SheetObjectGraph *sog;
 	SheetObjectGraph *new_sog;
+	GogGraph *graph;
 
 	g_return_val_if_fail (IS_SHEET_OBJECT_GRAPH (so), NULL);
 	sog = SHEET_OBJECT_GRAPH (so);
 
 	new_sog = g_object_new (G_OBJECT_TYPE (so), NULL);
+	graph = gog_graph_dup (sog->graph);
+	sheet_object_graph_set_gog (new_sog, graph);
+	g_object_unref (graph);
 
 	return SHEET_OBJECT (new_sog);
 }

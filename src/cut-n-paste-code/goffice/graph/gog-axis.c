@@ -66,7 +66,9 @@ static GObjectClass *parent_klass;
 
 enum {
 	AXIS_PROP_0,
-	AXIS_PROP_TYPE
+	AXIS_PROP_TYPE,
+	AXIS_PROP_POS,
+	AXIS_PROP_POS_STR
 };
 
 static void
@@ -79,9 +81,27 @@ gog_axis_set_property (GObject *obj, guint param_id,
 	case AXIS_PROP_TYPE:
 		axis->type = g_value_get_int (value);
 		break;
+	case AXIS_PROP_POS:
+		axis->pos = g_value_get_int (value);
+		break;
+	case AXIS_PROP_POS_STR: {
+		char const *str = g_value_get_string (value);
+		if (str == NULL)
+			return;
+		else if (!g_ascii_strcasecmp (str, "low"))
+			axis->pos = GOG_AXIS_AT_LOW;
+		else if (!g_ascii_strcasecmp (str, "middle"))
+			axis->pos = GOG_AXIS_IN_MIDDLE;
+		else if (!g_ascii_strcasecmp (str, "high"))
+			axis->pos = GOG_AXIS_AT_HIGH;
+		else
+			return;
+		break;
+	}
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
 	}
+	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
 }
 
 static void
@@ -93,6 +113,22 @@ gog_axis_get_property (GObject *obj, guint param_id,
 	switch (param_id) {
 	case AXIS_PROP_TYPE:
 		g_value_set_int (value, axis->type);
+		break;
+	case AXIS_PROP_POS:
+		g_value_set_int (value, axis->pos);
+		break;
+	case AXIS_PROP_POS_STR:
+		switch (axis->pos) {
+		case GOG_AXIS_AT_LOW:
+			g_value_set_static_string (value, "low");
+			break;
+		case GOG_AXIS_IN_MIDDLE:
+			g_value_set_static_string (value, "middle");
+			break;
+		case GOG_AXIS_AT_HIGH:
+			g_value_set_static_string (value, "high");
+			break;
+		}
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
@@ -138,6 +174,14 @@ make_dim_editor (GtkTable *table, unsigned row, char const *name, GtkWidget *edi
 		1, 2, row, row+1, GTK_FILL | GTK_EXPAND, 0, 5, 3);
 }
 
+static void
+cb_pos_changed (GtkToggleButton *toggle_button, GObject *axis)
+{
+	g_object_set (axis,
+		"pos_str", gtk_toggle_button_get_active (toggle_button) ? "low" : "high",
+		NULL);
+}
+
 static gpointer
 gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, CommandContext *cc)
 {
@@ -173,9 +217,13 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, CommandContext *cc)
 		glade_xml_get_widget (gui, "axis_pref_table"),
 		gtk_label_new (_("Details")));
 	gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook),
-		gog_style_editor (gobj, cc, GOG_STYLE_LINE | GOG_STYLE_MARKER),
+		gog_style_editor (gobj, cc, GOG_STYLE_LINE),
 		gtk_label_new (_("Style")));
 
+	w = glade_xml_get_widget (gui, "axis_low"),
+	g_signal_connect_object (G_OBJECT (w),
+		"toggled",
+		G_CALLBACK (cb_pos_changed), axis, 0);
 	gtk_widget_show (GTK_WIDGET (notebook));
 	return notebook;
 }
@@ -199,6 +247,14 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 		g_param_spec_int ("type", "Type",
 			"GogAxisType",
 			GOG_AXIS_X, GOG_AXIS_TYPES, GOG_AXIS_TYPES, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_klass, AXIS_PROP_POS,
+		g_param_spec_int ("pos", "pos",
+			"GogAxisPosition",
+			GOG_AXIS_AT_LOW, GOG_AXIS_AT_HIGH, GOG_AXIS_AT_LOW, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_klass, AXIS_PROP_POS_STR,
+		g_param_spec_string ("pos_str", "pos_str",
+			"Where to position an axis low, high, or crossing",
+			"low", G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 	gog_klass->update	= gog_axis_update;

@@ -948,6 +948,7 @@ sheet_object_clone (SheetObject const *so, Sheet *sheet)
 	new_so->type = so->type;
 	sheet_object_anchor_cpy (&new_so->anchor, &so->anchor);
 	sheet_object_set_sheet (new_so, sheet);
+	g_object_unref (new_so);
 
 	return new_so;
 }
