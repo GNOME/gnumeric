@@ -766,7 +766,7 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 	for (l = gnumeric_font_family_list; l; l = l->next) {
 		if (l->data) {	/* Don't include empty fonts in list. */
 			int tmp = gnm_measure_string (
-				gtk_widget_get_pango_context (entry),
+				gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
 				entry->style->font_desc,
 				l->data);
 			if (tmp > len)
@@ -791,7 +791,7 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 	}
 	gtk_widget_set_size_request (entry,
 				     gnm_measure_string (
-					     gtk_widget_get_pango_context (entry),
+					     gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
 					     entry->style->font_desc,
 					     "888"),
 				     -1);

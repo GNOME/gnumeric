@@ -1,5 +1,14 @@
 2003-05-21  Morten Welinder  <terra@gnome.org>
 
+	* src/style-border.h (struct _StyleBorder): Add gc_screen field to
+	track the screen that gc belongs to.
+
+	* src/style-border.c (style_border_get_gc): Manage gc_screen.
+	(style_border_unref): Ditto.
+
+	* src/workbook-control-gui.c (workbook_create_standard_toolbar):
+	Get pango context from toplevel widget.
+
 	* src/preview-grid.c (preview_grid_draw): Get pango context from
 	widget and pass it to pg_construct_cell.
 	(pg_construct_cell): Remove bogus context construction from here.

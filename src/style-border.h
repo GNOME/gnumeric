@@ -56,8 +56,9 @@ struct _StyleBorder {
 	int		 begin_margin, end_margin, width;
 
 	/* Private */
-	GdkGC	*gc;
-	gint	ref_count;
+	GdkGC	        *gc;
+	GdkScreen       *gc_screen;
+	gint	        ref_count;
 };
 
 void	      style_border_unref (StyleBorder *border);

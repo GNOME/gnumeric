@@ -1,3 +1,8 @@
+2003-05-21  Morten Welinder  <terra@gnome.org>
+
+	* dialog-printer-setup.c (unit_editor_configure): Get pango
+	context from toplevel widget.
+
 2003-05-20  Morten Welinder  <terra@gnome.org>
 
 	* dialog-cell-format.c (cb_rotate_canvas_realize): Plug "white"

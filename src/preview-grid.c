@@ -459,7 +459,8 @@ preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 	gint width  = expose->area.width;
 	gint height = expose->area.height;
  	PreviewGrid *pg = PREVIEW_GRID (item);
-	PangoContext *context = gtk_widget_get_pango_context (GTK_WIDGET (item->canvas));
+	PangoContext *context = gtk_widget_get_pango_context
+		(gtk_widget_get_toplevel (GTK_WIDGET (item->canvas)));
 
  	/* To ensure that far and near borders get drawn we pretend to draw +-2
  	 * pixels around the target area which would include the surrounding

@@ -614,7 +614,7 @@ unit_editor_configure (UnitInfo *target, PrinterSetupState *state,
 	gtk_spin_button_configure (spin, target->adj, 1, 1);
 	gtk_widget_ensure_style (GTK_WIDGET (spin));
 	len = gnm_measure_string (
-		gtk_widget_get_pango_context (GTK_WIDGET (spin)),
+		gtk_widget_get_pango_context (gtk_widget_get_toplevel (GTK_WIDGET (spin))),
 		GTK_WIDGET (spin)->style->font_desc,
 		"123.45XXX");
 	gtk_widget_set_size_request (GTK_WIDGET (spin), len, -1);

@@ -240,6 +240,7 @@ style_border_fetch (StyleBorderType const	 line_type,
 	g_hash_table_insert (border_hash, border, border);
 	border->ref_count = 1;
 	border->gc = NULL;
+	border->gc_screen = NULL;
 	border->width = style_border_get_width (line_type);
 	if (border->line_type == STYLE_BORDER_DOUBLE) {
 		border->begin_margin = 1;
@@ -323,13 +324,19 @@ style_border_set_gc_dash (GdkGC *gc, StyleBorderType const i)
 }
 
 static inline GdkGC *
-style_border_get_gc (StyleBorder const *border, GdkWindow *window)
+style_border_get_gc (StyleBorder const *border, GdkDrawable *drawable)
 {
+	GdkScreen *this_screen;
 	if (border == NULL)
 		return NULL;
 
-	if (border->gc == NULL) {
-		((StyleBorder *)border)->gc = gdk_gc_new (window);
+	this_screen = gdk_drawable_get_screen (drawable);
+	if (border->gc_screen != this_screen) {
+		if (border->gc)
+			g_object_unref (G_OBJECT (border->gc));
+		((StyleBorder *)border)->gc = gdk_gc_new (GDK_WINDOW (drawable));
+		((StyleBorder *)border)->gc_screen = this_screen;
+		g_object_ref (this_screen);
 		style_border_set_gc_dash (border->gc, border->line_type);
 		gdk_gc_set_rgb_fg_color (border->gc, &border->color->color);
 		/* g_print ("C\n"); */
@@ -422,6 +429,11 @@ style_border_unref (StyleBorder *border)
 	if (border->gc) {
 		g_object_unref (G_OBJECT (border->gc));
 		border->gc = NULL;
+	}
+
+	if (border->gc_screen) {
+		g_object_unref (G_OBJECT (border->gc_screen));
+		border->gc_screen = NULL;
 	}
 
 	g_free (border);

@@ -4106,7 +4106,7 @@ workbook_create_standard_toolbar (WorkbookControlGUI *wbcg)
 
 	/* Set a reasonable default width */
 	len = gnm_measure_string (
-		gtk_widget_get_pango_context (entry),
+		gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
 		entry->style->font_desc,
 		"%10000");
 	gtk_widget_set_size_request (entry, len, -1);
@@ -4301,7 +4301,7 @@ workbook_setup_edit_area (WorkbookControlGUI *wbcg)
 
 	/* Set a reasonable width for the selection box. */
 	len = gnm_measure_string (
-		gtk_widget_get_pango_context (GTK_WIDGET (entry)),
+		gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
 		GTK_WIDGET (entry)->style->font_desc,
 		cell_coord_name (SHEET_MAX_COLS - 1, SHEET_MAX_ROWS - 1));
 	/*
@@ -4725,7 +4725,7 @@ workbook_setup_auto_calc (WorkbookControlGUI *wbcg)
 	GTK_WIDGET_UNSET_FLAGS (tmp, GTK_CAN_FOCUS);
 	gtk_widget_ensure_style (tmp);
 	gtk_widget_set_size_request (tmp, gnm_measure_string (
-					     gtk_widget_get_pango_context (tmp),
+					     gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
 					     tmp->style->font_desc,
 					     "W") * 15, -1);
 	g_signal_connect (G_OBJECT (tmp),
@@ -4738,7 +4738,7 @@ workbook_setup_auto_calc (WorkbookControlGUI *wbcg)
 	wbcg->status_text = tmp = gtk_label_new ("");
 	gtk_widget_ensure_style (tmp);
 	gtk_widget_set_size_request (tmp, gnm_measure_string (
-					     gtk_widget_get_pango_context (tmp),
+					     gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
 					     tmp->style->font_desc,
 					     "W") * 15, -1);
 	frame2 = gtk_frame_new (NULL);
