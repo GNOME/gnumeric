@@ -189,7 +189,13 @@ formula_guru_set_rolled_state (FormulaGuruState *state, gboolean is_rolled)
 {
 	GtkEntry *new_entry;
 
-	g_return_if_fail (state->cur_arg != NULL);
+	if (state->cur_arg == NULL) {
+		gtk_widget_hide	(state->rolled_box);
+		gtk_widget_show	(state->unrolled_box);
+		gtk_widget_hide (state->rolldown_button);
+		gtk_widget_hide (state->rollup_button);
+		return;
+	}
 
 	state->is_rolled = is_rolled;
 	if (is_rolled) {

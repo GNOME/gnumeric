@@ -1,5 +1,8 @@
 2000-07-04  Jody Goldberg <jgoldberg@home.com>
 
+	* dialog-function-wizard.c (formula_guru_set_rolled_state) : Functions
+	  with no args can not be rolled.
+
 	* names.glade : Use GtkDialog rather than GnomeDialog
 	* dialog-define-names.c (name_guru_init) : Use
 	  gnumeric_non_modal_dialog now that we are using GtkDialog rather
