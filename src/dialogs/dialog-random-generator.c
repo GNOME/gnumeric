@@ -21,8 +21,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
-#undef GTK_DISABLE_DEPRECATED
-#warning "This file uses GTK_DISABLE_DEPRECATED for GtkCombo"
 
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
@@ -55,6 +53,9 @@
 #include <glade/glade.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtktable.h>
+#include <gtk/gtkcombobox.h>
+#include <gtk/gtkcelllayout.h>
+#include <gtk/gtkcellrenderertext.h>
 #include <string.h>
 
 
@@ -203,16 +204,7 @@ distribution_strs_find (random_distribution_t dist)
 static random_distribution_t
 combo_get_distribution (GtkWidget *combo)
 {
-        char const *text;
-	int i;
-
-        text = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (combo)->entry));
-
-	for (i = 0; distribution_strs[i].name != NULL; i++)
-		if (strcmp (text, _(distribution_strs[i].name)) == 0)
-			return distribution_strs[i].dist;
-
-	return UniformDistribution;
+	return distribution_strs[gtk_combo_box_get_active (GTK_COMBO_BOX (combo))].dist;
 }
 
 /**
@@ -723,8 +715,11 @@ dialog_random_tool_init (RandomToolState *state)
 {
 	int   i, dist_str_no;
 	const DistributionStrs *ds;
-	GList *distribution_type_strs = NULL;
+/*	GList *distribution_type_strs = NULL;*/
 	GtkTable *table;
+	GtkListStore *store;
+	GtkTreeIter iter;
+	GtkCellRenderer *renderer;
 	GnmRange const *first;
 
 	state->distribution = UniformDistribution;
@@ -741,29 +736,33 @@ dialog_random_tool_init (RandomToolState *state)
 	state->count_entry = glade_xml_get_widget (state->base.gui, "count_entry");
 	int_to_entry (GTK_ENTRY (state->count_entry), 1);
 
+	renderer = (GtkCellRenderer*) gtk_cell_renderer_text_new();
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (state->distribution_combo), renderer, TRUE);
+    gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (state->distribution_combo), renderer,
+                                        "text", 0,
+                                        NULL);
+	store = gtk_list_store_new (1, G_TYPE_STRING);
+	gtk_combo_box_set_model (GTK_COMBO_BOX (state->distribution_combo),
+			GTK_TREE_MODEL (store));
 	for (i = 0, dist_str_no = 0; distribution_strs[i].name != NULL; i++) {
-		distribution_type_strs
-			= g_list_append (distribution_type_strs,
-					 (gpointer) _(distribution_strs[i].name));
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (store, &iter,
+					0, _(distribution_strs[i].name),
+					-1);
 		if (distribution_strs[i].dist == state->distribution)
 			dist_str_no = i;
 	}
-	gtk_combo_set_popdown_strings (GTK_COMBO (state->distribution_combo),
-				       distribution_type_strs);
-	g_list_free (distribution_type_strs);
-	distribution_type_strs = NULL;
-
-	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (state->distribution_combo)->entry),
-			   _(distribution_strs[dist_str_no].name));
+	gtk_combo_box_set_active (GTK_COMBO_BOX (state->distribution_combo),
+				       dist_str_no);
 
 	ds = distribution_strs_find (UniformDistribution);
 	gtk_label_set_text_with_mnemonic (GTK_LABEL (state->par1_label),
 					  _(ds->label1));
 
-  	g_signal_connect (G_OBJECT (GTK_COMBO (state->distribution_combo)->entry),
+ 	g_signal_connect (state->distribution_combo,
 		"changed",
 		G_CALLBACK (distribution_callback), state);
-  	g_signal_connect (G_OBJECT (GTK_COMBO (state->distribution_combo)->entry),
+   	g_signal_connect (state->distribution_combo,
 		"changed",
 		G_CALLBACK (random_tool_update_sensitivity_cb), state);
 

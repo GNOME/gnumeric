@@ -1,3 +1,19 @@
+2004-05-22  Jean Brefort  <jean.brefort@ac-dijon.fr>
+	* dialog-printer-setup.c: (do_setup_page_info), (do_setup_page): replaced Gtk deprecated stuff.
+	* dialog-random-generator.c: (combo_get_distribution),
+	(dialog_random_tool_init): ditto.
+	* dialog-solver.c: (dialog_set_sec_button_sensitivity),
+	(constraint_select_click), (cb_dialog_delete_clicked),
+	(constraint_fill_row), (cb_dialog_add_clicked),
+	(cb_dialog_change_clicked), (cb_dialog_set_rhs_sensitivity),
+	(cb_dialog_model_type_clicked), (dialog_destroy),
+	(check_int_constraints), (convert_constraint_format),
+	(revert_constraint_format), (cb_dialog_solve_clicked),
+	(dialog_init): ditto.
+	* print.glade: ditto.
+	* random-generation.glade: ditto.
+	* solver.glade: ditto.
+
 2004-05-21  Jody Goldberg <jody@gnome.org>
 
 	* dialog-sheet-order.c : GtkCellRendererText uses GdkColor the

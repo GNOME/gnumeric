@@ -22,8 +22,6 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#undef GTK_DISABLE_DEPRECATED
-#warning "This file uses GTK_DISABLE_DEPRECATED"
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
 #include <gnumeric.h>
@@ -45,7 +43,10 @@
 #include <widgets/gnumeric-expr-entry.h>
 
 #include <glade/glade.h>
-#include <gtk/gtkoptionmenu.h>
+#include <gtk/gtkcombobox.h>
+#include <gtk/gtkcelllayout.h>
+#include <gtk/gtkcellrenderertext.h>
+#include <gtk/gtktreeselection.h>
 #include <gtk/gtkclist.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkspinbutton.h>
@@ -54,6 +55,12 @@
 #include <scenarios.h>
 
 #define SOLVER_KEY            "solver-dialog"
+
+typedef struct {
+	GnmValue                *lhs_value;
+	GnmValue                *rhs_value;
+	SolverConstraintType type;
+} constraint_t;
 
 typedef struct {
 	GladeXML            *gui;
@@ -72,10 +79,10 @@ typedef struct {
 	GtkWidget           *scenario_name_entry;
 	GnmExprEntry	    *lhs_entry;
 	GnmExprEntry	    *rhs_entry;
-	GtkOptionMenu       *type_combo;
-	GtkCombo            *algorithm_combo;
-	GtkCList            *constraint_list;
-	gint                selected_row;
+	GtkComboBox       *type_combo;
+	GtkComboBox       *algorithm_combo;
+	GtkTreeView            *constraint_list;
+	constraint_t              *constr;
 	gnm_float          ov_target;
 	GSList              *ov;
 	GSList              *ov_stack;
@@ -104,17 +111,10 @@ static algorithm_def_t algorithm_defs [] = {
 };
 
 typedef struct {
-	GtkCList *c_listing;
+	GtkTreeView *c_listing;
 	GSList   *c_list;
 	Sheet    *sheet;
 } constraint_conversion_t;
-
-
-typedef struct {
-	GnmValue                *lhs_value;
-	GnmValue                *rhs_value;
-	SolverConstraintType type;
-} constraint_t;
 
 static const char *problem_type_group[] = {
 	"min_button",
@@ -189,12 +189,12 @@ dialog_set_sec_button_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
 	gboolean ready;
 	gboolean select_ready;
 
-	select_ready = (state->selected_row > -1);
+	select_ready = (state->constr != NULL);
 	ready = gnm_expr_entry_is_cell_ref (state->lhs_entry, state->sheet,
 					    TRUE) &&
-		((gtk_option_menu_get_history (state->type_combo)
+		((gtk_combo_box_get_active (state->type_combo)
 		  == SolverINT)
-		 || (gtk_option_menu_get_history (state->type_combo)
+		 || (gtk_combo_box_get_active (state->type_combo)
 		     == SolverBOOL)
 		 || (is_hom_row_or_col_ref (state->lhs_entry, state->rhs_entry,
 					    state->sheet)));
@@ -215,54 +215,33 @@ dialog_set_sec_button_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
  **/
 
 static void
-constraint_select_click (G_GNUC_UNUSED GtkWidget      *clist,
-			 gint           row,
-			 G_GNUC_UNUSED gint           column,
-			 G_GNUC_UNUSED GdkEventButton *event,
+constraint_select_click (GtkTreeSelection *Selection,
 			 SolverState    *state)
 {
-	constraint_t const *constr =
-		gtk_clist_get_row_data (state->constraint_list, row);
+	GtkTreeModel *store;
+	GtkTreeIter iter;
 	GnmRange range;
 
-        state->selected_row = row;
+	if (gtk_tree_selection_get_selected (Selection, &store, &iter))
+		gtk_tree_model_get (store, &iter, 1, &state->constr, -1);
+	else
+		state->constr = NULL;
 	dialog_set_sec_button_sensitivity (NULL, state);
 
-	if (constr == NULL)
+	if (state->constr == NULL)
 		return; /* Fail? */
 
-	range_init_value (&range, constr->lhs_value);
+	range_init_value (&range, state->constr->lhs_value);
 	gnm_expr_entry_load_from_range (state->lhs_entry, state->sheet,&range);
 
-	if (constr->type != SolverINT && constr->type != SolverBOOL) {
-		range_init_value (&range, constr->rhs_value);
+	if (state->constr->type != SolverINT && state->constr->type != SolverBOOL) {
+		range_init_value (&range, state->constr->rhs_value);
 		gnm_expr_entry_load_from_range (state->rhs_entry,
 						state->sheet, &range);
 	} else
 		gnm_expr_entry_load_from_text (state->rhs_entry, "");
 
-	gtk_option_menu_set_history (state->type_combo, constr->type);
-}
-
-/**
- * constraint_unselect_click:
- * @clist:
- * @row:
- * @column:
- * @event:
- * state:
- *
- **/
-
-static void
-constraint_unselect_click (G_GNUC_UNUSED GtkWidget      *clist,
-			   G_GNUC_UNUSED gint           row,
-			   G_GNUC_UNUSED gint           column,
-			   G_GNUC_UNUSED GdkEventButton *event,
-			   SolverState *state)
-{
-        state->selected_row = -1;
-	dialog_set_sec_button_sensitivity (NULL, state);
+	gtk_combo_box_set_active (state->type_combo, state->constr->type);
 }
 
 /**
@@ -293,7 +272,62 @@ release_constraint (constraint_t * data)
 static void
 cb_dialog_delete_clicked (G_GNUC_UNUSED GtkWidget *button, SolverState *state)
 {
-	gtk_clist_remove (state->constraint_list, state->selected_row);
+	GtkTreeIter iter;
+	GtkListStore *store;
+	if (state->constr != NULL) {
+		release_constraint (state->constr);
+		state->constr = NULL;
+	} else
+		return;
+	gtk_tree_selection_get_selected (
+		gtk_tree_view_get_selection (state->constraint_list),
+		(GtkTreeModel**) &store, &iter);
+	gtk_list_store_remove (store, &iter);
+}
+
+static  constraint_t*
+constraint_fill_row (SolverState *state, GtkListStore *store, GtkTreeIter *iter)
+{
+	char         *text;
+	constraint_t *the_constraint = g_new (constraint_t, 1);
+
+	the_constraint->lhs_value = gnm_expr_entry_parse_as_value
+		(state->lhs_entry, state->sheet);
+	the_constraint->type = gtk_combo_box_get_active
+		(state->type_combo);
+	if ((the_constraint->type != SolverINT) &&
+	    (the_constraint->type != SolverBOOL)) {
+		the_constraint->rhs_value = gnm_expr_entry_parse_as_value
+			(state->rhs_entry, state->sheet);
+
+/* FIXME: We are dropping cross sheet references!! */
+		text = write_constraint_str
+			(the_constraint->lhs_value->v_range.cell.a.col,
+			 the_constraint->lhs_value->v_range.cell.a.row,
+			 the_constraint->rhs_value->v_range.cell.a.col,
+			 the_constraint->rhs_value->v_range.cell.a.row,
+			 the_constraint->type,
+			 the_constraint->lhs_value->v_range.cell.b.col -
+			 the_constraint->lhs_value->v_range.cell.a.col + 1,
+			 the_constraint->lhs_value->v_range.cell.b.row -
+			 the_constraint->lhs_value->v_range.cell.a.row + 1);
+	} else {
+		the_constraint->rhs_value = NULL;
+/* FIXME: We are dropping cross sheet references!! */
+		text = write_constraint_str
+			(the_constraint->lhs_value->v_range.cell.a.col,
+			 the_constraint->lhs_value->v_range.cell.a.row,
+			 0, 0,
+			 the_constraint->type,
+			 the_constraint->lhs_value->v_range.cell.b.col -
+			 the_constraint->lhs_value->v_range.cell.a.col + 1,
+			 the_constraint->lhs_value->v_range.cell.b.row -
+			 the_constraint->lhs_value->v_range.cell.a.row + 1);
+	}
+	gtk_list_store_set (store, iter, 0, text, 1, the_constraint, -1);
+	g_free (text);
+	gtk_tree_selection_select_iter (gtk_tree_view_get_selection (state->constraint_list), iter);
+	return the_constraint;
 }
 
 /**
@@ -307,50 +341,12 @@ static void
 cb_dialog_add_clicked (G_GNUC_UNUSED GtkWidget *button,
 		       SolverState *state)
 {
-	gint         selection;
-	char         *texts[2] = {NULL, NULL};
-	constraint_t *the_constraint = g_new (constraint_t, 1);
+	GtkListStore *store;
+	GtkTreeIter iter;
 
-	the_constraint->lhs_value = gnm_expr_entry_parse_as_value
-		(state->lhs_entry, state->sheet);
-	the_constraint->type = gtk_option_menu_get_history
-		(state->type_combo);
-	if ((the_constraint->type != SolverINT) &&
-	    (the_constraint->type != SolverBOOL)) {
-		the_constraint->rhs_value = gnm_expr_entry_parse_as_value
-			(state->rhs_entry, state->sheet);
-
-/* FIXME: We are dropping cross sheet references!! */
-		texts[0] = write_constraint_str
-			(the_constraint->lhs_value->v_range.cell.a.col,
-			 the_constraint->lhs_value->v_range.cell.a.row,
-			 the_constraint->rhs_value->v_range.cell.a.col,
-			 the_constraint->rhs_value->v_range.cell.a.row,
-			 the_constraint->type,
-			 the_constraint->lhs_value->v_range.cell.b.col -
-			 the_constraint->lhs_value->v_range.cell.a.col + 1,
-			 the_constraint->lhs_value->v_range.cell.b.row -
-			 the_constraint->lhs_value->v_range.cell.a.row + 1);
-	} else {
-		the_constraint->rhs_value = NULL;
-/* FIXME: We are dropping cross sheet references!! */
-		texts[0] = write_constraint_str
-			(the_constraint->lhs_value->v_range.cell.a.col,
-			 the_constraint->lhs_value->v_range.cell.a.row,
-			 0, 0,
-			 the_constraint->type,
-			 the_constraint->lhs_value->v_range.cell.b.col -
-			 the_constraint->lhs_value->v_range.cell.a.col + 1,
-			 the_constraint->lhs_value->v_range.cell.b.row -
-			 the_constraint->lhs_value->v_range.cell.a.row + 1);
-	}
-	selection = gtk_clist_insert (state->constraint_list,
-				      state->selected_row + 1, texts);
-	gtk_clist_set_row_data_full (state->constraint_list, selection,
-				     the_constraint,
-				    (GtkDestroyNotify) release_constraint);
-	g_free (texts[0]);
-	gtk_clist_select_row (state->constraint_list, selection, 0 );
+	store = GTK_LIST_STORE (gtk_tree_view_get_model (state->constraint_list));
+	gtk_list_store_append (store, &iter);
+	constraint_fill_row (state, store, &iter);
 }
 
 /**
@@ -363,14 +359,17 @@ cb_dialog_add_clicked (G_GNUC_UNUSED GtkWidget *button,
 static void
 cb_dialog_change_clicked (GtkWidget *button, SolverState *state)
 {
-	gint old_selection = state->selected_row;
-
-	gtk_clist_freeze (state->constraint_list);
-	gtk_clist_remove (state->constraint_list, old_selection);
-	state->selected_row = old_selection - 1;
-      	cb_dialog_add_clicked (button, state);
-	gtk_clist_select_row (state->constraint_list, old_selection, 0 );
-	gtk_clist_thaw (state->constraint_list);
+	GtkTreeIter iter;
+	GtkListStore *store;
+	if (state->constr != NULL) {
+		release_constraint (state->constr);
+		state->constr = NULL;
+	} else
+		return;
+	gtk_tree_selection_get_selected (
+		gtk_tree_view_get_selection (state->constraint_list),
+		(GtkTreeModel**) &store, &iter);
+	state->constr = constraint_fill_row (state, store, &iter);
 }
 
 /**
@@ -407,9 +406,9 @@ cb_dialog_set_rhs_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
 /* FIXME: We would like to disable the rhs when appropriate. */
 /* Unfortunately this confuses the widget:                   */
 
-	if ((gtk_option_menu_get_history (state->type_combo)
+	if ((gtk_combo_box_get_active (state->type_combo)
 		  == SolverINT)
-		 || (gtk_option_menu_get_history (state->type_combo)
+		 || (gtk_combo_box_get_active (state->type_combo)
 		     == SolverBOOL)) {
 		gtk_widget_set_sensitive (GTK_WIDGET (state->rhs_entry), FALSE);
 	} else {
@@ -429,18 +428,21 @@ cb_dialog_model_type_clicked (G_GNUC_UNUSED GtkWidget *button,
 			      SolverState *state)
 {
 	SolverModelType type;
+	GtkListStore *store;
+	GtkTreeIter iter;
+	GList *l = NULL;
 
 	type = gnumeric_glade_group_value (state->gui, model_type_group);
+	store = gtk_list_store_new (1, G_TYPE_STRING);
+	gtk_combo_box_set_model (state->algorithm_combo, GTK_TREE_MODEL (store));
 	switch (type) {
 	case SolverLPModel:
-		gtk_combo_set_popdown_strings
-			(GTK_COMBO (state->algorithm_combo), lp_alg_name_list);
+		l = lp_alg_name_list;
 		gtk_widget_set_sensitive (GTK_WIDGET (state->solve_button),
 					  TRUE);
 		break;
 	case SolverQPModel:
-		gtk_combo_set_popdown_strings
-			(GTK_COMBO (state->algorithm_combo), qp_alg_name_list);
+		l = qp_alg_name_list;
 		gtk_widget_set_sensitive (GTK_WIDGET (state->solve_button),
 					  FALSE);
 		gnumeric_notice_nonmodal ((GtkWindow *) state->dialog,
@@ -454,6 +456,14 @@ cb_dialog_model_type_clicked (G_GNUC_UNUSED GtkWidget *button,
 	default:
 		break;
 	}
+	while (l) {
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (store, &iter,
+					0, l->data,
+					-1);
+		l = l->next;
+	}
+	gtk_combo_box_set_active (state->algorithm_combo ,0);
 }
 
 /**
@@ -483,6 +493,10 @@ free_original_values (GSList *ov, G_GNUC_UNUSED gpointer user_data)
 static gboolean
 dialog_destroy (GtkObject *w, SolverState  *state)
 {
+	GtkTreeIter iter;
+	GtkTreeModel *store;
+	void* p;
+
 	g_return_val_if_fail (w != NULL, FALSE);
 	g_return_val_if_fail (state != NULL, FALSE);
 
@@ -514,6 +528,14 @@ dialog_destroy (GtkObject *w, SolverState  *state)
 	wbcg_edit_finish (state->wbcg, FALSE, NULL);
 
 	state->dialog = NULL;
+
+	/*Free the constraint_t associated with the list */
+	store = gtk_tree_view_get_model (state->constraint_list);
+	if (gtk_tree_model_get_iter_first (store, &iter))
+		do {
+			gtk_tree_model_get (store, &iter, 1, &p, -1);
+			release_constraint (p);
+		} while (gtk_tree_model_iter_next (store, &iter));
 
 	g_free (state);
 
@@ -608,24 +630,28 @@ grab_cells (Sheet *sheet, int col, int row, GnmCell *cell, void *user_data)
  *  @cell:
  *  @data: pointer to a data_set_t
  */
-static gint
-check_int_constraints (GnmValue *input_range, GtkCList *constraint_list)
+static gchar const *
+check_int_constraints (GnmValue *input_range, GtkTreeView *constraint_list)
 {
-	gint i;
+	GtkTreeModel *store;
+	GtkTreeIter iter;
+	const constraint_t *a_constraint;
+	const gchar *text;
 
-	for (i = 0; ; i++) {
-		const constraint_t *a_constraint = gtk_clist_get_row_data
-			(constraint_list, i);
-		if (a_constraint == NULL)
-			break;
-		if ((a_constraint->type != SolverINT) &&
-		    (a_constraint->type != SolverBOOL))
-			continue;
-		if (!global_range_contained (a_constraint->lhs_value,
-					     input_range))
-			return i;
-	}
-	return -1;
+	store = gtk_tree_view_get_model (constraint_list);
+	if (gtk_tree_model_get_iter_first (store, &iter))
+		do {
+			gtk_tree_model_get (store, &iter, 0, &text, 1, &a_constraint, -1);
+			if (a_constraint == NULL)
+				break;
+			if ((a_constraint->type != SolverINT) &&
+				(a_constraint->type != SolverBOOL))
+				continue;
+			if (!global_range_contained (a_constraint->lhs_value,
+							 input_range))
+				return text;
+		} while (gtk_tree_model_iter_next (store, &iter));
+	return NULL;
 }
 
 /*
@@ -638,45 +664,48 @@ check_int_constraints (GnmValue *input_range, GtkCList *constraint_list)
 static void
 convert_constraint_format (constraint_conversion_t *conv)
 {
-	gint i;
+	GtkTreeModel *store;
+	GtkTreeIter iter;
+	const constraint_t *a_constraint;
+	SolverConstraint *engine_constraint;
 
-	for (i = 0; ; i++) {
-		SolverConstraint *engine_constraint;
-		const constraint_t *a_constraint = gtk_clist_get_row_data
-			(conv->c_listing, i);
-		if (a_constraint == NULL)
-			break;
+	store = gtk_tree_view_get_model (conv->c_listing);
+	if (gtk_tree_model_get_iter_first (store, &iter))
+		do {
+			gtk_tree_model_get (store, &iter, 1, &a_constraint, -1);
+			if (a_constraint == NULL)
+				break;
 
-		engine_constraint = g_new (SolverConstraint, 1);
-		engine_constraint->lhs.col =
-			a_constraint->lhs_value->v_range.cell.a.col;
-		engine_constraint->lhs.row =
-			a_constraint->lhs_value->v_range.cell.a.row;
-		engine_constraint->rows  =
-			a_constraint->lhs_value->v_range.cell.b.row
-			- a_constraint->lhs_value->v_range.cell.a.row +1;
-		engine_constraint->cols  =
-			a_constraint->lhs_value->v_range.cell.b.col
-			- a_constraint->lhs_value->v_range.cell.a.col +1;
-		engine_constraint->type = a_constraint->type;
-		if ((a_constraint->type == SolverINT)
-		    || (a_constraint->type == SolverBOOL)) {
-			engine_constraint->rhs.col  = 0;
-			engine_constraint->rhs.row  = 0;
-		} else {
-			engine_constraint->rhs.col  =
-				a_constraint->rhs_value->v_range.cell.a.col;
-			engine_constraint->rhs.row  =
-				a_constraint->rhs_value->v_range.cell.a.row;
-		}
-		engine_constraint->str = write_constraint_str (
-			engine_constraint->lhs.col, engine_constraint->lhs.row,
-			engine_constraint->rhs.col, engine_constraint->rhs.row,
-			a_constraint->type,
-			engine_constraint->cols,
-			engine_constraint->rows);
-		conv->c_list = g_slist_append (conv->c_list, engine_constraint);
-	}
+			engine_constraint = g_new (SolverConstraint, 1);
+			engine_constraint->lhs.col =
+				a_constraint->lhs_value->v_range.cell.a.col;
+			engine_constraint->lhs.row =
+				a_constraint->lhs_value->v_range.cell.a.row;
+			engine_constraint->rows  =
+				a_constraint->lhs_value->v_range.cell.b.row
+				- a_constraint->lhs_value->v_range.cell.a.row +1;
+			engine_constraint->cols  =
+				a_constraint->lhs_value->v_range.cell.b.col
+				- a_constraint->lhs_value->v_range.cell.a.col +1;
+			engine_constraint->type = a_constraint->type;
+			if ((a_constraint->type == SolverINT)
+				|| (a_constraint->type == SolverBOOL)) {
+				engine_constraint->rhs.col  = 0;
+				engine_constraint->rhs.row  = 0;
+			} else {
+				engine_constraint->rhs.col  =
+					a_constraint->rhs_value->v_range.cell.a.col;
+				engine_constraint->rhs.row  =
+					a_constraint->rhs_value->v_range.cell.a.row;
+			}
+			engine_constraint->str = write_constraint_str (
+				engine_constraint->lhs.col, engine_constraint->lhs.row,
+				engine_constraint->rhs.col, engine_constraint->rhs.row,
+				a_constraint->type,
+				engine_constraint->cols,
+				engine_constraint->rows);
+			conv->c_list = g_slist_append (conv->c_list, engine_constraint);
+		} while (gtk_tree_model_iter_next (store, &iter));
 }
 
 /*
@@ -689,6 +718,8 @@ convert_constraint_format (constraint_conversion_t *conv)
 static void
 revert_constraint_format (constraint_conversion_t * conv)
 {
+	GtkTreeIter iter;
+	GtkListStore *store = GTK_LIST_STORE (gtk_tree_view_get_model (conv->c_listing));
 	GSList *engine_constraint_list = conv->c_list;
 	gchar  *text[2] = {NULL, NULL};
 
@@ -714,11 +745,8 @@ revert_constraint_format (constraint_conversion_t * conv)
 
 		a_constraint->type = engine_constraint->type;
 		text[0] = engine_constraint->str;
-		gtk_clist_set_row_data_full (conv->c_listing,
-					     gtk_clist_append (conv->c_listing,
-							       text),
-					     a_constraint,
-					     (GtkDestroyNotify) release_constraint);
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (store, &iter, 0, text, 1, a_constraint, -1);
 		engine_constraint_list = engine_constraint_list->next;
 	}
 }
@@ -906,6 +934,8 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 	gboolean                program, dual_program;
 	const gchar             *errmsg = _("Unknown error.");
 	SolverParameters        *param;
+	GtkTreeIter iter;
+	const gchar *name;
 
 	param = state->sheet->solver_parameters;
 
@@ -956,11 +986,9 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 	param->options.model_type =
 		gnumeric_glade_group_value (state->gui, model_type_group);
 
+	gtk_combo_box_get_active_iter (state->algorithm_combo, &iter);
+	gtk_tree_model_get (gtk_combo_box_get_model (state->algorithm_combo), &iter, 0, &name, -1);
 	for (i = 0; algorithm_defs [i].name; i++) {
-		GtkEntry             *entry = GTK_ENTRY
-			(GTK_COMBO (state->algorithm_combo)->entry);
-		G_CONST_RETURN gchar *name = gtk_entry_get_text (entry);
-
 		if (param->options.model_type == algorithm_defs [i].type)
 			if (strcmp (algorithm_defs [i].name, name) == 0) {
 				param->options.algorithm =
@@ -1015,16 +1043,14 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 	dual_program = FALSE;
 	param->options.dual_program_report = dual_program;
 
-	i = check_int_constraints (input_range, state->constraint_list);
+	name = check_int_constraints (input_range, state->constraint_list);
 
-	if (i != -1) {
+	if (name != NULL) {
 		char *str;
-		char *s;
 
-		gtk_clist_get_text (state->constraint_list, i, 0, &s);
 		str = g_strdup_printf
 			(_("Constraint `%s' is for a cell that "
-			   "is not an input cell."), s);
+			   "is not an input cell."), name);
 		gnumeric_notice_nonmodal ((GtkWindow *) state->dialog,
 					  &(state->warning_dialog),
 					  GTK_MESSAGE_ERROR, str);
@@ -1094,6 +1120,11 @@ dialog_init (SolverState *state)
 	constraint_conversion_t conv;
 	SolverParameters        *param;
 	int                     i;
+	GtkCellRenderer *renderer;
+	GtkListStore *store;
+	GtkTreeIter iter;
+	GtkTreeViewColumn *column;
+	GList *l = NULL;
 
 	param = state->sheet->solver_parameters;
 
@@ -1195,20 +1226,34 @@ dialog_init (SolverState *state)
 		G_CALLBACK (dialog_set_main_button_sensitivity), state);
 
 	/* Algorithm */
-	state->algorithm_combo = GTK_COMBO
+	state->algorithm_combo = GTK_COMBO_BOX
 		(glade_xml_get_widget (state->gui, "algorithm_combo"));
+	renderer = (GtkCellRenderer*) gtk_cell_renderer_text_new();
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (state->algorithm_combo), renderer, TRUE);
+    gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (state->algorithm_combo), renderer,
+                                        "text", 0,
+                                        NULL);
+	store = gtk_list_store_new (1, G_TYPE_STRING);
+	gtk_combo_box_set_model (state->algorithm_combo, GTK_TREE_MODEL (store));
 	switch (param->options.model_type) {
 	case SolverLPModel:
-		gtk_combo_set_popdown_strings
-			(GTK_COMBO (state->algorithm_combo), lp_alg_name_list);
+		l = lp_alg_name_list;
 		break;
 	case SolverQPModel:
-		gtk_combo_set_popdown_strings
-			(GTK_COMBO (state->algorithm_combo), qp_alg_name_list);
+		l = qp_alg_name_list;
 		break;
 	default:
 		break;
 	}
+	while (l) {
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (store, &iter,
+					0, l->data,
+					-1);
+		l = l->next;
+	}
+	gtk_combo_box_set_active (state->algorithm_combo, 0);
+
 	state->model_button =
 		glade_xml_get_widget(state->gui, "lp_model_button");
 	g_signal_connect (G_OBJECT (state->model_button), "clicked",
@@ -1261,26 +1306,31 @@ dialog_init (SolverState *state)
 		G_CALLBACK (dialog_set_sec_button_sensitivity), state);
 
 /* type_menu */
-	state->type_combo = GTK_OPTION_MENU
+	state->type_combo = GTK_COMBO_BOX
 		(glade_xml_get_widget (state->gui, "type_menu"));
-	g_signal_connect (G_OBJECT (gtk_option_menu_get_menu
-				    (state->type_combo)), "selection-done",
+	gtk_combo_box_set_active (state->type_combo, 0);
+	g_signal_connect (state->type_combo, "changed",
 			  G_CALLBACK (dialog_set_sec_button_sensitivity),
 			  state);
-	g_signal_connect (G_OBJECT (gtk_option_menu_get_menu
-				    (state->type_combo)), "selection-done",
-			  G_CALLBACK (cb_dialog_set_rhs_sensitivity), state);
+	g_signal_connect (state->type_combo, "changed",
+			  G_CALLBACK (cb_dialog_set_rhs_sensitivity),
+			  state);
 
 /* constraint_list */
-	state->constraint_list = GTK_CLIST (glade_xml_get_widget
+	state->constraint_list = GTK_TREE_VIEW (glade_xml_get_widget
 					    (state->gui, "constraint_list"));
-	state->selected_row = -1;
-	g_signal_connect (G_OBJECT (state->constraint_list), "select-row",
+	state->constr = NULL;
+	g_signal_connect (G_OBJECT (gtk_tree_view_get_selection (state->constraint_list)), "changed",
 			  G_CALLBACK (constraint_select_click), state);
-	g_signal_connect (G_OBJECT (state->constraint_list), "unselect-row",
-			  G_CALLBACK (constraint_unselect_click), state);
-	gtk_clist_set_reorderable (state->constraint_list, TRUE);
-	gtk_clist_set_use_drag_icons (state->constraint_list, TRUE);
+	gtk_tree_view_set_reorderable (state->constraint_list, TRUE);
+	store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_POINTER);
+	gtk_tree_view_set_model(state->constraint_list, GTK_TREE_MODEL(store));
+	renderer = gtk_cell_renderer_text_new ();
+	column = gtk_tree_view_column_new_with_attributes(
+								_("Subject to the Constraints:"),
+								renderer, "text", 0, NULL);
+	gtk_tree_view_column_set_expand(column, TRUE);
+	gtk_tree_view_append_column(state->constraint_list, column);
 
 /* dialog */
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);

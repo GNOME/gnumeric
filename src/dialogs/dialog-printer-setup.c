@@ -1368,8 +1368,8 @@ do_setup_page_info (PrinterSetupState *state)
 				  GTK_WIDGET (gnm_expr_entry_get_entry (state->top_entry)));
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (gnm_expr_entry_get_entry (state->left_entry)));
-	gnumeric_combo_enters (GTK_WINDOW (state->dialog),
-		glade_xml_get_widget (state->gui, "comments-combo"));
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+		gtk_bin_get_child (GTK_BIN (glade_xml_get_widget (state->gui, "comments-combo"))));
 
 	if (state->pi->repeat_top.use)
 		gnm_expr_entry_load_from_range (
@@ -1463,8 +1463,8 @@ do_setup_page (PrinterSetupState *state)
 		GTK_SPIN_BUTTON (scale_height_spin), pi->scaling.dim.rows);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				      GTK_WIDGET (scale_height_spin));
-	gnumeric_combo_enters (GTK_WINDOW (state->dialog),
-		glade_xml_get_widget (gui, "first-page-combo"));
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+		gtk_bin_get_child (GTK_BIN (glade_xml_get_widget (gui, "first-page-combo"))));
 }
 
 static Sheet *
