@@ -287,20 +287,25 @@ move_element (TextExportState *state, gboolean move_up)
 	GtkTreeModel *model;
 	GtkTreeIter  a, b;
 
+	g_return_if_fail (selection != NULL);
+
 	if (!gtk_tree_selection_get_selected  (selection, &model, &a))
 		return;
 
-	b = a;
 	if (move_up) {
 		GtkTreePath *path = gtk_tree_model_get_path (model, &a);
 		if (gtk_tree_path_prev (path) &&
 		    gtk_tree_model_get_iter (model, &b, path)) {
 			gtk_tree_path_free (path);
+		} else {
+			gtk_tree_path_free (path);
 			return;
 		}
-		gtk_tree_path_free (path);
-	} else if (!gtk_tree_model_iter_next (model, &b))
-		return;
+	} else { 
+		b = a;
+		if (!gtk_tree_model_iter_next (model, &b))
+			return;
+	}
 
 	gtk_list_store_swap (state->sheets.model, &a, &b);
 }

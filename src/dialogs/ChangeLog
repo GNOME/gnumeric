@@ -1,5 +1,10 @@
 2004-10-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=156710
+	* dialog-stf-export.c (move_element) fix sense of test
+
+2004-10-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=156604
 	* dialog-stf-export.c (set_sheet_selection_count): compare with
 	  number of non-empty sheets only.
