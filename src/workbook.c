@@ -2660,7 +2660,7 @@ workbook_create_standard_toolbar (Workbook *wb)
 	gnumeric_toolbar_insert_with_eventbox (GTK_TOOLBAR (toolbar),
 					       redo, _("Redo"), NULL, TB_REDO_POS);
 	gnumeric_toolbar_append_with_eventbox (GTK_TOOLBAR (toolbar),
-				   zoom, _("Zoom"), NULL);
+					       zoom, _("Zoom"), NULL);
 
 	gtk_signal_connect (
 		GTK_OBJECT(toolbar), "orientation-changed",
@@ -2677,9 +2677,9 @@ workbook_create_toolbars (Workbook *wb)
 	wb->priv->format_toolbar   = workbook_create_format_toolbar (wb);
 	wb->priv->object_toolbar   = workbook_create_object_toolbar (wb);
 
-	gtk_widget_show (wb->priv->format_toolbar);
 #ifndef ENABLE_BONOBO
 	gtk_widget_show (wb->priv->standard_toolbar);
+	gtk_widget_show (wb->priv->format_toolbar);
 	gtk_widget_show (wb->priv->object_toolbar);
 #endif
 }

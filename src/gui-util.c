@@ -278,6 +278,7 @@ gnumeric_toolbar_insert_with_eventbox (GtkToolbar *toolbar, GtkWidget  *widget,
 	/* An event box to receive events - this is a requirement for having
            tooltips */
 	eventbox = gtk_event_box_new ();
+	gtk_widget_show (widget);
 	gtk_container_add (GTK_CONTAINER (eventbox), widget);
 	gtk_widget_show (eventbox);
 	gtk_toolbar_insert_widget (GTK_TOOLBAR (toolbar), eventbox,
@@ -308,6 +309,7 @@ gnumeric_toolbar_append_with_eventbox (GtkToolbar *toolbar, GtkWidget  *widget,
 	/* An event box to receive events - this is a requirement for having
            tooltips */
 	eventbox = gtk_event_box_new ();
+	gtk_widget_show (widget);
 	gtk_container_add (GTK_CONTAINER (eventbox), widget);
 	gtk_widget_show (eventbox);
 	gtk_toolbar_append_widget (GTK_TOOLBAR (toolbar), eventbox,

@@ -1,3 +1,28 @@
+2000-09-30  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c (workbook_create_toolbars) : All three toolbars are
+	  bonobo now.
+
+	* src/workbook-view.c (workbook_view_set_paste_special_state) : No
+	  need to use our own corba_exception.
+
+	* src/workbook-private.h : Remove the widget pointers for the border
+	  and colour combos.
+
+	* src/workbook-format-toolbar.c : Support the new bonobo ui stuff.
+	  Its a hack for now.
+
+	* src/gnumeric.xml (FormatToolbar) : Implement.
+
+	* src/gnumeric-util.c (gnumeric_toolbar_insert_with_eventbox) : Show
+	  the client widget.
+	(gnumeric_toolbar_append_with_eventbox) : Ditto.
+
+2000-09-30  Jody Goldberg <jgoldberg@home.com>
+	For : realms@telerama.com
+
+	* src/functions/fn-stat.c (gnumeric_chitest) : off by one bug fix.
+
 2000-09-29  Jody Goldberg <jgoldberg@home.com>
 
 	* src/graph-series.c

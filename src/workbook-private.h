@@ -59,11 +59,6 @@ struct _WorkbookPrivate {
 	GtkWidget *zoom_entry;
 
 	/*
-	 * Combos for the foreground, background, and borders
-	 */
-	GtkWidget *fore_combo, *back_combo, *border_combo;
-
-	/*
 	 * GtkComboStacks for Undo/Redo
 	 */
 	GtkWidget *undo_combo, *redo_combo;

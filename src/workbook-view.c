@@ -22,22 +22,14 @@
 void
 workbook_view_set_paste_special_state (Workbook *wb, gboolean enable)
 {
-#ifndef ENABLE_BONOBO
 	g_return_if_fail (wb != NULL);
-
+#ifndef ENABLE_BONOBO
 	gtk_widget_set_sensitive (
 		wb->priv->menu_item_paste_special, enable);
 #else
-	CORBA_Environment  ev;
-
-	g_return_if_fail (wb != NULL);
-
-	CORBA_exception_init (&ev);
 	bonobo_ui_container_set_prop (bonobo_ui_compat_get_container (wb->priv->uih),
 				      "/commands/EditPasteSpecial",
-				      "sensitive", enable ? "1" : "0",
-				      &ev);
-	CORBA_exception_free (&ev);
+				      "sensitive", enable ? "1" : "0", NULL);
 #endif
 }
 

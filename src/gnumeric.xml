@@ -439,31 +439,31 @@
 
 		<toolitem type="toggle" name="Left" pixtype="stock" pixname="Left"
 		 _label="Left" _descr="Left justifies the contents of each cell"
-		 verb="dummy"/>
+		 verb="AlignLeft"/>
 		<toolitem type="toggle" name="Center" pixtype="stock" pixname="Center"
 		 _label="Center" _descr="Centers the text in each selection"
-		 verb="dummy"/>
+		 verb="AlignCenter"/>
 		<toolitem type="toggle" name="Right" pixtype="stock" pixname="Right"
 		 _label="Right" _descr="Right justifies the contents of each cell"
-		 verb="dummy"/>
+		 verb="AlignRight"/>
 
 		<toolitem type="separator"/>
 
 		<toolitem type="std" name="Money" pixtype="stock" pixname="Gnumeric_FormatAsMoney"
-		 _label="Left" _descr="Format the selected cells as money"
-		 verb="dummy"/>
+		 _label="Money" _descr="Format the selected cells as money"
+		 verb="FormatAsMoney"/>
 		<toolitem type="std" name="Percent" pixtype="stock" pixname="Gnumeric_FormatAsPercent"
-		 _label="Center" _descr="Format the selected cells as percentages"
-		 verb="dummy"/>
+		 _label="Percent" _descr="Format the selected cells as percentages"
+		 verb="FormatAsPercent"/>
 		<toolitem type="std" name="Thousands" pixtype="stock" pixname="Gnumeric_FormatThousandSeperator"
 		 _label="Right" _descr="Includes a thousands seperator in the selected cells"
-		 verb="dummy"/>
+		 verb="FormatWithThousands"/>
 		<toolitem type="std" name="IncreasePrecision" pixtype="stock" pixname="Gnumeric_FormatAddPrecision"
-		 _label="Center" _descr="Increase the preceision of the selected cells"
-		 verb="dummy"/>
+		 _label="Increase Precision" _descr="Increase the preceision of the selected cells"
+		 verb="FormatIncreasePrecision"/>
 		<toolitem type="std" name="DecreasePrecision" pixtype="stock" pixname="Gnumeric_FormatRemovePrecision"
 		 _label="Decrease Precision" descr="Decrease the preceision of the selected cells"
-		 verb="dummy"/>
+		 verb="FormatDecreasePrecision"/>
 
 		<toolitem type="separator"/>
 

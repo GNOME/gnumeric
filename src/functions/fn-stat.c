@@ -1412,13 +1412,13 @@ gnumeric_chitest (FunctionEvalInfo *ei, Value **argv)
 	Value           *ret;
 
 	p1.cols = abs (argv[0]->v_range.cell.b.col -
-	  argv[0]->v_range.cell.a.col);
+	  argv[0]->v_range.cell.a.col) + 1;
 	p2.cols = abs (argv[1]->v_range.cell.b.col -
-	  argv[1]->v_range.cell.a.col);
+	  argv[1]->v_range.cell.a.col) + 1;
 	p1.rows = abs (argv[0]->v_range.cell.b.row -
-	  argv[0]->v_range.cell.a.row);
+	  argv[0]->v_range.cell.a.row) + 1;
 	p2.rows = abs (argv[1]->v_range.cell.b.row -
-	  argv[1]->v_range.cell.a.row);
+	  argv[1]->v_range.cell.a.row) + 1;
 	p1.row = p1.col = 0;
 	p1.columns = p1.column = NULL;
 

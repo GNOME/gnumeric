@@ -127,6 +127,7 @@ change_selection_font (Workbook *wb, int bold, int italic, int underline, int st
 static gboolean
 toggled_from_toolbar (GtkToggleButton *t)
 {
+#ifndef ENABLE_BONOBO
 	static gboolean nested = FALSE;
 	if (t->button.in_button || nested)
 		return TRUE;
@@ -135,6 +136,9 @@ toggled_from_toolbar (GtkToggleButton *t)
 	gtk_toggle_button_set_active (t, !t->active);
 	nested = FALSE;
 	return FALSE;
+#else
+	return TRUE;
+#endif
 }
 
 static void
@@ -316,6 +320,7 @@ workbook_cmd_format_remove_decimals (GtkWidget *widget, Workbook *wb)
 	do_modify_format (wb, &format_remove_decimal);
 }
 
+#ifndef ENABLE_BONOBO
 static GnomeUIInfo workbook_format_toolbar [] = {
 	/* Placeholder: font selector */
         /* Placeholder: size selector */
@@ -373,6 +378,22 @@ static GnomeUIInfo workbook_format_toolbar [] = {
 
 	GNOMEUIINFO_END
 };
+#else
+static BonoboUIVerb verbs [] = {
+	BONOBO_UI_VERB ("FontBold",		   &bold_cmd),
+	BONOBO_UI_VERB ("FontItalic",		   &italic_cmd),
+	BONOBO_UI_VERB ("FontUnderline",	   &underline_cmd),
+	BONOBO_UI_VERB ("AlignLeft",		   &left_align_cmd),
+	BONOBO_UI_VERB ("AlignCenter",		   &center_cmd),
+	BONOBO_UI_VERB ("AlignRight",		   &right_align_cmd),
+	BONOBO_UI_VERB ("FormatAsMoney",	   &workbook_cmd_format_as_money),
+	BONOBO_UI_VERB ("FormatAsPercent",	   &workbook_cmd_format_as_percent),
+	BONOBO_UI_VERB ("FormatWithThousands",	   &workbook_cmd_format_add_thousands),
+	BONOBO_UI_VERB ("FormatIncreasePrecision", &workbook_cmd_format_add_decimals),
+	BONOBO_UI_VERB ("FormatDecreasePrecision", &workbook_cmd_format_remove_decimals),
+	BONOBO_UI_VERB_END
+};
+#endif
 
 static void
 fore_color_changed (ColorCombo *combo, GdkColor *c, Workbook *wb)
@@ -565,21 +586,16 @@ GtkWidget *
 workbook_create_format_toolbar (Workbook *wb)
 {
 	GtkWidget *toolbar, *fontsel, *fontsize, *entry;
-	const char *name = "FormatToolbar";
-	GnomeDockItemBehavior behavior;
+	GtkWidget *border_combo, *back_combo, *fore_combo;
+
 	GList *l;
 	int i, len;
+
+#ifndef ENABLE_BONOBO
+	const char *name = "FormatToolbar";
+	GnomeDockItemBehavior behavior;
 	GnomeApp *app;
 
-#ifdef ENABLE_BONOBO
-	toolbar = gnumeric_toolbar_new (
-		workbook_format_toolbar,
-		bonobo_win_get_accel_group (BONOBO_WIN (wb->toplevel)), wb);
-
-#warning FIXME; the toolbar should be bonoboized properly.
-	gtk_box_pack_start (GTK_BOX (wb->priv->main_vbox), toolbar,
-			    FALSE, FALSE, 0);
-#else
 	app = GNOME_APP (wb->toplevel);
 
 	g_return_val_if_fail (app != NULL, NULL);
@@ -597,6 +613,12 @@ workbook_create_format_toolbar (Workbook *wb)
 		name,
 		behavior,
 		GNOME_DOCK_TOP, 2, 0, 0);
+#else
+	BonoboUIComponent *component =
+		bonobo_ui_compat_get_component (wb->priv->uih);
+
+	bonobo_ui_component_add_verb_list_with_data (
+		component, verbs, wb);
 #endif
 
 	/*
@@ -612,7 +634,7 @@ workbook_create_format_toolbar (Workbook *wb)
 	gtk_container_set_border_width (GTK_CONTAINER (fontsel), 0);
 
 	len = 0;
-	for (l = gnumeric_font_family_list; l; l = l->next){
+	for (l = gnumeric_font_family_list; l; l = l->next) {
 		if (l->data) {	/* Don't include empty fonts in list. */
 			int tmp = gdk_string_measure (entry->style->font,
 						      l->data);
@@ -625,11 +647,6 @@ workbook_create_format_toolbar (Workbook *wb)
 
 	/* Set a reasonable default width */
 	gtk_widget_set_usize (entry, len, 0);
-
-	/* Add it to the toolbar */
-	gtk_widget_show (fontsel);
-	gnumeric_toolbar_insert_with_eventbox (
-		GTK_TOOLBAR (toolbar), fontsel, _("Font selector"), NULL, 0);
 
 	/*
 	 * Create the font size control
@@ -651,73 +668,103 @@ workbook_create_format_toolbar (Workbook *wb)
 	/* Set a reasonable default width */
 	gtk_widget_set_usize (entry, gdk_string_measure (entry->style->font, "888"), 0);
 
-	/* Add it to the toolbar */
-	gtk_widget_show (fontsize);
-	gnumeric_toolbar_insert_with_eventbox (
-		GTK_TOOLBAR (toolbar), fontsize, _("Font Size"), NULL, 1);
-
-	gtk_toolbar_append_space (GTK_TOOLBAR (toolbar));
-	
 	/*
 	 * Create the border combo box.
 	 */
-	wb->priv->border_combo = pixmap_combo_new (border_combo_info, 3, 4);
-	/* default to none */
-	pixmap_combo_select_pixmap (PIXMAP_COMBO (wb->priv->border_combo), 1);
-	gtk_widget_show (wb->priv->border_combo);
-	gtk_signal_connect (GTK_OBJECT (wb->priv->border_combo), "changed",
-			    GTK_SIGNAL_FUNC (cb_border_changed), wb);
-	disable_focus (wb->priv->border_combo, NULL);
+	border_combo = pixmap_combo_new (border_combo_info, 3, 4);
 
-	gtk_combo_box_set_title (GTK_COMBO_BOX (wb->priv->border_combo),
+	/* default to none */
+	pixmap_combo_select_pixmap (PIXMAP_COMBO (border_combo), 1);
+	gtk_signal_connect (GTK_OBJECT (border_combo), "changed",
+			    GTK_SIGNAL_FUNC (cb_border_changed), wb);
+	disable_focus (border_combo, NULL);
+
+	gtk_combo_box_set_title (GTK_COMBO_BOX (border_combo),
 				 _("Borders"));
-	gnumeric_toolbar_append_with_eventbox (
-		GTK_TOOLBAR (toolbar),
-		wb->priv->border_combo, _("Borders"), NULL);
 
 	/*
 	 * Create the background colour combo box.
 	 */
-	wb->priv->back_combo = color_combo_new (bucket_xpm, _("Clear Background"),
+	back_combo = color_combo_new (bucket_xpm, _("Clear Background"),
 						/* Draw an outline for the default */
 						NULL, "back_color_group");
-	gtk_widget_show (wb->priv->back_combo);
-	gtk_signal_connect (GTK_OBJECT (wb->priv->back_combo), "changed",
+	gtk_signal_connect (GTK_OBJECT (back_combo), "changed",
 			    GTK_SIGNAL_FUNC (back_color_changed), wb);
-	disable_focus (wb->priv->back_combo, NULL);
+	disable_focus (back_combo, NULL);
 	
-	gtk_combo_box_set_title (GTK_COMBO_BOX (wb->priv->back_combo),
+	gtk_combo_box_set_title (GTK_COMBO_BOX (back_combo),
 				 _("Background"));
-	gnumeric_toolbar_append_with_eventbox (
-		GTK_TOOLBAR (toolbar),
-		wb->priv->back_combo, _("Background"), NULL);
 
 	/*
 	 * Create the font colour combo box.
 	 */
-	wb->priv->fore_combo = color_combo_new (font_xpm, _("Automatic"),
+	fore_combo = color_combo_new (font_xpm, _("Automatic"),
 						/* Draw black for the default */
 						&gs_black,
 						"for_colorgroup");
-	gtk_widget_show (wb->priv->fore_combo);
-	gtk_signal_connect (GTK_OBJECT (wb->priv->fore_combo), "changed",
+	gtk_signal_connect (GTK_OBJECT (fore_combo), "changed",
 			    GTK_SIGNAL_FUNC (fore_color_changed), wb);
-	disable_focus (wb->priv->fore_combo, NULL);
+	disable_focus (fore_combo, NULL);
 
-	gtk_combo_box_set_title (GTK_COMBO_BOX (wb->priv->fore_combo),
+	gtk_combo_box_set_title (GTK_COMBO_BOX (fore_combo),
 				 _("Foreground"));
+
+#ifdef ENABLE_BONOBO
+	gnumeric_inject_widget_into_bonoboui (wb, fontsel, "/FormatToolbar/FontName");
+	gnumeric_inject_widget_into_bonoboui (wb, fontsize, "/FormatToolbar/FontSize");
+	gnumeric_inject_widget_into_bonoboui (wb, border_combo, "/FormatToolbar/BorderSelector");
+	gnumeric_inject_widget_into_bonoboui (wb, back_combo, "/FormatToolbar/BackgroundColor");
+	gnumeric_inject_widget_into_bonoboui (wb, fore_combo, "/FormatToolbar/ForegroundColor");
+#else
+	gnumeric_toolbar_insert_with_eventbox (
+		GTK_TOOLBAR (toolbar), fontsel, _("Font selector"), NULL, 0);
+	gnumeric_toolbar_insert_with_eventbox (
+		GTK_TOOLBAR (toolbar), fontsize, _("Font Size"), NULL, 1);
 	gnumeric_toolbar_append_with_eventbox (
 		GTK_TOOLBAR (toolbar),
-		wb->priv->fore_combo, _("Foreground"), NULL);
+		border_combo, _("Borders"), NULL);
+	gnumeric_toolbar_append_with_eventbox (
+		GTK_TOOLBAR (toolbar),
+		back_combo, _("Background"), NULL);
+	gnumeric_toolbar_append_with_eventbox (
+		GTK_TOOLBAR (toolbar),
+		fore_combo, _("Foreground"), NULL);
 
 	/* Handle orientation changes so that we can hide wide widgets */
 	gtk_signal_connect (
 		GTK_OBJECT(toolbar), "orientation-changed",
 		GTK_SIGNAL_FUNC (&workbook_format_toolbar_orient), wb);
+#endif
 
 	return toolbar;
 }
 
+#ifdef ENABLE_BONOBO
+static void
+workbook_format_toolbutton_update (Workbook const *wb, char const * const path,
+				   gboolean state)
+{
+	static gboolean hack = FALSE;
+	if (hack)
+	    return;
+	hack = TRUE;
+	bonobo_ui_container_set_prop (bonobo_ui_compat_get_container (wb->priv->uih),
+				      path, "state", state ? "1" : "0", NULL);
+	hack = FALSE;
+}
+
+static void
+workbook_format_halign_feedback_set (Workbook *workbook,
+				     StyleHAlignFlags h_align)
+{
+	workbook_format_toolbutton_update (workbook, "/commands/AlignLeft",
+					   h_align == HALIGN_LEFT);
+	workbook_format_toolbutton_update (workbook, "/commands/AlignCenter",
+					   h_align == HALIGN_CENTER);
+	workbook_format_toolbutton_update (workbook, "/commands/AlignRight",
+					   h_align == HALIGN_RIGHT);
+}
+#else
 static void
 workbook_format_toolbutton_update (Workbook * wb,
 				   GnumericToolbar *toolbar,
@@ -754,6 +801,7 @@ workbook_format_halign_feedback_set (Workbook *workbook,
 					   (GtkSignalFunc)&right_align_cmd,
 					   h_align == HALIGN_RIGHT);
 }
+#endif
 
 /*
  * Updates the edit control state: bold, italic, font name and font size
@@ -761,7 +809,7 @@ workbook_format_halign_feedback_set (Workbook *workbook,
 void
 workbook_feedback_set (Workbook *wb, MStyle *style)
 {
-	GnumericToolbar *toolbar = GNUMERIC_TOOLBAR (wb->priv->format_toolbar);
+	GnumericToolbar *toolbar;
 	GtkComboText    *fontsel = GTK_COMBO_TEXT (wb->priv->font_name_selector);
 	GtkComboText    *fontsize= GTK_COMBO_TEXT (wb->priv->font_size_selector);
 	char             size_str [40];
@@ -769,28 +817,47 @@ workbook_feedback_set (Workbook *wb, MStyle *style)
 	g_return_if_fail (wb != NULL);
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (IS_WORKBOOK (wb));
-	g_return_if_fail (wb->priv->format_toolbar);
+
+#ifndef ENABLE_BONOBO
+	toolbar = GNUMERIC_TOOLBAR (wb->priv->format_toolbar);
+	g_return_if_fail (toolbar);
+#endif
 
 	/* Handle font boldness */
 	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_BOLD));
+#ifndef ENABLE_BONOBO
 	workbook_format_toolbutton_update (wb, toolbar,
 					   TOOLBAR_BOLD_BUTTON_INDEX,
 					   (GtkSignalFunc)&bold_cmd,
 					   mstyle_get_font_bold (style));
+#else
+	workbook_format_toolbutton_update (wb, "/commands/FontBold",
+					   mstyle_get_font_bold (style));
+#endif
 
 	/* Handle font italics */
 	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_ITALIC));
+#ifndef ENABLE_BONOBO
 	workbook_format_toolbutton_update (wb, toolbar,
 					   TOOLBAR_ITALIC_BUTTON_INDEX,
 					   (GtkSignalFunc)&italic_cmd,
 					   mstyle_get_font_italic (style));
+#else
+	workbook_format_toolbutton_update (wb, "/commands/FontItalic",
+					   mstyle_get_font_italic (style));
+#endif
 
 	/* Handle font underlining */
 	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_UNDERLINE));
+#ifndef ENABLE_BONOBO
 	workbook_format_toolbutton_update (wb, toolbar,
 					   TOOLBAR_UNDERLINE_BUTTON_INDEX,
 					   (GtkSignalFunc)&underline_cmd,
 					   mstyle_get_font_uline (style) == UNDERLINE_SINGLE);
+#else
+	workbook_format_toolbutton_update (wb, "/commands/FontUnderline",
+					   mstyle_get_font_uline (style) == UNDERLINE_SINGLE);
+#endif
 
 	/* horizontal alignment */
 	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_ALIGN_H));

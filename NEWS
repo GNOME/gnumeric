@@ -77,6 +77,7 @@ Thomas Canty:
 
 Weston:
 	* Implement DateDif.
+	* Fix chitest.
 
 Translations:
 	* Updated: da (Kenneth and Keld), de (Karl), en_GB (Robert), ko
