@@ -542,19 +542,29 @@ render_path (GString *target, HFRenderInfo *info, char const *args)
 	if (info->sheet != NULL && info->sheet->workbook != NULL) {
 		char *filename_utf8 = workbook_get_filename_utf8 
 			(info->sheet->workbook, FALSE);
+		char *dir;
+		char *path;
+		char *path_n_file;
+
 		if (g_path_is_absolute (filename_utf8))
-			g_string_append (target, filename_utf8);
+			path_n_file = filename_utf8;
 		else {
 			char *current_dir = g_get_current_dir ();
-			char *path = g_build_filename (current_dir, 
+			
+			path_n_file = g_build_filename (current_dir, 
 						       filename_utf8, NULL);
-			g_string_append (target, path);
-			g_free (path);
+			g_free (filename_utf8);
 			g_free (current_dir);
 		}
-		g_free (filename_utf8);
+		dir = g_path_get_dirname (path_n_file);
+		path = g_build_path (G_DIR_SEPARATOR_S, dir, 
+				     G_DIR_SEPARATOR_S, NULL);
+		g_string_append (target, path);
+		g_free (path);
+		g_free (path_n_file);
+		g_free (dir);
 	} else 
-		g_string_append (target, _("Path & File Name"));
+		g_string_append (target, _("Path "));
 }
 
 static struct {

@@ -1,5 +1,10 @@
 2003-09-13  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	* src/print-info.c (render_path): &[PATH] should not include 
+	  basename
+
+2003-09-13  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* src/print-info.h: remove unused enumeration items
 	* src/print-info.c (render_tab): simplify default name
 	(render_file): show basename only and provide default
