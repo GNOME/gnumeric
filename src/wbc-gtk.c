@@ -471,7 +471,7 @@ wbc_gtk_init_undo_redo (WBCgtk *gtk)
 	g_signal_connect (G_OBJECT (gtk->undo_action),
 		"notify::sensitive",
 		G_CALLBACK (cb_chain_sensitivity),
-		gtk_action_group_get_action (gtk->actions, "Repeat"));
+		gtk_action_group_get_action (gtk->permanent_actions, "Repeat"));
 
 	gtk->redo_action = create_undo_redo (gtk, N_("Redo"),
 		N_("Redo the undone action"), GTK_STOCK_REDO, "<control>y");

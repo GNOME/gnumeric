@@ -1,5 +1,8 @@
 2004-09-04  Jon K Hellan  <hellan@acm.org>
 
+	* src/wbc-gtk.c (wbc_gtk_init_undo_redo): Update action group of
+	Repeat.
+
 	* src/sheet-object-graphic.c (sheet_object_text_get_property,
 	sheet_object_text_class_init): Add "label" property.
 
