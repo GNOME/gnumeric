@@ -5,6 +5,7 @@ Andreas:
 	* Add radio buttons to rank dialog to let user choose 
 	  behaviour in case of ties.
 	* Enable Standard Errors Checkbox in Moving Averages Dialog
+	* Implement calculated bins in Histogram Tool
 
 Jody:
 	* Generate spans after importing a lotus 123 file.

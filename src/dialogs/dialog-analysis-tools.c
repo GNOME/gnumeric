@@ -136,6 +136,36 @@ typedef struct {
 	WorkbookControlGUI  *wbcg;
 	GtkAccelGroup *accel;
 
+	GtkWidget *predetermined_button;
+	GtkWidget *calculated_button;
+	GtkWidget *bin_labels_button;
+	GtkEntry  *n_entry;
+	GtkEntry  *max_entry;
+	GtkEntry  *min_entry;	
+} HistogramToolState;
+
+typedef struct {
+	ToolType  const type;
+	GladeXML  *gui;
+	GtkWidget *dialog;
+	GnumericExprEntry *input_entry;
+	GnumericExprEntry *input_entry_2;
+	GnumericExprEntry *output_entry;
+	GtkWidget *ok_button;
+	GtkWidget *cancel_button;
+	GtkWidget *apply_button;
+	GtkWidget *help_button;
+	char *help_link;
+	char *input_var1_str;
+	char *input_var2_str;
+	GtkWidget *new_sheet;
+	GtkWidget *new_workbook;
+	GtkWidget *output_range;
+	Sheet	  *sheet;
+	Workbook  *wb;
+	WorkbookControlGUI  *wbcg;
+	GtkAccelGroup *accel;
+
 	GtkWidget *summary_stats_button;
 	GtkWidget *mean_stats_button;
 	GtkWidget *kth_largest_button;
@@ -414,6 +444,7 @@ typedef struct {
 typedef union {
 	ToolType  const type;
 	GenericToolState tt_generic;
+	HistogramToolState tt_histogram;
 	DescriptiveStatState tt_desc_stat;
 	TTestState tt_ttest;
 	SamplingState tt_sampling;
@@ -3761,6 +3792,58 @@ dialog_fourier_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 /*  Begin of histogram tool code */
 /**********************************************/
 
+/**
+ * histogram_tool_update_sensitivity_cb:
+ * @dummy:
+ * @state:
+ *
+ * Update the dialog widgets sensitivity 
+ **/
+static void
+histogram_tool_update_sensitivity_cb (GtkWidget *dummy, HistogramToolState *state)
+{
+	gboolean ready  = FALSE;
+	gboolean input_ready  = FALSE;
+	gboolean bin_ready  = FALSE;
+	gboolean output_ready  = FALSE;
+
+	int i;
+	int the_n;
+	gboolean predetermined_bins;
+        Value *output_range = NULL;
+        GSList *input_range;
+        Value *input_range_2 = NULL;
+
+        input_range = gnumeric_expr_entry_parse_to_list (
+		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
+
+	i = gnumeric_glade_group_value (state->gui, output_group);
+	if (i == 2)
+		output_range = gnumeric_expr_entry_parse_to_value 
+			(GNUMERIC_EXPR_ENTRY (state->output_entry), state->sheet);
+
+	predetermined_bins = gtk_toggle_button_get_active (
+		GTK_TOGGLE_BUTTON (state->predetermined_button));
+	if (predetermined_bins) 
+		input_range_2 =  gnumeric_expr_entry_parse_to_value 
+			(GNUMERIC_EXPR_ENTRY (state->input_entry_2), state->sheet);
+
+	input_ready = (input_range != NULL);
+	bin_ready = (predetermined_bins && input_range_2 != NULL) || 
+		(!predetermined_bins && entry_to_int(state->n_entry, &the_n,FALSE) == 0 
+			&& the_n > 0);
+	output_ready =  ((i != 2) || (output_range != NULL));
+
+        if (input_range != NULL) range_list_destroy (input_range);
+        if (input_range_2 != NULL) value_release (input_range_2);
+        if (output_range != NULL) value_release (output_range);
+
+	ready = input_ready && bin_ready && output_ready;
+	if (state->apply_button != NULL)
+		gtk_widget_set_sensitive (state->apply_button, ready);
+	gtk_widget_set_sensitive (state->ok_button, ready);
+	return;
+}
 
 /**
  * histogram_tool_ok_clicked_cb:
@@ -3772,27 +3855,40 @@ dialog_fourier_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
  * contain sensible data.
  **/
 static void
-histogram_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
+histogram_tool_ok_clicked_cb (GtkWidget *button, HistogramToolState *state)
 {
 	data_analysis_output_t  dao;
 	GSList *input;
 	Value  *bin;
         char   *text;
 	GtkWidget *w;
-	int pareto, cum, chart, err, bin_labels, percent;
+	int pareto, cum, chart, err, bin_labels = 0, percent;
+	histogram_calc_bin_info_t bin_info = {FALSE, FALSE, 0, 0, 0};
+	histogram_calc_bin_info_t *bin_info_ptr = &bin_info;
 
 	input = gnumeric_expr_entry_parse_to_list (
 		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
 
-	bin = gnumeric_expr_entry_parse_to_value 
-		(GNUMERIC_EXPR_ENTRY (state->input_entry_2), state->sheet);
+	if (gtk_toggle_button_get_active (
+		GTK_TOGGLE_BUTTON (state->predetermined_button))) {
+		w = glade_xml_get_widget (state->gui, "labels_2_button");
+		bin_labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+		bin = gnumeric_expr_entry_parse_to_value 
+			(GNUMERIC_EXPR_ENTRY (state->input_entry_2), state->sheet);
+		bin_info_ptr = NULL;
+	} else {
+		entry_to_int(state->n_entry, &bin_info.n,TRUE);
+		bin_info.max_given = (0 == entry_to_float (state->max_entry, 
+							    &bin_info.max , TRUE));
+		bin_info.min_given = (0 == entry_to_float (state->min_entry, 
+							    &bin_info.min , TRUE));
+		bin = NULL;
+	}
 
-        parse_output (state, &dao);
+        parse_output ((GenericToolState *) state, &dao);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
 	dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
-	w = glade_xml_get_widget (state->gui, "labels_2_button");
-	bin_labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 	w = glade_xml_get_widget (state->gui, "pareto-button");
 	pareto = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 	w = glade_xml_get_widget (state->gui, "percentage-button");
@@ -3805,7 +3901,7 @@ histogram_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
 	err = histogram_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
 			      input, bin,
 			      gnumeric_glade_group_value (state->gui, grouped_by_group),
-			      bin_labels, pareto, percent, cum, chart, &dao);
+			      bin_labels, pareto, percent, cum, chart, bin_info_ptr, &dao);
 	switch (err) {
 	case 0:
 		gtk_widget_destroy (state->dialog);
@@ -3824,6 +3920,54 @@ histogram_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
 	return;
 }
 
+/**
+ * histogram_tool_set_predetermined:
+ * @widget:
+ * @focus_widget:
+ * @state:
+ *
+ * Output range entry was focused. Switch to output range.
+ *
+ **/
+static void
+histogram_tool_set_predetermined (GtkWidget *widget, GdkEventFocus *event,
+			HistogramToolState *state)
+{
+	    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->predetermined_button), TRUE);
+}
+
+/**
+ * histogram_tool_set_predetermined_on_toggle:
+ * @widget:
+ * @focus_widget:
+ * @state:
+ *
+ * Output range entry was focused. Switch to output range.
+ *
+ **/
+static void
+histogram_tool_set_predetermined_on_toggle (GtkWidget *widget,
+			HistogramToolState *state)
+{
+	    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->predetermined_button), TRUE);
+}
+
+
+/**
+ * histogram_tool_set_calculated:
+ * @widget:
+ * @focus_widget:
+ * @state:
+ *
+ * Output range entry was focused. Switch to output range.
+ *
+ **/
+static void
+histogram_tool_set_calculated (GtkWidget *widget, GdkEventFocus *event,
+			HistogramToolState *state)
+{
+	    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->calculated_button), TRUE);
+}
 
 
 /**
@@ -3834,7 +3978,7 @@ histogram_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
  *
  **/
 static gboolean
-dialog_histogram_tool_init (GenericToolState *state)
+dialog_histogram_tool_init (HistogramToolState *state)
 {
 	GtkTable *table;
 	GtkWidget *widget;
@@ -3850,7 +3994,8 @@ dialog_histogram_tool_init (GenericToolState *state)
 
 	state->accel = gtk_accel_group_new ();
 
-	dialog_tool_init_buttons (state, GTK_SIGNAL_FUNC (histogram_tool_ok_clicked_cb));
+	dialog_tool_init_buttons ((GenericToolState *) state, 
+				  GTK_SIGNAL_FUNC (histogram_tool_ok_clicked_cb));
 
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "input-table"));
 	state->input_entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
@@ -3861,7 +4006,7 @@ dialog_histogram_tool_init (GenericToolState *state)
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
 	gtk_signal_connect_after (GTK_OBJECT (state->input_entry), "changed",
-				  GTK_SIGNAL_FUNC (tool_update_sensitivity_multiple_areas_cb), 
+				  GTK_SIGNAL_FUNC (histogram_tool_update_sensitivity_cb), 
 				  state);
  	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_EDITABLE (state->input_entry));
@@ -3877,18 +4022,19 @@ dialog_histogram_tool_init (GenericToolState *state)
 					    GDK_MOD1_MASK, 0);
 	gtk_widget_show (GTK_WIDGET (state->input_entry));
 
+	table = GTK_TABLE (glade_xml_get_widget (state->gui, "bin_table"));
 	state->input_entry_2 = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
 	gnumeric_expr_entry_set_flags (state->input_entry_2, GNUM_EE_SINGLE_RANGE, GNUM_EE_MASK);
 	gnumeric_expr_entry_set_scg (state->input_entry_2,
 				     wb_control_gui_cur_sheet (state->wbcg));
 	gtk_table_attach (table, GTK_WIDGET (state->input_entry_2),
-			  1, 2, 2, 3,
+			  1, 2, 1, 2,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_EDITABLE (state->input_entry_2));
 	gtk_signal_connect_after (GTK_OBJECT (state->input_entry_2), "changed",
-				  GTK_SIGNAL_FUNC (tool_update_sensitivity_multiple_areas_cb), 
+				  GTK_SIGNAL_FUNC (histogram_tool_update_sensitivity_cb), 
 				  state);
 	widget = glade_xml_get_widget (state->gui, "var2-label");
 	key = gtk_label_parse_uline (GTK_LABEL (widget), state->input_var2_str);
@@ -3899,14 +4045,45 @@ dialog_histogram_tool_init (GenericToolState *state)
 					    GDK_MOD1_MASK, 0);
 	gtk_widget_show (GTK_WIDGET (state->input_entry_2));
 
+	state->predetermined_button = GTK_WIDGET(glade_xml_get_widget (state->gui, 
+								       "pre_determined_button"));
+	state->calculated_button = GTK_WIDGET(glade_xml_get_widget (state->gui, 
+								    "calculated_button"));
+	state->bin_labels_button = GTK_WIDGET(glade_xml_get_widget (state->gui, 
+								    "labels_2_button"));
+	state->n_entry = GTK_ENTRY(glade_xml_get_widget (state->gui, 
+							  "n_entry"));
+	state->max_entry = GTK_ENTRY(glade_xml_get_widget (state->gui, 
+							    "max_entry"));
+	state->min_entry = GTK_ENTRY(glade_xml_get_widget (state->gui, 
+							    "min_entry"));
+
+
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "set-focus",
 			    GTK_SIGNAL_FUNC (tool_set_focus), state);
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
 			    GTK_SIGNAL_FUNC (tool_destroy), state);
+	gtk_signal_connect_after (GTK_OBJECT (state->predetermined_button), "toggled",
+				  GTK_SIGNAL_FUNC (histogram_tool_update_sensitivity_cb), state);
+	gtk_signal_connect_after (GTK_OBJECT (state->calculated_button), "toggled",
+				  GTK_SIGNAL_FUNC (histogram_tool_update_sensitivity_cb), state);
+	gtk_signal_connect_after (GTK_OBJECT (state->n_entry), "changed",
+				  GTK_SIGNAL_FUNC (histogram_tool_update_sensitivity_cb), state);
 
-	dialog_tool_init_outputs (state, GTK_SIGNAL_FUNC 
-				  (tool_update_sensitivity_multiple_areas_cb));
+	gtk_signal_connect (GTK_OBJECT (state->n_entry), "focus-in-event",
+			    GTK_SIGNAL_FUNC (histogram_tool_set_calculated), state);
+	gtk_signal_connect (GTK_OBJECT (state->min_entry), "focus-in-event",
+			    GTK_SIGNAL_FUNC (histogram_tool_set_calculated), state);
+	gtk_signal_connect (GTK_OBJECT (state->max_entry), "focus-in-event",
+			    GTK_SIGNAL_FUNC (histogram_tool_set_calculated), state);
+	gtk_signal_connect (GTK_OBJECT (state->input_entry_2), "focus-in-event",
+			    GTK_SIGNAL_FUNC (histogram_tool_set_predetermined), state);
+	gtk_signal_connect (GTK_OBJECT (state->bin_labels_button), "toggled",
+			    GTK_SIGNAL_FUNC (histogram_tool_set_predetermined_on_toggle), state);
+
+	dialog_tool_init_outputs ((GenericToolState *) state, GTK_SIGNAL_FUNC 
+				  (histogram_tool_update_sensitivity_cb));
 
 	gtk_window_add_accel_group (GTK_WINDOW (state->dialog),
 				    state->accel);
@@ -3925,7 +4102,7 @@ dialog_histogram_tool_init (GenericToolState *state)
 static int
 dialog_histogram_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
-        GenericToolState *state;
+        HistogramToolState *state;
 
 	if (wbcg == NULL) {
 		return 1;
@@ -3936,7 +4113,7 @@ dialog_histogram_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	if (gnumeric_dialog_raise_if_exists (wbcg, HISTOGRAM_KEY))
 		return 0;
 
-	state = g_new (GenericToolState, 1);
+	state = g_new (HistogramToolState, 1);
 	(*(ToolType *)state) = TOOL_HISTOGRAM;
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
@@ -3955,7 +4132,7 @@ dialog_histogram_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       HISTOGRAM_KEY);
 
-	tool_update_sensitivity_multiple_areas_cb (NULL, state);
+	histogram_tool_update_sensitivity_cb (NULL, state);
 	gtk_widget_show (state->dialog);
 
         return 0;

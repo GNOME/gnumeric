@@ -1,3 +1,16 @@
+2002-01-09  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* histogram.glade : Redesign and add fields and buttons for 
+	  calculated bins
+	* tools.h : add histogram_calc_bin_info_t
+	* dialog-analysis-tools.c (histogram_tool_update_sensitivity_cb) :
+	  new procedure
+	(histogram_tool_ok_clicked_cb) : handle calculated bins
+	(histogram_tool_set_predetermined) : new callback
+	(histogram_tool_set_predetermined_on_toggle) : new callback
+	(histogram_tool_set_calculated) : new callback
+	(dialog_histogram_tool_init) : initialize new fields
+
 2002-01-08  Morten Welinder  <terra@diku.dk>
 
 	* dialog-search.c (dialog_search): Connect to cursor_change signal

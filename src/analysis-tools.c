@@ -28,6 +28,7 @@
 #include "regression.h"
 #include "sheet-style.h"
 #include "workbook.h"
+#include "format.h"
 
 #include <libgnome/gnome-i18n.h>
 #include <string.h>
@@ -2572,7 +2573,7 @@ average_tool (WorkbookControl *wbc, Sheet *sheet,
 			if (std_error_flag)
 				set_cell_na (dao, col + 1, row + 1);
 		}
-		for (row = interval - 1; row < current->data->len; row++) {
+		for (row = interval - 1; row < (gint)current->data->len; row++) {
 			prev[add_cursor] = g_array_index 
 				(current->data, gnum_float, row);
 			sum += prev[add_cursor];
@@ -3574,7 +3575,10 @@ typedef struct {
 	gnum_float limit;
 	GArray     *counts;
 	char       *label;
+	gboolean   strict;
+	gboolean   first;
 	gboolean   last;
+	gboolean   destroy_label;
 } bin_t;
 
 static gint
@@ -3620,6 +3624,8 @@ bin_pareto (const bin_t *set_a, const bin_t *set_b)
 
 static void 
 destroy_items (gpointer data, gpointer user_data) {
+	if (((bin_t*)data)->label != NULL && ((bin_t*)data)->destroy_label)
+		g_free(((bin_t*)data)->label);
 	g_free (data);
 }
 
@@ -3627,7 +3633,8 @@ int
 histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 		group_by_t group_by, gboolean bin_labels, 
 		gboolean pareto, gboolean percentage, gboolean cumulative,
-		gboolean chart, data_analysis_output_t *dao)
+		gboolean chart, histogram_calc_bin_info_t *bin_info,
+		data_analysis_output_t *dao)
 {
 	GSList *input_range;
 	GPtrArray *data = NULL;
@@ -3639,18 +3646,20 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 	GSList * this;
 	gnum_float *this_value;
 
+	if (bin != NULL) {
 /* read bin data */
-	bin_range = g_slist_prepend (NULL, bin);
-	prepare_input_range (&bin_range, GROUPED_BY_ROW);
-	bin_data = new_data_set_list (bin_range, GROUPED_BY_BIN,
-				  TRUE, bin_labels, sheet);
-	for (i = 0; i < bin_data->len; i++) {
-		if (((data_set_t *)g_ptr_array_index (bin_data, i))->data->len != 1) {
-			range_list_destroy (input);
-			destroy_data_set_list (bin_data);
-			range_list_destroy (bin_range);
-			/* inconsistent bins */
-			return 2;
+		bin_range = g_slist_prepend (NULL, bin);
+		prepare_input_range (&bin_range, GROUPED_BY_ROW);
+		bin_data = new_data_set_list (bin_range, GROUPED_BY_BIN,
+					      TRUE, bin_labels, sheet);
+		for (i = 0; i < bin_data->len; i++) {
+			if (((data_set_t *)g_ptr_array_index (bin_data, i))->data->len != 1) {
+				range_list_destroy (input);
+				destroy_data_set_list (bin_data);
+				range_list_destroy (bin_range);
+				/* inconsistent bins */
+				return 2;
+			}
 		}
 	}
 
@@ -3661,25 +3670,130 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 				  TRUE, dao->labels_flag, sheet);
 
 /* set up counter structure */
-	for (i=0; i < bin_data->len; i++) {
+	if (bin != NULL) {
+		for (i=0; i < bin_data->len; i++) {
+			a_bin = g_new (bin_t, 1);
+			a_bin->limit = g_array_index (
+				((data_set_t *)g_ptr_array_index (bin_data, i))->data, 
+				gnum_float, 0);
+			a_bin->counts = g_array_new (FALSE, TRUE, sizeof (gnum_float));
+			a_bin->counts = g_array_set_size (a_bin->counts, data->len);
+			a_bin->label = ((data_set_t *)g_ptr_array_index (bin_data, i))->label;
+			a_bin->destroy_label = FALSE;
+			a_bin->last = FALSE;
+			a_bin->first = FALSE;
+			a_bin->strict = FALSE;
+			bin_list = g_slist_prepend (bin_list, a_bin);
+		}
+		bin_list = g_slist_sort (bin_list,
+					 (GCompareFunc) bin_compare);
+	} else {
+		gnum_float skip;
+		gboolean value_set;
+		char        *text;
+		Value       *val;
+
+		if (!bin_info->max_given) {
+			value_set = FALSE;
+			for (i = 0; i < data->len; i++) {
+				GArray * the_data;
+				gnum_float a_max;
+				the_data = ((data_set_t *)(g_ptr_array_index (data, i)))->data;
+				if (0 == range_max ((gnum_float *)the_data->data, the_data->len, 
+						    &a_max)) {
+					if (value_set) {
+						if (a_max > bin_info->max)
+							bin_info->max = a_max;
+					} else {
+						bin_info->max = a_max;
+						value_set = TRUE;
+					}
+				}
+			}
+			if (!value_set)
+				bin_info->max = 0.0;
+		}
+		if (!bin_info->min_given) {
+			value_set = FALSE;
+			for (i = 0; i < data->len; i++) {
+				GArray * the_data;
+				gnum_float a_min;
+				the_data = ((data_set_t *)(g_ptr_array_index (data, i)))->data;
+				if (0 == range_min ((gnum_float *)the_data->data, the_data->len, 
+						    &a_min)) {
+					if (value_set) {
+						if (a_min < bin_info->min)
+							bin_info->min = a_min;
+					} else {
+						bin_info->min = a_min;
+						value_set = TRUE;
+					}
+				}
+			}
+			if (!value_set)
+				bin_info->min = 0.0;
+		}
+
+		skip = (bin_info->max - bin_info->min) / bin_info->n;
+		for (i = 0; (int)i < bin_info->n;  i++) {
+			a_bin = g_new (bin_t, 1);
+			a_bin->limit = bin_info->max - i * skip;
+			a_bin->counts = g_array_new (FALSE, TRUE, sizeof (gnum_float));
+			a_bin->counts = g_array_set_size (a_bin->counts, data->len);
+			a_bin->label = NULL;
+			a_bin->destroy_label = FALSE;
+			a_bin->last = FALSE;
+			a_bin->first = FALSE;
+			a_bin->strict = FALSE;
+			bin_list = g_slist_prepend (bin_list, a_bin);			
+		}
 		a_bin = g_new (bin_t, 1);
-		a_bin->limit = g_array_index (
-			((data_set_t *)g_ptr_array_index (bin_data, i))->data, 
-			gnum_float, 0);
+		a_bin->limit = bin_info->min;
 		a_bin->counts = g_array_new (FALSE, TRUE, sizeof (gnum_float));
 		a_bin->counts = g_array_set_size (a_bin->counts, data->len);
-		a_bin->label = ((data_set_t *)g_ptr_array_index (bin_data, i))->label;
+		val = value_new_float(bin_info->min);
+		text = format_value (NULL, val, NULL, 10);
+		if (text) {
+			a_bin->label = g_strdup_printf (_("<%s"), text);
+			a_bin->destroy_label = TRUE;
+			g_free (text);
+		} else {
+			a_bin->label = _("Too Small");
+			a_bin->destroy_label = FALSE;
+		}
+		if (val)
+			value_release(val);
 		a_bin->last = FALSE;
-		bin_list = g_slist_prepend (bin_list, a_bin);
+		a_bin->first = TRUE;
+		a_bin->strict = TRUE;
+		bin_list = g_slist_prepend (bin_list, a_bin);			
+		bin_labels = FALSE;
 	}
-	bin_list = g_slist_sort (bin_list,
-				  (GCompareFunc) bin_compare);
 	a_bin = g_new (bin_t, 1);
 	a_bin->limit = 0.0;
 	a_bin->counts = g_array_new (FALSE, TRUE, sizeof (gnum_float));
 	a_bin->counts = g_array_set_size (a_bin->counts, data->len);
-	a_bin->label = _("More");
+	a_bin->destroy_label = FALSE;
+	if (bin != NULL) {
+		a_bin->label = _("More");
+	} else {
+		char        *text;
+		Value       *val;
+
+		val = value_new_float(bin_info->max);
+		text = format_value (NULL, val, NULL, 10);
+		if (text) {
+			a_bin->label = g_strdup_printf (_(">%s"), text);
+			a_bin->destroy_label = TRUE;
+			g_free (text);
+		} else 
+			a_bin->label = _("Too Large");
+		if (val)
+			value_release(val);
+	}
 	a_bin->last = TRUE;
+	a_bin->first = FALSE;
+	a_bin->strict = FALSE;
 	bin_list = g_slist_append (bin_list, a_bin);
 
 /* count data */
@@ -3694,7 +3808,9 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 		this_value = the_sorted_data;
 
 		for (j = 0; j < the_data->len;) {
-			if ((*this_value <= ((bin_t *)this->data)->limit) ||
+			if ((*this_value < ((bin_t *)this->data)->limit) ||
+			    (*this_value == ((bin_t *)this->data)->limit && 
+			     !((bin_t *)this->data)->strict) ||
 			    (this->next == NULL)){
 				(g_array_index (((bin_t *)this->data)->counts, 
 						gnum_float, i))++;
@@ -3721,8 +3837,8 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 	
 	this = bin_list;
 	while (this != NULL) {
-	       row++;
-		if (bin_labels || ((bin_t *)this->data)->last) {
+		row++;
+		if (bin_labels || ((bin_t *)this->data)->last || ((bin_t *)this->data)->first) {
 			set_cell (dao, 0, row, ((bin_t *)this->data)->label);
 		} else {
 			set_cell_float (dao, 0, row, ((bin_t *)this->data)->limit);
@@ -3777,14 +3893,16 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 		if (cumulative)
 			col++;
 	}
-	set_italic (dao, 0, 0,  col - 1, 1);
+	set_italic (dao, 0, 0,  col - 1, dao->labels_flag ? 1 : 0);
 	autofit_columns (dao, 0, col - 1);
 
 /* finish up */
 	destroy_data_set_list (data);
 	range_list_destroy (input_range);
-	destroy_data_set_list (bin_data);
-	range_list_destroy (bin_range);
+	if (bin) {
+		destroy_data_set_list (bin_data);
+		range_list_destroy (bin_range);
+	}
 	g_slist_foreach (bin_list, destroy_items, NULL);
 	g_slist_free (bin_list);
 	

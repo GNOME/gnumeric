@@ -1,3 +1,8 @@
+2002-01-09  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* analysis-tools.c (histogram_tool) : implement calculated bins
+	* analysis-tools.h : expand argument list for histogram_tool
+
 2002-01-08  Jody Goldberg <jody@gnome.org>
 
 	* src/expr.c (expr_eval_real) : merge eval_funcall into here.

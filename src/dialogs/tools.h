@@ -69,7 +69,8 @@ int anova_two_factor_with_r_tool (WorkbookControl *context, Sheet *sheet,
 int histogram_tool (WorkbookControl *context, Sheet *sheet,
 		    GSList *input, Value *bin, group_by_t group_by,
 		    gboolean bin_labels, gboolean pareto, gboolean percentage,
-		    gboolean cumulative, gboolean chart,
+		    gboolean cumulative, gboolean chart, 
+		    histogram_calc_bin_info_t *bin_info,
 		    data_analysis_output_t *dao);
 
 #endif

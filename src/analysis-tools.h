@@ -95,6 +95,14 @@ typedef struct {
 	gboolean                    autofit_flag;
 } data_analysis_output_t;
 
+typedef struct {
+	gboolean max_given;
+	gboolean min_given;
+	gnum_float max;
+	gnum_float min;
+	gint n;
+} histogram_calc_bin_info_t;
+
 
 void autofit_column  (data_analysis_output_t *dao, int col);
 void set_cell        (data_analysis_output_t *dao, int col, int row, const char *text);
