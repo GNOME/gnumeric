@@ -104,10 +104,10 @@ stf_export_options_set_terminator_type (StfExportOptions_t *export_options, StfT
  * Sets the cell separator (a.k.a. field separator)
  **/
 void
-stf_export_options_set_cell_separator (StfExportOptions_t *export_options, char cell_separator)
+stf_export_options_set_cell_separator (StfExportOptions_t *export_options, gunichar cell_separator)
 {
 	g_return_if_fail (export_options != NULL);
-	g_return_if_fail (cell_separator != '\0');
+	g_return_if_fail (cell_separator != 0);
 
 	export_options->cell_separator = cell_separator;
 }
@@ -297,7 +297,7 @@ stf_export_cell (StfExportOptions_t *export_options, Cell *cell)
 		}
 
 		if (export_options->quoting_mode == QUOTING_MODE_AUTO) {
-			if (strchr (s, export_options->cell_separator) ||
+			if (g_utf8_strchr (s, -1, export_options->cell_separator) ||
 			    g_utf8_strchr (s, -1, export_options->quoting_char) ||
 			    strchr (s, ' ') || strchr (s, '\t')) {
 				quoting = TRUE;
@@ -360,7 +360,7 @@ stf_export_sheet (StfExportOptions_t *export_options, Sheet *sheet)
 	g_return_val_if_fail (export_options->write_func != NULL, FALSE);
 
 	separator = g_string_new (NULL);
-	g_string_append_c (separator, export_options->cell_separator);
+	g_string_append_unichar (separator, export_options->cell_separator);
 
 	r = sheet_get_extent (sheet, FALSE);
 
@@ -426,7 +426,7 @@ stf_export (StfExportOptions_t *export_options)
 
 	g_return_val_if_fail (export_options != NULL, FALSE);
 	g_return_val_if_fail (export_options->terminator_type != TERMINATOR_TYPE_UNKNOWN, FALSE);
-	g_return_val_if_fail (export_options->cell_separator != '\0', FALSE);
+	g_return_val_if_fail (export_options->cell_separator != 0, FALSE);
 	g_return_val_if_fail (export_options->sheet_list != NULL, FALSE);
 	g_return_val_if_fail (export_options->quoting_mode != QUOTING_MODE_UNKNOWN, FALSE);
 

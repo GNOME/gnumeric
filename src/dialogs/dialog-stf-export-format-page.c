@@ -140,7 +140,7 @@ stf_export_dialog_format_page_result (StfE_FormatPageData_t *data, StfExportOpti
 	StfQuotingMode_t quotingmode;
 	StfTransliterateMode_t transliteratemode;
 	char *text;
-	char separator;
+	gunichar separator;
 	char const * charset;
 	
 
@@ -183,7 +183,7 @@ stf_export_dialog_format_page_result (StfE_FormatPageData_t *data, StfExportOpti
 	stf_export_options_set_quoting_char (export_options, g_utf8_get_char (text));
 	g_free (text);
 
-	separator = '\0';
+	separator = 0;
 	switch (gtk_option_menu_get_history (data->format_separator)) {
 	case 0 : separator = ' '; break;
 	case 1 : separator = '\t'; break;
@@ -196,7 +196,7 @@ stf_export_dialog_format_page_result (StfE_FormatPageData_t *data, StfExportOpti
 	case 8 : separator = '/'; break;
 	case 9 : {
 		text = gtk_editable_get_chars (GTK_EDITABLE (data->format_custom), 0, -1);
-		separator = text[0];
+		separator = g_utf8_get_char (text);
 		g_free (text);
 		break;
 	}

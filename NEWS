@@ -19,6 +19,7 @@ Morten:
 	  numbers.
 	* Fix stf dialog problem with WM close.
 	* Make stf export quoting UTF-8 safe.
+	* Make stf export cell separation UTF-8 safe.
 
 --------------------------------------------------------------------------
 

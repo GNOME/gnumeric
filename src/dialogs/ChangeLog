@@ -1,7 +1,8 @@
 2003-05-14  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf-export-format-page.c
-	(stf_export_dialog_format_page_result): Set gunichar quoting char.
+	(stf_export_dialog_format_page_result): Set gunichar quoting_char
+	and cell_separator.
 
 2003-05-13  Morten Welinder  <terra@gnome.org>
 

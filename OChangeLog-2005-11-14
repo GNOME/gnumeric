@@ -1,9 +1,10 @@
 2003-05-14  Morten Welinder  <terra@gnome.org>
 
-	* src/stf-export.h (StfExportOptions_t): Make quoting_char a
-	gunichar.
+	* src/stf-export.h (StfExportOptions_t): Make quoting_char and
+	cell_separator gunichars.
 
-	* src/stf-export.c (stf_export_options_set_quoting_char): Ditto.
+	* src/stf-export.c (stf_export_options_set_quoting_char,
+	stf_export_options_set_cell_separator): Ditto.
 	(stf_export_cell): Handle gunichar quoting.
 
 2003-05-13  Jody Goldberg <jody@gnome.org>
