@@ -12,7 +12,6 @@ static void   gnumeric_dashed_canvas_line_draw     (GnomeCanvasItem *item, GdkDr
 						    int x, int y, int width, int height);
 
 static GnumericDashedCanvasLineClass *gnumeric_dashed_canvas_line_class;
-static GnomeCanvasLineClass *parent_class;
 
 GtkType
 gnumeric_dashed_canvas_line_get_type (void)
