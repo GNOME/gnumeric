@@ -165,6 +165,7 @@ stf_parse_options_new (void)
 	parseoptions->sep.chr = NULL;
 
 	parseoptions->col_import_array = NULL;
+	parseoptions->col_import_array_len = 0;
 	parseoptions->formats = NULL;
 
 	return parseoptions;
@@ -1166,6 +1167,7 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 
 		for (lcol = 0; lcol < line->len; lcol++)
 			if (parseoptions->col_import_array == NULL ||
+			    parseoptions->col_import_array_len <= lcol ||
 			    parseoptions->col_import_array[lcol]) {
 				if (col >= SHEET_MAX_COLS) {
 					if (!warned) {
@@ -1219,6 +1221,7 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const 
 
 		for (col = 0; col < line->len; col++) {
 			if (parseoptions->col_import_array == NULL ||
+			    parseoptions->col_import_array_len <= col ||
 			    parseoptions->col_import_array[col]) {
 				char *text = g_ptr_array_index (line, col);
 

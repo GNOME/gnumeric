@@ -36,6 +36,25 @@
 static void format_page_update_preview (StfDialogData *pagedata);
 
 static void
+format_page_update_column_selection (StfDialogData *pagedata)
+{
+	char *text = NULL;
+	
+	if (pagedata->format.col_import_count == pagedata->format.col_import_array_len) {
+		text = g_strdup_printf (_("Importing %i columns and ignoring none."),
+					pagedata->format.col_import_count);
+	} else {
+		text = g_strdup_printf (_("Importing %i columns and ignoring %i."),
+					pagedata->format.col_import_count,
+					pagedata->format.col_import_array_len - pagedata->format.col_import_count);
+	}
+
+	gtk_label_set_text (pagedata->format.column_selection_label, text);
+
+	g_free (text);
+}
+
+static void
 format_page_trim_menu_changed (G_GNUC_UNUSED GtkMenu *menu,
 				  StfDialogData *data)
 {
@@ -123,11 +142,13 @@ cb_col_check_clicked (GtkToggleButton *togglebutton, gpointer _i)
 
 	if (!active) {
 		pagedata->format.col_import_array[i] = FALSE;
-		pagedata->format.col_import_count--;		
+		pagedata->format.col_import_count--;
+		format_page_update_column_selection (pagedata);
 	} else {
 		if (pagedata->format.col_import_count < SHEET_MAX_COLS) {
 			pagedata->format.col_import_array[i] = TRUE;
 			pagedata->format.col_import_count++;
+			format_page_update_column_selection (pagedata);
 		} else {
 			char *msg = g_strdup_printf 
 				(_("A maximum of %d columns can be imported."), 
@@ -382,6 +403,8 @@ format_page_update_preview (StfDialogData *pagedata)
 		} else {
 			pagedata->format.col_import_array[i] = FALSE;	
 		}
+
+	format_page_update_column_selection (pagedata);
 		
 	for (i = old_part; i < renderdata->colcount; i++) {
 		GtkTreeViewColumn *column =
@@ -553,6 +576,7 @@ stf_dialog_format_page_init (GladeXML *gui, StfDialogData *pagedata)
 
 	pagedata->format.format_data_container = glade_xml_get_widget (gui, "format_data_container");
 	pagedata->format.format_trim   = glade_xml_get_widget (gui, "format_trim");
+	pagedata->format.column_selection_label   = glade_xml_get_widget (gui, "column_selection_label");
 
 	format_hbox = glade_xml_get_widget (gui, "format_hbox");
 	gtk_box_pack_end_defaults (GTK_BOX (format_hbox), GTK_WIDGET (pagedata->format.format_selector));
@@ -591,4 +615,6 @@ stf_dialog_format_page_init (GladeXML *gui, StfDialogData *pagedata)
 			  "changed",
 			  G_CALLBACK (format_page_trim_menu_changed), pagedata);
 	gtk_combo_box_set_active (GTK_COMBO_BOX (pagedata->format.format_trim), 0);
+
+	format_page_update_column_selection (pagedata);
 }

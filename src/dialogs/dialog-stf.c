@@ -407,8 +407,11 @@ stf_dialog (WorkbookControlGUI *wbcg,
 		pagedata.format.formats = NULL;
 		dialogresult->parseoptions->col_import_array 
 			=  pagedata.format.col_import_array;
+		dialogresult->parseoptions->col_import_array_len 
+			=  pagedata.format.col_import_array_len;
 		pagedata.format.col_import_array = NULL;
 		pagedata.format.col_import_count = 0;
+		pagedata.format.col_import_array_len = 0;
 	}
 
 	stf_dialog_main_page_cleanup   (&pagedata);
