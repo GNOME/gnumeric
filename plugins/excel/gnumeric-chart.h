@@ -22,7 +22,7 @@ typedef struct _GnumericChart
 	GPtrArray  *series;
 } GnumericChart;
 
-extern GnumericChart * gnumeric_chart_new ();
+extern GnumericChart * gnumeric_chart_new (void);
 extern void gnumeric_chart_destroy (GnumericChart * chart);
 
 #endif /* GNUMERIC_CHART_H */

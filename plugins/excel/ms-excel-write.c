@@ -1506,7 +1506,7 @@ write_sheet (BiffPut *bp, ExcelSheet *sheet)
 	biff_eof_write (bp);
 }
 
-void
+static void
 new_sheet (ExcelWorkbook *wb, Sheet *value)
 {
 	ExcelSheet     *sheet = g_new (ExcelSheet, 1);
