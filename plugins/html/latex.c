@@ -557,7 +557,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, Cell *cell, int num_merged_co
 	if (index == 0) {
 		left_border = *borders;
 	}
-	right_border = borders[index + num_merged_cols - 1];
+	right_border = borders[index + num_merged_cols];
 
 	/* We only set up a multicolumn command if necessary */
 	if (num_merged_cols > 1) {
