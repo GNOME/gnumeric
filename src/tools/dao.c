@@ -220,8 +220,9 @@ dao_format_output (data_analysis_output_t *dao, char const *cmd)
 		    dao->start_col + dao->cols - 1, 
 		    dao->start_row + dao->rows - 1);
 	
-	if (dao->type == RangeOutput && sheet_range_splits_region (dao->sheet, &range, NULL,
-								   dao->wbc, cmd))
+	if (dao->type == RangeOutput
+	    && sheet_range_splits_region (dao->sheet, &range, NULL,
+					  dao->wbc, cmd))
 		return TRUE;
 
 	if (!dao->retain_format)

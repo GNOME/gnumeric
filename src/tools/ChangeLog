@@ -1,5 +1,7 @@
 2002-03-12  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
+	* autocorrect.c, analysis-tools.c: Added GPL clause.
+
 	* dao.[ch] (dao_set_bold): New function.  Moved from
 	src/tools/solver/reports.c.
 	(dao_set_underlined): Ditto.
