@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.28\n"
-"POT-Creation-Date: 1999-09-02 13:05-0500\n"
+"POT-Creation-Date: 1999-09-06 18:02-0500\n"
 "PO-Revision-Date: 1999-07-08 12:20:55+0900\n"
 "Last-Translator: Sung-Hyun Nam <namsh@lgic.co.kr>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -629,7 +629,7 @@ msgid "Left"
 msgstr "왼쪽"
 
 #: src/dialogs/dialog-cell-format.c:362 src/dialogs/dialog-cell-format.c:371
-#: src/workbook.c:1146
+#: src/workbook.c:1142
 msgid "Center"
 msgstr "중앙"
 
@@ -667,50 +667,50 @@ msgstr "수평"
 msgid "Auto return"
 msgstr ""
 
-#: src/dialogs/dialog-cell-format.c:611
+#: src/dialogs/dialog-cell-format.c:620
 msgid "Text color"
 msgstr "텍스트 색상"
 
 #. The radio buttons
-#: src/dialogs/dialog-cell-format.c:615 src/dialogs/dialog-cell-format.c:648
+#: src/dialogs/dialog-cell-format.c:624 src/dialogs/dialog-cell-format.c:660
 #: src/dialogs/dialog-paste-special.c:28
 msgid "None"
 msgstr "없음"
 
-#: src/dialogs/dialog-cell-format.c:617
+#: src/dialogs/dialog-cell-format.c:626
 msgid "Use this color"
 msgstr "이 색상 사용"
 
-#: src/dialogs/dialog-cell-format.c:619 src/dialogs/dialog-cell-format.c:654
+#: src/dialogs/dialog-cell-format.c:628 src/dialogs/dialog-cell-format.c:666
 msgid "No change"
 msgstr "변경하지 않음"
 
-#: src/dialogs/dialog-cell-format.c:642
+#: src/dialogs/dialog-cell-format.c:654
 msgid "Background configuration"
 msgstr "배경 환경설정"
 
-#: src/dialogs/dialog-cell-format.c:650
+#: src/dialogs/dialog-cell-format.c:662
 msgid "Use solid color"
 msgstr "고체색상 사용"
 
-#: src/dialogs/dialog-cell-format.c:652
+#: src/dialogs/dialog-cell-format.c:664
 msgid "Use a pattern"
 msgstr "패턴 사용"
 
-#: src/dialogs/dialog-cell-format.c:923
+#: src/dialogs/dialog-cell-format.c:937
 #: src/dialogs/dialog-function-wizard.c:209
 msgid "Number"
 msgstr "숫자"
 
-#: src/dialogs/dialog-cell-format.c:924
+#: src/dialogs/dialog-cell-format.c:938
 msgid "Alignment"
 msgstr "정렬"
 
-#: src/dialogs/dialog-cell-format.c:925
+#: src/dialogs/dialog-cell-format.c:939
 msgid "Font"
 msgstr "글꼴"
 
-#: src/dialogs/dialog-cell-format.c:926
+#: src/dialogs/dialog-cell-format.c:940
 msgid "Coloring"
 msgstr "채색"
 
@@ -740,7 +740,7 @@ msgstr ""
 msgid "Need at least one clause"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:314 src/workbook.c:1505
+#: src/dialogs/dialog-cell-sort.c:314 src/workbook.c:1501
 msgid "Selection must be a single range"
 msgstr "선택은 단일 범위여야만 합니다."
 
@@ -780,7 +780,7 @@ msgid "Delete cells"
 msgstr "셀 삭제"
 
 #: src/dialogs/dialog-delete-cells.c:48 src/dialogs/names.glade.h:10
-#: src/item-grid.c:605
+#: src/item-grid.c:642
 msgid "Delete"
 msgstr "삭제"
 
@@ -935,7 +935,7 @@ msgstr "셀 삽입"
 msgid "Insert cells"
 msgstr "셀 삽입"
 
-#: src/dialogs/dialog-insert-cells.c:49 src/item-grid.c:604
+#: src/dialogs/dialog-insert-cells.c:49 src/item-grid.c:641
 msgid "Insert"
 msgstr "삽입"
 
@@ -976,7 +976,8 @@ msgid "Add "
 msgstr "더하기 "
 
 #: src/dialogs/dialog-paste-special.c:30
-msgid "Substract"
+#, fuzzy
+msgid "Subtract"
 msgstr "빼기"
 
 #: src/dialogs/dialog-paste-special.c:31
@@ -987,7 +988,7 @@ msgstr "곱하기"
 msgid "Divide"
 msgstr "나누기"
 
-#: src/dialogs/dialog-paste-special.c:64 src/item-grid.c:602
+#: src/dialogs/dialog-paste-special.c:64 src/item-grid.c:639
 msgid "Paste special"
 msgstr "특별한 붙이기"
 
@@ -1003,16 +1004,16 @@ msgstr "동작"
 msgid "Transpose"
 msgstr "전환"
 
-#: src/dialogs/dialog-printer-setup.c:461
+#: src/dialogs/dialog-printer-setup.c:515
 #, fuzzy
 msgid "Custom header configuration"
 msgstr "배경 환경설정"
 
-#: src/dialogs/dialog-printer-setup.c:472
+#: src/dialogs/dialog-printer-setup.c:526
 msgid "Custom footer configuration"
 msgstr ""
 
-#: src/dialogs/dialog-printer-setup.c:677
+#: src/dialogs/dialog-printer-setup.c:734
 #, fuzzy
 msgid "Print setup"
 msgstr "인쇄"
@@ -1026,11 +1027,11 @@ msgstr ""
 msgid ">="
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:45 src/workbook.c:1615
+#: src/dialogs/dialog-solver.c:45 src/workbook.c:1611
 msgid "Max"
 msgstr "최대"
 
-#: src/dialogs/dialog-solver.c:46 src/workbook.c:1614
+#: src/dialogs/dialog-solver.c:46 src/workbook.c:1610
 msgid "Min"
 msgstr "최소"
 
@@ -1229,98 +1230,116 @@ msgstr "방위"
 
 #: src/dialogs/print.glade.h:9
 #, fuzzy
-msgid "Portrait"
+msgid "Por_trait"
 msgstr "인쇄"
 
 #: src/dialogs/print.glade.h:10
-msgid "Landscape"
-msgstr ""
+#, fuzzy
+msgid "_Landscape"
+msgstr "붙이기 종류"
 
 #: src/dialogs/print.glade.h:11
 msgid "Scale"
 msgstr "척도"
 
-#: src/dialogs/print.glade.h:12 src/dialogs/print.glade.h:13
-msgid "Adjust to"
+#: src/dialogs/print.glade.h:12
+#, fuzzy
+msgid "_Adjust to:"
+msgstr "자동정렬(_A)"
+
+#: src/dialogs/print.glade.h:13
+msgid "_Fit to:"
 msgstr ""
 
 #: src/dialogs/print.glade.h:14
 #, c-format
-msgid "% of the original size"
+msgid "% of normal size"
 msgstr ""
 
 #: src/dialogs/print.glade.h:15
-msgid "pages wider by "
+msgid "page(s) wide by"
 msgstr ""
 
 #: src/dialogs/print.glade.h:16
-msgid "pages of height"
-msgstr ""
+#, fuzzy
+msgid "tall"
+msgstr "이탤릭"
 
 #: src/dialogs/print.glade.h:17
-msgid "Paper size:"
-msgstr "종이 크기:"
-
-#: src/dialogs/print.glade.h:18
-msgid "First page number:"
+#, fuzzy
+msgid "Fi_rst page number:"
 msgstr "첫번째 페이지 번호:"
 
-#: src/dialogs/print.glade.h:19 src/dialogs/print.glade.h:32
-#: src/dialogs/print.glade.h:42 src/dialogs/print.glade.h:50
-#: src/dialogs/print.glade.h:58 src/workbook.c:1125
-msgid "Print"
+#: src/dialogs/print.glade.h:18 src/dialogs/print.glade.h:32
+#: src/dialogs/print.glade.h:42 src/dialogs/print.glade.h:58
+#, fuzzy
+msgid "_Print"
 msgstr "인쇄"
 
-#: src/dialogs/print.glade.h:20 src/dialogs/print.glade.h:33
+#: src/dialogs/print.glade.h:19 src/dialogs/print.glade.h:33
 #: src/dialogs/print.glade.h:43 src/dialogs/print.glade.h:59
-#: src/workbook.c:939
-msgid "Print preview"
+#, fuzzy
+msgid "Print previe_w"
 msgstr "인쇄 미리보기"
 
-#: src/dialogs/print.glade.h:21 src/dialogs/print.glade.h:34
+#: src/dialogs/print.glade.h:20 src/dialogs/print.glade.h:34
 #: src/dialogs/print.glade.h:44 src/dialogs/print.glade.h:60
-msgid "Options"
+#, fuzzy
+msgid "_Options"
 msgstr "옵션"
 
-#: src/dialogs/print.glade.h:22 src/dialogs/print.glade.h:61
+#: src/dialogs/print.glade.h:21 src/dialogs/print.glade.h:61
 msgid "Page"
 msgstr "페이지"
 
-#: src/dialogs/print.glade.h:23
-msgid "Superior:"
-msgstr ""
+#: src/dialogs/print.glade.h:22
+#, fuzzy
+msgid "_Top:"
+msgstr "꼭대기"
 
-#: src/dialogs/print.glade.h:24
-msgid "Header:"
+#: src/dialogs/print.glade.h:23
+#, fuzzy
+msgid "He_ader:"
 msgstr "머리말:"
 
-#: src/dialogs/print.glade.h:25
-msgid "Lower:"
-msgstr ""
+#: src/dialogs/print.glade.h:24
+#, fuzzy
+msgid "_Bottom:"
+msgstr "밑바닥"
 
-#: src/dialogs/print.glade.h:26
-msgid "Footer"
+#: src/dialogs/print.glade.h:25
+#, fuzzy
+msgid "_Footer"
 msgstr "꼬리말"
 
-#: src/dialogs/print.glade.h:27
+#: src/dialogs/print.glade.h:26
 msgid "Center on page"
 msgstr "페이지 중앙"
 
-#: src/dialogs/print.glade.h:28
-msgid "Horizontally"
+#: src/dialogs/print.glade.h:27
+#, fuzzy
+msgid "_Horizontally"
 msgstr "수평으로"
 
-#: src/dialogs/print.glade.h:29
-msgid "Vertically"
+#: src/dialogs/print.glade.h:28
+#, fuzzy
+msgid "_Vertically"
 msgstr "수직으로"
 
-#: src/dialogs/print.glade.h:30
-msgid "Left:"
+#: src/dialogs/print.glade.h:29
+#, fuzzy
+msgid "_Left:"
 msgstr "왼쪽:"
 
+#: src/dialogs/print.glade.h:30
+#, fuzzy
+msgid "_Right"
+msgstr "오른쪽"
+
 #: src/dialogs/print.glade.h:31
-msgid "Right:"
-msgstr "오른쪽:"
+#, fuzzy
+msgid "Paper _size:"
+msgstr "종이 크기:"
 
 #: src/dialogs/print.glade.h:35
 msgid "Margins"
@@ -1335,11 +1354,11 @@ msgid "Header"
 msgstr "머리말"
 
 #: src/dialogs/print.glade.h:38
-msgid "Customize header"
+msgid "Customize _header"
 msgstr ""
 
 #: src/dialogs/print.glade.h:39
-msgid "Customize footer"
+msgid "Customize _footer"
 msgstr ""
 
 #: src/dialogs/print.glade.h:40
@@ -1351,7 +1370,8 @@ msgid "Headers and footers"
 msgstr "머리말과 꼬리말"
 
 #: src/dialogs/print.glade.h:46
-msgid "Print region:"
+#, fuzzy
+msgid "Print _area:"
 msgstr "인쇄 영역:"
 
 #: src/dialogs/print.glade.h:47
@@ -1359,40 +1379,46 @@ msgid "Titles to print"
 msgstr "인쇄할 제목"
 
 #: src/dialogs/print.glade.h:48
-msgid "Columns to repeat on the left side:"
+msgid "_Columns to repeat on the left side:"
 msgstr ""
 
 #: src/dialogs/print.glade.h:49
-msgid "Rows to repeat on the upper region:"
+msgid "_Rows to repeat on the upper region:"
 msgstr ""
 
+#: src/dialogs/print.glade.h:50 src/workbook.c:1121
+msgid "Print"
+msgstr "인쇄"
+
 #: src/dialogs/print.glade.h:51
-msgid "Division lines"
-msgstr "눈금선"
+msgid "Row and co_lumn headings"
+msgstr ""
 
 #: src/dialogs/print.glade.h:52
-msgid "Black and white"
-msgstr "흑백"
+#, fuzzy
+msgid "Co_mments"
+msgstr "코멘트"
 
 #: src/dialogs/print.glade.h:53
-msgid "Titles of rows and columns."
-msgstr "행과 열의 제목"
+msgid "_Grid lines"
+msgstr ""
 
-#: src/dialogs/print.glade.h:54 src/dialogs/summary.glade.h:14
-msgid "Comments"
-msgstr "코멘트"
+#: src/dialogs/print.glade.h:54
+#, fuzzy
+msgid "_Black and white"
+msgstr "흑백"
 
 #: src/dialogs/print.glade.h:55
 msgid "Page order"
 msgstr "페이지 순서"
 
 #: src/dialogs/print.glade.h:56
-msgid "Down, then right"
+msgid "_Down, then right"
 msgstr ""
 
 #: src/dialogs/print.glade.h:57
 #, fuzzy
-msgid "Right, then down"
+msgid "R_ight, then down"
 msgstr "오른쪽 정렬"
 
 #.
@@ -1446,6 +1472,10 @@ msgstr "직사각형"
 #: src/dialogs/summary.glade.h:12
 msgid "Document Summary Information\n"
 msgstr ""
+
+#: src/dialogs/summary.glade.h:14
+msgid "Comments"
+msgstr "코멘트"
 
 #: src/dump.c:31
 #, c-format
@@ -5563,80 +5593,80 @@ msgstr "함수가 없습니다"
 msgid "Calling non-function"
 msgstr "함수가 아닌 걸 불렀읍니다"
 
-#: src/gnumeric-sheet.c:984
+#: src/gnumeric-sheet.c:981
 msgid "Solid"
 msgstr "고체색"
 
-#: src/gnumeric-sheet.c:988
+#: src/gnumeric-sheet.c:985
 #, no-c-format
 msgid "75%"
 msgstr "75%"
 
-#: src/gnumeric-sheet.c:992
+#: src/gnumeric-sheet.c:989
 #, no-c-format
 msgid "50%"
 msgstr "50%"
 
-#: src/gnumeric-sheet.c:996
+#: src/gnumeric-sheet.c:993
 #, no-c-format
 msgid "25%"
 msgstr "25%"
 
-#: src/gnumeric-sheet.c:1000
+#: src/gnumeric-sheet.c:997
 #, no-c-format
 msgid "12.5%"
 msgstr "12.5%"
 
-#: src/gnumeric-sheet.c:1004
+#: src/gnumeric-sheet.c:1001
 #, no-c-format
 msgid "6.25%"
 msgstr "6.25%"
 
-#: src/gnumeric-sheet.c:1007
+#: src/gnumeric-sheet.c:1004
 msgid "Horizontal Stripe"
 msgstr "수평선"
 
-#: src/gnumeric-sheet.c:1010
+#: src/gnumeric-sheet.c:1007
 msgid "Vertical Stripe"
 msgstr "수직선"
 
-#: src/gnumeric-sheet.c:1013
+#: src/gnumeric-sheet.c:1010
 msgid "Reverse Diagonal Stripe"
 msgstr "역대각선"
 
-#: src/gnumeric-sheet.c:1016
+#: src/gnumeric-sheet.c:1013
 msgid "Diagonal Stripe"
 msgstr "대각선"
 
-#: src/gnumeric-sheet.c:1019
+#: src/gnumeric-sheet.c:1016
 msgid "Diagonal Crosshatch"
 msgstr "대각 직교평행선"
 
-#: src/gnumeric-sheet.c:1022
+#: src/gnumeric-sheet.c:1019
 msgid "Thick Diagonal Crosshatch"
 msgstr "굵은 대각 직교평행선"
 
-#: src/gnumeric-sheet.c:1025
+#: src/gnumeric-sheet.c:1022
 msgid "Thin Horizontal Stripe"
 msgstr "가는 수평선"
 
-#: src/gnumeric-sheet.c:1028
+#: src/gnumeric-sheet.c:1025
 msgid "Thin Vertical Stripe"
 msgstr "가는 수직선"
 
-#: src/gnumeric-sheet.c:1031
+#: src/gnumeric-sheet.c:1028
 msgid "Thin Reverse Diagonal Stripe"
 msgstr "가는 역대각선"
 
-#: src/gnumeric-sheet.c:1034
+#: src/gnumeric-sheet.c:1031
 msgid "Thin Diagonal Stripe"
 msgstr "가는 대각선"
 
-#: src/gnumeric-sheet.c:1037
+#: src/gnumeric-sheet.c:1034
 msgid "Thin Crosshatch"
 msgstr "가는 직교평행선"
 
-#: src/gnumeric-sheet.c:1040
+#: src/gnumeric-sheet.c:1037
 msgid "Thin Diagonal Crosshatch"
 msgstr "가는 역대각 직교평행선"
 
@@ -5654,11 +5684,11 @@ msgstr ""
 "덮어써지게 될겁니다. 이 영역의 내용을 바꾸기를\n"
 "원하십니까?"
 
-#: src/item-cursor.c:581 src/item-grid.c:600 src/workbook.c:1134
+#: src/item-cursor.c:581 src/item-grid.c:637 src/workbook.c:1130
 msgid "Copy"
 msgstr "복사"
 
-#: src/item-cursor.c:582
+#: src/item-cursor.c:582 src/print-preview.c:452
 msgid "Move"
 msgstr "이동"
 
@@ -5686,19 +5716,19 @@ msgstr "셀을 밑으로 보내고 복사"
 msgid "Shift cells right and move"
 msgstr "셀을 오른쪽으로 보내고 이동"
 
-#: src/item-grid.c:599 src/workbook.c:1131
+#: src/item-grid.c:636 src/workbook.c:1127
 msgid "Cut"
 msgstr "자르기"
 
-#: src/item-grid.c:601 src/workbook.c:1137
+#: src/item-grid.c:638 src/workbook.c:1133
 msgid "Paste"
 msgstr "붙이기"
 
-#: src/item-grid.c:606
+#: src/item-grid.c:643
 msgid "Erase content"
 msgstr "내용 지우기"
 
-#: src/item-grid.c:608
+#: src/item-grid.c:645
 msgid "Cell format"
 msgstr "셀 형식"
 
@@ -5864,71 +5894,119 @@ msgstr "날짜"
 msgid "time"
 msgstr "시간"
 
-#: src/print-preview.c:176
+#: src/print-preview.c:289
+#, fuzzy
+msgid "Page: "
+msgstr "페이지"
+
+#: src/print-preview.c:412
 #, fuzzy
 msgid "_First page"
 msgstr "첫번째 페이지 번호:"
 
-#: src/print-preview.c:176
+#: src/print-preview.c:412 src/print-preview.c:440
 msgid "Shows the first page"
 msgstr ""
 
-#: src/print-preview.c:179
+#: src/print-preview.c:415
 msgid "_Previous page"
 msgstr ""
 
-#: src/print-preview.c:179
+#: src/print-preview.c:415 src/print-preview.c:443
 msgid "Shows the previous page"
 msgstr ""
 
-#: src/print-preview.c:182
+#: src/print-preview.c:418
 msgid "_Next page"
 msgstr ""
 
-#: src/print-preview.c:182
+#: src/print-preview.c:418 src/print-preview.c:446
 msgid "Shows the next page"
 msgstr ""
 
-#: src/print-preview.c:185
+#: src/print-preview.c:421
 #, fuzzy
 msgid "_Last page"
 msgstr "붙이기 종류"
 
-#: src/print-preview.c:185
+#: src/print-preview.c:421 src/print-preview.c:449
 msgid "Shows the last page"
 msgstr ""
 
-#: src/print-preview.c:190
+#: src/print-preview.c:426
 #, fuzzy
 msgid "Zoom _in"
 msgstr "축소"
 
-#: src/print-preview.c:190
+#: src/print-preview.c:426
 #, fuzzy
 msgid "Zooms in"
 msgstr "축소"
 
-#: src/print-preview.c:191
+#: src/print-preview.c:427
 #, fuzzy
 msgid "Zoom _out"
 msgstr "확대"
 
-#: src/print-preview.c:191
+#: src/print-preview.c:427
 #, fuzzy
 msgid "Zooms out"
 msgstr "확대"
 
-#: src/print-preview.c:210
+#: src/print-preview.c:434
+#, fuzzy
+msgid "_View"
+msgstr "새 쉬트(_N)"
+
+#: src/print-preview.c:440
+#, fuzzy
+msgid "First"
+msgstr "첫번째 페이지 번호:"
+
+#: src/print-preview.c:443
+#, fuzzy
+msgid "Back"
+msgstr "검정색"
+
+#: src/print-preview.c:446
+#, fuzzy
+msgid "Next"
+msgstr "텍스트"
+
+#: src/print-preview.c:449
+#, fuzzy
+msgid "Last"
+msgstr "붙이기"
+
+#: src/print-preview.c:453 src/workbook.c:2121
+msgid "Zoom in"
+msgstr "축소"
+
+#: src/print-preview.c:453
+#, fuzzy
+msgid "Zooms the page in"
+msgstr "축소"
+
+#: src/print-preview.c:454 src/workbook.c:2114
+msgid "Zoom out"
+msgstr "확대"
+
+#: src/print-preview.c:454
+#, fuzzy
+msgid "Zooms the page out"
+msgstr "확대"
+
+#: src/print-preview.c:466
 #, fuzzy, c-format
 msgid "Preview for %s"
 msgstr "인쇄 미리보기"
 
-#: src/print-preview.c:213
+#: src/print-preview.c:469
 #, fuzzy
 msgid "the workbook"
 msgstr "워크북 저장"
 
-#: src/print-preview.c:278
+#: src/print-preview.c:546
 msgid ""
 "The Print Preview feature is being developed.\n"
 "The results of the preview is not correct currently,\n"
@@ -5938,7 +6016,7 @@ msgid ""
 "We apologize for the inconvenience"
 msgstr ""
 
-#: src/sheet-object-container.c:187 src/workbook.c:908
+#: src/sheet-object-container.c:187 src/workbook.c:904
 #, fuzzy
 msgid "Select an object"
 msgstr "선 그림"
@@ -5947,47 +6025,47 @@ msgstr "선 그림"
 msgid "Object server"
 msgstr ""
 
-#: src/sheet-view.c:337 src/sheet-view.c:415
+#: src/sheet-view.c:340 src/sheet-view.c:412
 #, c-format
 msgid "Row: %d"
 msgstr "가로: %d"
 
-#: src/sheet-view.c:344 src/sheet-view.c:383
+#: src/sheet-view.c:347 src/sheet-view.c:386
 #, c-format
 msgid "Column: %s"
 msgstr "세로: %s"
 
-#: src/sheet.c:833
+#: src/sheet.c:878
 #, fuzzy
 msgid "Internal ERROR"
 msgstr "내부 에러"
 
-#: src/sheet.c:2973
+#: src/sheet.c:3018
 msgid "The command `"
 msgstr "The command `"
 
-#: src/sheet.c:2975
+#: src/sheet.c:3020
 msgid "' cannot be performed with multiple selections"
 msgstr "' cannot be performed with multiple selections"
 
-#: src/sheet.c:2990
+#: src/sheet.c:3035
 msgid "copy"
 msgstr "복사"
 
-#: src/sheet.c:3015
+#: src/sheet.c:3060
 msgid "cut"
 msgstr "자르기"
 
-#: src/sheet.c:3071
+#: src/sheet.c:3116
 msgid "paste"
 msgstr "붙이기"
 
-#: src/sheet.c:4238
+#: src/sheet.c:4307
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr ""
 
-#: src/sheet.c:4250
+#: src/sheet.c:4319
 msgid "I was unable to the bind object"
 msgstr ""
 
@@ -6019,7 +6097,7 @@ msgstr ""
 msgid "#N/A"
 msgstr ""
 
-#: src/widgets/widget-font-selector.c:118 src/workbook.c:1154
+#: src/widgets/widget-font-selector.c:118 src/workbook.c:1150
 msgid "Bold"
 msgstr "강조"
 
@@ -6027,469 +6105,474 @@ msgstr "강조"
 msgid "Bold italic"
 msgstr ""
 
-#: src/widgets/widget-font-selector.c:120 src/workbook.c:1157
+#: src/widgets/widget-font-selector.c:120 src/workbook.c:1153
 msgid "Italic"
 msgstr "이탤릭"
 
-#: src/workbook.c:458
+#: src/workbook.c:454
 msgid "Warning"
 msgstr "경고"
 
-#: src/workbook.c:467
+#: src/workbook.c:463
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr "워크북 %s가 저장되지 않았습니다. 저장할까요?"
 
-#: src/workbook.c:470
+#: src/workbook.c:466
 msgid "Workbook has unsaved changes, save them?"
 msgstr "워크북이 저장되지 않았습니다. 저장할까요?"
 
-#: src/workbook.c:669
+#: src/workbook.c:665
 msgid "Insert cols"
 msgstr "행 삽입"
 
-#: src/workbook.c:688
+#: src/workbook.c:684
 msgid "Insert rows"
 msgstr "열 삽입"
 
-#: src/workbook.c:784
+#: src/workbook.c:780
 msgid ">mm/dd/yyyy"
 msgstr ">mm/dd/yyyy"
 
-#: src/workbook.c:803
+#: src/workbook.c:799
 msgid ">hh:mm"
 msgstr ">hh:mm"
 
-#: src/workbook.c:917
+#: src/workbook.c:913
 msgid "_New"
 msgstr "새 쉬트(_N)"
 
-#: src/workbook.c:917
+#: src/workbook.c:913
 msgid "Create a new spreadsheet"
 msgstr "새 스프레드쉬트 생성"
 
-#: src/workbook.c:921
+#: src/workbook.c:917
 msgid "_Import"
 msgstr ""
 
-#: src/workbook.c:921
+#: src/workbook.c:917
 msgid "Imports a file"
 msgstr ""
 
-#: src/workbook.c:927
+#: src/workbook.c:923
 msgid "Su_mmary..."
 msgstr ""
 
-#: src/workbook.c:927
+#: src/workbook.c:923
 msgid "Summary information"
 msgstr ""
 
-#: src/workbook.c:932
+#: src/workbook.c:928
 msgid "Plu_g-ins..."
 msgstr "플러그인(_g)..."
 
-#: src/workbook.c:932
+#: src/workbook.c:928
 msgid "Gnumeric plugins"
 msgstr "Gnumeric 플러그인"
 
-#: src/workbook.c:939
+#: src/workbook.c:935
 #, fuzzy
 msgid "Print pre_view"
 msgstr "인쇄 미리보기"
 
-#: src/workbook.c:955
+#: src/workbook.c:935
+msgid "Print preview"
+msgstr "인쇄 미리보기"
+
+#: src/workbook.c:951
 msgid "_All"
 msgstr "모두(_A)"
 
-#: src/workbook.c:956
+#: src/workbook.c:952
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "선택된 셀의 형식, 주석 및 내용을 지움"
 
-#: src/workbook.c:958
+#: src/workbook.c:954
 msgid "_Formats"
 msgstr "형식(_F)"
 
-#: src/workbook.c:959
+#: src/workbook.c:955
 msgid "Clear the selected cells' formats"
 msgstr "선택된 셀의 형식을 지움"
 
-#: src/workbook.c:960
+#: src/workbook.c:956
 msgid "_Comments"
 msgstr "코멘트(_C)"
 
-#: src/workbook.c:961
+#: src/workbook.c:957
 msgid "Clear the selected cells' comments"
 msgstr "선택된 셀의 주석 지움"
 
-#: src/workbook.c:962
+#: src/workbook.c:958
 msgid "_Content"
 msgstr "내용(_C)"
 
-#: src/workbook.c:963
+#: src/workbook.c:959
 msgid "Clear the selected cells' contents"
 msgstr "선택된 셀의 내용 지움"
 
-#: src/workbook.c:971
+#: src/workbook.c:967
 msgid "P_aste special..."
 msgstr "특별히 붙이기(_a)..."
 
-#: src/workbook.c:972
+#: src/workbook.c:968
 msgid "C_lear"
 msgstr "지우기(_l)"
 
-#: src/workbook.c:973
+#: src/workbook.c:969
 msgid "Clear the selected cell(s)"
 msgstr "선택된 셀 지움"
 
-#: src/workbook.c:977
+#: src/workbook.c:973
 msgid "_Select All"
 msgstr "모두 선택(_S)"
 
-#: src/workbook.c:978
+#: src/workbook.c:974
 msgid "Select all cells in the spreadsheet"
 msgstr "스프레드쉬트의 모든 셀을 선택"
 
-#: src/workbook.c:980
+#: src/workbook.c:976
 msgid "_Goto cell..."
 msgstr "셀 찾아가기(_G)..."
 
-#: src/workbook.c:981
+#: src/workbook.c:977
 msgid "Jump to a specified cell"
 msgstr "주어진 셀로 가기"
 
-#: src/workbook.c:987
+#: src/workbook.c:983
 msgid "Insert object..."
 msgstr "객체 삽입..."
 
-#: src/workbook.c:988
+#: src/workbook.c:984
 msgid "Inserts a Bonobo object"
 msgstr "보노보 객체 삽입"
 
-#: src/workbook.c:995
+#: src/workbook.c:991
 msgid "_Define cell names"
 msgstr "셀 이름 정의(_D)"
 
-#: src/workbook.c:999
+#: src/workbook.c:995
 msgid "_Recalculate"
 msgstr "재계산(_R)"
 
-#: src/workbook.c:1000
+#: src/workbook.c:996
 msgid "Recalculate the spreadsheet"
 msgstr "스프레드쉬트를 재계산"
 
-#: src/workbook.c:1008
+#: src/workbook.c:1004
 msgid "_Zoom..."
 msgstr "확대(_Z)..."
 
-#: src/workbook.c:1009
+#: src/workbook.c:1005
 msgid "Zoom the spreadsheet in or out"
 msgstr "스프레드쉬트의 확대 혹은 축소"
 
-#: src/workbook.c:1016
+#: src/workbook.c:1012
 msgid "Current _date"
 msgstr "현재 날짜(_d)"
 
-#: src/workbook.c:1017
+#: src/workbook.c:1013
 #, fuzzy
 msgid "Insert the current date into the selected cell(s)"
 msgstr "선택된 셀에 현재 날짜 삽입"
 
-#: src/workbook.c:1020
+#: src/workbook.c:1016
 msgid "Current _time"
 msgstr "현재 시간(_t)"
 
-#: src/workbook.c:1021
+#: src/workbook.c:1017
 msgid "Insert the current time into the selected cell(s)"
 msgstr "선택된 셀에 현재 시간 삽입"
 
-#: src/workbook.c:1028 src/workbook.c:1074
+#: src/workbook.c:1024 src/workbook.c:1070
 msgid "_Sheet"
 msgstr "쉬트(_S)"
 
-#: src/workbook.c:1028
+#: src/workbook.c:1024
 msgid "Insert a new spreadsheet"
 msgstr "새 스프레드쉬트 삽입"
 
-#: src/workbook.c:1030 src/workbook.c:1068
+#: src/workbook.c:1026 src/workbook.c:1064
 msgid "_Cells..."
 msgstr "셀(_C)..."
 
-#: src/workbook.c:1030
+#: src/workbook.c:1026
 msgid "Insert new cells"
 msgstr "새 셀 삽입"
 
-#: src/workbook.c:1032
+#: src/workbook.c:1028
 msgid "_Rows"
 msgstr "행(_R)"
 
-#: src/workbook.c:1032
+#: src/workbook.c:1028
 msgid "Insert new rows"
 msgstr "새로운 행 삽입"
 
-#: src/workbook.c:1034
+#: src/workbook.c:1030
 msgid "C_olumns"
 msgstr "열(_o)"
 
-#: src/workbook.c:1034
+#: src/workbook.c:1030
 msgid "Insert new columns"
 msgstr "새로운 열 삽입"
 
-#: src/workbook.c:1039
+#: src/workbook.c:1035
 msgid "_Add/modify comment..."
 msgstr "코멘트 추가/수정(_A)..."
 
-#: src/workbook.c:1040
+#: src/workbook.c:1036
 msgid "Edit the selected cell's comment"
 msgstr "선택된 셀의 주석 편집"
 
-#: src/workbook.c:1041
+#: src/workbook.c:1037
 msgid "_Special"
 msgstr "특별한 기능(_S)"
 
-#: src/workbook.c:1050 src/workbook.c:1056
+#: src/workbook.c:1046 src/workbook.c:1052
 msgid "_Autoadjust"
 msgstr "자동정렬(_A)"
 
-#: src/workbook.c:1051
+#: src/workbook.c:1047
 msgid "_Width"
 msgstr "넓이(_W)"
 
-#: src/workbook.c:1057
+#: src/workbook.c:1053
 msgid "_Height"
 msgstr "높이(_H)"
 
-#: src/workbook.c:1062
+#: src/workbook.c:1058
 msgid "_Change name"
 msgstr "이름 바꿈(_C)"
 
-#: src/workbook.c:1069
+#: src/workbook.c:1065
 msgid "Modify the formatting of the selected cells"
 msgstr "선택된 셀의 형식 수정"
 
-#: src/workbook.c:1072
+#: src/workbook.c:1068
 msgid "C_olumn"
 msgstr "열(_o)"
 
-#: src/workbook.c:1073
+#: src/workbook.c:1069
 msgid "_Row"
 msgstr "행(_R)"
 
-#: src/workbook.c:1081
+#: src/workbook.c:1077
 msgid "_Sort..."
 msgstr "정렬(_S)..."
 
-#: src/workbook.c:1082
+#: src/workbook.c:1078
 msgid "Sort the selected cells"
 msgstr "선택된 셀 정렬"
 
-#: src/workbook.c:1083
+#: src/workbook.c:1079
 msgid "_Goal Seek..."
 msgstr "목표 찾기(_G)..."
 
-#: src/workbook.c:1085
+#: src/workbook.c:1081
 msgid "_Solver..."
 msgstr "해결사(_S)..."
 
-#: src/workbook.c:1087
+#: src/workbook.c:1083
 msgid "_Data Analysis..."
 msgstr "자료 분석(_D)..."
 
-#: src/workbook.c:1101
+#: src/workbook.c:1097
 msgid "_Insert"
 msgstr "삽입(_I)"
 
-#: src/workbook.c:1102
+#: src/workbook.c:1098
 msgid "F_ormat"
 msgstr "형식(_o)"
 
-#: src/workbook.c:1103
+#: src/workbook.c:1099
 msgid "_Tools"
 msgstr "툴(_T)"
 
-#: src/workbook.c:1116
+#: src/workbook.c:1112
 msgid "New"
 msgstr "새 쉬트"
 
-#: src/workbook.c:1116
+#: src/workbook.c:1112
 msgid "Creates a new sheet"
 msgstr "새 쉬트 생성"
 
-#: src/workbook.c:1119
+#: src/workbook.c:1115
 msgid "Open"
 msgstr "열기"
 
-#: src/workbook.c:1119
+#: src/workbook.c:1115
 msgid "Opens an existing workbook"
 msgstr "기존의 워크북 열기"
 
-#: src/workbook.c:1122
+#: src/workbook.c:1118
 msgid "Save"
 msgstr "저장"
 
-#: src/workbook.c:1122
+#: src/workbook.c:1118
 msgid "Saves the workbook"
 msgstr "워크북 저장"
 
-#: src/workbook.c:1125
+#: src/workbook.c:1121
 msgid "Prints the workbook"
 msgstr "워크북 인쇄"
 
-#: src/workbook.c:1131
+#: src/workbook.c:1127
 msgid "Cuts the selection to the clipboard"
 msgstr "선택한 내용을 클립보드로 잘라보내기"
 
-#: src/workbook.c:1134
+#: src/workbook.c:1130
 msgid "Copies the selection to the clipboard"
 msgstr "선택한 내용을 클립보드로 복사"
 
-#: src/workbook.c:1137
+#: src/workbook.c:1133
 msgid "Pastes the clipboard"
 msgstr "클립보드 내용 붙이기"
 
-#: src/workbook.c:1143
+#: src/workbook.c:1139
 msgid "Left align"
 msgstr "왼쪽 정렬"
 
-#: src/workbook.c:1143
+#: src/workbook.c:1139
 msgid "Left justifies the cell contents"
 msgstr "셀 내용을 왼쪽으로 정렬"
 
-#: src/workbook.c:1146
+#: src/workbook.c:1142
 msgid "Centers the cell contents"
 msgstr "셀 내용을 중간으로 정렬"
 
-#: src/workbook.c:1149
+#: src/workbook.c:1145
 msgid "Right align"
 msgstr "오른쪽 정렬"
 
-#: src/workbook.c:1149
+#: src/workbook.c:1145
 msgid "Right justifies the cell contents"
 msgstr "셀 내용을 오른쪽으로 정렬"
 
-#: src/workbook.c:1154
+#: src/workbook.c:1150
 msgid "Sets the bold font"
 msgstr "굵은 속성 설정"
 
-#: src/workbook.c:1157
+#: src/workbook.c:1153
 msgid "Makes the font italic"
 msgstr "기울임 글꼴로 만듦"
 
-#: src/workbook.c:1164
+#: src/workbook.c:1160
 msgid "Graphic"
 msgstr "그래픽"
 
-#: src/workbook.c:1164
+#: src/workbook.c:1160
 msgid "Creates a graphic in the spreadsheet"
 msgstr "스프레드쉬트에 그래픽 생성"
 
-#: src/workbook.c:1168
+#: src/workbook.c:1164
 #, fuzzy
 msgid "Button"
 msgstr "밑바닥"
 
-#: src/workbook.c:1168
+#: src/workbook.c:1164
 #, fuzzy
 msgid "Creates a button object"
 msgstr "선 그림"
 
-#: src/workbook.c:1171
+#: src/workbook.c:1167
 msgid "Line"
 msgstr "선"
 
-#: src/workbook.c:1171
+#: src/workbook.c:1167
 msgid "Creates a line object"
 msgstr "선 그림"
 
-#: src/workbook.c:1174
+#: src/workbook.c:1170
 msgid "Arrow"
 msgstr "화살표"
 
-#: src/workbook.c:1174
+#: src/workbook.c:1170
 msgid "Creates an arrow object"
 msgstr "화살표 생성"
 
-#: src/workbook.c:1177
+#: src/workbook.c:1173
 msgid "Rectangle"
 msgstr "직사각형"
 
-#: src/workbook.c:1177
+#: src/workbook.c:1173
 msgid "Creates a rectangle object"
 msgstr "직사각형 생성"
 
-#: src/workbook.c:1180
+#: src/workbook.c:1176
 msgid "Ellipse"
 msgstr "타원"
 
-#: src/workbook.c:1180
+#: src/workbook.c:1176
 msgid "Creates an ellipse object"
 msgstr "타원 생성"
 
-#: src/workbook.c:1398
+#: src/workbook.c:1394
 msgid "You should introduce a valid cell name"
 msgstr "유효한 셀이름을 넣으셔야 합니다"
 
-#: src/workbook.c:1407
+#: src/workbook.c:1403
 msgid "Column out of range"
 msgstr "열 갯수가 범위를 벗어남"
 
-#: src/workbook.c:1413
+#: src/workbook.c:1409
 msgid "Row number out of range"
 msgstr "행 갯수가 범위를 벗어남"
 
-#: src/workbook.c:1613
+#: src/workbook.c:1609
 msgid "Sum"
 msgstr "합계"
 
-#: src/workbook.c:1616
+#: src/workbook.c:1612
 msgid "Average"
 msgstr "평균"
 
-#: src/workbook.c:1617
+#: src/workbook.c:1613
 msgid "Count"
 msgstr "계수"
 
-#: src/workbook.c:2017
+#: src/workbook.c:2013
 msgid "Untitled.gnumeric"
 msgstr "Untitled.gnumeric"
 
-#: src/workbook.c:2118
-msgid "Zoom out"
-msgstr "확대"
-
-#: src/workbook.c:2125
-msgid "Zoom in"
-msgstr "축소"
-
-#: src/workbook.c:2220
+#: src/workbook.c:2216
 #, fuzzy, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "`%s' 쉬트를 지우기를 원하십니까 "
 
-#: src/workbook.c:2239
+#: src/workbook.c:2235
 #, fuzzy
 msgid "Other sheets depend on the values on this sheet; I cannot remove it."
 msgstr "다른 쉬트가 이 쉬트의 값을 필요로 합니다; 지울수가 없습니다"
 
-#: src/workbook.c:2259
+#: src/workbook.c:2255
 msgid "Add another sheet"
 msgstr "다른 쉬트 추가"
 
-#: src/workbook.c:2260
+#: src/workbook.c:2256
 msgid "Remove this sheet"
 msgstr "이 쉬트 삭제"
 
-#: src/workbook.c:2526 src/workbook.c:2561
+#: src/workbook.c:2522 src/workbook.c:2557
 #, c-format
 msgid "Sheet%d"
 msgstr "쉬트%d"
 
-#: src/workbook.c:2635
+#: src/workbook.c:2631
 msgid "Gnumeric: "
 msgstr "Gnumeric: "
 
 #: src/xml-io.c:2033
 msgid "Old Gnumeric XML file format"
 msgstr "이전 Gnumeric XML 파일 형식"
+
+#~ msgid "Right:"
+#~ msgstr "오른쪽:"
+
+#~ msgid "Division lines"
+#~ msgstr "눈금선"
+
+#~ msgid "Titles of rows and columns."
+#~ msgstr "행과 열의 제목"
 
 #, fuzzy
 #~ msgid "int"

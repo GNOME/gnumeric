@@ -295,27 +295,27 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 		GdkGC           *gc;
 		StyleBorderType  t;
 
-		t = b->type[STYLE_TOP];
+		t = b->type [STYLE_TOP];
 		if (t != BORDER_NONE) {
-			gc = item_grid->border_gc[b->type[STYLE_TOP]];
+			gc = item_grid->border_gc [t];
 			gdk_draw_line (drawable, gc, x1, y1, x1 + w, y1);
 		}
 
-		t = b->type[STYLE_BOTTOM];
+		t = b->type [STYLE_BOTTOM];
 		if (t != BORDER_NONE) {
-			gc = item_grid->border_gc[b->type[STYLE_BOTTOM]];
+			gc = item_grid->border_gc [t];
 			gdk_draw_line (drawable, gc, x1, y1 + h, x1 + w, y1 + h);
 		}
 
-		t = b->type[STYLE_LEFT];
+		t = b->type [STYLE_LEFT];
 		if (t != BORDER_NONE) {
-			gc = item_grid->border_gc[b->type[STYLE_LEFT]];
+			gc = item_grid->border_gc [t];
 			gdk_draw_line (drawable, gc, x1, y1, x1, y1 + h);
 		}
 
-		t = b->type[STYLE_RIGHT];
+		t = b->type [STYLE_RIGHT];
 		if (t != BORDER_NONE) {
-			gc = item_grid->border_gc[b->type[STYLE_RIGHT]];
+			gc = item_grid->border_gc [t];
 			gdk_draw_line (drawable, gc, x1 + w, y1, x1 + w, y1 + h);
 		}
 	}

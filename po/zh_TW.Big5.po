@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.9.3\n"
-"POT-Creation-Date: 1999-09-02 13:05-0500\n"
+"POT-Creation-Date: 1999-09-06 18:02-0500\n"
 "PO-Revision-Date: 1999-02-20 20:00+0800\n"
 "Last-Translator: Pofeng Lee <Pofeng.Lee@ms7.url.com.tw>\n"
 "Language-Team: Chinese <zh@li.org>\n"
@@ -639,7 +639,7 @@ msgid "Left"
 msgstr "靠左"
 
 #: src/dialogs/dialog-cell-format.c:362 src/dialogs/dialog-cell-format.c:371
-#: src/workbook.c:1146
+#: src/workbook.c:1142
 msgid "Center"
 msgstr "置中"
 
@@ -677,51 +677,51 @@ msgstr "水平"
 msgid "Auto return"
 msgstr "自動換行"
 
-#: src/dialogs/dialog-cell-format.c:611
+#: src/dialogs/dialog-cell-format.c:620
 msgid "Text color"
 msgstr "文字顏色"
 
 #. The radio buttons
-#: src/dialogs/dialog-cell-format.c:615 src/dialogs/dialog-cell-format.c:648
+#: src/dialogs/dialog-cell-format.c:624 src/dialogs/dialog-cell-format.c:660
 #: src/dialogs/dialog-paste-special.c:28
 msgid "None"
 msgstr "無"
 
-#: src/dialogs/dialog-cell-format.c:617
+#: src/dialogs/dialog-cell-format.c:626
 msgid "Use this color"
 msgstr "使用這個顏色"
 
-#: src/dialogs/dialog-cell-format.c:619 src/dialogs/dialog-cell-format.c:654
+#: src/dialogs/dialog-cell-format.c:628 src/dialogs/dialog-cell-format.c:666
 msgid "No change"
 msgstr "無更動"
 
-#: src/dialogs/dialog-cell-format.c:642
+#: src/dialogs/dialog-cell-format.c:654
 msgid "Background configuration"
 msgstr "背景設定"
 
-#: src/dialogs/dialog-cell-format.c:650
+#: src/dialogs/dialog-cell-format.c:662
 msgid "Use solid color"
 msgstr "使用"
 
-#: src/dialogs/dialog-cell-format.c:652
+#: src/dialogs/dialog-cell-format.c:664
 msgid "Use a pattern"
 msgstr "使用樣式"
 
-#: src/dialogs/dialog-cell-format.c:923
+#: src/dialogs/dialog-cell-format.c:937
 #: src/dialogs/dialog-function-wizard.c:209
 msgid "Number"
 msgstr "數字"
 
-#: src/dialogs/dialog-cell-format.c:924
+#: src/dialogs/dialog-cell-format.c:938
 msgid "Alignment"
 msgstr "對齊"
 
-#: src/dialogs/dialog-cell-format.c:925
+#: src/dialogs/dialog-cell-format.c:939
 #, fuzzy
 msgid "Font"
 msgstr "總數"
 
-#: src/dialogs/dialog-cell-format.c:926
+#: src/dialogs/dialog-cell-format.c:940
 msgid "Coloring"
 msgstr "顏色"
 
@@ -751,7 +751,7 @@ msgstr ""
 msgid "Need at least one clause"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:314 src/workbook.c:1505
+#: src/dialogs/dialog-cell-sort.c:314 src/workbook.c:1501
 msgid "Selection must be a single range"
 msgstr "選取區必須在單一範圍"
 
@@ -791,7 +791,7 @@ msgid "Delete cells"
 msgstr "刪除儲存格"
 
 #: src/dialogs/dialog-delete-cells.c:48 src/dialogs/names.glade.h:10
-#: src/item-grid.c:605
+#: src/item-grid.c:642
 msgid "Delete"
 msgstr "刪除"
 
@@ -947,7 +947,7 @@ msgstr "插入儲存格"
 msgid "Insert cells"
 msgstr "插入儲存格"
 
-#: src/dialogs/dialog-insert-cells.c:49 src/item-grid.c:604
+#: src/dialogs/dialog-insert-cells.c:49 src/item-grid.c:641
 msgid "Insert"
 msgstr "插入"
 
@@ -989,7 +989,8 @@ msgid "Add "
 msgstr "新增"
 
 #: src/dialogs/dialog-paste-special.c:30
-msgid "Substract"
+#, fuzzy
+msgid "Subtract"
 msgstr "減"
 
 #: src/dialogs/dialog-paste-special.c:31
@@ -1000,7 +1001,7 @@ msgstr "乘"
 msgid "Divide"
 msgstr "除"
 
-#: src/dialogs/dialog-paste-special.c:64 src/item-grid.c:602
+#: src/dialogs/dialog-paste-special.c:64 src/item-grid.c:639
 msgid "Paste special"
 msgstr "選擇性貼上"
 
@@ -1016,16 +1017,16 @@ msgstr "動作"
 msgid "Transpose"
 msgstr "移動"
 
-#: src/dialogs/dialog-printer-setup.c:461
+#: src/dialogs/dialog-printer-setup.c:515
 #, fuzzy
 msgid "Custom header configuration"
 msgstr "背景設定"
 
-#: src/dialogs/dialog-printer-setup.c:472
+#: src/dialogs/dialog-printer-setup.c:526
 msgid "Custom footer configuration"
 msgstr ""
 
-#: src/dialogs/dialog-printer-setup.c:677
+#: src/dialogs/dialog-printer-setup.c:734
 #, fuzzy
 msgid "Print setup"
 msgstr "百分比"
@@ -1039,11 +1040,11 @@ msgstr ""
 msgid ">="
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:45 src/workbook.c:1615
+#: src/dialogs/dialog-solver.c:45 src/workbook.c:1611
 msgid "Max"
 msgstr "最大"
 
-#: src/dialogs/dialog-solver.c:46 src/workbook.c:1614
+#: src/dialogs/dialog-solver.c:46 src/workbook.c:1610
 msgid "Min"
 msgstr "最小"
 
@@ -1241,109 +1242,115 @@ msgstr "動作"
 
 #: src/dialogs/print.glade.h:9
 #, fuzzy
-msgid "Portrait"
+msgid "Por_trait"
 msgstr "百分比"
 
 #: src/dialogs/print.glade.h:10
-msgid "Landscape"
-msgstr ""
+#, fuzzy
+msgid "_Landscape"
+msgstr "種類"
 
 #: src/dialogs/print.glade.h:11
 #, fuzzy
 msgid "Scale"
 msgstr "範例:"
 
-#: src/dialogs/print.glade.h:12 src/dialogs/print.glade.h:13
+#: src/dialogs/print.glade.h:12
 #, fuzzy
-msgid "Adjust to"
+msgid "_Adjust to:"
 msgstr "自動調整(_A)"
+
+#: src/dialogs/print.glade.h:13
+msgid "_Fit to:"
+msgstr ""
 
 #: src/dialogs/print.glade.h:14
 #, c-format
-msgid "% of the original size"
+msgid "% of normal size"
 msgstr ""
 
 #: src/dialogs/print.glade.h:15
-msgid "pages wider by "
+msgid "page(s) wide by"
 msgstr ""
 
 #: src/dialogs/print.glade.h:16
-msgid "pages of height"
-msgstr ""
+#, fuzzy
+msgid "tall"
+msgstr "斜體"
 
 #: src/dialogs/print.glade.h:17
-msgid "Paper size:"
+msgid "Fi_rst page number:"
 msgstr ""
 
-#: src/dialogs/print.glade.h:18
-msgid "First page number:"
-msgstr ""
-
-#: src/dialogs/print.glade.h:19 src/dialogs/print.glade.h:32
-#: src/dialogs/print.glade.h:42 src/dialogs/print.glade.h:50
-#: src/dialogs/print.glade.h:58 src/workbook.c:1125
+#: src/dialogs/print.glade.h:18 src/dialogs/print.glade.h:32
+#: src/dialogs/print.glade.h:42 src/dialogs/print.glade.h:58
 #, fuzzy
-msgid "Print"
+msgid "_Print"
 msgstr "百分比"
 
-#: src/dialogs/print.glade.h:20 src/dialogs/print.glade.h:33
+#: src/dialogs/print.glade.h:19 src/dialogs/print.glade.h:33
 #: src/dialogs/print.glade.h:43 src/dialogs/print.glade.h:59
-#: src/workbook.c:939
-msgid "Print preview"
+msgid "Print previe_w"
 msgstr ""
 
-#: src/dialogs/print.glade.h:21 src/dialogs/print.glade.h:34
+#: src/dialogs/print.glade.h:20 src/dialogs/print.glade.h:34
 #: src/dialogs/print.glade.h:44 src/dialogs/print.glade.h:60
 #, fuzzy
-msgid "Options"
+msgid "_Options"
 msgstr "動作"
 
-#: src/dialogs/print.glade.h:22 src/dialogs/print.glade.h:61
+#: src/dialogs/print.glade.h:21 src/dialogs/print.glade.h:61
 #, fuzzy
 msgid "Page"
 msgstr "貼上"
 
+#: src/dialogs/print.glade.h:22
+#, fuzzy
+msgid "_Top:"
+msgstr "向上對齊"
+
 #: src/dialogs/print.glade.h:23
-msgid "Superior:"
+msgid "He_ader:"
 msgstr ""
 
 #: src/dialogs/print.glade.h:24
-msgid "Header:"
-msgstr ""
+#, fuzzy
+msgid "_Bottom:"
+msgstr "向下對齊"
 
 #: src/dialogs/print.glade.h:25
-msgid "Lower:"
-msgstr ""
-
-#: src/dialogs/print.glade.h:26
 #, fuzzy
-msgid "Footer"
+msgid "_Footer"
 msgstr "字型"
 
-#: src/dialogs/print.glade.h:27
+#: src/dialogs/print.glade.h:26
 #, fuzzy
 msgid "Center on page"
 msgstr "置中"
 
+#: src/dialogs/print.glade.h:27
+#, fuzzy
+msgid "_Horizontally"
+msgstr "水平"
+
 #: src/dialogs/print.glade.h:28
 #, fuzzy
-msgid "Horizontally"
-msgstr "水平"
+msgid "_Vertically"
+msgstr "垂直"
 
 #: src/dialogs/print.glade.h:29
 #, fuzzy
-msgid "Vertically"
-msgstr "垂直"
+msgid "_Left:"
+msgstr "靠左"
 
 #: src/dialogs/print.glade.h:30
 #, fuzzy
-msgid "Left:"
-msgstr "靠左"
+msgid "_Right"
+msgstr "靠右"
 
 #: src/dialogs/print.glade.h:31
-#, fuzzy
-msgid "Right:"
-msgstr "靠右"
+msgid "Paper _size:"
+msgstr ""
 
 #: src/dialogs/print.glade.h:35
 #, fuzzy
@@ -1359,11 +1366,11 @@ msgid "Header"
 msgstr ""
 
 #: src/dialogs/print.glade.h:38
-msgid "Customize header"
+msgid "Customize _header"
 msgstr ""
 
 #: src/dialogs/print.glade.h:39
-msgid "Customize footer"
+msgid "Customize _footer"
 msgstr ""
 
 #: src/dialogs/print.glade.h:40
@@ -1375,50 +1382,55 @@ msgid "Headers and footers"
 msgstr ""
 
 #: src/dialogs/print.glade.h:46
-msgid "Print region:"
-msgstr ""
+#, fuzzy
+msgid "Print _area:"
+msgstr "百分比"
 
 #: src/dialogs/print.glade.h:47
 msgid "Titles to print"
 msgstr ""
 
 #: src/dialogs/print.glade.h:48
-msgid "Columns to repeat on the left side:"
+msgid "_Columns to repeat on the left side:"
 msgstr ""
 
 #: src/dialogs/print.glade.h:49
-msgid "Rows to repeat on the upper region:"
+msgid "_Rows to repeat on the upper region:"
 msgstr ""
+
+#: src/dialogs/print.glade.h:50 src/workbook.c:1121
+#, fuzzy
+msgid "Print"
+msgstr "百分比"
 
 #: src/dialogs/print.glade.h:51
-#, fuzzy
-msgid "Division lines"
-msgstr "對角行數"
+msgid "Row and co_lumn headings"
+msgstr ""
 
 #: src/dialogs/print.glade.h:52
-msgid "Black and white"
-msgstr ""
+#, fuzzy
+msgid "Co_mments"
+msgstr "註解(_C)"
 
 #: src/dialogs/print.glade.h:53
-msgid "Titles of rows and columns."
+msgid "_Grid lines"
 msgstr ""
 
-#: src/dialogs/print.glade.h:54 src/dialogs/summary.glade.h:14
-#, fuzzy
-msgid "Comments"
-msgstr "註解(_C)"
+#: src/dialogs/print.glade.h:54
+msgid "_Black and white"
+msgstr ""
 
 #: src/dialogs/print.glade.h:55
 msgid "Page order"
 msgstr ""
 
 #: src/dialogs/print.glade.h:56
-msgid "Down, then right"
+msgid "_Down, then right"
 msgstr ""
 
 #: src/dialogs/print.glade.h:57
 #, fuzzy
-msgid "Right, then down"
+msgid "R_ight, then down"
 msgstr "向右對齊"
 
 #.
@@ -1472,6 +1484,11 @@ msgstr "長方形"
 #: src/dialogs/summary.glade.h:12
 msgid "Document Summary Information\n"
 msgstr ""
+
+#: src/dialogs/summary.glade.h:14
+#, fuzzy
+msgid "Comments"
+msgstr "註解(_C)"
 
 #: src/dump.c:31
 #, c-format
@@ -5593,88 +5610,88 @@ msgstr "函式不存在"
 msgid "Calling non-function"
 msgstr "不呼叫任何函式"
 
-#: src/gnumeric-sheet.c:984
+#: src/gnumeric-sheet.c:981
 #, fuzzy
 msgid "Solid"
 msgstr "粗體"
 
-#: src/gnumeric-sheet.c:988
+#: src/gnumeric-sheet.c:985
 #, no-c-format
 msgid "75%"
 msgstr "75%"
 
-#: src/gnumeric-sheet.c:992
+#: src/gnumeric-sheet.c:989
 #, no-c-format
 msgid "50%"
 msgstr "50%"
 
-#: src/gnumeric-sheet.c:996
+#: src/gnumeric-sheet.c:993
 #, no-c-format
 msgid "25%"
 msgstr "25%"
 
-#: src/gnumeric-sheet.c:1000
+#: src/gnumeric-sheet.c:997
 #, fuzzy, no-c-format
 msgid "12.5%"
 msgstr "25%"
 
-#: src/gnumeric-sheet.c:1004
+#: src/gnumeric-sheet.c:1001
 #, fuzzy, no-c-format
 msgid "6.25%"
 msgstr "25%"
 
-#: src/gnumeric-sheet.c:1007
+#: src/gnumeric-sheet.c:1004
 #, fuzzy
 msgid "Horizontal Stripe"
 msgstr "水平行數"
 
-#: src/gnumeric-sheet.c:1010
+#: src/gnumeric-sheet.c:1007
 #, fuzzy
 msgid "Vertical Stripe"
 msgstr "垂直行數"
 
-#: src/gnumeric-sheet.c:1013
+#: src/gnumeric-sheet.c:1010
 msgid "Reverse Diagonal Stripe"
 msgstr ""
 
-#: src/gnumeric-sheet.c:1016
+#: src/gnumeric-sheet.c:1013
 #, fuzzy
 msgid "Diagonal Stripe"
 msgstr "對角行數"
 
-#: src/gnumeric-sheet.c:1019
+#: src/gnumeric-sheet.c:1016
 #, fuzzy
 msgid "Diagonal Crosshatch"
 msgstr "對角行數"
 
-#: src/gnumeric-sheet.c:1022
+#: src/gnumeric-sheet.c:1019
 msgid "Thick Diagonal Crosshatch"
 msgstr ""
 
-#: src/gnumeric-sheet.c:1025
+#: src/gnumeric-sheet.c:1022
 #, fuzzy
 msgid "Thin Horizontal Stripe"
 msgstr "水平行數"
 
-#: src/gnumeric-sheet.c:1028
+#: src/gnumeric-sheet.c:1025
 #, fuzzy
 msgid "Thin Vertical Stripe"
 msgstr "垂直行數"
 
-#: src/gnumeric-sheet.c:1031
+#: src/gnumeric-sheet.c:1028
 msgid "Thin Reverse Diagonal Stripe"
 msgstr ""
 
-#: src/gnumeric-sheet.c:1034
+#: src/gnumeric-sheet.c:1031
 #, fuzzy
 msgid "Thin Diagonal Stripe"
 msgstr "對角行數"
 
-#: src/gnumeric-sheet.c:1037
+#: src/gnumeric-sheet.c:1034
 msgid "Thin Crosshatch"
 msgstr ""
 
-#: src/gnumeric-sheet.c:1040
+#: src/gnumeric-sheet.c:1037
 msgid "Thin Diagonal Crosshatch"
 msgstr ""
 
@@ -5692,11 +5709,11 @@ msgstr ""
 "儲存格的內容，您確定要替換掉這塊區域\n"
 "的內容嗎？"
 
-#: src/item-cursor.c:581 src/item-grid.c:600 src/workbook.c:1134
+#: src/item-cursor.c:581 src/item-grid.c:637 src/workbook.c:1130
 msgid "Copy"
 msgstr "複製"
 
-#: src/item-cursor.c:582
+#: src/item-cursor.c:582 src/print-preview.c:452
 msgid "Move"
 msgstr "移動"
 
@@ -5724,19 +5741,19 @@ msgstr "儲存格向下移位並搬移"
 msgid "Shift cells right and move"
 msgstr "儲存格向右移位並搬移"
 
-#: src/item-grid.c:599 src/workbook.c:1131
+#: src/item-grid.c:636 src/workbook.c:1127
 msgid "Cut"
 msgstr "剪下"
 
-#: src/item-grid.c:601 src/workbook.c:1137
+#: src/item-grid.c:638 src/workbook.c:1133
 msgid "Paste"
 msgstr "貼上"
 
-#: src/item-grid.c:606
+#: src/item-grid.c:643
 msgid "Erase content"
 msgstr "清除內容"
 
-#: src/item-grid.c:608
+#: src/item-grid.c:645
 msgid "Cell format"
 msgstr "儲存格格式"
 
@@ -5903,70 +5920,117 @@ msgstr "日期"
 msgid "time"
 msgstr "時間"
 
-#: src/print-preview.c:176
+#: src/print-preview.c:289
+#, fuzzy
+msgid "Page: "
+msgstr "貼上"
+
+#: src/print-preview.c:412
 msgid "_First page"
 msgstr ""
 
-#: src/print-preview.c:176
+#: src/print-preview.c:412 src/print-preview.c:440
 msgid "Shows the first page"
 msgstr ""
 
-#: src/print-preview.c:179
+#: src/print-preview.c:415
 msgid "_Previous page"
 msgstr ""
 
-#: src/print-preview.c:179
+#: src/print-preview.c:415 src/print-preview.c:443
 msgid "Shows the previous page"
 msgstr ""
 
-#: src/print-preview.c:182
+#: src/print-preview.c:418
 msgid "_Next page"
 msgstr ""
 
-#: src/print-preview.c:182
+#: src/print-preview.c:418 src/print-preview.c:446
 msgid "Shows the next page"
 msgstr ""
 
-#: src/print-preview.c:185
+#: src/print-preview.c:421
 #, fuzzy
 msgid "_Last page"
 msgstr "種類"
 
-#: src/print-preview.c:185
+#: src/print-preview.c:421 src/print-preview.c:449
 msgid "Shows the last page"
 msgstr ""
 
-#: src/print-preview.c:190
+#: src/print-preview.c:426
 #, fuzzy
 msgid "Zoom _in"
 msgstr "放大"
 
-#: src/print-preview.c:190
+#: src/print-preview.c:426
 #, fuzzy
 msgid "Zooms in"
 msgstr "放大"
 
-#: src/print-preview.c:191
+#: src/print-preview.c:427
 #, fuzzy
 msgid "Zoom _out"
 msgstr "縮小"
 
-#: src/print-preview.c:191
+#: src/print-preview.c:427
 #, fuzzy
 msgid "Zooms out"
 msgstr "縮小"
 
-#: src/print-preview.c:210
+#: src/print-preview.c:434
+#, fuzzy
+msgid "_View"
+msgstr "開新檔案(_N)"
+
+#: src/print-preview.c:440
+msgid "First"
+msgstr ""
+
+#: src/print-preview.c:443
+#, fuzzy
+msgid "Back"
+msgstr "黑色"
+
+#: src/print-preview.c:446
+#, fuzzy
+msgid "Next"
+msgstr "文字"
+
+#: src/print-preview.c:449
+#, fuzzy
+msgid "Last"
+msgstr "貼上"
+
+#: src/print-preview.c:453 src/workbook.c:2121
+msgid "Zoom in"
+msgstr "放大"
+
+#: src/print-preview.c:453
+#, fuzzy
+msgid "Zooms the page in"
+msgstr "放大"
+
+#: src/print-preview.c:454 src/workbook.c:2114
+msgid "Zoom out"
+msgstr "縮小"
+
+#: src/print-preview.c:454
+#, fuzzy
+msgid "Zooms the page out"
+msgstr "縮小"
+
+#: src/print-preview.c:466
 #, c-format
 msgid "Preview for %s"
 msgstr ""
 
-#: src/print-preview.c:213
+#: src/print-preview.c:469
 #, fuzzy
 msgid "the workbook"
 msgstr "儲存目前的工作表格"
 
-#: src/print-preview.c:278
+#: src/print-preview.c:546
 msgid ""
 "The Print Preview feature is being developed.\n"
 "The results of the preview is not correct currently,\n"
@@ -5976,7 +6040,7 @@ msgid ""
 "We apologize for the inconvenience"
 msgstr ""
 
-#: src/sheet-object-container.c:187 src/workbook.c:908
+#: src/sheet-object-container.c:187 src/workbook.c:904
 #, fuzzy
 msgid "Select an object"
 msgstr "建立一個線段物件"
@@ -5985,47 +6049,47 @@ msgstr "建立一個線段物件"
 msgid "Object server"
 msgstr ""
 
-#: src/sheet-view.c:337 src/sheet-view.c:415
+#: src/sheet-view.c:340 src/sheet-view.c:412
 #, c-format
 msgid "Row: %d"
 msgstr "列: %d"
 
-#: src/sheet-view.c:344 src/sheet-view.c:383
+#: src/sheet-view.c:347 src/sheet-view.c:386
 #, c-format
 msgid "Column: %s"
 msgstr "欄: %s"
 
-#: src/sheet.c:833
+#: src/sheet.c:878
 #, fuzzy
 msgid "Internal ERROR"
 msgstr "語法錯誤"
 
-#: src/sheet.c:2973
+#: src/sheet.c:3018
 msgid "The command `"
 msgstr "指令 `"
 
-#: src/sheet.c:2975
+#: src/sheet.c:3020
 msgid "' cannot be performed with multiple selections"
 msgstr "' 不能跨過數個區段執行"
 
-#: src/sheet.c:2990
+#: src/sheet.c:3035
 msgid "copy"
 msgstr "複製"
 
-#: src/sheet.c:3015
+#: src/sheet.c:3060
 msgid "cut"
 msgstr "剪下"
 
-#: src/sheet.c:3071
+#: src/sheet.c:3116
 msgid "paste"
 msgstr "貼上"
 
-#: src/sheet.c:4238
+#: src/sheet.c:4307
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "無法啟動 %s 物件"
 
-#: src/sheet.c:4250
+#: src/sheet.c:4319
 msgid "I was unable to the bind object"
 msgstr "無法聯結物件"
 
@@ -6057,7 +6121,7 @@ msgstr ""
 msgid "#N/A"
 msgstr ""
 
-#: src/widgets/widget-font-selector.c:118 src/workbook.c:1154
+#: src/widgets/widget-font-selector.c:118 src/workbook.c:1150
 msgid "Bold"
 msgstr "粗體"
 
@@ -6065,468 +6129,464 @@ msgstr "粗體"
 msgid "Bold italic"
 msgstr ""
 
-#: src/widgets/widget-font-selector.c:120 src/workbook.c:1157
+#: src/widgets/widget-font-selector.c:120 src/workbook.c:1153
 msgid "Italic"
 msgstr "斜體"
 
-#: src/workbook.c:458
+#: src/workbook.c:454
 msgid "Warning"
 msgstr "警告"
 
-#: src/workbook.c:467
+#: src/workbook.c:463
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr "活頁簿 %s 尚未儲存, 要儲存嗎 ?"
 
-#: src/workbook.c:470
+#: src/workbook.c:466
 msgid "Workbook has unsaved changes, save them?"
 msgstr "活頁簿尚未儲存, 要儲存嗎 ?"
 
-#: src/workbook.c:669
+#: src/workbook.c:665
 msgid "Insert cols"
 msgstr "插入欄"
 
-#: src/workbook.c:688
+#: src/workbook.c:684
 msgid "Insert rows"
 msgstr "插入列"
 
-#: src/workbook.c:784
+#: src/workbook.c:780
 msgid ">mm/dd/yyyy"
 msgstr ">mm/dd/yyyy"
 
-#: src/workbook.c:803
+#: src/workbook.c:799
 msgid ">hh:mm"
 msgstr ">hh:mm"
 
-#: src/workbook.c:917
+#: src/workbook.c:913
 msgid "_New"
 msgstr "開新檔案(_N)"
 
-#: src/workbook.c:917
+#: src/workbook.c:913
 msgid "Create a new spreadsheet"
 msgstr "建立新的試算表"
 
-#: src/workbook.c:921
+#: src/workbook.c:917
 #, fuzzy
 msgid "_Import"
 msgstr "排序(_S)"
 
-#: src/workbook.c:921
+#: src/workbook.c:917
 #, fuzzy
 msgid "Imports a file"
 msgstr "不可能!"
 
-#: src/workbook.c:927
+#: src/workbook.c:923
 msgid "Su_mmary..."
 msgstr ""
 
-#: src/workbook.c:927
+#: src/workbook.c:923
 msgid "Summary information"
 msgstr ""
 
-#: src/workbook.c:932
+#: src/workbook.c:928
 msgid "Plu_g-ins..."
 msgstr "外加功\能 (_g)..."
 
-#: src/workbook.c:932
+#: src/workbook.c:928
 msgid "Gnumeric plugins"
 msgstr "Gnumeric 外加功\能"
 
-#: src/workbook.c:939
+#: src/workbook.c:935
 msgid "Print pre_view"
 msgstr ""
 
-#: src/workbook.c:955
+#: src/workbook.c:935
+msgid "Print preview"
+msgstr ""
+
+#: src/workbook.c:951
 msgid "_All"
 msgstr "全部(_A)"
 
-#: src/workbook.c:956
+#: src/workbook.c:952
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "清除全部的格子的格式，註解，與內容"
 
-#: src/workbook.c:958
+#: src/workbook.c:954
 msgid "_Formats"
 msgstr "格式(_F)"
 
-#: src/workbook.c:959
+#: src/workbook.c:955
 msgid "Clear the selected cells' formats"
 msgstr "清除已選擇格子內的的格式"
 
-#: src/workbook.c:960
+#: src/workbook.c:956
 msgid "_Comments"
 msgstr "註解(_C)"
 
-#: src/workbook.c:961
+#: src/workbook.c:957
 msgid "Clear the selected cells' comments"
 msgstr "清除已選擇格子內的的註解"
 
-#: src/workbook.c:962
+#: src/workbook.c:958
 msgid "_Content"
 msgstr "內容(_C)"
 
-#: src/workbook.c:963
+#: src/workbook.c:959
 msgid "Clear the selected cells' contents"
 msgstr "清除已選擇格子內的內容"
 
-#: src/workbook.c:971
+#: src/workbook.c:967
 msgid "P_aste special..."
 msgstr "選擇性貼上(_A)..."
 
-#: src/workbook.c:972
+#: src/workbook.c:968
 msgid "C_lear"
 msgstr "清除(_L)"
 
-#: src/workbook.c:973
+#: src/workbook.c:969
 msgid "Clear the selected cell(s)"
 msgstr "清除所選擇的格子"
 
-#: src/workbook.c:977
+#: src/workbook.c:973
 msgid "_Select All"
 msgstr "全選(_S)"
 
-#: src/workbook.c:978
+#: src/workbook.c:974
 msgid "Select all cells in the spreadsheet"
 msgstr "選擇全部的格子"
 
-#: src/workbook.c:980
+#: src/workbook.c:976
 #, fuzzy
 msgid "_Goto cell..."
 msgstr "跳格(_G)"
 
-#: src/workbook.c:981
+#: src/workbook.c:977
 msgid "Jump to a specified cell"
 msgstr "跳越至特定的格子"
 
-#: src/workbook.c:987
+#: src/workbook.c:983
 msgid "Insert object..."
 msgstr "插入物件..."
 
-#: src/workbook.c:988
+#: src/workbook.c:984
 msgid "Inserts a Bonobo object"
 msgstr "建立一個 Bonobo 物件"
 
-#: src/workbook.c:995
+#: src/workbook.c:991
 msgid "_Define cell names"
 msgstr "定義儲存格名稱(_D)"
 
-#: src/workbook.c:999
+#: src/workbook.c:995
 msgid "_Recalculate"
 msgstr "重新計算(_R)"
 
-#: src/workbook.c:1000
+#: src/workbook.c:996
 msgid "Recalculate the spreadsheet"
 msgstr "重新計算整個試算表"
 
-#: src/workbook.c:1008
+#: src/workbook.c:1004
 msgid "_Zoom..."
 msgstr "縮放(_Z)"
 
-#: src/workbook.c:1009
+#: src/workbook.c:1005
 msgid "Zoom the spreadsheet in or out"
 msgstr "縮放試算表"
 
-#: src/workbook.c:1016
+#: src/workbook.c:1012
 msgid "Current _date"
 msgstr "現在日期(_D)"
 
-#: src/workbook.c:1017
+#: src/workbook.c:1013
 #, fuzzy
 msgid "Insert the current date into the selected cell(s)"
 msgstr "在選定的儲存格中，寫入現在的日期"
 
-#: src/workbook.c:1020
+#: src/workbook.c:1016
 msgid "Current _time"
 msgstr "現在時刻(_T)"
 
-#: src/workbook.c:1021
+#: src/workbook.c:1017
 msgid "Insert the current time into the selected cell(s)"
 msgstr "在選定的儲存格中，寫入現在的時間"
 
-#: src/workbook.c:1028 src/workbook.c:1074
+#: src/workbook.c:1024 src/workbook.c:1070
 msgid "_Sheet"
 msgstr "試算表(_S)"
 
-#: src/workbook.c:1028
+#: src/workbook.c:1024
 msgid "Insert a new spreadsheet"
 msgstr "插入新的試算表"
 
-#: src/workbook.c:1030 src/workbook.c:1068
+#: src/workbook.c:1026 src/workbook.c:1064
 msgid "_Cells..."
 msgstr "儲存格(_C)..."
 
-#: src/workbook.c:1030
+#: src/workbook.c:1026
 msgid "Insert new cells"
 msgstr "插入新的儲存格"
 
-#: src/workbook.c:1032
+#: src/workbook.c:1028
 msgid "_Rows"
 msgstr "列(_R)"
 
-#: src/workbook.c:1032
+#: src/workbook.c:1028
 msgid "Insert new rows"
 msgstr "插入列"
 
-#: src/workbook.c:1034
+#: src/workbook.c:1030
 msgid "C_olumns"
 msgstr "欄(_O)"
 
-#: src/workbook.c:1034
+#: src/workbook.c:1030
 msgid "Insert new columns"
 msgstr "插入欄"
 
-#: src/workbook.c:1039
+#: src/workbook.c:1035
 #, fuzzy
 msgid "_Add/modify comment..."
 msgstr "增加/修改註解(_A)"
 
-#: src/workbook.c:1040
+#: src/workbook.c:1036
 msgid "Edit the selected cell's comment"
 msgstr "編輯儲存格的註解"
 
-#: src/workbook.c:1041
+#: src/workbook.c:1037
 msgid "_Special"
 msgstr "特別項目(_S)"
 
-#: src/workbook.c:1050 src/workbook.c:1056
+#: src/workbook.c:1046 src/workbook.c:1052
 msgid "_Autoadjust"
 msgstr "自動調整(_A)"
 
-#: src/workbook.c:1051
+#: src/workbook.c:1047
 msgid "_Width"
 msgstr "寬度(_W)"
 
-#: src/workbook.c:1057
+#: src/workbook.c:1053
 msgid "_Height"
 msgstr "高度(_H)"
 
-#: src/workbook.c:1062
+#: src/workbook.c:1058
 msgid "_Change name"
 msgstr "改變名稱(_C)"
 
-#: src/workbook.c:1069
+#: src/workbook.c:1065
 msgid "Modify the formatting of the selected cells"
 msgstr "更改儲存格的排列格式"
 
-#: src/workbook.c:1072
+#: src/workbook.c:1068
 msgid "C_olumn"
 msgstr "欄(_O)"
 
-#: src/workbook.c:1073
+#: src/workbook.c:1069
 msgid "_Row"
 msgstr "列(_R)"
 
-#: src/workbook.c:1081
+#: src/workbook.c:1077
 #, fuzzy
 msgid "_Sort..."
 msgstr "解析器 (_S)..."
 
-#: src/workbook.c:1082
+#: src/workbook.c:1078
 msgid "Sort the selected cells"
 msgstr "對所選的格子進行排序"
 
-#: src/workbook.c:1083
+#: src/workbook.c:1079
 msgid "_Goal Seek..."
 msgstr "搜尋目標 (_G)..."
 
-#: src/workbook.c:1085
+#: src/workbook.c:1081
 msgid "_Solver..."
 msgstr "解析器 (_S)..."
 
-#: src/workbook.c:1087
+#: src/workbook.c:1083
 msgid "_Data Analysis..."
 msgstr ""
 
-#: src/workbook.c:1101
+#: src/workbook.c:1097
 msgid "_Insert"
 msgstr "插入(_I)"
 
-#: src/workbook.c:1102
+#: src/workbook.c:1098
 msgid "F_ormat"
 msgstr "格式(_O)"
 
-#: src/workbook.c:1103
+#: src/workbook.c:1099
 msgid "_Tools"
 msgstr "工具 (_T)..."
 
-#: src/workbook.c:1116
+#: src/workbook.c:1112
 msgid "New"
 msgstr "新的"
 
-#: src/workbook.c:1116
+#: src/workbook.c:1112
 msgid "Creates a new sheet"
 msgstr "建立新的試算表"
 
-#: src/workbook.c:1119
+#: src/workbook.c:1115
 msgid "Open"
 msgstr "開啟"
 
-#: src/workbook.c:1119
+#: src/workbook.c:1115
 msgid "Opens an existing workbook"
 msgstr "開啟已存在的工作表格"
 
-#: src/workbook.c:1122
+#: src/workbook.c:1118
 msgid "Save"
 msgstr "儲存"
 
-#: src/workbook.c:1122
+#: src/workbook.c:1118
 msgid "Saves the workbook"
 msgstr "儲存目前的工作表格"
 
-#: src/workbook.c:1125
+#: src/workbook.c:1121
 #, fuzzy
 msgid "Prints the workbook"
 msgstr "儲存目前的工作表格"
 
-#: src/workbook.c:1131
+#: src/workbook.c:1127
 msgid "Cuts the selection to the clipboard"
 msgstr "將剪下的選定區移至剪貼簿"
 
-#: src/workbook.c:1134
+#: src/workbook.c:1130
 msgid "Copies the selection to the clipboard"
 msgstr "複製選定區至剪貼簿"
 
-#: src/workbook.c:1137
+#: src/workbook.c:1133
 msgid "Pastes the clipboard"
 msgstr "貼上剪貼簿的內容"
 
-#: src/workbook.c:1143
+#: src/workbook.c:1139
 msgid "Left align"
 msgstr "向左對齊"
 
-#: src/workbook.c:1143
+#: src/workbook.c:1139
 msgid "Left justifies the cell contents"
 msgstr "置左排列"
 
-#: src/workbook.c:1146
+#: src/workbook.c:1142
 msgid "Centers the cell contents"
 msgstr "置中排列"
 
-#: src/workbook.c:1149
+#: src/workbook.c:1145
 msgid "Right align"
 msgstr "向右對齊"
 
-#: src/workbook.c:1149
+#: src/workbook.c:1145
 msgid "Right justifies the cell contents"
 msgstr "置右排列"
 
-#: src/workbook.c:1154
+#: src/workbook.c:1150
 msgid "Sets the bold font"
 msgstr "將字型設為粗體"
 
-#: src/workbook.c:1157
+#: src/workbook.c:1153
 msgid "Makes the font italic"
 msgstr "將字型設為斜體"
 
-#: src/workbook.c:1164
+#: src/workbook.c:1160
 msgid "Graphic"
 msgstr "圖形"
 
-#: src/workbook.c:1164
+#: src/workbook.c:1160
 msgid "Creates a graphic in the spreadsheet"
 msgstr "在試算表中建立圖形"
 
-#: src/workbook.c:1168
+#: src/workbook.c:1164
 #, fuzzy
 msgid "Button"
 msgstr "向下對齊"
 
-#: src/workbook.c:1168
+#: src/workbook.c:1164
 #, fuzzy
 msgid "Creates a button object"
 msgstr "建立一個線段物件"
 
-#: src/workbook.c:1171
+#: src/workbook.c:1167
 msgid "Line"
 msgstr "線段"
 
-#: src/workbook.c:1171
+#: src/workbook.c:1167
 msgid "Creates a line object"
 msgstr "建立一個線段物件"
 
-#: src/workbook.c:1174
+#: src/workbook.c:1170
 msgid "Arrow"
 msgstr "箭頭"
 
-#: src/workbook.c:1174
+#: src/workbook.c:1170
 msgid "Creates an arrow object"
 msgstr "建立一個箭頭物件"
 
-#: src/workbook.c:1177
+#: src/workbook.c:1173
 msgid "Rectangle"
 msgstr "長方形"
 
-#: src/workbook.c:1177
+#: src/workbook.c:1173
 msgid "Creates a rectangle object"
 msgstr "建立一個長方形物件"
 
-#: src/workbook.c:1180
+#: src/workbook.c:1176
 msgid "Ellipse"
 msgstr "橢圓形"
 
-#: src/workbook.c:1180
+#: src/workbook.c:1176
 msgid "Creates an ellipse object"
 msgstr "建立一個橢圓形物件"
 
-#: src/workbook.c:1398
+#: src/workbook.c:1394
 msgid "You should introduce a valid cell name"
 msgstr "請使用合法的儲存格名稱"
 
-#: src/workbook.c:1407
+#: src/workbook.c:1403
 msgid "Column out of range"
 msgstr "欄的數目超出範圍"
 
-#: src/workbook.c:1413
+#: src/workbook.c:1409
 msgid "Row number out of range"
 msgstr "的數目超出範圍"
 
-#: src/workbook.c:1613
+#: src/workbook.c:1609
 msgid "Sum"
 msgstr "總合"
 
-#: src/workbook.c:1616
+#: src/workbook.c:1612
 msgid "Average"
 msgstr "平均"
 
-#: src/workbook.c:1617
+#: src/workbook.c:1613
 msgid "Count"
 msgstr "總數"
 
-#: src/workbook.c:2017
+#: src/workbook.c:2013
 msgid "Untitled.gnumeric"
 msgstr "未命名.gnumeric"
 
-#: src/workbook.c:2118
-msgid "Zoom out"
-msgstr "縮小"
-
-#: src/workbook.c:2125
-msgid "Zoom in"
-msgstr "放大"
-
-#: src/workbook.c:2220
+#: src/workbook.c:2216
 #, fuzzy, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "確定要移除名為 `%s' 的試算表嗎?"
 
-#: src/workbook.c:2239
+#: src/workbook.c:2235
 #, fuzzy
 msgid "Other sheets depend on the values on this sheet; I cannot remove it."
 msgstr "有其它試算表用到這個表的內容，無法移除此試算表"
 
-#: src/workbook.c:2259
+#: src/workbook.c:2255
 msgid "Add another sheet"
 msgstr "增加另一個試算表"
 
-#: src/workbook.c:2260
+#: src/workbook.c:2256
 msgid "Remove this sheet"
 msgstr "移除此試算表"
 
-#: src/workbook.c:2526 src/workbook.c:2561
+#: src/workbook.c:2522 src/workbook.c:2557
 #, fuzzy, c-format
 msgid "Sheet%d"
 msgstr "工作頁 %d"
 
-#: src/workbook.c:2635
+#: src/workbook.c:2631
 msgid "Gnumeric: "
 msgstr "Gnumeric: "
 
@@ -6534,6 +6594,14 @@ msgstr "Gnumeric: "
 #, fuzzy
 msgid "Old Gnumeric XML file format"
 msgstr "Gnumeric XML 檔案格式"
+
+#, fuzzy
+#~ msgid "Right:"
+#~ msgstr "靠右"
+
+#, fuzzy
+#~ msgid "Division lines"
+#~ msgstr "對角行數"
 
 #, fuzzy
 #~ msgid "int"

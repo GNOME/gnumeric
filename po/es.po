@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.32\n"
-"POT-Creation-Date: 1999-09-02 13:05-0500\n"
+"POT-Creation-Date: 1999-09-06 18:02-0500\n"
 "PO-Revision-Date: 1998-11-25 18:01:18+0100\n"
 "Last-Translator: Pablo Saratxaga <srtxg@chanae.alphanet.ch>\n"
 "Language-Team: \n"
@@ -621,7 +621,7 @@ msgid "Left"
 msgstr "Izquierda"
 
 #: src/dialogs/dialog-cell-format.c:362 src/dialogs/dialog-cell-format.c:371
-#: src/workbook.c:1146
+#: src/workbook.c:1142
 msgid "Center"
 msgstr "Centro"
 
@@ -659,50 +659,50 @@ msgstr "Horizontal"
 msgid "Auto return"
 msgstr "Retorno de carro automático"
 
-#: src/dialogs/dialog-cell-format.c:611
+#: src/dialogs/dialog-cell-format.c:620
 msgid "Text color"
 msgstr "Color del texto"
 
 #. The radio buttons
-#: src/dialogs/dialog-cell-format.c:615 src/dialogs/dialog-cell-format.c:648
+#: src/dialogs/dialog-cell-format.c:624 src/dialogs/dialog-cell-format.c:660
 #: src/dialogs/dialog-paste-special.c:28
 msgid "None"
 msgstr "Ninguno"
 
-#: src/dialogs/dialog-cell-format.c:617
+#: src/dialogs/dialog-cell-format.c:626
 msgid "Use this color"
 msgstr "Usar este color"
 
-#: src/dialogs/dialog-cell-format.c:619 src/dialogs/dialog-cell-format.c:654
+#: src/dialogs/dialog-cell-format.c:628 src/dialogs/dialog-cell-format.c:666
 msgid "No change"
 msgstr "Sin cambios"
 
-#: src/dialogs/dialog-cell-format.c:642
+#: src/dialogs/dialog-cell-format.c:654
 msgid "Background configuration"
 msgstr "Configuración del fondo"
 
-#: src/dialogs/dialog-cell-format.c:650
+#: src/dialogs/dialog-cell-format.c:662
 msgid "Use solid color"
 msgstr "Usar color sólido"
 
-#: src/dialogs/dialog-cell-format.c:652
+#: src/dialogs/dialog-cell-format.c:664
 msgid "Use a pattern"
 msgstr "Usar patrón"
 
-#: src/dialogs/dialog-cell-format.c:923
+#: src/dialogs/dialog-cell-format.c:937
 #: src/dialogs/dialog-function-wizard.c:209
 msgid "Number"
 msgstr "Numérico"
 
-#: src/dialogs/dialog-cell-format.c:924
+#: src/dialogs/dialog-cell-format.c:938
 msgid "Alignment"
 msgstr "Alineación"
 
-#: src/dialogs/dialog-cell-format.c:925
+#: src/dialogs/dialog-cell-format.c:939
 msgid "Font"
 msgstr "Fuente"
 
-#: src/dialogs/dialog-cell-format.c:926
+#: src/dialogs/dialog-cell-format.c:940
 msgid "Coloring"
 msgstr "Coloreado"
 
@@ -730,7 +730,7 @@ msgstr ""
 msgid "Need at least one clause"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:314 src/workbook.c:1505
+#: src/dialogs/dialog-cell-sort.c:314 src/workbook.c:1501
 msgid "Selection must be a single range"
 msgstr "La selección tiene que ser un rango simple"
 
@@ -767,7 +767,7 @@ msgid "Delete cells"
 msgstr "Borrar celdas"
 
 #: src/dialogs/dialog-delete-cells.c:48 src/dialogs/names.glade.h:10
-#: src/item-grid.c:605
+#: src/item-grid.c:642
 msgid "Delete"
 msgstr "Borrar"
 
@@ -911,7 +911,7 @@ msgstr "insertar celdas"
 msgid "Insert cells"
 msgstr "Insertar celdas"
 
-#: src/dialogs/dialog-insert-cells.c:49 src/item-grid.c:604
+#: src/dialogs/dialog-insert-cells.c:49 src/item-grid.c:641
 msgid "Insert"
 msgstr "Insertar"
 
@@ -952,7 +952,8 @@ msgid "Add "
 msgstr "Añadir "
 
 #: src/dialogs/dialog-paste-special.c:30
-msgid "Substract"
+#, fuzzy
+msgid "Subtract"
 msgstr "Substraer"
 
 #: src/dialogs/dialog-paste-special.c:31
@@ -963,7 +964,7 @@ msgstr "Multiplicar"
 msgid "Divide"
 msgstr "Dividir"
 
-#: src/dialogs/dialog-paste-special.c:64 src/item-grid.c:602
+#: src/dialogs/dialog-paste-special.c:64 src/item-grid.c:639
 msgid "Paste special"
 msgstr "Pegado especial"
 
@@ -979,15 +980,15 @@ msgstr "Operación"
 msgid "Transpose"
 msgstr "Transposar"
 
-#: src/dialogs/dialog-printer-setup.c:461
+#: src/dialogs/dialog-printer-setup.c:515
 msgid "Custom header configuration"
 msgstr "Configuración de cabezal personalizado"
 
-#: src/dialogs/dialog-printer-setup.c:472
+#: src/dialogs/dialog-printer-setup.c:526
 msgid "Custom footer configuration"
 msgstr "Configuración de pié de página personalizado"
 
-#: src/dialogs/dialog-printer-setup.c:677
+#: src/dialogs/dialog-printer-setup.c:734
 msgid "Print setup"
 msgstr "Configuración de la impresión"
 
@@ -1000,11 +1001,11 @@ msgstr "<="
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:45 src/workbook.c:1615
+#: src/dialogs/dialog-solver.c:45 src/workbook.c:1611
 msgid "Max"
 msgstr "Máximo"
 
-#: src/dialogs/dialog-solver.c:46 src/workbook.c:1614
+#: src/dialogs/dialog-solver.c:46 src/workbook.c:1610
 msgid "Min"
 msgstr "Mínimo"
 
@@ -1187,98 +1188,118 @@ msgid "Orientation"
 msgstr "Orientación"
 
 #: src/dialogs/print.glade.h:9
-msgid "Portrait"
+#, fuzzy
+msgid "Por_trait"
 msgstr "Vertical"
 
 #: src/dialogs/print.glade.h:10
-msgid "Landscape"
+#, fuzzy
+msgid "_Landscape"
 msgstr "Apaisado"
 
 #: src/dialogs/print.glade.h:11
 msgid "Scale"
 msgstr "Escala"
 
-#: src/dialogs/print.glade.h:12 src/dialogs/print.glade.h:13
-msgid "Adjust to"
+#: src/dialogs/print.glade.h:12
+#, fuzzy
+msgid "_Adjust to:"
 msgstr "Ajustar a"
 
+#: src/dialogs/print.glade.h:13
+msgid "_Fit to:"
+msgstr ""
+
 #: src/dialogs/print.glade.h:14
-#, c-format
-msgid "% of the original size"
+#, fuzzy, c-format
+msgid "% of normal size"
 msgstr "% del tamaño original."
 
 #: src/dialogs/print.glade.h:15
-msgid "pages wider by "
+#, fuzzy
+msgid "page(s) wide by"
 msgstr "páginas de ancho, por "
 
 #: src/dialogs/print.glade.h:16
-msgid "pages of height"
-msgstr "páginas de alto"
+#, fuzzy
+msgid "tall"
+msgstr "Cursivas"
 
 #: src/dialogs/print.glade.h:17
-msgid "Paper size:"
-msgstr "Tamaño del papel:"
-
-#: src/dialogs/print.glade.h:18
-msgid "First page number:"
+#, fuzzy
+msgid "Fi_rst page number:"
 msgstr "Primera página:"
 
-#: src/dialogs/print.glade.h:19 src/dialogs/print.glade.h:32
-#: src/dialogs/print.glade.h:42 src/dialogs/print.glade.h:50
-#: src/dialogs/print.glade.h:58 src/workbook.c:1125
-msgid "Print"
+#: src/dialogs/print.glade.h:18 src/dialogs/print.glade.h:32
+#: src/dialogs/print.glade.h:42 src/dialogs/print.glade.h:58
+#, fuzzy
+msgid "_Print"
 msgstr "Imprimir"
 
-#: src/dialogs/print.glade.h:20 src/dialogs/print.glade.h:33
+#: src/dialogs/print.glade.h:19 src/dialogs/print.glade.h:33
 #: src/dialogs/print.glade.h:43 src/dialogs/print.glade.h:59
-#: src/workbook.c:939
-msgid "Print preview"
+#, fuzzy
+msgid "Print previe_w"
 msgstr "Vista preliminar de la impresión"
 
-#: src/dialogs/print.glade.h:21 src/dialogs/print.glade.h:34
+#: src/dialogs/print.glade.h:20 src/dialogs/print.glade.h:34
 #: src/dialogs/print.glade.h:44 src/dialogs/print.glade.h:60
-msgid "Options"
+#, fuzzy
+msgid "_Options"
 msgstr "Opciones"
 
-#: src/dialogs/print.glade.h:22 src/dialogs/print.glade.h:61
+#: src/dialogs/print.glade.h:21 src/dialogs/print.glade.h:61
 msgid "Page"
 msgstr "Página"
 
-#: src/dialogs/print.glade.h:23
-msgid "Superior:"
-msgstr "Superior:"
+#: src/dialogs/print.glade.h:22
+#, fuzzy
+msgid "_Top:"
+msgstr "Arriba"
 
-#: src/dialogs/print.glade.h:24
-msgid "Header:"
+#: src/dialogs/print.glade.h:23
+#, fuzzy
+msgid "He_ader:"
 msgstr "Encabezado:"
 
-#: src/dialogs/print.glade.h:25
-msgid "Lower:"
-msgstr "Inferior:"
+#: src/dialogs/print.glade.h:24
+#, fuzzy
+msgid "_Bottom:"
+msgstr "Abajo"
 
-#: src/dialogs/print.glade.h:26
-msgid "Footer"
+#: src/dialogs/print.glade.h:25
+#, fuzzy
+msgid "_Footer"
 msgstr "Pié de página"
 
-#: src/dialogs/print.glade.h:27
+#: src/dialogs/print.glade.h:26
 msgid "Center on page"
 msgstr "Centrar en la página"
 
-#: src/dialogs/print.glade.h:28
-msgid "Horizontally"
+#: src/dialogs/print.glade.h:27
+#, fuzzy
+msgid "_Horizontally"
 msgstr "Horizontalmente"
 
-#: src/dialogs/print.glade.h:29
-msgid "Vertically"
+#: src/dialogs/print.glade.h:28
+#, fuzzy
+msgid "_Vertically"
 msgstr "Verticalmente"
 
-#: src/dialogs/print.glade.h:30
-msgid "Left:"
+#: src/dialogs/print.glade.h:29
+#, fuzzy
+msgid "_Left:"
 msgstr "Izquierda:"
 
+#: src/dialogs/print.glade.h:30
+#, fuzzy
+msgid "_Right"
+msgstr "Derecha"
+
 #: src/dialogs/print.glade.h:31
-msgid "Right:"
-msgstr "Derecha:"
+#, fuzzy
+msgid "Paper _size:"
+msgstr "Tamaño del papel:"
 
 #: src/dialogs/print.glade.h:35
 msgid "Margins"
@@ -1293,11 +1314,13 @@ msgid "Header"
 msgstr "Encabezado"
 
 #: src/dialogs/print.glade.h:38
-msgid "Customize header"
+#, fuzzy
+msgid "Customize _header"
 msgstr "Personalizar encabezado"
 
 #: src/dialogs/print.glade.h:39
-msgid "Customize footer"
+#, fuzzy
+msgid "Customize _footer"
 msgstr "Personalizar el pié de página"
 
 #: src/dialogs/print.glade.h:40
@@ -1309,7 +1332,8 @@ msgid "Headers and footers"
 msgstr "Encabezados y pies de página"
 
 #: src/dialogs/print.glade.h:46
-msgid "Print region:"
+#, fuzzy
+msgid "Print _area:"
 msgstr "Imprimir región:"
 
 #: src/dialogs/print.glade.h:47
@@ -1317,39 +1341,49 @@ msgid "Titles to print"
 msgstr "Títulos a imprimir"
 
 #: src/dialogs/print.glade.h:48
-msgid "Columns to repeat on the left side:"
+#, fuzzy
+msgid "_Columns to repeat on the left side:"
 msgstr "Columanas a repetir en el lado izquierdo:"
 
 #: src/dialogs/print.glade.h:49
-msgid "Rows to repeat on the upper region:"
+#, fuzzy
+msgid "_Rows to repeat on the upper region:"
 msgstr "Renglones a repetir en la region superior:"
 
+#: src/dialogs/print.glade.h:50 src/workbook.c:1121
+msgid "Print"
+msgstr "Imprimir"
+
 #: src/dialogs/print.glade.h:51
-msgid "Division lines"
-msgstr "Lineas de división"
+msgid "Row and co_lumn headings"
+msgstr ""
 
 #: src/dialogs/print.glade.h:52
-msgid "Black and white"
-msgstr "Blanco y negro"
+#, fuzzy
+msgid "Co_mments"
+msgstr "Comentarios"
 
 #: src/dialogs/print.glade.h:53
-msgid "Titles of rows and columns."
-msgstr "Títulos de los renglones y columnas."
+msgid "_Grid lines"
+msgstr ""
 
-#: src/dialogs/print.glade.h:54 src/dialogs/summary.glade.h:14
-msgid "Comments"
-msgstr "Comentarios"
+#: src/dialogs/print.glade.h:54
+#, fuzzy
+msgid "_Black and white"
+msgstr "Blanco y negro"
 
 #: src/dialogs/print.glade.h:55
 msgid "Page order"
 msgstr "Orden de las páginas"
 
 #: src/dialogs/print.glade.h:56
-msgid "Down, then right"
+#, fuzzy
+msgid "_Down, then right"
 msgstr "Abajo y luego a la derecha"
 
 #: src/dialogs/print.glade.h:57
-msgid "Right, then down"
+#, fuzzy
+msgid "R_ight, then down"
 msgstr "A la derecha y luego abajo"
 
 #.
@@ -1398,6 +1432,10 @@ msgstr "Rango"
 #: src/dialogs/summary.glade.h:12
 msgid "Document Summary Information\n"
 msgstr "Información en breve sobre el documento\n"
+
+#: src/dialogs/summary.glade.h:14
+msgid "Comments"
+msgstr "Comentarios"
 
 #: src/dump.c:31
 #, c-format
@@ -6478,80 +6516,80 @@ msgstr "La función no existe"
 msgid "Calling non-function"
 msgstr "Llamando a una no-función"
 
-#: src/gnumeric-sheet.c:984
+#: src/gnumeric-sheet.c:981
 msgid "Solid"
 msgstr "Sólido"
 
-#: src/gnumeric-sheet.c:988
+#: src/gnumeric-sheet.c:985
 #, no-c-format
 msgid "75%"
 msgstr "75%"
 
-#: src/gnumeric-sheet.c:992
+#: src/gnumeric-sheet.c:989
 #, no-c-format
 msgid "50%"
 msgstr "50%"
 
-#: src/gnumeric-sheet.c:996
+#: src/gnumeric-sheet.c:993
 #, no-c-format
 msgid "25%"
 msgstr "25%"
 
-#: src/gnumeric-sheet.c:1000
+#: src/gnumeric-sheet.c:997
 #, no-c-format
 msgid "12.5%"
 msgstr "12.5%"
 
-#: src/gnumeric-sheet.c:1004
+#: src/gnumeric-sheet.c:1001
 #, no-c-format
 msgid "6.25%"
 msgstr "6.25%"
 
-#: src/gnumeric-sheet.c:1007
+#: src/gnumeric-sheet.c:1004
 msgid "Horizontal Stripe"
 msgstr "Línea horizontal"
 
-#: src/gnumeric-sheet.c:1010
+#: src/gnumeric-sheet.c:1007
 msgid "Vertical Stripe"
 msgstr "Línea vertical"
 
-#: src/gnumeric-sheet.c:1013
+#: src/gnumeric-sheet.c:1010
 msgid "Reverse Diagonal Stripe"
 msgstr "Línea diagonal inversa"
 
-#: src/gnumeric-sheet.c:1016
+#: src/gnumeric-sheet.c:1013
 msgid "Diagonal Stripe"
 msgstr "Linea diagonal"
 
-#: src/gnumeric-sheet.c:1019
+#: src/gnumeric-sheet.c:1016
 msgid "Diagonal Crosshatch"
 msgstr "Linea sombreada diagonal"
 
-#: src/gnumeric-sheet.c:1022
+#: src/gnumeric-sheet.c:1019
 msgid "Thick Diagonal Crosshatch"
 msgstr "Linea sombreada diagonal gruesa"
 
-#: src/gnumeric-sheet.c:1025
+#: src/gnumeric-sheet.c:1022
 msgid "Thin Horizontal Stripe"
 msgstr "Línea horizontal fina"
 
-#: src/gnumeric-sheet.c:1028
+#: src/gnumeric-sheet.c:1025
 msgid "Thin Vertical Stripe"
 msgstr "Línea vertical fina"
 
-#: src/gnumeric-sheet.c:1031
+#: src/gnumeric-sheet.c:1028
 msgid "Thin Reverse Diagonal Stripe"
 msgstr "Línea diagonal inversa fina"
 
-#: src/gnumeric-sheet.c:1034
+#: src/gnumeric-sheet.c:1031
 msgid "Thin Diagonal Stripe"
 msgstr "Linea diagonal fina"
 
-#: src/gnumeric-sheet.c:1037
+#: src/gnumeric-sheet.c:1034
 msgid "Thin Crosshatch"
 msgstr "Línea sombreada fina"
 
-#: src/gnumeric-sheet.c:1040
+#: src/gnumeric-sheet.c:1037
 msgid "Thin Diagonal Crosshatch"
 msgstr "Línea diagonal sombreada fina"
 
@@ -6569,11 +6607,11 @@ msgstr ""
 "existentes en el mismo rango. ¿ Desea reemplazar los contenidos\n"
 "en esa región ?"
 
-#: src/item-cursor.c:581 src/item-grid.c:600 src/workbook.c:1134
+#: src/item-cursor.c:581 src/item-grid.c:637 src/workbook.c:1130
 msgid "Copy"
 msgstr "Copiar"
 
-#: src/item-cursor.c:582
+#: src/item-cursor.c:582 src/print-preview.c:452
 msgid "Move"
 msgstr "Mover"
 
@@ -6601,19 +6639,19 @@ msgstr "Desplaza las celas hacia abajo y mueve"
 msgid "Shift cells right and move"
 msgstr "Desplaza las celdas hacia la derecha y mueve"
 
-#: src/item-grid.c:599 src/workbook.c:1131
+#: src/item-grid.c:636 src/workbook.c:1127
 msgid "Cut"
 msgstr "Cortar"
 
-#: src/item-grid.c:601 src/workbook.c:1137
+#: src/item-grid.c:638 src/workbook.c:1133
 msgid "Paste"
 msgstr "Pegar"
 
-#: src/item-grid.c:606
+#: src/item-grid.c:643
 msgid "Erase content"
 msgstr "Borrar el contenido"
 
-#: src/item-grid.c:608
+#: src/item-grid.c:645
 msgid "Cell format"
 msgstr "Formato de celda"
 
@@ -6770,64 +6808,112 @@ msgstr "fecha"
 msgid "time"
 msgstr "hora"
 
-#: src/print-preview.c:176
+#: src/print-preview.c:289
+#, fuzzy
+msgid "Page: "
+msgstr "Página"
+
+#: src/print-preview.c:412
 msgid "_First page"
 msgstr "_Primer página"
 
-#: src/print-preview.c:176
+#: src/print-preview.c:412 src/print-preview.c:440
 msgid "Shows the first page"
 msgstr "Muestra la priemer página"
 
-#: src/print-preview.c:179
+#: src/print-preview.c:415
 msgid "_Previous page"
 msgstr "Página _anterior"
 
-#: src/print-preview.c:179
+#: src/print-preview.c:415 src/print-preview.c:443
 msgid "Shows the previous page"
 msgstr "Muestra la página anterior"
 
-#: src/print-preview.c:182
+#: src/print-preview.c:418
 msgid "_Next page"
 msgstr "Página _siguiente"
 
-#: src/print-preview.c:182
+#: src/print-preview.c:418 src/print-preview.c:446
 msgid "Shows the next page"
 msgstr "Muestra la página siguiente"
 
-#: src/print-preview.c:185
+#: src/print-preview.c:421
 msgid "_Last page"
 msgstr "_Última página"
 
-#: src/print-preview.c:185
+#: src/print-preview.c:421 src/print-preview.c:449
 msgid "Shows the last page"
 msgstr "Muestra la última página"
 
-#: src/print-preview.c:190
+#: src/print-preview.c:426
 msgid "Zoom _in"
 msgstr "Acer_carse"
 
-#: src/print-preview.c:190
+#: src/print-preview.c:426
 msgid "Zooms in"
 msgstr "Acercarse"
 
-#: src/print-preview.c:191
+#: src/print-preview.c:427
 msgid "Zoom _out"
 msgstr "Ale_jarse"
 
-#: src/print-preview.c:191
+#: src/print-preview.c:427
 msgid "Zooms out"
 msgstr "Alejarse"
 
-#: src/print-preview.c:210
+#: src/print-preview.c:434
+#, fuzzy
+msgid "_View"
+msgstr "_Nuevo"
+
+#: src/print-preview.c:440
+#, fuzzy
+msgid "First"
+msgstr "_Primer página"
+
+#: src/print-preview.c:443
+#, fuzzy
+msgid "Back"
+msgstr "negro"
+
+#: src/print-preview.c:446
+#, fuzzy
+msgid "Next"
+msgstr "Texto"
+
+#: src/print-preview.c:449
+#, fuzzy
+msgid "Last"
+msgstr "Pegar"
+
+#: src/print-preview.c:453 src/workbook.c:2121
+msgid "Zoom in"
+msgstr "Acercarse"
+
+#: src/print-preview.c:453
+#, fuzzy
+msgid "Zooms the page in"
+msgstr "Acercarse"
+
+#: src/print-preview.c:454 src/workbook.c:2114
+msgid "Zoom out"
+msgstr "Alejarse"
+
+#: src/print-preview.c:454
+#, fuzzy
+msgid "Zooms the page out"
+msgstr "Alejarse"
+
+#: src/print-preview.c:466
 #, c-format
 msgid "Preview for %s"
 msgstr "Previsualizar para %s"
 
-#: src/print-preview.c:213
+#: src/print-preview.c:469
 msgid "the workbook"
 msgstr "la hoja de trabajo"
 
-#: src/print-preview.c:278
+#: src/print-preview.c:546
 msgid ""
 "The Print Preview feature is being developed.\n"
 "The results of the preview is not correct currently,\n"
@@ -6837,7 +6923,7 @@ msgid ""
 "We apologize for the inconvenience"
 msgstr ""
 
-#: src/sheet-object-container.c:187 src/workbook.c:908
+#: src/sheet-object-container.c:187 src/workbook.c:904
 msgid "Select an object"
 msgstr "Seleccionar un objeto"
 
@@ -6845,46 +6931,46 @@ msgstr "Seleccionar un objeto"
 msgid "Object server"
 msgstr "Servidor de objetos"
 
-#: src/sheet-view.c:337 src/sheet-view.c:415
+#: src/sheet-view.c:340 src/sheet-view.c:412
 #, c-format
 msgid "Row: %d"
 msgstr "Renglón: %d"
 
-#: src/sheet-view.c:344 src/sheet-view.c:383
+#: src/sheet-view.c:347 src/sheet-view.c:386
 #, c-format
 msgid "Column: %s"
 msgstr "Columna: %s"
 
-#: src/sheet.c:833
+#: src/sheet.c:878
 msgid "Internal ERROR"
 msgstr "ERROR interno"
 
-#: src/sheet.c:2973
+#: src/sheet.c:3018
 msgid "The command `"
 msgstr "El comando '"
 
-#: src/sheet.c:2975
+#: src/sheet.c:3020
 msgid "' cannot be performed with multiple selections"
 msgstr "' no puede ser ejecutado con selecciones múltiples"
 
-#: src/sheet.c:2990
+#: src/sheet.c:3035
 msgid "copy"
 msgstr "copiar"
 
-#: src/sheet.c:3015
+#: src/sheet.c:3060
 msgid "cut"
 msgstr "cortar"
 
-#: src/sheet.c:3071
+#: src/sheet.c:3116
 msgid "paste"
 msgstr "pegar"
 
-#: src/sheet.c:4238
+#: src/sheet.c:4307
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "No se pudo activar el objeto %s"
 
-#: src/sheet.c:4250
+#: src/sheet.c:4319
 msgid "I was unable to the bind object"
 msgstr "No se pudo ligar el objeto"
 
@@ -6916,7 +7002,7 @@ msgstr "#NUM!"
 msgid "#N/A"
 msgstr "#N/D"
 
-#: src/widgets/widget-font-selector.c:118 src/workbook.c:1154
+#: src/widgets/widget-font-selector.c:118 src/workbook.c:1150
 msgid "Bold"
 msgstr "Negritas"
 
@@ -6924,466 +7010,480 @@ msgstr "Negritas"
 msgid "Bold italic"
 msgstr "Negritas cursivas"
 
-#: src/widgets/widget-font-selector.c:120 src/workbook.c:1157
+#: src/widgets/widget-font-selector.c:120 src/workbook.c:1153
 msgid "Italic"
 msgstr "Cursivas"
 
-#: src/workbook.c:458
+#: src/workbook.c:454
 msgid "Warning"
 msgstr "Cuidado"
 
-#: src/workbook.c:467
+#: src/workbook.c:463
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr ""
 "El libro de trabajo %s ha sido modificado y no ha sido guardado, ¿Los guardo?"
 
-#: src/workbook.c:470
+#: src/workbook.c:466
 msgid "Workbook has unsaved changes, save them?"
 msgstr "El libro de trabajo ha sido modificado, ¿Guardo los cambios?"
 
-#: src/workbook.c:669
+#: src/workbook.c:665
 msgid "Insert cols"
 msgstr "Insertar columnas"
 
-#: src/workbook.c:688
+#: src/workbook.c:684
 msgid "Insert rows"
 msgstr "Insertar renglones"
 
-#: src/workbook.c:784
+#: src/workbook.c:780
 msgid ">mm/dd/yyyy"
 msgstr ">dd/mm/yyyy"
 
-#: src/workbook.c:803
+#: src/workbook.c:799
 msgid ">hh:mm"
 msgstr ">hh:mm"
 
-#: src/workbook.c:917
+#: src/workbook.c:913
 msgid "_New"
 msgstr "_Nuevo"
 
-#: src/workbook.c:917
+#: src/workbook.c:913
 msgid "Create a new spreadsheet"
 msgstr "Crea una nueva hoja de cálculo"
 
-#: src/workbook.c:921
+#: src/workbook.c:917
 msgid "_Import"
 msgstr "_Importar"
 
-#: src/workbook.c:921
+#: src/workbook.c:917
 msgid "Imports a file"
 msgstr "Importa un archivo"
 
-#: src/workbook.c:927
+#: src/workbook.c:923
 msgid "Su_mmary..."
 msgstr "_Resúmen..."
 
-#: src/workbook.c:927
+#: src/workbook.c:923
 msgid "Summary information"
 msgstr "Información en breve"
 
-#: src/workbook.c:932
+#: src/workbook.c:928
 msgid "Plu_g-ins..."
 msgstr "_Extensiones..."
 
-#: src/workbook.c:932
+#: src/workbook.c:928
 msgid "Gnumeric plugins"
 msgstr "Módulos de Gnumeric"
 
-#: src/workbook.c:939
+#: src/workbook.c:935
 msgid "Print pre_view"
 msgstr "Pre_visualización de la impresión"
 
-#: src/workbook.c:955
+#: src/workbook.c:935
+msgid "Print preview"
+msgstr "Vista preliminar de la impresión"
+
+#: src/workbook.c:951
 msgid "_All"
 msgstr "_Todo"
 
-#: src/workbook.c:956
+#: src/workbook.c:952
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr ""
 "Limpia los formatos, comentarios y contenidos de las celdas seleccionadas"
 
-#: src/workbook.c:958
+#: src/workbook.c:954
 msgid "_Formats"
 msgstr "_Formatos"
 
-#: src/workbook.c:959
+#: src/workbook.c:955
 msgid "Clear the selected cells' formats"
 msgstr "Elimina los formatos de las celdas seleccionadas"
 
-#: src/workbook.c:960
+#: src/workbook.c:956
 msgid "_Comments"
 msgstr "_Comentarios"
 
-#: src/workbook.c:961
+#: src/workbook.c:957
 msgid "Clear the selected cells' comments"
 msgstr "Elimina los comentarios de las celdas seleccionadas"
 
-#: src/workbook.c:962
+#: src/workbook.c:958
 msgid "_Content"
 msgstr "_Contenido"
 
-#: src/workbook.c:963
+#: src/workbook.c:959
 msgid "Clear the selected cells' contents"
 msgstr "Eliminar el contenido de las celdas seleccionadas"
 
-#: src/workbook.c:971
+#: src/workbook.c:967
 msgid "P_aste special..."
 msgstr "Pegado _especial..."
 
-#: src/workbook.c:972
+#: src/workbook.c:968
 msgid "C_lear"
 msgstr "_Borrar"
 
-#: src/workbook.c:973
+#: src/workbook.c:969
 msgid "Clear the selected cell(s)"
 msgstr "Borra las celdas seleccionadas"
 
-#: src/workbook.c:977
+#: src/workbook.c:973
 msgid "_Select All"
 msgstr "_Selecciona todo"
 
-#: src/workbook.c:978
+#: src/workbook.c:974
 msgid "Select all cells in the spreadsheet"
 msgstr "Selecciona todas las celdas en la hoja de cálculo"
 
-#: src/workbook.c:980
+#: src/workbook.c:976
 msgid "_Goto cell..."
 msgstr "_Ir a la celda..."
 
-#: src/workbook.c:981
+#: src/workbook.c:977
 msgid "Jump to a specified cell"
 msgstr "Salta a la celda especificada"
 
-#: src/workbook.c:987
+#: src/workbook.c:983
 msgid "Insert object..."
 msgstr "Insertar objeto..."
 
-#: src/workbook.c:988
+#: src/workbook.c:984
 msgid "Inserts a Bonobo object"
 msgstr "Inserta un objeto Bonobo"
 
-#: src/workbook.c:995
+#: src/workbook.c:991
 msgid "_Define cell names"
 msgstr "_Definir nombres de celdas"
 
-#: src/workbook.c:999
+#: src/workbook.c:995
 msgid "_Recalculate"
 msgstr "_Recalcular"
 
-#: src/workbook.c:1000
+#: src/workbook.c:996
 msgid "Recalculate the spreadsheet"
 msgstr "Recalcula el contenido de la hoja de cálculo"
 
-#: src/workbook.c:1008
+#: src/workbook.c:1004
 msgid "_Zoom..."
 msgstr "_Amplificar..."
 
-#: src/workbook.c:1009
+#: src/workbook.c:1005
 msgid "Zoom the spreadsheet in or out"
 msgstr "Controla el acercamiento de la hoja de cálculo"
 
-#: src/workbook.c:1016
+#: src/workbook.c:1012
 msgid "Current _date"
 msgstr "_Fecha actual"
 
-#: src/workbook.c:1017
+#: src/workbook.c:1013
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Inserta la fecha actual en la(s) celda(s) seleccionada(s)"
 
-#: src/workbook.c:1020
+#: src/workbook.c:1016
 msgid "Current _time"
 msgstr "_Hora actual"
 
-#: src/workbook.c:1021
+#: src/workbook.c:1017
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Inserta la hora actual en las celdas seleccionadas"
 
-#: src/workbook.c:1028 src/workbook.c:1074
+#: src/workbook.c:1024 src/workbook.c:1070
 msgid "_Sheet"
 msgstr "_Hoja"
 
-#: src/workbook.c:1028
+#: src/workbook.c:1024
 msgid "Insert a new spreadsheet"
 msgstr "Inserta una nueva hoja de cálculo en este libro de trabajo"
 
-#: src/workbook.c:1030 src/workbook.c:1068
+#: src/workbook.c:1026 src/workbook.c:1064
 msgid "_Cells..."
 msgstr "_Celdas..."
 
-#: src/workbook.c:1030
+#: src/workbook.c:1026
 msgid "Insert new cells"
 msgstr "Inserta celdas"
 
-#: src/workbook.c:1032
+#: src/workbook.c:1028
 msgid "_Rows"
 msgstr "_Renglones"
 
-#: src/workbook.c:1032
+#: src/workbook.c:1028
 msgid "Insert new rows"
 msgstr "Inserta renglones"
 
-#: src/workbook.c:1034
+#: src/workbook.c:1030
 msgid "C_olumns"
 msgstr "C_olumnas"
 
-#: src/workbook.c:1034
+#: src/workbook.c:1030
 msgid "Insert new columns"
 msgstr "Inserta columnas"
 
-#: src/workbook.c:1039
+#: src/workbook.c:1035
 msgid "_Add/modify comment..."
 msgstr "_Añadir/Modificar comentario..."
 
-#: src/workbook.c:1040
+#: src/workbook.c:1036
 msgid "Edit the selected cell's comment"
 msgstr "Edita el comentario de la celda seleccionada"
 
-#: src/workbook.c:1041
+#: src/workbook.c:1037
 msgid "_Special"
 msgstr "E_special"
 
-#: src/workbook.c:1050 src/workbook.c:1056
+#: src/workbook.c:1046 src/workbook.c:1052
 msgid "_Autoadjust"
 msgstr "_Autoajusta"
 
-#: src/workbook.c:1051
+#: src/workbook.c:1047
 msgid "_Width"
 msgstr "A_ncho"
 
-#: src/workbook.c:1057
+#: src/workbook.c:1053
 msgid "_Height"
 msgstr "A_lto"
 
-#: src/workbook.c:1062
+#: src/workbook.c:1058
 msgid "_Change name"
 msgstr "_Cambiar nombre"
 
-#: src/workbook.c:1069
+#: src/workbook.c:1065
 msgid "Modify the formatting of the selected cells"
 msgstr "MOdifica el formato de las celdas seleccionadas"
 
-#: src/workbook.c:1072
+#: src/workbook.c:1068
 msgid "C_olumn"
 msgstr "C_olumnas"
 
-#: src/workbook.c:1073
+#: src/workbook.c:1069
 msgid "_Row"
 msgstr "_Renglón"
 
-#: src/workbook.c:1081
+#: src/workbook.c:1077
 msgid "_Sort..."
 msgstr "_Ordenar..."
 
-#: src/workbook.c:1082
+#: src/workbook.c:1078
 msgid "Sort the selected cells"
 msgstr "Ordena las celdas seleccionadas"
 
-#: src/workbook.c:1083
+#: src/workbook.c:1079
 msgid "_Goal Seek..."
 msgstr "_Objetivo..."
 
-#: src/workbook.c:1085
+#: src/workbook.c:1081
 msgid "_Solver..."
 msgstr "_Resolver..."
 
-#: src/workbook.c:1087
+#: src/workbook.c:1083
 msgid "_Data Analysis..."
 msgstr "Análisis de _Datos..."
 
-#: src/workbook.c:1101
+#: src/workbook.c:1097
 msgid "_Insert"
 msgstr "_Insertar"
 
-#: src/workbook.c:1102
+#: src/workbook.c:1098
 msgid "F_ormat"
 msgstr "_Formato"
 
-#: src/workbook.c:1103
+#: src/workbook.c:1099
 msgid "_Tools"
 msgstr "_Herramientas"
 
-#: src/workbook.c:1116
+#: src/workbook.c:1112
 msgid "New"
 msgstr "Nuevo"
 
-#: src/workbook.c:1116
+#: src/workbook.c:1112
 msgid "Creates a new sheet"
 msgstr "Crea una nueva hoja"
 
-#: src/workbook.c:1119
+#: src/workbook.c:1115
 msgid "Open"
 msgstr "Abrir"
 
-#: src/workbook.c:1119
+#: src/workbook.c:1115
 msgid "Opens an existing workbook"
 msgstr "Abre una hoja de trabajo existente"
 
-#: src/workbook.c:1122
+#: src/workbook.c:1118
 msgid "Save"
 msgstr "Guardar"
 
-#: src/workbook.c:1122
+#: src/workbook.c:1118
 msgid "Saves the workbook"
 msgstr "Guarda esta hoja de trabajo"
 
-#: src/workbook.c:1125
+#: src/workbook.c:1121
 msgid "Prints the workbook"
 msgstr "Imprime esta hoja de trabajo"
 
-#: src/workbook.c:1131
+#: src/workbook.c:1127
 msgid "Cuts the selection to the clipboard"
 msgstr "Corta la selección al portapapeles"
 
-#: src/workbook.c:1134
+#: src/workbook.c:1130
 msgid "Copies the selection to the clipboard"
 msgstr "Copia la selección al portapapeles"
 
-#: src/workbook.c:1137
+#: src/workbook.c:1133
 msgid "Pastes the clipboard"
 msgstr "Pega el contenido del portapapeles"
 
-#: src/workbook.c:1143
+#: src/workbook.c:1139
 msgid "Left align"
 msgstr "Alinea a la izquierda"
 
-#: src/workbook.c:1143
+#: src/workbook.c:1139
 msgid "Left justifies the cell contents"
 msgstr "Justifica a la izquierda el contenido de la celda"
 
-#: src/workbook.c:1146
+#: src/workbook.c:1142
 msgid "Centers the cell contents"
 msgstr "Centra el contenido de la celda"
 
-#: src/workbook.c:1149
+#: src/workbook.c:1145
 msgid "Right align"
 msgstr "Alinea a la derecha"
 
-#: src/workbook.c:1149
+#: src/workbook.c:1145
 msgid "Right justifies the cell contents"
 msgstr "Justifica a la derecha el contenido de la celda"
 
-#: src/workbook.c:1154
+#: src/workbook.c:1150
 msgid "Sets the bold font"
 msgstr "Pone el atributo negritas de la fuente"
 
-#: src/workbook.c:1157
+#: src/workbook.c:1153
 msgid "Makes the font italic"
 msgstr "Pone el atributo de cursivas de la fuente"
 
-#: src/workbook.c:1164
+#: src/workbook.c:1160
 msgid "Graphic"
 msgstr "Gráfico"
 
-#: src/workbook.c:1164
+#: src/workbook.c:1160
 msgid "Creates a graphic in the spreadsheet"
 msgstr "Crea un gráfico en la hoja de cálculo"
 
-#: src/workbook.c:1168
+#: src/workbook.c:1164
 msgid "Button"
 msgstr "Botón"
 
-#: src/workbook.c:1168
+#: src/workbook.c:1164
 msgid "Creates a button object"
 msgstr "Crea un objeto botón"
 
-#: src/workbook.c:1171
+#: src/workbook.c:1167
 msgid "Line"
 msgstr "Línea"
 
-#: src/workbook.c:1171
+#: src/workbook.c:1167
 msgid "Creates a line object"
 msgstr "Crea una linea"
 
-#: src/workbook.c:1174
+#: src/workbook.c:1170
 msgid "Arrow"
 msgstr "Flecha"
 
-#: src/workbook.c:1174
+#: src/workbook.c:1170
 msgid "Creates an arrow object"
 msgstr "Crea una flecha"
 
-#: src/workbook.c:1177
+#: src/workbook.c:1173
 msgid "Rectangle"
 msgstr "Rectángulo"
 
-#: src/workbook.c:1177
+#: src/workbook.c:1173
 msgid "Creates a rectangle object"
 msgstr "Crea un rectángulo"
 
-#: src/workbook.c:1180
+#: src/workbook.c:1176
 msgid "Ellipse"
 msgstr "Elipse"
 
-#: src/workbook.c:1180
+#: src/workbook.c:1176
 msgid "Creates an ellipse object"
 msgstr "Crea una elipse"
 
-#: src/workbook.c:1398
+#: src/workbook.c:1394
 msgid "You should introduce a valid cell name"
 msgstr "Debe de introducir un nombre válido de celda"
 
-#: src/workbook.c:1407
+#: src/workbook.c:1403
 msgid "Column out of range"
 msgstr "Columna fuera de rango"
 
-#: src/workbook.c:1413
+#: src/workbook.c:1409
 msgid "Row number out of range"
 msgstr "Renglón fuera de rango"
 
-#: src/workbook.c:1613
+#: src/workbook.c:1609
 msgid "Sum"
 msgstr "Suma"
 
-#: src/workbook.c:1616
+#: src/workbook.c:1612
 msgid "Average"
 msgstr "Promedio"
 
-#: src/workbook.c:1617
+#: src/workbook.c:1613
 msgid "Count"
 msgstr "Cuenta"
 
-#: src/workbook.c:2017
+#: src/workbook.c:2013
 msgid "Untitled.gnumeric"
 msgstr "SinTitulo.gnumeric"
 
-#: src/workbook.c:2118
-msgid "Zoom out"
-msgstr "Alejarse"
-
-#: src/workbook.c:2125
-msgid "Zoom in"
-msgstr "Acercarse"
-
-#: src/workbook.c:2220
+#: src/workbook.c:2216
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "¿ Está seguro que quiere borrar la hoja llamada '%s' ?"
 
-#: src/workbook.c:2239
+#: src/workbook.c:2235
 msgid "Other sheets depend on the values on this sheet; I cannot remove it."
 msgstr "Otras hojas dependen de los valores de esta hoja; no puedo borrarla."
 
-#: src/workbook.c:2259
+#: src/workbook.c:2255
 msgid "Add another sheet"
 msgstr "Añadir otra hoja"
 
-#: src/workbook.c:2260
+#: src/workbook.c:2256
 msgid "Remove this sheet"
 msgstr "Borrar esta hoja"
 
-#: src/workbook.c:2526 src/workbook.c:2561
+#: src/workbook.c:2522 src/workbook.c:2557
 #, c-format
 msgid "Sheet%d"
 msgstr "Hoja%d"
 
-#: src/workbook.c:2635
+#: src/workbook.c:2631
 msgid "Gnumeric: "
 msgstr "Gnumeric: "
 
 #: src/xml-io.c:2033
 msgid "Old Gnumeric XML file format"
 msgstr "Antiguo formato de archivo XML para Gnumeric"
+
+#~ msgid "pages of height"
+#~ msgstr "páginas de alto"
+
+#~ msgid "Superior:"
+#~ msgstr "Superior:"
+
+#~ msgid "Lower:"
+#~ msgstr "Inferior:"
+
+#~ msgid "Right:"
+#~ msgstr "Derecha:"
+
+#~ msgid "Division lines"
+#~ msgstr "Lineas de división"
+
+#~ msgid "Titles of rows and columns."
+#~ msgstr "Títulos de los renglones y columnas."
 
 #~ msgid "="
 #~ msgstr "="
