@@ -42,125 +42,6 @@
 #include "sc-fin.h"
 
 
-static gint
-GetDiffDate360 (gint nDay1, gint nMonth1, gint nYear1, gint bLeapYear1,
-		gint nDay2, gint nMonth2, gint nYear2, gboolean bUSAMethod )
-{
-        if ( nDay1 == 31 )
-                nDay1--;
-        else if ( bUSAMethod && ( nMonth1 == 2 &&
-				  ( nDay1 == 29 ||
-				    ( nDay1 == 28 && !bLeapYear1 ) ) ) )
-		nDay1 = 30;
-
-        if ( nDay2 == 31 ) {
-                if ( bUSAMethod && nDay1 != 30 ) {
-                        /* aDate2 += 1;          -> 1.xx.yyyy */
-                        nDay2 = 1;
-                        if ( nMonth2 == 12 ) {
-                                nYear2++;
-                                nMonth2 = 1;
-                        } else
-                                nMonth2++;
-                } else
-                        nDay2 = 30;
-        }
-
-        return nDay2 + nMonth2 * 30 + nYear2 * 360 - nDay1 - nMonth1 *
-		30 - nYear1 * 360;
-}
-
-
-static void
-GetDiffParam (GDate *nStartDate, GDate *nEndDate, gint nMode, gint *rYears,
-	      gint *rDayDiffPart, gint *rDaysInYear)
-{
-	gint  nDay1,   nDay2;
-	gint  nMonth1, nMonth2;
-	gint  nYear1,  nYear2;
-	gint  nYears = 0;
-	gint  nDayDiff = 0, nDaysInYear = 0;
-
-        if ( g_date_compare (nStartDate, nEndDate) == 1 ) {
-                GDate *tmp = nEndDate;
-                nEndDate   = nStartDate;
-                nStartDate = tmp;
-        }
-
-	nDay1   = g_date_get_day   (nStartDate);
-	nDay2   = g_date_get_day   (nEndDate);
-	nMonth1 = g_date_get_month (nStartDate);
-	nMonth2 = g_date_get_month (nEndDate);
-	nYear1  = g_date_get_year  (nStartDate);
-	nYear2  = g_date_get_year  (nEndDate);
-
-        switch ( nMode ) {
-	case 0:                 /* 0=USA (NASD) 30/360 */
-	case 4:                 /* 4=Europe 30/360 */
-		nDaysInYear = 360;
-		nYears      = nYear2 - nYear1;
-		nDayDiff    = GetDiffDate360 ( nDay1, nMonth1, nYear1,
-					       g_date_is_leap_year ( nYear1 ),
-					       nDay2, nMonth2, nYear2,
-					       nMode == 0 )
-			- nYears * nDaysInYear;
-		break;
-	case 1:                 /* 1=exact/exact */
-		nYears      = nYear2 - nYear1;
-
-		nDaysInYear = g_date_is_leap_year ( nYear1 )? 366 : 365;
-
-		if ( nYears && ( nMonth1 > nMonth2 ||
-				 ( nMonth1 == nMonth2 && nDay1 > nDay2 ) ) )
-			nYears--;
-
-		if ( nYears ) {
-			GDate *tmp = g_date_new_dmy (nDay1, nMonth1, nYear2);
-
-			nDayDiff = g_date_days_between (tmp, nEndDate);
-			g_free (tmp);
-		} else
-			nDayDiff = g_date_days_between (nStartDate, nEndDate);
-
-		if ( nDayDiff < 0 )
-			nDayDiff += nDaysInYear;
-
-		break;
-	case 2:                 /* 2=exact/360 */
-		nDaysInYear = 360;
-		nYears      = g_date_days_between ( nStartDate, nEndDate ) /
-			nDaysInYear; /* ?? */
-		nDayDiff    = g_date_days_between ( nStartDate, nEndDate );
-		nDayDiff   %= nDaysInYear;
-		break;
-	case 3:                 /* 3=exact/365 */
-		nDaysInYear = 365;
-		nYears      = g_date_days_between ( nStartDate, nEndDate ) /
-			nDaysInYear; /* ?? */
-		nDayDiff    = g_date_days_between ( nStartDate, nEndDate );
-		nDayDiff   %= nDaysInYear;
-		break;
-	default:
-		break;
-        }
-
-        *rYears       = nYears;
-        *rDayDiffPart = nDayDiff;
-        *rDaysInYear  = nDaysInYear;
-}
-
-
-static gnm_float
-GetYearFrac (GDate *nStartDate, GDate *nEndDate, gint nMode)
-{
-	gint nYears, nDayDiff, nDaysInYear;
-
-        GetDiffParam ( nStartDate, nEndDate, nMode, &nYears, &nDayDiff,
-		       &nDaysInYear );
-
-        return nYears + (gnm_float) nDayDiff / nDaysInYear;
-}
-
 static gnm_float
 GetRmz ( gnm_float fZins, gnm_float fZzr, gnm_float fBw, gnm_float fZw,
 	 gint nF )
@@ -206,7 +87,7 @@ static gnm_float
 Duration (GDate *nSettle, GDate *nMat, gnm_float fCoup, gnm_float fYield,
 	  gint nFreq, gint nBase, gnm_float fNumOfCoups)
 {
-        /* gnm_float  fYearfrac   = GetYearFrac ( nSettle, nMat, nBase ); */
+        /* gnm_float  fYearfrac   = yearfrac ( nSettle, nMat, nBase ); */
         gnm_float  fDur        = 0.0;
 	gnm_float  t, p        = 0.0;
 
@@ -256,7 +137,7 @@ get_amordegrc (gnm_float fCost, GDate *nDate, GDate *nFirstPer,
                 fAmorCoeff = 2.5;
 
         fRate *= fAmorCoeff;
-        fNRate = Round ( GetYearFrac( nDate, nFirstPer, nBase ) * fRate *
+        fNRate = Round ( yearfrac( nDate, nFirstPer, nBase ) * fRate *
 			 fCost, 0 );
         fCost -= fNRate;
         fRest = fCost - fRestVal;
@@ -290,7 +171,7 @@ get_amorlinc (gnm_float fCost, GDate *nDate, GDate *nFirstPer,
 {
         gnm_float fOneRate          = fCost * fRate;
         gnm_float fCostDelta        = fCost - fRestVal;
-        gnm_float f0Rate            = GetYearFrac ( nDate, nFirstPer, nBase )
+        gnm_float f0Rate            = yearfrac ( nDate, nFirstPer, nBase )
 	        * fRate * fCost;
         gint       nNumOfFullPeriods = (fCost - fRestVal - f0Rate) / fOneRate;
 	gnm_float result;
@@ -312,9 +193,9 @@ get_amorlinc (gnm_float fCost, GDate *nDate, GDate *nFirstPer,
 Value *	   get_yieldmat  (GDate *nSettle, GDate *nMat, GDate *nIssue,
 			  gnm_float fRate, gnm_float fPrice, gint nBase)
 {
-        gnm_float   fIssMat = GetYearFrac ( nIssue, nMat, nBase );
-        gnm_float   fIssSet = GetYearFrac ( nIssue, nSettle, nBase );
-        gnm_float   fSetMat = GetYearFrac ( nSettle, nMat, nBase );
+        gnm_float   fIssMat = yearfrac ( nIssue, nMat, nBase );
+        gnm_float   fIssSet = yearfrac ( nIssue, nSettle, nBase );
+        gnm_float   fSetMat = yearfrac ( nSettle, nMat, nBase );
         gnm_float   y       = 1.0 + fIssMat * fRate;
 
         y /= fPrice / 100.0 + fIssSet * fRate;

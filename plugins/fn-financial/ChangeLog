@@ -1,3 +1,7 @@
+2003-07-01  Jody Goldberg <jody@gnome.org>
+
+	* sc-fin.c : ditch sc's daycount routines
+
 2003-07-01  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_oddlprice, gnumeric_oddlyield): Dump OO's
