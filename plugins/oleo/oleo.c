@@ -63,6 +63,7 @@ oleo_set_style (Sheet *sheet, int col, int row, MStyle *mstyle)
 	if (row >= 0)
 		range.start.row = range.end.row = OLEO_TO_GNUMERIC (row);
 
+	/* sheet_style_set_range absorbs our reference */
 	mstyle_ref (mstyle);
 	sheet_style_set_range (sheet, &range, mstyle);
 }
@@ -270,10 +271,10 @@ oleo_deal_with_cell (char *str, Sheet *sheet, MStyle *style, int *ccol, int *cro
 	cell = sheet_cell_fetch (sheet,
 		OLEO_TO_GNUMERIC (*ccol), OLEO_TO_GNUMERIC (*crow));
 
-	if (formula)
+	if (formula != NULL)
 		expr = oleo_parse_formula (formula, sheet, *ccol, *crow);
 
-	if (cval) {
+	if (cval != NULL) {
 		Value *val = format_match_simple (cval);
 
 		if (val == NULL) {
@@ -285,12 +286,12 @@ oleo_deal_with_cell (char *str, Sheet *sheet, MStyle *style, int *ccol, int *cro
 				val = value_new_string (cval);
 		}
 
-		if (expr)
+		if (expr != NULL)
 			cell_set_expr_and_value (cell, expr, val, NULL, TRUE);
 		else
 			cell_set_value (cell, val, NULL);
 
-		if(style)
+		if (style != NULL)
 			oleo_set_style (sheet, *ccol, *crow, style);
 
 	} else {
@@ -310,17 +311,17 @@ oleo_deal_with_cell (char *str, Sheet *sheet, MStyle *style, int *ccol, int *cro
  * parse the command as it may update current row/column
  */
 static void
-oleo_deal_with_format (MStyle **style, 
+oleo_deal_with_format (MStyle **style,
 		       char *str, Sheet *sheet, int *ccol, int *crow)
 {
 	char *ptr = str + 1, fmt_string[100];
 	MStyle *mstyle = mstyle_new_default ();
-	
+
 	fmt_string[0] = '\0';
 
 	while (*ptr) {
 		char c=*ptr++;
-		
+
 		switch (c) {
 		case 'c' : *ccol = astol (&ptr); break;
 		case 'r' : *crow = astol (&ptr); break;
@@ -350,12 +351,9 @@ oleo_deal_with_format (MStyle **style,
 	if (fmt_string[0])
 		mstyle_set_format_text (mstyle, fmt_string);
 
-	mstyle_ref(mstyle);
-	
-	if(*style)
-		mstyle_unref(*style);
-	
-	*style=mstyle;
+	if (*style)
+		mstyle_unref (*style);
+	*style = mstyle;
 }
 
 static Sheet *

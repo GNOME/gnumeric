@@ -1,5 +1,10 @@
 2001-12-07  Jody Goldberg <jody@gnome.org>
 
+	* oleo.c (oleo_set_style) : document why we are adding a ref here.
+	(oleo_deal_with_format) : remove unnecessary ref here.
+
+2001-12-07  Jody Goldberg <jody@gnome.org>
+
 	* oleo.c : http://bugzilla.gnome.org/show_bug.cgi?id=60468
 	  Apply the 2nd patch.
 
