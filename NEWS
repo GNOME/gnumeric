@@ -1,8 +1,12 @@
 --------------------------------------------------------------------------
-gnumeric 0.71
+Gnumeric 0.71
+
+Morten:
+	* Speed up font handling a bit.
+
 
 --------------------------------------------------------------------------
-gnumeric 0.70
+Gnumeric 0.70
 
 Ariel:
 	* Make guile a proper plugin.

@@ -47,7 +47,7 @@ style_font_new_simple (const char *font_name, double size, double scale,
 	key.scale     = scale;
 
 	font = (StyleFont *) g_hash_table_lookup (style_font_hash, &key);
-	if (!font){
+	if (!font) {
 		if (g_hash_table_lookup (style_font_negative_hash, &key))
 			return NULL;
 
@@ -83,20 +83,20 @@ style_font_new_simple (const char *font_name, double size, double scale,
 			italic,
 			size);
 
+		/* FIXME : how does one get the width of the
+		 * widest character used to display numbers?
+		 * Use 4 as the max width for now.  Count the
+		 * inter character spacing by measuring a
+		 * string with 10 digits
+		 */
+		font->approx_width = font->gdk_font
+			? gnome_font_get_width_string (font->font, "4444444444") / 10.
+			: 1.;
+
 		g_hash_table_insert (style_font_hash, font, font);
 	}
 
 	font->ref_count++;
-
-	/* FIXME : how does one get the width of the
-	 * widest character used to display numbers.
-	 * Use 4 as the max width for now.  Count the
-	 * inter character spacing by measuring a
-	 * string with 10 digits
-	 */
-	font->approx_width = font->gdk_font
-		? gnome_font_get_width_string (font->font, "4444444444") / 10.
-		: 1.;
 
 #ifdef DEBUG_REF_COUNT
 	fprintf (stderr, __FUNCTION__ " font=%p name=%s%s%s ref_count=%d\n",
