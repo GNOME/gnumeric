@@ -124,6 +124,10 @@ cell_draw (Cell const *cell, GdkGC *gc, GdkDrawable *drawable,
 			hoffset += (width - indent) - rv->layout_natural_width;
 			break;
 		case HALIGN_CENTER:
+			if (h_center == -1)
+				h_center = width / 2;
+			hoffset += h_center + (-indent - rv->layout_natural_width) / 2;
+			break;
 		case HALIGN_CENTER_ACROSS_SELECTION:
 			hoffset += ((width - indent) - rv->layout_natural_width) / 2;
 			break;
@@ -197,8 +201,8 @@ cell_draw (Cell const *cell, GdkGC *gc, GdkDrawable *drawable,
 	}
 
 #if 0
-	g_print ("width=%d, w_width=%d, n_width=%d, h_center=%d\n",
-		 width, wanted_width, rv->layout_natural_width, h_center);
+	g_print ("width=%d, n_width=%d, h_center=%d\n",
+		 width, rv->layout_natural_width, h_center);
 #endif
 
 	/* See http://bugzilla.gnome.org/show_bug.cgi?id=105322 */

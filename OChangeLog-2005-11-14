@@ -1,3 +1,8 @@
+2003-05-08  Morten Welinder  <terra@gnome.org>
+
+	* src/cell-draw.c (cell_draw): Fix HALIGN_CENTER case when a cell
+	overflows.
+
 2003-05-08  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/stf.c (stf_read_workbook_auto_csvtab): use a locale dependent
@@ -20,6 +25,12 @@
 	(StfExportOptions_t): add charset
 	
 2003-05-07  Morten Welinder  <terra@gnome.org>
+
+	* src/number-match.c (char_to_re): Take a gunichar, just in case.
+	(format_create_regexp): Take an unsigned char *.  Make UTF-8 safe.
+
+	* src/formats.c (cell_format_is_number): Use UTF-8 regexp
+	routines.
 
 	* src/regutf8.c (gnumeric_regcomp, gnumeric_regexec): Switch to C
 	locale if needed.
