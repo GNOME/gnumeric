@@ -156,8 +156,10 @@ excel_chart_series_write_xml (ExcelChartSeries *series,
 	for (i = 0 ; i < MS_VECTOR_PURPOSE_MAX; i++ )
 		if (series->vector [i].remote_ID >= 0) {
 			v = xmlNewChild (series->xml, s->xml.ns,
-				ms_vector_purpose_type_name [i], NULL);
-			e_xml_set_uint_prop_by_name (v, "ID",
+					 "Dimension", NULL);
+			xmlSetProp (v, "element",
+				    ms_vector_purpose_type_name [i]);
+			e_xml_set_integer_prop_by_name (v, "ID",
 				series->vector [i].remote_ID);
 		}
 }
@@ -968,7 +970,7 @@ BC_R(dataformat)(ExcelChartHandler const *handle,
 	} else {
 		s->xml.dataFormat = xmlNewChild (series->xml, s->xml.ns,
 						 "FormatPoint", NULL);
-		e_xml_set_uint_prop_by_name (s->xml.dataFormat,
+		e_xml_set_integer_prop_by_name (s->xml.dataFormat,
 			"index", pt_num);
 		d (0, printf ("Point-%hd", pt_num););
 	}
@@ -1502,7 +1504,7 @@ BC_R(pieformat)(ExcelChartHandler const *handle,
 	if (pie == NULL)
 		pie = xmlNewChild (s->xml.dataFormat, s->xml.ns, "Pie", NULL);
 
-	e_xml_set_uint_prop_by_name (pie,
+	e_xml_set_integer_prop_by_name (pie,
 		"separation_percent_of_diameter", percent_diam);
 
 	d (2, printf ("Pie slice is %hu %% of diam from center\n", percent_diam););
@@ -1754,7 +1756,7 @@ BC_R(series)(ExcelChartHandler const *handle,
 
 	series = excel_chart_series_new ();
 	series->xml = xmlNewDocNode (s->xml.doc, s->xml.ns, "Series", NULL);
-	e_xml_set_uint_prop_by_name (series->xml, "index", s->series->len);
+	e_xml_set_integer_prop_by_name (series->xml, "index", s->series->len);
 
 	/* WARNING : The offsets in the documentation are WRONG.
 	 *           Use the sizes instead.

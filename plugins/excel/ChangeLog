@@ -1,3 +1,8 @@
+2001-09-28  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-chart.c (excel_chart_series_write_xml) : adjust to new xml
+	  structure.
+
 2001-09-27  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-obj.c (ms_object_attr_bag_lookup) : accept NULL attrBags.
