@@ -329,7 +329,7 @@ GSF_CLASS (PluginServiceClipboard, plugin_service_clipboard,
  */
 
 typedef struct _GnumPluginFileOpener GnumPluginFileOpener;
-static GnumPluginFileOpener *gnum_plugin_file_opener_new (PluginService *service);
+static GnumPluginFileOpener *gnm_plugin_file_opener_new (PluginService *service);
 
 typedef enum {FILE_PATTERN_SHELL, FILE_PATTERN_LAST} InputFilePatternType;
 
@@ -482,7 +482,7 @@ plugin_service_file_opener_activate (PluginService *service, ErrorInfo **ret_err
 	PluginServiceFileOpener *service_file_opener = GNM_PLUGIN_SERVICE_FILE_OPENER (service);
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
-	service_file_opener->opener = GNUM_FILE_OPENER (gnum_plugin_file_opener_new (service));
+	service_file_opener->opener = GNUM_FILE_OPENER (gnm_plugin_file_opener_new (service));
 	register_file_opener (service_file_opener->opener,
 			      service_file_opener->priority);
 	service->is_active = TRUE;
@@ -526,12 +526,12 @@ GSF_CLASS (PluginServiceFileOpener, plugin_service_file_opener,
 
 /** GnumPluginFileOpener class **/
 
-#define TYPE_GNUM_PLUGIN_FILE_OPENER             (gnum_plugin_file_opener_get_type ())
-#define GNUM_PLUGIN_FILE_OPENER(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_GNUM_PLUGIN_FILE_OPENER, GnumPluginFileOpener))
-#define GNUM_PLUGIN_FILE_OPENER_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_GNUM_PLUGIN_FILE_OPENER, GnumPluginFileOpenerClass))
-#define IS_GNUM_PLUGIN_FILE_OPENER(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_GNUM_PLUGIN_FILE_OPENER))
+#define TYPE_GNM_PLUGIN_FILE_OPENER             (gnm_plugin_file_opener_get_type ())
+#define GNM_PLUGIN_FILE_OPENER(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_GNM_PLUGIN_FILE_OPENER, GnumPluginFileOpener))
+#define GNM_PLUGIN_FILE_OPENER_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_GNM_PLUGIN_FILE_OPENER, GnumPluginFileOpenerClass))
+#define IS_GNM_PLUGIN_FILE_OPENER(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_GNM_PLUGIN_FILE_OPENER))
 
-GType gnum_plugin_file_opener_get_type (void);
+GType gnm_plugin_file_opener_get_type (void);
 
 typedef struct {
 	GnumFileOpenerClass parent_class;
@@ -544,16 +544,16 @@ struct _GnumPluginFileOpener {
 };
 
 static void
-gnum_plugin_file_opener_init (GnumPluginFileOpener *fo)
+gnm_plugin_file_opener_init (GnumPluginFileOpener *fo)
 {
 	fo->service = NULL;
 }
 
 static gboolean
-gnum_plugin_file_opener_probe (GnumFileOpener const *fo, GsfInput *input,
+gnm_plugin_file_opener_probe (GnumFileOpener const *fo, GsfInput *input,
                                FileProbeLevel pl)
 {
-	GnumPluginFileOpener *pfo = GNUM_PLUGIN_FILE_OPENER (fo);
+	GnumPluginFileOpener *pfo = GNM_PLUGIN_FILE_OPENER (fo);
 	PluginServiceFileOpener *service_file_opener = GNM_PLUGIN_SERVICE_FILE_OPENER (pfo->service);
 
 	g_return_val_if_fail (GSF_IS_INPUT (input), FALSE);
@@ -610,11 +610,11 @@ gnum_plugin_file_opener_probe (GnumFileOpener const *fo, GsfInput *input,
 }
 
 static void
-gnum_plugin_file_opener_open (GnumFileOpener const *fo, IOContext *io_context,
+gnm_plugin_file_opener_open (GnumFileOpener const *fo, IOContext *io_context,
                               WorkbookView *wbv, GsfInput *input)
 
 {
-	GnumPluginFileOpener *pfo = GNUM_PLUGIN_FILE_OPENER (fo);
+	GnumPluginFileOpener *pfo = GNM_PLUGIN_FILE_OPENER (fo);
 	PluginServiceFileOpener *service_file_opener = GNM_PLUGIN_SERVICE_FILE_OPENER (pfo->service);
 	ErrorInfo *error = NULL;
 
@@ -633,20 +633,20 @@ gnum_plugin_file_opener_open (GnumFileOpener const *fo, IOContext *io_context,
 }
 
 static void
-gnum_plugin_file_opener_class_init (GnumPluginFileOpenerClass *klass)
+gnm_plugin_file_opener_class_init (GnumPluginFileOpenerClass *klass)
 {
 	GnumFileOpenerClass *gnum_file_opener_klass = GNUM_FILE_OPENER_CLASS (klass);
 
-	gnum_file_opener_klass->probe = gnum_plugin_file_opener_probe;
-	gnum_file_opener_klass->open = gnum_plugin_file_opener_open;
+	gnum_file_opener_klass->probe = gnm_plugin_file_opener_probe;
+	gnum_file_opener_klass->open = gnm_plugin_file_opener_open;
 }
 
-GSF_CLASS (GnumPluginFileOpener, gnum_plugin_file_opener,
-	   gnum_plugin_file_opener_class_init, gnum_plugin_file_opener_init,
+GSF_CLASS (GnumPluginFileOpener, gnm_plugin_file_opener,
+	   gnm_plugin_file_opener_class_init, gnm_plugin_file_opener_init,
 	   TYPE_GNUM_FILE_OPENER)
 
 static GnumPluginFileOpener *
-gnum_plugin_file_opener_new (PluginService *service)
+gnm_plugin_file_opener_new (PluginService *service)
 {
 	PluginServiceFileOpener *service_file_opener = GNM_PLUGIN_SERVICE_FILE_OPENER (service);
 	GnumPluginFileOpener *fo;
@@ -654,7 +654,7 @@ gnum_plugin_file_opener_new (PluginService *service)
 
 	opener_id = g_strconcat (
 		gnm_plugin_get_id (service->plugin), ":", service->id, NULL);
-	fo = GNUM_PLUGIN_FILE_OPENER (g_object_new (TYPE_GNUM_PLUGIN_FILE_OPENER, NULL));
+	fo = GNM_PLUGIN_FILE_OPENER (g_object_new (TYPE_GNM_PLUGIN_FILE_OPENER, NULL));
 	gnum_file_opener_setup (GNUM_FILE_OPENER (fo), opener_id,
 	                        service_file_opener->description,
 	                        NULL, NULL);
@@ -672,7 +672,7 @@ gnum_plugin_file_opener_new (PluginService *service)
  */
 
 typedef struct _GnumPluginFileSaver GnumPluginFileSaver;
-static GnumPluginFileSaver *gnum_plugin_file_saver_new (PluginService *service);
+static GnumPluginFileSaver *gnm_plugin_file_saver_new (PluginService *service);
 
 
 typedef struct{
@@ -783,7 +783,7 @@ plugin_service_file_saver_activate (PluginService *service, ErrorInfo **ret_erro
 	GHashTable *file_savers_hash;
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
-	service_file_saver->saver = GNUM_FILE_SAVER (gnum_plugin_file_saver_new (service));
+	service_file_saver->saver = GNUM_FILE_SAVER (gnm_plugin_file_saver_new (service));
 	if (service_file_saver->default_saver_priority < 0) {
 		register_file_saver (service_file_saver->saver);
 	} else {
@@ -837,12 +837,12 @@ GSF_CLASS (PluginServiceFileSaver, plugin_service_file_saver,
 
 /** GnumPluginFileSaver class **/
 
-#define TYPE_GNUM_PLUGIN_FILE_SAVER             (gnum_plugin_file_saver_get_type ())
-#define GNUM_PLUGIN_FILE_SAVER(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_GNUM_PLUGIN_FILE_SAVER, GnumPluginFileSaver))
-#define GNUM_PLUGIN_FILE_SAVER_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_GNUM_PLUGIN_FILE_SAVER, GnumPluginFileSaverClass))
-#define IS_GNUM_PLUGIN_FILE_SAVER(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_GNUM_PLUGIN_FILE_SAVER))
+#define TYPE_GNM_PLUGIN_FILE_SAVER             (gnm_plugin_file_saver_get_type ())
+#define GNM_PLUGIN_FILE_SAVER(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_GNM_PLUGIN_FILE_SAVER, GnumPluginFileSaver))
+#define GNM_PLUGIN_FILE_SAVER_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_GNM_PLUGIN_FILE_SAVER, GnumPluginFileSaverClass))
+#define IS_GNM_PLUGIN_FILE_SAVER(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_GNM_PLUGIN_FILE_SAVER))
 
-GType gnum_plugin_file_saver_get_type (void);
+GType gnm_plugin_file_saver_get_type (void);
 
 typedef struct {
 	GnumFileSaverClass parent_class;
@@ -855,16 +855,16 @@ struct _GnumPluginFileSaver {
 };
 
 static void
-gnum_plugin_file_saver_init (GnumPluginFileSaver *fs)
+gnm_plugin_file_saver_init (GnumPluginFileSaver *fs)
 {
 	fs->service = NULL;
 }
 
 static void
-gnum_plugin_file_saver_save (GnumFileSaver const *fs, IOContext *io_context,
+gnm_plugin_file_saver_save (GnumFileSaver const *fs, IOContext *io_context,
                              WorkbookView const *wbv, GsfOutput *output)
 {
-	GnumPluginFileSaver *pfs = GNUM_PLUGIN_FILE_SAVER (fs);
+	GnumPluginFileSaver *pfs = GNM_PLUGIN_FILE_SAVER (fs);
 	PluginServiceFileSaver *service_file_saver = GNM_PLUGIN_SERVICE_FILE_SAVER (pfs->service);
 	ErrorInfo *error = NULL;
 
@@ -882,19 +882,19 @@ gnum_plugin_file_saver_save (GnumFileSaver const *fs, IOContext *io_context,
 }
 
 static void
-gnum_plugin_file_saver_class_init (GnumPluginFileSaverClass *klass)
+gnm_plugin_file_saver_class_init (GnumPluginFileSaverClass *klass)
 {
 	GnumFileSaverClass *gnum_file_saver_klass = GNUM_FILE_SAVER_CLASS (klass);
 
-	gnum_file_saver_klass->save = gnum_plugin_file_saver_save;
+	gnum_file_saver_klass->save = gnm_plugin_file_saver_save;
 }
 
-GSF_CLASS (GnumPluginFileSaver, gnum_plugin_file_saver,
-	   gnum_plugin_file_saver_class_init, gnum_plugin_file_saver_init,
+GSF_CLASS (GnumPluginFileSaver, gnm_plugin_file_saver,
+	   gnm_plugin_file_saver_class_init, gnm_plugin_file_saver_init,
 	   TYPE_GNUM_FILE_SAVER)
 
 static GnumPluginFileSaver *
-gnum_plugin_file_saver_new (PluginService *service)
+gnm_plugin_file_saver_new (PluginService *service)
 {
 	GnumPluginFileSaver *fs;
 	PluginServiceFileSaver *service_file_saver = GNM_PLUGIN_SERVICE_FILE_SAVER (service);
@@ -902,7 +902,7 @@ gnum_plugin_file_saver_new (PluginService *service)
 
 	saver_id = g_strconcat (
 		gnm_plugin_get_id (service->plugin), ":", service->id, NULL);
-	fs = GNUM_PLUGIN_FILE_SAVER (g_object_new (TYPE_GNUM_PLUGIN_FILE_SAVER, NULL));
+	fs = GNM_PLUGIN_FILE_SAVER (g_object_new (TYPE_GNM_PLUGIN_FILE_SAVER, NULL));
 	gnum_file_saver_setup (GNUM_FILE_SAVER (fs), saver_id,
 	                       service_file_saver->file_extension,
 	                       service_file_saver->description,
