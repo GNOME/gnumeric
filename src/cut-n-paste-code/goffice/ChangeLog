@@ -1,3 +1,9 @@
+2004-11-01  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=157048
+	* graph/plugins/plot_barcol/gog-line.c (gog_line_view_render): fix
+	leak.
+
 2004-10-30  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=152765

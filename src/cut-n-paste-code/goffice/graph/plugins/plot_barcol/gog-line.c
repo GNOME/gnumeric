@@ -497,10 +497,8 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 	}
 
 	for (i = 0; i < num_series; i++) {
-		if (lengths[i] > 0)
-			g_free (path[i]);
-		if (error_data[i])
-			g_free (error_data[i]);
+		g_free (path[i]);
+		g_free (error_data[i]);
 	}
 
 	gog_axis_map_free (x_map);
