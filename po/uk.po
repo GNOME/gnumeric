@@ -2835,11 +2835,11 @@ msgstr "_);[Red]("
 #. There must be a better way than this
 #: src/dialogs/dialog-cell-format.c:1204 src/dialogs/dialog-cell-format.c:1271
 msgid "Single"
-msgstr ""
+msgstr "Одинарний"
 
 #: src/dialogs/dialog-cell-format.c:1206 src/dialogs/dialog-cell-format.c:1272
 msgid "Double"
-msgstr ""
+msgstr "Подв╕йний"
 
 #: src/dialogs/dialog-cell-format.c:2072
 msgid "Format Cells"
@@ -3329,11 +3329,11 @@ msgstr ""
 
 #: po/tmp/dialog-stf.glade.h:24
 msgid "Data type and number of lines"
-msgstr ""
+msgstr "Тип даних ╕ к╕льк╕сть рядк╕в"
 
 #: po/tmp/dialog-stf.glade.h:25
 msgid "Define the width of each column manually"
-msgstr ""
+msgstr "Визначити ширину кожного стовпчика вручну"
 
 #: po/tmp/dialog-stf.glade.h:26
 msgid ""
@@ -3375,7 +3375,7 @@ msgstr "З рядка: "
 
 #: po/tmp/dialog-stf.glade.h:35
 msgid "Gnumeric : Importing structured text"
-msgstr ""
+msgstr "Gnumeric: ╤мпортування структурованого тексту"
 
 #: po/tmp/dialog-stf.glade.h:36
 msgid "H_yphen (-)"
@@ -3394,7 +3394,7 @@ msgstr "Рядки для ╕мпорту"
 
 #: po/tmp/dialog-stf.glade.h:39
 msgid "Misc"
-msgstr ""
+msgstr "Р╕зне"
 
 #: po/tmp/dialog-stf.glade.h:40
 msgid "Number of lines to import"
@@ -3402,7 +3402,7 @@ msgstr "К╕льк╕сть рядк╕в для ╕мпорту"
 
 #: po/tmp/dialog-stf.glade.h:41
 msgid "Original data type :"
-msgstr ""
+msgstr "Вих╕дний тип даних: "
 
 #: po/tmp/dialog-stf.glade.h:42
 msgid "P_ipe (|)"
