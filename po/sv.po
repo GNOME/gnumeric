@@ -1,8 +1,8 @@
 # Swedish messages for Gnumeric.
-# Copyright (C) 1998, 1999, 2000, 2001 Free Software Foundation, Inc.
+# Copyright (C) 1998, 1999, 2000, 2001, 2002 Free Software Foundation, Inc.
 # Richard Hult <rhult@codefactory.se>, 1999, 2000, 2001.
 # Andreas Hyden <a.hyden@cyberpoint.se>, 2000.
-# Christian Rose <menthos@menthos.com>, 2000, 2001.
+# Christian Rose <menthos@menthos.com>, 2000, 2001, 2002.
 # Jörgen Tegnér <jorgen.tegner@telia.com>, 2001.
 #
 # $Id$
@@ -25,12 +25,11 @@
 #
 # * Skriv en kommentar över strängar du är osäker på: # FIXME: kommentar.
 #
-#: src/main.c:109
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2001-12-31 03:07-0500\n"
-"PO-Revision-Date: 2001-12-30 23:23+0100\n"
+"POT-Creation-Date: 2002-01-01 19:20+0100\n"
+"PO-Revision-Date: 2002-01-01 19:22+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -216,7 +215,7 @@ msgstr "Trasig funktion"
 
 #: plugins/excel/ms-formula-read.c:1438
 msgid " Unknown formula"
-msgstr "Okänd formel"
+msgstr " Okänd formel"
 
 #: plugins/excel/plugin.xml.in.h:1
 msgid "Imports/Exports MS Excel (tm) files"
@@ -274,8 +273,7 @@ msgstr ""
 "@FUNCTION=EXECSQL\n"
 "@SYNTAX=EXECSQL(i)\n"
 "@DESCRIPTION=Funktionen EXECSQL låter dig köra ett kommando i en\n"
-" databasserver, och visar resultaten returnerade i det aktuella\n"
-" bladet\n"
+" databasserver, och visar svaren i det aktuella bladet\n"
 "\n"
 "@EXAMPLES=\n"
 "@SEEALSO="
@@ -569,7 +567,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=NT_SIGMA\n"
 "@SYNTAX=NT_SIGMA(n)\n"
-"@DESCRIPTION=Funktionen NT_SIGMA beräknar summan av delarna av @n.\n"
+"@DESCRIPTION=Funktionen NT_SIGMA beräknar summan av @n:s delare.\n"
 "Denna funktion tar endast ett argument.\n"
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
@@ -741,7 +739,7 @@ msgstr "Importerar GNU Oleo-dokument"
 
 #: plugins/perl/plugin.xml.in.h:1
 msgid "Enables the creation of functions in Perl"
-msgstr "Aktiverar skapande av funktioner i Perl"
+msgstr "Gör det möjligt att skapa funktioner i Perl"
 
 #: plugins/perl/plugin.xml.in.h:2
 msgid "Perl"
@@ -771,7 +769,7 @@ msgstr "rader"
 #.
 #. * Add Sheet
 #.
-#: plugins/plan-perfect/pln.c:912 plugins/sc/sc.c:420 plugins/sylk/sylk.c:459
+#: plugins/plan-perfect/pln.c:912 plugins/sc/sc.c:420 plugins/sylk/sylk.c:461
 #: src/stf.c:175 src/stf.c:264
 #, c-format
 msgid "Imported %s"
@@ -973,19 +971,19 @@ msgstr "MultiPlan (SYLK)"
 msgid "MultiPlan (SYLK) import"
 msgstr "Import av MultiPlan (SYLK)"
 
-#: plugins/sylk/sylk.c:418
+#: plugins/sylk/sylk.c:420
 msgid "Not SYLK file"
 msgstr "Inte en SYLK-fil"
 
-#: plugins/sylk/sylk.c:425
+#: plugins/sylk/sylk.c:427
 msgid "error parsing line\n"
 msgstr "fel vid tolkning av rad\n"
 
-#: plugins/sylk/sylk.c:454
+#: plugins/sylk/sylk.c:456
 msgid "Error while opening sylk file."
 msgstr "Fel vid öppnande av sylk-fil."
 
-#: plugins/sylk/sylk.c:473
+#: plugins/sylk/sylk.c:475
 msgid "Error while reading sheet."
 msgstr "Fel vid läsning av blad."
 
@@ -1227,15 +1225,15 @@ msgstr "Skapa en lista"
 
 #: src/GNOME_Gnumeric.xml.h:49 src/workbook-control-gui.c:2659
 msgid "Create a new shared view of the workbook"
-msgstr "Skapar en ny delad vy av arbetsboken"
+msgstr "Skapa en ny delad vy av arbetsboken"
 
 #: src/GNOME_Gnumeric.xml.h:50 src/workbook-control-gui.c:2470
 msgid "Create a new spreadsheet"
-msgstr "Skapa ett nytt kalkylark"
+msgstr "Skapa ett nytt kalkylblad"
 
 #: src/GNOME_Gnumeric.xml.h:51 src/workbook-control-gui.c:2662
 msgid "Create a new unshared view of the workbook"
-msgstr "Skapar en ny, ej delad, vy av arbetsboken"
+msgstr "Skapa en ny odelad vy av arbetsboken"
 
 #: src/GNOME_Gnumeric.xml.h:52
 msgid "Create a new workbook"
@@ -1487,7 +1485,7 @@ msgstr "Startar en diagramguru för att skapa ett diagram"
 
 #: src/GNOME_Gnumeric.xml.h:111 src/workbook-control-gui.c:2579
 msgid "Irrevocably remove an entire sheet"
-msgstr "Ta bort ett blad, oåterkalleligen"
+msgstr "Ta oåterkalligen bort ett blad"
 
 #: src/GNOME_Gnumeric.xml.h:112
 msgid "Italicize"
@@ -1495,12 +1493,13 @@ msgstr "Kursivera"
 
 #: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:2852
 msgid "Iteratively recalculate to find a target value"
-msgstr "Upprepa beräkningar för att hitta en målvärde"
+msgstr "Upprepa beräkningar för att hitta ett målvärde"
 
 #: src/GNOME_Gnumeric.xml.h:114 src/workbook-control-gui.c:2855
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr ""
-"Upprepa beräkningar med vissa restriktioner för att närma sig ett målvärde"
+"Upprepa beräkningar med vissa restriktioner för att stegvis komma fram till "
+"ett målvärde"
 
 #: src/GNOME_Gnumeric.xml.h:115 src/workbook-control-gui.c:2643
 msgid "Jump to a specified cell"
@@ -1796,7 +1795,7 @@ msgstr "Markera _rad"
 
 #: src/GNOME_Gnumeric.xml.h:185 src/workbook-control-gui.c:2526
 msgid "Select all cells in the spreadsheet"
-msgstr "Markera alla celler på kalkylarket"
+msgstr "Markera alla celler i kalkylbladet"
 
 #: src/GNOME_Gnumeric.xml.h:186
 msgid "Select all the cells that depend on the current edit cell"
@@ -1986,7 +1985,7 @@ msgstr "St_äng"
 #: src/GNOME_Gnumeric.xml.h:229 src/dialogs/anova-one.glade.h:9
 #: src/dialogs/correlation.glade.h:7 src/dialogs/covariance.glade.h:7
 #: src/dialogs/descriptive-stats.glade.h:15
-#: src/dialogs/fourier-analysis.glade.h:7 src/dialogs/histogram.glade.h:12
+#: src/dialogs/fourier-analysis.glade.h:7 src/dialogs/histogram.glade.h:13
 #: src/dialogs/moving-averages.glade.h:8 src/dialogs/rank.glade.h:7
 #: src/dialogs/regression.glade.h:12 src/dialogs/sampling.glade.h:13
 #: src/workbook-control-gui.c:2713
@@ -2307,9 +2306,7 @@ msgstr "K:te minsta"
 msgid "Smallest (%d)"
 msgstr "Minsta (%d)"
 
-#. POST-RELEASE-FIX:  this should be Rows rather than Sample
-#: src/analysis-tools.c:1252 src/analysis-tools.c:3270
-#: src/dialogs/cell-format.glade.h:72
+#: src/analysis-tools.c:1252 src/dialogs/cell-format.glade.h:72
 msgid "Sample"
 msgstr "Exempel"
 
@@ -2396,7 +2393,7 @@ msgstr "Inte implementerat än.\n"
 msgid "Y Variable"
 msgstr "Y-variabel"
 
-#: src/analysis-tools.c:2342 src/dialogs/dialog-analysis-tools.c:4374
+#: src/analysis-tools.c:2342 src/dialogs/dialog-analysis-tools.c:4371
 #: src/dialogs/regression.glade.h:8
 msgid "Regression"
 msgstr "Regression"
@@ -2422,7 +2419,7 @@ msgstr "/Koefficienter/Standardfel/t-stat/P-värde/Lägre %0.0f%%/Övre %0.0f%%"
 msgid "Moving Averages"
 msgstr "Flyttande medelvärden"
 
-#: src/analysis-tools.c:2619 src/dialogs/dialog-analysis-tools.c:4360
+#: src/analysis-tools.c:2619 src/dialogs/dialog-analysis-tools.c:4357
 msgid "Exponential Smoothing"
 msgstr "Exponentiell utjämning"
 
@@ -2444,7 +2441,7 @@ msgstr "Rang"
 msgid "Anova"
 msgstr "Anova"
 
-#: src/analysis-tools.c:2796 src/dialogs/dialog-analysis-tools.c:4350
+#: src/analysis-tools.c:2796 src/dialogs/dialog-analysis-tools.c:4347
 msgid "Anova: Single Factor"
 msgstr "Anova: en faktor"
 
@@ -2461,7 +2458,7 @@ msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/ANOVA/Variationskälla/Mellan grupper/Inom grupper/Total"
 
 #: src/analysis-tools.c:2866 src/analysis-tools.c:3062
-#: src/analysis-tools.c:3276
+#: src/analysis-tools.c:3267
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/SS/df/MS/F/P-värde/F-kritisk"
 
@@ -2469,9 +2466,7 @@ msgstr "/SS/df/MS/F/P-värde/F-kritisk"
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Anova: Två faktorer utan upprepning"
 
-#. POST-RELEASE-FIX:  Next 2 commands should be fused
-#: src/analysis-tools.c:2987 src/analysis-tools.c:3249
-#: src/analysis-tools.c:3259
+#: src/analysis-tools.c:2987
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr "/SAMMANFATTNING/Räkna/Summa/Average/Variance"
 
@@ -2483,58 +2478,45 @@ msgstr "/ANOVA/Variationskälla/Rader/Kolumner/Fel/Total"
 msgid "Anova: Two-Factor With Replication"
 msgstr "Anova: Två faktorer med upprepning"
 
-#: src/analysis-tools.c:3257 src/analysis-tools.c:3264
-#: src/analysis-tools.c:3274 src/dialogs/dialog-autoformat.c:73
+#: src/analysis-tools.c:3247 src/analysis-tools.c:3257
+#: src/analysis-tools.c:3265 src/dialogs/dialog-autoformat.c:73
 #: src/dialogs/dialog-autoformat.c:77
 msgid "Total"
 msgstr "Totalt"
 
-#. POST-RELEASE-FIX:  We should be using / notation for the next 7 commands
-#: src/analysis-tools.c:3267
-msgid "ANOVA"
-msgstr "ANOVA"
+#: src/analysis-tools.c:3249
+msgid "/Count/Sum/Average/Variance"
+msgstr "/Räkna/Summa/Medelvärde/Varians"
 
-#: src/analysis-tools.c:3268
-msgid "Source of Variation"
-msgstr "Källa till variation"
+#: src/analysis-tools.c:3259
+msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
+msgstr "/ANOVA/Variationskälla/Rader/Kolumner/Interaktion/Inom"
 
-#: src/analysis-tools.c:3271 src/dialogs/dialog-stf.glade.h:17
-msgid "Columns"
-msgstr "Kolumner"
-
-#: src/analysis-tools.c:3272
-msgid "Interaction"
-msgstr "Interaktion"
-
-#: src/analysis-tools.c:3273
-msgid "Within"
-msgstr "Inom"
-
-#: src/analysis-tools.c:3658
+#: src/analysis-tools.c:3649
 msgid "More"
 msgstr "Mer"
 
 #. { N_("Fourier Analysis"),
 #. dialog_fourier_tool },
-#: src/analysis-tools.c:3692 src/dialogs/dialog-analysis-tools.c:4366
+#: src/analysis-tools.c:3683 src/dialogs/dialog-analysis-tools.c:4363
 #: src/dialogs/histogram.glade.h:5
 msgid "Histogram"
 msgstr "Histogram"
 
-#: src/analysis-tools.c:3697
+#: src/analysis-tools.c:3688
 msgid "Bin"
 msgstr "Bin"
 
-#: src/analysis-tools.c:3722
+#: src/analysis-tools.c:3713
 msgid "Frequency"
 msgstr "Frekvens"
 
-#: src/analysis-tools.c:3724 src/dialogs/dialog-zoom.glade.h:2
+#: src/analysis-tools.c:3715 src/dialogs/dialog-zoom.glade.h:2
 #, no-c-format
 msgid "%"
 msgstr "%"
 
-#: src/analysis-tools.c:3727
+#: src/analysis-tools.c:3718
 #, no-c-format
 msgid "Cumulative %"
 msgstr "Kumulativ %"
@@ -3178,7 +3160,7 @@ msgstr "_Alfa = "
 
 #: src/dialogs/anova-one.glade.h:8 src/dialogs/correlation.glade.h:6
 #: src/dialogs/covariance.glade.h:6 src/dialogs/descriptive-stats.glade.h:14
-#: src/dialogs/histogram.glade.h:10 src/dialogs/rank.glade.h:6
+#: src/dialogs/histogram.glade.h:11 src/dialogs/rank.glade.h:6
 #: src/dialogs/regression.glade.h:11 src/dialogs/sampling.glade.h:12
 msgid "_Areas"
 msgstr "_Områden"
@@ -3187,9 +3169,9 @@ msgstr "_Områden"
 #: src/dialogs/correlation.glade.h:8 src/dialogs/covariance.glade.h:8
 #: src/dialogs/descriptive-stats.glade.h:16
 #: src/dialogs/dialog-analysis-tools.c:879
-#: src/dialogs/dialog-analysis-tools.c:3858
-#: src/dialogs/dialog-analysis-tools.c:3934
-#: src/dialogs/fourier-analysis.glade.h:8 src/dialogs/histogram.glade.h:13
+#: src/dialogs/dialog-analysis-tools.c:3855
+#: src/dialogs/dialog-analysis-tools.c:3931
+#: src/dialogs/fourier-analysis.glade.h:8 src/dialogs/histogram.glade.h:14
 #: src/dialogs/moving-averages.glade.h:9 src/dialogs/rank.glade.h:8
 msgid "_Input Range:"
 msgstr "_Indataområde:"
@@ -3207,7 +3189,7 @@ msgstr "_Rubriker"
 #: src/dialogs/anova-one.glade.h:12 src/dialogs/anova-two.glade.h:11
 #: src/dialogs/correlation.glade.h:10 src/dialogs/covariance.glade.h:10
 #: src/dialogs/descriptive-stats.glade.h:18
-#: src/dialogs/fourier-analysis.glade.h:10 src/dialogs/histogram.glade.h:14
+#: src/dialogs/fourier-analysis.glade.h:10 src/dialogs/histogram.glade.h:15
 #: src/dialogs/mean-tests.glade.h:22 src/dialogs/moving-averages.glade.h:11
 #: src/dialogs/random-generation.glade.h:9 src/dialogs/rank.glade.h:10
 #: src/dialogs/regression.glade.h:14 src/dialogs/sampling.glade.h:15
@@ -3218,7 +3200,7 @@ msgstr "_Nytt blad"
 #: src/dialogs/anova-one.glade.h:13 src/dialogs/anova-two.glade.h:12
 #: src/dialogs/correlation.glade.h:11 src/dialogs/covariance.glade.h:11
 #: src/dialogs/descriptive-stats.glade.h:19
-#: src/dialogs/fourier-analysis.glade.h:11 src/dialogs/histogram.glade.h:15
+#: src/dialogs/fourier-analysis.glade.h:11 src/dialogs/histogram.glade.h:16
 #: src/dialogs/mean-tests.glade.h:23 src/dialogs/moving-averages.glade.h:12
 #: src/dialogs/random-generation.glade.h:10 src/dialogs/rank.glade.h:11
 #: src/dialogs/regression.glade.h:15 src/dialogs/sampling.glade.h:16
@@ -3829,7 +3811,7 @@ msgstr "_Låst"
 msgid "_Number"
 msgstr "Ta_l"
 
-#: src/dialogs/cell-format.glade.h:118 src/dialogs/histogram.glade.h:17
+#: src/dialogs/cell-format.glade.h:118
 msgid "_Percentage"
 msgstr "_Procent"
 
@@ -4082,11 +4064,11 @@ msgstr "_Funktion:"
 msgid "_Put :"
 msgstr "_Placera:"
 
-#: src/dialogs/correlation.glade.h:1 src/dialogs/dialog-analysis-tools.c:4354
+#: src/dialogs/correlation.glade.h:1 src/dialogs/dialog-analysis-tools.c:4351
 msgid "Correlation"
 msgstr "Korrelation"
 
-#: src/dialogs/covariance.glade.h:1 src/dialogs/dialog-analysis-tools.c:4356
+#: src/dialogs/covariance.glade.h:1 src/dialogs/dialog-analysis-tools.c:4353
 msgid "Covariance"
 msgstr "Kovarians"
 
@@ -4128,7 +4110,7 @@ msgid "Confidence Interval for the _Mean"
 msgstr "Konfidensintervall för _medelvärdet"
 
 #: src/dialogs/descriptive-stats.glade.h:5
-#: src/dialogs/dialog-analysis-tools.c:4358
+#: src/dialogs/dialog-analysis-tools.c:4355
 msgid "Descriptive Statistics"
 msgstr "Deskriptiv statistik"
 
@@ -4322,7 +4304,6 @@ msgstr "De valda indatakolumnerna måste ha samma storlek!"
 msgid "The selected input areas must have equal size!"
 msgstr "De valda indataområdena måste ha samma storlek!"
 
-#. non-numeric probability (DiscreteDistribution) POST-RELEASE-FIX
 #: src/dialogs/dialog-analysis-tools.c:1096
 #: src/dialogs/dialog-analysis-tools.c:1211
 #: src/dialogs/dialog-analysis-tools.c:1338
@@ -4330,17 +4311,12 @@ msgstr "De valda indataområdena måste ha samma storlek!"
 #: src/dialogs/dialog-analysis-tools.c:1708
 #: src/dialogs/dialog-analysis-tools.c:2116
 #: src/dialogs/dialog-analysis-tools.c:2341
-#: src/dialogs/dialog-analysis-tools.c:2845
-#: src/dialogs/dialog-analysis-tools.c:2850
-#: src/dialogs/dialog-analysis-tools.c:2855
-#: src/dialogs/dialog-analysis-tools.c:2860
-#: src/dialogs/dialog-analysis-tools.c:2865
-#: src/dialogs/dialog-analysis-tools.c:3353
-#: src/dialogs/dialog-analysis-tools.c:3527
-#: src/dialogs/dialog-analysis-tools.c:3808
-#: src/dialogs/dialog-analysis-tools.c:4001
-#: src/dialogs/dialog-analysis-tools.c:4196
-#: src/dialogs/dialog-analysis-tools.c:4201
+#: src/dialogs/dialog-analysis-tools.c:2863
+#: src/dialogs/dialog-analysis-tools.c:3351
+#: src/dialogs/dialog-analysis-tools.c:3525
+#: src/dialogs/dialog-analysis-tools.c:3805
+#: src/dialogs/dialog-analysis-tools.c:3998
+#: src/dialogs/dialog-analysis-tools.c:4198
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "Ett oväntat fel har inträffat: %d."
@@ -4490,11 +4466,35 @@ msgstr "_Nedre gräns:"
 msgid "_Upper Bound:"
 msgstr "_Övre gräns:"
 
-#: src/dialogs/dialog-analysis-tools.c:3028
+#: src/dialogs/dialog-analysis-tools.c:2846
+msgid ""
+"The probability input range contains a non-numeric value.\n"
+"All probabilities must be positive numerbers."
+msgstr ""
+"Sannolikhetsindataområdet innehåller ett ickenumeriskt värde.\n"
+"Alla sannolikheter måste vara positiva tal."
+
+#: src/dialogs/dialog-analysis-tools.c:2851
+msgid "The probabilities may not all be 0!"
+msgstr "Sannolikheterna får inte vara 0!"
+
+#: src/dialogs/dialog-analysis-tools.c:2855
+msgid ""
+"The probability input range contains a negative number.\n"
+"All probabilities must be non-negative!"
+msgstr ""
+"Sannolikhetsindataområdet innehåller ett negativt tal.\n"
+"Alla sannolikheter måste vara positiva!"
+
+#: src/dialogs/dialog-analysis-tools.c:2860
+msgid "None of the values in the value range may be empty!"
+msgstr "Inget av värdena i värdeområdet får vara tomt!"
+
+#: src/dialogs/dialog-analysis-tools.c:3026
 msgid "Could not create the Random Tool dialog."
 msgstr "Kunde inte skapa dialogen för slumpverkyget."
 
-#: src/dialogs/dialog-analysis-tools.c:3090
+#: src/dialogs/dialog-analysis-tools.c:3088
 msgid ""
 "There are too few data points to conduct this regression.\n"
 "There must be at least as many data points as free variables."
@@ -4502,7 +4502,7 @@ msgstr ""
 "Det finns för få datavärden för att genomföra denna regression.\n"
 "Det måste finnas minst lika många datapunkter som lediga variabler."
 
-#: src/dialogs/dialog-analysis-tools.c:3096
+#: src/dialogs/dialog-analysis-tools.c:3094
 msgid ""
 "Two or more of the independent variables are linearly dependent,\n"
 "and the regression cannot be calculated. Remove one of these\n"
@@ -4512,40 +4512,40 @@ msgstr ""
 "regressionen kan inte beräknas. Ta bort en av dessa variabler och\n"
 "prova regressionen igen."
 
-#: src/dialogs/dialog-analysis-tools.c:3103
+#: src/dialogs/dialog-analysis-tools.c:3101
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr "Det måste finnas samma antal poster för varje variabel i regressionen."
 
-#: src/dialogs/dialog-analysis-tools.c:3203
+#: src/dialogs/dialog-analysis-tools.c:3201
 msgid "_X Variables:"
 msgstr "_X-variabler:"
 
-#: src/dialogs/dialog-analysis-tools.c:3227
+#: src/dialogs/dialog-analysis-tools.c:3225
 msgid "_Y Variable:"
 msgstr "_Y-variabel:"
 
-#: src/dialogs/dialog-analysis-tools.c:3294
+#: src/dialogs/dialog-analysis-tools.c:3292
 msgid "Could not create the Regression Tool dialog."
 msgstr "Kunde inte skapa regressionsverktygsdialogen."
 
-#: src/dialogs/dialog-analysis-tools.c:3466
+#: src/dialogs/dialog-analysis-tools.c:3464
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr "Kunde inte skapa dialogen för det exponentiella utsmetningsverkyget."
 
-#: src/dialogs/dialog-analysis-tools.c:3637
+#: src/dialogs/dialog-analysis-tools.c:3635
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "Kunde inte skapa dialogen för flyttande medelvärdesverktyget."
 
-#: src/dialogs/dialog-analysis-tools.c:3687
+#: src/dialogs/dialog-analysis-tools.c:3685
 msgid "Fourier analysis is not implemented yet.  Sorry."
 msgstr "Fourieranalys är inte implementerat ännu. Tyvärr."
 
-#: src/dialogs/dialog-analysis-tools.c:3730
+#: src/dialogs/dialog-analysis-tools.c:3728
 msgid "Could not create the Fourier Analyis Tool dialog."
 msgstr "Kunde inte skapa dialogen för fourieranalysverktyget."
 
-#: src/dialogs/dialog-analysis-tools.c:3804
+#: src/dialogs/dialog-analysis-tools.c:3801
 msgid ""
 "Each row of the bin range should contain one numeric value\n"
 "(ignoring the label if applicable)."
@@ -4553,27 +4553,27 @@ msgstr ""
 "Varje rad i binärområdet bör innehålla ett numeriskt\n"
 "värde (borträknat rubriken om det finns en)."
 
-#: src/dialogs/dialog-analysis-tools.c:3935 src/dialogs/histogram.glade.h:1
+#: src/dialogs/dialog-analysis-tools.c:3932 src/dialogs/histogram.glade.h:1
 msgid "Bin _Range:"
 msgstr "_Binärområde:"
 
-#: src/dialogs/dialog-analysis-tools.c:3939
+#: src/dialogs/dialog-analysis-tools.c:3936
 msgid "Could not create the Histogram Tool dialog."
 msgstr "Kunde inte skapa histogramverktygsdialogen."
 
-#: src/dialogs/dialog-analysis-tools.c:4117
+#: src/dialogs/dialog-analysis-tools.c:4114
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr "Kunde inte skapa ANOVA-verktygsdialogen (enkel faktor)."
 
-#: src/dialogs/dialog-analysis-tools.c:4181
+#: src/dialogs/dialog-analysis-tools.c:4178
 msgid "Each sample must contain the same number of rows."
 msgstr "Varje stickprov måste innehålla samma antal rader."
 
-#: src/dialogs/dialog-analysis-tools.c:4186
+#: src/dialogs/dialog-analysis-tools.c:4183
 msgid "Given input range contains non-numeric data."
 msgstr "Angivet indataområde innehåller icke-numerisk data."
 
-#: src/dialogs/dialog-analysis-tools.c:4191
+#: src/dialogs/dialog-analysis-tools.c:4188
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
@@ -4581,49 +4581,57 @@ msgstr ""
 "Det angivna indataområdet bör innehålla åtminstone två kolumner med data och "
 "rubrikerna."
 
-#: src/dialogs/dialog-analysis-tools.c:4321
+#: src/dialogs/dialog-analysis-tools.c:4194
+msgid ""
+"One of the factor combinations does not contain\n"
+"any observations!"
+msgstr ""
+"En av faktorkombinationerna innehåller inga\n"
+"observationer!"
+
+#: src/dialogs/dialog-analysis-tools.c:4318
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Kunde inte skapa ANOVA-verktygsdialogen (dubbel faktor)."
 
-#: src/dialogs/dialog-analysis-tools.c:4352
+#: src/dialogs/dialog-analysis-tools.c:4349
 msgid "Anova: Two-Factor With Or Without Replication"
 msgstr "Anova: Två faktorer med eller utan upprepning"
 
-#: src/dialogs/dialog-analysis-tools.c:4362
+#: src/dialogs/dialog-analysis-tools.c:4359
 msgid "F-Test: Two-Sample for Variances"
 msgstr "F-Test: två stickprov för varians"
 
-#: src/dialogs/dialog-analysis-tools.c:4368
+#: src/dialogs/dialog-analysis-tools.c:4365
 #: src/dialogs/moving-averages.glade.h:5
 msgid "Moving Average"
 msgstr "Flytande medelvärde"
 
-#: src/dialogs/dialog-analysis-tools.c:4370
+#: src/dialogs/dialog-analysis-tools.c:4367
 #: src/dialogs/random-generation.glade.h:5
 msgid "Random Number Generation"
 msgstr "Slumptalsgenerering"
 
-#: src/dialogs/dialog-analysis-tools.c:4372 src/dialogs/rank.glade.h:5
+#: src/dialogs/dialog-analysis-tools.c:4369 src/dialogs/rank.glade.h:5
 msgid "Rank and Percentile"
 msgstr "Rang och percentil"
 
-#: src/dialogs/dialog-analysis-tools.c:4376 src/dialogs/sampling.glade.h:9
+#: src/dialogs/dialog-analysis-tools.c:4373 src/dialogs/sampling.glade.h:9
 msgid "Sampling"
 msgstr "Sampling"
 
-#: src/dialogs/dialog-analysis-tools.c:4378
+#: src/dialogs/dialog-analysis-tools.c:4375
 msgid "t-Test: Paired Two Sample for Means"
 msgstr "t-Test: Parade två prov för medelvärde"
 
-#: src/dialogs/dialog-analysis-tools.c:4380
+#: src/dialogs/dialog-analysis-tools.c:4377
 msgid "t-Test: Two-Sample Assuming Equal Variances"
 msgstr "t-Test: Två-prov med antagande av lika varianser"
 
-#: src/dialogs/dialog-analysis-tools.c:4382
+#: src/dialogs/dialog-analysis-tools.c:4379
 msgid "t-Test: Two-Sample Assuming Unequal Variances"
 msgstr "t-Test: Två-prov med antagande av olika varianser"
 
-#: src/dialogs/dialog-analysis-tools.c:4384
+#: src/dialogs/dialog-analysis-tools.c:4381
 msgid "z-Test: Two Sample for Means"
 msgstr "z-Test: Två prov för medelvärde"
 
@@ -5447,6 +5455,10 @@ msgstr "Kolumn"
 msgid "Column formatting"
 msgstr "Kolumnformatering"
 
+#: src/dialogs/dialog-stf.glade.h:17
+msgid "Columns"
+msgstr "Kolumner"
+
 #: src/dialogs/dialog-stf.glade.h:18
 msgid "Custom separator, this can be any character"
 msgstr "Anpassad avskiljare, det här kan vara vilket tecken som helst"
@@ -5850,11 +5862,15 @@ msgstr "Diagramutdata"
 msgid "Input _Labels"
 msgstr "Indata_rubriker"
 
-#: src/dialogs/histogram.glade.h:11
+#: src/dialogs/histogram.glade.h:10
+msgid "Per_centages"
+msgstr "_Procent"
+
+#: src/dialogs/histogram.glade.h:12
 msgid "_Bin Labels"
 msgstr "_Binrubriker"
 
-#: src/dialogs/histogram.glade.h:16
+#: src/dialogs/histogram.glade.h:17
 msgid "_Pareto (Sorted)"
 msgstr "_Pareto (Sorterad)"
 
@@ -18502,17 +18518,25 @@ msgstr "Aktiverar beroenderelaterade felsökningsfunktioner"
 msgid "Enables some print debugging behavior"
 msgstr "Aktiverar felsökningsfunktioner för utskrift"
 
-#: src/main.c:101
+#: src/main.c:102
+msgid "Enables extra consistency checking while reading ole files"
+msgstr "Aktiverar extra konsistenskontroll vid läsning av ole-funktioner"
+
+#: src/main.c:106
+msgid "Specify the size and location of the initial window"
+msgstr "Ange storleken på och platsen för det första fönstret"
+
+#: src/main.c:106
+msgid "WIDTHxHEIGHT+XOFF+YOFF"
+msgstr "BREDDxHÖJD+XAVST+YAVST"
+
+#: src/main.c:110
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr ""
 "Avsluta omedelbart efter öppning av de valda böckerna (användbart för "
 "testning)."
 
-#: src/main.c:105
-msgid "Enables extra consistency checking while reading ole files"
-msgstr "Aktiverar extra konsistenskontroll vid läsning av ole-funktioner"
-
-#: src/main.c:138
+#: src/main.c:139
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -18536,7 +18560,7 @@ msgstr ""
 "\n"
 "-- Gnumeric-teamet."
 
-#: src/main.c:192
+#: src/main.c:193
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -18547,11 +18571,11 @@ msgstr ""
 "datakatalog := \"%s\"\n"
 "bibliotekkatalog := \"%s\"\n"
 
-#: src/main.c:244
+#: src/main.c:245
 msgid "Could not initialize Workbook factory"
 msgstr "Kunde inte initiera \"Workbook factory\""
 
-#: src/main.c:248
+#: src/main.c:249
 msgid "Could not initialize EmbeddableGrid factory"
 msgstr "Kunde inte initiera \"EmbeddableGrid factory\""
 
@@ -20056,6 +20080,28 @@ msgstr "Gnumeric XML-filformat"
 #: gnumeric.desktop.in.h:2
 msgid "The GNOME Spreadsheet"
 msgstr "GNOME-kalkylprogrammet"
+
+#~ msgid "Unknown formula"
+#~ msgstr "Okänd formel"
+
+#~ msgid ""
+#~ "The probability input range contains a non-numeric value.\n"
+#~ "All probabilities must be positive numbers."
+#~ msgstr ""
+#~ "Sannolikhetsindataområdet innehåller ett ickenumeriskt värde.\n"
+#~ "Alla sannolikheter måste vara positiva tal."
+
+#~ msgid "ANOVA"
+#~ msgstr "ANOVA"
+
+#~ msgid "Source of Variation"
+#~ msgstr "Källa till variation"
+
+#~ msgid "Interaction"
+#~ msgstr "Interaktion"
+
+#~ msgid "Within"
+#~ msgstr "Inom"
 
 #~ msgid "MS Excel (95) 97 file format"
 #~ msgstr "MS Excel (95) 97-filformat"
