@@ -30,11 +30,10 @@ to features that already work.
 
    + Implement more functions :
      - AREAS and GETPIVOTDATA
-       AMORDEGRC, AMORLINC, CUMIPMT, CUMPRINC, MDURATION, ODDFYIELD,
-       ODDLPRICE, ODDLYIELD, VDB, YIELDDISC, and YIELDMAT.
+       CUMIPMT, CUMPRINC, MDURATION, ODDFYIELD, and VDB.
 
    + Fix or finish the following functions :
-     - ODDFPRICE, YIELD, and DURATION
+     - ODDFPRICE, YIELD, DURATION, and YIELDDISC.
 
 * Data Analysis Tools
   - Exponential smoothing

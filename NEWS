@@ -30,6 +30,9 @@ Jukka:
 	  Reporting improvements.
 	  Documentation updated.
 	* MPS plugin enhancements.
+	* New financial functions (integrated with some modifications
+          from the OpenOffice):
+	  AMORDEGRC, AMORLINC, ODDLPRICE, ODDLYIELD, and YIELDMAT.
 
 Morten:
 	* Improve the Applix importer.
