@@ -1,3 +1,12 @@
+2001-02-15  Almer S. Tigelaar  <almer1@dds.nl>
+
+	* preview-grid-controller.c
+	(preview_grid_controller_new) : Properly initialize the selection_rect.
+	(preview_grid_controller_free) : Remove rect and selection_rect from canvas.
+
+	* templates/autoformat/autoformat.General.advanced.xml : Correct wrongly
+	set border.
+	
 2001-02-15  Jody Goldberg <jgoldberg@home.com>
 
 	* src/mstyle.c (mstyle_visible_in_blank) : off by one error.

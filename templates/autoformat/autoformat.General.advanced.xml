@@ -20,8 +20,8 @@
           <gmr:Bottom Style="2" Color="0:0:0"/>
           <gmr:Left Style="0"/>
           <gmr:Right Style="0"/>
-          <gmr:Diagonal Style="2" Color="0:0:0"/>
-          <gmr:Rev-Diagonal Style="0"/>
+          <gmr:Diagonal Style="0"/>
+          <gmr:Rev-Diagonal Style="2" Color="0:0:0"/>
         </gmr:StyleBorder>
       </gmr:Style>
     </gmr:Member>

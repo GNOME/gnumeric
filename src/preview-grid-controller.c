@@ -445,7 +445,7 @@ preview_grid_controller_new (GnomeCanvas *canvas,
 	 * The numbers used here are a little less then the ones used for the centering
 	 * rect above. This rect is only drawn when the grid is 'selected'
 	 */
-	if (selected)
+	if (selected) {
 		controller->selection_rect = GNOME_CANVAS_RECT (gnome_canvas_item_new (gnome_canvas_root (canvas),
 										       gnome_canvas_rect_get_type (),
 										       "x1", -7.0, "y1", -2.5,
@@ -454,6 +454,9 @@ preview_grid_controller_new (GnomeCanvas *canvas,
 										       "outline_color", "red",
 										       "fill_color", NULL,
 										       NULL));
+	} else
+		controller->selection_rect = NULL;
+		
 	/*
 	 * Set the scroll region to a nice value
 	 */
@@ -489,7 +492,10 @@ preview_grid_controller_free (PreviewGridController *controller)
 		g_free (cell);
 	}
 
+	gtk_object_destroy (GTK_OBJECT (controller->rect));
 	gtk_object_destroy (GTK_OBJECT (controller->grid));
+	if (controller->selection_rect)
+		gtk_object_destroy (GTK_OBJECT (controller->selection_rect));
 
 	gnome_canvas_set_scroll_region (controller->canvas, 0, 0, 0, 0);
 
