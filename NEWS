@@ -21,7 +21,7 @@ Michael:
 
 Jody:
 	* Enable Array formulas.
-	* Add VALUE_BOOLEAN, VALUE_ERROR.
+	* Add VALUE_BOOLEAN, VALUE_ERROR, and  OPER_PERCENT
 	* Added EOMONTH, WORKDAY, NETWORKDAYS.
 	* Work on functions : ROW, COLUMN, ISLOGICAL, ISERR, ISBLANK,
           DATEVALUE

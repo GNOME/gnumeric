@@ -1118,17 +1118,10 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 			break;
 
 		case FORMULA_PTG_PERCENT:
-		{
-			/* FIXME : We need to revisit this when operator % is
-			 * available */
-			ExprTree * hundred =
-			    expr_tree_new_constant (value_new_float (.01));
 			parse_list_push (&stack,
-					 expr_tree_new_binary (parse_list_pop (&stack),
-							       OPER_MULT,
-							       hundred));
+					 expr_tree_new_unary (OPER_PERCENT,
+							      parse_list_pop (&stack)));
 			break;
-		}
 
 		case FORMULA_PTG_PAREN:
 /*	  printf ("Ignoring redundant parenthesis ptg\n") ; */

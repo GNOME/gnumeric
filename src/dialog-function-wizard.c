@@ -75,7 +75,7 @@ arg_data_list_new (State *state)
 	gchar *copy_args;
 	const gchar *syntax;
 	gchar *ptr, *start = NULL;
-	gchar *type;
+	gchar const *type;
 	int optional = 0;
 
 	if (!state || !state->fd ||

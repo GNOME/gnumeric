@@ -396,8 +396,12 @@ horizontal_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetView *sheet
 		col = GTK_ADJUSTMENT (sheet_view->ha)->value;
 
 		gnumeric_sheet_set_top_col (gsheet, col);
-		sheet_cursor_move (sheet_view->sheet, col, ss->start_row);
-		sheet_selection_append (sheet_view->sheet, col, ss->start_row);
+
+		if (sheet_view->sheet->cursor_col != col ||
+		    sheet_view->sheet->cursor_row != ss->start_row) {
+			sheet_cursor_move (sheet_view->sheet, col, ss->start_row);
+			sheet_selection_append (sheet_view->sheet, col, ss->start_row);
+		}
 	}
 	
 	return FALSE;
@@ -424,8 +428,11 @@ vertical_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetView *sheet_v
 		row = GTK_ADJUSTMENT (sheet_view->va)->value;
 		
 		gnumeric_sheet_set_top_row (gsheet, row);
-		sheet_cursor_move (sheet_view->sheet, ss->start_col, row);
-		sheet_selection_append (sheet_view->sheet, ss->start_col, row);
+		if (sheet_view->sheet->cursor_col != ss->start_col ||
+		    sheet_view->sheet->cursor_row != row) {
+			sheet_cursor_move (sheet_view->sheet, ss->start_col, row);
+			sheet_selection_append (sheet_view->sheet, ss->start_col, row);
+		}
 	}
 
 	return FALSE;

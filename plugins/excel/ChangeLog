@@ -1,5 +1,17 @@
 1999-08-16  Jody Goldberg <jgoldberg@home.com>
 
+	* ms-formula-write.c (write_node) : Add OPER_PERCENT
+	* ms-formula-read.c (ms_excel_parse_formula) : Ditto.
+
+	* ms-obj.c : Make less verbose.
+
+	* ms-excel-read.c : Add several new biff-types and do more
+	  checking for 'odd-balls' with most significant byte == 1.
+	  Disable the 'blank sheet' optimization for now to avoid memory
+	  errors when a 'blank' sheet gets put into the externsheet hash.
+
+1999-08-16  Jody Goldberg <jgoldberg@home.com>
+
 	* ms-formula-write.c (write_node) : correct typo.
 	  We can now write & read samples/logfuns.xls without
 	  loosing formulas or values.

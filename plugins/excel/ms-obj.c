@@ -144,7 +144,7 @@ ms_obj_read_text (BiffQuery *q, ExcelWorkbook * wb, int const id)
 	g_return_if_fail (q->opcode == BIFF_MS_O_DRAWING);
 	ms_escher_hack_get_drawing (q, wb);
 
-	if (ms_excel_read_debug > 0)
+	if (ms_excel_read_debug > 1)
 		dump (q->data, q->length);
 
 	/* then a TXO, CONTINUE, CONTINUE */
@@ -166,7 +166,7 @@ ms_obj_read_text (BiffQuery *q, ExcelWorkbook * wb, int const id)
 static void
 ms_obj_dump (guint8 const * const data, int const len, char const * const name)
 {
-	if (ms_excel_read_debug == 0)
+	if (ms_excel_read_debug < 2)
 		return;
 
 	printf ("{ %s \n", name);

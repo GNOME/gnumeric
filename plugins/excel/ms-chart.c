@@ -1876,6 +1876,11 @@ ms_excel_biff_dimensions (BiffQuery *q, ExcelWorkbook *wb)
 	guint32 last_row;
 	guint16 first_col;
 	guint16 last_col;
+
+	/* What the heck was a 0x00 ? */
+	if (q->opcode != 0x200)
+		return;
+
 	if (wb->ver >= eBiffV8)
 	{
 		first_row = MS_OLE_GET_GUINT32 (q->data);

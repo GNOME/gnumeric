@@ -1,3 +1,22 @@
+1999-08-15  Jody Goldberg <jgoldberg@home.com>
+
+	* src/format.c (split_time) : Use a float to avoid problems with
+	  rounding when compiling with optimization.
+
+	* src/sheet-view.c (vertical_scroll_event, horizontal_scroll_event) :
+	  Only move and append to the selection if the cursor actually moves.
+
+	* src/dialog-function-wizard.c (arg_data_list_new) : Constness.
+
+	* src/expr.c (eval_expr_real) : Add OPER_PERCENT.
+	(do_expr_decode_tree) : Ditto.
+	(expr_dump_tree) : Ditto.
+
+	* src/expr.h : Ditto.
+
+	* src/parser.y : Add function build_unary_op, and support
+	  exp '%'.  Precedence is a GUESS.
+
 1999-08-16  Michael Meeks  <michael@imaginator.com>
 
 	* src/widget-editable-label.c (el_start_editing): Remove

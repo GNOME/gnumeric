@@ -76,6 +76,16 @@ static ExprTree **parser_result;
 #define p_new(type) ((type *) alloc_buffer ((unsigned) sizeof (type)))
 
 static ExprTree *
+build_unary_op (Operation op, ExprTree *expr)
+{
+	ExprTree *res = p_new (ExprTree);
+	res->ref_count = 1;
+	res->oper = op;
+	res->u.value = expr;
+	return res;
+}
+
+static ExprTree *
 build_binop (ExprTree *l, Operation op, ExprTree *r)
 {
 	ExprTree *res = p_new (ExprTree);
@@ -122,6 +132,7 @@ build_array_formula (ExprTree * func,
 %left NEG PLUS
 %left '!'
 %right '^'
+%right '%'
 
 %%
 line:	  exp           { *parser_result = $1; }
@@ -151,16 +162,9 @@ exp:	  NUMBER 	{ $$ = $1 }
 	| exp LTE exp	{ $$ = build_binop ($1, OPER_LTE,       $3); }
 	| '(' exp ')'   { $$ = $2; }
 
-        | '-' exp %prec NEG {
-		$$ = p_new (ExprTree);
-		$$->ref_count = 1;
-		$$->oper = OPER_NEG;
-		$$->u.value = $2;
-	}
-
-        | '+' exp %prec PLUS {
-		$$ = $2;
-	}
+        | exp '%' { $$ = build_unary_op (OPER_PERCENT, $1); }
+        | '-' exp %prec NEG { $$ = build_unary_op (OPER_NEG, $2); }
+        | '+' exp %prec PLUS { $$ = $2; }
 
         | cellref ':' cellref {
 		$$ = p_new (ExprTree);

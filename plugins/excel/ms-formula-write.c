@@ -481,6 +481,10 @@ write_node (PolishData *pd, ExprTree *tree)
 		write_node  (pd, tree->u.value);
 		push_guint8 (pd, FORMULA_PTG_U_MINUS);
 		break;
+	case OPER_PERCENT:
+		write_node  (pd, tree->u.value);
+		push_guint8 (pd, FORMULA_PTG_PERCENT);
+		break;
 	case OPER_VAR:
 		write_ref (pd, &tree->u.ref);
 		break;

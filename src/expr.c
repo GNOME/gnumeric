@@ -996,6 +996,7 @@ eval_expr_real (FunctionEvalInfo *s, ExprTree const *tree)
 		}
 		return value_new_error (&s->pos, _("Unknown operator"));
 
+	case OPER_PERCENT:
 	case OPER_NEG:
 	        /* Garantees that a != NULL */
 		a = eval_expr (s, tree->u.value);
@@ -1005,12 +1006,15 @@ eval_expr_real (FunctionEvalInfo *s, ExprTree const *tree)
 			value_release (a);
 			return value_new_error (&s->pos, gnumeric_err_VALUE);
 		}
-		if (a->type == VALUE_INTEGER)
-			res = value_new_int (-a->v.v_int);
-		else if (a->type == VALUE_FLOAT)
-			res = value_new_float (-a->v.v_float);
-		else
-			res = value_new_bool (!a->v.v_float);
+		if (tree->oper == OPER_NEG) {
+			if (a->type == VALUE_INTEGER)
+				res = value_new_int (-a->v.v_int);
+			else if (a->type == VALUE_FLOAT)
+				res = value_new_float (-a->v.v_float);
+			else
+				res = value_new_bool (!a->v.v_float);
+		} else
+			res = value_new_float (value_get_as_float (a) * .01);
 		value_release (a);
 		return res;
 
@@ -1221,6 +1225,7 @@ do_expr_decode_tree (ExprTree *tree, const ParsePosition *pp,
 		{ NULL, 0, 0, 0 }, /* Constant */
 		{ NULL, 0, 0, 0 }, /* Var      */
 		{ "-",  5, 0, 0 },
+		{ "%",  5, 0, 0 },
 		{ NULL, 0, 0, 0 }  /* Array    */
 	};
 	int op;
@@ -1258,10 +1263,17 @@ do_expr_decode_tree (ExprTree *tree, const ParsePosition *pp,
 		a = do_expr_decode_tree (tree->u.value, pp, operations[op].prec);
 		opname = operations[op].name;
 
-		if (prec <= paren_level)
-			res = g_strconcat ("(", opname, a, ")", NULL);
-		else
-			res = g_strconcat (opname, a, NULL);
+		if (tree->oper == OPER_NEG) {
+			if (prec <= paren_level)
+				res = g_strconcat ("(", opname, a, ")", NULL);
+			else
+				res = g_strconcat (opname, a, NULL);
+		} else {
+			if (prec <= paren_level)
+				res = g_strconcat ("(", a, opname, ")", NULL);
+			else
+				res = g_strconcat (a, opname, NULL);
+		}
 		g_free (a);
 		return res;
 	}
@@ -2119,9 +2131,13 @@ expr_dump_tree (const ExprTree *tree)
 		}
 		return;
 		
+	case OPER_PERCENT:
 	case OPER_NEG:
 		expr_dump_tree (tree->u.value);
-		printf ("NEGATIVE\n");
+		if (tree->oper == OPER_PERCENT)
+			printf ("PERCENT\n");
+		else
+			printf ("NEGATIVE\n");
 		return;
 
 	case OPER_ARRAY:

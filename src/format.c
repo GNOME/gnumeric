@@ -656,17 +656,17 @@ static struct tm *
 split_time (gdouble number)
 {
 	static struct tm tm;
-	double secs;
+	float secs;
 
 	GDate* date = g_date_new_serial (number);
 
 	g_date_to_struct_tm (date, &tm);
 
 	secs = (number - floor (number)) * 86400.0;
-	tm.tm_hour = secs / 3600;
-	secs -= tm.tm_hour * 3600;
-	tm.tm_min  = secs / 60;
-	secs -= tm.tm_min * 60;
+	tm.tm_hour = secs / 3600.;
+	secs -= tm.tm_hour * 3600.;
+	tm.tm_min  = secs / 60.;
+	secs -= tm.tm_min * 60.;
 	tm.tm_sec  = floor (secs);
 
 	g_date_free (date);
