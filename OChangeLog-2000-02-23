@@ -1,3 +1,10 @@
+1999-05-04  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-database.c: Added DCOUNTA().
+
+	* src/fn-stat.c: Added argument count checks for VAR() and VARP().
+	Added STEYX().
+
 1999-05-03  Morten Welinder  <terra@diku.dk>
 
 	* src/format.c (split_time): Fix leak.

@@ -405,6 +405,72 @@ gnumeric_dcount (struct FunctionDefinition *i,
 	count = 0;
 
 	while (current != NULL) {
+	        Cell *cell = current->data;
+
+		if (VALUE_IS_NUMBER(cell->value))
+		        count++;
+		current = g_slist_next(current);
+	}
+
+	g_slist_free(cells);
+	free_criterias(criterias);
+
+        return value_int (count);
+}
+
+static char *help_dcounta = {
+        N_("@FUNCTION=DCOUNTA\n"
+           "@SYNTAX=DCOUNTA(database,field,criteria)\n"
+
+           "@DESCRIPTION="
+           "DCOUNTA function counts the cells that contain data in a "
+	   "database that match conditions specified. "
+	   "\n"
+	   "@database is a range of cells in which rows of related "
+	   "information are records and columns of data are fields. "
+	   "The first row of a database contains labels for each column. "
+	   "\n"
+	   "@field specifies which column is used in the function. If @field "
+	   "is an integer, i.e. 2, the second column is used. Field can "
+	   "also be the label of a column. "
+	   "\n"
+	   "@criteria is the range of cells which contains the specified "
+	   "conditions. The first row of a criteria should contain the labels "
+	   "of the fields for which the criterias are for. Cells below the "
+	   "label specify coditions, for example, ``>3'' or ``<9''. "
+           "\n"
+           "@SEEALSO=DCOUNT")
+};
+
+static Value *
+gnumeric_dcounta (struct FunctionDefinition *i,
+		  Value *argv [], char **error_string)
+{
+        Value       *database, *criteria;
+	GSList      *criterias;
+	GSList      *cells, *current;
+	int         field;
+	int         count;
+
+	database = argv[0];
+	criteria = argv[2];
+
+	field = find_column_of_field(database, argv[1]);
+	if (field < 0) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+	criterias = parse_criteria(database, criteria);
+	if (criterias == NULL) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+	cells = find_cells_that_match(database, field, criterias);
+
+	current = cells;
+	count = 0;
+
+	while (current != NULL) {
 	        count++;
 		current = g_slist_next(current);
 	}
@@ -1098,6 +1164,8 @@ FunctionDefinition database_functions [] = {
 	  NULL, gnumeric_daverage },
 	{ "dcount",   "r?r", "database,field,criteria", &help_dcount,
 	  NULL, gnumeric_dcount },
+	{ "dcounta",  "r?r", "database,field,criteria", &help_dcounta,
+	  NULL, gnumeric_dcounta },
 	{ "dget",     "r?r", "database,field,criteria", &help_dget,
 	  NULL, gnumeric_dget },
 	{ "dmax",     "r?r", "database,field,criteria", &help_dmax,

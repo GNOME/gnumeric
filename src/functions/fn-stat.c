@@ -658,7 +658,11 @@ gnumeric_varp (Sheet *sheet, GList *expr_node_list, int eval_col,
 					  &cl, expr_node_list,
 					  eval_col, eval_row, error_string);
 
-	/* FIXME -- what about no arguments?  */
+	if (cl.N <= 0) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+
 	return value_float (cl.Q / cl.N);
 }
 
@@ -692,7 +696,11 @@ gnumeric_var (Sheet *sheet, GList *expr_node_list, int eval_col,
 					  &cl, expr_node_list,
 					  eval_col, eval_row, error_string);
 
-	/* FIXME -- what about no arguments or just one argument?  */
+	if (cl.N <= 1) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+
 	return value_float (cl.Q / (cl.N - 1));
 }
 
@@ -713,7 +721,8 @@ static Value *
 gnumeric_stdev (Sheet *sheet, GList *expr_node_list, int eval_col,
 		int eval_row, char **error_string)
 {
-	Value *ans = gnumeric_var (sheet, expr_node_list, eval_col, eval_row, error_string);
+	Value *ans = gnumeric_var (sheet, expr_node_list, eval_col,
+				   eval_row, error_string);
 
 	if (ans && (ans->type == VALUE_FLOAT))
 		ans->v.v_float = sqrt (ans->v.v_float);
@@ -737,7 +746,8 @@ static Value *
 gnumeric_stdevp (Sheet *sheet, GList *expr_node_list, int eval_col,
 		 int eval_row, char **error_string)
 {
-	Value *ans = gnumeric_varp (sheet, expr_node_list, eval_col, eval_row, error_string);
+	Value *ans = gnumeric_varp (sheet, expr_node_list,
+				    eval_col, eval_row, error_string);
 
 	if (ans && (ans->type == VALUE_FLOAT))
 		ans->v.v_float = sqrt (ans->v.v_float);
@@ -3780,6 +3790,161 @@ gnumeric_prob (struct FunctionDefinition *i,
 	return value_float (sum);
 }
 
+static char *help_steyx = {
+	N_("@FUNCTION=PROB\n"
+	   "@SYNTAX=PROB(known_y's,known_x's)\n"
+
+	   "@DESCRIPTION="
+	   "STEYX function returns the standard error of the predicted "
+	   "y-value for each x in the regression.  "
+	   "\n"
+	   "If @known_y's and @known_x's are empty or have a different number "
+	   "of arguments then STEYX returns #N/A! error. "
+	   "\n"
+	   "@SEEALSO=PEARSON,RSQ,SLOPE")
+};
+
+static Value *
+gnumeric_steyx (struct FunctionDefinition *i,
+		Value *argv [], char **error_string)
+{
+        Value       *known_y = argv[0];
+        Value       *known_x = argv[1];
+	stat_list_t items_x, items_y;
+	float_t     sum_x, sum_y, sum_xy, sqrsum_x, sqrsum_y;
+	float_t     num, den, k, n;
+	GSList      *list1, *list2;
+	int         ret;
+
+	items_x.num  = 0;
+	items_x.list = NULL;
+	items_y.num  = 0;
+	items_y.list = NULL;
+
+        if (known_x->type == VALUE_CELLRANGE) {
+		ret = sheet_cell_foreach_range (
+		  known_x->v.cell_range.cell_a.sheet, TRUE,
+		  known_x->v.cell_range.cell_a.col, 
+		  known_x->v.cell_range.cell_a.row,
+		  known_x->v.cell_range.cell_b.col,
+		  known_x->v.cell_range.cell_b.row,
+		  callback_function_list,
+		  &items_x);
+		if (ret == FALSE) {
+		        *error_string = _("#VALUE!");
+
+			list1 = items_x.list;
+			list2 = items_y.list;
+			while (list1 != NULL) {
+			        g_free(list1->data);
+				list1 = list1->next;
+			}
+			while (list2 != NULL) {
+			        g_free(list2->data);
+				list2 = list2->next;
+			}
+			g_slist_free(items_x.list);
+			g_slist_free(items_y.list);
+
+			return NULL;
+		}
+	} else {
+		*error_string = _("Array version not implemented!");
+		return NULL;
+	}
+	
+        if (known_y->type == VALUE_CELLRANGE) {
+		ret = sheet_cell_foreach_range (
+		  known_y->v.cell_range.cell_a.sheet, TRUE,
+		  known_y->v.cell_range.cell_a.col, 
+		  known_y->v.cell_range.cell_a.row,
+		  known_y->v.cell_range.cell_b.col,
+		  known_y->v.cell_range.cell_b.row,
+		  callback_function_list,
+		  &items_y);
+		if (ret == FALSE) {
+		        *error_string = _("#VALUE!");
+
+			list1 = items_x.list;
+			list2 = items_y.list;
+			while (list1 != NULL) {
+			        g_free(list1->data);
+				list1 = list1->next;
+			}
+			while (list2 != NULL) {
+			        g_free(list2->data);
+				list2 = list2->next;
+			}
+			g_slist_free(items_x.list);
+			g_slist_free(items_y.list);
+
+			return NULL;
+		}
+	} else {
+		*error_string = _("Array version not implemented!");
+		return NULL;
+	}
+
+	if (items_x.num != items_y.num) {
+	        *error_string = _("#N/A!");
+
+		list1 = items_x.list;
+		list2 = items_y.list;
+		while (list1 != NULL) {
+		        g_free(list1->data);
+			list1 = list1->next;
+		}
+		while (list2 != NULL) {
+		        g_free(list2->data);
+			list2 = list2->next;
+		}
+		g_slist_free(items_x.list);
+		g_slist_free(items_y.list);
+
+		return NULL;
+	}
+
+	list1 = items_x.list;
+	list2 = items_y.list;
+	sum_x = sum_y = 0;
+	sqrsum_x = sqrsum_y = 0;
+	sum_xy = 0;
+
+	while (list1 != NULL) {
+	        float_t  x, y;
+
+		x = *((float_t *) list1->data);
+		y = *((float_t *) list2->data);
+
+		sum_x += x;
+		sum_y += y;
+		sqrsum_x += x*x;
+		sqrsum_y += y*y;
+		sum_xy += x*y;
+
+		g_free(list1->data);
+		g_free(list2->data);
+		list1 = list1->next;
+		list2 = list2->next;
+	}
+
+	g_slist_free(items_x.list);
+	g_slist_free(items_y.list);
+
+	n = items_x.num;
+	k = 1.0 / (n*(n-2));
+	num = n*sum_xy - sum_x*sum_y;
+	num *= num;
+	den = n*sqrsum_x - sum_x*sum_x;
+
+	if (den == 0) {
+	        *error_string = _("#NUM!");
+		return NULL;
+	}
+
+	return value_float (sqrt(k * (n*sqrsum_y-sum_y*sum_y - num/den)));
+}
+
 static char *help_ztest = {
 	N_("@FUNCTION=ZTEST\n"
 	   "@SYNTAX=ZTEST(ref,x)\n"
@@ -3919,6 +4084,8 @@ FunctionDefinition stat_functions [] = {
 	{ "standardize", "fff",  "x,mean,stddev", &help_standardize, NULL, gnumeric_standardize },
 	{ "stdev",     0,      "",          &help_stdev,     gnumeric_stdev, NULL },
 	{ "stdevp",    0,      "",          &help_stdevp,    gnumeric_stdevp, NULL },
+	{ "steyx", "AA", "known_y's,known_x's",
+	  &help_steyx,   NULL, gnumeric_steyx },
 	{ "tdist",   "fff",  "",            &help_tdist,  NULL, gnumeric_tdist },
 	{ "tinv",    "ff",  "",             &help_tinv,  NULL, gnumeric_tinv },
 	{ "trimmean",  0,      "",          &help_trimmean,  gnumeric_trimmean, NULL },
