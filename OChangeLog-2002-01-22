@@ -1,3 +1,12 @@
+2001-03-28  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* sheet.c
+	(sheet_update): Register idle function to update "auto_expression"
+	instead of doing this immediately. Calculating a sum of many values
+	may take a looong time.
+	(sheet_update_auto_expr_idle_func): New function (code moved from
+	sheet_update) updating "auto_expression" in idle loop.
+
 2001-03-26  Morten Welinder  <terra@diku.dk>
 
 	* src/workbook.c (workbook_cells): New function, extracted from

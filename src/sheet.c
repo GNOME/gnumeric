@@ -133,6 +133,8 @@ sheet_new (Workbook *wb, char const *name)
 	sheet->priv->reposition_objects.row = SHEET_MAX_ROWS;
 	sheet->priv->reposition_objects.col = SHEET_MAX_COLS;
 
+	sheet->priv->auto_expr_idle_id = 0;
+
 	sheet->signature = SHEET_SIGNATURE;
 	sheet->workbook = wb;
 	sheet->name_unquoted = g_strdup (name);
@@ -734,6 +736,25 @@ sheet_update_only_grid (Sheet const *sheet)
 	}
 }
 
+static gboolean
+sheet_update_auto_expr_idle_func (gpointer data)
+{
+	Sheet *sheet = (Sheet *) data;
+	SheetPrivate *p;
+
+	p = sheet->priv;
+	if (p->selection_content_changed) {
+		p->selection_content_changed = FALSE;
+		WORKBOOK_FOREACH_VIEW (sheet->workbook, view,
+		{
+			if (wb_view_cur_sheet (view) == sheet)
+				wb_view_auto_expr_recalc (view, TRUE);
+		});
+	}
+	p->auto_expr_idle_id = 0;
+	return FALSE;
+}
+
 /**
  * sheet_update:
  *
@@ -783,13 +804,8 @@ sheet_update (Sheet const *sheet)
 		});
 	}
 
-	if (p->selection_content_changed) {
-		p->selection_content_changed = FALSE;
-		WORKBOOK_FOREACH_VIEW (sheet->workbook, view,
-		{
-			if (wb_view_cur_sheet (view) == sheet)
-				wb_view_auto_expr_recalc (view, TRUE);
-		});
+	if (p->selection_content_changed && p->auto_expr_idle_id == 0) {
+		p->auto_expr_idle_id = g_idle_add (sheet_update_auto_expr_idle_func, (gpointer) sheet);
 	}
 }
 
@@ -2375,6 +2391,8 @@ sheet_destroy (Sheet *sheet)
 	g_hash_table_destroy (sheet->cell_hash);
 
 	sheet->signature = 0;
+
+	(void) g_idle_remove_by_data (sheet);
 
 	g_free (sheet->priv);
 	g_free (sheet);
