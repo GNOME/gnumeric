@@ -1,8 +1,8 @@
-# Copyright (C) YEAR Free Software Foundation, Inc.
+# Copyright (C) 1999, 2000, 2001, 2002 Free Software Foundation, Inc.
 # Karl Eichwalder <ke@suse.de>, 1999, 2000, 2001.
 # Christian Meyer <chrisime@gnome.org>, 2001.
 # Matthias Warkus <mawa@iname.com>, 1999, 2000.
-# Karsten Weiss <karsten@addx.au.s.shuttle.de>, 1999.
+# Karsten Weiss <knweiss@gmx.de>, 1999, 2002.
 # Ralf Baechle <ralf@gnu.org>, 1999.
 #
 # Thanks for improvements to "Andreas J. Guelzow" <aguelzow@taliesin.ca>, 2001.
@@ -21,6 +21,8 @@
 # #VALUE! == #WERT!
 #
 # TODO:
+#     - fix the inconsistent translations of "array" (Arrary, Feld, Bereich)
+#     - fix all the missing/broken accelerator keys
 #     -translate strings marked with "TODO" in their comment
 #     -check strings marked with "CHECK" or "fuzzy" in their comment
 #     -check for consistency
@@ -48,8 +50,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0.x\n"
 "POT-Creation-Date: 2002-01-21 23:04-0500\n"
-"PO-Revision-Date: 2002-01-01 17:19+0100\n"
-"Last-Translator: Mihael Vrbanec <miqster@gmx.de>\n"
+"PO-Revision-Date: 2002-01-25 23:50+0100\n"
+"Last-Translator: Karsten Weiss <knweiss@gmx.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
@@ -1090,7 +1092,7 @@ msgstr "Python-Ausnahme (%s)"
 
 #: plugins/python-loader/py-gnumeric.c:456
 msgid "Python list is not an array"
-msgstr "Python-Liste ist kein Array"
+msgstr "Python-Liste ist kein Feld"
 
 #: plugins/python-loader/py-gnumeric.c:463
 #, c-format
@@ -1527,9 +1529,8 @@ msgid "Create a radio button"
 msgstr "Radiobutton erzeugen"
 
 #: src/GNOME_Gnumeric.xml.h:61
-#, fuzzy
 msgid "Create a scrollbar"
-msgstr "Rahmen erzeugen"
+msgstr "Rollbalken erzeugen"
 
 #: src/GNOME_Gnumeric.xml.h:62
 msgid "Create an arrow"
@@ -1632,7 +1633,6 @@ msgid "Exit the program"
 msgstr "Das Programm beenden"
 
 #: src/GNOME_Gnumeric.xml.h:85 src/workbook-control-gui.c:2987
-#, fuzzy
 msgid "Exponential smoothing"
 msgstr "Exponentielles Glätten"
 
@@ -1793,7 +1793,7 @@ msgstr "Bonobo-Objekt einfügen"
 # CHECK, meaning of shaped unclear --miq
 #: src/GNOME_Gnumeric.xml.h:122
 msgid "Inserts a Shaped Bonobo object"
-msgstr "geformtes Bonobo-Objekt einfügen"
+msgstr "Geformtes Bonobo-Objekt einfügen"
 
 # CHECK, imho graph->Diagramm in this context --miq
 # (dict.leo.org)
@@ -1856,7 +1856,7 @@ msgstr "Eine Kopie des aktuellen Blattes erstellen"
 
 #: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:2688
 msgid "Make a table of a cell's value as a function of other cells"
-msgstr ""
+msgstr "Eine Tabelle aus dem Wert einer Zellen als eine Funktion anderer Zellen machen"
 
 #: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:2880
 msgid "Make any hidden columns in the selection visible"
@@ -1988,7 +1988,7 @@ msgstr "Prozent"
 
 #: src/GNOME_Gnumeric.xml.h:167 src/workbook-control-gui.c:3050
 msgid "Periodic and random samples"
-msgstr ""
+msgstr "Periodische und zufällige Proben"
 
 #: src/GNOME_Gnumeric.xml.h:168 src/dialogs/print.glade.h:16
 #: src/workbook-control-gui.c:3191
@@ -2066,7 +2066,6 @@ msgid "Redo the undone action"
 msgstr "Rückgängig gemachte Aktion wiederherstellen"
 
 #: src/GNOME_Gnumeric.xml.h:185 src/workbook-control-gui.c:3047
-#, fuzzy
 msgid "Regression Analysis"
 msgstr "Regressionsanalyse"
 
@@ -2121,9 +2120,8 @@ msgid "Save the current workbook"
 msgstr "Das aktuelle Arbeitsbuch speichern"
 
 #: src/GNOME_Gnumeric.xml.h:198 src/workbook-object-toolbar.c:167
-#, fuzzy
 msgid "Scrollbar"
-msgstr "US-Dollar"
+msgstr "Rollbalken"
 
 #: src/GNOME_Gnumeric.xml.h:199 src/workbook-control-gui.c:2772
 msgid "Search and Replace..."
@@ -2237,9 +2235,8 @@ msgid "Split merged ranges of cells"
 msgstr "Einen zusammengeführten Bereich von Zellen splitten"
 
 #: src/GNOME_Gnumeric.xml.h:224 src/workbook-control-gui.c:3088
-#, fuzzy
 msgid "Statistical Anal_ysis"
-msgstr "Statistische Methoden"
+msgstr "Statistische Anal_yse"
 
 #: src/GNOME_Gnumeric.xml.h:225 src/dialogs/consolidate.glade.h:19
 #: src/workbook-control-gui.c:3226 src/workbook-control-gui.c:3844
@@ -2289,9 +2286,8 @@ msgid "Two Factor Analysis of Variance"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:236 src/workbook-control-gui.c:3053
-#, fuzzy
 msgid "Two _Means"
-msgstr "_Durchschnitt:"
+msgstr "Zwei _Mittel"
 
 #: src/GNOME_Gnumeric.xml.h:237 src/workbook-control-gui.c:3098
 msgid "Uncollapse an outline group"
@@ -2323,7 +2319,7 @@ msgstr "Eingabe mit vorgegebenen Kriterien überprüfen"
 
 #: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:3041
 msgid "Various frequency tables"
-msgstr ""
+msgstr "Diverse Häufigkeitstabellen"
 
 #: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:3032
 #, fuzzy
@@ -2566,9 +2562,8 @@ msgid "_Print..."
 msgstr "_Drucken..."
 
 #: src/GNOME_Gnumeric.xml.h:298 src/workbook-control-gui.c:2690
-#, fuzzy
 msgid "_Random Generator..."
-msgstr "Erzeugung von Zufallszahlen"
+msgstr "Zufallsgenerator..."
 
 #: src/GNOME_Gnumeric.xml.h:299 src/workbook-control-gui.c:1036
 #: src/workbook-control-gui.c:2727
@@ -2576,9 +2571,8 @@ msgid "_Redo"
 msgstr "_Wiederholen"
 
 #: src/GNOME_Gnumeric.xml.h:300 src/workbook-control-gui.c:3046
-#, fuzzy
 msgid "_Regression"
-msgstr "Regressionsanalyse"
+msgstr "_Regression"
 
 #: src/GNOME_Gnumeric.xml.h:301 src/dialogs/autocorrect.glade.h:12
 #: src/dialogs/dialog-stf.glade.h:66 src/workbook-control-gui.c:2714
@@ -2647,7 +2641,7 @@ msgstr "_Standardbreite"
 
 #: src/GNOME_Gnumeric.xml.h:314 src/workbook-control-gui.c:2687
 msgid "_Tabulate Dependency..."
-msgstr ""
+msgstr "Abhängigkeiten tabularisieren..."
 
 #: src/GNOME_Gnumeric.xml.h:315
 msgid "_Toolbars..."
@@ -2897,9 +2891,8 @@ msgid "Moving Averages"
 msgstr "Gleitende Durchschnitte"
 
 #: src/analysis-tools.c:2561
-#, fuzzy
 msgid "Standard Error"
-msgstr "_Standardfehler"
+msgstr "Standardfehler"
 
 #: src/analysis-tools.c:2649
 msgid "Exponential Smoothing"
@@ -2985,7 +2978,7 @@ msgstr ""
 
 #: src/analysis-tools.c:3761
 msgid "Too Small"
-msgstr ""
+msgstr "Zu klein"
 
 #: src/analysis-tools.c:3778
 msgid "More"
@@ -2997,9 +2990,8 @@ msgid ">%s"
 msgstr ""
 
 #: src/analysis-tools.c:3790
-#, fuzzy
 msgid "Too Large"
-msgstr "K-größte"
+msgstr "Zu groß"
 
 #: src/analysis-tools.c:3831 src/dialogs/histogram.glade.h:7
 msgid "Histogram"
@@ -3026,14 +3018,12 @@ msgid "Cumulative %"
 msgstr "Kumulative %"
 
 #: src/analysis-tools.c:4098
-#, fuzzy
 msgid "Real"
-msgstr "Rechteck"
+msgstr "Real"
 
 #: src/analysis-tools.c:4099
-#, fuzzy
 msgid "Imaginary"
-msgstr "Januar"
+msgstr "Imaginär"
 
 #: src/bonobo-io.c:448
 #, c-format
@@ -4076,9 +4066,8 @@ msgid "Horizontal Stripe"
 msgstr "Horizontale Streifen"
 
 #: src/dialogs/cell-format.glade.h:44
-#, fuzzy
 msgid "In a list"
-msgstr "Liste erzeugen"
+msgstr "Ein einer Liste"
 
 #: src/dialogs/cell-format.glade.h:45
 #, fuzzy
@@ -4145,9 +4134,8 @@ msgid "Number"
 msgstr "Zahl"
 
 #: src/dialogs/cell-format.glade.h:61
-#, fuzzy
 msgid "Numbers"
-msgstr "Zahl"
+msgstr "Zahlen"
 
 #: src/dialogs/cell-format.glade.h:62 src/dialogs/print.glade.h:11
 msgid "Orientation"
@@ -5310,21 +5298,18 @@ msgid "_);[Red]("
 msgstr "_);[Red]("
 
 #: src/dialogs/dialog-cell-format.c:2105
-#, fuzzy
 msgid "Source"
-msgstr "Quellbereiche"
+msgstr "Quelle"
 
 #: src/dialogs/dialog-cell-format.c:2118 src/dialogs/dialog-cell-format.c:2125
 #: src/sheet-object-widget.c:801
-#, fuzzy
 msgid "Min :"
-msgstr "Min"
+msgstr "Min :"
 
 #: src/dialogs/dialog-cell-format.c:2119 src/dialogs/dialog-cell-format.c:2128
 #: src/sheet-object-widget.c:805
-#, fuzzy
 msgid "Max :"
-msgstr "Max"
+msgstr "Max :"
 
 #: src/dialogs/dialog-cell-format.c:2122
 msgid "Value :"
@@ -5703,7 +5688,7 @@ msgstr "Ausdruck"
 
 #: src/dialogs/dialog-search.c:124
 msgid "Integer"
-msgstr "Integer"
+msgstr "Ganzzahl"
 
 #: src/dialogs/dialog-search.c:128
 msgid "Other value"
@@ -6248,56 +6233,48 @@ msgid "_To line : "
 msgstr "_Bis Zeile:"
 
 #: src/dialogs/dialog-tabulate.c:126
-#, fuzzy
 msgid "Tabulation"
-msgstr "Überprüfung der Eingabe"
+msgstr "Tabularische Anordnung"
 
 #: src/dialogs/dialog-tabulate.c:384
-#, fuzzy
 msgid "You should introduce a single valid cell as dependency cell"
-msgstr "Sie müssen einen gültigen Zellennamen in 'Setzen der Zelle' eintragen."
+msgstr "Sie müssen eine einzige gültige Zelle als Abhängigkeitszelle eintragen"
 
 #: src/dialogs/dialog-tabulate.c:390
 msgid "The dependency cells should not contain an expression"
-msgstr ""
+msgstr "Die Abhängigkeitszellen dürfen keinen Ausdruck enthalten"
 
 #: src/dialogs/dialog-tabulate.c:399
-#, fuzzy
 msgid "You should introduce a valid number as minimum"
-msgstr "Sie sollten einen gültigen Zellennamen bei 'Listenbereich:' eintragen."
+msgstr "Sie müssen eine gültige Zahl als Minimum eintragen"
 
 #: src/dialogs/dialog-tabulate.c:410
-#, fuzzy
 msgid "You should introduce a valid number as maximum"
-msgstr "Sie sollten einen gültigen Zellennamen bei 'Listenbereich:' eintragen."
+msgstr "Sie müssen eine gültige Zahl als Maximum eintragen."
 
 #: src/dialogs/dialog-tabulate.c:419
 msgid "The maximum value should be bigger than the minimum"
-msgstr ""
+msgstr "Der Wert des Maximums muß größer als das Minimum sein"
 
 #: src/dialogs/dialog-tabulate.c:429
-#, fuzzy
 msgid "You should introduce a valid number as step size"
-msgstr "Sie sollten einen gültigen Zellennamen bei 'Listenbereich:' eintragen."
+msgstr "Sie müssen eine gültige Zahl als Schrittweite eintragen"
 
 #: src/dialogs/dialog-tabulate.c:438
 msgid "The step size should be positive"
-msgstr ""
+msgstr "Die Schrittweite muß positiv sein"
 
 #: src/dialogs/dialog-tabulate.c:450
-#, fuzzy
 msgid "You should introduce one or more dependency cells"
-msgstr "Sie müssen einen gültigen Zellennamen in 'Setzen der Zelle' eintragen."
+msgstr "Sie müssen eine oder mehrere Abhängigkeitszellen eintragen."
 
 #: src/dialogs/dialog-tabulate.c:460
-#, fuzzy
 msgid "You should introduce a single valid cell as result cell"
-msgstr "Sie müssen einen gültigen Zellennamen in 'Setzen der Zelle' eintragen."
+msgstr "Sie müssen eine einzige gültige Zelle als Ergebniszelle eintragen."
 
 #: src/dialogs/dialog-tabulate.c:467
-#, fuzzy
 msgid "The target cell should contain an expression"
-msgstr "Der Suchtext ist ein regulärer Ausdruck"
+msgstr "Die Zielzelle muß einen Ausdruck enthalten"
 
 #: src/dialogs/dialog-workbook-attr.c:165
 msgid "Workbook Attributes"
@@ -6502,17 +6479,14 @@ msgid "Input _Range:"
 msgstr "_Eingabebereich:"
 
 #: src/dialogs/histogram.glade.h:10
-#, fuzzy
 msgid "M_in:"
-msgstr "M_in"
+msgstr "M_in:"
 
 #: src/dialogs/histogram.glade.h:11
-#, fuzzy
 msgid "Ma_x:"
-msgstr "Max"
+msgstr "Ma_x:"
 
 #: src/dialogs/histogram.glade.h:13
-#, fuzzy
 msgid "Out_put"
 msgstr "Ausgabe"
 
@@ -6798,11 +6772,11 @@ msgstr "Seitenabfolge"
 
 #: src/dialogs/print.glade.h:14
 msgid "Paper _size:"
-msgstr "Blatt_größe:"
+msgstr "Papier_größe:"
 
 #: src/dialogs/print.glade.h:15
 msgid "Por_trait"
-msgstr "Auf_recht (Porträt)"
+msgstr "Hochformat"
 
 # Oder ist "anzeigen" gemeint? -ke-
 #: src/dialogs/print.glade.h:17
@@ -7102,7 +7076,6 @@ msgid "Query for replacement"
 msgstr "Anfrage nach Ersetzung"
 
 #: src/dialogs/search-replace.glade.h:19
-#, fuzzy
 msgid "Ra_nge"
 msgstr "Wertebereich"
 
@@ -7503,47 +7476,40 @@ msgid "_Manager"
 msgstr "Vorgesetzter"
 
 #: src/dialogs/summary.glade.h:9
-#, fuzzy
 msgid "_Title"
-msgstr "Titel"
+msgstr "_Titel"
 
 #: src/dialogs/tabulate.glade.h:2
-#, fuzzy
 msgid "Dependency cells"
-msgstr "Zellen löschen"
+msgstr "Abhängigkeitszellen"
 
 #: src/dialogs/tabulate.glade.h:3
 msgid "Make one long list of coordinates and values"
-msgstr ""
+msgstr "Eine lange Liste mit Koordinaten und Werten erstellen"
 
 #: src/dialogs/tabulate.glade.h:4
-#, fuzzy
 msgid "Maximum"
-msgstr "Maximum:"
+msgstr "Maximum"
 
 #: src/dialogs/tabulate.glade.h:5
-#, fuzzy
 msgid "Minimum"
-msgstr "Minimum:"
+msgstr "Minimum"
 
 #: src/dialogs/tabulate.glade.h:6
-#, fuzzy
 msgid "Mode"
-msgstr "Mehr"
+msgstr "Modus"
 
 #: src/dialogs/tabulate.glade.h:7
-#, fuzzy
 msgid "Result cell"
-msgstr "Zellen löschen"
+msgstr "Ergebniszelle"
 
 #: src/dialogs/tabulate.glade.h:8
-#, fuzzy
 msgid "Step"
-msgstr "*Sep"
+msgstr "Schritt"
 
 #: src/dialogs/tabulate.glade.h:9
 msgid "Tabulate Dependency"
-msgstr ""
+msgstr "Abhängigkeiten tabularisieren"
 
 #: src/dialogs/tabulate.glade.h:10
 msgid ""
@@ -7551,9 +7517,8 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/tabulate.glade.h:11
-#, fuzzy
 msgid "_Coordinate"
-msgstr "_Inhalt"
+msgstr "Koordinate"
 
 #: src/dialogs/tabulate.glade.h:12
 #, fuzzy
@@ -17261,19 +17226,16 @@ msgid "Scrollbar Configure"
 msgstr "Checkbox konfigurieren"
 
 #: src/sheet-object-widget.c:795 src/sheet-object-widget.c:1260
-#, fuzzy
 msgid "Link to :"
-msgstr "Zum Ein_passen schrumpfen"
+msgstr "Verbinden mit :"
 
 #: src/sheet-object-widget.c:809
-#, fuzzy
 msgid "Increment :"
-msgstr "Erhöhen"
+msgstr "Erhöhung :"
 
 #: src/sheet-object-widget.c:813
-#, fuzzy
 msgid "Page :"
-msgstr "Seite"
+msgstr "Seite :"
 
 #: src/sheet-object-widget.c:1023
 #, c-format
@@ -17544,27 +17506,27 @@ msgstr ""
 #: src/validation.c:138
 #, c-format
 msgid "Cell %s is not permitted to be blank"
-msgstr ""
+msgstr "Zelle %s darf nicht leer sein"
 
 #: src/validation.c:158
 #, c-format
 msgid "'%f' is not an integer"
-msgstr ""
+msgstr "'%f' ist keine Ganzzahl"
 
 #: src/validation.c:168
-#, fuzzy, c-format
+#, c-format
 msgid "'%f' is not a number"
-msgstr "E_rste Seitenzahl:"
+msgstr "'%f' ist keine Zahl"
 
 #: src/validation.c:175
-#, fuzzy, c-format
+#, c-format
 msgid "'%s' is not a number"
-msgstr "E_rste Seitenzahl:"
+msgstr "'%s' ist keine Zahl"
 
 #: src/validation.c:259
 #, c-format
 msgid "%s is not true."
-msgstr ""
+msgstr "%s ist nicht wahr."
 
 #: src/validation.c:272
 msgid ""
@@ -17672,12 +17634,11 @@ msgstr "Wiederholen"
 #: src/workbook-control-gui.c:1188
 #, c-format
 msgid "Would split array %s"
-msgstr "Würde das Array »%s« splitten."
+msgstr "Würde das Feld %s teilen"
 
 #: src/workbook-control-gui.c:1190
-#, fuzzy
 msgid "Would split an array"
-msgstr "Würde das Array »%s« splitten."
+msgstr "Würde das Feld teilen"
 
 #: src/workbook-control-gui.c:1251
 #, c-format
@@ -18087,9 +18048,8 @@ msgid "Creates a button"
 msgstr "Einen Knopf erzeugen"
 
 #: src/workbook-object-toolbar.c:167
-#, fuzzy
 msgid "Creates a scrollbar"
-msgstr "Ein Label erzeugen"
+msgstr "Einen Rollbalken erzeugen"
 
 #: src/workbook-object-toolbar.c:170
 msgid "Creates a checkbox"
