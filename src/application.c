@@ -128,10 +128,10 @@ application_workbook_list_add (Workbook *wb)
 void
 application_workbook_list_remove (Workbook *wb)
 {
-	g_return_if_fail (IS_WORKBOOK (wb));
+	g_return_if_fail (wb != NULL);
 
 	app->workbook_list = g_list_remove (app->workbook_list, wb);
-	g_signal_emit (G_OBJECT (app), signals [WORKBOOK_ADDED], 0, wb);
+	g_signal_emit (G_OBJECT (app), signals [WORKBOOK_REMOVED], 0, wb);
 }
 
 GList *
@@ -626,7 +626,7 @@ gnumeric_application_class_init (GObjectClass *object_class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GnumericApplicationClass, workbook_added),
 		(GSignalAccumulator) NULL, NULL,
-		gnm__VOID__POINTER,
+		gnm__VOID__OBJECT,
 		G_TYPE_NONE,
 		1, WORKBOOK_TYPE);
 	signals [WORKBOOK_REMOVED] = g_signal_new ("workbook_removed",
@@ -636,7 +636,7 @@ gnumeric_application_class_init (GObjectClass *object_class)
 		(GSignalAccumulator) NULL, NULL,
 		gnm__VOID__POINTER,
 		G_TYPE_NONE,
-		1, WORKBOOK_TYPE);
+		1, G_TYPE_POINTER);
 	signals [CLIPBOARD_MODIFIED] = g_signal_new ("clipboard_modified",
 		GNUMERIC_APPLICATION_TYPE,
 		G_SIGNAL_RUN_LAST,

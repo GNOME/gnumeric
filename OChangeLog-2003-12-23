@@ -1,5 +1,9 @@
 2002-09-17  Jody Goldberg <jody@gnome.org>
 
+	* src/application.c (application_workbook_list_remove) : fix typo.
+
+2002-09-17  Jody Goldberg <jody@gnome.org>
+
 	* src/application.c (gnumeric_application_class_init) : use
 	  NONE__POINTER rather than NONE_OBJECT so that we can remove the
 	  workbook during finalization.
