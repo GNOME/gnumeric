@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <plugin id="Gnumeric_html">
-	<information name="HTML & TeX" description="Import/Export of HTML, TeX, DVI, roff and pdf"/>
+	<information name="HTML &amp; TeX" description="Import/Export of HTML, TeX, DVI, roff and pdf"/>
 	<loader type="g_module">
 		<attribute name="module_file" value="html.so"/>
 	</loader>
