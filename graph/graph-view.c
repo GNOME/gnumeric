@@ -44,6 +44,106 @@ graph_view_canvas_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_pa
 		graph_view->affine [i] = affine [i];
 }
 
+/*
+ * This really must be shared with the gnumeric color set
+ */
+static char *default_colors [] = {
+	"rgb:0/0/0",
+	"rgb:FF/FF/FF",
+	"rgb:FF/0/0",
+	"rgb:0/FF/0",
+
+	"rgb:0/0/FF",
+	"rgb:FF/FF/0",
+	"rgb:FF/0/FF",
+	"rgb:0/FF/FF",
+	
+	"rgb:80/0/0",
+	"rgb:0/80/0",
+	"rgb:0/0/80",
+	"rgb:80/80/0",
+	
+	"rgb:80/0/80",
+	"rgb:0/80/80",
+	"rgb:c0/c0/c0",
+	"rgb:80/80/80",
+	
+	"rgb:99/99/FF",
+	"rgb:99/33/66",
+	"rgb:FF/FF/CC",
+	"rgb:CC/FF/FF",
+	
+	"rgb:66/0/66",
+	"rgb:FF/80/80",
+	"rgb:0/66/CC",
+	"rgb:CC/CC/FF",
+	
+	"rgb:0/0/80",
+	"rgb:FF/0/FF",
+	"rgb:FF/FF/0",
+	"rgb:0/FF/FF",
+	
+	"rgb:80/0/80",
+	"rgb:80/0/0",
+	"rgb:0/80/80",
+	"rgb:0/0/FF",
+	
+	"rgb:0/CC/FF",
+	"rgb:CC/FF/FF",
+	"rgb:CC/FF/CC",
+	"rgb:FF/FF/99",
+	
+	"rgb:99/CC/FF",
+	"rgb:FF/99/CC",
+	"rgb:CC/99/FF",
+	"rgb:FF/CC/99",
+	
+	"rgb:33/66/FF",
+	"rgb:33/CC/CC",
+	"rgb:99/CC/0",
+	"rgb:FF/CC/0",
+	
+	"rgb:FF/99/0",
+	"rgb:FF/66/0",
+	"rgb:66/66/99",
+	"rgb:96/96/96",
+	
+	"rgb:0/33/66",
+	"rgb:33/99/66",
+	"rgb:0/33/0",
+	"rgb:33/33/0",
+	
+	"rgb:99/33/0",
+	"rgb:99/33/66",
+	"rgb:33/33/99",
+	"rgb:33/33/33",
+	NULL
+};
+
+static void
+graph_view_alloc_colors (GraphView *graph_view)
+{
+	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (graph_view);
+	int i;
+	
+	for (i = 0; default_colors [i] != NULL; i++)
+		;
+	
+	graph_view->n_palette = i;
+	graph_view->palette = g_new (GdkColor, i);
+
+	for (i = 0; i < graph_view->n_palette; i++)
+		gnome_canvas_get_color (item->canvas, default_colors [i], &graph_view->palette [i]);
+}
+
+static void
+graph_view_release_colors (GraphView *graph_view)
+{
+	/* FIXME: Canvas needs a way to release colors */
+	g_free (graph_view->palette);
+	graph_view->palette = NULL;
+}
+
 static void
 graph_view_realize (GnomeCanvasItem *item)
 {
@@ -58,11 +158,17 @@ graph_view_realize (GnomeCanvasItem *item)
 	window = GTK_WIDGET (item->canvas)->window;
 	graph_view->outline_gc = gdk_gc_new (window);
 	graph_view->fill_gc = gdk_gc_new (window);
+
+	graph_view_alloc_colors (graph_view);
 }
 
 static void
 graph_view_unrealize (GnomeCanvasItem *item)
 {
+	GraphView *graph_view = GRAPH_VIEW (item);
+	
+	graph_view_release_colors (graph_view);
+	
 	if (GNOME_CANVAS_ITEM_CLASS (graph_view_parent_class)->unrealize)
 		(*graph_view_parent_class->unrealize)(item);
 }
@@ -160,6 +266,7 @@ graph_view_update (GraphView *graph_view, int dirty_flags)
 	g_return_if_fail (IS_GRAPH_VIEW (graph_view));
 
 	graph_view->dirty_flags |= dirty_flags;
+
 	if (graph_view->frozen)
 		return;
 
@@ -169,6 +276,12 @@ graph_view_update (GraphView *graph_view, int dirty_flags)
 	
 	if (graph_view->dirty_flags & (DIRTY_BBOX|DIRTY_SHAPE)){
 		graph_view->dirty_flags &= ~(DIRTY_BBOX | DIRTY_SHAPE);
+		gnome_canvas_update_bbox (
+			GNOME_CANVAS_ITEM (graph_view),
+			graph_view->bbox.x0,
+			graph_view->bbox.y0,
+			graph_view->bbox.x1,
+			graph_view->bbox.y1);
 	}
 }
 

@@ -35,6 +35,9 @@ struct _GraphView {
 	Graph    *graph;
 
 	GdkGC    *fill_gc, *outline_gc;
+
+	int       n_palette;
+	GdkColor *palette;
 };
 
 typedef struct {

@@ -14,13 +14,20 @@ BEGIN_GNOME_DECLS
 #define IS_VECTOR(o)       (GTK_CHECK_TYPE ((o), VECTOR_TYPE))
 #define IS_VECTOR_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), VECTOR_TYPE))
 
-typedef GNOME_Gnumeric_DoubleVec   *(*VectorGetNumFn)(CORBA_short low, CORBA_short high, void *data);
-typedef GNOME_Gnumeric_VecValueVec *(*VectorGetValFn)(CORBA_short low, CORBA_short high, void *data);
-typedef gboolean (*VectorSetFn) (CORBA_short pos, double val, CORBA_Environment *ev, void *data);
-typedef CORBA_short (*VectorLenFn) (void *data);
-typedef CORBA_boolean (*VectorTypeFn)(void *data);
+typedef struct _Vector Vector;
 
-typedef struct {
+typedef GNOME_Gnumeric_DoubleVec   *(*VectorGetNumFn)(
+	Vector *vec, CORBA_short low, CORBA_short high, void *data);
+typedef GNOME_Gnumeric_VecValueVec *(*VectorGetValFn)(
+	Vector *vec, CORBA_short low, CORBA_short high, void *data);
+typedef gboolean                    (*VectorSetFn) (
+	Vector *vec, CORBA_short pos, double val, CORBA_Environment *ev, void *data);
+typedef CORBA_short                 (*VectorLenFn) (
+	Vector *vec, void *data);
+typedef CORBA_boolean               (*VectorTypeFn)(
+	Vector *vec, void *data);
+
+struct _Vector {
 	GnomeObject base;
 
 	VectorTypeFn    type;
@@ -30,9 +37,8 @@ typedef struct {
 	VectorLenFn     len;
 
 	GNOME_Gnumeric_VectorNotify notify;
-	
 	void *user_data;
-} Vector;
+};
 
 typedef struct {
 	GnomeObjectClass parent_class;
@@ -41,7 +47,6 @@ typedef struct {
 GtkType      vector_get_type      (void);
 Vector      *vector_new           (VectorGetNumFn get, VectorGetValFn,
 				   VectorSetFn set, VectorLenFn len,
-				   GNOME_Gnumeric_VectorNotify notify,
 				   void *data);
 void         vector_changed       (Vector *vector, int low, int high);
 

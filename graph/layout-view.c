@@ -30,10 +30,14 @@ layout_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation, LayoutV
 
 	bbox.x0 = allocation->x;
 	bbox.y0 = allocation->y;
-	bbox.x1 = allocation->width;
-	bbox.y1 = allocation->height;
-	
+	bbox.x1 = bbox.x0 + allocation->width;
+	bbox.y1 = bbox.y0 + allocation->height;
+
+	printf ("BBox=%d, %d, %d, %d\n", bbox.x0, bbox.y0, bbox.x1, bbox.y1);
 	graph_view_set_bbox (layout_view->graph_view, &bbox);
+	gnome_canvas_set_scroll_region (
+		GNOME_CANVAS (layout_view->canvas),
+		0, 0, allocation->width, allocation->height);
 }
 
 GnomeView *
@@ -59,7 +63,7 @@ layout_view_new (Layout *layout)
 		graph_view_get_type (),
 		NULL));
 
-	graph_view_set_graph (layout_view->graph_view, layout->graph);
+	graph_bind_view (layout->graph, layout_view->graph_view);
 
 	gtk_signal_connect (GTK_OBJECT (layout_view->canvas), "size_allocate",
 			    GTK_SIGNAL_FUNC (layout_view_size_allocate), layout_view);

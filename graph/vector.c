@@ -30,7 +30,7 @@ impl_vector_only_numbers (PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	Vector *vec = vector_from_servant (servant);
 
-	return vec->type (vec->user_data);
+	return vec->type (vec, vec->user_data);
 }
 
 static GNOME_Gnumeric_DoubleVec *
@@ -40,7 +40,7 @@ impl_vector_get_numbers (PortableServer_Servant servant,
 {
 	Vector *vec = vector_from_servant (servant);
 
-	return vec->get_numbers (low, high, vec->user_data);
+	return vec->get_numbers (vec, low, high, vec->user_data);
 }
 
 static GNOME_Gnumeric_VecValueVec *
@@ -50,7 +50,7 @@ impl_vector_get_vec_values (PortableServer_Servant servant,
 {
 	Vector *vec = vector_from_servant (servant);
 
-	return vec->get_values (low, high, vec->user_data);
+	return vec->get_values (vec, low, high, vec->user_data);
 }
 
 static void
@@ -59,7 +59,7 @@ impl_vector_set (PortableServer_Servant servant, CORBA_short pos,
 {
 	Vector *vec = vector_from_servant (servant);
 	
-	if (vec->set (pos, val, ev, vec->user_data))
+	if (vec->set (vec, pos, val, ev, vec->user_data))
 		return;
 	else
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Gnumeric_Vector_Failed, NULL);
@@ -80,7 +80,7 @@ impl_vector_count (PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	Vector *vec = vector_from_servant (servant);
 
-	return vec->len (vec->user_data);
+	return vec->len (vec, vec->user_data);
 }
 
 static void
@@ -162,7 +162,6 @@ vector_corba_object_create (GnomeObject *object)
 Vector *
 vector_new (VectorGetNumFn get_numbers, VectorGetValFn get_values,
 	    VectorSetFn set, VectorLenFn len,
-	    GNOME_Gnumeric_VectorNotify notify,
 	    void *data)
 {
 	Vector *vector;
@@ -171,7 +170,6 @@ vector_new (VectorGetNumFn get_numbers, VectorGetValFn get_values,
 	g_return_val_if_fail (get_numbers != NULL, NULL);
 	g_return_val_if_fail (get_values != NULL, NULL);
 	g_return_val_if_fail (set != NULL, NULL);
-	g_return_val_if_fail (notify != NULL, NULL);
 	g_return_val_if_fail (len != NULL, NULL);
 
 	vector = gtk_type_new (vector_get_type ());
@@ -187,8 +185,8 @@ vector_new (VectorGetNumFn get_numbers, VectorGetValFn get_values,
 	vector->get_numbers = get_numbers;
 	vector->get_values = get_values;
 	vector->set = set;
-	vector->notify = notify;
 	vector->len = len;
+	vector->user_data = data;
 	
 	return vector;
 }

@@ -47,7 +47,15 @@ struct _Graph {
 	 */
 	double      low, high;
 	double      real_low, real_high;
-
+	double      y_size;
+	
+	/*
+	 * X axis boundings for Scatter plot
+	 */
+	double      x_low, x_high;
+	double      x_real_low, x_real_high;
+	double      x_size;
+	
 	int divisions;
 };
 

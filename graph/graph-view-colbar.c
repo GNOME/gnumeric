@@ -22,7 +22,8 @@ typedef struct {
 	int          width, height;
 	int          xl, yl;
 	double       units_per_slot;
-	double       size;	/* |low| + |high| */
+	int          margin;
+	int          inter_item_margin;
 	double       scale;
 } ColbarDrawCtx;
 
@@ -36,46 +37,69 @@ static void
 column_draw (ColbarDrawCtx *ctx, int item,
 	     double x1, double y1, double x2, double y2)
 {
-	printf ("Column: %g %g %g %g\n", x1, y1, x2, y2);
-
+	int height, width, px, py;
+	
+	/*
+	 * Adjust for pixmap offset
+	 */
 	x1 -= ctx->x;
 	x2 -= ctx->x;
 	y1 -= ctx->y;
 	y2 -= ctx->y;
-	
+
+	printf ("%d: (%g, %g) (%g, %g) ... ", item, x1, y1, x2, y2);
+	if (ctx->graph->direction == GNOME_Graph_DIR_BAR){
+		py = MIN (x1, x2);
+		height = fabs (x2-x1);
+		px = MIN (y1, y2);
+		width = fabs (y2 - y1);
+	} else {
+		/* Map y */
+		y1 = ctx->yl - y1;
+		y2 = ctx->yl - y2;
+
+		/* Massage arguments for Gdk consumption */
+		py = MIN (y1, y2);
+		height = fabs (y2 - y1);
+		px = x1;
+		width = x2 - x1;
+	}
+
+	printf ("%d,%d,%d,%d\n", px, py, width, height);
 	gdk_draw_rectangle (
 		ctx->drawable, ctx->graph_view->fill_gc, TRUE,
-		x1, y1, x2-x1, y2-y1);
-		
+		px, py, width, height);
+	
 	gdk_draw_rectangle (
 		ctx->drawable, ctx->graph_view->outline_gc, FALSE,
-		x1, y1, x2-x1, y2-y1);
+		px, py, width, height);
 }
 
 static void
 setup_gc (ColbarDrawCtx *ctx, int series, int item)
 {
-	
+	gdk_gc_set_foreground (ctx->graph_view->fill_gc,
+			       &ctx->graph_view->palette [series % ctx->graph_view->n_palette]);
 }
 	      
 static void
 graph_view_colbar_draw_nth_clustered (ColbarDrawCtx *ctx, int item)
 {
 	const int n_series = ctx->graph->layout->n_series;
-	const int item_base = item * ctx->units_per_slot;
-	const int col_width = ctx->units_per_slot / n_series;
+	const int item_base = item * ctx->units_per_slot + ctx->margin;
+	const int col_width = (ctx->units_per_slot - (ctx->margin * 2)) / n_series;
 	int i;
 
 	for (i = 0; i < n_series; i++){
 		GraphVector *vector = ctx->graph->layout->vectors [i];
 
 		setup_gc (ctx, i, item);
-		
-		printf ("item,i=%d, %d, %g\n", item, i, graph_vector_get_double (vector, item));
+
 		column_draw (
 			ctx, item,
-			item_base + i * col_width, 0,
-			item_base + (i + 1) * col_width, 
+			item_base + i * col_width,
+			colbar_map_point (ctx, 0.0),
+			item_base + (i + 1) * col_width - ctx->inter_item_margin, 
 			colbar_map_point (
 				ctx,
 				graph_vector_get_double (vector, item)));
@@ -96,19 +120,23 @@ graph_view_colbar_draw_nth_stacked (ColbarDrawCtx *ctx, int item)
 		double v;
 		
 		v = graph_vector_get_double (vector, item);
+		setup_gc (ctx, i, item);
+		
 		if (v >= 0){
 			column_draw (
 				ctx, i,
-				item_base, last_pos,
-				item_base + ctx->units_per_slot - 1,
-				last_pos + v);
+				item_base + ctx->margin,
+				colbar_map_point (ctx, last_pos),
+				item_base + (ctx->units_per_slot - ctx->margin),
+				colbar_map_point (ctx, last_pos + v));
 			last_pos += v;
 		} else {
 			column_draw (
 				ctx, i,
-				item_base, last_neg,
-				item_base + ctx->units_per_slot - 1,
-				last_neg + v);
+				item_base + ctx->margin,
+				colbar_map_point (ctx, last_neg),
+				item_base + (ctx->units_per_slot - ctx->margin),
+				colbar_map_point (ctx, last_neg + v));
 			last_neg += v;
 		}
 	}
@@ -139,6 +167,8 @@ graph_view_colbar_draw_nth_stacked_full (ColbarDrawCtx *ctx, int item)
 	}
 
 	for (i = 0; i < n_series; i++){
+		setup_gc (ctx, i, item);
+
 		if (values [i] >= 0){
 			double v;
 			
@@ -149,9 +179,10 @@ graph_view_colbar_draw_nth_stacked_full (ColbarDrawCtx *ctx, int item)
 			
 			column_draw (
 				ctx, i,
-				item_base, last_pos,
-				item_base + ctx->units_per_slot - 1,
-				last_pos + v);
+				item_base,
+				colbar_map_point (ctx, last_pos),
+				item_base + (ctx->units_per_slot - ctx->margin),
+				colbar_map_point (ctx, last_pos + v));
 			last_pos += v;
 		} else {
 			double v;
@@ -163,9 +194,10 @@ graph_view_colbar_draw_nth_stacked_full (ColbarDrawCtx *ctx, int item)
 			
 			column_draw (
 				ctx, i,
-				item_base, last_neg,
-				item_base + ctx->units_per_slot - 1,
-				last_neg + v);
+				item_base,
+				colbar_map_point (ctx, last_neg),
+				item_base + (ctx->units_per_slot - ctx->margin),
+				colbar_map_point (ctx, last_neg + v));
 			last_neg += v;
 		}			
 	}
@@ -211,24 +243,25 @@ graph_view_colbar_draw (GraphView *graph_view, GdkDrawable *drawable, int x, int
 	ctx.graph = graph_view->graph;
 	ctx.yl = graph_view->bbox.y1 - graph_view->bbox.y0;
 	ctx.xl = graph_view->bbox.x1 - graph_view->bbox.x0;
-	ctx.size = fabs (ctx.graph->low) + fabs (ctx.graph->high);
 
 	if (graph_view->graph->direction == GNOME_Graph_DIR_BAR){
 		ctx.units_per_slot = ctx.yl / graph_view->graph->divisions;
 		first = y / ctx.units_per_slot;
 		last = (y + width) / ctx.units_per_slot;
-		ctx.scale = ctx.xl / ctx.size;
+		ctx.scale = ctx.xl / ctx.graph->y_size;
 	} else {
 		ctx.units_per_slot = ctx.xl / graph_view->graph->divisions;
 		first = x / ctx.units_per_slot;
 		last = (x + width) / ctx.units_per_slot;
-		ctx.scale = ctx.yl / ctx.size;
+		ctx.scale = ctx.yl / ctx.graph->y_size;
 	}
-
+	
 	if (ctx.units_per_slot == 0)
 		return;
 
-	printf ("Plotting: %d %d, units_per_slot=%g\n", first, last, ctx.units_per_slot);
+	ctx.margin = ctx.units_per_slot / 20;
+	ctx.inter_item_margin = 0;
+		
 	for (i = first; i <= last; i++)
 		graph_view_colbar_draw_nth (&ctx, i);
 }

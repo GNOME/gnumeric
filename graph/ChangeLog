@@ -1,3 +1,30 @@
+1999-11-07  Miguel de Icaza  <miguel@gnu.org>
+
+	* graph-view-scatter.c: Wrote most of this file.
+
+	* graph.c (graph_compute_stacked_dimensions): Initialize len here.
+
+	* graph-view-colbar.c (column_draw): Add support for plotting
+	columns and bars.
+	Fixed the drawing order.
+	(setup_gc): Picks a color for now, we need to make this consult
+	the properties.
+	(graph_view_colbar_draw_nth_clustered): Fix for negatives.
+
+	* layout-view.c (layout_view_new): Use graph_bind_view here.
+
+	* graph-view.c (graph_view_alloc_colors): Allocate a bunch of
+	colors. 
+
+	* graph-view-colbar.c (setup_gc): Assign a color to plot with.
+
+	* vector.c (vector_new): Store the user data.
+
+	* vector.h, vector.c: All callback functions now receive a
+	Vector * argument.
+
+	
+
 1999-10-22  Miguel de Icaza  <miguel@gnu.org>
 
 	* Makefile.am ($(GRAPH_CORBA_GENERATED)): Do not use BUILT_SOURCES

@@ -81,7 +81,8 @@ main (int argc, char **argv)
 	layout_factory_init ();
 
 	bonobo_activate ();
-	
+
+	printf ("Graph component is active\n");
 	gtk_main ();
 
 	return 0;

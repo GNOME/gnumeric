@@ -4,7 +4,7 @@
  * Author:
  *   Miguel de Icaza (miguel@kernel.org)
  *
- * (C) 1999 International GNOME Support
+ * (C) 1999 International GNOME Support (http://www.gnome-support.com)
  */
 #include <config.h>
 #include <gtk/gtksignal.h>
@@ -63,10 +63,23 @@ graph_set_low_high (Graph *graph, double low, double high)
 	graph->high = high;
 	graph->real_low = low;
 	graph->real_high = high;
+
+	graph->y_size = graph->high - graph->low;
 }
 
 static void
-graph_compute_dimensions (Graph *graph)
+graph_set_scatter_x_low_high (Graph *graph, double low, double high)
+{
+	graph->x_low = low;
+	graph->x_high = high;
+	graph->x_real_low = low;
+	graph->x_real_high = high;
+
+	graph->x_size = graph->x_high - graph->x_low;
+}
+
+static void
+graph_compute_dimensions (Graph *graph, int start_series)
 {
 	const int n = graph->layout->n_series;
 	double low = 0.0, high = 0.0;
@@ -74,7 +87,7 @@ graph_compute_dimensions (Graph *graph)
 
 	graph_compute_divisions (graph);
 	
-	for (i = 0; i < n; i++){
+	for (i = start_series; i < n; i++){
 		double l, h;
 		
 		graph_vector_low_high (graph->layout->vectors [i], &l, &h);
@@ -90,11 +103,13 @@ static void
 graph_compute_stacked_dimensions (Graph *graph)
 {
 	const int n = graph->layout->n_series;
-	int len = 0, x;
+	int len, x;
 	double high, low;
 
 	graph_compute_divisions (graph);
 	high = low = 0.0;
+
+	len = graph->divisions;
 	
 	for (x = 0; x < len; x++){
 		double s_high;
@@ -121,12 +136,45 @@ graph_compute_stacked_dimensions (Graph *graph)
 	graph_set_low_high (graph, low, high);
 }
 
+static void
+graph_compute_scatter_dimensions (Graph *graph)
+{
+	GraphVector *x_vector;
+	double vmin = 0.0, vmax = 0.0;
+	gboolean boundaries_set;
+	int count, xi;
+	
+	x_vector = graph->layout->vectors [0];
+	g_assert (x_vector != NULL);
+	
+	count = graph_vector_count (x_vector);
+	boundaries_set = FALSE;
+	for (xi = 0; xi < count; xi++){
+		double val;
+		
+		val = graph_vector_get_double (x_vector, xi);
+
+		if (!boundaries_set){
+			boundaries_set = TRUE;
+			vmin = val;
+			vmax = val;
+			continue;
+		}
+		
+		if (val < vmin)
+			vmin = val;
+		if (val > vmax)
+			vmax = val;
+	}
+	graph_set_scatter_x_low_high (graph, vmin, vmax);
+}
+
 void
 graph_update_dimensions (Graph *graph)
 {
 	switch (graph->chart_type){
 	case GNOME_Graph_CHART_TYPE_CLUSTERED:
-		graph_compute_dimensions (graph);
+		graph_compute_dimensions (graph, 0);
 		break;
 		
 	case GNOME_Graph_CHART_TYPE_STACKED:
@@ -137,6 +185,11 @@ graph_update_dimensions (Graph *graph)
 		graph_compute_stacked_dimensions (graph);
 		break;
 
+	case GNOME_Graph_CHART_TYPE_SCATTER:
+		graph_compute_scatter_dimensions (graph);
+		graph_compute_dimensions (graph, 1);
+		break;
+		
 	default:
 		break;
 	}
@@ -460,13 +513,42 @@ graph_bind_view (Graph *graph, GraphView *graph_view)
 			    GTK_SIGNAL_FUNC (graph_view_destroyed), graph);
 }
 
+GNOME_Graph_Chart
+graph_corba_object_create (GnomeObject *object)
+{
+	POA_GNOME_Graph_Chart *servant;
+	CORBA_Environment ev;
+	
+	servant = (POA_GNOME_Graph_Chart *) g_new0 (GnomeObjectServant, 1);
+	servant->vepv = &graph_vepv;
+
+	CORBA_exception_init (&ev);
+	POA_GNOME_Graph_Chart__init ((PortableServer_Servant) servant, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION){
+		g_free (servant);
+		CORBA_exception_free (&ev);
+		return CORBA_OBJECT_NIL;
+	}
+
+	CORBA_exception_free (&ev);
+	return (GNOME_View) gnome_object_activate_servant (object, servant);
+}
+
 Graph *
 graph_new (Layout *layout)
 {
 	Graph *graph;
-
+	GNOME_Graph_Chart graph_corba;
+		
 	graph = gtk_type_new (graph_get_type ());
 
+	graph_corba = graph_corba_object_create (GNOME_OBJECT (graph));
+	if (graph_corba == CORBA_OBJECT_NIL){
+		gtk_object_destroy (GTK_OBJECT (graph));
+		return NULL;
+	}
+	gnome_object_construct (GNOME_OBJECT (graph), graph_corba);
+	
 	graph->layout = layout;
 
 	return graph;
