@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Date: 1998-07-13 22:25:48-0500\n"
+"Date: 1998-07-14 12:30:20-0500\n"
 "From: Federico Mena Quintero,Pregonero # 53,(525)-643-6634,(525)-643-6634, <federico@casiopea.quartic.org>\n"
 "Content-Type: text/plain; charset=\n"
 "Xgettext-Options: --default-domain=gnumeric --directory=.. --add-comments --keyword=_ --keyword=N_ --files-from=./POTFILES.in\n"
@@ -154,10 +154,10 @@ msgstr ""
 msgid "December"
 msgstr ""
 
-#: src/workbook.c:17
+#: src/workbook.c:18
 msgid "Exit"
 msgstr ""
 
-#: src/workbook.c:23
+#: src/workbook.c:24
 msgid "File"
 msgstr ""

@@ -61,9 +61,10 @@ gnumeric_sheet_cursor_set (GnumericSheet *sheet, int col, int row)
 void
 gnumeric_sheet_accept_pending_output (GnumericSheet *sheet)
 {
+	Cell *cell;
+
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (GNUMERIC_IS_SHEET (sheet));
-	Cell *cell;
 	
 	cell = sheet_cell_new_with_text (
 		sheet->sheet, sheet->cursor_col, sheet->cursor_row,
@@ -125,8 +126,7 @@ start_editing_at_cursor (GnumericSheet *sheet, GtkWidget *entry)
 	GnomeCanvasItem *item;
 	GnomeCanvas *canvas = GNOME_CANVAS (sheet);
 
-	item = gnome_canvas_item_new (canvas,
-				      GNOME_CANVAS_GROUP(canvas->root),
+	item = gnome_canvas_item_new (GNOME_CANVAS_GROUP(canvas->root),
 				      item_edit_get_type (),
 				      "ItemEdit::Sheet",    sheet->sheet,
 				      "ItemEdit::Grid",     sheet->item_grid,
@@ -296,14 +296,14 @@ gnumeric_sheet_new (Sheet *sheet)
 	gsheet_group = GNOME_CANVAS_GROUP (gsheet_canvas->root);
 	
 	/* The grid */
-	item = gnome_canvas_item_new (gsheet_canvas, gsheet_group,
+	item = gnome_canvas_item_new (gsheet_group,
 				      item_grid_get_type (),
 				      "ItemGrid::Sheet", sheet,
 				      NULL);
 	gsheet->item_grid = ITEM_GRID (item);
 
 	/* The cursor */
-	item = gnome_canvas_item_new (gsheet_canvas, gsheet_group,
+	item = gnome_canvas_item_new (gsheet_group,
 				      item_cursor_get_type (),
 				      "ItemCursor::Sheet", sheet,
 				      "ItemCursor::Grid", gsheet->item_grid,

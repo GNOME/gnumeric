@@ -86,7 +86,7 @@ new_canvas_bar (Sheet *sheet, GtkOrientation o, GnomeCanvasItem **itemp)
 	}
 	gnome_canvas_set_size (GNOME_CANVAS (canvas), w, h);
 	group = GNOME_CANVAS_GROUP (GNOME_CANVAS (canvas)->root);
-	item = gnome_canvas_item_new (GNOME_CANVAS (canvas), group,
+	item = gnome_canvas_item_new (group,
 				      item_bar_get_type (),
 				      "ItemBar::Sheet", sheet,
 				      "ItemBar::Orientation", o,

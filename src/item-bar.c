@@ -286,8 +286,7 @@ item_bar_start_resize (ItemBar *item_bar, int pos)
 
 	printf ("THIS SHOULD BE ADDING THE LINE!\n");
 	/* Add a guideline to the sheet canvas */
-	item = gnome_canvas_item_new (GNOME_CANVAS_ITEM (item_bar)->canvas,
-				      group,
+	item = gnome_canvas_item_new (group,
 				      gnome_canvas_rect_get_type (),
 				      "GnomeCanvasRE::x1", x1,
 				      "GnomeCanvasRE::y1", y1,

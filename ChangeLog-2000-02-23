@@ -1,3 +1,8 @@
+1998-07-19  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* src/gnumeric-sheet.c src/item-bar.c src/sheet.c: Removed the
+	canvas parameter from calls to gnome_canvas_item_new().
+
 1998-07-18  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* src/Makefile.am (noinst_PROGRAMS): Don't bother installing
