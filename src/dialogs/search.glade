@@ -25,7 +25,7 @@
             <property name="visible">yes</property>
 
             <child>
-              <widget class="GtkButton" id="helpbutton">
+              <widget class="GtkButton" id="help_button">
                 <property name="can_default">yes</property>
                 <property name="can_focus">yes</property>
                 <property name="visible">yes</property>

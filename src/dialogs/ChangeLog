@@ -1,3 +1,8 @@
+2002-03-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-search.c : hook-up help button
+	* search.glade : ditto
+
 2002-03-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dao-gui-utils.c (focus_on_entry) : The second widget is

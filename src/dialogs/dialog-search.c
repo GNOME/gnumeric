@@ -522,6 +522,11 @@ dialog_search (WorkbookControlGUI *wbcg)
 		"focus-in-event",
 		G_CALLBACK (range_focused), dd);
 
+/* FIXME: Add correct helpfile address */
+	gnumeric_init_help_button (
+		glade_xml_get_widget (gui, "help_button"),
+		"search.html");
+
 	cursor_change (dd->e_table, 0, dd);
 	wbcg_edit_attach_guru (wbcg, GTK_WIDGET (dialog));
 	non_model_dialog (wbcg, dialog, SEARCH_KEY);
