@@ -9,6 +9,7 @@
 #include <config.h>
 #include "gnumeric-type-util.h"
 #include "commands.h"
+#include "clipboard.h"
 #include "cell.h"
 #include "workbook-view.h"
 #include "parse-util.h"
@@ -25,18 +26,21 @@ sort_clause_destroy (SortClause *clause)
 	g_free (clause);
 }
 
+/* Data stuff */
+void
+sort_data_destroy (SortData *data)
+{
+	sort_clause_destroy (data->clauses);
+	g_free (data->range);
+	g_free (data);
+}
+
 /* The routines to do the sorting */
 static int
-sort_compare_values (const SortData * ain,
-		     const SortData * bin,
-		     int clause)
+sort_compare_cells (const Cell *ca, const Cell *cb, SortClause *clause)
 {
-	Cell  *ca, *cb;
 	Value *a,  *b;
 	int ans = 0, fans = 0;
-
-	ca = ain->cells [ain->clauses [clause].offset];
-	cb = bin->cells [bin->clauses [clause].offset];
 
 	if (!ca)
 		a = value_new_int (0);
@@ -47,7 +51,7 @@ sort_compare_values (const SortData * ain,
 	else
 		b = cb->value;
 
-	if (ain->clauses[clause].val) {
+	if (clause->val) {
 		switch (a->type) {
 		case VALUE_EMPTY:
 		case VALUE_BOOLEAN:
@@ -87,7 +91,7 @@ sort_compare_values (const SortData * ain,
 					char *sa, *sb;
 					sa  = value_get_as_string (a);
 					sb  = value_get_as_string (b);
-					if (ain->clauses [clause].cs)
+					if (clause->cs)
 						ans = strcmp (sa, sb);
 					else
 						ans = g_strcasecmp (sa, sb);
@@ -110,7 +114,7 @@ sort_compare_values (const SortData * ain,
 		else
 			sb = g_strdup ("0");
 
-		if (ain->clauses [clause].cs)
+		if (clause->cs)
 			ans = strcmp (sa, sb);
 		else
 			ans = g_strcasecmp (sa, sb);
@@ -119,14 +123,11 @@ sort_compare_values (const SortData * ain,
 	}
 
 	if (ans == 0)
-		if (clause < ain->num_clause - 1)
-			fans = sort_compare_values(ain, bin, ++clause);
-		else
-			fans = ans;
+		fans = ans;
 	else if (ans < 0)
-		fans = ain->clauses [clause].asc ?  1 : -1;
+		fans = clause->asc ?  1 : -1;
 	else
-		fans = ain->clauses [clause].asc ? -1 :  1;
+		fans = clause->asc ? -1 :  1;
 
 	if (!ca)
 		value_release (a);
@@ -137,101 +138,249 @@ sort_compare_values (const SortData * ain,
 }
 
 static int
-sort_compare_values2 (const SortData * ain, const SortData * bin) {
-	if (ain->pos < bin->pos)
-		return -1;
-	else if (ain->pos > bin->pos)
-		return 1;
-	else
-		return 0;
-}
-
-static int
-sort_qsort_func (const void *a, const void *b)
+sort_compare_sets (SortData *data, int indexa, int indexb)
 {
-	return sort_compare_values (a, b, 0);
-}
+	Cell *ca, *cb;
+	int clause = 0;
 
-static int
-sort_qsort_func2 (const void *a, const void *b)
-{
-	return sort_compare_values2 (a, b);
+	while (clause < data->num_clause) {
+		int result = 0;
+		int offset = data->clauses[clause].offset;
+
+		if (data->top) {
+			ca = sheet_cell_get (data->sheet, 
+					     data->range->start.col + offset,
+					     data->range->start.row + indexa);
+			cb = sheet_cell_get (data->sheet, 
+					     data->range->start.col + offset,
+					     data->range->start.row + indexb);
+		} else {
+			ca = sheet_cell_get (data->sheet, 
+					     data->range->start.col + indexa,
+					     data->range->start.row + offset);
+			cb = sheet_cell_get (data->sheet, 
+					     data->range->start.col + indexb,
+					     data->range->start.row + offset);
+		}
+		
+		result = sort_compare_cells (ca, cb, &(data->clauses[clause]));
+		if (result) {
+			return result;
+		}
+		clause++;	
+	}
+
+	return 0;
 }
 
 static void
-sort_range (Sheet *sheet, Range *range,
-	    SortData *data, gboolean columns, void *func)
+sort_swap (int *perm, int indexa, int indexb)
+{	
+	int tmp = perm[indexa];
+	
+	perm[indexa] = perm[indexb];
+	perm[indexb] = tmp;
+}
+
+static void
+sort_qsort (SortData *data, int *perm, int l, int r) 
 {
-	Cell *cell;
-	int lp, length, divisions, lp2;
-	int start_row, end_row, start_col, end_col;
+	int pivot, i, j;
+	
+	if (l < r) {
+		i = l;
+		j = r + 1;
+		pivot = l;
+		
+		while (i < j) {
+			i++;
+			
+			while (i <= r) {	
+			       if (sort_compare_sets (data, perm[i], 
+						      perm[pivot]) == -1) {
+				       i++;
+			       } else {
+				       break;
+			       }	
+			}
 
-	start_row = range->start.row;
-	start_col = range->start.col;
-	end_row = range->end.row;
-	end_col = range->end.col;
+			j--;
 
-	if (columns) {
-		length    = end_row - start_row + 1;
-		divisions = end_col - start_col + 1;
-	} else {
-		length    = end_col - start_col + 1;
-		divisions = end_row - start_row + 1;
-	}
-
-	for (lp = 0; lp < length; lp++) {
-		data [lp].cells = g_new (Cell *, divisions);
-
-		for (lp2 = 0; lp2 < divisions; lp2++) {
-			Cell *cell;
-			if (columns)
-				cell = sheet_cell_get (sheet,
-						       start_col + lp2,
-						       start_row + lp);
-			else
-				cell = sheet_cell_get (sheet,
-						       start_col + lp,
-						       start_row + lp2);
-			data [lp].cells[lp2] = cell;
-			if (cell)
-				sheet_cell_remove_simple (sheet, cell);
-		}
-	}
-	sheet_redraw_cell_region (sheet, start_col, start_row,
-				  end_col, end_row);
-
-	qsort (data, length, sizeof(SortData), func);
-
-	for (lp = 0; lp < length; lp++) {
-		for (lp2 = 0; lp2 < divisions; lp2++) {
-			cell = data [lp].cells [lp2];
-			if (cell) {
-				if (columns)
-					sheet_cell_insert (sheet,
-							   cell,
-							   start_col+lp2,
-							   start_row+lp);
-				else
-					sheet_cell_insert (sheet,
-							   cell,
-							   start_col+lp,
-							   start_row+lp2);
+			while (j >= l) {
+				if (sort_compare_sets (data, perm[j], 
+						       perm[pivot]) == 1) {
+					j--;
+				} else {
+					break;
+				}
+			}
+			
+			if (i <= r) {
+				sort_swap (perm, i, j);
+				
 			}
 		}
-		g_free (data [lp].cells);
+		if (i <= r) {
+			sort_swap (perm, i, j);
+		}
+		
+		sort_swap (perm, l, j);
+		
+		sort_qsort (data, perm, l, j-1);
+		sort_qsort (data, perm, j+1, r);
 	}
 }
 
-void
-sort_position (Sheet *sheet, Range *range,
-	       SortData *data, gboolean columns)
+static int
+sort_permute_find (int num, int *perm, int length)
 {
-	sort_range (sheet, range, data, columns, sort_qsort_func2);
+	int i;
+
+	for (i=0; i < length; i++) {
+		if (perm[i] == num) {
+			return i;
+		}	
+	}	
+
+	return -1;
+}
+
+static void
+sort_permute_set (int num, guint8 *array)
+{
+
+	array[num/8] = array[num/8] | (1 << (num % 8));
+}
+
+static gboolean
+sort_permute_is_set (int num, guint8 *array)
+{
+
+	if (array[num/8] & (1 << (num % 8))) {
+			return TRUE;
+	}
+	
+	return FALSE;
+}
+
+static int
+sort_permute_next (guint8 *array, int *perm, int length)
+{
+	int i = 0;
+	
+	while (i < length) {
+		if (perm[i] != i) {
+			if (!sort_permute_is_set (i, array)) {
+				return i;
+			}
+		}		
+		i++;
+	}
+
+	return -1;	
+}
+
+static void
+sort_permute_range (SortData *data, Range *range, int adj)
+{
+	if (data->top) { 
+		range->start.row = data->range->start.row + adj;
+		range->start.col = data->range->start.col;
+		range->end.row = range->start.row;
+		range->end.col = data->range->end.col;
+	} else {
+		range->start.row = data->range->start.row;
+		range->start.col = data->range->start.col + adj;
+		range->end.row = data->range->end.row;
+		range->end.col = range->start.col;
+	}
+}
+
+static void
+sort_permute (CommandContext *context, SortData *data, int *perm)
+{
+	guint8 *array;
+	CellRegion *rcopy, *rpaste;
+	PasteTarget pt;
+	Range range;
+	int next, length;		
+
+	if (data->top) {
+		length = data->range->end.row - data->range->start.row + 1;
+	} else {
+		length = data->range->end.col - data->range->start.col + 1;
+	}
+
+	array = (guint8 *) g_malloc0 (length / 8 + 1);
+	next = sort_permute_next (array, perm, length);
+	
+	if (next == -1) {
+		return;
+	}
+	
+	sort_permute_range (data, &range, perm[next]);
+	rpaste = clipboard_copy_range (data->sheet, &range);
+	
+	while (next != -1) {
+		sort_permute_range (data, &range, next);
+		rcopy = clipboard_copy_range (data->sheet, &range);
+
+		pt.sheet = data->sheet;
+		pt.range = range;
+		pt.paste_flags = PASTE_FORMATS | PASTE_FORMULAS
+			| PASTE_EXPR_RELOCATE;
+
+		clipboard_paste_region (context, &pt, rpaste);
+		clipboard_release (rpaste);
+		rpaste = rcopy;
+		rcopy = NULL;
+
+		sort_permute_set (next, array);
+		
+		next = sort_permute_find (next, perm, length);	
+		if (sort_permute_is_set (next, array)) {
+			next = sort_permute_next (array, perm, length);
+			sort_permute_range (data, &range, perm[next]);
+
+			clipboard_release (rpaste);
+			rpaste = clipboard_copy_range (data->sheet, &range);
+		}
+	}
+	clipboard_release (rpaste);
 }
 
 void
-sort_contents (Sheet *sheet, Range *range,
-	       SortData *data, gboolean columns)
+sort_position (CommandContext *context, SortData *data, int *perm)
 {
-	sort_range (sheet, range, data, columns, sort_qsort_func);
+	sort_permute (context, data, perm);
 }
+
+int *
+sort_contents (CommandContext *context, SortData *data)
+{
+	int *perm;
+	int length, i;
+
+	if (data->top) {
+		length = data->range->end.row - data->range->start.row + 1;
+	} else {
+		length = data->range->end.col - data->range->start.col + 1;
+	}
+	
+	perm = g_new (int, length);
+	for (i = 0; i < length; i++) {
+		perm[i] = i;
+	}
+
+	sort_qsort (data, perm, 0, length - 1);
+	sort_permute (context, data, perm);
+	
+	return perm;
+}
+
+
+
+
+
+
+

@@ -1,3 +1,12 @@
+2000-06-06  JP Rosevear  <jpr@arcavia.com>
+
+	* cell-sort.glade: GUI tidying
+
+	* dialog-cell-sort.c (dialog_cell_sort_ok): Reflect sorting changes
+	(dialog_cell_sort_del_clause): ditto
+	(dialog_cell_sort_header_toggled): ditto
+	(dialog_cell_sort): ditto
+	
 2000-06-04  Miguel de Icaza  <miguel@helixcode.com>
 
 	* dialog-function-wizard.c (dialog_function_druid): Use

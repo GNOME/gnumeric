@@ -12,18 +12,18 @@ typedef struct {
 } SortClause;
 
 typedef struct {
-	Cell       **cells;
-	SortClause *clauses;
+	Sheet      *sheet;
+	Range      *range;
 	int         num_clause;
-	int         pos;
+	SortClause *clauses;
+	gboolean    top;
 } SortData;
 
 void        sort_clause_destroy (SortClause *clause);
+void        sort_data_destroy (SortData *data);
 
-void        sort_position (Sheet *sheet, Range *range,
-			   SortData *data, gboolean columns);
+void        sort_position (CommandContext *context, SortData *data, int *perm);
 
-void        sort_contents (Sheet *sheet, Range *range,
-			   SortData *data, gboolean columns);
+int         *sort_contents (CommandContext *context, SortData *data);
 
 #endif /* SORT_H */

@@ -1501,14 +1501,9 @@ typedef struct
 {
 	GnumericCommand parent;
 
-	Sheet      *sheet;
-	Range      *range;
-
 	SortData   *data;
-	SortClause *clauses;
-	gint       num_clause;
-	
-	gboolean   columns;
+	int        *perm;
+	int        *inv;
 } CmdSort;
 
 GNUMERIC_MAKE_COMMAND (CmdSort, cmd_sort);
@@ -1518,15 +1513,7 @@ cmd_sort_destroy (GtkObject *cmd)
 {
 	CmdSort *me = CMD_SORT (cmd);
 
-	sort_clause_destroy (me->clauses);
-	if (me->data) {
-		g_free (me->data);
-		me->data = NULL;
-	}
-	if (me->range) {
-		g_free (me->range);
-		me->range = NULL;
-	}
+	sort_data_destroy (me->data);
 		
 	gnumeric_command_destroy (cmd);
 }
@@ -1535,14 +1522,31 @@ static gboolean
 cmd_sort_undo (GnumericCommand *cmd, CommandContext *context)
 {
 	CmdSort *me = CMD_SORT (cmd);
-
+	int length, i;
+	int *inv;
+	
 	g_return_val_if_fail (me != NULL, TRUE);
 
-	sort_position (me->sheet, me->range, me->data, me->columns);
+	if (!me->inv) {
+		if (me->data->top) {
+			length = me->data->range->end.row - 
+				me->data->range->start.row + 1;
+		} else {
+			length = me->data->range->end.col - 
+				me->data->range->start.col + 1;
+		}
 
-	sheet_set_dirty (me->sheet, TRUE);
-	workbook_recalc (me->sheet->workbook);
-	sheet_update (me->sheet);
+		me->inv = g_new (int, length);
+		for (i=0; i <length; i++) {
+			me->inv[me->perm[i]] = i;
+		}
+	}
+	
+	sort_position (context, me->data, me->inv);
+
+	sheet_set_dirty (me->data->sheet, TRUE);
+	workbook_recalc (me->data->sheet->workbook);
+	sheet_update (me->data->sheet);
 
 	return FALSE;
 }
@@ -1554,56 +1558,39 @@ cmd_sort_redo (GnumericCommand *cmd, CommandContext *context)
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
-	sort_contents (me->sheet, me->range, me->data, me->columns);
+	if (!me->perm) {
+		me->perm = sort_contents (context, me->data);
+	} else {
+		sort_position (context, me->data, me->perm);
+	}
 
-	sheet_set_dirty (me->sheet, TRUE);
-	workbook_recalc (me->sheet->workbook);
-	sheet_update (me->sheet);
+	sheet_set_dirty (me->data->sheet, TRUE);
+	workbook_recalc (me->data->sheet->workbook);
+	sheet_update (me->data->sheet);
 
 	return FALSE;
 }
 
 gboolean
-cmd_sort (CommandContext *context, Sheet *sheet,
-	  Range *range, SortClause *clauses,
-	  gint num_clause, gboolean columns)
+cmd_sort (CommandContext *context, SortData *data)
 {
 	GtkObject *obj;
 	CmdSort *me;
-	int length, lp;
 	
-	g_return_val_if_fail (sheet != NULL, TRUE);
+	g_return_val_if_fail (data != NULL, TRUE);
 
 	obj = gtk_type_new (CMD_SORT_TYPE);
 	me = CMD_SORT (obj);
-	
-	me->sheet = sheet;
-	me->range = range;
-	me->clauses = clauses;
-	me->num_clause = num_clause;
-	me->columns = columns;
-	
-	if (columns)
-		length = me->range->end.row - me->range->start.row + 1;
-	else
-		length = me->range->end.col - me->range->start.col + 1;
-		
-	me->data = g_new (SortData, length);
-	
-	for (lp = 0; lp < length; lp++) {
-		me->data [lp].clauses = me->clauses;
-		me->data [lp].num_clause = me->num_clause;
-		if (me->columns)
-			me->data [lp].pos = me->range->start.row + lp;
-		else
-			me->data [lp].pos = me->range->start.col + lp;
-	}
-	
+
+	me->data = data;
+	me->perm = NULL;
+	me->inv = NULL;
+
 	me->parent.cmd_descriptor =
-		g_strdup_printf (_("Sorting %s"), range_name(me->range));
+		g_strdup_printf (_("Sorting %s"), range_name(me->data->range));
 
 	/* Register the command object */
-	return command_push_undo (context, sheet->workbook, obj);
+	return command_push_undo (context, me->data->sheet->workbook, obj);
 }
 
 /******************************************************************/

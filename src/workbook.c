@@ -1029,6 +1029,7 @@ sort_cmd (Workbook *wb, int asc)
 {
 	Sheet *sheet;
 	Range *sel;
+	SortData *data;
 	SortClause *clause;
 	int numclause, i;
 
@@ -1051,12 +1052,17 @@ sort_cmd (Workbook *wb, int asc)
 		clause[i].offset = i;
 		clause[i].asc = asc;
 		clause[i].cs = FALSE;
-		/* FIXME : Why sort as strings ? */
-		clause[i].val = FALSE;
+		clause[i].val = TRUE;
 	}
 
-	cmd_sort ( workbook_command_context_gui (wb),
-		   sheet, sel, clause, numclause, TRUE);
+	data = g_new (SortData, 1);
+	data->sheet = sheet;
+	data->range = sel;
+	data->num_clause = numclause;
+	data->clauses = clause;
+	data->top = TRUE;
+	
+	cmd_sort (workbook_command_context_gui (wb), data);	
 }
 
 static void

@@ -1,3 +1,31 @@
+2000-06-06  JP Rosevear  <jpr@arcavia.com>
+
+	* src/sort.c (sort_position): Call sort_permute with the given
+	permutation index
+	(sort_contents): Call sort_qsort to get a permutation index and
+	then use sort_permute to actually move the rows
+	(sort_permute): Use copy and paste to move rows/cols around
+	(sort_permute_next): Find next row/col the hasn't been set based
+	on the permutation array
+	(sort_permute_is_set): Find if a a bit in a bit array is set
+	(sort_permute_set): Set a bit in a bit array
+	(sort_permute_find): Find a given number in a permutation array
+	(sort_qsort): Produce a permutation index for sorting rows or cols 
+	(sort_swap): Swap two entries in the permutation index
+	(sort_compare_sets): Compare two sets of cells
+	(sort_compare_cells): Compare two cells
+	(sort_data_destroy): Destroy SortData struct
+
+	* src/commands.c (cmd_sort): Store the new sort data structure
+	(cmd_sort_redo): Call sort_contents only if a permutation index
+	does not already exist, otherwise use the index with sort_postion
+	(cmd_sort_undo): Create an inverse of the permutation index
+	if it doesn't already exit to call sort_positon with
+
+	* src/commands.h: New cmd_sort prototype.
+
+	* src/workbook.c (sort_cmd): Reflecting sorting API changes
+
 2000-06-05  Jody Goldberg <jgoldberg@home.com>
 
 	* src/cell.c (cell_relocate) : when relocating the expression

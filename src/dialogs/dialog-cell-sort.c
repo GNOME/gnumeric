@@ -41,8 +41,8 @@ typedef struct {
 	int        asc;
 	GtkWidget *asc_desc;
 	GSList    *group;
-	gboolean cs;
-	gboolean val;
+	gboolean   cs;
+	gboolean   val;
 	GtkWidget *adv_button;
 	Workbook  *wb;
 } OrderBox;
@@ -58,7 +58,7 @@ typedef struct {
 	GtkWidget *dialog;
 	GtkWidget *clause_box;
 	gboolean   header;
-	gboolean   columns;
+	gboolean   top;
 	GList     *colnames_plain;
 	GList     *colnames_header;
 	GList     *rownames_plain;
@@ -300,11 +300,12 @@ order_box_destroy (OrderBox *orderbox)
 static gboolean
 dialog_cell_sort_ok (SortFlow *sf)
 {
+	SortData *data;
 	SortClause *array;
 	gint divstart, divend;
 	int lp;
 
-	if (sf->columns) {
+	if (sf->top) {
 		divstart = sf->sel->start.col;
 		divend = sf->sel->end.col;
 	} else {
@@ -320,7 +321,7 @@ dialog_cell_sort_ok (SortFlow *sf)
 		order_box_get_clause (sf->clauses [lp], &array [lp]);
 		if (strlen (txt)) {
 			division = -1;
-			if (sf->columns) {
+			if (sf->top) {
 				if (sf->header) {
 					division = divstart + string_pos_in_list(txt, sf->colnames_header);
 				} else {
@@ -336,14 +337,14 @@ dialog_cell_sort_ok (SortFlow *sf)
 			if (division < divstart || division > divend) {
 				gnumeric_notice (sf->wb,
 						 GNOME_MESSAGE_BOX_ERROR,
-						 sf->columns ?
+						 sf->top ?
 						 _("Column must be within range") :						_("Row must be within range"));
 				return TRUE;
 			}
 			array [lp].offset = division - divstart;
 		} else if (lp <= 0) {
 			gnumeric_notice (sf->wb, GNOME_MESSAGE_BOX_ERROR,
-					 sf->columns ?
+					 sf->top ?
 					 _("First column must be valid") :
 					 _("First row must be valid"));
 			return TRUE;
@@ -352,13 +353,21 @@ dialog_cell_sort_ok (SortFlow *sf)
 	}
 
 	if (sf->header) {
-		if (sf->columns)
+		if (sf->top)
 			sf->sel->start.row += 1;
 		else
 			sf->sel->start.col += 1;
 	}
-	cmd_sort (NULL, sf->sheet, sf->sel, array,
-		  sf->num_clause, sf->columns);
+
+	data = g_new (SortData, 1);
+	data->sheet = sf->sheet;
+	data->range = sf->sel;
+	data->num_clause = sf->num_clause;
+	data->clauses = array;
+	data->top = sf->top;
+	
+	cmd_sort (NULL, data);
+	
 
 	return FALSE;
 }
@@ -382,8 +391,8 @@ dialog_cell_sort_del_clause (SortFlow *sf)
 static void
 dialog_cell_sort_add_clause(SortFlow *sf, Workbook *wb)
 {
-	if ((sf->num_clause >= sf->max_col_clause && sf->columns)
-	    || (sf->num_clause >= sf->max_row_clause && !(sf->columns)))
+	if ((sf->num_clause >= sf->max_col_clause && sf->top)
+	    || (sf->num_clause >= sf->max_row_clause && !(sf->top)))
 		gnumeric_notice (sf->wb, GNOME_MESSAGE_BOX_ERROR,
 				 _("Can't add more than the selection length."));
 	else if (sf->num_clause >= MAX_CLAUSE)
@@ -420,7 +429,7 @@ dialog_cell_sort_header_toggled (GtkWidget *widget, SortFlow *sf)
 	sf->header = GTK_TOGGLE_BUTTON (widget)->active;
 	for (i = 0; i < sf->num_clause; i++) {
 		if (sf->header) {
-			if (sf->columns)
+			if (sf->top)
 				gtk_combo_set_popdown_strings
 					(GTK_COMBO (sf->clauses [i]->rangetext),
 					 g_list_copy (sf->colnames_header));
@@ -429,7 +438,7 @@ dialog_cell_sort_header_toggled (GtkWidget *widget, SortFlow *sf)
 					(GTK_COMBO (sf->clauses [i]->rangetext),
 					 g_list_copy (sf->rownames_header));
 		} else {
-			if (sf->columns)
+			if (sf->top)
 				gtk_combo_set_popdown_strings
 					(GTK_COMBO (sf->clauses [i]->rangetext),
 					 g_list_copy (sf->colnames_plain));
@@ -449,8 +458,8 @@ dialog_cell_sort_rows_toggled(GtkWidget *widget, SortFlow *sf)
 {
 	int i;
 
-	sf->columns = !(GTK_TOGGLE_BUTTON (widget)->active);
-	if (!(sf->columns)) {
+	sf->top = !(GTK_TOGGLE_BUTTON (widget)->active);
+	if (!(sf->top)) {
 		if (sf->num_clause > sf->max_row_clause)
 			dialog_cell_sort_set_clauses(sf, sf->max_row_clause);
 		for (i=0; i<sf->num_clause; i++) {
@@ -472,8 +481,8 @@ dialog_cell_sort_cols_toggled (GtkWidget *widget, SortFlow *sf)
 {
 	int i;
 
-	sf->columns = GTK_TOGGLE_BUTTON (widget)->active;
-	if ((sf->columns)) {
+	sf->top = GTK_TOGGLE_BUTTON (widget)->active;
+	if ((sf->top)) {
 		if (sf->num_clause > sf->max_col_clause)
 			dialog_cell_sort_set_clauses (sf, sf->max_col_clause);
 		for (i = 0; i < sf->num_clause; i++) {
@@ -521,7 +530,7 @@ dialog_cell_sort (Workbook *inwb, Sheet *sheet)
 	
 	/* Set up the dialog information */
 	sort_flow.header = FALSE;
-	sort_flow.columns = TRUE;
+	sort_flow.top = TRUE;
 	sort_flow.colnames_plain  = column_name_list (sort_flow.sheet, 
 						      sort_flow.sel->start.col,
 						      sort_flow.sel->end.col,
