@@ -30,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-12-07 14:02+0100\n"
-"PO-Revision-Date: 2002-12-07 14:00+0200\n"
+"POT-Creation-Date: 2002-12-07 16:37+0100\n"
+"PO-Revision-Date: 2002-12-07 16:50+0200\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -18221,9 +18221,10 @@ msgid ""
 "Test decision alternatives by using Monte Carlo simulation to find out "
 "probable outputs and risks related to them"
 msgstr ""
+"Pröva beslutsalternativ genom att använda Monte-Carlosimulering för att "
+"finna troliga utdata och dessas risker"
 
 #: src/GNOME_Gnumeric.xml.h:237 src/workbook-format-toolbar.c:461
-#, fuzzy
 msgid "Thousands Separator"
 msgstr "Tusentalsseparator"
 
@@ -18305,9 +18306,8 @@ msgid "_ANOVA"
 msgstr "_ANOVA"
 
 #: src/GNOME_Gnumeric.xml.h:257
-#, fuzzy
 msgid "_About"
-msgstr "_Om..."
+msgstr "_Om"
 
 #: src/GNOME_Gnumeric.xml.h:258 src/sheet-control-gui.c:1477
 #: src/workbook-control-gui.c:3440
@@ -18530,7 +18530,7 @@ msgstr "Skriv _ut..."
 
 #: src/GNOME_Gnumeric.xml.h:308
 msgid "_Quit"
-msgstr ""
+msgstr "_Asvluta"
 
 #: src/GNOME_Gnumeric.xml.h:309 src/workbook-control-gui.c:3272
 msgid "_Random Generator..."
@@ -18552,7 +18552,7 @@ msgstr "_Ta bort"
 
 #: src/GNOME_Gnumeric.xml.h:313 src/workbook-control-gui.c:3674
 msgid "_Risk Simulation..."
-msgstr ""
+msgstr "_Risksimulering..."
 
 #: src/GNOME_Gnumeric.xml.h:314 src/dialogs/pivottable.glade.h:13
 #: src/workbook-control-gui.c:3542
@@ -18620,9 +18620,8 @@ msgid "_Tabulate Dependency..."
 msgstr "_Tabuleringsberoende..."
 
 #: src/GNOME_Gnumeric.xml.h:328 src/workbook-control-gui.c:3757
-#, fuzzy
 msgid "_Text to Columns..."
-msgstr "A_utopassa kolumner"
+msgstr "_Text till kolumner..."
 
 #: src/GNOME_Gnumeric.xml.h:329
 msgid "_Toolbars..."
@@ -18675,7 +18674,6 @@ msgid "_Zoom..."
 msgstr "_Zooma..."
 
 #: src/GNOME_Gnumeric_Component.xml.h:1
-#, fuzzy
 msgid "About the Gnumeric spreadsheet program"
 msgstr "Om kalkylprogrammet Gnumeric"
 
@@ -18688,7 +18686,6 @@ msgid "Cu_t Cells"
 msgstr "Klipp _ut celler"
 
 #: src/GNOME_Gnumeric_Component.xml.h:5
-#, fuzzy
 msgid "Print Previe_w..."
 msgstr "Förhands_granska..."
 
@@ -19200,59 +19197,57 @@ msgid "Lower object to bottom"
 msgstr "Sänk objektet nederst"
 
 #: src/commands.c:5354
-#, fuzzy, c-format
+#, c-format
 msgid "Page Setup For %s"
-msgstr "Utskriftskonfiguration för %s"
+msgstr "SIdegenskaper för %s"
 
 #: src/commands.c:5356
-#, fuzzy
 msgid "Page Setup For All Sheets"
-msgstr "Utskriftskonfiguration för alla blad"
+msgstr "Sidegenskaper för alla blad"
 
 #: src/commands.c:5484 src/commands.c:5566
-#, fuzzy, c-format
+#, c-format
 msgid "Define Name %s"
-msgstr "Definiera namn"
+msgstr "Definiera namn %s"
 
 #: src/commands.c:5487 src/commands.c:5569
 #, c-format
 msgid "Update Name %s"
-msgstr ""
+msgstr "Uppdatera namn %s"
 
 #: src/cut-n-paste-code/egg/menu/egg-action.c:121
 msgid "A unique name for the action."
-msgstr ""
+msgstr "Ett unikt namn för åtgärden."
 
 #: src/cut-n-paste-code/egg/menu/egg-action.c:129
 msgid "The label used for menu items and buttons that activate this action."
-msgstr ""
+msgstr "Etiketten som används för menyrader och knappar som utför denna "
+"åtgärd."
 
 #: src/cut-n-paste-code/egg/menu/egg-action.c:135
-#, fuzzy
 msgid "Short label"
-msgstr "Sortera efter"
+msgstr "Kort etikett"
 
 #: src/cut-n-paste-code/egg/menu/egg-action.c:136
 msgid "A shorter label that may be used on toolbar buttons."
-msgstr ""
+msgstr "En kortare etikett som kan användas på verktygsfältet."
 
 #: src/cut-n-paste-code/egg/menu/egg-action.c:142
-#, fuzzy
 msgid "Tooltip"
-msgstr "Verk_tyg"
+msgstr "Hjälpbubbla"
 
 #: src/cut-n-paste-code/egg/menu/egg-action.c:143
-#, fuzzy
 msgid "A tooltip for this action."
-msgstr "Om detta program"
+msgstr "En hjälpbubbla för denna åtgärd."
 
 #: src/cut-n-paste-code/egg/menu/egg-action.c:149
 msgid "Stock Icon"
-msgstr ""
+msgstr "Standardikon"
 
 #: src/cut-n-paste-code/egg/menu/egg-action.c:150
 msgid "The stock icon displayed in widgets representing this action."
-msgstr ""
+msgstr "Standardikonen som visas i kontroller som representerar "
+"denna åtgärd."
 
 #: src/cut-n-paste-code/egg/menu/egg-action.c:156
 #, fuzzy
@@ -19261,28 +19256,27 @@ msgstr "Gör skillnad på gemener/VERSALER"
 
 #: src/cut-n-paste-code/egg/menu/egg-action.c:157
 msgid "Whether the action is enabled."
-msgstr ""
+msgstr "Huruvida åtgärden är aktiv."
 
 #: src/cut-n-paste-code/egg/menu/egg-action.c:164
-#, fuzzy
 msgid "Visible"
-msgstr "Möjligt"
+msgstr "Synlig"
 
 #: src/cut-n-paste-code/egg/menu/egg-action.c:165
 msgid "Whether the action is visible."
-msgstr ""
+msgstr "Huruvida åtgärden är synlig."
 
 #: src/cut-n-paste-code/egg/menu/egg-markup.c:274
 #: src/cut-n-paste-code/egg/menu/egg-menu-merge.c:605
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown attribute '%s' on line %d char %d"
-msgstr "Datavärdet \"%s\" på rad %d är okänt. Ignorerar."
+msgstr "Okänt attribut \"%s\" på rad %d tecken %d"
 
 #: src/cut-n-paste-code/egg/menu/egg-markup.c:281
 #: src/cut-n-paste-code/egg/menu/egg-menu-merge.c:612
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown tag '%s' on line %d char %d"
-msgstr "Datavärdet \"%s\" på rad %d är okänt. Ignorerar."
+msgstr "Okänd tagg \"%s\" på rad %d tecken %d"
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:128
 #: src/dialogs/cell-format.glade.h:61
