@@ -5055,7 +5055,7 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 
 		case BIFF_FILEPASS: /* All records after this are encrypted */
 			/* files with workbook protection are encrypted using a
-			 * static password (why ??).
+			 * static password (why ?? ).
 			 */
 			if (ms_biff_query_set_decrypt (q, "VelvetSweatshop"))
 				break;

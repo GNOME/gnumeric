@@ -944,7 +944,7 @@ value_diff (Value const *a, Value const *b)
 		}
 	}
 
-	/* Booleans > all numbers (Why did excel do this ??) */
+	/* Booleans > all numbers (Why did excel do this ?? ) */
 	if (ta == VALUE_BOOLEAN && (tb == VALUE_INTEGER || tb == VALUE_FLOAT))
 		return DBL_MAX;
 	if (tb == VALUE_BOOLEAN && (ta == VALUE_INTEGER || ta == VALUE_FLOAT))
@@ -1054,7 +1054,7 @@ value_compare (Value const *a, Value const *b, gboolean case_sensitive)
 		}
 	}
 
-	/* Booleans > all numbers (Why did excel do this ??) */
+	/* Booleans > all numbers (Why did excel do this ?? ) */
 	if (ta == VALUE_BOOLEAN && (tb == VALUE_INTEGER || tb == VALUE_FLOAT))
 		return IS_GREATER;
 	if (tb == VALUE_BOOLEAN && (ta == VALUE_INTEGER || ta == VALUE_FLOAT))
