@@ -9,6 +9,7 @@
 #include <config.h>
 
 #include "item-bar.h"
+#define GNUMERIC_ITEM "BAR"
 #include "item-debug.h"
 #include "style.h"
 #include "sheet.h"
@@ -193,7 +194,6 @@ item_bar_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int f
 		item->y2 = INT_MAX;
 	}
 
-	gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
 	if (GNOME_CANVAS_ITEM_CLASS (item_bar_parent_class)->update)
 		(*GNOME_CANVAS_ITEM_CLASS (item_bar_parent_class)->update)(item, affine, clip_path, flags);
 }

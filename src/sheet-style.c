@@ -138,8 +138,9 @@ sheet_style_lookup (Sheet *sheet, MStyle const *s, MStyle const *ps)
 
 /****************************************************************************/
 
-/* if you change this change the tile_{widths,heights} here and in
- * sheet_style_get */
+/* if you change this change the tile_{widths,heights} here, in sheet_style_get
+ * andin the sanity check in sheet_style_init
+ */
 #define TILE_TOP_LEVEL	3
 
 #define	TILE_SIZE_COL	4
@@ -384,6 +385,9 @@ struct _SheetStyleData {
 void
 sheet_style_init (Sheet *sheet)
 {
+	/* some simple sanity checks */
+	g_assert (SHEET_MAX_COLS <= TILE_SIZE_COL * TILE_SIZE_COL * TILE_SIZE_COL * TILE_SIZE_COL);
+	g_assert (SHEET_MAX_ROWS <= TILE_SIZE_ROW * TILE_SIZE_ROW * TILE_SIZE_ROW * TILE_SIZE_ROW);
 	g_return_if_fail (IS_SHEET (sheet));
 
 	sheet->style_data = g_new (SheetStyleData, 1);
@@ -1633,7 +1637,7 @@ cb_style_list_add_node (MStyle *style,
 	key.row = range.start.row - 1;
 	if (key.row >= 0 &&
 	    (sr = (StyleRegion *)g_hash_table_lookup (cache, &key)) != NULL &&
-	    sr->style == style && sr->range.start.col == range.start.col) {
+	    sr->range.start.col == range.start.col && mstyle_equal (sr->style, style)) {
 		g_hash_table_remove (cache, &key);
 		sr->range.end.row = range.end.row;
 	} else
@@ -1643,18 +1647,56 @@ cb_style_list_add_node (MStyle *style,
 }
 
 static gboolean
-cb_hash_to_list (gpointer key, gpointer	value, gpointer	user_data)
+cb_hash_merge_horiz (gpointer hash_key, gpointer value, gpointer user_data)
 {
-	StyleList **res = user_data;
+	GHashTable *cache = user_data;
+	StyleRegion *sr = value, *srh;
+	CellPos	key;
 
 #ifdef DEBUG_STYLE_LIST
-	StyleRegion *sr = value;
 	range_dump (&sr->range, "\n");
 #endif
 
-	*res = g_list_prepend (*res, value);
+	/* Already merged */
+	if (sr->range.start.col < 0) {
+		style_region_free (sr);
+		return TRUE;
+	}
 
-	return TRUE;
+	/* Do some simple minded merging horizontally */
+	key.row = sr->range.end.row;
+	do {
+		key.col = sr->range.start.col - 1;
+		if (key.col >= 0 &&
+		    (srh = (StyleRegion *)g_hash_table_lookup (cache, &key)) != NULL &&
+		    srh->range.start.row == sr->range.start.row && mstyle_equal (sr->style, srh->style)) {
+			g_return_val_if_fail (srh->range.start.col >= 0, FALSE);
+			sr->range.start.col = srh->range.start.col;
+			srh->range.start.col = -1;
+		} else
+			return FALSE;
+	} while (1);
+	return FALSE; /* stupid compilers */
+}
+
+static gboolean
+cb_hash_to_list (gpointer key, gpointer	value, gpointer	user_data)
+{
+	StyleList **res = user_data;
+	StyleRegion *sr = value;
+
+#ifdef DEBUG_STYLE_LIST
+	range_dump (&sr->range, "\n");
+#endif
+
+	/* Already merged */
+	if (sr->range.start.col < 0) {
+		style_region_free (sr);
+		return TRUE;
+	}
+
+	*res = g_list_prepend (*res, value);
+	return FALSE;
 }
 
 /**
@@ -1677,6 +1719,7 @@ sheet_style_get_list (Sheet const *sheet, Range const *r)
 #ifdef DEBUG_STYLE_LIST
 	fprintf(stderr, "=========\n");
 #endif
+	g_hash_table_foreach_remove (cache, cb_hash_merge_horiz, cache);
 	g_hash_table_foreach_remove (cache, cb_hash_to_list, &res);
 #ifdef DEBUG_STYLE_LIST
 	fprintf(stderr, "=========\n");

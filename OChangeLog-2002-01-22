@@ -1,3 +1,45 @@
+2001-04-25  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-style.c (sheet_style_get_list) : Add a horizontal merge
+	  before dumping to a list.
+	(cb_hash_to_list) : free elements that have been merged in the
+	  horizonal step, but have not yet been removed.
+	(cb_hash_merge_horiz) : new function. merge when possible, after a
+	  merge either free the useless bit or mark it as useless for later
+	  removal.
+	(cb_style_list_add_node) : Use mstyle_equal for now to remerge
+	  different instances of the same logical style.  This is necessary
+	  until I finish the per sheet style index.
+	(sheet_style_init) : add some sanity checks incase some bright boy
+	  decides to up the size of sheet and forgets here.
+
+	* src/xml-io.c (xml_sheet_write) : Add the properties for the
+	  outline mode preferences.
+	(xml_sheet_read) : ditto.
+
+	* src/item-debug.h : fix the messages to include the module
+	* src/item-bar.c : fix the item-debug grab/ungrab messages.
+	(item_bar_update) : gnome_canvas_group_child_bounds is a deprecated
+	  useless call.
+	* src/item-edit.c : fix the item-debug grab/ungrab messages.
+	(recalc_spans) : gnome_canvas_group_child_bounds is a deprecated
+	  useless call.
+	* src/item-grid.c : fix the item-debug grab/ungrab messages.
+	(item_grid_update) : gnome_canvas_group_child_bounds is a deprecated
+	  useless call.
+	(item_grid_button_1) : If we are going to start selecting a range have
+	  the grid to a grab on button down.  This should fix the pseudo-race
+	  condition that was irritating the ExprEntry.
+
+	* src/preview-grid.c (preview_grid_update) :
+	  gnome_canvas_group_child_bounds is a deprecated useless call.
+	* src/item-cursor.c : fix the item-debug grab/ungrab messages.
+	(item_cursor_point) : animated cursors should never receive events.
+
+	* src/cell-draw.c (cell_draw) : It is perfectly reasonable for
+	  narrow/short cols/rows to produce cells that have negative sizes
+	  with the margins removed.  exit silently.
+
 2001-04-25  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/stf-parse.c (stf_parse_options_fixed_autodiscover):
@@ -102,7 +144,6 @@
 	(sheet_set_zoom_factor) : signature change.
 	(sheet_adjust_preferences) : Adjust signature to optionally call
 	  scg_resize.
-
 
 	* src/item-bar.c (compute_pixels_from_indent) : Support disabling
 	  outlines.

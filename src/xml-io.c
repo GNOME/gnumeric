@@ -865,7 +865,7 @@ xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree, Workbook *wb,
 				if (!strcmp (bits->name, "name")) {
 					name = xmlNodeGetContent (bits);
 				} else {
-					char       *txt;
+					char     *txt;
 					ParseError  perr;
 					g_return_if_fail (name != NULL);
 
@@ -876,7 +876,7 @@ xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree, Workbook *wb,
 					if (!expr_name_create (wb, sheet, name, txt, &perr))
 						g_warning (perr.message);
 					parse_error_free (&perr);
-					
+
 					xmlFree (txt);
 				}
 				bits = bits->next;
@@ -2302,6 +2302,12 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet const *sheet)
 				     sheet->hide_col_header);
 	e_xml_set_bool_prop_by_name (cur, "HideRowHeader",
 				     sheet->hide_row_header);
+	e_xml_set_bool_prop_by_name (cur, "DisplayOutlines",
+				     sheet->display_outlines);
+	e_xml_set_bool_prop_by_name (cur, "OutlineSymbolsBelow",
+				     sheet->outline_symbols_below);
+	e_xml_set_bool_prop_by_name (cur, "OutlineSymbolsRight",
+				     sheet->outline_symbols_right);
 
 	tstr = xmlEncodeEntitiesReentrant (ctxt->doc, sheet->name_unquoted);
 	xmlNewChild (cur, ctxt->ns, "Name",  tstr);
@@ -2721,6 +2727,12 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 		"HideColHeader", FALSE);
 	ret->hide_row_header = e_xml_get_bool_prop_by_name_with_default (tree,
 		"HideRowHeader", FALSE);
+	ret->display_outlines = e_xml_get_bool_prop_by_name_with_default (tree,
+		"DisplayOutlines", TRUE);
+	ret->outline_symbols_below = e_xml_get_bool_prop_by_name_with_default (tree,
+		"OutlineSymbolsBelow", TRUE);
+	ret->outline_symbols_right = e_xml_get_bool_prop_by_name_with_default (tree,
+		"OutlineSymbolsRight", TRUE);
 
 	xml_get_value_int (tree, "MaxCol", &ret->cols.max_used);
 	xml_get_value_int (tree, "MaxRow", &ret->rows.max_used);

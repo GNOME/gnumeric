@@ -19,6 +19,7 @@
 #include "item-edit.h"
 #include "item-cursor.h"
 #include "item-grid.h"
+#define GNUMERIC_ITEM "EDIT"
 #include "item-debug.h"
 #include "gnumeric-sheet.h"
 #include "sheet-control-gui.h"
@@ -378,8 +379,6 @@ recalc_spans (GnomeCanvasItem *item)
 				       item_edit->pos.row + row_span) - 2;
 	item->y2 = 1 + item->y1 +
 		MAX (item_edit->lines * item_edit->font_height, tmp);
-
-	gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
 }
 
 static void

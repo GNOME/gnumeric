@@ -380,8 +380,6 @@ preview_grid_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, i
 	item->y1 = 0;
 	item->x2 = INT_MAX;
 	item->y2 = INT_MAX;
-
-	gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
 }
 
 /**

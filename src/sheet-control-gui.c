@@ -9,6 +9,7 @@
 
 #include "sheet-control-gui.h"
 #include "item-bar.h"
+#define GNUMERIC_ITEM "SCG"
 #include "item-debug.h"
 #include "gnumeric-sheet.h"
 #include "sheet.h"
@@ -356,13 +357,15 @@ scg_make_edit_pos_visible (SheetControlGUI const *scg)
 #endif
 
 static void
-scg_size_allocate (GtkWidget *widget, GtkAllocation *alloc, SheetControlGUI *scg)
+scg_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
+		   SheetControlGUI *scg)
 {
 #if 0
 	/* FIXME
-	 * When a new sheet is added this is called and if the edit cell was not visible
-	 * we change the scroll position even though to the user the size did not change
-	 * and there is no reason for the scrolling to jump.
+	 * When a new sheet is added this is called and if the edit cell was
+	 * not visible we change the scroll position even though to the user
+	 * the size did not change and there is no reason for the scrolling to
+	 * jump.
 	 *
 	 * Can we somehow do this only if the edit pos was visible initially ?
 	 */
@@ -382,8 +385,8 @@ scg_colrow_size_set (SheetControlGUI *scg,
 	 * then resize all of them, otherwise just resize the selected col/row.
 	 */
 	if (!sheet_selection_full_cols_rows (sheet, is_cols, index)) {
-		ColRowIndexList *sel = colrow_get_index_list (index, index, NULL);
-		cmd_resize_colrow (wbc, sheet, is_cols, sel, new_size_pixels);
+		ColRowIndexList *s = colrow_get_index_list (index, index, NULL);
+		cmd_resize_colrow (wbc, sheet, is_cols, s, new_size_pixels);
 	} else
 		workbook_cmd_resize_selected_colrow (wbc, is_cols,
 						     sheet, new_size_pixels);
@@ -446,7 +449,6 @@ scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
 
 /***************************************************************************/
 
-
 static void
 button_select_all (GtkWidget *the_button, SheetControlGUI *scg)
 {
@@ -469,7 +471,8 @@ vertical_scroll_offset_changed (GtkAdjustment *adj, int top, int is_hint, SheetC
 }
 
 static void
-horizontal_scroll_offset_changed (GtkAdjustment *adj, int left, int is_hint, SheetControlGUI *scg)
+horizontal_scroll_offset_changed (GtkAdjustment *adj, int left, int is_hint,
+				  SheetControlGUI *scg)
 {
 	GnumericSheet  *gsheet = GNUMERIC_SHEET (scg->canvas);
 
@@ -541,19 +544,22 @@ scg_construct (SheetControlGUI *scg)
 	/* The select-all button */
 	scg->select_all_btn = gtk_button_new ();
 	GTK_WIDGET_UNSET_FLAGS (scg->select_all_btn, GTK_CAN_FOCUS);
-	gtk_table_attach (table, scg->select_all_btn, 0, 1, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
+	gtk_table_attach (table, scg->select_all_btn, 0, 1, 0, 1,
+			  GTK_FILL, GTK_FILL, 0, 0);
 	gtk_signal_connect (GTK_OBJECT (scg->select_all_btn), "clicked",
 			    GTK_SIGNAL_FUNC (button_select_all), scg);
 
 	/* Scroll bars and their adjustments */
-	scg->va = gtk_adjustment_new (0.0, 0.0, sheet->rows.max_used, 1.0, 1.0, 1.0);
-	scg->ha = gtk_adjustment_new (0.0, 0.0, sheet->cols.max_used, 1.0, 1.0, 1.0);
+	scg->va = gtk_adjustment_new (0., 0., sheet->rows.max_used, 1., 1., 1.);
+	scg->ha = gtk_adjustment_new (0., 0., sheet->cols.max_used, 1., 1., 1.);
 	scg->hs = gnumeric_hscrollbar_new (GTK_ADJUSTMENT (scg->ha));
 	scg->vs = gnumeric_vscrollbar_new (GTK_ADJUSTMENT (scg->va));
 	gtk_signal_connect (GTK_OBJECT (scg->hs), "offset_changed",
-			    GTK_SIGNAL_FUNC (horizontal_scroll_offset_changed), scg);
+			    GTK_SIGNAL_FUNC (horizontal_scroll_offset_changed),
+			    scg);
 	gtk_signal_connect (GTK_OBJECT (scg->vs), "offset_changed",
-			    GTK_SIGNAL_FUNC (vertical_scroll_offset_changed), scg);
+			    GTK_SIGNAL_FUNC (vertical_scroll_offset_changed),
+			    scg);
 
 	gtk_table_attach (outer_table, GTK_WIDGET (table),	0, 1, 0, 1,
 			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
@@ -672,7 +678,6 @@ scg_selection_unant (SheetControlGUI *scg)
 void
 scg_selection_ant (SheetControlGUI *scg)
 {
-	GnomeCanvasGroup *group;
 	GList *l;
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
@@ -680,13 +685,12 @@ scg_selection_ant (SheetControlGUI *scg)
 	if (scg->anted_cursors)
 		scg_selection_unant (scg);
 
-	group = scg->anted_group;
 	for (l = scg->sheet->selections; l; l = l->next){
 		Range *ss = l->data;
 		ItemCursor *item_cursor;
 
 		item_cursor = ITEM_CURSOR (gnome_canvas_item_new (
-			group, item_cursor_get_type (),
+			scg->anted_group, item_cursor_get_type (),
 			"SheetControlGUI", scg,
 			"Style", ITEM_CURSOR_ANTED,
 			NULL));
@@ -1323,7 +1327,8 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 	switch (event->type) {
 	case GDK_ENTER_NOTIFY:
 	{
-		gpointer p = gtk_object_get_data (GTK_OBJECT (ctrl_pt), "cursor");
+		gpointer p = gtk_object_get_data (GTK_OBJECT (ctrl_pt),
+						  "cursor");
 		e_cursor_set_widget (ctrl_pt->canvas, GPOINTER_TO_UINT (p));
 		break;
 	}
@@ -1368,7 +1373,8 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 		if (scg->drag_object != so)
 			return FALSE;
 
-		gnome_canvas_w2c (canvas, event->motion.x, event->motion.y, &x, &y);
+		gnome_canvas_w2c (canvas, event->motion.x, event->motion.y,
+				  &x, &y);
 		gnome_canvas_get_scroll_offsets (canvas, &left, &top);
 
 		width = scg->canvas->allocation.width;
@@ -1377,7 +1383,8 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 		col = gnumeric_sheet_find_col (gsheet, x, NULL);
 		row = gnumeric_sheet_find_row (gsheet, y, NULL);
 
-		if (x < left || y < top || x >= left + width || y >= top + height) {
+		if (x < left || y < top ||
+		    x >= left + width || y >= top + height) {
 			int dx = 0, dy = 0;
 
 			if (x < left)
@@ -1390,9 +1397,8 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 			else if (y >= top + height)
 				dy = y - height - top;
 
-
 			if (scg_start_sliding (scg, cb_slide_handler,
-						      ctrl_pt, col, row, dx, dy))
+					       ctrl_pt, col, row, dx, dy))
 
 				return TRUE;
 		}

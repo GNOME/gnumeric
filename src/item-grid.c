@@ -11,6 +11,7 @@
 #include <config.h>
 
 #include "item-grid.h"
+#define GNUMERIC_ITEM "GRID"
 #include "item-debug.h"
 #include "gnumeric-sheet.h"
 #include "workbook-edit.h"
@@ -70,7 +71,6 @@ struct _ItemGrid {
 		GdkGC      *empty;	/* GC used for drawing empty cells */
 	} gc;
 };
-
 
 static void
 item_grid_destroy (GtkObject *object)
@@ -139,8 +139,6 @@ item_grid_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int 
 	item->y1 = 0;
 	item->x2 = INT_MAX;
 	item->y2 = INT_MAX;
-
-	gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
 }
 
 /**
@@ -183,7 +181,9 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *ig,
 	b += scg_colrow_distance_get (ig->scg, FALSE, view->start.row, last+1);
 
 	/* Check for background THEN selection */
-	if (gnumeric_background_set_gc (mstyle, gc, ig->canvas_item.canvas, is_selected) ||
+	if (gnumeric_background_set_gc (mstyle, gc,
+					ig->canvas_item.canvas,
+					is_selected) ||
 	    is_selected)
 		/* Remember X excludes the far pixels */
 		gdk_draw_rectangle (drawable, gc, TRUE, l, t, r-l+1, b-t+1);
@@ -226,7 +226,8 @@ item_grid_draw_background (GdkDrawable *drawable, ItemGrid *ig,
 		!(sheet->edit_pos.col == col && sheet->edit_pos.row == row) &&
 		sheet_is_cell_selected (sheet, col, row);
 	gboolean const has_back = 
-		gnumeric_background_set_gc (style, gc, ig->canvas_item.canvas,
+		gnumeric_background_set_gc (style, gc,
+					    ig->canvasitem.canvas,
 					    is_selected);
 
 	if (has_back || is_selected)
@@ -752,16 +753,27 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 			scg_rangesel_cursor_extend (scg, col, row);
 		else
 			scg_rangesel_cursor_bounds (scg, col, row, col, row);
+		gnome_canvas_item_grab (item,
+					GDK_POINTER_MOTION_MASK |
+					GDK_BUTTON_RELEASE_MASK,
+					NULL,
+					event->time);
 		return 1;
 	}
 
 	/*
-	 * If the user is editing a formula (gnumeric_sheet_can_select_expr_range)
-	 * then we enable the dynamic cell selection mode.
+	 * If the user is editing a formula
+	 * (gnumeric_sheet_can_select_expr_range) then we enable the dynamic
+	 * cell selection mode.
 	 */
 	if (gnumeric_sheet_can_select_expr_range (gsheet)){
 		gnumeric_sheet_start_range_selection (gsheet, col, row);
 		ig->selecting = ITEM_GRID_SELECTING_FORMULA_RANGE;
+		gnome_canvas_item_grab (item,
+					GDK_POINTER_MOTION_MASK |
+					GDK_BUTTON_RELEASE_MASK,
+					NULL,
+					event->time);
 		return 1;
 	}
 
@@ -839,6 +851,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 	ItemGrid *ig = ITEM_GRID (item);
 	GnumericSheet *gsheet = GNUMERIC_SHEET (canvas);
 	SheetControlGUI *scg = ig->scg;
+	Sheet *sheet = scg->sheet;
 	int col, row, x, y, left, top, width, height;
 
 	switch (event->type){
@@ -862,9 +875,9 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			scg_stop_sliding (ig->scg);
 
 			if (ig->selecting == ITEM_GRID_SELECTING_FORMULA_RANGE)
-				sheet_make_cell_visible (scg->sheet,
-							 scg->sheet->edit_pos.col,
-							 scg->sheet->edit_pos.row);
+				sheet_make_cell_visible (sheet,
+							 sheet->edit_pos.col,
+							 sheet->edit_pos.row);
 
 			wb_view_selection_desc (wb_control_view (
 				WORKBOOK_CONTROL (scg->wbcg)), TRUE, NULL);
@@ -879,16 +892,17 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		break;
 
 	case GDK_MOTION_NOTIFY:
-		gnome_canvas_w2c (canvas, event->motion.x, event->motion.y, &x, &y);
-		gnome_canvas_get_scroll_offsets (canvas, &left, &top);
-
-		width = GTK_WIDGET (canvas)->allocation.width;
-		height = GTK_WIDGET (canvas)->allocation.height;
-
+		gnome_canvas_w2c (canvas, event->motion.x, event->motion.y,
+				  &x, &y);
 		col = gnumeric_sheet_find_col (gsheet, x, NULL);
 		row = gnumeric_sheet_find_row (gsheet, y, NULL);
 
-		if (x < left || y < top || x >= left + width || y >= top + height) {
+		gnome_canvas_get_scroll_offsets (canvas, &left, &top);
+		width = GTK_WIDGET (canvas)->allocation.width;
+		height = GTK_WIDGET (canvas)->allocation.height;
+
+		if (x < left || y < top ||
+		    x >= left + width || y >= top + height) {
 			int dx = 0, dy = 0;
 			SheetControlGUISlideHandler slide_handler = NULL;
 
@@ -910,9 +924,8 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			else if (ig->selecting == ITEM_GRID_SELECTING_FORMULA_RANGE)
 				slide_handler = &cb_extend_expr_range;
 
-			if (scg_start_sliding (ig->scg,
-						      slide_handler, NULL,
-						      col, row, dx, dy))
+			if (scg_start_sliding (ig->scg, slide_handler, NULL,
+					       col, row, dx, dy))
 
 				return TRUE;
 		}
@@ -932,33 +945,30 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		if (event->motion.y < 0)
 			event->motion.y = 0;
 
-		sheet_selection_extend_to (scg->sheet, col, row);
+		sheet_selection_extend_to (sheet, col, row);
 		return TRUE;
 
 	case GDK_BUTTON_PRESS:
 		scg_stop_sliding (ig->scg);
 
-		gnome_canvas_w2c (canvas, event->button.x, event->button.y, &x, &y);
+		gnome_canvas_w2c (canvas, event->button.x, event->button.y,
+				  &x, &y);
 		col = gnumeric_sheet_find_col (gsheet, x, NULL);
 		row = gnumeric_sheet_find_row (gsheet, y, NULL);
 
 		/* While a guru is up ignore clicks */
-		if (workbook_edit_has_guru (gsheet->scg->wbcg) && event->button.button != 1)
-			return TRUE;
-
-		switch (event->button.button){
-		case 1:
+		if (event->button.button == 1)
 			return item_grid_button_1 (scg, &event->button,
 						   ig, col, row, x, y);
-
-		case 2:
-			g_warning ("This is here just for demo purposes");
-			drag_start (GTK_WIDGET (item->canvas), event, scg->sheet);
+		if (workbook_edit_has_guru (gsheet->scg->wbcg))
 			return TRUE;
 
-		case 3:
-			scg_context_menu (ig->scg,
-					  &event->button, FALSE, FALSE);
+		switch (event->button.button) {
+		case 2: drag_start (GTK_WIDGET (item->canvas), event, sheet);
+			g_warning ("This is here just for demo purposes");
+			return TRUE;
+
+		case 3: scg_context_menu (ig->scg,&event->button, FALSE, FALSE);
 			return TRUE;
 
 		default :
@@ -991,29 +1001,30 @@ item_grid_init (ItemGrid *ig)
 static void
 item_grid_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
-	GnomeCanvasItem *item;
-	ItemGrid *ig;
+	ItemGrid *ig = ITEM_GRID (o);
 
-	item = GNOME_CANVAS_ITEM (o);
-	ig = ITEM_GRID (o);
-
-	switch (arg_id){
+	switch (arg_id) {
 	case ARG_SHEET_CONTROL_GUI:
 		ig->scg = GTK_VALUE_POINTER (*arg);
 		break;
+
+	default :
+		g_warning ("unknown arg %d", arg_id);
 	}
 }
 
 typedef struct {
 	GnomeCanvasItemClass parent_class;
 } ItemGridClass;
+
 static void
 item_grid_class_init (ItemGridClass *item_grid_class)
 {
 	GtkObjectClass  *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	item_grid_parent_class = gtk_type_class (gnome_canvas_item_get_type ());
+	item_grid_parent_class =
+		gtk_type_class (gnome_canvas_group_get_type ());
 
 	object_class = (GtkObjectClass *) item_grid_class;
 	item_class = (GnomeCanvasItemClass *) item_grid_class;

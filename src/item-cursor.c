@@ -7,6 +7,7 @@
 #include <config.h>
 
 #include "item-cursor.h"
+#define GNUMERIC_ITEM "CURSOR"
 #include "item-debug.h"
 #include "gnumeric-sheet.h"
 #include "sheet-control-gui.h"
@@ -184,8 +185,6 @@ item_cursor_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, in
 		extra = 0;
 	item->x2 = x + w + 2 + extra;
 	item->y2 = y + h + 2 + extra;
-
-	gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
 
 	/* Draw the new cursor */
 	item_cursor_request_redraw (item_cursor);
@@ -503,6 +502,12 @@ static double
 item_cursor_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
 		   GnomeCanvasItem **actual_item)
 {
+	ItemCursor *item_cursor = ITEM_CURSOR (item);
+
+	/* Ensure that animated cursors do not receive events */
+	if (item_cursor->style == ITEM_CURSOR_ANTED)
+		return DBL_MAX;
+
 	*actual_item = NULL;
 
 	if (cx < item->x1-3)
@@ -524,7 +529,7 @@ item_cursor_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
 		*actual_item = item;
 		return 0.0;
 	}
-	return INT_MAX;
+	return DBL_MAX;
 }
 
 static void
@@ -1212,23 +1217,10 @@ item_cursor_event (GnomeCanvasItem *item, GdkEvent *event)
 	    break;
 	};
 #endif
-	switch (item_cursor->style){
-	    /*
-FIXME :
-2001-01-04  Jody Goldberg <jgoldberg@home.com>
-
-	* src/item-cursor.c (item_cursor_event) : animated cursors can no be
-	  dragged or resized.   NOTE : This introduces a small bug while
-	  fixing another.  The animated cursor is frequently drawn on top of
-	  the current selection cursor when it is first created.  As such the
-	  selection cursor does not receive all the events it should.
-	  Ideally the canvas would pass ignored events to the widget below, but
-	  that is not going to happen.  We can not just forward the events to
-	  the other cursor because it may have moved.  We would need to ensure
-	  that we only forward things in the areas that are overlapping.  Which
-	  is not easy.
-	  */
+	switch (item_cursor->style) {
 	case ITEM_CURSOR_ANTED:
+		g_warning ("Animated cursors should not receive events, "
+			   "the point method should preclude that");
 		return FALSE;
 
 	case ITEM_CURSOR_SELECTION:

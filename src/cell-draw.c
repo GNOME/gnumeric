@@ -188,8 +188,8 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 
 	/* This rectangle has the whole area used by this cell
 	 * excluding the surrounding grid lines and margins */
-	g_return_if_fail (width > 0);
-	g_return_if_fail (height > 0);
+	if (width <= 0 || height <= 0)
+		return;
 
 	rect.x = x1 + 1 + ci->margin_a;
 	rect.y = y1 + 1 + ri->margin_a;
