@@ -1,5 +1,5 @@
   <sect1 id="saving">
-    <title>Saving files</title>
+    <title>Saving Files</title>
     
     <para>There are several ways to save a file that is currently
       open. If the file has been named and already exists (ie, its not
@@ -11,38 +11,34 @@
       <guimenu><accel>F</accel>ile</guimenu>/
       <guimenuitem><accel>S</accel>ave</guimenuitem> menuitem
 	 (see <xref linkend="File-Menu">). There
-      is also a buttonbar <guibutton>Save</guibutton> (see <xref
+      is also a toolbar <guibutton>Save</guibutton> (see <xref
       linkend="std-toolbar">).  All these methods are equivalent.
     </para>
 
-    <!-- FIXME is this proper? --> 
-    <important>
       <variablelist>
-	<title>Invoking a file Save</title>
+	<title>Saving a file</title>
       <varlistentry>
 	  <term>Menubar</term>
 	  <listitem>
 	    <para> 
 	      <guimenu><accel>F</accel>ile</guimenu>/
 	      <guimenuitem><accel>S</accel>ave</guimenuitem>
-	    </para>
+ 	    </para>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
 	  <term>
-	    Buttonbar
+	    Standard Toolbar
 	  </term>
 	  <listitem>
 	    <para>
 	      <guiicon>
-		<inlinegraphic fileref="figures/stock-save.png" format="PNG"></inlinegraphic>
+		<inlinegraphic fileref="figures/button-save.png" format="PNG"></inlinegraphic>
 		Save
 	      </guiicon>
 	    </para>
 	  </listitem>
 	</varlistentry>
-	<!-- FIXME this is broken, the keycombo actions seem t ge ignored -->
-	<!-- We need to maek it clear its alt and F _then_ a, and the generated html doesnt do that -->
 	<varlistentry>
 	  <term>
 	    Keyboard Shortcut
@@ -60,17 +56,14 @@
 	</varlistentry>
       </variablelist>
       
-    </important>
-    
     <para>To save new files, or to rename a file, the
       <guimenuitem>Save As...</guimenuitem> is used. This will prompt
       the user for a new filename and path for the file to be saved
       as.
     </para>
     
-    <important>
       <variablelist>
-	<title>Invoking a file Save as..</title>
+	<title>Saving a file as..</title>
 	<varlistentry>
 	  <term>Menubar</term>
 	  <listitem>
@@ -82,7 +75,7 @@
 	</varlistentry>
 	<varlistentry>
 	  <term>
-	    Buttonbar
+	    Standard Toolbar
 	  </term>
 	  <listitem>
 	    <para>
@@ -90,13 +83,12 @@
 		<inlinegraphic fileref="figures/stock-save.png" format="PNG"></inlinegraphic>
 		Save
 	      </guiicon>
-	      This calls <guimenuitem>Save as...</guimenuitem> for new unnamed files. To rename a file, the menu
+	      This calls <guimenuitem>Save as...</guimenuitem> for new unnamed files. 
+	      To rename a file, the menu
 	      or keyboard shortcut needs to be used.
 	    </para>
 	  </listitem>
 	</varlistentry>
-	<!-- FIXME this is broken, the keycombo actions seem t ge ignored -->
-	<!-- We need to maek it clear its alt and F _then_ a, and the generated html doesnt do that -->
 	<varlistentry>
 	  <term>
 	    Keyboard Shortcut
@@ -113,13 +105,88 @@
 	  </listitem>
 	</varlistentry>
       </variablelist>
-      
-    </important>
+  </sect1>
+
+  <sect1 id="opening-importing">
+    <title>Opening and Importing Files</title>
     
+    <para>There are several ways to open an existing file to be used in Gnumeric. Usually,
+     a given file can be opened in Gnumeric if Gnumeric also allows the file to be saved 
+     in the same format. Other file formats may be imported into gnumeric (see <xref 
+     linkend="file-format"> for a list of supported formats).</para>
+
+  <sect2 id="opening">
+    <title>Opening Files</title>
+    <para>The Open File Dialog can be invoked several ways. It is
+      available in the Menubar from the 
+      <guimenu><accel>F</accel>ile</guimenu>/
+      <guimenuitem><accel>O</accel>pen..</guimenuitem> menuitem
+	 (see <xref linkend="File-Menu">). There
+      is also a toolbar <guibutton>Open</guibutton> (see <xref
+      linkend="std-toolbar">).  All these methods are equivalent.
+    </para>
+
+      <variablelist>
+	<title>Opening a file</title>
+      <varlistentry>
+	  <term>Menubar</term>
+	  <listitem>
+	    <para> 
+	      <guimenu><accel>F</accel>ile</guimenu>/
+	      <guimenuitem><accel>O</accel>pen..</guimenuitem>
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>
+	    Standard Toolbar
+	  </term>
+	  <listitem>
+	    <para>
+	      <guiicon>
+		<inlinegraphic fileref="figures/button-open.png" format="PNG"></inlinegraphic>
+		Open
+	      </guiicon>
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>
+	    Keyboard Shortcut
+	  </term>
+	  <listitem>
+	    <para>
+		<keysym>F3</keysym>
+	    </para>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+  </sect2>      
+  <sect2 id="importing">
+    <title>Importing Files</title>
+    <para>The Import File Dialog can be invoked in the Menubar from the 
+      <guimenu><accel>F</accel>ile</guimenu>/
+      <guimenuitem><accel>I</accel>mport..</guimenuitem> menuitem
+	 (see <xref linkend="File-Menu">). 
+    </para>
+    
+      <variablelist>
+	<title>Importing a file</title>
+	<varlistentry>
+	  <term>Menubar</term>
+	  <listitem>
+	    <para> 
+	      <guimenu><accel>F</accel>ile</guimenu>/
+	      <guimenuitem>S<accel>a</accel>ve as...</guimenuitem>
+	    </para>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+  </sect2>
   </sect1>
   
   <sect1 id="file-format">
-    <title>File format</title>
+    <title>File Formats</title>
 
     <para> In the <guimenuitem>Save as..</guimenuitem> dialog you can choose between
     various file formats. (see <xref linkend="fileformatdialog">)</para>
@@ -129,18 +196,26 @@
 	<graphic fileref="figures/files-formats-list.png" format="PNG"></graphic>
     </screenshot>
     </figure>
+    <para> Similarly, in the <guimenuitem>Import..</guimenuitem> dialog you can also choose between
+    various file formats. (see <xref linkend="fileformatimportdialog">)</para>
+    <figure  id="fileformatimportdialog">
+    <title>File Format Selector</title>
+    <screenshot id="fileformatimportdialog-shot">
+	<graphic fileref="figures/file-formats-import-list.png" format="PNG"></graphic>
+    </screenshot>
+    </figure>
+
   <para>Most of these formats are provided by plug-ins. If they don't appear on your list of 
   available plug-ins use the <guimenuitem>Tools Plug-ins...</guimenuitem> menu item to 
   verify that the appropriate plug-in has been loaded.</para>
     
   <sect2 id="file-format-default">
   <title>Gnumeric XML File Format</title>
-    <para>The default file format an Gnumeric's native format is a xml
+    <para>The default file format and Gnumeric's native format is an xml
       based file.  The file format is a ascii text based xml
       format. It is however, typically written and read in a gzip
       compressed form.
     </para>
-    
     <para>The uncompressed format is human readable and designed to be
       easily parsed. It is very extensible.
     </para>
@@ -149,10 +224,13 @@
   <title>Data Interchange Format</title>
   <para>This format is supported by the <quote>Data Interchange Format (DIF) 
   module</quote> plug-in.</para>
+  <note><para>This format is available when saving or importing files.</para></note>
   </sect2>
+
   <sect2 id="file-format-dvi">
   <title>DVI TeX Format</title>
   <para>This format is supported by the <quote>HTML &amp; TeX</quote> plug-in.</para>
+  <note><para>This format is only available when saving files.</para></note>
   <para>Creation of a dvi file with gnumeric requires that <keycap>groff</keycap> has 
   been installed. If a complete TeX installation is available it is probably advisable 
   to use the LaTeX format (<xref linkend="file-format-latex">) instead, since the
@@ -177,20 +255,27 @@
 	<graphic fileref="figures/files-dvi-example.png" format="PNG"></graphic>
     </screenshot>
   </figure>
+  </sect2>
 
-  </sect2>
   <sect2 id="file-format-xl">
-  <title><trademark>Excel</trademark> (R) 95 File Format</title>
-  <para>This format is supported by the <quote><trademark>Microsoft(R) Excel</trademark></quote> plug-in.</para>
+  <title><trademark>Excel</trademark>(R) 95 File Format</title>
+  <para>This format is supported by the <quote><trademark>Microsoft</trademark>(R) <trademark>Excel</trademark></quote> 
+  plug-in.</para>
+  <note><para>This format is available when opening or saving files.</para></note>
   </sect2>
+
   <sect2 id="file-format-efs">
   <title>Experimental Bonobo EFS Format</title>
   <para>This format is supported by the <quote>EXPERIMENTAL SAX based XML</quote> plug-in.</para>
+  <note><para>This format is available when importing or saving files.</para></note>
   </sect2>
+
   <sect2 id="file-format-po">
   <title>Gnome Glossary PO File Format</title>
   <para>This format is supported by the <quote>Gnome Glossary</quote> plug-in.</para>
+  <note><para>This format is only available when saving files.</para></note>
   </sect2>
+
   <sect2 id="file-format-html">
   <title>HTML File Formats</title>
   <para>These formats are supported by the <quote>HTML &amp; TeX</quote> plug-in.</para>
@@ -198,7 +283,7 @@
   <title>HTML 3.2 File Format</title>
   <para>Gnumeric can create HTML 3.2 files. All sheets of the current workbook are exported. 
   The tables in the HTML 3.2 file contain all cells, whether visible or not, including merged
-  cells and spans. Horizontal as well as vertical alignment is preserved, as are font colours 
+  cells and spans. Horizontal as well as vertical alignment is preserved, as are font colors 
   and some font characteristics (italic, bold). These files also include an appropriate 
   preamble.</para>
   <example id="file-format-html32-example">
@@ -217,10 +302,11 @@
   </sect3>
   <sect3 id="file-format-html40">
   <title>HTML 4.0 File Format</title>
+  <note><para>This format is only available when saving files.</para></note>
   <para>Gnumeric can create HTML 4.0 files. All sheets of the current workbook are exported. 
   The tables in the HTML 4.0 file contain all cells, whether visible or not, including merged
   cells and spans. Horizontal as well as vertical alignment is preserved, as are some font 
-  characteristics (italic, bold) and cell background colours. These files also include an 
+  characteristics (italic, bold) and cell background colors. These files also include an 
   appropriate preamble.</para>
   <example id="file-format-html40-example">
   <title>Saving as HTML 4.0</title>
@@ -238,10 +324,11 @@
   </sect3>
   <sect3 id="file-format-html40f">
   <title>HTML Fragment Format</title>
+  <note><para>This format is only available when saving files.</para></note>
   <para>Gnumeric can create HTML fragments. All sheets of the current workbook are exported. 
   The tables in such a fragment file contain all cells, whether visible or not, including merged
   cells and spans. Horizontal as well as vertical alignment is preserved, as are some font 
-  characteristics (italic, bold) as well as  cell background and font colours. These files 
+  characteristics (italic, bold) as well as  cell background and font colors. These files 
   do <emphasis>not</emphasis> contain any preamble. Note that each tag used in these files is 
   valid in some HTML version, the combination of these tags in a gnumeric generated HTML 
   fragment may not be. </para>
@@ -260,9 +347,11 @@
   </figure>
   </sect3>
   </sect2>
+
   <sect2 id="file-format-latex">
   <title>Latex 2e Format</title>
   <para>This format is supported by the <quote>HTML &amp; TeX</quote> plug-in.</para>
+  <note><para>This format is only available when saving files.</para></note>
   <para>The created LaTeX file can either be input into another LaTeX file or latexed 
   independently. See the content of the created file for various customization options. </para>
   <para>Only the top sheet of the current workbook is exported.</para>
@@ -281,6 +370,20 @@
     </screenshot>
   </figure>
   </sect2>
+
+  <sect2 id="file-format-mps">
+  <title>Linear and Integer Program File Format</title>
+  <para>This format is supported by the <quote>Linear and integer expression (MPS) format
+  module</quote> plug-in.</para>
+  <note><para>This format is only available when importing files.</para></note>
+  </sect2>
+
+  <sect2 id="file-format-planperfect">
+  <title>Plan Perfect Format</title>
+  <para>This format is supported by the <quote>Plan Perfect</quote> plug-in.</para>
+  <note><para>This format is only available when importing files.</para></note>
+  </sect2>
+
   <sect2 id="file-format-pdf">
   <title>PDF Format</title>
   <para>Currently, Gnumeric cannot save directly as a PDF file; but, provided a standard 
@@ -289,20 +392,27 @@
   <keycap>pdflatex</keycap>.</para>
   <para> See <xref linkend="file-format-latex-ex1"> for an example of a created PDF file.</para>
   </sect2>
+
+  <sect2 id="file-format-sc">
+  <title>SC/XSpread Format</title>
+  <para>This format is supported by the <quote>SC/XSpread Format</quote> plug-in.</para>
+  <note><para>This format is only available when importing files.</para></note>
+  </sect2>
+
   <sect2 id="file-format-csv">
   <title>Text Format</title>
   <para>This format exports gnumeric spreadsheets as straight text, e. g. 
   in the form of comma separated fields.</para>
   </sect2>
+
   <sect2 id="file-format-troff">
   <title>TROFF Format</title>
   <para>This format is supported by the <quote>HTML &amp; TeX</quote> plug-in.</para>
+  <note><para>This format is only available when saving files.</para></note>
   </sect2>
   </sect1>
 
 &autosave;
-
-
 
 <!-- Keep this comment at the end of the file
 Local variables:
