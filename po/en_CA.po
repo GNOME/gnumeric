@@ -1,16 +1,16 @@
 # English/Canada translation of gnumeric.
 # Copyright (C) Adam Weinberger and the GNOME Foundation
-# This file is distributed under the same license as the gnumeric package.
-# Maintainer: Adam Weinberger <adamw@FreeBSD.org>
+# This file is distributed under the same licence as the gnumeric package.
+# Maintainer: Adam Weinberger <adamw@gnome.org>
 # 
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-06-23 00:40-0400\n"
-"PO-Revision-Date: 2004-04-08 11:36-0400\n"
-"Last-Translator: Adam Weinberger <adamw@FreeBSD.org>\n"
+"POT-Creation-Date: 2004-08-02 15:16-0400\n"
+"PO-Revision-Date: 2004-08-02 11:36-0400\n"
+"Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: English/Canada <adamw@FreeBSD.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1467,7 +1467,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMAGINARY,IMREAL"
 
-#: plugins/fn-complex/functions.c:185
+#: plugins/fn-complex/functions.c:182
 msgid ""
 "@FUNCTION=IMREAL\n"
 "@SYNTAX=IMREAL(inumber)\n"
@@ -1493,7 +1493,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMAGINARY"
 
-#: plugins/fn-complex/functions.c:218
+#: plugins/fn-complex/functions.c:215
 msgid ""
 "@FUNCTION=IMCONJUGATE\n"
 "@SYNTAX=IMCONJUGATE(inumber)\n"
@@ -1521,7 +1521,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMAGINARY,IMREAL"
 
-#: plugins/fn-complex/functions.c:252
+#: plugins/fn-complex/functions.c:246
 msgid ""
 "@FUNCTION=IMINV\n"
 "@SYNTAX=IMINV(inumber)\n"
@@ -1551,7 +1551,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-complex/functions.c:283
+#: plugins/fn-complex/functions.c:277
 msgid ""
 "@FUNCTION=IMNEG\n"
 "@SYNTAX=IMNEG(inumber)\n"
@@ -1581,7 +1581,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-complex/functions.c:314
+#: plugins/fn-complex/functions.c:308
 msgid ""
 "@FUNCTION=IMCOS\n"
 "@SYNTAX=IMCOS(inumber)\n"
@@ -1607,7 +1607,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSIN,IMTAN"
 
-#: plugins/fn-complex/functions.c:345
+#: plugins/fn-complex/functions.c:339
 msgid ""
 "@FUNCTION=IMTAN\n"
 "@SYNTAX=IMTAN(inumber)\n"
@@ -1633,7 +1633,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSIN,IMCOS"
 
-#: plugins/fn-complex/functions.c:376
+#: plugins/fn-complex/functions.c:370
 msgid ""
 "@FUNCTION=IMSEC\n"
 "@SYNTAX=IMSEC(inumber)\n"
@@ -1663,7 +1663,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMCSC,IMCOT"
 
-#: plugins/fn-complex/functions.c:409
+#: plugins/fn-complex/functions.c:403
 msgid ""
 "@FUNCTION=IMCSC\n"
 "@SYNTAX=IMCSC(inumber)\n"
@@ -1693,7 +1693,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSEC,IMCOT"
 
-#: plugins/fn-complex/functions.c:442
+#: plugins/fn-complex/functions.c:436
 msgid ""
 "@FUNCTION=IMCOT\n"
 "@SYNTAX=IMCOT(inumber)\n"
@@ -1723,7 +1723,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSEC,IMCSC"
 
-#: plugins/fn-complex/functions.c:475
+#: plugins/fn-complex/functions.c:469
 msgid ""
 "@FUNCTION=IMEXP\n"
 "@SYNTAX=IMEXP(inumber)\n"
@@ -1749,7 +1749,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMLN"
 
-#: plugins/fn-complex/functions.c:506
+#: plugins/fn-complex/functions.c:500
 msgid ""
 "@FUNCTION=IMARGUMENT\n"
 "@SYNTAX=IMARGUMENT(inumber)\n"
@@ -1781,7 +1781,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-complex/functions.c:538
+#: plugins/fn-complex/functions.c:532
 msgid ""
 "@FUNCTION=IMLN\n"
 "@SYNTAX=IMLN(inumber)\n"
@@ -1815,7 +1815,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMEXP,IMLOG2,IMLOG10"
 
-#: plugins/fn-complex/functions.c:574
+#: plugins/fn-complex/functions.c:568
 msgid ""
 "@FUNCTION=IMLOG2\n"
 "@SYNTAX=IMLOG2(inumber)\n"
@@ -1841,7 +1841,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMLN,IMLOG10"
 
-#: plugins/fn-complex/functions.c:606
+#: plugins/fn-complex/functions.c:600
 msgid ""
 "@FUNCTION=IMLOG10\n"
 "@SYNTAX=IMLOG10(inumber)\n"
@@ -1867,7 +1867,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMLN,IMLOG2"
 
-#: plugins/fn-complex/functions.c:638
+#: plugins/fn-complex/functions.c:632
 msgid ""
 "@FUNCTION=IMPOWER\n"
 "@SYNTAX=IMPOWER(inumber1,inumber2)\n"
@@ -1899,7 +1899,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSQRT"
 
-#: plugins/fn-complex/functions.c:677
+#: plugins/fn-complex/functions.c:671
 msgid ""
 "@FUNCTION=IMDIV\n"
 "@SYNTAX=IMDIV(inumber1,inumber2)\n"
@@ -1927,7 +1927,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMPRODUCT"
 
-#: plugins/fn-complex/functions.c:714
+#: plugins/fn-complex/functions.c:708
 msgid ""
 "@FUNCTION=IMSIN\n"
 "@SYNTAX=IMSIN(inumber)\n"
@@ -1953,7 +1953,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMCOS,IMTAN"
 
-#: plugins/fn-complex/functions.c:744
+#: plugins/fn-complex/functions.c:738
 msgid ""
 "@FUNCTION=IMSINH\n"
 "@SYNTAX=IMSINH(inumber)\n"
@@ -1983,7 +1983,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMCOSH,IMTANH"
 
-#: plugins/fn-complex/functions.c:776
+#: plugins/fn-complex/functions.c:770
 msgid ""
 "@FUNCTION=IMCOSH\n"
 "@SYNTAX=IMCOSH(inumber)\n"
@@ -2013,7 +2013,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSINH,IMTANH"
 
-#: plugins/fn-complex/functions.c:807
+#: plugins/fn-complex/functions.c:801
 msgid ""
 "@FUNCTION=IMTANH\n"
 "@SYNTAX=IMTANH(inumber)\n"
@@ -2043,7 +2043,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSINH,IMCOSH"
 
-#: plugins/fn-complex/functions.c:838
+#: plugins/fn-complex/functions.c:832
 msgid ""
 "@FUNCTION=IMSECH\n"
 "@SYNTAX=IMSECH(inumber)\n"
@@ -2073,7 +2073,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMCSCH,IMCOTH"
 
-#: plugins/fn-complex/functions.c:869
+#: plugins/fn-complex/functions.c:863
 msgid ""
 "@FUNCTION=IMCSCH\n"
 "@SYNTAX=IMCSCH(inumber)\n"
@@ -2103,7 +2103,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSECH,IMCOTH"
 
-#: plugins/fn-complex/functions.c:900
+#: plugins/fn-complex/functions.c:894
 msgid ""
 "@FUNCTION=IMCOTH\n"
 "@SYNTAX=IMCOTH(inumber)\n"
@@ -2133,7 +2133,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSECH,IMCSCH"
 
-#: plugins/fn-complex/functions.c:931
+#: plugins/fn-complex/functions.c:925
 msgid ""
 "@FUNCTION=IMARCSIN\n"
 "@SYNTAX=IMARCSIN(inumber)\n"
@@ -2163,7 +2163,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMARCCOS,IMARCTAN"
 
-#: plugins/fn-complex/functions.c:963
+#: plugins/fn-complex/functions.c:957
 msgid ""
 "@FUNCTION=IMARCCOS\n"
 "@SYNTAX=IMARCCOS(inumber)\n"
@@ -2193,7 +2193,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMARCSIN,IMARCTAN"
 
-#: plugins/fn-complex/functions.c:995
+#: plugins/fn-complex/functions.c:989
 msgid ""
 "@FUNCTION=IMARCTAN\n"
 "@SYNTAX=IMARCTAN(inumber)\n"
@@ -2221,7 +2221,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMARCSIN,IMARCCOS"
 
-#: plugins/fn-complex/functions.c:1027
+#: plugins/fn-complex/functions.c:1021
 msgid ""
 "@FUNCTION=IMARCSEC\n"
 "@SYNTAX=IMARCSEC(inumber)\n"
@@ -2253,7 +2253,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMARCCSC,IMARCCOT"
 
-#: plugins/fn-complex/functions.c:1058
+#: plugins/fn-complex/functions.c:1052
 msgid ""
 "@FUNCTION=IMARCCSC\n"
 "@SYNTAX=IMARCCSC(inumber)\n"
@@ -2285,7 +2285,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMARCSEC,IMARCCOT"
 
-#: plugins/fn-complex/functions.c:1089
+#: plugins/fn-complex/functions.c:1083
 msgid ""
 "@FUNCTION=IMARCCOT\n"
 "@SYNTAX=IMARCCOT(inumber)\n"
@@ -2317,7 +2317,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMARCSEC,IMARCCSC"
 
-#: plugins/fn-complex/functions.c:1120
+#: plugins/fn-complex/functions.c:1114
 msgid ""
 "@FUNCTION=IMARCSINH\n"
 "@SYNTAX=IMARCSINH(inumber)\n"
@@ -2347,7 +2347,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMARCCOSH,IMARCTANH"
 
-#: plugins/fn-complex/functions.c:1152
+#: plugins/fn-complex/functions.c:1146
 msgid ""
 "@FUNCTION=IMARCCOSH\n"
 "@SYNTAX=IMARCCOSH(inumber)\n"
@@ -2375,7 +2375,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMARCSINH,IMARCTANH"
 
-#: plugins/fn-complex/functions.c:1184
+#: plugins/fn-complex/functions.c:1178
 msgid ""
 "@FUNCTION=IMARCTANH\n"
 "@SYNTAX=IMARCTANH(inumber)\n"
@@ -2405,7 +2405,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMARCSINH,IMARCCOSH"
 
-#: plugins/fn-complex/functions.c:1216
+#: plugins/fn-complex/functions.c:1210
 msgid ""
 "@FUNCTION=IMARCSECH\n"
 "@SYNTAX=IMARCSECH(inumber)\n"
@@ -2437,7 +2437,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMARCCSCH,IMARCCOTH"
 
-#: plugins/fn-complex/functions.c:1248
+#: plugins/fn-complex/functions.c:1242
 msgid ""
 "@FUNCTION=IMARCCSCH\n"
 "@SYNTAX=IMARCCSCH(inumber)\n"
@@ -2469,7 +2469,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMARCSECH,IMARCCOTH"
 
-#: plugins/fn-complex/functions.c:1279
+#: plugins/fn-complex/functions.c:1273
 msgid ""
 "@FUNCTION=IMARCCOTH\n"
 "@SYNTAX=IMARCCOTH(inumber)\n"
@@ -2501,7 +2501,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMARCSECH,IMARCCSCH"
 
-#: plugins/fn-complex/functions.c:1311
+#: plugins/fn-complex/functions.c:1305
 msgid ""
 "@FUNCTION=IMSQRT\n"
 "@SYNTAX=IMSQRT(inumber)\n"
@@ -2527,7 +2527,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMPOWER"
 
-#: plugins/fn-complex/functions.c:1342
+#: plugins/fn-complex/functions.c:1336
 msgid ""
 "@FUNCTION=IMSUB\n"
 "@SYNTAX=IMSUB(inumber1,inumber2)\n"
@@ -2555,7 +2555,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSUM"
 
-#: plugins/fn-complex/functions.c:1376
+#: plugins/fn-complex/functions.c:1370
 msgid ""
 "@FUNCTION=IMPRODUCT\n"
 "@SYNTAX=IMPRODUCT(inumber1[,inumber2,...])\n"
@@ -2583,7 +2583,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMDIV"
 
-#: plugins/fn-complex/functions.c:1448
+#: plugins/fn-complex/functions.c:1442
 msgid ""
 "@FUNCTION=IMSUM\n"
 "@SYNTAX=IMSUM(inumber1,inumber2)\n"
@@ -2611,18 +2611,19 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSUB"
 
-#: plugins/fn-complex/functions.c:1484
+#: plugins/fn-complex/functions.c:1478
 msgid "real,im,suffix"
 msgstr "real,im,suffix"
 
+#: plugins/fn-complex/functions.c:1481 plugins/fn-complex/functions.c:1484
 #: plugins/fn-complex/functions.c:1487 plugins/fn-complex/functions.c:1490
-#: plugins/fn-complex/functions.c:1493 plugins/fn-complex/functions.c:1496
-#: plugins/fn-complex/functions.c:1499 plugins/fn-complex/functions.c:1505
-#: plugins/fn-complex/functions.c:1508 plugins/fn-complex/functions.c:1511
-#: plugins/fn-complex/functions.c:1514 plugins/fn-complex/functions.c:1520
-#: plugins/fn-complex/functions.c:1523 plugins/fn-complex/functions.c:1526
-#: plugins/fn-complex/functions.c:1536 plugins/fn-complex/functions.c:1539
-#: plugins/fn-complex/functions.c:1542 plugins/fn-complex/functions.c:1548
+#: plugins/fn-complex/functions.c:1493 plugins/fn-complex/functions.c:1499
+#: plugins/fn-complex/functions.c:1502 plugins/fn-complex/functions.c:1505
+#: plugins/fn-complex/functions.c:1508 plugins/fn-complex/functions.c:1514
+#: plugins/fn-complex/functions.c:1517 plugins/fn-complex/functions.c:1520
+#: plugins/fn-complex/functions.c:1530 plugins/fn-complex/functions.c:1533
+#: plugins/fn-complex/functions.c:1536 plugins/fn-complex/functions.c:1542
+#: plugins/fn-complex/functions.c:1545 plugins/fn-complex/functions.c:1548
 #: plugins/fn-complex/functions.c:1551 plugins/fn-complex/functions.c:1554
 #: plugins/fn-complex/functions.c:1557 plugins/fn-complex/functions.c:1560
 #: plugins/fn-complex/functions.c:1563 plugins/fn-complex/functions.c:1566
@@ -2632,13 +2633,12 @@ msgstr "real,im,suffix"
 #: plugins/fn-complex/functions.c:1587 plugins/fn-complex/functions.c:1590
 #: plugins/fn-complex/functions.c:1593 plugins/fn-complex/functions.c:1596
 #: plugins/fn-complex/functions.c:1599 plugins/fn-complex/functions.c:1602
-#: plugins/fn-complex/functions.c:1605 plugins/fn-complex/functions.c:1608
 msgid "inumber"
 msgstr "inumber"
 
-#: plugins/fn-complex/functions.c:1502 plugins/fn-complex/functions.c:1517
-#: plugins/fn-complex/functions.c:1529 plugins/fn-complex/functions.c:1532
-#: plugins/fn-complex/functions.c:1545
+#: plugins/fn-complex/functions.c:1496 plugins/fn-complex/functions.c:1511
+#: plugins/fn-complex/functions.c:1523 plugins/fn-complex/functions.c:1526
+#: plugins/fn-complex/functions.c:1539
 msgid "inumber,inumber"
 msgstr "inumber,inumber"
 
@@ -17948,7 +17948,7 @@ msgstr "Sheet"
 
 #: plugins/xbase/xbase.c:142
 msgid "Failed to read DBF header."
-msgstr ""
+msgstr "Failed to read DBF header."
 
 #: plugins/xbase/plugin.xml.in.h:1
 msgid "Imports XBase files"
@@ -23076,7 +23076,7 @@ msgstr "A production ready spreadsheet"
 #: src/dialogs/dialog-about.c:119
 msgid "This is an untranslated version of Gnumeric."
 msgstr ""
-"Maintainer: Adam Weinberger <adamw@FreeBSD.org>\n"
+"Maintainer: Adam Weinberger <adamw@gnome.org>\n"
 "Based on a translation by:\n"
 "Andreas J. Guelzow <aguelzow@taliesin.ca>"
 
