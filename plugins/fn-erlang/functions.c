@@ -5,6 +5,10 @@
  * Authors:
  *   Arief Mulya Utama <arief_m_utama@telkomsel.co.id>
  *                     <arief.utama@gmail.com>
+ *   [Initial plugin]
+ *
+ * Morten Welinder <terra@gnome.org>
+ *   [calculate_loggos]
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -52,6 +56,30 @@ guess_carried_traffic (gnm_float traffic, gnm_float gos)
 }
 
 static gnm_float
+calculate_loggos (gnm_float traffic, gnm_float circuits)
+{
+	double f;
+
+	if (traffic < 0 || circuits < traffic)
+		return gnm_nan;
+	if (traffic == 0)
+		return gnm_ninf;
+
+#ifdef CANCELLATION
+	/* Calculated this way we get cancellation.  */
+	f = circuits * loggnum (traffic) - lgamma1p (circuits) - traffic;
+#else
+	f = (circuits - traffic) +
+		(1 - loggnum (sqrtgnum (2 * M_PIgnum))) -
+		loggnum (circuits + 1) / 2.0 -
+		logfbit (circuits) +
+		circuits * (loggnum (traffic / (circuits + 1)));
+#endif
+
+	return f - pgamma (traffic, circuits + 1, 1, FALSE, TRUE);
+}
+
+static gnm_float
 calculate_gos (gnm_float traffic, gnm_float circuits)
 {
 	gnm_float gos;
@@ -69,9 +97,7 @@ calculate_gos (gnm_float traffic, gnm_float circuits)
 		for (cir_iter = 1; cir_iter <= circuits; cir_iter++)
 			gos = (traffic * gos) / (cir_iter + (traffic * gos));
 	} else {
-		/* FIXME: What about cancellation?  */
-		gos = expgnum (circuits * loggnum (traffic) - lgamma1p (circuits) - traffic -
-			       pgamma (traffic, circuits + 1, 1, FALSE, TRUE));
+		gos = expgnum (calculate_loggos (traffic, circuits));
 	}
 
 	return gos;
@@ -91,7 +117,7 @@ static char const *help_probblock = {
 	   "* @traffic cannot exceed @circuits\n"
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "PROBBLOCK(24, 30) returns '0.4012'.\n"
+	   "PROBBLOCK(24, 30) returns 0.4012.\n"
 	   "\n"
 	   "@SEEALSO=OFFTRAF, DIMCIRC, OFFCAP")
 };
@@ -99,10 +125,8 @@ static char const *help_probblock = {
 static GnmValue *
 gnumeric_probblock (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	gnm_float traffic, circuits;
-
-	traffic  = value_get_as_float(argv[0]);
-	circuits = value_get_as_float(argv[1]);
+	gnm_float traffic  = value_get_as_float (argv[0]);
+	gnm_float circuits = value_get_as_float (argv[1]);
 
 	if (circuits < 1 || traffic < 0 || circuits < traffic)
 		return value_new_error_VALUE (ei->pos);
@@ -122,7 +146,7 @@ static char const *help_offtraf = {
 	   "* @traffic cannot exceed @circuits\n"
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "OFFTRAF(24, 30) returns '25.526'.\n"
+	   "OFFTRAF(24, 30) returns 25.526.\n"
 	   "\n"
 	   "@SEEALSO=PROBBLOCK, DIMCIRC, OFFCAP")
 };
@@ -135,8 +159,8 @@ gnumeric_offtraf (FunctionEvalInfo *ei, GnmValue **argv)
 	gnm_float offtraf_lower, offtraf_upper;
 	gnm_float cartraf_diff;
 
-	gnm_float traffic  = value_get_as_float(argv[0]);
-	gnm_float circuits = value_get_as_float(argv[1]);
+	gnm_float traffic  = value_get_as_float (argv[0]);
+	gnm_float circuits = value_get_as_float (argv[1]);
 
 	if (circuits < 1 || traffic < 0 || circuits < traffic)
 		return value_new_error_VALUE (ei->pos);
@@ -183,7 +207,7 @@ static char const *help_dimcirc = {
 	   "a number of @traffic loads with @gos grade of service.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "DIMCIRC(24, 1%) returns '35'.\n"
+	   "DIMCIRC(24, 1%) returns 35.\n"
 	   "\n"
 	   "@SEEALSO=OFFCAP, OFFTRAF, PROBBLOCK")
 };
@@ -193,12 +217,8 @@ gnumeric_dimcirc (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float circuits = 1.0;
 	gnm_float gos      = 1.0;
-
-	
-	gnm_float traffic, des_gos;
-
-	traffic = value_get_as_float(argv[0]);
-	des_gos = value_get_as_float(argv[1]);
+       	gnm_float traffic  = value_get_as_float (argv[0]);
+	gnm_float des_gos  = value_get_as_float (argv[1]);
 
 	/* What about <0 ? */
 	if (des_gos > 1)
@@ -225,7 +245,7 @@ static char const *help_offcap = {
 	   "a number of @circuits with @gos grade of service.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "OFFCAP(30, 1%) returns '20.337'.\n"
+	   "OFFCAP(30, 1%) returns 20.337.\n"
 	   "\n"
 	   "@SEEALSO=DIMCIRC, OFFTRAF, PROBBLOCK")
 };
@@ -237,10 +257,8 @@ gnumeric_offcap(FunctionEvalInfo *ei, GnmValue **argv)
 	gnm_float inc_fac = 0.0;
 	gnm_float traffic = 0.0;
 	gnm_float oldtraf = 0.0;
-	gnm_float circuits, des_gos;
-
-	circuits = value_get_as_float(argv[0]);
-	des_gos  = value_get_as_float(argv[1]);
+	gnm_float circuits = value_get_as_float (argv[0]);
+	gnm_float des_gos  = value_get_as_float (argv[1]);
 
 	/* What about <0 ? */
 	if (des_gos > 1)
@@ -251,12 +269,12 @@ gnumeric_offcap(FunctionEvalInfo *ei, GnmValue **argv)
 		return value_new_float (-1);
 	
 	first_fac = circuits/2;
-	if (first_fac % 2) first_fac+=1.0;
+	if (first_fac % 2) first_fac += 1.0;
 	inc_fac = (gnm_float) first_fac;
 
 	while (inc_fac > MOVING_FACTOR) {
-		traffic+=inc_fac;
-		if(calculate_gos (traffic, circuits) > des_gos)
+		traffic += inc_fac;
+		if (calculate_gos (traffic, circuits) > des_gos)
 			traffic = oldtraf;
 		inc_fac /= 2;
 		oldtraf  = traffic;

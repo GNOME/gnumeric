@@ -1,3 +1,8 @@
+2004-10-21  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (calculate_loggos): New function.
+	(calculate_gos): Improve precision.
+
 2004-10-21  Arief Mulya Utama <arief_m_utama@telkomsel.co.id>
 
 	* Release version 0.02 of erlang functions plugin
