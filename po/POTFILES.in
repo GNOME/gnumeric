@@ -34,3 +34,4 @@ src/sheet-view.c
 src/sheet.c
 src/workbook.c
 src/xml-io.c
+src/print.glade.h
