@@ -29,8 +29,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-07-09 02:57+0200\n"
-"PO-Revision-Date: 2002-07-09 02:58+0200\n"
+"POT-Creation-Date: 2002-07-11 01:46+0200\n"
+"PO-Revision-Date: 2002-07-11 01:47+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -555,17 +555,18 @@ msgstr ""
 "Läser och skriver information sparad i formatet \"Data Interchange Format"
 "\" (*.dif)"
 
-#: plugins/excel/boot.c:119
+#: plugins/excel/boot.c:121
 msgid "No Workbook or Book streams found."
 msgstr "Inga arbetsbok- eller bokströmmar hittade."
 
-#: plugins/excel/boot.c:162
+#: plugins/excel/boot.c:165
 msgid "Preparing for save..."
 msgstr "Förbereder sparande..."
 
-#: plugins/excel/boot.c:176
-msgid "Can't open"
-msgstr "Kan inte öppna"
+#: plugins/excel/boot.c:177
+#, c-format
+msgid "Can't open '%s' : %s"
+msgstr "Kan inte öppna \"%s\": %s"
 
 #: plugins/excel/boot.c:186
 msgid "Saving file..."
@@ -615,14 +616,14 @@ msgstr "Ogiltigt lösenord"
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Kunde inte hitta en giltig MS Excel-arbetsbok"
 
-#: plugins/excel/ms-excel-write.c:3599
+#: plugins/excel/ms-excel-write.c:3593
 #, c-format
 msgid "Too many rows for this format (%d > %d)"
 msgstr "För många rader för detta format (%d > %d)"
 
-#: plugins/excel/ms-excel-write.c:3825
-msgid "Can't open stream for writing\n"
-msgstr "Kan inte öppna ström för skrivning\n"
+#: plugins/excel/ms-excel-write.c:3812
+msgid "Couldn't open stream for writing\n"
+msgstr "Kunde inte öppna ström för skrivning\n"
 
 #: plugins/excel/ms-formula-read.c:603
 msgid "Broken function"
