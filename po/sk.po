@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
-"POT-Creation-Date: 2002-07-02 16:52+0200\n"
-"PO-Revision-Date: 2002-07-02 16:57+0200\n"
+"POT-Creation-Date: 2002-07-03 17:02+0200\n"
+"PO-Revision-Date: 2002-07-03 17:03+0200\n"
 "Last-Translator: Stanislav Višňovský <visnovsky@nenya.ms.mff.cuni.cz>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
@@ -427,7 +427,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Funkcie pre finančné produkty"
 
 #: plugins/dif/dif.c:59 plugins/excel/ms-excel-read.c:4579
-#: plugins/mps/mps.c:630 src/xml-io.c:3342
+#: plugins/mps/mps.c:639 src/xml-io.c:3342
 msgid "Reading file..."
 msgstr "Čítam súbor..."
 
@@ -11240,28 +11240,28 @@ msgstr "Lotus 123"
 msgid "Lotus 123 (*.wk1)"
 msgstr "Lotus 123 (*.wk1)"
 
-#: plugins/mps/mps.c:178
+#: plugins/mps/mps.c:187
 msgid "Program Name"
 msgstr "Meno programu"
 
 #. Print 'Status'.
-#: plugins/mps/mps.c:184
+#: plugins/mps/mps.c:193
 msgid "Feasible"
 msgstr "Rozumný"
 
-#: plugins/mps/mps.c:218
+#: plugins/mps/mps.c:227
 msgid "Objective Value"
 msgstr "Objektívna hodnota"
 
-#: plugins/mps/mps.c:224
+#: plugins/mps/mps.c:233
 msgid "Objective function:"
 msgstr "Objektívna funkcia:"
 
-#: plugins/mps/mps.c:231
+#: plugins/mps/mps.c:240
 msgid "Constraints:"
 msgstr "Obmedzenia:"
 
-#: plugins/mps/mps.c:242 src/dialogs/dialog-formula-guru.c:808
+#: plugins/mps/mps.c:251 src/dialogs/dialog-formula-guru.c:808
 #: src/dialogs/dialog-function-select.c:333
 #: src/dialogs/dialog-function-select.c:355
 #: src/dialogs/dialog-plugin-manager.c:709
@@ -11274,7 +11274,7 @@ msgstr "Obmedzenia:"
 msgid "Name"
 msgstr "Meno"
 
-#: plugins/mps/mps.c:269 src/dialogs/dialog-plugin-manager.c:714
+#: plugins/mps/mps.c:278 src/dialogs/dialog-plugin-manager.c:714
 #: src/dialogs/dialog-preferences.c:510 src/tools/solver/reports-write.c:321
 #: src/tools/solver/reports-write.c:367 src/tools/solver/reports-write.c:479
 #: src/tools/solver/reports-write.c:486
@@ -11284,45 +11284,49 @@ msgstr "Hodnoty"
 #.
 #. * Fill in the labels of `General Info' section.
 #.
-#: plugins/mps/mps.c:270 src/dialogs/dialog-formula-guru.c:812
+#: plugins/mps/mps.c:279 src/dialogs/dialog-formula-guru.c:812
 #: src/tools/solver/reports-write.c:602
 msgid "Type"
 msgstr "Typ"
 
-#: plugins/mps/mps.c:271
+#: plugins/mps/mps.c:280
 msgid "RHS"
 msgstr "RHS"
 
-#: plugins/mps/mps.c:272 src/tools/solver/reports-write.c:217
+#: plugins/mps/mps.c:281 src/tools/solver/reports-write.c:217
 msgid "Slack"
 msgstr "Nepresný"
 
-#: plugins/mps/mps.c:273 src/tools/solver/reports-write.c:216
+#: plugins/mps/mps.c:282 src/tools/solver/reports-write.c:216
 #: src/tools/solver/reports-write.c:603
 msgid "Status"
 msgstr "Stav"
 
-#: plugins/mps/mps.c:735
+#: plugins/mps/mps.c:744
 msgid "Error while reading MPS file."
 msgstr "Chyba pri čítaní súboru MPS."
 
-#: plugins/mps/parser.c:523
+#: plugins/mps/parser.c:548
 msgid "Problem name was not defined in the file."
 msgstr "V súbore nie je definované meno problému."
 
-#: plugins/mps/parser.c:528
+#: plugins/mps/parser.c:553
 msgid "Invalid ROWS section in the file."
 msgstr "Neplatná špecifikácia ROWS v súbore."
 
-#: plugins/mps/parser.c:533
+#: plugins/mps/parser.c:558
 msgid "Invalid COLUMNS section in the file."
 msgstr "Neplatná špecifikácia COLUMNS v súbore."
 
-#: plugins/mps/parser.c:538
+#: plugins/mps/parser.c:563
 msgid "Invalid RHS section in the file."
 msgstr "Neplatná špecifikácia RHS v súbore."
 
-#: plugins/mps/parser.c:543
+#: plugins/mps/parser.c:568
+msgid "Invalid RANGES section in the file."
+msgstr "Neplatná špecifikácia RANGES v súbore."
+
+#: plugins/mps/parser.c:573
 msgid "Invalid BOUNDS section in the file."
 msgstr "Neplatná špecifikácia BOUNDS v súbore."
 
