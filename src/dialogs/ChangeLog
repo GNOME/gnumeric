@@ -1,5 +1,9 @@
 2003-08-06  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	* dialog-about.c: include libgnomeui/gnome-href.h
+
+2003-08-06  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* dialog-sheet-order.c (cb_delete_sheets): deleted (was unused)
 
 2003-08-04  Andreas J. Guelzow  <aguelzow@taliesin.ca>

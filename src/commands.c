@@ -3506,12 +3506,24 @@ typedef enum { SRI_text, SRI_comment } SearchReplaceItemType;
 
 typedef struct {
 	EvalPos pos;
+	int sheet_idx;
 	SearchReplaceItemType old_type, new_type;
 	union {
 		char *text;
 		char *comment;
 	} old, new;
 } SearchReplaceItem;
+
+static void
+cmd_search_replace_update_sheet_pointer (GList *sris, WorkbookControl *wbc)
+{
+	for (;sris != NULL; sris = sris->next) {
+		SearchReplaceItem* sri = sris->data;
+		sri->pos.sheet = workbook_sheet_by_index 
+			(wb_control_workbook (wbc), 
+			 sri->sheet_idx);
+	}
+}
 
 
 static void
@@ -3532,10 +3544,12 @@ cmd_search_replace_update_after_action (CmdSearchReplace *me)
 
 static gboolean
 cmd_search_replace_undo (GnumericCommand *cmd,
-			 G_GNUC_UNUSED WorkbookControl *wbc)
+			 WorkbookControl *wbc)
 {
 	CmdSearchReplace *me = CMD_SEARCH_REPLACE (cmd);
 	GList *tmp;
+
+	cmd_search_replace_update_sheet_pointer (me->cells, wbc);
 
 	/* Undo does replacements backwards.  */
 	for (tmp = g_list_last (me->cells); tmp; tmp = tmp->prev) {
@@ -3570,10 +3584,12 @@ cmd_search_replace_undo (GnumericCommand *cmd,
 
 static gboolean
 cmd_search_replace_redo (GnumericCommand *cmd,
-			 G_GNUC_UNUSED WorkbookControl *wbc)
+			 WorkbookControl *wbc)
 {
 	CmdSearchReplace *me = CMD_SEARCH_REPLACE (cmd);
 	GList *tmp;
+
+	cmd_search_replace_update_sheet_pointer (me->cells, wbc);
 
 	/* Redo does replacements forward.  */
 	for (tmp = me->cells; tmp; tmp = tmp->next) {
@@ -3696,6 +3712,7 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, EvalPos *ep,
 				sheet_cell_set_text (cell_res.cell, cell_res.new_text);
 
 				sri->pos = *ep;
+				sri->sheet_idx = ep->sheet->index_in_wb;
 				sri->old_type = sri->new_type = SRI_text;
 				sri->old.text = cell_res.old_text;
 				sri->new.text = cell_res.new_text;
@@ -5761,11 +5778,17 @@ GNUMERIC_MAKE_COMMAND (CmdDefineName, cmd_define_name);
 
 static gboolean
 cmd_define_name_undo (GnumericCommand *cmd,
-		      G_GNUC_UNUSED WorkbookControl *wbc)
+		      WorkbookControl *wbc)
 {
 	CmdDefineName *me = CMD_DEFINE_NAME (cmd);
-	GnmNamedExpr  *nexpr = expr_name_lookup (&(me->pp), me->name);
-	GnmExpr const *expr = nexpr->expr;
+	GnmNamedExpr  *nexpr;
+	GnmExpr const *expr;
+
+	if (me->pp.sheet != NULL)
+		me->pp.sheet = workbook_sheet_by_index 
+			(wb_control_workbook (wbc), cmd->sheet); 
+	nexpr = expr_name_lookup (&(me->pp), me->name);
+	expr = nexpr->expr;
 
 	gnm_expr_ref (expr);
 	if (me->new_name)
@@ -5783,7 +5806,12 @@ static gboolean
 cmd_define_name_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
 	CmdDefineName *me = CMD_DEFINE_NAME (cmd);
-	GnmNamedExpr  *nexpr = expr_name_lookup (&(me->pp), me->name);
+	GnmNamedExpr  *nexpr;
+
+	if (me->pp.sheet != NULL)
+		me->pp.sheet = workbook_sheet_by_index 
+			(wb_control_workbook (wbc), cmd->sheet); 
+	nexpr = expr_name_lookup (&(me->pp), me->name);
 
 	me->new_name = (nexpr == NULL);
 	me->placeholder = (nexpr != NULL)
@@ -5867,7 +5895,8 @@ cmd_define_name (WorkbookControl *wbc,
 	me->pp = *pp;
 	me->expr = expr;
 
-	me->cmd.sheet = wb_control_cur_sheet (wbc)->index_in_wb;
+	me->cmd.sheet = (pp->sheet != NULL) ? pp->sheet->index_in_wb :
+		wb_control_cur_sheet (wbc)->index_in_wb;
 	me->cmd.size = 1;
 
 	nexpr = expr_name_lookup (pp, name);

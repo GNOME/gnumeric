@@ -1,5 +1,16 @@
 2003-08-06  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	* src/commands.c (cmd_search_replace_undo): update
+	  sheet pointer in cells
+	(cmd_search_replace_redo): ditto
+	(cmd_search_replace): initialize sri->sheet_idx
+	(cmd_search_replace_update_sheet_pointer): new
+	(cmd_define_name_undo): update sheet pointer in ParsePos
+	(cmd_define_name_redo): ditto
+	(cmd_define_name): use an appropriate cmd.sheet
+
+2003-08-06  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* src/commands.c (cmd_sort_redo): adjust sheet pointer
 	(cmd_sort_undo): ditto
 
