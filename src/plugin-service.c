@@ -737,9 +737,17 @@ plugin_service_file_saver_read_xml (PluginService *service, xmlNode *tree, Error
 		if (!xml_node_get_int (tree, "default_saver_priority", &(service_file_saver->default_saver_priority)))
 			service_file_saver->default_saver_priority = -1;
 
-		service_file_saver->save_scope = (save_scope_str != NULL &&
-		                                 g_ascii_strcasecmp (save_scope_str, "sheet") == 0) ?
-		                                 FILE_SAVE_SHEET : FILE_SAVE_WORKBOOK;
+		service_file_saver->save_scope = FILE_SAVE_WORKBOOK;
+		if (save_scope_str) {
+			if (g_ascii_strcasecmp (save_scope_str, "sheet") == 0)
+				service_file_saver->save_scope 
+					= FILE_SAVE_SHEET;
+			else if (g_ascii_strcasecmp (save_scope_str, 
+						     "range") == 0) {
+				service_file_saver->save_scope 
+					= FILE_SAVE_RANGE;
+			}
+		}
 		if (!xml_node_get_bool (tree, "overwrite_files", &(service_file_saver->overwrite_files)))
 			service_file_saver->overwrite_files = TRUE;
 	} else {

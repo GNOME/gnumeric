@@ -31,6 +31,7 @@
 #include "gnumeric-gconf.h"
 
 #include <gsf/gsf-input-memory.h>
+#include <gsf/gsf-output-memory.h>
 #include <libxml/globals.h>
 #include <locale.h>
 #include <string.h>
@@ -316,6 +317,62 @@ x_clipboard_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 	}
 }
 
+/* Cheezy implementation: paste into a temporary workbook, save that. */
+static guchar *
+table_cellregion_write (WorkbookControl *wbc, CellRegion *cr,
+			char * saver_id, int *size)
+{
+	guchar *ret = NULL;
+	const GnmFileSaver *saver = gnm_file_saver_for_id (saver_id);
+	GsfOutput *output;
+	IOContext *ioc;
+	Workbook *wb;
+	WorkbookView *wb_view;
+	Sheet *sheet;
+	PasteTarget pt;
+	Range r;
+	
+	*size = 0;
+	if (!saver)
+		return NULL;
+
+	output = GSF_OUTPUT (gsf_output_memory_new ());
+	ioc = gnumeric_io_context_new (COMMAND_CONTEXT (wbc));
+	wb = workbook_new_with_sheets (1);
+	wb_view = workbook_view_new (wb);
+
+	sheet = (Sheet *) workbook_sheets (wb)->data;
+	memset (&r, 0, sizeof r);
+	r.end.col = cr->cols - 1;
+	r.end.row = cr->rows - 1;
+	
+	paste_target_init (&pt, sheet, &r, PASTE_ALL_TYPES);
+	if (clipboard_paste_region (cr, &pt, COMMAND_CONTEXT (wbc)) == FALSE) {
+		gnm_file_saver_save (saver, ioc, wb_view, output);
+		if (!gnumeric_io_error_occurred (ioc)) {
+			GsfOutputMemory *omem = GSF_OUTPUT_MEMORY (output);
+			gsf_off_t osize = gsf_output_size (output);
+			
+			*size = osize;
+			if (*size == osize) {
+				ret = g_malloc (*size);
+				memcpy (ret,
+					gsf_output_memory_get_bytes (omem),
+					*size);
+			} else {
+				g_warning ("Overflow");	/* Far fetched! */
+			}
+		}
+	}
+	gsf_output_close (output);
+ 	g_object_unref (wb_view);
+	g_object_unref (wb);
+	g_object_unref (G_OBJECT (ioc));
+	g_object_unref (G_OBJECT (output));
+
+	return ret;
+}
+
 /**
  * x_clipboard_get_cb
  *
@@ -327,7 +384,6 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 {
 	gboolean to_gnumeric = FALSE, content_needs_free = FALSE;
 	CellRegion *clipboard = application_clipboard_contents_get ();
-	GdkAtom atom_gnumeric = gdk_atom_intern (GNUMERIC_ATOM_NAME, FALSE);
 	Sheet *sheet = application_clipboard_sheet_get ();
 	Range const *a = application_clipboard_area_get ();
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
@@ -359,19 +415,26 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 	 * in fact we only have to check the 'info' variable, however
 	 * to be absolutely sure I check if the atom checks out too
 	 */
-	if (selection_data->target == atom_gnumeric
-#if 0
-	    /* The 'info' parameter is junk with gtk_clipboard_set_with_owner
-	       on gtk 2.0  */
-	    && info == GNUMERIC_ATOM_INFO
-#endif
-		) {
+	if (selection_data->target == gdk_atom_intern (GNUMERIC_ATOM_NAME,
+						       FALSE)) {
 		int buffer_size;
+
 		xmlChar *buffer = xml_cellregion_write (wbc, clipboard, &buffer_size);
 		gtk_selection_data_set (selection_data, GDK_SELECTION_TYPE_STRING, 8,
 					(guchar *) buffer, buffer_size);
 		xmlFree (buffer);
 		to_gnumeric = TRUE;
+	} else if (selection_data->target == gdk_atom_intern (HTML_ATOM_NAME,
+							      FALSE)) {
+		char *saver_id = (char *) "Gnumeric_html:xhtml_range";
+		int buffer_size;
+		guchar *buffer = table_cellregion_write (wbc, clipboard,
+							   saver_id,
+							   &buffer_size);
+		gtk_selection_data_set (selection_data,
+					GDK_SELECTION_TYPE_STRING, 8,
+					(guchar *) buffer, buffer_size);
+		g_free (buffer);
 	} else {
 		PangoContext *context = gtk_widget_get_pango_context (GTK_WIDGET (wbcg_toplevel (wbcg)));
 		char *rendered_selection = cellregion_to_string (context, clipboard);
@@ -447,7 +510,7 @@ x_claim_clipboard (WorkbookControlGUI *wbcg)
 	GdkDisplay *display = gtk_widget_get_display (GTK_WIDGET (wbcg_toplevel (wbcg)));
 	static GtkTargetEntry const targets[] = {
 		{ (char *) GNUMERIC_ATOM_NAME,  GTK_TARGET_SAME_WIDGET, GNUMERIC_ATOM_INFO },
-		/* { (char *)"text/html", 0, 0 }, */
+		{ (char *)"text/html", 0, 0 },
 		{ (char *)"UTF8_STRING", 0, 0 },
 		{ (char *)"COMPOUND_TEXT", 0, 0 },
 		{ (char *)"STRING", 0, 0 },

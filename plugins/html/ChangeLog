@@ -1,3 +1,15 @@
+2003-06-24  Jon K Hellan  <hellan@acm.org>
+
+	* plugin.xml.in: Add xhtml_range saver. Used when exporting to
+	clipboard.
+
+	* html.[ch] (xhtml_range_file_save): New function. Save range as
+	xhtml. Used when exporting to clipboard.
+
+	* html.c (write_sheet): Add save_scope parameter. Don't add
+	caption if scope is 'range'.
+	(html_file_save): Call write_sheet with save_scope argument.
+
 2003-06-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* latex.c (latex_fputs_utf): new

@@ -471,7 +471,7 @@ gnm_file_saver_set_save_scope (GnmFileSaver *fs, FileSaveScope scope)
 }
 
 FileSaveScope
-gnm_file_saver_get_save_scope (GnmFileSaver *fs)
+gnm_file_saver_get_save_scope (GnmFileSaver const *fs)
 {
 	g_return_val_if_fail (IS_GNM_FILE_SAVER (fs), FILE_SAVE_WORKBOOK);
 

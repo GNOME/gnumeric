@@ -424,7 +424,8 @@ write_row (GsfOutput *output, Sheet *sheet, gint row, Range *range, html_version
  * set up a table and call write_row for each row
  */
 static void
-write_sheet (GsfOutput *output, Sheet *sheet, html_version_t version)
+write_sheet (GsfOutput *output, Sheet *sheet, 
+	     html_version_t version, FileSaveScope save_scope)
 {
 	Range total_range;
 	gint row;
@@ -441,10 +442,11 @@ write_sheet (GsfOutput *output, Sheet *sheet, html_version_t version)
 		break;
 	}
 
-	gsf_output_puts (output, "<caption>");
-	html_print_encoded (output, sheet->name_unquoted);
-	gsf_output_puts (output, "</caption>\n");
-
+	if (save_scope != FILE_SAVE_RANGE) {
+		gsf_output_puts (output, "<caption>");
+		html_print_encoded (output, sheet->name_unquoted);
+		gsf_output_puts (output, "</caption>\n");
+	}
 	total_range = sheet_get_extent (sheet, TRUE);
 	for (row = total_range.start.row; row <=  total_range.end.row; row++) {
 		gsf_output_puts (output, "<tr>\n");
@@ -466,7 +468,9 @@ html_file_save (GnmFileSaver const *fs, IOContext *io_context,
 {
 	GList *sheets, *ptr;
 	Workbook *wb = wb_view_workbook (wb_view);
+	FileSaveScope save_scope;
 
+	g_return_if_fail (fs != NULL);
 	g_return_if_fail (wb != NULL);
 	g_return_if_fail (output != NULL);
 
@@ -545,8 +549,9 @@ html_file_save (GnmFileSaver const *fs, IOContext *io_context,
 	}
 
 	sheets = workbook_sheets (wb);
+	save_scope = gnm_file_saver_get_save_scope (fs);
 	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
-		write_sheet (output, (Sheet *) ptr->data, version);
+		write_sheet (output, (Sheet *) ptr->data, version, save_scope);
 	}
 	g_list_free (sheets);
 	if (version == HTML32 || version == HTML40 || version == XHTML)
@@ -581,3 +586,10 @@ xhtml_file_save (GnmFileSaver const *fs, IOContext *io_context,
 	html_file_save (fs, io_context, wb_view, output, XHTML);
 }
 
+void
+xhtml_range_file_save (GnmFileSaver const *fs, IOContext *io_context,
+		      WorkbookView const *wb_view, GsfOutput *output)
+{
+	/* Identical, but fs->save_scope is different */
+	xhtml_file_save (fs, io_context, wb_view, output);
+}

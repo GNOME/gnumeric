@@ -34,6 +34,8 @@ void html40frag_file_save (GnmFileSaver const *fs, IOContext *io_context,
 			   WorkbookView const  *wb_view, GsfOutput *output);
 void xhtml_file_save	  (GnmFileSaver const *fs, IOContext *io_context,
 			   WorkbookView const  *wb_view, GsfOutput *output);
+void xhtml_range_file_save (GnmFileSaver const *fs, IOContext *io_context,
+			    WorkbookView const  *wb_view, GsfOutput *output);
 
 void html_file_open (GnmFileOpener const *fo, IOContext *io_context, 
 		     WorkbookView *wb_view, GsfInput *input);

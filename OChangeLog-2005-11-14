@@ -1,3 +1,22 @@
+2003-06-24  Jon K Hellan  <hellan@acm.org>
+
+	* src/plugin-service.c (plugin_service_file_saver_read_xml):
+	Recognize save_scope value "range".
+
+	* src/gui-file.c (make_format_chooser): Leave savers with scope
+	'range' out from menu.
+
+	* src/gui-clipboard.c (table_cellregion_write): New
+	function. Convert to memory buffer in format wanted by clipboard
+	by pasting into a temporary workbook, saving that to a memory
+	output stream.
+	(x_clipboard_get_cb): Export to clipboard as xhtml.
+
+	* src/file.h (enum FileSaveScope): Add FILE_SAVE_RANGE, used when
+	exporting to clipboard.
+
+	* src/file.[ch] (gnm_file_saver_get_save_scope): Constify.
+
 2003-06-23  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/main-application.c (warn_about_ancient_gnumerics): change

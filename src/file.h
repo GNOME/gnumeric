@@ -44,6 +44,7 @@ typedef enum {
 typedef enum {
 	FILE_SAVE_WORKBOOK,
 	FILE_SAVE_SHEET,
+	FILE_SAVE_RANGE,
 	FILE_SAVE_LAST
 } FileSaveScope;
 
@@ -115,7 +116,7 @@ GnmFileSaver *gnm_file_saver_new (const gchar *id,
 				  GnmFileSaverSaveFunc save_func);
 
 void          gnm_file_saver_set_save_scope (GnmFileSaver *fs, FileSaveScope scope);
-FileSaveScope gnm_file_saver_get_save_scope (GnmFileSaver *fs);
+FileSaveScope gnm_file_saver_get_save_scope (GnmFileSaver const *fs);
 
 void         gnm_file_saver_save (GnmFileSaver const *fs, IOContext *io_context,
                                    WorkbookView const *wbv, GsfOutput *output);

@@ -75,9 +75,15 @@ make_format_chooser (GList *list, GtkOptionMenu *omenu)
 		else if (IS_GNM_FILE_OPENER (l->data))
 			descr = gnm_file_opener_get_description (
 						GNM_FILE_OPENER (l->data));
-		else
-			descr = gnm_file_saver_get_description (
-						GNM_FILE_SAVER (l->data));
+		else {
+			GnmFileSaver *saver = GNM_FILE_SAVER (l->data);
+			FileSaveScope save_scope;
+
+			save_scope = gnm_file_saver_get_save_scope (saver);
+			if (save_scope == FILE_SAVE_RANGE) 
+				continue;
+			descr = gnm_file_saver_get_description (saver);
+		}
 		item = gtk_menu_item_new_with_label (descr);
 		gtk_widget_show (item);
 		gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
@@ -271,7 +277,7 @@ check_multiple_sheet_support_if_needed (GnmFileSaver *fs,
 {
 	gboolean ret_val = TRUE;
 
-	if (gnm_file_saver_get_save_scope (fs) == FILE_SAVE_SHEET &&
+	if (gnm_file_saver_get_save_scope (fs) != FILE_SAVE_WORKBOOK &&
 	    gnm_app_prefs->file_ask_single_sheet_save) {
 		GList *sheets;
 		gchar *msg = _("Selected file format doesn't support "
