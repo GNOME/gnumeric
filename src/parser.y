@@ -793,7 +793,7 @@ array_cols: array_row {
 static char const *
 find_matching_close (char const *str, char const **res)
 {
-	for (; *str; str = g_utf8_next_char (str)) {
+	while (*str) {
 		if (*str == '(') {
 			char const *tmp = str;
 			str = find_matching_close (str + 1, res);
@@ -805,16 +805,28 @@ find_matching_close (char const *str, char const **res)
 			return str;
 		else if (*str == '\'' || *str == '\"') {
 			GString *dummy = g_string_new ("");
-			const char *end = gnm_strunescape (dummy, str);
+			char const *end = gnm_strunescape (dummy, str);
 			g_string_free (dummy, TRUE);
-			if (end)
-				str = end;
-			else
+			if (end == NULL)
 				return str + strlen (str);
+			str = end;
+			continue; /* skip incrementing str */
 		}
+		str = g_utf8_next_char (str);
 	}
 
 	return str;
+}
+
+static inline int
+eat_space (ParserState *state, int res)
+{
+	/* help the user by ignoring pointless spaces after a
+	 * seperator.  We know they are going to be errors and
+	 * the spaces can not be operators in this context */
+	while (*state->ptr == ' ')
+		state->ptr++;
+	return res;
 }
 
 static int
@@ -939,10 +951,10 @@ yylex (void)
 	}
 
 	if (c == ':' && state->convs->range_sep_colon)
-		return RANGE_SEP;
+		return eat_space (state, RANGE_SEP);
 
 	if (c == '!' && state->convs->sheet_sep_exclamation)
-		return SHEET_SEP;
+		return eat_space (state, SHEET_SEP);
 
 	if (c == '.' && *state->ptr == '.' && state->convs->range_sep_dotdot) {
 		state->ptr++;
@@ -968,7 +980,7 @@ yylex (void)
 	}
 
 	if (c == state->separator)
-		return SEPARATOR;
+		return eat_space (state, SEPARATOR);
 
 	if (start != (end = state->convs->ref_parser (&ref, start, state->pos))) {
 		state->ptr = end;
@@ -1176,21 +1188,21 @@ yylex (void)
 	if (c == '<'){
 		if (*state->ptr == '='){
 			state->ptr++;
-			return LTE;
+			return eat_space (state, LTE);
 		}
 		if (*state->ptr == '>'){
 			state->ptr++;
-			return NE;
+			return eat_space (state, NE);
 		}
-		return c;
+		return eat_space (state, c);
 	}
 
 	if (c == '>'){
 		if (*state->ptr == '='){
 			state->ptr++;
-			return GTE;
+			return eat_space (state, GTE);
 		}
-		return c;
+		return eat_space (state, c);
 	}
 
 	return c;

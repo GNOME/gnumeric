@@ -1,5 +1,14 @@
 2003-05-31  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=114084
+	* src/parser.y (find_matching_close) : Generated spurious paren errors
+	  because gnm_strunescape points to the first char after the string
+	  then we incremented.
+	(yylex) : As long as we're down here tack ona  bit of user
+	  friendliness in the face of spaces.  If we know they can't be
+	  operators based on the token we're returning ignore them to help the
+	  users out.
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=114147.
 	* src/sheet.c (sheet_clone_colrow_info) : copy max outline level too.
 
