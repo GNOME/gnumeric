@@ -1,3 +1,11 @@
+Sun Aug 30 17:19:02 EDT 1998 Daniel Veillard <Daniel.Veillard@w3.org>
+
+	* src/xml-io.c: added saving of the current workbook as one
+	  file, added code to load the workbook. Some part are really
+	  untested/incomplete especially the style support. 
+	* src/main.c (main): added loading of "default.wb" on startup
+	  i.e. the default workbook.
+
 1998-08-29  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/item-bar.c (item_bar_get_line_points): New helper routine,
