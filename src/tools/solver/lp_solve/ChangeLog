@@ -1,3 +1,7 @@
+2002-03-16  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* solve.c (milpsolve): Fixed the failure check.
+
 2002-03-15  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* solve.c: Changes related to the enumeration of the solver's

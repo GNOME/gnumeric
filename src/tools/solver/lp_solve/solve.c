@@ -1658,8 +1658,9 @@ milpsolve (lprec      *lp,
 					lp->eta_valid = FALSE;
 				}
 			}
-			if (resone && restwo) /* both failed and must have
-					       * been infeasible */
+			if (resone != SolverOptimal ||
+			    restwo != SolverOptimal) /* both failed and must have
+						      * been infeasible */
 			        failure = SolverInfeasible;
 			else
 			        failure = SolverOptimal;
