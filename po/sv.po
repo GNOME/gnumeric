@@ -30,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2003-05-07 23:15+0200\n"
-"PO-Revision-Date: 2003-05-07 23:18+0200\n"
+"POT-Creation-Date: 2003-05-08 09:36+0200\n"
+"PO-Revision-Date: 2003-05-08 09:38+0200\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -20954,7 +20954,7 @@ msgstr "Kontroll"
 msgid "Cust_om"
 msgstr "_Anpassad"
 
-#: src/dialogs/cell-format.glade.h:28 src/dialogs/dialog-stf-export.glade.h:16
+#: src/dialogs/cell-format.glade.h:28 src/dialogs/dialog-stf-export.glade.h:17
 #: src/dialogs/dialog-stf-format-page.c:190
 #: src/dialogs/dialog-stf-format-page.c:399
 msgid "Custom"
@@ -23110,22 +23110,26 @@ msgid "Bang (!)"
 msgstr "Utropstecken (!)"
 
 #: src/dialogs/dialog-stf-export.glade.h:12
+msgid "Charset:"
+msgstr "Teckenuppsättning:"
+
+#: src/dialogs/dialog-stf-export.glade.h:13
 msgid "Choose export formatting"
 msgstr "Välj exportformatering"
 
-#: src/dialogs/dialog-stf-export.glade.h:13
+#: src/dialogs/dialog-stf-export.glade.h:14
 msgid "Choose sheets to export"
 msgstr "Välj blad att exportera"
 
-#: src/dialogs/dialog-stf-export.glade.h:14
+#: src/dialogs/dialog-stf-export.glade.h:15
 msgid "Colon (:)"
 msgstr "Kolon (:)"
 
-#: src/dialogs/dialog-stf-export.glade.h:15
+#: src/dialogs/dialog-stf-export.glade.h:16
 msgid "Comma (,)"
 msgstr "Komma (,)"
 
-#: src/dialogs/dialog-stf-export.glade.h:17
+#: src/dialogs/dialog-stf-export.glade.h:18
 msgid ""
 "Customize the export format. The line terminator is the character sequence "
 "used for terminating a line in the text file. Whether the quote character is "
@@ -23135,31 +23139,31 @@ msgstr ""
 "avsluta en rad i textfilen. Huruvida citattecknet är placerat runt om celler "
 "beror på det värde som angetts för citering."
 
-#: src/dialogs/dialog-stf-export.glade.h:18
+#: src/dialogs/dialog-stf-export.glade.h:19
 msgid "Exporting structured text"
 msgstr "Exporterar strukturerad text"
 
-#: src/dialogs/dialog-stf-export.glade.h:19
+#: src/dialogs/dialog-stf-export.glade.h:20
 msgid "Hyphen (-)"
 msgstr "Bindestreck (-)"
 
-#: src/dialogs/dialog-stf-export.glade.h:20
+#: src/dialogs/dialog-stf-export.glade.h:21
 msgid "Line termination:"
 msgstr "Radslut:"
 
-#: src/dialogs/dialog-stf-export.glade.h:21
+#: src/dialogs/dialog-stf-export.glade.h:22
 msgid "Macintosh (carriage return)"
 msgstr "Macintosh (vagnretur)"
 
-#: src/dialogs/dialog-stf-export.glade.h:22 src/dialogs/dialog-stf.glade.h:36
+#: src/dialogs/dialog-stf-export.glade.h:23 src/dialogs/dialog-stf.glade.h:36
 msgid "Never"
 msgstr "Aldrig"
 
-#: src/dialogs/dialog-stf-export.glade.h:23
+#: src/dialogs/dialog-stf-export.glade.h:24
 msgid "Pipe (|)"
 msgstr "Rör (|)"
 
-#: src/dialogs/dialog-stf-export.glade.h:24
+#: src/dialogs/dialog-stf-export.glade.h:25
 msgid ""
 "Please select which sheets you want to export from the current workbook. "
 "They will be exported in the same order as in the export list."
@@ -23167,47 +23171,47 @@ msgstr ""
 "Var vänlig välj vilka blad du vill exportera från den aktuella arbetsboken. "
 "De kommer att exporteras i samma ordning som i exportlistan."
 
-#: src/dialogs/dialog-stf-export.glade.h:25
+#: src/dialogs/dialog-stf-export.glade.h:26
 msgid "Quote character:"
 msgstr "Citattecken:"
 
-#: src/dialogs/dialog-stf-export.glade.h:26
+#: src/dialogs/dialog-stf-export.glade.h:27
 msgid "Quoting:"
 msgstr "Citerar:"
 
-#: src/dialogs/dialog-stf-export.glade.h:27
+#: src/dialogs/dialog-stf-export.glade.h:28
 msgid "Semicolon (;)"
 msgstr "Semikolon (;)"
 
-#: src/dialogs/dialog-stf-export.glade.h:28
+#: src/dialogs/dialog-stf-export.glade.h:29
 msgid "Separator:"
 msgstr "Avskiljare:"
 
-#: src/dialogs/dialog-stf-export.glade.h:29
+#: src/dialogs/dialog-stf-export.glade.h:30
 msgid "Sheets to export"
 msgstr "Blad att exportera"
 
-#: src/dialogs/dialog-stf-export.glade.h:30
+#: src/dialogs/dialog-stf-export.glade.h:31
 msgid "Slash (/)"
 msgstr "Snedstreck (/)"
 
-#: src/dialogs/dialog-stf-export.glade.h:31
+#: src/dialogs/dialog-stf-export.glade.h:32
 msgid "Space"
 msgstr "Mellanslag"
 
-#: src/dialogs/dialog-stf-export.glade.h:32
+#: src/dialogs/dialog-stf-export.glade.h:33
 msgid "Tab"
 msgstr "Tabb"
 
-#: src/dialogs/dialog-stf-export.glade.h:33
+#: src/dialogs/dialog-stf-export.glade.h:34
 msgid "Unix (linefeed)"
 msgstr "Unix (radmatning)"
 
-#: src/dialogs/dialog-stf-export.glade.h:34
+#: src/dialogs/dialog-stf-export.glade.h:35
 msgid "Windows (carriage return + linefeed)"
 msgstr "Windows (vagnretur + radmatning)"
 
-#: src/dialogs/dialog-stf-export.glade.h:35 src/dialogs/dialog-stf.glade.h:69
+#: src/dialogs/dialog-stf-export.glade.h:36 src/dialogs/dialog-stf.glade.h:69
 msgid "`"
 msgstr "\""
 
@@ -27183,36 +27187,36 @@ msgstr ""
 "Byte 0x%d hittades.\n"
 "Dina lokalinställningar är troligtvis fel."
 
-#: src/stf.c:325 src/stf.c:355
+#: src/stf.c:327 src/stf.c:357
 msgid "Text to Columns"
 msgstr "Text till kolumner"
 
-#: src/stf.c:330
+#: src/stf.c:332
 #, c-format
 msgid "Only 1 one column of <b>input</b> data can be parsed at a time, not %d"
 msgstr "Endast en kolumn med <b>indata</b> kan tolkas åt gången, inte %d"
 
-#: src/stf.c:361
+#: src/stf.c:363
 msgid "Error while trying to parse data into sheet"
 msgstr "Fel vid tolkning av data i kalkylbladet"
 
-#: src/stf.c:460
+#: src/stf.c:458
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Tolkningsfel vid tolkning av data i kalkylbladet"
 
-#: src/stf.c:526
+#: src/stf.c:524
 msgid "Error while trying to write csv file"
 msgstr "Fel vid skrivning av csv-fil"
 
-#: src/stf.c:541
+#: src/stf.c:539
 msgid "Comma or tab separated files (CSV/TSV)"
 msgstr "Komma- eller tabseparerad fil (CSV/TSV)"
 
-#: src/stf.c:545
+#: src/stf.c:543
 msgid "Text import (configurable)"
 msgstr "Textimport (konfigurerbar)"
 
-#: src/stf.c:549
+#: src/stf.c:547
 msgid "Text export (configurable)"
 msgstr "Textexport (konfigurerbar)"
 
