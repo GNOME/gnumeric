@@ -24,9 +24,13 @@ struct _MSContainer
 	gboolean	 free_blips;
 	GPtrArray	*blips;
 	GList		*obj_queue;
+
+	/* This is the container containing this container */
+	MSContainer	*parent_container;
 };
 
-void ms_container_init (MSContainer *container, MSContainerClass const *vtbl);
+void ms_container_init (MSContainer *container, MSContainerClass const *vtbl,
+			MSContainer *parent_container);
 void ms_container_finalize (MSContainer *container);
 
 void                ms_container_add_blip (MSContainer *c, MSEscherBlip *blip);

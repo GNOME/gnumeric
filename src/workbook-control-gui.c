@@ -593,9 +593,13 @@ wbcg_sheet_remove_all (WorkbookControl *wbc)
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
 
 	if (wbcg->notebook != NULL) {
-		gtk_container_remove (GTK_CONTAINER (wbcg->table),
-				      GTK_WIDGET (wbcg->notebook));
+		GtkWidget *tmp = GTK_WIDGET (wbcg->notebook);
+
+		/* Clear notebook to disable updates as focus changes for pages
+		 * during destruction
+		 */
 		wbcg->notebook = NULL;
+		gtk_container_remove (GTK_CONTAINER (wbcg->table), tmp);
 	}
 }
 

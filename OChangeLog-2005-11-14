@@ -1,5 +1,18 @@
 2001-03-30  Jody Goldberg <jgoldberg@home.com>
 
+	* src/workbook-control-gui.c (wbcg_sheet_remove_all) : clear the
+	  notebook BEFORE deleting it to avoid updating during destuction.
+
+	* src/cellspan.c (cell_calc_span) : Cells in hidden columns can not
+	  have spans.
+
+	* src/file.c (file_finish_load) : no need to manually respan this will
+	  happen via sheet_update.  This gives us a nice speed up.
+
+	* src/sheet.c (sheet_cell_calc_span) : don't reregister spans that
+	  have not changed.
+	(sheet_new) : init all flags to true to ensure things get updated.
+
 	* src/main.c : remove style_debug option tha was unused.
 	* src/mstyle.c (mstyle_elements_equal) : It was only mostly unused :-)
 

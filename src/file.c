@@ -387,13 +387,6 @@ file_finish_load (WorkbookControl *wbc, WorkbookView *new_wbv)
 
 		workbook_recalc (wb_view_workbook (new_wbv));
 
-		/*
-		 * render and calc size of unrendered cells, then calc spans
-		 * for everything
-		 */
-		workbook_calc_spans (wb_view_workbook (new_wbv),
-				     SPANCALC_RENDER|SPANCALC_RESIZE);
-
 		/* FIXME : This should not be needed */
 		workbook_set_dirty (wb_view_workbook (new_wbv), FALSE);
 

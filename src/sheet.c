@@ -122,14 +122,14 @@ sheet_new (Workbook *wb, char const *name)
 #endif
 
 	/* Init, focus, and load handle setting these if/when necessary */
-	sheet->priv->edit_pos.location_changed = FALSE;
-	sheet->priv->edit_pos.content_changed  = FALSE;
-	sheet->priv->edit_pos.format_changed   = FALSE;
+	sheet->priv->edit_pos.location_changed = TRUE;
+	sheet->priv->edit_pos.content_changed  = TRUE;
+	sheet->priv->edit_pos.format_changed   = TRUE;
 
-	sheet->priv->selection_content_changed = FALSE;
-	sheet->priv->reposition_selection = FALSE;
-	sheet->priv->recompute_visibility = FALSE;
-	sheet->priv->recompute_spans = FALSE;
+	sheet->priv->selection_content_changed = TRUE;
+	sheet->priv->reposition_selection = TRUE;
+	sheet->priv->recompute_visibility = TRUE;
+	sheet->priv->recompute_spans = TRUE;
 	sheet->priv->reposition_objects.row = SHEET_MAX_ROWS;
 	sheet->priv->reposition_objects.col = SHEET_MAX_COLS;
 
@@ -347,8 +347,14 @@ sheet_cell_calc_span (Cell const *cell, SpanCalcFlags flags)
 		max_col = right;
 
 	/* This cell already had an existing span */
-	if (existing && (left != span->left || right != span->right))
-		cell_unregister_span (cell);
+	if (existing) {
+		/* If it changed, remove the old one */
+		if (left != span->left || right != span->right)
+			cell_unregister_span (cell);
+		else
+			/* unchaged, short curcuit adding the span again */
+			left = right;
+	}
 
 	if (left != right)
 		cell_register_span (cell, left, right);

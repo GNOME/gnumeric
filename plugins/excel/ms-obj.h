@@ -12,14 +12,6 @@
  **/
 
 #include "config.h"
-#ifdef ENABLE_BONOBO
-#	include <bonobo/bonobo-stream.h>
-#	include <bonobo/bonobo-stream-memory.h>
-#	include "sheet-object-container.h"
-#else
-#	include "sheet-object.h"
-#endif
-
 #include "ms-excel-read.h"
 
 #define MS_ANCHOR_SIZE	18
@@ -27,7 +19,7 @@
 struct _MSObj
 {
 	/* In pixels */
-	guint8	raw_anchor[MS_ANCHOR_SIZE];
+	guint8	raw_anchor [MS_ANCHOR_SIZE];
 	gboolean anchor_set;
 
 	int id;

@@ -87,6 +87,7 @@ cell_register_span (Cell const * const cell, int left, int right)
 		spaninfo->left  = left;
 		spaninfo->right = right;
 
+		g_return_if_fail (row_span_get (ri, i) == NULL);
 		g_hash_table_insert (ri->spans, GINT_TO_POINTER(i), spaninfo);
 	}
 }
@@ -199,7 +200,8 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 
         /*
 	 * Report only one column is used if
-	 *	- Cell is going to re recalculated
+	 *	- Cell is going to be recalculated
+	 *	- Cell is in a hidden col
 	 * 	- Cell is a number
 	 * 	- Cell is the top left of a merged cell
 	 * 	- The text fits inside column (for non center across selection)
@@ -220,6 +222,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 		indented_w += cell_rendered_offset (cell);
 
 	if (cell_needs_recalc (cell) ||
+	    !cell->col_info->visible ||
 	    ((indented_w <= COL_INTERNAL_WIDTH (cell->col_info)) &&
 	     align != HALIGN_CENTER_ACROSS_SELECTION) ||
 	    align == HALIGN_JUSTIFY ||

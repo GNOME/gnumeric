@@ -20,6 +20,13 @@
 #include "ms-excel-read.h"
 #include "ms-obj.h"
 
+#ifdef ENABLE_BONOBO
+#  include <bonobo/bonobo-stream.h>
+#  include <bonobo/bonobo-stream-memory.h>
+#  include "sheet-object-container.h"
+#  include "sheet-object-graphic.h"
+#endif
+
 /* A storage accumulator for common state information */
 typedef struct
 {
@@ -51,9 +58,8 @@ typedef struct _MSEscherHeader
 } MSEscherHeader;
 #define common_header_len 8
 
-static void
-ms_escher_blip_new (const guint8 *data, guint32 len, char const *repoid,
-		    MSContainer *container)
+static MSEscherBlip *
+ms_escher_blip_new (guint8 const *data, guint32 len, char const *repoid)
 {
 	MSEscherBlip *blip = g_new (MSEscherBlip, 1);
 
@@ -65,7 +71,7 @@ ms_escher_blip_new (const guint8 *data, guint32 len, char const *repoid,
 	blip->stream   = bonobo_stream_mem_create (data, len, TRUE, FALSE);
 #endif
 	blip->obj_id  = repoid;
-	ms_container_add_blip (container, blip);
+	return blip;
 }
 
 void
@@ -92,7 +98,7 @@ ms_escher_blip_destroy (MSEscherBlip *blip)
  * drawing record size seems to only count the draw records.  When we only add
  * those the sizes match perfectly.
  */
-static const guint8 *
+static guint8 const *
 ms_escher_get_data (MSEscherState * state,
 		    gint offset,	/* bytes from logical start of the stream */
 		    guint num_bytes,	/* how many bytes we want, incl prefix */
@@ -233,7 +239,7 @@ static gboolean
 ms_escher_read_SplitMenuColors (MSEscherState * state, MSEscherHeader * h)
 {
 	gboolean needs_free;
-	const guint8 * data;
+	guint8 const * data;
 
 	g_return_val_if_fail (h->instance == 4, TRUE);
 	g_return_val_if_fail (h->len == 24, TRUE); /* header + 4*4 */
@@ -277,7 +283,7 @@ bliptype_name (int const type)
 
 #ifndef NO_DEBUG_EXCEL
 static void
-write_file (gchar const * const name, const guint8 * data,
+write_file (gchar const * const name, guint8 const * data,
 	    gint len, int stored_type)
 {
 	static int num = 0;
@@ -306,7 +312,7 @@ ms_escher_read_BSE (MSEscherState * state, MSEscherHeader * h)
 {
 	/* read the header */
 	gboolean needs_free;
-	const guint8 * data =
+	guint8 const * data =
 		ms_escher_get_data (state, h->offset, 36,
 				    common_header_len, &needs_free);
 	guint8 const  win_type	= MS_OLE_GET_GUINT8  (data + 0);
@@ -315,8 +321,8 @@ ms_escher_read_BSE (MSEscherState * state, MSEscherHeader * h)
 	guint32 const size	= MS_OLE_GET_GUINT32 (data + 20);
 	guint32 const ref_count	= MS_OLE_GET_GUINT32 (data + 24);
 	gint32 const del_offset	= MS_OLE_GET_GUINT32 (data + 28);
-	const guint8 is_texture	= MS_OLE_GET_GUINT8  (data + 32);
-	const guint8 name_len	= MS_OLE_GET_GUINT8  (data + 33);
+	guint8 const is_texture	= MS_OLE_GET_GUINT8  (data + 32);
+	guint8 const name_len	= MS_OLE_GET_GUINT8  (data + 33);
 	guint8 checksum[16]; /* RSA Data Security, Inc. MD4 Message-Digest Algorithm */
 	char *name = "unknown";
 	int i;
@@ -352,6 +358,9 @@ ms_escher_read_BSE (MSEscherState * state, MSEscherHeader * h)
 	/* Ignore empties */
 	if (h->len > 36 + common_header_len)
 		return ms_escher_read_container (state, h, 36);
+
+	/* Store a blank */
+	ms_container_add_blip (state->container, NULL);
 	return FALSE;
 }
 
@@ -360,6 +369,8 @@ ms_escher_read_Blip (MSEscherState * state, MSEscherHeader * h)
 {
 	int primary_uid_size = 0;
 	guint32 blip_instance = h->instance;
+	gboolean res = FALSE;
+	MSEscherBlip *blip = NULL;
 
 	/*  This doesn't make alot of sense.
 	 *  Which is the normative indicator of what type the blip is ?
@@ -402,7 +413,7 @@ ms_escher_read_Blip (MSEscherState * state, MSEscherHeader * h)
 			    h->len, header, &needs_free);
 
 		repoid = "OAFIID:GNOME_EOG_Embeddable";
-		ms_escher_blip_new (data, h->len - header, repoid, state->container);
+		blip = ms_escher_blip_new (data, h->len - header, repoid);
 
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_escher_debug > 1)
@@ -418,9 +429,10 @@ ms_escher_read_Blip (MSEscherState * state, MSEscherHeader * h)
 
 	default:
 		g_warning ("Don't know what to do with this image %x\n", h->instance);
-		return TRUE;
+		res = TRUE;
 	};
-	return FALSE;
+	ms_container_add_blip (state->container, blip);
+	return res;
 }
 
 static gboolean
@@ -596,7 +608,7 @@ static gboolean
 ms_escher_read_Sp (MSEscherState * state, MSEscherHeader * h)
 {
 	gboolean needs_free;
-	const guint8 *data =
+	guint8 const *data =
 		ms_escher_get_data (state, h->offset, 8,
 				    common_header_len, &needs_free);
 
@@ -655,7 +667,7 @@ static gboolean
 ms_escher_read_ClientAnchor (MSEscherState *state, MSEscherHeader *h)
 {
 	gboolean needs_free;
-	const guint8 *data;
+	guint8 const *data;
 
 	g_return_val_if_fail (!h->anchor_set, TRUE);
 	g_return_val_if_fail (state != NULL, TRUE);
@@ -753,7 +765,7 @@ ms_escher_read_Dgg (MSEscherState *state, MSEscherHeader *h)
 
 	FDGG fd;
 	guint32 lp;
-	const guint8 *data = h->data + common_header_len;
+	guint8 const *data = h->data + common_header_len;
 	fd.id_clusts = g_array_new (1, 1, sizeof(ID_CLUST));
 	fd.max_spid           = MS_OLE_GET_GUINT32(data+ 0);
 	fd.num_id_clust       = MS_OLE_GET_GUINT32(data+ 4);
@@ -1050,11 +1062,11 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 {
 	int const num_properties = h->instance;
 	gboolean needs_free;
-	const guint8 * const data =
+	guint8 const * const data =
 		ms_escher_get_data (state, h->offset, h->len,
 				    common_header_len, &needs_free);
-	const guint8 *fopte = data;
-	const guint8 *extra = fopte + 6*num_properties;
+	guint8 const *fopte = data;
+	guint8 const *extra = fopte + 6*num_properties;
 	guint prev_pid = 0; /* A debug tool */
 	char const *name;
 	int i;
@@ -1761,11 +1773,14 @@ ms_escher_read_ClientData (MSEscherState *state, MSEscherHeader *h)
 		MSEscherBlip const *blip = ms_container_get_blip (
 			state->container, h->blip_id);
 
-		g_return_val_if_fail (blip != NULL, FALSE);
 		g_return_val_if_fail (sob != NULL, FALSE);
 
-		if (!sheet_object_bonobo_set_object_iid (sob, blip->obj_id) ||
-		    !sheet_object_bonobo_load_stream (sob, blip->stream))
+		/* replace blips we don't know how to handle with rectangles */
+		if (blip == NULL) {
+			gtk_object_destroy (obj->gnum_obj);
+			obj->gnum_obj = GTK_OBJECT (sheet_object_box_new (FALSE));
+		} else if (!sheet_object_bonobo_set_object_iid (sob, blip->obj_id) ||
+			   !sheet_object_bonobo_load_stream (sob, blip->stream))
 			g_warning ("Failed to load '%s' from stream",
 				   blip->obj_id);
 	}
@@ -1804,7 +1819,7 @@ ms_escher_read_container (MSEscherState *state, MSEscherHeader *container,
 				    MSEscherHeader *container) = NULL;
 		gboolean needs_free;
 
-		const guint8 *data =
+		guint8 const *data =
 			ms_escher_get_data (state, h.offset, common_header_len,
 					    0, &needs_free);
 

@@ -8,22 +8,6 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-- While *loading* Vlad's e95 sheet, I get...
-
-      UMR: Uninitialized memory read
-            ms_excel_get_style_from_xf [ms-excel-read.c:1200]
-            ms_excel_set_xf [ms-excel-read.c:1385]
-            ms_excel_sheet_insert [ms-excel-read.c:1773]
-            ms_excel_read_cell [ms-excel-read.c:3131]
-            ms_excel_read_sheet [ms-excel-read.c:3756]
-            ms_excel_read_workbook [ms-excel-read.c:4004]
-
-  ...allocated from...
-            biff_xf_data_new [ms-excel-read.c:1481]
-            ms_excel_read_workbook [ms-excel-read.c:4083]
-            excel_file_open [boot.c:108]
-
-
 Long term breakage
 ------------------
 
@@ -115,7 +99,7 @@ Long term breakage
 	- should scale with font size.  (Say, max (1, font->descent/4?)
 	  gnome-print has a function we could use for printing which returns the
 	  underline thickness.
-	- Should be visible in the edit-item
+	- Should be visible in the edit-item (should edit item use cell_draw ?)
 
 - Functions like SUMPRODUCT need to have better support for sparse ranges.
   We should probably create synchronously_walk_ranges.  (XL goes kaboom on

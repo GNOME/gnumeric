@@ -2017,7 +2017,7 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver)
 	BC(register_handlers)();
 
 	/* FIXME : create an anchor parser for charts */
-	ms_container_init (&state.container, NULL);
+	ms_container_init (&state.container, NULL, container);
 
 	state.container.ver = ver;
 	state.depth = 0;

@@ -39,6 +39,9 @@
 #include "ms-excel-xf.h"
 #include "sheet-object-widget.h"
 #include "sheet-object-graphic.h"
+#ifdef ENABLE_BONOBO
+#  include "sheet-object-container.h"
+#endif
 
 /* #define NO_DEBUG_EXCEL */
 
@@ -1622,8 +1625,10 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, MsBiffVersion ver)
 			printf ("Unknown location %d\n", subdata);
 			break;
 		}
-	}
-	if (ver == MS_BIFF_V8) {	/*
+	} else
+		xf->indent = 0;
+
+	if (ver == MS_BIFF_V8) {/*
 				 * Very different
 				 */
 		int has_diagonals, diagonal_style;
@@ -2311,7 +2316,7 @@ ms_excel_sheet_new (ExcelWorkbook *wb, const char *name)
 
 	ans->gnum_sheet = sheet_new (wb->gnum_wb, name);
 
-	ms_container_init (&ans->container, &vtbl);
+	ms_container_init (&ans->container, &vtbl, &wb->container);
 
 	ans->wb         = wb;
 
@@ -2452,7 +2457,7 @@ ms_excel_workbook_new (MsBiffVersion ver)
 
 	ExcelWorkbook *ans = (ExcelWorkbook *) g_malloc (sizeof (ExcelWorkbook));
 
-	ms_container_init (&ans->container, &vtbl);
+	ms_container_init (&ans->container, &vtbl, NULL);
 	ans->container.ver = ver;
 
 	ans->extern_sheets = NULL;
