@@ -1,3 +1,39 @@
+2000-09-16  Almer S. Tigelaar  <almer1@dds.nl>
+
+	* src/dialogs/autoformat.glade:
+	New autoformat dialog.
+
+	* src/dialogs/dialog-autoformat.c:
+	(fill_category_list): Replace with load_categories.
+	(load_categories): Same role as fill_category_list, but
+	loads them into a GtkList instead.
+	(free_categories): New, frees a GtkList holding categories.
+	(templates_load): Hide the scrollbar when it's not needed, remove
+	obsolete label code.
+	(previews_load): Set only the template name as tooltip.
+	(cb_more_clicked): Removed entirely, the more button is no longer.
+	(cb_new_clicked): Replaced by cb_new_activated.
+	(cb_new_activated): Same as cb_new_clicked but now
+	for a GtkMenuItem.
+	(cb_edit_clicked): Replaced by cb_edit_activated.
+	(cb_edit_activated): Same as cb_edit_clicked but now
+	for a GtkMenuItem.
+	(cb_remove_clicked): Replaced by cb_remove_current_activated.
+	(cb_remove_current_activated): Same as cb_remove_clicked but now
+	for a GtkMenuItem.
+	(cb_categories_select_row): Replace with cb_category_entry_changed.
+	(cb_category_entry_changed): New, same role as cb_categories_select_row,
+	but now for the 'category' GtkEntry instead of the previous GtkCList.
+	(cb_apply_button_toggled): Replaced by cb_apply_item_toggled.
+	(cb_apply_item_toggled): Same as cb_apply_item_toggled, but now for
+	GtkCheckMenuItem.
+	(cb_gridlines_button_toggled): Replaced by cb_gridlines_item_toggled.
+	(cb_gridlines_item_toggled): Same as cb_gridlines_item_toggled, but now
+	for GtkCheckMenuItem.
+	(setup_apply_item): New, load a glade control and bind it's event to
+	cb_apply_item_toggled in one step.
+	(dialog_autoformat): Adjusted to handle the new controls.
+
 2000-09-15  Jody Goldberg <jgoldberg@home.com>
 
 	* src/dialogs/dialog-graph-guru.c (dialog_graph_guru) : Profilacticly
