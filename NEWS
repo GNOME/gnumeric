@@ -2,6 +2,7 @@ Gnumeric 0.99.2
 
 Andreas:
 	* Improve file format documentation
+	* Fis text colour in html and latex exporters (#67550)
 
 Jody:
 	* double check that nearest range is not on another sheet.

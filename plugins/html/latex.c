@@ -55,6 +55,7 @@
 #include <sheet-style.h>
 #include <parse-util.h>
 #include <cellspan.h>
+#include <rendered-value.h>
 
 #include <errno.h>
 #include <stdio.h>
@@ -628,7 +629,9 @@ latex2e_write_multicolumn_cell (FILE *fp, const Cell *cell, const int num_merged
 		}
 
 	/* Check the foreground (text) colour. */
-	textColor = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
+	textColor= cell->rendered_value->render_color;
+	if (textColor == NULL)
+		textColor = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
 	r = textColor->red;
 	g = textColor->green;
 	b = textColor->blue;

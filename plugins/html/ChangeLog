@@ -1,3 +1,10 @@
+2001-12-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=67550
+	* html.c (html_get_text_color) : fix text colours determined 
+	  by number formatting
+	* latex.c (latex2e_write_multicolumn_cell) : ditto
+	
 2001-12-24  Jody Goldberg <jody@gnome.org>
 
 	* Release 0.99.1

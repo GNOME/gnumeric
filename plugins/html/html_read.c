@@ -41,6 +41,7 @@
 #include "font.h"
 #include "plugin-util.h"
 #include "error-info.h"
+#include <rendered-value.h>
 
 #include <gnome.h>
 #include <errno.h>
@@ -117,11 +118,28 @@ html_print_encoded (FILE *fp, char *str)
  *
  */
 static void
+html_get_text_color (Cell *cell, MStyle *mstyle, int *r, int *g, int *b)
+{
+	StyleColor *textColor;
+
+	textColor= cell->rendered_value->render_color;
+	if (textColor == NULL)
+		textColor = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
+	
+	*r = textColor->color.red >> 8;
+	*g = textColor->color.green >> 8;
+	*b = textColor->color.blue >> 8;
+}
+static void
 html_get_color (MStyle *mstyle, MStyleElementType t, int *r, int *g, int *b)
 {
-	*r = mstyle_get_color (mstyle, t)->color.red >> 8;
-	*g = mstyle_get_color (mstyle, t)->color.green >> 8;
-	*b = mstyle_get_color (mstyle, t)->color.blue >> 8;
+	StyleColor *color;
+
+	color = mstyle_get_color (mstyle, t);
+	
+	*r = color->color.red >> 8;
+	*g = color->color.green >> 8;
+	*b = color->color.blue >> 8;
 }
 
 static void
@@ -139,14 +157,14 @@ html_write_cell_content (FILE *fp, Cell *cell, MStyle *mstyle, html_version_t ve
 			fputs ("<B>", fp);
 		if (font_is_monospaced (mstyle))
 			fputs ("<TT>", fp);
-		if (version != HTML40) {
-			html_get_color (mstyle, MSTYLE_COLOR_FORE, &r, &g, &b);
-			if (r > 0 || g > 0 || b > 0)
-				fprintf (fp, "<FONT color=\"#%02X%02X%02X\">", r, g, b);
-		}
 	}
 
 	if (cell != NULL) {
+		if (mstyle != NULL && version != HTML40) {
+			html_get_text_color (cell, mstyle, &r, &g, &b);
+			if (r > 0 || g > 0 || b > 0)
+				fprintf (fp, "<FONT color=\"#%02X%02X%02X\">", r, g, b);
+		}
 		rendered_string = cell_get_rendered_text (cell);
 		html_print_encoded (fp, rendered_string);
 		g_free (rendered_string);
