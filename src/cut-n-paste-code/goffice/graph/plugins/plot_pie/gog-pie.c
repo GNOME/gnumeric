@@ -30,6 +30,8 @@
 #include <goffice/utils/go-math.h>
 
 #include <module-plugin-defs.h>
+#include <numbers.h>
+
 #include <glib/gi18n.h>
 #include <gsf/gsf-impl-utils.h>
 #include <math.h>
@@ -208,7 +210,7 @@ gog_pie_plot_class_init (GogPlotClass *plot_klass)
 
 	g_object_class_install_property (gobject_klass, PLOT_PROP_INITIAL_ANGLE,
 		g_param_spec_float ("initial_angle", "initial_angle",
-			"Degrees counter-clockwise from 3 O'Clock.",
+			"Degrees clockwise from 12 O'Clock.",
 			0, G_MAXFLOAT, 0.,
 			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_DEFAULT_SEPARATION,
@@ -370,7 +372,7 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 	gboolean has_hole;
 	double separation_max, separation;
 	GogPieSeriesElement *gpse;
-	GList *elements, *cur_element;
+	GList *overrides;
 
 	/* compute number of valid series */
 	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
@@ -380,20 +382,20 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 		num_series++;
 	}
 
-	if (num_series <=0 )
+	if (num_series <= 0)
 		return;
 
 	separation_max = .0;
 	outline_width_max = .0;
 	if ((style = gog_styled_object_get_style (GOG_STYLED_OBJECT (series))))
 		outline_width_max = gog_renderer_line_size (view->renderer, style->outline.width);
-	for (cur_element = gog_series_get_elements (GOG_SERIES (series));
-	     cur_element != NULL; 
-	     cur_element = cur_element->next) {
-		separation = GOG_PIE_SERIES_ELEMENT (cur_element->data)->separation;
+	for (overrides = gog_series_get_overrides (GOG_SERIES (series));
+	     overrides != NULL; 
+	     overrides = overrides->next) {
+		separation = GOG_PIE_SERIES_ELEMENT (overrides->data)->separation;
 		if (separation_max < separation)
 			separation_max = separation; 
-		style = gog_styled_object_get_style (GOG_STYLED_OBJECT (cur_element->data));
+		style = gog_styled_object_get_style (GOG_STYLED_OBJECT (overrides->data));
 		if (outline_width_max < style->outline.width)
 			outline_width_max = style->outline.width;
 	}
@@ -444,19 +446,17 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 			style = gog_style_dup (style);
 		gog_renderer_push_style (view->renderer, style);
 
-		elements = gog_series_get_elements (GOG_SERIES (series));
-		cur_element = elements;
-
+		overrides = gog_series_get_overrides (GOG_SERIES (series));
 		for (k = 0 ; k < series->base.num_elements; k++) {
 			len = fabs (vals[k]) * scale;
 			if (!go_finite (len) || len < 1e-3)
 				continue;
 			
 			gpse = NULL;
-			if ((cur_element != NULL) &&
-			    (GOG_SERIES_ELEMENT (cur_element->data)->index == k)) {
-				gpse = GOG_PIE_SERIES_ELEMENT (cur_element->data);
-				cur_element = cur_element->next;
+			if ((overrides != NULL) &&
+			    (GOG_SERIES_ELEMENT (overrides->data)->index == k)) {
+				gpse = GOG_PIE_SERIES_ELEMENT (overrides->data);
+				overrides = overrides->next;
 				gog_renderer_push_style (view->renderer, 
 					gog_styled_object_get_style (
 						GOG_STYLED_OBJECT (gpse)));
@@ -518,8 +518,6 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 				gog_renderer_pop_style (view->renderer);
 		}
 
-		g_list_free (elements);
-
 		gog_renderer_pop_style (view->renderer);
 		if (model->base.vary_style_by_element)
 			g_object_unref (style);
@@ -528,23 +526,69 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 	}
 }
 
-static GogObject *
-gog_pie_view_point (GogView *view, double x, double y)
+static gboolean
+gog_pie_view_info_at_point (GogView *view, double x, double y,
+			    GogObject const *cur_selection,
+			    GogObject **obj, char **name)
 {
-	double r = view->allocation.h;
+	GogPiePlot const *model = GOG_PIE_PLOT (view->model);
+	GogPieSeries const *series = NULL;
+	double *vals, scale, len, theta, r = view->allocation.h;
+	GSList *ptr;
+	unsigned i;
+
 	if (r > view->allocation.w)
 		r = view->allocation.w;
 	r /= 2.;
 	x -= view->allocation.x + view->allocation.w/2.;
 	y -= view->allocation.y + view->allocation.h/2.;
-	return ((x*x + y*y) <= (r*r)) ? view->model : NULL;
+
+	if ((x*x + y*y) > (r*r))
+		return FALSE;
+
+/* TODO : ring just pick first series for now */
+	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next)
+		if (gog_series_is_valid (GOG_SERIES (series = ptr->data)))
+			break;
+	if (ptr == NULL)
+		return FALSE;
+
+	theta = (atan2 (y, x) * 180 / M_PI - model->initial_angle + 90.) / 360.;
+	if (theta < 0)
+		theta += 1.;
+
+	vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[1].data));
+	scale = 1 / series->total;
+	for (i = 0 ; i < series->base.num_elements; i++) {
+		len = fabs (vals[i]) * scale;
+		if (go_finite (len) && len > 1e-3) {
+			theta -= len;
+			if (theta < 0)
+				break;
+		}
+	}
+
+	if (obj != NULL) {
+		if (cur_selection == view->model) {
+			*obj = g_object_new (gog_pie_series_element_get_type (),
+				"index", i, NULL);
+			gog_object_add_by_name (GOG_OBJECT (series), "Point", *obj);
+		} else
+			*obj = view->model;
+	}
+	if (name != NULL)
+		*name = g_strdup_printf (_("%s point %d\nValue %g (%g)"),
+			gog_object_get_name (GOG_OBJECT (series)),
+			i+1, vals[i], len);
+
+	return TRUE;
 }
 
 static void
 gog_pie_view_class_init (GogViewClass *view_klass)
 {
 	view_klass->render = gog_pie_view_render;
-	view_klass->point  = gog_pie_view_point;
+	view_klass->info_at_point  = gog_pie_view_info_at_point;
 }
 
 static GSF_CLASS (GogPieView, gog_pie_view,
@@ -644,7 +688,7 @@ gog_pie_series_class_init (GObjectClass *gobject_klass)
 
 	g_object_class_install_property (gobject_klass, SERIES_PROP_INITIAL_ANGLE,
 		g_param_spec_float ("initial_angle", "initial_angle",
-			"Degrees counter-clockwise from 3 O'Clock.",
+			"Degrees clockwise from 12 O'Clock.",
 			0, G_MAXFLOAT, 0.,
 			G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_klass, SERIES_PROP_SEPARATION,

@@ -381,21 +381,26 @@ gog_radar_view_render (GogView *view, GogViewAllocation const *bbox)
 	}
 }
 
-static GogObject *
-gog_radar_view_point (GogView *view, double x, double y)
+static gboolean
+gog_radar_view_info_at_point (GogView *view, double x, double y,
+			      GogObject const *cur_selection,
+			      GogObject **obj, char **name)
 {
 	double radius = fmin (view->allocation.h, view->allocation.w)/2.0;
 
 	x -= view->allocation.x + view->allocation.w/2.;
 	y -= view->allocation.y + view->allocation.h/2.;
-	return ((x*x + y*y) <= (radius*radius)) ? view->model : NULL;
+	if ((x*x + y*y) > (radius*radius))
+		return FALSE;
+	
+	return TRUE;
 }
 
 static void
 gog_radar_view_class_init (GogViewClass *view_klass)
 {
-	view_klass->render = gog_radar_view_render;
-	view_klass->point = gog_radar_view_point;
+	view_klass->render	  = gog_radar_view_render;
+	view_klass->info_at_point = gog_radar_view_info_at_point;
 }
 
 static GSF_CLASS (GogRadarView, gog_radar_view,

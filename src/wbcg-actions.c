@@ -86,55 +86,19 @@ static GNM_ACTION_DEF (cb_file_new)
 	wbcg_copy_toolbar_visibility (new_wbcg, wbcg);	
 }
 
-static GNM_ACTION_DEF (cb_file_open)
-{
-	gui_file_open (wbcg, NULL);
-	wbcg_focus_cur_scg (wbcg); /* force focus back to sheet */
-}
-
-static GNM_ACTION_DEF (cb_file_save)
-{
-	gui_file_save (wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)));
-	wbcg_focus_cur_scg (wbcg); /* force focus back to sheet */
-}
-
-static GNM_ACTION_DEF (cb_file_save_as)
-{
-	gui_file_save_as (wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)));
-	wbcg_focus_cur_scg (wbcg); /* force focus back to sheet */
-}
-static GNM_ACTION_DEF (cb_file_sendto)
-{
-	wb_view_sendto (wb_control_view (WORKBOOK_CONTROL (wbcg)),
-		GNM_CMD_CONTEXT (wbcg));
-}
-
-static GNM_ACTION_DEF (cb_file_page_setup)
-{
-	dialog_printer_setup (wbcg,
-		wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)));
-}
-
-static GNM_ACTION_DEF (cb_file_print)
-{
-	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
-	sheet_print (wbcg, sheet, FALSE, PRINT_ACTIVE_SHEET);
-}
-
-static GNM_ACTION_DEF (cb_file_print_preview)
-{
-	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
-	if (!wbcg_edit_finish (wbcg, TRUE, NULL))
-		return;
-	sheet_print (wbcg, sheet, TRUE, PRINT_ACTIVE_SHEET);
-}
-
-static GNM_ACTION_DEF (cb_file_summary)
-	{ dialog_summary_update (wbcg, TRUE); }
-static GNM_ACTION_DEF (cb_file_preferences)
-	{ dialog_preferences (wbcg, 0); }
-static GNM_ACTION_DEF (cb_file_close)
-	{ wbcg_close_control (wbcg); }
+static GNM_ACTION_DEF (cb_file_open)	{ gui_file_open (wbcg, NULL); }
+static GNM_ACTION_DEF (cb_file_save)	{ gui_file_save (wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg))); }
+static GNM_ACTION_DEF (cb_file_save_as)	{ gui_file_save_as (wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg))); }
+static GNM_ACTION_DEF (cb_file_sendto)	{
+	wb_view_sendto (wb_control_view (WORKBOOK_CONTROL (wbcg)), GNM_CMD_CONTEXT (wbcg)); }
+static GNM_ACTION_DEF (cb_file_page_setup) { dialog_printer_setup (wbcg, wbcg_cur_sheet (wbcg)); }
+static GNM_ACTION_DEF (cb_file_print)	{
+	sheet_print (wbcg, wbcg_cur_sheet (wbcg), FALSE, PRINT_ACTIVE_SHEET); }
+static GNM_ACTION_DEF (cb_file_print_preview) {
+	sheet_print (wbcg, wbcg_cur_sheet (wbcg), TRUE, PRINT_ACTIVE_SHEET); }
+static GNM_ACTION_DEF (cb_file_summary)		{ dialog_summary_update (wbcg, TRUE); }
+static GNM_ACTION_DEF (cb_file_preferences)	{ dialog_preferences (wbcg, 0); }
+static GNM_ACTION_DEF (cb_file_close)		{ wbcg_close_control (wbcg); }
 
 static GNM_ACTION_DEF (cb_file_quit)
 {
@@ -266,26 +230,18 @@ static GNM_ACTION_DEF (cb_edit_delete_cells)
 
 static GNM_ACTION_DEF (cb_edit_select_all)
 {
-	if (!wbcg_edit_finish (wbcg, TRUE, NULL))
-		return;
 	scg_select_all (wbcg_cur_scg (wbcg));
 }
 static GNM_ACTION_DEF (cb_edit_select_row)
 {
-	if (!wbcg_edit_finish (wbcg, TRUE, NULL))
-		return;
 	sv_select_cur_row (wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg)));
 }
 static GNM_ACTION_DEF (cb_edit_select_col)
 {
-	if (!wbcg_edit_finish (wbcg, TRUE, NULL))
-		return;
 	sv_select_cur_col (wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg)));
 }
 static GNM_ACTION_DEF (cb_edit_select_array)
 {
-	if (!wbcg_edit_finish (wbcg, TRUE, NULL))
-		return;
 	sv_select_cur_array (wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg)));
 }
 static GNM_ACTION_DEF (cb_edit_select_depends)
@@ -334,10 +290,8 @@ static GNM_ACTION_DEF (cb_edit_paste_special)
 
 static GNM_ACTION_DEF (cb_sheet_remove)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	SheetControlGUI *res;
-
-	if (wbcg_sheet_to_page_index (wbcg, wb_control_cur_sheet (wbc), &res) >= 0)
+	if (wbcg_sheet_to_page_index (wbcg, wbcg_cur_sheet (wbcg), &res) >= 0)
 		scg_delete_sheet_if_possible (NULL, res);
 }
 
@@ -345,10 +299,8 @@ static GNM_ACTION_DEF (cb_edit_duplicate_sheet)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet *old_sheet = wb_control_cur_sheet (wbc);
-
 	cmd_clone_sheet (wbc, old_sheet);
 }
-
 
 static void
 common_cell_goto (WorkbookControlGUI *wbcg, Sheet *sheet, GnmCellPos const *pos)
@@ -449,20 +401,8 @@ cb_edit_search_replace_action (WorkbookControlGUI *wbcg,
 }
 
 
-static GNM_ACTION_DEF (cb_edit_search_replace)
-{
-	if (!wbcg_edit_finish (wbcg, TRUE, NULL))
-		return;
-	dialog_search_replace (wbcg, cb_edit_search_replace_action);
-}
-
-
-static GNM_ACTION_DEF (cb_edit_search)
-{
-	if (!wbcg_edit_finish (wbcg, TRUE, NULL))
-		return;
-	dialog_search (wbcg);
-}
+static GNM_ACTION_DEF (cb_edit_search_replace) { dialog_search_replace (wbcg, cb_edit_search_replace_action); }
+static GNM_ACTION_DEF (cb_edit_search) { dialog_search (wbcg); }
 
 static GNM_ACTION_DEF (cb_edit_fill_autofill)
 {
@@ -521,15 +461,11 @@ static GNM_ACTION_DEF (cb_edit_fill_series)
 
 static GNM_ACTION_DEF (cb_edit_goto)
 {
-	if (!wbcg_edit_finish (wbcg, TRUE, NULL))
-		return;
 	dialog_goto_cell (wbcg);
 }
 
 static GNM_ACTION_DEF (cb_edit_recalc)
 {
-	if (!wbcg_edit_finish (wbcg, TRUE, NULL))
-		return;
 	/* TODO :
 	 * f9  -  do any necessary calculations across all sheets
 	 * shift-f9  -  do any necessary calcs on current sheet only
@@ -539,14 +475,12 @@ static GNM_ACTION_DEF (cb_edit_recalc)
 	workbook_recalc_all (wb_control_workbook (WORKBOOK_CONTROL (wbcg)));
 }
 
+static GNM_ACTION_DEF (cb_repeat)	{ command_repeat (WORKBOOK_CONTROL (wbcg)); }
+
 /****************************************************************************/
 
-static GNM_ACTION_DEF (cb_view_zoom)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_zoom (wbcg, wb_control_cur_sheet (wbc));
-}
-
+static GNM_ACTION_DEF (cb_view_zoom)	{ dialog_zoom (wbcg, wbcg_cur_sheet (wbcg)); }
+static GNM_ACTION_DEF (cb_view_new)	{ dialog_new_view (wbcg); }
 static GNM_ACTION_DEF (cb_view_freeze_panes)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
@@ -591,19 +525,14 @@ static GNM_ACTION_DEF (cb_view_freeze_panes)
 		sv_freeze_panes (sv, NULL, NULL);
 }
 
-static GNM_ACTION_DEF (cb_view_new)
-{
-	dialog_new_view (wbcg);
-}
-
 /****************************************************************************/
 
 static GNM_ACTION_DEF (cb_insert_current_date)
 {
 	if (wbcg_edit_start (wbcg, FALSE, FALSE)) {
 		Workbook const *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-		GnmValue *v = value_new_int (datetime_timet_to_serial (time (NULL),
-								    workbook_date_conv (wb)));
+		GnmValue *v = value_new_int (
+			datetime_timet_to_serial (time (NULL), workbook_date_conv (wb)));
 		char *txt = format_value (style_format_default_date (), v, NULL, -1,
 				workbook_date_conv (wb));
 		value_release (v);
@@ -627,8 +556,6 @@ static GNM_ACTION_DEF (cb_insert_current_time)
 
 static GNM_ACTION_DEF (cb_define_name)
 {
-	if (!wbcg_edit_finish (wbcg, TRUE, NULL))
-		return;
 	dialog_define_names (wbcg);
 }
 
@@ -638,8 +565,6 @@ static GNM_ACTION_DEF (cb_insert_rows)
 	Sheet     *sheet = wb_control_cur_sheet (wbc);
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	GnmRange const *sel;
-
-	wbcg_edit_finish (wbcg, FALSE, NULL);
 
 	/* TODO : No need to check simplicty.  XL applies for each non-discrete
 	 * selected region, (use selection_apply).  Arrays and Merged regions
@@ -657,8 +582,6 @@ static GNM_ACTION_DEF (cb_insert_cols)
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	GnmRange const *sel;
 
-	wbcg_edit_finish (wbcg, FALSE, NULL);
-
 	/* TODO : No need to check simplicty.  XL applies for each non-discrete
 	 * selected region, (use selection_apply).  Arrays and Merged regions
 	 * are permitted.
@@ -669,10 +592,7 @@ static GNM_ACTION_DEF (cb_insert_cols)
 	cmd_insert_cols (wbc, sheet, sel->start.col, range_width (sel));
 }
 
-static GNM_ACTION_DEF (cb_insert_cells)
-{
-	dialog_insert_cells (wbcg);
-}
+static GNM_ACTION_DEF (cb_insert_cells) { dialog_insert_cells (wbcg); }
 
 static GNM_ACTION_DEF (cb_insert_comment)
 {
@@ -690,212 +610,42 @@ static GNM_ACTION_DEF (cb_sheet_name)
 	editable_label_start_editing (EDITABLE_LABEL(scg->label));
 }
 
-static GNM_ACTION_DEF (cb_sheet_order)
-{
-        dialog_sheet_order (wbcg);
-}
-
-static GNM_ACTION_DEF (cb_format_cells)
-{
-	if (!wbcg_edit_finish (wbcg, TRUE, NULL))
-		return;
-	dialog_cell_format (wbcg, FD_CURRENT);
-}
-
-static GNM_ACTION_DEF (cb_autoformat)
-{
-	dialog_autoformat (wbcg);
-}
-
-static GNM_ACTION_DEF (cb_workbook_attr)
-{
-	dialog_workbook_attr (wbcg);
-}
-
-static GNM_ACTION_DEF (cb_format_preferences)
-{
-	dialog_preferences (wbcg, 1);
-}
-
-
-
-static GNM_ACTION_DEF (cb_tools_plugins)
-{
-	dialog_plugin_manager (wbcg);
-}
-
-static GNM_ACTION_DEF (cb_tools_autocorrect)
-{
-	dialog_autocorrect (wbcg);
-}
-
-static GNM_ACTION_DEF (cb_tools_auto_save)
-{
-	dialog_autosave (wbcg);
-}
-
-static GNM_ACTION_DEF (cb_tools_goal_seek)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_goal_seek (wbcg, wb_control_cur_sheet (wbc));
-}
-
-static GNM_ACTION_DEF (cb_tools_tabulate)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_tabulate (wbcg, wb_control_cur_sheet (wbc));
-}
-
-static GNM_ACTION_DEF (cb_tools_merge)
-{
-	dialog_merge (wbcg);
-}
-
-static GNM_ACTION_DEF (cb_tools_solver)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_solver (wbcg, wb_control_cur_sheet (wbc));
-}
-
-static GNM_ACTION_DEF (cb_tools_scenario_add)
-{
-	dialog_scenario_add (wbcg);
-}
-
-static GNM_ACTION_DEF (cb_tools_scenarios)
-{
-	dialog_scenarios (wbcg);
-}
-
-static GNM_ACTION_DEF (cb_tools_simulation)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_simulation (wbcg, wb_control_cur_sheet (wbc));
-}
-
-static GNM_ACTION_DEF (cb_tools_anova_one_factor)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_anova_single_factor_tool (wbcg, wb_control_cur_sheet (wbc));
-}
-
-static GNM_ACTION_DEF (cb_tools_anova_two_factor)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_anova_two_factor_tool (wbcg, wb_control_cur_sheet (wbc));
-}
-
-static GNM_ACTION_DEF (cb_tools_correlation)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_correlation_tool (wbcg, wb_control_cur_sheet (wbc));
-}
-
-static GNM_ACTION_DEF (cb_tools_covariance)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_covariance_tool (wbcg, wb_control_cur_sheet (wbc));
-}
-
-static GNM_ACTION_DEF (cb_tools_desc_statistics)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_descriptive_stat_tool (wbcg, wb_control_cur_sheet (wbc));
-}
-
-static GNM_ACTION_DEF (cb_tools_exp_smoothing)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_exp_smoothing_tool (wbcg, wb_control_cur_sheet (wbc));
-}
-
-static GNM_ACTION_DEF (cb_tools_average)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_average_tool (wbcg, wb_control_cur_sheet (wbc));
-}
-
-static GNM_ACTION_DEF (cb_tools_fourier)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_fourier_tool (wbcg, wb_control_cur_sheet (wbc));
-}
-
-static GNM_ACTION_DEF (cb_tools_histogram)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_histogram_tool (wbcg, wb_control_cur_sheet (wbc));
-}
-
-static GNM_ACTION_DEF (cb_tools_ranking)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_ranking_tool (wbcg, wb_control_cur_sheet (wbc));
-}
-
-static GNM_ACTION_DEF (cb_tools_regression)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_regression_tool (wbcg, wb_control_cur_sheet (wbc));
-}
-
-static GNM_ACTION_DEF (cb_tools_sampling)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_sampling_tool (wbcg, wb_control_cur_sheet (wbc));
-}
-
-static GNM_ACTION_DEF (cb_tools_ttest_paired)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_ttest_tool (wbcg, wb_control_cur_sheet (wbc), TTEST_PAIRED);
-}
-
-static GNM_ACTION_DEF (cb_tools_ttest_equal_var)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_ttest_tool (wbcg, wb_control_cur_sheet (wbc), TTEST_UNPAIRED_EQUALVARIANCES);
-}
-
-static GNM_ACTION_DEF (cb_tools_ttest_unequal_var)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_ttest_tool (wbcg, wb_control_cur_sheet (wbc), TTEST_UNPAIRED_UNEQUALVARIANCES);
-}
-
-static GNM_ACTION_DEF (cb_tools_ztest)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_ttest_tool (wbcg, wb_control_cur_sheet (wbc), TTEST_ZTEST);
-}
-
-static GNM_ACTION_DEF (cb_tools_ftest)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_ftest_tool (wbcg, wb_control_cur_sheet (wbc));
-}
-
-static GNM_ACTION_DEF (cb_tools_random_generator)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_random_tool (wbcg, wb_control_cur_sheet (wbc));
-}
-
-static GNM_ACTION_DEF (cb_data_sort)
-{
-	dialog_cell_sort (wbcg);
-}
-
-static GNM_ACTION_DEF (cb_data_shuffle)
-{
-	dialog_shuffle (wbcg);
-}
-
-static GNM_ACTION_DEF (cb_data_import_text)
-{
-	gui_file_open (wbcg, "Gnumeric_stf:stf_druid");
-	wbcg_focus_cur_scg (wbcg); /* force focus back to sheet */
-}
+static GNM_ACTION_DEF (cb_sheet_order)		{ dialog_sheet_order (wbcg); }
+static GNM_ACTION_DEF (cb_format_cells)		{ dialog_cell_format (wbcg, FD_CURRENT); }
+static GNM_ACTION_DEF (cb_autoformat)		{ dialog_autoformat (wbcg); }
+static GNM_ACTION_DEF (cb_workbook_attr)	{ dialog_workbook_attr (wbcg); }
+static GNM_ACTION_DEF (cb_format_preferences)	{ dialog_preferences (wbcg, 1); }
+static GNM_ACTION_DEF (cb_tools_plugins)	{ dialog_plugin_manager (wbcg); }
+static GNM_ACTION_DEF (cb_tools_autocorrect)	{ dialog_autocorrect (wbcg); }
+static GNM_ACTION_DEF (cb_tools_auto_save)	{ dialog_autosave (wbcg); }
+static GNM_ACTION_DEF (cb_tools_goal_seek)	{ dialog_goal_seek (wbcg, wbcg_cur_sheet (wbcg)); }
+static GNM_ACTION_DEF (cb_tools_tabulate)	{ dialog_tabulate (wbcg, wbcg_cur_sheet (wbcg)); }
+static GNM_ACTION_DEF (cb_tools_merge)		{ dialog_merge (wbcg); }
+static GNM_ACTION_DEF (cb_tools_solver)		{ dialog_solver (wbcg, wbcg_cur_sheet (wbcg)); }
+static GNM_ACTION_DEF (cb_tools_scenario_add)	{ dialog_scenario_add (wbcg); }
+static GNM_ACTION_DEF (cb_tools_scenarios)	{ dialog_scenarios (wbcg); }
+static GNM_ACTION_DEF (cb_tools_simulation)	{ dialog_simulation (wbcg, wbcg_cur_sheet (wbcg)); }
+static GNM_ACTION_DEF (cb_tools_anova_one_factor) { dialog_anova_single_factor_tool (wbcg, wbcg_cur_sheet (wbcg)); }
+static GNM_ACTION_DEF (cb_tools_anova_two_factor) { dialog_anova_two_factor_tool (wbcg, wbcg_cur_sheet (wbcg)); }
+static GNM_ACTION_DEF (cb_tools_correlation)	{ dialog_correlation_tool (wbcg, wbcg_cur_sheet (wbcg)); }
+static GNM_ACTION_DEF (cb_tools_covariance)	{ dialog_covariance_tool (wbcg, wbcg_cur_sheet (wbcg)); }
+static GNM_ACTION_DEF (cb_tools_desc_statistics) { dialog_descriptive_stat_tool (wbcg, wbcg_cur_sheet (wbcg)); }
+static GNM_ACTION_DEF (cb_tools_exp_smoothing)	{ dialog_exp_smoothing_tool (wbcg, wbcg_cur_sheet (wbcg)); }
+static GNM_ACTION_DEF (cb_tools_average)	{ dialog_average_tool (wbcg, wbcg_cur_sheet (wbcg)); }
+static GNM_ACTION_DEF (cb_tools_fourier)	{ dialog_fourier_tool (wbcg, wbcg_cur_sheet (wbcg)); }
+static GNM_ACTION_DEF (cb_tools_histogram)	{ dialog_histogram_tool (wbcg, wbcg_cur_sheet (wbcg)); }
+static GNM_ACTION_DEF (cb_tools_ranking)	{ dialog_ranking_tool (wbcg, wbcg_cur_sheet (wbcg)); }
+static GNM_ACTION_DEF (cb_tools_regression)	{ dialog_regression_tool (wbcg, wbcg_cur_sheet (wbcg)); }
+static GNM_ACTION_DEF (cb_tools_sampling)	{ dialog_sampling_tool (wbcg, wbcg_cur_sheet (wbcg)); }
+static GNM_ACTION_DEF (cb_tools_ttest_paired)	{ dialog_ttest_tool (wbcg, wbcg_cur_sheet (wbcg), TTEST_PAIRED); }
+static GNM_ACTION_DEF (cb_tools_ttest_equal_var) { dialog_ttest_tool (wbcg, wbcg_cur_sheet (wbcg), TTEST_UNPAIRED_EQUALVARIANCES); }
+static GNM_ACTION_DEF (cb_tools_ttest_unequal_var) { dialog_ttest_tool (wbcg, wbcg_cur_sheet (wbcg), TTEST_UNPAIRED_UNEQUALVARIANCES); }
+static GNM_ACTION_DEF (cb_tools_ztest)		{ dialog_ttest_tool (wbcg, wbcg_cur_sheet (wbcg), TTEST_ZTEST); }
+static GNM_ACTION_DEF (cb_tools_ftest)		{ dialog_ftest_tool (wbcg, wbcg_cur_sheet (wbcg)); }
+static GNM_ACTION_DEF (cb_tools_random_generator) { dialog_random_tool (wbcg, wbcg_cur_sheet (wbcg)); }
+static GNM_ACTION_DEF (cb_data_sort)		{ dialog_cell_sort (wbcg); }
+static GNM_ACTION_DEF (cb_data_shuffle)		{ dialog_shuffle (wbcg); }
+static GNM_ACTION_DEF (cb_data_import_text)	{ gui_file_open (wbcg, "Gnumeric_stf:stf_druid"); }
 
 static GNM_ACTION_DEF (cb_auto_filter)
 {
@@ -931,39 +681,15 @@ static GNM_ACTION_DEF (cb_auto_filter)
 	sheet_update (sv->sheet);
 }
 
-static GNM_ACTION_DEF (cb_show_all)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	filter_show_all (wb_control_cur_sheet (wbc));
-}
-
-static GNM_ACTION_DEF (cb_data_filter)
-{
-	dialog_advanced_filter (wbcg);
-}
-
-static GNM_ACTION_DEF (cb_data_validate)
-{
-	dialog_cell_format (wbcg, FD_VALIDATION);
-}
-
-static GNM_ACTION_DEF (cb_data_text_to_columns)
-{
-	stf_text_to_columns (WORKBOOK_CONTROL (wbcg),
-			     GNM_CMD_CONTEXT (wbcg));
-}
+static GNM_ACTION_DEF (cb_show_all)		{ filter_show_all (wbcg_cur_sheet (wbcg)); }
+static GNM_ACTION_DEF (cb_data_filter)		{ dialog_advanced_filter (wbcg); }
+static GNM_ACTION_DEF (cb_data_validate)	{ dialog_cell_format (wbcg, FD_VALIDATION); }
+static GNM_ACTION_DEF (cb_data_text_to_columns) { stf_text_to_columns (WORKBOOK_CONTROL (wbcg), GNM_CMD_CONTEXT (wbcg)); }
+static GNM_ACTION_DEF (cb_data_consolidate)	{ dialog_consolidate (wbcg); }
 
 #ifdef ENABLE_PIVOTS
-static GNM_ACTION_DEF (cb_data_pivottable)
-{
-	dialog_pivottable (wbcg);
-}
+static GNM_ACTION_DEF (cb_data_pivottable)	{ dialog_pivottable (wbcg); }
 #endif
-
-static GNM_ACTION_DEF (cb_data_consolidate)
-{
-	dialog_consolidate (wbcg);
-}
 
 static void
 hide_show_detail_real (WorkbookControlGUI *wbcg, gboolean is_cols, gboolean show)
@@ -1039,14 +765,10 @@ group_ungroup_colrow (WorkbookControlGUI *wbcg, gboolean group)
 	cmd_selection_group (wbc, is_cols, group);
 }
 
-static GNM_ACTION_DEF (cb_data_hide_detail)
-	{ hide_show_detail (wbcg, FALSE); }
-static GNM_ACTION_DEF (cb_data_show_detail)
-	{ hide_show_detail (wbcg, TRUE); }
-static GNM_ACTION_DEF (cb_data_group)
-	{ group_ungroup_colrow (wbcg, TRUE); }
-static GNM_ACTION_DEF (cb_data_ungroup)
-	{ group_ungroup_colrow (wbcg, FALSE); }
+static GNM_ACTION_DEF (cb_data_hide_detail)	{ hide_show_detail (wbcg, FALSE); }
+static GNM_ACTION_DEF (cb_data_show_detail)	{ hide_show_detail (wbcg, TRUE); }
+static GNM_ACTION_DEF (cb_data_group)		{ group_ungroup_colrow (wbcg, TRUE); }
+static GNM_ACTION_DEF (cb_data_ungroup)		{ group_ungroup_colrow (wbcg, FALSE); }
 
 static GNM_ACTION_DEF (cb_help_docs)
 {
@@ -1090,9 +812,6 @@ static GNM_ACTION_DEF (cb_autosum)
 		 */
 		gtk_editable_set_position (GTK_EDITABLE (entry), entry->text_length-1);
 	}
-
-	/* force focus back to sheet */
-	wbcg_focus_cur_scg (wbcg);
 }
 
 static GNM_ACTION_DEF (cb_insert_image)
@@ -1116,17 +835,8 @@ static GNM_ACTION_DEF (cb_insert_image)
 	}
 }
 
-static GNM_ACTION_DEF (cb_insert_hyperlink)
-{
-	if (!wbcg_edit_finish (wbcg, TRUE, NULL))
-		return;
-	dialog_hyperlink (wbcg, SHEET_CONTROL (wbcg_cur_scg (wbcg)));
-}
-
-static GNM_ACTION_DEF (cb_formula_guru)
-{
-	dialog_formula_guru (wbcg, NULL);
-}
+static GNM_ACTION_DEF (cb_insert_hyperlink)	{ dialog_hyperlink (wbcg, SHEET_CONTROL (wbcg_cur_scg (wbcg))); }
+static GNM_ACTION_DEF (cb_formula_guru)		{ dialog_formula_guru (wbcg, NULL); }
 
 static void
 sort_by_rows (WorkbookControlGUI *wbcg, gboolean descending)
@@ -1477,14 +1187,8 @@ mutate_borders (WorkbookControlGUI *wbcg, gboolean add)
 		add ? _("Add Borders") : _("Remove borders"));
 }
 
-static GNM_ACTION_DEF (cb_format_add_borders)
-{
-	mutate_borders (wbcg, TRUE);
-}
-static GNM_ACTION_DEF (cb_format_clear_borders)
-{
-	mutate_borders (wbcg, FALSE);
-}
+static GNM_ACTION_DEF (cb_format_add_borders)	{ mutate_borders (wbcg, TRUE); }
+static GNM_ACTION_DEF (cb_format_clear_borders)	{ mutate_borders (wbcg, FALSE); }
 
 static void
 modify_format (WorkbookControlGUI *wbcg,
@@ -1825,6 +1529,10 @@ static GtkActionEntry actions[] = {
 	{ "EditRecalc", NULL, N_("Recalculate"),
 		"F9", N_("Recalculate the spreadsheet"),
 		G_CALLBACK (cb_edit_recalc) },
+
+	{ "Repeat", NULL, N_("Repeat"),
+		"F4", N_("Repeat the previous action"),
+		G_CALLBACK (cb_repeat) },
 
 /* View */
 	{ "ViewNew", NULL, N_("_New View..."),
@@ -2193,7 +1901,7 @@ static GNM_ACTION_DEF (cb_sheet_pref_ ## flag )				\
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));		\
 									\
 	if (!wbcg->updating_ui) {					\
-		Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));	\
+		Sheet *sheet = wbcg_cur_sheet (wbcg);			\
 		g_return_if_fail (IS_SHEET (sheet));			\
 									\
 		sheet->flag = !sheet->flag;				\

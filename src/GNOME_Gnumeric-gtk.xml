@@ -297,4 +297,5 @@
   <accelerator name="FormatAsTime"	 action="FormatAsTime"/>
   <accelerator name="FormatAddBorders"	 action="FormatAddBorders"/>
   <accelerator name="FormatClearBorders" action="FormatClearBorders"/>
+  <accelerator name="Repeat"		 action="Repeat"/>
 </ui>

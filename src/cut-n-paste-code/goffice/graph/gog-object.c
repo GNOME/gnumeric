@@ -675,8 +675,10 @@ gog_object_emit_changed (GogObject *obj, gboolean resize)
 
 	if (gog_klass->use_parent_as_proxy) {
 		obj = obj->parent;
-		g_return_if_fail (IS_GOG_OBJECT (obj));
-		gog_object_emit_changed (obj, resize);
+		if (obj != NULL) {
+			g_return_if_fail (IS_GOG_OBJECT (obj));
+			gog_object_emit_changed (obj, resize);
+		}
 		return;
 	}
 	g_signal_emit (G_OBJECT (obj),

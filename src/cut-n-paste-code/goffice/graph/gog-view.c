@@ -485,41 +485,49 @@ gog_view_render	(GogView *view, GogViewAllocation const *bbox)
 }
 
 /**
- * gog_view_point :
+ * gog_view_info_at_point :
  * @view : a #GogView
  * @x : 
  * @y :
+ * @cur_selection : If @cur_selection is the object @x,@y, and it could create
+ *	 a child there, create it
+ * @obj : If non-NULL store the object @x,@y
+ * @name : store the name of the most derived object even if it does not yet exist
+ *	caller is responsible for freeing the string (ignored in NULL)
  *
- * Returns the #GogObject that contains @x,@y.  The caller is responsible for
- * unrefing the result.
+ * Returns TRUE if an object is found
  **/
-GogObject *
-gog_view_point (GogView *view, double x, double y)
+gboolean
+gog_view_info_at_point (GogView *view, double x, double y,
+			GogObject const *cur_selection,
+			GogObject **obj, char **name)
 {
 	GSList *ptr;
-	GogObject *res;
 	GogViewClass *klass = GOG_VIEW_GET_CLASS (view);
 
-	g_return_val_if_fail (klass != NULL, NULL);
-	g_return_val_if_fail (view->allocation_valid, NULL);
-	g_return_val_if_fail (view->child_allocations_valid, NULL);
+	g_return_val_if_fail (klass != NULL, FALSE);
+	g_return_val_if_fail (view->allocation_valid, FALSE);
+	g_return_val_if_fail (view->child_allocations_valid, FALSE);
 
 	if (x < view->allocation.x ||
 	    x >= (view->allocation.x + view->allocation.w) ||
 	    y < view->allocation.y ||
 	    y >= (view->allocation.y + view->allocation.h))
-		return NULL;
+		return FALSE;
 
-	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
-		res = gog_view_point (ptr->data, x, y);
-		if (res != NULL)
-			return res;
-	}
+	for (ptr = view->children; ptr != NULL ; ptr = ptr->next)
+		if (gog_view_info_at_point (ptr->data, x, y, cur_selection, obj, name))
+			return TRUE;
 
-	res = (klass->point != NULL) ? (klass->point) (view, x, y) : view->model;
-	if (res != NULL)
-		g_object_ref (res);
-	return res;
+	if (klass->info_at_point != NULL)
+		return (klass->info_at_point) (view, x, y, cur_selection, obj, name);
+	
+	if (obj != NULL)
+		*obj = view->model;
+	if (name != NULL)
+		*name = g_strdup (gog_object_get_name (view->model));
+
+	return TRUE;
 }
 
 /**

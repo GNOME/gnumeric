@@ -61,7 +61,8 @@ Jody:
 	* fix grid printing
 	* fix merged cell printing and diagonal borders
 	* Allow themed series with gradients
-	* Fix prop dialog
+	* Fix application prop dialog
+	* Support repeat for several commands
 
 Morten:
 	* Fix crash related to database functions (#138600).  [backported]

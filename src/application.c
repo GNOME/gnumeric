@@ -165,7 +165,7 @@ gnm_app_clipboard_clear (gboolean drop_selection)
 	g_return_if_fail (app != NULL);
 
 	if (app->clipboard_copied_contents) {
-		cellregion_free (app->clipboard_copied_contents);
+		cellregion_unref (app->clipboard_copied_contents);
 		app->clipboard_copied_contents = NULL;
 	}
 	if (app->clipboard_sheet_view != NULL) {

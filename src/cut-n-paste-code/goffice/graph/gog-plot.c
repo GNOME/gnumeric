@@ -335,11 +335,12 @@ gog_plot_foreach_elem (GogPlot *plot, gboolean only_visible,
 {
 	GSList *ptr;
 	GogSeries const *series;
-	GogStyle *style;
+	GogStyle *style, *tmp_style;
 	GODataVector *labels;
 	unsigned i, n, num_labels = 0;
 	char *label = NULL;
 	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (plot));
+	GList *overrides;
 
 	g_return_if_fail (GOG_PLOT (plot) != NULL);
 	g_return_if_fail (plot->cardinality_valid);
@@ -367,8 +368,15 @@ gog_plot_foreach_elem (GogPlot *plot, gboolean only_visible,
 	}
 	style = gog_style_dup (series->base.style);
 	n = only_visible ? plot->visible_cardinality : plot->full_cardinality;
-	for (i = 0; i < n ; i++) {
-		gog_theme_fillin_style (theme, style, GOG_OBJECT (series),
+	for (overrides = series->overrides, i = 0; i < n ; i++) {
+		if (overrides != NULL &&
+		    (GOG_SERIES_ELEMENT (overrides->data)->index == i)) {
+			tmp_style = GOG_STYLED_OBJECT (overrides->data)->style;
+			overrides = overrides->next;
+		} else
+			tmp_style = style;
+
+		gog_theme_fillin_style (theme, tmp_style, GOG_OBJECT (series),
 			plot->index_num + i, FALSE);
 		if (labels != NULL)
  			label = (i < num_labels)
@@ -377,7 +385,7 @@ gog_plot_foreach_elem (GogPlot *plot, gboolean only_visible,
 			label = NULL;
 		if (label == NULL)
 			label = g_strdup_printf ("%d", i);
-		(func) (i, style, label, data);
+		(func) (i, tmp_style, label, data);
 		g_free (label);
 	}
 	g_object_unref (style);

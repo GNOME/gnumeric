@@ -66,6 +66,7 @@ struct _GnmCellRegion {
 	GnmStyleList	*styles;
 	GSList		*merged;
 	gboolean	 not_as_content;
+	unsigned	 ref_count;
 };
 
 struct _GnmPasteTarget {
@@ -75,14 +76,15 @@ struct _GnmPasteTarget {
 };
 
 GnmCellRegion *clipboard_copy_range   (Sheet *sheet, GnmRange const *r);
-gboolean    clipboard_paste_region (GnmCellRegion const *content,
-				    GnmPasteTarget const *pt,
-				    GnmCmdContext *cc);
+gboolean       clipboard_paste_region (GnmCellRegion const *content,
+				       GnmPasteTarget const *pt,
+				       GnmCmdContext *cc);
 GnmPasteTarget*paste_target_init      (GnmPasteTarget *pt,
-				    Sheet *sheet, GnmRange const *r, int flags);
+				       Sheet *sheet, GnmRange const *r, int flags);
 
 GnmCellRegion *cellregion_new	 (Sheet *origin_sheet);
-void        cellregion_free      (GnmCellRegion *content);
-char	   *cellregion_to_string (PangoContext *context, GnmCellRegion const *content);
+void        cellregion_ref       (GnmCellRegion *content);
+void        cellregion_unref     (GnmCellRegion *content);
+char	   *cellregion_to_string (GnmCellRegion const *content, PangoContext *context);
 
 #endif /* GNUMERIC_CLIPBOARD_H */

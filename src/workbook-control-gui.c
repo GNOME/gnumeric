@@ -226,6 +226,12 @@ wbcg_focus_cur_scg (WorkbookControlGUI *wbcg)
 	return sc_sheet (SHEET_CONTROL (scg));
 }
 
+Sheet *
+wbcg_cur_sheet (WorkbookControlGUI *wbcg)
+{
+	return wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+}
+
 SheetControlGUI *
 wbcg_cur_scg (WorkbookControlGUI *wbcg)
 {

@@ -5,8 +5,9 @@
 #include "gnumeric.h"
 #include "tools/tools.h"
 
-void command_undo (WorkbookControl *wbc);
-void command_redo (WorkbookControl *wbc);
+void command_undo   (WorkbookControl *wbc);
+void command_redo   (WorkbookControl *wbc);
+void command_repeat (WorkbookControl *wbc);
 void command_setup_combos	(WorkbookControl *wbc);
 void command_list_release	(GSList *cmds);
 

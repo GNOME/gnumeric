@@ -1,8 +1,44 @@
+2004-07-12  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (wbcg_cur_sheet) :  new convenience
+	  routine
+
+	* src/wbcg-actions.c : tidy up a bit
+
+	* src/wbc-gtk.c (wbc_gtk_init_undo_redo) : tie sensitivity of repeat
+	  to undo.
+
+2004-07-11  Jody Goldberg <jody@gnome.org>
+
+	* src/commands.c (cmd_set_text_repeat) : new
+	  (missing validation support)
+	(cmd_area_set_text_repeat) :  new.
+	(cmd_ins_del_colrow_repeat) : new.
+	(cmd_clear_repeat) :  new.
+	(cmd_format_repeat) :  new.
+	(cmd_colrow_hide_repeat) :  new.
+	(cmd_group_repeat) : new.
+	(cmd_paste_copy_repeat) : new.
+	(cmd_autofill_repeat) : new.
+	(cmd_autoformat_repeat) : new.
+	(cmd_unmerge_cells_repeat) : new.
+	(cmd_merge_cells_repeat) : new.
+	(cmd_clone_sheet_repeat) : new.
+
+2004-07-09  Jody Goldberg <jody@gnome.org>
+
+	* src/GNOME_Gnumeric-gtk.xml : Add repeat as an accelerator
+	* src/commands.c (func) : add some hooks for repeat
+
 2004-07-12  Morten Welinder  <terra@gnome.org>
 
 	* src/wbcg-actions.c: Use gtk about icon if available.
 
 2004-07-09  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=146486
+	* src/expr.c (cb_bin_arith) : handle VALUE_EMPTY for implicit
+	  iteration with arithmetic operators.
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=146511
 	* src/func.c (function_call_with_list) : Use value_get rather than

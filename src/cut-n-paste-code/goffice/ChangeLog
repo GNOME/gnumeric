@@ -1,3 +1,18 @@
+2004-07-12  Jody Goldberg <jody@gnome.org>
+
+	* graph/plugins/plot_pie/gog-pie.c (gog_pie_view_info_at_point) :
+	  expand this to offer name and override creation.
+
+	* graph/gog-view.c (gog_view_info_at_point) :  expand this interface a
+	  bit. I'm still not happy with it.
+
+	* graph/gog-series.c :  keep a sorted list of overrides in place
+
+	* graph/gog-plot.c (gog_plot_foreach_elem) :  handle point overrides
+
+	* graph/gog-object.c (gog_object_emit_changed) :  handle updates for
+	  objects not yet connected to parents.
+
 2004-07-11  Christopher James Lahey  <clahey@ximian.com>
 
 	* drawing/Makefile.am (libgoffice_drawing_la_SOURCES): Added

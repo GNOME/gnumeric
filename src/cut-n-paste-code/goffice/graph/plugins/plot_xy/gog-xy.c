@@ -770,17 +770,19 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 		}
 }
 
-static GogObject *
-gog_xy_view_point (GogView *view, double x, double y)
+static gboolean
+gog_xy_view_info_at_point (GogView *view, double x, double y,
+			   GogObject const *cur_selection,
+			   GogObject **obj, char **name)
 {
-	return NULL;
+	return FALSE;
 }
 
 static void
 gog_xy_view_class_init (GogViewClass *view_klass)
 {
-	view_klass->render = gog_xy_view_render;
-	view_klass->point  = gog_xy_view_point;
+	view_klass->render	  = gog_xy_view_render;
+	view_klass->info_at_point = gog_xy_view_info_at_point;
 }
 
 static GSF_CLASS (GogXYView, gog_xy_view,

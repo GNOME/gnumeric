@@ -962,15 +962,14 @@ cb_canvas_select_item (FooCanvas *canvas, GdkEventButton *event,
 	g_object_get (G_OBJECT (s->sample_graph_item), "renderer", &rend, NULL);
 	g_object_get (G_OBJECT (rend), "view", &view, NULL);
 	foo_canvas_window_to_world (canvas, event->x, event->y, &x, &y);
-	s->search_target = gog_view_point (view,
-		x * canvas->pixels_per_unit,
-		y * canvas->pixels_per_unit);
+	gog_view_info_at_point (view,
+		x * canvas->pixels_per_unit,	y * canvas->pixels_per_unit,
+		s->prop_object, &s->search_target, NULL);
 	if (s->search_target == NULL)
 		return FALSE;
 
 	gtk_tree_model_foreach (GTK_TREE_MODEL (s->prop_model),
 		(GtkTreeModelForeachFunc) cb_find_item, s);
-	g_object_unref (s->search_target);
 	s->search_target = NULL;
 	return TRUE;
 }

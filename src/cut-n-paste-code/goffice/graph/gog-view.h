@@ -46,11 +46,13 @@ typedef struct {
 	GObjectClass	base;
 
 	/* Virtuals */
-	void	   (*state_init)    (GogView *);
-	void	   (*size_request)  (GogView *, GogViewRequisition *r);
-	void	   (*size_allocate) (GogView *, GogViewAllocation const *a);
-	void	   (*render)	    (GogView *, GogViewAllocation const *bbox);
-	GogObject *(*point)	    (GogView *, double x, double y);
+	void	 (*state_init)    (GogView *);
+	void	 (*size_request)  (GogView *, GogViewRequisition *r);
+	void	 (*size_allocate) (GogView *, GogViewAllocation const *a);
+	void	 (*render)        (GogView *, GogViewAllocation const *bbox);
+	gboolean (*info_at_point) (GogView *, double x, double y,
+				   GogObject const *cur_selection,
+				   GogObject **obj, char **name);
 } GogViewClass;
 
 #define GOG_VIEW_TYPE		(gog_view_get_type ())
@@ -69,7 +71,9 @@ void       gog_view_queue_resize     (GogView *v);
 void       gog_view_size_request     (GogView *v, GogViewRequisition *req);
 void       gog_view_size_allocate    (GogView *v, GogViewAllocation const *a);
 gboolean   gog_view_update_sizes     (GogView *v);
-GogObject *gog_view_point  	     (GogView *container, double x, double y);
+gboolean   gog_view_info_at_point    (GogView *container, double x, double y,
+				      GogObject const *cur_selection,
+				      GogObject **obj, char **name);
 GogView   *gog_view_find_child_view  (GogView const *container,
 				      GogObject const *target_model);
 

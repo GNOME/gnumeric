@@ -43,7 +43,7 @@
 #include <string.h>
 
 int gog_series_get_valid_element_index (GogSeries *series, int old_index, int desired_index);
-	
+
 /*****************************************************************************/
 static GObjectClass *gse_parent_klass;
 
@@ -52,15 +52,27 @@ enum {
 	ELEMENT_INDEX
 };
 
+static gint element_compare (GogSeriesElement *gse_a, GogSeriesElement *gse_b)
+{
+	return gse_a->index - gse_b->index;
+}
+
 static void
 gog_series_element_set_property (GObject *obj, guint param_id,
 				 GValue const *value, GParamSpec *pspec)
 {
 	GogSeriesElement *gse = GOG_SERIES_ELEMENT (obj);
+	GogObject *gobj = GOG_OBJECT (obj);
 
 	switch (param_id) {
 	case ELEMENT_INDEX :
 		gse->index = g_value_get_int (value);
+		if (gobj->parent != NULL) {
+			GogSeries *series = GOG_SERIES (gobj->parent);
+			series->overrides = g_list_remove (series->overrides, gse);
+			series->overrides = g_list_insert_sorted (series->overrides, gse,
+				(GCompareFunc) element_compare);
+		}
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
@@ -97,7 +109,7 @@ cb_index_changed (GtkSpinButton *spin_button, GogSeriesElement *element)
 		GOG_SERIES (gog_object_get_parent (GOG_OBJECT (element))),
 		element->index, value);
 
-	if (index != value) 
+	if (index != value)
 		gtk_spin_button_set_value (spin_button, index);
 
 	g_object_set (element, "index", (int) index, NULL);
@@ -126,7 +138,7 @@ gog_series_element_editor (GogObject *gobj,
 			    FALSE, FALSE, 0);
 	spin_button = gtk_spin_button_new_with_range (0, G_MAXINT, 1);
 
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin_button), 
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin_button),
 				   GOG_SERIES_ELEMENT(gobj)->index);
 	g_signal_connect (G_OBJECT (spin_button),
 			  "value_changed",
@@ -150,12 +162,12 @@ gog_series_element_init_style (GogStyledObject *gso, GogStyle *style)
 {
 	GogSeries *series = GOG_SERIES (GOG_OBJECT (gso)->parent);
 	GogStyle *parent_style;
-	
+
 	g_return_if_fail (GOG_SERIES (series) != NULL);
 
 	parent_style = gog_styled_object_get_style (GOG_STYLED_OBJECT (series));
-	
-	style->interesting_fields = parent_style->interesting_fields; 
+
+	style->interesting_fields = parent_style->interesting_fields;
 }
 
 static void
@@ -168,7 +180,7 @@ gog_series_element_class_init (GogSeriesElementClass *klass)
 
 	gobject_klass->set_property = gog_series_element_set_property;
 	gobject_klass->get_property = gog_series_element_get_property;
-	
+
 	gog_klass->editor 		= gog_series_element_editor;
 	style_klass->init_style	    	= gog_series_element_init_style;
 
@@ -199,13 +211,13 @@ static gboolean
 role_series_element_can_add (GogObject const *parent)
 {
 	GogSeriesClass *klass = GOG_SERIES_GET_CLASS (parent);
-	
+
 	return ((gog_series_get_valid_element_index(GOG_SERIES (parent), -1, 0) >= 0) &&
 		(klass->series_element_type > 0));
 }
 
 static GogObject *
-role_series_element_allocate (GogObject *series) 
+role_series_element_allocate (GogObject *series)
 {
 	GogSeriesClass *klass = GOG_SERIES_GET_CLASS (series);
 	GType type = klass->series_element_type;
@@ -215,8 +227,8 @@ role_series_element_allocate (GogObject *series)
 		type = GOG_SERIES_ELEMENT_TYPE;
 
 	gse = g_object_new (type, NULL);
-	if (gse != NULL) 
-		GOG_SERIES_ELEMENT (gse)->index = 
+	if (gse != NULL)
+		GOG_SERIES_ELEMENT (gse)->index =
 			gog_series_get_valid_element_index (GOG_SERIES (series), -1, 0);
 	return gse;
 }
@@ -224,8 +236,18 @@ role_series_element_allocate (GogObject *series)
 static void
 role_series_element_post_add (GogObject *parent, GogObject *child)
 {
+	GogSeries *series = GOG_SERIES (parent);
 	gog_styled_object_set_style (GOG_STYLED_OBJECT (child),
 		gog_styled_object_get_style (GOG_STYLED_OBJECT (parent)));
+	series->overrides = g_list_insert_sorted (series->overrides, child,
+		(GCompareFunc) element_compare);
+}
+
+static void
+role_series_element_pre_remove (GogObject *parent, GogObject *child)
+{
+	GogSeries *series = GOG_SERIES (parent);
+	series->overrides = g_list_remove (series->overrides, child);
 }
 
 static void
@@ -273,7 +295,7 @@ gog_series_get_property (GObject *obj, guint param_id,
 
 	switch (param_id) {
 	case SERIES_HAS_LEGEND :
-		g_value_set_boolean (value, series->has_legend); 
+		g_value_set_boolean (value, series->has_legend);
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
@@ -406,11 +428,12 @@ static void
 gog_series_class_init (GogSeriesClass *klass)
 {
 	static GogObjectRole const roles[] = {
-		{ N_("Style override"), "GogSeriesElement",	0,
+		{ N_("Point"), "GogSeriesElement",	0,
 		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
-		  role_series_element_can_add, NULL, 
-		  role_series_element_allocate, 
-		  role_series_element_post_add, NULL, NULL },
+		  role_series_element_can_add, NULL,
+		  role_series_element_allocate,
+		  role_series_element_post_add,
+		  role_series_element_pre_remove, NULL },
 	};
 	GObjectClass *gobject_klass = (GObjectClass *) klass;
 	GogObjectClass *gog_klass = (GogObjectClass *) klass;
@@ -519,7 +542,7 @@ gog_series_dataset_dim_changed (GogDataset *set, int dim_i)
 		gog_object_request_update (GOG_OBJECT (set));
 	} else {
 		GOData *name_src = series->values[-1].data;
-		char const *name = (name_src != NULL) 
+		char const *name = (name_src != NULL)
 			? go_data_scalar_get_str (GO_DATA_SCALAR (name_src)) : NULL;
 		gog_object_set_name (GOG_OBJECT (set), g_strdup (name), NULL);
 	}
@@ -609,7 +632,7 @@ gog_series_has_legend (GogSeries const *series)
  * gog_series_set_index :
  * @series : #GogSeries
  * @index :
- * @is_manual : 
+ * @is_manual :
  *
  * if @index >= 0 attempt to assign the new index.  Auto
  * indicies (@is_manual == FALSE) will not override the current
@@ -684,14 +707,9 @@ gog_series_set_dim (GogSeries *series, int dim_i, GOData *val, GError **err)
 	gog_dataset_set_dim (GOG_DATASET (series), dim_i, val, err);
 }
 
-static gint element_compare (GogSeriesElement *gse_a, GogSeriesElement *gse_b)
-{
-	return gse_a->index - gse_b->index;
-}
-
 /**
  * gog_series_num_elements :
- * @series : #GogSeries 
+ * @series : #GogSeries
  *
  * Returns the number of elements in the series
  **/
@@ -702,24 +720,16 @@ gog_series_num_elements (GogSeries const *series)
 }
 
 GList *
-gog_series_get_elements (GogSeries *series) 
+gog_series_get_overrides (GogSeries *series)
 {
-	GList *element_list = NULL;
-	GSList *gse_ptr;
-	
-	for (gse_ptr = GOG_OBJECT (series)->children;
-	     gse_ptr != NULL; 
-	     gse_ptr = gse_ptr->next) 
-		if (IS_GOG_SERIES_ELEMENT (gse_ptr->data))
-			element_list = g_list_append (element_list, gse_ptr->data);
-	return  g_list_sort (element_list, (GCompareFunc) element_compare);
+	return series->overrides;
 }
 
 int
-gog_series_get_valid_element_index (GogSeries *series, int old_index, int desired_index) 
+gog_series_get_valid_element_index (GogSeries *series, int old_index, int desired_index)
 {
 	int index;
-	GList *element_list, *element_ptr;
+	GList *ptr;
 
 	g_return_val_if_fail (GOG_SERIES (series) != NULL, -1);
 
@@ -727,34 +737,26 @@ gog_series_get_valid_element_index (GogSeries *series, int old_index, int desire
 	    (desired_index < 0))
 		return old_index;
 
-	element_list = gog_series_get_elements (series);
-
-	if (desired_index > old_index) 
-		for (element_ptr = element_list; 
-		     element_ptr != NULL; 
-		     element_ptr = element_ptr->next) {
-			index = GOG_SERIES_ELEMENT (element_ptr->data)->index;
+	if (desired_index > old_index)
+		for (ptr = series->overrides; ptr != NULL; ptr = ptr->next) {
+			index = GOG_SERIES_ELEMENT (ptr->data)->index;
 			if (index > desired_index)
 				break;
-			if (index == desired_index) 
+			if (index == desired_index)
 				desired_index++;
 		}
-	else 
-		for (element_ptr = g_list_last (element_list); 
-		     element_ptr != NULL; 
-		     element_ptr = element_ptr->prev) {
-			index = GOG_SERIES_ELEMENT (element_ptr->data)->index;
+	else
+		for (ptr = g_list_last (series->overrides); ptr != NULL; ptr = ptr->prev) {
+			index = GOG_SERIES_ELEMENT (ptr->data)->index;
 			if (index < desired_index)
 				break;
-			if (index == desired_index) 
+			if (index == desired_index)
 				desired_index--;
 		}
-
-	g_list_free (element_list);
 
 	if ((desired_index >= 0) &&
 	    (desired_index < (int) series->num_elements))
 		return desired_index;
 
-	return old_index;	
+	return old_index;
 }

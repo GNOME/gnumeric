@@ -20,6 +20,7 @@ GtkWindow	*wbcg_toplevel	  (WorkbookControlGUI *wbcg);
 void	         wbcg_set_transient (WorkbookControlGUI *wbcg,
 				     GtkWindow *window);
 SheetControlGUI *wbcg_cur_scg	  (WorkbookControlGUI *wbcg);
+Sheet		*wbcg_cur_sheet	  (WorkbookControlGUI *wbcg);
 Sheet		*wbcg_focus_cur_scg (WorkbookControlGUI *wbcg);
 
 gboolean   wbcg_ui_update_begin	  (WorkbookControlGUI *wbcg);

@@ -575,22 +575,28 @@ cellregion_new (Sheet *origin_sheet)
 	cr->content		= NULL;
 	cr->styles		= NULL;
 	cr->merged		= NULL;
+	cr->ref_count		= 1;
 
 	return cr;
 }
 
-/**
- * cellregion_free :
- * @content :
- *
- * A convenience routine to free the memory associated with a GnmCellRegion.
- */
 void
-cellregion_free (GnmCellRegion *cr)
+cellregion_ref (GnmCellRegion *cr)
+{
+	g_return_if_fail (cr != NULL);
+	cr->ref_count++;
+}
+
+void
+cellregion_unref (GnmCellRegion *cr)
 {
 	CellCopyList *ptr;
 
 	g_return_if_fail (cr != NULL);
+	if (cr->ref_count > 1) {
+		cr->ref_count--;
+		return;
+	}
 
 	for (ptr = cr->content; ptr; ptr = ptr->next) {
 		CellCopy *this_cell = ptr->data;
@@ -632,7 +638,7 @@ cellregion_free (GnmCellRegion *cr)
  * Renders a GnmCellRegion as a sequence of strings.
  */
 char *
-cellregion_to_string (PangoContext *context, GnmCellRegion const *cr)
+cellregion_to_string (GnmCellRegion const *cr, PangoContext *context)
 {
 	GString *all, *line;
 	CellCopyList *ptr;

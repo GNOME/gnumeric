@@ -371,6 +371,17 @@ cb_redo_activated (GOActionComboStack *a, WorkbookControl *wbc)
 }
 
 static void
+cb_set_repeat_sensitivity (GtkAction *undo, GParamSpec *pspec, WBCgtk *gtk)
+
+{
+	GtkAction *a = gtk_action_group_get_action (gtk->actions, "Repeat");
+	g_return_if_fail (a != NULL);
+	g_object_set (G_OBJECT (a),
+		"sensitive", gtk_action_is_sensitive (undo),
+		NULL);
+}
+
+static void
 wbc_gtk_init_undo_redo (WBCgtk *gtk)
 {
 	gtk->undo_action = create_undo_redo (gtk, N_("Undo"),
@@ -378,6 +389,9 @@ wbc_gtk_init_undo_redo (WBCgtk *gtk)
 	g_signal_connect (G_OBJECT (gtk->undo_action),
 		"activate",
 		G_CALLBACK (cb_undo_activated), gtk);
+	g_signal_connect (G_OBJECT (gtk->undo_action),
+		"notify::sensitive",
+		G_CALLBACK (cb_set_repeat_sensitivity), gtk);
 
 	gtk->redo_action = create_undo_redo (gtk, N_("Redo"),
 		N_("Redo the undone action"), GTK_STOCK_REDO, "<control>y");

@@ -467,10 +467,22 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 	}
 }
 
+static gboolean
+gog_line_view_info_at_point (GogView *view, double x, double y,
+			     GogObject const *cur_selection,
+			     GogObject **obj, char **name)
+{
+	if (obj != NULL)
+		*obj = view->model;
+	if (name != NULL)
+		*name = g_strdup (gog_object_get_name (GOG_OBJECT (view->model)));
+	return TRUE;
+}
 static void
 gog_line_view_class_init (GogViewClass *view_klass)
 {
-	view_klass->render = gog_line_view_render;
+	view_klass->render	  = gog_line_view_render;
+	view_klass->info_at_point = gog_line_view_info_at_point;
 }
 
 static GSF_CLASS (GogLineView, gog_line_view,

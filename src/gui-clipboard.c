@@ -242,7 +242,7 @@ complex_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 			cmd_paste_copy (wbc, pt, content);
 
 		/* Release the resources we used */
-		cellregion_free (content);
+		cellregion_unref (content);
 
 		g_free (ctxt->paste_target);
 		g_free (ctxt);
@@ -471,7 +471,7 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 		g_free (buffer);
 	} else {
 		PangoContext *context = gtk_widget_get_pango_context (GTK_WIDGET (wbcg_toplevel (wbcg)));
-		char *rendered_selection = cellregion_to_string (context, clipboard);
+		char *rendered_selection = cellregion_to_string (clipboard, context);
 
 		gtk_selection_data_set_text (selection_data, 
 					     (gchar *) rendered_selection,
@@ -496,7 +496,7 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 			gnm_app_clipboard_clear (TRUE);
 		}
 
-		cellregion_free (clipboard);
+		cellregion_unref (clipboard);
 	}
 }
 

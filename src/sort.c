@@ -228,7 +228,7 @@ sort_permute (GnmSortData *data, int const *perm, int length,
 
 			pt.range = range2;
 			clipboard_paste_region (rcopy1, &pt, cc);
-			cellregion_free (rcopy1);
+			cellregion_unref (rcopy1);
 
 			/* This is one step behind.  */
 			rperm[i1] = i1;
