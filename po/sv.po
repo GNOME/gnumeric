@@ -30,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2003-06-13 14:22+0200\n"
-"PO-Revision-Date: 2003-06-13 14:25+0200\n"
+"POT-Creation-Date: 2003-06-14 12:41+0200\n"
+"PO-Revision-Date: 2003-06-14 12:41+0200\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -8012,8 +8012,8 @@ msgid "%s version %s"
 msgstr "%s version %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: plugins/fn-info/functions.c:1313 src/dialogs/dialog-cell-format.c:2868
-#: src/dialogs/dialog-cell-format.c:2873 src/dialogs/dialog-cell-format.c:2883
+#: plugins/fn-info/functions.c:1313 src/dialogs/dialog-cell-format.c:2867
+#: src/dialogs/dialog-cell-format.c:2872 src/dialogs/dialog-cell-format.c:2882
 #: src/workbook-format-toolbar.c:849
 msgid "Automatic"
 msgstr "Automatisk"
@@ -8752,19 +8752,19 @@ msgstr ""
 
 #: plugins/fn-logical/functions.c:324 plugins/fn-logical/functions.c:328
 #: plugins/fn-logical/functions.c:348 plugins/fn-math/functions.c:3231
-#: plugins/fn-stat/functions.c:5568 plugins/fn-stat/functions.c:5572
-#: plugins/fn-stat/functions.c:5576 plugins/fn-stat/functions.c:5614
-#: plugins/fn-stat/functions.c:5617 plugins/fn-stat/functions.c:5626
-#: plugins/fn-stat/functions.c:5662 plugins/fn-stat/functions.c:5676
-#: plugins/fn-stat/functions.c:5679 plugins/fn-stat/functions.c:5682
-#: plugins/fn-stat/functions.c:5704 plugins/fn-stat/functions.c:5708
-#: plugins/fn-stat/functions.c:5712 plugins/fn-stat/functions.c:5716
-#: plugins/fn-stat/functions.c:5720 plugins/fn-stat/functions.c:5724
-#: plugins/fn-stat/functions.c:5770 plugins/fn-stat/functions.c:5777
-#: plugins/fn-stat/functions.c:5781 plugins/fn-stat/functions.c:5785
-#: plugins/fn-stat/functions.c:5789 plugins/fn-stat/functions.c:5818
-#: plugins/fn-stat/functions.c:5821 plugins/fn-stat/functions.c:5824
-#: plugins/fn-stat/functions.c:5827 plugins/fn-stat/functions.c:5843
+#: plugins/fn-stat/functions.c:5669 plugins/fn-stat/functions.c:5673
+#: plugins/fn-stat/functions.c:5677 plugins/fn-stat/functions.c:5715
+#: plugins/fn-stat/functions.c:5718 plugins/fn-stat/functions.c:5727
+#: plugins/fn-stat/functions.c:5763 plugins/fn-stat/functions.c:5777
+#: plugins/fn-stat/functions.c:5780 plugins/fn-stat/functions.c:5783
+#: plugins/fn-stat/functions.c:5805 plugins/fn-stat/functions.c:5809
+#: plugins/fn-stat/functions.c:5813 plugins/fn-stat/functions.c:5817
+#: plugins/fn-stat/functions.c:5821 plugins/fn-stat/functions.c:5825
+#: plugins/fn-stat/functions.c:5871 plugins/fn-stat/functions.c:5881
+#: plugins/fn-stat/functions.c:5885 plugins/fn-stat/functions.c:5889
+#: plugins/fn-stat/functions.c:5893 plugins/fn-stat/functions.c:5922
+#: plugins/fn-stat/functions.c:5925 plugins/fn-stat/functions.c:5928
+#: plugins/fn-stat/functions.c:5931 plugins/fn-stat/functions.c:5947
 #: src/func-builtin.c:134 src/func-builtin.c:140
 msgid "number,number,"
 msgstr "tal;tal;"
@@ -8786,9 +8786,9 @@ msgstr "tal;tal;"
 #: plugins/fn-math/functions.c:3219 plugins/fn-math/functions.c:3222
 #: plugins/fn-math/functions.c:3225 plugins/fn-math/functions.c:3228
 #: plugins/fn-math/functions.c:3241 plugins/fn-math/functions.c:3253
-#: plugins/fn-math/functions.c:3256 plugins/fn-stat/functions.c:5638
-#: plugins/fn-stat/functions.c:5641 plugins/fn-stat/functions.c:5659
-#: plugins/fn-stat/functions.c:5737 plugins/fn-string/functions.c:1128
+#: plugins/fn-math/functions.c:3256 plugins/fn-stat/functions.c:5739
+#: plugins/fn-stat/functions.c:5742 plugins/fn-stat/functions.c:5760
+#: plugins/fn-stat/functions.c:5838 plugins/fn-string/functions.c:1128
 #: plugins/fn-string/functions.c:1131
 msgid "number"
 msgstr "tal"
@@ -11069,7 +11069,7 @@ msgstr ""
 #: plugins/fn-math/functions.c:2354 plugins/fn-math/functions.c:2374
 #: plugins/fn-math/functions.c:2467 plugins/fn-math/functions.c:2487
 #: plugins/fn-math/functions.c:2578 plugins/fn-math/functions.c:2598
-#: plugins/fn-stat/functions.c:2866 plugins/fn-stat/functions.c:2896
+#: plugins/fn-stat/functions.c:2967 plugins/fn-stat/functions.c:2997
 msgid "Array version not implemented!"
 msgstr "Fältversion inte implementerad!"
 
@@ -11336,7 +11336,7 @@ msgstr "område;kriterium"
 msgid "number,significance"
 msgstr "tal;signifikans"
 
-#: plugins/fn-math/functions.c:3144 plugins/fn-stat/functions.c:5752
+#: plugins/fn-math/functions.c:3144 plugins/fn-stat/functions.c:5853
 msgid "n,k"
 msgstr "n;k"
 
@@ -11383,8 +11383,8 @@ msgstr "område;område;"
 
 #: plugins/fn-math/functions.c:3244 plugins/fn-math/functions.c:3247
 #: plugins/fn-math/functions.c:3250 plugins/fn-math/functions.c:3266
-#: plugins/fn-stat/functions.c:5611 plugins/fn-stat/functions.c:5620
-#: plugins/fn-stat/functions.c:5743 plugins/fn-stat/functions.c:5796
+#: plugins/fn-stat/functions.c:5712 plugins/fn-stat/functions.c:5721
+#: plugins/fn-stat/functions.c:5844 plugins/fn-stat/functions.c:5900
 msgid "array1,array2"
 msgstr "vektor1;vektor2"
 
@@ -12299,7 +12299,7 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-random/functions.c:1097 plugins/fn-random/functions.c:1133
-#: plugins/fn-random/functions.c:1151 plugins/fn-stat/functions.c:5740
+#: plugins/fn-random/functions.c:1151 plugins/fn-stat/functions.c:5841
 msgid "p"
 msgstr "p"
 
@@ -14211,7 +14211,7 @@ msgid ""
 "21.3, 25.9, and 40.1.  Then\n"
 "MEDIAN(A1:A5) equals 21.3.\n"
 "\n"
-"@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM"
+"@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SSMEDIAN,SUM"
 msgstr ""
 "@FUNCTION=MEDIAN\n"
 "@SYNTAX=MEDIAN(n1; n2; ...)\n"
@@ -14227,9 +14227,46 @@ msgstr ""
 "och 40,1. Då är\n"
 "MEDIAN(A1:A5) lika med 21,3.\n"
 "\n"
-"@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM"
+"@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SSMEDIAN,SUM"
 
 #: plugins/fn-stat/functions.c:2592
+msgid ""
+"@FUNCTION=SSMEDIAN\n"
+"@SYNTAX=SSMEDIAN(array,interval)\n"
+"@DESCRIPTION=The SSMEDIAN function returns the median for grouped data as "
+"commonly determined in the social sciences. The data points given in @array "
+"are assumed to be the result of grouping data into intervals of length "
+"@interval\n"
+"\n"
+"* If @array is empty, SSMEDIAN returns #NUM! error.\n"
+"* If @interval <= 0, SSMEDIAN returns #NUM! error.\n"
+"* SSMEDIAN does not check whether the data points are at least @interval "
+"apart.\n"
+"\n"
+"@EXAMPLES=\n"
+"Let us assume that the cells A1, A2, A3 contain numbers 7, 8, 8.  Then\n"
+"SSMEDIAN(A1:A3, 1) equals 7.75.\n"
+"\n"
+"@SEEALSO=MEDIAN"
+msgstr ""
+"@FUNCTION=SSMEDIAN\n"
+"@SYNTAX=SSMEDIAN(vektor;intervall)\n"
+"@DESCRIPTION=Funktionen SSMEDIAN returnerar medianen för grupperade data som "
+"normalt använt i socialvetenskaperna. Datapunkterna som ges i @vektor antas "
+"vara resultatet av att gruppera data i intervall av längden @intervall.\n"
+"\n"
+"* Om @vektor är tom returnerar SSMEDIAN felvärdet #NUM!.\n"
+"* Om @intervall <= 0 returnerar SSMEDIAN felvärdet #NUM!.\n"
+"* SSMEDIAN kontrollerar inte om datapunkterna är åtskilda med minst "
+"@intervall.\n"
+"\n"
+"@EXAMPLES=\n"
+"Antag att cellerna A1; A2; A3 innehåller talen 7; 8; 8. Då är\n"
+"SSMEDIAN(A1:A3; 1) lika med 7,75.\n"
+"\n"
+"@SEEALSO=MEDIAN"
+
+#: plugins/fn-stat/functions.c:2693
 msgid ""
 "@FUNCTION=LARGE\n"
 "@SYNTAX=LARGE(n1, n2, ..., k)\n"
@@ -14265,7 +14302,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL"
 
-#: plugins/fn-stat/functions.c:2639
+#: plugins/fn-stat/functions.c:2740
 msgid ""
 "@FUNCTION=SMALL\n"
 "@SYNTAX=SMALL(n1, n2, ..., k)\n"
@@ -14301,7 +14338,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE"
 
-#: plugins/fn-stat/functions.c:2710
+#: plugins/fn-stat/functions.c:2811
 msgid ""
 "@FUNCTION=PROB\n"
 "@SYNTAX=PROB(x_range,prob_range,lower_limit[,upper_limit])\n"
@@ -14339,7 +14376,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BINOMDIST,CRITBINOM"
 
-#: plugins/fn-stat/functions.c:2802
+#: plugins/fn-stat/functions.c:2903
 msgid ""
 "@FUNCTION=STEYX\n"
 "@SYNTAX=STEYX(known_y's,known_x's)\n"
@@ -14375,7 +14412,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PEARSON,RSQ,SLOPE"
 
-#: plugins/fn-stat/functions.c:2957
+#: plugins/fn-stat/functions.c:3058
 msgid ""
 "@FUNCTION=ZTEST\n"
 "@SYNTAX=ZTEST(ref,x)\n"
@@ -14410,7 +14447,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE"
 
-#: plugins/fn-stat/functions.c:3038
+#: plugins/fn-stat/functions.c:3139
 msgid ""
 "@FUNCTION=AVERAGEA\n"
 "@SYNTAX=AVERAGEA(number1,number2,...)\n"
@@ -14446,7 +14483,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: plugins/fn-stat/functions.c:3074
+#: plugins/fn-stat/functions.c:3175
 msgid ""
 "@FUNCTION=MAXA\n"
 "@SYNTAX=MAXA(number1,number2,...)\n"
@@ -14482,7 +14519,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MAX,MINA"
 
-#: plugins/fn-stat/functions.c:3110
+#: plugins/fn-stat/functions.c:3211
 msgid ""
 "@FUNCTION=MINA\n"
 "@SYNTAX=MINA(number1,number2,...)\n"
@@ -14518,7 +14555,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MAX,MINA"
 
-#: plugins/fn-stat/functions.c:3146
+#: plugins/fn-stat/functions.c:3247
 msgid ""
 "@FUNCTION=VARA\n"
 "@SYNTAX=VARA(number1,number2,...)\n"
@@ -14554,7 +14591,7 @@ msgstr ""
 "\n"
 "@SEEALSO=VAR,VARPA"
 
-#: plugins/fn-stat/functions.c:3182
+#: plugins/fn-stat/functions.c:3283
 msgid ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(number1,number2,...)\n"
@@ -14590,7 +14627,7 @@ msgstr ""
 "\n"
 "@SEEALSO=VARP,VARP"
 
-#: plugins/fn-stat/functions.c:3218
+#: plugins/fn-stat/functions.c:3319
 msgid ""
 "@FUNCTION=STDEVA\n"
 "@SYNTAX=STDEVA(number1,number2,...)\n"
@@ -14626,7 +14663,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
 
-#: plugins/fn-stat/functions.c:3254
+#: plugins/fn-stat/functions.c:3355
 msgid ""
 "@FUNCTION=STDEVPA\n"
 "@SYNTAX=STDEVPA(number1,number2,...)\n"
@@ -14662,7 +14699,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEVA,STDEVP"
 
-#: plugins/fn-stat/functions.c:3290
+#: plugins/fn-stat/functions.c:3391
 msgid ""
 "@FUNCTION=PERCENTRANK\n"
 "@SYNTAX=PERCENTRANK(array,x[,significance])\n"
@@ -14703,7 +14740,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL"
 
-#: plugins/fn-stat/functions.c:3400
+#: plugins/fn-stat/functions.c:3501
 msgid ""
 "@FUNCTION=PERCENTILE\n"
 "@SYNTAX=PERCENTILE(array,k)\n"
@@ -14739,7 +14776,7 @@ msgstr ""
 "\n"
 "@SEEALSO=QUARTILE"
 
-#: plugins/fn-stat/functions.c:3449
+#: plugins/fn-stat/functions.c:3550
 msgid ""
 "@FUNCTION=QUARTILE\n"
 "@SYNTAX=QUARTILE(array,quart)\n"
@@ -14789,7 +14826,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL"
 
-#: plugins/fn-stat/functions.c:3505
+#: plugins/fn-stat/functions.c:3606
 msgid ""
 "@FUNCTION=FTEST\n"
 "@SYNTAX=FTEST(array1,array2)\n"
@@ -14821,7 +14858,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FDIST,FINV"
 
-#: plugins/fn-stat/functions.c:3555
+#: plugins/fn-stat/functions.c:3656
 msgid ""
 "@FUNCTION=TTEST\n"
 "@SYNTAX=TTEST(array1,array2,tails,type)\n"
@@ -14883,7 +14920,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FDIST,FINV"
 
-#: plugins/fn-stat/functions.c:3723
+#: plugins/fn-stat/functions.c:3824
 msgid ""
 "@FUNCTION=FREQUENCY\n"
 "@SYNTAX=FREQUENCY(data_array,bins_array)\n"
@@ -14916,7 +14953,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-stat/functions.c:3798
+#: plugins/fn-stat/functions.c:3899
 msgid ""
 "@FUNCTION=LINEST\n"
 "@SYNTAX=LINEST(known_y's[,known_x's[,const[,stat]]])\n"
@@ -14978,7 +15015,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,TREND"
 
-#: plugins/fn-stat/functions.c:4070
+#: plugins/fn-stat/functions.c:4171
 msgid ""
 "@FUNCTION=LOGREG\n"
 "@SYNTAX=LOGREG(known_y's[,known_x's[,const[,stat]]])\n"
@@ -15045,7 +15082,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
 
-#: plugins/fn-stat/functions.c:4346
+#: plugins/fn-stat/functions.c:4447
 msgid ""
 "@FUNCTION=LOGFIT\n"
 "@SYNTAX=LOGFIT(known_y's,known_x's)\n"
@@ -15106,7 +15143,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGREG,LINEST,LOGEST"
 
-#: plugins/fn-stat/functions.c:4446
+#: plugins/fn-stat/functions.c:4547
 msgid ""
 "@FUNCTION=TREND\n"
 "@SYNTAX=TREND(known_y's[,known_x's],new_x's])\n"
@@ -15149,7 +15186,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LINEST"
 
-#: plugins/fn-stat/functions.c:4558
+#: plugins/fn-stat/functions.c:4659
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -15207,7 +15244,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
 
-#: plugins/fn-stat/functions.c:4810
+#: plugins/fn-stat/functions.c:4911
 msgid ""
 "@FUNCTION=GROWTH\n"
 "@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
@@ -15247,7 +15284,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
 
-#: plugins/fn-stat/functions.c:4922
+#: plugins/fn-stat/functions.c:5023
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -15287,7 +15324,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INTERCEPT,TREND"
 
-#: plugins/fn-stat/functions.c:4993
+#: plugins/fn-stat/functions.c:5094
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -15325,7 +15362,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FORECAST,TREND"
 
-#: plugins/fn-stat/functions.c:5043
+#: plugins/fn-stat/functions.c:5144
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
@@ -15355,7 +15392,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
 
-#: plugins/fn-stat/functions.c:5087
+#: plugins/fn-stat/functions.c:5188
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUBTOTAL(function_nbr,ref1,ref2,...)\n"
@@ -15423,7 +15460,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT,SUM"
 
-#: plugins/fn-stat/functions.c:5187
+#: plugins/fn-stat/functions.c:5288
 msgid ""
 "@FUNCTION=CRONBACH\n"
 "@SYNTAX=CRONBACH(ref1,ref2,...)\n"
@@ -15442,7 +15479,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-stat/functions.c:5316
+#: plugins/fn-stat/functions.c:5417
 msgid ""
 "@FUNCTION=GEOMDIST\n"
 "@SYNTAX=GEOMDIST(k,p,cum)\n"
@@ -15472,7 +15509,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDGEOM"
 
-#: plugins/fn-stat/functions.c:5352
+#: plugins/fn-stat/functions.c:5453
 msgid ""
 "@FUNCTION=LOGISTIC\n"
 "@SYNTAX=LOGISTIC(x,a)\n"
@@ -15494,7 +15531,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDLOGISTIC"
 
-#: plugins/fn-stat/functions.c:5388
+#: plugins/fn-stat/functions.c:5489
 msgid ""
 "@FUNCTION=PARETO\n"
 "@SYNTAX=PARETO(x,a,b)\n"
@@ -15516,7 +15553,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDPARETO"
 
-#: plugins/fn-stat/functions.c:5426
+#: plugins/fn-stat/functions.c:5527
 msgid ""
 "@FUNCTION=RAYLEIGH\n"
 "@SYNTAX=RAYLEIGH(x,sigma)\n"
@@ -15538,7 +15575,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDRAYLEIGH"
 
-#: plugins/fn-stat/functions.c:5466
+#: plugins/fn-stat/functions.c:5567
 msgid ""
 "@FUNCTION=RAYLEIGHTAIL\n"
 "@SYNTAX=RAYLEIGHTAIL(x,a,sigma)\n"
@@ -15560,7 +15597,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDRAYLEIGHTAIL"
 
-#: plugins/fn-stat/functions.c:5509
+#: plugins/fn-stat/functions.c:5610
 msgid ""
 "@FUNCTION=EXPPOWDIST\n"
 "@SYNTAX=EXPPOWDIST(x,a,b)\n"
@@ -15582,7 +15619,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDEXPPOW"
 
-#: plugins/fn-stat/functions.c:5540
+#: plugins/fn-stat/functions.c:5641
 msgid ""
 "@FUNCTION=LAPLACE\n"
 "@SYNTAX=LAPLACE(x,a)\n"
@@ -15602,185 +15639,189 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDLAPLACE"
 
-#: plugins/fn-stat/functions.c:5581 plugins/fn-stat/functions.c:5840
+#: plugins/fn-stat/functions.c:5682 plugins/fn-stat/functions.c:5944
 msgid "k,p"
 msgstr "k;p"
 
-#: plugins/fn-stat/functions.c:5585
+#: plugins/fn-stat/functions.c:5686
 msgid "x,alpha,beta,a,b"
 msgstr "x;alfa;beta;a;b"
 
-#: plugins/fn-stat/functions.c:5588
+#: plugins/fn-stat/functions.c:5689
 msgid "p,alpha,beta,a,b"
 msgstr "p;alfa;beta;a;b"
 
-#: plugins/fn-stat/functions.c:5591
+#: plugins/fn-stat/functions.c:5692
 msgid "n,t,p,c"
 msgstr "n;t;p;c"
 
-#: plugins/fn-stat/functions.c:5595
+#: plugins/fn-stat/functions.c:5696
 msgid "x,a,cum"
 msgstr "x;a;kum"
 
-#: plugins/fn-stat/functions.c:5599
+#: plugins/fn-stat/functions.c:5700
 msgid "x,dof"
 msgstr "x;frg"
 
-#: plugins/fn-stat/functions.c:5602 plugins/fn-stat/functions.c:5805
+#: plugins/fn-stat/functions.c:5703 plugins/fn-stat/functions.c:5909
 msgid "p,dof"
 msgstr "p;frg"
 
-#: plugins/fn-stat/functions.c:5605
+#: plugins/fn-stat/functions.c:5706
 msgid "act_range,theo_range"
 msgstr "verkligt_område;teoretiskt_område"
 
-#: plugins/fn-stat/functions.c:5608
+#: plugins/fn-stat/functions.c:5709
 msgid "x,stddev,size"
 msgstr "x;stdav;storlek"
 
-#: plugins/fn-stat/functions.c:5623
+#: plugins/fn-stat/functions.c:5724
 msgid "trials,p,alpha"
 msgstr "försök;p;alfa"
 
-#: plugins/fn-stat/functions.c:5629
+#: plugins/fn-stat/functions.c:5730
 msgid "x,y,cumulative"
 msgstr "x;y;kumulativ"
 
-#: plugins/fn-stat/functions.c:5632
+#: plugins/fn-stat/functions.c:5733
 msgid "x,dof of num,dof of denom"
 msgstr "x;frg hos num;frg hos denom"
 
-#: plugins/fn-stat/functions.c:5635
+#: plugins/fn-stat/functions.c:5736
 msgid "p,dof of num,dof of denom"
 msgstr "p;frg hos num;frg hos denom"
 
-#: plugins/fn-stat/functions.c:5644
+#: plugins/fn-stat/functions.c:5745
 msgid "x,known y's,known x's"
 msgstr "x;kända y;kända x"
 
-#: plugins/fn-stat/functions.c:5647
+#: plugins/fn-stat/functions.c:5748
 msgid "data_array,bins_array"
 msgstr "datavektor;högvektor"
 
-#: plugins/fn-stat/functions.c:5650
+#: plugins/fn-stat/functions.c:5751
 msgid "arr1,arr2"
 msgstr "vektor1;vektor2"
 
-#: plugins/fn-stat/functions.c:5653
+#: plugins/fn-stat/functions.c:5754
 msgid "number,alpha,beta,cum"
 msgstr "tal;alfa;beta;kum"
 
-#: plugins/fn-stat/functions.c:5656
+#: plugins/fn-stat/functions.c:5757
 msgid "number,alpha,beta"
 msgstr "tal;alfa;beta"
 
-#: plugins/fn-stat/functions.c:5666 plugins/fn-stat/functions.c:5808
+#: plugins/fn-stat/functions.c:5767 plugins/fn-stat/functions.c:5912
 msgid "known_y's,known_x's,new_x's,const"
 msgstr "kända_y;kända_x;nya_x;konst"
 
-#: plugins/fn-stat/functions.c:5673
+#: plugins/fn-stat/functions.c:5774
 msgid "x,n,M,N"
 msgstr "x;n;M;N"
 
-#: plugins/fn-stat/functions.c:5686 plugins/fn-stat/functions.c:5689
-#: plugins/fn-stat/functions.c:5701
+#: plugins/fn-stat/functions.c:5787 plugins/fn-stat/functions.c:5790
+#: plugins/fn-stat/functions.c:5802
 msgid "known_y's,known_x's,const,stat"
 msgstr "kända_y;kända_x;konst;stat"
 
-#: plugins/fn-stat/functions.c:5692 plugins/fn-stat/functions.c:5767
-#: plugins/fn-stat/functions.c:5793
+#: plugins/fn-stat/functions.c:5793 plugins/fn-stat/functions.c:5868
+#: plugins/fn-stat/functions.c:5897
 msgid "known_y's,known_x's"
 msgstr "kända_y;kända_x"
 
-#: plugins/fn-stat/functions.c:5695
+#: plugins/fn-stat/functions.c:5796
 msgid "p,mean,stddev"
 msgstr "p;medelvärde;stdav"
 
-#: plugins/fn-stat/functions.c:5698
+#: plugins/fn-stat/functions.c:5799
 msgid "x,meean,stdev"
 msgstr "x;medelvärde;stdav"
 
-#: plugins/fn-stat/functions.c:5728
+#: plugins/fn-stat/functions.c:5829
 msgid "f,t,p"
 msgstr "f;t;p"
 
-#: plugins/fn-stat/functions.c:5731
+#: plugins/fn-stat/functions.c:5832
 msgid "x,mean,stdev,cumulative"
 msgstr "x;medelvärde;stdav;kumulativ"
 
-#: plugins/fn-stat/functions.c:5734
+#: plugins/fn-stat/functions.c:5835
 msgid "p,mean,stdev"
 msgstr "p;medelvärde;stdav"
 
-#: plugins/fn-stat/functions.c:5746
+#: plugins/fn-stat/functions.c:5847
 msgid "array,k"
 msgstr "vektor,k"
 
-#: plugins/fn-stat/functions.c:5749
+#: plugins/fn-stat/functions.c:5850
 msgid "array,x,significance"
 msgstr "vektor;x;signifikans"
 
-#: plugins/fn-stat/functions.c:5755
+#: plugins/fn-stat/functions.c:5856
 msgid "x,mean,cumulative"
 msgstr "x;medelvärde;kumulativ"
 
-#: plugins/fn-stat/functions.c:5758
+#: plugins/fn-stat/functions.c:5859
 msgid "x_range,prob_range,lower_limit,upper_limit"
 msgstr "x-område;sannolikhetsområde;undre_gräns;övre_gräns"
 
-#: plugins/fn-stat/functions.c:5761
+#: plugins/fn-stat/functions.c:5862
 msgid "array,quart"
 msgstr "vektor;fjärdedel"
 
-#: plugins/fn-stat/functions.c:5774
+#: plugins/fn-stat/functions.c:5875
 msgid "x,mean,stddev"
 msgstr "x;medelvärde;stdav"
 
-#: plugins/fn-stat/functions.c:5802
+#: plugins/fn-stat/functions.c:5878
+msgid "array,interval"
+msgstr "vektor;intervall"
+
+#: plugins/fn-stat/functions.c:5906
 msgid "x,dof,tails"
 msgstr "x;frg;svansar"
 
-#: plugins/fn-stat/functions.c:5811
+#: plugins/fn-stat/functions.c:5915
 msgid "ref,fraction"
 msgstr "ref;bråktal"
 
-#: plugins/fn-stat/functions.c:5815
+#: plugins/fn-stat/functions.c:5919
 msgid "array1,array2,tails,type"
 msgstr "vektor1;vektor2;svansar;typ"
 
-#: plugins/fn-stat/functions.c:5830
+#: plugins/fn-stat/functions.c:5934
 msgid "x.alpha,beta,cumulative"
 msgstr "x.alfa;beta;kumulativ"
 
-#: plugins/fn-stat/functions.c:5833
+#: plugins/fn-stat/functions.c:5937
 msgid "ref,x"
 msgstr "ref;x"
 
-#: plugins/fn-stat/functions.c:5837 plugins/fn-stat/functions.c:5855
+#: plugins/fn-stat/functions.c:5941 plugins/fn-stat/functions.c:5959
 msgid "x,a,b"
 msgstr "x;a;b"
 
-#: plugins/fn-stat/functions.c:5846
+#: plugins/fn-stat/functions.c:5950
 msgid "x"
 msgstr "x"
 
-#: plugins/fn-stat/functions.c:5849 plugins/fn-stat/functions.c:5852
+#: plugins/fn-stat/functions.c:5953 plugins/fn-stat/functions.c:5956
 msgid "x,a"
 msgstr "x;a"
 
-#: plugins/fn-stat/functions.c:5858
+#: plugins/fn-stat/functions.c:5962
 msgid "x,sigma"
 msgstr "x;sigma"
 
-#: plugins/fn-stat/functions.c:5861
+#: plugins/fn-stat/functions.c:5965
 msgid "x,a,sigma"
 msgstr "x;a;sigma"
 
-#: plugins/fn-stat/functions.c:5867
+#: plugins/fn-stat/functions.c:5971
 msgid "function_nbr,ref,ref,"
 msgstr "funktionsnummer;ref;ref;"
 
-#: plugins/fn-stat/functions.c:5870
+#: plugins/fn-stat/functions.c:5974
 msgid "ref,ref,"
 msgstr "ref;ref;"
 
@@ -16741,7 +16782,7 @@ msgstr "Bivillkor:"
 
 #: plugins/mps/mps.c:247 src/commands.c:5445
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:961
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:111
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:112
 #: src/dialogs/dialog-define-names.c:483 src/dialogs/dialog-formula-guru.c:810
 #: src/dialogs/dialog-function-select.c:418
 #: src/dialogs/dialog-function-select.c:440 src/dialogs/dialog-scenarios.c:351
@@ -17410,7 +17451,7 @@ msgstr "Fel vid öppnande av xbase-fil."
 
 #: plugins/xbase/boot.c:175 src/dialogs/dialog-goto-cell.c:283
 #: src/dialogs/dialog-search.c:390 src/dialogs/print.glade.h:21
-#: src/workbook.c:1028 src/workbook.c:1358 src/xml-io.c:3587
+#: src/workbook.c:1035 src/workbook.c:1365 src/xml-io.c:3587
 msgid "Sheet"
 msgstr "Blad"
 
@@ -18007,7 +18048,7 @@ msgid "Automatically save the current document at regular intervals"
 msgstr "Spara det aktuella dokumentet automatiskt med regelbundna mellanrum"
 
 #: src/GNOME_Gnumeric.xml.h:15 src/dialogs/cell-format.glade.h:16
-#: src/dialogs/dialog-cell-format.c:2878 src/workbook-format-toolbar.c:830
+#: src/dialogs/dialog-cell-format.c:2877 src/workbook-format-toolbar.c:830
 #: src/workbook-format-toolbar.c:888
 msgid "Background"
 msgstr "Bakgrund"
@@ -18359,7 +18400,7 @@ msgstr "Typsnittsväljare"
 msgid "Font size"
 msgstr "Typsnittstorlek"
 
-#: src/GNOME_Gnumeric.xml.h:96 src/dialogs/dialog-cell-format.c:2873
+#: src/GNOME_Gnumeric.xml.h:96 src/dialogs/dialog-cell-format.c:2872
 #: src/workbook-format-toolbar.c:855 src/workbook-format-toolbar.c:891
 msgid "Foreground"
 msgstr "Förgrund"
@@ -18544,8 +18585,9 @@ msgstr "Iterera under bivillkor mot ett målvärde"
 msgid "Jump to a specified cell"
 msgstr "Gå till specifierad cell"
 
-#: src/GNOME_Gnumeric.xml.h:140 src/sheet-object-graphic.c:1462
-#: src/workbook-object-toolbar.c:131
+#: src/GNOME_Gnumeric.xml.h:140
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:69
+#: src/sheet-object-graphic.c:1468 src/workbook-object-toolbar.c:131
 msgid "Label"
 msgstr "Rubrik"
 
@@ -18567,7 +18609,7 @@ msgid "Left align"
 msgstr "Vänsterjusterat"
 
 #: src/GNOME_Gnumeric.xml.h:145 src/dialogs/cell-format.glade.h:55
-#: src/dialogs/dialog-stf-main-page.c:312 src/workbook-object-toolbar.c:161
+#: src/dialogs/dialog-stf-main-page.c:341 src/workbook-object-toolbar.c:161
 msgid "Line"
 msgstr "Linje"
 
@@ -19292,7 +19334,7 @@ msgid "_Regression"
 msgstr "_Regression"
 
 #: src/GNOME_Gnumeric.xml.h:315 src/dialogs/autocorrect.glade.h:13
-#: src/dialogs/dialog-stf.glade.h:66 src/dialogs/pivottable.glade.h:12
+#: src/dialogs/dialog-stf.glade.h:71 src/dialogs/pivottable.glade.h:12
 #: src/workbook-control-gui.c:3492
 msgid "_Remove"
 msgstr "_Ta bort"
@@ -19995,6 +20037,12 @@ msgstr "Graf"
 msgid "Legend"
 msgstr "Förklaring"
 
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:83
+#: src/cut-n-paste-code/goffice/graph/gog-graph.c:162
+#: src/cut-n-paste-code/goffice/graph/gog-legend.c:113
+msgid "Title"
+msgstr "Titel"
+
 #: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:246
 msgid "H"
 msgstr "H"
@@ -20028,9 +20076,8 @@ msgid "Configure Graph"
 msgstr "Konfigurera graf"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1073
-#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:237
-msgid "Plot Type"
-msgstr "Plottyp"
+msgid "_Plot Type"
+msgstr "_Plottyp"
 
 #. Set up sample button
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1163
@@ -20061,7 +20108,7 @@ msgstr "ATT GÖRA: Inte klar"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:3
 #: src/dialogs/autocorrect.glade.h:12 src/dialogs/consolidate.glade.h:26
-#: src/dialogs/dialog-stf.glade.h:61 src/dialogs/names.glade.h:6
+#: src/dialogs/dialog-stf.glade.h:64 src/dialogs/names.glade.h:6
 #: src/dialogs/solver.glade.h:27
 msgid "_Add"
 msgstr "_Lägg till"
@@ -20093,9 +20140,17 @@ msgstr "_Ordning"
 msgid "_Top"
 msgstr "_Överkant"
 
+#: src/cut-n-paste-code/goffice/graph/gog-label.c:111
+msgid "_Text:"
+msgstr "_Text:"
+
 #: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:52
 msgid "Plot Engine"
 msgstr "Grafmotor"
+
+#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:237
+msgid "Plot Type"
+msgstr "Plottyp"
 
 #: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:317
 msgid "Chart Theme"
@@ -20173,7 +20228,7 @@ msgid "O_utline Color:"
 msgstr "K_onturfärg:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:13
-#: src/dialogs/cell-format.glade.h:64 src/dialogs/dialog-cell-format.c:2883
+#: src/dialogs/cell-format.glade.h:64 src/dialogs/dialog-cell-format.c:2882
 msgid "Pattern"
 msgstr "Mönster"
 
@@ -20223,7 +20278,7 @@ msgstr "Fyllnadst_yp:"
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:195
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:218
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:461
-#: src/sheet-object-graphic.c:943 src/sheet-object-graphic.c:957
+#: src/sheet-object-graphic.c:945 src/sheet-object-graphic.c:961
 msgid "Transparent"
 msgstr "Genomskinlig"
 
@@ -20233,7 +20288,7 @@ msgstr "Välj en bildfil"
 
 #. An MS Excel-ish theme * TODO : have a look at apple's themes
 #: src/cut-n-paste-code/goffice/graph/gog-theme.c:229
-#: src/dialogs/dialog-sheet-order.c:927 src/dialogs/dialog-sheet-order.c:936
+#: src/dialogs/dialog-sheet-order.c:927 src/dialogs/dialog-sheet-order.c:938
 msgid "Default"
 msgstr "Standard"
 
@@ -21173,7 +21228,7 @@ msgstr "Valfritt värde  (ingen validering)"
 msgid "Background Color"
 msgstr "Bakgrundsfärg"
 
-#: src/dialogs/cell-format.glade.h:18 src/dialogs/dialog-cell-format.c:2868
+#: src/dialogs/cell-format.glade.h:18 src/dialogs/dialog-cell-format.c:2867
 msgid "Border"
 msgstr "Kant"
 
@@ -21255,7 +21310,7 @@ msgstr "Felvarning"
 msgid "Foreground Solid"
 msgstr "Förgrund massiv"
 
-#: src/dialogs/cell-format.glade.h:40 src/dialogs/dialog-cell-format.c:2807
+#: src/dialogs/cell-format.glade.h:40 src/dialogs/dialog-cell-format.c:2806
 msgid "Format Cells"
 msgstr "Formatera celler"
 
@@ -21757,7 +21812,7 @@ msgstr "Var (stickprov)"
 msgid "Varp (population)"
 msgstr "Varp (population)"
 
-#: src/dialogs/consolidate.glade.h:27 src/dialogs/dialog-stf.glade.h:63
+#: src/dialogs/consolidate.glade.h:27 src/dialogs/dialog-stf.glade.h:66
 msgid "_Clear"
 msgstr "_Töm"
 
@@ -22319,44 +22374,44 @@ msgstr "Enkel"
 msgid "Double"
 msgstr "Dubbel"
 
-#: src/dialogs/dialog-cell-format.c:980
+#: src/dialogs/dialog-cell-format.c:979
 msgid "Negative Number Format"
 msgstr "Format för negativa tal"
 
-#: src/dialogs/dialog-cell-format.c:1016
+#: src/dialogs/dialog-cell-format.c:1015
 msgid "Number Formats"
 msgstr "Talformat"
 
-#: src/dialogs/dialog-cell-format.c:1262
-#: src/dialogs/dialog-stf-main-page.c:321
+#: src/dialogs/dialog-cell-format.c:1261
+#: src/dialogs/dialog-stf-main-page.c:350
 msgid "Text"
 msgstr "Text"
 
-#: src/dialogs/dialog-cell-format.c:2381
+#: src/dialogs/dialog-cell-format.c:2380
 msgid "Source"
 msgstr "Källområde"
 
-#: src/dialogs/dialog-cell-format.c:2382
+#: src/dialogs/dialog-cell-format.c:2381
 msgid "Criteria"
 msgstr "Kriterium:"
 
-#: src/dialogs/dialog-cell-format.c:2394 src/dialogs/dialog-cell-format.c:2401
+#: src/dialogs/dialog-cell-format.c:2393 src/dialogs/dialog-cell-format.c:2400
 msgid "Min :"
 msgstr "Min:"
 
-#: src/dialogs/dialog-cell-format.c:2395 src/dialogs/dialog-cell-format.c:2404
+#: src/dialogs/dialog-cell-format.c:2394 src/dialogs/dialog-cell-format.c:2403
 msgid "Max :"
 msgstr "Max:"
 
-#: src/dialogs/dialog-cell-format.c:2398
+#: src/dialogs/dialog-cell-format.c:2397
 msgid "Value :"
 msgstr "Värde:"
 
-#: src/dialogs/dialog-cell-format.c:2623
+#: src/dialogs/dialog-cell-format.c:2622
 msgid "The validation criteria are unusable. Disable validation?"
 msgstr "Valideringskriteria är oanvändbart. Inaktivera validering?"
 
-#: src/dialogs/dialog-cell-format.c:2878 src/workbook-format-toolbar.c:822
+#: src/dialogs/dialog-cell-format.c:2877 src/workbook-format-toolbar.c:822
 msgid "Clear Background"
 msgstr "Töm bakgrund"
 
@@ -23452,7 +23507,7 @@ msgstr "Okända tecken:"
 msgid "Windows (carriage return + linefeed)"
 msgstr "Windows (vagnretur + radmatning)"
 
-#: src/dialogs/dialog-stf-export.glade.h:39 src/dialogs/dialog-stf.glade.h:69
+#: src/dialogs/dialog-stf-export.glade.h:39 src/dialogs/dialog-stf.glade.h:76
 msgid "`"
 msgstr "\""
 
@@ -23476,7 +23531,7 @@ msgstr "%d av %d rader att importera"
 msgid "The data is not valid in encoding %s; please select another encoding."
 msgstr "Data är inte korrekta i kodning %s; välj en annan kodning."
 
-#: src/dialogs/dialog-stf-main-page.c:333
+#: src/dialogs/dialog-stf-main-page.c:362
 #, c-format
 msgid "Data (from %s)"
 msgstr "Data (från %s)"
@@ -23583,28 +23638,28 @@ msgid "End"
 msgstr "Slut"
 
 #: src/dialogs/dialog-stf.glade.h:26
-msgid "Fixed wi_dth"
-msgstr "Fast _bredd"
-
-#: src/dialogs/dialog-stf.glade.h:27
 msgid "Fixed width customization"
 msgstr "Anpassning av fast bredd"
 
-#: src/dialogs/dialog-stf.glade.h:28
+#: src/dialogs/dialog-stf.glade.h:27
 msgid "Formatting for the selected column"
 msgstr "Formateringen på den markerade cellen"
 
-#: src/dialogs/dialog-stf.glade.h:29
+#: src/dialogs/dialog-stf.glade.h:28
 msgid "Fr_om line:"
 msgstr "Fr_ån rad:"
 
-#: src/dialogs/dialog-stf.glade.h:30
+#: src/dialogs/dialog-stf.glade.h:29
 msgid "H_yphen (-)"
 msgstr "B_indestreck (-)"
 
-#: src/dialogs/dialog-stf.glade.h:31
+#: src/dialogs/dialog-stf.glade.h:30
 msgid "Importing structured text"
 msgstr "Importerar strukturerad text"
+
+#: src/dialogs/dialog-stf.glade.h:31
+msgid "Line breaks:"
+msgstr "Radbrytningar:"
 
 #: src/dialogs/dialog-stf.glade.h:32
 msgid "Lines to import"
@@ -23725,6 +23780,20 @@ msgid "Te_xt indicator: "
 msgstr "Te_xtindikator: "
 
 #: src/dialogs/dialog-stf.glade.h:59
+msgid "The carriage return character (ASCII code 13) breaks lines"
+msgstr "Vagnreturtecknet (ASCII-kod 13) bryter rader"
+
+#: src/dialogs/dialog-stf.glade.h:60
+msgid "The line feed character (ASCII code 10) breaks lines"
+msgstr "Radbytestecknet (ASCII-kod 10) bryter rader"
+
+#: src/dialogs/dialog-stf.glade.h:61
+msgid ""
+"The sequence of carriage return and line feed (ASCII codes 13 and 10) breaks "
+"lines"
+msgstr "Sekvensen vagnretur och radbyte (ASCII-koder 13 och 10) bryter rader"
+
+#: src/dialogs/dialog-stf.glade.h:62
 msgid ""
 "Trim leading and trailing spaces from each column, if you are unsure you "
 "should leave this at the default setting."
@@ -23732,29 +23801,45 @@ msgstr ""
 "Plocka bort inledande och avslutande blanksteg från varje kolumn, om du är "
 "osäker bör du låta detta alternativ vara kvar vid sin standardinställning."
 
-#: src/dialogs/dialog-stf.glade.h:60
+#: src/dialogs/dialog-stf.glade.h:63
 msgid "Trim:"
 msgstr "Plocka bort:"
 
-#: src/dialogs/dialog-stf.glade.h:62
+#: src/dialogs/dialog-stf.glade.h:65
 msgid "_Adjacent text indicators escaped"
 msgstr "_Intilliggande textindikatorer med escape-tecken"
 
-#: src/dialogs/dialog-stf.glade.h:64
+#: src/dialogs/dialog-stf.glade.h:67
 msgid "_Colon (:)"
 msgstr "_Kolon (:)"
 
-#: src/dialogs/dialog-stf.glade.h:65
+#: src/dialogs/dialog-stf.glade.h:68
+msgid "_Fixed width"
+msgstr "Fast _bredd"
+
+#: src/dialogs/dialog-stf.glade.h:69
 msgid "_Format:"
 msgstr "_Format:"
 
-#: src/dialogs/dialog-stf.glade.h:67
+#: src/dialogs/dialog-stf.glade.h:70
+msgid "_Macintosh (CR)"
+msgstr "_Macintosh (CR)"
+
+#: src/dialogs/dialog-stf.glade.h:72
 msgid "_Separated"
 msgstr "_Åtskiljda"
 
-#: src/dialogs/dialog-stf.glade.h:68
+#: src/dialogs/dialog-stf.glade.h:73
 msgid "_To line: "
 msgstr "_Till rad: "
+
+#: src/dialogs/dialog-stf.glade.h:74
+msgid "_Unix (LF)"
+msgstr "_Unix (LF)"
+
+#: src/dialogs/dialog-stf.glade.h:75
+msgid "_Windows (CR+LF)"
+msgstr "_Windows (CR-LF)"
 
 #: src/dialogs/dialog-tabulate.c:146
 msgid "Tabulation"
@@ -26474,11 +26559,11 @@ msgstr "Formatera som tid"
 msgid "Format as alternative Number"
 msgstr "Formatera som alternativt tal"
 
-#: src/gui-clipboard.c:104
+#: src/gui-clipboard.c:112
 msgid "clipboard"
 msgstr "Urklipp"
 
-#: src/gui-clipboard.c:113
+#: src/gui-clipboard.c:120
 msgid "Parse error while trying to parse data into cellregion"
 msgstr "Fel vid tolkning av data till cellområde"
 
@@ -26960,43 +27045,43 @@ msgstr "Grupp med %d funktioner i kategori \"%s\""
 msgid "Plugin loader"
 msgstr "Inläsare för insticksmoduler"
 
-#: src/plugin-service.c:1278
+#: src/plugin-service.c:1279
 msgid "Missing file name."
 msgstr "Saknat filnamn."
 
-#: src/plugin-service.c:1344
+#: src/plugin-service.c:1345
 #, c-format
 msgid "Cannot read UI description from XML file %s."
 msgstr "Kan inte läsa UI-beskrivning från XML-filen %s."
 
-#: src/plugin-service.c:1380
+#: src/plugin-service.c:1382
 #, c-format
 msgid "User interface with %d action"
 msgstr "Användargränssnitt med %d åtgärd"
 
-#: src/plugin-service.c:1381
+#: src/plugin-service.c:1383
 #, c-format
 msgid "User interface with %d actions"
 msgstr "Användargränssnitt med %d åtgärder"
 
-#: src/plugin-service.c:1411
+#: src/plugin-service.c:1413
 msgid "GObject loader"
 msgstr "GObjectinläsare"
 
-#: src/plugin-service.c:1518
+#: src/plugin-service.c:1520
 msgid "No \"type\" attribute on \"service\" element."
 msgstr "Inget \"typ\"-attribut på \"tjänst\"-element."
 
-#: src/plugin-service.c:1524
+#: src/plugin-service.c:1526
 #, c-format
 msgid "Unknown service type: %s."
 msgstr "Okänd tjänstetyp: %s."
 
-#: src/plugin-service.c:1540
+#: src/plugin-service.c:1542
 msgid "Error reading service information."
 msgstr "Fel vid läsning av information för tjänst."
 
-#: src/plugin-service.c:1602
+#: src/plugin-service.c:1604
 msgid ""
 "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
 "loading failed."
@@ -27445,7 +27530,7 @@ msgstr "För många rader i data för att tolka: %d"
 msgid "Too many columns in data to parse: %d"
 msgstr "För många kolumner i data för att tolka: %d"
 
-#: src/stf.c:111
+#: src/stf.c:110
 msgid "Error while trying to read file"
 msgstr "Fel vid försök att läsa fil"
 
@@ -27453,36 +27538,36 @@ msgstr "Fel vid försök att läsa fil"
 msgid "Cancelled"
 msgstr "Avbruten"
 
-#: src/stf.c:251 src/stf.c:282
+#: src/stf.c:252 src/stf.c:283
 msgid "Text to Columns"
 msgstr "Text till kolumner"
 
-#: src/stf.c:256
+#: src/stf.c:257
 #, c-format
 msgid "Only 1 one column of <b>input</b> data can be parsed at a time, not %d"
 msgstr "Endast en kolumn med <b>indata</b> kan tolkas åt gången, inte %d"
 
-#: src/stf.c:288
+#: src/stf.c:289
 msgid "Error while trying to parse data into sheet"
 msgstr "Fel vid tolkning av data i kalkylbladet"
 
-#: src/stf.c:380
+#: src/stf.c:382
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Tolkningsfel vid tolkning av data i kalkylbladet"
 
-#: src/stf.c:428
+#: src/stf.c:430
 msgid "Error while trying to write csv file"
 msgstr "Fel vid skrivning av csv-fil"
 
-#: src/stf.c:443
+#: src/stf.c:445
 msgid "Comma or tab separated files (CSV/TSV)"
 msgstr "Komma- eller tabseparerad fil (CSV/TSV)"
 
-#: src/stf.c:447
+#: src/stf.c:449
 msgid "Text import (configurable)"
 msgstr "Textimport (konfigurerbar)"
 
-#: src/stf.c:451
+#: src/stf.c:453
 msgid "Text export (configurable)"
 msgstr "Textexport (konfigurerbar)"
 
@@ -27928,15 +28013,15 @@ msgstr "Nytt blad"
 msgid "New Workbook"
 msgstr "Ny arbetsbok"
 
-#: src/tools/dao.c:797
+#: src/tools/dao.c:799
 msgid "Gnumeric "
 msgstr "Gnumeric "
 
-#: src/tools/dao.c:803
+#: src/tools/dao.c:805
 msgid "Worksheet:"
 msgstr "Blad:"
 
-#: src/tools/dao.c:811
+#: src/tools/dao.c:813
 msgid "Report Created: "
 msgstr "Rapport skapad: "
 
@@ -28514,188 +28599,188 @@ msgid "#RECALC!"
 msgstr "#OMKALK!"
 
 #. This is the default custom color
-#: src/widgets/color-palette.c:369
+#: src/widgets/color-palette.c:368
 msgid "custom"
 msgstr "anpassad"
 
 #. "Custom" color - we'll pop up a GnomeColorPicker
-#: src/widgets/color-palette.c:411
+#: src/widgets/color-palette.c:410
 msgid "Custom Color:"
 msgstr "Egen färg:"
 
-#: src/widgets/color-palette.c:419
+#: src/widgets/color-palette.c:418
 msgid "Choose Custom Color"
 msgstr "Välj egen färg"
 
-#: src/widgets/color-palette.c:552
+#: src/widgets/color-palette.c:551
 msgid "black"
 msgstr "svart"
 
-#: src/widgets/color-palette.c:553
+#: src/widgets/color-palette.c:552
 msgid "light brown"
 msgstr "ljusbrun"
 
-#: src/widgets/color-palette.c:554
+#: src/widgets/color-palette.c:553
 msgid "brown gold"
 msgstr "guldbrun"
 
-#: src/widgets/color-palette.c:555
+#: src/widgets/color-palette.c:554
 msgid "dark green #2"
 msgstr "mörkgrön #2"
 
-#: src/widgets/color-palette.c:556
+#: src/widgets/color-palette.c:555
 msgid "navy"
 msgstr "marinblå"
 
-#: src/widgets/color-palette.c:557 src/widgets/color-palette.c:613
+#: src/widgets/color-palette.c:556 src/widgets/color-palette.c:612
 msgid "dark blue"
 msgstr "börkblå"
 
-#: src/widgets/color-palette.c:558
+#: src/widgets/color-palette.c:557
 msgid "purple #2"
 msgstr "lila #2"
 
-#: src/widgets/color-palette.c:559
+#: src/widgets/color-palette.c:558
 msgid "very dark gray"
 msgstr "mycket mörk grå"
 
-#: src/widgets/color-palette.c:562 src/widgets/color-palette.c:618
+#: src/widgets/color-palette.c:561 src/widgets/color-palette.c:617
 msgid "dark red"
 msgstr "mörkröd"
 
-#: src/widgets/color-palette.c:563
+#: src/widgets/color-palette.c:562
 msgid "red-orange"
 msgstr "röd-orange"
 
-#: src/widgets/color-palette.c:564
+#: src/widgets/color-palette.c:563
 msgid "gold"
 msgstr "guld"
 
-#: src/widgets/color-palette.c:565
+#: src/widgets/color-palette.c:564
 msgid "dark green"
 msgstr "mörkgrön"
 
-#: src/widgets/color-palette.c:566 src/widgets/color-palette.c:619
+#: src/widgets/color-palette.c:565 src/widgets/color-palette.c:618
 msgid "dull blue"
 msgstr "blek blå"
 
-#: src/widgets/color-palette.c:567 src/widgets/color-palette.c:620
+#: src/widgets/color-palette.c:566 src/widgets/color-palette.c:619
 msgid "blue"
 msgstr "blå"
 
-#: src/widgets/color-palette.c:568
+#: src/widgets/color-palette.c:567
 msgid "dull purple"
 msgstr "blek lila"
 
-#: src/widgets/color-palette.c:569
+#: src/widgets/color-palette.c:568
 msgid "dark grey"
 msgstr "mörkgrön"
 
-#: src/widgets/color-palette.c:572
+#: src/widgets/color-palette.c:571
 msgid "red"
 msgstr "röd"
 
-#: src/widgets/color-palette.c:573
+#: src/widgets/color-palette.c:572
 msgid "orange"
 msgstr "orange"
 
-#: src/widgets/color-palette.c:574
+#: src/widgets/color-palette.c:573
 msgid "lime"
 msgstr "lime"
 
-#: src/widgets/color-palette.c:575
+#: src/widgets/color-palette.c:574
 msgid "dull green"
 msgstr "blek grön"
 
-#: src/widgets/color-palette.c:576
+#: src/widgets/color-palette.c:575
 msgid "dull blue #2"
 msgstr "blek blå #2"
 
-#: src/widgets/color-palette.c:577
+#: src/widgets/color-palette.c:576
 msgid "sky blue #2"
 msgstr "himmelsblå #2"
 
-#: src/widgets/color-palette.c:578 src/widgets/color-palette.c:617
+#: src/widgets/color-palette.c:577 src/widgets/color-palette.c:616
 msgid "purple"
 msgstr "lila"
 
-#: src/widgets/color-palette.c:579
+#: src/widgets/color-palette.c:578
 msgid "gray"
 msgstr "grå"
 
-#: src/widgets/color-palette.c:582 src/widgets/color-palette.c:614
+#: src/widgets/color-palette.c:581 src/widgets/color-palette.c:613
 msgid "magenta"
 msgstr "magenta"
 
-#: src/widgets/color-palette.c:583
+#: src/widgets/color-palette.c:582
 msgid "bright orange"
 msgstr "ljusorange"
 
-#: src/widgets/color-palette.c:584 src/widgets/color-palette.c:615
+#: src/widgets/color-palette.c:583 src/widgets/color-palette.c:614
 msgid "yellow"
 msgstr "gul"
 
-#: src/widgets/color-palette.c:585
+#: src/widgets/color-palette.c:584
 msgid "green"
 msgstr "grön"
 
-#: src/widgets/color-palette.c:586 src/widgets/color-palette.c:616
+#: src/widgets/color-palette.c:585 src/widgets/color-palette.c:615
 msgid "cyan"
 msgstr "cyan"
 
-#: src/widgets/color-palette.c:587
+#: src/widgets/color-palette.c:586
 msgid "bright blue"
 msgstr "ljusblå"
 
-#: src/widgets/color-palette.c:588 src/widgets/color-palette.c:605
+#: src/widgets/color-palette.c:587 src/widgets/color-palette.c:604
 msgid "red purple"
 msgstr "rödlila"
 
-#: src/widgets/color-palette.c:589
+#: src/widgets/color-palette.c:588
 msgid "light grey"
 msgstr "ljusgrå"
 
-#: src/widgets/color-palette.c:592 src/widgets/color-palette.c:609
+#: src/widgets/color-palette.c:591 src/widgets/color-palette.c:608
 msgid "pink"
 msgstr "rosa"
 
-#: src/widgets/color-palette.c:593
+#: src/widgets/color-palette.c:592
 msgid "light orange"
 msgstr "ljusorange"
 
-#: src/widgets/color-palette.c:594 src/widgets/color-palette.c:606
+#: src/widgets/color-palette.c:593 src/widgets/color-palette.c:605
 msgid "light yellow"
 msgstr "ljusgul"
 
-#: src/widgets/color-palette.c:595
+#: src/widgets/color-palette.c:594
 msgid "light green"
 msgstr "ljusgrön"
 
-#: src/widgets/color-palette.c:596
+#: src/widgets/color-palette.c:595
 msgid "light cyan"
 msgstr "ljuscyan"
 
-#: src/widgets/color-palette.c:597 src/widgets/color-palette.c:607
+#: src/widgets/color-palette.c:596 src/widgets/color-palette.c:606
 msgid "light blue"
 msgstr "ljusblå"
 
-#: src/widgets/color-palette.c:598 src/widgets/color-palette.c:611
+#: src/widgets/color-palette.c:597 src/widgets/color-palette.c:610
 msgid "light purple"
 msgstr "ljuslila"
 
-#: src/widgets/color-palette.c:599
+#: src/widgets/color-palette.c:598
 msgid "white"
 msgstr "vit"
 
-#: src/widgets/color-palette.c:604
+#: src/widgets/color-palette.c:603
 msgid "purplish blue"
 msgstr "lilaaktig blå"
 
-#: src/widgets/color-palette.c:608
+#: src/widgets/color-palette.c:607
 msgid "dark purple"
 msgstr "mörklila"
 
-#: src/widgets/color-palette.c:610
+#: src/widgets/color-palette.c:609
 msgid "sky blue"
 msgstr "himmelsblå"
 
@@ -29379,28 +29464,28 @@ msgstr "Gör om kommandot"
 msgid "Chart Guru"
 msgstr "Diagramguru"
 
-#: src/workbook-control-gui.c:5128
+#: src/workbook-control-gui.c:5130
 #, c-format
 msgid "File \"%s\" has unknown format."
 msgstr "Filen \"%s\" har ett ogiltigt format."
 
-#: src/workbook-control-gui.c:5179
+#: src/workbook-control-gui.c:5181
 msgid "Send"
 msgstr "Skicka"
 
-#: src/workbook-control-gui.c:5179
+#: src/workbook-control-gui.c:5181
 msgid "Send the current file in email"
 msgstr "Skicka den aktuella filen med e-post"
 
-#: src/workbook-control-gui.c:5420 src/workbook-control-gui.c:5435
+#: src/workbook-control-gui.c:5422 src/workbook-control-gui.c:5437
 msgid "_Re-Edit"
 msgstr "Redigera _om"
 
-#: src/workbook-control-gui.c:5421 src/workbook-control-gui.c:5426
+#: src/workbook-control-gui.c:5423 src/workbook-control-gui.c:5428
 msgid "_Discard"
 msgstr "_Förkasta"
 
-#: src/workbook-control-gui.c:5425 src/workbook-control-gui.c:5436
+#: src/workbook-control-gui.c:5427 src/workbook-control-gui.c:5438
 msgid "_Accept"
 msgstr "_Acceptera"
 
@@ -29550,15 +29635,15 @@ msgstr "Ett oförklarat fel inträffade vid öppnande av %s"
 msgid "Book%d.%s"
 msgstr "Blad%d.%s"
 
-#: src/workbook.c:1282
+#: src/workbook.c:1289
 msgid "Sheet name must have at least 1 letter"
 msgstr "Bladnamnet måste ha åtminstone 1 bokstav"
 
-#: src/workbook.c:1295
+#: src/workbook.c:1302
 msgid "There is already a sheet named"
 msgstr "Det finns redan ett blad med namnet"
 
-#: src/workbook.c:1305
+#: src/workbook.c:1312
 msgid "You may not use this name twice"
 msgstr "Du kan inte använda detta namn två gånger"
 
