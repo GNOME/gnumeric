@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.HEAD.pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-03-13 11:24+0100\n"
-"PO-Revision-Date: 2005-03-13 21:32-0300\n"
+"POT-Creation-Date: 2005-03-17 04:08+0100\n"
+"PO-Revision-Date: 2005-03-17 08:55-0300\n"
 "Last-Translator: Afonso Celso Medina <medina@maua.br>\n"
 "Language-Team: Portuguese/Brazil <gnome-l10n-br@listas.cipsga.org.br>\n"
 "MIME-Version: 1.0\n"
@@ -250,7 +250,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Funções relativas a derivativos financeiros"
 
 #: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5840
-#: plugins/mps/mps.c:547 src/xml-io.c:3979
+#: plugins/mps/mps.c:547 src/xml-io.c:3988
 msgid "Reading file..."
 msgstr "Lendo arquivo..."
 
@@ -354,7 +354,7 @@ msgstr "#DESCONHECIDO!"
 #. name for multiple adds
 #: plugins/excel/ms-excel-read.c:1110 plugins/excel/ms-excel-read.c:1122
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:510
-#: src/dialogs/dialog-sheet-order.c:474 src/dialogs/dialog-sheet-order.c:478
+#: src/dialogs/dialog-sheet-order.c:475 src/dialogs/dialog-sheet-order.c:479
 #, c-format
 msgid "Sheet%d"
 msgstr "Pasta%d"
@@ -437,11 +437,11 @@ msgstr ""
 "Algum conteúdo será perdido quando salvar no formato MS-EXCEL (tm). Ele "
 "suporta apenas %d colunas e esse WorkBook tem %d"
 
-#: plugins/excel/ms-excel-write.c:4991
+#: plugins/excel/ms-excel-write.c:4992
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Não pode abrir o 'Livro' atual para escrita\n"
 
-#: plugins/excel/ms-excel-write.c:5011
+#: plugins/excel/ms-excel-write.c:5012
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Não pode abrir o 'WorkBook' para escrita\n"
 
@@ -1334,7 +1334,7 @@ msgstr "valor,formato_texto"
 msgid "Functions for manipulating strings"
 msgstr "Funções para manipulação de textos"
 
-#: plugins/fn-string/plugin.xml.in.h:2 src/dialogs/dialog-search.c:144
+#: plugins/fn-string/plugin.xml.in.h:2 src/dialogs/dialog-search.c:154
 #: src/func.c:837
 msgid "String"
 msgstr "Texto"
@@ -1343,28 +1343,6 @@ msgstr "Texto"
 #: plugins/fn-string/plugin.xml.in.h:3
 msgid "String Functions"
 msgstr "Funções de Texto"
-
-#: plugins/gb/plugin.c:131
-msgid "Unknown GB error"
-msgstr "Erro GB desconhecido"
-
-#: plugins/gb/plugin.c:364
-#, c-format
-msgid "Error initializing gb '%s'"
-msgstr "Erro ao inicializar gb '%s'"
-
-#: plugins/gb/plugin.c:379
-#, c-format
-msgid "Error in project '%s'"
-msgstr "Erro no projeto '%s'"
-
-#: plugins/gb/plugin.xml.in.h:1
-msgid "Enables Gnome Basic support"
-msgstr "Habilita suporte ao Gnome Basic"
-
-#: plugins/gb/plugin.xml.in.h:2
-msgid "Gnome Basic"
-msgstr "Gnome Basic"
 
 #: plugins/gda/plugin-gda.c:59
 msgid "Too much data returned"
@@ -1420,35 +1398,6 @@ msgstr "Formato de arquivo PO do Glossário Gnome"
 #: plugins/gnome-glossary/plugin.xml.in.h:3
 msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr "Fornece suporte para salvar o Glossário Gnome em arquivos .po."
-
-#: plugins/guile/plugin.c:107
-msgid "Guile error"
-msgstr "Erro Guile"
-
-# plugins/guile/plugin.c:454
-#: plugins/guile/plugin.xml.in.h:1
-msgid "Guile Plugin"
-msgstr "Plugin Guile"
-
-#: plugins/guile/plugin.xml.in.h:2
-msgid "This plugin enables Guile(scheme) support in Gnumeric"
-msgstr "Este plugin habilita o suporte a Guile(esquema) no Gnumeric"
-
-#: plugins/guile/smob-value.c:102
-msgid "Unable to convert value from Guile"
-msgstr "Impossível converter valor do Guile"
-
-#: plugins/guile/smob-value.c:163
-msgid "Not a Guile boolean"
-msgstr "Não é um booleano Guile"
-
-#: plugins/guile/smob-value.c:181
-msgid "Not a Guile number"
-msgstr "Não é um número Guile"
-
-#: plugins/guile/smob-value.c:199
-msgid "Not a Guile string"
-msgstr "Não é um texto Guile"
 
 #: plugins/html/html_read.c:535
 msgid "Unable to parse the html."
@@ -1554,7 +1503,7 @@ msgstr "Final"
 #. * Fill in the labels of `General Info' section.
 #.
 #: plugins/mps/mps.c:273 src/dialogs/dialog-formula-guru.c:804
-#: src/dialogs/dialog-search.c:411 src/tools/solver/reports-write.c:515
+#: src/dialogs/dialog-search.c:449 src/tools/solver/reports-write.c:515
 msgid "Type"
 msgstr "Tipo"
 
@@ -1846,7 +1795,7 @@ msgstr "Funções Python"
 msgid "Sample Python plugin providing some (useless) functions."
 msgstr "Um simples plugin Python, fornecendo algumas (inúteis) funções."
 
-#: plugins/python-loader/gnm-py-interpreter.c:253
+#: plugins/python-loader/gnm-py-interpreter.c:255
 msgid "Default interpreter"
 msgstr "Interpretador padrão"
 
@@ -1994,8 +1943,8 @@ msgid "Imports Quattro Pro (tm) files"
 msgstr "Importa arquivos Quattro Pro (tm)"
 
 #: plugins/qpro/plugin.xml.in.h:2
-msgid "Quatro Pro (*.wb1, *.wb2, *.wb3)"
-msgstr "Quatro Pro (*.wb1, *.wb2, *.wb3)"
+msgid "Quattro Pro (*.wb1, *.wb2, *.wb3)"
+msgstr "Quattro Pro (*.wb1, *.wb2, *.wb3)"
 
 #: plugins/qpro/plugin.xml.in.h:3
 msgid "Quattro Pro(tm)"
@@ -2095,9 +2044,9 @@ msgid "Error while opening xbase file."
 msgstr "Erro ao abrir arquivo xbase."
 
 #: plugins/xbase/boot.c:176 src/dialogs/dialog-goto-cell.c:289
-#: src/dialogs/dialog-search.c:409 src/dialogs/dialog-stf-export.c:444
+#: src/dialogs/dialog-search.c:447 src/dialogs/dialog-stf-export.c:444
 #: src/dialogs/print.glade.h:21 src/commands.c:4966 src/print-info.c:398
-#: src/workbook.c:1091 src/xml-io.c:3569
+#: src/workbook.c:1098 src/xml-io.c:3569
 msgid "Sheet"
 msgstr "Pasta"
 
@@ -2136,7 +2085,7 @@ msgstr "Gnumeric EXPERIMENTAL baseado em SAX (*.gnumeric)"
 msgid "EXPERIMENTAL SAX based XML"
 msgstr "XML EXPERIMENTAL baseado em SAX"
 
-#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4107
+#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4116
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML (*.gnumeric)"
 
@@ -4778,7 +4727,7 @@ msgstr "Simples"
 msgid "Double"
 msgstr "Duplo"
 
-#: src/dialogs/dialog-cell-format.c:474 src/dialogs/dialog-search.c:148
+#: src/dialogs/dialog-cell-format.c:474 src/dialogs/dialog-search.c:158
 #: src/func.c:835 src/wbcg-actions.c:1951
 msgid "Number"
 msgstr "Número"
@@ -5014,7 +4963,7 @@ msgstr "Nível do Workbook"
 #.
 #. * Fill in the labels of `Constraints' section.
 #.
-#: src/dialogs/dialog-goto-cell.c:295 src/dialogs/dialog-search.c:410
+#: src/dialogs/dialog-goto-cell.c:295 src/dialogs/dialog-search.c:448
 #: src/dialogs/tabulate.glade.h:2 src/tools/solver/reports-write.c:78
 #: src/tools/solver/reports-write.c:100 src/tools/solver/reports-write.c:127
 #: src/tools/solver/reports-write.c:234 src/tools/solver/reports-write.c:280
@@ -5661,32 +5610,37 @@ msgstr "Os resultados não possuem nomes de células válidas."
 msgid "Could not create the Scenarios dialog."
 msgstr "Impossível criar o diálogo de criação de Cenários."
 
-#: src/dialogs/dialog-search.c:129
+#: src/dialogs/dialog-search.c:137
 msgid "Comment"
 msgstr "Comentário"
 
-#: src/dialogs/dialog-search.c:132 src/tools/solver/reports-write.c:406
+#: src/dialogs/dialog-search.c:140 src/tools/solver/reports-write.c:406
 #: src/tools/solver/reports-write.c:411
 msgid "Result"
 msgstr "Resultado"
 
-#: src/dialogs/dialog-search.c:142
+#: src/dialogs/dialog-search.c:150 src/dialogs/dialog-search.c:178
+#: src/dialogs/dialog-search.c:184 src/dialogs/dialog-search.c:190
+msgid "Deleted"
+msgstr "Excluído"
+
+#: src/dialogs/dialog-search.c:152
 msgid "Expression"
 msgstr "Expressão"
 
-#: src/dialogs/dialog-search.c:146
+#: src/dialogs/dialog-search.c:156
 msgid "Integer"
 msgstr "Inteiro"
 
-#: src/dialogs/dialog-search.c:150
+#: src/dialogs/dialog-search.c:160
 msgid "Other value"
 msgstr "Outro valor"
 
-#: src/dialogs/dialog-search.c:332 src/dialogs/dialog-search-replace.c:156
+#: src/dialogs/dialog-search.c:366 src/dialogs/dialog-search-replace.c:156
 msgid "You must select some cell types to search."
 msgstr "Você deve selecionar alguns tipos de células para procurar."
 
-#: src/dialogs/dialog-search.c:412
+#: src/dialogs/dialog-search.c:450
 msgid "Content"
 msgstr "Conteúdo"
 
@@ -5702,23 +5656,23 @@ msgstr "Não fazer esta troca"
 msgid "Perform this replacement"
 msgstr "Fazer esta alteração"
 
-#: src/dialogs/dialog-sheet-order.c:391
+#: src/dialogs/dialog-sheet-order.c:392
 msgid "Current Name"
 msgstr "Nome Atual"
 
-#: src/dialogs/dialog-sheet-order.c:401
+#: src/dialogs/dialog-sheet-order.c:402
 msgid "New Name"
 msgstr "Novo Nome"
 
-#: src/dialogs/dialog-sheet-order.c:718
+#: src/dialogs/dialog-sheet-order.c:719
 msgid "At least one sheet must remain visible!"
 msgstr "Ao menos uma pasta deve permanecer visível!"
 
-#: src/dialogs/dialog-sheet-order.c:723
+#: src/dialogs/dialog-sheet-order.c:724
 msgid "You may not delete all sheets in a workbook!"
 msgstr "Você não pode excluir todas as pastas do WorkBook!"
 
-#: src/dialogs/dialog-sheet-order.c:728
+#: src/dialogs/dialog-sheet-order.c:729
 msgid ""
 "To replace all exisiting sheets, please delete the current workbook and "
 "create a new one!"
@@ -5726,11 +5680,11 @@ msgstr ""
 "Para substituir todas as pastas, por favor apague o WorkBook atual e crie um "
 "novo!"
 
-#: src/dialogs/dialog-sheet-order.c:984
+#: src/dialogs/dialog-sheet-order.c:985
 msgid "The sheet order has changed. Do you want to update the list?"
 msgstr "A ordem das pastas foi alterada. Você deseja atualizar a lista?"
 
-#: src/dialogs/dialog-sheet-order.c:1054 src/dialogs/dialog-sheet-order.c:1063
+#: src/dialogs/dialog-sheet-order.c:1056 src/dialogs/dialog-sheet-order.c:1066
 msgid "Default"
 msgstr "Padrão"
 
@@ -5844,8 +5798,7 @@ msgstr ""
 #: src/dialogs/dialog-solver.c:725
 msgid ""
 "The Target Cell value specified does not converge!  The program is unbounded."
-msgstr ""
-"O valor da Função Objetivo não converge!  O problema é ilimitado."
+msgstr "O valor da Função Objetivo não converge!  O problema é ilimitado."
 
 #: src/dialogs/dialog-solver.c:739
 msgid ""
@@ -6144,7 +6097,7 @@ msgstr ""
 "Se está opção for selecionada, a coluna será importada para o Gnumeric."
 
 #: src/dialogs/dialog-stf-format-page.c:627
-#: src/dialogs/dialog-stf-preview.h:27
+#: src/dialogs/dialog-stf-preview.h:26
 #, c-format
 msgid "Column %d"
 msgstr "Coluna: %d"
@@ -7796,7 +7749,7 @@ msgstr "Propriedades da Moldura"
 
 #: src/dialogs/solver.glade.h:2
 msgid "Assume _Integer (Discrete)"
-msgstr "Assumir _Inteira (Discreta)"
+msgstr "Assumir Inteira (_Discreta)"
 
 #: src/dialogs/solver.glade.h:3
 msgid "Assume _Non-Negative"
@@ -9143,7 +9096,7 @@ msgstr "Itálico negrito"
 msgid "Italic"
 msgstr "Itálico"
 
-#: src/application.c:308
+#: src/application.c:309
 msgid "Cut Object"
 msgstr "Corta o Objeto"
 
@@ -9263,11 +9216,11 @@ msgstr "Digitando \"%s%s\""
 msgid "Ins/Del Column/Row"
 msgstr "Ins/Rem Coluna/Linha"
 
-#: src/commands.c:1327 src/commands.c:1332 src/sheet.c:3301
+#: src/commands.c:1327 src/commands.c:1332 src/sheet.c:3343
 msgid "Delete Columns"
 msgstr "Excluir colunas"
 
-#: src/commands.c:1327 src/commands.c:1332 src/sheet.c:3423
+#: src/commands.c:1327 src/commands.c:1332 src/sheet.c:3465
 msgid "Delete Rows"
 msgstr "Excluir linhas"
 
@@ -9312,7 +9265,7 @@ msgid "Deleting row %s"
 msgstr "Apagando linha %s"
 
 #. Check for locked cells
-#: src/commands.c:1602 src/commands.c:1606 src/sheet.c:2904
+#: src/commands.c:1602 src/commands.c:1606 src/sheet.c:2946
 msgid "Clear"
 msgstr "Limpar"
 
@@ -9969,7 +9922,7 @@ msgstr "ObjectToolbar"
 msgid "StandardToolbar"
 msgstr "StandardToolbar"
 
-#: src/gnumeric-pane.c:119
+#: src/gnumeric-pane.c:125
 #, c-format
 msgid ""
 "%.1f x %.1f pts\n"
@@ -9978,7 +9931,7 @@ msgstr ""
 "%.1f x %.1f pts\n"
 "%d x %d pixels"
 
-#: src/gui-clipboard.c:120
+#: src/gui-clipboard.c:121
 msgid "clipboard"
 msgstr "Área de Transferência"
 
@@ -9990,19 +9943,19 @@ msgstr "Identificado Automaticamente"
 msgid "Load file"
 msgstr "Carregar arquivo"
 
-#: src/gui-file.c:222 src/gui-file.c:364
+#: src/gui-file.c:222 src/gui-file.c:365
 msgid "Select a file"
 msgstr "Selecione um arquivo"
 
-#: src/gui-file.c:247 src/gui-file.c:378
+#: src/gui-file.c:247 src/gui-file.c:379
 msgid "All Files"
 msgstr "Todos os Arquivos"
 
-#: src/gui-file.c:252 src/gui-file.c:383
+#: src/gui-file.c:252 src/gui-file.c:384
 msgid "Spreadsheets"
 msgstr "Planilhas"
 
-#: src/gui-file.c:278 src/gui-file.c:407
+#: src/gui-file.c:278 src/gui-file.c:408
 msgid "File _type:"
 msgstr "_Tipo de Arquivo:"
 
@@ -10018,7 +9971,7 @@ msgstr ""
 "diferentes ou use outro formato.\n"
 "Deseja salvar apenas a pasta atual?"
 
-#: src/gui-file.c:458
+#: src/gui-file.c:459
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -10110,10 +10063,12 @@ msgid "Display Gnumeric's version"
 msgstr "Mostra a versão do Gnumeric"
 
 #: src/main-application.c:62 src/ssconvert.c:47 src/ssindex.c:54
+#: src/test-pango.c:32
 msgid "Set the root library directory"
 msgstr "Define o diretório raiz das bibliotecas"
 
 #: src/main-application.c:64 src/ssconvert.c:49 src/ssindex.c:56
+#: src/test-pango.c:34
 msgid "Adjust the root data directory"
 msgstr "Ajusta o diretório raiz dos dados"
 
@@ -10129,12 +10084,12 @@ msgstr "ARQUIVO"
 msgid "Generate new help and po files"
 msgstr "Gera novos arquivos de ajuda e de po"
 
-#: src/main-application.c:74
+#: src/main-application.c:74 src/test-pango.c:36
 msgid "Enables some debugging functions"
 msgstr "Habilita algumas funções de depuração"
 
 #: src/main-application.c:74 src/main-application.c:77
-#: src/main-application.c:79 src/main-application.c:81
+#: src/main-application.c:79 src/main-application.c:81 src/test-pango.c:36
 msgid "LEVEL"
 msgstr "NÍVEL"
 
@@ -10151,11 +10106,11 @@ msgstr ""
 msgid "Enables some print debugging behavior"
 msgstr "Habilita algumas funções de depuração de impressão"
 
-#: src/main-application.c:84
+#: src/main-application.c:84 src/test-pango.c:38
 msgid "Specify the size and location of the initial window"
 msgstr "Especifica o tamanho e a localização da janela inicial"
 
-#: src/main-application.c:84
+#: src/main-application.c:84 src/test-pango.c:38
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "LARGURAxALTURA+XOFF+YOFF"
 
@@ -10494,23 +10449,23 @@ msgstr "Não salvar"
 msgid "Do not log out"
 msgstr "Não fechar a sessão (log out)"
 
-#: src/sheet.c:2051
+#: src/sheet.c:2078
 msgid "Target region contains merged cells"
 msgstr "A região alvo contém células mescladas"
 
-#: src/sheet.c:2112
+#: src/sheet.c:2139
 msgid "cannot operate on merged cells"
 msgstr "não pode operar em células mescladas"
 
-#: src/sheet.c:2122
+#: src/sheet.c:2149
 msgid "cannot operate on array formulae"
 msgstr "não pode operar em fórmulas de vetor"
 
-#: src/sheet.c:3240
+#: src/sheet.c:3282
 msgid "Insert Columns"
 msgstr "Inserir Colunas"
 
-#: src/sheet.c:3362
+#: src/sheet.c:3404
 msgid "Insert Rows"
 msgstr "Inserir Linhas"
 
@@ -10694,11 +10649,11 @@ msgstr "PNG (imagem rasterizada)"
 msgid "JPEG (photograph)"
 msgstr "JPEG (fotografia)"
 
-#: src/sheet-object-graph.c:253 src/sheet-object-image.c:477
+#: src/sheet-object-graph.c:253 src/sheet-object-image.c:437
 msgid "Unknown failure while saving image"
 msgstr "Falha desconhecida ao salvar imagem"
 
-#: src/sheet-object-graph.c:266 src/sheet-object-image.c:492
+#: src/sheet-object-graph.c:266 src/sheet-object-image.c:504
 msgid "_Save as image"
 msgstr "_Salvar como Imagem"
 
@@ -11396,11 +11351,11 @@ msgstr "Limpa o conteúdo das células selecionadas"
 
 #: src/wbcg-actions.c:1535
 msgid "Delete the row(s) containing the selected cells"
-msgstr "Remove a(s) linha(s) contendo as células selecionadas"
+msgstr "Exclui a(s) linha(s) contendo as células selecionadas"
 
 #: src/wbcg-actions.c:1538
 msgid "Delete the column(s) containing the selected cells"
-msgstr "Remove a(s) coluna(s) contendo as células selecionadas"
+msgstr "Exclui a(s) coluna(s) contendo as células selecionadas"
 
 #. Insert
 #: src/wbcg-actions.c:1540 src/wbcg-actions.c:1650
@@ -11409,8 +11364,7 @@ msgstr "_Células..."
 
 #: src/wbcg-actions.c:1541
 msgid "Delete the selected cells, shifting others into their place"
-msgstr ""
-"Remove as células selecionadas, substituindo por outras em seus lugares"
+msgstr "Exclui as células selecionadas, substituindo por outras em seus lugares"
 
 #: src/wbcg-actions.c:1547
 msgid "Select all cells in the spreadsheet"
@@ -11764,8 +11718,7 @@ msgstr "Seleção de Au_to ajuste"
 
 #: src/wbcg-actions.c:1712
 msgid "Ensure columns are just wide enough to display content"
-msgstr ""
-"Assegura que as colunas são largas o suficiente para mostrar o conteúdo"
+msgstr "Assegura que as colunas são largas o suficiente para mostrar os seus conteúdos"
 
 #: src/wbcg-actions.c:1715
 msgid "Hide the selected columns"
@@ -11794,7 +11747,7 @@ msgstr "Muda a altura das linhas selecionadas"
 
 #: src/wbcg-actions.c:1729
 msgid "Ensure rows are just tall enough to display content"
-msgstr "Assegura que as linhas são altas o suficiente para mostrar o conteúdo"
+msgstr "Assegura que as linhas são altas o suficiente para mostrar os seus conteúdos"
 
 #: src/wbcg-actions.c:1732
 msgid "Hide the selected rows"
@@ -11903,11 +11856,11 @@ msgstr "Análise de Variância de Dois Fatores..."
 #. Tools -> Forecasting
 #: src/wbcg-actions.c:1779
 msgid "_Exponential Smoothing..."
-msgstr "Suavização Exponencial..."
+msgstr "Suavização _Exponencial..."
 
 #: src/wbcg-actions.c:1780
 msgid "Exponential smoothing..."
-msgstr "Suavização Exponencial..."
+msgstr "Suavização exponencial..."
 
 #: src/wbcg-actions.c:1782
 msgid "_Moving Average..."
@@ -12691,41 +12644,41 @@ msgstr "Nada"
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr "No menu '%s', a tecla '%s' é tanto utilizada por '%s' quanto por '%s'."
 
-#: src/wbc-gtk.c:1198
+#: src/wbc-gtk.c:1201
 #, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "Exibir/Ocultar a barras de ferramentas %s"
 
-#: src/workbook.c:429
+#: src/workbook.c:439
 #, c-format
 msgid "Book%d.%s"
 msgstr "Livro%d.%s"
 
-#: src/workbook.c:1297
+#: src/workbook.c:1302
 msgid "Sheet name is NULL"
 msgstr "O nome da pasta é NULO"
 
-#: src/workbook.c:1306
+#: src/workbook.c:1311
 msgid "Sheet name is not valid utf-8"
 msgstr "O nome da pasta não é válido para o padrão UTF-8"
 
-#: src/workbook.c:1314
+#: src/workbook.c:1319
 msgid "Sheet name must have at least 1 letter"
 msgstr "O nome da pasta deve ter pelo menos uma letra"
 
-#: src/workbook.c:1336
+#: src/workbook.c:1341
 msgid "There is already a sheet named"
 msgstr "Já há uma pasta chamada"
 
-#: src/workbook.c:1348
+#: src/workbook.c:1353
 msgid "You may not use this name twice"
 msgstr "Você não pode usar esse nome duas vezes"
 
-#: src/workbook-control.c:253
+#: src/workbook-control.c:255
 msgid "Define Name"
 msgstr "Definir Nome"
 
-#: src/workbook-control.c:274
+#: src/workbook-control.c:276
 msgid "Address"
 msgstr "Endereço"
 
@@ -12901,15 +12854,15 @@ msgstr "A área de transferência está em um formato desconhecido"
 msgid "Processing file..."
 msgstr "Processando o arquivo..."
 
-#: src/xml-io.c:4027
+#: src/xml-io.c:4036
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Este arquivo não é um Workbook do Gnumeric"
 
-#: src/xml-io.c:4064
+#: src/xml-io.c:4073
 msgid "Failure saving file"
 msgstr "Erro ao salvar arquivo"
 
-#: src/xml-io.c:4112
+#: src/xml-io.c:4121
 msgid "Gnumeric XML (*.gnumeric) original slow exporter"
 msgstr "Exportador original lento do Gnumeric XML (*.gnumeric)"
 
@@ -13076,8 +13029,7 @@ msgstr "Tabela"
 
 #: templates/autoformat/autoformat.General.table.xml.in.h:3
 msgid "Very simple table template with the same border everywhere "
-msgstr ""
-"Um modelo muito simples de tabela com a mesma borda em todos os lugares"
+msgstr "Um modelo muito simples de tabela com a mesma borda em todos os lugares"
 
 #: templates/autoformat/autoformat.List.basic.xml.in.h:1
 msgid "A basic list"
@@ -13102,6 +13054,43 @@ msgstr "Modelo de lista lilás"
 #: templates/autoformat/autoformat.List.simple.xml.in.h:1
 msgid "A simple list template"
 msgstr "Um modelo de lista simples"
+
+#~ msgid "Unknown GB error"
+#~ msgstr "Erro GB desconhecido"
+
+#~ msgid "Error initializing gb '%s'"
+#~ msgstr "Erro ao inicializar gb '%s'"
+
+#~ msgid "Error in project '%s'"
+#~ msgstr "Erro no projeto '%s'"
+
+#~ msgid "Enables Gnome Basic support"
+#~ msgstr "Habilita suporte ao Gnome Basic"
+
+#~ msgid "Gnome Basic"
+#~ msgstr "Gnome Basic"
+
+#~ msgid "Guile error"
+#~ msgstr "Erro Guile"
+
+# plugins/guile/plugin.c:454
+#~ msgid "Guile Plugin"
+#~ msgstr "Plugin Guile"
+
+#~ msgid "This plugin enables Guile(scheme) support in Gnumeric"
+#~ msgstr "Este plugin habilita o suporte a Guile(esquema) no Gnumeric"
+
+#~ msgid "Unable to convert value from Guile"
+#~ msgstr "Impossível converter valor do Guile"
+
+#~ msgid "Not a Guile boolean"
+#~ msgstr "Não é um booleano Guile"
+
+#~ msgid "Not a Guile number"
+#~ msgstr "Não é um número Guile"
+
+#~ msgid "Not a Guile string"
+#~ msgstr "Não é um texto Guile"
 
 #~ msgid "Not a valid UTF-8 filename."
 #~ msgstr "Não é um nome de arquivo UTF-8 válido."
