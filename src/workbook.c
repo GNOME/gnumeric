@@ -727,8 +727,7 @@ delete_cells_cmd (GtkWidget *widget, Workbook *wb)
 	dialog_delete_cells (wb, wb->current_sheet);
 }
 
-static void
-sheet_action_delete_sheet (GtkWidget *ignored, Sheet *current_sheet);
+static void sheet_action_delete_sheet (GtkWidget *ignored, Sheet *current_sheet);
 
 static void
 delete_sheet_cmd (GtkWidget *widget, Workbook *wb)

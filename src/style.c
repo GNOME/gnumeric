@@ -140,9 +140,8 @@ style_font_new_simple (const char *font_name, double size, double scale,
 		/*
 		 * Worst case scenario
 		 */
-		if (font->dfont->gdk_font == NULL){
+		if (font->dfont->gdk_font == NULL)
 			font->dfont->gdk_font = gdk_font_load ("fixed");
-		}
 		
 		font->font = gnome_font_new_closest (
 			font_name,
@@ -227,27 +226,9 @@ style_font_gnome_font (StyleFont *sf)
 int
 style_font_get_height (StyleFont *sf)
 {
-	GdkFont *gdk_font;
-	GnomeFont *gnome_font;
-	static int warning_shown;
-	int height;
-
 	g_return_val_if_fail (sf != NULL, 0);
 
-	gdk_font = sf->dfont->gdk_font;
-
-	height = gdk_font->ascent + gdk_font->descent;
-
-	gnome_font = sf->dfont->gnome_font;
-	
-	if (height < gnome_font->size)
-		height = gnome_font->size;
-
-	if (!warning_shown){
-		g_warning ("this should use a gnome-print provided method");
-		warning_shown = 1;
-	}
-	return height;
+	return gnome_display_font_height (sf->dfont);
 }
 
 void
