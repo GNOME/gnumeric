@@ -221,6 +221,13 @@ gog_barcol_plot_update (GogObject *obj)
 		parent_klass->update (obj);
 }
 
+static gboolean
+gog_barcol_supports_vary_style_by_element (GogPlot const *plot)
+{
+	GogBarColPlot *barcol = GOG_BARCOL_PLOT (plot);
+	return barcol->type == GOG_BARCOL_NORMAL;
+}
+
 static void
 gog_barcol_plot_class_init (GogPlotClass *plot_klass)
 {
@@ -267,7 +274,7 @@ gog_barcol_plot_class_init (GogPlotClass *plot_klass)
 	plot_klass->desc.num_series_min = 1;
 	plot_klass->desc.num_series_max = G_MAXINT;
 	plot_klass->series_type = gog_barcol_series_get_type ();
-	plot_klass->supports_vary_by_element = TRUE;
+	plot_klass->supports_vary_style_by_element = gog_barcol_supports_vary_style_by_element;
 }
 
 static void

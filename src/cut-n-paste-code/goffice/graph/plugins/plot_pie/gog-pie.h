@@ -42,6 +42,18 @@ typedef struct {
 GType gog_pie_plot_get_type (void);
 
 typedef struct {
+	GogPiePlot	base;
+
+	float	 center_size;
+} GogRingPlot;
+
+#define GOG_RING_PLOT_TYPE	(gog_ring_plot_get_type ())
+#define GOG_RING_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_RING_PLOT_TYPE, GogRingPlot))
+#define GOG_IS_RING_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_RING_PLOT_TYPE))
+
+GType gog_ring_plot_get_type (void);
+
+typedef struct {
 	GogSeries base;
 
 	float	 initial_angle;	/* degrees counterclockwise from 3 o'clock */

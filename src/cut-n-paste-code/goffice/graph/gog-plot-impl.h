@@ -45,10 +45,9 @@ struct _GogPlot {
 	unsigned	 cardinality;
 	gboolean	 cardinality_valid;
 	unsigned	 index_num;
+	gboolean	 vary_style_by_element;
 
-	gboolean vary_style_by_element;
-
-	GogAxis	       *axis[GOG_AXIS_TYPES];
+	GogAxis		*axis[GOG_AXIS_TYPES];
 
 	/* Usually a copy from the class but its here to allow a GogPlotType to
 	 * override a things without requiring a completely new class */
@@ -61,14 +60,13 @@ typedef struct {
 	GogPlotDesc	desc;
 	GType		series_type;
 
-	unsigned	supports_vary_by_element : 1;
-
 	/* Virtuals */
 	GOData	  *(*axis_bounds)  (GogPlot *plot, unsigned axis,
 				    double *min, double *max);
 	unsigned   (*cardinality)  (GogPlot *plot);
 	gboolean   (*foreach_elem) (GogPlot *plot,
 				    GogEnumFunc handler, gpointer data);
+	gboolean   (*supports_vary_style_by_element) (GogPlot const *plot);
 } GogPlotClass;
 
 #define GOG_PLOT_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST ((k), GOG_PLOT_TYPE, GogPlotClass))

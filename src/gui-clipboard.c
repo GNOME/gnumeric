@@ -246,6 +246,7 @@ complex_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 						 pt, sel->data,
 						 sel->length);
 	} else if (sel->target == gdk_atom_intern (HTML_ATOM_NAME, FALSE)) {
+		write (1, sel->data, sel->length);
 		content = table_cellregion_read (wbc, "Gnumeric_html:html",
 						 pt, sel->data,
 						 sel->length);

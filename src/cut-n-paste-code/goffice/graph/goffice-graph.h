@@ -81,7 +81,7 @@ typedef enum {
 } GogAxisType;
 typedef enum {
 	GOG_AXES_XY,
-	GOG_AXES_XY_pseduo_3d,
+	GOG_AXES_XY_pseudo_3d,
 	GOG_AXES_XYZ,
 	GOG_AXES_TYPES
 } GogAxesType;

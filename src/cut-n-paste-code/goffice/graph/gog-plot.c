@@ -126,7 +126,8 @@ gog_plot_set_property (GObject *obj, guint param_id,
 
 	switch (param_id) {
 	case PLOT_PROP_VARY_STYLE_BY_ELEMENT:
-		b_tmp = g_value_get_boolean (value);
+		b_tmp = g_value_get_boolean (value) &&
+			gog_plot_supports_vary_style_by_element (plot);
 		if (plot->vary_style_by_element ^ b_tmp) {
 			plot->vary_style_by_element = b_tmp;
 			gog_plot_request_cardinality_update (plot);
@@ -145,7 +146,9 @@ gog_plot_get_property (GObject *obj, guint param_id,
 	GogPlot *plot = GOG_PLOT (obj);
 	switch (param_id) {
 	case PLOT_PROP_VARY_STYLE_BY_ELEMENT:
-		g_value_set_boolean (value, plot->vary_style_by_element);
+		g_value_set_boolean (value,
+			plot->vary_style_by_element &&
+			gog_plot_supports_vary_style_by_element (plot));
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -311,6 +314,25 @@ gog_plot_foreach_elem (GogPlot *plot, GogEnumFunc func, gpointer data)
 
 		g_return_if_fail (i == plot->index_num + plot->cardinality);
 	}
+}
+
+GOData *
+gog_plot_get_axis_bounds (GogPlot *plot, unsigned axis,
+			  double *min, double *max)
+{
+	return NULL;
+}
+
+gboolean
+gog_plot_supports_vary_style_by_element (GogPlot const *plot)
+{
+	GogPlotClass *klass = GOG_PLOT_GET_CLASS (plot);
+
+	g_return_val_if_fail (klass != NULL, FALSE);
+
+	if (klass->supports_vary_style_by_element)
+		return (klass->supports_vary_style_by_element) (plot);
+	return TRUE; /* default */
 }
 
 /****************************************************************************/

@@ -14,6 +14,17 @@
 	  sample_image_file="chart_pie_2_1.png">
 	<property name="default_separation">.20</property>
     </Type>
+    <Type _name="Ring" row="1" col="1"
+	  engine="GogRingPlot" family="Ring"
+	  _description="Percentage of each contributor displayed in ring for each serie."
+	  sample_image_file="chart_ring_1_1.png">
+    </Type>
+    <Type _name="Split Ring" row="1" col="2"
+	  engine="GogRingPlot" family="Ring"
+	  _description="Percentage of each contributor displayed in ring for each serie with wedges of the last ring split apart."
+	  sample_image_file="chart_ring_1_2.png">
+	  <property name="default_separation">.20</property>
+    </Type>
     <!--
     <Type _name="3D Pie" row="1" col="2"
 	  engine="GogPiePlot" family="Pie"

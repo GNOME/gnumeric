@@ -1,3 +1,18 @@
+2003-06-29  Jody Goldberg <jody@gnome.org>
+
+	For Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+	* graph/plugins/plot_pie/gog-pie.c : Handle rings
+
+2003-06-27  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-plot.c (gog_plot_set_property) : don't allow setting
+	  vary_style_by_element if the plot does not permit it in the current
+	  state.
+	(gog_plot_get_property) : be anal.
+
+	* graph/plugins/plot_barcol/gog-barcol.c
+	(gog_barcol_supports_vary_style_by_element) : new.
+
 2003-06-27  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-plot-impl.h : Add GogPlotClass::supports_vary_by_element

@@ -17,6 +17,7 @@ Andreas:
 
 Emmanuel Pacaud:
 	* New format selector for stf.
+	* support Ring plots
 
 Jean Brefort:
 	* Support image files in chart areas (background, bar/col or pie)

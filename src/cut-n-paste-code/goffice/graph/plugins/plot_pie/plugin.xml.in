@@ -8,6 +8,11 @@
 		<attribute name="module_file" value="pie.la"/>
 	</loader>
 	<services>
+		<service type="plot_engine" id="GogRingPlot">
+			<information>
+				<_description>Ring plotting engine</_description>
+			</information>
+		</service>
 		<service type="plot_engine" id="GogPiePlot">
 			<information>
 				<_description>Pie plotting engine</_description>

@@ -47,7 +47,7 @@ enum {
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-static GObjectClass *parent_klass;
+static GObjectClass *pie_parent_klass;
 static GType gog_pie_view_get_type (void);
 
 static void
@@ -163,7 +163,7 @@ gog_pie_plot_class_init (GogPlotClass *plot_klass)
 	GObjectClass *gobject_klass = (GObjectClass *) plot_klass;
 	GogObjectClass *gog_klass = (GogObjectClass *) plot_klass;
 
-	parent_klass = g_type_class_peek_parent (plot_klass);
+	pie_parent_klass = g_type_class_peek_parent (plot_klass);
 	gobject_klass->set_property = gog_pie_plot_set_property;
 	gobject_klass->get_property = gog_pie_plot_get_property;
 
@@ -198,10 +198,10 @@ gog_pie_plot_class_init (GogPlotClass *plot_klass)
 		plot_klass->desc.series.dim = dimensions;
 		plot_klass->desc.series.num_dim = G_N_ELEMENTS(dimensions);
 	}
-	plot_klass->desc.num_series_min = plot_klass->desc.num_series_max = 1;
+	plot_klass->desc.num_series_min = 1;
+	plot_klass->desc.num_series_max = 1;
 	plot_klass->series_type  = gog_pie_series_get_type ();
 	plot_klass->foreach_elem = gog_pie_plot_foreach_elem;
-	plot_klass->supports_vary_by_element = TRUE;
 }
 
 static void
@@ -213,6 +213,103 @@ gog_pie_plot_init (GogPiePlot *pie)
 GSF_CLASS (GogPiePlot, gog_pie_plot,
 	   gog_pie_plot_class_init, gog_pie_plot_init,
 	   GOG_PLOT_TYPE)
+
+/*****************************************************************************/
+
+enum {
+	RING_PLOT_PROP_0,
+	RING_PLOT_PROP_CENTER_SIZE,
+};
+
+typedef struct {
+	GogPiePlotClass	base;
+} GogRingPlotClass;
+
+static GObjectClass *ring_parent_klass;
+
+static void
+gog_ring_plot_set_property (GObject *obj, guint param_id,
+			    GValue const *value, GParamSpec *pspec)
+{
+	GogRingPlot *ring = GOG_RING_PLOT (obj);
+
+	switch (param_id) {
+	case RING_PLOT_PROP_CENTER_SIZE :
+		ring->center_size = g_value_get_float (value);
+		break;
+
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 return; /* NOTE : RETURN */
+	}
+
+	/* none of the attributes triggers a size change yet.
+	 * When we add data labels we'll need it */
+	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
+}
+
+static void
+gog_ring_plot_get_property (GObject *obj, guint param_id,
+			    GValue *value, GParamSpec *pspec)
+{
+	GogRingPlot *ring = GOG_RING_PLOT (obj);
+
+	switch (param_id) {
+	case RING_PLOT_PROP_CENTER_SIZE :
+		g_value_set_float (value, ring->center_size);
+		break;
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
+	}
+}
+
+static char const *
+gog_ring_plot_type_name (G_GNUC_UNUSED GogObject const *item)
+{
+	return "PlotRing";
+}
+
+extern gpointer gog_ring_plot_pref (GogRingPlot *ring, CommandContext *cc);
+static gpointer
+gog_ring_plot_editor (GogObject *item,
+		      G_GNUC_UNUSED GogDataAllocator *dalloc,
+		      CommandContext *cc)
+{
+	return gog_ring_plot_pref (GOG_RING_PLOT (item), cc);
+}
+
+static void
+gog_ring_plot_class_init (GogPiePlotClass *pie_plot_klass)
+{
+	GObjectClass *gobject_klass = (GObjectClass *) pie_plot_klass;
+	GogObjectClass *gog_klass = (GogObjectClass *) pie_plot_klass;
+	GogPlotClass *plot_klass = (GogPlotClass *) pie_plot_klass;
+
+	ring_parent_klass = g_type_class_peek_parent (pie_plot_klass);
+	gobject_klass->set_property = gog_ring_plot_set_property;
+	gobject_klass->get_property = gog_ring_plot_get_property;
+
+	gog_klass->type_name	= gog_ring_plot_type_name;
+	gog_klass->editor	= gog_ring_plot_editor;
+
+	g_object_class_install_property (gobject_klass, RING_PLOT_PROP_CENTER_SIZE,
+		g_param_spec_float ("center_size", "center_size",
+			"Size of the center hole as a percentage of the radius",
+			0, 100., 0.,
+			G_PARAM_READWRITE));
+
+	plot_klass->desc.num_series_min = 1;
+	plot_klass->desc.num_series_max = G_MAXINT;
+}
+
+static void
+gog_ring_plot_init (GogRingPlot *ring)
+{
+	ring->center_size = 0.5;
+}
+
+GSF_CLASS (GogRingPlot, gog_ring_plot,
+	   gog_ring_plot_class_init, gog_ring_plot_init,
+	   GOG_PIE_PLOT_TYPE)
 
 /*****************************************************************************/
 typedef GogPlotView		GogPieView;
@@ -233,6 +330,24 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (model));
 	GogStyle *style;
 	GSList *ptr;
+	unsigned num_series = 0;
+	unsigned index;
+	double center_radius;
+	double center_size = 0.0;
+	double r_ext, r_int;
+
+	/* compute number of valid series */
+	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
+	  	if (!gog_series_is_valid (GOG_SERIES (ptr->data)))
+			continue;
+		num_series++;
+	}
+
+	if (num_series <=0 )
+		return;
+
+	if (GOG_IS_RING_PLOT (model))
+		center_size = GOG_RING_PLOT(model)->center_size;
 
 	/* centre things */
 	cx = view->allocation.x + view->allocation.w/2.;
@@ -241,17 +356,21 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 	r = view->allocation.h;
 	if (r > view->allocation.w)
 		r = view->allocation.w;
-	r /= 2.;
-
-	r /= (1. + model->default_separation);
+	r /= 2. * (1. + model->default_separation);
 	default_sep = r * model->default_separation;
+	center_radius = r * center_size;
+	r *= 1. - center_size;
 
 	elem = model->base.index_num;
+	index = 1;
 	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
 		series = ptr->data;
 
 		if (!gog_series_is_valid (GOG_SERIES (series)))
 			continue;
+
+		r_int = center_radius + r * ((double)index - 1.0) / (double)num_series;
+		r_ext = center_radius + r * (double)index / (double)num_series;
 
 		style = GOG_STYLED_OBJECT (series)->style;
 		if (model->base.vary_style_by_element)  {
@@ -260,7 +379,7 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 		}
 		gog_renderer_push_style (view->renderer, style);
 
-		theta = (model->initial_angle + series->initial_angle) * 2. * M_PI / 360.;
+		theta = (model->initial_angle + series->initial_angle) * 2. * M_PI / 360. - M_PI / 2.;
 
 		scale = 2 * M_PI / series->total;
 		vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[1].data));
@@ -269,8 +388,14 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 			if (!finite (len) || len < 1e-3)
 				continue;
 
-			real_cx = cx + default_sep * cos (theta + len/2.);
-			real_cy = cy + default_sep * sin (theta + len/2.);
+			/* only separate the outer ring ? (check this) */
+			if (num_series == index) {
+				real_cx = cx + default_sep * cos (theta + len/2.);
+				real_cy = cy + default_sep * sin (theta + len/2.);
+			} else {
+				real_cx = cx;
+				real_cy = cy;
+			}
 
 			n = MAX_ARC_SEGMENTS * len / (2 * M_PI);
 			if (n < 12)
@@ -278,27 +403,27 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 			else if (n > MAX_ARC_SEGMENTS)
 				n = MAX_ARC_SEGMENTS;
 
+			n /= 2;
+
 			dt = (double)len / (double)n;
 			path[0].code = ART_MOVETO;
-			path[0].x = real_cx;
-			path[0].y = real_cy; 
-			for (tmp = theta, j = 0; j <= n ; tmp += dt) {
-				j++;
-				path[j].code = ART_LINETO;
-				path[j].x = real_cx + r * cos (tmp);
-				path[j].y = real_cy + r * sin (tmp); 
+			path[0].x = real_cx + r_int * cos (theta);
+			path[0].y = real_cy + r_int * sin (theta);
+			for (tmp = theta, j = 0; j <= n ; tmp += dt, j++) {
+				path[j + 1].code = ART_LINETO;
+				path[j + 1].x = real_cx + r_ext * cos (tmp);
+				path[j + 1].y = real_cy + r_ext * sin (tmp);
+				path[2 * n - j + 2].code = ART_LINETO;
+				path[2 * n - j + 2].x = real_cx + r_int * cos (tmp);
+				path[2 * n - j + 2].y = real_cy + r_int * sin (tmp);
 			}
-			j++;
-			path[j].code = ART_LINETO;
-			path[j].x = real_cx;
-			path[j].y = real_cy; 
-			path[j+1].code = ART_END;
+			path[2 * n + 3].code = ART_END;
 
 			if (model->base.vary_style_by_element)
 				gog_theme_init_style (theme, style, klass,
 						      model->base.index_num + k);
 			gog_renderer_draw_polygon (view->renderer, path,
-				r * len < 5 /* drop outline for thin segments */);
+						   r * len < 5 /* drop outline for thin segments */);
 
 			theta += len;
 		}
@@ -306,6 +431,8 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 		gog_renderer_pop_style (view->renderer);
 		if (model->base.vary_style_by_element)
 			g_object_unref (style);
+
+		index ++;
 	}
 }
 
@@ -440,6 +567,7 @@ void
 plugin_init (void)
 {
 	gog_pie_plot_get_type ();
+	gog_ring_plot_get_type ();
 }
 
 void

@@ -17,7 +17,7 @@ pie_la_SOURCES = \
 	gog-pie-prefs.c
 
 xml_in_files = plugin.xml.in plot-types.xml.in
-xml_DATA = $(xml_in_files:.xml.in=.xml) gog-pie-prefs.glade
+xml_DATA = $(xml_in_files:.xml.in=.xml) gog-pie-prefs.glade gog-ring-prefs.glade
 
 @INTLTOOL_XML_RULE@
 
