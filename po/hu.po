@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.gnumeric-1-2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-29 21:31-0400\n"
+"POT-Creation-Date: 2004-09-08 23:59-0400\n"
 "PO-Revision-Date: 2004-04-09 11:10+0200\n"
 "Last-Translator: Gabor Kelemen <kg0021@stud.unideb.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -721,7 +721,7 @@ msgid ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
 
-#: plugins/derivatives/options.c:1999
+#: plugins/derivatives/options.c:2001
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_FLOAT_STRK_LKBK\n"
@@ -747,7 +747,7 @@ msgid ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
 
-#: plugins/derivatives/options.c:2063
+#: plugins/derivatives/options.c:2066
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_FIXED_STRK_LKBK\n"
@@ -773,7 +773,7 @@ msgid ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
 
-#: plugins/derivatives/options.c:2143
+#: plugins/derivatives/options.c:2146
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_BINOMIAL\n"
@@ -797,107 +797,107 @@ msgid ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
 
-#: plugins/derivatives/options.c:2166 plugins/derivatives/options.c:2171
-#: plugins/derivatives/options.c:2176 plugins/derivatives/options.c:2181
-#: plugins/derivatives/options.c:2196
+#: plugins/derivatives/options.c:2169 plugins/derivatives/options.c:2174
+#: plugins/derivatives/options.c:2179 plugins/derivatives/options.c:2184
+#: plugins/derivatives/options.c:2199
 msgid "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"
 msgstr ""
 
-#: plugins/derivatives/options.c:2186 plugins/derivatives/options.c:2191
+#: plugins/derivatives/options.c:2189 plugins/derivatives/options.c:2194
 msgid "spot, strike, time, rate, volatility, cost_of_carry"
 msgstr ""
 
-#: plugins/derivatives/options.c:2201
+#: plugins/derivatives/options.c:2204
 msgid "a, b, rho"
 msgstr ""
 
-#: plugins/derivatives/options.c:2206
+#: plugins/derivatives/options.c:2209
 msgid ""
 "call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
 msgstr ""
 
-#: plugins/derivatives/options.c:2211
+#: plugins/derivatives/options.c:2214
 msgid "call_put_flag, spot, strike, time, t2, rate, volatility, cost of carry"
 msgstr ""
 
-#: plugins/derivatives/options.c:2216
+#: plugins/derivatives/options.c:2219
 msgid "call_put_flag, spot, strike, time, rate, volatility, lambda, gamma"
 msgstr ""
 
-#: plugins/derivatives/options.c:2221
+#: plugins/derivatives/options.c:2224
 msgid ""
 "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
 msgstr ""
 
-#: plugins/derivatives/options.c:2226 plugins/derivatives/options.c:2236
+#: plugins/derivatives/options.c:2229 plugins/derivatives/options.c:2239
 msgid "call_put_flag, spot, strike, time, rate, cost_of_carry, volatility"
 msgstr ""
 
-#: plugins/derivatives/options.c:2231
+#: plugins/derivatives/options.c:2234
 msgid ""
 "call_put_flag, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, rho_ef, "
 "kappa_e, kappa_f)"
 msgstr ""
 
-#: plugins/derivatives/options.c:2241
+#: plugins/derivatives/options.c:2244
 msgid "call_put_flag, spot, strike, t1, t2, rate, d, volatility"
 msgstr ""
 
-#: plugins/derivatives/options.c:2246
+#: plugins/derivatives/options.c:2249
 msgid ""
 "call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
 msgstr ""
 
-#: plugins/derivatives/options.c:2251
+#: plugins/derivatives/options.c:2254
 msgid ""
 "call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"
 msgstr ""
 
-#: plugins/derivatives/options.c:2256
+#: plugins/derivatives/options.c:2259
 msgid "spot, strike, time1, time2, rate, cost_of_carry, volatility"
 msgstr ""
 
-#: plugins/derivatives/options.c:2261
+#: plugins/derivatives/options.c:2264
 msgid ""
 "spot, strike_call, strike_put, time, time_call, time_put, rate, "
 "cost_of_carry, volatility"
 msgstr ""
 
-#: plugins/derivatives/options.c:2266 plugins/derivatives/options.c:2271
+#: plugins/derivatives/options.c:2269 plugins/derivatives/options.c:2274
 msgid ""
 "type_flag, spot, strike1, strike2, time1, time2, rate, cost_of_carry, "
 "volatility"
 msgstr ""
 
-#: plugins/derivatives/options.c:2276
+#: plugins/derivatives/options.c:2279
 msgid ""
 "type_flag, spot1, spot2, strike1, strike2, time, cost_of_carry1, "
 "cost_of_carry2, rate, volatility1, volatility2, rho"
 msgstr ""
 
-#: plugins/derivatives/options.c:2281 plugins/derivatives/options.c:2286
+#: plugins/derivatives/options.c:2284 plugins/derivatives/options.c:2289
 msgid ""
 "spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1,"
 "volatility2,rho"
 msgstr ""
 
-#: plugins/derivatives/options.c:2291
+#: plugins/derivatives/options.c:2294
 msgid ""
 "call_put_flag,fut_price1,fut_price2,strike,time, rate,volatility1,"
 "volatility2,rho"
 msgstr ""
 
-#: plugins/derivatives/options.c:2296
+#: plugins/derivatives/options.c:2299
 msgid "call_put_flag,spot,spot_min,spot_max,time,rate,cost_of_carry,volatility"
 msgstr ""
 
-#: plugins/derivatives/options.c:2301
+#: plugins/derivatives/options.c:2304
 msgid ""
 "call_put_flag,spot,spot_min,spot_max,strike,time,rate,cost_of_carry,"
 "volatility"
 msgstr ""
 
-#: plugins/derivatives/options.c:2307
+#: plugins/derivatives/options.c:2310
 msgid ""
 "amer_euro_flag,call_put_flag,num_time_steps, spot, strike, time, rate, "
 "volatility, cost_of_carry"
@@ -918,8 +918,8 @@ msgstr "Pénzügyi"
 msgid "Functions related to financial derivatives"
 msgstr ""
 
-#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5691
-#: plugins/mps/mps.c:547 src/xml-io.c:4133
+#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5666
+#: plugins/mps/mps.c:547 src/xml-io.c:4134
 msgid "Reading file..."
 msgstr "Fájl beolvasása..."
 
@@ -1018,92 +1018,92 @@ msgstr ""
 msgid "XML document not well formed!"
 msgstr "Az XML dokumentum nem jól formázott!"
 
-#: plugins/excel/ms-excel-read.c:1103 src/value.c:60
+#: plugins/excel/ms-excel-read.c:1090 src/value.c:60
 msgid "#UNKNOWN!"
 msgstr "#ISMERETLEN!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1193 plugins/excel/ms-excel-read.c:1205
+#: plugins/excel/ms-excel-read.c:1179 plugins/excel/ms-excel-read.c:1191
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:510
 #: src/dialogs/dialog-sheet-order.c:494 src/dialogs/dialog-sheet-order.c:498
 #, c-format
 msgid "Sheet%d"
 msgstr "Munkalap%d"
 
-#: plugins/excel/ms-excel-read.c:1209
+#: plugins/excel/ms-excel-read.c:1195
 #, c-format
 msgid "Macro%d"
 msgstr "Makró%d"
 
-#: plugins/excel/ms-excel-read.c:1213
+#: plugins/excel/ms-excel-read.c:1199
 #, c-format
 msgid "Chart%d"
 msgstr "Diagram%d"
 
-#: plugins/excel/ms-excel-read.c:1216
+#: plugins/excel/ms-excel-read.c:1202
 #, c-format
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: plugins/excel/ms-excel-read.c:3002
+#: plugins/excel/ms-excel-read.c:2985
 #, fuzzy, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Hiba történt a DIF fájl mentése közben."
 
-#: plugins/excel/ms-excel-read.c:3095
+#: plugins/excel/ms-excel-read.c:3078
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
 "Name '%s' will be lost.\n"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:3101
+#: plugins/excel/ms-excel-read.c:3084
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
 "Name '%s' will be lost.\n"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:5039
+#: plugins/excel/ms-excel-read.c:5022
 msgid "external references"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:5062
+#: plugins/excel/ms-excel-read.c:5045
 msgid "No password supplied"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:5920
+#: plugins/excel/ms-excel-read.c:5895
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Nem találok érvényes MS Excel munkafüzetet"
 
-#: plugins/excel/ms-excel-write.c:207
+#: plugins/excel/ms-excel-write.c:208
 msgid ""
 "This is somewhat corrupt.\n"
 "We already wrote a length for a string that is being truncated due to "
 "encoding problems."
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:4054
+#: plugins/excel/ms-excel-write.c:4170
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
 "d rows, and this workbook has %d"
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:4061
+#: plugins/excel/ms-excel-write.c:4177
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
 "rows, and this workbook has %d"
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:4820
+#: plugins/excel/ms-excel-write.c:4938
 #, fuzzy
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Nem sikerült írásra megnyitni a stream-et\n"
 
-#: plugins/excel/ms-excel-write.c:4840
+#: plugins/excel/ms-excel-write.c:4958
 #, fuzzy
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Nem sikerült írásra megnyitni a stream-et\n"
@@ -1152,7 +1152,8 @@ msgid "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
 msgstr "MS Excel (tm) 97/2000/XP & 5.0/95"
 
 #: plugins/excel/plugin.xml.in.h:7
-msgid "MS Excel (tm) XML"
+#, fuzzy
+msgid "MS Excel (tm) SpreadsheetML"
 msgstr "MS Excel (tm) XML"
 
 #: plugins/fn-complex/functions.c:80
@@ -5960,8 +5961,8 @@ msgstr "%s %s verziója"
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1421
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:117
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:819
-#: src/dialogs/dialog-cell-format.c:2363 src/dialogs/dialog-cell-format.c:2368
-#: src/dialogs/dialog-cell-format.c:2378 src/wbc-gtk.c:518
+#: src/dialogs/dialog-cell-format.c:2364 src/dialogs/dialog-cell-format.c:2369
+#: src/dialogs/dialog-cell-format.c:2379 src/wbc-gtk.c:534
 msgid "Automatic"
 msgstr "Automatikus"
 
@@ -6574,19 +6575,19 @@ msgstr ""
 
 #: plugins/fn-logical/functions.c:334 plugins/fn-logical/functions.c:338
 #: plugins/fn-logical/functions.c:358 plugins/fn-math/functions.c:3287
-#: plugins/fn-stat/functions.c:5609 plugins/fn-stat/functions.c:5613
-#: plugins/fn-stat/functions.c:5617 plugins/fn-stat/functions.c:5655
-#: plugins/fn-stat/functions.c:5658 plugins/fn-stat/functions.c:5667
-#: plugins/fn-stat/functions.c:5703 plugins/fn-stat/functions.c:5717
-#: plugins/fn-stat/functions.c:5720 plugins/fn-stat/functions.c:5723
-#: plugins/fn-stat/functions.c:5745 plugins/fn-stat/functions.c:5749
-#: plugins/fn-stat/functions.c:5753 plugins/fn-stat/functions.c:5757
-#: plugins/fn-stat/functions.c:5761 plugins/fn-stat/functions.c:5765
-#: plugins/fn-stat/functions.c:5811 plugins/fn-stat/functions.c:5821
-#: plugins/fn-stat/functions.c:5825 plugins/fn-stat/functions.c:5829
-#: plugins/fn-stat/functions.c:5833 plugins/fn-stat/functions.c:5862
-#: plugins/fn-stat/functions.c:5865 plugins/fn-stat/functions.c:5868
-#: plugins/fn-stat/functions.c:5871 plugins/fn-stat/functions.c:5887
+#: plugins/fn-stat/functions.c:5613 plugins/fn-stat/functions.c:5617
+#: plugins/fn-stat/functions.c:5621 plugins/fn-stat/functions.c:5659
+#: plugins/fn-stat/functions.c:5662 plugins/fn-stat/functions.c:5671
+#: plugins/fn-stat/functions.c:5707 plugins/fn-stat/functions.c:5721
+#: plugins/fn-stat/functions.c:5724 plugins/fn-stat/functions.c:5727
+#: plugins/fn-stat/functions.c:5749 plugins/fn-stat/functions.c:5753
+#: plugins/fn-stat/functions.c:5757 plugins/fn-stat/functions.c:5761
+#: plugins/fn-stat/functions.c:5765 plugins/fn-stat/functions.c:5769
+#: plugins/fn-stat/functions.c:5815 plugins/fn-stat/functions.c:5825
+#: plugins/fn-stat/functions.c:5829 plugins/fn-stat/functions.c:5833
+#: plugins/fn-stat/functions.c:5837 plugins/fn-stat/functions.c:5866
+#: plugins/fn-stat/functions.c:5869 plugins/fn-stat/functions.c:5872
+#: plugins/fn-stat/functions.c:5875 plugins/fn-stat/functions.c:5891
 #: src/func-builtin.c:131 src/func-builtin.c:137
 msgid "number,number,"
 msgstr "szám, szám,"
@@ -6609,9 +6610,9 @@ msgstr "szám, szám,"
 #: plugins/fn-math/functions.c:3275 plugins/fn-math/functions.c:3278
 #: plugins/fn-math/functions.c:3281 plugins/fn-math/functions.c:3284
 #: plugins/fn-math/functions.c:3297 plugins/fn-math/functions.c:3309
-#: plugins/fn-math/functions.c:3312 plugins/fn-stat/functions.c:5679
-#: plugins/fn-stat/functions.c:5682 plugins/fn-stat/functions.c:5700
-#: plugins/fn-stat/functions.c:5778 plugins/fn-string/functions.c:1119
+#: plugins/fn-math/functions.c:3312 plugins/fn-stat/functions.c:5683
+#: plugins/fn-stat/functions.c:5686 plugins/fn-stat/functions.c:5704
+#: plugins/fn-stat/functions.c:5782 plugins/fn-string/functions.c:1119
 #: plugins/fn-string/functions.c:1122
 msgid "number"
 msgstr "szám"
@@ -8585,7 +8586,7 @@ msgstr ""
 #: plugins/fn-math/functions.c:2404 plugins/fn-math/functions.c:2424
 #: plugins/fn-math/functions.c:2517 plugins/fn-math/functions.c:2537
 #: plugins/fn-math/functions.c:2628 plugins/fn-math/functions.c:2648
-#: plugins/fn-stat/functions.c:2926 plugins/fn-stat/functions.c:2956
+#: plugins/fn-stat/functions.c:2930 plugins/fn-stat/functions.c:2960
 msgid "Array version not implemented!"
 msgstr ""
 
@@ -8834,7 +8835,7 @@ msgstr "_Feltételtartomány:"
 msgid "number,significance"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3197 plugins/fn-stat/functions.c:5793
+#: plugins/fn-math/functions.c:3197 plugins/fn-stat/functions.c:5797
 msgid "n,k"
 msgstr ""
 
@@ -8885,8 +8886,8 @@ msgstr "Téglalap rajzolása"
 
 #: plugins/fn-math/functions.c:3300 plugins/fn-math/functions.c:3303
 #: plugins/fn-math/functions.c:3306 plugins/fn-math/functions.c:3322
-#: plugins/fn-stat/functions.c:5652 plugins/fn-stat/functions.c:5661
-#: plugins/fn-stat/functions.c:5784 plugins/fn-stat/functions.c:5840
+#: plugins/fn-stat/functions.c:5656 plugins/fn-stat/functions.c:5665
+#: plugins/fn-stat/functions.c:5788 plugins/fn-stat/functions.c:5844
 msgid "array1,array2"
 msgstr ""
 
@@ -9662,7 +9663,7 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-random/functions.c:1100 plugins/fn-random/functions.c:1136
-#: plugins/fn-random/functions.c:1154 plugins/fn-stat/functions.c:5781
+#: plugins/fn-random/functions.c:1154 plugins/fn-stat/functions.c:5785
 msgid "p"
 msgstr ""
 
@@ -10731,14 +10732,17 @@ msgid ""
 "@SYNTAX=TDIST(x,dof,tails)\n"
 "@DESCRIPTION=TDIST function returns the Student's t-distribution. @dof is "
 "the degree of freedom and @tails is 1 or 2 depending on whether you want one-"
-"tailed or two-tailed distribution.\n"
+"tailed or two-tailed distribution.@tails = 1 returns the size of teh right "
+"tail.\n"
 "\n"
 "* If @dof < 1 TDIST returns #NUM! error.\n"
 "* If @tails is neither 1 or 2 TDIST returns #NUM! error.\n"
-"* This function is Excel compatible.\n"
+"* This function is Excel compatible for non-negative @x.\n"
 "\n"
 "@EXAMPLES=\n"
 "TDIST(2,5,1) equals 0.050969739.\n"
+"TDIST(-2,5,1) equals 0.949030261.\n"
+"TDIST(0,5,2) equals 1.\n"
 "\n"
 "@SEEALSO=TINV,TTEST"
 msgstr ""
@@ -10751,7 +10755,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NORMDIST"
 
-#: plugins/fn-stat/functions.c:1585
+#: plugins/fn-stat/functions.c:1589
 #, fuzzy
 msgid ""
 "@FUNCTION=TINV\n"
@@ -10776,7 +10780,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
-#: plugins/fn-stat/functions.c:1619
+#: plugins/fn-stat/functions.c:1623
 #, fuzzy
 msgid ""
 "@FUNCTION=FDIST\n"
@@ -10806,7 +10810,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
-#: plugins/fn-stat/functions.c:1656
+#: plugins/fn-stat/functions.c:1660
 #, fuzzy
 msgid ""
 "@FUNCTION=LANDAU\n"
@@ -10827,7 +10831,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FALSE"
 
-#: plugins/fn-stat/functions.c:1798
+#: plugins/fn-stat/functions.c:1802
 #, fuzzy
 msgid ""
 "@FUNCTION=FINV\n"
@@ -10853,7 +10857,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
-#: plugins/fn-stat/functions.c:1834
+#: plugins/fn-stat/functions.c:1838
 #, fuzzy
 msgid ""
 "@FUNCTION=BINOMDIST\n"
@@ -10886,7 +10890,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
-#: plugins/fn-stat/functions.c:1880
+#: plugins/fn-stat/functions.c:1884
 #, fuzzy
 msgid ""
 "@FUNCTION=CAUCHY\n"
@@ -10912,7 +10916,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MDETERM"
 
-#: plugins/fn-stat/functions.c:1920
+#: plugins/fn-stat/functions.c:1924
 #, fuzzy
 msgid ""
 "@FUNCTION=CRITBINOM\n"
@@ -10945,7 +10949,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
-#: plugins/fn-stat/functions.c:1960
+#: plugins/fn-stat/functions.c:1964
 #, fuzzy
 msgid ""
 "@FUNCTION=PERMUT\n"
@@ -10973,7 +10977,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-stat/functions.c:1995
+#: plugins/fn-stat/functions.c:1999
 #, fuzzy
 msgid ""
 "@FUNCTION=HYPGEOMDIST\n"
@@ -11007,7 +11011,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
-#: plugins/fn-stat/functions.c:2039
+#: plugins/fn-stat/functions.c:2043
 #, fuzzy
 msgid ""
 "@FUNCTION=CONFIDENCE\n"
@@ -11038,7 +11042,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
-#: plugins/fn-stat/functions.c:2080
+#: plugins/fn-stat/functions.c:2084
 #, fuzzy
 msgid ""
 "@FUNCTION=STANDARDIZE\n"
@@ -11064,7 +11068,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NORMDIST"
 
-#: plugins/fn-stat/functions.c:2118
+#: plugins/fn-stat/functions.c:2122
 #, fuzzy
 msgid ""
 "@FUNCTION=WEIBULL\n"
@@ -11096,7 +11100,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NORMDIST"
 
-#: plugins/fn-stat/functions.c:2164
+#: plugins/fn-stat/functions.c:2168
 #, fuzzy
 msgid ""
 "@FUNCTION=NORMDIST\n"
@@ -11122,7 +11126,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NORMDIST"
 
-#: plugins/fn-stat/functions.c:2209
+#: plugins/fn-stat/functions.c:2213
 #, fuzzy
 msgid ""
 "@FUNCTION=NORMINV\n"
@@ -11149,7 +11153,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NORMDIST"
 
-#: plugins/fn-stat/functions.c:2247
+#: plugins/fn-stat/functions.c:2251
 #, fuzzy
 msgid ""
 "@FUNCTION=KURT\n"
@@ -11183,7 +11187,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR"
 
-#: plugins/fn-stat/functions.c:2286
+#: plugins/fn-stat/functions.c:2290
 #, fuzzy
 msgid ""
 "@FUNCTION=KURTP\n"
@@ -11212,7 +11216,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR"
 
-#: plugins/fn-stat/functions.c:2319
+#: plugins/fn-stat/functions.c:2323
 #, fuzzy
 msgid ""
 "@FUNCTION=AVEDEV\n"
@@ -11240,7 +11244,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVA,STDEVPA"
 
-#: plugins/fn-stat/functions.c:2350
+#: plugins/fn-stat/functions.c:2354
 #, fuzzy
 msgid ""
 "@FUNCTION=DEVSQ\n"
@@ -11269,7 +11273,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVA,STDEVPA"
 
-#: plugins/fn-stat/functions.c:2383
+#: plugins/fn-stat/functions.c:2387
 #, fuzzy
 msgid ""
 "@FUNCTION=FISHER\n"
@@ -11294,7 +11298,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
-#: plugins/fn-stat/functions.c:2418
+#: plugins/fn-stat/functions.c:2422
 #, fuzzy
 msgid ""
 "@FUNCTION=POISSON\n"
@@ -11325,7 +11329,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
-#: plugins/fn-stat/functions.c:2461
+#: plugins/fn-stat/functions.c:2465
 #, fuzzy
 msgid ""
 "@FUNCTION=PEARSON\n"
@@ -11348,7 +11352,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSIN,IMCOS"
 
-#: plugins/fn-stat/functions.c:2486
+#: plugins/fn-stat/functions.c:2490
 #, fuzzy
 msgid ""
 "@FUNCTION=RSQ\n"
@@ -11371,7 +11375,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSIN,IMCOS"
 
-#: plugins/fn-stat/functions.c:2516
+#: plugins/fn-stat/functions.c:2520
 #, fuzzy
 msgid ""
 "@FUNCTION=MEDIAN\n"
@@ -11402,7 +11406,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,GEOMEAN,MEDIAN,MODE,TRIMMEAN"
 
-#: plugins/fn-stat/functions.c:2550
+#: plugins/fn-stat/functions.c:2554
 #, fuzzy
 msgid ""
 "@FUNCTION=SSMEDIAN\n"
@@ -11436,7 +11440,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,GEOMEAN,MEDIAN,MODE,TRIMMEAN"
 
-#: plugins/fn-stat/functions.c:2653
+#: plugins/fn-stat/functions.c:2657
 #, fuzzy
 msgid ""
 "@FUNCTION=LARGE\n"
@@ -11468,7 +11472,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,GEOMEAN,MEDIAN,MODE,TRIMMEAN"
 
-#: plugins/fn-stat/functions.c:2700
+#: plugins/fn-stat/functions.c:2704
 #, fuzzy
 msgid ""
 "@FUNCTION=SMALL\n"
@@ -11499,7 +11503,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,MEDIAN"
 
-#: plugins/fn-stat/functions.c:2770
+#: plugins/fn-stat/functions.c:2774
 msgid ""
 "@FUNCTION=PROB\n"
 "@SYNTAX=PROB(x_range,prob_range,lower_limit[,upper_limit])\n"
@@ -11519,7 +11523,7 @@ msgid ""
 "@SEEALSO=BINOMDIST,CRITBINOM"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:2862
+#: plugins/fn-stat/functions.c:2866
 #, fuzzy
 msgid ""
 "@FUNCTION=STEYX\n"
@@ -11551,7 +11555,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
 
-#: plugins/fn-stat/functions.c:3017
+#: plugins/fn-stat/functions.c:3021
 #, fuzzy
 msgid ""
 "@FUNCTION=ZTEST\n"
@@ -11583,7 +11587,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CORREL,FISHER,FISHERINV"
 
-#: plugins/fn-stat/functions.c:3071
+#: plugins/fn-stat/functions.c:3075
 #, fuzzy
 msgid ""
 "@FUNCTION=AVERAGEA\n"
@@ -11615,7 +11619,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 
-#: plugins/fn-stat/functions.c:3107
+#: plugins/fn-stat/functions.c:3111
 #, fuzzy
 msgid ""
 "@FUNCTION=MAXA\n"
@@ -11647,7 +11651,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 
-#: plugins/fn-stat/functions.c:3143
+#: plugins/fn-stat/functions.c:3147
 #, fuzzy
 msgid ""
 "@FUNCTION=MINA\n"
@@ -11679,7 +11683,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 
-#: plugins/fn-stat/functions.c:3179
+#: plugins/fn-stat/functions.c:3183
 #, fuzzy
 msgid ""
 "@FUNCTION=VARA\n"
@@ -11711,7 +11715,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 
-#: plugins/fn-stat/functions.c:3215
+#: plugins/fn-stat/functions.c:3219
 #, fuzzy
 msgid ""
 "@FUNCTION=VARPA\n"
@@ -11743,7 +11747,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 
-#: plugins/fn-stat/functions.c:3251
+#: plugins/fn-stat/functions.c:3255
 #, fuzzy
 msgid ""
 "@FUNCTION=STDEVA\n"
@@ -11774,7 +11778,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVA,STDEVPA"
 
-#: plugins/fn-stat/functions.c:3287
+#: plugins/fn-stat/functions.c:3291
 #, fuzzy
 msgid ""
 "@FUNCTION=STDEVPA\n"
@@ -11805,7 +11809,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVA,STDEVPA"
 
-#: plugins/fn-stat/functions.c:3323
+#: plugins/fn-stat/functions.c:3327
 msgid ""
 "@FUNCTION=PERCENTRANK\n"
 "@SYNTAX=PERCENTRANK(array,x[,significance])\n"
@@ -11827,7 +11831,7 @@ msgid ""
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:3433
+#: plugins/fn-stat/functions.c:3437
 #, fuzzy
 msgid ""
 "@FUNCTION=PERCENTILE\n"
@@ -11859,7 +11863,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,GEOMEAN,MEDIAN,MODE,TRIMMEAN"
 
-#: plugins/fn-stat/functions.c:3482
+#: plugins/fn-stat/functions.c:3486
 #, fuzzy
 msgid ""
 "@FUNCTION=QUARTILE\n"
@@ -11898,7 +11902,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,GEOMEAN,MEDIAN,MODE,TRIMMEAN"
 
-#: plugins/fn-stat/functions.c:3538
+#: plugins/fn-stat/functions.c:3542
 #, fuzzy
 msgid ""
 "@FUNCTION=FTEST\n"
@@ -11929,7 +11933,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CORREL,FISHER,FISHERINV"
 
-#: plugins/fn-stat/functions.c:3592
+#: plugins/fn-stat/functions.c:3596
 msgid ""
 "@FUNCTION=TTEST\n"
 "@SYNTAX=TTEST(array1,array2,tails,type)\n"
@@ -11961,7 +11965,7 @@ msgid ""
 "@SEEALSO=FDIST,FINV"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:3760
+#: plugins/fn-stat/functions.c:3764
 msgid ""
 "@FUNCTION=FREQUENCY\n"
 "@SYNTAX=FREQUENCY(data_array,bins_array)\n"
@@ -11980,7 +11984,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-stat/functions.c:3837
+#: plugins/fn-stat/functions.c:3841
 msgid ""
 "@FUNCTION=LINEST\n"
 "@SYNTAX=LINEST(known_y's[,known_x's[,const[,stat]]])\n"
@@ -12013,7 +12017,7 @@ msgid ""
 "@SEEALSO=LOGEST,TREND"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:4108
+#: plugins/fn-stat/functions.c:4112
 msgid ""
 "@FUNCTION=LOGREG\n"
 "@SYNTAX=LOGREG(known_y's[,known_x's[,const[,stat]]])\n"
@@ -12048,7 +12052,7 @@ msgid ""
 "@SEEALSO=LOGFIT,LINEST,LOGEST"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:4384
+#: plugins/fn-stat/functions.c:4388
 msgid ""
 "@FUNCTION=LOGFIT\n"
 "@SYNTAX=LOGFIT(known_y's,known_x's)\n"
@@ -12081,7 +12085,7 @@ msgid ""
 "@SEEALSO=LOGREG,LINEST,LOGEST"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:4484
+#: plugins/fn-stat/functions.c:4488
 #, fuzzy
 msgid ""
 "@FUNCTION=TREND\n"
@@ -12119,7 +12123,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
 
-#: plugins/fn-stat/functions.c:4599
+#: plugins/fn-stat/functions.c:4603
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -12150,7 +12154,7 @@ msgid ""
 "@SEEALSO=GROWTH,TREND"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:4851
+#: plugins/fn-stat/functions.c:4855
 msgid ""
 "@FUNCTION=GROWTH\n"
 "@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
@@ -12172,7 +12176,7 @@ msgid ""
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:4963
+#: plugins/fn-stat/functions.c:4967
 #, fuzzy
 msgid ""
 "@FUNCTION=FORECAST\n"
@@ -12210,7 +12214,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INTERCEPT,TREND"
 
-#: plugins/fn-stat/functions.c:5034
+#: plugins/fn-stat/functions.c:5038
 #, fuzzy
 msgid ""
 "@FUNCTION=INTERCEPT\n"
@@ -12246,7 +12250,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FORECAST,TREND"
 
-#: plugins/fn-stat/functions.c:5084
+#: plugins/fn-stat/functions.c:5088
 #, fuzzy
 msgid ""
 "@FUNCTION=SLOPE\n"
@@ -12275,7 +12279,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
 
-#: plugins/fn-stat/functions.c:5128
+#: plugins/fn-stat/functions.c:5132
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUBTOTAL(function_nbr,ref1,ref2,...)\n"
@@ -12311,7 +12315,7 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5228
+#: plugins/fn-stat/functions.c:5232
 msgid ""
 "@FUNCTION=CRONBACH\n"
 "@SYNTAX=CRONBACH(ref1,ref2,...)\n"
@@ -12322,7 +12326,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5357
+#: plugins/fn-stat/functions.c:5361
 msgid ""
 "@FUNCTION=GEOMDIST\n"
 "@SYNTAX=GEOMDIST(k,p,cum)\n"
@@ -12339,7 +12343,7 @@ msgid ""
 "@SEEALSO=RANDGEOM"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5393
+#: plugins/fn-stat/functions.c:5397
 #, fuzzy
 msgid ""
 "@FUNCTION=LOGISTIC\n"
@@ -12360,7 +12364,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-stat/functions.c:5429
+#: plugins/fn-stat/functions.c:5433
 #, fuzzy
 msgid ""
 "@FUNCTION=PARETO\n"
@@ -12382,7 +12386,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FALSE"
 
-#: plugins/fn-stat/functions.c:5467
+#: plugins/fn-stat/functions.c:5471
 #, fuzzy
 msgid ""
 "@FUNCTION=RAYLEIGH\n"
@@ -12404,7 +12408,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FALSE"
 
-#: plugins/fn-stat/functions.c:5507
+#: plugins/fn-stat/functions.c:5511
 #, fuzzy
 msgid ""
 "@FUNCTION=RAYLEIGHTAIL\n"
@@ -12426,7 +12430,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FALSE"
 
-#: plugins/fn-stat/functions.c:5550
+#: plugins/fn-stat/functions.c:5554
 #, fuzzy
 msgid ""
 "@FUNCTION=EXPPOWDIST\n"
@@ -12448,7 +12452,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FALSE"
 
-#: plugins/fn-stat/functions.c:5581
+#: plugins/fn-stat/functions.c:5585
 #, fuzzy
 msgid ""
 "@FUNCTION=LAPLACE\n"
@@ -12469,189 +12473,189 @@ msgstr ""
 "\n"
 "@SEEALSO=FALSE"
 
-#: plugins/fn-stat/functions.c:5622 plugins/fn-stat/functions.c:5884
+#: plugins/fn-stat/functions.c:5626 plugins/fn-stat/functions.c:5888
 msgid "k,p"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5626
+#: plugins/fn-stat/functions.c:5630
 msgid "x,alpha,beta,a,b"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5629
+#: plugins/fn-stat/functions.c:5633
 msgid "p,alpha,beta,a,b"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5632
+#: plugins/fn-stat/functions.c:5636
 msgid "n,t,p,c"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5636
+#: plugins/fn-stat/functions.c:5640
 msgid "x,a,cum"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5640
+#: plugins/fn-stat/functions.c:5644
 msgid "x,dof"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5643 plugins/fn-stat/functions.c:5849
+#: plugins/fn-stat/functions.c:5647 plugins/fn-stat/functions.c:5853
 msgid "p,dof"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5646
+#: plugins/fn-stat/functions.c:5650
 msgid "act_range,theo_range"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5649
+#: plugins/fn-stat/functions.c:5653
 msgid "x,stddev,size"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5664
+#: plugins/fn-stat/functions.c:5668
 msgid "trials,p,alpha"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5670
+#: plugins/fn-stat/functions.c:5674
 #, fuzzy
 msgid "x,y,cumulative"
 msgstr "Halmozott %"
 
-#: plugins/fn-stat/functions.c:5673
+#: plugins/fn-stat/functions.c:5677
 msgid "x,dof of num,dof of denom"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5676
+#: plugins/fn-stat/functions.c:5680
 msgid "p,dof of num,dof of denom"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5685
+#: plugins/fn-stat/functions.c:5689
 msgid "x,known y's,known x's"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5688
+#: plugins/fn-stat/functions.c:5692
 msgid "data_array,bins_array"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5691
+#: plugins/fn-stat/functions.c:5695
 msgid "arr1,arr2"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5694
+#: plugins/fn-stat/functions.c:5698
 msgid "number,alpha,beta,cum"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5697
+#: plugins/fn-stat/functions.c:5701
 msgid "number,alpha,beta"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5707 plugins/fn-stat/functions.c:5852
+#: plugins/fn-stat/functions.c:5711 plugins/fn-stat/functions.c:5856
 msgid "known_y's,known_x's,new_x's,const"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5714
+#: plugins/fn-stat/functions.c:5718
 #, fuzzy
 msgid "x,n,M,N,cumulative"
 msgstr "Halmozott %"
 
-#: plugins/fn-stat/functions.c:5727 plugins/fn-stat/functions.c:5730
-#: plugins/fn-stat/functions.c:5742
+#: plugins/fn-stat/functions.c:5731 plugins/fn-stat/functions.c:5734
+#: plugins/fn-stat/functions.c:5746
 msgid "known_y's,known_x's,const,stat"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5733 plugins/fn-stat/functions.c:5808
-#: plugins/fn-stat/functions.c:5837
+#: plugins/fn-stat/functions.c:5737 plugins/fn-stat/functions.c:5812
+#: plugins/fn-stat/functions.c:5841
 msgid "known_y's,known_x's"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5736 plugins/fn-stat/functions.c:5775
+#: plugins/fn-stat/functions.c:5740 plugins/fn-stat/functions.c:5779
 msgid "p,mean,stddev"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5739 plugins/fn-stat/functions.c:5815
+#: plugins/fn-stat/functions.c:5743 plugins/fn-stat/functions.c:5819
 msgid "x,mean,stddev"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5769
+#: plugins/fn-stat/functions.c:5773
 msgid "f,t,p"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5772
+#: plugins/fn-stat/functions.c:5776
 #, fuzzy
 msgid "x,mean,stddev,cumulative"
 msgstr "Halmozott %"
 
-#: plugins/fn-stat/functions.c:5787
+#: plugins/fn-stat/functions.c:5791
 #, fuzzy
 msgid "array,k"
 msgstr "Tömb"
 
-#: plugins/fn-stat/functions.c:5790
+#: plugins/fn-stat/functions.c:5794
 msgid "array,x,significance"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5796
+#: plugins/fn-stat/functions.c:5800
 #, fuzzy
 msgid "x,mean,cumulative"
 msgstr "Halmozott %"
 
-#: plugins/fn-stat/functions.c:5799
+#: plugins/fn-stat/functions.c:5803
 msgid "x_range,prob_range,lower_limit,upper_limit"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5802
+#: plugins/fn-stat/functions.c:5806
 msgid "array,quart"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5818
+#: plugins/fn-stat/functions.c:5822
 msgid "array,interval"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5846
+#: plugins/fn-stat/functions.c:5850
 msgid "x,dof,tails"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5855
+#: plugins/fn-stat/functions.c:5859
 #, fuzzy
 msgid "ref,fraction"
 msgstr "Művelet"
 
-#: plugins/fn-stat/functions.c:5859
+#: plugins/fn-stat/functions.c:5863
 msgid "array1,array2,tails,type"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5874
+#: plugins/fn-stat/functions.c:5878
 msgid "x.alpha,beta,cumulative"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5877
+#: plugins/fn-stat/functions.c:5881
 msgid "ref,x"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5881 plugins/fn-stat/functions.c:5899
+#: plugins/fn-stat/functions.c:5885 plugins/fn-stat/functions.c:5903
 #, fuzzy
 msgid "x,a,b"
 msgstr "fül"
 
-#: plugins/fn-stat/functions.c:5890
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:226
+#: plugins/fn-stat/functions.c:5894
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:228
 msgid "x"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5893 plugins/fn-stat/functions.c:5896
+#: plugins/fn-stat/functions.c:5897 plugins/fn-stat/functions.c:5900
 msgid "x,a"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5902
+#: plugins/fn-stat/functions.c:5906
 msgid "x,sigma"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5905
+#: plugins/fn-stat/functions.c:5909
 msgid "x,a,sigma"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5911
+#: plugins/fn-stat/functions.c:5915
 msgid "function_nbr,ref,ref,"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5914
+#: plugins/fn-stat/functions.c:5918
 msgid "ref,ref,"
 msgstr ""
 
@@ -13443,7 +13447,7 @@ msgid "Database functions for retrieval of data from a database."
 msgstr ""
 "Adatbázis-függvények. Segítségükkel adatokat kérhetsz le adatbázisokból"
 
-#: plugins/gnome-db/plugin-gnomedb.c:24
+#: plugins/gnome-db/plugin-gnomedb.c:26
 msgid "Could not run GNOME database configuration tool"
 msgstr ""
 
@@ -13606,12 +13610,12 @@ msgstr "Célfüggvény"
 msgid "Constraints:"
 msgstr "Kényszerfeltételek"
 
-#: plugins/mps/mps.c:245 src/commands.c:6105
+#: plugins/mps/mps.c:245 src/commands.c:6109
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1052
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:364
-#: src/dialogs/dialog-define-names.c:494 src/dialogs/dialog-formula-guru.c:800
+#: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:800
 #: src/dialogs/dialog-function-select.c:445
-#: src/dialogs/dialog-function-select.c:467 src/dialogs/dialog-scenarios.c:363
+#: src/dialogs/dialog-function-select.c:467 src/dialogs/dialog-scenarios.c:368
 #: src/dialogs/dialog-simulation.c:217 src/dialogs/dialog-zoom.c:198
 #: src/format-template.c:247 src/tools/solver/reports-write.c:79
 #: src/tools/solver/reports-write.c:101 src/tools/solver/reports-write.c:128
@@ -13639,7 +13643,7 @@ msgstr "Érték"
 #. * Fill in the labels of `General Info' section.
 #.
 #: plugins/mps/mps.c:273 src/dialogs/dialog-formula-guru.c:804
-#: src/dialogs/dialog-search.c:401 src/tools/solver/reports-write.c:515
+#: src/dialogs/dialog-search.c:411 src/tools/solver/reports-write.c:515
 msgid "Type"
 msgstr "Típus"
 
@@ -14175,25 +14179,25 @@ msgstr "_Művelet:"
 msgid "C_ommand:"
 msgstr "Megjegyzések"
 
-#: plugins/python-loader/py-gnumeric.c:238
+#: plugins/python-loader/py-gnumeric.c:249
 msgid "Python list is not an array"
 msgstr "A Python lista nem tömb"
 
-#: plugins/python-loader/py-gnumeric.c:245
+#: plugins/python-loader/py-gnumeric.c:256
 #, c-format
 msgid "Unsupported Python type: %s"
 msgstr "Nem támogatott Python típus: %s"
 
-#: plugins/python-loader/py-gnumeric.c:272
+#: plugins/python-loader/py-gnumeric.c:283
 msgid "Unknown error"
 msgstr "Ismeretlen hiba"
 
-#: plugins/python-loader/py-gnumeric.c:278
+#: plugins/python-loader/py-gnumeric.c:289
 #, c-format
 msgid "Python exception (%s: %s)"
 msgstr "Python kivétel (%s: %s)"
 
-#: plugins/python-loader/py-gnumeric.c:282
+#: plugins/python-loader/py-gnumeric.c:293
 #, c-format
 msgid "Python exception (%s)"
 msgstr "Python kivétel (%s)"
@@ -14391,10 +14395,10 @@ msgstr ""
 msgid "Error while opening xbase file."
 msgstr "Hiba történt az xbase fájl megnyitása közben."
 
-#: plugins/xbase/boot.c:175 src/commands.c:4896
-#: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:399
+#: plugins/xbase/boot.c:175 src/commands.c:4900
+#: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:409
 #: src/dialogs/dialog-stf-export.c:353 src/dialogs/print.glade.h:21
-#: src/print-info.c:391 src/workbook.c:1051 src/xml-io.c:3723
+#: src/print-info.c:391 src/workbook.c:1051 src/xml-io.c:3724
 msgid "Sheet"
 msgstr "Munkalap"
 
@@ -14432,7 +14436,7 @@ msgstr "KÍSÉRLETI Gnumeric (*.gnumeric) XML-alapú fájlformátum"
 msgid "EXPERIMENTAL SAX based XML"
 msgstr "KÍSÉRLETI XML"
 
-#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4257
+#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4258
 #, fuzzy
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML fájlformátum"
@@ -14998,7 +15002,7 @@ msgid ""
 "workbook is being saved."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:29 src/wbcg-actions.c:1847
+#: schemas/gnumeric-general.schemas.in.h:29 src/wbcg-actions.c:1873
 msgid "Sort Ascending"
 msgstr "Növekvő sorrend"
 
@@ -15561,171 +15565,171 @@ msgstr "%s automatikus formázása"
 msgid "Unmerging %s"
 msgstr "%s szétválasztása"
 
-#: src/commands.c:3763
+#: src/commands.c:3767
 #, fuzzy, c-format
 msgid "Merge and Center %s"
 msgstr "%s egyesítése"
 
-#: src/commands.c:3763
+#: src/commands.c:3767
 #, c-format
 msgid "Merging %s"
 msgstr "%s egyesítése"
 
 #. Corrected below.
-#: src/commands.c:4145 src/dialogs/search-replace.glade.h:24
+#: src/commands.c:4149 src/dialogs/search-replace.glade.h:24
 msgid "Search and Replace"
 msgstr "Keresés és csere"
 
-#: src/commands.c:4242
+#: src/commands.c:4246
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Az alapértelmezett oszlopszélesség beállítása %.2f pontra"
 
-#: src/commands.c:4243
+#: src/commands.c:4247
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Az alapértelmezett sormagasság beállítása %.2f pontra"
 
-#: src/commands.c:4360
+#: src/commands.c:4364
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "%s nagyítása %.0f%%-ra"
 
-#: src/commands.c:4430
+#: src/commands.c:4434
 msgid "Insert object"
 msgstr "Objektum beszúrása"
 
-#: src/commands.c:4489
+#: src/commands.c:4493
 msgid "Delete object"
 msgstr "Objektum törlése"
 
-#: src/commands.c:4570
+#: src/commands.c:4574
 msgid "Resize object"
 msgstr "Objektum átméretezése"
 
-#: src/commands.c:4570
+#: src/commands.c:4574
 msgid "Move object"
 msgstr "Objektum áthelyezése"
 
-#: src/commands.c:5170
+#: src/commands.c:5174
 msgid "Reordering Sheets"
 msgstr "Lapok átrendezése"
 
-#: src/commands.c:5173
+#: src/commands.c:5177
 msgid "Renaming Sheets"
 msgstr "Lapok átnevezése"
 
-#: src/commands.c:5176
+#: src/commands.c:5180
 #, fuzzy, c-format
 msgid "Appending %i Sheets"
 msgstr "Lapok átnevezése"
 
-#: src/commands.c:5180
+#: src/commands.c:5184
 #, fuzzy
 msgid "Changing Tab Colors"
 msgstr "Nem sikerült a fájl létrehozása: %s\n"
 
-#: src/commands.c:5183
+#: src/commands.c:5187
 msgid "Changing Sheet Protection"
 msgstr ""
 
-#: src/commands.c:5186
+#: src/commands.c:5190
 #, fuzzy
 msgid "Delete sheets"
 msgstr "Cellák törlése"
 
-#: src/commands.c:5189
+#: src/commands.c:5193
 #, fuzzy
 msgid "Delete a sheet"
 msgstr "Objektum törlése"
 
-#: src/commands.c:5192
+#: src/commands.c:5196
 msgid "Changing Sheet Visibility"
 msgstr ""
 
-#: src/commands.c:5195
+#: src/commands.c:5199
 #, fuzzy
 msgid "Reorganizing Sheets"
 msgstr "Lapok nyomtatása"
 
-#: src/commands.c:5346
+#: src/commands.c:5350
 #, fuzzy, c-format
 msgid "Clearing comment of %s"
 msgstr "Nem sikerült a fájl létrehozása: %s\n"
 
-#: src/commands.c:5347
+#: src/commands.c:5351
 #, c-format
 msgid "Setting comment of %s"
 msgstr "%s megjegyzésének beállítása"
 
-#: src/commands.c:5727
+#: src/commands.c:5731
 #, fuzzy, c-format
 msgid "Merging data into %s"
 msgstr "%s egyesítése"
 
-#: src/commands.c:5829
+#: src/commands.c:5833
 #, fuzzy
 msgid "Changing summary info"
 msgstr "Nem sikerült a fájl létrehozása: %s\n"
 
-#: src/commands.c:5920
+#: src/commands.c:5924
 #, fuzzy
 msgid "Raise object"
 msgstr "Vonalrajzolás"
 
-#: src/commands.c:5923
+#: src/commands.c:5927
 #, fuzzy
 msgid "Lower object"
 msgstr "Vonalrajzolás"
 
-#: src/commands.c:5926
+#: src/commands.c:5930
 #, fuzzy
 msgid "Raise object to top"
 msgstr "Vonalrajzolás"
 
-#: src/commands.c:5929
+#: src/commands.c:5933
 msgid "Lower object to bottom"
 msgstr ""
 
-#: src/commands.c:6044
+#: src/commands.c:6048
 #, fuzzy, c-format
 msgid "Page Setup For %s"
 msgstr "Nyomtatás beállítása"
 
-#: src/commands.c:6046
+#: src/commands.c:6050
 #, fuzzy
 msgid "Page Setup For All Sheets"
 msgstr "Lapok nyomtatása"
 
-#: src/commands.c:6162
+#: src/commands.c:6166
 #, fuzzy
 msgid "has a circular reference"
 msgstr "körkörös hivatkozás"
 
-#: src/commands.c:6185
+#: src/commands.c:6189
 #, fuzzy, c-format
 msgid "Define Name %s"
 msgstr "Név definiálása"
 
-#: src/commands.c:6188
+#: src/commands.c:6192
 #, c-format
 msgid "Update Name %s"
 msgstr ""
 
-#: src/commands.c:6252
+#: src/commands.c:6256
 msgid "Add scenario"
 msgstr "Eset hozzáadása"
 
-#: src/commands.c:6327
+#: src/commands.c:6331
 msgid "Scenario Show"
 msgstr ""
 
-#: src/commands.c:6391
+#: src/commands.c:6395
 msgid "Shuffle Data"
 msgstr ""
 
 #. FIXME?
-#: src/commands.c:6502
+#: src/commands.c:6506
 #, fuzzy, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Oszlopok törlése"
@@ -15735,29 +15739,29 @@ msgstr "Oszlopok törlése"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/commands.c:6649 src/dialogs/solver.glade.h:17
+#: src/commands.c:6653 src/dialogs/solver.glade.h:17
 #: src/tools/solver/reports-write.c:193 src/tools/solver/reports-write.c:354
 #: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:743
 #: src/tools/solver/reports-write.c:904 src/tools/solver/reports-write.c:955
 msgid "Solver"
 msgstr "Megoldó"
 
-#: src/commands.c:6736
+#: src/commands.c:6740
 #, fuzzy, c-format
 msgid "Goal Seek (%s)"
 msgstr "Célérték-keresés..."
 
-#: src/commands.c:6882
+#: src/commands.c:6886
 #, fuzzy, c-format
 msgid "Duplicating %s"
 msgstr "Megkettőzés"
 
-#: src/commands.c:6962
+#: src/commands.c:6966
 #, fuzzy
 msgid "Tabulating Dependencies"
 msgstr "Részletek a bővítményekről"
 
-#: src/commands.c:7038
+#: src/commands.c:7042
 #, fuzzy
 msgid "Reconfigure Graph"
 msgstr "Eszköztárak beállításai"
@@ -15931,7 +15935,7 @@ msgstr "Formátum"
 
 #. Object Toolbar
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1501
-#: src/sheet-object-graphic.c:1441 src/wbcg-actions.c:1855
+#: src/sheet-object-graphic.c:1443 src/wbcg-actions.c:1881
 msgid "Label"
 msgstr "Címke"
 
@@ -16027,8 +16031,7 @@ msgstr "_Egyéni fejléc"
 msgid "_Plot Type"
 msgstr "Valamilyen név"
 
-#. Set up sample button
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1273
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1274
 #, fuzzy
 msgid ""
 "Show\n"
@@ -16037,8 +16040,8 @@ msgstr "Minta"
 
 # #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
 # interfaces/nameresolution.glade.h:25
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1282
-#: src/dialogs/dialog-plugin-manager.c:730
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1283
+#: src/dialogs/dialog-plugin-manager.c:732
 #: src/dialogs/dialog-preferences.c:451 src/dialogs/function-select.glade.h:2
 msgid "Description"
 msgstr "Leírás"
@@ -16073,7 +16076,7 @@ msgstr "Csökkentés"
 # src/file-manager/fm-directory-view.c:2648
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:5
 #: src/dialogs/names.glade.h:8 src/dialogs/solver.glade.h:23
-#: src/wbcg-actions.c:1381
+#: src/wbcg-actions.c:1409
 msgid "_Delete"
 msgstr "_Törlés"
 
@@ -16106,12 +16109,12 @@ msgstr "Adat"
 msgid "Plot Engine"
 msgstr "Valamilyen név"
 
-#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:245
+#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:246
 #, fuzzy
 msgid "Plot Type"
 msgstr "Valamilyen név"
 
-#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:327
+#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:328
 msgid "Chart Theme"
 msgstr ""
 
@@ -16131,7 +16134,7 @@ msgid "Settings"
 msgstr "Karakterláncok"
 
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:431
-#: src/tools/analysis-tools.c:3121
+#: src/tools/analysis-tools.c:3613
 msgid "Point"
 msgstr "Pont"
 
@@ -16280,7 +16283,7 @@ msgid ""
 "wallpaper"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:156 src/gui-file.c:353
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:156 src/gui-file.c:351
 #, c-format
 msgid "%d x %d"
 msgstr ""
@@ -16333,7 +16336,7 @@ msgstr "Hiba a sor értelmezésénél"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:2
-#: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:4532
+#: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:5024
 #, no-c-format
 msgid "%"
 msgstr "%"
@@ -16460,7 +16463,7 @@ msgid "Column"
 msgstr "Oszlop"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:18
-#: src/dialogs/dialog-stf-main-page.c:369 src/wbcg-actions.c:1879
+#: src/dialogs/dialog-stf-main-page.c:370 src/wbcg-actions.c:1905
 msgid "Line"
 msgstr "Vonal"
 
@@ -16845,12 +16848,12 @@ msgstr "Kétszeres"
 msgid "Bubble"
 msgstr "Kétszeres"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1019
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1020
 #, fuzzy
 msgid "Y Error bars"
 msgstr "Hiba a sor értelmezésénél"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1021
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1022
 #, fuzzy
 msgid "X Error bars"
 msgstr "Hiba a sor értelmezésénél"
@@ -17139,202 +17142,202 @@ msgstr ""
 msgid "Preferred height"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:218
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:220
 #, fuzzy
 msgid "none"
 msgstr "Nincs"
 
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:219
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:221
 #, fuzzy
 msgid "square"
 msgstr "Forrás"
 
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:220
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:222
 #, fuzzy
 msgid "diamond"
 msgstr "Átlós"
 
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:221
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:223
 #, fuzzy
 msgid "triangle down"
 msgstr "Tartomány"
 
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:222
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:224
 #, fuzzy
 msgid "triangle up"
 msgstr "Tartomány"
 
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:223
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:225
 #, fuzzy
 msgid "triangle right"
 msgstr "Tartomány"
 
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:224
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:226
 #, fuzzy
 msgid "triangle left"
 msgstr "Tartomány"
 
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:225
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:227
 #, fuzzy
 msgid "circle"
 msgstr "Félkörök"
 
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:227
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:229
 #, fuzzy
 msgid "cross"
 msgstr "Költség"
 
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:228
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:230
 #, fuzzy
 msgid "asterisk"
 msgstr "Link beillesztése"
 
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:229
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:231
 #, fuzzy
 msgid "bar"
 msgstr "*márc."
 
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:230
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:232
 msgid "half bar"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:231
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:233
 msgid "butterfly"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:232
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:234
 msgid "hourglass"
 msgstr ""
 
 #. xgettext : this will appear as 'Automatic (shapename)'
 #. xgettext : this will appear as 'Automatic (patternname)'
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:596
-#: src/cut-n-paste-code/goffice/utils/go-pattern.c:239
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:603
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:242
 #, fuzzy, c-format
 msgid "Automatic (%s)"
 msgstr "Automatikus"
 
-#: src/cut-n-paste-code/goffice/utils/go-pattern.c:93
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:95
 #: src/dialogs/cell-format.glade.h:72
 msgid "Solid"
 msgstr "Tömör"
 
-#: src/cut-n-paste-code/goffice/utils/go-pattern.c:94
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:96
 #: src/dialogs/cell-format.glade.h:12
 #, no-c-format
 msgid "75% Grey"
 msgstr "75% Szürke"
 
-#: src/cut-n-paste-code/goffice/utils/go-pattern.c:95
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:97
 #: src/dialogs/cell-format.glade.h:8
 #, no-c-format
 msgid "50% Grey"
 msgstr "50% Szürke"
 
-#: src/cut-n-paste-code/goffice/utils/go-pattern.c:96
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:98
 #: src/dialogs/cell-format.glade.h:6
 #, no-c-format
 msgid "25% Grey"
 msgstr "25% Szürke"
 
-#: src/cut-n-paste-code/goffice/utils/go-pattern.c:97
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:99
 #: src/dialogs/cell-format.glade.h:4
 #, no-c-format
 msgid "12.5% Grey"
 msgstr "12,5% Szürke"
 
-#: src/cut-n-paste-code/goffice/utils/go-pattern.c:98
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:100
 #: src/dialogs/cell-format.glade.h:10
 #, no-c-format
 msgid "6.25% Grey"
 msgstr "6,25% Szürke"
 
-#: src/cut-n-paste-code/goffice/utils/go-pattern.c:99
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:101
 #: src/dialogs/cell-format.glade.h:52
 msgid "Horizontal Stripe"
 msgstr "Vízszintes csíkos"
 
-#: src/cut-n-paste-code/goffice/utils/go-pattern.c:100
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:102
 #: src/dialogs/cell-format.glade.h:89
 msgid "Vertical Stripe"
 msgstr "Függőleges csíkos"
 
-#: src/cut-n-paste-code/goffice/utils/go-pattern.c:101
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:103
 #: src/dialogs/cell-format.glade.h:67
 msgid "Reverse Diagonal Stripe"
 msgstr "Fordított átlósan csíkos"
 
-#: src/cut-n-paste-code/goffice/utils/go-pattern.c:102
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:104
 #: src/dialogs/cell-format.glade.h:47
 msgid "Diagonal Stripe"
 msgstr "Átlósan csíkos"
 
-#: src/cut-n-paste-code/goffice/utils/go-pattern.c:103
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:105
 #: src/dialogs/cell-format.glade.h:46
 msgid "Diagonal Crosshatch"
 msgstr "Átlós keresztmintás"
 
-#: src/cut-n-paste-code/goffice/utils/go-pattern.c:104
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:106
 #: src/dialogs/cell-format.glade.h:79
 msgid "Thick Diagonal Crosshatch"
 msgstr "Vastag átlós keresztmintás"
 
-#: src/cut-n-paste-code/goffice/utils/go-pattern.c:105
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:107
 #: src/dialogs/cell-format.glade.h:83
 msgid "Thin Horizontal Stripe"
 msgstr "Vékony vízszintes csíkos"
 
-#: src/cut-n-paste-code/goffice/utils/go-pattern.c:106
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:108
 #: src/dialogs/cell-format.glade.h:85
 msgid "Thin Vertical Stripe"
 msgstr "Vékony függőleges csíkos"
 
-#: src/cut-n-paste-code/goffice/utils/go-pattern.c:107
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:109
 #: src/dialogs/cell-format.glade.h:84
 msgid "Thin Reverse Diagonal Stripe"
 msgstr "Vékony fordított átlósan csíkos"
 
-#: src/cut-n-paste-code/goffice/utils/go-pattern.c:108
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:110
 #: src/dialogs/cell-format.glade.h:81
 msgid "Thin Diagonal Stripe"
 msgstr "Vékony átlósan csíkos"
 
-#: src/cut-n-paste-code/goffice/utils/go-pattern.c:109
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:111
 #: src/dialogs/cell-format.glade.h:82
 msgid "Thin Horizontal Crosshatch"
 msgstr "Vékony vízszintes keresztmintás"
 
-#: src/cut-n-paste-code/goffice/utils/go-pattern.c:110
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:112
 #: src/dialogs/cell-format.glade.h:80
 msgid "Thin Diagonal Crosshatch"
 msgstr "Vékony átlós keresztmintás"
 
-#: src/cut-n-paste-code/goffice/utils/go-pattern.c:111
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:113
 #: src/dialogs/cell-format.glade.h:49
 msgid "Foreground Solid"
 msgstr "Tömör előtér"
 
-#: src/cut-n-paste-code/goffice/utils/go-pattern.c:112
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:114
 #: src/dialogs/cell-format.glade.h:71
 msgid "Small Circles"
 msgstr "Kis körök"
 
-#: src/cut-n-paste-code/goffice/utils/go-pattern.c:113
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:115
 #: src/dialogs/cell-format.glade.h:69
 msgid "Semi Circles"
 msgstr "Félkörök"
 
-#: src/cut-n-paste-code/goffice/utils/go-pattern.c:114
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:116
 #: src/dialogs/cell-format.glade.h:78
 msgid "Thatch"
 msgstr "Zsúp"
 
-#: src/cut-n-paste-code/goffice/utils/go-pattern.c:115
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:117
 #: src/dialogs/cell-format.glade.h:60
 msgid "Large Circles"
 msgstr "Nagy körök"
 
-#: src/cut-n-paste-code/goffice/utils/go-pattern.c:116
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:118
 #: src/dialogs/cell-format.glade.h:39
 msgid "Bricks"
 msgstr "Téglák"
@@ -17573,8 +17576,8 @@ msgstr "_Területek"
 #: src/dialogs/exp-smoothing.glade.h:8 src/dialogs/fourier-analysis.glade.h:6
 #: src/dialogs/histogram.glade.h:16 src/dialogs/rank.glade.h:9
 #: src/dialogs/regression.glade.h:8 src/dialogs/sampling.glade.h:11
-#: src/dialogs/shuffle.glade.h:5 src/wbcg-actions.c:1492
-#: src/wbcg-actions.c:1612
+#: src/dialogs/shuffle.glade.h:5 src/wbcg-actions.c:1525
+#: src/wbcg-actions.c:1638
 msgid "_Columns"
 msgstr "Os_zlopok"
 
@@ -17605,8 +17608,8 @@ msgstr "_Címkék"
 #: src/dialogs/fourier-analysis.glade.h:10 src/dialogs/histogram.glade.h:23
 #: src/dialogs/moving-averages.glade.h:12 src/dialogs/rank.glade.h:12
 #: src/dialogs/regression.glade.h:13 src/dialogs/sampling.glade.h:18
-#: src/dialogs/shuffle.glade.h:6 src/wbcg-actions.c:1489
-#: src/wbcg-actions.c:1615
+#: src/dialogs/shuffle.glade.h:6 src/wbcg-actions.c:1522
+#: src/wbcg-actions.c:1641
 msgid "_Rows"
 msgstr "_Sorok"
 
@@ -17704,7 +17707,7 @@ msgstr "_Módosítandó:"
 # interfaces/memory.glade.h:40 interfaces/shares.glade.h:56
 # interfaces/shares.glade.h:65 interfaces/shares.glade.h:68
 #: src/dialogs/autocorrect.glade.h:13 src/dialogs/pivottable.glade.h:12
-#: src/wbcg-actions.c:1554
+#: src/wbcg-actions.c:1587
 msgid "_Remove"
 msgstr "_Eltávolítás"
 
@@ -17966,16 +17969,16 @@ msgstr ""
 # #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
 # src/file-manager/nautilus-directory-view-ui.xml.h:30
 # src/nautilus-sidebar.c:490
-#: src/dialogs/cell-format.glade.h:36 src/dialogs/dialog-cell-format.c:2373
-#: src/wbc-gtk.c:570 src/wbc-gtk.c:571 src/wbc-gtk.c:578
+#: src/dialogs/cell-format.glade.h:36 src/dialogs/dialog-cell-format.c:2374
+#: src/wbc-gtk.c:586 src/wbc-gtk.c:587 src/wbc-gtk.c:594
 msgid "Background"
 msgstr "Háttér"
 
-#: src/dialogs/cell-format.glade.h:37 src/dialogs/dialog-cell-format.c:2363
+#: src/dialogs/cell-format.glade.h:37 src/dialogs/dialog-cell-format.c:2364
 msgid "Border"
 msgstr "Szegély"
 
-#: src/dialogs/cell-format.glade.h:38 src/wbc-gtk.c:200
+#: src/dialogs/cell-format.glade.h:38 src/wbc-gtk.c:208
 msgid "Bottom"
 msgstr "Lent"
 
@@ -18007,7 +18010,7 @@ msgstr "_Feltétel:"
 msgid "Diagonal"
 msgstr "Átlós"
 
-#: src/dialogs/cell-format.glade.h:50 src/dialogs/dialog-cell-format.c:2300
+#: src/dialogs/cell-format.glade.h:50 src/dialogs/dialog-cell-format.c:2301
 msgid "Format Cells"
 msgstr "Cellák formázása"
 
@@ -18043,7 +18046,7 @@ msgstr "Belül Függőleges"
 msgid "J_ustify"
 msgstr "S_orkizárt"
 
-#: src/dialogs/cell-format.glade.h:61 src/wbc-gtk.c:192
+#: src/dialogs/cell-format.glade.h:61 src/wbc-gtk.c:200
 msgid "Left"
 msgstr "Balra"
 
@@ -18070,7 +18073,7 @@ msgstr "Védelem"
 msgid "Reverse Diagonal"
 msgstr "Fordított átlós"
 
-#: src/dialogs/cell-format.glade.h:68 src/wbc-gtk.c:194
+#: src/dialogs/cell-format.glade.h:68 src/wbc-gtk.c:202
 msgid "Right"
 msgstr "Jobbra"
 
@@ -18110,7 +18113,7 @@ msgstr "Fent"
 msgid "Validation"
 msgstr "Érvényesítés"
 
-#: src/dialogs/cell-format.glade.h:91 src/wbcg-actions.c:1384
+#: src/dialogs/cell-format.glade.h:91
 msgid "_Fill"
 msgstr "_Kitöltés"
 
@@ -18329,7 +18332,7 @@ msgid "Correlation"
 msgstr "Korreláció"
 
 #: src/dialogs/covariance.glade.h:1 src/tools/analysis-tools.c:1008
-#: src/tools/analysis-tools.c:1011 src/wbcg-actions.c:1763
+#: src/tools/analysis-tools.c:1011 src/wbcg-actions.c:1789
 msgid "Covariance"
 msgstr "Kovariancia"
 
@@ -18577,8 +18580,9 @@ msgid "UI Polish and all round bug fixer"
 msgstr ""
 
 #: src/dialogs/dialog-about.c:113
-msgid "pgamma fucntion"
-msgstr ""
+#, fuzzy
+msgid "Special functions"
+msgstr "Pénzügyi"
 
 #: src/dialogs/dialog-about.c:115
 msgid "Solver, lots of worksheet functions, and general trailblazer"
@@ -18801,8 +18805,8 @@ msgstr "Nem sikerült a Név Varázsló elindítása"
 msgid "Could not create the Sampling Tool dialog."
 msgstr "Nem sikerült a Név Varázsló elindítása"
 
-#: src/dialogs/dialog-analysis-tools.c:1997 src/tools/analysis-tools.c:2528
-#: src/tools/analysis-tools.c:2607
+#: src/dialogs/dialog-analysis-tools.c:1997 src/tools/analysis-tools.c:3020
+#: src/tools/analysis-tools.c:3099
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr ""
@@ -18922,8 +18926,8 @@ msgid "Mar"
 msgstr "*márc."
 
 #: src/dialogs/dialog-autoformat.c:77 src/dialogs/dialog-autoformat.c:81
-#: src/tools/analysis-tools.c:3916 src/tools/analysis-tools.c:3926
-#: src/tools/analysis-tools.c:3934
+#: src/tools/analysis-tools.c:4408 src/tools/analysis-tools.c:4418
+#: src/tools/analysis-tools.c:4426
 msgid "Total"
 msgstr "Összesen"
 
@@ -19027,14 +19031,14 @@ msgid "Double"
 msgstr "Kétszeres"
 
 #: src/dialogs/dialog-cell-format.c:468 src/dialogs/dialog-search.c:148
-#: src/func.c:671 src/wbcg-actions.c:1906
+#: src/func.c:671 src/wbcg-actions.c:1932
 #: src/widgets/widget-format-selector.c:76
 msgid "Number"
 msgstr "Szám"
 
 # #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
 # components/text/Nautilus_View_text.oaf.in.h:2
-#: src/dialogs/dialog-cell-format.c:674 src/dialogs/dialog-stf-main-page.c:381
+#: src/dialogs/dialog-cell-format.c:674 src/dialogs/dialog-stf-main-page.c:382
 #: src/widgets/widget-format-selector.c:84
 msgid "Text"
 msgstr "Szöveg"
@@ -19075,21 +19079,21 @@ msgstr ""
 msgid "Information (allow invalid input)"
 msgstr ""
 
-#: src/dialogs/dialog-cell-format.c:2114
+#: src/dialogs/dialog-cell-format.c:2115
 msgid "The validation criteria are unusable. Disable validation?"
 msgstr ""
 
-#: src/dialogs/dialog-cell-format.c:2368 src/wbc-gtk.c:170 src/wbc-gtk.c:303
-#: src/wbc-gtk.c:520 src/wbc-gtk.c:521 src/wbc-gtk.c:530 src/wbc-gtk.c:623
-#: src/wbc-gtk.c:674
+#: src/dialogs/dialog-cell-format.c:2369 src/wbc-gtk.c:178 src/wbc-gtk.c:311
+#: src/wbc-gtk.c:536 src/wbc-gtk.c:537 src/wbc-gtk.c:546 src/wbc-gtk.c:639
+#: src/wbc-gtk.c:690
 msgid "Foreground"
 msgstr "Előtér"
 
-#: src/dialogs/dialog-cell-format.c:2373 src/wbc-gtk.c:568
+#: src/dialogs/dialog-cell-format.c:2374 src/wbc-gtk.c:584
 msgid "Clear Background"
 msgstr "Háttér törlése"
 
-#: src/dialogs/dialog-cell-format.c:2378
+#: src/dialogs/dialog-cell-format.c:2379
 msgid "Pattern"
 msgstr "Minta"
 
@@ -19175,11 +19179,11 @@ msgstr "A keresési tartománz érvénytelen."
 msgid "Could not create the Consolidate dialog."
 msgstr "Nem sikerült a Név Varázsló elindítása"
 
-#: src/dialogs/dialog-define-names.c:359
+#: src/dialogs/dialog-define-names.c:361
 msgid "Why would you want to define a name to be #NAME?"
 msgstr ""
 
-#: src/dialogs/dialog-define-names.c:580
+#: src/dialogs/dialog-define-names.c:582
 msgid "Could not create the Name Guru."
 msgstr "Nem sikerült a Név Varázsló elindítása"
 
@@ -19277,7 +19281,7 @@ msgstr "Munkafüzet"
 #.
 #. * Fill in the labels of `Constraints' section.
 #.
-#: src/dialogs/dialog-goto-cell.c:295 src/dialogs/dialog-search.c:400
+#: src/dialogs/dialog-goto-cell.c:295 src/dialogs/dialog-search.c:410
 #: src/dialogs/tabulate.glade.h:2 src/tools/solver/reports-write.c:78
 #: src/tools/solver/reports-write.c:100 src/tools/solver/reports-write.c:127
 #: src/tools/solver/reports-write.c:234 src/tools/solver/reports-write.c:280
@@ -19290,62 +19294,62 @@ msgstr "Cella"
 msgid "Could not create the goto dialog."
 msgstr "Nem sikerült a Név Varázsló elindítása"
 
-#: src/dialogs/dialog-hyperlink.c:148
+#: src/dialogs/dialog-hyperlink.c:149
 msgid "Not a range or name"
 msgstr ""
 
-#: src/dialogs/dialog-hyperlink.c:200
+#: src/dialogs/dialog-hyperlink.c:201
 #, fuzzy
 msgid "Internal Link"
 msgstr "Belső HIBA"
 
-#: src/dialogs/dialog-hyperlink.c:202
+#: src/dialogs/dialog-hyperlink.c:203
 msgid "Jump to specific cells or named range in the current workbook"
 msgstr ""
 
-#: src/dialogs/dialog-hyperlink.c:206
+#: src/dialogs/dialog-hyperlink.c:207
 #, fuzzy
 msgid "External Link"
 msgstr "Belső HIBA"
 
-#: src/dialogs/dialog-hyperlink.c:208
+#: src/dialogs/dialog-hyperlink.c:209
 msgid "Open an external file with the specified name"
 msgstr ""
 
-#: src/dialogs/dialog-hyperlink.c:212
+#: src/dialogs/dialog-hyperlink.c:213
 msgid "Send _Email"
 msgstr "_E-mail küldése"
 
-#: src/dialogs/dialog-hyperlink.c:214
+#: src/dialogs/dialog-hyperlink.c:215
 #, fuzzy
 msgid "Prepare an email"
 msgstr "Címke létrehozása"
 
-#: src/dialogs/dialog-hyperlink.c:216
+#: src/dialogs/dialog-hyperlink.c:217
 #, fuzzy
 msgid "Web Link"
 msgstr "Link beillesztése"
 
-#: src/dialogs/dialog-hyperlink.c:218
+#: src/dialogs/dialog-hyperlink.c:219
 msgid "Browse to the specified URL"
 msgstr ""
 
-#: src/dialogs/dialog-hyperlink.c:289
+#: src/dialogs/dialog-hyperlink.c:290
 #, fuzzy
 msgid "Add Hyperlink"
 msgstr "Kifejezések"
 
-#: src/dialogs/dialog-hyperlink.c:291
+#: src/dialogs/dialog-hyperlink.c:292
 #, fuzzy
 msgid "Edit Hyperlink"
 msgstr "Kifejezések"
 
-#: src/dialogs/dialog-hyperlink.c:297 src/sheet-control-gui.c:1469
+#: src/dialogs/dialog-hyperlink.c:298 src/sheet-control-gui.c:1469
 #, fuzzy
 msgid "Remove Hyperlink"
 msgstr "Jelenlegi _eltávolítása"
 
-#: src/dialogs/dialog-hyperlink.c:489
+#: src/dialogs/dialog-hyperlink.c:490
 #, fuzzy
 msgid "Could not create the hyperlink dialog."
 msgstr "Nem sikerült a Név Varázsló elindítása"
@@ -19375,12 +19379,12 @@ msgid ""
 "%i and proceed?"
 msgstr ""
 
-#: src/dialogs/dialog-merge.c:392
+#: src/dialogs/dialog-merge.c:393
 #, fuzzy
 msgid "Input Data"
 msgstr "Bemenet"
 
-#: src/dialogs/dialog-merge.c:399
+#: src/dialogs/dialog-merge.c:400
 #, fuzzy
 msgid "Merge Field"
 msgstr "Cellák _egybenyitása"
@@ -19404,7 +19408,7 @@ msgstr "Jelszó:"
 msgid "All"
 msgstr "Minden"
 
-#: src/dialogs/dialog-paste-special.c:48 src/dialogs/dialog-search.c:402
+#: src/dialogs/dialog-paste-special.c:48 src/dialogs/dialog-search.c:412
 msgid "Content"
 msgstr "Tartalom"
 
@@ -19485,51 +19489,51 @@ msgstr "Részletek a bővítményekről"
 msgid "Errors while activating plugins"
 msgstr "Hibák történtek a bővítmények aktiválása közben"
 
-#: src/dialogs/dialog-plugin-manager.c:506
+#: src/dialogs/dialog-plugin-manager.c:507
 msgid "Errors while deactivating plugins"
 msgstr "Hibák történtek a bővítmények deaktiválása közben"
 
-#: src/dialogs/dialog-plugin-manager.c:602
+#: src/dialogs/dialog-plugin-manager.c:604
 msgid ""
 "The following extra plugins must be activated in order to activate this "
 "one:\n"
 "\n"
 msgstr ""
 
-#: src/dialogs/dialog-plugin-manager.c:608
+#: src/dialogs/dialog-plugin-manager.c:610
 #, fuzzy, c-format
 msgid "Unknown plugin with id=\"%s\"\n"
 msgstr "Nincs megadva betöltő a \"%s\" azonosítójú bővítményhez."
 
-#: src/dialogs/dialog-plugin-manager.c:615
+#: src/dialogs/dialog-plugin-manager.c:617
 msgid ""
 "\n"
 "Do you want to activate this plugin together with its dependencies?"
 msgstr ""
 
-#: src/dialogs/dialog-plugin-manager.c:634
+#: src/dialogs/dialog-plugin-manager.c:636
 #, fuzzy, c-format
 msgid "Error while deactivating plugin \"%s\"."
 msgstr "Hibák történtek a bővítmények deaktiválása közben"
 
-#: src/dialogs/dialog-plugin-manager.c:638
+#: src/dialogs/dialog-plugin-manager.c:640
 #, fuzzy, c-format
 msgid "Error while activating plugin \"%s\"."
 msgstr "Hibák történtek a bővítmények aktiválása közben"
 
-#: src/dialogs/dialog-plugin-manager.c:706
+#: src/dialogs/dialog-plugin-manager.c:708
 msgid "Active"
 msgstr "Aktív"
 
-#: src/dialogs/dialog-plugin-manager.c:711
+#: src/dialogs/dialog-plugin-manager.c:713
 msgid "Plugin name"
 msgstr "Bővítmény neve"
 
-#: src/dialogs/dialog-plugin-manager.c:734
+#: src/dialogs/dialog-plugin-manager.c:736
 msgid "ID"
 msgstr "Azonosító"
 
-#: src/dialogs/dialog-plugin-manager.c:754
+#: src/dialogs/dialog-plugin-manager.c:756
 msgid "Directory"
 msgstr "Könyvtár"
 
@@ -19559,7 +19563,7 @@ msgstr "Ablakok"
 msgid "Files"
 msgstr "Fájlok"
 
-#: src/dialogs/dialog-preferences.c:815 src/wbc-gtk.c:455
+#: src/dialogs/dialog-preferences.c:815 src/wbc-gtk.c:470
 msgid "Undo"
 msgstr "Visszavonás"
 
@@ -19839,53 +19843,53 @@ msgid ""
 "Set row height of selection on <span style='italic' weight='bold'>%s</span>"
 msgstr ""
 
-#: src/dialogs/dialog-scenarios.c:129
+#: src/dialogs/dialog-scenarios.c:130
 #, fuzzy
 msgid "Invalid changing cells"
 msgstr "Ezen cella változtatásával:"
 
-#: src/dialogs/dialog-scenarios.c:136
+#: src/dialogs/dialog-scenarios.c:138
 #, fuzzy
 msgid "Changing cells should be on the current sheet only."
 msgstr "Keresés és csere, csak a jelenlegi munkalapon"
 
-#: src/dialogs/dialog-scenarios.c:147
+#: src/dialogs/dialog-scenarios.c:150
 #, fuzzy
 msgid "Scenario name already used"
 msgstr "Ezek a sorok már csoportban vannak"
 
-#: src/dialogs/dialog-scenarios.c:152
+#: src/dialogs/dialog-scenarios.c:156
 #, fuzzy
 msgid "Invalid scenario name"
 msgstr "Érvénytelen keresőminta"
 
-#: src/dialogs/dialog-scenarios.c:177
+#: src/dialogs/dialog-scenarios.c:182
 msgid ""
 "Changing cells contain at least one expression that is not just a value. "
 "Note that showing the scenario will overwrite the formula with it's current "
 "value."
 msgstr ""
 
-#: src/dialogs/dialog-scenarios.c:211
+#: src/dialogs/dialog-scenarios.c:216
 #, fuzzy
 msgid "Could not create the Scenario Add dialog."
 msgstr "Nem sikerült a Név Varázsló elindítása"
 
-#: src/dialogs/dialog-scenarios.c:243
+#: src/dialogs/dialog-scenarios.c:248
 #, fuzzy
 msgid "Created on "
 msgstr "Nyíl létrehozása"
 
-#: src/dialogs/dialog-scenarios.c:566
+#: src/dialogs/dialog-scenarios.c:572
 msgid "Results entry did not contain valid cell names."
 msgstr ""
 
-#: src/dialogs/dialog-scenarios.c:634
+#: src/dialogs/dialog-scenarios.c:640
 #, fuzzy
 msgid "Could not create the Scenarios dialog."
 msgstr "Nem sikerült a Név Varázsló elindítása"
 
-#: src/dialogs/dialog-search-replace.c:156 src/dialogs/dialog-search.c:331
+#: src/dialogs/dialog-search-replace.c:156 src/dialogs/dialog-search.c:332
 msgid "You must select some cell types to search."
 msgstr ""
 
@@ -20004,16 +20008,16 @@ msgid "Variable"
 msgstr "Változó"
 
 #: src/dialogs/dialog-simulation.c:237 src/tools/simulation.c:254
-#: src/workbook-control-gui.c:1835
+#: src/workbook-control-gui.c:1826
 msgid "Min"
 msgstr "Minimum"
 
-#: src/dialogs/dialog-simulation.c:237 src/workbook-control-gui.c:1837
+#: src/dialogs/dialog-simulation.c:237 src/workbook-control-gui.c:1828
 msgid "Average"
 msgstr "Átlag"
 
 #: src/dialogs/dialog-simulation.c:237 src/tools/simulation.c:256
-#: src/workbook-control-gui.c:1836
+#: src/workbook-control-gui.c:1827
 msgid "Max"
 msgstr "Maximum"
 
@@ -20167,7 +20171,7 @@ msgid ""
 "Never"
 msgstr "Automatikus (kirakja az idézőjeleket, ahova kell)"
 
-#: src/dialogs/dialog-stf-export.glade.h:11 src/gui-file.c:210
+#: src/dialogs/dialog-stf-export.glade.h:11 src/gui-file.c:208
 msgid "Character _encoding:"
 msgstr ""
 
@@ -20197,7 +20201,7 @@ msgid "Select N_one"
 msgstr "_Sor kijelölése"
 
 #. Edit -> Select
-#: src/dialogs/dialog-stf-export.glade.h:17 src/wbcg-actions.c:1501
+#: src/dialogs/dialog-stf-export.glade.h:17 src/wbcg-actions.c:1534
 msgid "Select _All"
 msgstr "_Mindent kijelöl"
 
@@ -20271,25 +20275,25 @@ msgid "Autodiscovery did not find any columns in the text. Try manually"
 msgstr ""
 "Az automatikus feldolgozó nem talált oszlopokat a szövegben. Próbáld kézzel."
 
-#: src/dialogs/dialog-stf-fixed-page.c:68
+#: src/dialogs/dialog-stf-fixed-page.c:69
 msgid "Delete and Merge _Left"
 msgstr ""
 
-#: src/dialogs/dialog-stf-fixed-page.c:70
+#: src/dialogs/dialog-stf-fixed-page.c:71
 msgid "Delete and Merge _Right"
 msgstr ""
 
-#: src/dialogs/dialog-stf-fixed-page.c:73
+#: src/dialogs/dialog-stf-fixed-page.c:74
 #, fuzzy
 msgid "_Split"
 msgstr "Felosztás"
 
-#: src/dialogs/dialog-stf-fixed-page.c:76
+#: src/dialogs/dialog-stf-fixed-page.c:77
 #, fuzzy
 msgid "_Widen"
 msgstr "_Elrejtés"
 
-#: src/dialogs/dialog-stf-fixed-page.c:78
+#: src/dialogs/dialog-stf-fixed-page.c:79
 #, fuzzy
 msgid "_Narrow"
 msgstr "Nyíl"
@@ -20299,37 +20303,37 @@ msgstr "Nyíl"
 msgid "A maximum of %d columns can be imported."
 msgstr ""
 
-#: src/dialogs/dialog-stf-format-page.c:256
+#: src/dialogs/dialog-stf-format-page.c:257
 msgid "Ignore all columns on right"
 msgstr ""
 
-#: src/dialogs/dialog-stf-format-page.c:257
+#: src/dialogs/dialog-stf-format-page.c:258
 msgid "Ignore all columns on left"
 msgstr ""
 
-#: src/dialogs/dialog-stf-format-page.c:258
+#: src/dialogs/dialog-stf-format-page.c:259
 msgid "Import all columns on right"
 msgstr ""
 
-#: src/dialogs/dialog-stf-format-page.c:259
+#: src/dialogs/dialog-stf-format-page.c:260
 msgid "Import all columns on left"
 msgstr ""
 
-#: src/dialogs/dialog-stf-format-page.c:260
+#: src/dialogs/dialog-stf-format-page.c:261
 #, fuzzy
 msgid "Copy format to right"
 msgstr "Balra zárás"
 
-#: src/dialogs/dialog-stf-format-page.c:398
+#: src/dialogs/dialog-stf-format-page.c:399
 msgid ""
 "If this checkbox is selected, the column will be imported into Gnumeric."
 msgstr ""
 
-#: src/dialogs/dialog-stf-format-page.c:401
+#: src/dialogs/dialog-stf-format-page.c:402
 msgid "At most 256 columns can be imported at one time."
 msgstr ""
 
-#: src/dialogs/dialog-stf-format-page.c:541
+#: src/dialogs/dialog-stf-format-page.c:542
 #: src/dialogs/dialog-stf-preview.h:27
 #, c-format
 msgid "Column %d"
@@ -20345,7 +20349,7 @@ msgstr "%d sor importálása"
 msgid "The data is not valid in encoding %s; please select another encoding."
 msgstr ""
 
-#: src/dialogs/dialog-stf-main-page.c:394
+#: src/dialogs/dialog-stf-main-page.c:395
 #, c-format
 msgid "Data (from %s)"
 msgstr "Adatok (%s-ból)"
@@ -20622,49 +20626,49 @@ msgstr "_Windows (CR+LF)"
 msgid "`"
 msgstr "`"
 
-#: src/dialogs/dialog-tabulate.c:204
+#: src/dialogs/dialog-tabulate.c:205
 #, fuzzy
 msgid "You should introduce a single valid cell as dependency cell"
 msgstr "Érvényes cellanevet kellen beírni a 'Cella beállítása' mezőbe"
 
-#: src/dialogs/dialog-tabulate.c:210
+#: src/dialogs/dialog-tabulate.c:212
 msgid "The dependency cells should not contain an expression"
 msgstr ""
 
-#: src/dialogs/dialog-tabulate.c:218
+#: src/dialogs/dialog-tabulate.c:221
 #, fuzzy
 msgid "You should introduce a valid number as minimum"
 msgstr "Érvényes cellanevet kellene megani a 'Listatartomány:' mezőben"
 
-#: src/dialogs/dialog-tabulate.c:226
+#: src/dialogs/dialog-tabulate.c:230
 #, fuzzy
 msgid "You should introduce a valid number as maximum"
 msgstr "Érvényes cellanevet kellene megani a 'Listatartomány:' mezőben"
 
-#: src/dialogs/dialog-tabulate.c:233
+#: src/dialogs/dialog-tabulate.c:238
 msgid "The maximum value should be bigger than the minimum"
 msgstr ""
 
-#: src/dialogs/dialog-tabulate.c:241
+#: src/dialogs/dialog-tabulate.c:247
 #, fuzzy
 msgid "You should introduce a valid number as step size"
 msgstr "Érvényes cellanevet kellene megadni a 'Célcella' mezőben"
 
-#: src/dialogs/dialog-tabulate.c:248
+#: src/dialogs/dialog-tabulate.c:255
 msgid "The step size should be positive"
 msgstr ""
 
-#: src/dialogs/dialog-tabulate.c:258
+#: src/dialogs/dialog-tabulate.c:266
 #, fuzzy
 msgid "You should introduce one or more dependency cells"
 msgstr "Érvényes cellanevet kellene megadni a 'Célcella' mezőben"
 
-#: src/dialogs/dialog-tabulate.c:267
+#: src/dialogs/dialog-tabulate.c:276
 #, fuzzy
 msgid "You should introduce a single valid cell as result cell"
 msgstr "Érvényes cellanevet kellene megadni a 'Célcella' mezőben"
 
-#: src/dialogs/dialog-tabulate.c:274
+#: src/dialogs/dialog-tabulate.c:284
 #, fuzzy
 msgid "The target cell should contain an expression"
 msgstr "A keresés szövege reguláris kifejezés"
@@ -20674,17 +20678,17 @@ msgstr "A keresés szövege reguláris kifejezés"
 msgid "Display \"%s\" could not be opened."
 msgstr ""
 
-#: src/dialogs/dialog-view.c:156
+#: src/dialogs/dialog-view.c:157
 #, fuzzy
 msgid "This screen"
 msgstr "Diszkrét"
 
-#: src/dialogs/dialog-view.c:157
+#: src/dialogs/dialog-view.c:158
 #, c-format
 msgid "Screen %d [This screen]"
 msgstr ""
 
-#: src/dialogs/dialog-view.c:158
+#: src/dialogs/dialog-view.c:159
 #, fuzzy, c-format
 msgid "Screen %d"
 msgstr "Munka%d"
@@ -20739,8 +20743,8 @@ msgstr "A kijelölésben van"
 msgid "0.2"
 msgstr ""
 
-#: src/dialogs/exp-smoothing.glade.h:3 src/tools/analysis-tools.c:3066
-#: src/tools/analysis-tools.c:3069
+#: src/dialogs/exp-smoothing.glade.h:3 src/tools/analysis-tools.c:3558
+#: src/tools/analysis-tools.c:3561
 #, fuzzy
 msgid "Exponential Smoothing"
 msgstr "Exponenciális"
@@ -20814,7 +20818,7 @@ msgid "_Month"
 msgstr "*H"
 
 #: src/dialogs/fill-series.glade.h:17 src/dialogs/pivottable.glade.h:13
-#: src/wbcg-actions.c:1393
+#: src/wbcg-actions.c:1421
 msgid "_Row"
 msgstr "So_r"
 
@@ -20935,7 +20939,7 @@ msgstr "_Ezres elválasztó használata"
 msgid "Formula Guru"
 msgstr "Képlet Varázsló"
 
-#: src/dialogs/fourier-analysis.glade.h:1 src/wbcg-actions.c:1769
+#: src/dialogs/fourier-analysis.glade.h:1 src/wbcg-actions.c:1795
 msgid "Fourier Analysis"
 msgstr "Fourier-analízis"
 
@@ -20948,7 +20952,7 @@ msgstr "I_nverz"
 msgid "Category"
 msgstr "Kategória"
 
-#: src/dialogs/function-select.glade.h:3 src/wbcg-actions.c:1843
+#: src/dialogs/function-select.glade.h:3 src/wbcg-actions.c:1869
 msgid "Function"
 msgstr "Függvény"
 
@@ -20960,8 +20964,8 @@ msgstr "Függvényválasztó"
 msgid "Select a function to insert:"
 msgstr ""
 
-#: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1388
-#: src/wbcg-actions.c:1541
+#: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1416
+#: src/wbcg-actions.c:1574
 msgid "_Insert"
 msgstr "_Beszúrás"
 
@@ -21056,8 +21060,8 @@ msgstr "_Rekesztartomány:"
 msgid "C_umulative percentages"
 msgstr "_Halmozott százalék"
 
-#: src/dialogs/histogram.glade.h:6 src/tools/analysis-tools.c:4633
-#: src/tools/analysis-tools.c:4636
+#: src/dialogs/histogram.glade.h:6 src/tools/analysis-tools.c:5125
+#: src/tools/analysis-tools.c:5128
 msgid "Histogram"
 msgstr "Hisztogram"
 
@@ -21284,8 +21288,8 @@ msgstr "3"
 msgid "C_olumns"
 msgstr "_Oszlop"
 
-#: src/dialogs/moving-averages.glade.h:6 src/tools/analysis-tools.c:2933
-#: src/tools/analysis-tools.c:2936
+#: src/dialogs/moving-averages.glade.h:6 src/tools/analysis-tools.c:3425
+#: src/tools/analysis-tools.c:3428
 msgid "Moving Average"
 msgstr "Mozgó átlag"
 
@@ -21349,7 +21353,7 @@ msgstr ""
 msgid "_Add:"
 msgstr "_Hozzáadás:"
 
-#: src/dialogs/pivottable.glade.h:8 src/wbcg-actions.c:1401
+#: src/dialogs/pivottable.glade.h:8 src/wbcg-actions.c:1429
 msgid "_Data"
 msgstr "_Adat"
 
@@ -21622,8 +21626,8 @@ msgstr "0.95"
 msgid "Confidence level:"
 msgstr "Megbízhatóság:"
 
-#: src/dialogs/regression.glade.h:6 src/tools/analysis-tools.c:2811
-#: src/tools/analysis-tools.c:2814
+#: src/dialogs/regression.glade.h:6 src/tools/analysis-tools.c:3303
+#: src/tools/analysis-tools.c:3306
 msgid "Regression"
 msgstr "Regresszió"
 
@@ -22090,7 +22094,7 @@ msgstr "_Keresés:"
 msgid "Manage Sheets..."
 msgstr "Lap átnevezése"
 
-#: src/dialogs/sheet-order.glade.h:2 src/wbcg-actions.c:1551
+#: src/dialogs/sheet-order.glade.h:2 src/wbcg-actions.c:1584
 msgid "_Duplicate"
 msgstr "_Megkettőzés"
 
@@ -23697,31 +23701,31 @@ msgstr "Beilleszti a vágólap tartalmát"
 msgid "Automatically detected"
 msgstr "Automatikusan egyszerű helyesírás-ellenőrzést végez"
 
-#: src/gui-file.c:202
+#: src/gui-file.c:200
 msgid "Load file"
 msgstr "Fájl betöltése"
 
-#: src/gui-file.c:225 src/gui-file.c:656
+#: src/gui-file.c:223 src/gui-file.c:656
 #, fuzzy
 msgid "Select a file"
 msgstr "Egy teljes oszlop kijelölése"
 
-#: src/gui-file.c:239 src/gui-file.c:444 src/gui-file.c:670
+#: src/gui-file.c:237 src/gui-file.c:443 src/gui-file.c:670
 #, fuzzy
 msgid "All Files"
 msgstr "Fájlok"
 
-#: src/gui-file.c:244 src/gui-file.c:675
+#: src/gui-file.c:242 src/gui-file.c:675
 #, fuzzy
 msgid "Spreadsheets"
 msgstr "Gnumeric Support oldal"
 
-#: src/gui-file.c:278 src/gui-file.c:511 src/gui-file.c:699
+#: src/gui-file.c:276 src/gui-file.c:510 src/gui-file.c:699
 #, fuzzy
 msgid "File _type:"
 msgstr "_Fájl"
 
-#: src/gui-file.c:391
+#: src/gui-file.c:389
 #, c-format
 msgid ""
 "%s\n"
@@ -23730,7 +23734,7 @@ msgstr ""
 "%s\n"
 "egy könyvtárnév"
 
-#: src/gui-file.c:397
+#: src/gui-file.c:395
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -23739,7 +23743,7 @@ msgstr ""
 "Nincsen jogosultságod a %s\n"
 "mentéséhez."
 
-#: src/gui-file.c:404
+#: src/gui-file.c:402
 #, fuzzy, c-format
 msgid ""
 "%s already exists.\n"
@@ -23750,28 +23754,28 @@ msgstr ""
 
 # #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
 # src/nautilus-property-browser.c:957
-#: src/gui-file.c:449
+#: src/gui-file.c:448
 #, fuzzy
 msgid "Images"
 msgstr "Kép"
 
-#: src/gui-file.c:489
+#: src/gui-file.c:488
 #, fuzzy
 msgid "Save as"
 msgstr "Mentés"
 
-#: src/gui-file.c:538 src/gui-file.c:612
+#: src/gui-file.c:537 src/gui-file.c:612
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
 msgstr ""
 
-#: src/gui-file.c:565
+#: src/gui-file.c:564
 #, fuzzy
 msgid "Select an Image"
 msgstr "Egy teljes oszlop kijelölése"
 
-#: src/gui-file.c:584
+#: src/gui-file.c:583
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -23784,12 +23788,12 @@ msgstr ""
 "válassz más fájlformátumot.\n"
 "Szeretnéd menteni csak a jelenlegi munkalapot?"
 
-#: src/gui-util.c:210
+#: src/gui-util.c:211
 #, fuzzy
 msgid "Multiple errors\n"
 msgstr "Szorzás"
 
-#: src/gui-util.c:622
+#: src/gui-util.c:623
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "Nem sikerült megnyitni a fájlt: %s"
@@ -24539,11 +24543,11 @@ msgstr "A_ktív lap"
 msgid "S_heets"
 msgstr "M_unkalapok"
 
-#: src/print.c:1351 src/wbcg-actions.c:1456
+#: src/print.c:1351 src/wbcg-actions.c:1489
 msgid "Print preview"
 msgstr "Nyomtatási kép"
 
-#: src/print.c:1363
+#: src/print.c:1364
 msgid "Printing failed"
 msgstr "A nyomtatás nem sikerült"
 
@@ -24669,12 +24673,12 @@ msgid "Column _Width..."
 msgstr "Oszlop _szélessége..."
 
 #: src/sheet-control-gui.c:1544 src/sheet-control-gui.c:1552
-#: src/wbcg-actions.c:1669 src/wbcg-actions.c:1686
+#: src/wbcg-actions.c:1695 src/wbcg-actions.c:1712
 msgid "_Hide"
 msgstr "_Elrejtés"
 
 #: src/sheet-control-gui.c:1546 src/sheet-control-gui.c:1554
-#: src/wbcg-actions.c:1672 src/wbcg-actions.c:1689
+#: src/wbcg-actions.c:1698 src/wbcg-actions.c:1715
 msgid "_Unhide"
 msgstr "_Megmutat"
 
@@ -24720,7 +24724,7 @@ msgid "(Non Blanks...)"
 msgstr ""
 
 #. Format toolbar
-#: src/sheet-merge.c:73 src/wbcg-actions.c:1899
+#: src/sheet-merge.c:73 src/wbcg-actions.c:1925
 msgid "Merge"
 msgstr "Összefésülés"
 
@@ -24774,11 +24778,11 @@ msgstr "Egy teljes oszlop kijelölése"
 msgid "Transparent"
 msgstr "Átlátszó"
 
-#: src/sheet-object-widget.c:235 src/wbcg-actions.c:1858
+#: src/sheet-object-widget.c:235 src/wbcg-actions.c:1884
 msgid "Frame"
 msgstr "Keret"
 
-#: src/sheet-object-widget.c:469 src/wbcg-actions.c:1891
+#: src/sheet-object-widget.c:469 src/wbcg-actions.c:1917
 msgid "Button"
 msgstr "Gomb"
 
@@ -24787,7 +24791,7 @@ msgstr "Gomb"
 msgid "CheckBox %d"
 msgstr "Jelölőnégyzet"
 
-#: src/sheet-object-widget.c:1603 src/wbcg-actions.c:1894
+#: src/sheet-object-widget.c:1603 src/wbcg-actions.c:1920
 msgid "RadioButton"
 msgstr "Rádióomb"
 
@@ -24842,8 +24846,12 @@ msgstr ""
 msgid "Optionally specify which exporter to use"
 msgstr ""
 
-#: src/ssconvert.c:54 src/ssconvert.c:56
+#: src/ssconvert.c:54
 msgid "List the available exporters"
+msgstr ""
+
+#: src/ssconvert.c:56
+msgid "List the available importers"
 msgstr ""
 
 #: src/ssconvert.c:58
@@ -24944,32 +24952,32 @@ msgstr "Hiba történt a csv fájl írása közben"
 msgid "Error while trying to write CSV file"
 msgstr "Hiba történt a csv fájl írása közben"
 
-#: src/stf.c:471
+#: src/stf.c:475
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr ""
 
-#: src/stf.c:475
+#: src/stf.c:479
 #, fuzzy
 msgid "Text import (configurable)"
 msgstr "Szövegfájl exportálása (*.csv)"
 
-#: src/stf.c:480
+#: src/stf.c:484
 #, fuzzy
 msgid "Text export (configurable)"
 msgstr "Szövegfájl exportálása (*.csv)"
 
-#: src/stf.c:484
+#: src/stf.c:488
 msgid "Comma separated values (CSV)"
 msgstr ""
 
 #: src/tools/analysis-tools.c:220 src/tools/analysis-tools.c:409
-#: src/tools/analysis-tools.c:3860
+#: src/tools/analysis-tools.c:4352
 #, fuzzy, c-format
 msgid "Row %i"
 msgstr "Sor %d"
 
 #: src/tools/analysis-tools.c:223 src/tools/analysis-tools.c:412
-#: src/tools/analysis-tools.c:3852
+#: src/tools/analysis-tools.c:4344
 #, fuzzy, c-format
 msgid "Column %i"
 msgstr "Oszlop %d"
@@ -24986,9 +24994,7 @@ msgstr ""
 
 #: src/tools/analysis-tools.c:459 src/tools/analysis-tools.c:1553
 #: src/tools/analysis-tools.c:1555 src/tools/analysis-tools.c:1688
-#: src/tools/analysis-tools.c:1690 src/tools/analysis-tools.c:1864
-#: src/tools/analysis-tools.c:1866 src/tools/analysis-tools.c:2006
-#: src/tools/analysis-tools.c:2008
+#: src/tools/analysis-tools.c:1690
 #, fuzzy, c-format
 msgid "Variable %i"
 msgstr "2. változó"
@@ -25092,52 +25098,52 @@ msgid "t-Test, paired (%s)"
 msgstr ""
 
 #: src/tools/analysis-tools.c:1835 src/tools/analysis-tools.c:1838
-#: src/tools/analysis-tools.c:1980 src/tools/analysis-tools.c:1983
-#: src/tools/analysis-tools.c:2118 src/tools/analysis-tools.c:2121
+#: src/tools/analysis-tools.c:2224 src/tools/analysis-tools.c:2227
+#: src/tools/analysis-tools.c:2610 src/tools/analysis-tools.c:2613
 msgid "t-Test"
 msgstr "t-próba"
 
-#: src/tools/analysis-tools.c:1869
+#: src/tools/analysis-tools.c:1872
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
 "(T<=t) two-tail/t Critical two-tail"
 msgstr ""
 
-#: src/tools/analysis-tools.c:1970 src/tools/analysis-tools.c:2108
+#: src/tools/analysis-tools.c:2214 src/tools/analysis-tools.c:2600
 #, fuzzy, c-format
 msgid "t-Test (%s)"
 msgstr "t-próba"
 
-#: src/tools/analysis-tools.c:2011
+#: src/tools/analysis-tools.c:2258
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
 "t Critical two-tail"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2158 src/tools/analysis-tools.c:2445
-#: src/tools/analysis-tools.c:2448
+#: src/tools/analysis-tools.c:2650 src/tools/analysis-tools.c:2937
+#: src/tools/analysis-tools.c:2940
 msgid "F-Test"
 msgstr "F-próba"
 
-#: src/tools/analysis-tools.c:2160
+#: src/tools/analysis-tools.c:2652
 msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2435
+#: src/tools/analysis-tools.c:2927
 #, fuzzy, c-format
 msgid "F-Test (%s)"
 msgstr "F-próba"
 
-#: src/tools/analysis-tools.c:2522
+#: src/tools/analysis-tools.c:3014
 #, fuzzy
 msgid "Y Variable"
 msgstr "2. változó"
 
-#: src/tools/analysis-tools.c:2581
+#: src/tools/analysis-tools.c:3073
 msgid ""
 "There are too few data points to conduct this regression.\n"
 "There must be at least as many data points as free variables."
@@ -25145,7 +25151,7 @@ msgstr ""
 "Túl kevés adatpont van megadva regresszió számításához.\n"
 "Legalább annyi pont kell, mint szabad változó."
 
-#: src/tools/analysis-tools.c:2589
+#: src/tools/analysis-tools.c:3081
 #, fuzzy
 msgid ""
 "Two or more of the independent variables are nearly linearly\n"
@@ -25155,7 +25161,7 @@ msgstr ""
 "így a regresszió nem számítható. Távolítsd el ezen változók egyikét\n"
 "és próbáld újra a regressziót."
 
-#: src/tools/analysis-tools.c:2597
+#: src/tools/analysis-tools.c:3089
 #, fuzzy
 msgid ""
 "Two or more of the independent variables are linearly\n"
@@ -25172,31 +25178,31 @@ msgstr ""
 #. analysis_tool_regression_engine_last_check
 #. we have to figure out which data we have to trnasfer from
 #. to here
-#: src/tools/analysis-tools.c:2624
+#: src/tools/analysis-tools.c:3116
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2647
+#: src/tools/analysis-tools.c:3139
 #, fuzzy
 msgid "/df/SS/MS/F/Significance of F"
 msgstr "/dF/SS/MS/F szignifikancia"
 
-#: src/tools/analysis-tools.c:2654
+#: src/tools/analysis-tools.c:3146
 #, c-format
 msgid ""
 "/Coefficients/Standard Error/t Stat/P-value/Lower %%0.0%s%%%%/Upper %%0.0%s%%"
 "%%"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2671
+#: src/tools/analysis-tools.c:3163
 msgid ""
 "Probability of an observation's absolute value being larger than the t-"
 "value's"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2779
+#: src/tools/analysis-tools.c:3271
 #, fuzzy
 msgid ""
 "Two or more of the independent variables are nearly linearly\n"
@@ -25206,202 +25212,202 @@ msgstr ""
 "így a regresszió nem számítható. Távolítsd el ezen változók egyikét\n"
 "és próbáld újra a regressziót."
 
-#: src/tools/analysis-tools.c:2794
+#: src/tools/analysis-tools.c:3286
 #, fuzzy, c-format
 msgid "Regression (%s)"
 msgstr "Regresszió"
 
-#: src/tools/analysis-tools.c:2858
+#: src/tools/analysis-tools.c:3350
 msgid "Standard Error"
 msgstr "Standard hiba"
 
-#: src/tools/analysis-tools.c:2920
+#: src/tools/analysis-tools.c:3412
 #, fuzzy, c-format
 msgid "Moving Average (%s)"
 msgstr "Mozgó átlagok"
 
-#: src/tools/analysis-tools.c:3053
+#: src/tools/analysis-tools.c:3545
 #, fuzzy, c-format
 msgid "Exponential Smoothing (%s)"
 msgstr "Exponenciális"
 
-#: src/tools/analysis-tools.c:3123
+#: src/tools/analysis-tools.c:3615
 msgid "Rank"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3124
+#: src/tools/analysis-tools.c:3616
 #, fuzzy
 msgid "Percentile"
 msgstr "Százalék"
 
-#: src/tools/analysis-tools.c:3184
+#: src/tools/analysis-tools.c:3676
 #, c-format
 msgid "Ranks (%s)"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3196 src/tools/analysis-tools.c:3199
+#: src/tools/analysis-tools.c:3688 src/tools/analysis-tools.c:3691
 msgid "Ranks"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3230
+#: src/tools/analysis-tools.c:3722
 msgid "Anova: Single Factor"
 msgstr "Variancianalízis: egytényezős"
 
-#: src/tools/analysis-tools.c:3231 src/tools/analysis-tools.c:3912
+#: src/tools/analysis-tools.c:3723 src/tools/analysis-tools.c:4404
 #: src/tools/simulation.c:343
 msgid "SUMMARY"
 msgstr "ÖSSZEFOGLALÓ"
 
-#: src/tools/analysis-tools.c:3234
+#: src/tools/analysis-tools.c:3726
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3305
+#: src/tools/analysis-tools.c:3797
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3311 src/tools/analysis-tools.c:3762
-#: src/tools/analysis-tools.c:3936
+#: src/tools/analysis-tools.c:3803 src/tools/analysis-tools.c:4254
+#: src/tools/analysis-tools.c:4428
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3563
+#: src/tools/analysis-tools.c:4055
 #, c-format
 msgid "Single Factor ANOVA (%s)"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3574 src/tools/analysis-tools.c:4243
+#: src/tools/analysis-tools.c:4066 src/tools/analysis-tools.c:4735
 msgid "Anova"
 msgstr "Varianciaanalízis"
 
-#: src/tools/analysis-tools.c:3577
+#: src/tools/analysis-tools.c:4069
 #, fuzzy
 msgid "Single Factor ANOVA"
 msgstr "Variancianalízis: egytényezős"
 
-#: src/tools/analysis-tools.c:3684
+#: src/tools/analysis-tools.c:4176
 #, fuzzy
 msgid "The input range contains non-numeric data."
 msgstr "A megadott bemeneti tartomány nem csak számadatokat tartalmaz."
 
-#: src/tools/analysis-tools.c:3692
+#: src/tools/analysis-tools.c:4184
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Varianciaanalízis: kéttényezős, ismétlések nélkül"
 
-#: src/tools/analysis-tools.c:3693
+#: src/tools/analysis-tools.c:4185
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3756
+#: src/tools/analysis-tools.c:4248
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3902
+#: src/tools/analysis-tools.c:4394
 msgid "One of the factor combinations does not contain any observations!"
 msgstr ""
 
 #. We are ready to create the summary table
-#: src/tools/analysis-tools.c:3911
+#: src/tools/analysis-tools.c:4403
 msgid "Anova: Two-Factor With Replication"
 msgstr "Varianciaanalízis: kéttényezős, ismétlésekkel"
 
-#: src/tools/analysis-tools.c:3918
+#: src/tools/analysis-tools.c:4410
 msgid "/Count/Sum/Average/Variance"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3928
+#: src/tools/analysis-tools.c:4420
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 msgstr ""
 
-#: src/tools/analysis-tools.c:4227
+#: src/tools/analysis-tools.c:4719
 #, c-format
 msgid "Two Factor ANOVA (%s), no replication"
 msgstr ""
 
-#: src/tools/analysis-tools.c:4228
+#: src/tools/analysis-tools.c:4720
 #, fuzzy, c-format
 msgid "Two Factor ANOVA (%s),  with replication"
 msgstr "Varianciaanalízis: kéttényezős, ismétlésekkel"
 
-#: src/tools/analysis-tools.c:4246
+#: src/tools/analysis-tools.c:4738
 msgid "Two Factor ANOVA"
 msgstr "Variancianalízis: kéttényezős"
 
-#: src/tools/analysis-tools.c:4427
+#: src/tools/analysis-tools.c:4919
 #, c-format
 msgid "<%s"
 msgstr "<%s"
 
-#: src/tools/analysis-tools.c:4431
+#: src/tools/analysis-tools.c:4923
 msgid "Too Small"
 msgstr "Túl kicsi"
 
-#: src/tools/analysis-tools.c:4448
+#: src/tools/analysis-tools.c:4940
 #, fuzzy
 msgid "More"
 msgstr "Módusz"
 
-#: src/tools/analysis-tools.c:4457
+#: src/tools/analysis-tools.c:4949
 #, c-format
 msgid ">%s"
 msgstr ">%s"
 
-#: src/tools/analysis-tools.c:4461
+#: src/tools/analysis-tools.c:4953
 msgid "Too Large"
 msgstr "Túl nagy"
 
-#: src/tools/analysis-tools.c:4505
+#: src/tools/analysis-tools.c:4997
 msgid "Bin"
 msgstr "Rekesz"
 
-#: src/tools/analysis-tools.c:4530
+#: src/tools/analysis-tools.c:5022
 msgid "Frequency"
 msgstr "Gyakoriság"
 
-#: src/tools/analysis-tools.c:4535
+#: src/tools/analysis-tools.c:5027
 #, no-c-format
 msgid "Cumulative %"
 msgstr "Halmozott %"
 
-#: src/tools/analysis-tools.c:4614
+#: src/tools/analysis-tools.c:5106
 #, c-format
 msgid "Histogram (%s)"
 msgstr "Hisztogram (%s)"
 
-#: src/tools/analysis-tools.c:4721 src/tools/solver/reports-write.c:644
+#: src/tools/analysis-tools.c:5213 src/tools/solver/reports-write.c:644
 msgid "Real"
 msgstr "Valós"
 
-#: src/tools/analysis-tools.c:4722
+#: src/tools/analysis-tools.c:5214
 msgid "Imaginary"
 msgstr "Képzetes"
 
-#: src/tools/analysis-tools.c:4782
+#: src/tools/analysis-tools.c:5274
 #, c-format
 msgid "Fourier Series (%s)"
 msgstr "Fourier-sor (%s)"
 
-#: src/tools/analysis-tools.c:4794 src/tools/analysis-tools.c:4797
+#: src/tools/analysis-tools.c:5286 src/tools/analysis-tools.c:5289
 msgid "Fourier Series"
 msgstr "Fourier-sor"
 
-#: src/tools/dao.c:149
+#: src/tools/dao.c:148
 msgid "New Sheet"
 msgstr "Új munkalap"
 
-#: src/tools/dao.c:152
+#: src/tools/dao.c:151
 msgid "New Workbook"
 msgstr "Új munkafüzet"
 
-#: src/tools/dao.c:910
+#: src/tools/dao.c:909
 msgid "Gnumeric "
 msgstr "Gnumeric "
 
-#: src/tools/dao.c:916
+#: src/tools/dao.c:915
 msgid "Worksheet:"
 msgstr "Munkalap:"
 
-#: src/tools/dao.c:923
+#: src/tools/dao.c:922
 msgid "Report Created: "
 msgstr ""
 
@@ -25496,7 +25502,7 @@ msgstr "Csúcsosság"
 msgid "Range"
 msgstr "Tartomány"
 
-#: src/tools/simulation.c:264 src/workbook-control-gui.c:1838
+#: src/tools/simulation.c:264 src/workbook-control-gui.c:1829
 msgid "Count"
 msgstr "Darabszám"
 
@@ -26017,140 +26023,140 @@ msgstr "#N/A"
 msgid "#RECALC!"
 msgstr "#ÚJRASZÁMOL!"
 
-#: src/wbc-gtk.c:163
+#: src/wbc-gtk.c:171
 #, fuzzy
 msgid "_Zoom"
 msgstr "Nagyítás"
 
-#: src/wbc-gtk.c:193
+#: src/wbc-gtk.c:201
 msgid "Clear Borders"
 msgstr "Szegélyek törlése"
 
-#: src/wbc-gtk.c:196
+#: src/wbc-gtk.c:204
 msgid "All Borders"
 msgstr "Minden szegély"
 
-#: src/wbc-gtk.c:197
+#: src/wbc-gtk.c:205
 msgid "Outside Borders"
 msgstr "Külső szegélyek"
 
-#: src/wbc-gtk.c:198
+#: src/wbc-gtk.c:206
 msgid "Thick Outside Borders"
 msgstr "Vastag külső szegélyek"
 
-#: src/wbc-gtk.c:201
+#: src/wbc-gtk.c:209
 msgid "Double Bottom"
 msgstr ""
 
-#: src/wbc-gtk.c:202
+#: src/wbc-gtk.c:210
 msgid "Thick Bottom"
 msgstr ""
 
-#: src/wbc-gtk.c:204
+#: src/wbc-gtk.c:212
 msgid "Top and Bottom"
 msgstr ""
 
-#: src/wbc-gtk.c:205
+#: src/wbc-gtk.c:213
 msgid "Top and Double Bottom"
 msgstr ""
 
-#: src/wbc-gtk.c:206
+#: src/wbc-gtk.c:214
 msgid "Top and Thick Bottom"
 msgstr ""
 
-#: src/wbc-gtk.c:291
+#: src/wbc-gtk.c:299
 msgid "Set Borders"
 msgstr "Szegélyek beállítása"
 
-#: src/wbc-gtk.c:299 src/wbc-gtk.c:300
+#: src/wbc-gtk.c:307 src/wbc-gtk.c:308
 msgid "Borders"
 msgstr "Szegélyek"
 
-#: src/wbc-gtk.c:315 src/wbcg-actions.c:2012
+#: src/wbc-gtk.c:323 src/wbcg-actions.c:2038
 #, fuzzy
 msgid "Align left"
 msgstr "Igazítás"
 
-#: src/wbc-gtk.c:316 src/wbcg-actions.c:2015
+#: src/wbc-gtk.c:324 src/wbcg-actions.c:2041
 #, fuzzy
 msgid "Center horizontally"
 msgstr "_Vízszintesen"
 
-#: src/wbc-gtk.c:317 src/wbcg-actions.c:2018
+#: src/wbc-gtk.c:325 src/wbcg-actions.c:2044
 #, fuzzy
 msgid "Align right"
 msgstr "_Jobbra"
 
-#: src/wbc-gtk.c:318
+#: src/wbc-gtk.c:326
 #, fuzzy
 msgid "Fill Horizontally"
 msgstr "_Vízszintesen"
 
-#: src/wbc-gtk.c:319
+#: src/wbc-gtk.c:327
 #, fuzzy
 msgid "Justify Horizontally"
 msgstr "_Vízszintesen"
 
-#: src/wbc-gtk.c:320 src/wbcg-actions.c:2021
+#: src/wbc-gtk.c:328 src/wbcg-actions.c:2047
 #, fuzzy
 msgid "Center horizontally across the selection"
 msgstr "Kijelölés közepére rendez"
 
-#: src/wbc-gtk.c:322
+#: src/wbc-gtk.c:330
 msgid "Align numbers right, and text left"
 msgstr ""
 
-#: src/wbc-gtk.c:327 src/wbcg-actions.c:2033
+#: src/wbc-gtk.c:335 src/wbcg-actions.c:2059
 msgid "Align Top"
 msgstr ""
 
-#: src/wbc-gtk.c:328
+#: src/wbc-gtk.c:336
 #, fuzzy
 msgid "Center Vertically"
 msgstr "Függőlegese_n"
 
-#: src/wbc-gtk.c:329 src/wbcg-actions.c:2039
+#: src/wbc-gtk.c:337 src/wbcg-actions.c:2065
 #, fuzzy
 msgid "Align Bottom"
 msgstr "Lent"
 
-#: src/wbc-gtk.c:351 src/wbc-gtk.c:352 src/wbc-gtk.c:355 src/wbc-gtk.c:370
+#: src/wbc-gtk.c:359 src/wbc-gtk.c:360 src/wbc-gtk.c:363 src/wbc-gtk.c:378
 #, fuzzy
 msgid "Horzontal Alignment"
 msgstr "Függőleges igazítás beállítása"
 
-#: src/wbc-gtk.c:366 src/wbc-gtk.c:367
+#: src/wbc-gtk.c:374 src/wbc-gtk.c:375
 #, fuzzy
 msgid "Vertical Alignment"
 msgstr "Függőleges igazítás beállítása"
 
-#: src/wbc-gtk.c:456
+#: src/wbc-gtk.c:471
 msgid "Undo the last action"
 msgstr "Az utolsó művelet visszavonása"
 
-#: src/wbc-gtk.c:464
+#: src/wbc-gtk.c:480
 msgid "Redo"
 msgstr "Újra"
 
-#: src/wbc-gtk.c:465
+#: src/wbc-gtk.c:481
 msgid "Redo the undone action"
 msgstr "A visszavont művelet ismételt végrehajtása"
 
-#: src/wbc-gtk.c:507
+#: src/wbc-gtk.c:523
 msgid "Set Foreground Color"
 msgstr "Előtérszín beállítása"
 
 #. Set background to NONE
-#: src/wbc-gtk.c:561
+#: src/wbc-gtk.c:577
 msgid "Set Background Color"
 msgstr "Háttérszín beállítása"
 
-#: src/wbc-gtk.c:598
+#: src/wbc-gtk.c:614
 #, fuzzy, c-format
 msgid "Font Name %s"
 msgstr "Név definiálása"
 
-#: src/wbc-gtk.c:647
+#: src/wbc-gtk.c:663
 #, fuzzy, c-format
 msgid "Font Size %f"
 msgstr "Betűméret"
@@ -26159,12 +26165,12 @@ msgstr "Betűméret"
 # src/misc.c:528
 # #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
 # src/misc.c:528
-#: src/wbc-gtk.c:714
+#: src/wbc-gtk.c:730
 #, fuzzy, c-format
 msgid "Open %s"
 msgstr "Megnyitás"
 
-#: src/wbc-gtk.c:779
+#: src/wbc-gtk.c:795
 msgid "Nothing"
 msgstr "Semmi"
 
@@ -26174,12 +26180,12 @@ msgstr "Semmi"
 #. * One slightly tricky point here is that in certain cases,
 #. * the same menu entry shows up in more than one menu.
 #.
-#: src/wbc-gtk.c:967
+#: src/wbc-gtk.c:985
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr ""
 
-#: src/wbc-gtk.c:1113
+#: src/wbc-gtk.c:1102
 #, fuzzy, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "Eszköztárak beállításai"
@@ -26205,138 +26211,138 @@ msgstr ""
 #. * selected region, (use selection_apply).  Arrays and Merged regions
 #. * are permitted.
 #.
-#: src/wbcg-actions.c:600
+#: src/wbcg-actions.c:608
 msgid "Insert rows"
 msgstr "Sorok"
 
-#: src/wbcg-actions.c:617
+#: src/wbcg-actions.c:625
 msgid "Insert columns"
 msgstr "Oszlopok beszúrása"
 
-#: src/wbcg-actions.c:687
+#: src/wbcg-actions.c:702
 #, fuzzy
 msgid "Add Filter"
 msgstr "Haladó szűrő"
 
-#: src/wbcg-actions.c:699
+#: src/wbcg-actions.c:714
 #, fuzzy
 msgid "AutoFilter"
 msgstr "Haladó szűrő"
 
-#: src/wbcg-actions.c:699
+#: src/wbcg-actions.c:714
 msgid "Requires more than 1 row"
 msgstr ""
 
-#: src/wbcg-actions.c:726 src/wbcg-actions.c:745
+#: src/wbcg-actions.c:741 src/wbcg-actions.c:760
 #, fuzzy
 msgid "Show Detail"
 msgstr "Részletek _mutatása"
 
-#: src/wbcg-actions.c:726 src/wbcg-actions.c:745
+#: src/wbcg-actions.c:741 src/wbcg-actions.c:760
 #, fuzzy
 msgid "Hide Detail"
 msgstr "_Részletek elrejtése"
 
-#: src/wbcg-actions.c:733
+#: src/wbcg-actions.c:748
 msgid "can only be performed on an existing group"
 msgstr ""
 
-#: src/wbcg-actions.c:773
+#: src/wbcg-actions.c:788
 msgid "Group"
 msgstr "Csoportosítás"
 
-#: src/wbcg-actions.c:773
+#: src/wbcg-actions.c:788
 msgid "Ungroup"
 msgstr "Szétválasztás"
 
-#: src/wbcg-actions.c:911
+#: src/wbcg-actions.c:940
 msgid "Sort"
 msgstr "Rendezés"
 
-#: src/wbcg-actions.c:1030
+#: src/wbcg-actions.c:1059
 msgid "Set Horizontal Alignment"
 msgstr "Függőleges igazítás beállítása"
 
-#: src/wbcg-actions.c:1064
+#: src/wbcg-actions.c:1093
 #, fuzzy
 msgid "Set Vertical Alignment"
 msgstr "Függőleges igazítás beállítása"
 
-#: src/wbcg-actions.c:1154
+#: src/wbcg-actions.c:1182
 msgid "Set Font Style"
 msgstr "Betűstílus beállítása"
 
-#: src/wbcg-actions.c:1180
+#: src/wbcg-actions.c:1208
 #, fuzzy
 msgid "Format as Number"
 msgstr "Formázás pénzként"
 
-#: src/wbcg-actions.c:1185
+#: src/wbcg-actions.c:1213
 #, fuzzy
 msgid "Format as Currency"
 msgstr "Formázás pénzként"
 
-#: src/wbcg-actions.c:1190
+#: src/wbcg-actions.c:1218
 #, fuzzy
 msgid "Format as Accounting"
 msgstr "Formázás százalékként"
 
-#: src/wbcg-actions.c:1196
+#: src/wbcg-actions.c:1224
 msgid "Format as Percentage"
 msgstr "Formázás százalékként"
 
-#: src/wbcg-actions.c:1201
+#: src/wbcg-actions.c:1229
 #, fuzzy
 msgid "Format as Scientific"
 msgstr "Formázás százalékként"
 
-#: src/wbcg-actions.c:1206
+#: src/wbcg-actions.c:1234
 #, fuzzy
 msgid "Format as Date"
 msgstr "Formázás pénzként"
 
-#: src/wbcg-actions.c:1211
+#: src/wbcg-actions.c:1239
 #, fuzzy
 msgid "Format as Time"
 msgstr "Formázás pénzként"
 
-#: src/wbcg-actions.c:1235
+#: src/wbcg-actions.c:1263
 #, fuzzy
 msgid "Add Borders"
 msgstr "Minden szegély"
 
-#: src/wbcg-actions.c:1235
+#: src/wbcg-actions.c:1263
 #, fuzzy
 msgid "Remove borders"
 msgstr "Tizedesjegyek elvétele"
 
-#: src/wbcg-actions.c:1264
+#: src/wbcg-actions.c:1292
 msgid "Increase precision"
 msgstr "Pontosság növelése"
 
-#: src/wbcg-actions.c:1266
+#: src/wbcg-actions.c:1294
 msgid "Decrease precision"
 msgstr "Pontosság csökkentése"
 
-#: src/wbcg-actions.c:1268
+#: src/wbcg-actions.c:1296
 #, fuzzy
 msgid "Toggle thousands separator"
 msgstr "Ezreselválasztó"
 
-#: src/wbcg-actions.c:1288
+#: src/wbcg-actions.c:1316
 msgid "Increase Indent"
 msgstr "Behúzás növelése"
 
-#: src/wbcg-actions.c:1308
+#: src/wbcg-actions.c:1336
 msgid "Decrease Indent"
 msgstr "Behúzás csökkentése"
 
-#: src/wbcg-actions.c:1315
+#: src/wbcg-actions.c:1343
 #, fuzzy
 msgid "Copy down"
 msgstr "Másolás"
 
-#: src/wbcg-actions.c:1321
+#: src/wbcg-actions.c:1349
 #, fuzzy
 msgid "Copy right"
 msgstr "Balra zárás"
@@ -26352,25 +26358,30 @@ msgstr "Balra zárás"
 # src/nautilus-shell-ui.xml.h:77
 #. Actions that are always sensitive
 #. const 142334
-#: src/wbcg-actions.c:1378
+#: src/wbcg-actions.c:1406
 msgid "_File"
 msgstr "_Fájl"
 
-#: src/wbcg-actions.c:1379
+#: src/wbcg-actions.c:1407
 msgid "_Edit"
 msgstr "S_zerkesztés"
 
-#: src/wbcg-actions.c:1380
+#: src/wbcg-actions.c:1408
 msgid "C_lear"
 msgstr "Tartalom tö_rlése"
 
-#: src/wbcg-actions.c:1382
+#: src/wbcg-actions.c:1410
 msgid "S_heet"
 msgstr "M_unkalap"
 
-#: src/wbcg-actions.c:1383
+#: src/wbcg-actions.c:1411
 msgid "_Select"
 msgstr "_Kijelölés"
+
+#: src/wbcg-actions.c:1412
+#, fuzzy
+msgid "F_ill"
+msgstr "_Kitöltés"
 
 # #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
 # src/trans.h:377
@@ -26378,1026 +26389,1028 @@ msgstr "_Kijelölés"
 # src/trans.h:377
 # #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
 # src/nautilus-shell-ui.xml.h:97
-#: src/wbcg-actions.c:1385
+#: src/wbcg-actions.c:1413
 msgid "_View"
 msgstr "_Nézet"
 
-#: src/wbcg-actions.c:1386
+#: src/wbcg-actions.c:1414
 #, fuzzy
 msgid "_Windows"
 msgstr "Ablakok"
 
-#: src/wbcg-actions.c:1387
+#: src/wbcg-actions.c:1415
 #, fuzzy
 msgid "_Toolbars"
 msgstr "_Eszköztárak..."
 
-#: src/wbcg-actions.c:1389
+#: src/wbcg-actions.c:1417
 #, fuzzy
 msgid "_Names"
 msgstr "_Név"
 
-#: src/wbcg-actions.c:1390
+#: src/wbcg-actions.c:1418
 msgid "S_pecial"
 msgstr "_Speciális"
 
-#: src/wbcg-actions.c:1391
+#: src/wbcg-actions.c:1419
 msgid "F_ormat"
 msgstr "Formá_tum"
 
-#: src/wbcg-actions.c:1392
+#: src/wbcg-actions.c:1420
 msgid "C_olumn"
 msgstr "_Oszlop"
 
 #. ICK A DUPLICATE : we have no way to override a label on one proxy
-#: src/wbcg-actions.c:1394 src/wbcg-actions.c:1545
+#: src/wbcg-actions.c:1422 src/wbcg-actions.c:1578
 msgid "_Sheet"
 msgstr "M_unkalap"
 
-#: src/wbcg-actions.c:1395
+#: src/wbcg-actions.c:1423
 msgid "_Tools"
 msgstr "_Eszközök"
 
-#: src/wbcg-actions.c:1396
+#: src/wbcg-actions.c:1424
 msgid "Sce_narios"
 msgstr "E_setek"
 
-#: src/wbcg-actions.c:1397
+#: src/wbcg-actions.c:1425
 msgid "Statistical Anal_ysis"
 msgstr "_Adatelemzés"
 
-#: src/wbcg-actions.c:1398
+#: src/wbcg-actions.c:1426
 msgid "_ANOVA"
 msgstr "_Varianciaanalízis"
 
-#: src/wbcg-actions.c:1399
+#: src/wbcg-actions.c:1427
 #, fuzzy
 msgid "F_orecast"
 msgstr "_Előrejelzés"
 
-#: src/wbcg-actions.c:1400
+#: src/wbcg-actions.c:1428
 #, fuzzy
 msgid "Two _Means"
 msgstr "_Átlag:"
 
-#: src/wbcg-actions.c:1402
+#: src/wbcg-actions.c:1430
 msgid "_Filter"
 msgstr "_Szűrő"
 
-#: src/wbcg-actions.c:1403
+#: src/wbcg-actions.c:1431
 #, fuzzy
 msgid "_Group and Outline"
 msgstr "_Cellarácsokkal"
 
-#: src/wbcg-actions.c:1404
+#: src/wbcg-actions.c:1432
 #, fuzzy
 msgid "Get _External Data"
 msgstr "Belső HIBA"
 
 # #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
 # src/nautilus-shell-ui.xml.h:81
-#: src/wbcg-actions.c:1405
+#: src/wbcg-actions.c:1433
 msgid "_Help"
 msgstr "_Súgó"
 
-#: src/wbcg-actions.c:1408
+#: src/wbcg-actions.c:1436
 msgid "Cut the selection"
 msgstr "A kijelölés kivágása"
 
-#: src/wbcg-actions.c:1411
+#: src/wbcg-actions.c:1439
 msgid "Copy the selection"
 msgstr "A kijelölés másolása"
 
-#: src/wbcg-actions.c:1414
+#: src/wbcg-actions.c:1442
 msgid "Paste the clipboard"
 msgstr "A vágólap tartalmának beillesztése"
 
 # #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
 # src/file-manager/fm-properties-window.c:1085
-#: src/wbcg-actions.c:1417 src/wbcg-actions.c:1484
+#: src/wbcg-actions.c:1445 src/wbcg-actions.c:1517
 msgid "_Contents"
 msgstr "_Tartalom"
 
-#: src/wbcg-actions.c:1418
+#: src/wbcg-actions.c:1446
 msgid "Open a viewer for Gnumeric's documentation"
 msgstr ""
 
-#: src/wbcg-actions.c:1420
+#: src/wbcg-actions.c:1448
 #, fuzzy
 msgid "Gnumeric on the _Web"
 msgstr "A Gnumeric honlapja"
 
-#: src/wbcg-actions.c:1421
+#: src/wbcg-actions.c:1449
 msgid "Browse to Gnumeric's website"
 msgstr ""
 
-#: src/wbcg-actions.c:1423
+#: src/wbcg-actions.c:1451
 msgid "_Live Assistance"
 msgstr ""
 
-#: src/wbcg-actions.c:1424
+#: src/wbcg-actions.c:1452
 msgid "See if anyone is available to answer questions"
 msgstr ""
 
-#: src/wbcg-actions.c:1426
+#: src/wbcg-actions.c:1454
 msgid "Report a _Problem"
 msgstr ""
 
-#: src/wbcg-actions.c:1427
+#: src/wbcg-actions.c:1455
 msgid "Report problem "
 msgstr ""
 
 # #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
 # components/services/install/nautilus-view/nautilus-service-install-view.c:1834
-#: src/wbcg-actions.c:1429
+#: src/wbcg-actions.c:1457
 msgid "_About"
 msgstr "_Névjegy"
 
 # #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
 # src/trans.h:22
-#: src/wbcg-actions.c:1430
+#: src/wbcg-actions.c:1458
 msgid "About this application"
 msgstr "Az alkalmazás névjegye"
 
-#: src/wbcg-actions.c:1438
+#. Special.  The sensitivity is chained to redo we do not want to
+#. * toggle it directly so we put it in here
+#: src/wbcg-actions.c:1463
+#, fuzzy
+msgid "Repeat"
+msgstr "Beszámolók:"
+
+#: src/wbcg-actions.c:1464
+#, fuzzy
+msgid "Repeat the previous action"
+msgstr "Művelet ismétlése"
+
+#: src/wbcg-actions.c:1471
 msgid "Create a new workbook"
 msgstr "Új munkafüzet létrehozása"
 
-#: src/wbcg-actions.c:1441
+#: src/wbcg-actions.c:1474
 msgid "Open a file"
 msgstr "Fájl megnyitása"
 
-#: src/wbcg-actions.c:1444
+#: src/wbcg-actions.c:1477
 msgid "Save the current workbook"
 msgstr "Jelenlegi munkafüzet mentése"
 
-#: src/wbcg-actions.c:1447
+#: src/wbcg-actions.c:1480
 msgid "Save the current workbook with a different name"
 msgstr "A jelenlegi munkafüzet mentése más néven"
 
-#: src/wbcg-actions.c:1449
+#: src/wbcg-actions.c:1482
 #, fuzzy
 msgid "Sen_d To..."
 msgstr "Ugrás..."
 
-#: src/wbcg-actions.c:1450
+#: src/wbcg-actions.c:1483
 msgid "Send the current file via email"
 msgstr "A jelenlegi fájl küldése levélben"
 
-#: src/wbcg-actions.c:1452
+#: src/wbcg-actions.c:1485
 msgid "Page Set_up..."
 msgstr "_Oldalbeállítás..."
 
-#: src/wbcg-actions.c:1453
+#: src/wbcg-actions.c:1486
 msgid "Setup the page settings for your current printer"
 msgstr "Oldalbeállítások a jelenlegi nyomtatóhoz"
 
-#: src/wbcg-actions.c:1459
+#: src/wbcg-actions.c:1492
 msgid "Print the current file"
 msgstr "A jelenlegi fájl nyomtatása"
 
-#: src/wbcg-actions.c:1461
+#: src/wbcg-actions.c:1494
 #, fuzzy
 msgid "Proper_ties..."
 msgstr "_Adatlap..."
 
-#: src/wbcg-actions.c:1462
+#: src/wbcg-actions.c:1495
 msgid "Edit descriptive information"
 msgstr "A dokumentumot leíró adatok szerkesztése"
 
-#: src/wbcg-actions.c:1464
+#: src/wbcg-actions.c:1497
 #, fuzzy
 msgid "Pre_ferences..."
 msgstr "_Beállítások..."
 
-#: src/wbcg-actions.c:1465
+#: src/wbcg-actions.c:1498
 msgid "Change Gnumeric Preferences"
 msgstr ""
 
-#: src/wbcg-actions.c:1468
+#: src/wbcg-actions.c:1501
 msgid "Close the current file"
 msgstr "A jelenlegi fájl bezárása"
 
-#: src/wbcg-actions.c:1471
+#: src/wbcg-actions.c:1504
 msgid "Quit the application"
 msgstr "Kilépés az alkalmazásból"
 
 #. Edit -> Clear
-#: src/wbcg-actions.c:1475
+#: src/wbcg-actions.c:1508
 msgid "_All"
 msgstr "_Mindent"
 
-#: src/wbcg-actions.c:1476
+#: src/wbcg-actions.c:1509
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Törli a kiválasztott cellák formátumát, tartalmát és megjegyzéseit"
 
-#: src/wbcg-actions.c:1478
+#: src/wbcg-actions.c:1511
 msgid "_Formats"
 msgstr "_Formátumot"
 
-#: src/wbcg-actions.c:1479
+#: src/wbcg-actions.c:1512
 msgid "Clear the selected cells' formats"
 msgstr "Törli a kiválasztott cellák formátumát"
 
-#: src/wbcg-actions.c:1481
+#: src/wbcg-actions.c:1514
 msgid "Co_mments"
 msgstr "Meg_jegyzések"
 
-#: src/wbcg-actions.c:1482
+#: src/wbcg-actions.c:1515
 msgid "Clear the selected cells' comments"
 msgstr "Törli a kiválasztott cellák megjegyzéseit"
 
-#: src/wbcg-actions.c:1485
+#: src/wbcg-actions.c:1518
 msgid "Clear the selected cells' contents"
 msgstr "Törli a kiválasztott cellák tartalmát"
 
-#: src/wbcg-actions.c:1490
+#: src/wbcg-actions.c:1523
 #, fuzzy
 msgid "Delete the row(s) containing the selected cells"
 msgstr "Beszúrja a jelenlegi időt a kiválasztott cellába"
 
-#: src/wbcg-actions.c:1493
+#: src/wbcg-actions.c:1526
 #, fuzzy
 msgid "Delete the column(s) containing the selected cells"
 msgstr "Beszúrja a jelenlegi időt a kiválasztott cellába"
 
 #. Insert
-#: src/wbcg-actions.c:1495 src/wbcg-actions.c:1609
+#: src/wbcg-actions.c:1528 src/wbcg-actions.c:1635
 msgid "C_ells..."
 msgstr "_Cellák..."
 
-#: src/wbcg-actions.c:1496
+#: src/wbcg-actions.c:1529
 #, fuzzy
 msgid "Delete the selected cells, shifting others into their place"
 msgstr "A kijelölt cellák eltávolítása és a helyükre más cellák becsúsztatása"
 
-#: src/wbcg-actions.c:1502
+#: src/wbcg-actions.c:1535
 msgid "Select all cells in the spreadsheet"
 msgstr "Minden cellát kijelöl a jelenlegi munkalapon"
 
-#: src/wbcg-actions.c:1504
+#: src/wbcg-actions.c:1537
 msgid "Select _Column"
 msgstr "_Oszlop kijelölése"
 
-#: src/wbcg-actions.c:1505
+#: src/wbcg-actions.c:1538
 msgid "Select an entire column"
 msgstr "Egy teljes oszlop kijelölése"
 
-#: src/wbcg-actions.c:1507
+#: src/wbcg-actions.c:1540
 msgid "Select _Row"
 msgstr "_Sor kijelölése"
 
-#: src/wbcg-actions.c:1508
+#: src/wbcg-actions.c:1541
 msgid "Select an entire row"
 msgstr "Egy teljes sor kijelölése"
 
-#: src/wbcg-actions.c:1510
+#: src/wbcg-actions.c:1543
 msgid "Select Arra_y"
 msgstr "_Tömb kijelölése"
 
-#: src/wbcg-actions.c:1511
+#: src/wbcg-actions.c:1544
 msgid "Select an array of cells"
 msgstr "Cellák egy összefüggő csoportjának kijelölése"
 
-#: src/wbcg-actions.c:1513
+#: src/wbcg-actions.c:1546
 msgid "Select _Depends"
 msgstr "_Függő cellák kijelölése"
 
-#: src/wbcg-actions.c:1514
+#: src/wbcg-actions.c:1547
 msgid "Select all the cells that depend on the current edit cell"
 msgstr ""
 "KIjelöli az összes cellát, amelyek az éppen szerkesztett cellától függenek."
 
-#: src/wbcg-actions.c:1516
+#: src/wbcg-actions.c:1549
 #, fuzzy
 msgid "Select _Inputs"
 msgstr "_Függő cellák kijelölése"
 
-#: src/wbcg-actions.c:1517
+#: src/wbcg-actions.c:1550
 #, fuzzy
 msgid "Select all the cells are used by the current edit cell"
 msgstr ""
 "KIjelöli az összes cellát, amelyek az éppen szerkesztett cellától függenek."
 
 #. Edit -> Fill
-#: src/wbcg-actions.c:1521
+#: src/wbcg-actions.c:1554
 msgid "Auto_fill"
 msgstr "Automatikus _kitöltés"
 
-#: src/wbcg-actions.c:1522
+#: src/wbcg-actions.c:1555
 #, fuzzy
 msgid "Automatically fill the current selection"
 msgstr "Automatikusan egyszerű helyesírás-ellenőrzést végez"
 
-#: src/wbcg-actions.c:1524
+#: src/wbcg-actions.c:1557
 msgid "_Merge..."
 msgstr "_Összefésülés..."
 
-#: src/wbcg-actions.c:1525
+#: src/wbcg-actions.c:1558
 msgid ""
 "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr ""
 
-#: src/wbcg-actions.c:1527
+#: src/wbcg-actions.c:1560
 msgid "_Tabulate Dependency..."
 msgstr ""
 
-#: src/wbcg-actions.c:1528
+#: src/wbcg-actions.c:1561
 msgid "Make a table of a cell's value as a function of other cells"
 msgstr ""
 
-#: src/wbcg-actions.c:1530
+#: src/wbcg-actions.c:1563
 msgid "_Series..."
 msgstr "_Sorozat..."
 
-#: src/wbcg-actions.c:1531
+#: src/wbcg-actions.c:1564
 msgid "Fill according to a linear or exponential series"
 msgstr ""
 
-#: src/wbcg-actions.c:1533
+#: src/wbcg-actions.c:1566
 msgid "_Random Generator..."
 msgstr "_Véletlenszám-generálás..."
 
-#: src/wbcg-actions.c:1534
+#: src/wbcg-actions.c:1567
 msgid "Generate random numbers of a selection of distributions"
 msgstr ""
 
 #. Edit -> Sheet
-#: src/wbcg-actions.c:1538
+#: src/wbcg-actions.c:1571
 msgid "_Manage Sheets..."
 msgstr "_Munkalapok kezelése..."
 
-#: src/wbcg-actions.c:1539
+#: src/wbcg-actions.c:1572
 msgid "Manage the sheets in this workbook"
 msgstr "A munkafüzet lapjainak kezelése"
 
-#: src/wbcg-actions.c:1542 src/wbcg-actions.c:1546
+#: src/wbcg-actions.c:1575 src/wbcg-actions.c:1579
 msgid "Insert a new sheet"
 msgstr "Új munkalap beszúrása"
 
-#: src/wbcg-actions.c:1548
+#: src/wbcg-actions.c:1581
 msgid "_Append"
 msgstr "_Hozzáfűzés"
 
-#: src/wbcg-actions.c:1549
+#: src/wbcg-actions.c:1582
 #, fuzzy
 msgid "Append a new sheet"
 msgstr "Új munkalap beszúrása"
 
-#: src/wbcg-actions.c:1552
+#: src/wbcg-actions.c:1585
 msgid "Make a copy of the current sheet"
 msgstr "A jelenlegi lapról másolat készítése"
 
-#: src/wbcg-actions.c:1555
+#: src/wbcg-actions.c:1588
 msgid "Irrevocably remove an entire sheet"
 msgstr "Visszavonhatatlanul törli az egész lapot"
 
-#: src/wbcg-actions.c:1557
+#: src/wbcg-actions.c:1590
 msgid "Re_name"
 msgstr "Át_nevezés"
 
-#: src/wbcg-actions.c:1558
+#: src/wbcg-actions.c:1591
 msgid "Rename the current sheet"
 msgstr "A jelenlegi lap átnevezése"
 
 #. Edit
-#: src/wbcg-actions.c:1562
+#: src/wbcg-actions.c:1595
 msgid "P_aste special..."
 msgstr "Irá_nyított beillesztés..."
 
-#: src/wbcg-actions.c:1563
+#: src/wbcg-actions.c:1596
 msgid "Paste with optional filters and transformations"
 msgstr "Beillesztés választható szűrőkön illetve transzformációkon keresztül"
 
-#: src/wbcg-actions.c:1566
+#: src/wbcg-actions.c:1599
 #, fuzzy
 msgid "Co_mment..."
 msgstr "Meg_jegyzések"
 
-#: src/wbcg-actions.c:1567
+#: src/wbcg-actions.c:1600
 msgid "Edit the selected cell's comment"
 msgstr "A kiválasztott cella megjegyzését szerkeszti"
 
-#: src/wbcg-actions.c:1570
-msgid "Search..."
-msgstr "Keresés..."
+#: src/wbcg-actions.c:1603
+#, fuzzy
+msgid "_Find..."
+msgstr "_Szélesség..."
 
-#: src/wbcg-actions.c:1571
-msgid "Search for some text"
+#: src/wbcg-actions.c:1604
+#, fuzzy
+msgid "Search for something"
 msgstr "Keresés adott szövegre"
 
-#: src/wbcg-actions.c:1573
-msgid "Search and Replace..."
-msgstr "Keresés és csere..."
+#: src/wbcg-actions.c:1606
+#, fuzzy
+msgid "R_eplace..."
+msgstr "_Módosítandó:"
 
-#: src/wbcg-actions.c:1574
-msgid "Search for some text and replace it with something else"
+#: src/wbcg-actions.c:1607
+#, fuzzy
+msgid "Search for some something and replace it with something else"
 msgstr "Megkeres egy adott szöveget és lecseréli valami másra."
 
-#: src/wbcg-actions.c:1576
+#: src/wbcg-actions.c:1609
 msgid "_Goto cell..."
 msgstr "_Ugrás..."
 
-#: src/wbcg-actions.c:1577
+#: src/wbcg-actions.c:1610
 msgid "Jump to a specified cell"
 msgstr "Megadott cellára ugrás"
 
-#: src/wbcg-actions.c:1580
+#: src/wbcg-actions.c:1613
 msgid "Recalculate"
 msgstr "Újraszámolás"
 
-#: src/wbcg-actions.c:1581
+#: src/wbcg-actions.c:1614
 msgid "Recalculate the spreadsheet"
 msgstr "Újraszámolja a munkalapot"
 
-#: src/wbcg-actions.c:1584
-#, fuzzy
-msgid "Repeat"
-msgstr "Beszámolók:"
-
-#: src/wbcg-actions.c:1585
-#, fuzzy
-msgid "Repeat the previous action"
-msgstr "Művelet ismétlése"
-
 #. View
-#: src/wbcg-actions.c:1589
+#: src/wbcg-actions.c:1618
 msgid "_New View..."
 msgstr "Új _nézet..."
 
-#: src/wbcg-actions.c:1590
+#: src/wbcg-actions.c:1619
 #, fuzzy
 msgid "Create a new view of the workbook"
 msgstr "A munkafüzetről egy új megosztott nézezet hoz létre."
 
-#: src/wbcg-actions.c:1592 src/workbook-control-gui.c:1023
+#: src/wbcg-actions.c:1621 src/workbook-control-gui.c:1023
 msgid "_Freeze Panes"
 msgstr "_Ablaktábla fagyasztása"
 
-#: src/wbcg-actions.c:1593 src/workbook-control-gui.c:1026
+#: src/wbcg-actions.c:1622 src/workbook-control-gui.c:1026
 msgid "Freeze the top left of the sheet"
 msgstr "A munkalap bal felső részének befagyasztása"
 
-#: src/wbcg-actions.c:1595
-#, fuzzy
-msgid "F_ull Screen..."
-msgstr "_Célérték-keresés"
-
-#: src/wbcg-actions.c:1596 src/wbcg-actions.c:1599
-msgid "Zoom the spreadsheet in or out"
-msgstr "Nagyítja vagy kicsinyíti a munkalapot"
-
-#: src/wbcg-actions.c:1598
+#: src/wbcg-actions.c:1624
 msgid "_Zoom..."
 msgstr "_Nagyítás..."
 
-#: src/wbcg-actions.c:1601
+#: src/wbcg-actions.c:1625
+msgid "Zoom the spreadsheet in or out"
+msgstr "Nagyítja vagy kicsinyíti a munkalapot"
+
+#: src/wbcg-actions.c:1627
 #, fuzzy
 msgid "Zoom _In"
 msgstr "Nagyítás"
 
-#: src/wbcg-actions.c:1602
+#: src/wbcg-actions.c:1628
 #, fuzzy
 msgid "Increase the zoom to make things larger"
 msgstr "Növeli a megjelenítendő tizedesjegyek számát"
 
-#: src/wbcg-actions.c:1604
+#: src/wbcg-actions.c:1630
 #, fuzzy
 msgid "Zoom _Out"
 msgstr "Nagyítás"
 
-#: src/wbcg-actions.c:1605
+#: src/wbcg-actions.c:1631
 msgid "Decrease the zoom to make things smaller"
 msgstr ""
 
-#: src/wbcg-actions.c:1610
+#: src/wbcg-actions.c:1636
 msgid "Insert new cells"
 msgstr "Új cellák beszúrása"
 
-#: src/wbcg-actions.c:1613
+#: src/wbcg-actions.c:1639
 msgid "Insert new columns"
 msgstr "Új oszlopok beszúrása"
 
-#: src/wbcg-actions.c:1616
+#: src/wbcg-actions.c:1642
 msgid "Insert new rows"
 msgstr "Új sorok beszúrása"
 
-#: src/wbcg-actions.c:1619
+#: src/wbcg-actions.c:1645
 #, fuzzy
 msgid "C_hart..."
 msgstr "Sorbaren_dezés..."
 
-#: src/wbcg-actions.c:1620
+#: src/wbcg-actions.c:1646
 #, fuzzy
 msgid "Insert a Chart"
 msgstr "Kép beszúrása"
 
-#: src/wbcg-actions.c:1622
+#: src/wbcg-actions.c:1648
 msgid "_Image..."
 msgstr "_Kép..."
 
-#: src/wbcg-actions.c:1623
+#: src/wbcg-actions.c:1649
 msgid "Insert an image"
 msgstr "Kép beszúrása"
 
-#: src/wbcg-actions.c:1626
+#: src/wbcg-actions.c:1652
 #, fuzzy
 msgid "Hyper_link..."
 msgstr "Kifejezések"
 
-#: src/wbcg-actions.c:1627
+#: src/wbcg-actions.c:1653
 #, fuzzy
 msgid "Insert a Hyperlink"
 msgstr "Kifejezések"
 
 #. Insert -> Special
-#: src/wbcg-actions.c:1630
+#: src/wbcg-actions.c:1656
 msgid "Current _date"
 msgstr "Jelenlegi _dátum"
 
-#: src/wbcg-actions.c:1631
+#: src/wbcg-actions.c:1657
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Beszúrja a jelenlegi dátumot a kiválasztott cellába"
 
-#: src/wbcg-actions.c:1634
+#: src/wbcg-actions.c:1660
 msgid "Current _time"
 msgstr "Jelenlegi _idő"
 
-#: src/wbcg-actions.c:1635
+#: src/wbcg-actions.c:1661
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Beszúrja a jelenlegi időt a kiválasztott cellába"
 
 #. Insert -> Name
-#: src/wbcg-actions.c:1639
+#: src/wbcg-actions.c:1665
 msgid "_Define..."
 msgstr "_Definiálás..."
 
-#: src/wbcg-actions.c:1640
+#: src/wbcg-actions.c:1666
 msgid "Edit sheet and workbook names"
 msgstr "Munkalap- és munkafüzetnevek szerkesztése"
 
-#: src/wbcg-actions.c:1643
+#: src/wbcg-actions.c:1669
 msgid "_Auto generate names..."
 msgstr "_Automatikus névgenenerálás..."
 
-#: src/wbcg-actions.c:1644
+#: src/wbcg-actions.c:1670
 msgid "Use the current selection to create names"
 msgstr ""
 
 #. Format
-#: src/wbcg-actions.c:1649
+#: src/wbcg-actions.c:1675
 msgid "_Cells..."
 msgstr "_Cellák..."
 
-#: src/wbcg-actions.c:1650
+#: src/wbcg-actions.c:1676
 msgid "Modify the formatting of the selected cells"
 msgstr "Megváltoztatja a kiválasztott cellák formátumát"
 
-#: src/wbcg-actions.c:1652
+#: src/wbcg-actions.c:1678
 msgid "_Workbook..."
 msgstr "_Munkafüzet..."
 
-#: src/wbcg-actions.c:1653
+#: src/wbcg-actions.c:1679
 msgid "Modify the workbook attributes"
 msgstr "Munkafüzet tulajdonságainak megváltoztatása"
 
-#: src/wbcg-actions.c:1655
+#: src/wbcg-actions.c:1681
 msgid "_Gnumeric..."
 msgstr "_Gnumeric..."
 
-#: src/wbcg-actions.c:1656
+#: src/wbcg-actions.c:1682
 msgid "Edit the Gnumeric Preferences"
 msgstr "A Gnumeric beállításainak szerkesztése"
 
-#: src/wbcg-actions.c:1658
+#: src/wbcg-actions.c:1684
 msgid "_Autoformat..."
 msgstr "_Automatikus formázás..."
 
-#: src/wbcg-actions.c:1659
+#: src/wbcg-actions.c:1685
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Megadott cellatartomány formázása egy előre definiált sablon alapján"
 
 #. Format -> Col
-#: src/wbcg-actions.c:1663
+#: src/wbcg-actions.c:1689
 msgid "_Width..."
 msgstr "_Szélesség..."
 
-#: src/wbcg-actions.c:1664
+#: src/wbcg-actions.c:1690
 msgid "Change width of the selected columns"
 msgstr "A kijelölt oszlopok szélességének változtatása"
 
-#: src/wbcg-actions.c:1666 src/wbcg-actions.c:1683
+#: src/wbcg-actions.c:1692 src/wbcg-actions.c:1709
 msgid "_Auto fit selection"
 msgstr "_Legszélesebb kijelölt"
 
-#: src/wbcg-actions.c:1667
+#: src/wbcg-actions.c:1693
 msgid "Ensure columns are just wide enough to display content"
 msgstr ""
 
-#: src/wbcg-actions.c:1670
+#: src/wbcg-actions.c:1696
 msgid "Hide the selected columns"
 msgstr "A kiválasztott oszlopok elrejtése"
 
-#: src/wbcg-actions.c:1673
+#: src/wbcg-actions.c:1699
 msgid "Make any hidden columns in the selection visible"
 msgstr "A kijelölésben szereplő rejtett oszlopok felfedése"
 
-#: src/wbcg-actions.c:1675
+#: src/wbcg-actions.c:1701
 msgid "_Standard Width"
 msgstr "_Normál szélesség"
 
-#: src/wbcg-actions.c:1676
+#: src/wbcg-actions.c:1702
 msgid "Change the default column width"
 msgstr "Az alapértelmezett oszlopszélesség változtatása"
 
 #. Format -> Row
-#: src/wbcg-actions.c:1680
+#: src/wbcg-actions.c:1706
 msgid "H_eight..."
 msgstr "_Magasság..."
 
-#: src/wbcg-actions.c:1681
+#: src/wbcg-actions.c:1707
 msgid "Change height of the selected rows"
 msgstr "A kijelölt sorok magasságának változtatása"
 
-#: src/wbcg-actions.c:1684
+#: src/wbcg-actions.c:1710
 msgid "Ensure rows are just tall enough to display content"
 msgstr ""
 
-#: src/wbcg-actions.c:1687
+#: src/wbcg-actions.c:1713
 msgid "Hide the selected rows"
 msgstr "A kiválasztott sorok elrejtése"
 
-#: src/wbcg-actions.c:1690
+#: src/wbcg-actions.c:1716
 msgid "Make any hidden rows in the selection visible"
 msgstr "A kijelölésben szereplő rejtett sorok felfedése"
 
-#: src/wbcg-actions.c:1692
+#: src/wbcg-actions.c:1718
 msgid "_Standard Height"
 msgstr "_Normál magasság"
 
-#: src/wbcg-actions.c:1693
+#: src/wbcg-actions.c:1719
 msgid "Change the default row height"
 msgstr "Az alapértelmezett sormagasság változtatása"
 
 #. Tools
-#: src/wbcg-actions.c:1697
+#: src/wbcg-actions.c:1723
 msgid "_Plug-ins..."
 msgstr "_Bővítmények..."
 
-#: src/wbcg-actions.c:1698
+#: src/wbcg-actions.c:1724
 msgid "Manage available plugin modules"
 msgstr "A rendelkezésre álló bővítmények kezelése"
 
-#: src/wbcg-actions.c:1700
+#: src/wbcg-actions.c:1726
 msgid "Auto _Correct..."
 msgstr "Automatikus _javítás"
 
-#: src/wbcg-actions.c:1701
+#: src/wbcg-actions.c:1727
 msgid "Automatically perform simple spell checking"
 msgstr "Automatikusan egyszerű helyesírás-ellenőrzést végez"
 
-#: src/wbcg-actions.c:1703
+#: src/wbcg-actions.c:1729
 msgid "_Auto Save..."
 msgstr "_Automatikus mentés"
 
-#: src/wbcg-actions.c:1704
+#: src/wbcg-actions.c:1730
 msgid "Automatically save the current document at regular intervals"
 msgstr "Automatikusan elmenti a jelenlegi dokumentumot bizonyos időközönként"
 
-#: src/wbcg-actions.c:1706
+#: src/wbcg-actions.c:1732
 msgid "_Goal Seek..."
 msgstr "_Célérték-keresés"
 
-#: src/wbcg-actions.c:1707
+#: src/wbcg-actions.c:1733
 msgid "Iteratively recalculate to find a target value"
 msgstr "Iterációs módszerrel keresi meg a célértéket"
 
-#: src/wbcg-actions.c:1709
+#: src/wbcg-actions.c:1735
 msgid "_Solver..."
 msgstr "_Megoldó..."
 
-#: src/wbcg-actions.c:1710
+#: src/wbcg-actions.c:1736
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr ""
 "Iterációs módszerrel keresi meg a célértéket a kényszerfeltételek figyelembe "
 "vételével"
 
-#: src/wbcg-actions.c:1712
+#: src/wbcg-actions.c:1738
 msgid "Si_mulation..."
 msgstr "Szi_muláció..."
 
-#: src/wbcg-actions.c:1713
+#: src/wbcg-actions.c:1739
 msgid ""
 "Test decision alternatives by using Monte Carlo simulation to find out "
 "probable outputs and risks related to them"
 msgstr ""
 
 #. Tools -> Scenarios
-#: src/wbcg-actions.c:1718
+#: src/wbcg-actions.c:1744
 msgid "_View..."
 msgstr "_Nézet.."
 
-#: src/wbcg-actions.c:1719
+#: src/wbcg-actions.c:1745
 msgid "View, delete and report different scenarios"
 msgstr ""
 
-#: src/wbcg-actions.c:1721
+#: src/wbcg-actions.c:1747
 msgid "_Add..."
 msgstr "_Hozzáadás..."
 
-#: src/wbcg-actions.c:1722
+#: src/wbcg-actions.c:1748
 #, fuzzy
 msgid "Add a new scenario"
 msgstr "Új oszlop hozzáadása"
 
 #. Tools -> ANOVA
-#: src/wbcg-actions.c:1726
+#: src/wbcg-actions.c:1752
 msgid "_One Factor..."
 msgstr "_Egytényezős..."
 
-#: src/wbcg-actions.c:1727
+#: src/wbcg-actions.c:1753
 msgid "One Factor Analysis of Variance..."
 msgstr ""
 
-#: src/wbcg-actions.c:1729
+#: src/wbcg-actions.c:1755
 msgid "_Two Factor..."
 msgstr "_Kéttényezős..."
 
-#: src/wbcg-actions.c:1730
+#: src/wbcg-actions.c:1756
 msgid "Two Factor Analysis of Variance..."
 msgstr ""
 
 #. Tools -> Forecasting
-#: src/wbcg-actions.c:1734
+#: src/wbcg-actions.c:1760
 msgid "_Exponential Smoothing..."
 msgstr "_Exponenciális simítás..."
 
-#: src/wbcg-actions.c:1735
+#: src/wbcg-actions.c:1761
 #, fuzzy
 msgid "Exponential smoothing..."
 msgstr "Exponenciális simítás"
 
-#: src/wbcg-actions.c:1737
+#: src/wbcg-actions.c:1763
 msgid "_Moving Average..."
 msgstr "_Mozgó átlag..."
 
-#: src/wbcg-actions.c:1738
+#: src/wbcg-actions.c:1764
 #, fuzzy
 msgid "Moving average..."
 msgstr "Mozgó átlag"
 
 #. Tools -> Two Means
-#: src/wbcg-actions.c:1742
+#: src/wbcg-actions.c:1768
 msgid "_Paired Samples: T-Test..."
 msgstr ""
 
-#: src/wbcg-actions.c:1743
+#: src/wbcg-actions.c:1769
 msgid "Comparing two population means for two paired samples: t-test..."
 msgstr ""
 
-#: src/wbcg-actions.c:1746
+#: src/wbcg-actions.c:1772
 #, fuzzy
 msgid "Unpaired Samples, _Equal Variances: T-Test..."
 msgstr "t-próba: kétmintás, nem egyenlő variancia feltételezésével"
 
-#: src/wbcg-actions.c:1747
+#: src/wbcg-actions.c:1773
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with equal variances: t-test..."
 msgstr ""
 
-#: src/wbcg-actions.c:1750
+#: src/wbcg-actions.c:1776
 #, fuzzy
 msgid "Unpaired Samples, _Unequal Variances: T-Test..."
 msgstr "t-próba: kétmintás, nem egyenlő variancia feltételezésével"
 
-#: src/wbcg-actions.c:1751
+#: src/wbcg-actions.c:1777
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with unequal variances: t-test..."
 msgstr ""
 
-#: src/wbcg-actions.c:1754
-msgid "_Known Variances or Large Sample: Z-Test..."
-msgstr ""
+#: src/wbcg-actions.c:1780
+#, fuzzy
+msgid "_Known Variances: Z-Test..."
+msgstr "_Kéttényezős: F-próba..."
 
-#: src/wbcg-actions.c:1755
+#: src/wbcg-actions.c:1781
 msgid ""
-"Comparing two population means from populations with known variances or "
-"using a large sample: z-test..."
+"Comparing two population means from populations with known variances: z-"
+"test..."
 msgstr ""
 
 #. Tools -> Analysis
-#: src/wbcg-actions.c:1759
+#: src/wbcg-actions.c:1785
 msgid "_Correlation..."
 msgstr "_Korreláció..."
 
-#: src/wbcg-actions.c:1760
+#: src/wbcg-actions.c:1786
 msgid "Pearson Correlation"
 msgstr "Pearson-korreláció"
 
-#: src/wbcg-actions.c:1762
+#: src/wbcg-actions.c:1788
 #, fuzzy
 msgid "Co_variance..."
 msgstr "Ko_variancia"
 
-#: src/wbcg-actions.c:1765
+#: src/wbcg-actions.c:1791
 msgid "_Descriptive Statistics..."
 msgstr "_Leíró statisztika..."
 
-#: src/wbcg-actions.c:1766
+#: src/wbcg-actions.c:1792
 #, fuzzy
 msgid "Various summary statistics"
 msgstr "Összefoglaló statisztika"
 
-#: src/wbcg-actions.c:1768
+#: src/wbcg-actions.c:1794
 msgid "_Fourier Analysis..."
 msgstr "_Fourier-analízis..."
 
-#: src/wbcg-actions.c:1771
+#: src/wbcg-actions.c:1797
 msgid "_Histogram..."
 msgstr "_Hisztogram..."
 
-#: src/wbcg-actions.c:1772
+#: src/wbcg-actions.c:1798
 msgid "Various frequency tables"
 msgstr ""
 
-#: src/wbcg-actions.c:1774
+#: src/wbcg-actions.c:1800
 #, fuzzy
 msgid "Ranks And _Percentiles..."
 msgstr "Rangsor és százalékos rangsor"
 
-#: src/wbcg-actions.c:1775
+#: src/wbcg-actions.c:1801
 #, fuzzy
 msgid "Ranks, placements and percentiles"
 msgstr "Rangsor és százalékos rangsor"
 
-#: src/wbcg-actions.c:1777
+#: src/wbcg-actions.c:1803
 msgid "_Regression..."
 msgstr "_Regresszió..."
 
-#: src/wbcg-actions.c:1778
+#: src/wbcg-actions.c:1804
 msgid "Regression Analysis"
 msgstr "Regresszióanalízis"
 
-#: src/wbcg-actions.c:1780
+#: src/wbcg-actions.c:1806
 msgid "_Sampling..."
 msgstr "_Mintavételezés..."
 
-#: src/wbcg-actions.c:1781
+#: src/wbcg-actions.c:1807
 msgid "Periodic and random samples"
 msgstr ""
 
-#: src/wbcg-actions.c:1783
+#: src/wbcg-actions.c:1809
 msgid "_Two Variances: FTest..."
 msgstr "_Kéttényezős: F-próba..."
 
-#: src/wbcg-actions.c:1784
+#: src/wbcg-actions.c:1810
 msgid "Comparing two population variances"
 msgstr ""
 
 #. Data
-#: src/wbcg-actions.c:1788
+#: src/wbcg-actions.c:1814
 msgid "_Sort..."
 msgstr "_Rendezés..."
 
-#: src/wbcg-actions.c:1789
+#: src/wbcg-actions.c:1815
 #, fuzzy
 msgid "Sort the selected region"
 msgstr "Sorbarendezi a kijelölt tartományt."
 
-#: src/wbcg-actions.c:1791
+#: src/wbcg-actions.c:1817
 msgid "Sh_uffle..."
 msgstr ""
 
-#: src/wbcg-actions.c:1792
+#: src/wbcg-actions.c:1818
 msgid "Shuffle cells, rows or columns"
 msgstr ""
 
-#: src/wbcg-actions.c:1794
+#: src/wbcg-actions.c:1820
 msgid "_Validate..."
 msgstr "_Ellenőrzés..."
 
-#: src/wbcg-actions.c:1795
+#: src/wbcg-actions.c:1821
 msgid "Validate input with preset criteria"
 msgstr "Bemenet ellenőrzése előre megadott feltételek szerint"
 
-#: src/wbcg-actions.c:1797
+#: src/wbcg-actions.c:1823
 #, fuzzy
 msgid "_Text to Columns..."
 msgstr "%s oszlop automatikus méretezése"
 
-#: src/wbcg-actions.c:1798
+#: src/wbcg-actions.c:1824
 #, fuzzy
 msgid "Parse the text in the selection into data"
 msgstr "Középre igazítja a szövegeket a kijelölésekben"
 
-#: src/wbcg-actions.c:1800
+#: src/wbcg-actions.c:1826
 #, fuzzy
 msgid "_Consolidate..."
 msgstr "_Ellenőrzés..."
 
-#: src/wbcg-actions.c:1801
+#: src/wbcg-actions.c:1827
 msgid "Consolidate regions using a function"
 msgstr ""
 
-#: src/wbcg-actions.c:1805
+#: src/wbcg-actions.c:1831
 msgid "_PivotTable..."
 msgstr "_Kimutatástáblázat..."
 
-#: src/wbcg-actions.c:1806
+#: src/wbcg-actions.c:1832
 #, fuzzy
 msgid "Create a pivot table"
 msgstr "Címke létrehozása"
 
 #. Data -> Outline
-#: src/wbcg-actions.c:1811
+#: src/wbcg-actions.c:1837
 msgid "_Hide Detail"
 msgstr "_Részletek elrejtése"
 
-#: src/wbcg-actions.c:1812
+#: src/wbcg-actions.c:1838
 msgid "Collapse an outline group"
 msgstr ""
 
-#: src/wbcg-actions.c:1814
+#: src/wbcg-actions.c:1840
 msgid "_Show Detail"
 msgstr "Részletek _mutatása"
 
-#: src/wbcg-actions.c:1815
+#: src/wbcg-actions.c:1841
 msgid "Uncollapse an outline group"
 msgstr ""
 
-#: src/wbcg-actions.c:1817
+#: src/wbcg-actions.c:1843
 msgid "_Group..."
 msgstr "_Csoportosítás..."
 
-#: src/wbcg-actions.c:1818
+#: src/wbcg-actions.c:1844
 #, fuzzy
 msgid "Add an outline group"
 msgstr "Új oszlop hozzáadása"
 
-#: src/wbcg-actions.c:1820
+#: src/wbcg-actions.c:1846
 msgid "_Ungroup..."
 msgstr "_Szétválasztás..."
 
-#: src/wbcg-actions.c:1821
+#: src/wbcg-actions.c:1847
 msgid "Remove an outline group"
 msgstr ""
 
 #. Data -> Filter
-#: src/wbcg-actions.c:1825 src/workbook-control-gui.c:1034
+#: src/wbcg-actions.c:1851 src/workbook-control-gui.c:1034
 #, fuzzy
 msgid "Add _Auto Filter"
 msgstr "Haladó szűrő"
 
-#: src/wbcg-actions.c:1826
+#: src/wbcg-actions.c:1852
 msgid "Add or remove a filter"
 msgstr ""
 
-#: src/wbcg-actions.c:1828
+#: src/wbcg-actions.c:1854
 #, fuzzy
 msgid "_Show All"
 msgstr "Részletek _mutatása"
 
-#: src/wbcg-actions.c:1829
+#: src/wbcg-actions.c:1855
 msgid "Show all filtered and hidden rows"
 msgstr ""
 
-#: src/wbcg-actions.c:1831
+#: src/wbcg-actions.c:1857
 msgid "Advanced _Filter..."
 msgstr "_Haladó szűrő..."
 
-#: src/wbcg-actions.c:1832
+#: src/wbcg-actions.c:1858
 msgid "Filter data with given criteria"
 msgstr "A megadott feltétel szerint szűri az adatokat"
 
 #. Data -> External
-#: src/wbcg-actions.c:1835
+#: src/wbcg-actions.c:1861
 #, fuzzy
 msgid "Import _Text File..."
 msgstr "Fájl importálása"
 
-#: src/wbcg-actions.c:1836
+#: src/wbcg-actions.c:1862
 #, fuzzy
 msgid "Import the text from a file"
 msgstr "Fájl importálása"
 
 #. Standard Toolbar
-#: src/wbcg-actions.c:1840 src/workbook-control-gui.c:1834
+#: src/wbcg-actions.c:1866 src/workbook-control-gui.c:1825
 #: src/workbook-view.c:541
 msgid "Sum"
 msgstr "Összeg"
 
-#: src/wbcg-actions.c:1841
+#: src/wbcg-actions.c:1867
 msgid "Sum into the current cell"
 msgstr "Összegzés a jelenlegi cellába"
 
-#: src/wbcg-actions.c:1844
+#: src/wbcg-actions.c:1870
 #, fuzzy
 msgid "Edit a function in the current cell"
 msgstr "Függvény szerkesztése a jelenlegi cellában"
 
-#: src/wbcg-actions.c:1848
+#: src/wbcg-actions.c:1874
 msgid ""
 "Sort the selected region in ascending order based on the first column "
 "selected"
@@ -27405,11 +27418,11 @@ msgstr ""
 "Az első kijelölt oszlop szerinti növekvő sorrendbe rendezi a kijelölt "
 "területet"
 
-#: src/wbcg-actions.c:1850
+#: src/wbcg-actions.c:1876
 msgid "Sort Descending"
 msgstr "Csökkenő sorrend"
 
-#: src/wbcg-actions.c:1851
+#: src/wbcg-actions.c:1877
 msgid ""
 "Sort the selected region in descending order based on the first column "
 "selected"
@@ -27417,408 +27430,418 @@ msgstr ""
 "Az első kijelölt oszlop szerinti csökkenő sorrendbe rendezi a kijelölt "
 "területet"
 
-#: src/wbcg-actions.c:1856
+#: src/wbcg-actions.c:1882
 msgid "Create a label"
 msgstr "Címke létrehozása"
 
-#: src/wbcg-actions.c:1859
+#: src/wbcg-actions.c:1885
 msgid "Create a frame"
 msgstr "Keret létrehozása"
 
-#: src/wbcg-actions.c:1861
+#: src/wbcg-actions.c:1887
 msgid "Checkbox"
 msgstr "Jelölőnégyzet"
 
-#: src/wbcg-actions.c:1862
+#: src/wbcg-actions.c:1888
 msgid "Create a checkbox"
 msgstr "Jelölőnégyzet létrehozása"
 
-#: src/wbcg-actions.c:1864
+#: src/wbcg-actions.c:1890
 msgid "Scrollbar"
 msgstr "Görgetősáv"
 
-#: src/wbcg-actions.c:1865
+#: src/wbcg-actions.c:1891
 msgid "Create a scrollbar"
 msgstr "Gördítősáv létrehozása"
 
-#: src/wbcg-actions.c:1867
+#: src/wbcg-actions.c:1893
 #, fuzzy
 msgid "Slider"
 msgstr "Tömör"
 
-#: src/wbcg-actions.c:1868
+#: src/wbcg-actions.c:1894
 #, fuzzy
 msgid "Create a slider"
 msgstr "Listamező létrehozása"
 
-#: src/wbcg-actions.c:1870
+#: src/wbcg-actions.c:1896
 #, fuzzy
 msgid "SpinButton"
 msgstr "Gomb"
 
-#: src/wbcg-actions.c:1871
+#: src/wbcg-actions.c:1897
 #, fuzzy
 msgid "Create a spin button"
 msgstr "Gomb létrehozása"
 
 # #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
 # src/Nautilus_shell.oaf.in.h:3
-#: src/wbcg-actions.c:1873
+#: src/wbcg-actions.c:1899
 msgid "List"
 msgstr "Lista"
 
-#: src/wbcg-actions.c:1874
+#: src/wbcg-actions.c:1900
 msgid "Create a list"
 msgstr "Listamező létrehozása"
 
-#: src/wbcg-actions.c:1876
+#: src/wbcg-actions.c:1902
 msgid "Combo Box"
 msgstr "Kombinált listamező"
 
-#: src/wbcg-actions.c:1877
+#: src/wbcg-actions.c:1903
 msgid "Create a combo box"
 msgstr "Kombinált listamező létrehozása"
 
-#: src/wbcg-actions.c:1880
+#: src/wbcg-actions.c:1906
 #, fuzzy
 msgid "Create a line object"
 msgstr "Vonalrajzolás"
 
-#: src/wbcg-actions.c:1882
+#: src/wbcg-actions.c:1908
 msgid "Arrow"
 msgstr "Nyíl"
 
-#: src/wbcg-actions.c:1883
+#: src/wbcg-actions.c:1909
 #, fuzzy
 msgid "Create an arrow object"
 msgstr "Nyílrajzolás"
 
-#: src/wbcg-actions.c:1885
+#: src/wbcg-actions.c:1911
 msgid "Rectangle"
 msgstr "Téglalap"
 
-#: src/wbcg-actions.c:1886
+#: src/wbcg-actions.c:1912
 #, fuzzy
 msgid "Create a rectangle object"
 msgstr "Téglalaprajzolás"
 
-#: src/wbcg-actions.c:1888
+#: src/wbcg-actions.c:1914
 msgid "Ellipse"
 msgstr "Ellipszis"
 
-#: src/wbcg-actions.c:1889
+#: src/wbcg-actions.c:1915
 #, fuzzy
 msgid "Create an ellipse object"
 msgstr "Ellipszisrajzolás"
 
-#: src/wbcg-actions.c:1892
+#: src/wbcg-actions.c:1918
 msgid "Create a button"
 msgstr "Gomb létrehozása"
 
-#: src/wbcg-actions.c:1895
+#: src/wbcg-actions.c:1921
 msgid "Create a radio button"
 msgstr "Rádiógomb létrehozása"
 
-#: src/wbcg-actions.c:1900
+#: src/wbcg-actions.c:1926
 msgid "Merge a range of cells"
 msgstr "Cellák egy összefüggő csoportjának összefésülése"
 
-#: src/wbcg-actions.c:1902
+#: src/wbcg-actions.c:1928
 msgid "Split"
 msgstr "Felosztás"
 
-#: src/wbcg-actions.c:1903
+#: src/wbcg-actions.c:1929
 msgid "Split merged ranges of cells"
 msgstr "Cellák egy összefüggő csoportjának felosztása"
 
-#: src/wbcg-actions.c:1907
+#: src/wbcg-actions.c:1933
 #, fuzzy
 msgid "Format the selection as numbers"
 msgstr "Formázás pénzként"
 
-#: src/wbcg-actions.c:1909 src/widgets/widget-format-selector.c:77
+#: src/wbcg-actions.c:1935 src/widgets/widget-format-selector.c:77
 msgid "Currency"
 msgstr "Pénznem"
 
-#: src/wbcg-actions.c:1910
+#: src/wbcg-actions.c:1936
 #, fuzzy
 msgid "Format the selection as currency"
 msgstr "Formázás pénzként"
 
-#: src/wbcg-actions.c:1912 src/widgets/widget-format-selector.c:78
+#: src/wbcg-actions.c:1938 src/widgets/widget-format-selector.c:78
 msgid "Accounting"
 msgstr "Könyvvitel"
 
-#: src/wbcg-actions.c:1913
+#: src/wbcg-actions.c:1939
 msgid "Format the selection as accounting"
 msgstr ""
 
-#: src/wbcg-actions.c:1915 src/widgets/widget-format-selector.c:81
+#: src/wbcg-actions.c:1941 src/widgets/widget-format-selector.c:81
 msgid "Percentage"
 msgstr "Százalék"
 
-#: src/wbcg-actions.c:1916
+#: src/wbcg-actions.c:1942
 #, fuzzy
 msgid "Format the selection as percentage"
 msgstr "Formázás százalékként"
 
-#: src/wbcg-actions.c:1918 src/widgets/widget-format-selector.c:83
+#: src/wbcg-actions.c:1944 src/widgets/widget-format-selector.c:83
 msgid "Scientific"
 msgstr "Tudományos"
 
-#: src/wbcg-actions.c:1919
+#: src/wbcg-actions.c:1945
 #, fuzzy
 msgid "Format the selection as scientific"
 msgstr "Formázás százalékként"
 
 # #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
 # interfaces/time.glade.h:9
-#: src/wbcg-actions.c:1921 src/widgets/widget-format-selector.c:79
+#: src/wbcg-actions.c:1947 src/widgets/widget-format-selector.c:79
 msgid "Date"
 msgstr "Dátum"
 
-#: src/wbcg-actions.c:1922
+#: src/wbcg-actions.c:1948
 #, fuzzy
 msgid "Format the selection as date"
 msgstr "A kijelölés kivágása"
 
 # #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
 # interfaces/time.glade.h:10
-#: src/wbcg-actions.c:1924 src/widgets/widget-format-selector.c:80
+#: src/wbcg-actions.c:1950 src/widgets/widget-format-selector.c:80
 msgid "Time"
 msgstr "Idő"
 
-#: src/wbcg-actions.c:1925
+#: src/wbcg-actions.c:1951
 #, fuzzy
 msgid "Format the selection as time"
 msgstr "A kijelölés kivágása"
 
-#: src/wbcg-actions.c:1927
+#: src/wbcg-actions.c:1953
 #, fuzzy
 msgid "AddBorders"
 msgstr "Minden szegély"
 
-#: src/wbcg-actions.c:1928
+#: src/wbcg-actions.c:1954
 #, fuzzy
 msgid "Add a border the the selection"
 msgstr "A kijelölés kivágása"
 
-#: src/wbcg-actions.c:1930
+#: src/wbcg-actions.c:1956
 #, fuzzy
 msgid "ClearBorders"
 msgstr "Szegélyek törlése"
 
-#: src/wbcg-actions.c:1931
+#: src/wbcg-actions.c:1957
 #, fuzzy
 msgid "Clear the border around the selection"
 msgstr "Kijelölés közepére rendez"
 
-#: src/wbcg-actions.c:1934
+#: src/wbcg-actions.c:1960
 #, fuzzy
 msgid "Thousands Separator"
 msgstr "Ezreselválasztó"
 
-#: src/wbcg-actions.c:1935
+#: src/wbcg-actions.c:1961
 #, fuzzy
 msgid "Set the format of the selected cells to include a thousands separator"
 msgstr "A kiválasztott cellákban megjeleníti az ezreseket elválasztó jelet"
 
-#: src/wbcg-actions.c:1937
+#: src/wbcg-actions.c:1963
 msgid "Increase Precision"
 msgstr "Pontosság növelése"
 
-#: src/wbcg-actions.c:1938
+#: src/wbcg-actions.c:1964
 #, fuzzy
 msgid "Increase the number of decimals displayed"
 msgstr "Növeli a megjelenítendő tizedesjegyek számát"
 
-#: src/wbcg-actions.c:1940
+#: src/wbcg-actions.c:1966
 msgid "Decrease Precision"
 msgstr "Pontosság csökkentése"
 
-#: src/wbcg-actions.c:1941
+#: src/wbcg-actions.c:1967
 #, fuzzy
 msgid "Decrease the number of decimals displayed"
 msgstr "Csökkenti a megjelenítendő tizedesjegyek számát"
 
-#: src/wbcg-actions.c:1944
+#: src/wbcg-actions.c:1970
 msgid "Decrease the indent, and align the contents to the left"
 msgstr ""
 
-#: src/wbcg-actions.c:1947
+#: src/wbcg-actions.c:1973
 msgid "Increase the indent, and align the contents to the left"
 msgstr ""
 
 #. const 142334
-#: src/wbcg-actions.c:1985
+#: src/wbcg-actions.c:2011
 #, fuzzy
 msgid "Display _Outlines"
 msgstr "_Képlet megjelenítése"
 
-#: src/wbcg-actions.c:1986
+#: src/wbcg-actions.c:2012
 msgid "Toggle whether or not to display outline groups"
 msgstr ""
 
-#: src/wbcg-actions.c:1988
+#: src/wbcg-actions.c:2014
 #, fuzzy
 msgid "Outlines _Below"
 msgstr "Körvonal"
 
-#: src/wbcg-actions.c:1989
+#: src/wbcg-actions.c:2015
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr ""
 
-#: src/wbcg-actions.c:1991
+#: src/wbcg-actions.c:2017
 #, fuzzy
 msgid "Outlines _Right"
 msgstr "_Jobbra"
 
-#: src/wbcg-actions.c:1992
+#: src/wbcg-actions.c:2018
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr ""
 
-#: src/wbcg-actions.c:1994
+#: src/wbcg-actions.c:2020
 msgid "Display _Formulas"
 msgstr "_Képlet megjelenítése"
 
-#: src/wbcg-actions.c:1995
+#: src/wbcg-actions.c:2021
 msgid "Display the value of a formula or the formula itself"
 msgstr "A képlet értékének vagy magának a képletnek a megjelenítése"
 
-#: src/wbcg-actions.c:1997
+#: src/wbcg-actions.c:2023
 msgid "Hide _Zeros"
 msgstr "_Nullák elrejtése"
 
-#: src/wbcg-actions.c:1998
+#: src/wbcg-actions.c:2024
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr ""
 
-#: src/wbcg-actions.c:2000
+#: src/wbcg-actions.c:2026
 msgid "Hide _Gridlines"
 msgstr "_Cellarácsok elrejtése"
 
-#: src/wbcg-actions.c:2001
+#: src/wbcg-actions.c:2027
 msgid "Toggle whether or not to display gridlines"
 msgstr ""
 
-#: src/wbcg-actions.c:2003
+#: src/wbcg-actions.c:2029
 msgid "Hide _Column Headers"
 msgstr "_Oszlopok fejlécének elrejtése"
 
-#: src/wbcg-actions.c:2004
+#: src/wbcg-actions.c:2030
 msgid "Toggle whether or not to display column headers"
 msgstr ""
 
-#: src/wbcg-actions.c:2006
+#: src/wbcg-actions.c:2032
 msgid "Hide _Row Headers"
 msgstr "_Sorok fejlécének elrejtése"
 
-#: src/wbcg-actions.c:2007
+#: src/wbcg-actions.c:2033
 msgid "Toggle whether or not to display row headers"
 msgstr ""
 
-#: src/wbcg-actions.c:2011
+#: src/wbcg-actions.c:2037
 #, fuzzy
 msgid "_Left Align"
 msgstr "Balra igazítás"
 
-#: src/wbcg-actions.c:2014
+#: src/wbcg-actions.c:2040
 #, fuzzy
 msgid "_Center"
 msgstr "Középre"
 
-#: src/wbcg-actions.c:2017
+#: src/wbcg-actions.c:2043
 #, fuzzy
 msgid "_Right Align"
 msgstr "Jobbra igazítás"
 
-#: src/wbcg-actions.c:2020
+#: src/wbcg-actions.c:2046
 #, fuzzy
 msgid "_Center Across Selection"
 msgstr "CenterAcrossSelection"
 
-#: src/wbcg-actions.c:2024
+#: src/wbcg-actions.c:2050
 #, fuzzy
 msgid "_Merge and Center"
 msgstr "Függőlegese_n"
 
-#: src/wbcg-actions.c:2025
+#: src/wbcg-actions.c:2051
 msgid "Merge the selection into 1 cell, and center horizontaly."
 msgstr ""
 
-#: src/wbcg-actions.c:2032
+#: src/wbcg-actions.c:2058
 msgid "Align _Top"
 msgstr ""
 
-#: src/wbcg-actions.c:2035
+#: src/wbcg-actions.c:2061
 #, fuzzy
 msgid "_Vertically Center"
 msgstr "Függőlegese_n"
 
-#: src/wbcg-actions.c:2036
+#: src/wbcg-actions.c:2062
 #, fuzzy
 msgid "Vertically Center"
 msgstr "Függőlegese_n"
 
-#: src/wbcg-actions.c:2038
+#: src/wbcg-actions.c:2064
 #, fuzzy
 msgid "Align _Bottom"
 msgstr "_Lent"
 
-#: src/wbcg-actions.c:2042
+#: src/wbcg-actions.c:2068
 msgid "View _Statusbar"
 msgstr ""
 
-#: src/wbcg-actions.c:2043
+#: src/wbcg-actions.c:2069
 msgid "Toggle visibility of statusbar"
 msgstr ""
 
-#: src/wbcg-actions.c:2049
+#: src/wbcg-actions.c:2073
+#, fuzzy
+msgid "F_ull Screen..."
+msgstr "_Célérték-keresés"
+
+#: src/wbcg-actions.c:2074
+#, fuzzy
+msgid "in or out"
+msgstr "Ne _javítsd:"
+
+#: src/wbcg-actions.c:2079
 #, fuzzy
 msgid "_Bold"
 msgstr "Félkövér"
 
 #. ALSO "<control>2"
-#: src/wbcg-actions.c:2050 src/widgets/widget-font-selector.c:201
+#: src/wbcg-actions.c:2080 src/widgets/widget-font-selector.c:201
 msgid "Bold"
 msgstr "Félkövér"
 
-#: src/wbcg-actions.c:2052
+#: src/wbcg-actions.c:2082
 #, fuzzy
 msgid "_Italic"
 msgstr "Dőlt"
 
 #. ALSO "<control>3"
-#: src/wbcg-actions.c:2053 src/widgets/widget-font-selector.c:203
+#: src/wbcg-actions.c:2083 src/widgets/widget-font-selector.c:203
 msgid "Italic"
 msgstr "Dőlt"
 
-#: src/wbcg-actions.c:2055
+#: src/wbcg-actions.c:2085
 #, fuzzy
 msgid "_Underline"
 msgstr "Aláhúzás"
 
 #. ALSO "<control>4"
-#: src/wbcg-actions.c:2056
+#: src/wbcg-actions.c:2086
 msgid "Underline"
 msgstr "Aláhúzás"
 
-#: src/wbcg-actions.c:2058
+#: src/wbcg-actions.c:2088
 #, fuzzy
 msgid "_Strike Through"
 msgstr "_Kiemelt"
 
-#: src/wbcg-actions.c:2059
+#: src/wbcg-actions.c:2089
 #, fuzzy
 msgid "Strike Through"
 msgstr "_Kiemelt"
 
-#: src/wbcg-actions.c:2062
+#: src/wbcg-actions.c:2092
 #, fuzzy
 msgid "_Double Underline"
 msgstr "Aláhúzás"
 
-#: src/wbcg-actions.c:2063
+#: src/wbcg-actions.c:2093
 #, fuzzy
 msgid "Double Underline"
 msgstr "Aláhúzás"
@@ -29178,54 +29201,54 @@ msgstr "_Visszavonás"
 msgid "_Redo"
 msgstr "Új_ra"
 
-#: src/workbook-control-gui.c:1176
+#: src/workbook-control-gui.c:1177
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
 msgstr ""
 
-#: src/workbook-control-gui.c:1180
+#: src/workbook-control-gui.c:1181
 msgid "Save changes to workbook before closing?"
 msgstr ""
 
-#: src/workbook-control-gui.c:1186
+#: src/workbook-control-gui.c:1187
 msgid "If you close without saving, changes will be discarded."
 msgstr ""
 
-#: src/workbook-control-gui.c:1193
+#: src/workbook-control-gui.c:1194
 #, fuzzy
 msgid "Discard all"
 msgstr "Diszkrét"
 
-#: src/workbook-control-gui.c:1195 src/workbook-control-gui.c:1204
-#: src/workbook-control-gui.c:1212
+#: src/workbook-control-gui.c:1196 src/workbook-control-gui.c:1205
+#: src/workbook-control-gui.c:1213
 #, fuzzy
 msgid "Discard"
 msgstr "Diszkrét"
 
-#: src/workbook-control-gui.c:1197
+#: src/workbook-control-gui.c:1198
 #, fuzzy
 msgid "Save all"
 msgstr "Mentés"
 
-#: src/workbook-control-gui.c:1199 src/workbook-control-gui.c:1206
+#: src/workbook-control-gui.c:1200 src/workbook-control-gui.c:1207
 #, fuzzy
 msgid "Don't quit"
 msgstr "Dátum"
 
-#: src/workbook-control-gui.c:1214
+#: src/workbook-control-gui.c:1215
 #, fuzzy
 msgid "Don't close"
 msgstr "Ne cseréld le"
 
-#: src/workbook-control-gui.c:2231 src/workbook-control-gui.c:2246
+#: src/workbook-control-gui.c:2222 src/workbook-control-gui.c:2237
 msgid "_Re-Edit"
 msgstr "Új_raszerkesztés"
 
-#: src/workbook-control-gui.c:2232 src/workbook-control-gui.c:2237
+#: src/workbook-control-gui.c:2223 src/workbook-control-gui.c:2228
 msgid "_Discard"
 msgstr "_Elvetés"
 
-#: src/workbook-control-gui.c:2236 src/workbook-control-gui.c:2247
+#: src/workbook-control-gui.c:2227 src/workbook-control-gui.c:2238
 msgid "_Accept"
 msgstr "El_fogadás"
 
@@ -29327,17 +29350,17 @@ msgstr "Már van ilyen nevű munkalap:"
 msgid "You may not use this name twice"
 msgstr ""
 
-#: src/xml-io.c:2725
+#: src/xml-io.c:2726
 #, fuzzy, c-format
 msgid "Unsupported object type '%s'"
 msgstr "Nem támogatott betöltőtípus: \"%s\""
 
-#: src/xml-io.c:3426
+#: src/xml-io.c:3427
 #, fuzzy
 msgid "Unparsable xml in clipboard"
 msgstr "Beilleszti a vágólap tartalmát"
 
-#: src/xml-io.c:3433
+#: src/xml-io.c:3434
 #, fuzzy
 msgid "Clipboard is in unknown format"
 msgstr "\"%s\" Python fájl formátuma érvénytelen."
@@ -29345,24 +29368,30 @@ msgstr "\"%s\" Python fájl formátuma érvénytelen."
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3854
+#: src/xml-io.c:3855
 #, fuzzy
 msgid "Processing file..."
 msgstr "XML fájl értelmezése..."
 
-#: src/xml-io.c:4181
+#: src/xml-io.c:4182
 #, fuzzy
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Ez nem egy Gnumeric munkafüzetfájl"
 
-#: src/xml-io.c:4218
+#: src/xml-io.c:4219
 #, fuzzy
 msgid "Failure saving file"
 msgstr "Hiba történt a DIF fájl mentése közben."
 
-#: src/xml-io.c:4261
+#: src/xml-io.c:4262
 msgid "Gnumeric XML (*.gnumeric) original slow exporter"
 msgstr ""
+
+#~ msgid "Search..."
+#~ msgstr "Keresés..."
+
+#~ msgid "Search and Replace..."
+#~ msgstr "Keresés és csere..."
 
 #~ msgid "HTML"
 #~ msgstr "HTML"

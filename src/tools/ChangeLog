@@ -1,3 +1,7 @@
+2004-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.90
+
 2004-09-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* analysis-tools.c (analysis_tool_ttest_eqvar_engine_run):

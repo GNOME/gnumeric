@@ -1,3 +1,7 @@
+2004-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.90
+
 2004-09-07  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-write.c (palette_init) : Just use biff8 palette.  We're
