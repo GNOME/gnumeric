@@ -1,3 +1,51 @@
+gnumeric (1.1.16-3) unstable; urgency=low
+
+  * First upload of gnumeric 1.1.x to sid. While 1.1.x is still a development
+    series, it is sufficiently mature in both upstream's and my opinion for
+    inclusion in sid. It still lacks graphing capabilities. If you require
+    those, use the gnumeric1.0 packages.
+  * Many bugs were fixed during 1.1.x development:
+    * Signedness issues (Closes: #1628292)
+    * Integration into the GNOME object activation framework. 
+      (Closes: #128635)
+    * Icons when using a light-on-dark theme. (Closes: #106544)
+    * Handling of Excel files with 1904 date convention. (Closes: #122365)
+    * Overly zealous autocompletion. (Closes: #140988)
+    * Checking of errors on write. (Closes: #147093)
+    * Hardcoded font descriptor. (Closes: #147797)
+    * Warning messages on with euro locale. (Closes: #150860)
+    * Loss of monetary data formatting with euros. (Closes: #151520)
+    * Locale-dependent decimal point in LaTeX export. (Closes: #152950)
+    * Export of italic numbers to LaTeX. (Closes: #154997)
+    * Maximum number of columns. (Closes: #156374)
+    * Parentheses with summation button. (Closes: #163820)
+    * Broken defined name information in Excel export. (Closes: #176025)
+    * Window too wide with xinerama. (Closes: #102699)
+    * Assertion failures with print preview. (Closes: #150280, #169080)
+    * Unfortunate format for result of subtracting dates. (Closes: #150783)
+    * Bad user interface design for sheet handling. (Closes: #99815, #112520)
+    * Superfluous question when exporting the only sheet. (Closes: #149605)
+    * Lack of Lotus 1-2-3 import filter. (Closes: #175427)
+  * [debian/control]
+    * Added Conflicts, Replaces for the corresponding gnumeric1.0 packages.
+    * Dropped guppi-gnumeric, evolution suggestions as the GNOME2 port can't
+      take advantage of those (yet).
+    * Suggest yelp rather than gnome-help as yelp, unlike gnome-help, handles
+      DocBook XML.
+  * Fixed some issues noted by Johannes Rohr:
+    * [debian/rules] Actually install gnumeric-component.
+    * Fixed the path to gnumeric-component in 
+      /usr/lib/bonobo/servers/GNOME_Gnumeric.server .
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu,  6 Feb 2003 21:58:01 +0100
+
+gnumeric (1.1.16-2) experimental; urgency=low
+
+  * gda 0.10.0 (needed for gnumeric-gda) has been packaged. Updated build 
+    dependencies accordingly.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Wed,  5 Feb 2003 08:36:33 +0100
+
 gnumeric (1.1.16-1) experimental; urgency=low
 
   * New upstream development release.

@@ -138,6 +138,9 @@ clean:
 
 	-rm -rf aclocal.m4 config.h.in stamp-h.in autom4te.cache \
 		doc/C/gnumeric.junk
+
+	-rm -f GNOME_Gnumeric.server.in
+
 	dh_clean
 
 install: DH_OPTIONS=
@@ -151,7 +154,8 @@ install: build
 		$(MAKE) install \
 		prefix=`pwd`/../debian/gnumeric/usr \
 		sysconfdir=`pwd`/../debian/gnumeric/etc \
-		localstatedir=`pwd`/../debian/gnumeric/var/lib
+		localstatedir=`pwd`/../debian/gnumeric/var/lib \
+		libexecdir=`pwd`/../debian/gnumeric/usr/bin
 
 	# Plugins are not intended as stand-alone executables
 	find `pwd`/debian/gnumeric/usr/lib/gnumeric/*/plugins -type f -print0 | xargs -0 chmod a-x
