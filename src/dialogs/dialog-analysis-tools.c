@@ -217,7 +217,7 @@ new_dialog(char *name, GtkWidget *win)
         GtkWidget *dialog;
 
         dialog = gnome_dialog_new (_(name),
-				   _("OK"),
+				   GNOME_STOCK_BUTTON_OK,
 				   GNOME_STOCK_BUTTON_CANCEL,
 				   NULL);
 

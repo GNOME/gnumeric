@@ -19,7 +19,8 @@
 #include "gtk-combo-box.h"
 
 static GtkHBoxClass *gtk_combo_box_parent_class;
-
+static int gtk_combo_toggle_pressed (GtkToggleButton *tbutton,
+				     GtkComboBox *combo_box);
 enum {
 	POP_DOWN_WIDGET,
 	POP_DOWN_DONE,
@@ -101,6 +102,7 @@ gtk_combo_box_class_init (GtkObjectClass *object_class)
 void
 gtk_combo_box_popup_hide (GtkComboBox *combo_box)
 {
+	GtkWidget *arrow;
 	gboolean popup_info_destroyed = FALSE;
 	
 	g_return_if_fail (combo_box != NULL);
@@ -124,6 +126,18 @@ gtk_combo_box_popup_hide (GtkComboBox *combo_box)
 	}
 	gtk_object_unref (GTK_OBJECT (combo_box->priv->pop_down_widget));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (combo_box->priv->arrow_button), FALSE);
+	arrow = combo_box->priv->arrow_button;
+
+	gtk_signal_handler_block_by_func (GTK_OBJECT (arrow),
+					  gtk_combo_toggle_pressed,
+					  combo_box);
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (arrow), FALSE);
+	
+       	gtk_signal_handler_unblock_by_func (GTK_OBJECT (arrow),
+					    gtk_combo_toggle_pressed,
+					    combo_box);
+
 }
 
 /*

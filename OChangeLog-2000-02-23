@@ -1,3 +1,8 @@
+1999-12-07  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/dialogs/dialog-analysis-tools.c (new_dialog): Use Gnome
+	Stock buttons here.
+
 1999-12-06  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/workbook.c (workbook_is_pristine): check we arn't
