@@ -2475,8 +2475,7 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 	xml_read_merged_regions (ctxt, tree);
 	xml_read_selection_info (ctxt, tree);
 
-#warning this looks wrong
-	child = tree->xmlChildrenNode;
+	child = e_xml_get_child_by_name (tree, (xmlChar const *)"Names");
 	xml_read_names (ctxt, child, NULL, sheet);
 
 	child = e_xml_get_child_by_name (tree, (xmlChar const *)"Objects");
