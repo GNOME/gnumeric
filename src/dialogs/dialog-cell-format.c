@@ -981,7 +981,7 @@ cb_align_h_toggle (GtkToggleButton *button, FormatState *state)
 		return;
 
 	mstyle_set_align_h (
-		state->style,
+		state->result,
 		GPOINTER_TO_INT (gtk_object_get_data (
 		GTK_OBJECT (button), "align")));
 	fmt_dialog_changed (state);
@@ -994,7 +994,7 @@ cb_align_v_toggle (GtkToggleButton *button, FormatState *state)
 		return;
 
 	mstyle_set_align_v (
-		state->style,
+		state->result,
 		GPOINTER_TO_INT (gtk_object_get_data (
 		GTK_OBJECT (button), "align")));
 	fmt_dialog_changed (state);
