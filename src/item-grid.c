@@ -380,13 +380,16 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int dr
 	prev_vert	 = next_sr.vertical + n;
 	sr.styles	 = ((MStyle const **) (prev_vert + n));
 	next_sr.styles	 = sr.styles + n;
-	sr.start_col	 = start_col; next_sr.start_col	 = start_col;
-	sr.end_col	 = end_col;   next_sr.end_col	 = end_col;
+	sr.start_col	 = next_sr.start_col	 = start_col;
+	sr.end_col	 = next_sr.end_col	 = end_col;
 
-	/* pretend the previous bottom had no borders */
+	/* Init the areas that sheet_style_get_row will not */
 	for (col = start_col-1 ; col <= end_col+1; ++col)
 		prev_vert [col] = sr.top [col] = none;
-	next_sr.top [end_col+1] = next_sr.bottom [end_col+1] = none;
+	sr.vertical	 [start_col-1] = sr.vertical	  [end_col+1] =
+	next_sr.vertical [start_col-1] = next_sr.vertical [end_col+1] =
+	next_sr.top	 [start_col-1] = next_sr.top	  [end_col+1] =
+	next_sr.bottom	 [start_col-1] = next_sr.bottom	  [start_col-1] = none;
 
 	/* load up the styles for the first row */
 	next_sr.row = sr.row = row = start_row;
@@ -545,6 +548,15 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int dr
 			 * the border_draw code (it is doing similar things).
 			 * and we need to batch it and draw the borders and grids
 			 * on a per row basis.
+			 *
+			 * Having a batch routine would simplify
+			 * 	- merged cell support (which is now wrong)
+			 *	- getting the printing code to sync
+			 *	- We need to add offsets for the far end of
+			 *	  grid lines when printing because there are
+			 *	  sub 1pt features visible.
+			 *
+			 * This logic needs review.  It is too ad hoc to trust.
 			 */
 			top = sr.top [col];
 			if (top == none) {
