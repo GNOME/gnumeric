@@ -763,8 +763,8 @@ unit_editor_configure (UnitInfo *target, PrinterSetupState *state,
 		0.0, 1000.0, 0.5, 1.0, 1.0));
 	target->spin = spin;
 	gtk_spin_button_configure (spin, target->adj, 1, 1);
-	gnome_dialog_editable_enters (GNOME_DIALOG (state->dialog),
-				      GTK_EDITABLE (spin));
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				      GTK_WIDGET (spin));
 	gtk_widget_set_usize (GTK_WIDGET (target->spin), 60, 0);
 	spin_button_adapt_to_unit (target->spin, unit);
 
@@ -1213,7 +1213,7 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 {
 	GtkWidget *wid;
 	HFPreviewInfo *pi;
-	StyleFont *style_font;
+	PangoFontDescription *font_desc;
 	gdouble width = HF_PREVIEW_X;
 	gdouble height = HF_PREVIEW_Y;
 	gdouble shadow = HF_PREVIEW_SHADOW;
@@ -1251,14 +1251,20 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 		NULL);
 
 	/* Use the Gnumeric default font. */
-	style_font = style_font_new (DEFAULT_FONT, 14, 1, FALSE, FALSE);
+	font_desc = pango_font_description_new ();
+	pango_font_description_set_family (font_desc, DEFAULT_FONT);
+	pango_font_description_set_style (font_desc, PANGO_STYLE_NORMAL);
+	pango_font_description_set_variant (font_desc, PANGO_VARIANT_NORMAL);
+	pango_font_description_set_weight (font_desc, PANGO_WEIGHT_NORMAL);
+	pango_font_description_set_size (font_desc, 14);
+
 	pi->left = gnome_canvas_item_new (
 		gnome_canvas_root (GNOME_CANVAS (pi->canvas)),
 		gnome_canvas_text_get_type (),
 		"x",		padding,
 		"y",		header ? margin : bottom_margin,
 		"anchor",	GTK_ANCHOR_WEST,
-		"font_gdk",	style_font_gdk_font (style_font),
+		"font_desc",	font_desc,
 		"fill_color",	"black",
 		"text",		"Left",
 		NULL);
@@ -1269,7 +1275,7 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 		"x",		width / 2,
 		"y",		header ? margin : bottom_margin,
 		"anchor",	GTK_ANCHOR_CENTER,
-		"font_gdk",	style_font_gdk_font (style_font),
+		"font_desc",	font_desc,
 		"fill_color",	"black",
 		"text",		"Center",
 		NULL);
@@ -1280,11 +1286,12 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 		"x",		width - padding,
 		"y",		header ? margin : bottom_margin,
 		"anchor",	GTK_ANCHOR_EAST,
-		"font_gdk",	style_font_gdk_font (style_font),
+		"font_desc",    font_desc,
 		"fill_color",	"black",
 		"text",		"Right",
 		NULL);
 
+	pango_font_description_free (font_desc);
 
 	gtk_widget_show_all (pi->canvas);
 
@@ -1428,12 +1435,12 @@ do_setup_page_info (PrinterSetupState *state)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (order), TRUE);
 	display_order_icon (GTK_TOGGLE_BUTTON (order_rd), state);
 
-	gnome_dialog_editable_enters (GNOME_DIALOG (state->dialog),
-				      GTK_EDITABLE (state->area_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (state->dialog),
-				      GTK_EDITABLE (state->top_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (state->dialog),
-				      GTK_EDITABLE (state->left_entry));
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_WIDGET (gnm_expr_entry_get_entry (state->area_entry)));
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_WIDGET (gnm_expr_entry_get_entry (state->top_entry)));
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_WIDGET (gnm_expr_entry_get_entry (state->left_entry)));
 	comments_combo = GTK_COMBO (glade_xml_get_widget (state->gui,
 							  "comments-combo"));
 	gnumeric_combo_enters (GTK_WINDOW (state->dialog), comments_combo);
@@ -1469,8 +1476,11 @@ static void
 paper_size_changed (GtkEntry *entry, PrinterSetupState *state)
 {
 	char const *text = gtk_entry_get_text (entry);
-	state->paper = gnome_print_paper_get_by_name (text);
-	canvas_update (state);
+	GnomePrintPaper const *new_paper = gnome_print_paper_get_by_name (text);
+	if (new_paper) {
+		state->paper = new_paper;
+		canvas_update (state);
+	}
 }
 
 static void
@@ -1523,34 +1533,42 @@ do_setup_page (PrinterSetupState *state)
 	scale_percent_spin = glade_xml_get_widget (gui, "scale-percent-spin");
 	gtk_spin_button_set_value (
 		GTK_SPIN_BUTTON (scale_percent_spin), pi->scaling.percentage);
-	gnome_dialog_editable_enters (GNOME_DIALOG (state->dialog),
-				      GTK_EDITABLE (scale_percent_spin));
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				      GTK_WIDGET (scale_percent_spin));
 
 	scale_width_spin = glade_xml_get_widget (gui, "scale-width-spin");
 	gtk_spin_button_set_value (
 		GTK_SPIN_BUTTON (scale_width_spin), pi->scaling.dim.cols);
-	gnome_dialog_editable_enters (GNOME_DIALOG (state->dialog),
-				      GTK_EDITABLE (scale_width_spin));
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				      GTK_WIDGET (scale_width_spin));
 
 	scale_height_spin = glade_xml_get_widget (gui, "scale-height-spin");
 	gtk_spin_button_set_value (
 		GTK_SPIN_BUTTON (scale_height_spin), pi->scaling.dim.rows);
-	gnome_dialog_editable_enters (GNOME_DIALOG (state->dialog),
-				      GTK_EDITABLE (scale_height_spin));
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				      GTK_WIDGET (scale_height_spin));
 	/*
 	 * Fill the paper sizes
 	 */
 	paper_size_combo =
 		GTK_COMBO (glade_xml_get_widget (gui, "paper-size-combo"));
-	gtk_combo_set_value_in_list (paper_size_combo, TRUE, 0);
-	{
-		GList *sizes = gnome_print_paper_get_list ();
-		gtk_combo_set_popdown_strings (paper_size_combo, sizes);
-		gnome_print_paper_free_list (sizes);
-	}
 	g_signal_connect (G_OBJECT (paper_size_combo->entry),
 		"changed",
 		G_CALLBACK (paper_size_changed), state);
+	{
+		GList *sizes = gnome_print_paper_get_list ();
+		GList *this_size, *names = NULL;;
+
+		for (this_size = sizes; this_size; this_size = this_size->next) { 
+			names = g_list_prepend (names, 
+						((GnomePrintPaper *)this_size->data)->name);
+		}
+		names = g_list_reverse (names);
+		gtk_combo_set_popdown_strings (paper_size_combo, names);
+		g_list_free (names);
+		gnome_print_paper_free_list (sizes);
+	}
+	gtk_combo_set_value_in_list (paper_size_combo, TRUE, FALSE);
 	gnumeric_combo_enters (GTK_WINDOW (state->dialog), paper_size_combo);
 
 	if (state->pi->paper == NULL)
@@ -1573,7 +1591,7 @@ cb_do_print (GtkWidget *w, PrinterSetupState *state)
 	fetch_settings (state);
 	wbcg = state->wbcg;
 	sheet = state->sheet;
-	gnome_dialog_close (GNOME_DIALOG (state->dialog));
+	gtk_widget_destroy (state->dialog);
 	sheet_print (wbcg, sheet, FALSE, PRINT_ACTIVE_SHEET);
 }
 
@@ -1587,7 +1605,7 @@ cb_do_print_preview (GtkWidget *w, PrinterSetupState *state)
 static void
 cb_do_print_cancel (GtkWidget *w, PrinterSetupState *state)
 {
-	gnome_dialog_close (GNOME_DIALOG (state->dialog));
+	gtk_widget_destroy (state->dialog);
 }
 
 static void
@@ -1598,7 +1616,7 @@ cb_do_print_ok (GtkWidget *w, PrinterSetupState *state)
 	wbcg_edit_finish (state->wbcg, TRUE);
 	fetch_settings (state);
 	print_info_save (state->pi);
-	gnome_dialog_close (GNOME_DIALOG (state->dialog));
+	gtk_widget_destroy (state->dialog);
 }
 
 static void
@@ -1608,10 +1626,10 @@ cb_do_print_destroy (GtkWidget *button, PrinterSetupState *state)
 	wbcg_edit_finish (state->wbcg, FALSE);
 
 	if (state->customize_header)
-		gnome_dialog_close (GNOME_DIALOG (state->customize_header));
+		gtk_widget_destroy (state->customize_header);
 
 	if (state->customize_footer)
-		gnome_dialog_close (GNOME_DIALOG (state->customize_footer));
+		gtk_widget_destroy (state->customize_footer);
 
 	printer_setup_state_free (state);
 }
@@ -1807,12 +1825,13 @@ do_fetch_page_info (PrinterSetupState *state)
 	t = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "radio-order-right"));
 	state->pi->print_order = t->active ? PRINT_ORDER_RIGHT_THEN_DOWN : PRINT_ORDER_DOWN_THEN_RIGHT;
 
+/* FIXME: parsing should be done by the expr-entry */
 	pi->repeat_top.use = parse_range (
-		gtk_entry_get_text (GTK_ENTRY (state->top_entry)),
+		gnm_expr_entry_get_text (state->top_entry),
 		&pi->repeat_top.range);
 
 	pi->repeat_left.use = parse_range (
-		gtk_entry_get_text (GTK_ENTRY (state->left_entry)),
+		gnm_expr_entry_get_text (state->left_entry),
 		&pi->repeat_left.range);
 }
 

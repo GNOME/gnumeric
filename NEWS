@@ -1,5 +1,8 @@
 Gnumeric 1.1.3
 
+Andreas:
+	* Port print-setup dialog (except custom headers/footers)
+
 --------------------------------------------------------------------------
 Gnumeric 1.1.2
 

@@ -1225,12 +1225,6 @@
                         <property name="homogeneous">no</property>
                         <property name="spacing">0</property>
                         <property name="visible">yes</property>
-
-                        <child>
-                          <widget class="Placeholder" id="None">
-                            <property name="visible">yes</property>
-                          </widget>
-                        </child>
                       </widget>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1340,12 +1334,6 @@
                         <property name="homogeneous">no</property>
                         <property name="spacing">0</property>
                         <property name="visible">yes</property>
-
-                        <child>
-                          <widget class="Placeholder" id="None">
-                            <property name="visible">yes</property>
-                          </widget>
-                        </child>
                       </widget>
                       <packing>
                         <property name="padding">0</property>
@@ -1423,12 +1411,6 @@
                         <property name="homogeneous">no</property>
                         <property name="spacing">0</property>
                         <property name="visible">yes</property>
-
-                        <child>
-                          <widget class="Placeholder" id="None">
-                            <property name="visible">yes</property>
-                          </widget>
-                        </child>
                       </widget>
                       <packing>
                         <property name="padding">0</property>
@@ -1499,12 +1481,6 @@
                             <property name="expand">no</property>
                             <property name="fill">yes</property>
                           </packing>
-                        </child>
-
-                        <child>
-                          <widget class="Placeholder" id="None">
-                            <property name="visible">yes</property>
-                          </widget>
                         </child>
                       </widget>
                       <packing>
