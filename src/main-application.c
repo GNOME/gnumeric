@@ -180,6 +180,7 @@ main (int argc, char *argv [])
 			if (gnumeric_io_error_occurred (ioc) ||
 			    gnumeric_io_warning_occurred (ioc)) {
 				gnumeric_io_error_display (ioc);
+				gnumeric_io_error_clear (ioc);
 			}
 			if (wbv != NULL) {
 				workbook_control_gui_new (wbv, NULL);

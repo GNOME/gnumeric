@@ -1,3 +1,11 @@
+2002-11-18  Jon K Hellan  <hellan@acm.org>
+
+	* src/gui-file.c (gui_file_read): Display both errors and warning
+	(accidentally left out of commit 2002-11-15).
+
+	* src/main-application.c (main): Clear io context after displaying
+	error.
+
 2002-11-18  Morten Welinder  <terra@diku.dk>
 
 	* src/workbook-control-gui.c (wbcg_menu_state_update): Change

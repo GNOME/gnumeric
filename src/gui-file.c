@@ -92,7 +92,8 @@ gui_file_read (WorkbookControlGUI *wbcg, char const *file_name,
 	io_context = gnumeric_io_context_new (COMMAND_CONTEXT (wbcg));
 	wbv = wb_view_new_from_file  (file_name, optional_format, io_context);
 
-	if (gnumeric_io_error_occurred (io_context))
+	if (gnumeric_io_error_occurred (io_context) ||
+	    gnumeric_io_warning_occurred (io_context))
 		gnumeric_io_error_display (io_context);
 
 	g_object_unref (G_OBJECT (io_context));
