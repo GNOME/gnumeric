@@ -15,13 +15,18 @@
 #include <libguile.h>
 #endif
 
+/* The debugging level */
+int gnumeric_debugging = 0;
+
 static char *dump_file_name = NULL;
 static char **startup_files = NULL;
 
 poptContext ctx;
 const struct poptOption gnumeric_popt_options [] = {
 	{ "dump-func-defs", '\0', POPT_ARG_STRING, &dump_file_name, 0,
-	  N_("Dumps the function definitions"), N_("FILE") },
+	  N_("Dumps the function definitions"),   N_("FILE") },
+	{ "debug", '\0', POPT_ARG_INT, &gnumeric_debugging, 0,
+	  N_("Enables some debugging functions"), N_("LEVEL") },
 	{ NULL, '\0', 0, NULL, 0 }
 };
 

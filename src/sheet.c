@@ -3188,7 +3188,7 @@ cellref_name (CellRef *cell_ref, Sheet *eval_sheet, int eval_col, int eval_row)
 		char *s;
 		
 		if (strchr (sheet->name, ' '))
-			s = g_strconcat ("'", sheet->name, "'!", buffer, NULL);
+			s = g_strconcat ("\"", sheet->name, "\"!", buffer, NULL);
 		else
 			s = g_strconcat (sheet->name, "!", buffer, NULL);
 
@@ -3204,4 +3204,37 @@ sheet_mark_clean (Sheet *sheet)
 	g_return_if_fail (IS_SHEET (sheet));
 
 	sheet->modified = FALSE;
+}
+
+/**
+ * sheet_lookup_by_name:
+ * @sheet: Local sheet.
+ * @name:  a sheet name.
+ *
+ * This routine parses @name for a reference to another sheet
+ * in this workbook.  If this fails, it will try to parse a
+ * filename in @name and load the given workbook and lookup
+ * the sheet name from that workbook.
+ *
+ * The routine might return NULL.
+ */
+Sheet *
+sheet_lookup_by_name (Sheet *base, char *name)
+{
+	Sheet *sheet;
+	
+	g_return_val_if_fail (base != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (base), NULL);
+
+	/*
+	 * FIXME: currently we only try to lookup the sheet name
+	 * inside the workbook, we need to lookup external files as
+	 * well.
+	 */
+	sheet = workbook_sheet_lookup (base->workbook, name);
+
+	if (sheet)
+		return sheet;
+
+	return NULL;
 }

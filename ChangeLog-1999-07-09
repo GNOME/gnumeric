@@ -1,3 +1,22 @@
+1999-01-03  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/expr.c (eval_expr): Add support for non-local cells here.  I
+	am impressed how simple this was.
+
+	* src/parser.y: Add rules for cell references outside of the
+	current sheet.
+
+	* src/main.c: New option --debug.  Turns on the zoom in/zoom out
+	buttons on the main sheet.
+
+	* src/workbook.c: Include the zoom in/zoom out buttons conditionally.
+
+	* src/xml-io.c (xmlGetCoordinates): Load using double numbers the
+	information. 
+
+	* src/parser.y (yylex): Allow strings to be specified with "'"
+	characters. 
+
 1999-01-01  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/item-grid.c (item_grid_button_1): When starting a selection

@@ -305,6 +305,7 @@ void        sheet_style_attach            (Sheet *sheet,
 					   int    start_col, int start_row,
 					   int    end_col,   int end_row,
 					   Style  *style);
+Sheet      *sheet_lookup_by_name          (Sheet *base, char *name);
 
 /*
  * Sheet visual editing

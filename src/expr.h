@@ -2,25 +2,25 @@
 #define GNUMERIC_EXPR_H
 
 typedef enum {
-	OPER_EQUAL,
-	OPER_GT,
-	OPER_LT,
-	OPER_GTE,
-	OPER_LTE,
-	OPER_NOT_EQUAL,
+	OPER_EQUAL,		/* Compare value equal */
+	OPER_GT,		/* Compare value greather than  */
+	OPER_LT,		/* Compare value less than */
+	OPER_GTE,		/* Compare value greather or equal than */
+	OPER_LTE,		/* Compare value less or equal than */
+	OPER_NOT_EQUAL,		/* Compare for non equivalence */
 	
-	OPER_ADD,
-	OPER_SUB,
-	OPER_MULT,
-	OPER_DIV,
-	OPER_EXP,
-	OPER_CONCAT,
+	OPER_ADD,		/* Add  */
+	OPER_SUB,		/* Substract */
+	OPER_MULT,		/* Multiply */
+	OPER_DIV,		/* Divide */
+	OPER_EXP,		/* Exponentiate */
+	OPER_CONCAT,		/* String concatenation */
 
-	OPER_FUNCALL,
+	OPER_FUNCALL,		/* Function call invocation */
 
-        OPER_CONSTANT,
-	OPER_VAR,
-	OPER_NEG,
+        OPER_CONSTANT,		/* Constant value */
+	OPER_VAR,		/* Cell content lookup (variable) */
+	OPER_NEG,		/* Sign inversion */
 } Operation;
 
 typedef enum {

@@ -202,16 +202,12 @@ xmlGetCoordinates (xmlNodePtr node, const char *name,
 
 	ret = xmlGetValue (node, name);
 	if (ret == NULL) return(0);
-	res = sscanf (ret, "(%f %f)(%f %f)", &X1, &Y1, &X2, &Y2);
+	res = sscanf (ret, "(%lf %lf)(%lf %lf)", x1, y1, x2, y2);
 	free(ret);
 	
-	if (res == 2) {
-		*x1 = X1;
-		*y1 = Y1;
-		*x2 = X2;
-		*y2 = Y2;
+	if (res == 2) 
 		return 1;
-	}
+
 	return 0;
 }
 

@@ -8,14 +8,10 @@
  *    Miguel de Icaza (miguel@gnu.org)
  */
 #include <config.h>
-#include <glib.h>
 #include <ctype.h>
 #include <string.h>
-#include "numbers.h"
-#include "symbol.h"	
-#include "str.h"
-#include "expr.h"
-#include "utils.h"
+#include <gnome.h>
+#include "gnumeric.h"
 #include "number-match.h"
 	
 /* Allocation with disposal-on-error */ 
@@ -73,10 +69,12 @@ build_binop (ExprTree *l, Operation op, ExprTree *r)
 	ExprTree *tree;
 	CellRef  *cell;
 	GList    *list;
+	Sheet    *sheetref;
 }
-%type  <tree>  exp
-%type  <list>  arg_list
-%token <tree>  NUMBER STRING FUNCALL CONSTANT CELLREF GTE LTE NE
+%type  <tree>     exp
+%type  <list>     arg_list
+%token <tree>     NUMBER STRING FUNCALL CONSTANT CELLREF GTE LTE NE
+%token <sheetref> SHEETREF
 
 %left '<' '>' '=' GTE LTE NE
 %left '-' '+' '&'
@@ -141,6 +139,11 @@ exp:	  NUMBER 	{ $$ = $1 }
 
 		forget_tree ($1);
 		forget_tree ($3);
+	}
+
+	| SHEETREF '!' CELLREF {
+	        $$ = $3;
+		$$->u.constant->v.cell.sheet = $1;
 	}
 
 	| FUNCALL '(' arg_list ')' {
@@ -234,12 +237,20 @@ return_cellref (char *p)
 }
 
 static int
-return_symbol (char *string)
+return_sheetref (Sheet *sheet)
+{
+	yylval.sheetref = sheet;
+	return SHEETREF;
+}
+
+static int
+old_return_symbol (char *string)
 {
 	ExprTree *e = p_new (ExprTree);
 	Symbol *sym;
 	int type;
 
+#warning remove me after testing the new code.
 	e->ref_count = 1;
 	sym = symbol_lookup (global_symbol_table, string);
 	type = STRING;
@@ -249,7 +260,13 @@ return_symbol (char *string)
 		Value *v = v_new ();
 		double fv;
 		char *format;
-		
+
+		/*
+		 * Try to match the entered text against any
+		 * of the known number formating codes, if this
+		 * succeeds, we store this as a float + format,
+		 * otherwise, we return a string.
+		 */
 		if (format_match (string, &fv, &format)){
 			v->type = VALUE_FLOAT;
 			v->v.v_float = fv;
@@ -266,15 +283,16 @@ return_symbol (char *string)
 	else
 	{
 		symbol_ref (sym);
-		if (sym->type == SYMBOL_FUNCTION)
-		{
+		switch (sym->type){
+		case SYMBOL_FUNCTION:
 			e->oper = OPER_FUNCALL;
 			type = FUNCALL;
 			e->u.function.symbol = sym;
 			e->u.function.arg_list = NULL;
-		}
-		else
-		{
+			break;
+
+		case SYMBOL_VALUE:
+		case SYMBOL_STRING: {
 			Value *v, *dv;
 
 			/* Make a copy of the value */
@@ -285,7 +303,10 @@ return_symbol (char *string)
 			e->oper = OPER_CONSTANT;
 			e->u.constant = v;
 			type = CONSTANT;
+			break;
 		}
+		
+		} /* switch */
 		register_symbol (sym);
 	}
 	
@@ -294,15 +315,115 @@ return_symbol (char *string)
 }
 
 static int
-try_symbol (char *string)
+make_string_return (char *string)
 {
-	int v;
-	
-	v = return_cellref (string);
-	if (v)
-		return v;
+	ExprTree *e;
+	Value *v;
+	double fv;
+	int type;
+	char *format;
 
-	return return_symbol (string);
+	e = p_new (ExprTree);
+	e->ref_count = 1;
+
+	v = v_new ();
+	/*
+	 * Try to match the entered text against any
+	 * of the known number formating codes, if this
+	 * succeeds, we store this as a float + format,
+	 * otherwise, we return a string.
+	 */
+	if (format_match (string, &fv, &format)){
+		v->type = VALUE_FLOAT;
+		v->v.v_float = fv;
+		if (!parser_desired_format)
+			parser_desired_format = format;
+	} else {
+		v->v.str = string_get (string);
+		v->type = VALUE_STRING;
+	}
+	
+	e->oper = OPER_CONSTANT;
+	e->u.constant = v;
+	
+	yylval.tree = e;
+
+	return STRING;
+}
+
+static int
+return_symbol (Symbol *sym)
+{
+	ExprTree *e = p_new (ExprTree);
+	int type = STRING;
+	
+	e->ref_count = 1;
+	symbol_ref (sym);
+	
+	switch (sym->type){
+	case SYMBOL_FUNCTION:
+		e->oper = OPER_FUNCALL;
+		type = FUNCALL;
+		e->u.function.symbol = sym;
+		e->u.function.arg_list = NULL;
+		break;
+		
+	case SYMBOL_VALUE:
+	case SYMBOL_STRING: {
+		Value *v, *dv;
+		
+		/* Make a copy of the value */
+		dv = (Value *) sym->data;
+		v = v_new ();
+		value_copy_to (v, dv);
+		
+		e->oper = OPER_CONSTANT;
+		e->u.constant = v;
+		type = CONSTANT;
+		break;
+	}
+	
+	} /* switch */
+
+	register_symbol (sym);
+	yylval.tree = e;
+
+	return type;
+}
+
+/**
+ * try_symbol:
+ * @string: the string to try.
+ * @try_cellref: whether we know for sure if it is not a cellref
+ *
+ * Attempts to figure out what @string refers to.
+ * if @try_cellref is TRUE it will also attempt to match the
+ * string as a cellname reference.
+ */
+static int
+try_symbol (char *string, gboolean try_cellref)
+{
+	Symbol *sym;
+	int v;
+
+	if (try_cellref){
+		v = return_cellref (string);
+		if (v)
+			return v;
+	}
+
+	sym = symbol_lookup (global_symbol_table, string);
+	if (sym)
+		return return_symbol (sym);
+	else {
+		Sheet *sheet;
+
+		sheet = sheet_lookup_by_name (parser_sheet, string);
+		if (sheet)
+			return return_sheetref (sheet);
+	}
+	
+	return make_string_return (string);
 }
 
 int yylex (void)
@@ -358,12 +479,14 @@ int yylex (void)
 		parser_expr = tmp;
 		return NUMBER;
 	}
+	case '\'':
 	case '"': {
 		char *string, *s;
 		int v;
-
+		char *quotes_end = c;
+		
                 p = parser_expr;
-                while(*parser_expr && *parser_expr != '"') {
+                while(*parser_expr && *parser_expr != quotes_end) {
                         if (*parser_expr == '\\' && parser_expr [1])
                                 parser_expr++;
                         parser_expr++;
@@ -385,7 +508,7 @@ int yylex (void)
 		*s = 0;
 		parser_expr++;
 
-		v = return_symbol (string);
+		v = try_symbol (string, FALSE);
 		return v;
 	}
 	}
@@ -402,7 +525,7 @@ int yylex (void)
 		str = alloca (len + 1);
 		strncpy (str, start, len);
 		str [len] = 0;
-		return try_symbol (str);
+		return try_symbol (str, TRUE);
 	}
 	if (c == '\n')
 		return 0;

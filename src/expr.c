@@ -877,6 +877,7 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 		return eval_cell_value (sheet, tree->u.constant);
 
 	case OPER_VAR:{
+		Sheet *cell_sheet;
 		CellRef *ref;
 		Cell *cell;
 		int col, row;
@@ -892,9 +893,11 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 		}
 
 		ref = &tree->u.constant->v.cell;
-		cell_get_abs_col_row (&tree->u.constant->v.cell, eval_col, eval_row, &col, &row);
+		cell_get_abs_col_row (ref, eval_col, eval_row, &col, &row);
 
-		cell = sheet_cell_get (sheet, col, row);
+		cell_sheet = ref->sheet ? ref->sheet : sheet;
+		
+		cell = sheet_cell_get (cell_sheet, col, row);
 
 		if (cell){
 			if (cell->generation != sheet->workbook->generation){

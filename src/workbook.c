@@ -13,6 +13,7 @@
 #include "gnumeric-sheet.h"
 #include "sheet-object.h"
 #include "dialogs.h"
+#include "main.h"
 #include "file.h"
 #include "xml-io.h"
 #include "plugin.h"
@@ -1308,19 +1309,24 @@ buttons (Sheet *sheet, GtkTable *table)
 void
 workbook_attach_sheet (Workbook *wb, Sheet *sheet)
 {
-	GtkWidget *t;
+	GtkWidget *t, *sheet_label;
 
 	g_hash_table_insert (wb->sheets, sheet->name, sheet);
 
 	t = gtk_table_new (0, 0, 0);
-	gtk_table_attach (GTK_TABLE (t), GTK_WIDGET (sheet->sheet_views->data),
-			  0, 3, 0, 1,
-			  GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 0, 0);
-	buttons (sheet, GTK_TABLE (t));
+	gtk_table_attach (
+		GTK_TABLE (t), GTK_WIDGET (sheet->sheet_views->data),
+		0, 3, 0, 1, GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 0, 0);
+
+	if (gnumeric_debugging)
+		buttons (sheet, GTK_TABLE (t));
+	
 	gtk_widget_show_all (t);
 	gtk_object_set_data (GTK_OBJECT (t), "sheet", sheet);
+
+	sheet_label = gtk_label_new (sheet->name);
 	gtk_notebook_append_page (GTK_NOTEBOOK (wb->notebook),
-				  t, gtk_label_new (sheet->name));
+				  t, sheet_label);
 }
 
 Sheet *
