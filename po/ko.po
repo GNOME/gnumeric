@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.35\n"
-"POT-Creation-Date: 1999-10-19 08:21-0500\n"
+"POT-Creation-Date: 1999-10-21 13:01-0500\n"
 "PO-Revision-Date: 1999-09-12 11:44:28+0900\n"
 "Last-Translator: Sung-Hyun Nam <namsh@kldp.org>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -310,7 +310,12 @@ msgid "ERROR"
 msgstr "에러"
 
 #. Until the value is recomputed, we put in this value.
-#: src/cell.c:125 src/cell.c:752
+#: src/cell.c:125
+msgid "Pending recomputation"
+msgstr ""
+
+#. Until the value is recomputed, we put in this value.
+#: src/cell.c:752
 msgid "Circular reference"
 msgstr "순환 참조"
 
@@ -6869,80 +6874,80 @@ msgstr "함수가 없습니다"
 msgid "Calling non-function"
 msgstr "함수가 아닌 걸 불렀읍니다"
 
-#: src/gnumeric-sheet.c:1014
+#: src/gnumeric-sheet.c:1030
 msgid "Solid"
 msgstr "고체색"
 
-#: src/gnumeric-sheet.c:1018
+#: src/gnumeric-sheet.c:1034
 #, no-c-format
 msgid "75%"
 msgstr "75%"
 
-#: src/gnumeric-sheet.c:1022
+#: src/gnumeric-sheet.c:1038
 #, no-c-format
 msgid "50%"
 msgstr "50%"
 
-#: src/gnumeric-sheet.c:1026
+#: src/gnumeric-sheet.c:1042
 #, no-c-format
 msgid "25%"
 msgstr "25%"
 
-#: src/gnumeric-sheet.c:1030
+#: src/gnumeric-sheet.c:1046
 #, no-c-format
 msgid "12.5%"
 msgstr "12.5%"
 
-#: src/gnumeric-sheet.c:1034
+#: src/gnumeric-sheet.c:1050
 #, no-c-format
 msgid "6.25%"
 msgstr "6.25%"
 
-#: src/gnumeric-sheet.c:1037
+#: src/gnumeric-sheet.c:1053
 msgid "Horizontal Stripe"
 msgstr "수평선"
 
-#: src/gnumeric-sheet.c:1040
+#: src/gnumeric-sheet.c:1056
 msgid "Vertical Stripe"
 msgstr "수직선"
 
-#: src/gnumeric-sheet.c:1043
+#: src/gnumeric-sheet.c:1059
 msgid "Reverse Diagonal Stripe"
 msgstr "역대각선"
 
-#: src/gnumeric-sheet.c:1046
+#: src/gnumeric-sheet.c:1062
 msgid "Diagonal Stripe"
 msgstr "대각선"
 
-#: src/gnumeric-sheet.c:1049
+#: src/gnumeric-sheet.c:1065
 msgid "Diagonal Crosshatch"
 msgstr "대각 직교평행선"
 
-#: src/gnumeric-sheet.c:1052
+#: src/gnumeric-sheet.c:1068
 msgid "Thick Diagonal Crosshatch"
 msgstr "굵은 대각 직교평행선"
 
-#: src/gnumeric-sheet.c:1055
+#: src/gnumeric-sheet.c:1071
 msgid "Thin Horizontal Stripe"
 msgstr "가는 수평선"
 
-#: src/gnumeric-sheet.c:1058
+#: src/gnumeric-sheet.c:1074
 msgid "Thin Vertical Stripe"
 msgstr "가는 수직선"
 
-#: src/gnumeric-sheet.c:1061
+#: src/gnumeric-sheet.c:1077
 msgid "Thin Reverse Diagonal Stripe"
 msgstr "가는 역대각선"
 
-#: src/gnumeric-sheet.c:1064
+#: src/gnumeric-sheet.c:1080
 msgid "Thin Diagonal Stripe"
 msgstr "가는 대각선"
 
-#: src/gnumeric-sheet.c:1067
+#: src/gnumeric-sheet.c:1083
 msgid "Thin Crosshatch"
 msgstr "가는 직교평행선"
 
-#: src/gnumeric-sheet.c:1070
+#: src/gnumeric-sheet.c:1086
 msgid "Thin Diagonal Crosshatch"
 msgstr "가는 역대각 직교평행선"
 
@@ -7285,12 +7290,12 @@ msgstr "세로: %s"
 msgid "Internal ERROR"
 msgstr "내부 에러"
 
-#: src/sheet.c:3166
+#: src/sheet.c:3172
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr ""
 
-#: src/sheet.c:3178
+#: src/sheet.c:3184
 msgid "I was unable to the bind object"
 msgstr ""
 

@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 1999-10-19 08:21-0500\n"
+"POT-Creation-Date: 1999-10-21 13:01-0500\n"
 "PO-Revision-Date: 1999-09-17 04:25+0200\n"
 "Last-Translator: GNOME PL Team\n"
 "Language-Team: Polish <gnomepl@pandora.info.bielsko.pl>\n"
@@ -308,7 +308,12 @@ msgid "ERROR"
 msgstr "B£¡D"
 
 #. Until the value is recomputed, we put in this value.
-#: src/cell.c:125 src/cell.c:752
+#: src/cell.c:125
+msgid "Pending recomputation"
+msgstr ""
+
+#. Until the value is recomputed, we put in this value.
+#: src/cell.c:752
 msgid "Circular reference"
 msgstr "Zapêtlone odwo³anie"
 
@@ -7170,80 +7175,80 @@ msgstr "Funkcja nie istnieje"
 msgid "Calling non-function"
 msgstr "Wywo³anie nie-funkcji"
 
-#: src/gnumeric-sheet.c:1014
+#: src/gnumeric-sheet.c:1030
 msgid "Solid"
 msgstr "Jednolity"
 
-#: src/gnumeric-sheet.c:1018
+#: src/gnumeric-sheet.c:1034
 #, no-c-format
 msgid "75%"
 msgstr "75%"
 
-#: src/gnumeric-sheet.c:1022
+#: src/gnumeric-sheet.c:1038
 #, no-c-format
 msgid "50%"
 msgstr "50%"
 
-#: src/gnumeric-sheet.c:1026
+#: src/gnumeric-sheet.c:1042
 #, no-c-format
 msgid "25%"
 msgstr "25%"
 
-#: src/gnumeric-sheet.c:1030
+#: src/gnumeric-sheet.c:1046
 #, no-c-format
 msgid "12.5%"
 msgstr "12.5%"
 
-#: src/gnumeric-sheet.c:1034
+#: src/gnumeric-sheet.c:1050
 #, no-c-format
 msgid "6.25%"
 msgstr "6.25%"
 
-#: src/gnumeric-sheet.c:1037
+#: src/gnumeric-sheet.c:1053
 msgid "Horizontal Stripe"
 msgstr "Poziome pr±¿ki"
 
-#: src/gnumeric-sheet.c:1040
+#: src/gnumeric-sheet.c:1056
 msgid "Vertical Stripe"
 msgstr "Pionowe pr±¿ki"
 
-#: src/gnumeric-sheet.c:1043
+#: src/gnumeric-sheet.c:1059
 msgid "Reverse Diagonal Stripe"
 msgstr "Odwrócone uko¶ne pr±¿ki"
 
-#: src/gnumeric-sheet.c:1046
+#: src/gnumeric-sheet.c:1062
 msgid "Diagonal Stripe"
 msgstr "Uko¶ne pr±¿ki"
 
-#: src/gnumeric-sheet.c:1049
+#: src/gnumeric-sheet.c:1065
 msgid "Diagonal Crosshatch"
 msgstr "Uko¶nie skrzy¿owane pr±¿ki"
 
-#: src/gnumeric-sheet.c:1052
+#: src/gnumeric-sheet.c:1068
 msgid "Thick Diagonal Crosshatch"
 msgstr "Grube uko¶nie skrzy¿owane pr±¿ki"
 
-#: src/gnumeric-sheet.c:1055
+#: src/gnumeric-sheet.c:1071
 msgid "Thin Horizontal Stripe"
 msgstr "Cienkie poziome pr±¿ki"
 
-#: src/gnumeric-sheet.c:1058
+#: src/gnumeric-sheet.c:1074
 msgid "Thin Vertical Stripe"
 msgstr "Cienkie pionowe pr±¿ki"
 
-#: src/gnumeric-sheet.c:1061
+#: src/gnumeric-sheet.c:1077
 msgid "Thin Reverse Diagonal Stripe"
 msgstr "Cienkie odwrócone uko¶ne pr±¿ki"
 
-#: src/gnumeric-sheet.c:1064
+#: src/gnumeric-sheet.c:1080
 msgid "Thin Diagonal Stripe"
 msgstr "Cienkie uko¶ne pr±¿ki"
 
-#: src/gnumeric-sheet.c:1067
+#: src/gnumeric-sheet.c:1083
 msgid "Thin Crosshatch"
 msgstr "Cienkie skrzy¿owane pr±¿ki"
 
-#: src/gnumeric-sheet.c:1070
+#: src/gnumeric-sheet.c:1086
 msgid "Thin Diagonal Crosshatch"
 msgstr "Cienkie skrzy¿owane uko¶nie pr±¿ki"
 
@@ -7586,12 +7591,12 @@ msgstr "Kolumna: %s"
 msgid "Internal ERROR"
 msgstr "B³±d wewnêrzny"
 
-#: src/sheet.c:3166
+#: src/sheet.c:3172
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "Nie mo¿na aktywowaæ obiektu %s"
 
-#: src/sheet.c:3178
+#: src/sheet.c:3184
 msgid "I was unable to the bind object"
 msgstr "Nie mo¿na przy³±czyæ obiektu"
 

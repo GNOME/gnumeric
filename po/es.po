@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.35\n"
-"POT-Creation-Date: 1999-10-19 08:21-0500\n"
+"POT-Creation-Date: 1999-10-21 13:01-0500\n"
 "PO-Revision-Date: 1998-11-25 18:01:18+0100\n"
 "Last-Translator: Pablo Saratxaga <srtxg@chanae.alphanet.ch>\n"
 "Language-Team: \n"
@@ -310,7 +310,12 @@ msgid "ERROR"
 msgstr "ERROR"
 
 #. Until the value is recomputed, we put in this value.
-#: src/cell.c:125 src/cell.c:752
+#: src/cell.c:125
+msgid "Pending recomputation"
+msgstr ""
+
+#. Until the value is recomputed, we put in this value.
+#: src/cell.c:752
 msgid "Circular reference"
 msgstr "Referencia circular"
 
@@ -8190,80 +8195,80 @@ msgstr "La función no existe"
 msgid "Calling non-function"
 msgstr "Llamando a una no-función"
 
-#: src/gnumeric-sheet.c:1014
+#: src/gnumeric-sheet.c:1030
 msgid "Solid"
 msgstr "Sólido"
 
-#: src/gnumeric-sheet.c:1018
+#: src/gnumeric-sheet.c:1034
 #, no-c-format
 msgid "75%"
 msgstr "75%"
 
-#: src/gnumeric-sheet.c:1022
+#: src/gnumeric-sheet.c:1038
 #, no-c-format
 msgid "50%"
 msgstr "50%"
 
-#: src/gnumeric-sheet.c:1026
+#: src/gnumeric-sheet.c:1042
 #, no-c-format
 msgid "25%"
 msgstr "25%"
 
-#: src/gnumeric-sheet.c:1030
+#: src/gnumeric-sheet.c:1046
 #, no-c-format
 msgid "12.5%"
 msgstr "12.5%"
 
-#: src/gnumeric-sheet.c:1034
+#: src/gnumeric-sheet.c:1050
 #, no-c-format
 msgid "6.25%"
 msgstr "6.25%"
 
-#: src/gnumeric-sheet.c:1037
+#: src/gnumeric-sheet.c:1053
 msgid "Horizontal Stripe"
 msgstr "Línea horizontal"
 
-#: src/gnumeric-sheet.c:1040
+#: src/gnumeric-sheet.c:1056
 msgid "Vertical Stripe"
 msgstr "Línea vertical"
 
-#: src/gnumeric-sheet.c:1043
+#: src/gnumeric-sheet.c:1059
 msgid "Reverse Diagonal Stripe"
 msgstr "Línea diagonal inversa"
 
-#: src/gnumeric-sheet.c:1046
+#: src/gnumeric-sheet.c:1062
 msgid "Diagonal Stripe"
 msgstr "Linea diagonal"
 
-#: src/gnumeric-sheet.c:1049
+#: src/gnumeric-sheet.c:1065
 msgid "Diagonal Crosshatch"
 msgstr "Linea sombreada diagonal"
 
-#: src/gnumeric-sheet.c:1052
+#: src/gnumeric-sheet.c:1068
 msgid "Thick Diagonal Crosshatch"
 msgstr "Linea sombreada diagonal gruesa"
 
-#: src/gnumeric-sheet.c:1055
+#: src/gnumeric-sheet.c:1071
 msgid "Thin Horizontal Stripe"
 msgstr "Línea horizontal fina"
 
-#: src/gnumeric-sheet.c:1058
+#: src/gnumeric-sheet.c:1074
 msgid "Thin Vertical Stripe"
 msgstr "Línea vertical fina"
 
-#: src/gnumeric-sheet.c:1061
+#: src/gnumeric-sheet.c:1077
 msgid "Thin Reverse Diagonal Stripe"
 msgstr "Línea diagonal inversa fina"
 
-#: src/gnumeric-sheet.c:1064
+#: src/gnumeric-sheet.c:1080
 msgid "Thin Diagonal Stripe"
 msgstr "Linea diagonal fina"
 
-#: src/gnumeric-sheet.c:1067
+#: src/gnumeric-sheet.c:1083
 msgid "Thin Crosshatch"
 msgstr "Línea sombreada fina"
 
-#: src/gnumeric-sheet.c:1070
+#: src/gnumeric-sheet.c:1086
 msgid "Thin Diagonal Crosshatch"
 msgstr "Línea diagonal sombreada fina"
 
@@ -8606,12 +8611,12 @@ msgstr "Columna: %s"
 msgid "Internal ERROR"
 msgstr "ERROR interno"
 
-#: src/sheet.c:3166
+#: src/sheet.c:3172
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "No se pudo activar el objeto %s"
 
-#: src/sheet.c:3178
+#: src/sheet.c:3184
 msgid "I was unable to the bind object"
 msgstr "No se pudo ligar el objeto"
 

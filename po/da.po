@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.36\n"
-"POT-Creation-Date: 1999-10-19 08:21-0500\n"
+"POT-Creation-Date: 1999-10-21 13:01-0500\n"
 "PO-Revision-Date: 1999-09-22 01:22+02:00\n"
 "Last-Translator: Birger langkjer <birger.langkjer@image.dk>\n"
 "Language-Team: Dansk/Danish <sslug-locale@sslug.dk>\n"
@@ -313,7 +313,12 @@ msgid "ERROR"
 msgstr "FEJL"
 
 #. Until the value is recomputed, we put in this value.
-#: src/cell.c:125 src/cell.c:752
+#: src/cell.c:125
+msgid "Pending recomputation"
+msgstr ""
+
+#. Until the value is recomputed, we put in this value.
+#: src/cell.c:752
 msgid "Circular reference"
 msgstr "Cirkulær reference"
 
@@ -6971,80 +6976,80 @@ msgstr "Funktion findes ikke"
 msgid "Calling non-function"
 msgstr "Ikke-funktion kaldes"
 
-#: src/gnumeric-sheet.c:1014
+#: src/gnumeric-sheet.c:1030
 msgid "Solid"
 msgstr "Solid"
 
-#: src/gnumeric-sheet.c:1018
+#: src/gnumeric-sheet.c:1034
 #, no-c-format
 msgid "75%"
 msgstr "75%"
 
-#: src/gnumeric-sheet.c:1022
+#: src/gnumeric-sheet.c:1038
 #, no-c-format
 msgid "50%"
 msgstr "50%"
 
-#: src/gnumeric-sheet.c:1026
+#: src/gnumeric-sheet.c:1042
 #, no-c-format
 msgid "25%"
 msgstr "25%"
 
-#: src/gnumeric-sheet.c:1030
+#: src/gnumeric-sheet.c:1046
 #, no-c-format
 msgid "12.5%"
 msgstr "12.5%"
 
-#: src/gnumeric-sheet.c:1034
+#: src/gnumeric-sheet.c:1050
 #, no-c-format
 msgid "6.25%"
 msgstr "6.25%"
 
-#: src/gnumeric-sheet.c:1037
+#: src/gnumeric-sheet.c:1053
 msgid "Horizontal Stripe"
 msgstr "Vandret stribe"
 
-#: src/gnumeric-sheet.c:1040
+#: src/gnumeric-sheet.c:1056
 msgid "Vertical Stripe"
 msgstr "Lodret stribe"
 
-#: src/gnumeric-sheet.c:1043
+#: src/gnumeric-sheet.c:1059
 msgid "Reverse Diagonal Stripe"
 msgstr "omvendt diagonal stribe"
 
-#: src/gnumeric-sheet.c:1046
+#: src/gnumeric-sheet.c:1062
 msgid "Diagonal Stripe"
 msgstr "Diagonal stribe"
 
-#: src/gnumeric-sheet.c:1049
+#: src/gnumeric-sheet.c:1065
 msgid "Diagonal Crosshatch"
 msgstr ""
 
-#: src/gnumeric-sheet.c:1052
+#: src/gnumeric-sheet.c:1068
 msgid "Thick Diagonal Crosshatch"
 msgstr ""
 
-#: src/gnumeric-sheet.c:1055
+#: src/gnumeric-sheet.c:1071
 msgid "Thin Horizontal Stripe"
 msgstr "Tynd vandret stribe"
 
-#: src/gnumeric-sheet.c:1058
+#: src/gnumeric-sheet.c:1074
 msgid "Thin Vertical Stripe"
 msgstr "Tynd lodret stribe"
 
-#: src/gnumeric-sheet.c:1061
+#: src/gnumeric-sheet.c:1077
 msgid "Thin Reverse Diagonal Stripe"
 msgstr "Tynd omvendt diagonal stribe"
 
-#: src/gnumeric-sheet.c:1064
+#: src/gnumeric-sheet.c:1080
 msgid "Thin Diagonal Stripe"
 msgstr "Tynd diagonal stribe"
 
-#: src/gnumeric-sheet.c:1067
+#: src/gnumeric-sheet.c:1083
 msgid "Thin Crosshatch"
 msgstr ""
 
-#: src/gnumeric-sheet.c:1070
+#: src/gnumeric-sheet.c:1086
 msgid "Thin Diagonal Crosshatch"
 msgstr ""
 
@@ -7382,12 +7387,12 @@ msgstr "Kolonne: %s"
 msgid "Internal ERROR"
 msgstr "Intern FEJL"
 
-#: src/sheet.c:3166
+#: src/sheet.c:3172
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "Kan ikke aktivere objektet %s"
 
-#: src/sheet.c:3178
+#: src/sheet.c:3184
 msgid "I was unable to the bind object"
 msgstr "Kan ikke binde objektet"
 
