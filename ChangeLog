@@ -1,3 +1,12 @@
+2002-06-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.8
+
+2002-06-17  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-graph.c (gnm_graph_vector_seq_scalar) : support string
+	  which can be interpreted as numbers for scalar series in graphs.
+
 2002-04-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	back port.

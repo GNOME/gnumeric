@@ -5,14 +5,15 @@ Andreas:
 	* use value_as_string for array content
 
 Jody:
-	* Add Drachma to EURO.
-
 	http://bugzilla.gnome.org/show_bug.cgi?id=81104
 	Really fix import this time.
 	* Don't crash on xls import if locale is confused.
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=84930
 	* COUNT should only count ints and floats not bools
+
+	* Add Drachma to EURO.
+	* Support implicit conversion from string -> number in scalar graphs.
 
 Morten:
 	http://bugzilla.gnome.org/show_bug.cgi?id=84929

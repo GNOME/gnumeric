@@ -32,6 +32,8 @@
 #include "sheet.h"
 #include "workbook-private.h"
 #include "value.h"
+#include "str.h"
+#include "number-match.h"
 #include "ranges.h"
 #include "formats.h"
 #include "format.h"
@@ -161,8 +163,18 @@ gnm_graph_vector_seq_scalar (GnmGraphVector *vector)
 			? value_area_get_x_y (&pos, v, 0, i)
 			: value_area_get_x_y (&pos, v, i, 0);
 
-		/* TODO : handle blanks */
-		values->_buffer [i] = elem ? value_get_as_float (elem) : 0.;
+		if (elem == NULL) {
+			values->_buffer [i] = 0.;	/* TODO : handle blanks */
+			continue;
+		} else if (elem->type == VALUE_STRING) {
+			Value *tmp = format_match_number (elem->v_str.val->str, NULL, NULL);
+			if (tmp != NULL) {
+				values->_buffer [i] = value_get_as_float (tmp);
+				value_release (tmp);
+				continue;
+			}
+		}
+		values->_buffer [i] = value_get_as_float (elem);
 	}
 
 	return values;
