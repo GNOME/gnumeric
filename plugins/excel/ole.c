@@ -283,7 +283,8 @@ dump_escher (guint8 *data, guint32 len, int level)
 		if (h->ver == 0xf) /* A container */
 			dump_escher (h->data+ESH_HEADER_LEN, h->length-ESH_HEADER_LEN, level+1);
 		if (h->type == 0xf007) { /* Magic hey */
-			h->length = 36;
+			dump_escher (h->data + ESH_HEADER_LEN + 36,
+				     h->length - ESH_HEADER_LEN - 36, level + 1);
 		}
 	}
 	esh_header_destroy (h); 
@@ -436,7 +437,8 @@ do_draw (MsOle *ole)
 				guint8 *data;
 				guint32 len;
 				guint skip = biff_to_flat_data (q, &data, &len) - 1;
-				printf("Drawing: '%s'\n", get_biff_opcode_name(q->opcode));
+				printf("Drawing: '%s' - data %p, length 0x%x\n", get_biff_opcode_name(q->opcode),
+				       data, len);
 				dump_escher (data, len, 0);
 				while (skip > 0 && ms_biff_query_next(q)) skip--;
 			}

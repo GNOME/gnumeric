@@ -3,7 +3,6 @@
  *
  * Author:
  *    Michael Meeks (michael@imaginator.com)
- *    Jody Goldberg (jgolbdger@home.com)
  *
  * See S59FD6.HTM for an overview...
  **/
@@ -42,33 +41,33 @@ typedef struct { /* See: S59FDA.HTM */
 enum { eWindows, eMac } saved_os = eWindows;
 
 static ESH_HEADER *
-esh_header_new (guint8 *data, gint32 length)
+esh_header_new (guint8 *data, guint32 length)
 {
-	ESH_HEADER *h = g_new (ESH_HEADER,1);
-	h->length=0;
-	h->type=0;
-	h->instance=0;
-	h->data=data;
-	h->length_left=length;
+	ESH_HEADER *h  = g_new (ESH_HEADER,1);
+	h->length      = 0;
+	h->type        = 0;
+	h->instance    = 0;
+	h->data        = data;
+	h->length_left = length;
 	h->first = TRUE;
 	return h;
 }
 
-static int
+static gboolean
 esh_header_next (ESH_HEADER *h)
 {
 	guint16 split;
-	g_return_val_if_fail(h, 0);
-	g_return_val_if_fail(h->data, 0);
+	g_return_val_if_fail (h != NULL, FALSE);
+	g_return_val_if_fail (h->data != NULL, FALSE);
 
 	if (h->length_left < h->length + ESH_HEADER_LEN*2)
-		return 0;
+		return FALSE;
 
-	if (h->first==TRUE)
+	if (h->first == TRUE)
 		h->first = FALSE;
 	else {
-		h->data+=h->length+ESH_HEADER_LEN;
-		h->length_left-=h->length+ESH_HEADER_LEN;
+		h->data        += h->length + ESH_HEADER_LEN;
+		h->length_left -= h->length + ESH_HEADER_LEN;
 	}
 
 	split       = MS_OLE_GET_GUINT16(h->data+0);
@@ -77,21 +76,26 @@ esh_header_next (ESH_HEADER *h)
 	h->ver      = (split&0x0f);
 	h->instance = (split>>4);
 #if ESH_HEADER_DEBUG > 0
-	printf ("Next header length 0x%x(=%d), type 0x%x, ver 0x%x, instance 0x%x\n",
-		h->length, h->length, h->type, h->ver, h->instance);
+	printf ("Next header length 0x%x(=%d), length left 0x%x(=%d), type 0x%x, ver 0x%x, instance 0x%x\n",
+		h->length, h->length, h->length_left, h->length_left, h->type, h->ver, h->instance);
 #endif
-	return 1;
+	return TRUE;
 }
 
 static ESH_HEADER *
 esh_header_contained (ESH_HEADER *h)
 {
-	if (h->length_left<ESH_HEADER_LEN)
+	if (h->length_left < ESH_HEADER_LEN)
 		return NULL;
-	g_assert (h->data[h->length_left-1] == /* Check that pointer */
-		  h->data[h->length_left-1]);
-	return esh_header_new (h->data+ESH_HEADER_LEN,
-			       h->length-ESH_HEADER_LEN);
+	if (h->length > h->length_left) {
+		printf ("Serious error : length %d length left %d clipping_length\n",
+			h->length, h->length_left);
+		h->length = h->length_left;
+	}
+	g_assert (h->data [h->length_left - 1] == /* Check that pointer */
+		  h->data [h->length_left - 1]);
+	return esh_header_new (h->data + ESH_HEADER_LEN,
+			       h->length - ESH_HEADER_LEN);
 }
 
 static void
@@ -118,7 +122,10 @@ biff_to_flat_data (const BiffQuery *q, guint8 **data, guint32 *length)
 		*length+=nq->length;
 		ms_biff_query_next(nq);
 		cnt++;
-	} while (nq->opcode == BIFF_CONTINUE);
+	} while (nq->opcode == BIFF_MS_O_DRAWING ||
+		 nq->opcode == BIFF_MS_O_DRAWING_GROUP ||
+		 nq->opcode == BIFF_CONTINUE);
+
 
 	(*data) = g_malloc (*length);
 	ptr=(*data);
@@ -127,7 +134,9 @@ biff_to_flat_data (const BiffQuery *q, guint8 **data, guint32 *length)
 		memcpy (ptr, nq->data, nq->length);
 		ptr+=nq->length;
 		ms_biff_query_next(nq);
-	} while (nq->opcode == BIFF_CONTINUE);
+	} while (nq->opcode == BIFF_MS_O_DRAWING ||
+		 nq->opcode == BIFF_MS_O_DRAWING_GROUP ||
+		 nq->opcode == BIFF_CONTINUE);
 }
 
 typedef struct {
@@ -248,39 +257,40 @@ write_file (char *name, guint8 *data, guint32 len, blip_type type)
 }
 
 static FILE_BLIP_STORE_ENTRY *
-BSE_new (ESH_HEADER *h) /* S59FE3.HTM */
+BSE_new (ESH_HEADER *c) /* S59FE3.HTM */
 {
 	FILE_BLIP_STORE_ENTRY *fbse = g_new (FILE_BLIP_STORE_ENTRY, 1);
-	guint8 *data = h->data + ESH_HEADER_LEN;
+	guint8 *data = c->data + ESH_HEADER_LEN;
 	guint8 type;
 	guint32 tmp,txt_byte_len;
 	int lp, i, extra;
 	static guint16 magic_instance[] = { 0, 0x216, 0x03d4, 0x542, 0x6e0, 0x46a, 0x7a8, 0x800 };
+	ESH_HEADER *h = NULL;
 
 	if (saved_os == eMac)
-		type   = MS_OLE_GET_GUINT8(data+ 1);
+		type   = MS_OLE_GET_GUINT8(data + 1);
 	else
-		type   = MS_OLE_GET_GUINT8(data+ 0);
+		type   = MS_OLE_GET_GUINT8(data + 0);
 
-	for (lp=0;lp<16;lp++)
-		fbse->rbg_uid[lp] = MS_OLE_GET_GUINT8(data+2+lp);
-	fbse->size       = MS_OLE_GET_GUINT32(data+20);
-	fbse->ref_count  = MS_OLE_GET_GUINT32(data+24);
-	fbse->delay_off  = MS_OLE_GET_GUINT32(data+28);
-	tmp              = MS_OLE_GET_GUINT8(data+32);
+	for (lp = 0; lp < 16; lp++)
+		fbse->rbg_uid[lp] = MS_OLE_GET_GUINT8 (data + 2 + lp);
+	fbse->size       = MS_OLE_GET_GUINT32 (data + 20);
+	fbse->ref_count  = MS_OLE_GET_GUINT32 (data + 24);
+	fbse->delay_off  = MS_OLE_GET_GUINT32 (data + 28);
+	tmp              = MS_OLE_GET_GUINT8  (data + 32);
 	if (tmp == 1)
 		fbse->usage = eUsageTexture;
 	else
 		fbse->usage = eUsageDefault;
 
 	/* Very red herring I think */
-	fbse->name_len   = MS_OLE_GET_GUINT8(data+33);
+/*	fbse->name_len   = MS_OLE_GET_GUINT8(data+33);
 	if (fbse->name_len)
 		fbse->name = biff_get_text (data+36, fbse->name_len,
 					    &txt_byte_len);
-	else {
-		fbse->name = g_strdup("NoName");
-		txt_byte_len=0;
+					    else*/ {
+		fbse->name   = g_strdup("NoName");
+		txt_byte_len = 0;
 	}
 
 	if (fbse->delay_off == 0xffffffff) {
@@ -292,76 +302,78 @@ BSE_new (ESH_HEADER *h) /* S59FE3.HTM */
 		bse_type_to_name (fbse->stored_type), fbse->size, fbse->size,
 		fbse->ref_count, fbse->delay_off, fbse->usage, fbse->name);
 
-	for (lp=0;lp<16;lp++)
+	for (lp = 0; lp < 16; lp++)
 		printf ("0x%x ", fbse->rbg_uid[lp]);
 
 	printf ("\n");
 
 	/* --------------- Contained record --------------- */
 
-	h->length = 36; /* I know this from nothing :-) */
-	esh_header_next (h);
-	h->data+= ESH_HEADER_LEN;
+	h = esh_header_new (c->data   + ESH_HEADER_LEN + 36,
+			    c->length - ESH_HEADER_LEN - 36);
+	while (esh_header_next (h)) {
+		guint8 *data = h->data + ESH_HEADER_LEN;
 
-	extra = 0;
-	for (i = 0; i < sizeof (magic_instance) / sizeof(magic_instance[0]); i++)
-		if ((h->instance ^ magic_instance[i]) == 1)
-			extra = 16;
-
-	fbse->stored_type = eERROR;
-
-	if (h->type >= Blip_START && h->type < Blip_END) {
-		gint clip_head = 0;
-
-		fbse->stored_type = h->type - Blip_START;
-		printf ("Stored type : 0x%x type 0x%x\n", fbse->stored_type, h->type);
-
-		switch (fbse->stored_type) {
-		case ePNG:
-			clip_head = 17 + extra;
-			printf ("A PNG!\n");
+		extra = 0;
+		for (i = 0; i < sizeof (magic_instance) / sizeof(magic_instance[0]); i++)
+			if ((h->instance ^ magic_instance[i]) == 1)
+				extra = 16;
+		
+		fbse->stored_type = eERROR;
+		
+		if (h->type >= Blip_START && h->type < Blip_END) {
+			guint clip_head = 0;
+			
+			fbse->stored_type = h->type - Blip_START;
+			printf ("Stored type : 0x%x type 0x%x\n", fbse->stored_type, h->type);
+			
+			switch (fbse->stored_type) {
+			case ePNG:
+				clip_head = 17 + extra;
+				printf ("A PNG!\n");
 			break;
-		case eJPEG:
-		case ePICT:
-			clip_head = 17 + extra;
-			break;
-		case eWMF:
-		case eEMF:
-		{
-			guint32 outlen;
-			guint32 inlen;
-			clip_head = 16 + extra + 4 + 24 + 4;
-			outlen = MS_OLE_GET_GUINT32(h->data + 16 + extra);
-			inlen  = MS_OLE_GET_GUINT32(h->data + 16 + extra + 4 + 24);
-			break;
-		}
-		case eDIB:
-			clip_head = 17 + extra;
-			break;
-		default:
-			g_warning ("Don't know what to do with this image\n");
-			break;
-		}
-		/* Data at h->data + clip_head, length = h->length - clip_head */
+			case eJPEG:
+			case ePICT:
+				clip_head = 17 + extra;
+				break;
+			case eWMF:
+			case eEMF:
+			{
+				guint32 outlen;
+				guint32 inlen;
+				clip_head = 16 + extra + 4 + 24 + 4;
+				outlen = MS_OLE_GET_GUINT32(data + 16 + extra);
+				inlen  = MS_OLE_GET_GUINT32(data + 16 + extra + 4 + 24);
+				break;
+			}
+			case eDIB:
+				clip_head = 17 + extra;
+				break;
+			default:
+				g_warning ("Don't know what to do with this image\n");
+				break;
+			}
+			/* Data at data + clip_head, length = h->length - clip_head */
 #if ESH_BITMAP_DUMP > 0
-		printf ("Header\n");
-		dump (h->data, clip_head);
-
-		printf ("Data\n");
-		dump (h->data + clip_head, h->length - clip_head);
+			printf ("Header\n");
+			dump (data, clip_head);
+			
+			printf ("Data\n");
+			dump (data + clip_head, h->length - clip_head);
 #endif
-		if (fbse->stored_type == eJPEG ||
-		    fbse->stored_type == ePNG ||
-		    fbse->stored_type == eDIB) {
-			write_file ("test", h->data + clip_head,
-				    h->length - clip_head, fbse->stored_type);
+			if (fbse->stored_type == eJPEG ||
+			    fbse->stored_type == ePNG ||
+			    fbse->stored_type == eDIB) {
+				write_file ("test", data + clip_head,
+					    h->length - clip_head, fbse->stored_type);
+			} else
+				printf ("FIXME: unhandled type 0x%x\n",
+					fbse->stored_type);
+			
 		} else
-			printf ("FIXME: unhandled type 0x%x\n",
-				fbse->stored_type);
-
-	} else {
-		printf ("Invalid blip type 0x%x\n", h->type);
+			printf ("Invalid blip type 0x%x\n", h->type);
 	}
+	esh_header_destroy (h);
 
 	return fbse;
 }
@@ -387,7 +399,7 @@ typedef struct {
 static OPT_DATA *
 OPT_new (ESH_HEADER *h) /*See: S59FFB.HTM */
 {
-	guint8 *data=h->data+ESH_HEADER_LEN;
+	guint8 *data = h->data + ESH_HEADER_LEN;
 	OPT_DATA *od = g_new (OPT_DATA, 1);
 	guint16 d = MS_OLE_GET_GUINT16(data);
 	od->pid = d & 0x3fff;
@@ -565,7 +577,7 @@ read_DgContainer (ESH_HEADER *h) /* See S59FE7.HTM */
  **/
 
 static void
-ms_escher_read (guint8 *data, gint32 length, BiffQuery *q, ExcelWorkbook *wb)
+ms_escher_read (guint8 *data, guint32 length, BiffQuery *q, ExcelWorkbook *wb)
 {
 	ESH_HEADER *h =	esh_header_new (data, length);
 	while (esh_header_next(h)) {
@@ -609,7 +621,7 @@ ms_escher_hack_get_drawing (BiffQuery *q, ExcelWorkbook *wb)
 
 	biff_to_flat_data (q, &data, &len);
 
-	printf ("{ Escher\n");
+	printf ("{ Escher - data %p length 0x%x\n", data, len);
 	ms_escher_read (data, len, q, wb);
 	printf ("}; /* Escher */\n");
 

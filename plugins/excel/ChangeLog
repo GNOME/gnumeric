@@ -1,3 +1,14 @@
+1999-08-26  Michael Meeks  <michael@imaginator.com>
+
+	* ms-escher.c (biff_to_flat_data): Added back the full conditions
+	on merging drawing groups.
+
+	* ole.c (dump_escher): Realised it is a vanillaish container.
+
+	* ms-escher.c (BSE_new): Fix silly buglets.
+	(esh_header_new, esh_header_next): prettyify;
+	(ms_escher_read): Update length type.
+
 1999-08-25  Michael Meeks  <michael@imaginator.com>
 
 	* ms-escher.c (esh_header_next): re-order for clarity.
