@@ -1501,7 +1501,7 @@ cellref_relocate (CellRef * const ref,
 	}
 
 	if (col < 0 || col >= SHEET_MAX_COLS ||
-	    row < 0 || row >= SHEET_MAX_COLS)
+	    row < 0 || row >= SHEET_MAX_ROWS)
 	    return CELLREF_RELOCATE_ERR;
 
 	if (ref->col_relative)
