@@ -53,7 +53,7 @@ complete_finalize (GObject *object)
 
 	if (complete->text) {
 		g_free (complete->text);
-		complete->text = 0;
+		complete->text = NULL;
 	}
 
 	parent = g_type_class_peek (PARENT_TYPE);

@@ -499,9 +499,8 @@ format_entry_set_fmt (StyleFormatEntry *entry,
 	/* empty formats are General if there is a color, or a condition */
 	entry->format = (begin != NULL && end != begin)
 		? g_strndup (begin, end - begin)
-		: strdup ((entry->color != NULL ||
-			   entry->restriction_type != '*')
-			  ? "General" : "");
+		: g_strdup ((entry->color || entry->restriction_type != '*')
+			    ? "General" : "");
 }
 
 static GnmColor * lookup_color (char const *str, char const *end);

@@ -474,7 +474,7 @@ colrow_set_sizes (Sheet *sheet, gboolean is_cols,
 		if (is_cols)
 			sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
 				index->first, 0, index->last, SHEET_MAX_ROWS-1,
-				(CellIterFunc) &cb_clear_variable_width_content, 0);
+				(CellIterFunc) &cb_clear_variable_width_content, NULL);
 
 		for (i = index->first ; i <= index->last ; ++i) {
 			int tmp = new_size;
@@ -600,7 +600,7 @@ colrow_restore_state_group (Sheet *sheet, gboolean is_cols,
 		if (is_cols)
 			sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
 				index->first, 0, index->last, SHEET_MAX_ROWS-1,
-				(CellIterFunc) &cb_clear_variable_width_content, 0);
+				(CellIterFunc) &cb_clear_variable_width_content, NULL);
 		colrow_state_list_destroy (ptr->data);
 		selection = selection->prev;
 	}

@@ -1,5 +1,18 @@
 2004-07-23  Morten Welinder  <terra@gnome.org>
 
+	* src/commands.c (cmd_merge_data): Fix 0/NULL mixup.
+	* src/complete.c (complete_finalize): Ditto.
+	* src/sheet.c (sheet_range_calc_spans, sheet_toggle_hide_zeros): Ditto.
+	* src/colrow.c (colrow_set_sizes, colrow_restore_state_group): Ditto.
+	* src/gui-util.c (gnumeric_popup_menu): Ditto.
+	* src/item-cursor.c (item_cursor_unrealize): Ditto.
+	* src/value.c (value_peek_string): Ditto.
+
+	* src/expr.c (cb_bin_arith): Add const-casts.
+
+	* src/format.c (format_entry_set_fmt): Use g_strdup, not plain
+	strdup.
+
 	* src/wbcg-actions.c: Add Ctrl-5 for strikethough.
 
 2004-07-22  Jody Goldberg <jody@gnome.org>

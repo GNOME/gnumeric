@@ -934,7 +934,7 @@ value_peek_string (GnmValue const *v)
 	else if (v->type == VALUE_ERROR)
 		return v->v_err.mesg->str;
 	else {
-		static char *cache[2] = { 0 , 0};
+		static char *cache[2] = { NULL, NULL };
 		static int next = 0;
 		char const *s;
 

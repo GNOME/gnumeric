@@ -773,7 +773,7 @@ cb_bin_arith (GnmEvalPos const *ep, GnmValue const *a, GnmValue const *b,
 	if (b != NULL && b->type == VALUE_ERROR)
 		return value_dup (b);
 	if (VALUE_IS_EMPTY (a))
-		a = va = value_zero;
+		a = va = (GnmValue *)value_zero;
 	else if (a->type == VALUE_STRING) {
 		va = format_match_number (a->v_str.val->str, NULL,
 			workbook_date_conv (ep->sheet->workbook));
@@ -784,7 +784,7 @@ cb_bin_arith (GnmEvalPos const *ep, GnmValue const *a, GnmValue const *b,
 	else
 		va = (GnmValue *)a;
 	if (VALUE_IS_EMPTY (b))
-		b = vb = value_zero;
+		b = vb = (GnmValue *)value_zero;
 	else if (b->type == VALUE_STRING) {
 		vb = format_match_number (b->v_str.val->str, NULL,
 			workbook_date_conv (ep->sheet->workbook));

@@ -5714,7 +5714,7 @@ cmd_merge_data (WorkbookControl *wbc, Sheet *sheet,
 	me->merge_zone = merge_zone;
 	me->merge_fields = merge_fields;
 	me->merge_data = merge_data;
-	me->sheet_list = 0;
+	me->sheet_list = NULL;
 
 	cell = &((GnmValue *)merge_data->data)->v_range.cell;
 	me->n = cell->b.row - cell->a.row + 1;

@@ -280,7 +280,7 @@ sheet_range_calc_spans (Sheet *sheet, GnmRange const *r, SpanCalcFlags flags)
 	if (flags & SPANCALC_RE_RENDER)
 		sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
 			r->start.col, r->start.row, r->end.col, r->end.row,
-			cb_clear_rendered_values, 0);
+			cb_clear_rendered_values, NULL);
 	sheet_queue_respan (sheet, r->start.row, r->end.row);
 
 	/* Redraw the new region in case the span changes */
@@ -4128,7 +4128,7 @@ sheet_toggle_hide_zeros (Sheet *sheet)
 {
 	sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
 		0, 0, SHEET_MAX_COLS - 1, SHEET_MAX_ROWS - 1,
-		cb_rerender_zeroes, 0);
+		cb_rerender_zeroes, NULL);
 	sheet_adjust_preferences (sheet, TRUE, FALSE);
 }
 
