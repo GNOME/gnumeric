@@ -105,7 +105,11 @@ simplex_step_one(Sheet *sheet, int target_col, int target_row,
 	        table[n*step] = n-1 + *n_vars;
 		rhs = sheet_cell_fetch(sheet, c->rhs->col->pos,
 				       c->rhs->row->pos);
-		table[1 + n*step] = value_get_as_float(rhs->value);
+		if (strcmp(c->type, "<=") == 0)
+		        table[1 + n*step] = value_get_as_float(rhs->value);
+		else if (strcmp(c->type, ">=") == 0)
+		        table[1 + n*step] = -value_get_as_float(rhs->value);
+
 	        table[1 + *n_vars + n + n*step] = 1;
 	        printf ("%-30s (col=%d, row=%d  %s  col=%d, row=%d\n",
 		       c->str, c->lhs->col->pos, c->lhs->row->pos,

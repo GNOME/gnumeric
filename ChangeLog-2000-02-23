@@ -1,5 +1,8 @@
 1999-12-30  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
+	* src/utils.c (parse_cell_name_list): Cell ranges are now also
+ 	accepted.
+
 	* src/solver-lp.c: Implemented Simplex algorithm.  It can
  	currently solve LP maximization problems of positive variables
  	having `<=' constraints.

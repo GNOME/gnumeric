@@ -264,10 +264,11 @@ parse_cell_name_list (Sheet *sheet,
 		      const char *cell_name_str,
 		      int *error_flag)
 {
-        char     *buf;
+        char     *buf, *tmp = NULL;
 	GSList   *cells = NULL;
 	Cell     *cell;
-	int      i, n, col, row;
+	int      i, n, j, k, col, row;
+	gboolean range_flag = 0;
 
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
@@ -277,23 +278,44 @@ parse_cell_name_list (Sheet *sheet,
 	buf = g_malloc (strlen (cell_name_str) + 1);
 	for (i = n = 0; ; i++){
 
-	        if ((cell_name_str [i] == ',') || (cell_name_str [i] == '\0')){
+	        if ((cell_name_str [i] == ',') || 
+		    (cell_name_str [i] == ':') || 
+		    (cell_name_str [i] == '\0')){
 		        buf [n] = '\0';
 
 			if (!parse_cell_name (buf, &col, &row)){
+			error:
 			        *error_flag = 1;
 				free (buf);
 				g_slist_free (cells);
 				return NULL;
 			}
 
-			cell = sheet_cell_get (sheet, col, row);
+			if (cell_name_str [i] == ':')
+			        if (range_flag) {
+				        g_free (tmp);
+				        goto error;
+				} else {
+				        tmp = g_new(char, strlen(buf)+1);
+					strcpy(tmp, buf);
+				        range_flag = 1;
+				}
+			else if (range_flag) {
+			        int x1, x2, y1, y2;
 
-			if (cell == NULL){
-			        cell = sheet_cell_new (sheet, col, row);
-				cell_set_text (cell, "");
+				parse_cell_name (tmp, &x1, &y1);
+				parse_cell_name (buf, &x2, &y2);
+			        for (j=x1; j<=x2; j++)
+				        for (k=y1; k<=y2; k++) {
+					        cell = sheet_cell_fetch
+						  (sheet, j, k);
+						cells = g_slist_append
+						  (cells, (gpointer) cell);
+					}        
+			} else {
+			        cell = sheet_cell_fetch (sheet, col, row);
+			        cells = g_slist_append(cells, (gpointer) cell);
 			}
-			cells = g_slist_append (cells, (gpointer) cell);
 			n = 0;
 		} else
 		        buf [n++] = cell_name_str [i];
