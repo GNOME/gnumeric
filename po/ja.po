@@ -19294,17 +19294,17 @@ msgstr ""
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:337
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:489
 msgid "X"
-msgstr ""
+msgstr "X"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/gog-surface.c:369
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:339
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:491
 msgid "Y"
-msgstr ""
+msgstr "Y"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/gog-surface.c:371
 msgid "Z"
-msgstr ""
+msgstr "Z"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plot-types.xml.in.h:1
 #, fuzzy
@@ -19466,7 +19466,7 @@ msgstr "黒"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:97
 msgid "light brown"
-msgstr "明るい茶色"
+msgstr "淡い茶色"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:98
 msgid "brown gold"
@@ -19551,7 +19551,7 @@ msgstr ""
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:119
 msgid "sky blue #2"
-msgstr ""
+msgstr "スカイブルー #2"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:120
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:157
@@ -19565,11 +19565,11 @@ msgstr "グレー"
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:123
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:154
 msgid "magenta"
-msgstr "赤紫"
+msgstr "マゼンタ"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:124
 msgid "bright orange"
-msgstr ""
+msgstr "明るいオレンジ"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:125
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:155
@@ -19587,16 +19587,16 @@ msgstr "シアン"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:128
 msgid "bright blue"
-msgstr ""
+msgstr "明るい青"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:129
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:145
 msgid "red purple"
-msgstr ""
+msgstr "赤紫"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:130
 msgid "light gray"
-msgstr ""
+msgstr "淡い灰色"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:132
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:149
@@ -19605,30 +19605,30 @@ msgstr "ピンク"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:133
 msgid "light orange"
-msgstr "明るいオレンジ"
+msgstr "淡いオレンジ"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:134
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:146
 msgid "light yellow"
-msgstr "明るい黄"
+msgstr "淡い黄"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:135
 msgid "light green"
-msgstr "明るい緑"
+msgstr "淡い緑"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:136
 msgid "light cyan"
-msgstr "明るいシアン"
+msgstr "淡いシアン"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:137
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:147
 msgid "light blue"
-msgstr "明るい青"
+msgstr "淡い青"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:138
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:151
 msgid "light purple"
-msgstr "明るい紫"
+msgstr "淡い紫"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:139
 msgid "white"
@@ -19658,9 +19658,8 @@ msgstr "カスタムカラー..."
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:235
 #: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:236
-#, fuzzy
 msgid "Shadow type"
-msgstr "影"
+msgstr "影のタイプ"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:246
 #: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:247
