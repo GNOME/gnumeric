@@ -1,3 +1,8 @@
+2000-03-17  Jon K Hellan  <hellan@acm.org>
+
+	* src/sheet-object.c (create_object, sheet_set_mode_type_full):
+	Make it compile and link without Bonobo.
+
 2000-03-13  Miguel de Icaza  <miguel@helixcode.com>
 
 	* src/sheet-vector.c (sheet_vectors_cell_changed): Change NULL to

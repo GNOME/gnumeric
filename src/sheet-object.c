@@ -456,6 +456,7 @@ create_object (Sheet *sheet, gdouble to_x, gdouble to_y)
 	}
 
 	case SHEET_MODE_CREATE_GRAPHIC:
+#ifdef ENABLE_BONOBO
 		g_warning ("Ugly API name follows, fix it");
 		o = sheet_object_container_new_bonobo (
 			sheet, x1, y1, x2, y2, sheet->mode_data);
@@ -465,6 +466,7 @@ create_object (Sheet *sheet, gdouble to_x, gdouble to_y)
 		 */
 		sheet->mode_data = NULL;
 		break;
+#endif
 			
 	case SHEET_MODE_CREATE_COMPONENT:
 #ifdef ENABLE_BONOBO
@@ -738,9 +740,11 @@ sheet_set_mode_type_full (Sheet *sheet, SheetModeType mode, void *mode_data)
 
 	switch (sheet->mode) {
 	case SHEET_MODE_CREATE_GRAPHIC:
+#ifdef ENABLE_BONOBO
 		g_assert (BONOBO_IS_CLIENT_SITE (mode_data));
 		sheet_object_bind_button_events (sheet);
 		sheet->mode_data = mode_data;
+#endif
 		break;
 		
 	case SHEET_MODE_CREATE_COMPONENT:
