@@ -26,8 +26,8 @@
 #include <src/gui-util.h>
 #include <glade/glade-xml.h>
 #include <gtk/gtkspinbutton.h>
-#include <gal/widgets/widget-color-combo.h>
-#include <gal/widgets/color-palette.h>
+#include <widgets/widget-color-combo.h>
+#include <widgets/color-palette.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <src/gnumeric-i18n.h>

@@ -61,7 +61,7 @@
 #include <libart_lgpl/art_rgb_pixbuf_affine.h>
 #include <glade/glade.h>
 #include <pango/pangoft2.h>
-#include <gal/widgets/widget-color-combo.h>
+#include <widgets/widget-color-combo.h>
 
 static const struct {
 	const char *Cname;

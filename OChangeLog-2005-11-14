@@ -2,6 +2,8 @@
 
 	* src/format-template.c (format_template_transform_edges): Plug
 	leak.
+	* src/gnm-marshalers.list: Add stuff from gal.
+	* src/*.c: change to use imported gal widgets.
 
 2003-06-09  Jody Goldberg <jody@gnome.org>
 

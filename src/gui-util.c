@@ -27,7 +27,7 @@
 #include "gnumeric-paths.h"
 
 #include <string.h>
-#include <gal/widgets/widget-color-combo.h>
+#include <widgets/widget-color-combo.h>
 #include <glade/glade.h>
 
 #ifdef WITH_BONOBO

@@ -22,7 +22,7 @@
 
 #include <gdk/gdkkeysyms.h>
 #include <gsf/gsf-impl-utils.h>
-#include <gal/widgets/widget-color-combo.h>
+#include <widgets/widget-color-combo.h>
 #include <libfoocanvas/foo-canvas-line.h>
 #include <libfoocanvas/foo-canvas-rect-ellipse.h>
 #include <libfoocanvas/foo-canvas-polygon.h>

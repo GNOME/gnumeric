@@ -42,7 +42,7 @@
 #include "../pixmaps/gnumeric-stock-pixbufs.h"
 
 #include <glade/glade.h>
-#include <gal/widgets/widget-color-combo.h>
+#include <widgets/widget-color-combo.h>
 #include <string.h>
 
 typedef struct {

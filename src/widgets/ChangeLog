@@ -1,3 +1,7 @@
+2003-06-09  Morten Welinder  <terra@gnome.org>
+
+	* Makefile.am (libwidgets_a_SOURCES): Add GAL widgets.
+
 2003-06-09  Jody Goldberg <jody@gnome.org>
 
 	* widget-font-selector.c : adjust to changes in preview grid.

@@ -28,7 +28,7 @@
 
 #include <glade/glade-xml.h>
 #include <gtk/gtkspinbutton.h>
-#include <gal/widgets/widget-color-combo.h>
+#include <widgets/widget-color-combo.h>
 #include <gsf/gsf-impl-utils.h>
 
 struct _GogLabel {

@@ -11,13 +11,20 @@ Jody:
 Morten:
 	* Hopefully fix NAN issues on Alphas.
 	* Plug autoformat leak.
+	* Import all gal widgets we use.
+
+--------------------------------------------------------------------------
+
+Gnumeric 1.1.19
+
+Auto*-wrestling only.
 
 --------------------------------------------------------------------------
 
 Gnumeric 1.1.18
 
 Andreas:
-	* Some more utf-8 cleaning in the stf parsers.
+	* Some more UTF-8 cleaning in the stf parsers.
 	* Improve the encoding selector by only showing
 	  supported encodings
 	* Some small improvements to the Text Import dialog

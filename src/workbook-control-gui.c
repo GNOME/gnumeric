@@ -88,8 +88,8 @@
 #endif
 
 #include <gsf/gsf-impl-utils.h>
-#include <gal/widgets/widget-color-combo.h>
-#include <gal/widgets/gtk-combo-stack.h>
+#include <widgets/widget-color-combo.h>
+#include <widgets/gtk-combo-stack.h>
 
 #include <libgnomevfs/gnome-vfs-uri.h>
 

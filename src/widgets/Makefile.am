@@ -9,6 +9,18 @@ INCLUDES = 						\
 noinst_LIBRARIES = libwidgets.a
 
 libwidgets_a_SOURCES =				\
+	color-group.c				\
+	color-group.h				\
+	color-palette.c				\
+	color-palette.h				\
+	widget-color-combo.c			\
+	widget-color-combo.h			\
+	widget-pixmap-combo.c			\
+	widget-pixmap-combo.h			\
+	gtk-combo-box.c				\
+	gtk-combo-box.h				\
+	gtk-combo-stack.c			\
+	gtk-combo-stack.h			\
 	widget-charmap-selector.c		\
 	widget-charmap-selector.h		\
 	widget-editable-label.c			\

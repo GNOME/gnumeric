@@ -86,7 +86,6 @@ cb_cell_comment_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	if (!cmd_set_comment (WORKBOOK_CONTROL (state->wbcg), state->sheet, state->pos, text))
 		gtk_widget_destroy (state->dialog);
 	g_free (text);
-	return;
 }
 
 void

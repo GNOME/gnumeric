@@ -36,9 +36,9 @@
 #include "pixmaps/gnumeric-stock-pixbufs.h"
 #include "widgets/gnumeric-combo-text.h"
 
-#include <gal/widgets/gtk-combo-box.h>
-#include <gal/widgets/widget-color-combo.h>
-#include <gal/widgets/widget-pixmap-combo.h>
+#include <widgets/gtk-combo-box.h>
+#include <widgets/widget-color-combo.h>
+#include <widgets/widget-pixmap-combo.h>
 
 #define TOOLBAR_FONT_BUTTON_INDEX		2
 #define TOOLBAR_BOLD_BUTTON_INDEX		3
