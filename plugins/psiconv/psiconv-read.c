@@ -61,8 +61,7 @@ static GnmValue *
 psi_new_string (PsiState *state, psiconv_ucs2 const *data)
 {
 	return value_new_string_nocopy (
-		g_convert_with_iconv ((gchar const *) data, -1, 
-				      state->converter, NULL, NULL, NULL));
+		g_utf16_to_utf8 (data, -1, NULL, NULL, NULL));
 }
 
 

@@ -1,3 +1,8 @@
+2004-08-18  Jon K Hellan  <hellan@acm.org>
+
+	* psiconv-read.c (psi_new_string): Use g_utf16_to_utf8 instead of
+	g_convert_with_iconv. Can now read Psion Sheets!
+
 2004-08-17  Jon K Hellan  <hellan@acm.org>
 
 	* psiconv-read.c (psi_new_string): Change type of data argument to
