@@ -1,3 +1,17 @@
+2000-01-09  Jody Goldberg <jgoldberg@home.com>
+
+	* src/commands.c (cmd_insert_cols) : Be kinder to translators.
+	(cmd_insert_rows) : Ditto.
+	(cmd_rename_sheet) : Implement.
+	(cmd_set_date_time_{undo,redo,destroy}) : Implement.
+	(cmd_set_date_time) : Implement.
+
+	* src/workbook.c (sheet_label_text_changed_signal) : Use
+	  cmd_rename_sheet.
+	(insert_at_cursor) : Delete.
+	(insert_current_time_cmd) : Use cmd_set_date_time.
+	(insert_current_date_cmd) : Use cmd_set_date_time.
+
 2000-01-08  Jody Goldberg <jgoldberg@home.com>
 
 	* src/gnumeric-util.c (gnumeric_char_start_expr_p) : new function.

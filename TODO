@@ -252,10 +252,7 @@ Office 2000 and 'explorer' compatibility.
     * have a 'user-set' feature for 'merge cells'
 
 * Calculation
-  * Rework dependencies to only supply one level of indirection.
   * Rework 'Name' dependencies so we can re-express names.
-  * Think about allowing a formula to specify that it does not depend on the
-    contents of a reference, only the adress (ie the AREAS function)
   * Dependancies for - CELL functions.
 		     - Sheet objects
   * Teach dependencies about implicit intersections

@@ -15,6 +15,9 @@ gboolean cmd_set_text (CommandContext *context,
 		       char const * const new_text,
 		       String const * const old_text);
 
+gboolean cmd_set_date_time (CommandContext *context, gboolean is_date,
+			    Sheet *sheet, int col, int row);
+
 gboolean cmd_insert_cols (CommandContext *context,
 			  Sheet *sheet, int start_col, int count);
 gboolean cmd_insert_rows (CommandContext *context,

@@ -860,45 +860,19 @@ recalc_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
-insert_at_cursor (Sheet *sheet, Value *value, const char *format)
-{
-	Cell *cell;
-
-	cell = sheet_cell_fetch (sheet, sheet->cursor_col, sheet->cursor_row);
-	cell_set_value (cell, value);
-	cell_set_format (cell, format);
-
-	workbook_recalc (sheet->workbook);
-}
-
-static void
 insert_current_date_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = workbook_get_current_sheet (wb);
-	const char *preferred_date_format = _(">mm/dd/yyyy");
-	int n;
-	GDate *date = g_date_new();
-
-	g_date_set_time (date, time (NULL));
-
-	n = g_date_serial (date);
-
-	g_date_free( date );
-
-	insert_at_cursor (sheet, value_new_int (n), preferred_date_format+1);
+	cmd_set_date_time (workbook_command_context_gui (wb), TRUE,
+			   sheet, sheet->cursor_col, sheet->cursor_row);
 }
 
 static void
 insert_current_time_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = workbook_get_current_sheet (wb);
-	time_t t = time (NULL);
-	struct tm *tm = localtime (&t);
-	const char *preferred_time_format = _(">hh:mm");
-	float_t serial;
-
-	serial = (tm->tm_hour * 3600 + tm->tm_min * 60 + tm->tm_sec)/(24*3600.0);
-	insert_at_cursor (sheet, value_new_float (serial), preferred_time_format);
+	cmd_set_date_time (workbook_command_context_gui (wb), TRUE,
+			   sheet, sheet->cursor_col, sheet->cursor_row);
 }
 
 static void
@@ -2285,12 +2259,16 @@ sheet_label_text_changed_signal (EditableLabel *el, const char *new_name, Workbo
 {
 	gboolean ans;
 
+	/* FIXME : Why do we care ?
+	 * Why are the tests here ?
+	 */
 	if (strchr (new_name, '"'))
 		return FALSE;
 	if (strchr (new_name, '\''))
 		return FALSE;
 
-	ans = workbook_rename_sheet (wb, el->text, new_name);
+	ans = cmd_rename_sheet (workbook_command_context_gui (wb),
+				wb, el->text, new_name);
 	workbook_focus_current_sheet (wb);
 
 	return ans;
@@ -2381,7 +2359,9 @@ sheet_action_rename_sheet (GtkWidget *widget, Sheet *current_sheet)
 	if (!new_name)
 		return;
 
-	workbook_rename_sheet (wb, current_sheet->name, new_name);
+	/* We do not care if it fails */
+	(void) cmd_rename_sheet (workbook_command_context_gui (wb),
+				 wb, current_sheet->name, new_name);
 	g_free (new_name);
 }
 

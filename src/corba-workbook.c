@@ -134,7 +134,7 @@ Workbook_sheet_rename (PortableServer_Servant servant,
 {
 	Workbook *workbook = workbook_from_servant (servant);
 	
-	return workbook_rename_sheet (workbook, old_name, new_name);
+	return cmd_rename_sheet (workbook, old_name, new_name);
 }
 
 static void

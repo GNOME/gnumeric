@@ -16,6 +16,7 @@
 #include "workbook-cmd-format.h"
 #include "dialogs.h"
 #include "format.h"
+#include "commands.h"
 
 void
 workbook_cmd_format_column_auto_fit (GtkWidget *widget, Workbook *wb)
@@ -196,7 +197,8 @@ workbook_cmd_format_sheet_change_name (GtkWidget *widget, Workbook *wb)
 	if (!new_name)
 		return;
 
-	workbook_rename_sheet (wb, sheet->name, new_name);
+	cmd_rename_sheet (workbook_command_context_gui (wb),
+			  wb, sheet->name, new_name);
 	g_free (new_name);
 }
 

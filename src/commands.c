@@ -574,8 +574,10 @@ gboolean
 cmd_insert_cols (CommandContext *context,
 		 Sheet *sheet, int start_col, int count)
 {
-	char *mesg = g_strdup_printf (_("Inserting %d column%s at %s"), count,
-				      (count > 1) ? "s" : "", col_name(start_col));
+	char *mesg = g_strdup_printf ((count > 1)
+				      ? _("Inserting %d columns before %s")
+				      : _("Inserting %d column before %s"), count,
+				      col_name(start_col));
 	return cmd_ins_del_row_col (context, sheet, TRUE, TRUE, mesg,
 				    start_col, count);
 }
@@ -584,8 +586,10 @@ gboolean
 cmd_insert_rows (CommandContext *context,
 		 Sheet *sheet, int start_row, int count)
 {
-	char *mesg = g_strdup_printf (_("Inserting %d row%s at %d"), count,
-				      (count > 1) ? "s" : "", start_row+1);
+	char *mesg = g_strdup_printf ((count > 1)
+				      ? _("Inserting %d rows before %d")
+				      : _("Inserting %d row before %d"),
+				      count, start_row+1);
 	return cmd_ins_del_row_col (context, sheet, FALSE, TRUE, mesg,
 				    start_row, count);
 }
@@ -861,7 +865,8 @@ typedef struct
 {
 	GnumericCommand parent;
 
-	char *name;
+	Workbook *wb;
+	char *old_name, *new_name;
 } CmdRenameSheet;
 
 GNUMERIC_MAKE_COMMAND (CmdRenameSheet, cmd_rename_sheet);
@@ -873,8 +878,7 @@ cmd_rename_sheet_undo (GnumericCommand *cmd, CommandContext *context)
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
-	/* FIXME : Fill in */
-	return FALSE;
+	return !workbook_rename_sheet (me->wb, me->new_name, me->old_name);
 }
 
 static gboolean
@@ -884,15 +888,16 @@ cmd_rename_sheet_redo (GnumericCommand *cmd, CommandContext *context)
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
-	/* FIXME : Fill in */
-	return FALSE;
+	return !workbook_rename_sheet (me->wb, me->old_name, me->new_name);
 }
 static void
 cmd_rename_sheet_destroy (GtkObject *cmd)
 {
 	CmdRenameSheet *me = CMD_RENAME_SHEET(cmd);
 
-	g_free (me->name);
+	me->wb = NULL;
+	g_free (me->old_name);
+	g_free (me->new_name);
 	gnumeric_command_destroy (cmd);
 }
 
@@ -900,8 +905,160 @@ gboolean
 cmd_rename_sheet (CommandContext *context,
 		  Workbook *wb, const char *old_name, const char *new_name)
 {
-	/* FIXME : Finish */
-	return workbook_rename_sheet (wb, old_name, new_name);
+	GtkObject *obj;
+	CmdRenameSheet *me;
+	gboolean trouble;
+
+	g_return_val_if_fail (wb != NULL, TRUE);
+
+	obj = gtk_type_new (CMD_RENAME_SHEET_TYPE);
+	me = CMD_RENAME_SHEET (obj);
+
+	/* Store the specs for the object */
+	me->wb = wb;
+	me->old_name = g_strdup (old_name);
+	me->new_name = g_strdup (new_name);
+
+	me->parent.cmd_descriptor = 
+	    g_strdup_printf (_("Rename sheet '%s' '%s'"), old_name, new_name);
+
+	trouble = cmd_rename_sheet_redo (GNUMERIC_COMMAND(me), context);
+
+	/* Register the command object */
+	return command_push_undo (wb, obj, trouble);
+}
+
+/******************************************************************/
+
+#define CMD_SET_DATE_TIME_TYPE        (cmd_set_date_time_get_type ())
+#define CMD_SET_DATE_TIME(o)          (GTK_CHECK_CAST ((o), CMD_SET_DATE_TIME_TYPE, CmdSetDateTime))
+
+typedef struct
+{
+	GnumericCommand parent;
+
+	gboolean	 is_date;
+	EvalPosition	 pos;
+	gchar		*contents;
+} CmdSetDateTime;
+
+GNUMERIC_MAKE_COMMAND (CmdSetDateTime, cmd_set_date_time);
+
+static gboolean
+cmd_set_date_time_undo (GnumericCommand *cmd, CommandContext *context)
+{
+	CmdSetDateTime *me = CMD_SET_DATE_TIME(cmd);
+	Cell *cell;
+
+	g_return_val_if_fail (me != NULL, TRUE);
+
+	/* Get the cell */
+	cell = sheet_cell_fetch (me->pos.sheet, me->pos.eval.col, me->pos.eval.row);
+
+	g_return_val_if_fail (cell != NULL, TRUE);
+
+	/* Restore the old value (possibly empty) */
+	if (me->contents != NULL) {
+		cell_set_text (cell, me->contents);
+		g_free (me->contents);
+		me->contents = NULL;
+	} else
+		cell_set_value (cell, value_new_empty ());
+
+	return FALSE;
+}
+
+static gboolean
+cmd_set_date_time_redo (GnumericCommand *cmd, CommandContext *context)
+{
+	CmdSetDateTime *me = CMD_SET_DATE_TIME(cmd);
+	Value *v;
+	Cell *cell;
+	char const * prefered_format;
+
+	g_return_val_if_fail (me != NULL, TRUE);
+	g_return_val_if_fail (me->contents == NULL, TRUE);
+
+	if (me->is_date) {
+		int n;
+		GDate *date = g_date_new();
+		g_date_set_time (date, time (NULL));
+		n = g_date_serial (date);
+		g_date_free( date );
+
+		v = value_new_int (n);
+
+		/* TODO : why do we need the '>' ? */
+		prefered_format = _(">mm/dd/yyyy");
+	} else {
+		time_t t = time (NULL);
+		struct tm *tm = localtime (&t);
+		float_t serial = (tm->tm_hour * 3600 + tm->tm_min * 60 + tm->tm_sec)/(24*3600.0);
+		v = value_new_float (serial);
+
+		/* TODO : why do we need the '>' ? */
+		prefered_format = _(">hh:mm");
+	}
+
+	/* Get the cell (creating it if needed) */
+	cell = sheet_cell_fetch (me->pos.sheet, me->pos.eval.col, me->pos.eval.row);
+
+	/* Ensure that we are not breaking part of an array */
+	if (cell->parsed_node != NULL && cell->parsed_node->oper == OPER_ARRAY &&
+	    (cell->parsed_node->u.array.rows != 1 ||
+	     cell->parsed_node->u.array.cols != 1)) {
+		gnumeric_error_splits_array (context);
+		return TRUE;
+	}
+
+	/* Save contents */
+	me->contents = (cell->value) ? cell_get_text (cell) : NULL;
+
+	cell_set_value (cell, v);
+	cell_set_format (cell, prefered_format+1);
+	workbook_recalc (me->pos.sheet->workbook);
+	return FALSE;
+}
+static void
+cmd_set_date_time_destroy (GtkObject *cmd)
+{
+	CmdSetDateTime *me = CMD_SET_DATE_TIME(cmd);
+
+	if (me->contents)
+		g_free (me->contents);
+	gnumeric_command_destroy (cmd);
+}
+
+gboolean
+cmd_set_date_time (CommandContext *context, gboolean is_date,
+		   Sheet *sheet, int col, int row)
+{
+	GtkObject *obj;
+	CmdSetDateTime *me;
+	gboolean trouble;
+
+	g_return_val_if_fail (sheet != NULL, TRUE);
+
+	obj = gtk_type_new (CMD_SET_DATE_TIME_TYPE);
+	me = CMD_SET_DATE_TIME (obj);
+
+	/* Store the specs for the object */
+	me->pos.sheet = sheet;
+	me->pos.eval.col = col;
+	me->pos.eval.row = row;
+	me->is_date = is_date;
+	me->contents = NULL;
+
+	me->parent.cmd_descriptor =
+	    g_strdup_printf (is_date
+			     ? _("Setting current date in %s")
+			     : _("Setting current time in %s"),
+			     cell_name(col, row));
+
+	trouble = cmd_set_date_time_redo (GNUMERIC_COMMAND(me), context);
+
+	/* Register the command object */
+	return command_push_undo (sheet->workbook, obj, trouble);
 }
 
 /******************************************************************/
@@ -911,5 +1068,4 @@ cmd_rename_sheet (CommandContext *context,
  * - Autofill
  * - Array formula creation.
  * - Row/Col size changes
- * - insert data/time
  */
