@@ -5,36 +5,42 @@
      Gnumeric's user manual
     </title>
     <creator>
+    <person>	
+      <firstName>Jody</firstName>
+      <lastName>Goldberg</lastName>
+      <email>jody@gnome.org</email>
+     </person>
+
 
      <person>
       <firstName>Adrian</firstName>
       <lastName>Custer</lastName>
-      <email></email>
+      <email>acuster@nature.berkeley.edu</email>
      </person>
 
      <person>
       <firstName>Kevin</firstName>
       <lastName>Breit</lastName>
-      <email></email>
+      <email>mrproper@ximian.com</email>
      </person>
 
      <person>
       <firstName>Andreas</firstName>
       <lastName>Guelzow</lastName>
-      <email></email>
+      <email>aguelzow@taliesin.ca</email>
      </person>
 
 
      <person>
       <firstName>Aaron</firstName>
       <lastName>Weber</lastName>
-      <email></email>
+      <email>aaron@ximian.com</email>
      </person>
 
      <person>
       <firstName>Thomas</firstName>
       <lastName>Canty</lastName>
-      <email></email>
+      <email>tommydal@ihug.com.au</email>
      </person>
 
      <person>
