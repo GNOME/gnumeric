@@ -1,6 +1,27 @@
 2002-03-16  Jody Goldberg <jody@gnome.org>
 
-	* src/eval.c (dependents_relocate) :
+	* src/workbook.c (workbook_foreach_cell_in_range) : support 3d
+	  references.
+	(workbook_finalize) : free the 3d dep list if necessary.
+	(workbook_init) : initialize the list.
+	(cb_dep_unlink) : new.
+	(pre_sheet_index_change) : new.
+	(cb_dep_link) : new.
+	(post_sheet_index_change) : new.
+	(workbook_sheet_index_update) : privatize.
+	(workbook_sheet_attach) : add pre/post handling for 3d references.
+	(workbook_sheet_detach) : ditto.
+
+	* src/eval.c (link_cellrange_dep) : add support for 3d deps.
+	(unlink_cellrange_dep) : add support for 3d deps.
+	(workbook_link_3d_dep) : new.
+	(workbook_unlink_3d_dep) : new.
+	(dependent_link) : called here.
+	(dependent_unlink) : and here.
+
+	* configure.in : bump libcanvas req to getthe no auto-center patch.
+
+2002-03-16  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet.c (sheet_{insert,delete}_{cols,rows}) : don't recalc the
 	  entire sheet.  We'll queue what we need when relocating.

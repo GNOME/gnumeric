@@ -1102,8 +1102,6 @@ format_template_recalc_hash (FormatTemplate *ft)
 	ft->table = hash_table_destroy (ft->table);
 	ft->table = hash_table_create ();
 
-	g_hash_table_freeze (ft->table);
-
 	r = ft->dimension;
 
 	/* If the range check fails then the template it simply too *huge*
@@ -1111,13 +1109,10 @@ format_template_recalc_hash (FormatTemplate *ft)
 	 */
 	if (!format_template_range_check (ft, &r, FALSE)) {
 		g_warning ("Template %s is too large, hash can't be calculated", ft->name);
-		g_hash_table_thaw (ft->table);
 		return;
 	}
 
 	format_template_calculate (ft, &r, (PCalcCallback) cb_format_hash_style, ft->table);
-
-	g_hash_table_thaw (ft->table);
 }
 
 /**

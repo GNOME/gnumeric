@@ -4,7 +4,7 @@
  * Author:
  *    Michael Meeks (michael@ximian.com)
  *
- * (C) 1998, 1999, 2000 Michael Meeks
+ * (C) 1998-2002 Michael Meeks
  **/
 #ifndef GNUMERIC_BIFF_H
 #define GNUMERIC_BIFF_H
@@ -15,13 +15,11 @@
 /*                                 Read Side                                   */
 /*******************************************************************************/
 
-typedef struct _BiffQuery BiffQuery;
-
 /**
  * Returns query data, it is imperative that copies of
  * 'data *' should _not_ be kept.
  **/
-struct _BiffQuery {
+typedef struct {
 	guint8  ms_op;
 	guint8  ls_op;
 	guint16 opcode;
@@ -32,7 +30,7 @@ struct _BiffQuery {
 
 	guint32 streamPos;
 	MsOleStream *pos;
-};
+} BiffQuery;
 
 /* Sets up a query on a stream */
 BiffQuery  *ms_biff_query_new        (MsOleStream *);
@@ -78,4 +76,5 @@ void           ms_biff_put_var_seekto (BiffPut *, MsOlePos pos);
 void           ms_biff_put_commit     (BiffPut *);
 
 void dump_biff (BiffQuery *bq);
-#endif
+
+#endif /* GNUMERIC_BIFF_H */

@@ -623,27 +623,34 @@ link_cellrange_dep (Dependent *dep, CellPos const *pos,
 		    CellRef const *a, CellRef const *b)
 {
 	DependencyRange range;
-	DependencyContainer *depsa, *depsb;
 	DependentFlags flag = DEPENDENT_NO_FLAG;
  
-	if (a->sheet != NULL) {
-		if (a->sheet != dep->sheet)
-			flag = (a->sheet->workbook != a->sheet->workbook)
-				? DEPENDENT_GOES_INTERBOOK : DEPENDENT_GOES_INTERSHEET;
-		depsa = a->sheet->deps;
-		depsb = (a->sheet != b->sheet) ? b->sheet->deps : depsa;
-	} else
-		depsa = depsb = dep->sheet->deps;
-
 	cellref_get_abs_pos (a, pos, &range.range.start);
 	cellref_get_abs_pos (b, pos, &range.range.end);
 	range_normalize (&range.range);
 
-	link_range_dep (depsa, dep, &range);
+	if (a->sheet != NULL) {
+		if (a->sheet != dep->sheet)
+			flag = (a->sheet->workbook != a->sheet->workbook)
+				? DEPENDENT_GOES_INTERBOOK : DEPENDENT_GOES_INTERSHEET;
 
-	/* FIXME: we need to iterate sheets between to be correct */
-	if (depsa != depsb)
-		link_range_dep  (depsb, dep, &range);
+		if (b->sheet != NULL && a->sheet != b->sheet) {
+			Workbook const *wb = a->sheet->workbook;
+			int i = a->sheet->index_in_wb;
+			int stop = b->sheet->index_in_wb;
+			if (i < stop) { int tmp = i; i = stop ; stop = tmp; }
+
+			g_return_val_if_fail (b->sheet->workbook == wb, flag);
+
+			while (i <= stop) {
+				Sheet *sheet = g_ptr_array_index (wb->sheets, i);
+				link_range_dep (sheet->deps, dep, &range);
+			}
+			flag |= DEPENDENT_HAS_3D;
+		} else
+			link_range_dep (a->sheet->deps, dep, &range);
+	} else
+		link_range_dep (dep->sheet->deps, dep, &range);
 
 	return flag;
 }
@@ -652,18 +659,28 @@ unlink_cellrange_dep (Dependent *dep, CellPos const *pos,
 		      CellRef const *a, CellRef const *b)
 {
 	DependencyRange range;
-	DependencyContainer *depsa = eval_sheet (a->sheet, dep->sheet)->deps;
-	DependencyContainer *depsb = eval_sheet (b->sheet, dep->sheet)->deps;
 
 	cellref_get_abs_pos (a, pos, &range.range.start);
 	cellref_get_abs_pos (b, pos, &range.range.end);
 	range_normalize (&range.range);
 
-	unlink_range_dep (depsa, dep, &range);
+	if (a->sheet != NULL) {
+		if (b->sheet != NULL && a->sheet != b->sheet) {
+			Workbook const *wb = a->sheet->workbook;
+			int i = a->sheet->index_in_wb;
+			int stop = b->sheet->index_in_wb;
+			if (i < stop) { int tmp = i; i = stop ; stop = tmp; }
 
-	/* FIXME: we need to iterate sheets between to be correct */
-	if (depsa != depsb)
-		unlink_range_dep (depsb, dep, &range);
+			g_return_if_fail (b->sheet->workbook == wb);
+
+			while (i <= stop) {
+				Sheet *sheet = g_ptr_array_index (wb->sheets, i);
+				unlink_range_dep (sheet->deps, dep, &range);
+			}
+		} else
+			unlink_range_dep (a->sheet->deps, dep, &range);
+	} else
+		unlink_range_dep (dep->sheet->deps, dep, &range);
 }
 
 static DependentFlags
@@ -823,6 +840,22 @@ unlink_expr_dep (Dependent *dep, CellPos const *pos, ExprTree *tree)
 	}
 }
 
+static void
+workbook_link_3d_dep (Dependent *dep)
+{
+	if (dep->sheet->workbook->sheet_order_dependents == NULL)
+		dep->sheet->workbook->sheet_order_dependents =
+			g_hash_table_new (g_direct_hash, g_direct_equal);
+	g_hash_table_insert (dep->sheet->workbook->sheet_order_dependents, dep, dep);
+}
+
+static void
+workbook_unlink_3d_dep (Dependent *dep)
+{
+	g_return_if_fail (dep->sheet->workbook->sheet_order_dependents != NULL);
+	g_hash_table_remove (dep->sheet->workbook->sheet_order_dependents, dep);
+}
+
 /**
  * dependent_link:
  * @dep : the dependent that changed
@@ -852,6 +885,9 @@ dependent_link (Dependent *dep, CellPos const *pos)
 	dep->flags |=
 		DEPENDENT_IS_LINKED |
 		link_expr_dep (dep, pos, dep->expression);
+
+	if (dep->flags & DEPENDENT_HAS_3D)
+		workbook_link_3d_dep (dep);
 }
 
 /**
@@ -885,6 +921,8 @@ dependent_unlink (Dependent *dep, CellPos const *pos)
 			dep->prev_dep->next_dep = dep->next_dep;
 	}
 
+	if (dep->flags & DEPENDENT_HAS_3D)
+		workbook_unlink_3d_dep (dep);
 	dep->flags &= ~DEPENDENT_LINK_FLAGS;
 }
 

@@ -20,6 +20,7 @@
 #include "command-context.h"
 #include "application.h"
 #include "sheet.h"
+#include "cell.h"
 #include "sheet-control.h"
 #include "expr.h"
 #include "expr-name.h"
@@ -188,19 +189,30 @@ workbook_finalize (GObject *wb_object)
 	/* Now do deletions that will put this workbook into a weird
 	   state.  Careful here.  */
 	g_hash_table_destroy (wb->sheet_hash_private);
+	wb->sheet_hash_private = NULL;
+
+	if (wb->sheet_order_dependents != NULL) {
+		g_hash_table_destroy (wb->sheet_order_dependents);
+		wb->sheet_order_dependents = NULL;
+	}
 
 	g_ptr_array_free (wb->sheets, TRUE);
+	wb->sheets = NULL;
 
 	wb->names = expr_name_list_destroy (wb->names);
 
 	workbook_private_delete (wb->priv);
+	wb->priv = NULL;
 
 	if (wb->file_format_level >= FILE_FL_MANUAL_REMEMBER)
 		workbook_history_update (application_workbook_list (), wb->filename);
 
-	if (wb->filename)
+	if (wb->filename) {
 	       g_free (wb->filename);
+	       wb->filename = NULL;
+	}
 
+#warning this has no business being here
 	if (initial_workbook_open_complete && application_workbook_list () == NULL) {
 		application_history_write_config ();
 		gtk_main_quit ();
@@ -364,8 +376,9 @@ workbook_init (GObject *object)
 	wb->sheets = g_ptr_array_new ();
 	wb->sheet_hash_private = g_hash_table_new (gnumeric_strcase_hash,
 						   gnumeric_strcase_equal);
+	wb->sheet_order_dependents = NULL;
 	wb->names        = NULL;
-	wb->summary_info   = summary_info_new ();
+	wb->summary_info = summary_info_new ();
 	summary_info_default (wb->summary_info);
 	wb->summary_info->modified = FALSE;
 
@@ -605,8 +618,6 @@ workbook_unref (Workbook *wb)
  * callback routine.  If the only_existing flag is TRUE, then
  * callbacks are only invoked for existing cells.
  *
- * NOTE : Does not yet handle 3D references.
- *
  * Return value:
  *    non-NULL on error, or value_terminate() if some invoked routine requested
  *    to stop (by returning non-NULL).
@@ -628,9 +639,25 @@ workbook_foreach_cell_in_range (EvalPos const *pos,
 
 	value_cellrange_normalize (pos, cell_range, &start_sheet, &end_sheet, &r);
 
-	/* We cannot support this until the Sheet management is tidied up.  */
-	if (start_sheet != end_sheet)
-		g_warning ("3D references are not supported yet, using 1st sheet");
+	if (start_sheet != end_sheet) {
+		Value *res;
+		Workbook const *wb = start_sheet->workbook;
+		int i = start_sheet->index_in_wb;
+		int stop = end_sheet->index_in_wb;
+		if (i < stop) { int tmp = i; i = stop ; stop = tmp; }
+
+		g_return_val_if_fail (start_sheet->workbook == wb, value_terminate ());
+
+		while (i <= stop) {
+			res = sheet_foreach_cell_in_range (g_ptr_array_index (wb->sheets, i),
+							   only_existing,
+							   r.start.col, r.start.row,
+							   r.end.col, r.end.row,
+							   handler, closure);
+			if (res != NULL)
+				return res;
+		}
+	}
 
 	return sheet_foreach_cell_in_range (start_sheet, only_existing,
 					    r.start.col, r.start.row,
@@ -773,12 +800,41 @@ workbook_sheet_count (Workbook const *wb)
 	return wb->sheets ? wb->sheets->len : 0;
 }
 
-void
+static void
+cb_dep_unlink (Dependent *dep, gpointer value, gpointer user_data)
+{
+	CellPos *pos = NULL;
+	if (dependent_is_cell (dep))
+		pos = &DEP_TO_CELL (dep)->pos;
+	dependent_unlink (dep, pos);
+}
+static void
+pre_sheet_index_change (Workbook *wb)
+{
+	if (wb->sheet_order_dependents != NULL)
+		g_hash_table_foreach (wb->sheet_order_dependents,
+			(GHFunc) cb_dep_unlink, NULL);
+}
+static void
+cb_dep_link (Dependent *dep, gpointer value, gpointer user_data)
+{
+	CellPos *pos = NULL;
+	if (dependent_is_cell (dep))
+		pos = &DEP_TO_CELL (dep)->pos;
+	dependent_link (dep, pos);
+}
+static void
+post_sheet_index_change (Workbook *wb)
+{
+	if (wb->sheet_order_dependents != NULL)
+		g_hash_table_foreach (wb->sheet_order_dependents,
+			(GHFunc) cb_dep_link, NULL);
+}
+
+static void
 workbook_sheet_index_update (Workbook *wb, int start)
 {
 	int i;
-
-	g_return_if_fail (IS_WORKBOOK (wb));
 
 	for (i = wb->sheets->len ; i-- > start ; ) {
 		Sheet *sheet = g_ptr_array_index (wb->sheets, i);
@@ -820,6 +876,7 @@ workbook_sheet_attach (Workbook *wb, Sheet *new_sheet,
 	g_return_if_fail (IS_SHEET (new_sheet));
 	g_return_if_fail (new_sheet->workbook == wb);
 
+	pre_sheet_index_change (wb);
 	if (insert_after != NULL) {
 		int pos = insert_after->index_in_wb;
 		g_ptr_array_insert (wb->sheets, (gpointer)new_sheet, ++pos);
@@ -831,6 +888,7 @@ workbook_sheet_attach (Workbook *wb, Sheet *new_sheet,
 
 	g_hash_table_insert (wb->sheet_hash_private,
 			     new_sheet->name_unquoted, new_sheet);
+	post_sheet_index_change (wb);
 
 	WORKBOOK_FOREACH_VIEW (wb, view,
 		wb_view_sheet_add (view, new_sheet););
@@ -883,11 +941,14 @@ workbook_sheet_detach (Workbook *wb, Sheet *sheet)
 		wb_control_sheet_remove (control, sheet););
 
 	/* Remove our reference to this sheet */
+#warning TODO : check for 3d refs that start or end on this sheet
+	pre_sheet_index_change (wb);
 	g_ptr_array_remove_index (wb->sheets, sheet_index);
 	workbook_sheet_index_update (wb, sheet_index);
 	sheet->index_in_wb = -1;
 	g_hash_table_remove (wb->sheet_hash_private, sheet->name_unquoted);
 	sheet_destroy (sheet);
+	post_sheet_index_change (wb);
 
 	if (focus != NULL)
 		workbook_recalc_all (wb);

@@ -17,12 +17,12 @@ Release Critical
 - Summary dialog is non-functional.
 - Function selection dialog is broken, and it sucks.
 - Go-to cell dialog is shot, make it a guru.
+- 3D reference fixes on sheet deletion
 
 1.2 Targets
 -----------
 
 - PROB sucks right now.
-- 3D reference support
 - load/save of external references
 
 Pending Patches

@@ -245,11 +245,11 @@ scg_resize (SheetControl *sc, gboolean force_scroll)
 
 	/* resize Pane[0] headers */
 	h = item_bar_calc_size (scg->pane[0].col.item);
-	btn_h = h - item_bar_indent (scg->pane[0].col.item) + 1;
-	gtk_widget_set_usize (GTK_WIDGET (scg->pane[0].col.canvas), -1, h+1);
+	btn_h = h - item_bar_indent (scg->pane[0].col.item);
+	gtk_widget_set_usize (GTK_WIDGET (scg->pane[0].col.canvas), -1, h);
 	w = item_bar_calc_size (scg->pane[0].row.item);
-	btn_w = w - item_bar_indent (scg->pane[0].row.item) + 1;
-	gtk_widget_set_usize (GTK_WIDGET (scg->pane[0].row.canvas), w+1, -1);
+	btn_w = w - item_bar_indent (scg->pane[0].row.item);
+	gtk_widget_set_usize (GTK_WIDGET (scg->pane[0].row.canvas), w, -1);
 
 	gtk_widget_set_usize (scg->select_all_btn, btn_w, btn_h);
 

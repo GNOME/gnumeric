@@ -177,7 +177,6 @@ plugin_cache_init (void)
 
 	state_str_list = gnumeric_config_get_string_list (
 	                 "/Gnumeric/Plugin/PluginFileStates", NULL);
-	g_hash_table_freeze (plugin_file_state_dir_hash);
 	for (l = state_str_list; l != NULL; l = l->next) {
 		PluginFileState *state;
 
@@ -187,7 +186,6 @@ plugin_cache_init (void)
 			g_hash_table_insert (plugin_file_state_dir_hash, state->dir_name, state);
 		}
 	}
-	g_hash_table_thaw (plugin_file_state_dir_hash);
 	g_list_free_custom (state_str_list, g_free);
 
 	plugin_file_state_list_changed = FALSE;
@@ -1624,11 +1622,8 @@ plugin_db_init (ErrorInfo **ret_error)
 
 	/* Make a hash of the known plugins */
 	known_plugin_id_hash = g_hash_table_new (&g_str_hash, &g_str_equal);
-	g_hash_table_freeze (known_plugin_id_hash);
-	for (l = known_plugin_id_list; l != NULL; l = l->next) {
+	for (l = known_plugin_id_list; l != NULL; l = l->next)
 		g_hash_table_insert (known_plugin_id_hash, l->data, l->data);
-	}
-	g_hash_table_thaw (known_plugin_id_hash);
 
 	/* Find the new plugins by searching in the hash */
 	new_plugin_ids = NULL;

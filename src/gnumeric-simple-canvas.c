@@ -43,8 +43,12 @@ E_MAKE_TYPE (gnm_simple_canvas, "GnmSimpleCanvas", GnmSimpleCanvas,
 GnomeCanvas *
 gnm_simple_canvas_new (SheetControlGUI *scg)
 {
-	GnmSimpleCanvas *gcanvas = gtk_type_new (gnm_simple_canvas_get_type ());
+	GnmSimpleCanvas *gcanvas = g_object_new (GNM_SIMPLE_CANVAS_TYPE, NULL);
 	gcanvas->scg = scg;
+
+	/* YES! die die die */
+	gnome_canvas_set_center_scroll_region (GNOME_CANVAS (gcanvas), FALSE);
+
 	return GNOME_CANVAS (gcanvas);
 }
 

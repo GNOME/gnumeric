@@ -3331,12 +3331,10 @@ colrow_move (Sheet *sheet,
 		return;
 
 	/* Collect the cells and unlinks them if necessary */
-	g_hash_table_freeze (sheet->cell_hash);
 	sheet_foreach_cell_in_range (sheet, TRUE,
 				     start_col, start_row,
 				     end_col, end_row,
 				     &cb_collect_cell, &cells);
-	g_hash_table_thaw (sheet->cell_hash);
 
 	/* Reverse the list so that we start at the top left
 	 * which makes things easier for arrays.
@@ -3735,14 +3733,12 @@ sheet_move_range (WorkbookControl *wbc,
 	}
 
 	/* 3. Collect the cells */
-	g_hash_table_freeze (sheet->cell_hash);
 	sheet_foreach_cell_in_range (rinfo->origin_sheet, TRUE,
 				     rinfo->origin.start.col,
 				     rinfo->origin.start.row,
 				     rinfo->origin.end.col,
 				     rinfo->origin.end.row,
 				     &cb_collect_cell, &cells);
-	g_hash_table_thaw (sheet->cell_hash);
 
 	/* Reverse list so that we start at the top left (simplifies arrays). */
 	cells = g_list_reverse (cells);

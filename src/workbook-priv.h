@@ -20,6 +20,7 @@ struct _Workbook {
 
 	GPtrArray  *sheets;
 	GHashTable *sheet_hash_private;
+	GHashTable *sheet_order_dependents;
 
 	gboolean modified;
 
@@ -63,7 +64,6 @@ void	    workbook_unref		 (Workbook *wb);
 /* Sheet support routines */
 GList      *workbook_sheets              (Workbook const *wb);
 int         workbook_sheet_count         (Workbook const *wb);
-void	    workbook_sheet_index_update	 (Workbook *wb, int start);
 Sheet      *workbook_sheet_by_index	 (Workbook const *wb, int i);
 Sheet      *workbook_sheet_by_name       (Workbook const *wb, char const *sheet_name);
 void        workbook_sheet_attach        (Workbook *wb, Sheet *new_sheet,
