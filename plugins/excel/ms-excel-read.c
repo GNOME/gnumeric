@@ -618,7 +618,8 @@ biff_boundsheet_data_new (BiffQuery *q, ExcelWorkbook *wb, MsBiffVersion ver)
 	if (ans->hidden == MS_BIFF_H_VISIBLE) {
 		ans->sheet = ms_excel_sheet_new (wb, ans->name);
 		ms_excel_workbook_attach (wb, ans->sheet);
-	}
+	} else
+		ans->sheet = NULL;
 }
 
 static gboolean
@@ -4201,7 +4202,7 @@ biff_get_externsheet_name (ExcelWorkbook *wb, guint16 idx, gboolean get_first)
 
 	bsd = g_hash_table_lookup (wb->boundsheet_data_by_index, &index);
 	if (!bsd || !bsd->sheet) {
-		printf ("Duff sheet index %d\n", index);
+		g_warning ("Duff sheet index %d\n", index);
 		return NULL;
 	}
 	return bsd->sheet->gnum_sheet;
