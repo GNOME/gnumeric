@@ -30,6 +30,7 @@ Nick Lamb:
 
 Morten:
 	* Invalid memory read in marker combo.
+	* Speed up number match by caching localized TRUE and FALSE.
 
 Thomas Miesbauer:
 	* Redo screenshots

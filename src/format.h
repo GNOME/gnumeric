@@ -109,6 +109,7 @@ char        format_get_arg_sep      (void);
 char        format_get_col_sep      (void);
 char const *format_get_thousand     (void);
 char const *format_get_decimal      (void);
+char const *format_boolean          (gboolean b);
 
 void number_format_init (void);
 void number_format_shutdown (void);

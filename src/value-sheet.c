@@ -9,6 +9,7 @@
 #include "gnumeric.h"
 
 #include "value.h"
+#include "format.h"
 #include "ranges.h"
 #include "str.h"
 #include "sheet.h"
@@ -30,7 +31,7 @@ value_dump (Value const *value)
 		break;
 
 	case VALUE_BOOLEAN:
-		printf ("BOOLEAN: %s\n", value->v_bool.val ?_("TRUE"):_("FALSE"));
+		printf ("BOOLEAN: %s\n", format_boolean (value->v_bool.val));
 		break;
 
 	case VALUE_STRING:

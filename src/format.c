@@ -54,18 +54,24 @@ static StyleFormat *default_general_fmt;
 
 /* Points to the locale information for number display */
 static gboolean locale_info_cached = FALSE;
-static gboolean date_order_cached = FALSE;
 static char *lc_decimal = NULL;
 static char *lc_thousand = NULL;
 static gboolean lc_precedes;
 static gboolean lc_space_sep;
 static char *lc_currency = NULL; /* in UTF-8 */
 
+static gboolean date_order_cached = FALSE;
+
+static gboolean boolean_cached = FALSE;
+static char *lc_TRUE = NULL;
+static char *lc_FALSE = NULL;
+
 char const *
 gnumeric_setlocale (int category, char const *val)
 {
 	locale_info_cached = FALSE;
 	date_order_cached = FALSE;
+	boolean_cached = FALSE;
 	return setlocale (category, val);
 }
 
@@ -218,6 +224,19 @@ format_get_col_sep (void)
 		return '\\';
 	return ',';
 }
+
+char const *
+format_boolean (gboolean b)
+{
+	if (!boolean_cached) {
+		lc_TRUE = _("TRUE");
+		lc_FALSE = _("FALSE");
+		boolean_cached = TRUE;
+	}
+	return b ? lc_TRUE : lc_FALSE;
+}
+
+
 /***************************************************************************/
 
 /* WARNING : Global */
@@ -1968,7 +1987,7 @@ format_value_gstring (GString *result, StyleFormat const *format,
 	case VALUE_EMPTY:
 		return;
 	case VALUE_BOOLEAN:
-		g_string_append (result, value->v_bool.val ? _("TRUE"):_("FALSE"));
+		g_string_append (result, format_boolean (value->v_bool.val));
 		return;
 	case VALUE_INTEGER: {
 		int val = value->v_int.val;

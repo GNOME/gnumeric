@@ -1091,9 +1091,9 @@ Value *
 format_match_simple (char const *text)
 {
 	/* Is it a boolean?  */
-	if (0 == g_ascii_strcasecmp (text, _("TRUE")))
+	if (0 == g_ascii_strcasecmp (text, format_boolean (TRUE)))
 		return value_new_bool (TRUE);
-	if (0 == g_ascii_strcasecmp (text, _("FALSE")))
+	if (0 == g_ascii_strcasecmp (text, format_boolean (FALSE)))
 		return value_new_bool (FALSE);
 
 	/* Is it an error?  */

@@ -400,16 +400,20 @@ value_new_from_string (ValueType t, char const *str, StyleFormat *sf,
 		res = value_new_empty ();
 		break;
 
-	case VALUE_BOOLEAN: {
-		char const *C_true = N_("TRUE");
-		char const *C_false = N_("FALSE");
-
-		if (0 == g_ascii_strcasecmp (str, translated ? _(C_true) : C_true))
-			res = value_new_bool (TRUE);
-		else if (0 == g_ascii_strcasecmp (str, translated ? _(C_false) : C_false))
-			res = value_new_bool (FALSE);
+	case VALUE_BOOLEAN:
+		if (translated) {
+			/* FIXME: ascii???  */
+			if (0 == g_ascii_strcasecmp (str, format_boolean (TRUE)))
+				res = value_new_bool (TRUE);
+			else if (0 == g_ascii_strcasecmp (str, format_boolean (FALSE)))
+				res = value_new_bool (FALSE);
+		} else {
+			if (0 == g_ascii_strcasecmp (str, "TRUE"))
+				res = value_new_bool (TRUE);
+			else if (0 == g_ascii_strcasecmp (str, "FALSE"))
+				res = value_new_bool (FALSE);
+		}
 		break;
-	}
 
 	case VALUE_INTEGER: {
 		char *end;
@@ -815,8 +819,11 @@ value_get_as_gstring (GString *target, Value const *v,
 	}
 
 	case VALUE_BOOLEAN: {
-		char const *cval = v->v_bool.val ? N_("TRUE") : N_("FALSE");
-		g_string_append (target, conv->output_translated ? _(cval) : cval);
+		gboolean b = v->v_bool.val;
+		g_string_append (target,
+				 conv->output_translated
+				 ? format_boolean (b)
+				 : (b ? "TRUE" : "FALSE"));
 		return;
 	}
 
