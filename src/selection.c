@@ -793,6 +793,7 @@ sheet_selection_paste (CommandContext *context, Sheet *sheet,
 
 		workbook_recalc (sheet->workbook);
 	}
+	sheet_load_cell_val (sheet);
 }
 
 /**

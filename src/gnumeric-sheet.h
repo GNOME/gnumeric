@@ -64,7 +64,6 @@ void       gnumeric_sheet_make_cell_visible      (GnumericSheet *gsheet,
 void       gnumeric_sheet_get_cell_bounds        (GnumericSheet *gsheet,
 						  int col, int row,
 						  int *x, int *y, int *w, int *h);
-void       gnumeric_sheet_stop_cell_selection    (GnumericSheet *gsheet);
 void       gnumeric_sheet_create_editing_cursor  (GnumericSheet *gsheet);
 void       gnumeric_sheet_destroy_editing_cursor (GnumericSheet *gsheet);
 
