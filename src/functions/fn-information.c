@@ -25,9 +25,8 @@ static char *help_countblank = {
            "@SEEALSO=COUNT")
 };
 
-static Value *
-gnumeric_countblank (struct FunctionDefinition *n,
-		     Value *argv [], char **error_string)
+static FuncReturn *
+gnumeric_countblank (FuncScratch *s)
 {
         Sheet *sheet;
         Value *range;
@@ -35,7 +34,7 @@ gnumeric_countblank (struct FunctionDefinition *n,
 	int   i, j;
 	int   count;
 
-	range = argv[0];
+	range = s->a.args[0];
 	sheet = range->v.cell_range.cell_a.sheet;
 	col_a = range->v.cell_range.cell_a.col;
 	col_b = range->v.cell_range.cell_b.col;
@@ -51,17 +50,13 @@ gnumeric_countblank (struct FunctionDefinition *n,
 			        count++;
 		}
 
-	return value_new_int (count);
+	return (FuncReturn *)value_new_int (count);
 }
-
-
-FunctionDefinition information_functions [] = {
-        { "countblank", "r",  "range",       &help_countblank,
-	  NULL, gnumeric_countblank },
-        { NULL, NULL }
-};
 
 void information_functions_init()
 {
 	FunctionCategory *cat = function_get_category (_("Information"));
+
+        function_new (cat, "countblank", "r",  "range",       &help_countblank,
+		      FUNCTION_ARGS, gnumeric_countblank);
 }

@@ -127,6 +127,7 @@ enum _FuncType { FUNCTION_ARGS, FUNCTION_NODES };
 
 typedef enum _FuncType FuncType;
 typedef Value * FuncReturn;
+#define FUNC_RETURN_VAL(n) return (FuncReturn *)(n)
 
 struct _FuncScratch {
 	FuncPos pos;

@@ -111,49 +111,17 @@ void setup_stat_closure (stat_closure_t *cl);
 int callback_function_stat (Sheet *sheet, Value *value, char **error_string,
 			    void *closure);
 
-Value *gnumeric_average     (Sheet *sheet, GList *expr_node_list,
-			     int eval_col, int eval_row,
-			     char **error_string);
-
-Value *gnumeric_count       (Sheet *sheet, GList *expr_node_list,
-			     int eval_col, int eval_row,
-			     char **error_string);
-
-Value *gnumeric_sum         (Sheet *sheet, GList *expr_node_list,
-			     int eval_col, int eval_row,
-			     char **error_string);
-
-Value *gnumeric_stdev         (Sheet *sheet, GList *expr_node_list,
-			       int eval_col, int eval_row,
-			       char **error_string);
-
-Value *gnumeric_stdevp         (Sheet *sheet, GList *expr_node_list,
-				int eval_col, int eval_row,
-				char **error_string);
-
-Value *gnumeric_var         (Sheet *sheet, GList *expr_node_list,
-			     int eval_col, int eval_row,
-			     char **error_string);
-
-Value *gnumeric_varp         (Sheet *sheet, GList *expr_node_list,
-			      int eval_col, int eval_row,
-			      char **error_string);
-
-Value *gnumeric_counta         (Sheet *sheet, GList *expr_node_list,
-				int eval_col, int eval_row,
-				char **error_string);
-
-Value *gnumeric_min         (Sheet *sheet, GList *expr_node_list,
-			     int eval_col, int eval_row,
-			     char **error_string);
-
-Value *gnumeric_max         (Sheet *sheet, GList *expr_node_list,
-			     int eval_col, int eval_row,
-			     char **error_string);
-
-Value *
-gnumeric_suma (Sheet *sheet, GList *expr_node_list,
-	       int eval_col, int eval_row, char **error_string);
+FuncReturn *gnumeric_average     (FuncScratch *s);
+FuncReturn *gnumeric_count       (FuncScratch *s);
+FuncReturn *gnumeric_sum         (FuncScratch *s);
+FuncReturn *gnumeric_stdev       (FuncScratch *s);
+FuncReturn *gnumeric_stdevp      (FuncScratch *s);
+FuncReturn *gnumeric_var         (FuncScratch *s);
+FuncReturn *gnumeric_varp        (FuncScratch *s);
+FuncReturn *gnumeric_counta      (FuncScratch *s);
+FuncReturn *gnumeric_min         (FuncScratch *s);
+FuncReturn *gnumeric_max         (FuncScratch *s);
+FuncReturn *gnumeric_suma        (FuncScratch *s);
 
 
 /* Type definitions and function prototypes for criteria functions.

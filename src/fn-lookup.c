@@ -43,42 +43,41 @@ static char *help_address = {
 	   "@SEEALSO=")
 };
 
-static Value *
-gnumeric_address (struct FunctionDefinition *i,
-		  Value *argv [], char **error_string)
+static FuncReturn *
+gnumeric_address (FuncScratch *s)
 {
         int   row, col, abs_num, a1, err;
 	gchar *text, *buf;
 	Value *v;
 
-	row = value_get_as_int (argv[0]);
-	col = value_get_as_int (argv[1]);
+	row = value_get_as_int (s->a.args[0]);
+	col = value_get_as_int (s->a.args[1]);
 
 	if (row < 1 || col < 1) {
-	        *error_string = _("#NUM!");
+	        s->error_string = _("#NUM!");
 		return NULL;
 	}
 
-	if (argv[2] == NULL)
+	if (s->a.args[2] == NULL)
 	        abs_num = 1;
 	else
-	        abs_num = value_get_as_int (argv [2]);
+	        abs_num = value_get_as_int (s->a.args [2]);
 
-	if (argv[3] == NULL)
+	if (s->a.args[3] == NULL)
 	        a1 = 1;
 	else {
-	        a1 = value_get_as_bool (argv[3], &err);
+	        a1 = value_get_as_bool (s->a.args[3], &err);
 		if (err) {
-		        *error_string = _("#VALUE!");
+		        s->error_string = _("#VALUE!");
 			return NULL;
 		}
 	}
 
-	if (argv[4] == NULL) {
+	if (s->a.args[4] == NULL) {
 	        text = g_new(gchar, 1);
 	        text[0] = '\0';
 	} else {
-	        gchar *p = argv[4]->v.str->str;
+	        gchar *p = s->a.args[4]->v.str->str;
 		int   n=0, space=0;
 
 		text = g_new(gchar, strlen(p) + 3);
@@ -86,9 +85,9 @@ gnumeric_address (struct FunctionDefinition *i,
 			if (*p++ == ' ')
 			        space = 1;
 		if (space)
-		        sprintf(text, "'%s'", argv[4]->v.str->str);
+		        sprintf(text, "'%s'", s->a.args[4]->v.str->str);
 		else
-		        strcpy(text, argv[4]->v.str->str);
+		        strcpy(text, s->a.args[4]->v.str->str);
 		strcat(text, "!");
 	}
 
@@ -122,14 +121,14 @@ gnumeric_address (struct FunctionDefinition *i,
 	default:
 	        g_free(text);
 	        g_free(buf);
-		*error_string = _("#NUM!");
+		s->error_string = _("#NUM!");
 		return NULL;
 	}
 	v = value_new_string (buf);
 	g_free(text);
 	g_free(buf);
 
-	return v;
+	FUNC_RETURN_VAL(v);
 }
 
 static char *help_choose = {
@@ -145,28 +144,27 @@ static char *help_choose = {
 	   "@SEEALSO=IF")
 };
 
-static Value *
-gnumeric_choose (Sheet *sheet, GList *expr_node_list,
-		 int eval_col, int eval_row, char **error_string)
+static FuncReturn *
+gnumeric_choose (FuncScratch *s)
 {
 	int     index;
 	int     argc;
 	Value  *v;
-	GList  *l = expr_node_list;
+	GList  *l = s->a.nodes;
 
 	argc =  g_list_length (l);
 
 	if (argc < 1 || !l->data){
-		*error_string = _("#ARG!");
+		s->error_string = _("#ARG!");
 		return NULL;
 	}
 
-	v = eval_expr (sheet, l->data, eval_col, eval_row, error_string);
+	v = (Value *)eval_expr (s, l->data);
 	if (!v)
 		return NULL;
 
 	if ((v->type != VALUE_INTEGER) && (v->type != VALUE_FLOAT)){
-		*error_string = _("#VALUE!");
+		s->error_string = _("#VALUE!");
 		value_release (v);
 		return NULL;
 	}
@@ -178,11 +176,10 @@ gnumeric_choose (Sheet *sheet, GList *expr_node_list,
 	while (l){
 		index--;
 		if (!index)
-			return eval_expr (sheet, l->data, eval_col,
-					  eval_row, error_string);
+			return eval_expr (s, l->data);
 		l = g_list_next (l);
 	}
-	*error_string = _("#VALUE!");
+	s->error_string = _("#VALUE!");
 	return NULL;
 }
 
@@ -274,32 +271,31 @@ lookup_similar (const Value *data, const Value *templ,
 	return 0;
 }
 
-static Value *
-gnumeric_vlookup (struct FunctionDefinition *i,
-		  Value *argv [], char **error_string)
+static FuncReturn *
+gnumeric_vlookup (FuncScratch *s)
 {
 	const Value *next_largest = NULL;
 	int height, lp, approx, col_idx, next_largest_row = 0;
 	
-	height = value_area_get_height (argv[1]);
-	col_idx = value_get_as_int (argv[2]);
+	height = value_area_get_height (s->a.args[1]);
+	col_idx = value_get_as_int (s->a.args[2]);
 
 	if (col_idx <= 0){
-		*error_string = _("#NUM!");
+		s->error_string = _("#NUM!");
 		return NULL;
 	}
-	if (col_idx >value_area_get_width (argv [1])){
-		*error_string = _("#REF!");
+	if (col_idx >value_area_get_width (s->a.args [1])){
+		s->error_string = _("#REF!");
 		return NULL;
 	}
 
-	if (argv [3]){
+	if (s->a.args [3]){
 		int err;
 
-		approx = value_get_as_bool (argv [3], &err);
+		approx = value_get_as_bool (s->a.args [3], &err);
 
 		if (err){
-			*error_string = _("#VALUE!");
+			s->error_string = _("#VALUE!");
 			return NULL;
 		}
 	} else
@@ -309,19 +305,19 @@ gnumeric_vlookup (struct FunctionDefinition *i,
 		int compare;
 		const Value *v;
 
-		v = value_area_get_at_x_y (argv[1], 0, lp);
+		v = value_area_get_at_x_y (s->a.args[1], 0, lp);
 
 		g_return_val_if_fail (v != NULL, NULL);
 
-		compare = lookup_similar (v, argv[0], next_largest, approx);
+		compare = lookup_similar (v, s->a.args[0], next_largest, approx);
 
 		if (compare == 1){
 			const Value *v;
 
-			v = value_area_get_at_x_y (argv [1], col_idx-1, lp);
+			v = value_area_get_at_x_y (s->a.args [1], col_idx-1, lp);
 			g_return_val_if_fail (v != NULL, NULL);
 
-			return value_duplicate (v);
+			FUNC_RETURN_VAL (value_duplicate (v));
 		}
 		if (compare < 0){
 			next_largest = v;
@@ -331,13 +327,13 @@ gnumeric_vlookup (struct FunctionDefinition *i,
 	if (approx && next_largest){
 	        const Value *v;
 
-		v = value_area_get_at_x_y (argv [1], col_idx-1,
+		v = value_area_get_at_x_y (s->a.args [1], col_idx-1,
 					   next_largest_row);
 		g_return_val_if_fail (v != NULL, NULL);
-		return value_duplicate (v);
+		FUNC_RETURN_VAL (value_duplicate (v));
 	}
 	else
-		*error_string = _("#N/A");
+		s->error_string = _("#N/A");
 
 	return NULL;
 }
@@ -361,31 +357,30 @@ static char *help_hlookup = {
 	   "@SEEALSO=VLOOKUP")
 };
 
-static Value *
-gnumeric_hlookup (struct FunctionDefinition *i, 
-		  Value *argv [], char **error_string)
+static FuncReturn *
+gnumeric_hlookup (FuncScratch *s) 
 {
 	const Value *next_largest = NULL;
 	int height, lp, approx, row_idx, next_largest_col = 0;
 	
-	row_idx = value_get_as_int (argv [2]);
-	height  = value_area_get_width (argv [1]);
+	row_idx = value_get_as_int (s->a.args [2]);
+	height  = value_area_get_width (s->a.args [1]);
 
 	if (row_idx <= 0){
-		*error_string = _("#NUM!");
+		s->error_string = _("#NUM!");
 		return NULL;
 	}
-	if (row_idx > value_area_get_height (argv [1])){
-		*error_string = _("#REF!");
+	if (row_idx > value_area_get_height (s->a.args [1])){
+		s->error_string = _("#REF!");
 		return NULL;
 	}
 
-	if (argv [3]){
+	if (s->a.args [3]){
 		int err;
-		approx = value_get_as_bool (argv [3], &err);
+		approx = value_get_as_bool (s->a.args [3], &err);
 
 		if (err){
-			*error_string = _("#VALUE!");
+			s->error_string = _("#VALUE!");
 			return NULL;
 		}
 	} else
@@ -395,19 +390,19 @@ gnumeric_hlookup (struct FunctionDefinition *i,
 		int compare;
 		const Value *v;
 
-		v = value_area_get_at_x_y (argv[1],lp, 0);
+		v = value_area_get_at_x_y (s->a.args[1],lp, 0);
 
 		g_return_val_if_fail (v != NULL, NULL);
 
-		compare = lookup_similar (v, argv[0], next_largest, approx);
+		compare = lookup_similar (v, s->a.args[0], next_largest, approx);
 
 		if (compare == 1){
 			const Value *v;
 
-			v = value_area_get_at_x_y (argv [1], lp, row_idx-1);
+			v = value_area_get_at_x_y (s->a.args [1], lp, row_idx-1);
 			g_return_val_if_fail (v != NULL, NULL);
 
-			return value_duplicate (v);
+			FUNC_RETURN_VAL (value_duplicate (v));
 		}
 
 		if (compare < 0){
@@ -418,14 +413,14 @@ gnumeric_hlookup (struct FunctionDefinition *i,
 	if (approx && next_largest){
 		const Value *v;
 
-		v = value_area_get_at_x_y (argv [1],
+		v = value_area_get_at_x_y (s->a.args [1],
 					   next_largest_col, row_idx-1);
 		g_return_val_if_fail (v != NULL, NULL);
 
-		return value_duplicate (v);
+		FUNC_RETURN_VAL (value_duplicate (v));
 	}
 	else
-		*error_string = _("#N/A");
+		s->error_string = _("#N/A");
 
 	return NULL;
 }
@@ -450,30 +445,29 @@ static char *help_lookup = {
 };
 
 /* Not very efficient ! */
-static Value *
-gnumeric_lookup (struct FunctionDefinition *i,
-		 Value *argv [], char **error_string)
+static FuncReturn *
+gnumeric_lookup (FuncScratch *s)
 {
 	int height, width;
 	const Value *next_largest = NULL;
 	int next_largest_x = 0;
 	int next_largest_y = 0;
 	
-	height  = value_area_get_height (argv[1]);
-	width   = value_area_get_width  (argv[1]);
+	height  = value_area_get_height (s->a.args[1]);
+	width   = value_area_get_width  (s->a.args[1]);
 
-	if ((argv[1]->type == VALUE_ARRAY)) {
-		if (argv[2]) {
-			*error_string = _("Type Mismatch");
+	if ((s->a.args[1]->type == VALUE_ARRAY)) {
+		if (s->a.args[2]) {
+			s->error_string = _("Type Mismatch");
 			return NULL;
 		}
-	} else if (argv[1]->type == VALUE_CELLRANGE) {
-		if (!argv[2]) {
-			*error_string = _("Invalid number of arguments");
+	} else if (s->a.args[1]->type == VALUE_CELLRANGE) {
+		if (!s->a.args[2]) {
+			s->error_string = _("Invalid number of arguments");
 			return NULL;
 		}
 	} else {
-		*error_string = _("Type Mismatch");
+		s->error_string = _("Type Mismatch");
 		return NULL;
 	}
 	
@@ -482,15 +476,15 @@ gnumeric_lookup (struct FunctionDefinition *i,
 		int    x_offset=0, y_offset=0, lpx, lpy, maxx, maxy;
 		int    tmp, compare, touched;
 
-		if (argv[1]->type == VALUE_ARRAY) {
-			src = dest = argv[1];
+		if (s->a.args[1]->type == VALUE_ARRAY) {
+			src = dest = s->a.args[1];
 			if (width>height)
 				y_offset = 1;
 			else
 				x_offset = 1;
 		} else {
-			src = argv[1];
-			dest = argv[2];
+			src = s->a.args[1];
+			dest = s->a.args[2];
 		}
 		maxy  = value_area_get_height (src);
 		maxx  = value_area_get_width  (dest);
@@ -502,10 +496,10 @@ gnumeric_lookup (struct FunctionDefinition *i,
 		touched = 0;
 		for (lpx=0,lpy=0;lpx<maxx && lpy<maxy;) {
 			const Value *v = value_area_get_at_x_y (src, lpx, lpy);
-			compare = lookup_similar (v, argv[0], next_largest, 1);
+			compare = lookup_similar (v, s->a.args[0], next_largest, 1);
 			if (compare == 1)
-				return value_duplicate (value_area_get_at_x_y (dest, next_largest_x+x_offset,
-									       next_largest_y+y_offset));
+				FUNC_RETURN_VAL (value_duplicate (value_duplicate (value_area_get_at_x_y (dest, next_largest_x+x_offset,
+													  next_largest_y+y_offset))));
 			if (compare < 0) {
 				next_largest = v;
 				next_largest_x = lpx;
@@ -519,12 +513,12 @@ gnumeric_lookup (struct FunctionDefinition *i,
 				lpy++;
 		}
 		if (!next_largest) {
-			*error_string = _("#N/A");
+			s->error_string = _("#N/A");
 			return NULL;
 		}
-		return value_duplicate (value_area_get_at_x_y (dest,
-							       next_largest_x+x_offset,
-							       next_largest_y+y_offset));
+	       FUNC_RETURN_VAL (value_duplicate (value_area_get_at_x_y (dest,
+									next_largest_x+x_offset,
+									next_largest_y+y_offset)));
 	}
 }
 
@@ -545,31 +539,29 @@ static char *help_column = {
 };
 
 /* FIXME: Needs Array support to be enven slightly meaningful */
-static Value *
-gnumeric_column (Sheet *sheet, GList *expr_node_list,
-		 int eval_col, int eval_row, char **error_string)
+static FuncReturn *
+gnumeric_column (FuncScratch *s)
 {
 	Value *v;
 
-	if (!expr_node_list || !expr_node_list->data)
-		return value_new_int (eval_col+1);
+	if (!s->a.nodes || !s->a.nodes->data)
+		FUNC_RETURN_VAL (value_new_int (s->pos.eval_col+1));
 
-	v = eval_expr (sheet, expr_node_list->data,
-		       eval_col, eval_row, error_string);
+	v = (Value *)eval_expr (s, s->a.nodes->data);
 	if (!v)
 		return NULL;
 
 	switch (v->type){
 	case VALUE_CELLRANGE:
-		*error_string = _("Arrays not yet supported");
+		s->error_string = _("Arrays not yet supported");
 		value_release (v);
 		return NULL;
 	case VALUE_ARRAY:
-		*error_string = _("Unimplemented");
+		s->error_string = _("Unimplemented");
 		value_release (v);
 		return NULL;
 	default:
-		*error_string = _("#VALUE!");
+		s->error_string = _("#VALUE!");
 		value_release (v);
 		return NULL;
 	}
@@ -590,11 +582,10 @@ static char *help_columns = {
 };
 
 /* FIXME: Needs Array support to be enven slightly meaningful */
-static Value *
-gnumeric_columns (struct FunctionDefinition *i,
-		  Value *argv [], char **error_string)
+static FuncReturn *
+gnumeric_columns (FuncScratch *s)
 {
-	return value_new_int (value_area_get_width (argv [0]));
+	FUNC_RETURN_VAL (value_new_int (value_area_get_width (s->a.args [0])));
 }
 
 static char *help_offset = {
@@ -611,37 +602,36 @@ static char *help_offset = {
 	   "@SEEALSO=COLUMN,COLUMNS,ROWS")
 };
 
-static Value *
-gnumeric_offset (struct FunctionDefinition *i,
-		 Value *argv [], char **error_string)
+static FuncReturn *
+gnumeric_offset (FuncScratch *s)
 {
 	CellRef a;
 	CellRef b;
 	int tw, th;
 
-	g_return_val_if_fail (argv [0]->type == VALUE_CELLRANGE, NULL);
+	g_return_val_if_fail (s->a.args [0]->type == VALUE_CELLRANGE, NULL);
 
-	memcpy (&a, &argv[0]->v.cell_range.cell_a, sizeof (CellRef));
+	memcpy (&a, &s->a.args[0]->v.cell_range.cell_a, sizeof (CellRef));
 
-	a.row += value_get_as_int (argv[1]);
-	a.col += value_get_as_int (argv[2]);
+	a.row += value_get_as_int (s->a.args[1]);
+	a.col += value_get_as_int (s->a.args[2]);
 
 	memcpy (&b, &a, sizeof(CellRef));
 
-	tw = value_get_as_int (argv[3]);
-	th = value_get_as_int (argv[4]);
+	tw = value_get_as_int (s->a.args[3]);
+	th = value_get_as_int (s->a.args[4]);
 
 	if (tw < 0 || th < 0) {
-		*error_string = _("#VALUE!");
+		s->error_string = _("#VALUE!");
 		return NULL;
 	} else if (a.row < 0 || a.col < 0) {
-		*error_string = _("#REF!");
+		s->error_string = _("#REF!");
 		return NULL;
 	}
 
 	b.row += tw;
 	b.col += th;
-	return value_new_cellrange (&a, &b);
+	FUNC_RETURN_VAL (value_new_cellrange (&a, &b));
 }
 
 static char *help_row = {
@@ -659,32 +649,30 @@ static char *help_row = {
 };
 
 /* FIXME: Needs Array support to be enven slightly meaningful */
-static Value *
-gnumeric_row (Sheet *sheet, GList *expr_node_list,
-	      int eval_col, int eval_row, char **error_string)
+static FuncReturn *
+gnumeric_row (FuncScratch *s)
 {
 	Value *v;
 
-	if (!expr_node_list || !expr_node_list->data)
-		return value_new_int (eval_row+1);
+	if (!s->a.nodes || !s->a.nodes->data)
+		FUNC_RETURN_VAL (value_new_int (s->pos.eval_row+1));
 
-	v = eval_expr (sheet, expr_node_list->data,
-		       eval_col, eval_row, error_string);
+	v = (Value *)eval_expr (s, s->a.nodes->data);
 	if (!v)
 		return NULL;
 
 	switch (v->type){
 	case VALUE_CELLRANGE:
-		*error_string = _("Arrays not yet supported");
+		s->error_string = _("Arrays not yet supported");
 		value_release (v);
 		return NULL;
 
 	case VALUE_ARRAY:
-		*error_string = _("Unimplemented");
+		s->error_string = _("Unimplemented");
 		value_release (v);
 		return NULL;
 	default:
-		*error_string = _("#VALUE!");
+		s->error_string = _("#VALUE!");
 		value_release (v);
 		return NULL;
 	}
@@ -705,38 +693,34 @@ static char *help_rows = {
 };
 
 /* FIXME: Needs Array support to be enven slightly meaningful */
-static Value *
-gnumeric_rows (struct FunctionDefinition *i,
-	       Value *argv [], char **error_string)
+static FuncReturn *
+gnumeric_rows (FuncScratch *s)
 {
-	return value_new_int (value_area_get_height (argv [0]));
+	FUNC_RETURN_VAL (value_new_int (value_area_get_height (s->a.args [0])));
 }
-
-FunctionDefinition lookup_functions [] = {
-	{ "address",   "ff|ffs", "row_num,col_num,abs_num,a1,text",
-	  &help_address,  NULL, gnumeric_address },
-        { "choose",     0,     "index,value...",
-	  &help_choose, gnumeric_choose, NULL },
-	{ "column",    "?",    "ref",
-	  &help_column, gnumeric_column, NULL },
-	{ "columns",   "A",    "ref",
-	  &help_columns, NULL, gnumeric_columns },
-	{ "hlookup",   "?Af|b","val,range,col_idx,approx",
-	  &help_hlookup, NULL, gnumeric_hlookup },
-	{ "lookup",    "?A|r", "val,range,range",
-          &help_lookup, NULL, gnumeric_lookup },
-	{ "offset",    "rffff","ref,row,col,hight,width",
-	  &help_offset, NULL, gnumeric_offset },
-	{ "row",       "?",    "ref",
-	  &help_row, gnumeric_row, NULL },
-	{ "rows",      "A",    "ref",
-	  &help_rows, NULL, gnumeric_rows },
-	{ "vlookup",   "?Af|b","val,range,col_idx,approx",
-	  &help_vlookup, NULL, gnumeric_vlookup },
-	{ NULL, NULL }
-};
 
 void lookup_functions_init()
 {
 	FunctionCategory *cat = function_get_category (_("Data / Lookup"));
+
+	function_new (cat, "address",   "ff|ffs", "row_num,col_num,abs_num,a1,text",
+		      &help_address,  FUNCTION_ARGS, gnumeric_address);
+        function_new (cat, "choose",     0,     "index,value...",
+		      &help_choose, FUNCTION_NODES, gnumeric_choose);
+	function_new (cat, "column",    "?",    "ref",
+		      &help_column, FUNCTION_NODES, gnumeric_column);
+	function_new (cat, "columns",   "A",    "ref",
+		      &help_columns, FUNCTION_ARGS, gnumeric_columns);
+	function_new (cat, "hlookup",   "?Af|b","val,range,col_idx,approx",
+		      &help_hlookup, FUNCTION_ARGS, gnumeric_hlookup);
+	function_new (cat, "lookup",    "?A|r", "val,range,range",
+		      &help_lookup, FUNCTION_ARGS, gnumeric_lookup);
+	function_new (cat, "offset",    "rffff","ref,row,col,hight,width",
+		      &help_offset, FUNCTION_ARGS, gnumeric_offset);
+	function_new (cat, "row",       "?",    "ref",
+		      &help_row, FUNCTION_NODES, gnumeric_row);
+	function_new (cat, "rows",      "A",    "ref",
+		      &help_rows, FUNCTION_ARGS, gnumeric_rows);
+	function_new (cat, "vlookup",   "?Af|b","val,range,col_idx,approx",
+		      &help_vlookup, FUNCTION_ARGS, gnumeric_vlookup);
 }

@@ -62,25 +62,24 @@ callback_function_and (Sheet *sheet, Value *value,
 	return TRUE;
 }
 
-static Value *
-gnumeric_and (Sheet *sheet, GList *expr_node_list,
-	      int eval_col, int eval_row, char **error_string)
+static FuncReturn *
+gnumeric_and (FuncScratch *s)
 {
 	Value *result;
 
 	result = value_new_int (-1);
 
-	function_iterate_argument_values (sheet, callback_function_and,
-					  result, expr_node_list,
-					  eval_col, eval_row, error_string);
+	function_iterate_argument_values (&s->pos, callback_function_and,
+					  result, s->a.nodes,
+					  &s->error_string);
 
 	/* See if there was any value worth using */
 	if (result->v.v_int == -1){
 		value_release (result);
-		*error_string = _("#VALUE");
+		s->error_string = _("#VALUE");
 		return NULL;
 	}
-	return result;
+	return (FuncReturn *)result;
 }
 
 
@@ -95,15 +94,14 @@ static char *help_not = {
 	   "@SEEALSO=AND, OR")
 };
 
-static Value *
-gnumeric_not (struct FunctionDefinition *i,
-	      Value *argv [], char **error_string)
+static FuncReturn *
+gnumeric_not (FuncScratch *s)
 {
 	int b;
 
-	b = value_get_as_int (argv [0]);
+	b = value_get_as_int (s->a.args[0]);
 
-	return value_new_int (!b);
+	return (FuncReturn *)value_new_int (!b);
 }
 
 static char *help_or = {
@@ -153,25 +151,24 @@ callback_function_or (Sheet *sheet, Value *value,
 	return TRUE;
 }
 
-static Value *
-gnumeric_or (Sheet *sheet, GList *expr_node_list,
-	     int eval_col, int eval_row, char **error_string)
+static FuncReturn *
+gnumeric_or (FuncScratch *s)
 {
 	Value *result;
 
 	result = value_new_int (-1);
 
-	function_iterate_argument_values (sheet, callback_function_or,
-					  result, expr_node_list,
-					  eval_col, eval_row, error_string);
+	function_iterate_argument_values (&s->pos, callback_function_or,
+					  result, s->a.nodes,
+					  &s->error_string);
 
 	/* See if there was any value worth using */
 	if (result->v.v_int == -1){
 		value_release (result);
-		*error_string = _("#VALUE");
+		s->error_string = _("#VALUE");
 		return NULL;
 	}
-	return result;
+	return (FuncReturn *)result;
 }
 
 static char *help_if = {
@@ -188,24 +185,22 @@ static char *help_if = {
 	   "@SEEALSO=")
 };
 
-static Value *
-gnumeric_if (Sheet *sheet, GList *expr_node_list,
-	     int eval_col, int eval_row, char **error_string)
+static FuncReturn *
+gnumeric_if (FuncScratch *s)
 {
 	ExprTree *expr;
 	Value *value;
 	int err, ret, args;
 		
 	/* Type checking */
-	args = g_list_length (expr_node_list);
+	args = g_list_length (s->a.nodes);
 	if (args < 1 || args > 3){
-		*error_string = _("Invalid number of arguments");
+		s->error_string = _("Invalid number of arguments");
 		return NULL;
 	}
 
 	/* Compute the if part */
-	value = eval_expr (sheet, (ExprTree *) expr_node_list->data,
-			   eval_col, eval_row, error_string);
+	value = (Value *)eval_expr (s, (ExprTree *) s->a.nodes->data);
 	if (value == NULL)
 		return NULL;
 
@@ -216,33 +211,29 @@ gnumeric_if (Sheet *sheet, GList *expr_node_list,
 		return NULL;
 	
 	if (ret){
-		if (expr_node_list->next)
-			expr = (ExprTree *) expr_node_list->next->data;
+		if (s->a.nodes->next)
+			expr = (ExprTree *) s->a.nodes->next->data;
 		else
-			return value_new_int (1);
+			return (FuncReturn *)value_new_int (1);
 	} else {
-		if (expr_node_list->next && 
-		    expr_node_list->next->next)
-			expr = (ExprTree *) expr_node_list->next->next->data;
+		if (s->a.nodes->next && 
+		    s->a.nodes->next->next)
+			expr = (ExprTree *) s->a.nodes->next->next->data;
 		else
-			return value_new_int (0);
+			return (FuncReturn *)value_new_int (0);
 	}
 
 	/* Return the result */
-	return eval_expr (sheet, expr, eval_col, eval_row, error_string);
+	return eval_expr (s, expr);
 }
-
-
-FunctionDefinition logical_functions [] = {
-	{ "and",     0,      "",          &help_and,   gnumeric_and, NULL },
-	{ "if",     0,       "logical_test,value_if_true,value_if_false", &help_if,
-	  gnumeric_if, NULL },
-	{ "not",     "f",    "number",    &help_not,     NULL, gnumeric_not },
-	{ "or",      0,      "",          &help_or,      gnumeric_or, NULL },
-	{ NULL, NULL },
-};
 
 void logical_functions_init()
 {
 	FunctionCategory *cat = function_get_category (_("Logical"));
+
+	function_new (cat,"and",     0,      "",          &help_and,   FUNCTION_NODES, gnumeric_and);
+	function_new (cat,"if",      0,      "logical_test,value_if_true,value_if_false", &help_if,
+		      FUNCTION_NODES, gnumeric_if);
+	function_new (cat,"not",     "f",    "number",    &help_not,     FUNCTION_ARGS, gnumeric_not);
+	function_new (cat,"or",      0,      "",          &help_or,      FUNCTION_NODES, gnumeric_or);
 }
