@@ -90,6 +90,7 @@ src/dialogs/dialog-consolidate.c
 src/dialogs/dialog-define-names.c
 src/dialogs/dialog-delete-cells.c
 src/dialogs/dialog-formula-guru.c
+src/dialogs/dialog-function-select.c
 src/dialogs/dialog-goal-seek.c
 src/dialogs/dialog-goto-cell.c
 src/dialogs/dialog-graph-guru.c
@@ -209,6 +210,7 @@ src/stf.c
 src/style.c
 src/tools/analysis-tools.c
 src/tools/dao.c
+src/tools/solver/reports-write.c
 src/tools/solver/reports.c
 src/tools/solver/solver.c
 src/validation.c
