@@ -52,7 +52,7 @@ struct GodTextModelClass {
 	const char    *(*get_text)  (GodTextModel *text);
 	void           (*set_text)  (GodTextModel *text, const char    *text_value);
 	void           (*set_paragraph_attributes) (GodTextModel *text, int start, int end, GodParagraphAttributes *attributes);
-	void           (*set_pango_attributes) (GodTextModel *text, int start, int end, PangoAttrList *attributes);
+	void           (*set_pango_attributes) (GodTextModel *text, int start, int end, GList *attributes);
 	void           (*paragraph_foreach) (GodTextModel *text, GodTextModelParagraphForeachCallback callback, gpointer user_data);
 };
 
@@ -74,7 +74,7 @@ void          god_text_model_set_paragraph_attributes  (GodTextModel            
 void          god_text_model_set_pango_attributes      (GodTextModel                         *text,
 							int                                   start,
 							int                                   end,
-							PangoAttrList                        *char_attrs);
+							GList                                *char_attrs);
 
 /* Get routines */
 const char   *god_text_model_get_text                  (GodTextModel                         *text);

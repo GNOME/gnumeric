@@ -78,7 +78,7 @@ void
 god_text_model_set_pango_attributes (GodTextModel *text,
 				     int start,
 				     int end,
-				     PangoAttrList *attributes)
+				     GList *attributes)
 {
 	if (GOD_TEXT_MODEL_GET_CLASS (text)->set_pango_attributes)
 		GOD_TEXT_MODEL_GET_CLASS (text)->set_pango_attributes (text, start, end, attributes);
@@ -189,20 +189,20 @@ real_god_text_model_set_paragraph_attributes (GodTextModel *text,
 					      GodParagraphAttributes *attributes)
 {
 	guint i;
-	guint count = 0;
+	int count = 0;
 	if (text->priv->paragraphs) {
 		for (i = 0; i < text->priv->paragraphs->len; i++) {
 			int length = strlen (PARAGRAPH(i)->text);
-			if (count > end)
+			if (count >= end)
 				return;
-			if (count + length >= start) {
+			if (count + length + 1 > start) {
 				if (PARAGRAPH(i)->para_attributes)
 					g_object_unref (PARAGRAPH(i)->para_attributes);
 				PARAGRAPH(i)->para_attributes = attributes;
 				if (PARAGRAPH(i)->para_attributes)
 					g_object_ref (PARAGRAPH(i)->para_attributes);
 			}
-			count += length;
+			count += length + 1;
 		}
 	}
 }
@@ -211,8 +211,40 @@ static void
 real_god_text_model_set_pango_attributes (GodTextModel *text,
 					  int start,
 					  int end,
-					  PangoAttrList *attributes)
+					  GList *attributes)
 {
+	guint i;
+	int count = 0;
+	if (start == end)
+	    return;
+	if (text->priv->paragraphs) {
+		for (i = 0; i < text->priv->paragraphs->len; i++) {
+			int length = strlen (PARAGRAPH(i)->text);
+			if (length == 0)
+				continue;
+			if (count >= end)
+				return;
+			if (count + length >= start) {
+				int thisstart = MAX (start, count) - count;
+				int thisend = MIN (end, count + length) - count;
+				GList *iterator;
+
+				if (thisstart == thisend)
+					continue;
+
+				if (!PARAGRAPH(i)->char_attributes)
+					PARAGRAPH(i)->char_attributes = pango_attr_list_new ();
+
+				for (iterator = attributes; iterator; iterator = iterator->next) {
+					PangoAttribute *new_attr = pango_attribute_copy (iterator->data);
+					new_attr->start_index = thisstart;
+					new_attr->end_index = thisend;
+					pango_attr_list_insert (PARAGRAPH(i)->char_attributes, new_attr);
+				}
+			}
+			count += length + 1;
+		}
+	}
 }
 
 static void

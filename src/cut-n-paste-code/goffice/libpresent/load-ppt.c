@@ -36,6 +36,8 @@
 #include <ms-compat/god-drawing-ms.h>
 #include <ms-compat/go-ms-parser.h>
 
+#include <string.h>
+
 #define ERROR(conditional, message) if (!(conditional)) { g_warning ((message)); }
 
 static const GOMSParserRecordType types[] =
@@ -322,8 +324,12 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 				int indent_type = 0;
 				int i = 0;
 				int position = 0;
+				int char_position = 0;
+				const char *text = god_text_model_get_text (GOD_TEXT_MODEL (parse_state->current_text));
+				int text_len = strlen (text);
+				int char_length = g_utf8_strlen (text, -1);
 				GodParagraphAttributes *para_attr;
-				remain = god_text_model_get_length (GOD_TEXT_MODEL (parse_state->current_text)) + 1;
+				remain = text_len + 1;
 				while (remain > 0) {
 					int sublen = 0;
 					guint fields;
@@ -386,26 +392,30 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 						      "space_after", space_after,
 						      "indent", (double) (indent_type * UN_PER_IN),
 						      NULL);
-					g_print ("position, section_length: %d, %d\n", position, section_length);
+					char_position += section_length;
+					if (char_position <= char_length) {
+						section_length = g_utf8_offset_to_pointer (text + position, section_length) - (text + position);
+					}
 					god_text_model_set_paragraph_attributes (GOD_TEXT_MODEL (parse_state->current_text),
 										 position, 
-										 position + section_length - 1,
+										 position + section_length,
 										 para_attr);
 					g_object_unref (para_attr);
 					i += sublen;
+					remain -= section_length;
 					position += section_length;
 				}
-#if 0
-				remain = text_length + 1;
+
+				remain = text_len + 1;
+				position = 0;
+				char_position = 0;
 				while (remain > 0) {
 					int sublen = 0;
+					GList *attrs = NULL, *iterator;
 					guint fields;
 					int section_length = GSF_LE_GET_GUINT32 (data + i);
-					printf ("length: %d\n", section_length);
-					remain -= section_length;
 					sublen += 4;
 					fields = GSF_LE_GET_GUINT32 (data + i + sublen);
-					printf ("fields: 0x%04x\n", fields);
 					sublen += 4;
 					if (fields & (TEXT_FIELD_PROPERTY_EXISTS_BOLD |
 						      TEXT_FIELD_PROPERTY_EXISTS_ITALIC |
@@ -413,45 +423,75 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 						      TEXT_FIELD_PROPERTY_EXISTS_SHADOW |
 						      TEXT_FIELD_PROPERTY_EXISTS_RELIEF)) {
 						guint text_fields = GSF_LE_GET_GUINT16 (data + i + sublen);
-						if (text_fields & 0x1)
-							printf ("bold\n");
-						if (text_fields & 0x2)
-							printf ("italic\n");
-						if (text_fields & 0x4)
-							printf ("underline\n");
+						if (fields & TEXT_FIELD_PROPERTY_EXISTS_BOLD)
+							attrs = g_list_append (attrs, pango_attr_weight_new
+									       (text_fields & 0x1 ?
+										PANGO_WEIGHT_BOLD :
+										PANGO_WEIGHT_NORMAL));
+						if (fields & TEXT_FIELD_PROPERTY_EXISTS_ITALIC)
+							attrs = g_list_append (attrs, pango_attr_style_new
+									       (text_fields & 0x2 ?
+										PANGO_STYLE_ITALIC :
+										PANGO_STYLE_NORMAL));
+						if (fields & TEXT_FIELD_PROPERTY_EXISTS_UNDERLINE)
+							attrs = g_list_append (attrs, pango_attr_underline_new
+									       (text_fields & 0x4 ?
+										PANGO_UNDERLINE_SINGLE :
+										PANGO_UNDERLINE_NONE));
+#if 0
 						if (text_fields & 0x10)
 							printf ("shadow\n");
 						if (text_fields & 0x200)
 							printf ("relief\n");
+#endif
 						sublen += 2;
 					}
 					if (fields & TEXT_FIELD_PROPERTY_EXISTS_FONT) {
-						printf ("Font: %s\n", font [GSF_LE_GET_GUINT16 (data + i + sublen)]);
+						/* printf ("Font: %s\n", font [GSF_LE_GET_GUINT16 (data + i + sublen)]);*/
 						sublen += 2;
 					}
 					if (fields & TEXT_FIELD_PROPERTY_EXISTS_FONT_SIZE) {
-						printf ("Font size: %d\n", GSF_LE_GET_GUINT16 (data + i + sublen));
+						
+						attrs = g_list_append (attrs, pango_attr_size_new
+								       (GSF_LE_GET_GUINT16 (data + i + sublen) * PANGO_SCALE));
 						sublen += 2;
 					}
 					if (fields & (TEXT_FIELD_PROPERTY_EXISTS_COLOR)) {
+#if 0
 						printf ("color: #");
 						printf ("%02X", data[i + sublen++]);
 						printf ("%02X", data[i + sublen++]);
 						printf ("%02X", data[i + sublen++]);
 						printf ("\n");
 						sublen ++;
+#endif
+						sublen += 4;
 					}
 					if (fields & TEXT_FIELD_PROPERTY_EXISTS_OFFSET) {
+#if 0
 						int offset = GSF_LE_GET_GUINT16 (data + i + sublen - 2);
 						if (offset & 0x8000)
 							offset -= 0x10000;
 						printf ("offset: %d\n", offset);
+#endif
 						sublen += 2;
 					}
-					gsf_mem_dump (data + i, sublen);
+					g_print ("position: %d, section_length: %d\n", position, section_length);
+					char_position += section_length;
+					if (char_position <= char_length) {
+						section_length = g_utf8_offset_to_pointer (text + position, section_length) - (text + position);
+					}
+					god_text_model_set_pango_attributes (GOD_TEXT_MODEL (parse_state->current_text),
+									     position, 
+									     position + section_length,
+									     attrs);
+					for (iterator = attrs; iterator; iterator = iterator->next)
+						pango_attribute_destroy (iterator->data);
+					g_list_free (attrs);
+					position += section_length;
+					remain -= section_length;
 					i += sublen;
 				}
-#endif
 			}
 		}
 		break;
@@ -575,7 +615,7 @@ load_ppt (char *input_file)
 	GError    *err = NULL;
 	PresentPresentation *presentation = NULL;
 
-	input = gsf_input_mmap_new (input_file, &err);
+	input = GSF_INPUT (gsf_input_mmap_new (input_file, &err));
 	if (input == NULL) {
 		g_return_val_if_fail (err != NULL, NULL);
 		g_warning ("'%s' error: %s", input_file, err->message);
@@ -583,9 +623,9 @@ load_ppt (char *input_file)
 		return NULL;
 	}
 
-	input = gsf_input_uncompress (input);
+	input = GSF_INPUT (gsf_input_uncompress (input));
 
-	infile = gsf_infile_msole_new (input, &err);
+	infile = GSF_INFILE (gsf_infile_msole_new (input, &err));
 	if (infile == NULL) {
 
 		g_return_val_if_fail (err != NULL, NULL);

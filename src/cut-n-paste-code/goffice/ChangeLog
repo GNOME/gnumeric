@@ -1,3 +1,17 @@
+2004-07-04  Christopher James Lahey  <clahey@ximian.com>
+
+	* drawing/god-drawing-renderer-gdk.c (draw_text): Handle
+	char_attributes.
+
+	* drawing/god-text-model.c, drawing/god-text-model.h
+	(real_god_text_model_set_paragraph_attributes): Fixed up this
+	function a bit.
+	(real_god_text_model_set_pango_attributes): Implemented this
+	function.  Changed it to take GList instead of PangoAttrList.
+
+	* libpresent/load-ppt.c (handle_atom): Implemented parsing
+	character attributes.
+
 2004-07-02  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-theme.c (map_area_series_solid_default) : simplify now

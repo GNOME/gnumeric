@@ -199,6 +199,8 @@ draw_text (GodTextModel *text,
 	pango_layout_set_width (layout, draw_context->rect->width * PANGO_SCALE);
 	pango_layout_set_text (layout, paragraph->text, -1);
 	pango_layout_set_auto_dir (layout, FALSE);
+	if (paragraph->char_attributes)
+		pango_layout_set_attributes (layout, paragraph->char_attributes);
 	gdk_draw_layout (draw_context->renderer->priv->drawable,
 			 draw_context->renderer->priv->gc,
 			 draw_context->rect->x + indent / draw_context->renderer->priv->x_units_per_pixel,
@@ -210,11 +212,13 @@ draw_text (GodTextModel *text,
 	draw_context->y_ofs += height * draw_context->renderer->priv->y_units_per_pixel;
 	draw_context->y_ofs += space_after;
 
+#if 0
 	g_print ("space before: %f\n", space_before);
 	g_print ("space after: %f\n", space_after);
 	g_print ("indent: %f\n", indent);
-	g_print ("x_units: %d\n", draw_context->renderer->priv->x_units_per_pixel);
-	g_print ("y_units: %d\n", draw_context->renderer->priv->y_units_per_pixel);
+	g_print ("x_units: %lld\n", draw_context->renderer->priv->x_units_per_pixel);
+	g_print ("y_units: %lld\n", draw_context->renderer->priv->y_units_per_pixel);
+#endif
 
 	g_object_unref (layout);
 }
