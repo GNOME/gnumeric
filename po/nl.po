@@ -3,6 +3,7 @@
 # M.Meij <M.Meij@wbmt.tudelft.nl>
 # Almer S. Tigelaar <almer1@dds.nl>, 2001
 # Tino Meinen <a.t.meinen@chello.nl>, 2001-2004
+# Reinout van Schouwen <reinout@cs.vu.nl>, 2004 (kleine verbeteringen)
 #
 # TODO:
 # sneltoetsen controleren, aanvullen, completeren.
@@ -124,9 +125,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-12-10 00:06-0500\n"
+"POT-Creation-Date: 2004-12-12 19:16+0100\n"
 "PO-Revision-Date: 2004-11-21 18:03+0100\n"
-"Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
+"Last-Translator: Reinout van Schouwen <reinout@cs.vu.nl>\n"
 "Language-Team: nl <vertaling@nl.linux.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -134,28 +135,28 @@ msgstr ""
 
 #: GNOME_Gnumeric.server.in.in.h:1
 msgid "Gnumeric Workbook"
-msgstr "Gnumeric Werkmap"
+msgstr "Gnumeric werkboek"
 
 #: GNOME_Gnumeric.server.in.in.h:2
 msgid "Gnumeric Workbook Viewer"
-msgstr "Gnumeric Werkmapweergever"
+msgstr "Gnumeric Werkboekweergave"
 
 #: GNOME_Gnumeric.server.in.in.h:3
 msgid "Gnumeric Workbook viewer factory"
-msgstr "Gnumeric Werkmapweergever factory"
+msgstr "Gnumeric Werkboekweergave-fabriek"
 
 #. Keep in sync with .desktop file
 #: gnumeric.desktop.in.h:1 src/main-application.c:285
 msgid "Gnumeric Spreadsheet"
-msgstr "Gnumeric Spreadsheet"
+msgstr "Gnumeric rekenblad"
 
 #: gnumeric.desktop.in.h:2
 msgid "Spreadsheet"
-msgstr "Spreadsheet"
+msgstr "Rekenblad"
 
 #: gnumeric.desktop.in.h:3
 msgid "The GNOME Spreadsheet"
-msgstr "De Spreadsheet van GNOME"
+msgstr "De spreadsheet van GNOME"
 
 #: plugins/applix/applix-read.c:106
 msgid "Parse error while reading Applix file."
@@ -622,7 +623,7 @@ msgstr ""
 "@cost_of_carry is het waardeverloop van de onderliggende waarde. Voor "
 "normale aandelen zou dit het dividentrendement zijn.\n"
 "\n"
-"\"* Het gegeven resultaat is uitgedrukt als de mate van verandering van de "
+"* Het gegeven resultaat is uitgedrukt als de mate van verandering van de "
 "optiewaarde, per 100% volatiliteit.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -1703,7 +1704,7 @@ msgstr "Financieel Afgeleiden"
 msgid "Functions related to financial derivatives"
 msgstr "Functies gerelateerd aan financieel afgeleiden"
 
-#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5832
+#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5833
 #: plugins/mps/mps.c:547 src/xml-io.c:4199
 msgid "Reading file..."
 msgstr "Bezig met lezen bestand..."
@@ -1852,15 +1853,15 @@ msgstr ""
 "OLE-links zijn niet ondersteund.\n"
 "Naam '%s' zal verloren gaan.\n"
 
-#: plugins/excel/ms-excel-read.c:5177
+#: plugins/excel/ms-excel-read.c:5178
 msgid "external references"
 msgstr "externe verwijzingen"
 
-#: plugins/excel/ms-excel-read.c:5200
+#: plugins/excel/ms-excel-read.c:5201
 msgid "No password supplied"
 msgstr "Geen wachtwoord opgegeven"
 
-#: plugins/excel/ms-excel-read.c:6058
+#: plugins/excel/ms-excel-read.c:6059
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Niet in staat om een geldige MS Excel werkmap te vinden"
 
@@ -5333,7 +5334,7 @@ msgstr "datum1;datum2;interval"
 #: plugins/fn-date/functions.c:1281 plugins/fn-date/functions.c:1285
 #: plugins/fn-date/functions.c:1293 plugins/fn-date/functions.c:1297
 #: plugins/fn-date/functions.c:1310 plugins/fn-date/functions.c:1314
-#: src/print-info.c:472
+#: src/print-info.c:476
 msgid "date"
 msgstr "datum"
 
@@ -5350,7 +5351,7 @@ msgid "start_date,months"
 msgstr "begindatum;maanden"
 
 #: plugins/fn-date/functions.c:1245 plugins/fn-date/functions.c:1249
-#: plugins/fn-date/functions.c:1265 src/print-info.c:473
+#: plugins/fn-date/functions.c:1265 src/print-info.c:477
 msgid "time"
 msgstr "tijd"
 
@@ -13178,7 +13179,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDNORM\n"
 "@SYNTAX=RANDNORM(gemiddelde;stdev)\n"
-"@DESCRIPTION=RANDGAUSSIAN geeft een willekeurig getal volgens een normale "
+"@DESCRIPTION=RANDGAUSSIAN geeft eepn willekeurig getal volgens een normale "
 "distributie.\n"
 "\n"
 "* Als @stdev < 0 geeft RANDNORM een #WAARDE! foutmelding.\n"
@@ -13186,7 +13187,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "RANDNORM(0;1)\n"
 "\n"
-"@SEEALSO=RAND\""
+"@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:440
 msgid ""
@@ -13904,12 +13905,12 @@ msgstr "Functies voor het genereren van willekeurige getallen"
 
 #: plugins/fn-random/plugin.xml.in.h:2
 msgid "Random Number Functions"
-msgstr "Functies voor steekproefgetallen"
+msgstr "Functies voor willekeurige getallen"
 
 #: plugins/fn-random/plugin.xml.in.h:3 src/dialogs/random-generation.glade.h:6
 #: src/tools/random-generator.c:674 src/tools/random-generator.c:677
 msgid "Random Numbers"
-msgstr "Willekeurige Getallen"
+msgstr "Willekeurige getallen"
 
 #: plugins/fn-stat/functions.c:139
 #, fuzzy
@@ -14472,7 +14473,7 @@ msgstr ""
 "geldt:\n"
 "GEOMEAN(A1:A5) is 21,279182482\n"
 "\n"
-"@SEEALSO=AVERAGE,HARMEAN,MEDIAN,MODE,TRIMMEAN\""
+"@SEEALSO=AVERAGE,HARMEAN,MEDIAN,MODE,TRIMMEAN"
 
 #: plugins/fn-stat/functions.c:791
 msgid ""
@@ -17743,7 +17744,7 @@ msgid ""
 "@SEEALSO=LEFT, MID, RIGHT"
 msgstr ""
 "@FUNCTION=CONCATENATE\n"
-"@SYNTAX=CONCATENATE(tekenreeks1[;tekenreeks2...])\"\n"
+"@SYNTAX=CONCATENATE(tekenreeks1[;tekenreeks2...])\n"
 "@DESCRIPTION=CONCATENATE plakt de gegeven tekenreeksen aan elkaar.\n"
 "\n"
 "* Deze functie is compatibel met Excel.\n"
@@ -18811,28 +18812,27 @@ msgid "No stream named content.xml found."
 msgstr "Geen stroom genaamd content.xml gevonden."
 
 #: plugins/openoffice/openoffice-read.c:1422
-#, fuzzy
 msgid "No stream named styles.xml found."
-msgstr "Geen stroom genaamd content.xml gevonden."
+msgstr "Geen stroom genaamd styles.xml gevonden."
 
 #: plugins/openoffice/openoffice-write.c:122
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Some content will be lost when saving as OpenOffice .sxc. It only supports %"
 "d rows, and sheet '%s' has %d"
 msgstr ""
-"Een deel van de inhoud zal verloren gaan bij het opslaan als een MS Excel "
-"(tm) bestand. MS Excel ondersteunt slechts %d rijen en dit werkboek heeft er "
+"Een deel van de inhoud zal verloren gaan bij het opslaan als OpenOffice.org "
+".sxc bestand. Het ondersteunt slechts %d rijen en werkboek '%s' heeft er "
 "%d"
 
 #: plugins/openoffice/openoffice-write.c:129
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Some content will be lost when saving as OpenOffice .sxc. It only supports %"
 "d columns, and sheet '%s' has %d"
 msgstr ""
-"Een deel van de inhoud zal verloren gaan bij het opslaan als een MS Excel "
-"(tm) bestand. MS Excel ondersteunt slechts %d rijen en dit werkboek heeft er "
+"Een deel van de inhoud zal verloren gaan bij het opslaan als een OpenOffice.org "
+".sxc bestand. Het ondersteunt slechts %d kolommen en werkboek '%s' heeft er "
 "%d"
 
 #: plugins/openoffice/plugin.xml.in.h:1
@@ -19112,14 +19112,14 @@ msgid "Object \"%s\" is not a dictionary."
 msgstr "Object \"%s\" is geen woordenboek."
 
 #: plugins/python-loader/python-loader.c:734 src/plugin-loader-module.c:602
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown action: %s"
-msgstr "Onbekende functie"
+msgstr "Onbekende actie: %s"
 
 #: plugins/python-loader/python-loader.c:739
-#, fuzzy, c-format
+#, c-format
 msgid "Not a valid function for action: %s"
-msgstr "Geen geldige funcite voor werkwoord: %s"
+msgstr "Ongeldige functie voor actie: %s"
 
 #: plugins/qpro/plugin.xml.in.h:1
 msgid "Imports Quatro Pro (tm) files"
@@ -19130,9 +19130,8 @@ msgid "Quatro Pro (*.wb1, *.wb2, *.wb3)"
 msgstr "Quatro Pro (*.wb1, *.wb2, *.wb3)"
 
 #: plugins/qpro/plugin.xml.in.h:3
-#, fuzzy
 msgid "Quattro Pro(tm)"
-msgstr "Quatro Pro(tm)"
+msgstr "Quattro Pro(tm)"
 
 #: plugins/qpro/qpro-read.c:151
 #, c-format
@@ -19260,7 +19259,7 @@ msgstr "Fout bij het openen van xbase bestand"
 #: plugins/xbase/boot.c:175 src/commands.c:4962
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:409
 #: src/dialogs/dialog-stf-export.c:444 src/dialogs/print.glade.h:21
-#: src/print-info.c:391 src/workbook.c:1091 src/xml-io.c:3789
+#: src/print-info.c:395 src/workbook.c:1091 src/xml-io.c:3789
 msgid "Sheet"
 msgstr "Blad"
 
@@ -19327,8 +19326,9 @@ msgid ""
 ">This value determines the default setting in the Print Setup dialog whether "
 "print grid lines. Please use the Print Setup dialog to edit this value."
 msgstr ""
-"Deze waarde bepaalt of de instellingen in het afdruk-dialoogvenster "
-"standaard voor alle werkbladen tegelijk gelden."
+">Deze waarde bepaalt of de standaardinstelling in het afdrukinstellingen-"
+"venster wat betreft rasterlijnen. Gebruik het Afdrukinstellingenvenster om "
+"deze waarde te bewerken"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:2
 msgid ""
@@ -19336,6 +19336,9 @@ msgid ""
 "to center pages vertically. Please use the Print Setup dialog to edit this "
 "value."
 msgstr ""
+">Deze waarde bepaalt of de standaardinstelling in het afdrukinstellingen-"
+"venster wat betreft het verticaal gecentreerd afdrukken van pagina's. "
+"Gebruik het Afdrukinstellingenvenster om deze waarde te bewerken."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:3
 msgid "Activate New Plugins"
@@ -19533,7 +19536,6 @@ msgstr ""
 "staan."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:47
-#, fuzzy
 msgid ""
 "The autocorrect engine does not correct the initial caps for words in this "
 "list."
@@ -19696,14 +19698,14 @@ msgid ""
 msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:72
-#, fuzzy
 msgid ""
 "This value determines the default setting in the Print Setup dialog whether "
 "to print row and column headers. Please use the Print Setup dialog to edit "
 "this value."
 msgstr ""
-"Deze waarde bepaalt of de instellingen in het afdruk-dialoogvenster "
-"standaard voor alle werkbladen tegelijk gelden."
+"Deze waarde bepaalt of de standaardinstelling in het afdrukinstellingen-"
+"venster wat betreft het afdrukken van rij- en kolomkoppen. "
+"Gebruik het Afdrukinstellingenvenster om deze waarde te bewerken"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:73
 msgid ""
@@ -19711,6 +19713,9 @@ msgid ""
 "to scale pages by a given percentage. Please use the Print Setup dialog to "
 "edit this value."
 msgstr ""
+"Deze waarde bepaalt of de standaardinstelling in het afdrukinstellingen-"
+"venster wat betreft het op schaal maken van pagina's met een gegeven percentage. "
+"Gebruik het Afdrukinstellingenvenster om deze waarde te bewerken."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:74
 msgid ""
@@ -20135,9 +20140,8 @@ msgid "Use UTF-8 in LaTeX Export"
 msgstr "Bij LaTeX-export, UTF-8 gebruiken"
 
 #: src/application.c:307
-#, fuzzy
 msgid "Cut Object"
-msgstr "Object opmaken"
+msgstr "Object knippen"
 
 #: src/clipboard.c:314 src/clipboard.c:326 src/clipboard.c:337
 #: src/clipboard.c:345
@@ -21418,82 +21422,82 @@ msgid ""
 "Minor categories stacked as percentages of the minor total, in 3D horizontal "
 "bars, grouped by major category."
 msgstr ""
-"Subcategorien gestapeld als percentages van het subtotaal, in horizontale 3D-"
-"balken, gegroepeerd door hoofdcategorie."
+"Subcategorieën gestapeld als percentages van het subtotaal, in horizontale 3D-"
+"balken, gegroepeerd naar hoofdcategorie."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:22
 msgid ""
 "Minor categories stacked as percentages of the minor total, in 3D vertical "
 "bars, grouped by major category."
 msgstr ""
-"Subcategorien gestapeld als percentages van het subtotaal, in verticale 3D-"
-"balken, gegroepeerd door hoofdcategorie."
+"Subcategorieën gestapeld als percentages van het subtotaal, in verticale 3D-"
+"balken, gegroepeerd naar hoofdcategorie."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:23
 msgid ""
 "Minor categories stacked as percentages of the minor total, in horizontal "
 "bars, grouped by major category."
 msgstr ""
-"Subcategorien gestapeld als percentages van het subtotaal, in horizontale "
-"balken, gegroepeerd door hoofdcategorie.\""
+"Subcategorieën gestapeld als percentages van het subtotaal, in horizontale "
+"balken, gegroepeerd naar hoofdcategorie."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:24
 msgid ""
 "Minor categories stacked as percentages of the minor total, in vertical "
 "columns, grouped by major category."
 msgstr ""
-"Subcategorien gestapeld als percentages van het subtotaal, in verticale "
-"balken, gegroepeerd door hoofdcategorie."
+"Subcategorieën gestapeld als percentages van het subtotaal, in verticale "
+"balken, gegroepeerd naar hoofdcategorie."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:25
 msgid ""
 "Minor categories stacked in horizontal 3D bars, grouped by major category."
 msgstr ""
-"Subcategorien gestapeld in horizontale 3D-balken, gegroepeerd door "
+"Subcategorieën gestapeld in horizontale 3D-balken, gegroepeerd naar "
 "hoofdcategorie."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:26
 msgid "Minor categories stacked in horizontal bars grouped by major category."
 msgstr ""
-"Subcategorien gestapeld in horizontale balken, gegroepeerd door "
+"Subcategorieën gestapeld in horizontale balken, gegroepeerd naar "
 "hoofdcategorie."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:27
 msgid ""
 "Minor categories stacked in vertical 3D columns, grouped by major category."
 msgstr ""
-"Subcategorien gestapeld in verticale 3D-kolommen, gegroepeerd door "
+"Subcategorieën gestapeld in verticale 3D-kolommen, gegroepeerd naar "
 "hoofdcategorie."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:28
 msgid "Minor categories stacked in vertical columns grouped by major category."
 msgstr ""
-"Subcategorien gestapeld in verticale kolommen, gegroepeerd door "
+"Subcategorieën gestapeld in verticale kolommen, gegroepeerd naar "
 "hoofdcategorie."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:29
 msgid "Percentage Areas"
-msgstr "Percentage gebieden"
+msgstr "Percentagegebieden"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:30
 msgid "Percentage Bars"
-msgstr "Percentage balken"
+msgstr "Percentagebalken"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:31
 msgid "Percentage Columns"
-msgstr "Percentage kolommen"
+msgstr "Percentagekolommen"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:32
 msgid "Percentage Lines"
-msgstr "Percentage lijnen"
+msgstr "Percentagelijnen"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:33
 msgid "Percentage area plot."
-msgstr "Percentage gebiedsgrafiek."
+msgstr "Percentage-gebiedsgrafiek."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:34
 msgid "Percentage line plot."
-msgstr "Percentage lijngrafiek."
+msgstr "Percentage-lijngrafiek."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:35
 msgid "Stacked Areas"
@@ -21533,15 +21537,15 @@ msgstr "Ongemarkeerde gestapelde lijnen"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:1
 msgid "Area plotting engine"
-msgstr "Gebied plot-motor"
+msgstr "Gebiedsplot-module"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:2
 msgid "Bar/Col plotting engine"
-msgstr "Balk/Kolom plot-motor"
+msgstr "Balk/kolom plotmodule"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:3
 msgid "Charting : Bar/Col/Line/Area"
-msgstr ""
+msgstr "Grafiek maken: balk/kolom/lijn/gebied"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:4
 msgid "Default 1.5d plot types"
@@ -21549,7 +21553,7 @@ msgstr "Standaard 1.5d plot-types"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:5
 msgid "Line plotting engine"
-msgstr "Lijn plot-motor"
+msgstr "Lijn plotmodule"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:6
 msgid "Line, Area, Bar and Column plots"
@@ -21827,24 +21831,20 @@ msgid "Surface"
 msgstr "Oppervlak"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plugin.xml.in.h:1
-#, fuzzy
 msgid "Contour plotting engine"
-msgstr "Ring plot-motor"
+msgstr "Contourgrafiek-module"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plugin.xml.in.h:2
-#, fuzzy
 msgid "Default surface plot types"
-msgstr "Standaard radargrafiek-types"
+msgstr "Standaard oppervlakgrafiek-types"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plugin.xml.in.h:3
-#, fuzzy
 msgid "Surface Charts"
-msgstr "Taartgrafieken"
+msgstr "Oppervlakgrafieken"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plugin.xml.in.h:4
-#, fuzzy
 msgid "Surface charts"
-msgstr "Taartgrafieken"
+msgstr "Oppervlakgrafieken"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:2
 #, no-c-format
@@ -22931,7 +22931,7 @@ msgstr "In_stellingen"
 
 #: src/dialogs/autoformat.glade.h:24
 msgid "_Show Gridlines"
-msgstr "_Rasterlijnen weergeven"
+msgstr "R_asterlijnen weergeven"
 
 #: src/dialogs/autoformat.glade.h:25
 msgid "_Top"
@@ -24051,9 +24051,8 @@ msgstr "Kon het Histogram dialoogvenster niet maken."
 
 #: src/dialogs/dialog-analysis-tools.c:2697
 #: src/dialogs/dialog-analysis-tools.c:2911
-#, fuzzy
 msgid "The alpha value should be a number between 0 and 1."
-msgstr "De maximumwaarde moet groter zijn dan het minimum."
+msgstr "De alpha-waarde moet een getal zijn tussen 0 en 1."
 
 #: src/dialogs/dialog-analysis-tools.c:2745
 msgid "Could not create the ANOVA (single factor) tool dialog."
@@ -24749,9 +24748,8 @@ msgstr ""
 "systeem."
 
 #: src/dialogs/dialog-preferences.c:470
-#, fuzzy
 msgid "Length of Undo Descriptors"
-msgstr "Lengte van de herstellen-beschrijvingen"
+msgstr "Lengte van de ongedaan maken-beschrijvers"
 
 #: src/dialogs/dialog-preferences.c:498
 msgid ""
@@ -24759,11 +24757,9 @@ msgid ""
 "the behaviour of the sort toolbar buttons."
 msgstr ""
 "De items op deze pagina bepalen de aanvangsinstellingen van het sorteer "
-"dialoogvenster en\n"
-"het gedrag van de sorteerknoppen op de knoppenbalk."
+"dialoogvenster en het gedrag van de sorteerknoppen op de werkbalk."
 
 #: src/dialogs/dialog-preferences.c:523
-#, fuzzy
 msgid "Sorting is Case-Sensitive"
 msgstr "Sorteren is hoofdlettergevoelig"
 
@@ -24779,27 +24775,22 @@ msgstr ""
 "bestanden."
 
 #: src/dialogs/dialog-preferences.c:646
-#, fuzzy
 msgid "The items on this page are related to the screen layout and resolution."
 msgstr ""
-"De items op deze pagina hebben te maken met het opslaan en het openen van "
-"bestanden."
+"De items op deze pagina hebben te maken met de schermlayout en -resolutie."
 
 #: src/dialogs/dialog-preferences.c:682
-#, fuzzy
 msgid ""
 "The items on this page and its subpages are related to various gnumeric "
 "tools."
 msgstr ""
-"De items op deze pagina hebben te maken met het opslaan en het openen van "
-"bestanden."
+"De items op deze pagina en haar subpagina's hebben te maken met diverse "
+"gnumeric-gereedschappen."
 
 #: src/dialogs/dialog-preferences.c:724
-#, fuzzy
 msgid "The items on this page are related to copy. cut and paste."
 msgstr ""
-"De items op deze pagina hebben te maken met het opslaan en het openen van "
-"bestanden."
+"De items op deze pagina hebben te maken met kopiëren, knippen en plakken."
 
 #: src/dialogs/dialog-preferences.c:764
 msgid "Copy and Paste"
@@ -26661,9 +26652,8 @@ msgstr "Pagina"
 # dit opent het dialoogvenster: Afdrukinstellingen
 # Bugrapport?
 #: src/dialogs/print.glade.h:16
-#, fuzzy
 msgid "Page Setup"
-msgstr "Pagina-inst_ellingen..."
+msgstr "Pagina-instellingen"
 
 #: src/dialogs/print.glade.h:17
 msgid "Print _area:"
@@ -27195,7 +27185,7 @@ msgstr "Zoek _naar"
 # werkbladen?
 #: src/dialogs/sheet-order.glade.h:1
 msgid "Manage Sheets..."
-msgstr "Bladen Beheren..."
+msgstr "Bladen beheren..."
 
 #: src/dialogs/sheet-order.glade.h:2 src/wbcg-actions.c:1589
 msgid "_Duplicate"
@@ -27208,10 +27198,11 @@ msgstr "Gegevens verschuiven"
 
 #: src/dialogs/shuffle.glade.h:2
 msgid "Input Range: "
-msgstr "_Invoerbereik: "
+msgstr "Invoerbereik: "
 
 # husselmethode? schudden
 # verschuiven
+# door elkaar? omroeren?
 #: src/dialogs/shuffle.glade.h:3
 msgid "Shuffle Method: "
 msgstr "Verschuifmethode: "
@@ -29414,49 +29405,49 @@ msgstr "Huid_ige werkblad"
 msgid "S_heets"
 msgstr "Werkbladen"
 
-#: src/print-info.c:143 src/print-info.c:146 src/print-info.c:147
-#: src/print-info.c:258
+#: src/print-info.c:145 src/print-info.c:148 src/print-info.c:149
+#: src/print-info.c:260
 msgid "Page &[PAGE]"
 msgstr "Pagina &[PAGINA]"
 
-#: src/print-info.c:144 src/print-info.c:149
+#: src/print-info.c:146 src/print-info.c:151
 msgid "Page &[PAGE] of &[PAGES]"
 msgstr "Pagina &[PAGINA] van &[PAGINAS]"
 
-#: src/print-info.c:145 src/print-info.c:146 src/print-info.c:147
-#: src/print-info.c:149 src/print-info.c:252
+#: src/print-info.c:147 src/print-info.c:148 src/print-info.c:149
+#: src/print-info.c:151 src/print-info.c:254
 msgid "&[TAB]"
 msgstr "&[TAB]"
 
-#: src/print-info.c:147 src/print-info.c:148 src/print-info.c:149
+#: src/print-info.c:149 src/print-info.c:150 src/print-info.c:151
 msgid "&[DATE]"
 msgstr "&[DATUM]"
 
-#: src/print-info.c:450
+#: src/print-info.c:454
 msgid "File Name"
 msgstr "Bestandsnaam"
 
-#: src/print-info.c:461
+#: src/print-info.c:465
 msgid "Path "
 msgstr "Map "
 
-#: src/print-info.c:469
+#: src/print-info.c:473
 msgid "tab"
 msgstr "tab"
 
-#: src/print-info.c:470
+#: src/print-info.c:474
 msgid "page"
 msgstr "pagina"
 
-#: src/print-info.c:471
+#: src/print-info.c:475
 msgid "pages"
 msgstr "pagina's"
 
-#: src/print-info.c:474
+#: src/print-info.c:478
 msgid "file"
 msgstr "bestand"
 
-#: src/print-info.c:475
+#: src/print-info.c:479
 msgid "path"
 msgstr "Map"
 
@@ -29742,11 +29733,11 @@ msgstr "Knop"
 #: src/sheet-object-widget.c:1352
 #, c-format
 msgid "CheckBox %d"
-msgstr "Vinkje %d"
+msgstr "Aankruisvakje %d"
 
 #: src/sheet-object-widget.c:1807 src/wbcg-actions.c:1929
 msgid "RadioButton"
-msgstr "RadioKnop"
+msgstr "Keuzerondje"
 
 #. Oh, yeah?
 #: src/sheet-style.c:494
@@ -29758,7 +29749,7 @@ msgid ""
 msgstr ""
 "Dit is een bijzondere versie van Gnumeric.  Het is gecompileerd\n"
 "met ondersteuning voor een zeer groot aantal kolommen.  Toegang tot\n"
-"de kolom genaamd WAAR kan conflicteren met de constante die\n"
+"de kolom genaamd TRUE kan conflicteren met de constante die\n"
 "dezelfde naam heeft.  Er moet rekening worden gehouden met vreemd\n"
 "gedrag."
 
@@ -29838,13 +29829,13 @@ msgstr ""
 "bibliotheekmap := '%s'\n"
 
 #: src/ssindex.c:195
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "ssindex version '%s'\n"
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 msgstr ""
-"ssconvert versie '%s'\n"
+"ssindex versie '%s'\n"
 "datamap := '%s'\n"
 "bibliotheekmap := '%s'\n"
 
@@ -31169,7 +31160,7 @@ msgstr "_Selecteren"
 
 #: src/wbcg-actions.c:1417
 msgid "F_ill"
-msgstr "_Vullen"
+msgstr "V_ullen"
 
 #: src/wbcg-actions.c:1418
 msgid "_View"
@@ -31214,7 +31205,7 @@ msgstr "Sce_narios"
 
 #: src/wbcg-actions.c:1430
 msgid "Statistical Anal_ysis"
-msgstr "_Statistische Analyses"
+msgstr "Statistische anal_yse"
 
 #: src/wbcg-actions.c:1431
 msgid "_ANOVA"
@@ -31227,7 +31218,7 @@ msgstr "V_oorspellen"
 
 #: src/wbcg-actions.c:1433
 msgid "Two _Means"
-msgstr "Twee Ge_middelden:"
+msgstr "Twee ge_middelden"
 
 #: src/wbcg-actions.c:1435
 msgid "_Filter"
@@ -31235,11 +31226,11 @@ msgstr "_Filteren"
 
 #: src/wbcg-actions.c:1436
 msgid "_Group and Outline"
-msgstr "_Groeperen en Outlines"
+msgstr "_Groeperen en outlines"
 
 #: src/wbcg-actions.c:1437
 msgid "Get _External Data"
-msgstr "_Externe date verkrijgen"
+msgstr "_Externe gegevens verkrijgen"
 
 #: src/wbcg-actions.c:1438
 msgid "_Help"
@@ -31263,7 +31254,7 @@ msgstr "_Inhoud"
 
 #: src/wbcg-actions.c:1451
 msgid "Open a viewer for Gnumeric's documentation"
-msgstr ""
+msgstr "Gnumerics documentatie weergeven"
 
 # gnumeric home page
 #: src/wbcg-actions.c:1453
@@ -31276,15 +31267,15 @@ msgstr "Naar Gnumerics webstek surfen"
 
 #: src/wbcg-actions.c:1456
 msgid "_Live Assistance"
-msgstr ""
+msgstr "_Directe assistentie"
 
 #: src/wbcg-actions.c:1457
 msgid "See if anyone is available to answer questions"
-msgstr ""
+msgstr "Kijken of er iemand beschikbaar is om vragen te beantwoorden"
 
 #: src/wbcg-actions.c:1459
 msgid "Report a _Problem"
-msgstr ""
+msgstr "_Probleem melden"
 
 #: src/wbcg-actions.c:1460
 msgid "Report problem "
@@ -31337,7 +31328,7 @@ msgstr "Het huidige bestand per e-mail versturen"
 # Bugrapport?
 #: src/wbcg-actions.c:1490
 msgid "Page Set_up..."
-msgstr "Pagina-inst_ellingen..."
+msgstr "_Pagina-instellingen..."
 
 #: src/wbcg-actions.c:1491
 msgid "Setup the page settings for your current printer"
@@ -31473,7 +31464,7 @@ msgstr ""
 
 #: src/wbcg-actions.c:1565
 msgid "_Tabulate Dependency..."
-msgstr "Afhankelijkheid _Tabuleren..."
+msgstr "Afhankelijkheid _tabuleren..."
 
 #: src/wbcg-actions.c:1566
 msgid "Make a table of a cell's value as a function of other cells"
@@ -31481,7 +31472,7 @@ msgstr "Maak een tebel van de waarde van een cel als functie van andere cellen"
 
 #: src/wbcg-actions.c:1568
 msgid "_Series..."
-msgstr "_Series..."
+msgstr "S_eries..."
 
 #: src/wbcg-actions.c:1569
 msgid "Fill according to a linear or exponential series"
@@ -31489,18 +31480,18 @@ msgstr "Vullen volgens een lineaire of exponentiële serie"
 
 #: src/wbcg-actions.c:1571
 msgid "_Random Generator..."
-msgstr "Steekproefgetallen Generator..."
+msgstr "_Willekeurige getallen-generator..."
 
 #: src/wbcg-actions.c:1572
 msgid "Generate random numbers of a selection of distributions"
 msgstr ""
-"Genereer steekproefgetallen voor een aantal verschillende soorten "
+"Genereer willekeurige getallen voor een aantal verschillende soorten "
 "distributies"
 
 #. Edit -> Sheet
 #: src/wbcg-actions.c:1576
 msgid "_Manage Sheets..."
-msgstr "_Bladen Beheren..."
+msgstr "_Bladen beheren..."
 
 #: src/wbcg-actions.c:1577
 msgid "Manage the sheets in this workbook"
@@ -31531,7 +31522,7 @@ msgstr "Onherroepelijk een volledig werkblad verwijderen"
 
 #: src/wbcg-actions.c:1595
 msgid "Re_name"
-msgstr "Her_noemen"
+msgstr "_Hernoemen"
 
 #: src/wbcg-actions.c:1596
 msgid "Rename the current sheet"
@@ -31564,7 +31555,7 @@ msgstr "Naar iets zoeken"
 
 #: src/wbcg-actions.c:1611
 msgid "R_eplace..."
-msgstr "_Vervangen..."
+msgstr "Ve_rvangen..."
 
 #: src/wbcg-actions.c:1612
 msgid "Search for some something and replace it with something else"
@@ -31597,7 +31588,7 @@ msgstr "Een nieuwe weergave van de werkmap maken"
 
 #: src/wbcg-actions.c:1626 src/workbook-control-gui.c:1023
 msgid "_Freeze Panes"
-msgstr "_Raam Vastzetten"
+msgstr "_Panelen vastzetten"
 
 #: src/wbcg-actions.c:1627 src/workbook-control-gui.c:1026
 msgid "Freeze the top left of the sheet"
@@ -31610,7 +31601,7 @@ msgstr "_Zoomen..."
 # inzoomen of uitzoomen
 #: src/wbcg-actions.c:1630
 msgid "Zoom the spreadsheet in or out"
-msgstr "Zoom in of uit"
+msgstr "In- of uitzoomen op het rekenblad"
 
 #: src/wbcg-actions.c:1632
 msgid "Zoom _In"
@@ -31812,7 +31803,7 @@ msgstr "Beheer de beschikbare plugin modules."
 
 #: src/wbcg-actions.c:1735
 msgid "Auto _Correct..."
-msgstr "Automatische _Correctie..."
+msgstr "Automatische _correctie..."
 
 #: src/wbcg-actions.c:1736
 msgid "Automatically perform simple spell checking"
@@ -31820,7 +31811,7 @@ msgstr "Automatisch eenvoudige spellingscontrole uitvoeren"
 
 #: src/wbcg-actions.c:1738
 msgid "_Auto Save..."
-msgstr "_Automatisch Opslaan..."
+msgstr "_Automatisch opslaan..."
 
 #: src/wbcg-actions.c:1739
 msgid "Automatically save the current document at regular intervals"
@@ -31874,7 +31865,7 @@ msgstr "Een nieuw scenario toevoegen"
 #. Tools -> ANOVA
 #: src/wbcg-actions.c:1761
 msgid "_One Factor..."
-msgstr "_Een factor..."
+msgstr "_Eén factor..."
 
 #: src/wbcg-actions.c:1762
 msgid "One Factor Analysis of Variance..."
@@ -31899,7 +31890,7 @@ msgstr "Exponentieel glad..."
 
 #: src/wbcg-actions.c:1772
 msgid "_Moving Average..."
-msgstr "_Bewegend Gemiddelde..."
+msgstr "_Bewegend gemiddelde..."
 
 #: src/wbcg-actions.c:1773
 msgid "Moving average..."
@@ -31908,7 +31899,7 @@ msgstr "Bewegend gemiddelde..."
 #. Tools -> Two Means
 #: src/wbcg-actions.c:1777
 msgid "_Paired Samples: T-Test..."
-msgstr "_Gekoppelde steekproeven: T-Test..."
+msgstr "Gekoppelde _steekproeven: T-Test..."
 
 #: src/wbcg-actions.c:1778
 msgid "Comparing two population means for two paired samples: t-test..."
@@ -32095,7 +32086,7 @@ msgstr "Een outline-groep toevoegen"
 
 #: src/wbcg-actions.c:1855
 msgid "_Ungroup..."
-msgstr "Groepering _opheffen..."
+msgstr "Groepering ophe_ffen..."
 
 #: src/wbcg-actions.c:1856
 msgid "Remove an outline group"
@@ -32104,7 +32095,7 @@ msgstr "Een outline-groep verwijderen"
 #. Data -> Filter
 #: src/wbcg-actions.c:1860 src/workbook-control-gui.c:1034
 msgid "Add _Auto Filter"
-msgstr "_Auto-Filter toevoegen"
+msgstr "Aut_o-filter toevoegen"
 
 #: src/wbcg-actions.c:1861
 msgid "Add or remove a filter"
@@ -32423,7 +32414,7 @@ msgstr "Nullen als lege cellen weergeven, aan of uitzetten"
 
 #: src/wbcg-actions.c:2035
 msgid "Hide _Gridlines"
-msgstr "_Rasterlijnen verbergen"
+msgstr "R_asterlijnen verbergen"
 
 #: src/wbcg-actions.c:2036
 msgid "Toggle whether or not to display gridlines"
@@ -32513,14 +32504,14 @@ msgstr "Onder uitlijnen"
 msgid "View _Statusbar"
 msgstr "_Statusbalk tonen"
 
-# schakelen
+# omschakelen
 #: src/wbcg-actions.c:2078
 msgid "Toggle visibility of statusbar"
-msgstr "De zichtbaarheid van de statusbalk aan/uitschakelen"
+msgstr "De zichtbaarheid van de statusbalk omschakelen"
 
 #: src/wbcg-actions.c:2082
 msgid "F_ull Screen..."
-msgstr "_Volledig scherm"
+msgstr "V_olledig scherm"
 
 # uitloggen?
 #: src/wbcg-actions.c:2083
@@ -32576,7 +32567,7 @@ msgstr "_Zoomen"
 
 #: src/wbc-gtk.c:202
 msgid "Clear Borders"
-msgstr "Verwijder Randen"
+msgstr "Randen wissen"
 
 #: src/wbc-gtk.c:205
 msgid "All Borders"
@@ -32588,27 +32579,27 @@ msgstr "Buitenranden"
 
 #: src/wbc-gtk.c:207
 msgid "Thick Outside Borders"
-msgstr "Dikke Buitenranden"
+msgstr "Dikke buitenranden"
 
 #: src/wbc-gtk.c:210
 msgid "Double Bottom"
-msgstr "Dubbele Bodem"
+msgstr "Dubbele bodem"
 
 #: src/wbc-gtk.c:211
 msgid "Thick Bottom"
-msgstr "Dikke Bodem"
+msgstr "Dikke bodem"
 
 #: src/wbc-gtk.c:213
 msgid "Top and Bottom"
-msgstr "Boven en Beneden"
+msgstr "Boven en beneden"
 
 #: src/wbc-gtk.c:214
 msgid "Top and Double Bottom"
-msgstr "Boven en Dubbele Bodem"
+msgstr "Boven en dubbele bodem"
 
 #: src/wbc-gtk.c:215
 msgid "Top and Thick Bottom"
-msgstr "Boven en Dikke Bodem"
+msgstr "Boven en dikke bodem"
 
 #: src/wbc-gtk.c:300
 msgid "Set Borders"
@@ -33844,7 +33835,7 @@ msgstr "Hernoemen"
 
 #: src/workbook-control-gui.c:1022
 msgid "Un_freeze Panes"
-msgstr "Raam ontdooien"
+msgstr "Panelen losmaken"
 
 # ontdooien of loslaten
 #: src/workbook-control-gui.c:1025
@@ -33869,7 +33860,7 @@ msgstr "_Ongedaan maken"
 
 #: src/workbook-control-gui.c:1049
 msgid "_Redo"
-msgstr "O_pnieuw"
+msgstr "Op_nieuw"
 
 #: src/workbook-control-gui.c:1177
 #, c-format
