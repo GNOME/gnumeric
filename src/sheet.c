@@ -453,7 +453,7 @@ sheet_row_set_height (Sheet *sheet, int row, int height, gboolean height_set_by_
 	
 	ri = sheet_row_get_info (sheet, row);
 	if (ri == &sheet->default_row_style){
-		ri = sheet_row_new (sheet) ;
+		ri = sheet_row_new (sheet);
 		ri->pos = row;
 		add = 1;
 	}
@@ -1025,21 +1025,25 @@ sheet_selection_first_range (Sheet *sheet,
 
 	g_return_val_if_fail (sheet != NULL, 0);
 	g_return_val_if_fail (IS_SHEET (sheet), 0); 
+
 	if (!sheet->selections)
-		return 0 ;
+		return 0;
+
 	l = g_list_first (sheet->selections) ;
 	if (!l || !l->data)
-		return 0 ;
-	ss = l->data ;
-	*base_col = ss->base_col ;
-	*base_row = ss->base_row ;
-	*start_col = ss->start_col ;
-	*start_row = ss->start_row ;
-	*end_col = ss->end_col ;
-	*end_row = ss->end_row ;
-	if ((l=g_list_next(l)))
-		return 0 ;
-	return 1 ;
+		return 0;
+
+	ss = l->data;
+	*base_col = ss->base_col;
+	*base_row = ss->base_row;
+	*start_col = ss->start_col;
+	*start_row = ss->start_row;
+	*end_col = ss->end_col;
+	*end_row = ss->end_row;
+	
+	if ((l = g_list_next (l)))
+		return 0;
+	return 1;
 }
 
 void

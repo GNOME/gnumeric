@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.20\n"
-"POT-Creation-Date: 1999-04-01 17:15+0200\n"
+"POT-Creation-Date: 1999-04-06 22:11-0500\n"
 "PO-Revision-Date: 1998-11-25 18:01:18+0100\n"
 "Last-Translator: Pablo Saratxaga <srtxg@chanae.alphanet.ch>\n"
 "Language-Team: \n"
@@ -23,8 +23,8 @@ msgstr "Formato de archivo Microsoft® Excel"
 msgid "Argument must be a Guile expression"
 msgstr "El argumento tiene que ser una expresión Guile"
 
-#: plugins/guile/plugin.c:241 src/expr.c:509 src/fn-math.c:1270
-#: src/fn-sheet.c:38 src/fn-sheet.c:83 src/fn-string.c:302
+#: plugins/guile/plugin.c:241 src/expr.c:513 src/fn-math.c:1329
+#: src/fn-sheet.c:40 src/fn-sheet.c:92 src/fn-string.c:302
 msgid "Invalid number of arguments"
 msgstr "Número de argumentos inválido"
 
@@ -72,62 +72,9 @@ msgstr "Extensión Gnumeric/Python inicializada\n"
 msgid "Python Plugin"
 msgstr "Extensión Python"
 
-#: plugins/stat/stat.c:12
-msgid ""
-"@FUNCTION=STDEV\n"
-"@SYNTAX = STDEV(value1, value2, ...)@DESCRIPTION=Computes the standard "
-"deviation of all the values and cells referenced in the argument list. This "
-"is equivalent to the square root of the variance.\n"
-"@SEEALSO=VARIANCE"
+#: plugins/stat/stat.c:20
+msgid "OLD Statistics Plugin, not required anymore"
 msgstr ""
-"@FUNCTION=STDEV\n"
-"@SYNTAX = STDEV(valor1, valor2, ...)\n"
-"@DESCRIPTION=Calcula la desviación estándar de todos los valores y celdas "
-"referenciados en la lista de argumentos. Es aquivalente a la raiz cuadrada "
-"de la varianza.\n"
-"@SEEALSO=VARIANCE"
-
-#: plugins/stat/stat.c:23
-msgid ""
-"@FUNCTION=VARIANCE\n"
-"@SYNTAX = VARIANCE(value1, value2, ...)@DESCRIPTION=Computes the variation "
-"of all the values and cells referenced in the argument list. This "
-"is\tequivalent to the sum of (value - average)^2, divided by the number of "
-"values minus 1. If you want it divided by N instead of N - 1, use "
-"NVARIANCE.@SEEALSO=AVERAGE, NVARIANCE"
-msgstr ""
-"@FUNCTION=VARIANCE\n"
-"@SYNTAX = VARIANCE(valor1, valor2, ...)\n"
-"@DESCRIPTION=Calcula la varianza de todos los valores y celdas referenciados "
-"en la lista de argumentos. Es aquivalente a la suma de (valor - media)² , "
-"dividido por la cantidad de valores menos 1. Si desea dividirlo por N en vez "
-"de N - 1, use NVARIANCE.\n"
-"@SEEALSO=AVERAGE, NVARIANCE"
-
-#: plugins/stat/stat.c:34
-msgid ""
-"@FUNCTION=NVARIANCE\n"
-"@SYNTAX = NVARIANVE(value1, value2, ...)@DESCRIPTION=Computes the variation "
-"of all the values and cells references in the argument list. This is "
-"equivalent to the sum of (value - average)^2, divided by the number of "
-"values. If you want it divided by N - 1 instead of N, use "
-"VARIANCE.@SEEALSO=AVERAGE, VARIANCE"
-msgstr ""
-"@FUNCTION=NVARIANCE\n"
-"@SYNTAX = NVARIANVE(valor1, valor2, ...)\n"
-"@DESCRIPTION=Calcula la varianza de todos los valores y celdas referenciados "
-"en la lista de argumentos. Es aquivalente a la suma de (valor - media)² , "
-"dividido por la cantidad de valores. Si desea dividirlo por N - 1 en vez de "
-"N, use VARIANCE.\n"
-"@SEEALSO=AVERAGE, VARIANCE"
-
-#: plugins/stat/stat.c:69
-msgid "Statistics Plugin"
-msgstr "Extensión de Estadísticas"
-
-#: plugins/stat/stat.c:102
-msgid "variance - division by 0"
-msgstr "variance - división entre cero"
 
 #: src/about.c:23
 msgid "Miguel de Icaza, main programmer."
@@ -189,11 +136,11 @@ msgstr "Takashi Matsuda, extensión para texto simple"
 msgid "Jukka-Pekka Iivonen, numerous functions"
 msgstr "Jukka-Pekka Iivonen, varias funciones"
 
-#: src/about.c:52
+#: src/about.c:51
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
-#: src/about.c:55
+#: src/about.c:54
 msgid ""
 "The GNOME spreadsheet.\n"
 "http://www.gnome.org/gnumeric"
@@ -394,114 +341,114 @@ msgid "Money"
 msgstr "Dinero"
 
 #. 1. Categories
-#: src/dialog-cell-format.c:253
+#: src/dialog-cell-format.c:256
 msgid "Categories"
 msgstr "Categorías"
 
 #. 2.1 Input line
-#: src/dialog-cell-format.c:285
+#: src/dialog-cell-format.c:288
 msgid "Code:"
 msgstr "Código:"
 
 #. 2.2 Sample
-#: src/dialog-cell-format.c:294
+#: src/dialog-cell-format.c:297
 msgid "Sample:"
 msgstr "Muestra:"
 
-#: src/dialog-cell-format.c:306
+#: src/dialog-cell-format.c:309
 msgid "Format codes"
 msgstr "Códigos de formato"
 
-#: src/dialog-cell-format.c:355 src/formats.c:16 src/number-match.c:455
+#: src/dialog-cell-format.c:358 src/formats.c:16 src/number-match.c:455
 msgid "General"
 msgstr "General"
 
-#: src/dialog-cell-format.c:356
+#: src/dialog-cell-format.c:359
 msgid "Left"
 msgstr "Izquierda"
 
-#: src/dialog-cell-format.c:357 src/dialog-cell-format.c:366
-#: src/workbook.c:851
+#: src/dialog-cell-format.c:360 src/dialog-cell-format.c:369
+#: src/workbook.c:861
 msgid "Center"
 msgstr "Centro"
 
-#: src/dialog-cell-format.c:358
+#: src/dialog-cell-format.c:361
 msgid "Right"
 msgstr "Derecha"
 
-#: src/dialog-cell-format.c:359
+#: src/dialog-cell-format.c:362
 msgid "Fill"
 msgstr "Llenar"
 
-#: src/dialog-cell-format.c:360 src/dialog-cell-format.c:368
+#: src/dialog-cell-format.c:363 src/dialog-cell-format.c:371
 msgid "Justify"
 msgstr "Justificar"
 
-#: src/dialog-cell-format.c:365
+#: src/dialog-cell-format.c:368
 msgid "Top"
 msgstr "Arriba"
 
-#: src/dialog-cell-format.c:367
+#: src/dialog-cell-format.c:370
 msgid "Bottom"
 msgstr "Abajo"
 
 #. Vertical alignment
-#: src/dialog-cell-format.c:423
+#: src/dialog-cell-format.c:426
 msgid "Vertical"
 msgstr "Vertical"
 
 #. Horizontal alignment
-#: src/dialog-cell-format.c:427
+#: src/dialog-cell-format.c:430
 msgid "Horizontal"
 msgstr "Horizontal"
 
-#: src/dialog-cell-format.c:430
+#: src/dialog-cell-format.c:433
 msgid "Auto return"
 msgstr "Retorno de carro automático"
 
-#: src/dialog-cell-format.c:599
+#: src/dialog-cell-format.c:602
 msgid "Text color"
 msgstr "Color del texto"
 
 #. The radio buttons
-#: src/dialog-cell-format.c:603 src/dialog-cell-format.c:636
+#: src/dialog-cell-format.c:606 src/dialog-cell-format.c:639
 #: src/dialog-paste-special.c:28
 msgid "None"
 msgstr "Ninguno"
 
-#: src/dialog-cell-format.c:605
+#: src/dialog-cell-format.c:608
 msgid "Use this color"
 msgstr "Usar este color"
 
-#: src/dialog-cell-format.c:607 src/dialog-cell-format.c:642
+#: src/dialog-cell-format.c:610 src/dialog-cell-format.c:645
 msgid "No change"
 msgstr "Sin cambios"
 
-#: src/dialog-cell-format.c:630
+#: src/dialog-cell-format.c:633
 msgid "Background configuration"
 msgstr "Configuración del fondo"
 
-#: src/dialog-cell-format.c:638
+#: src/dialog-cell-format.c:641
 msgid "Use solid color"
 msgstr "Usar color sólido"
 
-#: src/dialog-cell-format.c:640
+#: src/dialog-cell-format.c:643
 msgid "Use a pattern"
 msgstr "Usar patrón"
 
-#: src/dialog-cell-format.c:912
+#: src/dialog-cell-format.c:915
 msgid "Number"
 msgstr "Numérico"
 
-#: src/dialog-cell-format.c:913
+#: src/dialog-cell-format.c:916
 msgid "Alignment"
 msgstr "Alineación"
 
-#: src/dialog-cell-format.c:914
+#: src/dialog-cell-format.c:917
 msgid "Font"
 msgstr "Fuente"
 
-#: src/dialog-cell-format.c:915
+#: src/dialog-cell-format.c:918
 msgid "Coloring"
 msgstr "Coloreado"
 
@@ -664,7 +611,11 @@ msgstr "Error de sintaxis"
 msgid "Missing quote"
 msgstr "Falta una comilla"
 
-#: src/expr.c:529 src/expr.c:534 src/expr.c:541 src/expr.c:826 src/expr.c:1021
+#: src/expr.c:67
+msgid "Impossible!"
+msgstr ""
+
+#: src/expr.c:533 src/expr.c:538 src/expr.c:545 src/expr.c:830 src/expr.c:1025
 #: src/fn-string.c:54 src/fn-string.c:76 src/fn-string.c:98
 #: src/fn-string.c:155 src/fn-string.c:192 src/fn-string.c:271
 #: src/fn-string.c:350 src/fn-string.c:390 src/fn-string.c:569
@@ -672,19 +623,19 @@ msgstr "Falta una comilla"
 msgid "Type mismatch"
 msgstr "Tipo erroneo"
 
-#: src/expr.c:767
+#: src/expr.c:771
 msgid "Type error"
 msgstr "Tipo erróneo"
 
-#: src/expr.c:876 src/expr.c:913
+#: src/expr.c:880 src/expr.c:917
 msgid "Division by zero"
 msgstr "División entre cero"
 
-#: src/expr.c:1001
+#: src/expr.c:1005
 msgid "Reference to newborn cell"
 msgstr "Referencia hacia una celda recién creada"
 
-#: src/expr.c:1036
+#: src/expr.c:1040
 msgid "Unknown evaluation error"
 msgstr "Error al evaluar"
 
@@ -991,7 +942,7 @@ msgstr ""
 "ignoradas. Si ningún valor lógico es dado devuelve el error '#VALOR!'. \n"
 "@SEEALSO=OR, NOT"
 
-#: src/fn-math.c:187 src/fn-math.c:1008
+#: src/fn-math.c:187 src/fn-math.c:1049
 msgid "#VALUE"
 msgstr "#VALOR"
 
@@ -1154,7 +1105,8 @@ msgstr ""
 msgid "#VALUE!"
 msgstr "#VALOR!"
 
-#: src/fn-math.c:415 src/fn-math.c:1094
+#. -0
+#: src/fn-math.c:415 src/fn-math.c:946 src/fn-math.c:954 src/fn-math.c:1153
 msgid "#NUM!"
 msgstr "#NUM!"
 
@@ -1272,8 +1224,8 @@ msgstr ""
 "@FUNCTION=COMBIN\n"
 "@SYNTAX=COMBIN(n,k)\n"
 "@DESCRIPTION=Calcula la cantidad de combinaciones.\n"
-"Efectuar esta función con números no enteros o negativos "
-"devuelve un error. También si n es inferior a k devuelve un error.\n"
+"Efectuar esta función con números no enteros o negativos devuelve un error. "
+"También si n es inferior a k devuelve un error.\n"
 "\n"
 "@SEEALSO="
 
@@ -1424,6 +1376,19 @@ msgstr ""
 
 #: src/fn-math.c:925
 msgid ""
+"@FUNCTION=MOD\n"
+"@SYNTAX=MOD(number,divisor)\n"
+"@DESCRIPTION=Implements modulo arithmetic.Returns the remainder when divisor "
+"is divided into abs(number).\n"
+"Returns #DIV/0! if divisor is zero.@SEEALSO=INT,FLOOR,CEIL"
+msgstr ""
+
+#: src/fn-math.c:958
+msgid "#DIV/0!"
+msgstr ""
+
+#: src/fn-math.c:966
+msgid ""
 "@FUNCTION=NOT\n"
 "@SYNTAX=NOT(number)\n"
 "@DESCRIPTION=Implements the logical NOT function: the result is TRUE if the "
@@ -1433,12 +1398,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=NOT\n"
 "@SYNTAX=NOT(número)\n"
-"@DESCRIPTION=Implementa la función NO lógico: el resultado es VERDAD "
-"si el @número es cero; sino devuelve FALSO.\n"
+"@DESCRIPTION=Implementa la función NO lógico: el resultado es VERDAD si el "
+"@número es cero; sino devuelve FALSO.\n"
 "\n"
 "@SEEALSO=AND, OR"
 
-#: src/fn-math.c:946
+#: src/fn-math.c:987
 msgid ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1, b2, ...)\n"
@@ -1462,7 +1427,7 @@ msgstr ""
 "ignoradas. Si ningún valor lógico es dado devuelve el error '#VALOR!'. \n"
 "@SEEALSO=AND, NOT"
 
-#: src/fn-math.c:1015
+#: src/fn-math.c:1056
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -1478,7 +1443,22 @@ msgstr ""
 "simplemente no hace nada.\n"
 "@SEEALSO=PI,DEGREES"
 
-#: src/fn-math.c:1036
+#: src/fn-math.c:1077
+#, fuzzy
+msgid ""
+"@FUNCTION=RAND\n"
+"@SYNTAX=RAND()\n"
+"@DESCRIPTION=Returns a random number greater than or equal to 0 and less "
+"than 1.\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=CODE\n"
+"@SYNTAX=CODE(char)\n"
+"@DESCRIPTION=Devuelve el valor ASCII del carácter 'char'.\n"
+"@SEEALSO=CHAR"
+
+#: src/fn-math.c:1095
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -1495,7 +1475,7 @@ msgstr ""
 "simplemente no hace nada. Esta función solo admite un argumento.\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: src/fn-math.c:1056
+#: src/fn-math.c:1115
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -1513,7 +1493,7 @@ msgstr ""
 "simplemente no hace nada. Esta función solo admite un argumento.\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
-#: src/fn-math.c:1077
+#: src/fn-math.c:1136
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -1524,11 +1504,10 @@ msgstr ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
 "@DESCRIPTION=La función SQRT devuelve la raíz cuadrada de x,\n"
-"Si x es negativo devuelve #NUM!. "
-"Esta función accepta un solo argumento.\n"
+"Si x es negativo devuelve #NUM!. Esta función accepta un solo argumento.\n"
 "@SEEALSO=POW"
 
-#: src/fn-math.c:1101
+#: src/fn-math.c:1160
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -1542,7 +1521,7 @@ msgstr ""
 "la lista de argumentos. \n"
 "@SEEALSO=AVERAGE, COUNT"
 
-#: src/fn-math.c:1191
+#: src/fn-math.c:1250
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -1559,7 +1538,7 @@ msgstr ""
 "simplemente no hace nada. Esta función solo admite un argumento.\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
-#: src/fn-math.c:1211
+#: src/fn-math.c:1270
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -1577,7 +1556,7 @@ msgstr ""
 "simplemente no hace nada. Esta función solo admite un argumento.\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
-#: src/fn-math.c:1231
+#: src/fn-math.c:1290
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -1591,7 +1570,7 @@ msgstr ""
 "Esta función no accepta argumentos.\n"
 "@SEEALSO="
 
-#: src/fn-math.c:1250
+#: src/fn-math.c:1309
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -1628,13 +1607,15 @@ msgid "Argument mismatch"
 msgstr "El argumento no corresponde"
 
 #: src/fn-sheet.c:17
+#, fuzzy
 msgid ""
 "@FUNCTION=IF\n"
-"@SYNTAX=IF(condition,if-true,if-false)\n"
+"@SYNTAX=IF(condition[,if-true,if-false])\n"
 "@DESCRIPTION=Use the IF statement to evaluate conditionally other "
 "expressions IF evaluates @condition.  If @condition returns a non-zero value "
 "the result of the IF expression is the @if-true expression, otherwise IF "
-"evaluates to the value of @if-false\n"
+"evaluates to the value of @if-false.If ommitted if-true defaults to TRUE and "
+"if-false to FALSE.\n"
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=IF\n"
@@ -1645,7 +1626,7 @@ msgstr ""
 "resultado de la expresión IF es el valor de @if-false \n"
 "@SEEALSO="
 
-#: src/fn-sheet.c:64
+#: src/fn-sheet.c:73
 msgid ""
 "@FUNCTION=SELECTION\n"
 "@SYNTAX=SELECTION(x)\n"
@@ -1835,8 +1816,8 @@ msgstr ""
 "@FUNCTION=FIND\n"
 "@SYNTAX=FIND(string1,string2[,inicio])\n"
 "@DESCRIPTION=Devuelve la posición de @string1 en @string2 (distingue "
-"mayúsculas y minúsculas), la búsqueda se hace solo a partir de la "
-"posición @inicio (se asume 1 si no se indica)\n"
+"mayúsculas y minúsculas), la búsqueda se hace solo a partir de la posición "
+"@inicio (se asume 1 si no se indica)\n"
 "@SEEALSO=EXACT, LEN, MID, SEARCH"
 
 #: src/fn-string.c:451
@@ -1850,9 +1831,8 @@ msgstr ""
 "@FUNCTION=FIXED\n"
 "@SYNTAX=FIXED(num, [decimales, sin_separador])\n"
 "@DESCRIPTION=Devuelve @num como una cadena formateada con @decimales "
-"decimales después de la coma decimal. "
-"El separador de los miles (el punto) no se usará si se "
-"pide @sin_separador\n"
+"decimales después de la coma decimal. El separador de los miles (el punto) "
+"no se usará si se pide @sin_separador\n"
 "@SEEALSO="
 
 #: src/fn-string.c:554
@@ -1864,8 +1844,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=PROPER\n"
 "@SYNTAX=PROPER(string)\n"
-"@DESCRIPTION=Devuelve la cadena @string con la primera letra de cada "
-"palabra en mayúsculas.\n"
+"@DESCRIPTION=Devuelve la cadena @string con la primera letra de cada palabra "
+"en mayúsculas.\n"
 "@SEEALSO=LOWER, UPPER"
 
 #: src/fn-string.c:593
@@ -1891,8 +1871,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=T\n"
 "@SYNTAX=T(valor)\n"
-"@DESCRIPTION=Devuelve @valor unicamente si se trata de una cadena de "
-"texto; sino devuelve una cadena vacía\n"
+"@DESCRIPTION=Devuelve @valor unicamente si se trata de una cadena de texto; "
+"sino devuelve una cadena vacía\n"
 "@SEEALSO=CELL, N, VALUE"
 
 #: src/fn-string.c:651
@@ -1904,8 +1884,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=TRIM\n"
 "@SYNTAX=TRIM(texto)\n"
-"@DESCRIPTION=Devuelve la cadena @texto con un solo espacio entre "
-"cada palabra\n"
+"@DESCRIPTION=Devuelve la cadena @texto con un solo espacio entre cada "
+"palabra\n"
 "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
 
 #: src/fn-string.c:692
@@ -1930,9 +1910,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=SUBSTITUTE\n"
 "@SYNTAX=SUBSTITUTE(texto, antiguo, nuevo [,num]\n"
-"@DESCRIPTION=Reemplaza @antiguo con @nuevo en @texto. Las substituciones "
-"se aplican unicamente a la @num ª instancia de @antiguo en @texto, si "
-"@num se omite todas las instancias son reemplazadas.\n"
+"@DESCRIPTION=Reemplaza @antiguo con @nuevo en @texto. Las substituciones se "
+"aplican unicamente a la @num ª instancia de @antiguo en @texto, si @num se "
+"omite todas las instancias son reemplazadas.\n"
 "@SEEALSO=REPLACE, TRIM"
 
 #: src/fn-string.c:818
@@ -2237,7 +2217,7 @@ msgstr ""
 "existentes en el mismo rango. ¿ Desea reemplazar los contenidos\n"
 "en esa región ?"
 
-#: src/item-cursor.c:579 src/item-grid.c:527 src/workbook.c:839
+#: src/item-cursor.c:579 src/item-grid.c:527 src/workbook.c:849
 msgid "Copy"
 msgstr "Copiar"
 
@@ -2269,11 +2249,11 @@ msgstr "Desplaza las celas hacia abajo y mueve"
 msgid "Shift cells right and move"
 msgstr "Desplaza las celdas hacia la derecha y mueve"
 
-#: src/item-grid.c:526 src/workbook.c:836
+#: src/item-grid.c:526 src/workbook.c:846
 msgid "Cut"
 msgstr "Cortar"
 
-#: src/item-grid.c:528 src/sheet.c:2535 src/workbook.c:842
+#: src/item-grid.c:528 src/sheet.c:2573 src/workbook.c:852
 msgid "Paste"
 msgstr "Pegar"
 
@@ -2306,12 +2286,12 @@ msgid "(([-+]?[0-9,])?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
 msgstr "(([-+]?[0-9\\.])?(,?[0-9]*)?([Ee][-+][0-9]+)?)"
 
 #: src/plugin-manager.c:95 src/plugin-manager.c:96
-msgid "File"
-msgstr "Archivo"
-
-#: src/plugin-manager.c:95 src/plugin-manager.c:96
 msgid "Name"
 msgstr "Nombre"
+
+#: src/plugin-manager.c:95 src/plugin-manager.c:96
+msgid "File"
+msgstr "Archivo"
 
 #: src/plugin-manager.c:126
 msgid "Close"
@@ -2321,19 +2301,19 @@ msgstr "Cerrar"
 msgid "Add..."
 msgstr "Añadir..."
 
-#: src/plugin.c:39
+#: src/plugin.c:40
 msgid "unable to open module file: "
 msgstr "es imposible abrir este archivo del módulo: "
 
-#: src/plugin.c:49
+#: src/plugin.c:51
 msgid "Plugin must contain init_plugin function."
 msgstr "El módulo dinámico no define la función \"init_plugin\""
 
-#: src/plugin.c:55
+#: src/plugin.c:57
 msgid "init_plugin returned error"
 msgstr "La función de inicialización de la extensión falló"
 
-#: src/plugin.c:75
+#: src/plugin.c:77
 msgid "Plugin is still in use.\n"
 msgstr "La extensión todavía está en uso\n"
 
@@ -2369,382 +2349,442 @@ msgstr "El libro de trabajo ha sido modificado, ¿Guardo los cambios?"
 msgid "Insert rows"
 msgstr "Insertar renglones"
 
-#: src/workbook.c:587
+#: src/workbook.c:595
 msgid ">mm/dd/yyyy"
 msgstr ">dd/mm/yyyy"
 
-#: src/workbook.c:606
+#: src/workbook.c:614
 msgid ">hh:mm"
 msgstr ">hh:mm"
 
-#: src/workbook.c:662
-msgid "Create a new spreadsheet"
-msgstr "Crea una nueva hoja de cálculo"
-
-#: src/workbook.c:662
+#: src/workbook.c:670
 msgid "_New"
 msgstr "_Nuevo"
 
-#: src/workbook.c:673
-msgid "Gnumeric plugins"
-msgstr "Módulos de Gnumeric"
+#: src/workbook.c:670
+msgid "Create a new spreadsheet"
+msgstr "Crea una nueva hoja de cálculo"
 
-#: src/workbook.c:673
+#: src/workbook.c:681
 msgid "Plu_g-ins..."
 msgstr "_Extensiones..."
 
-#: src/workbook.c:687
+#: src/workbook.c:681
+msgid "Gnumeric plugins"
+msgstr "Módulos de Gnumeric"
+
+#: src/workbook.c:695
 msgid "_All"
 msgstr "_Todo"
 
-#: src/workbook.c:688
+#: src/workbook.c:696
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr ""
 "Limpia los formatos, comentarios y contenidos de las celdas seleccionadas"
 
-#: src/workbook.c:690
+#: src/workbook.c:698
 msgid "_Formats"
 msgstr "_Formatos"
 
-#: src/workbook.c:691
+#: src/workbook.c:699
 msgid "Clear the selected cells' formats"
 msgstr "Elimina los formatos de las celdas seleccionadas"
 
-#: src/workbook.c:692
+#: src/workbook.c:700
 msgid "_Comments"
 msgstr "_Comentarios"
 
-#: src/workbook.c:693
+#: src/workbook.c:701
 msgid "Clear the selected cells' comments"
 msgstr "Elimina los comentarios de las celdas seleccionadas"
 
-#: src/workbook.c:694
+#: src/workbook.c:702
 msgid "_Content"
 msgstr "_Contenido"
 
-#: src/workbook.c:695
+#: src/workbook.c:703
 msgid "Clear the selected cells' contents"
 msgstr "Eliminar el contenido de las celdas seleccionadas"
 
-#: src/workbook.c:703
+#: src/workbook.c:711
 msgid "P_aste special..."
 msgstr "Pegado _especial..."
 
-#: src/workbook.c:704
+#: src/workbook.c:712
 msgid "C_lear"
 msgstr "_Borrar"
 
-#: src/workbook.c:705
+#: src/workbook.c:713
 msgid "Clear the selected cell(s)"
 msgstr "Borra las celdas seleccionadas"
 
-#: src/workbook.c:709
+#: src/workbook.c:717
 msgid "_Select All"
 msgstr "_Selecciona todo"
 
-#: src/workbook.c:710
+#: src/workbook.c:718
 msgid "Select all cells in the spreadsheet"
 msgstr "Selecciona todas las celdas en la hoja de cálculo"
 
-#: src/workbook.c:712
+#: src/workbook.c:720
 msgid "_Goto cell.."
 msgstr "_Ir a la celda..."
 
-#: src/workbook.c:713
+#: src/workbook.c:721
 msgid "Jump to a specified cell"
 msgstr "Salta a la celda especificada"
 
-#: src/workbook.c:719
+#: src/workbook.c:727
 msgid "_Define cell names"
 msgstr "_Definir nombres de celdas"
 
-#: src/workbook.c:723
+#: src/workbook.c:731
 msgid "_Recalculate"
 msgstr "_Recalcular"
 
-#: src/workbook.c:724
+#: src/workbook.c:732
 msgid "Recalculate the spreadsheet"
 msgstr "Recalcula el contenido de la hoja de cálculo"
 
-#: src/workbook.c:732
+#: src/workbook.c:740
 msgid "_Zoom..."
 msgstr "_Amplificar..."
 
-#: src/workbook.c:733
+#: src/workbook.c:741
 msgid "Zoom the spreadsheet in or out"
 msgstr "Controla el acercamiento de la hoja de cálculo"
 
-#: src/workbook.c:740
+#: src/workbook.c:748
 msgid "Current _date"
 msgstr "_Fecha actual"
 
-#: src/workbook.c:741
+#: src/workbook.c:749
 msgid "Insert the current data into the selected cell(s)"
 msgstr "Inserta la fecha actual en las celdas seleccionadas"
 
-#: src/workbook.c:744
+#: src/workbook.c:752
 msgid "Current _time"
 msgstr "_Hora actual"
 
-#: src/workbook.c:745
+#: src/workbook.c:753
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Inserta la hora actual en las celdas seleccionadas"
 
-#: src/workbook.c:752
-msgid "Insert a new spreadsheet"
-msgstr "Inserta una nueva hoja de cálculo en este libro de trabajo"
-
-#: src/workbook.c:752 src/workbook.c:798
+#: src/workbook.c:760 src/workbook.c:808
 msgid "_Sheet"
 msgstr "_Hoja"
 
-#: src/workbook.c:754
-msgid "Insert new cells"
-msgstr "Inserta celdas"
+#: src/workbook.c:760
+msgid "Insert a new spreadsheet"
+msgstr "Inserta una nueva hoja de cálculo en este libro de trabajo"
 
-#: src/workbook.c:754 src/workbook.c:792
+#: src/workbook.c:762 src/workbook.c:800
 msgid "_Cells..."
 msgstr "_Celdas..."
 
-#: src/workbook.c:756
-msgid "Insert new rows"
-msgstr "Inserta renglones"
+#: src/workbook.c:762
+msgid "Insert new cells"
+msgstr "Inserta celdas"
 
-#: src/workbook.c:756
+#: src/workbook.c:764
 msgid "_Rows"
 msgstr "_Renglones"
 
-#: src/workbook.c:758
+#: src/workbook.c:764
+msgid "Insert new rows"
+msgstr "Inserta renglones"
+
+#: src/workbook.c:766
 msgid "C_olumns"
 msgstr "C_olumnas"
 
-#: src/workbook.c:758
+#: src/workbook.c:766
 msgid "Insert new columns"
 msgstr "Inserta columnas"
 
-#: src/workbook.c:763
+#: src/workbook.c:771
 msgid "_Add/modify comment"
 msgstr "_Añadir/Modificar comentario"
 
-#: src/workbook.c:764
+#: src/workbook.c:772
 msgid "Edit the selected cell's comment"
 msgstr "Edita el comentario de la celda seleccionada"
 
-#: src/workbook.c:765
+#: src/workbook.c:773
 msgid "_Special"
 msgstr "E_special"
 
-#: src/workbook.c:774 src/workbook.c:780
+#: src/workbook.c:782 src/workbook.c:788
 msgid "_Autoadjust"
 msgstr "_Autoajusta"
 
-#: src/workbook.c:775
+#: src/workbook.c:783
 msgid "_Width"
 msgstr "A_ncho"
 
-#: src/workbook.c:781
+#: src/workbook.c:789
 msgid "_Height"
 msgstr "A_lto"
 
-#: src/workbook.c:786
+#: src/workbook.c:794
 msgid "_Change name"
 msgstr "_Cambiar nombre"
 
-#: src/workbook.c:793
+#: src/workbook.c:801
 msgid "Modify the formatting of the selected cells"
 msgstr "MOdifica el formato de las celdas seleccionadas"
 
-#: src/workbook.c:796
+#: src/workbook.c:803
+#, fuzzy
+msgid "_Sort"
+msgstr "_Formato"
+
+#: src/workbook.c:804
+#, fuzzy
+msgid "Sort the selected cells"
+msgstr "Borra las celdas seleccionadas"
+
+#: src/workbook.c:806
 msgid "C_olumn"
 msgstr "C_olumnas"
 
-#: src/workbook.c:797
+#: src/workbook.c:807
 msgid "_Row"
 msgstr "_Renglón"
 
-#: src/workbook.c:814
+#: src/workbook.c:824
 msgid "_Insert"
 msgstr "_Insertar"
 
-#: src/workbook.c:815
+#: src/workbook.c:825
 msgid "F_ormat"
 msgstr "_Formato"
 
-#: src/workbook.c:824
-msgid "Creates a new sheet"
-msgstr "Crea una nueva hoja"
-
-#: src/workbook.c:824
+#: src/workbook.c:834
 msgid "New"
 msgstr "Nuevo"
 
-#: src/workbook.c:827
+#: src/workbook.c:834
+msgid "Creates a new sheet"
+msgstr "Crea una nueva hoja"
+
+#: src/workbook.c:837
 msgid "Open"
 msgstr "Abrir"
 
-#: src/workbook.c:827
+#: src/workbook.c:837
 msgid "Opens an existing workbook"
 msgstr "Abre una hoja de trabajo existente"
 
-#: src/workbook.c:830
+#: src/workbook.c:840
 msgid "Save"
 msgstr "Guardar"
 
-#: src/workbook.c:830
+#: src/workbook.c:840
 msgid "Saves the workbook"
 msgstr "Guarda esta hoja de trabajo"
 
-#: src/workbook.c:836
+#: src/workbook.c:846
 msgid "Cuts the selection to the clipboard"
 msgstr "Corta la selección al portapapeles"
 
-#: src/workbook.c:839
+#: src/workbook.c:849
 msgid "Copies the selection to the clipboard"
 msgstr "Copia la selección al portapapeles"
 
-#: src/workbook.c:842
+#: src/workbook.c:852
 msgid "Pastes the clipboard"
 msgstr "Pega el contenido del portapapeles"
 
-#: src/workbook.c:848
+#: src/workbook.c:858
 msgid "Left align"
 msgstr "Alinea a la izquierda"
 
-#: src/workbook.c:848
+#: src/workbook.c:858
 msgid "Left justifies the cell contents"
 msgstr "Justifica a la izquierda el contenido de la celda"
 
-#: src/workbook.c:851
+#: src/workbook.c:861
 msgid "Centers the cell contents"
 msgstr "Centra el contenido de la celda"
 
-#: src/workbook.c:854
+#: src/workbook.c:864
 msgid "Right align"
 msgstr "Alinea a la derecha"
 
-#: src/workbook.c:854
+#: src/workbook.c:864
 msgid "Right justifies the cell contents"
 msgstr "Justifica a la derecha el contenido de la celda"
 
-#: src/workbook.c:859
+#: src/workbook.c:869
 msgid "Bold"
 msgstr "Negritas"
 
-#: src/workbook.c:859
+#: src/workbook.c:869
 msgid "Sets the bold font"
 msgstr "Pone el atributo negritas de la fuente"
 
-#: src/workbook.c:862
+#: src/workbook.c:872
 msgid "Italic"
 msgstr "Cursivas"
 
-#: src/workbook.c:862
+#: src/workbook.c:872
 msgid "Makes the font italic"
 msgstr "Pone el atributo de cursivas de la fuente"
 
-#: src/workbook.c:868
-msgid "Creates a line object"
-msgstr "Crea una linea"
-
-#: src/workbook.c:868
+#: src/workbook.c:878
 msgid "Line"
 msgstr "Línea"
 
-#: src/workbook.c:871
+#: src/workbook.c:878
+msgid "Creates a line object"
+msgstr "Crea una linea"
+
+#: src/workbook.c:881
 msgid "Arrow"
 msgstr "Flecha"
 
-#: src/workbook.c:871
+#: src/workbook.c:881
 msgid "Creates an arrow object"
 msgstr "Crea una flecha"
 
-#: src/workbook.c:874
-msgid "Creates a rectangle object"
-msgstr "Crea un rectángulo"
-
-#: src/workbook.c:874
+#: src/workbook.c:884
 msgid "Rectangle"
 msgstr "Rectángulo"
 
-#: src/workbook.c:877
-msgid "Creates an ellipse object"
-msgstr "Crea una elipse"
+#: src/workbook.c:884
+msgid "Creates a rectangle object"
+msgstr "Crea un rectángulo"
 
-#: src/workbook.c:877
+#: src/workbook.c:887
 msgid "Ellipse"
 msgstr "Elipse"
 
-#: src/workbook.c:958
+#: src/workbook.c:887
+msgid "Creates an ellipse object"
+msgstr "Crea una elipse"
+
+#: src/workbook.c:968
 msgid "You should introduce a valid cell name"
 msgstr "Debe de introducir un nombre válido de celda"
 
-#: src/workbook.c:965
+#: src/workbook.c:975
 msgid "Column out of range"
 msgstr "Columna fuera de rango"
 
-#: src/workbook.c:971
+#: src/workbook.c:981
 msgid "Row number out of range"
 msgstr "Renglón fuera de rango"
 
-#: src/workbook.c:1077
+#: src/workbook.c:1124
 msgid "Sum"
 msgstr "Suma"
 
-#: src/workbook.c:1078
+#: src/workbook.c:1125
 msgid "Min"
 msgstr "Mínimo"
 
-#: src/workbook.c:1079
+#: src/workbook.c:1126
 msgid "Max"
 msgstr "Máximo"
 
-#: src/workbook.c:1080
+#: src/workbook.c:1127
 msgid "Average"
 msgstr "Promedio"
 
-#: src/workbook.c:1081
+#: src/workbook.c:1128
 msgid "Count"
 msgstr "Cuenta"
 
-#: src/workbook.c:1273
+#: src/workbook.c:1321
 msgid "Untitled.gnumeric"
 msgstr "SinTitulo.gnumeric"
 
-#: src/workbook.c:1360
+#: src/workbook.c:1408
 msgid "Zoom out"
 msgstr "Alejarse"
 
-#: src/workbook.c:1367
+#: src/workbook.c:1415
 msgid "Zoom in"
 msgstr "Acercarse"
 
-#: src/workbook.c:1452
+#: src/workbook.c:1500
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s' "
 msgstr "¿ Está seguro que quiere borrar la hoja llamada `%s' ?"
 
-#: src/workbook.c:1471
+#: src/workbook.c:1519
 msgid "Other sheets depend on the values on this sheet, I can not remove it"
 msgstr "Otras hojas dependen de valores de esta hoja, no puedo borrarla"
 
-#: src/workbook.c:1491
+#: src/workbook.c:1539
 msgid "Add another sheet"
 msgstr "Añadir otra hoja"
 
-#: src/workbook.c:1492
+#: src/workbook.c:1540
 msgid "Remove this sheet"
 msgstr "Borrar esta hoja"
 
-#: src/workbook.c:1753 src/workbook.c:1781
+#: src/workbook.c:1801 src/workbook.c:1829
 #, c-format
 msgid "Sheet %d"
 msgstr "Hoja %d"
 
-#: src/xml-io.c:1409
-msgid "NoName"
-msgstr "SinNombre"
-
-#: src/xml-io.c:1599
+#: src/xml-io.c:1637
 msgid "Gnumeric XML file format"
 msgstr "Formato de archivo XML para Gnumeric"
 
+#~ msgid ""
+#~ "@FUNCTION=STDEV\n"
+#~ "@SYNTAX = STDEV(value1, value2, ...)@DESCRIPTION=Computes the standard "
+#~ "deviation of all the values and cells referenced in the argument list. This "
+#~ "is equivalent to the square root of the variance.\n"
+#~ "@SEEALSO=VARIANCE"
+#~ msgstr ""
+#~ "@FUNCTION=STDEV\n"
+#~ "@SYNTAX = STDEV(valor1, valor2, ...)\n"
+#~ "@DESCRIPTION=Calcula la desviación estándar de todos los valores y celdas "
+#~ "referenciados en la lista de argumentos. Es aquivalente a la raiz cuadrada "
+#~ "de la varianza.\n"
+#~ "@SEEALSO=VARIANCE"
+
+#~ msgid ""
+#~ "@FUNCTION=VARIANCE\n"
+#~ "@SYNTAX = VARIANCE(value1, value2, ...)@DESCRIPTION=Computes the variation "
+#~ "of all the values and cells referenced in the argument list. This "
+#~ "is\tequivalent to the sum of (value - average)^2, divided by the number of "
+#~ "values minus 1. If you want it divided by N instead of N - 1, use "
+#~ "NVARIANCE.@SEEALSO=AVERAGE, NVARIANCE"
+#~ msgstr ""
+#~ "@FUNCTION=VARIANCE\n"
+#~ "@SYNTAX = VARIANCE(valor1, valor2, ...)\n"
+#~ "@DESCRIPTION=Calcula la varianza de todos los valores y celdas referenciados "
+#~ "en la lista de argumentos. Es aquivalente a la suma de (valor - media)² , "
+#~ "dividido por la cantidad de valores menos 1. Si desea dividirlo por N en vez "
+#~ "de N - 1, use NVARIANCE.\n"
+#~ "@SEEALSO=AVERAGE, NVARIANCE"
+
+#~ msgid ""
+#~ "@FUNCTION=NVARIANCE\n"
+#~ "@SYNTAX = NVARIANVE(value1, value2, ...)@DESCRIPTION=Computes the variation "
+#~ "of all the values and cells references in the argument list. This is "
+#~ "equivalent to the sum of (value - average)^2, divided by the number of "
+#~ "values. If you want it divided by N - 1 instead of N, use "
+#~ "VARIANCE.@SEEALSO=AVERAGE, VARIANCE"
+#~ msgstr ""
+#~ "@FUNCTION=NVARIANCE\n"
+#~ "@SYNTAX = NVARIANVE(valor1, valor2, ...)\n"
+#~ "@DESCRIPTION=Calcula la varianza de todos los valores y celdas referenciados "
+#~ "en la lista de argumentos. Es aquivalente a la suma de (valor - media)² , "
+#~ "dividido por la cantidad de valores. Si desea dividirlo por N - 1 en vez de "
+#~ "N, use VARIANCE.\n"
+#~ "@SEEALSO=AVERAGE, VARIANCE"
+
+#~ msgid "Statistics Plugin"
+#~ msgstr "Extensión de Estadísticas"
+
+#~ msgid "variance - division by 0"
+#~ msgstr "variance - división entre cero"
+
+#~ msgid "NoName"
+#~ msgstr "SinNombre"

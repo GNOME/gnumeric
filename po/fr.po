@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
-"POT-Creation-Date: 1999-03-31 21:14-0600\n"
+"POT-Creation-Date: 1999-04-06 22:11-0500\n"
 "PO-Revision-Date: 1998-08-01 13:46+0202\n"
 "Last-Translator: Vincent Renardias <vincent@ldsol.com>\n"
 "Language-Team: Vincent Renardias <vincent@ldsol.com>\n"
@@ -21,8 +21,8 @@ msgstr "format de fichier Microsoft(R) Excel"
 msgid "Argument must be a Guile expression"
 msgstr ""
 
-#: plugins/guile/plugin.c:241 src/expr.c:509 src/fn-math.c:1311
-#: src/fn-sheet.c:38 src/fn-sheet.c:83 src/fn-string.c:302
+#: plugins/guile/plugin.c:241 src/expr.c:513 src/fn-math.c:1329
+#: src/fn-sheet.c:40 src/fn-sheet.c:92 src/fn-string.c:302
 msgid "Invalid number of arguments"
 msgstr "Nombre d'arguments invalides"
 
@@ -338,114 +338,114 @@ msgid "Money"
 msgstr "Monétaire"
 
 #. 1. Categories
-#: src/dialog-cell-format.c:253
+#: src/dialog-cell-format.c:256
 msgid "Categories"
 msgstr "Catégories"
 
 #. 2.1 Input line
-#: src/dialog-cell-format.c:285
+#: src/dialog-cell-format.c:288
 msgid "Code:"
 msgstr "Code:"
 
 #. 2.2 Sample
-#: src/dialog-cell-format.c:294
+#: src/dialog-cell-format.c:297
 msgid "Sample:"
 msgstr "Exemple:"
 
-#: src/dialog-cell-format.c:306
+#: src/dialog-cell-format.c:309
 msgid "Format codes"
 msgstr "Codes de formats"
 
-#: src/dialog-cell-format.c:355 src/formats.c:16 src/number-match.c:455
+#: src/dialog-cell-format.c:358 src/formats.c:16 src/number-match.c:455
 msgid "General"
 msgstr "Général"
 
-#: src/dialog-cell-format.c:356
+#: src/dialog-cell-format.c:359
 msgid "Left"
 msgstr "Gauche"
 
-#: src/dialog-cell-format.c:357 src/dialog-cell-format.c:366
+#: src/dialog-cell-format.c:360 src/dialog-cell-format.c:369
 #: src/workbook.c:861
 msgid "Center"
 msgstr "Centre"
 
-#: src/dialog-cell-format.c:358
+#: src/dialog-cell-format.c:361
 msgid "Right"
 msgstr "Droite"
 
-#: src/dialog-cell-format.c:359
+#: src/dialog-cell-format.c:362
 msgid "Fill"
 msgstr "Remplir"
 
-#: src/dialog-cell-format.c:360 src/dialog-cell-format.c:368
+#: src/dialog-cell-format.c:363 src/dialog-cell-format.c:371
 msgid "Justify"
 msgstr "Justifier"
 
-#: src/dialog-cell-format.c:365
+#: src/dialog-cell-format.c:368
 msgid "Top"
 msgstr "Haut"
 
-#: src/dialog-cell-format.c:367
+#: src/dialog-cell-format.c:370
 msgid "Bottom"
 msgstr "Bas"
 
 #. Vertical alignment
-#: src/dialog-cell-format.c:423
+#: src/dialog-cell-format.c:426
 msgid "Vertical"
 msgstr "Vertical"
 
 #. Horizontal alignment
-#: src/dialog-cell-format.c:427
+#: src/dialog-cell-format.c:430
 msgid "Horizontal"
 msgstr "Horizontal"
 
-#: src/dialog-cell-format.c:430
+#: src/dialog-cell-format.c:433
 msgid "Auto return"
 msgstr "Retour à la ligne automatique"
 
-#: src/dialog-cell-format.c:599
+#: src/dialog-cell-format.c:602
 msgid "Text color"
 msgstr "Couleur du texte"
 
 #. The radio buttons
-#: src/dialog-cell-format.c:603 src/dialog-cell-format.c:636
+#: src/dialog-cell-format.c:606 src/dialog-cell-format.c:639
 #: src/dialog-paste-special.c:28
 msgid "None"
 msgstr "Aucun"
 
-#: src/dialog-cell-format.c:605
+#: src/dialog-cell-format.c:608
 msgid "Use this color"
 msgstr "Utiliser cette couleur"
 
-#: src/dialog-cell-format.c:607 src/dialog-cell-format.c:642
+#: src/dialog-cell-format.c:610 src/dialog-cell-format.c:645
 msgid "No change"
 msgstr "Aucun changement"
 
-#: src/dialog-cell-format.c:630
+#: src/dialog-cell-format.c:633
 msgid "Background configuration"
 msgstr "Configuration du fond"
 
-#: src/dialog-cell-format.c:638
+#: src/dialog-cell-format.c:641
 msgid "Use solid color"
 msgstr "Utiliser une couleur unie"
 
-#: src/dialog-cell-format.c:640
+#: src/dialog-cell-format.c:643
 msgid "Use a pattern"
 msgstr "Utiliser un motif"
 
-#: src/dialog-cell-format.c:912
+#: src/dialog-cell-format.c:915
 msgid "Number"
 msgstr "Nombre"
 
-#: src/dialog-cell-format.c:913
+#: src/dialog-cell-format.c:916
 msgid "Alignment"
 msgstr "Alignement"
 
-#: src/dialog-cell-format.c:914
+#: src/dialog-cell-format.c:917
 msgid "Font"
 msgstr "Police"
 
-#: src/dialog-cell-format.c:915
+#: src/dialog-cell-format.c:918
 msgid "Coloring"
 msgstr ""
 
@@ -608,7 +608,11 @@ msgstr "Erreur de syntaxe"
 msgid "Missing quote"
 msgstr "guillemet manquante"
 
-#: src/expr.c:529 src/expr.c:534 src/expr.c:541 src/expr.c:826 src/expr.c:1021
+#: src/expr.c:67
+msgid "Impossible!"
+msgstr ""
+
+#: src/expr.c:533 src/expr.c:538 src/expr.c:545 src/expr.c:830 src/expr.c:1025
 #: src/fn-string.c:54 src/fn-string.c:76 src/fn-string.c:98
 #: src/fn-string.c:155 src/fn-string.c:192 src/fn-string.c:271
 #: src/fn-string.c:350 src/fn-string.c:390 src/fn-string.c:569
@@ -616,19 +620,19 @@ msgstr "guillemet manquante"
 msgid "Type mismatch"
 msgstr "Les types ne correspondent pas"
 
-#: src/expr.c:767
+#: src/expr.c:771
 msgid "Type error"
 msgstr "Erreur de type"
 
-#: src/expr.c:876 src/expr.c:913
+#: src/expr.c:880 src/expr.c:917
 msgid "Division by zero"
 msgstr "Division par zéro"
 
-#: src/expr.c:1001
+#: src/expr.c:1005
 msgid "Reference to newborn cell"
 msgstr ""
 
-#: src/expr.c:1036
+#: src/expr.c:1040
 msgid "Unknown evaluation error"
 msgstr "Erreur d'évaluation inconnue"
 
@@ -1096,7 +1100,7 @@ msgid "#VALUE!"
 msgstr "#VALEUR"
 
 #. -0
-#: src/fn-math.c:415 src/fn-math.c:946 src/fn-math.c:954 src/fn-math.c:1135
+#: src/fn-math.c:415 src/fn-math.c:946 src/fn-math.c:954 src/fn-math.c:1153
 msgid "#NUM!"
 msgstr "#NUM!"
 
@@ -1426,6 +1430,21 @@ msgstr ""
 "@SEEALSO=PI,DEGREES"
 
 #: src/fn-math.c:1077
+#, fuzzy
+msgid ""
+"@FUNCTION=RAND\n"
+"@SYNTAX=RAND()\n"
+"@DESCRIPTION=Returns a random number greater than or equal to 0 and less "
+"than 1.\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=CODE\n"
+"@SYNTAX=CODE(car)\n"
+"@DESCRIPTION=Retourne le code ASCII pour le caractère car.\n"
+"@SEEALSO=CHAR"
+
+#: src/fn-math.c:1095
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -1443,7 +1462,7 @@ msgstr ""
 "une cellule vide et elle n'utilise qu'un seul paramétre.\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: src/fn-math.c:1097
+#: src/fn-math.c:1115
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -1462,7 +1481,7 @@ msgstr ""
 "une cellule vide et elle n'utilise qu'un seul paramétre.\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
-#: src/fn-math.c:1118
+#: src/fn-math.c:1136
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -1477,7 +1496,7 @@ msgstr ""
 "argument.\n"
 "@SEEALSO=POW"
 
-#: src/fn-math.c:1142
+#: src/fn-math.c:1160
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -1491,7 +1510,7 @@ msgstr ""
 "la liste des arguments. \n"
 "@SEEALSO=AVERAGE, COUNT"
 
-#: src/fn-math.c:1232
+#: src/fn-math.c:1250
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -1509,7 +1528,7 @@ msgstr ""
 "une cellule vide et elle n'utilise qu'un seul paramétre.\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
-#: src/fn-math.c:1252
+#: src/fn-math.c:1270
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -1527,7 +1546,7 @@ msgstr ""
 "une cellule vide et elle n'utilise qu'un seul paramétre.\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
-#: src/fn-math.c:1272
+#: src/fn-math.c:1290
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -1542,7 +1561,7 @@ msgstr ""
 "Cette fonction ne prend aucun argument.\n"
 "@SEEALSO="
 
-#: src/fn-math.c:1291
+#: src/fn-math.c:1309
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -1579,13 +1598,15 @@ msgid "Argument mismatch"
 msgstr "Les types ne correspondent pas"
 
 #: src/fn-sheet.c:17
+#, fuzzy
 msgid ""
 "@FUNCTION=IF\n"
-"@SYNTAX=IF(condition,if-true,if-false)\n"
+"@SYNTAX=IF(condition[,if-true,if-false])\n"
 "@DESCRIPTION=Use the IF statement to evaluate conditionally other "
 "expressions IF evaluates @condition.  If @condition returns a non-zero value "
 "the result of the IF expression is the @if-true expression, otherwise IF "
-"evaluates to the value of @if-false\n"
+"evaluates to the value of @if-false.If ommitted if-true defaults to TRUE and "
+"if-false to FALSE.\n"
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=IF\n"
@@ -1596,7 +1617,7 @@ msgstr ""
 "sinon le résultat de l'expression sera celui de l'expression @si-faux\n"
 "@SEEALSO="
 
-#: src/fn-sheet.c:64
+#: src/fn-sheet.c:73
 msgid ""
 "@FUNCTION=SELECTION\n"
 "@SYNTAX=SELECTION(x)\n"
@@ -2205,7 +2226,7 @@ msgstr ""
 msgid "Cut"
 msgstr "Couper"
 
-#: src/item-grid.c:528 src/sheet.c:2570 src/workbook.c:852
+#: src/item-grid.c:528 src/sheet.c:2573 src/workbook.c:852
 msgid "Paste"
 msgstr "Coller"
 
@@ -2253,19 +2274,19 @@ msgstr "Fermer"
 msgid "Add..."
 msgstr "Ajouter..."
 
-#: src/plugin.c:39
+#: src/plugin.c:40
 msgid "unable to open module file: "
 msgstr "impossible d'ouvrir le fichier module: "
 
-#: src/plugin.c:49
+#: src/plugin.c:51
 msgid "Plugin must contain init_plugin function."
 msgstr "Un plugin doit contenir la fonction init_plugin."
 
-#: src/plugin.c:55
+#: src/plugin.c:57
 msgid "init_plugin returned error"
 msgstr "init_plugin a retourné une erreur"
 
-#: src/plugin.c:75
+#: src/plugin.c:77
 msgid "Plugin is still in use.\n"
 msgstr "Le plugin est toujours en cours d'utilisation.\n"
 
@@ -2629,67 +2650,66 @@ msgstr "Colonne invalide"
 msgid "Row number out of range"
 msgstr "Numéro de ligne invalide"
 
-#: src/workbook.c:1087
+#: src/workbook.c:1124
 msgid "Sum"
 msgstr "Somme"
 
-#: src/workbook.c:1088
+#: src/workbook.c:1125
 msgid "Min"
 msgstr "Min"
 
-#: src/workbook.c:1089
+#: src/workbook.c:1126
 msgid "Max"
 msgstr "Max"
 
-#: src/workbook.c:1090
+#: src/workbook.c:1127
 msgid "Average"
 msgstr "Moyenne"
 
-#: src/workbook.c:1091
+#: src/workbook.c:1128
 msgid "Count"
 msgstr "Compte"
 
-#: src/workbook.c:1283
+#: src/workbook.c:1321
 msgid "Untitled.gnumeric"
 msgstr "SansTitre.gnumeric"
 
-#: src/workbook.c:1370
+#: src/workbook.c:1408
 msgid "Zoom out"
 msgstr "Zoom avant"
 
-#: src/workbook.c:1377
+#: src/workbook.c:1415
 msgid "Zoom in"
 msgstr "Zoom arrière"
 
-#: src/workbook.c:1462
+#: src/workbook.c:1500
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s' "
 msgstr ""
 
-#: src/workbook.c:1481
+#: src/workbook.c:1519
 msgid "Other sheets depend on the values on this sheet, I can not remove it"
 msgstr ""
 
-#: src/workbook.c:1501
+#: src/workbook.c:1539
 msgid "Add another sheet"
 msgstr ""
 
-#: src/workbook.c:1502
+#: src/workbook.c:1540
 msgid "Remove this sheet"
 msgstr ""
 
-#: src/workbook.c:1763 src/workbook.c:1791
+#: src/workbook.c:1801 src/workbook.c:1829
 #, c-format
 msgid "Sheet %d"
 msgstr "Feuille %d"
 
-#: src/xml-io.c:1409
-msgid "NoName"
-msgstr "SansNom"
-
-#: src/xml-io.c:1599
+#: src/xml-io.c:1637
 msgid "Gnumeric XML file format"
 msgstr "format de fichier Gnumeric XML"
+
+#~ msgid "NoName"
+#~ msgstr "SansNom"
 
 #~ msgid ""
 #~ "@FUNCTION=STDEV\n"

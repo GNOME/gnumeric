@@ -17,8 +17,10 @@ Performing this function on a string or empty cell simply does nothing. This fun
 @SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS
 
 @FUNCTION=STDEV
-@SYNTAX = STDEV(value1, value2, ...)@DESCRIPTION=Computes the standard deviation of all the values and cells referenced in the argument list. This is equivalent to the square root of the variance.
-@SEEALSO=VARIANCE
+@SYNTAX=STDEV(b1, b2, ...)
+@DESCRIPTION=STDEV returns standard deviation of a set of numbers treating these numbers as members of a population
+Performing this function on a string or empty cell simply does nothing.
+@SEEALSO=VAR,MEAN
 
 @FUNCTION=DEC2BIN
 @SYNTAX=DEC2BIN(number[,places])
@@ -541,8 +543,8 @@ Performing this function on a string or empty cell simply does nothing.
 @SEEALSO=CODE
 
 @FUNCTION=IF
-@SYNTAX=IF(condition,if-true,if-false)
-@DESCRIPTION=Use the IF statement to evaluate conditionally other expressions IF evaluates @condition.  If @condition returns a non-zero value the result of the IF expression is the @if-true expression, otherwise IF evaluates to the value of @if-false
+@SYNTAX=IF(condition[,if-true,if-false])
+@DESCRIPTION=Use the IF statement to evaluate conditionally other expressions IF evaluates @condition.  If @condition returns a non-zero value the result of the IF expression is the @if-true expression, otherwise IF evaluates to the value of @if-false.If ommitted if-true defaults to TRUE and if-false to FALSE.
 @SEEALSO=
 
 @FUNCTION=POISSON
@@ -604,7 +606,7 @@ if places is too small or negative #NUM! error is returned.
 
 @FUNCTION=STDEVP
 @SYNTAX=STDEVP(b1, b2, ...)
-@DESCRIPTION=STDEV returns standard deviation of a set of numbers treating these numbers as members of a complete population
+@DESCRIPTION=STDEVP returns standard deviation of a set of numbers treating these numbers as members of a complete population
 Performing this function on a string or empty cell simply does nothing.
 @SEEALSO=STDEV,VAR,MEAN
 
@@ -627,7 +629,8 @@ if x or n are not numeric a #VALUE! error is returned.if n < 0 a #NUM! error is 
 
 @FUNCTION=VARP
 @SYNTAX=VARP(b1, b2, ...)
-@DESCRIPTION=VARP calculates the variance of a set of numbers where each number is a member of a population and the set is the entire population
+@DESCRIPTION=VARP calculates the variance of a set of numbers where each number is a member of a population and the set is the entire population.
+(VARP is also known as the N-variance.)
 Performing this function on a string or empty cell simply does nothing.
 @SEEALSO=STDEV,VAR,MEAN
 
@@ -640,6 +643,12 @@ Note that Gnumeric will perform regular string to serial number conversion for y
 @FUNCTION=PMT
 @SYNTAX=PMT(rate,nper,pv,fv,type)
 @DESCRIPTION=Calculates the present value of an investment.@SEEALSO=PPMT,PV,FV
+
+@FUNCTION=RAND
+@SYNTAX=RAND()
+@DESCRIPTION=Returns a random number greater than or equal to 0 and less than 1.
+
+@SEEALSO=
 
 @FUNCTION=KURT
 @SYNTAX=KURT(n1, n2, ...)
@@ -829,9 +838,6 @@ If x<0 or y<=0 this will return an errorPerforming this function on a string or 
 @DESCRIPTION=DOLLARFR converts a decimal dollar price into a dollar price expressed as a fraction. 
 If fraction is non-integer it is truncated. If fraction<=0 DOLLARDE returns #NUM! error. @SEEALSO=DOLLARDE
 
-@FUNCTION=NVARIANCE
-@SYNTAX = NVARIANVE(value1, value2, ...)@DESCRIPTION=Computes the variation of all the values and cells references in the argument list. This is equivalent to the sum of (value - average)^2, divided by the number of values. If you want it divided by N - 1 instead of N, use VARIANCE.@SEEALSO=AVERAGE, VARIANCE
-
 @FUNCTION=OCT2DEC
 @SYNTAX=OCT2DEC(x)
 @DESCRIPTION=The OCT2DEC function converts an octal number in a string or number to its decimal equivalent.
@@ -846,7 +852,8 @@ If reference is neither an array nor a reference nor a range returns #VALUE!.
 
 @FUNCTION=VAR
 @SYNTAX=VAR(b1, b2, ...)
-@DESCRIPTION=VAR estimates the variance of a sample of a population To get the true variance of a complete population use @VARP
+@DESCRIPTION=VAR estimates the variance of a sample of a population. To get the true variance of a complete population use @VARP
+(VAR is also known as the N-1-variance.  Under reasonable conditions, it is the maximum-likelihood estimator for the true variance.)
 Performing this function on a string or empty cell simply does nothing.
 @SEEALSO=VARP,STDEV
 
@@ -877,7 +884,4 @@ Returns #NUM! if column < 0.Returns #REF! if column falls outside range.
 @DESCRIPTION=The  ATANH  function  calculates  the inverse hyperbolic tangent of x; that is the value whose  hyperbolic  tangent is  x.   If  the  absolute value of x is greater than 1.0,  ATANH returns an error of 'atanh: domain error'      
 Performing this function on a string or empty cell simply does nothing. This function only takes one argument.
 @SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS
-
-@FUNCTION=VARIANCE
-@SYNTAX = VARIANCE(value1, value2, ...)@DESCRIPTION=Computes the variation of all the values and cells referenced in the argument list. This is	equivalent to the sum of (value - average)^2, divided by the number of values minus 1. If you want it divided by N instead of N - 1, use NVARIANCE.@SEEALSO=AVERAGE, NVARIANCE
 

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
-"POT-Creation-Date: 1999-04-02 01:48+0100\n"
+"POT-Creation-Date: 1999-04-06 22:11-0500\n"
 "Content-Type: text/plain; charset=\n"
 
 #: plugins/excel/boot.c:67
@@ -16,8 +16,8 @@ msgstr ""
 msgid "Argument must be a Guile expression"
 msgstr ""
 
-#: plugins/guile/plugin.c:241 src/expr.c:509 src/fn-math.c:1311
-#: src/fn-sheet.c:38 src/fn-sheet.c:83 src/fn-string.c:302
+#: plugins/guile/plugin.c:241 src/expr.c:513 src/fn-math.c:1329
+#: src/fn-sheet.c:40 src/fn-sheet.c:92 src/fn-string.c:302
 msgid "Invalid number of arguments"
 msgstr ""
 
@@ -328,114 +328,114 @@ msgid "Money"
 msgstr ""
 
 #. 1. Categories
-#: src/dialog-cell-format.c:253
+#: src/dialog-cell-format.c:256
 msgid "Categories"
 msgstr ""
 
 #. 2.1 Input line
-#: src/dialog-cell-format.c:285
+#: src/dialog-cell-format.c:288
 msgid "Code:"
 msgstr ""
 
 #. 2.2 Sample
-#: src/dialog-cell-format.c:294
+#: src/dialog-cell-format.c:297
 msgid "Sample:"
 msgstr ""
 
-#: src/dialog-cell-format.c:306
+#: src/dialog-cell-format.c:309
 msgid "Format codes"
 msgstr ""
 
-#: src/dialog-cell-format.c:355 src/formats.c:16 src/number-match.c:455
+#: src/dialog-cell-format.c:358 src/formats.c:16 src/number-match.c:455
 msgid "General"
 msgstr ""
 
-#: src/dialog-cell-format.c:356
+#: src/dialog-cell-format.c:359
 msgid "Left"
 msgstr ""
 
-#: src/dialog-cell-format.c:357 src/dialog-cell-format.c:366
+#: src/dialog-cell-format.c:360 src/dialog-cell-format.c:369
 #: src/workbook.c:861
 msgid "Center"
 msgstr ""
 
-#: src/dialog-cell-format.c:358
+#: src/dialog-cell-format.c:361
 msgid "Right"
 msgstr ""
 
-#: src/dialog-cell-format.c:359
+#: src/dialog-cell-format.c:362
 msgid "Fill"
 msgstr ""
 
-#: src/dialog-cell-format.c:360 src/dialog-cell-format.c:368
+#: src/dialog-cell-format.c:363 src/dialog-cell-format.c:371
 msgid "Justify"
 msgstr ""
 
-#: src/dialog-cell-format.c:365
+#: src/dialog-cell-format.c:368
 msgid "Top"
 msgstr ""
 
-#: src/dialog-cell-format.c:367
+#: src/dialog-cell-format.c:370
 msgid "Bottom"
 msgstr ""
 
 #. Vertical alignment
-#: src/dialog-cell-format.c:423
+#: src/dialog-cell-format.c:426
 msgid "Vertical"
 msgstr ""
 
 #. Horizontal alignment
-#: src/dialog-cell-format.c:427
+#: src/dialog-cell-format.c:430
 msgid "Horizontal"
 msgstr ""
 
-#: src/dialog-cell-format.c:430
+#: src/dialog-cell-format.c:433
 msgid "Auto return"
 msgstr ""
 
-#: src/dialog-cell-format.c:599
+#: src/dialog-cell-format.c:602
 msgid "Text color"
 msgstr ""
 
 #. The radio buttons
-#: src/dialog-cell-format.c:603 src/dialog-cell-format.c:636
+#: src/dialog-cell-format.c:606 src/dialog-cell-format.c:639
 #: src/dialog-paste-special.c:28
 msgid "None"
 msgstr ""
 
-#: src/dialog-cell-format.c:605
+#: src/dialog-cell-format.c:608
 msgid "Use this color"
 msgstr ""
 
-#: src/dialog-cell-format.c:607 src/dialog-cell-format.c:642
+#: src/dialog-cell-format.c:610 src/dialog-cell-format.c:645
 msgid "No change"
 msgstr ""
 
-#: src/dialog-cell-format.c:630
+#: src/dialog-cell-format.c:633
 msgid "Background configuration"
 msgstr ""
 
-#: src/dialog-cell-format.c:638
+#: src/dialog-cell-format.c:641
 msgid "Use solid color"
 msgstr ""
 
-#: src/dialog-cell-format.c:640
+#: src/dialog-cell-format.c:643
 msgid "Use a pattern"
 msgstr ""
 
-#: src/dialog-cell-format.c:912
+#: src/dialog-cell-format.c:915
 msgid "Number"
 msgstr ""
 
-#: src/dialog-cell-format.c:913
+#: src/dialog-cell-format.c:916
 msgid "Alignment"
 msgstr ""
 
-#: src/dialog-cell-format.c:914
+#: src/dialog-cell-format.c:917
 msgid "Font"
 msgstr ""
 
-#: src/dialog-cell-format.c:915
+#: src/dialog-cell-format.c:918
 msgid "Coloring"
 msgstr ""
 
@@ -598,7 +598,11 @@ msgstr ""
 msgid "Missing quote"
 msgstr ""
 
-#: src/expr.c:529 src/expr.c:534 src/expr.c:541 src/expr.c:826 src/expr.c:1021
+#: src/expr.c:67
+msgid "Impossible!"
+msgstr ""
+
+#: src/expr.c:533 src/expr.c:538 src/expr.c:545 src/expr.c:830 src/expr.c:1025
 #: src/fn-string.c:54 src/fn-string.c:76 src/fn-string.c:98
 #: src/fn-string.c:155 src/fn-string.c:192 src/fn-string.c:271
 #: src/fn-string.c:350 src/fn-string.c:390 src/fn-string.c:569
@@ -606,19 +610,19 @@ msgstr ""
 msgid "Type mismatch"
 msgstr ""
 
-#: src/expr.c:767
+#: src/expr.c:771
 msgid "Type error"
 msgstr ""
 
-#: src/expr.c:876 src/expr.c:913
+#: src/expr.c:880 src/expr.c:917
 msgid "Division by zero"
 msgstr ""
 
-#: src/expr.c:1001
+#: src/expr.c:1005
 msgid "Reference to newborn cell"
 msgstr ""
 
-#: src/expr.c:1036
+#: src/expr.c:1040
 msgid "Unknown evaluation error"
 msgstr ""
 
@@ -925,7 +929,7 @@ msgid "#VALUE!"
 msgstr ""
 
 #. -0
-#: src/fn-math.c:415 src/fn-math.c:946 src/fn-math.c:954 src/fn-math.c:1135
+#: src/fn-math.c:415 src/fn-math.c:946 src/fn-math.c:954 src/fn-math.c:1153
 msgid "#NUM!"
 msgstr ""
 
@@ -1138,6 +1142,16 @@ msgstr ""
 
 #: src/fn-math.c:1077
 msgid ""
+"@FUNCTION=RAND\n"
+"@SYNTAX=RAND()\n"
+"@DESCRIPTION=Returns a random number greater than or equal to 0 and less "
+"than 1.\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-math.c:1095
+msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
 "@DESCRIPTION=The SIN function returns the sine of x, where x is given  in "
@@ -1147,7 +1161,7 @@ msgid ""
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr ""
 
-#: src/fn-math.c:1097
+#: src/fn-math.c:1115
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -1158,7 +1172,7 @@ msgid ""
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 msgstr ""
 
-#: src/fn-math.c:1118
+#: src/fn-math.c:1136
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -1167,7 +1181,7 @@ msgid ""
 "@SEEALSO=POW"
 msgstr ""
 
-#: src/fn-math.c:1142
+#: src/fn-math.c:1160
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -1176,7 +1190,7 @@ msgid ""
 "@SEEALSO=AVERAGE, COUNT"
 msgstr ""
 
-#: src/fn-math.c:1232
+#: src/fn-math.c:1250
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -1187,7 +1201,7 @@ msgid ""
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:1252
+#: src/fn-math.c:1270
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -1198,7 +1212,7 @@ msgid ""
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:1272
+#: src/fn-math.c:1290
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -1207,7 +1221,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-math.c:1291
+#: src/fn-math.c:1309
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -1234,15 +1248,16 @@ msgstr ""
 #: src/fn-sheet.c:17
 msgid ""
 "@FUNCTION=IF\n"
-"@SYNTAX=IF(condition,if-true,if-false)\n"
+"@SYNTAX=IF(condition[,if-true,if-false])\n"
 "@DESCRIPTION=Use the IF statement to evaluate conditionally other "
 "expressions IF evaluates @condition.  If @condition returns a non-zero value "
 "the result of the IF expression is the @if-true expression, otherwise IF "
-"evaluates to the value of @if-false\n"
+"evaluates to the value of @if-false.If ommitted if-true defaults to TRUE and "
+"if-false to FALSE.\n"
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-sheet.c:64
+#: src/fn-sheet.c:73
 msgid ""
 "@FUNCTION=SELECTION\n"
 "@SYNTAX=SELECTION(x)\n"
@@ -1761,7 +1776,7 @@ msgstr ""
 msgid "Cut"
 msgstr ""
 
-#: src/item-grid.c:528 src/sheet.c:2570 src/workbook.c:852
+#: src/item-grid.c:528 src/sheet.c:2573 src/workbook.c:852
 msgid "Paste"
 msgstr ""
 
@@ -1809,19 +1824,19 @@ msgstr ""
 msgid "Add..."
 msgstr ""
 
-#: src/plugin.c:39
+#: src/plugin.c:40
 msgid "unable to open module file: "
 msgstr ""
 
-#: src/plugin.c:49
+#: src/plugin.c:51
 msgid "Plugin must contain init_plugin function."
 msgstr ""
 
-#: src/plugin.c:55
+#: src/plugin.c:57
 msgid "init_plugin returned error"
 msgstr ""
 
-#: src/plugin.c:75
+#: src/plugin.c:77
 msgid "Plugin is still in use.\n"
 msgstr ""
 
@@ -2180,64 +2195,60 @@ msgstr ""
 msgid "Row number out of range"
 msgstr ""
 
-#: src/workbook.c:1087
+#: src/workbook.c:1124
 msgid "Sum"
 msgstr ""
 
-#: src/workbook.c:1088
+#: src/workbook.c:1125
 msgid "Min"
 msgstr ""
 
-#: src/workbook.c:1089
+#: src/workbook.c:1126
 msgid "Max"
 msgstr ""
 
-#: src/workbook.c:1090
+#: src/workbook.c:1127
 msgid "Average"
 msgstr ""
 
-#: src/workbook.c:1091
+#: src/workbook.c:1128
 msgid "Count"
 msgstr ""
 
-#: src/workbook.c:1283
+#: src/workbook.c:1321
 msgid "Untitled.gnumeric"
 msgstr ""
 
-#: src/workbook.c:1370
+#: src/workbook.c:1408
 msgid "Zoom out"
 msgstr ""
 
-#: src/workbook.c:1377
+#: src/workbook.c:1415
 msgid "Zoom in"
 msgstr ""
 
-#: src/workbook.c:1462
+#: src/workbook.c:1500
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s' "
 msgstr ""
 
-#: src/workbook.c:1481
+#: src/workbook.c:1519
 msgid "Other sheets depend on the values on this sheet, I can not remove it"
 msgstr ""
 
-#: src/workbook.c:1501
+#: src/workbook.c:1539
 msgid "Add another sheet"
 msgstr ""
 
-#: src/workbook.c:1502
+#: src/workbook.c:1540
 msgid "Remove this sheet"
 msgstr ""
 
-#: src/workbook.c:1763 src/workbook.c:1791
+#: src/workbook.c:1801 src/workbook.c:1829
 #, c-format
 msgid "Sheet %d"
 msgstr ""
 
-#: src/xml-io.c:1409
-msgid "NoName"
-msgstr ""
-
-#: src/xml-io.c:1599
+#: src/xml-io.c:1637
 msgid "Gnumeric XML file format"
 msgstr ""

@@ -58,7 +58,7 @@ cell_set_formula (Cell *cell, char *text)
 		
 		if (cell->value)
 			value_release (cell->value);
-		cell->value = NULL ;
+		cell->value = NULL;
 		return;
 	} else {
 		if (cell->flags & CELL_ERROR)
@@ -416,29 +416,29 @@ cell_set_color_from_style (Cell *cell, StyleColor *foreground,
 
 	if (cell->style->valid_flags & STYLE_FORE_COLOR)
 	{
-		cell->style->valid_flags ^= STYLE_FORE_COLOR ;
+		cell->style->valid_flags ^= STYLE_FORE_COLOR;
 		style_color_unref (cell->style->fore_color);
 	}
 
 	if (cell->style->valid_flags & STYLE_BACK_COLOR)
 	{ 
-		cell->style->valid_flags ^= STYLE_BACK_COLOR ;
+		cell->style->valid_flags ^= STYLE_BACK_COLOR;
 		style_color_unref (cell->style->back_color);
 	}
 
 	if (background)
 	{
 		cell->style->valid_flags |= STYLE_BACK_COLOR;
-		style_color_ref (background) ;
+		style_color_ref (background);
 	}
-	cell->style->back_color = background ;
+	cell->style->back_color = background;
 
 	if (foreground)
 	{
 		cell->style->valid_flags |= STYLE_FORE_COLOR;
-		style_color_ref (foreground) ;
+		style_color_ref (foreground);
 	}
-	cell->style->fore_color = foreground ;
+	cell->style->fore_color = foreground;
 
 	cell_queue_redraw (cell);
 }
@@ -893,18 +893,18 @@ cell_set_format (Cell *cell, char *format)
 void
 cell_set_format_from_style (Cell *cell, StyleFormat *style_format)
 {
-	g_return_if_fail (cell != NULL) ;
-	g_return_if_fail (cell->value) ;
-	g_return_if_fail (style_format != NULL) ;
+	g_return_if_fail (cell != NULL);
+	g_return_if_fail (cell->value);
+	g_return_if_fail (style_format != NULL);
 	
 	cell_modified (cell);
 	cell_queue_redraw (cell);
 	
 	/* Change the format */
 	style_format_unref (cell->style->format);
-	style_format_ref (style_format) ;
+	style_format_ref (style_format);
 
-	cell->style->format = style_format ;
+	cell->style->format = style_format;
 	cell->flags |= CELL_FORMAT_SET;
 	
 	/* re-render the cell text */
