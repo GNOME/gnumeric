@@ -26,6 +26,7 @@ Jody:
 	* Fix autofill of days with months visible.
 	* Fix minor leaks.
 	* Improve recognition of values vs expressions
+	* Reset grid display cursor after editing an object.
 
 Jukka:
 	* Improved MPS plugin.

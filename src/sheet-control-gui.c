@@ -1426,17 +1426,13 @@ scg_cursor_visible (SheetControlGUI *scg, gboolean is_visible)
 
 #define SO_CLASS(so) SHEET_OBJECT_CLASS(GTK_OBJECT(so)->klass)
 
-/**
- * scg_object_destroy_control_points :
- *
- * Destroys the canvas items used as sheet control points
- */
 static void
-scg_object_destroy_control_points (SheetControlGUI *scg)
+scg_object_stop_editing (SheetControlGUI *scg, SheetObject *so)
 {
+	GtkObject *view;
 	int i;
 
-	if (scg == NULL)
+	if (so == NULL || so != scg->current_object)
 		return;
 
 	i = sizeof (scg->control_points)/sizeof(GnomeCanvasItem *);
@@ -1444,22 +1440,11 @@ scg_object_destroy_control_points (SheetControlGUI *scg)
 		gtk_object_destroy (GTK_OBJECT (scg->control_points [i]));
 		scg->control_points [i] = NULL;
 	}
-}
 
-static void
-scg_object_stop_editing (SheetControlGUI *scg, SheetObject *so)
-{
-	GtkObject *view;
-
-	if (so != NULL) {
-		if (so == scg->current_object) {
-			view = sheet_object_get_view (so, SHEET_CONTROL (scg));
-			scg_object_destroy_control_points (scg);
-			scg->current_object = NULL;
-			if (SO_CLASS (so)->set_active != NULL)
-				SO_CLASS (so)->set_active (so, view, FALSE);
-		}
-	}
+	scg->current_object = NULL;
+	view = sheet_object_get_view (so, SHEET_CONTROL (scg));
+	if (SO_CLASS (so)->set_active != NULL)
+		SO_CLASS (so)->set_active (so, view, FALSE);
 }
 
 static gboolean
@@ -1492,6 +1477,7 @@ scg_mode_edit (SheetControl *sc)
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
 	scg_mode_clear (scg);
+	scg_set_display_cursor (scg);
 
 	/* During destruction we have already been disconnected
 	 * so don't bother changing the cursor
@@ -1525,6 +1511,7 @@ scg_mode_edit_object (SheetControlGUI *scg, SheetObject *so)
 			SO_CLASS (so)->set_active (so, view, TRUE);
 		scg_cursor_visible (scg, FALSE);
 		scg_object_update_bbox (scg, so, GNOME_CANVAS_ITEM(view), NULL);
+		scg_set_display_cursor (scg);
 	}
 }
 
@@ -1543,6 +1530,7 @@ scg_mode_create_object (SheetControlGUI *scg, SheetObject *so)
 	if (scg_mode_clear (scg)) {
 		scg->new_object = so;
 		scg_cursor_visible (scg, FALSE);
+		scg_set_display_cursor (scg);
 	}
 }
 
@@ -2463,6 +2451,30 @@ scg_rangesel_stop (SheetControlGUI *scg, gboolean clear_string)
 	gnumeric_expr_entry_rangesel_stopped (
 		GNUMERIC_EXPR_ENTRY (wbcg_get_entry_logical (scg->wbcg)),
 		clear_string);
+}
+
+/**
+ * scg_set_display_cursor :
+ * @scg :
+ *
+ * Set the displayed cursor type.
+ */
+void
+scg_set_display_cursor (SheetControlGUI *scg)
+{
+	int i, cursor;
+
+	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+
+	if (scg->new_object != NULL)
+		cursor = E_CURSOR_THIN_CROSS;
+	else if (scg->current_object != NULL)
+		cursor = E_CURSOR_ARROW;
+	else
+		cursor = E_CURSOR_FAT_CROSS;
+
+	for (i = scg->active_panes; i-- > 0 ; )
+		e_cursor_set_widget (scg->pane[i].gcanvas, cursor);
 }
 
 /*

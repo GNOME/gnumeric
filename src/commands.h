@@ -53,6 +53,7 @@ gboolean cmd_format		(WorkbookControl *wbc, Sheet *sheet,
 				 char const *opt_translated_name);
 
 gboolean cmd_autofill		(WorkbookControl *wbc, Sheet *sheet,
+				 gboolean default_increment,
 				 int base_col, int base_row,
 				 int w, int h, int end_col, int end_row);
 

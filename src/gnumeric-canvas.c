@@ -42,7 +42,7 @@ static GnomeCanvasClass *gcanvas_parent_class;
 /*
  * key press event handler for the gnumeric sheet for the sheet mode
  */
-static gint
+static gboolean
 gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 {
 	SheetControl *sc = (SheetControl *) gcanvas->scg;
@@ -67,7 +67,7 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 		case GDK_Shift_L:   case GDK_Shift_R:
 		case GDK_Alt_L:     case GDK_Alt_R:
 		case GDK_Control_L: case GDK_Control_R:
-			return 1;
+			return TRUE;
 		}
 
 		movefn = (event->state & GDK_SHIFT_MASK)
@@ -336,7 +336,7 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 	return TRUE;
 }
 
-static gint
+static gboolean
 gnm_canvas_key_mode_object (GnumericCanvas *gcanvas, GdkEventKey *event)
 {
 	SheetControlGUI *scg = gcanvas->scg;
@@ -367,10 +367,24 @@ gnm_canvas_key_press (GtkWidget *widget, GdkEventKey *event)
 {
 	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (widget);
 	SheetControlGUI *scg = gcanvas->scg;
+	gboolean res;
 
 	if (scg->current_object != NULL || scg->new_object != NULL)
-		return gnm_canvas_key_mode_object (gcanvas, event);
-	return gnm_canvas_key_mode_sheet (gcanvas, event);
+		res = gnm_canvas_key_mode_object (gcanvas, event);
+	else
+		res = gnm_canvas_key_mode_sheet (gcanvas, event);
+
+	switch (event->keyval) {
+	case GDK_Shift_L:   case GDK_Shift_R:
+	case GDK_Alt_L:     case GDK_Alt_R:
+	case GDK_Control_L: case GDK_Control_R:
+		break;
+
+	default : if (res)
+			return TRUE;
+	}
+
+	return (*GTK_WIDGET_CLASS (gcanvas_parent_class)->key_press_event) (widget, event);
 }
 
 static gint

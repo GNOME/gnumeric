@@ -1831,6 +1831,7 @@ cb_edit_fill_autofill (GtkWidget *unused, WorkbookControlGUI *wbcg)
  			template.end.col = sel->end.col;
 
  		cmd_autofill (wbc, sheet, sel->start.col, sel->start.row,
+			      FALSE,
 			      template.end.col - sel->start.col + 1,
 			      template.end.row - sel->start.row + 1,
 			      sel->end.col, sel->end.row);

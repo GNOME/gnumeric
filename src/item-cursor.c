@@ -570,7 +570,6 @@ item_cursor_translate (GnomeCanvasItem *item, double dx, double dy)
 	printf ("item_cursor_translate %g, %g\n", dx, dy);
 }
 
-
 static void
 item_cursor_setup_auto_fill (ItemCursor *ic, ItemCursor const *parent, int x, int y)
 {
@@ -844,7 +843,7 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		}
 
 		/* fill the row/column */
-		cmd_autofill (sc->wbc, sheet,
+		cmd_autofill (sc->wbc, sheet, FALSE,
 			      ic->pos.start.col, ic->pos.start.row,
 			      ic->pos.end.col - ic->pos.start.col + 1,
 			      ic->pos.end.row - ic->pos.start.row + 1,
@@ -1305,6 +1304,7 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 
 		wbcg_edit_finish (ic->scg->wbcg, TRUE);
 		cmd_autofill (sc->wbc, sc->sheet,
+			      event->button.state & GDK_CONTROL_MASK,
 			      ic->base.col,    ic->base.row,
 			      ic->base_cols+1, ic->base_rows+1,
 			      ic->pos.end.col, ic->pos.end.row);

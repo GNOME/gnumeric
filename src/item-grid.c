@@ -912,19 +912,9 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 	int col, row, x, y;
 
 	switch (event->type){
-	case GDK_ENTER_NOTIFY: {
-		int cursor;
-
-		if (scg->new_object != NULL)
-			cursor = E_CURSOR_THIN_CROSS;
-		else if (scg->current_object != NULL)
-			cursor = E_CURSOR_ARROW;
-		else
-			cursor = E_CURSOR_FAT_CROSS;
-
-		e_cursor_set_widget (canvas, cursor);
+	case GDK_ENTER_NOTIFY:
+		scg_set_display_cursor (scg);
 		return TRUE;
-	}
 
 	case GDK_BUTTON_RELEASE:
 		if (event->button.button != 1)

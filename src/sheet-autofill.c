@@ -792,7 +792,10 @@ autofill_init (void)
  * queue a recalc, flag a status update, or regen spans.
  */
 void
-sheet_autofill (Sheet *sheet, int base_col, int base_row, int w, int h, int end_col, int end_row)
+sheet_autofill (Sheet *sheet, gboolean default_increment,
+		int base_col,	int base_row,
+		int w,		int h,
+		int end_col,	int end_row)
 {
 	static int autofill_inited;
 	int series;

@@ -56,7 +56,8 @@ void scg_rangesel_extend	(SheetControlGUI *scg, int n,
 void scg_make_cell_visible	(SheetControlGUI *scg, int col, int row,
 				 gboolean force_scroll, gboolean couple_panes);
 
-void scg_cursor_move_to		(SheetControlGUI *Scg, int col, int row,
+void scg_set_display_cursor	(SheetControlGUI *scg);
+void scg_cursor_move_to		(SheetControlGUI *scg, int col, int row,
 				 gboolean clear_selection);
 void scg_cursor_move		(SheetControlGUI *scg, int dir,
 				 gboolean jump_to_bound, gboolean horiz);

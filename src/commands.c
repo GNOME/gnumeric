@@ -2696,6 +2696,7 @@ typedef struct
 	CellRegion *content;
 	PasteTarget dst;
 	int base_col, base_row, w, h, end_col, end_row;
+	gboolean default_increment;
 } CmdAutofill;
 
 GNUMERIC_MAKE_COMMAND (CmdAutofill, cmd_autofill);
@@ -2750,7 +2751,7 @@ cmd_autofill_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	/* Queue depends of region as a block beforehand */
 	sheet_region_queue_recalc (me->dst.sheet, &me->dst.range);
 
-	sheet_autofill (me->dst.sheet,
+	sheet_autofill (me->dst.sheet, me->default_increment,
 			me->base_col, me->base_row, me->w, me->h,
 			me->end_col, me->end_row);
 
@@ -2783,6 +2784,7 @@ cmd_autofill_destroy (GtkObject *cmd)
 
 gboolean
 cmd_autofill (WorkbookControl *wbc, Sheet *sheet,
+	      gboolean default_increment,
 	      int base_col, int base_row,
 	      int w, int h, int end_col, int end_row)
 {
@@ -2822,11 +2824,12 @@ cmd_autofill (WorkbookControl *wbc, Sheet *sheet,
 	me->h = h;
 	me->end_col = end_col;
 	me->end_row = end_row;
+	me->default_increment = default_increment;
 
 	me->parent.sheet = sheet;
 	me->parent.size = 1;  /* Changed in initial redo.  */
 	me->parent.cmd_descriptor = g_strdup_printf (_("Autofilling %s"),
-						     range_name (&me->dst.range));
+		range_name (&me->dst.range));
 
 	/* Register the command object */
 	return command_push_undo (wbc, obj);

@@ -1,3 +1,19 @@
+2001-10-27  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-grid.c (item_grid_event) : move the cursor setting out of
+	  event::ENTER and into scg_set_display_cursor.
+
+	* src/sheet-control-gui.c (scg_set_display_cursor) : new routine.
+	(scg_mode_edit) : reset the display cursors.
+	(scg_mode_edit_object) : ditto.
+	(scg_mode_create_object) : ditto.
+
+	* src/gnumeric-canvas.c (gnm_canvas_key_press) : if the key is
+	  unhandled forward it to the canvas items.
+
+	* src/item-cursor.c (item_cursor_autofill_event) : ctrl-autofill
+	  defaults to increment.
+
 2001-10-26  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-edit.c (wbcg_edit_finish) : remove the loops, and
