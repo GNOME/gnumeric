@@ -169,9 +169,6 @@ Dialogs
 -------
 - Function selector
     : 'Most recently used'
-- Formula Guru
-    : Fix varargs handling
-    : Don't ask to fill arguments for functions without arguments.
 - Import Dialog
     : Rewrite main page preview (see Bug #66393)
 

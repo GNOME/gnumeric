@@ -1,5 +1,9 @@
 2002-03-22  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-formula-guru.c : implement varargs handling
+
+2002-03-22  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-formula-guru.c : implement cursor handling
 	* dialog-search.c : remove warning
 	* function-select.glade : remove unnecessary text

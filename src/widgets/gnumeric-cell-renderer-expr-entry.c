@@ -25,7 +25,7 @@
 #define GNUMERIC_CELL_RENDERER_EXPR_ENTRY_PATH "gnumeric-cell-renderer-expr-entry-path"
 
 static void gnumeric_cell_renderer_expr_entry_class_init    
-    (GnumericCellRendererExprEntryClass *cell_expr_entry_class);
+            (GnumericCellRendererExprEntryClass *cell_expr_entry_class)           ;
 
 static GtkCellRendererTextClass *parent_class = NULL;
 
@@ -58,7 +58,9 @@ gnumeric_cell_renderer_expr_entry_get_type (void)
 				(GInstanceInitFunc) NULL,
 			};
 
-		cell_expr_entry_type = g_type_register_static (GTK_TYPE_CELL_RENDERER_TEXT, "GnumericCellRendererExprEntry", &cell_expr_entry_info, 0);
+		cell_expr_entry_type = g_type_register_static (GTK_TYPE_CELL_RENDERER_TEXT, 
+							       "GnumericCellRendererExprEntry", 
+							       &cell_expr_entry_info, 0);
 	}
 
 	return cell_expr_entry_type;
@@ -95,7 +97,6 @@ gnumeric_cell_renderer_expr_entry_editing_done (GtkCellEditable *entry,
   const gchar *path;
   const gchar *new_text;
   GnumericCellRendererExprEntry *celltext = GNUMERIC_CELL_RENDERER_EXPR_ENTRY (data);
-  printf ("Finish Editing\n");
   
   if (gnm_expr_entry_editing_canceled (GNUMERIC_EXPR_ENTRY (entry)))
 	  return;
@@ -120,8 +121,6 @@ gnumeric_cell_renderer_expr_entry_start_editing (GtkCellRenderer      *cell,
   GtkEntry *entry;
   GnumericExprEntry *gentry;
 
-  printf ("Start Editing\n");
-  
   celltext = GNUMERIC_CELL_RENDERER_EXPR_ENTRY (cell);
 
   /* If the cell isn't editable we return NULL. */
@@ -145,11 +144,5 @@ gnumeric_cell_renderer_expr_entry_start_editing (GtkCellRenderer      *cell,
 
   wbcg_set_entry (celltext->wbcg, gentry);
   
-  /* FIXME FIXME FIXME FIXME FIXME FIXME FIXME */
-  /* The next line is a very bad hack.         */
- /*  GTK_WIDGET (entry)->parent = NULL; */
-
-
   return GTK_CELL_EDITABLE (gentry);
-
 }
