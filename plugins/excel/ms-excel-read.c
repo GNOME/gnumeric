@@ -31,7 +31,6 @@
 #include <cell.h>
 #include <style.h>
 #include <format.h>
-#include <formats.h>
 #include <print-info.h>
 #include <selection.h>
 #include <validation.h>

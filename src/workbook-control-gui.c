@@ -61,7 +61,6 @@
 #include "style-color.h"
 #include "str.h"
 #include "cell.h"
-#include "formats.h"
 #include "format.h"
 #include "gui-file.h"
 #include "search.h"

@@ -28,7 +28,6 @@
 #include "application.h"
 #include "commands.h"
 #include "format.h"
-#include "formats.h"
 #include "style-color.h"
 #include "style-border.h"
 #include "ranges.h"

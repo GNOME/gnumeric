@@ -4,7 +4,6 @@
 #include "xbase.h"
 
 #include <format.h>
-#include <formats.h>
 #include <gutils.h>
 #include <io-context.h>
 

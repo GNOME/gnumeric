@@ -32,7 +32,6 @@
 #include "sheet-style.h"
 #include "style.h"
 #include "mstyle.h"
-#include "formats.h"
 #include "io-context-priv.h"
 #include "command-context.h"
 #include "workbook-control.h"

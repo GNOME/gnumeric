@@ -22,7 +22,6 @@
 
 #include <string.h>
 #include <format.h>
-#include <formats.h>
 #include <mstyle.h>
 #include <style-color.h>
 #include <sheet.h>

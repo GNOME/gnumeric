@@ -85,7 +85,6 @@ GNUMERIC_BASE =					\
 	file-autoft.h				\
 	format-template.h			\
 	format-template.c			\
-	formats.h				\
 	formats.c				\
 	func.c					\
 	func.h					\

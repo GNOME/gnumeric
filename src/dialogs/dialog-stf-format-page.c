@@ -24,7 +24,6 @@
 #include <gnumeric.h>
 #include "dialog-stf.h"
 #include <format.h>
-#include <formats.h>
 #include <workbook.h>
 #include <gui-util.h>
 

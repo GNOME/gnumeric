@@ -882,7 +882,7 @@ value_get_as_gstring (GString *target, Value const *v,
 		 */
 		Range range;
 		range_init_value (&range, v);
-		tmp = global_range_name (v->v_range.cell.a.sheet, &range);;
+		tmp = global_range_name (v->v_range.cell.a.sheet, &range);
 		g_string_append (target, tmp);
 		g_free (tmp);
 		return;

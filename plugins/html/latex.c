@@ -51,7 +51,7 @@
 #include <style-color.h>
 #include <font.h>
 #include <cell.h>
-#include <formats.h>
+#include <format.h>
 #include <style-border.h>
 #include <sheet-style.h>
 #include <parse-util.h>

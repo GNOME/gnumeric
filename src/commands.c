@@ -32,7 +32,6 @@
 #include "sheet-view.h"
 #include "sheet-style.h"
 #include "format.h"
-#include "formats.h"
 #include "format-template.h"
 #include "command-context.h"
 #include "workbook-control.h"

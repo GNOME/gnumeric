@@ -11,7 +11,6 @@
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
 #include "gnumeric.h"
-#include "formats.h"
 
 #include "format.h"
 #include <string.h>

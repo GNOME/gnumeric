@@ -16,7 +16,6 @@
 #include "stf.h"
 #include "plugin.h"
 #include "format.h"
-#include "formats.h"
 #include "command-context.h"
 #include "command-context-stderr.h"
 #include "workbook.h"

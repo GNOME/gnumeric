@@ -33,7 +33,6 @@
 #include "mathfunc.h"
 #include "str.h"
 #include "number-match.h"
-#include "formats.h"
 
 #include <locale.h>
 #include <string.h>
@@ -1988,13 +1987,14 @@ StyleFormat *
 style_format_new_XL (char const *descriptor_string, gboolean delocalize)
 {
 	StyleFormat *format;
+	char *desc_copy = NULL;
 
 	/* Safety net */
 	if (descriptor_string == NULL) {
 		g_warning ("Invalid format descriptor string, using General");
 		descriptor_string = "General";
 	} else if (delocalize)
-		descriptor_string = style_format_delocalize (descriptor_string);
+		desc_copy = descriptor_string = style_format_delocalize (descriptor_string);
 
 	format = (StyleFormat *) g_hash_table_lookup (style_format_hash, descriptor_string);
 
@@ -2010,8 +2010,7 @@ style_format_new_XL (char const *descriptor_string, gboolean delocalize)
 	}
 	format->ref_count++;
 
-	if (delocalize)
-		g_free ((char *)descriptor_string);
+	g_free (desc_copy);
 	return format;
 }
 
@@ -2023,11 +2022,12 @@ style_format_new_XL (char const *descriptor_string, gboolean delocalize)
 char *
 style_format_str_as_XL (char const *ptr, gboolean localized)
 {
-	if (localized) {
-		g_return_val_if_fail (ptr != NULL, g_strdup (_("General")));
-	} else {
-		g_return_val_if_fail (ptr != NULL, g_strdup ("General"));
-	}
+	char const *thousands_sep, *decimal;
+	size_t thousands_sep_len, decimal_len;
+	GString *res;
+
+	g_return_val_if_fail (ptr != NULL,
+			      g_strdup (localized ? _("General") : "General"));
 
 	if (!localized)
 		return g_strdup (ptr);
@@ -2035,10 +2035,13 @@ style_format_str_as_XL (char const *ptr, gboolean localized)
 	if (!strcmp (ptr, "General"))
 		return g_strdup (_("General"));
 
-	{
-	char const *thousands_sep = format_get_thousand ();
-	char const *decimal = format_get_decimal ();
-	GString *res = g_string_sized_new (strlen (ptr));
+	thousands_sep = format_get_thousand ();
+	thousands_sep_len = strlen (thousands_sep);
+
+	decimal = format_get_decimal ();
+	decimal_len = strlen (decimal);
+
+	res = g_string_sized_new (strlen (ptr));
 
 	/* TODO : XL seems to do an adaptive escaping of
 	 * things.
@@ -2055,40 +2058,44 @@ style_format_str_as_XL (char const *ptr, gboolean localized)
 	 */
 	for ( ; *ptr ; ++ptr)
 		switch (*ptr) {
-		case '.'  : g_string_append (res, decimal);
-			    break;
-		case ','  : g_string_append (res, thousands_sep);
-			    break;
+		case '.':
+			g_string_append_len (res, decimal, decimal_len);
+			break;
+		case ',':
+			g_string_append_len (res, thousands_sep, thousands_sep_len);
+			break;
 
-		case '\"' : do {
-				    g_string_append_c (res, *ptr++);
-			    } while (*ptr && *ptr != '\"');
-			    if (*ptr)
-				    g_string_append_c (res, *ptr);
-			    break;
+		case '\"':
+			do {
+				g_string_append_c (res, *ptr++);
+			} while (*ptr && *ptr != '\"');
+			if (*ptr)
+				g_string_append_c (res, *ptr);
+			break;
 
-		case '\\' : g_string_append_c (res, '\\');
-			    if (ptr[1] != '\0') {
-				    g_string_append_c (res, ptr[1]);
-				    ++ptr;
-			    }
-			    break;
+		case '\\':
+			g_string_append_c (res, '\\');
+			if (ptr[1] != '\0') {
+				g_string_append_c (res, ptr[1]);
+				++ptr;
+			}
+			break;
 
-		case '[' : {
+		case '[': {
 			char *tmp = translate_format_color (res, ptr, FALSE);
 			if (tmp != NULL)
 				ptr = tmp;
 			break;
 		}
 
-		default   : if (strncmp (ptr, decimal, strlen (decimal)) == 0 ||
-				strncmp (ptr, thousands_sep, strlen (thousands_sep)) == 0)
-				    g_string_append_c (res, '\\');
-			    g_string_append_c (res, *ptr);
-		};
+		default:
+			if (strncmp (ptr, decimal, decimal_len) == 0 ||
+			    strncmp (ptr, thousands_sep, thousands_sep_len) == 0)
+				g_string_append_c (res, '\\');
+			g_string_append_c (res, *ptr);
+		}
 
 	return g_string_free (res, FALSE);
-	}
 }
 
 /**
@@ -2101,11 +2108,8 @@ style_format_str_as_XL (char const *ptr, gboolean localized)
 char *
 style_format_as_XL (StyleFormat const *fmt, gboolean localized)
 {
-	if (localized) {
-		g_return_val_if_fail (fmt != NULL, g_strdup (_("General")));
-	} else {
-		g_return_val_if_fail (fmt != NULL, g_strdup ("General"));
-	}
+	g_return_val_if_fail (fmt != NULL,
+			      g_strdup (localized ? _("General") : "General"));
 
 	return style_format_str_as_XL (fmt->format, localized);
 }

@@ -21,7 +21,6 @@
 #include "sheet.h"
 #include "workbook.h"
 #include "format.h"
-#include "formats.h"
 
 /* ------------------------------------------------------------------------- */
 /*

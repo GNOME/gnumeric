@@ -203,7 +203,7 @@ Pending Patches
 	1.25.5) image filled polygons
 		Jean has patch, we should cache the pixbuf as qdata.
 	1.25.6) gradient filled polygons
-		Jean has patch but method is qestionable
+		Jean has patch but method is questionable
 	1.25.7) measure text
 	1.25.8) draw text
 

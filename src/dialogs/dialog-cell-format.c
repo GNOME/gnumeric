@@ -42,7 +42,6 @@
 #include <expr.h>
 #include <value.h>
 #include <format.h>
-#include <formats.h>
 #include <pattern.h>
 #include <position.h>
 #include <mstyle.h>

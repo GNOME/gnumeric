@@ -18,7 +18,6 @@
 #include "gnumeric.h"
 #include "number-match.h"
 
-#include "formats.h"
 #include "dates.h"
 #include "numbers.h"
 #include "gutils.h"

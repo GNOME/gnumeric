@@ -1,5 +1,13 @@
 2003-07-15  Morten Welinder  <terra@gnome.org>
 
+	* src/format.h: Suck in formats.h and remove that file.  All
+	includers fixed.
+
+	* src/format.c (style_format_str_as_XL): Avoid a gazillion strlen
+	calls.
+	(style_format_new_XL): Don't free strings that aren't ours to
+	free.
+
 	* src/commands.c (cmd_selection_clear): Avoid a pointless strlen.
 
 	* src/clipboard.c (cellregion_to_string): Avoid a silly copy of
