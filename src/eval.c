@@ -145,8 +145,6 @@ add_cell_range_deps (Cell *cell, const CellRef *a, const CellRef *b)
 static void
 add_value_deps (Cell *cell, const Value *value)
 {
-	GList *l;
-	
 	switch (value->type){
 	case VALUE_STRING:
 	case VALUE_INTEGER:
@@ -184,22 +182,15 @@ add_tree_deps (Cell *cell, ExprTree *tree)
 	GList *l;
 	
 	switch (tree->oper){
-	case OPER_EQUAL:
-	case OPER_NOT_EQUAL:
-	case OPER_GT:
-	case OPER_GTE:
-	case OPER_LT:
-	case OPER_LTE:
-	case OPER_ADD:
-	case OPER_SUB:
-	case OPER_MULT:
-	case OPER_DIV:
-	case OPER_EXP:
-	case OPER_CONCAT:
+	case OPER_ANY_BINARY:
 		add_tree_deps (cell, tree->u.binary.value_a);
 		add_tree_deps (cell, tree->u.binary.value_b);
 		return;
 
+	case OPER_ANY_UNARY:
+		add_tree_deps (cell, tree->u.value);
+		return;
+	
 	case OPER_VAR: 
 		add_cell_range_deps (
 			cell,
@@ -216,10 +207,6 @@ add_tree_deps (Cell *cell, ExprTree *tree)
 			add_tree_deps (cell, l->data);
 		return;
 
-	case OPER_NEG:
-		add_tree_deps (cell, tree->u.value);
-		return;
-	
 	} /* switch */
 }
 
@@ -233,7 +220,7 @@ cell_add_dependencies (Cell *cell)
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (cell->parsed_node != NULL);
-	
+
 	if (!dependency_hash)
 		dependency_hash_init ();
 
@@ -259,7 +246,8 @@ dependency_remove_cell (gpointer key, gpointer value, gpointer the_cell)
 		return;
 
 	range->cell_list = g_list_remove_link (range->cell_list, list);
-	
+	g_list_free_1 (list);
+
 	range->ref_count--;
 
 	if (range->ref_count == 0)

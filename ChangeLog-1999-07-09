@@ -1,3 +1,31 @@
+1999-05-03  Morten Welinder  <terra@diku.dk>
+
+	* src/parser.y (v_new): Fix type.
+	(alloc_register): Ditto.
+	(dump_tree): Fix reference to variable cell.
+
+	* src/file.c (file_format_unregister_save): Fix leak.
+	(file_format_unregister_open): Fix leak.
+
+	* src/parser.y (forget): Fix leak.
+
+	* src/eval.c (add_tree_deps): Use OPER_ANY_BINARY.
+	(add_value_deps): Delete unused variable.
+	(dependency_remove_cell): Fix leak.
+
+	* src/sheet.c (sheet_destroy_styles): Leak fix.  Late night
+ 	coding?  :-)
+	(sheet_shift_row): Ditto.
+
+	* src/parser.y (alloc_clean): Ditto.
+	(alloc_list_free): Ditto.
+
+	* src/main.c (gnumeric_main): Get rid of memory leak debug code
+ 	(handled by other means now).
+
+	* src/cell.c (cell_set_value): Remove "const".
+	(cell_set_value_simple): Ditto.
+
 1999-05-03  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/fn-database.c: New file added for database

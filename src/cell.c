@@ -551,7 +551,7 @@ cell_render_value (Cell *cell)
  *      yourself.
  */
 void
-cell_set_value_simple (Cell *cell, const Value *v)
+cell_set_value_simple (Cell *cell, Value *v)
 {
 	struct lconv *lconv;
 	
@@ -584,7 +584,7 @@ cell_set_value_simple (Cell *cell, const Value *v)
  * Changes the value of a cell
  */
 void
-cell_set_value (Cell *cell, const Value *v)
+cell_set_value (Cell *cell, Value *v)
 {
 	g_return_if_fail (cell);
 	g_return_if_fail (v);

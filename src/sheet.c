@@ -2207,7 +2207,8 @@ sheet_destroy_styles (Sheet *sheet)
 		style_destroy (sr->style);
 		g_free (sr);
 	}
-	g_list_free (l);
+	g_list_free (sheet->style_list);
+	sheet->style_list = NULL;
 }
 
 static void
@@ -2771,7 +2772,7 @@ colrow_closest_above (GList *l, int pos)
 void
 sheet_shift_row (Sheet *sheet, int col, int row, int count)
 {
-	GList *cur_col, *deps, *l, *cell_list;
+	GList *cur_col, *deps, *l, *l2, *cell_list;
 	int   col_count, new_column;
 
 	g_return_if_fail (sheet != NULL);
@@ -2830,7 +2831,7 @@ sheet_shift_row (Sheet *sheet, int col, int row, int count)
 
 
 	/* Now relocate the cells */
-	l = g_list_nth (cell_list, g_list_length (cell_list)-1);
+	l = l2 = g_list_nth (cell_list, g_list_length (cell_list)-1);
 	for (; l; l = l->prev){
 		Cell *cell = l->data;
 
@@ -2848,7 +2849,7 @@ sheet_shift_row (Sheet *sheet, int col, int row, int count)
 		sheet_cell_add (sheet, cell, new_column, row);
 		cell_relocate (cell, count, 0);
 	}
-	g_list_free (l);
+	g_list_free (l2);
 
 	/* Check the dependencies and recompute them */
 	deps = region_get_dependencies (sheet, col, row, SHEET_MAX_COLS-1, row);

@@ -42,51 +42,6 @@ const struct poptOption gnumeric_popt_options [] = {
 	{ NULL, '\0', 0, NULL, 0 }
 };
 
-#define GLIB_MEMORY_HANDLING_IS_BROKEN
-
-#ifdef GLIB_MEMORY_HANDLING_IS_BROKEN
-static void
-expose_memory_leaks (void)
-{
-	fprintf (stderr, "Clearing GList nodes...\n");
-	{
-		GList *l = NULL;
-		int i;
-		for (i = 0; i < 100000; i++)
-			g_list_prepend (l, 0);
-		g_list_free (l);
-	}
-
-	fprintf (stderr, "Clearing GSList nodes...\n");
-	{
-		GSList *l = NULL;
-		int i;
-		for (i = 0; i < 100000; i++)
-			g_slist_prepend (l, 0);
-		g_slist_free (l);
-	}
-
-	fprintf (stderr, "Clearing GHashTable nodes...\n");
-	{
-		GHashTable *hash;
-		int i;
-		const int count = 100000;
-		int *keys;
-
-		keys = g_new (int, count);
-		hash = g_hash_table_new (g_int_hash, g_int_equal);
-		for (i = 0; i < count; i++)
-		{
-			keys[i] = i;
-			g_hash_table_insert (hash, keys + i, 0);
-		}
-		g_hash_table_destroy (hash);
-		g_free (keys);
-	}
-
-}
-#endif
-
 static void
 gnumeric_main (void *closure, int argc, char *argv [])
 {
@@ -144,10 +99,6 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	format_color_shutdown ();
 
 	gnome_config_drop_all ();
-
-#ifdef GLIB_MEMORY_HANDLING_IS_BROKEN
-	expose_memory_leaks ();
-#endif
 }
 
 #ifdef HAVE_GUILE

@@ -26,7 +26,7 @@ static void  alloc_glist     (GList *l);
 static void  forget_glist    (GList *list);
 static void  forget_tree     (ExprTree *tree);
 static void  alloc_list_free (void); 
-static void *v_new (void);
+static Value*v_new (void);
 	
 #define ERROR -1
  
@@ -518,7 +518,7 @@ yyerror (char *s)
 }
 
 static void
-alloc_register (void *a_info)
+alloc_register (AllocRec *a_info)
 {
 	alloc_list = g_list_prepend (alloc_list, a_info);
 }
@@ -537,7 +537,7 @@ void *
 alloc_buffer (int size)
 {
 	AllocRec *a_info = g_new (AllocRec, 1);
-	char *res = g_malloc (size);
+	void *res = g_malloc (size);
 
 	a_info->type = ALLOC_BUFFER;
 	a_info->data = res;
@@ -546,11 +546,11 @@ alloc_buffer (int size)
 	return res;
 }
 
-static void *
+static Value *
 v_new (void)
 {
 	AllocRec *a_info = g_new (AllocRec, 1);
-	char *res = g_malloc (sizeof (Value));
+	Value *res = g_new (Value, 1);
 
 	a_info->type = ALLOC_VALUE;
 	a_info->data = res;
@@ -587,7 +587,7 @@ alloc_clean (void)
 		g_free (rec);
 	}
 
-	g_list_free (l);
+	g_list_free (alloc_list);
 	alloc_list = NULL;
 }
 
@@ -599,7 +599,7 @@ alloc_list_free (void)
 	for (; l; l = l->next)
 		g_free (l->data);
 
-	g_list_free (l);
+	g_list_free (alloc_list);
 	alloc_list = NULL;
 }
 
@@ -623,6 +623,7 @@ forget (AllocType type, void *data)
 
 		if (a_info->type == type && a_info->data == data){
 			alloc_list = g_list_remove_link (alloc_list, l);
+			g_list_free_1 (l);
 			return;
 		}
 	}
@@ -690,7 +691,7 @@ dump_tree (ExprTree *tree)
 	
 	switch (tree->oper){
 	case OPER_VAR:
-		cr = &tree->u.constant->v.cell;
+		cr = &tree->u.ref;
 		printf ("Cell: %s%c%s%d\n",
 			cr->col_relative ? "" : "$",
 			cr->col + 'A',

@@ -69,6 +69,7 @@ file_format_unregister_open (FileFormatProbe probe, FileFormatOpen open)
 
 		if (fo->probe == probe && fo->open == open){
 			gnumeric_file_openers = g_list_remove_link (gnumeric_file_openers, l);
+			g_list_free_1 (l);
 			return;
 		}
 	}
@@ -115,6 +116,7 @@ file_format_unregister_save (FileFormatSave save)
 				current_saver = NULL;
 			
 			gnumeric_file_savers = g_list_remove_link (gnumeric_file_savers, l);
+			g_list_free_1 (l);
 			return;
 		}
 	}
