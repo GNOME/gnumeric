@@ -4108,7 +4108,7 @@ typedef struct {
         gboolean first;
 } stat_ttest_t;
 
-int
+static int
 callback_function_ttest (Sheet *sheet, Value *value, char **error_string,
 			 void *closure)
 {

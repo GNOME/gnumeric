@@ -692,8 +692,16 @@ make_function (PARSE_LIST **stack, int fn_idx, int numargs)
 				parse_list_free (&args);
 				return 0;
 			}
-			symbol_ref (name);
-			parse_list_push (stack, expr_tree_new_funcall (name, args));
+			if (name->type == SYMBOL_FUNCTION) {
+				symbol_ref (name);
+				parse_list_push (stack, expr_tree_new_funcall (name, args));
+			} else {
+				if (args) {
+					fprintf (stderr, "Ignoring args for %s\n", fd->prefix);
+					parse_list_free (&args);
+				}
+				parse_list_push_raw (stack, value_duplicate (name->data));
+			}
 			return 1 ;
 		}
 		else

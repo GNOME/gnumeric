@@ -80,7 +80,6 @@ struct _Value {
 			Value ***vals;  /* Array [x][y] */
 		} array ;
 		String *str;
-		Symbol *sym;
 		float_t v_float;	/* floating point */
 		int_t   v_int;
 	} v;

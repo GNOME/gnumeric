@@ -727,15 +727,21 @@ free_values (Value **values, int top)
 static Value *
 eval_funcall (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **error_string)
 {
+	const Symbol *sym;
 	FunctionDefinition *fd;
 	GList *l;
 	int argc, arg, i;
 	Value *v = NULL;
 
-	fd = (FunctionDefinition *) tree->u.function.symbol->data;
-
+	sym = tree->u.function.symbol;
 	l = tree->u.function.arg_list;
 	argc = g_list_length (l);
+
+	if (sym->type != SYMBOL_VALUE) {
+		*error_string = _("Internal error");
+		return NULL;
+	}
+	fd = (FunctionDefinition *)sym->data;
 
 	if (fd->expr_fn)
 	{
@@ -747,8 +753,8 @@ eval_funcall (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **e
 		/* Functions that take pre-computed Values */
 		Value **values;
 		int fn_argc_min = 0, fn_argc_max = 0, var_len = 0;
-		char *arg_type = fd->args;
-		char *argptr = fd->args;
+		const char *arg_type = fd->args;
+		const char *argptr = fd->args;
 
 		/* Get variable limits */
 		while (*argptr){

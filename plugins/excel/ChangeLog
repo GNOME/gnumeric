@@ -1,5 +1,7 @@
 1999-06-21  Morten Welinder  <terra@diku.dk>
 
+	* ms-formula-read.c (make_function): Handle constant symbols.
+
 	* ms-excel-read.c (ms_excel_read_cell): Insert bools as values,
  	not constant expresssions.
 	(biff_get_text): Make a little more quiet.
