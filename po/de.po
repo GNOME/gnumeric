@@ -1,27 +1,9 @@
 # German message file for Gnumeric.
 # Copyright (C) YEAR Free Software Foundation, Inc.
 # Karl Eichwalder <ke@suse.de>, 1999, 2000.
-# Matthias Warkus <mawa@iname.com>, 1999, 2000.
 # Karsten Weiss <karsten@addx.au.s.shuttle.de>, 1999.
+# Matthias Warkus <mawa@iname.com>, 1999, 2000.
 # Ralf Baechle <ralf@gnu.org>, 1999.
-#
-# 2000-04-15 19:36:06 CEST
-# Tooltipps bitte infinitisch formulieren.
-# -ke-
-#
-# 1999-09-14 18:54:55 CEST
-# Somebody else familiar with Excel is welcome to add missing strings and/or to
-# correct existing translation...
-# -ke-
-#
-# 1999-09-13 23:07:53 CEST
-# add some new translation, resolve some fuzzy marks, add some more accelerators
-# -ke-
-#
-# 1999-08-27 09:43:48 CEST
-# Mark several menu entries with accelerators; please, check it.
-# How to translate "clipboard"?  Actually "Zwischenablage"?
-# -ke-
 #
 # Future translators, please take care to translate error messages correctly:
 # #3D MULT? == #3D-MULT?
@@ -36,16 +18,93 @@
 # #UNKNOWN! == #UNBEKANNT!
 # #VALUE! == #WERT!
 #
+# 2000-05-07 07:03:46 CEST
+# I'm still looking for somebody who's willing to take over this message file.
+# Send email to de@li.org or to ke@suse.de.
+# -ke-
+#
+# 2000-04-15 19:36:06 CEST
+# Tooltipps bitte infinitisch formulieren.
+# -ke-
+#
+# 1999-09-14 18:54:55 CEST
+# Somebody else familiar with Excel is welcome to add missing strings and/or to
+# correct existing translation...
+# -ke-
+#
+# 1999-08-27 09:43:48 CEST
+# Mark several menu entries with accelerators; please, check it.
+# How to translate "clipboard"?  Actually "Zwischenablage"?
+# -ke-
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.52\n"
-"POT-Creation-Date: 2000-05-06 20:46+0200\n"
+"POT-Creation-Date: 2000-05-07 06:26+0200\n"
 "PO-Revision-Date: 2000-05-06 20:57+02:00\n"
 "Last-Translator: Karl Eichwalder <ke@suse.de>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: graph/main.c:48
+msgid "I could not initialize Bonobo"
+msgstr "Ich konnte Bonobo nicht initialisieren"
+
+#: graph/sample.c:206
+msgid "Chart type"
+msgstr ""
+
+#: graph/sample.c:207
+msgid "Plot mode"
+msgstr ""
+
+#: graph/sample.c:208
+msgid "Col/bar mode"
+msgstr ""
+
+#: graph/sample.c:209
+msgid "Direction mode"
+msgstr ""
+
+#: graph/sample.c:210
+msgid "Line mode"
+msgstr ""
+
+#: graph/sample.c:211
+msgid "Scatter mode"
+msgstr ""
+
+#: graph/sample.c:212
+msgid "Scatter connection"
+msgstr ""
+
+#.
+#. * Add Sheet
+#.
+#: plugins/dif/dif.c:270 plugins/ff-csv/csv-io.c:166
+#: plugins/plan-perfect/pln.c:896 plugins/sc/sc.c:413 plugins/sylk/sylk.c:446
+#: plugins/text/text-io.c:322 src/stf.c:150
+#, c-format
+msgid "Imported %s"
+msgstr "%s importiert"
+
+#: plugins/dif/dif.c:283
+msgid "DIF : Failed to load sheet"
+msgstr "DIF : Laden des Blattes fehlgeschlagen"
+
+#: plugins/dif/dif.c:292 plugins/plan-perfect/pln.c:917
+msgid "Unable to mmap the file"
+msgstr ""
+
+#: plugins/dif/dif.c:422
+msgid "Data Interchange Format (DIF) import"
+msgstr "Data Interchange Format Import (DIF)"
+
+#: plugins/dif/dif.c:425
+msgid "Data Interchange Format (*.dif)"
+msgstr "Data Interchange Format (*.dif)"
 
 #: plugins/excel/boot.c:116
 msgid "Saving over old files disabled for safety"
@@ -85,6 +144,14 @@ msgstr "Passwordgeschützte Arbeitsbücher werden noch nicht unterstützt."
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Kann kein gültiges MS-Excel-Arbeitsbuch auffinden"
 
+#: plugins/excel/ms-excel-write.c:3374
+msgid "Too many rows for this format"
+msgstr "Zu viele Zeilen für dies Format"
+
+#: plugins/excel/ms-excel-write.c:3454
+msgid "Can't open stream for writing\n"
+msgstr ""
+
 #: plugins/excel/ms-formula-read.c:649
 msgid "Unknown Function"
 msgstr "Unbekannte Funktion"
@@ -93,7 +160,7 @@ msgstr "Unbekannte Funktion"
 msgid "Broken function"
 msgstr "Fehlerhafte Funktion"
 
-#: plugins/excel/ms-formula-read.c:1456
+#: plugins/excel/ms-formula-read.c:1465
 msgid " Unknown formula"
 msgstr " Unbekannte Formel"
 
@@ -115,22 +182,13 @@ msgstr ""
 "Ungültige CSV-Datei hat mehr als die maximale\n"
 "Anzahl von %s %d"
 
-#: plugins/ff-csv/csv-io.c:120
+#: plugins/ff-csv/csv-io.c:120 plugins/plan-perfect/pln.c:804
 msgid "rows"
 msgstr "Zeilen"
 
 #: plugins/ff-csv/csv-io.c:134
 msgid "columns"
 msgstr "Spalten"
-
-#.
-#. * Add Sheet
-#.
-#: plugins/ff-csv/csv-io.c:166 plugins/sylk/sylk.c:446
-#: plugins/text/text-io.c:322 src/stf.c:150
-#, c-format
-msgid "Imported %s"
-msgstr "%s importiert"
 
 #: plugins/ff-csv/csv-io.c:313
 msgid "Comma Separated Value (CSV) import"
@@ -143,6 +201,36 @@ msgstr "Formatiert als kommagetrennte Werte (*.csv)"
 #: plugins/ff-csv/csv-io.c:321
 msgid "Comma Separated Value (CSV) module"
 msgstr "Modul für kommagetrennte Werte (CSV)"
+
+#: plugins/gb/plugin.c:212
+msgid "Unknown GB error"
+msgstr "Unbekannter GB-Fehler"
+
+#: plugins/guile/plugin.c:282 src/func.c:433
+#: src/functions/fn-information.c:574 src/functions/fn-information.c:642
+#: src/functions/fn-information.c:669 src/functions/fn-information.c:695
+#: src/functions/fn-information.c:744 src/functions/fn-information.c:773
+#: src/functions/fn-information.c:837 src/functions/fn-logical.c:194
+#: src/functions/fn-lookup.c:469 src/functions/fn-string.c:343
+msgid "Invalid number of arguments"
+msgstr "Ungültige Argumentenanzahl"
+
+#. FIXME : This looks like a leak (JEG 4/4/00)
+#: plugins/guile/plugin.c:287 plugins/guile/plugin.c:292
+msgid "First argument to SCM must be a Guile expression"
+msgstr "Das erste Argument für SCM muss ein Guile-Ausdruck sein"
+
+#: plugins/guile/plugin.c:296
+msgid "Undefined scheme function"
+msgstr "Nicht definierte Scheme-Funktion"
+
+#: plugins/guile/plugin.c:314
+msgid "Could not evaluate argument"
+msgstr ""
+
+#: plugins/guile/plugin.c:482
+msgid "Gnumeric has not been compiled with support for guile."
+msgstr "Gnumeric wurde ohne Unterstützung für Guile compiliert."
 
 #: plugins/html/boot.c:75
 msgid "HTML 3.2 file format (*.html)"
@@ -184,69 +272,15 @@ msgstr "PDF-Dateiformat (über groff/gs)"
 msgid "EPS file format (*.eps)"
 msgstr "EPS-Dateiformat (*.eps)"
 
+#: plugins/html/html.c:409 plugins/lotus-123/lotus.c:224
+#: plugins/oleo/oleo.c:44 src/workbook.c:3165
+#, c-format
+msgid "Sheet%d"
+msgstr "Blatt%d"
+
 #: plugins/lotus-123/boot.c:86
-msgid "Lotus (*.wk1) file format"
-msgstr "Lotus (*.wk1) Dateiformat"
-
-#: plugins/oleo/boot.c:86
-msgid "GNU Oleo (*.oleo) file format"
-msgstr "GNU-Oleo-Dateiformat (*.oleo)"
-
-#: plugins/python/python.c:45
-msgid "Python exception"
-msgstr "Python-Ausnahme"
-
-#: plugins/python/python.c:570
-msgid "Unknown Python type"
-msgstr "Unbekannter Python-Typ"
-
-#: plugins/python/python.c:609
-msgid "Unable to lookup Python code object."
-msgstr "Kann Python-Codeobjekt nicht finden."
-
-#: plugins/python/python.c:814
-msgid "object must be callable"
-msgstr "Objekt muss aufrufbar sein"
-
-#: plugins/sample/plugin-sample.c:53
-msgid "Sample Plugin"
-msgstr "Sample-Plugin"
-
-#: plugins/sylk/sylk.c:406
-msgid "Not SYLK file"
-msgstr "Keine SYLK-Datei"
-
-#: plugins/sylk/sylk.c:414
-msgid "error parsing line\n"
-msgstr "Fehler beim Auseinanderklamüsern von Zeile\n"
-
-#: plugins/sylk/sylk.c:510
-msgid "MultiPlan (SYLK) import"
-msgstr "MultiPlan-(SYLK-)Import"
-
-#: plugins/text/text-io.c:312
-msgid "Empty file"
-msgstr "Leere Datei"
-
-#: plugins/text/text-io.c:316
-msgid "File is too large"
-msgstr "Datei ist zu groß"
-
-#: plugins/text/text-io.c:395
-msgid "Simple Text"
-msgstr "Einfaches Textformat"
-
-#: plugins/text/text-io.c:426
-msgid "Basic Text I/O"
-msgstr ""
-
-#: plugins/text/text-io.c:427
-msgid "Read/Write workbooks using a simple text format."
-msgstr "Arbeitsbücher mittels eines einfachen Textformats lesen/schreiben"
-
-#: plugins/xbase/boot.c:205
-msgid "Xbase (*.dbf) file format"
-msgstr "Xbase (*.dbf) Dateiformat"
+msgid "Lotus file format (*.wk1)"
+msgstr "Lotus Dateiformat (*.wk1)"
 
 #: plugins/numtheory/numtheory.c:179
 msgid ""
@@ -313,6 +347,91 @@ msgstr ""
 #: plugins/numtheory/numtheory.c:412
 msgid "Number Theory"
 msgstr "Zahlentheorie"
+
+#: plugins/oleo/boot.c:86
+msgid "GNU Oleo (*.oleo) file format"
+msgstr "GNU-Oleo-Dateiformat (*.oleo)"
+
+#: plugins/plan-perfect/pln.c:715
+#, c-format
+msgid ""
+"Invalid PLN file has more than the maximum\n"
+"number of %s %d"
+msgstr ""
+"Ungültige PLN-Datei hat mehr als die maximale\n"
+"Anzahl von %s %d"
+
+#: plugins/plan-perfect/pln.c:732
+msgid "PLN : Not a PlanPerfect File"
+msgstr "PLN : Keine PlanPerfect-Datei"
+
+#: plugins/plan-perfect/pln.c:738
+msgid "PLN : Spreadsheet is password encrypted"
+msgstr "PLN : Das Arbeitsblatt ist mit einem Passwort verschlüsselt"
+
+#: plugins/plan-perfect/pln.c:954
+msgid "Plan Perfect Format (PLN) import"
+msgstr "PlanPerfect-Import (PLN)"
+
+#: plugins/python/python.c:45
+msgid "Python exception"
+msgstr "Python-Ausnahme"
+
+#: plugins/python/python.c:570
+msgid "Unknown Python type"
+msgstr "Unbekannter Python-Typ"
+
+#: plugins/python/python.c:609
+msgid "Unable to lookup Python code object."
+msgstr "Kann Python-Codeobjekt nicht finden."
+
+#: plugins/python/python.c:814
+msgid "object must be callable"
+msgstr "Objekt muss aufrufbar sein"
+
+#: plugins/sample/plugin-sample.c:53
+msgid "Sample Plugin"
+msgstr "Sample-Plugin"
+
+#: plugins/sc/sc.c:455
+msgid "SC/xspread file import"
+msgstr "SC/xspread-Import"
+
+#: plugins/sylk/sylk.c:406
+msgid "Not SYLK file"
+msgstr "Keine SYLK-Datei"
+
+#: plugins/sylk/sylk.c:414
+msgid "error parsing line\n"
+msgstr "Fehler beim Auseinanderklamüsern von Zeile\n"
+
+#: plugins/sylk/sylk.c:510
+msgid "MultiPlan (SYLK) import"
+msgstr "MultiPlan-Import (SYLK)"
+
+#: plugins/text/text-io.c:312
+msgid "Empty file"
+msgstr "Leere Datei"
+
+#: plugins/text/text-io.c:316
+msgid "File is too large"
+msgstr "Datei ist zu groß"
+
+#: plugins/text/text-io.c:395
+msgid "Simple Text"
+msgstr "Einfaches Textformat"
+
+#: plugins/text/text-io.c:426
+msgid "Basic Text I/O"
+msgstr ""
+
+#: plugins/text/text-io.c:427
+msgid "Read/Write workbooks using a simple text format."
+msgstr "Arbeitsbücher mittels eines einfachen Textformats lesen/schreiben"
+
+#: plugins/xbase/boot.c:205
+msgid "Xbase (*.dbf) file format"
+msgstr "Xbase (*.dbf) Dateiformat"
 
 #: src/about.c:25
 msgid "Miguel de Icaza, main programmer."
@@ -423,6 +542,431 @@ msgstr "Gnumeric Heimatseite"
 #: src/about.c:71
 msgid "Gnumeric Support page"
 msgstr "Gnumeric Support-Seite"
+
+#: src/analysis-tools.c:357
+msgid "Correlations"
+msgstr "Korrelationen"
+
+#: src/analysis-tools.c:380 src/analysis-tools.c:537 src/analysis-tools.c:696
+#: src/analysis-tools.c:812 src/analysis-tools.c:834 src/analysis-tools.c:860
+#: src/analysis-tools.c:2338 src/analysis-tools.c:2488
+#: src/analysis-tools.c:2671
+#, c-format
+msgid "Column %d"
+msgstr "Spalte %d"
+
+#: src/analysis-tools.c:409 src/analysis-tools.c:566 src/analysis-tools.c:2368
+#: src/analysis-tools.c:2514 src/analysis-tools.c:2693
+#, c-format
+msgid "Row %d"
+msgstr "Zeile %d"
+
+#: src/analysis-tools.c:432 src/analysis-tools.c:588 src/analysis-tools.c:764
+#: src/analysis-tools.c:772 src/analysis-tools.c:2134
+#: src/analysis-tools.c:2272 src/value-sheet.c:421
+msgid "#N/A"
+msgstr "#-/-"
+
+#: src/analysis-tools.c:511
+msgid "Covariances"
+msgstr "Kovarianzen"
+
+#: src/analysis-tools.c:692 src/dialogs/dialog-analysis-tools.c:313
+msgid "Summary Statistics"
+msgstr "Statistischer Überblick"
+
+#: src/analysis-tools.c:700 src/analysis-tools.c:1098
+#: src/analysis-tools.c:1228 src/analysis-tools.c:1385
+#: src/analysis-tools.c:1521 src/analysis-tools.c:1658
+msgid "Mean"
+msgstr "Mittel"
+
+#: src/analysis-tools.c:701 src/analysis-tools.c:2000
+#: src/analysis-tools.c:2022
+msgid "Standard Error"
+msgstr "Standardfehler"
+
+#: src/analysis-tools.c:702
+msgid "Median"
+msgstr ""
+
+#: src/analysis-tools.c:703
+msgid "Mode"
+msgstr "Art"
+
+#: src/analysis-tools.c:704
+msgid "Standard Deviation"
+msgstr "Standardabweichung"
+
+#: src/analysis-tools.c:705
+msgid "Sample Variance"
+msgstr ""
+
+#: src/analysis-tools.c:706
+msgid "Kurtosis"
+msgstr ""
+
+#: src/analysis-tools.c:707
+msgid "Skewness"
+msgstr ""
+
+#: src/analysis-tools.c:708 src/dialogs/dialog-function-wizard.c:210
+msgid "Range"
+msgstr "Wertebereich"
+
+#: src/analysis-tools.c:709
+msgid "Minimum"
+msgstr "Minimum"
+
+#: src/analysis-tools.c:710
+msgid "Maximum"
+msgstr "Maximum"
+
+#: src/analysis-tools.c:711 src/analysis-tools.c:2471
+#: src/analysis-tools.c:2661 src/workbook.c:1484 src/workbook.c:1952
+msgid "Sum"
+msgstr "Summe"
+
+#: src/analysis-tools.c:712 src/analysis-tools.c:2470
+#: src/analysis-tools.c:2660 src/workbook.c:1956
+msgid "Count"
+msgstr "Anzahl"
+
+#: src/analysis-tools.c:805
+msgid "Confidence Level"
+msgstr "Vertrauenswert"
+
+#: src/analysis-tools.c:819
+msgid "Confidence Level (%g%%)"
+msgstr "Vertrauenswert (%g%%)"
+
+#: src/analysis-tools.c:831
+msgid "Kth Largest"
+msgstr "K-größte"
+
+#: src/analysis-tools.c:845
+#, c-format
+msgid "Largest (%d)"
+msgstr "Größte (%d)"
+
+#: src/analysis-tools.c:857
+msgid "Kth Smallest"
+msgstr "K-kleinste"
+
+#: src/analysis-tools.c:871
+#, c-format
+msgid "Smallest (%d)"
+msgstr "Kleinste (%d)"
+
+#: src/analysis-tools.c:956 src/dialogs/cell-format.glade.h:19
+#: src/dialogs/cell-format.glade.h:118
+msgid "Sample"
+msgstr "Beispiel"
+
+#: src/analysis-tools.c:1067
+msgid "z-Test"
+msgstr ""
+
+#: src/analysis-tools.c:1094 src/analysis-tools.c:1224
+#: src/analysis-tools.c:1381 src/analysis-tools.c:1517
+#: src/analysis-tools.c:1651
+msgid "Variable 1"
+msgstr "Variable 1"
+
+#: src/analysis-tools.c:1095 src/analysis-tools.c:1225
+#: src/analysis-tools.c:1382 src/analysis-tools.c:1518
+#: src/analysis-tools.c:1652
+msgid "Variable 2"
+msgstr "Variable 2"
+
+#: src/analysis-tools.c:1099
+msgid "Known Variance"
+msgstr ""
+
+#: src/analysis-tools.c:1100 src/analysis-tools.c:1230
+#: src/analysis-tools.c:1387 src/analysis-tools.c:1523
+#: src/analysis-tools.c:1660 src/analysis-tools.c:2001
+msgid "Observations"
+msgstr ""
+
+#: src/analysis-tools.c:1101 src/analysis-tools.c:1232
+#: src/analysis-tools.c:1389 src/analysis-tools.c:1524
+msgid "Hypothesized Mean Difference"
+msgstr "Hypothetische Mitteldifferenz"
+
+#: src/analysis-tools.c:1102
+msgid "z"
+msgstr ""
+
+#: src/analysis-tools.c:1103
+msgid "P (Z<=z) one-tail"
+msgstr ""
+
+#: src/analysis-tools.c:1104
+msgid "z Critical one-tail"
+msgstr ""
+
+#: src/analysis-tools.c:1105
+msgid "P (Z<=z) two-tail"
+msgstr ""
+
+#: src/analysis-tools.c:1106
+msgid "z Critical two-tail"
+msgstr ""
+
+#: src/analysis-tools.c:1200 src/analysis-tools.c:1354
+#: src/analysis-tools.c:1490
+msgid "t-Test"
+msgstr ""
+
+#: src/analysis-tools.c:1229 src/analysis-tools.c:1386
+#: src/analysis-tools.c:1522 src/analysis-tools.c:1659
+#: src/analysis-tools.c:2473 src/analysis-tools.c:2663
+msgid "Variance"
+msgstr "Varianz"
+
+#: src/analysis-tools.c:1231
+msgid "Pearson Correlation"
+msgstr ""
+
+#: src/analysis-tools.c:1233 src/analysis-tools.c:1390
+#: src/analysis-tools.c:1525 src/analysis-tools.c:1661
+#: src/analysis-tools.c:2015 src/analysis-tools.c:2555
+#: src/analysis-tools.c:2768
+msgid "df"
+msgstr ""
+
+#: src/analysis-tools.c:1234 src/analysis-tools.c:1391
+#: src/analysis-tools.c:1526 src/analysis-tools.c:2023
+msgid "t Stat"
+msgstr ""
+
+#: src/analysis-tools.c:1235 src/analysis-tools.c:1392
+#: src/analysis-tools.c:1527
+msgid "P (T<=t) one-tail"
+msgstr ""
+
+#: src/analysis-tools.c:1236 src/analysis-tools.c:1393
+#: src/analysis-tools.c:1528
+msgid "t Critical one-tail"
+msgstr ""
+
+#: src/analysis-tools.c:1237 src/analysis-tools.c:1394
+#: src/analysis-tools.c:1529
+msgid "P (T<=t) two-tail"
+msgstr ""
+
+#: src/analysis-tools.c:1238 src/analysis-tools.c:1395
+#: src/analysis-tools.c:1530
+msgid "t Critical two-tail"
+msgstr ""
+
+#: src/analysis-tools.c:1388
+msgid "Pooled Variance"
+msgstr ""
+
+#: src/analysis-tools.c:1627
+msgid "F-Test"
+msgstr ""
+
+#: src/analysis-tools.c:1662 src/analysis-tools.c:2018
+#: src/analysis-tools.c:2557 src/analysis-tools.c:2770
+msgid "F"
+msgstr ""
+
+#: src/analysis-tools.c:1663
+msgid "P (F<=f) one-tail"
+msgstr ""
+
+#: src/analysis-tools.c:1664
+msgid "F Critical one-tail"
+msgstr ""
+
+#: src/analysis-tools.c:1751 src/dialogs/dialog-analysis-tools.c:403
+msgid "Random"
+msgstr "Zufällig"
+
+#: src/analysis-tools.c:1896
+msgid "Not implemented yet.\n"
+msgstr "Noch nicht implementiert.\n"
+
+#. TODO This would be better using the
+#. value in the checkbox instead of this
+#. global, but I don't know GTK very well
+#: src/analysis-tools.c:1992 src/analysis-tools.c:2004
+#: src/dialogs/dialog-analysis-tools.c:99
+#: src/dialogs/dialog-analysis-tools.c:1983
+msgid "Regression"
+msgstr "Regression"
+
+#: src/analysis-tools.c:1994
+msgid "SUMMARY OUTPUT"
+msgstr ""
+
+#: src/analysis-tools.c:1996
+msgid "Regression Statistics"
+msgstr ""
+
+#: src/analysis-tools.c:1997
+msgid "Multiple R"
+msgstr ""
+
+#: src/analysis-tools.c:1998
+msgid "R Square"
+msgstr ""
+
+#: src/analysis-tools.c:1999
+msgid "Adjusted R Square"
+msgstr ""
+
+#: src/analysis-tools.c:2003 src/analysis-tools.c:2552
+#: src/analysis-tools.c:2765
+msgid "ANOVA"
+msgstr ""
+
+#: src/analysis-tools.c:2005
+msgid "Residual"
+msgstr ""
+
+#: src/analysis-tools.c:2006 src/analysis-tools.c:2562
+#: src/analysis-tools.c:2776
+msgid "Total"
+msgstr ""
+
+#: src/analysis-tools.c:2008
+msgid "Intercept"
+msgstr ""
+
+#: src/analysis-tools.c:2011
+#, c-format
+msgid "X Variable %d"
+msgstr ""
+
+#: src/analysis-tools.c:2016 src/analysis-tools.c:2554
+#: src/analysis-tools.c:2767
+msgid "SS"
+msgstr ""
+
+#: src/analysis-tools.c:2017 src/analysis-tools.c:2556
+#: src/analysis-tools.c:2769
+msgid "MS"
+msgstr ""
+
+#: src/analysis-tools.c:2019
+msgid "Significance F"
+msgstr ""
+
+#: src/analysis-tools.c:2021
+msgid "Coefficients"
+msgstr ""
+
+#: src/analysis-tools.c:2024 src/analysis-tools.c:2558
+#: src/analysis-tools.c:2771
+msgid "P-value"
+msgstr ""
+
+#: src/analysis-tools.c:2026
+#, c-format
+msgid "Lower 95%"
+msgstr ""
+
+#: src/analysis-tools.c:2027
+#, c-format
+msgid "Upper 95%"
+msgstr ""
+
+#: src/analysis-tools.c:2247
+msgid "Moving Averages"
+msgstr "Gleitender Durchschnitte"
+
+#: src/analysis-tools.c:2319
+msgid "Ranks"
+msgstr "Wertebereiche"
+
+#: src/analysis-tools.c:2327 src/analysis-tools.c:2356
+msgid "Point"
+msgstr ""
+
+#: src/analysis-tools.c:2341 src/analysis-tools.c:2371
+msgid "Rank"
+msgstr "Wertebereich"
+
+#: src/analysis-tools.c:2342 src/analysis-tools.c:2372
+#: src/workbook-format-toolbar.c:324
+msgid "Percent"
+msgstr "Prozent"
+
+#: src/analysis-tools.c:2462 src/analysis-tools.c:2653
+msgid "Anova"
+msgstr ""
+
+#: src/analysis-tools.c:2467 src/dialogs/analysis-tools.glade.h:52
+#: src/dialogs/dialog-analysis-tools.c:81
+msgid "Anova: Single Factor"
+msgstr "Anova: Einzelner Faktor"
+
+#: src/analysis-tools.c:2468 src/analysis-tools.c:2659
+msgid "SUMMARY"
+msgstr ""
+
+#: src/analysis-tools.c:2469
+msgid "Groups"
+msgstr "Gruppen"
+
+#: src/analysis-tools.c:2472 src/analysis-tools.c:2662 src/workbook.c:1955
+msgid "Average"
+msgstr "Mittel"
+
+#: src/analysis-tools.c:2553 src/analysis-tools.c:2766
+msgid "Source of Variation"
+msgstr ""
+
+#: src/analysis-tools.c:2559 src/analysis-tools.c:2772
+msgid "F critical"
+msgstr ""
+
+#: src/analysis-tools.c:2560
+msgid "Between Groups"
+msgstr ""
+
+#: src/analysis-tools.c:2561
+msgid "Within Groups"
+msgstr ""
+
+#: src/analysis-tools.c:2658 src/dialogs/analysis-tools.glade.h:64
+#: src/dialogs/dialog-analysis-tools.c:83
+msgid "Anova: Two-Factor Without Replication"
+msgstr ""
+
+#: src/analysis-tools.c:2773 src/dialogs/cell-sort.glade.h:11
+#: src/dialogs/dialog-analysis-tools.c:397
+msgid "Rows"
+msgstr "Zeilen"
+
+#: src/analysis-tools.c:2774 src/dialogs/cell-sort.glade.h:12
+#: src/dialogs/dialog-analysis-tools.c:396
+msgid "Columns"
+msgstr "Spalten"
+
+#: src/analysis-tools.c:2775
+msgid "Error"
+msgstr "Fehler"
+
+#: src/clipboard.c:238
+msgid "Error while trying to pre-convert clipboard data"
+msgstr ""
+
+#: src/clipboard.c:245
+msgid "This data on the clipboard does not seem to be valid text"
+msgstr ""
+
+#: src/clipboard.c:260
+msgid "Parse error while trying to parse data into cellregion"
+msgstr ""
+
+#: src/command-context-gui.c:48 src/gnumeric-util.c:24
+msgid "You cannot change part of an array."
+msgstr "Sie können nicht nur einen Teil eines Feldes ändern."
 
 #: src/commands.c:409
 #, c-format
@@ -862,11 +1406,6 @@ msgstr "_Beschriftungen in erster Zeile"
 msgid "T-Test: Assuming Unequal Variances"
 msgstr "T-Test: Nehme ungleiche Varianzen an"
 
-#: src/dialogs/analysis-tools.glade.h:52
-#: src/dialogs/dialog-analysis-tools.c:81
-msgid "Anova: Single Factor"
-msgstr "Anova: Einzelner Faktor"
-
 #: src/dialogs/analysis-tools.glade.h:54 src/dialogs/analysis-tools.glade.h:85
 #: src/dialogs/analysis-tools.glade.h:96
 #: src/dialogs/analysis-tools.glade.h:107
@@ -904,11 +1443,6 @@ msgstr "A_usgabebereich: "
 #: src/dialogs/analysis-tools.glade.h:62
 msgid "_New Sheet     "
 msgstr "_Neues Blatt   "
-
-#: src/dialogs/analysis-tools.glade.h:64
-#: src/dialogs/dialog-analysis-tools.c:83
-msgid "Anova: Two-Factor Without Replication"
-msgstr ""
 
 #: src/dialogs/analysis-tools.glade.h:66
 msgid "_Labels      "
@@ -1138,10 +1672,6 @@ msgstr "Sp_ezial"
 #: src/dialogs/cell-format.glade.h:18
 msgid "Cust_om"
 msgstr "_Benutzerdefiniert"
-
-#: src/dialogs/cell-format.glade.h:19 src/dialogs/cell-format.glade.h:118
-msgid "Sample"
-msgstr "Beispiel"
 
 #: src/dialogs/cell-format.glade.h:20
 msgid ""
@@ -1559,14 +2089,6 @@ msgstr "Eine Kopfzeile"
 msgid "Sort"
 msgstr "Sortieren"
 
-#: src/dialogs/cell-sort.glade.h:11 src/dialogs/dialog-analysis-tools.c:397
-msgid "Rows"
-msgstr "Zeilen"
-
-#: src/dialogs/cell-sort.glade.h:12 src/dialogs/dialog-analysis-tools.c:396
-msgid "Columns"
-msgstr "Spalten"
-
 #: src/dialogs/cell-sort.glade.h:15
 msgid "Advanced Sort Options"
 msgstr "Komplexe Sortieroptionen"
@@ -1575,7 +2097,7 @@ msgstr "Komplexe Sortieroptionen"
 msgid "Sort by"
 msgstr "Sortieren nach"
 
-#: src/dialogs/cell-sort.glade.h:17
+#: src/dialogs/cell-sort.glade.h:17 src/solver-lp.c:1059 src/solver-lp.c:1111
 msgid "Value"
 msgstr "Werte"
 
@@ -1633,18 +2155,28 @@ msgstr "_Zeile(n) löschen"
 msgid "Delete _column(s)"
 msgstr "S_palte(n) löschen"
 
+#: src/dialogs/dialog-advanced-filter.c:237
+msgid "You should introduce a valid cell names in 'List Range:'"
+msgstr "Sie sollten einen gültigen Zellennamen bei 'Listenbereich:' eintragen."
+
+#: src/dialogs/dialog-advanced-filter.c:251
+msgid "You should introduce a valid cell names in 'Criteria Range:'"
+msgstr "Sie sollten einen gültigen Zellennamen bei 'Kriterienbereich:' eintragen."
+
+#: src/dialogs/dialog-advanced-filter.c:270
+msgid "You should introduce a valid cell range in 'Copy To:'"
+msgstr "Sie sollten einen gültigen Zellennamen bei 'Kopieren auf:' eintragen."
+
+#: src/dialogs/dialog-advanced-filter.c:315
+msgid ""
+"You should introduce the same number of columns in the `List Range' and in "
+"`Criteria Range:'"
+msgstr "Sie sollten die gleiche Anzahl an Spalten bei 'Listenbereich' und bei 'Kriterienbereich' eintragen."
+
 #: src/dialogs/dialog-analysis-tools.c:89
 #: src/dialogs/dialog-analysis-tools.c:909
 msgid "Descriptive Statistics"
 msgstr "Statistischer Überblick"
-
-#. TODO This would be better using the
-#. value in the checkbox instead of this
-#. global, but I don't know GTK very well
-#: src/dialogs/dialog-analysis-tools.c:99
-#: src/dialogs/dialog-analysis-tools.c:1983
-msgid "Regression"
-msgstr "Regression"
 
 #: src/dialogs/dialog-analysis-tools.c:101
 #: src/dialogs/dialog-analysis-tools.c:795
@@ -1743,10 +2275,6 @@ msgstr "_Untere Grenze:"
 msgid "_Upper bound:"
 msgstr "_Obere Grenze:"
 
-#: src/dialogs/dialog-analysis-tools.c:313
-msgid "Summary Statistics"
-msgstr "Statistischer Überblick"
-
 #: src/dialogs/dialog-analysis-tools.c:315
 msgid "Confidence Level for Mean"
 msgstr "Vertrauenswert für Mittel"
@@ -1779,10 +2307,6 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:402
 msgid "Periodic"
 msgstr "Periodisch"
-
-#: src/dialogs/dialog-analysis-tools.c:403
-msgid "Random"
-msgstr "Zufällig"
 
 #: src/dialogs/dialog-analysis-tools.c:491
 #: src/dialogs/dialog-analysis-tools.c:645
@@ -1943,6 +2467,10 @@ msgstr ""
 "Es müssen gleich viele Einträge für jede Variable in der Regression "
 "vorhanden sein."
 
+#: src/dialogs/dialog-autosave.c:136
+msgid "You should introduce a proper number of minutes in the entry."
+msgstr "Sie sollten eine geeignete Anzahl an Minuten in das Feld eintragen."
+
 #: src/dialogs/dialog-cell-comment.c:27
 msgid "Cell comment"
 msgstr "Zellenkommentar"
@@ -2032,10 +2560,6 @@ msgstr "Zeichenkette"
 msgid "Boolean"
 msgstr "Wahrheitswert"
 
-#: src/dialogs/dialog-function-wizard.c:210
-msgid "Range"
-msgstr "Wertebereich"
-
 #: src/dialogs/dialog-function-wizard.c:213
 msgid "Array"
 msgstr "Feld"
@@ -2112,7 +2636,7 @@ msgstr "Einen gültigen Zellennamen in 'Setze Zelle' eintragen"
 msgid "The cell named in 'Set cell' must contain a formula"
 msgstr "Die in 'Setze Zelle' angegebene Zelle muss eine Formel enthalten"
 
-#: src/dialogs/dialog-goal-seek.c:379 src/dialogs/dialog-solver.c:871
+#: src/dialogs/dialog-goal-seek.c:379
 msgid "You should introduce a valid cell name in 'By changing cell'"
 msgstr "Einen gültigen Zellennamen in 'Durch Ändern von Zelle' eintragen"
 
@@ -2125,7 +2649,8 @@ msgstr ""
 msgid "Goal seek did not find a solution!"
 msgstr "Die Zielsuche konnte keine Lösung finden!"
 
-#: src/dialogs/dialog-goto-cell.c:45
+#: src/dialogs/dialog-goto-cell.c:45 src/solver-lp.c:897 src/solver-lp.c:924
+#: src/solver-lp.c:959 src/solver-lp.c:1057 src/solver-lp.c:1109
 msgid "Cell"
 msgstr "Zelle"
 
@@ -2243,6 +2768,11 @@ msgstr "Auswahl"
 msgid "Select Printer"
 msgstr "Drucker auswählen"
 
+#: src/dialogs/dialog-sheet-order.c:142 src/workbook.c:2827
+#, c-format
+msgid "Are you sure you want to remove the sheet called `%s'?"
+msgstr "Sind Sie sicher, dass Sie das Blatt `%s' entfernen wollen?"
+
 #: src/dialogs/dialog-solver.c:27
 msgid "<="
 msgstr "<="
@@ -2275,11 +2805,15 @@ msgstr ""
 
 #: src/dialogs/dialog-solver.c:848
 msgid "You should introduce a valid cell name for 'Target cell'"
-msgstr "Einen gültigen Zellennamen für 'Zielzelle' angeben"
+msgstr "Einen gültigen Zellennamen für 'Zielzelle' angeben.\n"
+
+#: src/dialogs/dialog-solver.c:871
+msgid "You should introduce a valid cell names in 'By changing cells'"
+msgstr "Sie sollten einen gültigen Zellennamen bei 'Durch Ändern von Zellen' eintragen."
 
 #: src/dialogs/dialog-stf-export-sheet-page.c:355
 msgid "You need to select at least one sheet to export"
-msgstr "Sie müssen wenigstens ein zu exportierendes Blatt auswählen"
+msgstr "Sie müssen wenigstens ein zu exportierendes Blatt auswählen."
 
 #: src/dialogs/dialog-stf-export.c:48 src/dialogs/dialog-stf.c:102
 msgid "Are you sure you want to cancel?"
@@ -3657,7 +4191,7 @@ msgid "[$DEM]"
 msgstr "[$DEM]"
 
 #: src/formats.c:199
-msgid "German mark"
+msgid "Deutsche mark"
 msgstr "Deutsche Mark"
 
 #: src/formats.c:200
@@ -4680,15 +5214,6 @@ msgstr "Simbabwe-Dollar"
 #: src/formats.c:449
 msgid "[Red]"
 msgstr ""
-
-#: src/func.c:433 src/functions/fn-information.c:574
-#: src/functions/fn-information.c:642 src/functions/fn-information.c:669
-#: src/functions/fn-information.c:695 src/functions/fn-information.c:744
-#: src/functions/fn-information.c:773 src/functions/fn-information.c:837
-#: src/functions/fn-logical.c:194 src/functions/fn-lookup.c:469
-#: src/functions/fn-string.c:343
-msgid "Invalid number of arguments"
-msgstr "Ungültige Argumentenanzahl"
 
 #: src/func.c:731
 msgid "Function does not exist"
@@ -10096,14 +10621,22 @@ msgid ""
 "@SEEALSO=FIND"
 msgstr ""
 
-#: src/gnumeric-util.c:24
-msgid "You cannot change part of an array."
-msgstr "Sie können nicht nur einen Teil eines Feldes ändern."
-
 #: src/gnumeric-util.c:537
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "Kann Datei '%s' nicht öffnen"
+
+#: src/history.c:104
+msgid "/File/"
+msgstr "/Datei/"
+
+#: src/history.c:136 src/history.c:158
+msgid "File/Print preview"
+msgstr "Datei/Druckvorschau"
+
+#: src/history.c:204
+msgid "File/"
+msgstr "Datei/"
 
 #: src/item-bar.c:480
 #, c-format
@@ -10289,6 +10822,25 @@ msgstr ""
 #: src/number-match.c:167
 msgid "(([-+]?[0-9,]+)?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
 msgstr "(([-+]?[0-9\\.]+)?(,?[0-9]*)?([Ee][-+][0-9]+)?)"
+
+#: src/parse-util.c:506
+msgid "ERROR"
+msgstr "FEHLER"
+
+#: src/plugin-util.c:113
+#, c-format
+msgid "Unable to unmap the file, error : %s"
+msgstr ""
+
+#: src/plugin-util.c:122
+#, c-format
+msgid "Error while closing file, error : %s"
+msgstr "Fehler beim Schließen der Datei, Fehler : %s"
+
+#: src/plugin-util.c:177
+#, c-format
+msgid "Unable to mmap the file, error : %s"
+msgstr ""
 
 #: src/plugin.c:65
 #, c-format
@@ -10476,18 +11028,136 @@ msgstr "Zeile: %d"
 msgid "Column: %s"
 msgstr "Spalte: %s"
 
-#: src/sheet.c:1057
+#: src/sheet.c:1059
 msgid "Internal ERROR"
 msgstr "Interner FEHLER"
 
-#: src/sheet.c:2548
+#: src/sheet.c:2550
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "Ich konnte das Objekt %s nicht aktivieren"
 
-#: src/sheet.c:2560
+#: src/sheet.c:2562
 msgid "I was unable to the bind object"
 msgstr "Ich konnte das Objekt nicht binden"
+
+#: src/solver-lp.c:889
+msgid "Answer Report"
+msgstr ""
+
+#: src/solver-lp.c:890
+msgid "Gnumeric Solver Answer Report"
+msgstr ""
+
+#: src/solver-lp.c:894
+msgid "Target Cell (Maximize)"
+msgstr ""
+
+#: src/solver-lp.c:896
+msgid "Target Cell (Minimize)"
+msgstr ""
+
+#: src/solver-lp.c:898 src/solver-lp.c:925 src/solver-lp.c:960
+#: src/solver-lp.c:1058 src/solver-lp.c:1110
+msgid "Name"
+msgstr "Name"
+
+#: src/solver-lp.c:899 src/solver-lp.c:926
+msgid "Original Value"
+msgstr "Originalwert"
+
+#: src/solver-lp.c:900 src/solver-lp.c:927
+msgid "Final Value"
+msgstr "Endgültiger Wert"
+
+#: src/solver-lp.c:923 src/solver-lp.c:1051
+msgid "Adjustable Cells"
+msgstr ""
+
+#: src/solver-lp.c:958 src/solver-lp.c:1101
+msgid "Constraints"
+msgstr "Beschränkungen"
+
+#: src/solver-lp.c:961
+msgid "Cell Value"
+msgstr "Zellenwert"
+
+#: src/solver-lp.c:962
+msgid "Formula"
+msgstr "Formeln"
+
+#: src/solver-lp.c:963
+msgid "Status"
+msgstr "Status"
+
+#: src/solver-lp.c:964
+msgid "Slack"
+msgstr ""
+
+#: src/solver-lp.c:1012
+msgid "Binding"
+msgstr ""
+
+#: src/solver-lp.c:1014
+msgid "Not Binding"
+msgstr ""
+
+#: src/solver-lp.c:1049
+msgid "Sensitivity Report"
+msgstr ""
+
+#: src/solver-lp.c:1050
+msgid "Gnumeric Solver Sensitivity Report"
+msgstr ""
+
+#: src/solver-lp.c:1052 src/solver-lp.c:1103
+msgid "Final"
+msgstr ""
+
+#: src/solver-lp.c:1053
+msgid "Reduced"
+msgstr ""
+
+#: src/solver-lp.c:1054
+msgid "Objective"
+msgstr ""
+
+#: src/solver-lp.c:1055 src/solver-lp.c:1056 src/solver-lp.c:1106
+#: src/solver-lp.c:1107
+msgid "Allowable"
+msgstr ""
+
+#: src/solver-lp.c:1060
+msgid "Cost"
+msgstr ""
+
+#: src/solver-lp.c:1061
+msgid "Coefficient"
+msgstr ""
+
+#: src/solver-lp.c:1062 src/solver-lp.c:1114
+msgid "Increase"
+msgstr ""
+
+#: src/solver-lp.c:1063 src/solver-lp.c:1115
+msgid "Decrease"
+msgstr ""
+
+#: src/solver-lp.c:1104
+msgid "Shadow"
+msgstr ""
+
+#: src/solver-lp.c:1105
+msgid "Constraint"
+msgstr "Beschränkung"
+
+#: src/solver-lp.c:1112
+msgid "Price"
+msgstr ""
+
+#: src/solver-lp.c:1113
+msgid "R.H. Side"
+msgstr ""
 
 #: src/stf.c:122
 msgid "Error while trying to memory map file"
@@ -10507,15 +11177,15 @@ msgstr ""
 
 #: src/stf.c:300
 msgid "Error while trying to write csv file"
-msgstr ""
+msgstr "Fehler beim Versuch, eine csv-Datei zu schreiben"
 
 #: src/stf.c:325
 msgid "Text File import"
-msgstr ""
+msgstr "Textdatei-Import"
 
 #: src/stf.c:328
 msgid "Text File Export (*.csv)"
-msgstr ""
+msgstr "Textdatei-Export (*.csv)"
 
 #: src/style.c:435
 msgid ""
@@ -10571,10 +11241,6 @@ msgstr "#NAME?"
 #: src/value-sheet.c:420
 msgid "#NUM!"
 msgstr "#ZAHL!"
-
-#: src/value-sheet.c:421
-msgid "#N/A"
-msgstr "#-/-"
 
 #: src/value-sheet.c:422
 msgid "#RECALC!"
@@ -10808,10 +11474,6 @@ msgid "Sets the format of the selected cells to monetary"
 msgstr "Die ausgewählten Zellen als Währungswert formatieren"
 
 #: src/workbook-format-toolbar.c:324
-msgid "Percent"
-msgstr "Prozent"
-
-#: src/workbook-format-toolbar.c:324
 msgid "Sets the format of the selected cells to percentage"
 msgstr "Die ausgewählten Zellen als Prozentwert formatieren"
 
@@ -10902,6 +11564,23 @@ msgstr "Hintergrund löschen"
 #: src/workbook-format-toolbar.c:653 src/workbook-format-toolbar.c:656
 msgid "Foreground"
 msgstr "Vordergrund"
+
+#: src/workbook-view.c:59
+msgid "Nothing"
+msgstr "Nichts"
+
+#. FIXME : How to avoid hard coding the menu name here.
+#: src/workbook-view.c:79 src/workbook-view.c:83 src/workbook.c:1475
+msgid "Undo"
+msgstr "Rückgängig"
+
+#: src/workbook-view.c:80 src/workbook-view.c:84 src/workbook.c:1478
+msgid "Redo"
+msgstr "Wiederholen"
+
+#: src/workbook-view.c:116
+msgid " : Gnumeric"
+msgstr " : Gnumeric"
 
 #: src/workbook.c:530
 msgid "Warning"
@@ -11315,24 +11994,12 @@ msgid "Pastes the clipboard"
 msgstr "Den Inhalt der Zwischenablage einfügen"
 
 #: src/workbook.c:1475
-msgid "Undo"
-msgstr "Rückgängig"
-
-#: src/workbook.c:1475
 msgid "Undo the operation"
 msgstr "Operation rückgängig machen"
 
 #: src/workbook.c:1478
-msgid "Redo"
-msgstr "Wiederholen"
-
-#: src/workbook.c:1478
 msgid "Redo the operation"
 msgstr "Operation wiederholen"
-
-#: src/workbook.c:1484 src/workbook.c:1952
-msgid "Sum"
-msgstr "Summe"
 
 #: src/workbook.c:1484
 msgid "Sum into the current cell."
@@ -11392,7 +12059,7 @@ msgstr "Geformtes Objekt einfügen"
 
 #: src/workbook.c:1509
 msgid "Inserts a shaped object in the spreadsheet"
-msgstr "Ein nicht rechteckiges Objekt in das Arbeitsblatt einfügen"
+msgstr "Ein genormtes Objekt in das Arbeitsblatt einfügen"
 
 #: src/workbook.c:1514
 msgid "Creates a button"
@@ -11446,14 +12113,6 @@ msgstr "Min"
 msgid "Max"
 msgstr "Max"
 
-#: src/workbook.c:1955
-msgid "Average"
-msgstr "Mittel"
-
-#: src/workbook.c:1956
-msgid "Count"
-msgstr "Anzahl"
-
 #: src/workbook.c:2535
 #, c-format
 msgid "Book%d.gnumeric"
@@ -11471,11 +12130,6 @@ msgstr "muss wenigstens einen Buchstaben haben"
 msgid "Duplicate Sheet name"
 msgstr "Doppelter Blattname"
 
-#: src/workbook.c:2827
-#, c-format
-msgid "Are you sure you want to remove the sheet called `%s'?"
-msgstr "Sind Sie sicher, dass Sie das Blatt `%s' entfernen wollen?"
-
 #: src/workbook.c:2887
 msgid "Add another sheet"
 msgstr "Weiteres Blatt hinzufügen"
@@ -11492,11 +12146,6 @@ msgstr "Dieses Blatt umbenennen"
 msgid "Re-order sheets"
 msgstr "Blätter neu ordnen"
 
-#: src/workbook.c:3165
-#, c-format
-msgid "Sheet%d"
-msgstr "Blatt%d"
-
 #: src/xml-io.c:3129
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr "Ungültige XML-Zwischenablagedatei. Ist der Baum leer?"
@@ -11512,3 +12161,120 @@ msgstr "Ist keine Arbeitsbuch-Datei"
 #: src/xml-io.c:3247
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric-XML-Dateiformat"
+
+#: wizards/graphics/graphic-context.c:149
+#, c-format
+msgid "\"Series %d\""
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:25
+msgid "Clustered columns.  Compares values between categories"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:37
+msgid "Stacked columns.  Compares the values brought by each category"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:50
+msgid ""
+"Stacked columns, 100%.  Compares between the categories the values broght to "
+"a total"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:66
+msgid "Clustered bars.  Compares values between categories"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:78
+msgid "Stacked bars.  Compares the values brought by each category"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:91
+msgid ""
+"Stacked bars, 100%.  Compares between the categories the values broght to a "
+"total"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:107
+msgid "Lines.  FIXME: Add nice explanation"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:120
+msgid "Stacked Lines.  FIXME: Add nice explanation"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:134
+msgid "Stacked lines, 100%.  FIXME: Add nice explanation"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:147
+msgid "Lines with markers.  FIXME: Add nice explanation"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:160
+msgid "Stacked lines with markers.  FIXME: Add nice explanation"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:173
+msgid "Stacked lines with markers, 100%.  FIXME: Add nice explanation"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:190
+msgid "Scatter points"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:207
+msgid "Scatter points connected with lines"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:224
+msgid "Scatter data connected with lines"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:245
+msgid "Area 1: FIXME add nice description"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:257
+msgid "Stacked area.  FIXME: add nic description"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:270
+msgid "Stacked Area, 100%.  FIXME: add nice description"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:289
+msgid "Column"
+msgstr "Spalte"
+
+#: wizards/graphics/graphic-type.c:290
+msgid "Bar"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:291
+msgid "Lines"
+msgstr "Zeilen"
+
+#: wizards/graphics/graphic-type.c:292
+msgid "Scatter"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:293
+msgid "Areas"
+msgstr "Bereiche"
+
+#: wizards/graphics/main.c:85
+msgid "Step 1 of 3: Select graphic type"
+msgstr ""
+
+#: wizards/graphics/main.c:88
+msgid "Step 2 of 3: Select data ranges"
+msgstr ""
+
+#: wizards/graphics/main.c:91
+msgid "Step 3 of 3: Customize graphic"
+msgstr ""
+
+#: wizards/graphics/main.c:174
+msgid "Unable to launch the graphics service"
+msgstr ""
