@@ -1,3 +1,11 @@
+1999-06-18  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* samples/dbfuns.xls: Added new file for database functions.
+
+	* samples/mathfuns.xls: Added MDETERM test.
+
+	* samples/statfuns.xls: Added AVERAGEA, MINA, MAXA, ... tests.
+
 1999-06-17  Morten Welinder  <terra@diku.dk>
 
 	* src/fn-stat.c (gnumeric_count): Make non-strict and ignore cells
