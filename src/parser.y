@@ -93,7 +93,7 @@ exp:	  NUMBER 	{ $$ = $1 }
 	| exp '+' exp	{
 		$$ = p_new (ExprTree);
 		$$->ref_count = 1;
-		$$->oper = OP_ADD;
+		$$->oper = OPER_ADD;
 		$$->u.binary.value_a = $1;
 		$$->u.binary.value_b = $3;
 	}
@@ -101,7 +101,7 @@ exp:	  NUMBER 	{ $$ = $1 }
 	| exp '-' exp {
 		$$ = p_new (ExprTree);
 		$$->ref_count = 1;
-		$$->oper = OP_SUB;
+		$$->oper = OPER_SUB;
 		$$->u.binary.value_a = $1;
 		$$->u.binary.value_b = $3;
 	}
@@ -109,7 +109,7 @@ exp:	  NUMBER 	{ $$ = $1 }
 	| exp '*' exp { 
 		$$ = p_new (ExprTree);
 		$$->ref_count = 1;
-		$$->oper = OP_MULT;
+		$$->oper = OPER_MULT;
 		$$->u.binary.value_a = $1;
 		$$->u.binary.value_b = $3;
 	}
@@ -117,7 +117,7 @@ exp:	  NUMBER 	{ $$ = $1 }
 	| exp '/' exp {
 		$$ = p_new (ExprTree);
 		$$->ref_count = 1;
-		$$->oper = OP_DIV;
+		$$->oper = OPER_DIV;
 		$$->u.binary.value_a = $1;
 		$$->u.binary.value_b = $3;
 	}
@@ -125,21 +125,21 @@ exp:	  NUMBER 	{ $$ = $1 }
 	| exp '=' exp {
 		$$ = p_new (ExprTree);
 		$$->ref_count = 1;
-		$$->oper = OP_EQUAL;
+		$$->oper = OPER_EQUAL;
 		$$->u.binary.value_a = $1;
 		$$->u.binary.value_b = $3;
 	}
 	| exp '<' exp {
 		$$ = p_new (ExprTree);
 		$$->ref_count = 1;
-		$$->oper = OP_LT;
+		$$->oper = OPER_LT;
 		$$->u.binary.value_a = $1;
 		$$->u.binary.value_b = $3;
 	}
 	| exp '>' exp {
 		$$ = p_new (ExprTree);
 		$$->ref_count = 1;
-		$$->oper = OP_GT;
+		$$->oper = OPER_GT;
 		$$->u.binary.value_a = $1;
 		$$->u.binary.value_b = $3;
 	}
@@ -147,7 +147,7 @@ exp:	  NUMBER 	{ $$ = $1 }
         | exp GTE exp {
 		$$ = p_new (ExprTree);
 		$$->ref_count = 1;
-		$$->oper = OP_GTE;
+		$$->oper = OPER_GTE;
 		$$->u.binary.value_a = $1;
 		$$->u.binary.value_b = $3;
 	}
@@ -155,7 +155,7 @@ exp:	  NUMBER 	{ $$ = $1 }
         | exp NE exp {
 		$$ = p_new (ExprTree);
 		$$->ref_count = 1;
-		$$->oper = OP_NOT_EQUAL;
+		$$->oper = OPER_NOT_EQUAL;
 		$$->u.binary.value_a = $1;
 		$$->u.binary.value_b = $3;
 	}
@@ -163,7 +163,7 @@ exp:	  NUMBER 	{ $$ = $1 }
         | exp LTE exp {
 		$$ = p_new (ExprTree);
 		$$->ref_count = 1;
-		$$->oper = OP_LTE;
+		$$->oper = OPER_LTE;
 		$$->u.binary.value_a = $1;
 		$$->u.binary.value_b = $3;
 	}
@@ -177,7 +177,7 @@ exp:	  NUMBER 	{ $$ = $1 }
         | '-' exp %prec NEG {
 		$$ = p_new (ExprTree);
 		$$->ref_count = 1;
-		$$->oper = OP_NEG;
+		$$->oper = OPER_NEG;
 		$$->u.value = $2;
 	}
 
@@ -188,7 +188,7 @@ exp:	  NUMBER 	{ $$ = $1 }
 	| exp '&' exp {
 		$$ = p_new (ExprTree);
 		$$->ref_count = 1;
-		$$->oper = OP_CONCAT;
+		$$->oper = OPER_CONCAT;
 		$$->u.binary.value_a = $1;
 		$$->u.binary.value_b = $3;
 	}
@@ -202,7 +202,7 @@ exp:	  NUMBER 	{ $$ = $1 }
 
 		$$ = p_new (ExprTree);
 		$$->ref_count = 1;
-		$$->oper = OP_CONSTANT;
+		$$->oper = OPER_CONSTANT;
 		$$->u.constant = v_new ();
 		$$->u.constant->type = VALUE_CELLRANGE;
 		$$->u.constant->v.cell_range.cell_a = a;
@@ -276,7 +276,7 @@ return_cellref (char *p)
 	e->ref_count = 1;
 	v = v_new ();
 
-	e->oper = OP_VAR;
+	e->oper = OPER_VAR;
 
 	ref = &v->v.cell;
 
@@ -328,7 +328,7 @@ return_symbol (char *string)
 			v->type = VALUE_STRING;
 		}
 		
-		e->oper = OP_CONSTANT;
+		e->oper = OPER_CONSTANT;
 		e->u.constant = v;
 	}
 	else
@@ -336,7 +336,7 @@ return_symbol (char *string)
 		symbol_ref (sym);
 		if (sym->type == SYMBOL_FUNCTION)
 		{
-			e->oper = OP_FUNCALL;
+			e->oper = OPER_FUNCALL;
 			type = FUNCALL;
 			e->u.function.symbol = sym;
 			e->u.function.arg_list = NULL;
@@ -350,7 +350,7 @@ return_symbol (char *string)
 			v = v_new ();
 			value_copy_to (v, dv);
 			
-			e->oper = OP_CONSTANT;
+			e->oper = OPER_CONSTANT;
 			e->u.constant = v;
 			type = CONSTANT;
 		}
@@ -419,7 +419,7 @@ int yylex (void)
 		}
 
 		/* Return the value to the parser */
-		e->oper = OP_CONSTANT;
+		e->oper = OPER_CONSTANT;
 		e->u.constant = v;
 		yylval.tree = e;
 
@@ -669,7 +669,7 @@ dump_tree (ExprTree *tree)
 	CellRef *cr;
 	
 	switch (tree->oper){
-	case OP_VAR:
+	case OPER_VAR:
 		cr = &tree->u.constant->v.cell;
 		printf ("Cell: %s%c%s%d\n",
 			cr->col_relative ? "" : "$",
@@ -678,48 +678,48 @@ dump_tree (ExprTree *tree)
 			cr->row + '1');
 		return;
 		
-	case OP_CONSTANT:
+	case OPER_CONSTANT:
 		value_dump (tree->u.constant);
 		return;
 
-	case OP_FUNCALL:
+	case OPER_FUNCALL:
 		s = symbol_lookup (tree->u.function.symbol->str);
 		printf ("Function call: %s\n", s->str);
 		break;
 
-	case OP_EQUAL:
-	case OP_NOT_EQUAL:
-	case OP_LT:
-	case OP_LTE:
-	case OP_GT:
-	case OP_GTE:
-	case OP_ADD:
-	case OP_SUB:
-	case OP_MULT:
-	case OP_DIV:
-	case OP_EXP:
-	case OP_CONCAT:
+	case OPER_EQUAL:
+	case OPER_NOT_EQUAL:
+	case OPER_LT:
+	case OPER_LTE:
+	case OPER_GT:
+	case OPER_GTE:
+	case OPER_ADD:
+	case OPER_SUB:
+	case OPER_MULT:
+	case OPER_DIV:
+	case OPER_EXP:
+	case OPER_CONCAT:
 		dump_tree (tree->u.binary.value_a);
 		dump_tree (tree->u.binary.value_b);
 		switch (tree->oper){
-		case OP_ADD: printf ("ADD\n"); break;
-		case OP_SUB: printf ("SUB\n"); break;
-		case OP_MULT: printf ("MULT\n"); break;
-		case OP_DIV: printf ("DIV\n"); break;
-		case OP_CONCAT: printf ("CONCAT\n"); break;
-		case OP_EQUAL: printf ("==\n"); break;
-		case OP_NOT_EQUAL: printf ("!=\n"); break;
-		case OP_LT: printf ("<\n"); break;
-		case OP_GT: printf (">\n"); break;
-		case OP_GTE: printf (">=\n"); break;
-		case OP_LTE: printf ("<=\n"); break;
-		case OP_EXP: printf ("EXP\n"); break;
+		case OPER_ADD: printf ("ADD\n"); break;
+		case OPER_SUB: printf ("SUB\n"); break;
+		case OPER_MULT: printf ("MULT\n"); break;
+		case OPER_DIV: printf ("DIV\n"); break;
+		case OPER_CONCAT: printf ("CONCAT\n"); break;
+		case OPER_EQUAL: printf ("==\n"); break;
+		case OPER_NOT_EQUAL: printf ("!=\n"); break;
+		case OPER_LT: printf ("<\n"); break;
+		case OPER_GT: printf (">\n"); break;
+		case OPER_GTE: printf (">=\n"); break;
+		case OPER_LTE: printf ("<=\n"); break;
+		case OPER_EXP: printf ("EXP\n"); break;
 		default:
 			printf ("Error\n");
 		}
 		break;
 		
-	case OP_NEG:
+	case OPER_NEG:
 		dump_tree (tree->u.value);
 		printf ("NEGATIVE\n");
 		break;

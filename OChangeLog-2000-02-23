@@ -1,3 +1,8 @@
+1998-09-29  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* src/parser.y (dump_tree): Update to change in `expr.h'.
+	s/OP_/OPER_/g.
+
 1998-09-29  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/xml-io.c: Changed the formatting of it to be like the rest
