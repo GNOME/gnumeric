@@ -100,7 +100,6 @@ range_parse (Sheet *sheet, char const *range, gboolean strict)
 {
 	CellRef a, b;
 	CellPos tmp;
-	int n_read;
 
 	g_return_val_if_fail (range != NULL, FALSE);
 
@@ -109,20 +108,22 @@ range_parse (Sheet *sheet, char const *range, gboolean strict)
 	a.row_relative = 0;
 	b.row_relative = 0;
 
-	if (!cellpos_parse (range, &tmp, FALSE, &n_read))
+	range = cellpos_parse (range, &tmp, FALSE);
+	if (!range)
 		return FALSE;
 
 	a.sheet = sheet;
 	a.col   = tmp.col;
 	a.row   = tmp.row;
 
-	if (range[n_read] == ':') {
-		if (!cellpos_parse (&range[n_read+1], &tmp, strict, NULL))
+	if (*range == ':') {
+		range = cellpos_parse (range + 1, &tmp, strict);
+		if (!range)
 			return FALSE;
 		b.sheet = sheet;
 		b.col   = tmp.col;
 		b.row   = tmp.row;
-	} else if (strict && range[n_read])
+	} else if (strict && *range)
 		return FALSE;
 	else
 		b = a;
@@ -140,16 +141,20 @@ range_parse (Sheet *sheet, char const *range, gboolean strict)
 gboolean
 parse_range (char const *text, Range *r)
 {
-	int len;
-
-	if (!cellpos_parse (text, &r->start, FALSE, &len))
+	text = cellpos_parse (text, &r->start, FALSE);
+	if (!text)
 		return FALSE;
-	if (text [len] == '\0') {
+
+	if (*text == '\0') {
 		r->end = r->start;
 		return TRUE;
 	}
-	return (text[len] == ':' &&
-		cellpos_parse (text + len + 1, &r->end, TRUE, NULL));
+
+	if (*text != ':')
+		return FALSE;
+
+	text = cellpos_parse (text + 1, &r->end, TRUE);
+	return text != NULL;
 }
 
 /**

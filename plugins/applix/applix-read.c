@@ -845,13 +845,14 @@ applix_parse_cellref (ApplixReadState *state, unsigned char *buffer,
 		      Sheet **sheet, CellPos *pos,
 		      char const separator)
 {
-	int len;
-
 	*sheet = applix_parse_sheet (state, &buffer, separator);
 
 	/* Get cell addr */
-	if (*sheet && cellpos_parse (buffer, pos, FALSE, &len))
-		return buffer + len;
+	if (*sheet) {
+		buffer = cellpos_parse (buffer, pos, FALSE);
+		if (buffer)
+			return buffer;
+	}
 
 	*sheet = NULL;
 	pos->col = pos->row = -1;

@@ -12,8 +12,8 @@ char const *rows_name (int start_row, int end_col);
 char const *row_parse (char const *str, int *res, unsigned char *relative);
 
 char const *cellpos_as_string	(CellPos const *pos);
-gboolean    cellpos_parse	(char const *cell_str, CellPos *res,
-				 gboolean strict, int *chars_read);
+char const *cellpos_parse	(char const *cell_str, CellPos *res,
+				 gboolean strict);
 void        cellref_as_string   (GString *target, const GnmExprConventions *conv,
 				 CellRef const *cell_ref,
 				 ParsePos const *pp, gboolean no_sheetname);

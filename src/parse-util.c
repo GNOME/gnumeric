@@ -504,28 +504,26 @@ cell_name (Cell const *cell)
  * @strict:      if this is TRUE, then parsing stops at possible errors,
  *               otherwise an attempt is made to return cell names with trailing garbage.
  *
- * Return value: true if the cell_name could be successfully parsed
+ * Return value: pointer to following char on success, NULL on failure.
+ * (In the strict case, that would be a pointer to the \0 or NUL.)
  */
-gboolean
-cellpos_parse (char const *cell_str, CellPos *res, gboolean strict, int *chars_read)
+char const *
+cellpos_parse (char const *cell_str, CellPos *res, gboolean strict)
 {
-	char const * const original = cell_str;
 	unsigned char dummy_relative;
 
 	cell_str = col_parse (cell_str, &res->col, &dummy_relative);
 	if (!cell_str)
-		return FALSE;
+		return NULL;
 
 	cell_str = row_parse (cell_str, &res->row, &dummy_relative);
 	if (!cell_str)
-		return FALSE;
+		return NULL;
 
 	if (*cell_str != 0 && strict)
-		return FALSE;
+		return NULL;
 
-	if (chars_read)
-		*chars_read = cell_str - original;
-	return TRUE;
+	return cell_str;
 }
 
 /**
@@ -1046,6 +1044,34 @@ test_row_stuff (void)
 	g_assert (!end);
 }
 
+
+static void
+test_cellpos_stuff (void)
+{
+	CellPos cp;
+	const char *end, *str;
+
+	end = cellpos_parse ((str = "A1"), &cp, TRUE);
+	g_assert (end == str + strlen (str) && cp.col == 0 && cp.row == 0);
+	end = cellpos_parse ((str = "AA42"), &cp, TRUE);
+	g_assert (end == str + strlen (str) && cp.col == 26 && cp.row == 41);
+
+	end = cellpos_parse ((str = "A1"), &cp, FALSE);
+	g_assert (end == str + strlen (str) && cp.col == 0 && cp.row == 0);
+	end = cellpos_parse ((str = "AA42"), &cp, FALSE);
+	g_assert (end == str + strlen (str) && cp.col == 26 && cp.row == 41);
+
+	end = cellpos_parse ((str = "A1:"), &cp, TRUE);
+	g_assert (end == NULL);
+	end = cellpos_parse ((str = "AA42:"), &cp, TRUE);
+	g_assert (end == NULL);
+
+	end = cellpos_parse ((str = "A1:"), &cp, FALSE);
+	g_assert (end == str + strlen (str) -1 && cp.col == 0 && cp.row == 0);
+	end = cellpos_parse ((str = "AA42:"), &cp, FALSE);
+	g_assert (end == str + strlen (str) - 1 && cp.col == 26 && cp.row == 41);
+}
+
 #endif
 
 GnmExprConventions *gnm_expr_conventions_default;
@@ -1056,6 +1082,7 @@ parse_util_init (void)
 #ifdef TEST
 	test_row_stuff ();
 	test_col_stuff ();
+	test_cellpos_stuff ();
 #endif
 
 	gnm_expr_conventions_default = gnm_expr_conventions_new ();

@@ -1,3 +1,10 @@
+2002-12-27  Morten Welinder  <terra@diku.dk>
+
+	* src/parse-util.c (cellpos_parse): Change calling convention.
+	All callers changed.
+	(test_cellpos_stuff): New function.
+	(parse_util_init) [TEST]: Call it.
+
 2002-12-27  Jody Goldberg <jody@gnome.org>
 
 	* src/parse-util.c (cellpos_parse) : fix.

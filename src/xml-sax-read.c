@@ -145,7 +145,7 @@ xml_sax_attr_cellpos (xmlChar const * const *attrs, char const *name, CellPos *v
 	if (strcmp (attrs[0], name))
 		return FALSE;
 
-	if (!cellpos_parse ((gchar *)attrs[1], val, TRUE, NULL)) {
+	if (cellpos_parse ((gchar *)attrs[1], val, TRUE) == NULL) {
 		g_warning ("Invalid attribute '%s', expected cellpos, received '%s'",
 			   name, attrs[1]);
 		return FALSE;

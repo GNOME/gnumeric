@@ -271,13 +271,12 @@ static gboolean
 xml_node_get_cellpos (xmlNodePtr node, char const *name, CellPos *val)
 {
 	xmlChar *buf;
-	int dummy;
 	gboolean res;
 
 	buf = xml_node_get_cstr (node, name);
 	if (val == NULL)
 		return FALSE;
-	res = cellpos_parse (CXML2C (buf), val, TRUE, &dummy);
+	res = cellpos_parse (CXML2C (buf), val, TRUE) != NULL;
 	xmlFree (buf);
 	return res;
 }
