@@ -1070,7 +1070,7 @@ excel_parse_formula (MSContainer const *container,
 
 		case FORMULA_PTG_EXTENDED : { /* Extended Ptgs for Biff8 */
 			/*
-			 * The beginings of 'extended' ptg support.
+			 * The beginnings of 'extended' ptg support.
 			 * These are mostly undocumented.
 			 */
 			/* Use 0 for unknown sizes, and ignore the trailing

@@ -1,5 +1,10 @@
 2003-07-14  Jody Goldberg <jody@gnome.org>
 
+	* options.c : some missing spaces.
+	s/volatilty/volatility
+
+2003-07-14  Jody Goldberg <jody@gnome.org>
+
 	* options.c (help_cum_biv_norm_dist) : fix newlines.
 
 2003-07-11  Jody Goldberg <jody@gnome.org>
