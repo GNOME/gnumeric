@@ -1,3 +1,9 @@
+2002-10-17  Jon K Hellan  <hellan@acm.org>
+
+	* functions.c: COMPLEX, IMAGINARY, IMREAL: Parts, not
+	coefficients, of a complex number.  IMARGUMENT: Explain what
+	"argument theta" is.  IMLN: Get rid of parentheses.
+	
 2002-10-14  Jody Goldberg <jody@gnome.org>
 
 	* functions.c : convert all args to 'S' rather than '?' to get the
