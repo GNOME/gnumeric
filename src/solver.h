@@ -36,6 +36,7 @@ struct _SolverOptions {
 struct _SolverConstraint {
         gint               lhs_col, lhs_row;  /* left hand side */
         gint               rhs_col, rhs_row;  /* right hand side */
+        gint               rows, cols;        /* number of rows and columns */
         gchar              *type;             /* <=, =, >=, int, bool */
         char               *str;              /* the same in string form */
 };
@@ -64,5 +65,8 @@ void solver_lp_reports (Workbook *wb, Sheet *sheet, GSList *ov,
 			float_t *final_tbl,
 			gboolean answer, gboolean sensitivity, 
 			gboolean limits);
+
+void write_constraint_str (char *buf, int lhs_col, int lhs_row, int rhs_col,
+			   int rhs_row, char *type_str, int cols, int rows);
 
 #endif

@@ -1,3 +1,13 @@
+2000-02-27  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/solver-lp.c, src/dialogs/dialog-solver.c: Constraints can
+	now also be cell ranges.
+	(write_constraint_str): Wrote.
+
+	* src/utils.[ch] (parse_cell_name_or_range): Wrote.
+
+	* src/xml-io.c: Related changes.
+	
 2000-02-26  Jon K Hellan  <hellan@acm.org>
 
 	* doc/python-gnumeric.txt: New file. Documents the Python plugin.

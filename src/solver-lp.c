@@ -394,10 +394,10 @@ count_dimensions (GSList *constraints, CellList *inputs,
 
 		if (strcmp(c->type, "<=") == 0
 		    || strcmp (c->type, ">=") == 0) {
-		        n_variables++;
-			n_constraints++;
+		        n_variables += MAX(c->cols, c->rows);
+			n_constraints += MAX(c->cols, c->rows);
 		} else if (strcmp (c->type, "=") == 0)
-			n_constraints++;
+			n_constraints += MAX(c->cols, c->rows);
 
 		constraints = constraints->next;
 	}
@@ -424,7 +424,7 @@ make_solver_arrays (Sheet *sheet, SolverParameters *param, int n_variables,
 	float_t    *A;
 	float_t    *b;
 	float_t    *c;
-	int        i, j, var;
+	int        i, j, n, var;
 
 	A = g_new (float_t, n_variables * n_constraints);
 	b = g_new (float_t, n_constraints);
@@ -462,36 +462,50 @@ make_solver_arrays (Sheet *sheet, SolverParameters *param, int n_variables,
 		        goto skip;
 
 		/* Set the constraint coefficients */
-		target = sheet_cell_get (sheet, c->lhs_col, c->lhs_row);
-		if (target == NULL)
-		        return SOLVER_LP_INVALID_LHS;
+		for (n=0; n<MAX(c->cols, c->rows); n++) {
+		        if (c->cols > 1)
+			        target = sheet_cell_get (sheet, c->lhs_col+n,
+							 c->lhs_row);
+			else
+			        target = sheet_cell_get (sheet, c->lhs_col,
+							 c->lhs_row+n);
+			if (target == NULL)
+			        return SOLVER_LP_INVALID_LHS;
 
-		inputs = param->input_cells;
-		j = 0;
-		while (inputs != NULL) {
-		        cell = (Cell *) inputs->data;
+			inputs = param->input_cells;
+			j = 0;
+			while (inputs != NULL) {
+			        cell = (Cell *) inputs->data;
 
-			A[i + j*n_constraints] = get_lp_coeff (target, cell);
-			j++;
-			inputs = inputs->next;
+				A[i + n + j*n_constraints] =
+				  get_lp_coeff (target, cell);
+				j++;
+				inputs = inputs->next;
+			}
+
+			/* Set the slack/surplus variables */
+			if (strcmp(c->type, "<=") == 0) {
+			        A[i + n + var*n_constraints] = 1;
+				var++;
+			} else if (strcmp (c->type, ">=") == 0) {
+			        A[i + n + var*n_constraints] = -1;
+				var++;
+			}
+
+			/* Fetch RHS for b */
+			if (c->cols > 1)
+			        cell = sheet_cell_get (sheet, c->rhs_col+n,
+						       c->rhs_row);
+			else
+			        cell = sheet_cell_get (sheet, c->rhs_col,
+						       c->rhs_row+n);
+
+			if (cell == NULL)
+			        return SOLVER_LP_INVALID_RHS;
+
+			b[i + n] = value_get_as_float(cell->value);
 		}
-
-		/* Set the slack/surplus variables */
-		if (strcmp(c->type, "<=") == 0) {
-		        A[i + var*n_constraints] = 1;
-			var++;
-		} else if (strcmp (c->type, ">=") == 0) {
-		        A[i + var*n_constraints] = -1;
-			var++;
-		}
-
-		/* Fetch RHS for b */
-		cell = sheet_cell_get (sheet, c->rhs_col, c->rhs_row);
-		if (cell == NULL)
-		        return SOLVER_LP_INVALID_RHS;
-		b[i] = value_get_as_float(cell->value);
-		
-		i++;
+		i += n;
 	skip:
 		constraints = constraints->next;
 	}
@@ -581,13 +595,39 @@ int solver_affine_scaling (Workbook *wb, Sheet *sheet,
 	return SOLVER_LP_OPTIMAL;
 }
 
+void
+write_constraint_str (char *buf, int lhs_col, int lhs_row, int rhs_col,
+		      int rhs_row, char *type_str, int cols, int rows)
+{
+	if (cols == 1 && rows == 1)
+	        sprintf(buf, "%s %s ", cell_name (lhs_col, lhs_row), type_str);
+	else {
+	        sprintf(buf, "%s", cell_name (lhs_col, lhs_row));
+		strcat (buf, ":");
+		strcat (buf, cell_name (lhs_col+cols-1, lhs_row+rows-1));
+		strcat (buf, " ");
+		strcat (buf, type_str);
+		strcat (buf, " ");
+	}
+
+	if (strcmp (type_str, "Int") != 0 && strcmp (type_str, "Bool") != 0) {
+	        if (cols == 1 && rows == 1)
+		        strcat(buf, cell_name(rhs_col, rhs_row));
+		else {
+		        strcat(buf, cell_name(rhs_col, rhs_row));
+			strcat(buf, ":");
+		        strcat(buf, cell_name(rhs_col+cols-1, rhs_row+rows-1));
+		}
+	}
+}
+
 static void
 make_int_array (SolverParameters *param, CellList *inputs, gboolean int_r[], 
 		int n_variables)
 {
 	GSList   *constraints;
 	CellList *list;
-	int      i;
+	int      i, n;
 
 	for (i=0; i<n_variables; i++)
 	        int_r[i] = FALSE;
@@ -597,15 +637,30 @@ make_int_array (SolverParameters *param, CellList *inputs, gboolean int_r[],
 	        SolverConstraint *c = (SolverConstraint *) constraints->data;
 
 		if (strcmp(c->type, "Int") == 0) {
-		        i = 0;
-			for (list = inputs; list != NULL; list = list->next) {
-			        Cell *cell = list->data;
-				if (cell->col->pos == c->lhs_col &&
-				    cell->row->pos == c->lhs_row) {
-				        int_r [i] = TRUE;
-					break;
+		        for (n=0; n<MAX(c->cols, c->rows); n++) {
+			        i = 0;
+				for (list = inputs; list != NULL;
+				     list = list->next) {
+				        Cell *cell = list->data;
+					if (c->cols > 1) {
+					        if (cell->col->pos ==
+						    c->lhs_col+n &&
+						    cell->row->pos ==
+						    c->lhs_row) {
+						        int_r [i] = TRUE;
+							break;
+						}
+					} else {
+					        if (cell->col->pos ==
+						    c->lhs_col &&
+						    cell->row->pos ==
+						    c->lhs_row+n) {
+						        int_r [i] = TRUE;
+							break;
+						}
+					}
+					i++;
 				}
-				i++;
 			}
 		}
 		constraints = constraints->next;
@@ -685,8 +740,15 @@ solver_branch_and_bound (Workbook *wb, Sheet *sheet, float_t **opt_x)
 		    strcmp (c->type, "Bool") == 0)
 		        goto skip;
 		  
-		cell = sheet_cell_fetch (sheet, c->lhs_col, c->lhs_row);
-		cell_eval_content(cell);
+		for (i=0; i<MAX(c->cols, c->rows); i++) {
+		        if (c->cols > 1)
+			        cell = sheet_cell_fetch (sheet, c->lhs_col+i,
+							 c->lhs_row);
+			else
+			        cell = sheet_cell_fetch (sheet, c->lhs_col,
+							 c->lhs_row+i);
+			cell_eval_content(cell);
+		}
 	skip:
 		constraints = constraints->next;
 	}
@@ -783,7 +845,7 @@ solver_answer_report (Workbook *wb, Sheet *sheet, GSList *ov,
 	Cell *cell;
 	char buf[256];
 	char *str;
-	int  row;
+	int  row, i;
 
 	dao.type = NewSheetOutput;
         prepare_output (wb, &dao, _("Answer Report"));
@@ -871,44 +933,57 @@ solver_answer_report (Workbook *wb, Sheet *sheet, GSList *ov,
 	while (constraints != NULL) {
 	        SolverConstraint *c = (SolverConstraint *) constraints->data;
 		float_t lhs, rhs;
+		int     tc, tr, sc, sr;
 
 		if (strcmp (c->type, "Int") == 0 ||
-		    strcmp (c->type, "Int") == 0)
+		    strcmp (c->type, "Bool") == 0)
 		        goto skip;
 
-		/* Set `Cell' column */
-		set_cell (&dao, 0, row,
-			  (char *) cell_name (c->lhs_col, c->lhs_row));
+		for (i=0; i<MAX(c->cols, c->rows); i++) {
+		        if (c->cols > 1) {
+			        tc = c->lhs_col + i;
+				tr = c->lhs_row;
+			        sc = c->rhs_col + i;
+				sr = c->rhs_row;
+			} else {
+			        tc = c->lhs_col;
+				tr = c->lhs_row + i;
+			        sc = c->rhs_col;
+				sr = c->rhs_row + i;
+			}
 
-		/* Set `Name' column */
-		set_cell (&dao, 1, row, find_name (sheet, c->lhs_col,
-						   c->lhs_row));
+		        /* Set `Cell' column */
+			set_cell (&dao, 0, row, (char *) cell_name (tc, tr));
 
-		/* Set `Cell Value' column */
-		cell = sheet_cell_fetch (sheet, c->rhs_col, c->rhs_row);
-		str = value_get_as_string (cell->value);
-		rhs = value_get_as_float (cell->value);
-		set_cell (&dao, 2, row, str);
-		g_free (str);
+			/* Set `Name' column */
+			set_cell (&dao, 1, row, find_name (sheet, tc, tr));
 
-		/* Set `Formula' column */
-		set_cell (&dao, 3, row, c->str);
+			/* Set `Cell Value' column */
+			cell = sheet_cell_fetch (sheet, sc, sr);
+			str = value_get_as_string (cell->value);
+			rhs = value_get_as_float (cell->value);
+			set_cell (&dao, 2, row, str);
+			g_free (str);
 
-		/* Set `Status' column */
-		cell = sheet_cell_fetch (sheet, c->lhs_col, c->lhs_row);
-		lhs = value_get_as_float (cell->value);
+			/* Set `Formula' column */
+			set_cell (&dao, 3, row, c->str);
 
-		if (fabs (lhs-rhs) < 0.001)
-		        set_cell (&dao, 4, row, _("Binding"));
-		else
-		        set_cell (&dao, 4, row, _("Not Binding"));
+			/* Set `Status' column */
+			cell = sheet_cell_fetch (sheet, tc, tr);
+			lhs = value_get_as_float (cell->value);
 
-		/* Set `Slack' column */
-		sprintf(buf, "%f", fabs (lhs-rhs));
-		set_cell (&dao, 5, row, buf);
+			if (fabs (lhs-rhs) < 0.001)
+			        set_cell (&dao, 4, row, _("Binding"));
+			else
+			        set_cell (&dao, 4, row, _("Not Binding"));
 
-		/* Go to next row */
-		++row;
+			/* Set `Slack' column */
+			sprintf(buf, "%f", fabs (lhs-rhs));
+			set_cell (&dao, 5, row, buf);
+
+			/* Go to next row */
+			++row;
+		}
 	skip:
 		constraints = constraints->next;
 	}

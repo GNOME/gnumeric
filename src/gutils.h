@@ -10,7 +10,9 @@ void      float_get_from_range     (const char *start, const char *end, float_t 
 const char *cell_name              (int col, int row);
 
 /* Various parsing routines */
-gboolean    parse_cell_name        (const char *cell_str, int *col, int *row);
+gboolean    parse_cell_name         (const char *cell_str, int *col, int *row);
+gboolean    parse_cell_name_or_range (const char *cell_str, int *col, int *row,
+				      int *cols, int *rows);
 gboolean    parse_cell_range       (Sheet *sheet, const char *range, Value **v);
 GSList     *parse_cell_name_list   (Sheet *sheet, const char *cell_name_str,
 				    int *error_flag);

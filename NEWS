@@ -6,10 +6,11 @@ Jukka:
 	  Branch-And-Bound algorithm
 	* The Solver parameters are now saved/loaded when the workbook
 	  is saved/loaded
-	* Implemented `Answer Reports' generation for Solver.
-	* Started implementation of `Sensitivity Reports' generation for
+	* Implemented `Answer Report' generation for Solver.
+	* Started implementation of `Sensitivity Report' generation for
 	  Solver
-	* Major GUI improvementes for Solver
+	* Major GUI improvementes for Solver, i.g. Solver constraints
+          can now be cell ranges, not just cells
 	* Added `Advanced Filter' tool.
 	* Added the following distributions for the random number
 	  generation tool:

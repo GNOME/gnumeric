@@ -15,6 +15,8 @@
 #include "utils.h"
 #include "gnumeric.h"
 #include "sheet.h"
+#include "ranges.h"
+
 
 #define SMALL_BUF_SIZE 40
 static char small_buffer [SMALL_BUF_SIZE];
@@ -174,6 +176,24 @@ parse_cell_name (const char *cell_str, int *col, int *row)
 
 	/* Internal row numbers are one less than the displayed.  */
 	(*row)--;
+	return TRUE;
+}
+
+gboolean
+parse_cell_name_or_range (const char *cell_str, int *col, int *row,
+			  int *cols, int *rows)
+{
+        int e_col, e_row;
+
+	if (!parse_cell_name (cell_str, col, row)) {
+	        if (!parse_range ((char *) cell_str, col, row, &e_col, &e_row))
+		        return FALSE;
+		else {
+		        *cols = e_col - *col + 1;
+			*rows = e_row - *row + 1;
+		}
+	}
+
 	return TRUE;
 }
 

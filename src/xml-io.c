@@ -1730,6 +1730,7 @@ xml_read_solver (Sheet *sheet, parse_xml_context_t *ctxt, xmlNodePtr tree,
 		 SolverParameters *param)
 {
 	SolverConstraint *c;
+	static char      buf[256];
 	xmlNodePtr       child;
 	int              col, row;
 	String           *s;
@@ -1743,19 +1744,20 @@ xml_read_solver (Sheet *sheet, parse_xml_context_t *ctxt, xmlNodePtr tree,
 	s = xml_get_value_string (tree, "Inputs");
 	param->input_entry_str = g_new (char, strlen (s->str) + 1);
 	strcpy (param->input_entry_str, s->str);
-	string_unref (s);	
+	string_unref (s);
 
 	child = xml_search_child (tree, "Constr");
 	param->constraints = NULL;
 	while (child != NULL) {
-	        int type, cols, rows;
+	        int type;
+
 	        c = g_new (SolverConstraint, 1);
 		xml_get_value_int (child, "Lcol", &c->lhs_col);
 		xml_get_value_int (child, "Lrow", &c->lhs_row);
 		xml_get_value_int (child, "Rcol", &c->rhs_col);
 		xml_get_value_int (child, "Rrow", &c->rhs_row);
-		xml_get_value_int (child, "Cols", &cols);
-		xml_get_value_int (child, "Rows", &rows);
+		xml_get_value_int (child, "Cols", &c->cols);
+		xml_get_value_int (child, "Rows", &c->rows);
 		xml_get_value_int (child, "Type", &type);
 		switch (type) {
 		case 1:
@@ -1777,6 +1779,11 @@ xml_read_solver (Sheet *sheet, parse_xml_context_t *ctxt, xmlNodePtr tree,
 		        c->type = "<=";
 			break;
 		}
+		write_constraint_str (buf, c->lhs_col, c->lhs_row, c->rhs_col,
+				      c->rhs_row, c->type, c->cols, c->rows);
+		c->str = g_new (char, strlen (buf)+1);
+		strcpy (c->str, buf);
+
 		param->constraints = g_slist_append (param->constraints, c);
 		child = xml_search_child (child, "Constr");
 	}
@@ -1818,8 +1825,8 @@ xml_write_solver (parse_xml_context_t *ctxt, SolverParameters *param)
 		xml_set_value_int (constr, "Lrow", c->lhs_row);
 		xml_set_value_int (constr, "Rcol", c->rhs_col);
 		xml_set_value_int (constr, "Rrow", c->rhs_row);
-		xml_set_value_int (constr, "Cols", 1);
-		xml_set_value_int (constr, "Rows", 1);
+		xml_set_value_int (constr, "Cols", c->cols);
+		xml_set_value_int (constr, "Rows", c->rows);
 
 		if (strcmp (c->type, "<=") == 0)
 		        xml_set_value_int (constr, "Type", 1);
