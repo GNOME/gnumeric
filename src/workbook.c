@@ -2395,6 +2395,10 @@ workbook_attach_sheet (Workbook *wb, Sheet *sheet)
 	gtk_object_set_data (GTK_OBJECT (t), "sheet", sheet);
 
 	sheet_label = editable_label_new (sheet->name);
+	/*
+	 * NB. this is so we can use editable_label_set_text since
+	 * gtk_notebook_set_tab_label kills our widget & replaces with a label.
+	 */
 	gtk_object_set_data (GTK_OBJECT (t), "sheet_label", sheet_label);
 	gtk_signal_connect (
 		GTK_OBJECT (sheet_label), "text_changed",
