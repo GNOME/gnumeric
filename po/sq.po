@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.gnumeric-1-2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-18 04:00+0200\n"
+"POT-Creation-Date: 2004-08-18 20:02+0200\n"
 "PO-Revision-Date: 2004-06-29 13:01+0200\n"
 "Last-Translator: Laurent Dhima <laurenti@alblinux.net>\n"
 "Language-Team: Albanian <gnome-albanian-perkthyesit@lists.sourceforge.net>\n"
@@ -2789,7 +2789,6 @@ msgstr ""
 msgid "date1,date2,interval"
 msgstr ""
 
-#. GRUT modified this item
 #: plugins/fn-date/functions.c:1229 plugins/fn-date/functions.c:1253
 #: plugins/fn-date/functions.c:1281 plugins/fn-date/functions.c:1285
 #: plugins/fn-date/functions.c:1293 plugins/fn-date/functions.c:1297
@@ -2810,10 +2809,11 @@ msgstr ""
 msgid "start_date,months"
 msgstr ""
 
+#. GRUT modified this item
 #: plugins/fn-date/functions.c:1245 plugins/fn-date/functions.c:1249
 #: plugins/fn-date/functions.c:1265 src/print-info.c:572
 msgid "time"
-msgstr ""
+msgstr "ora"
 
 #: plugins/fn-date/functions.c:1257
 msgid "start_date,end_date,holidays"
@@ -2835,7 +2835,6 @@ msgstr ""
 msgid "unixtime"
 msgstr ""
 
-#. GRUT modified this item
 #: plugins/fn-date/functions.c:1306
 msgid "serial"
 msgstr "seria"
@@ -5724,9 +5723,10 @@ msgstr ""
 msgid "Functions for looking up values in ranges"
 msgstr ""
 
+#. GRUT modified this item
 #: plugins/fn-lookup/plugin.xml.in.h:2
 msgid "Lookup"
-msgstr ""
+msgstr "Mbikqyr"
 
 #: plugins/fn-lookup/plugin.xml.in.h:3
 msgid "Lookup Functions"
@@ -6916,9 +6916,10 @@ msgstr ""
 msgid "Mathematical Functions"
 msgstr ""
 
+#. GRUT modified this item
 #: plugins/fn-math/plugin.xml.in.h:3 src/func-builtin.c:152
 msgid "Mathematics"
-msgstr ""
+msgstr "Matematikorë"
 
 #: plugins/fn-random/functions.c:49
 msgid ""
@@ -9490,10 +9491,11 @@ msgstr ""
 msgid "x,a,b"
 msgstr ""
 
+#. GRUT modified this item
 #: plugins/fn-stat/functions.c:5907
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:230
 msgid "x"
-msgstr ""
+msgstr "x"
 
 #: plugins/fn-stat/functions.c:5910 plugins/fn-stat/functions.c:5913
 msgid "x,a"
@@ -11391,9 +11393,10 @@ msgstr ""
 msgid "Append a new sheet"
 msgstr ""
 
+#. GRUT modified this item
 #: src/GNOME_Gnumeric.xml.h:10 src/workbook-object-toolbar.c:177
 msgid "Arrow"
-msgstr "Arrow"
+msgstr "Shigjeta"
 
 #: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:3850
 msgid "Auto _Correct..."
@@ -12639,10 +12642,11 @@ msgstr ""
 msgid "_Image..."
 msgstr ""
 
+#. GRUT modified this item
 #: src/GNOME_Gnumeric.xml.h:304 src/dialogs/function-select.glade.h:6
 #: src/workbook-control-gui.c:3464 src/workbook-control-gui.c:3988
 msgid "_Insert"
-msgstr "_Shkruaj"
+msgstr "_Ndërfut"
 
 #: src/GNOME_Gnumeric.xml.h:305 src/workbook-control-gui.c:3793
 msgid "_Known Variances or Large Sample: Z-Test..."
@@ -12701,12 +12705,10 @@ msgstr ""
 msgid "_Plug-ins..."
 msgstr ""
 
-#. GRUT modified this item
 #: src/GNOME_Gnumeric.xml.h:319 src/GNOME_Gnumeric_Component.xml.h:19
 msgid "_Print..."
 msgstr "_Printim..."
 
-#. GRUT modified this item
 #: src/GNOME_Gnumeric.xml.h:320
 msgid "_Quit"
 msgstr "_Dalja"
@@ -13050,9 +13052,10 @@ msgstr ""
 msgid "formats"
 msgstr ""
 
+#. GRUT modified this item
 #: src/commands.c:1584
 msgid "comments"
-msgstr ""
+msgstr "komente"
 
 #: src/commands.c:1600
 msgid "all"
@@ -13582,9 +13585,10 @@ msgstr "Gjerësia"
 msgid "Graph"
 msgstr "Grafiku"
 
+#. GRUT modified this item
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:154
 msgid "Chart"
-msgstr ""
+msgstr "Chart"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1075
 msgid "Step 1 of 2: Select Chart Type"
@@ -13849,11 +13853,12 @@ msgstr ""
 msgid "Labels"
 msgstr ""
 
+#. GRUT modified this item
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:306
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:156
 #: src/dialogs/consolidate.glade.h:27
 msgid "Values"
-msgstr ""
+msgstr "Vlerat"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:2
@@ -14408,10 +14413,11 @@ msgstr ""
 msgid "hourglass"
 msgstr ""
 
+#. GRUT modified this item
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:193
 #: src/dialogs/cell-format.glade.h:71
 msgid "Solid"
-msgstr ""
+msgstr "Solid"
 
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:194
 #: src/dialogs/cell-format.glade.h:12
@@ -15048,10 +15054,11 @@ msgstr "Poshtë"
 msgid "Items"
 msgstr "Elementë"
 
+#. GRUT modified this item
 #: src/dialogs/autofilter-top10.glade.h:4
 #: src/widgets/widget-format-selector.c:82
 msgid "Percentage"
-msgstr "Përqindje"
+msgstr "Përqindja"
 
 #: src/dialogs/autofilter-top10.glade.h:5
 msgid "Show:"
@@ -15471,9 +15478,10 @@ msgstr ""
 msgid "<span weight=\"bold\">Sort Specification</span>"
 msgstr ""
 
+#. GRUT modified this item
 #: src/dialogs/cell-sort.glade.h:3
 msgid "Direction:"
-msgstr ""
+msgstr "Drejtimi:"
 
 #: src/dialogs/cell-sort.glade.h:4
 msgid "Range:"
@@ -16131,9 +16139,10 @@ msgstr ""
 msgid "Could not create the autosave dialog."
 msgstr ""
 
+#. GRUT modified this item
 #: src/dialogs/dialog-cell-format.c:86
 msgid "Single"
-msgstr ""
+msgstr "E vetme"
 
 #: src/dialogs/dialog-cell-format.c:87
 msgid "Double"
@@ -16582,9 +16591,11 @@ msgstr "Files"
 msgid "Undo"
 msgstr "Anullo"
 
+#. GRUT modified this item
+#. GRUT modified this item
 #: src/dialogs/dialog-preferences.c:1505
 msgid "Various"
-msgstr ""
+msgstr "Të ndryshme"
 
 #: src/dialogs/dialog-preferences.c:1506
 msgid "Internal"
@@ -16942,7 +16953,6 @@ msgstr ""
 msgid "Current Name"
 msgstr ""
 
-#. GRUT modified this item
 #: src/dialogs/dialog-sheet-order.c:332
 msgid "New Name"
 msgstr "Emër i ri"
@@ -17010,9 +17020,10 @@ msgstr ""
 msgid "Min"
 msgstr ""
 
+#. GRUT modified this item
 #: src/dialogs/dialog-simulation.c:246 src/workbook-control-gui.c:4872
 msgid "Average"
-msgstr ""
+msgstr "Mesatarja"
 
 #: src/dialogs/dialog-simulation.c:246 src/tools/simulation.c:256
 #: src/workbook-control-gui.c:4871
@@ -17092,9 +17103,10 @@ msgstr ""
 msgid "Optimal solution created by solver.\n"
 msgstr ""
 
+#. GRUT modified this item
 #: src/dialogs/dialog-solver.c:907
 msgid "Unknown error."
-msgstr ""
+msgstr "Gabim i pa njohur."
 
 #: src/dialogs/dialog-solver.c:924
 msgid "You have not specified a problem to be solved"
@@ -19142,9 +19154,10 @@ msgstr ""
 msgid "P_rogram"
 msgstr ""
 
+#. GRUT modified this item
 #: src/dialogs/solver.glade.h:20
 msgid "Parameters"
-msgstr ""
+msgstr "Parametrat"
 
 #: src/dialogs/solver.glade.h:21
 msgid "Reports"
@@ -19504,9 +19517,10 @@ msgstr "I kuq"
 msgid "White"
 msgstr "E bardhë"
 
+#. GRUT modified this item
 #: src/format.c:666
 msgid "Yellow"
-msgstr "I verdhë"
+msgstr "E verdhë"
 
 #. Array of arrays ??
 #: src/format.c:2082
@@ -20442,9 +20456,10 @@ msgid ""
 "the contents in this region?"
 msgstr ""
 
+#. GRUT modified this item
 #: src/item-cursor.c:1018
 msgid "_Move"
-msgstr "_Lëvize"
+msgstr "_Lëviz"
 
 #: src/item-cursor.c:1024
 msgid "Copy _Formats"
@@ -21002,17 +21017,19 @@ msgstr "tab"
 msgid "page"
 msgstr ""
 
+#. GRUT modified this item
 #: src/print-info.c:570
 msgid "pages"
-msgstr ""
+msgstr "faqe"
 
 #: src/print-info.c:573
 msgid "file"
 msgstr ""
 
+#. GRUT modified this item
 #: src/print-info.c:574
 msgid "path"
-msgstr "pozicioni"
+msgstr "shtegu"
 
 #. Note: we cannot have spaces in page numbers.
 #: src/print.c:577
@@ -21110,7 +21127,7 @@ msgstr ""
 #.
 #: src/sheet-control-gui.c:1520
 msgid "_Insert..."
-msgstr "_Shtim..."
+msgstr "_Ndërfut..."
 
 #: src/sheet-control-gui.c:1524
 msgid "_Insert Column(s)"
@@ -21669,9 +21686,10 @@ msgstr ""
 msgid "Too Small"
 msgstr ""
 
+#. GRUT modified this item
 #: src/tools/analysis-tools.c:3885
 msgid "More"
-msgstr ""
+msgstr "Më shumë"
 
 #: src/tools/analysis-tools.c:3894
 #, c-format
@@ -21844,9 +21862,10 @@ msgstr ""
 msgid "SUMMARY OF SIMULATION ROUND #"
 msgstr ""
 
+#. GRUT modified this item
 #: src/tools/simulation.c:349
 msgid "Report"
-msgstr ""
+msgstr "Raporti"
 
 #: src/tools/simulation.c:396
 msgid "(Input) "
@@ -21994,9 +22013,10 @@ msgstr ""
 msgid "Lower"
 msgstr "Inferior"
 
+#. GRUT modified this item
 #: src/tools/solver/reports-write.c:407 src/tools/solver/reports-write.c:412
 msgid "Limit"
-msgstr ""
+msgstr "Kufiri"
 
 #: src/tools/solver/reports-write.c:410
 msgid "Upper"
@@ -22933,7 +22953,6 @@ msgstr ""
 msgid "Fraction"
 msgstr "Fraksioni"
 
-#. GRUT modified this item
 #: src/widgets/widget-format-selector.c:84
 msgid "Scientific"
 msgstr "Shkencor"
@@ -23586,9 +23605,10 @@ msgstr ""
 msgid "Manage sheets..."
 msgstr ""
 
+#. GRUT modified this item
 #: src/workbook-control-gui.c:646
 msgid "Append"
-msgstr "Shto (në fund)"
+msgstr "Var (në fund)"
 
 #: src/workbook-control-gui.c:647
 msgid "Duplicate"
@@ -23616,9 +23636,10 @@ msgstr ""
 msgid "File/"
 msgstr ""
 
+#. GRUT modified this item
 #: src/workbook-control-gui.c:1325 src/workbook-control-gui.c:1399
 msgid "Nothing"
-msgstr ""
+msgstr "Asgjë"
 
 #: src/workbook-control-gui.c:1535
 msgid "Un_freeze Panes"
@@ -23740,9 +23761,10 @@ msgstr ""
 msgid "Ungroup"
 msgstr ""
 
+#. GRUT modified this item
 #: src/workbook-control-gui.c:3206
 msgid "Sort"
-msgstr "Rendit"
+msgstr "Renditja"
 
 #: src/workbook-control-gui.c:3285
 msgid "Select an object to add"
