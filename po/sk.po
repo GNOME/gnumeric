@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
-"POT-Creation-Date: 2002-05-28 09:24+0200\n"
-"PO-Revision-Date: 2002-05-28 09:25+0200\n"
+"POT-Creation-Date: 2002-05-31 09:17+0200\n"
+"PO-Revision-Date: 2002-05-31 09:18+0200\n"
 "Last-Translator: Stanislav Vi¹òovský <visnovsky@nenya.ms.mff.cuni.cz>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
@@ -42,18 +42,6 @@ msgstr "Applix (*.as)"
 #: plugins/applix/plugin.xml.in.h:3
 msgid "Imports version 4.[234] spreadsheets"
 msgstr "Importuje tabuµky verzie 4.[234]"
-
-#: plugins/derivatives/plugin.xml.in.h:1 src/functions/fn-financial.c:3123
-msgid "Financial"
-msgstr "Finanèné"
-
-#: plugins/derivatives/plugin.xml.in.h:2
-msgid "Financial Derivatives"
-msgstr "Finanèné produkty"
-
-#: plugins/derivatives/plugin.xml.in.h:3
-msgid "Functions related to financial derivatives"
-msgstr "Funkcie pre finanèné produkty"
 
 #: plugins/derivatives/options.c:289
 msgid ""
@@ -390,6 +378,18 @@ msgstr ""
 "opt_bs_call_rho, opt_bs_put_rho, opt_bs_put_theta, opt_bs_call_theta, "
 "opt_bs_gamma"
 
+#: plugins/derivatives/plugin.xml.in.h:1 src/functions/fn-financial.c:3123
+msgid "Financial"
+msgstr "Finanèné"
+
+#: plugins/derivatives/plugin.xml.in.h:2
+msgid "Financial Derivatives"
+msgstr "Finanèné produkty"
+
+#: plugins/derivatives/plugin.xml.in.h:3
+msgid "Functions related to financial derivatives"
+msgstr "Funkcie pre finanèné produkty"
+
 #: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4536
 #: plugins/mps/mps.c:579 src/xml-io.c:3386
 msgid "Reading file..."
@@ -646,6 +646,22 @@ msgstr "Modul Guile"
 #: plugins/guile/plugin.xml.in.h:2
 msgid "This plugin enables Guile(scheme) support in Gnumeric"
 msgstr "Tento modul poskytuje podporu Guile(scheme) pre Gnumeric"
+
+#: plugins/guile/smob-value.c:102
+msgid "Unable to convert value from Guile"
+msgstr "Nepodarilo sa previes» hodnotu z Guile"
+
+#: plugins/guile/smob-value.c:163
+msgid "Not a Guile boolean"
+msgstr "Nie je pravdivostná hodnota Guile"
+
+#: plugins/guile/smob-value.c:181
+msgid "Not a Guile number"
+msgstr "Nie je èíslo Guile"
+
+#: plugins/guile/smob-value.c:199
+msgid "Not a Guile string"
+msgstr "Nie je re»azec Guile"
 
 #: plugins/html/plugin.xml.in.h:1
 msgid "DVI TeX (via groff)"
@@ -3112,6 +3128,15 @@ msgstr "Posunú» ståpce %s"
 #, c-format
 msgid "Shift column %s"
 msgstr "Posunú» ståpec %s"
+
+#: src/command-context-stderr.c:99 src/workbook-control-gui.c:1188
+#, c-format
+msgid "Would split array %s"
+msgstr "Rozdelí pole %s"
+
+#: src/command-context-stderr.c:102 src/workbook-control-gui.c:1190
+msgid "Would split an array"
+msgstr "Rozdelí pole"
 
 #: src/commands.c:640 src/commands.c:748
 msgid "Set Text"
@@ -20207,15 +20232,6 @@ msgstr "Vráti» spä»"
 #: src/workbook-control-gui.c:3417 src/workbook-control-gui.c:3436
 msgid "Redo"
 msgstr "Opakova» vrátené"
-
-#: src/workbook-control-gui.c:1188
-#, c-format
-msgid "Would split array %s"
-msgstr "Rozdelí pole %s"
-
-#: src/workbook-control-gui.c:1190
-msgid "Would split an array"
-msgstr "Rozdelí pole"
 
 #: src/workbook-control-gui.c:1251
 #, c-format
