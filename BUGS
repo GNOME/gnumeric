@@ -8,7 +8,13 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    - Side effects in g_return.*_fail inms_escher_read_ClientTextbox, line 1732.
+    - Calls to free in parse_cell_name_list -- correct?
+
+    - Call to free in gnumeric_value.
+
+    - Why does ms-biff.c include <malloc.h>?
+
+    - Side effects in g_return.*_fail in ms_escher_read_ClientTextbox, line 1732.
       There are several similar problems in the Excel plugin.
 
     - defining file patterns in plugin spec overrides 'has_probe' flag silently.
