@@ -1,5 +1,7 @@
 2003-07-07  Morten Welinder  <terra@gnome.org>
 
+	* src/datetime.c (yearfrac): Even get February 29 right.
+
 	* src/mathfunc.c (lbeta3): Gimme a brown paper bag.  (Thanks to
 	deaddog for spotting.)
 

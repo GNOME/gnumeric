@@ -642,7 +642,8 @@ yearfrac (GDate const *from, GDate const *to, basis_t basis)
 			years = 1;
 
 			if ((g_date_is_leap_year (y1) && g_date_get_month (from) < 3) ||
-			    (g_date_is_leap_year (y2) && g_date_get_month (to) >= 3))
+			    (g_date_is_leap_year (y2) &&
+			     (g_date_get_month (to) * 0x100 + g_date_get_day (to) >= 2 * 0x100 + 29)))
 				feb29s = 1;
 			else
 				feb29s = 0;			    
