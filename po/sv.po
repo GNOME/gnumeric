@@ -17310,3 +17310,7 @@ msgstr "_Visa"
 
 #~ msgid "Insert Object"
 #~ msgstr "Infoga objekt"
+
+#: gnumeric.desktop.in:4
+msgid "The GNOME Spreadsheet"
+msgstr "Kalkylblad"

@@ -17360,3 +17360,7 @@ msgstr "Vista"
 
 #~ msgid "Row number out of range"
 #~ msgstr "Renglón fuera de rango"
+
+#: gnumeric.desktop.in:4
+msgid "The GNOME Spreadsheet"
+msgstr "Hoja de cálculo"

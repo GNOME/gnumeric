@@ -14854,3 +14854,7 @@ msgstr "_Nova"
 
 #~ msgid "Insert Object"
 #~ msgstr "Inserir Obxecto"
+
+#: gnumeric.desktop.in:4
+msgid "The GNOME Spreadsheet"
+msgstr "A Folla de Cálculo de GNOME"

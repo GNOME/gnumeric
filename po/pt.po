@@ -14327,3 +14327,7 @@ msgstr "_Ver"
 
 #~ msgid "Next"
 #~ msgstr "Próxima"
+
+#: gnumeric.desktop.in:4
+msgid "The GNOME Spreadsheet"
+msgstr "Folha de cálculo Gnumeric"

@@ -18067,3 +18067,7 @@ msgstr "_Vue"
 
 #~ msgid "Row number out of range"
 #~ msgstr "Numéro de ligne invalide"
+
+#: gnumeric.desktop.in:4
+msgid "The GNOME Spreadsheet"
+msgstr "Le tableur GNOME"

@@ -16428,3 +16428,7 @@ msgstr "_Widok"
 
 #~ msgid "No sheets in workbook."
 #~ msgstr "Brak arkuszy w zeszycie."
+
+#: gnumeric.desktop.in:4
+msgid "The GNOME Spreadsheet"
+msgstr "Arkusz kalkulacyjny"

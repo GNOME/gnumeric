@@ -1,0 +1,7 @@
+[Desktop Entry]
+_Name=Gnumeric
+_Comment=The GNOME Spreadsheet
+Exec=@gnumeric_executable@
+Icon=gnome-gnumeric.png
+Terminal=0
+Type=Application

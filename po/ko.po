@@ -14399,3 +14399,7 @@ msgstr "보기"
 
 #~ msgid "Step3"
 #~ msgstr "스텝3"
+
+#: gnumeric.desktop.in:4
+msgid "The GNOME Spreadsheet"
+msgstr "스프레드쉬트"

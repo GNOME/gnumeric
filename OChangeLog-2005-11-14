@@ -1,3 +1,10 @@
+2001-05-27  Karl Eichwalder  <ke@suse.de>
+
+	* Run xml-i18n-prepare:
+	* gnumeric.desktop.in: Remove file.
+	* gnumeric.desktop.in.in: New file.
+	* Makefile.am: Adjust it for gnumeric.desktop.in.in.
+
 2001-05-26  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-control-gui.h : typo.

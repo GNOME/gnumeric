@@ -17989,3 +17989,7 @@ msgstr "_Vis"
 
 #~ msgid "Error"
 #~ msgstr "Fejl"
+
+#: gnumeric.desktop.in:4
+msgid "The GNOME Spreadsheet"
+msgstr "Regneark"

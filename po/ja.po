@@ -16581,3 +16581,7 @@ msgstr "表示(_V)"
 #~ msgstr ""
 #~ "ファイルにはバージョン情報(\"gnumeric_plugin_version\"シンボル)がありませ"
 #~ "ん。"
+
+#: gnumeric.desktop.in:4
+msgid "The GNOME Spreadsheet"
+msgstr "表計算プログラム"

@@ -17278,3 +17278,7 @@ msgstr "Вид"
 
 #~ msgid "label12"
 #~ msgstr "Метка"
+
+#: gnumeric.desktop.in:4
+msgid "The GNOME Spreadsheet"
+msgstr "Электронная таблица"

@@ -15593,3 +15593,7 @@ msgstr "_Esitus"
 #~ "Seetõttu ei tööta ta veel päris nii, nagu vaja.\n"
 #~ "\n"
 #~ "Vabandame ebamugavuse pärast"
+
+#: gnumeric.desktop.in:4
+msgid "The GNOME Spreadsheet"
+msgstr "Tabelarvutus"

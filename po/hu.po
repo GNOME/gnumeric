@@ -15385,3 +15385,7 @@ msgstr "_Nézet"
 
 #~ msgid "Duplicate Sheet name"
 #~ msgstr "Már létezõ lapnév"
+
+#: gnumeric.desktop.in:4
+msgid "The GNOME Spreadsheet"
+msgstr "A GNOME táblázatkezelõje"

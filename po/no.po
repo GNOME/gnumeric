@@ -17016,3 +17016,7 @@ msgstr "_Vis"
 
 #~ msgid "_Object..."
 #~ msgstr "_Objekt..."
+
+#: gnumeric.desktop.in:4
+msgid "The GNOME Spreadsheet"
+msgstr "Regnearkprogram"

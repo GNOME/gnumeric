@@ -14,9 +14,13 @@ appicon_DATA = gnome-gnumeric.png \
                gnome-application-x-xls.png
 
 Applicationsdir = $(datadir)/gnome/apps/Applications
-Applications_DATA = gnumeric.desktop
+Applications_in_files = gnumeric.desktop.in.in
+Applications_DATA = $(Applications_in_files:.desktop.in.in=.desktop.in)
+@XML_I18N_MERGE_DESKTOP_RULE@
 gnewdir = $(datadir)/mc/templates
-gnew_DATA = gnumeric.desktop
+gnew_in_files = gnumeric.desktop.in
+gnew_DATA = $(gnew_in_files:.desktop.in.in=.desktop.in)
+@XML_I18N_MERGE_DESKTOP_RULE@
 
 Mimedir = $(datadir)/mime-info
 Mime_DATA = gnumeric.keys gnumeric.mime
@@ -28,7 +32,7 @@ oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 oaf_in_files = GNOME_Gnumeric.oaf.in
 
 EXTRA_DIST = \
-	gnumeric.desktop.in gnumeric.spec.in gnumericConf.sh.in		\
+	gnumeric.desktop.in.in gnumeric.spec.in gnumericConf.sh.in		\
 	gnumeric.keys.in gnumeric.mime $(appicon_DATA) 			\
 	README HACKING NEWS BUGS MAINTAINERS AUTHORS $(change_logs)	\
 	xml-i18n-extract.in	\

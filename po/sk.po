@@ -17477,3 +17477,7 @@ msgstr "Z_ru¹i» zoskupenie"
 #: src/GNOME_Gnumeric.xml.h:266
 msgid "_View"
 msgstr "_Zobrazi»"
+
+#: gnumeric.desktop.in:4
+msgid "The GNOME Spreadsheet"
+msgstr "Tabuµkový procesor Gnumeric"
