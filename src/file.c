@@ -552,7 +552,7 @@ can_try_save_to (Workbook *wb, char *name)
 	struct stat sb;
 	char *err_str = NULL;
 	gboolean dir_entered = FALSE;
-	gboolean file_exists = TRUE;
+	gboolean file_exists = FALSE;
 	
 	if (name [strlen (name)-1] == '/') {
 		dir_entered = TRUE;

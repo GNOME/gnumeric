@@ -1,5 +1,9 @@
 2000-03-26  Jon K Hellan  <hellan@acm.org>
 
+	* src/file.c (can_try_save_to): Brown paper bag error.
+
+2000-03-26  Jon K Hellan  <hellan@acm.org>
+
 	* src/file.c (wants_to_overwrite): New function. True if user
 	wants to overwrite.
 	(can_try_save_to): New function. True if it makes sense to try
