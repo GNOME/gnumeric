@@ -47,8 +47,6 @@
 #include <gal/widgets/e-cursors.h>
 
 #include <string.h>
-#define GNUMERIC_ITEM "SCG"
-#include "item-debug.h"
 
 static SheetControlClass *scg_parent_class;
 

@@ -30,6 +30,8 @@
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include <gal/widgets/e-cursors.h>
 #include <math.h>
+#define GNUMERIC_ITEM "GnmPane"
+#include "item-debug.h"
 
 static void
 gnumeric_pane_realized (GtkWidget *widget, gpointer ignored)

@@ -302,9 +302,7 @@ sheet_object_view_control (GObject *view)
 gpointer
 sheet_object_view_key (GObject *view)
 {
-	gpointer obj = g_object_get_data (view, SO_VIEW_SHEET_CONTROL_KEY);
-	return SHEET_CONTROL (obj);
-	return g_object_get_data (obj, SO_VIEW_KEY);
+	return g_object_get_data (view, SO_VIEW_KEY);
 }
 
 GObject *

@@ -1,3 +1,16 @@
+2002-04-28  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-control-gui.c : no longer needs item-debug support.
+
+	* src/sheet-object.c (sheet_object_view_key) : ARRGGGHHHH.
+	  cut-n-paste error.
+
+	* src/gnumeric-simple-canvas.c (gnm_simple_canvas_ungrab) : be anal
+	  and gdk_flush.
+	(gnm_simple_canvas_grab) : ditto.  We periodically do some processing
+	  after an ungrab which might delay flushing the event queue.  Which
+	  could result in the grab remaining for the duration of the event.
+
 2002-04-28  Jon K Hellan  <hellan@acm.org>
 
 	* src/bonobo-io.c (gnumeric_bonobo_read_from_stream): Initialize
@@ -10,6 +23,9 @@
 	save, but the test gives suprising results.
 
 2002-04-27  Jody Goldberg <jody@gnome.org>
+
+	* src/item-acetate.c (item_acetate_point) : remember that the far
+	  point is not included.
 
 	* src/bonobo-io.c (gnumeric_bonobo_read_from_stream) : similar to
 	  wb_view_open we need to recalc as necessary and do a sheet_update.
