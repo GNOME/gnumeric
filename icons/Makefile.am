@@ -82,7 +82,8 @@ icons_DATA = \
 	gp_diag gp_diag_cross gp_horiz gp_rev_diag gp_solid \
 	gp_thick_diag_cross gp_thin_diag gp_thin_diag_cross \
 	gp_thin_horiz gp_thin_horiz_cross gp_thin_rev_diag \
-	gp_thin_vert gp_vert \
+	gp_thin_vert gp_vert gp_foreground_solid gp_small_circle \
+	gp_semi_circle gp_thatch gp_large_circles gp_bricks \
 	line_pattern_dash_dot \
 	line_pattern_dash_dot_dot \
 	line_pattern_dashed \
@@ -101,5 +102,6 @@ icons_DATA = \
 	inside_horiz_border inside_vert_border \
 	inside_border outline_border no_border \
 	stf-druid.png
+
 
 EXTRA_DIST = $(icons_DATA)
