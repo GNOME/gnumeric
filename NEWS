@@ -8,6 +8,7 @@ Andreas:
 	* Implement calculated bins in Histogram Tool.
 	* Implement Fourier Analysis Tool.
 	* Updated documentation.
+	* Fixed COUPNCD.
 
 Jody:
 	* Generate spans after importing a lotus 123 file.

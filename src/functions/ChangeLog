@@ -1,3 +1,11 @@
+2002-01-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* fn-financial.c (coupncd) : Rewrite to simpify and fix small bug
+	(gnumeric_coupncd) : add optional OEM argument
+	(finance_functions_init) : ditto
+	(tbilleq, tbillprice, tbillyield) : Should be 365 not 356 (fix by
+	  Neil Booth
+
 2002-01-10  Jon K Hellan  <hellan@acm.org>
 
 	* fn-date.c (gnumeric_isoweeknum): New function. Return the ISO

@@ -863,123 +863,53 @@ coupnum (GDate *settlement, GDate *maturity, int freq, int basis)
 		        - (months < -9) - (months == -9 && days <= 0);
 }
 
+/*
+ * coupncd
+ *
+ * @settlement: GDate *
+ * @maturity  : GDate *  must follow settlement strictly
+ * @freq      : int      divides 12 evenly
+ * @oem       : gboolean whether to do special end of month 
+ *                       handling
+ *
+ * returns    : GDate *  next coupon date
+ *
+ * this function does not depend on the basis of counting!
+ */
+
 static GDate *
-coupncd (GDate *settlement, GDate *maturity, int freq, int basis)
+coupncd (GDate *settlement, GDate *maturity, int freq, gboolean oem)
 {
-        int        months, days;
-	GDateYear  sy, my, year;
-	GDateMonth sm, mm, month;
-	GDateDay   sd, md, day;
+        int        months, periods;
+	GDate      *result;
+	gboolean   is_oem_special;
 
-	sy = g_date_year (settlement);
-	sm = g_date_month (settlement);
-	sd = g_date_day (settlement);
-	my = g_date_year (maturity);
-	mm = g_date_month (maturity);
-	md = g_date_day (maturity);
+	is_oem_special = oem && g_date_is_last_of_month (maturity);
 
-	if (freq == 1) {
-	        day = md;
-		month = mm;
-		if (sy ==  my || sm < mm || (sm == mm && sd < md))
-		        year = sy;
-		else
-		        year = sy + 1;
-	} else if (freq == 2) {
-	        days = md - sd;
-		months = mm - sm;
+	months = 12 / freq;
+	periods = (g_date_year(maturity) - g_date_year(settlement));
+	if (periods > 0)
+		periods = (periods - 1) * freq;
 
-		if ((months > 0 || (months == 0 && days > 0)) &&
-		    (months < 6 || (months == 6 && days <= 0))) {
-		        month = mm;
-			year = sy;
-		} else if (months > 6 || (months == 6 && days > 0)) {
-		        month = mm - 6;
-			year = sy;
-		} else if (months < -6 || (months == -6 && days <= 0)) {
-		        month = mm;
-			year = sy + 1;
-		} else {
-		        month = mm + 6;
-			year = sy;
-			if (month > 12) {
-			        month -= 12;
-				year++;
-			}
-		}
-		if (md == days_in_month (my, mm))
-		        day = days_in_month (year, month);
-		else
-		        day = md;
-	}  else {
-	        days = md - sd;
-		months = mm - sm;
+	result = g_date_new();
 
-		if ((months > 0 || (months == 0 && days > 0)) &&
-		    (months < 3 || (months == 3 && days <= 0))) {
-		        month = mm;
-			year = sy;
-		} else if ((months > 3 || (months == 3 && days > 0))
-			   && (months < 6 || (months == 6 && days <= 0))) {
-		        month = mm - 3;
-			year = sy;
-		} else if ((months > 6 || (months == 6 && days > 0))
-			   && (months < 9 || (months == 9 && days <= 0))) {
-		        month = mm - 6;
-			year = sy;
-		} else if ((months > 9 || (months == 9 && days > 0))) {
-		        month = mm - 9;
-			year = sy;
-		} else if (months < -9 || (months == -9 && days <= 0)) {
-		        month = mm;
-			year = sy + 1;
-		} else if (months < -6 || (months == -6 && days <= 0)) {
-		        month = mm + 9;
-			year = sy;
-			if (month > 12) {
-			        month -= 12;
-				year++;
-			}
-		} else if (months < -3 || (months == -3 && days <= 0)) {
-		        month = mm + 6;
-			year = sy;
-			if (month > 12) {
-			        month -= 12;
-				year++;
-			}
-		} else {
-		        month = mm + 3;
-			year = sy;
-			if (month > 12) {
-			        month -= 12;
-				year++;
-			}
-		}
+	do {
+		g_date_set_julian (result, g_date_julian (maturity));
+		periods++;
+		g_date_subtract_months (result, periods * months);
+		if (is_oem_special) 
+			while (!g_date_is_last_of_month (result))
+				g_date_add_days (result, 1);
+	} while (g_date_compare (settlement, result) < 0 );
 
-		if (md == days_in_month (my, mm))
-		        day = days_in_month (year, month);
-		else
-		        day = md;
-	}
+	g_date_set_julian (result, g_date_julian (maturity));
+	periods--;
+	g_date_subtract_months (result, periods * months);
+	if (is_oem_special) 
+		while (!g_date_is_last_of_month (result))
+			g_date_add_days (result, 1);
 
-	if (! g_date_is_leap_year (year) && day == 29 && month == 2)
-	        day = 28;
-
-	if ((year > my || (year == my && month > mm)
-	     || (year == my && month == mm && day > md))) {
-	        year = my;
-		month = mm;
-		day = md;
-	}
-
-	if (year < sy || (year == sy && month < sm)
-	    || (year == sy && month == sm && day < sd)) {
-	        year = sy;
-		month = mm;
-		day = md;
-	}
-
-	return g_date_new_dmy (day, month, year);
+	return result;
 }
 
 /***************************************************************************
@@ -1919,7 +1849,7 @@ gnumeric_tbilleq (FunctionEvalInfo *ei, Value **argv)
 
 	dsm = maturity - settlement;
 
-	if (settlement > maturity || discount < 0 || dsm > 356)
+	if (settlement > maturity || discount < 0 || dsm > 365)
                 return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	divisor = 360 - discount * dsm;
@@ -1964,7 +1894,7 @@ gnumeric_tbillprice (FunctionEvalInfo *ei, Value **argv)
 
 	dsm = maturity - settlement;
 
-	if (settlement > maturity || discount < 0 || dsm > 356)
+	if (settlement > maturity || discount < 0 || dsm > 365)
                 return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	res = 100 * (1.0 - (discount * dsm) / 360.0);
@@ -2005,7 +1935,7 @@ gnumeric_tbillyield (FunctionEvalInfo *ei, Value **argv)
 
 	dsm = maturity - settlement;
 
-	if (pr <= 0 || dsm <= 0 || dsm > 356)
+	if (pr <= 0 || dsm <= 0 || dsm > 365)
                 return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	res = (100.0 - pr) / pr * (360.0 / dsm);
@@ -3671,14 +3601,16 @@ gnumeric_coupncd (FunctionEvalInfo *ei, Value **argv)
         GDate   *maturity;
         GDate   *date;
         int     freq, basis;
+	gboolean oem, err = FALSE;
 	Value   *result;
 
         settlement = datetime_value_to_g (argv[0]);
         maturity   = datetime_value_to_g (argv[1]);
         freq       = value_get_as_int (argv[2]);
 	basis      = argv[3] ? value_get_as_int (argv[3]) : 0;
+	oem        = argv[4] ? value_get_as_bool (argv[4], &err) : TRUE;
 
-	if (!maturity || !settlement) {
+	if (!maturity || !settlement || err) {
 		result = value_new_error (ei->pos, gnumeric_err_VALUE);
 		goto out;
 	}
@@ -3689,7 +3621,7 @@ gnumeric_coupncd (FunctionEvalInfo *ei, Value **argv)
 		goto out;
 	}
 
-        date = coupncd (settlement, maturity, freq, basis);
+        date = coupncd (settlement, maturity, freq, oem);
 	result = value_new_int (datetime_g_to_serial (date));
 	g_date_free (date);
 
@@ -3928,8 +3860,8 @@ finance_functions_init (void)
 				  "settlement,maturity,frequency[,basis]",
 				  &help_coupdaysnc, gnumeric_coupdaysnc);
 
-	def = function_add_args	 (cat, "coupncd", "fff|f",
-				  "settlement,maturity,frequency[,basis]",
+	def = function_add_args	 (cat, "coupncd", "fff|fb",
+				  "settlement,maturity,frequency[,basis,oem]",
 				  &help_coupncd, gnumeric_coupncd);
 	auto_format_function_result (def, AF_DATE);
 
