@@ -1,5 +1,7 @@
 2003-01-03  Jody Goldberg <jody@gnome.org>
 
+	* src/sheet.c (sheet_foreach_cell_in_range) : fix minor typo.
+
 	* src/rendered-value.c (rendered_value_new) : handle preview grid's
 	  use without a sheet.
 

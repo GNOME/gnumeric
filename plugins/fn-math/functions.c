@@ -2713,10 +2713,10 @@ static Value *
 callback_function_mmult_validate (Sheet *sheet, int col, int row,
 				  Cell *cell, void *user_data)
 {
-        int * item_count = user_data;
+        int *item_count = user_data;
 
-	if (cell == NULL || cell->value == NULL ||
-	    !VALUE_IS_NUMBER (cell->value))
+	cell_eval (cell);
+	if (cell->value == NULL || !VALUE_IS_NUMBER (cell->value))
 	        return VALUE_TERMINATE;
 
 	++(*item_count);

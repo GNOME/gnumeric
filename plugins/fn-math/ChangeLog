@@ -1,3 +1,8 @@
+2003-01-03  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (callback_function_mmult_validate) : we need to ensure
+	  that the target cells have been recalced before using them.
+
 2003-01-02  Morten Welinder  <terra@diku.dk>
 
 	* functions.c (gnumeric_minverse): Use new matrix_invert.

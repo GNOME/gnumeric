@@ -2,6 +2,7 @@ Gnumeric 1.1.16
 
 Jody:
 	* Support Mac Office style 1904 date convention.
+	* Fix recalc problem with MMULT.
 
 Morten:
 	* Fix MDETERM.

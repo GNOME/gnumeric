@@ -2235,11 +2235,11 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 			continue;
 
 		for (j = start_col; j <= end_col; ++j) {
-			ColRowInfo const *ri = sheet_col_get (sheet, j);
+			ColRowInfo const *ci = sheet_col_get (sheet, j);
 			Cell *cell = NULL;
 
-			if (ri != NULL) {
-				if (visiblity_matters && !ri->visible)
+			if (ci != NULL) {
+				if (visiblity_matters && !ci->visible)
 					continue;
 				cell = sheet_cell_get (sheet, j, i);
 			}
