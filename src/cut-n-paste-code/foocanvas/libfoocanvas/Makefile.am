@@ -16,7 +16,7 @@ lib_LIBRARIES = libfoocanvas.a
 
 libfoocanvas_a_LIBADD = \
 	$(RENDER_LIBS)				\
-	$(OINK)
+	$(NULL)
 
 libfoocanvasincludedir = $(includedir)/libfoocanvas-1.0/libfoocanvas
 
@@ -51,8 +51,6 @@ EXTRA_DIST = \
 	foo-canvas-marshal.list	\
 	libfoocanvas.pc.in
 
-pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = libfoocanvas.pc
 
 DONT_DIST_SOURCE = $(marshal_sources)
 

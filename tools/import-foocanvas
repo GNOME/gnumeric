@@ -45,9 +45,11 @@ sub copy_subsystem {
 	next if /^test_/ ... !/\\\s*$/;
 	next if /^noinst_PROGRAMS/;
 
+	next if /^pkgconfig/;
+
 	s|\$\(LIBFOOCANVAS_CFLAGS\)|\$\(GNUMERIC_CFLAGS\) -I\$\(top_srcdir\)/src|;
 	if (s/\s*\$\(LIBFOOCANVAS_LIBS\)/	/) {
-	    s/^\s*$/	\$(OINK)\n/;
+	    s/^\s*$/	\$(NULL)\n/;
 	}
 
 	s/\$\(libfoocanvasinclude_HEADERS\)//;
