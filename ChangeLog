@@ -1,5 +1,12 @@
 2001-08-06  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet-autofill.c (autofill_compute_delta) : Make month/years
+	  count forward and add some smarts to handle nice steps when days are
+	  visible too.
+	(autofill_cell) : ditto.
+
+2001-08-06  Jody Goldberg <jgoldberg@home.com>
+
 	* src/gnumeric-canvas.c (gnumeric_canvas_new) : don't use different
 	  canvas groups for objects and animated cursors.  That was confusing
 	  things.

@@ -71,12 +71,15 @@ typedef enum {
 	FILL_NUMBER,
 
 	/*
+	 * FILL_DAYS: Kinda like FILL_NUMBER, but when calculating the deltas
+	 *            look for patterns that may suggests month/year deltas.
 	 * FILL_YEARS:
-	 * FILL_MONTHS: Deltas of a month or year need special care, and days
-	 *              are handled by FILL_NUMBER.
+	 * FILL_MONTHS: Deltas of a month or year need special care
 	 */
+	FILL_DAYS,
 	FILL_MONTHS,
 	FILL_YEARS,
+	/* FILL_END_OF_MONTH FIXME This seems useful.  Could we do it ? */
 
 	/*
 	 * FILL_FORMULA: This is a formula
@@ -151,18 +154,18 @@ matches_list (const String *str, int *n, int *is_i18n)
 	GList *l;
 	const char *s = str->str;
 
-	for (l = autofill_lists; l; l = l->next){
+	for (l = autofill_lists; l; l = l->next) {
 		AutoFillList *afl = l->data;
 		int i;
 
-		for (i = 0; i < afl->count; i++){
+		for (i = 0; i < afl->count; i++) {
 			const char *english_text, *translated_text;
 
 			english_text = afl->items [i];
 			if (*english_text == '*')
 				english_text++;
 
-			if ((g_strcasecmp (english_text, s) == 0)){
+			if ((g_strcasecmp (english_text, s) == 0)) {
 				*is_i18n = FALSE;
 				*n = i;
 				return afl;
@@ -172,7 +175,7 @@ matches_list (const String *str, int *n, int *is_i18n)
 			if (*translated_text == '*')
 				translated_text++;
 
-			if (g_strcasecmp (translated_text, s) == 0){
+			if (g_strcasecmp (translated_text, s) == 0) {
 				*is_i18n = TRUE;
 				*n = i;
 				return afl;
@@ -225,7 +228,8 @@ string_has_number (String *str, int *num, int *pos)
 static void
 fill_item_destroy (FillItem *fi)
 {
-	switch (fi->type){
+	switch (fi->type) {
+	case FILL_DAYS: /* Should not happen */
 	case FILL_MONTHS:
 	case FILL_YEARS:
 	case FILL_NUMBER:
@@ -298,7 +302,7 @@ fill_item_new (Sheet *sheet, int col, int row)
 
 	value_type = value->type;
 
-	if (value_type == VALUE_INTEGER || value_type == VALUE_FLOAT){
+	if (value_type == VALUE_INTEGER || value_type == VALUE_FLOAT) {
 		FillType fill = FILL_NUMBER;
 
 		/* Use display format to recognize iteration types */
@@ -310,15 +314,12 @@ fill_item_new (Sheet *sheet, int col, int row)
 			/* FIXME : We need better format classification that this.
 			 * the XL format is crap.  redo it.
 			 */
+			if (family == FMT_DATE)
+				fill =    (str_contains (fmt, 'd') || str_contains (fmt, 'D'))
+					? FILL_DAYS
+					: ((str_contains (fmt, 'm') || str_contains (fmt, 'M'))
+					? FILL_MONTHS : FILL_YEARS);
 
-			/* No days */
-			if (family == FMT_DATE &&
-			    !(str_contains (fmt, 'd') || str_contains (fmt, 'D'))) {
-
-			    /* No months either */
-			    fill = (str_contains (fmt, 'm') || str_contains (fmt, 'M'))
-				? FILL_MONTHS : FILL_YEARS;
-			}
 			g_free (fmt);
 		}
 		fi->type    = fill;
@@ -328,7 +329,7 @@ fill_item_new (Sheet *sheet, int col, int row)
 		return fi;
 	}
 
-	if (value_type == VALUE_STRING){
+	if (value_type == VALUE_STRING) {
 		AutoFillList *list;
 		int  num, pos, i18;
 
@@ -336,7 +337,7 @@ fill_item_new (Sheet *sheet, int col, int row)
 		fi->v.str = string_ref (value->v_str.val);
 
 		list = matches_list (value->v_str.val, &num, &i18);
-		if (list){
+		if (list) {
 			fi->type = FILL_STRING_LIST;
 			fi->v.list.list = list;
 			fi->v.list.num  = num;
@@ -344,7 +345,7 @@ fill_item_new (Sheet *sheet, int col, int row)
 			return fi;
 		}
 
-		if (string_has_number (value->v_str.val, &num, &pos)){
+		if (string_has_number (value->v_str.val, &num, &pos)) {
 			fi->type = FILL_STRING_WITH_NUMBER;
 			fi->v.numstr.str = value->v_str.val;
 			fi->v.numstr.num = num;
@@ -354,7 +355,7 @@ fill_item_new (Sheet *sheet, int col, int row)
 		return fi;
 	}
 
-	if (value_type == VALUE_BOOLEAN){
+	if (value_type == VALUE_BOOLEAN) {
 		fi->type = FILL_BOOLEAN_CONSTANT;
 		fi->v.bool = value->v_bool.val;
 
@@ -376,9 +377,10 @@ autofill_compute_delta (GList *list_last, GList *fill_item_list)
 
 	fi->delta_is_float = FALSE;
 	fi->delta.d_int = 0;
-	switch (fi->type){
-	case FILL_YEARS:
-	case FILL_MONTHS: {
+	switch (fi->type) {
+	case FILL_DAYS:
+	case FILL_MONTHS:
+	case FILL_YEARS: {
 		GDate *prev, *cur;
 
 		if (list_last->prev == NULL)
@@ -386,11 +388,18 @@ autofill_compute_delta (GList *list_last, GList *fill_item_list)
 
 		lfi = list_last->prev->data;
 
-		prev = datetime_value_to_g (fi->v.value);
-		cur  = datetime_value_to_g (lfi->v.value);
+		prev = datetime_value_to_g (lfi->v.value);
+		cur  = datetime_value_to_g (fi->v.value);
 		if (g_date_valid (prev) && g_date_valid (cur)) {
 			int a, b;
 
+			/* look for patterns in the dates */
+			if (fi->type == FILL_DAYS)
+				fi->type =(g_date_day (prev) != g_date_day (cur))
+					? FILL_NUMBER
+					: ((g_date_month (prev) != g_date_month (cur))
+					?  FILL_MONTHS : FILL_YEARS);
+			
 			a = g_date_year (prev);
 			b = g_date_year (cur);
 
@@ -403,20 +412,23 @@ autofill_compute_delta (GList *list_last, GList *fill_item_list)
 		}
 		g_date_free (prev);
 		g_date_free (cur);
-		return;
+		if (fi->type == FILL_DAYS)
+			fi->type = FILL_NUMBER;
+		else if (fi->type != FILL_NUMBER)
+			return;
 	}
 
 	case FILL_NUMBER: {
 		double a, b;
 
-		if (!list_last->prev){
+		if (!list_last->prev) {
 			if ((fi->delta_is_float = (fi->v.value->type == VALUE_FLOAT)))
 				fi->delta.d_float = 0;
 			return;
 		}
 		lfi = list_last->prev->data;
 
-		if (fi->v.value->type == VALUE_INTEGER && lfi->v.value->type == VALUE_INTEGER){
+		if (fi->v.value->type == VALUE_INTEGER && lfi->v.value->type == VALUE_INTEGER) {
 			fi->delta_is_float = FALSE;
 			fi->delta.d_int = fi->v.value->v_int.val - lfi->v.value->v_int.val;
 			return;
@@ -431,7 +443,7 @@ autofill_compute_delta (GList *list_last, GList *fill_item_list)
 	}
 
 	case FILL_STRING_WITH_NUMBER:
-		if (list_last->prev){
+		if (list_last->prev) {
 			lfi = list_last->prev->data;
 
 			fi->delta.d_int = fi->v.numstr.num - lfi->v.numstr.num;
@@ -439,7 +451,7 @@ autofill_compute_delta (GList *list_last, GList *fill_item_list)
 		return;
 
 	case FILL_STRING_LIST:
-		if (list_last->prev){
+		if (list_last->prev) {
 			lfi = list_last->prev->data;
 
 			fi->delta.d_int = fi->v.list.num - lfi->v.list.num;
@@ -467,7 +479,7 @@ type_is_compatible (FillItem *last, FillItem *current)
 	if (last->type != current->type)
 		return FALSE;
 
-	if (last->type == FILL_STRING_LIST){
+	if (last->type == FILL_STRING_LIST) {
 		if (last->v.list.list != current->v.list.list)
 			return FALSE;
 		if (last->v.list.was_i18n != current->v.list.was_i18n)
@@ -512,13 +524,13 @@ autofill_create_fill_items (Sheet *sheet, int col, int row, int region_count, in
 	 * Make every non-ending group point to the end element
 	 * and compute the deltas.
 	 */
-	for (l = all_items; l; l = l->next){
+	for (l = all_items; l; l = l->next) {
 		GList *group = l->data, *ll, *last_item;
 		FillItem *last_fi;
 
 		last_item = g_list_last (group);
 		last_fi = last_item->data;
-		for (ll = group; ll; ll = ll->next){
+		for (ll = group; ll; ll = ll->next) {
 			FillItem *fi = ll->data;
 
 			fi->group_last = last_fi;
@@ -535,10 +547,10 @@ autofill_destroy_fill_items (GList *all_items)
 {
 	GList *l;
 
-	for (l = all_items; l; l = l->next){
+	for (l = all_items; l; l = l->next) {
 		GList *ll, *sub = l->data;
 
-		for (ll = sub; ll; ll = ll->next){
+		for (ll = sub; ll; ll = ll->next) {
 			FillItem *fi = ll->data;
 
 			fill_item_destroy (fi);
@@ -551,6 +563,12 @@ autofill_destroy_fill_items (GList *all_items)
 static void
 autofill_cell (Cell *cell, int idx, FillItem *fi)
 {
+	if (fi->type == FILL_DAYS) {
+		FillItem *last = fi->group_last;
+		g_return_if_fail (last != NULL);
+		fi->type = FILL_MONTHS;
+	}
+
 	switch (fi->type) {
 	case FILL_EMPTY:
 	case FILL_INVALID:
@@ -569,7 +587,7 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 		i = last->v.numstr.num + idx * last->delta.d_int;
 		snprintf (buffer, sizeof (buffer)-1, "%d", i);
 
-		if (last->v.numstr.pos == 0){
+		if (last->v.numstr.pos == 0) {
 			char *p = last->v.numstr.str->str;
 
 			while (*p && isdigit ((unsigned char)*p))
@@ -589,6 +607,7 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 		return;
 	}
 
+	case FILL_DAYS : /* Should not happen, fall through to NUMBER */
 	case FILL_NUMBER: {
 		FillItem *last = fi->group_last;
 		Value *v;
@@ -710,12 +729,12 @@ sheet_autofill_dir (Sheet *sheet,
 	l = all_items;
 	m = NULL;
 	loops = sub_index = group_count = 0;
-	for (pos = start_pos + region_count; pos < end_pos; pos++){
+	for (pos = start_pos + region_count; pos < end_pos; pos++) {
 		FillItem *fi;
 		Cell *cell;
 
-		if ((m && m->next == NULL) || m == NULL){
-			if (l == NULL){
+		if ((m && m->next == NULL) || m == NULL) {
+			if (l == NULL) {
 				l = all_items;
 				loops++;
 			}
@@ -733,7 +752,7 @@ sheet_autofill_dir (Sheet *sheet,
 		sheet_style_set_pos (sheet, col, row, fi->style);
 
 		cell = sheet_cell_get (sheet, col, row);
-		if (fi->type == FILL_EMPTY){
+		if (fi->type == FILL_EMPTY) {
 			if (cell)
 				sheet_cell_remove (sheet, cell, TRUE);
 		} else {
@@ -781,12 +800,12 @@ sheet_autofill (Sheet *sheet, int base_col, int base_row, int w, int h, int end_
 
 	g_return_if_fail (IS_SHEET (sheet));
 
-	if (!autofill_inited){
+	if (!autofill_inited) {
 		autofill_init ();
 		autofill_inited = TRUE;
 	}
 
-	if (end_col != base_col + w - 1){
+	if (end_col != base_col + w - 1) {
 		for (series = 0; series < h; series++)
 			sheet_autofill_dir (sheet, base_col, base_row+series, w, base_col, end_col+1, 1, 0);
 	} else {

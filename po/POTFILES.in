@@ -119,7 +119,7 @@ src/functions/fn-stat.c
 src/functions/fn-string.c
 src/GNOME_Gnumeric.xml
 src/gnumeric-pane.c
-src/gnumeric-sheet.c
+src/gnumeric-canvas.c
 src/gnumeric-util.c
 src/gui-clipboard.c
 src/gui-file.c
