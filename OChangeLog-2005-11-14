@@ -1,5 +1,9 @@
 2002-07-09  Jody Goldberg <jody@gnome.org>
 
+	* plugins/Makefile.am : excel is no longer conditional
+
+2002-07-09  Jody Goldberg <jody@gnome.org>
+
 	* README : add libgsf and remove libole
 	* configure.in : remove libole
 

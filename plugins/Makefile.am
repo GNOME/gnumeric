@@ -12,12 +12,6 @@ PYFUNC_DIR =
 GNOME_GLOSSARY_DIR = 
 endif
 
-if WITH_EXCEL
-EXCEL_DIR=excel
-else
-EXCEL_DIR=
-endif
-
 if WITH_PERL
 PERL_DIR = perl
 else
@@ -48,7 +42,7 @@ else
 PSICONV_DIR=
 endif
 
-SUBDIRS_FILE_FORMATS = $(EXCEL_DIR) lotus-123 oleo sc sylk xbase html dif \
+SUBDIRS_FILE_FORMATS = excel lotus-123 oleo sc sylk xbase html dif \
 	xml_sax applix mps $(GNOME_GLOSSARY_DIR) $(PSICONV_DIR)
 
 SUBDIRS_FUNCTIONS = numtheory fn-database fn-date fn-eng fn-financial fn-info \
