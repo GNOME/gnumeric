@@ -1,3 +1,12 @@
+1999-03-10  Michael Meeks <michael@imaginator.com>
+
+	* src/fn-stat.c: Created.
+	(gnumeric_stdev, gnumeric_stdevp, gnumeric_var, gnumeric_varp): Created
+
+	* src/func.c (functions_init): added stat_functions
+
+	* src/func.h: Added extern stat_functions.
+	
 1999-03-08  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/fn-misc.c (gnumeric_clean): Add check here: only loop until
