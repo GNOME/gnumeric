@@ -1,3 +1,9 @@
+2002-12-03  Morten Welinder  <terra@diku.dk>
+
+	* dialog-printer-setup.c (unit_selector_gnome_print_unit_to_gnm):
+	Delete.
+	(spin_button_adapt_to_unit): Take GnomePrintUnit* argument.
+
 2002-11-29  Jody Goldberg <jody@gnome.org>
 
 	* dialog-cell-sort.c (cb_update_add_sensitivity) : adjust to interface

@@ -63,8 +63,6 @@
 #define HF_PREVIEW_PADDING 5
 #define HF_PREVIEW_MARGIN 15
 
-#define EPSILON 1e-5		/* Same as in gtkspinbutton.c */
-
 #define PRINTER_SETUP_KEY "printer-setup-dialog"
 
 #define HF_PAGE 1
