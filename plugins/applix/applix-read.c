@@ -1469,19 +1469,19 @@ function_renamer (const char *name,
 		  GnmExprList *args,
 		  GnmExprConventions *convs)
 {
-	const char *newname = NULL;
 	Workbook *wb = NULL;
 	int i;
+	GnmFunc *f;
 
 	for (i = 0; simple_renames[i].applixname; i++)
-		if (strcmp (name, simple_renames[i].applixname) == 0)
-			newname = simple_renames[i].gnumericname;
+		if (strcmp (name, simple_renames[i].applixname) == 0) {
+			name = simple_renames[i].gnumericname;
+			break;
+		}
 
-	if (newname) {
-		GnmFunc *f = gnm_func_lookup (newname, wb);
-		if (f)
-			return gnm_expr_new_funcall (f, args);
-	}
+	f = gnm_func_lookup (name, wb);
+	if (f)
+		return gnm_expr_new_funcall (f, args);
 
 	return gnm_func_placeholder_factory (name, args, convs);
 }
