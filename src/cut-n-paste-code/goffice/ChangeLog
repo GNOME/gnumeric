@@ -1,5 +1,7 @@
 2004-01-24  Jody Goldberg <jody@gnome.org>
 
+	* graph/plugins/plot_xy/gog-xy.c : suppress warning
+
 	* gui-utils/go-action-combo-text.c (go_action_combo_text_set_entry) :
 	  implement.
 
