@@ -310,7 +310,7 @@ html40_file_save (GnumFileSaver const *fs, IOContext *io_context,
 "<HTML>\n"
 "<HEAD>\n\t<TITLE>Tables</TITLE>\n"
 "\t<!-- "G_PLUGIN_FOR_HTML" -->\n"
-"<STYLE><!--\n"
+"<STYLE type=\"text/css\"><!--\n"
 "TT {\n"
 "\tfont-family: courier;\n"
 "}\n"
