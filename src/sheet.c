@@ -389,14 +389,13 @@ sheet_cell_calc_span (Cell const *cell, SpanCalcFlags flags)
 		if (cell != other) {
 			int other_left, other_right;
 
+			cell_unregister_span (other);
 			cell_calc_span (other, &other_left, &other_right);
 			if (min_col > other_left)
 				min_col = other_left;
 			if (max_col < other_right)
 				max_col = other_right;
 
-			/* no need to test, other span definitely changed */
-			cell_unregister_span (other);
 			if (other_left != other_right)
 				cell_register_span (other, other_left, other_right);
 		} else
@@ -1542,12 +1541,15 @@ sheet_cell_set_text (Cell *cell, char const *text)
 
 	if (expr != NULL) {
 		cell_set_expr (cell, expr, format);
-		cell_unregister_span (cell);
 		expr_tree_unref (expr);
+
+		/* clear spans from _other_ cells */
+		sheet_cell_calc_span (cell, SPANCALC_SIMPLE);
 	} else {
 		cell_set_value (cell, val, format);
 		sheet_cell_calc_span (cell, SPANCALC_RESIZE | SPANCALC_RENDER);
 	}
+
 	cell_queue_recalc (cell);
 	sheet_flag_status_update_cell (cell);
 }
@@ -1563,9 +1565,11 @@ sheet_cell_set_text (Cell *cell, char const *text)
 void
 sheet_cell_set_expr (Cell *cell, ExprTree *expr)
 {
-	/* No need to do anything until recalc */
 	cell_set_expr (cell, expr, NULL);
-	cell_unregister_span (cell);
+
+	/* clear spans from _other_ cells */
+	sheet_cell_calc_span (cell, SPANCALC_SIMPLE);
+
 	cell_queue_recalc (cell);
 	sheet_flag_status_update_cell (cell);
 }

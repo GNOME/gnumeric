@@ -823,6 +823,7 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 			scg_rangesel_extend_to (scg, col, row);
 		else
 			scg_rangesel_bound (scg, col, row, col, row);
+		gnumeric_sheet_slide_init (gsheet);
 		gnome_canvas_item_grab (item,
 					GDK_POINTER_MOTION_MASK |
 					GDK_BUTTON_RELEASE_MASK,
@@ -837,6 +838,7 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 	if (wbcg_rangesel_possible (scg->wbcg)) {
 		scg_rangesel_start (scg, col, row);
 		ig->selecting = ITEM_GRID_SELECTING_FORMULA_RANGE;
+		gnumeric_sheet_slide_init (gsheet);
 		gnome_canvas_item_grab (item,
 					GDK_POINTER_MOTION_MASK |
 					GDK_BUTTON_RELEASE_MASK,
@@ -868,6 +870,7 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 	}
 	sheet_update (sheet);
 
+	gnumeric_sheet_slide_init (gsheet);
 	gnome_canvas_item_grab (item,
 				GDK_POINTER_MOTION_MASK |
 				GDK_BUTTON_RELEASE_MASK,
@@ -943,7 +946,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 	case GDK_BUTTON_RELEASE:
 		switch (event->button.button) {
 		case 1 :
-			gnumeric_sheet_stop_sliding (gsheet);
+			gnumeric_sheet_slide_stop (gsheet);
 
 			if (ig->selecting == ITEM_GRID_SELECTING_FORMULA_RANGE)
 				sheet_make_cell_visible (sheet,
@@ -980,7 +983,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 	}
 
 	case GDK_BUTTON_PRESS:
-		gnumeric_sheet_stop_sliding (gsheet);
+		gnumeric_sheet_slide_stop (gsheet);
 
 		gnome_canvas_w2c (canvas, event->button.x, event->button.y,
 				  &x, &y);

@@ -802,6 +802,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 				break;
 
 			ib->start_selection = element;
+			gnumeric_sheet_slide_init (gsheet);
 			gnome_canvas_item_grab (item,
 						GDK_POINTER_MOTION_MASK |
 						GDK_BUTTON_RELEASE_MASK,
@@ -832,7 +833,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		if (e->button.button > 3)
 			return FALSE;
 
-		gnumeric_sheet_stop_sliding (ib->gsheet);
+		gnumeric_sheet_slide_stop (ib->gsheet);
 
 		if (ib->start_selection >= 0) {
 			needs_ungrab = TRUE;

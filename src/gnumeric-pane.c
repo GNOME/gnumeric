@@ -53,7 +53,6 @@ gnumeric_pane_header_init (GnumericPane *pane, gboolean is_col_header)
 			gtk_layout_get_vadjustment (GTK_LAYOUT (pane->gsheet)));
 #endif
 
-	item_bar_calc_size (ITEM_BAR (item));
 	gtk_signal_connect (GTK_OBJECT (canvas), "realize",
 		canvas_bar_realized, NULL);
 }

@@ -29,7 +29,8 @@
 
 #define ITEM_CURSOR_CLASS(k)      (GTK_CHECK_CLASS_CAST ((k), item_cursor_get_type (), ItemCursorClass))
 
-#define AUTO_HANDLE_SPACE	4
+#define AUTO_HANDLE_WIDTH	2
+#define AUTO_HANDLE_SPACE	(AUTO_HANDLE_WIDTH * 2)
 #define CLIP_SAFETY_MARGIN      (AUTO_HANDLE_SPACE + 5)
 
 struct _ItemCursor {
@@ -221,7 +222,7 @@ item_cursor_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, in
 	item->y1 = y - 1;
 
 	/* for the autohandle */
-	extra = (item_cursor->style == ITEM_CURSOR_SELECTION) ? 3 : 0;
+	extra = (item_cursor->style == ITEM_CURSOR_SELECTION) ? AUTO_HANDLE_WIDTH : 0;
 
 	item->x2 = x + w + 2 + extra;
 	item->y2 = y + h + 2 + extra;
@@ -304,8 +305,17 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 		draw_external = 1;
 		{
 			GnumericSheet const *gsheet = GNUMERIC_SHEET (item->canvas);
+			GnumericSheet const *gsheet0 = scg_pane (gsheet->scg, 0);
+
+			/* In pane */
 			if (item_cursor->pos.end.row <= gsheet->row.last_full)
 				draw_handle = 1;
+			/* In pane below */
+			else if ((gsheet->pane->index == 2 || gsheet->pane->index == 3) &&
+				 item_cursor->pos.end.row >= gsheet0->row.first &&
+				 item_cursor->pos.end.row <= gsheet0->row.last_full)
+				draw_handle = 1;
+			/* TODO : do we want to add checking for pane above ? */
 			else if (item_cursor->pos.start.row < gsheet->row.first)
 				draw_handle = 0;
 			else if (item_cursor->pos.start.row != gsheet->row.first)
@@ -564,14 +574,14 @@ static inline gboolean
 item_cursor_in_drag_handle (ItemCursor *ic, int x, int y)
 {
 	int const y_test = ic->auto_fill_handle_at_top 
-		? ic->canvas_item.y1
-		: ic->canvas_item.y2;
+		? ic->canvas_item.y1 + AUTO_HANDLE_WIDTH
+		: ic->canvas_item.y2 - AUTO_HANDLE_WIDTH;
 
 	if ((y_test-AUTO_HANDLE_SPACE) <= y &&
 	    y <= (y_test+AUTO_HANDLE_SPACE)) {
 		int const x_test = ic->auto_fill_handle_at_left 
-			? ic->canvas_item.x1
-			: ic->canvas_item.x2;
+			? ic->canvas_item.x1 + AUTO_HANDLE_WIDTH
+			: ic->canvas_item.x2 - AUTO_HANDLE_WIDTH;
 		return (x_test-AUTO_HANDLE_SPACE) <= x &&
 			x <= (x_test+AUTO_HANDLE_SPACE);
 	 }
@@ -685,6 +695,7 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 			GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK,
 			NULL,
 			event->button.time);
+		gnumeric_sheet_slide_init (gsheet);
 
 		/*
 		 * We flush after the grab to ensure that the new item-cursor
@@ -721,7 +732,14 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		if (sheet_is_region_empty (sheet, &ic->pos))
 			return TRUE;
 
+		/* TODO : This is still different from XL.
+		 * We probably do not want to use find_boundary
+		 * what we really want is to walk forward through
+		 * template_{col,row} as long as it has content
+		 * AND the region to fill is empty.
+		 */
 		if (event->button.state & GDK_MOD1_MASK) {
+			int template_col = ic->pos.end.col + 1;
 			int template_row = ic->pos.start.row - 1;
 			if (template_row < 0 ||
 			    sheet_is_cell_empty (sheet, ic->pos.start.col,
@@ -734,12 +752,18 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 					return TRUE;
 			}
 
+			if (template_col >= SHEET_MAX_COLS ||
+			    sheet_is_cell_empty (sheet, template_col,
+						 template_row))
+				return TRUE;
 			final_col = sheet_find_boundary_horizontal (sheet,
 				ic->pos.end.col, template_row,
 				template_row, 1, TRUE);
 			if (final_row <= ic->pos.end.row)
 				return TRUE;
+			/* FIXME : shorten based on fill target content */
 		} else {
+			int template_row = ic->pos.end.row + 1;
 			int template_col = ic->pos.start.col - 1;
 			if (template_col < 0 ||
 			    sheet_is_cell_empty (sheet, template_col,
@@ -752,11 +776,16 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 					return TRUE;
 			}
 
+			if (template_row >= SHEET_MAX_ROWS ||
+			    sheet_is_cell_empty (sheet, template_col,
+						 template_row))
+				return TRUE;
 			final_row = sheet_find_boundary_vertical (sheet,
 				template_col, ic->pos.end.row,
 				template_col, 1, TRUE);
 			if (final_row <= ic->pos.end.row)
 				return TRUE;
+			/* FIXME : shorten based on fill target content */
 		}
 
 		/* fill the row/column */
@@ -1145,7 +1174,7 @@ item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 	case GDK_BUTTON_RELEASE:
 		/* Note : see comment below, and bug 30507 */
 		if ((int)event->button.button == ic->drag_button) {
-			gnumeric_sheet_stop_sliding (GNUMERIC_SHEET (item->canvas));
+			gnumeric_sheet_slide_stop (GNUMERIC_SHEET (item->canvas));
 			gnome_canvas_item_ungrab (item, event->button.time);
 			item_cursor_do_drop (ic, (GdkEventButton *) event);
 		}
@@ -1206,7 +1235,7 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 	switch (event->type){
 
 	case GDK_BUTTON_RELEASE:
-		gnumeric_sheet_stop_sliding (GNUMERIC_SHEET (item->canvas));
+		gnumeric_sheet_slide_stop (GNUMERIC_SHEET (item->canvas));
 
 		/* We flush after the ungrab, to have the ungrab take effect
 		 * immediately (the fill operation might take a while, and we

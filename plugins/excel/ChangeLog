@@ -1,3 +1,11 @@
+2001-07-12  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_read_pane) : new function.
+	(ms_excel_read_sheet) : called from here.
+	(ms_excel_read_window2) : top left spec is _zero_ based.
+	  Add support for setting the frozen flag.
+	(ms_excel_sheet_new) : init the freeze flag here.
+
 2001-07-13  Lutz Müller <urc8@rz.uni-karlsruhe.de>
 
 	* ms-escher.c (ms_escher_read_ClientData): Syntax and name of

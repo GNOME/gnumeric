@@ -64,12 +64,13 @@ void gnumeric_sheet_redraw_region  (GnumericSheet *gsheet,
 				    int start_col, int start_row,
 				    int end_col, int end_row);
 
-void gnumeric_sheet_stop_sliding  (GnumericSheet *gsheet);
-void gnumeric_sheet_handle_motion (GnumericSheet *gsheet,
-				   GnomeCanvas *canvas, GdkEventMotion *event,
-				   gboolean allow_h, gboolean allow_v,
-				   gboolean colrow_bound,
-				   GnumericSheetSlideHandler slide_handler,
-				   gpointer user_data);
+void gnumeric_sheet_slide_stop	   (GnumericSheet *gsheet);
+void gnumeric_sheet_slide_init	   (GnumericSheet *gsheet);
+void gnumeric_sheet_handle_motion  (GnumericSheet *gsheet,
+				    GnomeCanvas *canvas, GdkEventMotion *event,
+				    gboolean allow_h, gboolean allow_v,
+				    gboolean colrow_bound,
+				    GnumericSheetSlideHandler slide_handler,
+				    gpointer user_data);
 
 #endif /* GNUMERIC_GNUMERIC_SHEET_H */

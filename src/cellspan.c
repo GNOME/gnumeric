@@ -148,9 +148,9 @@ row_span_get (ColRowInfo const * const ri, int const col)
 }
 
 /**
- * cell_is_empty :
+ * cellspan_is_empty :
  *
- * Utility to ensure that a cell is completly empty.
+ * Utility to ensure that a cell is completely empty.
  *    - no spans
  *    - no merged regions
  *    - no content
@@ -163,17 +163,21 @@ row_span_get (ColRowInfo const * const ri, int const col)
  * returns TRUE if the cell is empty.
  */
 static inline gboolean
-cell_is_empty (Cell const * cell, int col, ColRowInfo const *ri)
+cellspan_is_empty (int col, ColRowInfo const *ri, Cell const *ok_span_cell)
 {
 	CellSpanInfo const *span = row_span_get (ri, col);
+	Cell const *tmp;
 
-	if (span != NULL && span->cell != cell)
+	if (span != NULL && span->cell != ok_span_cell)
 		return FALSE;
 
-	if (!cell_is_blank (sheet_cell_get (cell->base.sheet, col, ri->pos)))
-		return FALSE;
-
-	return TRUE;
+	tmp = sheet_cell_get (ok_span_cell->base.sheet, col, ri->pos);
+	/* FIXME : can not use cell_is_blank until expressions can span.
+	 * because cells with expressions start out with value Empty
+	 * existing spans continue to flow through, but never get removed
+	 * because we don't respan expression results.
+	 */
+	return (tmp == NULL || tmp->value == NULL);
 }
 
 /*
@@ -251,7 +255,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 			ColRowInfo const *ci = sheet_col_get_info (sheet, pos);
 
 			if (ci->visible) {
-				if (!cell_is_empty (cell, pos, ri))
+				if (!cellspan_is_empty (pos, ri, cell))
 					return;
 
 				/* The space consumed is:
@@ -275,7 +279,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 			ColRowInfo *ci = sheet_col_get_info (sheet, pos);
 
 			if (ci->visible) {
-				if (!cell_is_empty (cell, pos, ri))
+				if (!cellspan_is_empty (pos, ri, cell))
 					return;
 
 				/* The space consumed is:
@@ -309,7 +313,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 				ci = sheet_col_get_info (sheet, pos_l);
 
 				if (ci->visible) {
-					if (cell_is_empty (cell, pos_l, ri)) {
+					if (cellspan_is_empty (pos_l, ri, cell)) {
 						remain_left -= COL_INTERNAL_WIDTH (ci) +
 							margin_a + ci->margin_b;
 						margin_a = ci->margin_a;
@@ -325,7 +329,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 				ci = sheet_col_get_info (sheet, pos_r);
 
 				if (ci->visible) {
-					if (cell_is_empty (cell, pos_r, ri)) {
+					if (cellspan_is_empty (pos_r, ri, cell)) {
 						remain_right -= COL_INTERNAL_WIDTH (ci) +
 							margin_b + ci->margin_a;
 						margin_b = ci->margin_b;
@@ -350,7 +354,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 		while (--pos_l >= min_col) {
 			ColRowInfo const *ci = sheet_col_get_info (sheet, pos_l);
 			if (ci->visible) {
-				if (cell_is_empty (cell, pos_l, ri)) {
+				if (cellspan_is_empty (pos_l, ri, cell)) {
 					MStyle * const mstyle =
 						sheet_style_get (cell->base.sheet, pos_l, row);
 
@@ -364,7 +368,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 		while (++pos_r < max_col) {
 			ColRowInfo const *ci = sheet_col_get_info (sheet, pos_r);
 			if (ci->visible) {
-				if (cell_is_empty (cell, pos_r, ri)) {
+				if (cellspan_is_empty (pos_r, ri, cell)) {
 					MStyle * const mstyle =
 						sheet_style_get (cell->base.sheet, pos_r, row);
 

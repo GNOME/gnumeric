@@ -8,26 +8,24 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+    - Panes persistence
+	    : XML (DOM & SAX)
+	    : XL
     - Sheet objects
-		: panes
-		: ctrl points
-    - Panes : finish autoscroll
-	    : xml persistence
-
-    - Span : C3 : "spanning text"  C4 : '=A2' span not broken
-	probable cause,  we don't calculate the span of the expression,
-	hence we don't break the old span.
-
-    - content in A1 and B1, cursor on B1, double click on cursor drag box, fill column
-	: should not fill
-	: clearing 64k expressions from a column is dog slow
-
+	    : display a view per Pane not per scg
+	    : fix autoscroll to not limit motion to col/row bounds
 
 Pending Patches
 ---------------
 
 Long term breakage
 ------------------
+
+- clearing 64k expressions from a column is dog slow because we are using an slist.
+
+- double clicking the drag handle disregards content in the region to fill.
+  It only looks at the neighbouring region to find the boundary, but ignores
+  content in the region we will fill.
 
 - Evo & Guppi cmnds should only be enabled if those components are available.
 
@@ -36,7 +34,12 @@ Long term breakage
     : change semantics of freeze operation to clarify where to freeze
       (is edit bottom-right of freeze or top left of unfrozen)
     : GUI handling of freezing center if the current pos it at the top left.
-    : XL persistence
+    : autoscroll 
+	* needs work when going from pane 2 past right of pane 3 to scroll then
+	  coming back to pane 2.  That should scroll pane 3 to the left to feel
+	  more natural.
+	* When going left/up from pane0 in big leaps and landing in the frozen
+	  area we should scroll pane0 back to top.
 
 - support negative durations with [h]
 

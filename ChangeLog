@@ -1,3 +1,57 @@
+2001-07-13  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-cursor.c (item_cursor_in_drag_handle) : bounding coords
+	  mark the outside of the drag box, center things before checking.
+	(item_cursor_selection_event) : be smarter about handling double
+	  clicks.  This could still be improved see comment.
+
+	* src/sheet.c (sheet_cell_calc_span) : clear existing span before
+	  recalculating it.
+	(sheet_cell_set_text) : clear existing spans for expressions.
+	(sheet_cell_set_expr): ditto.
+
+	* src/cellspan.c (cellspan_is_empty) : rename from cell_is_empty
+	  and change order of args to make it clear that the Cell in the cell
+	  in that arg list is _not_ the one being tested for emptiness.  Do
+	  the empty chacek manually because expressions with initial value
+	  'empty' are allowing other cells to continue spanning into them.
+	  However, since the expressions don't calc spans yet, the cell
+	  content is never made visibible.
+
+	* src/sheet-control-gui.c (scg_resize) : increase the size of the
+	  header canvases by 1.  I don't especially like the like, but I have
+	  no time to track down why the canvas scrolls by 1 pixel if I don't
+	  do this.
+	(cb_control_point_event) : partially fix sheet object movement.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_slide_stop) : renamed from
+	  gnumeric_sheet_stop_sliding.
+	(col_scroll_step) : new function.
+	(row_scroll_step) : new function.
+	(gsheet_sliding_callback) : rewrite again to manage scrolling for
+	  panes more smoothly.  Still needs work.
+	(gnumeric_sheet_handle_motion) : handle motin into adjacent panes
+	  here.
+	(gnumeric_sheet_slide_init) : new routine to set adjacency earlier in
+	  process.
+
+	* src/item-bar.c (item_bar_event) : call gnumeric_sheet_slide_init.
+	* src/item-cursor.c (item_cursor_selection_event) : ditto.
+	(item_cursor_drag_event) : ditto.
+	* src/item-grid.c (item_grid_button_1) : ditto.
+
+2001-07-12  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric-pane.c (gnumeric_pane_header_init) : no need to
+	  calc_size here.  That will be done when the item is realized.
+
+	* src/sheet-control-gui.c (scg_set_left_col) : And bounds checks and
+	  safety.
+	(scg_set_top_row) : ditto.
+
+	* src/item-cursor.c (item_cursor_draw) : Add a simple test for pane
+	  support when placing the drag handle.
+
 2001-07-13  Morten Welinder  <terra@diku.dk>
 
 	* src/eval.c (dependent_unqueue_sheet): Unconstify since it

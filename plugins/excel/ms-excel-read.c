@@ -2301,6 +2301,7 @@ ms_excel_sheet_new (ExcelWorkbook *wb, char const *sheet_name)
 
 	res->wb         = wb;
 	res->gnum_sheet = sheet;
+	res->freeze_panes	     = FALSE;
 	res->base_char_width         = -1;
 	res->base_char_width_default = -1;
 	res->shared_formulae         =
@@ -3253,10 +3254,9 @@ ms_excel_read_selection (ExcelSheet *sheet, BiffQuery *q)
 			printf ("Cursor: %d %d\n", act_col, act_row);
 	}
 #endif
-	if (pane_number != 3) {
-		printf ("FIXME: no pane support\n");
-		return;
-	}
+	/* FIXME : pane_number will be relevant for split panes.
+	 * because frozen panes are bound together this does not matter.
+	 */
 
 	sheet_selection_reset (sheet->gnum_sheet);
 	for (refs = q->data + 9; num_refs > 0; refs += 6, num_refs--) {
@@ -3576,7 +3576,13 @@ ms_excel_read_iteration (BiffQuery *q, ExcelWorkbook *wb)
 	g_return_if_fail (q->length == 2);
 
 	enabled = MS_OLE_GET_GUINT16 (q->data);
-	workbook_iteration_enabled (wb->gnum_wb, enabled);
+	workbook_iteration_enabled (wb->gnum_wb, enabled != 0);
+}
+
+static void
+ms_excel_read_pane (BiffQuery *q, ExcelSheet *sheet, WorkbookView *wb_view)
+{
+
 }
 
 static void
@@ -3584,6 +3590,7 @@ ms_excel_read_window2 (BiffQuery *q, ExcelSheet *sheet, WorkbookView *wb_view)
 {
 	if (q->length >= 10) {
 		const guint16 options    = MS_OLE_GET_GUINT16 (q->data + 0);
+		/* coords are 0 based */
 		guint16 top_row    = MS_OLE_GET_GUINT16 (q->data + 2);
 		guint16 left_col   = MS_OLE_GET_GUINT16 (q->data + 4);
 
@@ -3593,19 +3600,11 @@ ms_excel_read_window2 (BiffQuery *q, ExcelSheet *sheet, WorkbookView *wb_view)
 		sheet->gnum_sheet->hide_col_header =
 			sheet->gnum_sheet->hide_row_header	= !(options & 0x0004);
 
-		/* The docs are unclear whether or not the counters
-		 * are 0 or 1 based.  I'll assume 1 based but make the
-		 * checks conditional just in case I'm wrong.
-		 */
-		if (top_row > 0)
-			--top_row;
-		if (left_col > 0)
-			--left_col;
 		sheet_make_cell_visible (sheet->gnum_sheet, left_col, top_row);
 
+		sheet->freeze_panes = (options & 0x0008) != 0;
+
 #if 0
-		if (!(options & 0x0008))
-			printf ("Unsupported: frozen panes\n");
 		if (!(options & 0x0020)) {
 			guint32 const grid_color = MS_OLE_GET_GUINT32 (q->data + 6);
 			/* This is quicky fake code to express the idea */
@@ -3852,6 +3851,10 @@ ms_excel_read_sheet (IOContext *io_context, BiffQuery *q, ExcelWorkbook *wb,
 			break;
 		case BIFF_NAME:
 			ms_excel_read_name (q, sheet->wb, sheet);
+			break;
+
+		case BIFF_PANE:
+			ms_excel_read_pane (q, sheet, wb_view);
 			break;
 
 		case BIFF_WINDOW2:
