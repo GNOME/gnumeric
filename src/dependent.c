@@ -1250,7 +1250,7 @@ dependent_eval (Dependent *dep)
 			(*klass->eval) (dep);
 		} else {
 			/* This will clear the dynamic deps too, see comment there
-			 * to explain asymetry.
+			 * to explain asymmetry.
 			 */
 			gboolean finished = cell_eval_content (DEP_TO_CELL (dep));
 
@@ -1714,7 +1714,7 @@ dependents_relocate (GnmExprRelocateInfo const *info)
 	if (names != NULL) {
 #if 0
 	if ((info->col_offset == 0 && range_is_full (&info->origin, TRUE)) ||
-	    (info->row_offset == 0 && range_is_full (&info->origin, TRUE)) ||
+	    (info->row_offset == 0 && range_is_full (&info->origin, TRUE))) {
 		rwinfo.flavour = GNM_EXPR_REWRITE_NAME;
 		GSList *ptr, *accum = NULL;
 		Dependent *dep;
@@ -1742,6 +1742,7 @@ dependents_relocate (GnmExprRelocateInfo const *info)
 		dependents_link (accum, rwinfo);
 
 		g_hash_table_destroy (names);
+	}
 #endif
 	}
 
