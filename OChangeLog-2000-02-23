@@ -1,3 +1,69 @@
+1999-07-25  Michael Meeks  <michael@edenproject.org>
+
+	* src/expr.c (expr_tree_invalidate_references): Debugging that
+	needs cleaning to new PP stuff #if-def'd out.
+	(expr_tree_fixup_references): ditto.
+
+	* src/xml-io.c (xml_write_names, xml_read_names): Implemented
+	(xml_workbook_write, xml_workbook_read): Hooks added, but reading
+	disabled: something dodgy somewhere.
+
+	* src/sheet.c (sheet_lookup_by_name): Fixed to use simply a
+	Workbook pointer.
+
+	* src/workbook.c (workbook_set_auto_expr): Fix old hack using
+	new PP stuff.
+
+	* src/sheet.c (sheet_fill_selection_with): Updated to new PP code.
+
+	* src/parser.y (gnumeric_expr_parser): Updated to new PP code,
+	removed redundant and nasty _unsafe_expr_parser hack. Essentialy
+	nothing new, but removes daft parser_sheet and replaces with
+	parser_workbook, leaving sheet stuff to the evaluation stage.
+
+	* src/dialog-define-names.c: Major fixups, killed obscure bug
+	cause by freeing a copy of a list I passed to gtk_list_append_items.
+
+	* src/expr.c (expr_parse_string, do_expr_decode_tree): 
+	(expr_decode_tree): Updated to new 
+
+	* src/expr-name.c (expr_name_create): Added for convenience.
+	(expr_name_value): Updated to new PP scheme
+
+	* src/cell.c (cell_set_formula, cell_get_text, cell_get_content): 
+	Update to new ParsePosition scheme.
+
+	* src/expr.c (parse_pos_init, parse_pos_cell): Created.
+
+	* src/expr.h: Add ParsePosition & prototpes
+
+1999-07-25  Michael Meeks  <michael@edenproject.org>
+
+	* src/dialog-define-names.c (update_edit): use expr_name_value.
+	(grab_text_ok): Update to use new functions.
+
+	* src/expr-name.c (expr_name_value): Added.
+	(expr_name_create): Convenience function
+
+	* src/xml-io.c (xml_workbook_write): Added names writing.
+
+1999-07-24  Michael Meeks  <michael@edenproject.org>
+
+	* src/expr-name.c (expr_name_add): Add check for circular
+	references in (name_refer_circular): created.
+	(add_real): More paranoia.
+
+1999-07-23  Michael Meeks  <michael@edenproject.org>
+
+	* src/expr-name.c (expr_name_list): Expand.
+	(expr_name_remove): Serious bug freeing names.
+	(expr_name_lookup): precondition.
+	(expr_name_remove): more sanity checks.
+
+	* src/dialog-define-names.c (fill_list): Append instead of inserting
+	items. use "select" signal, hand the correct pointer on.
+	Implemented guts, fixed lots of bugs.
+	
 1999-07-25  Karsten Weiss  <karsten@addx.au.s.shuttle.de>
 
 	* src/print.glade.h: Fixed three typos.

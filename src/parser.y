@@ -58,11 +58,11 @@ static const char *parser_expr;
 /* The error returned from the */
 static ParseErr parser_error;
 
-/* The sheet where the parsing takes place */
-static Sheet *parser_sheet;
-
 /* Location where the parsing is taking place */
 static int parser_col, parser_row;
+
+/* The workbook context */
+static Workbook *parser_wb;
 
 /* The suggested format to use for this expression */
 static const char **parser_desired_format;
@@ -264,7 +264,7 @@ return_cellref (char *p)
 	
 	ref->col_relative = col_relative;
 	ref->row_relative = row_relative;
-	ref->sheet = parser_sheet;
+	ref->sheet        = NULL;
 
 	yylval.tree = e;
 
@@ -397,13 +397,13 @@ try_symbol (char *string, gboolean try_cellref_and_number)
 	else {
 		Sheet *sheet;
 
-		sheet = sheet_lookup_by_name (parser_sheet, string);
+		sheet = sheet_lookup_by_name (parser_wb, string);
 		if (sheet)
 			return return_sheetref (sheet);
 	}
 	
 	{ /* Name ? */
-		ExprName *name = expr_name_lookup (parser_sheet->workbook,
+		ExprName *name = expr_name_lookup (parser_wb,
 						   string);
 		if (name)
 			return return_name (name);
@@ -690,27 +690,21 @@ forget_tree (ExprTree *tree)
 	forget (ALLOC_BUFFER, tree);
 }
 
-/*
- *  Don't use this function. This is a hack to make getting the auto
- * expression hack to work less of a hack.
- */
 ParseErr
-gnumeric_unsafe_expr_parser (const char *expr, Sheet *sheet, guint eval_col, guint eval_row,
-			     const char **desired_format, ExprTree **result);
-ParseErr
-gnumeric_unsafe_expr_parser (const char *expr, Sheet *sheet, guint eval_col, guint eval_row,
-			     const char **desired_format, ExprTree **result)
+gnumeric_expr_parser (const char *expr, const ParsePosition *pp,
+		      const char **desired_format, ExprTree **result)
 {
 	struct lconv *locinfo;
 
+	g_return_val_if_fail (pp, PARSE_ERR_UNKNOWN);
 	g_return_val_if_fail (expr, PARSE_ERR_UNKNOWN);
 	g_return_val_if_fail (result, PARSE_ERR_UNKNOWN);
 
 	parser_error = PARSE_OK;
 	parser_expr = expr;
-	parser_sheet = sheet;
-	parser_col   = eval_col;
-	parser_row   = eval_row;
+	parser_wb    = pp->wb;
+	parser_col   = pp->col;
+	parser_row   = pp->row;
 	parser_desired_format = desired_format;
 	parser_result = result;
 
@@ -740,13 +734,3 @@ gnumeric_unsafe_expr_parser (const char *expr, Sheet *sheet, guint eval_col, gui
 
 	return parser_error;
 }
-
-ParseErr
-gnumeric_expr_parser (const char *expr, const EvalPosition *ep,
-		      const char **desired_format, ExprTree **result)
-{
-	g_return_val_if_fail (ep, PARSE_ERR_UNKNOWN);
-	return gnumeric_unsafe_expr_parser (expr, ep->sheet, ep->eval_col,
-					    ep->eval_row, desired_format, result);
-}
-

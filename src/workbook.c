@@ -902,7 +902,7 @@ static GnomeUIInfo workbook_menu_edit [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-#if 0
+#if 1
 	{ GNOME_APP_UI_ITEM, N_("_Define cell names"), NULL, define_cell_cmd },
 	GNOMEUIINFO_SEPARATOR,
 #endif
@@ -1447,16 +1447,13 @@ static struct {
 static void
 workbook_set_auto_expr (Workbook *wb, const char *description, const char *expression)
 {
-	extern ParseErr
-		gnumeric_unsafe_expr_parser (const char *expr, Sheet *sheet, guint eval_col, guint eval_row,
-					     const char **desired_format, ExprTree **result);
+	ParsePosition pp;
 
 	if (wb->auto_expr)
 		expr_tree_unref (wb->auto_expr);
 
-	g_assert (gnumeric_unsafe_expr_parser (expression, NULL, 0, 0,
-					       NULL, &wb->auto_expr) ==
-		  PARSE_OK);
+	g_assert (gnumeric_expr_parser (expression, parse_pos_init (&pp, wb, 0, 0),
+					NULL, &wb->auto_expr) == PARSE_OK);
 
 	if (wb->auto_expr_desc)
 		string_unref (wb->auto_expr_desc);

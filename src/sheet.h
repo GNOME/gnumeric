@@ -367,7 +367,7 @@ void        sheet_style_attach            (Sheet *sheet,
 					   int    start_col, int start_row,
 					   int    end_col,   int end_row,
 					   Style  *style);
-Sheet      *sheet_lookup_by_name          (Sheet *base, const char *name);
+Sheet      *sheet_lookup_by_name          (Workbook *wb, const char *name);
 
 /*
  * Sheet visual editing
@@ -400,7 +400,6 @@ void        sheet_show_cursor             (Sheet *sheet);
 void        sheet_hide_cursor             (Sheet *sheet);
 
 char        *cellref_name                 (CellRef *cell_ref,
-					   Sheet *eval_sheet,
 					   int eval_col,
 					   int eval_row);
 

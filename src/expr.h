@@ -10,6 +10,7 @@ typedef struct _ExprName ExprName;
 
 typedef struct _EvalPosition            EvalPosition;
 typedef struct _ErrorMessage            ErrorMessage;
+typedef struct _ParsePosition           ParsePosition;
 typedef struct _FunctionEvalInfo        FunctionEvalInfo;
 
 #include "sheet.h"
@@ -162,6 +163,12 @@ struct _EvalPosition {
 	int    eval_row;
 };
 
+struct _ParsePosition {
+	Workbook *wb;
+	int       col;
+	int       row;
+};
+
 enum _FuncType { FUNCTION_ARGS, FUNCTION_NODES };
 typedef enum _FuncType FuncType;
 
@@ -200,6 +207,8 @@ Value *function_error_alloc (FunctionEvalInfo *fe,
 /* Transition functions */
 EvalPosition     *eval_pos_init       (EvalPosition *, Sheet *s, int col, int row);
 EvalPosition     *eval_pos_cell       (EvalPosition *, Cell *);
+ParsePosition    *parse_pos_init      (ParsePosition *, Workbook *wb, int col, int row);
+ParsePosition    *parse_pos_cell      (ParsePosition *, Cell *);
 FunctionEvalInfo *func_eval_info_init (FunctionEvalInfo *s, Sheet *sheet, int col, int row);
 FunctionEvalInfo *func_eval_info_cell (FunctionEvalInfo *s, Cell *cell);
 FunctionEvalInfo *func_eval_info_pos  (FunctionEvalInfo *s, const EvalPosition *fp);
@@ -246,15 +255,16 @@ void        cell_get_abs_col_row   (const CellRef *cell_ref,
 				    int eval_col, int eval_row,
 				    int *col, int *row);
 
-ExprTree   *expr_parse_string      (const char *expr, const EvalPosition *fp,
+ExprTree   *expr_parse_string      (const char *expr, const ParsePosition *pp,
 				    const char **desired_format, char **error_msg);
 /* In parser.y  */
-ParseErr    gnumeric_expr_parser   (const char *expr, const EvalPosition *ep,
+ParseErr    gnumeric_expr_parser   (const char *expr,
+				    const ParsePosition *pp,
 				    const char **desired_format,
 				    ExprTree **result);
 
 ExprTree   *expr_tree_duplicate    (ExprTree *expr);
-char       *expr_decode_tree       (ExprTree *tree, const EvalPosition *fp);
+char       *expr_decode_tree       (ExprTree *tree, const ParsePosition *fp);
 
 ExprTree   *expr_tree_new_constant (Value *v);
 ExprTree   *expr_tree_new_unary    (Operation op, ExprTree *e);

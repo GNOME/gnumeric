@@ -659,6 +659,84 @@ xml_write_style (parse_xml_context_t *ctxt, Style *style, int style_idx)
 }
 
 static xmlNodePtr
+xml_write_names (parse_xml_context_t *ctxt, Workbook *wb)
+{
+	GList *names, *m;
+	xmlNodePtr cur;
+
+	g_return_val_if_fail (wb != NULL, NULL);
+
+	m = names = expr_name_list (wb, FALSE);
+
+	if (!names)
+		return NULL;
+
+	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Names", NULL);
+
+	while (names) {
+		xmlNodePtr   tmp;
+		ExprName    *expr_name = names->data;
+		char        *text;
+
+		g_return_val_if_fail (expr_name != NULL, NULL);
+
+		tmp = xmlNewDocNode (ctxt->doc, ctxt->ns, "Name", NULL);
+		xmlNewChild (tmp, ctxt->ns, "name",
+			     xmlEncodeEntities (ctxt->doc, expr_name->name->str));
+
+		text = expr_name_value (expr_name);
+		xmlNewChild (tmp, ctxt->ns, "value",
+			     xmlEncodeEntities (ctxt->doc, text));
+		g_free (text);
+
+		xmlAddChild (cur, tmp);
+		names = g_list_next (names);
+	}
+	g_list_free (m);
+	return cur;
+}
+
+static void
+xml_read_names (parse_xml_context_t *ctxt, xmlNodePtr tree, Workbook *wb)
+{
+	xmlNodePtr child;
+
+	g_return_if_fail (wb != NULL);
+	g_return_if_fail (ctxt != NULL);
+	g_return_if_fail (tree != NULL);
+
+	child = tree->childs;
+	while (child) {
+		if (child->name && !strcmp (child->name, "Name")) {
+			xmlNodePtr bits;
+
+			bits = child->childs;
+			while (bits) {
+				char *name  = NULL;
+				
+				if (!strcmp (bits->name, "name")) {
+					name = xmlNodeGetContent (bits);
+				} else {
+					char     *txt;
+					char     *error;
+					g_return_if_fail (name != NULL);
+
+					txt = xmlNodeGetContent (bits);
+					g_return_if_fail (txt != NULL);
+					g_return_if_fail (!strcmp (bits->name, "value"));
+
+					if (!expr_name_create (wb, name, txt, &error))
+						g_warning (error);
+
+					g_free (txt);
+				}
+			}
+		}
+		child = child->next;
+	}
+}
+
+static xmlNodePtr
 xml_write_summary (parse_xml_context_t *ctxt, SummaryInfo *sin)
 {
 	GList *items, *m;
@@ -709,7 +787,7 @@ xml_write_summary (parse_xml_context_t *ctxt, SummaryInfo *sin)
 static void
 xml_read_summary (parse_xml_context_t *ctxt, xmlNodePtr tree, SummaryInfo *sin)
 {
-	xmlNodePtr child, tmp;
+	xmlNodePtr child;
 
 	g_return_if_fail (sin);
 	g_return_if_fail (ctxt);
@@ -726,7 +804,7 @@ xml_read_summary (parse_xml_context_t *ctxt, xmlNodePtr tree, SummaryInfo *sin)
 				char *name = NULL;
 				
 				if (!strcmp (bits->name, "name")) {
-					name = xmlNodeGetContent(bits);
+					name = xmlNodeGetContent (bits);
 				} else {
 					char *txt;
 					g_return_if_fail (name);
@@ -1589,6 +1667,10 @@ xml_workbook_write (parse_xml_context_t *ctxt, Workbook *wb)
 	if (child)
 		xmlAddChild (cur, child);
 
+	child = xml_write_names (ctxt, wb);
+	if (child)
+		xmlAddChild (cur, child);
+
 	child = xml_write_style (ctxt, &wb->style, -1);
 	if (child)
 		xmlAddChild (cur, child);
@@ -1666,6 +1748,12 @@ xml_workbook_read (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	child = xml_search_child (tree, "Summary");
 	if (child)
 		xml_read_summary (ctxt, child, ret->sin);
+
+#if 0
+	child = xml_search_child (tree, "Names");
+	if (child)
+		xml_read_names (ctxt, child, ret);
+#endif
 
 	child = xml_search_child (tree, "Geometry");
 	if (child){
@@ -1924,4 +2012,3 @@ xml_init (void)
 	file_format_register_open (50, desc, xml_probe, gnumeric_xml_read_workbook);
 	file_format_register_save (".gnumeric", desc, gnumeric_xml_write_workbook);
 }
-

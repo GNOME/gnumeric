@@ -3090,7 +3090,7 @@ sheet_delete_col (Sheet *sheet, int col, int count)
 		destroy_list = g_list_prepend (destroy_list, ci);
 	}
 
-	for (l = destroy_list; l; l = l->next){
+	for (l = destroy_list; l; l = l->next) {
 		ColRowInfo *ci = l->data;
 
 		sheet_col_destroy (sheet, ci);
@@ -3758,17 +3758,17 @@ sheet_fill_selection_with (Sheet *sheet, const char *str,
 	 *   3) There is only one 1 selection
 	 */
 	l = sheet->selections;
-	if (*str == '=' && is_array && l != NULL && l->next == NULL){
+	if (*str == '=' && is_array && l != NULL && l->next == NULL) {
 		char *error_string = NULL;
 		SheetSelection *ss = l->data;
-		EvalPosition fp;
+		ParsePosition pp;
 		ExprTree *expr =
-			expr_parse_string (str+1,
-					   eval_pos_init (&fp, sheet,
-							  ss->start_col,
-							  ss->start_row),
+			expr_parse_string (str + 1,
+					   parse_pos_init (&pp, sheet->workbook,
+							   ss->start_col,
+							   ss->start_row),
 					   NULL, &error_string);
-		if (expr){
+		if (expr) {
 			cell_set_array_formula (sheet,
 						ss->start_row, ss->start_col,
 						ss->end_row, ss->end_col,
@@ -3817,8 +3817,9 @@ sheet_show_cursor (Sheet *sheet)
 	}
 }
 
+/* Can remove sheet since local references have NULL sheet */
 char *
-cellref_name (CellRef *cell_ref, Sheet *eval_sheet, int eval_col, int eval_row)
+cellref_name (CellRef *cell_ref, int eval_col, int eval_row)
 {
 	static char buffer [sizeof (long) * 4 + 4];
 	char *p = buffer;
@@ -3850,7 +3851,7 @@ cellref_name (CellRef *cell_ref, Sheet *eval_sheet, int eval_col, int eval_row)
 	sprintf (p, "%d", row+1);
 
 	/* If it is a non-local reference, add the path to the external sheet */
-	if (cell_ref->sheet == eval_sheet || cell_ref->sheet == NULL)
+	if (cell_ref->sheet == NULL)
 		return g_strdup (buffer);
 	else {
 		Sheet *sheet = cell_ref->sheet;
@@ -3863,7 +3864,6 @@ cellref_name (CellRef *cell_ref, Sheet *eval_sheet, int eval_col, int eval_row)
 
 		return s;
 	}
-
 }
 
 void
@@ -3886,7 +3886,6 @@ sheet_set_dirty (Sheet *sheet, gboolean is_dirty)
 
 /**
  * sheet_lookup_by_name:
- * @sheet: Local sheet.
  * @name:  a sheet name.
  *
  * This routine parses @name for a reference to another sheet
@@ -3897,19 +3896,18 @@ sheet_set_dirty (Sheet *sheet, gboolean is_dirty)
  * The routine might return NULL.
  */
 Sheet *
-sheet_lookup_by_name (Sheet *base, const char *name)
+sheet_lookup_by_name (Workbook *wb, const char *name)
 {
 	Sheet *sheet;
 
-	g_return_val_if_fail (base != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET (base), NULL);
+	g_return_val_if_fail (wb != NULL, NULL);
 
 	/*
 	 * FIXME: currently we only try to lookup the sheet name
 	 * inside the workbook, we need to lookup external files as
 	 * well.
 	 */
-	sheet = workbook_sheet_lookup (base->workbook, name);
+	sheet = workbook_sheet_lookup (wb, name);
 
 	if (sheet)
 		return sheet;

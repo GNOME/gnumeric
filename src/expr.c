@@ -30,6 +30,19 @@ eval_pos_init (EvalPosition *eval_pos, Sheet *sheet, int col, int row)
 	return eval_pos;
 }
 
+ParsePosition *
+parse_pos_init (ParsePosition *pp, Workbook *wb, int col, int row)
+{
+	g_return_val_if_fail (wb != NULL, NULL);
+	g_return_val_if_fail (pp != NULL, NULL);
+
+	pp->wb  = wb;
+	pp->col = col;
+	pp->row = row;
+
+	return pp;
+}
+
 EvalPosition *
 eval_pos_cell (EvalPosition *eval_pos, Cell *cell)
 {
@@ -41,6 +54,22 @@ eval_pos_cell (EvalPosition *eval_pos, Cell *cell)
 	return eval_pos_init (
 		eval_pos,
 		cell->sheet,
+		cell->col->pos,
+		cell->row->pos);
+}
+
+ParsePosition *
+parse_pos_cell (ParsePosition *pp, Cell *cell)
+{
+	g_return_val_if_fail (pp != NULL, NULL);
+	g_return_val_if_fail (cell != NULL, NULL);
+	g_return_val_if_fail (cell->sheet != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (cell->sheet), NULL);
+	g_return_val_if_fail (cell->sheet->workbook != NULL, NULL);
+
+	return parse_pos_init (
+		pp,
+		cell->sheet->workbook,
 		cell->col->pos,
 		cell->row->pos);
 }
@@ -238,13 +267,13 @@ expr_tree_get_const_str (ExprTree const *const expr)
 }
 
 ExprTree *
-expr_parse_string (const char *expr, const EvalPosition *fp,
+expr_parse_string (const char *expr, const ParsePosition *pp,
 		   const char **desired_format, char **error_msg)
 {
 	ExprTree *tree;
 	g_return_val_if_fail (expr != NULL, NULL);
 
-	switch (gnumeric_expr_parser (expr, fp, desired_format, &tree)) {
+	switch (gnumeric_expr_parser (expr, pp, desired_format, &tree)) {
 	case PARSE_OK:
 		*error_msg = NULL;
 		tree->ref_count = 1;
@@ -1805,7 +1834,8 @@ cell_get_abs_col_row (const CellRef *cell_ref, int eval_col, int eval_row, int *
  * FIXME: strings containing quotes will come out wrong.
  */
 static char *
-do_expr_decode_tree (ExprTree *tree, const EvalPosition *fp, int paren_level)
+do_expr_decode_tree (ExprTree *tree, const ParsePosition *pp,
+		     int paren_level)
 {
 	static struct {
 		const char *name;
@@ -1832,9 +1862,6 @@ do_expr_decode_tree (ExprTree *tree, const EvalPosition *fp, int paren_level)
 		{ NULL, 0, 0, 0 }  /* Array    */
 	};
 	int op;
-	Sheet *sheet = fp->sheet;
-	int col      = fp->eval_col;
-	int row      = fp->eval_row;
 
 	op = tree->oper;
 
@@ -1846,8 +1873,8 @@ do_expr_decode_tree (ExprTree *tree, const EvalPosition *fp, int paren_level)
 
 		prec = operations[op].prec;
 
-		a = do_expr_decode_tree (tree->u.binary.value_a, fp, prec - operations[op].assoc_left);
-		b = do_expr_decode_tree (tree->u.binary.value_b, fp, prec - operations[op].assoc_right);
+		a = do_expr_decode_tree (tree->u.binary.value_a, pp, prec - operations[op].assoc_left);
+		b = do_expr_decode_tree (tree->u.binary.value_b, pp, prec - operations[op].assoc_right);
 		opname = operations[op].name;
 
 		if (prec <= paren_level)
@@ -1866,7 +1893,7 @@ do_expr_decode_tree (ExprTree *tree, const EvalPosition *fp, int paren_level)
 		int prec;
 
 		prec = operations[op].prec;
-		a = do_expr_decode_tree (tree->u.value, fp, operations[op].prec);
+		a = do_expr_decode_tree (tree->u.value, pp, operations[op].prec);
 		opname = operations[op].name;
 
 		if (prec <= paren_level)
@@ -1896,7 +1923,7 @@ do_expr_decode_tree (ExprTree *tree, const EvalPosition *fp, int paren_level)
 			for (l = arg_list; l; l = l->next, i++){
 				ExprTree *t = l->data;
 
-				args [i] = do_expr_decode_tree (t, fp, 0);
+				args [i] = do_expr_decode_tree (t, pp, 0);
 				len += strlen (args [i]) + 1;
 			}
 			len++;
@@ -1929,7 +1956,7 @@ do_expr_decode_tree (ExprTree *tree, const EvalPosition *fp, int paren_level)
 		CellRef *cell_ref;
 
 		cell_ref = &tree->u.ref;
-		return cellref_name (cell_ref, sheet, col, row);
+		return cellref_name (cell_ref, pp->col, pp->row);
 	}
 
 	case OPER_CONSTANT: {
@@ -1939,8 +1966,8 @@ do_expr_decode_tree (ExprTree *tree, const EvalPosition *fp, int paren_level)
 		case VALUE_CELLRANGE: {
 			char *a, *b, *res;
 
-			a = cellref_name (&v->v.cell_range.cell_a, sheet, col, row);
-			b = cellref_name (&v->v.cell_range.cell_b, sheet, col, row);
+			a = cellref_name (&v->v.cell_range.cell_a, pp->col, pp->row);
+			b = cellref_name (&v->v.cell_range.cell_b, pp->col, pp->row);
 
 			res = g_strconcat (a, ":", b, NULL);
 
@@ -1988,17 +2015,17 @@ do_expr_decode_tree (ExprTree *tree, const EvalPosition *fp, int paren_level)
 		if (x != 0 || y != 0) {
 			ExprTree *array = expr_tree_array_formula_corner (tree);
 			if (array) {
-				EvalPosition tmp_pos;
-				tmp_pos.sheet = fp->sheet;
-				tmp_pos.eval_col = fp->eval_col - x;
-				tmp_pos.eval_row = fp->eval_row - y;
+				ParsePosition tmp_pos;
+				tmp_pos.wb  = pp->wb;
+				tmp_pos.col = pp->col - x;
+				tmp_pos.row = pp->row - y;
 				res = do_expr_decode_tree (
 					array->u.array.corner.func.expr,
 					&tmp_pos, 0);
 			}
 		} else {
 			res = do_expr_decode_tree (
-			    tree->u.array.corner.func.expr, fp, 0);
+			    tree->u.array.corner.func.expr, pp, 0);
 		}
 
 		/* Not exactly Excel format but more useful */
@@ -2021,13 +2048,11 @@ do_expr_decode_tree (ExprTree *tree, const EvalPosition *fp, int paren_level)
 }
 
 char *
-expr_decode_tree (ExprTree *tree, const EvalPosition *fp)
+expr_decode_tree (ExprTree *tree, const ParsePosition *pp)
 {
 	g_return_val_if_fail (tree != NULL, NULL);
-	g_return_val_if_fail (fp->sheet != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET (fp->sheet), NULL);
 
-	return do_expr_decode_tree (tree, fp, 0);
+	return do_expr_decode_tree (tree, pp, 0);
 }
 
 
@@ -2231,21 +2256,25 @@ expr_tree_invalidate_references (ExprTree *src, EvalPosition *src_fp,
 	info.row = row;
 	info.rowcount = rowcount;
 
-	if (0) {
+#if 0
+	{
 		char *str;
 		str = expr_decode_tree (src, src_fp);
 		printf ("Invalidate: %s: [%s]\n", cell_name (src_col, src_row), str);
 		g_free (str);
 	}
+#endif
 
 	dst = do_expr_tree_invalidate_references (src, &info);
 
-	if (0) {
+#if 0
+	{
 		char *str;
 		str = dst ? expr_decode_tree (dst, src_fp) : g_strdup ("*");
 		printf ("Invalidate: %s: [%s]\n\n", cell_name (src_col, src_row), str);
 		g_free (str);
 	}
+#endif
 
 	return dst;
 }
@@ -2456,21 +2485,25 @@ expr_tree_fixup_references (ExprTree *src, EvalPosition *src_fp,
 	info.colcount = (coldelta < 0) ? -coldelta : coldelta;
 	info.rowcount = (rowdelta < 0) ? -rowdelta : rowdelta;
 
-	if (0) {
+#if 0
+	{
 		char *str;
 		str = expr_decode_tree (src, src_fp);
 		printf ("Fixup: %s: [%s]\n", cell_name (src_col, src_row), str);
 		g_free (str);
 	}
+#endif
 
 	dst = do_expr_tree_fixup_references (src, &info);
 
-	if (0) {
+#if 0
+	{
 		char *str;
 		str = dst ? expr_decode_tree (dst, src_fp) : g_strdup ("*");
 		printf ("Fixup: %s: [%s]\n\n", cell_name (src_col, src_row), str);
 		g_free (str);
 	}
+#endif
 
 	return dst;
 }
