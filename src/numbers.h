@@ -18,6 +18,10 @@ double lgamma_r (double x, int *signp);
 
 #ifdef WITH_LONG_DOUBLE
 
+#ifdef HAVE_SUNMATH_H
+#include <sunmath.h>
+#endif
+
 typedef long double gnm_float;
 
 #ifdef HAVE_ERFL

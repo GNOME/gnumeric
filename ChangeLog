@@ -1,3 +1,9 @@
+2005-03-23  Morten Welinder  <terra@gnome.org>
+
+	* src/numbers.h: For long double support, include sunmath.c if we
+	have it.
+	* configure.in: Check for sunmath.h
+
 2005-03-23  Jon K Hellan  <hellan@acm.org>
 
 	* src/sheet-object-graph.c (sheet_object_graph_write_image): 

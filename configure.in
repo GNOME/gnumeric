@@ -609,6 +609,8 @@ AC_ARG_WITH(long_double,
 		CFLAGS="$GNUMERIC_CFLAGS"
 		LIBS="$GNUMERIC_LIBS"
 
+		AC_CHECK_HEADERS(sunmath.h)
+
 		AC_CHECK_FUNCS(go_render_numberl,
 			       ,
 			       AC_MSG_ERROR([libgoffice needs to be compiled with long double support.]))
