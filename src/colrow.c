@@ -293,6 +293,7 @@ colrow_make_state (Sheet *sheet, int first, int last,
 	rles->state.is_collapsed  = FALSE;
 	rles->state.hard_size	  = hard_size;
 	rles->state.visible	  = TRUE;
+	rles->state.is_default	  = FALSE;
 	return g_slist_prepend (NULL, rles);
 }
 
@@ -310,13 +311,12 @@ colrow_get_states (Sheet *sheet, gboolean is_cols, int first, int last)
 	for (i = first; i <= last; ++i) {
 		ColRowInfo const *info = sheet_colrow_get_info (sheet, i, is_cols);
 
-		if (!(cur_state.is_default = colrow_is_default (info))) {
-			cur_state.size_pts	= info->size_pts;
-			cur_state.outline_level = info->outline_level;
-			cur_state.is_collapsed	= info->is_collapsed;
-			cur_state.hard_size	= info->hard_size;
-			cur_state.visible	= info->visible;
-		}
+		cur_state.is_default	= colrow_is_default (info);
+		cur_state.size_pts	= info->size_pts;
+		cur_state.outline_level = info->outline_level;
+		cur_state.is_collapsed	= info->is_collapsed;
+		cur_state.hard_size	= info->hard_size;
+		cur_state.visible	= info->visible;
 
 		/* Initialize the run_size in the first loop */
 		if (run_length == 0) {

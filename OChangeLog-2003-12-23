@@ -1,3 +1,9 @@
+2001-12-11  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=66666 Part 1
+	* src/colrow.c (colrow_get_states) : init even if we are default
+	  just in case something scans it later.
+
 2001-12-10  Jody Goldberg <jody@gnome.org>
 
 	* configure.in (version) : bump to 0.99.0 in preparation for 1.0.0

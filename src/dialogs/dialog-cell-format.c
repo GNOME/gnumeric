@@ -2775,26 +2775,19 @@ fmt_dialog_selection_type (Sheet *sheet,
 			   gpointer user_data)
 {
 	FormatState *state = user_data;
-	GSList *merged;
-	gboolean allow_multi_col = TRUE, allow_multi_row = TRUE;
+	GSList *merged = sheet_merge_get_overlap (sheet, range);
+	gboolean allow_multi =
+		merged == NULL ||
+		merged->next != NULL ||
+		!range_equal ((Range *)merged->data, range);
+	g_slist_free (merged);
 
-	merged = sheet_merge_get_overlap (sheet, range);
-	if (merged != NULL) {
-		if (merged->next == NULL) {
-			Range const *m = merged->data;
-			if (m->start.col == range->start.col &&
-			    m->end.col == range->end.col)
-				allow_multi_col = FALSE;
-			if (m->start.row == range->start.row &&
-			    m->end.row == range->end.row)
-				allow_multi_row = FALSE;
-		}
-		g_slist_free (merged);
+	if (allow_multi) {
+		if (range->start.col != range->end.col)
+			state->selection_mask |= 2;
+		if (range->start.row != range->end.row)
+			state->selection_mask |= 1;
 	}
-	if (allow_multi_col && range->start.col != range->end.col)
-		state->selection_mask |= 2;
-	if (allow_multi_row && range->start.row != range->end.row)
-		state->selection_mask |= 1;
 
 	sheet_style_get_uniform (state->sheet, range,
 				 &(state->style), state->borders);

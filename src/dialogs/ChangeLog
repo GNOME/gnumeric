@@ -1,3 +1,7 @@
+2001-12-10  Jody Goldberg <jody@gnome.org>
+
+	* dialog-cell-format.c (fmt_dialog_selection_type) : Life is simpler.
+
 2001-12-09  Jody Goldberg <jody@gnome.org>
 
 	* dialog-stf.glade  : only display scrollbars if necessary
