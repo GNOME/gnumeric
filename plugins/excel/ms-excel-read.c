@@ -13,6 +13,7 @@
 #include "gnumeric-chart.h"
 #include "ms-escher.h"
 
+#include "selection.h"
 #include "utils.h"	/* for cell_name */
 
 /* #define NO_DEBUG_EXCEL */

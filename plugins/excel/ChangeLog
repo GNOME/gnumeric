@@ -1,3 +1,7 @@
+1999-09-08  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c : Add selection.h
+
 1999-09-08  Michael Meeks  <michael@imaginator.com>
 
 	* README: More random thoughts to pass the time of day.
