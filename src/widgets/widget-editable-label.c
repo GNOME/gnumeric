@@ -33,6 +33,8 @@
 
 #include <string.h>
 
+static GtkObjectClass *parent_class = NULL;
+
 #define EDITABLE_LABEL_CLASS(k) (G_TYPE_CHECK_CLASS_CAST (k), EDITABLE_LABEL_TYPE)
 struct _EditableLabel {
 	GtkEntry  entry;
@@ -132,18 +134,15 @@ static void
 el_destroy (GtkObject *object)
 {
 	EditableLabel *el = EDITABLE_LABEL (object);
-	GtkObjectClass *base;
 
 	el_stop_editing (el);
 
-	base = g_type_class_peek (BASE_TYPE);
-	base->destroy (object);
+	parent_class->destroy (object);
 }
 
 static gint
 el_button_press_event (GtkWidget *widget, GdkEventButton *button)
 {
-	GtkWidgetClass *base;
 	EditableLabel *el = EDITABLE_LABEL (widget);
 
 	if (button->window != widget->window &&
@@ -162,8 +161,7 @@ el_button_press_event (GtkWidget *widget, GdkEventButton *button)
 	if (el->unedited_text == NULL)
 		return FALSE;
 
-	base = g_type_class_peek (BASE_TYPE);
-	return base->button_press_event (widget, button);
+	return ((GtkWidgetClass *)parent_class)->button_press_event (widget, button);
 }
 
 /*
@@ -174,7 +172,6 @@ el_button_press_event (GtkWidget *widget, GdkEventButton *button)
 static gint
 el_key_press_event (GtkWidget *w, GdkEventKey *event)
 {
-	GtkWidgetClass *base;
 	EditableLabel  *el = EDITABLE_LABEL (w);
 
 	if (el->unedited_text == NULL)
@@ -187,8 +184,8 @@ el_key_press_event (GtkWidget *w, GdkEventKey *event)
 			       NULL, &dummy);
 		return TRUE;
 	}
-	base = g_type_class_peek (BASE_TYPE);
-	return base->key_press_event (w, event);
+
+	return ((GtkWidgetClass *)parent_class)->key_press_event (w, event);
 }
 
 static void
@@ -197,9 +194,8 @@ el_size_request (GtkWidget *el, GtkRequisition *req)
 	PangoRectangle	 logical_rect;
 	PangoLayoutLine *line;
 	PangoLayout	*layout;
-	GtkWidgetClass	*base = g_type_class_peek (BASE_TYPE);
 
-	base->size_request (el, req);
+	((GtkWidgetClass *)parent_class)->size_request (el, req);
 	layout = gtk_entry_get_layout (GTK_ENTRY (el));
 	line = pango_layout_get_lines (layout)->data;
 	pango_layout_line_get_extents (line, NULL, &logical_rect);
@@ -210,8 +206,7 @@ el_size_request (GtkWidget *el, GtkRequisition *req)
 static void
 el_entry_realize (GtkWidget *widget)
 {
-	GtkWidgetClass	*base   = g_type_class_peek (BASE_TYPE);
-	base->realize (widget);
+	((GtkWidgetClass *)parent_class)->realize (widget);
 	el_set_cursor (GTK_ENTRY (widget), GDK_HAND2);
 }
 
@@ -219,6 +214,8 @@ static void
 el_class_init (GtkObjectClass *object_class)
 {
 	GtkWidgetClass *widget_class;
+
+	parent_class = g_type_class_peek_parent (object_class);
 
 	object_class->destroy = el_destroy;
 
