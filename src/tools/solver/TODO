@@ -40,7 +40,7 @@ Feature enhancements:
     - clean up
   * add more algorithms
     - add a list selection dialog for algorithms into the main dialog
-    - try to integrate SLATEC SPLP to see how it performs
+    - try to integrate GLPK and SLATEC SPLP to see how they perform
     - find or implement more algorithms: e.g. some interior point method
       algorithms would be cool
   * make the solver as a separate thread so that the user can continue working
@@ -69,4 +69,9 @@ Regarding NLP:
 ==============
 
 * implement support for QP (quadratic programming)
+  - support for fetching the QP obj. fn
+  - QP solver API
+  - QP solver algorithms
+  - QP results reporting
+  - QP extensions for the MPS plugin
 * implement support for general NLP

@@ -1,5 +1,7 @@
 2002-03-12  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
+	* solver.c (solver): Bug fix: added a type coersion.
+
 	* reports.c : moved set_bold and set_underlined into
 	src/tools/dao.[ch].
 
