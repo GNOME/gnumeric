@@ -1,10 +1,22 @@
+Sun Jun 13 14:59:07 1999  Morten Welinder  <welinder@rentec.com>
+
+	* src/fn-financial.c: s/double/float_t/;
+	(calculate_pvif, calculate_pvifa, calculate_fvif, calculate_fvifa,
+ 	calculate_principal, calculate_pmt): Make static.
+	(callback_function_npv): Simplify and truly ignore strings.
+	(gnumeric_duration): More error checks.
+	(gnumeric_nper): Ditto.
+	(gnumeric_syd): Ditto.
+	(gnumeric_sln): Ditto.
+	(gnumeric_pv): Ditto.
+	(gnumeric_fv): Ditto.
+
 1999-06-13  Morten Welinder  <terra@diku.dk>
 
 	* src/fn-information.c: Prune includes.
 	* src/fn-string.c: Ditto.
 	* src/fn-sheet.c: Ditto.
 	* src/fn-misc.c: Ditto.
-
 	* src/fn-financial.c: Ditto.
 	* src/fn-date.c: Ditto.
 	* src/fn-database.c: Ditto.

@@ -25,8 +25,7 @@ gnumeric_check_for_err (Sheet *sheet, GList *expr_node_list,
 	tmp = eval_expr (sheet, (ExprTree *) expr_node_list->data,
 			 eval_col, eval_row, error_string);
 
-	if (tmp)
-	{
+	if (tmp) {
 		value_release (tmp);
 		return 0;
 	}
@@ -156,11 +155,10 @@ gnumeric_error_type (Sheet *sheet, GList *expr_node_list,
 			retval = 6;
 		else if (!strcmp (gnumeric_err_NA, *error_string))
 			retval = 7;
-		else
-		{
+		else {
 			*error_string = gnumeric_err_NA;
-		return NULL;
-	}
+			return NULL;
+		}
 		*error_string = NULL;
 	}
 	return value_new_int (retval);

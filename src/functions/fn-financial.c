@@ -4,7 +4,7 @@
  * Authors:
  *  Vladimir Vuksan (vuksan@veus.hr)
  *  Jukka-Pekka Iivonen (iivonen@iki.fi)
- *  
+ *
 
  */
 #include <config.h>
@@ -13,27 +13,26 @@
 #include "utils.h"
 #include "func.h"
 
-double calculate_pvif (double rate, double nper);
-double calculate_pvifa (double rate, double nper);
-double calculate_fvif (double rate, double nper);
-double calculate_fvifa (double rate, double nper);
-double calculate_principal (double starting_principal, double payment, double rate, double period);
-double calculate_pmt (double rate, double nper, double pv, double fv, int type);
-
 /* Some forward declarations */
+static float_t calculate_pvif (float_t rate, float_t nper);
+static float_t calculate_pvifa (float_t rate, float_t nper);
+static float_t calculate_fvif (float_t rate, float_t nper);
+static float_t calculate_fvifa (float_t rate, float_t nper);
+static float_t calculate_principal (float_t starting_principal, float_t payment, float_t rate, float_t period);
+static float_t calculate_pmt (float_t rate, float_t nper, float_t pv, float_t fv, int type);
 
 /*
 
 Below are some of the functions that are used quite often in
 financial analysis.
 
-Present value interest factor 
+Present value interest factor
 
 	              1
 	 PVIF = ( ---------- ) ^ n
 	            1 + k
 
-Future value interest factor 
+Future value interest factor
 
          FVIF = 1 / PVIF
 
@@ -55,24 +54,28 @@ Future value interest factor of annuities
 
  */
 
-double calculate_pvif (double rate, double nper) 
+static float_t
+calculate_pvif (float_t rate, float_t nper)
 {
 	return (pow (1+rate, nper));
 }
 
-double calculate_fvif (double rate, double nper) 
+static float_t
+calculate_fvif (float_t rate, float_t nper)
 {
 	return (1.0 / calculate_pvif (rate,nper));
 }
 
-double calculate_pvifa (double rate, double nper) 
+static float_t
+calculate_pvifa (float_t rate, float_t nper)
 {
 	return ((1.0 / rate) - (1.0 / (rate * pow (1+rate, nper))));
 }
 
-double calculate_fvifa (double rate, double nper)
+static float_t
+calculate_fvifa (float_t rate, float_t nper)
 {
-	return ((pow (1+rate, nper) - 1) / rate); 
+	return ((pow (1+rate, nper) - 1) / rate);
 }
 
 /*
@@ -83,22 +86,24 @@ PR(x) = PR(0) * ( 1 + rate ) ^ x + PMT * ( ( 1 + rate ) ^ x - 1 ) / rate )
 
 */
 
-double calculate_principal (double starting_principal, double payment, double rate, double period) 
+static float_t
+calculate_principal (float_t starting_principal, float_t payment, float_t rate, float_t period)
 {
 	return (starting_principal * pow (1.0 + rate, period) + payment *
 		((pow(1+rate, period) - 1) / rate));
 }
 
-double calculate_pmt (double rate, double nper, double pv, double fv, int type)
+static float_t
+calculate_pmt (float_t rate, float_t nper, float_t pv, float_t fv, int type)
 {
-	double pvif, fvifa;
+	float_t pvif, fvifa;
 
 	/* Calculate the PVIF and FVIFA */
 
 	pvif = calculate_pvif (rate,nper);
 	fvifa = calculate_fvifa (rate,nper);
 
-        return (((-1.0) * pv * pvif  - fv ) / ((1.0 + rate * type) * fvifa)); 
+        return (((-1.0) * pv * pvif  - fv ) / ((1.0 + rate * type) * fvifa));
 }
 
 
@@ -135,7 +140,7 @@ static char *help_effect = {
 static Value *
 gnumeric_effect (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	double rate;
+	float_t rate;
 	int nper;
 
 	rate = value_get_as_float (argv [0]);
@@ -172,7 +177,7 @@ static char *help_nominal = {
 static Value *
 gnumeric_nominal (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	double rate;
+	float_t rate;
 	int nper;
 
 	rate = value_get_as_float (argv [0]);
@@ -201,7 +206,7 @@ static char *help_sln = {
 	   "Formula for straight line depriciation is:"
 	   "\n"
 	   "Depriciation expense = ( cost - salvage value ) / life"
-	   "\n"	
+	   "\n"
 	   "\tcost = cost of an asset when acquired (market value)"
 	   "\tsalvage_value = amount you get when asset sold at the end of life"
 	   "\tlife = anticipated life of an asset"
@@ -212,15 +217,14 @@ static char *help_sln = {
 static Value *
 gnumeric_sln (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	double cost,salvage_value,life;
+	float_t cost,salvage_value,life;
 
 	cost = value_get_as_float (argv [0]);
 	salvage_value = value_get_as_int (argv [1]);
 	life = value_get_as_float (argv [2]);
 
 	/* Life of an asset cannot be negative */
-
-	if ( life < 0 ){
+	if (life <= 0){
 		*error_string = _("sln - domain error");
 		return NULL;
 	}
@@ -251,12 +255,18 @@ static char *help_syd = {
 static Value *
 gnumeric_syd (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	double cost,salvage_value,life,period;
+	float_t cost, salvage_value, life, period;
 
 	cost = value_get_as_float (argv [0]);
 	salvage_value = value_get_as_int (argv [1]);
 	life = value_get_as_float (argv [2]);
 	period = value_get_as_float (argv [3]);
+
+	/* Life of an asset cannot be negative */
+	if (life <= 0){
+		*error_string = _("syd - domain error");
+		return NULL;
+	}
 
         return value_new_float (((cost - salvage_value) * (life - period + 1) * 2) / (life * (life + 1.0)));
 
@@ -352,10 +362,9 @@ static char *help_pv = {
 static Value *
 gnumeric_pv (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	double rate,nper,pmt,fv;
+	float_t rate, nper, pmt, fv;
+	float_t pvif, fvifa;
 	int type;
-	
-	double pvif,fvifa;
 
 	rate = value_get_as_float (argv [0]);
 	nper = value_get_as_float (argv [1]);
@@ -363,11 +372,14 @@ gnumeric_pv (struct FunctionDefinition *i, Value *argv [], char **error_string)
 	fv = value_get_as_float (argv [3]);
 	type = value_get_as_int (argv [4]);
 
+	if (rate <= 0.0){
+		*error_string = _("pv - domain error");
+		return NULL;
+	}
+
 	/* Calculate the PVIF and FVIFA */
-
-	pvif = calculate_pvif(rate,nper);
-
-	fvifa = calculate_fvifa(rate,nper);
+	pvif = calculate_pvif (rate, nper);
+	fvifa = calculate_fvifa (rate, nper);
 
         return value_new_float ( ( (-1.0) * fv - pmt * ( 1.0 + rate * type ) * fvifa ) / pvif );
 
@@ -391,27 +403,16 @@ static int
 callback_function_npv (Sheet *sheet, Value *value, char **error_string, void *closure)
 {
         financial_npv_t *mm = closure;
- 
-        switch (value->type){
-        case VALUE_INTEGER:
-	        if (mm->first == TRUE)
-		        mm->rate = value->v.v_int;
-		else
-		        mm->sum += value->v.v_int / pow(1+mm->rate, mm->num);
-		mm->num++;
-                break;
-        case VALUE_FLOAT:
-	        if (mm->first == TRUE)
-		        mm->rate = value->v.v_float;
-		else
-		        mm->sum += value->v.v_float / pow(1+mm->rate, mm->num);
-		mm->num++;
-                break;
-        default:
-                /* ignore strings */
-                break;
-        }
-        mm->first = FALSE;
+
+	if (!VALUE_IS_NUMBER (value))
+		return TRUE;
+
+	if (mm->first == TRUE) {
+		mm->rate = value_get_as_float (value);
+		mm->first = FALSE;
+	} else
+		mm->sum += value_get_as_float (value) / pow (1 + mm->rate, mm->num);
+	mm->num++;
         return TRUE;
 }
 
@@ -442,10 +443,9 @@ static char *help_fv = {
 static Value *
 gnumeric_fv (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	double rate,nper,pv,pmt;
+	float_t rate, nper, pv, pmt;
+	float_t pvif, fvifa;
 	int type;
-	
-	double pvif,fvifa;
 
 	rate = value_get_as_float (argv [0]);
 	nper = value_get_as_float (argv [1]);
@@ -471,9 +471,9 @@ static char *help_pmt = {
 static Value *
 gnumeric_pmt (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	double rate,pv,fv,nper;
+	float_t rate, pv, fv, nper;
 	int type;
-	
+
 	rate = value_get_as_float (argv [0]);
 	nper = value_get_as_float (argv [1]);
 	pv = value_get_as_float (argv [2]);
@@ -491,8 +491,8 @@ static char *help_ipmt = {
 	   "towards interest."
 	   "\n"
 	   "Formula for IPMT is:\n"
-	   "\n"	
-	   "IPMT(PER) = PMT - PRINCIPAL(PER-1) * INTEREST_RATE" 
+	   "\n"
+	   "IPMT(PER) = PMT - PRINCIPAL(PER-1) * INTEREST_RATE"
 	   "\n"
 	   "where:"
 	   "\n"
@@ -505,10 +505,10 @@ static char *help_ipmt = {
 static Value *
 gnumeric_ipmt (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	double rate,nper,per,pv,fv;
-	double pmt;
+	float_t rate, nper, per, pv, fv;
+	float_t pmt;
 	int type;
-	
+
 	rate = value_get_as_float (argv [0]);
 	nper = value_get_as_float (argv [1]);
 	per = value_get_as_float (argv [2]);
@@ -517,13 +517,11 @@ gnumeric_ipmt (struct FunctionDefinition *i, Value *argv [], char **error_string
 	type = value_get_as_int (argv [5]);
 
 	/* First calculate the payment */
-
         pmt = calculate_pmt (rate, nper, pv, fv, type);
 
-	/* Now we need to calculate the amount of money going towards the 
+	/* Now we need to calculate the amount of money going towards the
 	   principal */
-
-	return value_new_float (calculate_principal (pv, pmt, rate, per-1) * rate * (-1.0));
+	return value_new_float (-calculate_principal (pv, pmt, rate, per-1) * rate);
 
 }
 
@@ -549,10 +547,10 @@ static char *help_ppmt = {
 static Value *
 gnumeric_ppmt (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	double rate,nper,per,pv,fv;
-	double ipmt,pmt;
+	float_t rate, nper, per, pv, fv;
+	float_t ipmt, pmt;
 	int type;
-	
+
 	rate = value_get_as_float (argv [0]);
 	nper = value_get_as_float (argv [1]);
 	per = value_get_as_float (argv [2]);
@@ -561,17 +559,13 @@ gnumeric_ppmt (struct FunctionDefinition *i, Value *argv [], char **error_string
 	type = value_get_as_int (argv [5]);
 
 	/* First calculate the payment */
-
         pmt = calculate_pmt(rate,nper,pv,fv,type);
 
-	/* This piece of code was copied from gnumeric_ppmt */
-
 	/*
-	 * Now we need to calculate the amount of money going towards the 
+	 * Now we need to calculate the amount of money going towards the
 	 * principal
 	 */
-
-	ipmt = (calculate_principal (pv, pmt, rate, per-1) * rate * (-1.0));
+	ipmt = -calculate_principal (pv, pmt, rate, per-1) * rate;
 
 	return value_new_float (pmt - ipmt);
 
@@ -588,19 +582,27 @@ static char *help_nper = {
 static Value *
 gnumeric_nper (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	double rate,pmt,pv,fv;
+	float_t rate, pmt, pv, fv, tmp;
 	int type;
-	
+
 	rate = value_get_as_float (argv [0]);
 	pmt = value_get_as_float (argv [1]);
 	pv = value_get_as_float (argv [2]);
 	fv = value_get_as_float (argv [3]);
 	type = value_get_as_int (argv [4]);
 
-        return value_new_float (
-		log ((pmt * (1.0 + rate * type) - fv * rate) /
-		     (pv * rate + pmt * (1.0 + rate * type))) / log (1.0 + rate));
+	if (rate <= 0.0) {
+		*error_string = gnumeric_err_DIV0;
+		return NULL;
+	}
 
+	tmp = (pmt * (1.0 + rate * type) - fv * rate) / (pv * rate + pmt * (1.0 + rate * type));
+	if (tmp <= 0.0) {
+		*error_string = gnumeric_err_VALUE;
+		return NULL;
+	}
+
+        return value_new_float (log (tmp) / log (1.0 + rate));
 }
 
 
@@ -619,14 +621,20 @@ static char *help_duration = {
 static Value *
 gnumeric_duration (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	double rate,pv,fv;
-	
+	float_t rate,pv,fv;
+
 	rate = value_get_as_float (argv [0]);
 	pv = value_get_as_float (argv [1]);
 	fv = value_get_as_float (argv [2]);
 
-	if ( rate < 0 ){
+	if (rate <= 0) {
 		*error_string = _("duration - domain error");
+		return NULL;
+	} else if (fv == 0 || pv == 0) {
+		*error_string = gnumeric_err_DIV0;
+		return NULL;
+	} else if (fv / pv < 0) {
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
 
@@ -634,7 +642,7 @@ gnumeric_duration (struct FunctionDefinition *i, Value *argv [], char **error_st
 
 }
 
-      
+
 
 
 FunctionDefinition finance_functions [] = {
@@ -645,8 +653,8 @@ FunctionDefinition finance_functions [] = {
         { "npv",      0,      "",             &help_npv,      gnumeric_npv, NULL },
 	{ "sln", "fff", "cost,salvagevalue,life", &help_sln, NULL, gnumeric_sln},
 	{ "syd", "ffff", "cost,salvagevalue,life,period", &help_syd, NULL, gnumeric_syd},
-	{ "pv", "ffffi", "rate,nper,pmt,fv,type", &help_pv, NULL, gnumeric_pv},	
-	{ "fv", "ffffi", "rate,nper,pmt,pv,type", &help_fv, NULL, gnumeric_fv},	
+	{ "pv", "ffffi", "rate,nper,pmt,fv,type", &help_pv, NULL, gnumeric_pv},
+	{ "fv", "ffffi", "rate,nper,pmt,pv,type", &help_fv, NULL, gnumeric_fv},
 	{ "pmt", "ffffi", "rate,nper,pv,fv,type", &help_pmt, NULL, gnumeric_pmt},
 	{ "ipmt", "fffffi", "rate,per,nper,pv,fv,type", &help_ipmt, NULL, gnumeric_ipmt},
 	{ "ppmt", "fffffi", "rate,per,nper,pv,fv,type", &help_ppmt, NULL, gnumeric_ppmt},
