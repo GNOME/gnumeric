@@ -49,8 +49,8 @@
     <type>
       user's guide
     </type>
-    <format dtd="-//GNOME//DTD DocBook PNG Variant V1.0//EN" mime="text/sgml"/>
-    <identifier url="gnumeric.sgml"/>
+    <format dtd="-//OASIS//DTD DocBook XML V4.1.2//EN" mime="text/xml"/>
+    <identifier url="gnumeric.xml"/>
     <language code="C"/>
     <relation seriesid="c5e3db84-64c3-11d6-85a3-a3e50590e6d1"/>
     <rights type="GNU FDL" license.version="1.1" license="http://www.gnu.org/licenses/fdl.html" holder="Miguel de Icaza, Jody Goldberg, Thomas Canty, Jukka-Pekka Iivonen, Andreas J. Guelzow, Wayne Schuller, Adrian Custer, Kevin Breit, Aaron Weber, Alexander Kirillov"/>

@@ -301,13 +301,13 @@ entities = 					\
 	files.xml				\
 	filter.xml				\
 	formulas.xml				\
-	introduction.xml			\
 	license.xml				\
 	number-format.xml			\
 	printing.xml				\
 	selections.xml				\
 	solver.xml				\
 	worksheet.xml
+#	introduction.xml			\
 #	functions.xml	# added in gnumeric-doc.make
 
 EXTRA_DIST = gnumeric.1
