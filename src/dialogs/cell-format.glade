@@ -2154,7 +2154,7 @@ Souble
 	    </child>
 
 	    <widget>
-	      <class>GtkToggleButton</class>
+	      <class>GtkButton</class>
 	      <name>no_border</name>
 	      <border_width>6</border_width>
 	      <width>45</width>
@@ -2179,7 +2179,7 @@ Souble
 	    </child>
 
 	    <widget>
-	      <class>GtkToggleButton</class>
+	      <class>GtkButton</class>
 	      <name>outline_border</name>
 	      <border_width>6</border_width>
 	      <width>45</width>
@@ -2229,7 +2229,7 @@ Souble
 	    </child>
 
 	    <widget>
-	      <class>GtkToggleButton</class>
+	      <class>GtkButton</class>
 	      <name>inside_border</name>
 	      <border_width>6</border_width>
 	      <width>45</width>
