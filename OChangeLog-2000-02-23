@@ -19,6 +19,7 @@
 	(cell_drop_dependencies) : Ditto.
 	(region_get_dependencies) : Ditto.
 	(cell_get_dependencies) : Ditto.
+	(add_cell_range_dep) : Increment ref_count AFTER looking for duplicates.
 
 	* src/workbook.c (workbook_do_destroy) : Add some debugging code to
           catch dangling dependancies.

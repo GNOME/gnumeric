@@ -113,20 +113,18 @@ static void
 add_cell_range_dep (Cell *cell, DependencyRange const * const range)
 {
 	/* Look it up */
-	DependencyRange *result = g_hash_table_lookup (cell->sheet->dependency_hash,
-						       range);
+	DependencyRange *result =
+		g_hash_table_lookup (cell->sheet->dependency_hash, range);
 	if (result){
-		GList *cl;
-
-		result->ref_count++;
-
 		/* Is the cell already listed? */
-		cl = g_list_find (result->cell_list, cell);
+		GList const *cl = g_list_find (result->cell_list, cell);
 		if (cl)
 			return;
 
 		/* It was not: add it */
 		result->cell_list = g_list_prepend (result->cell_list, cell);
+		result->ref_count++;
+
 		return;
 	}
 
