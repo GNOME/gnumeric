@@ -47,6 +47,7 @@ typedef struct _AttrState
 		GtkToggleButton	*show_vsb;
 		GtkToggleButton	*show_tabs;
 		GtkToggleButton	*autocomplete;
+		GtkToggleButton	*is_protected;
 	} view;
 } AttrState;
 
@@ -94,6 +95,8 @@ cb_attr_dialog_dialog_apply (GtkObject *w, int page, AttrState *state)
 		gtk_toggle_button_get_active (state->view.show_tabs);
 	state->wbv->do_auto_completion =
 		gtk_toggle_button_get_active (state->view.autocomplete);
+	state->wbv->is_protected =
+		gtk_toggle_button_get_active (state->view.is_protected);
 
 	wb_view_prefs_update (state->wbv);
 }
@@ -147,6 +150,9 @@ attr_dialog_init_view_page (AttrState *state)
 	state->view.autocomplete = attr_dialog_init_toggle (state,
 		"WorkbookView::do_auto_completion",
 		state->wbv->do_auto_completion);
+	state->view.is_protected = attr_dialog_init_toggle (state,
+		"WorkbookView::workbook_protected",
+		state->wbv->is_protected);
 }
 
 /*****************************************************************************/

@@ -2416,11 +2416,13 @@ cb_autosum (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	entry = wbcg_get_entry (wbcg);
 	txt = gtk_entry_get_text (entry);
 	if (strncmp (txt, "=sum(", 5)) {
-		wbcg_edit_start (wbcg, TRUE, TRUE);
+		if (!wbcg_edit_start (wbcg, TRUE, TRUE))
+			return; /* attempt to edit failed */
 		gtk_entry_set_text (entry, "=sum()");
 		gtk_editable_set_position (GTK_EDITABLE (entry), 5);
 	} else {
-		wbcg_edit_start (wbcg, FALSE, TRUE);
+		if (!wbcg_edit_start (wbcg, FALSE, TRUE))
+			return; /* attempt to edit failed */
 
 		/*
 		 * FIXME : This is crap!
@@ -2910,13 +2912,13 @@ static GnomeUIInfo workbook_menu_format [] = {
 	GNOMEUIINFO_SUBTREE(N_("_Row"),    workbook_menu_format_row),
 	GNOMEUIINFO_SUBTREE(N_("_Sheet"),  workbook_menu_format_sheet),
 
-	GNOMEUIINFO_ITEM_NONE (N_("_Autoformat..."),
-			      N_("Format a region of cells according to a pre-defined template"),
-			      cb_autoformat),
-
 	GNOMEUIINFO_ITEM_NONE (N_("_Workbook..."),
 		N_("Modify the workbook attributes"),
 		cb_workbook_attr),
+
+	GNOMEUIINFO_ITEM_NONE (N_("_Autoformat..."),
+			      N_("Format a region of cells according to a pre-defined template"),
+			      cb_autoformat),
 	GNOMEUIINFO_END
 };
 
@@ -3411,7 +3413,7 @@ cb_editline_focus_in (GtkWidget *w, GdkEventFocus *event,
 		      WorkbookControlGUI *wbcg)
 {
 	if (!wbcg->editing)
-		wbcg_edit_start (wbcg, FALSE, TRUE);
+		return wbcg_edit_start (wbcg, FALSE, TRUE);
 
 	return TRUE;
 }
@@ -3450,11 +3452,13 @@ cb_autofunction (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	entry = wbcg_get_entry (wbcg);
 	txt = gtk_entry_get_text (entry);
 	if (strncmp (txt, "=", 1)) {
-		wbcg_edit_start (wbcg, TRUE, TRUE);
+		if (!wbcg_edit_start (wbcg, TRUE, TRUE))
+			return; /* attempt to edit failed */
 		gtk_entry_set_text (entry, "=");
 		gtk_editable_set_position (GTK_EDITABLE (entry), 1);
 	} else {
-		wbcg_edit_start (wbcg, FALSE, TRUE);
+		if (!wbcg_edit_start (wbcg, FALSE, TRUE))
+			return; /* attempt to edit failed */
 
 		/* FIXME : This is crap!
 		 * When the function druid is more complete use that.

@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * dialog-paste-special.c: The dialog for selecting non-standard
  *    behaviors when pasting.
@@ -19,14 +20,14 @@
 #define BUTTON_PASTE_LINK 0
 
 static const struct {
-	const char *name;
-	int  disables_second_group;
-} paste_types[] = {
-	{ N_("All"),      0 },
-	{ N_("Content"),  0 },
-	{ N_("As Value"), 0 },
-	{ N_("Formats"),  1 },
-	{ NULL, 0 }
+	char const *name;
+	gboolean allows_operations;
+} paste_types [] = {
+	{ N_("All"),      TRUE },
+	{ N_("Content"),  TRUE },
+	{ N_("As Value"), TRUE },
+	{ N_("Formats"),  FALSE },
+	{ NULL, FALSE }
 };
 
 static const char *paste_ops[] = {
@@ -40,22 +41,43 @@ static const char *paste_ops[] = {
 
 typedef struct {
 	GtkDialog       *dialog;
-	GSList          *group_type;
-	GSList          *group_ops;
+	GtkWidget	*op_frame;
 	GtkToggleButton *transpose;
 	GtkToggleButton *skip_blanks;
+	GSList *type_group, *op_group;
+	int     type,	     op;
 } PasteSpecialState;
 
+/* The "Paste Link" button should be grayed-out, unless type "All" is
+   selected, operation "None" is selected, and "Transpose" and "Skip
+   Blanks" are not selected.  */
 static void
-disable_op_group (GtkWidget *widget, GtkWidget *group)
+paste_link_set_sensitive (GtkWidget *ignored, PasteSpecialState *state)
 {
-	gtk_widget_set_sensitive (group, FALSE);
+	gboolean sensitive =
+		(gtk_radio_group_get_selected (state->type_group) == 0) &&
+		(gtk_radio_group_get_selected (state->op_group) == 0) &&
+		!gtk_toggle_button_get_active (state->transpose) &&
+		!gtk_toggle_button_get_active (state->skip_blanks);
+
+	gtk_dialog_set_response_sensitive (state->dialog,
+		BUTTON_PASTE_LINK, sensitive);
 }
 
 static void
-enable_op_group (GtkWidget *widget, GtkWidget *group)
+cb_type_toggle (GtkWidget *ignored, PasteSpecialState *state)
 {
-	gtk_widget_set_sensitive (group, TRUE);
+	state->type = gtk_radio_group_get_selected (state->type_group);
+	gtk_widget_set_sensitive (state->op_frame,
+		paste_types [state->type].allows_operations);
+	paste_link_set_sensitive (NULL, state);
+}
+
+static void
+cb_op_toggle (GtkWidget *ignored, PasteSpecialState *state)
+{
+	state->op = gtk_radio_group_get_selected (state->op_group);
+	paste_link_set_sensitive (NULL, state);
 }
 
 static void
@@ -64,131 +86,94 @@ checkbutton_toggled (GtkWidget *widget, gboolean *flag)
         *flag = GTK_TOGGLE_BUTTON (widget)->active;
 }
 
-static gboolean
-dialog_destroy (GtkObject *w, PasteSpecialState *state)
-{
-	g_free (state);
-	return FALSE;
-}
-
-/* The "Paste Link" button should be grayed-out, unless type "All" is
-   selected, operation "None" is selected, and "Transpose" and "Skip
-   Blanks" are not selected.  */
-static void
-paste_link_set_sensitive (GtkWidget *widget, PasteSpecialState *state)
-{
-	gboolean sensitive =
-		(gtk_radio_group_get_selected (state->group_type) == 0) &&
-		(gtk_radio_group_get_selected (state->group_ops) == 0) &&
-		!state->transpose->active &&
-		!state->skip_blanks->active;
-
-	gtk_dialog_set_response_sensitive (state->dialog,
-		BUTTON_PASTE_LINK, sensitive);
-}
-
 int
 dialog_paste_special (WorkbookControlGUI *wbcg)
 {
 	GtkWidget *hbox, *vbox;
-	GtkWidget *f1, *f1v, *f2, *f2v, *first_button = NULL;
+	GtkWidget *f1, *f1v, *op_box, *first_button = NULL;
 	int result, i;
 	int v;
 	gboolean do_transpose = FALSE;
 	gboolean do_skip_blanks = FALSE;
-	PasteSpecialState *state;
+	PasteSpecialState state;
 	GtkWidget *tmp;
-
-	state = g_new (PasteSpecialState, 1);
 
 	tmp = gtk_dialog_new_with_buttons (_("Paste special"),
 		wbcg_toplevel (wbcg),
 		GTK_DIALOG_DESTROY_WITH_PARENT,
 		_("Paste Link"),	BUTTON_PASTE_LINK,
-		GTK_STOCK_OK,		GTK_RESPONSE_OK,
 		GTK_STOCK_CANCEL,	GTK_RESPONSE_CANCEL,
+		GTK_STOCK_OK,		GTK_RESPONSE_OK,
 		NULL);
-	state->dialog = GTK_DIALOG (tmp);
-	g_signal_connect (G_OBJECT (state->dialog),
-		"destroy",
-		G_CALLBACK (dialog_destroy), state);
-	gtk_dialog_set_default_response (state->dialog, GTK_RESPONSE_CANCEL);
+	state.dialog = GTK_DIALOG (tmp);
+	gtk_dialog_set_default_response (state.dialog, GTK_RESPONSE_CANCEL);
 
 	f1  = gtk_frame_new (_("Paste type"));
 	f1v = gtk_vbox_new (TRUE, 0);
 	gtk_container_add (GTK_CONTAINER (f1), f1v);
 
-	f2  = gtk_frame_new (_("Operation"));
-	f2v = gtk_vbox_new (TRUE, 0);
-	gtk_container_add (GTK_CONTAINER (f2), f2v);
+	state.op_frame  = gtk_frame_new (_("Operation"));
+	op_box = gtk_vbox_new (TRUE, 0);
+	gtk_container_add (GTK_CONTAINER (state.op_frame), op_box);
 
-	state->group_type = NULL;
+	state.type = 0;
+	state.type_group = NULL;
 	for (i = 0; paste_types[i].name; i++){
-		GCallback func;
-		GtkWidget *r;
-
-		if (paste_types[i].disables_second_group)
-			func = G_CALLBACK (disable_op_group);
-		else
-			func = G_CALLBACK (enable_op_group);
-
-		r = gtk_radio_button_new_with_label (state->group_type, _(paste_types[i].name));
-		state->group_type = GTK_RADIO_BUTTON (r)->group;
-
-		g_signal_connect (G_OBJECT (r), "toggled", func, f2);
+		GtkWidget *r = gtk_radio_button_new_with_label (state.type_group,
+			_(paste_types[i].name));
+		state.type_group = GTK_RADIO_BUTTON (r)->group;
 		g_signal_connect (G_OBJECT (r),
 			"toggled",
-			G_CALLBACK (paste_link_set_sensitive), state);
-
+			G_CALLBACK (cb_type_toggle), &state);
 		gtk_box_pack_start_defaults (GTK_BOX (f1v), r);
-		if (i == 0) first_button = r;
+		if (i == 0)
+			first_button = r;
 	}
 
-	state->group_ops = NULL;
+	state.op = 0;
+	state.op_group = NULL;
 	for (i = 0; paste_ops[i]; i++){
-		GtkWidget *r;
-
-		r = gtk_radio_button_new_with_label (state->group_ops, _(paste_ops[i]));
+		GtkWidget *r = gtk_radio_button_new_with_label (state.op_group,
+			_(paste_ops[i]));
+		state.op_group = GTK_RADIO_BUTTON (r)->group;
 		g_signal_connect (G_OBJECT (r),
 			"toggled",
-			G_CALLBACK (paste_link_set_sensitive),
-				    state);
-		state->group_ops = GTK_RADIO_BUTTON (r)->group;
-		gtk_box_pack_start_defaults (GTK_BOX (f2v), r);
+			G_CALLBACK (cb_op_toggle), &state);
+		gtk_box_pack_start_defaults (GTK_BOX (op_box), r);
 	}
 
 	vbox = gtk_vbox_new (TRUE, 0);
 
-	state->transpose = GTK_TOGGLE_BUTTON (gtk_check_button_new_with_label (_("Transpose")));
-	g_signal_connect (G_OBJECT (state->transpose),
+	state.transpose = GTK_TOGGLE_BUTTON (gtk_check_button_new_with_label (_("Transpose")));
+	g_signal_connect (G_OBJECT (state.transpose),
 		"toggled",
 		G_CALLBACK (checkbutton_toggled), &do_transpose);
-	g_signal_connect (G_OBJECT (state->transpose),
+	g_signal_connect (G_OBJECT (state.transpose),
 		"toggled",
-		G_CALLBACK (paste_link_set_sensitive), state);
-	gtk_box_pack_start_defaults (GTK_BOX (vbox), GTK_WIDGET (state->transpose));
+		G_CALLBACK (paste_link_set_sensitive), &state);
+	gtk_box_pack_start_defaults (GTK_BOX (vbox), GTK_WIDGET (state.transpose));
 
-	state->skip_blanks = GTK_TOGGLE_BUTTON (gtk_check_button_new_with_label (_("Skip Blanks")));
-	g_signal_connect (G_OBJECT (state->skip_blanks),
+	state.skip_blanks = GTK_TOGGLE_BUTTON (gtk_check_button_new_with_label (_("Skip Blanks")));
+	g_signal_connect (G_OBJECT (state.skip_blanks),
 		"toggled",
 		G_CALLBACK (checkbutton_toggled), &do_skip_blanks);
-	g_signal_connect (G_OBJECT (state->skip_blanks),
+	g_signal_connect (G_OBJECT (state.skip_blanks),
 		"toggled",
-		G_CALLBACK (paste_link_set_sensitive), state);
-	gtk_box_pack_start_defaults (GTK_BOX (vbox), GTK_WIDGET (state->skip_blanks));
+		G_CALLBACK (paste_link_set_sensitive), &state);
+	gtk_box_pack_start_defaults (GTK_BOX (vbox), GTK_WIDGET (state.skip_blanks));
 
 	hbox = gtk_hbox_new (TRUE, 0);
 	gtk_box_pack_start_defaults (GTK_BOX (hbox), f1);
-	gtk_box_pack_start_defaults (GTK_BOX (hbox), f2);
+	gtk_box_pack_start_defaults (GTK_BOX (hbox), state.op_frame);
 	gtk_box_pack_start_defaults (GTK_BOX (hbox), vbox);
 
-	gtk_box_pack_start (GTK_BOX (state->dialog->vbox), hbox, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (state.dialog->vbox), hbox, TRUE, TRUE, 0);
 	gtk_widget_show_all (hbox);
 	gtk_widget_grab_focus (first_button);
 
 	/* Run the dialog */
-	gtk_window_set_modal (GTK_WINDOW (state->dialog), TRUE);
-	v = gnumeric_dialog_run (wbcg, state->dialog);
+	gtk_window_set_modal (GTK_WINDOW (state.dialog), TRUE);
+	v = gnumeric_dialog_run (wbcg, state.dialog);
 
 	/* If closed with the window manager, cancel */
 	if (v == -1)
@@ -199,55 +184,28 @@ dialog_paste_special (WorkbookControlGUI *wbcg)
 	/* Fetch the results */
 	if (v == GTK_RESPONSE_OK) {
 		result = 0;
-		i = gtk_radio_group_get_selected (state->group_type);
 
-		switch (i){
-		case 0: /* all */
-			result = PASTE_ALL_TYPES;
-			break;
-
-		case 1: /* content */
-			result = PASTE_CONTENT;
-			break;
-
-		case 2: /* as values */
-			result = PASTE_AS_VALUES;
-			break;
-
-		case 3: /* formats */
-			result = PASTE_FORMATS;
-			break;
+		switch (state.type) {
+		case 0: result = PASTE_ALL_TYPES;	break;
+		case 1: result = PASTE_CONTENT;		break;
+		case 2: result = PASTE_AS_VALUES;	break;
+		case 3: result = PASTE_FORMATS;		break;
 		}
 
 		/* If it was not just formats, check operation */
-		if (i != 3){
-			i = gtk_radio_group_get_selected (state->group_ops);
-			switch (i){
-			case 1:		/* Add */
-				result |= PASTE_OPER_ADD;
-				break;
-
-			case 2:
-				result |= PASTE_OPER_SUB;
-				break;
-
-			case 3:
-				result |= PASTE_OPER_MULT;
-				break;
-
-			case 4:
-				result |= PASTE_OPER_DIV;
-				break;
+		if (result != PASTE_FORMATS) {
+			switch (state.op) {
+			case 1 : result |= PASTE_OPER_ADD;  break;
+			case 2 : result |= PASTE_OPER_SUB;  break;
+			case 3 : result |= PASTE_OPER_MULT; break;
+			case 4 : result |= PASTE_OPER_DIV;  break;
 			}
 		}
 		if (do_transpose)
 			result |= PASTE_TRANSPOSE;
 		if (do_skip_blanks)
 			result |= PASTE_SKIP_BLANKS;
-	} else if (v == BUTTON_PASTE_LINK) {
+	} else if (v == BUTTON_PASTE_LINK)
 		result = PASTE_LINK;
-	}
-	gtk_object_destroy (GTK_OBJECT (state->dialog));
-
 	return result;
 }

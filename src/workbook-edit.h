@@ -8,7 +8,7 @@
 void	 wbcg_edit_ctor	  (WorkbookControlGUI *wbcg);
 void	 wbcg_edit_dtor	  (WorkbookControlGUI *wbcg);
 gboolean wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept);
-void     wbcg_edit_start  (WorkbookControlGUI *wbcg,
+gboolean wbcg_edit_start  (WorkbookControlGUI *wbcg,
 			   gboolean blankp, gboolean cursorp);
 
 void	    wbcg_edit_attach_guru	(WorkbookControlGUI *wbcg, GtkWidget *guru);

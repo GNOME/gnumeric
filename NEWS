@@ -104,6 +104,7 @@ Morten:
 
 Scott Ananian:
 	* Update the debian control files.
+	* Initial support for WorkbookView::is_protected.
 
 Wayne Schuster:
 	* Implement opening of comment dialog by double clicking marker.

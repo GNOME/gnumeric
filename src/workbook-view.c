@@ -47,14 +47,6 @@
 #include <gal/util/e-util.h>
 #include <locale.h>
 
-/* Persistent attribute ids, do not change them */
-enum {
-	ARG_VIEW_HSCROLLBAR = 1,
-	ARG_VIEW_VSCROLLBAR,
-	ARG_VIEW_TABS,
-	ARG_VIEW_DO_AUTO_COMPLETION,
-};
-
 /* WorkbookView signals */
 enum {
 	LAST_SIGNAL
@@ -110,6 +102,15 @@ wb_view_sheet_add (WorkbookView *wbv, Sheet *new_sheet)
 		wb_control_sheet_add (control, new_sheet););
 }
 
+gboolean
+wb_view_is_protected (WorkbookView *wbv, gboolean check_sheet)
+{
+	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), FALSE);
+
+	return wbv->is_protected || (check_sheet &&
+		wbv->current_sheet != NULL && wbv->current_sheet->is_protected);
+}
+
 void
 wb_view_set_attribute (WorkbookView *wbv, char const *name,
 		       char const *value)
@@ -120,7 +121,7 @@ wb_view_set_attribute (WorkbookView *wbv, char const *name,
 	g_return_if_fail (name != NULL);
 	g_return_if_fail (value != NULL);
 
-	res = !strcmp (value, "TRUE");
+	res = !g_strcasecmp (value, "TRUE");
 	if (!strcmp (name , "WorkbookView::show_horizontal_scrollbar"))
 		wbv->show_horizontal_scrollbar = res;
 	else if (!strcmp (name , "WorkbookView::show_vertical_scrollbar"))
@@ -129,6 +130,8 @@ wb_view_set_attribute (WorkbookView *wbv, char const *name,
 		wbv->show_notebook_tabs = res;
 	else if (!strcmp (name , "WorkbookView::do_auto_completion"))
 		wbv->do_auto_completion = res;
+	else if (!strcmp (name , "WorkbookView::is_protected"))
+		wbv->is_protected = res;
 	else
 		g_warning ("WorkbookView unknown arg '%s'", name);
 }
@@ -442,6 +445,7 @@ workbook_view_init (WorkbookView *wbv, Workbook *opt_wb)
 	wbv->show_vertical_scrollbar = TRUE;
 	wbv->show_notebook_tabs = TRUE;
 	wbv->do_auto_completion = application_use_auto_complete ();
+	wbv->is_protected = FALSE;
 
 	/* Set the default operation to be performed over selections */
 	wbv->auto_expr      = NULL;

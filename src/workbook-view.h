@@ -18,6 +18,7 @@ struct _WorkbookView {
 	gboolean   show_vertical_scrollbar;
 	gboolean   show_notebook_tabs;
 	gboolean   do_auto_completion;
+	gboolean   is_protected;
 
 	/* Non-normative size information */
 	int preferred_width, preferred_height;
@@ -57,6 +58,7 @@ Workbook	*wb_view_workbook	  (WorkbookView *wbv);
 Sheet		*wb_view_cur_sheet	  (WorkbookView *wbv);
 void		 wb_view_sheet_focus	  (WorkbookView *wbv, Sheet *sheet);
 void		 wb_view_sheet_add	  (WorkbookView *wbv, Sheet *new_sheet);
+gboolean	 wb_view_is_protected	  (WorkbookView *wbv, gboolean check_sheet);
 
 /* Manipulation */
 void         	 wb_view_set_attribute	  (WorkbookView *wbv, char const *name,

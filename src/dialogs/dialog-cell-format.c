@@ -33,6 +33,7 @@
 #include <validation.h>
 #include <workbook.h>
 #include <workbook-edit.h>
+#include <workbook-view.h>
 #include <commands.h>
 #include <widgets/gnumeric-expr-entry.h>
 
@@ -159,7 +160,10 @@ typedef struct _FormatState
 		PatternPicker	 pattern;
 	} back;
 	struct {
-		GtkCheckButton *hidden, *locked;
+		GtkCheckButton *hidden, *locked, *sheet_protected;
+
+		gboolean	 sheet_protected_changed;
+		gboolean	 sheet_protected_value;
 	} protection;
 	struct {
 		GtkTable       *criteria_table;
@@ -1961,6 +1965,17 @@ cb_protection_hidden_toggle (GtkToggleButton *button, FormatState *state)
 }
 
 static void
+cb_protection_sheet_protected_toggle (GtkToggleButton *button, FormatState *state)
+{
+	if (state->enable_edit) {
+		state->protection.sheet_protected_value =
+			gtk_toggle_button_get_active (button);
+		state->protection.sheet_protected_changed = TRUE;
+		fmt_dialog_changed (state);
+	}
+}
+
+static void
 fmt_dialog_init_protection_page (FormatState *state)
 {
 	GtkWidget *w;
@@ -1983,6 +1998,15 @@ fmt_dialog_init_protection_page (FormatState *state)
 	g_signal_connect (GTK_OBJECT (w),
 		"toggled", G_CALLBACK (cb_protection_hidden_toggle),
 		state);
+
+	state->protection.sheet_protected_changed = FALSE;
+	flag = wb_control_view (WORKBOOK_CONTROL (state->wbcg))->is_protected;
+	w = glade_xml_get_widget (state->gui, "protection_sheet_protected");
+	state->protection.sheet_protected = GTK_CHECK_BUTTON (w);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), flag);
+	g_signal_connect (G_OBJECT (w),
+		"toggled",
+		G_CALLBACK (cb_protection_sheet_protected_toggle), state);
 }
 
 /*****************************************************************************/
@@ -2300,6 +2324,12 @@ cb_fmt_dialog_dialog_buttons (GtkWidget *btn, FormatState *state)
 
 		if (state->validation.changed)
 			validation_rebuild_validation (state);
+		if (state->protection.sheet_protected_changed) {
+			WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (state->wbcg));
+			wbv->is_protected = state->protection.sheet_protected_value;
+			wb_view_prefs_update (wbv);
+			state->protection.sheet_protected_changed = FALSE;
+		}
 
 		mstyle_ref (state->result);
 

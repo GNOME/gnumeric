@@ -2099,7 +2099,7 @@ log_xf_data (ExcelWorkbook *wb, BiffXFData *xfd, int idx)
  * See S59E1E.HTM
  *
  * All BIFF V7 features are implemented, except:
- * - hidden and locked - not yet in gnumeric.
+ * - hidden - not yet in gnumeric.
  *
  * Apart from font, the style elements we retrieve do *not* need to be unrefed.
  **/

@@ -7,34 +7,29 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-http://bugzilla.gnome.org/show_bug.cgi?id=71551
-
-We need to somehow add --export-dynamic to the gnumeric link line, or else
-plugins won't load on Solaris/gcc.
-
-Why doesn't float_range_function2 use its "flags" argument?
-
-Search and search/replace dialogs are currently shot.
-
-Printing dialogs are shot.
-
-Paste-special dialog crashes.
-
-Text-import dialog crashes.
-
-Summary dialog is non-functional.
-
-Go-to cell dialog is shot.
+- http://bugzilla.gnome.org/show_bug.cgi?id=71551
+- We need to somehow add --export-dynamic to the gnumeric link line, or else
+  plugins won't load on Solaris/gcc.
+- Why doesn't float_range_function2 use its "flags" argument?
+- Search and search/replace dialogs are currently shot.
+- Printing dialogs are shot.
+- Text-import dialog crashes.
+- Summary dialog is non-functional.
+- Go-to cell dialog is shot.
+- rewrite editable-lable to be utf8 clean
 
 1.2 Targets
 -----------
 
 - PROB sucks right now.
+- 3D reference support
+- load/save of external references
 
 Pending Patches
 ---------------
 
-    Yukihiro's IM support (broken in the context of gnome2)
+- Yukihiro's IM support (broken in the context of gnome2)
+- http://flowernet.gr.jp/jado/comp/patch/gnumeric/gnumeric-1.0.4-excel-cjk.patch   
 
 Long term breakage
 ------------------
@@ -105,7 +100,6 @@ Long term breakage
 	  current cell.
 	* Should <ok> add the name ?
     : Fix XL named expr import for sheet local names
-      * externsheet for biff7 type=3
       * test for unicode
     : Check scoping changes.
 
@@ -188,8 +182,6 @@ Long term breakage
     : Add keyboard controls for the control points
     : display a view per Pane not per scg
     : Add object control for resize to disable invalid sizes.
-    : do not show the middle size boxes when the space between corners is too
-      small.
 
 - Add a warning when attempting to save using the suffix from a different saver.
   eg saving .gnumeric as foo.xls

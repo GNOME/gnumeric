@@ -3289,7 +3289,7 @@
 
 		<child>
 		  <widget class="GtkCheckButton" id="protection_sheet_protected">
-		    <property name="sensitive">no</property>
+		    <property name="sensitive">yes</property>
 		    <property name="can_focus">yes</property>
 		    <property name="label" translatable="yes">Worksheet _protected</property>
 		    <property name="active">no</property>

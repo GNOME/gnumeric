@@ -311,8 +311,11 @@ entry_changed (GtkEntry *entry, void *data)
  * editing:
  *  1) in-cell editing when you just start typing, and
  *  2) above sheet editing when you hit F2.
+ *
+ * Returns TRUE if we did indeed start editing.  Returns FALSE if the
+ * cell-to-be-edited was locked.
  */
-void
+gboolean
 wbcg_edit_start (WorkbookControlGUI *wbcg,
 		 gboolean blankp, gboolean cursorp)
 {
@@ -324,16 +327,14 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 	int col, row;
 	WorkbookView *wbv;
 
-	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), FALSE);
 
 	if (wbcg->editing)
-		return;
+		return TRUE;
 
 	/* Avoid recursion, and do not begin editing if a guru is up */
 	if (inside_editing || wbcg_edit_has_guru (wbcg))
-		return;
-
-	inside_editing = TRUE;
+		return TRUE;
 
 	wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
 	sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
@@ -342,17 +343,34 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 	col = sheet->edit_pos.col;
 	row = sheet->edit_pos.row;
 
+	/* don't edit a locked cell */
+	/* TODO : extend this to disable edits that can not succeed
+	 * like editing a single cell of an array.  I think we have enough
+	 * information if we look at the selection.
+	 */
+	if (wb_view_is_protected (wbv, TRUE) &&
+	    mstyle_get_content_locked (sheet_style_get (sheet, col, row))) {
+		char *pos =  g_strdup_printf ( _("%s!%s is locked.\n"),
+			sheet->name_quoted, cell_coord_name (col, row));
+		gnumeric_error_invalid (COMMAND_CONTEXT (wbcg), pos,
+			wb_view_is_protected (wbv, FALSE)
+			 ? _("Unprotect the sheet to enable editing.")
+			 : _("Unprotect the workbook to enable editing."));
+		g_free (pos);
+		return FALSE;
+	}
+
+	inside_editing = TRUE;
+
 	application_clipboard_unant ();
 	workbook_edit_set_sensitive (wbcg, TRUE, FALSE);
 
 	cell = sheet_cell_get (sheet, col, row);
-
 	if (!blankp) {
 		if (cell != NULL)
 			text = cell_get_entered_text (cell);
 
-		/*
-		 * If this is part of an array we need to remove the
+		/* If this is part of an array we need to remove the
 		 * '{' '}' and the size information from the display.
 		 * That is not actually part of the parsable expression.
 		 */
@@ -405,6 +423,7 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 		g_free (text);
 
 	inside_editing = FALSE;
+	return TRUE;
 }
 
 GtkEntry *

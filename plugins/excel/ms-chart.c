@@ -2461,10 +2461,10 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver, GObject
 				break;
 
 			case BIFF_PROTECT : {
-				gboolean const protected =
+				gboolean const is_protected =
 					(1 == MS_OLE_GET_GUINT16 (q->data));
 				d (4, printf ("Chart is%s protected;\n",
-					     protected ? "" : " not"););
+					     is_protected ? "" : " not"););
 				break;
 			}
 
