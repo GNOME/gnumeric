@@ -26,6 +26,7 @@
 #include <goffice/graph/gog-view.h>
 #include <goffice/utils/go-units.h>
 #include <goffice/utils/go-font.h>
+#include <goffice/utils/go-math.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <math.h>
@@ -603,9 +604,7 @@ gog_renderer_line_size (GogRenderer const *rend, double width)
 	if (klass->line_size)
 		return (klass->line_size) (rend, width);
 	
-	if (width < 0.)
-		return 0.;
-	if (width == 0.)
+	if (go_sub_epsilon (width) <= 0.)
 		width = GOG_RENDERER_HAIR_LINE_WIDTH;
 	return width * rend->scale;
 }

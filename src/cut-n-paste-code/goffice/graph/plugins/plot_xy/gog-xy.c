@@ -938,9 +938,11 @@ gog_xy_series_init_style (GogStyledObject *gso, GogStyle *style)
 	}
 	if (!plot->default_style_has_lines) {
 		style->disable_theming |= GOG_STYLE_LINE;
+		if (style->line.auto_dash)
+			style->line.dash_type = GO_LINE_NONE;
 		if (style->line.auto_color) {
-			style->line.width = -1;
-			style->line.color = 0;
+			style->line.width = 0;
+			style->line.color = RGBA_BLACK;
 		}
 	}
 }

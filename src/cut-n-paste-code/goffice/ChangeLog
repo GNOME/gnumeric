@@ -1,3 +1,20 @@
+2004-11-14  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* graph/gog-renderer-pixbuf.c (line_size): width <= 0. is hairline.
+	* graph/gog-renderer.c (gog_render_line_size): ditto.
+	* graph/gog-style.c (cb_outline_size_changed): round to 2 significant
+	digits since sometimes adj->value returns 1E-17 instead of zero.
+	(cb_line_size_changed): ditto.
+	(gog_style_apply_theme): handle dash_type property.
+	(gog_style_gradient_sax_save): fix brightness test to be consistent
+	with dom_save.
+	(gog_style_gradient_load): start-color and end-coilor were inverted.
+	(gog_style_is_outline_visible): line is visible for all width values.
+	(gog_style_is_line_visible): ditto.
+	(gog_style_force_auto): handle auto_dash.
+ 	* graph/plugins/plot_xyt/gog-xy.c (gog_xy_series_init_style): handle
+	dash_type property.
+
 2004-11-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=152514

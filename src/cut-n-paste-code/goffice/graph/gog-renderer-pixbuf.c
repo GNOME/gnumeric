@@ -28,6 +28,7 @@
 #include <goffice/utils/go-font.h>
 #include <goffice/utils/go-marker.h>
 #include <goffice/utils/go-units.h>
+#include <goffice/utils/go-math.h>
 
 #include <libart_lgpl/art_render_gradient.h>
 #include <libart_lgpl/art_render_svp.h>
@@ -172,9 +173,7 @@ clip_path (GogViewAllocation const *bound)
 static double
 line_size (GogRenderer const *rend, double width)
 {
-	if (width < 0.)
-		return 0.;
-	if (width == 0.) /* cheesy version of hairline */
+	if (go_sub_epsilon (width) <= 0.) /* cheesy version of hairline */
 		return 1.;
 	
 	width *= rend->scale;

@@ -289,7 +289,8 @@ dialog_about (WorkbookControlGUI *wbcg)
 
 	/* A bar plot of the current contributors activities */
 	chart = gog_object_add_by_name (state->graph, "Chart", NULL);
-	GOG_STYLED_OBJECT (chart)->style->outline.width = -1;
+	GOG_STYLED_OBJECT (chart)->style->outline.dash_type = GO_LINE_NONE;
+	GOG_STYLED_OBJECT (chart)->style->outline.auto_dash = FALSE;
 	GOG_STYLED_OBJECT (chart)->style->fill.type = GOG_FILL_STYLE_NONE;
 	plot = gog_plot_new_by_name ("GogBarColPlot");
 	if (!plot) {
@@ -310,7 +311,8 @@ dialog_about (WorkbookControlGUI *wbcg)
 	state->individual_data = go_data_vector_val_new (
 		state->individual, G_N_ELEMENTS (state->individual));
 	gog_series_set_dim (series, 1, state->individual_data, NULL);
-	GOG_STYLED_OBJECT (series)->style->outline.width = -1;
+	GOG_STYLED_OBJECT (series)->style->outline.dash_type = GO_LINE_NONE;
+	GOG_STYLED_OBJECT (series)->style->outline.auto_dash = FALSE;
 	GOG_STYLED_OBJECT (series)->style->fill.type = GOG_FILL_STYLE_GRADIENT;
 	GOG_STYLED_OBJECT (series)->style->fill.gradient.dir = GO_GRADIENT_N_TO_S_MIRRORED;
 	gog_style_set_fill_brightness (
@@ -329,7 +331,8 @@ dialog_about (WorkbookControlGUI *wbcg)
 		"major-tick-labeled",	FALSE,
 		"major-tick-out",	FALSE,
 		NULL);
-	GOG_STYLED_OBJECT (tmp)->style->line.width = -1;
+	GOG_STYLED_OBJECT (tmp)->style->line.dash_type = GO_LINE_NONE;
+	GOG_STYLED_OBJECT (tmp)->style->line.auto_dash = FALSE;
 	tmp = gog_object_get_child_by_role (chart,
 		gog_object_find_role_by_name (chart, "Y-Axis"));
 	gog_style_set_font (GOG_STYLED_OBJECT (tmp)->style,
@@ -345,7 +348,8 @@ dialog_about (WorkbookControlGUI *wbcg)
 
 	/* A pie of the cumulative contributions */
 	chart = gog_object_add_by_name (state->graph, "Chart", NULL);
-	GOG_STYLED_OBJECT (chart)->style->outline.width = -1;
+	GOG_STYLED_OBJECT (chart)->style->outline.dash_type = GO_LINE_NONE;
+	GOG_STYLED_OBJECT (chart)->style->outline.auto_dash = FALSE;
 	GOG_STYLED_OBJECT (chart)->style->fill.type = GOG_FILL_STYLE_NONE;
 	gog_chart_set_position  (GOG_CHART (chart), 1, 0, 1, 1);
 	plot = gog_plot_new_by_name ("GogPiePlot");
@@ -360,7 +364,8 @@ dialog_about (WorkbookControlGUI *wbcg)
 	state->contribs_data = go_data_vector_val_new (
 		state->contribs, G_N_ELEMENTS (state->contribs));
 	gog_series_set_dim (series, 1, state->contribs_data, NULL);
-	GOG_STYLED_OBJECT (series)->style->outline.width = -1;
+	GOG_STYLED_OBJECT (series)->style->outline.dash_type = GO_LINE_NONE;
+	GOG_STYLED_OBJECT (series)->style->outline.auto_dash = FALSE;
 	GOG_STYLED_OBJECT (series)->style->fill.type = GOG_FILL_STYLE_GRADIENT;
 	GOG_STYLED_OBJECT (series)->style->fill.gradient.dir = GO_GRADIENT_NW_TO_SE;
 	gog_style_set_fill_brightness (

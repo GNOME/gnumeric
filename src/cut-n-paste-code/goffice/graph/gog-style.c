@@ -182,7 +182,7 @@ cb_outline_size_changed (GtkAdjustment *adj, StylePrefState *state)
 
 	g_return_if_fail (style != NULL);
 
-	style->outline.width = adj->value;
+	style->outline.width = rint (adj->value * 100.) / 100.;
 	set_style (state);
 }
 
@@ -260,7 +260,7 @@ cb_line_size_changed (GtkAdjustment *adj, StylePrefState const *state)
 
 	g_return_if_fail (style != NULL);
 
-	style->line.width = adj->value;
+	style->line.width = rint (adj->value * 100.) / 100.;
 	set_style (state);
 }
 
@@ -1078,12 +1078,16 @@ gog_style_apply_theme (GogStyle *dst, GogStyle const *src)
 	g_return_if_fail (GOG_STYLE (src) != NULL);
 	g_return_if_fail (GOG_STYLE (dst) != NULL);
 
+	if (dst->outline.auto_dash)
+		dst->outline.dash_type = src->outline.dash_type;
 	if (dst->outline.auto_color)
 		dst->outline.color = src->outline.color;
 	if (dst->fill.auto_fore)
 		dst->fill.pattern.fore = src->fill.pattern.fore;
 	if (dst->fill.auto_back)
 		dst->fill.pattern.back = src->fill.pattern.back;
+	if (dst->line.auto_dash)
+		dst->line.dash_type = src->line.dash_type;
 	if (dst->line.auto_color)
 		dst->line.color = src->line.color;
 	if (dst->marker.auto_shape)
@@ -1273,7 +1277,7 @@ gog_style_gradient_sax_save (GsfXMLOut *output, GogStyle const *style)
 		go_gradient_dir_as_str (style->fill.gradient.dir));
 	go_xml_out_add_color (output, "start-color",
 		style->fill.pattern.back);
-	if (style->fill.gradient.brightness > 0)
+	if (style->fill.gradient.brightness >= 0.)
 		gsf_xml_out_add_float (output, "brightness",
 			style->fill.gradient.brightness, 2);
 	else 
@@ -1329,7 +1333,7 @@ gog_style_gradient_load (xmlNode *node, GogStyle *style)
 	}
 	str = xmlGetProp (node, "start-color");
 	if (str != NULL) {
-		style->fill.pattern.fore
+		style->fill.pattern.back
 			= go_color_from_str (str);
 		xmlFree (str);
 	}
@@ -1341,7 +1345,7 @@ gog_style_gradient_load (xmlNode *node, GogStyle *style)
 	} else {
 		str = xmlGetProp (node, "end-color");
 		if (str != NULL) {
-			style->fill.pattern.back
+			style->fill.pattern.fore
 				= go_color_from_str (str);
 			xmlFree (str);
 		}
@@ -1712,8 +1716,7 @@ gboolean
 gog_style_is_outline_visible (GogStyle const *style)
 {
 #warning TODO : make this smarter
-	return style->outline.width >= 0. && 
-		UINT_RGBA_A (style->outline.color) > 0 && 
+	return UINT_RGBA_A (style->outline.color) > 0 && 
 		style->outline.dash_type != GO_LINE_NONE;
 }
 
@@ -1721,8 +1724,7 @@ gboolean
 gog_style_is_line_visible (GogStyle const *style)
 {
 #warning TODO : make this smarter
-	return style->line.width >= 0. && 
-		UINT_RGBA_A (style->line.color) > 0 && 
+	return UINT_RGBA_A (style->line.color) > 0 && 
 		style->line.dash_type != GO_LINE_NONE;
 }
 
@@ -1736,7 +1738,9 @@ gog_style_force_auto (GogStyle *style)
 	style->marker.auto_shape =
 	style->marker.auto_outline_color =
 	style->marker.auto_fill_color =
+	style->outline.auto_dash =
 	style->outline.auto_color =
+	style->line.auto_dash =
 	style->line.auto_color =
 	style->fill.auto_fore =
 	style->fill.auto_back =
