@@ -454,7 +454,7 @@ coup_cd (GDate *settlement, GDate *maturity, int freq, gboolean eom, gboolean ne
 	is_eom_special = eom && g_date_is_last_of_month (maturity);
 
 	months = 12 / freq;
-	periods = (g_date_year(maturity) - g_date_year(settlement));
+	periods = (g_date_year(maturity) - g_date_year (settlement));
 	if (periods > 0)
 		periods = (periods - 1) * freq;
 
@@ -464,20 +464,24 @@ coup_cd (GDate *settlement, GDate *maturity, int freq, gboolean eom, gboolean ne
 		g_date_set_julian (result, g_date_julian (maturity));
 		periods++;
 		g_date_subtract_months (result, periods * months);
-		if (is_eom_special)
-			while (!g_date_is_last_of_month (result))
-				g_date_add_days (result, 1);
-		/* Change to g_date_get_days_in_month with glib 1.8+ */
+		if (is_eom_special) {
+			int ndays = g_date_get_days_in_month
+				(g_date_get_month (result),
+				 g_date_get_year (result));
+			g_date_set_day (result, ndays);
+		}
 	} while (g_date_compare (settlement, result) < 0 );
 
 	if (next) {
 		g_date_set_julian (result, g_date_julian (maturity));
 		periods--;
 		g_date_subtract_months (result, periods * months);
-		if (is_eom_special)
-			while (!g_date_is_last_of_month (result))
-				g_date_add_days (result, 1);
-		/* Change to g_date_get_days_in_month with glib 1.8+ */
+		if (is_eom_special) {
+			int ndays = g_date_get_days_in_month
+				(g_date_get_month (result),
+				 g_date_get_year (result));
+			g_date_set_day (result, ndays);
+		}
 	}
 
 	return result;

@@ -1,3 +1,8 @@
+2002-02-20  Morten Welinder  <terra@diku.dk>
+
+	* src/datetime.c (coup_cd): Cleanup using
+ 	g_date_get_days_in_month.
+
 2002-02-19  Morten Welinder  <terra@diku.dk>
 
 	* src/numbers.h (modfgnum, strtgnum, GNUM_FORMAT_[eEfg],
