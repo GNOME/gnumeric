@@ -1271,35 +1271,32 @@ BC_R(scatter)(XLChartHandler const *handle,
 	      XLChartReadState *s, BiffQuery *q)
 {
 	g_return_val_if_fail (s->plot == NULL, TRUE);
-	s->plot = gog_plot_new_by_name ("GogXYPlot");
-	g_return_val_if_fail (s->plot != NULL, TRUE);
 
 	if (s->container.ver >= MS_BIFF_V8) {
 		guint16 const flags = GSF_LE_GET_GUINT16 (q->data+4);
 
 		/* Has bubbles */
 		if (flags & 0x01) {
-#if 0
 			guint16 const size_type = GSF_LE_GET_GUINT16 (q->data+2);
-			if (!(flags & 0x02))	/* hide negatives */
-			if (flags & 0x04)	/* in_3d */
-
-			/* huh ? */
-			xml_node_set_int (fmt, "percentage_largest_tochart",
-					  GSF_LE_GET_GUINT16 (q->data));
-			xmlNewChild (fmt, fmt->ns,
-				     (xmlChar *)((size_type == 2)
-					     ? "bubble_sized_as_width"
-					     : "bubble_sized_as_area"),
-				     NULL);
-	g_object_set (G_OBJECT (s->plot),
-		"type",			type,
-		/* "in_3d",		in_3d, */
-		NULL);
-
-#endif
+			gboolean in_3d = (flags & 0x04) != 0;
+			gboolean show_negatives = (flags & 0x02) != 0;
+			gboolean size_as_area = (size_type != 2);
+			float scale =  GSF_LE_GET_GUINT16 (q->data) / 100.;
+			s->plot = gog_plot_new_by_name ("GogBubblePlot");
+			g_return_val_if_fail (s->plot != NULL, TRUE);
+			g_object_set (G_OBJECT (s->plot),
+				"in_3d",		in_3d, 
+				"show_negatives",	show_negatives,
+				"size_as_area", 	size_as_area,
+				"bubble_scale",	scale,
+				NULL);
+			d(1, fprintf (stderr, "bubbles;"););
+			return FALSE;
 		}
 	}
+
+	s->plot = gog_plot_new_by_name ("GogXYPlot");
+	g_return_val_if_fail (s->plot != NULL, TRUE);
 
 	d(1, fprintf (stderr, "scatter;"););
 	return FALSE;
