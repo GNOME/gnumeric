@@ -1,3 +1,7 @@
+2002-10-31  Morten Welinder  <terra@diku.dk>
+
+	* latex.c (latex_file_save): Fix col/row confusion.
+
 2002-10-30  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* latex.c (latex2e_write_multicolumn_cell): fix a silly 
@@ -862,4 +866,3 @@
 06/07/99 (rasca)
 	- right and left alignment, bold and italic seems to work :)
 	- started to write a html plugin to save a sheet as a raw html file
-

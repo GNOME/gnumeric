@@ -1057,7 +1057,7 @@ latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
 	}
 
 	/* We need to check for horizontal borders at the bottom  of  the last  row */
-	clines = g_new0 (StyleBorderType, total_range.end.row - total_range.start.row + 1);
+	clines = g_new0 (StyleBorderType, total_range.end.col - total_range.start.col + 1);
 	needs_hline = FALSE;
 	length = num_cols;
 	this_clines = clines;
