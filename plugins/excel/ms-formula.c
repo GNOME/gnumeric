@@ -41,31 +41,40 @@ FORMULA_FUNC_DATA formula_func_data[] =
 };
 #define FORMULA_FUNC_DATA_LEN (sizeof(formula_func_data)/sizeof(FORMULA_FUNC_DATA))
 
-/* FIXME these probably don't work weel with negative numbers ! */
 /**
  *  A useful routine for extracting data from a common
  * storage structure.
  **/
-static CellRef *getRefV7(BYTE col, WORD gbitrw)
+static CellRef *getRefV7(BYTE col, WORD gbitrw, int curcol, int currow)
 {
   CellRef *cr = (CellRef *)malloc(sizeof(CellRef)) ;
   cr->col          = col ;
   cr->row          = (gbitrw & 0x3fff) ;
-  cr->row_relative = (gbitrw & 0x8000) ;
-  cr->col_relative = (gbitrw & 0x4000) ;
+  cr->row_relative = (gbitrw & 0x8000)==0x8000 ;
+  cr->col_relative = (gbitrw & 0x4000)==0x4000 ;
+  if (cr->row_relative)
+    cr->row-= currow ;
+  if (cr->col_relative)
+    cr->col-= curcol ;
+  printf ("7Out : %d, %d  at %d, %d\n", cr->col, cr->row, curcol, currow) ;
   return cr ;
 }
 /**
  *  A useful routine for extracting data from a common
  * storage structure.
  **/
-static CellRef *getRefV8(WORD row, WORD gbitcl)
+static CellRef *getRefV8(WORD row, WORD gbitcl, int curcol, int currow)
 {
   CellRef *cr = (CellRef *)malloc(sizeof(CellRef)) ;
   cr->row          = row ;
   cr->col          = (gbitcl & 0x3fff) ;
-  cr->row_relative = (gbitcl & 0x8000) ;
-  cr->col_relative = (gbitcl & 0x4000) ;
+  cr->row_relative = (gbitcl & 0x8000)==0x8000 ;
+  cr->col_relative = (gbitcl & 0x4000)==0x4000 ;
+  if (cr->row_relative)
+    cr->row-= currow ;
+  if (cr->col_relative)
+    cr->col-= curcol ;
+  printf ("8Out : %d, %d  at %d, %d\n", cr->col, cr->row, curcol, currow) ;
   return cr ;
 }
 
@@ -107,17 +116,18 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q)
 	    char *buffer ;
 	    if (sheet->ver == eBiffV8)
 	      {
-		ref = getRefV8 (BIFF_GETWORD(cur), BIFF_GETWORD(cur + 2)) ;
+		ref = getRefV8 (BIFF_GETWORD(cur), BIFF_GETWORD(cur + 2), fn_col, fn_row) ;
 		ptg_length = 4 ;
 	      }
 	    else
 	      {
-		ref = getRefV7 (BIFF_GETBYTE(cur+2), BIFF_GETWORD(cur)) ;
+		ref = getRefV7 (BIFF_GETBYTE(cur+2), BIFF_GETWORD(cur), fn_col, fn_row) ;
 		ptg_length = 3 ;
 	      }
 	    buffer = cellref_name (ref, fn_col, fn_row) ;
 	    stack = g_list_append (stack, strdup (buffer)) ;
 	    printf ("%s\n", buffer) ;
+	    free (ref) ;
 	  }
 	  break ;
 	case FORMULA_PTG_AREA:
@@ -126,14 +136,14 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q)
 	    char buffer[128] ;
 	    if (sheet->ver == eBiffV8)
 	      {
-		first = getRefV8(BIFF_GETBYTE(cur+0), BIFF_GETWORD(cur+4)) ;
-		last  = getRefV8(BIFF_GETBYTE(cur+2), BIFF_GETWORD(cur+6)) ;
+		first = getRefV8(BIFF_GETBYTE(cur+0), BIFF_GETWORD(cur+4), fn_col, fn_row) ;
+		last  = getRefV8(BIFF_GETBYTE(cur+2), BIFF_GETWORD(cur+6), fn_col, fn_row) ;
 		ptg_length = 8 ;
 	      }
 	    else
 	      {
-		first = getRefV7(BIFF_GETBYTE(cur+4), BIFF_GETWORD(cur+0)) ;
-		last  = getRefV7(BIFF_GETBYTE(cur+5), BIFF_GETWORD(cur+2)) ;
+		first = getRefV7(BIFF_GETBYTE(cur+4), BIFF_GETWORD(cur+0), fn_col, fn_row) ;
+		last  = getRefV7(BIFF_GETBYTE(cur+5), BIFF_GETWORD(cur+2), fn_col, fn_row) ;
 		ptg_length = 6 ;
 	      }
 	    strcpy (buffer, cellref_name (first, fn_col, fn_row)) ;
@@ -141,6 +151,8 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q)
 	    strcat (buffer, cellref_name (last, fn_col, fn_row)) ;
 	    stack = g_list_append (stack, strdup(buffer)) ;
 	    printf ("%s\n", buffer) ;
+	    free (first) ;
+	    free (last) ;
 	  }
 	  break ;
 	  /* FIXME: the standard function indexes need to be found from xlcall.h */
@@ -211,6 +223,10 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q)
 	    ptg_length = 4 ;
 	  }
 	  break ;
+	case FORMULA_PTG_PAREN:
+	  printf ("Ignoring redundant parenthesis ptg\n") ;
+	  ptg_length = 0 ;
+	  break ;
 	case FORMULA_PTG_FUNC:
 	  {
 	    int iftab   = BIFF_GETWORD(cur) ;
@@ -259,7 +275,6 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q)
 	    if (lp==FORMULA_OP_DATA_LEN)
 	      printf ("Unknown PTG 0x%x base %x\n", ptg, ptgbase), error=1 ;
 	  }
-	  return ;
 	}
       cur+=    (ptg_length+1) ;
       length-= (ptg_length+1) ;
@@ -275,6 +290,11 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q)
     {
       char *init = g_list_first (stack)->data ;
       char *ptr = (char *)malloc(strlen(init)+2) ;
+      if (!init)
+	{
+	  ms_excel_sheet_insert (sheet, BIFF_GETXF(q), BIFF_GETCOL(q), BIFF_GETROW(q), "Bad formula") ;
+	  return ;
+	}
       strcpy (ptr, "=") ;
       strcat (ptr, init) ;
       printf ("The answer is : '%s'\n", ptr) ;

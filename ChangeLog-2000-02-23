@@ -1,3 +1,14 @@
+1998-11-10  Michael Meeks    <michael@imaginator.com>
+
+	* plugins/excel/ms-ole.h: Added unsigned to WORD, LONG
+	types.
+
+	* plugins/excel/ms-formula.c(getRefV7, getRefV8): Fixed 
+	bug in relative column retrieval.
+
+	* plugins/excel/ms-formula.c(ms_excel_parse_formula):
+	Squashed silly op-code bug, and got simple op-codes working.
+	
 1998-11-09  Michael Meeks    <michael@imaginator.com>
 
 	* plugins/excel/ms-formula.c: Re-designed the translation

@@ -8,8 +8,8 @@
 #define GNUMERIC_MS_OLE_H
 
 typedef unsigned char  BYTE ;
-typedef short          WORD ;
-typedef long           LONG ;
+typedef unsigned short WORD ;
+typedef unsigned long  LONG ;
 
 // EXTREMELY IMPORTANT TO PASS A BYTE PTR !
 #define GETBYTE(p) (*(p+0))

@@ -15,6 +15,8 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q) ;
 #define FORMULA_PTG_MAX                0x7f
 
 #define FORMULA_PTG_EXP                0x01
+#define FORMULA_PTG_PAREN              0x15
+
 #define FORMULA_PTG_FUNC               0x21
 #define FORMULA_PTG_FUNC_VAR           0x22
 #define FORMULA_PTG_REF                0x24
