@@ -13,39 +13,50 @@
 #  used within.
 
 
-$VERSION = "1.5beta2";
-$LANG    = $ARGV[0];
-$PACKAGE = "gnumeric";
+# Declare global variables
+#-------------------------
+my $VERSION = "1.5beta4";
+my $LANG    = $ARGV[0];
+my $PACKAGE = "gnumeric";
+
+# Always print as the first thing
+#--------------------------------
 $| = 1;
 
-
+# Give error if script is run without an argument
+#------------------------------------------------
 if (! $LANG){
     print "update.pl:  missing file arguments\n";
     print "Try `update.pl --help' for more information.\n";
     exit;
 }
 
+# Use the supplied arguments
+#---------------------------
 if ($LANG=~/^-(.)*/){
 
-    if ("$LANG" eq "--version" || "$LANG" eq "-V"){
+    if ("$LANG" eq "--version"   || "$LANG" eq "-V"){
         &Version;
     }
-    elsif ($LANG eq "--help" || "$LANG" eq "-H"){
+    elsif ($LANG eq "--help"     || "$LANG" eq "-H"){
 	&Help;
     }
-    elsif ($LANG eq "--dist" || "$LANG" eq "-D"){
+    elsif ($LANG eq "--dist"     || "$LANG" eq "-D"){
         &Merging;
     }
-    elsif ($LANG eq "--pot" || "$LANG" eq "-P"){
+    elsif ($LANG eq "--pot"      || "$LANG" eq "-P"){
+
+ 	# Check for .headerlock file, so the Makefile
+        # will not generate the header files twise 
+	#--------------------------------------------
 	if (-e ".headerlock"){
-	unlink(".headerlock");
    	&GeneratePot;
 	}else{
         &GenHeaders;
 	&GeneratePot;}
         exit;
     }
-    elsif ($LANG eq "--headers" || "$LANG" eq "-S"){
+    elsif ($LANG eq "--headers"  || "$LANG" eq "-S"){
         &GenHeaders;
         exit;
     }
@@ -57,18 +68,28 @@ if ($LANG=~/^-(.)*/){
     }
 
 } else {
+   
+   # Run standard procedure
+   #-----------------------
    if(-s "$LANG.po"){
         &GenHeaders; 
 	&GeneratePot;
 	&Merging;
 	&Status;
    }  
+
+   # Report error if the language file supplied
+   # to the command line is non-existent
+   #-------------------------------------------
    else {
 	&NotExisting;       
    }
 }
 
 sub Version{
+
+    # Print version information
+    #--------------------------
     print "GNOME PO Updater $VERSION\n";
     print "Written by Kenneth Christiansen <kenneth\@gnome.org>, 2000.\n\n";
     print "Copyright (C) 2000 Free Software Foundation, Inc.\n";
@@ -78,6 +99,9 @@ sub Version{
 }
 
 sub Help{
+
+    # Print usage information
+    #------------------------
     print "Usage: ./update.pl [OPTIONS] ...LANGCODE\n";
     print "Updates pot files and merge them with the translations.\n\n";
     print "  -H, --help                   shows this help page\n";
@@ -93,17 +117,23 @@ sub Help{
 }
 
 sub Maintain{
-    $a="find ../ -print | egrep '.*\\.(c|y|cc|c++|h|gob)' ";
+   
+    # Search and fine, all translatable files
+    # ---------------------------------------
+    $i18nfiles="find ../ -print | egrep '.*\\.(c|y|cc|c++|h|gob)' ";
 
-    open(BUF2, "POTFILES.in") || die "update.pl:  there's not POTFILES.in!!!\n";
+    open(BUF2, "POTFILES.in") || die "update.pl:  there's no POTFILES.in!!!\n";
     
     print "Searching for missing _(\" \") entries...\n";
     
-    open(BUF1, "$a|");
+    open(BUF1, "$i18nfiles|");
 
     @buf1_1 = <BUF1>;
     @buf1_2 = <BUF2>;
 
+    # Check if we should ignore some found files, when 
+    # comparing with POTFILES.in
+    #-------------------------------------------------
     if (-s ".potignore"){
         open FILE, ".potignore";
         while (<FILE>) {
@@ -131,57 +161,100 @@ sub Maintain{
 
     my %in2;
     foreach (@buf3_2) {
-       $in2{$_} = 1;
+        $in2{$_} = 1;
     }
 
     foreach (@buf3_1){
-       if (!exists($in2{$_})){
-           push @result, $_ }
-       }
+        if (!exists($in2{$_})){
+            push @result, $_ 
+        }
+    }
 
+    # Save file with information about the files missing
+    # if any, and give information about this proceedier
+    #---------------------------------------------------
     if(@result){
         open OUT, ">missing";
         print OUT @result;
-        print "\nHere are the results:\n\n", @result, "\n";
+        print "\nHere is the result:\n\n", @result, "\n";
         print "The file \"missing\" has been placed in the current directory.\n";
         print "Files supposed to be ignored should be placed in \".potignore\"\n";
     }
+
+    # If there is nothing to complain about, notice the user
+    #-------------------------------------------------------
     else{
         print "\nWell, it's all perfect! Congratulation!\n";
     }         
 }
 
 sub InvalidOption{
+
+    # Handle invalid arguments
+    #-------------------------
     print "update.pl: invalid option -- $LANG\n";
     print "Try `update.pl --help' for more information.\n";
 }
  
 sub GenHeaders{
-	
-    if(-s "ui-extract.pl"){
-    print "Found ui-extract.pl script\nRunning ui-extract...\n";
-    open FILE, "<POTFILES.in";
-    while (<FILE>) {
-       if ($_=~ /(.*)(\.xml\.h)/o){
-          $filename = "$1\.xml";
-          $xmlfiles="\.\/ui-extract.pl --update ../$filename";
-          system($xmlfiles);
-          }
-      
-       elsif ($_=~ /(.*)(\.glade\.h)/o){
-          $filename = "$1\.glade";
-          $xmlfiles="\.\/ui-extract.pl --update ../$filename";
-          system($xmlfiles);  
-       }
-    }
-        
-    close FILE;
-}}
 
+    # Generate the .h header files, so we can allow glade and
+    # xml translation support
+    #--------------------------------------------------------
+    if(-s "ui-extract.pl"){
+
+        print "Found ui-extract.pl script\nRunning ui-extract...\n";
+
+        open FILE, "<POTFILES.in";
+        while (<FILE>) {
+
+           # Find .xml.h files in POTFILES.in and generate the
+           # files with help from the ui-extract.pl script
+           #--------------------------------------------------
+           if ($_=~ /(.*)(\.xml)/o){
+              $filename = "../$1.xml";
+              $xmlfiles="./ui-extract.pl --update $filename";
+              system($xmlfiles);
+           }
+      
+           # Find .glade.h files in POTFILES.in and generate
+           # the files with help from the ui-extract.pl script
+           #--------------------------------------------------
+           elsif ($_=~ /(.*)(\.glade)/o){
+              $filename = "../$1.glade";
+              $xmlfiles="./ui-extract.pl --update $filename";
+              system($xmlfiles);  
+           }
+       }
+       close FILE;
+
+       # Create .headerlock file, so the script will know 
+       # that we already passed this section. This is required 
+       # since the individual sections can be reaced at different
+       # times by the Makefile
+       #--------------------------------------------------------- 
+       system("touch .headerlock");
+   }
+}
 
 sub GeneratePot{
 
+    # Generate the potfiles from the POTFILES.in file
+    #------------------------------------------------
+
     print "Building the $PACKAGE.pot...\n";
+
+    system ("mv POTFILES.in POTFILES.in.old");    
+
+    open INFILE, "<POTFILES.in.old";
+    open OUTFILE, ">POTFILES.in";
+    while (<INFILE>) {
+        s/\.glade$/\.glade\.h/;
+        s/\.xml$/\.xml\.h/;
+        print OUTFILE $_;        
+    }
+    close OUTFILE;
+    close INFILE;
 
     $GETTEXT ="xgettext --default-domain\=$PACKAGE --directory\=\.\."
              ." --add-comments --keyword\=\_ --keyword\=N\_"
@@ -192,12 +265,46 @@ sub GeneratePot{
     system($GETTEXT);
     system($GTEST);
     print "Wrote $PACKAGE.pot\n";
+    system("mv POTFILES.in.old POTFILES.in");
+
+    # If .headerlock file is found, it means that the potfiles
+    # already has been generated. If so delete the generated 
+    # .h header files. The reason for this approach with a 
+    # file as a marker is due to that the Makefile runs the
+    # scripts in turns
+    #---------------------------------------------------------
+
+    if(-e ".headerlock"){
+        unlink(".headerlock");
+
+        print "Removing generated header (.h) files...";
+
+        open FILE, "<POTFILES.in";
+        while (<FILE>) {
+
+           # Delete header files coming from xml files
+           #------------------------------------------
+           if ($_=~ /(.*)(\.xml)/o){
+               $filename = "../$1.xml.h";
+    	       unlink($filename);
+           }
+
+           # Delete header files coming from glade files
+           #--------------------------------------------
+           elsif ($_=~ /(.*)(\.glade)/o){
+               $filename = "../$1.glade.h";
+               unlink($filename);
+           }
+       }
+       close FILE;
+    }
+    print "done\n";
 }
 
 sub Merging{
 
     if ($ARGV[1]){
-        $LANG   = $ARGV[1];
+        $LANG   = $ARGV[1]; 
     } else {
 	$LANG   = $ARGV[0];
     }
@@ -206,25 +313,35 @@ sub Merging{
         print "Merging $LANG.po with $PACKAGE.pot...";
     }
 
-    $d="cp $LANG.po $LANG.po.old && msgmerge $LANG.po.old $PACKAGE.pot -o $LANG.po";
+    $MERGE="cp $LANG.po $LANG.po.old && msgmerge $LANG.po.old $PACKAGE.pot -o $LANG.po";
 
-    system($d);
+    system($MERGE);
     
     if ($ARGV[0] ne "--dist" && $ARGV[0] ne "-D") {
         print "\n\n";
     }
 
+    # Remove the "messages" trash file generated
+    # by gettext, aswell as the backup file
+    #-------------------------------------------
     unlink "messages";
     unlink "$LANG.po.old";
 }
 
 sub NotExisting{
-    print "update.pl:  sorry $LANG.po does not exist!\n";
+
+    # Report error if supplied language 
+    # file is non-existant
+    #----------------------------------
+    print "update.pl:  sorry, $LANG.po does not exist!\n";
     print "Try `update.pl --help' for more information.\n";    
     exit;
 }
 
 sub Status{
+
+    # Print status information about the po file
+    #-------------------------------------------
     $STATUS="msgfmt --statistics $LANG.po";
     
     system($STATUS);
