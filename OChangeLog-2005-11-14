@@ -1,3 +1,37 @@
+2002-02-11  Jody Goldberg <jody@gnome.org>
+
+	* src/item-bar.c (item_bar_realize) : Use the standard cursor.
+
+2002-02-08  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-edit.c (wbcg_get_entry) : Use
+	  gnumeric_expr_entry_get_entry.
+	(wbcg_edit_attach_guru) : wbcg_get_entry.
+	(wbcg_edit_detach_guru) : ditto.
+
+	* src/workbook-control-gui.c : include datetime.h
+	(workbook_setup_edit_area) : pack the ecpr-entry, not the contained
+	entry.
+	(wbcg_validation_msg) : warning suppression.
+
+	* src/validation.c (validation_eval) : suppress warning.
+
+	* src/sheet-autofill.c (str_contains) : delete.
+
+	* src/number-match.c (format_match) : remove unused variable.
+
+	* src/item-edit.c (item_edit_set_arg) : wbcg_get_entry signature change.
+
+	* src/format-template.c (format_template_member_set_row_info) : delete.
+	(format_template_member_set_col_info) : ditto.
+
+	* src/commands.c (cmd_autoformat) : revert previous attempt at
+	  constness.  It seems the templates are also used as acumulators
+	  during application.  I don't think it is a great design choice,
+	  but we'll live with it.
+
+	* src/application.c (application_init) : add Jacub's expr entry.
+
 2002-02-10  Chema Celorio  <chema@celorio.com>
 
 	* configure.in: remove GNOME_COMMON_INIT

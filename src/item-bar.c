@@ -204,7 +204,7 @@ item_bar_realize (GnomeCanvasItem *item)
 				    GDK_CAP_NOT_LAST, GDK_JOIN_MITER);
 	gtk_widget_destroy (button);
 
-	ib->normal_cursor = gdk_cursor_new (GDK_ARROW);
+	ib->normal_cursor = gdk_cursor_new (GDK_LEFT_PTR);
 	if (ib->is_col_header)
 		ib->change_cursor = gdk_cursor_new (GDK_SB_H_DOUBLE_ARROW);
 	else
