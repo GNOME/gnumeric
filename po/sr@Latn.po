@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.1.90\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-10 00:27-0400\n"
-"PO-Revision-Date: 2003-09-08 15:07+0200\n"
+"POT-Creation-Date: 2003-09-11 11:43+0200\n"
+"PO-Revision-Date: 2003-09-11 11:48+0200\n"
 "Last-Translator: Slobodan Sredojević <ssl@uns.ns.ac.yu>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
 "MIME-Version: 1.0\n"
@@ -3368,8 +3368,8 @@ msgstr "Inženjerske funkcije"
 #: plugins/fn-eng/plugin.xml.in.h:3
 msgid "Functions for complex numbers, base conversions, and more"
 msgstr ""
-"Funkcije koje rade sa kompleksnim brojevima, osnovnim pretvaranjima i više "
-"od toga"
+"Funkcije koje rade sa kompleksnim brojevima, osnovnim pretvaranjima i više od "
+"toga"
 
 #: plugins/fn-financial/functions.c:306
 msgid ""
@@ -10593,24 +10593,24 @@ msgstr "Podrazumevani interpretator"
 
 #: plugins/python-loader/gnm-python.c:130
 #: plugins/python-loader/gnm-python.c:152
-#, fuzzy, c-format
+#, c-format
 msgid "Could not import %s."
-msgstr "Ne može da učita datoteku: %s"
+msgstr "Ne mogu da uvezem %s."
 
 #: plugins/python-loader/gnm-python.c:137
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find %s."
-msgstr "Ne može da učita datoteku: %s"
+msgstr "Ne mogu da pronađem %s."
 
 #: plugins/python-loader/gnm-python.c:145
 #, c-format
 msgid "Could not initialize Python bindings for Gtk+, etc: %s"
-msgstr ""
+msgstr "Ne mogu da pokrenem Piton vezu za Gtk+, itd: %s"
 
 #: plugins/python-loader/gnm-python.c:159
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find %s"
-msgstr "Ne može da učita datoteku: %s"
+msgstr "Ne mogu da pronađem %s"
 
 #: plugins/python-loader/plugin.xml.in.h:1
 msgid "Python plugin loader"
@@ -10764,12 +10764,11 @@ msgstr ""
 
 #: plugins/sample_datasource/plugin.xml.in.h:1
 msgid "A proof of concept external data source"
-msgstr ""
+msgstr "Spoljašnji izvor podataka kao pokazatelj mogućnosti"
 
 #: plugins/sample_datasource/plugin.xml.in.h:3
-#, fuzzy
 msgid "Sample DataSource"
-msgstr "Izvori podataka..."
+msgstr "Primer izvora podataka"
 
 #: plugins/sample_datasource/sample_datasource.c:264
 #, no-c-format
@@ -11004,8 +11003,8 @@ msgid ""
 "The autocorrect engine does not correct the inital caps for words in this "
 "list."
 msgstr ""
-"Sistem za automatsko ispravljanje ne ispravlja početna slova za reči koje su "
-"u ovom spisku."
+"Sistem za automatsko ispravljanje ne ispravlja početna slova za reči koje su u "
+"ovom spisku."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:24
 msgid "The configuration of gnome-print. Do not edit this variable."
@@ -11317,10 +11316,10 @@ msgid ""
 "simple one-cell edit (size of 1). The undo list will be truncated when its "
 "total size exceeds this configurable value."
 msgstr ""
-"Ova vrednost određuje dužinu „Opozovi“ spiska. Svaka radnja ima veličinu "
-"koja je za nju vezana, kako bi se poredila sa memorijskim zahtevom vezanim "
-"za prosto uređenje jednog polja (veličine 1). „Opozovi“ spisak će biti "
-"odsečen kada njegova ukupna vrednost nadmaši ovu podesivu vrednost."
+"Ova vrednost određuje dužinu „Opozovi“ spiska. Svaka radnja ima veličinu koja "
+"je za nju vezana, kako bi se poredila sa memorijskim zahtevom vezanim za "
+"prosto uređenje jednog polja (veličine 1). „Opozovi“ spisak će biti odsečen "
+"kada njegova ukupna vrednost nadmaši ovu podesivu vrednost."
 
 #: schemas/gnumeric-general.schemas.in.h:45
 msgid ""
@@ -12025,7 +12024,7 @@ msgstr "Skoči do određenog polja"
 
 #: src/GNOME_Gnumeric.xml.h:142
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:299
-#: src/sheet-object-graphic.c:1434 src/workbook-object-toolbar.c:147
+#: src/sheet-object-graphic.c:1440 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Oznaka"
 
@@ -13499,39 +13498,33 @@ msgid "Reconfigure Graph"
 msgstr "Prepodesi grafik"
 
 #: src/consolidate.c:773
-#, fuzzy, c-format
+#, c-format
 msgid "Consolidating to (%s)"
-msgstr "Korelacija (%s)"
+msgstr "Učvršćuje na (%s)"
 
 #: src/consolidate.c:812 src/consolidate.c:815
-#, fuzzy
 msgid "Data Consolidation"
 msgstr "Učvršćivanje podataka"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:1
-#, fuzzy
 msgid "_Cross"
-msgstr "krst"
+msgstr "_Krst"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:2
-#, fuzzy
 msgid "_High"
-msgstr "Visina"
+msgstr "_Visoko"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:3
-#, fuzzy
 msgid "_Invert"
-msgstr "Ubacivanj_e"
+msgstr "O_brni"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:4
-#, fuzzy
 msgid "_Low"
-msgstr "_Vrsta"
+msgstr "_Nisko"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
-#, fuzzy
 msgid "_Map:"
-msgstr "_Praznina:"
+msgstr "_Mapa:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
 #: src/dialogs/solver.glade.h:14
@@ -13926,18 +13919,16 @@ msgstr "TrakaKolona"
 #. * 	PlotLine2
 #.
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:44
-#, fuzzy
 msgid "PlotLine"
-msgstr "CrtanaPita"
+msgstr "CrtanaLinija"
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotArea2
 #.
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:114
-#, fuzzy
 msgid "PlotArea"
-msgstr "CrtanaPita"
+msgstr "CrtanaPovrš"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:1
 msgid "3D Adjacent Bars"
@@ -14292,9 +14283,8 @@ msgstr "Sistem za iscrtavanje prstena"
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:58
-#, fuzzy
 msgid "PlotXY"
-msgstr "Iscrtaj"
+msgstr "CrtežXY"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:153
 msgid "X"
@@ -14890,7 +14880,7 @@ msgstr "_Unos"
 #: src/dialogs/correlation.glade.h:11 src/dialogs/covariance.glade.h:11
 #: src/dialogs/descriptive-stats.glade.h:21
 #: src/dialogs/dialog-analysis-tools.c:338
-#: src/dialogs/dialog-analysis-tools.c:2584 src/dialogs/dialog-shuffle.c:149
+#: src/dialogs/dialog-analysis-tools.c:2586 src/dialogs/dialog-shuffle.c:149
 #: src/dialogs/exp-smoothing.glade.h:14
 #: src/dialogs/fourier-analysis.glade.h:12
 #: src/dialogs/moving-averages.glade.h:16 src/dialogs/rank.glade.h:14
@@ -15884,10 +15874,10 @@ msgid "No matching records were found."
 msgstr "Odgovarajući zapisi nisu pronađeni."
 
 #: src/dialogs/dialog-advanced-filter.c:160
-#: src/dialogs/dialog-analysis-tools.c:583
-#: src/dialogs/dialog-analysis-tools.c:701
-#: src/dialogs/dialog-analysis-tools.c:1983
-#: src/dialogs/dialog-analysis-tools.c:2874
+#: src/dialogs/dialog-analysis-tools.c:585
+#: src/dialogs/dialog-analysis-tools.c:703
+#: src/dialogs/dialog-analysis-tools.c:1985
+#: src/dialogs/dialog-analysis-tools.c:2876
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "Neočekivana greška: %d"
@@ -15900,42 +15890,42 @@ msgstr "Opse_g spiska:"
 msgid "Could not create the Advanced Filter dialog."
 msgstr "Ne mogu obrazovati prozorče za „Napredni filtar“."
 
-#: src/dialogs/dialog-analysis-tools.c:569
-#: src/dialogs/dialog-analysis-tools.c:687
+#: src/dialogs/dialog-analysis-tools.c:571
+#: src/dialogs/dialog-analysis-tools.c:689
 msgid "The selected input rows must have equal size!"
 msgstr "Označene ulazne vrste moraju imati istu veličinu!"
 
-#: src/dialogs/dialog-analysis-tools.c:574
-#: src/dialogs/dialog-analysis-tools.c:692
+#: src/dialogs/dialog-analysis-tools.c:576
+#: src/dialogs/dialog-analysis-tools.c:694
 msgid "The selected input columns must have equal size!"
 msgstr "Izabrane ulazne kolone moraju imati istu veličinu!"
 
-#: src/dialogs/dialog-analysis-tools.c:579
-#: src/dialogs/dialog-analysis-tools.c:697
+#: src/dialogs/dialog-analysis-tools.c:581
+#: src/dialogs/dialog-analysis-tools.c:699
 msgid "The selected input areas must have equal size!"
 msgstr "Izabrane ulazne oblasti moraju imati istu veličinu!"
 
-#: src/dialogs/dialog-analysis-tools.c:626
+#: src/dialogs/dialog-analysis-tools.c:628
 msgid "Could not create the Correlation Tool dialog."
 msgstr "Ne mogu da napravim prozorče za alatku „Korelacija“."
 
-#: src/dialogs/dialog-analysis-tools.c:744
+#: src/dialogs/dialog-analysis-tools.c:746
 msgid "Could not create the Covariance Tool dialog."
 msgstr "Ne mogu da napravim prozorče za alatku „Kovarijansa“."
 
-#: src/dialogs/dialog-analysis-tools.c:833
+#: src/dialogs/dialog-analysis-tools.c:835
 msgid "Could not create the Rank and Percentile Tools dialog."
 msgstr "Nisam mogao da napravim prozorče za alate za rangiranje i procente."
 
-#: src/dialogs/dialog-analysis-tools.c:923
+#: src/dialogs/dialog-analysis-tools.c:925
 msgid "Could not create the Fourier Analysis Tool dialog."
 msgstr "Ne mogu da napravim prozorče za alatku „Furijeova Analiza“."
 
-#: src/dialogs/dialog-analysis-tools.c:1085
+#: src/dialogs/dialog-analysis-tools.c:1087
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr "Ne mogu obrazovati prozorče za alatku „Opisna statistika“"
 
-#: src/dialogs/dialog-analysis-tools.c:1227
+#: src/dialogs/dialog-analysis-tools.c:1229
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
@@ -15943,7 +15933,7 @@ msgstr ""
 "Molim unesite ispravnu \n"
 "varijaciju populacije za promenljivu 1."
 
-#: src/dialogs/dialog-analysis-tools.c:1236
+#: src/dialogs/dialog-analysis-tools.c:1238
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
@@ -15951,73 +15941,73 @@ msgstr ""
 "Molim unesite ispravnu \n"
 "varijaciju populacije za promenljivu 2."
 
-#: src/dialogs/dialog-analysis-tools.c:1461
+#: src/dialogs/dialog-analysis-tools.c:1463
 msgid "Var_iable 1 Range:"
 msgstr "Opseg 1. pro_menljive:"
 
-#: src/dialogs/dialog-analysis-tools.c:1462
+#: src/dialogs/dialog-analysis-tools.c:1464
 msgid "_Variable 2 Range:"
 msgstr "Opseg 2. pro_menljive:"
 
-#: src/dialogs/dialog-analysis-tools.c:1463
+#: src/dialogs/dialog-analysis-tools.c:1465
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "Ne mogu da napravim prozorče za srednje provere."
 
-#: src/dialogs/dialog-analysis-tools.c:1660
+#: src/dialogs/dialog-analysis-tools.c:1662
 msgid "Var_iable 1 Range"
 msgstr "Opseg 1. pro_menljive"
 
-#: src/dialogs/dialog-analysis-tools.c:1660
+#: src/dialogs/dialog-analysis-tools.c:1662
 msgid "_Variable 2 Range"
 msgstr "Opseg 2. pro_menljive"
 
-#: src/dialogs/dialog-analysis-tools.c:1661
+#: src/dialogs/dialog-analysis-tools.c:1663
 msgid "Could not create the FTest Tool dialog."
 msgstr "Ne mogu da napravim prozorče za alatku „FTest“."
 
-#: src/dialogs/dialog-analysis-tools.c:1863
+#: src/dialogs/dialog-analysis-tools.c:1865
 msgid "Could not create the Sampling Tool dialog."
 msgstr "Ne mogu da napravim prozorče za alatku „Uzorkovanje“."
 
-#: src/dialogs/dialog-analysis-tools.c:1978 src/tools/analysis-tools.c:2158
+#: src/dialogs/dialog-analysis-tools.c:1980 src/tools/analysis-tools.c:2158
 #: src/tools/analysis-tools.c:2237
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr "Mora postojati isti broj stavki za svaku promenljivu u regresiji."
 
-#: src/dialogs/dialog-analysis-tools.c:2081 src/dialogs/regression.glade.h:21
+#: src/dialogs/dialog-analysis-tools.c:2083 src/dialogs/regression.glade.h:21
 msgid "_X Variables:"
 msgstr "X Pr_omenljive:"
 
-#: src/dialogs/dialog-analysis-tools.c:2081 src/dialogs/regression.glade.h:22
+#: src/dialogs/dialog-analysis-tools.c:2083 src/dialogs/regression.glade.h:22
 msgid "_Y Variable:"
 msgstr "Y Prome_nljive:"
 
-#: src/dialogs/dialog-analysis-tools.c:2082
+#: src/dialogs/dialog-analysis-tools.c:2084
 msgid "Could not create the Regression Tool dialog."
 msgstr "Ne mogu da napravim prozorče za alatku „Regresija“."
 
-#: src/dialogs/dialog-analysis-tools.c:2218
+#: src/dialogs/dialog-analysis-tools.c:2220
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr "Ne mogu da napravim prozorče za alatku „Eksponencijalno uglađivanje“."
 
-#: src/dialogs/dialog-analysis-tools.c:2359
+#: src/dialogs/dialog-analysis-tools.c:2361
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "Ne mogu da napravim prozorče za alatku „Usrednjavanje“."
 
-#: src/dialogs/dialog-analysis-tools.c:2584 src/dialogs/histogram.glade.h:3
+#: src/dialogs/dialog-analysis-tools.c:2586 src/dialogs/histogram.glade.h:3
 msgid "Bin _Range:"
 msgstr "Bin _opseg:"
 
-#: src/dialogs/dialog-analysis-tools.c:2585
+#: src/dialogs/dialog-analysis-tools.c:2587
 msgid "Could not create the Histogram Tool dialog."
 msgstr "Ne mogu da napravim prozorče za alatku „Histogram“."
 
-#: src/dialogs/dialog-analysis-tools.c:2761
+#: src/dialogs/dialog-analysis-tools.c:2763
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr "Ne mogu da napravim prozorče za alatku „ANOVA (jedan faktor)."
 
-#: src/dialogs/dialog-analysis-tools.c:2840
+#: src/dialogs/dialog-analysis-tools.c:2842
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
@@ -16025,40 +16015,40 @@ msgstr ""
 "Dati ulazni opseg treba da sadrži barem dve kolone i dve vrste sa podacima i "
 "oznakama."
 
-#: src/dialogs/dialog-analysis-tools.c:2843
+#: src/dialogs/dialog-analysis-tools.c:2845
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
 msgstr ""
 "Dati ulazni opseg treba da sadrži barem dve kolone i dve vrste sa podacima."
 
-#: src/dialogs/dialog-analysis-tools.c:2849
+#: src/dialogs/dialog-analysis-tools.c:2851
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
 msgstr ""
 "Dati ulazni opseg treba da sadrži barem dve kolone sa podacima i oznakama."
 
-#: src/dialogs/dialog-analysis-tools.c:2852
+#: src/dialogs/dialog-analysis-tools.c:2854
 msgid "The given input range should contain at least two columns of data."
 msgstr "Dati ulazni opseg treba da sadrži barem dve kolone sa podacima."
 
-#: src/dialogs/dialog-analysis-tools.c:2858
+#: src/dialogs/dialog-analysis-tools.c:2860
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
 msgstr ""
 "Dati ulazni opseg treba da sadrži barem dve vrste sa podacima i oznakama."
 
-#: src/dialogs/dialog-analysis-tools.c:2861
+#: src/dialogs/dialog-analysis-tools.c:2863
 msgid "The given input range should contain at least two rows of data."
 msgstr "Dati ulazni opseg treba da sadrži barem dve vrste sa podacima."
 
-#: src/dialogs/dialog-analysis-tools.c:2868
+#: src/dialogs/dialog-analysis-tools.c:2870
 msgid "The number of data rows must be a multiple of the replication number."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2965
+#: src/dialogs/dialog-analysis-tools.c:2967
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Ne mogu da obrazujem prozorče za alatku „ANOVA (dva faktora)“."
 
@@ -17753,9 +17743,9 @@ msgid ""
 "in GTK+, libgnomeui, libgnomeprintui, libbonoboui, and Gnumeric at the time "
 "of writing, ultimo May 2003."
 msgstr ""
-"Podrška za više monitora je isključena u Gnumerik-u zbog brojnih grešaka u "
-"gtk+, libgnomeui, libgnomeprintui i libbonoboui bibliotekama i samom "
-"Gnumerik-u. Maj 2003."
+"Podrška za više monitora je isključena u Gnumerik-u zbog brojnih grešaka u gtk"
+"+, libgnomeui, libgnomeprintui i libbonoboui bibliotekama i samom Gnumerik-"
+"u. Maj 2003."
 
 #: src/dialogs/dialog-view.c:94
 #, c-format
@@ -18424,8 +18414,8 @@ msgid ""
 "Gnumeric (unless needed by another plugin)."
 msgstr ""
 "Dodatak sada ne može biti zaustavljen jer je u upotrebi. Pored svega, ako Vi "
-"štiklirate kućicu ispod, dodatak neće biti pokrenut nakon ponovnog "
-"pokretanja programa (sve dok ga, eventualno, nezatraži drugi dodatak)."
+"štiklirate kućicu ispod, dodatak neće biti pokrenut nakon ponovnog pokretanja "
+"programa (sve dok ga, eventualno, nezatraži drugi dodatak)."
 
 #: src/dialogs/plugin-manager.glade.h:10
 msgid "_Activate All"
@@ -19548,8 +19538,7 @@ msgstr "Neispravna datoteka sa šablonom: %s"
 
 #: src/file.c:466
 msgid "Saving over old files of this type is disabled for safety."
-msgstr ""
-"Čuvanje preko starih datoteka ove vrste je onemogućeno zbog sigurnosti."
+msgstr "Čuvanje preko starih datoteka ove vrste je onemogućeno zbog sigurnosti."
 
 #: src/file.c:468
 msgid ""
@@ -20665,8 +20654,7 @@ msgstr "Ne prikazuj uvodni ekran"
 
 #: src/main-application.c:83
 msgid "Exit immediately after loading the selected books (useful for testing)."
-msgstr ""
-"Izađi odmah nakon učitavanja izabranih tabela (korisno za isprobavanje)."
+msgstr "Izađi odmah nakon učitavanja izabranih tabela (korisno za isprobavanje)."
 
 #: src/main-application.c:113
 msgid ""
@@ -21044,8 +21032,7 @@ msgstr "Dodatak nema identifikaciju."
 #, c-format
 msgid "Error initializing plugin loader (\"%s\")."
 msgstr ""
-"Greška u postavljanju početnih vrednosti za sistem za učitavanje dodatka(„%"
-"s“)."
+"Greška u postavljanju početnih vrednosti za sistem za učitavanje dodatka(„%s“)."
 
 #: src/plugin.c:924 src/plugin.c:1081
 msgid "Detected cyclic plugin dependencies."
@@ -21110,8 +21097,7 @@ msgstr "Greška prilikom čitanja informacija o dostupnim dodacima."
 
 #: src/plugin.c:1622
 msgid "Errors while deactivating plugins that are no longer on disk."
-msgstr ""
-"Greška prilikom zaustavljanja dodataka koji se više ne nalaze na disku."
+msgstr "Greška prilikom zaustavljanja dodataka koji se više ne nalaze na disku."
 
 #: src/plugin.c:1643
 #, c-format
@@ -21362,27 +21348,26 @@ msgstr "Ne može da učita datoteku: %s"
 
 #: src/sheet-object-graph.c:158
 msgid "Save graph as image"
-msgstr ""
+msgstr "Sačuvaj grafik kao sliku"
 
 #: src/sheet-object-graph.c:196
 msgid "Sorry, gnumeric can only save graphs as png images"
-msgstr ""
+msgstr "Nažalost, gnumerik može da sačuva grafike samo kao PNG slike"
 
 #: src/sheet-object-graph.c:214
-#, fuzzy
 msgid "_Save as image"
-msgstr "Izaberite sliku"
+msgstr "_Sačuvaj kao sliku"
 
-#: src/sheet-object-graphic.c:934 src/sheet-object-graphic.c:951
+#: src/sheet-object-graphic.c:936 src/sheet-object-graphic.c:955
 msgid "Transparent"
 msgstr "Providan"
 
-#: src/sheet-object-widget.c:1130
+#: src/sheet-object-widget.c:1132
 #, c-format
 msgid "CheckBox %d"
 msgstr "Kućica za potvrdu %d"
 
-#: src/sheet-object-widget.c:1561 src/workbook-object-toolbar.c:164
+#: src/sheet-object-widget.c:1565 src/workbook-object-toolbar.c:164
 msgid "RadioButton"
 msgstr "Jednoizbornik"
 
@@ -21446,7 +21431,7 @@ msgstr ""
 
 #: src/stf.c:297
 msgid "There is no data to convert"
-msgstr ""
+msgstr "Nema podataka za pretvaranje"
 
 #: src/stf.c:316
 msgid "Error while trying to parse data into sheet"
@@ -21454,7 +21439,7 @@ msgstr "Greška pri pokušaju raščlanjivanja podataka za tabelu"
 
 #: src/stf.c:359
 msgid "That file is not in the given encoding."
-msgstr ""
+msgstr "Toj datoteci nije dodeljeno kodiranje."
 
 #: src/stf.c:376
 msgid "Parse error while trying to parse data into sheet"
@@ -21978,8 +21963,7 @@ msgid ""
 "in your model (maybe your last round # is too high)."
 msgstr ""
 "Izlazna promenljiva nije proizvela brojnu vrednost. Proverite izlazne "
-"promenljive u vašem modelu (možda je Vaše poslednje zaokruživanje # "
-"preveliko)."
+"promenljive u vašem modelu (možda je Vaše poslednje zaokruživanje # preveliko)."
 
 #: src/tools/simulation.c:242
 msgid "Simulation Report"

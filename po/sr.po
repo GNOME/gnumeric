@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.1.90\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-10 00:27-0400\n"
-"PO-Revision-Date: 2003-09-08 15:07+0200\n"
+"POT-Creation-Date: 2003-09-11 11:43+0200\n"
+"PO-Revision-Date: 2003-09-11 11:48+0200\n"
 "Last-Translator: Слободан Средојевић <ssl@uns.ns.ac.yu>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
 "MIME-Version: 1.0\n"
@@ -10593,24 +10593,24 @@ msgstr "Подразумевани интерпретатор"
 
 #: plugins/python-loader/gnm-python.c:130
 #: plugins/python-loader/gnm-python.c:152
-#, fuzzy, c-format
+#, c-format
 msgid "Could not import %s."
-msgstr "Не може да учита датотеку: %s"
+msgstr "Не могу да увезем %s."
 
 #: plugins/python-loader/gnm-python.c:137
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find %s."
-msgstr "Не може да учита датотеку: %s"
+msgstr "Не могу да пронађем %s."
 
 #: plugins/python-loader/gnm-python.c:145
 #, c-format
 msgid "Could not initialize Python bindings for Gtk+, etc: %s"
-msgstr ""
+msgstr "Не могу да покренем Питон везу за Гтк+, итд: %s"
 
 #: plugins/python-loader/gnm-python.c:159
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find %s"
-msgstr "Не може да учита датотеку: %s"
+msgstr "Не могу да пронађем %s"
 
 #: plugins/python-loader/plugin.xml.in.h:1
 msgid "Python plugin loader"
@@ -10764,12 +10764,11 @@ msgstr ""
 
 #: plugins/sample_datasource/plugin.xml.in.h:1
 msgid "A proof of concept external data source"
-msgstr ""
+msgstr "Спољашњи извор података као показатељ могућности"
 
 #: plugins/sample_datasource/plugin.xml.in.h:3
-#, fuzzy
 msgid "Sample DataSource"
-msgstr "Извори података..."
+msgstr "Пример извора података"
 
 #: plugins/sample_datasource/sample_datasource.c:264
 #, no-c-format
@@ -12025,7 +12024,7 @@ msgstr "Скочи до одређеног поља"
 
 #: src/GNOME_Gnumeric.xml.h:142
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:299
-#: src/sheet-object-graphic.c:1434 src/workbook-object-toolbar.c:147
+#: src/sheet-object-graphic.c:1440 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Ознака"
 
@@ -13499,39 +13498,33 @@ msgid "Reconfigure Graph"
 msgstr "Преподеси график"
 
 #: src/consolidate.c:773
-#, fuzzy, c-format
+#, c-format
 msgid "Consolidating to (%s)"
-msgstr "Корелација (%s)"
+msgstr "Учвршћује на (%s)"
 
 #: src/consolidate.c:812 src/consolidate.c:815
-#, fuzzy
 msgid "Data Consolidation"
 msgstr "Учвршћивање података"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:1
-#, fuzzy
 msgid "_Cross"
-msgstr "крст"
+msgstr "_Крст"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:2
-#, fuzzy
 msgid "_High"
-msgstr "Висина"
+msgstr "_Високо"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:3
-#, fuzzy
 msgid "_Invert"
-msgstr "Убацивањ_е"
+msgstr "О_брни"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:4
-#, fuzzy
 msgid "_Low"
-msgstr "_Врста"
+msgstr "_Ниско"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
-#, fuzzy
 msgid "_Map:"
-msgstr "_Празнина:"
+msgstr "_Мапа:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
 #: src/dialogs/solver.glade.h:14
@@ -13926,18 +13919,16 @@ msgstr "ТракаКолона"
 #. * 	PlotLine2
 #.
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:44
-#, fuzzy
 msgid "PlotLine"
-msgstr "ЦртанаПита"
+msgstr "ЦртанаЛинија"
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotArea2
 #.
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:114
-#, fuzzy
 msgid "PlotArea"
-msgstr "ЦртанаПита"
+msgstr "ЦртанаПоврш"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:1
 msgid "3D Adjacent Bars"
@@ -14292,9 +14283,8 @@ msgstr "Систем за исцртавање прстена"
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:58
-#, fuzzy
 msgid "PlotXY"
-msgstr "Исцртај"
+msgstr "ЦртежXY"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:153
 msgid "X"
@@ -14890,7 +14880,7 @@ msgstr "_Унос"
 #: src/dialogs/correlation.glade.h:11 src/dialogs/covariance.glade.h:11
 #: src/dialogs/descriptive-stats.glade.h:21
 #: src/dialogs/dialog-analysis-tools.c:338
-#: src/dialogs/dialog-analysis-tools.c:2584 src/dialogs/dialog-shuffle.c:149
+#: src/dialogs/dialog-analysis-tools.c:2586 src/dialogs/dialog-shuffle.c:149
 #: src/dialogs/exp-smoothing.glade.h:14
 #: src/dialogs/fourier-analysis.glade.h:12
 #: src/dialogs/moving-averages.glade.h:16 src/dialogs/rank.glade.h:14
@@ -15884,10 +15874,10 @@ msgid "No matching records were found."
 msgstr "Одговарајући записи нису пронађени."
 
 #: src/dialogs/dialog-advanced-filter.c:160
-#: src/dialogs/dialog-analysis-tools.c:583
-#: src/dialogs/dialog-analysis-tools.c:701
-#: src/dialogs/dialog-analysis-tools.c:1983
-#: src/dialogs/dialog-analysis-tools.c:2874
+#: src/dialogs/dialog-analysis-tools.c:585
+#: src/dialogs/dialog-analysis-tools.c:703
+#: src/dialogs/dialog-analysis-tools.c:1985
+#: src/dialogs/dialog-analysis-tools.c:2876
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "Неочекивана грешка: %d"
@@ -15900,42 +15890,42 @@ msgstr "Опсе_г списка:"
 msgid "Could not create the Advanced Filter dialog."
 msgstr "Не могу образовати прозорче за „Напредни филтар“."
 
-#: src/dialogs/dialog-analysis-tools.c:569
-#: src/dialogs/dialog-analysis-tools.c:687
+#: src/dialogs/dialog-analysis-tools.c:571
+#: src/dialogs/dialog-analysis-tools.c:689
 msgid "The selected input rows must have equal size!"
 msgstr "Означене улазне врсте морају имати исту величину!"
 
-#: src/dialogs/dialog-analysis-tools.c:574
-#: src/dialogs/dialog-analysis-tools.c:692
+#: src/dialogs/dialog-analysis-tools.c:576
+#: src/dialogs/dialog-analysis-tools.c:694
 msgid "The selected input columns must have equal size!"
 msgstr "Изабране улазне колоне морају имати исту величину!"
 
-#: src/dialogs/dialog-analysis-tools.c:579
-#: src/dialogs/dialog-analysis-tools.c:697
+#: src/dialogs/dialog-analysis-tools.c:581
+#: src/dialogs/dialog-analysis-tools.c:699
 msgid "The selected input areas must have equal size!"
 msgstr "Изабране улазне области морају имати исту величину!"
 
-#: src/dialogs/dialog-analysis-tools.c:626
+#: src/dialogs/dialog-analysis-tools.c:628
 msgid "Could not create the Correlation Tool dialog."
 msgstr "Не могу да направим прозорче за алатку „Корелација“."
 
-#: src/dialogs/dialog-analysis-tools.c:744
+#: src/dialogs/dialog-analysis-tools.c:746
 msgid "Could not create the Covariance Tool dialog."
 msgstr "Не могу да направим прозорче за алатку „Коваријанса“."
 
-#: src/dialogs/dialog-analysis-tools.c:833
+#: src/dialogs/dialog-analysis-tools.c:835
 msgid "Could not create the Rank and Percentile Tools dialog."
 msgstr "Нисам могао да направим прозорче за алате за рангирање и проценте."
 
-#: src/dialogs/dialog-analysis-tools.c:923
+#: src/dialogs/dialog-analysis-tools.c:925
 msgid "Could not create the Fourier Analysis Tool dialog."
 msgstr "Не могу да направим прозорче за алатку „Фуријеова Анализа“."
 
-#: src/dialogs/dialog-analysis-tools.c:1085
+#: src/dialogs/dialog-analysis-tools.c:1087
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr "Не могу образовати прозорче за алатку „Описна статистика“"
 
-#: src/dialogs/dialog-analysis-tools.c:1227
+#: src/dialogs/dialog-analysis-tools.c:1229
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
@@ -15943,7 +15933,7 @@ msgstr ""
 "Молим унесите исправну \n"
 "варијацију популације за променљиву 1."
 
-#: src/dialogs/dialog-analysis-tools.c:1236
+#: src/dialogs/dialog-analysis-tools.c:1238
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
@@ -15951,73 +15941,73 @@ msgstr ""
 "Молим унесите исправну \n"
 "варијацију популације за променљиву 2."
 
-#: src/dialogs/dialog-analysis-tools.c:1461
+#: src/dialogs/dialog-analysis-tools.c:1463
 msgid "Var_iable 1 Range:"
 msgstr "Опсег 1. про_менљиве:"
 
-#: src/dialogs/dialog-analysis-tools.c:1462
+#: src/dialogs/dialog-analysis-tools.c:1464
 msgid "_Variable 2 Range:"
 msgstr "Опсег 2. про_менљиве:"
 
-#: src/dialogs/dialog-analysis-tools.c:1463
+#: src/dialogs/dialog-analysis-tools.c:1465
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "Не могу да направим прозорче за средње провере."
 
-#: src/dialogs/dialog-analysis-tools.c:1660
+#: src/dialogs/dialog-analysis-tools.c:1662
 msgid "Var_iable 1 Range"
 msgstr "Опсег 1. про_менљиве"
 
-#: src/dialogs/dialog-analysis-tools.c:1660
+#: src/dialogs/dialog-analysis-tools.c:1662
 msgid "_Variable 2 Range"
 msgstr "Опсег 2. про_менљиве"
 
-#: src/dialogs/dialog-analysis-tools.c:1661
+#: src/dialogs/dialog-analysis-tools.c:1663
 msgid "Could not create the FTest Tool dialog."
 msgstr "Не могу да направим прозорче за алатку „ФТест“."
 
-#: src/dialogs/dialog-analysis-tools.c:1863
+#: src/dialogs/dialog-analysis-tools.c:1865
 msgid "Could not create the Sampling Tool dialog."
 msgstr "Не могу да направим прозорче за алатку „Узорковање“."
 
-#: src/dialogs/dialog-analysis-tools.c:1978 src/tools/analysis-tools.c:2158
+#: src/dialogs/dialog-analysis-tools.c:1980 src/tools/analysis-tools.c:2158
 #: src/tools/analysis-tools.c:2237
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr "Мора постојати исти број ставки за сваку променљиву у регресији."
 
-#: src/dialogs/dialog-analysis-tools.c:2081 src/dialogs/regression.glade.h:21
+#: src/dialogs/dialog-analysis-tools.c:2083 src/dialogs/regression.glade.h:21
 msgid "_X Variables:"
 msgstr "X Пр_оменљиве:"
 
-#: src/dialogs/dialog-analysis-tools.c:2081 src/dialogs/regression.glade.h:22
+#: src/dialogs/dialog-analysis-tools.c:2083 src/dialogs/regression.glade.h:22
 msgid "_Y Variable:"
 msgstr "Y Проме_нљиве:"
 
-#: src/dialogs/dialog-analysis-tools.c:2082
+#: src/dialogs/dialog-analysis-tools.c:2084
 msgid "Could not create the Regression Tool dialog."
 msgstr "Не могу да направим прозорче за алатку „Регресија“."
 
-#: src/dialogs/dialog-analysis-tools.c:2218
+#: src/dialogs/dialog-analysis-tools.c:2220
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr "Не могу да направим прозорче за алатку „Експоненцијално углађивање“."
 
-#: src/dialogs/dialog-analysis-tools.c:2359
+#: src/dialogs/dialog-analysis-tools.c:2361
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "Не могу да направим прозорче за алатку „Усредњавање“."
 
-#: src/dialogs/dialog-analysis-tools.c:2584 src/dialogs/histogram.glade.h:3
+#: src/dialogs/dialog-analysis-tools.c:2586 src/dialogs/histogram.glade.h:3
 msgid "Bin _Range:"
 msgstr "Бин _опсег:"
 
-#: src/dialogs/dialog-analysis-tools.c:2585
+#: src/dialogs/dialog-analysis-tools.c:2587
 msgid "Could not create the Histogram Tool dialog."
 msgstr "Не могу да направим прозорче за алатку „Хистограм“."
 
-#: src/dialogs/dialog-analysis-tools.c:2761
+#: src/dialogs/dialog-analysis-tools.c:2763
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr "Не могу да направим прозорче за алатку „АНОВА (један фактор)."
 
-#: src/dialogs/dialog-analysis-tools.c:2840
+#: src/dialogs/dialog-analysis-tools.c:2842
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
@@ -16025,40 +16015,40 @@ msgstr ""
 "Дати улазни опсег треба да садржи барем две колоне и две врсте са подацима и "
 "ознакама."
 
-#: src/dialogs/dialog-analysis-tools.c:2843
+#: src/dialogs/dialog-analysis-tools.c:2845
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
 msgstr ""
 "Дати улазни опсег треба да садржи барем две колоне и две врсте са подацима."
 
-#: src/dialogs/dialog-analysis-tools.c:2849
+#: src/dialogs/dialog-analysis-tools.c:2851
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
 msgstr ""
 "Дати улазни опсег треба да садржи барем две колоне са подацима и ознакама."
 
-#: src/dialogs/dialog-analysis-tools.c:2852
+#: src/dialogs/dialog-analysis-tools.c:2854
 msgid "The given input range should contain at least two columns of data."
 msgstr "Дати улазни опсег треба да садржи барем две колоне са подацима."
 
-#: src/dialogs/dialog-analysis-tools.c:2858
+#: src/dialogs/dialog-analysis-tools.c:2860
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
 msgstr ""
 "Дати улазни опсег треба да садржи барем две врсте са подацима и ознакама."
 
-#: src/dialogs/dialog-analysis-tools.c:2861
+#: src/dialogs/dialog-analysis-tools.c:2863
 msgid "The given input range should contain at least two rows of data."
 msgstr "Дати улазни опсег треба да садржи барем две врсте са подацима."
 
-#: src/dialogs/dialog-analysis-tools.c:2868
+#: src/dialogs/dialog-analysis-tools.c:2870
 msgid "The number of data rows must be a multiple of the replication number."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2965
+#: src/dialogs/dialog-analysis-tools.c:2967
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Не могу да образујем прозорче за алатку „АНОВА (два фактора)“."
 
@@ -21358,27 +21348,26 @@ msgstr "Не може да учита датотеку: %s"
 
 #: src/sheet-object-graph.c:158
 msgid "Save graph as image"
-msgstr ""
+msgstr "Сачувај график као слику"
 
 #: src/sheet-object-graph.c:196
 msgid "Sorry, gnumeric can only save graphs as png images"
-msgstr ""
+msgstr "Нажалост, гнумерик може да сачува графике само као PNG слике"
 
 #: src/sheet-object-graph.c:214
-#, fuzzy
 msgid "_Save as image"
-msgstr "Изаберите слику"
+msgstr "_Сачувај као слику"
 
-#: src/sheet-object-graphic.c:934 src/sheet-object-graphic.c:951
+#: src/sheet-object-graphic.c:936 src/sheet-object-graphic.c:955
 msgid "Transparent"
 msgstr "Провидан"
 
-#: src/sheet-object-widget.c:1130
+#: src/sheet-object-widget.c:1132
 #, c-format
 msgid "CheckBox %d"
 msgstr "Кућица за потврду %d"
 
-#: src/sheet-object-widget.c:1561 src/workbook-object-toolbar.c:164
+#: src/sheet-object-widget.c:1565 src/workbook-object-toolbar.c:164
 msgid "RadioButton"
 msgstr "Једноизборник"
 
@@ -21442,7 +21431,7 @@ msgstr ""
 
 #: src/stf.c:297
 msgid "There is no data to convert"
-msgstr ""
+msgstr "Нема података за претварање"
 
 #: src/stf.c:316
 msgid "Error while trying to parse data into sheet"
@@ -21450,7 +21439,7 @@ msgstr "Грешка при покушају рашчлањивања подат
 
 #: src/stf.c:359
 msgid "That file is not in the given encoding."
-msgstr ""
+msgstr "Тој датотеци није додељено кодирање."
 
 #: src/stf.c:376
 msgid "Parse error while trying to parse data into sheet"
