@@ -28,6 +28,7 @@
 #define OK               0
 #define N_COLUMNS_ERROR  1
 #define ERR_INVALID_FIELD  2
+#define NO_RECORDS_FOUND  3
 
 #define ADVANCED_FILTER_KEY         "advanced-filter-dialog"
 
@@ -117,13 +118,18 @@ advanced_filter (WorkbookControl *wbc,
 				     database->v_range.cell.b.row,
 				     crit, unique_only_flag);
 
+	free_criterias (crit);
+
+	if (rows == NULL)
+		return NO_RECORDS_FOUND;
+		
+
 	prepare_output (wbc, dao, "Filtered");
 
 	filter (dao, database->v_range.cell.a.sheet, rows, database->v_range.cell.a.col, 
 		database->v_range.cell.b.col, database->v_range.cell.a.row, 
 		database->v_range.cell.b.row);
 
-	free_criterias (crit);
 	free_rows (rows);
 
 	autofit_columns (dao, 0, database->v_range.cell.b.col - database->v_range.cell.a.col);
@@ -141,11 +147,6 @@ advanced_filter (WorkbookControl *wbc,
 static void
 advanced_filter_update_sensitivity_cb (GtkWidget *dummy, AdvancedFilterState *state)
 {
-	gboolean ready  = TRUE;
-	gboolean input_ready  = FALSE;
-	gboolean crit_ready  = FALSE;
-	gboolean output_ready  = FALSE;
-
         Value *output_range = NULL;
         Value *input_range = NULL;
         Value *criteria_range = NULL;
@@ -154,24 +155,38 @@ advanced_filter_update_sensitivity_cb (GtkWidget *dummy, AdvancedFilterState *st
 
         input_range = gnumeric_expr_entry_parse_to_value (
 		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
+	if (input_range == NULL) {
+		gtk_label_set_text (GTK_LABEL (state->warning), _("The list range is invalid."));
+		gtk_widget_set_sensitive (state->ok_button, FALSE);
+		return;
+	} else
+		value_release (input_range);
+
 	criteria_range =  gnumeric_expr_entry_parse_to_value
 		(GNUMERIC_EXPR_ENTRY (state->input_entry_2), state->sheet);
+	if (criteria_range == NULL) {
+		gtk_label_set_text (GTK_LABEL (state->warning), 
+				    _("The criteria range is invalid."));
+		gtk_widget_set_sensitive (state->ok_button, FALSE);
+		return;
+	} else 
+		value_release (criteria_range);
 
 	i = gnumeric_glade_group_value (state->gui, output_group);
-	if (i == 2)
+	if (i == 2) {
 		output_range = gnumeric_expr_entry_parse_to_value
 			(GNUMERIC_EXPR_ENTRY (state->output_entry), state->sheet);
+		if (output_range == NULL) {
+			gtk_label_set_text (GTK_LABEL (state->warning), 
+					    _("The output range is invalid."));
+			gtk_widget_set_sensitive (state->ok_button, FALSE);
+			return;
+		} else
+			value_release (output_range);	
+	}
 
-	input_ready = (input_range != NULL);
-	crit_ready = (criteria_range != NULL);
-	output_ready =  ((i != 2) || (output_range != NULL));
-
-        if (input_range != NULL) value_release (input_range);
-        if (criteria_range != NULL) value_release (criteria_range);
-        if (output_range != NULL) value_release (output_range);
-
-	ready = ready && input_ready && crit_ready && output_ready;
-	gtk_widget_set_sensitive (state->ok_button, ready);
+	gtk_label_set_text (GTK_LABEL (state->warning), "");
+	gtk_widget_set_sensitive (state->ok_button, TRUE);
 	return;
 }
 
@@ -219,6 +234,12 @@ advanced_filter_ok_clicked_cb (GtkWidget *button, AdvancedFilterState *state)
 	case ERR_INVALID_FIELD:
 		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry_2), 
 				_("The given criteria are invalid."));
+		break;
+	case NO_RECORDS_FOUND:
+		gnumeric_notice_nonmodal ((GtkWindow *) state->dialog,
+					  &(state->warning_dialog),
+					  GTK_MESSAGE_INFO,
+					  _("No matching records were found."));
 		break;
 	default:
 		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
@@ -299,6 +320,8 @@ dialog_advanced_filter_init (AdvancedFilterState *state)
 					    state->accel, key,
 					    GDK_MOD1_MASK, 0);
 	gtk_widget_show (GTK_WIDGET (state->input_entry_2));
+
+	state->warning = glade_xml_get_widget (state->gui, "warnings");
 
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "set-focus",

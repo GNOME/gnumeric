@@ -45,7 +45,7 @@ Long term breakage
     under many window managers.
 
 - Data->Filter dialog
-    : use expr entry widget.
+    : use expr entry widget.         (done in cvs head)
 
 - The autocalc label should use a more readable format and should not get
   clipped.
