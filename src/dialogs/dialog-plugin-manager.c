@@ -28,9 +28,6 @@
 #include <gal/util/e-util.h>
 #include <stdio.h>
 
-#warning this is work in progress
-#warning but at least it does not crash immediately
-
 typedef struct {
 	WorkbookControlGUI *wbcg;
 	GtkDialog *dialog_pm;
@@ -45,7 +42,7 @@ typedef struct {
 	GtkCheckButton *checkbutton_install_new;
 	GtkEntry *entry_name, *entry_directory, *entry_id;
 	GtkTextBuffer *text_description;
-	GtkCList *clist_extra_info;
+	GtkListStore  *model_extra_info;
 	gchar *current_plugin_id;
 } PluginManagerGUI;
 
@@ -56,6 +53,11 @@ enum {
 	PLUGIN_ID,
 	PLUGIN_POINTER,
 	NUM_COLMNS
+};
+enum {
+	EXTRA_NAME,
+	EXTRA_VALUE,
+	EXTRA_NUM_COLMNS
 };
 
 typedef enum {
@@ -393,7 +395,6 @@ update_plugin_manager_view (PluginManagerGUI *pm_gui)
 		if (last_selected_plugin != NULL && select_iter == NULL) {
 			if (strcoll (id, last_selected_plugin) == 0) {
 				select_iter = gtk_tree_iter_copy(&iter);
-			fprintf (stderr, "found_it\n" );
 			}
 		}
 	}
@@ -426,9 +427,11 @@ update_plugin_details_view (PluginManagerGUI *pm_gui)
 	PluginInfo *pinfo;
 	gint n_extra_info_items, i;
 	GList *extra_info_keys, *extra_info_values, *lkey, *lvalue;
+	GtkTreeIter iter;
 
 	g_return_if_fail (pm_gui != NULL);
 
+	gtk_list_store_clear (pm_gui->model_extra_info);
 	if (pm_gui->current_plugin_id != NULL) {
 		pinfo = plugin_db_get_plugin_info_by_plugin_id (pm_gui->current_plugin_id);
 		gtk_entry_set_text (pm_gui->entry_name, plugin_info_peek_name (pinfo));
@@ -441,19 +444,16 @@ update_plugin_details_view (PluginManagerGUI *pm_gui)
 
 		n_extra_info_items = plugin_info_get_extra_info_list 
 			(pinfo, &extra_info_keys, &extra_info_values);
-		gtk_clist_clear (pm_gui->clist_extra_info);
 		if (n_extra_info_items > 0) {
-			gtk_clist_freeze (pm_gui->clist_extra_info);
 			for (i = 0, lkey = extra_info_keys, lvalue = extra_info_values;
 			     i < n_extra_info_items;
 			     i++, lkey = lkey->next, lvalue = lvalue->next ) {
-				gchar *row[2];
-
-				row[0] = (gchar *) lkey->data;
-				row[1] = (gchar *) lvalue->data;
-				gtk_clist_append (pm_gui->clist_extra_info, row);
+				gtk_list_store_prepend (pm_gui->model_extra_info, &iter);
+				gtk_list_store_set (pm_gui->model_extra_info, &iter,
+						    EXTRA_NAME, (gchar *) lkey->data,
+						    EXTRA_VALUE, (gchar *) lvalue->data,
+						    -1);
 			}
-			gtk_clist_thaw (pm_gui->clist_extra_info);
 			e_free_string_list (extra_info_keys);
 			e_free_string_list (extra_info_values);
 		}
@@ -462,7 +462,6 @@ update_plugin_details_view (PluginManagerGUI *pm_gui)
 		gtk_entry_set_text (pm_gui->entry_directory, "");
 		gtk_entry_set_text (pm_gui->entry_id, "");
 		gtk_text_buffer_set_text (pm_gui->text_description, "", 0);
-		gtk_clist_clear (pm_gui->clist_extra_info);
 	}
 }
 
@@ -473,7 +472,9 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 	GladeXML *gui;
 	GtkWidget *page_plugin_list, *page_plugin_details;
 	GtkWidget *scrolled;
+	GtkWidget *scrolled_extra;
 	GtkTreeViewColumn *column;
+	GtkTreeView   *extra_list_view;
 
 	g_return_if_fail (wbcg != NULL);
 
@@ -500,13 +501,14 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 	pm_gui->text_description = gtk_text_view_get_buffer (GTK_TEXT_VIEW (
 				           glade_xml_get_widget (gui, "text_description")));
 	pm_gui->entry_id = GTK_ENTRY (glade_xml_get_widget (gui, "entry_id"));
-	pm_gui->clist_extra_info = GTK_CLIST (glade_xml_get_widget (gui, "clist_extra_info"));
 	page_plugin_list = glade_xml_get_widget (gui, "page_plugin_list");
 	page_plugin_details = glade_xml_get_widget (gui, "page_plugin_details");
 	scrolled = glade_xml_get_widget (gui, "scrolled_plugin_list");
+	scrolled_extra = glade_xml_get_widget (gui, "scrolled_extra_info");
 	
 	g_return_if_fail (pm_gui->dialog_pm != NULL &&
 	                  scrolled != NULL &&
+	                  scrolled_extra != NULL &&
 	                  pm_gui->button_activate_plugin != NULL &&
 	                  pm_gui->button_deactivate_plugin != NULL &&
 	                  pm_gui->button_install_plugin != NULL &&
@@ -514,7 +516,6 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 	                  pm_gui->entry_name != NULL && pm_gui->entry_directory != NULL &&
 	                  pm_gui->text_description != NULL &&
 	                  pm_gui->entry_id != NULL &&
-	                  pm_gui->clist_extra_info != NULL &&
 	                  page_plugin_list != NULL &&
 	                  page_plugin_details != NULL);
 
@@ -527,19 +528,35 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 	gtk_tree_selection_set_mode (pm_gui->selection, GTK_SELECTION_BROWSE);
 	g_signal_connect (pm_gui->selection, "changed",
 			  G_CALLBACK (cb_pm_selection_changed), pm_gui);
-	column = gtk_tree_view_column_new_with_attributes ("State",
+	column = gtk_tree_view_column_new_with_attributes (_("State"),
 							   gtk_cell_renderer_text_new (),
 							   "text", PLUGIN_STATE_STR, NULL);
 	gtk_tree_view_column_set_sort_column_id (column, PLUGIN_STATE_STR);
 	gtk_tree_view_append_column (pm_gui->list_plugins, column);
-	column = gtk_tree_view_column_new_with_attributes ("Plugins",
+	column = gtk_tree_view_column_new_with_attributes (_("Plugins"),
 							   gtk_cell_renderer_text_new (),
 							   "text", PLUGIN_NAME, NULL);
 	gtk_tree_view_column_set_sort_column_id (column, PLUGIN_NAME);
 	gtk_tree_view_append_column (pm_gui->list_plugins, column);
 	gtk_container_add (GTK_CONTAINER (scrolled), GTK_WIDGET (pm_gui->list_plugins));
 
-	gtk_clist_column_titles_passive (pm_gui->clist_extra_info);
+	pm_gui->model_extra_info = gtk_list_store_new (EXTRA_NUM_COLMNS, G_TYPE_STRING, 
+						       G_TYPE_STRING);
+	extra_list_view = GTK_TREE_VIEW (
+		gtk_tree_view_new_with_model (GTK_TREE_MODEL (pm_gui->model_extra_info)));
+/* 	pm_gui->selection = gtk_tree_view_get_selection (pm_gui->list_plugins); */
+/* 	gtk_tree_selection_set_mode (pm_gui->selection, GTK_SELECTION_BROWSE); */
+	column = gtk_tree_view_column_new_with_attributes (_("Name"),
+							   gtk_cell_renderer_text_new (),
+							   "text", EXTRA_NAME, NULL);
+	gtk_tree_view_column_set_sort_column_id (column, EXTRA_NAME);
+	gtk_tree_view_append_column (extra_list_view, column);
+	column = gtk_tree_view_column_new_with_attributes (_("Value"),
+							   gtk_cell_renderer_text_new (),
+							   "text", EXTRA_VALUE, NULL);
+	gtk_tree_view_column_set_sort_column_id (column, EXTRA_VALUE);
+	gtk_tree_view_append_column (extra_list_view, column);
+	gtk_container_add (GTK_CONTAINER (scrolled_extra), GTK_WIDGET (extra_list_view));
 
 	pm_gui->gnotebook = GTK_NOTEBOOK (glade_xml_get_widget (gui, "notebook1"));
 	gtk_notebook_set_tab_label (GTK_NOTEBOOK (pm_gui->gnotebook),
