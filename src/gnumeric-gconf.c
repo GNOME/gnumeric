@@ -699,3 +699,21 @@ gnm_gconf_set_sort_max_initial_clauses (gint val)
 			      val, NULL);
 }
 
+gnum_float
+gnm_gconf_get_zoom (void)
+{
+	gnum_float val =  gconf_client_get_float (application_get_gconf_client (), 
+						  GNUMERIC_GCONF_GUI_ZOOM,
+						  NULL);
+	val = MAX (val, 0.1);
+	val = MIN (val, 5.0);
+	return val;
+}
+
+void
+gnm_gconf_set_zoom  (gnum_float val)
+{
+	gconf_client_set_float (application_get_gconf_client (), 
+				GNUMERIC_GCONF_GUI_ZOOM,
+				val, NULL);
+}

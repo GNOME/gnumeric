@@ -84,6 +84,9 @@ void     gnm_gconf_set_horizontal_window_fraction  (gnum_float val);
 gnum_float gnm_gconf_get_vertical_window_fraction (void);
 void     gnm_gconf_set_vertical_window_fraction  (gnum_float val);
 
+gnum_float gnm_gconf_get_zoom (void);
+void     gnm_gconf_set_zoom  (gnum_float val);
+
 /* xml/files */
 gint     gnm_gconf_get_xml_compression_level (void);
 void     gnm_gconf_set_xml_compression_level (gint val);

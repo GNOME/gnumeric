@@ -285,6 +285,17 @@
         <long>When selecting a sort region in the sort dialog, search clauses are automatically added. This number determines the maximum number of clauses to be added automatically.</long>
         </locale>
       </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/core/gui/window/zoom</key>
+        <applyto>/apps/gnumeric/core/gui/window/zoom</applyto>
+        <owner>Gnumeric</owner>
+        <type>float</type>
+	<default>1</default>
+        <locale name="C">
+        <short>Default Zoom Factor</short>
+        <long>The initial zoom factor for new workbooks.</long>
+        </locale>
+      </schema>
     </schemalist>
 </gconfschemafile>
   

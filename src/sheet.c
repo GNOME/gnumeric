@@ -38,6 +38,7 @@
 #include "expr-name.h"
 #include "expr-impl.h"
 #include "rendered-value.h"
+#include "gnumeric-gconf.h"
 #include "sheet-object-impl.h"
 #include "sheet-object-cell-comment.h"
 #include "solver.h"
@@ -243,7 +244,7 @@ sheet_new (Workbook *wb, char const *name)
 	sheet_selection_add (sheet, 0, 0);
 
 	/* Force the zoom change inorder to initialize things */
-	sheet_set_zoom_factor (sheet, 1.0, TRUE, TRUE);
+	sheet_set_zoom_factor (sheet, gnm_gconf_get_zoom (), TRUE, TRUE);
 
 	sheet->pristine = TRUE;
 	sheet->modified = FALSE;

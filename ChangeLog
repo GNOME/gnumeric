@@ -32,6 +32,15 @@
 
 2002-05-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* schemas/gnumeric-general.schemas : add zoom-factor schema
+	* src/gnumeric-gconf-priv.h : add zoom-factor key
+	* src/gnumeric-gconf.c : add zoom-factor get/set methods
+	* src/gnumeric-gconf.h : ditto
+	* configure.in : update libgnomeprint/libgnomeprintui req.
+	* src/sheet.c (sheet_new) : use zoom factor from preferences 
+
+2002-05-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/commands.c : add cmd_print_set_up and friends
 	* src/commands.h : add cmd_print_set_up
 	* src/print-info.c (save_margin) : constify second argument

@@ -35,8 +35,8 @@ libgnomecanvas-2.0 >= 1.113.0
 gal-2.0		>= 0.0.2
 libgnome-2.0	>= 1.105.0
 libgnomeui-2.0	>= 1.106.0
-libgnomeprint-2.0 >= 1.106.0
-libgnomeprintui-2.0 >= 1.106.0
+libgnomeprint-2.0 >= 1.113.0
+libgnomeprintui-2.0 >= 1.113.0
 ])
 AC_SUBST(GNUMERIC_LIBS)
 AC_SUBST(GNUMERIC_CFLAGS)

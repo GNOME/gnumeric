@@ -931,6 +931,28 @@ pref_window_page_open (PrefState *state, gpointer data,
 }
 
 static void
+cb_pref_window_set_zoom (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, 
+				GtkSpinButton *button)
+{
+	gnum_float float_in_gconf = gconf_client_get_float (gconf,
+							    GNUMERIC_GCONF_GUI_ZOOM,
+							    NULL);
+	gnum_float float_in_button = gtk_spin_button_get_value (button);
+	if (float_in_gconf != float_in_button)
+		gtk_spin_button_set_value (button, (gdouble) float_in_gconf);
+}
+
+
+static void 
+cb_pref_window_zoom_changed (GtkSpinButton *button, PrefState *state)
+{
+	gconf_client_set_float (state->gconf,
+				GNUMERIC_GCONF_GUI_ZOOM,
+				gtk_spin_button_get_value (button), 
+				NULL);
+}
+
+static void
 cb_pref_window_set_window_height (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, 
 				GtkSpinButton *button)
 {
@@ -1039,6 +1061,14 @@ GtkWidget *pref_window_page_initializer (PrefState *state, gpointer data,
 				       0.75, 0.25, 1, 0.05, 2,
 				       cb_pref_window_set_window_width,
 				       cb_pref_window_width_changed);
+
+	/* Zoom Factor Spin Button */
+	dialog_pref_create_float_spin (GNUMERIC_GCONF_GUI_ZOOM, 
+				       "/schemas" GNUMERIC_GCONF_GUI_ZOOM, 
+				       page, row++, state,
+				       1.00, 0.10, 5.00, 0.05, 2,
+				       cb_pref_window_set_zoom,
+				       cb_pref_window_zoom_changed);
 
 	/* Sheet Num Spin Button */
 	dialog_pref_create_int_spin (GNUMERIC_GCONF_WORKBOOK_NSHEETS, 
