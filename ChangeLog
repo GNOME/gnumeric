@@ -1,3 +1,11 @@
+2003-06-21  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/formats.c (currency_date_format_shutdown): free allocated
+	  memory since currency_date_format_init/shutdown may be called
+	  multiple time
+	(currency_date_format_init): Do not assume that data structures
+	  are in pristine state
+
 2003-06-20  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/print-info.c (print_info_new): set up (but disable) load of 

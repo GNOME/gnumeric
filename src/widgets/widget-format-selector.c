@@ -40,8 +40,18 @@
 #define FORMAT_PREVIEW_MAX 40
 
 #define SETUP_LOCALE_SWITCH char *oldlocale = NULL
-#define START_LOCALE_SWITCH if (nfs->locale) {oldlocale = g_strdup(gnumeric_setlocale (LC_ALL, NULL)); gnumeric_setlocale(LC_ALL, nfs->locale);}
-#define END_LOCALE_SWITCH if (oldlocale) {gnumeric_setlocale(LC_ALL, oldlocale);g_free (oldlocale);}
+
+#define START_LOCALE_SWITCH if (nfs->locale) {\
+currency_date_format_shutdown(); \
+oldlocale = g_strdup(gnumeric_setlocale (LC_ALL, NULL)); \
+gnumeric_setlocale(LC_ALL, nfs->locale);\
+currency_date_format_init();}
+
+#define END_LOCALE_SWITCH if (oldlocale) {\
+currency_date_format_shutdown(); \
+gnumeric_setlocale(LC_ALL, oldlocale);\
+g_free (oldlocale);\
+currency_date_format_init();}
 
 static GtkHBoxClass *nfs_parent_class;
 
@@ -283,6 +293,7 @@ fmt_dialog_init_fmt_list (NumberFormatSelector *nfs, char const *const *formats,
 static void
 fmt_dialog_enable_widgets (NumberFormatSelector *nfs, int page)
 {
+	SETUP_LOCALE_SWITCH;
 	static FormatWidget const contents[][12] = {
 		/* General */
 		{
@@ -395,6 +406,8 @@ fmt_dialog_enable_widgets (NumberFormatSelector *nfs, int page)
 	int i;
 	FormatWidget tmp;
 
+	START_LOCALE_SWITCH;
+
 	/* Hide widgets from old page */
 	if (old_page >= 0)
 		for (i = 0; (tmp = contents[old_page][i]) != F_MAX_WIDGET ; ++i)
@@ -475,6 +488,8 @@ fmt_dialog_enable_widgets (NumberFormatSelector *nfs, int page)
 #endif
 
 	draw_format_preview (nfs, TRUE);
+
+	END_LOCALE_SWITCH;
 }
 
 /*
@@ -952,11 +967,8 @@ void
 number_format_selector_set_locale (NumberFormatSelector *nfs, 
 				   char const *locale)
 {
-	SETUP_LOCALE_SWITCH;
 	g_free (nfs->locale);
 	nfs->locale = g_strdup (locale);
 
-	START_LOCALE_SWITCH;
 	cb_format_class_changed (nfs->format.menu, nfs);
-	END_LOCALE_SWITCH;
 }

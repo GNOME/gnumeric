@@ -1,3 +1,9 @@
+2003-06-21  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* widget-locale-selector.c (fmt_dialog_enable_widgets):
+	  switch locales as appropriate
+	(number_format_selector_set_locale): don't switch them here
+
 2003-06-21  Jon K Hellan  <hellan@acm.org>
 
 	* widget-font-selector.c (fs_class_init): convert to g_signal.

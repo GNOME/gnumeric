@@ -307,12 +307,48 @@ currency_date_format_init (void)
 		cell_format_date [21] = "d/m/yyyy h:mm";
 
 		cell_format_time [4]  = "d/m/yy h:mm";
+	} else {
+		cell_format_date [0]  = "m/d/yy";
+		cell_format_date [1]  = "m/d/yyyy";
+		cell_format_date [2]  = "d-mmm-yy";
+		cell_format_date [3]  = "d-mmm-yyyy";
+		cell_format_date [4]  = "d-mmm";
+		cell_format_date [5]  = "d-mm";
+		cell_format_date [6]  = "mmm/d";
+		cell_format_date [7]  = "mm/d";
+		cell_format_date [8]  = "mm/dd/yy";
+		cell_format_date [9]  = "mm/dd/yyyy";
+		cell_format_date [10] = "mmm/dd/yy";
+		cell_format_date [11] = "mmm/dd/yyyy";
+		cell_format_date [12] = "mmm/ddd/yy";
+		cell_format_date [13] = "mmm/ddd/yyyy";
+		cell_format_date [14] = "mm/ddd/yy";
+		cell_format_date [15] = "mm/ddd/yyyy";
+		cell_format_date [20] = "m/d/yy h:mm";
+		cell_format_date [21] = "m/d/yyyy h:mm";
+
+		cell_format_time [4]  = "m/d/yy h:mm";
 	}
 }
 
 void
 currency_date_format_shutdown (void)
 {
+	/* We need to free allocated strings since */
+	/* currency_date_format_init/shutdown may  */
+	/* be called repeatedly by the format selector */
+	/* when switching locales */
+
+	int i;
+
+	for (i = 0; i < 6; i++) {
+		g_free ((char *)(cell_format_currency [i]));
+		cell_format_currency [i] = NULL;
+	}
+	g_free ((char *)(cell_format_account [0]));
+	cell_format_account [0] = NULL;
+	g_free ((char *)(cell_format_account [2]));
+	cell_format_account [3] = NULL;
 }
 
 CurrencySymbol const currency_symbols[] =
