@@ -3283,7 +3283,7 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 			 guint page_num, WorkbookControlGUI *wbcg)
 {
 	Sheet *sheet;
-
+	
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
 
 	/* Ignore events during destruction */
@@ -3308,9 +3308,22 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 		scg_take_focus (SHEET_CONTROL_GUI (obj));
 		return;
 	}
-	if (wbcg->editing)
-		wbcg_edit_finish (wbcg, FALSE);
 
+	/*
+	 * Make absolutely sure the expression doesn't get 'lost', if it's invalid
+	 * then prompt the user and don't switch the notebook page.
+	 */
+	if (wbcg->editing) {
+		int prev = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (notebook), "previous_page"));
+
+		if (prev != gtk_notebook_get_current_page (notebook) && !wbcg_edit_finish (wbcg, TRUE))
+			gtk_notebook_set_page (notebook, prev);
+		return;
+	}
+
+	gtk_object_set_data (GTK_OBJECT (notebook), "previous_page",
+			     GINT_TO_POINTER (gtk_notebook_get_current_page (notebook)));
+	
 	/* if we are not selecting a range for an expression update */
 	sheet = wb_control_gui_focus_cur_sheet (wbcg);
 	if (wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)) != NULL) {
