@@ -142,17 +142,24 @@ Architecture Changes
 9) RTL
     9.1) Drawing
 	9.1.1) item-bar
-	    9.1.1.1) col header
+	    9.1.1.1) col header					(DONE)
 		9.1.1.1.1) draw heading				(DONE)
 		9.1.1.1.2) button up/down			(DONE)
 		9.1.1.1.3) cursors				(DONE)
 		9.1.1.1.4) drag resize				(DONE)
-		9.1.1.1.4) outline symbols
-		9.1.1.1.5) black line between button and start
-	    9.1.1.2) row header
+		9.1.1.1.5) groups				(DONE)
+		    9.1.1.1.5.1) ticks				(DONE)
+		    9.1.1.1.5.2) lines with marks on left	(DONE)
+		    9.1.1.1.5.3) lines with marks on right	(DONE)
+		    9.1.1.1.5.4) boxes with marks on left	(DONE)
+		    9.1.1.1.5.5) boxes with marks on right	(DONE)
+	    9.1.1.2) row header					(DONE)
 		9.1.1.2.1) drag resize				(DONE)
-		9.1.1.2.2) outline symbols
-		9.1.1.2.3) black line at edge
+		9.1.1.2.2) groups				(DONE)
+		    9.1.1.2.2.1) ticks				(DONE)
+		    9.1.1.2.2.2) lines				(DONE)
+		    9.1.1.2.2.3) boxes				(DONE)
+		9.1.1.2.3) events in RTL with outlines		(DONE)
 	9.1.2) item-cursor
 	    9.1.2.1) basic drawing				(DONE)
 	    9.1.2.2) motion					(DONE)
@@ -172,7 +179,7 @@ Architecture Changes
 	    9.1.4.4) right alignment editing
 	    9.1.4.4) center alignment editing
 	    9.1.4.5) rotation
-	9.1.5) wbcg/scg/pane					(DONE)
+	9.1.5) wbcg/scg/pane
 	    9.1.5.1) init scroll regions for rtl		(DONE)
 	    9.1.5.2) set_top_left				(DONE)
 	    9.1.5.3) set_left					(DONE)
@@ -183,6 +190,10 @@ Architecture Changes
 			until a scroll
 	    9.1.5.8) increase zoom misaligns grid		(DONE)
 	    9.1.5.9) frozen panes				(DONE)
+	    9.1.5.10) autoscroll
+		9.1.5.10.1) basics				(DONE)
+		9.1.5.10.2) draging to right of col A jumps ?	(DONE)
+		9.1.5.10.3) object drags outside window
     9.2) spans
 	9.2.1) swap left/right align during rtl			(DONE)
 	9.2.2) Respect style selected dir
