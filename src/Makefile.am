@@ -86,6 +86,8 @@ GNUMERIC_BASE_SOURCES =				\
 	fn-string.c				\
 	format.c				\
 	format.h				\
+	goal-seek.c				\
+	goal-seek.h				\
 	gnumeric-sheet.c			\
 	gnumeric-sheet.h			\
 	gnumeric-util.c				\

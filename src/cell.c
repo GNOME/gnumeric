@@ -24,7 +24,7 @@ void
 cell_formula_changed (Cell *cell)
 {
 	g_return_if_fail (cell != NULL);
-	
+
 	sheet_cell_formula_link (cell);
 	cell_queue_recalc (cell);
 }
@@ -45,7 +45,7 @@ cell_set_formula (Cell *cell, const char *text)
 {
 	char *error_msg = _("ERROR");
 	const char *desired_format = NULL;
-	
+
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
 
@@ -59,7 +59,7 @@ cell_set_formula (Cell *cell, const char *text)
 	if (cell->parsed_node == NULL){
 		cell->flags |= CELL_ERROR;
 		cell_set_rendered_text (cell, error_msg);
-		
+
 		if (cell->value)
 			value_release (cell->value);
 		cell->value = NULL;
@@ -102,12 +102,12 @@ cell_set_alignment (Cell *cell, int halign, int valign, int orient, int auto_ret
 	cell_modified (cell);
 
 	cell_queue_redraw (cell);
-	
+
 	cell->style->halign = halign;
 	cell->style->valign = valign;
 	cell->style->orientation = orient;
 	cell->style->fit_in_cell = auto_return;
-	
+
 	cell_calc_dimensions (cell);
 
 	cell_queue_redraw (cell);
@@ -139,14 +139,14 @@ cell_set_font_from_style (Cell *cell, StyleFont *style_font)
 	cell_modified (cell);
 
 	cell_queue_redraw (cell);
-	
+
 	style_font_unref (cell->style->font);
 	style_font_ref (style_font);
-	
+
 	cell->style->font = style_font;
 
 	cell_calc_dimensions (cell);
-	
+
 	cell_queue_redraw (cell);
 }
 
@@ -186,7 +186,7 @@ cell_comment_destroy (Cell *cell)
 {
 	CellComment *comment;
 	GList *l;
-	
+
 	g_return_if_fail (cell != NULL);
 
 	comment = cell->comment;
@@ -202,10 +202,10 @@ cell_comment_destroy (Cell *cell)
 
 	if (comment->window)
 		gtk_object_destroy (GTK_OBJECT (comment->window));
-	
+
 	for (l = comment->realized_list; l; l = l->next)
 		gtk_object_destroy (l->data);
-	
+
 	g_free (comment);
 }
 
@@ -216,19 +216,19 @@ cell_comment_cancel_timer (Cell *cell)
 		gtk_timeout_remove (cell->comment->timer_tag);
 		cell->comment->timer_tag = -1;
 	}
-		
+
 }
-      
+
 static void
 cell_display_comment (Cell *cell)
 {
 	GtkWidget *window, *label;
 	int x, y;
-	
+
 	g_return_if_fail (cell != NULL);
 
 	cell_comment_cancel_timer (cell);
-	
+
 	window = gtk_window_new (GTK_WINDOW_POPUP);
 	label = gtk_label_new (cell->comment->comment->str);
 	gtk_container_add (GTK_CONTAINER (window), label);
@@ -245,7 +245,7 @@ static gint
 cell_popup_comment (gpointer data)
 {
 	Cell *cell = data;
-	
+
 	cell->comment->timer_tag = -1;
 
 	cell_display_comment (cell);
@@ -270,7 +270,7 @@ cell_comment_clicked (GnomeCanvasItem *item, GdkEvent *event, Cell *cell)
 		if (event->button.button != 1)
 			return FALSE;
 		break;
-		
+
 	case GDK_ENTER_NOTIFY:
 		cell->comment->timer_tag = gtk_timeout_add (1000, cell_popup_comment, cell);
 		cursor_set_widget (canvas, GNUMERIC_CURSOR_ARROW);
@@ -283,7 +283,7 @@ cell_comment_clicked (GnomeCanvasItem *item, GdkEvent *event, Cell *cell)
 			cell->comment->window = NULL;
 		}
 		break;
-		
+
 	default:
 		return FALSE;
 	}
@@ -301,9 +301,9 @@ cell_comment_realize (Cell *cell)
 	for (l = ((Sheet *)cell->sheet)->sheet_views; l; l = l->next){
 		SheetView *sheet_view = SHEET_VIEW (l->data);
 		GnomeCanvasItem *o;
-		
+
 		o = sheet_view_comment_create_marker (
-			sheet_view, 
+			sheet_view,
 			cell->col->pos, cell->row->pos);
 
 		cell->comment->realized_list = g_list_prepend (
@@ -353,7 +353,7 @@ void
 cell_set_comment (Cell *cell, const char *str)
 {
 	int had_comments = FALSE;
-	
+
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (str != NULL);
 
@@ -365,7 +365,7 @@ cell_set_comment (Cell *cell, const char *str)
 	cell->comment->realized_list = NULL;
 	cell->comment->timer_tag = -1;
 	cell->comment->window = NULL;
-	
+
 	cell->comment->comment = string_get (str);
 
 	if (had_comments)
@@ -381,7 +381,7 @@ cell_set_foreground (Cell *cell, gushort red, gushort green, gushort blue)
 	g_return_if_fail (cell != NULL);
 
 	cell_modified (cell);
-	
+
 	if (cell->style->valid_flags & STYLE_FORE_COLOR)
 		style_color_unref (cell->style->fore_color);
 
@@ -395,7 +395,7 @@ void
 cell_set_background (Cell *cell, gushort red, gushort green, gushort blue)
 {
 	g_return_if_fail (cell != NULL);
-	
+
 	cell_modified (cell);
 
 	if (cell->style->valid_flags & STYLE_BACK_COLOR)
@@ -415,7 +415,7 @@ cell_set_color_from_style (Cell *cell, StyleColor *foreground,
 			   StyleColor *background)
 {
 	g_return_if_fail (cell != NULL);
-	
+
 	cell_modified (cell);
 
 	if (cell->style->valid_flags & STYLE_FORE_COLOR)
@@ -425,7 +425,7 @@ cell_set_color_from_style (Cell *cell, StyleColor *foreground,
 	}
 
 	if (cell->style->valid_flags & STYLE_BACK_COLOR)
-	{ 
+	{
 		cell->style->valid_flags ^= STYLE_BACK_COLOR;
 		style_color_unref (cell->style->back_color);
 	}
@@ -465,7 +465,7 @@ cell_set_pattern (Cell *cell, int pattern)
  * cell_set_border:
  * @cell: the cell
  * @border_type: an array containing the borders for the cell
- * @border_color: an array of StyleColors with the 
+ * @border_color: an array of StyleColors with the
  * NB. don't unref the StyleColor *s you pass.
  */
 void
@@ -476,7 +476,7 @@ cell_set_border (Cell *cell,
 	g_return_if_fail (cell != NULL);
 
 	cell_modified (cell);
-	
+
   	if (cell->style->valid_flags & STYLE_BORDER)
 		style_border_unref (cell->style->border);
 
@@ -498,7 +498,7 @@ void
 cell_set_rendered_text (Cell *cell, const char *rendered_text)
 {
 	String *oldtext;
-	
+
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (rendered_text != NULL);
 
@@ -508,7 +508,7 @@ cell_set_rendered_text (Cell *cell, const char *rendered_text)
 	cell->text = string_get (rendered_text);
 	if (oldtext)
 		string_unref (oldtext);
-	
+
 	cell_calc_dimensions (cell);
 }
 
@@ -523,7 +523,7 @@ cell_render_value (Cell *cell)
 {
 	StyleColor *color;
 	char *str;
-	
+
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (cell->value != NULL);
 
@@ -534,7 +534,7 @@ cell_render_value (Cell *cell)
 
 	str = format_value (cell->style->format, cell->value, &color);
 	cell->render_color = color;
-	
+
 	cell_set_rendered_text (cell, str);
 	g_free (str);
 }
@@ -563,10 +563,10 @@ cell_set_value_simple (Cell *cell, Value *v)
 	if (cell->entered_text)
 		string_unref (cell->entered_text);
 	cell->entered_text = NULL;
-					 
+
 	if (cell->value)
 		value_release (cell->value);
-	
+
 	if (cell->parsed_node){
 		sheet_cell_formula_unlink (cell);
 
@@ -588,7 +588,7 @@ cell_set_value (Cell *cell, Value *v)
 {
 	g_return_if_fail (cell);
 	g_return_if_fail (v);
-	
+
 	cell_queue_redraw (cell);
 
 	cell_set_value_simple (cell, v);
@@ -621,12 +621,12 @@ cell_set_text_simple (Cell *cell, const char *text)
 	if (cell->entered_text)
 		string_unref (cell->entered_text);
 	cell->entered_text = string_get (text);
-					 
+
 	if (cell->value){
 		value_release (cell->value);
 		cell->value = NULL;
 	}
-	
+
 	if (cell->parsed_node){
 		sheet_cell_formula_unlink (cell);
 
@@ -635,7 +635,7 @@ cell_set_text_simple (Cell *cell, const char *text)
 	}
 
  	if (text [0] == '=' && text [1] != 0){
-		cell_set_formula (cell, text); 
+		cell_set_formula (cell, text);
 	} else {
 		const char *p;
 		char *end;
@@ -662,7 +662,7 @@ cell_set_text_simple (Cell *cell, const char *text)
 		}
 
 		cell_render_value (cell);
-	}	
+	}
 }
 
 /*
@@ -696,7 +696,7 @@ cell_set_text (Cell *cell, const char *text)
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
-	
+
 	cell_queue_redraw (cell);
 
 	cell_set_text_simple (cell, text);
@@ -718,7 +718,7 @@ cell_set_text (Cell *cell, const char *text)
  *     or queue a full redraw).
  *
  *   - It does not queue any recomputations.  YOu have to queue the
- *     recompute yourself. 
+ *     recompute yourself.
  */
 void
 cell_set_formula_tree_simple (Cell *cell, ExprTree *formula)
@@ -755,7 +755,7 @@ cell_set_formula_tree (Cell *cell, ExprTree *formula)
  * cell_copy:
  * @cell: existing cell to duplicate
  *
- * Makes a copy of a Cell.  
+ * Makes a copy of a Cell.
  *
  * Returns a copy of the cell.  Note that the col, row and sheet
  * fields are set to NULL.
@@ -931,7 +931,7 @@ cell_set_format_simple (Cell *cell, const char *format)
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (format != NULL);
-	
+
 	if (strcmp (format, cell->style->format->format) == 0)
 		return;
 
@@ -952,9 +952,9 @@ void
 cell_set_format (Cell *cell, const char *format)
 {
 	g_return_if_fail (cell != NULL);
-	
+
 	cell_set_format_simple (cell, format);
-	
+
 	/* re-render the cell text */
 	cell_render_value (cell);
 	cell_queue_redraw (cell);
@@ -966,17 +966,17 @@ cell_set_format_from_style (Cell *cell, StyleFormat *style_format)
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (cell->value);
 	g_return_if_fail (style_format != NULL);
-	
+
 	cell_modified (cell);
 	cell_queue_redraw (cell);
-	
+
 	/* Change the format */
 	style_format_unref (cell->style->format);
 	style_format_ref (style_format);
 
 	cell->style->format = style_format;
 	cell->flags |= CELL_FORMAT_SET;
-	
+
 	/* re-render the cell text */
 	cell_render_value (cell);
 	cell_queue_redraw (cell);
@@ -986,10 +986,10 @@ void
 cell_comment_reposition (Cell *cell)
 {
 	GList *l;
-	
+
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (cell->comment != NULL);
-	
+
 	for (l = cell->comment->realized_list; l; l = l->next){
 		GnomeCanvasItem *o = l->data;
 		SheetView *sheet_view = GNUMERIC_SHEET (o->canvas)->sheet_view;
@@ -1091,7 +1091,7 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 	Sheet *sheet;
 	int align, left;
 	int row, pos, margin;
-	
+
 	g_return_if_fail (cell != NULL);
 
         /*
@@ -1119,7 +1119,7 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 		pos = cell->col->pos + 1;
 		left = cell->width - COL_INTERNAL_WIDTH (cell->col);
 		margin = cell->col->margin_b;
-		
+
 		for (; left > 0 && pos < SHEET_MAX_COLS-1; pos++){
 			ColRowInfo *ci;
 			Cell *sibling;
@@ -1130,7 +1130,7 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 				return;
 
 			ci = sheet_col_get_info (sheet, pos);
-			
+
 			/* The space consumed is:
 			 *    - The margin_b from the last column
 			 *    - The width of the cell
@@ -1141,13 +1141,13 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 			(*col2)++;
 		}
 		return;
-		
+
 	case HALIGN_RIGHT:
 		*col1 = *col2 = cell->col->pos;
 		pos = cell->col->pos - 1;
 		left = cell->width - COL_INTERNAL_WIDTH (cell->col);
 		margin = cell->col->margin_a;
-		
+
 		for (; left > 0 && pos >= 0; pos--){
 			ColRowInfo *ci;
 			Cell *sibling;
@@ -1173,15 +1173,15 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 	case HALIGN_CENTER: {
 		int left_left, left_right;
 		int margin_a, margin_b;
-		
+
 		*col1 = *col2 = cell->col->pos;
 		left = cell->width -  COL_INTERNAL_WIDTH (cell->col);
-		
+
 		left_left  = left / 2 + (left % 2);
 		left_right = left / 2;
 		margin_a = cell->col->margin_a;
 		margin_b = cell->col->margin_b;
-		
+
 		for (; left_left > 0 || left_right > 0;){
 			ColRowInfo *ci;
 			Cell *left_sibling, *right_sibling;
@@ -1217,15 +1217,15 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 				}
 			} else
 				left_right = 0;
-			
+
 		} /* for */
 		break;
-		
+
 	default:
 		g_warning ("Unknown horizontal alignment type\n");
 		*col1 = *col2 = cell->col->pos;
 	} /* case HALIGN_CENTER */
-			
+
 	} /* switch */
 }
 
@@ -1240,22 +1240,22 @@ cell_get_span (Cell *cell, int *col1, int *col2)
  * @w:         return value: the width used.
  *
  * Computes the width and height used by the cell based on alignments
- * constraints in the style using the font specified on the style. 
+ * constraints in the style using the font specified on the style.
  */
 void
 calc_text_dimensions (int is_number, Style *style, const char *text, int cell_w, int cell_h, int *h, int *w)
 {
 	GdkFont *font = style->font->font;
 	int text_width, font_height;
-	
+
 	text_width = gdk_string_width (font, text);
 	font_height = font->ascent + font->descent;
-	
+
 	if (text_width < cell_w || is_number){
 		*w = text_width;
 		*h = font_height;
 		return;
-	} 
+	}
 
 	if (style->halign == HALIGN_JUSTIFY ||
 	    style->valign == VALIGN_JUSTIFY ||
@@ -1265,7 +1265,7 @@ calc_text_dimensions (int is_number, Style *style, const char *text, int cell_w,
 		const char *p = text;
 		*w = cell_w;
 		*h = font_height;
-		
+
 		used = 0;
 		last_was_cut_point = FALSE;
 
@@ -1274,14 +1274,14 @@ calc_text_dimensions (int is_number, Style *style, const char *text, int cell_w,
 
 			if (last_was_cut_point && *p != ' ')
 				ideal_cut_spot = p;
-			
+
 			len = gdk_text_width (font, p, 1);
 
 			/* If we have overflowed the cell, wrap */
 			if (used + len > cell_w){
 				if (ideal_cut_spot){
 					int n = p - ideal_cut_spot;
-					
+
 					used = gdk_text_width (font, ideal_cut_spot, n);
 				} else {
 					used = len;
@@ -1318,18 +1318,18 @@ cell_calc_dimensions (Cell *cell)
 	g_return_if_fail (cell != NULL);
 
 	cell_unregister_span (cell);
-	
+
 	if (cell->text){
 		Style *style = cell->style;
 		int h, w;
-		
+
 		rendered_text = cell->text->str;
 		calc_text_dimensions (cell_is_number (cell),
 				      style, rendered_text,
 				      COL_INTERNAL_WIDTH (cell->col),
 				      ROW_INTERNAL_HEIGHT (cell->row),
 				      &h, &w);
-		
+
 		cell->width = cell->col->margin_a + cell->col->margin_b + w;
 		cell->height = cell->row->margin_a + cell->row->margin_b + h;
 
@@ -1350,18 +1350,18 @@ draw_overflow (GdkDrawable *drawable, GdkGC *gc, GdkFont *font, int x1, int y1, 
 	GdkRectangle rect;
 	int len = gdk_string_width (font, "#");
 	int total, offset;
-	
+
 	rect.x = x1;
 	rect.y = y1;
 	rect.width = width;
 	rect.height = height;
 	gdk_gc_set_clip_rectangle (gc, &rect);
-	
+
 	offset = x1 + width - len;
 	for (total = len;  offset > len; total += len){
 		gdk_draw_text (drawable, font, gc, x1 + offset, text_base, "#", 1);
 		offset -= len;
-	} 
+	}
 }
 
 static GList *
@@ -1386,7 +1386,7 @@ cell_split_text (GdkFont *font, const char *text, int width)
 		if (used + len > width){
 			const char *begin = line_begin;
 			char *line;
-			
+
 			if (ideal_cut_spot){
 				int n = p - ideal_cut_spot + 1;
 
@@ -1398,7 +1398,7 @@ cell_split_text (GdkFont *font, const char *text, int width)
 				line_len = p - line_begin;
 				line_begin = p;
 			}
-			
+
 			line = g_malloc (line_len + 1);
 			memcpy (line, begin, line_len);
 			line [line_len] = 0;
@@ -1439,7 +1439,7 @@ static char *
 str_trim_spaces (char *s)
 {
 	char *p;
-	
+
 	while (*s && *s == ' ')
 		s++;
 
@@ -1457,14 +1457,14 @@ str_trim_spaces (char *s)
 /*
  * Returns the number of columns used for the draw
  */
-int 
+int
 cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, int x1, int y1)
 {
 	Style        *style = cell->style;
 	GdkFont      *font = style->font->font;
 	/* GdkGC        *white_gc = GTK_WIDGET (sheet_view->sheet_view)->style->white_gc; */
 	GdkRectangle rect;
-	
+
 	int start_col, end_col;
 	int width, height;
 	int text_base = y1 + cell->row->pixels - cell->row->margin_b - font->descent;
@@ -1479,7 +1479,7 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, 
 	height = ROW_INTERNAL_HEIGHT (cell->row);
 
 	font_height = font->ascent + font->descent;
-	
+
 	halign = cell_get_horizontal_align (cell);
 
 	/* if a number overflows, do special drawing */
@@ -1495,12 +1495,12 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, 
 		do_multi_line = FALSE;
 
 	text = cell->text->str;
-	
+
 	if (do_multi_line){
 		GList *lines, *l;
 		int cell_pixel_height = ROW_INTERNAL_HEIGHT (cell->row);
 		int line_count, x_offset, y_offset, inter_space;
-		
+
 		lines = cell_split_text (font, text, width);
 		line_count = g_list_length (lines);
 
@@ -1509,33 +1509,33 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, 
 		rect.height = cell->row->pixels + 1;
 		rect.width = cell->col->pixels  + 1;
 		gdk_gc_set_clip_rectangle (gc, &rect);
-		
+
 		switch (style->valign){
 		case VALIGN_TOP:
 			y_offset = 0;
 			inter_space = font_height;
 			break;
-			
+
 		case VALIGN_CENTER:
 			y_offset = (cell_pixel_height - (line_count * font_height))/2;
 			inter_space = font_height;
 			break;
-			
+
 		case VALIGN_JUSTIFY:
 			if (line_count > 1){
 				y_offset = 0;
-				inter_space = font_height + 
+				inter_space = font_height +
 					(cell_pixel_height - (line_count * font_height))
 					/ (line_count-1);
 				break;
-			} 
+			}
 			/* Else, we become a VALIGN_BOTTOM line */
-			
+
 		case VALIGN_BOTTOM:
 			y_offset = cell_pixel_height - (line_count * font_height);
 			inter_space = font_height;
 			break;
-			
+
 		default:
 			g_warning ("Unhandled cell vertical alignment\n");
 			y_offset = 0;
@@ -1547,13 +1547,13 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, 
 			char *str = l->data;
 
 			str = str_trim_spaces (str);
-			
+
 			switch (halign){
 			case HALIGN_LEFT:
 			case HALIGN_JUSTIFY:
 				x_offset = cell->col->margin_a;
 				break;
-				
+
 			case HALIGN_RIGHT:
 				x_offset = cell->col->pixels - cell->col->margin_b -
 					gdk_string_width (font, str);
@@ -1571,18 +1571,18 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, 
 			gc = GTK_WIDGET (sheet_view->sheet_view)->style->black_gc;
 			gdk_draw_text (drawable, font, gc, x1 + x_offset, y1 + y_offset, str, strlen (str));
 			y_offset += inter_space;
-			
+
 			g_free (l->data);
 		}
 		g_list_free (lines);
-		
+
 	} else {
 		int x, diff, total, len;
 
 		/*
 		 * x1, y1 are relative to this cell origin, but the cell might be using
 		 * columns to the left (if it is set to right justify or center justify)
-		 * compute the pixel difference 
+		 * compute the pixel difference
 		 */
 		if (start_col != cell->col->pos)
 			diff = -sheet_col_get_distance (cell->sheet, start_col, cell->col->pos);
@@ -1594,7 +1594,7 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, 
 		rect.y = y1 + 1;
 		rect.width  = sheet_col_get_distance (cell->sheet, start_col, end_col+1) - 1;
 		rect.height = cell->row->pixels - 1;
-		
+
 		/* Set the clip rectangle */
 		gdk_gc_set_clip_rectangle (gc, &rect);
 
@@ -1620,7 +1620,7 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, 
 			printf ("FILL!\n");
 			len = gdk_string_width (font, text);
 			/* fall down */
-			
+
 		case HALIGN_LEFT:
 			x = cell->col->margin_a;
 			break;
@@ -1632,7 +1632,7 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, 
 		case HALIGN_CENTER:
 			x = (cell->col->pixels - cell->width)/2;
 			break;
-			
+
 		default:
 			g_warning ("Single-line justification style not supported\n");
 			x = cell->col->margin_a;
@@ -1665,7 +1665,7 @@ char *
 cell_get_text (Cell *cell)
 {
 	char *str;
-	
+
 	g_return_val_if_fail (cell != NULL, NULL);
 
 	if (cell->parsed_node && cell->sheet){
@@ -1685,7 +1685,7 @@ cell_get_text (Cell *cell)
 		str = format_value (cell->style->format, cell->value, NULL);
 	else
 		str = g_strdup (cell->entered_text->str);
-	
+
 	return str;
 }
 
@@ -1704,12 +1704,12 @@ char *
 cell_get_content (Cell *cell)
 {
 	char *str;
-	
+
 	g_return_val_if_fail (cell != NULL, NULL);
 
 	if (cell->parsed_node){
 		char *func, *ret;
-		
+
 		func = expr_decode_tree (cell->parsed_node, cell->sheet, cell->col->pos, cell->row->pos);
 		ret = g_strconcat ("=", func, NULL);
 		g_free (func);
@@ -1724,6 +1724,6 @@ cell_get_content (Cell *cell)
 		str = value_get_as_string (cell->value);
 	else
 		str = g_strdup (cell->entered_text->str);
-	
+
 	return str;
 }

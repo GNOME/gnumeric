@@ -1,8 +1,9 @@
 /*
- * dialog-goal-seek.c: 
+ * dialog-goal-seek.c:
  *
- * Author:
- *  Jukka-Pekka Iivonen <iivonen@iki.fi>
+ * Authors:
+ *   Jukka-Pekka Iivonen <iivonen@iki.fi>
+ *   Morten Welinder (terra@diku.dk)
  */
 
 
@@ -17,185 +18,213 @@
 #include "expr.h"
 #include "eval.h"
 #include "utils.h"
+#include "goal-seek.h"
+#ifdef HAVE_IEEEFP_H
+#    include <ieeefp.h>
+#endif
 
 #define MAX_CELL_NAME_LEN  20
 
-
-static int
-test_cell_with_value (Cell *set_cell, Cell *change_cell, float_t x, float_t *value)
+static void
+focus_on_entry (GtkWidget *entry)
 {
-        char buf[256];
-	sprintf(buf, "%f", (double) x);
-
-        cell_set_text(change_cell, buf);
-	cell_eval(set_cell);
-
-	if (set_cell->value)
-	        *value = value_get_as_float (set_cell->value);
-	else
-	        return -1;
-	return 0;
+	gtk_widget_grab_focus (entry);
+	gtk_entry_set_position (GTK_ENTRY (entry), 0);
+	gtk_entry_select_region (GTK_ENTRY (entry), 0,
+				 GTK_ENTRY (entry)->text_length);
 }
 
 
-/* Goal seek will find a value for a given cell.  User specifies a cell (C1), 
- * its target value, and another cell (C2) whose value is to be determined.
- * If the seek is successful, the value in C1 matches the target value and
- * 'f_flag' is set to 1 (otherwise 0).  The function returns the value of C2.
- */
-static float_t
+typedef struct {
+	Cell *xcell, *ycell;
+	float_t ytarget;
+} GoalEvalData;
+
+
+static GoalSeekStatus
+goal_seek_eval (float_t x, float_t *y, void *vevaldata)
+{
+	GoalEvalData *evaldata = vevaldata;
+
+	cell_set_value_simple (evaldata->xcell, value_new_float (x));
+	cell_content_changed (evaldata->xcell);
+
+	cell_eval (evaldata->ycell);
+
+	if (evaldata->ycell->value) {
+	        *y = value_get_as_float (evaldata->ycell->value) - evaldata->ytarget;
+		if (finite (*y))
+			return GOAL_SEEK_OK;
+	}
+
+	return GOAL_SEEK_ERROR;
+}
+
+
+static GoalSeekStatus
 gnumeric_goal_seek (Workbook *wb, Sheet *sheet,
-		    int      set_cell_col, int set_cell_row,       /* C1 */
-		    float_t  target_value,
-		    int      change_cell_col, int change_cell_row, /* C2 */
-		    int      *f_flag)
+		    Cell *set_cell, float_t target_value,
+		    Cell *change_cell, float_t xmin, float_t xmax)
 {
-        const int max_iterations = 10000;
-	const int left = 1;
-	const int right = 2;
-	const float_t accuracy_limit = 0.0003;
+	GoalSeekData seekdata;
+	GoalEvalData evaldata;
+	GoalSeekStatus status;
 
-        Cell    *target_cell;
-	Cell    *change_cell;
-        float_t a, b;
-	float_t x1, x2, x;
-	float_t step = 1;
-	float_t initial_value;
-	float_t test;
-	int     i, dir;
+	seekdata.xmin = xmin;
+	seekdata.xmax = xmax;
+	seekdata.precision = 1e-10;
+	seekdata.havexpos = seekdata.havexneg = FALSE;
 
-	/* Get the cell pointers */
-	target_cell = sheet_cell_get (sheet, set_cell_col, set_cell_row);
-	if (target_cell == NULL) {
-	        target_cell = sheet_cell_new (sheet,
-					      set_cell_col, set_cell_row);
-		cell_set_text (target_cell, "");
-	}
-	change_cell = sheet_cell_get (sheet, change_cell_col, change_cell_row);
-	if (change_cell == NULL) {
-	        change_cell = sheet_cell_new(sheet,
-					     change_cell_col, change_cell_row);
-		cell_set_text (change_cell, "");
-	}
+	evaldata.xcell = change_cell;
+	evaldata.ycell = set_cell;
+	evaldata.ytarget = target_value;
 
-	initial_value = value_get_as_float (change_cell->value);
+	/* PLAN A: Newton's iterative method.  */
+	{
+		float_t x0;
 
-	/* Check if a linear problem */
-	if (test_cell_with_value (target_cell, change_cell,
-				  initial_value, &x1))
-	        goto non_linear;
+		if (change_cell->value)
+			x0 = value_get_as_float (change_cell->value);
+		else
+			x0 = (seekdata.xmin + seekdata.xmax) / 2;
 
-	if (test_cell_with_value (target_cell, change_cell, 
-				  initial_value + step, &x2))
-	        goto non_linear;
-
-	b = (x2 - x1) / step;
-	if (test_cell_with_value (target_cell, change_cell, 0, &a))
-	        goto non_linear;
-
-	if (b != 0) {
-	        x = (target_value - a) / b;
-		if (test_cell_with_value (target_cell, change_cell, x, &x))
-		        goto non_linear;
-		if (x == target_value) {
-		        /* Goal found for a linear problem */
-		        *f_flag = 1;
-			return x;
-		}
+		status = goal_seek_newton (goal_seek_eval, NULL,
+					   &seekdata, &evaldata,
+					   x0);
+		if (status == GOAL_SEEK_OK)
+			goto DONE;
 	}
 
-non_linear:
+	/* PLAN B: Trawl uniformly.  */
+	{
+		status = goal_seek_trawl_uniformly (goal_seek_eval,
+						    &seekdata, &evaldata,
+						    seekdata.xmin, seekdata.xmax,
+						    100);
+		if (status == GOAL_SEEK_OK)
+			goto DONE;
+	}
 
-        /* This is a very unscientific method for non-linear problem solving */
-	step = log(rand());
-	dir = 0;
-	x = initial_value;
-	for (i=0; i<max_iterations; i++) {
-	        if (rand() % 1000 == 0) {
-			step = log(rand());
-			if (rand() % 2)
-			        x -= step;
-			else
-			        x += step;
-		}
-	        if (test_cell_with_value (target_cell, change_cell,
-					  x, &test)) {
-		        if (rand() % 2) {
-			        step = log(rand());
-			        if (rand() % 2)
-				        x -= step;
-				else
-				        x += step;
-			}
-			continue;
-		}
-	        if (fabs(target_value - test) < accuracy_limit) {
-		        *f_flag = 1;
-			return x;
-		}
-		if (target_value < test) {
-		        if (dir == right)
-			       step *= 0.7;
-			x -= step;
-			dir = left;
-		} else {
-		        if (dir == left)
-			       step *= 0.7;
-			x += step;
-			dir = right;
+	/* PLAN C: Trawl normally from left.  */
+	{
+		float_t sigma, mu;
+		int i;
+
+		sigma = seekdata.xmax - seekdata.xmin;
+		mu = seekdata.xmin;
+
+		for (i = 0; i < 5; i++) {
+			sigma /= 10;
+			status = goal_seek_trawl_normally (goal_seek_eval,
+							   &seekdata, &evaldata,
+							   mu, sigma, 20);
+			if (status == GOAL_SEEK_OK)
+				goto DONE;
 		}
 	}
-        *f_flag = 0;
-        return 0;
+
+	/* PLAN D: Trawl normally from right.  */
+	{
+		float_t sigma, mu;
+		int i;
+
+		sigma = seekdata.xmax - seekdata.xmin;
+		mu = seekdata.xmax;
+
+		for (i = 0; i < 5; i++) {
+			sigma /= 10;
+			status = goal_seek_trawl_normally (goal_seek_eval,
+							   &seekdata, &evaldata,
+							   mu, sigma, 20);
+			if (status == GOAL_SEEK_OK)
+				goto DONE;
+		}
+	}
+
+	/* PLAN E: Trawl normally from middle.  */
+	{
+		float_t sigma, mu;
+		int i;
+
+		sigma = seekdata.xmax - seekdata.xmin;
+		mu = (seekdata.xmax + seekdata.xmin) / 2;
+
+		for (i = 0; i < 5; i++) {
+			sigma /= 10;
+			status = goal_seek_trawl_normally (goal_seek_eval,
+							   &seekdata, &evaldata,
+							   mu, sigma, 20);
+			if (status == GOAL_SEEK_OK)
+				goto DONE;
+		}
+	}
+
+	/* PLAN Z: Bisection.  */
+	{
+		status = goal_seek_bisection (goal_seek_eval,
+					      &seekdata, &evaldata);
+		if (status == GOAL_SEEK_OK)
+			goto DONE;
+	}
+
+ DONE:
+	if (status == GOAL_SEEK_OK) {
+		float_t yroot;
+		(void) goal_seek_eval (seekdata.root, &yroot, &evaldata);
+	}
+
+	cell_queue_redraw (change_cell);
+	return status;
 }
 
 
-static int
-dialog_found_solution (int set_cell_col, int set_cell_row,
-		       float_t target_value, float_t value,
-		       int change_cell_col, int change_cell_row)
+static gboolean
+dialog_found_solution (Cell *set_cell, Cell *change_cell, float_t target_value)
 {
         GtkWidget *dialog;
 	GtkWidget *label_box;
-	GtkWidget *status_label;
-	GtkWidget *found_label;
-	GtkWidget *empty_label;
-	GtkWidget *target_label;
-	GtkWidget *current_label;
+	GtkWidget *status_label, *empty_label;
+	GtkWidget *target_label, *actual_label, *solution_label;
 
-	const char *name;
-	char status_str[256];
-	char target_str[256];
-	char current_str[256];
+	char *status_str, *target_str, *actual_str, *solution_str;
 	int  selection;
 
-	name = cell_name (set_cell_col, set_cell_row);
-	sprintf(status_str,  "Goal seeking with cell %s", name);	
-	sprintf(target_str,  "Target value:   %12.2f", target_value);
-	sprintf(current_str, "Current value:  %12.2f", value);
+	status_str =
+		g_strdup_printf (_("Goal seeking with cell %s found a solution"),
+				 cell_name (set_cell->col->pos,
+					    set_cell->row->pos));
+	target_str =
+		g_strdup_printf (_("Target value:   %12.2f"),
+				 (double)target_value);
+	actual_str =
+		g_strdup_printf (_("Current value:  %12.2f"),
+				 (double)value_get_as_float (set_cell->value));
+	solution_str =
+		g_strdup_printf (_("Solution:       %12.2f"),
+				 (double)value_get_as_float (change_cell->value));
 
 	dialog = gnome_dialog_new (_("Goal Seek Report"),
 				   GNOME_STOCK_BUTTON_OK,
 				   GNOME_STOCK_BUTTON_CANCEL,
 				   NULL);
 
-	status_label = gtk_label_new(status_str);
-	found_label = gtk_label_new("found a solution");
-	empty_label = gtk_label_new("");
-	target_label = gtk_label_new(target_str);
-	current_label = gtk_label_new(current_str);
+	status_label = gtk_label_new (status_str);
+	empty_label = gtk_label_new ("");
+	target_label = gtk_label_new (target_str);
+	actual_label = gtk_label_new (actual_str);
+	solution_label = gtk_label_new (solution_str);
 
-	gtk_misc_set_alignment (GTK_MISC(status_label), 0,0);
-	gtk_misc_set_alignment (GTK_MISC(found_label), 0,0);
-	gtk_misc_set_alignment (GTK_MISC(target_label), 0,0);
-	gtk_misc_set_alignment (GTK_MISC(current_label), 0,0);
+	gtk_misc_set_alignment (GTK_MISC (status_label), 0,0);
+	gtk_misc_set_alignment (GTK_MISC (target_label), 0,0);
+	gtk_misc_set_alignment (GTK_MISC (actual_label), 0,0);
+	gtk_misc_set_alignment (GTK_MISC (solution_label), 0,0);
 
 	label_box = gtk_vbox_new (FALSE, 0);
 	gtk_box_pack_start_defaults (GTK_BOX (label_box), status_label);
-	gtk_box_pack_start_defaults (GTK_BOX (label_box), found_label);
 	gtk_box_pack_start_defaults (GTK_BOX (label_box), empty_label);
 	gtk_box_pack_start_defaults (GTK_BOX (label_box), target_label);
-	gtk_box_pack_start_defaults (GTK_BOX (label_box), current_label);
+	gtk_box_pack_start_defaults (GTK_BOX (label_box), actual_label);
+	gtk_box_pack_start_defaults (GTK_BOX (label_box), solution_label);
 
 	gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
 					      (dialog)->vbox), label_box);
@@ -204,7 +233,12 @@ dialog_found_solution (int set_cell_col, int set_cell_row,
         selection = gnome_dialog_run (GNOME_DIALOG (dialog));
 	gnome_dialog_close (GNOME_DIALOG (dialog));
 
-	return selection;
+	g_free (status_str);
+	g_free (target_str);
+	g_free (actual_str);
+	g_free (solution_str);
+
+	return (selection != 0);
 }
 
 
@@ -213,27 +247,23 @@ dialog_goal_seek (Workbook *wb, Sheet *sheet)
 {
 	static GtkWidget *dialog;
         static GtkWidget *set_entry;
-	static GtkWidget *set_label;
 	static GtkWidget *target_entry;
-	static GtkWidget *target_label;
 	static GtkWidget *change_entry;
-	static GtkWidget *change_label;
-	static GtkWidget *label_box;
-	static GtkWidget *entry_box;
+	static GtkWidget *xmin_entry;
+	static GtkWidget *xmax_entry;
 
 	const char       *set_entry_str;
-	char             *text;
 	int              selection;
-	float_t          old_value;
-	Cell             *change_cell;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
 	set_entry_str = cell_name (sheet->cursor_col, sheet->cursor_row);
-	
+
 	if (!dialog) {
-                GtkWidget *box;
+		GtkWidget *set_label, *target_label, *change_label;
+		GtkWidget *label_box, *entry_box, *box;
+		GtkWidget *xmin_label, *xmax_label;
 
                 dialog = gnome_dialog_new (_("Goal Seek..."),
                                            GNOME_STOCK_BUTTON_OK,
@@ -242,20 +272,24 @@ dialog_goal_seek (Workbook *wb, Sheet *sheet)
                 gnome_dialog_close_hides (GNOME_DIALOG (dialog), TRUE);
 		gnome_dialog_set_parent (GNOME_DIALOG (dialog),
 					 GTK_WINDOW (wb->toplevel));
-		
+
                 set_entry = gtk_entry_new_with_max_length (MAX_CELL_NAME_LEN);
+                target_entry = gtk_entry_new_with_max_length (MAX_CELL_NAME_LEN);
+                change_entry = gtk_entry_new_with_max_length (MAX_CELL_NAME_LEN);
+                xmin_entry = gtk_entry_new_with_max_length (MAX_CELL_NAME_LEN);
+                xmax_entry = gtk_entry_new_with_max_length (MAX_CELL_NAME_LEN);
 
-                target_entry = gtk_entry_new_with_max_length(MAX_CELL_NAME_LEN);
+		set_label    = gtk_label_new (_("Set Cell:"));
+		target_label = gtk_label_new (_("To value:"));
+		change_label = gtk_label_new (_("By changing cell:"));
+		xmin_label = gtk_label_new (_("To a value of at least [optional]:"));
+		xmax_label = gtk_label_new (_("But no bigger than [optional]:"));
 
-                change_entry = gtk_entry_new_with_max_length(MAX_CELL_NAME_LEN);
-
-		set_label    = gtk_label_new("Set Cell:");
-		target_label = gtk_label_new("To value:");
-		change_label = gtk_label_new("By changing cell:");
-
-		gtk_misc_set_alignment (GTK_MISC(set_label), 0,0);
-		gtk_misc_set_alignment (GTK_MISC(target_label), 0,0);
-		gtk_misc_set_alignment (GTK_MISC(change_label), 0,0);
+		gtk_misc_set_alignment (GTK_MISC(set_label), 0, 0);
+		gtk_misc_set_alignment (GTK_MISC(target_label), 0, 0);
+		gtk_misc_set_alignment (GTK_MISC(change_label), 0, 0);
+		gtk_misc_set_alignment (GTK_MISC(xmin_label), 0, 0);
+		gtk_misc_set_alignment (GTK_MISC(xmax_label), 0, 0);
 
                 box = gtk_hbox_new (FALSE, 0);
                 entry_box = gtk_vbox_new (FALSE, 0);
@@ -263,14 +297,14 @@ dialog_goal_seek (Workbook *wb, Sheet *sheet)
 
 		gtk_box_pack_start_defaults (GTK_BOX (label_box), set_label);
                 gtk_box_pack_start_defaults (GTK_BOX (entry_box), set_entry);
-		gtk_box_pack_start_defaults (GTK_BOX (label_box), 
-					     target_label);
-                gtk_box_pack_start_defaults (GTK_BOX (entry_box),
-					     target_entry);
-		gtk_box_pack_start_defaults (GTK_BOX (label_box),
-					     change_label);
-                gtk_box_pack_start_defaults (GTK_BOX (entry_box),
-					     change_entry);
+		gtk_box_pack_start_defaults (GTK_BOX (label_box), target_label);
+                gtk_box_pack_start_defaults (GTK_BOX (entry_box), target_entry);
+		gtk_box_pack_start_defaults (GTK_BOX (label_box), change_label);
+                gtk_box_pack_start_defaults (GTK_BOX (entry_box), change_entry);
+		gtk_box_pack_start_defaults (GTK_BOX (label_box), xmin_label);
+                gtk_box_pack_start_defaults (GTK_BOX (entry_box), xmin_entry);
+		gtk_box_pack_start_defaults (GTK_BOX (label_box), xmax_label);
+                gtk_box_pack_start_defaults (GTK_BOX (entry_box), xmax_entry);
 
 		gtk_box_pack_start_defaults (GTK_BOX (box), label_box);
 		gtk_box_pack_start_defaults (GTK_BOX (box), entry_box);
@@ -280,14 +314,14 @@ dialog_goal_seek (Workbook *wb, Sheet *sheet)
 
 		gtk_entry_set_text(GTK_ENTRY (set_entry), set_entry_str);
 		gtk_entry_set_position(GTK_ENTRY (set_entry), 0);
-		gtk_entry_select_region(GTK_ENTRY (set_entry), 0, 
+		gtk_entry_select_region(GTK_ENTRY (set_entry), 0,
 					GTK_ENTRY(set_entry)->text_length);
 
                 gtk_widget_show_all (box);
 	} else {
 		gtk_entry_set_text(GTK_ENTRY (set_entry), set_entry_str);
 		gtk_entry_set_position(GTK_ENTRY (set_entry), 0);
-		gtk_entry_select_region(GTK_ENTRY (set_entry), 0, 
+		gtk_entry_select_region(GTK_ENTRY (set_entry), 0,
 					GTK_ENTRY(set_entry)->text_length);
 
 	        gtk_widget_show (dialog);
@@ -298,27 +332,38 @@ dialog_goal_seek (Workbook *wb, Sheet *sheet)
 dialog_loop:
         selection = gnome_dialog_run (GNOME_DIALOG (dialog));
 	if (selection == 0) {
+		Cell    *set_cell;
  	        int     set_cell_col, set_cell_row;
+
+		Cell    *change_cell;
 		int     change_cell_col, change_cell_row;
+
+		Value   *old_value;
+		char    *text;
 		float_t target_value;
-		int     f_flag;
-		float_t value;
+		float_t xmin, xmax;
+		GoalSeekStatus status;
 
 		/* Check that a cell entered in 'set cell' entry */
 		text = gtk_entry_get_text (GTK_ENTRY (set_entry));
 		if (!parse_cell_name (text, &set_cell_col, &set_cell_row)){
 	                gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
 					 _("You should introduce a valid cell name in 'Set cell'"));
-			gtk_widget_grab_focus (set_entry);
-			gtk_entry_set_position(GTK_ENTRY (set_entry), 0);
-			gtk_entry_select_region(GTK_ENTRY (set_entry), 0, 
-						GTK_ENTRY(set_entry)->text_length);
+			focus_on_entry (set_entry);
+			goto dialog_loop;
+		}
+
+		set_cell = sheet_cell_get (sheet, set_cell_col, set_cell_row);
+		if (set_cell == NULL || set_cell->parsed_node == NULL) {
+	                gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+					 _("The cell named in 'Set cell' must contain a formula"));
+			focus_on_entry (set_entry);
 			goto dialog_loop;
 		}
 
 		text = gtk_entry_get_text (GTK_ENTRY (target_entry));
-		/* Add float input parsing here */
-		target_value = atof(text);
+		/* FIXME: Add float input parsing here */
+		target_value = atof (text);
 
 		/* Check that a cell entered in 'by changing cell' entry */
 		text = gtk_entry_get_text (GTK_ENTRY (change_entry));
@@ -326,53 +371,64 @@ dialog_loop:
 	                gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
 					 _("You should introduce a valid cell "
 					   "name in 'By changing cell'"));
-			gtk_widget_grab_focus (change_entry);
-			gtk_entry_set_position(GTK_ENTRY (change_entry), 0);
-			gtk_entry_select_region(GTK_ENTRY (change_entry), 0, 
-						GTK_ENTRY(change_entry)->text_length);
+			focus_on_entry (change_entry);
 			goto dialog_loop;
 		}
-		change_cell = sheet_cell_get (sheet,
-					      change_cell_col,
-					      change_cell_row);
+
+		change_cell = sheet_cell_get (sheet, change_cell_col, change_cell_row);
+		if (change_cell && change_cell->parsed_node) {
+	                gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+					 _("The cell named in 'By changing cell' "
+					   "must not contain a formula"));
+			focus_on_entry (change_entry);
+			goto dialog_loop;
+		}
+
 		if (change_cell == NULL) {
-		        change_cell = sheet_cell_new (sheet,
-						      change_cell_col,
-						      change_cell_row);
+		        change_cell = sheet_cell_new (sheet, change_cell_col, change_cell_row);
 			cell_set_text (change_cell, "");
 		}
-		old_value = value_get_as_float (change_cell->value);
-		value = gnumeric_goal_seek(wb, sheet,
-					   set_cell_col, set_cell_row,
-					   target_value,
-					   change_cell_col, change_cell_row,
-					   &f_flag);
-		if (f_flag) {
-		        gnome_dialog_close (GNOME_DIALOG (dialog));
-			if (dialog_found_solution (set_cell_col, set_cell_row,
-						   target_value, value,
-						   change_cell_col, 
-						   change_cell_row)) {	       
-			        /* Goal seek cancelled */
-			        char buf[256];
-				Cell *set_cell;
 
-				change_cell = sheet_cell_get (sheet,
-							      change_cell_col,
-							      change_cell_row);
-				sprintf(buf, "%f", old_value);
-				cell_set_text (change_cell, buf);
-				set_cell = sheet_cell_get (sheet,
-							   set_cell_col,
-							   set_cell_row);
+		text = gtk_entry_get_text (GTK_ENTRY (xmin_entry));
+		/* FIXME: Add float input parsing here */
+		if (*text)
+			xmin = atof (text);
+		else
+			xmin = -1e6;
+
+		text = gtk_entry_get_text (GTK_ENTRY (xmax_entry));
+		/* FIXME: Add float input parsing here */
+		if (*text)
+			xmax = atof (text);
+		else
+			xmax = 1e6;
+
+		old_value =
+			change_cell->value
+			? value_duplicate (change_cell->value)
+			: NULL;
+
+		status = gnumeric_goal_seek (wb, sheet,
+					     set_cell, target_value,
+					     change_cell, xmin, xmax);
+
+		if (status == GOAL_SEEK_OK) {
+		        gnome_dialog_close (GNOME_DIALOG (dialog));
+			if (dialog_found_solution (set_cell, change_cell, target_value)) {
+			        /* Goal seek cancelled */
+				cell_set_value (change_cell, old_value);
 				cell_eval (set_cell);
+				return;
 			}
+			if (old_value)
+				value_release (old_value);
 			return;
-		  
 		} else {
 	                gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
 					 _("Goal seek did not find a solution!"));
 		}
+		if (old_value)
+			value_release (old_value);
 	}
 
 	gnome_dialog_close (GNOME_DIALOG (dialog));
