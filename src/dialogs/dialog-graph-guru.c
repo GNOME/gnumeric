@@ -31,22 +31,22 @@
 #include "sheet-control-gui.h"
 #include "sheet-object.h"
 #include "dialogs.h"
+#include "widgets/gnumeric-combo-text.h"
 
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
-#include <gal/widgets/gtk-combo-text.h>
 #include <gal/util/e-xml-utils.h>
 
 typedef struct _GraphGuruState GraphGuruState;
 typedef struct
 {
-	GraphGuruState	  *state;
+	GraphGuruState	*state;
+	xmlChar	  	*element;
+	int	   	 index;
+	gboolean   	 is_optional, is_shared;
+
 	GtkWidget	  *name_label;
 	GnumericExprEntry *entry;
-
-	gchar 	  *name;
-	gboolean   is_optional;
-	int	   index;
 } VectorState;
 
 struct _GraphGuruState
@@ -76,9 +76,7 @@ struct _GraphGuruState
 	GtkWidget *selection_table;
 	GtkWidget *shared_separator;
 
-	struct {
-		GPtrArray *exprs;
-	} shared, unshared;
+	GPtrArray *shared, *unshared;
 
 	/* internal state */
 	int current_page, initial_page;
@@ -107,6 +105,107 @@ graph_guru_clear_sample (GraphGuruState *state)
 }
 
 static void
+vector_state_fill (VectorState *state, xmlNode *vector)
+{
+}
+
+static void
+vector_state_init (VectorState *vs, xmlNode *descriptor)
+{
+	xmlChar *tmp;
+	char *name;
+	gboolean required;
+
+	if (vs->element != NULL)
+		xmlFree (vs->element);
+	vs->element = xmlGetProp (descriptor, "element");
+
+	required = e_xml_get_bool_prop_by_name_with_default (descriptor,
+		"required", FALSE);
+
+	tmp = xmlNodeGetContent (descriptor);
+	name = required ? g_strdup (tmp) : g_strdup_printf ("(%s)", tmp);
+	gtk_label_set_text (GTK_LABEL (vs->name_label), name);
+	xmlFree (tmp);
+	g_free (name);
+
+	gtk_widget_show (vs->name_label);
+	gtk_widget_show (GTK_WIDGET (vs->entry));
+}
+
+static gboolean
+cb_graph_guru_entry_focus_in (GtkWidget *ignored0, GdkEventFocus *ignored1, VectorState *vs)
+{
+	wbcg_set_entry (vs->state->wbcg, vs->entry);
+	return FALSE;
+}
+
+static VectorState *
+vector_state_new (GraphGuruState *state, gboolean shared, int indx)
+{
+	VectorState *vs;
+	GtkTable    *table;
+	GtkWidget   *alignment = gtk_alignment_new (1., .5, 0., 0.);
+
+	vs = g_new0 (VectorState, 1);
+	vs->state = state;
+	vs->index = indx;
+	vs->element  = NULL;
+	vs->is_shared = shared;
+
+	table = GTK_TABLE (shared
+			   ? state->shared_series_details
+			   : state->series_details);
+
+	vs->name_label = gtk_label_new ("");
+	gtk_container_add (GTK_CONTAINER (alignment), vs->name_label);
+	gtk_table_attach (table, alignment,
+		0, 1, indx, indx+1, GTK_FILL, 0, 5, 3);
+
+	vs->entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
+	gnumeric_expr_entry_set_scg (vs->entry, state->scg);
+	gnumeric_expr_entry_set_flags (vs->entry,
+		GNUM_EE_ABS_COL|GNUM_EE_ABS_ROW, GNUM_EE_MASK);
+	gtk_table_attach (table, GTK_WIDGET (vs->entry),
+		1, 2, indx, indx+1, GTK_EXPAND|GTK_FILL, 0, 5, 3);
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+		GTK_EDITABLE (vs->entry));
+
+	/* FIXME : Do I really need focus-in ?  is there something less draconian */
+	gtk_signal_connect (GTK_OBJECT (vs->entry),
+		"focus-in-event",
+		GTK_SIGNAL_FUNC (cb_graph_guru_entry_focus_in), vs);
+
+	return vs;
+}
+
+static void
+vector_state_destroy (VectorState *vs, gboolean destroywidgets)
+{
+	if (vs->element) {
+		xmlFree (vs->element);
+		vs->element = NULL;
+	}
+
+	if (destroywidgets) {
+		gtk_widget_destroy (GTK_WIDGET (vs->entry));
+		gtk_widget_destroy (GTK_WIDGET (vs->name_label));
+	}
+
+	g_free (vs);
+}
+
+static void
+vector_state_array_shorten (GPtrArray *a, int len)
+{
+	int i = a->len;
+	while (len < i--) {
+		vector_state_destroy (g_ptr_array_index (a, i), TRUE);
+		g_ptr_array_remove_index_fast (a, i);
+	}
+}
+
+static void
 graph_guru_state_destroy (GraphGuruState *state)
 {
 	g_return_if_fail (state != NULL);
@@ -121,6 +220,22 @@ graph_guru_state_destroy (GraphGuruState *state)
 	if (state->gui != NULL) {
 		gtk_object_unref (GTK_OBJECT (state->gui));
 		state->gui = NULL;
+	}
+
+	if (state->shared != NULL) {
+		int i = state->shared->len;
+		while (i-- > 0)
+			vector_state_destroy (g_ptr_array_index (state->shared, i), FALSE);
+		g_ptr_array_free (state->shared, TRUE);
+		state->shared = NULL;
+	}
+
+	if (state->unshared != NULL) {
+		int i = state->unshared->len;
+		while (i-- > 0)
+			vector_state_destroy (g_ptr_array_index (state->unshared, i), FALSE);
+		g_ptr_array_free (state->unshared, TRUE);
+		state->unshared = NULL;
 	}
 
 	/* Handle window manger closing the dialog.
@@ -179,7 +294,7 @@ graph_guru_select_series (GraphGuruState *s, xmlNode *xml)
 
 	name = graph_guru_series_name (s, xml);
 	s->updating = TRUE;
-	gtk_combo_text_set_text (GTK_COMBO_TEXT (s->series_selector), name);
+	gnm_combo_text_set_text (GNM_COMBO_TEXT (s->series_selector), name);
 	s->updating = FALSE;
 
 	if (s->current_series == NULL) {
@@ -206,8 +321,9 @@ graph_guru_plot_name (GraphGuruState *s, xmlNode *plot)
 static void
 graph_guru_select_plot (GraphGuruState *s, xmlNode *xml)
 {
-	xmlNode *series;
+	xmlNode *layout, *series;
 	char *name;
+	int shared, unshared;
 
 	if (s->updating)
 		return;
@@ -216,11 +332,50 @@ graph_guru_select_plot (GraphGuruState *s, xmlNode *xml)
 
 	/* clear out the old */
 	if (s->current_plot != NULL) {
-		GtkComboText *ct = GTK_COMBO_TEXT (s->series_selector);
+		GnmComboText *ct = GNM_COMBO_TEXT (s->series_selector);
 		gtk_list_clear_items (GTK_LIST (ct->list), 0, -1);
 	}
 	s->current_plot = xml;
 	s->current_series = NULL;
+
+	/* Init the expr entries */
+	layout = e_xml_get_child_by_name (xml, "DataLayout");
+
+	g_return_if_fail (layout != NULL);
+
+	shared = unshared = 0;
+	for (layout = layout->xmlChildrenNode; layout; layout = layout->next) {
+		int indx;
+		gboolean is_shared;
+		GPtrArray   *container;
+		VectorState *vs;
+
+		if (strcmp (layout->name, "Dimension"))
+			continue;
+
+		is_shared = e_xml_get_bool_prop_by_name_with_default (layout,
+			"shared", FALSE);
+		if (is_shared) {
+			container = s->shared;
+			indx = shared++;
+		} else {
+			container = s->unshared;
+			indx = unshared++;
+		}
+
+		if (indx >= (int)(container->len)) {
+			vs = vector_state_new (s, is_shared, indx);
+			g_ptr_array_add (container, vs);
+		} else
+			vs = g_ptr_array_index (container, indx);
+		vector_state_init (vs, layout);
+	}
+	vector_state_array_shorten (s->unshared, unshared);
+	vector_state_array_shorten (s->shared, shared);
+	if (shared > 0)
+		gtk_widget_show (s->shared_separator);
+	else
+		gtk_widget_hide (s->shared_separator);
 
 	/* Init lists of series */
 	series = e_xml_get_child_by_name (xml, "Data");
@@ -231,7 +386,7 @@ graph_guru_select_plot (GraphGuruState *s, xmlNode *xml)
 		if (strcmp (series->name, "Series"))
 			continue;
 		name = graph_guru_series_name (s, series);
-		gtk_combo_text_add_item (GTK_COMBO_TEXT (s->series_selector),
+		gnm_combo_text_add_item (GNM_COMBO_TEXT (s->series_selector),
 			name, name);
 		g_free (name);
 		if (s->current_series == NULL)
@@ -240,9 +395,12 @@ graph_guru_select_plot (GraphGuruState *s, xmlNode *xml)
 
 	s->updating = TRUE;
 	name = graph_guru_plot_name (s, xml);
-	gtk_combo_text_set_text (GTK_COMBO_TEXT (s->plot_selector), name);
+	gnm_combo_text_set_text (GNM_COMBO_TEXT (s->plot_selector), name);
 	g_free (name);
 	s->updating = FALSE;
+
+	gtk_widget_show_all (s->series_details);
+	gtk_widget_show_all (s->shared_series_details);
 
 	g_return_if_fail (s->current_series != NULL);
 }
@@ -271,7 +429,7 @@ graph_guru_init_data_page (GraphGuruState *s)
 		if (strcmp (plot->name, "Plot"))
 			continue;
 		name = graph_guru_plot_name (s, plot);
-		gtk_combo_text_add_item (GTK_COMBO_TEXT (s->plot_selector),
+		gnm_combo_text_add_item (GNM_COMBO_TEXT (s->plot_selector),
 			name, name);
 		g_free (name);
 		if (s->current_plot == NULL)
@@ -295,6 +453,7 @@ graph_guru_set_page (GraphGuruState *state, int page)
 	case 0: name = _("Step 1 of 3: Select graph type");
 		prev_ok = FALSE;
 		graph_guru_clear_sample (state);
+		state->current_plot = NULL;
 		break;
 	case 1:
 		if (state->initial_page == 0) {
@@ -390,8 +549,8 @@ graph_guru_selector_init (GraphGuruState *s, char const *name, int i,
 			  GtkSignalFunc	entry_activate,
 			  GtkSignalFunc	list_select)
 {
-	GtkWidget    *w  = gtk_combo_text_new (TRUE);
-	GtkComboText *ct = GTK_COMBO_TEXT (w);
+	GtkWidget    *w  = gnm_combo_text_new (TRUE);
+	GnmComboText *ct = GNM_COMBO_TEXT (w);
 	gtk_table_attach_defaults (GTK_TABLE (s->selection_table),
 		w, 1, 2, i, i+1);
 	gtk_combo_box_set_title (GTK_COMBO_BOX (ct), _(name));
@@ -475,6 +634,8 @@ dialog_graph_guru (WorkbookControlGUI *wbcg, GnmGraph *graph, int page)
 	state->control  = CORBA_OBJECT_NIL;
 	state->xml_doc  = NULL;
 	state->sample   = NULL;
+	state->shared   = g_ptr_array_new ();
+	state->unshared = g_ptr_array_new ();
 	state->current_page = -1;
 	state->current_plot   = NULL;
 	state->current_series = NULL;

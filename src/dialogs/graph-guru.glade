@@ -151,8 +151,8 @@
 	  <label_xalign>0</label_xalign>
 	  <shadow_type>GTK_SHADOW_IN</shadow_type>
 	  <child>
-	    <padding>0</padding>
-	    <expand>True</expand>
+	    <padding>4</padding>
+	    <expand>False</expand>
 	    <fill>True</fill>
 	  </child>
 
@@ -172,7 +172,7 @@
 	  <child>
 	    <padding>0</padding>
 	    <expand>False</expand>
-	    <fill>False</fill>
+	    <fill>True</fill>
 	  </child>
 
 	  <widget>
@@ -325,10 +325,21 @@
 	</widget>
 
 	<widget>
+	  <class>GtkHSeparator</class>
+	  <name>hseparator1</name>
+	  <child>
+	    <padding>7</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
 	  <class>GtkTable</class>
 	  <name>series_details</name>
+	  <border_width>5</border_width>
 	  <rows>1</rows>
-	  <columns>1</columns>
+	  <columns>2</columns>
 	  <homogeneous>False</homogeneous>
 	  <row_spacing>0</row_spacing>
 	  <column_spacing>0</column_spacing>
@@ -344,23 +355,24 @@
 	  <name>shared_separator</name>
 	  <child>
 	    <padding>0</padding>
-	    <expand>True</expand>
-	    <fill>True</fill>
+	    <expand>False</expand>
+	    <fill>False</fill>
 	  </child>
 	</widget>
 
 	<widget>
 	  <class>GtkTable</class>
 	  <name>shared_series_details</name>
+	  <border_width>5</border_width>
 	  <rows>1</rows>
-	  <columns>1</columns>
+	  <columns>2</columns>
 	  <homogeneous>False</homogeneous>
 	  <row_spacing>0</row_spacing>
 	  <column_spacing>0</column_spacing>
 	  <child>
 	    <padding>0</padding>
 	    <expand>True</expand>
-	    <fill>True</fill>
+	    <fill>False</fill>
 	  </child>
 	</widget>
       </widget>

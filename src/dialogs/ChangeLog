@@ -1,3 +1,10 @@
+2001-09-29  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-graph-guru.c (graph_guru_set_page) : clear the current plot.
+	(graph_guru_select_plot) : fill in.
+	(vector_state_new) : ditto.
+	(vector_state_init) : ditto.
+
 2001-09-28  Almer S. Tigelaar  <almer@gnome.org>
 
 	* dialog-cell-comment.c (dialog_cell_comment):

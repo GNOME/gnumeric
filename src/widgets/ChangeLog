@@ -1,3 +1,9 @@
+2001-09-28  Jody Goldberg <jgoldberg@home.com>
+
+	* Makefile.am (libwidgets_a_SOURCES) : temporarily move gal's
+	  gtk_combo_text here as gnm_combo_text.  The original needs some
+	  major work to make graph guru possible.
+
 2001-08-20  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.70
