@@ -309,6 +309,22 @@ tool_random_engine_run_exponential (data_analysis_output_t *dao,
 }
 
 static gboolean
+tool_random_engine_run_exppow (data_analysis_output_t *dao, 
+			       tools_data_random_t *info,
+			       exppow_random_tool_t *param)
+{
+	int i, n;
+	for (i = 0; i < info->n_vars; i++) {
+		for (n = 0; n < info->count; n++) {
+			gnum_float v;
+			v = random_exppow (param->a, param->b);
+			dao_set_cell_float (dao, i, n, v);
+		}
+	}	
+	return FALSE;
+}
+
+static gboolean
 tool_random_engine_run_cauchy (data_analysis_output_t *dao, 
 			       tools_data_random_t *info,
 			       cauchy_random_tool_t *param)
@@ -618,6 +634,9 @@ tool_random_engine (data_analysis_output_t *dao, gpointer specs,
 		case ExponentialDistribution:
 			return tool_random_engine_run_exponential 
 				(dao, specs, &info->param.exponential);
+		case ExponentialPowerDistribution:
+			return tool_random_engine_run_exppow
+				(dao, specs, &info->param.exppow);
 		case CauchyDistribution:
 			return tool_random_engine_run_cauchy 
 				(dao, specs, &info->param.cauchy);

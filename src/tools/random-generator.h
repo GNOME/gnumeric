@@ -15,7 +15,7 @@ typedef enum {
   Gumbel1Distribution, Gumbel2Distribution, LaplaceDistribution,
   TdistDistribution, LogarithmicDistribution, LogisticDistribution,
   ParetoDistribution, LognormalDistribution, RayleighDistribution,
-  LevyDistribution,
+  LevyDistribution, ExponentialPowerDistribution,
   /* PatternedDistribution, */ NegativeBinomialDistribution, ExponentialDistribution
 } random_distribution_t;
 
@@ -59,6 +59,11 @@ typedef struct {
 typedef struct {
         gnum_float b;
 } exponential_random_tool_t;
+
+typedef struct {
+        gnum_float a;
+        gnum_float b;
+} exppow_random_tool_t;
 
 typedef struct {
         gnum_float a;
@@ -144,6 +149,7 @@ typedef union {
         negbinom_random_tool_t    negbinom;
         poisson_random_tool_t     poisson;
         exponential_random_tool_t exponential;
+        exppow_random_tool_t      exppow;
         cauchy_random_tool_t      cauchy;
         chisq_random_tool_t       chisq;
         lognormal_random_tool_t   lognormal;
