@@ -1,3 +1,4 @@
+#include <config.h>
 #include <excel-gb-context.h>
 
 static void

@@ -1,3 +1,7 @@
+2000-12-20  Morten Welinder  <terra@diku.dk>
+
+	* src/file-autoft.c: Include <config.h>.
+
 2000-12-20  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/Makefile.am: Removed "-DGNUMERIC_AUTOFORMATDIR" from INCLUDES.

@@ -1,3 +1,4 @@
+#include <config.h>
 #include <gbrun/libgbrun.h>
 
 #include "common.h"

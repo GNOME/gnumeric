@@ -1,3 +1,9 @@
+2000-12-20  Morten Welinder  <terra@diku.dk>
+
+	* guile-support.c: Include <config.h>.
+
+	* smob-value.c: Ditto.
+
 2000-12-17 Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.61

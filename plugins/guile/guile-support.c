@@ -4,6 +4,7 @@
   Authors: Ariel Rios <ariel@arcavia.com>
 */
 
+#include <config.h>
 #include <libguile.h>
 #include <gtk/gtk.h>
 #include <guile/gh.h>
