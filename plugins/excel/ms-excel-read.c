@@ -455,13 +455,13 @@ ms_excel_set_cell_font (MS_EXCEL_SHEET * sheet, Cell * cell, BIFF_XF_DATA * xf)
    		cell_set_font (cell, (fname = font_get_italic_name (cell->style->font->font_name)));
 		if (fname) g_free (fname) ;
 /*				printf ("FoNt [i]: %s\n", cell->style->font->font_name); */
-		cell->style->font->hint_is_italic = 1;
+		cell->style->font->is_italic = 1;
 	}
 	if (fd->boldness >= 0x2bc){
 		cell_set_font (cell, (fname = font_get_bold_name (cell->style->font->font_name))); 
 		if (fname) g_free (fname) ;
 /*				printf ("FoNt [b]: %s\n", cell->style->font->font_name); */
-		cell->style->font->hint_is_bold = 1;
+		cell->style->font->is_bold = 1;
 	}
 	/*
 	 * What about underlining?  
