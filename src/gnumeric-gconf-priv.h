@@ -81,4 +81,11 @@
 #define GNUMERIC_GCONF_CUTANDPASTE_DIRECTORY "/apps/gnumeric/cut-and-paste"
 #define GNUMERIC_GCONF_CUTANDPASTE_PREFER_CLIPBOARD GNUMERIC_GCONF_CUTANDPASTE_DIRECTORY "/prefer-clipboard"
 
+/*
+ *  schemas/gnumeric-plugins.schemas
+ */
+
+#define PLUGIN_GCONF_LATEX "/apps/gnumeric/plugin/latex"
+#define PLUGIN_GCONF_LATEX_USE_UTF8 PLUGIN_GCONF_LATEX "/use-utf8"
+
 #endif /* GNUMERIC_GCONF_PRIV_H */

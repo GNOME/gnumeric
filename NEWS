@@ -4,6 +4,7 @@ Andreas:
 	* Fix analysis tools dialogs again
 	* Fix text export of non-ascii charaters
 	* Fix latex export of non-ascii charaters
+	* Allow latex export to use utf-8 if required
 
 Jean Brefort:
 	* Support image files in chart areas (background, bar/col or pie)

@@ -1,3 +1,9 @@
+2003-06-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-preferences.c (cb_pref_latex_set_use_utf8): new
+	(cb_pref_latex_set_use_utf8_toggled): new
+	(pref_file_page_initializer): add latex-use-utf8 checkbox
+
 2003-06-11  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf.c (stf_dialog): Nul-terminate result.

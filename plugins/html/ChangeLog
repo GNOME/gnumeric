@@ -1,5 +1,15 @@
 2003-06-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* latex.c (latex_fputs_utf): new
+	(latex_math_fputs_utf): new
+	(latex_fputs_latin): formerly latex_fputs
+	(latex_math_fputs_latin): formerly latex_math_fputs
+	(latex_fputs): call appropriate latex_fputs_*
+	(latex_math_fputs): call appropriate latex_math_fputs_*
+	(latex2e_write_file_header): include appropriate encoding
+
+2003-06-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* latex.c (latex_fputs): convert cell content to latin1 
 	  before exporting
 	(latex_math_fputs): ditto

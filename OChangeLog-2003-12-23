@@ -1,3 +1,13 @@
+2003-06-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* schemas/gnumeric-plugins.schemas.in: new
+	* schemas/Makefile.am: added schemas/gnumeric-plugin.schemas.in
+	* src/gnumeric-gconf-priv.h: add gconf keys
+	* src/gnumeric-gconf.c (gnm_gconf_set_latex_use_utf8): new
+	* src/gnumeric-gconf.h: add latex_use_utf field
+	(gnm_gconf_set_latex_use_utf8): new
+	* schemas/.cvsignore: add schemas/gnumeric-plugin.schemas
+
 2003-06-11  Morten Welinder  <terra@gnome.org>
 
 	* src/stf-parse.h (StfParseOptions_t): Remove parselines member.

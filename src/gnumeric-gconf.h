@@ -50,6 +50,7 @@ typedef struct {
 	gint		 recalc_lag;
 	gboolean	 unfocused_range_selection;
 	gboolean         prefer_clipboard_selection;  /* As opposed to "primary".  */
+	gboolean	 latex_use_utf8;
 } GnmAppPrefs;
 extern GnmAppPrefs const *gnm_app_prefs;
 
@@ -114,5 +115,6 @@ void     gnm_gconf_set_live_scrolling (gboolean val);
 void     gnm_gconf_set_recalc_lag (gint val);
 void     gnm_gconf_set_unfocused_range_selection (gboolean val);
 void     gnm_gconf_set_prefer_clipboard_selection (gboolean val);
+void     gnm_gconf_set_latex_use_utf8 (gboolean val);
 
 #endif /* GNUMERIC_GRAPH_H */

@@ -1,3 +1,7 @@
+2003-06-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* POTFILES.in: Added new schema file.
+
 2003-06-11  Pablo Gonzalo del Campo  <pablodc@bigfoot.com>
         
         * es.po: Updated Spanish translation by

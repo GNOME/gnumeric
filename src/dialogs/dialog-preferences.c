@@ -1248,6 +1248,26 @@ cb_pref_file_single_sheet_warn_toggled (GtkToggleButton *button, PrefState *stat
 				       NULL);
 }
 
+static void
+cb_pref_latex_set_use_utf8 (GConfClient *gconf,
+			    G_GNUC_UNUSED guint cnxn_id,
+			    G_GNUC_UNUSED GConfEntry *entry,
+			    GtkToggleButton *button)
+{
+	gboolean is_set_gconf = gconf_client_get_bool (gconf,
+						       PLUGIN_GCONF_LATEX_USE_UTF8,
+						       NULL);
+	gboolean is_set_button = gtk_toggle_button_get_active (button);
+	if (is_set_gconf != is_set_button)
+		gtk_toggle_button_set_active (button, is_set_gconf);
+}
+
+static void
+cb_pref_latex_set_use_utf8_toggled (GtkToggleButton *button, PrefState *state)
+{
+	gnm_gconf_set_latex_use_utf8 (gtk_toggle_button_get_active (button));
+}
+
 static GtkWidget *
 pref_file_page_initializer (PrefState *state,
 			    G_GNUC_UNUSED gpointer data,
@@ -1286,6 +1306,13 @@ pref_file_page_initializer (PrefState *state,
 				     page, row++, state,
 				     cb_pref_file_set_single_sheet_warn,
 				     cb_pref_file_single_sheet_warn_toggled);
+
+	/* LaTeX Exporter uses UTF-8 check box */
+	dialog_pref_create_checkbox (PLUGIN_GCONF_LATEX_USE_UTF8,
+				     "/schemas" PLUGIN_GCONF_LATEX_USE_UTF8,
+				     page, row++, state,
+				     cb_pref_latex_set_use_utf8,
+				     cb_pref_latex_set_use_utf8_toggled);
 
 	gtk_widget_show_all (page);
 	return page;

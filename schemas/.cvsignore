@@ -4,3 +4,4 @@ Makefile
 plot-types.xml
 gnumeric-dialogs.schemas 
 gnumeric-general.schemas 
+gnumeric-plugins.schemas 

@@ -38,6 +38,7 @@
 
 #include <gnumeric-config.h>
 #include <gnumeric.h>
+#include <gnumeric-gconf.h>
 #include "latex.h"
 #include <plugin-util.h>
 #include <io-context.h>
@@ -131,9 +132,8 @@ static latex_border_connectors_t const conn_styles[LATEX_MAX_BORDER]
 	  {{":b:",""}, { ":b:",""}, { ":",":"}}}}
 };
 
-
 /**
- * latex_fputs :
+ * latex_fputs_utf :
  *
  * @p :      a pointer to a char, start of the string to be processed.
  * @output : output stream where the processed characters are written.
@@ -142,7 +142,83 @@ static latex_border_connectors_t const conn_styles[LATEX_MAX_BORDER]
  * from Rasca's code to have most common first.
  */
 static void
-latex_fputs (char const *text, GsfOutput *output)
+latex_fputs_utf (char const *p, GsfOutput *output)
+{
+	for (; *p; p = g_utf8_next_char (p)) {
+		switch (g_utf8_get_char (p)) {
+			
+			/* These are the classic TeX symbols $ & % # _ { } (see Lamport, p.15) */
+		case '$': case '&': case '%': case '#':
+		case '_': case '{': case '}':
+			gsf_output_printf (output, "\\%c", *p);
+			break;
+			/* These are the other special characters ~ ^ \ (see Lamport, p.15) */
+		case '^': case '~':
+			gsf_output_printf (output, "\\%c{ }", *p);
+			break;
+		case '\\':
+			gsf_output_puts (output, "$\\backslash$");
+			break;
+			/* Are these available only in LaTeX through mathmode? */
+		case '>': case '<':
+			gsf_output_printf (output, "$%c$", *p);
+			break;
+			
+		default:
+			gsf_output_write (output, 
+					  (g_utf8_next_char (p)) - p, p);
+			break;
+		}
+	}
+}
+
+/**
+ * latex_math_fputs_utf :
+ *
+ * @p :     a pointer to a char, start of the string to be processed.
+ * @output: output stream where the processed characters are written.
+ *
+ * This escapes any special LaTeX characters from the LaTeX engine.
+ * 
+ * We assume that htis will be set in Mathematics mode.
+ */
+static void
+latex_math_fputs_utf (char const *p, GsfOutput *output)
+{
+	for (; *p; p = g_utf8_next_char (p)) {
+		switch (g_utf8_get_char (p)) {
+
+			/* These are the classic TeX symbols $ & % # (see Lamport, p.15) */
+			case '$': case '&': case '%': case '#':
+				gsf_output_printf (output, "\\%c", *p);
+				break;
+			/* These are the other special characters ~ (see Lamport, p.15) */
+			case '~':
+				gsf_output_printf (output, "\\%c{ }", *p);
+				break;
+			case '\\':
+				gsf_output_puts (output, "\\backslash");
+				break;
+
+			default:
+				gsf_output_write (output, 
+						  (g_utf8_next_char (p)) - p, p);
+				break;
+		}
+	}
+}
+
+/**
+ * latex_fputs_latin :
+ *
+ * @p :      a pointer to a char, start of the string to be processed.
+ * @output : output stream where the processed characters are written.
+ *
+ * This escapes any special LaTeX characters from the LaTeX engine. Re-ordered
+ * from Rasca's code to have most common first.
+ */
+static void
+latex_fputs_latin (char const *text, GsfOutput *output)
 {
 	char * encoded_text = NULL;
 	char * p;
@@ -189,7 +265,7 @@ latex_fputs (char const *text, GsfOutput *output)
 }
 
 /**
- * latex_math_fputs :
+ * latex_math_fputs_latin :
  *
  * @p :     a pointer to a char, start of the string to be processed.
  * @output: output stream where the processed characters are written.
@@ -199,7 +275,7 @@ latex_fputs (char const *text, GsfOutput *output)
  * We assume that htis will be set in Mathematics mode.
  */
 static void
-latex_math_fputs (char const *text, GsfOutput *output)
+latex_math_fputs_latin (char const *text, GsfOutput *output)
 {
 	char * encoded_text = NULL;
 	char * p;
@@ -240,6 +316,23 @@ latex_math_fputs (char const *text, GsfOutput *output)
 	g_free (encoded_text);
 }
 
+static void
+latex_fputs (char const *text, GsfOutput *output)
+{
+	if (gnm_app_prefs->latex_use_utf8)
+		latex_fputs_utf (text, output);
+	else
+		latex_fputs_latin (text, output);
+}
+
+static void
+latex_math_fputs (char const *text, GsfOutput *output)
+{
+	if (gnm_app_prefs->latex_use_utf8)
+		latex_math_fputs_utf (text, output);
+	else
+		latex_math_fputs_latin (text, output);
+}
 
 /**
  * latex2e_write_file_header:
@@ -270,7 +363,19 @@ latex2e_write_file_header(GsfOutput *output)
 "%%  where the table is to be placed. Note also that the including   %%\n"
 "%%  file must use the following packages for the table to be        %%\n"
 "%%  rendered correctly:                                             %%\n"
+);
+
+	if (gnm_app_prefs->latex_use_utf8)
+		gsf_output_puts (output,
+"%%    \\usepackage{ucs}                                            %%\n"
+"%%    \\usepackage[utf8]{inputenc}                                 %%\n"
+			);
+	else
+		gsf_output_puts (output,
 "%%    \\usepackage[latin1]{inputenc}                                 %%\n"
+			);
+
+	gsf_output_puts (output,
 "%%    \\usepackage{color}                                            %%\n"
 "%%    \\usepackage{array}                                            %%\n"
 "%%    \\usepackage{longtable}                                        %%\n"
@@ -311,7 +416,20 @@ latex2e_write_file_header(GsfOutput *output)
 "	\\documentclass[12pt%\n"
 "	                  %,landscape%\n"
 "                    ]{report}\n"
-"	\\usepackage[latin1]{inputenc}\n"
+		);
+
+
+	if (gnm_app_prefs->latex_use_utf8)
+		gsf_output_puts (output,
+"       \\usepackage{ucs}\n"
+"       \\usepackage[utf8]{inputenc}\n"
+			);
+	else
+		gsf_output_puts (output,
+"       \\usepackage[latin1]{inputenc}\n"
+			);
+
+	gsf_output_puts (output,
 "	\\usepackage{fullpage}\n"
 "	\\usepackage{color}\n"
 "       \\usepackage{array}\n"

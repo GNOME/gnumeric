@@ -153,7 +153,10 @@ gnm_conf_init (void)
 		PRINTING_GCONF_PRINTER_CONFIG, NULL);
 
 	prefs.prefer_clipboard_selection = gconf_client_get_bool (client,
-		GNUMERIC_GCONF_CUTANDPASTE_PREFER_CLIPBOARD, NULL); 
+		GNUMERIC_GCONF_CUTANDPASTE_PREFER_CLIPBOARD, NULL);
+ 
+	prefs.latex_use_utf8 = gconf_client_get_bool (client,
+		PLUGIN_GCONF_LATEX_USE_UTF8, NULL); 
 }
 
 void
@@ -474,3 +477,13 @@ gnm_gconf_set_printer_config (gchar *str)
 	g_free (prefs.printer_config);
 	prefs.printer_config = str;
 }
+
+void
+gnm_gconf_set_latex_use_utf8 (gboolean val)
+{
+	gconf_client_set_bool (application_get_gconf_client (),
+			       PLUGIN_GCONF_LATEX_USE_UTF8,
+			       val, NULL);
+	prefs.latex_use_utf8 = val;
+}
+

@@ -89,6 +89,7 @@ plugins/xbase/boot.c
 plugins/xbase/plugin.xml.in
 plugins/xml_sax/plugin.xml.in
 plugins/xml_sax/xml-sax-read.c
+schemas/gnumeric-plugins.schemas.in
 schemas/gnumeric-dialogs.schemas.in
 schemas/gnumeric-general.schemas.in
 src/GNOME_Gnumeric.xml
