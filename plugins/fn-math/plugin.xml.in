@@ -29,6 +29,7 @@
 				<function name="degrees"/>
 				<function name="even"/>
 				<function name="exp"/>
+				<function name="expm1"/>
 				<function name="fact"/>
 				<function name="factdouble"/>
 				<function name="fib"/>
@@ -38,6 +39,7 @@
 				<function name="int"/>
 				<function name="lcm"/>
 				<function name="ln"/>
+				<function name="ln1p"/>
 				<function name="log"/>
 				<function name="log2"/>
 				<function name="log10"/>

@@ -863,6 +863,27 @@ gnumeric_exp (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
+static char const *help_expm1 = {
+	N_("@FUNCTION=EXPM1\n"
+	   "@SYNTAX=EXPM1(x)\n"
+
+	   "@DESCRIPTION="
+	   "EXPM1 computes EXP(@x)-1 with higher resulting precision than "
+	   "the direct formula.\n\n"
+	   "@EXAMPLES=\n"
+	   "EXPM1(0.01) equals 0.01005.\n"
+	   "\n"
+	   "@SEEALSO=EXP, LN1P")
+};
+
+static GnmValue *
+gnumeric_expm1 (FunctionEvalInfo *ei, GnmValue **argv)
+{
+	return value_new_float (expm1gnum (value_get_as_float (argv [0])));
+}
+
+/***************************************************************************/
+
 static char const *help_fact = {
 	N_("@FUNCTION=FACT\n"
 	   "@SYNTAX=FACT(x)\n"
@@ -1116,6 +1137,35 @@ gnumeric_ln (FunctionEvalInfo *ei, GnmValue **argv)
 		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (loggnum (t));
+}
+
+/***************************************************************************/
+
+static char const *help_ln1p = {
+	N_("@FUNCTION=LN1P\n"
+	   "@SYNTAX=LN1P(x)\n"
+
+	   "@DESCRIPTION="
+	   "LN1P computes LN(1+@x) with higher resulting precision than "
+	   "the direct formula.\n"
+	   "\n"
+	   "* If @x <= -1, LN1P returns #NUM! error.\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "LN1P(0.01) equals 0.00995.\n"
+	   "\n"
+	   "@SEEALSO=LN, EXPM1")
+};
+
+static GnmValue *
+gnumeric_ln1p (FunctionEvalInfo *ei, GnmValue **argv)
+{
+	gnm_float t = value_get_as_float (argv [0]);
+
+	if (t <= -1)
+		return value_new_error_NUM (ei->pos);
+
+	return value_new_float (log1pgnum (t));
 }
 
 /***************************************************************************/
@@ -3130,6 +3180,9 @@ GnmFuncDescriptor const math_functions[] = {
 	{ "exp",     "f", N_("number"),    &help_exp,
 	  gnumeric_exp, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "expm1",   "f", N_("number"),    &help_expm1,
+	  gnumeric_expm1, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "fact",    "f", N_("number"),    &help_fact,
 	  gnumeric_fact, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_SUPERSET, GNM_FUNC_TEST_STATUS_BASIC },
@@ -3162,6 +3215,9 @@ GnmFuncDescriptor const math_functions[] = {
 	{ "ln",      "f", N_("number"),    &help_ln,
 	  gnumeric_ln, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "ln1p",    "f", N_("number"),    &help_ln1p,
+	  gnumeric_ln1p, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "log",     "f|f", N_("number,base"), &help_log,
 	  gnumeric_log, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
