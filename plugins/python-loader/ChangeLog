@@ -1,5 +1,9 @@
 2001-03-31  Zbigniew Chyla  <cyba@gnome.pl>
 
+	* py-gnumeric.c (destroy_python_interpreter): Fixed typo.
+
+2001-03-31  Zbigniew Chyla  <cyba@gnome.pl>
+
 	Patch from drk@sgi.com
 
 	* py-gnumeric.c: Added function declarations for object methods

@@ -145,7 +145,7 @@ create_python_interpreter (PluginInfo *pinfo)
 void
 destroy_python_interpreter (InterpreterInfo *py_interpreter_info)
 {
-	g_return_if_fail (py_interpreter_info == NULL);
+	g_return_if_fail (py_interpreter_info != NULL);
 
 	Py_EndInterpreter (py_interpreter_info->py_thread_state);
 	g_free (py_interpreter_info);
