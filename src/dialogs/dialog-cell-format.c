@@ -2972,7 +2972,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	g_signal_connect (G_OBJECT (state->apply_button),
 		"clicked",
 		G_CALLBACK (cb_fmt_dialog_dialog_buttons), state);
-	tmp = glade_xml_get_widget (state->gui, "closebutton");
+	tmp = glade_xml_get_widget (state->gui, "cancelbutton");
 	g_signal_connect (G_OBJECT (tmp),
 		"clicked",
 		G_CALLBACK (cb_fmt_dialog_dialog_buttons), state);

@@ -349,6 +349,7 @@ gnumeric_error_info_dialog_new (ErrorInfo *error)
 	gtk_widget_show_all (GTK_WIDGET (scrolled_window));
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), scrolled_window, TRUE, TRUE, 0);
 
+	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_CLOSE);
 	return dialog;
 }
 
