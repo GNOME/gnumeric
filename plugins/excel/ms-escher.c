@@ -3,45 +3,23 @@
  *
  * Author:
  *    Michael Meeks (michael@imaginator.com)
+ *    Jody Goldberg (jgolbdger@home.com)
  *
  * See S59FD6.HTM for an overview...
  **/
 
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/mman.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <fcntl.h>
-#include <assert.h>
-#include <config.h>
-#include <stdio.h>
-#include <ctype.h>
-#include <gnome.h>
-#include "gnumeric.h"
-#include "gnumeric-util.h"
-#include "gnome-xml/tree.h"
-#include "gnome-xml/parser.h"
-#include "gnumeric-sheet.h"
-#include "format.h"
-#include "color.h"
-#include "sheet-object.h"
-#include "style.h"
-
-#include "excel.h"
-#include "ms-ole.h"
-#include "ms-biff.h"
-#include "ms-formula-read.h"
-#include "ms-excel-biff.h"
-#include "ms-obj.h"
 #include "ms-escher.h"
 #include "escher-types.h"
+#include "biff-types.h"
+#include "ms-excel-read.h"
 
-#define ESH_BITMAP_DUMP 0
-#define ESH_OPT_DUMP 0
-#define ESH_HEADER_DEBUG 3
+#include <stdio.h>
 
-/**
+#define ESH_BITMAP_DUMP		0
+#define ESH_OPT_DUMP		0
+#define ESH_HEADER_DEBUG	3
+
+/*
  * NB. SP = ShaPe
  *     GR = GRoup
  *
@@ -139,11 +117,8 @@ biff_to_flat_data (const BiffQuery *q, guint8 **data, guint32 *length)
 		*length+=nq->length;
 		ms_biff_query_next(nq);
 		cnt++;
-	} while (nq->opcode == BIFF_CONTINUE ||
-		 nq->opcode == BIFF_MS_O_DRAWING ||
-		 nq->opcode == BIFF_MS_O_DRAWING_GROUP);
+	} while (nq->opcode == BIFF_CONTINUE);
 
-	printf ("MERGING %d continues\n", cnt);
 	(*data) = g_malloc (*length);
 	ptr=(*data);
 	nq = ms_biff_query_copy (q);
@@ -151,9 +126,7 @@ biff_to_flat_data (const BiffQuery *q, guint8 **data, guint32 *length)
 		memcpy (ptr, nq->data, nq->length);
 		ptr+=nq->length;
 		ms_biff_query_next(nq);
-	} while (nq->opcode == BIFF_CONTINUE ||
-		 nq->opcode == BIFF_MS_O_DRAWING ||
-		 nq->opcode == BIFF_MS_O_DRAWING_GROUP);
+	} while (nq->opcode == BIFF_CONTINUE);
 }
 
 typedef struct {
@@ -298,7 +271,7 @@ BSE_new (ESH_HEADER *h) /* S59FE3.HTM */
 	fbse->ref_count  = BIFF_GET_GUINT32(data+24);
 	fbse->delay_off  = BIFF_GET_GUINT32(data+28);
 	tmp              = BIFF_GET_GUINT8(data+32);
-	if (tmp==1)		
+	if (tmp==1)
 		fbse->usage = eUsageTexture;
 	else
 		fbse->usage = eUsageDefault;
@@ -336,7 +309,7 @@ BSE_new (ESH_HEADER *h) /* S59FE3.HTM */
 		data+=25; /* Another header ! */
 		data_len-=25;
 		write_file ("test", data, fbse->size, fbse->stored_type);
-	} else 
+	} else
 		printf ("FIXME: unhandled type 0x%x\n",
 			fbse->stored_type);
 
@@ -422,12 +395,15 @@ read_DggContainer (ESH_HEADER *h)
 			printf ("Dgg:\n");
 			Dgg_new (c);
 			break;
+
 		case OPT:
 			OPT_new (c);
 			break;
+
 		case BStoreContainer:
 			BStoreContainer_new (c);
 			break;
+
 		default:
 			printf ("Unknown DGGC Header: type 0x%x, inst 0x%x ver 0x%x len 0x%x\n",
 				c->type, c->instance, c->ver, c->length);
@@ -437,7 +413,7 @@ read_DggContainer (ESH_HEADER *h)
 }
 
 /**
- *  A Shape ... it contains details about it self generaly,
+ * A Shape ... it contains details about it self generally,
  * only one real shape in inside the container though.
  **/
 static void
@@ -537,16 +513,16 @@ read_DgContainer (ESH_HEADER *h) /* See S59FE7.HTM */
  **/
 
 static void
-disseminate_stream (guint8 *data, gint32 length)
+ms_escher_read (guint8 *data, gint32 length)
 {
 	ESH_HEADER *h =	esh_header_new (data, length);
 	while (esh_header_next(h)) {
 		switch (h->type) {
-		case DggContainer:
-			read_DggContainer (h);
+		case DggContainer:	read_DggContainer (h);
 			break;
-		case DgContainer:
-			read_DgContainer (h);
+		case DgContainer:	read_DgContainer (h);
+			break;
+		case OPT:		OPT_new (h);
 			break;
 		default:
 			printf ("Unknown Dissstr Header: type 0x%x, inst 0x%x ver 0x%x len 0x%x\n",
@@ -554,28 +530,25 @@ disseminate_stream (guint8 *data, gint32 length)
 			break;
 		}
 	}
-	esh_header_destroy (h); 
+	esh_header_destroy (h);
 }
 
-/**
- * FIXME: See S59FDA.HTM / S59FDB.HTM
- * essentialy the MsOleStream needs to be sub-classed by excel, and
- * forced to store its data inside BIFF records inside the excel stream.
- * For now we'll assume the data is small and doesn't have any CONTINUE
- * records !!!.
- **/
 void
 ms_escher_hack_get_drawing (const BiffQuery *q)
 {
 	/* Convert the query to a sort of streeam */
 	guint8 *data;
 	guint32 len;
-	printf ("------ Start Escher -------\n");
+
+	/* Only support during debugging for now */
+	if (ms_excel_read_debug <= 0)
+		return;
 
 	biff_to_flat_data (q, &data, &len);
 
-	disseminate_stream (data, len);
+	printf ("{ Escher\n");
+	ms_escher_read (data, len);
+	printf ("}; /* Escher */\n");
 
-	printf ("------ End Escher -------\n");
-
+	g_free (data);
 }

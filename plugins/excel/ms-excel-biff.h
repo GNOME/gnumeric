@@ -1,3 +1,6 @@
+#ifndef GNUMERIC_EXCEL_BIFF_H
+#define GNUMERIC_EXCEL_BIFF_H
+
 /**
  * ms-excel-biff.h: MS Excel BIFF header for Gnumeric
  * contains data about the Excel BIFF records
@@ -5,8 +8,8 @@
  * Author:
  *    Michael Meeks (michael@imaginator.com)
  **/
-#ifndef GNUMERIC_EXCEL_BIFF_H
-#define GNUMERIC_EXCEL_BIFF_H
+
+#include "excel.h"
 
 /* Pass this a BiffQuery * */
 #define EX_GETROW(p)      (BIFF_GET_GUINT16(p->data + 0))

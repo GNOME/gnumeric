@@ -1,6 +1,8 @@
 #include "excel.h"
 #include "ms-chart.h"
 #include "ms-formula-read.h"
+#include "ms-excel-read.h"
+#include "ms-escher.h"
 
 #include <stdio.h>
 
@@ -49,7 +51,7 @@ BC_R(color)(guint8 const *data, char *type)
 	guint16 const g = (rgb >>  8) & 0xff;
 	guint16 const b = (rgb >> 16) & 0xff;
 
-	printf("%s Color %x%x%x\n", type, r, g, b);
+	printf("%s Color %02x%02x%02x\n", type, r, g, b);
 
 	return style_color_new ((r<<8)|r, (g<<8)|g, (b<<8)|b);
 }
@@ -60,14 +62,11 @@ static gboolean
 BC_R(3dbarshape)(ExcelChartHandler const *handle,
 		 ExcelChartState *s, BiffQuery *q)
 {
-#if GUESS_GUESS
 	/* All the charts I've seen have this record with value 0x0000
 	 *its probably an enum of sorts.
 	 */
 	guint16 const type = BIFF_GET_GUINT16 (q->data);
-#endif
-	puts ("Undocumented biff 3dbarshape\n");
-	dump_biff(q);
+	printf ("shape %d\n", type);
 
 	return FALSE;
 }
@@ -97,6 +96,8 @@ BC_R(3d)(ExcelChartHandler const *handle,
 	gboolean const cluster = (flags&0x02) ? TRUE :FALSE;
 	gboolean const auto_scale = (flags&0x04) ? TRUE :FALSE;
 	gboolean const walls_2d = (flags&0x20) ? TRUE :FALSE;
+
+	g_return_val_if_fail (zero == 0, FALSE); /* just warn for now */
 
 	printf ("Rot = %hu\n", rotation);
 	printf ("Elev = %hu\n", elevation);
@@ -501,14 +502,17 @@ static gboolean
 BC_R(chart)(ExcelChartHandler const *handle,
 	    ExcelChartState *s, BiffQuery *q)
 {
-	/* TODO TODO TODO : How is fixed point represented */
 	/* TODO TODO TODO : Why are all charts listed as starting at 0,0 ?? */
-	/* 2 bytes fraction 2 bytes integer, only integer form is known */
-	gint32 const x_pos = BIFF_GET_GUINT16 (q->data + 2);
-	gint32 const y_pos = BIFF_GET_GUINT16 (q->data + 6);
-	gint32 const x_size = BIFF_GET_GUINT16 (q->data + 10);
-	gint32 const y_size = BIFF_GET_GUINT16 (q->data + 14);
-	printf("Chart @ %hd, %hd is %hdx%hd\n", x_pos, y_pos, x_size, y_size);
+	/* Fixed point 2 bytes fraction 2 bytes integer */
+	gint32 const x_pos_fixed = BIFF_GET_GUINT16 (q->data + 2);
+	gint32 const y_pos_fixed = BIFF_GET_GUINT16 (q->data + 6);
+	gint32 const x_size_fixed = BIFF_GET_GUINT16 (q->data + 10);
+	gint32 const y_size_fixed = BIFF_GET_GUINT16 (q->data + 14);
+	double const x_pos = x_pos_fixed / 65535.;
+	double const y_pos = y_pos_fixed / 65535.;
+	double const x_size = x_size_fixed / 65535.;
+	double const y_size = y_size_fixed / 65535.;
+	printf("Chart @ %g, %g is %g x %g\n", x_pos, y_pos, x_size, y_size);
 
 	return FALSE;
 }
@@ -529,6 +533,10 @@ BC_R(chartformat)(ExcelChartHandler const *handle,
 	guint16 const flags = BIFF_GET_GUINT16 (q->data+16);
 	guint16 const z_order = BIFF_GET_GUINT16 (q->data+18);
 	gboolean const vary_color = (flags&0x01) ? TRUE : FALSE;
+
+	printf ("Z value = %uh\n", z_order);
+	if (vary_color)
+		printf ("Vary color of every data point\n");
 	return FALSE;
 }
 
@@ -642,17 +650,15 @@ BC_R(defaulttext)(ExcelChartHandler const *handle,
 		  ExcelChartState *s, BiffQuery *q)
 {
 	guint16	const tmp = BIFF_GET_GUINT16 (q->data);
-	s->defaulttext_applicability = -1;
 	printf ("applicability = %hd\n", tmp);
 
 	/*
-	 *0 == 'show labels' label
-	 *1 == Value and percentage data label
-	 *2 == All text in chart
-	 *3 == Undocumented ??
+	 * 0 == 'show labels' label
+	 * 1 == Value and percentage data label
+	 * 2 == All text in chart
+	 * 3 == Undocumented ??
 	 */
 	g_return_val_if_fail (tmp <= 3, TRUE);
-	s->defaulttext_applicability = tmp;
 	return FALSE;
 }
 
@@ -756,16 +762,13 @@ static gboolean
 BC_R(gelframe)(ExcelChartHandler const *handle,
 	       ExcelChartState *s, BiffQuery *q)
 {
+	ms_escher_hack_get_drawing (q);
 	return FALSE;
 }
 static gboolean
 BC_W(gelframe)(ExcelChartHandler const *handle,
 	       GuppiChartState *s, BiffPut *os)
 {
-	/* TODO TODO : From MS Office Drawing
-	 *Has something to do with gradient fills
-	 *patterns & textures
-	 */
 	return FALSE;
 }
 
@@ -775,6 +778,10 @@ static gboolean
 BC_R(ifmt)(ExcelChartHandler const *handle,
 	   ExcelChartState *s, BiffQuery *q)
 {
+	guint16 const fmt_index = BIFF_GET_GUINT16 (q->data);
+	StyleFormat * fmt = biff_format_data_lookup (s->wb, fmt_index);
+
+	printf ("Format = '%s';\n", fmt->format);
 	return FALSE;
 }
 
@@ -894,6 +901,9 @@ BC_R(lineformat)(ExcelChartHandler const *handle,
 	if (s->ver >= eBiffV8)
 	{
 		guint16 const color_index = BIFF_GET_GUINT16 (q->data+10);
+
+		/* Ignore result for now */
+		ms_excel_palette_get (s->wb->palette, color_index, NULL);
 	}
 	return FALSE;
 }
@@ -973,7 +983,6 @@ BC_R(objectlink)(ExcelChartHandler const *handle,
 	guint16 const link_type = BIFF_GET_GUINT16 (q->data);
 	guint16 const series_num = BIFF_GET_GUINT16 (q->data+2);
 	guint16 const pt_num = BIFF_GET_GUINT16 (q->data+2);
-	char *str;
 
 	switch (link_type)
 	{
@@ -1241,6 +1250,12 @@ BC_R(series)(ExcelChartHandler const *handle,
 		int const bubble_type = map_series_types(q, 10, "Bubbles");
 		guint16 const num_bubble = BIFF_GET_GUINT16 (q->data+12);
 	}
+
+	/* FIXME Make a structure */
+	if (s->wb->chart.series == NULL)
+		s->wb->chart.series = g_ptr_array_new ();
+	g_ptr_array_add (s->wb->chart.series, NULL);
+	printf ("SERIES = %d\n", s->wb->chart.series->len);
 	return FALSE;
 }
 
@@ -1277,6 +1292,8 @@ BC_R(seriestext)(ExcelChartHandler const *handle,
 	int const slen = BIFF_GET_GUINT8 (q->data + 2);
 	char *text = biff_get_text (q->data + 3, slen, NULL);
 	puts (text);
+
+	g_return_val_if_fail (id == 0, FALSE);
 	return FALSE;
 }
 
@@ -1343,6 +1360,7 @@ static char const *const ms_chart_blank[] = {
 	gboolean const only_plot_visible_cells	= (flags&0x02) ? TRUE : FALSE;
 	gboolean const dont_size_with_window	= (flags&0x04) ? TRUE : FALSE;
 	gboolean const has_pos_record		= (flags&0x08) ? TRUE : FALSE;
+	gboolean ignore_pos_record = FALSE;
 	MS_CHART_BLANK blanks;
 
 	g_return_val_if_fail (tmp < MS_CHART_BLANK_MAX, TRUE);
@@ -1351,10 +1369,18 @@ static char const *const ms_chart_blank[] = {
 
 	if (s->ver >= eBiffV8)
 	{
-		gboolean const ignore_pos_record = (flags&0x10) ? TRUE : FALSE;
+		ignore_pos_record = (flags&0x10) ? TRUE : FALSE;
 	}
 	printf ("%sesize chart with window.\n",
 		dont_size_with_window ? "Don't r": "R");
+
+	if (has_pos_record && !ignore_pos_record)
+		printf ("There should be a POS record around here soon\n");
+
+	if (manual_format);
+		printf ("Manually formated");
+	if (only_plot_visible_cells);
+		printf ("Only plot visible (to who??) cells\n");
 	return FALSE;
 }
 
@@ -1639,14 +1665,17 @@ BC(register_handler)(ExcelChartHandler const *const handle)
 }
 
 
-static void
-ms_excel_chart (BIFF_BOF_DATA*bof, ExcelWorkbook *wb, BiffQuery *q)
+void
+ms_excel_chart (BiffQuery *q, ExcelWorkbook *wb, BIFF_BOF_DATA *bof)
 {
 	int const num_handler = sizeof(chart_biff_handler) /
 		sizeof(ExcelChartHandler *);
 
 	gboolean done = FALSE;
 	ExcelChartState state;
+
+	/* Register the handlers if this is the 1sttime through */
+	BC(register_handlers)();
 
 	g_return_if_fail (bof->type == eBiffTChart);
 	state.ver = bof->version;
@@ -1737,15 +1766,14 @@ ms_excel_chart (BIFF_BOF_DATA*bof, ExcelWorkbook *wb, BiffQuery *q)
 }
 
 void
-ms_excel_read_chart (ExcelWorkbook *wb, BiffQuery *q)
+ms_excel_read_chart (BiffQuery *q, ExcelWorkbook *wb, int obj_id)
 {
 	BIFF_BOF_DATA *bof;
-	BC(register_handlers)();
 
 	/* 1st record must be a valid BOF record */
 	g_return_if_fail (ms_biff_query_next (q));
 	bof = ms_biff_bof_data_new (q);
 	if (bof->version != eBiffVUnknown)
-		ms_excel_chart (bof, wb, q);
+		ms_excel_chart (q, wb, bof);
 	ms_biff_bof_data_destroy (bof);
 }

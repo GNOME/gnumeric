@@ -3,34 +3,16 @@
  *
  * Author:
  *    Michael Meeks (michael@imaginator.com)
+ *    Jody Goldberh (jgoldberg@home.com)
  **/
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/mman.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <fcntl.h>
-#include <config.h>
-#include <stdio.h>
-#include <ctype.h>
-#include <gnome.h>
-#include "gnumeric.h"
-#include "gnumeric-util.h"
-#include "gnome-xml/tree.h"
-#include "gnome-xml/parser.h"
-#include "gnumeric-sheet.h"
-#include "format.h"
-#include "color.h"
-#include "sheet-object.h"
-#include "style.h"
-#include "main.h"
-#include "utils.h"
 
-#include "excel.h"
 #include "ms-formula-read.h"
 #include "ms-excel-read.h"
 #include "ms-obj.h"
+#include "ms-chart.h"
 #include "ms-escher.h"
+
+#include "utils.h"	/* for cell_name */
 
 /* This many styles are reserved */
 #define XF_MAGIC_OFFSET (16 + 4)
@@ -38,10 +20,17 @@
 /* #define NO_DEBUG_EXCEL */
 
 /* Used in src/main.c to toggle debug messages on & off */
+/*
+ * As a convention
+ * 0 = quiet, no experimental features.
+ * 1 = enable experimental features
+ * >1 increasing levels of detail.
+ */
 int ms_excel_read_debug    = 0;
 int ms_excel_formula_debug = 0;
 int ms_excel_color_debug   = 0;
 int ms_excel_chart_debug   = 0;
+extern int gnumeric_debugging;
 
 /* Forward references */
 static ExcelSheet *ms_excel_sheet_new       (ExcelWorkbook *wb,
@@ -100,8 +89,9 @@ biff_string_get_flags (guint8 *ptr,
 
 	header = BIFF_GET_GUINT8(ptr);
 	/* I assume that this header is backwards compatible with raw ASCII */
-	if (((header & 0xf0) == 0) &&
-	    ((header & 0x02) == 0)) { /* Its a proper Unicode header grbit byte */
+
+	/* Its a proper Unicode header grbit byte */
+	if (((header & 0xf2) == 0)) {
 		*word_chars = (header & 0x1) != 0;
 		*extended   = (header & 0x4) != 0;
 		*rich       = (header & 0x8) != 0;
@@ -471,7 +461,7 @@ biff_font_data_new (ExcelWorkbook *wb, BiffQuery *q)
 				      BIFF_GET_GUINT8 (q->data + 14), NULL);
 
 #ifndef NO_DEBUG_EXCEL
-	if (ms_excel_read_debug > 0) {
+	if (ms_excel_read_debug > 1) {
 		printf ("Insert font '%s' size %d pts color %d\n",
 			fd->fontname, fd->height / 20, fd->color_idx);
 	}
@@ -533,7 +523,7 @@ char *excel_builtin_formats[EXCEL_BUILTIN_FORMAT_LEN] = {
 /* 0x31 */	"@"
 };
 
-static StyleFormat *
+StyleFormat *
 biff_format_data_lookup (ExcelWorkbook *wb, guint16 idx)
 {
 	char *ans = NULL;
@@ -636,7 +626,7 @@ biff_name_data_get_name (ExcelSheet *sheet, guint16 idx)
 					printf ("Error: '%s' on name '%s'\n", duff,
 						bnd->name);
 #ifndef NO_DEBUG_EXCEL
-				else if (ms_excel_read_debug > 0) {
+				else if (ms_excel_read_debug > 1) {
 					EvalPosition ep;
 					printf ("Parsed name : '%s' = '%s'\n", bnd->name,
 						tree?expr_decode_tree (tree, eval_pos_init (
@@ -770,7 +760,7 @@ ms_excel_palette_new (BiffQuery *q)
 	return pal;
 }
 
-static StyleColor *
+StyleColor *
 ms_excel_palette_get (ExcelPalette *pal, guint idx, StyleColor *contrast)
 {
 	g_assert (NULL != pal);
@@ -1290,7 +1280,7 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
 		g_ptr_array_add (wb->XF_style_records, xf);
 	}
 #ifndef NO_DEBUG_EXCEL
-	if (ms_excel_read_debug > 0) {
+	if (ms_excel_read_debug > 2) {
 		printf ("XF : Fore %d, Back %d\n",
 			xf->pat_foregnd_col, xf->pat_backgnd_col);
 	}
@@ -1386,7 +1376,7 @@ ms_excel_formula_shared (BiffQuery *q, ExcelSheet *sheet, Cell *cell)
 		sf->data_len = data_len;
 
 #ifndef NO_DEBUG_EXCEL
-		if (ms_excel_read_debug>0) {
+		if (ms_excel_read_debug > 1) {
 			printf ("Shared formula, extent %s:%s\n",
 				cell_name(array_col_first, array_row_first),
 				cell_name(array_col_last, array_row_last));
@@ -1684,6 +1674,7 @@ ms_excel_workbook_new (eBiff_version ver)
 	ans->XF_style_records = g_ptr_array_new ();
 	ans->XF_cell_records  = g_ptr_array_new ();
 	ans->name_data        = g_ptr_array_new ();
+	ans->chart.series     = NULL; /* Init if/when its needed */
 	ans->format_data      = g_hash_table_new ((GHashFunc)biff_guint16_hash,
 						  (GCompareFunc)biff_guint16_equal);
 	ans->palette          = ms_excel_default_palette ();
@@ -1755,6 +1746,9 @@ ms_excel_workbook_destroy (ExcelWorkbook *wb)
 		for (lp=0;lp<wb->name_data->len;lp++)
 			biff_name_data_destroy (g_ptr_array_index (wb->name_data, lp));
 	g_ptr_array_free (wb->name_data, TRUE);
+
+	if (wb->chart.series != NULL)
+		g_ptr_array_free (wb->chart.series, TRUE);
 
 	g_hash_table_foreach_remove (wb->font_data,
 				     (GHRFunc)biff_font_data_destroy,
@@ -1881,7 +1875,7 @@ ms_excel_read_name (BiffQuery *q, ExcelSheet *sheet)
 	status_txt = biff_get_text (ptr, status_txt_len, NULL);
 
 #ifndef NO_DEBUG_EXCEL
-	if (ms_excel_read_debug > 0) {
+	if (ms_excel_read_debug > 1) {
 		printf ("Name record : '%s', '%s', '%s', '%s', '%s'\n",
 			name ? name : "(null)",
 			menu_txt ? menu_txt : "(null)",
@@ -1929,21 +1923,12 @@ ms_excel_externname (BiffQuery *q,
 	char *externname;
 	guint8 *defn;
 	guint16 defnlen;
-	if (sheet->ver >= eBiffV8) {
-		guint8  const namelen  = BIFF_GET_GUINT8(q->data+6);
-		defn     = q->data + 8 + namelen; /* 1 byte for flags */
+	if (sheet->ver >= eBiffV7) {
+		guint32 namelen  = BIFF_GET_GUINT8(q->data+6);
+		externname = biff_get_text (q->data+7, namelen, &namelen);
+		defn     = q->data+7 + namelen;
 		defnlen  = BIFF_GET_GUINT16(defn);
 		defn += 2;
-		externname = biff_get_text (q->data+7, namelen, NULL);
-	} else if (sheet->ver >= eBiffV7) {
-		/* Not unicode */
-		guint8  const namelen  = BIFF_GET_GUINT8(q->data+6);
-		defn     = q->data + 7 + namelen;
-		defnlen  = BIFF_GET_GUINT16(defn);
-		defn += 2;
-		externname = g_new(char, namelen+1);
-		strncpy (externname, q->data+7, namelen);
-		externname[namelen] = '\0';
 	} else { /* Ancient Papyrus spec. */
 		static guint8 data[] = { 0x1c, 0x17 }; /* Error : REF */
 		defn = data;
@@ -2048,7 +2033,7 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 		outlining = (options & 0x0700) >> 8;
 
 #ifndef NO_DEBUG_EXCEL
-		if (ms_excel_read_debug>0 ) {
+		if (ms_excel_read_debug > 1) {
 			if (BIFF_GET_GUINT8(q->data+10) != 0)
 				printf ("Odd Colinfo\n");
 			printf ("Column Formatting from col %d to %d of width "
@@ -2180,7 +2165,7 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 	guint32 blankSheetPos = q->streamPos + q->length + 4;
 
 #ifndef NO_DEBUG_EXCEL
-	if (ms_excel_read_debug>0) {
+	if (ms_excel_read_debug > 1) {
 		printf ("----------------- '%s' -------------\n",
 			sheet->gnum_sheet->name);
 	}
@@ -2188,7 +2173,7 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 
 	while (ms_biff_query_next (q)) {
 #ifndef NO_DEBUG_EXCEL
-		if (ms_excel_read_debug>5) {
+		if (ms_excel_read_debug > 5) {
 			printf ("Opcode : 0x%x\n", q->opcode);
 		}
 #endif
@@ -2196,7 +2181,7 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 		case BIFF_EOF:
 			if (q->streamPos == blankSheetPos || sheet->blank) {
 #ifndef NO_DEBUG_EXCEL
-				if (ms_excel_read_debug>0) {
+				if (ms_excel_read_debug > 1) {
 					printf ("Blank sheet\n");
 				}
 #endif
@@ -2257,10 +2242,13 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 #endif
 			break;
 		}
-		case BIFF_MS_O_DRAWING: /* FIXME: See: ms-escher.c and S59DA4.HTM */
-			if (gnumeric_debugging>0)
-				ms_escher_hack_get_drawing (q);
+
+		case BIFF_MS_O_DRAWING:
+		case BIFF_MS_O_DRAWING_GROUP:
+		case BIFF_MS_O_DRAWING_SELECTION:
+			ms_escher_hack_get_drawing (q);
 			break;
+
 		case BIFF_NOTE: /* See: S59DAB.HTM */
 		{
 			guint16 row = EX_GETROW(q);
@@ -2276,7 +2264,7 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 					printf ("FIXME: Error in options\n");
 				hidden = (options&0x2)==0;
 #ifndef NO_DEBUG_EXCEL
-				if (ms_excel_read_debug>0) {
+				if (ms_excel_read_debug > 1) {
 					printf ("Comment at %d,%d id %d options"
 						" 0x%x hidden %d by '%s'\n",
 						col, row, obj_id, options,
@@ -2287,7 +2275,7 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 				guint16 author_len = BIFF_GET_GUINT16(q->data+4);
 				char *text=biff_get_text(q->data+6, author_len, NULL);
 #ifndef NO_DEBUG_EXCEL
-				if (ms_excel_read_debug>1) {
+				if (ms_excel_read_debug > 1) {
 					printf ("Comment at %d,%d '%s'\n",
 						col, row, text);
 				}
@@ -2373,7 +2361,6 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 				break;
 
 			case BIFF_CODENAME :
-			case BIFF_TXO :
 				break;
 
 			case BIFF_WINDOW2: /* FIXME: see S59E18.HTM */
@@ -2560,9 +2547,6 @@ ms_excel_read_workbook (MsOle *file)
 					? "Yes" : "No");
 				break;
 
-			case BIFF_TXO :
-				break;
-
 			case BIFF_REFRESHALL :
 				break;
 
@@ -2595,42 +2579,45 @@ ms_excel_read_workbook (MsOle *file)
 		switch (q->ls_op)
 		{
 		case BIFF_BOF:
-			{
-				/* The first BOF seems to be OK, the rest lie ? */
-				eBiff_version vv = eBiffVUnknown;
-				if (ver) {
-					vv = ver->version;
-					ms_biff_bof_data_destroy (ver);
-				}
-				ver = ms_biff_bof_data_new (q);
-				if (vv != eBiffVUnknown)
-					ver->version = vv;
-
-				if (ver->type == eBiffTWorkbook) {
-					wb = ms_excel_workbook_new (ver->version);
-					wb->gnum_wb = workbook_new ();
-					if (ver->version >= eBiffV8)
-						printf ("Excel 97 +\n");
-					else
-						printf ("Excel 95 or older\n");
-				} else if (ver->type == eBiffTWorksheet) {
-					BiffBoundsheetData *bsh;
-
-					bsh = g_hash_table_lookup (wb->boundsheet_data_by_stream,
-								   &q->streamPos);
-					if (!bsh)
-						printf ("Sheet offset in stream of %x not found in list\n", q->streamPos);
-					else
-					{
-						ExcelSheet *sheet = ms_excel_workbook_get_sheet (wb, current_sheet);
-						ms_excel_sheet_set_version (sheet, ver->version);
-						ms_excel_read_sheet (sheet, q, wb);
-						current_sheet++;
-					}
-				} else
-					printf ("Unknown BOF\n");
+		{
+			/* The first BOF seems to be OK, the rest lie ? */
+			eBiff_version vv = eBiffVUnknown;
+			if (ver) {
+				vv = ver->version;
+				ms_biff_bof_data_destroy (ver);
 			}
-			break;
+			ver = ms_biff_bof_data_new (q);
+			if (vv != eBiffVUnknown)
+				ver->version = vv;
+
+			if (ver->type == eBiffTWorkbook) {
+				wb = ms_excel_workbook_new (ver->version);
+				wb->gnum_wb = workbook_new ();
+				if (ver->version >= eBiffV8)
+					printf ("Excel 97 +\n");
+				else
+					printf ("Excel 95 or older\n");
+			} else if (ver->type == eBiffTWorksheet) {
+				BiffBoundsheetData *bsh;
+
+				bsh = g_hash_table_lookup (wb->boundsheet_data_by_stream,
+							   &q->streamPos);
+				if (!bsh)
+					printf ("Sheet offset in stream of %x not found in list\n", q->streamPos);
+				else
+				{
+					ExcelSheet *sheet = ms_excel_workbook_get_sheet (wb, current_sheet);
+					ms_excel_sheet_set_version (sheet, ver->version);
+					ms_excel_read_sheet (sheet, q, wb);
+					current_sheet++;
+				}
+			} else if (ver->type == eBiffTChart)
+				ms_excel_chart (q, wb, ver);
+			else
+				printf ("Unknown BOF (%x)\n",ver->type);
+		}
+		break;
+
 		case BIFF_EOF:
 			printf ("End of worksheet spec.\n");
 			break;
@@ -2654,8 +2641,7 @@ ms_excel_read_workbook (MsOle *file)
 					 */
 #ifndef NO_DEBUG_EXCEL
 			if (ms_excel_read_debug > 0) {
-				printf ("Opcode : 0x%x, length 0x%x\n",
-					q->opcode, q->length);
+				printf ("Precision : \n");
 				dump (q->data, q->length);
 			}
 #endif
@@ -2712,16 +2698,8 @@ ms_excel_read_workbook (MsOle *file)
 		case BIFF_EXTSST: /* See: S59D84 */
 			/* Can be safely ignored on read side */
 			break;
-		case BIFF_MS_O_DRAWING_GROUP: /* FIXME: See: S59DA5.HTM */
-			if (gnumeric_debugging>0) {
-				printf ("FIXME: MS Drawing Group\n");
-				if (wb && wb->read_drawing_group==0) {
-					ms_escher_hack_get_drawing (q);
-					wb->read_drawing_group=1;
-				} else /* Why should this be ? don't ask me */
-					printf ("FIXME: bad docs\n");
-			}
-			break;
+
+
 		case BIFF_EXTERNSHEET: /* See: S59D82.HTM */
 			{
 				++externsheet;
@@ -2742,11 +2720,9 @@ ms_excel_read_workbook (MsOle *file)
 						/* printf ("SupBook : %d First sheet %d, Last sheet %d\n", BIFF_GET_GUINT16(q->data + 2 + cnt*6 + 0),
 						   BIFF_GET_GUINT16(q->data + 2 + cnt*6 + 2), BIFF_GET_GUINT16(q->data + 2 + cnt*6 + 4)); */
 					}
-#ifdef NO_DEBUG_EXCEL
 				}
-#else
-			
-				} else if (ms_excel_read_debug > 0) {
+#ifdef NO_DEBUG_EXCEL
+				else if (ms_excel_read_debug > 0) {
 					printf ("ExternSheet : only BIFF8 supported so far...\n");
 				}
 #endif
@@ -2906,7 +2882,7 @@ ms_excel_read_workbook (MsOle *file)
 
 
 #ifndef NO_DEBUG_EXCEL
-	if (ms_excel_read_debug > 0) {
+	if (ms_excel_read_debug > 1) {
 		printf ("finished read\n");
 	}
 #endif

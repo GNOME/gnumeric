@@ -10,6 +10,11 @@
 
 #include <ms-excel-read.h>
 
-extern void ms_excel_read_chart (ExcelWorkbook * wb, BiffQuery * q);
+/* Reads charts */
+extern void ms_excel_chart (BiffQuery *q, ExcelWorkbook *wb,
+			    BIFF_BOF_DATA *bof);
+
+/* A wrapper which reads and checks the BOF record then calls ms_excel_chart */
+extern void ms_excel_read_chart (BiffQuery *q, ExcelWorkbook *wb, int id);
 
 #endif /* GNUMERIC_MS_CHART_H */

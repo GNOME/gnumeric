@@ -1358,7 +1358,7 @@ ms_ole_destroy (MsOle *f)
 }
 
 void
-dump (guint8 *ptr, guint32 len)
+dump (guint8 const *ptr, guint32 len)
 {
 	guint32 lp,lp2;
 	guint32 off;

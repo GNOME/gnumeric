@@ -123,7 +123,7 @@ extern MsOleStream *ms_ole_stream_open (MsOleDirectory *d, char mode) ;
 extern MsOleStream *ms_ole_stream_copy (MsOleStream *);
 extern void ms_ole_stream_close  (MsOleStream *) ;
 
-extern void dump (guint8 *ptr, guint32 len) ;
+extern void dump (guint8 const *ptr, guint32 len) ;
 
 extern void ms_ole_debug (MsOle *, int magic);
 #endif

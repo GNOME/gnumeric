@@ -1,3 +1,28 @@
+1999-07-08  Jody Goldberg  <jgoldberg@home.com>
+
+	* libole2/ms-ole.[ch] (dump) : constify.
+
+	* ms-chart.[ch] : Prepare to handle Charts not associated with a sheet.
+	Add more record types, improve debug messages.  Begin connection
+	to 'escher' stuff for gelframes.  Stubs for real chart SERIES objects.
+	Support for Text Objects.
+
+	* ms-excel-read.c : Ditto.  Include cleanups.
+	Some debug level rationalization.
+	(ms_excel_externname) : Combine Biff7&8 use biff_get_text.
+
+	* ms-escher.[ch] : Start looking at this to parse the CHART_GELFRAME
+	  record.  Clear out the massive accumulation of includes.
+
+	* ms-excel-biff.h : Include cleanups.
+
+	* ms-obj.[ch] : Include cleanups.
+	    Versioned the object record parsing (Currently only Biff8).
+	    (ms_obj_read_biff8_obj) : New function with more error checking.
+	    (ms_obj_read_text_object) : New function to read text objects.
+
+	* ole.c : Print biff types in hex to match documentation.
+
 1999-07-09  Michael Meeks  <michael@edenproject.org>
 
 	* ms-excel-read.c: Major warning cleaning offensive.

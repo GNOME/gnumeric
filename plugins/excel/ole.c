@@ -622,9 +622,9 @@ struct _MsOleSummaryHeader {
 };
 
 struct _MsOleSummaryRecord {
-	MsOlePos  offset;
-	guint     type;
-	gchar    *txt;
+	MsOlePos	offset;
+	guint32		type;
+	gchar	*txt;
 };
 
 static gchar *sum_names[] = {
@@ -718,7 +718,7 @@ dump_summary (MsOleStream *s)
 		g_return_if_fail (s->read_copy (s, data, 8));
 		sr->offset = ((0x0b + 2) * 8) - HEADER_LEN + BIFF_GET_GUINT32 (data+4);
 		sr->type   = BIFF_GET_GUINT32(data);
-		printf ("Record type %d at offset 0x%x\n", sr->type, BIFF_GET_GUINT32(data+4));
+		printf ("Record type %x at offset 0x%x\n", sr->type, BIFF_GET_GUINT32(data+4));
 		g_ptr_array_add (sh->records, sr);
 	}
 
