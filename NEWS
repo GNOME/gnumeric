@@ -9,11 +9,9 @@ Almer:
 	* More work on group/ungroup.
 
 Andreas:
-	* Rewrite descriptive statistics, correlation and covariance 
-	  analysis improving error checks and labels for data sets. 
-	
+	* Rewrite descriptive statistics, correlation and covariance
+	  analysis improving error checks and labels for data sets.
 	* Remove duplicate calculation code in analysis tools.
-
 	* Fix sampling tool.
 
 Jody:
@@ -21,6 +19,8 @@ Jody:
 
 Morten:
 	* Fix MODE.
+	* Clean up LARGE, SMALL, QUARTILE, PERCENTILE.
+	* Give the range functions a home of their own.
 
 Frodo Looijaard:
 	* Add the psion support.
@@ -91,7 +91,7 @@ Zbigniew:
 	* Fix libml1 bug exposed by progress monitor.
 
 --------------------------------------------------------------------------
-Gnumeric 0.66 
+Gnumeric 0.66
 
 Almer:
 	* Some work on the SAX importer.
