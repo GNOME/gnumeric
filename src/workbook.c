@@ -658,7 +658,8 @@ filenames_dropped (GtkWidget * widget,
 /* File menu */
 
 static GnomeUIInfo workbook_menu_file [] = {
-        GNOMEUIINFO_MENU_NEW_ITEM(N_("_New"), new_cmd, NULL), 
+        GNOMEUIINFO_MENU_NEW_ITEM(N_("_New"), N_("Create a new spreadsheet"),
+				  new_cmd, NULL), 
 
 	GNOMEUIINFO_MENU_OPEN_ITEM(open_cmd, NULL), 
 
@@ -693,7 +694,7 @@ static GnomeUIInfo workbook_menu_edit [] = {
 	GNOMEUIINFO_MENU_COPY_ITEM(copy_cmd, NULL),
 	GNOMEUIINFO_MENU_PASTE_ITEM(paste_cmd, NULL),
 	{ GNOME_APP_UI_ITEM, N_("P_aste special..."), NULL, paste_special_cmd },
-	{ GNOME_APP_UI_SUBTREE, N_("C_lear"), NULL, workbook_menu_edit_clear },
+        { GNOME_APP_UI_SUBTREE, N_("C_lear"), NULL, workbook_menu_edit_clear },
 
 	GNOMEUIINFO_SEPARATOR,
 
