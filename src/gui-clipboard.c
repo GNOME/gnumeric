@@ -15,8 +15,10 @@
 #include "clipboard.h"
 #include "selection.h"
 #include "application.h"
+#include "io-context.h"
 #include "workbook-control-gui-priv.h"
 #include "workbook.h"
+#include "workbook-view.h"
 #include "ranges.h"
 #include "sheet.h"
 #include "sheet-style.h"
@@ -27,6 +29,7 @@
 #include "stf-parse.h"
 #include "mstyle.h"
 
+#include <gsf/gsf-input-memory.h>
 #include <libxml/globals.h>
 #include <locale.h>
 #include <string.h>
@@ -34,6 +37,9 @@
 /* The name of our clipboard atom and the 'magic' info number */
 #define GNUMERIC_ATOM_NAME "application/x-gnumeric"
 #define GNUMERIC_ATOM_INFO 2001
+
+#define HTML_ATOM_NAME "text/html"
+#define OOO_ATOM_NAME "application/x-openoffice;windows_formatname=\"Star Embed Source (XML)\""
 
 /* The name of the TARGETS atom (don't change unless you know what you are doing!) */
 #define TARGETS_ATOM_NAME "TARGETS"
@@ -125,6 +131,141 @@ x_clipboard_to_cell_region (WorkbookControlGUI *wbcg,
 }
 
 /**
+ * Use the file_opener plugin service to read into a temporary workbook, in
+ * order to copy from it to the paste target. A temporary sheet would do just
+ * as well, but the file_opener service makes workbooks, not sheets.
+ *
+ * We use the file_opener service by wrapping the selection data in a GsfInput,
+ * and calling wb_view_new_from_input.
+ **/
+CellRegion *
+table_cellregion_read (WorkbookControl *wbc, const char *reader_id,
+		       PasteTarget *pt, guchar *buffer, int length)
+{
+	WorkbookView *wb_view;
+	Workbook *wb;
+	GList *l = NULL;
+	CellRegion *ret = NULL;
+	const GnmFileOpener *reader = get_file_opener_by_id (reader_id);
+	IOContext *ioc;
+	GsfInput *input;
+
+	if (!reader) {
+		g_warning ("No file opener for %s", reader_id);
+		return NULL;
+	}
+
+	ioc = gnumeric_io_context_new (COMMAND_CONTEXT (wbc));
+	input = gsf_input_memory_new (buffer, length, FALSE);
+	wb_view = wb_view_new_from_input  (input, reader, ioc);
+	if (gnumeric_io_error_occurred (ioc) || wb_view == NULL) {
+		gnumeric_io_error_display (ioc);
+		goto out;
+	}
+	
+	wb = wb_view_workbook (wb_view);
+	l = workbook_sheets (wb);
+	if (l) {
+		Range r;
+		Sheet *tmpsheet = (Sheet *) l->data;
+
+		r.start.col = 0;
+		r.start.row = 0;
+		r.end.col = tmpsheet->cols.max_used;
+		r.end.row = tmpsheet->rows.max_used;
+		ret = clipboard_copy_range (tmpsheet, &r);
+	}
+out:
+	if (l)
+		g_list_free (l);
+ 	g_object_unref (wb_view);
+	g_object_unref (wb);
+	g_object_unref (G_OBJECT (ioc));
+	g_object_unref (G_OBJECT (input));
+	
+	return ret;
+}
+
+static void
+text_received (GtkClipboard *clipboard, const gchar *text, gpointer closure)
+{
+	WorkbookControlGUI *wbcg = closure;
+	WorkbookControl	   *wbc  = WORKBOOK_CONTROL (wbcg);
+	PasteTarget	   *pt   = wbcg->clipboard_paste_callback_data;
+	CellRegion *content = NULL;
+
+	if (text != NULL)
+		content = x_clipboard_to_cell_region (wbcg, text,
+						      strlen (text));
+	if (content != NULL) {
+		/*
+		 * if the conversion from the X selection -> a cellregion
+		 * was canceled this may have content sized -1,-1
+		 */
+		if (content->cols > 0 && content->rows > 0)
+			cmd_paste_copy (wbc, pt, content);
+
+		/* Release the resources we used */
+		cellregion_free (content);
+	}
+	
+	if (wbcg->clipboard_paste_callback_data != NULL) {
+		g_free (wbcg->clipboard_paste_callback_data);
+		wbcg->clipboard_paste_callback_data = NULL;
+	}
+}
+
+static void
+complex_content_received (GtkClipboard *clipboard,  GtkSelectionData *sel,
+			  gpointer closure)
+{
+	WorkbookControlGUI *wbcg = closure;
+	WorkbookControl	   *wbc  = WORKBOOK_CONTROL (wbcg);
+	PasteTarget	   *pt   = wbcg->clipboard_paste_callback_data;
+	CellRegion *content = NULL;
+
+	if (sel->target == gdk_atom_intern (GNUMERIC_ATOM_NAME, FALSE)) {
+		/* The data is the gnumeric specific XML interchange format */
+		content = xml_cellregion_read (wbc, pt->sheet,
+					       sel->data, sel->length);
+	} else {
+		char *reader_id = NULL;
+		
+		if (sel->target == gdk_atom_intern (OOO_ATOM_NAME, FALSE))
+			reader_id = "Gnumeric_OpenCalc:openoffice";
+		else if (sel->target == gdk_atom_intern (HTML_ATOM_NAME,
+							 FALSE))
+			reader_id = "Gnumeric_html:html";
+		if (reader_id)
+			content = table_cellregion_read (wbc, reader_id,
+							 pt, sel->data,
+							 sel->length);
+		/* Content is NULL if selection didn't contain a table. We
+		 * could make our parsers make a string in a cell for
+		 * this case. But the exporting application is probably
+		 * better than us at making a string representation. */
+	}
+	if (content == NULL)
+		gtk_clipboard_request_text (clipboard, text_received, wbcg);
+	else {
+		/*
+		 * if the conversion from the X selection -> a cellregion
+		 * was canceled this may have content sized -1,-1
+		 */
+		if (content->cols > 0 && content->rows > 0)
+			cmd_paste_copy (wbc, pt, content);
+
+		/* Release the resources we used */
+		cellregion_free (content);
+		
+		if (wbcg->clipboard_paste_callback_data != NULL) {
+			g_free (wbcg->clipboard_paste_callback_data);
+			wbcg->clipboard_paste_callback_data = NULL;
+		}
+	}
+}
+
+/**
  * x_clipboard_received:
  *
  * Invoked when the selection has been received by our application.
@@ -135,19 +276,14 @@ x_clipboard_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 		      gpointer closure)
 {
 	WorkbookControlGUI *wbcg = closure;
-	WorkbookControl	   *wbc  = WORKBOOK_CONTROL (wbcg);
-	PasteTarget	   *pt   = wbcg->clipboard_paste_callback_data;
-	CellRegion *content = NULL;
-	gboolean clear_content = FALSE;
 
 	/* The data is a list of atoms */
 	if (sel->target == gdk_atom_intern (TARGETS_ATOM_NAME, FALSE)) {
 		/* in order of preference */
 		static char const *formats [] = {
 			GNUMERIC_ATOM_NAME,
-			/* "text/html", */
-			"UTF8_STRING",
-			"COMPOUND_TEXT",
+			OOO_ATOM_NAME,
+			HTML_ATOM_NAME,
 			NULL
 		};
 
@@ -164,11 +300,6 @@ x_clipboard_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 			return;
 		}
 
-#if 0
-		for (j = 0; j < atom_count ; j++)
-			puts (gdk_atom_name (targets [j]));
-#endif
-
 		/* what do we like best */
 		for (i = 0 ; formats[i] != NULL ; i++) {
 			GdkAtom atom = gdk_atom_intern (formats[i], FALSE);
@@ -178,52 +309,18 @@ x_clipboard_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 				;
 			if (j < atom_count) {
 				gtk_clipboard_request_contents (clipboard, atom,
-					x_clipboard_received, wbcg);
+					complex_content_received, wbcg);
 				break;
 			}
 		}
-		/* If all else fails try STRING */
+		/* If nothing better is on offer, request text */
 		if (formats[i] == NULL)
-			gtk_clipboard_request_contents (clipboard, GDK_SELECTION_TYPE_STRING,
-				 x_clipboard_received, wbcg);
+			gtk_clipboard_request_text (clipboard,
+						    text_received, wbcg);
 
-		/* NOTE : We don't release the date resources
-		 * (wbcg->clipboard_paste_callback_data), the reason for
-		 * this is that we will actually call ourself again
-		 * (indirectly through the gtk_clipboard_request_contents
-		 * and that call _will_ free the data (and also needs it).
-		 * So we won't release anything.
+		/* NOTE : We don't release clipboard_paste_callback_data as
+		 * long as we're still trying new formats.
 		 */
-	} else if (sel->target == gdk_atom_intern (GNUMERIC_ATOM_NAME, FALSE)) {
-		/* The data is the gnumeric specific XML interchange format */
-		content = xml_cellregion_read (wbc, pt->sheet, sel->data, sel->length);
-#if 0
-	} else if (sel->target == atom_html) {
-		content = html_cellregion_read (wbc, pt->sheet, sel->data, sel->length);
-#endif
-	} else {  /* The data is probably in String format */
-		clear_content = TRUE;
-		/* Did X provide any selection? */
-		if (sel->length > 0)
-			content = x_clipboard_to_cell_region (wbcg, sel->data, sel->length);
-	}
-
-	if (content != NULL) {
-		/*
-		 * if the conversion from the X selection -> a cellregion
-		 * was canceled this may have content sized -1,-1
-		 */
-		if (content->cols > 0 && content->rows > 0)
-			cmd_paste_copy (wbc, pt, content);
-
-		/* Release the resources we used */
-		if (sel->length >= 0)
-			cellregion_free (content);
-	}
-
-	if (clear_content && wbcg->clipboard_paste_callback_data != NULL) {
-		g_free (wbcg->clipboard_paste_callback_data);
-		wbcg->clipboard_paste_callback_data = NULL;
 	}
 }
 

@@ -1,3 +1,16 @@
+2003-01-20  Jon K Hellan  <hellan@acm.org>
+
+	* src/gui-clipboard.c (table_cellregion_read): New function. Read
+	from selection, interpreting as table.
+	(text_received): New function. Receive text from
+	gtk_clipboard_receive_text.
+	(complex_content_received): New function. Receive non-textual
+	content from clipboard. Factored out of x_clipboard_received.
+	Fix leak of clipboard_paste_callback_data.
+	(x_clipboard_received): Accept html and OpenOffice archive
+	format. Factor out receipt of text and other formats to
+	text_received and complex_content_received. 
+
 2003-01-14  Jon K Hellan  <hellan@acm.org>
 
 	* src/io-context-gtk.[ch] (icg_set_transient_for): New
