@@ -1,11 +1,18 @@
-2000-12-19 Morten Welinder <terra@diku.dk>
+2000-12-19  Morten Welinder <terra@diku.dk>
+
+	* check-config-h.pl: Find only regular files.  Handle chomping
+ 	correctly.  Print error reason on failure.  Ever so slightly
+ 	improve style-keeping when editing.  Localise files to ensure they
+ 	are closed.
+
+2000-12-19  Morten Welinder <terra@diku.dk>
 
 	* check-config-h.pl: new script, stolen from Nautilus.
 
-2000-12-18 Morten Welinder <terra@diku.dk>
+2000-12-18  Morten Welinder <terra@diku.dk>
 
 	* release-do-CLog: handle file names with spaces, just in case.
 
-2000-12-18 Morten Welinder <terra@diku.dk>
+2000-12-18  Morten Welinder <terra@diku.dk>
 
 	* release-do-CLog: New script.
