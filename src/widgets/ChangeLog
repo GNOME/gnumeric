@@ -1,3 +1,10 @@
+2004-02-20  Morten Welinder  <terra@gnome.org>
+
+	* widget-format-selector.c (nfs_init): Connect to value_changed,
+	not changed, for the decimal count spin button.
+	(fillin_negative_samples): Don't clear the list story as that
+	messed up things if there is a pending click in it.
+
 2004-02-19  Morten Welinder  <terra@gnome.org>
 
 	* Makefile.am: Remove preview-file-selection.[ch]

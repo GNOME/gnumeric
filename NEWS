@@ -60,6 +60,8 @@ Morten:
 	* Eliminate use of GnomeEntry.
 	* Fit scale-fit problem.
 	* Fix FLOOR and CEILING error case.
+	* Fix problem with typing in the "decimals" spin button in the
+	  cell format dialog.
 
 --------------------------------------------------------------------------
 
