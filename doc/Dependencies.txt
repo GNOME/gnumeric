@@ -49,10 +49,10 @@ workbook's generation count. A cell will only be re-evaluated if its generation
 is not the current generation.
 
 
-2.     Cell Evaluation
+2.     Dependent Evaluation
 
-       The routine cell_eval will evaluate a cell and if its value changes
-it will queue cells that depend on it, these are obtained via
+       The routine dependent_eval will evaluate a dependent and if its value
+changes it will queue cells that depend on it, these are obtained via
 cell_get_dependencies, which looks up in the single_hash and tranverses the
 range_hash to obtain its result. Often cell recalculation happens through
 workbook_recalc which works through the workbook's eval_queue re-evaluating
