@@ -101,7 +101,8 @@ dialog_paste_special (void)
 	gtk_widget_show_all (hbox);
 
 	/* Run the dialog */
-	gnome_dialog_run_modal (GNOME_DIALOG (dialog));
+	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+	gnome_dialog_run (GNOME_DIALOG (dialog));
 
 	/* Fetch the results */
 

@@ -1,3 +1,9 @@
+1998-12-08  Jaka Mocnik  <jaka.mocnik@kiss.uni-lj.si>
+
+	* src/dialog-paste-special.c (dialog_paste_special): changed
+	gnome_dialog_run_modal() to gtk_window_set_modal() and
+	gnome_dialog_run().
+
 1998-12-06  Michael Meeks    <michael@imaginator.com>
 
 	* plugins/excel/ms-ole.c: Much trivial bug fixing, API fixups,
