@@ -42,7 +42,7 @@ display_recordset (Gda_Recordset* rs, Sheet* sheet, gint col, gint row)
 	gchar*  retval;
 	Gda_Field* field;
 
-	sheet = workbook_get_current_sheet(current_workbook);
+	sheet = current_workbook->current_sheet;
 	field = gda_recordset_field_idx(rs, 0);
 	retval = gda_field_name(field);
 

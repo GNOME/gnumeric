@@ -2853,16 +2853,16 @@ write_sheet_tail (BiffPut *bp, ExcelSheet *sheet)
 {
 	guint8 *data;
 	eBiff_version ver = sheet->wb->ver;
+	guint16 options = 0x2b6; /* Arabic ? */
+
+	if (sheet->gnum_sheet == sheet->wb->gnum_wb->current_sheet)
+	    options |= 0x400;
 
 	write_window1 (bp, ver);
+
 	/* See: S59E18.HTM */
 	if (ver <= eBiffV7) {
-		guint16 options = 0x2b6; /* Arabic ? */
 		data = ms_biff_put_len_next (bp, BIFF_WINDOW2, 10);
-
-		if (sheet->gnum_sheet ==
-		    workbook_get_current_sheet (sheet->wb->gnum_wb))
-			options |= 0x400;
 
 		MS_OLE_SET_GUINT16 (data +  0, options);
 		MS_OLE_SET_GUINT16 (data +  2, 0x0);
@@ -2870,12 +2870,7 @@ write_sheet_tail (BiffPut *bp, ExcelSheet *sheet)
 		MS_OLE_SET_GUINT16 (data +  8, 0x0);
 		ms_biff_put_commit (bp);
 	} else {
-		guint16 options = 0x2b6;
 		data = ms_biff_put_len_next (bp, BIFF_WINDOW2, 18);
-
-		if (sheet->gnum_sheet ==
-		    workbook_get_current_sheet (sheet->wb->gnum_wb))
-			options |= 0x400;
 
 		MS_OLE_SET_GUINT16 (data +  0, options);
 		MS_OLE_SET_GUINT16 (data +  2, 0x0);

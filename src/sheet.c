@@ -399,12 +399,7 @@ sheet_col_add (Sheet *sheet, ColRowInfo *cp)
 
 		for (l = sheet->sheet_views; l; l = l->next){
 			SheetView *sheet_view = l->data;
-			GtkAdjustment *ha = GTK_ADJUSTMENT (sheet_view->ha);
-
-			if (sheet->cols.max_used > ha->upper){
-				ha->upper = col;
-				gtk_adjustment_changed (ha);
-			}
+			sheet_view_scrollbar_config (sheet_view);
 		}
 	}
 }
@@ -429,12 +424,7 @@ sheet_row_add (Sheet *sheet, ColRowInfo *rp)
 
 		for (l = sheet->sheet_views; l; l = l->next){
 			SheetView *sheet_view = l->data;
-			GtkAdjustment *va = GTK_ADJUSTMENT (sheet_view->va);
-
-			if (sheet->rows.max_used > va->upper){
-				va->upper = row;
-				gtk_adjustment_changed (va);
-			}
+			sheet_view_scrollbar_config (sheet_view);
 		}
 	}
 }
@@ -2744,7 +2734,6 @@ sheet_cursor_move (Sheet *sheet, int col, int row,
 	for (l = sheet->sheet_views; l; l = l->next){
 		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
 
-		gnumeric_sheet_cursor_set (gsheet, col, row);
 		gnumeric_sheet_set_cursor_bounds (gsheet, col, row, col, row);
 	}
 	sheet_load_cell_val (sheet);
@@ -2775,7 +2764,6 @@ sheet_cursor_set (Sheet *sheet, int base_col, int base_row, int start_col, int s
 	for (l = sheet->sheet_views; l; l = l->next){
 		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
 
-		gnumeric_sheet_cursor_set (gsheet, base_col, base_row);
 		gnumeric_sheet_set_cursor_bounds (
 			gsheet,
 			start_col, start_row,

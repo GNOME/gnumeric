@@ -139,7 +139,7 @@ epsf_write_wb (Workbook *wb, const char *filename)
 	if (!fp)
 		return -1;
 
-	sheet = workbook_get_current_sheet (wb);
+	sheet = wb->current_sheet;
 	if (sheet) {
 		/* EPS does not allow more than one page, so we use
 		 * the current sheet as the one for the EPS..

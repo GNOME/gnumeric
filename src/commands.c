@@ -778,9 +778,16 @@ cmd_clear_selection (CommandContext *context, Sheet *sheet, int const clear_flag
 #define CMD_FORMAT_TYPE        (cmd_format_get_type ())
 #define CMD_FORMAT(o)          (GTK_CHECK_CAST ((o), CMD_FORMAT_TYPE, CmdFormat))
 
+struct StyleRange
+{
+	Range region;
+	GList *styles;
+};
+
 typedef struct
 {
 	GnumericCommand parent;
+	GList *contents;
 } CmdFormat;
 
 GNUMERIC_MAKE_COMMAND (CmdFormat, cmd_format);

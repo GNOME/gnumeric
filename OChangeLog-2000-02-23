@@ -1,3 +1,29 @@
+2000-01-27  Jody Goldberg <jgoldberg@home.com>
+
+	* *.c : convert to using Workbook::current_sheet rather than 
+	    workbook_get_current_sheet.
+
+	* src/workbook.c : Add a current_sheet member to Workbook.
+	Delete some old test code.
+	(do_focus_sheet) : Cancel inputs and update edit area with new cell.
+	(workbook_focus_current_sheet) : Update current_sheet.
+	(workbook_get_current_sheet) : Delete.
+
+	* src/sheet.c (sheet_cursor_{move, set}) : Delete call to
+	  gnumeric_sheet_cursor_set.
+
+	* src/sheet.c (sheet_{row,col}_add) : Use sheet_view_scrollbar_config.
+	  We should not be touching GUI directly.
+
+	* src/sheet-view.c (sheet_view_scrollbar_config) : Set the scrollbar's
+	  value as well as it max and page info.
+
+	* src/gnumeric-sheet.[ch] (gnumeric_sheet_cursor_set) : Delete.
+	  The scrollbars reflect the visible range, not the cursor cell.
+
+	* src/item-cursor.c (item_cursor_set_bounds_visibly) : Remove call to 
+	  gnumeric_sheet_cursor_set.
+
 2000-01-27  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/dialog-advanced-filter.c, src/func.h, src/workbook.c:
@@ -17,6 +43,14 @@
 	Still no changes to live documentation yet.
 
 2000-01-26  Jody Goldberg <jgoldberg@home.com>
+
+	* src/xml-io.c (xml_workbook_write) : Do not save the current
+	  edit-text.  We don't save the current cell or the current selection
+	  so restoring the text of the ex-cursor is quite confusing.
+	(xml_workbook_read) : Restore window size.
+	(gnumeric_xml_sheet_{read,write}) : Delete unused.
+	(xml_get_range) : Utility routine.
+	(xml_read_selection_info) : Utility routine to restore the selection.
 
 	* src/sheet.c (sheet_{insert,delete}_{cols,rows}) : Do the
 	  insert/delete even if it looks like there are no cells there.

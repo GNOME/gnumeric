@@ -273,6 +273,7 @@ sheet_view_scrollbar_config (SheetView const *sheet_view)
 			      sheet_view->sheet->rows.max_used),
 			 sheet->cursor_row);
 	va->page_size = last_row - gsheet->row.first;
+	va->value = gsheet->row.first;
 	va->step_increment = va->page_increment =
 	    va->page_size / 2;
 	
@@ -280,6 +281,7 @@ sheet_view_scrollbar_config (SheetView const *sheet_view)
 			      sheet_view->sheet->cols.max_used),
 			 sheet->cursor_col);
 	ha->page_size = last_col - gsheet->col.first;
+	ha->value = gsheet->col.first;
 	ha->step_increment = ha->page_increment =
 	    ha->page_size / 2;
 

@@ -80,46 +80,6 @@ gnumeric_sheet_get_cell_bounds (GnumericSheet *gsheet, int col, int row, int *x,
 }
 
 /*
- * gnumeric_sheet_cursor_set
- * @gsheet: The sheet
- * @col:    the column
- * @row:    the row
- *
- * This informs the GnumericSheet of the cursor position.  It is
- * used to sync the contents of the scrollbars with our position
- */
-void
-gnumeric_sheet_cursor_set (GnumericSheet *gsheet, int col, int row)
-{
-	GtkAdjustment *ha, *va;
-	SheetView *sheet_view;
-
-	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
-
-	sheet_view = gsheet->sheet_view;
-
-	if (sheet_view->ha){
-		ha = GTK_ADJUSTMENT (sheet_view->ha);
-		va = GTK_ADJUSTMENT (sheet_view->va);
-		ha->value = gsheet->col.first;
-		va->value = gsheet->row.first;
-
-#ifdef DEBUG_POSITIONS
-		{
-			char *top_str = g_strdup (cell_name (gsheet->col.first, gsheet->row.first));
-			char *lv_str = g_strdup (cell_name (gsheet->col.last_visible, gsheet->row.last_visible));
-			printf ("top=%s lv=%s\n", top_str, lv_str);
-			g_free (top_str);
-			g_free (lv_str);
-		}
-#endif
-
-		gtk_adjustment_value_changed (ha);
-		gtk_adjustment_value_changed (va);
-	}
-}
-
-/*
  * gnumeric_sheet_set_selection:
  * @gsheet:	The sheet name
  * @ss:		The selection

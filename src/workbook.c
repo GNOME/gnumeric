@@ -170,18 +170,14 @@ about_cmd (GtkWidget *widget, Workbook *wb)
 static void
 create_graphic_cmd (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet;
-
-	sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 	sheet_set_mode_type (sheet, SHEET_MODE_CREATE_GRAPHIC);
 }
 
 static void
 create_embedded_item_cmd (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet;
-
-	sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 	sheet_set_mode_type (sheet, SHEET_MODE_CREATE_CANVAS_ITEM);
 }
 #endif
@@ -190,18 +186,14 @@ create_embedded_item_cmd (GtkWidget *widget, Workbook *wb)
 static void
 create_button_cmd (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet;
-
-	sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 	sheet_set_mode_type (sheet, SHEET_MODE_CREATE_BUTTON);
 }
 
 static void
 create_checkbox_cmd (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet;
-
-	sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet wb->current_sheet;
 	sheet_set_mode_type (sheet, SHEET_MODE_CREATE_CHECKBOX);
 }
 #endif
@@ -209,36 +201,28 @@ create_checkbox_cmd (GtkWidget *widget, Workbook *wb)
 static void
 create_line_cmd (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet;
-
-	sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 	sheet_set_mode_type (sheet, SHEET_MODE_CREATE_LINE);
 }
 
 static void
 create_arrow_cmd (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet;
-
-	sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 	sheet_set_mode_type (sheet, SHEET_MODE_CREATE_ARROW);
 }
 
 static void
 create_rectangle_cmd (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet;
-
-	sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 	sheet_set_mode_type (sheet, SHEET_MODE_CREATE_BOX);
 }
 
 static void
 create_ellipse_cmd (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet;
-
-	sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 	sheet_set_mode_type (sheet, SHEET_MODE_CREATE_OVAL);
 }
 
@@ -434,7 +418,7 @@ cb_sheet_check_dirty (gpointer key, gpointer value, gpointer user_data)
 		const char *txt;
 		Cell       *cell;
 
-		if (sheet != workbook_get_current_sheet (sheet->workbook))
+		if (sheet != sheet->workbook->current_sheet)
 			return;
 
 		entry = GTK_ENTRY (sheet->workbook->ea_input);
@@ -641,18 +625,15 @@ redo_cmd (GtkWidget *widget, Workbook *wb)
 static void
 copy_cmd (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet;
-
-	sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 	sheet_selection_copy (workbook_command_context_gui (wb), sheet);
 }
 
 static void
 cut_cmd (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet;
+	Sheet *sheet = wb->current_sheet;
 
-	sheet = workbook_get_current_sheet (wb);
 	if (sheet->mode == SHEET_MODE_SHEET)
 		sheet_selection_cut (workbook_command_context_gui (wb), sheet);
 	else {
@@ -668,9 +649,8 @@ cut_cmd (GtkWidget *widget, Workbook *wb)
 static void
 paste_cmd (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet;
+	Sheet *sheet = wb->current_sheet;
 
-	sheet = workbook_get_current_sheet (wb);
 	sheet_selection_paste (workbook_command_context_gui (wb), sheet,
 			       sheet->cursor_col, sheet->cursor_row,
 			       PASTE_DEFAULT, GDK_CURRENT_TIME);
@@ -679,13 +659,12 @@ paste_cmd (GtkWidget *widget, Workbook *wb)
 static void
 paste_special_cmd (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet;
+	Sheet *sheet = wb->current_sheet;
 	int flags;
 
 	/* These menu items should be insensitive when there is nothing to paste */
 	g_return_if_fail (!application_clipboard_is_empty ());
 
-	sheet = workbook_get_current_sheet (wb);
 	flags = dialog_paste_special (wb);
 	if (flags != 0)
 		sheet_selection_paste (workbook_command_context_gui (wb), sheet,
@@ -697,7 +676,7 @@ paste_special_cmd (GtkWidget *widget, Workbook *wb)
 static void
 delete_cells_cmd (GtkWidget *widget, Workbook *wb)
 {
-	dialog_delete_cells (wb, workbook_get_current_sheet (wb));
+	dialog_delete_cells (wb, wb->current_sheet);
 }
 
 static void
@@ -706,14 +685,13 @@ sheet_action_delete_sheet (GtkWidget *ignored, Sheet *current_sheet);
 static void
 delete_sheet_cmd (GtkWidget *widget, Workbook *wb)
 {
-	sheet_action_delete_sheet (widget,
-				   workbook_get_current_sheet (wb));
+	sheet_action_delete_sheet (widget, wb->current_sheet);
 }
 
 static void
 select_all_cmd (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 
 	sheet_select_all (sheet);
 	sheet_redraw_all (sheet);
@@ -747,9 +725,7 @@ insert_sheet_cmd (GtkWidget *unused, Workbook *wb)
 static void
 insert_cells_cmd (GtkWidget *unused, Workbook *wb)
 {
-	Sheet *sheet;
-
-	sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 	dialog_insert_cells (wb, sheet);
 }
 
@@ -757,12 +733,11 @@ static void
 insert_cols_cmd (GtkWidget *unused, Workbook *wb)
 {
 	SheetSelection *ss;
-	Sheet *sheet;
 	int cols;
+	Sheet *sheet = wb->current_sheet;
 
 	/* TODO : No need to check simplicty.  XL applies for each
 	 * non-discrete selected region, (use selection_apply) */
-	sheet = workbook_get_current_sheet (wb);
 	if (!selection_is_simple (workbook_command_context_gui (wb), sheet, _("Insert cols")))
 		return;
 
@@ -782,12 +757,11 @@ static void
 insert_rows_cmd (GtkWidget *unused, Workbook *wb)
 {
 	SheetSelection *ss;
-	Sheet *sheet;
 	int rows;
+	Sheet *sheet = wb->current_sheet;
 
 	/* TODO : No need to check simplicty.  XL applies for each
 	 * non-discrete selected region, (use selection_apply) */
-	sheet = workbook_get_current_sheet (wb);
 	if (!selection_is_simple (workbook_command_context_gui (wb), sheet, _("Insert rows")))
 		return;
 
@@ -807,40 +781,38 @@ static void
 clear_all_cmd (GtkWidget *widget, Workbook *wb)
 {
 	cmd_clear_selection (workbook_command_context_gui (wb), 
-		   workbook_get_current_sheet (wb),
-		   CLEAR_VALUES | CLEAR_FORMATS | CLEAR_COMMENTS);
+			     wb->current_sheet,
+			     CLEAR_VALUES | CLEAR_FORMATS | CLEAR_COMMENTS);
 }
 
 static void
 clear_formats_cmd (GtkWidget *widget, Workbook *wb)
 {
 	cmd_clear_selection (workbook_command_context_gui (wb), 
-		   workbook_get_current_sheet (wb),
-		   CLEAR_FORMATS);
+			     wb->current_sheet,
+			     CLEAR_FORMATS);
 }
 
 static void
 clear_comments_cmd (GtkWidget *widget, Workbook *wb)
 {
 	cmd_clear_selection (workbook_command_context_gui (wb), 
-		   workbook_get_current_sheet (wb),
-		   CLEAR_COMMENTS);
+			     wb->current_sheet,
+			     CLEAR_COMMENTS);
 }
 
 static void
 clear_content_cmd (GtkWidget *widget, Workbook *wb)
 {
 	cmd_clear_selection (workbook_command_context_gui (wb), 
-		   workbook_get_current_sheet (wb),
-		   CLEAR_VALUES);
+			     wb->current_sheet,
+			     CLEAR_VALUES);
 }
 
 static void
 zoom_cmd (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet;
-
-	sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 	dialog_zoom (wb, sheet);
 }
 
@@ -857,35 +829,35 @@ cb_cell_rerender (gpointer cell, gpointer data)
 static void
 cb_sheet_pref_display_formulas (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 	sheet->display_formulas = !sheet->display_formulas;
 	g_list_foreach (wb->formula_cell_list, &cb_cell_rerender, NULL);
 }
 static void
 cb_sheet_pref_hide_zeros (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 	sheet->display_zero = ! sheet->display_zero;
 	sheet_redraw_all (sheet);
 }
 static void
 cb_sheet_pref_hide_grid_lines (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 	sheet->show_grid = !sheet->show_grid;
 	sheet_redraw_all (sheet);
 }
 static void
 cb_sheet_pref_hide_col_header (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 	sheet->show_col_header = ! sheet->show_col_header;
 	sheet_adjust_preferences (sheet);
 }
 static void
 cb_sheet_pref_hide_row_header (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 	sheet->show_row_header = ! sheet->show_row_header;
 	sheet_adjust_preferences (sheet);
 }
@@ -919,14 +891,14 @@ cb_wb_pref_hide_tabs (GtkWidget *widget, Workbook *wb)
 static void
 format_cells_cmd (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 	dialog_cell_format (wb, sheet);
 }
 
 static void
 sort_cells_cmd (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 	dialog_cell_sort (wb, sheet);
 }
 
@@ -939,7 +911,7 @@ recalc_cmd (GtkWidget *widget, Workbook *wb)
 static void
 insert_current_date_cmd (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 	cmd_set_date_time (workbook_command_context_gui (wb), TRUE,
 			   sheet, sheet->cursor_col, sheet->cursor_row);
 }
@@ -947,7 +919,7 @@ insert_current_date_cmd (GtkWidget *widget, Workbook *wb)
 static void
 insert_current_time_cmd (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 	cmd_set_date_time (workbook_command_context_gui (wb), TRUE,
 			   sheet, sheet->cursor_col, sheet->cursor_row);
 }
@@ -955,7 +927,7 @@ insert_current_time_cmd (GtkWidget *widget, Workbook *wb)
 static void
 workbook_edit_comment (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 	Cell *cell;
 
 	cell = sheet_cell_get (sheet, sheet->cursor_col, sheet->cursor_row);
@@ -971,54 +943,42 @@ workbook_edit_comment (GtkWidget *widget, Workbook *wb)
 static void
 goal_seek_cmd (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet;
-
-	sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 	dialog_goal_seek (wb, sheet);
 }
 
 static void
 solver_cmd (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet;
-
-	sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 	dialog_solver (wb, sheet);
 }
 
 static void
 data_analysis_cmd (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet;
-
-	sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 	dialog_data_analysis (wb, sheet);
 }
 
 static void
 print_setup_cmd (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet;
-
-	sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 	dialog_printer_setup (wb, sheet);
 }
 
 static void
 file_print_cmd (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet;
-
-	sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 	sheet_print (sheet, FALSE, PRINT_ACTIVE_SHEET);
 }
 
 static void
 file_print_preview_cmd (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet;
-
-	sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 	sheet_print (sheet, TRUE, PRINT_ACTIVE_SHEET);
 }
 
@@ -1026,7 +986,7 @@ file_print_preview_cmd (GtkWidget *widget, Workbook *wb)
 static void
 insert_object_cmd (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 	char *repoid;
 
 	repoid = gnome_bonobo_select_goad_id (_("Select an object"), NULL);
@@ -1370,7 +1330,26 @@ static GnomeUIInfo workbook_standard_toolbar [] = {
 static void
 do_focus_sheet (GtkNotebook *notebook, GtkNotebookPage *page, guint page_num, Workbook *wb)
 {
-	workbook_focus_current_sheet (wb);
+	/* Cache the current sheet BEFORE we switch*/
+	Sheet *sheet = wb->current_sheet;
+
+	/* FIXME : Cancel any pending editing if there was a previous sheet.
+	 * This needs to be fixed to handle selecting cells on a different sheet.
+	 * Currently that logic is too closely coupled to GnumericSheet to do that easily.
+	 *
+	 * NOTE : Excel ACCEPTS the input and cancels the sheet switch if the input fails.
+	 */
+	if (sheet != NULL)
+		sheet_cancel_pending_input (sheet);
+
+	/* Look up the sheet associated with the currently select
+	 * notebook tab */
+	sheet = workbook_focus_current_sheet (wb);
+
+	/* FIXME : For now we will set the edit area no matter what.
+	 * eventually we should hande cell selection across sheets.
+	 */
+	sheet_load_cell_val (sheet);
 }
 
 static void
@@ -1390,7 +1369,7 @@ workbook_setup_sheets (Workbook *wb)
 }
 
 Sheet *
-workbook_get_current_sheet (Workbook *wb)
+workbook_focus_current_sheet (Workbook *wb)
 {
 	GtkWidget *current_notebook;
 	Sheet *sheet;
@@ -1400,24 +1379,17 @@ workbook_get_current_sheet (Workbook *wb)
 	current_notebook = GTK_NOTEBOOK (wb->notebook)->cur_page->child;
 	sheet = gtk_object_get_data (GTK_OBJECT (current_notebook), "sheet");
 
-	if (sheet == NULL)
+	if (sheet != NULL) {
+		SheetView *sheet_view = SHEET_VIEW (sheet->sheet_views->data);
+
+		g_return_val_if_fail (sheet_view != NULL, NULL);
+
+		gtk_window_set_focus (GTK_WINDOW (wb->toplevel), sheet_view->sheet_view);
+
+		wb->current_sheet = sheet;
+	} else
 		g_warning ("There is no current sheet in this workbook");
 
-	return sheet;
-}
-
-Sheet *
-workbook_focus_current_sheet (Workbook *wb)
-{
-	SheetView *sheet_view;
-	Sheet *sheet;
-
-	g_return_val_if_fail (wb != NULL, NULL);
-
-	sheet = workbook_get_current_sheet (wb);
-	sheet_view = SHEET_VIEW (sheet->sheet_views->data);
-
-	gtk_window_set_focus (GTK_WINDOW (wb->toplevel), sheet_view->sheet_view);
 	return sheet;
 }
 
@@ -1458,7 +1430,7 @@ wb_edit_key_pressed (GtkEntry *entry, GdkEventKey *event, Workbook *wb)
 {
 	switch (event->keyval) {
 	case GDK_Escape:
-		sheet_cancel_pending_input (workbook_get_current_sheet (wb));
+		sheet_cancel_pending_input (wb->current_sheet);
 		workbook_focus_current_sheet (wb);
 		return TRUE;
 
@@ -1576,7 +1548,7 @@ workbook_parse_and_jump (Workbook *wb, const char *text)
 				 _("You should introduce a valid cell name"));
 		return FALSE;
 	} else {
-		Sheet *sheet = workbook_get_current_sheet (wb);
+		Sheet *sheet = wb->current_sheet;
 
 #if 0
 		/* This cannot happen anymore, see parse_cell_name.  */
@@ -1620,7 +1592,7 @@ workbook_set_region_status (Workbook *wb, const char *str)
 static void
 accept_input (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 	sheet_set_current_value (sheet);
 	workbook_focus_current_sheet (wb);
 }
@@ -1628,8 +1600,7 @@ accept_input (GtkWidget *widget, Workbook *wb)
 static void
 cancel_input (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet = workbook_get_current_sheet (wb);
-
+	Sheet *sheet = wb->current_sheet;
 	sheet_cancel_pending_input (sheet);
 	workbook_focus_current_sheet (wb);
 }
@@ -1668,7 +1639,7 @@ wizard_input (GtkWidget *widget, Workbook *wb)
 static void
 misc_output (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 	Range const * selection;
 
 	if (gnumeric_debugging > 3) {
@@ -1809,7 +1780,7 @@ static void
 change_auto_expr (GtkWidget *item, Workbook *wb)
 {
 	char *expr, *name;
-	Sheet *sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 
 	expr = gtk_object_get_data (GTK_OBJECT (item), "expr");
 	name = gtk_object_get_data (GTK_OBJECT (item), "name");
@@ -2058,6 +2029,7 @@ workbook_init (GtkObject *object)
 	wb->priv = g_new (WorkbookPrivate, 1);
 	
 	wb->sheets       = g_hash_table_new (gnumeric_strcase_hash, gnumeric_strcase_equal);
+	wb->current_sheet= NULL;
 	wb->names        = NULL;
 	wb->symbol_names = symbol_table_new ();
 	wb->max_iterations = 1;
@@ -2270,66 +2242,6 @@ workbook_new (void)
 	gtk_widget_show_all (wb->table);
 
 	return wb;
-}
-
-static void
-zoom_in (GtkButton *b, Sheet *sheet)
-{
-	double pix = sheet->last_zoom_factor_used;
-
-	if (pix < 10.0){
-		pix += 0.5;
-		sheet_set_zoom_factor (sheet, pix);
-	}
-}
-
-static void
-zoom_out (GtkButton *b, Sheet *sheet)
-{
-	double pix = sheet->last_zoom_factor_used;
-
-	if (pix > 1.0){
-		pix -= 0.5;
-		sheet_set_zoom_factor (sheet, pix);
-	}
-}
-
-static void
-zoom_change (GtkAdjustment *adj, Sheet *sheet)
-{
-	sheet_set_zoom_factor (sheet, adj->value);
-}
-
-static void
-buttons (Sheet *sheet, GtkTable *table)
-{
-	GtkWidget *b;
-
-	if (0){
-		b = gtk_button_new_with_label (_("Zoom out"));
-		GTK_WIDGET_UNSET_FLAGS (b, GTK_CAN_FOCUS);
-		gtk_table_attach (table, b,
-				  0, 1, 1, 2, 0, 0, 0, 0);
-		gtk_signal_connect (GTK_OBJECT (b), "clicked",
-				    GTK_SIGNAL_FUNC (zoom_out), sheet);
-
-		b = gtk_button_new_with_label (_("Zoom in"));
-		GTK_WIDGET_UNSET_FLAGS (b, GTK_CAN_FOCUS);
-		gtk_table_attach (table, b,
-				  1, 2, 1, 2, 0, 0, 0, 0);
-		gtk_signal_connect (GTK_OBJECT (b), "clicked",
-				    GTK_SIGNAL_FUNC (zoom_in), sheet);
-	} else {
-		static GtkAdjustment *adj;
-		GtkWidget *sc;
-
-		adj = GTK_ADJUSTMENT (gtk_adjustment_new (1.0, 0.5, 10.0, 0.1, 0.5, 0.5));
-		sc = gtk_hscrollbar_new (adj);
-		gtk_widget_show (sc);
-		gtk_table_attach (table, sc,
-				  0, 2, 1, 2, GTK_FILL|GTK_EXPAND, 0, 0, 0);
-		gtk_signal_connect (GTK_OBJECT (adj), "value_changed", zoom_change, sheet);
-	}
 }
 
 /**
@@ -2627,9 +2539,6 @@ workbook_attach_sheet (Workbook *wb, Sheet *sheet)
 	gtk_table_attach (
 		GTK_TABLE (t), GTK_WIDGET (sheet->sheet_views->data),
 		0, 3, 0, 1, GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 0, 0);
-
-	if (gnumeric_debugging)
-		buttons (sheet, GTK_TABLE (t));
 
 	gtk_widget_show_all (t);
 	gtk_object_set_data (GTK_OBJECT (t), "sheet", sheet);

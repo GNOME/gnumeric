@@ -87,6 +87,7 @@ struct _Workbook {
 	
 	/* The sheets */ 
 	GHashTable *sheets;	/* keeps a list of the Sheets on this workbook */
+	Sheet	   *current_sheet;
 
 	/* User defined names */
 	GList      *names;
@@ -150,7 +151,6 @@ void        workbook_attach_sheet        (Workbook *, Sheet *);
 gboolean    workbook_detach_sheet        (Workbook *, Sheet *, gboolean);
 Sheet      *workbook_focus_current_sheet (Workbook *wb);
 void        workbook_focus_sheet         (Sheet *sheet);
-Sheet      *workbook_get_current_sheet   (Workbook *wb);
 char       *workbook_sheet_get_free_name (Workbook *wb);
 void        workbook_auto_expr_label_set (Workbook *wb, const char *text);
 void        workbook_set_region_status   (Workbook *wb, const char *str);

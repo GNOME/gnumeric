@@ -25,6 +25,8 @@
 #include "print-info.h"
 #include "xml-io.h"
 #include "file.h"
+#include "workbook-view.h"
+#include "selection.h"
 
 /*
  * A parsing context.
@@ -120,6 +122,16 @@ xml_get_value_int (xmlNodePtr node, const char *name, int *val)
 		return 1;
 	}
 	return 0;
+}
+
+static gboolean
+xml_get_range (xmlNodePtr tree, Range *res)
+{
+	return 
+	    xml_get_value_int (tree, "startCol", &res->start.col) &&
+	    xml_get_value_int (tree, "startRow", &res->start.row) &&
+	    xml_get_value_int (tree, "endCol",   &res->end.col) &&
+	    xml_get_value_int (tree, "endRow",   &res->end.row);
 }
 
 #if 0
@@ -1266,10 +1278,7 @@ xml_write_style_region (parse_xml_context_t *ctxt, StyleRegion *region)
 	xmlNodePtr cur, child;
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "StyleRegion", NULL);
-	xml_set_value_int (cur, "startCol", region->range.start.col);
-	xml_set_value_int (cur, "startRow", region->range.start.row);
-	xml_set_value_int (cur, "endCol",   region->range.end.col);
-	xml_set_value_int (cur, "endRow",   region->range.end.row);
+	xml_get_range (cur, &region->range);
 
 	if (region->style != NULL) {
 		child = xml_write_style (ctxt, region->style);
@@ -1295,10 +1304,7 @@ xml_read_style_region (parse_xml_context_t *ctxt, xmlNodePtr tree)
 			 tree->name);
 		return;
 	}
-	xml_get_value_int (tree, "startCol", &range.start.col);
-	xml_get_value_int (tree, "startRow", &range.start.row);
-	xml_get_value_int (tree, "endCol",   &range.end.col);
-	xml_get_value_int (tree, "endRow",   &range.end.row);
+	xml_get_range (tree, &range);
 	child = tree->childs;
 
 	if (child)
@@ -1844,6 +1850,29 @@ xml_read_rows_info (parse_xml_context_t *ctxt, Sheet *sheet, xmlNodePtr tree)
 }
 
 static void
+xml_read_selection_info (parse_xml_context_t *ctxt, Sheet *sheet, xmlNodePtr tree)
+{
+	Range r;
+	int row, col;
+	xmlNodePtr sel, selections = xml_search_child (tree, "Selections");
+	if (selections == NULL)
+		return;
+
+	sheet_selection_reset_only (sheet);
+	for (sel = selections->childs; sel; sel = sel->next) {
+		if (xml_get_range (sel, &r))
+			sheet_selection_append_range (sheet,
+						      r.start.col, r.start.row,
+						      r.start.col, r.start.row,
+						      r.end.col, r.end.row);
+	}
+
+	if (xml_get_value_int (tree, "CursorCol", &col) &&
+	    xml_get_value_int (tree, "CursorRow", &row))
+		sheet_cursor_set (sheet, col, row, col, row, col, row);
+}
+
+static void
 xml_read_cell_styles (parse_xml_context_t *ctxt, xmlNodePtr tree)
 {
 	xmlNodePtr styles, child;
@@ -1927,6 +1956,7 @@ xml_sheet_read (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	xml_read_cell_styles (ctxt, tree);
 	xml_read_cols_info (ctxt, ret, tree);
 	xml_read_rows_info (ctxt, ret, tree);
+	xml_read_selection_info (ctxt, ret, tree);
 
 	child = xml_search_child (tree, "Names");
 	if (child)
@@ -2026,10 +2056,6 @@ xml_workbook_write (parse_xml_context_t *ctxt, Workbook *wb)
 	g_list_free (sheets0);
 
 	child = xmlNewDocNode (ctxt->doc, ctxt->ns, "UIData", NULL);
-	if (wb->ea_input &&
-	    gtk_entry_get_text (GTK_ENTRY (wb->ea_input)))
-		xml_set_value     (child, "EditText",
-				   gtk_entry_get_text (GTK_ENTRY (wb->ea_input)));
 	xml_set_value_int (child, "SelectedTab",
 			   gtk_notebook_get_current_page
 			   (GTK_NOTEBOOK (wb->notebook)));
@@ -2096,6 +2122,7 @@ xml_workbook_read (Workbook *wb, parse_xml_context_t *ctxt, xmlNodePtr tree)
 
 		xml_get_value_int (child, "Width", &width);
 		xml_get_value_int (child, "Height", &height);
+		workbook_view_set_size (wb, width, height);
 /*      gtk_widget_set_usize(wb->toplevel, width, height); */
 	}
 
@@ -2138,17 +2165,9 @@ xml_workbook_read (Workbook *wb, parse_xml_context_t *ctxt, xmlNodePtr tree)
 
 	child = xml_search_child (tree, "UIData");
 	if (child) {
-		int   tab;
-		char *txt;
-
-		tab = 0;
-		xml_get_value_int (child, "SelectedTab", &tab);
-		gtk_notebook_set_page (GTK_NOTEBOOK (wb->notebook), tab);
-
-		txt = xml_value_get (child, "EditText");
-		if (txt)
-			gtk_entry_set_text (GTK_ENTRY (wb->ea_input), txt);
-		g_free (txt);
+		int tmp = 0;
+		if (xml_get_value_int (child, "SelectedTab", &tmp))
+			gtk_notebook_set_page (GTK_NOTEBOOK (wb->notebook), tmp);
 	}
 
 	setlocale (LC_NUMERIC, oldlocale);
@@ -2211,90 +2230,6 @@ xml_probe (const char *filename)
 	}
 	xmlFreeDoc (res);
 	return TRUE;
-}
-
-/*
- * Open an XML file and read a Sheet
- * One parse the XML file, getting a tree, then analyze the tree to build
- * the actual in-memory structure.
- */
-Sheet *
-gnumeric_xml_read_sheet (const char *filename)
-{
-	Sheet *sheet;
-	xmlDocPtr res;
-	xmlNsPtr gmr;
-	parse_xml_context_t ctxt;
-
-	g_return_val_if_fail (filename != NULL, NULL);
-
-	/*
-	 * Load the file into an XML tree.
-	 */
-	res = xmlParseFile (filename);
-	if (res == NULL)
-		return NULL;
-	if (res->root == NULL){
-		fprintf (stderr, "gnumeric_xml_read_sheet %s: tree is empty\n", filename);
-		xmlFreeDoc (res);
-		return NULL;
-	}
-	/*
-	 * Do a bit of checking, get the namespaces, and check the top elem.
-	 */
-	gmr = xmlSearchNsByHref (res, res->root, "http://www.gnome.org/gnumeric/");
-	if (strcmp (res->root->name, "Sheet") || (gmr == NULL)){
-		fprintf (stderr, "gnumeric_xml_read_sheet %s: not a Sheet file\n",
-			 filename);
-		xmlFreeDoc (res);
-		return NULL;
-	}
-	ctxt.doc = res;
-	ctxt.ns = gmr;
-	sheet = xml_sheet_read (&ctxt, res->root);
-
-	xmlFreeDoc (res);
-
-	return sheet;
-}
-
-/*
- * Save a Sheet in an XML file
- * One build an in-memory XML tree and save it to a file.
- * returns 0 in case of success, -1 otherwise.
- */
-int
-gnumeric_xml_write_sheet (Sheet *sheet, const char *filename)
-{
-	parse_xml_context_t ctxt;
-	xmlDocPtr xml;
-	int ret;
-
-	g_return_val_if_fail (sheet != NULL, -1);
-	g_return_val_if_fail (IS_SHEET (sheet), -1);
-	g_return_val_if_fail (filename != NULL, -1);
-
-	/*
-	 * Create the tree
-	 */
-	xml = xmlNewDoc ("1.0");
-	if (xml == NULL){
-		return -1;
-	}
-	ctxt.doc = xml;
-	ctxt.ns = NULL;
-
-	xml->root = xml_sheet_write (&ctxt, sheet);
-
-	/*
-	 * Dump it.
-	 */
-	xmlSetDocCompressMode (xml, 9);
-	ret = xmlSaveFile (filename, xml);
-	xmlFreeDoc (xml);
-	if (ret < 0)
-		return -1;
-	return 0;
 }
 
 /*

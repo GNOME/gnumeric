@@ -40,7 +40,7 @@ set_selection_halign (Workbook *wb, StyleHAlignFlags align)
 	MStyle *mstyle;
 	Sheet  *sheet;
 
-	sheet = workbook_get_current_sheet (wb);
+	sheet = wb->current_sheet;
 	application_clipboard_unant ();
 
 	mstyle = mstyle_new ();
@@ -80,7 +80,7 @@ change_selection_font (Workbook *wb, int bold, int italic)
 	MStyle *mstyle;
 	Sheet  *sheet;
 
-	sheet = workbook_get_current_sheet (wb);
+	sheet = wb->current_sheet;
 	application_clipboard_unant ();
 
 	if (bold >= 0) {
@@ -117,7 +117,7 @@ change_font_in_selection_cmd (GtkMenuItem *item, Workbook *wb)
 
 	wb->priv->current_font_name = font_name;
 	
-	sheet = workbook_get_current_sheet (wb);
+	sheet = wb->current_sheet;
 
 	mstyle = mstyle_new ();
 	mstyle_set_font_name (mstyle, font_name);
@@ -127,7 +127,7 @@ change_font_in_selection_cmd (GtkMenuItem *item, Workbook *wb)
 static void
 change_font_size_in_selection_cmd (GtkEntry *entry, Workbook *wb)
 {
-	Sheet  *sheet = workbook_get_current_sheet (wb);
+	Sheet  *sheet = wb->current_sheet;
 	MStyle *mstyle;
 	double size;
 
@@ -165,7 +165,7 @@ do_sheet_selection_apply_style (Sheet *sheet, const char *format)
 static void
 workbook_cmd_format_as_money (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 	
 	do_sheet_selection_apply_style (sheet, _(money_format));
 }
@@ -173,7 +173,7 @@ workbook_cmd_format_as_money (GtkWidget *widget, Workbook *wb)
 static void
 workbook_cmd_format_as_percent (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 	
 	do_sheet_selection_apply_style (sheet, _(percent_format));
 }
@@ -227,7 +227,7 @@ modify_cell_region (Sheet *sheet,
 static void
 do_modify_format (Workbook *wb, format_modify_fn modify_fn)
 {
-	Sheet *sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 
 	selection_apply (sheet, modify_cell_region, FALSE, modify_fn);
 	sheet_set_dirty (sheet, TRUE);
@@ -297,7 +297,7 @@ static GnomeUIInfo workbook_format_toolbar [] = {
 static void
 fore_color_changed (ColorCombo *cc, GdkColor *color, int color_index, Workbook *wb)
 {
-	Sheet  *sheet  = workbook_get_current_sheet (wb);
+	Sheet  *sheet  = wb->current_sheet;
 	MStyle *mstyle = mstyle_new ();
 
 	mstyle_set_color (mstyle, MSTYLE_COLOR_FORE, 
@@ -309,7 +309,7 @@ fore_color_changed (ColorCombo *cc, GdkColor *color, int color_index, Workbook *
 static void
 back_color_changed (ColorCombo *cc, GdkColor *color, int color_index, Workbook *wb)
 {
-	Sheet  *sheet = workbook_get_current_sheet (wb);
+	Sheet  *sheet = wb->current_sheet;
 	MStyle *mstyle = mstyle_new ();
 
 	if (color_index >= 0) {

@@ -34,7 +34,7 @@ update_edit (state_t *state)
 	EvalPosition  ep;
 	char         *txt;
 	
-	sheet = workbook_get_current_sheet (state->wb);
+	sheet = state->wb->current_sheet;
 	g_return_if_fail (sheet != NULL);
 
 	eval_pos_init (&ep, sheet, 0, 0);

@@ -81,7 +81,7 @@ advanced_filter (Workbook *wb,
 	if (cols != criteria_col_e - criteria_col_b)
 	        return N_COLUMNS_ERROR;
 
-	sheet = workbook_get_current_sheet (wb);
+	sheet = wb->current_sheet;
 	criteria = parse_criteria_range (sheet, criteria_col_b,
 					 criteria_row_b, criteria_col_e,
 					 criteria_row_e, NULL);
@@ -218,7 +218,7 @@ dialog_advanced_filter (Workbook *wb)
 loop:	
 	v = gnumeric_dialog_run (wb, GNOME_DIALOG (dia));
 
-	sheet = workbook_get_current_sheet (wb);
+	sheet = wb->current_sheet;
 
 	if (v == 1) {
 	        /* Canceled */

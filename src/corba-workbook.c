@@ -99,7 +99,7 @@ static GNOME_Gnumeric_Sheet
 Workbook_sheet_current (PortableServer_Servant servant, CORBA_Environment * ev)
 {
         Workbook *wb = workbook_from_servant (servant);
-	Sheet *sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 
 	return corba_sheet (sheet, ev);
 }

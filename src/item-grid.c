@@ -1097,9 +1097,10 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 					row = MIN (gsheet->row.last_full , SHEET_MAX_ROWS-1);
 				gnumeric_sheet_set_top_row (gsheet, row);
 			}
-			return 1;
+			return TRUE;
+
 		default:
-			return 0;
+			return FALSE;
 		};
 		break;
 

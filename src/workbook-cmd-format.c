@@ -20,7 +20,7 @@
 void
 workbook_cmd_format_column_auto_fit (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 	GList *l;
 	int col;
 	
@@ -46,7 +46,7 @@ workbook_cmd_format_column_auto_fit (GtkWidget *widget, Workbook *wb)
 void
 workbook_cmd_format_column_width (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 	GList *l;
 	double value = 0.0;
 	int col;
@@ -105,7 +105,7 @@ workbook_cmd_format_column_width (GtkWidget *widget, Workbook *wb)
 void
 workbook_cmd_format_row_auto_fit (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 	GList *l;
 	int row;
 	
@@ -131,7 +131,7 @@ workbook_cmd_format_row_auto_fit (GtkWidget *widget, Workbook *wb)
 void
 workbook_cmd_format_row_height (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 	GList *l;
 	double value = 0.0;
 	
@@ -189,7 +189,7 @@ workbook_cmd_format_row_height (GtkWidget *widget, Workbook *wb)
 void
 workbook_cmd_format_sheet_change_name (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = wb->current_sheet;
 	char *new_name;
 	
 	new_name = dialog_get_sheet_name (wb, sheet->name);
@@ -205,7 +205,7 @@ void
 workbook_cmd_format_column_hide (GtkWidget *widget, Workbook *wb)
 {
 	cmd_hide_selection_rows_cols (workbook_command_context_gui (wb),
-				      workbook_get_current_sheet (wb),
+				      wb->current_sheet,
 				      TRUE, FALSE);
 }
 
@@ -213,7 +213,7 @@ void
 workbook_cmd_format_column_unhide (GtkWidget *widget, Workbook *wb)
 {
 	cmd_hide_selection_rows_cols (workbook_command_context_gui (wb),
-				      workbook_get_current_sheet (wb),
+				      wb->current_sheet,
 				      TRUE, TRUE);
 }
 
@@ -227,7 +227,7 @@ void
 workbook_cmd_format_row_hide (GtkWidget *widget, Workbook *wb)
 {
 	cmd_hide_selection_rows_cols (workbook_command_context_gui (wb),
-				      workbook_get_current_sheet (wb),
+				      wb->current_sheet,
 				      FALSE, FALSE);
 }
 
@@ -235,7 +235,7 @@ void
 workbook_cmd_format_row_unhide (GtkWidget *widget, Workbook *wb)
 {
 	cmd_hide_selection_rows_cols (workbook_command_context_gui (wb),
-				      workbook_get_current_sheet (wb),
+				      wb->current_sheet,
 				      FALSE, TRUE);
 }
 

@@ -51,8 +51,6 @@ GtkWidget *gnumeric_sheet_new            	 (SheetView *sheet, ItemBar *colbar, I
 void       gnumeric_sheet_set_selection  	 (GnumericSheet *gsheet, SheetSelection const *ss);
 void       gnumeric_sheet_set_top_row            (GnumericSheet *gsheet, int new_first_row);
 void       gnumeric_sheet_set_left_col           (GnumericSheet *gsheet, int new_first_col);
-void       gnumeric_sheet_cursor_set     	 (GnumericSheet *gsheet,
-					 	  int col, int row);
 void       gnumeric_sheet_move_cursor            (GnumericSheet *gsheet,
 						  int col, int row);
 int        gnumeric_sheet_can_move_cursor        (GnumericSheet *gsheet);

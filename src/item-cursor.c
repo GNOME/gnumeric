@@ -752,7 +752,6 @@ item_cursor_set_bounds_visibly (ItemCursor *item_cursor,
 	item_cursor_set_bounds (item_cursor, start_col, start_row, end_col, end_row);
 
 	gnumeric_sheet_make_cell_visible (gsheet, base_col, base_row, FALSE);
-	gnumeric_sheet_cursor_set (gsheet, base_col, base_row);
 	gnome_canvas_update_now (GNOME_CANVAS (gsheet));
 }
 
