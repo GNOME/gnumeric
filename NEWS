@@ -13,10 +13,11 @@ Chema:
 	* Massive bug hunting spree.
 
 Jody:
+	* Massive bug fixing spree.
 	* Fix popup context menus.
-	* Fix embeddable grid.
 	* 'General' number formats.
 	* Some initial work on an MVC split for workbooks.
+	* More work on double click fill support.
 
 Jon Kåre:
 	* When format toolbar is vertical, replace font and size
