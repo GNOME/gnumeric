@@ -1,3 +1,9 @@
+2000-10-04  Jon K Hellan  <hellan@acm.org>
+
+	* src/command-context-gui.c (ccg_set_progress): Fix spelling of
+	gnome_appbar_set_progress. The typo "progess" broke non-bonobo
+	build:
+
 2000-10-04  Michael Meeks  <michael@helixcode.com>
 
 	* src/gnumeric.xml: set bandnumbers to get order correct.

@@ -67,7 +67,7 @@ ccg_set_progress (CommandContext *context, gfloat f)
 	gtk_progress_bar_update (
 		GTK_PROGRESS_BAR (ccg->wb->priv->progress_bar), f);
 #else
-	gnome_appbar_set_progess (ccg->wb->priv->appbar, f);
+	gnome_appbar_set_progress (ccg->wb->priv->appbar, f);
 #endif
 }
 
