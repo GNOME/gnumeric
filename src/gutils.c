@@ -476,24 +476,20 @@ ldexpgnum (gnm_float x, int exp)
 gnm_float
 frexpgnum (gnm_float x, int *exp)
 {
-	static gboolean warned = FALSE;
-	double dbl_res;
-	gnm_float res;
+	gnm_float l2x;
 
-	if (!warned) {
-		warned = TRUE;
-		g_warning (_("This version of Gnumeric has been compiled with inadequate precision in frexpgnum."));
-	}
+	if (!finitegnum (x))
+		return x;
 
-	/* This might underflow or overflow in the cast.  */
-	dbl_res = frexp ((double)x, exp);
-	if (!finitegnum (x) || x == 0)
-		return dbl_res;
+	if (x == 0)
+		return *exp = 0;
+
+	l2x = loggnum (gnumabs (x)) / loggnum (2);
+	*exp = (int)floorgnum (l2x);
 
 	/*
 	 * Now correct the result and adjust things that might have gotten
-	 * off-by-one due to rounding.  This part has all the precision it
-	 * needs.
+	 * off-by-one due to rounding.
 	 */
 	res = x / gpow2 (*exp);
 	if (gnumabs (res) >= 1.0)

@@ -2,6 +2,7 @@
 
 	* src/gutils.c (erfgnum): Improve precision for small x.
 	(modfgnum): Fix precision for huge x.
+	(frexpgnum): Fix precision for huge x.
 
 	* src/mathfunc.c (pbeta): New implementation.
 	(lgamma1p, swap_log_tail, log1pmx): New function.
