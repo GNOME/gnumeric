@@ -138,7 +138,8 @@ gnumeric_syd (struct FunctionDefinition *i, Value *argv [], char **error_string)
 
 
 FunctionDefinition finance_functions [] = {
-	{ "effect", "ff",    "number1,number2",    &help_effect,   NULL, gnumeric_effect},
-	{ "sln", "fff", "cost,salvagevalue,life", &help_sln, NULL, gnumeric_sln},
-	{ "syd", "ffff", "cost,salvagevalue,life,period", &help_syd, NULL, gnumeric_syd}
+	{ "effect", "ff",    "number1,number2",    &help_effect,   NULL, gnumeric_effect },
+	{ "sln", "fff", "cost,salvagevalue,life", &help_sln, NULL, gnumeric_sln },
+	{ "syd", "ffff", "cost,salvagevalue,life,period", &help_syd, NULL, gnumeric_syd },
+	{ NULL, NULL },
 };
