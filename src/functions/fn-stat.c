@@ -137,7 +137,7 @@ gnumeric_varp (FunctionEvalInfo *ei, GList *expr_node_list)
 				     range_var_pop,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS,
-				     gnumeric_err_VALUE);
+				     gnumeric_err_DIV0);
 }
 
 /***************************************************************************/
@@ -170,7 +170,7 @@ gnumeric_var (FunctionEvalInfo *ei, GList *expr_node_list)
 				     range_var_est,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS,
-				     gnumeric_err_VALUE);
+				     gnumeric_err_DIV0);
 }
 
 /***************************************************************************/
@@ -931,12 +931,22 @@ static char *help_min = {
 	   "@SEEALSO=MAX,ABS")
 };
 
+static int
+range_min0 (const float_t *xs, int n, float_t *res)
+{
+	if (n == 0) {
+		*res = 0;
+		return 0;
+	} else
+		return range_min (xs, n, res);
+}
+
 Value *
 gnumeric_min (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
 				     ei,
-				     range_min,
+				     range_min0,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS,
 				     gnumeric_err_VALUE);
@@ -962,12 +972,22 @@ static char *help_max = {
 	   "@SEEALSO=MIN,ABS")
 };
 
+static int
+range_max0 (const float_t *xs, int n, float_t *res)
+{
+	if (n == 0) {
+		*res = 0;
+		return 0;
+	} else
+		return range_max (xs, n, res);
+}
+
 Value *
 gnumeric_max (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
 				     ei,
-				     range_max,
+				     range_max0,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS,
 				     gnumeric_err_VALUE);
@@ -2120,7 +2140,7 @@ gnumeric_avedev (FunctionEvalInfo *ei, GList *expr_node_list)
 				     range_avedev,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS,
-				     gnumeric_err_VALUE);
+				     gnumeric_err_NUM);
 }
 
 /***************************************************************************/
@@ -2335,7 +2355,7 @@ gnumeric_median (FunctionEvalInfo *ei, GList *expr_node_list)
 				     range_excel_median,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS,
-				     gnumeric_err_VALUE);
+				     gnumeric_err_NUM);
 }
 
 /***************************************************************************/

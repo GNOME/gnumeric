@@ -1117,8 +1117,10 @@ gnumeric_power (FunctionEvalInfo *ei, Value **argv)
 	if ((x > 0) || (x == 0 && y > 0) || (x < 0 && y == floor (y)))
 		return value_new_float (pow (x, y));
 
-	/* FIXME: What is supposed to happen for x=y=0?  */
-	return value_new_error (ei->pos, gnumeric_err_VALUE);
+	if (x == 0 && y != 0)
+		return value_new_error (ei->pos, gnumeric_err_DIV0);
+	else
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 }
 
 /***************************************************************************/
