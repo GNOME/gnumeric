@@ -1455,6 +1455,12 @@ cellrange_relocate (Value const *v, GnmExprRelocateInfo const *rinfo)
 	CellRef ref_b = v->v_range.cell.b;
 	int needs = 0;
 
+	/* FIXME : should not be necessary.  We need to audit the code to
+	 * define whether both refs need a sheet, or just ref_a for normal
+	 * non-3d references */
+	if (ref_b.sheet == NULL && ref_a.sheet != NULL)
+		ref_b.sheet = ref_a.sheet;
+
 	switch (cellref_relocate (&ref_a, rinfo)) {
 	case CELLREF_NO_RELOCATE :	break;
 	case CELLREF_RELOCATE_FROM_IN :  needs = 0x4;	break;
@@ -1475,10 +1481,11 @@ cellrange_relocate (Value const *v, GnmExprRelocateInfo const *rinfo)
 		Sheet const *sheet_a = ref_a.sheet;
 		Sheet const *sheet_b = ref_b.sheet;
 
-		if (sheet_a == NULL)
-			sheet_a = rinfo->pos.sheet;
-		if (sheet_b == NULL)
-			sheet_b = rinfo->pos.sheet;
+		if (sheet_a == NULL) {
+			g_return_val_if_fail (sheet_b == NULL, NULL);
+			sheet_a = sheet_b = rinfo->pos.sheet;
+		} else if (sheet_b == NULL)
+			sheet_b = sheet_a;
 
 		/* Dont allow creation of 3D references */
 		if (sheet_a == sheet_b) {

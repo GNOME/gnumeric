@@ -43,8 +43,12 @@ You need:                                Debian package name
 	NOTE : gnome-xml is also known as libxml
 
 Optionally:
+	python		>= 2.0
+	pygtk		>= 1.99.10
+
 	The GDA plugin, for accessing databases
-	gda		>= 0.10         libgda2-dev
+	gda		>= 0.90.0	libgda2-dev
+	libgnomedb	>= 0.90.2	libgda2-dev
 
 Currently disabled:
 	gb		== 0.0.17

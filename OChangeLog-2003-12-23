@@ -1,3 +1,15 @@
+2003-08-26  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : remove duplicate call to AM_PROG_LIBTOOL
+
+	* src/expr.c (cellrange_relocate) : don't confuse Sheet:NULL as a 3d
+	  reference.
+
+2003-08-25  Jody Goldberg <jody@gnome.org>
+
+	* schemas/gnumeric-general.schemas.in : Use 'Sans Regular' as the
+	  default default font, jsut Sans confuses gnome-print
+
 2003-08-26  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/gui-util.c (gnumeric_dialog_image_file_selection): deleted

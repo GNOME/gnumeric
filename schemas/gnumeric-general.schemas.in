@@ -74,7 +74,7 @@
         <owner>Gnumeric</owner>
         <type>string</type>
         <locale name="C">
-	<default>Sans</default>
+	<default>Sans Regular</default>
         <short>Default font name</short>
         <long>The default font name for new workbooks.</long>
         </locale>
