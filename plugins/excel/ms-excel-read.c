@@ -1195,7 +1195,6 @@ ms_excel_workbook_get_name (ExcelWorkbook const *ewb, int idx)
 	    (nexpr = g_ptr_array_index (a, idx)) == NULL) {
 		g_warning ("EXCEL: %x (of %x) UNKNOWN name\n", idx, a->len);
 		return expr_tree_new_constant (value_new_string ("Unknown name"));
-
 	}
 
 	return expr_tree_new_name (nexpr, NULL, NULL);
@@ -2710,8 +2709,10 @@ ms_excel_externname (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *esheet)
 			MS_OLE_GET_GUINT8 (q->data), NULL);
 	}
 
-	if (name != NULL)
+	if (name != NULL) {
+		nexpr = expr_name_new (name, FALSE);
 		g_free (name);
+	}
 	ms_excel_add_name (wb, nexpr);
 }
 

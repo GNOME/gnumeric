@@ -1,3 +1,8 @@
+2002-03-11  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (ms_excel_externname) : Store the name for use as a
+	  function.
+
 2002-03-10  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.1

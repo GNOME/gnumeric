@@ -589,11 +589,11 @@ make_function (ExprList **stack, int fn_idx, int numargs)
 		char const *f_name = NULL;
 
 		if (tmp != NULL) {
-		    if (tmp->any.oper == OPER_CONSTANT &&
-			tmp->constant.value->type == VALUE_STRING)
-			    f_name = tmp->constant.value->v_str.val->str;
-		    else if (tmp->any.oper == OPER_NAME)
-			    f_name = tmp->name.name->name->str;
+			if (tmp->any.oper == OPER_CONSTANT &&
+			    tmp->constant.value->type == VALUE_STRING)
+				f_name = tmp->constant.value->v_str.val->str;
+			else if (tmp->any.oper == OPER_NAME)
+				f_name = tmp->name.name->name->str;
 		}
 
 		if (f_name == NULL) {
