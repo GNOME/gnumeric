@@ -22,6 +22,7 @@
 #include "utils-dialog.h"
 #include "tools.h"
 #include "ranges.h"
+#include "selection.h"
 
 static int dialog_correlation_tool         (WorkbookControlGUI *wbcg, Sheet *sheet);
 static int dialog_covariance_tool          (WorkbookControlGUI *wbcg, Sheet *sheet);
@@ -46,7 +47,7 @@ static int dialog_anova_two_factor_with_r_tool    (WorkbookControlGUI *wbcg,
 
 
 static descriptive_stat_tool_t ds;
-static int                     label_row_flag, intercept_flag;
+static int                     label_row_flag, label_col_flag,  intercept_flag;
 
 typedef int (*tool_fun_ptr_t)(WorkbookControlGUI *wbcg, Sheet *sheet);
 
@@ -312,6 +313,12 @@ first_row_label_signal_fun ()
 }
 
 static void
+first_col_label_signal_fun ()
+{
+        label_col_flag = !label_col_flag;
+}
+
+static void
 force_intercept_zero_signal_fun ()
 {
 	intercept_flag = !intercept_flag;
@@ -331,6 +338,12 @@ static check_button_t desc_stat_buttons[] = {
 
 static check_button_t first_row_label_button[] = {
         { N_("Labels in First Row"), first_row_label_signal_fun, FALSE,
+	  "" },
+        { NULL, NULL }
+};
+
+static check_button_t first_col_label_button[] = {
+        { N_("Labels in First Column"), first_col_label_signal_fun, FALSE,
 	  "" },
         { NULL, NULL }
 };
@@ -913,7 +926,8 @@ dialog_descriptive_stat_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	static GtkWidget *range_entry, *output_range_entry;
 	static GtkWidget *check_buttons;
 	static GSList    *group_ops, *output_ops;
-	static int       labels = 0;
+	static int       row_labels = 0;
+	static int       col_labels = 0;
 
 	data_analysis_output_t  dao;
 
@@ -922,7 +936,8 @@ dialog_descriptive_stat_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	static Range range;
 	int   i=0;
 
-	label_row_flag = labels;
+	label_row_flag = col_labels;
+	label_col_flag = row_labels;
 
 	if (!dialog) {
 	        dialog = new_dialog(_("Descriptive Statistics"));
@@ -939,6 +954,7 @@ dialog_descriptive_stat_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 		group_ops = add_groupped_by(box);
 		add_check_buttons(box, first_row_label_button);
+		add_check_buttons(box, first_col_label_button);
 
 		check_buttons = gtk_vbox_new (FALSE, 0);
 		gtk_box_pack_start (GTK_BOX (GNOME_DIALOG
@@ -953,6 +969,11 @@ dialog_descriptive_stat_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 		output_range_entry = add_output_frame(box, &output_ops);
 
 		gtk_widget_show_all (GNOME_DIALOG (dialog)->vbox);
+	}
+	text = sheet_selection_to_string (sheet, FALSE);
+	if (text != NULL) {
+		gtk_entry_set_text(GTK_ENTRY (range_entry),text);
+		g_free(text);
 	}
         gtk_widget_grab_focus (range_entry);
 
@@ -991,12 +1012,17 @@ stat_dialog_loop:
 	text = gtk_entry_get_text (GTK_ENTRY (ds.entry[3]));
 	ds.k_smallest = atoi(text);
 
-	labels = label_row_flag;
-	if (labels)
+	col_labels = label_row_flag;
+	row_labels = label_col_flag;
+
+/* Note: we want to include the data labels but remove other labels */
+	if (col_labels && i)
 	        range.start.row++;
+	if (row_labels && !i)
+	        range.start.col++;
 
 	if (descriptive_stat_tool (WORKBOOK_CONTROL (wbcg), sheet,
-				   &range, !i, &ds, &dao))
+				   &range, !i,((col_labels && !i) || (row_labels && i)), &ds, &dao))
 	        goto stat_dialog_loop;
 
 	wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);

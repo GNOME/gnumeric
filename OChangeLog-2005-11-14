@@ -1,3 +1,34 @@
+2001-07-18   Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/analysis-tools.c (set_cell) : Catch NULL string pointer.
+	(get_data_grouped_by_cols) : new routine to read data from cell range.
+	(get_data_grouped_by_rows) : ditto
+	(get_text_col) : ditto
+	(get_text_row) : ditto
+	(kurt) : removed, use range_kurtosis_m3_est instead.
+	(skew) : removed, use range_skew_est instead.
+	(summary_statistics) : rewritten to use range_*, to use correct data
+	  labels and to check for errors.
+	(confidence_level) : ditto
+	(kth_largest) : ditto
+	(kth_smallest) : ditto
+	(range_min_k) : new function to find kth smallest number (rather than
+	  the code twice)
+	(descriptive_stat_tool) : rewritten to use correct data labels and to 
+	  use above modified functions.
+
+	* src/analysis-tools.h (range_min_k) : new prototype
+
+	* src/dialogs/dialog-analysis-tools.c : include selection.h
+	(dialog_descriptive_stat_tool) :  preload descriptive statistics input 
+	  range and add checkbox to specify row labels
+
+	* src/dialogs/tools.h (descriptive_stat_tool) : add labels_flag 
+
+2001-07-18  Jody Goldberg <jgoldberg@home.com>
+
+	* configure.in : AC_DEFINE ENABLE_EVOLUTION if it is available.
+
 2001-07-20  Lutz Müller  <urc8@rz.uni-karlsruhe.de>
 
 	* src/sheet-object-impl.h: Add the view as parameter to the virtual

@@ -11,6 +11,7 @@ int covariance_tool       (WorkbookControl *context, Sheet *current_sheet,
 			   data_analysis_output_t *dao);
 int descriptive_stat_tool (WorkbookControl *context, Sheet *current_sheet,
 			   Range *input_range, int columns_flag,
+			   int labels_flag,
 			   descriptive_stat_tool_t *ds,
 			   data_analysis_output_t *dao);
 int sampling_tool         (WorkbookControl *context, Sheet *sheet,

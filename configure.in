@@ -520,11 +520,14 @@ AC_ARG_WITH(evolution,
 		try_evolution=true
 	fi
 )
-if $try_evolution; then
+if $have_bonobo -a $try_evolution; then
 	path_to_composer_idl=`gnome-config --datadir`/idl/Evolution-Composer.idl
 	AC_CHECK_FILE($path_to_composer_idl, evolution=yes, evolution=no)
 fi
 AM_CONDITIONAL(ENABLE_EVOLUTION, test x"$evolution" = "xyes")
+if test x"$evolution" = "xyes" ; then
+    AC_DEFINE(ENABLE_EVOLUTION)
+fi
 
 dnl ******************************
 dnl Check for Applix SHELF

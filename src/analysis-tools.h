@@ -104,4 +104,5 @@ void set_cell_na     (data_analysis_output_t *dao,
 void prepare_output  (WorkbookControl *wbc,
 		      data_analysis_output_t *dao, const char *name);
 
+int range_min_k (const gnum_float *xs, int n, gnum_float *res, int k);
 #endif
