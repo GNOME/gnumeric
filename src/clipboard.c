@@ -47,7 +47,9 @@
  * @paste_flags: Bit mask that describes the paste options.
  */
 static void
-paste_cell_flags (Sheet *dest_sheet, int target_col, int target_row,
+paste_cell_flags (Sheet *dest_sheet,
+		  int target_col, int target_row,
+		  int col_offset, int row_offset,
 		  CellCopy *c_copy, int paste_flags)
 {
 	if ((paste_flags & (PASTE_FORMULAS | PASTE_VALUES))){
@@ -61,7 +63,8 @@ paste_cell_flags (Sheet *dest_sheet, int target_col, int target_row,
 
 			if (cell_has_expr (new_cell)) {
 				if (paste_flags & PASTE_FORMULAS) {
-					cell_relocate (new_cell, TRUE, FALSE);
+					cell_relocate (new_cell, col_offset, row_offset, TRUE);
+
 					/* FIXME : do this at a range level too */
 					sheet_cell_changed (new_cell);
 				} else
@@ -168,6 +171,12 @@ clipboard_paste_region (CommandContext *context,
 			int const left = repeat_horizontal * src_cols + pt->range.start.col;
 			int const top = repeat_vertical * src_rows + pt->range.start.row;
 			CellCopyList *l;
+			int col_offset = 0, row_offset = 0;
+
+			if (pt->paste_flags & PASTE_EXPR_RELOCATE) {
+				col_offset = left - content->base_col;
+				row_offset = top - content->base_row;
+			}
 
 			/* Move the styles on here so we get correct formats before recalc */
 			if (pt->paste_flags & PASTE_FORMATS) {
@@ -196,7 +205,9 @@ clipboard_paste_region (CommandContext *context,
 					target_row += c_copy->row_offset;
 				}
 
-				paste_cell_flags (pt->sheet, target_col, target_row,
+				paste_cell_flags (pt->sheet,
+						  target_col, target_row,
+						  col_offset, row_offset,
 						  c_copy, pt->paste_flags);
 			}
 		}
@@ -216,15 +227,10 @@ clipboard_paste_region (CommandContext *context,
 	return FALSE;
 }
 
-typedef struct {
-	int        base_col, base_row;
-	CellRegion *r;
-} append_cell_closure_t;
-
 static Value *
 clipboard_prepend_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {
-	append_cell_closure_t *c = user_data;
+	CellRegion *c = user_data;
 	CellCopy *copy;
 
 	copy = g_new (CellCopy, 1);
@@ -233,7 +239,7 @@ clipboard_prepend_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_d
 	copy->col_offset = col - c->base_col;
 	copy->row_offset = row - c->base_row;
 
-	c->r->list = g_list_prepend (c->r->list, copy);
+	c->list = g_list_prepend (c->list, copy);
 
 	return NULL;
 }
@@ -246,31 +252,31 @@ clipboard_prepend_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_d
 CellRegion *
 clipboard_copy_range (Sheet *sheet, Range const *r)
 {
-	append_cell_closure_t c;
+	CellRegion *c;
 
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (r->start.col <= r->end.col, NULL);
 	g_return_val_if_fail (r->start.row <= r->end.row, NULL);
 
-	c.r = g_new0 (CellRegion, 1);
+	c = g_new0 (CellRegion, 1);
 
-	c.base_col = r->start.col;
-	c.base_row = r->start.row;
-	c.r->cols = r->end.col - r->start.col + 1;
-	c.r->rows = r->end.row - r->start.row + 1;
+	c->base_col = r->start.col;
+	c->base_row = r->start.row;
+	c->cols = r->end.col - r->start.col + 1;
+	c->rows = r->end.row - r->start.row + 1;
 
 	sheet_cell_foreach_range ( sheet, TRUE,
 		r->start.col, r->start.row,
 		r->end.col, r->end.row,
-		clipboard_prepend_cell, &c);
+		clipboard_prepend_cell, c);
 
-	c.r->styles = sheet_get_styles_in_range (sheet, r);
+	c->styles = sheet_get_styles_in_range (sheet, r);
 
 	/* reverse the list so that upper left corner is first */
-	c.r->list = g_list_reverse (c.r->list);
+	c->list = g_list_reverse (c->list);
 
-	return c.r;
+	return c;
 }
 
 /**

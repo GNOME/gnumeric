@@ -1989,7 +1989,9 @@ sheet_cell_add_to_hash (Sheet *sheet, Cell *cell)
 	g_return_if_fail (cell->col_info->pos < SHEET_MAX_COLS);
 	g_return_if_fail (cell->row_info != NULL);
 	g_return_if_fail (cell->row_info->pos < SHEET_MAX_ROWS);
+	g_return_if_fail (!cell_is_linked (cell));
 
+	cell->cell_flags |= CELL_IN_SHEET_LIST;
 	cell->pos.col = cell->col_info->pos;
 	cell->pos.row = cell->row_info->pos;
 
@@ -2035,16 +2037,16 @@ sheet_cell_remove_from_hash (Sheet *sheet, Cell *cell)
 {
 	Cell  cellpos;
 
+	g_return_if_fail (cell_is_linked (cell));
+
 	cellpos.pos.col = cell->col_info->pos;
 	cellpos.pos.row = cell->row_info->pos;
 
 	cell_unregister_span   (cell);
 	cell_drop_dependencies (cell);
 
-	if (g_hash_table_lookup (sheet->cell_hash, &cellpos))
-		g_hash_table_remove (sheet->cell_hash, &cellpos);
-	else
-		g_warning ("Cell not in hash table |\n");
+	g_hash_table_remove (sheet->cell_hash, &cellpos);
+	cell->cell_flags &= ~CELL_IN_SHEET_LIST;
 }
 
 /**
@@ -2125,6 +2127,7 @@ sheet_cell_formula_link (Cell *cell)
 
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (cell_has_expr (cell));
+	g_return_if_fail (!cell_expr_is_linked (cell));
 
 	sheet = cell->sheet;
 
@@ -2139,6 +2142,7 @@ sheet_cell_formula_link (Cell *cell)
 	sheet->workbook->formula_cell_list =
 		g_list_prepend (sheet->workbook->formula_cell_list, cell);
 	cell_add_dependencies (cell);
+	cell->cell_flags |= CELL_IN_EXPR_LIST;
 }
 
 void
@@ -2148,10 +2152,12 @@ sheet_cell_formula_unlink (Cell *cell)
 
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (cell_has_expr (cell));
+	g_return_if_fail (cell_expr_is_linked (cell));
 
 	sheet = cell->sheet;
 	g_return_if_fail (sheet != NULL); /* Catch use of deleted cell */
 
+	cell->cell_flags &= ~CELL_IN_EXPR_LIST;
 	cell_drop_dependencies (cell);
 	sheet->workbook->formula_cell_list = g_list_remove (sheet->workbook->formula_cell_list, cell);
 
@@ -2183,6 +2189,7 @@ sheet_formulas_unlink (Sheet *sheet)
 		next = ptr->next;
 
 		if (cell->sheet == sheet) {
+			cell->cell_flags &= ~CELL_IN_EXPR_LIST;
 			queue = g_list_remove_link (queue, ptr);
 			g_list_free_1 (ptr);
 		}
@@ -2279,6 +2286,7 @@ cb_remove_allcells (gpointer key, gpointer value, gpointer flags)
 	Cell *cell = value;
 	cell_drop_dependencies (cell);
 
+	cell->cell_flags &= ~CELL_IN_SHEET_LIST;
 	cell->sheet = NULL;
 	cell_destroy (cell);
 	return TRUE;
@@ -2943,7 +2951,7 @@ colrow_move (Sheet *sheet,
 		cell = cells->data;
 
 		sheet_cell_add_to_hash (sheet, cell);
-		cell_relocate (cell, FALSE, TRUE);
+		cell_relocate (cell, 0, 0, FALSE);
 		cell_content_changed (cell);
 	}
 }
@@ -3374,7 +3382,7 @@ sheet_move_range (CommandContext *context,
 			sheet_cell_formula_link (cell);
 
 		/* Move comments */
-		cell_relocate (cell, FALSE, TRUE);
+		cell_relocate (cell, 0, 0, FALSE);
 		cell_content_changed (cell);
 	}
 

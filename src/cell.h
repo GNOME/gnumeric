@@ -54,8 +54,8 @@ Cell       *cell_copy                    (Cell const *cell);
 void        cell_destroy                 (Cell *cell);
 void        cell_content_changed         (Cell *cell);
 void        cell_relocate                (Cell *cell,
-					  gboolean check_bounds,
-					  gboolean unlink);
+					  int col_offset, int row_offset,
+					  gboolean check_bounds);
 
 /**
  * Cell state checking
@@ -68,6 +68,8 @@ ExprArray const * cell_is_array         (Cell const * cell);
 gboolean    cell_is_partial_array       (Cell const * cell);
 #define	    cell_needs_recalc(cell)	((cell)->cell_flags & CELL_QUEUED_FOR_RECALC)
 #define	    cell_has_expr(cell)		((cell)->cell_flags & CELL_HAS_EXPRESSION)
+#define	    cell_is_linked(cell)	((cell)->cell_flags & CELL_IN_SHEET_LIST)
+#define	    cell_expr_is_linked(cell)	((cell)->cell_flags & CELL_IN_EXPR_LIST)
 #define	    cell_has_comment(cell)	((cell)->comment != NULL)
 
 /**

@@ -5,10 +5,13 @@ and longer term bugs.
 Release Critical
 ----------------
 - Changing a name that is in use causes a crash.
+- The max row/col canvas scroll size is still hard coded.
+- Resize row/col undo is unfinished.
+- Saving xml should not rely on changing the textdomain to disable translation
+  of TRUE/FALSE.
 
 Long term breakage
 ------------------
-- The max row/col scroll size is still hard coded.
 
 - Sorting should move styles too (jpr is working on this)
 

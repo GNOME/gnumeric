@@ -1,3 +1,27 @@
+2000-06-04  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_cell_add_to_hash) : Set the CELL_IN_SHEET_LIST
+	  flag.
+	(sheet_cell_remove_from_hash) : Clear the CELL_IN_SHEET_LIST flag.
+	(cb_remove_allcells) : Ditto.
+	(sheet_cell_formula_link) : Set the CELL_IN_EXPR_LIST flag.
+	(sheet_cell_formula_unlink) : Clear the CELL_IN_EXPR_LIST flag.
+	(sheet_formulas_unlink) : Ditto.
+
+	* src/clipboard.c (paste_cell_flags) : Take some additional arguments
+	  so that pasted cells can potentially have their references made
+	  invariant, this is for sorting.
+	(clipboard_paste_region) : Pass the additional offsets when
+	  PASTE_EXPR_RELOCATE is specified.
+	(append_cell_closure_t) : Delete this type.  Move the origin cell info
+	  into CellRegion.
+
+	* src/cell.c (cell_copy) : Clear the sheet and associated flags for
+	  the copied cell.  This avoids accidentally realizing comments that
+	  become undeletable.
+	(cell_relocate) : Remove the unlink flag now that we have the
+	  additional cell_flags.
+
 2000-06-02  Michael Meeks  <michael@helixcode.com>
 
 	* Makefile.am (SUBDIRS): remove libole2. duh.

@@ -117,7 +117,9 @@ cell_copy (Cell const *cell)
 	/* bitmap copy first */
 	*new_cell = *cell;
 
-	new_cell->cell_flags &= ~CELL_QUEUED_FOR_RECALC;
+	/* The new cell is not linked into any of the major management structures */
+	new_cell->sheet = NULL;
+	new_cell->cell_flags &= ~(CELL_QUEUED_FOR_RECALC|CELL_IN_SHEET_LIST|CELL_IN_EXPR_LIST);
 
 	/* now copy properly the rest */
 	if (cell_has_expr (new_cell))
@@ -182,15 +184,13 @@ cell_content_changed (Cell *cell)
  * cell_relocate:
  * @cell	 : The cell that is changing position
  * @check_bounds : Should expressions be bounds checked.
- * @unlink	 : Does the cell need to be unlinked from the
- *                 expression list.
  *
  * This routine is used to move a cell to a different location:
  *
  * Auxiliary items canvas items attached to the cell are moved.
  */
 void
-cell_relocate (Cell *cell, gboolean check_bounds, gboolean unlink)
+cell_relocate (Cell *cell, int col_offset, int row_offset, gboolean check_bounds)
 {
 	g_return_if_fail (cell != NULL);
 
@@ -199,7 +199,7 @@ cell_relocate (Cell *cell, gboolean check_bounds, gboolean unlink)
 
 	/* 2. If the cell contains a formula, relocate the formula */
 	if (cell_has_expr (cell)) {
-		if (unlink)
+		if (cell_expr_is_linked (cell))
 			sheet_cell_formula_unlink (cell);
 
 		/*
