@@ -28377,24 +28377,20 @@ msgid "Edit the selected cell's comment"
 msgstr "セルの注釈を編集します"
 
 #: src/wbcg-actions.c:1603
-#, fuzzy
 msgid "_Find..."
-msgstr "幅(_W)..."
+msgstr "検索(_F)..."
 
 #: src/wbcg-actions.c:1604
-#, fuzzy
 msgid "Search for something"
-msgstr "幾つかの文を検索します"
+msgstr "何かを検索します"
 
 #: src/wbcg-actions.c:1606
-#, fuzzy
 msgid "R_eplace..."
-msgstr "修正文字(_P)"
+msgstr "置換(_E)..."
 
 #: src/wbcg-actions.c:1607
-#, fuzzy
 msgid "Search for some something and replace it with something else"
-msgstr "テキストの検索と何か別のものでそのテキストを置換します"
+msgstr "何かを検索してそれ以外の何かに置き換えます"
 
 #: src/wbcg-actions.c:1609
 msgid "_Goto cell..."
@@ -28438,23 +28434,20 @@ msgid "Zoom the spreadsheet in or out"
 msgstr "表の拡大/縮小を行います"
 
 #: src/wbcg-actions.c:1627
-#, fuzzy
 msgid "Zoom _In"
-msgstr "ズーム"
+msgstr "拡大(_I)"
 
 #: src/wbcg-actions.c:1628
-#, fuzzy
 msgid "Increase the zoom to make things larger"
-msgstr "小数点表示の桁を増やします"
+msgstr "拡大倍率を大きくして拡大表示します"
 
 #: src/wbcg-actions.c:1630
-#, fuzzy
 msgid "Zoom _Out"
-msgstr "ズーム"
+msgstr "縮小(_O)"
 
 #: src/wbcg-actions.c:1631
 msgid "Decrease the zoom to make things smaller"
-msgstr ""
+msgstr "拡大倍率を小さくして縮小表示します"
 
 #: src/wbcg-actions.c:1636
 msgid "Insert new cells"
