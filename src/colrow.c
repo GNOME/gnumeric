@@ -59,8 +59,8 @@ cb_row_col_visibility (Sheet *sheet,
 			res->index = i;
 			res->count = j - i;
 
-			printf ("%d %d\n", res->index, res->count);
 #if 0
+			printf ("%d %d\n", res->index, res->count);
 #endif
 			dat->elements = g_slist_prepend (dat->elements, res);
 			i = j;
