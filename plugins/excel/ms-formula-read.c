@@ -22,14 +22,6 @@
 
 #define NO_PRECEDENCE 256
 
-typedef struct _FORMULA_OP_DATA
-{
-	gboolean infix ; /* ie. not unary */
-	char *mid ;
-	int  precedence ;
-	Operation op;
-} FORMULA_OP_DATA ;
-
 typedef struct _FORMULA_FUNC_DATA
 {
 	char *prefix ;
@@ -41,28 +33,30 @@ typedef struct _FORMULA_FUNC_DATA
  * see S59E2B.HTM for formula_ptg values
  * formula PTG, prefix, middle, suffix, precedence
  **/
-FORMULA_OP_DATA formula_op_data[] = {
+
+typedef struct _FORMULA_OP_DATA
+{
+	Operation op;
+} FORMULA_OP_DATA ;
+
   /* Binary operator tokens */
-  { 1, "+",  30, OPER_ADD  }, /* ptgAdd : Addition */
-  { 1, "-",  30, OPER_SUB  }, /* ptgSub : Subtraction */
-  { 1, "*",  48, OPER_MULT }, /* ptgMul : Multiplication */
-  { 1, "/",  32, OPER_DIV }, /* ptgDiv : Division */
-  { 1, "^",  60, OPER_EXP }, /* ptgPower : Exponentiation */
-  { 1, "&",  28, OPER_CONCAT }, /* ptgConcat : Concatenation */
-  { 1, "<",  24, OPER_LT }, /* ptgLT : Less Than */
-  { 1, "<=", 24, OPER_LTE }, /* ptgLTE : Less Than or Equal */
-  { 1, "=",  20, OPER_EQUAL }, /* ptgEQ : Equal */
-  { 1, ">=", 24, OPER_GTE }, /* ptgGTE : Greater Than or Equal */
-  { 1, ">" , 24, OPER_GT }, /* ptgGT : Greater Than */
-  { 1, "<>", 20, OPER_NOT_EQUAL }, /* ptgNE : Not Equal */
-  { 1, "FIXME " , 62, OPER_ADD }, /* ptgIsect : Intersection */
-  { 1, "FIXME," , 62, OPER_ADD }, /* ptgUnion : Union */
-  { 1, "FIXME:" , 63, OPER_ADD }, /* ptgRange : Range */
-  /* Unary operator tokens */
-/* FIXME: These must be done some other way */
-/*  { 0, "+",  64 }, *//* ptgUplus : Unary Plus */
-/*  { 0, "-",  64 }, *//* ptgUminux : Unary Minus */
-/*  { 0, "%",  64 }  *//* ptgPercent : Percent Sign */
+FORMULA_OP_DATA formula_op_data[] = {
+	{ OPER_ADD  }, /* ptgAdd : Addition */
+	{ OPER_SUB  }, /* ptgSub : Subtraction */
+	{ OPER_MULT }, /* ptgMul : Multiplication */
+	{ OPER_DIV }, /* ptgDiv : Division */
+	{ OPER_EXP }, /* ptgPower : Exponentiation */
+	{ OPER_CONCAT }, /* ptgConcat : Concatenation */
+	{ OPER_LT }, /* ptgLT : Less Than */
+	{ OPER_LTE }, /* ptgLTE : Less Than or Equal */
+	{ OPER_EQUAL }, /* ptgEQ : Equal */
+	{ OPER_GTE }, /* ptgGTE : Greater Than or Equal */
+	{ OPER_GT }, /* ptgGT : Greater Than */
+	{ OPER_NOT_EQUAL }, /* ptgNE : Not Equal */
+/* FIXME: These need implementing ... */
+	{ OPER_ADD }, /* ptgIsect : Intersection */
+	{ OPER_ADD }, /* ptgUnion : Union */
+	{ OPER_ADD }, /* ptgRange : Range */
 } ;
 #define FORMULA_OP_DATA_LEN   (sizeof(formula_op_data)/sizeof(FORMULA_OP_DATA))
 #define FORMULA_OP_START      0x03
@@ -469,6 +463,17 @@ expr_tree_cellref (const CellRef *r)
 	ExprTree *e = expr_tree_new();
 	e->oper = OPER_VAR;
 	e->u.ref = *r;
+	return e;
+}
+
+static ExprTree *
+expr_tree_unary (Operation op, ExprTree *tr)
+{
+	ExprTree *e;
+	g_return_val_if_fail (op==OPER_NEG, tr);
+	e = expr_tree_new ();
+	e->oper = op;
+	e->u.value = tr;
 	return e;
 }
 
@@ -915,6 +920,12 @@ ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 			ptg_length = length; /* Force it to be the only token 4 ; */
 			break ;
 		}
+		case FORMULA_PTG_U_PLUS: /* Discard */
+			break;
+		case FORMULA_PTG_U_MINUS:
+			parse_list_push (&stack, expr_tree_unary (OPER_NEG,
+								  parse_list_pop (&stack)));
+			break;
 		case FORMULA_PTG_PAREN:
 /*	  printf ("Ignoring redundant parenthesis ptg\n") ; */
 			ptg_length = 0 ;

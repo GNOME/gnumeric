@@ -1,3 +1,15 @@
+1999-05-05  Michael Meeks  <michael@imaginator.com>
+
+	* ms-excel.c (ms_excel_read_cell): Updated debug.
+	(ms_excel_sheet_insert_val): Fixed prototype.
+
+	* ms-formula.c (expr_tree_unary): Added helper fn.
+	(ms_excel_parse_formula): Added +/- unary op. loading.
+	Remove redundant guff from formula_op_data.
+
+	* ms-formula.h: Removed FORMULA_ARRAY_DATA: redundant.
+	Added PTG_U_PLUS, PTG_U_MINUS.
+
 1999-05-04  Morten Welinder  <terra@diku.dk>
 
 	* ms-excel.c (ms_excel_workbook_new): Fix argument list.

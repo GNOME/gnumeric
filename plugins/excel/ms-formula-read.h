@@ -24,6 +24,8 @@ ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 #define FORMULA_PTG_MAX                0x7f
 
 #define FORMULA_PTG_EXP                0x01
+#define FORMULA_PTG_U_PLUS             0x12
+#define FORMULA_PTG_U_MINUS            0x13
 #define FORMULA_PTG_PAREN              0x15
 #define FORMULA_PTG_MISSARG            0x16
 #define FORMULA_PTG_STR                0x17
@@ -44,10 +46,5 @@ ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 #define FORMULA_PTG_NAME_X             0x39
 #define FORMULA_PTG_REF_3D             0x3a
 #define FORMULA_PTG_AREA_3D            0x3b
-
-typedef struct _FORMULA_ARRAY_DATA
-{
-  int src_col, src_row, dest_col, dest_row ;
-} FORMULA_ARRAY_DATA ;
 
 #endif

@@ -1713,7 +1713,9 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		ExprTree *tr;
 		if (q->length < 22 ||
 		    q->length < 22 + BIFF_GETWORD(q->data+20)) {
-			printf ("FIXME: serious formula error\n");
+			printf ("FIXME: serious formula error: "
+				"supposed length 0x%x, real len 0x%x\n",
+				BIFF_GETWORD(q->data+20), q->length);
 			break;
 		}
 		tr = ms_excel_parse_formula (sheet, (q->data + 22),
