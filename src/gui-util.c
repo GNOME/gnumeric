@@ -268,6 +268,8 @@ gnumeric_error_info_dialog_show (WorkbookControlGUI *wbcg, ErrorInfo *error)
 	view = GTK_TEXT_VIEW (gtk_text_view_new ());
 	gtk_text_view_set_wrap_mode (view, GTK_WRAP_WORD);
 	gtk_text_view_set_editable (view, FALSE);
+	gtk_text_view_set_cursor_visible (view, FALSE);
+
 	gtk_text_view_set_pixels_below_lines (view,
 					      gtk_text_view_get_pixels_inside_wrap (view) + 3);
 	text = gtk_text_view_get_buffer (view);

@@ -55,6 +55,7 @@ Long term breakage
     - Freeze panes.
     - Goal seek.
     - Tabulate.
+    - Sheet object configuration changes.
 
 - Misc.
     - Add an idle handler at start up to check for availablity of
