@@ -1,3 +1,7 @@
+2000-04-09  Morten Welinder  <terra@diku.dk>
+
+	* src/sheet-style.c (sheet_unique_cb): Plug leak.
+
 2000-04-09  Michael Meeks  <michael@helixcode.com>
 
 	* src/print.c (print_page_object): implement.
