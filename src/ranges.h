@@ -108,5 +108,6 @@ Value	    *global_range_list_foreach (GSList *gr_list, EvalPos const *ep,
 					gboolean	only_existing,
 					ForeachCellCB	handler,
 					gpointer	closure);
+gboolean    global_range_contained (Value *a, Value *b);
 
 #endif /* GNUMERIC_RANGES_H */

@@ -1,3 +1,8 @@
+2001-10-30  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/ranges.c/h (global_range_contained) : new routine testing whether 
+	  a range is contained in another, similar to range_contained.
+
 2001-10-30  Morten Welinder  <terra@diku.dk>
 
 	* src/validation.c: #include <config.h>

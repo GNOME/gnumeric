@@ -1,5 +1,9 @@
 Gnumeric 0.75
 
+Andreas:
+	* Rewrite solver dialog as guru (semi-modal using the 
+          expr-entry widget).
+
 Jukka:
 	* Documented the advanced filter.
 

@@ -1110,3 +1110,41 @@ global_range_list_foreach (GSList *gr_list, EvalPos const *ep,
 
 	return NULL;
 }
+
+
+/**
+ * global_range_contained:
+ * @a:
+ * @b:
+ *
+ * return true if a is containde in b
+ * we do not handle 3d ranges
+ *
+ **/
+gboolean  
+global_range_contained (Value *a, Value *b)
+{
+	if ((a->type != VALUE_CELLRANGE) || (b->type != VALUE_CELLRANGE)) 
+		return FALSE;
+
+	if (a->v_range.cell.a.sheet != a->v_range.cell.b.sheet)
+		return FALSE;
+
+	if ((a->v_range.cell.a.sheet != b->v_range.cell.a.sheet) 
+	    && (a->v_range.cell.a.sheet != b->v_range.cell.b.sheet))
+		return FALSE;
+	
+	if (a->v_range.cell.a.row < b->v_range.cell.a.row)
+		return FALSE;
+
+	if (a->v_range.cell.b.row > b->v_range.cell.b.row)
+		return FALSE;
+
+	if (a->v_range.cell.a.col < b->v_range.cell.a.col)
+		return FALSE;
+
+	if (a->v_range.cell.b.col > b->v_range.cell.b.col)
+		return FALSE;
+
+	return TRUE;
+}
