@@ -11,7 +11,10 @@ void sheet_object_widget_handle (SheetObject *so, GtkWidget *widget,
 SheetObject *sheet_widget_label_new		(Sheet *sheet);
 SheetObject *sheet_widget_frame_new		(Sheet *sheet);
 SheetObject *sheet_widget_button_new		(Sheet *sheet);
+
 SheetObject *sheet_widget_checkbox_new		(Sheet *sheet);
+void	     sheet_widget_checkbox_set_link	(SheetObject *so, ExprTree *expr);
+
 SheetObject *sheet_widget_radio_button_new	(Sheet *sheet);
 SheetObject *sheet_widget_list_new		(Sheet *sheet);
 SheetObject *sheet_widget_combo_new		(Sheet *sheet);

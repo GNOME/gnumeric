@@ -611,6 +611,8 @@ sheet_widget_checkbox_get_ref (SheetWidgetCheckbox const *swc, CellRef *res)
 	g_return_val_if_fail (!res->col_relative, FALSE);
 	g_return_val_if_fail (!res->row_relative, FALSE);
 
+	if (res->sheet == NULL)
+		res->sheet = sheet_object_get_sheet (SHEET_OBJECT (swc));
 	return TRUE;
 }
 
@@ -924,6 +926,14 @@ sheet_widget_checkbox_read_xml (SheetObject *so,
 	return FALSE;
 }
 		
+void
+sheet_widget_checkbox_set_link (SheetObject *so, ExprTree *expr)
+{
+	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
+	g_return_if_fail (swc != NULL);
+	dependent_set_expr (&swc->dep, expr);
+}
+
 SOW_MAKE_TYPE(checkbox, Checkbox,
 	      &sheet_widget_checkbox_user_config,
 	      &sheet_widget_checkbox_set_sheet,
