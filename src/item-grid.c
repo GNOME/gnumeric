@@ -422,9 +422,11 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 
 	switch (event->type){
 	case GDK_BUTTON_RELEASE:
-		item_grid->selecting = 0;
-		gnome_canvas_item_ungrab (item, event->button.time);
-		return 1;
+		if (event->button == 1){
+			item_grid->selecting = 0;
+			gnome_canvas_item_ungrab (item, event->button.time);
+			return 1;
+		}
 		
 	case GDK_MOTION_NOTIFY:
 		scroll_x = scroll_y = 0;
