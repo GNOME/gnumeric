@@ -1,5 +1,9 @@
 1999-07-13  Morten Welinder  <terra@diku.dk>
 
+	* src/style.c (font_init): Print informative message instead of
+ 	just aborting.
+	(style_shutdown): Remove old code.
+
 	* src/mathfunc.h: Work around Irix incompatibility.
 
 1999-07-13  Jukka-Pekka Iivonen  <iivonen@iki.fi>

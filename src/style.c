@@ -27,12 +27,6 @@ StyleFont *gnumeric_default_font;
 StyleFont *gnumeric_default_bold_font;
 StyleFont *gnumeric_default_italic_font;
 
-#if 0
-#warning "Temporary disabled"
-static StyleFont *standard_fonts[2][2];  /* [bold-p][italic-p] */
-static char *standard_font_names[2][2];  /* [bold-p][italic-p] */
-#endif
-
 StyleFormat *
 style_format_new (const char *name)
 {
@@ -656,53 +650,23 @@ font_init (void)
 {
 	gnumeric_default_font = style_font_new_simple (DEFAULT_FONT, DEFAULT_SIZE, 1.0, FALSE, FALSE);
 
-#warning "Some Morten code here looks useful, but needs to be redone for gnome-print"
-#if 0
-	for (boldp = 0; boldp <= 1; boldp++) {
-		for (italicp = 0; italicp <= 1; italicp++) {
-			char *name;
-			int size = DEFAULT_FONT_SIZE;
-
-			name = g_strdup (DEFAULT_FONT);
-
-			if (boldp) {
-				char *tmp;
-				tmp = font_get_bold_name (name, size);
-				g_free (name);
-				name = tmp;
-			}
-
-			if (italicp) {
-				char *tmp;
-				tmp = font_get_italic_name (name, size);
-				g_free (name);
-				name = tmp;
-			}
-
-			standard_fonts[boldp][italicp] =
-				style_font_new_simple (name, size);
-			if (!standard_fonts[boldp][italicp]) {
-				fprintf (stderr,
-					 "Gnumeric failed to find a suitable default font.\n"
-					 "Please file a proper bug report (see http://bugs.gnome.org)\n"
-					 "including the following extra items:\n"
-					 "\n"
-					 "1. Values of LC_ALL and LANG environment variables.\n"
-					 "2. A list of the fonts on your system (from the xlsfonts program).\n"
-					 "3. The values here: boldp=%d, italicp=%d\n"
-					 "\n"
-					 "Thanks -- the Gnumeric Team\n",
-					 boldp, italicp);
-				exit (1);
-			}
-
-			standard_font_names[boldp][italicp] = name;
-		}
+	if (!gnumeric_default_font) {
+		fprintf (stderr,
+			 "Gnumeric failed to find a suitable default font.\n"
+			 "\n"
+			 "Please verify your gnome-print installation and that your fontmap file\n"
+			 "(typically located in /usr/local/share/fonts/fontmap) is not empty or\n"
+			 "near empty.\n"
+			 "\n"
+			 "If you still have no luck, please file a proper bug report (see\n"
+			 "http://bugs.gnome.org) including the following extra items:\n"
+			 "\n"
+			 "1. Values of LC_ALL and LANG environment variables.\n"
+			 "2. Your fontmap file, see above.\n"
+			 "\n"
+			 "Thanks -- the Gnumeric Team\n");
+		exit (1);
 	}
-#endif
-	
-	if (!gnumeric_default_font)
-		g_error ("Could not load the default font");
 
 	/*
 	 * Load bold font
@@ -753,21 +717,6 @@ delete_neg_font (gpointer key, gpointer value, gpointer user_data)
 void
 style_shutdown (void)
 {
-#warning Temporary disabled
-#if 0
-	int boldp, italicp;
-
-	for (boldp = 0; boldp <= 1; boldp++) {
-		for (italicp = 0; italicp <= 1; italicp++) {
-			g_free (standard_font_names [boldp][italicp]);
-			standard_font_names [boldp][italicp] = NULL;
-
-			style_font_unref (standard_fonts [boldp][italicp]);
-			standard_fonts [boldp][italicp] = NULL;
-		}
-	}
-#endif
-	
 	style_font_unref (gnumeric_default_font);
 	gnumeric_default_font = NULL;
 	style_font_unref (gnumeric_default_bold_font);
