@@ -771,10 +771,10 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		gnumeric_sheet_stop_cell_selection (gsheet);
 		
 		/* Forward the keystroke to the input line */
-		gtk_widget_event (gsheet->entry, (GdkEvent *) event);
-		
+		return gtk_widget_event (gsheet->entry, (GdkEvent *) event);
 	}
-	return 1;
+
+	return TRUE;
 }
 
 static gint
@@ -813,7 +813,7 @@ gnumeric_sheet_key (GtkWidget *widget, GdkEventKey *event)
 		return gnumeric_sheet_key_mode_object (gsheet, event);
 
 	default:
-		return TRUE;
+		return FALSE;
 	}
 }
 

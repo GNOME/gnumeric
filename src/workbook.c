@@ -46,7 +46,7 @@ open_cmd (GtkWidget *widget, Workbook *wb)
 	char *fname = dialog_query_load_file (wb);
 	Workbook *new_wb;
 
-	if ((new_wb = workbook_read (fname)))
+	if (fname && (new_wb = workbook_read (fname)))
 		gtk_widget_show (new_wb->toplevel);
 }
 

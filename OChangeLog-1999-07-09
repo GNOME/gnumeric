@@ -1,3 +1,14 @@
+1999-01-09  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet): Return the
+	result of gtk_widget_event() if we get to the switch's default
+	case.
+	(gnumeric_sheet_key): Return FALSE in the default case, since we
+	did nothing there.
+
+	* src/workbook.c (open_cmd): If the file-open dialog was
+	cancelled, it will return NULL.  Take this into account.
+
 1999-01-08  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/workbook.c (workbook_setup_status_area): We do not use the
