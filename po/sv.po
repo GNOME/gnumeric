@@ -29,8 +29,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-07-21 08:41-0400\n"
-"PO-Revision-Date: 2002-07-20 21:27+0200\n"
+"POT-Creation-Date: 2002-07-21 18:56+0200\n"
+"PO-Revision-Date: 2002-07-21 18:57+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -8779,7 +8779,6 @@ msgstr ""
 "@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:428
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDRAYLEIGHTAIL\n"
 "@SYNTAX=RANDRAYLEIGHTAIL(a,sigma)\n"
@@ -8792,16 +8791,16 @@ msgid ""
 "\n"
 "@SEEALSO=RAND,RANDRAYLEIGH"
 msgstr ""
-"@FUNCTION=RANDLOGISTIC\n"
-"@SYNTAX=RANDLOGISTIC(a)\n"
-"@DESCRIPTION=RANDLOGISTIC returnerar ett logistikfördelat slumptal. "
-"Distributionsfunktionen är p(x) dx = { exp(-x/a) över ett (1 + exp(-x/a))² } "
-"dx för -oändl < x < +oändl.\n"
-"\n"
+"@FUNCTION=RANDRAYLEIGHTAIL\n"
+"@SYNTAX=RANDRAYLEIGHTAIL(a;sigma)\n"
+"@DESCRIPTION=RANDRAYLEIGHTAIL returnerar ett slumpvariat från svansen på "
+"Rayleigh-fördelningen med skalparametrar sigma och en undre gräns a. "
+"Fördelningen är p(x) dx = {x over sigma²} exp ((a² - x²) /(2 sigma²)) dx, "
+"för x > a. \n"
 "@EXAMPLES=\n"
-"RANDLOGISTIC(1).\n"
+"RANDRAYLEIGHTAIL(0,3;1).\n"
 "\n"
-"@SEEALSO=RAND"
+"@SEEALSO=RAND,RANDRAYLEIGH"
 
 #: plugins/fn-random/functions.c:455
 msgid ""
@@ -9074,6 +9073,17 @@ msgid ""
 "\n"
 "@SEEALSO=RAND"
 msgstr ""
+"@FUNCTION=RANDEXPPOW\n"
+"@SYNTAX=RANDEXPPOW(a;b)\n"
+"@DESCRIPTION=RANDEXPPOW returnerar ett slumpvariat för "
+"exponentialfördelningen med skalparametrar @a och exponenten @b. "
+"Fördelningen är p(x) dx = {1 över 2 a Gamma(1+1/b)} exp(-|x/a|^b) dx, för x "
+">= 0. För b = 1 reduceras detta till Laplace-fördelningen. För b = 2 har det "
+"samma form som en gaussfördelning, men med en sigma = sqrt{2}. \n"
+"@EXAMPLES=\n"
+"RANDEXPPOW(0,5;0,1).\n"
+"\n"
+"@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:816 plugins/fn-random/functions.c:836
 #: plugins/fn-random/functions.c:846 plugins/fn-stat/functions.c:4800
@@ -9144,9 +9154,8 @@ msgid "sigma"
 msgstr "sigma"
 
 #: plugins/fn-random/functions.c:862
-#, fuzzy
 msgid "a,sigma"
-msgstr "sigma"
+msgstr "a;sigma"
 
 #: plugins/fn-random/plugin.xml.in.h:1
 msgid "Functions for generating random numbers"
@@ -12658,11 +12667,10 @@ msgstr ""
 "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:233
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=The NT_MU function (Möbius mu function) returns \n"
+"@DESCRIPTION=The NT_MU function (Mbius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "-1 if @n has an odd  number of different prime factors .\n"
@@ -17437,9 +17445,8 @@ msgid "Exponential"
 msgstr "Exponentiell"
 
 #: src/dialogs/dialog-random-generator.c:126
-#, fuzzy
 msgid "Exponential Power"
-msgstr "Exponentiell"
+msgstr "Exponentialpotens"
 
 #: src/dialogs/dialog-random-generator.c:128
 msgid "F"
@@ -17527,9 +17534,8 @@ msgid "_Sigma:"
 msgstr "_Sigma:"
 
 #: src/dialogs/dialog-random-generator.c:153
-#, fuzzy
 msgid "Rayleigh Tail"
-msgstr "Rayleigh"
+msgstr "Rayleighsvans"
 
 #: src/dialogs/dialog-random-generator.c:155
 msgid "T"
@@ -23532,6 +23538,29 @@ msgstr "Är inte en Gnumeric-arbetsboksfil"
 #: src/xml-io.c:3441
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
+
+#~ msgid ""
+#~ "@FUNCTION=RANDRAYLEIGHTAIL\n"
+#~ "@SYNTAX=RANDRAYLEIGHTAIL(a,sigma)\n"
+#~ "@DESCRIPTION=RANDRAYLEIGHTAIL returns a random variate from the tail of "
+#~ "the Rayleigh distribution with scale parameter sigma and a lower limit of "
+#~ "a. The distribution is, p(x) dx = {x over sigma^2} exp ((a^2 - x^2) /(2 "
+#~ "sigma^2)) dx, for x > a. \n"
+#~ "@EXAMPLES=\n"
+#~ "RANDRAYLEIGHTAIL(0.3,1).\n"
+#~ "\n"
+#~ "@SEEALSO=RAND,RANDRAYLEIGH"
+#~ msgstr ""
+#~ "@FUNCTION=RANDRAYLEIGHTAIL\n"
+#~ "@SYNTAX=RANDRAYLEIGHTAIL(a;sigma)\n"
+#~ "@DESCRIPTION=RANDRAYLEIGHTAIL returnerar ett slumpvariat från svansen på "
+#~ "Rayleigh-fördelningen med skalparametrar sigma och en undre gräns a. "
+#~ "Fördelningen är p(x) dx = {x over sigma²} exp ((a² - x²) /(2 sigma²)) dx, "
+#~ "för x > a. \n"
+#~ "@EXAMPLES=\n"
+#~ "RANDRAYLEIGHTAIL(0,3;1).\n"
+#~ "\n"
+#~ "@SEEALSO=RAND,RANDRAYLEIGH"
 
 #~ msgid "Could not create the Fourier Analyis Tool dialog."
 #~ msgstr "Kunde inte skapa dialogen för fourieranalysverktyget."
