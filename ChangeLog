@@ -1,3 +1,8 @@
+2001-08-14  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-object.c (cell_offset_calc_pt) : Fixcut-n-paste-o to fix
+	  printing placement.
+
 2001-08-14  Lutz Müller <urc8@rz.uni-karlsruhe.de>
 
 	* src/sheet-object-cell-comment.c (cell_comment_print): Add a note that

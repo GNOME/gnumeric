@@ -579,8 +579,8 @@ cell_offset_calc_pt (Sheet const *sheet, int i, gboolean is_col,
 	ColRowInfo const *cri = sheet_colrow_get_info (sheet, i, is_col);
 	/* TODO : handle other anchor types */
 	if (anchor_type == SO_ANCHOR_PERCENTAGE_FROM_COLROW_END)
-		return (1. - offset) * cri->size_pixels;
-	return offset * cri->size_pixels;
+		return (1. - offset) * cri->size_pts;
+	return offset * cri->size_pts;
 }
 
 /**
