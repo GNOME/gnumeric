@@ -166,7 +166,7 @@ gnm_graph_vector_seq_scalar (GnmGraphVector *vector)
 			values->_buffer [i] = 0.;	/* TODO : handle blanks */
 			continue;
 		} else if (elem->type == VALUE_STRING) {
-			Value *tmp = format_match_number (elem->v_str.val->str, NULL, NULL);
+			Value *tmp = format_match_number (elem->v_str.val->str, NULL);
 			if (tmp != NULL) {
 				values->_buffer [i] = value_get_as_float (tmp);
 				value_release (tmp);
