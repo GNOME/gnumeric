@@ -1,3 +1,16 @@
+2000-09-11  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric.xml : Add the missing menu elements.
+
+	* src/workbook.c (verbs) : Add some of the missing elements.
+	(insert_object_cmd) : Suppress some warnings.
+
+	* src/sheet-object-container.c (sheet_object_container_new_file) :
+	  suppress warning.
+
+	* src/sheet-object-bonobo.c (sheet_object_bonobo_new_from_oid) :
+	  suppress warning.
+
 2000-09-11  Michael Meeks  <michael@helixcode.com>
 
 	* src/workbook-format-toolbar.c: s/BonoboApp/BonoboWin/

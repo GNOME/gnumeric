@@ -23,13 +23,10 @@ Release Critical
           is already on the page.
         : sheets in wrong order
 	: titles not clipped.
-- latex : multiline rows not handled properly.
-        : nor are spans
 
 Post 0.57 Changes
 -----------------
 - Model View Controller
-- Move the string -> parsing from parser to expr eval.
 - Fix Borders
 
 Long term breakage
@@ -73,6 +70,8 @@ Long term breakage
   We should probably create synchronously_walk_ranges.  (XL goes kaboom on
   large ranges also, but we ought to be smarter.)
 
+- latex : multiline rows not handled properly.
+        : nor are spans
 Dialogs
 -------
 - Use color combos in format dialog.
