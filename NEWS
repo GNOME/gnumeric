@@ -51,6 +51,9 @@ Jody:
 	* An initial implementation of bonobo-less File -> Send To
 	* Recalc fix for functions that did not use the collect utils
 
+John Gill:
+	* More More XLish heuristics for autofill range selection.
+
 Jon Kåre:
 	* Improve color combo.
 	* Fix keynav for various kinds of combos.

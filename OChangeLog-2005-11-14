@@ -1,3 +1,9 @@
+2003-07-06  Jody Goldberg <jody@gnome.org>
+
+	For John Gill <jng@renre.com>
+	* src/item-cursor.c (item_cursor_selection_event) : More XLish
+	  heuristics for autofill range selection when double clicking.
+
 2003-07-06  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/stf-parse.c (stf_parse_sheet): no col_import_array means 
