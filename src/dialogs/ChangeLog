@@ -1,5 +1,9 @@
 2004-04-01  Christian Neumair  <chris@gnome-de.org>
 
+	* Makefile.am: Revert accidential commit.
+
+2004-04-01  Christian Neumair  <chris@gnome-de.org>
+
 	* dialog-define-names.c: Slight widget naming cleanup.
 	* exp-smoothing.glade: Some initial HIGification.
 	* fill-series.glade: ditto.
