@@ -1,3 +1,8 @@
+2003-08-14  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-chart.c (role_plot_post_add) : don't set the axis twice
+	  for the first plot.  Add a post condition to keep us honest.
+
 2003-08-12  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-style.c (fill_image_init) : store the filename

@@ -84,15 +84,21 @@ static void
 role_plot_post_add (GogObject *parent, GogObject *plot)
 {
 	GogChart *chart = GOG_CHART (parent);
+	gboolean ok;
 
 	/* APPEND to keep order, there won't be that many */
 	chart->plots = g_slist_append (chart->plots, plot);
 	gog_chart_request_cardinality_update (chart);
 
 	if (chart->plots->next == NULL)
-		gog_chart_axis_set_assign (chart,
+		ok = gog_chart_axis_set_assign (chart,
 			gog_plot_axis_set_pref (GOG_PLOT (plot)));
-	gog_plot_axis_set_assign (GOG_PLOT (plot), chart->axis_set);
+	else
+		ok = gog_plot_axis_set_assign (GOG_PLOT (plot),
+			chart->axis_set);
+
+	/* a quick post condition to keep us on our toes */
+	g_return_if_fail (ok);
 }
 
 static void
