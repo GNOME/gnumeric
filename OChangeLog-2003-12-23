@@ -1,3 +1,10 @@
+2000-10-20  Jody Goldberg <jgoldberg@home.com>
+
+	* src/format.c (do_render_number) : Brown paper bag.  Bug 29068.
+	  I HATE global variables.
+	(fmt_general_float) : Rewrite to rationalize and catch some corner
+	  cases.
+
 2000-10-19  Michael Meeks  <michael@helixcode.com>
 
 	* configure.in (gnumeric_executable): check for (CVS) Bonobo 0.24

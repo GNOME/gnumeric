@@ -747,7 +747,7 @@ do_render_number (gdouble number, format_info_t *info)
 	 * decimal point
 	 */
 	if (number > 0.0 && number < 1.0 && info->right_allowed == 0 && info->right_optional > 0){
-		decimal_point [0] = lc->decimal_point [0];
+		decimal_point [0] = format_get_decimal ();
 		decimal_point [1] = 0;
 	} else
 		decimal_point [0] = 0;
@@ -1439,37 +1439,54 @@ check_valid (const StyleFormatEntry *entry, const Value *value)
 static char *
 fmt_general_float (float_t val, float col_width)
 {
-	double log_val;
-	int prec;
+	double tmp;
+	int log_val, prec;
+
+	if (col_width < 0.)
+		return g_strdup_printf ("%.*g", DBL_DIG, val);
 
 	if (val < 0.) {
 		/* leave space for minus sign */
+		/* FIXME : idealy we would use the width of a minus sign */
 		col_width -= 1.;
-		log_val = log10 (-val);
+		tmp = log10 (-val);
 	} else
-		log_val = (val > 0.) ? log10 (val) : 0.;
+		tmp = (val > 0.) ? log10 (val) : 0;
 
-	if (col_width >= 0.) {
-		prec = (int) floor (col_width - 1.);
+	/* leave space for the decimal */
+	/* FIXME : idealy we would use the width of a decimal point */
+	prec = (int) floor (col_width - 1.);
+	if (prec < 0)
+		prec = 0;
+
+	if (tmp > 0.) {
+		log_val = ceil (tmp);
+
+		/* Decrease precision to leave space for the E+00 */
+		if (log_val > prec)
+			for (prec -= 4; log_val >= 100 ; log_val /= 10)
+				prec--;
+	} else {
+		log_val = floor (tmp);
 
 		/* Display 0 for cols that are too narrow for scientific
-		 * notation with 1 > abs (value) >= 0 */
-		if (col_width < 4. && log_val < 0) {
-			int tmp = -floor (log_val);
-			if (tmp >= prec)
-				return g_strdup ("0");
-		}
-		if (prec > DBL_DIG)
-			prec = DBL_DIG;
-	} else
-		prec = DBL_DIG;
+		 * notation with abs (value) < 1 */
+		if (col_width < 5. && -log_val >= prec)
+			return g_strdup ("0");
 
-	/* Decrease the precision if we are going to use scientific notation
-	 * the E+00 take up space */
-	if (log_val > prec || log_val < -3.)
-		prec -= 4;
-	else if (log_val < 0.)
-		prec += (int)floor (log_val);
+		/* Include leading zeros eg 0.0x has 2 leading zero */
+		if (log_val >= -4)
+			prec += log_val;
+
+		/* Decrease precision to leave space for the E+00 */
+		else for (prec -= 4; log_val <= -100 ; log_val /= 10)
+			prec--;
+	}
+
+	if (prec < 1)
+		prec = 1;
+	else if (prec > DBL_DIG)
+		prec = DBL_DIG;
 
 	/* FIXME : glib bug.  it does not handle G, use g (fixed in 1.2.9) */
 	return g_strdup_printf ("%.*g", prec, val);
