@@ -746,7 +746,7 @@ gnumeric_harmean (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     GNM_ERROR_VALUE);
+				     GNM_ERROR_NUM);
 }
 
 /***************************************************************************/
@@ -777,7 +777,7 @@ gnumeric_geomean (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     GNM_ERROR_VALUE);
+				     GNM_ERROR_NUM);
 }
 
 /***************************************************************************/
