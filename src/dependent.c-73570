@@ -274,7 +274,7 @@ dependent_type_register (DependentClass const *klass)
 	g_ptr_array_add	(dep_classes, (gpointer)klass);
 	res = dep_classes->len-1;
 
-	g_return_val_if_fail (res > DEPENDENT_TYPE_MASK, res);
+	g_return_val_if_fail (res <= DEPENDENT_TYPE_MASK, res);
 
 	return res;
 }
