@@ -1,5 +1,10 @@
 2004-08-17  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
+	* graph/plugins/plot_barcol/gog-line.c (gog_line_view_render):
+	don't clip markers to plot area.
+
+2004-08-17  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
 	* graph/gog-axis.c (create_invalid_axis_ticks): new.
 	(map_[log,discrete,linear]_init): when axis is not valid, init data
 	for special invalid axis rendering.

@@ -258,7 +258,6 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 	double y_zero;
 	double abs_sum, sum, value;
 	gboolean is_null, is_area_plot;
-	double x_margin_min, x_margin_max, y_margin_min, y_margin_max, margin;
 
 	GogAxisMap *x_map, *y_map;
 
@@ -281,10 +280,6 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 	}
 	
 	y_zero = gog_axis_map_to_canvas (y_map, .0);
-	x_margin_min = view->allocation.x - margin;
-	x_margin_max = view->allocation.x + view->allocation.w + margin;
-	y_margin_min = view->allocation.y - margin;
-	y_margin_max = view->allocation.y + view->allocation.h + margin;
 
 	vals    = g_alloca (num_series * sizeof (double *));
 	error_data = g_alloca (num_series * sizeof (ErrorBarData *));
@@ -409,38 +404,24 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 		}
 	}
 
+	gog_renderer_clip_push (view->renderer, &view->allocation);
+
 	for (i = 0; i < num_series; i++) {
 
 		if (lengths[i] == 0)
 			continue;
 
 		gog_renderer_push_style (view->renderer, styles[i]);
-		margin = gog_renderer_line_size (view->renderer, 
-						 go_marker_get_size (styles[i]->marker.mark)) / 2.0;
-		x_margin_min = view->allocation.x - margin;
-		x_margin_max = view->allocation.x + view->allocation.w + margin;
-		y_margin_min = view->allocation.y - margin;
-		y_margin_max = view->allocation.y + view->allocation.h + margin;
 
 		path[i][0].x = path[i][1].x;
 		path[i][0].y = path[i][1].y;
 		path[i][0].code = ART_MOVETO;
 
 		if (!is_area_plot) {
-			double x, y;
-
 			path[i][lengths[i] +1].code = ART_END;
 
 			gog_renderer_draw_sharp_path (view->renderer,
 				path[i], NULL);
-			for (j = 1; j <= lengths[i]; j++) {
-				x = path[i][j].x;
-				y = path[i][j].y;
-				if (x_margin_min <= x && x <= x_margin_max &&
-				    y_margin_min <= y && y <= y_margin_max &&
-				    path[i][j].code != ART_MOVETO_OPEN)
-					gog_renderer_draw_marker (view->renderer, x, y);
-			}
 		} else {
 			switch (type) {
 				case GOG_1_5D_NORMAL :
@@ -469,11 +450,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 				break;
 			}
 			gog_renderer_draw_sharp_polygon (view->renderer,
-				path[i], FALSE,
-				/* FIXME FIXME FIXME :
-				 * clipping breaks badly here.
-				 * for positive areas the winding is backwards and things clip badly */
-				 NULL /* &view->allocation */);
+							 path[i], FALSE, NULL);
 		}
 
 		gog_renderer_pop_style (view->renderer);
@@ -487,6 +464,37 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 						      error_data[i][j].x, error_data[i][j].y,
 						      error_data[i][j].minus, error_data[i][j].plus, 
 						      FALSE);
+
+	gog_renderer_clip_pop (view->renderer);
+
+	/*Now draw markers*/
+	if (!is_area_plot) { 
+		double x, y;
+		double x_margin_min, x_margin_max, y_margin_min, y_margin_max, margin;
+
+		margin = gog_renderer_line_size (view->renderer, 1.0);
+		x_margin_min = view->allocation.x - margin;
+		x_margin_max = view->allocation.x + view->allocation.w + margin;
+		y_margin_min = view->allocation.y - margin;
+		y_margin_max = view->allocation.y + view->allocation.h + margin;
+
+		for (i = 0; i < num_series; i++) {
+			if (lengths[i] == 0)
+				continue;
+
+			gog_renderer_push_style (view->renderer, styles[i]);
+
+			for (j = 0; j < lengths[i]; j++) {
+				x = path[i][j].x;
+				y = path[i][j].y;
+				if (x_margin_min <= x && x <= x_margin_max &&
+				    y_margin_min <= y && y <= y_margin_max &&
+				    path[i][j].code != ART_MOVETO_OPEN)
+					gog_renderer_draw_marker (view->renderer, x, y);
+			}
+			gog_renderer_pop_style (view->renderer);
+		}
+	}
 
 	for (i = 0; i < num_series; i++) {
 		if (lengths[i] > 0)
@@ -515,7 +523,6 @@ gog_line_view_class_init (GogViewClass *view_klass)
 {
 	view_klass->render	  = gog_line_view_render;
 	view_klass->info_at_point = gog_line_view_info_at_point;
-	view_klass->clip	  = TRUE;
 }
 
 static GSF_CLASS (GogLineView, gog_line_view,

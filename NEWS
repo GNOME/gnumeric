@@ -17,7 +17,7 @@ Emmanuel Pacaud:
 	http://bugzilla.gnome.org/show_bug.cgi?id=144123
 	* Add labels to radar axis
 	http://bugzilla.gnome.org/show_bug.cgi?id=139397
-	* Don't clip markers in xy plots
+	* Don't clip markers to plot area
 	http://bugzilla.gnome.org/show_bug.cgi?id=142255
 
 Harald Ashburner:
