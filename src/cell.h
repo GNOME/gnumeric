@@ -5,15 +5,15 @@
 #include "dependent.h"
 
 typedef enum {
-	/* MUST BE > 0xFFFFFF for Dependent */
+	/* MUST BE > 0xFFFFFFF for Dependent */
 	/* Cell has an expression (Can we use base.expr == NULL ?)*/
-	CELL_HAS_EXPRESSION = 0x01000000,
+	CELL_HAS_EXPRESSION = 0x10000000,
 	/* Cell is linked into the sheet */
-	CELL_IN_SHEET_LIST  = 0x02000000,
+	CELL_IN_SHEET_LIST  = 0x20000000,
 	/* Is the top left corner of a merged region */
-	CELL_IS_MERGED	    = 0x04000000,
+	CELL_IS_MERGED	    = 0x40000000,
 	/* Cell content spans */
-	CELL_CONTENT_SPANS  = 0x08000000
+	CELL_CONTENT_SPANS  = 0x80000000
 } CellFlags;
 
 /* Definition of a Gnumeric Cell */
