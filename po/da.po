@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.40\n"
-"POT-Creation-Date: 2000-03-03 17:25+0100\n"
-"PO-Revision-Date: 2000-03-03 17:41+01:00\n"
+"POT-Creation-Date: 2000-03-14 00:02+0100\n"
+"PO-Revision-Date: 2000-03-14 01:30+01:00\n"
 "Last-Translator: Birger langkjer <birger.langkjer@image.dk>\n"
 "Language-Team: Dansk/Danish <sslug-locale@sslug.dk>\n"
 "MIME-Version: 1.0\n"
@@ -39,16 +39,16 @@ msgstr "Excel(R) 95-filformat"
 msgid "#UNKNOWN!"
 msgstr "#UKENDT!"
 
-#: plugins/excel/ms-excel-read.c:3432
+#: plugins/excel/ms-excel-read.c:3488
 msgid "No book or workbook streams found."
-msgstr ""
+msgstr "Ingen bøger eller arbejdsbogsstrømme fundet."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:3789
+#: plugins/excel/ms-excel-read.c:3845
 msgid "Password protected workbooks are not supported yet."
-msgstr ""
+msgstr "Adgangskodebeskyttede arbejdsbøger er endnu ikke understøttet."
 
-#: plugins/excel/ms-excel-read.c:3965
+#: plugins/excel/ms-excel-read.c:4021
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Kunne ikke finde gyldig MS Excel arbejdsbog"
 
@@ -111,43 +111,43 @@ msgstr "Kommasepareret værdiformat (*.csv)"
 msgid "Comma Separated Value (CSV) module"
 msgstr "Kommasepareret værdi (CSV) modul"
 
-#: plugins/html/boot.c:66
+#: plugins/html/boot.c:75
 msgid "HTML 3.2 file format (*.html)"
 msgstr "HTML 3.2 filformat (*.html)"
 
-#: plugins/html/boot.c:69
+#: plugins/html/boot.c:78
 msgid "HTML 4.0 file format (*.html)"
 msgstr "HTML 4.0 filformat (*.html)"
 
-#: plugins/html/boot.c:72
+#: plugins/html/boot.c:81
 msgid "HTML file made by gnumeric"
 msgstr "HTML-fil lavet af gnumeric"
 
-#: plugins/html/boot.c:76
+#: plugins/html/boot.c:85
 msgid "LaTeX file format (*.tex)"
 msgstr "LaTeX filformat (*.tex)"
 
-#: plugins/html/boot.c:79
+#: plugins/html/boot.c:88
 msgid "LaTeX2e file format (*.tex)"
 msgstr "LaTeX2e filformat (*.tex)"
 
-#: plugins/html/boot.c:82
+#: plugins/html/boot.c:91
 msgid "PS file format (via groff)"
 msgstr "PS filformat (via groff)"
 
-#: plugins/html/boot.c:85
+#: plugins/html/boot.c:94
 msgid "DVI TeX file format (via groff)"
 msgstr "DVI TeX filformat (via groff)"
 
-#: plugins/html/boot.c:88
+#: plugins/html/boot.c:97
 msgid "TROFF file format (*.me)"
 msgstr "TROFF filformat (*.me)"
 
-#: plugins/html/boot.c:91
+#: plugins/html/boot.c:100
 msgid "PDF file format (via groff/gs)"
 msgstr "PDF filformat (via groff/gs)"
 
-#: plugins/html/boot.c:94
+#: plugins/html/boot.c:104
 msgid "EPS file format (*.eps)"
 msgstr "EPS filformat (*.eps)"
 
@@ -159,19 +159,19 @@ msgstr "Lotus (*.wk1) filformat"
 msgid "GNU Oleo (*.oleo) file format"
 msgstr "GNU Oleo (*.oleo) filformat"
 
-#: plugins/python/python.c:46
+#: plugins/python/python.c:43
 msgid "Python exception"
 msgstr "Python-undtagelse"
 
-#: plugins/python/python.c:515
+#: plugins/python/python.c:565
 msgid "Unknown Python type"
 msgstr "Ukendt Pythontype"
 
-#: plugins/python/python.c:550
+#: plugins/python/python.c:604
 msgid "Unable to lookup Python code object."
 msgstr "Kan ikke slå Python-kodeobjekt op."
 
-#: plugins/python/python.c:683
+#: plugins/python/python.c:807
 msgid "object must be callable"
 msgstr "objekt skal være kaldbart"
 
@@ -329,7 +329,7 @@ msgid "Pending recomputation"
 msgstr "Venter på genomregning"
 
 #. Until the value is recomputed, we put in this value.
-#: src/cell.c:612
+#: src/cell.c:614
 msgid "Circular reference"
 msgstr "Cirkulær reference"
 
@@ -380,7 +380,7 @@ msgid "Deleting row %d"
 msgstr "Sletter række %d"
 
 #. TODO : Something more descriptive ? maybe the range name
-#: src/commands.c:785 src/workbook-format-toolbar.c:590
+#: src/commands.c:785 src/workbook-format-toolbar.c:642
 msgid "Clear"
 msgstr "Ryd"
 
@@ -1004,67 +1004,84 @@ msgstr ""
 msgid "Cell comment"
 msgstr "Cellekommentar"
 
-#: src/dialogs/dialog-cell-format.c:404
+#: src/dialogs/dialog-cell-format.c:406
 msgid ";[Red]"
 msgstr ";[Red]"
 
-#: src/dialogs/dialog-cell-format.c:406
+#: src/dialogs/dialog-cell-format.c:408
 msgid "_);("
 msgstr "_);("
 
-#: src/dialogs/dialog-cell-format.c:408
+#: src/dialogs/dialog-cell-format.c:410
 msgid "_);[Red]("
 msgstr "_);[Red]("
 
-#: src/dialogs/dialog-cell-format.c:1972
+#. There must be a better way than this
+#: src/dialogs/dialog-cell-format.c:1178 src/dialogs/dialog-cell-format.c:1245
+#, fuzzy
+msgid "Single"
+msgstr "Streng"
+
+#: src/dialogs/dialog-cell-format.c:1180 src/dialogs/dialog-cell-format.c:1246
+#, fuzzy
+msgid "Double"
+msgstr "Dobbel bund"
+
+#: src/dialogs/cell-format.glade.h:59 src/dialogs/cell-format.glade.h:70
+#: src/dialogs/cell-format.glade.h:77 src/dialogs/dialog-cell-format.c:1182
+#: src/dialogs/dialog-cell-format.c:1244 src/dialogs/dialog-paste-special.c:28
+msgid "None"
+msgstr "Ingen"
+
+#: src/dialogs/dialog-cell-format.c:2033
 msgid "Format Cells"
 msgstr "Formatér celler"
 
-#: src/dialogs/dialog-cell-sort.c:246
+#: src/dialogs/dialog-cell-sort.c:234
 msgid "Ascending"
 msgstr "Opstigende"
 
-#: src/dialogs/dialog-cell-sort.c:249
+#: src/dialogs/dialog-cell-sort.c:237
 msgid "Descending"
 msgstr "Nedstigende"
 
-#: src/dialogs/dialog-cell-sort.c:350
+#: src/dialogs/dialog-cell-sort.c:338
 msgid "Column must be within range"
 msgstr "Kolonne skal være indenfor omfang"
 
-#: src/dialogs/dialog-cell-sort.c:350
+#: src/dialogs/dialog-cell-sort.c:338
 msgid "Row must be within range"
 msgstr "Række skal være indenfor omfang"
 
-#: src/dialogs/dialog-cell-sort.c:357
+#: src/dialogs/dialog-cell-sort.c:345
 msgid "First column must be valid"
 msgstr "Første kolonne skal være gyldig"
 
-#: src/dialogs/dialog-cell-sort.c:358
+#: src/dialogs/dialog-cell-sort.c:346
 msgid "First row must be valid"
 msgstr "Første række skal være gyldig"
 
-#: src/dialogs/dialog-cell-sort.c:389
+#: src/dialogs/dialog-cell-sort.c:377
 msgid "At least one clause is required."
 msgstr "Mindst én klausul er nødvendig."
 
-#: src/dialogs/dialog-cell-sort.c:398
+#: src/dialogs/dialog-cell-sort.c:386
 msgid "Can't add more than the selection length."
 msgstr "Kan ikke tilføje flere end den valgte længde"
 
-#: src/dialogs/dialog-cell-sort.c:401
+#: src/dialogs/dialog-cell-sort.c:389
 msgid "Maximum number of clauses has been reached."
 msgstr "Maksimal antallet af klausuler er nået."
 
-#: src/dialogs/dialog-cell-sort.c:527
+#: src/dialogs/dialog-cell-sort.c:514 src/workbook-format-toolbar.c:96
 msgid "sort"
 msgstr "sortér"
 
-#: src/dialogs/dialog-cell-sort.c:594
+#: src/dialogs/dialog-cell-sort.c:581
 msgid "then by"
 msgstr "så efter"
 
-#: src/dialogs/cell-sort.glade.h:16 src/dialogs/dialog-cell-sort.c:595
+#: src/dialogs/cell-sort.glade.h:16 src/dialogs/dialog-cell-sort.c:582
 msgid "Sort by"
 msgstr "Sortér efter"
 
@@ -1072,43 +1089,39 @@ msgstr "Sortér efter"
 msgid "delete cells"
 msgstr "slet celler"
 
-#: src/dialogs/dialog-function-select.c:188
-msgid "Formula Selection"
-msgstr "Formelvælger"
-
-#: src/dialogs/dialog-function-wizard.c:202 src/functions/fn-string.c:1296
+#: src/dialogs/dialog-function-wizard.c:203 src/functions/fn-string.c:1296
 msgid "String"
 msgstr "Streng"
 
-#: src/dialogs/cell-format.glade.h:31 src/dialogs/dialog-function-wizard.c:205
+#: src/dialogs/cell-format.glade.h:31 src/dialogs/dialog-function-wizard.c:206
 msgid "Number"
 msgstr "Tal"
 
-#: src/dialogs/dialog-function-wizard.c:208
+#: src/dialogs/dialog-function-wizard.c:209
 msgid "Boolean"
 msgstr "Boolsk"
 
-#: src/dialogs/dialog-function-wizard.c:211
+#: src/dialogs/dialog-function-wizard.c:212
 msgid "Range"
 msgstr "Omfang"
 
-#: src/dialogs/dialog-function-wizard.c:214
+#: src/dialogs/dialog-function-wizard.c:215
 msgid "Array"
 msgstr "Matrise"
 
-#: src/dialogs/dialog-function-wizard.c:217
+#: src/dialogs/dialog-function-wizard.c:218
 msgid "Range/Array"
 msgstr "Omfang/Matrise"
 
-#: src/dialogs/dialog-function-wizard.c:220
+#: src/dialogs/dialog-function-wizard.c:221
 msgid "Any"
 msgstr "Enhver"
 
-#: src/dialogs/dialog-function-wizard.c:223
+#: src/dialogs/dialog-function-wizard.c:224
 msgid "Unknown"
 msgstr "Ukendt"
 
-#: src/dialogs/dialog-function-wizard.c:333
+#: src/dialogs/dialog-function-wizard.c:377
 msgid "Formula Wizard"
 msgstr "Formelhjælper"
 
@@ -1212,11 +1225,6 @@ msgstr "Værdier"
 msgid "Formats"
 msgstr "Formater"
 
-#: src/dialogs/cell-format.glade.h:59 src/dialogs/cell-format.glade.h:70
-#: src/dialogs/cell-format.glade.h:77 src/dialogs/dialog-paste-special.c:28
-msgid "None"
-msgstr "Ingen"
-
 #: src/dialogs/dialog-paste-special.c:29
 msgid "Add "
 msgstr "Addér "
@@ -1290,9 +1298,8 @@ msgid "="
 msgstr "="
 
 #: src/dialogs/dialog-solver.c:30
-#, fuzzy
 msgid "Int"
-msgstr "Tm"
+msgstr "Int"
 
 #: src/dialogs/dialog-solver.c:253 src/dialogs/dialog-solver.c:442
 msgid ""
@@ -1312,6 +1319,36 @@ msgstr "Du skal opgive et gyldig cellenavn for 'Målcelle'"
 msgid "You should introduce a valid cell names in 'By changing cells'"
 msgstr "Du skal opgive et gyldige cellenavn i 'Ved at ændre celler'"
 
+#: src/dialogs/dialog-plugin-manager.c:110
+#: src/dialogs/plugin-manager.glade.h:9
+msgid "File name:"
+msgstr "Filnavn:"
+
+#: src/dialogs/dialog-plugin-manager.c:112
+#, c-format
+msgid "File name: %s"
+msgstr "Filnavn: %s"
+
+#: src/dialogs/dialog-plugin-manager.c:117
+#: src/dialogs/plugin-manager.glade.h:10
+msgid "File size:"
+msgstr "Filstørrelse:"
+
+#: src/dialogs/dialog-plugin-manager.c:119
+#, c-format
+msgid "File size: %ld bytes"
+msgstr "Filstørrelse: %ld byte"
+
+#: src/dialogs/dialog-plugin-manager.c:124
+#: src/dialogs/plugin-manager.glade.h:11
+msgid "Compiled on:"
+msgstr "Kompileret på:"
+
+#: src/dialogs/dialog-plugin-manager.c:126
+#, c-format
+msgid "Compiled on: %s"
+msgstr "Kompileret på: %s"
+
 #.
 #. * Translatable strings file generated by Glade.
 #. * Add this file to your project's POTFILES.in.
@@ -1326,39 +1363,32 @@ msgid "Action"
 msgstr "Handling"
 
 #: src/dialogs/advanced-filter.glade.h:9
-#, fuzzy
 msgid "_Filter in-place"
-msgstr "Filter på plads"
+msgstr "_Filter på plads"
 
 #: src/dialogs/advanced-filter.glade.h:10
-#, fuzzy
 msgid "_Copy to a new location"
-msgstr "Kopiér til ny placering"
+msgstr "_Kopiér til ny placering"
 
 #: src/dialogs/advanced-filter.glade.h:11
-#, fuzzy
 msgid "Copy to a new _sheet"
-msgstr "Kopiér til et nyt ark"
+msgstr "Kopiér til et nyt _ark"
 
 #: src/dialogs/advanced-filter.glade.h:12
-#, fuzzy
 msgid "Copy to a new _workbook"
-msgstr "Kopiér til en ny arbejdsbog"
+msgstr "Kopiér til en ny arbejds_bog"
 
 #: src/dialogs/advanced-filter.glade.h:13
-#, fuzzy
 msgid "C_riteria range:"
-msgstr "Kriterieomfang:"
+msgstr "K_riterieomfang:"
 
 #: src/dialogs/advanced-filter.glade.h:14
-#, fuzzy
 msgid "C_opy to:        "
-msgstr "Kopiér til:     "
+msgstr "K_opiér til:     "
 
 #: src/dialogs/advanced-filter.glade.h:15
-#, fuzzy
 msgid "_List range:     "
-msgstr "Listeomfang:    "
+msgstr "_Listeomfang:    "
 
 #: src/dialogs/advanced-filter.glade.h:16
 msgid "_Unique records only"
@@ -1403,15 +1433,13 @@ msgid "New Sheet     "
 msgstr "Nyt ark       "
 
 #: src/dialogs/analysis-tools.glade.h:19
-#, fuzzy
 msgid "T-Test: Paired Two Sample for Means"
-msgstr "t-Test: Parvis to-prøve for medianer"
+msgstr "T-Test: Parvis to-prøve for medianer"
 
 #: src/dialogs/analysis-tools.glade.h:21 src/dialogs/analysis-tools.glade.h:32
 #: src/dialogs/analysis-tools.glade.h:43
-#, fuzzy
 msgid "Labels in First Row           "
-msgstr "Etiketter i første række"
+msgstr "Etiketter i første række      "
 
 #: src/dialogs/analysis-tools.glade.h:22 src/dialogs/analysis-tools.glade.h:33
 #: src/dialogs/analysis-tools.glade.h:44
@@ -1433,9 +1461,8 @@ msgstr "Hypotetisk differance mellem middelværdi:"
 
 #: src/dialogs/analysis-tools.glade.h:25 src/dialogs/analysis-tools.glade.h:36
 #: src/dialogs/analysis-tools.glade.h:47
-#, fuzzy
 msgid "                                   Alpha: "
-msgstr "                         "
+msgstr "                                    Alfa: "
 
 #: src/dialogs/analysis-tools.glade.h:30
 #, fuzzy
@@ -1462,7 +1489,7 @@ msgstr "Etiketter"
 #. * Add this file to your project's POTFILES.in.
 #. * DO NOT compile it as part of your application.
 #.
-#: src/dialogs/autocorrect.glade.h:7 src/workbook.c:1265
+#: src/dialogs/autocorrect.glade.h:7 src/workbook.c:1273
 msgid "Auto Correct"
 msgstr "Autokorrektion"
 
@@ -1508,46 +1535,40 @@ msgid "AutoCorrect Exceptions"
 msgstr "Autokorrektionsundtagelser"
 
 #: src/dialogs/autocorrect-exceptions.glade.h:8
-#, fuzzy
 msgid "_Do not capitalize after:"
-msgstr "Ikke stort bogstav efter:"
+msgstr "_Ikke stort bogstav efter:"
 
 #: src/dialogs/autocorrect-exceptions.glade.h:9 src/dialogs/solver.glade.h:25
-#, fuzzy
 msgid "_Add"
-msgstr "Tilføj"
+msgstr "_Tilføj"
 
 #: src/dialogs/autocorrect-exceptions.glade.h:10
-#, fuzzy
 msgid "_Remove"
-msgstr "Fjern"
+msgstr "Fj_ern"
 
 #: src/dialogs/autocorrect-exceptions.glade.h:11
-#, fuzzy
 msgid "_First Letter"
-msgstr "Første bogstav"
+msgstr "_Første bogstav"
 
 #: src/dialogs/autocorrect-exceptions.glade.h:12
-#, fuzzy
 msgid "Do _not correct:"
-msgstr "Korrigér ikke:"
+msgstr "_Korrigér ikke:"
 
 #: src/dialogs/autocorrect-exceptions.glade.h:13
 #: src/dialogs/cell-sort.glade.h:13 src/dialogs/names.glade.h:9
-#: src/dialogs/plugin-manager.glade.h:8
+#: src/dialogs/plugin-manager.glade.h:13
 msgid "Add"
 msgstr "Tilføj"
 
 #: src/dialogs/autocorrect-exceptions.glade.h:14
-#: src/dialogs/cell-sort.glade.h:14 src/dialogs/plugin-manager.glade.h:9
+#: src/dialogs/cell-sort.glade.h:14 src/dialogs/plugin-manager.glade.h:14
 #: src/sheet-object.c:989
 msgid "Remove"
 msgstr "Fjern"
 
 #: src/dialogs/autocorrect-exceptions.glade.h:15
-#, fuzzy
 msgid "_INitial CApitals"
-msgstr "STore BEgyndelsesbogstaver"
+msgstr "_STore BEgyndelsesbogstaver"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1555,7 +1576,7 @@ msgstr "STore BEgyndelsesbogstaver"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/autosave-prompt.glade.h:7 src/dialogs/autosave.glade.h:7
-#: src/workbook.c:1267
+#: src/workbook.c:1275
 msgid "Auto Save"
 msgstr "Autogem"
 
@@ -1568,9 +1589,8 @@ msgid "_Prompt Before Saving"
 msgstr "_Spørg før gemning"
 
 #: src/dialogs/autosave.glade.h:10
-#, fuzzy
 msgid "_minutes"
-msgstr ". minut"
+msgstr ". _minut"
 
 #: src/dialogs/autosave-prompt.glade.h:8
 msgid "Do you want to save the workbook?"
@@ -1813,7 +1833,7 @@ msgstr "_Kolonner som skal gentages på venstre side:"
 msgid "_Rows to repeat on the upper region:"
 msgstr "_Rækker som skal gentages i øvre region:"
 
-#: src/dialogs/print.glade.h:51 src/workbook.c:1324
+#: src/dialogs/print.glade.h:51 src/workbook.c:1332
 msgid "Print"
 msgstr "Udskriv"
 
@@ -1821,7 +1841,7 @@ msgstr "Udskriv"
 msgid "Row and co_lumn headings"
 msgstr "Række- og kolonnehoveder"
 
-#: src/dialogs/print.glade.h:53 src/workbook.c:1092
+#: src/dialogs/print.glade.h:53 src/workbook.c:1098
 msgid "Co_mments"
 msgstr "Ko_mmentarer"
 
@@ -2320,7 +2340,7 @@ msgstr "Skrifttype"
 msgid "Reverse Diagonal"
 msgstr "Omvendt diagonal"
 
-#: src/dialogs/cell-format.glade.h:65 src/workbook-format-toolbar.c:410
+#: src/dialogs/cell-format.glade.h:65 src/workbook-format-toolbar.c:462
 msgid "Left"
 msgstr "Venstre"
 
@@ -2328,7 +2348,7 @@ msgstr "Venstre"
 msgid "Top"
 msgstr "Top"
 
-#: src/dialogs/cell-format.glade.h:67 src/workbook-format-toolbar.c:418
+#: src/dialogs/cell-format.glade.h:67 src/workbook-format-toolbar.c:470
 msgid "Bottom"
 msgstr "Bund"
 
@@ -2336,7 +2356,7 @@ msgstr "Bund"
 msgid "Diagonal"
 msgstr "Diagonal"
 
-#: src/dialogs/cell-format.glade.h:69 src/workbook-format-toolbar.c:412
+#: src/dialogs/cell-format.glade.h:69 src/workbook-format-toolbar.c:464
 msgid "Right"
 msgstr "Højre"
 
@@ -2356,7 +2376,7 @@ msgstr "Indvendig"
 msgid "Inside Horizontal"
 msgstr "Indvendig vandret"
 
-#: src/dialogs/cell-format.glade.h:75 src/workbook.c:1367
+#: src/dialogs/cell-format.glade.h:75 src/workbook.c:1375
 msgid "Line"
 msgstr "Linie"
 
@@ -2473,7 +2493,7 @@ msgstr "Tynd diagonal krydsskravering"
 msgid "Solid"
 msgstr "Fast"
 
-#: src/dialogs/cell-format.glade.h:109 src/workbook-format-toolbar.c:611
+#: src/dialogs/cell-format.glade.h:109 src/workbook-format-toolbar.c:663
 msgid "Background"
 msgstr "Baggrund"
 
@@ -2544,7 +2564,7 @@ msgstr "Forskel på små og store bogstaver"
 #. * Add this file to your project's POTFILES.in.
 #. * DO NOT compile it as part of your application.
 #.
-#: src/dialogs/dialog-zoom.glade.h:7 src/workbook.c:2249
+#: src/dialogs/dialog-zoom.glade.h:7 src/workbook.c:2257
 msgid "Zoom"
 msgstr "Zoom"
 
@@ -2597,16 +2617,38 @@ msgstr "Ark"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/plugin-manager.glade.h:7
-msgid "Plug-in Manager"
-msgstr "Indplugshåndtering"
+msgid "Gnumeric Plugin Manager"
+msgstr "Gnumeric indstikshåndtering"
 
-#: src/dialogs/plugin-manager.glade.h:10
-msgid "Name"
-msgstr "Navn"
+#: src/dialogs/plugin-manager.glade.h:8
+msgid "Plugin Title"
+msgstr "Indstikstitel"
 
-#: src/dialogs/plugin-manager.glade.h:11
-msgid "File"
-msgstr "Filer"
+#: src/dialogs/plugin-manager.glade.h:12
+msgid "Description:"
+msgstr "Beskrivelse:"
+
+#.
+#. * Translatable strings file generated by Glade.
+#. * Add this file to your project's POTFILES.in.
+#. * DO NOT compile it as part of your application.
+#.
+#: src/dialogs/function-select.glade.h:7
+msgid "Function Selector"
+msgstr "Funktionsvælger"
+
+#: src/dialogs/function-select.glade.h:8
+msgid "Function _Categories"
+msgstr "Funktionskategorier"
+
+#: src/dialogs/function-select.glade.h:9
+msgid "Function _Names"
+msgstr "Funktionsnavne"
+
+#: src/dialogs/function-select.glade.h:10
+#: src/dialogs/function-select.glade.h:11
+msgid "place holder no need to translate"
+msgstr ""
 
 #: src/embeddable-grid.c:155
 msgid "Embedded Sheet"
@@ -2638,7 +2680,7 @@ msgstr "Syntaksfejl"
 
 #: src/expr.c:186
 msgid "Missing quote"
-msgstr "Manglende citattegn"
+msgstr "Manglende anførselstegn"
 
 #: src/expr.c:190
 msgid "Impossible!"
@@ -5253,7 +5295,7 @@ msgid "%s version %s"
 msgstr "%s version %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: src/functions/fn-information.c:308 src/workbook-format-toolbar.c:597
+#: src/functions/fn-information.c:308 src/workbook-format-toolbar.c:649
 msgid "Automatic"
 msgstr "Automatisk"
 
@@ -5399,7 +5441,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/func.c:436 src/functions/fn-information.c:573
+#: src/func.c:437 src/functions/fn-information.c:573
 #: src/functions/fn-information.c:641 src/functions/fn-information.c:668
 #: src/functions/fn-information.c:694 src/functions/fn-information.c:743
 #: src/functions/fn-information.c:772 src/functions/fn-information.c:837
@@ -10148,60 +10190,56 @@ msgstr ""
 "SEARCH en #VALUE! fejl. \n"
 "@SEEALSO=FIND"
 
-#: src/format.c:430 src/widgets/widget-color-combo.c:380
+#: src/format.c:430 src/widgets/widget-color-combo.c:381
 msgid "black"
 msgstr "sort"
 
-#: src/format.c:431 src/widgets/widget-color-combo.c:395
-#: src/widgets/widget-color-combo.c:448
+#: src/format.c:431 src/widgets/widget-color-combo.c:396
+#: src/widgets/widget-color-combo.c:449
 msgid "blue"
 msgstr "blå"
 
-#: src/format.c:432 src/widgets/widget-color-combo.c:414
-#: src/widgets/widget-color-combo.c:444
+#: src/format.c:432 src/widgets/widget-color-combo.c:415
+#: src/widgets/widget-color-combo.c:445
 msgid "cyan"
 msgstr "cyan"
 
-#: src/format.c:433 src/widgets/widget-color-combo.c:413
+#: src/format.c:433 src/widgets/widget-color-combo.c:414
 msgid "green"
 msgstr "grøn"
 
-#: src/format.c:434 src/widgets/widget-color-combo.c:410
-#: src/widgets/widget-color-combo.c:442
+#: src/format.c:434 src/widgets/widget-color-combo.c:411
+#: src/widgets/widget-color-combo.c:443
 msgid "magenta"
 msgstr "magenta"
 
-#: src/format.c:435 src/widgets/widget-color-combo.c:400
+#: src/format.c:435 src/widgets/widget-color-combo.c:401
 msgid "red"
 msgstr "rød"
 
-#: src/format.c:436 src/widgets/widget-color-combo.c:427
+#: src/format.c:436 src/widgets/widget-color-combo.c:428
 msgid "white"
 msgstr "hvid"
 
-#: src/format.c:437 src/widgets/widget-color-combo.c:412
-#: src/widgets/widget-color-combo.c:443
+#: src/format.c:437 src/widgets/widget-color-combo.c:413
+#: src/widgets/widget-color-combo.c:444
 msgid "yellow"
 msgstr "gul"
 
-#: src/format.c:1375
+#: src/format.c:1391
 msgid "0.0########"
 msgstr "0,0########"
 
-#: src/format.c:1389 src/value-sheet.c:33 src/value.c:356
+#: src/format.c:1405 src/value-sheet.c:33 src/value.c:356
 msgid "TRUE"
 msgstr "TRUE"
 
-#: src/format.c:1389 src/value-sheet.c:33 src/value.c:356
+#: src/format.c:1405 src/value-sheet.c:33 src/value.c:356
 msgid "FALSE"
 msgstr "FALSE"
 
-#: src/format.c:1398
-msgid "CELLRANGE"
-msgstr "CELLRANGE"
-
 #. Array of arrays ??
-#: src/format.c:1402
+#: src/format.c:1418
 msgid "ARRAY"
 msgstr "ARRAY"
 
@@ -10461,597 +10499,591 @@ msgstr "##0,0E+0"
 #.
 #: src/formats.c:156
 msgid "[$ADP]"
-msgstr ""
+msgstr "[$ADP]"
 
 #: src/formats.c:156
 msgid "Andorran peseta"
-msgstr ""
+msgstr "Andorransk peseta"
 
 #: src/formats.c:157
-#, fuzzy
 msgid "[$AED]"
-msgstr "&[DATE]"
+msgstr "[$AED]"
 
 #: src/formats.c:157
 msgid "UAE dirham"
-msgstr ""
+msgstr "UAE dirham"
 
 #: src/formats.c:158
 msgid "[$AFA]"
-msgstr ""
+msgstr "[$AFA]"
 
 #: src/formats.c:158
 msgid "Afghanistan afghani"
-msgstr ""
+msgstr "Afghansk afghani"
 
 #: src/formats.c:159
 msgid "[$ALL]"
-msgstr ""
+msgstr "[$ALL]"
 
 #: src/formats.c:159
 msgid "Albanian lek"
-msgstr ""
+msgstr "Albansk lek"
 
 #: src/formats.c:160
 msgid "[$ANG]"
-msgstr ""
+msgstr "[$ANG]"
 
 #: src/formats.c:160
 msgid "Netherlands Antillian guilder"
-msgstr ""
+msgstr "Hollandsk Antillisk gylden"
 
 #: src/formats.c:161
 msgid "[$AON]"
-msgstr ""
+msgstr "[$AON]"
 
 #: src/formats.c:161
 msgid "Angolan new kwanza"
-msgstr ""
+msgstr "Angolsk ny kwanza"
 
 #: src/formats.c:162
 msgid "[$ARA]"
-msgstr ""
+msgstr "[$ARA]"
 
 #: src/formats.c:162
 msgid "Argentine austral"
-msgstr ""
+msgstr "Argentinsk austral"
 
 #: src/formats.c:163
-#, fuzzy
 msgid "[$ATS]"
-msgstr "&[DATE]"
+msgstr "[$ATS]"
 
 #: src/formats.c:163
 msgid "Austrian schilling"
-msgstr ""
+msgstr "Østrigsk schilling"
 
 #: src/formats.c:164
 msgid "[$AUD]"
-msgstr ""
+msgstr "[$AUD]"
 
 #: src/formats.c:164
 msgid "Australian dollar"
-msgstr ""
+msgstr "Australsk dollar"
 
 #: src/formats.c:165
 msgid "[$AWG]"
-msgstr ""
+msgstr "[$AWG]"
 
 #: src/formats.c:165
 msgid "Aruban guilder"
-msgstr ""
+msgstr "Arubansk gylden"
 
 #: src/formats.c:166
 msgid "[$BBD]"
-msgstr ""
+msgstr "[$BBD]"
 
 #: src/formats.c:166
 msgid "Barbados dollar"
-msgstr ""
+msgstr "Barbados dollar"
 
 #: src/formats.c:167
-#, fuzzy
 msgid "[$BDT]"
-msgstr "&[DATE]"
+msgstr "[$BDT]"
 
 #: src/formats.c:167
 msgid "Bangladeshi taka"
-msgstr ""
+msgstr "Bangladeshisk taka"
 
 #: src/formats.c:168
 msgid "[$BEF]"
-msgstr ""
+msgstr "[$BEF]"
 
 #: src/formats.c:168
 msgid "Belgian franc"
-msgstr ""
+msgstr "Belgisk franc"
 
 #: src/formats.c:169
 msgid "[$BGL]"
-msgstr ""
+msgstr "[$BGL]"
 
 #: src/formats.c:169
 msgid "Bulgarian lev"
-msgstr ""
+msgstr "Bulgarsk lev"
 
 #: src/formats.c:170
 msgid "[$BHD]"
-msgstr ""
+msgstr "[$BHD]"
 
 #: src/formats.c:170
 msgid "Bahraini dinar"
-msgstr ""
+msgstr "Bahrainsk dinar"
 
 #: src/formats.c:171
 msgid "[$BIF]"
-msgstr ""
+msgstr "[$BIF]"
 
 #: src/formats.c:171
 msgid "Burundi franc"
-msgstr ""
+msgstr "Burundi franc"
 
 #: src/formats.c:172
 msgid "[$BMD]"
-msgstr ""
+msgstr "[$BMD]"
 
 #: src/formats.c:172
 msgid "Bermudian dollar"
-msgstr ""
+msgstr "Bermuda dollar"
 
 #: src/formats.c:173
 msgid "[$BND]"
-msgstr ""
+msgstr "[$BND]"
 
 #: src/formats.c:173
 msgid "Brunei dollar"
-msgstr ""
+msgstr "Brunei dollar"
 
 #: src/formats.c:174
 msgid "[$BOB]"
-msgstr ""
+msgstr "[$BOB]"
 
 #: src/formats.c:174
 msgid "Bolivian boliviano"
-msgstr ""
+msgstr "Boliviansk boliviano"
 
 #: src/formats.c:175
 msgid "[$BRE]"
-msgstr ""
+msgstr "[$BRE]"
 
 #: src/formats.c:175
 msgid "Brazilian cruzeiro"
-msgstr ""
+msgstr "Brasiliansk cruzeiro"
 
 #: src/formats.c:176
 msgid "[$BSD]"
-msgstr ""
+msgstr "[$BSD]"
 
 #: src/formats.c:176
 msgid "Bahamian dollar"
-msgstr ""
+msgstr "Bahamisk dollar"
 
 #: src/formats.c:177
 msgid "[$BTN]"
-msgstr ""
+msgstr "[$BTN]"
 
 #: src/formats.c:177
 msgid "Bhutan ngultrum"
-msgstr ""
+msgstr "Bhutan ngultrum"
 
 #: src/formats.c:178
 msgid "[$BWP]"
-msgstr ""
+msgstr "[$BWP]"
 
 #: src/formats.c:178
 msgid "Botswanian pula"
-msgstr ""
+msgstr "Botswanansk pula"
 
 #: src/formats.c:179
 msgid "[$BZD]"
-msgstr ""
+msgstr "[$BZD]"
 
 #: src/formats.c:179
 msgid "Belize dollar"
-msgstr ""
+msgstr "Belize dollar"
 
 #: src/formats.c:180
 msgid "[$CAD]"
-msgstr ""
+msgstr "[$CAD]"
 
 #: src/formats.c:180
 msgid "Canadian dollar"
-msgstr ""
+msgstr "Canadisk dollar"
 
 #: src/formats.c:181
 msgid "[$CHF]"
-msgstr ""
+msgstr "[$CHF]"
 
 #: src/formats.c:181
 msgid "Swiss franc"
-msgstr ""
+msgstr "Schweitzerfranc"
 
 #: src/formats.c:182
 msgid "[$CLP]"
-msgstr ""
+msgstr "[$CLP]"
 
 #: src/formats.c:182
 msgid "Chilean peso"
-msgstr ""
+msgstr "Chilensk peso"
 
 #: src/formats.c:183
 msgid "[$CNY]"
-msgstr ""
+msgstr "[$CNY]"
 
 #: src/formats.c:183
 msgid "Chinese yuan renminbi"
-msgstr ""
+msgstr "Kinesisk yuan renminbi"
 
 #: src/formats.c:184
 msgid "[$COP]"
-msgstr ""
+msgstr "[$COP]"
 
 #: src/formats.c:184
 msgid "Colombian peso"
-msgstr ""
+msgstr "Colombiansk peso"
 
 #: src/formats.c:185
 msgid "[$CRC]"
-msgstr ""
+msgstr "[$CRC]"
 
 #: src/formats.c:185
 msgid "Costa Rican colon"
-msgstr ""
+msgstr "Costa Ricansk colon"
 
 #: src/formats.c:186
 msgid "[$CSK]"
-msgstr ""
+msgstr "[$CSK]"
 
 #: src/formats.c:186
 msgid "Czech Koruna"
-msgstr ""
+msgstr "Tjekkisk koruna"
 
 #: src/formats.c:187
 msgid "[$CUP]"
-msgstr ""
+msgstr "[$CUP]"
 
 #: src/formats.c:187
-#, fuzzy
 msgid "Cuban peso"
-msgstr "Kan ikke åbne"
+msgstr "Cubansk peso"
 
 #: src/formats.c:188
 msgid "[$CVE]"
-msgstr ""
+msgstr "[$CVE]"
 
 #: src/formats.c:188
 msgid "Cape Verde escudo"
-msgstr ""
+msgstr "Cape Verde escudo"
 
 #: src/formats.c:189
 msgid "[$CYP]"
-msgstr ""
+msgstr "[$CYP]"
 
 #: src/formats.c:189
 msgid "Cyprus pound"
-msgstr ""
+msgstr "Cypriotisk pund"
 
 #: src/formats.c:190
-#, fuzzy
 msgid "[$DEM]"
-msgstr "&[DATE]"
+msgstr "[$DEM]"
 
 #: src/formats.c:190
 msgid "Deutsche mark"
-msgstr ""
+msgstr "Deutschmark"
 
 #: src/formats.c:191
 msgid "[$DJF]"
-msgstr ""
+msgstr "[$DJF]"
 
 #: src/formats.c:191
 msgid "Djibouti franc"
-msgstr ""
+msgstr "Djibouti franc"
 
 #: src/formats.c:192
 msgid "[$DKK]"
-msgstr ""
+msgstr "[$DKK]"
 
 #: src/formats.c:192
 msgid "Danish krone"
-msgstr ""
+msgstr "Danske kroner"
 
 #: src/formats.c:193
 msgid "[$DOP]"
-msgstr ""
+msgstr "[$DOP]"
 
 #: src/formats.c:193
 msgid "Dominican peso"
-msgstr ""
+msgstr "Dominikansk peso"
 
 #: src/formats.c:194
 msgid "[$DZD]"
-msgstr ""
+msgstr "[$DZD]"
 
 #: src/formats.c:194
 msgid "Algerian dinar"
-msgstr ""
+msgstr "Algeriansk dinar"
 
 #: src/formats.c:195
 msgid "[$ECS]"
-msgstr ""
+msgstr "[$ECS]"
 
 #: src/formats.c:195
 msgid "Ecuador sucre"
-msgstr ""
+msgstr "Ecuadoriansk sucre"
 
 #: src/formats.c:196
 msgid "[$EGP]"
-msgstr ""
+msgstr "[$EGP]"
 
 #: src/formats.c:196
 msgid "Egyptian pound"
-msgstr ""
+msgstr "Egyptiske pund"
 
 #: src/formats.c:197
 msgid "[$ESP]"
-msgstr ""
+msgstr "[$ESP]"
 
 #: src/formats.c:197
 msgid "Spanish peseta"
-msgstr ""
+msgstr "Spanske peseta"
 
 #: src/formats.c:198
-#, fuzzy
 msgid "[$ETB]"
-msgstr "&[TAB]"
+msgstr "[$ETB]"
 
 #: src/formats.c:198
 msgid "Ethiopian birr"
-msgstr ""
+msgstr "Etiopiske birr"
 
 #: src/formats.c:199
 msgid "[$FIM]"
-msgstr ""
+msgstr "[$FIM]"
 
 #: src/formats.c:199
 msgid "Finnish markka"
-msgstr ""
+msgstr "Finske mark"
 
 #: src/formats.c:200
 msgid "[$FJD]"
-msgstr ""
+msgstr "[$FJD]"
 
 #: src/formats.c:200
 msgid "Fiji dollar"
-msgstr ""
+msgstr "Fiji dollar"
 
 #: src/formats.c:201
 msgid "[$FKP]"
-msgstr ""
+msgstr "[$FKP]"
 
 #: src/formats.c:201
 msgid "Falkland Islands pound"
-msgstr ""
+msgstr "Falkland Island pund"
 
 #: src/formats.c:202
 msgid "[$FRF]"
-msgstr ""
+msgstr "[$FRF]"
 
 #: src/formats.c:202
 msgid "French franc"
-msgstr ""
+msgstr "Franske franc"
 
 #: src/formats.c:203
 msgid "[$GBP]"
-msgstr ""
+msgstr "[$GBP]"
 
 #: src/formats.c:203
 msgid "UK pound sterling"
-msgstr ""
+msgstr "UK pund sterling"
 
 #: src/formats.c:204
 msgid "[$GHC]"
-msgstr ""
+msgstr "[$GHC]"
 
 #: src/formats.c:204
 msgid "Ghanaian cedi"
-msgstr ""
+msgstr "Ghanaianske cedi"
 
 #: src/formats.c:205
 msgid "[$GIP]"
-msgstr ""
+msgstr "[$GIP]"
 
 #: src/formats.c:205
 msgid "Gibraltar pound"
-msgstr ""
+msgstr "Gibraltar pund"
 
 #: src/formats.c:206
 msgid "[$GMD]"
-msgstr ""
+msgstr "[$GMD]"
 
 #: src/formats.c:206
 msgid "Gambian dalasi"
-msgstr ""
+msgstr "Gambianske dalasi"
 
 #: src/formats.c:207
 msgid "[$GNF]"
-msgstr ""
+msgstr "[$GNF]"
 
 #: src/formats.c:207
 msgid "Guinea franc"
-msgstr ""
+msgstr "Guinea franc"
 
 #: src/formats.c:208
 msgid "[$GRD]"
-msgstr ""
+msgstr "[$GRD]"
 
 #: src/formats.c:208
 msgid "Greek drachma"
-msgstr ""
+msgstr "Græske drachmer"
 
 #: src/formats.c:209
 msgid "[$GTQ]"
-msgstr ""
+msgstr "[$GTQ]"
 
 #: src/formats.c:209
 msgid "Guatemalan quetzal"
-msgstr ""
+msgstr "Guatemalanske quetzal"
 
 #: src/formats.c:210
 msgid "[$GWP]"
-msgstr ""
+msgstr "[$GWP]"
 
 #: src/formats.c:210
 msgid "Guinea-Bissau peso"
-msgstr ""
+msgstr "Guinea-Bissau peso"
 
 #: src/formats.c:211
 msgid "[$GYD]"
-msgstr ""
+msgstr "[$GYD]"
 
 #: src/formats.c:211
 msgid "Guyanan dollar"
-msgstr ""
+msgstr "Guyananske dollar"
 
 #: src/formats.c:212
 msgid "[$HKD]"
-msgstr ""
+msgstr "[$HKD]"
 
 #: src/formats.c:212
 msgid "Hong Kong dollar"
-msgstr ""
+msgstr "Hong Kong dollar"
 
 #: src/formats.c:213
 msgid "[$HNL]"
-msgstr ""
+msgstr "[$HNL]"
 
 #: src/formats.c:213
 msgid "Honduran lempira"
-msgstr ""
+msgstr "Honduranske lempira"
 
 #: src/formats.c:214
 msgid "[$HTG]"
-msgstr ""
+msgstr "[$HTG]"
 
 #: src/formats.c:214
 msgid "Haitian gourde"
-msgstr ""
+msgstr "Haitianske gourde"
 
 #: src/formats.c:215
 msgid "[$HUF]"
-msgstr ""
+msgstr "[$HUF]"
 
 #: src/formats.c:215
 msgid "Hungarian forint"
-msgstr ""
+msgstr "Hungarsk forint"
 
 #: src/formats.c:216
 msgid "[$IDR]"
-msgstr ""
+msgstr "[$IDR]"
 
 #: src/formats.c:216
 msgid "Indonesian rupiah"
-msgstr ""
+msgstr "Indonesisk rupiah"
 
 #: src/formats.c:217
 msgid "[$IEP]"
-msgstr ""
+msgstr "[$IEP]"
 
 #: src/formats.c:217
 msgid "Irish punt"
-msgstr ""
+msgstr "Irsk punt"
 
 #: src/formats.c:218
 msgid "[$IEX]"
-msgstr ""
+msgstr "[$IEX]"
 
 #: src/formats.c:218
 msgid "Irish pence ***"
-msgstr ""
+msgstr "Irsk pence ***"
 
 #: src/formats.c:219
 msgid "[$ILS]"
-msgstr ""
+msgstr "[$ILS]"
 
 #: src/formats.c:219
 msgid "Israeli shekel"
-msgstr ""
+msgstr "Israelske shekel"
 
 #: src/formats.c:220
 msgid "[$INR]"
-msgstr ""
+msgstr "[$INR]"
 
 #: src/formats.c:220
 msgid "Indian rupee"
-msgstr ""
+msgstr "Indisk rupee"
 
 #: src/formats.c:221
 msgid "[$IQD]"
-msgstr ""
+msgstr "[$IQD]"
 
 #: src/formats.c:221
 msgid "Iraqi dinar"
-msgstr ""
+msgstr "Irakisk dinar"
 
 #: src/formats.c:222
 msgid "[$IRR]"
-msgstr ""
+msgstr "[$IRR]"
 
 #: src/formats.c:222
 msgid "Iranian rial"
-msgstr ""
+msgstr "Iransk rial"
 
 #: src/formats.c:223
 msgid "[$ISK]"
-msgstr ""
+msgstr "[$ISK]"
 
 #: src/formats.c:223
 msgid "Iceland krona"
-msgstr ""
+msgstr "Islandske kroner"
 
 #: src/formats.c:224
 msgid "[$ITL]"
-msgstr ""
+msgstr "[$ITL]"
 
 #: src/formats.c:224
 msgid "Italian lira"
-msgstr ""
+msgstr "Italienske lirer"
 
 #: src/formats.c:225
 msgid "[$JMD]"
-msgstr ""
+msgstr "[$JMD]"
 
 #: src/formats.c:225
 msgid "Jamaican dollar"
-msgstr ""
+msgstr "Jamaicanske dollar"
 
 #: src/formats.c:226
 msgid "[$JOD]"
-msgstr ""
+msgstr "[$JOD]"
 
 #: src/formats.c:226
 msgid "Jordanian dinar"
-msgstr ""
+msgstr "Jordanske dinarer"
 
 #: src/formats.c:227
 msgid "[$JPY]"
-msgstr ""
+msgstr "[$JPY]"
 
 #: src/formats.c:227
 msgid "Japanese yen"
-msgstr ""
+msgstr "Japanske yen"
 
 #: src/formats.c:228
 msgid "[$KES]"
-msgstr ""
+msgstr "[$KES]"
 
 #: src/formats.c:228
 msgid "Kenyan shilling"
-msgstr ""
+msgstr "Kenyanske shilling"
 
 #: src/formats.c:229
 msgid "[$KHR]"
-msgstr ""
+msgstr "[$KHR]"
 
 #: src/formats.c:229
 msgid "Kampuchean riel"
@@ -11059,7 +11091,7 @@ msgstr ""
 
 #: src/formats.c:230
 msgid "[$KMF]"
-msgstr ""
+msgstr "[$KMF]"
 
 #: src/formats.c:230
 msgid "Comoros franc"
@@ -11067,15 +11099,15 @@ msgstr ""
 
 #: src/formats.c:231
 msgid "[$KPW]"
-msgstr ""
+msgstr "[$KPW]"
 
 #: src/formats.c:231
 msgid "North Korean won"
-msgstr ""
+msgstr "Nordkoreansk won"
 
 #: src/formats.c:232
 msgid "[$KRW]"
-msgstr ""
+msgstr "[$KRW]"
 
 #: src/formats.c:232
 msgid "Republic of Korea won"
@@ -11083,119 +11115,119 @@ msgstr ""
 
 #: src/formats.c:233
 msgid "[$KWD]"
-msgstr ""
+msgstr "[$KWD]"
 
 #: src/formats.c:233
 msgid "Kuwaiti dinar"
-msgstr ""
+msgstr "Kuwaitisk dinar"
 
 #: src/formats.c:234
 msgid "[$KYD]"
-msgstr ""
+msgstr "[$KYD]"
 
 #: src/formats.c:234
 msgid "Cayman Islands dollar"
-msgstr ""
+msgstr "Cayman Island dollar"
 
 #: src/formats.c:235
 msgid "[$LAK]"
-msgstr ""
+msgstr "[$LAK]"
 
 #: src/formats.c:235
 msgid "Lao kip"
-msgstr ""
+msgstr "Laotisk kip"
 
 #: src/formats.c:236
 msgid "[$LBP]"
-msgstr ""
+msgstr "[$LBP]"
 
 #: src/formats.c:236
 msgid "Lebanese pound"
-msgstr ""
+msgstr "Libanesisk pund"
 
 #: src/formats.c:237
 msgid "[$LKR]"
-msgstr ""
+msgstr "[$LKR]"
 
 #: src/formats.c:237
 msgid "Sri Lanka rupee"
-msgstr ""
+msgstr "Sri Lankansk rupee"
 
 #: src/formats.c:238
 msgid "[$LRD]"
-msgstr ""
+msgstr "[$LRD]"
 
 #: src/formats.c:238
 msgid "Liberian dollar"
-msgstr ""
+msgstr "Liberianske dollar"
 
 #: src/formats.c:239
 msgid "[$LSL]"
-msgstr ""
+msgstr "[$LSL]"
 
 #: src/formats.c:239
 msgid "Lesotho loti"
-msgstr ""
+msgstr "Lesotho loti"
 
 #: src/formats.c:240
 msgid "[$LUF]"
-msgstr ""
+msgstr "[$LUF]"
 
 #: src/formats.c:240
 msgid "Luxembourg franc"
-msgstr ""
+msgstr "Luxembourgske franc"
 
 #: src/formats.c:241
 msgid "[$LYD]"
-msgstr ""
+msgstr "[$LYD]"
 
 #: src/formats.c:241
 msgid "Libyan dinar"
-msgstr ""
+msgstr "Libiske dinarer"
 
 #: src/formats.c:242
 msgid "[$MAD]"
-msgstr ""
+msgstr "[$MAD]"
 
 #: src/formats.c:242
 msgid "Moroccan dirham"
-msgstr ""
+msgstr "Marokkanske dirham"
 
 #: src/formats.c:243
 msgid "[$MGF]"
-msgstr ""
+msgstr "[$MGF]"
 
 #: src/formats.c:243
 msgid "Malagasy franc"
-msgstr ""
+msgstr "Malagaskiske franc"
 
 #: src/formats.c:244
 msgid "[$MLF]"
-msgstr ""
+msgstr "[$MLF]"
 
 #: src/formats.c:244
 msgid "Mali franc"
-msgstr ""
+msgstr "Mali franc"
 
 #: src/formats.c:245
 msgid "[$MMK]"
-msgstr ""
+msgstr "[$MMK]"
 
 #: src/formats.c:245
 msgid "Myanmar kyat"
-msgstr ""
+msgstr "Myanmarske kyat"
 
 #: src/formats.c:246
 msgid "[$MNT]"
-msgstr ""
+msgstr "[$MNT]"
 
 #: src/formats.c:246
 msgid "Mongolian tugrik"
-msgstr ""
+msgstr "Mongolske tugrik"
 
 #: src/formats.c:247
 msgid "[$MOP]"
-msgstr ""
+msgstr "[$MOP]"
 
 #: src/formats.c:247
 msgid "Macau pataca"
@@ -11203,23 +11235,23 @@ msgstr ""
 
 #: src/formats.c:248
 msgid "[$MRO]"
-msgstr ""
+msgstr "[$MRO]"
 
 #: src/formats.c:248
 msgid "Mauritanian ouguiya"
-msgstr ""
+msgstr "Mauritanske ouguiya"
 
 #: src/formats.c:249
 msgid "[$MTL]"
-msgstr ""
+msgstr "[$MTL]"
 
 #: src/formats.c:249
 msgid "Maltese lira"
-msgstr ""
+msgstr "Maltesiske lirer"
 
 #: src/formats.c:250
 msgid "[$MUR]"
-msgstr ""
+msgstr "[$MUR]"
 
 #: src/formats.c:250
 msgid "Mauritius rupee"
@@ -11227,7 +11259,7 @@ msgstr ""
 
 #: src/formats.c:251
 msgid "[$MVR]"
-msgstr ""
+msgstr "[$MVR]"
 
 #: src/formats.c:251
 msgid "Maldive rupee"
@@ -11235,7 +11267,7 @@ msgstr ""
 
 #: src/formats.c:252
 msgid "[$MWK]"
-msgstr ""
+msgstr "[$MWK]"
 
 #: src/formats.c:252
 msgid "Malawi kwacha"
@@ -11243,7 +11275,7 @@ msgstr ""
 
 #: src/formats.c:253
 msgid "[$MXP]"
-msgstr ""
+msgstr "[$MXP]"
 
 #: src/formats.c:253
 msgid "Mexican peso"
@@ -11251,7 +11283,7 @@ msgstr ""
 
 #: src/formats.c:254
 msgid "[$MYR]"
-msgstr ""
+msgstr "[$MYR]"
 
 #: src/formats.c:254
 msgid "Malaysian ringgit"
@@ -11259,7 +11291,7 @@ msgstr ""
 
 #: src/formats.c:255
 msgid "[$MZM]"
-msgstr ""
+msgstr "[$MZM]"
 
 #: src/formats.c:255
 msgid "Mozambique metical"
@@ -11267,39 +11299,39 @@ msgstr ""
 
 #: src/formats.c:256
 msgid "[$NGN]"
-msgstr ""
+msgstr "[$NGN]"
 
 #: src/formats.c:256
 msgid "Nigerian naira"
-msgstr ""
+msgstr "Nigerianske naira"
 
 #: src/formats.c:257
 msgid "[$NIO]"
-msgstr ""
+msgstr "[$NIO]"
 
 #: src/formats.c:257
 msgid "Nicaraguan cordoba oro"
-msgstr ""
+msgstr "Nicaraguanske cordoba oro"
 
 #: src/formats.c:258
 msgid "[$NLG]"
-msgstr ""
+msgstr "[$NLG]"
 
 #: src/formats.c:258
 msgid "Netherlands guilder"
-msgstr ""
+msgstr "Hollandske gylden"
 
 #: src/formats.c:259
 msgid "[$NOK]"
-msgstr ""
+msgstr "[$NOK]"
 
 #: src/formats.c:259
 msgid "Norwegian krone"
-msgstr ""
+msgstr "Norske kroner"
 
 #: src/formats.c:260
 msgid "[$NPR]"
-msgstr ""
+msgstr "[$NPR]"
 
 #: src/formats.c:260
 msgid "Nepalese rupee"
@@ -11307,24 +11339,23 @@ msgstr ""
 
 #: src/formats.c:261
 msgid "[$NZD]"
-msgstr ""
+msgstr "[$NZD]"
 
 #: src/formats.c:261
 msgid "New Zealand dollar"
-msgstr ""
+msgstr "New Zealand dollar"
 
 #: src/formats.c:262
 msgid "[$OMR]"
-msgstr ""
+msgstr "[$OMR]"
 
 #: src/formats.c:262
 msgid "Rial Omani"
 msgstr ""
 
 #: src/formats.c:263
-#, fuzzy
 msgid "[$PAB]"
-msgstr "&[TAB]"
+msgstr "[$PAB]"
 
 #: src/formats.c:263
 msgid "Panamanian balboa"
@@ -11332,7 +11363,7 @@ msgstr ""
 
 #: src/formats.c:264
 msgid "[$PEI]"
-msgstr ""
+msgstr "[$PEI]"
 
 #: src/formats.c:264
 msgid "Peruvian inti"
@@ -11340,7 +11371,7 @@ msgstr ""
 
 #: src/formats.c:265
 msgid "[$PGK]"
-msgstr ""
+msgstr "[$PGK]"
 
 #: src/formats.c:265
 msgid "Papua New Guinea kina"
@@ -11348,15 +11379,15 @@ msgstr ""
 
 #: src/formats.c:266
 msgid "[$PHP]"
-msgstr ""
+msgstr "[$PHP]"
 
 #: src/formats.c:266
 msgid "Philippino peso"
-msgstr ""
+msgstr "Filippinske peso"
 
 #: src/formats.c:267
 msgid "[$PKR]"
-msgstr ""
+msgstr "[$PKR]"
 
 #: src/formats.c:267
 msgid "Pakistan rupee"
@@ -11364,24 +11395,23 @@ msgstr ""
 
 #: src/formats.c:268
 msgid "[$PLZ]"
-msgstr ""
+msgstr "[$PLZ]"
 
 #: src/formats.c:268
 msgid "Polish zloty"
-msgstr ""
+msgstr "Polske zloty"
 
 #: src/formats.c:269
-#, fuzzy
 msgid "[$PTE]"
-msgstr "&[DATE]"
+msgstr "[$PTE]"
 
 #: src/formats.c:269
 msgid "Portuguese escudo"
-msgstr ""
+msgstr "Portugisiske escudo"
 
 #: src/formats.c:270
 msgid "[$PYG]"
-msgstr ""
+msgstr "[$PYG]"
 
 #: src/formats.c:270
 msgid "Paraguay guarani"
@@ -11389,7 +11419,7 @@ msgstr ""
 
 #: src/formats.c:271
 msgid "[$QAR]"
-msgstr ""
+msgstr "[$QAR]"
 
 #: src/formats.c:271
 msgid "Qatari rial"
@@ -11397,31 +11427,31 @@ msgstr ""
 
 #: src/formats.c:272
 msgid "[$ROL]"
-msgstr ""
+msgstr "[$ROL]"
 
 #: src/formats.c:272
 msgid "Romanian leu"
-msgstr ""
+msgstr "Romænske leu"
 
 #: src/formats.c:273
 msgid "[$RWF]"
-msgstr ""
+msgstr "[$RWF]"
 
 #: src/formats.c:273
 msgid "Rwanda franc"
-msgstr ""
+msgstr "Rwanda franc"
 
 #: src/formats.c:274
 msgid "[$SAR]"
-msgstr ""
+msgstr "[$SAR]"
 
 #: src/formats.c:274
 msgid "Saudi Arabian riyal"
-msgstr ""
+msgstr "Saudi Arabiske riyal"
 
 #: src/formats.c:275
 msgid "[$SBD]"
-msgstr ""
+msgstr "[$SBD]"
 
 #: src/formats.c:275
 msgid "Solomon Islands dollar"
@@ -11429,7 +11459,7 @@ msgstr ""
 
 #: src/formats.c:276
 msgid "[$SCR]"
-msgstr ""
+msgstr "[$SCR]"
 
 #: src/formats.c:276
 msgid "Seychelles rupee"
@@ -11437,39 +11467,39 @@ msgstr ""
 
 #: src/formats.c:277
 msgid "[$SDP]"
-msgstr ""
+msgstr "[$SDP]"
 
 #: src/formats.c:277
 msgid "Sudanese pound"
-msgstr ""
+msgstr "Sudanesiske pund"
 
 #: src/formats.c:278
 msgid "[$SEK]"
-msgstr ""
+msgstr "[$SEK]"
 
 #: src/formats.c:278
 msgid "Swedish krona"
-msgstr ""
+msgstr "Svenske kroner"
 
 #: src/formats.c:279
 msgid "[$SGD]"
-msgstr ""
+msgstr "[$SGD]"
 
 #: src/formats.c:279
 msgid "Singapore dollar"
-msgstr ""
+msgstr "Singapore dollar"
 
 #: src/formats.c:280
 msgid "[$SHP]"
-msgstr ""
+msgstr "[$SHP]"
 
 #: src/formats.c:280
 msgid "St.Helena pound"
-msgstr ""
+msgstr "St.Helena pund"
 
 #: src/formats.c:281
 msgid "[$SLL]"
-msgstr ""
+msgstr "[$SLL]"
 
 #: src/formats.c:281
 msgid "Sierra Leone leone"
@@ -11477,23 +11507,23 @@ msgstr ""
 
 #: src/formats.c:282
 msgid "[$SOS]"
-msgstr ""
+msgstr "[$SOS]"
 
 #: src/formats.c:282
 msgid "Somali shilling"
-msgstr ""
+msgstr "Somaliske shilling"
 
 #: src/formats.c:283
 msgid "[$SRG]"
-msgstr ""
+msgstr "[$SRG]"
 
 #: src/formats.c:283
 msgid "Suriname guilder"
-msgstr ""
+msgstr "Surinamesiske gylden"
 
 #: src/formats.c:284
 msgid "[$STD]"
-msgstr ""
+msgstr "[$STD]"
 
 #: src/formats.c:284
 msgid "Sao Tome and Principe dobra"
@@ -11501,65 +11531,63 @@ msgstr ""
 
 #: src/formats.c:285
 msgid "[$SUR]"
-msgstr ""
+msgstr "[$SUR]"
 
 #: src/formats.c:285
 msgid "USSR rouble"
-msgstr ""
+msgstr "USSR rubler"
 
 #: src/formats.c:286
 msgid "[$SVC]"
-msgstr ""
+msgstr "[$SVC]"
 
 #: src/formats.c:286
 msgid "El Salvador colon"
-msgstr ""
+msgstr "El Salvadoranske colon"
 
 #: src/formats.c:287
 msgid "[$SYP]"
-msgstr ""
+msgstr "[$SYP]"
 
 #: src/formats.c:287
 msgid "Syrian pound"
-msgstr ""
+msgstr "Syriske pund"
 
 #: src/formats.c:288
 msgid "[$SZL]"
-msgstr ""
+msgstr "[$SZL]"
 
 #: src/formats.c:288
 msgid "Swaziland lilangeni"
-msgstr ""
+msgstr "Swazilandske lilangeni"
 
 #: src/formats.c:289
-#, fuzzy
 msgid "[$THB]"
-msgstr "&[TAB]"
+msgstr "[$THB]"
 
 #: src/formats.c:289
 msgid "Thai baht"
-msgstr ""
+msgstr "Thailandske baht"
 
 #: src/formats.c:290
 msgid "[$TND]"
-msgstr ""
+msgstr "[$TND]"
 
 #: src/formats.c:290
 msgid "Tunisian dinar"
-msgstr ""
+msgstr "Tunisiske dinarer"
 
 #: src/formats.c:291
 msgid "[$TOP]"
-msgstr ""
+msgstr "[$TOP]"
 
 #: src/formats.c:291
 msgid "Tongan pa'anga"
-msgstr ""
+msgstr "Tonganske pa'anga"
 
 #: src/formats.c:292
-#, fuzzy
 msgid "[$TPE]"
-msgstr "&[DATE]"
+msgstr "[$TPE]"
 
 #: src/formats.c:292
 msgid "East Timor escudo"
@@ -11567,23 +11595,23 @@ msgstr ""
 
 #: src/formats.c:293
 msgid "[$TRL]"
-msgstr ""
+msgstr "[$TRL]"
 
 #: src/formats.c:293
 msgid "Turkish lira"
-msgstr ""
+msgstr "Tyrkiske lirer"
 
 #: src/formats.c:294
 msgid "[$TTD]"
-msgstr ""
+msgstr "[$TTD]"
 
 #: src/formats.c:294
 msgid "Trinidad and Tobago dollar"
-msgstr ""
+msgstr "Trinidad og Tobago dollar"
 
 #: src/formats.c:295
 msgid "[$TWD]"
-msgstr ""
+msgstr "[$TWD]"
 
 #: src/formats.c:295
 msgid "New Taiwan dollar"
@@ -11591,39 +11619,39 @@ msgstr ""
 
 #: src/formats.c:296
 msgid "[$TZS]"
-msgstr ""
+msgstr "[$TZS]"
 
 #: src/formats.c:296
 msgid "Tanzanian shilling"
-msgstr ""
+msgstr "Tanzanianske shilling"
 
 #: src/formats.c:297
 msgid "[$UGX]"
-msgstr ""
+msgstr "[$UGX]"
 
 #: src/formats.c:297
 msgid "Ugandan shilling"
-msgstr ""
+msgstr "Ugandesiske shilling"
 
 #: src/formats.c:298
 msgid "[$USD]"
-msgstr ""
+msgstr "[$USD]"
 
 #: src/formats.c:298
 msgid "US dollar"
-msgstr ""
+msgstr "US dollar"
 
 #: src/formats.c:299
 msgid "[$UYP]"
-msgstr ""
+msgstr "[$UYP]"
 
 #: src/formats.c:299
 msgid "Uruguayan peso"
-msgstr ""
+msgstr "Uruguayanske peso"
 
 #: src/formats.c:300
 msgid "[$VEB]"
-msgstr ""
+msgstr "[$VEB]"
 
 #: src/formats.c:300
 msgid "Venezuelan bolivar"
@@ -11631,15 +11659,15 @@ msgstr ""
 
 #: src/formats.c:301
 msgid "[$VND]"
-msgstr ""
+msgstr "[$VND]"
 
 #: src/formats.c:301
 msgid "Vietnamese dong"
-msgstr ""
+msgstr "Vietnamesiske dong"
 
 #: src/formats.c:302
 msgid "[$VUV]"
-msgstr ""
+msgstr "[$VUV]"
 
 #: src/formats.c:302
 msgid "Vanuatu vatu"
@@ -11647,7 +11675,7 @@ msgstr ""
 
 #: src/formats.c:303
 msgid "[$WST]"
-msgstr ""
+msgstr "[$WST]"
 
 #: src/formats.c:303
 msgid "Samoan tala"
@@ -11655,7 +11683,7 @@ msgstr ""
 
 #: src/formats.c:304
 msgid "[$XCD]"
-msgstr ""
+msgstr "[$XCD]"
 
 #: src/formats.c:304
 msgid "East Caribbean dollar"
@@ -11663,7 +11691,7 @@ msgstr ""
 
 #: src/formats.c:305
 msgid "[$XEU]"
-msgstr ""
+msgstr "[$XEU]"
 
 #: src/formats.c:305
 msgid "European currency unit"
@@ -11671,7 +11699,7 @@ msgstr ""
 
 #: src/formats.c:306
 msgid "[$YDD]"
-msgstr ""
+msgstr "[$YDD]"
 
 #: src/formats.c:306
 msgid "Democratic Yemeni dinar"
@@ -11679,15 +11707,15 @@ msgstr ""
 
 #: src/formats.c:307
 msgid "[$YER]"
-msgstr ""
+msgstr "[$YER]"
 
 #: src/formats.c:307
 msgid "Yemeni rial"
-msgstr ""
+msgstr "Yemensk rial"
 
 #: src/formats.c:308
 msgid "[$YUN]"
-msgstr ""
+msgstr "[$YUN]"
 
 #: src/formats.c:308
 msgid "New Yugoslavia dinar"
@@ -11695,7 +11723,7 @@ msgstr ""
 
 #: src/formats.c:309
 msgid "[$ZAL]"
-msgstr ""
+msgstr "[$ZAL]"
 
 #: src/formats.c:309
 msgid "South African rand funds code"
@@ -11703,23 +11731,23 @@ msgstr ""
 
 #: src/formats.c:310
 msgid "[$ZAR]"
-msgstr ""
+msgstr "[$ZAR]"
 
 #: src/formats.c:310
 msgid "South African rand"
-msgstr ""
+msgstr "Sydafrikanske rand"
 
 #: src/formats.c:311
 msgid "[$ZMK]"
-msgstr ""
+msgstr "[$ZMK]"
 
 #: src/formats.c:311
 msgid "Zambian kwacha"
-msgstr ""
+msgstr "Zambiske kwacha"
 
 #: src/formats.c:312
 msgid "[$ZRZ]"
-msgstr ""
+msgstr "[$ZRZ]"
 
 #: src/formats.c:312
 msgid "Zaire Zaire"
@@ -11727,26 +11755,26 @@ msgstr ""
 
 #: src/formats.c:313
 msgid "[$ZWD]"
-msgstr ""
+msgstr "[$ZWD]"
 
 #: src/formats.c:313
 msgid "Zimbabwe dollar"
-msgstr ""
+msgstr "Zimbabwianke dollar"
 
 #. TODO : Do we handle 'Red' being translated ??
 #: src/formats.c:436
 msgid "[Red]"
 msgstr "[Red]"
 
-#: src/func.c:729
+#: src/func.c:734
 msgid "Function does not exist"
 msgstr "Funktion eksisterer ikke"
 
-#: src/func.c:731
+#: src/func.c:736
 msgid "Calling non-function"
 msgstr "Kalder ikke-funktion"
 
-#: src/func.c:783
+#: src/func.c:788
 #, c-format
 msgid "Can not create file %s\n"
 msgstr "Kan ikke oprette filen %s\n"
@@ -11765,144 +11793,144 @@ msgstr "Højde: %.2f (%d pixler)"
 msgid "Width: %.2f (%d pixels)"
 msgstr "Bredde: %.2f (%d pixler)"
 
-#: src/item-cursor.c:623
+#: src/item-cursor.c:646
 msgid ""
 "The cells dragged will overwrite the contents of the\n"
 "existing cells in that range.  Do you want me to replace\n"
 "the contents in this region?"
 msgstr ""
 
-#: src/item-cursor.c:708 src/workbook.c:1336
+#: src/item-cursor.c:731 src/workbook.c:1344
 msgid "Copy"
 msgstr "Kopiér"
 
-#: src/item-cursor.c:709 src/print-preview.c:538
+#: src/item-cursor.c:732 src/print-preview.c:538
 msgid "Move"
 msgstr "Flyt"
 
-#: src/item-cursor.c:710
+#: src/item-cursor.c:733
 msgid "Copy formats"
 msgstr "Kopiéringsformater"
 
-#: src/item-cursor.c:711
+#: src/item-cursor.c:734
 msgid "Copy values"
 msgstr "Kopiér værdier"
 
-#: src/item-cursor.c:712
+#: src/item-cursor.c:735
 msgid "Shift cells down and copy"
 msgstr "Flyt celler ned og kopiér"
 
-#: src/item-cursor.c:713
+#: src/item-cursor.c:736
 msgid "Shift cells right and copy"
 msgstr "Flyt celler til højre og kopiér"
 
-#: src/item-cursor.c:714
+#: src/item-cursor.c:737
 msgid "Shift cells down and move"
 msgstr "Flyt celler ned og flyt"
 
-#: src/item-cursor.c:715
+#: src/item-cursor.c:738
 msgid "Shift cells right and move"
 msgstr "Flyt celler til højre og flyt"
 
-#: src/item-grid.c:624
+#: src/item-grid.c:586
 msgid "Cu_t"
 msgstr "K_lip"
 
-#: src/item-grid.c:626
+#: src/item-grid.c:588
 msgid "_Copy"
 msgstr "_Kopiér"
 
-#: src/item-grid.c:628
+#: src/item-grid.c:590
 msgid "_Paste"
 msgstr "_Indsæt"
 
-#: src/item-grid.c:630
+#: src/item-grid.c:592
 msgid "Paste _Special"
 msgstr "Indsæt s_peciel"
 
-#: src/item-grid.c:635
+#: src/item-grid.c:597
 msgid "_Insert..."
 msgstr "_Indsæt..."
 
-#: src/item-grid.c:637 src/workbook.c:1120
+#: src/item-grid.c:599 src/workbook.c:1126
 msgid "_Delete..."
 msgstr "_Slet..."
 
-#: src/item-grid.c:639
+#: src/item-grid.c:601
 msgid "Clear Co_ntents"
 msgstr "Ryd i_ndhold"
 
-#: src/item-grid.c:644
+#: src/item-grid.c:606
 msgid "_Format Cells..."
 msgstr "_Formatér celler..."
 
 #. Column specific functions
-#: src/item-grid.c:648
+#: src/item-grid.c:610
 msgid "Column _Width..."
 msgstr "_Kolonnebredde..."
 
-#: src/item-grid.c:650 src/item-grid.c:658 src/workbook.c:1196
-#: src/workbook.c:1210
+#: src/item-grid.c:612 src/item-grid.c:620 src/workbook.c:1202
+#: src/workbook.c:1216
 msgid "_Hide"
 msgstr "_Skjul"
 
-#: src/item-grid.c:652 src/item-grid.c:660 src/workbook.c:1198
-#: src/workbook.c:1212
+#: src/item-grid.c:614 src/item-grid.c:622 src/workbook.c:1204
+#: src/workbook.c:1218
 msgid "_Unhide"
 msgstr "_Vis igen"
 
 #. Row specific functions (Note some of the labels are duplicated
-#: src/item-grid.c:656
+#: src/item-grid.c:618
 msgid "_Row Height..."
 msgstr "_Rækkehøjde..."
 
-#: src/main.c:54
+#: src/main.c:57
 msgid "Dumps the function definitions"
 msgstr ""
 
-#: src/main.c:54
+#: src/main.c:57
 msgid "FILE"
 msgstr "FILE"
 
-#: src/main.c:57
+#: src/main.c:60
 msgid "Enables some debugging functions"
 msgstr "Slår nogle aflusningsfunktioner til"
 
-#: src/main.c:57 src/main.c:60 src/main.c:62 src/main.c:70 src/main.c:74
-#: src/main.c:78 src/main.c:82 src/main.c:86
+#: src/main.c:60 src/main.c:63 src/main.c:65 src/main.c:73 src/main.c:77
+#: src/main.c:81 src/main.c:85 src/main.c:89
 msgid "LEVEL"
 msgstr "LEVEL"
 
-#: src/main.c:60
+#: src/main.c:63
 msgid "Enables some style related debugging functions"
 msgstr ""
 
-#: src/main.c:62
+#: src/main.c:65
 #, fuzzy
 msgid "Enables some dependency related debugging functions"
 msgstr "Aktivér aflusningsfunktioner"
 
-#: src/main.c:65
+#: src/main.c:68
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr ""
 
-#: src/main.c:69 src/main.c:85
+#: src/main.c:72 src/main.c:88
 msgid "Enables debugging mesgs while reading excel workbooks"
 msgstr "Aktivér aflusnings besk. under læsning af excel arbejdsbøger"
 
-#: src/main.c:73
+#: src/main.c:76
 msgid "Enables debugging mesgs while reading excel functions"
 msgstr "Aktivér aflusnings besk. under læsning af excel funktioner"
 
-#: src/main.c:77
+#: src/main.c:80
 msgid "Enables debugging mesgs while reading excel colours & patterns"
 msgstr ""
 
-#: src/main.c:81
+#: src/main.c:84
 msgid "Enables debugging mesgs while reading excel charts"
 msgstr "Aktivér aflusnings besk. under læsning af excel grafer"
 
-#: src/main.c:89
+#: src/main.c:92
 msgid "Enables extra consistancy checking while reading ole files"
 msgstr ""
 
@@ -11910,26 +11938,26 @@ msgstr ""
 msgid "(([-+]?[0-9,]+)?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
 msgstr "(([-+]?[0-9,]+)?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
 
-#: src/plugin.c:62
+#: src/plugin.c:61
 #, c-format
 msgid ""
 "Unable to open plugin '%s'\n"
 "Plugin version '%s' is different from application '%s'."
 msgstr ""
 
-#: src/plugin.c:115
+#: src/plugin.c:114
 msgid "unable to open module file: "
 msgstr "kan ikke åbne modulfil: "
 
-#: src/plugin.c:124
+#: src/plugin.c:123
 msgid "Plugin must contain init_plugin function."
-msgstr ""
+msgstr "Indstik skal indeholde init_plugin funktion."
 
-#: src/plugin.c:133
+#: src/plugin.c:132
 msgid "init_plugin returned error"
 msgstr "init_plugin returnerede fejl"
 
-#: src/plugin.c:152
+#: src/plugin.c:151
 msgid "Plugin is still in use.\n"
 msgstr "Indplug er stadig i brug.\n"
 
@@ -11987,23 +12015,23 @@ msgstr "tommer"
 msgid "Sheet 1"
 msgstr "Ark 1"
 
-#: src/print-info.c:561
+#: src/print-info.c:565
 msgid "tab"
 msgstr "tab"
 
-#: src/print-info.c:562
+#: src/print-info.c:566
 msgid "page"
 msgstr "side"
 
-#: src/print-info.c:563
+#: src/print-info.c:567
 msgid "pages"
 msgstr "sider"
 
-#: src/print-info.c:564
+#: src/print-info.c:568
 msgid "date"
 msgstr "dato"
 
-#: src/print-info.c:565
+#: src/print-info.c:569
 msgid "time"
 msgstr "tid"
 
@@ -12108,9 +12136,9 @@ msgstr "arket"
 msgid "the workbook"
 msgstr "arbejdsbogen"
 
-#: src/print.c:594 src/workbook.c:1689
+#: src/print.c:594 src/workbook.c:1679
 msgid "Selection must be a single range"
-msgstr ""
+msgstr "Markering skal være et enkelt omfang"
 
 #: src/print.c:694
 msgid "Print Sheets"
@@ -12120,32 +12148,32 @@ msgstr "Udskriv ark"
 msgid "Active sheet"
 msgstr "Aktiv ark"
 
-#: src/print.c:772 src/workbook.c:1070 src/workbook.c:1327
+#: src/print.c:772 src/workbook.c:1076 src/workbook.c:1335
 msgid "Print preview"
 msgstr "Vis udskrift"
 
-#: src/selection.c:156
+#: src/selection.c:161
 msgid "The command `"
 msgstr "Kommandoen `"
 
-#: src/selection.c:158
+#: src/selection.c:163
 msgid "' cannot be performed with multiple selections"
 msgstr " kan ikke udføres med flere markeringer"
 
 #. FIXME FIXME : disable copying part of an array
-#: src/selection.c:665
+#: src/selection.c:670
 msgid "copy"
 msgstr "kopiér"
 
-#: src/selection.c:696
+#: src/selection.c:701
 msgid "cut"
 msgstr "klip"
 
-#: src/selection.c:744
+#: src/selection.c:749
 msgid "paste"
 msgstr "indsæt"
 
-#: src/selection.c:766
+#: src/selection.c:771
 #, c-format
 msgid ""
 "The area can not be pasted into the selection because it\n"
@@ -12154,11 +12182,11 @@ msgid ""
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
 
-#: src/sheet-object.c:358 src/workbook.c:1357
+#: src/sheet-object.c:358 src/workbook.c:1365
 msgid "Button"
 msgstr "Bund"
 
-#: src/sheet-object.c:745 src/workbook.c:1044
+#: src/sheet-object.c:745 src/workbook.c:1050
 msgid "Select an object"
 msgstr "Vælg et objekt"
 
@@ -12172,18 +12200,18 @@ msgstr "Række: %d"
 msgid "Column: %s"
 msgstr "Kolonne: %s"
 
-#: src/sheet.c:798
+#: src/sheet.c:801
 msgid "Internal ERROR"
 msgstr "Intern FEJL"
 
-#: src/sheet.c:2581
+#: src/sheet.c:2466
 #, c-format
 msgid "I was not able to activate object %s"
-msgstr ""
+msgstr "Jeg kunne ikke aktivere objekt %s"
 
-#: src/sheet.c:2593
+#: src/sheet.c:2478
 msgid "I was unable to the bind object"
-msgstr ""
+msgstr "Jeg kunne ikke binde objekt"
 
 #: src/style.c:424
 msgid ""
@@ -12249,7 +12277,7 @@ msgstr "Terminér"
 
 #. Placeholder: font selector
 #. Placeholder: size selector
-#: src/widgets/widget-font-selector.c:126 src/workbook-format-toolbar.c:285
+#: src/widgets/widget-font-selector.c:126 src/workbook-format-toolbar.c:328
 msgid "Bold"
 msgstr "Fed"
 
@@ -12257,175 +12285,158 @@ msgstr "Fed"
 msgid "Bold italic"
 msgstr "Fed kursiv"
 
-#: src/widgets/widget-font-selector.c:128 src/workbook-format-toolbar.c:288
+#: src/widgets/widget-font-selector.c:128 src/workbook-format-toolbar.c:331
 msgid "Italic"
 msgstr "Kursiv"
 
 #. "Custom" color - we'll pop up a GnomeColorPicker
-#: src/widgets/widget-color-combo.c:264
-#, fuzzy
+#: src/widgets/widget-color-combo.c:265
 msgid "Custom Color:"
-msgstr "Personlig side_fod"
+msgstr "Egen farve:"
 
-#: src/widgets/widget-color-combo.c:270
+#: src/widgets/widget-color-combo.c:271
 msgid "Choose Custom Color"
-msgstr ""
-
-#: src/widgets/widget-color-combo.c:381
-msgid "light brown"
-msgstr ""
+msgstr "Vælg din egen farve"
 
 #: src/widgets/widget-color-combo.c:382
-msgid "brown gold"
-msgstr ""
+msgid "light brown"
+msgstr "lysebrun"
 
 #: src/widgets/widget-color-combo.c:383
-msgid "dark green #2"
-msgstr ""
+msgid "brown gold"
+msgstr "gyldenbrun"
 
 #: src/widgets/widget-color-combo.c:384
-#, fuzzy
+msgid "dark green #2"
+msgstr "mørkegrøn #2"
+
+#: src/widgets/widget-color-combo.c:385
 msgid "navy"
-msgstr "Søndag"
+msgstr "marineblå"
 
-#: src/widgets/widget-color-combo.c:385 src/widgets/widget-color-combo.c:441
-#, fuzzy
+#: src/widgets/widget-color-combo.c:386 src/widgets/widget-color-combo.c:442
 msgid "dark blue"
-msgstr "blå"
-
-#: src/widgets/widget-color-combo.c:386
-msgid "purple #2"
-msgstr ""
+msgstr "mørkeblå"
 
 #: src/widgets/widget-color-combo.c:387
+msgid "purple #2"
+msgstr "violet #2"
+
+#: src/widgets/widget-color-combo.c:388
 msgid "very dark gray"
-msgstr ""
+msgstr "meget mørkegrå"
 
-#: src/widgets/widget-color-combo.c:390 src/widgets/widget-color-combo.c:446
+#: src/widgets/widget-color-combo.c:391 src/widgets/widget-color-combo.c:447
 msgid "dark red"
-msgstr ""
-
-#: src/widgets/widget-color-combo.c:391
-msgid "red-orange"
-msgstr ""
+msgstr "mørkerød"
 
 #: src/widgets/widget-color-combo.c:392
-#, fuzzy
-msgid "gold"
-msgstr "Fed"
+msgid "red-orange"
+msgstr "orangerød"
 
 #: src/widgets/widget-color-combo.c:393
-#, fuzzy
+msgid "gold"
+msgstr "gylden"
+
+#: src/widgets/widget-color-combo.c:394
 msgid "dark green"
-msgstr "grøn"
+msgstr "mørkegrøn"
 
-#: src/widgets/widget-color-combo.c:394 src/widgets/widget-color-combo.c:447
-#, fuzzy
+#: src/widgets/widget-color-combo.c:395 src/widgets/widget-color-combo.c:448
 msgid "dull blue"
-msgstr "blå"
-
-#: src/widgets/widget-color-combo.c:396
-msgid "dull purple"
-msgstr ""
+msgstr "mat blå"
 
 #: src/widgets/widget-color-combo.c:397
-msgid "dark grey"
-msgstr ""
+msgid "dull purple"
+msgstr "mat violet"
 
-#: src/widgets/widget-color-combo.c:401
-#, fuzzy
-msgid "orange"
-msgstr "Omfang"
+#: src/widgets/widget-color-combo.c:398
+msgid "dark grey"
+msgstr "mørkegrå"
 
 #: src/widgets/widget-color-combo.c:402
-#, fuzzy
-msgid "lime"
-msgstr "tid"
+msgid "orange"
+msgstr "orange"
 
 #: src/widgets/widget-color-combo.c:403
-#, fuzzy
-msgid "dull green"
-msgstr "grøn"
+msgid "lime"
+msgstr "ravgul"
 
 #: src/widgets/widget-color-combo.c:404
-msgid "dull blue #2"
-msgstr ""
+msgid "dull green"
+msgstr "mat grøn"
 
 #: src/widgets/widget-color-combo.c:405
+msgid "dull blue #2"
+msgstr "mat blå #2"
+
+#: src/widgets/widget-color-combo.c:406
 msgid "sky blue #2"
-msgstr ""
+msgstr "himmelblå #2"
 
-#: src/widgets/widget-color-combo.c:406 src/widgets/widget-color-combo.c:445
+#: src/widgets/widget-color-combo.c:407 src/widgets/widget-color-combo.c:446
 msgid "purple"
-msgstr ""
+msgstr "violet"
 
-#: src/widgets/widget-color-combo.c:407
-#, fuzzy
+#: src/widgets/widget-color-combo.c:408
 msgid "gray"
-msgstr "Matrise"
+msgstr "grå"
 
-#: src/widgets/widget-color-combo.c:411
-#, fuzzy
+#: src/widgets/widget-color-combo.c:412
 msgid "bright orange"
-msgstr "Kriterieomfang:"
+msgstr "klar orange"
 
-#: src/widgets/widget-color-combo.c:415
+#: src/widgets/widget-color-combo.c:416
 msgid "bright blue"
-msgstr ""
+msgstr "klar blå"
 
-#: src/widgets/widget-color-combo.c:416 src/widgets/widget-color-combo.c:433
+#: src/widgets/widget-color-combo.c:417 src/widgets/widget-color-combo.c:434
 msgid "red purple"
-msgstr ""
+msgstr "rødviolet"
 
-#: src/widgets/widget-color-combo.c:417
+#: src/widgets/widget-color-combo.c:418
 msgid "light grey"
-msgstr ""
+msgstr "lysegrå"
 
-#: src/widgets/widget-color-combo.c:420 src/widgets/widget-color-combo.c:437
-#, fuzzy
+#: src/widgets/widget-color-combo.c:421 src/widgets/widget-color-combo.c:438
 msgid "pink"
-msgstr "punkter"
+msgstr "lyserød"
 
-#: src/widgets/widget-color-combo.c:421
-#, fuzzy
+#: src/widgets/widget-color-combo.c:422
 msgid "light orange"
-msgstr "Højrejustér"
+msgstr "lysorange"
 
-#: src/widgets/widget-color-combo.c:422 src/widgets/widget-color-combo.c:434
-#, fuzzy
+#: src/widgets/widget-color-combo.c:423 src/widgets/widget-color-combo.c:435
 msgid "light yellow"
-msgstr "gul"
-
-#: src/widgets/widget-color-combo.c:423
-#, fuzzy
-msgid "light green"
-msgstr "Højrejustér"
+msgstr "lysegul"
 
 #: src/widgets/widget-color-combo.c:424
-#, fuzzy
+msgid "light green"
+msgstr "lysegrøn"
+
+#: src/widgets/widget-color-combo.c:425
 msgid "light cyan"
-msgstr "Højrejustér"
+msgstr "lysecyan"
 
-#: src/widgets/widget-color-combo.c:425 src/widgets/widget-color-combo.c:435
+#: src/widgets/widget-color-combo.c:426 src/widgets/widget-color-combo.c:436
 msgid "light blue"
-msgstr ""
+msgstr "lyseblå"
 
-#: src/widgets/widget-color-combo.c:426 src/widgets/widget-color-combo.c:439
+#: src/widgets/widget-color-combo.c:427 src/widgets/widget-color-combo.c:440
 msgid "light purple"
-msgstr ""
+msgstr "lyseviolet"
 
-#: src/widgets/widget-color-combo.c:432
+#: src/widgets/widget-color-combo.c:433
 msgid "purplish blue"
-msgstr ""
+msgstr "blåviolet"
 
-#: src/widgets/widget-color-combo.c:436
+#: src/widgets/widget-color-combo.c:437
 msgid "dark purple"
-msgstr ""
+msgstr "mørkeviolet"
 
-#: src/widgets/widget-color-combo.c:438
-#, fuzzy
+#: src/widgets/widget-color-combo.c:439
 msgid "sky blue"
-msgstr "blå"
+msgstr "himmelblå"
 
 #: src/workbook-cmd-format.c:98
 msgid "You entered an invalid column width value.  It must be bigger than 0"
@@ -12435,661 +12446,697 @@ msgstr ""
 msgid "You entered an invalid row height value.  It must be bigger than 0"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:285
+#: src/workbook-format-toolbar.c:328
 msgid "Sets the bold font"
 msgstr "Gør skriften fed"
 
-#: src/workbook-format-toolbar.c:288
+#: src/workbook-format-toolbar.c:331
 msgid "Makes the font italic"
 msgstr "Gør skriften kursiv"
 
-#: src/workbook-format-toolbar.c:291
-#, fuzzy
+#: src/workbook-format-toolbar.c:334
 msgid "Underline"
-msgstr "_Understreg:"
+msgstr "Understreg"
 
-#: src/workbook-format-toolbar.c:291
-#, fuzzy
+#: src/workbook-format-toolbar.c:334
 msgid "Underlines the font"
-msgstr "_Understreg:"
+msgstr "Understreger skrifttypen"
 
-#: src/workbook-format-toolbar.c:296
+#: src/workbook-format-toolbar.c:339
 msgid "Left align"
 msgstr "Venstrejustér"
 
-#: src/workbook-format-toolbar.c:296
+#: src/workbook-format-toolbar.c:339
 msgid "Left justifies the cell contents"
 msgstr "Venstrejusterer cellens indhold"
 
-#: src/workbook-format-toolbar.c:298
+#: src/workbook-format-toolbar.c:341
 msgid "Center"
 msgstr "Centrér"
 
-#: src/workbook-format-toolbar.c:298
+#: src/workbook-format-toolbar.c:341
 msgid "Centers the cell contents"
 msgstr "Centrerer cellens indhold"
 
-#: src/workbook-format-toolbar.c:300
+#: src/workbook-format-toolbar.c:343
 msgid "Right align"
 msgstr "Højrejustér"
 
-#: src/workbook-format-toolbar.c:300
+#: src/workbook-format-toolbar.c:343
 msgid "Right justifies the cell contents"
 msgstr "Højrejusterer cellens indhold"
 
-#: src/workbook-format-toolbar.c:306
+#: src/workbook-format-toolbar.c:349
+msgid "Sort Ascending"
+msgstr "Sortér opadstigende"
+
+#: src/workbook-format-toolbar.c:349
+msgid ""
+"Sorts the selected region in ascending order based on the first column "
+"selected."
+msgstr ""
+
+#: src/workbook-format-toolbar.c:352
+msgid "Sort Descending"
+msgstr "Sortér nedadstigende"
+
+#: src/workbook-format-toolbar.c:352
+msgid ""
+"Sorts the selected region in descending order based on the first column "
+"selected."
+msgstr ""
+
+#: src/workbook-format-toolbar.c:358
 msgid "Money format"
 msgstr "Pengeformat"
 
-#: src/workbook-format-toolbar.c:306
+#: src/workbook-format-toolbar.c:358
 msgid "Sets the format of the selected cells to monetary"
 msgstr "Brug pengeformat som de markerede cellers format"
 
-#: src/workbook-format-toolbar.c:309
+#: src/workbook-format-toolbar.c:361
 msgid "Percent"
 msgstr "Procent"
 
-#: src/workbook-format-toolbar.c:309
+#: src/workbook-format-toolbar.c:361
 msgid "Sets the format of the selected cells to percentage"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:312
+#: src/workbook-format-toolbar.c:364
 msgid "Thousand separator"
 msgstr "Tusind-separator"
 
-#: src/workbook-format-toolbar.c:312
+#: src/workbook-format-toolbar.c:364
 msgid "Sets the format of the selected cells to include a thousands separator"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:315
+#: src/workbook-format-toolbar.c:367
 msgid "Add decimals"
 msgstr "Tilføj decimaler"
 
-#: src/workbook-format-toolbar.c:315
+#: src/workbook-format-toolbar.c:367
 msgid "Increases the number of decimal numbers displayed"
 msgstr "Hæver det antal decimaler som vises"
 
-#: src/workbook-format-toolbar.c:318
+#: src/workbook-format-toolbar.c:370
 msgid "Remove decimals"
 msgstr "Fjern decimaler"
 
-#: src/workbook-format-toolbar.c:318
+#: src/workbook-format-toolbar.c:370
 msgid "Decreases the number of decimal numbers displayed"
 msgstr "Sænker det antal decimaler som vises"
 
-#: src/workbook-format-toolbar.c:411
+#: src/workbook-format-toolbar.c:463
 msgid "Clear Borders"
 msgstr "Ryd kanter"
 
-#: src/workbook-format-toolbar.c:414
+#: src/workbook-format-toolbar.c:466
 msgid "All Borders"
 msgstr "Alle kanter"
 
-#: src/workbook-format-toolbar.c:415
+#: src/workbook-format-toolbar.c:467
 msgid "Outside Borders"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:416
+#: src/workbook-format-toolbar.c:468
 msgid "Thick Outside Borders"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:419
+#: src/workbook-format-toolbar.c:471
 msgid "Double Bottom"
 msgstr "Dobbel bund"
 
-#: src/workbook-format-toolbar.c:420
+#: src/workbook-format-toolbar.c:472
 msgid "Thick Bottom"
 msgstr "Tyk bund"
 
-#: src/workbook-format-toolbar.c:422
+#: src/workbook-format-toolbar.c:474
 msgid "Top and Bottom"
 msgstr "Top og bund"
 
-#: src/workbook-format-toolbar.c:423
+#: src/workbook-format-toolbar.c:475
 msgid "Top and Double Bottom"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:424
+#: src/workbook-format-toolbar.c:476
 msgid "Top and Thick Bottom"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:557
+#: src/workbook-format-toolbar.c:609
 msgid "Font selector"
 msgstr "Skrifttypevælger"
 
-#: src/workbook-format-toolbar.c:577
+#: src/workbook-format-toolbar.c:629
 msgid "Size"
 msgstr "Størrelse"
 
-#: src/workbook-format-toolbar.c:607
+#: src/workbook-format-toolbar.c:659
 msgid "Borders"
 msgstr "Kanter"
 
-#: src/workbook-format-toolbar.c:615
+#: src/workbook-format-toolbar.c:667
 msgid "Foreground"
 msgstr "Forgrund"
 
-#: src/workbook.c:549
+#: src/workbook.c:555
 msgid "Warning"
 msgstr "Advarsel"
 
-#: src/workbook.c:560
+#: src/workbook.c:566
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr "Arbejdsbog %s har ugemte ændringer, gem dem?"
 
-#: src/workbook.c:563
+#: src/workbook.c:569
 msgid "Workbook has unsaved changes, save them?"
 msgstr "Arbejdsbogen har ugemte ændringer, gem dem?"
 
 #. TODO : No need to check simplicty.  XL applies for each
 #. * non-discrete selected region, (use selection_apply)
-#: src/workbook.c:789
+#: src/workbook.c:795
 msgid "Insert cols"
 msgstr "Indsæt kolonner"
 
 #. TODO : No need to check simplicty.  XL applies for each
 #. * non-discrete selected region, (use selection_apply)
-#: src/workbook.c:813
+#: src/workbook.c:819
 msgid "Insert rows"
 msgstr "Indsæt rækker"
 
-#: src/workbook.c:1053
+#: src/workbook.c:1059
 msgid "_New"
 msgstr "_Ny"
 
-#: src/workbook.c:1053
+#: src/workbook.c:1059
 msgid "Create a new spreadsheet"
 msgstr "Opretter et nyt regneark"
 
-#: src/workbook.c:1057
+#: src/workbook.c:1063
 msgid "_Import..."
 msgstr "_Importér..."
 
-#: src/workbook.c:1057
+#: src/workbook.c:1063
 msgid "Imports a file"
 msgstr "Importerer en fil"
 
-#: src/workbook.c:1063
+#: src/workbook.c:1069
 msgid "Su_mmary..."
 msgstr "Sa_mmendrag..."
 
-#: src/workbook.c:1063
+#: src/workbook.c:1069
 msgid "Summary information"
 msgstr "Informationsresumé"
 
-#: src/workbook.c:1070 src/workbook.c:1327
+#: src/workbook.c:1076 src/workbook.c:1335
 msgid "Print pre_view"
 msgstr "_Vis udskrift"
 
-#: src/workbook.c:1086
+#: src/workbook.c:1092
 msgid "_All"
 msgstr "_Alt"
 
-#: src/workbook.c:1087
+#: src/workbook.c:1093
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Ryd den valgte celles formater, kommentarer og indhold"
 
-#: src/workbook.c:1089
+#: src/workbook.c:1095
 msgid "_Formats"
 msgstr "_Formattér"
 
-#: src/workbook.c:1090
+#: src/workbook.c:1096
 msgid "Clear the selected cells' formats"
 msgstr "Ryd den valgte celles formater"
 
-#: src/workbook.c:1093
+#: src/workbook.c:1099
 msgid "Clear the selected cells' comments"
 msgstr "Ryd den valgte celles kommentarer"
 
-#: src/workbook.c:1095
+#: src/workbook.c:1101
 msgid "_Content"
 msgstr "_Indhold"
 
-#: src/workbook.c:1096
+#: src/workbook.c:1102
 msgid "Clear the selected cells' contents"
 msgstr "Fjern den markerede celles indhold"
 
-#: src/workbook.c:1118
+#: src/workbook.c:1124
 msgid "C_lear"
 msgstr "_Ryd"
 
-#: src/workbook.c:1119
+#: src/workbook.c:1125
 msgid "Clear the selected cell(s)"
 msgstr "Ryd de(n) markerede celle(r)"
 
-#: src/workbook.c:1122
+#: src/workbook.c:1128
 msgid "De_lete Sheet"
 msgstr "_Slet ark"
 
-#: src/workbook.c:1127
+#: src/workbook.c:1133
 msgid "_Select All"
 msgstr "Markér _alt"
 
-#: src/workbook.c:1128
+#: src/workbook.c:1134
 msgid "Select all cells in the spreadsheet"
 msgstr "Markerer alle celler i regnearket"
 
-#: src/workbook.c:1130
+#: src/workbook.c:1136
 msgid "_Goto cell..."
 msgstr "_Gå til celle..."
 
-#: src/workbook.c:1131
+#: src/workbook.c:1137
 msgid "Jump to a specified cell"
 msgstr "Spring til en angivet celle"
 
-#: src/workbook.c:1134
+#: src/workbook.c:1140
 msgid "_Recalculate"
 msgstr "_Omregn"
 
-#: src/workbook.c:1135
+#: src/workbook.c:1141
 msgid "Recalculate the spreadsheet"
 msgstr "Omkalkulerer regnearket"
 
-#: src/workbook.c:1143
+#: src/workbook.c:1149
 msgid "_Zoom..."
 msgstr "_Zoom..."
 
-#: src/workbook.c:1144
+#: src/workbook.c:1150
 msgid "Zoom the spreadsheet in or out"
 msgstr "Zoom ind og ud på regnearket"
 
-#: src/workbook.c:1151
+#: src/workbook.c:1157
 msgid "Current _date"
 msgstr "Dags _dato"
 
-#: src/workbook.c:1152
+#: src/workbook.c:1158
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Indsæt dags dato i de(n) markerede celle(r)"
 
-#: src/workbook.c:1155
+#: src/workbook.c:1161
 msgid "Current _time"
 msgstr "_Tidspunkt"
 
-#: src/workbook.c:1156
+#: src/workbook.c:1162
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Indsæt nuværende tidspunkt i de(n) markerede celle(r)"
 
-#: src/workbook.c:1163 src/workbook.c:1253
+#: src/workbook.c:1169 src/workbook.c:1261
 msgid "_Sheet"
 msgstr "_Ark"
 
-#: src/workbook.c:1163
+#: src/workbook.c:1169
 msgid "Insert a new spreadsheet"
 msgstr "Indsæt et nyt regneark"
 
-#: src/workbook.c:1165
+#: src/workbook.c:1171
 msgid "_Rows"
 msgstr "_Rækker"
 
-#: src/workbook.c:1165
+#: src/workbook.c:1171
 msgid "Insert new rows"
 msgstr "Indsæt nye rækker"
 
-#: src/workbook.c:1167
+#: src/workbook.c:1173
 msgid "_Columns"
 msgstr "_Kolonner"
 
-#: src/workbook.c:1167
+#: src/workbook.c:1173
 msgid "Insert new columns"
 msgstr "indsæt nye kolonner"
 
-#: src/workbook.c:1169
+#: src/workbook.c:1175
 msgid "C_ells..."
 msgstr "_Celler..."
 
-#: src/workbook.c:1169
+#: src/workbook.c:1175
 msgid "Insert new cells"
 msgstr "indsæt nye celler"
 
-#: src/workbook.c:1173
+#: src/workbook.c:1179
 msgid "_Object..."
 msgstr "_Objekt..."
 
-#: src/workbook.c:1174
+#: src/workbook.c:1180
 msgid "Inserts a Bonobo object"
 msgstr "Indsætter et bonobo-objekt"
 
-#: src/workbook.c:1180
+#: src/workbook.c:1186
 #, fuzzy
 msgid "Define _Name"
 msgstr "Definér navn"
 
-#: src/workbook.c:1182
+#: src/workbook.c:1188
 msgid "_Add/modify comment..."
 msgstr "_Tilføj/ændr kommentar..."
 
-#: src/workbook.c:1183
+#: src/workbook.c:1189
 msgid "Edit the selected cell's comment"
 msgstr "Redigér den valgte celles kommentar"
 
-#: src/workbook.c:1184
+#: src/workbook.c:1190
 msgid "S_pecial"
 msgstr "S_peciel"
 
-#: src/workbook.c:1192 src/workbook.c:1206
+#: src/workbook.c:1198 src/workbook.c:1212
 msgid "_Auto fit selection"
 msgstr "_Autotilpas markering:"
 
-#: src/workbook.c:1194
+#: src/workbook.c:1200
 msgid "_Width"
 msgstr "_Bredde"
 
-#: src/workbook.c:1200
+#: src/workbook.c:1206
 msgid "_Standard Width"
 msgstr "_Standardbredde"
 
-#: src/workbook.c:1208
+#: src/workbook.c:1214
 msgid "_Height"
 msgstr "_Højde"
 
-#: src/workbook.c:1214
+#: src/workbook.c:1220
 msgid "_Standard Height"
 msgstr "Standardhøjde"
 
-#: src/workbook.c:1220
+#: src/workbook.c:1226
 msgid "_Change name"
 msgstr "_Ændr navn"
 
-#: src/workbook.c:1223
+#: src/workbook.c:1228
+#, fuzzy
+msgid "Re-_Order Sheets"
+msgstr "_Slet ark"
+
+#: src/workbook.c:1231
 msgid "Display _Formulas"
 msgstr "Vis _formler"
 
-#: src/workbook.c:1225
+#: src/workbook.c:1233
 msgid "Hide _Zeros"
 msgstr "Skjul _nuller"
 
-#: src/workbook.c:1228
+#: src/workbook.c:1236
 msgid "Hide _Gridlines"
 msgstr "Skjul _gitterlinier"
 
-#: src/workbook.c:1230
+#: src/workbook.c:1238
 msgid "Hide _Column Header"
 msgstr "Skjul _kolonnehoved"
 
-#: src/workbook.c:1232
+#: src/workbook.c:1240
 msgid "Hide _Row Header"
 msgstr "Skjul _rækkehoved"
 
-#: src/workbook.c:1238
+#: src/workbook.c:1246
 msgid "Hide _Horizontal Scrollbar"
 msgstr "Skjul _vandret rullebjælke"
 
-#: src/workbook.c:1240
+#: src/workbook.c:1248
 msgid "Hide _Vertical Scrollbar"
 msgstr "Skjul _lodret rullebjælke"
 
-#: src/workbook.c:1242
+#: src/workbook.c:1250
 msgid "Hide Sheet _Tabs"
 msgstr "Skjul faneblade for ark"
 
-#: src/workbook.c:1248
+#: src/workbook.c:1256
 msgid "_Cells..."
 msgstr "_Celler..."
 
-#: src/workbook.c:1249
+#: src/workbook.c:1257
 msgid "Modify the formatting of the selected cells"
 msgstr "Ændr formattet på de markerede celler"
 
-#: src/workbook.c:1251
+#: src/workbook.c:1259
 msgid "C_olumn"
 msgstr "K_olonne"
 
-#: src/workbook.c:1252
+#: src/workbook.c:1260
 msgid "_Row"
 msgstr "_Række"
 
-#: src/workbook.c:1254
+#: src/workbook.c:1262
 msgid "_Workbook"
 msgstr "_Arbejdsbog"
 
-#: src/workbook.c:1260
+#: src/workbook.c:1268
 msgid "_Plug-ins..."
 msgstr "Ind_plug..."
 
-#: src/workbook.c:1260
+#: src/workbook.c:1268
 msgid "Gnumeric plugins"
 msgstr "Gnumeric indplug"
 
-#: src/workbook.c:1265
+#: src/workbook.c:1273
 msgid "Auto _Correct..."
 msgstr "Auto_korrektion..."
 
-#: src/workbook.c:1267
+#: src/workbook.c:1275
 msgid "_Auto Save..."
 msgstr "_Autogem..."
 
-#: src/workbook.c:1270
+#: src/workbook.c:1278
 msgid "_Goal Seek..."
 msgstr "_Mål søgning..."
 
-#: src/workbook.c:1271
+#: src/workbook.c:1279
 msgid "_Solver..."
 msgstr "_Løser..."
 
-#: src/workbook.c:1273
+#: src/workbook.c:1281
 msgid "_Data Analysis..."
 msgstr "_Dataanalyse..."
 
-#: src/workbook.c:1279
+#: src/workbook.c:1287
 msgid "_Sort..."
 msgstr "_Sortér..."
 
-#: src/workbook.c:1280
+#: src/workbook.c:1288
 msgid "Sort the selected cells"
 msgstr "Sorterer de valgte celler"
 
-#: src/workbook.c:1281
+#: src/workbook.c:1289
 msgid "_Filter..."
 msgstr "_Filter..."
 
-#: src/workbook.c:1282
+#: src/workbook.c:1290
 msgid "Filter date with given criterias"
 msgstr ""
 
-#: src/workbook.c:1298
+#: src/workbook.c:1306
 msgid "_Insert"
 msgstr "_Indsæt"
 
-#: src/workbook.c:1299
+#: src/workbook.c:1307
 msgid "F_ormat"
 msgstr "F_ormatér"
 
-#: src/workbook.c:1300
+#: src/workbook.c:1308
 msgid "_Tools"
 msgstr "_Værktøj"
 
-#: src/workbook.c:1301
+#: src/workbook.c:1309
 msgid "_Data"
 msgstr "_Data"
 
-#: src/workbook.c:1312
+#: src/workbook.c:1320
 msgid "New"
 msgstr "Ny"
 
-#: src/workbook.c:1312
-msgid "Creates a new sheet"
-msgstr "Opretter et nyt ark"
+#: src/workbook.c:1320
+#, fuzzy
+msgid "Creates a new workbook"
+msgstr "Kopiér til en ny arbejdsbog"
 
-#: src/workbook.c:1315
+#: src/workbook.c:1323
 msgid "Open"
 msgstr "Åbn"
 
-#: src/workbook.c:1315
+#: src/workbook.c:1323
 msgid "Opens an existing workbook"
 msgstr "Åbner en eksisterende arbejdsbog:"
 
-#: src/workbook.c:1318
+#: src/workbook.c:1326
 msgid "Save"
 msgstr "Gem"
 
-#: src/workbook.c:1318
+#: src/workbook.c:1326
 msgid "Saves the workbook"
 msgstr "Gemmer arbejdsbogen"
 
-#: src/workbook.c:1324
+#: src/workbook.c:1332
 msgid "Prints the workbook"
 msgstr "Udskriver arbejdsbogen"
 
-#: src/workbook.c:1333
+#: src/workbook.c:1341
 msgid "Cut"
 msgstr "Klip"
 
-#: src/workbook.c:1333
+#: src/workbook.c:1341
 msgid "Cuts the selection to the clipboard"
 msgstr "Klipper det markerede til klipbordet"
 
-#: src/workbook.c:1336
+#: src/workbook.c:1344
 msgid "Copies the selection to the clipboard"
 msgstr "Kopierer det markerede til klipbordet"
 
-#: src/workbook.c:1339
+#: src/workbook.c:1347
 msgid "Paste"
 msgstr "Indsæt"
 
-#: src/workbook.c:1339
+#: src/workbook.c:1347
 msgid "Pastes the clipboard"
 msgstr "Indsætter klipbordet"
 
-#: src/workbook.c:1346
-#, fuzzy
+#: src/workbook.c:1354
 msgid "Creates a graphic"
-msgstr "Opretter en afkrydsningsboks"
+msgstr "Opretter en grafik"
 
-#: src/workbook.c:1346
+#: src/workbook.c:1354
 msgid "Invokes the graphic wizard to create a graphic"
-msgstr ""
-
-#: src/workbook.c:1349
-#, fuzzy
-msgid "Insert Object"
-msgstr "Indsæt kolonner"
-
-#: src/workbook.c:1349
-#, fuzzy
-msgid "Inserts an object in the spreadsheet"
-msgstr "Indsæt et nyt regneark"
-
-#: src/workbook.c:1352
-#, fuzzy
-msgid "Insert shaped object"
-msgstr "Indsætter et bonobo-objekt"
-
-#: src/workbook.c:1352
-#, fuzzy
-msgid "Inserts a shaped object in the spreadsheet"
-msgstr "Opretter en grafik i regnearket"
+msgstr "Starter grafik-wizarden for at lave et stykke grafik"
 
 #: src/workbook.c:1357
+msgid "Insert Object"
+msgstr "Indsæt objekt"
+
+#: src/workbook.c:1357
+msgid "Inserts an object in the spreadsheet"
+msgstr "Indsætter et objekt i regnearket"
+
+#: src/workbook.c:1360
+msgid "Insert shaped object"
+msgstr "Indsæt gennemsigtigt objekt"
+
+#: src/workbook.c:1360
+msgid "Inserts a shaped object in the spreadsheet"
+msgstr "Indsætter et gennemsigtigt objekt i regnearket"
+
+#: src/workbook.c:1365
 msgid "Creates a button"
 msgstr "Opretter en knap"
 
-#: src/workbook.c:1360
+#: src/workbook.c:1368
 msgid "Checkbox"
 msgstr "Krydsafboks"
 
-#: src/workbook.c:1360
+#: src/workbook.c:1368
 msgid "Creates a checkbox"
 msgstr "Opretter en afkrydsningsboks"
 
-#: src/workbook.c:1367
+#: src/workbook.c:1375
 msgid "Creates a line object"
 msgstr "Opretter et linieobjekt"
 
-#: src/workbook.c:1370
+#: src/workbook.c:1378
 msgid "Arrow"
 msgstr "Pil"
 
-#: src/workbook.c:1370
+#: src/workbook.c:1378
 msgid "Creates an arrow object"
 msgstr "Opretter et pileobjekt"
 
-#: src/workbook.c:1373
+#: src/workbook.c:1381
 msgid "Rectangle"
 msgstr "Firkant"
 
-#: src/workbook.c:1373
+#: src/workbook.c:1381
 msgid "Creates a rectangle object"
 msgstr "Opretter et firkantet objekt"
 
-#: src/workbook.c:1376
+#: src/workbook.c:1384
 msgid "Ellipse"
 msgstr "Ellipse"
 
-#: src/workbook.c:1376
+#: src/workbook.c:1384
 msgid "Creates an ellipse object"
 msgstr "Opretter et ellipseobjekt"
 
-#: src/workbook.c:1602
+#: src/workbook.c:1639
 msgid "You should introduce a valid cell name"
 msgstr "Du skal introducere et gyldigt cellenavn"
 
-#: src/workbook.c:1611
-msgid "Column out of range"
-msgstr "Kolonne udenfor omfang"
-
-#: src/workbook.c:1617
-msgid "Row number out of range"
-msgstr "Rækkenummer udenfor omfang"
-
-#: src/workbook.c:1787
+#: src/workbook.c:1782
 msgid "Sum"
 msgstr "Sum"
 
-#: src/workbook.c:1788
+#: src/workbook.c:1783
 msgid "Min"
 msgstr "Min"
 
-#: src/workbook.c:1789
+#: src/workbook.c:1784
 msgid "Max"
 msgstr "Maks"
 
-#: src/workbook.c:1790
+#: src/workbook.c:1785
 msgid "Average"
 msgstr "Gennemsnit"
 
-#: src/workbook.c:1791
+#: src/workbook.c:1786
 msgid "Count"
 msgstr "Optæl"
 
-#: src/workbook.c:2320
+#: src/workbook.c:2328
 #, c-format
 msgid "Book%d.gnumeric"
 msgstr "Bog%d.gnumeric"
 
-#: src/workbook.c:2518
+#: src/workbook.c:2526
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Er du sikker på at du ønsker af fjerne følgnende ark '%s'?"
 
-#: src/workbook.c:2590
+#: src/workbook.c:2572
 msgid "Add another sheet"
 msgstr "Tilføj et andet ark"
 
-#: src/workbook.c:2591
+#: src/workbook.c:2573
 msgid "Remove this sheet"
 msgstr "Fjern dette ark"
 
-#: src/workbook.c:2592
+#: src/workbook.c:2574
 msgid "Rename this sheet"
 msgstr "Omdøb dette ark"
 
-#: src/workbook.c:2820 src/workbook.c:2853
+#: src/workbook.c:2802 src/workbook.c:2835
 #, c-format
 msgid "Sheet%d"
 msgstr "Ark%d"
 
-#: src/xml-io.c:2445
-msgid "Invalid xml file. Tree is empty ?"
-msgstr "Ugyldig xml fil. Træet er tomt?"
+#: src/xml-io.c:2742
+msgid "Invalid xml clipboard data. Tree is empty ?"
+msgstr "Ugyldigt xml klipbordsdata. Er træet tomt?"
 
-#: src/xml-io.c:2457
+#: src/xml-io.c:2780
+msgid "Invalid xml file. Tree is empty ?"
+msgstr "Ugyldig xml fil. Er træet tomt?"
+
+#: src/xml-io.c:2792
 msgid "Is not an Workbook file"
 msgstr "Er ikke en arbejdsbogsfil"
 
-#: src/xml-io.c:2516
+#: src/xml-io.c:2851
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
+
+#~ msgid "Formula Selection"
+#~ msgstr "Formelvælger"
+
+#~ msgid "Name"
+#~ msgstr "Navn"
+
+#~ msgid "File"
+#~ msgstr "Filer"
+
+#~ msgid "CELLRANGE"
+#~ msgstr "CELLRANGE"
+
+#~ msgid "Creates a new sheet"
+#~ msgstr "Opretter et nyt ark"
+
+#~ msgid "Column out of range"
+#~ msgstr "Kolonne udenfor omfang"
+
+#~ msgid "Row number out of range"
+#~ msgstr "Rækkenummer udenfor omfang"
 
 #~ msgid "HTML (simple html export/import plugin)"
 #~ msgstr "HTML (simpel html eksport/import tillæg)"
