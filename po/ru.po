@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.76\n"
-"POT-Creation-Date: 2001-12-14 18:21-0500\n"
-"PO-Revision-Date: 2001-11-18 19:06+03:00\n"
+"POT-Creation-Date: 2001-12-15 19:17+0300\n"
+"PO-Revision-Date: 2001-12-15 19:23+03:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -15,32 +15,6 @@ msgstr ""
 #: plugins/applix/applix-read.c:78
 msgid "Parse error while reading Applix file."
 msgstr "Ошибка анализа при чтении файла Applix."
-
-#: plugins/applix/plugin.xml.in.h:1
-msgid "Applix"
-msgstr ""
-
-#: plugins/applix/plugin.xml.in.h:2
-msgid "Applix (*.as)"
-msgstr ""
-
-#: plugins/applix/plugin.xml.in.h:3
-msgid "Imports version 4.[234] spreadsheets"
-msgstr ""
-
-#: plugins/derivatives/plugin.xml.in.h:1
-#, fuzzy
-msgid "Finance"
-msgstr "Финансовые"
-
-#: plugins/derivatives/plugin.xml.in.h:2
-#, fuzzy
-msgid "Financial Derivatives"
-msgstr "Финансовые"
-
-#: plugins/derivatives/plugin.xml.in.h:3
-msgid "Functions related to financial derivatives"
-msgstr ""
 
 #: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4465
 #: plugins/mps/mps.c:571 src/xml-io.c:3425
@@ -101,19 +75,6 @@ msgstr "Невозможно получить исходную таблицу."
 #: plugins/dif/dif.c:398
 msgid "Error while saving DIF file."
 msgstr "Ошибка при сохранении файла DIF."
-
-#: plugins/dif/plugin.xml.in.h:1
-msgid "Data Interchange Format (*.dif)"
-msgstr ""
-
-#: plugins/dif/plugin.xml.in.h:2
-msgid "Data Interchange Format (DIF) module"
-msgstr ""
-
-#: plugins/dif/plugin.xml.in.h:3
-msgid ""
-"Reads and writes information stored in the Data Interchange Format (*.dif)"
-msgstr ""
 
 #: plugins/excel/boot.c:104
 msgid ""
@@ -194,26 +155,6 @@ msgstr "Ошибочная функция"
 msgid " Unknown formula"
 msgstr " Неизвестная формула"
 
-#: plugins/excel/plugin.xml.in.h:1
-msgid "Excel(R) 95 file format"
-msgstr ""
-
-#: plugins/excel/plugin.xml.in.h:2
-msgid "Excel(R) 97 file format"
-msgstr ""
-
-#: plugins/excel/plugin.xml.in.h:3
-msgid "Imports/Exports Microsoft(R) Excel files"
-msgstr ""
-
-#: plugins/excel/plugin.xml.in.h:4
-msgid "Microsoft(R) Excel"
-msgstr ""
-
-#: plugins/excel/plugin.xml.in.h:5
-msgid "Microsoft(R) Excel (*.xls)"
-msgstr ""
-
 #: plugins/gb/plugin.c:138
 msgid "Unknown GB error"
 msgstr "Неизвестная ошибка GB"
@@ -227,15 +168,6 @@ msgstr "Ошибка инициализации gb \"%s\""
 #, c-format
 msgid "Error in project '%s'"
 msgstr "Ошибка в проекте \"%s\""
-
-#: plugins/gb/plugin.xml.in.h:1
-msgid "Enables Gnome Basic support"
-msgstr ""
-
-#: plugins/gb/plugin.xml.in.h:2
-#, fuzzy
-msgid "Gnome Basic"
-msgstr "Gnumeric"
 
 #: plugins/gda/plugin-gda.c:109
 msgid ""
@@ -270,27 +202,6 @@ msgstr "Ошибка: Невозможно инициализировать пул соединений"
 msgid "Error: could not open connection to %s"
 msgstr "Ошибка: невозможно открыть соединение с %s"
 
-#: plugins/gda/plugin.xml.in.h:1 src/functions/fn-database.c:1362
-msgid "Database"
-msgstr "База данных"
-
-#: plugins/gda/plugin.xml.in.h:2
-msgid "Database functions for allowing the retrieval of data from a database"
-msgstr ""
-
-#: plugins/gnome-glossary/plugin.xml.in.h:1
-msgid "Gnome Glossary"
-msgstr ""
-
-#: plugins/gnome-glossary/plugin.xml.in.h:2
-#, fuzzy
-msgid "Gnome Glossary PO file format"
-msgstr "Формат файла Gnumeric XML"
-
-#: plugins/gnome-glossary/plugin.xml.in.h:3
-msgid "It provides support for saving Gnome Glossary in .po files."
-msgstr ""
-
 #: plugins/guile/plugin.c:67 src/func.c:776 src/functions/fn-information.c:695
 #: src/functions/fn-information.c:766 src/functions/fn-information.c:794
 #: src/functions/fn-information.c:821 src/functions/fn-information.c:872
@@ -312,47 +223,6 @@ msgstr "Неопределенная функция scheme"
 msgid "Could not evaluate argument"
 msgstr "Невозможно выполнить аргумент"
 
-#: plugins/guile/plugin.xml.in.h:1
-#, fuzzy
-msgid "Guile Plugin"
-msgstr "Действующие дополнения"
-
-#: plugins/guile/plugin.xml.in.h:2
-msgid "This plugin enables Guile(scheme) support in Gnumeric"
-msgstr ""
-
-#: plugins/html/plugin.xml.in.h:1
-msgid "DVI TeX (via groff)"
-msgstr ""
-
-#: plugins/html/plugin.xml.in.h:2
-msgid "HTML & TeX"
-msgstr ""
-
-#: plugins/html/plugin.xml.in.h:3
-msgid "HTML 3.2 (*.html)"
-msgstr ""
-
-#: plugins/html/plugin.xml.in.h:4
-msgid "HTML 4.0 (*.html)"
-msgstr ""
-
-#: plugins/html/plugin.xml.in.h:5
-msgid "HTML file made by gnumeric"
-msgstr ""
-
-#: plugins/html/plugin.xml.in.h:6
-msgid "Import/Export of HTML, TeX, DVI, roff"
-msgstr ""
-
-#: plugins/html/plugin.xml.in.h:7
-msgid "LaTeX 2e (*.tex)"
-msgstr ""
-
-#: plugins/html/plugin.xml.in.h:8
-msgid "TROFF (*.me)"
-msgstr ""
-
 #: plugins/html/roff.c:199
 msgid "Error executing groff."
 msgstr "Ошибка при выполнении groff."
@@ -360,19 +230,6 @@ msgstr "Ошибка при выполнении groff."
 #: plugins/lotus-123/lotus.c:309
 msgid "Error while reading lotus workbook."
 msgstr "Ошибка при чтении рабочей книги lotus."
-
-#: plugins/lotus-123/plugin.xml.in.h:1
-#, fuzzy
-msgid "Imports Lotus 123 files"
-msgstr "Импортировать файл"
-
-#: plugins/lotus-123/plugin.xml.in.h:2
-msgid "Lotus 123"
-msgstr ""
-
-#: plugins/lotus-123/plugin.xml.in.h:3
-msgid "Lotus 123 (*.wk1)"
-msgstr ""
 
 #: plugins/mps/mps.c:274
 msgid "Program Name"
@@ -460,18 +317,6 @@ msgstr "Недопустимый раздел BOUNDS в файле."
 #: plugins/mps/mps.c:1142
 msgid "Error while reading MPS file."
 msgstr "Ошибка при чтении файла MPS."
-
-#: plugins/mps/plugin.xml.in.h:1
-msgid "Linear and integer program (*.mps) file format"
-msgstr ""
-
-#: plugins/mps/plugin.xml.in.h:2
-msgid "Linear and integer program expression format (MPS) module"
-msgstr ""
-
-#: plugins/mps/plugin.xml.in.h:3
-msgid "Reads LP programs stored in the MPS format (*.mps)"
-msgstr ""
 
 #: plugins/numtheory/numtheory.c:198
 msgid ""
@@ -690,43 +535,6 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITLSHIFT"
 
-#: plugins/numtheory/plugin.xml.in.h:1
-#, fuzzy
-msgid "Bitwise Operations"
-msgstr "Действие"
-
-#: plugins/numtheory/plugin.xml.in.h:2
-#, fuzzy
-msgid "Number Theory"
-msgstr "Числовой"
-
-#: plugins/numtheory/plugin.xml.in.h:3
-msgid ""
-"Several basic utilities for prime numbers, pi, phi, sigma. It also hold some "
-"simple bitwise operations"
-msgstr ""
-
-#: plugins/oleo/plugin.xml.in.h:1
-msgid "GNU Oleo"
-msgstr ""
-
-#: plugins/oleo/plugin.xml.in.h:2
-msgid "GNU Oleo (*.oleo)"
-msgstr ""
-
-#: plugins/oleo/plugin.xml.in.h:3
-msgid "Imports GNU Oleo documents"
-msgstr ""
-
-#: plugins/perl/plugin.xml.in.h:1
-#, fuzzy
-msgid "Enables the creation of functions in Perl"
-msgstr "Разрешить некоторые отладочные функции"
-
-#: plugins/perl/plugin.xml.in.h:2
-msgid "Perl"
-msgstr ""
-
 #: plugins/plan-perfect/pln.c:741
 msgid "PLN : Not a PlanPerfect File"
 msgstr "PLN: файл не PlanPerfect"
@@ -761,19 +569,6 @@ msgstr "Импорт %s"
 msgid "Unable to mmap the file"
 msgstr "Невозможно выполнить mmap файл"
 
-#: plugins/plan-perfect/plugin.xml.in.h:1
-msgid "Imports Plan Perfect Formatted Documents"
-msgstr ""
-
-#: plugins/plan-perfect/plugin.xml.in.h:2
-#, fuzzy
-msgid "Plan Perfect"
-msgstr "Простой текст"
-
-#: plugins/plan-perfect/plugin.xml.in.h:3
-msgid "Plan Perfect Format (PLN) import"
-msgstr ""
-
 #: plugins/psiconv/psiconv-read.c:572
 msgid "Error while reading psiconv file."
 msgstr "Ошибка при чтении файла psiconv."
@@ -781,40 +576,6 @@ msgstr "Ошибка при чтении файла psiconv."
 #: plugins/psiconv/psiconv-read.c:581
 msgid "Error while parsing psiconv file."
 msgstr "Ошибка при разборе файла psiconv."
-
-#: plugins/psiconv/plugin.xml.in.h:1
-msgid "Imports Psion 5 series Sheet files"
-msgstr ""
-
-#: plugins/psiconv/plugin.xml.in.h:2
-msgid "Psiconv"
-msgstr ""
-
-#: plugins/psiconv/plugin.xml.in.h:3
-msgid "Psion (*.psisheet)"
-msgstr ""
-
-#: plugins/py-func/plugin.xml.in.h:1
-msgid "Python"
-msgstr ""
-
-#: plugins/py-func/plugin.xml.in.h:2
-#, fuzzy
-msgid "Python functions"
-msgstr "Исключение Python"
-
-#: plugins/py-func/plugin.xml.in.h:3
-msgid "Sample Python plugin providing some (useless) functions."
-msgstr ""
-
-#: plugins/python-loader/plugin.xml.in.h:1
-#, fuzzy
-msgid "Python plugin loader"
-msgstr "Невозможно загрузить загрузчик дополнения."
-
-#: plugins/python-loader/plugin.xml.in.h:2
-msgid "This plugin provides support for Python plugins"
-msgstr ""
 
 #: plugins/python-loader/py-gnumeric.c:273
 #: plugins/python-loader/py-gnumeric.c:313
@@ -893,15 +654,6 @@ msgstr "Файл не содержит словарь \"%s\"."
 msgid "Object \"%s\" is not a dictionary."
 msgstr "Объект \"%s\" не является словарем."
 
-#: plugins/python/plugin.xml.in.h:1
-#, fuzzy
-msgid "Python Plugin"
-msgstr "Исключение Python"
-
-#: plugins/python/plugin.xml.in.h:2
-msgid "This plugin provides Python language support in Gnumeric"
-msgstr ""
-
 #: plugins/python/python.c:52
 msgid "Python exception"
 msgstr "Исключение Python"
@@ -923,19 +675,6 @@ msgstr "объект должен быть вызываемым"
 msgid "Unhandled Python exception: %s"
 msgstr "Необработанное исключение Python: %s"
 
-#: plugins/sc/plugin.xml.in.h:1
-#, fuzzy
-msgid "Imports SC/XSpread files"
-msgstr "Импортировать файл"
-
-#: plugins/sc/plugin.xml.in.h:2
-msgid "SC/XSpread"
-msgstr ""
-
-#: plugins/sc/plugin.xml.in.h:3
-msgid "SC/xspread"
-msgstr ""
-
 #: plugins/sc/sc.c:387
 msgid "Error parsing line"
 msgstr "Ошибка разбора строки"
@@ -943,19 +682,6 @@ msgstr "Ошибка разбора строки"
 #: plugins/sc/sc.c:433
 msgid "Error reading sheet."
 msgstr "Ошибка чтения листа."
-
-#: plugins/sylk/plugin.xml.in.h:1
-#, fuzzy
-msgid "Imports MultiPlan (SYLK) files"
-msgstr "Импортировать файл"
-
-#: plugins/sylk/plugin.xml.in.h:2
-msgid "MultiPlan (SYLK)"
-msgstr ""
-
-#: plugins/sylk/plugin.xml.in.h:3
-msgid "MultiPlan (SYLK) import"
-msgstr ""
 
 #: plugins/sylk/sylk.c:418
 msgid "Not SYLK file"
@@ -976,33 +702,6 @@ msgstr "Ошибки при чтении таблицы."
 #: plugins/xbase/boot.c:163
 msgid "Error while opening xbase file."
 msgstr "Ошибка при открытии файла xbase."
-
-#: plugins/xbase/plugin.xml.in.h:1
-#, fuzzy
-msgid "Imports XBase files"
-msgstr "Импортировать файл"
-
-#: plugins/xbase/plugin.xml.in.h:2
-#, fuzzy
-msgid "XBase"
-msgstr "Вставить"
-
-#: plugins/xbase/plugin.xml.in.h:3
-#, fuzzy
-msgid "Xbase (*.dbf) file format"
-msgstr "Неподдерживаемый формат файла."
-
-#: plugins/xml_sax/plugin.xml.in.h:1
-msgid "EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"
-msgstr ""
-
-#: plugins/xml_sax/plugin.xml.in.h:2
-msgid "EXPERIMENTAL SAX based XML"
-msgstr ""
-
-#: plugins/xml_sax/plugin.xml.in.h:3
-msgid "The next generation sax based xml I/O subsystem"
-msgstr ""
 
 #: plugins/xml_sax/xml-sax-read.c:2230
 msgid "xmlCreateFileParserCtxt () failed."
@@ -3846,36 +3545,44 @@ msgid "_Wrap text"
 msgstr "Переносить текст"
 
 #: src/dialogs/cell-format.glade.h:128
+msgid "label62"
+msgstr "Метка"
+
+#: src/dialogs/cell-format.glade.h:129
+msgid "label63"
+msgstr "Метка"
+
+#: src/dialogs/cell-format.glade.h:130
 msgid "min <= val <= max         (between)"
 msgstr "мин. <= значение <= макс.  (между)"
 
-#: src/dialogs/cell-format.glade.h:129
+#: src/dialogs/cell-format.glade.h:131
 msgid "val != bound                  (not equal to)"
 msgstr "значение != bound  (не равно)                         "
 
-#: src/dialogs/cell-format.glade.h:130
-msgid "val <  bound                  (less than)"
-msgstr "значение < bound  (меньше чем)                         "
-
-#: src/dialogs/cell-format.glade.h:131
-msgid "val <= min || max <= val (not between)"
-msgstr "значение <= мин. || макс. <= значение (не между)"
-
 #: src/dialogs/cell-format.glade.h:132
-msgid "val <=bound                  (less than or equal to)"
-msgstr "значение <= bound  (меньше чем или равно)"
-
-#: src/dialogs/cell-format.glade.h:133
-msgid "val == bound                 (equal to)"
-msgstr "значение == bound  (равно)                         "
-
-#: src/dialogs/cell-format.glade.h:134
 msgid "val >  bound                  (greater than)"
 msgstr "значение > bound  (больше чем)"
 
-#: src/dialogs/cell-format.glade.h:135
+#: src/dialogs/cell-format.glade.h:133
 msgid "val >=bound                  (greater than or equal to)"
 msgstr "значение >= bound  (больше чем или равно)"
+
+#: src/dialogs/cell-format.glade.h:134
+msgid "val <  bound                  (less than)"
+msgstr "значение < bound  (меньше чем)                         "
+
+#: src/dialogs/cell-format.glade.h:135
+msgid "val <= min || max <= val (not between)"
+msgstr "значение <= мин. || макс. <= значение (не между)"
+
+#: src/dialogs/cell-format.glade.h:136
+msgid "val <=bound                  (less than or equal to)"
+msgstr "значение <= bound  (меньше чем или равно)"
+
+#: src/dialogs/cell-format.glade.h:137
+msgid "val == bound                 (equal to)"
+msgstr "значение == bound  (равно)                         "
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A header"
@@ -5132,15 +4839,15 @@ msgstr "Вы должны выбрать некоторые типы ячеек для поиска."
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Вы действительно хотите удалить таблицу `%s' ?"
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:1
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:68 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:68 src/dialogs/solver.glade.h:1
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:69 src/dialogs/solver.glade.h:2
+#: src/dialogs/dialog-solver.c:69 src/dialogs/solver.glade.h:3
 msgid "="
 msgstr "="
 
@@ -5183,21 +4890,21 @@ msgstr "Вы должны выбрать хотя бы одну таблицу для экспорта"
 msgid "Are you sure you want to cancel?"
 msgstr "Вы действительно хотите отменить действие?"
 
-#: src/dialogs/dialog-stf-export.glade.h:1 src/dialogs/dialog-stf.glade.h:1
-msgid "\""
-msgstr "\""
-
-#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
-msgid "'"
-msgstr "'"
-
-#: src/dialogs/dialog-stf-export.glade.h:3
+#: src/dialogs/dialog-stf-export.glade.h:1
 msgid "<- Remove"
 msgstr "<- Удалить"
 
-#: src/dialogs/dialog-stf-export.glade.h:4
+#: src/dialogs/dialog-stf-export.glade.h:2
 msgid "<- Remove all"
 msgstr "<- Удалить все"
+
+#: src/dialogs/dialog-stf-export.glade.h:3 src/dialogs/dialog-stf.glade.h:1
+msgid "\""
+msgstr "\""
+
+#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
+msgid "'"
+msgstr "'"
 
 #: src/dialogs/dialog-stf-export.glade.h:5
 msgid "Add ->"
@@ -5337,11 +5044,11 @@ msgstr ""
 msgid "%d lines to import"
 msgstr "%d строк для импорта"
 
-#: src/dialogs/dialog-stf-main-page.c:210
+#: src/dialogs/dialog-stf-main-page.c:227
 msgid "LINES TOO LONG!"
 msgstr "СЛИШКОМ ДЛИННАЯ СТРОКА!"
 
-#: src/dialogs/dialog-stf-main-page.c:234
+#: src/dialogs/dialog-stf-main-page.c:253
 #, c-format
 msgid "Data (from %s)"
 msgstr "Данные (из %s)"
@@ -5793,6 +5500,10 @@ msgstr "Решение:"
 #: src/dialogs/goalseek.glade.h:11
 msgid "To Value:"
 msgstr "До значения:"
+
+#: src/dialogs/goalseek.glade.h:12
+msgid "label10"
+msgstr "Метка"
 
 #: src/dialogs/hf-config.glade.h:1
 msgid "Enter the format strings for each section:"
@@ -8636,6 +8347,10 @@ msgstr ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
+
+#: src/functions/fn-database.c:1362
+msgid "Database"
+msgstr "База данных"
 
 #: src/functions/fn-date.c:25
 msgid ""
@@ -17700,9 +17415,8 @@ msgstr "Отказаться"
 #. * 'File' menu
 #.
 #: src/history.c:129
-#, fuzzy
 msgid "File/Print Preview..."
-msgstr "Файл/Просмотр печати"
+msgstr "Файл/Просмотр печати..."
 
 #: src/history.c:142
 msgid "File/Print Preview"
@@ -19365,46 +19079,3 @@ msgstr "Формат файла Gnumeric XML"
 #: gnumeric.desktop.in.h:2
 msgid "The GNOME Spreadsheet"
 msgstr "Электронная таблица GNOME"
-
-#~ msgid "Row %d"
-#~ msgstr "Строка %d"
-
-#~ msgid "Variance"
-#~ msgstr "Дисперсия"
-
-#~ msgid "SS"
-#~ msgstr "Сумма квадратов"
-
-#~ msgid "df"
-#~ msgstr "ст. свободы"
-
-#~ msgid "MS"
-#~ msgstr "Квадрат среднего"
-
-#~ msgid "F"
-#~ msgstr "F"
-
-#~ msgid "P-value"
-#~ msgstr "P-значения"
-
-#~ msgid "F crit"
-#~ msgstr "F-критическое"
-
-#~ msgid "(1 - _Alpha) = "
-#~ msgstr "(1 - Альфа) = "
-
-#~ msgid ""
-#~ "You should introduce a valid cell range in 'Value and probability input "
-#~ "Range:'"
-#~ msgstr ""
-#~ "Вы должны ввести подходящий диапазон ячеек для \"Входного диапазона "
-#~ "значений и вероятностей\""
-
-#~ msgid "label62"
-#~ msgstr "Метка"
-
-#~ msgid "label63"
-#~ msgstr "Метка"
-
-#~ msgid "label10"
-#~ msgstr "Метка"
