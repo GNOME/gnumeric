@@ -24,7 +24,7 @@
      variances of given variables. The variables are specified by the
      ``Input Range:'' entry.  The given range can be groupped either
      by columns or by rows.  ``Alpha:'' entry specifies the level of
-     significance which is by default 95%.</para>
+     significance which is by default 95&percnt;.</para>
 
      <para>If you have labels, for example the names of the variables,
      in the first row of the given range, you should check the
@@ -165,7 +165,7 @@
      tool calculates the confidence level for mean for each variable.
      You should specify the percentage of the confidence in the entry
      box.  The default value is to calculate the confidence level of
-     95%.</para>
+     95&percnt;.</para>
 
      <para>If ``Kth Largest:'' button is checked on, the tool finds
      the kth largest value of each of the variables.  Specify the k in
@@ -191,7 +191,7 @@
      first variable are specified in the ``Variable 1 Range:'' entry.
      Correspondingly, the values of the second variable are given in
      the ``Variable 2 Range:'' entry.  ``Alpha:'' entry specifies the
-     level of significance which is by default 95%.</para>
+     level of significance which is by default 95&percnt;.</para>
 
      <para>If the output is printed into a range, it should contain at
      least three columns and eight rows.</para>
@@ -319,7 +319,7 @@
      <para>If you want to test wheater the difference of the means is
      larger than a given value, specify also the ``Hypothesized Mean
      Difference:'' entry.  ``Alpha:'' entry specifies the level of
-     significance which is by default 95%.</para>
+     significance which is by default 95&percnt;.</para>
 
      <para>If the output is printed into a range, it should have at
      least three columns and ten rows.</para>
