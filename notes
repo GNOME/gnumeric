@@ -2,7 +2,7 @@
 Control-Enter after finishing entering some data into a cell
 sets the whole range of selected cells to that value.
 
-On a selection: Enter, Control Enter, Tab, Shift-Tab navigate trought
+On a selection: Enter, Shift-Enter, Tab, Shift-Tab navigate trought
 the selected cells.
 
 Double clicking on a column division automatically adjusts the column
