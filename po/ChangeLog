@@ -1,3 +1,7 @@
+2003-06-12  Jon K Hellan  <hellan@acm.org>
+
+	* POTFILES.in: Removed gnumeric_1_0 plugin
+
 2003-06-12  Abel Cheung  <maddog@linux.org.hk>
 
 	* zh_TW.po: Updated traditional Chinese translation.

@@ -45,7 +45,6 @@ plugins/gb/plugin.xml.in
 plugins/gda/plugin-gda.c
 plugins/gda/plugin.xml.in
 plugins/gnome-glossary/plugin.xml.in
-plugins/gnumeric_1_0/xml-io.c
 plugins/guile/plugin.c
 plugins/guile/plugin.xml.in
 plugins/guile/smob-value.c
