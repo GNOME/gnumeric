@@ -238,6 +238,7 @@ stf_store_results (DialogStfResult_t *dialogresult,
 /**
  * stf_read_workbook
  * @fo       : file opener
+ * @enc      : encoding of file
  * @context  : command context
  * @book     : workbook
  * @input    : file to read from+convert
@@ -245,7 +246,8 @@ stf_store_results (DialogStfResult_t *dialogresult,
  * Main routine, handles importing a file including all dialog mumbo-jumbo
  **/
 static void
-stf_read_workbook (GnmFileOpener const *fo, IOContext *context, WorkbookView *wbv, GsfInput *input)
+stf_read_workbook (GnmFileOpener const *fo,  gchar const *enc, 
+		   IOContext *context, WorkbookView *wbv, GsfInput *input)
 {
 	DialogStfResult_t *dialogresult = NULL;
 	char *name;
@@ -253,7 +255,7 @@ stf_read_workbook (GnmFileOpener const *fo, IOContext *context, WorkbookView *wb
 	Sheet *sheet;
 	Workbook *book;
 
-	data = stf_preparse (COMMAND_CONTEXT (context), input, NULL);
+	data = stf_preparse (COMMAND_CONTEXT (context), input, enc);
 	if (!data)
 		return;
 
@@ -540,7 +542,7 @@ stf_init (void)
 		"Gnumeric_stf:stf_csvtab",
 		_("Comma or tab separated files (CSV/TSV)"),
 		stf_read_default_probe, stf_read_workbook_auto_csvtab), 0);
-	gnm_file_opener_register (gnm_file_opener_new (
+	gnm_file_opener_register (gnm_file_opener_new_with_enc (
 		"Gnumeric_stf:stf_druid", 
 		_("Text import (configurable)"),
 		NULL, stf_read_workbook), 0);
