@@ -1,5 +1,17 @@
 2002-03-26  Jon K Hellan  <hellan@acm.org>
 
+	* smob-value.c (make_value, scm_value_new_bool,
+	scm_value_new_float, scm_value_new_string): Fix
+	leak/unininitialized memory problem.
+
+	* plugin.c (func_scm_apply): Remove. It called scm_c_eval_string
+	on the contents of the first argument cell. This is a big security
+	hole.
+	(plugin_init_general): Don't export spreadsheet function
+	scm_apply, which used to be bound to func_scm_apply.
+
+2002-03-26  Jon K Hellan  <hellan@acm.org>
+
 	* plugin.c (scm_gnumeric_funcall): Free Value after it has been
 	cloned.
 
