@@ -11,3 +11,4 @@ gnumeric.pot
 messages
 missing
 .intltool-cache*
+po2tbl.sed.in
