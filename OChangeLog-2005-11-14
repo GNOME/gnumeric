@@ -1,3 +1,7 @@
+2005-03-17  Jon K Hellan  <hellan@acm.org>
+
+	* src/gui-clipboard.c: Fix typo in last change.
+
 2005-03-16  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-control.c (wb_control_update_title): Handle NULL
