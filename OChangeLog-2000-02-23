@@ -1,3 +1,12 @@
+1999-07-20  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/item-bar.c (bar_draw_cell): Move the dimension computaiton
+	of the font after we have figured which font to use.  Before we
+	did all the computaiton based on the default font, which is not
+	always the font used (we use bold font for selected rows).
+
+	This fixes the bug Morten reported.
+
 1999-07-20  Jody Goldberg  <jgoldberg@home.com>
 
 	* src/fn-math.c : Moved gpow10 from here.

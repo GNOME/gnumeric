@@ -129,9 +129,6 @@ bar_draw_cell (ItemBar *item_bar, GdkDrawable *drawable, ItemBarSelectionType ty
 	GdkGC *gc;
 	int len, texth, shadow;
 
-	len = gdk_string_width (font, str);
-	texth = font->ascent + font->descent;
-
 	switch (type){
 	default:
 	case ITEM_BAR_NO_SELECTION:
@@ -151,6 +148,9 @@ bar_draw_cell (ItemBar *item_bar, GdkDrawable *drawable, ItemBarSelectionType ty
 		font = style_font_gdk_font (gnumeric_default_bold_font);
 		break;
 	}
+
+	len = gdk_string_width (font, str);
+	texth = font->ascent + font->descent;
 
 	gdk_draw_rectangle (drawable, gc, TRUE, x1 + 1, y1 + 1, x2-x1-2, y2-y1-2);
 	gtk_draw_shadow (canvas->style, drawable, GTK_STATE_NORMAL, shadow,
