@@ -1,3 +1,13 @@
+2000-05-07  Jon K Hellan  <hellan@acm.org>
+
+        * src/dialogs/Makefile.am: dialog-printer.[ch] have been
+        superseded by gnome-print dialogs. Remove.
+
+	* src/print.c (sheet_print): Make print button default. Add
+	accelerators. 
+
+	* configure.in: Depend on gnome-print >= 0.19
+
 2000-05-07  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-style.c (sheet_style_attach) : disable cache trash avoidance code.

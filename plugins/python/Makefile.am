@@ -12,5 +12,5 @@ gnum_python_la_SOURCES = python.c
 gnum_python_la_LIBADD = -l$(PY_LIBS) $(PY_EXTRA_LIBS)
 
 Pythonscriptsdir = $(gnumeric_pythondir)
-Pythonscripts_DATA = gnumeric_startup.py
+Pythonscripts_DATA = gnumeric_startup.py gnumeric_defs.py
 EXTRA_DIST = $(Pythonscripts_DATA)

@@ -12,6 +12,7 @@
 #include <libgnomeprint/gnome-printer.h>
 #include <libgnomeprint/gnome-print.h>
 #include <libgnomeprint/gnome-printer-dialog.h>
+#include <libgnomeprint/gnome-print-copies.h>
 
 #include <libgnomeprint/gnome-print-master.h>
 #include <libgnomeprint/gnome-print-master-preview.h>
@@ -905,8 +906,11 @@ sheet_print (Sheet *sheet, gboolean preview, PrintRange default_range)
 			GNOME_PRINT_RANGE_CURRENT|GNOME_PRINT_RANGE_ALL|
 			GNOME_PRINT_RANGE_SELECTION|GNOME_PRINT_RANGE_RANGE,
 			1, workbook_sheet_count(sheet->workbook),
-			_("Active sheet"), _("Sheets"));
-		switch (gnumeric_dialog_run (sheet->workbook, GNOME_DIALOG(gpd))) {
+			_("Act_ive sheet"), _("S_heets"));
+		gnome_dialog_set_default (GNOME_DIALOG (gpd),
+					  GNOME_PRINT_PRINT);
+		switch (gnumeric_dialog_run (sheet->workbook,
+					     GNOME_DIALOG(gpd))) {
 		case GNOME_PRINT_PRINT:
 			break;
 		case GNOME_PRINT_PREVIEW:

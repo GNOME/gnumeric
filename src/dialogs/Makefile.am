@@ -37,8 +37,6 @@ libdialogs_a_SOURCES =				\
 	dialog-delete-cells.c			\
 	dialog-paste-special.c			\
 	dialog-plugin-manager.c 		\
-	dialog-printer.c			\
-	dialog-printer.h			\
 	dialog-printer-setup.c			\
 	dialog-sheet-order.c			\
 	dialog-simple-input.c			\
