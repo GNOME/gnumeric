@@ -25,6 +25,7 @@ dialog_about (Workbook *wb)
 		N_("Miguel de Icaza, main programmer."),
 		N_("Sean Atkinson, Functions and X-Base importing."),
 		N_("Tom Dyas, Plugin support."),
+		N_("Gergõ Érdi, Gnumeric hacker."),
 		N_("Jody Goldberg, Gnumeric hacker."),
 		N_("Ross Ihaka, special functions."),
 		N_("Jukka-Pekka Iivonen, numerous functions and tools."),
@@ -43,7 +44,6 @@ dialog_about (Workbook *wb)
 		N_("Daniel Veillard, XML support."),
 		N_("Vladimir Vuksan, financial functions."),
 		N_("Morten Welinder, Gnumeric hacker."),
-		N_("Gergõ Érdi, Gnumeric hacker."),
 		NULL
 	};
 

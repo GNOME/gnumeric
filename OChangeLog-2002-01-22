@@ -1,3 +1,8 @@
+2000-04-05  Morten Welinder  <terra@diku.dk>
+
+	* src/about.c (dialog_about): Re-establish sorting (except Sir
+ 	Miguel).
+
 2000-04-05  Jody Goldberg <jgoldberg@home.com>
 
 	* src/functions/fn-logical.c (gnumeric_if) : Use eval_expr_nonempty
