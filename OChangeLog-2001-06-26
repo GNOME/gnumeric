@@ -3413,7 +3413,7 @@
 	* src/io-context.c
 	(gnumeric_io_context_new): Set error_occurred to FALSE by default.
 	(gnumeric_io_error_system, gnumeric_io_error_read,
-	gnumeric_io_error_save): Set error_occured to TRUE.
+	gnumeric_io_error_save): Set error_occurred to TRUE.
 	(gnumeric_io_error_unknown, gnumeric_io_clear_error,
 	gnumeric_io_error_occurred): New functions.
 
@@ -4192,7 +4192,7 @@
 	* src/commands.c (cmd_paste_cut_redo) : update the selection after the
 	  move to handle merged cells.
 
-	* src/workbook-format-toolbar.c : Add a seperator and rename the
+	* src/workbook-format-toolbar.c : Add a separator and rename the
 	  callbacks to follow std conventions.
 
 2001-02-19  Jody Goldberg <jgoldberg@home.com>
@@ -6973,7 +6973,7 @@
 
 2000-11-20  Jody Goldberg <jgoldberg@home.com>
 
-	* configure.in : Use a more conventional approach to path seperators.
+	* configure.in : Use a more conventional approach to path separators.
 	* src/gutils.c (gnumeric_usr_dir) : Adjust here.
 	(gnumeric_sys_data_dir) : and here.
 	(gnumeric_sys_lib_dir) : and here.
@@ -7364,7 +7364,7 @@
 
 	* src/cell.c (cell_eval_content) : We need to manually render
 	  the value here, but no longer need to calculate the size
-	  seperately.  That is done automatically in the render.
+	  separately.  That is done automatically in the render.
 	(cell_render_value) : Handle style localy, and calculate the size.
 
 2000-11-09  Jody Goldberg <jgoldberg@home.com>
@@ -7767,7 +7767,7 @@
 	(sheet_flag_status_update_range) : handle the new flags.
 	(sheet_flag_format_update_range) : new function.
 	(sheet_update_editpos) : delete and split up.
-	(sheet_update) : Do each update seperately. NOTE : this is broken.
+	(sheet_update) : Do each update separately. NOTE : this is broken.
 	  All of these flags should be at the View level.
 
 2000-11-01  Jody Goldberg <jgoldberg@home.com>

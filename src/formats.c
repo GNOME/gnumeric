@@ -481,7 +481,7 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 		++ptr;
 	}
 
-	/* Check for thousands seperator */
+	/* Check for thousands separator */
 	if (ptr[0] == '#') {
 		if (ptr[1] == ',')
 			++ptr;
@@ -524,7 +524,7 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 	if (ptr[0] != ';' && ptr[0] != '_' && ptr[0])
 		return FMT_UNKNOWN;
 
-	/* We have now handled decimals, and thousands seperators */
+	/* We have now handled decimals, and thousands separators */
 	info->thousands_sep = has_sep;
 	info->num_decimals = num_decimals;
 	info->negative_fmt = 0; /* Temporary, we may change this below */

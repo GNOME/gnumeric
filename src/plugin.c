@@ -1305,7 +1305,7 @@ plugin_info_read_for_dir (const gchar *dir_name, ErrorInfo **ret_error)
 		plugin_file_state_list_changed = TRUE;
 	} else {
 		*ret_error = error_info_new_printf (
-		             _("Errors occured while reading plugin informations from file \"%s\"."),
+		             _("Errors occurred while reading plugin informations from file \"%s\"."),
 		             file_name);
 		error_info_add_details (*ret_error, plugin_error);
 	}

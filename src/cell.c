@@ -666,7 +666,7 @@ cell_is_partial_array (Cell const *cell)
  * @dynamic_width : Allow format to depend on column width.
  *
  * TODO :
- * The reason the rendered values are stored seperately from the Cell is
+ * The reason the rendered values are stored separately from the Cell is
  * that in the future only visible cells will be rendered.  The render
  * will be SheetControl specific to allow for multiple zooms and different
  * display resolutions.

@@ -1531,7 +1531,7 @@
 	* src/value.c (value_new_from_string) : New function.
 
 	* src/number-match.c (format_create_regexp) : Be more careful when
-	  handling decimals and thousands seperators.  This sucks, but it
+	  handling decimals and thousands separators.  This sucks, but it
 	  sucks less than before.
 
 	* src/formats.c (format_currency) : typo.
@@ -1718,12 +1718,12 @@
 	* src/about.c : Move the ABOUT_KEY here from.
 	* src/dialogs/dialogs.h : here.  Also, add dialog_graph_guru.
 
-	* src/Makefile.am : Remove wizard.h and the seperate wizard library.
+	* src/Makefile.am : Remove wizard.h and the separate wizard library.
 
 2000-08-11  Jody Goldberg <jgoldberg@home.com>
 
 	* src/expr.c (do_expr_tree_to_string) : Do not hard code the argument
-	  seperator, it needs to change depending on the locale.
+	  separator, it needs to change depending on the locale.
 	* src/dialogs/dialog-function-wizard.c (formula_guru_set_expr) :
 	  Ditto.
 
@@ -3724,7 +3724,7 @@
 	Make a 'select' sub menu of edit.
 
 	* src/sheet.c : Use the newly added CellPos in each Cell rather than
-	  mallocing a seperate struct.
+	  mallocing a separate struct.
 
 	* src/selection.c (sheet_select_all) : Move.
 
@@ -4653,7 +4653,7 @@
 2000-04-29  Jody Goldberg <jgoldberg@home.com>
 	
 	* * : Convert 'Value' into a union of real types and allocate each
-	  seperately.
+	  separately.
 
 	* src/dialogs/dialog-printer-setup.c (do_print_preview_cb) :
 	  Suppress warning.

@@ -115,7 +115,7 @@
 
 	* applix-read.c (applix_read_impl) : Some files do not appear to have
 	  the 'Currect Doc Real Name:' field.
-	(applix_parse_style) : Move the skiping of the seperator up here.
+	(applix_parse_style) : Move the skiping of the separator up here.
 
 2000-10-29  Jody Goldberg <jgoldberg@home.com>
 

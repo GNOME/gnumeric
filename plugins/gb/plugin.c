@@ -225,7 +225,7 @@ read_gb (gpointer            *jody_broke_the_context,
 
 	/* Run the 'Main' function ( or whatever ) */
 	if (!gbrun_project_execute (wd->ec, wd->proj)) {
-		g_warning ("An exception occured\n%s",
+		g_warning ("An exception occurred\n%s",
 			   gb_eval_context_get_text (GB_EVAL_CONTEXT (wd->ec)));
 		return FALSE;
 

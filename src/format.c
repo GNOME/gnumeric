@@ -160,7 +160,7 @@ format_month_before_day (void)
 #endif
 }
 
-/* Use comma as the arg seperator unless the decimal point is a
+/* Use comma as the arg separator unless the decimal point is a
  * comma, in which case use a semi-colon
  */
 char

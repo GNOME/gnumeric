@@ -1075,7 +1075,7 @@ descriptive_stat_tool (WorkbookControl *wbc, Sheet *sheet,
  **/
 
 
-/* Returns 1 if error occured, for example random sample size is
+/* Returns 1 if error occurred, for example random sample size is
  * larger than the data set.
  **/
 int

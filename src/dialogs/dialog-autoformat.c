@@ -943,7 +943,7 @@ dialog_autoformat (WorkbookControlGUI *wbcg)
 		GtkWidget *wdialog;
 
 		wdialog = gnome_warning_dialog_parented (
-		          _("An error occured while reading the category list"),
+		          _("An error occurred while reading the category list"),
 		          GTK_WINDOW (info->dialog));
 		gnome_dialog_run (GNOME_DIALOG (wdialog));
 	} else {

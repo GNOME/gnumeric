@@ -317,7 +317,7 @@ static void
 cb_format_with_thousands (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
 	apply_number_format (wbcg, cell_formats [FMT_NUMBER][2],
-			     _("Format with thousands seperator"));
+			     _("Format with thousands separator"));
 }
 
 static void

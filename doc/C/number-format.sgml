@@ -330,7 +330,7 @@ as needed. There are several justification options. See
 			parenthises, or turning Red.  Optionally a delimiter
 			can be added every third order of magnitude (thousand,
 			million, ...).  Both the decimal point and the
-			thousands seperator have internationalization support.
+			thousands separator have internationalization support.
 
   Currency		Is very similar to Number, with the addition of a
 			currency symbol.  Currently known symbols include '$'
@@ -355,7 +355,7 @@ as needed. There are several justification options. See
 			(m), always 2 digits (mm), or as the short form (mmm).
 			Days can be as many digits as needed (d) or two digits
 			(dd).  The various other characters offer a choice of
-			seperators.
+			separators.
 
   Time			As with dates predefined time formats are selected
 			using their specification.  Hours (h), minutes (mm),

@@ -594,7 +594,7 @@ gnumeric_bessely (FunctionEvalInfo *ei, Value **argv)
 }
 
 /* Converts a complex number string into its coefficients.  Returns 0 if ok,
- * 1 if an error occured.
+ * 1 if an error occurred.
  */
 static int
 value_get_as_complex (Value *val, complex_t *res, char *imunit)

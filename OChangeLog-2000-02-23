@@ -1978,7 +1978,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/clipboard.c (x_selection_handler) : Add some preconditions to
 	  make code more robust.
-	(x_selection_to_cell_region) : Do not use ',' or ';' as seperators if
+	(x_selection_to_cell_region) : Do not use ',' or ';' as separators if
 	  the current locale uses them as decimal points.
 	(new_node) : Use g_strndup.
 
@@ -8865,7 +8865,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	  separator.  Why doesn't this code use locale ?
 
 	* src/format.c (format_value) : better support for ranges, attempt to
-	  work around problem of a thousands seperator in a date format.
+	  work around problem of a thousands separator in a date format.
 
 	* src/cell-draw.c (cell_draw) : Fix potential for infinite loop
 	  with HALIGN_FILL.

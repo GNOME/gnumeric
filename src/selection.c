@@ -956,7 +956,7 @@ selection_to_string (Sheet *sheet, gboolean include_sheet_name_prefix)
  * overlapping user specifed regions we can safely search for the range directly.
  *
  * Eventually to be completely correct and deal with the case of someone manually
- * selection an entire col/row, in seperate chunks,  we will need to do something
+ * selection an entire col/row, in separate chunks,  we will need to do something
  * more advanced.
  */
 gboolean

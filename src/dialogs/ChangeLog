@@ -554,7 +554,7 @@
 2001-03-23  Almer S. Tigelaar  <almer@gnome.org>
 
 	* names.glade: Set visibility to NO, this solves the ugly
-	flickering that occured.
+	flickering that occurred.
 
 2001-03-22  Morten Welinder  <terra@diku.dk>
 
@@ -866,7 +866,7 @@
 2000-09-20  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-cell-format.c (fillin_negative_samples) : Use locale specific
-	  decimal and thousand seperator in the negative preview.
+	  decimal and thousand separator in the negative preview.
 
 	* dialog-graph-guru.c (get_selector_control) : Hande idl name changes.
 	(cb_create_series_from_range) : Be smart about col/row headers.
@@ -1135,7 +1135,7 @@
 2000-06-12  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-cell-format.c (fmt_dialog_enable_widgets) : Currency formats
-	  always have thousands seperators.
+	  always have thousands separators.
 
 2000-06-13  Jon K Hellan  <hellan@acm.org>
 

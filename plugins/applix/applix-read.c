@@ -704,12 +704,12 @@ applix_read_attributes (ApplixReadState *state)
 
 static Sheet *
 applix_get_sheet (ApplixReadState *state, char **buffer,
-		  char const seperator)
+		  char const separator)
 {
 	Sheet *sheet;
 
 	/* Get sheet name */
-	char *tmp = strchr (*buffer, seperator);
+	char *tmp = strchr (*buffer, separator);
 
 	if (tmp == NULL) {
 		(void) applix_parse_error (state, "Invalid sheet name.");
@@ -731,11 +731,11 @@ applix_get_sheet (ApplixReadState *state, char **buffer,
 static char *
 applix_parse_cellref (ApplixReadState *state, char *buffer,
 		      Sheet **sheet, int *col, int *row,
-		      char const seperator)
+		      char const separator)
 {
 	int len;
 
-	*sheet = applix_get_sheet (state, &buffer, seperator);
+	*sheet = applix_get_sheet (state, &buffer, separator);
 
 	/* Get cell addr */
 	if (*sheet && parse_cell_name (buffer, col, row, FALSE, &len))

@@ -2775,7 +2775,7 @@
 
 	* ms-excel-read.c (ms_excel_read_error) : Delete
           (ms_excel_read_cell) : Use VALUE_ERROR, and VALUE_EMPTY.
-	  (ms_excel_read_selection) : Split out into seperate function.
+	  (ms_excel_read_selection) : Split out into separate function.
 
 	* ms-formula-read.c (ms_excel_parse_formula,
           make_function) : VALUE_ERROR.

@@ -61,7 +61,7 @@ typedef struct {
 	} gui;
 
 	int                        areas_index;     /* Select index in sources clist */
-	char                      *construct_error; /* If set an error occured in construct_consolidate */
+	char                      *construct_error; /* If set an error occurred in construct_consolidate */
 } ConsolidateState;
 
 /**

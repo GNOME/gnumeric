@@ -3584,7 +3584,7 @@ static char *help_linest = {
  * must be an array. They claim that you can use semicolons to separate rows in
  * an array, but I've never gotten that to work. If Yrange is a single column,
  * every column in the Xrange (which must be a cell range) is interpreted as a
- * seperate variable. Similar for a single row. If Y is a blob, X is interpreted
+ * separate variable. Similar for a single row. If Y is a blob, X is interpreted
  * as a single variable blob. Experiments suggest that multivariable blobs don't work.
  * Currently everything should be implemented except for inputting arrays. X's must
  * be contiguous so far as I can tell.

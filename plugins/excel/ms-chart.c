@@ -2048,7 +2048,7 @@ BC(register_handlers)(void)
 }
 
 /*
- *This is a temporary routine.  I wanted each handler in a seperate function
+ *This is a temporary routine.  I wanted each handler in a separate function
  *to avoid massive nesting.  While experimenting with the real (vs MS
  *documentation) structure of a saved chart, this form offers maximum error
  *checking.
@@ -2197,7 +2197,7 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver)
 			case BIFF_FOOTER :	/* Skip for Now */
 			case BIFF_HCENTER :	/* Skip for Now */
 			case BIFF_VCENTER :	/* Skip for Now */
-			case BIFF_SCL :		/* Are charts scaled seperately from the sheet ? */
+			case BIFF_SCL :		/* Are charts scaled separately from the sheet ? */
 			case BIFF_SETUP :
 				if (ms_excel_chart_debug > 0)
 					printf ("Handled biff %x in chart;\n",

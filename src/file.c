@@ -313,7 +313,7 @@ gnum_file_saver_save_to_stream_real (GnumFileSaver const *fs,
 				Bonobo_Stream_write (BONOBO_OBJREF (stream), iobuf, ev);
 				if (BONOBO_EX (ev)) {
 					gnumeric_io_error_string (
-					io_context, _("Exception occured while saving to stream."));
+					io_context, _("Exception occurred while saving to stream."));
 					break;
 				}
 				offset += read_bytes;
