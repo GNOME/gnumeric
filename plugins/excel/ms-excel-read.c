@@ -4123,12 +4123,21 @@ excel_read_DIMENSIONS (BiffQuery *q, ExcelWorkbook *ewb)
 	GnmRange r;
 
 	if (ewb->container.ver >= MS_BIFF_V8) {
+		if (q->length < 12) {
+			fprintf (stderr,"invalid DIMENSIONS record length %d", q->length);
+			return;
+		}
 		r.start.row = GSF_LE_GET_GUINT32 (q->data);
 		r.end.row   = GSF_LE_GET_GUINT32 (q->data + 4);
 		r.start.col = GSF_LE_GET_GUINT16 (q->data + 8);
 		r.end.col   = GSF_LE_GET_GUINT16 (q->data + 10);
-	} else
+	} else {
+		if (q->length < 8) {
+			fprintf (stderr,"invalid DIMENSIONS record length %d", q->length);
+			return;
+		}
 		excel_read_range (&r, q->data);
+	}
 
 	d (1, fprintf (stderr,"Dimension = %s\n", range_name (&r)););
 }
