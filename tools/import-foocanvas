@@ -63,6 +63,7 @@ sub copy_subsystem {
 	    $line =~ s/\s*\\//;
 	    $line =~ s/^\s+//;
 	    $line =~ s/\s+$//;
+	    $line =~ s/\$\(BUILT_SOURCES\)//;
 	    push @sources, split (' ', $line) if $line ne '';
 	}
 
