@@ -2008,7 +2008,7 @@ cmd_colrow_hide_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	colrow_set_visibility_list (me->sheet, me->is_cols,
  				    TRUE, me->hide);
- 	colrow_set_visibility_list (me->cmd.sheet, me->is_cols,
+ 	colrow_set_visibility_list (me->parent.sheet, me->is_cols,
  				    FALSE, me->show);
  
  	if (me->show != NULL)
@@ -2026,7 +2026,7 @@ cmd_colrow_hide_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	colrow_set_visibility_list (me->sheet, me->is_cols,
  				    FALSE, me->hide);
- 	colrow_set_visibility_list (me->cmd.sheet, me->is_cols,
+ 	colrow_set_visibility_list (me->parent.sheet, me->is_cols,
  				    TRUE, me->show);
   
  	if (me->hide != NULL)
@@ -2060,9 +2060,9 @@ cmd_colrow_hide_selection (WorkbookControl *wbc, Sheet *sheet,
 	me->is_cols = is_cols;
  	me->hide = me->show = NULL;
  	if (visible)
- 		me->show = colrow_get_visiblity_toggle (sv, is_cols, TRUE);
+ 		me->show = colrow_get_visiblity_toggle (sheet, is_cols, TRUE);
  	else
- 		me->hide = colrow_get_visiblity_toggle (sv, is_cols, FALSE);
+ 		me->hide = colrow_get_visiblity_toggle (sheet, is_cols, FALSE);
 
 	me->parent.sheet = sheet;
  	me->parent.size = 1 + g_slist_length (me->hide) + g_slist_length (me->show);
@@ -2174,9 +2174,9 @@ cmd_global_outline_change (WorkbookControl *wbc, gboolean is_cols, int depth)
 	colrow_get_global_outline (sv_sheet (sv), is_cols, depth,
 				   &me->show, &me->hide);
 
-	me->cmd.sheet = sv_sheet (sv);
-	me->cmd.size = 1 + g_slist_length (me->show) + g_slist_length (me->hide);
-	me->cmd.cmd_descriptor = g_strdup_printf (is_cols
+	me->parent.sheet = sv_sheet (sv);
+	me->parent.size = 1 + g_slist_length (me->show) + g_slist_length (me->hide);
+	me->parent.cmd_descriptor = g_strdup_printf (is_cols
 		? _("Show column outline %d") : _("Show row outline %d"));
 
 	/* Register the command object */
