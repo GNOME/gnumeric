@@ -1,3 +1,8 @@
+2003-07-08  Abel Cheung  <maddog@linux.org.hk>
+
+	* POTFILES.in: Add plugins/gnome-db/plugin-gnomedb.c and
+	  plugins/gnome-db/ui.xml.
+
 2003-07-11  Duarte Loreto <happyguy_pt@hotmail.com>
 
         * pt.po: Almost complete update of Portuguese translation.
