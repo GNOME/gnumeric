@@ -1,3 +1,8 @@
+2000-10-30  Ariel Rios  <ariel@arcavia.com>
+
+	* guile-support.c (value_to_scm): Correct the VALUE_ARRAY case. 
+	We now correctly create the list, finish it and reverse it.
+
 2000-10-27 Ariel Rios  <ariel@arcavia.com>
 
 	* guile-support.c (gnumeric_list2scm): Translates GList into SCM ls.

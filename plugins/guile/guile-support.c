@@ -163,21 +163,27 @@ value_to_scm (Value const *val, CellRef cell_ref)
 					 scm_cons (cell_ref_to_scm(val->v_range.cell.a, cell_ref),
 						   cell_ref_to_scm (val->v_range.cell.b, cell_ref)));
 
-						   case VALUE_ARRAY :
+		case VALUE_ARRAY :
 			{
 				int x, y, i, ii;
-				SCM ls;
-
+				SCM list, *ls = &list;
+				
 				x = val->v_array.x;
 				y = val->v_array.y;
 
-				ls = gh_eval_str ("'()");
+				//ls = gh_eval_str ("'()");
 
 				/* FIXME : I added the value_to_scm wrapper. This seems more correct */
 				for (i = 0; i < y; i++)
 					for (ii = 0; i < x; i++)
-						ls = scm_cons (value_to_scm (val->v_array.vals[ii][i], cell_ref), ls);
-				return scm_reverse (ls);
+						{
+							*ls = scm_cons (value_to_scm (val->v_array.vals[ii][i], cell_ref), *ls);
+							ls = SCM_CDRLOC (*ls);
+						}
+				*ls = SCM_EOL;
+				*ls = scm_reverse (*ls);
+
+				return list;
 			}
 	}
 
