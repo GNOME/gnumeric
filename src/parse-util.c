@@ -38,6 +38,7 @@
 #include "str.h"
 /* For def_expr_name_handler: */
 #include "expr-impl.h"
+#include "gutils.h"
 
 #include <errno.h>
 #include <stdlib.h>
@@ -733,30 +734,35 @@ char const *
 sheetref_parse (char const *start, Sheet **sheet, Workbook const *wb,
 		gboolean allow_3d)
 {
-	int num_escapes;
-	char const *end = check_quoted (start, &num_escapes);
-	char *name;
+	GString *sheet_name;
+	const char *end;
 
 	*sheet = NULL;
+	if (*start == '\'' || *start == '"') {
+		sheet_name = g_string_new (NULL);
+		end = gnm_strunescape (sheet_name, start);
+		if (end == NULL) {
+			g_string_free (sheet_name, TRUE);
+			return start;
+		}
+	} else {
+		for (end = start;
+		     g_unichar_isalnum (g_utf8_get_char (end));
+		     end = g_utf8_next_char (end))
+			; /* Nothing */
 
-	/* Quoted definitely indicates a sheet */
-	if (end == start)
-		while (*end && g_unichar_isalnum (g_utf8_get_char (end)))
-			end = g_utf8_next_char (end);
+		if (*end != '!' && (!allow_3d || *end != ':'))
+			return start;
 
-	if (*end != '!' && (!allow_3d || *end != ':'))
-		return start;
+		sheet_name = g_string_new_len (start, end - start);
+	}
 
-	/* might be too big if quoted */
-	name = g_alloca (1 + end - start);
-	if (num_escapes < 0) {
-		strncpy (name, start, end-start);
-		name [end-start] = '\0';
-	} else
-		unquote (name, start+1, end-start-2);
+	*sheet = workbook_sheet_by_name (wb, sheet_name->str);
+	if (*sheet == NULL)
+		end = start;
 
-	*sheet = workbook_sheet_by_name (wb, name);
-	return *sheet != NULL ? end : start;
+	g_string_free (sheet_name, TRUE);
+	return end;
 }
 
 /** rangeref_parse :
