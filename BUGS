@@ -76,7 +76,7 @@ Pending Patches
 18) 3D reference fixes on sheet deletion
 19) 'discard' for invalid expressions enters text as string	(DONE)
 
-UTF-8: (grep for ctype.h is a good start)
+UTF-8:
     - Window titles.
     - format precompile
 
