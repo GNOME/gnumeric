@@ -27,6 +27,7 @@
 #include <time.h>
 #include <math.h>
 #include <locale.h>
+#include <ctype.h>
 #include "gnumeric.h"
 #include "format.h"
 #include "dates.h"
@@ -88,7 +89,7 @@ append_year (GString *string, gchar *format, struct tm *time_split)
 		return 1;
 	}
 	
-	if (tolower (format [2]) != 'y' || tolower (format [3]) != 'y')){
+	if (tolower (format [2]) != 'y' || tolower (format [3]) != 'y'){
 		sprintf (temp, "%02d", time_split->tm_year % 100);
 		g_string_append (string, temp);
 		return 2;
