@@ -2004,9 +2004,32 @@ BC(register_handler)(ExcelChartHandler const *const handle)
 		chart_biff_handler[num] = handle;
 }
 
+static gboolean
+chart_realize_obj (MSContainer *container, MSObj *obj)
+{
+	return FALSE;
+}
+
+static GtkObject *
+chart_create_obj  (MSContainer *container, MSObj *obj)
+{
+	return NULL;
+}
+
+static ExprTree  *
+chart_parse_expr  (MSContainer *container, guint8 const *data, int length)
+{
+	return NULL;
+}
+
 void
 ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver)
 {
+	static MSContainerClass const vtbl = {
+		chart_realize_obj,
+		chart_create_obj,
+		chart_parse_expr
+	};
 	int const num_handler = sizeof(chart_biff_handler) /
 		sizeof(ExcelChartHandler *);
 
@@ -2017,7 +2040,7 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver)
 	BC(register_handlers)();
 
 	/* FIXME : create an anchor parser for charts */
-	ms_container_init (&state.container, NULL, container);
+	ms_container_init (&state.container, &vtbl, container);
 
 	state.container.ver = ver;
 	state.depth = 0;

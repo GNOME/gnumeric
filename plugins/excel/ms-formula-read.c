@@ -453,7 +453,7 @@ static CellRef *
 getRefV7 (guint8 col, guint16 gbitrw, int curcol, int currow,
 	  gboolean const shared)
 {
-	CellRef *cr = (CellRef *) g_malloc (sizeof (CellRef));
+	CellRef *cr = g_new (CellRef, 1);
 	guint16 const row = (guint16)(gbitrw & 0x3fff);
 
 #ifndef NO_DEBUG_EXCEL
@@ -502,7 +502,7 @@ static CellRef *
 getRefV8 (guint16 row, guint16 gbitcl, int curcol, int currow,
 	  gboolean const shared)
 {
-	CellRef *cr = (CellRef *) g_malloc (sizeof (CellRef));
+	CellRef *cr = g_new (CellRef, 1);
 	guint8 const col = (guint8)(gbitcl & 0xff);
 
 #ifndef NO_DEBUG_EXCEL

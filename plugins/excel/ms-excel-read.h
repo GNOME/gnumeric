@@ -119,8 +119,10 @@ extern ExprTree* biff_name_data_get_name (ExcelSheet *sheet, int idx);
 extern MsBiffBofData * ms_biff_bof_data_new (BiffQuery * q);
 extern void ms_biff_bof_data_destroy (MsBiffBofData * data);
 
-extern StyleFormat * biff_format_data_lookup (ExcelWorkbook *wb, guint16 idx);
-extern StyleColor * ms_excel_palette_get (ExcelPalette const *pal, gint idx);
+extern StyleFormat *biff_format_data_lookup (ExcelWorkbook *wb, guint16 idx);
+extern StyleColor  *ms_excel_palette_get (ExcelPalette const *pal, gint idx);
+
+extern void	    ms_excel_read_imdata (BiffQuery *q);
 
 /* A utility routine to handle unexpected BIFF records */
 extern void          ms_excel_unexpected_biff (BiffQuery *q,

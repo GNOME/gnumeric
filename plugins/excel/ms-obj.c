@@ -126,10 +126,11 @@ ms_read_TXO (BiffQuery *q)
 	return text;
 }
 
-static void
-ms_obj_dump (guint8 const *data, int len, int data_left, char const *name)
-{
 #ifndef NO_DEBUG_EXCEL
+#define ms_obj_dump(data, len, data_left, name) ms_obj_dump_impl (data, len, data_left, name)
+static void
+ms_obj_dump_impl (guint8 const *data, int len, int data_left, char const *name)
+{
 	if (ms_excel_object_debug < 2)
 		return;
 
@@ -139,11 +140,13 @@ ms_obj_dump (guint8 const *data, int len, int data_left, char const *name)
 			len+4, len+4, data_left, data_left);
 		len = data_left - 4;
 	}
-	ms_ole_dump (data, len+4);
+	if (ms_excel_object_debug > 2)
+		ms_ole_dump (data, len+4);
 	printf ("}; /* %s */\n", name);
-#endif
 }
-
+#else
+#define ms_obj_dump (data, len, data_left, name)
+#endif
 
 /*
  * See: S59DAD.HTM
@@ -398,10 +401,9 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 		guint16 op;
 
 		if (ms_biff_query_peek_next (q, &op) && op == BIFF_IMDATA) {
+			printf ("Reading trailing IMDATA;\n");
 			ms_biff_query_next (q);
-			while (ms_biff_query_peek_next (q, &op) &&
-			       op == BIFF_CONTINUE)
-				ms_biff_query_next (q);
+			ms_excel_read_imdata (q);
 		}
 	}
 
@@ -456,11 +458,11 @@ ms_read_OBJ (BiffQuery *q, MSContainer *container)
 		: ms_obj_read_pre_biff8_obj (q, container, obj);
 
 	if (errors) {
-		g_free (obj);
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_object_debug > 0)
 			printf ("}; /* OBJ error 1 */\n");
 #endif
+		g_free (obj);
 		return NULL;
 	}
 
@@ -469,6 +471,13 @@ ms_read_OBJ (BiffQuery *q, MSContainer *container)
 		obj->excel_type_name = object_type_names [obj->excel_type];
 	if (obj->excel_type_name == NULL)
 		obj->excel_type_name = "Unknown";
+
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_object_debug > 0) {
+		printf ("Object (%d) is a '%s'\n", obj->id, obj->excel_type_name);
+		printf ("}; /* OBJ end */\n");
+	}
+#endif
 
 	obj->gnum_obj = (*container->vtbl->create_obj) (container, obj);
 	if (obj->gnum_obj == NULL) {
@@ -480,13 +489,9 @@ ms_read_OBJ (BiffQuery *q, MSContainer *container)
 	if (obj->excel_type == 0x5)
 		ms_excel_read_chart (q, container);
 
-#ifndef NO_DEBUG_EXCEL
-	if (ms_excel_object_debug > 0) {
-		printf ("Object (%d) is a '%s'\n", obj->id, obj->excel_type_name);
-		printf ("}; /* OBJ end */\n");
-	}
+#if 0
+	printf ("Registered object 0x%p\n", obj);
 #endif
-
 	ms_container_add_obj (container, obj);
 
 	return obj;

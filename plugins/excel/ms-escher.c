@@ -126,13 +126,9 @@ ms_escher_get_data (MSEscherState * state,
 		    q->opcode != BIFF_MS_O_DRAWING_GROUP &&
 		    q->opcode != BIFF_MS_O_DRAWING_SELECTION &&
 		    q->opcode != BIFF_CONTINUE) {
-			printf ("ESCHER : Unexpected record type 0x%x\n", q->opcode);
+			printf ("ESCHER : Unexpected record type 0x%x len=0x%x\n", q->opcode, q->length);
 			return NULL;
 		}
-
-		state->start_offset = state->end_offset;
-		state->end_offset += q->length;
-		state->segment_len = q->length;
 
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_escher_debug > 1)
@@ -143,6 +139,10 @@ ms_escher_get_data (MSEscherState * state,
 				state->end_offset,
 				q->opcode, q->length);
 #endif
+
+		state->start_offset = state->end_offset;
+		state->end_offset += q->length;
+		state->segment_len = q->length;
 	}
 
 	res = q->data + offset - state->start_offset;

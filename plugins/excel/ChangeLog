@@ -1,3 +1,25 @@
+2001-04-04  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_externsheet) : new function split from
+	(ms_excel_read_workbook) : here.
+
+	* ms-excel-read.c (biff_name_data_new) : begin cleanup.  The
+	  sheet_index is stored in different places for different biff types.
+	  There also appears to be enough data about the sheet names that we
+	  may not need to do this magic delayed instantiation.
+
+2001-04-03  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-chart.c (ms_excel_chart) : provide stub handlers for container
+	  virtuals.
+
+2001-04-02  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_read_imdata) : new routine pulled from.
+	(ms_excel_read_cell) : here.
+
+	* ms-obj.c (ms_obj_read_biff8_obj) : used here.
+
 2001-04-04  Morten Welinder  <terra@diku.dk>
 
 	* ms-escher.c (ms_escher_blip_destroy): Plug leak.
@@ -6,6 +28,8 @@
  	negative caching.
 
 2001-04-01  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-escher.c (ms_escher_get_data) : improve diagnostic info.
 
 	* ms-obj.c (ms_obj_read_biff8_obj) : when reading the mystery trailing
 	  IMDATA we need to handle CONTINUE.  We really need to figure out
