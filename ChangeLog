@@ -1,5 +1,7 @@
 2002-01-24  Jody Goldberg <jody@gnome.org>
 
+	* configure.in : explicitly disable guile, psiconv, and bonobo for now.
+
 	* src/Makefile.am : Apparently the sources list is order dependent.
 	  Put the built sources at the top.
 

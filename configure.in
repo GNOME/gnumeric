@@ -84,58 +84,55 @@ fi
 
 AC_SUBST(GUILE_LIBS)
 AC_SUBST(GUILE_INCS)
-guile_msg='not requested'
 
 #check for guile 1.5
-try_guile=true
-guile_msg="no"
-with_guile=false
+try_guile=false
+guile_msg="temporarily disabled in gnome2 branch"
+enable_guile=false
 AC_ARG_WITH(guile,
 	[--{with,without}-guile   Compile with Guile support or without it],
-	if test x$withval = xno; then
-		try_guile=false
+	if test x$withval = xyes; then
+		try_guile=true
 	fi
 )
 
-if $try_guile; then
-	AC_MSG_CHECKING(for guile >= 1.5)
-	if test "`guile -c '(display (string>=? (version) "1.4.1"))'`" != "#t"; then
-  		AC_MSG_RESULT([Your Guile is too old.  You need Guile 1.5 or later.])
-	else
-	        AC_MSG_RESULT(found)
-		guile_msg="yes"
-		with_guile=true
-	fi
-	
-fi
-
-AM_CONDITIONAL(WITH_GUILE, $with_guile)
-
-if $with_guile; then
-	GNOME_CHECK_GUILE
-fi
+dnl if $try_guile; then
+dnl 	AC_MSG_CHECKING(for guile >= 1.5)
+dnl 	if test "`guile -c '(display (string>=? (version) "1.4.1"))'`" != "#t"; then
+dnl   		AC_MSG_RESULT([Your Guile is too old.  You need Guile 1.5 or later.])
+dnl 	else
+dnl 	        AC_MSG_RESULT(found)
+dnl 		guile_msg="yes"
+dnl 		enable_guile=true
+dnl 	fi
+dnl 	
+dnl fi
+dnl if $enable_guile; then
+dnl 	GNOME_CHECK_GUILE
+dnl fi
+AM_CONDITIONAL(WITH_GUILE, $enable_guile)
 
 dnl **************************************************
 dnl * psiconv support
 dnl **************************************************
-PSICONV_INIT()
-if test "$want_psiconv" = "yes"; then
-	ac_save_CFLAGS="$CFLAGS"
-	ac_save_LIBS="$LIBS"
-	CFLAGS="$CFLAGS $psiconv_cflags"
-	LIBS="$LIBS $psiconv_libs"
-	AC_CHECK_LIB(psiconv,psiconv_parse_sheet_file,want_psiconv=yes,want_psiconv=no)
-	CFLAGS="$ac_save_CFLAGS"
-	LIBS="$ac_save_LIBS"
-
-	if test "$want_psiconv" = "no"; then
-		PSICONV_LIBS=""
-		PSICONV_CFLAGS=""
-		with_psiconv=false
-	fi
-
-	AM_CONDITIONAL(WITH_PSICONV,$with_psiconv)
-fi
+dnl PSICONV_INIT()
+dnl if test "$want_psiconv" = "yes"; then
+dnl 	ac_save_CFLAGS="$CFLAGS"
+dnl 	ac_save_LIBS="$LIBS"
+dnl 	CFLAGS="$CFLAGS $psiconv_cflags"
+dnl 	LIBS="$LIBS $psiconv_libs"
+dnl 	AC_CHECK_LIB(psiconv,psiconv_parse_sheet_file,want_psiconv=yes,want_psiconv=no)
+dnl 	CFLAGS="$ac_save_CFLAGS"
+dnl 	LIBS="$ac_save_LIBS"
+dnl 
+dnl 	if test "$want_psiconv" = "no"; then
+dnl 		PSICONV_LIBS=""
+dnl 		PSICONV_CFLAGS=""
+dnl 		enable_psiconv=false
+dnl 	fi
+dnl fi
+enable_psiconv=false
+AM_CONDITIONAL(WITH_PSICONV,$enable_psiconv)
 
 dnl **************************************************
 dnl stolen from gtk+
@@ -314,7 +311,7 @@ else
 fi
 
 enable_bonobo=true
-bonobo_msg=yes
+bonobo_msg='temporarily disabled in gnome2'
 AC_ARG_WITH(bonobo,
 	[--{with,without}-bonobo   Use the bonobo UI routines],
 	if test "x$withval" = xno; then
@@ -322,7 +319,8 @@ AC_ARG_WITH(bonobo,
 		bonobo_msg=disabled
 	fi
 )
-gnumeric_bonobo_enabled=$enable_bonobo
+dnl gnumeric_bonobo_enabled=$enable_bonobo
+gnumeric_bonobo_enabled=false
 AM_CONDITIONAL(WITH_BONOBO, $enable_bonobo)
 
 dnl **************************************************
