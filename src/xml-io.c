@@ -208,14 +208,14 @@ xml_arg_get (GtkArg *arg)
  * result must be xmlFree
  */
 xmlChar *
-xml_node_get_cstr (xmlNodePtr node, const char *name)
+xml_node_get_cstr (xmlNodePtr node, char const *name)
 {
 	return name ? xmlGetProp (node, name) : xmlNodeGetContent (node);
 }
 
 /* Set a string value for a node carried as an attibute */
 void
-xml_node_set_cstr (xmlNodePtr node, const char *name, const char *val)
+xml_node_set_cstr (xmlNodePtr node, char const *name, char const *val)
 {
 	if (name)
 		xmlSetProp (node, name, val);
@@ -225,7 +225,7 @@ xml_node_set_cstr (xmlNodePtr node, const char *name, const char *val)
 
 /* Get an integer value for a node carried as an attibute */
 gboolean
-xml_node_get_int (xmlNodePtr node, const char *name, int *val)
+xml_node_get_int (xmlNodePtr node, char const *name, int *val)
 {
 	xmlChar *buf;
 	int res;
@@ -241,7 +241,7 @@ xml_node_get_int (xmlNodePtr node, const char *name, int *val)
 
 /* Set an integer value for a node carried as an attibute */
 void
-xml_node_set_int (xmlNodePtr node, const char *name, int val)
+xml_node_set_int (xmlNodePtr node, char const *name, int val)
 {
 	char str[4 * sizeof (int)];
 	sprintf (str, "%d", val);
@@ -250,7 +250,7 @@ xml_node_set_int (xmlNodePtr node, const char *name, int val)
 
 /* Get a double value for a node carried as an attibute */
 gboolean
-xml_node_get_double (xmlNodePtr node, const char *name, double *val)
+xml_node_get_double (xmlNodePtr node, char const *name, double *val)
 {
 	int res;
 	xmlChar *buf;
@@ -269,7 +269,7 @@ xml_node_get_double (xmlNodePtr node, const char *name, double *val)
  * the content of a child.
  */
 void
-xml_node_set_double (xmlNodePtr node, const char *name, double val,
+xml_node_set_double (xmlNodePtr node, char const *name, double val,
 		     int precision)
 {
 	char str[101 + DBL_DIG];
@@ -310,7 +310,7 @@ xml_node_set_cellpos (xmlNodePtr node, char const *name, CellPos const *val)
  * Set a double value for a node with POINT_SIZE_PRECISION digits precision.
  */
 static void
-xml_node_set_points (xmlNodePtr node, const char *name, double val)
+xml_node_set_points (xmlNodePtr node, char const *name, double val)
 {
 	xml_node_set_double (node, name, val, POINT_SIZE_PRECISION);
 }
@@ -452,7 +452,7 @@ xml_write_selection_info (XmlParseContext *ctxt, Sheet const *sheet, xmlNodePtr 
  *           option ...
  */
 static int
-xml_get_color_value (xmlNodePtr node, const char *name, StyleColor **color)
+xml_get_color_value (xmlNodePtr node, char const *name, StyleColor **color)
 {
 	char *ret;
 	int red, green, blue;
@@ -469,7 +469,7 @@ xml_get_color_value (xmlNodePtr node, const char *name, StyleColor **color)
 }
 
 GdkColor *
-xml_node_get_gdkcolor (xmlNodePtr node, const char *name)
+xml_node_get_gdkcolor (xmlNodePtr node, char const *name)
 {
 	GdkColor   *color;
 	StyleColor *style_color;
@@ -491,7 +491,7 @@ xml_node_get_gdkcolor (xmlNodePtr node, const char *name)
  * the content of a child.
  */
 static void
-xml_node_set_color (xmlNodePtr node, const char *name, StyleColor *val)
+xml_node_set_color (xmlNodePtr node, char const *name, StyleColor *val)
 {
 	char str[4 * sizeof (val->color)];
 	sprintf (str, "%X:%X:%X", val->color.red, val->color.green, val->color.blue);
@@ -499,7 +499,7 @@ xml_node_set_color (xmlNodePtr node, const char *name, StyleColor *val)
 }
 
 void
-xml_node_set_gdkcolor (xmlNodePtr node, const char *name, const GdkColor *color)
+xml_node_set_gdkcolor (xmlNodePtr node, char const *name, const GdkColor *color)
 {
 	StyleColor *style_color;
 
@@ -514,7 +514,7 @@ xml_node_set_gdkcolor (xmlNodePtr node, const char *name, const GdkColor *color)
 /*
  * Create an XML subtree of doc equivalent to the given StyleBorder.
  */
-static const char *StyleSideNames[6] =
+static char const *StyleSideNames[6] =
 {
  	"Top",
  	"Bottom",
@@ -635,7 +635,7 @@ xml_write_style (XmlParseContext *ctxt,
 	    mstyle_is_element_set (style, MSTYLE_FONT_ITALIC) ||
 	    mstyle_is_element_set (style, MSTYLE_FONT_UNDERLINE) ||
 	    mstyle_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH)) {
-		const char *fontname;
+		char const *fontname;
 
 		if (mstyle_is_element_set (style, MSTYLE_FONT_NAME))
 			fontname = mstyle_get_font_name (style);
@@ -1035,7 +1035,7 @@ xml_read_attributes (XmlParseContext *ctxt, xmlNodePtr tree, GList **list)
 
 static xmlNodePtr
 xml_write_print_repeat_range (XmlParseContext *ctxt,
-			      const char *name,
+			      char const *name,
 			      PrintRepeatRange *range)
 {
 	xmlNodePtr cur;
@@ -1267,11 +1267,11 @@ xml_read_print_info (XmlParseContext *ctxt, xmlNodePtr tree)
 	}
 }
 
-static const char *
-font_component (const char *fontname, int idx)
+static char const *
+font_component (char const *fontname, int idx)
 {
 	int i = 0;
-	const char *p = fontname;
+	char const *p = fontname;
 
 	for (; *p && i < idx; p++){
 		if (*p == '-')
@@ -1294,9 +1294,9 @@ font_component (const char *fontname, int idx)
  * Returns: A valid style font.
  */
 static void
-style_font_read_from_x11 (MStyle *mstyle, const char *fontname)
+style_font_read_from_x11 (MStyle *mstyle, char const *fontname)
 {
-	const char *c;
+	char const *c;
 
 	c = font_component (fontname, 2);
 	if (strncmp (c, "bold", 4) == 0)

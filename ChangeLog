@@ -1,3 +1,23 @@
+2001-09-12  Jody Goldberg <jgoldberg@home.com>
+
+	* idl/GNOME_Gnumeric_Graph.idl : move the type enums here.
+	  merge the addVector routines.
+	  change immportSpec into an attribute.
+
+	* src/gnumeric-graph.c (gnm_graph_write_xml) : new routine.
+	(gnm_graph_read_xml) : new routine.
+	(gnm_graph_class_init) : assign them here.
+	(gnm_graph_new) : split this into a wrapper for
+	(gnm_graph_setup) : this new routine.
+	(gnm_graph_vector_seq_scalar) : handle blank cells.
+	(gnm_graph_vector_seq_date) : handle blank cells.
+	(gnm_graph_vector_seq_string) : handle blank cells.
+	(gnm_graph_vector_corba_destroy) : release the subscriber.
+	(gnm_graph_subscribe_vector) : adjust to idl changes.
+	(gnm_graph_get_spec) : new routine.
+
+	* src/position.c (parse_pos_init_dep) : new utility.
+
 2001-09-11  Jody Goldberg <jgoldberg@home.com>
 
 	* src/style.c (style_font_new_simple) : store the width in pixels as

@@ -33,11 +33,12 @@
 #include "ranges.h"
 #include "selection.h"
 #include "sheet-object-container.h"
-#include <idl/GNOME_Gnumeric_Graph.h>
 
 #include <bonobo.h>
 #include <liboaf/liboaf.h>
 #include <gal/util/e-util.h>
+#include <gal/util/e-xml-utils.h>
+#include <gnome-xml/parser.h>
 
 #define	MANAGER		  GNOME_Gnumeric_Graph_Manager_v2
 #define	MANAGER1(suffix)  GNOME_Gnumeric_Graph_Manager_v2_ ## suffix
@@ -51,6 +52,7 @@ struct _GnmGraph {
 	MANAGER	 		 manager;
 
 	GPtrArray		*vectors;
+	xmlDoc			*xml_doc;
 };
 
 typedef struct {
@@ -133,7 +135,9 @@ gnm_graph_vector_seq_scalar (GnmGraphVector *vector)
 		Value const *elem = vector->is_column
 			? value_area_get_x_y (&pos, v, 0, i)
 			: value_area_get_x_y (&pos, v, i, 0);
-		values->_buffer [i] = value_get_as_float (elem);
+
+		/* TODO : do we want to handle ignoring blanks at this level ? */
+		values->_buffer [i] = elem ? value_get_as_float (elem) : 0.;
 	}
 
 	return values;
@@ -157,7 +161,8 @@ gnm_graph_vector_seq_date (GnmGraphVector *vector)
 		Value const *elem = vector->is_column
 			? value_area_get_x_y (&pos, v, 0, i)
 			: value_area_get_x_y (&pos, v, i, 0);
-		values->_buffer [i] = value_get_as_int (elem);
+		/* TODO : do we want to handle ignoring blanks at this level ? */
+		values->_buffer [i] = elem ? value_get_as_int (elem) : 0;
 	}
 
 	return values;
@@ -181,7 +186,8 @@ gnm_graph_vector_seq_string (GnmGraphVector *vector)
 		Value const *elem = vector->is_column
 			? value_area_get_x_y (&pos, v, 0, i)
 			: value_area_get_x_y (&pos, v, i, 0);
-		char const *tmp = value_peek_string (elem);
+		/* TODO : do we want to handle ignoring blanks at this level ? */
+		char const *tmp = elem ? value_peek_string (elem) : "";
 		values->_buffer[i] = CORBA_string_dup (tmp);
 	}
 
@@ -434,6 +440,14 @@ gnm_graph_vector_corba_destroy (GnmGraphVector *vector)
 	CORBA_Environment ev;
 
 	CORBA_exception_init (&ev);
+	if (vector->subscriber.any != CORBA_OBJECT_NIL) {
+		CORBA_Object_release(vector->subscriber.any, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_warning ("'%s' : while releasing a vector",
+				   bonobo_exception_get_text (&ev));
+		}
+		vector->subscriber.any	= CORBA_OBJECT_NIL;
+	}
 	if (vector->activated) {
 		PortableServer_ObjectId *oid;
 		PortableServer_POA poa = bonobo_poa ();
@@ -602,25 +616,8 @@ gnm_graph_subscribe_vector (GnmGraph *graph, GnmGraphVector *vector)
 	CORBA_exception_init (&ev);
 
 	id = graph->vectors->len;
-	switch (vector->type) {
-	case GNM_VECTOR_SCALAR :
-		vector->subscriber.scalar = MANAGER1 (addScalarVector) (
-			graph->manager, vector->corba_obj, id, &ev);
-		break;
-
-	case GNM_VECTOR_DATE :
-		vector->subscriber.date = MANAGER1 (addDateVector) (
-			graph->manager, vector->corba_obj, id, &ev);
-		break;
-
-	case GNM_VECTOR_STRING :
-		vector->subscriber.string = MANAGER1 (addStringVector) (
-			graph->manager, vector->corba_obj, id, &ev);
-		break;
-
-	default :
-		g_assert_not_reached();
-	}
+	vector->subscriber.any = MANAGER1 (addVector) (
+		graph->manager, vector->corba_obj, vector->type, id, &ev);
 
 	if ((ok = ev._major == CORBA_NO_EXCEPTION)) {
 		g_ptr_array_add (graph->vectors, vector);
@@ -669,7 +666,7 @@ gnm_graph_add_vector (GnmGraph *graph, ExprTree *expr,
 			char *expr_str;
 			parse_pos_init (&pos, NULL, sheet, 0, 0);
 			expr_str = expr_tree_as_string (expr, &pos);
-			printf ("vector::ref (%d) @ 0x%p = %s\n", vector->type, vector, expr_str);
+			printf ("vector::ref (%d) @ %p = %s\n", vector->type, vector, expr_str);
 			g_free (expr_str);
 #endif
 			return vector->id;
@@ -717,7 +714,7 @@ gnm_graph_add_vector (GnmGraph *graph, ExprTree *expr,
 		char *expr_str;
 		parse_pos_init (&pos, NULL, sheet, 0, 0);
 		expr_str = expr_tree_as_string (expr, &pos);
-		printf ("vector::new (%d) @ 0x%p = %s\n", type, vector, expr_str);
+		printf ("vector::new (%d) @ %p = %s\n", type, vector, expr_str);
 		g_free (expr_str);
 	}
 #endif
@@ -745,15 +742,11 @@ oaf_exception_id (CORBA_Environment *ev)
         }
 }
 
-/* FIXME : Should we take a CommandContext to report errors to ? */
-GnmGraph *
-gnm_graph_new (Workbook *wb)
+static gboolean
+gnm_graph_setup (GnmGraph *graph, Workbook *wb)
 {
 	CORBA_Environment  ev;
 	Bonobo_Unknown	   o;
-	GnmGraph	  *graph = NULL;
-
-	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
 
 	CORBA_exception_init (&ev);
 
@@ -766,16 +759,9 @@ gnm_graph_new (Workbook *wb)
 		g_warning ("No graphing component is installed.  Oaf has nothing registered that implements the required interface.\n"
 			   "oaf-query 'repo_ids.has('" MANAGER_OAF "')\nshould return a value.");
 	} else {
-		graph = gtk_type_new (GNUMERIC_GRAPH_TYPE);
-
-#ifdef DEBUG_GRAPHS
-		printf ("gnumeric : graph new %p\n", graph);
-#endif
-
-		graph->vectors = g_ptr_array_new ();
 		graph->manager = Bonobo_Unknown_queryInterface (o, MANAGER_OAF, &ev);
 
-		g_return_val_if_fail (graph->manager != NULL, NULL);
+		g_return_val_if_fail (graph->manager != NULL, TRUE);
 
 		graph->manager_client = bonobo_object_client_from_corba (graph->manager);
 		bonobo_object_release_unref (o, &ev);
@@ -791,6 +777,23 @@ gnm_graph_new (Workbook *wb)
 
 	CORBA_exception_free (&ev);
 
+	return graph == NULL;
+}
+
+/* FIXME : Should we take a CommandContext to report errors to ? */
+GnmGraph *
+gnm_graph_new (Workbook *wb)
+{
+	GnmGraph *graph = gtk_type_new (GNUMERIC_GRAPH_TYPE);
+
+#ifdef DEBUG_GRAPHS
+	printf ("gnumeric : graph new %p\n", graph);
+#endif
+
+	if (gnm_graph_setup (graph, wb)) {
+		gtk_object_destroy (GTK_OBJECT (graph));
+		return NULL;
+	}
 	return graph;
 }
 
@@ -802,7 +805,7 @@ gnm_graph_type_selector (GnmGraph *graph)
 	Bonobo_Control	   control;
 
 	CORBA_exception_init (&ev);
-	control = MANAGER1 (getTypeSelectControl) (graph->manager, &ev);
+	control = MANAGER1 (configure) (graph->manager, "Type", &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("'%s' : while attempting to activate a graphing component",
 			   bonobo_exception_get_text (&ev));
@@ -825,8 +828,7 @@ void
 gnm_graph_arrange_vectors (GnmGraph *graph)
 {
 	CORBA_Environment  ev;
-	MANAGER1(VectorIDs) *data, *headers;
-
+	GNOME_Gnumeric_VectorIDs *data, *headers;
 	unsigned i, len = 0;
 
 	g_return_if_fail (IS_GNUMERIC_GRAPH (graph));
@@ -837,13 +839,13 @@ gnm_graph_arrange_vectors (GnmGraph *graph)
 			len++;
 	}
 
-	data = MANAGER1(VectorIDs__alloc) ();
+	data = GNOME_Gnumeric_VectorIDs__alloc ();
 	data->_length = data->_maximum = len;
-	data->_buffer = CMANAGER1(VectorID_allocbuf) (len);
+	data->_buffer = CORBA_sequence_GNOME_Gnumeric_VectorID_allocbuf (len);
 	data->_release = CORBA_TRUE;
-	headers = MANAGER1(VectorIDs__alloc) ();
+	headers = GNOME_Gnumeric_VectorIDs__alloc ();
 	headers->_length = data->_maximum = len;
-	headers->_buffer = CMANAGER1(VectorID_allocbuf) (len);
+	headers->_buffer = CORBA_sequence_GNOME_Gnumeric_VectorID_allocbuf (len);
 	headers->_release = CORBA_TRUE;
 
 	len = 0;
@@ -919,6 +921,40 @@ gnm_graph_range_to_vectors (GnmGraph *graph,
 	}
 }
 
+static void
+gnm_graph_get_spec (GnmGraph *graph)
+{
+	CORBA_Environment  ev;
+	MANAGER1(Buffer)  *spec;
+
+	CORBA_exception_init (&ev);
+	spec = MANAGER1 (_get_spec) (graph->manager, &ev);
+	if (ev._major == CORBA_NO_EXCEPTION) {
+		xmlParserCtxtPtr pctxt;
+
+		/* A limit in libxml */
+		g_return_if_fail (spec->_length >= 4);
+
+		pctxt = xmlCreatePushParserCtxt (NULL, NULL,
+			spec->_buffer, spec->_length, NULL);
+		xmlParseChunk (pctxt, "", 0, TRUE);
+
+		if (graph->xml_doc != NULL)
+			xmlFreeDoc (graph->xml_doc);
+		graph->xml_doc = pctxt->myDoc;
+
+#if DEBUG_INFO > 0
+		xmlDocDump (stdout, graph->xml_doc);
+#endif
+
+		xmlFreeParserCtxt (pctxt);
+	} else {
+		g_warning ("'%s' : retrieving the specification for graph %p",
+			   bonobo_exception_get_text (&ev), graph);
+	}
+	CORBA_exception_free (&ev);
+}
+
 /**
  * gnm_graph_import_specification :
  *
@@ -932,20 +968,22 @@ void
 gnm_graph_import_specification (GnmGraph *graph, xmlDocPtr spec)
 {
 	CORBA_Environment  ev;
-	MANAGER1(Buffer)  *buffer;
+	MANAGER1(Buffer)  *partial;
 	xmlChar *mem;
 	int size;
 
 	xmlDocDumpMemory (spec, &mem, &size);
 
-	buffer = MANAGER1(Buffer__alloc) ();
-	buffer->_length = buffer->_maximum = size;
-	buffer->_buffer = mem;
-	buffer->_release = CORBA_FALSE;
+	partial = MANAGER1(Buffer__alloc) ();
+	partial->_length = partial->_maximum = size;
+	partial->_buffer = mem;
+	partial->_release = CORBA_FALSE;
 
 	CORBA_exception_init (&ev);
-	MANAGER1 (importSpecification) (graph->manager, buffer, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
+	MANAGER1 (_set_spec) (graph->manager, partial, &ev);
+	if (ev._major == CORBA_NO_EXCEPTION)
+		gnm_graph_get_spec (graph);
+	else {
 		g_warning ("'%s' : importing the specification for graph %p",
 			   bonobo_exception_get_text (&ev), graph);
 	}
@@ -959,7 +997,9 @@ gnm_graph_init (GtkObject *obj)
 
 	graph->vectors = NULL;
 	graph->manager = CORBA_OBJECT_NIL;
+	graph->xml_doc = NULL;
 	graph->manager_client = NULL;
+	graph->vectors = g_ptr_array_new ();
 }
 
 static void
@@ -980,6 +1020,10 @@ gnm_graph_destroy (GtkObject *obj)
 		gnm_graph_clear_vectors_internal (graph, FALSE);
 		g_ptr_array_free (graph->vectors, TRUE);
 		graph->vectors = NULL;
+	}
+	if (graph->xml_doc != NULL) {
+		xmlFreeDoc (graph->xml_doc);
+		graph->xml_doc = NULL;
 	}
 
 	if (gnm_graph_parent_class->destroy)
@@ -1017,6 +1061,89 @@ gnm_graph_user_config (SheetObject	*sheet_object,
 {
 }
 
+static gboolean
+gnm_graph_read_xml (SheetObject *so,
+		    XmlParseContext const *ctxt, xmlNodePtr tree)
+{
+	GnmGraph *graph = GNUMERIC_GRAPH (so);
+	xmlNode *tmp;
+	xmlDoc *doc;
+
+	if (gnm_graph_setup (graph, ctxt->wb))
+		return TRUE;
+
+	tmp = e_xml_get_child_by_name (tree, "Vectors");
+	for (tmp = tmp->xmlChildrenNode; tmp; tmp = tmp->next) {
+		int id, new_id, type;
+		ParsePos pos;
+		ExprTree *expr;
+		xmlChar *content;
+
+		if (strcmp (tmp->name, "Vector"))
+			continue;
+
+		content = xmlNodeGetContent (tmp);
+		expr = expr_parse_string (content,
+			parse_pos_init (&pos, NULL, ctxt->sheet, 0, 0),
+			NULL, NULL);
+		xmlFree (content);
+
+		g_return_val_if_fail (expr != NULL, TRUE);
+
+		xml_node_get_int (tmp, "ID", &id);
+		xml_node_get_int (tmp, "Type", &type);
+
+		new_id = gnm_graph_add_vector (graph, expr, type, ctxt->sheet);
+
+		g_return_val_if_fail (id == new_id, TRUE);
+	}
+
+	doc = xmlNewDoc ("1.0");
+	doc->xmlRootNode = xmlCopyNode (
+		e_xml_get_child_by_name (tree, "Graph"), TRUE);
+	gnm_graph_import_specification (graph, doc);
+	xmlFreeDoc (doc);
+
+	return FALSE;
+}
+
+static gboolean
+gnm_graph_write_xml (SheetObject const *so,
+		     XmlParseContext const *ctxt, xmlNodePtr tree)
+{
+	GnmGraph *graph = GNUMERIC_GRAPH (so);
+	xmlNode *vectors;
+	ParsePos pp;
+	unsigned i;
+
+	vectors = xmlNewChild (tree, ctxt->ns, "Vectors", NULL);
+	for (i = 0 ; i < graph->vectors->len; i++) {
+		GnmGraphVector *vector = g_ptr_array_index (graph->vectors, i);
+		xmlNode *node;
+		xmlChar *encoded_expr_str;
+		char *expr_str;
+
+		if (vector == NULL)
+			continue;
+		expr_str = expr_tree_as_string (vector->dep.expression,
+			parse_pos_init_dep (&pp, &vector->dep));
+		encoded_expr_str = xmlEncodeEntitiesReentrant (ctxt->doc,
+			expr_str);
+		node = xmlNewChild (vectors, ctxt->ns, "Vector",
+			encoded_expr_str);
+		g_free (expr_str);
+		xmlFree (encoded_expr_str);
+
+		xml_node_set_int (node, "ID", i);
+		xml_node_set_int (node, "Type", vector->type);
+	}
+
+	if (graph->xml_doc == NULL)
+		gnm_graph_get_spec (graph);
+	xmlAddChild (tree, xmlCopyNode (graph->xml_doc->xmlRootNode, TRUE));
+	return FALSE;
+}
+
 static void
 gnm_graph_class_init (GtkObjectClass *object_class)
 {
@@ -1027,8 +1154,10 @@ gnm_graph_class_init (GtkObjectClass *object_class)
 	object_class->destroy = &gnm_graph_destroy;
 
 	sheet_object_class = SHEET_OBJECT_CLASS (object_class);
-	sheet_object_class->populate_menu = &gnm_graph_populate_menu;
-	sheet_object_class->user_config = &gnm_graph_user_config;
+	sheet_object_class->populate_menu = gnm_graph_populate_menu;
+	sheet_object_class->user_config   = gnm_graph_user_config;
+	sheet_object_class->read_xml	  = gnm_graph_read_xml;
+	sheet_object_class->write_xml	  = gnm_graph_write_xml;
 }
 
 E_MAKE_TYPE (gnm_graph, "GnmGraph", GnmGraph,

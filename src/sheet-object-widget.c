@@ -933,19 +933,20 @@ sheet_widget_checkbox_read_xml (SheetObject *so,
 	xmlFree (label);
 	
 	if (input_txt) {
-		ParsePos pos, *pp;
-		ExprTree *tree;
+		ParsePos pos;
+		ExprTree *expr;
 
-		pp = parse_pos_init (&pos, NULL, context->sheet, 0, 0);
-		tree = expr_parse_string (input_txt, pp, NULL, NULL);
+		expr = expr_parse_string (input_txt,
+			parse_pos_init (&pos, NULL, context->sheet, 0, 0),
+			NULL, NULL);
 
-		if (tree == NULL) {
-			g_warning ("Could not read checkbox widget object. Could not parse expr tree\n");
+		if (expr == NULL) {
+			g_warning ("Could not read checkbox widget object. Could not parse expr\n");
 			xmlFree (input_txt);
 			return TRUE;
 		}
 
-		swc->dep.expression = tree;
+		swc->dep.expression = expr;
 		
 		xmlFree (input_txt);
 	} else {

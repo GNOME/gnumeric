@@ -12,8 +12,17 @@ module GNOME {
 	    short start;
 	    short end;
 	};
+	typedef long		   VectorID;
+	typedef sequence<Pair>	   SeqPair;
+	typedef sequence<VectorID> VectorIDs;
+
+	enum VectorType {
+	    VECTOR_TYPE_SCALAR,
+	    VECTOR_TYPE_DATE,
+	    VECTOR_TYPE_STRING
+	};
+
 	/* This is a place holder */
-	typedef sequence<Pair> SeqPair;
 	interface VectorSelection {
 	    oneway void selected (in SeqPair ranges);
 	};
@@ -41,13 +50,31 @@ module GNOME {
 
 	module Graph {
 	    interface Manager_v2 : Bonobo::Unknown {
-		typedef long VectorID;
-		typedef sequence<VectorID> VectorIDs;
 		typedef sequence<octet>	Buffer;
 
-		Scalar::Vector addScalarVector (in Scalar::Vector v, in VectorID id);
-		Date::Vector   addDateVector   (in Date::Vector   v, in VectorID id);
-		String::Vector addStringVector (in String::Vector v, in VectorID id);
+		Bonobo::Control configure (in string type);
+
+		/**
+		 * Read :
+		 * 	A full specified document including enough markup
+		 * 	information to assist in data assignment and for
+		 * 	persistence.
+		 *
+		 * Write :
+		 * 	Take a possibly incomplete description of a graph using
+		 * 	a subset of the dtd used for persistence and initialize
+		 * 	the graphs state.  The document refers to vectors by
+		 * 	IDs that were assigned previously.
+		 */
+		attribute Buffer spec;
+
+		/**
+		 * addVector :
+		 *
+		 * Register new vectors and get their callbacks.
+		 */
+		VectorSelection addVector (in VectorSelection v,
+					   in VectorType type, in VectorID id);
 
 		/**
 		 * clearVectors :
@@ -66,19 +93,6 @@ module GNOME {
 		 */
 		oneway void arrangeVectors (in VectorIDs data,
 					    in VectorIDs optional_headers);
-
-		Bonobo::Control getTypeSelectControl ();
-
-		/**
-		 * importSpecification :
-		 *
-		 * Take a possibly incomplete description of a
-		 * graph using a subset of the dtd used for
-		 * persistence and initialize the graphs state.
-		 * The document refers to vectors by IDs that
-		 * were assigned previously.
-		 */
-		oneway void importSpecification (in Buffer spec);
 	    };
 	};
     };

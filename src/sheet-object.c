@@ -28,6 +28,7 @@
 #include "sheet-object-widget.h"
 #ifdef ENABLE_BONOBO
 #include "sheet-object-bonobo.h"
+#include "gnumeric-graph.h"
 #endif
 
 #include <gal/util/e-util.h>
@@ -772,6 +773,7 @@ sheet_object_register (void)
 	CELL_COMMENT_TYPE;
 #ifdef ENABLE_BONOBO
 	SHEET_OBJECT_BONOBO_TYPE;
+	GNUMERIC_GRAPH_TYPE;
 #endif
 	sheet_object_widget_register ();
 }

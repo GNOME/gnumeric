@@ -4,12 +4,13 @@
 #include "gnumeric.h"
 #include <gtk/gtkwidget.h>
 #include <gnome-xml/tree.h>
+#include <idl/GNOME_Gnumeric_Graph.h>
 
 typedef enum {
-	GNM_VECTOR_AUTO	   = 0,
-	GNM_VECTOR_SCALAR  = 1,
-	GNM_VECTOR_DATE	   = 2,
-	GNM_VECTOR_STRING  = 3
+	GNM_VECTOR_SCALAR  = GNOME_Gnumeric_VECTOR_TYPE_SCALAR,
+	GNM_VECTOR_DATE	   = GNOME_Gnumeric_VECTOR_TYPE_DATE,
+	GNM_VECTOR_STRING  = GNOME_Gnumeric_VECTOR_TYPE_STRING,
+	GNM_VECTOR_AUTO	   = 99
 } GnmGraphVectorType;
 
 #define GNUMERIC_GRAPH_TYPE	(gnm_graph_get_type ())

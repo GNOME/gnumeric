@@ -28,6 +28,7 @@ EvalPos  *eval_pos_init_cell     (EvalPos *pp, Cell const *cell);
 /* Initialization routines for Parse Positions */
 ParsePos *parse_pos_init         (ParsePos *pp, Workbook *wb,
 				  Sheet *sheet, int col, int row);
+ParsePos *parse_pos_init_dep	 (ParsePos *pp, Dependent const *dep);
 ParsePos *parse_pos_init_cell    (ParsePos *pp, Cell const *cell);
 ParsePos *parse_pos_init_evalpos (ParsePos *pp, EvalPos const *pos);
 

@@ -93,6 +93,24 @@ parse_pos_init (ParsePos *pp, Workbook *wb, Sheet *sheet, int col, int row)
 	return pp;
 }
 
+/*
+ * parse_pos_init_dep :
+ *
+ * @pp : The position to init.
+ * @dep : The dependent
+ */
+ParsePos *
+parse_pos_init_dep (ParsePos *pp, Dependent const *dep)
+{
+	g_return_val_if_fail (pp != NULL, NULL);
+
+	pp->sheet = dep->sheet;
+	pp->wb = dep->sheet->workbook;
+	pp->eval.col = pp->eval.row = 0;
+
+	return pp;
+}
+
 ParsePos *
 parse_pos_init_cell (ParsePos *pp, Cell const *cell)
 {
