@@ -49,7 +49,6 @@ typedef Gog2DPlotClass GogBubblePlotClass;
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 static GogObjectClass *plot2d_parent_klass;
-static GType gog_2d_view_get_type (void);
 static void gog_2d_plot_adjust_bounds (Gog2DPlot *model, double *x_min, double *x_max, double *y_min, double *y_max);
 
 #define GOG_2D_PLOT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_2D_PLOT_TYPE, Gog2DPlotClass))

@@ -33,6 +33,8 @@
 #include <gsf/gsf-impl-utils.h>
 #include <src/gnumeric-i18n.h>
 
+#include <gtk/gtknotebook.h>
+
 struct _GogLegend {
 	GogOutlinedObject base;
 
@@ -151,6 +153,17 @@ gog_legend_update (GogObject *obj)
 	gog_object_emit_changed	(obj, TRUE);
 }
 
+static gpointer
+gog_legend_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
+{
+	static guint legend_pref_page = 0;
+	GtkWidget *notebook = gtk_notebook_new ();
+
+	gog_style_editor (GOG_STYLED_OBJECT (gobj), cc, notebook);
+	gog_style_handle_notebook (notebook, &legend_pref_page);
+	return notebook;
+}
+
 static void
 gog_legend_init_style (GogStyledObject *gso, GogStyle *style)
 {
@@ -178,6 +191,7 @@ gog_legend_class_init (GogLegendClass *klass)
 
 	gog_klass->parent_changed = gog_legend_parent_changed;
 	gog_klass->update	  = gog_legend_update;
+	gog_klass->editor	  = gog_legend_editor;
 	gog_klass->view_type	  = gog_legend_view_get_type ();
 	style_klass->init_style	  = gog_legend_init_style;
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));

@@ -31,9 +31,12 @@ range_count (const gnm_float *xs, int n, gnm_float *res)
 int
 range_sum (const gnm_float *xs, int n, gnm_float *res)
 {
-	gnm_float sum_1 = 0;
-	gnm_float sum_2 = 0;
-	gnm_float xbar = 0;
+    /* http://bugzilla.gnome.org/show_bug.cgi?id=131588 */
+#ifdef HAVE_LONG_DOUBLE
+	long double sum_1 = 0., sum_2 = 0., xbar = 0.;
+#else
+	gnm_float   sum_1 = 0., sum_2 = 0., xbar = 0.;
+#endif
 	int i;
 
 	if (n == 0) {
@@ -55,9 +58,12 @@ range_sum (const gnm_float *xs, int n, gnm_float *res)
 int
 range_sumsq (const gnm_float *xs, int n, gnm_float *res)
 {
-	gnm_float sum_1 = 0;
-	gnm_float sum_2 = 0;
-	gnm_float xbar = 0;
+    /* http://bugzilla.gnome.org/show_bug.cgi?id=131588 */
+#ifdef HAVE_LONG_DOUBLE
+	long double sum_1 = 0., sum_2 = 0., xbar = 0.;
+#else
+	gnm_float   sum_1 = 0., sum_2 = 0., xbar = 0.;
+#endif
 	int i;
 
 	if (n == 0) {

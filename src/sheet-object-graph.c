@@ -376,13 +376,15 @@ sheet_object_graph_default_size (SheetObject const *so, double *w, double *h)
 static void
 sheet_object_graph_position_changed (SheetObject const *so)
 {
-	double coords [4];
-
-	sheet_object_position_pts_get (so, coords);
-	g_object_set (SHEET_OBJECT_GRAPH (so)->renderer,
-		"logical_width_pts",  fabs (coords[2] - coords[0]),
-		"logical_height_pts", fabs (coords[3] - coords[1]),
-		NULL);
+	/* If it has not been realized there is no renderer yet */
+	if (SHEET_OBJECT_GRAPH (so)->renderer != NULL) {
+		double coords [4];
+		sheet_object_position_pts_get (so, coords);
+		g_object_set (SHEET_OBJECT_GRAPH (so)->renderer,
+			"logical_width_pts",  fabs (coords[2] - coords[0]),
+			"logical_height_pts", fabs (coords[3] - coords[1]),
+			NULL);
+	}
 }
 
 static void

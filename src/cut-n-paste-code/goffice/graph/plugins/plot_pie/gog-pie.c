@@ -115,7 +115,7 @@ gog_pie_plot_editor (GogObject *item,
 static gboolean
 gog_pie_plot_foreach_elem (GogPlot *plot, GogEnumFunc handler, gpointer data)
 {
-	unsigned i, n;
+	unsigned i, n, num_labels = 0;
 	GogPiePlot const *model = GOG_PIE_PLOT (plot);
 	GogSeries const *series;
 	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (plot));
@@ -131,13 +131,16 @@ gog_pie_plot_foreach_elem (GogPlot *plot, GogEnumFunc handler, gpointer data)
 	n = model->base.cardinality;
 	style = gog_style_dup (series->base.style);
 	labels = NULL;
-	if (series->values[0].data != NULL)
+	if (series->values[0].data != NULL) {
 		labels = GO_DATA_VECTOR (series->values[0].data);
+		num_labels = go_data_vector_get_len (labels);
+	}
 	for ( ; i < n ; i++) {
 		gog_theme_init_style (theme, style, GOG_OBJECT (series),
 			model->base.index_num + i);
-		label = (labels != NULL)
-			? go_data_vector_get_str (labels, i) : NULL;
+		if (labels != NULL)
+			label = (i < num_labels)
+				? go_data_vector_get_str (labels, i) : g_strdup ("");
 		if (label == NULL)
 			label = g_strdup_printf ("%d", i);
 		(handler) (i, style, label, data);

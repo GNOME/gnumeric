@@ -102,6 +102,7 @@ color_combo_set_color_internal (ColorCombo *cc, GdkColor *color)
 			      pixbuf, 1, color_y + 1);
 
 	g_object_unref (color_pixbuf);
+	gtk_widget_queue_draw (cc->preview_image);
 }
 
 static void

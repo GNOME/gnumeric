@@ -1,3 +1,14 @@
+2004-02-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.6
+
+2004-02-04  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-legend.c (gog_legend_editor) : new to avoid warning.
+
+	* graph/plugins/plot_pie/gog-pie.c (gog_pie_plot_foreach_elem) :
+	  handle insufficient labels more smoothly.
+
 2004-01-29  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=132390

@@ -4455,7 +4455,18 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 }
 
 static void
-excel_read_BG_PIC (BiffQuery *q, ExcelReadSheet *esheet)
+excel_read_CODENAME (BiffQuery *q, ExcelWorkbook *ewb, ExcelReadSheet *esheet)
+{
+	char *codename = biff_get_text (q->data + 2,
+		GSF_LE_GET_GUINT16 (q->data), NULL);
+	GObject *obj = (esheet == NULL)
+		? G_OBJECT (ewb->gnum_wb) : G_OBJECT (esheet->sheet);
+	g_object_set_data_full (obj, CODENAME_KEY, codename, g_free);
+}
+
+static void
+excel_read_BG_PIC (BiffQuery *q,
+		   ExcelReadSheet *esheet)
 {
 	/* Looks like a bmp.  OpenCalc has a basic parser for 24 bit files */
 }
@@ -4846,7 +4857,7 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 				break;
 			case BIFF_DVAL:		excel_read_DVAL (q, esheet);  break;
 			case BIFF_HLINK:	excel_read_HLINK (q, esheet); break;
-			case BIFF_CODENAME:
+			case BIFF_CODENAME:	excel_read_CODENAME (q, ewb, esheet); break;
 				break;
 			case BIFF_DV:
 				g_warning ("Found a DV record without a DVal ??");
@@ -5428,7 +5439,7 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 
 			case BIFF_RECALCID:	break;
 			case BIFF_REFRESHALL:	break;
-			case BIFF_CODENAME:	break;
+			case BIFF_CODENAME:	excel_read_CODENAME (q, ewb, NULL); break;
 			case BIFF_PROT4REVPASS: break;
 
 			case BIFF_USESELFS:	break;

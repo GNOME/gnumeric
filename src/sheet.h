@@ -8,6 +8,8 @@
 
 typedef struct _SheetPrivate SheetPrivate;
 struct _Sheet {
+	GObject	base; /* not really used yet */
+
 	int         signature;
 
 	int         index_in_wb;

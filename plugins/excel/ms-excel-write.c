@@ -265,7 +265,7 @@ excel_write_BOF (BiffPut *bp, MsBiffFileType type)
 	case MS_BIFF_V8:
 		GSF_LE_SET_GUINT16 (data+4, 0x239f);
 		GSF_LE_SET_GUINT16 (data+6, 0x07cd);
-		GSF_LE_SET_GUINT32 (data+ 8, 0x000040c1);
+		GSF_LE_SET_GUINT32 (data+ 8, 0x000040c9);
 		GSF_LE_SET_GUINT16 (data+12, 0x00000106);
 		break;
 
@@ -3685,6 +3685,20 @@ excel_sheet_write_block (ExcelWriteSheet *esheet, guint32 begin, int nrows,
 	return row - 1;
 }
 
+static void
+excel_write_CODENAME (ExcelWriteState *ewb, GObject *src)
+{
+	if (ewb->export_macros) {
+		char const *codename = g_object_get_data (src, CODENAME_KEY);
+		/* it does not appear to always exist */
+		if (codename != NULL) {
+			ms_biff_put_var_next (ewb->bp, BIFF_CODENAME);
+			excel_write_string (ewb->bp, codename, STR_TWO_BYTE_LENGTH);
+			ms_biff_put_commit (ewb->bp);
+		}
+	}
+}
+
 /* See: 'Finding records in BIFF files': S59E28.HTM */
 /* and S59D99.HTM */
 static void
@@ -3766,12 +3780,8 @@ excel_write_sheet (ExcelWriteState *ewb, ExcelWriteSheet *esheet)
 	ms_biff_put_commit (ewb->bp);
 */
 
-	if (ewb->export_macros) {
-		ms_biff_put_var_next (ewb->bp, BIFF_CODENAME);
-		excel_write_string (ewb->bp, esheet->gnum_sheet->name_unquoted,
-				    STR_TWO_BYTE_LENGTH);
-		ms_biff_put_commit (ewb->bp);
-	}
+	excel_write_CODENAME (ewb, G_OBJECT (esheet->gnum_sheet));
+
 	excel_write_EOF (ewb->bp);
 	g_array_free (dbcells, TRUE);
 }
@@ -4105,7 +4115,7 @@ excel_write_names (ExcelWriteState *ewb)
 }
 
 static void
-write_workbook (ExcelWriteState *ewb)
+excel_write_workbook (ExcelWriteState *ewb)
 {
 	BiffPut		*bp = ewb->bp;
 	ExcelWriteSheet	*s = NULL;
@@ -4161,9 +4171,7 @@ write_workbook (ExcelWriteState *ewb)
 		if (ewb->export_macros) {
 			ms_biff_put_len_next (bp, BIFF_OBPROJ, 0);
 			ms_biff_put_commit (bp);
-			ms_biff_put_var_next (bp, BIFF_CODENAME);
-			excel_write_string (bp, "ThisWorkbook", STR_TWO_BYTE_LENGTH);
-			ms_biff_put_commit (bp);
+			excel_write_CODENAME (ewb, G_OBJECT (ewb->gnum_wb));
 		}
 	}
 
@@ -4315,7 +4323,7 @@ excel_write_v7 (ExcelWriteState *ewb, GsfOutfile *outfile)
 		if (tmp != NULL)
 			codepage = GPOINTER_TO_INT (tmp);
 		ewb->bp = ms_biff_put_new (content, MS_BIFF_V7, codepage);
-		write_workbook (ewb);
+		excel_write_workbook (ewb);
 		ms_biff_put_destroy (ewb->bp);
 		ewb->bp = NULL;
 	} else
@@ -4335,7 +4343,7 @@ excel_write_v8 (ExcelWriteState *ewb, GsfOutfile *outfile)
 	content = gsf_outfile_new_child (outfile, "Workbook", FALSE);
 	if (content != NULL) {
 		ewb->bp = ms_biff_put_new (content, MS_BIFF_V8, -1);
-		write_workbook (ewb);
+		excel_write_workbook (ewb);
 		ms_biff_put_destroy (ewb->bp);
 		ewb->bp = NULL;
 	} else

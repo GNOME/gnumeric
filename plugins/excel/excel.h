@@ -35,4 +35,6 @@ extern  char const *excel_builtin_formats[];
 
 #define ROW_BLOCK_MAX_LEN 32
 
+#define	CODENAME_KEY	"XL_CODENAME_utf8"
+
 #endif /* GNUMERIC_EXCEL_H */
