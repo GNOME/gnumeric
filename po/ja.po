@@ -19124,11 +19124,11 @@ msgstr "セパレータ"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:3
 msgid "Cen_ter size:"
-msgstr "中心サイズ:"
+msgstr "中心サイズ(_T):"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:1
 msgid "3D Pie"
-msgstr "3次元円グラフ"
+msgstr "3次元パイグラフ"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:2
 msgid "3D Split Pie"
@@ -19146,13 +19146,12 @@ msgid ""
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:5
-#, fuzzy
 msgid "Multi-Pie"
-msgstr "複数円グラフ"
+msgstr "複数パイグラフ"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:6
 msgid "Multi-pie-bars"
-msgstr "複数円/棒グラフ"
+msgstr "複数パイ/棒グラフ"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:7
 msgid ""
@@ -19178,64 +19177,62 @@ msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:12
 msgid "Percentage of each contributor."
-msgstr ""
+msgstr "それぞれのコントリビュータのパーセンテージです。"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:13
 msgid "Pie"
-msgstr "円"
+msgstr "パイ"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:14
 msgid "Ring"
-msgstr "リング"
+msgstr "円"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:15
 msgid "Split Pie"
-msgstr "分割円"
+msgstr "分割パイ"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:16
 msgid "Split Ring"
-msgstr "分割リング"
+msgstr "分割円"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:1
 msgid "Charting : Pie/Ring"
-msgstr ""
+msgstr "グラフ: パイ/円"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:2
 msgid "Default pie types"
-msgstr "デフォルト円グラフタイプ"
+msgstr "デフォルトパイグラフタイプ"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:3
 msgid "Pie and Ring plots"
-msgstr ""
+msgstr "パイと円でプロットします。"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:4
 msgid "Pie plotting engine"
-msgstr "円グラフプロットエンジン"
+msgstr "パイグラフプロットエンジン"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:5
 msgid "Ring plotting engine"
-msgstr "リンググラフプロットエンジン"
+msgstr "円グラフプロットエンジン"
 
 #. xgettext : the base for how to name radar plot objects
 #. * eg The 2nd radar plot in a chart will be called
 #. * 	PlotRadar2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar.c:113
-#, fuzzy
 msgid "PlotRadar"
-msgstr "プロット"
+msgstr "レーダープロット"
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotRadarArea2
 #.
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar.c:276
-#, fuzzy
 msgid "PlotRadarArea"
-msgstr "プロット(_P)"
+msgstr "レーダーエリアプロット"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plot-types.xml.in.h:1
 msgid "Area Radar"
-msgstr ""
+msgstr "エリアレーダー"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plot-types.xml.in.h:2
 #, fuzzy
@@ -19247,9 +19244,8 @@ msgid "Dotted Radar"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plot-types.xml.in.h:4
-#, fuzzy
 msgid "Radar"
-msgstr "スタンダード"
+msgstr "レーダー"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plot-types.xml.in.h:5
 msgid "Radar plot with dots."
@@ -19262,7 +19258,7 @@ msgstr "列を削除"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plugin.xml.in.h:1
 msgid "Charting : Radial plots"
-msgstr ""
+msgstr "グラフ: 放射状プロット"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plugin.xml.in.h:2
 #, fuzzy
@@ -19434,35 +19430,31 @@ msgstr ""
 #. really 3_1
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:8
 msgid "XY"
-msgstr ""
+msgstr "XY"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:9
-#, fuzzy
 msgid "XY Lines"
-msgstr "直線"
+msgstr "XY直線"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:10
-#, fuzzy
 msgid "XY Points"
-msgstr "点"
+msgstr "XY点"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:1
 msgid "2D plots"
-msgstr ""
+msgstr "2次元プロット"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:2
-#, fuzzy
 msgid "2D scatter plotting engine"
-msgstr "円グラフプロットエンジン"
+msgstr "2次元散布図プロットエンジン"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:3
-#, fuzzy
 msgid "Bubble plotting engine"
-msgstr "円グラフプロットエンジン"
+msgstr "バブルプロットエンジン"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:4
 msgid "Charting : XY/Scatter/Bubble"
-msgstr ""
+msgstr "グラフ: XY/散布図/バブル"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:5
 msgid "Stock Scatter plot types"
@@ -19474,15 +19466,15 @@ msgstr "黒"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:97
 msgid "light brown"
-msgstr ""
+msgstr "明るい茶色"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:98
 msgid "brown gold"
-msgstr ""
+msgstr "茶金色"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:99
 msgid "dark green #2"
-msgstr ""
+msgstr "暗い緑 #2"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:100
 msgid "navy"
@@ -19491,11 +19483,11 @@ msgstr "濃紺"
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:101
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:153
 msgid "dark blue"
-msgstr ""
+msgstr "暗い青"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:102
 msgid "purple #2"
-msgstr ""
+msgstr "紫 #2"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:103
 msgid "very dark gray"
