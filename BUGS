@@ -31,16 +31,17 @@ Pending Patches
     0.1)  Missing toolbar borders for colour and stack combos	(DONE)
     0.2)  Make the 'apply' behavior of the color combo optional
           so that we can do just selection.
-    0.3)  Add keynav for color combo
-    0.4)  center color combo swatches in the buttons
-    0.5)  alpha channel support for colour combos
-    0.6)  Add mnemonic_activate for colour combos		(DONE)
-    0.7)  Add mnemonic_activate for ExprEntry			(DONE)
-    0.8)  Queue update for changed/deleted in ExprEntry ?
-    0.9)  menu mnemonics for Edit -> Fill -> merge & series	(DONE)
-    0.10) Fix warning on destruction of torn off combo		(DONE)
-    0.11) Use 'Chart' in the ui to be compatible
-    0.12) giving focus to an expr entry with a single rangeref
+    0.3)  Add keynav for autoformat canvases			(DONE)
+    0.4)  Add keynav for color combo
+    0.5)  center color combo swatches in the buttons
+    0.6)  alpha channel support for colour combos
+    0.7)  Add mnemonic_activate for colour combos		(DONE)
+    0.8)  Add mnemonic_activate for ExprEntry			(DONE)
+    0.9)  Queue update for changed/deleted in ExprEntry ?
+    0.10)  menu mnemonics for Edit -> Fill -> merge & series	(DONE)
+    0.11) Fix warning on destruction of torn off combo		(DONE)
+    0.12) Use 'Chart' in the ui to be compatible		(DONE)
+    0.13) giving focus to an expr entry with a single rangeref
     	  in another sheet should make that range visible.
 
 1) graphs							{Jody}
@@ -188,14 +189,6 @@ Pending Patches
     3.2) Figure out import semantics of the other 2 XL types
     3.3) email support ? via system 'evoltion mailto:....'
 
-5) zip based format
-    5.1) move existing code into plugin (easy)
-    5.2) work on sax-ish exporter				(DONE)
-    5.3) convert xml-sax to use gsf sax helper			(DONE)
-    5.4) Namespace support for xml import			(DONE)
-    5.5) writeup and discuss proposals for container
-    5.6) writeup and discuss proposals for content
-
 6) XL
     6.1) biff7 externsheet records in charts			(DONE)
     6.2) 97 export						(DONE)
@@ -336,6 +329,15 @@ Functions
 
 Excel i/o
     - 'Forms' import.
+
+1) zip based format
+    1.1) move existing code into plugin (easy)
+    1.2) work on sax-ish exporter				(DONE)
+    1.3) convert xml-sax to use gsf sax helper			(DONE)
+    1.4) Namespace support for xml import			(DONE)
+    1.5) Entity support
+    1.6) writeup and discuss proposals for container
+    1.7) writeup and discuss proposals for content
 
 Misc stuff that should be fixed
 -------------------------------

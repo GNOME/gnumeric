@@ -11,6 +11,10 @@ Jody:
 	* Fix the generated files.
 	* Cleanout the internals of PreviewGrid.
 	* Cleanup AutoFormat dialog.
+	* Printing support for charting engine.
+	* Fix printing of images.
+	* coup de grace to gal, importing the 75 lines of e_xml we used
+	* Keynav for autoformat dialog
 
 Morten:
 	* Hopefully fix NAN issues on Alphas.

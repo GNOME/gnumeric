@@ -60,6 +60,9 @@ MStyle      *xml_read_style     (XmlParseContext *ctxt, xmlNodePtr tree);
 
 void      xml_init (void);
 
-xmlNodePtr e_xml_get_child_by_name (xmlNode const *tree, xmlChar const *name);
+xmlNode *e_xml_get_child_by_name		(xmlNode const *tree, char const *name);
+xmlNode *e_xml_get_child_by_name_no_lang	(xmlNode const *tree, char const *name);
+xmlNode *e_xml_get_child_by_name_by_lang_list	(xmlNode const *tree, char const *name,
+						 GList const *lang_list);
 
 #endif /* GNUMERIC_XML_IO_H */

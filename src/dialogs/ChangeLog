@@ -1,3 +1,8 @@
+2003-06-11  Jody Goldberg <jody@gnome.org>
+
+	* dialog-autoformat.c (cb_canvas_focus) : new.
+	(dialog_autoformat) : hook it up here to get decent keynav.
+
 2003-06-10  Jody Goldberg <jody@gnome.org>
 
 	* dialog-about.c (dialog_about) : www.gnumeric.org is still down

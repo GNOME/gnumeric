@@ -139,6 +139,108 @@ xml_parse_ctx_destroy (XmlParseContext *ctxt)
 	g_free (ctxt);
 }
 
+/*************************************************************************/
+
+xmlNode *
+e_xml_get_child_by_name (xmlNode const *parent, char const *child_name)
+{
+	xmlNode *child;
+
+	g_return_val_if_fail (parent != NULL, NULL);
+	g_return_val_if_fail (child_name != NULL, NULL);
+	
+	for (child = parent->xmlChildrenNode; child != NULL; child = child->next) {
+		if (xmlStrcmp (child->name, child_name) == 0) {
+			return child;
+		}
+	}
+	return NULL;
+}
+
+xmlNode *
+e_xml_get_child_by_name_no_lang (xmlNode const *parent, char const *name)
+{
+	xmlNodePtr node;
+
+	g_return_val_if_fail (parent != NULL, NULL);
+	g_return_val_if_fail (name != NULL, NULL);
+
+	for (node = parent->xmlChildrenNode; node != NULL; node = node->next) {
+		xmlChar *lang;
+
+		if (node->name == NULL || strcmp (node->name, name) != 0) {
+			continue;
+		}
+		lang = xmlGetProp (node, "xml:lang");
+		if (lang == NULL) {
+			return node;
+		}
+		xmlFree (lang);
+	}
+
+	return NULL;
+}
+
+static xmlNode *
+e_xml_get_child_by_name_by_lang_list_with_score (const xmlNode *parent,
+						 const gchar *name,
+						 const GList *lang_list,
+						 gint *best_lang_score)
+{
+	xmlNodePtr best_node = NULL, node;
+
+	for (node = parent->xmlChildrenNode; node != NULL; node = node->next) {
+		xmlChar *lang;
+
+		if (node->name == NULL || strcmp (node->name, name) != 0) {
+			continue;
+		}
+		lang = xmlGetProp (node, "xml:lang");
+		if (lang != NULL) {
+			const GList *l;
+			gint i;
+
+			for (l = lang_list, i = 0;
+			     l != NULL && i < *best_lang_score;
+			     l = l->next, i++) {
+				if (strcmp ((gchar *) l->data, lang) == 0) {
+					best_node = node;
+					*best_lang_score = i;
+				}
+			}
+		} else {
+			if (best_node == NULL) {
+				best_node = node;
+			}
+		}
+		xmlFree (lang);
+		if (*best_lang_score == 0) {
+			return best_node;
+		} 
+	}
+
+	return best_node;
+}
+
+xmlNode *
+e_xml_get_child_by_name_by_lang_list (const xmlNode *parent,
+				      const gchar *name,
+				      const GList *lang_list)
+{
+	gint best_lang_score = INT_MAX;
+
+	g_return_val_if_fail (parent != NULL, NULL);
+	g_return_val_if_fail (name != NULL, NULL);
+
+	if (lang_list == NULL) {
+		lang_list = gnome_i18n_get_language_list ("LC_MESSAGES");
+	}
+	return e_xml_get_child_by_name_by_lang_list_with_score
+		(parent,name,
+		 lang_list,
+		 &best_lang_score);
+}
+
 /* ------------------------------------------------------------------------- */
 
 /* Get an xmlChar * value for a node carried as an attibute

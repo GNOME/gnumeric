@@ -521,6 +521,18 @@ category_group_cmp (gconstpointer a, gconstpointer b)
 	return g_utf8_collate (group_a->name, group_b->name);
 }
 
+static gboolean
+cb_canvas_focus (GtkWidget *canvas, GtkDirectionType direction,
+		 AutoFormatState *state)
+{
+	if (!GTK_WIDGET_HAS_FOCUS (canvas)) {
+		gtk_widget_grab_focus (canvas);
+		cb_canvas_button_press (FOO_CANVAS (canvas), NULL, state);
+		return TRUE;
+	}
+	return FALSE;
+}
+
 /**
  * dialog_autoformat:
  * @wb: The Workbook
@@ -602,6 +614,9 @@ dialog_autoformat (WorkbookControlGUI *wbcg)
 		g_signal_connect (G_OBJECT (state->canvas[i]),
 			"button-press-event",
 			G_CALLBACK (cb_canvas_button_press), state);
+		g_signal_connect (G_OBJECT (state->canvas[i]),
+			"focus",
+			G_CALLBACK (cb_canvas_focus), state);
 	}
 
 	g_signal_connect (G_OBJECT (GTK_RANGE (state->scroll)->adjustment),
