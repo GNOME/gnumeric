@@ -357,11 +357,24 @@ enum {
 	TEXT_FIELD_PROPERTY_EXISTS_OFFSET = 0x00080000,
 } TextFieldPropExists;
 
+
 enum {
-	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_ALIGNMENT     = 0x00000800,
-	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_SPACING_ABOVE = 0x00002000,
-	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_SPACING_BELOW = 0x00004000,
-	TEXT_FIELD_PARAGRAPH_PROPERTY_UNKNOWN_1            = 0x00200000,
+	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_BULLET_FLAGS     = 0x0000000f,
+	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_BULLET_CHARACTER = 0x00000080,
+	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_BULLET_FAMILY    = 0x00000010,
+	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_BULLET_SIZE      = 0x00000040,
+	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_BULLET_COLOR     = 0x00000020,
+	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_ALIGNMENT        = 0x00000800,
+	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_UNKNOWN_1        = 0x00000400,
+	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_UNKNOWN_2        = 0x00000200,
+	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_UNKNOWN_3        = 0x00000100,
+	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_LINE_FEED        = 0x00001000,
+	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_SPACING_ABOVE    = 0x00002000,
+	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_SPACING_BELOW    = 0x00004000,
+	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_UNKNOWN_4        = 0x00008000,
+	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_UNKNOWN_5        = 0x00010000,
+	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_ASIAN_UNKNOWN    = 0x000e0000,
+	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_BIDI             = 0x00200000,
 } TextFieldParagraphPropExists;
 
 enum {
@@ -418,6 +431,14 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 			g_print (data);
 			g_print ("\n");
 			text_length = g_utf8_strlen (data, -1);
+			g_free (data);
+			break;
+		case TextBytesAtom:
+			data = g_convert (data, record->length, "utf8", "latin1", NULL, NULL, NULL);
+			g_print (data);
+			g_print ("\n");
+			text_length = g_utf8_strlen (data, -1);
+			g_free (data);
 			break;
 		case BaseTextPropAtom:
 			gsf_mem_dump (data, record->length);
@@ -438,8 +459,8 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 
 
 				int indentation_level;
-				int i = 0;
-				int lasti;
+				guint i = 0;
+				guint lasti;
 				gboolean first = TRUE;
 
 				gsf_mem_dump (data, record->length);
@@ -589,12 +610,26 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 				printf ("length: %d\n", section_length);
 				remain -= section_length;
 				sublen += 4;
+				printf ("indent level: %d\n", (int) GSF_LE_GET_GUINT16 (data + i + sublen));
 				sublen += 2;
 				fields = GSF_LE_GET_GUINT32 (data + i + sublen);
 				printf ("para fields: 0x%04x\n", fields);
 				sublen += 4;
-
-				sublen += 12;
+				if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_BULLET_FLAGS) {
+					sublen += 2;
+				}
+				if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_BULLET_CHARACTER) {
+					sublen += 2;
+				}
+				if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_BULLET_FAMILY) {
+					sublen += 2;
+				}
+				if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_BULLET_SIZE) {
+					sublen += 2;
+				}
+				if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_BULLET_COLOR) {
+					sublen += 4;
+				}
 				if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_ALIGNMENT) {
 					printf ("Alignment: ");
 					switch (GSF_LE_GET_GUINT16 (data + i + sublen)) {
@@ -614,8 +649,19 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 					printf ("\n");
 					sublen += 2;
 				}
+				if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_UNKNOWN_1) {
+					sublen += 2;
+				}
+				if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_UNKNOWN_2) {
+					sublen += 2;
+				}
+				if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_UNKNOWN_3) {
+					sublen += 2;
+				}
+				if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_LINE_FEED) {
+					sublen += 2;
+				}
 
-				sublen += 2;
 				if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_SPACING_ABOVE) {
 					int space;
 					space = GSF_LE_GET_GUINT16 (data + i + sublen);
@@ -634,8 +680,13 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 					printf ("space_after: %.3f\"\n", space / 576.0);
 					sublen += 2;
 				}
-				sublen += 2;
-				if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_UNKNOWN_1)
+				if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_UNKNOWN_4)
+					sublen += 2;
+				if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_UNKNOWN_5)
+					sublen += 2;
+				if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_ASIAN_UNKNOWN)
+					sublen += 2;
+				if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_BIDI)
 					sublen += 2;
 				gsf_mem_dump (data + i, sublen);
 				i += sublen;

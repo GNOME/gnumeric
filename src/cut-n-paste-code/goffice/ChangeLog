@@ -1,5 +1,10 @@
 2004-07-20  Christopher James Lahey  <clahey@ximian.com>
 
+	* libpresent/load-ppt.c (handle_atom), test/dump-ppt-records.c
+	(handle_atom): Improved StyleTextPropAtom parsing.
+
+2004-07-20  Christopher James Lahey  <clahey@ximian.com>
+
 	* libpresent/load-ppt.c (handle_atom): Missing NULL.
 
 2004-07-20  Christopher James Lahey  <clahey@ximian.com>

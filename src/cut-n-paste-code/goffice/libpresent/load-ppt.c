@@ -218,10 +218,22 @@ enum {
 } TextFieldPropExists;
 
 enum {
-	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_ALIGNMENT     = 0x00000800,
-	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_SPACING_ABOVE = 0x00002000,
-	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_SPACING_BELOW = 0x00004000,
-	TEXT_FIELD_PARAGRAPH_PROPERTY_UNKNOWN_1            = 0x00200000,
+	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_BULLET_FLAGS     = 0x0000000f,
+	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_BULLET_CHARACTER = 0x00000080,
+	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_BULLET_FAMILY    = 0x00000010,
+	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_BULLET_SIZE      = 0x00000040,
+	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_BULLET_COLOR     = 0x00000020,
+	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_ALIGNMENT        = 0x00000800,
+	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_UNKNOWN_1        = 0x00000400,
+	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_UNKNOWN_2        = 0x00000200,
+	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_UNKNOWN_3        = 0x00000100,
+	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_LINE_FEED        = 0x00001000,
+	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_SPACING_ABOVE    = 0x00002000,
+	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_SPACING_BELOW    = 0x00004000,
+	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_UNKNOWN_4        = 0x00008000,
+	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_UNKNOWN_5        = 0x00010000,
+	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_ASIAN_UNKNOWN    = 0x000e0000,
+	TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_BIDI             = 0x00200000,
 } TextFieldParagraphPropExists;
 
 enum {
@@ -515,7 +527,7 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 
 			parse_state = stack ? STACK_TOP->parse_state : NULL;
 			if (parse_state) {
-				char *text = g_strndup (data, record->length);
+				char *text = g_convert (data, record->length, "utf8", "latin1", NULL, NULL, NULL);
 				god_text_model_set_text (GOD_TEXT_MODEL (parse_state->current_text), text);
 				g_free (text);
 			}
@@ -546,14 +558,43 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 					sublen += 2;
 					fields = GSF_LE_GET_GUINT32 (data + i + sublen);
 					sublen += 4;
-
-					sublen += 12;
+					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_BULLET_FLAGS) {
+						sublen += 2;
+					}
+					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_BULLET_CHARACTER) {
+						sublen += 2;
+					}
+					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_BULLET_FAMILY) {
+						sublen += 2;
+					}
+					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_BULLET_SIZE) {
+						sublen += 2;
+#if 0 /* From OOo */
+						if ( ! ( ( nMask & ( 1 << PPT_ParaAttr_BuHardHeight ) )
+							 && ( nBulFlg && ( 1 << PPT_ParaAttr_BuHardHeight ) ) ) )
+							aSet.mnAttrSet ^= 0x40;
+#endif
+					}
+					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_BULLET_COLOR) {
+						sublen += 4;
+					}
 					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_ALIGNMENT) {
 						g_object_set (para_attr, "alignment", (guint) GSF_LE_GET_GUINT16 (data + i + sublen), NULL);
 						sublen += 2;
 					}
+					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_UNKNOWN_1) {
+						sublen += 2;
+					}
+					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_UNKNOWN_2) {
+						sublen += 2;
+					}
+					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_UNKNOWN_3) {
+						sublen += 2;
+					}
+					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_LINE_FEED) {
+						sublen += 2;
+					}
 
-					sublen += 2;
 					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_SPACING_ABOVE) {
 						int space;
 						space = GSF_LE_GET_GUINT16 (data + i + sublen);
@@ -578,8 +619,13 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 							      NULL);
 						sublen += 2;
 					}
-					sublen += 2;
-					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_UNKNOWN_1)
+					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_UNKNOWN_4)
+						sublen += 2;
+					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_UNKNOWN_5)
+						sublen += 2;
+					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_ASIAN_UNKNOWN)
+						sublen += 2;
+					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_BIDI)
 						sublen += 2;
 					end = position;
 					while (section_length && end < text_len) {
