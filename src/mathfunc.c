@@ -3813,6 +3813,11 @@ mdeterm (gnum_float *A, int dim)
 			ARRAY (U, n, i) = ARRAY (A, n, i) - sum;
 		}
 
+		if (ARRAY (U, n, n) == 0) {
+			product = 0;
+			goto out;
+		}
+
 		for (i = n + 1; i < dim; i++) {
 		        sum = 0;
 			for (j = 0; j < i - 1; j++)
@@ -3829,6 +3834,7 @@ mdeterm (gnum_float *A, int dim)
 
 #undef ARRAY
 
+ out:
 	g_free (L);
 	g_free (U);
 

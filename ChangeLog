@@ -1,3 +1,8 @@
+2003-01-02  Morten Welinder  <terra@diku.dk>
+
+	* src/mathfunc.c (mdeterm): Simple-minded fix for singular
+	matrices.
+
 2002-12-20  Jody Goldberg <jody@gnome.org>
 
 	* src/value.c (value_new_string_nocopy) : backport.
