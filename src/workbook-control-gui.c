@@ -662,6 +662,12 @@ wbcg_undo_redo_clear (WorkbookControl *wbc, gboolean is_undo)
 }
 
 static void
+wbcg_undo_redo_truncate (WorkbookControl *wbc, int n, gboolean is_undo)
+{
+	gtk_combo_stack_truncate (ur_stack (wbc, is_undo), n);
+}
+
+static void
 wbcg_undo_redo_pop (WorkbookControl *wbc, gboolean is_undo)
 {
 	gtk_combo_stack_remove_top (ur_stack (wbc, is_undo), 1);
@@ -3074,10 +3080,11 @@ workbook_control_gui_ctor_class (GtkObjectClass *object_class)
 	wbc_class->sheet.move	    = wbcg_sheet_move;
 	wbc_class->sheet.remove_all = wbcg_sheet_remove_all;
 
-	wbc_class->undo_redo.clear  = wbcg_undo_redo_clear;
-	wbc_class->undo_redo.pop    = wbcg_undo_redo_pop;
-	wbc_class->undo_redo.push   = wbcg_undo_redo_push;
-	wbc_class->undo_redo.labels = wbcg_undo_redo_labels;
+	wbc_class->undo_redo.clear    = wbcg_undo_redo_clear;
+	wbc_class->undo_redo.truncate = wbcg_undo_redo_truncate;
+	wbc_class->undo_redo.pop      = wbcg_undo_redo_pop;
+	wbc_class->undo_redo.push     = wbcg_undo_redo_push;
+	wbc_class->undo_redo.labels   = wbcg_undo_redo_labels;
 
 	wbc_class->paste.special_enable = wbcg_paste_special_enable;
 	wbc_class->paste.from_selection = wbcg_paste_from_selection;

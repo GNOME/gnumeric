@@ -1,3 +1,17 @@
+2000-11-20  Morten Welinder  <terra@diku.dk>
+
+	* gnumeric.spec.in (gal): Require 0.2.99.
+
+	* configure.in (gal): Require 0.2.99 (and fix check).
+
+	* src/workbook-control-gui.c (workbook_control_gui_ctor_class):
+ 	Set undo_redo.truncate.
+	(wbcg_undo_redo_truncate): New function.
+
+	* src/commands.c (command_push_undo): truncate undo information.
+	(truncate_undo_info): New function.
+	(cmd_format): Properly size undo information.
+
 2000-11-20  Jody Goldberg <jgoldberg@home.com>
 
 	* src/colrow.c (col_row_get_index_list) : Take away my crack pipe.

@@ -93,6 +93,7 @@ typedef struct
 {
 	GtkObject parent;
 	char const *cmd_descriptor;	/* A string to put in the menu */
+	int size;                       /* See truncate_undo_info.  */
 } GnumericCommand;
 
 typedef gboolean (* UndoCmd)(GnumericCommand *this, WorkbookControl *wbc);
@@ -127,22 +128,22 @@ gnumeric_command_destroy (GtkObject *obj)
 	(*gtk_object_dtor) (obj);
 }
 
-#define GNUMERIC_MAKE_COMMAND(type, func) \
-static gboolean \
-func ## _undo (GnumericCommand *me, WorkbookControl *wbc); \
-static gboolean \
-func ## _redo (GnumericCommand *me, WorkbookControl *wbc); \
-static void \
-func ## _destroy (GtkObject *object); \
-static void \
-func ## _class_init (GnumericCommandClass * const parent) \
-{	\
-	parent->undo_cmd = (UndoCmd)& func ## _undo;		\
-	parent->redo_cmd = (RedoCmd)& func ## _redo;		\
-	if (gtk_object_dtor == NULL)				\
-		gtk_object_dtor = parent->parent_class.destroy;	\
-	parent->parent_class.destroy = & func ## _destroy;	\
-} \
+#define GNUMERIC_MAKE_COMMAND(type, func)				\
+static gboolean								\
+func ## _undo (GnumericCommand *me, WorkbookControl *wbc);		\
+static gboolean								\
+func ## _redo (GnumericCommand *me, WorkbookControl *wbc);		\
+static void								\
+func ## _destroy (GtkObject *object);					\
+static void								\
+func ## _class_init (GnumericCommandClass * const parent)		\
+{									\
+	parent->undo_cmd = (UndoCmd)& func ## _undo;			\
+	parent->redo_cmd = (RedoCmd)& func ## _redo;			\
+	if (gtk_object_dtor == NULL)					\
+		gtk_object_dtor = parent->parent_class.destroy;		\
+	parent->parent_class.destroy = & func ## _destroy;		\
+}									\
 static GNUMERIC_MAKE_TYPE_WITH_CLASS(func, #type, type, GnumericCommandClass, func ## _class_init, NULL, \
 				     gnumeric_command_get_type())
 
@@ -287,6 +288,65 @@ command_list_release (GSList *cmd_list)
 	}
 }
 
+/*
+ * Each undo item has a certain size.  The size of typing a value into
+ * a cell is the unit size.  A large autoformat could have a size of
+ * hundreds or even thousands.
+ *
+ * We wish to have the same undo behaviour across platforms, so please
+ * don't use sizeof in computing the undo size.
+ */
+
+/*
+ * Truncate the undo list if it is too big.
+ *
+ * Returns -1 if no truncation was done, or else the number of elements
+ * left.
+ */
+static int
+truncate_undo_info (WorkbookControl *wbc)
+{
+	int size_left = 100; /* FIXME? */
+	int ok_count;
+	GSList *l, *prev;
+	Workbook *wb = wb_control_workbook (wbc);
+
+	for (l = wb->undo_commands, prev = NULL, ok_count = 0;
+	     l;
+	     prev = l, l = l->next, ok_count++) {
+		int min_leave;
+		GnumericCommand *cmd = GNUMERIC_COMMAND (l->data);
+		int size = cmd->size;
+
+		if (size < 1) {
+				/*
+				 * We could g_assert, but that would cause data loss.
+				 * Instead, just continue.
+				 */
+			g_warning ("Faulty undo_size_func, please report.");
+			size = 1;
+		}
+
+		/* Keep at least one undo item.  */
+		if (size > size_left && ok_count >= 1) {
+			/* Current item is too big; truncate list here.  */
+			command_list_release (l);
+			prev->next = NULL;
+			return ok_count;
+		}
+
+		/*
+		 * In order to allow a series of useful small items behind
+		 * a big item, leave at least 10% of current item's size.
+		 */
+		min_leave = size / 10;
+		size_left = MAX (size_left - size, min_leave);
+	}
+
+	return -1;
+}
+
+
 /**
  * command_push_undo : An internal utility to tack a new command
  *    onto the undo list.
@@ -316,16 +376,22 @@ command_push_undo (WorkbookControl *wbc, GtkObject *obj)
 	trouble = klass->redo_cmd (cmd, wbc);
 
 	if  (!trouble) {
+		int undo_trunc;
+
 		command_list_release (wb->redo_commands);
 		wb->redo_commands = NULL;
 
 		wb->undo_commands = g_slist_prepend (wb->undo_commands, cmd);
+		undo_trunc = truncate_undo_info (wbc);
 
 		WORKBOOK_FOREACH_CONTROL (wb, view, control,
 		{
 			wb_control_undo_redo_push (control,
 						   cmd->cmd_descriptor, TRUE);
+			if (undo_trunc >= 0)
+				wb_control_undo_redo_truncate (control, undo_trunc, TRUE);
 			wb_control_undo_redo_clear (control, FALSE);
+				
 		});
 		undo_redo_menu_labels (wb);
 	} else
@@ -448,6 +514,8 @@ cmd_set_text (WorkbookControl *wbc,
 				  MAX_DESCRIPTOR_WIDTH - 3);
 	} else
 		text = corrected_text;
+
+	me->parent.size = 1;
 
 	me->parent.cmd_descriptor =
 		g_strdup_printf (_("Typing \"%s%s\" in %s"), text, pad,
@@ -634,6 +702,8 @@ cmd_area_set_text (WorkbookControl *wbc, EvalPos const *pos,
 				  MAX_DESCRIPTOR_WIDTH - 3);
 	} else
 		text = (gchar *) new_text;
+
+	me->parent.size = 1;
 
 	me->parent.cmd_descriptor =
 	    g_strdup_printf (_("Typing \"%s%s\""), text, pad);
@@ -824,6 +894,8 @@ cmd_ins_del_row_col (WorkbookControl *wbc,
 	me->count = count;
 	me->sizes = NULL;
 	me->contents = NULL;
+
+	me->parent.size = 1;
 
 	me->parent.cmd_descriptor = descriptor;
 
@@ -1018,6 +1090,8 @@ cmd_clear_selection (WorkbookControl *wbc, Sheet *sheet, int clear_flags)
 	if (clear_flags & CLEAR_COMMENTS)
 		g_warning ("Deleted comments cannot be restored yet");
 
+	me->parent.size = 1;
+
 	/* TODO : Something more descriptive ? maybe the range name */
 	me->parent.cmd_descriptor = g_strdup (_("Clear"));
 
@@ -1181,6 +1255,8 @@ cmd_format (WorkbookControl *wbc, Sheet *sheet,
 	me->selection  = selection_get_ranges (sheet, FALSE); /* TRUE ? */
 	me->new_style  = style;
 
+	me->parent.size = 1;
+
 	me->old_styles = NULL;
 	for (l = me->selection; l; l = l->next) {
 		CmdFormatOldStyle *os;
@@ -1197,6 +1273,7 @@ cmd_format (WorkbookControl *wbc, Sheet *sheet,
 		os->styles = sheet_get_styles_in_range (sheet, &range);
 		os->pos = range.start;
 
+		me->parent.size += g_list_length (os->styles);
 		me->old_styles = g_slist_append (me->old_styles, os);
 	}
 
@@ -1278,6 +1355,8 @@ cmd_rename_sheet (WorkbookControl *wbc, const char *old_name, const char *new_na
 	me->wb = wb;
 	me->old_name = g_strdup (old_name);
 	me->new_name = g_strdup (new_name);
+
+	me->parent.size = 1;
 
 	me->parent.cmd_descriptor =
 	    g_strdup_printf (_("Rename sheet '%s' '%s'"), old_name, new_name);
@@ -1420,6 +1499,8 @@ cmd_set_date_time (WorkbookControl *wbc,
 	me->is_date = is_date;
 	me->contents = NULL;
 
+	me->parent.size = 1;
+
 	me->parent.cmd_descriptor =
 	    g_strdup_printf (is_date
 			     ? _("Setting current date in %s")
@@ -1519,6 +1600,8 @@ cmd_resize_row_col (WorkbookControl *wbc, Sheet *sheet,
 	me->saved_sizes = NULL;
 	me->new_size = new_size;
 
+	me->parent.size = 1;
+
 	me->parent.cmd_descriptor = is_cols
 	    ? g_strdup (_("Setting width of columns"))
 	    : g_strdup (_("Setting height of rows"));
@@ -1614,6 +1697,8 @@ cmd_sort (WorkbookControl *wbc, SortData *data)
 	me->perm = NULL;
 	me->inv = NULL;
 
+	me->parent.size = 1;
+
 	me->parent.cmd_descriptor =
 		g_strdup_printf (_("Sorting %s"), range_name(me->data->range));
 
@@ -1694,6 +1779,8 @@ cmd_hide_selection_rows_cols (WorkbookControl *wbc, Sheet *sheet,
 	me->is_cols = is_cols;
 	me->visible = visible;
 	me->elements = col_row_get_visiblity_toggle (sheet, is_cols, visible);
+
+	me->parent.size = 1;
 
 	me->parent.cmd_descriptor = g_strdup (is_cols
 		? (visible ? _("Unhide columns") : _("Hide columns"))
@@ -1879,6 +1966,8 @@ cmd_paste_cut (WorkbookControl *wbc, ExprRelocateInfo const *info,
 	me->reloc_storage  = NULL;
 	me->move_selection = move_selection;
 
+	me->parent.size = 1;
+
 	me->parent.cmd_descriptor = descriptor;
 
 	/* NOTE : if the destination workbook is different from the source workbook
@@ -2006,6 +2095,8 @@ cmd_paste_copy (WorkbookControl *wbc,
 			me->dst.range.end.row = me->dst.range.start.row + content->cols -1;
 		}
 	}
+
+	me->parent.size = 1;
 
 	me->parent.cmd_descriptor = g_strdup_printf (_("Pasting into %s"), range_name(&pt->range));
 
@@ -2137,6 +2228,8 @@ cmd_autofill (WorkbookControl *wbc, Sheet *sheet,
 	me->h = h;
 	me->end_col = end_col;
 	me->end_row = end_row;
+
+	me->parent.size = 1;
 
 	me->parent.cmd_descriptor = g_strdup (_("Autofill"));
 
@@ -2293,6 +2386,8 @@ cmd_autoformat (WorkbookControl *wbc, Sheet *sheet, FormatTemplate *ft)
 
 		me->old_styles = g_slist_append (me->old_styles, os);
 	}
+
+	me->parent.size = 1;
 
 	me->parent.cmd_descriptor = g_strdup (_("Autoformat"));
 

@@ -35,6 +35,7 @@ void wb_control_sheet_move	     (WorkbookControl *wbc, Sheet *sheet,
 void wb_control_sheet_remove_all     (WorkbookControl *wbc);
 
 void wb_control_undo_redo_clear	     (WorkbookControl *wbc, gboolean is_undo);
+void wb_control_undo_redo_truncate   (WorkbookControl *wbc, int n, gboolean is_undo);
 void wb_control_undo_redo_pop	     (WorkbookControl *wbc, gboolean is_undo);
 void wb_control_undo_redo_push	     (WorkbookControl *wbc,
 				      char const *text, gboolean is_undo);

@@ -84,6 +84,8 @@ WBC_VIRTUAL_FULL (sheet_remove_all, sheet.remove_all,
 
 WBC_VIRTUAL_FULL (undo_redo_clear, undo_redo.clear,
 	(WorkbookControl *wbc, gboolean is_undo), (wbc, is_undo))
+WBC_VIRTUAL_FULL (undo_redo_truncate, undo_redo.truncate,
+	(WorkbookControl *wbc, int n, gboolean is_undo), (wbc, n, is_undo))
 WBC_VIRTUAL_FULL (undo_redo_pop, undo_redo.pop,
 	(WorkbookControl *wbc, gboolean is_undo), (wbc, is_undo))
 WBC_VIRTUAL_FULL (undo_redo_push, undo_redo.push,

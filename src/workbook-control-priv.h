@@ -34,6 +34,7 @@ typedef struct {
 	} sheet;
 	struct {
 		void (*clear)	(WorkbookControl *wbc, gboolean is_undo);
+		void (*truncate)(WorkbookControl *wbc, int n, gboolean is_undo);
 		void (*pop)	(WorkbookControl *wbc, gboolean is_undo);
 		void (*push)	(WorkbookControl *wbc,
 				 char const *text, gboolean is_undo);

@@ -6,6 +6,9 @@ Jody:
 Jon Kåre:
 	* Improve XL export of non-builtin functions.
 
+Morten:
+	* Semi-smart undo/redo list truncation.
+
 --------------------------------------------------------------------------
 Gnumeric 0.59
 
