@@ -121,6 +121,31 @@
       </example>
     </sect3>
   </sect2>
+
+  <sect2>
+    <title>Referencing cells on other sheets</title>
+
+    <para>It is possible to reference cells which are not part of the
+    current sheet.  This is done using the NAME!CELL syntax.
+    Where NAME is an identifier (usually a Sheet name) and CELL is a
+    regular cell reference as described in the previous
+    sections.</para>
+
+    <para>Note that if NAME contains spaces, you need to quote the
+    whole name to allow Gnumeric to group the separate words in NAME
+    as single name.  For example, you should use "Sheet 0" when
+    referencing the default created "Sheet 0".</para>
+
+    <example id="simple-sheet-ref">
+      <title>Referencing values in other sheets</title>
+      <programlisting>
+	='Sheet 0'!A1+'Sheet 3'!A5
+
+	=SUM('Sheet 1'!A1:'Sheet 1'!A5)
+      </programlisting>
+    </example>
+
+  </sect2>
 </sect1>
 
 
