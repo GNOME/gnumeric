@@ -1,3 +1,7 @@
+2001-07-05  Almer S. Tigelaar  <almer@gnome.org>
+
+	* gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet): Fix backspace.
+	
 2001-07-04  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-merge.c (sheet_merge_add) : Use sheet_redraw_range.

@@ -312,13 +312,6 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		application_clipboard_unant ();
 		break;
 		
-	case GDK_BackSpace:
-		/* Re-center the view on the active cell */
-		if ((event->state & GDK_CONTROL_MASK) != 0)
-			scg_make_cell_visible (gsheet->scg, sheet->edit_pos.col,
-					       sheet->edit_pos.row, TRUE);
-		break;
-
 	case GDK_F4:
 		if (gsheet->sel_cursor)
 			wbcg_edit_toggle_absolute (wbcg);
@@ -327,6 +320,14 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	case GDK_F2:
 		wbcg_edit_start (wbcg, FALSE, FALSE);
 		/* fall down */
+
+	case GDK_BackSpace:
+		/* Re-center the view on the active cell */
+		if (!wbcg->editing && (event->state & GDK_CONTROL_MASK) != 0) {
+			scg_make_cell_visible (gsheet->scg, sheet->edit_pos.col,
+					       sheet->edit_pos.row, TRUE);
+			break;
+		}
 
 	default:
 		if (!wbcg->editing) {
