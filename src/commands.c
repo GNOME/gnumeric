@@ -1426,7 +1426,7 @@ cmd_resize_row_col_undo (GnumericCommand *cmd, CommandContext *context)
 
 	col_row_restore_sizes_group (me->sheet, me->is_cols,
 				     me->selection, me->saved_sizes);
-	me->saved_sizes = col_row_size_list_destroy (me->saved_sizes);
+	me->saved_sizes = NULL;
 
 	sheet_set_dirty (me->sheet, TRUE);
 	sheet_update (me->sheet);

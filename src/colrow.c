@@ -224,16 +224,18 @@ col_row_restore_sizes_group (Sheet *sheet, gboolean const is_cols,
 			     ColRowIndexList *selection,
 			     ColRowSizeList *saved_sizes)
 {
-	while (selection != NULL && saved_sizes != NULL) {
+	ColRowSizeList *ptr = saved_sizes;
+	while (selection != NULL && ptr != NULL) {
 		ColRowIndex *index = selection->data;
 
 		col_row_restore_sizes (sheet, is_cols,
 				       index->first, index->last,
-				       saved_sizes->data);
+				       ptr->data);
 
 		selection = selection->next;
-		saved_sizes = saved_sizes->next;
+		ptr = saved_sizes->next;
 	}
+	g_slist_free (saved_sizes);
 }
 
 static gboolean

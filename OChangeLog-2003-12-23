@@ -1,8 +1,7 @@
 2000-06-08  Jody Goldberg <jgoldberg@home.com>
 
-	* src/commands.c (cmd_resize_row_col_undo) : Patch leak.
-
 	* src/colrow.c (col_row_restore_sizes) : Arrgghh.  Stupid typo.
+	(col_row_restore_sizes_group) : Patch leak.
 
 	* src/workbook-edit.c (entry_changed) : Only autocomplete text that
 	  begins with an alphabetic
