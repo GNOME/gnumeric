@@ -900,7 +900,7 @@ compute_sheet_pages (PageCountInfo *pc, Sheet const *sheet)
 		r = pc->r;
 
 	/* Find out how many pages actually contain data */
-	pc->pages = print_sheet_range (pj, sheet, &r, FALSE);
+	pc->pages += print_sheet_range (pj, sheet, &r, FALSE);
 }
 
 /*
