@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 1999-07-08 00:00-0500\n"
+"POT-Creation-Date: 1999-07-09 21:32-0500\n"
 "PO-Revision-Date: 1999-04-19 14:42-0600\n"
 "Last-Translator: Valek Filippov <val@comptek.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -38,7 +38,7 @@ msgstr "Формат файла Microsoft(R) Excel"
 msgid "Argument must be a Guile expression"
 msgstr "Аргумент должен быть выражением Guile"
 
-#: plugins/guile/plugin.c:237 src/expr.c:1130 src/fn-sheet.c:35
+#: plugins/guile/plugin.c:237 src/expr.c:1148 src/fn-sheet.c:35
 #: src/fn-string.c:291
 msgid "Invalid number of arguments"
 msgstr "Неверное число аргументов"
@@ -101,90 +101,94 @@ msgid "Miguel de Icaza, main programmer."
 msgstr "Miguel de Icaza, ведущий программист."
 
 #: src/about.c:25
-msgid "Daniel Veillard, XML support."
-msgstr "Daniel Veillard, поддержка XML."
-
-#: src/about.c:26
-msgid "Chris Lahey, Number format engine."
-msgstr "Chris Lahey, обработка числовых форматов."
-
-#: src/about.c:27
-msgid "Tom Dyas, Plugin support."
-msgstr "Tom Dyas, поддержка дополнений."
-
-#: src/about.c:28
-msgid "Federico Mena, Canvas support."
-msgstr "Federico Mena, поддержка канвы."
-
-#: src/about.c:29
 #, fuzzy
 msgid "Adrian Likins, Documentation, debugging."
 msgstr "Adrian Likins, документация, отладка."
 
-#: src/about.c:30
-#, fuzzy
-msgid "Jakub Jelinek, Gnumeric hacker."
-msgstr "Jakub Jelinek, программист."
-
-#: src/about.c:31
-#, fuzzy
-msgid "Michael Meeks, Excel and OLE2 importing."
-msgstr "Michael Meeks, импорт Excel и OLE2."
-
-#: src/about.c:32
-msgid "Jody Goldberg, Excel hacker."
-msgstr ""
-
-#: src/about.c:33
-#, fuzzy
-msgid "Sean Atkinson, Functions and X-Base importing."
-msgstr "Sean Atkinson, функции Excel."
-
-#: src/about.c:34
-#, fuzzy
-msgid "Mark Probst, Guile support."
-msgstr "Mark Probst, поддержка Guile."
-
-#: src/about.c:35
-#, fuzzy
-msgid "Vincent Renardias, CSV support."
-msgstr "Vincent Renardias, поддержка CSV."
-
-#: src/about.c:36
-#, fuzzy
-msgid "Vladimir Vuksan, financial functions."
-msgstr "Vladimir Vuksan, финансовые функции."
-
-#: src/about.c:37
-#, fuzzy
-msgid "Takashi Matsuda, simple text plugin."
-msgstr "Takashi Matsuda, дополнение простого текста."
-
-#: src/about.c:38
-#, fuzzy
-msgid "Jukka-Pekka Iivonen, numerous functions and tools."
-msgstr "Jukka-Pekka Iivonen, численные функции."
-
-#: src/about.c:39
-#, fuzzy
-msgid "Morten Welinder, Gnumeric hacker."
-msgstr "Jakub Jelinek, программист."
-
-#: src/about.c:40
+#: src/about.c:26
 #, fuzzy
 msgid "Bruno Unna, Excel bits."
 msgstr "Bruno Unna, код Excel."
 
-#: src/about.c:54
+#: src/about.c:27
+msgid "Chris Lahey, Number format engine."
+msgstr "Chris Lahey, обработка числовых форматов."
+
+#: src/about.c:28
+msgid "Daniel Veillard, XML support."
+msgstr "Daniel Veillard, поддержка XML."
+
+#: src/about.c:29
+msgid "Federico Mena, Canvas support."
+msgstr "Federico Mena, поддержка канвы."
+
+#: src/about.c:30
+msgid "Jody Goldberg, Excel hacker."
+msgstr ""
+
+#: src/about.c:31
+#, fuzzy
+msgid "Jukka-Pekka Iivonen, numerous functions and tools."
+msgstr "Jukka-Pekka Iivonen, численные функции."
+
+#: src/about.c:32
+#, fuzzy
+msgid "Mark Probst, Guile support."
+msgstr "Mark Probst, поддержка Guile."
+
+#: src/about.c:33
+#, fuzzy
+msgid "Michael Meeks, Excel and OLE2 importing."
+msgstr "Michael Meeks, импорт Excel и OLE2."
+
+#: src/about.c:34
+#, fuzzy
+msgid "Morten Welinder, Gnumeric hacker."
+msgstr "Jakub Jelinek, программист."
+
+#: src/about.c:35
+#, fuzzy
+msgid "Jakub Jelinek, Gnumeric hacker."
+msgstr "Jakub Jelinek, программист."
+
+#: src/about.c:36
+msgid "Rasca Gmelch, html, troff exporters."
+msgstr ""
+
+#: src/about.c:37
+#, fuzzy
+msgid "Sean Atkinson, Functions and X-Base importing."
+msgstr "Sean Atkinson, функции Excel."
+
+#: src/about.c:38
+#, fuzzy
+msgid "Takashi Matsuda, simple text plugin."
+msgstr "Takashi Matsuda, дополнение простого текста."
+
+#: src/about.c:39
+msgid "Tom Dyas, Plugin support."
+msgstr "Tom Dyas, поддержка дополнений."
+
+#: src/about.c:40
+#, fuzzy
+msgid "Vladimir Vuksan, financial functions."
+msgstr "Vladimir Vuksan, финансовые функции."
+
+#: src/about.c:41
+#, fuzzy
+msgid "Vincent Renardias, CSV support."
+msgstr "Vincent Renardias, поддержка CSV."
+
+#: src/about.c:55
 msgid "Gnumeric"
 msgstr ""
 
-#: src/about.c:62
+#: src/about.c:63
 #, fuzzy
 msgid "Gnumeric Home Page"
 msgstr "Дополнения Gnumeric"
 
-#: src/about.c:64
+#: src/about.c:65
 msgid "Gnumeric Support page"
 msgstr ""
 
@@ -404,7 +408,7 @@ msgid "Left"
 msgstr "Влево"
 
 #: src/dialog-cell-format.c:361 src/dialog-cell-format.c:370
-#: src/workbook.c:1042
+#: src/workbook.c:1041
 msgid "Center"
 msgstr "По центру"
 
@@ -666,12 +670,12 @@ msgstr "Ошибочная кавычка"
 msgid "Impossible!"
 msgstr "Невозможно!"
 
-#: src/expr.c:1103
+#: src/expr.c:1121
 #, fuzzy
 msgid "Internal error"
 msgstr "Синтаксическая ошибка"
 
-#: src/expr.c:1196 src/expr.c:1471 src/expr.c:1652 src/fn-misc.c:190
+#: src/expr.c:1214 src/expr.c:1489 src/expr.c:1673 src/fn-misc.c:190
 #: src/fn-string.c:55 src/fn-string.c:77 src/fn-string.c:98
 #: src/fn-string.c:153 src/fn-string.c:187 src/fn-string.c:262
 #: src/fn-string.c:338 src/fn-string.c:373 src/fn-string.c:547
@@ -679,37 +683,37 @@ msgstr "Синтаксическая ошибка"
 msgid "Type mismatch"
 msgstr "Несоответствие типов"
 
-#: src/expr.c:1275
+#: src/expr.c:1293
 msgid "Function does not exist"
 msgstr ""
 
-#: src/expr.c:1279
+#: src/expr.c:1297
 msgid "Calling non-function"
 msgstr ""
 
-#: src/expr.c:1414
+#: src/expr.c:1432
 msgid "Type error"
 msgstr "Ошибка типа"
 
-#: src/expr.c:1445
+#: src/expr.c:1463
 #, fuzzy
 msgid "Internal type error"
 msgstr "Ошибка типа"
 
-#: src/expr.c:1636
+#: src/expr.c:1657
 msgid "Reference to newborn cell"
 msgstr "Ссылка на новую ячейку"
 
-#: src/expr.c:1704
+#: src/expr.c:1725
 msgid "Unknown evaluation error"
 msgstr "Неизвестная ошибка в выражении"
 
-#: src/expr.c:2056
+#: src/expr.c:2085
 #, fuzzy
 msgid "#Reference to deleted cell!"
 msgstr "Ссылка на новую ячейку"
 
-#: src/expr.c:2081
+#: src/expr.c:2110
 #, fuzzy
 msgid "#Reference to deleted range!"
 msgstr "Ссылка на новую ячейку"
@@ -824,7 +828,7 @@ msgstr ""
 "Например: .0 означает начало дня, а 0.5 означает полдень\n"
 "@SEEALSO= DATE, TODAY"
 
-#: src/fn-date.c:232
+#: src/fn-date.c:237
 #, fuzzy
 msgid ""
 "@FUNCTION=TIME\n"
@@ -837,7 +841,7 @@ msgstr ""
 "@DESCRIPTION=Возвращает дробь представляющую час\n"
 "@SEEALSO=HOUR"
 
-#: src/fn-date.c:257
+#: src/fn-date.c:262
 #, fuzzy
 msgid ""
 "@FUNCTION=TIMEVALUE\n"
@@ -851,7 +855,7 @@ msgstr ""
 "@DESCRIPTION=Возвращает дробь представляющую час\n"
 "@SEEALSO=HOUR"
 
-#: src/fn-date.c:276
+#: src/fn-date.c:281
 #, fuzzy
 msgid ""
 "@FUNCTION=HOUR\n"
@@ -870,7 +874,7 @@ msgstr ""
 "serial number, так что Вы можете вводить дату в виде строки\n"
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 
-#: src/fn-date.c:301
+#: src/fn-date.c:306
 #, fuzzy
 msgid ""
 "@FUNCTION=MINUTE\n"
@@ -889,7 +893,7 @@ msgstr ""
 "serial number, так что Вы можете вводить дату в виде строки\n"
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 
-#: src/fn-date.c:326
+#: src/fn-date.c:331
 #, fuzzy
 msgid ""
 "@FUNCTION=SECOND\n"
@@ -908,7 +912,7 @@ msgstr ""
 "serial number, так что Вы можете вводить дату в виде строки\n"
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
 
-#: src/fn-date.c:351
+#: src/fn-date.c:356
 #, fuzzy
 msgid ""
 "@FUNCTION=YEAR\n"
@@ -925,7 +929,7 @@ msgstr ""
 "serial number, так что Вы можете вводить дату в виде строки\n"
 "@SEEALSO=DAY, MONTH, NOW, TIME"
 
-#: src/fn-date.c:376
+#: src/fn-date.c:381
 #, fuzzy
 msgid ""
 "@FUNCTION=MONTH\n"
@@ -942,7 +946,7 @@ msgstr ""
 "serial number, так что Вы можете вводить дату в виде строки\n"
 "@SEEALSO=DAY, NOW, TIME, YEAR"
 
-#: src/fn-date.c:401
+#: src/fn-date.c:406
 #, fuzzy
 msgid ""
 "@FUNCTION=DAY\n"
@@ -959,7 +963,7 @@ msgstr ""
 "serial number, так что Вы можете вводить дату в виде строки\n"
 "@SEEALSO=NOW, MONTH, TIME, YEAR"
 
-#: src/fn-date.c:426
+#: src/fn-date.c:431
 #, fuzzy
 msgid ""
 "@FUNCTION=WEEKDAY\n"
@@ -976,7 +980,7 @@ msgstr ""
 "serial number, так что Вы можете вводить дату в виде строки\n"
 "@SEEALSO=NOW, MONTH, TIME, YEAR"
 
-#: src/fn-date.c:451
+#: src/fn-date.c:456
 msgid ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAYS360 (date1,date2,method)\n"
@@ -991,11 +995,11 @@ msgid ""
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 msgstr ""
 
-#: src/fn-date.c:484
+#: src/fn-date.c:489
 msgid "Unsupported method"
 msgstr ""
 
-#: src/fn-date.c:545
+#: src/fn-date.c:550
 msgid "Date / Time"
 msgstr ""
 
@@ -1238,7 +1242,7 @@ msgstr ""
 "целого.\n"
 "@SEEALSO=ODD"
 
-#: src/fn-math.c:545
+#: src/fn-math.c:548
 #, fuzzy
 msgid ""
 "@FUNCTION=SUMIF\n"
@@ -1255,7 +1259,7 @@ msgstr ""
 "аргументов.\n"
 "@SEEALSO=AVERAGE, COUNT"
 
-#: src/fn-math.c:679
+#: src/fn-math.c:682
 msgid ""
 "@FUNCTION=CEILING\n"
 "@SYNTAX=CEILING(x,significance)\n"
@@ -1266,7 +1270,7 @@ msgid ""
 "@SEEALSO=CEIL"
 msgstr ""
 
-#: src/fn-math.c:712
+#: src/fn-math.c:715
 msgid ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
@@ -1284,7 +1288,7 @@ msgstr ""
 "ячейками эта функция ничего не делает.\n"
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: src/fn-math.c:732
+#: src/fn-math.c:735
 msgid ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
@@ -1302,7 +1306,7 @@ msgstr ""
 "ячейками эта функция ничего не делает.\n"
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 
-#: src/fn-math.c:753
+#: src/fn-math.c:756
 msgid ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
@@ -1316,7 +1320,7 @@ msgstr ""
 "Со строками и пустыми ячейками эта функция ничего не делает.\n"
 "@SEEALSO=RADIANS, PI"
 
-#: src/fn-math.c:774
+#: src/fn-math.c:777
 msgid ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
@@ -1332,7 +1336,7 @@ msgstr ""
 "Применение этой функции к строкам и пустым ячейкам вызывает ошибку.\n"
 "@SEEALSO=LOG, LOG2, LOG10"
 
-#: src/fn-math.c:801
+#: src/fn-math.c:804
 msgid ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
@@ -1348,7 +1352,7 @@ msgstr ""
 "Применение этой функции к строкам и пустым ячейкам вызывает ошибку.\n"
 "@SEEALSO="
 
-#: src/fn-math.c:838
+#: src/fn-math.c:841
 msgid ""
 "@FUNCTION=COMBIN\n"
 "@SYNTAX=COMBIN(n,k)\n"
@@ -1366,7 +1370,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/fn-math.c:882
+#: src/fn-math.c:885
 #, fuzzy
 msgid ""
 "@FUNCTION=FLOOR\n"
@@ -1382,7 +1386,7 @@ msgstr ""
 "Со строками и пустыми ячейками эта функция ничего не делает.\n"
 "@SEEALSO=CEIL, ABS, INT"
 
-#: src/fn-math.c:912
+#: src/fn-math.c:915
 #, fuzzy
 msgid ""
 "@FUNCTION=INT\n"
@@ -1401,7 +1405,7 @@ msgstr ""
 "Со строками и пустыми ячейками эта функция ничего не делает.\n"
 "@SEEALSO=FLOOR, CEIL, ABS"
 
-#: src/fn-math.c:939
+#: src/fn-math.c:942
 #, fuzzy
 msgid ""
 "@FUNCTION=LOG\n"
@@ -1417,7 +1421,7 @@ msgstr ""
 "domain error'.\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
-#: src/fn-math.c:968
+#: src/fn-math.c:971
 #, fuzzy
 msgid ""
 "@FUNCTION=LN\n"
@@ -1432,7 +1436,7 @@ msgstr ""
 "domain error'.\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
-#: src/fn-math.c:991
+#: src/fn-math.c:994
 #, fuzzy
 msgid ""
 "@FUNCTION=POWER\n"
@@ -1447,7 +1451,7 @@ msgstr ""
 "Применение этой функции к строкам и пустым ячейкам вызывает ошибку.\n"
 "@SEEALSO=EXP"
 
-#: src/fn-math.c:1018
+#: src/fn-math.c:1021
 msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
@@ -1462,11 +1466,11 @@ msgstr ""
 "domain error'.\n"
 "@SEEALSO=EXP, LOG10, LOG"
 
-#: src/fn-math.c:1036
+#: src/fn-math.c:1039
 msgid "log2: domain error"
 msgstr ""
 
-#: src/fn-math.c:1042
+#: src/fn-math.c:1045
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
@@ -1481,11 +1485,11 @@ msgstr ""
 "domain error'.\n"
 "@SEEALSO=EXP, LOG2, LOG"
 
-#: src/fn-math.c:1061
+#: src/fn-math.c:1064
 msgid "log10: domain error"
 msgstr ""
 
-#: src/fn-math.c:1067
+#: src/fn-math.c:1070
 #, fuzzy
 msgid ""
 "@FUNCTION=MOD\n"
@@ -1500,7 +1504,7 @@ msgstr ""
 "is divided into abs(number).\n"
 "Вызывает сообщение \"#DIV/0!\" если делитель равен 0.@SEEALSO=INT,FLOOR,CEIL"
 
-#: src/fn-math.c:1104
+#: src/fn-math.c:1107
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -1514,7 +1518,7 @@ msgstr ""
 "Со строками и пустыми ячейками эта функция ничего не делает.\n"
 "@SEEALSO=PI,DEGREES"
 
-#: src/fn-math.c:1125
+#: src/fn-math.c:1128
 msgid ""
 "@FUNCTION=RAND\n"
 "@SYNTAX=RAND()\n"
@@ -1530,7 +1534,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/fn-math.c:1143
+#: src/fn-math.c:1146
 #, fuzzy
 msgid ""
 "@FUNCTION=SIN\n"
@@ -1549,7 +1553,7 @@ msgstr ""
 "ячейками эта функция ничего не делает.\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: src/fn-math.c:1163
+#: src/fn-math.c:1166
 #, fuzzy
 msgid ""
 "@FUNCTION=SINH\n"
@@ -1568,7 +1572,7 @@ msgstr ""
 "ячейками эта функция ничего не делает.\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
-#: src/fn-math.c:1183
+#: src/fn-math.c:1186
 #, fuzzy
 msgid ""
 "@FUNCTION=SQRT\n"
@@ -1584,7 +1588,7 @@ msgstr ""
 "аргумент.\n"
 "@SEEALSO=POW"
 
-#: src/fn-math.c:1206
+#: src/fn-math.c:1209
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -1598,7 +1602,7 @@ msgstr ""
 "аргументов.\n"
 "@SEEALSO=AVERAGE, COUNT"
 
-#: src/fn-math.c:1227
+#: src/fn-math.c:1230
 #, fuzzy
 msgid ""
 "@FUNCTION=SUMA\n"
@@ -1616,7 +1620,7 @@ msgstr ""
 "аргументов.  Оно равно сумме всех аргументов деленной на их количество.\n"
 "@SEEALSO=SUM, COUNT"
 
-#: src/fn-math.c:1252
+#: src/fn-math.c:1255
 #, fuzzy
 msgid ""
 "@FUNCTION=SUMSQ\n"
@@ -1631,7 +1635,7 @@ msgstr ""
 "аргументов.\n"
 "@SEEALSO=AVERAGE, COUNT"
 
-#: src/fn-math.c:1274
+#: src/fn-math.c:1277
 #, fuzzy
 msgid ""
 "@FUNCTION=MULTINOMIAL\n"
@@ -1646,7 +1650,7 @@ msgstr ""
 "аргументов.\n"
 "@SEEALSO=AVERAGE, COUNT"
 
-#: src/fn-math.c:1328
+#: src/fn-math.c:1331
 #, fuzzy
 msgid ""
 "@FUNCTION=PRODUCT\n"
@@ -1661,7 +1665,7 @@ msgstr ""
 "аргументов.\n"
 "@SEEALSO=AVERAGE, COUNT"
 
-#: src/fn-math.c:1349
+#: src/fn-math.c:1352
 #, fuzzy
 msgid ""
 "@FUNCTION=TAN\n"
@@ -1680,7 +1684,7 @@ msgstr ""
 "ячейками эта функция ничего не делает.\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
-#: src/fn-math.c:1369
+#: src/fn-math.c:1372
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -1698,7 +1702,7 @@ msgstr ""
 "ячейками эта функция ничего не делает.\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
-#: src/fn-math.c:1389
+#: src/fn-math.c:1392
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -1713,7 +1717,7 @@ msgstr ""
 "Эта функция вызывается без аргументов.\n"
 "@SEEALSO="
 
-#: src/fn-math.c:1408
+#: src/fn-math.c:1411
 #, fuzzy
 msgid ""
 "@FUNCTION=TRUNC\n"
@@ -1731,7 +1735,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/fn-math.c:1441
+#: src/fn-math.c:1444
 msgid ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(number)\n"
@@ -1745,7 +1749,7 @@ msgstr ""
 "целого.\n"
 "@SEEALSO=ODD"
 
-#: src/fn-math.c:1472
+#: src/fn-math.c:1475
 msgid ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(number)\n"
@@ -1759,7 +1763,7 @@ msgstr ""
 "нечетного целого.\n"
 "@SEEALSO=EVEN"
 
-#: src/fn-math.c:1503
+#: src/fn-math.c:1506
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
@@ -1775,7 +1779,7 @@ msgstr ""
 "отрицательное, FACTDOUBLE возвращает ошибку #NUM!. \n"
 "@SEEALSO=FACT"
 
-#: src/fn-math.c:1534
+#: src/fn-math.c:1537
 msgid ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(num,den)\n"
@@ -1789,7 +1793,7 @@ msgstr ""
 "Аргемент \"число\" - делимое. \n"
 "@SEEALSO=MOD"
 
-#: src/fn-math.c:1555
+#: src/fn-math.c:1558
 #, fuzzy
 msgid ""
 "@FUNCTION=SIGN\n"
@@ -1804,7 +1808,7 @@ msgstr ""
 "целого.\n"
 "@SEEALSO=ODD"
 
-#: src/fn-math.c:1580
+#: src/fn-math.c:1583
 #, fuzzy
 msgid ""
 "@FUNCTION=SQRTPI\n"
@@ -1820,7 +1824,7 @@ msgstr ""
 "аргумент.\n"
 "@SEEALSO=POW"
 
-#: src/fn-math.c:1602
+#: src/fn-math.c:1605
 #, fuzzy
 msgid ""
 "@FUNCTION=RANDBETWEEN\n"
@@ -1839,7 +1843,7 @@ msgstr ""
 "\"низ\" > \"верх\" RANDBETWEEN возвращает ошибку #NUM!. \n"
 "@SEEALSO=RAND"
 
-#: src/fn-math.c:1628
+#: src/fn-math.c:1631
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -1853,7 +1857,7 @@ msgid ""
 "@SEEALSO=ROUNDUP"
 msgstr ""
 
-#: src/fn-math.c:1666
+#: src/fn-math.c:1669
 msgid ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(number[,digits])\n"
@@ -1867,7 +1871,7 @@ msgid ""
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 msgstr ""
 
-#: src/fn-math.c:1701
+#: src/fn-math.c:1704
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -1881,7 +1885,7 @@ msgid ""
 "@SEEALSO=ROUNDDOWN"
 msgstr ""
 
-#: src/fn-math.c:1739
+#: src/fn-math.c:1742
 msgid ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(number,multiple)\n"
@@ -1894,7 +1898,7 @@ msgid ""
 "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
 msgstr ""
 
-#: src/fn-math.c:1783
+#: src/fn-math.c:1786
 msgid ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(number[,type])\n"
@@ -1907,11 +1911,11 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-math.c:1827
+#: src/fn-math.c:1830
 msgid "#Unimplemented!"
 msgstr ""
 
-#: src/fn-math.c:1858
+#: src/fn-math.c:1861
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -1925,12 +1929,12 @@ msgid ""
 "@SEEALSO=SUMSQ"
 msgstr ""
 
-#: src/fn-math.c:1904 src/fn-math.c:1918 src/fn-math.c:1990 src/fn-math.c:2004
-#: src/fn-math.c:2076 src/fn-math.c:2090
+#: src/fn-math.c:1907 src/fn-math.c:1921 src/fn-math.c:1993 src/fn-math.c:2007
+#: src/fn-math.c:2079 src/fn-math.c:2093
 msgid "Array version not implemented!"
 msgstr ""
 
-#: src/fn-math.c:1945
+#: src/fn-math.c:1948
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -1944,7 +1948,7 @@ msgid ""
 "@SEEALSO=SUMSQ"
 msgstr ""
 
-#: src/fn-math.c:2031
+#: src/fn-math.c:2034
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -1958,7 +1962,7 @@ msgid ""
 "@SEEALSO=SUMSQ"
 msgstr ""
 
-#: src/fn-math.c:2117
+#: src/fn-math.c:2120
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
@@ -1980,7 +1984,7 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: src/fn-math.c:2197
+#: src/fn-math.c:2200
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -1991,7 +1995,7 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: src/fn-math.c:2310
+#: src/fn-math.c:2316
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -2001,11 +2005,11 @@ msgid ""
 "@SEEALSO=SUMPRODUCT"
 msgstr ""
 
-#: src/fn-math.c:2353
+#: src/fn-math.c:2359
 msgid "#3D MULT?"
 msgstr ""
 
-#: src/fn-math.c:2426
+#: src/fn-math.c:2432
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -2017,7 +2021,7 @@ msgid ""
 "@SEEALSO=SUM,PRODUCT"
 msgstr ""
 
-#: src/fn-math.c:2525
+#: src/fn-math.c:2531
 msgid "Maths / Trig."
 msgstr ""
 
@@ -2785,7 +2789,7 @@ msgstr ""
 "в этом месте ячеек. Вы хотите заменить содержимое\n"
 "в этой области?"
 
-#: src/item-cursor.c:580 src/item-grid.c:532 src/workbook.c:1030
+#: src/item-cursor.c:580 src/item-grid.c:532 src/workbook.c:1029
 msgid "Copy"
 msgstr "Скопировать"
 
@@ -2817,11 +2821,11 @@ msgstr "Сдвинуть ячейки вниз и переместить"
 msgid "Shift cells right and move"
 msgstr "Сдвинуть ячейки вправо и переместить"
 
-#: src/item-grid.c:531 src/workbook.c:1027
+#: src/item-grid.c:531 src/workbook.c:1026
 msgid "Cut"
 msgstr "Вырезать"
 
-#: src/item-grid.c:533 src/workbook.c:1033
+#: src/item-grid.c:533 src/workbook.c:1032
 msgid "Paste"
 msgstr "Вставить"
 
@@ -2913,502 +2917,502 @@ msgstr "Строка: %d"
 msgid "Column: %s"
 msgstr "Столбец: %s"
 
-#: src/sheet.c:2752
+#: src/sheet.c:2777
 msgid "The command `"
 msgstr ""
 
-#: src/sheet.c:2754
+#: src/sheet.c:2779
 msgid "' cannot be performed with multiple selections"
 msgstr ""
 
-#: src/sheet.c:2769
+#: src/sheet.c:2794
 #, fuzzy
 msgid "copy"
 msgstr "Скопировать"
 
-#: src/sheet.c:2794
+#: src/sheet.c:2819
 #, fuzzy
 msgid "cut"
 msgstr "Вырезать"
 
-#: src/sheet.c:2843
+#: src/sheet.c:2868
 #, fuzzy
 msgid "paste"
 msgstr "Вставить"
 
-#: src/sheet.c:3880
+#: src/sheet.c:3905
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr ""
 
-#: src/sheet.c:3892
+#: src/sheet.c:3917
 msgid "I was unable to the bind object"
 msgstr ""
 
-#: src/workbook.c:380
+#: src/workbook.c:377
 msgid "Warning"
 msgstr "Внимание"
 
-#: src/workbook.c:388
+#: src/workbook.c:385
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr "В книге %s есть не сохраненные изменения, сохранить их?"
 
-#: src/workbook.c:391
+#: src/workbook.c:388
 msgid "Workbook has unsaved changes, save them?"
 msgstr "В книге есть не сохраненные изменения, сохранить их?"
 
-#: src/workbook.c:580
+#: src/workbook.c:577
 #, fuzzy
 msgid "Insert cols"
 msgstr "Вставить ячейки"
 
-#: src/workbook.c:599
+#: src/workbook.c:596
 msgid "Insert rows"
 msgstr "Вставить строки"
 
-#: src/workbook.c:695
+#: src/workbook.c:692
 msgid ">mm/dd/yyyy"
 msgstr ">мм/дд/гггг"
 
-#: src/workbook.c:714
+#: src/workbook.c:711
 msgid ">hh:mm"
 msgstr ">чч:мм"
 
-#: src/workbook.c:820
+#: src/workbook.c:819
 msgid "_New"
 msgstr "Новый"
 
-#: src/workbook.c:820
+#: src/workbook.c:819
 msgid "Create a new spreadsheet"
 msgstr "Создать новую таблицу"
 
-#: src/workbook.c:824
+#: src/workbook.c:823
 #, fuzzy
 msgid "_Import"
 msgstr "Сортировка"
 
-#: src/workbook.c:824
+#: src/workbook.c:823
 #, fuzzy
 msgid "Imports a file"
 msgstr "Невозможно!"
 
-#: src/workbook.c:833
+#: src/workbook.c:832
 msgid "Plu_g-ins..."
 msgstr "Дополнение..."
 
-#: src/workbook.c:833
+#: src/workbook.c:832
 msgid "Gnumeric plugins"
 msgstr "Дополнения Gnumeric"
 
-#: src/workbook.c:854
+#: src/workbook.c:853
 msgid "_All"
 msgstr "Все"
 
-#: src/workbook.c:855
+#: src/workbook.c:854
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Очистить в выделенных ячейках формат, комментарии и содержимое"
 
-#: src/workbook.c:857
+#: src/workbook.c:856
 msgid "_Formats"
 msgstr "Формат"
 
-#: src/workbook.c:858
+#: src/workbook.c:857
 msgid "Clear the selected cells' formats"
 msgstr "Очистить в выделенных ячейках формат"
 
-#: src/workbook.c:859
+#: src/workbook.c:858
 msgid "_Comments"
 msgstr "Комментарии"
 
-#: src/workbook.c:860
+#: src/workbook.c:859
 msgid "Clear the selected cells' comments"
 msgstr "Очистить в выделенных ячейках комментарии"
 
-#: src/workbook.c:861
+#: src/workbook.c:860
 msgid "_Content"
 msgstr "Содержимое"
 
-#: src/workbook.c:862
+#: src/workbook.c:861
 msgid "Clear the selected cells' contents"
 msgstr "Очистить в выделенных ячейках содержимое"
 
-#: src/workbook.c:870
+#: src/workbook.c:869
 msgid "P_aste special..."
 msgstr "Специальная вставка..."
 
-#: src/workbook.c:871
+#: src/workbook.c:870
 msgid "C_lear"
 msgstr "Очистить"
 
-#: src/workbook.c:872
+#: src/workbook.c:871
 msgid "Clear the selected cell(s)"
 msgstr "Очистить выделенную ячейку(и)"
 
-#: src/workbook.c:876
+#: src/workbook.c:875
 msgid "_Select All"
 msgstr "Выделить все"
 
-#: src/workbook.c:877
+#: src/workbook.c:876
 msgid "Select all cells in the spreadsheet"
 msgstr "Выделить все ячейки в таблице"
 
-#: src/workbook.c:879
+#: src/workbook.c:878
 #, fuzzy
 msgid "_Goto cell..."
 msgstr "Перейти к ячейке.."
 
-#: src/workbook.c:880
+#: src/workbook.c:879
 msgid "Jump to a specified cell"
 msgstr "Перейти к указанной ячейке"
 
-#: src/workbook.c:886
+#: src/workbook.c:885
 msgid "Insert object..."
 msgstr "Вставить об'ект..."
 
-#: src/workbook.c:887
+#: src/workbook.c:886
 msgid "Inserts a Bonobo object"
 msgstr "Вставить об'ект Bonobo"
 
-#: src/workbook.c:894
+#: src/workbook.c:893
 msgid "_Define cell names"
 msgstr "Задать имя ячейки"
 
-#: src/workbook.c:898
+#: src/workbook.c:897
 msgid "_Recalculate"
 msgstr "Пересчитать"
 
-#: src/workbook.c:899
+#: src/workbook.c:898
 msgid "Recalculate the spreadsheet"
 msgstr "Пересчитать таблицу"
 
-#: src/workbook.c:907
+#: src/workbook.c:906
 msgid "_Zoom..."
 msgstr "Масштаб..."
 
-#: src/workbook.c:908
+#: src/workbook.c:907
 msgid "Zoom the spreadsheet in or out"
 msgstr "Увеличение и уменьшение масштаба таблицы"
 
-#: src/workbook.c:915
+#: src/workbook.c:914
 msgid "Current _date"
 msgstr "Текущая дата"
 
-#: src/workbook.c:916
+#: src/workbook.c:915
 msgid "Insert the current data into the selected cell(s)"
 msgstr "Вставить текущую дату в выделенные ячейки"
 
-#: src/workbook.c:919
+#: src/workbook.c:918
 msgid "Current _time"
 msgstr "Текущее время"
 
-#: src/workbook.c:920
+#: src/workbook.c:919
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Вставить текущее время в выделенные ячейки"
 
-#: src/workbook.c:927 src/workbook.c:973
+#: src/workbook.c:926 src/workbook.c:972
 msgid "_Sheet"
 msgstr "Таблица"
 
-#: src/workbook.c:927
+#: src/workbook.c:926
 msgid "Insert a new spreadsheet"
 msgstr "Вставить новую таблицу"
 
-#: src/workbook.c:929 src/workbook.c:967
+#: src/workbook.c:928 src/workbook.c:966
 msgid "_Cells..."
 msgstr "Ячейки..."
 
-#: src/workbook.c:929
+#: src/workbook.c:928
 msgid "Insert new cells"
 msgstr "Вставить новые ячейки"
 
-#: src/workbook.c:931
+#: src/workbook.c:930
 msgid "_Rows"
 msgstr "Строки"
 
-#: src/workbook.c:931
+#: src/workbook.c:930
 msgid "Insert new rows"
 msgstr "Вставить новые строки"
 
-#: src/workbook.c:933
+#: src/workbook.c:932
 msgid "C_olumns"
 msgstr "Столбцы"
 
-#: src/workbook.c:933
+#: src/workbook.c:932
 msgid "Insert new columns"
 msgstr "Вставить новые столбцы"
 
-#: src/workbook.c:938
+#: src/workbook.c:937
 #, fuzzy
 msgid "_Add/modify comment..."
 msgstr "Добавить/Изменить комментарий"
 
-#: src/workbook.c:939
+#: src/workbook.c:938
 msgid "Edit the selected cell's comment"
 msgstr "Правка комментариев для выделенных ячеек"
 
-#: src/workbook.c:940
+#: src/workbook.c:939
 msgid "_Special"
 msgstr "Специальный"
 
-#: src/workbook.c:949 src/workbook.c:955
+#: src/workbook.c:948 src/workbook.c:954
 msgid "_Autoadjust"
 msgstr "Авто-упорядочивание"
 
-#: src/workbook.c:950
+#: src/workbook.c:949
 msgid "_Width"
 msgstr "Ширина"
 
-#: src/workbook.c:956
+#: src/workbook.c:955
 msgid "_Height"
 msgstr "Высота"
 
-#: src/workbook.c:961
+#: src/workbook.c:960
 msgid "_Change name"
 msgstr "Изменить название"
 
-#: src/workbook.c:968
+#: src/workbook.c:967
 msgid "Modify the formatting of the selected cells"
 msgstr "Изменить форматирование выделенных ячеек"
 
-#: src/workbook.c:971
+#: src/workbook.c:970
 msgid "C_olumn"
 msgstr "Столбец"
 
-#: src/workbook.c:972
+#: src/workbook.c:971
 msgid "_Row"
 msgstr "Строка"
 
-#: src/workbook.c:980
+#: src/workbook.c:979
 #, fuzzy
 msgid "_Sort..."
 msgstr "Решение..."
 
-#: src/workbook.c:981
+#: src/workbook.c:980
 msgid "Sort the selected cells"
 msgstr "Сортировать выделенные ячейки"
 
-#: src/workbook.c:982
+#: src/workbook.c:981
 msgid "_Goal Seek..."
 msgstr "Цель поиска..."
 
-#: src/workbook.c:984
+#: src/workbook.c:983
 msgid "_Solver..."
 msgstr "Решение..."
 
-#: src/workbook.c:986
+#: src/workbook.c:985
 msgid "_Data Analysis..."
 msgstr ""
 
-#: src/workbook.c:1001
+#: src/workbook.c:1000
 msgid "_Insert"
 msgstr "Вставить"
 
-#: src/workbook.c:1002
+#: src/workbook.c:1001
 msgid "F_ormat"
 msgstr "Формат"
 
-#: src/workbook.c:1003
+#: src/workbook.c:1002
 #, fuzzy
 msgid "_Tools"
 msgstr "Инструменты"
 
-#: src/workbook.c:1012
+#: src/workbook.c:1011
 msgid "New"
 msgstr "Новая"
 
-#: src/workbook.c:1012
+#: src/workbook.c:1011
 msgid "Creates a new sheet"
 msgstr "Создать новую таблицу"
 
-#: src/workbook.c:1015
+#: src/workbook.c:1014
 msgid "Open"
 msgstr "Открыть"
 
-#: src/workbook.c:1015
+#: src/workbook.c:1014
 msgid "Opens an existing workbook"
 msgstr "Открыть существующую книгу"
 
-#: src/workbook.c:1018
+#: src/workbook.c:1017
 msgid "Save"
 msgstr "Сохранить"
 
-#: src/workbook.c:1018
+#: src/workbook.c:1017
 msgid "Saves the workbook"
 msgstr "Сохранить книгу"
 
 #: src/print.glade.h:19 src/print.glade.h:32 src/print.glade.h:40
-#: src/print.glade.h:48 src/print.glade.h:56 src/workbook.c:1021
+#: src/print.glade.h:48 src/print.glade.h:56 src/workbook.c:1020
 #, fuzzy
 msgid "Print"
 msgstr "Проценты"
 
-#: src/workbook.c:1021
+#: src/workbook.c:1020
 #, fuzzy
 msgid "Prints the workbook"
 msgstr "Сохранить книгу"
 
-#: src/workbook.c:1027
+#: src/workbook.c:1026
 msgid "Cuts the selection to the clipboard"
 msgstr "Вырезать выделение в буфер обмена"
 
-#: src/workbook.c:1030
+#: src/workbook.c:1029
 msgid "Copies the selection to the clipboard"
 msgstr "Скопировать выделение в буфер обмена"
 
-#: src/workbook.c:1033
+#: src/workbook.c:1032
 msgid "Pastes the clipboard"
 msgstr "Вставить из буфера обмена"
 
-#: src/workbook.c:1039
+#: src/workbook.c:1038
 msgid "Left align"
 msgstr "Выровнять влево"
 
-#: src/workbook.c:1039
+#: src/workbook.c:1038
 msgid "Left justifies the cell contents"
 msgstr "Выравнивать содержимое ячеек влево"
 
-#: src/workbook.c:1042
+#: src/workbook.c:1041
 msgid "Centers the cell contents"
 msgstr "Центрировать содержимое ячеек"
 
-#: src/workbook.c:1045
+#: src/workbook.c:1044
 msgid "Right align"
 msgstr "Выровнять вправо"
 
-#: src/workbook.c:1045
+#: src/workbook.c:1044
 msgid "Right justifies the cell contents"
 msgstr "Выравнивать содержимое ячеек вправо"
 
-#: src/workbook.c:1050
+#: src/workbook.c:1049
 msgid "Bold"
 msgstr "Полужирный"
 
-#: src/workbook.c:1050
+#: src/workbook.c:1049
 msgid "Sets the bold font"
 msgstr "Использовать в ячейках шрифт полужирного начертания"
 
-#: src/workbook.c:1053
+#: src/workbook.c:1052
 msgid "Italic"
 msgstr "Курсив"
 
-#: src/workbook.c:1053
+#: src/workbook.c:1052
 msgid "Makes the font italic"
 msgstr "Использовать в ячейках шрифт наклонного начертания"
 
-#: src/workbook.c:1060
+#: src/workbook.c:1059
 msgid "Graphic"
 msgstr "Изображения"
 
-#: src/workbook.c:1060
+#: src/workbook.c:1059
 msgid "Creates a graphic in the spreadsheet"
 msgstr "Создать изображение в таблице"
 
-#: src/workbook.c:1064
+#: src/workbook.c:1063
 msgid "Line"
 msgstr "Линия"
 
-#: src/workbook.c:1064
+#: src/workbook.c:1063
 msgid "Creates a line object"
 msgstr "Создать линию"
 
-#: src/workbook.c:1067
+#: src/workbook.c:1066
 msgid "Arrow"
 msgstr "Стрелка"
 
-#: src/workbook.c:1067
+#: src/workbook.c:1066
 msgid "Creates an arrow object"
 msgstr "Создать стрелку"
 
-#: src/workbook.c:1070
+#: src/workbook.c:1069
 msgid "Rectangle"
 msgstr "Прямоугольник"
 
-#: src/workbook.c:1070
+#: src/workbook.c:1069
 msgid "Creates a rectangle object"
 msgstr "Создать прямоугольник"
 
-#: src/workbook.c:1073
+#: src/workbook.c:1072
 msgid "Ellipse"
 msgstr "Овал"
 
-#: src/workbook.c:1073
+#: src/workbook.c:1072
 msgid "Creates an ellipse object"
 msgstr "Создать овал"
 
-#: src/workbook.c:1210
+#: src/workbook.c:1209
 msgid "You should introduce a valid cell name"
 msgstr "Вы должны ввести подходящее название для ячейки"
 
-#: src/workbook.c:1219
+#: src/workbook.c:1218
 msgid "Column out of range"
 msgstr "Номер столбца вне диапазона"
 
-#: src/workbook.c:1225
+#: src/workbook.c:1224
 msgid "Row number out of range"
 msgstr "Номер строки вне диапазона"
 
-#: src/workbook.c:1315
+#: src/workbook.c:1314
 msgid "Selection must be a single range"
 msgstr ""
 
-#: src/workbook.c:1423
+#: src/workbook.c:1422
 msgid "Sum"
 msgstr "Сум"
 
-#: src/workbook.c:1424
+#: src/workbook.c:1423
 msgid "Min"
 msgstr "Мин"
 
-#: src/workbook.c:1425
+#: src/workbook.c:1424
 msgid "Max"
 msgstr "Макс"
 
-#: src/workbook.c:1426
+#: src/workbook.c:1425
 msgid "Average"
 msgstr "Среднее"
 
-#: src/workbook.c:1427
+#: src/workbook.c:1426
 msgid "Count"
 msgstr "Количество"
 
-#: src/workbook.c:1626
+#: src/workbook.c:1648
 msgid "Untitled.gnumeric"
 msgstr "Безымянный.gnumeric"
 
-#: src/workbook.c:1731
+#: src/workbook.c:1737
 msgid "Zoom out"
 msgstr "Уменьшить"
 
-#: src/workbook.c:1738
+#: src/workbook.c:1744
 msgid "Zoom in"
 msgstr "Увеличить"
 
-#: src/workbook.c:1833
+#: src/workbook.c:1839
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s' "
 msgstr "Вы действительно хотите удалить таблицу `%s' ?"
 
-#: src/workbook.c:1852
+#: src/workbook.c:1858
 #, fuzzy
 msgid "Other sheets depend on the values on this sheet; I cannot remove it"
 msgstr ""
 "Другие таблицы зависят от значений в этой таблице, поэтому ее нельзя удалить"
 
-#: src/workbook.c:1872
+#: src/workbook.c:1878
 msgid "Add another sheet"
 msgstr "Добавить другую таблицу"
 
-#: src/workbook.c:1873
+#: src/workbook.c:1879
 msgid "Remove this sheet"
 msgstr "Удалить эту таблицу"
 
-#: src/workbook.c:2130 src/workbook.c:2166
+#: src/workbook.c:2136 src/workbook.c:2171
 #, fuzzy, c-format
 msgid "Sheet%d"
 msgstr "Таблица %d"
 
-#: src/workbook.c:2242
+#: src/workbook.c:2244
 #, fuzzy
 msgid "Gnumeric: "
 msgstr "Дополнения Gnumeric"

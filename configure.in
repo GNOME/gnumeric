@@ -1,7 +1,7 @@
 AC_INIT(src/gnumeric.h)
 
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(gnumeric,0.28)
+AM_INIT_AUTOMAKE(gnumeric,0.29)
 AM_MAINTAINER_MODE
 AM_ACLOCAL_INCLUDE(macros)
 
@@ -144,6 +144,7 @@ else
         AC_MSG_RESULT(not found)
 	bonobo=
 	bonobo_msg=no
+	have_bonobo=false
 fi
 AM_CONDITIONAL(BONOBO, $have_bonobo)
 

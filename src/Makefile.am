@@ -257,6 +257,6 @@ glade_msgs = 				\
 	import.glade.h			\
 	print.glade.h
 
-EXTRA_DIST = $(idl_DATA) $(glade_DATA) $(glade_msgs)
+EXTRA_DIST = $(idl_DATA) $(glade_DATA) $(glade_msgs) $(GNUMERIC_CORBA_GENERATED)
 
 
