@@ -15,6 +15,8 @@ Jody:
 	* Improve the Applix importer.
 	* Fix lifecycle for 3d references.
 	* Fix goto dialog's handling of invalid addresses.
+	* forward port missing patched from 1.0
+	* Finally add SheetView
 
 Jukka:
 	* More solver enhancements:
