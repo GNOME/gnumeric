@@ -541,15 +541,19 @@ value_release (GnmValue *value)
 	g_assert_not_reached ();
 }
 
-/*
- * Makes a copy of a GnmValue
- */
+/**
+ * value_dup :
+ * @src : #GnmValue
+ *
+ * Returns a copy of @src.  @src == NULL will return NULL
+ **/
 GnmValue *
 value_dup (GnmValue const *src)
 {
 	GnmValue *res;
 
-	g_return_val_if_fail (src != NULL, NULL);
+	if (src == NULL)
+		return NULL;
 
 	switch (src->type){
 	case VALUE_EMPTY:

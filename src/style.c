@@ -609,12 +609,13 @@ style_default_halign (GnmStyle const *mstyle, GnmCell const *c)
 				/* Tail recurse into the array */
 				if (v->v_array.x > 0 && v->v_array.y > 0) {
 					v = v->v_array.vals [0][0];
-					break;
+					continue;
 				}
 
 			default :
 				return HALIGN_LEFT;
 			}
+		return HALIGN_RIGHT;
 	}
 
 	return align;

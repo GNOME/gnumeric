@@ -1,3 +1,26 @@
+2004-08-02  Jody Goldberg <jody@gnome.org>
+
+	* src/expr.c (gnm_expr_eval) : Functions returning an array when only
+	  scalar results are permitted produce #VALUE!
+
+	* src/style.c (style_default_halign) : Fix drilling down into arrays
+
+	* src/wbc-gtk.c (cb_add_menus_toolbars) : Init state.
+
+2004-08-01  Jody Goldberg <jody@gnome.org>
+
+	* src/func.c (function_call_with_list) : Array parms seem to accept
+	  scalars.
+
+	* src/value.c (value_dup) : Accept NULL
+
+	* src/expr.c (gnm_expr_eval) : do intersection for constant arrays too
+
+2004-07-30  Jody Goldberg <jody@gnome.org>
+
+	* src/wbc-gtk.c (wbc_gtk_init_zoom) : We need a label for the action
+	  in case it is a menu item.
+
 2004-07-30  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (cb_add_menus_toolbars): Plug leaks.

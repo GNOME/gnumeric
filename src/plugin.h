@@ -2,7 +2,6 @@
 #define GNUMERIC_PLUGIN_H
 
 #include "gnumeric.h"
-#include "error-info.h"
 #include <glib-object.h>
 
 /*

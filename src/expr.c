@@ -565,7 +565,7 @@ handle_empty (GnmValue *res, GnmExprEvalFlags flags)
 
 /**
  * value_intersection :
- * @v   : a VALUE_CELLRANGE
+ * @v   : a VALUE_CELLRANGE or VALUE_ARRAY
  * @pos :
  *
  * Handle the implicit union of a single row or column with the eval position.
@@ -1255,7 +1255,10 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		ei.pos = pos;
 		ei.func_call = (GnmExprFunction const *)expr;
 		res = function_call_with_list (&ei, expr->func.arg_list, flags);
-		if (res != NULL && res->type == VALUE_CELLRANGE) {
+		if (res == NULL)
+			return (flags & GNM_EXPR_EVAL_PERMIT_EMPTY)
+			    ? NULL : value_new_int (0);
+		if (res->type == VALUE_CELLRANGE) {
 			dependent_add_dynamic_dep (pos->dep, &res->v_range);
 			if (!(flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR)) {
 				res = value_intersection (res, pos);
@@ -1265,9 +1268,11 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 			}
 			return res;
 		}
-		if (res == NULL)
-			return (flags & GNM_EXPR_EVAL_PERMIT_EMPTY)
-			    ? NULL : value_new_int (0);
+		if (res->type == VALUE_ARRAY &&
+		    !(flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR)) {
+			value_release (res);
+			return value_new_error_VALUE (pos);
+		}
 		return res;
 	}
 
@@ -1294,22 +1299,15 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 
 	case GNM_EXPR_OP_CONSTANT:
 		res = value_dup (expr->constant.value);
-		if (res->type != VALUE_CELLRANGE)
-			return handle_empty (res, flags);
-
-		if (flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR) {
-#if 0
-			workbook_foreach_cell_in_range (pos, res,
-				CELL_ITER_IGNORE_BLANK,
-				cb_range_eval, NULL);
-#endif
-			return res;
-		} else {
+		if (res->type == VALUE_CELLRANGE || res->type == VALUE_ARRAY) {
+			if (flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR)
+				return res;
 			res = value_intersection (res, pos);
 			return (res != NULL)
 				? handle_empty (res, flags)
 				: value_new_error_VALUE (pos);
 		}
+		return handle_empty (res, flags);
 
 	case GNM_EXPR_OP_ARRAY: {
 		/* The upper left corner manages the recalc of the expr */
@@ -1346,6 +1344,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 			tmp_ep.eval.col -= x;
 			tmp_ep.eval.row -= y;
 
+			g_warning ("yoyo");
 			/* If the src array is 1 element wide or tall we wrap */
 			if (x >= 1 && num_x == 1)
 				x = 0;

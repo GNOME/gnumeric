@@ -160,6 +160,7 @@ wbc_gtk_init_zoom (WBCgtk *gtk)
 
 	gtk->zoom = g_object_new (go_action_combo_text_get_type (),
 				  "name", "Zoom",
+				  "label", _("_Zoom"),
 				  NULL);
 	go_action_combo_text_set_width (gtk->zoom,  "10000%");
 	for (i = 0; preset_zoom[i] != NULL ; ++i)
@@ -1121,6 +1122,7 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 		entry.accelerator = (0 == strcmp (name, "StandardToolbar")) ? "<control>8" : NULL;
 		entry.tooltip = tooltip;
 		entry.callback = G_CALLBACK (cb_toolbar_activate);
+		entry.is_active = TRUE;
 		gtk_action_group_add_toggle_actions (gtk->toolbar.actions,
 			&entry, 1, (WorkbookControlGUI *)wbcg);
 		gtk_ui_manager_add_ui (gtk->ui, gtk->toolbar.merge_id,

@@ -814,7 +814,9 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 					cellref_make_abs (&tmp->v_range.cell.b,
 							  &tmp->v_range.cell.b,
 							  ei->pos);
-				} else if (tmp->type != VALUE_ARRAY || arg_type != 'A') {
+
+				/* Array args accept scalars */
+				} else if (arg_type != 'A' && tmp->type != VALUE_ARRAY) {
 					free_values (args, i + 1);
 					return value_new_error_VALUE (ei->pos);
 				}
