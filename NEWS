@@ -66,6 +66,9 @@ Morten:
 	* Fixed display of very large numbers.
 	* Went on a warning-killing spree.
 
+Ariel:
+	* Guile plugin can now register functions in user given categories.
+
 --------------------------------------------------------------------------
 
 Gnumeric 0.48
