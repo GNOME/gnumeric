@@ -583,7 +583,7 @@ dialog_cell_sort (Workbook * inwb, Sheet * sheet)
 	GtkWidget *table, *check, *rb1, *rb2;
 	int btn, lp, i;
 	int start_col, start_row, end_col, end_row;
-	const Range *sel;
+	Range *sel;
 	Range range;
 	SortFlow sort_flow;
 

@@ -1,3 +1,24 @@
+1999-12-14  Morten Welinder  <terra@diku.dk>
+
+	* src/dialogs/dialog-analysis-tools.c (dialog_regression_tool):
+ 	Mark strings for translation.
+
+	* src/regression.c (ALLOC_MATRIX, FREE_MATRIX): New macros.
+	(linear_solve): Use them.
+	(general_linear_regression): Ditto.
+
+	* src/dialogs/dialog-cell-sort.c (dialog_cell_sort): Unconst.
+
+1999-12-14  Andrew Chatham <andrew.chatham@duke.edu>
+
+	* src/regression.c (general_linear_regression): Now uses LUP 
+	decomposition and provides more statistics
+	* src/analysis-tools.c (regression_tool) 
+	* src/dialogs/tools.h
+	* src/dialogs/dialog-analysis-tools.c (dialog_regression_tool): 
+	Regression tool works with multidimensional data, outputs more
+	statistics.
+
 1999-12-13  JP Rosevear  <jpr@arcavia.com>
 
 	* src/dialogs/dialog-cell-sort.c (dialog_cell_sort_adv): use

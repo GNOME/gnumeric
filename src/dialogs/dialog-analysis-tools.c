@@ -35,7 +35,8 @@ static void dialog_anova_two_factor_without_r_tool(Workbook *wb, Sheet *sheet);
 
 
 static descriptive_stat_tool_t ds;
-static int                     label_row_flag, standard_errors_flag;
+static int                     label_row_flag, standard_errors_flag,
+			       intercept_flag; 
 static random_distribution_t   distribution = DiscreteDistribution;
 
 
@@ -143,6 +144,12 @@ first_row_label_signal_fun()
 }
 
 static void
+force_intercept_zero_signal_fun()
+{
+	intercept_flag = !intercept_flag;
+}
+
+static void
 standard_errors_signal_fun()
 {
         standard_errors_flag = !standard_errors_flag;
@@ -172,6 +179,12 @@ static check_button_t label_button[] = {
         { NULL, NULL }
 };
 
+static check_button_t force_intercept_zero_button[] = {
+	{ N_("Force Intercept to Be Zero"), force_intercept_zero_signal_fun, 
+	  FALSE, ""},
+	{ NULL, NULL }
+};
+
 static check_button_t standard_errors_button[] = {
         { N_("Standard Errors"), standard_errors_signal_fun, FALSE,
 	  "" },
@@ -197,6 +210,62 @@ parse_range (char *text, int *start_col, int *start_row,
 	if (!parse_cell_name (p+1, end_col, end_row))
 	        return 0;
 	return 1;
+}
+
+/* Parses text specifying ranges into columns, sorting from left to right. 
+For example, the text "A5:B30,J10:J15,C1:C5" would be returned in **ranges
+as the equivalent of running parse_ranges on "A5:A30" "B5:B30" "J10:J15" and 
+"C1:C5" in that order. */ 
+static int
+parse_multiple_ranges (char *text, Range **ranges, int *dim)
+{
+        char buf[256];
+        char *p;
+	int i, j, last, curdim;
+	int start_col, start_row,
+	    end_col, end_row;
+	
+	strcpy(buf, text);
+	buf[255] = '\0';
+	curdim = 0;
+	last = 0;
+	*ranges = NULL;
+	for (i = 0; (i < 256) && buf[i] != '\0'; i++);
+	buf[i + 1] = '\0'; /* Makes it easier to catch later, though it
+			      it limits text entry to 254 useful bytes */
+	for (i = last; (buf[i] != ',') && buf[i] != '\0'; i++);
+	while (buf[last] != '\0'){
+		Range *newranges;
+		buf[i] = '\0';
+		p = strchr(buf+last, ':');
+		if (p == NULL)
+	        	goto failure;
+		*p = '\0';
+		if (!parse_cell_name (buf+last, &start_col, &start_row))
+	        	goto failure;
+		if (!parse_cell_name (p+1, &end_col, &end_row))
+	        	goto failure;
+		newranges = g_new (Range, curdim + end_col - start_col + 1);
+		for (j = 0; j < curdim; j++)
+			newranges[j] = (*ranges)[j];
+		for (j = 0; j < (end_col - start_col + 1); j++) {
+			/* Just want single columns */
+			newranges[curdim + j].start.col = start_col + j;
+			newranges[curdim + j].end.col = start_col + j;
+			newranges[curdim + j].start.row = start_row;
+			newranges[curdim + j].end.row = end_row;
+		}
+		curdim += (end_col - start_col + 1);
+		if (*ranges) g_free (*ranges);
+		*ranges = newranges;
+		last = i + 1;
+		for (i = last; (buf[i] != ',') && buf[i] != '\0'; i++);
+	}
+	*dim = curdim;
+	return 1;
+failure:
+	g_free (*ranges);
+	return 0;
 }
 
 static char *groupped_ops [] = {
@@ -296,8 +365,8 @@ parse_output(int output, Sheet *sheet,
 			  &range.end.col,
 			  &range.end.row)) {
 	        error_in_entry(wb, entry, 
-			       "You should introduce a valid cell range "
-			       "in 'Into a Range:'");
+			     _("You should introduce a valid cell range "
+			       "in 'Into a Range:'"));
 		return 1;
 	}
 
@@ -399,7 +468,7 @@ dialog_correlation_tool(Workbook *wb, Sheet *sheet)
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
 						      (dialog)->vbox), box);
 
-		box = new_frame("Input:", box);
+		box = new_frame(_("Input:"), box);
 
 		range_entry = hbox_pack_label_and_entry
 		  (_("Input Range:"), "", 20, box);
@@ -1514,16 +1583,22 @@ dialog_regression_tool(Workbook *wb, Sheet *sheet)
 	static GtkWidget *range1_entry, *range2_entry, *output_range_entry;
 	static GtkWidget *alpha_entry;
 	static GSList    *output_ops;
+	int 		 i, xdim;
 	static int       labels = 0;
+	int		 err = 0;
 
 	data_analysis_output_t  dao;
 	float_t alpha;
 
 	char  *text;
 	int   selection, output;
-	static Range range_input1, range_input2;
+	static Range range_inputy, *range_inputxs;
 
 	if (!dialog) {
+		intercept_flag = 1; /* TODO This would be better using the
+				       value in the checkbox instead of this 
+				       global, but I don't know GTK very well*/
+
 	        dialog = new_dialog(_("Regression"), wb->toplevel);
 
 		box = gtk_vbox_new (FALSE, 0);
@@ -1542,6 +1617,7 @@ dialog_regression_tool(Workbook *wb, Sheet *sheet)
 							"0.95", 20, vbox);
 
 		add_check_buttons(vbox, first_row_label_button);
+		add_check_buttons(vbox, force_intercept_zero_button); 
 
 		box = gtk_vbox_new (FALSE, 0);
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
@@ -1566,10 +1642,10 @@ dialog_loop:
 	output = gtk_radio_group_get_selected (output_ops);
 
 	text = gtk_entry_get_text (GTK_ENTRY (range1_entry));
-	if (!parse_range (text, &range_input1.start.col,
-			  &range_input1.start.row,
-			  &range_input1.end.col,
-			  &range_input1.end.row)) {
+	if (!parse_range (text, &range_inputy.start.col,
+			  &range_inputy.start.row,
+			  &range_inputy.end.col,
+			  &range_inputy.end.row)) {
 	        error_in_entry(wb, range1_entry, 
 			       _("You should introduce a valid cell range "
 			       "in 'Variable 1:'"));
@@ -1577,10 +1653,7 @@ dialog_loop:
 	}
 
 	text = gtk_entry_get_text (GTK_ENTRY (range2_entry));
-	if (!parse_range (text, &range_input2.start.col,
-			  &range_input2.start.row,
-			  &range_input2.end.col,
-			  &range_input2.end.row)) {
+	if (!parse_multiple_ranges (text, &range_inputxs, &xdim)) {
 	        error_in_entry(wb, range2_entry, 
 			       _("You should introduce a valid cell range "
 			       "in 'Variable 2:'"));
@@ -1595,14 +1668,38 @@ dialog_loop:
 
 	labels = label_row_flag;
 	if (labels) {
-	        range_input1.start.row++;
-	        range_input2.start.row++;
+	        range_inputy.start.row++;
+		for (i = 0; i < xdim; i++) 
+	        	range_inputxs[i].start.row++;
 	}
-
-	if (regression_tool (wb, sheet, &range_input1,
-			     &range_input2, alpha, &dao))
-	        goto dialog_loop;
-
+	
+	err = regression_tool (wb, sheet, &range_inputy,
+			     range_inputxs, alpha, &dao, intercept_flag, xdim);
+	if (err){
+		switch (err){
+		case 1: 
+			gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+			      _("There are too few data points to conduct this "
+				"regression.\nThere must be at least as many "
+				"data points as free variables."));
+			break;
+		case 2: 
+			gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR, 
+			      _("Two or more of the independent variables "
+				"are linearly dependent,\nand the regression "
+				"cannot be calculated. Remove one of these\n"
+				"variables and try the regression again."));
+			break;
+		case 3:
+			gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+			      _("There must be an equal number of entries "
+				"for each variable in the regression."));
+			break;
+		}
+		g_free (range_inputxs);
+		goto dialog_loop; 
+	}
+	g_free (range_inputxs);
 	workbook_focus_sheet(sheet);
  	gnome_dialog_close (GNOME_DIALOG (dialog));
 }

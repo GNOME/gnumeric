@@ -16,6 +16,7 @@
 #include "dialogs.h"
 #include "utils.h"
 #include "tools.h"
+#include "regression.h"
 
 
 typedef struct {
@@ -1766,25 +1767,63 @@ int random_tool (Workbook *wb, Sheet *sheet, int vars, int count,
  *
  **/
 
-int regression_tool (Workbook *wb, Sheet *sheet, Range *input_range1, 
-		     Range *input_range2, float_t alpha,
-		     data_analysis_output_t *dao)
+int regression_tool (Workbook *wb, Sheet *sheet, Range *input_range_y, 
+		     Range *input_range_xs, float_t alpha,
+		     data_analysis_output_t *dao, int intercept, int xdim)
 {
-        data_set_t set_one, set_two;
-	float_t    mean1, mean2;
-	float_t    r, ss_xy, ss_xx, ss_yy;
-	char       buf[256];
-	GSList     *current_one, *current_two;
+        data_set_t          set_y, *setxs;
+	float_t             mean_y, *mean_xs;
+	float_t             r, ss_xy, *ss_xx, ss_yy, ss_xx_total;
+	float_t             *res, *ys, 
+			    **xss;
+	int                 i, j, err;
+	char                buf[256];
+	GSList              *current_x, *current_y;
+	regression_stat_t   extra_stat;
 
-	get_data (sheet, input_range1, &set_one);
-	get_data (sheet, input_range2, &set_two);
+	setxs = g_new (data_set_t, xdim);
+	get_data (sheet, input_range_y, &set_y);
+	for (i = 0; i < xdim; i++)
+		get_data (sheet, &input_range_xs[i], &setxs[i]);
 
-	if (set_one.n != set_two.n) {
-	        free_data_set (&set_one);
-		free_data_set (&set_two);
+	for (i = 0; i < xdim; i++){
+		if (setxs[i].n != set_y.n){
+			free_data_set (&set_y);
+			for (i = 0; i < xdim; i++)
+				free_data_set (&setxs[i]);
+			g_free(setxs);
+			return 3; /* Different number of data points */
+		}
+	} 
 
-		return 1;
+	xss = g_new (float_t *, xdim);
+	res = g_new (float_t, xdim + 1);
+	mean_xs = g_new (float_t, xdim);
+
+	for (i = 0; i < xdim; i++){
+		j = 0;
+		xss[i] = g_new (float_t, set_y.n);
+		current_x = setxs[i].array;
+		while (current_x != NULL){
+			xss[i][j] = * ( (float_t *) current_x->data);
+			current_x = current_x->next;
+			j++;
+		}
 	}
+
+	ys = g_new (float_t, set_y.n);
+	current_y = set_y.array;
+	i = 0;
+	while (current_y != NULL){
+		ys[i] = * ( (float_t *) current_y->data);
+		current_y = current_y->next;
+		i++;
+	}
+
+	err = linear_regression (xss, xdim, ys, set_y.n, 
+				 intercept, res, &extra_stat);
+
+	if (err) return err;
 
 	prepare_output (wb, dao, "Regression");
 
@@ -1803,7 +1842,11 @@ int regression_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
         set_cell (dao, 0, 13, "Total");
 
         set_cell (dao, 0, 16, "Intercept");
-        set_cell (dao, 0, 17, "X Variable 1");
+
+	for (i = 1; i <= xdim; i++){
+		sprintf (buf, "X Variable %d", i);
+		set_cell (dao, 0, 16+i, buf);
+	}
 
         set_cell (dao, 1, 10, "df");
         set_cell (dao, 2, 10, "SS");
@@ -1815,56 +1858,199 @@ int regression_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
         set_cell (dao, 2, 15, "Standard Error");
         set_cell (dao, 3, 15, "t Stat");
         set_cell (dao, 4, 15, "P-value");
-        set_cell (dao, 5, 15, "Lower 95%");
+
+	set_cell (dao, 5, 15, "Lower 95%");
         set_cell (dao, 6, 15, "Upper 95%");
 
+	for (i = 0; i < xdim; i++)
+		mean_xs[i] = setxs[i].sum / setxs[i].n;
+	mean_y = set_y.sum / set_y.n;
 
-	mean1 = set_one.sum / set_one.n;
-	mean2 = set_two.sum / set_two.n;
-
-	current_one = set_one.array;
-	current_two = set_two.array;
-	ss_xy = ss_xx = ss_yy = 0;
-
-	while (current_one != NULL && current_two != NULL) {
-	        float_t x, y;
-
-		x = * ( (float_t *) current_one->data);
-		y = * ( (float_t *) current_two->data);
-	        ss_xy += (x - mean1) * (y - mean2);
-		ss_xx += (x - mean1) * (x - mean1);
-		ss_yy += (y - mean2) * (y - mean2);
-	        current_one = current_one->next;
-	        current_two = current_two->next;
+	ss_xx = g_new (float_t, xdim);
+	ss_xy = ss_yy = ss_xx_total = 0;
+	current_y = set_y.array;
+	while (current_y != NULL){
+		float_t y = * ( (float_t *) current_y->data);
+		ss_yy += (y - mean_y) * (y - mean_y);
+		current_y = current_y->next;
 	}
 
-	r = ss_xy/sqrt (ss_xx*ss_yy);
+	for (i = 0; i < xdim; i++){
+		ss_xx[i] = 0;
+		current_x = setxs[i].array;
+		current_y = set_y.array;
+		while (current_x != NULL && current_y != NULL) {
+		        float_t x, y;
+	
+			x = * ( (float_t *) current_x->data);
+			y = * ( (float_t *) current_y->data);
+		        ss_xy += (x - mean_xs[i]) * (y - mean_y);
+			ss_xx[i] += (x - mean_xs[i]) * (x - mean_xs[i]);
+		        current_y = current_y->next;
+		        current_x = current_x->next;
+		}
+		ss_xx_total += ss_xx[i];
+	}
+	
+	if (xdim ==1)
+		r = ss_xy/sqrt (ss_xx[0]*ss_yy);
+	else r = sqrt (extra_stat.sqr_r); /* Can this be negative? */
+
+/* TODO User-defined confidence intervals (alpha). Also, figure out
+	how to write values to cells in scientific notation, since many of 
+	these values can be tiny.*/
 
 	/* Multiple R */
 	sprintf (buf, "%f", r);
 	set_cell (dao, 1, 3, buf);
 
 	/* R Square */
-	sprintf (buf, "%f", r*r);
+	sprintf (buf, "%f", extra_stat.sqr_r);
 	set_cell (dao, 1, 4, buf);
 
+	/* Adjusted R Square */
+	sprintf (buf, "%f", extra_stat.adj_sqr_r);
+	set_cell (dao, 1, 5, buf);
+
+	/* Standard Error */
+	sprintf (buf, "%f", sqrt (extra_stat.var));
+	set_cell (dao, 1, 6, buf);
+
 	/* Observations */
-	sprintf (buf, "%d", set_one.n);
+	sprintf (buf, "%d", set_y.n);
 	set_cell (dao, 1, 7, buf);
 
+	/* Regression / df */
+	sprintf (buf, "%d", xdim);
+	set_cell (dao, 1, 11, buf);
+
+	/* Residual / df */
+	sprintf (buf, "%d", set_y.n - intercept - xdim);
+	set_cell (dao, 1, 12, buf);
+
 	/* Total / df */
-	sprintf (buf, "%d", set_one.n-1);
+	sprintf (buf, "%d", set_y.n - intercept);
 	set_cell (dao, 1, 13, buf);
 
+	/* Residual / SS */
+	sprintf (buf, "%f", extra_stat.ss_resid);
+	set_cell (dao, 2, 12, buf);
+
 	/* Total / SS */
-	sprintf (buf, "%f", ss_xx);
+	sprintf (buf, "%f", ss_yy);
 	set_cell (dao, 2, 13, buf);
 
-	/* TODO: Fill in the rest of the outputs */
+	/* Regression / SS */
+	sprintf (buf, "%f", ss_yy - extra_stat.ss_resid);
+	set_cell (dao, 2, 11, buf);
 
-        free_data_set (&set_one);
-        free_data_set (&set_two);
+	/* Regression / MS */
+	sprintf (buf, "%f", (ss_yy - extra_stat.ss_resid) / xdim);
+	set_cell (dao, 3, 11, buf);
+	
+	/* Residual / MS */
+	sprintf (buf, "%f", extra_stat.ss_resid / (set_y.n - 1 - xdim));
+	set_cell (dao, 3, 12, buf);
 
+	/* F */
+	sprintf (buf, "%f", extra_stat.F);
+	set_cell (dao, 4, 11, buf);
+
+	/* Significance of F */
+	sprintf (buf, "%.15f", 1 - pf (extra_stat.F, xdim - intercept, 
+				    set_y.n - xdim));
+	set_cell (dao, 5, 11, buf);
+
+	/* Intercept / Coefficient */
+	sprintf (buf, "%f", res[0]);
+	set_cell (dao, 1, 16, buf);
+
+	if (!intercept)
+		for (i = 2; i <= 6; i++)
+			set_cell (dao, i, 16, "#N/A"); 
+	else{
+		float_t t;
+
+		t = qt (1 - 0.025, set_y.n - xdim - 1);
+		
+		/* Intercept / Standard Error */
+		sprintf (buf, "%f", extra_stat.se[0]);
+		set_cell (dao, 2, 16, buf);
+
+		/* Intercept / t Stat */
+		sprintf (buf, "%f", extra_stat.t[0]);
+		set_cell (dao, 3, 16, buf);
+		
+		/* Intercept / p values */
+		sprintf (buf, "%.15f", 
+			 2.0 * (1.0 - pt (extra_stat.t[0], 
+			 		  set_y.n - xdim - 1)));
+		set_cell (dao, 4, 16, buf);
+
+		/* Intercept / Lower 95% */
+		sprintf (buf, "%.15f", res[0] - 
+			 t * extra_stat.se[0]);
+		set_cell (dao, 5, 16, buf);
+
+		/* Intercept / Upper 95% */
+		sprintf (buf, "%.15f", res[0] + 
+			 t * extra_stat.se[0]);
+		set_cell (dao, 6, 16, buf);
+	}
+
+	/* Slopes */
+	for (i = 0; i < xdim; i++){
+		float_t t;
+		
+		/* Slopes / Coefficient */
+		sprintf (buf, "%f", res[i + 1]);
+		set_cell (dao, 1, 17 + i, buf);
+
+		/* Slopes / Standard Error */
+		sprintf (buf, "%f", extra_stat.se[intercept + i]); 
+		/*With no intercept se[0] is for the first slope variable; with
+		intercept, se[1] is the first slope se */
+
+		set_cell (dao, 2, 17 + i, buf);
+
+		/* Slopes / t Stat */
+		sprintf (buf, "%f", extra_stat.t[intercept + i]);
+		set_cell (dao, 3, 17 + i, buf);
+
+		/* Slopes / p values */
+		sprintf (buf, "%.15f", 
+			 2.0 * (1.0 - pt (extra_stat.t[intercept + i], 
+					  set_y.n - xdim - intercept)));
+		set_cell (dao, 4, 17 + i, buf);
+
+		t = qt (1 - 0.025, set_y.n - xdim - intercept);
+		
+		/* Slope / Lower 95% */
+		sprintf (buf, "%.15f", res[i+1] - 
+			 t * extra_stat.se[intercept + i]);
+		set_cell (dao, 5, 17 + i, buf);
+
+		/* Slope / Upper 95% */
+		sprintf (buf, "%.15f", res[i+1] + 
+			 t * extra_stat.se[intercept + i]);
+		set_cell (dao, 6, 17 + i, buf);
+	}
+
+	for (i = 0; i < xdim; i++){
+		free_data_set (&setxs[i]);
+	}
+	g_free (setxs); 
+	g_free (extra_stat.se);
+	g_free (extra_stat.xbar);
+	g_free (extra_stat.t);
+	g_free (mean_xs);
+	g_free (ss_xx); 
+	g_free (ys);
+	free_data_set (&set_y);
+	for (i = 0; i < xdim; i++)
+		g_free (xss[i]);
+	g_free (xss); 
+	g_free (res);
 	return 0;
 }
 

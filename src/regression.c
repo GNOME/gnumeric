@@ -7,89 +7,106 @@
  */
 
 #include <config.h>
-#include "regression.h"
 #include <glib.h>
 #include <math.h>
+#include "regression.h"
 
+#define ALLOC_MATRIX(var,dim1,dim2)			\
+  do { int _i, _d1, _d2;				\
+       _d1 = (dim1);					\
+       _d2 = (dim2);					\
+       (var) = g_new (float_t *, _d1);			\
+       for (_i = 0; _i < _d1; _i++)			\
+	       (var)[_i] = g_new (float_t, _d2);	\
+  } while (0)
+
+#define FREE_MATRIX(var,dim1,dim2)			\
+  do { int _i, _d1;					\
+       _d1 = (dim1);					\
+       for (_i = 0; _i < _d1; _i++)			\
+	       g_free ((var)[_i]);			\
+       g_free (var);					\
+  } while (0)
 
 /* ------------------------------------------------------------------------- */
 
-/* Returns in res the solution to the equation L * U * res = b.  */
-static int
-backsolve (float_t **L, float_t **U, float_t *b, int n, float_t *res)
+/* Returns in res the solution to the equation L * U * res = P * b.
+
+   This function is adapted from pseudocode in
+	Introduction to Algorithms_. Cormen, Leiserson, and Rivest.
+	p. 753. MIT Press, 1990.
+*/
+static void
+backsolve (float_t **LU, int *P, float_t *b, int n, float_t *res)
 {
-	int i, j;
-	float_t subtotal;
-	float_t *y = g_new (float_t, n);
+	int i,j;
 
 	for (i = 0; i < n; i++) {
-		subtotal = 0;
+		res[i] = b[P[i]];
 		for (j = 0; j < i; j++)
-			subtotal +=L [j][i] * y[j];
-		y[i] = b[i] - subtotal;
+			res[i] -= LU[j][i] * res[j];
 	}
 
 	for (i = n - 1; i >= 0; i--) {
-		subtotal = 0;
 		for (j = i + 1; j < n; j++)
-			subtotal += U[j][i] * res[j];
-		res[i] = (y[i] - subtotal) / U[i][i];
+			res[i] -= LU[j][i] * res[j];
+		res[i] = res[i] / LU[i][i];
 	}
+}
 
-	g_free(y);
+/* Performs an LUP Decomposition; LU and P must already be allocated.
+	 A is not destroyed
+
+This function is adapted from pseudocode in
+	_Introduction to Algorithms_. Cormen, Leiserson, and Rivest.
+	p 759. MIT Press, 1990.
+*/
+static int
+LUPDecomp (float_t **A, float_t **LU, int *P, int n)
+{
+	int i, j, k, tempint;
+	float_t temp;
+
+	for (j = 0; j < n; j++)
+		for (i = 0; i < n; i++)
+			LU[j][i] = A[j][i];
+	for (j = 0; j < n; j++)
+		P[j] = j;
+
+	for (i = 0; i < n; i++) {
+		float_t max = 0;
+		int mov = -1;
+		for (j = i; j < n; j++)
+			if (abs (LU[i][j]) > max) {
+				max = abs (LU[i][j]);
+				mov = j;
+			}
+		if (max == 0) return 2;			/*all 0s; singular*/
+		tempint = P[i];
+		P[i] = P[mov];
+		P[mov] = tempint;
+		for (j = 0; j < n; j++) {		/*swap the two rows */
+			temp = LU[j][i];
+		  	LU[j][i] = LU[j][mov];
+		  	LU[j][mov] = temp;
+		}
+		for (j = i + 1; j < n; j++) {
+			LU[i][j] = LU[i][j] / LU[i][i];
+			for (k = i + 1; k < n; k++)
+				LU[k][j] = LU[k][j] - LU[i][j] * LU[k][i];
+		}
+	}
 	return 0;
 }
 
-/* Performs an LU Decomposition; L and U must already be allocated.
-   A is not destroyed.  */
 static int
-LUDecomp (float_t **A, float_t **L, float_t **U, int n)
+linear_solve (float_t **A, float_t *b, int n, float_t *res)
 {
-	int i,j,k,err;
-	float_t **B;
-	err=0;
+	int err;
+	float_t **LU;
+	int *P;
 
-	B = g_new (float_t *, n);
-	for (i = 0; i < n; i++)
-		B[i] = g_new (float_t, n);
-	for (i = 0; i < n; i++)
-		for (j = 0; j < n; j++)
-			B[i][j] = A[i][j];
-
-	for (k = 0; k < n; k++) {
-		U[k][k] = B[k][k];
-
-		/* FIXME: this isn't right.  The matrix is only singular if
-		   all rows below also have zero in this column.  */
-		if (U[k][k] == 0) {
-			err=2; /* singular; should be SDF Matrix */
-			break;
-		}
-		for (i = k; i < n; i++) {
-			L[k][i] = B[k][i] / U[k][k];
-			U[i][k] = B[i][k];
-		}
-		L[k][k] = 1;
-		for (i = k + 1; i < n; i++){
-			for (j = k + 1; j < n; j++){
-				B[j][i] = B[j][i] - L[k][i] * U[j][k];
-			}
-		}
-	}
-	for (i = 0; i < n; i++)
-		g_free (B[i]);
-	g_free (B);
-	return err;
-}
-
-static int
-linear_solve (float_t **A, float_t *b, int n,
-	      float_t *res)
-{
-	int i,err;
-	float_t **L, **U;
-
-	err=0;
+	err = 0;
 	if (n < 1)
 		return 1;  /* Too few points.  */
 
@@ -116,26 +133,17 @@ linear_solve (float_t **A, float_t *b, int n,
 		return 0;
 	}
 
-	/* Otherwise, use LU-decomposition to find res such that
-	   xTx * res = b. */
+	/* Otherwise, use LUP-decomposition to find res such that
+		 xTx * res = b */
+	ALLOC_MATRIX (LU, n, n);
+	P = g_new (int, n);
 
-	L = g_new (float_t *, n);
-	U = g_new (float_t *, n);
-	for (i = 0; i < n; i++) {
-		L[i] = g_new (float_t, n);
-		U[i] = g_new (float_t, n);
-	}
-
-	err = LUDecomp (A, L, U, n);
+	err = LUPDecomp (A, LU, P, n);
 	if (err == 0)
-		backsolve (L, U, b, n, res);
+		backsolve (LU, P, b, n, res);
 
-	for (i = 0; i < n; i++) {
-		g_free (L[i]);
-		g_free (U[i]);
-	}
-	g_free (L);
-	g_free (U);
+	FREE_MATRIX (LU, n, n);
+	g_free (P);
 	return err;
 }
 
@@ -145,7 +153,7 @@ static int
 general_linear_regression (float_t **xss, int xdim,
 			   const float_t *ys, int n,
 			   float_t *res,
-			   regression_stat_t *extra_stat)
+			   regression_stat_t *extra_stat, int affine)
 {
 	float_t *xTy, **xTx;
 	int i,j;
@@ -169,9 +177,7 @@ general_linear_regression (float_t **xss, int xdim,
 		xTy[i] = res;
 	}
 
-	xTx = g_new (float_t *, xdim);
-	for (i = 0; i < xdim; i++)
-		xTx[i] = g_new (float_t, xdim);
+	ALLOC_MATRIX (xTx, xdim, xdim);
 
 	for (i = 0; i < xdim; i++) {
 		const float_t *xs1 = xss[i];
@@ -200,92 +206,91 @@ general_linear_regression (float_t **xss, int xdim,
 	err = linear_solve (xTx, xTy, xdim, res);
 
 	if (extra_stat) {
-	        int err2;
-	        float_t *residuals = g_new (float_t, n);
-		float_t **L,**U;
+		int err2;
+		float_t *residuals = g_new (float_t, n);
+		float_t **LU;
+		int *P;
 		float_t *e, *inv;
 
-		extra_stat->ybar=0;
-		for (i=0; i<n; i++) extra_stat->ybar+=ys[i];
-		extra_stat->ybar/=n;
-		extra_stat->se_y=0;
-		for (i=0; i<n; i++) extra_stat->se_y+=(ys[i]-extra_stat->ybar)
-				      *(ys[i]-extra_stat->ybar); /* Not actually SE till later to
-								    avoid rounding error when finding
-								    R^2 */
+		extra_stat->ybar = 0;
+		for (i = 0; i < n; i++)
+			extra_stat->ybar += ys[i];
+		extra_stat->ybar /= n;
+		extra_stat->se_y = 0;
+		for (i = 0; i < n; i++)
+			extra_stat->se_y += (ys[i] - extra_stat->ybar)
+			  * (ys[i] - extra_stat->ybar);
+			/* Not actually SE till later to avoid rounding error
+			   when finding R^2 */
 
 		extra_stat->xbar = g_new (float_t, n);
 
-		for (i=0; i<xdim; i++){
-		  extra_stat->xbar[i]=0;
-		  if (xss[i])
-		    for (j=0; j<n; j++)
-		      extra_stat->xbar[i]+=xss[i][j];
-		  else extra_stat->xbar[i]=n; /* so mean is 1 */
-		  extra_stat->xbar[i]/=n;
+		for (i = 0; i < xdim; i++) {
+			extra_stat->xbar[i] = 0;
+			if (xss[i]) {
+				for (j = 0; j < n; j++)
+					extra_stat->xbar[i] += xss[i][j];
+			} else {
+				extra_stat->xbar[i] = n; /* so mean is 1 */
+			}
+			extra_stat->xbar[i] /= n;
 		}
 
-		for (i=0; i<n; i++){
-		  residuals[i]=0;
-		  for (j=0; j<xdim; j++){
-		    if (xss[j])
-		      residuals[i]+=xss[j][i]*res[j];
-		    else residuals[i]+=res[j]; /* If NULL, constant factor */
-		      }
-		  residuals[i]=ys[i]-residuals[i];
+		for (i = 0; i < n; i++) {
+			residuals[i] = 0;
+			for (j = 0; j < xdim; j++) {
+				if (xss[j])
+					residuals[i] += xss[j][i] * res[j];
+				else
+					residuals[i] += res[j]; /* If NULL, constant factor */
+			}
+			residuals[i] = ys[i] - residuals[i];
 		}
-		extra_stat->ss_resid=0;
-		for (i=0; i<n; i++) extra_stat->ss_resid+=residuals[i]*residuals[i];
+		extra_stat->ss_resid = 0;
+		for (i = 0; i < n; i++) extra_stat->ss_resid += residuals[i] * residuals[i];
 
+		/* FIXME: we want to guard against division by zero.  */
 		extra_stat->sqr_r = 1 - (extra_stat->ss_resid / extra_stat->se_y);
-		extra_stat->adj_sqr_r = 1- (extra_stat->ss_resid / (n-xdim) / (extra_stat->se_y / (n-1))); /* Affine? */
-		extra_stat->var = (extra_stat->ss_resid / (n-xdim)); /* Affine? */
-	        L = g_new (float_t *, xdim);
-		U = g_new (float_t *, xdim);
-		for (i=0; i<xdim; i++){
-		  L[i] = g_new (float_t, xdim);
-		  U[i] = g_new (float_t, xdim);
-		}
+		extra_stat->adj_sqr_r = 1 - (extra_stat->ss_resid / (n - xdim - affine)) / (extra_stat->se_y / (n - 1));
+		extra_stat->var = (extra_stat->ss_resid / (n - xdim));
 
-		err2 = LUDecomp(xTx,L,U,xdim);
-		if (err2==0){
-		  extra_stat->se = g_new(float_t,xdim);
-		  e = g_new (float_t, xdim); /* Elmentary vector */
-		  inv = g_new (float_t, xdim);
-		  for (i=0; i<xdim; i++)
-		    e[i]=0;
-		  for (i=0; i<xdim; i++){
-		    e[i]=1;
-		    backsolve(L,U,e,xdim,inv);
-		    extra_stat->se[i] = sqrt(extra_stat->var * inv[i]);
-		    e[i]=0;
-		  }
-		  g_free(e);
-		  g_free(inv);
+		ALLOC_MATRIX (LU, xdim, xdim);
+		P = g_new (int, n);
+
+		err2 = LUPDecomp (xTx, LU, P, xdim);
+		if (err2 == 0) {
+			extra_stat->se = g_new (float_t, xdim);
+			e = g_new (float_t, xdim); /* Elmentary vector */
+			inv = g_new (float_t, xdim);
+			for (i = 0; i < xdim; i++)
+				e[i] = 0;
+			for (i = 0; i < xdim; i++) {
+				e[i] = 1;
+				backsolve (LU, P, e, xdim, inv);
+				extra_stat->se[i] = sqrt (extra_stat->var * inv[i]);
+				e[i] = 0;
+		 	}
+		 	g_free (e);
+		  	g_free (inv);
 		}
-		for (i=0; i<xdim; i++){
-		  g_free(L[i]);
-		  g_free(U[i]);
-		}
-		g_free(L);
-		g_free(U);
+		FREE_MATRIX (LU, xdim, xdim);
+		g_free (P);
 
 		extra_stat->t  = g_new (float_t, xdim);
 
 		for (i = 0; i < xdim; i++)
-			extra_stat->t  [i] = res[i] / extra_stat->se [i];
+			extra_stat->t[i] = res[i] / extra_stat->se[i];
 
-		extra_stat->F = (extra_stat->sqr_r/(xdim-1)) /
-		  ((1-extra_stat->sqr_r)/(n-xdim)); /* non-affine? */
+		extra_stat->F = (extra_stat->sqr_r / (xdim - affine)) /
+		  		((1 - extra_stat->sqr_r) / (n - xdim));
 
-		extra_stat->df = n-xdim; /* is this true with non-affine? */
+		extra_stat->df = n-xdim;
 		extra_stat->ss_reg = 0;
-		extra_stat->se_y=sqrt(extra_stat->se_y / n); /* Now it is SE */
-		g_free(residuals);
+		extra_stat->se_y = sqrt (extra_stat->se_y / n); /* Now it is SE */
+		g_free (residuals);
 	}
-	for (i = 0; i < xdim; i++)
-		g_free (xTx[i]);
-	g_free (xTx);
+
+	FREE_MATRIX (xTx, xdim, xdim);
 	g_free (xTy);
 
 	return err;
@@ -310,14 +315,13 @@ linear_regression (float_t **xss, int dim,
 		memcpy (xss2 + 1, xss, dim * sizeof (float_t *));
 
 		result = general_linear_regression (xss2, dim + 1, ys, n,
-						    res, extra_stat);
+						    res, extra_stat, affine);
 		g_free (xss2);
 	} else {
 		res[0] = 0;
 		result = general_linear_regression (xss, dim, ys, n,
-						    res + 1, extra_stat);
+						    res + 1, extra_stat, affine);
 	}
-
 	return result;
 }
 
@@ -351,12 +355,12 @@ exponential_regression (float_t **xss, int dim,
 		memcpy (xss2 + 1, xss, dim * sizeof (float_t *));
 
 		result = general_linear_regression (xss2, dim + 1, log_ys,
-						    n, res, extra_stat);
+						    n, res, extra_stat, affine);
 		g_free (xss2);
 	} else {
 		res[0] = 0;
 		result = general_linear_regression (xss, dim, log_ys, n,
-						    res + 1, extra_stat);
+						    res + 1, extra_stat, affine);
 	}
 
 	if (result == 0)
