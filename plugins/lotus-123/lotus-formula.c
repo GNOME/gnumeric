@@ -203,8 +203,8 @@ parse_list_free (ParseList **list)
 static gint16
 sign_extend (guint16 num)
 {
-	gint16 i = (num<<1);
-	return (i/2);
+	gint16 i = (num << 2);
+	return (i / 4);
 }
 
 /* FIXME: dodgy stuff, hacked for now */
@@ -218,7 +218,6 @@ get_cellref (CellRef *ref, guint8 *dataa, guint8 *datab,
 	i = GINT16_FROM_LE (*(gint16 *)(dataa));
 	if (i & 0x8000) {
 		ref->col_relative = TRUE;
-		i+= orig_col;
 		ref->col = sign_extend (i&0x3fff);
 	} else {
 		ref->col_relative = FALSE;
@@ -228,7 +227,6 @@ get_cellref (CellRef *ref, guint8 *dataa, guint8 *datab,
 	i = GINT16_FROM_LE (*(gint16 *)(datab));
 	if (i & 0x8000) {
 		ref->row_relative = TRUE;
-		i+= orig_row;
 		ref->row = sign_extend (i&0x3fff);
 	} else {
 		ref->row_relative = FALSE;

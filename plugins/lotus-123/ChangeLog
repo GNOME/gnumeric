@@ -1,3 +1,9 @@
+2000-03-25  Michael Meeks <mmeeks@gnu.org>
+
+	* lotus-formula.c (sign_extend): fix for 14 bit signdness.
+	(get_cellref): Remove offset addition arithmetic.
+	Patch from saw@genrover.home.net.
+
 2000-03-23  Jon K Hellan  <hellan@acm.org>
 
 	* boot.c (lotus_load): No longer change filename extension to
