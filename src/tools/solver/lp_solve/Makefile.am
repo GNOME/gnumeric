@@ -16,8 +16,7 @@ liblp_solve_a_SOURCES =				\
     commonlib.c		\
     colamd.c		\
     fortify.c		\
-    lp_rlp.l		\
-    lp_rlp.y		\
+    lp_rlp.c		\
     lp_crash.c		\
     lp_etaPFI.c		\
     lp_Hash.c		\
