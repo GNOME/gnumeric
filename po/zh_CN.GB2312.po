@@ -2625,9 +2625,6 @@ msgstr "工作页 %d"
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML 文件格式"
 
-#~ msgid "Saving over old files disabled for safety"
-#~ msgstr "因安全性考量，关闭储存时盖\过旧文件的功\能"
-
 #~ msgid "Can't open"
 #~ msgstr "无法开启"
 
@@ -2657,9 +2654,6 @@ msgstr "Gnumeric XML 文件格式"
 
 #~ msgid "Unsupported method"
 #~ msgstr "不支持的方法"
-
-#~ msgid "#Unimplemented!"
-#~ msgstr "#未具体的功\能!"
 
 #~ msgid "Array version not implemented!"
 #~ msgstr "数组版本未支持!"
