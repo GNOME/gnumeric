@@ -19,7 +19,6 @@
 				<function name="pdfexppow"/>
 				<function name="pdffdist"/>
 				<function name="pdfgamma"/>
-				<function name="pdfgeom"/>
 				<function name="pdflandau"/>
 				<function name="pdflaplace"/>
 				<function name="pdflogistic"/>

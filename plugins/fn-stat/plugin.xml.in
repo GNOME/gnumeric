@@ -42,6 +42,7 @@
 				<function name="gammadist"/>
 				<function name="gammainv"/>
 				<function name="geomean"/>
+				<function name="geomdist"/>
 				<function name="growth"/>
 				<function name="harmean"/>
 				<function name="hypgeomdist"/>

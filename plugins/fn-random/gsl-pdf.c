@@ -376,14 +376,3 @@ random_weibull_pdf (gnum_float x, gnum_float a, gnum_float b)
 	        return (b / a) * expgnum (-powgnum (x / a, b)
 					  + (b - 1) * loggnum (x / a));
 }
-
-gnum_float
-random_geometric_pdf (int k, gnum_float p)
-{
-        if (k == 0)
-	        return 0;
-	else if (k == 1)
-	        return p ;
-	else
-	        return p * powgnum (1 - p, k - 1.0);
-}

@@ -46,6 +46,7 @@
 #include "plugin.h"
 #include "plugin-util.h"
 #include "module-plugin-defs.h"
+#include "r-dist.h"
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
@@ -4685,10 +4686,45 @@ gnumeric_cronbach (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 	free_values (values, k);
 	return  value_new_float 
-		(k * (1 - sum_variance / (sum_variance + 2 * sum_covariance)) / (k - 1));
-	
-
+		(k * (1 - sum_variance / (sum_variance + 2 * sum_covariance)) / (k - 1));	
 }
+
+/***************************************************************************/
+
+static const char *help_geomdist = {
+        N_("@FUNCTION=GEOMDIST\n"
+           "@SYNTAX=GEOMDIST(k,p,cum)\n"
+
+           "@DESCRIPTION="
+           "GEOMDIST returns the probability p(k) of obtaining @k from a "
+	   "geometric distribution with probability parameter @p."
+           "\n"
+           "If @k < 0 GEOMDIST returns #NUM! error. "
+           "If @p < 0 or @p > 1 GEOMDIST returns #NUM! error. "
+           "If @cum != TRUE and @cum != FALSE GEOMDIST returns #NUM! error. "
+	   "\n"
+           "@EXAMPLES=\n"
+           "GEOMDIST(2,10.4,TRUE).\n"
+           "\n"
+           "@SEEALSO=RANDGEOM")
+};
+
+static Value *
+gnumeric_geomdist (FunctionEvalInfo *ei, Value **argv)
+{
+	int        k   = value_get_as_int (argv[0]);
+	gnum_float p   = value_get_as_float (argv[1]);
+	gboolean   cum = value_get_as_int (argv[2]);
+
+	if (p < 0 || p > 1 || k < 0 || (cum != TRUE && cum != FALSE))
+		return value_new_error (ei->pos, gnumeric_err_NUM);
+
+	if (cum)
+		return value_new_float (pgeom (k, p, FALSE, FALSE));
+	else
+		return value_new_float (dgeom (k, p));
+}
+
 
 /***************************************************************************/
 
@@ -4753,6 +4789,8 @@ const ModulePluginFunctionInfo stat_functions[] = {
 	  &help_gammadist, gnumeric_gammadist, NULL, NULL, NULL },
 	{ "gammainv",     "fff",   N_("number,alpha,beta"),
 	  &help_gammainv, gnumeric_gammainv, NULL, NULL, NULL },
+        { "geomdist", "ffb", N_("k,p"),    &help_geomdist,
+	  gnumeric_geomdist, NULL, NULL, NULL },
 	{ "geomean",      0,      N_("number,number,"),
 	  &help_geomean, NULL, gnumeric_geomean, NULL, NULL },
 	{ "growth",       "A|AAb", N_("known_y's,known_x's,new_x's,const"),

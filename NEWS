@@ -3,16 +3,14 @@ Gnumeric 1.1.7
 Jukka:
 	* New random distribution functions (mostly integrated from the 
 	  GNU Scientific Library with some minor modifications):
-	  PDFBERNOULLI(), PDFBETA(), PDFBINOM(), PDFCAUCHY(), PDFEXP(),
-	  PDFEXPPOW(), PDFFDIST(), PDFGAMMA(), PDFGEOM(), PDFLANDAU(),
-	  PDFLAPLACE(), PDFLOGISTIC(), PDFLOGNORM(), PDFRAYLEIGH(),
-	  PDFRAYLEIGHTAIL(), PDFNEGBINOM(), PDFPARETO(), PDFPOISSON(),
-	  PDFTDIST(), PDFWEIBULL(), RANDGAUSSIANTAIL(), and RANDLANDAU().
+	  RANDGAUSSIANTAIL(), and RANDLANDAU().
 	* New random distributions for the random number generation tool:
 	  Gaussian Tail, Landau, and Uniform integer.
 	* New financial functions (integrated from the OpenOffice with
 	  some modifications and clean up):
 	  VDB().
+	* New statistical functions (integrated from the R 1.5.1):
+	  GEOMDIST().
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.6

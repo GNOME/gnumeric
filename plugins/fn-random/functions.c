@@ -1057,37 +1057,6 @@ gnumeric_randgeom (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_pdfgeom = {
-        N_("@FUNCTION=PDFGEOM\n"
-           "@SYNTAX=PDFGEOM(k,p)\n"
-
-           "@DESCRIPTION="
-           "PDFGEOM returns the probability p(k) of obtaining @k from a "
-	   "geometric distribution with probability parameter @p."
-           "\n"
-           "If @k < 0 PDFGEOM returns #NUM! error. "
-           "If @p < 0 or @p > 1 PDFGEOM returns #NUM! error. "
-	   "\n"
-           "@EXAMPLES=\n"
-           "PDFGEOM(2,10.4).\n"
-           "\n"
-           "@SEEALSO=RANDGEOM")
-};
-
-static Value *
-gnumeric_pdfgeom (FunctionEvalInfo *ei, Value **argv)
-{
-	int        k = value_get_as_int (argv[0]);
-	gnum_float p = value_get_as_float (argv[1]);
-
-	if (p < 0 || p > 1 || k < 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-        return value_new_float (random_geometric_pdf (k, p));
-}
-
-/***************************************************************************/
-
 static const char *help_randhyperg = {
         N_("@FUNCTION=RANDHYPERG\n"
            "@SYNTAX=RANDHYPERG(n1,n2,t)\n"
@@ -1444,8 +1413,6 @@ const ModulePluginFunctionInfo random_functions[] = {
 	  gnumeric_pdffdist, NULL, NULL, NULL },
         { "pdfgamma", "fff", N_("x,a,b"),         &help_pdfgamma,
 	  gnumeric_pdfgamma, NULL, NULL, NULL },
-        { "pdfgeom", "ff", N_("k,p"),    &help_pdfgeom,
-	  gnumeric_pdfgeom, NULL, NULL, NULL },
         { "pdflandau", "f", N_("x"), &help_pdflandau,
 	  gnumeric_pdflandau, NULL, NULL, NULL },
         { "pdflaplace", "ff", N_("x,a"), &help_pdflaplace,
