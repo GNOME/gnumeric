@@ -7,7 +7,10 @@
 	$PYTHON_PREFIX. 
 
 	* src/Makefile.am (CFLAGS): Comment out.
-	* plugins/sample/Makefile.am (CFLAGS): Likewise.
+	(gnumeric_LDFLAGS): Pass `-export-dynamic', so that plugins can
+	access symbols from the `gnumeric' binary.
+	
+	* plugins/sample/Makefile.am (CFLAGS): Comment out.
 
 	* plugins/python/Makefile.am (CFLAGS): Comment out.
 	(libpython_la_LDFLAGS): Move $(PYTHON_LIB_LOC) here.
