@@ -1326,6 +1326,12 @@ stf_parse_options_guess (const char *data)
 	   would-be sepchars.  */
 	if (tabcount >= 1 && tabcount >= sepcount - 1)
 		stf_parse_options_csv_set_separators (res, "\t", NULL);
+	else {
+		char sep[7];
+
+		sep[g_unichar_to_utf8 (sepchar, sep)] = 0;
+		stf_parse_options_csv_set_separators (res, sep, NULL);
+	}
 
 	if (1) {
 		/* Separated */
