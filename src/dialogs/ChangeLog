@@ -1,3 +1,9 @@
+2002-12-12  Morten Welinder  <terra@diku.dk>
+
+	* function-select.glade: Don't start as visible.
+
+	* dialog-search.c (non_model_dialog): Expand and eliminate.
+
 2002-12-06  Jody Goldberg <jody@gnome.org>
 
 	* dialog-autofilter.c (init_operator) : new.

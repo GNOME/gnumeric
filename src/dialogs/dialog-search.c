@@ -524,16 +524,6 @@ free_state (DialogState *dd)
 	g_free (dd);
 }
 
-static void
-non_model_dialog (WorkbookControlGUI *wbcg,
-		  GtkDialog *dialog,
-		  const char *key)
-{
-	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (dialog), key);
-
-	gtk_widget_show_all (GTK_WIDGET (dialog));
-}
-
 static gboolean
 range_focused (G_GNUC_UNUSED GtkWidget *widget,
 	       G_GNUC_UNUSED GdkEventFocus *event,
@@ -876,7 +866,9 @@ dialog_search (WorkbookControlGUI *wbcg)
 		"search.html");
 
 	wbcg_edit_attach_guru_with_unfocused_rs (wbcg, GTK_WIDGET (dialog), dd->rangetext);
-	non_model_dialog (wbcg, dialog, SEARCH_KEY);
+
+	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (dialog), SEARCH_KEY);
+	gtk_widget_show_all (GTK_WIDGET (dialog));
 }
 
 /* ------------------------------------------------------------------------- */
