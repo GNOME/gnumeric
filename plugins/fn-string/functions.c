@@ -249,19 +249,18 @@ gnumeric_len (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 static char const *help_lenb = {
-	"@FUNCTION=LENB\n"
+	N_("@FUNCTION=LENB\n"
 	   "@SYNTAX=LENB(string)\n"
 
 	   "@DESCRIPTION="
-	   "LEN returns the length in bytes of the string @string.\n\n"
+	   "LENB returns the length in bytes of the string @string.\n\n"
            "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "LEN(\"Helsinki\") equals 8.\n"
+	   "LENB(\"Helsinki\") equals 8.\n"
 	   "\n"
-	   "@SEEALSO=CHAR, CODE, LEN"
+	   "@SEEALSO=CHAR, CODE, LEN")
 };
-#warning MARK for translation
 
 static GnmValue *
 gnumeric_lenb (FunctionEvalInfo *ei, GnmValue **argv)
