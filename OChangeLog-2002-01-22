@@ -1,3 +1,7 @@
+2001-02-06  Jon K Hellan  <hellan@acm.org>
+
+	* src/embeddable-grid.c (grid_view_new): Adapt to changes in bonobo.
+
 2001-02-05  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-style.c (sheet_style_get_extent) : this should search the

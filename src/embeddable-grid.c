@@ -309,25 +309,19 @@ BonoboView *
 grid_view_new (EmbeddableGrid *eg)
 {
 	GridView *grid_view = NULL;
-	Bonobo_View corba_grid_view;
 
 	grid_view = gtk_type_new (GRID_VIEW_TYPE);
-
-	corba_grid_view = bonobo_view_corba_object_create (BONOBO_OBJECT (grid_view));
-	if (corba_grid_view == CORBA_OBJECT_NIL) {
-		gtk_object_destroy (GTK_OBJECT (corba_grid_view));
-		return NULL;
-	}
 
 	grid_view->embeddable = eg;
 	grid_view->sheet_view = sheet_new_sheet_view (eg->sheet);
 	gtk_widget_show (GTK_WIDGET (grid_view->sheet_view));
 	gtk_widget_set_usize (GTK_WIDGET (grid_view->sheet_view), 320, 200);
 
-	bonobo_view_construct (
-		BONOBO_VIEW (grid_view),
-		corba_grid_view,
-		GTK_WIDGET (grid_view->sheet_view));
+	grid_view = GRID_VIEW (
+		bonobo_view_construct (	BONOBO_VIEW (grid_view),
+		GTK_WIDGET (grid_view->sheet_view)));
+	if (!grid_view)
+		return NULL;
 
 	gtk_signal_connect (GTK_OBJECT (grid_view), "activate",
 			    GTK_SIGNAL_FUNC (grid_view_activate), NULL);
