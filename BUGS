@@ -16,6 +16,8 @@ Pending Patches
 Long term breakage
 ------------------
 
+- Upgrade mathfunc.c to use newer R sources.  (Or switch to GSL or some such.)
+
 - Most arg-type functions need to be somehow marked as strict.  Checking for
   errors by hand everywhere is silly.
 
