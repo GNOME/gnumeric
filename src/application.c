@@ -132,7 +132,7 @@ application_clipboard_clear (gboolean drop_selection)
 				wb_control_menu_state_update (control, MS_PASTE_SPECIAL););
 		}
 
-		app->clipboard_sheet_view = NULL;
+		sv_weak_unref (&(app->clipboard_sheet_view));
 
 		/* Release the selection */
 		if (drop_selection) {
@@ -153,24 +153,6 @@ application_clipboard_unant (void)
 		sv_unant (app->clipboard_sheet_view);
 }
 
-static gboolean
-application_set_selected_sheet (WorkbookControl *wbc, SheetView *sv)
-{
-	g_return_val_if_fail (IS_SHEET_VIEW (sv), FALSE);
-
-	application_clipboard_clear (FALSE);
-
-	/* FIXME : how to do this on a per display basis ? */
-	if (wb_control_claim_selection (wbc)) {
-		app->clipboard_sheet_view = sv;
-		return TRUE;
-	}
-
-	g_warning ("Unable to set selection ?");
-
-	return FALSE;
-}
-
 /**
  * application_clipboard_cut_copy:
  *
@@ -189,6 +171,8 @@ application_set_selected_sheet (WorkbookControl *wbc, SheetView *sv)
  *   Clear and free the contents of the clipboard and COPY the designated region
  *   into the clipboard.
  *
+ * we need to pass @wbc as a control rather than a simple command-context so
+ * that the control can claim the selection.
  */
 void
 application_clipboard_cut_copy (WorkbookControl *wbc, gboolean is_cut,
@@ -200,9 +184,12 @@ application_clipboard_cut_copy (WorkbookControl *wbc, gboolean is_cut,
 	g_return_if_fail (IS_SHEET_VIEW (sv));
 	g_return_if_fail (area != NULL);
 
-	if (application_set_selected_sheet (wbc, sv) ) {
+	application_clipboard_clear (FALSE);
+
+	if (wb_control_claim_selection (wbc)) {
 		Sheet *sheet = sv_sheet (sv);
 		app->clipboard_cut_range = *area;
+		sv_weak_ref (sv, &(app->clipboard_sheet_view));
 
 		if (!is_cut)
 			app->clipboard_copied_contents =
@@ -215,13 +202,12 @@ application_clipboard_cut_copy (WorkbookControl *wbc, gboolean is_cut,
 		}
 
 		if (animate_cursor) {
-			/* * The 'area' and the list itself will be copied
-			 * entirely. We ant the copied range on the sheet.
-			 */
-			GList *l = g_list_append (NULL, (Range *) area);
+			GList *l = g_list_append (NULL, (gpointer)area);
 			sv_ant (sv, l);
 			g_list_free (l);
 		}
+	} else {
+		g_warning ("Unable to set selection ?");
 	}
 }
 
@@ -604,6 +590,10 @@ gnumeric_application_setup_icons (void)
 static void
 gnumeric_application_finalize (GObject *object)
 {
+	if (app->clipboard_copied_contents) {
+		cellregion_free (app->clipboard_copied_contents);
+		app->clipboard_copied_contents = NULL;
+	}
 	app = NULL;
 	G_OBJECT_CLASS (gnumeric_application_parent_class)->finalize (object);
 }

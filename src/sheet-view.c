@@ -167,6 +167,11 @@ sv_unant (SheetView *sv)
 		sc_unant (control););
 }
 
+/**
+ * sv_ant :
+ * @sv :
+ * @ranges :
+ */
 void
 sv_ant (SheetView *sv, GList *ranges)
 {

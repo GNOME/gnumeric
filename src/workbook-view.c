@@ -105,8 +105,13 @@ void
 wb_view_sheet_add (WorkbookView *wbv, Sheet *new_sheet)
 {
 	SheetView *new_view;
+
 	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
 
+	/* create the new view before potentially looking for it
+	 * if this is the 1st sheet
+	 */
+	new_view = sheet_view_new (new_sheet, wbv);
 	if (wbv->current_sheet == NULL) {
 		wbv->current_sheet = new_sheet;
 		SHEET_FOREACH_VIEW (new_sheet, view, {
@@ -118,7 +123,6 @@ wb_view_sheet_add (WorkbookView *wbv, Sheet *new_sheet)
 		wb_view_auto_expr_recalc (wbv, FALSE);
 	}
 
-	new_view = sheet_view_new (new_sheet, wbv);
 	WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control,
 		wb_control_sheet_add (control, new_view););
 }

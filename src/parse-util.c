@@ -277,10 +277,10 @@ gnumeric_char_start_expr_p (char const * c)
 
 	c0 = *c;
 
-	if (c0 == '=' || c0 == '@')
+	if (c0 == '=' || c0 == '@' || (c0 == '+' && c[1] == 0))
 		return c + 1;
 
-	if ((c0 == '-' || c0 == '+') && c[1] != 0 && c0 != c[1]) {
+	if ((c0 == '-' || c0 == '+') && c0 != c[1]) {
 		char *end;
 
 		/*

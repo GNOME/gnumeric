@@ -273,7 +273,7 @@ dif_file_save (GnumFileSaver const *fs, IOContext *io_context,
 		return;
 	}
 
-	sheet = wbv->current_sheet;
+	sheet = wb_view_cur_sheet (wbv);
 	if (sheet == NULL) {
 		gnumeric_io_error_string (io_context, _("Cannot get default sheet."));
 		return;

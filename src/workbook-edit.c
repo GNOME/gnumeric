@@ -117,7 +117,7 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 		else
 			expr_txt = gnumeric_char_start_expr_p (txt);
 
-		if (expr_txt != NULL) {
+		if (expr_txt != NULL && *expr_txt != '\0') {
 			GnmExpr const *expr = NULL;
 			ParsePos    pp;
 			ParseError  perr;

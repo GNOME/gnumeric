@@ -1,3 +1,20 @@
+2002-06-19  Jody Goldberg <jody@gnome.org>
+
+	* src/application.c (application_clipboard_cut_copy) : Use sv_weak_ref.
+	(application_clipboard_clear) : Use sv_weak_unref.
+
+	* src/workbook-view.c (wb_view_sheet_add) : create the view before
+	  potentially looking for it.
+
+	* src/workbook-edit.c (wbcg_edit_finish) : Accept text with only a
+	  leading expr char as strings, we know they can not be expressions.
+
+	* src/parse-util.c (gnumeric_char_start_expr_p) : be more lenient
+	  about accepting leading '+' as the start of an expression.
+
+	* src/application.c (application_set_selected_sheet) : merge into.
+	(application_clipboard_cut_copy) : here.
+
 2002-06-19  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/application.h : gobjectify

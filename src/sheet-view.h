@@ -11,7 +11,7 @@ struct _SheetView {
 	WorkbookView	*wbv;
 	GPtrArray	*controls;
 
-	GList *ants;
+	GList *ants;	/* animated cursors */
 };
 
 typedef struct {
