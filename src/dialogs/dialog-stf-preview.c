@@ -36,45 +36,6 @@
  * ADVANCED DRAWING FUNCTIONS
  ******************************************************************************************************************/
 
-
-/**
- * stf_preview_format_line
- * @renderdata : renderdata struct
- * @data : a GPtrArray containing strings
- *
- * formats a single list of strings
- *
- * returns : nothing
- **/
-static void
-stf_preview_format_line (RenderData_t *renderdata, GPtrArray *data)
-{
-	unsigned int col;
-
-	for (col = 0; col < data->len; col++)  {
-		Value *value;
-		StyleFormat *sf = g_ptr_array_index (renderdata->colformats, col);
-		char *text = g_ptr_array_index (data, col);
-		char *celltext;
-
-		/* Formatting */
-		value = format_match (text, sf, renderdata->date_conv);
-		if (NULL == value)
-			value = value_new_string (text);
-
-		/* if the format is general honour the parse format */
-		if (style_format_is_general (sf))
-			sf = NULL;
-		celltext = format_value (sf, value, NULL, -1, renderdata->date_conv);
-
-		value_release (value);
-
-		/* Replacement of old data */
-		g_free (text);
-		g_ptr_array_index (data, col) = celltext;
-	}
-}
-
 static void
 render_get_value (gint row, gint column, gpointer _rd, GValue *value)
 {

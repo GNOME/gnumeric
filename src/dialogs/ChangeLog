@@ -1,3 +1,8 @@
+2003-10-02  Morten Welinder  <terra@gnome.org>
+
+	* dialog-goal-seek.c (cb_dialog_apply_clicked): Don't use
+	style_format_new_XL.
+
 2003-09-30  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf-format-page.c (stf_dialog_format_page_prepare): Set

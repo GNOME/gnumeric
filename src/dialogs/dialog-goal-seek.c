@@ -442,7 +442,7 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 	case GOAL_SEEK_OK: {
 		const char *actual_str;
 		const char *solution_str;
-		StyleFormat *format = style_format_new_XL ("General", FALSE);
+		StyleFormat *format = style_format_general ();
 		Value *error_value = value_new_float (state->target_value -
 						      value_get_as_float (state->set_cell->value));
   		char *target_str = format_value (format, error_value, NULL, 0,
@@ -450,7 +450,6 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 		gtk_label_set_text (GTK_LABEL (state->target_value_label), target_str);
 		g_free (target_str);
 		value_release (error_value);
-		style_format_unref (format);
 
 		status_str =
 			g_strdup_printf (_("Goal seeking with cell %s found a solution."),
