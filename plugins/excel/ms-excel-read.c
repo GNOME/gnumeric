@@ -1015,6 +1015,7 @@ sst_read_string (BiffQuery *q, MSContainer const *c,
 			res->str = str;
 	} while (total_len > 0);
 
+	g_warning ("'%s' = %ld", str, g_utf8_strlen (str, -1));
 	if (total_n_markup > 0) {
 		TXORun txo_run;
 		PangoAttrList  *prev_markup = NULL;
@@ -1025,15 +1026,21 @@ sst_read_string (BiffQuery *q, MSContainer const *c,
 			offset = sst_bound_check (q, offset, 4);
 			if ((q->length - offset) >= 4) {
 				txo_run.last = GSF_LE_GET_GUINT16 (q->data+offset);
-				if (prev_markup != NULL)
+				if (prev_markup != NULL) {
+					g_warning ("%d : %d", txo_run.first, txo_run.last);
 					pango_attr_list_filter (prev_markup,
 						(PangoAttrFilterFunc) append_markup, &txo_run);
+				}
 				txo_run.first = txo_run.last;
 				prev_markup = ms_container_get_markup (
 					c, GSF_LE_GET_GUINT16 (q->data + offset + 2));
 			} else
 				g_warning ("A TXO entry is across CONTINUEs.  We need to handle those properly");
 		}
+		txo_run.last = G_MAXINT;
+		g_warning ("%d : ...", txo_run.first);
+		pango_attr_list_filter (prev_markup,
+			(PangoAttrFilterFunc) append_markup, &txo_run);
 		res->markup = style_format_new_markup (txo_run.accum);
 		pango_attr_list_unref (txo_run.accum);
 

@@ -1,3 +1,9 @@
+2004-04-19  Jody Goldberg <jody@gnome.org>
+
+	* src/rendered-value.c (rendered_value_new) : don't apply markup to
+	  the shared set of attributes associated with the style make a local
+	  copy.
+
 2004-04-17  Jody Goldberg <jody@gnome.org>
 
 	* src/item-edit.c (item_edit_draw) : tidy up a bit and check for pixel

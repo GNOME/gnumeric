@@ -180,7 +180,7 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 	GnmColor	*color;
 	PangoLayout     *layout;
 	PangoAttrList   *attrs;
-	const GnmColor *fore;
+	GnmColor const *fore;
 	gboolean        display_formula;
 	double          zoom;
 
@@ -255,8 +255,12 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 
 	if (cell->value != NULL) {
 		GnmFormat const *fmt = VALUE_FMT (cell->value);
-		if (fmt != NULL && style_format_is_markup (fmt))
+		if (fmt != NULL && style_format_is_markup (fmt)) {
+			PangoAttrList *orig = attrs;
+			attrs = pango_attr_list_copy (attrs);
 			pango_attr_list_splice (attrs, fmt->markup, 0, 0);
+			pango_attr_list_unref (orig);
+		}
 	}
 	pango_layout_set_attributes (res->layout, attrs);
 	pango_attr_list_unref (attrs);

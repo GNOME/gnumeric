@@ -1,5 +1,11 @@
 2004-04-19  Jody Goldberg <jody@gnome.org>
 
+	* ms-excel-read.c (sst_read_string) : don't forget the last markup
+	  element.  Leave some debug in here to figure out what's going on
+	  with quick test.
+
+2004-04-19  Jody Goldberg <jody@gnome.org>
+
 	* ms-excel-read.c (excel_sheet_insert_val) : only assign a format if
 	  there is no existing markup.
 	(sst_bound_check) : do some extra checking to ensure the existence of
