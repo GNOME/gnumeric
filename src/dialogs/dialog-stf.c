@@ -437,7 +437,8 @@ stf_dialog (WorkbookControlGUI *wbcg,
 	    const char *opt_encoding,
 	    gboolean fixed_encoding,
 	    const char *source,
-	    const char *data)
+	    const char *data,
+	    int data_len)
 {
 	GladeXML *gui;
 	DialogStfResult_t *dialogresult;
@@ -454,13 +455,14 @@ stf_dialog (WorkbookControlGUI *wbcg,
 
 	pagedata.canceled = FALSE;
 
-	pagedata.encoding    = g_strdup (opt_encoding);
+	pagedata.encoding = g_strdup (opt_encoding);
 	pagedata.fixed_encoding = fixed_encoding;
-	pagedata.wbcg	     = wbcg;
-	pagedata.source      = source;
-	pagedata.raw_data    = data;
-	pagedata.utf8_data   = NULL;
-	pagedata.cur         = NULL;
+	pagedata.wbcg = wbcg;
+	pagedata.source = source;
+	pagedata.raw_data = data;
+	pagedata.raw_data_len = data_len < 0 ? strlen (data) : data_len;
+	pagedata.utf8_data = NULL;
+	pagedata.cur = NULL;
 
 	pagedata.window      = GTK_WINDOW  (glade_xml_get_widget (gui, "window"));
 	pagedata.druid       = GNOME_DRUID (glade_xml_get_widget (gui, "druid"));

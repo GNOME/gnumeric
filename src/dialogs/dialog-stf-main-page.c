@@ -40,7 +40,7 @@ main_page_set_encoding (DruidPageData_t *pagedata, const char *enc)
 
 	if (!enc) return FALSE;
 
-	utf8_data = g_convert (pagedata->raw_data, -1,
+	utf8_data = g_convert (pagedata->raw_data, pagedata->raw_data_len,
 			       "UTF-8", enc,
 			       &bytes_read, &bytes_written, &error);
 	if (error) {

@@ -93,6 +93,7 @@ typedef struct {
 	char                  *encoding;
 	gboolean               fixed_encoding;
 	const char            *raw_data;     /* Raw bytes, not UTF-8.  */
+	int                    raw_data_len;
 	char                  *utf8_data;    /* raw_data converted into UTF-8.  */
 	const char            *cur;          /* Pointer pointing to position in utf8_data to start parsing */
 	const char            *cur_end;      /* Pointer pointing to position in utf8_data to stop parsing */
@@ -122,7 +123,8 @@ DialogStfResult_t *stf_dialog                           (WorkbookControlGUI *wbc
 							 const char *opt_encoding,
 							 gboolean fixed_encoding,
 							 const char *source,
-							 const char *data);
+							 const char *data,
+							 int data_len);
 void               stf_dialog_result_free               (DialogStfResult_t *dialogresult);
 
 /* INIT FUNCTIONS

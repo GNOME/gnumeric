@@ -1,5 +1,11 @@
 2003-06-13  Morten Welinder  <terra@gnome.org>
 
+	* dialog-stf-main-page.c (main_page_set_encoding): Use known
+	length of data area.
+
+	* dialog-stf.c (stf_dialog): Take extra parameter specifying
+	length of data area.  All callers changed.
+
 	* dialog-stf-main-page.c (cb_line_breaks): Handle changes in line
 	break specs.
 
