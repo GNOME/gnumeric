@@ -1,7 +1,7 @@
 Gnumeric 1.0.3
 
 Andreas:
-	* Improve compatibility of COUP_ fuctions
+	* Redo  COUP_ functions one more time, ignoring XL
 
 Jody:
 	* Enable Add/Delete Series for Graph Guru

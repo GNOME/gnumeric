@@ -1,3 +1,21 @@
+2002-01-18  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/datetime.c (adjust_dates_basis) : removed
+	(days_between_BASIS_MSRB_30_360) : new, calculate delta for 
+	  BASIS_MSRB_30_360
+	(days_between_BASIS_30E_360) : new, calculate delta for BASIS_30E_360
+	(days_between_BASIS_30Ep_360) : new, calculate delta for 
+	  BASIS_30Ep_360
+	(days_between_basis) : replaces days_between_dep_basis, extremely
+	  simplified
+	(coup_cd_xl) : removed
+	(coupdays) : delete attempt to be XL compatible
+	(coupdaybs) : delete attempt to be XL compatible
+	(coupdaysnc) : delete attempt to be XL compatible
+	* src/datetime.h : change basis_t enumeration slightly and change
+	  arguments for days_between_basis, coup_cd, coupdays, coupdaybs
+	  and coupdaysnc
+
 2002-01-18  Jody Goldberg <jody@gnome.org>
 
 	* src/eval.c : Add a new dependency hashing scheme but leave it
