@@ -1,3 +1,8 @@
+2000-04-15  Valek Filippov  <frob@df.ru>
+
+	* POTFILES.in: Delete print-preview.c .
+	src/print-preview.c not exist now.
+
 2000-04-15  Karl EICHWALDER  <ke@suse.de>
 
 	* de.po: Major cleanup; add missing shourtcuts.

@@ -86,7 +86,6 @@ src/main.c
 src/number-match.c
 src/plugin.c
 src/print-info.c
-src/print-preview.c
 src/print.c
 src/selection.c
 src/sheet-autofill.c
