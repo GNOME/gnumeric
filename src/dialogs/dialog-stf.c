@@ -41,7 +41,7 @@
  *
  * This is merely a hack to prevent the canvas from centering on the text if the text 
  * width and/or height are smaller than the width and/or height of the GnomeCanvas.
- * Warning 1 : Don't remove this, this is necessary!!
+ * Warning 1 : Don't remove this, this is, it's necessary!!
  * Warning 2 : Be sure that the @canvas has both his width and height set to something other than 0
  *
  * returns : nothing
@@ -126,7 +126,6 @@ dialog_stf_druid_position_to_page (DruidPageData_t *pagedata, DruidPosition_t po
 	case DPG_CSV    : return pagedata->csv_page;
 	case DPG_FIXED  : return pagedata->fixed_page;
 	case DPG_FORMAT : return pagedata->format_page;
-	case DPG_STOP   : return pagedata->stop_page;
 	default :
 		g_warning ("Unknown druid position");
 		return NULL;
@@ -175,7 +174,6 @@ dialog_stf_druid_page_next (GnomeDruidPage *page, GnomeDruid *druid, DruidPageDa
 		data->format_info->format_run_cacheoptions = data->fixed_info->fixed_run_cacheoptions;
 		data->format_info->format_run_source_hash  = data->fixed_info->fixed_run_renderdata;
 	} break;
-	case DPG_FORMAT : newpos = DPG_STOP; break;
 	default :
 		g_warning ("Page Cycle Error : Unknown page %d", data->position);
 		return FALSE;
@@ -190,6 +188,9 @@ dialog_stf_druid_page_next (GnomeDruidPage *page, GnomeDruid *druid, DruidPageDa
 	gnome_druid_set_page (druid, nextpage);
 	data->position = newpos;
 
+	if (newpos == DPG_FORMAT)
+		gnome_druid_set_show_finish (data->druid, TRUE);
+	
 	return TRUE;
 }
 
@@ -210,7 +211,6 @@ dialog_stf_druid_page_previous (GnomeDruidPage *page, GnomeDruid *druid, DruidPa
 	GnomeDruidPage *nextpage;
 
 	switch (data->position) {
-	case DPG_STOP   : newpos = DPG_FORMAT; break;
 	case DPG_FORMAT : {
 		if (data->parsetype == PARSE_TYPE_CSV)
 			newpos = DPG_CSV;
@@ -259,7 +259,7 @@ dialog_stf_druid_cancel (GnomeDruid *druid, DruidPageData_t *data)
 }
 
 /**
- * dialog_stf_stop_page_druid_finish
+ * dialog_stf_format_page_druid_finish
  * @druid : a druid
  * @page : a druidpage
  * @data : mother struct
@@ -271,7 +271,7 @@ dialog_stf_druid_cancel (GnomeDruid *druid, DruidPageData_t *data)
  * returns : nothing
  **/
 static void
-dialog_stf_druid_stop_page_finish (GnomeDruid *druid, GnomeDruidPage *page, DruidPageData_t *data)
+dialog_stf_druid_format_page_finish (GnomeDruid *druid, GnomeDruidPage *page, DruidPageData_t *data)
 {
 	gtk_main_quit ();
 }
@@ -299,7 +299,7 @@ dialog_stf_attach_page_signals (GladeXML *gui, DruidPageData_t *pagedata)
 	pagedata->csv_page    = GNOME_DRUID_PAGE (glade_xml_get_widget (gui, "csv_page"));
 	pagedata->fixed_page  = GNOME_DRUID_PAGE (glade_xml_get_widget (gui, "fixed_page"));
 	pagedata->format_page = GNOME_DRUID_PAGE (glade_xml_get_widget (gui, "format_page"));
-	pagedata->stop_page   = GNOME_DRUID_PAGE (glade_xml_get_widget (gui, "stop_page"));
+/*	pagedata->stop_page   = GNOME_DRUID_PAGE (glade_xml_get_widget (gui, "stop_page"));*/
 
 	pagedata->position  = DPG_MAIN;
 	gnome_druid_set_buttons_sensitive (pagedata->druid, FALSE, TRUE, TRUE);
@@ -339,10 +339,6 @@ dialog_stf_attach_page_signals (GladeXML *gui, DruidPageData_t *pagedata)
 			    "back", 
 			    GTK_SIGNAL_FUNC (dialog_stf_druid_page_previous),
 			    pagedata);
-	gtk_signal_connect (GTK_OBJECT (pagedata->stop_page), 
-			    "back", 
-			    GTK_SIGNAL_FUNC (dialog_stf_druid_page_previous),
-			    pagedata);
 
 	gtk_signal_connect (GTK_OBJECT (pagedata->main_page), 
 			    "cancel", 
@@ -360,9 +356,10 @@ dialog_stf_attach_page_signals (GladeXML *gui, DruidPageData_t *pagedata)
 			    "cancel", 
 			    GTK_SIGNAL_FUNC (dialog_stf_druid_page_cancel),
 			    pagedata);
-	gtk_signal_connect (GTK_OBJECT (pagedata->stop_page), 
-			    "cancel", 
-			    GTK_SIGNAL_FUNC (dialog_stf_druid_page_cancel),
+			    
+	gtk_signal_connect (GTK_OBJECT (pagedata->format_page), 
+			    "finish", 
+			    GTK_SIGNAL_FUNC (dialog_stf_druid_format_page_finish),
 			    pagedata);
 
 	gtk_signal_connect (GTK_OBJECT (pagedata->csv_page), 
@@ -376,11 +373,6 @@ dialog_stf_attach_page_signals (GladeXML *gui, DruidPageData_t *pagedata)
 	gtk_signal_connect (GTK_OBJECT (pagedata->format_page), 
 			    "prepare", 
 			    GTK_SIGNAL_FUNC (format_page_prepare),
-			    pagedata);
-			    
-	gtk_signal_connect (GTK_OBJECT (pagedata->stop_page), 
-			    "finish", 
-			    GTK_SIGNAL_FUNC (dialog_stf_druid_stop_page_finish),
 			    pagedata);
 			    
 	/* Signals for the druid itself */
@@ -496,6 +488,15 @@ dialog_stf (CommandContext *context, const char *filename, const char *data)
 	return dialogresult;
 }
 
+/**
+ * dialog_stf_result_free
+ * @dialogresult : a dialogresult struct
+ *
+ * This routine will properly free the members of @dialogresult and
+ * @dialogresult itself
+ *
+ * returns : nothing
+ **/
 void
 dialog_stf_result_free (DialogStfResult_t *dialogresult)
 {

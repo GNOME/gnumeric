@@ -1,21 +1,23 @@
 #ifndef GNUMERIC_DIALOG_STF_H
 #define GNUMERIC_DIALOG_STF_H
 
+#include <config.h>
+#include <gnome.h>
 #include <glade/glade.h>
+
+#include <stdlib.h>
+#include <string.h>
 
 #include "formats.h"
 #include "style.h"
 #include "mstyle.h"
 
-#include "stf.h"
-
 #include "stf-parse.h"
 
 #include "dialog-stf-preview.h"
 
-/* Define for text offsets used troughout the druid */
+/* Define for text offsets used on the main page of the druid */
 #define TEXT_OFFSET 10.0
-#define TEXT_VPADDING 10.0
 
 /* for the main_page */
 typedef struct {
@@ -35,7 +37,10 @@ typedef struct {
 
 /* for the csv_page */
 typedef struct {
-	GtkCheckButton  *csv_tab, *csv_colon, *csv_comma, *csv_space, *csv_custom;
+	GtkCheckButton  *csv_tab, *csv_colon, *csv_comma;
+	GtkCheckButton  *csv_space, *csv_semicolon, *csv_pipe;
+	GtkCheckButton  *csv_slash, *csv_hyphen, *csv_bang;
+	GtkCheckButton  *csv_custom;
 	GtkEntry        *csv_customseparator;
 	GtkCheckButton  *csv_duplicates;
 	GtkCombo        *csv_textindicator;
@@ -96,8 +101,7 @@ typedef enum {
 	DPG_MAIN,
 	DPG_CSV,
 	DPG_FIXED,
-	DPG_FORMAT,
-	DPG_STOP
+	DPG_FORMAT
 } DruidPosition_t;
 
 /* The MOTHER struct, passed trough signal handlers etc
@@ -108,7 +112,6 @@ typedef struct {
 
 	GtkWindow      *window;                                            /* The main window */
 	GnomeDruid     *druid;                                             /* The gnome druid */
-	GnomeDruidPage *stop_page;                                         /* end page */
 	GnomeDruidPage *main_page, *csv_page, *fixed_page, *format_page;   /* Rest of the pages */
 
 	const char   *filename;     /* File we are reading from */
@@ -129,7 +132,7 @@ typedef struct {
 } DruidPageData_t;
 
 typedef struct {
-	char              *newstart;      /* New start position */
+	const char        *newstart;      /* New start position */
 	StfParseOptions_t *parseoptions;  /* parse options */
 	GSList            *formats;       /* A list of char*'s corresponding to each columns format */
 } DialogStfResult_t;

@@ -1,6 +1,6 @@
 /*
- * stf.c : reads sheets using CSV/Fixed encoding while allowing
- *         fine-tuning of the import process 
+ * stf.c : Utilizes the stf-parse engine and the dialog-stf to provide a plug-in for
+ *         importing text files with a structure (CSV/fixed width)
  *
  * Copyright (C) Almer. S. Tigelaar.
  * EMail: almer1@dds.nl or almer-t@bigfoot.com
@@ -159,6 +159,7 @@ stf_read_workbook (CommandContext *context, Workbook *book, char const *filename
 
 		if (!stf_parse_sheet (dialogresult->parseoptions, dialogresult->newstart, sheet)) {
 
+			workbook_detach_sheet (book, sheet, TRUE);
 			/*
 			 * Note this buffer was allocated with malloc, not g_malloc
 			 */

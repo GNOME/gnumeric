@@ -5,11 +5,6 @@
  *
  */
 
-#include <config.h>
-#include <gnome.h>
-#include <glade/glade.h>
-#include <stdlib.h>
-
 #include "dialog-stf.h"
 
 /*************************************************************************************************
@@ -89,6 +84,17 @@ fixed_page_scroll_value_changed (GtkAdjustment *adjustment, DruidPageData_t *dat
 	fixed_page_update_preview (data);
 }
 
+/**
+ * fixed_page_canvas_motion_notify_event
+ * @canvas : The gnome canvas that emitted the signal
+ * @event : a gdk motion event struct
+ * @data : a mother struct
+ *
+ * This event handles the changing of the mouse cursor and
+ * re-sizing of columns
+ *
+ * returns : always TRUE
+ **/
 static gboolean
 fixed_page_canvas_motion_notify_event (GnomeCanvas *canvas, GdkEventMotion *event, DruidPageData_t *data)
 {
@@ -170,6 +176,18 @@ fixed_page_canvas_motion_notify_event (GnomeCanvas *canvas, GdkEventMotion *even
 	return TRUE;
 }
 
+/**
+ * fixed_page_canvas_motion_notify_event
+ * @canvas : The gnome canvas that emitted the signal
+ * @event : a gdk event button struct 
+ * @data : a mother struct
+ *
+ * This handles single clicking/drag start events :
+ * 1) start of re-sizing of existing columns
+ * 2) removal of existing columns
+ *
+ * returns : always TRUE
+ **/
 static gboolean
 fixed_page_canvas_button_press_event (GnomeCanvas *canvas, GdkEventButton *event, DruidPageData_t *data)
 {
@@ -207,6 +225,16 @@ fixed_page_canvas_button_press_event (GnomeCanvas *canvas, GdkEventButton *event
 	return TRUE;
 }
 
+/**
+ * fixed_page_canvas_motion_notify_event
+ * @canvas : The gnome canvas that emitted the signal
+ * @event : a gdk event button struct
+ * @data : a mother struct
+ *
+ * This signal handler actually handles creating new columns
+ *
+ * returns : always TRUE
+ **/
 static gboolean
 fixed_page_canvas_button_release_event (GnomeCanvas *canvas, GdkEventButton *event, DruidPageData_t *data)
 {

@@ -4,22 +4,6 @@
 #include "sheet.h"
 #include "plugin.h"
 
-typedef struct {
-	int        fd;                     /* File descriptor */
-	char const *filename;              /* Filename */
-	
-	char const *data, *cur;     /* Memory buffer with the file contents and pointer to the current position */
-	int        len;             /* Length of the file */
-	
-	int   line;                 /* Current line */
-	int   lines;                /* Number of lines calculated from *cur to the end of the buffer */
-	int   totallines;           /* Total number of lines (*data) */
-	Sheet *sheet;               /* Target workbook sheet */
-
-	int rowcount;               /* Number of rows in sheet */
-	int colcount;               /* Number of columns in sheet */
-} FileSource_t;
-
 void stf_init (void);
 
 #endif /* GNUMERIC_STF_H */

@@ -5,10 +5,6 @@
  *
  */
 
-#include <config.h>
-#include <gnome.h>
-#include <glade/glade.h>
-
 #include "dialog-stf.h"
 
 /*************************************************************************************************
@@ -54,6 +50,11 @@ csv_page_global_change (GtkWidget *widget, DruidPageData_t *data)
 					      gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_colon)),
 					      gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_comma)),
 					      gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_space)),
+					      gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_semicolon)),
+					      gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_pipe)),
+					      gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_slash)),
+					      gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_hyphen)),
+					      gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_bang)),
 					      customvalid);
 
 	textfieldtext = gtk_editable_get_chars (GTK_EDITABLE (info->csv_textfield), 0, -1);
@@ -173,9 +174,6 @@ csv_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPageData_t *page
 
 	/* Calling this routine will also automatically call global change which updates the preview too */
 	csv_page_custom_toggled (info->csv_custom, pagedata);
-
-	/* Calling this routine will also automatically call global change which updates the preview too */
-	csv_page_custom_toggled (info->csv_custom, pagedata);
 }
 
 /**
@@ -229,6 +227,11 @@ csv_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	info->csv_colon           = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_colon"));
 	info->csv_comma           = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_comma"));
 	info->csv_space           = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_space"));
+	info->csv_semicolon       = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_semicolon"));
+	info->csv_pipe            = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_pipe"));
+	info->csv_slash           = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_slash"));
+	info->csv_hyphen          = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_hyphen"));
+	info->csv_bang            = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_bang"));
 	info->csv_custom          = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_custom"));
 	info->csv_customseparator = GTK_ENTRY        (glade_xml_get_widget (gui, "csv_customseparator"));
 
@@ -262,6 +265,26 @@ csv_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 			    GTK_SIGNAL_FUNC (csv_page_global_change),
 			    pagedata);
 	gtk_signal_connect (GTK_OBJECT (info->csv_space),
+			    "toggled",
+			    GTK_SIGNAL_FUNC (csv_page_global_change),
+			    pagedata);
+	gtk_signal_connect (GTK_OBJECT (info->csv_semicolon),
+			    "toggled",
+			    GTK_SIGNAL_FUNC (csv_page_global_change),
+			    pagedata);
+	gtk_signal_connect (GTK_OBJECT (info->csv_pipe),
+			    "toggled",
+			    GTK_SIGNAL_FUNC (csv_page_global_change),
+			    pagedata);
+	gtk_signal_connect (GTK_OBJECT (info->csv_slash),
+			    "toggled",
+			    GTK_SIGNAL_FUNC (csv_page_global_change),
+			    pagedata);
+	gtk_signal_connect (GTK_OBJECT (info->csv_hyphen),
+			    "toggled",
+			    GTK_SIGNAL_FUNC (csv_page_global_change),
+			    pagedata);
+	gtk_signal_connect (GTK_OBJECT (info->csv_bang),
 			    "toggled",
 			    GTK_SIGNAL_FUNC (csv_page_global_change),
 			    pagedata);

@@ -1,16 +1,9 @@
 /*
- * dialog-stf.c : Controls the widget on the format page of the dialog
+ * dialog-stf.c : Controls the widgets on the format page of the dialog
  *
  * Almer. S. Tigelaar <almer1@dds.nl>
  *
  */
-
-#include <config.h>
-#include <gnome.h>
-#include <glade/glade.h>
-#include <string.h>
-
-#include "dialog-stf-preview.h"
 
 #include "dialog-stf.h"
 
@@ -19,32 +12,14 @@
  *************************************************************************************************/
 
 /**
- * format_page_set_col_formatting
- * @src : a filesource
- * @format : A string specifying the cell format
- * @column : The column to set the cell format for
+ * format_page_update_preview
+ * @pagedata : mother struct
  *
- * Sets the format of column @column in @sheet
- * 
- * returns : nothing.
+ * Will simply utilize the preview rendering functions to update
+ * the preview
  *
-static void
-format_page_set_col_formatting (FileSource_t *src, const char *format, int column)
-{
-	MStyle *style = mstyle_new ();
-	Range range;
-
-	mstyle_set_format (style, format);
-
-	range.start.col = column;
-	range.start.row = 0;
-	range.end.col   = column;
-	range.end.row   = src->rowcount;
-	
-	sheet_style_attach (src->sheet, range, style);
-}*/
-
-
+ * returns : nothing
+ **/
 static void
 format_page_update_preview (DruidPageData_t *pagedata)
 {
@@ -144,7 +119,10 @@ format_page_collist_select_row (GtkCList *clist, int row, int column, GdkEventBu
 	if (!colformat) return;
 
 	stf_preview_set_activecolumn (info->format_run_renderdata, row);
-	
+
+	if (gtk_clist_row_is_visible (info->format_collist, row) == GTK_VISIBILITY_NONE)
+		gtk_clist_moveto (info->format_collist, row, 0, 0.5, 0.5);
+		
 	if (info->format_run_manual_change) {
 		info->format_run_manual_change = FALSE;
 		return;
@@ -207,7 +185,7 @@ format_page_format_changed (GtkEntry *entry, DruidPageData_t *data)
 	char *format = gtk_editable_get_chars (GTK_EDITABLE (entry), 0, -1);
 	char *t[1];
 	int i, found;
-
+	
 	if (info->format_run_index >= 0) {
 
 		listitem = g_slist_nth (info->format_run_list, info->format_run_index);
@@ -239,7 +217,7 @@ format_page_format_changed (GtkEntry *entry, DruidPageData_t *data)
 			gtk_clist_moveto (info->format_sublist, found, 0, 0.5, 0.5);
 			
 	}
-
+	
 	format_page_update_preview (data);
 }
 
@@ -249,7 +227,14 @@ format_page_format_changed (GtkEntry *entry, DruidPageData_t *data)
 
 /**
  * format_page_prepare
- * 
+ * @page : format page
+ * @druid : gnome druid hosting @page
+ * @data : mother struct
+ *
+ * This will prepare the widgets on the format page before
+ * the page gets displayed
+ *
+ * returns : nothing
  **/
 void
 format_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPageData_t *data)
@@ -280,10 +265,6 @@ format_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPageData_t *d
 
 	gtk_clist_columns_autosize (info->format_collist);
 
-	info->format_run_manual_change = TRUE;		
-	gtk_clist_select_row (info->format_collist, 0, 0);
-	info->format_run_index = 0;
-
 	GTK_RANGE (info->format_scroll)->adjustment->upper = data->lines + 1;
 
 	stf_preview_colwidths_clear (info->format_run_renderdata);
@@ -296,8 +277,14 @@ format_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPageData_t *d
 	stf_cache_options_set_range (info->format_run_cacheoptions,
 				     info->format_run_renderdata->startrow - 1,
 				     (info->format_run_renderdata->startrow - 1) + stf_preview_get_displayed_rowcount (info->format_run_renderdata));
-			
-	format_page_update_preview (data);
+	
+	info->format_run_manual_change = TRUE;
+	gtk_clist_select_row (info->format_collist, 0, 0);
+	
+	info->format_run_index = 0;
+	
+	t[0] = g_slist_nth_data (info->format_run_list, 0);
+	gtk_entry_set_text (info->format_format, t[0]);
 }
 
 /**
@@ -378,10 +365,6 @@ format_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 			    "changed",
 			    GTK_SIGNAL_FUNC (format_page_format_changed),
 			    pagedata);
-	/* gtk_signal_emit_by_name (GTK_OBJECT (info->format_format),
-				 "changed",
-				 info->format_format,
-				 pagedata);*/ 
 	gtk_signal_connect (GTK_OBJECT (info->format_collist),
 			    "select_row",
 			    GTK_SIGNAL_FUNC (format_page_collist_select_row),

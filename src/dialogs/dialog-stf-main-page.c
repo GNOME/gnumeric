@@ -5,10 +5,6 @@
  *
  */
  
-#include <config.h>
-#include <gnome.h>
-#include <glade/glade.h>
-
 #include "dialog-stf.h"
 
 /*************************************************************************************************
@@ -18,6 +14,7 @@
 /**
  * main_page_set_spin_button_adjustment
  * @spinbutton : the spinbutton to adjust
+ * @min : the minimum number the user may enter into the spinbutton
  * @max : the maximum number the user may enter into the spinbutton
  *
  * returns : nothing
@@ -35,15 +32,12 @@ main_page_set_spin_button_adjustment (GtkSpinButton* spinbutton, int min, int ma
 
 /**
  * set_center_prevent_rectangle_size
- * @canvas : canvas where the @rectangle is located on
- * @rectangle : a rectangle on the @canvas which can be used for centering purposes
- * @text : The text item from which the height and width will be used to calculate
- *         the size of the rectangle
+ * @data : a mother struct
  *
  * This is merely a hack to prevent the canvas from centering on the text if the text 
  * width and/or height are smaller than the width and/or height of the GnomeCanvas.
  * Warning 1 : Don't remove this, this is necessary!!
- * Warning 2 : Be sure that the @canvas has both his width and height set to something other than 0
+ * Warning 2 : Be sure that the canvas has both his width and height set to something other than 0
  *
  * returns : nothing
  **/
@@ -184,8 +178,8 @@ main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	/* Warning : The rectangle is vital to prevent auto-centering, DON'T REMOVE IT! */
     	info->main_run_rect = GNOME_CANVAS_RECT (gnome_canvas_item_new (gnome_canvas_root (info->main_canvas),
 									gnome_canvas_rect_get_type (),
-									"x1", 0,	"y1", 0,
-									"x2", 10,	"y2", 10,
+									"x1", 0.0,	"y1", 0.0,
+									"x2", 10.0,	"y2", 10.0,
 									"width_pixels", (int) 0,
 									"fill_color", NULL,
 									NULL));
@@ -217,6 +211,12 @@ main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 			    pagedata); 
 }
  
+
+
+
+
+
+
 
 
 

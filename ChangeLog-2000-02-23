@@ -1,3 +1,42 @@
+2000-02-21  Almer. S. Tigelaar.  <almer1@dds.nl>
+
+	* src/dialogs/dialog-stf-csv-page.c :
+	(csv_page_prepare) : csv_page_custom_toggled was called twice, removed one.
+
+	* src/stf.c, src/dialogs/dialog-stf.c, src/dialogs/dialog-stf-main-page.c, 
+	* src/dialogs/dialog-stf-csv-page.c, src/dialogs/dialog-stf-fixed-page.c, 
+	* src/dialogs/dialog-stf-format-page.c, src/dialogs/dialog-stf-preview.c 
+	Fixed incorrect comments and added function comment headers where they
+	didn't exist. Also moved some includes.
+
+	* src/dialogs/dialog-stf.h
+	Removed TEXT_VOFFSET, because it is no langer required.
+
+	* src/dialogs/dialog-stf-preview.h
+	Changed the colours to match the current gnumeric sheet selection color
+
+	* src/dialogs/dialog-stf-format-page.c
+	(format_page_collist_select_row) : Makes selected row visible
+	(format_page_prepare) : Corrected minor error which caused the format entry to stay empty
+
+	* src/dialogs/dialog-stf.glade, src/dialogs/dialog-stf.c, src/dialogs/dialog-stf.h
+	Completely removed the "finish" page of the druid.
+
+	* src/dialogs/dialog-stf.glade, src/stf-parse.h, src/stf-parse.c
+	Fixed support for colon and added support for new separator
+	symbols : semicolon, pipe, slash, hyphen, bang.
+	separators are now also displayed on the csv page.
+
+	* src/stf-parse.c
+	(stf_parse_get_colcount) : last line wasn't counted
+	(stf_parse_get_colwidth) : idem
+	
+	* src/stf.h :
+	Removed obsoleted FileSource_t struct type definition.
+
+	* src/stf.c :
+	(stf_read_workbook) : Detach sheet on parse error.
+
 2000-02-21  Jon K Hellan  <hellan@acm.org>
 
 

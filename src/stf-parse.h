@@ -8,11 +8,16 @@
 #include "cell.h"
 
 typedef enum {
-	TEXT_SEPARATOR_TAB    = 1 << 1,
-	TEXT_SEPARATOR_COLON  = 1 << 2,
-	TEXT_SEPARATOR_COMMA  = 1 << 3,
-	TEXT_SEPARATOR_SPACE  = 1 << 4,
-	TEXT_SEPARATOR_CUSTOM = 1 << 5
+	TEXT_SEPARATOR_TAB       = 1 << 0,
+	TEXT_SEPARATOR_COLON     = 1 << 1,
+	TEXT_SEPARATOR_COMMA     = 1 << 2,
+	TEXT_SEPARATOR_SPACE     = 1 << 3,
+	TEXT_SEPARATOR_SEMICOLON = 1 << 4,
+	TEXT_SEPARATOR_PIPE      = 1 << 5,
+	TEXT_SEPARATOR_SLASH     = 1 << 6,
+	TEXT_SEPARATOR_HYPHEN    = 1 << 7,
+	TEXT_SEPARATOR_BANG      = 1 << 8,
+	TEXT_SEPARATOR_CUSTOM    = 1 << 9
 } StfTextSeparator_t;
 
 typedef enum {
@@ -72,7 +77,9 @@ gboolean            stf_parse_options_after_modification              (StfParseO
 void                stf_parse_options_csv_set_separators              (StfParseOptions_t *parseoptions,
 								       gboolean tab, gboolean colon,
 								       gboolean comma, gboolean space,
-								       gboolean custom);
+								       gboolean semicolon, gboolean pipe,
+								       gboolean slash, gboolean hyphen,
+								       gboolean bang, gboolean custom);
 void                stf_parse_options_csv_set_customfieldseparator    (StfParseOptions_t *parseoptions, char customfieldseparator);
 void                stf_parse_options_csv_set_stringindicator         (StfParseOptions_t *parseoptions, char stringindicator);
 void                stf_parse_options_csv_set_duplicates              (StfParseOptions_t *parseoptions, gboolean duplicates);

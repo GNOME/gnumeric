@@ -1,5 +1,11 @@
-#include <config.h>
-#include <gnome.h>
+/*
+ * dialog-stf-preview.c : by utilizing the stf-parse engine this unit can
+ *                        render sheet previews on the gnomecanvas and offers
+ *                        functions for making this preview more interactive.
+ *
+ * Almer. S. Tigelaar <almer1@dds.nl>
+ *
+ */ 
 
 /** This might be necessary later for rendering formatted values
 #include "format.h"
@@ -7,7 +13,6 @@
 **/
 
 #include "dialog-stf.h"
-
 #include "dialog-stf-preview.h"
 
 /******************************************************************************************************************
@@ -172,12 +177,12 @@ stf_preview_get_table_pixel_height (RenderData_t *renderdata, int rowcount)
 static void
 stf_preview_draw_grid (RenderData_t *renderdata, int rowcount, int colcount)
 {
-	char *color;
 	double rowheight   = renderdata->charheight + CELL_VPAD;
 	double tableheight = stf_preview_get_table_pixel_height (renderdata, rowcount);
 	double tablewidth  = stf_preview_get_table_pixel_width (renderdata);
 	double xpos        = 0;
 	double ypos        = 0;
+	char *tempcolor;
 	int i;
 
 	/* Color the first row */
@@ -201,14 +206,14 @@ stf_preview_draw_grid (RenderData_t *renderdata, int rowcount, int colcount)
 		stf_preview_draw_box (renderdata->group, ROW_COLOR_ACTIVE, colleft, rowheight, colright, tableheight);
 	}
 
-	color = CAPTION_LINE_COLOR;
+	tempcolor = CAPTION_LINE_COLOR;
 	/* horizontal lines */
 	for (i = 0; i < rowcount + 1; i++) {
 	
 		if (i == 2)
-			color = LINE_COLOR;
+			tempcolor = LINE_COLOR;
 	
-		stf_preview_draw_line (renderdata->group, color, 0, ypos, tablewidth, ypos);
+		stf_preview_draw_line (renderdata->group, tempcolor, 0, ypos, tablewidth, ypos);
 
 		ypos += rowheight;
 	}
@@ -259,7 +264,6 @@ stf_preview_render_row (RenderData_t *renderdata, double rowy, GSList *row, int 
 	
 	for (col = 0; col <= colcount; col++)  {
 		int widthwanted;
-		char *color;
 
 		if (iterator != NULL && iterator->data != NULL) {
 		
@@ -311,15 +315,19 @@ stf_preview_render_row (RenderData_t *renderdata, double rowy, GSList *row, int 
 				celltext = iterator->data;
 			}
 
-			if (col == renderdata->activecolumn && rowy != 0)
-				color = TEXT_COLOR_ACTIVE;
-			else
-				color = TEXT_COLOR;
+			/* In case the active color differs from the inactive color
+			 * this code can be activated
+			 *
+			 * if (col == renderdata->activecolumn && rowy != 0)
+			 *	 color = text_color_active;
+			 * else
+			 *	 color = text_color;
+			 */
 				
 			textwidth = stf_preview_draw_text (renderdata->group,
 							   celltext,
 							   renderdata->font,
-							   color,
+							   TEXT_COLOR,
 							   xpos + (CELL_HPAD / 2),
 							   rowy + (CELL_VPAD / 2));
 						
@@ -755,7 +763,7 @@ stf_preview_get_displayed_rowcount (RenderData_t *renderdata)
 			"height", &canvasheight,
 			NULL);
 	
-	rowcount = (canvasheight / (gdk_string_height (renderdata->font, "Test") + TEXT_VPADDING)) + 1;
+	rowcount = (canvasheight / (gdk_string_height (renderdata->font, "Test"))) + 1;
 
 	return rowcount;
 }
@@ -876,6 +884,11 @@ stf_preview_get_char_at_x (RenderData_t *renderdata, double x)
 
 	return -1;
 }
+
+
+
+
+
 
 
 

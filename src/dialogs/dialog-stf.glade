@@ -10,17 +10,6 @@
   <language>C</language>
   <gnome_support>True</gnome_support>
   <gettext_support>True</gettext_support>
-  <use_widget_names>False</use_widget_names>
-  <output_main_file>True</output_main_file>
-  <output_support_files>True</output_support_files>
-  <output_build_files>True</output_build_files>
-  <backup_source_files>True</backup_source_files>
-  <main_source_file>interface.c</main_source_file>
-  <main_header_file>interface.h</main_header_file>
-  <handler_source_file>callbacks.c</handler_source_file>
-  <handler_header_file>callbacks.h</handler_header_file>
-  <support_source_file>support.c</support_source_file>
-  <support_header_file>support.h</support_header_file>
   <output_translatable_strings>True</output_translatable_strings>
   <translatable_strings_file>dialog-stf.glade.h</translatable_strings_file>
 </project>
@@ -87,7 +76,7 @@
 	    <widget>
 	      <class>GtkLabel</class>
 	      <name>label1</name>
-	      <width>480</width>
+	      <width>505</width>
 	      <label>Select the structure of the text that most closely matches the data. Separated means that the each column is separated by a 'separation' character and fixed width means that you can define the width of each column yourself. You should also select what part of the data you want to import by adjusting the from and to line.</label>
 	      <justify>GTK_JUSTIFY_LEFT</justify>
 	      <wrap>True</wrap>
@@ -117,6 +106,7 @@
 	      <widget>
 		<class>GtkVBox</class>
 		<name>vbox3</name>
+		<border_width>5</border_width>
 		<homogeneous>False</homogeneous>
 		<spacing>5</spacing>
 
@@ -139,7 +129,7 @@
 		  <class>GtkRadioButton</class>
 		  <name>main_fixed</name>
 		  <can_focus>True</can_focus>
-		  <label>_Fixed width</label>
+		  <label>Fixed wi_dth</label>
 		  <active>False</active>
 		  <draw_indicator>True</draw_indicator>
 		  <group>typegroup</group>
@@ -166,13 +156,14 @@
 	      <widget>
 		<class>GtkLabel</class>
 		<name>label2</name>
-		<label>From line :</label>
+		<label>Fr_om line :</label>
 		<justify>GTK_JUSTIFY_LEFT</justify>
 		<wrap>False</wrap>
 		<xalign>0.5</xalign>
 		<yalign>0.5</yalign>
 		<xpad>0</xpad>
 		<ypad>0</ypad>
+		<focus_target>main_startrow</focus_target>
 		<child>
 		  <padding>0</padding>
 		  <expand>False</expand>
@@ -207,13 +198,14 @@
 	      <widget>
 		<class>GtkLabel</class>
 		<name>label18</name>
-		<label>To line : </label>
+		<label>_To line : </label>
 		<justify>GTK_JUSTIFY_CENTER</justify>
 		<wrap>False</wrap>
 		<xalign>0.5</xalign>
 		<yalign>0.5</yalign>
 		<xpad>0</xpad>
 		<ypad>0</ypad>
+		<focus_target>main_stoprow</focus_target>
 		<child>
 		  <padding>0</padding>
 		  <expand>False</expand>
@@ -289,7 +281,7 @@
 		<widget>
 		  <class>GnomeCanvas</class>
 		  <name>main_canvas</name>
-		  <width>450</width>
+		  <width>473</width>
 		  <height>150</height>
 		  <can_focus>True</can_focus>
 		  <anti_aliased>False</anti_aliased>
@@ -341,7 +333,7 @@
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>label4</name>
-	    <width>480</width>
+	    <width>505</width>
 	    <label>Select the separators that appear in the text (you can choose multiple separators if desired and also enter a custom one). You may choose the string indicator and wether you want to see two successive separators as one aswell. Changes will reflect in the example below.</label>
 	    <justify>GTK_JUSTIFY_LEFT</justify>
 	    <wrap>True</wrap>
@@ -383,24 +375,49 @@
 		<class>GtkTable</class>
 		<name>table1</name>
 		<border_width>5</border_width>
-		<rows>3</rows>
-		<columns>2</columns>
+		<rows>4</rows>
+		<columns>3</columns>
 		<homogeneous>False</homogeneous>
 		<row_spacing>5</row_spacing>
 		<column_spacing>0</column_spacing>
 
 		<widget>
 		  <class>GtkCheckButton</class>
-		  <name>csv_tab</name>
+		  <name>csv_custom</name>
 		  <can_focus>True</can_focus>
-		  <label>_Tab</label>
+		  <label>C_ustom</label>
 		  <active>False</active>
 		  <draw_indicator>True</draw_indicator>
 		  <child>
 		    <left_attach>0</left_attach>
 		    <right_attach>1</right_attach>
-		    <top_attach>0</top_attach>
-		    <bottom_attach>1</bottom_attach>
+		    <top_attach>3</top_attach>
+		    <bottom_attach>4</bottom_attach>
+		    <xpad>0</xpad>
+		    <ypad>0</ypad>
+		    <xexpand>True</xexpand>
+		    <yexpand>False</yexpand>
+		    <xshrink>False</xshrink>
+		    <yshrink>False</yshrink>
+		    <xfill>True</xfill>
+		    <yfill>False</yfill>
+		  </child>
+		</widget>
+
+		<widget>
+		  <class>GtkEntry</class>
+		  <name>csv_customseparator</name>
+		  <width>90</width>
+		  <can_focus>True</can_focus>
+		  <editable>True</editable>
+		  <text_visible>True</text_visible>
+		  <text_max_length>1</text_max_length>
+		  <text></text>
+		  <child>
+		    <left_attach>1</left_attach>
+		    <right_attach>2</right_attach>
+		    <top_attach>3</top_attach>
+		    <bottom_attach>4</bottom_attach>
 		    <xpad>0</xpad>
 		    <ypad>0</ypad>
 		    <xexpand>True</xexpand>
@@ -414,14 +431,14 @@
 
 		<widget>
 		  <class>GtkCheckButton</class>
-		  <name>csv_comma</name>
+		  <name>csv_hyphen</name>
 		  <can_focus>True</can_focus>
-		  <label>C_omma</label>
+		  <label>H_yphen (-)</label>
 		  <active>False</active>
 		  <draw_indicator>True</draw_indicator>
 		  <child>
-		    <left_attach>0</left_attach>
-		    <right_attach>1</right_attach>
+		    <left_attach>2</left_attach>
+		    <right_attach>3</right_attach>
 		    <top_attach>1</top_attach>
 		    <bottom_attach>2</bottom_attach>
 		    <xpad>0</xpad>
@@ -443,6 +460,98 @@
 		  <active>False</active>
 		  <draw_indicator>True</draw_indicator>
 		  <child>
+		    <left_attach>0</left_attach>
+		    <right_attach>1</right_attach>
+		    <top_attach>0</top_attach>
+		    <bottom_attach>1</bottom_attach>
+		    <xpad>0</xpad>
+		    <ypad>0</ypad>
+		    <xexpand>True</xexpand>
+		    <yexpand>False</yexpand>
+		    <xshrink>False</xshrink>
+		    <yshrink>False</yshrink>
+		    <xfill>True</xfill>
+		    <yfill>False</yfill>
+		  </child>
+		</widget>
+
+		<widget>
+		  <class>GtkCheckButton</class>
+		  <name>csv_tab</name>
+		  <can_focus>True</can_focus>
+		  <label>Ta_b</label>
+		  <active>False</active>
+		  <draw_indicator>True</draw_indicator>
+		  <child>
+		    <left_attach>1</left_attach>
+		    <right_attach>2</right_attach>
+		    <top_attach>0</top_attach>
+		    <bottom_attach>1</bottom_attach>
+		    <xpad>0</xpad>
+		    <ypad>0</ypad>
+		    <xexpand>True</xexpand>
+		    <yexpand>False</yexpand>
+		    <xshrink>False</xshrink>
+		    <yshrink>False</yshrink>
+		    <xfill>True</xfill>
+		    <yfill>False</yfill>
+		  </child>
+		</widget>
+
+		<widget>
+		  <class>GtkCheckButton</class>
+		  <name>csv_bang</name>
+		  <can_focus>True</can_focus>
+		  <label>Ban_g (!)</label>
+		  <active>False</active>
+		  <draw_indicator>True</draw_indicator>
+		  <child>
+		    <left_attach>2</left_attach>
+		    <right_attach>3</right_attach>
+		    <top_attach>0</top_attach>
+		    <bottom_attach>1</bottom_attach>
+		    <xpad>0</xpad>
+		    <ypad>0</ypad>
+		    <xexpand>True</xexpand>
+		    <yexpand>False</yexpand>
+		    <xshrink>False</xshrink>
+		    <yshrink>False</yshrink>
+		    <xfill>True</xfill>
+		    <yfill>False</yfill>
+		  </child>
+		</widget>
+
+		<widget>
+		  <class>GtkCheckButton</class>
+		  <name>csv_colon</name>
+		  <can_focus>True</can_focus>
+		  <label>_Colon (:)</label>
+		  <active>False</active>
+		  <draw_indicator>True</draw_indicator>
+		  <child>
+		    <left_attach>0</left_attach>
+		    <right_attach>1</right_attach>
+		    <top_attach>1</top_attach>
+		    <bottom_attach>2</bottom_attach>
+		    <xpad>0</xpad>
+		    <ypad>0</ypad>
+		    <xexpand>True</xexpand>
+		    <yexpand>False</yexpand>
+		    <xshrink>False</xshrink>
+		    <yshrink>False</yshrink>
+		    <xfill>True</xfill>
+		    <yfill>False</yfill>
+		  </child>
+		</widget>
+
+		<widget>
+		  <class>GtkCheckButton</class>
+		  <name>csv_comma</name>
+		  <can_focus>True</can_focus>
+		  <label>Co_mma (,)</label>
+		  <active>False</active>
+		  <draw_indicator>True</draw_indicator>
+		  <child>
 		    <left_attach>1</left_attach>
 		    <right_attach>2</right_attach>
 		    <top_attach>1</top_attach>
@@ -460,9 +569,9 @@
 
 		<widget>
 		  <class>GtkCheckButton</class>
-		  <name>csv_custom</name>
+		  <name>csv_pipe</name>
 		  <can_focus>True</can_focus>
-		  <label>C_ustom</label>
+		  <label>P_ipe (|)</label>
 		  <active>False</active>
 		  <draw_indicator>True</draw_indicator>
 		  <child>
@@ -483,16 +592,16 @@
 
 		<widget>
 		  <class>GtkCheckButton</class>
-		  <name>csv_colon</name>
+		  <name>csv_semicolon</name>
 		  <can_focus>True</can_focus>
-		  <label>_Colon</label>
+		  <label>Semicolo_n (;)</label>
 		  <active>False</active>
 		  <draw_indicator>True</draw_indicator>
 		  <child>
 		    <left_attach>1</left_attach>
 		    <right_attach>2</right_attach>
-		    <top_attach>0</top_attach>
-		    <bottom_attach>1</bottom_attach>
+		    <top_attach>2</top_attach>
+		    <bottom_attach>3</bottom_attach>
 		    <xpad>0</xpad>
 		    <ypad>0</ypad>
 		    <xexpand>True</xexpand>
@@ -505,17 +614,15 @@
 		</widget>
 
 		<widget>
-		  <class>GtkEntry</class>
-		  <name>csv_customseparator</name>
-		  <width>136</width>
+		  <class>GtkCheckButton</class>
+		  <name>csv_slash</name>
 		  <can_focus>True</can_focus>
-		  <editable>True</editable>
-		  <text_visible>True</text_visible>
-		  <text_max_length>1</text_max_length>
-		  <text></text>
+		  <label>Slas_h (/)</label>
+		  <active>False</active>
+		  <draw_indicator>True</draw_indicator>
 		  <child>
-		    <left_attach>1</left_attach>
-		    <right_attach>2</right_attach>
+		    <left_attach>2</left_attach>
+		    <right_attach>3</right_attach>
 		    <top_attach>2</top_attach>
 		    <bottom_attach>3</bottom_attach>
 		    <xpad>0</xpad>
@@ -615,7 +722,7 @@
 		      <class>GtkEntry</class>
 		      <child_name>GtkCombo:entry</child_name>
 		      <name>csv_textfield</name>
-		      <width>139</width>
+		      <width>90</width>
 		      <can_focus>True</can_focus>
 		      <editable>True</editable>
 		      <text_visible>True</text_visible>
@@ -664,7 +771,7 @@
 		<widget>
 		  <class>GnomeCanvas</class>
 		  <name>csv_canvas</name>
-		  <width>450</width>
+		  <width>473</width>
 		  <height>150</height>
 		  <can_focus>True</can_focus>
 		  <anti_aliased>False</anti_aliased>
@@ -683,7 +790,7 @@
 		<spacing>0</spacing>
 		<child>
 		  <padding>0</padding>
-		  <expand>True</expand>
+		  <expand>False</expand>
 		  <fill>True</fill>
 		</child>
 
@@ -750,7 +857,7 @@
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>label16</name>
-	    <width>480</width>
+	    <width>505</width>
 	    <label>Customize the columns using the add/remove buttons or the mouse : left click to create a new column, right click on a colum border to delete an existing column and hold the left mouse button on a column border and drag to resize a column.</label>
 	    <justify>GTK_JUSTIFY_LEFT</justify>
 	    <wrap>True</wrap>
@@ -1021,7 +1128,7 @@
 		<widget>
 		  <class>GnomeCanvas</class>
 		  <name>fixed_canvas</name>
-		  <width>450</width>
+		  <width>473</width>
 		  <height>150</height>
 		  <can_focus>True</can_focus>
 		  <anti_aliased>False</anti_aliased>
@@ -1040,7 +1147,7 @@
 		<spacing>0</spacing>
 		<child>
 		  <padding>0</padding>
-		  <expand>True</expand>
+		  <expand>False</expand>
 		  <fill>True</fill>
 		</child>
 
@@ -1107,7 +1214,7 @@
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>label6</name>
-	    <width>480</width>
+	    <width>505</width>
 	    <label>Select the format for each column. You can click in the column list on the left to select a column, or you can click in the preview. You can then enter a custom format or select one from the list on the right.</label>
 	    <justify>GTK_JUSTIFY_LEFT</justify>
 	    <wrap>True</wrap>
@@ -1218,7 +1325,7 @@
 		  <widget>
 		    <class>GtkLabel</class>
 		    <name>label7</name>
-		    <label>For_mat :</label>
+		    <label>_Format :</label>
 		    <justify>GTK_JUSTIFY_CENTER</justify>
 		    <wrap>False</wrap>
 		    <xalign>0.5</xalign>
@@ -1327,7 +1434,7 @@
 		<widget>
 		  <class>GnomeCanvas</class>
 		  <name>format_canvas</name>
-		  <width>450</width>
+		  <width>473</width>
 		  <height>150</height>
 		  <can_focus>True</can_focus>
 		  <anti_aliased>False</anti_aliased>
@@ -1346,7 +1453,7 @@
 		<spacing>0</spacing>
 		<child>
 		  <padding>0</padding>
-		  <expand>True</expand>
+		  <expand>False</expand>
 		  <fill>True</fill>
 		</child>
 
@@ -1376,20 +1483,6 @@
 	  </widget>
 	</widget>
       </widget>
-    </widget>
-
-    <widget>
-      <class>GnomeDruidPageFinish</class>
-      <name>stop_page</name>
-      <title>Finish</title>
-      <text>You have successfully finished the customization process.
-
-Please press finish.</text>
-      <background_color>25,25,112</background_color>
-      <logo_background_color>255,255,255</logo_background_color>
-      <textbox_color>255,255,255</textbox_color>
-      <text_color>0,0,0</text_color>
-      <title_color>255,255,255</title_color>
     </widget>
   </widget>
 </widget>

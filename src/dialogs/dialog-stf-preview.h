@@ -1,6 +1,9 @@
 #ifndef GNUMERIC_DIALOG_STF_PREVIEW_H
 #define GNUMERIC_DIALOG_STF_PREVIEW_H
 
+#include <config.h>
+#include <gnome.h>
+
 #include "sheet.h"
 #include "stf.h"
 
@@ -9,9 +12,9 @@
 #define CAPTION_COLOR "silver"
 #define CAPTION_COLOR_ACTIVE "gray"
 #define ROW_COLOR "white"
-#define ROW_COLOR_ACTIVE "black"
+#define ROW_COLOR_ACTIVE "lavender"
 #define TEXT_COLOR "black"
-#define TEXT_COLOR_ACTIVE "white"
+#define TEXT_COLOR_ACTIVE "black"
 
 #define COLUMN_CAPTION N_("Column %d")
 
