@@ -99,12 +99,10 @@ el_entry_activate (GtkEntry *entry, gpointer ignored)
 	if (el->unedited_text  == NULL)
 		return;
 
-	if (strcmp (el->unedited_text, text))
-		g_signal_emit (G_OBJECT (entry), el_signals [EDIT_FINISHED], 0,
-			       text, &reject);
-	else
-		reject = FALSE;
-
+	if (!strcmp (el->unedited_text, text))
+		text = NULL;
+	g_signal_emit (G_OBJECT (entry), el_signals [EDIT_FINISHED], 0,
+		       text, &reject);
 	if (reject)
 		editable_label_set_text (el, el->unedited_text);
 	el_stop_editing (el);
@@ -249,29 +247,38 @@ editable_label_get_text  (EditableLabel const *el)
 		: gtk_entry_get_text (GTK_ENTRY (el));
 }
 
+/**
+ * editable_label_set_color :
+ * @el :
+ * @base_color : optionally NULL.
+ * @text_color : optionally NULL.
+ *
+ * assign the specified colours.  If we are editing just store them for later use.
+ */
 void
 editable_label_set_color (EditableLabel *el, GdkColor *base_color, GdkColor *text_color)
 {
-	GdkColor base, text;
-
-	g_return_if_fail (IS_EDITABLE_LABEL (el));
-	g_return_if_fail (el->unedited_text == NULL);
-
-	if (base_color == NULL && text_color == NULL)
-		return;
-
-	if (base_color == NULL)
-		base_color = &el->base;
-	if (text_color == NULL)
-		text_color = &el->text;
-
-	base = *base_color;
-	text = *text_color;
-
 	g_return_if_fail (IS_EDITABLE_LABEL (el));
 
-	/* ignore the current colors */
-	el_set_color_gdk (el, &base, &text);
+	if (el->unedited_text == NULL) {
+		if (base_color != NULL)
+			el->base = *base_color;
+		if (text_color != NULL)
+			el->text  = *text_color;
+	} else if (base_color != NULL || text_color != NULL) {
+		GdkColor base, text;
+
+		if (base_color == NULL)
+			base_color = &el->base;
+		if (text_color == NULL)
+			text_color = &el->text;
+
+		base = *base_color;
+		text = *text_color;
+
+		/* ignore the current colors */
+		el_set_color_gdk (el, &base, &text);
+	}
 }
 
 GtkWidget *

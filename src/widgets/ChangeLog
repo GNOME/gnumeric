@@ -1,3 +1,9 @@
+2002-03-15  Jody Goldberg <jody@gnome.org>
+
+	* widget-editable-label.c (editable_label_set_color) : permit colour
+	  changes while editing, and comment the routine.
+	(el_entry_activate) : always call edit_finished.
+
 2002-03-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* widget-editable-label.[ch] (el_start_editing) : renamed to 
