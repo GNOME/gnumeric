@@ -139,9 +139,9 @@ html_get_color (MStyle *mstyle, MStyleElementType t, guint *r, guint *g, guint *
 
 	color = mstyle_get_color (mstyle, t);
 
-	*r = color->color.red >> 8;
-	*g = color->color.green >> 8;
-	*b = color->color.blue >> 8;
+	*r = color->red >> 8;
+	*g = color->green >> 8;
+	*b = color->blue >> 8;
 }
 
 static void
@@ -242,9 +242,9 @@ html_get_border_style (StyleBorder *border)
 
 	if (border->color) {
 		guint r, g, b;
-		r = border->color->color.red >> 8;
-		g = border->color->color.green >> 8;
-		b = border->color->color.blue >> 8;
+		r = border->color->red >> 8;
+		g = border->color->green >> 8;
+		b = border->color->blue >> 8;
 		g_string_append_printf (text, " #%02X%02X%02X", r, g, b);
 	}
 

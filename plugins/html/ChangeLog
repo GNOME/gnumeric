@@ -1,3 +1,9 @@
+2003-03-26  Jody Goldberg <jody@gnome.org>
+
+	* html.c (html_get_color) : no need to operate on the pixel directly.
+	  Use the rgb in the StyleColor.
+	(html_get_border_style) : ditto.
+
 2003-01-28  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.16
