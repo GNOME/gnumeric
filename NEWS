@@ -9,6 +9,9 @@ Andreas:
 Ben Liblit:
 	* Move the various compile time paths into a generated header.
 
+Chema:
+	* Grandma rides again!
+
 Jean Br?fort:
 	* Initial version of gradient editor for chart style page.
 
@@ -29,6 +32,9 @@ Jody:
 	* Basic Pie & Bar/Col plots
 	* Initial xls import for new plots (no formatting)
 	* Have HTML exporters handle utf8
+	* Extend layout engine in GogChart.
+	* Nice redraw speedup for images and charts.
+	* Fix undo bug for moving merged regions (yummy).
 
 Morten:
 	* New function COLUMNNUMBER.
