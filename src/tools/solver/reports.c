@@ -40,6 +40,8 @@
 #include "mathfunc.h"
 #include "analysis-tools.h"
 #include "reports-write.h"
+#include "api.h"
+#include "solver.h"
 
 #include <math.h>
 #include <stdlib.h>
@@ -52,10 +54,6 @@
 /* ------------------------------------------------------------------------- */
 
 
-/* FIXME: Remove when done */
-extern SolverConstraint*
-get_solver_constraint (SolverResults *res, int n);
-
 static char *
 find_name (Sheet *sheet, int col, int row)
 {
@@ -91,47 +89,6 @@ find_name (Sheet *sheet, int col, int row)
 }
 
 
-/*
- * Fetches the CPU model and the speed of it.  Returns TRUE if succeeded,
- * FALSE otherwise.  FIXME: Currently Linux only.
- */
-gboolean
-get_cpu_info (gchar *model_name, gchar *cpu_mhz, unsigned int size)
-{
-        FILE     *in;
-	gchar    buf[256], *p;
-	gboolean model = FALSE, cpu = FALSE;
-	unsigned len;
-
-	in = fopen ("/proc/cpuinfo", "r");
-	if (in == NULL)
-	        return FALSE;
-	while (fgets (buf, 255, in) != NULL) {
-	        if (strncmp (buf, "model name", 10) == 0) {
-		        p = g_strrstr (buf, ":");
-			len = strlen (p);
-			if (p != NULL && p[1] != '\0' && p[len - 1] == '\n') {
-			        p[len - 1] = '\0';
-				strncpy (model_name, p + 2, MIN (size, len - 2));
-				model_name [len - 2] = '\0';
-				model = TRUE;
-			}
-		}
-	        if (strncmp (buf, "cpu MHz", 7) == 0) {
-		        p = g_strrstr (buf, ":");
-			len = strlen (p);
-			if (p != NULL && p[1] != '\0' && p[len - 1] == '\n') {
-			        p[len - 1] = '\0';
-				strncpy (cpu_mhz, p + 2, MIN (size, len - 2));
-				cpu_mhz [len - 2] = '\0';
-				cpu = TRUE;
-			}
-		}
-	}
-
-	return model & cpu;
-}
-
 static void
 get_input_variable_names (SolverResults *res, Sheet *sheet)
 {
@@ -139,7 +96,7 @@ get_input_variable_names (SolverResults *res, Sheet *sheet)
 	int  i;
 
 	for (i = 0; i < res->param->n_variables; i++) {
-	        cell = get_solver_input_var (res, i);
+	        cell = solver_get_input_var (res, i);
 		res->variable_names[i] = find_name (sheet, cell->pos.col,
 						    cell->pos.row);
 	}
@@ -152,22 +109,218 @@ get_constraint_names (SolverResults *res, Sheet *sheet)
 	int  i;
 
 	for (i = 0; i < res->param->n_total_constraints; i++) {
-	        SolverConstraint *c = get_solver_constraint (res, i);
+	        SolverConstraint *c = solver_get_constraint (res, i);
 		res->constraint_names[i] = find_name (sheet, c->lhs.col,
 						      c->lhs.row);
 	}
 }
 
 
+/*
+ * Returns the value of a cell when one of the input variables is reset.
+ */
+static gnum_float
+get_target_cell_value (SolverResults *res, Cell *target_cell,
+		       int col, gnum_float x, gnum_float *old_value)
+{
+        Cell *var_cell;
+
+	var_cell   = solver_get_input_var (res, col);
+	*old_value = value_get_as_float (var_cell->value);
+	sheet_cell_set_value (var_cell, value_new_float (x));
+	cell_eval (target_cell);
+
+	return value_get_as_float (target_cell->value);
+}
+
+static gboolean
+is_still_feasible (Sheet *sheet, SolverResults *res, int col, gnum_float value)
+{
+        gnum_float c_value, rhs, old_value = res->optimal_values [col];
+	int        i, n;
+	Cell       *cell;
+	gboolean   status = FALSE;
+
+	res->optimal_values[col] = value;
+	for (i = 0; i < res->param->n_total_constraints; i++) {
+	        SolverConstraint *c = solver_get_constraint (res, i);
+
+		c_value = 0;
+		for (n = 0; n < res->param->n_variables; n++)
+		        c_value += res->constr_coeff[i][n]
+			  * res->optimal_values[n];
+		cell = sheet_cell_get (sheet, c->rhs.col, c->rhs.row);
+		rhs  = value_get_as_float (cell->value);
+
+		switch (c->type) {
+		case SolverLE:
+		        if (c_value - 0.000001 /* FIXME */ > rhs)
+			        goto out;
+			break;
+		case SolverGE:
+		        if (c_value + 0.000001 /* FIXME */ < rhs)
+			        goto out;
+			break;
+		case SolverEQ:
+		        if (gnumabs (c_value - rhs) < 0.000001 /* FIXME */)
+			        goto out;
+			break;
+		case SolverINT:
+		case SolverBOOL:
+		case SolverOF:
+		        break;
+		}
+	}
+	status = TRUE;
+ out:
+	res->optimal_values[col] = old_value;
+	return status;
+}
+
+/*
+ * Calculate upper and lower limits for the limits reporting.
+ */
+static void
+calculate_limits (Sheet *sheet, SolverParameters *param, SolverResults *res)
+{
+        int i, n;
+
+	for (i = 0; i < param->n_total_constraints; i++) {
+	        gnum_float       slack, lhs, rhs, x, y, old_val;
+		SolverConstraint *c = res->constraints_array[i];
+		Cell             *cell;
+
+		cell  = sheet_cell_get (sheet, c->rhs.col, c->rhs.row);
+		rhs   = value_get_as_float (cell->value);
+		cell  = sheet_cell_get (sheet, c->lhs.col, c->lhs.row);
+		lhs   = value_get_as_float (cell->value);
+		slack = gnumabs (rhs - lhs);
+		for (n = 0; n < param->n_variables; n++) {
+		        x = get_target_cell_value (res, cell, n, 0, &old_val);
+			x = rhs - x;
+			if (res->constr_coeff[i][n] != 0) {
+			        x = x / res->constr_coeff[i][n];
+				if (! is_still_feasible (sheet, res, n, x)) {
+				        get_target_cell_value (res, cell, n,
+							       old_val, &y);
+				        continue;
+				}
+				if (x < res->limits[n].lower_limit
+				    && (x >= 0 ||
+					!param->options.assume_non_negative)) {
+				        res->limits[n].lower_limit = x;
+					cell = solver_get_target_cell (sheet);
+					get_target_cell_value (res, cell, n,
+							       x, &y);
+					cell_eval (cell);
+					res->limits[n].lower_result = 
+					        value_get_as_float (cell->value);
+				}
+				if (x > res->limits[n].upper_limit) {
+				        res->limits[n].upper_limit = x;
+					cell = solver_get_target_cell (sheet);
+					get_target_cell_value (res, cell, n,
+							       x, &y);
+					cell_eval (cell);
+					res->limits[n].upper_result =
+					        value_get_as_float (cell->value);
+				}
+			} else ; /* FIXME */
+			get_target_cell_value (res, cell, n, old_val, &y);
+		}
+	}
+}
+
+/*
+ * Fetch the optimal variable values and store them into the input cells.
+ */
+static void
+set_optimal_values_to_sheet (SolverProgram *program, Sheet *sheet,
+			     SolverResults *res, gnum_float *store)
+{
+        int               i;
+	SolverLPAlgorithm *alg = &lp_algorithm[res->param->options.algorithm];
+	Cell              *cell;
+
+	for (i = 0; i < res->param->n_variables; i++) {
+	        store[i] = alg->get_obj_fn_var_fn (program, i);
+		cell = res->input_cells_array[i];
+		sheet_cell_set_value (cell, value_new_float (store[i]));
+	}
+	workbook_recalc (sheet->workbook);
+}
+
 gboolean
 solver_prepare_reports (SolverProgram *program, SolverResults *res,
 			Sheet *sheet)
 {
+	SolverParameters  *param = res->param;
+        Cell              *cell;
+	int               i;
+	SolverLPAlgorithm *alg = &lp_algorithm[param->options.algorithm];
+
         res->target_name = find_name (sheet,
 				      res->param->target_cell->pos.col,
 				      res->param->target_cell->pos.row);
         get_input_variable_names (res, sheet);
         get_constraint_names (res, sheet);
+
+	/*
+	 * Set optimal values into the program.
+	 */
+	set_optimal_values_to_sheet (program, sheet, res,
+				     &res->optimal_values[0]);
+
+	/*
+	 * Fetch the target cell value from the sheet since it's
+	 * formula may have a constant increment or decrement.
+	 */
+	cell = sheet_cell_get (sheet, param->target_cell->pos.col,
+			       param->target_cell->pos.row);
+	res->value_of_obj_fn = value_get_as_float (cell->value);
+
+	/*
+	 * Initialize the limits structure.
+	 */
+	for (i = 0; i < param->n_variables; i++) {
+	        res->limits[i].lower_limit = res->limits[i].upper_limit =
+		        res->optimal_values[i];
+		res->limits[i].lower_result = 
+		        res->limits[i].upper_result =
+		        value_get_as_float (cell->value);
+	}
+
+	/*
+	 * Go through the constraints; save LHS, RHS, slack
+	 */
+	for (i = 0; i < param->n_total_constraints; i++) {
+	        SolverConstraint *c = solver_get_constraint (res, i);
+
+		res->shadow_prizes[i] = alg->get_shadow_prize_fn (program, i);
+		cell = sheet_cell_get (sheet, c->lhs.col, c->lhs.row);
+		res->lhs[i] = value_get_as_float (cell->value);
+		cell = sheet_cell_get (sheet, c->rhs.col, c->rhs.row);
+		res->rhs[i] = value_get_as_float (cell->value);
+		res->slack[i] = gnumabs (res->rhs[i] - res->lhs[i]);
+	}
+
+	if (param->options.limits_report && ! res->ilp_flag)
+	        calculate_limits (sheet, param, res);
+
+	/* Get allowable increase and decrease for constraints. */
+	if (param->options.sensitivity_report && ! res->ilp_flag) {
+		gnum_float *store = g_new (gnum_float, param->n_variables);
+	        for (i = 0; i < param->n_total_constraints; i++) {
+			SolverConstraint *c = res->constraints_array[i];
+
+			if (c->type == SolverINT || c->type == SolverBOOL)
+			        continue;
+
+			if (res->slack[i] < 0.0001 /* FIXME */) {
+			        res->constr_allowable_increase[i] = 0; /* FIXME */
+			}
+		}
+	}
 }
 
 void

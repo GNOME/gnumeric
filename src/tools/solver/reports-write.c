@@ -50,9 +50,46 @@
 
 /* ------------------------------------------------------------------------- */
 
-/* FIXME: Remove these when done */
-extern gboolean
-get_cpu_info (gchar *model_name, gchar *cpu_mhz, unsigned int size);
+/*
+ * Fetches the CPU model and the speed of it.  Returns TRUE if succeeded,
+ * FALSE otherwise.  FIXME: Currently Linux only.
+ */
+gboolean
+get_cpu_info (gchar *model_name, gchar *cpu_mhz, unsigned int size)
+{
+        FILE     *in;
+	gchar    buf[256], *p;
+	gboolean model = FALSE, cpu = FALSE;
+	unsigned len;
+
+	in = fopen ("/proc/cpuinfo", "r");
+	if (in == NULL)
+	        return FALSE;
+	while (fgets (buf, 255, in) != NULL) {
+	        if (strncmp (buf, "model name", 10) == 0) {
+		        p = g_strrstr (buf, ":");
+			len = strlen (p);
+			if (p != NULL && p[1] != '\0' && p[len - 1] == '\n') {
+			        p[len - 1] = '\0';
+				strncpy (model_name, p + 2, MIN (size, len - 2));
+				model_name [len - 2] = '\0';
+				model = TRUE;
+			}
+		}
+	        if (strncmp (buf, "cpu MHz", 7) == 0) {
+		        p = g_strrstr (buf, ":");
+			len = strlen (p);
+			if (p != NULL && p[1] != '\0' && p[len - 1] == '\n') {
+			        p[len - 1] = '\0';
+				strncpy (cpu_mhz, p + 2, MIN (size, len - 2));
+				cpu_mhz [len - 2] = '\0';
+				cpu = TRUE;
+			}
+		}
+	}
+
+	return model & cpu;
+}
 
 
 static void
@@ -151,7 +188,7 @@ solver_answer_report (WorkbookControl *wbc,
 
 	for (i = 0; i < vars; i++) {
 		/* Set `Cell' column */
-	        cell = get_solver_input_var (res, i);
+	        cell = solver_get_input_var (res, i);
 		dao_set_cell (&dao, 1, 12 + i, cell_name (cell));
 
 		/* Set `Name' column */
@@ -279,7 +316,7 @@ solver_sensitivity_report (WorkbookControl *wbc,
 
 	for (i = 0; i < vars; i++) {
 		/* Set `Cell' column */
-	        cell = get_solver_input_var (res, i);
+	        cell = solver_get_input_var (res, i);
 		dao_set_cell (&dao, 1, 8 + i, cell_name (cell));
 
 		/* Set `Name' column */
@@ -348,7 +385,7 @@ solver_sensitivity_report (WorkbookControl *wbc,
 
 		/* Set `Allowable Increase/Decrease' columns */
 		if (res->slack[i] < 0.001  /* FIXME */) {
-		  dao_set_cell_float (&dao, 6, 12 + vars + i,
+		        dao_set_cell_float (&dao, 6, 12 + vars + i,
 				      res->constr_allowable_increase[i]);
 		        /* FIXME */
 		} else {
@@ -414,7 +451,7 @@ solver_limits_report (WorkbookControl *wbc,
 	dao.sheet->hide_grid = TRUE;
 	vars                 = res->param->n_variables;
 
-	/* Set this to fool the autofit_column function.  (It will be
+	/* Set thise to fool the autofit_column function.  (They will be
 	 * overwriten). */
 	dao_set_cell (&dao, 0, 0, "A");
 	dao_set_cell (&dao, 4, 3, "A");
@@ -473,7 +510,7 @@ solver_limits_report (WorkbookControl *wbc,
 
 	for (i = 0; i < vars; i++) {
 		/* Set `Adjustable Cell' column */
-	        cell = get_solver_input_var (res, i);
+	        cell = solver_get_input_var (res, i);
 		dao_set_cell (&dao, 1, 12 + i, cell_name (cell));
 
 		/* Set `Adjustable Name' column */
@@ -829,9 +866,7 @@ solver_program_report (WorkbookControl *wbc,
 		        dao_set_cell (&dao, col*3 + 1, row, "=");
 		        break;
 		case SolverINT:
-		        break;
 		case SolverBOOL:
-		        break;
 		case SolverOF:
 		        break;
 		}

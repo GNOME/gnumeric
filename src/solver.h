@@ -194,6 +194,9 @@ SolverParameters *solver_lp_copy       (const SolverParameters *src_param,
 void             solver_param_destroy  (SolverParameters *);
 void             solver_results_free   (SolverResults *res);
 
-Cell             *get_solver_input_var (SolverResults *res, int n);
+Cell*            solver_get_target_cell (Sheet *sheet);
+Cell*            solver_get_input_var (SolverResults *res, int n);
+SolverConstraint* solver_get_constraint (SolverResults *res, int n);
+
 
 #endif
