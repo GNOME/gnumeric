@@ -1,3 +1,9 @@
+2002-07-11  Morten Welinder  <terra@diku.dk>
+
+	* gsl-complex.c (gsl_complex_abs): Remove.  (Did the exact same
+	thing as complex_mod.)
+	: Constify and make gnum_float safe.
+
 2002-07-07  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* functions.c, gsl-complex.c: Implemented the following fns:
