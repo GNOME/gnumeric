@@ -65,7 +65,9 @@ app-dist-hook:
 
 install-data-am: omf
 	-$(mkinstalldirs) $(DESTDIR)$(docdir)/figures
-	-cp $(srcdir)/$(xml_files) $(DESTDIR)$(docdir)
+	-for xml_file in $(xml_files); do \
+	 cp $(srcdir)/$$xml_file $(DESTDIR)$(docdir); \
+	done
 	-for file in $(srcdir)/figures/*.png; do \
 	  basefile=`echo $$file | sed -e  's,^.*/,,'`; \
 	  $(INSTALL_DATA) $$file $(DESTDIR)$(docdir)/figures/$$basefile; \
