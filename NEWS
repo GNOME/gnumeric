@@ -59,6 +59,7 @@ Morten:
 	* Speed up stf import.
 	* Rewrote stf importer to be GtkTreeView/GPtrArray based instead
 	  of GnomeCanvas/GList.
+	* Fix a ton of stf bugs.
 
 --------------------------------------------------------------------------
 

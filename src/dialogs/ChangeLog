@@ -1,5 +1,9 @@
 2003-06-05  Morten Welinder  <terra@gnome.org>
 
+	* dialog-stf-fixed-page.c (fixed_page_prepare): Set the number of
+	lines to parse.
+	* dialog-stf-csv-page.c (csv_page_prepare): Ditto.
+
 	* dialog-stf.c (stf_dialog): Take an optional encoding.  Specify
 	that input is not necessarily UTF-8.
 

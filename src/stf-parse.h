@@ -59,27 +59,27 @@ void                stf_parse_options_free                            (StfParseO
 /* MANIPULATION of stf options struct */
 
 void stf_parse_options_set_type                        (StfParseOptions_t *parseoptions,
-								       StfParseType_t const parsetype);
+							StfParseType_t const parsetype);
 void stf_parse_options_clear_line_terminator           (StfParseOptions_t *parseoptions);
 void stf_parse_options_add_line_terminator             (StfParseOptions_t *parseoptions,
-                                                                       char const *terminator);
+							char const *terminator);
 void stf_parse_options_remove_line_terminator          (StfParseOptions_t *parseoptions,
-                                                                       char const *terminator);
+							char const *terminator);
 void stf_parse_options_set_lines_to_parse              (StfParseOptions_t *parseoptions,
-								       int const lines);
+							int const lines);
 void stf_parse_options_set_trim_spaces                 (StfParseOptions_t *parseoptions,
-								       StfTrimType_t const trim_spaces);
+							StfTrimType_t const trim_spaces);
 void stf_parse_options_csv_set_separators              (StfParseOptions_t *parseoptions,
-								       char const *character, GSList const *string);
+							char const *character, GSList const *string);
 void stf_parse_options_csv_set_stringindicator         (StfParseOptions_t *parseoptions,
 							gunichar const stringindicator);
 void stf_parse_options_csv_set_indicator_2x_is_single  (StfParseOptions_t *parseoptions,
-								       gboolean const indic_2x);
+							gboolean const indic_2x);
 void stf_parse_options_csv_set_duplicates              (StfParseOptions_t *parseoptions,
-								       gboolean const duplicates);
+							gboolean const duplicates);
 void stf_parse_options_fixed_splitpositions_clear      (StfParseOptions_t *parseoptions);
 void stf_parse_options_fixed_splitpositions_add        (StfParseOptions_t *parseoptions,
-								       int const position);
+							int const position);
 
 /* USING the stf structs to actually do some parsing, these are the lower-level functions and utility functions */
 
@@ -89,14 +89,10 @@ void                stf_parse_general_free                            (GPtrArray
 GPtrArray          *stf_parse_lines                                   (const char *data,
 								       gboolean with_lineno);
 
-int                 stf_parse_get_rowcount                            (StfParseOptions_t *parseoptions,
-								       char const *data);
-
 int                 stf_parse_get_longest_row_width                   (StfParseOptions_t *parseoptions,
 								       const char *data);
 
 int	            stf_parse_convert_to_unix                         (char *data);
-char const         *stf_parse_is_valid_data                           (char const *data, int len);
 
 void                stf_parse_options_fixed_autodiscover              (StfParseOptions_t *parseoptions,
 								       int const data_lines, char const *data);

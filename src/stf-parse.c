@@ -385,17 +385,13 @@ stf_parse_options_valid (StfParseOptions_t *parseoptions)
 	g_return_val_if_fail (parseoptions != NULL, FALSE);
 
 	if (parseoptions->parsetype == PARSE_TYPE_CSV) {
-
 		if (parseoptions->stringindicator == '\0') {
-
 			g_warning ("STF: Cannot have \\0 as string indicator");
 			return FALSE;
 		}
 
 	} else if (parseoptions->parsetype == PARSE_TYPE_FIXED) {
-
 		if (!parseoptions->splitpositions) {
-
 			g_warning ("STF: No splitpositions in struct");
 			return FALSE;
 		}
@@ -631,20 +627,17 @@ stf_parse_fixed_cell (Source_t *src, StfParseOptions_t *parseoptions)
 		splitval = -1;
 
 	while (*cur != '\0' && !compare_terminator (cur, parseoptions) && splitval != src->linepos) {
-		g_string_append_c (res, *cur);
+		g_string_append_unichar (res, g_utf8_get_char (cur));
 
 		src->linepos++;
-	        cur++;
+	        cur = g_utf8_next_char (cur);
 		len++;
 	}
 
 	src->position = cur;
 
-	if (len != 0) {
-		char *tmp = res->str;
-		g_string_free (res, FALSE);
-		return tmp;
-	}
+	if (len != 0)
+		return g_string_free (res, FALSE);
 
 	g_string_free (res, TRUE);
 	return NULL;
@@ -747,7 +740,7 @@ stf_parse_general (StfParseOptions_t *parseoptions, char const *data)
 			: stf_parse_fixed_line (&src, parseoptions);
 
 		g_ptr_array_add (lines, line);
-		src.position++;
+		src.position = g_utf8_next_char (src.position);
 	}
 
 	return lines;
@@ -791,6 +784,7 @@ stf_parse_lines (const char *data, gboolean with_lineno)
 				break;
 
 			default:
+				/* This ought to be UTF-8 safe.  */
 				data++;
 			}
 		}
@@ -798,40 +792,6 @@ stf_parse_lines (const char *data, gboolean with_lineno)
 		g_ptr_array_add (lines, line);
 	}
 	return lines;
-}
-
-
-/**
- * stf_parse_get_rowcount:
- *
- * returns : number of rows in @data
- **/
-int
-stf_parse_get_rowcount (StfParseOptions_t *parseoptions, char const *data)
-{
-	char const *s;
-	int rowcount = 0;
-	gboolean last_row_empty = TRUE;
-	StfTokenType_t ttype;
-
-	g_return_val_if_fail (parseoptions != NULL, 0);
-	g_return_val_if_fail (data != NULL, 0);
-	g_return_val_if_fail (g_utf8_validate (data, -1, NULL), 0);
-
-	for (s = data; s && *s != '\0';
-	     s = stf_parse_next_token(s, parseoptions, &ttype)) {
-		if (ttype == STF_TOKEN_TERMINATOR) {
-			rowcount++;
-			last_row_empty = TRUE;
-		} else
-			last_row_empty = FALSE;
-
-		if (parseoptions->parselines != -1)
-			if (rowcount > parseoptions->parselines)
-				break;
-	}
-
-	return last_row_empty ? rowcount : rowcount + 1;
 }
 
 /**
@@ -850,7 +810,7 @@ stf_parse_get_longest_row_width (StfParseOptions_t *parseoptions, char const *da
 	g_return_val_if_fail (parseoptions != NULL, 0);
 	g_return_val_if_fail (data != NULL, 0);
 
-	for (s = data; *s != '\0'; s++) {
+	for (s = data; *s; s = g_utf8_next_char (s)) {
 		if (compare_terminator (s, parseoptions) || s[1] == '\0') {
 			if (len > longest)
 				longest = len;
@@ -905,45 +865,6 @@ stf_parse_convert_to_unix (char *data)
 	return d - data;
 }
 
-/**
- * stf_is_valid_data
- *
- * returns wether the input data is valid to import.
- * (meaning it checks wether it is text only)
- *
- * returns : NULL if valid, a pointer to the invalid character otherwise
- **/
-char const *
-stf_parse_is_valid_data (char const *data, int buf_len)
-{
-	char const *s, *end;
-#ifdef HAVE_WCTYPE_H
-	wchar_t wstr;
-	int len;
-#endif
-
-	end = data + buf_len;
-	for (s = data; s < end;) {
-#ifdef HAVE_WCTYPE_H
-		len = mblen(s, MB_CUR_MAX);
-		if (len == -1)
-			return (char *)s;
-		if (len > 1) {
-			if (mbstowcs (&wstr, s, 1) == 1 &&
-			    !iswprint (wstr) && !iswspace (wstr))
-				return (char *)s;
-			s += len;
-		} else
-#endif
-		{
-			if (!isprint ((unsigned char)*s) && !isspace ((unsigned char)*s))
-				return (char *)s;
-			s++;
-		}
-	}
-
-	return NULL;
-}
 
 /**
  * stf_parse_options_fixed_autodiscover:
@@ -981,16 +902,13 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int const
 		int position = 0;
 
 		while (*iterator && !compare_terminator (iterator, parseoptions)) {
-
 			if (!begin_recorded && *iterator == ' ') {
-
 				disc = g_new0 (AutoDiscovery_t, 1);
 
 				disc->start = position;
 
 				begin_recorded = TRUE;
 			} else if (begin_recorded && *iterator != ' ') {
-
 				disc->stop = position;
 				list = g_slist_prepend (list, disc);
 
@@ -1063,7 +981,6 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int const
 	 * do this if there are no columns at all.
 	 */
 	if (my_garray_len (parseoptions->splitpositions) > 0) {
-
 		/*
 		 * Try to find columns that look like :
 		 *
@@ -1094,15 +1011,12 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int const
 				num_spaces   = -1;
 				spaces_start = 0;
 				while (*iterator && !compare_terminator (iterator, parseoptions)) {
-
 					if (pos == begin) {
-
 						if (*iterator == ' ')
 							left_aligned = FALSE;
 
 						trigger = TRUE;
 					} else if (pos == end - 1) {
-
 						if (*iterator == ' ')
 							right_aligned = FALSE;
 
@@ -1111,11 +1025,9 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int const
 
 					if (trigger || pos == end - 1) {
 						if (!space_trigger && *iterator == ' ') {
-
 							space_trigger = TRUE;
 							spaces_start = pos;
 						} else if (space_trigger && *iterator != ' ') {
-
 							space_trigger = FALSE;
 							num_spaces = pos - spaces_start;
 						}
@@ -1169,15 +1081,12 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int const
 				int pos = 0;
 
 				while (*iterator && !compare_terminator (iterator, parseoptions)) {
-
-
 					if (pos == begin)
 						trigger = TRUE;
 					else if (pos == end)
 						trigger = FALSE;
 
 					if (trigger) {
-
 						if (*iterator != ' ')
 							only_spaces = FALSE;
 					}

@@ -410,7 +410,7 @@ fixed_page_prepare (G_GNUC_UNUSED GnomeDruidPage *page,
 	GtkAdjustment *spinadjust;
 
 	stf_parse_options_set_trim_spaces (pagedata->fixed.parseoptions, TRIM_TYPE_NEVER);
-
+	stf_parse_options_set_lines_to_parse (pagedata->fixed.parseoptions, pagedata->importlines);
 #if 0
 	stf_preview_set_startrow (pagedata->fixed.renderdata, GTK_RANGE (pagedata->fixed.fixed_scroll)->adjustment->value);
 #endif

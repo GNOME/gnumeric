@@ -1,5 +1,12 @@
 2003-06-05  Morten Welinder  <terra@gnome.org>
 
+	* src/stf.c (stf_read_default_probe): Delete.
+
+	* src/stf-parse.c (stf_parse_get_rowcount): Delete.
+	(stf_parse_fixed_cell): Make UTF-8 safe.
+	(stf_parse_get_longest_row_width): Ditto.
+	(stf_parse_is_valid_data): Delete.
+
 	* src/stf.c (stf_preparse): Butcher this.  Don't do encodings
 	here.
 

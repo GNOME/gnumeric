@@ -382,24 +382,6 @@ stf_read_workbook_auto_csvtab (GnmFileOpener const *fo, gchar const *enc,
 	g_free (data);
 }
 
-static gboolean
-stf_read_default_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
-{
-	guint8 const *data;
-	gsf_off_t remain;
-	int len;
-
-	if (pl < FILE_PROBE_CONTENT)
-		return FALSE;
-
-	if (gsf_input_seek (input, 0, G_SEEK_SET))
-		return FALSE;
-	remain = gsf_input_remaining (input);
-	len = MIN (remain, STF_PROBE_SIZE);
-	data = gsf_input_read (input, len, NULL);
-	return (data != NULL) && (stf_parse_is_valid_data (data, len) == NULL);
-}
-
 /***********************************************************************************/
 
 static gboolean
@@ -452,7 +434,7 @@ stf_init (void)
 	gnm_file_opener_register (gnm_file_opener_new_with_enc (
 		"Gnumeric_stf:stf_csvtab",
 		_("Comma or tab separated files (CSV/TSV)"),
-		stf_read_default_probe, stf_read_workbook_auto_csvtab), 0);
+		NULL, stf_read_workbook_auto_csvtab), 0);
 	gnm_file_opener_register (gnm_file_opener_new_with_enc (
 		"Gnumeric_stf:stf_druid",
 		_("Text import (configurable)"),
