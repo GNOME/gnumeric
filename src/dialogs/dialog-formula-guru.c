@@ -735,11 +735,11 @@ dialog_formula_guru_init (FormulaGuruState *state)
 		G_CALLBACK (cb_dialog_formula_guru_selection_changed), state);
 
 	column = gtk_tree_view_column_new_with_attributes (_("Name"),
-							   gtk_cell_renderer_text_new (),
+							   gnumeric_cell_renderer_text_new (),
 							   "text", ARG_NAME, NULL);
 	gtk_tree_view_append_column (state->treeview, column);
 	column = gtk_tree_view_column_new_with_attributes (_("Type"),
-							   gtk_cell_renderer_text_new (),
+							   gnumeric_cell_renderer_text_new (),
 							   "text", ARG_TYPE, NULL);
 	gtk_tree_view_append_column (state->treeview, column);
 	renderer = gnumeric_cell_renderer_expr_entry_new (state->wbcg);
@@ -753,7 +753,6 @@ dialog_formula_guru_init (FormulaGuruState *state)
 	gtk_tree_view_append_column (state->treeview, column);
 	gtk_tree_view_set_headers_visible (state->treeview, TRUE);
 	gtk_container_add (GTK_CONTAINER (scrolled), GTK_WIDGET (state->treeview));
-	gtk_tree_view_set_rules_hint (state->treeview, TRUE);
 	/* Finished set-up of treeview */
 
 	state->ok_button = glade_xml_get_widget (state->gui, "ok_button");

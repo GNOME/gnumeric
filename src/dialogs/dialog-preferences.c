@@ -27,10 +27,11 @@
 #include <gnumeric.h>
 #include "application.h"
 #include "dialogs.h"
-#include "widgets/widget-font-selector.h"
 #include "mstyle.h"
 #include "value.h"
 #include "number-match.h"
+#include "widgets/widget-font-selector.h"
+#include "widgets/gnumeric-cell-renderer-text.h"
 
 #include <gui-util.h>
 #include <libgnome/gnome-i18n.h>
@@ -165,7 +166,7 @@ static  GtkWidget *pref_tree_initializer (PrefState *state, gpointer data)
 	gtk_tree_view_column_set_sort_column_id (column, PREF_NAME);
 	gtk_tree_view_append_column (view, column);
 
-	renderer = gtk_cell_renderer_text_new ();
+	renderer = gnumeric_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new_with_attributes (_("Value"),
 							   renderer,
 							   "text", PREF_VALUE, 

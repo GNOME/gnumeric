@@ -1,3 +1,8 @@
+2002-04-02  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-formula-guru.c : use gnumeric-cell-renderer-text
+	* dialog-preferences.c : use gnumeric-cell-renderer-text
+
 2002-04-01  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-cell-sort.c (dialog_destroy) : fix leak
