@@ -25,7 +25,8 @@
 
 	<cmd name="FilePrintSetup"
 	    _label="Print S_etup..."
-	    _tip="Setup the page settings for your current printer"/>
+	    _tip="Setup the page settings for your current printer"
+	    pixtype="stock" pixname="gtk-print"/>
 	<cmd name="FilePrint"
 	    _label="_Print..."
 	    _tip="Print the current file"
@@ -172,6 +173,7 @@
 	    <separator/>
 
 	    <menuitem name="FileSummary" verb=""/>
+	    <menuitem name="FilePreferences" verb=""/>
 	    <placeholder name="FileHistory" delimit="top"/>
 
 	    <separator/>
@@ -335,6 +337,7 @@
 
       	    <separator/>
 
+            <!-- These don't work yet for Gnome 2 
 	    <menuitem name="InsertGraph" verb="GraphGuru"
 		pixtype="stock" pixname="Gnumeric_GraphGuru"
 		_label="_Graph..."
@@ -350,6 +353,17 @@
 		_label="_Shaped Object"
 		_tip="Inserts a Shaped Bonobo object"/>
 	    <separator/>
+            -->
+
+	    <menuitem name="InsertImage" verb=""
+		pixtype="stock" pixname="Gnumeric_InsertImage"
+		_label="_Image..."
+		_tip="Insert an image"/>
+
+	    <menuitem name="InsertFormula" verb=""
+		pixtype="stock" pixname="Gnumeric_FormulaGuru"
+		_label="_Function..."
+		_tip="Insert a function into the selected cell"/>
 
 	    <submenu name="Names" _label="_Name">
 		<menuitem name="Define" verb="EditNames"
@@ -714,6 +728,7 @@
 
 	<separator/>
 
+        <!-- These don't work yet for Gnome 2 
 	<toolitem name="GraphGuru"
 	    pixtype="stock" pixname="Gnumeric_GraphGuru"
 	    _label="Graph Guru"
@@ -731,6 +746,7 @@
 	    _label="Insert Shaped Component"
 	    _tip="Insert a shaped component into the spreadsheet"
 	    verb="InsertShapedComponent" />
+        -->
 
 	<control name="SheetZoom"
 	    _tip="Zoom the spreadsheet in or out"
@@ -891,6 +907,7 @@
 	    pixtype="stock" pixname="Gnumeric_ObjectRadiobutton"
 	    _label="Radio Button"
 	    _tip="Create a radio button" verb="CreateRadiobutton"/>
+	-->
 
 	<toolitem name="List"
 	    pixtype="stock" pixname="Gnumeric_ObjectList"
@@ -901,7 +918,6 @@
 	    pixtype="stock" pixname="Gnumeric_ObjectCombo"
 	    _label="Combo Box"
 	    _tip="Create a combo box" verb="CreateCombo"/>
-	-->
 
 	<toolitem name="Line"
 	    pixtype="stock" pixname="Gnumeric_ObjectLine"

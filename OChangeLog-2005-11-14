@@ -1,3 +1,12 @@
+2002-04-12  Jon K Hellan  <hellan@acm.org>
+
+	* src/GNOME_Gnumeric.xml (FilePrintSetup): Add back "print" stock icon.
+	(FilePreferences): Add as menu item.
+	(InsertGraph, InsertComponent, InsertShapedComponent): Comment out
+	both from menu and toolbar.
+	(InsertImage, InsertFormula): Add to "Insert" menu.
+	(List, Combo): Re-enable in object toolbar.
+	
 2002-04-12  Morten Welinder  <terra@diku.dk>
 
 	* src/auto-format.c (auto_format_init): Install a key destroyer.
