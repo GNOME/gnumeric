@@ -13,6 +13,8 @@
 #	include <bonobo/gnome-stream.h>
 #	include <bonobo/gnome-stream-memory.h>
 #	include "sheet-object-container.h"
+#else
+#	include "sheet-object.h"
 #endif
 
 #include "ms-excel-read.h"
@@ -26,9 +28,7 @@ typedef struct
 	int id;
 
 	/* Type specific parameters */
-#ifdef ENABLE_BONOBO
 	SheetObjectType	gnumeric_type;
-#endif
 	unsigned	excel_type;
 	union {
 		struct {

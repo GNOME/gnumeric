@@ -1,3 +1,8 @@
+1999-09-20  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-obj.[ch]: Remove a few #if ENABLE_BONOBO checks 
+	  and add an include for sheet-object.h.
+
 1999-09-20  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* ms-obj.[ch]: Added a few #if ENABLE_BONOBO checks to make it

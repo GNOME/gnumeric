@@ -422,7 +422,6 @@ ms_read_OBJ (BiffQuery *q, ExcelWorkbook * wb, Sheet * sheet)
 	};
 
 	gboolean errors;
-#ifdef ENABLE_BONOBO
 	SheetObjectType type;
 	MSObj * obj = g_new(MSObj, 1);
 	obj->excel_type = (unsigned)-1; /* Set to undefined */
@@ -497,5 +496,4 @@ ms_read_OBJ (BiffQuery *q, ExcelWorkbook * wb, Sheet * sheet)
 #endif
 
 	return obj;
-#endif
 }
