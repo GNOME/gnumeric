@@ -1,3 +1,22 @@
+1999-09-05  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/print-preview.c (preview_canvas_event): Add an event handler
+	for the preview canvas.  
+	(zoom_state): new routine, controls the toolbar widget display.
+
+	* src/cursors.c: Add new zoom in and zoom out cursors.
+
+	* src/dialogs/dialog-printer-setup.c (unit_editor_new): One line
+	warning fix.
+
+	* src/sheet.c (sheet_col_size_fit): Returns the size required to
+	render every cell completely.
+
+	* src/item-bar.c (item_bar_event): Delay column/row resizing
+	action until the division is actually being dragged.  We need this
+	to catch double-clicks for auto-sizing cells.
+	(GDK_2BUTTON_PRESS):
+
 1999-09-04  Jody Goldberg <jgoldberg@home.com>
 
 	* src/dialogs/dialog-paste-special.c : Fix typo.

@@ -94,6 +94,10 @@ Gnumeric Spread Sheet task list
 ** Cell drawing
 
    We should compute the style for non-existing cells and draw these. 
+   This has been partially implemented, run with gnumeric_debugging > 0
+   
+   Code is in gnumeric/src/item-grid.c.  But it is not working
+   properly with selection.
 
 ** Headers for Columns and Rows
 

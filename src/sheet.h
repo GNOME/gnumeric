@@ -290,6 +290,7 @@ void        sheet_row_info_set_height     (Sheet *sheet,
 				           ColRowInfo *ri, int height,
 				           gboolean height_set_by_user);
 void        sheet_row_set_internal_height (Sheet *sheet, ColRowInfo *ri, double height);
+int         sheet_col_size_fit            (Sheet *sheet, int col);
 void        sheet_col_set_selection       (Sheet *sheet,
 					   ColRowInfo *ci, int value);
 void        sheet_row_set_selection       (Sheet *sheet,

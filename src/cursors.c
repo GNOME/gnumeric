@@ -3,6 +3,8 @@
 #include "color.h"
 #include "cursors.h"
 #include "pixmaps/cursor_cross.xpm"
+#include "pixmaps/cursor_zoom_in.xpm"
+#include "pixmaps/cursor_zoom_out.xpm"
 
 #define GDK_INTERNAL_CURSOR -1
 
@@ -11,6 +13,8 @@ GnumericCursorDef gnumeric_cursors [] = {
 	{ NULL, GDK_INTERNAL_CURSOR,   GDK_CROSSHAIR, NULL },
 	{ NULL, GDK_INTERNAL_CURSOR,   GDK_ARROW,     NULL },
 	{ NULL, GDK_INTERNAL_CURSOR,   GDK_FLEUR,     NULL },
+	{ NULL, 24, 24, cursor_zoom_in_xpm }, 
+	{ NULL, 24, 24, cursor_zoom_out_xpm }, 
 	{ NULL, 0,    0,  NULL }
 };
 
@@ -28,7 +32,7 @@ create_bitmap_and_mask_from_xpm (GdkBitmap **bitmap, GdkBitmap **mask, gchar **x
 
 	g_assert (height == 32);
 	g_assert (width  == 32);
-	g_assert (colors == 3);
+	g_assert (colors <= 3);
 
 	transparent_color = ' ';
 	black_color = '.';

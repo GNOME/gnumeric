@@ -27,6 +27,7 @@ struct _ColRowInfo {
 	int        pixels;		/* we compute this from the above parameters */
 
 	unsigned   int hard_size:1;     /* has the user explicitly set the dimensions? */
+
 	void       *data;
 };
 

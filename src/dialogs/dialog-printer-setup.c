@@ -274,7 +274,7 @@ unit_editor_new (UnitInfo *target, PrintUnit init)
 	 * FIXME: Hardcoded for now
 	 */
 	target->unit = UNIT_CENTIMETER;
-	target->value = init.points;
+	target->value = unit_convert (init.points, UNIT_POINTS, UNIT_CENTIMETER);
 
 	target->adj = GTK_ADJUSTMENT (gtk_adjustment_new (
 		target->value,
@@ -292,7 +292,7 @@ unit_editor_new (UnitInfo *target, PrintUnit init)
 	 */
 	if (1) {
 		gtk_widget_show (GTK_WIDGET (target->spin));
-		return target->spin;
+		return GTK_WIDGET (target->spin);
 	} else {
 		box = gtk_hbox_new (0, 0);
 		

@@ -427,6 +427,15 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			GnomeCanvasItem *resize_guide;
 			int npos;
 
+			if (item_bar->resize_guide == NULL){
+				item_bar_start_resize (item_bar, element);
+				gnome_canvas_item_grab (item,
+							GDK_POINTER_MOTION_MASK |
+							GDK_BUTTON_RELEASE_MASK,
+							item_bar->change_cursor,
+							e->button.time);
+			}
+			
 			npos = pos - item_bar->resize_start_pos;
 			if (npos <= 0)
 				break;
@@ -479,17 +488,16 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		}
 
 		if (cri){
-			/* Record the important bits */
+			/*
+			 * Record the important bits.
+			 *
+			 * By setting resize_pos to a non -1 value,
+			 * we know that we are being resized (used in the
+			 * other event handlers).
+			 */
 			item_bar->resize_pos = element;
 			item_bar->resize_start_pos = start - cri->pixels;
 			item_bar->resize_width = cri->pixels;
-
-			item_bar_start_resize (item_bar, element);
-			gnome_canvas_item_grab (item,
-						GDK_POINTER_MOTION_MASK |
-						GDK_BUTTON_RELEASE_MASK,
-						item_bar->change_cursor,
-						e->button.time);
 		} else if (e->button.button == 3){
 			Sheet   *sheet = item_bar->sheet_view->sheet;
 			gtk_signal_emit (GTK_OBJECT (item),
@@ -512,11 +520,35 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		}
 		break;
 
+	case GDK_2BUTTON_PRESS: {
+		int new_size;
+		
+		if (!resizing)
+			break;
+
+		/*
+		 * We only handle auto-resize on columns
+		 */
+		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL)
+			break;
+
+		new_size = sheet_col_size_fit (item_bar->sheet_view->sheet, item_bar->resize_pos);
+		if (new_size == 0)
+			break;
+		
+		gtk_signal_emit (GTK_OBJECT (item),
+				 item_bar_signals [SIZE_CHANGED],
+				 item_bar->resize_pos,
+				 new_size);
+		item_bar->resize_pos = -1;
+		}
+		break;
+		
 	case GDK_BUTTON_RELEASE:
 		if (e->button.button == 3)
 			break;
 
-		if (resizing){
+		if (resizing && item_bar->resize_guide){
 			gtk_signal_emit (GTK_OBJECT (item),
 					 item_bar_signals [SIZE_CHANGED],
 					 item_bar->resize_pos,

@@ -579,6 +579,51 @@ sheet_row_set_internal_height (Sheet *sheet, ColRowInfo *ri, double height)
 }
 
 /**
+ * sheet_col_size_fit:
+ * @sheet: The sheet
+ * @col: the column that we want to query
+ *
+ * This routine computes the ideal size for the column to make all data fit
+ * properly.  Return value is in pixels
+ */
+int
+sheet_col_size_fit (Sheet *sheet, int col)
+{
+	ColRowInfo *ci;
+	GList *l;
+	int max = 0;
+	int margins;
+	
+	g_return_val_if_fail (sheet != NULL, 0);
+	g_return_val_if_fail (IS_SHEET (sheet), 0);
+	g_return_val_if_fail (col >= 0, 0);
+	g_return_val_if_fail (col < SHEET_MAX_COLS, 0);
+
+	ci = sheet_col_get_info (sheet, col);
+
+	/*
+	 * If ci == sheet->default_col_style then it means
+	 * no cells have been allocated here
+	 */
+	if (ci == &sheet->default_col_style)
+		return ci->pixels;
+
+	margins = ci->margin_a + ci->margin_b;
+	
+	for (l = ci->data; l; l = l->next){
+		Cell *cell = l->data;
+		int width;
+			
+		width = cell->width + margins;
+		
+		if (width > max)
+			max = width;
+	}
+
+	return max;
+}
+
+/**
  * sheet_recompute_spans_for_col:
  * @sheet: the sheet
  * @col:   The column that changed

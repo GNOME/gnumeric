@@ -27,7 +27,19 @@
 #include "print-preview.h"
 #include "print-info.h"
 #include "cursors.h"
+#include "pixmaps/zoom_in.xpm"
+#include "pixmaps/zoom_out.xpm"
 
+#define TOOLBAR_BUTTON_BASE 4
+#define MOVE_INDEX          4
+
+typedef enum {
+	MODE_MOVE_ON_CLICK,
+	MODE_MOVING,
+	MODE_ZOOM_IN,
+	MODE_ZOOM_OUT
+} PreviewMode;
+	
 struct _PrintPreview {
 	GnomeApp *toplevel;
 
@@ -55,6 +67,13 @@ struct _PrintPreview {
 	int                  pages;
 
 	GnomeUIInfo          *toolbar;
+
+	PreviewMode          mode;
+
+	/*
+	 * Used for dragging the sheet
+	 */
+	double               base_x, base_y;
 };
 
 /*
@@ -128,6 +147,80 @@ change_page_cmd (GtkEntry *entry, PrintPreview *pp)
 }
 
 static void
+do_zoom (PrintPreview *pp, int factor)
+{
+	double change = (pp->canvas->pixels_per_unit / 2) * factor;
+	
+	gnome_canvas_set_pixels_per_unit (
+		pp->canvas,
+		pp->canvas->pixels_per_unit + change);
+	render_page (pp, pp->current_page);
+}
+
+static int
+preview_canvas_event (GnomeCanvas *canvas, GdkEvent *event, PrintPreview *pp)
+{
+	switch (event->type){
+	case GDK_BUTTON_PRESS:
+		if (pp->mode == MODE_MOVE_ON_CLICK){
+			gtk_grab_add (GTK_WIDGET (canvas));
+			pp->mode = MODE_MOVING;
+			gnome_canvas_w2c_d (
+				canvas, event->button.x, event->button.y,
+				&pp->base_x, &pp->base_y);
+			break;
+		} 
+		break;
+		
+	case GDK_BUTTON_RELEASE:
+		if (pp->mode == MODE_MOVING){
+			gtk_grab_remove (GTK_WIDGET (canvas));
+			pp->mode = MODE_MOVE_ON_CLICK;
+			break;
+		} else if (pp->mode == MODE_ZOOM_OUT){
+			do_zoom (pp, -1);
+		} else if (pp->mode == MODE_ZOOM_IN){
+			do_zoom (pp, 1);
+		}
+		break;
+		
+	case GDK_MOTION_NOTIFY:
+		if (pp->mode == MODE_MOVING){
+			GtkAdjustment *va, *ha;
+			double dx, dy;
+			double ex, ey;
+			
+			va = gtk_scrolled_window_get_vadjustment (
+				GTK_SCROLLED_WINDOW (pp->scrolled_window));
+			ha = gtk_scrolled_window_get_hadjustment (
+				GTK_SCROLLED_WINDOW (pp->scrolled_window));
+
+			gnome_canvas_w2c_d (canvas,
+					    event->motion.x, event->motion.y,
+					    &ex, &ey);
+			
+			dx = ex - pp->base_x;
+			dy = ey - pp->base_y;
+			gtk_adjustment_set_value (
+				va,
+				CLAMP (va->value + dy, va->lower, va->upper - va->page_size));
+			gtk_adjustment_set_value (
+				ha,
+				CLAMP (ha->value + dx, ha->lower, ha->upper - ha->page_size));
+
+			pp->base_x = ex;
+			pp->base_y = ey;
+			break;
+		}
+		break;
+
+	default:
+		return FALSE;
+	}
+	return TRUE;
+}
+
+static void
 create_preview_canvas (PrintPreview *pp)
 {
 	GnomeCanvasItem *i;
@@ -141,6 +234,9 @@ create_preview_canvas (PrintPreview *pp)
 	pp->scrolled_window = gtk_scrolled_window_new (NULL, NULL);
 	pp->canvas = GNOME_CANVAS (gnome_canvas_new_aa ());
 	gnome_canvas_set_pixels_per_unit (pp->canvas, 1.0);
+	gtk_signal_connect (GTK_OBJECT (pp->canvas), "event",
+			    GTK_SIGNAL_FUNC (preview_canvas_event), pp);
+	
 	gtk_container_add (GTK_CONTAINER (pp->scrolled_window), GTK_WIDGET (pp->canvas));
 
 	/*
@@ -258,42 +354,45 @@ preview_last_page_cmd (void *unused, PrintPreview *pp)
 }
 
 static void
-do_zoom (PrintPreview *pp, double change)
+zoom_state (PrintPreview *pp, int toolbar_button)
 {
-	gnome_canvas_set_pixels_per_unit (
-		pp->canvas,
-		pp->canvas->pixels_per_unit + change);
-	render_page (pp, pp->current_page);
+	int i;
+	
+	for (i = 0; i < 3; i++){
+		gtk_toggle_button_set_active (
+			GTK_TOGGLE_BUTTON (pp->toolbar [i + TOOLBAR_BUTTON_BASE].widget),
+			i == toolbar_button);
+	}
 }
 
 static void
 preview_zoom_in_cmd (GtkToggleButton *t, PrintPreview *pp)
 {
 	if (t->active){
-		gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (pp->toolbar [4].widget));
-		gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (pp->toolbar [6].widget));
+		zoom_state (pp, 1);
+		cursor_set_widget (pp->canvas, GNUMERIC_CURSOR_ZOOM_IN);
+		pp->mode = MODE_ZOOM_IN;
 	}
-	cursor_set_widget (pp->canvas, GNUMERIC_CURSOR_THIN_CROSS);
 }
 
 static void
 preview_zoom_out_cmd (GtkToggleButton *t, PrintPreview *pp)
 {
 	if (t->active){
-		gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (pp->toolbar [4].widget));
-		gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (pp->toolbar [5].widget));
-	}		
-	cursor_set_widget (pp->canvas, GNUMERIC_CURSOR_ARROW);
+		zoom_state (pp, 2);
+		cursor_set_widget (pp->canvas, GNUMERIC_CURSOR_ZOOM_OUT);
+		pp->mode = MODE_ZOOM_OUT;
+	}
 }
 
 static void
 move_cmd (GtkToggleButton *t, PrintPreview *pp)
 {
 	if (t->active){
-		gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (pp->toolbar [5].widget));
-		gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (pp->toolbar [6].widget));
+		zoom_state (pp, 0);
+		cursor_set_widget (pp->canvas, GNUMERIC_CURSOR_MOVE);
+		pp->mode = MODE_MOVE_ON_CLICK;
 	}
-	cursor_set_widget (pp->canvas, GNUMERIC_CURSOR_MOVE);
 }
  
 static GnomeUIInfo preview_file_menu [] = {
@@ -344,11 +443,9 @@ static GnomeUIInfo toolbar [] = {
 		N_("Last"), N_("Shows the last page"),
 		preview_last_page_cmd, GNOME_STOCK_PIXMAP_LAST),
 
-#if 0
 	{ GNOME_APP_UI_TOGGLEITEM, N_("Move"), N_("Move"), move_cmd },
-	{ GNOME_APP_UI_TOGGLEITEM, N_("Zoom in"), N_("Zooms in"), preview_zoom_in_cmd },
-	{ GNOME_APP_UI_TOGGLEITEM, N_("Zoom out"), N_("Zooms out"), preview_zoom_out_cmd },
-#endif
+	GNOMEUIINFO_TOGGLEITEM(N_("Zoom in"), N_("Zooms the page in"), preview_zoom_in_cmd, zoom_in_xpm),
+	GNOMEUIINFO_TOGGLEITEM(N_("Zoom out"), N_("Zooms the page out"), preview_zoom_out_cmd, zoom_out_xpm),
 	GNOMEUIINFO_END
 };
 
@@ -468,5 +565,8 @@ print_preview_print_done (PrintPreview *pp)
 	text = g_strdup_printf ("/%d", pp->pages);
 	gtk_label_set_text (GTK_LABEL (pp->last), text);
 	g_free (text);
+
+	gtk_toggle_button_set_active (
+		GTK_TOGGLE_BUTTON (pp->toolbar [MOVE_INDEX].widget), TRUE);
 }
 

@@ -339,6 +339,11 @@ item_grid_paint_empty_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 	}
 
 	if ((style->valid_flags & STYLE_BACK_COLOR) && (style->back_color)){
+
+		/*
+		 * FIXME: If the style is the default sheet style, we can
+		 * avoid drawing this
+		 */
 		gdk_gc_set_foreground (item_grid->gc, &style->back_color->color);
 		gdk_draw_rectangle (
 			drawable, item_grid->gc, TRUE,
