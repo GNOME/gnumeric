@@ -4,14 +4,16 @@
 #include "gnumeric.h"
 #include <gtk/gtkobject.h>
 
-#define SHEET_CONTROL_TYPE     (sheet_control_get_type ())
-#define SHEET_CONTROL(obj)     (GTK_CHECK_CAST ((obj), SHEET_CONTROL_TYPE, SheetControl))
-#define IS_SHEET_CONTROL(o)	  (GTK_CHECK_TYPE ((o), SHEET_CONTROL_TYPE))
+#define SHEET_CONTROL_TYPE	(sheet_control_get_type ())
+#define SHEET_CONTROL(obj)	(GTK_CHECK_CAST ((obj), SHEET_CONTROL_TYPE, SheetControl))
+#define IS_SHEET_CONTROL(o)	(GTK_CHECK_TYPE ((o), SHEET_CONTROL_TYPE))
 
-GtkType sheet_control_get_type    (void);
+GtkType sheet_control_get_type	(void);
 
-Sheet *sc_sheet	(SheetControl *sc);
-void   sc_set_sheet (SheetControl *sc, Sheet *sheet);
+WorkbookControl *sc_wbc		(SheetControl const *sc);
+Sheet		*sc_sheet	(SheetControl const *sc);
+void		 sc_sheet_set	(SheetControl *sc, Sheet *sheet);
+
 
 /**
  * NOTE:
@@ -32,7 +34,6 @@ void sc_ant			(SheetControl *sc);
 void sc_unant			(SheetControl *sc);
 
 void sc_adjust_preferences	(SheetControl *sc);
-void sc_update_cursor_pos	(SheetControl *sc);
 void sc_scrollbar_config	(SheetControl const *sc);
 
 void sc_mode_edit		(SheetControl *sc);

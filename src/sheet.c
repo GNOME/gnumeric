@@ -149,7 +149,7 @@ sheet_attach_control (Sheet *sheet, SheetControl *sc)
 	g_return_if_fail (IS_SHEET_CONTROL (sc));
 	g_return_if_fail (sc_sheet (sc) == NULL);
 
-	sc_set_sheet (sc, sheet);
+	sc_sheet_set (sc, sheet);
 	sheet->s_controls = g_list_prepend (sheet->s_controls, sc);
 	sheet_init_sc (sheet, sc);
 }
@@ -166,7 +166,7 @@ sheet_detach_control (SheetControl *sc)
 	g_return_if_fail (IS_SHEET (sheet));
 
 	sheet->s_controls = g_list_remove (sheet->s_controls, sc);
-	sc_set_sheet (sc, NULL);
+	sc_sheet_set (sc, NULL);
 }
 
 /*
@@ -850,8 +850,7 @@ sheet_update_only_grid (Sheet const *sheet)
 		p->recompute_visibility = FALSE;
 		p->resize_scrollbar = FALSE; /* compute_visible_region does this */
 		SHEET_FOREACH_CONTROL(sheet, control,
-			sc_compute_visible_region (control, TRUE);
-			sc_update_cursor_pos (control););
+			sc_compute_visible_region (control, TRUE););
 		sheet_redraw_all (sheet);
 	}
 

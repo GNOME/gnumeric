@@ -17,7 +17,7 @@ typedef enum {
 
 GtkType item_cursor_get_type (void);
 
-gboolean item_cursor_set_bounds (ItemCursor *ic, Range const *new_bound);
+gboolean item_cursor_bound_set	    (ItemCursor *ic, Range const *bound);
 void     item_cursor_set_visibility (ItemCursor *ic, gboolean visible);
 void     item_cursor_reposition     (ItemCursor *ic);
 

@@ -1,3 +1,91 @@
+2001-07-30  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-control.c (sc_wbc) : new.
+	(sc_sheet) : const.
+	(sc_update_cursor_pos) : delete.
+
+	* src/gnumeric-pane.c (gnm_pane_special_cursor_bound_set) : new.
+	(gnm_pane_special_cursor_start) : ditto.
+	(gnm_pane_special_cursor_start) : ditto.
+
+	* src/sheet-control-gui.c (scg_update_cursor_pos)  : fold into
+	  scg_resize.
+	(scg_resize) : reposition all of the cursors.
+	(scg_edit_start) renamed from scg_create_editor.
+	(scg_edit_stop) : renamed from scg_stop_editing.
+	(scg_special_cursor_start) : new.
+	(scg_special_cursor_stop) : new.
+	(scg_special_cursor_bound_set) : new.
+
+	* src/item-cursor.c (item_cursor_selection_event) : Use
+	  scg_special_cursor_start, and scg_special_cursor_bound_set.
+	(item_cursor_do_action) : use scg_special_cursor_stop.
+	(item_cursor_do_drop) : ditto.
+	(item_cursor_autofill_event) : ditto.
+	(item_cursor_set_bounds_visibly) : Doh! fix my stupidity.
+	  We need to change the visibility here because we explicitly disable
+	  doing it in the scroll handlers.  We are constraining the scroll
+	  so we need to do it manually.
+
+2001-07-30  Jody Goldberg <jgoldberg@home.com>
+
+	s/GnumericSheet/GnumericCanvas/
+	s/gsheet/gcanvas/
+	s/gnumeric_sheet_*/gnm_canvas_/
+	s/gnumeric_pane_*/gnm_pane_/
+	Move the std and rangesel cursors from GnumericSheet -> GnumericPane
+	Move the grid and editor from GnumericSheet -> GnumericPane
+
+2001-07-28  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_handle_motion) : fix autoscroll
+	  from bottom/right panes into adjcant regions that do not scroll as
+	  reported by almer.
+
+2001-07-28  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_handle_motion) : work towards
+	  support h only or v only freezes by using the geometry of pane 1 or 3
+	  in place of pane 2 which only exists in the h&v case.
+	(gsheet_sliding_callback) : ditto.
+	(gnumeric_sheet_slide_init: ditto.
+
+2001-07-28  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric-pane.c (gnumeric_pane_colrow_resize_start) :
+	  Switch GnumericSheet to using CellPos for consisency.
+	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet) : ditto.
+	(gnumeric_sheet_button_release) : ditto.
+	(gnumeric_sheet_init) : ditto.
+	(gnumeric_sheet_find_col) : ditto.
+	(gnumeric_sheet_find_row) : ditto.
+	(gnumeric_sheet_create_editor) : ditto.
+	(gsheet_compute_visible_region) : ditto.
+	(gnumeric_sheet_redraw_region) : ditto.
+	(gsheet_sliding_callback): ditto.
+	(gnumeric_sheet_handle_motion) : ditto.
+	(gnumeric_sheet_slide_init) : ditto.
+	* src/item-bar.c (item_bar_draw) : ditto.
+	(item_bar_event) : ditto.
+	* src/item-cursor.c (item_cursor_update) : ditto.
+	(item_cursor_draw) : ditto.
+	* src/item-edit.c (recalc_spans) : ditto.
+	(item_edit_set_arg) : ditto.
+	* src/sheet-control-gui.c (scg_redraw_headers) : ditto.
+	(scg_resize) : ditto.
+	(scg_scrollbar_config) : ditto.
+	(scg_colrow_select) : ditto.
+	(gnumeric_sheet_update_inital_top_left) : ditto.
+	(bar_set_left_col) : ditto.
+	(bar_set_top_row) : ditto.
+	(gnumeric_sheet_set_left_col) : ditto.
+	(gnumeric_sheet_set_top_row) : ditto.
+	(gnumeric_sheet_set_top_left) : ditto.
+	(gnumeric_sheet_make_cell_visible) : ditto.
+	(scg_set_panes) : ditto.
+	(cb_slide_handler) : ditto.
+	* src/workbook-control-gui.c (cb_view_freeze_panes) : ditto.
+
 2001-07-24  Jody Goldberg <jgoldberg@home.com>
 
 	* plugins/Makefile.am (SUBDIRS) : Add psion plugin from

@@ -27,7 +27,6 @@ typedef struct {
 	void (*ant)			(SheetControl *sc);
 	void (*unant)			(SheetControl *sc);
 	void (*adjust_preferences)	(SheetControl *sc);
-	void (*update_cursor_pos)	(SheetControl *sc);
 	void (*scrollbar_config)	(SheetControl const *sc);
 	void (*mode_edit)		(SheetControl *sc);
 	void (*set_top_left)		(SheetControl *sc, int col, int row);

@@ -39,7 +39,7 @@ struct _ItemCursor {
 	GnomeCanvasItem canvas_item;
 
 	SheetControlGUI *scg;
-	Range     	 pos;
+	Range		 pos;
 
 	/* Offset of dragging cell from top left of pos */
 	int col_delta, row_delta;
@@ -197,26 +197,26 @@ static void
 item_cursor_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
 {
 	ItemCursor    *item_cursor = ITEM_CURSOR (item);
-	GnumericSheet *gsheet = GNUMERIC_SHEET (item->canvas);
+	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (item->canvas);
 	SheetControlGUI const * const scg = item_cursor->scg;
 
 	int x, y, w, h, extra;
 
 	/* Clip the bounds of the cursor to the visible region of cells */
-	int const left = MAX (gsheet->first.col-1, item_cursor->pos.start.col);
-	int const right = MIN (gsheet->last_visible.col+1, item_cursor->pos.end.col);
-	int const top = MAX (gsheet->first.row-1, item_cursor->pos.start.row);
-	int const bottom = MIN (gsheet->last_visible.row+1, item_cursor->pos.end.row);
+	int const left = MAX (gcanvas->first.col-1, item_cursor->pos.start.col);
+	int const right = MIN (gcanvas->last_visible.col+1, item_cursor->pos.end.col);
+	int const top = MAX (gcanvas->first.row-1, item_cursor->pos.start.row);
+	int const bottom = MIN (gcanvas->last_visible.row+1, item_cursor->pos.end.row);
 
 	/* Erase the old cursor */
 	item_cursor_request_redraw (item_cursor);
 
 	item_cursor->cached_x = x =
-		gsheet->first_offset.col +
-		scg_colrow_distance_get (scg, TRUE, gsheet->first.col, left);
+		gcanvas->first_offset.col +
+		scg_colrow_distance_get (scg, TRUE, gcanvas->first.col, left);
 	item_cursor->cached_y = y =
-		gsheet->first_offset.row +
-		scg_colrow_distance_get (scg, FALSE, gsheet->first.row, top);
+		gcanvas->first_offset.row +
+		scg_colrow_distance_get (scg, FALSE, gcanvas->first.row, top);
 	item_cursor->cached_w = w = scg_colrow_distance_get (scg, TRUE, left, right+1);
 	item_cursor->cached_h = h = scg_colrow_distance_get (scg, FALSE,top, bottom+1);
 
@@ -306,21 +306,21 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 		draw_internal = 1;
 		draw_external = 1;
 		{
-			GnumericSheet const *gsheet = GNUMERIC_SHEET (item->canvas);
-			GnumericSheet const *gsheet0 = scg_pane (gsheet->scg, 0);
+			GnumericCanvas const *gcanvas = GNUMERIC_CANVAS (item->canvas);
+			GnumericCanvas const *gcanvas0 = scg_pane (gcanvas->scg, 0);
 
 			/* In pane */
-			if (item_cursor->pos.end.row <= gsheet->last_full.row)
+			if (item_cursor->pos.end.row <= gcanvas->last_full.row)
 				draw_handle = 1;
 			/* In pane below */
-			else if ((gsheet->pane->index == 2 || gsheet->pane->index == 3) &&
-				 item_cursor->pos.end.row >= gsheet0->first.row &&
-				 item_cursor->pos.end.row <= gsheet0->last_full.row)
+			else if ((gcanvas->pane->index == 2 || gcanvas->pane->index == 3) &&
+				 item_cursor->pos.end.row >= gcanvas0->first.row &&
+				 item_cursor->pos.end.row <= gcanvas0->last_full.row)
 				draw_handle = 1;
 			/* TODO : do we want to add checking for pane above ? */
-			else if (item_cursor->pos.start.row < gsheet->first.row)
+			else if (item_cursor->pos.start.row < gcanvas->first.row)
 				draw_handle = 0;
-			else if (item_cursor->pos.start.row != gsheet->first.row)
+			else if (item_cursor->pos.start.row != gcanvas->first.row)
 				draw_handle = 2;
 			else
 				draw_handle = 3;
@@ -487,7 +487,7 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 }
 
 gboolean
-item_cursor_set_bounds (ItemCursor *ic, Range const *new_bound)
+item_cursor_bound_set (ItemCursor *ic, Range const *new_bound)
 {
 	g_return_val_if_fail (IS_ITEM_CURSOR (ic), FALSE);
 	g_return_val_if_fail (range_is_sane (new_bound), FALSE);
@@ -619,8 +619,7 @@ static gint
 item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 {
 	GnomeCanvas	*canvas = item->canvas;
-	GnumericSheet   *gsheet = GNUMERIC_SHEET (canvas);
-	GnomeCanvasItem *new_item;
+	GnumericCanvas   *gcanvas = GNUMERIC_CANVAS (canvas);
 	ItemCursor *ic = ITEM_CURSOR (item);
 	int x, y;
 
@@ -633,7 +632,8 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		return TRUE;
 
 	case GDK_MOTION_NOTIFY: {
-		int style;
+		int style, button;
+		ItemCursor *special_cursor;
 
 		gnome_canvas_w2c (
 			canvas, event->motion.x, event->motion.y, &x, &y);
@@ -652,20 +652,15 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		else
 			style = ITEM_CURSOR_DRAG;
 
-		new_item = gnome_canvas_item_new (
-			GNOME_CANVAS_GROUP (canvas->root),
-			item_cursor_get_type (),
-			"ItemCursor::SheetControlGUI", ic->scg,
-			"ItemCursor::Style", style,
-			"ItemCursor::Button", ic->drag_button,
-			NULL);
-
+		button = ic->drag_button;
 		ic->drag_button = -1;
 		gnome_canvas_item_ungrab (item, event->button.time);
 
+		scg_special_cursor_start (ic->scg, style, button);
+		special_cursor = gcanvas->pane->cursor.special;
 		if (style == ITEM_CURSOR_AUTOFILL)
 			item_cursor_setup_auto_fill (
-				ITEM_CURSOR (new_item), ic, x, y);
+				special_cursor, ic, x, y);
 
 		if (x < 0)
 			x = 0;
@@ -679,9 +674,9 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		 * selection was offset by one.
 		 */
 		{
-			int d_col = gnumeric_sheet_find_col (gsheet, x, NULL) -
+			int d_col = gnm_canvas_find_col (gcanvas, x, NULL) -
 				ic->pos.start.col;
-			int d_row = gnumeric_sheet_find_row (gsheet, y, NULL) -
+			int d_row = gnm_canvas_find_row (gcanvas, y, NULL) -
 				ic->pos.start.row;
 
 			if (d_col >= 0) {
@@ -690,7 +685,7 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 					d_col = tmp;
 			} else
 				d_col = 0;
-			ITEM_CURSOR (new_item)->col_delta = d_col;
+			special_cursor->col_delta = d_col;
 
 			if (d_row >= 0) {
 				int tmp = ic->pos.end.row - ic->pos.start.row;
@@ -698,18 +693,18 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 					d_row = tmp;
 			} else
 				d_row = 0;
-			ITEM_CURSOR (new_item)->row_delta = d_row;
+			special_cursor->row_delta = d_row;
 		}
 
-		if (item_cursor_set_bounds (ITEM_CURSOR (new_item), &ic->pos))
+		if (scg_special_cursor_bound_set (ic->scg, &ic->pos))
 			gnome_canvas_update_now (canvas);
 
 		gnome_canvas_item_grab (
-			new_item,
+			GNOME_CANVAS_ITEM (special_cursor),
 			GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK,
 			NULL,
 			event->button.time);
-		gnumeric_sheet_slide_init (gsheet);
+		gnm_canvas_slide_init (gcanvas);
 
 		/*
 		 * We flush after the grab to ensure that the new item-cursor
@@ -932,21 +927,21 @@ typedef enum {
 } ActionType;
 
 static void
-item_cursor_do_action (ItemCursor *item_cursor, ActionType action, guint32 time)
+item_cursor_do_action (ItemCursor *ic, ActionType action, guint32 time)
 {
 	SheetControl *sc;
 	Sheet *sheet;
 	WorkbookControl *wbc;
 	PasteTarget pt;
 
-	if (action == ACTION_NONE || !item_cursor_target_region_ok (item_cursor)) {
-		gtk_object_destroy (GTK_OBJECT (item_cursor));
+	g_return_if_fail (ic != NULL);
+
+	if (action == ACTION_NONE || !item_cursor_target_region_ok (ic)) {
+		scg_special_cursor_stop	(ic->scg);
 		return;
 	}
 
-	g_return_if_fail (item_cursor != NULL);
-
-	sc = (SheetControl *) item_cursor->scg;
+	sc = (SheetControl *) ic->scg;
 	sheet = sc->sheet;
 	wbc = sc->wbc;
 
@@ -955,16 +950,16 @@ item_cursor_do_action (ItemCursor *item_cursor, ActionType action, guint32 time)
 		if (!sheet_selection_copy (wbc, sheet))
 			break;
 		cmd_paste (wbc,
-			   paste_target_init (&pt, sheet, &item_cursor->pos,
+			   paste_target_init (&pt, sheet, &ic->pos,
 					      PASTE_ALL_TYPES),
 			   time);
 		break;
 
 	case ACTION_MOVE_CELLS:
-		if (!sheet_selection_cut (sc->wbc, sheet))
+		if (!sheet_selection_cut (wbc, sheet))
 			break;
 		cmd_paste (wbc,
-			   paste_target_init (&pt, sheet, &item_cursor->pos,
+			   paste_target_init (&pt, sheet, &ic->pos,
 					      PASTE_ALL_TYPES),
 			   time);
 		break;
@@ -973,7 +968,7 @@ item_cursor_do_action (ItemCursor *item_cursor, ActionType action, guint32 time)
 		if (!sheet_selection_copy (wbc, sheet))
 			break;
 		cmd_paste (wbc,
-			   paste_target_init (&pt, sheet, &item_cursor->pos,
+			   paste_target_init (&pt, sheet, &ic->pos,
 					      PASTE_FORMATS),
 			   time);
 		break;
@@ -982,7 +977,7 @@ item_cursor_do_action (ItemCursor *item_cursor, ActionType action, guint32 time)
 		if (!sheet_selection_copy (wbc, sheet))
 			break;
 		cmd_paste (wbc,
-			   paste_target_init (&pt, sheet, &item_cursor->pos,
+			   paste_target_init (&pt, sheet, &ic->pos,
 					      PASTE_AS_VALUES),
 			   time);
 		break;
@@ -998,17 +993,17 @@ item_cursor_do_action (ItemCursor *item_cursor, ActionType action, guint32 time)
 		g_warning ("Invalid Operation %d\n", action);
 	}
 
-	gtk_object_destroy (GTK_OBJECT (item_cursor));
+	scg_special_cursor_stop	(ic->scg);
 }
 
 static gboolean
 context_menu_hander (GnumericPopupMenuElement const *element,
 		     gpointer ic)
 {
-    g_return_val_if_fail (element != NULL, TRUE);
+	g_return_val_if_fail (element != NULL, TRUE);
 
-    item_cursor_do_action (ic, element->index, GDK_CURRENT_TIME);
-    return TRUE;
+	item_cursor_do_action (ic, element->index, GDK_CURRENT_TIME);
+	return TRUE;
 }
 
 static void
@@ -1062,7 +1057,7 @@ item_cursor_do_drop (ItemCursor *ic, GdkEventButton *event)
 
 	wb_control_gui_set_status_text (ic->scg->wbcg, "");
 	if (range_equal (target, &ic->pos)) {
-		gtk_object_destroy (GTK_OBJECT (ic));
+		scg_special_cursor_stop	(ic->scg);
 		return;
 	}
 
@@ -1075,25 +1070,30 @@ item_cursor_do_drop (ItemCursor *ic, GdkEventButton *event)
 }
 
 static void
-item_cursor_set_bounds_visibly (ItemCursor *item_cursor,
+item_cursor_set_bounds_visibly (ItemCursor *ic,
 				int col,int row,
 				CellPos const *corner,
 				int end_col, int end_row)
 {
-	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_cursor);
-	GnumericSheet   *gsheet = GNUMERIC_SHEET (item->canvas);
+	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (ic);
+	GnumericCanvas  *gcanvas = GNUMERIC_CANVAS (item->canvas);
 	Range r;
 
-	/*
-	 * FIXME FIXME FIXME
-	 * Ideally we would update the bounds BEFORE we scroll,
-	 * this would decrease the flicker.  Unfortunately, our optimization
-	 * of clipping the cursor to the currently visible region is getting in the way.
+	/* Handle visibility here rather than in the slide handler because we
+	 * need to constrain movement some times.  eg no sense scrolling the
+	 * canvas if the autofill cursor is not changing size.
+	 */
+	scg_make_cell_visible (ic->scg, end_col, end_row, FALSE, TRUE);
+
+	/* FIXME FIXME FIXME
+	 * Ideally we would update the bounds BEFORE we scroll, this would
+	 * decrease the flicker.  Unfortunately, our optimization of clipping
+	 * the cursor to the currently visible region is getting in the way.
 	 * We are forced to make the region visible before we move the cursor.
 	 */
 	range_init (&r, corner->col, corner->row, end_col, end_row);
-	if (item_cursor_set_bounds (item_cursor, &r))
-		gnome_canvas_update_now (GNOME_CANVAS (gsheet));
+	if (scg_special_cursor_bound_set (ic->scg, &r))
+		gnome_canvas_update_now (GNOME_CANVAS (gcanvas));
 }
 
 void
@@ -1168,7 +1168,7 @@ item_cursor_tip_setstatus (ItemCursor *item_cursor)
 }
 
 static gboolean
-cb_move_cursor (GnumericSheet *gsheet, int col, int row, gpointer user_data)
+cb_move_cursor (GnumericCanvas *gcanvas, int col, int row, gpointer user_data)
 {
 	ItemCursor *item_cursor = user_data;
 	int const w = (item_cursor->pos.end.col - item_cursor->pos.start.col);
@@ -1203,11 +1203,11 @@ cb_move_cursor (GnumericSheet *gsheet, int col, int row, gpointer user_data)
 
 static void
 item_cursor_handle_motion (ItemCursor *item_cursor, GdkEvent *event,
-			   GnumericSheetSlideHandler slide_handler)
+			   GnumericCanvasSlideHandler slide_handler)
 {
 	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (item_cursor)->canvas;
 
-	gnumeric_sheet_handle_motion (GNUMERIC_SHEET (canvas),
+	gnm_canvas_handle_motion (GNUMERIC_CANVAS (canvas),
 		canvas, &event->motion,
 		GNM_SLIDE_X | GNM_SLIDE_Y | GNM_SLIDE_AT_COLROW_BOUND,
 		slide_handler, item_cursor);
@@ -1222,7 +1222,7 @@ item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 	case GDK_BUTTON_RELEASE:
 		/* Note : see comment below, and bug 30507 */
 		if ((int)event->button.button == ic->drag_button) {
-			gnumeric_sheet_slide_stop (GNUMERIC_SHEET (item->canvas));
+			gnm_canvas_slide_stop (GNUMERIC_CANVAS (item->canvas));
 			gnome_canvas_item_ungrab (item, event->button.time);
 			item_cursor_do_drop (ic, (GdkEventButton *) event);
 		}
@@ -1246,7 +1246,7 @@ item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 }
 
 static gboolean
-cb_autofill_scroll (GnumericSheet *gsheet, int col, int row, gpointer user_data)
+cb_autofill_scroll (GnumericCanvas *gcanvas, int col, int row, gpointer user_data)
 {
 	ItemCursor *item_cursor = user_data;
 	int bottom = item_cursor->base.row + item_cursor->base_rows;
@@ -1277,13 +1277,13 @@ cb_autofill_scroll (GnumericSheet *gsheet, int col, int row, gpointer user_data)
 static gint
 item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 {
-	ItemCursor *item_cursor = ITEM_CURSOR (item);
-	SheetControl *sc = (SheetControl *) item_cursor->scg;
+	ItemCursor *ic = ITEM_CURSOR (item);
+	SheetControl *sc = (SheetControl *) ic->scg;
 	
 	switch (event->type){
 
 	case GDK_BUTTON_RELEASE:
-		gnumeric_sheet_slide_stop (GNUMERIC_SHEET (item->canvas));
+		gnm_canvas_slide_stop (GNUMERIC_CANVAS (item->canvas));
 
 		/* We flush after the ungrab, to have the ungrab take effect
 		 * immediately (the fill operation might take a while, and we
@@ -1292,18 +1292,18 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 		gnome_canvas_item_ungrab (item, event->button.time);
 		gdk_flush ();
 
-		wbcg_edit_finish (item_cursor->scg->wbcg, TRUE);
+		wbcg_edit_finish (ic->scg->wbcg, TRUE);
 		cmd_autofill (sc->wbc, sc->sheet,
-			      item_cursor->base.col,    item_cursor->base.row,
-			      item_cursor->base_cols+1, item_cursor->base_rows+1,
-			      item_cursor->pos.end.col, item_cursor->pos.end.row);
+			      ic->base.col,    ic->base.row,
+			      ic->base_cols+1, ic->base_rows+1,
+			      ic->pos.end.col, ic->pos.end.row);
 
-		gtk_object_destroy (GTK_OBJECT (item));
+		scg_special_cursor_stop	(ic->scg);
 
 		return TRUE;
 
 	case GDK_MOTION_NOTIFY:
-		item_cursor_handle_motion (item_cursor, event, &cb_autofill_scroll);
+		item_cursor_handle_motion (ic, event, &cb_autofill_scroll);
 		return TRUE;
 
 	default:

@@ -17,6 +17,7 @@ Andreas:
 Jody:
 	* XL export for panes.
 	* Some autoscroll bugs with panes.
+	* Cursor support for panes.
 
 Morten:
 	* Fix MODE.

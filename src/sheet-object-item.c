@@ -24,13 +24,13 @@ static GtkObject *
 sheet_object_item_new_view (SheetObject *so, SheetControlGUI *scg)
 {
 	/* FIXME : this is bogus */
-	GnumericSheet *gsheet = scg_pane (scg, 0);
+	GnumericCanvas *gcanvas = scg_pane (scg, 0);
 	GnomeCanvasItem *so_view = NULL;
 
 	so_view = bonobo_client_site_new_item (
 		SHEET_OBJECT_BONOBO (so)->client_site,
 		bonobo_ui_component_get_container (scg->wbcg->uic),
-		gsheet->object_group);
+		gcanvas->object_group);
 
 	scg_object_register (so, so_view);
 	return GTK_OBJECT (so_view);

@@ -95,7 +95,7 @@ static GtkObject *
 sheet_object_graphic_new_view (SheetObject *so, SheetControlGUI *scg)
 {
 	/* FIXME : this is bogus */
-	GnumericSheet *gsheet = scg_pane (scg, 0);
+	GnumericCanvas *gcanvas = scg_pane (scg, 0);
 	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (so);
 	GnomeCanvasItem *item = NULL;
 
@@ -105,7 +105,7 @@ sheet_object_graphic_new_view (SheetObject *so, SheetControlGUI *scg)
 	switch (sog->type) {
 	case SHEET_OBJECT_LINE:
 		item = gnome_canvas_item_new (
-			gsheet->object_group,
+			gcanvas->object_group,
 			gnome_canvas_line_get_type (),
 			"fill_color",    sog->color->str,
 			"width_units",   (double) sog->width,
@@ -114,7 +114,7 @@ sheet_object_graphic_new_view (SheetObject *so, SheetControlGUI *scg)
 
 	case SHEET_OBJECT_ARROW:
 		item = gnome_canvas_item_new (
-			gsheet->object_group,
+			gcanvas->object_group,
 			gnome_canvas_line_get_type (),
 			"fill_color",    sog->color->str,
 			"width_units",   (double) sog->width,
@@ -364,7 +364,7 @@ static GtkObject *
 sheet_object_filled_new_view (SheetObject *so, SheetControlGUI *scg)
 {
 	/* FIXME : this is bogus */
-	GnumericSheet *gsheet = scg_pane (scg, 0);
+	GnumericCanvas *gcanvas = scg_pane (scg, 0);
 	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (so);
 	SheetObjectFilled  *sof = SHEET_OBJECT_FILLED (so);
 	GnomeCanvasItem *item = NULL;
@@ -382,7 +382,7 @@ sheet_object_filled_new_view (SheetObject *so, SheetControlGUI *scg)
 	}
 
 	item = gnome_canvas_item_new (
-		gsheet->object_group, type,
+		gcanvas->object_group, type,
 		"fill_color",    sof->fill_color ? sof->fill_color->str : NULL,
 		"outline_color", sog->color->str,
 		"width_units",   (double) sog->width,

@@ -1704,16 +1704,16 @@ cb_view_freeze_panes (GtkWidget *widget, WorkbookControlGUI *wbcg)
 
 	if (scg->active_panes == 1) {
 		CellPos frozen_tl, unfrozen_tl;
-		GnumericSheet const *gsheet = scg_pane (scg, 0);
-		frozen_tl = gsheet->first;
+		GnumericCanvas const *gcanvas = scg_pane (scg, 0);
+		frozen_tl = gcanvas->first;
 		unfrozen_tl = sheet->edit_pos;
 
-		if (unfrozen_tl.col <= gsheet->first.col ||
-		    unfrozen_tl.col > gsheet->last_full.col)
-			unfrozen_tl.col = (gsheet->first.col + gsheet->last_full.col) / 2;
-		if (unfrozen_tl.row <= gsheet->first.row ||
-		    unfrozen_tl.row > gsheet->last_full.row)
-			unfrozen_tl.row = (gsheet->first.row + gsheet->last_full.row) / 2;
+		if (unfrozen_tl.col <= gcanvas->first.col ||
+		    unfrozen_tl.col > gcanvas->last_full.col)
+			unfrozen_tl.col = (gcanvas->first.col + gcanvas->last_full.col) / 2;
+		if (unfrozen_tl.row <= gcanvas->first.row ||
+		    unfrozen_tl.row > gcanvas->last_full.row)
+			unfrozen_tl.row = (gcanvas->first.row + gcanvas->last_full.row) / 2;
 
 		if (unfrozen_tl.col > frozen_tl.col &&
 		    unfrozen_tl.row > frozen_tl.row)

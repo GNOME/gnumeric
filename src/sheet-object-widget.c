@@ -103,11 +103,11 @@ static GtkObject *
 sheet_object_widget_new_view (SheetObject *so, SheetControlGUI *scg)
 {
 	/* FIXME : this is bogus */
-	GnumericSheet *gsheet = scg_pane (scg, 0);
+	GnumericCanvas *gcanvas = scg_pane (scg, 0);
 	GtkWidget *view_widget = SOW_CLASS(so)->create_widget (
 		SHEET_OBJECT_WIDGET (so), scg);
 	GnomeCanvasItem *view_item = gnome_canvas_item_new (
-		gsheet->object_group,
+		gcanvas->object_group,
 		gnome_canvas_widget_get_type (),
 		"widget", view_widget,
 		"size_pixels", FALSE,

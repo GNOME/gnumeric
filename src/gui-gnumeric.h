@@ -8,12 +8,12 @@ typedef struct _ItemCursor		ItemCursor;
 typedef struct _ItemGrid		ItemGrid;
 typedef struct _ItemBar			ItemBar;
 typedef struct _ItemEdit		ItemEdit;
-typedef struct _GnumericSheet		GnumericSheet;
+typedef struct _GnumericCanvas		GnumericCanvas;
 typedef struct _GnumericPane		GnumericPane;
 typedef struct _SheetControlGUI		SheetControlGUI;
 typedef struct _WorkbookControlGUI	WorkbookControlGUI;
 
-typedef gboolean (*GnumericSheetSlideHandler) (GnumericSheet *gsheet,
-					       int col, int row,
-					       gpointer user_data);
+typedef gboolean (*GnumericCanvasSlideHandler) (GnumericCanvas *gcanvas,
+						int col, int row,
+						gpointer user_data);
 #endif /* GUI_GNUMERIC_H */

@@ -36,7 +36,7 @@ enum {
 struct _ItemBar {
 	GnomeCanvasItem  canvas_item;
 
-	GnumericSheet   *gsheet;
+	GnumericCanvas   *gcanvas;
 	GdkGC           *gc, *lines, *shade; /* Draw gc */
 	GdkCursor       *normal_cursor;
 	GdkCursor       *change_cursor;
@@ -94,7 +94,7 @@ ib_fonts_unref (ItemBar *ib)
 int
 item_bar_calc_size (ItemBar *ib)
 {
-	Sheet const *sheet = ((SheetControl *) ib->gsheet->scg)->sheet;
+	Sheet const *sheet = ((SheetControl *) ib->gcanvas->scg)->sheet;
 	double const zoom_factor = sheet->last_zoom_factor_used;
 	double const res  = application_dpi_to_pixels ();
 
@@ -254,8 +254,8 @@ static void
 item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width, int height)
 {
 	ItemBar const         *ib = ITEM_BAR (item);
-	GnumericSheet const   *gsheet = ib->gsheet;
-	SheetControlGUI const *scg    = gsheet->scg;
+	GnumericCanvas const   *gcanvas = ib->gcanvas;
+	SheetControlGUI const *scg    = gcanvas->scg;
 	Sheet const           *sheet  = ((SheetControl *) scg)->sheet;
 	GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (item)->canvas);
 	ColRowInfo const *cri;
@@ -273,8 +273,8 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 		int const len = (inc > 4) ? 4 : inc;
 
 		/* See comment above for explaination of the extra 1 pixel */
-		int total = 1 + gsheet->first_offset.col - x;
-		int col = gsheet->first.col;
+		int total = 1 + gcanvas->first_offset.col - x;
+		int col = gcanvas->first.col;
 
 		rect.y = ib->indent - y;
 		rect.height = ib->cell_height;
@@ -395,8 +395,8 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 		 * compatible with the default colour used on the bottom of the
 		 * cell shadows.
 		 */
-		int total = 1 + gsheet->first_offset.row - y;
-		int row = gsheet->first.row;
+		int total = 1 + gcanvas->first_offset.row - y;
+		int row = gcanvas->first.row;
 
 		rect.x = ib->indent - x;
 		rect.width = ib->cell_width;
@@ -515,14 +515,14 @@ item_bar_translate (GnomeCanvasItem *item, double dx, double dy)
  * is_pointer_on_division :
  *
  * NOTE : this could easily be optimized.  We need not start at 0 every time.
- *        We could potentially use the routines in gnumeric-sheet.
+ *        We could potentially use the routines in gnumeric-canvas.
  *
  * return -1 if the event is outside the item boundary
  */
 static ColRowInfo *
 is_pointer_on_division (ItemBar const *ib, int pos, int *the_total, int *the_element)
 {
-	Sheet *sheet = ((SheetControl *) ib->gsheet->scg)->sheet;
+	Sheet *sheet = sc_sheet (SHEET_CONTROL (ib->gcanvas->scg));
 	ColRowInfo *cri;
 	int i, total = 0;
 
@@ -551,7 +551,7 @@ is_pointer_on_division (ItemBar const *ib, int pos, int *the_total, int *the_ele
 			 * it as the cursor in the entry is moved.  The current
 			 * approach recalculates the state every time.
 			 */
-			if (!wbcg_rangesel_possible (ib->gsheet->scg->wbcg) &&
+			if (!wbcg_rangesel_possible (ib->gcanvas->scg->wbcg) &&
 			    (total - 4 < pos) && (pos < total + 4)) {
 				if (the_total)
 					*the_total = total;
@@ -584,7 +584,7 @@ ib_set_cursor (ItemBar *ib, int x, int y)
 	if (!canvas->window)
 		return;
 
-	if (!wbcg_edit_has_guru (ib->gsheet->scg->wbcg)) {
+	if (!wbcg_edit_has_guru (ib->gcanvas->scg->wbcg)) {
 		if (ib->is_col_header) {
 			major = x;
 			minor = y;
@@ -621,12 +621,12 @@ static void
 item_bar_end_resize (ItemBar *ib, int new_size)
 {
 	if (new_size != 0 && ib->colrow_being_resized >= 0)
-		scg_colrow_size_set (ib->gsheet->scg,
+		scg_colrow_size_set (ib->gcanvas->scg,
 				     ib->is_col_header,
 				     ib->colrow_being_resized, new_size);
 	ib->colrow_being_resized = -1;
 	ib->has_resize_guides = FALSE;
-	scg_colrow_resize_end (ib->gsheet->scg);
+	scg_colrow_resize_end (ib->gcanvas->scg);
 
 	if (ib->tip != NULL) {
 		gtk_widget_destroy (gtk_widget_get_toplevel (ib->tip));
@@ -635,12 +635,12 @@ item_bar_end_resize (ItemBar *ib, int new_size)
 }
 
 static gboolean
-cb_extend_selection (GnumericSheet *gsheet,
+cb_extend_selection (GnumericCanvas *gcanvas,
 		     int col, int row, gpointer user_data)
 {
 	ItemBar * const ib = user_data;
 	gboolean const is_cols = ib->is_col_header;
-	scg_colrow_select (gsheet->scg,
+	scg_colrow_select (gcanvas->scg,
 			   is_cols, is_cols ? col : row, GDK_SHIFT_MASK);
 	return TRUE;
 }
@@ -648,7 +648,7 @@ cb_extend_selection (GnumericSheet *gsheet,
 static gint
 outline_button_press (ItemBar const *ib, int element, int pixel)
 {
-	SheetControl *sc = (SheetControl *) ib->gsheet->scg;
+	SheetControl *sc = (SheetControl *) ib->gcanvas->scg;
 	Sheet * const sheet = sc->sheet;
 	int inc, step;
 
@@ -674,9 +674,9 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 	ColRowInfo *cri;
 	GnomeCanvas	* const canvas = item->canvas;
 	ItemBar		* const ib = ITEM_BAR (item);
-	GnumericSheet	* const gsheet = ib->gsheet;
-	SheetControlGUI	* const scg = gsheet->scg;
-	SheetControl	* const sc = (SheetControl *) gsheet->scg;
+	GnumericCanvas	* const gcanvas = ib->gcanvas;
+	SheetControlGUI	* const scg = gcanvas->scg;
+	SheetControl	* const sc = (SheetControl *) gcanvas->scg;
 	Sheet		* const sheet = sc->sheet;
 	WorkbookControlGUI * const wbcg = scg->wbcg;
 	gboolean const is_cols = ib->is_col_header;
@@ -700,7 +700,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			int new_size;
 			if (!ib->has_resize_guides) {
 				ib->has_resize_guides = TRUE;
-				scg_colrow_resize_start	(ib->gsheet->scg,
+				scg_colrow_resize_start	(ib->gcanvas->scg,
 							 ib->is_col_header,
 							 ib->colrow_being_resized);
 
@@ -722,14 +722,14 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			if (new_size <= (cri->margin_a + cri->margin_b)) {
 				new_size = cri->margin_a + cri->margin_b + 1;
 				if (is_cols)
-					pos = gsheet->first_offset.col +
+					pos = gcanvas->first_offset.col +
 						scg_colrow_distance_get (scg, TRUE,
-							gsheet->first.col,
+							gcanvas->first.col,
 							ib->colrow_being_resized);
 				else
-					pos = gsheet->first_offset.row +
+					pos = gcanvas->first_offset.row +
 						scg_colrow_distance_get (scg, FALSE,
-							gsheet->first.row,
+							gcanvas->first.row,
 							ib->colrow_being_resized);
 				pos += new_size;
 			}
@@ -746,7 +746,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			    !wbcg_edit_entry_redirect_p (wbcg))
 				break;
 
-			gnumeric_sheet_handle_motion (ib->gsheet,
+			gnm_canvas_handle_motion (ib->gcanvas,
 				canvas, &e->motion,
 				GNM_SLIDE_AT_COLROW_BOUND |
 					is_cols ? GNM_SLIDE_X : GNM_SLIDE_Y,
@@ -814,7 +814,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 				break;
 
 			ib->start_selection = element;
-			gnumeric_sheet_slide_init (gsheet);
+			gnm_canvas_slide_init (gcanvas);
 			gnome_canvas_item_grab (item,
 						GDK_POINTER_MOTION_MASK |
 						GDK_BUTTON_RELEASE_MASK,
@@ -845,7 +845,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		if (e->button.button > 3)
 			return FALSE;
 
-		gnumeric_sheet_slide_stop (ib->gsheet);
+		gnm_canvas_slide_stop (ib->gcanvas);
 
 		if (ib->start_selection >= 0) {
 			needs_ungrab = TRUE;
@@ -884,7 +884,7 @@ item_bar_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 
 	switch (arg_id){
 	case ARG_GNUMERIC_SHEET:
-		ib->gsheet = GTK_VALUE_POINTER (*arg);
+		ib->gcanvas = GTK_VALUE_POINTER (*arg);
 		break;
 	case ARG_IS_COL_HEADER:
 		ib->is_col_header = GTK_VALUE_BOOL (*arg);
@@ -944,7 +944,7 @@ item_bar_class_init (ItemBarClass *item_bar_class)
 	object_class = (GtkObjectClass *) item_bar_class;
 	item_class = (GnomeCanvasItemClass *) item_bar_class;
 
-	gtk_object_add_arg_type ("ItemBar::GnumericSheet", GTK_TYPE_POINTER,
+	gtk_object_add_arg_type ("ItemBar::GnumericCanvas", GTK_TYPE_POINTER,
 				 GTK_ARG_WRITABLE, ARG_GNUMERIC_SHEET);
 	gtk_object_add_arg_type ("ItemBar::IsColHeader", GTK_TYPE_BOOL,
 				 GTK_ARG_WRITABLE, ARG_IS_COL_HEADER);

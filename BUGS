@@ -31,7 +31,6 @@ Long term breakage
     : keep the hash per sheet rather than per workbook.
 
 - Panes 
-    : cursor dragging only affects src pane.
     : support horizontal or vertical only
 
 - support negative durations with [h]

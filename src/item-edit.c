@@ -131,7 +131,7 @@ entry_create_feedback_range (ItemEdit *item_edit, Range *r)
 			"Color",  "red",
 			NULL);
 
-	item_cursor_set_bounds (ITEM_CURSOR (item_edit->feedback_cursor), r);
+	item_cursor_bound_set (ITEM_CURSOR (item_edit->feedback_cursor), r);
 }
 
 static void
@@ -301,7 +301,7 @@ recalc_spans (GnomeCanvasItem *item)
 	Range const *merged;
 
 	/* Adjust the spans */
-	GnumericSheet *gsheet = GNUMERIC_SHEET (item->canvas);
+	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (item->canvas);
 	int cur_line = 1;
 	int cur_col = item_edit->pos.col, max_col = cur_col;
 	ColRowInfo const * cri = sheet_col_get_info (sheet, cur_col);
@@ -318,8 +318,8 @@ recalc_spans (GnomeCanvasItem *item)
 		while (left_in_col < pos_size) {
 			do {
 				++cur_col;
-				if (cur_col > gsheet->last_full.col || cur_col >= SHEET_MAX_COLS) {
-					int height = GTK_WIDGET (gsheet)->allocation.height;
+				if (cur_col > gcanvas->last_full.col || cur_col >= SHEET_MAX_COLS) {
+					int height = GTK_WIDGET (gcanvas)->allocation.height;
 					int offset = text - start - 1;
 					if (offset < 0)
 						offset = 0;
@@ -329,7 +329,7 @@ recalc_spans (GnomeCanvasItem *item)
 					text_offsets = g_slist_prepend (text_offsets,
 									GINT_TO_POINTER(offset));
 					if (item->y1 + cur_line * item_edit->font_height >
-					    (gsheet->first_offset.row + height))
+					    (gcanvas->first_offset.row + height))
 						ignore_rows++;
 				} else if (max_col < cur_col)
 					max_col = cur_col;
@@ -506,7 +506,7 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
 	GnomeCanvasItem *item      = GNOME_CANVAS_ITEM (o);
 	ItemEdit        *item_edit = ITEM_EDIT (o);
-	GnumericSheet   *gsheet    = GNUMERIC_SHEET (item->canvas);
+	GnumericCanvas  *gcanvas    = GNUMERIC_CANVAS (item->canvas);
 	Sheet		*sheet;
 	GtkEntry        *entry;
 
@@ -547,12 +547,12 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		style_font_unref (sf);
 
 		/* move inwards 1 pixel for the grid line */
-		item->x1 = 1 + gsheet->first_offset.col +
+		item->x1 = 1 + gcanvas->first_offset.col +
 			scg_colrow_distance_get (item_edit->scg, TRUE,
-					  gsheet->first.col, item_edit->pos.col);
-		item->y1 = 1 + gsheet->first_offset.row +
+					  gcanvas->first.col, item_edit->pos.col);
+		item->y1 = 1 + gcanvas->first_offset.row +
 			scg_colrow_distance_get (item_edit->scg, FALSE,
-					  gsheet->first.row, item_edit->pos.row);
+					  gcanvas->first.row, item_edit->pos.row);
 
 		item->x2 = item->x1 + 1;
 		item->y2 = item->y2 + 1;

@@ -39,8 +39,8 @@ void scg_colrow_size_set	(SheetControlGUI *scg,
 int  scg_colrow_distance_get	(SheetControlGUI const *scg,
 				 gboolean is_cols, int from, int to);
 
-void scg_create_editor		(SheetControlGUI *scg);
-void scg_stop_editing		(SheetControlGUI *scg);
+void scg_edit_start		(SheetControlGUI *scg);
+void scg_edit_stop		(SheetControlGUI *scg);
 
 void scg_rangesel_start		(SheetControlGUI *scg, int col, int row);
 void scg_rangesel_stop		(SheetControlGUI *scg, gboolean clear_str);
@@ -61,6 +61,11 @@ void scg_cursor_move		(SheetControlGUI *scg, int dir,
 				 gboolean jump_to_bound, gboolean horiz);
 void scg_cursor_extend		(SheetControlGUI *scg, int n,
 				 gboolean jump_to_bound, gboolean horiz);
+
+void scg_special_cursor_start	(SheetControlGUI *scg, int style, int button);
+void scg_special_cursor_stop	(SheetControlGUI *scg);
+gboolean scg_special_cursor_bound_set (SheetControlGUI *scg, Range const *r);
+
 void scg_set_left_col		(SheetControlGUI *scg, int new_first_col);
 void scg_set_top_row		(SheetControlGUI *scg, int new_first_row);
 
@@ -71,7 +76,7 @@ void scg_colrow_resize_move	(SheetControlGUI *scg,
 				 gboolean is_cols, int resize_last);
 
 /* DO NOT USE THIS WITHOUT ALOT OF THOUGHT */
-GnumericSheet      *scg_pane		(SheetControlGUI *scg, int pane);
+GnumericCanvas     *scg_pane		(SheetControlGUI *scg, int pane);
 
 WorkbookControlGUI *scg_get_wbcg	(SheetControlGUI const *scg);
 

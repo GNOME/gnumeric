@@ -51,7 +51,7 @@ static GtkObject *
 sheet_object_container_new_view (SheetObject *so, SheetControlGUI *scg)
 {
 	/* FIXME : this is bogus */
-	GnumericSheet *gsheet = scg_pane (scg, 0);
+	GnumericCanvas *gcanvas = scg_pane (scg, 0);
 	SheetObjectContainer *soc;
 	BonoboViewFrame *view_frame;
 	GtkWidget	*view_widget;
@@ -71,7 +71,7 @@ sheet_object_container_new_view (SheetObject *so, SheetControlGUI *scg)
 
 	view_widget = bonobo_view_frame_get_wrapper (view_frame);
 	view_item = gnome_canvas_item_new (
-		gsheet->object_group,
+		gcanvas->object_group,
 		gnome_canvas_widget_get_type (),
 		"widget", view_widget,
 		"size_pixels", FALSE,

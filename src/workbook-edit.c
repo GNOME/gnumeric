@@ -255,7 +255,7 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 	wb_control_sheet_focus (WORKBOOK_CONTROL (wbcg), sheet);
 
 	/* Only the edit sheet has an edit cursor */
-	scg_stop_editing (wb_control_gui_cur_sheet (wbcg));
+	scg_edit_stop (wb_control_gui_cur_sheet (wbcg));
 
 	wbcg_auto_complete_destroy (wbcg);
 
@@ -371,7 +371,7 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 	gnumeric_expr_entry_set_flags (
 		wbcg->edit_line.entry, GNUM_EE_SHEET_OPTIONAL,
 		GNUM_EE_SINGLE_RANGE | GNUM_EE_SHEET_OPTIONAL);
-	scg_create_editor (scg);
+	scg_edit_start (scg);
 
 	/* Redraw the cell contents in case there was a span */
 	sheet_redraw_region (sheet, col, row, col, row);

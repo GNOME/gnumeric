@@ -61,20 +61,26 @@ sc_class_init (GtkObjectClass *object_class)
 E_MAKE_TYPE (sheet_control, "SheetControl", SheetControl,
 	     sc_class_init, NULL, GTK_TYPE_OBJECT);
 
+WorkbookControl *
+sc_wbc (SheetControl const *sc)
+{
+	g_return_val_if_fail (IS_SHEET_CONTROL (sc), NULL);
+	return sc->wbc;
+}
+
 Sheet *
-sc_sheet (SheetControl *sc)
+sc_sheet (SheetControl const *sc)
 {
 	g_return_val_if_fail (IS_SHEET_CONTROL (sc), NULL);
 	return sc->sheet;
 }
 
 void
-sc_set_sheet (SheetControl *sc, Sheet *sheet)
+sc_sheet_set (SheetControl *sc, Sheet *sheet)
 {
 	g_return_if_fail (IS_SHEET_CONTROL (sc));
 	sc->sheet = sheet;
 }
-
 
 SC_VIRTUAL (resize, (SheetControl *sc, gboolean force_scroll), (sc, force_scroll))
 
@@ -94,8 +100,6 @@ SC_VIRTUAL (ant, (SheetControl *sc), (sc))
 SC_VIRTUAL (unant, (SheetControl *sc), (sc))
 
 SC_VIRTUAL (adjust_preferences, (SheetControl *sc), (sc))
-
-SC_VIRTUAL (update_cursor_pos, (SheetControl *sc), (sc))
 
 SC_VIRTUAL (scrollbar_config, (SheetControl const *sc), (sc));
 

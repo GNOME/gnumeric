@@ -252,9 +252,9 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		int draw_x, int draw_y, int width, int height)
 {
 	GnomeCanvas *canvas = item->canvas;
-	GnumericSheet *gsheet = GNUMERIC_SHEET (canvas);
-	Sheet const *sheet = ((SheetControl *) gsheet->scg)->sheet;
-	Cell const * const edit_cell = gsheet->scg->wbcg->editing_cell;
+	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (canvas);
+	Sheet const *sheet = ((SheetControl *) gcanvas->scg)->sheet;
+	Cell const * const edit_cell = gcanvas->scg->wbcg->editing_cell;
 	ItemGrid *ig = ITEM_GRID (item);
 	ColRowInfo const *ri = NULL, *next_ri = NULL;
 
@@ -266,11 +266,11 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	 * However, that feels like more hassle that it is worth.  Look into this someday.
 	 */
 	int x, y, col, row, n;
-	int start_col = gnumeric_sheet_find_col (gsheet, draw_x-2, &x);
-	int end_col = gnumeric_sheet_find_col (gsheet, draw_x+width+2, NULL);
+	int start_col = gnm_canvas_find_col (gcanvas, draw_x-2, &x);
+	int end_col = gnm_canvas_find_col (gcanvas, draw_x+width+2, NULL);
 	int const diff_x = x - draw_x;
-	int start_row = gnumeric_sheet_find_row (gsheet, draw_y-2, &y);
-	int end_row = gnumeric_sheet_find_row (gsheet, draw_y+height+2, NULL);
+	int start_row = gnm_canvas_find_row (gcanvas, draw_y-2, &y);
+	int end_row = gnm_canvas_find_row (gcanvas, draw_y+height+2, NULL);
 	int const diff_y = y - draw_y;
 
 	StyleRow sr, next_sr;
@@ -420,7 +420,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 					int last  = r->end.col;
 
 					x += scg_colrow_distance_get (
-						gsheet->scg, TRUE, col, last+1);
+						gcanvas->scg, TRUE, col, last+1);
 					col = last;
 
 					if (first < start_col) {
@@ -510,12 +510,12 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				 */
 				if (start_span_col != cell->pos.col)
 					center_offset += scg_colrow_distance_get (
-						gsheet->scg, TRUE,
+						gcanvas->scg, TRUE,
 						start_span_col, cell->pos.col);
 
 				if (start_span_col != col) {
 					int offset = scg_colrow_distance_get (
-						gsheet->scg, TRUE,
+						gcanvas->scg, TRUE,
 						start_span_col, col);
 					real_x -= offset;
 					tmp_width += offset;
@@ -523,7 +523,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				}
 				if (end_span_col != col) {
 					tmp_width += scg_colrow_distance_get (
-						gsheet->scg, TRUE,
+						gcanvas->scg, TRUE,
 						col+1, end_span_col + 1);
 				}
 
@@ -552,12 +552,12 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	if (row >= ig->bound.end.row) {
 		style_borders_row_draw (prev_vert, &sr,
 					drawable, diff_x, y, y, colwidths, FALSE);
-		if (gsheet->pane->index >= 2)
+		if (gcanvas->pane->index >= 2)
 			gdk_draw_line (drawable, ig->gc.bound, 0, y, x, y);
 	}
 	if (col >= ig->bound.end.col &&
 	    /* TODO : Add pane flags to avoid hard coding pane numbers */
-	    (gsheet->pane->index == 1 || gsheet->pane->index == 2))
+	    (gcanvas->pane->index == 1 || gcanvas->pane->index == 2))
 		gdk_draw_line (drawable, ig->gc.bound, x, 0, x, y);
 
 	if (merged_used)	/* ranges whose bottoms are in the view */
@@ -588,7 +588,7 @@ typedef struct {
 
 /*
  * cb_obj_create_motion:
- * @gsheet :
+ * @gcanvas :
  * @event :
  * @closure :
  *
@@ -598,15 +598,15 @@ typedef struct {
  * TODO : Finish autoscroll
  */
 static gboolean
-cb_obj_create_motion (GnumericSheet *gsheet, GdkEventMotion *event,
+cb_obj_create_motion (GnumericCanvas *gcanvas, GdkEventMotion *event,
 		      SheetObjectCreationData *closure)
 {
 	double tmp_x, tmp_y;
 	double x1, x2, y1, y2;
 
-	g_return_val_if_fail (gsheet != NULL, TRUE);
+	g_return_val_if_fail (gcanvas != NULL, TRUE);
 
-	gnome_canvas_window_to_world (GNOME_CANVAS (gsheet),
+	gnome_canvas_window_to_world (GNOME_CANVAS (gcanvas),
 				      event->x, event->y,
 				      &tmp_x, &tmp_y);
 
@@ -670,7 +670,7 @@ cb_obj_create_motion (GnumericSheet *gsheet, GdkEventMotion *event,
  * Invoked as the last step in object creation.
  */
 static gboolean
-cb_obj_create_button_release (GnumericSheet *gsheet, GdkEventButton *event,
+cb_obj_create_button_release (GnumericCanvas *gcanvas, GdkEventButton *event,
 			      SheetObjectCreationData *closure)
 {
 	double pts [4];
@@ -678,7 +678,7 @@ cb_obj_create_button_release (GnumericSheet *gsheet, GdkEventButton *event,
 	SheetControlGUI *scg;
 	Sheet *sheet;
 
-	g_return_val_if_fail (gsheet != NULL, 1);
+	g_return_val_if_fail (gcanvas != NULL, 1);
 	g_return_val_if_fail (closure != NULL, -1);
 	g_return_val_if_fail (closure->scg != NULL, -1);
 	g_return_val_if_fail (closure->scg->new_object != NULL, -1);
@@ -692,7 +692,7 @@ cb_obj_create_button_release (GnumericSheet *gsheet, GdkEventButton *event,
 	if (closure->has_been_sized) {
 		pts [0] = closure->x;
 		pts [1] = closure->y;
-		gnome_canvas_window_to_world (GNOME_CANVAS (gsheet),
+		gnome_canvas_window_to_world (GNOME_CANVAS (gcanvas),
 					      event->x, event->y,
 					      pts + 2, pts + 3);
 	} else {
@@ -703,10 +703,10 @@ cb_obj_create_button_release (GnumericSheet *gsheet, GdkEventButton *event,
 	}
 
 	gtk_signal_disconnect_by_func (
-		GTK_OBJECT (gsheet),
+		GTK_OBJECT (gcanvas),
 		GTK_SIGNAL_FUNC (cb_obj_create_motion), closure);
 	gtk_signal_disconnect_by_func (
-		GTK_OBJECT (gsheet),
+		GTK_OBJECT (gcanvas),
 		GTK_SIGNAL_FUNC (cb_obj_create_button_release), closure);
 
 	scg_object_calc_position (scg, so, pts);
@@ -730,22 +730,22 @@ cb_obj_create_button_release (GnumericSheet *gsheet, GdkEventButton *event,
  * sheet_object_begin_creation :
  *
  * Starts the process of creating a SheetObject.  Handles the initial
- * button press on the GnumericSheet.
+ * button press on the GnumericCanvas.
  *
  * TODO : when we being supporting panes this will need to move into the
  * sheet-control-gui layer.
  */
 static gboolean
-sheet_object_begin_creation (GnumericSheet *gsheet, GdkEventButton *event)
+sheet_object_begin_creation (GnumericCanvas *gcanvas, GdkEventButton *event)
 {
 	SheetControlGUI *scg;
 	SheetObject *so;
 	SheetObjectCreationData *closure;
 
-	g_return_val_if_fail (GNUMERIC_IS_SHEET (gsheet), TRUE);
-	g_return_val_if_fail (gsheet->scg != NULL, TRUE);
+	g_return_val_if_fail (IS_GNUMERIC_CANVAS (gcanvas), TRUE);
+	g_return_val_if_fail (gcanvas->scg != NULL, TRUE);
 
-	scg = gsheet->scg;
+	scg = gcanvas->scg;
 
 	g_return_val_if_fail (scg != NULL, TRUE);
 	g_return_val_if_fail (scg->current_object == NULL, TRUE);
@@ -761,7 +761,7 @@ sheet_object_begin_creation (GnumericSheet *gsheet, GdkEventButton *event)
 
 	if (!sheet_object_rubber_band_directly (so)) {
 		closure->item = gnome_canvas_item_new (
-			gsheet->object_group,
+			gcanvas->object_group,
 			gnome_canvas_rect_get_type (),
 			"outline_color", "black",
 			"width_units",   2.0,
@@ -777,9 +777,9 @@ sheet_object_begin_creation (GnumericSheet *gsheet, GdkEventButton *event)
 		closure->item = NULL;
 	}
 
-	gtk_signal_connect (GTK_OBJECT (gsheet), "button_release_event",
+	gtk_signal_connect (GTK_OBJECT (gcanvas), "button_release_event",
 			    GTK_SIGNAL_FUNC (cb_obj_create_button_release), closure);
-	gtk_signal_connect (GTK_OBJECT (gsheet), "motion_notify_event",
+	gtk_signal_connect (GTK_OBJECT (gcanvas), "motion_notify_event",
 			    GTK_SIGNAL_FUNC (cb_obj_create_motion), closure);
 
 	return TRUE;
@@ -794,7 +794,7 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (ig);
 	GnomeCanvas   *canvas = item->canvas;
-	GnumericSheet *gsheet = GNUMERIC_SHEET (canvas);
+	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (canvas);
 	SheetControl *sc = (SheetControl *) scg;
 	Sheet *sheet = sc->sheet;
 
@@ -806,7 +806,7 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 
 	/* A new object is ready to be realized and inserted */
 	if (scg->new_object != NULL)
-		return sheet_object_begin_creation (gsheet, event);
+		return sheet_object_begin_creation (gcanvas, event);
 
 	/* If we are not configuring an object then clicking on the sheet
 	 * ends the edit.
@@ -826,7 +826,7 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 			scg_rangesel_extend_to (scg, col, row);
 		else
 			scg_rangesel_bound (scg, col, row, col, row);
-		gnumeric_sheet_slide_init (gsheet);
+		gnm_canvas_slide_init (gcanvas);
 		gnome_canvas_item_grab (item,
 					GDK_POINTER_MOTION_MASK |
 					GDK_BUTTON_RELEASE_MASK,
@@ -841,7 +841,7 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 	if (wbcg_rangesel_possible (scg->wbcg)) {
 		scg_rangesel_start (scg, col, row);
 		ig->selecting = ITEM_GRID_SELECTING_FORMULA_RANGE;
-		gnumeric_sheet_slide_init (gsheet);
+		gnm_canvas_slide_init (gcanvas);
 		gnome_canvas_item_grab (item,
 					GDK_POINTER_MOTION_MASK |
 					GDK_BUTTON_RELEASE_MASK,
@@ -873,7 +873,7 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 	}
 	sheet_update (sheet);
 
-	gnumeric_sheet_slide_init (gsheet);
+	gnm_canvas_slide_init (gcanvas);
 	gnome_canvas_item_grab (item,
 				GDK_POINTER_MOTION_MASK |
 				GDK_BUTTON_RELEASE_MASK,
@@ -907,16 +907,16 @@ drag_start (GtkWidget *widget, GdkEvent *event, Sheet *sheet)
  */
 
 static gboolean
-cb_extend_cell_range (GnumericSheet *gsheet, int col, int row, gpointer ignored)
+cb_extend_cell_range (GnumericCanvas *gcanvas, int col, int row, gpointer ignored)
 {
-	sheet_selection_extend_to (((SheetControl *) gsheet->scg)->sheet, col, row);
+	sheet_selection_extend_to (((SheetControl *) gcanvas->scg)->sheet, col, row);
 	return TRUE;
 }
 
 static gboolean
-cb_extend_expr_range (GnumericSheet *gsheet, int col, int row, gpointer ignored)
+cb_extend_expr_range (GnumericCanvas *gcanvas, int col, int row, gpointer ignored)
 {
-	scg_rangesel_extend_to (gsheet->scg, col, row);
+	scg_rangesel_extend_to (gcanvas->scg, col, row);
 	return TRUE;
 }
 
@@ -924,7 +924,7 @@ static gint
 item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 {
 	GnomeCanvas *canvas = item->canvas;
-	GnumericSheet *gsheet = GNUMERIC_SHEET (canvas);
+	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (canvas);
 	ItemGrid *ig = ITEM_GRID (item);
 	SheetControlGUI *scg = ig->scg;
 	SheetControl *sc = (SheetControl *) scg;
@@ -949,7 +949,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 	case GDK_BUTTON_RELEASE:
 		switch (event->button.button) {
 		case 1 :
-			gnumeric_sheet_slide_stop (gsheet);
+			gnm_canvas_slide_stop (gcanvas);
 
 			if (ig->selecting == ITEM_GRID_SELECTING_FORMULA_RANGE)
 				sheet_make_cell_visible (sheet,
@@ -969,7 +969,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		break;
 
 	case GDK_MOTION_NOTIFY: {
-		GnumericSheetSlideHandler slide_handler = NULL;
+		GnumericCanvasSlideHandler slide_handler = NULL;
 
 		if (ig->selecting == ITEM_GRID_SELECTING_CELL_RANGE)
 			slide_handler = &cb_extend_cell_range;
@@ -979,19 +979,19 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		if (ig->selecting == ITEM_GRID_NO_SELECTION)
 			return TRUE;
 
-		gnumeric_sheet_handle_motion (gsheet, canvas, &event->motion,
+		gnm_canvas_handle_motion (gcanvas, canvas, &event->motion,
 			GNM_SLIDE_X | GNM_SLIDE_Y | GNM_SLIDE_AT_COLROW_BOUND,
 			slide_handler, NULL);
 		return TRUE;
 	}
 
 	case GDK_BUTTON_PRESS:
-		gnumeric_sheet_slide_stop (gsheet);
+		gnm_canvas_slide_stop (gcanvas);
 
 		gnome_canvas_w2c (canvas, event->button.x, event->button.y,
 				  &x, &y);
-		col = gnumeric_sheet_find_col (gsheet, x, NULL);
-		row = gnumeric_sheet_find_row (gsheet, y, NULL);
+		col = gnm_canvas_find_col (gcanvas, x, NULL);
+		row = gnm_canvas_find_row (gcanvas, y, NULL);
 
 		/* While a guru is up ignore clicks */
 		if (event->button.button == 1)
