@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.66\n"
-"POT-Creation-Date: 2002-03-02 11:41+0100\n"
+"POT-Creation-Date: 2002-03-02 12:02+0100\n"
 "PO-Revision-Date: 2002-03-02 11:58+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
@@ -392,12 +392,12 @@ msgstr "Passordbeskyttede arbeidsbøker er ikke støttet ennå."
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Kunne ikke finne en gyldig MS Excel arbeidsbok"
 
-#: plugins/excel/ms-excel-write.c:3503
+#: plugins/excel/ms-excel-write.c:3511
 #, c-format
 msgid "Too many rows for this format (%d > %d)"
 msgstr "For mange rader for dette formatet (%d > %d)"
 
-#: plugins/excel/ms-excel-write.c:3731
+#: plugins/excel/ms-excel-write.c:3737
 msgid "Can't open stream for writing\n"
 msgstr "Kan ikke åpne strømmen for skriving\n"
 
@@ -1388,13 +1388,17 @@ msgstr "SUM"
 msgid ""
 "Comparing two population means for two unpaired samples from pop. with "
 "unequal var.: t-test"
-msgstr "Sammenligner to populasjonsmedianer for to utvalg som ikke er i par fra populasjon med ulik varians: t-test"
+msgstr ""
+"Sammenligner to populasjonsmedianer for to utvalg som ikke er i par fra "
+"populasjon med ulik varians: t-test"
 
 #: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:3014
 msgid ""
 "Comparing two population means from pop. with known variances or using a "
 "large sample: z- test"
-msgstr "Sammenligner to populasjonsmedianer med kjente varianser eller ved bruk av et stort utvalg: z- test"
+msgstr ""
+"Sammenligner to populasjonsmedianer med kjente varianser eller ved bruk av "
+"et stort utvalg: z- test"
 
 #: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3056
 msgid "Comparing two population variances"
@@ -5235,7 +5239,7 @@ msgstr "%s er ikke et gyldig kildeområde"
 msgid "You cannot redefine a builtin name."
 msgstr "Du kan ikke redefinere et innebygget navn."
 
-#: src/dialogs/dialog-define-names.c:591
+#: src/dialogs/dialog-define-names.c:592
 msgid "Could not create the Name Guru."
 msgstr "Kunne ikke opprette navn-veiviseren."
 
@@ -7302,7 +7306,7 @@ msgstr "«%s» har en sirkulær referanse"
 msgid "Builtin"
 msgstr "Innebygget"
 
-#: src/expr-name.c:518 src/expr-name.c:530
+#: src/expr-name.c:516 src/expr-name.c:528
 msgid "Error: no sheet"
 msgstr "Feil: ingen ark"
 
