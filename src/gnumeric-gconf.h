@@ -115,6 +115,8 @@ void     gnm_gconf_set_undo_max_number (gint val);
 /* xml/files */
 void     gnm_gconf_set_recent_funcs (GSList *list);
 void     gnm_gconf_set_xml_compression (gint value);
+void     gnm_gconf_set_file_overwrite (gboolean value);
+void     gnm_gconf_set_file_single_sheet_save (gboolean value);
 
 /* print-setup & printing */
 void     gnm_gconf_set_all_sheets (gboolean val);
@@ -140,6 +142,8 @@ void     gnm_gconf_set_print_header_formats (GSList *left, GSList *middle,
 void     gnm_gconf_set_gui_window_x (gnm_float val);
 void     gnm_gconf_set_gui_window_y (gnm_float val);
 void     gnm_gconf_set_gui_zoom (gnm_float val);
+void     gnm_gconf_set_gui_transition_keys (gboolean value);
+void     gnm_gconf_set_gui_livescrolling (gboolean value);
 
 /* default font */
 void     gnm_gconf_set_default_font_size (gnm_float val);
@@ -152,9 +156,15 @@ void     gnm_gconf_set_hf_font (GnmStyle const *mstyle);
 
 /* sorting */
 void     gnm_gconf_set_sort_dialog_max_initial (gint value);
+void     gnm_gconf_set_sort_retain_form (gboolean value);
+void     gnm_gconf_set_sort_by_case (gboolean value);
+void     gnm_gconf_set_sort_ascending (gboolean value);
 
 /* workbook */
 void     gnm_gconf_set_workbook_nsheets (gint value);
+
+/* standard plugins */
+void     gnm_gconf_set_latex_use_utf8 (gboolean value);
 
 /**************************************************************/
 

@@ -1034,3 +1034,76 @@ gnm_gconf_set_xml_compression (gint val)
 	prefs.xml_compression_level = val;
 	go_conf_set_int (GNM_CONF_XML_COMPRESSION, val);
 }
+
+void     
+gnm_gconf_set_show_sheet_name (gboolean val)
+{
+	prefs.show_sheet_name = val;
+	go_conf_set_bool( GNM_CONF_UNDO_SHOW_SHEET_NAME, 
+			  val != FALSE);
+}
+
+void     
+gnm_gconf_set_latex_use_utf8 (gboolean val)
+{
+	prefs.latex_use_utf8 = val;
+	go_conf_set_bool( PLUGIN_GCONF_LATEX_USE_UTF8, 
+			  val != FALSE);
+}
+
+void     
+gnm_gconf_set_sort_retain_form (gboolean val)
+{
+	prefs.sort_default_retain_formats = val;
+	go_conf_set_bool( GNM_CONF_SORT_DEFAULT_RETAIN_FORM, 
+			  val != FALSE);
+}
+
+void     
+gnm_gconf_set_sort_by_case (gboolean val)
+{
+	prefs.sort_default_by_case = val;
+	go_conf_set_bool( GNM_CONF_SORT_DEFAULT_BY_CASE, 
+			  val != FALSE);
+}
+
+void     
+gnm_gconf_set_sort_ascending (gboolean val)
+{
+	prefs.sort_default_ascending = val;
+	go_conf_set_bool( GNM_CONF_SORT_DEFAULT_ASCENDING, 
+			  val != FALSE);
+}
+
+void     
+gnm_gconf_set_gui_transition_keys (gboolean val)
+{
+	prefs.transition_keys = val;
+	go_conf_set_bool( GNM_CONF_GUI_ED_TRANSITION_KEYS, 
+			  val != FALSE);
+}
+
+void     
+gnm_gconf_set_gui_livescrolling (gboolean val)
+{
+	prefs.live_scrolling = val;
+	go_conf_set_bool( GNM_CONF_GUI_ED_LIVESCROLLING, 
+			  val != FALSE);
+}
+
+void     
+gnm_gconf_set_file_overwrite (gboolean val)
+{
+	prefs.file_overwrite_default_answer = val;
+	go_conf_set_bool( GNM_CONF_FILE_OVERWRITE_DEFAULT, 
+			  val != FALSE);
+}
+
+void     
+gnm_gconf_set_file_single_sheet_save (gboolean val)
+{
+	prefs.file_ask_single_sheet_save = val;
+	go_conf_set_bool( GNM_CONF_FILE_SINGLE_SHEET_SAVE, 
+			  val != FALSE);
+}
+

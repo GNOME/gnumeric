@@ -1,5 +1,25 @@
 2004-11-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/gnumeric-gconf.h (gnm_gconf_set_file_overwrite): new
+	(gnm_gconf_set_file_single_sheet_save): new
+	(gnm_gconf_set_gui_transition_keys): new
+	(gnm_gconf_set_gui_livescrolling): new
+	(gnm_gconf_set_sort_retain_form): new
+	(gnm_gconf_set_sort_by_case): new
+	(gnm_gconf_set_sort_ascending): new
+	(gnm_gconf_set_latex_use_utf8): new
+	* src/gnumeric-gconf.c (gnm_gconf_set_file_overwrite): new
+	(gnm_gconf_set_file_single_sheet_save): new
+	(gnm_gconf_set_gui_transition_keys): new
+	(gnm_gconf_set_gui_livescrolling): new
+	(gnm_gconf_set_sort_retain_form): new
+	(gnm_gconf_set_sort_by_case): new
+	(gnm_gconf_set_sort_ascending): new
+	(gnm_gconf_set_latex_use_utf8): new
+	(gnm_gconf_set_show_sheet_name): new
+
+2004-11-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/gnumeric-gconf.h (gnm_gconf_set_file_history_number): new
 	(gnm_gconf_set_max_descriptor_width): change argument to gint
 	(gnm_gconf_set_xml_compression): new
