@@ -31,9 +31,11 @@ typedef struct
 	gint	 negative_fmt;	/* 0 - 3 */
 	gint	 currency_symbol_index;
 	gint	 list_element;
+	gboolean date_has_days : 1;
+	gboolean date_has_months : 1;
 } FormatCharacteristics;
 
-FormatFamily cell_format_classify (char const * const fmt, FormatCharacteristics *info);
+FormatFamily cell_format_classify (StyleFormat const *fmt, FormatCharacteristics *info);
 
 /* Indexed by FormatCharacteristics */
 extern char const * const * const cell_formats [];

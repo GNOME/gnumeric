@@ -665,24 +665,22 @@ cell_get_mstyle (Cell const *cell)
  * Get the display format.  If the assigned format is General,
  * the format of the value will be used.
  */
-char *
+StyleFormat *
 cell_get_format (Cell const *cell)
 {
-	char   *result = NULL;
 	StyleFormat const *fmt;
 
-	g_return_val_if_fail (cell != NULL, g_strdup ("General"));
+	g_return_val_if_fail (cell != NULL, style_format_general ());
 
 	fmt = mstyle_get_format (cell_get_mstyle (cell));
 
-	g_return_val_if_fail (fmt != NULL, g_strdup ("General"));
+	g_return_val_if_fail (fmt != NULL, style_format_general ());
 
 	if (style_format_is_general (fmt) &&
 	    cell->value != NULL && VALUE_FMT (cell->value))
 		fmt = VALUE_FMT (cell->value);
 
-#warning make this a StyleFormat
-	return style_format_as_XL (fmt, FALSE);
+	return fmt;
 }
 
 /*

@@ -674,14 +674,13 @@ gnm_graph_add_vector (GnmGraph *graph, ExprTree *expr,
 			    vector->value->type == VALUE_CELLRANGE) {
 				Range  r;
 				Sheet *start_sheet, *end_sheet;
-				char *fmt;
+				StyleFormat *fmt;
 				FormatCharacteristics info;
 				FormatFamily family;
 					
 				value_cellrange_normalize (&ep, vector->value, &start_sheet, &end_sheet, &r);
 				fmt = cell_get_format (sheet_cell_get (start_sheet, r.start.col, r.start.row));
 				family = cell_format_classify (fmt, &info);
-				g_free (fmt);
 				if (family == FMT_DATE)
 					type = GNM_VECTOR_DATE;
 			} else

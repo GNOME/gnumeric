@@ -27,6 +27,12 @@ void           style_format_unref	(StyleFormat *sf);
 gboolean       style_format_is_general	(StyleFormat const *sf);
 gboolean       style_format_is_text	(StyleFormat const *sf);
 
+StyleFormat   *style_format_general		(void);
+StyleFormat   *style_format_default_date	(void);
+StyleFormat   *style_format_default_time	(void);
+StyleFormat   *style_format_default_percentage	(void);
+StyleFormat   *style_format_default_money	(void);
+
 void   format_destroy (StyleFormat *format);
 char  *format_value   (StyleFormat const *format, Value const *value, StyleColor **color,
 		       float col_width);

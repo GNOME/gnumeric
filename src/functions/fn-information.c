@@ -172,11 +172,9 @@ retrieve_format_info (Sheet *sheet, int col, int row)
 {
 	MStyle *mstyle = sheet_style_get (sheet, col, row);
 	StyleFormat *format = mstyle_get_format (mstyle);
-	char *fmt = style_format_as_XL (format, FALSE);
 	FormatCharacteristics info;
 
-	cell_format_classify (fmt, &info);
-	g_free (fmt);
+	cell_format_classify (format, &info);
 
 	return info;
 }

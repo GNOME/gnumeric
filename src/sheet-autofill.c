@@ -302,28 +302,14 @@ fill_item_new (Sheet *sheet, int col, int row)
 	value_type = VALUE_TYPE (value);
 
 	if (value_type == VALUE_INTEGER || value_type == VALUE_FLOAT) {
-		FillType fill = FILL_NUMBER;
+		FormatCharacteristics info;
 
-		/* Use display format to recognize iteration types */
-		char *fmt = cell_get_format (cell);
-		if (fmt != NULL) {
-			FormatCharacteristics info;
-			FormatFamily family = cell_format_classify (fmt, &info);
-
-			/* FIXME : We need better format classification that this.
-			 * the XL format is crap.  redo it.
-			 */
-			if (family == FMT_DATE)
-				fill =    (str_contains (fmt, 'd') || str_contains (fmt, 'D'))
-					? FILL_DAYS
-					: ((str_contains (fmt, 'm') || str_contains (fmt, 'M'))
-					? FILL_MONTHS : FILL_YEARS);
-
-			g_free (fmt);
-		}
-		fi->type    = fill;
+		fi->type    = FILL_NUMBER;
 		fi->v.value = value;
-
+		if (FMT_DATE == cell_format_classify (cell_get_format (cell), &info))
+			fi->type = info.date_has_days
+				? FILL_DAYS
+				: info.date_has_months ? FILL_MONTHS : FILL_YEARS;
 		return fi;
 	}
 

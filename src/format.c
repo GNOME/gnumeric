@@ -34,6 +34,7 @@
 #include "mathfunc.h"
 #include "str.h"
 #include "number-match.h"
+#include "formats.h"
 
 #include <libgnome/gnome-i18n.h>
 #include <locale.h>
@@ -1884,4 +1885,48 @@ gboolean
 style_format_is_text (StyleFormat const *sf)
 {
 	return 0 == strcmp (sf->format, "@");
+}
+
+StyleFormat *
+style_format_general (void)
+{
+	static StyleFormat *fmt = NULL;
+	if (fmt == NULL)
+		fmt = style_format_new_XL (cell_formats[FMT_GENERAL][0], FALSE);
+	return fmt;
+}
+StyleFormat *
+style_format_default_date (void)
+{
+	static StyleFormat *fmt = NULL;
+	if (fmt == NULL)
+		fmt = style_format_new_XL (cell_formats[FMT_DATE][0], FALSE);
+	return fmt;
+}
+
+StyleFormat *
+style_format_default_time (void)
+{
+	static StyleFormat *fmt = NULL;
+	if (fmt == NULL)
+		fmt = style_format_new_XL (cell_formats[FMT_TIME][0], FALSE);
+	return fmt;
+}
+
+StyleFormat *
+style_format_default_percentage	(void)
+{
+	static StyleFormat *fmt = NULL;
+	if (fmt == NULL)
+		fmt = style_format_new_XL (cell_formats[FMT_PERCENT][1], FALSE);
+	return fmt;
+}
+
+StyleFormat *
+style_format_default_money (void)
+{
+	static StyleFormat *fmt = NULL;
+	if (fmt == NULL)
+		fmt = style_format_new_XL (cell_formats[FMT_CURRENCY][3], FALSE);
+	return fmt;
 }

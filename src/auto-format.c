@@ -100,9 +100,9 @@ auto_format_function_result (FunctionDefinition *fd, AutoFormatTypes res)
 
 static AutoFormatTypes do_af_suggest_list (ExprList *list,
 					   EvalPos const *epos,
-					   char **explicit);
+					   StyleFormat **explicit);
 
-struct cb_af_suggest { AutoFormatTypes typ; char **explicit; };
+struct cb_af_suggest { AutoFormatTypes typ; StyleFormat **explicit; };
 
 static Value *
 cb_af_suggest (Sheet *sheet, int col, int row, Cell *cell, void *_data)
@@ -118,7 +118,7 @@ cb_af_suggest (Sheet *sheet, int col, int row, Cell *cell, void *_data)
 }
 
 static AutoFormatTypes
-do_af_suggest (const ExprTree *expr, const EvalPos *epos, char **explicit)
+do_af_suggest (ExprTree const *expr, const EvalPos *epos, StyleFormat **explicit)
 {
 	switch (expr->any.oper) {
 	case OPER_EQUAL:
@@ -144,7 +144,7 @@ do_af_suggest (const ExprTree *expr, const EvalPos *epos, char **explicit)
 
 	case OPER_SUB: {
 		AutoFormatTypes typ1, typ2;
-		char *explicit1 = NULL, *explicit2 = NULL;
+		StyleFormat *explicit1 = NULL, *explicit2 = NULL;
 
 		typ1 = do_af_suggest (expr->binary.value_a, epos, &explicit1);
 		typ2 = do_af_suggest (expr->binary.value_b, epos, &explicit2);
@@ -153,10 +153,8 @@ do_af_suggest (const ExprTree *expr, const EvalPos *epos, char **explicit)
 			return AF_UNITLESS;
 		else if (typ1 != AF_UNKNOWN && typ1 != AF_UNITLESS) {
 			*explicit = explicit1;
-			g_free (explicit2);
 			return typ1;
 		} else {
-			g_free (explicit1);
 			*explicit = explicit2;
 			return typ2;
 		}
@@ -259,7 +257,7 @@ do_af_suggest (const ExprTree *expr, const EvalPos *epos, char **explicit)
 }
 
 static AutoFormatTypes
-do_af_suggest_list (ExprList *list, const EvalPos *epos, char **explicit)
+do_af_suggest_list (ExprList *list, const EvalPos *epos, StyleFormat **explicit)
 {
 	AutoFormatTypes typ = AF_UNKNOWN;
 	while (list && (typ == AF_UNKNOWN || typ == AF_UNITLESS)) {
@@ -272,9 +270,9 @@ do_af_suggest_list (ExprList *list, const EvalPos *epos, char **explicit)
 /* ------------------------------------------------------------------------- */
 
 static char *
-auto_format_suggest (const ExprTree *expr, const EvalPos *epos)
+auto_format_suggest (ExprTree const *expr, EvalPos const *epos)
 {
-	char *explicit = NULL;
+	StyleFormat *explicit = NULL;
 
 	g_return_val_if_fail (expr != NULL, NULL);
 	g_return_val_if_fail (epos != NULL, NULL);
@@ -283,24 +281,20 @@ auto_format_suggest (const ExprTree *expr, const EvalPos *epos)
 	case AF_EXPLICIT:
 		break;
 
-	case AF_DATE:
-		/* FIXME: any better idea?  */
-		explicit = g_strdup (cell_formats[FMT_DATE][0]);
+	case AF_DATE: /* FIXME: any better idea?  */
+		explicit = style_format_default_date ();
 		break;
 
-	case AF_TIME:
-		/* FIXME: any better idea?  */
-		explicit = g_strdup (cell_formats[FMT_TIME][0]);
+	case AF_TIME: /* FIXME: any better idea?  */
+		explicit = style_format_default_time ();
 		break;
 
-	case AF_PERCENT:
-		/* FIXME: any better idea?  */
-		explicit = g_strdup (cell_formats[FMT_PERCENT][1]);
+	case AF_PERCENT: /* FIXME: any better idea?  */
+		explicit = style_format_default_percentage ();
 		break;
 
-	case AF_MONETARY:
-		/* FIXME: any better idea?  */
-		explicit = g_strdup (cell_formats[FMT_CURRENCY][3]);
+	case AF_MONETARY: /* FIXME: any better idea?  */
+		explicit = style_format_default_money ();
 		break;
 
 	case AF_FIRST_ARG_FORMAT:

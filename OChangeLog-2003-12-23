@@ -1,3 +1,35 @@
+2002-02-06  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-autofill.c (autofill_create_fill_items) : changes to the
+	classification interface.  It will continue to evolve.
+
+	* src/formats.c (cell_format_classify) : change the signature.  In the
+	  future this should really be split.  This routine is
+	  1) stupid
+	  2) wrong
+	  It is really only useful in the context of the format dialog.
+	  however, our desire to call it elsewhere indicates what the new
+	  format engine should make easiliy accessible.
+
+	* src/expr.c (expr_eval_real) : quick and easy support for autoformat
+	  style formating for percent operator.  Just a quick test to see how
+	  hard it would be, and it wasn't.
+
+	* src/auto-format.c : Convert to StyleFormat.  Nothing actually uses
+	  this anymore but I have not merged its logic into the eval structure
+	  yet.
+
+	* src/format-template.c (format_template_check_valid) : warning
+	  suppression.
+
+	* src/format.c (style_format_general) : new.
+	(style_format_default_date) : new.
+	(style_format_default_time) : new.
+	(style_format_default_percentage) : new.
+	(style_format_default_money) : new.
+
+	* src/cell.c (cell_get_format) : finish the conversion.
+
 2002-02-05  Jon K Hellan  <hellan@acm.org>
 
 	* src/style-color.c (style_color_new_uninterned): New

@@ -80,7 +80,7 @@ void cell_convert_expr_to_value	(Cell *cell);
  * Manipulate Cell attributes
  */
 MStyle *cell_get_mstyle		(Cell const *cell);
-char *	cell_get_format		(Cell const *cell);
+StyleFormat *cell_get_format	(Cell const *cell);
 void	cell_set_format		(Cell *cell, char const *format);
 
 void	cell_render_value	(Cell *cell, gboolean dynamic_width);

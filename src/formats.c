@@ -578,8 +578,9 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 }
 
 FormatFamily
-cell_format_classify (char const * const fmt, FormatCharacteristics *info)
+cell_format_classify (StyleFormat const *sf, FormatCharacteristics *info)
 {
+	char const *fmt = sf->format;
 	FormatFamily res;
 	int i;
 
@@ -591,6 +592,8 @@ cell_format_classify (char const * const fmt, FormatCharacteristics *info)
 	info->num_decimals = 2;
 	info->negative_fmt = 0;
 	info->currency_symbol_index = 1; /* '$' */
+	info->date_has_days = FALSE;
+	info->date_has_months = FALSE;
 
 	/* Can we parse it ? */
 	if ((res = cell_format_is_number (fmt, info)) != FMT_UNKNOWN)

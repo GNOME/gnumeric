@@ -29,6 +29,7 @@ Jody:
  	* Crash importing 3d references to external workbooks.
 	* move libole2 req into excel plugin, and make it optional.
 	* guruify autoformat dialog, and update autoformat code.
+	* move format from cell -> value.
 
 Jon Kåre:
 	* More correct import of "automatic" colors from Excel

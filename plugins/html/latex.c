@@ -495,7 +495,6 @@ latex2e_write_multicolumn_cell (FILE *fp, const Cell *cell, const int num_merged
 	StyleColor *textColor;
 	gushort r,g,b;
 	gboolean wrap = FALSE;
-	char *cell_format_str;
 	FormatCharacteristics cell_format_characteristic;
 	FormatFamily cell_format_family;
 	int merge_width = 0;
@@ -653,9 +652,8 @@ latex2e_write_multicolumn_cell (FILE *fp, const Cell *cell, const int num_merged
 			fprintf (fp, "\\textit{");
 		
 		
-		cell_format_str = cell_get_format (cell);
-		cell_format_family = cell_format_classify (cell_format_str, &cell_format_characteristic);
-		g_free (cell_format_str);
+		cell_format_family = cell_format_classify (cell_get_format (cell),
+							   &cell_format_characteristic);
 		if (cell_format_family == FMT_NUMBER || cell_format_family == FMT_CURRENCY ||
 		    cell_format_family == FMT_PERCENT || cell_format_family == FMT_FRACTION ||
 		    cell_format_family == FMT_SCIENCE) 

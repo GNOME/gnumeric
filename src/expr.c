@@ -764,8 +764,15 @@ expr_eval_real (ExprTree const *expr, EvalPos const *pos,
 				res = value_new_float (-a->v_float.val);
 			else
 				res = value_new_bool (!a->v_float.val);
-		} else
+			if (VALUE_FMT (a) != NULL) {
+				VALUE_FMT (res) = VALUE_FMT (a);
+				style_format_ref (VALUE_FMT (res));
+			}
+		} else {
 			res = value_new_float (value_get_as_float (a) * .01);
+			VALUE_FMT (res) = style_format_default_percentage ();
+			style_format_ref (VALUE_FMT (res));
+		}
 		value_release (a);
 		return res;
 

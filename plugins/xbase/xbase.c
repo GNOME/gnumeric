@@ -207,10 +207,7 @@ xbase_field_new (XBfile *file)
 	} else
 		field->pos = 0;
 
-	if (field->type == 'D')
-		field->fmt = style_format_new_XL (cell_formats [FMT_DATE][0], FALSE);
-	else
-		field->fmt = NULL;
+	field->fmt = (field->type == 'D') ? style_format_default_date () : NULL;
 
 	return field; /* FIXME: use more of buf if needed ? */
 }

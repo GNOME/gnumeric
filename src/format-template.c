@@ -1203,11 +1203,13 @@ cb_format_sheet_style (FormatTemplate *ft, Range *r, MStyle *mstyle, Sheet *shee
  * @cc : where to report errors
  *
  * check to see if the @regions are able to contain the support template @ft.
+ * Returns TRUE if ok, else FALSE.  Will report an error to @cc if it is
+ * supplied.
  */
 gboolean
 format_template_check_valid (FormatTemplate *ft, GSList *regions, CommandContext *cc)
 {
-	g_return_if_fail (cc != NULL);
+	g_return_val_if_fail (cc != NULL, FALSE);
 
 	for (; regions != NULL ; regions = regions->next)
 		if (!format_template_range_check (ft, regions->data, cc))
