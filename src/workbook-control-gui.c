@@ -3426,9 +3426,12 @@ static GnomeUIInfo workbook_menu_edit [] = {
 
 	GNOMEUIINFO_SUBTREE(N_("C_lear"), workbook_menu_edit_clear),
 
-	GNOMEUIINFO_ITEM_NONE (N_("_Delete..."),
-		N_("Remove selected cells, shifting other into their place"),
-		cb_edit_delete),
+	{ GNOME_APP_UI_ITEM, N_("_Delete..."),
+	  N_("Remove selected cells, shifting others into their place"),
+	  cb_edit_delete,
+	  NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, GTK_STOCK_DELETE,
+	  0, 0 },
 
 	GNOMEUIINFO_ITEM_STOCK (N_("Co_mment..."),
 		N_("Edit the selected cell's comment"),
@@ -3888,7 +3891,7 @@ static GnomeUIInfo workbook_menu_data [] = {
 	GNOMEUIINFO_SUBTREE(N_("_Group and Outline"),   workbook_menu_data_outline),
 #ifdef ENABLE_PIVOTS
 	GNOMEUIINFO_ITEM_STOCK (N_("_PivotTable..."),
-		N_("Create a pivot table."),
+		N_("Create a pivot table"),
 		cb_data_pivottable, "Gnumeric_PivotTable"),
 #endif
 #if 0 /* enable when it does something */

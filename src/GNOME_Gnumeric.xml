@@ -209,7 +209,8 @@
 
 	    <menuitem name="EditDelete" verb=""
 		_label="_Delete..."
-		_tip="Remove selected cells, shifting others into their place"/>
+		_tip="Remove selected cells, shifting others into their place"
+		pixtype="stock" pixname="gtk-delete"/>
 
 	    <menuitem name="InsertComment" verb=""
 		pixtype="stock" pixname="Gnumeric_CommentEdit"
