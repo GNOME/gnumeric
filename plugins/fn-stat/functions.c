@@ -1408,50 +1408,42 @@ gnumeric_chitest (FunctionEvalInfo *ei, Value **argv)
 	stat_chitest_t   p1;
 	stat_chitest_t_t p2;
 	GSList           *tmp;
-	int               dof;
 	Value           *ret;
 
-	p1.cols = abs (argv[0]->v_range.cell.b.col -
-	  argv[0]->v_range.cell.a.col) + 1;
-	p2.cols = abs (argv[1]->v_range.cell.b.col -
-	  argv[1]->v_range.cell.a.col) + 1;
-	p1.rows = abs (argv[0]->v_range.cell.b.row -
-	  argv[0]->v_range.cell.a.row) + 1;
-	p2.rows = abs (argv[1]->v_range.cell.b.row -
-	  argv[1]->v_range.cell.a.row) + 1;
 	p1.row = p1.col = 0;
 	p1.columns = p1.column = NULL;
+	p1.cols = abs (argv[0]->v_range.cell.b.col -
+		       argv[0]->v_range.cell.a.col) + 1;
+	p1.rows = abs (argv[0]->v_range.cell.b.row -
+		       argv[0]->v_range.cell.a.row) + 1;
+	p2.rows = abs (argv[1]->v_range.cell.b.row -
+		       argv[1]->v_range.cell.a.row) + 1;
+	p2.cols = abs (argv[1]->v_range.cell.b.col -
+		       argv[1]->v_range.cell.a.col) + 1;
 
 	if (p1.cols != p2.cols || p1.rows != p2.rows)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	ret = function_iterate_do_value (ei->pos, (FunctionIterateCB)
-					 callback_function_chitest_actual,
-					 &p1, argv[0],
-					 TRUE, TRUE);
+	ret = function_iterate_do_value (ei->pos,
+		(FunctionIterateCB) callback_function_chitest_actual,
+		&p1, argv[0], TRUE, TRUE);
 	if (ret != NULL)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	p2.sum = 0;
 	p2.current_cell = p1.columns->data;
 	p2.next_col = p1.columns->next;
-
-	ret = function_iterate_do_value (ei->pos, (FunctionIterateCB)
-					 callback_function_chitest_theoretical,
-					 &p2, argv[1],
-					 TRUE, TRUE);
+	ret = function_iterate_do_value (ei->pos,
+		(FunctionIterateCB) callback_function_chitest_theoretical,
+		&p2, argv[1], TRUE, TRUE);
 	if (ret != NULL)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	tmp = p1.columns;
-	while (tmp != NULL) {
+	for (tmp = p1.columns; tmp != NULL ; tmp = tmp->next)
 	        g_slist_free (tmp->data);
-		tmp = tmp->next;
-	}
-	g_slist_free (p1.columns),
-	dof = p1.rows;
+	g_slist_free (p1.columns);
 
-	return value_new_float (1.0 - pchisq (p2.sum, dof));
+	return value_new_float (1. - pchisq (p2.sum, p1.rows - 1));
 }
 
 /***************************************************************************/

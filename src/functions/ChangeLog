@@ -1,3 +1,8 @@
+2001-05-06  Jody Goldberg <jgoldberg@home.com>
+
+	* fn-stat.c (gnumeric_chitest) : I have no idea what this code is
+	  doing.  However, this appears to make things tie out again.
+
 2001-05-04  Jody Goldberg <jgoldberg@home.com>
 
 	* fn-string.c (gnumeric_value) : only remove leading spaces.

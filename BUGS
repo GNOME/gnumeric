@@ -10,8 +10,6 @@ Release Critical
 
     - Data->Sort does not work when "Right-left" is selected.
 
-    - CHITEST now fails statfuns.xls.
-
     - defining file patterns in plugin spec overrides 'has_probe' flag silently.
 
     - Get the i18n XL patches verified and in
