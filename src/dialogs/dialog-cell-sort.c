@@ -333,7 +333,7 @@ dialog_cell_sort_ok (SortFlow *sf)
 
 	data = g_new (SortData, 1);
 	data->sheet = sf->sheet;
-	data->range = sf->sel;
+	data->range = range_copy (sf->sel);
 	data->num_clause = sf->num_clause;
 	data->clauses = array;
 	data->top = sf->top;

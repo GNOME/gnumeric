@@ -1,5 +1,8 @@
 2001-03-11  Jody Goldberg <jgoldberg@home.com>
 
+	* src/commands.c (cmd_sort_destroy) : Add some safety in preparation
+	  for gtk2.0.
+
 	* src/workbook-control-gui.c (workbook_setup_auto_calc) : remove the
 	  use of the canvas to avoid label flicker.  Add support for a status
 	  widget.

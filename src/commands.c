@@ -1667,7 +1667,10 @@ cmd_sort_destroy (GtkObject *cmd)
 {
 	CmdSort *me = CMD_SORT (cmd);
 
-	sort_data_destroy (me->data);
+	if (me->data != NULL) {
+		sort_data_destroy (me->data);
+		me->data = NULL;
+	}
 	if (me->perm != NULL) {
 		g_free (me->perm);
 		me->perm = NULL;
