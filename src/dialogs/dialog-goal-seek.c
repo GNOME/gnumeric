@@ -45,6 +45,7 @@
 #include <goal-seek.h>
 #include <mathfunc.h>
 #include <widgets/gnumeric-expr-entry.h>
+#include <selection.h>
 
 #include <math.h>
 
