@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AC_PACKAGE_NAME AC_PACKAGE_VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-21 00:20+0900\n"
-"PO-Revision-Date: 2003-07-21 01:50+0900\n"
+"POT-Creation-Date: 2003-07-29 00:57+0900\n"
+"PO-Revision-Date: 2003-07-29 01:01+0900\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: GTP Korean <gnome-kr-translation@gnome.or.kr>\n"
 "MIME-Version: 1.0\n"
@@ -706,7 +706,7 @@ msgstr "파일을 읽는 중..."
 #: plugins/dif/dif.c:181
 #, c-format
 msgid "Syntax error at line %d. Ignoring."
-msgstr "%d 번째 줄에서 문법 에러, 무시함."
+msgstr "%d 번째 행에서 문법 에러, 무시함."
 
 #: plugins/dif/dif.c:212
 #, c-format
@@ -723,14 +723,14 @@ msgstr ""
 msgid ""
 "DIF file has more than the maximum number of rows %d. Ignoring remaining "
 "rows."
-msgstr "DIF 파일이 최대값보다 %d줄이 더 많습니다.나머지 줄은 무시합니다."
+msgstr "DIF 파일이 최대값보다 %d행이 더 많습니다.나머지 행은 무시합니다."
 
 #: plugins/dif/dif.c:232
 #, c-format
 msgid ""
 "DIF file has more than the maximum number of columns %d. Ignoring remaining "
 "columns."
-msgstr "DIF 파일이 최대값보다 %d칸이 더 많습니다. 나머지 칸은 무시합니다."
+msgstr "DIF 파일이 최대값보다 %d열이 더 많습니다. 나머지 열은 무시합니다."
 
 #: plugins/dif/dif.c:244
 #, c-format
@@ -851,7 +851,7 @@ msgstr ""
 
 #: plugins/excel/ms-excel-read.c:5301
 msgid "Invalid password"
-msgstr "잘못된 열쇠글"
+msgstr "암호가 틀렸습니다"
 
 #: plugins/excel/ms-excel-read.c:5402
 msgid "Unable to locate valid MS Excel workbook"
@@ -886,7 +886,7 @@ msgstr ""
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr ""
 
-#: plugins/excel/ms-formula-read.c:615
+#: plugins/excel/ms-formula-read.c:614
 msgid "Broken function"
 msgstr "깨진 함수"
 
@@ -944,11 +944,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=COMPLEX\n"
 "@SYNTAX=COMPLEX(real,im[,suffix])\n"
-"@DESCRIPTION=COMPLEX는 x + yi 형식의 복소수 값을 돌려줍니다.\n"
+"@DESCRIPTION=COMPLEX는 x + yi 형식의 복소수 값을 돌려 줍니다.\n"
 "\n"
-"@real은 실수이고, @im은 복소수의 허수부분 입니다. @suffix는 허수의 꼬리표이며, 만약 생략되면 COMPLEX는 'i'를 기본값으로 사용합니다.\n"
+"@real은 실수이고, @im은 복소수의 허수부분 입니다. @suffix는 허수의 꼬리표이"
+"며, 만약 생략되면 COMPLEX는 'i'를 기본값으로 사용합니다.\n"
 " \n"
-"* 만약 @suffix가 'i' 또는 'j'가 아니라면 COMPLEX는 #VALUE! 에러를 돌려줍니다.\n"
+"* 만약 @suffix가 'i' 또는 'j'가 아니라면 COMPLEX는 #VALUE! 에러를 돌려줍니"
+"다.\n"
 "* 이 함수는 엑셀과 호환됩니다..\n"
 "\n"
 "@EXAMPLES=\n"
@@ -957,7 +959,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-complex/functions.c:119
-#, fuzzy
 msgid ""
 "@FUNCTION=IMAGINARY\n"
 "@SYNTAX=IMAGINARY(inumber)\n"
@@ -974,9 +975,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMAGINARY\n"
 "@SYNTAX=IMAGINARY(inumber)\n"
-"@DESCRIPTION=IMAGINARY은 복소수의 허수부븐을 돌려 줍니다.\n"
+"@DESCRIPTION=IMAGINARY은 복소수의 허수부분을 돌려 줍니다.\n"
 "\n"
-"* 만약 @inumber가 적절한 복소수값이 아니라면, IMAGINARY는 #VALUE 에러를 돌려"
+"* 만약 @inumber가 적절한 복소수값이 아니라면, IMAGINARY는 #VALUE! 에러를 돌려"
 "줍니다.\n"
 "* 이 함수는 엑셀과 호환됩니다..\n"
 "\n"
@@ -1001,7 +1002,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMABS\n"
 "@SYNTAX=IMABS(inumber)\n"
-"@DESCRIPTION=IMABS은 복소수의 절대값을 구합니다.\n"
+"@DESCRIPTION=IMABS은 복소수의 절대값을 돌려 줍니다.\n"
 "\n"
 "* 만약 @inumber가 적절한 복소수 값이 아니라면, IMABS는 #VALUE! 에러를 돌려줍"
 "니다.\n"
@@ -1013,7 +1014,6 @@ msgstr ""
 "@SEEALSO=IMAGINARY,IMREAL"
 
 #: plugins/fn-complex/functions.c:185
-#, fuzzy
 msgid ""
 "@FUNCTION=IMREAL\n"
 "@SYNTAX=IMREAL(inumber)\n"
@@ -1059,7 +1059,7 @@ msgstr ""
 "@SYNTAX=IMCONJUGATE(inumber)\n"
 "@DESCRIPTION=IMCONJUGATE는 복소수의 켤레복소수 값을 돌려줍니다.\n"
 "\n"
-"* 만약 @inumber가 적절한 복소수값이 아니라면, IMCONJUGATE는 #VALUE 에러를 돌"
+"* 만약 @inumber가 적절한 복소수값이 아니라면, IMCONJUGATE는 #VALUE! 에러를 돌"
 "려줍니다.\n"
 "* 이 함수는 엑셀과 호환됩니다.\n"
 "\n"
@@ -1305,7 +1305,6 @@ msgstr ""
 "@SEEALSO=IMLN"
 
 #: plugins/fn-complex/functions.c:506
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARGUMENT\n"
 "@SYNTAX=IMARGUMENT(inumber)\n"
@@ -1324,8 +1323,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMARGUMENT\n"
 "@SYNTAX=IMARGUMENT(inumber)\n"
-"@DESCRIPTION=IMARGUMENT는 복소수의 세타(라디안으로 표시되는 각의크기) 값을 돌"
-"려줍니다\n"
+"@DESCRIPTION=IMARGUMENT는 복소수의 세타(극좌표계에서 라디안으로 표시되는 각의"
+"크기) 값을 돌려줍니다\n"
 "\n"
 "* 만약 @inumber가 적절한 복소수 값이 아니라면, IMARGUMENT는 #VALUE! 에러를 돌"
 "려줍니다.\n"
@@ -1337,7 +1336,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-complex/functions.c:538
-#, fuzzy
 msgid ""
 "@FUNCTION=IMLN\n"
 "@SYNTAX=IMLN(inumber)\n"
@@ -1355,16 +1353,19 @@ msgid ""
 "\n"
 "@SEEALSO=IMEXP,IMLOG2,IMLOG10"
 msgstr ""
-"@FUNCTION=IMLOG2\n"
-"@SYNTAX=IMLOG2(inumber)\n"
-"@DESCRIPTION=IMLOG2는 복소수의 밑이 2인 로그값을 구합니다.\n"
+"@FUNCTION=IMLN\n"
+"@SYNTAX=IMLN(inumber)\n"
+"@DESCRIPTION=IMLN은 복소수의 자연로그값을 구합니다.\n"
+"\n"
+"결과의 허수 부분은 -pi와 +pi 사이입니다.  자연로그는 복소수에서 유일하게 정의"
+"되지 않습니다. 허수 부분에서 pi를 더하거나 빼야 할 수도 있습니다.\n"
 "\n"
 "* 만약 @inumber가 적절한 복소수 값이 아니라면, IMLOG2는 #VALUE! 에러를 돌려줍"
 "니다.\n"
 "* 이 함수는 엑셀과 호환됩니다.\n"
 "\n"
 "@EXAMPLES=\n"
-"IMLOG2(\"3-j\")의 값은 1.66096-0.46419j 입니다.\n"
+"IMLOG2(\"3-j\")의 값은 1.15129-0.32175j 입니다.\n"
 "\n"
 "@SEEALSO=IMLN,IMLOG10"
 
@@ -1441,9 +1442,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMPOWER\n"
 "@SYNTAX=IMPOWER(inumber1,inumber2)\n"
-"@DESCRIPTION=IMPOWER는 복소수의 제곱값을 돌려줍니다.  @inumber1는 제곱하려는 복소수 값이고 @inumber2 는 제곱하기 위한 지수 값입니다.\n"
+"@DESCRIPTION=IMPOWER는 복소수의 제곱값을 돌려줍니다.  @inumber1는 제곱하려는 "
+"복소수 값이고 @inumber2는 제곱하기 위한 지수 값입니다.\n"
 "\n"
-"* 만약 @inumber1 나 @inumber2가 적절한 복소수 값이 아니라면, IMPOWER는 #VALUE! 에러를 돌려줍니다.\n"
+"* 만약 @inumber1나 @inumber2가 적절한 복소수 값이 아니라면, IMPOWER는 "
+"#VALUE! 에러를 돌려줍니다.\n"
 "* 이 함수는 엑셀과 호환됩니다.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -1470,7 +1473,7 @@ msgstr ""
 "@SYNTAX=IMDIV(inumber1,inumber2)\n"
 "@DESCRIPTION=IMDIV는 두 복소수의 몫을 구합니다.\n"
 "\n"
-"* 만약 @inumber1 또는 @inumber2 가 적절한 복소수 값이 아니라면, IMDIV는 "
+"* 만약 @inumber1 또는 @inumber2가 적절한 복소수 값이 아니라면, IMDIV는 "
 "#VALUE! 에러를 돌려줍니다..\n"
 "* 이 함수는 엑셀과 호환됩니다.\n"
 "\n"
@@ -1497,7 +1500,7 @@ msgstr ""
 "@SYNTAX=IMSIN(inumber)\n"
 "@DESCRIPTION=IMSIN는 복소수의 사인 값을 구합니다.\n"
 "\n"
-"* 만약 @inumber 가 적절한 복소수 값이 아니라면, IMSIN는 #VALUE! 에러를 돌려줍"
+"* 만약 @inumber가 적절한 복소수 값이 아니라면, IMSIN는 #VALUE! 에러를 돌려줍"
 "니다.\n"
 "* 이 함수는 엑셀과 호환됩니다.\n"
 "\n"
@@ -1529,8 +1532,8 @@ msgstr ""
 "\n"
 "\tsinh(z) = (exp(z) - exp(-z))/2.\n"
 "\n"
-"* 만약 @inumber 가 적절한 복소수 값이 아니라면, IMSINH는 #VALUE! 에러를 돌려"
-"줍니다.\n"
+"* 만약 @inumber가 적절한 복소수 값이 아니라면, IMSINH는 #VALUE! 에러를 돌려줍"
+"니다.\n"
 "\n"
 "@EXAMPLES=\n"
 "IMSINH(\"1+j\")의 값은 0.63496+1.29846j 입니다.\n"
@@ -1560,8 +1563,8 @@ msgstr ""
 "\n"
 "\tcosh(z) = (exp(z) + exp(-z))/2.\n"
 "\n"
-"* 만약 @inumber 가 적절한 복소수 값이 아니라면, IMCOSH는 #VALUE! 에러를 돌려"
-"줍니다.\n"
+"* 만약 @inumber가 적절한 복소수 값이 아니라면, IMCOSH는 #VALUE! 에러를 돌려줍"
+"니다.\n"
 "\n"
 "@EXAMPLES=\n"
 "IMCOSH(\"1+j\")의 값은 0.83373+0.988898j 입니다.\n"
@@ -6184,21 +6187,21 @@ msgid ""
 "\n"
 "@SEEALSO=LCM"
 msgstr ""
-"@FUNCTION=IMDIV\n"
-"@SYNTAX=IMDIV(inumber1,inumber2)\n"
-"@DESCRIPTION=IMDIV는 두 복소수의 몫을 구합니다.\n"
+"@FUNCTION=GCD\n"
+"@SYNTAX=GCD(inumber1,inumber2,...)\n"
+"@DESCRIPTION=GCD는 주어진 수의 최대공약수를 구합니다.\n"
 "\n"
-"* 만약 @inumber1 또는 @inumber2 가 적절한 복소수 값이 아니라면, IMDIV는 "
-"#VALUE! 에러를 돌려줍니다..\n"
+"* 인자중에 하나라도 1보다 작은 수가 있으면, GCD는 #NUM! 에러를 돌려줍니다.\n"
+"* 인자중에 하나라도 정수가 아니면, 정수로 자릅니다.\n"
 "* 이 함수는 엑셀과 호환됩니다.\n"
 "\n"
 "@EXAMPLES=\n"
-"IMDIV(\"2-j\",\"2+j\")의 값은 0.6-0.8j 입니다.\n"
+"GCD(470,770)의 값은 10입니다.\n"
+"GCD(470,770,1495)의 값은 5입니다.\n"
 "\n"
-"@SEEALSO=IMPRODUCT"
+"@SEEALSO=LCM"
 
 #: plugins/fn-math/functions.c:193
-#, fuzzy
 msgid ""
 "@FUNCTION=LCM\n"
 "@SYNTAX=LCM(number1,number2,...)\n"
@@ -6216,18 +6219,20 @@ msgid ""
 "\n"
 "@SEEALSO=GCD"
 msgstr ""
-"@FUNCTION=IMDIV\n"
-"@SYNTAX=IMDIV(inumber1,inumber2)\n"
-"@DESCRIPTION=IMDIV는 두 복소수의 몫을 구합니다.\n"
+"@FUNCTION=LCM\n"
+"@SYNTAX=LCM(inumber1,inumber2,...)\n"
+"@DESCRIPTION=LCM는 주어진 수의 최소공배수를 구합니다.  최소공배수는 주어진 정"
+"수 인자의 곱으로 표현할 수 있는 양의 정수 중에서 가장 작은 값입니다.\n"
 "\n"
-"* 만약 @inumber1 또는 @inumber2 가 적절한 복소수 값이 아니라면, IMDIV는 "
-"#VALUE! 에러를 돌려줍니다..\n"
+"* 인자중에 하나라도 1보다 작은 수가 있으면, GCD는 #NUM! 에러를 돌려줍니다.\n"
+"* 인자중에 하나라도 정수가 아니면, 정수로 자릅니다.\n"
 "* 이 함수는 엑셀과 호환됩니다.\n"
 "\n"
 "@EXAMPLES=\n"
-"IMDIV(\"2-j\",\"2+j\")의 값은 0.6-0.8j 입니다.\n"
+"GCD(2,13)의 값은 26입니다.\n"
+"GCD(4,7,5)의 값은 140입니다.\n"
 "\n"
-"@SEEALSO=IMPRODUCT"
+"@SEEALSO=GCD"
 
 #: plugins/fn-math/functions.c:250
 msgid ""
@@ -6507,6 +6512,16 @@ msgid ""
 "\n"
 "@SEEALSO=RADIANS, PI"
 msgstr ""
+"@FUNCTION=DEGREES\n"
+"@SYNTAX=DEGREES(x)\n"
+"@DESCRIPTION=DEGREES는 @x 라디안에 해당되는 각도를 계산합니다.\n"
+"\n"
+"* 이 함수는 엑셀과 호환됩니다.\n"
+"\n"
+"@EXAMPLES=\n"
+"DEGREES(2.5)의 값은 143.2394입니다.\n"
+"\n"
+"@SEEALSO=RADIANS, PI"
 
 #: plugins/fn-math/functions.c:860
 #, fuzzy
@@ -6680,6 +6695,17 @@ msgid ""
 "\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 msgstr ""
+"@FUNCTION=LN\n"
+"@SYNTAX=LN(x)\n"
+"@DESCRIPTION=LN은 @x의 자연로그값을 돌려줍니다.\n"
+"\n"
+"* @x <= 0 이면, LN은 #NUM! 에러를 돌려줍니다.\n"
+"* 이 함수는 엑셀과 호환됩니다.\n"
+"\n"
+"@EXAMPLES=\n"
+"LN(7)의 값은 1.94591입니다.\n"
+"\n"
+"@SEEALSO=EXP, LOG2, LOG10"
 
 #: plugins/fn-math/functions.c:1137
 #, fuzzy
@@ -10830,11 +10856,11 @@ msgstr ""
 
 #: plugins/mps/mps.c:247 src/commands.c:5452
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:969
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:111
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:105
 #: src/dialogs/dialog-define-names.c:483 src/dialogs/dialog-formula-guru.c:810
 #: src/dialogs/dialog-function-select.c:442
 #: src/dialogs/dialog-function-select.c:464 src/dialogs/dialog-scenarios.c:351
-#: src/dialogs/dialog-simulation.c:228 src/dialogs/dialog-zoom.c:192
+#: src/dialogs/dialog-simulation.c:228 src/dialogs/dialog-zoom.c:191
 #: src/format-template.c:247 src/tools/solver/reports-write.c:81
 #: src/tools/solver/reports-write.c:103 src/tools/solver/reports-write.c:130
 #: src/tools/solver/reports-write.c:237 src/tools/solver/reports-write.c:283
@@ -11067,9 +11093,8 @@ msgid "Imports GNU Oleo documents"
 msgstr "GNU Oleo 문서 가져오기"
 
 #: plugins/openoffice/openoffice-read.c:421
-#, fuzzy
 msgid "Missing expression"
-msgstr "회귀"
+msgstr ""
 
 #: plugins/openoffice/openoffice-read.c:426
 #, c-format
@@ -11077,9 +11102,9 @@ msgid "Expression '%s' does not start with a recognized character"
 msgstr ""
 
 #: plugins/openoffice/openoffice-read.c:439
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to parse '%s' because '%s'"
-msgstr "파일 '%s'를 열 수 없습니다"
+msgstr ""
 
 #: plugins/openoffice/openoffice-read.c:496
 msgid "Invalid array expression does not specify number of columns."
@@ -11111,11 +11136,12 @@ msgstr ""
 #: plugins/openoffice/plugin.xml.in.h:2
 #, fuzzy
 msgid "Open/Star Office spreadsheet"
-msgstr "스프레드시트를 엽니다"
+msgstr "Open/Star Office 스프레드시트<"
 
 #: plugins/openoffice/plugin.xml.in.h:3
+#, fuzzy
 msgid "OpenCalc/StarCalc"
-msgstr ""
+msgstr "OpenCalc/StarCalc"
 
 #: plugins/perl/plugin.xml.in.h:1
 msgid "Enables the creation of functions in Perl"
@@ -11183,7 +11209,7 @@ msgstr "파이썬 함수"
 msgid "Sample Python plugin providing some (useless) functions."
 msgstr ""
 
-#: plugins/python-loader/gnm-py-interpreter.c:224
+#: plugins/python-loader/gnm-py-interpreter.c:258
 msgid "Default interpreter"
 msgstr "기본 해석기"
 
@@ -11195,50 +11221,45 @@ msgstr "파이썬 플러그인"
 msgid "This plugin provides support for Python plugins"
 msgstr "이 플러그인은 파이썬 플러그인을 지원합니다"
 
-#: plugins/python-loader/py-console.c:74
+#: plugins/python-loader/py-console.c:90
 #, c-format
 msgid "*** Interpreter: %s\n"
 msgstr "*** 해석기 : %s\n"
 
-#: plugins/python-loader/py-console.c:125
-#, fuzzy
+#: plugins/python-loader/py-console.c:152
 msgid "Gnumeric Python console"
-msgstr "Gnumeric 기본 설정"
+msgstr "Gnumeric 파이썬 콘솔"
 
-#: plugins/python-loader/py-console.c:135
+#: plugins/python-loader/py-console.c:162
 msgid "E_xecute in:"
 msgstr ""
 
-#: plugins/python-loader/py-console.c:179
-#, fuzzy
+#: plugins/python-loader/py-console.c:207
 msgid "C_ommand:"
-msgstr "설명(_O):"
+msgstr "명령(_O):"
 
 #: plugins/python-loader/py-gnumeric.c:226
-#: plugins/python-loader/py-gnumeric.c:266
+msgid "Python list is not an array"
+msgstr "파이썬 목록이 배열이 아닙니다"
+
+#: plugins/python-loader/py-gnumeric.c:233
+#, c-format
+msgid "Unsupported Python type: %s"
+msgstr "지원되지 않는 파이썬 형식: %s"
+
+#: plugins/python-loader/py-gnumeric.c:260
 msgid "Unknown error"
 msgstr "알 수 없는 오류"
 
-#: plugins/python-loader/py-gnumeric.c:232
-#: plugins/python-loader/py-gnumeric.c:274
+#: plugins/python-loader/py-gnumeric.c:266
 #, c-format
 msgid "Python exception (%s: %s)"
 msgstr "파이썬 예외 (%s: %s)"
 
-#: plugins/python-loader/py-gnumeric.c:236
-#: plugins/python-loader/py-gnumeric.c:278
+#: plugins/python-loader/py-gnumeric.c:270
 #, c-format
 msgid "Python exception (%s)"
 msgstr "파이썬 예외 (%s)"
-
-#: plugins/python-loader/py-gnumeric.c:409
-msgid "Python list is not an array"
-msgstr "파이썬 목록이 배열이 아닙니다"
-
-#: plugins/python-loader/py-gnumeric.c:416
-#, c-format
-msgid "Unsupported Python type: %s"
-msgstr "지원되지 않는 파이썬 형식: %s"
 
 #: plugins/python-loader/python-loader.c:82
 msgid "Python module name not given."
@@ -11287,9 +11308,8 @@ msgid "Open the Python console"
 msgstr "파이썬 콘솔 열기"
 
 #: plugins/python-loader/ui-console-menu.xml.h:2
-#, fuzzy
 msgid "Python console"
-msgstr "파이썬 함수"
+msgstr "파이썬 콘솔"
 
 #: plugins/qpro/plugin.xml.in.h:1
 msgid "Imports Quatro Pro (tm) files"
@@ -11391,6 +11411,7 @@ msgid "Error while reading sheet."
 msgstr "시트를 읽는중 오류"
 
 #: plugins/uihello/hello.xml.h:1
+#, fuzzy
 msgid "Hello World"
 msgstr "Hello World"
 
@@ -12025,9 +12046,8 @@ msgid "C_ells..."
 msgstr "셀(_E)..."
 
 #: src/GNOME_Gnumeric.xml.h:21 src/workbook-control-gui.c:3551
-#, fuzzy
 msgid "C_hart..."
-msgstr "정렬(_S)..."
+msgstr "도표(_H)..."
 
 #: src/GNOME_Gnumeric.xml.h:22 src/workbook-control-gui.c:3443
 msgid "C_lear"
@@ -12035,11 +12055,11 @@ msgstr "지우기(_L)"
 
 #: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:3662
 msgid "C_olumn"
-msgstr "칸(_O)"
+msgstr "열(_O)"
 
 #: src/GNOME_Gnumeric.xml.h:24 src/workbook-format-toolbar.c:441
 msgid "Center"
-msgstr "중앙"
+msgstr "가운데"
 
 #: src/GNOME_Gnumeric.xml.h:25 src/workbook-format-toolbar.c:449
 #, fuzzy
@@ -12057,19 +12077,19 @@ msgstr "Gnumeric의 기본 설정을 바꿉니다"
 
 #: src/GNOME_Gnumeric.xml.h:28 src/workbook-control-gui.c:3596
 msgid "Change height of the selected rows"
-msgstr "선택한 줄의 높이를 바꿉니다"
+msgstr "선택한 행의 높이를 바꿉니다"
 
 #: src/GNOME_Gnumeric.xml.h:29 src/workbook-control-gui.c:3589
 msgid "Change the default column width"
-msgstr "칸의 기본 너비를 바꿉니다"
+msgstr "열의 기본 너비를 바꿉니다"
 
 #: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:3608
 msgid "Change the default row height"
-msgstr "줄의 기본 높이를 바꿉니다"
+msgstr "행의 기본 높이를 바꿉니다"
 
 #: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:3577
 msgid "Change width of the selected columns"
-msgstr "선택한 칸의 너비를 바꿉니다"
+msgstr "선택한 열의 너비를 바꿉니다"
 
 #: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:4008
 #, fuzzy
@@ -12167,9 +12187,8 @@ msgid "Copy the selection"
 msgstr "선택한 것을 복사합니다"
 
 #: src/GNOME_Gnumeric.xml.h:53 src/workbook-control-gui.c:3965
-#, fuzzy
 msgid "Copy the selection to the clipboard"
-msgstr "선택한 내용을 클립보드로 복사"
+msgstr "선택한 내용을 클립보드로 복사합니다"
 
 #: src/GNOME_Gnumeric.xml.h:54 src/dialogs/covariance.glade.h:3
 #: src/tools/analysis-tools.c:894 src/tools/analysis-tools.c:897
@@ -12277,9 +12296,8 @@ msgid "Cut the selection"
 msgstr "선택한 것을 자릅니다"
 
 #: src/GNOME_Gnumeric.xml.h:77 src/workbook-control-gui.c:3962
-#, fuzzy
 msgid "Cut the selection to the clipboard"
-msgstr "선택한 내용을 클립보드로 잘라보내기"
+msgstr "선택한 내용을 클립보드로 잘라보냅니다"
 
 #: src/GNOME_Gnumeric.xml.h:78 src/workbook-format-toolbar.c:400
 #: src/workbook-format-toolbar.c:480
@@ -12418,7 +12436,7 @@ msgstr "높이(_E)..."
 
 #: src/GNOME_Gnumeric.xml.h:109 src/workbook-control-gui.c:3641
 msgid "Hide _Column Headers"
-msgstr "칸의 머릿글을 숨기기(_C)"
+msgstr "열의 머릿글을 숨기기(_C)"
 
 #: src/GNOME_Gnumeric.xml.h:110 src/workbook-control-gui.c:3635
 msgid "Hide _Gridlines"
@@ -12426,7 +12444,7 @@ msgstr "격자선 숨기기(_G)"
 
 #: src/GNOME_Gnumeric.xml.h:111 src/workbook-control-gui.c:3647
 msgid "Hide _Row Headers"
-msgstr "줄의 머릿글을 숨기기(_R)"
+msgstr "행의 머릿글을 숨기기(_R)"
 
 #: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:3629
 msgid "Hide _Zeros"
@@ -12434,11 +12452,11 @@ msgstr "0을 숨기기(_Z)"
 
 #: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:3583
 msgid "Hide the selected columns"
-msgstr "선택된 칸을 숨기기"
+msgstr "선택된 열을 숨기기"
 
 #: src/GNOME_Gnumeric.xml.h:114 src/workbook-control-gui.c:3602
 msgid "Hide the selected rows"
-msgstr "선택된 줄을 숨기기"
+msgstr "선택된 행을 숨기기"
 
 #: src/GNOME_Gnumeric.xml.h:115 src/workbook-control-gui.c:3565
 msgid "Hyper_link..."
@@ -12484,7 +12502,7 @@ msgstr ""
 #: src/workbook-control-gui.c:3988
 #, fuzzy
 msgid "Insert a Hyperlink"
-msgstr "그림을 넣습니다"
+msgstr "하이퍼링크를 넣습니다"
 
 #: src/GNOME_Gnumeric.xml.h:125 src/workbook-control-gui.c:3560
 msgid "Insert a function into the selected cell"
@@ -12513,11 +12531,11 @@ msgstr "새 셀 넣기"
 
 #: src/GNOME_Gnumeric.xml.h:131 src/workbook-control-gui.c:3540
 msgid "Insert new columns"
-msgstr "새로운 칸 넣기"
+msgstr "새로운 열 넣기"
 
 #: src/GNOME_Gnumeric.xml.h:132 src/workbook-control-gui.c:3543
 msgid "Insert new rows"
-msgstr "새로운 줄 넣기"
+msgstr "새로운 행 넣기"
 
 #: src/GNOME_Gnumeric.xml.h:133 src/workbook-control-gui.c:3510
 msgid "Insert the current date into the selected cell(s)"
@@ -12557,8 +12575,8 @@ msgid "Jump to a specified cell"
 msgstr "주어진 셀로 가기"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:114
-#: src/sheet-object-graphic.c:1419 src/workbook-object-toolbar.c:147
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:108
+#: src/sheet-object-graphic.c:1429 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "꼬리표"
 
@@ -12577,7 +12595,7 @@ msgstr "왼쪽 정렬"
 msgid "Left align"
 msgstr "왼쪽 정렬"
 
-#: src/GNOME_Gnumeric.xml.h:146 src/dialogs/dialog-stf-main-page.c:354
+#: src/GNOME_Gnumeric.xml.h:146 src/dialogs/dialog-stf-main-page.c:362
 #: src/workbook-object-toolbar.c:174
 msgid "Line"
 msgstr "선"
@@ -12596,11 +12614,11 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:150 src/workbook-control-gui.c:3586
 msgid "Make any hidden columns in the selection visible"
-msgstr "선택된 곳의 감춰진 칸을 모두 보이기"
+msgstr "선택된 곳의 감춰진 열을 모두 보이기"
 
 #: src/GNOME_Gnumeric.xml.h:151 src/workbook-control-gui.c:3605
 msgid "Make any hidden rows in the selection visible"
-msgstr "선택된 곳의 감춰진 줄을 모두 보이기"
+msgstr "선택된 곳의 감춰진 행을 모두 보이기"
 
 #: src/GNOME_Gnumeric.xml.h:152 src/workbook-control-gui.c:3784
 msgid "Manage available plugin modules"
@@ -12654,9 +12672,8 @@ msgid "Open"
 msgstr "열기"
 
 #: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:3944
-#, fuzzy
 msgid "Open a file"
-msgstr "파일을 가져옵니다"
+msgstr "파일을 엽니다"
 
 #: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:3848
 msgid "Outlines _Below"
@@ -12673,7 +12690,7 @@ msgstr "특별히 붙이기(_A)..."
 #: src/GNOME_Gnumeric.xml.h:168 src/GNOME_Gnumeric_Component.xml.h:4
 #: src/workbook-control-gui.c:3297
 msgid "Page Set_up..."
-msgstr "쪽 설정(_U)..."
+msgstr "페이지 설정(_U)..."
 
 #: src/GNOME_Gnumeric.xml.h:169 src/workbook-control-gui.c:3901
 #, fuzzy
@@ -12683,16 +12700,15 @@ msgstr "셀의 내용을 가운데로 정렬합니다"
 #: src/GNOME_Gnumeric.xml.h:170 src/cmd-edit.c:344
 #: src/workbook-control-gui.c:3968
 msgid "Paste"
-msgstr "붙이기"
+msgstr "붙여 넣기"
 
 #: src/GNOME_Gnumeric.xml.h:171
 msgid "Paste the clipboard"
 msgstr "클립보드에서 붙여 넣습니다"
 
 #: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:3968
-#, fuzzy
 msgid "Paste the contents of the clipboard"
-msgstr "클립보드의 내용이나 잘라낸 내용을 붙여넣습니다"
+msgstr "클립보드의 내용을 붙여 넣습니다"
 
 #: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:3438
 msgid "Paste with optional filters and transformations"
@@ -12872,7 +12888,7 @@ msgstr "모두 선택(_A)"
 
 #: src/GNOME_Gnumeric.xml.h:214 src/workbook-control-gui.c:3353
 msgid "Select _Column"
-msgstr "칸 선택(_C)"
+msgstr "열 선택(_C)"
 
 #: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:3368
 msgid "Select _Depends"
@@ -12880,7 +12896,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:3358
 msgid "Select _Row"
-msgstr "줄 선택(_R)"
+msgstr "행 선택(_R)"
 
 #: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:3349
 msgid "Select all cells in the spreadsheet"
@@ -12896,7 +12912,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:220 src/workbook-control-gui.c:3354
 msgid "Select an entire column"
-msgstr "전체 칸 선택"
+msgstr "전체 열 선택"
 
 #: src/GNOME_Gnumeric.xml.h:221 src/workbook-control-gui.c:3359
 msgid "Select an entire row"
@@ -12933,7 +12949,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:3876
 msgid "Show all filtered and hidden rows"
-msgstr "걸러지거나 가려진 줄 모두 보이기"
+msgstr "걸러지거나 가려진 행 모두 보이기"
 
 #: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:3808
 #, fuzzy
@@ -13134,7 +13150,7 @@ msgstr "닫기(_C)"
 #: src/dialogs/regression.glade.h:13 src/dialogs/sampling.glade.h:18
 #: src/dialogs/shuffle.glade.h:5 src/workbook-control-gui.c:3539
 msgid "_Columns"
-msgstr "칸(_C)"
+msgstr "열(_C)"
 
 #: src/GNOME_Gnumeric.xml.h:274 src/workbook-control-gui.c:3903
 msgid "_Consolidate..."
@@ -13289,9 +13305,8 @@ msgid "_New"
 msgstr "새 시트(_N)"
 
 #: src/GNOME_Gnumeric.xml.h:309 src/workbook-control-gui.c:3493
-#, fuzzy
 msgid "_New View..."
-msgstr "새 시트(_N)"
+msgstr "새 뷰(_N)..."
 
 #: src/GNOME_Gnumeric.xml.h:310
 msgid "_Object..."
@@ -13344,15 +13359,14 @@ msgid "_Regression..."
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:322 src/dialogs/autocorrect.glade.h:13
-#: src/dialogs/dialog-stf.glade.h:66 src/dialogs/pivottable.glade.h:12
-#: src/workbook-control-gui.c:3415
+#: src/dialogs/pivottable.glade.h:12 src/workbook-control-gui.c:3415
 msgid "_Remove"
 msgstr "지우기(_R)"
 
 #: src/GNOME_Gnumeric.xml.h:323 src/dialogs/pivottable.glade.h:13
 #: src/workbook-control-gui.c:3663
 msgid "_Row"
-msgstr "줄(_R)"
+msgstr "행(_R)"
 
 #: src/GNOME_Gnumeric.xml.h:324 src/dialogs/anova-one.glade.h:20
 #: src/dialogs/colrow.glade.h:3 src/dialogs/correlation.glade.h:16
@@ -13363,7 +13377,7 @@ msgstr "줄(_R)"
 #: src/dialogs/regression.glade.h:20 src/dialogs/sampling.glade.h:25
 #: src/dialogs/shuffle.glade.h:6 src/workbook-control-gui.c:3542
 msgid "_Rows"
-msgstr "줄(_R)"
+msgstr "행(_R)"
 
 #: src/GNOME_Gnumeric.xml.h:325 src/workbook-control-gui.c:3769
 msgid "_Sampling..."
@@ -13443,7 +13457,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:343 src/workbook-control-gui.c:1557
 msgid "_Undo"
-msgstr "되돌리기(_U)"
+msgstr "실행 취소(_U)"
 
 #: src/GNOME_Gnumeric.xml.h:344 src/workbook-control-gui.c:3835
 msgid "_Ungroup..."
@@ -13514,12 +13528,12 @@ msgstr "셀 복사(_C)"
 
 #: src/GNOME_Gnumeric_Component.xml.h:18
 msgid "_Paste Cells"
-msgstr "셀 붙이기(_P)"
+msgstr "셀 붙여 넣기(_P)"
 
 #: src/clipboard.c:300 src/clipboard.c:312 src/clipboard.c:323
 #: src/clipboard.c:331
 msgid "Unable to paste"
-msgstr "붙일 수 없습니다"
+msgstr "붙여 넣을 수 없습니다"
 
 #: src/clipboard.c:301
 msgid "Content can only be pasted by value or by link."
@@ -13555,27 +13569,27 @@ msgstr ""
 
 #: src/cmd-edit.c:307
 msgid "Unable to paste into selection"
-msgstr "선택된 곳에 붙일 수 없습니다"
+msgstr "선택된 곳에 붙여 넣을 수 없습니다"
 
 #: src/cmd-edit.c:388
 #, c-format
 msgid "Shift rows %s"
-msgstr "%s 줄 밀기"
+msgstr "%s 행 밀기"
 
 #: src/cmd-edit.c:389
 #, c-format
 msgid "Shift row %s"
-msgstr "%s 줄 밀기"
+msgstr "%s 행 밀기"
 
 #: src/cmd-edit.c:426
 #, c-format
 msgid "Shift columns %s"
-msgstr "%s 칸 밀기"
+msgstr "%s 열 밀기"
 
 #: src/cmd-edit.c:427
 #, c-format
 msgid "Shift column %s"
-msgstr "%s 칸 밀기"
+msgstr "%s 열 밀기"
 
 #: src/command-context.c:89
 #, c-format
@@ -13617,51 +13631,51 @@ msgstr "\"%s%s\"을(를) 입력"
 
 #: src/commands.c:1205 src/commands.c:1210 src/sheet.c:3162
 msgid "Delete Columns"
-msgstr "칸 지움"
+msgstr "열 지움"
 
 #: src/commands.c:1205 src/commands.c:1210 src/sheet.c:3276
 msgid "Delete Rows"
-msgstr "줄 지움"
+msgstr "행 지움"
 
 #: src/commands.c:1360
 #, c-format
 msgid "Inserting %d columns before %s"
-msgstr "%2$s 앞에 %1$d 칸 넣기"
+msgstr "%2$s 앞에 %1$d 열 넣기"
 
 #: src/commands.c:1361
 #, c-format
 msgid "Inserting %d column before %s"
-msgstr "%2$s 앞에 %1$d 칸 넣기"
+msgstr "%2$s 앞에 %1$d 열 넣기"
 
 #: src/commands.c:1376
 #, c-format
 msgid "Inserting %d rows before %s"
-msgstr "%2$s 앞에 %1$d 줄 넣기"
+msgstr "%2$s 앞에 %1$d 행 넣기"
 
 #: src/commands.c:1377
 #, c-format
 msgid "Inserting %d row before %s"
-msgstr "%2$s 앞에 %1$d 줄 넣기"
+msgstr "%2$s 앞에 %1$d 행 넣기"
 
 #: src/commands.c:1388
 #, c-format
 msgid "Deleting columns %s"
-msgstr "칸 %s 지움"
+msgstr "열 %s 지움"
 
 #: src/commands.c:1389
 #, c-format
 msgid "Deleting column %s"
-msgstr "칸 %s 지움"
+msgstr "열 %s 지움"
 
 #: src/commands.c:1399
 #, c-format
 msgid "Deleting rows %s"
-msgstr "줄 %s 지움"
+msgstr "행 %s 지움"
 
 #: src/commands.c:1400
 #, c-format
 msgid "Deleting row %s"
-msgstr "줄 %s 지움"
+msgstr "행 %s 지움"
 
 #. Check for locked cells
 #: src/commands.c:1477 src/commands.c:1481 src/sheet.c:2779
@@ -13764,19 +13778,19 @@ msgstr "%s 정렬중"
 
 #: src/commands.c:2141
 msgid "Unhide columns"
-msgstr "칸 보이기"
+msgstr "열 보이기"
 
 #: src/commands.c:2141
 msgid "Hide columns"
-msgstr "칸 숨기기"
+msgstr "열 숨기기"
 
 #: src/commands.c:2142
 msgid "Unhide rows"
-msgstr "줄 보이기"
+msgstr "행 보이기"
 
 #: src/commands.c:2142
 msgid "Hide rows"
-msgstr "줄 숨기기"
+msgstr "행 숨기기"
 
 #: src/commands.c:2225
 #, fuzzy
@@ -14042,41 +14056,51 @@ msgstr ""
 msgid "Shuffle Data"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:107
-msgid "Axis"
-msgstr "축"
+#. FIXME?
+#: src/commands.c:5853
+#, fuzzy, c-format
+msgid "Text (%s) to Columns (%s)"
+msgstr "열 지움"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:46
-#: src/cut-n-paste-code/goffice/graph/gog-graph.c:169
-msgid "Chart"
-msgstr "도표"
+#. Fill in the header titles.
+#: src/commands.c:6002 src/dialogs/solver.glade.h:25
+#: src/tools/solver/reports-write.c:195 src/tools/solver/reports-write.c:356
+#: src/tools/solver/reports-write.c:486 src/tools/solver/reports-write.c:747
+#: src/tools/solver/reports-write.c:910 src/tools/solver/reports-write.c:961
+#, fuzzy
+msgid "Solver"
+msgstr "해결"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:142
+#: src/commands.c:6090
+#, fuzzy, c-format
+msgid "Goal Seek (%s)"
+msgstr "목표 찾기..."
+
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:135
 #, fuzzy
 msgid "Plot"
 msgstr "플롯 모드"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:145
-#: src/cut-n-paste-code/goffice/graph/gog-legend.c:99
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:138
 #, fuzzy
 msgid "Legend"
 msgstr "보냄"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:148
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:141
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
-#: src/cut-n-paste-code/goffice/graph/gog-legend.c:133
+#: src/cut-n-paste-code/goffice/graph/gog-legend.c:132
 msgid "Title"
 msgstr "제목"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:151
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:144
 msgid "X-Axis"
 msgstr "X축"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:155
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:148
 msgid "Y-Axis"
 msgstr "Y축"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:159
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:152
 msgid "Z-Axis"
 msgstr "Z축"
 
@@ -14103,6 +14127,10 @@ msgstr "너비"
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:230
 msgid "Graph"
 msgstr "그래프"
+
+#: src/cut-n-paste-code/goffice/graph/gog-graph.c:169
+msgid "Chart"
+msgstr "도표"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:995
 #, fuzzy
@@ -14134,7 +14162,7 @@ msgstr ""
 "보기"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1180
-#: src/dialogs/dialog-plugin-manager.c:679
+#: src/dialogs/dialog-plugin-manager.c:703
 #: src/dialogs/dialog-preferences.c:543 src/dialogs/function-select.glade.h:2
 msgid "Description"
 msgstr "설명"
@@ -14148,8 +14176,8 @@ msgid "TODO : Unfinished"
 msgstr "할 일 : 끝나지 않음"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:3
-#: src/dialogs/autocorrect.glade.h:12 src/dialogs/dialog-stf.glade.h:60
-#: src/dialogs/names.glade.h:6 src/dialogs/solver.glade.h:27
+#: src/dialogs/autocorrect.glade.h:12 src/dialogs/names.glade.h:6
+#: src/dialogs/solver.glade.h:27
 msgid "_Add"
 msgstr "더하기(_A)"
 
@@ -14181,12 +14209,7 @@ msgstr "가장자리"
 msgid "_Top"
 msgstr "꼭대기(_T)"
 
-#: src/cut-n-paste-code/goffice/graph/gog-label.c:98
-#, fuzzy
-msgid "GraphLabel"
-msgstr "꼬리표를 만듭니다"
-
-#: src/cut-n-paste-code/goffice/graph/gog-label.c:107
+#: src/cut-n-paste-code/goffice/graph/gog-label.c:102
 msgid "_Text:"
 msgstr "텍스트(_T):"
 
@@ -14205,17 +14228,16 @@ msgid "Chart Theme"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-plot.c:164
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:59
 #, fuzzy
 msgid "Series"
 msgstr "문자열"
 
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:138
-#: src/dialogs/dialog-stf.glade.h:19
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:132
+#: src/dialogs/dialog-stf.glade.h:15
 msgid "Data"
 msgstr "데이터"
 
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:141
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:135
 #: src/dialogs/pivottable.glade.h:4
 msgid "Style"
 msgstr "모양"
@@ -14303,7 +14325,7 @@ msgstr "색(_C):"
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:15
 #, fuzzy
 msgid "Select an _image file:"
-msgstr "전체 칸 선택"
+msgstr "전체 열 선택"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:16
 #: src/dialogs/cell-format.glade.h:71
@@ -14346,24 +14368,23 @@ msgstr "파일(_F)"
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:198
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:223
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:466
-#: src/sheet-object-graphic.c:921 src/sheet-object-graphic.c:938
+#: src/sheet-object-graphic.c:929 src/sheet-object-graphic.c:946
 msgid "Transparent"
 msgstr "투명"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:294
-#, fuzzy
 msgid "Select an image file"
-msgstr "전체 칸 선택"
+msgstr ""
 
 #. TODO : have a look at apple's themes
 #. An MS Excel-ish theme
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:225
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:228
 #: src/dialogs/dialog-sheet-order.c:928 src/dialogs/dialog-sheet-order.c:941
 msgid "Default"
 msgstr "기본값"
 
 #. Guppi
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:263
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:266
 #, fuzzy
 msgid "Guppi"
 msgstr "묶음"
@@ -14393,31 +14414,29 @@ msgstr "그래프(_G)..."
 msgid "_Overlap:"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:126
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:129
 msgid "PlotBarCol"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:284
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:287
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
 #: src/dialogs/consolidate.glade.h:10
 msgid "Labels"
 msgstr "꼬리표"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:286
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:289
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:194
 #: src/dialogs/consolidate.glade.h:22
 msgid "Values"
 msgstr "값"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:1
-#, fuzzy
 msgid "3D Adjacent Bars"
-msgstr "칸 지움"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:2
-#, fuzzy
 msgid "3D Adjacent Columns"
-msgstr "칸 지움"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:3
 #, fuzzy
@@ -14427,7 +14446,7 @@ msgstr "퍼센트(_C)"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:4
 #, fuzzy
 msgid "3D Percentage Columns"
-msgstr "칸 지움"
+msgstr "열 지움"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:5
 msgid "3D Stacked Bars"
@@ -14436,17 +14455,17 @@ msgstr "3차원 누적 막대형"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:6
 #, fuzzy
 msgid "3D Stacked Columns"
-msgstr "칸 지움"
+msgstr "열 지움"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:7
 #, fuzzy
 msgid "Adjacent Bars"
-msgstr "칸 지움"
+msgstr "열 지움"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:8
 #, fuzzy
 msgid "Adjacent Columns"
-msgstr "칸 지움"
+msgstr "열 지움"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:9
 msgid "Adjacent horizontal 3D bars grouped by major and minor categories."
@@ -14469,9 +14488,8 @@ msgid "Bar"
 msgstr "막대형"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:14
-#: src/dialogs/dialog-stf.glade.h:16
 msgid "Column"
-msgstr "칸"
+msgstr "열"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:15
 msgid ""
@@ -14523,7 +14541,7 @@ msgstr "퍼센트(_C)"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:24
 #, fuzzy
 msgid "Percentage Columns"
-msgstr "칸 지움"
+msgstr "열 지움"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:25
 msgid "Stacked Bars"
@@ -14532,7 +14550,7 @@ msgstr "누적 막대형"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:26
 #, fuzzy
 msgid "Stacked Columns"
-msgstr "칸 지움"
+msgstr "열 지움"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:1
 msgid "Bar and Column charts"
@@ -15093,7 +15111,7 @@ msgstr "첫 글자"
 #: src/format.c:2113 src/format.c:2242 src/format.c:2248 src/format.c:2324
 #: src/plugin-service.c:199 src/widgets/widget-format-selector.c:68
 msgid "General"
-msgstr "보통"
+msgstr "일반"
 
 #: src/dialogs/autocorrect.glade.h:10
 msgid "INitial CApitals"
@@ -15109,7 +15127,7 @@ msgstr "키를 눌렀을때 텍스트를 바꿈(_R)"
 
 #: src/dialogs/autocorrect.glade.h:15
 msgid "_With:"
-msgstr "너비(_W)"
+msgstr "무엇으로(_W):"
 
 #: src/dialogs/autofilter-expression.glade.h:1
 #: src/dialogs/dialog-autoformat.c:70
@@ -15435,11 +15453,11 @@ msgstr "벽돌"
 
 #: src/dialogs/cell-format.glade.h:33
 msgid "Ce_nter"
-msgstr "중앙(_N)"
+msgstr "가운데(_N)"
 
 #: src/dialogs/cell-format.glade.h:34
 msgid "Cen_ter"
-msgstr "중앙(_T)"
+msgstr "가운데(_T)"
 
 #: src/dialogs/cell-format.glade.h:35
 #, fuzzy
@@ -15781,12 +15799,12 @@ msgstr "위-아래(_T)"
 
 #: src/dialogs/col-width.glade.h:1
 msgid "Column Width"
-msgstr "칸 너비"
+msgstr "열 너비"
 
 #: src/dialogs/col-width.glade.h:2
 #, fuzzy
 msgid "_Column width (pt.):"
-msgstr "칸 너비(_C) (pts):"
+msgstr "열 너비(_C) (pts):"
 
 #: src/dialogs/col-width.glade.h:3 src/dialogs/row-height.glade.h:3
 msgid "_Use Default"
@@ -15829,11 +15847,11 @@ msgstr "식"
 
 #: src/dialogs/consolidate.glade.h:8
 msgid "In _left column"
-msgstr "맨 왼칸"
+msgstr "맨 왼열"
 
 #: src/dialogs/consolidate.glade.h:9
 msgid "In _top row"
-msgstr "맨 위줄"
+msgstr "맨 위행"
 
 #: src/dialogs/consolidate.glade.h:11
 msgid "MAX"
@@ -15913,11 +15931,11 @@ msgstr ""
 
 #: src/dialogs/delete-cells.glade.h:2
 msgid "Delete _column(s)"
-msgstr "칸 지움(_C)"
+msgstr "열 지움(_C)"
 
 #: src/dialogs/delete-cells.glade.h:3
 msgid "Delete _row(s)"
-msgstr "줄 지움(_R)"
+msgstr "행 지움(_R)"
 
 #: src/dialogs/delete-cells.glade.h:4
 msgid "Delete cells"
@@ -16461,7 +16479,7 @@ msgstr ""
 msgid "Number"
 msgstr "숫자"
 
-#: src/dialogs/dialog-cell-format.c:654 src/dialogs/dialog-stf-main-page.c:363
+#: src/dialogs/dialog-cell-format.c:654 src/dialogs/dialog-stf-main-page.c:371
 #: src/widgets/widget-format-selector.c:77
 #, fuzzy
 msgid "Text"
@@ -16499,16 +16517,16 @@ msgstr "바탕 지우기"
 #: src/dialogs/dialog-cell-sort.c:109 src/dialogs/dialog-cell-sort.c:114
 #, c-format
 msgid "Column %s"
-msgstr "칸 %s"
+msgstr "열 %s"
 
 #: src/dialogs/dialog-cell-sort.c:111 src/dialogs/dialog-cell-sort.c:116
 #, c-format
 msgid "Row %s"
-msgstr "줄 %s"
+msgstr "행 %s"
 
 #: src/dialogs/dialog-cell-sort.c:700
 msgid "Row/Column"
-msgstr "줄/칸"
+msgstr "행/열"
 
 #: src/dialogs/dialog-cell-sort.c:720
 msgid "Case Sensitive"
@@ -16526,7 +16544,7 @@ msgstr "인자 값을 구할 수 없습니다"
 
 #: src/dialogs/dialog-col-width.c:228
 msgid "Set standard/default column width"
-msgstr "칸의 기본 너비 설정"
+msgstr "열의 기본 너비 설정"
 
 #: src/dialogs/dialog-col-width.c:233
 #, c-format
@@ -16592,41 +16610,41 @@ msgstr "최근에 사용된 함수"
 msgid "All Functions (long list)"
 msgstr "함수가 없습니다"
 
-#: src/dialogs/dialog-goal-seek.c:346
+#: src/dialogs/dialog-goal-seek.c:359
 #, fuzzy
 msgid "You should introduce a valid cell name in 'Set Cell:'!"
 msgstr "유효한 셀 이름을 '셀 설정'에 입력하셔야 합니다"
 
-#: src/dialogs/dialog-goal-seek.c:358
+#: src/dialogs/dialog-goal-seek.c:371
 #, fuzzy
 msgid "The cell named in 'Set Cell:' must contain a formula!"
 msgstr "'셀 설정'의 셀 이름은 공식을 포함해야만 합니다"
 
-#: src/dialogs/dialog-goal-seek.c:371
+#: src/dialogs/dialog-goal-seek.c:384
 #, fuzzy
 msgid "You should introduce a valid cell name in 'By Changing Cell:'!"
 msgstr "유효한 셀이름을 'By changing cell'에 입력하셔야 합니다"
 
-#: src/dialogs/dialog-goal-seek.c:384
+#: src/dialogs/dialog-goal-seek.c:397
 #, fuzzy
 msgid "The cell named in 'By changing cell' must not contain a formula."
 msgstr "'By changing cell'의 셀 이름은 공식을 포함하면 않됩니다"
 
-#: src/dialogs/dialog-goal-seek.c:397
+#: src/dialogs/dialog-goal-seek.c:410
 msgid "The value given in 'To Value:' is not valid."
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:442
+#: src/dialogs/dialog-goal-seek.c:455
 #, fuzzy, c-format
 msgid "Goal seeking with cell %s found a solution."
 msgstr "목표 찾기가 답을 찾지 못했습니다!"
 
-#: src/dialogs/dialog-goal-seek.c:463
+#: src/dialogs/dialog-goal-seek.c:476
 #, fuzzy, c-format
 msgid "Goal seeking with cell %s did not find a solution."
 msgstr "목표 찾기가 답을 찾지 못했습니다!"
 
-#: src/dialogs/dialog-goal-seek.c:615
+#: src/dialogs/dialog-goal-seek.c:653
 #, fuzzy
 msgid "Could not create the Goal-Seek dialog."
 msgstr "인자 값을 구할 수 없습니다"
@@ -16666,7 +16684,7 @@ msgstr ""
 
 #: src/dialogs/dialog-hyperlink.c:193
 msgid "_External Link"
-msgstr "외부 연결"
+msgstr "외부 연결(_E)"
 
 #: src/dialogs/dialog-hyperlink.c:195
 msgid "Open an external file with the specified name"
@@ -16752,7 +16770,7 @@ msgstr ""
 
 #: src/dialogs/dialog-password.c:68
 msgid "Password :"
-msgstr "비밀번호 :"
+msgstr "암호 :"
 
 #: src/dialogs/dialog-paste-special.c:40
 msgid "All"
@@ -16790,17 +16808,15 @@ msgstr "나누기"
 
 #: src/dialogs/dialog-paste-special.c:118
 msgid "Paste special"
-msgstr "특별한 붙이기"
+msgstr "특별한 붙여 넣기"
 
 #: src/dialogs/dialog-paste-special.c:121
-#, fuzzy
 msgid "Paste Link"
-msgstr "붙이기"
+msgstr "링크 붙여 넣기"
 
 #: src/dialogs/dialog-paste-special.c:128
-#, fuzzy
 msgid "Paste type"
-msgstr "붙이기 종류"
+msgstr "형식 붙여 넣기"
 
 #: src/dialogs/dialog-paste-special.c:132
 msgid "Operation"
@@ -16814,69 +16830,69 @@ msgstr "전환"
 msgid "Skip Blanks"
 msgstr "깜빡임 멈춤"
 
-#: src/dialogs/dialog-plugin-manager.c:369
+#: src/dialogs/dialog-plugin-manager.c:372
 #, fuzzy
 msgid "Plugin dependencies"
-msgstr "플러그인(_P)..."
+msgstr "플러그인 의존성"
 
-#: src/dialogs/dialog-plugin-manager.c:377
+#: src/dialogs/dialog-plugin-manager.c:380
 #, fuzzy
 msgid "Unknown plugin"
 msgstr "모르는 계산 에러"
 
-#: src/dialogs/dialog-plugin-manager.c:391
+#: src/dialogs/dialog-plugin-manager.c:394
 msgid "Plugin services"
 msgstr "플러그인 서비스"
 
-#: src/dialogs/dialog-plugin-manager.c:452
+#: src/dialogs/dialog-plugin-manager.c:463
 msgid "Errors while activating plugins"
 msgstr ""
 
-#: src/dialogs/dialog-plugin-manager.c:468
+#: src/dialogs/dialog-plugin-manager.c:479
 msgid "Errors while deactivating plugins"
 msgstr ""
 
-#: src/dialogs/dialog-plugin-manager.c:564
+#: src/dialogs/dialog-plugin-manager.c:575
 msgid ""
 "The following extra plugins must be activated in order to activate this "
 "one:\n"
 "\n"
 msgstr ""
 
-#: src/dialogs/dialog-plugin-manager.c:570
+#: src/dialogs/dialog-plugin-manager.c:581
 #, fuzzy, c-format
 msgid "Unknown plugin with id=\"%s\"\n"
 msgstr "모르는 계산 에러"
 
-#: src/dialogs/dialog-plugin-manager.c:577
+#: src/dialogs/dialog-plugin-manager.c:588
 msgid ""
 "\n"
 "Do you want to activate this plugin together with its dependencies?"
 msgstr ""
 
-#: src/dialogs/dialog-plugin-manager.c:596
+#: src/dialogs/dialog-plugin-manager.c:607
 #, fuzzy, c-format
 msgid "Error while deactivating plugin \"%s\"."
 msgstr "파일 닫기 에러, 에러: %s"
 
-#: src/dialogs/dialog-plugin-manager.c:600
+#: src/dialogs/dialog-plugin-manager.c:611
 #, fuzzy, c-format
 msgid "Error while activating plugin \"%s\"."
 msgstr "파일 닫기 에러, 에러: %s"
 
-#: src/dialogs/dialog-plugin-manager.c:655
+#: src/dialogs/dialog-plugin-manager.c:679
 msgid "Active"
 msgstr "활성"
 
-#: src/dialogs/dialog-plugin-manager.c:660
+#: src/dialogs/dialog-plugin-manager.c:684
 msgid "Plugin name"
 msgstr "플러그인 이름"
 
-#: src/dialogs/dialog-plugin-manager.c:683
+#: src/dialogs/dialog-plugin-manager.c:707
 msgid "ID"
 msgstr "ID"
 
-#: src/dialogs/dialog-plugin-manager.c:703
+#: src/dialogs/dialog-plugin-manager.c:727
 msgid "Directory"
 msgstr "디렉토리"
 
@@ -16912,9 +16928,8 @@ msgid "The items on this page are related to the saving and opening of files."
 msgstr ""
 
 #: src/dialogs/dialog-preferences.c:1394
-#, fuzzy
 msgid "Windows"
-msgstr "줄 숨기기"
+msgstr ""
 
 #: src/dialogs/dialog-preferences.c:1395
 msgid "Files"
@@ -16956,13 +16971,15 @@ msgstr "균등"
 
 #: src/dialogs/dialog-random-generator.c:104
 #: src/dialogs/dialog-random-generator.c:106
+#, fuzzy
 msgid "_Lower Bound:"
-msgstr "최쇼 범위:"
+msgstr "최소 범위(_L):"
 
 #: src/dialogs/dialog-random-generator.c:104
 #: src/dialogs/dialog-random-generator.c:106
+#, fuzzy
 msgid "_Upper Bound:"
-msgstr "최대 범위:"
+msgstr "최대 범위(_U):"
 
 #: src/dialogs/dialog-random-generator.c:106
 #, fuzzy
@@ -17109,7 +17126,7 @@ msgstr "가로(_L)"
 
 #: src/dialogs/dialog-random-generator.c:145
 msgid "Laplace"
-msgstr ""
+msgstr "라플라스"
 
 #: src/dialogs/dialog-random-generator.c:147
 msgid "Levy alpha-Stable"
@@ -17117,15 +17134,16 @@ msgstr ""
 
 #: src/dialogs/dialog-random-generator.c:147
 msgid "_c Value:"
-msgstr "c 값(_C):"
+msgstr "C 값(_C):"
 
 #: src/dialogs/dialog-random-generator.c:147
 msgid "_alpha:"
 msgstr "알파(_A):"
 
 #: src/dialogs/dialog-random-generator.c:149
+#, fuzzy
 msgid "Logarithmic"
-msgstr ""
+msgstr "로그 함수"
 
 #: src/dialogs/dialog-random-generator.c:151
 #, fuzzy
@@ -17147,9 +17165,8 @@ msgid "Negative Binomial"
 msgstr ""
 
 #: src/dialogs/dialog-random-generator.c:156
-#, fuzzy
 msgid "N_umber of Failures"
-msgstr "실패 횟수(_u)"
+msgstr "실패 횟수(_U)"
 
 #: src/dialogs/dialog-random-generator.c:158
 #, fuzzy
@@ -17197,7 +17214,7 @@ msgstr "인자 값을 구할 수 없습니다"
 
 #: src/dialogs/dialog-row-height.c:228
 msgid "Set standard/default row height"
-msgstr "줄의 기본 높이 설정"
+msgstr "행의 기본 높이 설정"
 
 #: src/dialogs/dialog-row-height.c:233
 #, c-format
@@ -17408,86 +17425,86 @@ msgstr "출력(_O):"
 msgid "Could not create the Simulation dialog."
 msgstr "인자 값을 구할 수 없습니다"
 
-#: src/dialogs/dialog-solver.c:91
+#: src/dialogs/dialog-solver.c:94
 msgid "Revised Simplex (GLPK 3.2)"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:92
+#: src/dialogs/dialog-solver.c:95
 msgid "Simplex (LP Solve 3.2)"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:93
+#: src/dialogs/dialog-solver.c:96
 msgid "< Not available >"
 msgstr "< 사용할 수 없음 >"
 
-#: src/dialogs/dialog-solver.c:421
+#: src/dialogs/dialog-solver.c:424
 msgid ""
 "Looking for a subject for your thesis? Maybe you would like to write a QP "
 "solver for Gnumeric?"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:738
+#: src/dialogs/dialog-solver.c:752
 msgid ""
 "Solver found an optimal solution.  All constraints and optimality conditions "
 "are satisfied.\n"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:747
+#: src/dialogs/dialog-solver.c:761
 msgid ""
 "Neither sensitivity nor limits report are meaningful if the program has "
 "integer constraints.  These reports will not be created."
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:765
+#: src/dialogs/dialog-solver.c:779
 msgid ""
 "The Target Cell value specified does not converge!  The program is unbounded."
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:779
+#: src/dialogs/dialog-solver.c:793
 msgid ""
 "A feasible solution could not be found.  All specified constraints cannot be "
 "met simultaneously. "
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:794
+#: src/dialogs/dialog-solver.c:808
 msgid ""
 "The maximum number of iterations exceeded. The optimal value could not be "
 "found."
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:834
+#: src/dialogs/dialog-solver.c:848
 msgid "Optimal solution created by solver.\n"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:868
+#: src/dialogs/dialog-solver.c:882
 msgid "Unknown error."
 msgstr "모르는 에러"
 
-#: src/dialogs/dialog-solver.c:885
+#: src/dialogs/dialog-solver.c:899
 msgid "You have not specified a problem to be solved"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:904 src/tools/solver/solver.c:377
+#: src/dialogs/dialog-solver.c:918 src/tools/solver/solver.c:377
 #, fuzzy
 msgid "Target cell should contain a formula."
 msgstr "'셀 설정'의 셀 이름은 공식을 포함해야만 합니다"
 
-#: src/dialogs/dialog-solver.c:987
+#: src/dialogs/dialog-solver.c:1001
 #, c-format
 msgid "Constraint `%s' is for a cell that is not an input cell."
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:1009
+#: src/dialogs/dialog-solver.c:1023
 msgid "No constraints defined for the problem."
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:1059
+#: src/dialogs/dialog-solver.c:1074
 msgid ""
 "The maximum time exceeded. The optimal value could not be found in given "
 "time."
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:1354
+#: src/dialogs/dialog-solver.c:1370
 #, fuzzy
 msgid "Could not create the Solver dialog."
 msgstr "인자 값을 구할 수 없습니다"
@@ -17579,7 +17596,7 @@ msgstr "구조화된 문서로 보내기"
 
 #: src/dialogs/dialog-stf-export.glade.h:21
 msgid "Hyphen (-)"
-msgstr ""
+msgstr "하이픈 (-)"
 
 #: src/dialogs/dialog-stf-export.glade.h:22
 #, fuzzy
@@ -17590,10 +17607,9 @@ msgstr "설명(_D)"
 msgid "Macintosh (carriage return)"
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:24 src/dialogs/dialog-stf.glade.h:32
-#, fuzzy
+#: src/dialogs/dialog-stf-export.glade.h:24 src/dialogs/dialog-stf.glade.h:27
 msgid "Never"
-msgstr "11월"
+msgstr ""
 
 #: src/dialogs/dialog-stf-export.glade.h:25
 msgid "Pipe (|)"
@@ -17654,18 +17670,36 @@ msgstr "모르는 연산자"
 msgid "Windows (carriage return + linefeed)"
 msgstr "윈도우즈 (CR+LF)"
 
-#: src/dialogs/dialog-stf-export.glade.h:39 src/dialogs/dialog-stf.glade.h:71
+#: src/dialogs/dialog-stf-export.glade.h:39 src/dialogs/dialog-stf.glade.h:64
 msgid "`"
 msgstr "`"
 
-#: src/dialogs/dialog-stf-fixed-page.c:82
+#: src/dialogs/dialog-stf-fixed-page.c:51
 msgid "Autodiscovery did not find any columns in the text. Try manually"
 msgstr ""
 
-#: src/dialogs/dialog-stf-fixed-page.c:113
-#, c-format
-msgid "You cannot have more than %d columns in this version of Gnumeric."
+#: src/dialogs/dialog-stf-fixed-page.c:67
+msgid "Delete and Merge _Left"
 msgstr ""
+
+#: src/dialogs/dialog-stf-fixed-page.c:69
+msgid "Delete and Merge _Right"
+msgstr ""
+
+#: src/dialogs/dialog-stf-fixed-page.c:72
+#, fuzzy
+msgid "_Split"
+msgstr "나누기"
+
+#: src/dialogs/dialog-stf-fixed-page.c:75
+#, fuzzy
+msgid "_Widen"
+msgstr "숨기기(_H)"
+
+#: src/dialogs/dialog-stf-fixed-page.c:77
+#, fuzzy
+msgid "_Narrow"
+msgstr "화살표"
 
 #: src/dialogs/dialog-stf-format-page.c:126
 #, c-format
@@ -17708,18 +17742,18 @@ msgstr ""
 msgid "Column %d"
 msgstr "세로 %d"
 
-#: src/dialogs/dialog-stf-main-page.c:136
+#: src/dialogs/dialog-stf-main-page.c:144
 #, fuzzy, c-format
 msgid "%d of %d lines to import"
 msgstr "인쇄할 제목"
 
-#: src/dialogs/dialog-stf-main-page.c:157
+#: src/dialogs/dialog-stf-main-page.c:165
 #, c-format
 msgid "The data is not valid in encoding %s; please select another encoding."
 msgstr ""
 
-#: src/dialogs/dialog-stf-main-page.c:375
-#, c-format
+#: src/dialogs/dialog-stf-main-page.c:383
+#, fuzzy, c-format
 msgid "Data (from %s)"
 msgstr "%s의 데이터"
 
@@ -17731,277 +17765,254 @@ msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:5
 #, fuzzy
-msgid "Add a new column"
-msgstr "새로운 열 삽입"
-
-#: src/dialogs/dialog-stf.glade.h:6
-#, fuzzy
 msgid "Always (Both Sides)"
 msgstr "항상 (양쪽 다)"
 
-#: src/dialogs/dialog-stf.glade.h:7
+#: src/dialogs/dialog-stf.glade.h:6
 msgid "Attempt to recognize columns in the text automatically."
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:8
-#, fuzzy
-msgid "Auto Column _Discovery"
-msgstr "열 %s 삭제"
-
-#: src/dialogs/dialog-stf.glade.h:9
+#: src/dialogs/dialog-stf.glade.h:7
 msgid "Ban_g (!)"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:10
+#: src/dialogs/dialog-stf.glade.h:8
 msgid "CSV"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:11
+#: src/dialogs/dialog-stf.glade.h:9
 msgid "C_ustom"
 msgstr "사용자(_U)"
 
-#: src/dialogs/dialog-stf.glade.h:12
+#: src/dialogs/dialog-stf.glade.h:10
 msgid ""
 "Character interpreted as quote character. If a termination or separation "
 "character is encountered within quotes it will be considered part of the "
 "column text."
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:13
+#: src/dialogs/dialog-stf.glade.h:11
 msgid "Clear list of columns"
-msgstr "칸들의 목록을 지움"
+msgstr "열들의 목록을 지움"
 
-#: src/dialogs/dialog-stf.glade.h:14
-msgid "Co_lumn end: "
-msgstr "칸 끌(_L): "
-
-#: src/dialogs/dialog-stf.glade.h:15
+#: src/dialogs/dialog-stf.glade.h:12
 msgid "Co_mma (,)"
 msgstr "쉼표(_M) (,)"
 
-#: src/dialogs/dialog-stf.glade.h:17
+#: src/dialogs/dialog-stf.glade.h:13
 msgid "Columns"
-msgstr "칸"
+msgstr "열"
 
-#: src/dialogs/dialog-stf.glade.h:18
+#: src/dialogs/dialog-stf.glade.h:14
 #, fuzzy
 msgid "Custom separator, this can be any character."
 msgstr "사용자 정의 구분자, 어떤 문자라도 될수 있습니다."
 
-#: src/dialogs/dialog-stf.glade.h:20
+#: src/dialogs/dialog-stf.glade.h:16
 msgid "Define the width of each column manually."
-msgstr "각각의 칸의 너비를 수동으로 설정"
+msgstr "각각의 열의 너비를 수동으로 설정"
 
-#: src/dialogs/dialog-stf.glade.h:21
+#: src/dialogs/dialog-stf.glade.h:17
 msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon."
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:22
+#: src/dialogs/dialog-stf.glade.h:18
 msgid "Encoding:"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:23
-msgid "End"
-msgstr "끝"
-
-#: src/dialogs/dialog-stf.glade.h:24
-#, fuzzy
+#: src/dialogs/dialog-stf.glade.h:19
 msgid "F_inish"
-msgstr "최소"
+msgstr "마침(_I)"
 
-#: src/dialogs/dialog-stf.glade.h:25
+#: src/dialogs/dialog-stf.glade.h:20
 #, fuzzy
 msgid "Fixed"
 msgstr "파일/"
 
-#: src/dialogs/dialog-stf.glade.h:26
+#: src/dialogs/dialog-stf.glade.h:21
 msgid "Format"
 msgstr "형식"
 
-#: src/dialogs/dialog-stf.glade.h:27
+#: src/dialogs/dialog-stf.glade.h:22
 msgid "Fr_om line:"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:28
+#: src/dialogs/dialog-stf.glade.h:23
 msgid "H_yphen (-)"
-msgstr ""
+msgstr "하이픈 (-)"
 
-#: src/dialogs/dialog-stf.glade.h:29
+#: src/dialogs/dialog-stf.glade.h:24
 msgid "Line breaks:"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:30
+#: src/dialogs/dialog-stf.glade.h:25
 #, fuzzy
 msgid "Lines to import"
 msgstr "인쇄할 제목"
 
-#: src/dialogs/dialog-stf.glade.h:31
+#: src/dialogs/dialog-stf.glade.h:26
 #, fuzzy
 msgid "Main"
 msgstr "최소값"
 
-#: src/dialogs/dialog-stf.glade.h:33
+#: src/dialogs/dialog-stf.glade.h:28
 msgid "Number of lines to import"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:34
+#: src/dialogs/dialog-stf.glade.h:29
 msgid "On left side only"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:35
+#: src/dialogs/dialog-stf.glade.h:30
 msgid "On right side only"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:36
+#: src/dialogs/dialog-stf.glade.h:31
 msgid "Original data type:"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:37
+#: src/dialogs/dialog-stf.glade.h:32
 #, fuzzy
 msgid "Overall formatting"
 msgstr "일반 정보"
 
-#: src/dialogs/dialog-stf.glade.h:38
+#: src/dialogs/dialog-stf.glade.h:33
 msgid "P_ipe (|)"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:39
+#: src/dialogs/dialog-stf.glade.h:34
 msgid "Per column formatting"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:40
+#: src/dialogs/dialog-stf.glade.h:35
 msgid "Processing ends at this line, any subsequent lines will be ignored."
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:41
-#, fuzzy
-msgid "Remove selected column"
-msgstr "선택된 셀 정렬"
-
-#: src/dialogs/dialog-stf.glade.h:42
+#: src/dialogs/dialog-stf.glade.h:36
 msgid "S_ee two separators as one"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:43
+#: src/dialogs/dialog-stf.glade.h:37
 msgid "S_pace"
 msgstr "공백(_P)"
 
-#: src/dialogs/dialog-stf.glade.h:44
+#: src/dialogs/dialog-stf.glade.h:38
 msgid "See two successive separators as one."
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:45
+#: src/dialogs/dialog-stf.glade.h:39
 msgid ""
 "See two successive text indicators as one that does not terminate the cell."
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:46
+#: src/dialogs/dialog-stf.glade.h:40
 msgid "Semicolo_n (;)"
-msgstr ""
+msgstr "세미콜론 (;)(_N)"
 
-#: src/dialogs/dialog-stf.glade.h:47
+#: src/dialogs/dialog-stf.glade.h:41
 msgid "Separators"
 msgstr "구분자"
 
-#: src/dialogs/dialog-stf.glade.h:48
-#, fuzzy
-msgid "Set the end of this column"
-msgstr "전체 열 선택"
-
-#: src/dialogs/dialog-stf.glade.h:49
+#: src/dialogs/dialog-stf.glade.h:42
 msgid "Slas_h (/)"
 msgstr "슬래쉬 (/)(_H)"
 
-#: src/dialogs/dialog-stf.glade.h:50
+#: src/dialogs/dialog-stf.glade.h:43
 #, fuzzy
 msgid "Source Format"
 msgstr "정렬"
 
-#: src/dialogs/dialog-stf.glade.h:51
+#: src/dialogs/dialog-stf.glade.h:44
 #, fuzzy
 msgid "Source Locale:"
 msgstr "정렬"
 
-#: src/dialogs/dialog-stf.glade.h:52
+#: src/dialogs/dialog-stf.glade.h:45
 msgid "Ta_b"
 msgstr "탭(_B)"
 
-#: src/dialogs/dialog-stf.glade.h:53
+#: src/dialogs/dialog-stf.glade.h:46
 msgid "Te_xt indicator: "
 msgstr "텍스트 지시자(_X): "
 
-#: src/dialogs/dialog-stf.glade.h:54
+#: src/dialogs/dialog-stf.glade.h:47
+#, fuzzy
+msgid "Text Import Configuration"
+msgstr "텍스트 파일 읽어들이기"
+
+#: src/dialogs/dialog-stf.glade.h:48
 #, fuzzy
 msgid "Text indicator"
 msgstr "텍스트 지시자(_x): "
 
-#: src/dialogs/dialog-stf.glade.h:55
+#: src/dialogs/dialog-stf.glade.h:49
 msgid "The carriage return character (ASCII code 13) breaks lines"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:56
+#: src/dialogs/dialog-stf.glade.h:50
 msgid "The line feed character (ASCII code 10) breaks lines"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:57
+#: src/dialogs/dialog-stf.glade.h:51
 msgid ""
 "The sequence of carriage return and line feed (ASCII codes 13 and 10) breaks "
 "lines"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:58
+#: src/dialogs/dialog-stf.glade.h:52
 msgid ""
 "Trim leading and trailing spaces from each column, if you are unsure you "
 "should leave this at the default setting."
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:59
+#: src/dialogs/dialog-stf.glade.h:53
 #, fuzzy
 msgid "Trim:"
 msgstr "시간(_T)"
 
-#: src/dialogs/dialog-stf.glade.h:61
+#: src/dialogs/dialog-stf.glade.h:54
 msgid "_Adjacent text indicators escaped"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:62
+#: src/dialogs/dialog-stf.glade.h:55
+#, fuzzy
+msgid "_Auto Column Discovery"
+msgstr "열 %s 삭제"
+
+#: src/dialogs/dialog-stf.glade.h:56
 msgid "_Clear"
 msgstr "비우기(_C)"
 
-#: src/dialogs/dialog-stf.glade.h:63
+#: src/dialogs/dialog-stf.glade.h:57
 msgid "_Colon (:)"
 msgstr "콜론 (:)(_C)"
 
-#: src/dialogs/dialog-stf.glade.h:64
+#: src/dialogs/dialog-stf.glade.h:58
 msgid "_Fixed width"
 msgstr "고정 폭(_F)"
 
-#: src/dialogs/dialog-stf.glade.h:65
+#: src/dialogs/dialog-stf.glade.h:59
 msgid "_Macintosh (CR)"
 msgstr "매킨토시 (CR)"
 
-#: src/dialogs/dialog-stf.glade.h:67
+#: src/dialogs/dialog-stf.glade.h:60
 msgid "_Separated"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:68
+#: src/dialogs/dialog-stf.glade.h:61
 #, fuzzy
 msgid "_To line: "
 msgstr "값(_V):"
 
-#: src/dialogs/dialog-stf.glade.h:69
+#: src/dialogs/dialog-stf.glade.h:62
 msgid "_Unix (LF)"
 msgstr "유닉스 (LF)(_U)"
 
-#: src/dialogs/dialog-stf.glade.h:70
+#: src/dialogs/dialog-stf.glade.h:63
 msgid "_Windows (CR+LF)"
 msgstr "윈도우즈 (CR+LF)"
-
-#: src/dialogs/dialog-stf.glade.h:72
-msgid "dialog1"
-msgstr "dialog1"
 
 #: src/dialogs/dialog-tabulate.c:146
 #, fuzzy
@@ -18221,12 +18232,12 @@ msgstr "지우기(_L)"
 #: src/dialogs/fill-series.glade.h:26
 #, fuzzy
 msgid "a _Column"
-msgstr "칸(_C)"
+msgstr "열(_C)"
 
 #: src/dialogs/fill-series.glade.h:27
 #, fuzzy
 msgid "a _Row"
-msgstr "줄(_R)"
+msgstr "행(_R)"
 
 #: src/dialogs/font-sel.glade.h:2
 msgid "Font style:"
@@ -18491,9 +18502,8 @@ msgid "_Calculated Bins"
 msgstr ""
 
 #: src/dialogs/histogram.glade.h:22
-#, fuzzy
 msgid "_Chart Output"
-msgstr "차트 출력"
+msgstr "도표 출력(_C)"
 
 #: src/dialogs/histogram.glade.h:23
 #, fuzzy
@@ -18557,7 +18567,7 @@ msgstr ""
 
 #: src/dialogs/insert-cells.glade.h:2
 msgid "Insert _row(s)"
-msgstr "줄 넣기(_R)"
+msgstr "행 넣기(_R)"
 
 #: src/dialogs/insert-cells.glade.h:3
 msgid "Insert cells"
@@ -18745,7 +18755,7 @@ msgstr "더하기(_A)"
 #: src/dialogs/pivottable.glade.h:7
 #, fuzzy
 msgid "_Column"
-msgstr "칸(_C)"
+msgstr "열(_C)"
 
 #: src/dialogs/pivottable.glade.h:9
 #, fuzzy
@@ -18773,23 +18783,20 @@ msgid "Activate _new plugins by default"
 msgstr "Guile 플러그인"
 
 #: src/dialogs/plugin-manager.glade.h:3
-#, fuzzy
 msgid "Directories"
-msgstr "디렉토리(_D)"
+msgstr "디렉토리"
 
 #: src/dialogs/plugin-manager.glade.h:4
 msgid "Do _not activate this plugin next time I start Gnumeric"
 msgstr "다음 Gnumeric 시작할 때는 플러그인을 사용하지 않음(_N) "
 
 #: src/dialogs/plugin-manager.glade.h:5
-#, fuzzy
 msgid "Plugin Details"
-msgstr "플러그인 설명(_P)"
+msgstr "플러그인 설명"
 
 #: src/dialogs/plugin-manager.glade.h:6
-#, fuzzy
 msgid "Plugin List"
-msgstr "플러그인 목록(_L)"
+msgstr "플러그인 목록"
 
 #: src/dialogs/plugin-manager.glade.h:7
 #, fuzzy
@@ -18838,7 +18845,7 @@ msgstr "새 시트로 복사"
 
 #: src/dialogs/print.glade.h:6
 msgid "Center on page"
-msgstr "페이지 중앙"
+msgstr "페이지 가운데"
 
 #: src/dialogs/print.glade.h:8
 msgid "Fi_rst page number:"
@@ -19331,7 +19338,7 @@ msgstr "범위"
 #: src/dialogs/search-replace.glade.h:53 src/dialogs/search.glade.h:38
 #, fuzzy
 msgid "_Row major"
-msgstr "열"
+msgstr "행"
 
 #: src/dialogs/search-replace.glade.h:54
 msgid "_Search for"
@@ -19601,7 +19608,7 @@ msgstr ""
 #: src/dialogs/so-arrow.glade.h:9
 #, fuzzy
 msgid "Line Width:"
-msgstr "칸 너비"
+msgstr "열 너비"
 
 #: src/dialogs/so-checkbox.glade.h:2
 #, fuzzy
@@ -19744,15 +19751,6 @@ msgstr "읽어들이기"
 
 #: src/dialogs/solver.glade.h:24
 msgid "Solve"
-msgstr "해결"
-
-#. Fill in the header titles.
-#: src/dialogs/solver.glade.h:25 src/tools/solver/reports-write.c:195
-#: src/tools/solver/reports-write.c:356 src/tools/solver/reports-write.c:486
-#: src/tools/solver/reports-write.c:747 src/tools/solver/reports-write.c:910
-#: src/tools/solver/reports-write.c:961
-#, fuzzy
-msgid "Solver"
 msgstr "해결"
 
 #: src/dialogs/solver.glade.h:26
@@ -20218,8 +20216,9 @@ msgid "Azerbaijan, Manats"
 msgstr "아제르바이잔, 마나트"
 
 #: src/formats.c:399
+#, fuzzy
 msgid "Bosnia and Herzegovina, Convertible Marka"
-msgstr ""
+msgstr "보스니아 헤르체고비아, "
 
 #: src/formats.c:400
 msgid "Barbados, Dollars"
@@ -20414,8 +20413,9 @@ msgid "Croatia, Kuna"
 msgstr "크로아티아, 쿠나"
 
 #: src/formats.c:448
+#, fuzzy
 msgid "Haiti, Gourdes"
-msgstr ""
+msgstr "하이티, "
 
 #: src/formats.c:449
 msgid "Hungary, Forint"
@@ -20470,8 +20470,9 @@ msgid "Kenya, Shillings"
 msgstr "케냐, 실링"
 
 #: src/formats.c:462
+#, fuzzy
 msgid "Kyrgyzstan, Soms"
-msgstr ""
+msgstr "키르지스탄, "
 
 #: src/formats.c:463
 msgid "Cambodia, Riels"
@@ -20531,7 +20532,7 @@ msgstr "라트비아, 라츠"
 
 #: src/formats.c:477
 msgid "Libya, Dinars"
-msgstr "리비야, 디나르"
+msgstr "리비아, 디나르"
 
 #: src/formats.c:478
 msgid "Morocco, Dirhams"
@@ -20590,8 +20591,9 @@ msgid "Malaysia, Ringgits"
 msgstr "말레이시아, 링기트"
 
 #: src/formats.c:492
+#, fuzzy
 msgid "Mozambique, Meticais"
-msgstr ""
+msgstr "모잠비크, "
 
 #: src/formats.c:493
 msgid "Namibia, Dollars"
@@ -20602,8 +20604,9 @@ msgid "Nigeria, Nairas"
 msgstr "나이지리아, 나이라"
 
 #: src/formats.c:495
+#, fuzzy
 msgid "Nicaragua, Gold Cordobas"
-msgstr ""
+msgstr "니카라과, "
 
 #: src/formats.c:496
 msgid "Norway, Krone"
@@ -20642,8 +20645,9 @@ msgid "Pakistan, Rupees"
 msgstr "파키스탄, 루피"
 
 #: src/formats.c:505
+#, fuzzy
 msgid "Poland, Zlotych"
-msgstr ""
+msgstr "폴란드, "
 
 #: src/formats.c:506
 msgid "Paraguay, Guarani"
@@ -20791,8 +20795,9 @@ msgid "Uruguay, Pesos"
 msgstr "우루과이, 페소"
 
 #: src/formats.c:542
+#, fuzzy
 msgid "Uzbekistan, Sums"
-msgstr ""
+msgstr "우즈베키스탄, "
 
 #: src/formats.c:543
 msgid "Venezuela, Bolivares"
@@ -20807,8 +20812,9 @@ msgid "Vanuatu, Vatu"
 msgstr "바투아누, 바투"
 
 #: src/formats.c:546
+#, fuzzy
 msgid "Samoa, Tala"
-msgstr ""
+msgstr "사모아, "
 
 #: src/formats.c:547
 msgid "Communaute Financiere Africaine BEAC, Francs"
@@ -20925,7 +20931,7 @@ msgstr "모르는 함수"
 
 #: src/func.c:683
 msgid "Boolean"
-msgstr ""
+msgstr "불리언"
 
 #: src/func.c:685
 #, fuzzy
@@ -20951,7 +20957,7 @@ msgstr "척도"
 msgid "Any"
 msgstr "어떤"
 
-#: src/func.c:1002
+#: src/func.c:1004
 msgid "Function does not exist"
 msgstr "함수가 없습니다"
 
@@ -20994,10 +21000,6 @@ msgstr "퍼센트(_P)"
 #, fuzzy
 msgid "clipboard"
 msgstr "클립보드에서 붙여 넣습니다"
-
-#: src/gui-clipboard.c:129
-msgid "Parse error while trying to parse data into cellregion"
-msgstr ""
 
 #: src/gui-file.c:74
 #, fuzzy
@@ -21077,7 +21079,7 @@ msgstr "워크북을 다른 이름으로 저장"
 msgid "Multiple errors\n"
 msgstr "곱하기"
 
-#: src/gui-util.c:832
+#: src/gui-util.c:789
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "파일 '%s'을(를) 열 수 없습니다"
@@ -21318,9 +21320,8 @@ msgid "Could not find matching closing parenthesis"
 msgstr ""
 
 #: src/parser.y:1327
-#, fuzzy
 msgid "Invalid expression"
-msgstr "회귀"
+msgstr "식이 틀렸습니다"
 
 #: src/parser.y:1331
 #, c-format
@@ -21462,7 +21463,7 @@ msgstr "함수가 없습니다"
 #: src/plugin-service.c:1114
 #, c-format
 msgid "Group of %d functions in category \"%s\""
-msgstr ""
+msgstr "\"%2$s\" 분류 안에 %1$d개의 함수 모음"
 
 #: src/plugin-service.c:1210
 #, fuzzy
@@ -21795,7 +21796,7 @@ msgstr ""
 
 #: src/sheet-control-gui.c:1482
 msgid "Paste _Special"
-msgstr "특별한 붙이기(_S)"
+msgstr "특별한 붙여 넣기(_S)"
 
 #. TODO : One day make the labels smarter.  Generate them to include
 #. * quantities.
@@ -21905,12 +21906,12 @@ msgstr ""
 "파일 %s를 읽을 수 없습니다\n"
 "%%s"
 
-#: src/sheet-object-widget.c:1120
+#: src/sheet-object-widget.c:1129
 #, fuzzy, c-format
 msgid "CheckBox %d"
 msgstr "체크상자"
 
-#: src/sheet-object-widget.c:1549 src/workbook-object-toolbar.c:164
+#: src/sheet-object-widget.c:1560 src/workbook-object-toolbar.c:164
 msgid "RadioButton"
 msgstr "라디오단추"
 
@@ -21948,52 +21949,52 @@ msgstr "행 삽입"
 msgid "Too many rows in data to parse: %d"
 msgstr ""
 
-#: src/stf.c:110
+#: src/stf.c:112
 #, fuzzy
 msgid "Error while trying to read file"
 msgstr "파일 닫기 에러, 에러: %s"
 
-#: src/stf.c:264 src/stf.c:300
+#: src/stf.c:266 src/stf.c:302
 #, fuzzy
 msgid "Text to Columns"
-msgstr "칸 지움"
+msgstr "열 지움"
 
-#: src/stf.c:269
+#: src/stf.c:271
 #, c-format
 msgid "Only 1 one column of <b>input</b> data can be parsed at a time, not %d"
 msgstr ""
 
-#: src/stf.c:295
+#: src/stf.c:297
 msgid "There is no data to convert"
 msgstr ""
 
-#: src/stf.c:307
+#: src/stf.c:316
 #, fuzzy
 msgid "Error while trying to parse data into sheet"
 msgstr "파일 닫기 에러, 에러: %s"
 
-#: src/stf.c:358
+#: src/stf.c:359
 msgid "That file is not in the given encoding."
 msgstr ""
 
-#: src/stf.c:375
+#: src/stf.c:376
 msgid "Parse error while trying to parse data into sheet"
 msgstr ""
 
-#: src/stf.c:418
+#: src/stf.c:419
 msgid "Error while trying to write csv file"
 msgstr "csv 파엘에 쓰는 중 에러"
 
-#: src/stf.c:449
+#: src/stf.c:450
 msgid "Comma or tab separated files (CSV/TSV)"
 msgstr ""
 
-#: src/stf.c:453
+#: src/stf.c:454
 #, fuzzy
 msgid "Text import (configurable)"
 msgstr "텍스트 파일 읽어들이기"
 
-#: src/stf.c:457
+#: src/stf.c:458
 #, fuzzy
 msgid "Text export (configurable)"
 msgstr "텍스트 파일 읽어들이기"
@@ -23267,7 +23268,6 @@ msgid "Spacing around indicator"
 msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:69
-#, fuzzy
 msgid "Arabic"
 msgstr "아랍어"
 
@@ -23277,9 +23277,8 @@ msgid "Baltic"
 msgstr "기울임"
 
 #: src/widgets/widget-charmap-selector.c:71
-#, fuzzy
 msgid "Central European"
-msgstr "페이지 중앙"
+msgstr "중앙 유럽어"
 
 #: src/widgets/widget-charmap-selector.c:72
 msgid "Chinese"
@@ -23290,18 +23289,16 @@ msgid "Cyrillic"
 msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:74
-#, fuzzy
 msgid "Greek"
-msgstr "녹색"
+msgstr "그리스어"
 
 #: src/widgets/widget-charmap-selector.c:75
 msgid "Hebrew"
 msgstr "히브리어"
 
 #: src/widgets/widget-charmap-selector.c:76
-#, fuzzy
 msgid "Indian"
-msgstr "최소값"
+msgstr "인도어"
 
 #: src/widgets/widget-charmap-selector.c:77
 msgid "Japanese"
@@ -23324,15 +23321,13 @@ msgid "Vietnamese"
 msgstr "베트남어"
 
 #: src/widgets/widget-charmap-selector.c:82
-#, fuzzy
 msgid "Western"
-msgstr "서쪽"
+msgstr "서양어"
 
 #: src/widgets/widget-charmap-selector.c:83
 #: src/widgets/widget-locale-selector.c:71
-#, fuzzy
 msgid "Other"
-msgstr "10월"
+msgstr "기타"
 
 #: src/widgets/widget-charmap-selector.c:113
 msgid "Arabic (IBM-864)"
@@ -23703,48 +23698,43 @@ msgstr "과학(_S)"
 msgid "Special"
 msgstr "특별한 기능(_P)"
 
-#: src/widgets/widget-format-selector.c:924
+#: src/widgets/widget-format-selector.c:926
 #, fuzzy
 msgid "Negative Number Format"
 msgstr "음수(_i):"
 
-#: src/widgets/widget-format-selector.c:955
+#: src/widgets/widget-format-selector.c:957
 #, fuzzy
 msgid "Number Formats"
 msgstr "형식 복사"
 
 #: src/widgets/widget-locale-selector.c:64
-#, fuzzy
 msgid "Western Europe"
-msgstr "서쪽"
+msgstr "서유럽"
 
 #: src/widgets/widget-locale-selector.c:65
-#, fuzzy
 msgid "Eastern Europe"
-msgstr "페이지 중앙"
+msgstr "동유럽"
 
 #: src/widgets/widget-locale-selector.c:66
 msgid "North America"
-msgstr ""
+msgstr "북미"
 
 #: src/widgets/widget-locale-selector.c:67
 msgid "South & Central America"
-msgstr ""
+msgstr "중남미"
 
 #: src/widgets/widget-locale-selector.c:68
-#, fuzzy
 msgid "Asia"
-msgstr "시그마"
+msgstr "아시아"
 
 #: src/widgets/widget-locale-selector.c:69
-#, fuzzy
 msgid "Africa"
-msgstr "%i 영역"
+msgstr "아프리카"
 
 #: src/widgets/widget-locale-selector.c:70
-#, fuzzy
 msgid "Australia"
-msgstr "오스트레일리아, 달러"
+msgstr "오스트레일리아"
 
 #.
 #. * The format here is "Country/Language (locale)" or just
@@ -23759,176 +23749,160 @@ msgid "United States/English (C)"
 msgstr "미국/영어 (C)"
 
 #: src/widgets/widget-locale-selector.c:103
-#, fuzzy
 msgid "South Africa Afrikaans (af_ZA)"
-msgstr "남아프리카 공화국, 랜드"
+msgstr "남아프리카 공화국 (af_ZA)"
 
 #: src/widgets/widget-locale-selector.c:104
 msgid "Ethiopia/Amharic (am_ET)"
-msgstr ""
+msgstr "에티오피아/암하라어 (am_ET)"
 
 #: src/widgets/widget-locale-selector.c:105
-#, fuzzy
 msgid "United Arab Emirates (ar_AE)"
-msgstr "아랍 에미리트 연합, 더히람"
+msgstr "아랍 에미리트 (ar_AE)"
 
 #: src/widgets/widget-locale-selector.c:106
-#, fuzzy
 msgid "Bahrain (ar_BH)"
-msgstr "바레인, 디나르"
+msgstr "바레인 (ar_BH)"
 
 #: src/widgets/widget-locale-selector.c:107
 msgid "Algeria (ar_DZ)"
-msgstr ""
+msgstr "알제리아 (ar_DZ)"
 
 #: src/widgets/widget-locale-selector.c:108
 msgid "Egypt (ar_EG)"
-msgstr ""
+msgstr "이집트 (ar_EG)"
 
 #: src/widgets/widget-locale-selector.c:109
 msgid "India/Arabic (ar_IN)"
-msgstr ""
+msgstr "인도/아랍어 (ar_IN)"
 
 #: src/widgets/widget-locale-selector.c:110
 msgid "Iraq (ar_IQ)"
-msgstr ""
+msgstr "이라크 (ar_IQ)"
 
 #: src/widgets/widget-locale-selector.c:111
-#, fuzzy
 msgid "Jordan (ar_JO)"
-msgstr "요르단, 디나르"
+msgstr "요르단 (ar_JO)"
 
 #: src/widgets/widget-locale-selector.c:112
-#, fuzzy
 msgid "Kuwait (ar_KW)"
-msgstr "쿠웨이트, 디나르"
+msgstr "쿠웨이트 (ar_KW)"
 
 #: src/widgets/widget-locale-selector.c:113
 msgid "Lebanon (ar_LB)"
-msgstr ""
+msgstr "레바논 (ar_LB)"
 
 #: src/widgets/widget-locale-selector.c:114
-#, fuzzy
 msgid "Libya (ar_LY)"
-msgstr "리비야, 디나르"
+msgstr "리비아 (ar_LY)"
 
 #: src/widgets/widget-locale-selector.c:115
 msgid "Morocco (ar_MA)"
-msgstr ""
+msgstr "모로코 (ar_MA)"
 
 #: src/widgets/widget-locale-selector.c:116
 msgid "Oman (ar_OM)"
-msgstr ""
+msgstr "오만 (ar_OM)"
 
 #: src/widgets/widget-locale-selector.c:117
 msgid "Qatar (ar_QA)"
-msgstr ""
+msgstr "카타르 (ar_QA)"
 
 #: src/widgets/widget-locale-selector.c:118
-#, fuzzy
 msgid "Saudi Arabia (ar_SA)"
-msgstr "사우디 아라비아, 리얄"
+msgstr "사우디 아라비아 (ar_SA)"
 
 #: src/widgets/widget-locale-selector.c:119
-#, fuzzy
 msgid "Sudan (ar_SD)"
-msgstr "수단, 디나르"
+msgstr "수단 (ar_SD)"
 
 #: src/widgets/widget-locale-selector.c:120
 msgid "Syria (ar_SY)"
-msgstr ""
+msgstr "시리아 (ar_SY)"
 
 #: src/widgets/widget-locale-selector.c:121
-#, fuzzy
 msgid "Tunisia (ar_TN)"
-msgstr "튀니지, 디나르"
+msgstr "튀니지 (ar_TN)"
 
 #: src/widgets/widget-locale-selector.c:122
 msgid "Yemen (ar_YE)"
-msgstr ""
+msgstr "예멘 (ar_YE)"
 
 #: src/widgets/widget-locale-selector.c:123
-#, fuzzy
 msgid "Azerbaijan (az_AZ)"
-msgstr "아제르바이잔, 마나트"
+msgstr "아제르바이잔 (az_AZ)"
 
 #: src/widgets/widget-locale-selector.c:124
-#, fuzzy
 msgid "Belarus (be_BY)"
-msgstr "벨라루스, 루블"
+msgstr "벨라루스 (be_BY)"
 
 #: src/widgets/widget-locale-selector.c:125
-#, fuzzy
 msgid "Bulgaria (bg_BG)"
-msgstr "불가리아, 렛"
+msgstr "불가리아 (bg_BG)"
 
 #: src/widgets/widget-locale-selector.c:126
-#, fuzzy
 msgid "Bangladesh (bn_BD)"
-msgstr "방글라데시, 타카"
+msgstr "방글라데시 (bn_BD)"
 
 #: src/widgets/widget-locale-selector.c:127
 msgid "India/Bengali (bn_IN)"
-msgstr ""
+msgstr "인도/벵골어 (bn_IN)"
 
 #: src/widgets/widget-locale-selector.c:128
 msgid "France/Breton (br_FR)"
-msgstr ""
+msgstr "프랑스/브르타뉴어 (br_FR)"
 
 #: src/widgets/widget-locale-selector.c:129
 msgid "Bosnia and Herzegowina (bs_BA)"
-msgstr ""
+msgstr "보스니아 헤르체고비나 (bs_BA)"
 
 #: src/widgets/widget-locale-selector.c:130
 msgid "Spain/Catalan (ca_ES)"
-msgstr ""
+msgstr "스페인/카탈로니아어 (ca_ES)"
 
 #: src/widgets/widget-locale-selector.c:131
-#, fuzzy
 msgid "Czech Republic (cs_CZ)"
-msgstr "체코, 코루나"
+msgstr "체코 (cs_CZ)"
 
 #: src/widgets/widget-locale-selector.c:132
 msgid "Great Britain/Welsh (cy_GB)"
-msgstr ""
+msgstr "영국/웨일즈어 (cy_GB)"
 
 #: src/widgets/widget-locale-selector.c:133
-#, fuzzy
 msgid "Denmark (da_DK)"
-msgstr "텐마크, 크로네"
+msgstr "덴마크 (da_DK)"
 
 #: src/widgets/widget-locale-selector.c:134
 msgid "Austria (de_AT)"
-msgstr ""
+msgstr "오스트리아 (de_AT)"
 
 #: src/widgets/widget-locale-selector.c:135
 msgid "Belgium/German (de_BE)"
-msgstr ""
+msgstr "벨기에/독일어 (de_BE)"
 
 #: src/widgets/widget-locale-selector.c:136
-#, fuzzy
 msgid "Switzerland/German (de_CH)"
-msgstr "스위스, 프랑크"
+msgstr "스위스/독일어 (de_CH)"
 
 #: src/widgets/widget-locale-selector.c:137
 msgid "Germany (de_DE)"
-msgstr ""
+msgstr "독일 (de_DE)"
 
 #: src/widgets/widget-locale-selector.c:138
 msgid "Luxembourg/German (de_LU)"
-msgstr ""
+msgstr "룩셈부르크/독일어 (de_LU)"
 
 #: src/widgets/widget-locale-selector.c:139
 msgid "Greece (el_GR)"
-msgstr ""
+msgstr "그리스 (el_GR)"
 
 #: src/widgets/widget-locale-selector.c:140
 msgid "Australia (en_AU)"
-msgstr ""
+msgstr "오스트레일리아 (en_AU)"
 
 #: src/widgets/widget-locale-selector.c:141
 msgid "Botswana (en_BW)"
-msgstr ""
+msgstr "보츠와나 (en_BW)"
 
 #: src/widgets/widget-locale-selector.c:142
 msgid "Canada/English (en_CA)"
@@ -23936,7 +23910,7 @@ msgstr "캐나다/영어 (en_CA)"
 
 #: src/widgets/widget-locale-selector.c:143
 msgid "Great Britain (en_GB)"
-msgstr ""
+msgstr "영국 (en_GB)"
 
 #: src/widgets/widget-locale-selector.c:144
 msgid "Hong Kong/English (en_HK)"
@@ -23944,21 +23918,19 @@ msgstr "홍콩/영어 (en_HK)"
 
 #: src/widgets/widget-locale-selector.c:145
 msgid "Ireland (en_IE)"
-msgstr ""
+msgstr "아일랜드 (en_IE)"
 
 #: src/widgets/widget-locale-selector.c:146
 msgid "India/English (en_IN)"
 msgstr "인도/영어 (en_IN)"
 
 #: src/widgets/widget-locale-selector.c:147
-#, fuzzy
 msgid "New Zealand (en_NZ)"
-msgstr "뉴질랜드, 달러"
+msgstr "뉴질랜드 (en_NZ)"
 
 #: src/widgets/widget-locale-selector.c:148
-#, fuzzy
 msgid "Philippines (en_PH)"
-msgstr "필리핀, 페소"
+msgstr "필리핀 (en_PH)"
 
 #: src/widgets/widget-locale-selector.c:149
 msgid "Singapore/English (en_SG)"
@@ -23974,215 +23946,199 @@ msgstr "남아프리카공화국/영어 (en_ZA)"
 
 #: src/widgets/widget-locale-selector.c:152
 msgid "Zimbabwe (en_ZW)"
-msgstr ""
+msgstr "짐바브웨 (en_ZW)"
 
 #: src/widgets/widget-locale-selector.c:153
 msgid "Esperanto (eo_EO)"
-msgstr ""
+msgstr "에스페란토 (eo_EO)"
 
 #: src/widgets/widget-locale-selector.c:154
-#, fuzzy
 msgid "Argentina (es_AR)"
-msgstr "아르헨티나, 페소"
+msgstr "아르헨티나 (es_AR)"
 
 #: src/widgets/widget-locale-selector.c:155
 msgid "Bolivia (es_BO)"
-msgstr ""
+msgstr "볼리비아 (es_BO)"
 
 #: src/widgets/widget-locale-selector.c:156
-#, fuzzy
 msgid "Chile (es_CL)"
-msgstr "칠레, 페소"
+msgstr "칠레 (es_CL)"
 
 #: src/widgets/widget-locale-selector.c:157
-#, fuzzy
 msgid "Colombia (es_CO)"
-msgstr "콜로비아, 페소"
+msgstr "콜로비아 (es_CO)"
 
 #: src/widgets/widget-locale-selector.c:158
-#, fuzzy
 msgid "Costa Rica (es_CR)"
-msgstr "코스타리카, 콜론"
+msgstr "코스타리카 (es_CR)"
 
 #: src/widgets/widget-locale-selector.c:159
-#, fuzzy
 msgid "Dominican Republic (es_DO)"
-msgstr "도미니카 공화국, 페소"
+msgstr "도미니카 공화국 (es_DO)"
 
 #: src/widgets/widget-locale-selector.c:160
 msgid "Ecuador (es_EC)"
-msgstr ""
+msgstr "에콰도르 (es_EC)"
 
 #: src/widgets/widget-locale-selector.c:161
-#, fuzzy
 msgid "Spain (es_ES)"
-msgstr "샘플링 (%s)"
+msgstr "스페인 (es_ES)"
 
 #: src/widgets/widget-locale-selector.c:162
-#, fuzzy
 msgid "Guatemala (es_GT)"
-msgstr "과테말라, 케트살"
+msgstr "과테말라 (es_GT)"
 
 #: src/widgets/widget-locale-selector.c:163
-#, fuzzy
 msgid "Honduras (es_HN)"
-msgstr "온두라스, 렘피라"
+msgstr "온두라스 (es_HN)"
 
 #: src/widgets/widget-locale-selector.c:164
-#, fuzzy
 msgid "Mexico (es_MX)"
-msgstr "멕시코, 페소"
+msgstr "멕시코 (es_MX)"
 
 #: src/widgets/widget-locale-selector.c:165
 msgid "Nicaragua (es_NI)"
-msgstr ""
+msgstr "니카라과 (es_NI)"
 
 #: src/widgets/widget-locale-selector.c:166
 msgid "Panama (es_PA)"
-msgstr ""
+msgstr "파나마 (es_PA)"
 
 #: src/widgets/widget-locale-selector.c:167
 msgid "Peru (es_PE)"
-msgstr ""
+msgstr "페루 (es_PE)"
 
 #: src/widgets/widget-locale-selector.c:168
 msgid "Puerto Rico (es_PR)"
-msgstr ""
+msgstr "푸에르토 리코 (es_PR)"
 
 #: src/widgets/widget-locale-selector.c:169
 msgid "Paraguay (es_PY)"
-msgstr ""
+msgstr "파라과이 (es_PY)"
 
 #: src/widgets/widget-locale-selector.c:170
-#, fuzzy
 msgid "El Salvador (es_SV)"
-msgstr "엘살바도르, 콜론"
+msgstr "엘살바도르 (es_SV)"
 
 #: src/widgets/widget-locale-selector.c:171
 msgid "United States/Spanish (es_US)"
-msgstr ""
+msgstr "미국/스페인어 (es_US)"
 
 #: src/widgets/widget-locale-selector.c:172
-#, fuzzy
 msgid "Uruguay (es_UY)"
-msgstr "우루과이, 페소"
+msgstr "우루과이 (es_UY)"
 
 #: src/widgets/widget-locale-selector.c:173
-#, fuzzy
 msgid "Venezuela (es_VE)"
-msgstr "베네수엘라, 볼리바"
+msgstr "베네수엘라 (es_VE)"
 
 #: src/widgets/widget-locale-selector.c:174
 msgid "Estonia (et_EE)"
-msgstr ""
+msgstr "에스토니아 (et_EE)"
 
 #: src/widgets/widget-locale-selector.c:175
-#, fuzzy
 msgid "Spain/Basque (eu_ES)"
-msgstr "샘플링 (%s)"
+msgstr "스페인/바스크어 (eu_ES)"
 
 #: src/widgets/widget-locale-selector.c:176
 msgid "Iran (fa_IR)"
-msgstr ""
+msgstr "이란 (fa_IR)"
 
 #: src/widgets/widget-locale-selector.c:177
 msgid "Finland/Finnish (fi_FI)"
-msgstr ""
+msgstr "핀란드/핀란드어 (fi_FI)"
 
 #: src/widgets/widget-locale-selector.c:178
 msgid "Faroe Islands (fo_FO)"
-msgstr ""
+msgstr "페로스 제도 (fo_FO)"
 
 #: src/widgets/widget-locale-selector.c:179
 msgid "Belgium/French (fr_BE)"
-msgstr ""
+msgstr "벨기에/프랑스어 (fr_BE)"
 
 #: src/widgets/widget-locale-selector.c:180
 msgid "Canada/French (fr_CA)"
-msgstr ""
+msgstr "캐나다/프랑스어 (fr_CA)"
 
 #: src/widgets/widget-locale-selector.c:181
-#, fuzzy
 msgid "Switzerland/French (fr_CH)"
-msgstr "스위스, 프랑크"
+msgstr "스위스/프랑스어 (fr_CH)"
 
 #: src/widgets/widget-locale-selector.c:182
 msgid "France (fr_FR)"
-msgstr ""
+msgstr "프랑스 (fr_FR)"
 
 #: src/widgets/widget-locale-selector.c:183
 msgid "Ireland/Gaelic (ga_IE)"
-msgstr ""
+msgstr "아일랜드/갈리시아어 (ga_IE)"
 
 #: src/widgets/widget-locale-selector.c:184
 msgid "Great Britain/Scottish Gaelic (gd_GB)"
-msgstr ""
+msgstr "영국/스코틀랜드 갈리시아어 (gd_GB)"
 
 #: src/widgets/widget-locale-selector.c:185
 msgid "Spain/Galician (gl_ES)"
-msgstr ""
+msgstr "스페인/갈리시아어 (gl_ES)"
 
 #: src/widgets/widget-locale-selector.c:186
 msgid "Great Britain/Manx Gaelic (gv_GB)"
-msgstr ""
+msgstr "영국/Man 갈리시아어 (gv_GB)"
 
 #: src/widgets/widget-locale-selector.c:187
 msgid "India/Hindu (hi_IN)"
-msgstr ""
+msgstr "인도/힌두어 (hi_IN)"
 
 #: src/widgets/widget-locale-selector.c:188
 msgid "Croatia (hr_HR)"
-msgstr ""
+msgstr "크로아티아 (hr_HR)"
 
 #: src/widgets/widget-locale-selector.c:189
 msgid "Hungary (hu_HU)"
-msgstr ""
+msgstr "헝가리 (hu_HU)"
 
 #: src/widgets/widget-locale-selector.c:190
 msgid "Armenia (hy_AM)"
-msgstr ""
+msgstr "아르메니아 (hy_AM)"
 
 #: src/widgets/widget-locale-selector.c:191
 msgid "(i18n)"
-msgstr ""
+msgstr "(i18n)"
 
 #: src/widgets/widget-locale-selector.c:192
-#, fuzzy
 msgid "Indonesia (id_ID)"
-msgstr "인도네시아, 루피아"
+msgstr "인도네시아 (id_ID)"
 
 #: src/widgets/widget-locale-selector.c:193
 msgid "Iceland (is_IS)"
-msgstr ""
+msgstr "아이슬란드 (is_IS)"
 
 #: src/widgets/widget-locale-selector.c:194
 msgid "(iso14651_t1)"
-msgstr ""
+msgstr "(iso14651_t1)"
 
 #: src/widgets/widget-locale-selector.c:195
 msgid "Switzerland/Italian (it_CH)"
-msgstr ""
+msgstr "스위스/이탈리아어 (it_CH)"
 
 #: src/widgets/widget-locale-selector.c:196
 msgid "Italy (it_IT)"
-msgstr ""
+msgstr "이탈리아 (it_IT)"
 
 #: src/widgets/widget-locale-selector.c:197
 msgid "Israel/Hebrew (iw_IL)"
-msgstr ""
+msgstr "이스라엘/히브리어 (iw_IL)"
 
 #: src/widgets/widget-locale-selector.c:198
 msgid "Japan (ja_JP)"
-msgstr ""
+msgstr "일본 (ja_JP)"
 
 #: src/widgets/widget-locale-selector.c:199
-#, fuzzy
 msgid "Georgia (ka_GE)"
-msgstr "크로지야, 라리"
+msgstr "그루지아 (ka_GE)"
 
 #: src/widgets/widget-locale-selector.c:200
 msgid "Greenland (kl_GL)"
-msgstr ""
+msgstr "그린랜드 (kl_GL)"
 
 #: src/widgets/widget-locale-selector.c:201
 msgid "Korea (ko_KR)"
@@ -24190,176 +24146,167 @@ msgstr "한국 (ko_KR)"
 
 #: src/widgets/widget-locale-selector.c:202
 msgid "Great Britain/Cornish (kw_GB)"
-msgstr ""
+msgstr "영국/코니쉬 (kw_GB)"
 
 #: src/widgets/widget-locale-selector.c:203
-#, fuzzy
 msgid "Lithuania (lt_LT)"
-msgstr "리투아니아, 리타스"
+msgstr "리투아니아 (lt_LT)"
 
 #: src/widgets/widget-locale-selector.c:204
-#, fuzzy
 msgid "Latvia (lv_LV)"
-msgstr "라트비아, 라츠"
+msgstr "라트비아 (lt_LV)"
 
 #: src/widgets/widget-locale-selector.c:205
 msgid "New Zealand/Maori (mi_NZ)"
-msgstr ""
+msgstr "뉴질랜드/마오리 (mi_NZ)"
 
 #: src/widgets/widget-locale-selector.c:206
 msgid "Macedonia (mk_MK)"
-msgstr ""
+msgstr "마케도니아 (mk_MK)"
 
 #: src/widgets/widget-locale-selector.c:207
 msgid "India/Marathi (mr_IN)"
-msgstr ""
+msgstr "인도/마라티어 (mr_IN)"
 
 #: src/widgets/widget-locale-selector.c:208
 msgid "Malaysia (ms_MY)"
-msgstr ""
+msgstr "말레이지아 (ms_MY)"
 
 #: src/widgets/widget-locale-selector.c:209
 msgid "Malta (mt_MT)"
-msgstr ""
+msgstr "몰타 (mt_MT)"
 
 #: src/widgets/widget-locale-selector.c:210
 msgid "Belgium/Flemish (nl_BE)"
-msgstr ""
+msgstr "벨기에/플라망어 (nl_BE)"
 
 #: src/widgets/widget-locale-selector.c:211
 msgid "The Netherlands (nl_NL)"
-msgstr ""
+msgstr "네덜란드 (nl_NL)"
 
 #: src/widgets/widget-locale-selector.c:212
 msgid "Norway/Nynorsk (nn_NO)"
-msgstr ""
+msgstr "노르웨이/뉘노르스크 (nn_NO)"
 
 #: src/widgets/widget-locale-selector.c:213
 msgid "Norway/Bokmal (no_NO)"
-msgstr ""
+msgstr "노르웨이/부크몰 (no_NO)"
 
 #: src/widgets/widget-locale-selector.c:214
 msgid "France/Occitan (oc_FR)"
-msgstr ""
+msgstr "프랑스/오크어 (oc_FR)"
 
 #: src/widgets/widget-locale-selector.c:215
 msgid "Poland (pl_PL)"
-msgstr ""
+msgstr "폴란드 (pl_PL)"
 
 #: src/widgets/widget-locale-selector.c:216
 msgid "Brazil (pt_BR)"
-msgstr ""
+msgstr "브라질 (pt_BR)"
 
 #: src/widgets/widget-locale-selector.c:217
 msgid "Portugal (pt_PT)"
-msgstr ""
+msgstr "포르투갈 (pt_PT)"
 
 #: src/widgets/widget-locale-selector.c:218
 msgid "Romania (ro_RO)"
-msgstr ""
+msgstr "루마니아 (ro_RO)"
 
 #: src/widgets/widget-locale-selector.c:219
 msgid "Russia (ru_RU)"
-msgstr ""
+msgstr "러시아 (ru_RU)"
 
 #: src/widgets/widget-locale-selector.c:220
 msgid "Ukraine/Russian (ru_UA)"
-msgstr ""
+msgstr "우크라이나/러시아어 (ru_UA)"
 
 #: src/widgets/widget-locale-selector.c:221
 msgid "Norway/Saami (se_NO)"
-msgstr ""
+msgstr "노르웨이/사미 (se_NO)"
 
 #: src/widgets/widget-locale-selector.c:222
-#, fuzzy
 msgid "Slovakia (sk_SK)"
-msgstr "슬로바키아, 코루나"
+msgstr "슬로바키아 (sk_SK)"
 
 #: src/widgets/widget-locale-selector.c:223
-#, fuzzy
 msgid "Slovenia (sl_SI)"
-msgstr "슬로베니아, 토라르"
+msgstr "슬로베니아 (sl_SI)"
 
 #: src/widgets/widget-locale-selector.c:224
-#, fuzzy
 msgid "Albania (sq_AL)"
-msgstr "알바니아, 레크"
+msgstr "알바니아 (sq_AL)"
 
 #: src/widgets/widget-locale-selector.c:225
-#, fuzzy
 msgid "Yugoslavia (sr_YU)"
-msgstr "유고슬라비아, 뉴 디나르"
+msgstr "유고슬라비아 (sr_YU)"
 
 #: src/widgets/widget-locale-selector.c:226
 msgid "Finland/Swedish (sv_FI)"
-msgstr ""
+msgstr "핀란드/스웨덴어 (sv_FI)"
 
 #: src/widgets/widget-locale-selector.c:227
 msgid "Sweden (sv_SE)"
-msgstr ""
+msgstr "스웨덴 (sv_SE)"
 
 #: src/widgets/widget-locale-selector.c:228
 msgid "India/Tamil (ta_IN)"
-msgstr ""
+msgstr "인도/타밀어 (ta_IN)"
 
 #: src/widgets/widget-locale-selector.c:229
 msgid "India/Telugu (te_IN)"
-msgstr ""
+msgstr "인도/텔루그어 (te_IN)"
 
 #: src/widgets/widget-locale-selector.c:230
-#, fuzzy
 msgid "Tajikistan (tg_TJ)"
-msgstr "타지키스탄, 루블"
+msgstr "타지키스탄 (tg_TJ)"
 
 #: src/widgets/widget-locale-selector.c:231
-#, fuzzy
 msgid "Thailand (th_TH)"
-msgstr "타이, 바트"
+msgstr "타이 (th_TH)"
 
 #: src/widgets/widget-locale-selector.c:232
 msgid "Eritrea (ti_ER)"
-msgstr ""
+msgstr "에리트레아 (ti_ER)"
 
 #: src/widgets/widget-locale-selector.c:233
 msgid "Ethiopia/Tigrinya (ti_ET)"
-msgstr ""
+msgstr "에디오피아/티그리냐어 (ti_ET)"
 
 #: src/widgets/widget-locale-selector.c:234
 msgid "Philippines/Tagalog (tl_PH)"
-msgstr ""
+msgstr "필리핀/타갈로그어 (tl_PH)"
 
 #: src/widgets/widget-locale-selector.c:235
 msgid "Turkey (tr_TR)"
-msgstr ""
+msgstr "터키 (tr_TR)"
 
 #: src/widgets/widget-locale-selector.c:236
 msgid "Russia/Tatar (tt_RU)"
-msgstr ""
+msgstr "러시아/타타르어 (tt_RU)"
 
 #: src/widgets/widget-locale-selector.c:237
 msgid "Ukraine (uk_UA)"
-msgstr ""
+msgstr "우크라이나 (uk_UA)"
 
 #: src/widgets/widget-locale-selector.c:238
-#, fuzzy
 msgid "Pakistan (ur_PK)"
-msgstr "파키스탄, 루피"
+msgstr "파키스탄 (ur_PK)"
 
 #: src/widgets/widget-locale-selector.c:239
 msgid "Uzbekistan (uz_UZ)"
-msgstr ""
+msgstr "우즈베키스탄 (uz_UZ)"
 
 #: src/widgets/widget-locale-selector.c:240
 msgid "Vietnam (vi_VN)"
-msgstr ""
+msgstr "베트남 (vi_VN)"
 
 #: src/widgets/widget-locale-selector.c:241
 msgid "Belgium/Walloon (wa_BE)"
-msgstr ""
+msgstr "벨기에/왈론어 (wa_BE)"
 
 #: src/widgets/widget-locale-selector.c:242
 msgid "United States/Yiddish (yi_US)"
-msgstr ""
+msgstr "미국/이디시 (yi_US)"
 
 #: src/widgets/widget-locale-selector.c:243
 msgid "China (zh_CN)"
@@ -24375,7 +24322,7 @@ msgstr "싱가포르/중국어 (zh_SG)"
 
 #: src/widgets/widget-locale-selector.c:246
 msgid "Taiwan (zh_TW)"
-msgstr ""
+msgstr "타이완 (zh_TW)"
 
 #: src/widgets/widget-locale-selector.c:435
 msgid "Current Locale: "
@@ -24584,7 +24531,7 @@ msgstr "%s 파일을 생성할 수 없습니다\n"
 
 #: src/workbook-control-gui.c:3437
 msgid "P_aste special..."
-msgstr "특별히 붙이기(_A)..."
+msgstr "특별히 붙여 넣기(_A)..."
 
 #: src/workbook-control-gui.c:3494
 #, fuzzy
@@ -24810,7 +24757,7 @@ msgstr "단추"
 #: src/workbook-view.c:269
 #, c-format
 msgid "%dR x %dC"
-msgstr "%d줄 x %d칸"
+msgstr "%d행 x %d열"
 
 #: src/workbook-view.c:411
 msgid "Internal ERROR"
