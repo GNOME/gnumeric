@@ -1,3 +1,9 @@
+2004-06-14  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (wbc_gtk_reload_recent_file_menu): If available,
+	use just filename for tooltip.  (Non-ascii looks nicer, and it's
+	shorter.)
+
 2004-06-13  Jody Goldberg <jody@gnome.org>
 
 	* src/command-context-stderr.c : fix class decl to match change to

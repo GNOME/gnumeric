@@ -42,6 +42,7 @@
 #include <goffice/gui-utils/go-action-combo-text.h>
 #include <goffice/gui-utils/go-action-combo-pixmaps.h>
 #include <goffice/utils/go-color.h>
+#include <goffice/utils/go-file.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtkactiongroup.h>
 #include <gtk/gtkuimanager.h>
@@ -626,7 +627,8 @@ wbc_gtk_reload_recent_file_menu (WorkbookControlGUI const *wbcg)
 		const char *uri = ptr->data;
 		char *name = g_strdup_printf ("FileHistoryEntry%d", i);
 		char *label = history_item_label (uri, i);
-		char *tooltip = g_strdup_printf (_("Open %s"), uri);
+		char *filename = go_filename_from_uri (uri);
+		char *tooltip = g_strdup_printf (_("Open %s"), filename ? filename : uri);
 
 		entry.name = name;
 		entry.stock_id = NULL;
@@ -645,6 +647,7 @@ wbc_gtk_reload_recent_file_menu (WorkbookControlGUI const *wbcg)
 
 		g_free (name);
 		g_free (label);
+		g_free (filename);
 		g_free (tooltip);		
 	}
 

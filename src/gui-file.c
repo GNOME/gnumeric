@@ -209,6 +209,7 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 	fsel = GTK_FILE_CHOOSER
 		(g_object_new (GTK_TYPE_FILE_CHOOSER_DIALOG,
 			       "action", GTK_FILE_CHOOSER_ACTION_OPEN,
+			       "local-only", FALSE,
 			       "title", _("Select a file"),
 			       NULL));
 	gtk_dialog_add_buttons (GTK_DIALOG (fsel),
