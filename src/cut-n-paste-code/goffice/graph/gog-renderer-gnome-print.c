@@ -204,6 +204,7 @@ gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath *path, gb
 									gdk_pixbuf_get_height(image),
 									gdk_pixbuf_get_rowstride(image));
 			gnome_print_grestore (prend->gp_context);
+			g_object_unref (image);
 			break;
 
 		case GOG_FILL_STYLE_IMAGE:
@@ -296,6 +297,7 @@ gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath *path, gb
 				break;
 			}
 			gnome_print_grestore (prend->gp_context);
+			g_object_unref (image);
 			break;
 
 		case GOG_FILL_STYLE_NONE:
