@@ -1,5 +1,10 @@
 2002-04-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/print.c (sheet_print) : work around some gnome-print bug and hide
+	  landscape printing temporarily.
+
+2002-04-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/application.c (application_clipboard_clear) : also clear CLIPBOARD
 	* src/gui-clipboard.c (x_selection_clear) : clear selection only if PRIMARY 
 	  is asserted elsewhere

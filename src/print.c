@@ -1083,6 +1083,7 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 	int end;
 	int range;
 	GtkWindow *toplevel;
+	gint save_orientation;
 
   	g_return_if_fail (IS_SHEET (sheet));
 
@@ -1163,14 +1164,24 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 		pj->end_page = end-1;
 	}
 
-	gnome_print_config_set(print_config, GNOME_PRINT_KEY_PAPER_SIZE, pj->pi->paper->name);
-	gnome_print_config_set_length (print_config, GNOME_PRINT_KEY_PAPER_WIDTH
-				       , pj->pi->paper->width, GNOME_PRINT_PS_UNIT);
-	gnome_print_config_set_length (print_config, GNOME_PRINT_KEY_PAPER_HEIGHT
-				       , pj->pi->paper->height, GNOME_PRINT_PS_UNIT);
+	{ /* FIXME: this is a workaround for a bug in gnome-print */
+		gchar** parts =  g_strsplit (pj->pi->paper->name, " ", -1);
+		gchar * new_name = g_strjoinv ("", parts);
+		
+		g_strfreev (parts);
+		gnome_print_config_set(print_config, GNOME_PRINT_KEY_PAPER_SIZE, new_name);
+		g_free (new_name);
+	}
+	gnome_print_config_set_double (print_config, GNOME_PRINT_KEY_PAPER_WIDTH, 
+				       pj->pi->paper->width);
+	gnome_print_config_set_double (print_config, GNOME_PRINT_KEY_PAPER_HEIGHT,
+				       pj->pi->paper->height);
 	gnome_print_config_set(print_config, GNOME_PRINT_KEY_ORIENTATION,
 			       (pj->pi->orientation == PRINT_ORIENT_HORIZONTAL) ?
 			       "R90" : "R0");
+	save_orientation = pj->pi->orientation;
+	pj->pi->orientation = PRINT_ORIENT_VERTICAL;
+
 	gpm = gnome_print_master_new_from_config (print_config);
 	pj->print_context = gnome_print_master_get_context (gpm);
 
@@ -1211,6 +1222,9 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 					 _("Printing failed"));
 		}
 	}
+
+	pj->pi->orientation = save_orientation;
+
 	g_object_unref (G_OBJECT (gpm));
   	print_job_info_destroy (pj);
 	gnome_print_config_unref (print_config);

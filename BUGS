@@ -166,8 +166,6 @@ Dialogs
 -------
 - Formula Guru
     : Fix keyboard interface
-    : Fix the problem that calling the function selector does not finish 
-      editing (--> GTK+ Bug #76066)
     : We should not be allowed to enter ranges directly into the edit line 
       on the sheet while the formula guru is open.
 - Import Dialog
