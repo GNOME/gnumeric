@@ -30,76 +30,76 @@ typedef struct {
 static ORDER_BOX *
 order_box_new(GtkWidget * parent, const char *frame_text, const char *default_text)
 {
-	ORDER_BOX *this = g_new(ORDER_BOX, 1);
+	ORDER_BOX *This = g_new(ORDER_BOX, 1);
 	GtkWidget *box = gtk_hbox_new(0, 0);
 
-	this->parent = parent;
-	this->main_frame = gtk_frame_new(frame_text);
-	this->asc = 1;
+	This->parent = parent;
+	This->main_frame = gtk_frame_new(frame_text);
+	This->asc = 1;
 	{
 		GtkTable *tt;
 		tt = GTK_TABLE(gtk_table_new(0, 0, 0));
 		gtk_table_attach(tt, gtk_label_new(_("Column:")), 0, 1, 0, 1, 0, 0, 2, 0);
-		this->rangetext = gnumeric_dialog_entry_new_with_max_length
+		This->rangetext = gnumeric_dialog_entry_new_with_max_length
 			(GNOME_DIALOG(gtk_widget_get_toplevel(parent)), 5);
-		gtk_entry_set_text(GTK_ENTRY(this->rangetext), default_text);
-		gtk_table_attach(tt, this->rangetext, 1, 2, 0, 1, 0, 0, 0, 2);
-/*              gtk_table_attach (tt, this->rangetext, 1, 2, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 2); */
+		gtk_entry_set_text(GTK_ENTRY(This->rangetext), default_text);
+		gtk_table_attach(tt, This->rangetext, 1, 2, 0, 1, 0, 0, 0, 2);
+/*              gtk_table_attach (tt, This->rangetext, 1, 2, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 2); */
 		gtk_box_pack_start(GTK_BOX(box), GTK_WIDGET(tt), FALSE, TRUE, 2);
-/*              gtk_box_pack_start (GTK_BOX(box), GTK_WIDGET(this->rangetext), TRUE, FALSE, 2); */
+/*              gtk_box_pack_start (GTK_BOX(box), GTK_WIDGET(This->rangetext), TRUE, FALSE, 2); */
 	}
 
 	{			/* Asc / Desc buttons */
 		GtkWidget *item;
 		GSList *group = NULL;
 
-		this->asc_desc = gtk_vbox_new(0, 0);
+		This->asc_desc = gtk_vbox_new(0, 0);
 
 		item = gtk_radio_button_new_with_label(group, _("Asc"));
-		gtk_box_pack_start_defaults(GTK_BOX(this->asc_desc), item);
+		gtk_box_pack_start_defaults(GTK_BOX(This->asc_desc), item);
 		group = gtk_radio_button_group(GTK_RADIO_BUTTON(item));
 		item = gtk_radio_button_new_with_label(group, _("Desc"));
-		gtk_box_pack_start_defaults(GTK_BOX(this->asc_desc), item);
+		gtk_box_pack_start_defaults(GTK_BOX(This->asc_desc), item);
 		group = gtk_radio_button_group(GTK_RADIO_BUTTON(item));
-		this->group = group;
+		This->group = group;
 
-		gtk_box_pack_start(GTK_BOX(box), this->asc_desc, FALSE, FALSE, 0);
+		gtk_box_pack_start(GTK_BOX(box), This->asc_desc, FALSE, FALSE, 0);
 	}
-	gtk_container_add(GTK_CONTAINER(this->main_frame), box);
-	gtk_box_pack_start(GTK_BOX(parent), GTK_WIDGET(this->main_frame), FALSE, TRUE, 0);
-	return this;
+	gtk_container_add(GTK_CONTAINER(This->main_frame), box);
+	gtk_box_pack_start(GTK_BOX(parent), GTK_WIDGET(This->main_frame), FALSE, TRUE, 0);
+	return This;
 }
 
 static void
-order_box_set_default(ORDER_BOX * this)
+order_box_set_default(ORDER_BOX * This)
 {
-	gtk_widget_grab_focus(this->rangetext);
+	gtk_widget_grab_focus(This->rangetext);
 }
 
 static void
-order_box_remove(ORDER_BOX * this)
+order_box_remove(ORDER_BOX * This)
 {
-	g_return_if_fail(this);
-	if (this->main_frame)
-		gtk_container_remove(GTK_CONTAINER(this->parent), this->main_frame);
-	this->main_frame = NULL;
+	g_return_if_fail(This);
+	if (This->main_frame)
+		gtk_container_remove(GTK_CONTAINER(This->parent), This->main_frame);
+	This->main_frame = NULL;
 }
 
 static void
-order_box_destroy(ORDER_BOX * this)
+order_box_destroy(ORDER_BOX * This)
 {
-	g_return_if_fail(this);
-	g_free(this);
+	g_return_if_fail(This);
+	g_free(This);
 }
 
 /**
  * Return value must be g_freed
  **/
 static char *
-order_box_get_text(ORDER_BOX * this, int *asc)
+order_box_get_text(ORDER_BOX * This, int *asc)
 {
-	*asc = gtk_radio_group_get_selected(this->group);
-	return gtk_editable_get_chars(GTK_EDITABLE(this->rangetext), 0, -1);
+	*asc = gtk_radio_group_get_selected(This->group);
+	return gtk_editable_get_chars(GTK_EDITABLE(This->rangetext), 0, -1);
 }
 
 typedef struct {

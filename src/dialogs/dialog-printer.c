@@ -19,7 +19,7 @@
 static GnomePrinterDialogClass *dialog_parent_class = NULL;
 
 static void
-gnumeric_printer_dialog_class_init (GnomePrinterDialogClass *class)
+gnumeric_printer_dialog_class_init (GnomePrinterDialogClass *Class)
 {
 	dialog_parent_class = gtk_type_class (gnome_dialog_get_type ());
 }

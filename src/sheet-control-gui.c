@@ -619,11 +619,11 @@ sheet_view_destroy (GtkObject *object)
 }
 
 static void
-sheet_view_class_init (SheetViewClass *class)
+sheet_view_class_init (SheetViewClass *Class)
 {
 	GtkObjectClass *object_class;
 
-	object_class = (GtkObjectClass *) class;
+	object_class = (GtkObjectClass *) Class;
 
 	sheet_view_parent_class = gtk_type_class (gtk_table_get_type ());
 	
