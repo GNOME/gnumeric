@@ -1,3 +1,7 @@
+2000-12-01  Michael Meeks  <michael@helixcode.com>
+
+	* configure.in: check for gb >= 0.0.17
+
 2000-12-02  Jody Goldberg <jgoldberg@home.com>
 
 	* src/expr.c (cellrange_relocate) : fix the logic that was broken when

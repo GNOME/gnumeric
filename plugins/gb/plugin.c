@@ -86,10 +86,14 @@ generic_marshaller (FunctionEvalInfo *ei, GList *nodes)
 
 	{ /* Register Excel objects with GB */
 		application = excel_gb_application_new (ei->pos->sheet->workbook);
-		gbrun_project_register_object (wd->proj, GBRUN_OBJECT (application));
+		gbrun_project_register_object (
+			wd->proj, "Workbook", GBRUN_OBJECT (application));
+		gb_object_unref (GB_OBJECT (application));
 
 		worksheet = excel_gb_worksheet_new (ei->pos->sheet);
-		gbrun_project_register_object (wd->proj, GBRUN_OBJECT (worksheet));
+		gbrun_project_register_object (
+			wd->proj, "Worksheet", GBRUN_OBJECT (worksheet));
+		gb_object_unref (GB_OBJECT (worksheet));
 	}
 
 	for (l = nodes; l; l = l->next) {
@@ -133,10 +137,10 @@ generic_marshaller (FunctionEvalInfo *ei, GList *nodes)
 	}
 
 	{ /* De-Register Excel objects with GB */
-		gbrun_project_deregister_object (wd->proj, GBRUN_OBJECT (application));
+		gbrun_project_deregister_object (wd->proj, "Workbook");
 		gtk_object_unref (GTK_OBJECT (application));
 
-		gbrun_project_deregister_object (wd->proj, GBRUN_OBJECT (worksheet));
+		gbrun_project_deregister_object (wd->proj, "Worksheet");
 		gtk_object_unref (GTK_OBJECT (worksheet));
 	}
 

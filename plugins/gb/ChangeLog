@@ -1,3 +1,7 @@
+2000-12-01  Michael Meeks  <michael@helixcode.com>
+
+	* plugin.c (generic_marshaller): update for new project API.
+
 2000-11-18  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.59
