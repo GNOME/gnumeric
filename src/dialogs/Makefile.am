@@ -111,6 +111,7 @@ glade_DATA = 				\
 	plugin-manager.glade		\
 	print.glade 			\
 	rank.glade			\
+	random-generation.glade		\
 	regression.glade		\
 	row-height.glade		\
 	sampling.glade			\

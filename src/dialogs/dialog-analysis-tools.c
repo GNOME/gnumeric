@@ -49,302 +49,8 @@ static int dialog_regression_tool   	   (WorkbookControlGUI *wbcg, Sheet *sheet)
 static int dialog_anova_single_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet);
 static int dialog_anova_two_factor_tool    (WorkbookControlGUI *wbcg,Sheet *sheet);
 
-typedef int (*tool_fun_ptr_t)(WorkbookControlGUI *wbcg, Sheet *sheet);
-
-typedef struct {
-        char const *    name;
-        tool_fun_ptr_t  fun;
-} tool_list_t;
-
-typedef struct {
-        const char    *name;
-       	GtkSignalFunc fun;
-        gboolean      entry_flag;
-        const char    *default_value;
-} check_button_t;
-
-typedef struct {
-        GtkWidget *dialog;
-	GtkWidget *distribution_table;
-        GtkWidget *distribution_combo;
-	GtkWidget *par1_label, *par1_entry;
-	GtkWidget *par2_label, *par2_entry;
-	GtkAccelGroup *distribution_accel;
-} random_tool_callback_t;
-
-/* Name to show in list and parameter labels for a random distribution */
-typedef struct {
-	random_distribution_t dist;
-	const char *name;
-	const char *label1;
-	const char *label2;
-} DistributionStrs;
-
-static tool_list_t tools[] = {
-        { N_("Anova: Single Factor"),
-	  dialog_anova_single_factor_tool },
-        { N_("Anova: Two-Factor With Or Without Replication"),
-	  dialog_anova_two_factor_tool },
-        { N_("Correlation"),
-	  dialog_correlation_tool },
-        { N_("Covariance"),
-	  dialog_covariance_tool },
-        { N_("Descriptive Statistics"),
-	  dialog_descriptive_stat_tool },
-        { N_("F-Test: Two-Sample for Variances"),
-	  dialog_ftest_tool },
-        { N_("Fourier Analysis"),
-	  dialog_fourier_tool },
-        { N_("Histogram"),
-	  dialog_histogram_tool },
-        { N_("Moving Average"),
-	  dialog_average_tool },
-        { N_("Random Number Generation"),
-	  dialog_random_tool },
-        { N_("Rank and Percentile"),
-	  dialog_ranking_tool },
-        { N_("Regression"),
-	  dialog_regression_tool },
-        { N_("Sampling"),
-	  dialog_sampling_tool },
-        { N_("t-Test: Paired Two Sample for Means"),
-	  dialog_ttest_paired_tool },
-        { N_("t-Test: Two-Sample Assuming Equal Variances"),
-	  dialog_ttest_eq_tool },
-        { N_("t-Test: Two-Sample Assuming Unequal Variances"),
-	  dialog_ttest_neq_tool },
-        { N_("z-Test: Two Sample for Means"),
-	  dialog_ztest_tool },
-	{ NULL, NULL }
-};
-
-/* Distribution strings for Random Number Generator */
-static const DistributionStrs distribution_strs[] = {
-        { DiscreteDistribution,
-	  N_("Discrete"), N_("_Value and probability input range:"), NULL },
-        { NormalDistribution,
-	  N_("Normal"), N_("_Mean:"), N_("_Standard deviation:") },
-     	{ PoissonDistribution,
-	  N_("Poisson"), N_("_Lambda:"), NULL },
-	{ ExponentialDistribution,
-	  N_("Exponential"), N_("_b value:"), NULL },
-	{ BinomialDistribution,
-	  N_("Binomial"), N_("_p value:"), N_("N_umber of trials") },
-	{ NegativeBinomialDistribution,
-	  N_("Negative Binomial"), N_("_p value:"),
-	  N_("N_umber of failures") },
-        { BernoulliDistribution,
-	  N_("Bernoulli"), N_("_p value:"), NULL },
-        { UniformDistribution,
-	  N_("Uniform"), N_("_Lower bound:"),  N_("_Upper bound:") },
-        { 0, NULL, NULL, NULL }
-};
-
-static void
-new_sheet_toggled (GtkWidget *widget, data_analysis_output_type_t *type)
-{
-        if (GTK_TOGGLE_BUTTON (widget)->active) {
-	        *type = NewSheetOutput;
-	}
-}
-
-static void
-new_workbook_toggled (GtkWidget *widget, data_analysis_output_type_t *type)
-{
-        if (GTK_TOGGLE_BUTTON (widget)->active) {
-	        *type = NewWorkbookOutput;
-	}
-}
-
-static void
-range_output_toggled (GtkWidget *widget, data_analysis_output_type_t *type)
-{
-        if (GTK_TOGGLE_BUTTON (widget)->active) {
-	        *type = RangeOutput;
-	}
-}
-
-static void
-focus_on_entry (GtkWidget *widget, GtkWidget *entry)
-{
-        if (GTK_TOGGLE_BUTTON (widget)->active)
-		gtk_widget_grab_focus (entry);
-}
 
 
-static gboolean
-output_range_selected (GtkWidget *widget, GdkEventFocus   *event,
-		 GtkWidget *output_range_button)
-{
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (output_range_button),
-				      TRUE);
-	return FALSE;
-}
-
-static int
-set_output_option_signals (GladeXML *gui, data_analysis_output_t *dao, const char *n)
-{
-	GtkWidget *radiobutton;
-	GtkWidget *entry;
-	char      buf[256];
-
-	sprintf(buf, "%s_radiobutton3", n);
-	radiobutton = glade_xml_get_widget (gui, buf);
-	if (!radiobutton) {
-                printf ("Corrupt file analysis-tools.glade\n");
-                return 1;
-        }
-	gtk_signal_connect (GTK_OBJECT (radiobutton),   "toggled",
-			    GTK_SIGNAL_FUNC (new_sheet_toggled),
-			    &dao->type);
-	sprintf(buf, "%s_radiobutton4", n);
-	radiobutton = glade_xml_get_widget (gui, buf);
-	if (!radiobutton) {
-                printf ("Corrupt file analysis-tools.glade\n");
-                return 1;
-        }
-	gtk_signal_connect (GTK_OBJECT (radiobutton),   "toggled",
-			    GTK_SIGNAL_FUNC (new_workbook_toggled),
-			    &dao->type);
-	sprintf(buf, "%s_radiobutton5", n);
-	radiobutton = glade_xml_get_widget (gui, buf);
-	if (!radiobutton) {
-                printf ("Corrupt file analysis-tools.glade\n");
-                return 1;
-        }
-	gtk_signal_connect (GTK_OBJECT (radiobutton),   "toggled",
-			    GTK_SIGNAL_FUNC (range_output_toggled),
-			    &dao->type);
-
-	sprintf(buf, "%s_output_range_entry", n);
-	entry = glade_xml_get_widget (gui, buf);
-	if (!entry) {
-                printf ("Corrupt file analysis-tools.glade\n");
-                return 1;
-        }
-	gtk_signal_connect (GTK_OBJECT (radiobutton),   "toggled",
-			    GTK_SIGNAL_FUNC (focus_on_entry),
-			    entry);
-	gtk_signal_connect (GTK_OBJECT (entry), "focus_in_event",
-			    GTK_SIGNAL_FUNC (output_range_selected),
-			    radiobutton);
-	return 0;
-}
-
-static int selected_row;
-
-/* Parses text specifying ranges into columns, sorting from left to right.
-For example, the text "A5:B30,J10:J15,C1:C5" would be returned in **ranges
-as the equivalent of running parse_ranges on "A5:A30" "B5:B30" "J10:J15" and
-"C1:C5" in that order. */
-
-/* FIXME: A clear candidate for a rewrite using range_list_parse.  */
-
-static int
-parse_multiple_ranges (const char *text, Range **ranges, int *dim)
-{
-        char *buf, *buf0;
-        char *p;
-	int i, last, curdim;
-
-	i = strlen (text);
-	buf = buf0 = g_new (char, i + 2);
-	strcpy (buf, text);
-	buf[i + 1] = 0;  /* Double terminator.  */
-
-	curdim = 0;
-	last = 0;
-	*ranges = NULL;
-
-	for (i = last; buf[i] != ',' && buf[i] != '\0'; i++)
-		/* Nothing */;
-	while (buf[last] != '\0') {
-		Range *newranges;
-		int j;
-		int start_col, start_row, end_col, end_row;
-
-		buf[i] = '\0';
-		p = strchr (buf + last, ':');
-		if (p == NULL)
-	        	goto failure;
-		*p = '\0';
-		if (!parse_cell_name (buf + last, &start_col, &start_row, TRUE, NULL))
-	        	goto failure;
-		if (!parse_cell_name (p + 1, &end_col, &end_row, TRUE, NULL))
-	        	goto failure;
-		newranges = g_new (Range, curdim + end_col - start_col + 1);
-		for (j = 0; j < curdim; j++)
-			newranges[j] = (*ranges)[j];
-		for (j = 0; j < (end_col - start_col + 1); j++) {
-			/* Just want single columns */
-			newranges[curdim + j].start.col = start_col + j;
-			newranges[curdim + j].end.col = start_col + j;
-			newranges[curdim + j].start.row = start_row;
-			newranges[curdim + j].end.row = end_row;
-		}
-		curdim += (end_col - start_col + 1);
-		if (*ranges) g_free (*ranges);
-		*ranges = newranges;
-		last = i + 1;
-		for (i = last; buf[i] != ',' && buf[i] != '\0'; i++)
-			/* Nothing */;
-	}
-	*dim = curdim;
-	g_free (buf0);
-	return 1;
-failure:
-	g_free (*ranges);
-	g_free (buf0);
-	return 0;
-}
-
-static void
-error_in_entry (WorkbookControlGUI *wbcg, GtkWidget *entry, const char *err_str)
-{
-        gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR, err_str);
-
-	gtk_widget_grab_focus (entry);
-	gtk_entry_set_position (GTK_ENTRY (entry), 0);
-	gtk_entry_select_region (GTK_ENTRY (entry), 0,
-				 GTK_ENTRY(entry)->text_length);
-}
-
-static int
-parse_output (WorkbookControlGUI *wbcg, Sheet *sheet, int output,
-	      GtkWidget *entry, data_analysis_output_t *dao)
-{
-        char  *text;
-	Range range;
-
-	text = gtk_entry_get_text (GTK_ENTRY (entry));
-	if (output == 2 &&
-	    !parse_range (text, &range.start.col, &range.start.row,
-			  &range.end.col, &range.end.row)) {
-	        error_in_entry (wbcg, entry,
-				_("You should introduce a valid cell range "
-				  "in 'Input Range:'"));
-		return 1;
-	}
-
-	switch (output) {
-	case 0:
-	        dao->type = NewSheetOutput;
-		break;
-	case 1:
-	        dao->type = NewWorkbookOutput;
-		break;
-	case 2:
-	        dao->type = RangeOutput;
-		dao->start_col = range.start.col;
-		dao->start_row = range.start.row;
-		dao->cols = range.end.col-range.start.col+1;
-		dao->rows = range.end.row-range.start.row+1;
-		dao->sheet = sheet;
-		break;
-	}
-
-	return 0;
-}
 
 
 /**********************************************/
@@ -379,7 +85,8 @@ typedef enum {
 	TOOL_REGRESSION = 15,
 	TOOL_ANOVA_SINGLE = 16,
 	TOOL_ANOVA_TWO_FACTOR = 17,
-	TOOL_FTEST = 18
+	TOOL_FTEST = 18,
+	TOOL_RANDOM = 19
 } ToolType;
 
 
@@ -396,6 +103,7 @@ typedef enum {
 #define REGRESSION_KEY        "analysistools-regression-dialog"
 #define ANOVA_TWO_FACTOR_KEY  "analysistools-anova-two-factor-dialog"
 #define ANOVA_SINGLE_KEY      "analysistools-anova-single-factor-dialog"
+#define RANDOM_KEY            "analysistools-random-dialog"
 
 
 
@@ -658,6 +366,41 @@ typedef struct {
 	GtkWidget *alpha_entry;
 } FTestToolState;
 
+typedef struct {
+	ToolType  const type;
+	GladeXML  *gui;
+	GtkWidget *dialog;
+	GnumericExprEntry *input_entry;
+	GnumericExprEntry *input_entry_2;
+	GnumericExprEntry *output_entry;
+	GtkWidget *ok_button;
+	GtkWidget *cancel_button;
+	GtkWidget *apply_button;
+	GtkWidget *help_button;
+	char *helpfile;
+	char *input_var1_str;
+	char *input_var2_str;
+	GtkWidget *new_sheet;
+	GtkWidget *new_workbook;
+	GtkWidget *output_range;
+	Sheet	  *sheet;
+	Workbook  *wb;
+	WorkbookControlGUI  *wbcg;
+	GtkAccelGroup *accel;
+
+	GtkWidget *distribution_table;
+        GtkWidget *distribution_combo;
+	GtkWidget *par1_label;
+	GtkWidget *par1_entry;
+	GtkWidget *par1_expr_entry;
+	GtkWidget *par2_label;
+	GtkWidget *par2_entry;
+	GtkWidget *vars_entry;
+	GtkWidget *count_entry;
+	GtkAccelGroup *distribution_accel;
+	random_distribution_t distribution;
+} RandomToolState;
+
 typedef union {
 	ToolType  const type;
 	GenericToolState tt_generic;
@@ -668,6 +411,7 @@ typedef union {
 	RegressionToolState tt_regression;
 	AnovaSingleToolState tt_anova_single;
 	AnovaTwoFactorToolState tt_anova_two_factor;
+	RandomToolState tt_random;
 } ToolState;
 
 /**********************************************/
@@ -675,6 +419,139 @@ typedef union {
 /*  Functions in this section are being used  */
 /*  by virtually all tools.                   */
 /**********************************************/
+
+/* Parses text specifying ranges into columns, sorting from left to right.
+For example, the text "A5:B30,J10:J15,C1:C5" would be returned in **ranges
+as the equivalent of running parse_ranges on "A5:A30" "B5:B30" "J10:J15" and
+"C1:C5" in that order. */
+
+/* FIXME: A clear candidate for a rewrite using range_list_parse.  */
+
+static int
+parse_multiple_ranges (const char *text, Range **ranges, int *dim)
+{
+        char *buf, *buf0;
+        char *p;
+	int i, last, curdim;
+
+	i = strlen (text);
+	buf = buf0 = g_new (char, i + 2);
+	strcpy (buf, text);
+	buf[i + 1] = 0;  /* Double terminator.  */
+
+	curdim = 0;
+	last = 0;
+	*ranges = NULL;
+
+	for (i = last; buf[i] != ',' && buf[i] != '\0'; i++)
+		/* Nothing */;
+	while (buf[last] != '\0') {
+		Range *newranges;
+		int j;
+		int start_col, start_row, end_col, end_row;
+
+		buf[i] = '\0';
+		p = strchr (buf + last, ':');
+		if (p == NULL)
+	        	goto failure;
+		*p = '\0';
+		if (!parse_cell_name (buf + last, &start_col, &start_row, TRUE, NULL))
+	        	goto failure;
+		if (!parse_cell_name (p + 1, &end_col, &end_row, TRUE, NULL))
+	        	goto failure;
+		newranges = g_new (Range, curdim + end_col - start_col + 1);
+		for (j = 0; j < curdim; j++)
+			newranges[j] = (*ranges)[j];
+		for (j = 0; j < (end_col - start_col + 1); j++) {
+			/* Just want single columns */
+			newranges[curdim + j].start.col = start_col + j;
+			newranges[curdim + j].end.col = start_col + j;
+			newranges[curdim + j].start.row = start_row;
+			newranges[curdim + j].end.row = end_row;
+		}
+		curdim += (end_col - start_col + 1);
+		if (*ranges) g_free (*ranges);
+		*ranges = newranges;
+		last = i + 1;
+		for (i = last; buf[i] != ',' && buf[i] != '\0'; i++)
+			/* Nothing */;
+	}
+	*dim = curdim;
+	g_free (buf0);
+	return 1;
+failure:
+	g_free (*ranges);
+	g_free (buf0);
+	return 0;
+}
+
+static void
+error_in_entry (WorkbookControlGUI *wbcg, GtkWidget *entry, const char *err_str)
+{
+        gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR, err_str);
+
+	gtk_widget_grab_focus (entry);
+	gtk_entry_set_position (GTK_ENTRY (entry), 0);
+	gtk_entry_select_region (GTK_ENTRY (entry), 0,
+				 GTK_ENTRY(entry)->text_length);
+}
+
+/*  parse_output should be rewritten to use   */
+/*  range_parse rather than parse_range       */
+
+static int
+parse_output (WorkbookControlGUI *wbcg, Sheet *sheet, int output,
+	      GtkWidget *entry, data_analysis_output_t *dao)
+{
+        char  *text;
+	Range range;
+
+	text = gtk_entry_get_text (GTK_ENTRY (entry));
+	if (output == 2 &&
+	    !parse_range (text, &range.start.col, &range.start.row,
+			  &range.end.col, &range.end.row)) {
+	        error_in_entry (wbcg, entry,
+				_("You should introduce a valid cell range "
+				  "in 'Input Range:'"));
+		return 1;
+	}
+
+	switch (output) {
+	case 0:
+	        dao->type = NewSheetOutput;
+		break;
+	case 1:
+	        dao->type = NewWorkbookOutput;
+		break;
+	case 2:
+	        dao->type = RangeOutput;
+		dao->start_col = range.start.col;
+		dao->start_row = range.start.row;
+		dao->cols = range.end.col-range.start.col+1;
+		dao->rows = range.end.row-range.start.row+1;
+		dao->sheet = sheet;
+		break;
+	}
+
+	return 0;
+}
+
+/**
+ * focus_on_entry:
+ * @widget:
+ * @entry:
+ *
+ * callback to focus on an entry when the output 
+ * range button is pressed.
+ *
+ **/
+static void
+focus_on_entry (GtkWidget *widget, GtkWidget *entry)
+{
+        if (GTK_TOGGLE_BUTTON (widget)->active)
+		gtk_widget_grab_focus (entry);
+}
+
 
 /**
  * tool_help_cb:
@@ -781,6 +658,81 @@ tool_set_focus_output_range (GtkWidget *widget, GdkEventFocus *event,
 }
 
 /**
+ * dialog_tool_init_outputs:
+ * @state:
+ * @sensitivity_cb:
+ *
+ * Setup the output range.
+ *
+ **/
+static void
+dialog_tool_init_outputs (GenericToolState *state, GtkSignalFunc sensitivity_cb)
+{
+	GtkTable *table;
+
+	state->new_sheet  = glade_xml_get_widget(state->gui, "newsheet-button");
+	state->new_workbook  = glade_xml_get_widget(state->gui, "newworkbook-button");
+	state->output_range  = glade_xml_get_widget(state->gui, "outputrange-button");
+
+	table = GTK_TABLE (glade_xml_get_widget (state->gui, "output-table"));
+	state->output_entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
+	gnumeric_expr_entry_set_flags(state->output_entry,
+                                      GNUM_EE_SINGLE_RANGE | GNUM_EE_SHEET_OPTIONAL, 
+                                      GNUM_EE_MASK);
+        gnumeric_expr_entry_set_scg(state->output_entry, wb_control_gui_cur_sheet (state->wbcg));
+	gtk_table_attach (table, GTK_WIDGET (state->output_entry),
+			  1, 2, 2, 3,
+			  GTK_EXPAND | GTK_FILL, 0,
+			  0, 0);
+	gtk_signal_connect (GTK_OBJECT (state->output_range),   "toggled",
+			    GTK_SIGNAL_FUNC (focus_on_entry),
+			    state->output_entry);
+	gtk_signal_connect (GTK_OBJECT (state->output_entry), "focus-in-event",
+			    GTK_SIGNAL_FUNC (tool_set_focus_output_range), state);
+	gtk_signal_connect_after (GTK_OBJECT (state->output_entry), "changed",
+			    GTK_SIGNAL_FUNC (sensitivity_cb), state);
+	gtk_signal_connect_after (GTK_OBJECT (state->output_range), "toggled",
+			    GTK_SIGNAL_FUNC (sensitivity_cb), state);
+ 
+ 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_EDITABLE (state->output_entry));
+	gtk_widget_show (GTK_WIDGET (state->output_entry));
+	
+	return;
+}
+
+/**
+ * dialog_tool_init_buttons:
+ * @state:
+ * @ok_function:
+ *
+ * Setup the buttons
+ *
+ **/
+static void
+dialog_tool_init_buttons (GenericToolState *state, GtkSignalFunc ok_function)
+{
+	state->ok_button     = glade_xml_get_widget(state->gui, "okbutton");
+	gtk_signal_connect (GTK_OBJECT (state->ok_button), "clicked",
+			    ok_function,
+			    state);
+
+	state->cancel_button  = glade_xml_get_widget(state->gui, "cancelbutton");
+	gtk_signal_connect (GTK_OBJECT (state->cancel_button), "clicked",
+			    GTK_SIGNAL_FUNC (cb_tool_cancel_clicked),
+			    state);
+	state->apply_button     = glade_xml_get_widget(state->gui, "applybutton");
+	if (state->apply_button != NULL ) 
+		gtk_signal_connect (GTK_OBJECT (state->apply_button), "clicked",
+				    ok_function, state);
+	state->help_button     = glade_xml_get_widget(state->gui, "helpbutton");
+	if (state->help_button != NULL ) 
+		gtk_signal_connect (GTK_OBJECT (state->help_button), "clicked",
+				    GTK_SIGNAL_FUNC (tool_help_cb), state);
+	return;
+}
+
+/**
  * dialog_tool_init:
  * @state:
  * @gui_name:
@@ -809,27 +761,7 @@ dialog_tool_init (GenericToolState *state, char *gui_name, char *dialog_name,
 
 	state->accel = gtk_accel_group_new ();
 
-	state->ok_button     = glade_xml_get_widget(state->gui, "okbutton");
-	gtk_signal_connect (GTK_OBJECT (state->ok_button), "clicked",
-			    ok_function,
-			    state);
-
-	state->cancel_button  = glade_xml_get_widget(state->gui, "cancelbutton");
-	gtk_signal_connect (GTK_OBJECT (state->cancel_button), "clicked",
-			    GTK_SIGNAL_FUNC (cb_tool_cancel_clicked),
-			    state);
-	state->apply_button     = glade_xml_get_widget(state->gui, "applybutton");
-	if (state->apply_button != NULL ) 
-		gtk_signal_connect (GTK_OBJECT (state->apply_button), "clicked",
-				    ok_function, state);
-	state->help_button     = glade_xml_get_widget(state->gui, "helpbutton");
-	if (state->help_button != NULL ) 
-		gtk_signal_connect (GTK_OBJECT (state->help_button), "clicked",
-				    GTK_SIGNAL_FUNC (tool_help_cb), state);
-
-	state->new_sheet  = glade_xml_get_widget(state->gui, "newsheet-button");
-	state->new_workbook  = glade_xml_get_widget(state->gui, "newworkbook-button");
-	state->output_range  = glade_xml_get_widget(state->gui, "outputrange-button");
+	dialog_tool_init_buttons (state, ok_function);
 
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "input-table"));
 	state->input_entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
@@ -890,36 +822,13 @@ dialog_tool_init (GenericToolState *state, char *gui_name, char *dialog_name,
 		gtk_widget_show (GTK_WIDGET (state->input_entry_2));				
 	}
 
-
-	table = GTK_TABLE (glade_xml_get_widget (state->gui, "output-table"));
-	state->output_entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
-	gnumeric_expr_entry_set_flags(state->output_entry,
-                                      GNUM_EE_SINGLE_RANGE | GNUM_EE_SHEET_OPTIONAL, 
-                                      GNUM_EE_MASK);
-        gnumeric_expr_entry_set_scg(state->output_entry, wb_control_gui_cur_sheet (state->wbcg));
-	gtk_table_attach (table, GTK_WIDGET (state->output_entry),
-			  1, 2, 2, 3,
-			  GTK_EXPAND | GTK_FILL, 0,
-			  0, 0);
-
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "set-focus",
 			    GTK_SIGNAL_FUNC (tool_set_focus), state);
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
 			    GTK_SIGNAL_FUNC (tool_destroy), state);
-	gtk_signal_connect (GTK_OBJECT (state->output_range),   "toggled",
-			    GTK_SIGNAL_FUNC (focus_on_entry),
-			    state->output_entry);
-	gtk_signal_connect (GTK_OBJECT (state->output_entry), "focus-in-event",
-			    GTK_SIGNAL_FUNC (tool_set_focus_output_range), state);
-	gtk_signal_connect_after (GTK_OBJECT (state->output_entry), "changed",
-			    GTK_SIGNAL_FUNC (sensitivity_cb), state);
-	gtk_signal_connect_after (GTK_OBJECT (state->output_range), "toggled",
-			    GTK_SIGNAL_FUNC (sensitivity_cb), state);
- 
- 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-				  GTK_EDITABLE (state->output_entry));
 
-	gtk_widget_show (GTK_WIDGET (state->output_entry));
+	dialog_tool_init_outputs (state, sensitivity_cb);
+
 	gtk_window_add_accel_group (GTK_WINDOW (state->dialog),
 				    state->accel);
 
@@ -2288,14 +2197,49 @@ dialog_sampling_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 /*  End of sampling tool code */
 /**********************************************/
 
-/*************************************************************************
- *
- * Modal dialogs for the tools, without using expression entry widgets.
- * 
- * These dialogs are supposed to be changed to use the expresion entry 
- * widgets as above.
- */
+/**********************************************/
+/*  Begin of random tool code */
+/**********************************************/
 
+typedef struct {
+        GtkWidget *dialog;
+	GtkWidget *distribution_table;
+        GtkWidget *distribution_combo;
+	GtkWidget *par1_label, *par1_entry;
+	GtkWidget *par2_label, *par2_entry;
+	GtkAccelGroup *distribution_accel;
+} random_tool_callback_t;
+
+/* Name to show in list and parameter labels for a random distribution */
+typedef struct {
+	random_distribution_t dist;
+	const char *name;
+	const char *label1;
+	const char *label2;
+	gboolean par1_is_range;
+} DistributionStrs;
+
+/* Distribution strings for Random Number Generator */
+static const DistributionStrs distribution_strs[] = {
+        { DiscreteDistribution,
+	  N_("Discrete"), N_("_Value And Probability Input Range:"), NULL, TRUE },
+        { NormalDistribution,
+	  N_("Normal"), N_("_Mean:"), N_("_Standard Deviation:"), FALSE },
+     	{ PoissonDistribution,
+	  N_("Poisson"), N_("_Lambda:"), NULL, FALSE },
+	{ ExponentialDistribution,
+	  N_("Exponential"), N_("_b Value:"), NULL, FALSE },
+	{ BinomialDistribution,
+	  N_("Binomial"), N_("_p Value:"), N_("N_umber of Trials:"), FALSE },
+	{ NegativeBinomialDistribution,
+	  N_("Negative Binomial"), N_("_p Value:"),
+	  N_("N_umber of Failures"), FALSE },
+        { BernoulliDistribution,
+	  N_("Bernoulli"), N_("_p Value:"), NULL, FALSE },
+        { UniformDistribution,
+	  N_("Uniform"), N_("_Lower Bound:"),  N_("_Upper Bound:"), FALSE },
+        { 0, NULL, NULL, NULL, FALSE }
+};
 
 /*
  * distribution_strs_find
@@ -2316,6 +2260,44 @@ distribution_strs_find (random_distribution_t dist)
 	return &distribution_strs[0];
 }
 
+/**
+ * random_tool_update_sensitivity:
+ * @dummy:
+ * @state:
+ *
+ * Update the dialog widgets sensitivity if the only items of interest
+ * are the standard input (one range) and output items.
+ **/
+static void
+random_tool_update_sensitivity_cb (GtkWidget *dummy, RandomToolState *state)
+{
+	gboolean ready  = FALSE;
+	char const *output_text;
+	gint i, vars, count;
+        Value *output_range;
+	char *text;
+
+	output_text = gtk_entry_get_text (GTK_ENTRY (state->output_entry));
+        output_range = range_parse(state->sheet,output_text,TRUE);
+		
+	i = gnumeric_glade_group_value (state->gui, output_group);
+        
+	text = gtk_entry_get_text (GTK_ENTRY (state->vars_entry));
+	vars = atoi(text);
+	
+	text = gtk_entry_get_text (GTK_ENTRY (state->count_entry));
+	count = atoi(text);
+
+	ready = ((vars > 0) && 
+		 (count > 0) &&
+                 ((i != 2) || (output_range != NULL)));
+
+        if (output_range != NULL) value_release(output_range);
+
+	gtk_widget_set_sensitive (state->apply_button, ready);
+	gtk_widget_set_sensitive (state->ok_button, ready);
+}
+
 /*
  * distribution_parbox_config
  * @p     Callback data
@@ -2324,40 +2306,53 @@ distribution_strs_find (random_distribution_t dist)
  * Configure parameter widgets given random distribution.
  *
  * Set labels and accelerators, and hide/show entry fields as needed.
- */
+ **/
+
 static void
-distribution_parbox_config (random_tool_callback_t *p,
+distribution_parbox_config (RandomToolState *state,
 			    random_distribution_t dist)
 {
+	GtkWidget *par1_entry;
 	guint par1_key = 0, par2_key = 0;
 	const DistributionStrs *ds = distribution_strs_find (dist);
 
-	if (p->distribution_accel)
-		gtk_window_remove_accel_group (GTK_WINDOW (p->dialog),
-					       p->distribution_accel);
-	p->distribution_accel = gtk_accel_group_new ();
+	if (ds->par1_is_range) {
+		par1_entry = state->par1_expr_entry;
+		gtk_widget_hide (state->par1_entry);
+	} else {
+		par1_entry = state->par1_entry;
+		gtk_widget_hide (state->par1_expr_entry);
+	}
+	gtk_widget_show (par1_entry);
 
-	par1_key = gtk_label_parse_uline (GTK_LABEL (p->par1_label),
+	if (state->distribution_accel != NULL) {
+		gtk_window_remove_accel_group (GTK_WINDOW (state->dialog), 
+					       state->distribution_accel);
+		gtk_accel_group_unref(state->distribution_accel);
+	}
+	state->distribution_accel = gtk_accel_group_new ();
+
+	par1_key = gtk_label_parse_uline (GTK_LABEL (state->par1_label),
 					  _(ds->label1));
 	if (par1_key != GDK_VoidSymbol)
-		gtk_widget_add_accelerator (p->par1_entry, "grab_focus",
-					    p->distribution_accel, par1_key,
+		gtk_widget_add_accelerator (par1_entry, "grab_focus",
+					    state->distribution_accel, par1_key,
 					    GDK_MOD1_MASK, 0);
-	if (ds->label2) {
-		par2_key = gtk_label_parse_uline (GTK_LABEL (p->par2_label),
+	if (ds->label2 != NULL) {
+		par2_key = gtk_label_parse_uline (GTK_LABEL (state->par2_label),
 						  _(ds->label2));
 		if (par2_key != GDK_VoidSymbol)
 			gtk_widget_add_accelerator
-				(p->par2_entry, "grab_focus",
-				 p->distribution_accel, par2_key,
+				(state->par2_entry, "grab_focus",
+				 state->distribution_accel, par2_key,
 				 GDK_MOD1_MASK, 0);
-	        gtk_widget_show (p->par2_entry);
+	        gtk_widget_show (state->par2_entry);
 	} else {
-		gtk_label_set_text (GTK_LABEL (p->par2_label), "");
-	        gtk_widget_hide (p->par2_entry);
+		gtk_label_set_text (GTK_LABEL (state->par2_label), "");
+	        gtk_widget_hide (state->par2_entry);
 	}
-	gtk_window_add_accel_group (GTK_WINDOW (p->dialog),
-				    p->distribution_accel);
+	gtk_window_add_accel_group (GTK_WINDOW (state->dialog),
+				    state->distribution_accel);
 }
 
 /*
@@ -2370,16 +2365,15 @@ static random_distribution_t
 combo_get_distribution (GtkWidget *combo)
 {
         char *text;
-	random_distribution_t ret = UniformDistribution;
 	int i;
 
         text = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(combo)->entry));
 
 	for (i = 0; distribution_strs[i].name != NULL; i++)
 		if (strcmp(text, _(distribution_strs[i].name)) == 0)
-			ret = distribution_strs[i].dist;
+			return distribution_strs[i].dist;
 
-	return ret;
+	return UniformDistribution;
 }
 
 /*
@@ -2391,18 +2385,19 @@ combo_get_distribution (GtkWidget *combo)
  * which was selected.
  */
 static void
-distribution_callback (GtkWidget *widget, random_tool_callback_t *p)
+distribution_callback (GtkWidget *widget, RandomToolState *state)
 {
 	random_distribution_t dist;
 
-	dist = combo_get_distribution (p->distribution_combo);
-	distribution_parbox_config (p, dist);
+	dist = combo_get_distribution (state->distribution_combo);
+	distribution_parbox_config (state, dist);
 }
 
-/*
- * dialog_random_realized
- * @widget  unused
- * @p       callback data
+
+/**
+ * dialog_random_realized:
+ * @widget
+ * @state:
  *
  * Make initial geometry of distribution table permanent.
  *
@@ -2412,218 +2407,275 @@ distribution_callback (GtkWidget *widget, random_tool_callback_t *p)
  * realized. This callback for "realized" makes this size the user specified
  * size so that the table will not shrink when we later change label texts and
  * hide/show widgets.
- */
+  *
+ **/
 static void
-dialog_random_realized (GtkWidget *widget, random_tool_callback_t *p)
+dialog_random_realized (GtkWidget *widget, RandomToolState *state)
 {
-	GtkWidget *t = p->distribution_table;
-	GtkWidget *l = p->par1_label;
+	GtkWidget *t = state->distribution_table;
+	GtkWidget *l = state->par1_label;
 
 	gtk_widget_set_usize (t, t->allocation.width, t->allocation.height);
 	gtk_widget_set_usize (l, l->allocation.width, l->allocation.height);
-	distribution_callback (widget, p);
+	distribution_callback (widget, state);
 }
 
-/*
- * dialog_random_tool
- * @wbcg:   WorkbookControlGUI
- * @sheet: Sheet
+
+/**
+ * random_tool_ok_clicked_cb:
+ * @button:
+ * @state:
  *
- * Display the random number dialog and get user choices.
- */
-static int
-dialog_random_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
+ * Retrieve the information from the dialog and call the appropriate tool.
+ * Note that we assume that the ok_button is only active if the entry fields 
+ * contain sensible data.
+ **/
+static void
+random_tool_ok_clicked_cb(GtkWidget *button, RandomToolState *state)
 {
-        GladeXML  *gui;
-        GtkWidget *dialog, *distribution_combo, *distribution_table;
-        GtkWidget *par1_label, *par1_entry;
-        GtkWidget *par2_label, *par2_entry;
-	GtkWidget *vars_entry, *count_entry, *output_range_entry;
-	GList     *distribution_type_strs = NULL;
-	const DistributionStrs *ds;
-
-	int                     vars, count;
-	random_tool_t           param;
+	
 	data_analysis_output_t  dao;
+        char   *text;
+	gint vars, count;
+	random_tool_t           param;
 
-	static random_distribution_t distribution = DiscreteDistribution;
-	random_tool_callback_t callback_data;
+        parse_output (state->wbcg, state->sheet, 
+                      gnumeric_glade_group_value (state->gui, output_group),
+	              GTK_WIDGET(state->output_entry), 
+                      &dao);
 
-	char  *text;
-	int   selection, x1, x2, y1, y2;
+	text = gtk_entry_get_text (GTK_ENTRY (state->vars_entry));
+	vars = atoi(text);
+	
+	text = gtk_entry_get_text (GTK_ENTRY (state->count_entry));
+	count = atoi(text);
+
+	state->distribution = combo_get_distribution (state->distribution_combo);
+	switch (state->distribution) {
+	case NormalDistribution:
+		text = gtk_entry_get_text (GTK_ENTRY (state->par1_entry));
+		param.normal.mean = atof(text);
+		text = gtk_entry_get_text (GTK_ENTRY (state->par2_entry));
+		param.normal.stdev = atof(text);
+		break;
+	case BernoulliDistribution:
+		text = gtk_entry_get_text (GTK_ENTRY (state->par1_entry));
+		param.bernoulli.p = atof(text);
+		break;
+	case PoissonDistribution:
+		text = gtk_entry_get_text (GTK_ENTRY (state->par1_entry));
+		param.poisson.lambda = atof(text);
+		break;
+	case ExponentialDistribution:
+		text = gtk_entry_get_text (GTK_ENTRY (state->par1_entry));
+		param.exponential.b = atof(text);
+		break;
+	case BinomialDistribution:
+		text = gtk_entry_get_text (GTK_ENTRY (state->par1_entry));
+		param.binomial.p = atof(text);
+		text = gtk_entry_get_text (GTK_ENTRY (state->par2_entry));
+		param.binomial.trials = atoi(text);
+		break;
+	case NegativeBinomialDistribution:
+		text = gtk_entry_get_text (GTK_ENTRY (state->par1_entry));
+		param.negbinom.p = atof(text);
+		text = gtk_entry_get_text (GTK_ENTRY (state->par2_entry));
+		param.negbinom.f = atoi(text);
+		break;
+	case DiscreteDistribution:
+		text = gtk_entry_get_text (GTK_ENTRY (state->par1_expr_entry));
+		if (!parse_range (text, &param.discrete.start_col,
+			  &param.discrete.start_row,
+			  &param.discrete.end_col,
+			  &param.discrete.end_row)) {
+		        error_in_entry (state->wbcg,state->par1_expr_entry,
+					_("You should introduce a valid cell "
+					  "range in 'Value and probability input "
+					  "Range:'"));
+			return;
+		}
+		break;
+	case UniformDistribution:
+	default:
+		text = gtk_entry_get_text (GTK_ENTRY (state->par1_entry));
+		param.uniform.lower_limit = atof(text);
+		text = gtk_entry_get_text (GTK_ENTRY (state->par2_entry));
+		param.uniform.upper_limit = atof(text);
+		break;
+	}
+        
+	switch (random_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
+			     vars, count, state->distribution, &param,&dao)) {
+	case 0: 
+		if (button == state->ok_button) {
+			if (state->distribution_accel) {
+				gtk_accel_group_unref (state->distribution_accel);
+				state->distribution_accel = NULL;
+			}
+			gtk_widget_destroy (state->dialog);
+		}
+		break;
+	default: 
+		break;
+	}
+	return;
+}
+
+
+
+/**
+ * dialog_random_tool_init:
+ * @state:
+ *
+ * Create the dialog (guru).
+ *
+ **/
+static gboolean
+dialog_random_tool_init (RandomToolState *state)
+{
 	int   i, dist_str_no;
+	const DistributionStrs *ds;
+	GList *distribution_type_strs = NULL;
+	GtkTable *table;
 
-	gui = gnumeric_glade_xml_new (wbcg, "analysis-tools.glade");
-        if (gui == NULL)
-                return 0;
+	state->gui = gnumeric_glade_xml_new (state->wbcg, "random-generation.glade");
+        if (state->gui == NULL)
+                return TRUE;
 
-	dao.type = NewSheetOutput;
+	state->dialog = glade_xml_get_widget (state->gui, "Random");
+        if (state->dialog == NULL)
+                return TRUE;
+	gtk_signal_connect (GTK_OBJECT (state->dialog), "set-focus",
+			    GTK_SIGNAL_FUNC (tool_set_focus), state);
+	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
+			    GTK_SIGNAL_FUNC (tool_destroy), state);
+	gtk_signal_connect (GTK_OBJECT (state->dialog), "realize",
+			    GTK_SIGNAL_FUNC (dialog_random_realized), state);
 
-	dialog = glade_xml_get_widget (gui, "Random");
-	distribution_table = glade_xml_get_widget (gui, "distribution_table");
-	distribution_combo = glade_xml_get_widget (gui, "distribution_combo");
-	par1_entry = glade_xml_get_widget (gui, "par1_entry");
-	par1_label = glade_xml_get_widget (gui, "par1_label");
-	par2_label = glade_xml_get_widget (gui, "par2_label");
-	par2_entry = glade_xml_get_widget (gui, "par2_entry");
-	vars_entry = glade_xml_get_widget (gui, "vars_entry");
-	count_entry = glade_xml_get_widget (gui, "count_entry");
-	output_range_entry
-		= glade_xml_get_widget (gui, "random_output_range_entry");
+	state->accel = NULL;
+	state->distribution = DiscreteDistribution;
 
-        if (!dialog || !distribution_combo || !distribution_table ||
-	    !par1_label || !par1_entry || !par2_label || !par2_entry) {
-                printf ("Corrupt file analysis-tools.glade\n");
-                return 0;
-        }
+	dialog_tool_init_buttons ((GenericToolState *)state,
+				  GTK_SIGNAL_FUNC (random_tool_ok_clicked_cb) );
 
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (par1_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (par2_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (vars_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (count_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (output_range_entry));
+	dialog_tool_init_outputs ((GenericToolState *)state, 
+				  GTK_SIGNAL_FUNC (random_tool_update_sensitivity_cb));
 
-	if (set_output_option_signals (gui, &dao, "random") != 0)
-	        return 0;
+	state->distribution_table = glade_xml_get_widget (state->gui, "distribution_table");
+	state->distribution_combo = glade_xml_get_widget (state->gui, "distribution_combo");
+	state->par1_entry = glade_xml_get_widget (state->gui, "par1_entry");
+	state->par1_label = glade_xml_get_widget (state->gui, "par1_label");
+	state->par2_label = glade_xml_get_widget (state->gui, "par2_label");
+	state->par2_entry = glade_xml_get_widget (state->gui, "par2_entry");
+	state->vars_entry = glade_xml_get_widget (state->gui, "vars_entry");
+	state->count_entry = glade_xml_get_widget (state->gui, "count_entry");
+	state->distribution_accel = NULL;
 
 	for (i = 0, dist_str_no = 0; distribution_strs[i].name != NULL; i++) {
 		distribution_type_strs
 			= g_list_append (distribution_type_strs,
 					 (gpointer) _(distribution_strs[i].name));
-		if (distribution_strs[i].dist == distribution)
+		if (distribution_strs[i].dist == state->distribution)
 			dist_str_no = i;
 	}
-	gtk_combo_set_popdown_strings (GTK_COMBO (distribution_combo),
+	gtk_combo_set_popdown_strings (GTK_COMBO (state->distribution_combo),
 				       distribution_type_strs);
-	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (distribution_combo)->entry),
+	g_list_free(distribution_type_strs);
+	distribution_type_strs = NULL;
+
+	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (state->distribution_combo)->entry),
 			   _(distribution_strs[dist_str_no].name));
 
 	ds = distribution_strs_find (DiscreteDistribution);
-	(void) gtk_label_parse_uline (GTK_LABEL (par1_label), _(ds->label1));
+	(void) gtk_label_parse_uline (GTK_LABEL (state->par1_label), _(ds->label1));
 
-	callback_data.dialog = dialog;
-	callback_data.distribution_table = distribution_table;
-	callback_data.distribution_combo = distribution_combo;
-	callback_data.par1_entry = par1_entry;
-	callback_data.par1_label = par1_label;
-	callback_data.par2_label = par2_label;
-	callback_data.par2_entry = par2_entry;
-	callback_data.distribution_accel = NULL;
-
-	gtk_signal_connect (GTK_OBJECT(GTK_COMBO(distribution_combo)->entry),
+  	gtk_signal_connect (GTK_OBJECT(GTK_COMBO(state->distribution_combo)->entry),
 			    "changed", GTK_SIGNAL_FUNC (distribution_callback),
-			    &callback_data);
+			    state);
 
-	gtk_signal_connect (GTK_OBJECT (dialog), "realize",
-			    GTK_SIGNAL_FUNC (dialog_random_realized),
-			    &callback_data);
+	table = GTK_TABLE (glade_xml_get_widget (state->gui, "distribution_table"));
+	state->par1_expr_entry = GTK_WIDGET (gnumeric_expr_entry_new (state->wbcg));
+	gnumeric_expr_entry_set_flags(GNUMERIC_EXPR_ENTRY(state->par1_expr_entry),
+                                      GNUM_EE_SINGLE_RANGE | GNUM_EE_SHEET_OPTIONAL, 
+                                      GNUM_EE_MASK);
+        gnumeric_expr_entry_set_scg(GNUMERIC_EXPR_ENTRY(state->par1_expr_entry), 
+				    wb_control_gui_cur_sheet (state->wbcg));
+	gtk_table_attach (table, state->par1_expr_entry,
+			  1, 2, 1, 2,
+			  GTK_EXPAND | GTK_FILL, 0,
+			  0, 0);
+ 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_EDITABLE (state->par1_expr_entry));
+	
 
-random_dialog_loop:
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				      GTK_EDITABLE (state->par1_entry));
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				      GTK_EDITABLE (state->par2_entry));
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				      GTK_EDITABLE (state->vars_entry));
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				      GTK_EDITABLE (state->count_entry));
 
-	selection = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
-	if (selection == -1)
-		return 1;
+	gtk_signal_connect_after (GTK_OBJECT (state->vars_entry), "changed",
+			    GTK_SIGNAL_FUNC (random_tool_update_sensitivity_cb), state);
+	gtk_signal_connect_after (GTK_OBJECT (state->count_entry), "changed",
+			    GTK_SIGNAL_FUNC (random_tool_update_sensitivity_cb), state);
+ 
+	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+			       RANDOM_KEY);
 
-	if (selection != 0) {
-	        gnome_dialog_close (GNOME_DIALOG (dialog));
-		return 1;
-	}
+	random_tool_update_sensitivity_cb (NULL,state);	
 
-	text = gtk_entry_get_text (GTK_ENTRY (vars_entry));
-	vars = atoi(text);
-
-	text = gtk_entry_get_text (GTK_ENTRY (count_entry));
-	count = atoi(text);
-
-	distribution = combo_get_distribution (distribution_combo);
-	switch (distribution) {
-	case NormalDistribution:
-		text = gtk_entry_get_text (GTK_ENTRY (par1_entry));
-		param.normal.mean = atof(text);
-		text = gtk_entry_get_text (GTK_ENTRY (par2_entry));
-		param.normal.stdev = atof(text);
-		break;
-	case BernoulliDistribution:
-		text = gtk_entry_get_text (GTK_ENTRY (par1_entry));
-		param.bernoulli.p = atof(text);
-		break;
-	case PoissonDistribution:
-		text = gtk_entry_get_text (GTK_ENTRY (par1_entry));
-		param.poisson.lambda = atof(text);
-		break;
-	case ExponentialDistribution:
-		text = gtk_entry_get_text (GTK_ENTRY (par1_entry));
-		param.exponential.b = atof(text);
-		break;
-	case BinomialDistribution:
-		text = gtk_entry_get_text (GTK_ENTRY (par1_entry));
-		param.binomial.p = atof(text);
-		text = gtk_entry_get_text (GTK_ENTRY (par2_entry));
-		param.binomial.trials = atoi(text);
-		break;
-	case NegativeBinomialDistribution:
-		text = gtk_entry_get_text (GTK_ENTRY (par1_entry));
-		param.negbinom.p = atof(text);
-		text = gtk_entry_get_text (GTK_ENTRY (par2_entry));
-		param.negbinom.f = atoi(text);
-		break;
-	case DiscreteDistribution:
-		text = gtk_entry_get_text (GTK_ENTRY (par1_entry));
-		if (!parse_range (text, &param.discrete.start_col,
-			  &param.discrete.start_row,
-			  &param.discrete.end_col,
-			  &param.discrete.end_row)) {
-		        error_in_entry (wbcg, par1_entry,
-					_("You should introduce a valid cell "
-					  "range in 'Value and probability input "
-					  "Range:'"));
-			goto random_dialog_loop;
-		}
-		break;
-	case UniformDistribution:
-	default:
-		text = gtk_entry_get_text (GTK_ENTRY (par1_entry));
-		param.uniform.lower_limit = atof(text);
-		text = gtk_entry_get_text (GTK_ENTRY (par2_entry));
-		param.uniform.upper_limit = atof(text);
-		break;
-	}
-
-	if (dao.type == RangeOutput) {
-	        text = gtk_entry_get_text (GTK_ENTRY (output_range_entry));
-	        if (!parse_range (text, &x1, &y1, &x2, &y2)) {
-		        error_in_entry (wbcg, output_range_entry,
-					_("You should introduce a valid cell "
-					  "range in 'Output Range:'"));
-			goto random_dialog_loop;
-		} else {
-		        dao.start_col = x1;
-		        dao.start_row = y1;
-			dao.cols = x2-x1+1;
-			dao.rows = y2-y1+1;
-			dao.sheet = sheet;
-		}
-	}
-
-	if (random_tool (WORKBOOK_CONTROL (wbcg), sheet,
-			 vars, count, distribution, &param, &dao))
-	        goto random_dialog_loop;
-
-	wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
-
-	if (callback_data.distribution_accel)
-		gtk_accel_group_unref (callback_data.distribution_accel);
-	gtk_object_destroy (GTK_OBJECT (dialog));
-	gtk_object_unref (GTK_OBJECT (gui));
-	g_list_free (distribution_type_strs);
-
-	return 0;
+	return FALSE;
 }
+
+
+/**
+ * dialog_random_tool:
+ * @wbcg:
+ * @sheet:
+ *
+ * Show the dialog (guru).
+ *
+ **/
+static int
+dialog_random_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
+{
+        RandomToolState *state;
+
+	if (wbcg == NULL) {
+		return 1;
+	}
+
+
+	/* Only pop up one copy per workbook */
+	if (gnumeric_dialog_raise_if_exists (wbcg, RANDOM_KEY)) {
+		return 0;
+	}
+
+	state = g_new (RandomToolState, 1);
+	(*(ToolType *)state) = TOOL_RANDOM;
+	state->wbcg  = wbcg;
+	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->sheet = sheet;
+	state->helpfile = "random-number-generation-tool.html";
+	state->input_var1_str = NULL;
+	state->input_var2_str = NULL;
+
+	if (dialog_random_tool_init (state)) {
+		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+				 _("Could not create the Random Tool dialog."));
+		g_free (state);
+		return 0;
+	}
+	gtk_widget_show (state->dialog);
+
+        return 0;
+}
+/**********************************************/
+/*  End of random tool code */
+/**********************************************/
 
 /**********************************************/
 /*  Begin of Regression tool code */
@@ -2676,7 +2728,7 @@ regression_tool_ok_clicked_cb(GtkWidget *button, RegressionToolState *state)
 	text = gtk_entry_get_text (GTK_ENTRY (state->confidence_entry));
 	confidence = atof (text);
 	w = glade_xml_get_widget (state->gui, "intercept-button");
-	intercept_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+	intercept_flag = 1 - gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	switch (regression_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
 			       &range_2, range_1, confidence, &dao,
@@ -3608,6 +3660,53 @@ dialog_anova_two_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
  * Modal dialog for tool selection
  * 
  */
+
+typedef int (*tool_fun_ptr_t)(WorkbookControlGUI *wbcg, Sheet *sheet);
+
+typedef struct {
+        char const *    name;
+        tool_fun_ptr_t  fun;
+} tool_list_t;
+
+static tool_list_t tools[] = {
+        { N_("Anova: Single Factor"),
+	  dialog_anova_single_factor_tool },
+        { N_("Anova: Two-Factor With Or Without Replication"),
+	  dialog_anova_two_factor_tool },
+        { N_("Correlation"),
+	  dialog_correlation_tool },
+        { N_("Covariance"),
+	  dialog_covariance_tool },
+        { N_("Descriptive Statistics"),
+	  dialog_descriptive_stat_tool },
+        { N_("F-Test: Two-Sample for Variances"),
+	  dialog_ftest_tool },
+        { N_("Fourier Analysis"),
+	  dialog_fourier_tool },
+        { N_("Histogram"),
+	  dialog_histogram_tool },
+        { N_("Moving Average"),
+	  dialog_average_tool },
+        { N_("Random Number Generation"),
+	  dialog_random_tool },
+        { N_("Rank and Percentile"),
+	  dialog_ranking_tool },
+        { N_("Regression"),
+	  dialog_regression_tool },
+        { N_("Sampling"),
+	  dialog_sampling_tool },
+        { N_("t-Test: Paired Two Sample for Means"),
+	  dialog_ttest_paired_tool },
+        { N_("t-Test: Two-Sample Assuming Equal Variances"),
+	  dialog_ttest_eq_tool },
+        { N_("t-Test: Two-Sample Assuming Unequal Variances"),
+	  dialog_ttest_neq_tool },
+        { N_("z-Test: Two Sample for Means"),
+	  dialog_ztest_tool },
+	{ NULL, NULL }
+};
+
+static int selected_row;
 
 static void
 selection_made (GtkWidget *clist, gint row, gint column,

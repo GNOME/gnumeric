@@ -1,3 +1,29 @@
+2001-10-12 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=62008
+        * random-generation.glade : New dialog
+	* Makefile.am : Added random-generation.glade
+	* dialog-analysis-tools.c (new_sheet_toggled) : deleted
+	(new_workbook_toggled) : deleted
+	(range_output_toggled) : deleted
+	(output_range_selected) : deleted
+	(set_output_option_signals) : deleted
+	(dialog_tool_init_outputs) : new function, 
+	  extracted existing code for reuse
+	(dialog_tool_init_buttons) : ditto
+	(dialog_tool_init) : parts split off into dialog_tool_init_outputs and
+	  dialog_tool_init_buttons
+	(random_tool_update_sensitivity) : new function
+	(random_tool_ok_clicked_cb) : new function
+	(dialog_random_tool_init) : new function
+	(distribution_parbox_config) : changed to port random 
+	  number generation tool to use expr-entry-widgets.
+	(combo_get_distribution) : ditto
+	(distribution_strs_find) : ditto
+	(distribution_callback) : ditto
+	(dialog_random_realized) : ditto
+	(dialog_random_tool) : ditto
+
 2001-10-11  Morten Welinder  <terra@diku.dk>
 
 	* dialog-search.c (dialog_search): New dialog in new file.

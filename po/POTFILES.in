@@ -120,6 +120,7 @@ src/dialogs/names.glade
 src/dialogs/plugin-manager.glade
 src/dialogs/print.glade
 src/dialogs/rank.glade
+src/dialogs/random-generation.glade
 src/dialogs/regression.glade
 src/dialogs/row-height.glade
 src/dialogs/sampling.glade

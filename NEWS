@@ -4,7 +4,7 @@ Almer:
 	* More work on validation.
 
 Andreas:
-	* Rewrite remaining analysis tools (except random number generation)
+	* Rewrite remaining analysis tools
           to use the gnumeric-expr-entry widget.
 
 Jody:
