@@ -94,13 +94,13 @@ AC_SUBST(GNOMEGNORBA_LIBS)
 dnl ******************************
 dnl gnome-xml checking
 dnl ******************************
-AC_MSG_CHECKING(for libxml (aka gnome-xml) libraries 1.8.5 <= version < 2.0.0	)
+AC_MSG_CHECKING(for libxml (aka gnome-xml) libraries 1.8.10 <= version < 2.0.0)
 xml_ok=no
 if xml-config --libs > /dev/null 2>&1; then 
     verstxt=`xml-config --version`
     vers=`echo "$verstxt" | sed -e "s/libxml //" | \
 	awk -F. '{ printf "%d", ($1 * 1000 + $2) * 1000 + $3;}'`
-    if test "$vers" -ge 1008005; then
+    if test "$vers" -ge 1008010; then
 	if test "$vers" -lt 2000000; then
 	    AC_MSG_RESULT($marker_ok found $verstxt)
 	    xml_ok=yes
@@ -115,7 +115,7 @@ else
     AC_MSG_RESULT($marker_fail not found)
 fi
 if test "$xml_ok" = no; then
-    AC_MSG_ERROR(You need at least libxml (aka gnome-xml) 1.8.5 for this version of Gnumeric.
+    AC_MSG_ERROR(You need at least libxml (aka gnome-xml) 1.8.10 for this version of Gnumeric.
 
 libxml version 2.x.x is not compatible with libxml version 1.x.x.
 Version 2.x.x is not yet supported.)

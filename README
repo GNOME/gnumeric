@@ -27,7 +27,7 @@ You need:
 	gal		>= 0.5
 	gnome-print	>= 0.25
 
-	gnome-xml   >= 1.8.7    (gnome-xml 2.x not supported yet)
+	gnome-xml   >= 1.8.10     (gnome-xml 2.x not supported yet)
 	NOTE : gnome-xml is also known as libxml
 
 	libole2	    >= 0.1.7	(0.2.0 is OK)

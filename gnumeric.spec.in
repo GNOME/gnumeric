@@ -18,7 +18,7 @@ Requires: gtk+ >= 1.2.7
 Requires: gnome-libs >= 1.0.57
 Requires: gnome-print >= 0.25
 Requires: libglade >= 0.16
-Requires: libxml >= 1.8.5
+Requires: libxml >= 1.8.10
 Requires: libole2 >= 0.1.7
 Requires: gal >= 0.5
 
