@@ -77,20 +77,20 @@ cell_split_text (GdkFont *font, char const *text, int const width)
 	GList *list = NULL;
 	int used = 0, used_last_space = 0;
 
-	for (line_begin = p = text; *p; p++){
+	for (line_begin = p = text; *p; p++) {
 		int const len_current = gdk_text_width (font, p, 1);
 
 		/* Wrap if there is an embeded newline, or we have overflowed */
-		if (*p == '\n' || used + len_current > width){
+		if (*p == '\n' || used + len_current > width) {
 			char const *begin = line_begin;
 			int len;
 
-			if (*p == '\n'){
+			if (*p == '\n') {
 				/* start after newline, preserve whitespace */
 				line_begin = p+1;
 				len = p - begin;
 				used = 0;
-			} else if (last_whitespace != NULL){
+			} else if (last_whitespace != NULL) {
 				/* Split at the run of whitespace */
 				line_begin = last_whitespace + 1;
 				len = first_whitespace - begin;
@@ -109,7 +109,7 @@ cell_split_text (GdkFont *font, char const *text, int const width)
 		}
 
 		used += len_current;
-		if (*p == ' '){
+		if (*p == ' ') {
 			used_last_space = used;
 			last_whitespace = p;
 			if (!prev_was_space)
@@ -362,7 +362,7 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 			char const * const str = l->data;
 			int len = 0;
 
-			switch (halign){
+			switch (halign) {
 			default:
 				g_warning ("Multi-line justification style not supported\n");
 			case HALIGN_JUSTIFY:

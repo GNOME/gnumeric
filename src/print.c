@@ -563,6 +563,7 @@ print_page (PrintJobInfo const *pj, Sheet const *sheet, Range *range,
 		if (pj->pi->print_titles)
 			h += sheet->rows.default_style.size_pts;
 		h += repeat_rows_used_y;
+		h *= pj->pi->scaling.percentage / 100.;
 		y = (pj->y_points - h)/2;
 	}
 
@@ -574,6 +575,7 @@ print_page (PrintJobInfo const *pj, Sheet const *sheet, Range *range,
 		if (pj->pi->print_titles)
 			w += sheet->cols.default_style.size_pts;
 		w += repeat_cols_used_x;
+		w *= pj->pi->scaling.percentage / 100.;
 		x = (pj->x_points - w)/2;
 	}
 
