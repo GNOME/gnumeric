@@ -9,6 +9,8 @@ Release Critical
   This happens when old gnumerics read new files, so getting this fix
   out there will take some time.
 
+- Entering "=1e11111" yields "Syntax Error", not "overflow".
+
 Long term breakage
 ------------------
 - clipboard : fix duality of PASTE_FORMULAS vs PASTE_VALUES, add PASTE_COMMENT
