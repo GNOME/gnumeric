@@ -1,3 +1,15 @@
+2001-05-15  Almer S. Tigelaar  <almer@gnome.org>
+
+	* gnumeric-hscrollbar.c (gnumeric_hscrollbar_button_press): Adjust
+	for new live toggling
+	(gnumeric_hscrollbar_init): Idem.
+	(gnumeric_hscrollbar_adjustment_value_changed): Idem.
+
+	* gnumeric-vscrollbar.c (gnumeric_vscrollbar_button_press): Adjust
+	for new live toggling
+	(gnumeric_vscrollbar_init): Idem.
+	(gnumeric_vscrollbar_adjustment_value_changed): Idem.
+
 2001-05-14  Miguel de Icaza  <miguel@ximian.com>
 
 	* Makefile.am (libwidgets_a_SOURCES): Removed unused scrollbar code. 

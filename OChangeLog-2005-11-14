@@ -1,3 +1,9 @@
+2001-05-15  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/sheet-control-gui.c (vertical_scroll_offset_changed): Sync
+	for adjustment to scrollbars.
+	(horizontal_scroll_offset_changed): Idem.
+
 2001-05-14  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-control-gui.c (vertical_scroll_offset_changed) : reinstate

@@ -15,7 +15,10 @@ struct _GnumericVScrollbar
 {
 	GtkVScrollbar  vscrollbar;
 
-	gboolean       live;
+	struct {
+		gboolean def;
+		gboolean now;
+	} live;
 };
 
 struct _GnumericVScrollbarClass

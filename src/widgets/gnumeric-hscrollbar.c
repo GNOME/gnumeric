@@ -21,6 +21,8 @@
 #include <config.h>
 #include <gnome.h>
 
+#include "application.h"
+
 #include "gnumeric-type-util.h"
 #include "gnumeric-util.h"
 #include "parse-util.h"
@@ -58,7 +60,7 @@ gnumeric_hscrollbar_adjustment_value_changed (GtkAdjustment *adjustment, gpointe
 {
 	GnumericHScrollbar *hs = GNUMERIC_HSCROLLBAR (data);
 
-	if (hs->live)
+	if (hs->live.now)
 		gtk_signal_emit (GTK_OBJECT (hs), hscrollbar_signals[OFFSET_CHANGED],
 				 (int) GTK_RANGE (hs)->adjustment->value, FALSE);
 	else
@@ -76,11 +78,11 @@ gnumeric_hscrollbar_button_press (GtkWidget *widget, GdkEventButton *event)
 		gnumeric_hscrollbar_adjustment_value_changed (range->adjustment, hs);
 		
 		if (event->state & GDK_SHIFT_MASK)
-			hs->live = TRUE;
+			hs->live.now = !hs->live.def;
 		else
-			hs->live = FALSE;
+			hs->live.now = hs->live.def;
 	} else
-		hs->live = TRUE;
+		hs->live.now = TRUE;
 
 	return parent_class->button_press_event (widget, event);
 }
@@ -99,7 +101,7 @@ gnumeric_hscrollbar_button_release (GtkWidget *widget, GdkEventButton *event)
 static void
 gnumeric_hscrollbar_init (GnumericHScrollbar *hs)
 {
-	hs->live = FALSE;
+	hs->live.def = hs->live.now = application_live_scrolling ();
 }
 
 static void

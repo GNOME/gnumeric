@@ -14,8 +14,11 @@ typedef struct _GnumericHScrollbarClass  GnumericHScrollbarClass;
 struct _GnumericHScrollbar
 {
 	GtkHScrollbar  hscrollbar;
-	
-	gboolean       live;
+
+	struct {
+		gboolean def;
+		gboolean now;
+	} live;
 };
 
 struct _GnumericHScrollbarClass

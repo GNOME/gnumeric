@@ -21,6 +21,8 @@
 #include <config.h>
 #include <gnome.h>
 
+#include "application.h"
+
 #include "gnumeric-type-util.h"
 #include "gnumeric-util.h"
 
@@ -60,7 +62,7 @@ gnumeric_vscrollbar_adjustment_value_changed (GtkAdjustment *adjustment, gpointe
 	/*
 	 * Do we emit a real change or just a hint
 	 */
-	if (vs->live)
+	if (vs->live.now)
 		gtk_signal_emit (GTK_OBJECT (vs), vscrollbar_signals[OFFSET_CHANGED],
 				 (int) GTK_RANGE (vs)->adjustment->value, FALSE);
 	else
@@ -78,11 +80,11 @@ gnumeric_vscrollbar_button_press (GtkWidget *widget, GdkEventButton *event)
 		gnumeric_vscrollbar_adjustment_value_changed (range->adjustment, vs);
 
 		if (event->state & GDK_SHIFT_MASK)
-			vs->live = TRUE;
+			vs->live.now = !vs->live.def;
 		else
-			vs->live = FALSE;
+			vs->live.now = vs->live.def;
 	} else
-		vs->live = TRUE;
+		vs->live.now = TRUE;
 	
 	return parent_class->button_press_event (widget, event);
 }
@@ -101,7 +103,7 @@ gnumeric_vscrollbar_button_release (GtkWidget *widget, GdkEventButton *event)
 static void
 gnumeric_vscrollbar_init (GnumericVScrollbar *vs)
 {
-	vs->live = FALSE;
+	vs->live.def = vs->live.now = application_live_scrolling ();
 }
 
 static void
@@ -135,7 +137,6 @@ gnumeric_vscrollbar_class_init (GnumericVScrollbarClass *klass)
 				gtk_marshal_NONE__INT_INT,
 				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
 
-
 	gtk_object_class_add_signals (object_class, vscrollbar_signals, LAST_SIGNAL);
 }
 
@@ -163,3 +164,4 @@ GNUMERIC_MAKE_TYPE_WITH_CLASS (gnumeric_vscrollbar, "GnumericVScrollbar",
 			       GnumericVScrollbar, GnumericVScrollbarClass,
 			       gnumeric_vscrollbar_class_init, gnumeric_vscrollbar_init,
 			       gtk_vscrollbar_get_type ())
+			       

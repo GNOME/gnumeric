@@ -485,9 +485,7 @@ vertical_scroll_offset_changed (GtkAdjustment *adj, int top, int is_hint,
 {
 	GnumericSheet  *gsheet = GNUMERIC_SHEET (scg->canvas);
 
-	if (application_live_scrolling ())
-		gnumeric_sheet_set_top_row (gsheet, top);
-	else if (is_hint) {
+	if (is_hint) {
 		char *buffer = g_strdup_printf (_("Row: %d"), top + 1);
 		wb_control_gui_set_status_text (scg->wbcg, buffer);
 		g_free (buffer);
@@ -503,9 +501,7 @@ horizontal_scroll_offset_changed (GtkAdjustment *adj, int left, int is_hint,
 {
 	GnumericSheet  *gsheet = GNUMERIC_SHEET (scg->canvas);
 
-	if (application_live_scrolling ())
-		gnumeric_sheet_set_left_col (gsheet, left);
-	else if (is_hint) {
+	if (is_hint) {
 		char *buffer = g_strdup_printf (_("Column: %s"), col_name (left));
 		wb_control_gui_set_status_text (scg->wbcg, buffer);
 		g_free (buffer);
