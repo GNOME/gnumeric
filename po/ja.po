@@ -22494,14 +22494,12 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/dialog-simulation.c:433
-#, fuzzy
 msgid "_Inputs:"
-msgstr "入力(_I)"
+msgstr "入力(_I):"
 
 #: src/dialogs/dialog-simulation.c:433
-#, fuzzy
 msgid "_Outputs:"
-msgstr "出力"
+msgstr "出力(_O):"
 
 #: src/dialogs/dialog-simulation.c:434
 #, fuzzy
@@ -22619,24 +22617,20 @@ msgid "'"
 msgstr "'"
 
 #: src/dialogs/dialog-stf-export.glade.h:4
-#, fuzzy
 msgid "<- Remove"
-msgstr "削除"
+msgstr "<- 削除"
 
 #: src/dialogs/dialog-stf-export.glade.h:5
-#, fuzzy
 msgid "<- Remove all"
-msgstr "&lt;- 全て削除"
+msgstr "<- すべて削除"
 
 #: src/dialogs/dialog-stf-export.glade.h:6
-#, fuzzy
 msgid "Add ->"
-msgstr "加算"
+msgstr "加算 ->"
 
 #: src/dialogs/dialog-stf-export.glade.h:7
-#, fuzzy
 msgid "Add all ->"
-msgstr "全て追加 -&gt;"
+msgstr "すべて追加 ->"
 
 #: src/dialogs/dialog-stf-export.glade.h:8
 msgid "Always"
@@ -22656,7 +22650,7 @@ msgstr "感嘆符 (!)"
 
 #: src/dialogs/dialog-stf-export.glade.h:12
 msgid "Character encoding:"
-msgstr ""
+msgstr "文字エンコーディング:"
 
 #: src/dialogs/dialog-stf-export.glade.h:13
 msgid "Choose export formatting"
@@ -22667,9 +22661,8 @@ msgid "Choose sheets to export"
 msgstr "エキスポートするシートの選択"
 
 #: src/dialogs/dialog-stf-export.glade.h:15
-#, fuzzy
 msgid "Colon (:)"
-msgstr "コロン(:) (_C)"
+msgstr "コロン(:)"
 
 #: src/dialogs/dialog-stf-export.glade.h:16
 msgid "Comma (,)"
@@ -22687,9 +22680,8 @@ msgstr ""
 "引用符が配置されるかどうかは \"引用符の付け方\" の選択に依存します。"
 
 #: src/dialogs/dialog-stf-export.glade.h:19
-#, fuzzy
 msgid "Escape"
-msgstr "例"
+msgstr "エスケープ"
 
 #: src/dialogs/dialog-stf-export.glade.h:20
 msgid "Exporting structured text"
@@ -22764,9 +22756,8 @@ msgid "Unix (linefeed)"
 msgstr "UNIX形式 (ラインフィード)"
 
 #: src/dialogs/dialog-stf-export.glade.h:37
-#, fuzzy
 msgid "Unknown characters:"
-msgstr "演算子の不明なエラーです"
+msgstr "不明な文字:"
 
 #: src/dialogs/dialog-stf-export.glade.h:38
 msgid "Windows (carriage return + linefeed)"
@@ -22782,46 +22773,44 @@ msgstr "自動探索はテキストに列を検出できませんでした。手
 
 #: src/dialogs/dialog-stf-fixed-page.c:67
 msgid "Delete and Merge _Left"
-msgstr ""
+msgstr "削除して左にマージ(_L)"
 
 #: src/dialogs/dialog-stf-fixed-page.c:69
 msgid "Delete and Merge _Right"
-msgstr ""
+msgstr "削除して右にマージ(_R)"
 
 #: src/dialogs/dialog-stf-fixed-page.c:72
 msgid "_Split"
 msgstr "分割(_S)"
 
 #: src/dialogs/dialog-stf-fixed-page.c:75
-#, fuzzy
 msgid "_Widen"
-msgstr "式を隠す(_H)"
+msgstr "広くする(_W)"
 
 #: src/dialogs/dialog-stf-fixed-page.c:77
-#, fuzzy
 msgid "_Narrow"
-msgstr "矢印"
+msgstr "狭くする(_N)"
 
 #: src/dialogs/dialog-stf-format-page.c:126
 #, c-format
 msgid "A maximum of %d columns can be imported."
-msgstr ""
+msgstr "最大%d列がインポートされます。"
 
 #: src/dialogs/dialog-stf-format-page.c:254
 msgid "Ignore all columns on right"
-msgstr ""
+msgstr "右の列をすべて無視"
 
 #: src/dialogs/dialog-stf-format-page.c:255
 msgid "Ignore all columns on left"
-msgstr ""
+msgstr "左の列をすべて無視"
 
 #: src/dialogs/dialog-stf-format-page.c:256
 msgid "Import all columns on right"
-msgstr ""
+msgstr "右の列をすべてインポート"
 
 #: src/dialogs/dialog-stf-format-page.c:257
 msgid "Import all columns on left"
-msgstr ""
+msgstr "左の列をすべてインポート"
 
 #: src/dialogs/dialog-stf-format-page.c:258
 #, fuzzy
@@ -22832,10 +22821,11 @@ msgstr "左から右へ"
 msgid ""
 "If this checkbox is selected, the column will be imported into Gnumeric."
 msgstr ""
+"このチェックボックスが選択されていたら、列はGnumericにインポートされます。"
 
 #: src/dialogs/dialog-stf-format-page.c:385
 msgid "At most 256 columns can be imported at one time."
-msgstr ""
+msgstr "一度に256列までインポートできます。"
 
 #: src/dialogs/dialog-stf-format-page.c:522
 #: src/dialogs/dialog-stf-preview.h:28
@@ -22865,7 +22855,6 @@ msgid ""
 msgstr "実際の作業はこの行から開始され、それ以前の行は無視されます。"
 
 #: src/dialogs/dialog-stf.glade.h:5
-#, fuzzy
 msgid "Always (Both Sides)"
 msgstr "常に(両端)"
 
@@ -22908,9 +22897,8 @@ msgid "Columns"
 msgstr "列"
 
 #: src/dialogs/dialog-stf.glade.h:14
-#, fuzzy
 msgid "Custom separator, this can be any character."
-msgstr "カスタムセパレータ、これはどの文字でも構いません"
+msgstr "カスタムセパレータ、これはどの文字でも構いません。"
 
 #: src/dialogs/dialog-stf.glade.h:16
 msgid "Define the width of each column manually."
