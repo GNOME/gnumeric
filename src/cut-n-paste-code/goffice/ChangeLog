@@ -1,3 +1,10 @@
+2004-11-18  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* graph/gog-axis.c (create_invalid_axis_ticks): add a flag to note
+	create "##" labels.
+	* graph/gog-guru.c (cb_attr_tree_selection_change): scroll to selected
+	row.
+
 2004-11-14  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* graph/gog-renderer-pixbuf.c (line_size): width <= 0. is hairline.
