@@ -678,13 +678,15 @@ create_coloring_page (GtkWidget *prop_win, CellList *cells)
 	 * not, right now this is broken in that regard
 	 */
 	if (cells){
-		fore_red   = ((Cell *) (cells->data))->style->fore_color->color.red;
-		fore_green = ((Cell *) (cells->data))->style->fore_color->color.green;
-		fore_blue  = ((Cell *) (cells->data))->style->fore_color->color.blue;
-
-		back_red   = ((Cell *) (cells->data))->style->back_color->color.red;
-		back_green = ((Cell *) (cells->data))->style->back_color->color.green;
-		back_blue  = ((Cell *) (cells->data))->style->back_color->color.blue;
+		Cell *cell = (Cell *) cells->data;
+		
+		fore_red   = cell->style->fore_color->color.red;
+		fore_green = cell->style->fore_color->color.green;
+		fore_blue  = cell->style->fore_color->color.blue;
+			     
+		back_red   = cell->style->back_color->color.red;
+		back_green = cell->style->back_color->color.green;
+		back_blue  = cell->style->back_color->color.blue;
 
 		/*
 		 * What follows is ugly: I believe we should use the method illustrated
@@ -696,14 +698,14 @@ create_coloring_page (GtkWidget *prop_win, CellList *cells)
 		 */
 		if (fore_red   == 0 &&
 		    fore_green == 0 &&
-		    fore_blue  == 0) {
+		    fore_blue  == 0){
 			foreground_flag = 0;
 		} else {
 			foreground_flag = STYLE_FORE_COLOR;
 		}
 		if (back_red   == 0xffff &&
 		    back_green == 0xffff &&
-		    back_blue  == 0xffff) {
+		    back_blue  == 0xffff){
 			background_flag = 0;
 		} else {
 			background_flag = STYLE_BACK_COLOR;
@@ -713,29 +715,29 @@ create_coloring_page (GtkWidget *prop_win, CellList *cells)
 		 * First scan is to find out whether all cells have the same foreground color,
 		 * second one is the equivalent for background
 		 */
-		for (ok_fore=1, l=cells; l; l = l->next){
+		for (ok_fore = 1, l = cells; l; l = l->next){
 			Cell *cell = l->data;
 
 			if (cell->style->fore_color->color.red != fore_red ||
 			    cell->style->fore_color->color.green != fore_green ||
-			    cell->style->fore_color->color.blue != fore_blue) {
+			    cell->style->fore_color->color.blue != fore_blue){
 				ok_fore = 0;
 				break;
 			}
 		}
-		for (ok_back=1, l=cells; l; l = l->next){
+		for (ok_back = 1, l = cells; l; l = l->next){
 			Cell *cell = l->data;
 
 			if (cell->style->back_color->color.red != back_red ||
 			    cell->style->back_color->color.green != back_green ||
-			    cell->style->back_color->color.blue != back_blue) {
+			    cell->style->back_color->color.blue != back_blue){
 				ok_back = 0;
 				break;
 			}
 		}
 
-		if (ok_fore != 0) {
-			if (foreground_flag == 0) {
+		if (ok_fore != 0){
+			if (foreground_flag == 0){
 				gtk_radio_button_select (foreground_radio_list, 0);
 				gnome_color_picker_set_d (GNOME_COLOR_PICKER (foreground_cs), 0, 0, 0, 0);
 			} else {
@@ -747,8 +749,8 @@ create_coloring_page (GtkWidget *prop_win, CellList *cells)
 				gnome_color_picker_set_d (GNOME_COLOR_PICKER (foreground_cs), rd, gd, bd, ad);
 			}
 		}
-		if (ok_back != 0) {
-			if (background_flag == 0) {
+		if (ok_back != 0){
+			if (background_flag == 0){
 				gtk_radio_button_select (background_radio_list, 0);
 				gnome_color_picker_set_d (GNOME_COLOR_PICKER (background_cs), 1, 1, 1, 1);
 			} else {
