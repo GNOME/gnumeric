@@ -1,3 +1,11 @@
+2002-04-09  Jon K Hellan  <hellan@acm.org>
+
+	* configure.in: Test for isfinite as a macro. Test for <wctype.h>
+
+	* acconfig.h: Test for isfinite as a macro.
+
+	* src/stf-parse.c: Include <wctype.h> only if present.
+
 2002-04-02  Morten Welinder  <terra@diku.dk>
 
 	* src/mathfunc.c (gnumeric_fake_trunc): Backport fix from head.

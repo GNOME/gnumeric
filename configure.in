@@ -178,7 +178,7 @@ dnl
 AC_CHECK_HEADERS(ieeefp.h ieee754.h)
 
 dnl Check for some functions
-AC_CHECK_FUNCS(random drand48 finite isfinite)
+AC_CHECK_FUNCS(random drand48 finite)
 
 dnl
 dnl On BSD, we seem to need -lm for finite
@@ -189,12 +189,18 @@ if test $ac_cv_func_finite = no; then
          LIBS="$LIBS -lm"])
 fi
 
+dnl isfinite is a macro on HPUX
+AC_TRY_COMPILE([#include <math.h>], [int a = isfinite(0.0)], [AC_DEFINE(HAVE_ISFINITE)], [])
+
 dnl check for complete locale implementation
 AC_CHECK_HEADERS(langinfo.h)
 
 dnl we need iconv for translating to/from locale's charset when
 dnl reading/writing Excel files
 AC_CHECK_HEADERS(iconv.h)
+
+dnl iswprint/iswspace are sometimes in wctype.h
+AC_CHECK_HEADERS(wctype.h)
 
 dnl **************************************************
 dnl * ORBit support
