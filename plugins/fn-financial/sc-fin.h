@@ -2,11 +2,6 @@
 #ifndef __SC_FIN_H__
 #define __SC_FIN_H__
 
-extern gnum_float
-coupnum (GDate *settlement, GDate *maturity, int freq, basis_t basis,
-	 gboolean eom);
-
-
 Value *    get_amordegrc (gnum_float fCost, GDate *nDate, GDate *nFirstPer, 
 			  gnum_float fRestVal, gint nPer, gnum_float fRate,
 			  gint nBase);
@@ -24,7 +19,10 @@ Value *    get_oddlyield (GDate *nSettle, GDate *nMat, GDate *nLastCoup,
 			  gnum_float fRate, gnum_float fYield,
 			  gnum_float fRedemp, gint nFreq, gint nBase);
 Value *    get_duration  (GDate *nSettle, GDate *nMat, gnum_float fCoup,
-			  gnum_float fYield, gint nFreq, gint nBase);
+			  gnum_float fYield, gint nFreq, gint nBase,
+			  gnum_float fNumOfCoups);
+Value *    get_cumprinc  (gnum_float fRate, gint nNumPeriods, gnum_float fVal,
+			  gint nStartPer, gint nEndPer, gint nPayType);
 
 
 #endif

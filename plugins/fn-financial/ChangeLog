@@ -1,5 +1,11 @@
 2002-07-07  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
+	* functions (gnumeric_cumprinc): Implemented.
+
+	* sc-fin.c (GetRmz,GetZw,get_cumprinc): Added.
+
+2002-07-07  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
 	* functions.c (gnumeric_duration): Renamed DURATION() as
 	G_DURATION().  Wrote a new DURATION() that is XL compatible.
 

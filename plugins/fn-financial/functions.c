@@ -2149,6 +2149,7 @@ gnumeric_duration (FunctionEvalInfo *ei, Value **argv)
         GDate      *nSettle, *nMat;
 	gnum_float fCoup, fYield;
 	gint       nFreq, nBase;
+        gnum_float fNumOfCoups;
 	Value      *result;
 
         nSettle    = datetime_value_to_g (argv[0]);
@@ -2164,7 +2165,9 @@ gnumeric_duration (FunctionEvalInfo *ei, Value **argv)
 		goto out;
 	}
 
-	result = get_duration (nSettle, nMat, fCoup, fYield, nFreq, nBase);
+	fNumOfCoups = coupnum (nSettle, nMat, nFreq, nBase, FALSE);
+	result      = get_duration (nSettle, nMat, fCoup, fYield, nFreq, nBase,
+				    fNumOfCoups);
 
  out:
 	datetime_g_free (nSettle);
@@ -3322,7 +3325,29 @@ static const char *help_cumprinc = {
 static Value *
 gnumeric_cumprinc (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+	gnum_float fRate, fVal;
+	gint       nNumPeriods, nStartPer, nEndPer, nPayType;
+	Value      *result;
+
+	fRate       = value_get_as_float (argv[0]);
+        nNumPeriods = value_get_as_int (argv[1]);
+	fVal        = value_get_as_float (argv[2]);
+        nStartPer   = value_get_as_int (argv[3]);
+        nEndPer     = value_get_as_int (argv[4]);
+        nPayType    = value_get_as_int (argv[5]);
+
+        if ( nStartPer < 1 || nEndPer < nStartPer || fRate <= 0
+	     || nEndPer > nNumPeriods || nNumPeriods <= 0
+	     || fVal <= 0 || (nPayType != 0 && nPayType != 1) ) {
+		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		goto out;
+	}
+
+	result = get_cumprinc (fRate, nNumPeriods, fVal, nStartPer, nEndPer,
+			       nPayType);
+
+ out:
+	return result;
 }
 
 /***************************************************************************/

@@ -161,6 +161,49 @@ GetYearFrac (GDate *nStartDate, GDate *nEndDate, gint nMode)
         return nYears + (gnum_float) nDayDiff / nDaysInYear;
 }
 
+static gnum_float
+GetRmz ( gnum_float fZins, gnum_float fZzr, gnum_float fBw, gnum_float fZw,
+	 gint nF )
+{
+        gnum_float fRmz;
+
+        if ( fZins == 0.0 )
+                fRmz = ( fBw + fZw ) / fZzr;
+        else {
+                gnum_float fTerm = pow ( 1.0 + fZins, fZzr );
+                if ( nF > 0 )
+                        fRmz = ( fZw * fZins / ( fTerm - 1.0 ) + fBw * fZins /
+				 ( 1.0 - 1.0 / fTerm ) ) / ( 1.0 + fZins );
+                else
+                        fRmz = fZw * fZins / ( fTerm - 1.0 ) + fBw * fZins /
+				( 1.0 - 1.0 / fTerm );
+        }
+
+        return -fRmz;
+}
+
+static gnum_float
+GetZw ( gnum_float fZins, gnum_float fZzr, gnum_float fRmz, gnum_float fBw,
+	gint nF )
+{
+        gnum_float fZw;
+
+        if ( fZins == 0.0 )
+                fZw = fBw + fRmz * fZzr;
+        else {
+                gnum_float fTerm = pow ( 1.0 + fZins, fZzr );
+                if ( nF > 0 )
+                        fZw = fBw * fTerm + fRmz * ( 1.0 + fZins ) *
+				( fTerm - 1.0 ) / fZins;
+                else
+                        fZw = fBw * fTerm + fRmz * ( fTerm - 1.0 ) / fZins;
+        }
+
+        return -fZw;
+}
+
+/***************************************************************************/
+
 Value *
 get_amordegrc (gnum_float fCost, GDate *nDate, GDate *nFirstPer, 
 	       gnum_float fRestVal, gint nPer, gnum_float fRate,
@@ -209,6 +252,7 @@ get_amordegrc (gnum_float fCost, GDate *nDate, GDate *nFirstPer,
 #undef Round
 }
 
+/***************************************************************************/
 
 Value *
 get_amorlinc (gnum_float fCost, GDate *nDate, GDate *nFirstPer, 
@@ -233,6 +277,7 @@ get_amorlinc (gnum_float fCost, GDate *nDate, GDate *nFirstPer,
 	return value_new_float ( result );
 }
 
+/***************************************************************************/
 
 Value *    get_yielddisc (GDate *nSettle, GDate *nMat, gnum_float fPrice,
 			  gnum_float fRedemp, gint nBase)
@@ -246,6 +291,7 @@ Value *    get_yielddisc (GDate *nSettle, GDate *nMat, gnum_float fPrice,
 	return value_new_float ( fRet );
 }
 
+/***************************************************************************/
 
 Value *	   get_yieldmat  (GDate *nSettle, GDate *nMat, GDate *nIssue,
 			  gnum_float fRate, gnum_float fPrice, gint nBase)
@@ -262,6 +308,7 @@ Value *	   get_yieldmat  (GDate *nSettle, GDate *nMat, GDate *nIssue,
         return value_new_float ( y );
 }
 
+/***************************************************************************/
 
 Value *    get_oddlprice (GDate *nSettle, GDate *nMat, GDate *nLastCoup,
 			  gnum_float fRate, gnum_float fYield,
@@ -278,6 +325,7 @@ Value *    get_oddlprice (GDate *nSettle, GDate *nMat, GDate *nLastCoup,
         return value_new_float ( p );
 }
 
+/***************************************************************************/
 
 Value *    get_oddlyield (GDate *nSettle, GDate *nMat, GDate *nLastCoup,
 			  gnum_float fRate, gnum_float fPrice,
@@ -296,12 +344,13 @@ Value *    get_oddlyield (GDate *nSettle, GDate *nMat, GDate *nLastCoup,
         return value_new_float ( y );
 }
 
+/***************************************************************************/
 
 Value *    get_duration  (GDate *nSettle, GDate *nMat, gnum_float fCoup,
-			  gnum_float fYield, gint nFreq, gint nBase)
+			  gnum_float fYield, gint nFreq, gint nBase,
+			  gnum_float fNumOfCoups)
 {
         gnum_float  fYearfrac   = GetYearFrac ( nSettle, nMat, nBase );
-        gnum_float  fNumOfCoups = coupnum (nSettle, nMat, nFreq, nBase, FALSE);
         gnum_float  fDur        = 0.0;
 	gnum_float  t, p        = 0.0;
 
@@ -316,7 +365,7 @@ Value *    get_duration  (GDate *nSettle, GDate *nMat, gnum_float fCoup,
 
         fDur += fNumOfCoups * ( fCoup + f100 ) / pow ( fYield, fNumOfCoups );
 
-        for( t = 1.0 ; t < fNumOfCoups ; t++ )
+        for ( t = 1.0 ; t < fNumOfCoups ; t++ )
                 p += fCoup / pow ( fYield, t );
 
         p += ( fCoup + f100 ) / pow ( fYield, fNumOfCoups );
@@ -326,3 +375,38 @@ Value *    get_duration  (GDate *nSettle, GDate *nMat, gnum_float fCoup,
 
         return value_new_float ( fDur );
 }
+
+/***************************************************************************/
+
+Value *    get_cumprinc  (gnum_float fRate, gint nNumPeriods, gnum_float fVal,
+			  gint nStart, gint nEnd, gint nPayType)
+{
+        gnum_float fRmz, fKapZ;
+	gint       i;
+
+        fRmz = GetRmz ( fRate, nNumPeriods, fVal, 0.0, nPayType );
+
+        fKapZ = 0.0;
+
+	if ( nStart == 1 ) {
+                if ( nPayType <= 0 )
+                        fKapZ = fRmz + fVal * fRate;
+                else
+                        fKapZ = fRmz;
+
+		nStart++;
+        }
+
+	for ( i = nStart ; i <= nEnd ; i++ ) {
+                if ( nPayType > 0 )
+                        fKapZ += fRmz - ( GetZw ( fRate, ( i - 2 ), fRmz,
+						  fVal, 1 ) - fRmz ) * fRate;
+                else
+                        fKapZ += fRmz - GetZw( fRate, ( i - 1 ), fRmz, fVal,
+					       0 ) * fRate;
+        }
+
+	return value_new_float ( fKapZ );
+}
+
+/***************************************************************************/
