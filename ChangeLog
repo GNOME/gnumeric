@@ -1,3 +1,8 @@
+2005-03-31  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=87477
+	* src/commands.c (cmd_paste_copy) : Use a nice simple tiling approach.
+
 2005-03-30  Morten Welinder  <terra@gnome.org>
 
 	* src/search.c (search_collect_cells): Drop sheet argument.  We
