@@ -1118,7 +1118,7 @@ formats_put_magic (ExcelWorkbook *wb)
 				   style_format_new_XL (fmt, FALSE),
 				   FALSE, /* Not unique */
 				   (AfterPutFunc) after_put_format,
-				   "Magic format %d - %s\n");
+				   "Magic format %d - 0x%x\n");
 	}
 }
 
@@ -1185,10 +1185,11 @@ static void
 put_format (MStyle *mstyle, gconstpointer dummy, ExcelWorkbook *wb)
 {
 	StyleFormat const *fmt = mstyle_get_format (mstyle);
+	style_format_ref (fmt);
 	two_way_table_put (wb->formats->two_way_table,
 			   (gpointer)fmt, TRUE,
 			   (AfterPutFunc) after_put_format,
-			   "Found unique format %d - %s\n");
+			   "Found unique format %d - 0x%x\n");
 }
 
 
