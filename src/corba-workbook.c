@@ -259,12 +259,10 @@ command_context_corba (Workbook *wb)
 	/* When we are operating before a workbook is created
 	 * wb can be NULL
 	 */
-	if (!wb || !wb->priv || !wb->priv->corba_context) {
-		static CommandContext *cc = NULL;
-		if (cc == NULL)
-			cc = command_context_corba_new ();
-		return cc;
-	}
+	if (!wb)
+		return command_context_corba_new ();
 
+	g_return_val_if_fail (wb->priv && wb->priv->corba_context, NULL);
+	
 	return wb->priv->corba_context;
 }
