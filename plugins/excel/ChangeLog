@@ -1,3 +1,8 @@
+2004-05-04  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_read_DV): Make sure
+	VALIDATION_TYPE_CUSTOM is paired with VALIDATION_OP_NONE.
+
 2004-04-29  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-write.c (excel_font_overlay_pango) : new.

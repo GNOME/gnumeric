@@ -404,7 +404,7 @@ unhandled text for type 0x2
 		default:
 			   g_warning ("unhandled text for type 0x%x", obj->excel_type);
 			   break;
-		};
+		}
 	}
 	markup = ms_obj_attr_get_markup (obj, MS_OBJ_ATTR_MARKUP, NULL);
 	if (markup != NULL) {
@@ -423,7 +423,7 @@ unhandled markup for type 0xc
 		default:
 			   g_warning ("unhandled markup for type 0x%x", obj->excel_type);
 			   break;
-		};
+		}
 	}
 	switch (obj->excel_type) {
 	case 0x00:
@@ -2432,7 +2432,7 @@ excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 		default:
 			fprintf (stderr,"Unknown type (%x) for cell's (%s) current val\n",
 				val_type, cell_name (cell));
-		};
+		}
 	}
 
 	expr = excel_parse_formula (&esheet->container, esheet, col, row,
@@ -3375,7 +3375,7 @@ excel_read_XCT (BiffQuery *q, ExcelWorkbook *ewb)
 				g_warning ("Unknown oper type 0x%x in a CRN record", (int)*data);
 				data++;
 				v = NULL;
-			};
+			}
 
 			if (v != NULL) {
 				cell = sheet_cell_fetch (sheet, ep.eval.col, ep.eval.row);
@@ -3595,7 +3595,7 @@ excel_read_IMDATA (BiffQuery *q)
 		case 1: from_name = "Windows"; break;
 		case 2: from_name = "Macintosh"; break;
 		default: from_name = "Unknown environment?"; break;
-		};
+		}
 		switch (format) {
 		case 0x2:
 		format_name = (from_env == 1) ? "windows metafile" : "mac pict";
@@ -3604,7 +3604,7 @@ excel_read_IMDATA (BiffQuery *q)
 		case 0x9: format_name = "windows native bitmap"; break;
 		case 0xe: format_name = "'native format'"; break;
 		default: format_name = "Unknown format?"; break;
-		};
+		}
 
 		fprintf (stderr,"Picture from %s in %s format\n",
 			from_name, format_name);
@@ -4176,7 +4176,7 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet)
 		g_warning ("EXCEL : Unknown condition type (%d) for format in sheet %s.",
 			   (int)type, esheet->sheet->name_unquoted);
 		return;
-	};
+	}
 #endif
 
 	if (expr1_len > 0)
@@ -4400,7 +4400,7 @@ excel_read_DV (BiffQuery *q, ExcelReadSheet *esheet)
 	default :
 		g_warning ("EXCEL : Unknown contraint type %d", options & 0x0f);
 		return;
-	};
+	}
 
 	switch ((options >> 4) & 0x07) {
 	case 0 : style = VALIDATION_STYLE_STOP; break;
@@ -4410,25 +4410,27 @@ excel_read_DV (BiffQuery *q, ExcelReadSheet *esheet)
 		g_warning ("EXCEL : Unknown validation style %d",
 			   (options >> 4) & 0x07);
 		return;
-	};
+	}
 	if (!(options & 0x80000))
 		style = VALIDATION_STYLE_NONE;
 
-	switch ((options >> 20) & 0x0f) {
-	case 0:	op = VALIDATION_OP_BETWEEN;	break;
-	case 1:	op = VALIDATION_OP_NOT_BETWEEN; break;
-	case 2:	op = VALIDATION_OP_EQUAL;	break;
-	case 3:	op = VALIDATION_OP_NOT_EQUAL;	break;
-	case 4:	op = VALIDATION_OP_GT;		break;
-	case 5:	op = VALIDATION_OP_LT;		break;
-	case 6:	op = VALIDATION_OP_GTE;		break;
-	case 7:	op = VALIDATION_OP_LTE;		break;
-
-	default :
-		g_warning ("EXCEL : Unknown contraint operator %d",
-			   (options >> 20) & 0x0f);
-		return;
-	};
+	if (type == VALIDATION_TYPE_CUSTOM)
+		op = VALIDATION_OP_NONE;
+	else
+		switch ((options >> 20) & 0x0f) {
+		case 0:	op = VALIDATION_OP_BETWEEN;	break;
+		case 1:	op = VALIDATION_OP_NOT_BETWEEN; break;
+		case 2:	op = VALIDATION_OP_EQUAL;	break;
+		case 3:	op = VALIDATION_OP_NOT_EQUAL;	break;
+		case 4:	op = VALIDATION_OP_GT;		break;
+		case 5:	op = VALIDATION_OP_LT;		break;
+		case 6:	op = VALIDATION_OP_GTE;		break;
+		case 7:	op = VALIDATION_OP_LTE;		break;
+		default :
+			g_warning ("EXCEL : Unknown contraint operator %d",
+				   (options >> 20) & 0x0f);
+			return;
+		}
 
 	if (ranges != NULL) {
 		GnmRange const *r = ranges->data;
@@ -4697,7 +4699,7 @@ read_DOPER (guint8 const *doper, gboolean is_equal,
 		return NULL;
 	case 0xE: *op = GNM_FILTER_OP_NON_BLANKS;
 		return NULL;
-	};
+	}
 
 	g_return_val_if_fail (doper[1] > 0 && doper[1] <=6, NULL);
 	*op = ops [doper[1] - 1];
@@ -4961,7 +4963,7 @@ excel_read_EXTERNSHEET_v7 (BiffQuery const *q, MSContainer *container)
 		gsf_mem_dump (q->data, q->length);
 		gnm_io_warning_unsupported_feature (container->ewb->context,
 			_("external references"));
-	};
+	}
 
 	if (container->v7.externsheet == NULL)
 		container->v7.externsheet = g_ptr_array_new ();
@@ -5107,7 +5109,7 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 				break;
 			default:
 				excel_unexpected_biff (q, "Sheet", ms_excel_read_debug);
-			};
+			}
 			continue;
 		}
 
@@ -5403,7 +5405,7 @@ excel_read_SUPBOOK (BiffQuery *q, ExcelWorkbook *ewb)
 		 g_warning ("Invalid header on SUPBOOK record");
 		 gsf_mem_dump (q->data, q->length);
 		 return;
-	};
+	}
 
 	g_return_if_fail (len < q->length);
 
@@ -5422,7 +5424,7 @@ excel_read_SUPBOOK (BiffQuery *q, ExcelWorkbook *ewb)
 	default:
 		fprintf (stderr,"Unknown/Unencoded?  (%x) %d\n",
 			encodeType, len);
-	};
+	}
 	d (1, {
 	gsf_mem_dump (q->data + 4 + 1, len);
 	for (data = q->data + 4 + 1 + len, i = 0; i < numTabs ; i++) {
@@ -5712,7 +5714,7 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 				default:
 					fprintf (stderr,"CodePage = UNKNOWN(%hx)\n",
 					       codepage);
-				};
+				}
 			});
 			break;
 		}
