@@ -163,7 +163,7 @@ gnm_python_new_interpreter (GnmPython *gpy, GnmPlugin *plugin)
 {
 	GnmPyInterpreter *interpreter;
 
-	g_return_if_fail (GNM_IS_PYTHON (gpy));
+	g_return_val_if_fail (GNM_IS_PYTHON (gpy), NULL);
 	g_return_val_if_fail (GNM_IS_PLUGIN (plugin), NULL);
 
 	interpreter = gnm_py_interpreter_new (plugin);
@@ -192,7 +192,7 @@ gnm_python_destroy_interpreter (GnmPython *gpy, GnmPyInterpreter *interpreter)
 GnmPyInterpreter *
 gnm_python_get_current_interpreter (GnmPython *gpy)
 {
-	g_return_if_fail (GNM_IS_PYTHON (gpy));
+	g_return_val_if_fail (GNM_IS_PYTHON (gpy), NULL);
 
 	return gpy->current_interpreter;
 }
@@ -200,7 +200,7 @@ gnm_python_get_current_interpreter (GnmPython *gpy)
 GnmPyInterpreter *
 gnm_python_get_default_interpreter (GnmPython *gpy)
 {
-	g_return_if_fail (GNM_IS_PYTHON (gpy));
+	g_return_val_if_fail (GNM_IS_PYTHON (gpy), NULL);
 
 	return gpy->default_interpreter;
 }
