@@ -543,26 +543,25 @@ sheet_object_anchor_cpy	(SheetObjectAnchor *dst, SheetObjectAnchor const *src)
 	memcpy (dst, src, sizeof (SheetObjectAnchor));
 }
 
-static int
+static double
 cell_offset_calc_pixel (Sheet const *sheet, int i, gboolean is_col,
 			SheetObjectAnchorType anchor_type, float offset)
 {
 	ColRowInfo const *cri = sheet_colrow_get_info (sheet, i, is_col);
 	/* TODO : handle other anchor types */
 	if (anchor_type == SO_ANCHOR_PERCENTAGE_FROM_COLROW_END)
-		return .5 + (1. - offset) * cri->size_pixels;
+		return (1. - offset) * cri->size_pixels;
 	return offset * cri->size_pixels;
 }
 
 /**
  * sheet_object_position_pixels_get :
- *
  * @so : The sheet object
  * @coords : array of 4 ints where we return the coordinates in pixels
  *
  * Calculate the position of the object @so in pixels from the logical position
  * in the object.
- */
+ **/
 void
 sheet_object_position_pixels_get (SheetObject const *so,
 				  SheetControl const *sc, double *coords)
@@ -868,10 +867,9 @@ sheet_object_clone_sheet (Sheet const *src, Sheet *dst, GnmRange *range)
  * Sets the object direction from the given the new coordinates
  * The original coordinates are assumed to be normalized (so that top
  * is above bottom and right is at the right of left)
- *
  **/
 void
-sheet_object_direction_set (SheetObject *so, gdouble *coords)
+sheet_object_direction_set (SheetObject *so, gdouble const *coords)
 {
 	if (so->anchor.direction == SO_DIR_UNKNOWN)
 		return;

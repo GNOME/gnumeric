@@ -210,17 +210,17 @@ style_font_new_simple (PangoContext *context,
 		font->approx_width.pixels.E = calc_font_width (font, "E");
 		font->approx_width.pixels.e = calc_font_width (font, "e");
 
-		pts_scale = gnm_app_display_dpi_get (TRUE) / 72.0;
+		pts_scale = 72. / (gnm_app_display_dpi_get (TRUE) * scale);
 		font->approx_width.pts.digit =
-			font->approx_width.pixels.digit / pts_scale;
+			font->approx_width.pixels.digit * pts_scale;
 		font->approx_width.pts.decimal =
-			font->approx_width.pixels.decimal / pts_scale;
+			font->approx_width.pixels.decimal * pts_scale;
 		font->approx_width.pts.sign =
-			font->approx_width.pixels.sign / pts_scale;
+			font->approx_width.pixels.sign * pts_scale;
 		font->approx_width.pts.E =
-			font->approx_width.pixels.E / pts_scale;
+			font->approx_width.pixels.E * pts_scale;
 		font->approx_width.pts.e =
-			font->approx_width.pixels.e / pts_scale;
+			font->approx_width.pixels.e * pts_scale;
 
 		g_hash_table_insert (style_font_hash, font, font);
 	} else

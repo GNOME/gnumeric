@@ -88,6 +88,7 @@
 #include <gtk/gtkstock.h>
 #include <gtk/gtkeventbox.h>
 #include <gtk/gtkprogressbar.h>
+#include <gtk/gtkstatusbar.h>
 
 #include <string.h>
 #include <errno.h>
@@ -1663,7 +1664,8 @@ void
 wbcg_set_status_text (WorkbookControlGUI *wbcg, char const *text)
 {
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
-	gtk_label_set_text (GTK_LABEL (wbcg->status_text), text);
+	gtk_statusbar_pop (GTK_STATUSBAR (wbcg->status_text), 0);
+	gtk_statusbar_push (GTK_STATUSBAR (wbcg->status_text), 0, text);
 }
 
 static void
@@ -2122,15 +2124,12 @@ static void
 wbcg_create_status_area (WorkbookControlGUI *wbcg)
 {
 	WorkbookControlGUIClass *wbcg_class = WBCG_CLASS (wbcg);
-	GtkWidget *tmp, *frame0, *frame1, *frame2;
+	GtkWidget *tmp, *frame;
 
 	wbcg->progress_bar = gtk_progress_bar_new ();
 	gtk_progress_bar_set_text (GTK_PROGRESS_BAR (wbcg->progress_bar), " ");
 	gtk_progress_bar_set_orientation (
 		GTK_PROGRESS_BAR (wbcg->progress_bar), GTK_PROGRESS_LEFT_TO_RIGHT);
-	frame0 = gtk_frame_new (NULL);
-	gtk_frame_set_shadow_type (GTK_FRAME (frame0), GTK_SHADOW_IN);
-	gtk_container_add (GTK_CONTAINER (frame0), wbcg->progress_bar);
 
 	wbcg->auto_expr_label = tmp = gtk_label_new ("");
 	GTK_WIDGET_UNSET_FLAGS (tmp, GTK_CAN_FOCUS);
@@ -2144,21 +2143,17 @@ wbcg_create_status_area (WorkbookControlGUI *wbcg)
 	g_signal_connect (G_OBJECT (tmp),
 		"button_press_event",
 		G_CALLBACK (cb_select_auto_expr), wbcg);
-	frame1 = gtk_frame_new (NULL);
-	gtk_frame_set_shadow_type (GTK_FRAME (frame1), GTK_SHADOW_IN);
-	gtk_container_add (GTK_CONTAINER (frame1), tmp);
+	frame = gtk_frame_new (NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_IN);
+	gtk_container_add (GTK_CONTAINER (frame), tmp);
 
-	wbcg->status_text = tmp = gtk_label_new ("");
+	wbcg->status_text = tmp = gtk_statusbar_new ();
 	gtk_widget_ensure_style (tmp);
 	gtk_widget_set_size_request (tmp, gnm_measure_string (
-					     gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
-					     tmp->style->font_desc,
-					     "W") * 15, -1);
-	frame2 = gtk_frame_new (NULL);
-	gtk_frame_set_shadow_type (GTK_FRAME (frame2), GTK_SHADOW_IN);
-	gtk_container_add (GTK_CONTAINER (frame2), tmp);
+		gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
+		tmp->style->font_desc, "W") * 15, -1);
 
-	wbcg_class->create_status_area (wbcg, frame0, frame2, frame1);
+	wbcg_class->create_status_area (wbcg, wbcg->progress_bar, wbcg->status_text, frame);
 }
 
 void

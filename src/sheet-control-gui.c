@@ -1938,11 +1938,11 @@ scg_object_view_position (SheetControlGUI *scg, SheetObject *so, double *coords)
 	if (direction == SO_DIR_UNKNOWN)
 		direction = SO_DIR_DOWN_RIGHT;
 
-	foo_canvas_c2w (canvas,
+	foo_canvas_window_to_world (canvas,
 		pixels [direction & SO_DIR_H_MASK  ? 0 : 2],
 		pixels [direction & SO_DIR_V_MASK  ? 1 : 3],
 		coords +0, coords + 1);
-	foo_canvas_c2w (canvas,
+	foo_canvas_window_to_world (canvas,
 		pixels [direction & SO_DIR_H_MASK  ? 2 : 0],
 		pixels [direction & SO_DIR_V_MASK  ? 3 : 1],
 		coords +2, coords + 3);

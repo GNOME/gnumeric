@@ -149,7 +149,7 @@ comment_get_points (SheetControlGUI *scg, SheetObject *so)
 
 	/* Just use pane 0 for sizing, it always exists */
 	for (i = 0; i < 3; i++)
-		foo_canvas_c2w (FOO_CANVAS (scg_pane (scg, 0)),
+		foo_canvas_w2c_d (FOO_CANVAS (scg_pane (scg, 0)),
 				  points->coords [i*2],
 				  points->coords [i*2+1],
 				  &(points->coords [i*2]),

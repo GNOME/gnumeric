@@ -1,3 +1,31 @@
+2004-09-16  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet.c (cb_clear_rendered_cells) : fix the 'Serious Error'
+	  warnings on zoom changes.
+
+	* src/workbook-control-gui.c (wbcg_create_status_area) : drop some
+	  frames in the status area and use GtkStatusbar to get the resize grip
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=152636
+	* src/style.c (style_font_new_simple) : sizes in pts should not
+	  include the zoom scaling, pretend that we actually measure that.
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=152244
+	* src/sheet-object.c (cell_offset_calc_pixel) : return double to avoid
+	  problems when we are at integer-epsilon, which would round to
+	  integer-1 and systematicly lose precision.
+	* src/sheet-control-gui.c (scg_object_view_position) : Use
+	  foo_canvas_window_to_world instead of foo_canvas_w2c to move the
+	  pixels back into canvas space.
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=152512
+	* src/gnumeric-pane.c (control_point_set_cursor) : new.
+	(cb_control_point_event) : use it.
+	(new_control_point) : no longer a  need to specify the cursor
+	(set_item_x_y) : ditto.
+	(gnm_pane_object_set_bounds) : cursor are dynamic now.
+	(set_acetate_coords) : ditto.
+
 2004-09-14  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-object-image.c (soi_get_image_fmt): g_free is a poor

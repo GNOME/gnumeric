@@ -648,6 +648,41 @@ display_object_menu (SheetObject *so, FooCanvasItem *view, GdkEvent *event)
 	gnumeric_popup_menu (GTK_MENU (menu), &event->button);
 }
 
+static void
+control_point_set_cursor (SheetControlGUI const *scg, FooCanvasItem *ctrl_pt)
+{
+	gboolean invert_h = scg->object_coords [0] > scg->object_coords [2];
+	gboolean invert_v = scg->object_coords [1] > scg->object_coords [3];
+	GdkCursorType cursor;
+
+	switch (GPOINTER_TO_INT (g_object_get_data (G_OBJECT (ctrl_pt), "index"))) {
+	case 1: invert_v = !invert_v;
+	case 6: cursor = invert_v ? GDK_TOP_SIDE : GDK_BOTTOM_SIDE;
+		break;
+
+	case 3: invert_h = !invert_h;
+	case 4: cursor = invert_h ? GDK_LEFT_SIDE  : GDK_RIGHT_SIDE;
+		break;
+
+	case 2: invert_h = !invert_h;
+	case 0: cursor = invert_v
+			? (invert_h ? GDK_BOTTOM_RIGHT_CORNER : GDK_BOTTOM_LEFT_CORNER)
+			: (invert_h ? GDK_TOP_RIGHT_CORNER : GDK_TOP_LEFT_CORNER);
+		break;
+
+	case 7: invert_h = !invert_h;
+	case 5: cursor = invert_v
+			? (invert_h ? GDK_TOP_RIGHT_CORNER : GDK_TOP_LEFT_CORNER)
+			: (invert_h ? GDK_BOTTOM_RIGHT_CORNER : GDK_BOTTOM_LEFT_CORNER);
+		break;
+
+	case 8:
+	default :
+		cursor = GDK_FLEUR;
+	}
+	gnm_widget_set_cursor_type (GTK_WIDGET (ctrl_pt->canvas), cursor);
+}
+
 /**
  * cb_control_point_event :
  *
@@ -669,8 +704,7 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event,
 
 	switch (event->type) {
 	case GDK_ENTER_NOTIFY:
-		gnm_widget_set_cursor_type (GTK_WIDGET (ctrl_pt->canvas),
-			GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (ctrl_pt), "cursor")));
+		control_point_set_cursor (scg, ctrl_pt);
 
 		if (pane->control_points [8] != ctrl_pt) {
 			foo_canvas_item_set (ctrl_pt,
@@ -700,8 +734,7 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event,
 		gnm_canvas_slide_stop (gcanvas);
 		pane->drag_object = NULL;
 		gnm_simple_canvas_ungrab (ctrl_pt, event->button.time);
-		gnm_widget_set_cursor_type (GTK_WIDGET (ctrl_pt->canvas),
-			GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (ctrl_pt), "cursor")));
+		control_point_set_cursor (scg, ctrl_pt);
 		sheet_object_update_bounds (so, NULL);
 		break;
 
@@ -779,8 +812,7 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event,
  *     5 -------- 6 -------- 7
  **/
 static FooCanvasItem *
-new_control_point (GObject *so_view, int idx, double x, double y,
-		   GdkCursorType ct)
+new_control_point (GObject *so_view, int idx, double x, double y)
 {
 	FooCanvasItem *item, *so_view_item = FOO_CANVAS_ITEM (so_view);
 	GnmCanvas *gcanvas = GNM_CANVAS (so_view_item->canvas);
@@ -798,7 +830,6 @@ new_control_point (GObject *so_view, int idx, double x, double y,
 		G_CALLBACK (cb_control_point_event), so_view);
 
 	g_object_set_data (G_OBJECT (item), "index",  GINT_TO_POINTER (idx));
-	g_object_set_data (G_OBJECT (item), "cursor", GINT_TO_POINTER (ct));
 
 	return item;
 }
@@ -811,11 +842,11 @@ new_control_point (GObject *so_view, int idx, double x, double y,
  */
 static void
 set_item_x_y (GnmPane *pane, GObject *so_view, int idx,
-	      double x, double y, GdkCursorType ct, gboolean visible)
+	      double x, double y, gboolean visible)
 {
 	if (pane->control_points [idx] == NULL)
 		pane->control_points [idx] = new_control_point (
-			so_view, idx, x, y, ct);
+			so_view, idx, x, y);
 	foo_canvas_item_set (
 	       pane->control_points [idx],
 	       "x1", x - CTRL_PT_SIZE,
@@ -877,8 +908,6 @@ set_acetate_coords (GnmPane *pane, GObject *so_view,
 				  G_CALLBACK (cb_control_point_event), so_view);
 		g_object_set_data (G_OBJECT (item), "index",
 				   GINT_TO_POINTER (8));
-		g_object_set_data (G_OBJECT (item), "cursor",
-				   GINT_TO_POINTER (GDK_FLEUR));
 
 		pane->control_points [8] = item;
 	}
@@ -900,26 +929,20 @@ gnm_pane_object_set_bounds (GnmPane *pane, SheetObject *so,
 	g_return_if_fail (so_view_obj != NULL);
 
 	/* set the acetate 1st so that the other points
-	 * will override it
-	 */
+	 * will override it */
 	set_acetate_coords (pane, so_view_obj, l, t, r, b);
-
-	set_item_x_y (pane, so_view_obj, 0, l, t,
-		      GDK_SIZING /* L */, TRUE);
+	set_item_x_y (pane, so_view_obj, 0, l, t, TRUE);
 	set_item_x_y (pane, so_view_obj, 1, (l + r) / 2, t,
-		      GDK_SB_V_DOUBLE_ARROW, fabs (r-l) >= CTRL_PT_TOTAL_SIZE);
-	set_item_x_y (pane, so_view_obj, 2, r, t,
-		      GDK_SIZING /* R */, TRUE);
+		      fabs (r-l) >= CTRL_PT_TOTAL_SIZE);
+	set_item_x_y (pane, so_view_obj, 2, r, t, TRUE);
 	set_item_x_y (pane, so_view_obj, 3, l, (t + b) / 2,
-		      GDK_SB_H_DOUBLE_ARROW, fabs (b-t) >= CTRL_PT_TOTAL_SIZE);
+		      fabs (b-t) >= CTRL_PT_TOTAL_SIZE);
 	set_item_x_y (pane, so_view_obj, 4, r, (t + b) / 2,
-		      GDK_SB_H_DOUBLE_ARROW, fabs (b-t) >= CTRL_PT_TOTAL_SIZE);
-	set_item_x_y (pane, so_view_obj, 5, l, b,
-		      GDK_SIZING /* R */, TRUE);
+		      fabs (b-t) >= CTRL_PT_TOTAL_SIZE);
+	set_item_x_y (pane, so_view_obj, 5, l, b, TRUE);
 	set_item_x_y (pane, so_view_obj, 6, (l + r) / 2, b,
-		      GDK_SB_V_DOUBLE_ARROW, fabs (r-l) >= CTRL_PT_TOTAL_SIZE);
-	set_item_x_y (pane, so_view_obj, 7, r, b,
-		      GDK_SIZING /* L */, TRUE);
+		      fabs (r-l) >= CTRL_PT_TOTAL_SIZE);
+	set_item_x_y (pane, so_view_obj, 7, r, b, TRUE);
 }
 
 static int

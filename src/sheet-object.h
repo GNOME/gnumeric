@@ -81,7 +81,7 @@ void    sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean updat
 void	sheet_objects_clear    (Sheet const *sheet, GnmRange const *r, GType t);
 GSList *sheet_objects_get      (Sheet const *sheet, GnmRange const *r, GType t);
 
-void     sheet_object_direction_set (SheetObject *so, gdouble *coords);
+void     sheet_object_direction_set (SheetObject *so, gdouble const *coords);
 gboolean sheet_object_rubber_band_directly (SheetObject const *so);
 
 /* Anchor utilities */

@@ -17,7 +17,14 @@ Jody:
 	* Rework column size calculation on xls import/export
 	http://bugzilla.gnome.org/show_bug.cgi?id=152248
 	* font strangeness when exporting to xls
-
+	http://bugzilla.gnome.org/show_bug.cgi?id=152512
+	* Improve cursor for object resize
+	http://bugzilla.gnome.org/show_bug.cgi?id=152244
+	* Fix loss of precision when resizing objects
+	http://bugzilla.gnome.org/show_bug.cgi?id=152636
+	* Fix rendering problem when zoomed
+	* Fix object positioning when zoomed
+	* Make the status area shorter with GtkStatusbar and fewer frames
 
 --------------------------------------------------------------------------
 
