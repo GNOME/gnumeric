@@ -39,8 +39,8 @@ Morten:
 	* Improve accuracy of EFFECT, NOMINAL, MIRR, IRR, XNPV, NPV, PMT,
 	  RATE, PV, FV, IPMT, PPMT for small rates.
 	* Fix accuracy of ZTEST.
-	* Fix validation crash due to excel import.
-	* Fix custom validation export.
+	* Fix validation crash due to excel import.  [backported]
+	* Fix custom validation export.  [backported]
 
 	(For those worrying over the pile of accuracy fixes above it should
 	be noted that prior versions of Gnumeric were already pretty good,
