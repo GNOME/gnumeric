@@ -16,15 +16,22 @@ Gnumeric Spread Sheet task list
 
 * Cell editing
 
-   Pressing F4 when editing a cell formula, should switch a cell
-   reference in the following cycle:
+   * Pressing F4 when editing a cell formula, should switch a cell
+     reference in the following cycle:
+       A4 -> $A$4 -> $A4 -> A$4 -> A4
 
-     A4 -> $A$4 -> $A4 -> A$4 -> A4
+   * Support for entering multiline cells, and <Alt-Enter> adding an
+     embedded newline.
+
+   * Colouring a parsed formula for editing.
+
+   * The mouse can select a range as the current argument while editing a
+     formula without changing to a different cell.
+
 
 * Even More Functions
 
-   GROWTH, LINEST, LOGEST, PERCENTILE, MDETERM,
-   QUARTILE, TREND.
+   GROWTH, LINEST, LOGEST, PERCENTILE, QUARTILE, TREND.
 
    (This is not a claim that these are all.)
 
@@ -110,8 +117,6 @@ Gnumeric Spread Sheet task list
     Bloqued/Hidden
 
 ** Keyboard shortcuts
-    * Support for entering multiline cells and <Alt-Enter> adding an
-      embedded newline.
     * When pasting a cut expression the references should be treated as
       absolute.
 
