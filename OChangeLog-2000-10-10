@@ -1,6 +1,13 @@
+2000-06-30  Morten Welinder  <terra@diku.dk>
+
+	* plugins/Makefile.am (SUBDIRS): Delete text, ff-csv, and sample
+ 	plugins.  Separate the remaining ones into file formats and
+ 	functions.
+
 2000-06-30  JP Rosevear  <jpr@arcavia.com>
 
-	* src/embeddable-grid.c (EmbeddableGridFactory_init): Use consistent names.
+	* src/embeddable-grid.c (EmbeddableGridFactory_init): Use
+ 	consistent names.
 
 	* gnumeric.gnorba: Make server names consistent 
 

@@ -1,0 +1,27 @@
+Gnumeric plugins typically either define a file format (input and/or output)
+or a set of functions.  Nothing prevents a mixture -- that is just how things
+have turned out so far.
+
+When you add or delete files, don't forget...
+
+* Edit po/POTFILES.in
+* Edit configure.in
+
+
+
+
+
+
+File-format plugins
+--------------------
+
+For a good skeleton, grab a copy of the applix plugin.  (The Excel plugin is
+the most sophisticated, but it is currently statically linked into Gnumeric.
+It will probably become a regular plugin at some point.)
+
+
+
+Plugins containing functions
+-----------------------------
+
+For a good skeleton, grab a copy of the numtheory plugin.

@@ -408,7 +408,6 @@ doc/C/Makefile
 doc/es/Makefile
 corba-test/Makefile
 plugins/Makefile
-plugins/sample/Makefile
 plugins/numtheory/Makefile
 plugins/sc/Makefile
 plugins/sylk/Makefile
@@ -420,8 +419,6 @@ plugins/python/Makefile
 plugins/perl/Makefile
 plugins/perl/ext/Makefile.PL
 plugins/guile/Makefile
-plugins/ff-csv/Makefile
-plugins/text/Makefile
 plugins/xbase/Makefile
 plugins/html/Makefile
 plugins/dif/Makefile

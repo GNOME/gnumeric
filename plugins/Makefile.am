@@ -24,6 +24,10 @@ else
 GB_DIR =
 endif
 
-SUBDIRS = excel lotus-123 oleo sc sylk text ff-csv xbase html dif plan-perfect \
-	$(PYTHON_DIR) $(PERL_DIR) $(GUILE_DIR) $(GB_DIR) \
-	sample numtheory gda xml2
+SUBDIRS_FILE_FORMATS = excel lotus-123 oleo sc sylk xbase html dif plan-perfect \
+	xml2
+
+SUBDIRS_FUNCTIONS = $(PYTHON_DIR) $(PERL_DIR) $(GUILE_DIR) $(GB_DIR) \
+	numtheory gda
+
+SUBDIRS = $(SUBDIRS_FILE_FORMATS) $(SUBDIRS_FUNCTIONS)

@@ -5,7 +5,6 @@ plugins/excel/boot.c
 plugins/excel/ms-excel-read.c
 plugins/excel/ms-excel-write.c
 plugins/excel/ms-formula-read.c
-plugins/ff-csv/csv-io.c
 plugins/gb/plugin.c
 plugins/gda/plugin-gda.c
 plugins/guile/plugin.c
@@ -19,10 +18,8 @@ plugins/oleo/oleo.c
 plugins/perl/perl.c
 plugins/plan-perfect/pln.c
 plugins/python/python.c
-plugins/sample/plugin-sample.c
 plugins/sc/sc.c
 plugins/sylk/sylk.c
-plugins/text/text-io.c
 plugins/xbase/boot.c
 src/about.c
 src/analysis-tools.c
