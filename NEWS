@@ -15,6 +15,9 @@ Jon:
 	* Found xml io font size loading bug.
 	* Excel export clean.
 
+Michael:
+	* Re-wrote dependency engine; lots more speed.
+
 --------------------------------------------------------------------------
 
 Gnumeric 0.47

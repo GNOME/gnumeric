@@ -3319,7 +3319,6 @@ sheet_insert_cols (CommandContext *context, Sheet *sheet,
 		   int col, int count)
 {
 	ExprRelocateInfo reloc_info;
-	GList *deps;
 	int   i;
 
 	g_return_if_fail (sheet != NULL);
@@ -3384,7 +3383,6 @@ sheet_delete_cols (CommandContext *context, Sheet *sheet,
 		   int col, int count)
 {
 	ExprRelocateInfo reloc_info;
-	GList *deps;
 	int i;
 
 	g_return_if_fail (sheet != NULL);
@@ -3450,7 +3448,6 @@ sheet_insert_rows (CommandContext *context, Sheet *sheet,
 		   int row, int count)
 {
 	ExprRelocateInfo reloc_info;
-	GList *deps;
 	int   i;
 
 	g_return_if_fail (sheet != NULL);
@@ -3516,7 +3513,6 @@ sheet_delete_rows (CommandContext *context, Sheet *sheet,
 		   int row, int count)
 {
 	ExprRelocateInfo reloc_info;
-	GList *deps;
 	int i;
 
 	g_return_if_fail (sheet != NULL);
