@@ -1,5 +1,7 @@
 1999-11-08  Jody Goldberg <jgoldberg@home.com>
 
+	* src/xml-io.c (xml_write_style_border) : Handle NULL borders.
+
 	* src/border.c (style_border_ref, style_border_unref) : NULL is
 	  permissible.
 

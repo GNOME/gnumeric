@@ -622,9 +622,11 @@ xml_write_style_border (parse_xml_context_t *ctxt,
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "StyleBorder", NULL);
 	
 	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_REV_DIAGONAL; i++) {
-		if (mstyle_is_element_set (style, i)) {
-			StyleBorderType t = mstyle_get_border (style, i)->line_type;
-			StyleColor *col   = mstyle_get_border (style, i)->color;
+		MStyleBorder const *border;
+		if (mstyle_is_element_set (style, i) &&
+		    NULL != (border = mstyle_get_border (style, i))) {
+			StyleBorderType t = border->line_type;
+			StyleColor *col   = border->color;
  			side = xmlNewChild (cur, ctxt->ns,
 					    StyleSideNames [i - MSTYLE_BORDER_TOP],
  					    BorderTypes [t]);
