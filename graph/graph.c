@@ -144,6 +144,8 @@ graph_compute_scatter_dimensions (Graph *graph)
 	gboolean boundaries_set;
 	int count, xi;
 	
+	g_return_if_fail (graph->layout->vectors);
+
 	x_vector = graph->layout->vectors [0];
 	g_assert (x_vector != NULL);
 	

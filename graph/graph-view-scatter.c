@@ -14,6 +14,8 @@
 #include "graph-view-util.h"
 #include "graph-vector.h"
 
+#include <stdio.h>
+
 /*
  * Maps the x,y point to a canvas point
  */
@@ -42,12 +44,20 @@ void
 graph_view_line_plot (GraphView *graph_view, GdkDrawable *drawable,
 		      int x, int y, int width, int height)
 {
-	GraphVector **vectors = graph_view->graph->layout->vectors;
-	GraphVector *x_vector = vectors [0];
-	const int vector_count = graph_view->graph->layout->n_series;
-	const int x_vals = graph_vector_count (x_vector);
-	int vector;
+	int vector, vector_count, x_vals;
 	ViewDrawCtx ctx;
+	GraphVector **vectors;
+	GraphVector *x_vector;
+
+	g_return_if_fail (graph_view != NULL);
+	g_return_if_fail (graph_view->graph != NULL);
+	g_return_if_fail (graph_view->graph->layout != NULL);
+	g_return_if_fail (graph_view->graph->layout->vectors != NULL);
+
+	vectors = graph_view->graph->layout->vectors;
+	x_vector = vectors [0];
+	x_vals = graph_vector_count (x_vector);
+	vector_count = graph_view->graph->layout->n_series;
 
 	setup_view_ctx (&ctx, graph_view, drawable, graph_view->fill_gc, x, y, width, height);
 
@@ -77,12 +87,20 @@ void
 graph_view_scatter_plot (GraphView *graph_view, GdkDrawable *drawable,
 			 int x, int y, int width, int height)
 {
-	GraphVector **vectors = graph_view->graph->layout->vectors;
-	GraphVector *x_vector = vectors [0];
-	const int x_vals = graph_vector_count (x_vector);
-	const int vector_count = graph_view->graph->layout->n_series;
-	int xi;
+	int xi, x_vals, vector_count;
 	ViewDrawCtx ctx;
+	GraphVector **vectors;
+	GraphVector *x_vector;
+
+	g_return_if_fail (graph_view != NULL);
+	g_return_if_fail (graph_view->graph != NULL);
+	g_return_if_fail (graph_view->graph->layout != NULL);
+	g_return_if_fail (graph_view->graph->layout->vectors != NULL);
+
+	vectors = graph_view->graph->layout->vectors;
+	x_vector = vectors [0];
+	x_vals = graph_vector_count (x_vector);
+	vector_count = graph_view->graph->layout->n_series;
 
 	setup_view_ctx (&ctx, graph_view, drawable, graph_view->fill_gc, x, y, width, height);
 	
@@ -108,7 +126,6 @@ graph_view_scatter_plot (GraphView *graph_view, GdkDrawable *drawable,
 			plot_point (&ctx, xi, xv, vector, y);
 		}
 	}
-
 }
 
 
