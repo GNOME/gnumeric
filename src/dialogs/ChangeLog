@@ -1,3 +1,8 @@
+2003-06-22  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* format-selector.glade: rearrange items to use a treeview
+	  for the format categories
+
 2003-06-18  Jody Goldberg <jody@gnome.org>
 
 	* dialog-hyperlink.c (dhl_get_target_url) : Use 'Web Link'

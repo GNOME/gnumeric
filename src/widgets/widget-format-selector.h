@@ -26,74 +26,8 @@
 #define NUMBER_FORMAT_SELECTOR(obj)        (G_TYPE_CHECK_INSTANCE_CAST((obj), NUMBER_FORMAT_SELECTOR_TYPE, NumberFormatSelector))
 #define IS_NUMBER_FORMAT_SELECTOR(obj)     (G_TYPE_CHECK_INSTANCE_TYPE((obj), NUMBER_FORMAT_SELECTOR_TYPE))
 
-/* The available format widgets */
-typedef enum {
-	F_GENERAL_EXPLANATION,
-	F_NUMBER_EXPLANATION,
-	F_CURRENCY_EXPLANATION,
-	F_ACCOUNTING_EXPLANATION,
-	F_DATE_EXPLANATION,
-	F_TIME_EXPLANATION,
-	F_PERCENTAGE_EXPLANATION,
-	F_FRACTION_EXPLANATION,
-	F_SCIENTIFIC_EXPLANATION,
-	F_TEXT_EXPLANATION,
-	F_SPECIAL_EXPLANATION,
-	F_CUSTOM_EXPLANATION,
+typedef struct _NumberFormatSelector NumberFormatSelector;
 
-	F_SEPARATOR,
-	F_SYMBOL_LABEL,	F_SYMBOL,	F_DELETE,
-	F_ENTRY,		F_LIST_SCROLL,	F_LIST,
-	F_DECIMAL_SPIN,	F_NEGATIVE_SCROLL,
-	F_NEGATIVE,
-	F_DECIMAL_LABEL,	F_CODE_LABEL,	F_SYMBOL_BOX,
-	F_DECIMAL_BOX,	F_CODE_BOX,	F_MAX_WIDGET
-} FormatWidget;
-
-typedef struct {
-	GtkHBox 	box;
-	GladeXML 	*gui;
-
-	Value		*value;
-	char *  	locale;
-
-	gboolean	enable_edit;
-
-	GnmDateConventions const *date_conv;
-
-	struct {
-		GtkLabel	*preview;
-		GtkWidget	*preview_frame;
-		GtkWidget	*widget[F_MAX_WIDGET];
-		GtkOptionMenu	*menu;
-		GtkSizeGroup    *size_group;
-
-		struct {
-			GtkTreeView 		*view;
-			GtkListStore		*model;
-			GtkTreeSelection 	*selection;
-		} negative_types;
-
-		struct {
-			GtkTreeView	 *view;
-			GtkListStore	 *model;
-			GtkTreeSelection *selection;
-		} formats;
-
-		StyleFormat	*spec;
-		gint		current_type;
-		int		num_decimals;
-		int		negative_format;
-		int		currency_index;
-		gboolean	use_separator;
-	} format;
-} NumberFormatSelector;
-
-typedef struct {
-	GtkHBoxClass parent_class;
-
-	gboolean (*number_format_changed) (NumberFormatSelector *nfs, const char *fmt);
-} NumberFormatSelectorClass;
 
 GType		number_format_selector_get_type	(void);
 GtkWidget * 	number_format_selector_new  	(void);

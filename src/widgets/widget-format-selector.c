@@ -53,6 +53,93 @@ gnumeric_setlocale(LC_ALL, oldlocale);\
 g_free (oldlocale);\
 currency_date_format_init();}
 
+/*Format Categories*/
+static char const *const format_category_names[] = {
+	N_("General"),
+	N_("Number"),
+	N_("Currency"),
+	N_("Accounting"),
+	N_("Date"),
+	N_("Time"),
+	N_("Percentage"),
+	N_("Fraction"),
+	N_("Scientific"),
+	N_("Text"),
+	N_("Special"),
+	N_("Custom"),
+	NULL
+};
+
+/* The available format widgets */
+typedef enum {
+	F_GENERAL_EXPLANATION,
+	F_NUMBER_EXPLANATION,
+	F_CURRENCY_EXPLANATION,
+	F_ACCOUNTING_EXPLANATION,
+	F_DATE_EXPLANATION,
+	F_TIME_EXPLANATION,
+	F_PERCENTAGE_EXPLANATION,
+	F_FRACTION_EXPLANATION,
+	F_SCIENTIFIC_EXPLANATION,
+	F_TEXT_EXPLANATION,
+	F_SPECIAL_EXPLANATION,
+	F_CUSTOM_EXPLANATION,
+
+	F_SEPARATOR,
+	F_SYMBOL_LABEL,	F_SYMBOL,	F_DELETE,
+	F_ENTRY,		F_LIST_SCROLL,	F_LIST,
+	F_DECIMAL_SPIN,	F_NEGATIVE_SCROLL,
+	F_NEGATIVE,
+	F_DECIMAL_LABEL,	F_CODE_LABEL,	F_SYMBOL_BOX,
+	F_DECIMAL_BOX,	F_CODE_BOX,	F_MAX_WIDGET
+} FormatWidget;
+
+struct  _NumberFormatSelector {
+	GtkHBox 	box;
+	GladeXML 	*gui;
+
+	Value		*value;
+	char *  	locale;
+
+	gboolean	enable_edit;
+
+	GnmDateConventions const *date_conv;
+
+	struct {
+		GtkLabel	*preview;
+		GtkWidget	*preview_frame;
+		GtkWidget	*widget[F_MAX_WIDGET];
+		GtkWidget	*menu;
+		GtkTreeModel	*menu_model;
+		GtkSizeGroup    *size_group;
+
+		struct {
+			GtkTreeView 		*view;
+			GtkListStore		*model;
+			GtkTreeSelection 	*selection;
+		} negative_types;
+
+		struct {
+			GtkTreeView	 *view;
+			GtkListStore	 *model;
+			GtkTreeSelection *selection;
+		} formats;
+
+		StyleFormat	*spec;
+		gint		current_type;
+		int		num_decimals;
+		int		negative_format;
+		int		currency_index;
+		gboolean	use_separator;
+	} format;
+};
+
+typedef struct {
+	GtkHBoxClass parent_class;
+
+	gboolean (*number_format_changed) (NumberFormatSelector *nfs, const char *fmt);
+} NumberFormatSelectorClass;
+
 static GtkHBoxClass *nfs_parent_class;
 
 /* Signals we emit */
@@ -492,14 +579,24 @@ fmt_dialog_enable_widgets (NumberFormatSelector *nfs, int page)
  */
 
 static void
-cb_format_class_changed (GtkOptionMenu *menu, NumberFormatSelector *nfs)
+cb_format_class_changed (G_GNUC_UNUSED GtkTreeSelection *ignored, 
+			 NumberFormatSelector *nfs)
 {
-	int selection;
+	int selected_item = 0;
+	GList *list;
+	GtkTreeSelection *selection = gtk_tree_view_get_selection 
+		(GTK_TREE_VIEW(nfs->format.menu));
 
-	selection = gtk_option_menu_get_history (menu);
-
-	if (selection >= 0) {
-		fmt_dialog_enable_widgets (nfs, selection);
+	list = gtk_tree_selection_get_selected_rows 
+		(selection, &nfs->format.menu_model);
+	if (list) {
+		GtkTreePath *path;
+		path = list->data;
+		selected_item = *(gtk_tree_path_get_indices (path));
+		
+		if (selected_item >= 0) {
+			fmt_dialog_enable_widgets (nfs, selected_item);
+		}
 	}
 }
 
@@ -600,6 +697,19 @@ funny_currency_order (gconstpointer _a, gconstpointer _b)
 }
 
 static void
+set_format_category (NumberFormatSelector *nfs, int row)
+{
+	GtkTreePath *path;
+	GtkTreeSelection *selection = gtk_tree_view_get_selection 
+		((GTK_TREE_VIEW(nfs->format.menu)));
+
+	path = gtk_tree_path_new_from_indices (row, -1);
+	gtk_tree_selection_select_path  (selection, path);
+	gtk_tree_path_free (path);
+}
+
+
+static void
 set_format_category_menu_from_style (NumberFormatSelector *nfs)
 {
   	int page;
@@ -611,8 +721,45 @@ set_format_category_menu_from_style (NumberFormatSelector *nfs)
 	if ((page = cell_format_classify (nfs->format.spec, &info)) < 0)
 		page = 11; /* Default to custom */
 
-	gtk_option_menu_set_history (nfs->format.menu, page);
+	set_format_category (nfs, page);
 }
+
+static void
+populate_menu (NumberFormatSelector *nfs)
+{
+	GtkTreeViewColumn *column;
+	GtkTreeSelection  *selection;
+	GtkTreeIter iter;
+	GtkCellRenderer *renderer;
+	char const **categories = format_category_names;
+
+	nfs->format.menu_model = GTK_TREE_MODEL(gtk_list_store_new 
+						(1, G_TYPE_STRING));
+	gtk_tree_view_set_model (GTK_TREE_VIEW(nfs->format.menu), 
+				 nfs->format.menu_model);
+	selection = gtk_tree_view_get_selection 
+		(GTK_TREE_VIEW(nfs->format.menu));
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
+	
+	while (*categories) {
+		gtk_list_store_append 
+			(GTK_LIST_STORE(nfs->format.menu_model), &iter);
+		gtk_list_store_set (GTK_LIST_STORE(nfs->format.menu_model),
+				    &iter, 0, _(*categories), -1);
+		categories++;
+	}
+
+	renderer = gtk_cell_renderer_text_new ();
+	column = gtk_tree_view_column_new_with_attributes ("", renderer,
+							   "text", 0,
+							   NULL);
+	gtk_tree_view_append_column (GTK_TREE_VIEW(nfs->format.menu), column);
+
+	g_signal_connect (selection,
+		"changed",
+		G_CALLBACK (cb_format_class_changed), nfs);
+}
+
 
 /*
  * static void
@@ -694,7 +841,8 @@ nfs_init (NumberFormatSelector *nfs)
 	nfs->format.preview_frame = glade_xml_get_widget (nfs->gui, "preview_frame");
 	nfs->format.preview = GTK_LABEL (glade_xml_get_widget (nfs->gui, "preview"));
 
-	nfs->format.menu = GTK_OPTION_MENU (glade_xml_get_widget (nfs->gui, "format_menu"));
+	nfs->format.menu = glade_xml_get_widget (nfs->gui, "format_menu");
+	populate_menu (nfs);
 
 	/* Collect all the required format widgets and hide them */
 	for (i = 0; (name = widget_names[i]) != NULL; ++i) {
@@ -802,10 +950,6 @@ nfs_init (NumberFormatSelector *nfs)
 			  G_CALLBACK (cb_format_entry_changed), nfs);
 
 	/* Connect signal for format menu */
-
-	g_signal_connect (G_OBJECT (nfs->format.menu), "changed",
-			  G_CALLBACK (cb_format_class_changed), nfs);
-
 	set_format_category_menu_from_style (nfs);
 
 	if ((page = cell_format_classify (nfs->format.spec, &info)) < 0)
@@ -964,5 +1108,5 @@ number_format_selector_set_locale (NumberFormatSelector *nfs,
 	g_free (nfs->locale);
 	nfs->locale = g_strdup (locale);
 
-	cb_format_class_changed (nfs->format.menu, nfs);
+	cb_format_class_changed (NULL, nfs);
 }

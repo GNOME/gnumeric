@@ -1,3 +1,13 @@
+2003-06-22  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* widget-format-selector.h: move private data into 
+	  widget-format-selector.c
+	* widget-format-selector.c (populate_menu): new
+	(nfs_init): use treeview for categories menu
+	(cb_format_class_changed): rewritten
+	(set_format_category): new
+	(set_format_category_menu_from_style): use set_format_category
+
 2003-06-21  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* widget-format-selector.h: drop F_LIST_BOX, make preview_frame 
