@@ -1,3 +1,8 @@
+2002-05-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-printer-setup.c (unit_activated) : correct declaration
+	(unit_deactivated) : ditto
+
 2002-05-02  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-printer-setup.c (get_paper_pswidth) : use gnome-print-master

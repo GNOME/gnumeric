@@ -737,7 +737,7 @@ unit_changed (GtkSpinButton *spin_button, UnitInfo_cbdata *data)
 	draw_margin (data->target, data->state);
 }
 
-static void
+static gboolean
 unit_activated (GtkSpinButton *spin_button,
 		GdkEventFocus *event,
 		UnitInfo_cbdata *data)
@@ -745,9 +745,10 @@ unit_activated (GtkSpinButton *spin_button,
 	gnome_canvas_item_set (data->target->line,
 			       "fill_color", MARGIN_COLOR_ACTIVE,
 			       NULL);
+	return FALSE;
 }
 
-static void
+static gboolean
 unit_deactivated (GtkSpinButton *spin_button,
 		  GdkEventFocus *event,
 		  UnitInfo_cbdata *data)
@@ -755,6 +756,7 @@ unit_deactivated (GtkSpinButton *spin_button,
 	gnome_canvas_item_set (data->target->line,
 			       "fill_color", MARGIN_COLOR_DEFAULT,
 			       NULL);
+	return FALSE;
 }
 
 static void
