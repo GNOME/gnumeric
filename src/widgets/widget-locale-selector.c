@@ -99,7 +99,7 @@ static LocaleInfo locale_trans_array[] = {
 	 * Note: lots of people get very emotional over this.  Please
 	 * err on the safe side, if any.
 	 */
-	{N_("UNIX Default (C)"),                         "C",     LG_OTHER},
+	{N_("United Status/English (C)"),                "C",     LG_OTHER},
 	{N_("South Africa Afrikaans (af_ZA)"),           "af_ZA", LG_AFRICA },
 	{N_("Ethiopia/Amharic (am_ET)"),                 "am_ET", LG_AFRICA },
 	{N_("United Arab Emirates (ar_AE)"),             "ar_AE", LG_ASIA },
@@ -213,7 +213,6 @@ static LocaleInfo locale_trans_array[] = {
 	{N_("Norway/Bokmal (no_NO)"),                    "no_NO", LG_WESTERN_EUROPE},
 	{N_("France/Occitan (oc_FR)"),                   "oc_FR", LG_WESTERN_EUROPE },
 	{N_("Poland (pl_PL)"),                           "pl_PL", LG_EASTERN_EUROPE },
-	{N_("POSIX"),                                    "POSIX", LG_OTHER },
 	{N_("Brazil (pt_BR)"),                           "pt_BR", LG_SOUTHCENTRAL_AMERICA },
 	{N_("Portugal (pt_PT)"),                         "pt_PT", LG_WESTERN_EUROPE },
 	{N_("Romania (ro_RO)"),                          "ro_RO", LG_EASTERN_EUROPE },
@@ -312,7 +311,7 @@ static void ls_get_property      (GObject          *object,
 
 const char *
 locale_selector_get_locale_name (G_GNUC_UNUSED LocaleSelector *ls,
-				    const char *locale)
+				 const char *locale)
 {
 	LocaleInfo const *ci;
 
@@ -325,20 +324,27 @@ locale_selector_get_locale_name (G_GNUC_UNUSED LocaleSelector *ls,
 static char*
 get_locale_name (LocaleSelector *ls)
 {
-	char const *cur_locale;
-	char *cur_locale_cp=NULL;
-	char const *name;
-	char **parts;
+	char const *cur_locale, *name;
+	char *locale, *p;
 
 	cur_locale = setlocale (LC_ALL, NULL);
-	if (cur_locale) {
-		parts = g_strsplit (cur_locale,".",2);
-		cur_locale_cp = g_strdup (parts[0]);
-		g_strfreev (parts);
-	}
+	if (!cur_locale) cur_locale = "C";  /* Just in case.  */
+	locale = g_strdup (cur_locale);
 
-	name = locale_selector_get_locale_name (ls, cur_locale_cp);
-	return name ? g_strdup (name) : cur_locale_cp;
+	/* Get rid of charsets.  */
+	p = strchr (locale, '.');
+	if (p)
+		*p = 0;
+	p = strchr (locale, '@');
+	if (p)
+		*p = 0;
+
+	name = locale_selector_get_locale_name (ls, locale);
+	if (name) {
+		g_free (locale);
+		return g_strdup (name);
+	} else
+		return locale;
 }
 
 static void
@@ -490,6 +496,14 @@ ls_class_init (GtkWidgetClass *widget_klass)
 		ci->available = (setlocale (LC_ALL, ci->locale) != NULL);
 		g_hash_table_insert (locale_hash, (char *)ci->locale, ci);
 	}
+
+	/* Handle the POSIX/C alias.  */
+	{
+		LocaleInfo *ci = g_hash_table_lookup (locale_hash, "C");
+		g_assert (ci != NULL);
+		g_hash_table_insert (locale_hash, (char *)"POSIX", ci);
+	}
+
 	setlocale (LC_ALL, oldlocale);
 	g_free (oldlocale);
 }
@@ -529,7 +543,7 @@ locale_selector_get_locale (LocaleSelector *ls)
 }
 
 struct cb_find_entry {
-	const char *enc;
+	const char *locale;
 	gboolean found;
 	int i;
 	GSList *path;
@@ -551,14 +565,14 @@ cb_find_entry (GtkMenuItem *w, struct cb_find_entry *cl)
 		gtk_container_foreach (GTK_CONTAINER (sub), (GtkCallback)cb_find_entry, cl);
 		if (cl->found)
 			return;
-		
+
 		cl->i = GPOINTER_TO_INT (cl->path->data);
 		cl->path = cl->path->next;
 		g_slist_free_1 (tmp);
 	} else {
-		const char *this_enc =
+		const char *this_locale =
 			g_object_get_data (G_OBJECT (w), LOCALE_NAME_KEY);
-		if (this_enc && strcmp (this_enc, cl->enc) == 0) {
+		if (this_locale && strcmp (this_locale, cl->locale) == 0) {
 			cl->found = TRUE;
 			cl->path = g_slist_prepend (cl->path, GINT_TO_POINTER (cl->i));
 			cl->path = g_slist_reverse (cl->path);
@@ -569,23 +583,23 @@ cb_find_entry (GtkMenuItem *w, struct cb_find_entry *cl)
 }
 
 gboolean
-locale_selector_set_locale (LocaleSelector *ls, const char *enc)
+locale_selector_set_locale (LocaleSelector *ls, const char *locale)
 {
 	struct cb_find_entry cl;
 	LocaleInfo const *ci;
 
 	g_return_val_if_fail (IS_LOCALE_SELECTOR (ls), FALSE);
-	g_return_val_if_fail (enc != NULL, FALSE);
+	g_return_val_if_fail (locale != NULL, FALSE);
 
-	ci = g_hash_table_lookup (locale_hash, enc);
+	ci = g_hash_table_lookup (locale_hash, locale);
 	if (!ci)
 		return FALSE;
 
-	enc = ci->locale;
-	if (!enc)
+	locale = ci->locale;
+	if (!locale)
 		return FALSE;
 
-	cl.enc = enc;
+	cl.locale = locale;
 	cl.found = FALSE;
 	cl.i = 0;
 	cl.path = NULL;

@@ -1,3 +1,9 @@
+2003-06-20  Morten Welinder  <terra@gnome.org>
+
+	* widget-locale-selector.c (get_locale_name): Use GTK+-consistent
+	parsing of locale.
+	(ls_class_init): Add the POSIX alias.
+
 2003-06-20  Jon K Hellan  <hellan@acm.org>
 
 	* widget-color-combo.c (color_combo_get_color): Fix typos.
