@@ -1,5 +1,9 @@
 2002-01-19  Jody Goldberg <jody@gnome.org>
 
+	* graph-guru.glade : Make the guru a toplevel rather than dialog to
+	  keep it visible.
+	* formula-guru.glade : ditto.
+
 	* dialog-graph-guru.c (cb_entry_rangesel_drag_finished) : update the
 	  vector.
 	(vector_state_new) : link to the new rangesel_drag_finished signal

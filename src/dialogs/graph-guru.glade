@@ -2,21 +2,14 @@
 <GTK-Interface>
 
 <project>
-  <name>project2</name>
-  <program_name>project2</program_name>
+  <name>graph-guru</name>
+  <program_name>graph-guru</program_name>
   <directory></directory>
   <source_directory></source_directory>
   <pixmaps_directory>pixmaps</pixmaps_directory>
   <language>C</language>
   <gnome_support>True</gnome_support>
   <gettext_support>True</gettext_support>
-  <output_main_file>False</output_main_file>
-  <output_support_files>False</output_support_files>
-  <output_build_files>False</output_build_files>
-  <main_source_file>gladesrc.c</main_source_file>
-  <main_header_file>gladesrc.h</main_header_file>
-  <handler_source_file>gladesig.c</handler_source_file>
-  <handler_header_file>gladesig.h</handler_header_file>
 </project>
 
 <widget>
@@ -24,12 +17,14 @@
   <name>GraphGuru</name>
   <visible>False</visible>
   <title>Graph Guru</title>
-  <type>GTK_WINDOW_DIALOG</type>
+  <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_MOUSE</position>
   <modal>False</modal>
   <allow_shrink>True</allow_shrink>
   <allow_grow>True</allow_grow>
   <auto_shrink>False</auto_shrink>
+  <auto_close>False</auto_close>
+  <hide_on_close>False</hide_on_close>
 
   <widget>
     <class>GtkVBox</class>

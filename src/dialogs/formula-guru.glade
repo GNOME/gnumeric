@@ -2,17 +2,14 @@
 <GTK-Interface>
 
 <project>
-  <name>Project1</name>
-  <program_name>project1</program_name>
+  <name>formula-guru</name>
+  <program_name>formula-guru</program_name>
   <directory></directory>
-  <source_directory>src</source_directory>
+  <source_directory></source_directory>
   <pixmaps_directory>pixmaps</pixmaps_directory>
   <language>C</language>
   <gnome_support>True</gnome_support>
   <gettext_support>True</gettext_support>
-  <output_main_file>False</output_main_file>
-  <output_support_files>False</output_support_files>
-  <output_build_files>False</output_build_files>
 </project>
 
 <widget>
@@ -20,12 +17,14 @@
   <name>FormulaGuru</name>
   <visible>False</visible>
   <title>Formula Guru</title>
-  <type>GTK_WINDOW_DIALOG</type>
+  <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_MOUSE</position>
   <modal>False</modal>
   <allow_shrink>False</allow_shrink>
   <allow_grow>True</allow_grow>
   <auto_shrink>True</auto_shrink>
+  <auto_close>False</auto_close>
+  <hide_on_close>False</hide_on_close>
 
   <widget>
     <class>GtkVBox</class>
