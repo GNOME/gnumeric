@@ -101,12 +101,19 @@ Gnumeric Spread Sheet task list
 
   Borders:
 
-  Color/patterns
+  - Color/patterns differentiate pattern foreground & background
+  - Remember when a color is selected as a contrast to the another.
+  - pattern selector needs tooltips, button like appearance, and
+    white backgrounds for the patterns.
 
   Protection:
     Bloqued/Hidden
 
 ** Keyboard shortcuts
+    * Support for entering multiline cells and <Alt-Enter> adding an
+      embedded newline.
+    * When pasting a cut expression the references should be treated as
+      absolute.
 
 * File Load/Save
 
