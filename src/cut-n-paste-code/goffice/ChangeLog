@@ -1,3 +1,8 @@
+2003-09-15  Morten Welinder  <terra@gnome.org>
+
+	* utils/go-marker.c (go_marker_selector): Terminate the array as
+	it is shorter than we tell the pixbuf combo.
+
 2003-09-15  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.0
