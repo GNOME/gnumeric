@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.40\n"
 "POT-Creation-Date: 2000-11-18 13:14-0500\n"
-"PO-Revision-Date: 2000-11-27 02:30+01:00\n"
+"PO-Revision-Date: 2000-12-03 02:30+01:00\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -16007,7 +16007,7 @@ msgstr "Sorterer de valgte celler"
 
 #: po/tmp/gnumeric.xml.h:206 src/workbook-control-gui.c:2002
 msgid "_Filter..."
-msgstr "_Filter..."
+msgstr "_Filtrér..."
 
 #: po/tmp/gnumeric.xml.h:73 src/workbook-control-gui.c:2003
 msgid "Filter data with given criteria"
