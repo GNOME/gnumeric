@@ -156,7 +156,7 @@ static char *help_gcd = {
 };
 
 static FuncReturn *
-gnumeric_gcd (FuncScratch *s)
+gnumeric_gcd (FunctionEvalInfo *s)
 {
         float_t a, b;
 
@@ -207,7 +207,7 @@ callback_function_lcm (Sheet *sheet, Value *value,
 }
 
 static FuncReturn *
-gnumeric_lcm (FuncScratch *s)
+gnumeric_lcm (FunctionEvalInfo *s)
 {
 	Value *result;
 
@@ -239,7 +239,7 @@ static char *help_abs = {
 };
 
 static FuncReturn *
-gnumeric_abs (FuncScratch *s)
+gnumeric_abs (FunctionEvalInfo *s)
 {
 	FUNC_RETURN_VAL (value_new_float (fabs (value_get_as_float (s->a.args [0]))));
 }
@@ -261,7 +261,7 @@ static char *help_acos = {
 };
 
 static FuncReturn *
-gnumeric_acos (FuncScratch *s)
+gnumeric_acos (FunctionEvalInfo *s)
 {
 	float_t t;
 
@@ -290,7 +290,7 @@ static char *help_acosh = {
 };
 
 static FuncReturn *
-gnumeric_acosh (FuncScratch *s)
+gnumeric_acosh (FunctionEvalInfo *s)
 {
 	float_t t;
 
@@ -318,7 +318,7 @@ static char *help_asin = {
 };
 
 static FuncReturn *
-gnumeric_asin (FuncScratch *s)
+gnumeric_asin (FunctionEvalInfo *s)
 {
 	float_t t;
 
@@ -346,7 +346,7 @@ static char *help_asinh = {
 };
 
 static FuncReturn *
-gnumeric_asinh (FuncScratch *s)
+gnumeric_asinh (FunctionEvalInfo *s)
 {
 	FUNC_RETURN_VAL (value_new_float (asinh (value_get_as_float (s->a.args [0]))));
 }
@@ -369,7 +369,7 @@ static char *help_atan = {
 };
 
 static FuncReturn *
-gnumeric_atan (FuncScratch *s)
+gnumeric_atan (FunctionEvalInfo *s)
 {
 	FUNC_RETURN_VAL (value_new_float (atan (value_get_as_float (s->a.args [0]))));
 }
@@ -392,7 +392,7 @@ static char *help_atanh = {
 };
 
 static FuncReturn *
-gnumeric_atanh (FuncScratch *s)
+gnumeric_atanh (FunctionEvalInfo *s)
 {
 	float_t t;
 
@@ -422,7 +422,7 @@ static char *help_atan2 = {
 };
 
 static FuncReturn *
-gnumeric_atan2 (FuncScratch *s)
+gnumeric_atan2 (FunctionEvalInfo *s)
 {
 	FUNC_RETURN_VAL (value_new_float (atan2 (value_get_as_float (s->a.args [0]),
 				   value_get_as_float (s->a.args [1]))));
@@ -442,7 +442,7 @@ static char *help_ceil = {
 };
 
 static FuncReturn *
-gnumeric_ceil (FuncScratch *s)
+gnumeric_ceil (FunctionEvalInfo *s)
 {
 	FUNC_RETURN_VAL (value_new_float (ceil (value_get_as_float (s->a.args [0]))));
 }
@@ -461,7 +461,7 @@ static char *help_countif = {
 };
 
 static FuncReturn *
-gnumeric_countif (FuncScratch *s)
+gnumeric_countif (FunctionEvalInfo *s)
 {
         Value           *range = s->a.args[0];
 	math_criteria_t items;
@@ -522,7 +522,7 @@ static char *help_sumif = {
 };
 
 static FuncReturn *
-gnumeric_sumif (FuncScratch *s)
+gnumeric_sumif (FunctionEvalInfo *s)
 {
         Value           *range = s->a.args[0];
 	math_criteria_t items;
@@ -591,7 +591,7 @@ static char *help_ceiling = {
 };
 
 static FuncReturn *
-gnumeric_ceiling (FuncScratch *s)
+gnumeric_ceiling (FunctionEvalInfo *s)
 {
         float_t k=1;
 	float_t div, mod, ceiled;
@@ -646,7 +646,7 @@ static char *help_cos = {
 };
 
 static FuncReturn *
-gnumeric_cos (FuncScratch *s)
+gnumeric_cos (FunctionEvalInfo *s)
 {
 	FUNC_RETURN_VAL (value_new_float (cos (value_get_as_float (s->a.args [0]))));
 }
@@ -667,7 +667,7 @@ static char *help_cosh = {
 };
 
 static FuncReturn *
-gnumeric_cosh (FuncScratch *s)
+gnumeric_cosh (FunctionEvalInfo *s)
 {
 	FUNC_RETURN_VAL (value_new_float (cosh (value_get_as_float (s->a.args [0]))));
 }
@@ -688,7 +688,7 @@ static char *help_degrees = {
 };
 
 static FuncReturn *
-gnumeric_degrees (FuncScratch *s)
+gnumeric_degrees (FunctionEvalInfo *s)
 {
 	FUNC_RETURN_VAL (value_new_float ((value_get_as_float (s->a.args [0]) * 180.0) / M_PI));
 }
@@ -707,7 +707,7 @@ static char *help_exp = {
 };
 
 static FuncReturn *
-gnumeric_exp (FuncScratch *s)
+gnumeric_exp (FunctionEvalInfo *s)
 {
 	FUNC_RETURN_VAL (value_new_float (exp (value_get_as_float (s->a.args [0]))));
 }
@@ -734,7 +734,7 @@ static char *help_fact = {
 };
 
 static FuncReturn *
-gnumeric_fact (FuncScratch *s)
+gnumeric_fact (FunctionEvalInfo *s)
 {
 	Value *res;
 	float i;
@@ -798,7 +798,7 @@ combin (int n, int k)
 }
 
 static FuncReturn *
-gnumeric_combin (FuncScratch *s)
+gnumeric_combin (FunctionEvalInfo *s)
 {
 	int n ,k;
 
@@ -826,7 +826,7 @@ static char *help_floor = {
 };
 
 static FuncReturn *
-gnumeric_floor (FuncScratch *s)
+gnumeric_floor (FunctionEvalInfo *s)
 {
 	FUNC_RETURN_VAL (value_new_float (floor (value_get_as_float (s->a.args [0]))));
 }
@@ -848,7 +848,7 @@ static char *help_int = {
 };
 
 static FuncReturn *
-gnumeric_int (FuncScratch *s)
+gnumeric_int (FunctionEvalInfo *s)
 {
 	float_t t;
 
@@ -871,7 +871,7 @@ static char *help_log = {
 };
 
 static FuncReturn *
-gnumeric_log (FuncScratch *s)
+gnumeric_log (FunctionEvalInfo *s)
 {
 	float_t t, base;
 
@@ -901,7 +901,7 @@ static char *help_ln = {
 };
 
 static FuncReturn *
-gnumeric_ln (FuncScratch *s)
+gnumeric_ln (FunctionEvalInfo *s)
 {
 	float_t t;
 
@@ -928,7 +928,7 @@ static char *help_power = {
 };
 
 static FuncReturn *
-gnumeric_power (FuncScratch *s)
+gnumeric_power (FunctionEvalInfo *s)
 {
 	float_t x, y;
 
@@ -956,7 +956,7 @@ static char *help_log2 = {
 };
 
 static FuncReturn *
-gnumeric_log2 (FuncScratch *s)
+gnumeric_log2 (FunctionEvalInfo *s)
 {
 	float_t t;
 
@@ -982,7 +982,7 @@ static char *help_log10 = {
 };
 
 static FuncReturn *
-gnumeric_log10 (FuncScratch *s)
+gnumeric_log10 (FunctionEvalInfo *s)
 {
 	float_t t;
 
@@ -1007,7 +1007,7 @@ static char *help_mod = {
 };
 
 static FuncReturn *
-gnumeric_mod (FuncScratch *s)
+gnumeric_mod (FunctionEvalInfo *s)
 {
 	int a,b;
 
@@ -1051,7 +1051,7 @@ static char *help_radians = {
 };
 
 static FuncReturn *
-gnumeric_radians (FuncScratch *s)
+gnumeric_radians (FunctionEvalInfo *s)
 {
 	FUNC_RETURN_VAL (value_new_float ((value_get_as_float (s->a.args [0]) * M_PI) / 180));
 }
@@ -1069,7 +1069,7 @@ static char *help_rand = {
 };
 
 static FuncReturn *
-gnumeric_rand (FuncScratch *s)
+gnumeric_rand (FunctionEvalInfo *s)
 {
 	FUNC_RETURN_VAL (value_new_float (random_01 ()));
 }
@@ -1089,7 +1089,7 @@ static char *help_sin = {
 };
 
 static FuncReturn *
-gnumeric_sin (FuncScratch *s)
+gnumeric_sin (FunctionEvalInfo *s)
 {
 	FUNC_RETURN_VAL (value_new_float (sin (value_get_as_float (s->a.args [0]))));
 }
@@ -1109,7 +1109,7 @@ static char *help_sinh = {
 };
 
 static FuncReturn *
-gnumeric_sinh (FuncScratch *s)
+gnumeric_sinh (FunctionEvalInfo *s)
 {
 	FUNC_RETURN_VAL (value_new_float (sinh (value_get_as_float (s->a.args [0]))));
 }
@@ -1128,7 +1128,7 @@ static char *help_sqrt = {
 };
 
 static FuncReturn *
-gnumeric_sqrt (FuncScratch *s)
+gnumeric_sqrt (FunctionEvalInfo *s)
 {
 	float_t x = value_get_as_float (s->a.args[0]);
 	if (x<0) {
@@ -1214,7 +1214,7 @@ callback_function_sum (Sheet *sheet, Value *value,
 }
 
 FuncReturn *
-gnumeric_sum (FuncScratch *s)
+gnumeric_sum (FunctionEvalInfo *s)
 {
 	Value *result;
 
@@ -1245,7 +1245,7 @@ static char *help_suma = {
 };
 
 FuncReturn *
-gnumeric_suma (FuncScratch *s)
+gnumeric_suma (FunctionEvalInfo *s)
 {
 	Value *result;
 
@@ -1300,7 +1300,7 @@ callback_function_sumsq (Sheet *sheet, Value *value,
 }
 
 static FuncReturn *
-gnumeric_sumsq (FuncScratch *s)
+gnumeric_sumsq (FunctionEvalInfo *s)
 {
         math_sumsq_t p;
 
@@ -1351,7 +1351,7 @@ callback_function_multinomial (Sheet *sheet, Value *value,
 }
 
 static FuncReturn *
-gnumeric_multinomial (FuncScratch *s)
+gnumeric_multinomial (FunctionEvalInfo *s)
 {
         math_multinomial_t p;
 
@@ -1410,7 +1410,7 @@ callback_function_product (Sheet *sheet, Value *value,
 }
 
 static FuncReturn *
-gnumeric_product (FuncScratch *s)
+gnumeric_product (FunctionEvalInfo *s)
 {
         math_product_t p;
 
@@ -1439,7 +1439,7 @@ static char *help_tan = {
 };
 
 static FuncReturn *
-gnumeric_tan (FuncScratch *s)
+gnumeric_tan (FunctionEvalInfo *s)
 {
 	FUNC_RETURN_VAL (value_new_float (tan (value_get_as_float (s->a.args [0]))));
 }
@@ -1459,7 +1459,7 @@ static char *help_tanh = {
 };
 
 static FuncReturn *
-gnumeric_tanh (FuncScratch *s)
+gnumeric_tanh (FunctionEvalInfo *s)
 {
 	FUNC_RETURN_VAL (value_new_float (tanh (value_get_as_float (s->a.args [0]))));
 }
@@ -1478,7 +1478,7 @@ static char *help_pi = {
 };
 
 static FuncReturn *
-gnumeric_pi (FuncScratch *s)
+gnumeric_pi (FunctionEvalInfo *s)
 {
 	FUNC_RETURN_VAL (value_new_float (M_PI));
 }
@@ -1496,7 +1496,7 @@ static char *help_trunc = {
 	   "@SEEALSO=")
 };
 static FuncReturn *
-gnumeric_trunc (FuncScratch *s)
+gnumeric_trunc (FunctionEvalInfo *s)
 {
 	Value *number;
 	int args = g_list_length (s->a.nodes);
@@ -1547,7 +1547,7 @@ static char *help_even = {
 };
 
 static FuncReturn *
-gnumeric_even (FuncScratch *s)
+gnumeric_even (FunctionEvalInfo *s)
 {
         float_t number, ceiled;
 	int     sign = 1;
@@ -1578,7 +1578,7 @@ static char *help_odd = {
 };
 
 static FuncReturn *
-gnumeric_odd (FuncScratch *s)
+gnumeric_odd (FunctionEvalInfo *s)
 {
         float_t number, ceiled;
 	int     sign = 1;
@@ -1612,7 +1612,7 @@ static char *help_factdouble = {
 };
 
 static FuncReturn *
-gnumeric_factdouble (FuncScratch *s)
+gnumeric_factdouble (FunctionEvalInfo *s)
 
 {
         int number;
@@ -1640,7 +1640,7 @@ static char *help_quotient = {
 };
 
 static FuncReturn *
-gnumeric_quotient (FuncScratch *s)
+gnumeric_quotient (FunctionEvalInfo *s)
 {
         float_t num, den;
 
@@ -1661,7 +1661,7 @@ static char *help_sign = {
 };
 
 static FuncReturn *
-gnumeric_sign (FuncScratch *s)
+gnumeric_sign (FunctionEvalInfo *s)
 {
         float_t n;
 
@@ -1686,7 +1686,7 @@ static char *help_sqrtpi = {
 };
 
 static FuncReturn *
-gnumeric_sqrtpi (FuncScratch *s)
+gnumeric_sqrtpi (FunctionEvalInfo *s)
 {
         float_t n;
 
@@ -1711,7 +1711,7 @@ static char *help_randbetween = {
 };
 
 static FuncReturn *
-gnumeric_randbetween (FuncScratch *s)
+gnumeric_randbetween (FunctionEvalInfo *s)
 {
         int bottom, top;
 	double range, r;
@@ -1750,7 +1750,7 @@ static char *help_rounddown = {
 };
 
 static FuncReturn *
-gnumeric_rounddown (FuncScratch *s)
+gnumeric_rounddown (FunctionEvalInfo *s)
 {
         float_t number;
         int     digits, k, n;
@@ -1796,7 +1796,7 @@ static char *help_round = {
 };
 
 static FuncReturn *
-gnumeric_round (FuncScratch *s)
+gnumeric_round (FunctionEvalInfo *s)
 {
         float_t number;
         int     digits, k, n;
@@ -1842,7 +1842,7 @@ static char *help_roundup = {
 };
 
 static FuncReturn *
-gnumeric_roundup (FuncScratch *s)
+gnumeric_roundup (FunctionEvalInfo *s)
 {
         float_t number, sign;
         int     digits, k, n;
@@ -1889,7 +1889,7 @@ static char *help_mround = {
 };
 
 static FuncReturn *
-gnumeric_mround (FuncScratch *s)
+gnumeric_mround (FunctionEvalInfo *s)
 {
         const float_t accuracy_limit = 0.0000003;
         float_t number, multiple;
@@ -1936,7 +1936,7 @@ static char *help_roman = {
 };
 
 static FuncReturn *
-gnumeric_roman (FuncScratch *s)
+gnumeric_roman (FunctionEvalInfo *s)
 {
 	const char letter[] = { 'M', 'D', 'C', 'L', 'X', 'V', 'I' };
 	const int  largest = 1000;
@@ -2018,7 +2018,7 @@ static char *help_sumx2my2 = {
 };
 
 static FuncReturn *
-gnumeric_sumx2my2 (FuncScratch *s)
+gnumeric_sumx2my2 (FunctionEvalInfo *s)
 {
         Value       *values_x = s->a.args[0];
         Value       *values_y = s->a.args[1];
@@ -2114,7 +2114,7 @@ static char *help_sumx2py2 = {
 };
 
 static FuncReturn *
-gnumeric_sumx2py2 (FuncScratch *s)
+gnumeric_sumx2py2 (FunctionEvalInfo *s)
 {
         Value       *values_x = s->a.args[0];
         Value       *values_y = s->a.args[1];
@@ -2210,7 +2210,7 @@ static char *help_sumxmy2 = {
 };
 
 static FuncReturn *
-gnumeric_sumxmy2 (FuncScratch *s)
+gnumeric_sumxmy2 (FunctionEvalInfo *s)
 {
         Value       *values_x = s->a.args[0];
         Value       *values_y = s->a.args[1];
@@ -2311,7 +2311,7 @@ static char *help_subtotal = {
 };
 
 static FuncReturn *
-gnumeric_subtotal (FuncScratch *s)
+gnumeric_subtotal (FunctionEvalInfo *s)
 {
         ExprTree *tree;
 	Value    *val;
@@ -2418,7 +2418,7 @@ callback_function_seriessum (Sheet *sheet, Value *value,
 }
 
 static FuncReturn *
-gnumeric_seriessum (FuncScratch *s)
+gnumeric_seriessum (FunctionEvalInfo *s)
 {
         math_seriessum_t p;
         ExprTree         *tree;

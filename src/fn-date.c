@@ -31,7 +31,7 @@ static char *help_date = {
 };
 
 static FuncReturn *
-gnumeric_date (FuncScratch *s)
+gnumeric_date (FunctionEvalInfo *s)
 {
 	Value **argv = s->a.args;
 	Value *v;
@@ -89,7 +89,7 @@ static char *help_datevalue = {
 };
 
 static FuncReturn *
-gnumeric_datevalue (FuncScratch *s)
+gnumeric_datevalue (FunctionEvalInfo *s)
 {
 	Value **argv = s->a.args;
 	const gchar *datestr;
@@ -126,7 +126,7 @@ static char *help_edate = {
 };
 
 static FuncReturn *
-gnumeric_edate (FuncScratch *s)
+gnumeric_edate (FunctionEvalInfo *s)
 {
 	Value **argv = s->a.args;
 	int    serial, months;
@@ -169,7 +169,7 @@ static char *help_today = {
 };
 
 static FuncReturn *
-gnumeric_today (FuncScratch *s)
+gnumeric_today (FunctionEvalInfo *s)
 {
 	GDate date;
 
@@ -201,7 +201,7 @@ static char *help_now = {
 };
 
 static FuncReturn *
-gnumeric_now (FuncScratch *s)
+gnumeric_now (FunctionEvalInfo *s)
 {
 	time_t t = time (NULL);
 	struct tm *tm = localtime (&t);
@@ -228,7 +228,7 @@ static char *help_time = {
 };
 
 static FuncReturn *
-gnumeric_time (FuncScratch *s)
+gnumeric_time (FunctionEvalInfo *s)
 {
 	Value **argv = s->a.args;
 	float_t hours, minutes, seconds;
@@ -254,7 +254,7 @@ static char *help_timevalue = {
 };
 
 static FuncReturn *
-gnumeric_timevalue (FuncScratch *s)
+gnumeric_timevalue (FunctionEvalInfo *s)
 {
 	/* FIXME: is this really right?  */
 	return gnumeric_time (s);
@@ -277,7 +277,7 @@ static char *help_hour = {
 };
 
 static FuncReturn *
-gnumeric_hour (FuncScratch *s)
+gnumeric_hour (FunctionEvalInfo *s)
 {
 	Value **argv = s->a.args;
 	float_t serial = value_get_as_float (argv [0]);
@@ -304,7 +304,7 @@ static char *help_minute = {
 };
 
 static FuncReturn *
-gnumeric_minute (FuncScratch *s)
+gnumeric_minute (FunctionEvalInfo *s)
 {
 	Value **argv = s->a.args;
 	float_t serial = value_get_as_float (argv [0]);
@@ -331,7 +331,7 @@ static char *help_second = {
 };
 
 static FuncReturn *
-gnumeric_second (FuncScratch *s)
+gnumeric_second (FunctionEvalInfo *s)
 {
 	Value **argv = s->a.args;
 	float_t serial = value_get_as_float (argv [0]);
@@ -357,7 +357,7 @@ static char *help_year = {
 };
 
 static FuncReturn *
-gnumeric_year (FuncScratch *s)
+gnumeric_year (FunctionEvalInfo *s)
 {
 	Value **argv = s->a.args;
 	int res;
@@ -383,7 +383,7 @@ static char *help_month = {
 };
 
 static FuncReturn *
-gnumeric_month (FuncScratch *s)
+gnumeric_month (FunctionEvalInfo *s)
 {
 	Value **argv = s->a.args;
 	int res;
@@ -409,7 +409,7 @@ static char *help_day = {
 };
 
 static FuncReturn *
-gnumeric_day (FuncScratch *s)
+gnumeric_day (FunctionEvalInfo *s)
 {
 	Value **argv = s->a.args;
 	int res;
@@ -435,7 +435,7 @@ static char *help_weekday = {
 };
 
 static FuncReturn *
-gnumeric_weekday (FuncScratch *s)
+gnumeric_weekday (FunctionEvalInfo *s)
 {
 	Value **argv = s->a.args;
 	int res;
@@ -461,7 +461,7 @@ static char *help_days360 = {
 };
 
 static FuncReturn *
-gnumeric_days360 (FuncScratch *s)
+gnumeric_days360 (FunctionEvalInfo *s)
 {
 	s->error_string = _("Unimplemented function");
 	return NULL;

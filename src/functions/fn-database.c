@@ -347,7 +347,7 @@ static char *help_daverage = {
 };
 
 static FuncReturn *
-gnumeric_daverage (FuncScratch *s)
+gnumeric_daverage (FunctionEvalInfo *s)
 {
 	Value       **argv = s->a.args;
         Value       *database, *criteria;
@@ -415,7 +415,7 @@ static char *help_dcount = {
 };
 
 static FuncReturn *
-gnumeric_dcount (FuncScratch *s)
+gnumeric_dcount (FunctionEvalInfo *s)
 {
 	Value       **argv = s->a.args;
         Value       *database, *criteria;
@@ -481,7 +481,7 @@ static char *help_dcounta = {
 };
 
 static FuncReturn *
-gnumeric_dcounta (FuncScratch *s)
+gnumeric_dcounta (FunctionEvalInfo *s)
 {
 	Value       **argv = s->a.args;
         Value       *database, *criteria;
@@ -549,7 +549,7 @@ static char *help_dget = {
 };
 
 static FuncReturn *
-gnumeric_dget (FuncScratch *s)
+gnumeric_dget (FunctionEvalInfo *s)
 {
 	Value       **argv = s->a.args;
         Value       *database, *criteria;
@@ -627,7 +627,7 @@ static char *help_dmax = {
 };
 
 static FuncReturn *
-gnumeric_dmax (FuncScratch *s)
+gnumeric_dmax (FunctionEvalInfo *s)
 {
 	Value       **argv = s->a.args;
         Value       *database, *criteria;
@@ -700,7 +700,7 @@ static char *help_dmin = {
 };
 
 static FuncReturn *
-gnumeric_dmin (FuncScratch *s)
+gnumeric_dmin (FunctionEvalInfo *s)
 {
 	Value       **argv = s->a.args;
         Value       *database, *criteria;
@@ -773,7 +773,7 @@ static char *help_dproduct = {
 };
 
 static FuncReturn *
-gnumeric_dproduct (FuncScratch *s)
+gnumeric_dproduct (FunctionEvalInfo *s)
 {
 	Value       **argv = s->a.args;
         Value       *database, *criteria;
@@ -846,7 +846,7 @@ static char *help_dstdev = {
 };
 
 static FuncReturn *
-gnumeric_dstdev (FuncScratch *s)
+gnumeric_dstdev (FunctionEvalInfo *s)
 {
 	Value       **argv = s->a.args;
         Value          *database, *criteria;
@@ -922,7 +922,7 @@ static char *help_dstdevp = {
 };
 
 static FuncReturn *
-gnumeric_dstdevp (FuncScratch *s)
+gnumeric_dstdevp (FunctionEvalInfo *s)
 {
 	Value       **argv = s->a.args;
         Value          *database, *criteria;
@@ -997,7 +997,7 @@ static char *help_dsum = {
 };
 
 static FuncReturn *
-gnumeric_dsum (FuncScratch *s)
+gnumeric_dsum (FunctionEvalInfo *s)
 {
 	Value       **argv = s->a.args;
         Value       *database, *criteria;
@@ -1070,7 +1070,7 @@ static char *help_dvar = {
 };
 
 static FuncReturn *
-gnumeric_dvar (FuncScratch *s)
+gnumeric_dvar (FunctionEvalInfo *s)
 {
 	Value       **argv = s->a.args;
         Value          *database, *criteria;
@@ -1146,7 +1146,7 @@ static char *help_dvarp = {
 };
 
 static FuncReturn *
-gnumeric_dvarp (FuncScratch *s)
+gnumeric_dvarp (FunctionEvalInfo *s)
 {
 	Value       **argv = s->a.args;
         Value          *database, *criteria;

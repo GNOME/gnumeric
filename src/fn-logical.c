@@ -63,7 +63,7 @@ callback_function_and (Sheet *sheet, Value *value,
 }
 
 static FuncReturn *
-gnumeric_and (FuncScratch *s)
+gnumeric_and (FunctionEvalInfo *s)
 {
 	Value *result;
 
@@ -95,7 +95,7 @@ static char *help_not = {
 };
 
 static FuncReturn *
-gnumeric_not (FuncScratch *s)
+gnumeric_not (FunctionEvalInfo *s)
 {
 	int b;
 
@@ -152,7 +152,7 @@ callback_function_or (Sheet *sheet, Value *value,
 }
 
 static FuncReturn *
-gnumeric_or (FuncScratch *s)
+gnumeric_or (FunctionEvalInfo *s)
 {
 	Value *result;
 
@@ -186,7 +186,7 @@ static char *help_if = {
 };
 
 static FuncReturn *
-gnumeric_if (FuncScratch *s)
+gnumeric_if (FunctionEvalInfo *s)
 {
 	ExprTree *expr;
 	Value *value;

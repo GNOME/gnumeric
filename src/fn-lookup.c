@@ -44,7 +44,7 @@ static char *help_address = {
 };
 
 static FuncReturn *
-gnumeric_address (FuncScratch *s)
+gnumeric_address (FunctionEvalInfo *s)
 {
         int   row, col, abs_num, a1, err;
 	gchar *text, *buf;
@@ -145,7 +145,7 @@ static char *help_choose = {
 };
 
 static FuncReturn *
-gnumeric_choose (FuncScratch *s)
+gnumeric_choose (FunctionEvalInfo *s)
 {
 	int     index;
 	int     argc;
@@ -272,7 +272,7 @@ lookup_similar (const Value *data, const Value *templ,
 }
 
 static FuncReturn *
-gnumeric_vlookup (FuncScratch *s)
+gnumeric_vlookup (FunctionEvalInfo *s)
 {
 	const Value *next_largest = NULL;
 	int height, lp, approx, col_idx, next_largest_row = 0;
@@ -358,7 +358,7 @@ static char *help_hlookup = {
 };
 
 static FuncReturn *
-gnumeric_hlookup (FuncScratch *s) 
+gnumeric_hlookup (FunctionEvalInfo *s) 
 {
 	const Value *next_largest = NULL;
 	int height, lp, approx, row_idx, next_largest_col = 0;
@@ -446,7 +446,7 @@ static char *help_lookup = {
 
 /* Not very efficient ! */
 static FuncReturn *
-gnumeric_lookup (FuncScratch *s)
+gnumeric_lookup (FunctionEvalInfo *s)
 {
 	int height, width;
 	const Value *next_largest = NULL;
@@ -540,7 +540,7 @@ static char *help_column = {
 
 /* FIXME: Needs Array support to be enven slightly meaningful */
 static FuncReturn *
-gnumeric_column (FuncScratch *s)
+gnumeric_column (FunctionEvalInfo *s)
 {
 	Value *v;
 
@@ -583,7 +583,7 @@ static char *help_columns = {
 
 /* FIXME: Needs Array support to be enven slightly meaningful */
 static FuncReturn *
-gnumeric_columns (FuncScratch *s)
+gnumeric_columns (FunctionEvalInfo *s)
 {
 	FUNC_RETURN_VAL (value_new_int (value_area_get_width (s->a.args [0])));
 }
@@ -603,7 +603,7 @@ static char *help_offset = {
 };
 
 static FuncReturn *
-gnumeric_offset (FuncScratch *s)
+gnumeric_offset (FunctionEvalInfo *s)
 {
 	CellRef a;
 	CellRef b;
@@ -650,7 +650,7 @@ static char *help_row = {
 
 /* FIXME: Needs Array support to be enven slightly meaningful */
 static FuncReturn *
-gnumeric_row (FuncScratch *s)
+gnumeric_row (FunctionEvalInfo *s)
 {
 	Value *v;
 
@@ -694,7 +694,7 @@ static char *help_rows = {
 
 /* FIXME: Needs Array support to be enven slightly meaningful */
 static FuncReturn *
-gnumeric_rows (FuncScratch *s)
+gnumeric_rows (FunctionEvalInfo *s)
 {
 	FUNC_RETURN_VAL (value_new_int (value_area_get_height (s->a.args [0])));
 }

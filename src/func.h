@@ -40,7 +40,7 @@ typedef int (*FunctionIterateCallback)(Sheet *sheet, Value *value, char **error_
  * Value found on the list (this means that ranges get properly expaned).
  */
 int
-function_iterate_argument_values (const FuncPos           *fp,
+function_iterate_argument_values (const EvalPosition           *fp,
 				  FunctionIterateCallback callback,
 				  void                    *callback_closure,
 				  GList                   *expr_node_list,
@@ -80,13 +80,19 @@ struct _FunctionCategory {
 	GList *functions;
 };
 FunctionCategory   *function_get_category (gchar *description);
-FunctionDefinition *function_new (FunctionCategory *parent,
-				  char *name,
-				  char *args,
-				  char *arg_names,
-				  char **help,
-				  FuncType type,
-				  FuncFunction *fn);
+FunctionDefinition *function_new_args  (FunctionCategory *parent,
+				        char *name,
+				        char *args,
+				        char *arg_names,
+				        char **help,
+				        FunctionArgs *fn);
+FunctionDefinition *function_new_nodes (FunctionCategory *parent,
+					char *name,
+					char *args,
+					char *arg_names,
+					char **help,
+					FunctionNodes *fn);
+
 GList *function_categories_get (void);
 
 typedef struct {
@@ -111,17 +117,17 @@ void setup_stat_closure (stat_closure_t *cl);
 int callback_function_stat (Sheet *sheet, Value *value, char **error_string,
 			    void *closure);
 
-FuncReturn *gnumeric_average     (FuncScratch *s);
-FuncReturn *gnumeric_count       (FuncScratch *s);
-FuncReturn *gnumeric_sum         (FuncScratch *s);
-FuncReturn *gnumeric_stdev       (FuncScratch *s);
-FuncReturn *gnumeric_stdevp      (FuncScratch *s);
-FuncReturn *gnumeric_var         (FuncScratch *s);
-FuncReturn *gnumeric_varp        (FuncScratch *s);
-FuncReturn *gnumeric_counta      (FuncScratch *s);
-FuncReturn *gnumeric_min         (FuncScratch *s);
-FuncReturn *gnumeric_max         (FuncScratch *s);
-FuncReturn *gnumeric_suma        (FuncScratch *s);
+FuncReturn *gnumeric_average     (FunctionEvalInfo *s);
+FuncReturn *gnumeric_count       (FunctionEvalInfo *s);
+FuncReturn *gnumeric_sum         (FunctionEvalInfo *s);
+FuncReturn *gnumeric_stdev       (FunctionEvalInfo *s);
+FuncReturn *gnumeric_stdevp      (FunctionEvalInfo *s);
+FuncReturn *gnumeric_var         (FunctionEvalInfo *s);
+FuncReturn *gnumeric_varp        (FunctionEvalInfo *s);
+FuncReturn *gnumeric_counta      (FunctionEvalInfo *s);
+FuncReturn *gnumeric_min         (FunctionEvalInfo *s);
+FuncReturn *gnumeric_max         (FunctionEvalInfo *s);
+FuncReturn *gnumeric_suma        (FunctionEvalInfo *s);
 
 
 /* Type definitions and function prototypes for criteria functions.

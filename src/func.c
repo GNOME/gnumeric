@@ -123,20 +123,20 @@ function_iterate_do_value (Sheet                   *sheet,
 }
 
 int
-function_iterate_argument_values (const FuncPos           *fp,
+function_iterate_argument_values (const EvalPosition           *fp,
 				  FunctionIterateCallback callback,
 				  void                    *callback_closure,
 				  GList                   *expr_node_list,
 				  char                    **error_string)
 {
 	int result = TRUE;
-	FuncScratch fs;
+	FunctionEvalInfo fs;
 
 	for (; result && expr_node_list; expr_node_list = expr_node_list->next){
 		ExprTree *tree = (ExprTree *) expr_node_list->data;
 		Value *val;
 
-		val = (Value *)eval_expr (func_scratch_pos (&fs, fp, *error_string), tree);
+		val = (Value *)eval_expr (func_eval_info_pos (&fs, fp, *error_string), tree);
 
 		if (val){
 			result = function_iterate_do_value (
@@ -250,27 +250,46 @@ FunctionCategory *function_get_category (gchar *description)
 	return cat;
 }
 
-FunctionDefinition *function_new (FunctionCategory *parent,
-				  char *name,
-				  char *args,
-				  char *arg_names,
-				  char **help,
-				  FuncType type,
-				  FuncFunction *fn)
+static void
+fn_def_init (FunctionDefinition *fd, char *name, char *args, char *arg_names, char **help)
 {
-	FunctionDefinition *fd;
-
 	g_return_val_if_fail (fn, NULL);
 	g_return_val_if_fail (parent, NULL);
 
-	fd            = g_new (FunctionDefinition, 1);
 	fd->name      = name;
 	fd->args      = args;
 	fd->help      = help;
-	fd->fn_type   = type;
-	fd->fn        = fn;
 	fd->named_arguments = arg_names;
-       
+}
+
+FunctionDefinition *function_new_nodes (FunctionCategory *parent,
+					char *name,
+					char *args,
+					char *arg_names,
+					char **help,
+					FunctionNodes *fn)
+{
+	FunctionDefinition *fd = g_new (FunctionDefinition, 1);
+	fn_def_init (fd, name, args, arg_names, help);
+
+	fd->fn_type   = FUNCTION_NODES;
+	fd->fn        = fn;
+	parent->functions = g_list_append (parent->functions, fd);
+	return fd;
+}
+
+FunctionDefinition *function_new_args (FunctionCategory *parent,
+				       char *name,
+				       char *args,
+				       char *arg_names,
+				       char **help,
+				       FunctionArgs *fn)
+{
+	FunctionDefinition *fd = g_new (FunctionDefinition, 1);
+	fn_def_init (fd, name, args, arg_names, help);
+
+	fd->fn_type   = FUNCTION_ARGS;
+	fd->fn        = fn;
 	parent->functions = g_list_append (parent->functions, fd);
 	return fd;
 }

@@ -42,7 +42,7 @@ static char *help_ = {
  * FIXME: In the long term this needs optimising.
  **/
 static FuncReturn *
-val_to_base (FuncScratch *s, int num_args,
+val_to_base (FunctionEvalInfo *s, int num_args,
 	     int src_base, int dest_base)
 {
 	Value *value, *val_places;
@@ -164,7 +164,7 @@ static char *help_bin2dec = {
 };
 
 static FuncReturn *
-gnumeric_bin2dec (FuncScratch *s)
+gnumeric_bin2dec (FunctionEvalInfo *s)
 {
 	return val_to_base (s, 1, 2, 10);
 }
@@ -184,7 +184,7 @@ static char *help_bin2oct = {
 };
 
 static FuncReturn *
-gnumeric_bin2oct (FuncScratch *s)
+gnumeric_bin2oct (FunctionEvalInfo *s)
 {
 	return val_to_base (s, 2, 2, 8);
 }
@@ -204,7 +204,7 @@ static char *help_bin2hex = {
 };
 
 static FuncReturn *
-gnumeric_bin2hex (FuncScratch *s)
+gnumeric_bin2hex (FunctionEvalInfo *s)
 {
 	return val_to_base (s, 2, 2, 16);
 }
@@ -224,7 +224,7 @@ static char *help_dec2bin = {
 };
 
 static FuncReturn *
-gnumeric_dec2bin (FuncScratch *s)
+gnumeric_dec2bin (FunctionEvalInfo *s)
 {
 	return val_to_base (s, 2, 10, 2);
 }
@@ -244,7 +244,7 @@ static char *help_dec2oct = {
 };
 
 static FuncReturn *
-gnumeric_dec2oct (FuncScratch *s)
+gnumeric_dec2oct (FunctionEvalInfo *s)
 {
 	return val_to_base (s, 2, 10, 8);
 }
@@ -264,7 +264,7 @@ static char *help_dec2hex = {
 };
 
 static FuncReturn *
-gnumeric_dec2hex (FuncScratch *s)
+gnumeric_dec2hex (FunctionEvalInfo *s)
 {
 	return val_to_base (s, 2, 10, 16);
 }
@@ -282,7 +282,7 @@ static char *help_oct2dec = {
 };
 
 static FuncReturn *
-gnumeric_oct2dec (FuncScratch *s)
+gnumeric_oct2dec (FunctionEvalInfo *s)
 {
 	return val_to_base (s, 1, 8, 10);
 }
@@ -302,7 +302,7 @@ static char *help_oct2bin = {
 };
 
 static FuncReturn *
-gnumeric_oct2bin (FuncScratch *s)
+gnumeric_oct2bin (FunctionEvalInfo *s)
 {
 	return val_to_base (s, 2, 8, 2);
 }
@@ -322,7 +322,7 @@ static char *help_oct2hex = {
 };
 
 static FuncReturn *
-gnumeric_oct2hex (FuncScratch *s)
+gnumeric_oct2hex (FunctionEvalInfo *s)
 {
 	return val_to_base (s, 2, 8, 16);
 }
@@ -342,7 +342,7 @@ static char *help_hex2bin = {
 };
 
 static FuncReturn *
-gnumeric_hex2bin (FuncScratch *s)
+gnumeric_hex2bin (FunctionEvalInfo *s)
 {
 	return val_to_base (s, 2, 16, 2);
 }
@@ -362,7 +362,7 @@ static char *help_hex2oct = {
 };
 
 static FuncReturn *
-gnumeric_hex2oct (FuncScratch *s)
+gnumeric_hex2oct (FunctionEvalInfo *s)
 {
 	return val_to_base (s, 2, 16, 8);
 }
@@ -380,7 +380,7 @@ static char *help_hex2dec = {
 };
 
 static FuncReturn *
-gnumeric_hex2dec (FuncScratch *s)
+gnumeric_hex2dec (FunctionEvalInfo *s)
 {
 	return val_to_base (s, 1, 16, 10);
 }
@@ -403,7 +403,7 @@ static char *help_besselj = {
 };
 
 static FuncReturn *
-gnumeric_besselj (FuncScratch *s)
+gnumeric_besselj (FunctionEvalInfo *s)
 {
 	int y;
 	if (s->a.args[0]->type != VALUE_INTEGER &&
@@ -439,7 +439,7 @@ static char *help_bessely = {
 };
 
 static FuncReturn *
-gnumeric_bessely (FuncScratch *s)
+gnumeric_bessely (FunctionEvalInfo *s)
 {
 	int y;
 	if (s->a.args[0]->type != VALUE_INTEGER &&
@@ -602,7 +602,7 @@ static char *help_complex = {
 };
 
 static FuncReturn *
-gnumeric_complex (FuncScratch *s)
+gnumeric_complex (FunctionEvalInfo *s)
 {
         float_t     r, i;
 	char        *suffix;
@@ -635,7 +635,7 @@ static char *help_imaginary = {
 };
 
 static FuncReturn *
-gnumeric_imaginary (FuncScratch *s)
+gnumeric_imaginary (FunctionEvalInfo *s)
 {
         float_t real, im;
 	char    *suffix;
@@ -667,7 +667,7 @@ static char *help_imreal = {
 
 
 static FuncReturn *
-gnumeric_imreal (FuncScratch *s) 
+gnumeric_imreal (FunctionEvalInfo *s) 
 {
         float_t real, im;
 	char    *suffix;
@@ -699,7 +699,7 @@ static char *help_imabs = {
 
 
 static FuncReturn *
-gnumeric_imabs (FuncScratch *s) 
+gnumeric_imabs (FunctionEvalInfo *s) 
 {
         float_t real, im;
 	char    *suffix;
@@ -732,7 +732,7 @@ static char *help_imconjugate = {
 };
 
 static FuncReturn *
-gnumeric_imconjugate (FuncScratch *s) 
+gnumeric_imconjugate (FunctionEvalInfo *s) 
 {
         float_t real, im;
 	char    *suffix;
@@ -765,7 +765,7 @@ static char *help_imcos = {
 };
 
 static FuncReturn *
-gnumeric_imcos (FuncScratch *s) 
+gnumeric_imcos (FunctionEvalInfo *s) 
 {
         float_t real, im;
 	char    *suffix;
@@ -796,7 +796,7 @@ static char *help_imexp = {
 };
 
 static FuncReturn *
-gnumeric_imexp (FuncScratch *s) 
+gnumeric_imexp (FunctionEvalInfo *s) 
 {
         float_t real, im, e;
 	char    *suffix;
@@ -828,7 +828,7 @@ static char *help_imargument = {
 };
 
 static FuncReturn *
-gnumeric_imargument (FuncScratch *s) 
+gnumeric_imargument (FunctionEvalInfo *s) 
 {
         float_t real, im, theta;
 	char    *suffix;
@@ -871,7 +871,7 @@ complex_ln(float_t *real, float_t *im)
 }
 
 static FuncReturn *
-gnumeric_imln (FuncScratch *s) 
+gnumeric_imln (FunctionEvalInfo *s) 
 {
         float_t real, im;
 	char    *suffix;
@@ -908,7 +908,7 @@ static char *help_imlog2 = {
 };
 
 static FuncReturn *
-gnumeric_imlog2 (FuncScratch *s) 
+gnumeric_imlog2 (FunctionEvalInfo *s) 
 {
         float_t real, im;
 	float_t ln_2;
@@ -947,7 +947,7 @@ static char *help_imlog10 = {
 };
 
 static FuncReturn *
-gnumeric_imlog10 (FuncScratch *s) 
+gnumeric_imlog10 (FunctionEvalInfo *s) 
 {
         float_t real, im;
 	float_t ln_10;
@@ -988,7 +988,7 @@ static char *help_impower = {
 };
 
 static FuncReturn *
-gnumeric_impower (FuncScratch *s) 
+gnumeric_impower (FunctionEvalInfo *s) 
 {
         float_t real, im, n, r, theta, power;
 	char    *suffix;
@@ -1030,7 +1030,7 @@ static char *help_imdiv = {
 };
 
 static FuncReturn *
-gnumeric_imdiv (FuncScratch *s) 
+gnumeric_imdiv (FunctionEvalInfo *s) 
 {
         float_t a, b, c, d, den;
 	char    *suffix;
@@ -1079,7 +1079,7 @@ static char *help_imsin = {
 };
 
 static FuncReturn *
-gnumeric_imsin (FuncScratch *s) 
+gnumeric_imsin (FunctionEvalInfo *s) 
 {
         float_t real, im;
 	char    *suffix;
@@ -1110,7 +1110,7 @@ static char *help_imsqrt = {
 };
 
 static FuncReturn *
-gnumeric_imsqrt (FuncScratch *s) 
+gnumeric_imsqrt (FunctionEvalInfo *s) 
 {
         float_t real, im, r, theta;
 	char    *suffix;
@@ -1143,7 +1143,7 @@ static char *help_imsub = {
 };
 
 static FuncReturn *
-gnumeric_imsub (FuncScratch *s) 
+gnumeric_imsub (FunctionEvalInfo *s) 
 {
         float_t a, b, c, d;
 	char    *suffix;
@@ -1185,7 +1185,7 @@ static char *help_improduct = {
 };
 
 static FuncReturn *
-gnumeric_improduct (FuncScratch *s) 
+gnumeric_improduct (FunctionEvalInfo *s) 
 {
         float_t a, b, c, d;
 	char    *suffix;
@@ -1227,7 +1227,7 @@ static char *help_imsum = {
 };
 
 static FuncReturn *
-gnumeric_imsum (FuncScratch *s) 
+gnumeric_imsum (FunctionEvalInfo *s) 
 {
         float_t a, b, c, d;
 	char    *suffix;
@@ -1413,7 +1413,7 @@ convert(eng_convert_unit_t units[],
 }	
 
 static FuncReturn *
-gnumeric_convert (FuncScratch *s) 
+gnumeric_convert (FunctionEvalInfo *s) 
 {
         /* Weight and mass constants */
         #define one_g_to_sg     0.00006852205001
@@ -1667,7 +1667,7 @@ static char *help_erf = {
 
 
 static FuncReturn *
-gnumeric_erf (FuncScratch *s)
+gnumeric_erf (FunctionEvalInfo *s)
 {
 	float_t ans, lower, upper=0.0;
 
@@ -1703,7 +1703,7 @@ static char *help_erfc = {
 };
 
 static FuncReturn *
-gnumeric_erfc (FuncScratch *s)
+gnumeric_erfc (FunctionEvalInfo *s)
 {
 	float_t x;
 	if ((x=value_get_as_float (s->a.args[0]))<0){
@@ -1730,7 +1730,7 @@ static char *help_delta = {
 
 
 static FuncReturn *
-gnumeric_delta (FuncScratch *s)
+gnumeric_delta (FunctionEvalInfo *s)
 {
 	int ans = 0;
 	Value *vx, *vy;
@@ -1801,7 +1801,7 @@ static char *help_gestep = {
 
 
 static FuncReturn *
-gnumeric_gestep (FuncScratch *s)
+gnumeric_gestep (FunctionEvalInfo *s)
 {
 	int ans = 0;
 	Value *vx, *vy;

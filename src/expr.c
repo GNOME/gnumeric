@@ -17,8 +17,8 @@
 
 Value *value_zero = NULL;
 
-FuncPos *
-func_pos_init (FuncPos *fp, Sheet *s, int col, int row)
+EvalPosition *
+eval_pos_init (EvalPosition *fp, Sheet *s, int col, int row)
 {
 	g_return_val_if_fail (fp, NULL);
 
@@ -28,60 +28,117 @@ func_pos_init (FuncPos *fp, Sheet *s, int col, int row)
 	return fp;
 }
 
-FuncPos *
-func_pos_cell (FuncPos *fp, Cell *cell)
+EvalPosition *
+eval_pos_cell (EvalPosition *fp, Cell *cell)
 {
 	g_return_val_if_fail (fp, NULL);
 	g_return_val_if_fail (cell, NULL);
 
-	return func_pos_init (fp,
+	return eval_pos_init (fp,
 			      cell->sheet,
 			      cell->col->pos,
 			      cell->row->pos);
 }
 
-FuncScratch *
-func_scratch_init (FuncScratch *s, Sheet *sheet, int col, int row,
-		   char *default_error)
+FunctionEvalInfo *
+func_eval_info_init (FunctionEvalInfo *s, Sheet *sheet, int col, int row)
 {
 	g_return_val_if_fail (s, NULL);
        
-	func_pos_init (&s->pos, sheet, col, row);
-	s->error_string = default_error;
+	eval_pos_init (&s->pos, sheet, col, row);
+	s->error = error_message_new ();
 	s->func_def = 0;
 	return s;
 }
 
-FuncScratch *
-func_scratch_cell (FuncScratch *s, Cell *cell,
-		   char *default_error)
+FunctionEvalInfo *
+func_eval_info_cell (FunctionEvalInfo *s, Cell *cell)
 {
 	g_return_val_if_fail (s, NULL);
 	g_return_val_if_fail (cell, NULL);
 
-	return func_scratch_init (s,
+	return func_eval_info_init (s,
 				  cell->sheet,
 				  cell->col->pos,
-				  cell->row->pos,
-				  default_error);
+				  cell->row->pos);
 }
 
-FuncScratch *
-func_scratch_pos (FuncScratch *s, const FuncPos *fp,
-		   char *default_error)
+FunctionEvalInfo *
+func_eval_info_pos (FunctionEvalInfo *s, const EvalPosition *fp)
 {
 	g_return_val_if_fail (s, NULL);
 	g_return_val_if_fail (fp, NULL);
 
-	return func_scratch_init (s,
+	return func_eval_info_init (s,
 				  fp->sheet,
 				  fp->eval_col,
-				  fp->eval_row,
-				  default_error);
+				  fp->eval_row);
+}
+
+ErrorMessage *error_message_new (void)
+{
+	ErrorMessage *em = g_new (ErrorMessage, 1);
+
+	em->err_msg      = _("Internal Error");
+	em->err_alloced  = 0;
+	em->small_err[0] = '\0';
+	return em;
+}
+
+/**
+ * These may leak magically.
+ **/
+void
+error_message_set (ErrorMessage *em, const char *message)
+{
+	g_return_if_fail (em);
+
+	em->err_msg = message;
+}
+
+void
+error_message_set (ErrorMessage *em, const char *message)
+{
+	g_return_if_fail (em);
+
+	em->err_alloced  = message;
+}
+
+void
+error_message_set (ErrorMessage *em, const char *message)
+{
+	g_return_if_fail (em);
+	g_return_if_fail (message);
+	g_return_if_fail (g_strlen(message) < 19);
+
+	strcpy (em->small_err, message);
+}
+
+const char *
+error_message_txt (ErrorMessage *em)
+{
+	if (!em)
+		return _("Internal Error");
+
+	if (em->err_msg)
+		return em->err_msg;
+	if (em->err_alloced)
+		return em->err_msg;
+	return em->small_err;
+}
+
+void
+error_message_free (ErrorMessage *em)
+{
+	if (em->err_alloced) {
+		g_free (em->err_alloced);
+		em->err_alloced = 0;
+	}
+	g_free (em);
 }
        
 ExprTree *
-expr_parse_string (const char *expr, const FuncPos *fp,
+expr_parse_string (const char *expr, const EvalPosition *fp,
 		   const char **desired_format, char **error_msg)
 {
 	ExprTree *tree;
@@ -737,13 +794,13 @@ free_values (Value **values, int top)
 	g_free (values);
 }
 
-static Value *
-eval_funcall (FuncScratch *s, ExprTree *tree)
+static FuncReturn *
+eval_funcall (FunctionEvalInfo *s, ExprTree *tree)
 {
 	FunctionDefinition *fd;
 	GList *l;
 	int argc, arg, i;
-	Value *v = NULL;
+	FuncReturn *v = NULL;
 	Sheet *sheet;
 	int eval_col;
 	int eval_row;
@@ -763,8 +820,7 @@ eval_funcall (FuncScratch *s, ExprTree *tree)
 
 	if (fd->fn_type == FUNCTION_NODES) {
 		/* Functions that deal with ExprNodes */		
-		s->a.nodes = l;
-		v = (Value *)fd->fn (s);
+		v = ((FunctionNodes *)fd->fn) (s, l);
 	} else {
 		/* Functions that take pre-computed Values */
 		Value **values;
@@ -783,8 +839,8 @@ eval_funcall (FuncScratch *s, ExprTree *tree)
 			fn_argc_max++;
 		}
 
-		if (argc > fn_argc_max || argc < fn_argc_min){
-			s->error_string = _("Invalid number of arguments");
+		if (argc > fn_argc_max || argc < fn_argc_min) {
+			error_message_set (s->error, _("Invalid number of arguments"));
 			return NULL;
 		}
 
@@ -850,14 +906,13 @@ eval_funcall (FuncScratch *s, ExprTree *tree)
 			values [arg] = v;
 			if (type_mismatch){
 				free_values (values, arg + 1);
-				s->error_string = _("Type mismatch");
+				error_message_set (s->error, _("Type mismatch"));
 				return NULL;
 			}
 		}
 		while (arg < fn_argc_max)
 			values [arg++] = NULL;
-		s->a.args   = values;
-		v = (Value *)fd->fn (s);
+		v = ((FunctionArgs *)fd->fn) (s, values);
 
 	free_list:
 		free_values (values, arg);
@@ -870,12 +925,12 @@ function_def_call_with_values (Sheet              *sheet,
 			       FunctionDefinition *fd,
 			       int                 argc,
 			       Value              *values [],
-			       char               **error_string)
+			       ErrorMessage       *error)
 {
 	Value *retval;
-	FuncScratch s;
+	FunctionEvalInfo s;
 
-	func_scratch_init (&s, sheet, 0, 0, *error_string);
+	func_eval_info_init (&s, sheet, 0, 0);
 
 	if (fd->fn_type == FUNCTION_NODES) {
 		/*
@@ -912,7 +967,7 @@ function_def_call_with_values (Sheet              *sheet,
 	}
 
 	if (!retval)
-		*error_string = s.error_string;
+		*error_string = error_message_txt (s->error);
 
 	return retval;
 }
@@ -934,11 +989,11 @@ function_call_with_values (Sheet *sheet, const char *name, int argc, Value *valu
 
 	sym = symbol_lookup (global_symbol_table, name);
 	if (sym == NULL){
-		*error_string = _("Function does not exist");
+		*error = error_message_new ( _("Function does not exist");
 		return NULL;
 	}
 	if (sym->type != SYMBOL_FUNCTION){
-		*error_string = _("Calling non-function");
+		*error = error_message_new ( _("Calling non-function");
 		return NULL;
 	}
 
@@ -1042,7 +1097,7 @@ compare (const Value *a, const Value *b)
 }
 
 FuncReturn *
-eval_expr (FuncScratch *s, ExprTree *tree)
+eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 {
 	Value *res, *a, *b;
 	
@@ -1072,7 +1127,7 @@ eval_expr (FuncScratch *s, ExprTree *tree)
 		value_release (b);
 
 		if (comp == TYPE_ERROR){
-			s->error_string = _("Type error");
+			error_message_set (s->error, _("Type error"));
 			return NULL;
 		}
 
@@ -1103,7 +1158,7 @@ eval_expr (FuncScratch *s, ExprTree *tree)
 
 		default:
 			g_assert_not_reached ();
-			s->error_string = "Internal error";
+			error_message_set (s->error, _("Internal type error"));
 			res = NULL;
 		}
 		return (FuncReturn *)res;
@@ -1129,7 +1184,7 @@ eval_expr (FuncScratch *s, ExprTree *tree)
 		if (!VALUE_IS_NUMBER (a) || !VALUE_IS_NUMBER (b)){
 			value_release (a);
 			value_release (b);
-			s->error_string = _("Type mismatch");
+			error_message_set (s->error,  _("Type mismatch"));
 			return NULL;
 		}
 
@@ -1179,7 +1234,7 @@ eval_expr (FuncScratch *s, ExprTree *tree)
 					value_release (a);
 					value_release (b);
 					value_release (res);
-					s->error_string = _("Division by zero");
+					s->error = error_message_new ( _("Division by zero");
 					return NULL;
 				}
 				res->type = VALUE_FLOAT;
@@ -1216,7 +1271,7 @@ eval_expr (FuncScratch *s, ExprTree *tree)
 					value_release (a);
 					value_release (b);
 					value_release (res);
-					s->error_string = _("Division by zero");
+					error_message_set (s->error, _("Division by zero"));
 					return NULL;
 				}
 
@@ -1263,7 +1318,7 @@ eval_expr (FuncScratch *s, ExprTree *tree)
 	}
 
 	case OPER_FUNCALL:
-		return (FuncReturn *)eval_funcall (s, tree);
+		return eval_funcall (s, tree);
 
 	case OPER_VAR: {
 		Sheet *cell_sheet;
@@ -1299,9 +1354,9 @@ eval_expr (FuncScratch *s, ExprTree *tree)
 				return (FuncReturn *)value_duplicate (cell->value);
 			else {
 				if (cell->text)
-					s->error_string = cell->text->str;
+					error_message_set (s->error, cell->text->str);
 				else
-					s->error_string = _("Reference to newborn cell");
+					error_message_set (s->error, _("Reference to newborn cell");
 				return NULL;
 			}
 		}
@@ -1317,7 +1372,7 @@ eval_expr (FuncScratch *s, ExprTree *tree)
 		if (!a)
 			return NULL;
 		if (!VALUE_IS_NUMBER (a)){
-			s->error_string = _("Type mismatch");
+			error_message_set (s->error, _("Type mismatch"));
 			value_release (a);
 			return NULL;
 		}
@@ -1332,7 +1387,7 @@ eval_expr (FuncScratch *s, ExprTree *tree)
 		return (FuncReturn *)res;
 	}
 
-	s->error_string = _("Unknown evaluation error");
+	error_message_new (s->error, _("Unknown evaluation error"));
 	return NULL;
 }
 
@@ -1362,7 +1417,7 @@ cell_get_abs_col_row (const CellRef *cell_ref, int eval_col, int eval_row, int *
  * FIXME: strings containing quotes will come out wrong.
  */
 static char *
-do_expr_decode_tree (ExprTree *tree, const FuncPos *fp, int paren_level)
+do_expr_decode_tree (ExprTree *tree, const EvalPosition *fp, int paren_level)
 {
 	static struct {
 		const char *name;
@@ -1539,7 +1594,7 @@ do_expr_decode_tree (ExprTree *tree, const FuncPos *fp, int paren_level)
 }
 
 char *
-expr_decode_tree (ExprTree *tree, const FuncPos *fp)
+expr_decode_tree (ExprTree *tree, const EvalPosition *fp)
 {
 	g_return_val_if_fail (tree != NULL, NULL);
 	g_return_val_if_fail (fp->sheet != NULL, NULL);
@@ -1746,8 +1801,8 @@ do_expr_tree_invalidate_references (ExprTree *src, const struct expr_tree_frob_r
  * this is not intended for use when just the cell contents is delete.
  */
 ExprTree *
-expr_tree_invalidate_references (ExprTree *src, FuncPos *src_fp,
-				 const FuncPos *fp,
+expr_tree_invalidate_references (ExprTree *src, EvalPosition *src_fp,
+				 const EvalPosition *fp,
 				 int colcount, int rowcount)
 {
 	struct expr_tree_frob_references info;
@@ -1985,8 +2040,8 @@ do_expr_tree_fixup_references (ExprTree *src, const struct expr_tree_frob_refere
 
 
 ExprTree *
-expr_tree_fixup_references (ExprTree *src, FuncPos *src_fp,
-			    const FuncPos *fp,
+expr_tree_fixup_references (ExprTree *src, EvalPosition *src_fp,
+			    const EvalPosition *fp,
 			    int coldelta, int rowdelta)
 {
 	struct expr_tree_frob_references info;

@@ -20,15 +20,15 @@ void
 cell_eval (Cell *cell)
 {
 	Value *v;
-	FuncScratch s;
-	FuncPos fp;
+	FunctionEvalInfo s;
+	EvalPosition fp;
 
 	g_return_if_fail (cell != NULL);
 
 #ifdef DEBUG_EVALUATION
 	{
 		char *exprtxt = expr_decode_tree
-			(cell->parsed_node, func_pos_cell (&fp, cell));
+			(cell->parsed_node, eval_pos_cell (&fp, cell));
 		printf ("Evaluating %s: %s ->\n",
 			cell_name (cell->col->pos, cell->row->pos),
 			exprtxt);
@@ -36,7 +36,7 @@ cell_eval (Cell *cell)
 	}
 #endif
 
-	v = (Value *)eval_expr (func_scratch_cell (&s, cell, _("ERROR")), cell->parsed_node);
+	v = (Value *)eval_expr (func_eval_info_cell (&s, cell), cell->parsed_node);
 
 #ifdef DEBUG_EVALUATION
 	{
@@ -56,7 +56,7 @@ cell_eval (Cell *cell)
 	}
 
 	if (v == NULL){
-		cell_set_rendered_text (cell, s.error_string);
+		cell_set_rendered_text (cell, error_message_txt (s.error));
 		cell->value = NULL;
 		cell->flags |= CELL_ERROR;
 	} else {

@@ -26,7 +26,7 @@ static char *help_countblank = {
 };
 
 static FuncReturn *
-gnumeric_countblank (FuncScratch *s)
+gnumeric_countblank (FunctionEvalInfo *s)
 {
         Sheet *sheet;
         Value *range;

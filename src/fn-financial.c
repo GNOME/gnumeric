@@ -142,7 +142,7 @@ static char *help_effect = {
 
 
 static FuncReturn *
-gnumeric_effect (FuncScratch *s)
+gnumeric_effect (FunctionEvalInfo *s)
 {
 	double rate;
 	int nper;
@@ -179,7 +179,7 @@ static char *help_nominal = {
 };
 
 static FuncReturn *
-gnumeric_nominal (FuncScratch *s)
+gnumeric_nominal (FunctionEvalInfo *s)
 {
 	double rate;
 	int nper;
@@ -219,7 +219,7 @@ static char *help_sln = {
 
 
 static FuncReturn *
-gnumeric_sln (FuncScratch *s)
+gnumeric_sln (FunctionEvalInfo *s)
 {
 	double cost,salvage_value,life;
 
@@ -258,7 +258,7 @@ static char *help_syd = {
 };
 
 static FuncReturn *
-gnumeric_syd (FuncScratch *s)
+gnumeric_syd (FunctionEvalInfo *s)
 {
 	double cost,salvage_value,life,period;
 
@@ -284,7 +284,7 @@ static char *help_dollarde = {
 
 
 static FuncReturn *
-gnumeric_dollarde (FuncScratch *s)
+gnumeric_dollarde (FunctionEvalInfo *s)
 {
         float_t fractional_dollar;
 	int     fraction, n, tmp;
@@ -323,7 +323,7 @@ static char *help_dollarfr = {
 
 
 static FuncReturn *
-gnumeric_dollarfr (FuncScratch *s)
+gnumeric_dollarfr (FunctionEvalInfo *s)
 {
         float_t fractional_dollar;
 	int     fraction, n, tmp;
@@ -359,7 +359,7 @@ static char *help_pv = {
 
 
 static FuncReturn *
-gnumeric_pv (FuncScratch *s)
+gnumeric_pv (FunctionEvalInfo *s)
 {
 	double rate,nper,pmt,fv;
 	int type;
@@ -425,7 +425,7 @@ callback_function_npv (Sheet *sheet, Value *value, char **error_string, void *cl
 }
 
 static FuncReturn *
-gnumeric_npv (FuncScratch *s)
+gnumeric_npv (FunctionEvalInfo *s)
 {
         financial_npv_t p;
 
@@ -449,7 +449,7 @@ static char *help_fv = {
 
 
 static FuncReturn *
-gnumeric_fv (FuncScratch *s)
+gnumeric_fv (FunctionEvalInfo *s)
 {
 	double rate,nper,pv,pmt;
 	int type;
@@ -479,7 +479,7 @@ static char *help_pmt = {
 };
 
 static FuncReturn *
-gnumeric_pmt (FuncScratch *s)
+gnumeric_pmt (FunctionEvalInfo *s)
 {
 	double rate,pv,fv,nper;
 	int type;
@@ -514,7 +514,7 @@ static char *help_ipmt = {
 };
 
 static FuncReturn *
-gnumeric_ipmt (FuncScratch *s)
+gnumeric_ipmt (FunctionEvalInfo *s)
 {
 	double rate,nper,per,pv,fv;
 	double pmt;
@@ -558,7 +558,7 @@ static char *help_ppmt = {
 };
 
 static FuncReturn *
-gnumeric_ppmt (FuncScratch *s)
+gnumeric_ppmt (FunctionEvalInfo *s)
 {
 	double rate,nper,per,pv,fv;
 	double ipmt,pmt;
@@ -595,7 +595,7 @@ static char *help_nper = {
 };
 
 static FuncReturn *
-gnumeric_nper (FuncScratch *s)
+gnumeric_nper (FunctionEvalInfo *s)
 {
 	double rate,pmt,pv,fv;
 	int type;
@@ -624,7 +624,7 @@ static char *help_duration = {
 };
 
 static FuncReturn *
-gnumeric_duration (FuncScratch *s)
+gnumeric_duration (FunctionEvalInfo *s)
 {
 	double rate,pv,fv;
 	
