@@ -15,7 +15,7 @@
 #define DEFAULT_FONT      "-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*"
 #define DEFAULT_BOLD_FONT "-adobe-helvetica-bold-r-normal--*-120-*-*-*-*-*-*"
 #define DEFAULT_ITALIC_FONT "-adobe-helvetica-medium-o-normal--*-120-*-*-*-*-*-*"
-#define DEFAULT_SIZE 14
+#define DEFAULT_SIZE 12
 
 static GHashTable *style_format_hash;
 static GHashTable *style_font_hash;

@@ -73,7 +73,7 @@ sheet_init_default_styles (Sheet *sheet)
 
 	/* The default row style */
 	sheet->default_row_style.pos      = -1;
-	sheet->default_row_style.units    = 20;
+	sheet->default_row_style.units    = 18;
 	sheet->default_row_style.pixels   = 0;
 	sheet->default_row_style.margin_a = 1;
 	sheet->default_row_style.margin_b = 1;

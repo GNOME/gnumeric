@@ -1343,7 +1343,7 @@ cell_draw (Cell *cell, void *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y
 	
 	int start_col, end_col;
 	int width, height;
-	int text_base = y1 + cell->row->pixels - cell->row->margin_b - font->descent + 1;
+	int text_base = y1 + cell->row->pixels - cell->row->margin_b - font->descent;
 	int font_height;
 	int halign;
 	int do_multi_line;
@@ -1382,8 +1382,8 @@ cell_draw (Cell *cell, void *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y
 
 		rect.x = x1;
 		rect.y = y1;
-		rect.height = cell->row->pixels;
-		rect.width = cell->col->pixels;
+		rect.height = cell->row->pixels + 1;
+		rect.width = cell->col->pixels  + 1;
 		gdk_gc_set_clip_rectangle (gc, &rect);
 		
 		switch (style->valign){
@@ -1469,7 +1469,7 @@ cell_draw (Cell *cell, void *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y
 		rect.x = x1 + 1 + diff;
 		rect.y = y1 + 1;
 		rect.width  = sheet_col_get_distance (cell->sheet, start_col, end_col+1) - 1;
-		rect.height = cell->row->pixels - 2;
+		rect.height = cell->row->pixels - 1;
 		
 		/* Set the clip rectangle */
 		gdk_gc_set_clip_rectangle (gc, &rect);

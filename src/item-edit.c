@@ -77,8 +77,15 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	dx += ci->margin_a + 1;
 
 	first_part_len = gdk_text_width (font, text, cursor_pos);
+
+	/*
+	 * FIXME:
+	 * The -1 from "font->descent - 1" should actually be
+	 * cell->row->margin_b
+	 */
+
 	gdk_draw_text (drawable, font, canvas->style->black_gc,
-		       dx, dy + hd - font->descent, text, cursor_pos);
+		       dx, dy + hd - font->descent - 1, text, cursor_pos);
 	gdk_draw_line (drawable, canvas->style->black_gc,
 		       first_part_len + dx,
 		       dy + hd - font->descent,
