@@ -1,3 +1,8 @@
+1999-09-17  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/widgets/gnumeric-toolbar.c (gnumeric_toolbar_class_init):
+	typo fix.
+
 1999-09-17  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/widgets/gnumeric-toolbar.c (gnumeric_toolbar_class_init):

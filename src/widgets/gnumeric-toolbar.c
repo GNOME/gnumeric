@@ -23,7 +23,7 @@ gnumeric_toolbar_class_init (GtkObjectClass *object_class)
 {
 	object_class->finalize = gnumeric_toolbar_finalize;
 
-	gnumeric_toolbar_parent_class = gtk_type_class (GTK_TOOLBAR_TYPE);
+	gnumeric_toolbar_parent_class = gtk_type_class (GTK_TYPE_TOOLBAR);
 }
 
 GtkType
