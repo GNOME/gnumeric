@@ -1,6 +1,4 @@
 application/x-gnumeric; gnumeric '%s'; description="Gnumeric spreadsheet"; test=test -n "$DISPLAY"; nametemplate=%s.gnumeric
 text/comma-separated-values; gnumeric '%s'; description="Comma Separated Values"; test=test -n "$DISPLAY"; nametemplate=%s.csv
 application/vnd.ms-excel; gnumeric '%s'; description="MS Excel spreadsheet"; test=test -n "$DISPLAY"; nametemplate=%s.xls
-application/x-gnumeric; gnumeric '%s'; description="Gnumeric spreadsheet"; test=test -n "$DISPLAY"; nametemplate=%s.gnumeric
-text/comma-separated-values; gnumeric '%s'; description="Comma Separated Values"; test=test -n "$DISPLAY"; nametemplate=%s.csv
-application/vnd.ms-excel; gnumeric '%s'; description="MS Excel spreadsheet"; test=test -n "$DISPLAY"; nametemplate=%s.xls
+application/x-applix; gnumeric '%s'; description="Applixware Spreadsheets file"; test=test -n "$DISPLAY"; nametemplate=%s.as

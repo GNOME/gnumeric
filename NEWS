@@ -6,6 +6,7 @@ Andreas:
 Jody:
 	* Make names created in the goto box absolute.
 	* Fix multi-line text entry.
+	* Package the help menu translations.
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=71172
 	* Keep the validated value around, and fix date/time validation.
@@ -34,6 +35,7 @@ Peter Moulder:
 C. Scott Ananian:
 	* Some documentation fixes.
 	* Fix import of WorkbookView attributes.
+	* update the debian files.
 
 --------------------------------------------------------------------------
 Gnumeric 1.0.4

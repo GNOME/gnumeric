@@ -3,58 +3,7 @@ on Sat, 26 Sep 1998 17:15:24 +0200.
 
 Gnumeric sources can now be found at http://www.gnome.org/gnumeric/ .
 
-Contributors to gnumeric are listed in the 'AUTHORS'.
-
-This is free software; you can redistribute it and/or modify it under
-the terms of the GNU General Public License as published by the Free
-Software Foundation; either version 2, or (at your option) any later
-version.
-
-This is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-for more details.
-
-You should have received a copy of the GNU General Public License with
-your Debian GNU/Linux system, in /usr/share/common-licenses/GPL, or with the
-gnumeric source package as the file COPYING.  If not, write to the Free
-Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-02111-1307, USA.
-This package was originally debianized by Vincent Renardias <vincent@waw.com> 
-on Sat, 26 Sep 1998 17:15:24 +0200.
-
-Gnumeric sources can now be found at http://www.gnome.org/gnumeric/ .
-
-Contributors to gnumeric are:
-	Miguel de Icaza, creator.
-	Jody Goldberg, maintainer.
-	Sean Atkinson, functions and X-Base importing.
-	Grandma Chema Celorio, Tester and sheet copy.
-	Frank Chiulli, OLE support.
-	Kenneth Christiansen, i18n, misc stuff.
-	Zbigniew Chyla, plugin system, i18n.
-	Tom Dyas, plugin support.
-	Gergo Érdi, Gnumeric hacker.
-	Andreas J. Guelzow, statistics stuff.
-	Jon K. Hellan, Gnumeric hacker.
-	Ross Ihaka, special functions.
-	Jukka-Pekka Iivonen, numerous functions and tools.
-	Jakub Jelinek, Gnumeric hacker.
-	Chris Lahey, number format engine.
-	Adrian Likins, documentation, debugging.
-	Takashi Matsuda, original text plugin.
-	Michael Meeks, Excel and OLE2 importing.
-	Federico M. Quintero, canvas support.
-	Mark Probst, Guile support.
-	Rasca, HTML, troff, LaTeX exporters.
-	Vincent Renardias, original CSV support, French localization.
-	Ariel Rios, Guile support.
-	Arturo Tena, OLE support.
-	Almer S. Tigelaar, Gnumeric hacker.
-	Bruno Unna, Excel bits.
-	Daniel Veillard, XML support.
-	Vladimir Vuksan, financial functions.
-	Morten Welinder, Gnumeric hacker.
+Contributors to gnumeric are listed in the file 'AUTHORS'.
 
 This is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free

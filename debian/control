@@ -1,21 +1,31 @@
 Source: gnumeric
 Section: math
 Priority: optional
-Maintainer: Vincent Renardias <vincent@debian.org>
-Build-Depends: debhelper (>= 3.0), libtool, automake (>= 1.4-p4-1), autoconf (>= 2.52), gettext, flex, docbook-utils, xml-i18n-tools (>= 0.9), libgnome-dev (>= 1.2.12-1), libgnomeprint-dev (>= 0.29), libglade-gnome0-dev (>= 0.16-2), libxml-dev (>= 1.8.14), libgal-dev (>= 0.8), libole2-dev (>= 0.2.3-1), libbonobo-dev (>= 1.0.8), python-dev
+Maintainer: J.H.M. Dassen (Ray) <jdassen@debian.org>
+Build-Depends: debhelper (>= 3.0), libtool, automake (>= 1.4-p4-1), autoconf (>= 2.52), gettext, bison, flex, docbook-utils, intltool, libglib1.2-dev (>= 1.2.10-3), libgnome-dev (>= 1.4.1.2-4), libgnomeprint-dev (>= 0.32-3), libglade-gnome0-dev (>= 0.16-2), libxml-dev (>= 1.8.14), libgal-dev (>= 0.19), libole2-dev (>= 0.2.4), libbonobo-dev (>= 1.0.9), python2.2-dev (>= 2.2-1), gnome-doc-tools
 Standards-Version: 3.5.6
 
 Package: gnumeric
 Architecture: any
-Depends: ${shlibs:Depends}, python-base, gsfonts
-Suggests: gnumeric-doc
+Depends: ${shlibs:Depends}, gsfonts, gnome-libs-data (>= 1.4.1.2-6)
+Suggests: gnumeric-doc, gnumeric-python, eog, guppi-gnumeric, evolution
 Replaces: zh-trans (<< 0.8-1)
 Description: A GNOME spreadsheet application
  Gnumeric is a powerful spreadsheet application that interoperates well
- with other spreadsheets. It comes with plugins that enable it to read and
- write commonly used spreadsheet file formats, including Excel (.xls),
- XBase (.dbf), CSV (.csv), GNU Oleo, SC, Applix and Lotus 123 and can export
- to LaTeX and HTML as well.
+ with other spreadsheets. It comes with plugins that enable it to deal with
+ commonly used spreadsheet file formats, including
+  o Microsoft(R) Excel95 (.xls)
+  o Comma/Character Separated Values (.csv)
+  o XBase (.dbf), 
+  o MultiPlan (.sylk)
+  o PlanPerfect
+  o Lotus 123 (.wks, .wk1)
+  o Applix version 4 (.as)
+  o Data Interchange Format (.dif)
+  o GNU Oleo (.oleo)
+  o SC/XSpread
+  o Linear and integer program expression format (.mps)
+ and can export to LaTeX, Roff and HTML as well.
  .
  Gnumeric should be easy to use, in particular if you are familiar with
  Excel.
@@ -30,35 +40,14 @@ Suggests: gnome-help
 Replaces: gnumeric (<= 0.70-0.3)
 Description: Documentation for Gnumeric, the GNOME spreadsheet application
  The `Gnumeric's User Manual' in Gnome Help (HTML) format.
-Source: gnumeric
-Section: math
-Priority: optional
-Maintainer: Vincent Renardias <vincent@debian.org>
-Build-Depends: debhelper (>= 3.0), libtool, automake, autoconf (>= 2.52), gettext, flex, cygnus-stylesheets, xml-i18n-tools (>= 0.8), libgnome-dev (>= 1.2.12-1), libgnomeprint-dev (>= 0.28), libglade-gnome0-dev (>= 0.16-2), libxml-dev (>= 1.8.14), libgal-dev (>= 0.8), libole2-dev (>= 0.2.3-1), libbonobo-dev (>= 1.0.7), python-dev
-Standards-Version: 3.5.6
 
-Package: gnumeric
+Package: gnumeric-python
 Architecture: any
-Depends: ${shlibs:Depends}, python-base, gsfonts-x11
-Suggests: gnumeric-doc
-Replaces: zh-trans (<< 0.8-1)
-Description: A GNOME spreadsheet application
- Gnumeric is a powerful spreadsheet application that interoperates well
- with other spreadsheets. It comes with plugins that enable it to read and
- write commonly used spreadsheet file formats, including Excel (.xls),
- XBase (.dbf), CSV (.csv), GNU Oleo, SC, Applix and Lotus 123 and can export
- to LaTeX and HTML as well.
- .
- Gnumeric should be easy to use, in particular if you are familiar with
- Excel.
- .
- Gnumeric is a GNOME application. GNOME (GNU Network Object Model Environment) 
- is a user-friendly set of applications and desktop tools to be used in 
- conjunction with a window manager for the X Window System.
-
-Package: gnumeric-doc
-Architecture: all
-Suggests: gnome-help
-Replaces: gnumeric (<< 0.68)
-Description: Documentation for Gnumeric, the GNOME spreadsheet application
- The `Gnumeric's User Manual' in Gnome Help (HTML) format.
+Depends: gnumeric (= ${Source-Version}), ${shlibs:Depends}
+Description: Python plugins for the GNOME spreadsheet
+ Plugins written in Python and plugins that allow you to extend Gnumeric's 
+ functionality using the Python scripting language:
+  o Python plugin
+  o Python plugin loader
+  o Python functions
+  o Gnome glossary

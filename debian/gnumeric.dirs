@@ -1,6 +1,4 @@
 usr/bin
 usr/lib
 usr/share/man/man1
-usr/bin
-usr/lib
-usr/share/man/man1
+usr/share/idl

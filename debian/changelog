@@ -1,3 +1,236 @@
+gnumeric (1.0.4-1.1) unstable; urgency=high
+
+  * Update from CVS.
+
+ -- C. Scott Ananian <cananian@alumni.princeton.edu>  Tue, 19 Feb 2002 22:36:31 +0500
+
+gnumeric (1.0.4-1) unstable; urgency=high
+
+  * New upstream release:
+    * "Don't confuse the calling context with the view to save.", i.e.
+      don't save to the wrong filename. (Closes: #131561)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu, 31 Jan 2002 08:18:59 +0100
+
+gnumeric (1.0.3-2) unstable; urgency=high
+
+  * Release manager has frozen libgal's ABI at libgal19 for woody, so link 
+    against GAL dynamically again, and bump the build dependency accordingly.
+  * Separate copyright file for gnumeric-doc.
+  * Include symlinks for IDL files in /usr/share/idl . (Closes: #128629)
+  * [debian/gnumeric.mime] Added application/x-applix.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sat, 26 Jan 2002 19:56:18 +0100
+
+gnumeric (1.0.3-1) unstable; urgency=high
+
+  * New upstream release.
+  * [debian/rules] Added explanation for why no GDA plugin is built.
+  * [src/item-grid.c] Disabled harmless demo warning. (Closes: #130305)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue, 22 Jan 2002 16:43:51 +0100
+
+gnumeric (1.0.2-1) unstable; urgency=high
+
+  * New upstream release.
+  * No longer build -fsigned-char.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 20 Jan 2002 16:53:57 +0100
+
+gnumeric (1.0.1-1) unstable; urgency=high
+
+  * New upstream release:
+    * Signedness fixes for architectures where char is unsigned by default.
+      (Closes: #127009)
+    * GAL requirement bumped. 
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon,  7 Jan 2002 00:21:53 +0100
+
+gnumeric (1.0.0-1) unstable; urgency=high
+
+  * New upstream release, with magic version number.
+  * Build -fsigned-char for now, while upstream looks into char (un)signedness
+    problems.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon, 31 Dec 2001 15:29:18 +0100
+
+gnumeric (0.99.1-1) unstable; urgency=high
+
+  * New upstream release.
+  * Python 2.2 has been released, so build against that.
+  * Verified that links to images in the documentation are fine now that we
+    build the docs again. (Closes: #126332)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sat, 29 Dec 2001 14:15:36 +0100
+
+gnumeric (0.99.0-1) unstable; urgency=high
+
+  * New upstream release:
+    * currency order when using locales fixed. (Closes: #67301)
+  * Reenabled building of documentation which seems to work again.
+  * [debian/control]
+    * Added build dependency on gnome-doc-tools for the relevant SGML stuff.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 16 Dec 2001 16:51:03 +0100
+
+gnumeric (0.76-4) unstable; urgency=high
+
+  * Explicitly build-depend on a libglib1.2-dev known to contain
+    /usr/lib/libgmodule.la to fix ARM build.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun,  9 Dec 2001 11:05:23 +0100
+
+gnumeric (0.76-3) unstable; urgency=high
+
+  * [debian/control] Build-depend on GPL-compatibly licensed python2.1-dev 
+    package.
+  * Conform to python policy. (Closes: #121761)
+  * [debian/rules] Clean out gmo files.
+  * gnumeric-python changes by Matthias Klose:
+    * Build with python, version 2.1 (Closes: #120181).
+    * Add gnumeric-python.{postinst,prerm} files to compile/remove python 
+      files.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sat,  8 Dec 2001 15:01:20 +0100
+
+gnumeric (0.76-2) unstable; urgency=high
+
+  * The upload of 0.75-1 was rejected, so once again:
+    * Acknowledge NMUs. (Closes: #55096,#62429,#62430,#64887,#94017,#96708,#98779,#99639,#99679,#100111,#101059,#102047,#102270,#102406,#103489,#103776,#104031,#104908,#105274,#105344,#106392,#106796,#107115,#107434,#107567,#107661,#107797,#107982,#107988,#108303,#108826,#108988,#109466,#109496,#109827,#110747,#110844,#110992,#111566,#112087,#112251,#112252,#113745,#114793,#114805,#115216,#115237,#117870,#117983,#117985,#118213,#118354,#119514)
+    * [debian/control] List plugins in gnumeric-python's description. 
+      (Closes: #119817)
+  * Applied patch by Karl Eichwalder to correct the German l10n:
+    distinguish "tab" into "Reiter" (for tabbed window) and "Tabulator"
+    (for "\t"). (Closes: #121233)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue, 27 Nov 2001 22:48:16 +0100
+
+gnumeric (0.76-1) unstable; urgency=high
+
+  * New upstream release.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue, 20 Nov 2001 21:18:03 +0100
+
+gnumeric (0.75-1) unstable; urgency=high
+
+  * New maintainer.
+  * [debian/control]
+    * List plugins in gnumeric-python's description. (Closes: #119817)
+    * Reworked gnumeric's description a bit as well.
+    * Suggest "guppi-gnumeric" (which the next libguppi13 will provide) for 
+      graphing capabilities.
+    * Removed temporary explicit build dependency on libfreetype6-dev and 
+      bumped libgnomeprint-dev build dependency to a version that declares a 
+      dependency on libfreetype6-dev.
+  * [configure.in]
+    * With the updated libgnomeprint-dev build dependency, printConf.sh takes
+      care of including the gdk-pixbuf headers for us.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon, 19 Nov 2001 20:41:48 +0100
+
+gnumeric (0.75-0.2) unstable; urgency=high
+
+  * [debian/control]
+    * If /etc/paper.config isn't available, previewing and printing fails. 
+      Added a dependency on a recent enough gnome-libs-data known to include 
+      that file to prevent these problems. (Closes: #117983)
+    * Tightened the libgnomeprint-dev build dependency as older versions may
+      segfault in their postinst, causing build failures with the build 
+      daemons.
+    * Temporarily added build dependency on libfreetype6-dev which is needed 
+      for gnome-print but not yet declared by libgnomeprint-dev.
+    * Changed Suggests: evolution-ssl | evolution to Suggests: evolution as
+      evolution-ssl now Provides: evolution.
+    * Removed the Suggests: guppi as the new version isn't packaged yet and
+      packaging changes are expected.
+  * [configure.in] Remove es_* from ALL_LINGUAS as their .po files are quite
+    incomplete and out of date. (Closes: #119514)
+  * [debian/rules] Clean out files that autogen.sh may have updated.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Wed, 14 Nov 2001 16:23:01 +0100
+
+gnumeric (0.75-0.1) unstable; urgency=high
+
+  * New upstream release.
+    * Tightened the libole2-dev build dependency as per README.
+  * Previous upload already fixed compilation problems relating to gdk
+    pixbuf's headers. (Closes: #118354)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon,  5 Nov 2001 22:11:54 +0100
+
+gnumeric (0.74-0.1) unstable; urgency=high
+
+  * New upstream release:
+    [debian/control] Tightened build dependency on GAL.
+  * [configure.in]
+    * Updated comments on GAL.
+    * Handle new gdk pixbuf headers location.
+  * Put the Python(using) plugins in a package of their own to reduce the 
+    main gnumeric package's library dependencies. Build them against 
+    Python 1.5, which is licensed under a GPL-compatible license.
+    (Closes: #117985, #117870, #118213)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun,  4 Nov 2001 20:35:39 +0100
+
+gnumeric (0.72-0.2) unstable; urgency=high
+
+  * Included Evolution-Composer.idl in our sources, and modified debian/rules, 
+    configure.in, idl/Makefile.am to use the local copy. Removed build 
+    dependencies on Evolution, as it is currently a problematic package to 
+    build on some of our architectures, which prevents us from propagating 
+    to testing.
+  * Extended the motivation of --with(out) feature choices in debian/rules.
+  * Do away with the separate call of configure by passing configure flags to
+    autogen.sh .
+  * Use "install -p" to preserve timestamps. 
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 21 Oct 2001 15:30:55 +0200
+
+gnumeric (0.72-0.1) unstable; urgency=high
+
+  * New upstream release.
+  * Updated build dependencies: changed python-dev (which has become a dummy
+    package) to python1.5-dev.
+  * [configure.in] Honour DEB_BUILD_OPTIONS as per policy.
+  * Build in a separate build directory.
+  * Suggest guppi.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sat, 20 Oct 2001 09:59:51 +0200
+
+gnumeric (0.71-0.3) unstable; urgency=high
+
+  * The build daemons always seem to pick the first of ORed build dependencies.
+    Put evolution-dev before evolution-ssl-dev as it should be available to 
+    all.
+  * The latest libgnome-dev has been built against the latest liborbit-dev, so
+    that liborbit's includes like orb/orbit.h are found again. Updated the
+    build dependencies accordingly.
+  * Replaced src/parser.y with the CVS version which was changed to deal with 
+    the problem with saving large floats that Johann Spies noted. 
+    Added build dependency on bison. (Closes: #115216)
+  * Clean out more generated files.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 14 Oct 2001 14:14:44 +0200
+
+gnumeric (0.71-0.2) unstable; urgency=medium
+
+  * Use macros/autogen.sh to set up the build stuff.
+  * xml-i18n-tools has been replaced by intltool. Updated build dependency and 
+    have autogen.sh take care of it. (Closes: #115237)
+  * Following upstream's request, added a Suggests: eog which gnumeric can use
+    as a component to view images.
+  * Tightened bonobo build dependency as per CVS changes ("to fix some 
+    crashes in printing and fix some stale docs").
+  * Enabled support for sending spreadsheets via Evolution, which seems to work
+    fine. Added build dependency on evolution-ssl-dev or evolution-dev and a 
+    matching Suggests:.
+  * Replaced GNOME_Gnumeric.oaf.in with the CVS version which disables the
+    "Embeddable Grid Component Factory" as well.
+  * [debian/rules] Documented the reasons why we disable some features.
+  * [configure.in] Documented why we link against GAL statically.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri, 12 Oct 2001 11:55:09 +0200
+
 gnumeric (0.71-0.1) unstable; urgency=high
 
   * New upstream release:
@@ -494,420 +727,4 @@ gnumeric (0.2-1) unstable; urgency=low
 
 Local variables:
 mode: debian-changelog
-End:
-gnumeric (0.69-0.3) unstable; urgency=low
-
-  * [debian/control] Build depend on recent autoconf. (Closes: #108988)
-  * [debian/rules] clean: remove configure.in as well.
-
- -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 19 Aug 2001 17:52:16 +0200
-
-gnumeric (0.69-0.2) unstable; urgency=low
-
-  * Added build dependency on libtool. (Closes: #107988)
-  * Added dependency on gsfonts-x11 to ensure availability of the standard
-    PostScript fonts. (Closes: #107115, #107797, #102406).
-  * Cleaned up source diff.
-  * [debian/rules] Run automake.
-  * [debian/copyright] Really updated.
-
- -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue, 14 Aug 2001 21:26:06 +0200
-
-gnumeric (0.69-0.1) unstable; urgency=low
-
-  * Non-maintainer upload of new upstream release.
-  * [debian/docs] Included AUTHORS and MAINTAINERS.
-  * [debian/copyright] Updated.
-  * [debian/gnumeric.manpages, debian/rules] Upstream now includes a manpage.
-  * [configure.ac, debian/rules] Replace unconditional -D_GNU_SOURCE by 
-    -D_USE_BSD if needed.
-  * [configure.ac] Made --without-evolution work.
-
- -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon, 13 Aug 2001 17:33:59 +0200
-
-gnumeric (0.68-0.3) unstable; urgency=low
-
-  * New libgal, so it's recompile time again.
-  * [configure.in, macros/gnome-guile-checks.m4, debian/rules] Imported 
-    changes from gnumeric CVS to make --without-guile work and regenerate
-    aclocal.m4 and configure accordingly. (Closes: #107661)
-  * [configure.in] Imported CVS changes for alloca as well, as we use
-    autoconf 2.52.
-  * [debian/control] Added build dependency on automake (for "aclocal").
-
- -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon,  6 Aug 2001 20:18:16 +0200
-
-gnumeric (0.68-0.2) unstable; urgency=low
-
-  * Another NMU (requested by Ray)
-  * The new -doc package now replaces all pre-0.68 gnumeric docs.
-  * Cleaned up docbook conversion mess.
-
- -- Martijn van de Streek <martijn@foodfight.org>  Mon, 30 Jul 2001 10:21:52 +0200 
-
-gnumeric (0.68-0.1) unstable; urgency=low
-
-  * Non-maintainer upload of new upstream release, after conferring with
-    Vincent.
-  * [debian/*] Redone based on current dh_make template.
-  * Split documentation into a separate package. (Closes: #62430)
-  * [debian/rules]
-    * Explicitly disabled Evolution support.
-      It is not mentioned in NEWS or README, so presumably it is not yet ready
-      for production use.
-    * Removed the plugins' `.la' files: gnumeric's plugins are not public 
-      libraries nor do they on libtool's libltdl, so policy does not require
-      them to be included. (Closes: #62429)
-  * [debian/gnumeric.mime] Added text/comma-separated-values entry; corrected
-    nametemplates which had .xls and .gnumeric swapped. (Closes: #101059).
-  * [debian/gnumeric-man.sgml] Added a manpage. (Closes: #102047)
-  * [debian/control]
-    * Updated the description.
-    * Added build dependency on docbook-to-man.
-    * Added missing build dependency on flex. (Closes: #103776) 
-    * Tightened the build dependency on libxml-dev. (Closes: #105344)
-    * Updated Standards-Version.
-  * [configure.in] Reinstated ja, ko, zh_CN.GB2312, zh_TW.Big5 as their po 
-    files were updated and no longer cause problems.
-  * Clean up bug reports that are no longer relevant:
-    * We build with the latest available libgal. 
-      (Closes: #99679, #103489, #104031, #105274)
-    * The accidental deletion of HTML documentation was fixed in a previous
-      upload. (Closes: #102270)
-    * Backspace not working in cells was fixed upstream. (Closes: #106796)
-    * Shrinking output in print setup was fixed upstream. (Closes: #55096)
-    * Verified that CSV export works fine with this version. (Closes: #100111)
-    * Non-ancient versions of Gnumeric have no problems with reading back
-      their own file format. (Closes: #98779)
-
- -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 29 Jul 2001 19:38:32 +0200
-
-gnumeric (0.67-1) unstable; urgency=low
-
-  * New upstream release.
-  * Build this bonobo support since this is now the default.
-
- -- Vincent Renardias <vincent@debian.org>  Tue, 10 Jul 2001 12:18:37 +0200
-
-gnumeric (0.65-2) unstable; urgency=low
-
-  * New upstream version (Closes: #98189).
-  * Compiled against newer libole2-dev/libgal (Closes: #99041).
-  * Updated debian/control (Build-Depends).
-  * ACK bugs fixed by previous NMU:
-    Closes: #94017, #96708, #80016, #51547, #70837, #96863, #96080, #87837.
-    Closes: #96062, #96080, #96863.
-  * Printing problems should be solved.
-    Closes: #80869, #92986, #92849.
-  * Integrated NMU work from JHM Dassen:
-    - The problem of dsum freezing gnumeric when cells involved were deleted
-      was fixed upstream. (Closes: #90875).
-    - [configure.in] Removed es_* from ALL_LINGUAS as their .po files are quite
-      out of date compared to plain es. (Closes: #89108).
-    - [debian/rules] Explicitly disabled GDA for consistency across
-      architectures; explicitly enabled warnings.
-    - [debian/rules] Compile -D_GNU_SOURCE for various functions and macros,
-      like caddr_t and M_PI_2.
-    - [debian/control] Added build dependency on xml-i18n-tools; updated build
-      dependencies on libgal, libxml1 and libole.
-
- -- Vincent Renardias <vincent@debian.org>  Mon,  4 Jun 2001 15:06:41 +0200
-
-gnumeric (0.64-1.1) unstable; urgency=low
-
-  * Documentation:
-    * Ensure documentation is included. (Closes: #94017, #96708)
-    * [debian/gnumeric.doc-base] New, so debhelper registers us with doc-base.
-    * [debian/control] Added build dependency on cygnus-stylesheets as we 
-      generate the documentation from its SGML source.
-  * Menu support:
-    * [debian/menu] Added menu hints. (Closes: #80016)
-  * MIME support:
-    * [debian/mime.gnumeric] Renamed to debian/gnumeric.mime so MIME handler
-      registration through debhelper works. (Closes: #51547, #70837)
-    * [debian/gnumeric.mime] Register as a handler for application/x-gnumeric 
-      as well; added "nametemplate"s.
-  * Localisation:
-    * [debian/control] Added missing build dependency on gettext.
-    * [po/da.po]: corrected charset to ISO 8859-1.
-    * [configure.in] Removed ja, ko, zh_CN.GB2312, zh_TW.Big5 from ALL_LINGUAS
-      as msgfmt on them fails (with errors like invalid multibyte sequence,
-      end-of-line within string, invalid control sequence).
-    * [debian/rules] Generate "configure".
-    * [debian/control] Added build dependency on autoconf.
-  * Other build and dependencies changes:
-    * Compiled against current libgal
-      (Closes: #96863, #96080)
-    * [debian/control] Updated build dependency for libgal. 
-    * [debian/control] Added missing build dependency on debhelper.
-    * [debian/control] Downgrade dependency on gnome-help to Suggests as GNOME 
-      allows configuration of a different help browser. (Closes: #87837).
-    * [debian/control] Removed Recommends: python-dev as there's a Depends:
-      for it already.
-    * [debian/rules] Explicitly disable GB and Guile, so that builds on other 
-      architectures will not accidentally get additional dependencies.
-    * [debian/rules] Remove generated files po/messages, po/cat-id-tbl.c 
-      as part of `clean'.
-    * [debian/dirs] We don't need to create usr/X11R6/lib anymore.
-
- -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Wed, 16 May 2001 20:08:35 +0200
-
-gnumeric (0.64-1) unstable; urgency=low
-
-  * new upstream upgrade.
-  * recompile against lastest gnome-print.
-
- -- Vincent Renardias <vincent@debian.org>  Mon,  9 Apr 2001 17:28:05 +0200
-
-gnumeric (0.63-1) unstable; urgency=low
-
-  * new upstream upgrade (containing many fixes).
-  * 'make clean' now really does.
-  * Now appears to be fixed (Closes: #77577).
-  * Depend on gnome-help (Closes: #62642).
-  * Dependancy is now correct (Closes: #67249).
-  * Should be fixed (Closes: #71668).
-  * Appears to work (Closes: #67305).
-  * function-reference.html is back (Closes: #81133).
-  * Python support in back (Closes: #41282, #65287).
-
- -- Vincent Renardias <vincent@debian.org>  Sat, 24 Feb 2001 22:46:07 +0100
-
-gnumeric (0.61-2) unstable; urgency=low
-
-  * Recompile against libgal4 (Closes: #86638, #86003, #86389).
-  * Add a Build-depends: line in control (Closes: #75636).
-  * already fixed bugs (Closes: #75827).
-
- -- Vincent Renardias <vincent@debian.org>  Sat, 24 Feb 2001 18:24:15 +0100
-
-gnumeric (0.61-1) unstable; urgency=low
-
-  * New upstrem release.
-
- -- Vincent Renardias <vincent@debian.org>  Tue, 19 Dec 2000 16:48:51 +0100
-
-gnumeric (0.58-0.1) unstable; urgency=low
-
-  * NMU.
-  * New upstrem release (Closes: #75827)
-
- -- Christian Marillat <marillat@debian.org>  Tue, 14 Nov 2000 13:06:46 +0100
-
-gnumeric (0.56.0-1) unstable; urgency=low
-
-  * New upstream release.
-    Recreated tarfile, since the one from ftp.gnome.org and mirrors
-    were broken (hence: 0.56.0 instead of 0.56).
-  * Now depends on new package 'libole2'.
-
- -- Vincent Renardias <vincent@debian.org>  Tue, 20 Jun 2000 13:42:10 +0200
-
-gnumeric (0.54-1) unstable; urgency=low
-
-  * New upstream release.
-
- -- Vincent Renardias <vincent@debian.org>  Wed, 24 May 2000 10:03:25 +0200
-
-gnumeric (0.53-1) unstable; urgency=low
-
-  * New upstream release.
-
- -- Vincent Renardias <vincent@debian.org>  Thu, 11 May 2000 18:54:14 +0200
-
-gnumeric (0.52-1) unstable; urgency=low
-
-  * New upstream release.
-   closes: #61282: Missing gnome-print dependency, bad link to libgnomeprint.so.6.
-   closes: #61920: Please do NOT ship the bonobo version of gnumeric.
-   closes: #61447: new version has wrong dependency.
-   closes: #61897: gnumeric overwrites /usr/bin/graph.
-   closes: #62347: gnumeric: Can't build!
-   closes: #61319: Duplicate file /usr/bin/graph.
-   closes: #55056: gnumeric 0.47-1 reports unknown libglade0 0.11-2 symbol.
-   closes: #61241: gnumeric: package overlap with plotutils.
-
- -- Vincent Renardias <vincent@debian.org>  Fri, 14 Apr 2000 18:31:56 +0200
-
-gnumeric (0.51-2) unstable; urgency=low
-
-  * redisable bonobo support.
-
- -- Vincent Renardias <vincent@debian.org>  Fri,  7 Apr 2000 12:45:26 +0200
-
-gnumeric (0.51-1) unstable; urgency=low
-
-  * New upstream release.
-
- -- Vincent Renardias <vincent@debian.org>  Wed, 29 Mar 2000 13:13:02 +0200
-
-gnumeric (0.50-1) unstable; urgency=low
-
-  * New upstream release.
-  * Compile with bonobo support.
-
- -- Vincent Renardias <vincent@debian.org>  Mon, 27 Mar 2000 14:46:53 +0200
-
-gnumeric (0.48-3) unstable; urgency=low
-
-  * Recompile with gnome-print 0.12.
-
- -- Vincent Renardias <vincent@debian.org>  Mon,  6 Mar 2000 10:42:05 +0100
-
-gnumeric (0.48-1) unstable; urgency=low
-
-  * New upstream version.
-  * now built against gtk 1.2.7 (closes GNOME BTS bug #2611)
-
- -- Vincent Renardias <vincent@debian.org>  Mon, 21 Feb 2000 12:13:47 +0100
-
-gnumeric (0.47-1) unstable; urgency=low
-
-  * New upstream version.
-
- -- Vincent Renardias <vincent@debian.org>  Mon,  3 Jan 2000 13:28:49 +0100
-
-gnumeric (0.45-1) unstable; urgency=low
-
-  * New upstream version.
-
- -- Vincent Renardias <vincent@debian.org>  Mon,  6 Dec 1999 13:57:04 +0100
-
-gnumeric (0.44-1) unstable; urgency=low
-
-  * New upstream version.
-  * Now depends on a fixed (0.10-3) version of gnome-print.
-
- -- Vincent Renardias <vincent@debian.org>  Tue, 23 Nov 1999 12:03:00 +0100
-
-gnumeric (0.43-1) unstable; urgency=low
-
-  * New upstream version.
-
- -- Vincent Renardias <vincent@debian.org>  Fri, 19 Nov 1999 13:07:44 +0100
-
-gnumeric (0.41-1) unstable; urgency=low
-
-  * New upstream version.
-    (Third of the week... ;)
-
- -- Vincent Renardias <vincent@debian.org>  Mon, 25 Oct 1999 11:53:44 +0200
-
-gnumeric (0.40-1) unstable; urgency=low
-
-  * New upstream version.
-
- -- Vincent Renardias <vincent@debian.org>  Fri, 22 Oct 1999 12:25:44 +0200
-
-gnumeric (0.39-1) unstable; urgency=low
-
-  * New upstream version.
-
- -- Vincent Renardias <vincent@debian.org>  Wed, 20 Oct 1999 15:27:55 +0200
-
-gnumeric (0.38-3) unstable; urgency=low
-
-  * fix description;
-    closes: #46227: gnumeric: package description references non-existent file doc/Design
-  * Now replaces zh-trans (<<0.8);
-    closes: #45934: gnumeric: Should replace zh-trans
-  * Upgrading to gnumeric 0.38-3 and gnome-print 0.9-2 should fix this;
-    closes: #46028: gnumeric: /usr/share/fonts/fontmap file is invalid for Gnumeric
-
- -- Vincent Renardias <vincent@debian.org>  Fri,  1 Oct 1999 14:57:27 +0200
-
-gnumeric (0.38-2) unstable; urgency=low
-
-  * Fix rules file;
-    closes: #46361: gnumeric: etc build problem [patch].
-  * rebuilt with newer libs.
-
- -- Vincent Renardias <vincent@debian.org>  Fri,  1 Oct 1999 14:57:17 +0200
-
-gnumeric (0.38-1) unstable; urgency=low
-
-  * New upstream version.
-    (Bug fix release)
-
- -- Vincent Renardias <vincent@debian.org>  Fri, 24 Sep 1999 12:17:05 +0200
-
-gnumeric (0.36-1) unstable; urgency=low
-
-  * New upstream version.
-  * 'clean' now cleans better.
-
- -- Vincent Renardias <vincent@debian.org>  Thu, 23 Sep 1999 12:56:07 +0200
-
-gnumeric (0.32-1) unstable; urgency=low
-
-  * New upstream version.
-
- -- Vincent Renardias <vincent@debian.org>  Mon, 23 Aug 1999 10:37:49 +0200
-
-gnumeric (0.29-1) unstable; urgency=low
-
-  * New upstream version.
-
- -- Vincent Renardias <vincent@debian.org>  Mon, 12 Jul 1999 19:05:09 +0200
-
-gnumeric (0.27-1) unstable; urgency=low
-
-  * New upstream version.
-  * Recompiled against newer gnome libraries.
-
- -- Vincent Renardias <vincent@debian.org>  Fri, 25 Jun 1999 12:24:51 +0200
-
-gnumeric (0.25-2) unstable; urgency=low
-
-  * corrected menu file; closes: #38873.
-
- -- Vincent Renardias <vincent@debian.org>  Thu,  3 Jun 1999 18:48:12 +0200
-
-gnumeric (0.25-1) unstable; urgency=low
-
-  * New upstream version.
-  * Recompiled against newer gnome libraries.
-
- -- Vincent Renardias <vincent@debian.org>  Tue, 18 May 1999 16:14:21 +0200
-
-gnumeric (0.24-1) unstable; urgency=low
-
-  * New upstream version.
-
- -- Vincent Renardias <vincent@debian.org>  Fri, 23 Apr 1999 13:33:55 +0200
-
-gnumeric (0.15-1) unstable; urgency=low
-
-  * New upstream version.
-  * closes: #33547, #33904, #32483, #32728.
-
- -- Vincent Renardias <vincent@debian.org>  Sat,  6 Mar 1999 12:13:24 +0100
-
-gnumeric (0.7-1) unstable; urgency=low
-
-  * New upstream version.
-  * Corrected menu entry (Fix bug #27782,#28119).
-  * No longer output an error message regarding python
-    (had to disable python plugin, which wouldn't compile anyway)
-    (Fix bugs #27783,#28195,#30523,#30760).
-  * Recompile with newer GNOME/Gtk+ libs
-    (Fix bugs #30526,#29161,#27810).
-
- -- Vincent Renardias <vincent@waw.com>  Wed, 20 Jan 1999 12:02:30 +0100
-
-gnumeric (0.3-1) unstable; urgency=low
-
-  * New upstream release.
-
- -- Vincent Renardias <vincent@waw.com>  Wed, 30 Sep 1998 15:26:14 +0200
-
-gnumeric (0.2-1) unstable; urgency=low
-
-  * Initial Release.
-
- -- Vincent Renardias <vincent@waw.com>  Sat, 26 Sep 1998 17:12:42 +0200
-
-Local variables:
-mode: debian-changelog
-add-log-mailing-address: "vincent@waw.com"
 End:
