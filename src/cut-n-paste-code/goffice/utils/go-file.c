@@ -23,9 +23,11 @@
 #include "go-file.h"
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-input-stdio.h>
+#include <gsf/gsf-output-stdio.h>
 #ifdef WITH_GNOME
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <gsf-gnome/gsf-input-gnomevfs.h>
+#include <gsf-gnome/gsf-output-gnomevfs.h>
 #endif
 
 #include <string.h>
@@ -47,12 +49,39 @@ char *
 go_filename_to_uri (const char *filename)
 {
 	if (g_path_is_absolute (filename)) {
-		/* FIXME: Resolve ".." and "." parts.  */
+		char *uri;
+		char *simp = g_strdup (filename);
+		char *p, *q;
+
+		for (p = q = simp; *p;) {
+			if (p != simp &&
+			    p[0] == G_DIR_SEPARATOR &&
+			    p[1] == G_DIR_SEPARATOR) {
+				/* "//" --> "/", except initially.  */
+				p++;
+				continue;
+			}
+
+			if (p[0] == G_DIR_SEPARATOR &&
+			    p[1] == '.' &&
+			    p[2] == G_DIR_SEPARATOR) {
+				/* "/./" -> "/".  */
+				p += 2;
+				continue;
+			}
+
+			*q++ = *p++;
+		}
+		*q = 0;
+
+		/* FIXME: Resolve ".." parts.  */
 #ifdef WITH_GNOME
-		return gnome_vfs_get_uri_from_local_path (filename);
+		uri = gnome_vfs_get_uri_from_local_path (simp);
 #else
-		return g_filename_to_uri (uri, NULL, NULL);
+		uri = g_filename_to_uri (simp, NULL, NULL);
 #endif
+		g_free (simp);
+		return uri;
 	} else {
 		char *result;
 		char *current_dir = g_get_current_dir ();
@@ -170,6 +199,29 @@ go_file_open (char const *uri, GError **err)
 	return gsf_input_gnomevfs_new (uri, err);
 #else
 	g_set_error (err, gsf_input_error (), 0,
+		     "Invalid or non-supported URI");
+	return NULL; 
+#endif
+}
+
+GsfOutput *
+go_file_create (char const *uri, GError **err)
+{
+	char *filename;
+
+	g_return_val_if_fail (uri != NULL, NULL);
+
+	filename = go_filename_from_uri (uri);
+	if (filename) {
+		GsfOutput *result = gsf_output_stdio_new (filename, err);
+		g_free (filename);
+		return result;
+	}
+
+#ifdef WITH_GNOME
+	return gsf_output_gnomevfs_new (uri, err);
+#else
+	g_set_error (err, gsf_output_error (), 0,
 		     "Invalid or non-supported URI");
 	return NULL; 
 #endif

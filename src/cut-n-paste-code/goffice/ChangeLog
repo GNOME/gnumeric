@@ -1,3 +1,13 @@
+2004-06-16  Morten Welinder  <terra@gnome.org>
+
+	* utils/go-file.c (go_filename_to_uri): Handle "//" and "/./"
+	parts in filenames.
+
+	* graph/gog-style.c (cb_image_file_select): Handle change in
+	gui_image_file_select's signature.  (Barely.)
+
+	* utils/go-file.c (go_file_create): New function.
+
 2004-06-15  Morten Welinder  <terra@gnome.org>
 
 	* utils/go-file.c (go_basename_from_uri): Better WITH_GNOME

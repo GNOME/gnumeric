@@ -1,3 +1,12 @@
+2004-06-16  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-object-graph.c (cb_save_as): Handle dumping to uris.
+
+	* src/gui-file.c (gui_image_file_select): Take and return uris.
+
+	* src/workbook-control-gui.c (cb_wbcg_drag_data_received):
+	Simplify with go_file_open.
+
 2004-06-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=142700

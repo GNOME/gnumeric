@@ -79,7 +79,6 @@
 #include <gsf/gsf-impl-utils.h>
 #ifdef WITH_GNOME
 #include <libgnomevfs/gnome-vfs-uri.h>
-#include <gsf-gnome/gsf-input-gnomevfs.h>
 #endif
 
 
@@ -2048,7 +2047,7 @@ cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 		GList *ptr, *uris = gnome_vfs_uri_list_parse (selection_data->data);
 		for (ptr = uris; ptr != NULL; ptr = ptr->next) {
 			GError *err = NULL;
-			GsfInput *input = (GsfInput *)gsf_input_gnomevfs_new_uri (ptr->data, &err);
+			GsfInput *input = go_file_open (ptr->data, &err);
 
 			if (input != NULL) {
 				wbv = wb_view_new_from_input (input, NULL, ioc, NULL);

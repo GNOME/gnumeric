@@ -45,6 +45,7 @@
 #include <goffice/graph/gog-renderer-pixbuf.h>
 #include <goffice/graph/gog-renderer-svg.h>
 #include <goffice/graph/gog-control-foocanvas.h>
+#include <goffice/utils/go-file.h>
 #include <graph.h>
 
 #include <gsf/gsf-impl-utils.h>
@@ -133,6 +134,22 @@ sheet_object_graph_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 	return G_OBJECT (item);
 }
 
+
+static gboolean
+gsf_gdk_pixbuf_save (const gchar *buf,
+		     gsize count,
+		     GError **error,
+		     gpointer data)
+{
+	GsfOutput *output = GSF_OUTPUT (data);
+	gboolean ok = gsf_output_write (output, count, buf);
+
+	if (!ok && error)
+		*error = g_error_copy (gsf_output_error (output));
+
+	return ok;
+}
+
  
 /* 
  * The following are useful formats to save in:
@@ -150,10 +167,11 @@ cb_save_as (GtkWidget *widget, GObject *obj_view)
 	SheetObjectGraph *sog;
 	SheetControl *sc;
 	WorkbookControlGUI *wbcg;
-	char *fname;
-	const char *base, *extension;
+	char *uri, *base;
+	const char *extension;
 	GError *err = NULL;
 	gboolean ret;
+	const char *plain_type = NULL;
 
 	sog = SHEET_OBJECT_GRAPH (sheet_object_view_obj (obj_view));
 
@@ -162,30 +180,48 @@ cb_save_as (GtkWidget *widget, GObject *obj_view)
 	sc  = sheet_object_view_control (obj_view);
 	wbcg = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
 
-	fname = gui_image_file_select (wbcg, NULL, TRUE);
-	if (!fname)
+	uri = gui_image_file_select (wbcg, NULL, TRUE);
+	if (!uri)
 		return;
 
-	base = g_path_get_basename (fname);
-
+	base = go_basename_from_uri (uri);
 	extension = gsf_extension_pointer (base);
-	if (extension == NULL) {
-		char *new_filename = g_strdup_printf ("%s.%s", fname, "png");
-		g_free (fname);
-		fname = new_filename;
+
+	if (extension == NULL || *extension == 0) {
+		char *new_uri;
+
+		extension = "png";
+		new_uri = g_strconcat (uri, ".", extension, NULL);
+		g_free (uri);
+		uri = new_uri;
 	}
 
 	if (g_ascii_strcasecmp (extension, "png") == 0) {
-		GdkPixbuf *pixbuf = gog_renderer_pixbuf_get (
-			GOG_RENDERER_PIXBUF (sog->renderer));
-		ret = gdk_pixbuf_save (pixbuf, fname, "png", &err, NULL);
+		plain_type = "png";
 	} else if (g_ascii_strcasecmp (extension, "jpg") == 0 ||
 		   g_ascii_strcasecmp (extension, "jpeg") == 0) {
-		GdkPixbuf *pixbuf = gog_renderer_pixbuf_get (
-			GOG_RENDERER_PIXBUF (sog->renderer));
-		ret = gdk_pixbuf_save (pixbuf, fname, "jpg", &err, NULL);
+		plain_type = "jpg";
+	}
+
+	if (plain_type) {
+		GsfOutput *output = go_file_create (uri, &err);
+		if (output) {
+			GdkPixbuf *pixbuf = gog_renderer_pixbuf_get (
+				GOG_RENDERER_PIXBUF (sog->renderer));
+			ret = gdk_pixbuf_save_to_callback (pixbuf,
+							   gsf_gdk_pixbuf_save, output,
+							   plain_type,
+							   &err, NULL);
+			gsf_output_close (output);
+			g_object_unref (output);
+
+			if (!ret && err == NULL)
+				err = g_error_new (gsf_output_error_id (), 0,
+						   _("Unknown failure while saving image"));
+		} else
+			ret = FALSE;
 	} else if (g_ascii_strcasecmp (extension, "svg") == 0) {
-		GsfOutput *output = gsf_output_stdio_new (fname, &err);
+		GsfOutput *output = go_file_create (uri, &err);
 
 		if (output != NULL) {
 			double coords [4];
@@ -213,7 +249,8 @@ cb_save_as (GtkWidget *widget, GObject *obj_view)
 	if (!ret)
 		gnm_cmd_context_error (GNM_CMD_CONTEXT (wbcg), err);
 
-	g_free (fname);
+	g_free (base);
+	g_free (uri);
 }
 
 static void

@@ -1095,11 +1095,11 @@ static GNM_ACTION_DEF (cb_autosum)
 
 static GNM_ACTION_DEF (cb_insert_image)
 {
-	char *filename = gui_image_file_select (wbcg, NULL, FALSE);
+	char *uri = gui_image_file_select (wbcg, NULL, FALSE);
 
-	if (filename) {
+	if (uri) {
 		GError *err = NULL;
-		GsfInput *input = go_file_open (filename, &err);
+		GsfInput *input = go_file_open (uri, &err);
 
 		if (input != NULL) {
 			unsigned len = gsf_input_size (input);
@@ -1110,7 +1110,7 @@ static GNM_ACTION_DEF (cb_insert_image)
 		} else
 			gnm_cmd_context_error (GNM_CMD_CONTEXT (wbcg), err);
 
-		g_free (filename);
+		g_free (uri);
 	}
 }
 

@@ -418,6 +418,7 @@ gui_image_file_select (WorkbookControlGUI *wbcg, const char *initial,
 		(g_object_new (GTK_TYPE_FILE_CHOOSER_DIALOG,
 			       "action", is_save ? GTK_FILE_CHOOSER_ACTION_SAVE : GTK_FILE_CHOOSER_ACTION_OPEN,
 			       "title", _("Select an Image"),
+			       "local-only", FALSE,
 			       "use-preview-label", FALSE,
 			       NULL));
 	gtk_dialog_add_buttons (GTK_DIALOG (fsel),
@@ -427,10 +428,7 @@ gui_image_file_select (WorkbookControlGUI *wbcg, const char *initial,
 	gtk_dialog_set_default_response (GTK_DIALOG (fsel), GTK_RESPONSE_OK);
 
 	if (initial) {
-		if (g_path_is_absolute (initial))
-			gtk_file_chooser_set_filename (fsel, initial);
-		else
-			g_warning ("Ignoring non-absolute initial filename %s", initial);
+		gtk_file_chooser_set_uri (fsel, initial);
 	}
 
 	/* Filters */
@@ -474,7 +472,7 @@ gui_image_file_select (WorkbookControlGUI *wbcg, const char *initial,
 loop :
 	if (!gnumeric_dialog_file_selection (wbcg, GTK_WIDGET (fsel)))
 		goto out;
-	result = gtk_file_chooser_get_filename (fsel);
+	result = gtk_file_chooser_get_uri (fsel);
 	if (is_save && !go_file_is_writable (result, wbcg)) {
 		g_free (result);
 		goto loop;

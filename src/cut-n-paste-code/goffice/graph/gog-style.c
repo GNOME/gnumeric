@@ -24,6 +24,7 @@
 #include <goffice/graph/gog-styled-object.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-font.h>
+#include <goffice/utils/go-file.h>
 #include <goffice/utils/go-marker.h>
 
 #include <goffice/gui-utils/go-color-palette.h>
@@ -584,17 +585,25 @@ static void
 cb_image_file_select (GtkWidget *cc, StylePrefState *state)
 {
 	GogStyle *style = state->style;
-	char *filename;
+	char *filename, *uri, *old_uri;
 	GtkWidget *w;
 
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (GOG_FILL_STYLE_IMAGE == style->fill.type);
 
-	filename = gui_image_file_select (NULL,
-					  style->fill.u.image.filename,
-					  FALSE);
-	if (filename == NULL)
+	filename = style->fill.u.image.filename;
+	old_uri = filename ? go_filename_to_uri (filename) : NULL;
+	uri = gui_image_file_select (NULL, old_uri, FALSE);
+	g_free (old_uri);
+	if (uri == NULL)
 		return;
+	filename = go_filename_from_uri (uri);
+	g_free (uri);
+	if (filename == NULL) {
+		g_warning ("Sorry -- cannot handle URIs here right now.");
+		return;
+	}
+#warning "Handle URIs here."
 
 	gog_style_set_fill_image_filename (style, filename);
 
