@@ -1,3 +1,8 @@
+2005-03-17  Stepan Kasal  <kasal@ucw.cz>
+
+	* autogen.sh: Use egrep, not awk; there is a system which distributes
+	  a very broken version of it.  Thanks to Morten for noting this.
+
 2005-03-16  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-io.c (maybe_convert): Explicitly try ISO-8859-1 if
