@@ -1,3 +1,16 @@
+2002-03-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-function-select.c (dialog_function_load_recent_funcs) :
+	  new
+	(dialog_function_write_recent_func) : new
+	(cb_dialog_function_select_ok_clicked) : call 
+	  dialog_function_write_recent_func
+	(dialog_function_select_load_tree) : add `recent' cat
+	(cb_dialog_function_select_cat_selection_changed) add recent
+	  funcs to function list on `recent' cat selection.
+	(dialog_function_select_init) call dialog_function_load_recent_funcs
+	(dialog_function_select) : initialize recent_funcs
+
 2002-03-23  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* solver.glade: Removed dual program report button.  Will be done

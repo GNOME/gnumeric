@@ -161,8 +161,9 @@ Long term breakage
 
 Dialogs
 -------
-- Function selector
-    : 'Most recently used'
+- Formula Guru
+    : Fix keyboard interface
+    : Fix the problem that calling the function selector does not finish editing
 - Import Dialog
     : Rewrite main page preview (see Bug #66393)
 

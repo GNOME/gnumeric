@@ -36,12 +36,17 @@
 #include <ctype.h>
 #include <glade/glade.h>
 #include <libgnome/gnome-i18n.h>
+#include <gconf/gconf-client.h>
 
 #define GLADE_FILE "function-select.glade"
 
 #define FUNCTION_SELECT_KEY "function-selector-dialog"
 #define FUNCTION_SELECT_DIALOG_KEY "function-selector-dialog"
 
+#warning: verify FUNCTION_SELECT_GCONF_RECENT path
+#define FUNCTION_SELECT_GCONF_RECENT "/gnumeric/functionselector/recent"
+
+#define FUNCTION_SELECT_NUM_OF_RECENT 10
 
 typedef struct {
 	WorkbookControlGUI  *wbcg;
@@ -56,6 +61,8 @@ typedef struct {
 	GtkTreeView   *treeview_f;
 	GtkTextBuffer   *description;
 
+	GSList *recent_funcs;
+
 	char const *formula_guru_key;
 } FunctionSelectState;
 
@@ -69,6 +76,58 @@ enum {
 	FUNCTION,
 	NUM_COLUMNS
 };
+
+static void
+dialog_function_load_recent_funcs (FunctionSelectState *state)
+{
+	GConfClient *client;
+	gint i;
+	char *name;
+	FunctionDefinition *fd;
+
+	client = gconf_client_get_default ();
+
+	for (i = 0; i < FUNCTION_SELECT_NUM_OF_RECENT; i++) {
+		char *key = g_strdup_printf (FUNCTION_SELECT_GCONF_RECENT "/func%i",i);
+		name = gconf_client_get_string (client, key, NULL);
+		g_free (key);
+		if (name) {
+			fd = func_lookup_by_name (name, NULL);
+			g_free (name);
+			if (fd)
+				state->recent_funcs = g_slist_append (state->recent_funcs, fd);
+		}
+	}
+}
+
+static void
+dialog_function_write_recent_func (FunctionSelectState *state, FunctionDefinition const *fd)
+{
+	GSList *rec_funcs;
+	GConfClient *client;
+	char const *name;
+	char *key;
+	gint i;
+
+	client = gconf_client_get_default ();
+	
+	state->recent_funcs = g_slist_remove (state->recent_funcs, (gpointer) fd);
+	state->recent_funcs = g_slist_prepend (state->recent_funcs, (gpointer) fd);
+
+	if (g_slist_length (state->recent_funcs) > FUNCTION_SELECT_NUM_OF_RECENT)
+		state->recent_funcs = g_slist_remove (state->recent_funcs,
+						      g_slist_last (state->recent_funcs)->data);
+
+	for (rec_funcs = state->recent_funcs, i = 0; rec_funcs; 
+	     rec_funcs = rec_funcs->next, i++) {
+		key = g_strdup_printf (FUNCTION_SELECT_GCONF_RECENT "/func%i",i);
+		name = function_def_get_name (rec_funcs->data);
+		gconf_client_set_string (client, key, name, NULL);  
+		g_free (key);
+	}
+	
+}
+
 
 /**
  * dialog_function_select_destroy:
@@ -135,6 +194,7 @@ cb_dialog_function_select_ok_clicked (GtkWidget *button, FunctionSelectState *st
 		gtk_tree_model_get (model, &iter,
 				    FUNCTION, &func,
 				    -1);
+		dialog_function_write_recent_func (state, func);
 		state->formula_guru_key = NULL;
 		gtk_widget_destroy (state->dialog);
 		dialog_formula_guru (wbcg, func);
@@ -162,6 +222,12 @@ dialog_function_select_load_tree (FunctionSelectState *state)
 	FunctionCategory const * cat;
 
 	gtk_tree_store_clear (state->model);
+
+	gtk_tree_store_append (state->model, &p_iter, NULL);
+	gtk_tree_store_set (state->model, &p_iter,
+			    CAT_NAME, _("Recently Used"),
+			    CATEGORY, NULL,
+			    -1);
 
 	while ((cat = function_category_get_nth (i++)) != NULL) {
 		gtk_tree_store_append (state->model, &p_iter, NULL);
@@ -215,23 +281,39 @@ cb_dialog_function_select_cat_selection_changed (GtkTreeSelection *the_selection
 		gtk_tree_model_get (model, &iter,
 				    CATEGORY, &cat,
 				    -1);
+		if (cat != NULL) {
+			funcs = g_list_sort (g_list_copy (cat->functions), 
+					     dialog_function_select_by_name);
+			for (this_func = funcs; this_func; this_func = this_func->next) {
+				FunctionDefinition const *a_func = this_func->data;
+				TokenizedHelp *help = tokenized_help_new (a_func);
+				char const *f_syntax = tokenized_help_find (help, "SYNTAX");
+				
+				gtk_list_store_append (state->model_f, &iter);
+				gtk_list_store_set (state->model_f, &iter,
+						    FUN_NAME, f_syntax,
+						    FUNCTION, a_func,
+						    -1);
+				tokenized_help_destroy (help);
+			}
+			g_list_free (funcs);
+		} else {
+			GSList *rec_funcs;
+			for (rec_funcs = state->recent_funcs; rec_funcs; 
+			     rec_funcs = rec_funcs->next) {
+				FunctionDefinition const *a_func = rec_funcs->data;
 
-		this_func = funcs = g_list_sort (g_list_copy (cat->functions), 
-						 dialog_function_select_by_name);
-		while (this_func) {
-			FunctionDefinition const *a_func = this_func->data;
-			TokenizedHelp *help = tokenized_help_new (a_func);
-			char const *f_syntax = tokenized_help_find (help, "SYNTAX");
-
-			gtk_list_store_append (state->model_f, &iter);
-			gtk_list_store_set (state->model_f, &iter,
-					    FUN_NAME, f_syntax,
-					    FUNCTION, a_func,
-					    -1);
-			this_func = this_func->next;
-			tokenized_help_destroy (help);
+				TokenizedHelp *help = tokenized_help_new (a_func);
+				char const *f_syntax = tokenized_help_find (help, "SYNTAX");
+				
+				gtk_list_store_append (state->model_f, &iter);
+				gtk_list_store_set (state->model_f, &iter,
+						    FUN_NAME, f_syntax,
+						    FUNCTION, a_func,
+						    -1);
+				tokenized_help_destroy (help);
+			}
 		}
-		g_list_free (funcs);
 	}
 }
 
@@ -242,6 +324,8 @@ dialog_function_select_init (FunctionSelectState *state)
 	GtkTreeViewColumn *column;
 	GtkTreeSelection *selection;
 	GtkTextView *textview;
+	
+	dialog_function_load_recent_funcs (state);
 
 	g_object_set_data (G_OBJECT (state->dialog), FUNCTION_SELECT_DIALOG_KEY, 
 			   state);
@@ -329,6 +413,7 @@ dialog_function_select (WorkbookControlGUI *wbcg, char const *key)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->formula_guru_key = key;
+        state->recent_funcs = NULL;
 
 	/* Get the dialog and check for errors */
 	state->gui = gnumeric_glade_xml_new (wbcg, GLADE_FILE);
