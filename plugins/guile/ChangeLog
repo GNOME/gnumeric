@@ -2,7 +2,7 @@
 
 	* smob-value.c (scm_value_get_as_string): Do type conversion
 	instead of failing for VALUE_BOOLEAN, VALUE_INTEGER and
-	VALUE_FLOAT.
+	VALUE_FLOAT. (From Joost Helberg).
 	(scm_value_get_as_int): Do type conversion instead of failing for
 	VALUE_BOOLEAN and VALUE_FLOAT.
 	(scm_value_get_as_float): Do type conversion instead of failing
