@@ -1321,14 +1321,16 @@ msgstr ""
 "@FUNCTION=IMCOS\n"
 "@SYNTAX=IMCOS(複素数)\n"
 "@DESCRIPTION=IMCOS 関数は複素数の余弦を返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* もし@複素数が正しい複素数でなければ、IMCOSは#VALUE!エラーを返します。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "IMCOS(\"1+j\") = 0.833730-0.988898j です。\n"
 "\n"
 "@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-complex/functions.c:345
-#, fuzzy
 msgid ""
 "@FUNCTION=IMTAN\n"
 "@SYNTAX=IMTAN(inumber)\n"
@@ -1345,13 +1347,15 @@ msgstr ""
 "@FUNCTION=IMTAN\n"
 "@SYNTAX=IMTAN(複素数)\n"
 "@DESCRIPTION=IMTAN 関数は複素数の正接を返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* もし@複素数が正しい複素数でなければ、IMTANは#VALUE!エラーを返します。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=IMSIN,IMCOS"
 
 #: plugins/fn-complex/functions.c:376
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSEC\n"
 "@SYNTAX=IMSEC(inumber)\n"
@@ -1367,17 +1371,20 @@ msgid ""
 "\n"
 "@SEEALSO=IMCSC,IMCOT"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(複素数)\n"
-"@DESCRIPTION=IMCOS 関数は複素数の余弦を返します。\n"
-"この関数は Excel 互換です。\n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") = 0.833730-0.988898j です。\n"
+"@FUNCTION=IMSEC\n"
+"@SYNTAX=IMSEC(複素数)\n"
+"@DESCRIPTION=IMSEC 関数は複素数z(@複素数)の正割を返します。\n"
 "\n"
-"@SEEALSO=IMSIN,IMTAN"
+"\tsec(z) = 1/cos(z)です。\n"
+"\n"
+"* もし@複素数が正しい複素数でなければ、IMSECは#VALUE!エラーを返します。\n"
+"\n"
+"@EXAMPLES=\n"
+"IMSEC(\"2-j\") = -0.413149-0.687527j です。\n"
+"\n"
+"@SEEALSO=IMCSC, IMCOT"
 
 #: plugins/fn-complex/functions.c:409
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCSC\n"
 "@SYNTAX=IMCSC(inumber)\n"
@@ -1393,17 +1400,20 @@ msgid ""
 "\n"
 "@SEEALSO=IMSEC,IMCOT"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(複素数)\n"
-"@DESCRIPTION=IMCOS 関数は複素数の余弦を返します。\n"
-"この関数は Excel 互換です。\n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") = 0.833730-0.988898j です。\n"
+"@FUNCTION=IMCSC\n"
+"@SYNTAX=IMCSC(複素数)\n"
+"@DESCRIPTION=IMCSC関数は、複素数z(@複素数)の余割を返します。\n"
 "\n"
-"@SEEALSO=IMSIN,IMTAN"
+"\tcsc(z) = 1/sin(z) です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
+"@EXAMPLES=\n"
+"IMCSC(\"2-j\") は 0.635494-0.221501j です。\n"
+"\n"
+"@SEEALSO=IMSEC,IMCOT"
 
 #: plugins/fn-complex/functions.c:442
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCOT\n"
 "@SYNTAX=IMCOT(inumber)\n"
@@ -1419,17 +1429,19 @@ msgid ""
 "\n"
 "@SEEALSO=IMSEC,IMCSC"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(複素数)\n"
-"@DESCRIPTION=IMCOS 関数は複素数の余弦を返します。\n"
-"この関数は Excel 互換です。\n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") = 0.833730-0.988898j です。\n"
+"@FUNCTION=IMCOT\n"
+"@SYNTAX=IMCOT(複素数)\n"
+"@DESCRIPTION=IMCOT関数は複素数z(@複素数)の余接を返します。\n"
 "\n"
-"@SEEALSO=IMSIN,IMTAN"
+"\tcot(z) = 1/tan(z) です。\n"
+"* もし@複素数が正しい複素数でなければ、IMCOTは#VALUE!エラーを返します。\n"
+"\n"
+"@EXAMPLES=\n"
+"IMCOT(\"2-j\") は -0.171384+0.821330j です。\n"
+"\n"
+"@SEEALSO=IMSEC,IMCSC"
 
 #: plugins/fn-complex/functions.c:475
-#, fuzzy
 msgid ""
 "@FUNCTION=IMEXP\n"
 "@SYNTAX=IMEXP(inumber)\n"
@@ -1446,14 +1458,16 @@ msgstr ""
 "@FUNCTION=IMEXP\n"
 "@SYNTAX=IMEXP(複素数)\n"
 "@DESCRIPTION=IMEXP 関数は複素数の指数を返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* もし@複素数が正しい複素数でなければ、IMEXPは#VALUE!エラーを返します。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "IMEXP(\"2-j\") = 3.992324-6.217676j です。\n"
 "\n"
 "@SEEALSO=IMLN"
 
 #: plugins/fn-complex/functions.c:506
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARGUMENT\n"
 "@SYNTAX=IMARGUMENT(inumber)\n"
@@ -1472,15 +1486,18 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMARGUMENT\n"
 "@SYNTAX=IMARGUMENT(複素数)\n"
-"@DESCRIPTION=IMARGUMENT 関数は複素数の偏角 theta を返します。\n"
-"この関数は Excel 互換です。\n"
+"@DESCRIPTION=IMARGUMENT 関数は複素数の偏角 theta を返します。偏角とは"
+"極座標で表したときに実軸からの角度をラジアンで示したものです。\n"
+"\n"
+"* もし@複素数が正しい複素数でなければ、IMARGUMENTは#VALUE!エラーを返します。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "IMARGUMENT(\"2-j\") = -0.463647609 です。\n"
 "\n"
 "@SEEALSO="
 
 #: plugins/fn-complex/functions.c:538
-#, fuzzy
 msgid ""
 "@FUNCTION=IMLN\n"
 "@SYNTAX=IMLN(inumber)\n"
@@ -1500,17 +1517,21 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMLN\n"
 "@SYNTAX=IMLN(複素数)\n"
-"@DESCRIPTION=IMLN 関数は複素数の自然対数を返します。(計算結果の虚部は -pi と "
-"+pi の間の値になるでしょう。複素数に対する自然対数は一意には定義されません。"
-"pi の偶数倍を虚部に足したり、引いたりする必要があるかもしれません。)\n"
-"この関数は Excel 互換です。\n"
+"@DESCRIPTION=IMLN 関数は複素数の自然対数を返します。\n"
+"\n"
+"計算結果の虚部は -pi と+pi の間の値になります。複素数に対する自然対数は"
+"一意には定義されません。pi の偶数倍を虚部に足したり、引いたりする必要が"
+"あるかもしれません。\n"
+"\n"
+"* もし@複素数が正しい複素数でなければ、IMLNは#VALUE!エラーを返します。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "IMLN(\"3-j\") = 1.15129-0.32175j です。\n"
 "\n"
 "@SEEALSO=IMEXP,IMLOG2,IMLOG10"
 
 #: plugins/fn-complex/functions.c:574
-#, fuzzy
 msgid ""
 "@FUNCTION=IMLOG2\n"
 "@SYNTAX=IMLOG2(inumber)\n"
@@ -1527,14 +1548,16 @@ msgstr ""
 "@FUNCTION=IMLOG2\n"
 "@SYNTAX=IMLOG2(複素数)\n"
 "@DESCRIPTION=IMLOG2 は複素数の 2 を底とする対数を返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* もし@複素数が正しい複素数でなければ、IMLOG2は#VALUE!エラーを返します。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "IMLOG2(\"3-j\") = 1.66096-0.46419j です。\n"
 "\n"
 "@SEEALSO=IMLN,IMLOG10"
 
 #: plugins/fn-complex/functions.c:606
-#, fuzzy
 msgid ""
 "@FUNCTION=IMLOG10\n"
 "@SYNTAX=IMLOG10(inumber)\n"
@@ -1551,14 +1574,16 @@ msgstr ""
 "@FUNCTION=IMLOG10\n"
 "@SYNTAX=IMLOG10(inumber)\n"
 "@DESCRIPTION=IMLOG10 関数は複素数の 10 を底とする対数で返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* もし@複素数が正しい複素数でなければ、IMLOG10は#VALUE!エラーを返します。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "IMLOG10(\"3-j\") = 0.5-0.13973j です。\n"
 "\n"
 "@SEEALSO=IMLN,IMLOG2"
 
 #: plugins/fn-complex/functions.c:638
-#, fuzzy
 msgid ""
 "@FUNCTION=IMPOWER\n"
 "@SYNTAX=IMPOWER(inumber1,inumber2)\n"
@@ -1576,16 +1601,20 @@ msgid ""
 "@SEEALSO=IMSQRT"
 msgstr ""
 "@FUNCTION=IMPOWER\n"
-"@SYNTAX=IMPOWER(複素数,数値)\n"
-"@DESCRIPTION=IMPOWER 関数は複素数の整数乗を返します。@複素数にはべき乗を求め"
-"る複素数を、@数値にはべき乗の指数を指定します。この関数は Excel 互換です。\n"
+"@SYNTAX=IMPOWER(複素数1,複素数2)\n"
+"@DESCRIPTION=IMPOWER 関数は複素数のべき乗を返します。@複素数1にはべき乗を求め"
+"る複素数を、@複素数2にはべき乗の指数を指定します。\n"
+"\n"
+"* もし@複素数1か@複素数2が正しい複素数でなければ、IMPOWERは"
+"#VALUE!エラーを返します。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "IMPOWER(\"4-j\",2) = 15-8j です。\n"
 "\n"
 "@SEEALSO=IMSQRT"
 
 #: plugins/fn-complex/functions.c:677
-#, fuzzy
 msgid ""
 "@FUNCTION=IMDIV\n"
 "@SYNTAX=IMDIV(inumber1,inumber2)\n"
@@ -1603,14 +1632,17 @@ msgstr ""
 "@FUNCTION=IMDIV\n"
 "@SYNTAX=IMDIV(複素数1,複素数2)\n"
 "@DESCRIPTION=IMDIV 関数は二つの複素数の商を返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* もし@複素数1か@複素数2が正しい複素数でなければ、IMDIVは#VALUE!エラーを"
+"返します。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "IMDIV(\"2-j\",\"2+j\") = 0.6-0.8j です。\n"
 "\n"
 "@SEEALSO=IMPRODUCT"
 
 #: plugins/fn-complex/functions.c:714
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSIN\n"
 "@SYNTAX=IMSIN(inumber)\n"
@@ -1627,14 +1659,16 @@ msgstr ""
 "@FUNCTION=IMSIN\n"
 "@SYNTAX=IMSIN(複素数)\n"
 "@DESCRIPTION=IMSIN 関数は複素数の正弦を返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* もし@複素数が正しい複素数でなければ、IMSINは#VALUE!エラーを返します。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "IMSIN(\"1+j\") = 1.29846+0.63496j です。\n"
 "\n"
 "@SEEALSO=IMCOS,IMTAN"
 
 #: plugins/fn-complex/functions.c:744
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSINH\n"
 "@SYNTAX=IMSINH(inumber)\n"
@@ -1650,17 +1684,20 @@ msgid ""
 "\n"
 "@SEEALSO=IMCOSH,IMTANH"
 msgstr ""
-"@FUNCTION=IMSIN\n"
-"@SYNTAX=IMSIN(複素数)\n"
-"@DESCRIPTION=IMSIN 関数は複素数の正弦を返します。\n"
-"この関数は Excel 互換です。\n"
-"@EXAMPLES=\n"
-"IMSIN(\"1+j\") = 1.29846+0.63496j です。\n"
+"@FUNCTION=IMSINH\n"
+"@SYNTAX=IMSINH(複素数)\n"
+"@DESCRIPTION=IMSINH 関数は複素数z(@複素数)の双曲線正弦を返します。\n"
 "\n"
-"@SEEALSO=IMCOS,IMTAN"
+"\tsinh(z) = (exp(z) - exp(-z))/2 です。\n"
+"\n"
+"* もし@複素数が正しい複素数でなければ、IMSINHは#VALUE!エラーを返します。\n"
+"\n"
+"@EXAMPLES=\n"
+"IMSINH(\"1+j\") =  0.63496+1.29846jです。\n"
+"\n"
+"@SEEALSO=IMCOSH,IMTANH"
 
 #: plugins/fn-complex/functions.c:776
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCOSH\n"
 "@SYNTAX=IMCOSH(inumber)\n"
@@ -1676,17 +1713,20 @@ msgid ""
 "\n"
 "@SEEALSO=IMSINH,IMTANH"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(複素数)\n"
-"@DESCRIPTION=IMCOS 関数は複素数の余弦を返します。\n"
-"この関数は Excel 互換です。\n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") = 0.833730-0.988898j です。\n"
+"@FUNCTION=IMCOSH\n"
+"@SYNTAX=IMCOSH(複素数)\n"
+"@DESCRIPTION=IMCOSH 関数は複素数の双曲線余弦を返します。\n"
 "\n"
-"@SEEALSO=IMSIN,IMTAN"
+"\tcosh(z) = (exp(z) + exp(-z))/2 です。\n"
+"\n"
+"* もし@複素数が正しい複素数でなければ、IMCOSHは#VALUE!エラーを返します。\n"
+"\n"
+"@EXAMPLES=\n"
+"IMCOSH(\"1+j\") = 0.83373+0.988898j です。\n"
+"\n"
+"@SEEALSO=IMSINH,IMTANH"
 
 #: plugins/fn-complex/functions.c:807
-#, fuzzy
 msgid ""
 "@FUNCTION=IMTANH\n"
 "@SYNTAX=IMTANH(inumber)\n"
@@ -1702,17 +1742,18 @@ msgid ""
 "\n"
 "@SEEALSO=IMSINH,IMCOSH"
 msgstr ""
-"@FUNCTION=IMSIN\n"
-"@SYNTAX=IMSIN(複素数)\n"
-"@DESCRIPTION=IMSIN 関数は複素数の正弦を返します。\n"
-"この関数は Excel 互換です。\n"
-"@EXAMPLES=\n"
-"IMSIN(\"1+j\") = 1.29846+0.63496j です。\n"
+"@FUNCTION=IMTANH\n"
+"@SYNTAX=IMTANH(複素数)\n"
+"@DESCRIPTION=IMTANH 関数は複素数の双曲線正接を返します。\n"
 "\n"
-"@SEEALSO=IMCOS,IMTAN"
+"\ttanh(z) = sinh(z)/cosh(z) です。\n"
+"\n"
+"@EXAMPLES=\n"
+"IMTANH(\"1+j\") = 1.083923+0.2717526j です。\n"
+"\n"
+"@SEEALSO=IMSINH,IMCOSH"
 
 #: plugins/fn-complex/functions.c:838
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSECH\n"
 "@SYNTAX=IMSECH(inumber)\n"
@@ -1728,14 +1769,18 @@ msgid ""
 "\n"
 "@SEEALSO=IMCSCH,IMCOTH"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(複素数)\n"
-"@DESCRIPTION=IMCOS 関数は複素数の余弦を返します。\n"
-"この関数は Excel 互換です。\n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") = 0.833730-0.988898j です。\n"
+"@FUNCTION=IMSECH\n"
+"@SYNTAX=IMSECH(複素数)\n"
+"@DESCRIPTION=IMSECH 関数は複素数の双曲線正割を返します。\n"
 "\n"
-"@SEEALSO=IMSIN,IMTAN"
+"\tsech(z) = 1/cosh(z) です。\n"
+"\n"
+"* もし@複素数が正しい複素数でなければ、IMSECHは#VALUE!エラーを返します。\n"
+"\n"
+"@EXAMPLES=\n"
+"IMSECH(\"1+j\") =  0.498337-0.5910838jです。\n"
+"\n"
+"@SEEALSO=IMCSCH,IMCOTH"
 
 #: plugins/fn-complex/functions.c:869
 #, fuzzy
@@ -27230,9 +27275,8 @@ msgid "New Workbook"
 msgstr "新規のワークブック"
 
 #: src/tools/dao.c:861
-#, fuzzy
 msgid "Gnumeric "
-msgstr "Gnumeric"
+msgstr "Gnumeric "
 
 #: src/tools/dao.c:867
 msgid "Worksheet:"
@@ -27277,9 +27321,8 @@ msgid "Random Numbers (%s)"
 msgstr "乱数 (%s)"
 
 #: src/tools/scenarios.c:628
-#, fuzzy
 msgid "Result Cells:"
-msgstr "セルの結果"
+msgstr "結果のセル:"
 
 #: src/tools/scenarios.c:695 src/tools/scenarios.c:731
 msgid "Scenario Summary"
@@ -27291,7 +27334,6 @@ msgid "Current Values"
 msgstr "現在値"
 
 #: src/tools/scenarios.c:699
-#, fuzzy
 msgid "Changing Cells:"
 msgstr "変更するセル:"
 
@@ -27308,36 +27350,32 @@ msgid ""
 msgstr ""
 
 #: src/tools/simulation.c:242
-#, fuzzy
 msgid "Simulation Report"
-msgstr "限度のレポート"
+msgstr "シミュレーションレポート"
 
 #: src/tools/simulation.c:255
-#, fuzzy
 msgid "Mean"
-msgstr "平均(_M):"
+msgstr "平均"
 
 #: src/tools/simulation.c:257
-#, fuzzy
 msgid "Median"
-msgstr "平均(_M):"
+msgstr "中央値"
 
 #: src/tools/simulation.c:259
 msgid "Std. Dev."
-msgstr ""
+msgstr "標準偏差"
 
 #: src/tools/simulation.c:260
-#, fuzzy
 msgid "Variance"
-msgstr "共分散"
+msgstr "分散"
 
 #: src/tools/simulation.c:261
 msgid "Skewness"
-msgstr ""
+msgstr "歪度"
 
 #: src/tools/simulation.c:262
 msgid "Kurtosis"
-msgstr ""
+msgstr "尖度"
 
 #: src/tools/simulation.c:263
 msgid "Range"
@@ -27348,7 +27386,6 @@ msgid "Count"
 msgstr "回数"
 
 #: src/tools/simulation.c:265
-#, fuzzy
 msgid "Confidence (95 %)"
 msgstr "信頼性 (95 %)"
 
@@ -27362,7 +27399,7 @@ msgstr "上限 (95 %)"
 
 #: src/tools/simulation.c:335
 msgid "SUMMARY OF SIMULATION ROUND #"
-msgstr ""
+msgstr "シミュレーション概要 ラウンド #"
 
 #: src/tools/simulation.c:349
 msgid "Report"
@@ -27529,14 +27566,12 @@ msgid "Number of Iterations"
 msgstr "最大繰り返し数(_I)"
 
 #: src/tools/solver/reports-write.c:526
-#, fuzzy
 msgid "Minimization"
-msgstr "倍率"
+msgstr "最小化"
 
 #: src/tools/solver/reports-write.c:529
-#, fuzzy
 msgid "Maximization"
-msgstr "倍率"
+msgstr "最大化"
 
 #: src/tools/solver/reports-write.c:532
 #, fuzzy
@@ -27545,7 +27580,7 @@ msgstr "検索の開始"
 
 #: src/tools/solver/reports-write.c:539
 msgid "Optimal solution found"
-msgstr ""
+msgstr "最適解が見つかりました"
 
 #: src/tools/solver/reports-write.c:542
 msgid "Unbounded problem"
@@ -27556,15 +27591,13 @@ msgid "Infeasible problem"
 msgstr ""
 
 #: src/tools/solver/reports-write.c:549
-#, fuzzy
 msgid "Maximum number of iterations exceeded: optimization interupted"
 msgstr ""
-"繰り返し回数が最大値を超えました。最適な回数を見つけることが出来ませんでし"
-"た。"
+"繰り返し回数が最大値を超えました。最適化は中断しました"
 
 #: src/tools/solver/reports-write.c:554
 msgid "Maximum time exceeded: optimization interupted"
-msgstr ""
+msgstr "最大時間を越えました: 最適化は中断しました"
 
 #.
 #. * Fill in the labels of `Problem Size' section.
@@ -27653,17 +27686,15 @@ msgstr "%s (%s)"
 
 #: src/tools/solver/reports-write.c:703 src/tools/solver/reports-write.c:711
 msgid "Model Assumptions:"
-msgstr ""
+msgstr "モデルの仮定:"
 
 #: src/tools/solver/reports-write.c:704
-#, fuzzy
 msgid "Autoscaling:"
-msgstr "自動スケーリング(_S)"
+msgstr "自動スケーリング:"
 
 #: src/tools/solver/reports-write.c:706
-#, fuzzy
 msgid "Max Time:"
-msgstr "最大 :"
+msgstr "最大時間:"
 
 #. Set the options.
 #: src/tools/solver/reports-write.c:710
@@ -27671,24 +27702,21 @@ msgid "LP Solve 3.2"
 msgstr "LP Solve 3.2"
 
 #: src/tools/solver/reports-write.c:719
-#, fuzzy
 msgid "Non-Negative"
-msgstr "非負を仮定する(_N)"
+msgstr "非負"
 
 #: src/tools/solver/reports-write.c:726
 msgid "Yes"
 msgstr "はい"
 
 #: src/tools/solver/reports-write.c:728
-#, fuzzy
 msgid "No"
-msgstr "なし"
+msgstr "いいえ"
 
 #. Fill in other titles.
 #: src/tools/solver/reports-write.c:750
-#, fuzzy
 msgid "General Information"
-msgstr "情報"
+msgstr "一般情報"
 
 #: src/tools/solver/reports-write.c:751
 msgid "Problem Size"
