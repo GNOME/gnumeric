@@ -21,6 +21,9 @@ Pending Patches
 Long term breakage
 ------------------
 
+- Fix user visible strings "Foo :" to be "Foo:".  (The former is a French
+  habit that we should let the French l10n team handle.)
+
 - Fix "-geometry" handling:
   * When an anchor is specified (e.g., "+0+0"), the window manager should
     not be asked to place the window.  (Under twx, for example, the user
