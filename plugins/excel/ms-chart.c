@@ -335,7 +335,7 @@ BC_R(area)(XLChartHandler const *handle,
 {
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data);
 	char const *type = "normal";
-	/* gboolean in_3d = (s->container.ver >= MS_BIFF_V8 && (flags & 0x04)); */
+	gboolean in_3d = (s->container.ver >= MS_BIFF_V8 && (flags & 0x04));
 
 	g_return_val_if_fail (s->plot == NULL, TRUE);
 	s->plot = gog_plot_new_by_name ("GogAreaPlot");
@@ -348,7 +348,7 @@ BC_R(area)(XLChartHandler const *handle,
 
 	g_object_set (G_OBJECT (s->plot),
 		"type",			type,
-		/* "in_3d",		in_3d, */
+		"in_3d",		in_3d,
 		NULL);
 
 	d(1, fprintf (stderr, "%s area;", type););
@@ -428,8 +428,7 @@ BC_R(attachedlabel)(XLChartHandler const *handle,
 	if (show_label)
 		fputs ("Show the label;\n", stderr);
 
-	if (s->container.ver >= MS_BIFF_V8)
-	{
+	if (s->container.ver >= MS_BIFF_V8) {
 		gboolean const show_bubble_size = (flags&0x20) ? TRUE : FALSE;
 		if (show_bubble_size)
 			fputs ("Show bubble size;\n", stderr);
@@ -565,7 +564,7 @@ BC_R(bar)(XLChartHandler const *handle,
 	int gap_percentage = GSF_LE_GET_GINT16 (q->data+2);
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+4);
 	gboolean horizontal = (flags & 0x01) != 0;
-	/* gboolean in_3d = (s->container.ver >= MS_BIFF_V8 && (flags & 0x08)); */
+	gboolean in_3d = (s->container.ver >= MS_BIFF_V8 && (flags & 0x08));
 
 	g_return_val_if_fail (s->plot == NULL, TRUE);
 	s->plot = gog_plot_new_by_name ("GogBarColPlot");
@@ -579,7 +578,7 @@ BC_R(bar)(XLChartHandler const *handle,
 	g_object_set (G_OBJECT (s->plot),
 		"horizontal",		horizontal,
 		"type",			type,
-		/* "in_3d",		in_3d, */
+		"in_3d",		in_3d,
 		"overlap_percentage",	overlap_percentage,
 		"gap_percentage",	gap_percentage,
 		NULL);
@@ -1084,7 +1083,7 @@ BC_R(line)(XLChartHandler const *handle,
 {
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data);
 	char const *type = "normal";
-	/* gboolean in_3d = (s->container.ver >= MS_BIFF_V8 && (flags & 0x04)); */
+	gboolean in_3d = (s->container.ver >= MS_BIFF_V8 && (flags & 0x04));
 
 	g_return_val_if_fail (s->plot == NULL, TRUE);
 	s->plot = gog_plot_new_by_name ("GogLinePlot");
@@ -1097,7 +1096,7 @@ BC_R(line)(XLChartHandler const *handle,
 
 	g_object_set (G_OBJECT (s->plot),
 		"type",			type,
-		/* "in_3d",		in_3d, */
+		"in_3d",		in_3d,
 		NULL);
 
 	d(1, fprintf (stderr, "%s line;", type););
@@ -1939,6 +1938,16 @@ BC_R(end)(XLChartHandler const *handle,
 					NULL);
 		}
 
+		if (0 == strcmp (G_OBJECT_TYPE_NAME (s->plot), "GogBarColPlot")) {
+			gboolean horizontal;
+			g_object_get (s->plot, "horizontal", &horizontal, NULL);
+			if (horizontal) {
+				g_warning ("the axes will be reversed.  fix this");
+#if 0
+				gog_chart_swap_xy_axes (s->chart);
+#endif
+			}
+		}
 		gog_object_add_by_name (GOG_OBJECT (s->chart),
 			"Plot", GOG_OBJECT (s->plot));
 		s->plot = NULL;

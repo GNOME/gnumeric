@@ -77,8 +77,6 @@
 #define XML_INPUT_BUFFER_SIZE      4096
 #define N_ELEMENTS_BETWEEN_UPDATES 20
 
-static GnmFileSaver *xml_saver = NULL;
-
 #define CC2XML(s) ((const xmlChar *)(s))
 #define C2XML(s) ((xmlChar *)(s))
 #define CXML2C(s) ((const char *)(s))
@@ -4189,7 +4187,7 @@ gnumeric_xml_read_workbook (GnmFileOpener const *fo,
 	ctxt->version = version;
 	xml_workbook_read (context, ctxt, res->xmlRootNode);
 	workbook_set_saveinfo (wb_view_workbook (ctxt->wb_view),
-		FILE_FL_AUTO, xml_saver);
+		FILE_FL_AUTO, gnm_file_saver_for_id ("Gnumeric_xml_sax:xml_sax"));
 
 	xml_parse_ctx_destroy (ctxt);
 	xmlFreeDoc (res);
@@ -4249,21 +4247,17 @@ gnumeric_xml_write_workbook (GnmFileSaver const *fs,
 void
 xml_init (void)
 {
-	GnmFileOpener *opener;
-	char const *desc = _("Gnumeric XML file format");
-
-	opener = gnm_file_opener_new ("Gnumeric_XmlIO:gnum_xml",
-			_("Gnumeric XML (*.gnumeric)"),
-			xml_probe, gnumeric_xml_read_workbook);
-	xml_saver = gnm_file_saver_new ("Gnumeric_XmlIO:gnum_xml", "gnumeric",
-			_("Gnumeric XML (*.gnumeric) original slow exporter"),
-			FILE_FL_AUTO, gnumeric_xml_write_workbook);
-	gnm_file_opener_register (opener, 50);
-	gnm_file_saver_register_as_default (xml_saver, 30);
-
 	xml_sax_prober.comment    = NULL;
 	xml_sax_prober.warning    = NULL;
 	xml_sax_prober.error      = (errorSAXFunc) xml_probe_problem;
 	xml_sax_prober.fatalError = (fatalErrorSAXFunc) xml_probe_problem;
 	xml_sax_prober.startElement = (startElementSAXFunc) xml_probe_start_element;
+	gnm_file_opener_register (gnm_file_opener_new (
+		"Gnumeric_XmlIO:gnum_xml",
+		_("Gnumeric XML (*.gnumeric)"),
+		xml_probe, gnumeric_xml_read_workbook), 50);
+	gnm_file_saver_register_as_default (gnm_file_saver_new (
+		"Gnumeric_XmlIO:gnum_xml", "gnumeric",
+		_("Gnumeric XML (*.gnumeric) original slow exporter"),
+		FILE_FL_AUTO, gnumeric_xml_write_workbook), 30);
 }

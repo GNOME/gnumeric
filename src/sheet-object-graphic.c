@@ -152,6 +152,22 @@ sheet_object_graphic_finalize (GObject *object)
 	G_OBJECT_CLASS (sheet_object_graphic_parent_class)->finalize (object);
 }
 
+static void
+cb_graphic_update_bounds (SheetObject *so, FooCanvasItem *view)
+{
+	FooCanvasPoints *points = foo_canvas_points_new (2);
+	SheetControlGUI	*scg	= GNM_SIMPLE_CANVAS (view->canvas)->scg;
+
+	scg_object_view_position (scg, so, points->coords);
+	foo_canvas_item_set (view, "points", points, NULL);
+	foo_canvas_points_free (points);
+
+	if (so->is_visible)
+		foo_canvas_item_show (view);
+	else
+		foo_canvas_item_hide (view);
+}
+
 static GObject *
 sheet_object_graphic_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
@@ -165,8 +181,6 @@ sheet_object_graphic_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 	g_return_val_if_fail (gcanvas != NULL, NULL);
 
 	fill_color = (sog->fill_color != NULL) ? &sog->fill_color->color : NULL;
-
-	foo_canvas_item_raise_to_top (FOO_CANVAS_ITEM (gcanvas->sheet_object_group));
 
 	switch (sog->type) {
 	case SHEET_OBJECT_LINE:
@@ -195,26 +209,8 @@ sheet_object_graphic_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 		g_assert_not_reached ();
 	}
 
-	gnm_pane_object_register (so, item);
+	gnm_pane_object_register (so, item, cb_graphic_update_bounds);
 	return G_OBJECT (item);
-}
-
-static void
-sheet_object_graphic_update_bounds (SheetObject *so, GObject *view_obj)
-{
-	FooCanvasPoints *points = foo_canvas_points_new (2);
-	FooCanvasItem   *view = FOO_CANVAS_ITEM (view_obj);
-	SheetControlGUI	  *scg  =
-		SHEET_CONTROL_GUI (sheet_object_view_control (view_obj));
-
-	scg_object_view_position (scg, so, points->coords);
-	foo_canvas_item_set (view, "points", points, NULL);
-	foo_canvas_points_free (points);
-
-	if (so->is_visible)
-		foo_canvas_item_show (view);
-	else
-		foo_canvas_item_hide (view);
 }
 
 static gboolean
@@ -632,7 +628,6 @@ sheet_object_graphic_class_init (GObjectClass *object_class)
 
 	/* SheetObject class method overrides */
 	so_class->new_view		= sheet_object_graphic_new_view;
-	so_class->update_view_bounds	= sheet_object_graphic_update_bounds;
 	so_class->read_xml_dom		= sheet_object_graphic_read_xml_dom;
 	so_class->write_xml_dom		= sheet_object_graphic_write_xml_dom;
 	so_class->write_xml_sax		= sheet_object_graphic_write_xml_sax;
@@ -738,28 +733,6 @@ sheet_object_filled_finalize (GObject *object)
 	G_OBJECT_CLASS (sheet_object_filled_parent_class)->finalize (object);
 }
 
-static void
-sheet_object_filled_update_bounds (SheetObject *so, GObject *view)
-{
-	double coords [4];
-	SheetControlGUI	  *scg  =
-		SHEET_CONTROL_GUI (sheet_object_view_control (view));
-
-	scg_object_view_position (scg, so, coords);
-
-	foo_canvas_item_set (FOO_CANVAS_ITEM (view),
-		"x1", MIN (coords [0], coords [2]),
-		"x2", MAX (coords [0], coords [2]),
-		"y1", MIN (coords [1], coords [3]),
-		"y2", MAX (coords [1], coords [3]),
-		NULL);
-
-	if (so->is_visible)
-		foo_canvas_item_show (FOO_CANVAS_ITEM (view));
-	else
-		foo_canvas_item_hide (FOO_CANVAS_ITEM (view));
-}
-
 static FooCanvasItem *
 sheet_object_filled_new_view_internal (SheetObject *so, SheetControl *sc, GnmCanvas *gcanvas,
 				       FooCanvasGroup *group)
@@ -792,16 +765,35 @@ sheet_object_filled_new_view_internal (SheetObject *so, SheetControl *sc, GnmCan
 	return item;
 }
 
+static void
+cb_filled_update_bounds (SheetObject *so, FooCanvasItem *view)
+{
+	double coords [4];
+	SheetControlGUI	*scg = GNM_SIMPLE_CANVAS (view->canvas)->scg;
+
+	scg_object_view_position (scg, so, coords);
+
+	foo_canvas_item_set (FOO_CANVAS_ITEM (view),
+		"x1", MIN (coords [0], coords [2]),
+		"x2", MAX (coords [0], coords [2]),
+		"y1", MIN (coords [1], coords [3]),
+		"y2", MAX (coords [1], coords [3]),
+		NULL);
+
+	if (so->is_visible)
+		foo_canvas_item_show (FOO_CANVAS_ITEM (view));
+	else
+		foo_canvas_item_hide (FOO_CANVAS_ITEM (view));
+}
+
 static GObject *
 sheet_object_filled_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
 	GnmCanvas *gcanvas = ((GnmPane *)key)->gcanvas;
-	FooCanvasItem *i = sheet_object_filled_new_view_internal (so,
-				sc, gcanvas, gcanvas->sheet_object_group);
-
-	foo_canvas_item_raise_to_top (FOO_CANVAS_ITEM (gcanvas->sheet_object_group));
-	gnm_pane_object_register (so, i);
-	return G_OBJECT (i);
+	FooCanvasItem *item = sheet_object_filled_new_view_internal (so,
+		sc, gcanvas, gcanvas->sheet_object_group);
+	gnm_pane_object_register (so, item, cb_filled_update_bounds);
+	return G_OBJECT (item);
 }
 
 static gboolean
@@ -1156,7 +1148,6 @@ sheet_object_filled_class_init (GObjectClass *object_class)
 
 	sheet_object_class = SHEET_OBJECT_CLASS (object_class);
 	sheet_object_class->new_view	  = sheet_object_filled_new_view;
-	sheet_object_class->update_view_bounds = sheet_object_filled_update_bounds;
 	sheet_object_class->read_xml_dom  = sheet_object_filled_read_xml_dom;
 	sheet_object_class->write_xml_dom = sheet_object_filled_write_xml_dom;
 	sheet_object_class->write_xml_sax = sheet_object_filled_write_xml_sax;
@@ -1209,44 +1200,12 @@ sheet_object_polygon_finalize (GObject *object)
 	G_OBJECT_CLASS (sheet_object_polygon_parent_class)->finalize (object);
 }
 
-static GObject *
-sheet_object_polygon_new_view (SheetObject *so, SheetControl *sc, gpointer key)
-{
-	GnmCanvas *gcanvas = ((GnmPane *)key)->gcanvas;
-	SheetObjectPolygon *sop = SHEET_OBJECT_POLYGON (so);
-	FooCanvasItem *item = NULL;
-	GdkColor *fill_color, *outline_color;
-
-	g_return_val_if_fail (IS_SHEET_OBJECT (so), NULL);
-	g_return_val_if_fail (IS_SHEET_CONTROL (sc), NULL);
-	g_return_val_if_fail (gcanvas != NULL, NULL);
-
-	fill_color = (sop->fill_color != NULL) ? &sop->fill_color->color : NULL;
-	outline_color = (sop->outline_color != NULL) ? &sop->outline_color->color : NULL;
-
-	foo_canvas_item_raise_to_top (FOO_CANVAS_ITEM (gcanvas->sheet_object_group));
-
-	item = foo_canvas_item_new (
-		gcanvas->sheet_object_group,
-		foo_canvas_polygon_get_type (),
-		"fill_color_gdk",	fill_color,
-		"outline_color_gdk",	outline_color,
-		"width_units",		sop->outline_width,
-		"points",		sop->points,
-		/* "join_style",		GDK_JOIN_ROUND, */
-		NULL);
-	gnm_pane_object_register (so, item);
-	return G_OBJECT (item);
-}
-
 static void
-sheet_object_polygon_update_bounds (SheetObject *so, GObject *view_obj)
+cb_polygon_update_bounds (SheetObject *so, FooCanvasItem *view)
 {
 	double scale[6], translate[6], result[6];
 	FooCanvasPoints *points = foo_canvas_points_new (2);
-	FooCanvasItem   *view = FOO_CANVAS_ITEM (view_obj);
-	SheetControlGUI	  *scg  =
-		SHEET_CONTROL_GUI (sheet_object_view_control (view_obj));
+	SheetControlGUI	*scg = GNM_SIMPLE_CANVAS (view->canvas)->scg;
 
 	scg_object_view_position (scg, so, points->coords);
 
@@ -1266,6 +1225,34 @@ sheet_object_polygon_update_bounds (SheetObject *so, GObject *view_obj)
 		foo_canvas_item_show (view);
 	else
 		foo_canvas_item_hide (view);
+}
+
+static GObject *
+sheet_object_polygon_new_view (SheetObject *so, SheetControl *sc, gpointer key)
+{
+	GnmCanvas *gcanvas = ((GnmPane *)key)->gcanvas;
+	SheetObjectPolygon *sop = SHEET_OBJECT_POLYGON (so);
+	FooCanvasItem *item = NULL;
+	GdkColor *fill_color, *outline_color;
+
+	g_return_val_if_fail (IS_SHEET_OBJECT (so), NULL);
+	g_return_val_if_fail (IS_SHEET_CONTROL (sc), NULL);
+	g_return_val_if_fail (gcanvas != NULL, NULL);
+
+	fill_color = (sop->fill_color != NULL) ? &sop->fill_color->color : NULL;
+	outline_color = (sop->outline_color != NULL) ? &sop->outline_color->color : NULL;
+
+	item = foo_canvas_item_new (
+		gcanvas->sheet_object_group,
+		foo_canvas_polygon_get_type (),
+		"fill_color_gdk",	fill_color,
+		"outline_color_gdk",	outline_color,
+		"width_units",		sop->outline_width,
+		"points",		sop->points,
+		/* "join_style",		GDK_JOIN_ROUND, */
+		NULL);
+	gnm_pane_object_register (so, item, cb_polygon_update_bounds);
+	return G_OBJECT (item);
 }
 
 static gboolean
@@ -1295,7 +1282,8 @@ sheet_object_polygon_write_xml_dom (SheetObject const *so,
 static void
 sheet_object_polygon_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 {
-	SheetObjectPolygon const *sop = SHEET_OBJECT_POLYGON (so);
+	SheetObjectPolygon const *sop;
+	sop = SHEET_OBJECT_POLYGON (so);
 }
 
 static SheetObject *
@@ -1334,7 +1322,6 @@ sheet_object_polygon_class_init (GObjectClass *object_class)
 	/* SheetObject class method overrides */
 	sheet_object_class = SHEET_OBJECT_CLASS (object_class);
 	sheet_object_class->new_view	  = sheet_object_polygon_new_view;
-	sheet_object_class->update_view_bounds = sheet_object_polygon_update_bounds;
 	sheet_object_class->read_xml_dom  = sheet_object_polygon_read_xml_dom;
 	sheet_object_class->write_xml_dom = sheet_object_polygon_write_xml_dom;
 	sheet_object_class->write_xml_sax = sheet_object_polygon_write_xml_sax;
@@ -1493,53 +1480,15 @@ sheet_object_text_finalize (GObject *obj)
 	G_OBJECT_CLASS (sheet_object_text_parent_class)->finalize (obj);
 }
 
-static GObject *
-sheet_object_text_new_view (SheetObject *so, SheetControl *sc, gpointer key)
-{
-	GnmCanvas *gcanvas = ((GnmPane *)key)->gcanvas;
-	SheetObjectText *sot = SHEET_OBJECT_TEXT (so);
-	FooCanvasItem *text = NULL, *back = NULL;
-	FooCanvasGroup *group;
-
-	g_return_val_if_fail (IS_SHEET_OBJECT (so), NULL);
-	g_return_val_if_fail (IS_SHEET_CONTROL (sc), NULL);
-	g_return_val_if_fail (gcanvas != NULL, NULL);
-
-	foo_canvas_item_raise_to_top (FOO_CANVAS_ITEM (gcanvas->sheet_object_group));
-	group = FOO_CANVAS_GROUP (foo_canvas_item_new (
-			gcanvas->sheet_object_group,
-			FOO_TYPE_CANVAS_GROUP,
-			NULL));
-	text = foo_canvas_item_new (group,
-		FOO_TYPE_CANVAS_TEXT,
-		"text",		sot->label,
-		"anchor",	GTK_ANCHOR_NW,
-		"clip",		TRUE,
-		"x",		sot->margin_pts.left,
-		"y",		sot->margin_pts.top,
-		"attributes",	sot->markup,
-		NULL);
-	back = sheet_object_filled_new_view_internal (so, sc, gcanvas, group);
-	foo_canvas_item_raise_to_top (text);
-	gnm_pane_object_register (so, FOO_CANVAS_ITEM (group));
-	return G_OBJECT (group);
-}
-
 static void
-sheet_object_text_update_bounds (SheetObject *so, GObject *view)
+cb_text_update_bounds (SheetObject *so, FooCanvasItem *view)
 {
 	double coords [4];
-	SheetControlGUI	  *scg  =
-		SHEET_CONTROL_GUI (sheet_object_view_control (view));
+	SheetControlGUI	*scg  = GNM_SIMPLE_CANVAS (view->canvas)->scg;
 	FooCanvasGroup *group = FOO_CANVAS_GROUP (view);
-	FooCanvasItem *item;
-	SheetObjectText *sot = SHEET_OBJECT_TEXT (so);
+	SheetObjectText *sot  = SHEET_OBJECT_TEXT (so);
 	double h, w;
 
-	if (!so->is_visible) {
-		foo_canvas_item_hide (FOO_CANVAS_ITEM (view));
-		return;
-	}
 	foo_canvas_item_show (FOO_CANVAS_ITEM (view));
 	scg_object_view_position (scg, so, coords);
 
@@ -1557,25 +1506,58 @@ sheet_object_text_update_bounds (SheetObject *so, GObject *view)
 		"y2", h,
 		NULL);
 
-	item = FOO_CANVAS_ITEM (group->item_list->next->data);
+	view = FOO_CANVAS_ITEM (group->item_list->next->data);
 	w -= (sot->margin_pts.left + sot->margin_pts.right)
-		* item->canvas->pixels_per_unit;
+		* view->canvas->pixels_per_unit;
 	h -= (sot->margin_pts.top + sot->margin_pts.bottom)
-		* item->canvas->pixels_per_unit;
-	if (h > 0. && w > 0.) {
-		foo_canvas_item_show (item);
-		foo_canvas_item_set (item,
-			"clip_width",  w,
-			"wrap_width",  w,
-			"clip_height", h,
+		* view->canvas->pixels_per_unit;
 
-			/* cheap hack to force the attributes to regenerate for
-			 * the rare case where the repositioning was caused by
-			 * a change in zoom */
-			"underline_set", FALSE,
-			NULL);
-	} else
-		foo_canvas_item_hide (item);
+	foo_canvas_item_set (view,
+		"clip_height", h,
+		"clip_width",  w,
+		"wrap_width",  w,
+
+		/* cheap hack to force the attributes to regenerate for
+		 * the rare case where the repositioning was caused by
+		 * a change in zoom */
+		"underline_set", FALSE,
+		NULL);
+
+	if (so->is_visible && h > 0. && w > 0.)
+		foo_canvas_item_show (view);
+	else
+		foo_canvas_item_hide (view);
+}
+
+static GObject *
+sheet_object_text_new_view (SheetObject *so, SheetControl *sc, gpointer key)
+{
+	GnmCanvas *gcanvas = ((GnmPane *)key)->gcanvas;
+	SheetObjectText *sot = SHEET_OBJECT_TEXT (so);
+	FooCanvasItem *text = NULL, *back = NULL;
+	FooCanvasGroup *group;
+
+	g_return_val_if_fail (IS_SHEET_OBJECT (so), NULL);
+	g_return_val_if_fail (IS_SHEET_CONTROL (sc), NULL);
+	g_return_val_if_fail (gcanvas != NULL, NULL);
+
+	group = FOO_CANVAS_GROUP (foo_canvas_item_new (
+			gcanvas->sheet_object_group,
+			FOO_TYPE_CANVAS_GROUP,
+			NULL));
+	text = foo_canvas_item_new (group,
+		FOO_TYPE_CANVAS_TEXT,
+		"text",		sot->label,
+		"anchor",	GTK_ANCHOR_NW,
+		"clip",		TRUE,
+		"x",		sot->margin_pts.left,
+		"y",		sot->margin_pts.top,
+		"attributes",	sot->markup,
+		NULL);
+	back = sheet_object_filled_new_view_internal (so, sc, gcanvas, group);
+	foo_canvas_item_raise_to_top (text);
+	gnm_pane_object_register (so, FOO_CANVAS_ITEM (group), cb_text_update_bounds);
+	return G_OBJECT (group);
 }
 
 static gboolean
@@ -1657,7 +1639,6 @@ sheet_object_text_class_init (GObjectClass *object_class)
 	/* SheetObject class method overrides */
 	so_class = SHEET_OBJECT_CLASS (object_class);
 	so_class->new_view		= sheet_object_text_new_view;
-	so_class->update_view_bounds	= sheet_object_text_update_bounds;
 	so_class->read_xml_dom		= sheet_object_text_read_xml_dom;
 	so_class->write_xml_dom		= sheet_object_text_write_xml_dom;
 	so_class->write_xml_sax		= sheet_object_text_write_xml_sax;

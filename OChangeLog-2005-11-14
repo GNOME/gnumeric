@@ -1,3 +1,59 @@
+2004-08-24  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=150530
+	* src/sheet-object-cell-comment.c (cell_comment_write_xml_sax) : fix
+	  in libgsf, but patched here too to tide us over until the next
+	  libgsf release.
+
+2004-08-24  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-object.c (sheet_object_class_init) : declare a
+	  bounds-changed signal.
+	(sheet_object_update_bounds) : emit bounds-changed and assume the
+	  views will do the right thing.  No need to manually walk the
+	  realized list.  That should go away.
+
+	* src/sheet-filter.c :  Adjust to using the bounds-changed signal
+	  instead of doing it directly.
+	* src/sheet-object-cell-comment.c : ditto.
+	* src/sheet-object-graph.c : ditto.
+	* src/sheet-object-graphic.c : ditto.
+	* src/sheet-object-image.c : ditto.
+	* src/sheet-object-widget.c : ditto.
+
+	* src/sheet-control-gui.c (cb_scg_object_bounds_changed) :  new
+	(scg_object_stop_editing) : disconnect the bounds changed signal here.
+	(scg_mode_edit_object) : connect to it here.
+
+	* src/gnumeric-pane.c (display_object_menu) : no need to use
+	  sheet_object_view_control.  We can pull the info from the canvas.
+	(cb_sheet_object_canvas_event) : ditto.
+	(cb_sheet_object_widget_canvas_event) : ditto.
+	(cb_sheet_object_view_destroyed) : ditto.
+	(gnm_pane_object_register) : Add some convenience arguments to hook up
+	  the bounds-changed handler and set the initial size.
+	(gnm_pane_widget_register) :
+
+2004-08-24  Jody Goldberg <jody@gnome.org>
+
+	* src/application.c :  signals are guint, not GQuark.  Probably does
+	  not matter, but it can't hurt to match the glib headers
+
+	* src/sheet-object-cell-comment.c (cell_comment_write_xml_sax) : gsf
+	  was more anal than libxml about handling NULL as strings.  new gsf
+	  is more relaxed, but add some protection here until that is in
+	  circulation.
+
+	* src/xml-io.c (gnumeric_xml_read_workbook) : default to using the sax
+	  exporter
+	(xml_init) : cleanup.
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=150792
+	* src/sheet.c (colrow_move) : Only ignore non-existent cells, not all
+	  Blanks.  That includes things with VALUE_EMPTY which includes cells
+	  whose expressions were just re-written.
+	(sheet_move_range) : ditto.
+
 2004-08-24  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-control-gui.c (cb_wbcg_drag_data_received): Take

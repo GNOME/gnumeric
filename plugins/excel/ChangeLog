@@ -1,3 +1,8 @@
+2004-08-22  Jody Goldberg <jody@gnome.org>
+
+	* ms-chart.c (BC_R(area,bar,line)) : Use the in_3d placeholders in
+	  plot_1_5d, we already export it.
+
 2004-08-21  Jon K Hellan  <hellan@acm.org>
 
 	* ms-excel-read.c (excel_read_IMDATA): Add comment about OS/2 BMP

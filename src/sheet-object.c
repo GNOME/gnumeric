@@ -47,7 +47,13 @@
 #define	SO_VIEW_OBJECT_KEY		"SheetObject"
 #define	SO_VIEW_KEY			"Key"
 
-GObjectClass *parent_klass;
+enum {
+	BOUNDS_CHANGED,
+	LAST_SIGNAL
+};
+static guint	     signals [LAST_SIGNAL] = { 0 };
+static GObjectClass *parent_klass;
+
 static void
 cb_sheet_object_raise (GtkWidget *widget, GObject *so_view)
 {
@@ -275,13 +281,20 @@ sheet_object_class_init (GObjectClass *klass)
 
 	parent_klass = g_type_class_peek_parent (klass);
 	klass->finalize = sheet_object_finalize;
-	sheet_object_class->update_view_bounds   = NULL;
 	sheet_object_class->populate_menu        = sheet_object_populate_menu;
 	sheet_object_class->print                = NULL;
 	sheet_object_class->user_config          = NULL;
 	sheet_object_class->rubber_band_directly = FALSE;
 	sheet_object_class->default_size	 = so_default_size;
 	sheet_object_class->xml_export_name 	 = NULL;
+
+	signals [BOUNDS_CHANGED] = g_signal_new ("bounds-changed",
+		SHEET_OBJECT_TYPE,
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (SheetObjectClass, bounds_changed),
+		(GSignalAccumulator) NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 }
 
 GSF_CLASS (SheetObject, sheet_object,
@@ -334,11 +347,10 @@ sheet_object_get_view (SheetObject *so, gpointer key)
  * update the bounds of an object that intersects the region whose top left
  * is @pos.  This is used when an objects position is anchored to cols/rows
  * and they change position.
- */
+ **/
 void
 sheet_object_update_bounds (SheetObject *so, GnmCellPos const *pos)
 {
-	GList *l;
 	gboolean is_hidden = TRUE;
 	int i, end;
 
@@ -366,13 +378,7 @@ sheet_object_update_bounds (SheetObject *so, GnmCellPos const *pos)
 
 	so->is_visible = !is_hidden;
 
-	if (SO_CLASS (so)->position_changed)
-		SO_CLASS (so)->position_changed (so);
-
-	for (l = so->realized_list; l; l = l->next) {
-		GObject *view = G_OBJECT (l->data);
-		SO_CLASS (so)->update_view_bounds (so, view);
-	}
+	g_signal_emit (so, signals [BOUNDS_CHANGED], 0);
 }
 
 /**
@@ -490,8 +496,6 @@ sheet_object_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 	g_object_weak_ref (G_OBJECT (view),
 		(GWeakNotify) cb_sheet_object_view_finalized, so);
 	so->realized_list = g_list_prepend (so->realized_list, view);
-
-	SO_CLASS (so)->update_view_bounds (so, view);
 }
 
 void

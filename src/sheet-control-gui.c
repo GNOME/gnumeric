@@ -1640,6 +1640,12 @@ scg_cursor_visible (SheetControlGUI *scg, gboolean is_visible)
 
 #define SO_CLASS(so) SHEET_OBJECT_CLASS (G_OBJECT_GET_CLASS(so))
 
+static void
+cb_scg_object_bounds_changed (SheetObject *so, SheetControlGUI *scg)
+{
+	scg_object_update_bbox (scg, so, NULL);
+}
+
 void
 scg_object_stop_editing (SheetControlGUI *scg, SheetObject *so)
 {
@@ -1650,7 +1656,9 @@ scg_object_stop_editing (SheetControlGUI *scg, SheetObject *so)
 
 	SCG_FOREACH_PANE (scg, pane, gnm_pane_object_stop_editing (pane););
 
-	g_object_unref (G_OBJECT (scg->current_object));
+	g_signal_handlers_disconnect_by_func(scg->current_object,
+		cb_scg_object_bounds_changed, scg);
+	g_object_unref (scg->current_object);
 	scg->current_object = NULL;
 
 	if (SO_CLASS (so)->set_active != NULL)
@@ -1725,11 +1733,18 @@ scg_mode_edit_object (SheetControlGUI *scg, SheetObject *so)
 		return;
 
 	/* Add protective ref before clearing the mode, in case we are starting
-	 * to edit a newly created object
-	 */
+	 * to edit a newly created object */
 	g_object_ref (G_OBJECT (so));
 	if (wbcg_edit_finish (scg->wbcg, WBC_EDIT_ACCEPT, NULL) &&
 	    scg_mode_clear (scg)) {
+
+		if (scg->current_object != NULL) {
+			g_warning ("uh oh leaked sheet object ref");
+		}
+
+		g_signal_connect_object (so, "bounds-changed",
+			cb_scg_object_bounds_changed, scg, 0);
+
 		scg->current_object = so;
 		g_object_ref (G_OBJECT (so));
 

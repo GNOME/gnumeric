@@ -304,7 +304,7 @@ sheet_range_calc_spans (Sheet *sheet, GnmRange const *r, SpanCalcFlags flags)
 {
 	sheet->modified = TRUE;
 	if (flags & SPANCALC_RE_RENDER)
-		sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
+		sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_NONEXISTENT,
 			r->start.col, r->start.row, r->end.col, r->end.row,
 			cb_clear_rendered_values, NULL);
 	sheet_queue_respan (sheet, r->start.row, r->end.row);
@@ -1090,7 +1090,7 @@ sheet_col_size_fit_pixels (Sheet *sheet, int col)
 		return 0;
 
 	sheet_foreach_cell_in_range (sheet,
-		CELL_ITER_IGNORE_BLANK | CELL_ITER_IGNORE_HIDDEN,
+		CELL_ITER_IGNORE_NONEXISTENT | CELL_ITER_IGNORE_HIDDEN,
 		col, 0, col, SHEET_MAX_ROWS-1,
 		(CellIterFunc)&cb_max_cell_width, &max);
 
@@ -1157,7 +1157,7 @@ sheet_row_size_fit_pixels (Sheet *sheet, int row)
 		return 0;
 
 	sheet_foreach_cell_in_range (sheet,
-		CELL_ITER_IGNORE_BLANK | CELL_ITER_IGNORE_HIDDEN,
+		CELL_ITER_IGNORE_NONEXISTENT | CELL_ITER_IGNORE_HIDDEN,
 		0, row,
 		SHEET_MAX_COLS-1, row,
 		(CellIterFunc)&cb_max_cell_height, &max);
@@ -2040,7 +2040,6 @@ static GnmValue *
 cb_cell_is_array (Sheet *sheet, int col, int row, GnmCell *cell, void *user_data)
 {
 	return cell_is_array (cell) ? VALUE_TERMINATE : NULL;
-
 }
 
 /**
@@ -2249,9 +2248,10 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 {
 	int i, j;
 	GnmValue *cont;
-	gboolean const visiblity_matters = (flags & CELL_ITER_IGNORE_HIDDEN);
-	gboolean const only_existing = (flags & CELL_ITER_IGNORE_BLANK);
-	gboolean const subtotal_magic = (flags & CELL_ITER_IGNORE_SUBTOTAL);
+	gboolean const visiblity_matters = (flags & CELL_ITER_IGNORE_HIDDEN) != 0;
+	gboolean const subtotal_magic = (flags & CELL_ITER_IGNORE_SUBTOTAL) != 0;
+	gboolean const only_existing = (flags & CELL_ITER_IGNORE_NONEXISTENT) != 0;
+	gboolean const ignore_empty = (flags & CELL_ITER_IGNORE_EMPTY) != 0;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (callback != NULL, NULL);
@@ -2308,7 +2308,8 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 				cell = sheet_cell_get (sheet, j, i);
 			}
 
-			if (only_existing && (cell == NULL || cell->value->type == VALUE_EMPTY)) {
+			if ((only_existing && cell == NULL) ||
+			    (ignore_empty && cell->value->type == VALUE_EMPTY)) {
 				/* skip segments with no cells */
 				if (j == COLROW_SEGMENT_START (j)) {
 					ColRowSegment const *segment =
@@ -2376,7 +2377,7 @@ sheet_cells (Sheet *sheet,
 
 	g_return_val_if_fail (IS_SHEET (sheet), cells);
 
-	sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
+	sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_NONEXISTENT,
 		start_col, start_row, end_col, end_row,
 		cb_sheet_cells_collect, cells);
 
@@ -2582,7 +2583,7 @@ sheet_col_destroy (Sheet *sheet, int const col, gboolean free_cells)
 		sheet->priv->recompute_max_col_group = TRUE;
 
 	if (free_cells)
-		sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
+		sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_NONEXISTENT,
 			col, 0, col, SHEET_MAX_ROWS-1,
 			&cb_free_cell, NULL);
 
@@ -2618,7 +2619,7 @@ sheet_row_destroy (Sheet *sheet, int const row, gboolean free_cells)
 		sheet->priv->recompute_max_row_group = TRUE;
 
 	if (free_cells)
-		sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
+		sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_NONEXISTENT,
 			0, row, SHEET_MAX_COLS-1, row,
 			&cb_free_cell, NULL);
 
@@ -2872,7 +2873,7 @@ sheet_clear_region (Sheet *sheet,
 		/* Remove or empty the cells depending on
 		 * whether or not there are comments
 		 */
-		sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
+		sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_NONEXISTENT,
 			start_col, start_row, end_col, end_row,
 			&cb_empty_cell, GINT_TO_POINTER (!(clear_flags & CLEAR_COMMENTS)));
 
@@ -3021,7 +3022,7 @@ colrow_move (Sheet *sheet,
 		return;
 
 	/* Collect the cells and unlinks them if necessary */
-	sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
+	sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_NONEXISTENT,
 		start_col, start_row, end_col, end_row,
 		&cb_collect_cell, &cells);
 
@@ -3471,7 +3472,7 @@ sheet_move_range (GnmExprRelocateInfo const *rinfo,
 	}
 
 	/* 3. Collect the cells */
-	sheet_foreach_cell_in_range (rinfo->origin_sheet, CELL_ITER_IGNORE_BLANK,
+	sheet_foreach_cell_in_range (rinfo->origin_sheet, CELL_ITER_IGNORE_NONEXISTENT,
 		rinfo->origin.start.col, rinfo->origin.start.row,
 		rinfo->origin.end.col, rinfo->origin.end.row,
 		&cb_collect_cell, &cells);
@@ -4161,7 +4162,7 @@ cb_rerender_zeroes (Sheet *sheet, int col, int row, GnmCell *cell,
 void
 sheet_toggle_hide_zeros (Sheet *sheet)
 {
-	sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
+	sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_NONEXISTENT,
 		0, 0, SHEET_MAX_COLS - 1, SHEET_MAX_ROWS - 1,
 		cb_rerender_zeroes, NULL);
 	sheet_adjust_preferences (sheet, TRUE, FALSE);

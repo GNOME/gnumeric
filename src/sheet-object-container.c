@@ -35,6 +35,26 @@ cb_user_activation_request (BonoboViewFrame *view_frame, GtkObject *so_view)
 	scg_mode_edit_object (scg, so);
 }
 
+static void
+cb_container_update_bounds (SheetObject *so, FooCanvasItem *view)
+{
+	SheetControlGUI	*scg = GNM_SIMPLE_CANVAS (view->canvas)->scg;
+	double coords [4];
+
+	/* NOTE : far point is EXCLUDED so we add 1 */
+	scg_object_view_position (scg, so, coords);
+	foo_canvas_item_set (view,
+		"x", coords [0], "y", coords [1],
+		"width",  coords [2] - coords [0] + 1.,
+		"height", coords [3] - coords [1] + 1.,
+		NULL);
+
+	if (so->is_visible)
+		foo_canvas_item_show (view);
+	else
+		foo_canvas_item_hide (view);
+}
+
 static GtkObject *
 sheet_object_container_new_view (SheetObject *so, SheetControlGUI *scg)
 {
@@ -77,30 +97,6 @@ sheet_object_container_new_view (SheetObject *so, SheetControlGUI *scg)
 	return GTK_OBJECT (view_item);
 }
 
-/*
- * This implemenation moves the widget rather than
- * destroying/updating/creating the views
- */
-static void
-sheet_object_container_update_bounds (SheetObject *so, GtkObject *view,
-		                     SheetControlGUI *scg)
-{
-	double coords [4];
-
-	/* NOTE : far point is EXCLUDED so we add 1 */
-	scg_object_view_position (scg, so, coords);
-	foo_canvas_item_set (FOO_CANVAS_ITEM (view),
-		"x", coords [0], "y", coords [1],
-		"width",  coords [2] - coords [0] + 1.,
-		"height", coords [3] - coords [1] + 1.,
-		NULL);
-
-	if (so->is_visible)
-		foo_canvas_item_show (FOO_CANVAS_ITEM (view));
-	else
-		foo_canvas_item_hide (FOO_CANVAS_ITEM (view));
-}
-
 static void
 sheet_object_container_set_active (SheetObject *so, GtkObject *view,
 				   gboolean active)
@@ -136,7 +132,6 @@ sheet_object_container_class_init (GtkObjectClass *object_class)
 	/* SheetObject class method overrides */
 	so_class = SHEET_OBJECT_CLASS (object_class);
 	so_class->new_view 	= sheet_object_container_new_view;
-	so_class->update_view_bounds = sheet_object_container_update_bounds;
 	so_class->set_active    = sheet_object_container_set_active;
 }
 

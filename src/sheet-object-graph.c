@@ -119,19 +119,39 @@ sheet_object_graph_finalize (GObject *obj)
 	parent_klass->finalize (obj);
 }
 
+static void
+cb_graph_bounds_changed (SheetObject *so, FooCanvasItem *view)
+{
+	double coords [4];
+	SheetControlGUI	*scg = GNM_SIMPLE_CANVAS (view->canvas)->scg;
+
+	scg_object_view_position (scg, so, coords);
+	foo_canvas_item_set (view,
+		"x", MIN (coords [0], coords[2]),
+		"y", MIN (coords [3], coords[1]),
+		"w", fabs (coords [2] - coords [0]) + 1.,
+		"h", fabs (coords [3] - coords [1]) + 1.,
+		NULL);
+
+	if (so->is_visible)
+		foo_canvas_item_show (view);
+	else
+		foo_canvas_item_hide (view);
+}
+
 static GObject *
 sheet_object_graph_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
 	GnmCanvas *gcanvas = ((GnmPane *)key)->gcanvas;
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
-	FooCanvasItem *item = foo_canvas_item_new (gcanvas->sheet_object_group,
+	FooCanvasItem *view = foo_canvas_item_new (gcanvas->sheet_object_group,
 		GOG_CONTROL_FOOCANVAS_TYPE,
 		"renderer",	sog->renderer,
 		NULL);
 	foo_canvas_item_raise_to_top (FOO_CANVAS_ITEM (gcanvas->sheet_object_group));
 
-	gnm_pane_object_register (so, item);
-	return G_OBJECT (item);
+	gnm_pane_object_register (so, view, cb_graph_bounds_changed);
+	return G_OBJECT (view);
 }
 
 
@@ -242,28 +262,6 @@ sheet_object_graph_populate_menu (SheetObject *so,
 			  G_CALLBACK (soi_cb_save_as), obj_view);
 	SHEET_OBJECT_CLASS (parent_klass)->populate_menu (so, obj_view, menu);
 	gtk_menu_shell_insert (GTK_MENU_SHELL (menu),  item, 1);
-}
-
-static void
-sheet_object_graph_update_bounds (SheetObject *so, GObject *view_obj)
-{
-	double coords [4];
-	FooCanvasItem   *view = FOO_CANVAS_ITEM (view_obj);
-	SheetControlGUI	*scg  =
-		SHEET_CONTROL_GUI (sheet_object_view_control (view_obj));
-
-	scg_object_view_position (scg, so, coords);
-	foo_canvas_item_set (view,
-		"x", MIN (coords [0], coords[2]),
-		"y", MIN (coords [3], coords[1]),
-		"w", fabs (coords [2] - coords [0]) + 1.,
-		"h", fabs (coords [3] - coords [1]) + 1.,
-		NULL);
-
-	if (so->is_visible)
-		foo_canvas_item_show (view);
-	else
-		foo_canvas_item_hide (view);
 }
 
 static gboolean
@@ -395,7 +393,7 @@ sheet_object_graph_default_size (SheetObject const *so, double *w, double *h)
 }
 
 static void
-sheet_object_graph_position_changed (SheetObject const *so)
+sheet_object_graph_bounds_changed (SheetObject *so)
 {
 	/* If it has not been realized there is no renderer yet */
 	if (SHEET_OBJECT_GRAPH (so)->renderer != NULL) {
@@ -420,8 +418,8 @@ sheet_object_graph_class_init (GObjectClass *klass)
 
 	/* SheetObject class method overrides */
 	so_class->new_view	     = sheet_object_graph_new_view;
+	so_class->bounds_changed     = sheet_object_graph_bounds_changed;
 	so_class->populate_menu	     = sheet_object_graph_populate_menu;
-	so_class->update_view_bounds = sheet_object_graph_update_bounds;
 	so_class->read_xml_dom	     = sheet_object_graph_read_xml_dom;
 	so_class->write_xml_dom	     = sheet_object_graph_write_xml_dom;
 	so_class->write_xml_sax	     = sheet_object_graph_write_xml_sax;
@@ -431,7 +429,7 @@ sheet_object_graph_class_init (GObjectClass *klass)
 	so_class->remove_from_sheet  = sheet_object_graph_remove_from_sheet;
 	so_class->print		     = sheet_object_graph_print;
 	so_class->default_size	     = sheet_object_graph_default_size;
-	so_class->position_changed   = sheet_object_graph_position_changed;
+
 	so_class->rubber_band_directly = FALSE;
 }
 

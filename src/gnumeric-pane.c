@@ -637,16 +637,15 @@ cb_slide_handler (GnmCanvas *gcanvas, int col, int row, gpointer ctrl_pt)
 static void
 display_object_menu (SheetObject *so, FooCanvasItem *view, GdkEvent *event)
 {
-	GtkMenu *menu;
-	SheetControlGUI *scg =
-		SHEET_CONTROL_GUI (sheet_object_view_control (G_OBJECT (view)));
+	SheetControlGUI	*scg = GNM_SIMPLE_CANVAS (view->canvas)->scg;
+	GtkWidget *menu = gtk_menu_new ();
 
 	scg_mode_edit_object (scg, so);
-	menu = GTK_MENU (gtk_menu_new ());
-	SHEET_OBJECT_CLASS (G_OBJECT_GET_CLASS(so))->populate_menu (so, G_OBJECT (view), menu);
+	SHEET_OBJECT_CLASS (G_OBJECT_GET_CLASS(so))->
+		populate_menu (so, G_OBJECT (view), GTK_MENU (menu));
 
-	gtk_widget_show_all (GTK_WIDGET (menu));
-	gnumeric_popup_menu (menu, &event->button);
+	gtk_widget_show_all (menu);
+	gnumeric_popup_menu (GTK_MENU (menu), &event->button);
 }
 
 /**
@@ -924,22 +923,21 @@ gnm_pane_object_set_bounds (GnmPane *pane, SheetObject *so,
 }
 
 static int
-cb_sheet_object_canvas_event (FooCanvasItem *item, GdkEvent *event,
+cb_sheet_object_canvas_event (FooCanvasItem *view, GdkEvent *event,
 			      SheetObject *so)
 {
 	g_return_val_if_fail (IS_SHEET_OBJECT (so), FALSE);
 
 	switch (event->type) {
 	case GDK_ENTER_NOTIFY:
-		gnm_widget_set_cursor_type (GTK_WIDGET (item->canvas),
+		gnm_widget_set_cursor_type (GTK_WIDGET (view->canvas),
 					    (so->type == SHEET_OBJECT_ACTION_STATIC)
 					    ? GDK_ARROW
 					    : GDK_HAND2);
 		break;
 
 	case GDK_BUTTON_PRESS: {
-		SheetControlGUI *scg =
-			SHEET_CONTROL_GUI (sheet_object_view_control (G_OBJECT (item)));
+		SheetControlGUI	*scg = GNM_SIMPLE_CANVAS (view->canvas)->scg;
 
 		/* Ignore mouse wheel events */
 		if (event->button.button > 3)
@@ -953,7 +951,7 @@ cb_sheet_object_canvas_event (FooCanvasItem *item, GdkEvent *event,
 			return FALSE;
 
 		if (event->button.button < 3) {
-			GnmPane *pane = sheet_object_view_key (G_OBJECT (item));
+			GnmPane *pane = sheet_object_view_key (G_OBJECT (view));
 
 			g_return_val_if_fail (pane->drag_object == NULL, FALSE);
 			pane->drag_object = so;
@@ -967,10 +965,10 @@ cb_sheet_object_canvas_event (FooCanvasItem *item, GdkEvent *event,
 			scg->object_was_resized = FALSE;
 			scg->last_x = event->button.x;
 			scg->last_y = event->button.y;
-			gnm_canvas_slide_init (GNM_CANVAS (item->canvas));
-			gnm_widget_set_cursor_type (GTK_WIDGET (item->canvas), GDK_HAND2);
+			gnm_canvas_slide_init (GNM_CANVAS (view->canvas));
+			gnm_widget_set_cursor_type (GTK_WIDGET (view->canvas), GDK_HAND2);
 		} else
-			display_object_menu (so, item, event);
+			display_object_menu (so, view, event);
 		break;
 	}
 
@@ -981,13 +979,11 @@ cb_sheet_object_canvas_event (FooCanvasItem *item, GdkEvent *event,
 }
 
 static void
-cb_sheet_object_view_destroyed (GObject *view, SheetObject *so)
+cb_sheet_object_view_destroyed (FooCanvasItem *view, SheetObject *so)
 {
-	SheetControl *sc = sheet_object_view_control (view);
-	SheetControlGUI	*scg = SHEET_CONTROL_GUI (sc);
+	SheetControlGUI	*scg = GNM_SIMPLE_CANVAS (view->canvas)->scg;
 
 	g_return_if_fail (IS_SHEET_OBJECT (so));
-	g_return_if_fail (view != NULL);
 
 	if (scg) {
 		if (scg->current_object == so)
@@ -1003,8 +999,7 @@ cb_sheet_object_widget_canvas_event (GtkWidget *widget, GdkEvent *event,
 {
 	if (event->type == GDK_BUTTON_PRESS && event->button.button == 3) {
 		SheetObject *so = sheet_object_view_obj (G_OBJECT (view));
-		SheetControlGUI *scg =
-			SHEET_CONTROL_GUI (sheet_object_view_control (G_OBJECT (view)));
+		SheetControlGUI	*scg = GNM_SIMPLE_CANVAS (view->canvas)->scg;
 
 		g_return_val_if_fail (so != NULL, FALSE);
 
@@ -1021,19 +1016,26 @@ cb_sheet_object_widget_canvas_event (GtkWidget *widget, GdkEvent *event,
  *
  * @so : A sheet object
  * @view   : A canvas item acting as a view for @so
+ * @bounds_changed : A callback to update the position of a view
  *
  * Setup some standard callbacks for manipulating a view of a sheet object.
- */
+ **/
 void
-gnm_pane_object_register (SheetObject *so, FooCanvasItem *view)
+gnm_pane_object_register (SheetObject *so, FooCanvasItem *view,
+			  GnmPaneObjectBoundsChanged bounds_changed)
 {
-	g_signal_connect (G_OBJECT (view),
-		"event",
+	foo_canvas_item_raise_to_top (
+		FOO_CANVAS_ITEM (GNM_CANVAS (view->canvas)->sheet_object_group));
+
+	g_signal_connect (view, "event",
 		G_CALLBACK (cb_sheet_object_canvas_event), so);
 	/* all gui views are gtkobjects */
-	g_signal_connect (G_OBJECT (view),
-		"destroy",
+	g_signal_connect (view, "destroy",
 		G_CALLBACK (cb_sheet_object_view_destroyed), so);
+
+	(*bounds_changed) (so, view);
+	g_signal_connect_object (so, "bounds-changed",
+		G_CALLBACK (bounds_changed), view, 0);
 }
 
 /**
@@ -1047,11 +1049,11 @@ gnm_pane_object_register (SheetObject *so, FooCanvasItem *view)
  * objects.
  */
 void
-gnm_pane_widget_register (SheetObject *so, GtkWidget *widget,
-			  FooCanvasItem *view)
+gnm_pane_widget_register (SheetObject *so, GtkWidget *w, FooCanvasItem *view,
+			  GnmPaneObjectBoundsChanged bounds_changed)
 {
-	g_signal_connect (G_OBJECT (widget),
+	g_signal_connect (G_OBJECT (w),
 		"event",
 		G_CALLBACK (cb_sheet_object_widget_canvas_event), view);
-	gnm_pane_object_register (so, view);
+	gnm_pane_object_register (so, view, bounds_changed);
 }

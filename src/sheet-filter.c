@@ -3,7 +3,7 @@
 /*
  * filter.c: support for filters
  *
- * Copyright (C) 2002-2003 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2002-2004 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -136,12 +136,10 @@ filter_field_finalize (GObject *object)
 }
 
 static void
-filter_field_update_bounds (SheetObject *so, GObject *view_obj)
+cb_filter_bounds_changed (SheetObject *so, FooCanvasItem *view)
 {
 	double coords [4], tmp;
-	FooCanvasItem   *view = FOO_CANVAS_ITEM (view_obj);
-	SheetControlGUI	*scg  =
-		SHEET_CONTROL_GUI (sheet_object_view_control (view_obj));
+	SheetControlGUI	*scg = GNM_SIMPLE_CANVAS (view)->scg;
 
  	scg_object_view_position (scg, so, coords);
 
@@ -581,6 +579,10 @@ filter_field_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 
 	gtk_widget_show_all (view_widget);
 
+	cb_filter_bounds_changed (so, view_item);
+	g_signal_connect_object (so,
+		"bounds-changed",
+		G_CALLBACK (cb_filter_bounds_changed), view_item, 0);
 	return G_OBJECT (view_item);
 }
 
@@ -600,7 +602,6 @@ filter_field_class_init (GObjectClass *object_class)
 	object_class->finalize = filter_field_finalize;
 
 	/* SheetObject class method overrides */
-	sheet_object_class->update_view_bounds = filter_field_update_bounds;
 	sheet_object_class->new_view	  = filter_field_new_view;
 	sheet_object_class->read_xml_dom  = NULL;
 	sheet_object_class->write_xml_dom = NULL;

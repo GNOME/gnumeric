@@ -3,7 +3,7 @@
 /*
  * sheet-object-cell-comment.c: A SheetObject to support cell comments.
  *
- * Copyright (C) 2000 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2000-2004 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -24,6 +24,7 @@
 #include "gnumeric.h"
 #include "sheet-object-cell-comment.h"
 
+#include "gnumeric-simple-canvas.h"
 #include "sheet-object-impl.h"
 #include "sheet.h"
 #include "sheet-view.h"
@@ -75,12 +76,11 @@ cell_comment_finalize (GObject *object)
 
 #define TRIANGLE_WIDTH 6
 static FooCanvasPoints *
-comment_get_points (SheetControl *sc, SheetObject *so)
+comment_get_points (SheetControlGUI *scg, SheetObject *so)
 {
 	FooCanvasPoints *points;
 	int x, y, i, far_col;
 	GnmRange const *r;
-	SheetControlGUI *scg = SHEET_CONTROL_GUI (sc);
 
 	r = sheet_merge_is_corner (so->sheet, &so->anchor.cell_bound.start);
 	if (r != NULL) {
@@ -112,21 +112,6 @@ comment_get_points (SheetControl *sc, SheetObject *so)
 				  &(points->coords [i*2+1]));
 
 	return points;
-}
-
-static void
-cell_comment_update_bounds (SheetObject *so, GObject *view)
-{
-	FooCanvasItem *item = FOO_CANVAS_ITEM (view);
-	FooCanvasPoints *points = comment_get_points (
-		sheet_object_view_control (view), so);
-	foo_canvas_item_set (item, "points", points, NULL);
-	foo_canvas_points_free (points);
-
-	if (so->is_visible)
-		foo_canvas_item_show (item);
-	else
-		foo_canvas_item_hide (item);
 }
 
 static int
@@ -179,13 +164,27 @@ cell_comment_event (FooCanvasItem *view, GdkEvent *event, SheetControlGUI *scg)
 	return TRUE;
 }
 
+static void
+cb_comment_bounds_changed (SheetObject *so, FooCanvasItem *view)
+{
+	FooCanvasPoints *points = comment_get_points (
+		GNM_SIMPLE_CANVAS (view->canvas)->scg, so);
+	foo_canvas_item_set (view, "points", points, NULL);
+	foo_canvas_points_free (points);
+
+	if (so->is_visible)
+		foo_canvas_item_show (view);
+	else
+		foo_canvas_item_hide (view);
+}
+
 static GObject *
 cell_comment_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
 	GnmCanvas *gcanvas = ((GnmPane *)key)->gcanvas;
-	FooCanvasPoints *points;
-	FooCanvasGroup *group;
-	FooCanvasItem *item = NULL;
+	FooCanvasPoints	*points;
+	FooCanvasGroup	*group;
+	FooCanvasItem	*view = NULL;
 	SheetControlGUI *scg = SHEET_CONTROL_GUI (sc);
 	GnmComment *cc = CELL_COMMENT (so);
 
@@ -194,8 +193,8 @@ cell_comment_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 	g_return_val_if_fail (key != NULL, NULL);
 
 	group = FOO_CANVAS_GROUP (FOO_CANVAS (gcanvas)->root);
-	points = comment_get_points (sc, so);
-	item = foo_canvas_item_new (
+	points = comment_get_points (scg, so);
+	view = foo_canvas_item_new (
 		group,		FOO_TYPE_CANVAS_POLYGON,
 		"points",	points,
 		"fill_color",	"red",
@@ -203,11 +202,15 @@ cell_comment_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 	foo_canvas_points_free (points);
 
 	/* Do not use the standard handler, comments are not movable */
-	g_signal_connect (G_OBJECT (item),
+	g_signal_connect (view,
 		"event",
 		G_CALLBACK (cell_comment_event), scg);
+	cb_comment_bounds_changed (so, view);
+	g_signal_connect_object (so,
+		"bounds-changed",
+		G_CALLBACK (cb_comment_bounds_changed), view, 0);
 
-	return G_OBJECT (item);
+	return G_OBJECT (view);
 }
 
 static gboolean
@@ -243,8 +246,10 @@ static void
 cell_comment_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 {
 	GnmComment const *cc = CELL_COMMENT (so);
-	gsf_xml_out_add_cstr (output, "Author", cc->author);
-	gsf_xml_out_add_cstr (output, "Text", cc->text);
+	if (NULL != cc->author)
+		gsf_xml_out_add_cstr (output, "Author", cc->author);
+	if (NULL != cc->text)
+		gsf_xml_out_add_cstr (output, "Text", cc->text);
 }
 
 static void
@@ -282,7 +287,6 @@ cell_comment_class_init (GObjectClass *object_class)
 	object_class->finalize = cell_comment_finalize;
 
 	/* SheetObject class method overrides */
-	sheet_object_class->update_view_bounds = &cell_comment_update_bounds;
 	sheet_object_class->new_view		= &cell_comment_new_view;
 	sheet_object_class->read_xml_dom	= &cell_comment_read_xml_dom;
 	sheet_object_class->write_xml_dom	= &cell_comment_write_xml_dom;

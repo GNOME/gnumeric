@@ -91,7 +91,7 @@ enum {
 	PROP_WBCG
 };
 
-static GQuark signals [LAST_SIGNAL] = { 0 };
+static guint signals [LAST_SIGNAL] = { 0 };
 
 /* Internal routines
  */

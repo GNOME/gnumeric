@@ -41,6 +41,12 @@ Jody:
 	* Improve xls export for obscure xl eval modes
 	* Improve XL/OO compat for RANK()
 	* XLS import of full page charts
+	http://bugzilla.gnome.org/show_bug.cgi?id=150530
+	* sax export of comments without authors
+	http://bugzilla.gnome.org/show_bug.cgi?id=150792
+	* fix breakage in ins/del col/row caused by dsum changes
+	http://bugzilla.gnome.org/show_bug.cgi?id=150578
+	* Update the resize handles if the current object's size changes
 
 Jon Kåre:
 	* Export images to Excel

@@ -239,6 +239,46 @@ soi_get_pixbuf (SheetObjectImage *soi, double scale)
 	return pixbuf;
 }
 
+static void
+cb_image_update_bounds (SheetObject *so, FooCanvasItem *view)
+{
+	SheetControlGUI	*scg  = GNM_SIMPLE_CANVAS (view->canvas)->scg;
+	double coords[4];
+	double x, y, width, height;
+	double old_x1, old_y1, old_x2, old_y2, old_width, old_height;
+	GdkPixbuf *placeholder = g_object_get_data (G_OBJECT (view), "tile");
+
+	scg_object_view_position (scg, so, coords);
+
+	x = MIN (coords [0], coords [2]);
+	y = MIN (coords [1], coords [3]);
+	width  = fabs (coords [2] - coords [0]);
+	height = fabs (coords [3] - coords [1]);
+
+	foo_canvas_item_get_bounds (view, &old_x1, &old_y1, &old_x2, &old_y2);
+	foo_canvas_item_set (view,
+		"x", x,			"y", y,
+		"width",  width,	"width_set",  (width > 0.),
+		"height", height,	"height_set", (height > 0.),
+		NULL);
+
+	/* regenerate the image if necessary */
+	old_width = fabs (old_x1 - old_x2);
+	old_height = fabs (old_y1 - old_y2);
+	if (placeholder != NULL &&
+	    (fabs (width - old_width) > 0.5 || fabs (height - old_height) > 0.5)) {
+		GdkPixbuf *newimage = gnm_pixbuf_tile (placeholder,
+			(int)width, (int)height);
+		foo_canvas_item_set (view, "pixbuf", newimage, NULL);
+		g_object_unref (newimage);
+	}
+
+	if (so->is_visible)
+		foo_canvas_item_show (view);
+	else
+		foo_canvas_item_hide (view);
+}
+
 static GObject *
 sheet_object_image_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
@@ -267,7 +307,7 @@ sheet_object_image_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 	if (placeholder)
 		g_object_set_data (G_OBJECT (item), "tile", placeholder);
 
-	gnm_pane_object_register (so, item);
+	gnm_pane_object_register (so, item, cb_image_update_bounds);
 	return G_OBJECT (item);
 }
 
@@ -452,48 +492,6 @@ sheet_object_image_populate_menu (SheetObject *so,
 	gtk_menu_shell_insert (GTK_MENU_SHELL (menu),  item, 0);
 }
 
-static void
-sheet_object_image_update_bounds (SheetObject *so, GObject *view_obj)
-{
-	double coords[4];
-	double x, y, width, height;
-	double old_x1, old_y1, old_x2, old_y2, old_width, old_height;
-	FooCanvasItem *view = FOO_CANVAS_ITEM (view_obj);
-	SheetControlGUI *scg =
-		SHEET_CONTROL_GUI (sheet_object_view_control (view_obj));
-	GdkPixbuf *placeholder = g_object_get_data (G_OBJECT (view), "tile");
-
-	scg_object_view_position (scg, so, coords);
-
-	x = MIN (coords [0], coords [2]);
-	y = MIN (coords [1], coords [3]);
-	width  = fabs (coords [2] - coords [0]);
-	height = fabs (coords [3] - coords [1]);
-
-	foo_canvas_item_get_bounds (view, &old_x1, &old_y1, &old_x2, &old_y2);
-	foo_canvas_item_set (view,
-		"x", x,			"y", y,
-		"width",  width,	"width_set",  (width > 0.),
-		"height", height,	"height_set", (height > 0.),
-		NULL);
-
-	/* regenerate the image if necessary */
-	old_width = fabs (old_x1 - old_x2);
-	old_height = fabs (old_y1 - old_y2);
-	if (placeholder != NULL &&
-	    (fabs (width - old_width) > 0.5 || fabs (height - old_height) > 0.5)) {
-		GdkPixbuf *newimage = gnm_pixbuf_tile (placeholder,
-			(int)width, (int)height);
-		foo_canvas_item_set (view, "pixbuf", newimage, NULL);
-		g_object_unref (newimage);
-	}
-
-	if (so->is_visible)
-		foo_canvas_item_show (view);
-	else
-		foo_canvas_item_hide (view);
-}
-
 static gboolean
 sheet_object_image_read_xml_dom (SheetObject *so, char const *typename,
 				 XmlParseContext const *ctxt, xmlNodePtr tree)
@@ -646,7 +644,6 @@ sheet_object_image_class_init (GObjectClass *object_class)
 	sheet_object_class = SHEET_OBJECT_CLASS (object_class);
 	sheet_object_class->new_view	  	= sheet_object_image_new_view;
 	sheet_object_class->populate_menu	= sheet_object_image_populate_menu;
-	sheet_object_class->update_view_bounds	= sheet_object_image_update_bounds;
 	sheet_object_class->read_xml_dom	= sheet_object_image_read_xml_dom;
 	sheet_object_class->write_xml_dom	= sheet_object_image_write_xml_dom;
 	sheet_object_class->write_xml_sax	= sheet_object_image_write_xml_sax;

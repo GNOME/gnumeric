@@ -63,11 +63,15 @@ void gnm_pane_special_cursor_start 		(GnmPane *pane, int style, int button);
 void gnm_pane_special_cursor_stop		(GnmPane *pane);
 void gnm_pane_mouse_cursor_set                  (GnmPane *pane, GdkCursor *c);
 
-void gnm_pane_object_register	  (SheetObject *so, FooCanvasItem *view);
-void gnm_pane_widget_register	  (SheetObject *so, GtkWidget *widget,
-				   FooCanvasItem *view);
 void gnm_pane_object_stop_editing (GnmPane *pane);
 void gnm_pane_object_set_bounds   (GnmPane *pane, SheetObject *so,
 				   double l, double t, double r, double b);
+
+/* A convenience api */
+typedef void (*GnmPaneObjectBoundsChanged) (SheetObject *so, FooCanvasItem *view);
+void gnm_pane_object_register (SheetObject *so, FooCanvasItem *view,
+			       GnmPaneObjectBoundsChanged bounds_changed);
+void gnm_pane_widget_register (SheetObject *so, GtkWidget *w, FooCanvasItem *view,
+			       GnmPaneObjectBoundsChanged bounds_changed);
 
 #endif /* GNUMERIC_PANE_H */

@@ -21,32 +21,29 @@
 #ifdef GNOME2_CONVERSION_COMPLETE
 static SheetObject *sheet_object_item_parent_class;
 
-static GtkObject *
-sheet_object_item_new_view (SheetObject *so, SheetControl *sc, gpointer key)
-{
-	GnmCanvas *gcanvas = ((GnumericPan *)key)->gcanvas;
-	FooCanvasItem *so_view = NULL;
-
-	foo_canvas_item_raise_to_top (FOO_CANVAS_ITEM (gcanvas->sheet_object_group));
-	so_view = bonobo_client_site_new_item (
-		SHEET_OBJECT_BONOBO (so)->control_frame,
-		bonobo_ui_component_get_container (scg->wbcg->uic),
-		gcanvas->sheet_object_group);
-
-	scg_object_register (so, so_view);
-	return GTK_OBJECT (so_view);
-}
-
 static void
-sheet_object_item_update_bounds (SheetObject *so, GtkObject *view,
-				 SheetControlGUI *s_control)
+cb_item_update_bounds (SheetObject *so, FooCanvasItem *view)
 {
 	/* FIXME : what goes here ?? */
 
 	if (so->is_visible)
-		foo_canvas_item_show (FOO_CANVAS_ITEM (view));
+		foo_canvas_item_show (view);
 	else
-		foo_canvas_item_hide (FOO_CANVAS_ITEM (view));
+		foo_canvas_item_hide (view);
+}
+
+static GObject *
+sheet_object_item_new_view (SheetObject *so, SheetControl *sc, gpointer key)
+{
+	GnmCanvas *gcanvas = ((GnmPane *)key)->gcanvas;
+	FooCanvasItem *view = bonobo_client_site_new_item (
+		SHEET_OBJECT_BONOBO (so)->control_frame,
+		bonobo_ui_component_get_container (scg->wbcg->uic),
+		gcanvas->sheet_object_group);
+
+	scg_object_register (so, view);
+	gnm_pane_object_register (so, item, &cb_item_update_bounds);
+	return G_OBJECT (view);
 }
 
 static void
@@ -58,7 +55,6 @@ sheet_object_item_class_init (GtkObjectClass *object_class)
 
 	/* SheetObject class method overrides */
 	sheet_object_class->new_view = sheet_object_item_new_view;
-	sheet_object_class->update_view_bounds = sheet_object_item_update_bounds;
 }
 
 GSF_CLASS (SheetObjectItem, sheet_object_item,

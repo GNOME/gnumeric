@@ -123,12 +123,14 @@ typedef struct _GnmFunc			GnmFunc;
 typedef struct _ErrorInfo		ErrorInfo;
 
 typedef enum {
-	CELL_ITER_ALL 		  = 0,
-	CELL_ITER_IGNORE_BLANK    = 1 << 0,
-	CELL_ITER_IGNORE_HIDDEN	  = 1 << 1, /* hidden manually */
+	CELL_ITER_ALL			= 0,
+	CELL_ITER_IGNORE_NONEXISTENT	= 1 << 0,
+	CELL_ITER_IGNORE_EMPTY		= 1 << 1,
+	CELL_ITER_IGNORE_BLANK		= (CELL_ITER_IGNORE_NONEXISTENT | CELL_ITER_IGNORE_EMPTY),
+	CELL_ITER_IGNORE_HIDDEN		= 1 << 2, /* hidden manually */
 
 	/* contains SUBTOTAL, or hidden row in a filter */
-	CELL_ITER_IGNORE_SUBTOTAL = 1 << 2
+	CELL_ITER_IGNORE_SUBTOTAL	= 1 << 3
 } CellIterFlags;
 typedef GnmValue *(*CellIterFunc) (Sheet *sheet, int col, int row,
 				   GnmCell *cell, gpointer user_data);

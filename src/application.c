@@ -46,7 +46,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static GQuark signals [LAST_SIGNAL] = { 0 };
+static guint signals [LAST_SIGNAL] = { 0 };
 
 struct _GnmApp {
 	GObject  base;

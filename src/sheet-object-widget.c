@@ -148,36 +148,11 @@ read_dep (GnmDependent *dep, char const *name,
 	}
 }
 
-
-static GObject *
-sheet_object_widget_new_view (SheetObject *so, SheetControl *sc, gpointer key)
-{
-	GnmCanvas *gcanvas = ((GnmPane *)key)->gcanvas;
-	GtkWidget *view_widget = SOW_CLASS(so)->create_widget (
-		SHEET_OBJECT_WIDGET (so), SHEET_CONTROL_GUI (sc));
-	FooCanvasItem *view_item = foo_canvas_item_new (
-		gcanvas->object_group,
-		foo_canvas_widget_get_type (),
-		"widget", view_widget,
-		"size_pixels", FALSE,
-		NULL);
-	gnm_pane_widget_register (so, view_widget, view_item);
-	gtk_widget_show_all (view_widget);
-
-	return G_OBJECT (view_item);
-}
-
-/*
- * This implemenation moves the widget rather than
- * destroying/updating/creating the views
- */
 static void
-sheet_object_widget_update_bounds (SheetObject *so, GObject *view_obj)
+cb_widget_update_bounds (SheetObject *so, FooCanvasItem *view)
 {
+	SheetControlGUI	*scg  = GNM_SIMPLE_CANVAS (view->canvas)->scg;
 	double coords [4];
-	FooCanvasItem   *view = FOO_CANVAS_ITEM (view_obj);
-	SheetControlGUI	*scg  =
-		SHEET_CONTROL_GUI (sheet_object_view_control (view_obj));
 
 	/* NOTE : far point is EXCLUDED so we add 1 */
  	scg_object_view_position (scg, so, coords);
@@ -193,6 +168,25 @@ sheet_object_widget_update_bounds (SheetObject *so, GObject *view_obj)
 		foo_canvas_item_hide (view);
 }
 
+static GObject *
+sheet_object_widget_new_view (SheetObject *so, SheetControl *sc, gpointer key)
+{
+	GnmCanvas *gcanvas = ((GnmPane *)key)->gcanvas;
+	GtkWidget *view_widget = SOW_CLASS(so)->create_widget (
+		SHEET_OBJECT_WIDGET (so), SHEET_CONTROL_GUI (sc));
+	FooCanvasItem *view_item = foo_canvas_item_new (
+		gcanvas->object_group,
+		foo_canvas_widget_get_type (),
+		"widget", view_widget,
+		"size_pixels", FALSE,
+		NULL);
+	gnm_pane_widget_register (so,
+		view_widget, view_item, &cb_widget_update_bounds);
+	gtk_widget_show_all (view_widget);
+
+	return G_OBJECT (view_item);
+}
+
 static void
 sheet_object_widget_class_init (GtkObjectClass *object_class)
 {
@@ -204,7 +198,6 @@ sheet_object_widget_class_init (GtkObjectClass *object_class)
 
 	/* SheetObject class method overrides */
 	so_class->new_view	= sheet_object_widget_new_view;
-	so_class->update_view_bounds = sheet_object_widget_update_bounds;
 
 	sow_class->create_widget = NULL;
 }

@@ -27,6 +27,9 @@ struct _SheetObject {
 typedef struct {
 	GObjectClass parent_class;
 
+	/* Signals */
+	void (*bounds_changed) (SheetObject *so);
+
 	/* Virtual methods */
 	gboolean (*remove_from_sheet) (SheetObject	*sheet_object);
 	gboolean   (*assign_to_sheet) (SheetObject	*sheet_object,
@@ -39,8 +42,6 @@ typedef struct {
 				      GtkMenu		*menu);
 	void	      (*user_config) (SheetObject	*sheet_object,
 				      SheetControl	*s_control);
-	void   (*update_view_bounds) (SheetObject	*so,
-				      GObject		*obj_view);
 	void           (*set_active) (SheetObject	*so,
 				      GObject           *obj_view,
 				      gboolean		val);
@@ -65,7 +66,6 @@ typedef struct {
 	SheetObject *       (*clone) (SheetObject const *so,
 				      Sheet *sheet);
 
-	void (*position_changed) (SheetObject const *so);
 	void (*default_size)	 (SheetObject const *so,
 				  double *width_pts, double *height_pts);
 
