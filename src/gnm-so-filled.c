@@ -154,13 +154,14 @@ cb_filled_update_bounds (SheetObject *so, FooCanvasItem *view)
 	SheetControlGUI	*scg = GNM_SIMPLE_CANVAS (view->canvas)->scg;
 	double coords [4], h, w;
 
-	scg_object_view_position (scg, so, coords);
-	w = fabs (coords [2] - coords [0]);
-	h = fabs (coords [3] - coords [1]);
-	if (!so->is_visible || h <= 0. || w <= 0.) {
+	if (!so->is_visible) {
 		foo_canvas_item_hide (view);
 		return;
 	}
+
+	scg_object_view_position (scg, so, coords);
+	w = fabs (coords [2] - coords [0]);
+	h = fabs (coords [3] - coords [1]);
 
 	foo_canvas_item_set (FOO_CANVAS_ITEM (group),
 		"x", MIN (coords [0], coords [2]),
@@ -197,7 +198,7 @@ gnm_so_filled_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
 	GnmSOFilled *sof = GNM_SO_FILLED (so);
 	FooCanvasGroup *group = (FooCanvasGroup *) foo_canvas_item_new (
-		((GnmPane *)key)->gcanvas->sheet_object_group,
+		((GnmPane *)key)->gcanvas->object_views,
 		FOO_TYPE_CANVAS_GROUP, NULL);
 
 	foo_canvas_item_new (group,
@@ -599,8 +600,7 @@ gnm_so_polygon_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
 	GnmCanvas *gcanvas = ((GnmPane *)key)->gcanvas;
 	GnmSOPolygon *sop = GNM_SO_POLYGON (so);
-	FooCanvasItem *item = foo_canvas_item_new (
-		gcanvas->sheet_object_group,
+	FooCanvasItem *item = foo_canvas_item_new (gcanvas->object_views,
 		FOO_TYPE_CANVAS_POLYGON,
 		"points",		sop->points,
 		/* "join_style",		GDK_JOIN_ROUND, */

@@ -287,7 +287,6 @@ sheet_object_image_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 	g_return_val_if_fail (IS_SHEET_OBJECT_IMAGE (so), NULL);
 	g_return_val_if_fail (IS_SHEET_CONTROL (sc), NULL);
 
-	foo_canvas_item_raise_to_top (FOO_CANVAS_ITEM (gcanvas->sheet_object_group));
 	pixbuf = soi_get_pixbuf (soi, 1.);
 
 	if (pixbuf == NULL) {
@@ -295,10 +294,10 @@ sheet_object_image_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 		pixbuf = gdk_pixbuf_copy (placeholder);
 	}
 
-	item = foo_canvas_item_new (gcanvas->sheet_object_group,
-				    FOO_TYPE_CANVAS_PIXBUF,
-				    "pixbuf", pixbuf,
-				    NULL);
+	item = foo_canvas_item_new (gcanvas->object_views,
+		FOO_TYPE_CANVAS_PIXBUF,
+		"pixbuf", pixbuf,
+		NULL);
 	g_object_unref (G_OBJECT (pixbuf));
 
 	if (placeholder)

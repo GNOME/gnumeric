@@ -784,14 +784,12 @@ ig_obj_create_finish (ItemGrid *ig, GdkEventButton *event)
 	scg_object_calc_position (scg, so, pts);
 
 	if (!sheet_object_rubber_band_directly (so)) {
-		sheet_object_set_sheet (so, sheet);
 		gtk_object_destroy (GTK_OBJECT (ig->obj_create.item));
 		ig->obj_create.item = NULL;
+		cmd_object_insert (WORKBOOK_CONTROL (scg_get_wbcg (scg)), so, sheet, NULL);
 	}
 
 	scg_mode_edit_object (scg, so);
-
-	cmd_object_insert (WORKBOOK_CONTROL (scg_get_wbcg (scg)), so, sheet);
 }
 
 /*
@@ -821,22 +819,19 @@ ig_obj_create_begin (ItemGrid *ig, GdkEventButton *event)
 	ig->obj_create.y = event->y;
 
 	so = scg->new_object;
-	if (!sheet_object_rubber_band_directly (so)) {
-		ig->obj_create.item = foo_canvas_item_new (
-			gcanvas->object_group,
+	if (sheet_object_rubber_band_directly (so)) {
+		double points [4];
+		points [0] = points [2] = event->x;
+		points [1] = points [3] = event->y;
+		scg_object_calc_position (scg, so, points);
+		cmd_object_insert (WORKBOOK_CONTROL (scg_get_wbcg (scg)), so,
+			sc_sheet (SHEET_CONTROL (scg)), NULL);
+	} else
+		ig->obj_create.item = foo_canvas_item_new (gcanvas->action_items,
 			FOO_TYPE_CANVAS_RECT,
 			"outline_color", "black",
 			"width_units",   2.0,
 			NULL);
-	} else {
-		double points [4];
-
-		points [0] = points [2] = event->x;
-		points [1] = points [3] = event->y;
-
-		scg_object_calc_position (scg, so, points);
-		sheet_object_set_sheet (so, ((SheetControl *) scg)->sheet);
-	}
 
 	ig->selecting = ITEM_GRID_SELECTING_OBJECT_CREATION;
 	gnm_canvas_slide_init (gcanvas);

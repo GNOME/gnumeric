@@ -4416,8 +4416,17 @@ cmd_object_insert_finalize (GObject *cmd)
 	gnm_command_finalize (cmd);
 }
 
+/**
+ * cmd_object_insert :
+ * @wbc :
+ * @so :
+ * @sheet
+ *
+ * Adds a ref to @so and inserts it into @sheet
+ **/
 gboolean
-cmd_object_insert (WorkbookControl *wbc, SheetObject *so, Sheet *sheet)
+cmd_object_insert (WorkbookControl *wbc, SheetObject *so, Sheet *sheet,
+		   char const *name)
 {
 	GObject *object;
 	CmdObjectInsert *me;
@@ -4434,7 +4443,7 @@ cmd_object_insert (WorkbookControl *wbc, SheetObject *so, Sheet *sheet)
 
 	me->cmd.sheet = sheet;
 	me->cmd.size = 1;
-	me->cmd.cmd_descriptor = g_strdup (_("Insert object"));
+	me->cmd.cmd_descriptor = g_strdup (name ? name : _("Insert Object"));
 
 	return command_push_undo (wbc, object);
 }
@@ -5947,13 +5956,13 @@ cmd_object_raise_redo (GnmCommand *cmd,
 		me->changed_positions = sheet_object_adjust_stacking (me->so, 1);
 		break;
 	case cmd_object_pull_forward:
-		me->changed_positions = sheet_object_adjust_stacking (me->so, G_MAXINT);
+		me->changed_positions = sheet_object_adjust_stacking (me->so, G_MAXINT/2);
 		break;
 	case cmd_object_push_backward:
 		me->changed_positions = sheet_object_adjust_stacking (me->so, -1);
 		break;
 	case cmd_object_push_to_back:
-		me->changed_positions = sheet_object_adjust_stacking (me->so, G_MININT);
+		me->changed_positions = sheet_object_adjust_stacking (me->so, G_MININT/2);
 		break;
 	}
 	return FALSE;

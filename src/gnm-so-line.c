@@ -159,7 +159,7 @@ gnm_so_line_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
 	GnmSOLine const *sol = GNM_SO_LINE (so);
 	GnmCanvas *gcanvas = ((GnmPane *)key)->gcanvas;
-	FooCanvasItem *item = foo_canvas_item_new (gcanvas->sheet_object_group,
+	FooCanvasItem *item = foo_canvas_item_new (gcanvas->object_views,
 		foo_canvas_line_get_type (),
 		"last_arrowhead",	(sol->end_arrow.a != 0.),
 		NULL);

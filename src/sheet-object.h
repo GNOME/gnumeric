@@ -44,10 +44,9 @@ struct _SheetObjectAnchor {
 #define IS_SHEET_OBJECT(o)    (G_TYPE_CHECK_INSTANCE_TYPE((o), SHEET_OBJECT_TYPE))
 GType sheet_object_get_type (void);
 
-void	      sheet_object_register	 (void);
-gboolean      sheet_object_clear_sheet	 (SheetObject *so);
 gboolean      sheet_object_set_sheet	 (SheetObject *so, Sheet *sheet);
 Sheet	     *sheet_object_get_sheet	 (SheetObject const *so);
+gboolean      sheet_object_clear_sheet	 (SheetObject *so);
 
 SheetObject  *sheet_object_dup		 (SheetObject const *so);
 void          sheet_object_print	 (SheetObject const *so,
@@ -79,7 +78,7 @@ gint sheet_object_adjust_stacking          (SheetObject *so, gint positions);
 
 /* Object Management */
 void    sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update);
-void	sheet_objects_clear    (Sheet const *sheet, GnmRange const *r, GType t);
+void    sheet_objects_clear    (Sheet const *sheet, GnmRange const *r, GType t);
 GSList *sheet_objects_get      (Sheet const *sheet, GnmRange const *r, GType t);
 
 void     sheet_object_direction_set (SheetObject *so, gdouble const *coords);
@@ -93,5 +92,9 @@ void sheet_object_anchor_init	    (SheetObjectAnchor *anchor,
 				     SheetObjectDirection direction);
 void sheet_object_anchor_cpy	    (SheetObjectAnchor *dst,
 				     SheetObjectAnchor const *src);
+
+
+/* management routine to register all the builtin object types */
+void sheet_objects_init (void);
 
 #endif /* GNUMERIC_SHEET_OBJECT_H */

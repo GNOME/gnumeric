@@ -175,7 +175,7 @@ sheet_object_widget_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 	GtkWidget *view_widget = SOW_CLASS(so)->create_widget (
 		SHEET_OBJECT_WIDGET (so), SHEET_CONTROL_GUI (sc));
 	FooCanvasItem *view_item = foo_canvas_item_new (
-		gcanvas->object_group,
+		gcanvas->object_views,
 		foo_canvas_widget_get_type (),
 		"widget", view_widget,
 		"size_pixels", FALSE,

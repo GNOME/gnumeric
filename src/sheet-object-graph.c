@@ -144,11 +144,10 @@ sheet_object_graph_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
 	GnmCanvas *gcanvas = ((GnmPane *)key)->gcanvas;
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
-	FooCanvasItem *view = foo_canvas_item_new (gcanvas->sheet_object_group,
+	FooCanvasItem *view = foo_canvas_item_new (gcanvas->object_views,
 		GOG_CONTROL_FOOCANVAS_TYPE,
 		"renderer",	sog->renderer,
 		NULL);
-	foo_canvas_item_raise_to_top (FOO_CANVAS_ITEM (gcanvas->sheet_object_group));
 
 	gnm_pane_object_register (so, view, cb_graph_bounds_changed);
 	return G_OBJECT (view);

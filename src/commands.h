@@ -87,7 +87,7 @@ gboolean cmd_colrow_std_size    (WorkbookControl *wbc, Sheet *sheet,
 gboolean cmd_zoom               (WorkbookControl *wbc, GSList *sheets, double factor);
 
 gboolean cmd_object_insert	(WorkbookControl *wbc, SheetObject *so,
-				 Sheet *sheet);
+				 Sheet *sheet, char const *name);
 gboolean cmd_object_delete	(WorkbookControl *wbc, SheetObject *so,
 				 char const *name);
 gboolean cmd_object_move	(WorkbookControl *wbc, SheetObject *so,

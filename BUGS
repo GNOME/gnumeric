@@ -10,7 +10,9 @@ Release Critical
 
 debian 272697
 
-    : handle pasting clipboards with only objects
+    : Don't leak dropped objects from sheet_objects_relocate
+    : Don't leak dropped objects from sheet_objects_clear
+    : undo of pasting copy/cut of objects
     : kasal's popt patch
 
     : editing text boxes
@@ -49,14 +51,6 @@ debian 272697
 
     : Use GNOME Recent for the gnome build
     : Add a HIGy '*' before the workbook name when modified
-
-    1. click graph
-    2. click ok
-    3. Click-and-hold somewhere.
-    4. Move one pixel left and release.
-    5. Middle-click on "o" marker and drag a little down and left
-    ==> grab is locked.
-    Re 4: the coordinates in ig_obj_create_motion are 192 68 222 78 -- that is a
 
 Worries
 

@@ -49,6 +49,7 @@
 
 enum {
 	BOUNDS_CHANGED,
+	UNREALIZED,
 	LAST_SIGNAL
 };
 static guint	     signals [LAST_SIGNAL] = { 0 };
@@ -119,23 +120,6 @@ sheet_object_populate_menu (SheetObject *so, GPtrArray *actions)
 }
 
 /**
- * sheet_object_unrealize:
- *
- * Clears all views of this object in its current sheet's controls.
- */
-static void
-sheet_object_unrealize (SheetObject *so)
-{
-	g_return_if_fail (IS_SHEET_OBJECT (so));
-
-	/* The views remove themselves from the list */
-	while (so->realized_list != NULL)
-		sc_object_destroy_view (
-			sheet_object_view_control (G_OBJECT (so->realized_list->data)),
-			so);
-}
-
-/**
  * sheet_objects_max_extent :
  * @sheet :
  *
@@ -167,27 +151,8 @@ static void
 sheet_object_finalize (GObject *object)
 {
 	SheetObject *so = SHEET_OBJECT (object);
-
-	g_return_if_fail (so != NULL);
-
-	sheet_object_unrealize (so);
-
-	if (so->sheet != NULL) {
-		g_return_if_fail (IS_SHEET (so->sheet));
-
-		/* If the object has already been inserted then mark sheet as dirty */
-		if (NULL != g_list_find	(so->sheet->sheet_objects, so)) {
-			so->sheet->sheet_objects =
-				g_list_remove (so->sheet->sheet_objects, so);
-			so->sheet->modified = TRUE;
-		}
-
-		if (so->anchor.cell_bound.end.col == so->sheet->max_object_extent.col &&
-		    so->anchor.cell_bound.end.row == so->sheet->max_object_extent.row)
-			sheet_objects_max_extent (so->sheet);
-		so->sheet = NULL;
-	}
-
+	if (so->sheet != NULL)
+		sheet_object_clear_sheet (so);
 	(*parent_klass->finalize) (object);
 }
 
@@ -239,6 +204,13 @@ sheet_object_class_init (GObjectClass *klass)
 		SHEET_OBJECT_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (SheetObjectClass, bounds_changed),
+		(GSignalAccumulator) NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
+	signals [UNREALIZED] = g_signal_new ("unrealized",
+		SHEET_OBJECT_TYPE,
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (SheetObjectClass, unrealized),
 		(GSignalAccumulator) NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
@@ -329,21 +301,34 @@ sheet_object_update_bounds (SheetObject *so, GnmCellPos const *pos)
 }
 
 /**
+ * sheet_object_get_sheet :
+ *
+ * A small utility to help keep the implementation of SheetObjects modular.
+ **/
+Sheet *
+sheet_object_get_sheet (SheetObject const *so)
+{
+	g_return_val_if_fail (IS_SHEET_OBJECT (so), NULL);
+
+	return so->sheet;
+}
+
+
+/**
  * sheet_object_set_sheet :
  * @so :
  * @sheet :
  *
  * Adds a reference to the object.
- */
+ *
+ * Returns TRUE if there was a problem
+ **/
 gboolean
 sheet_object_set_sheet (SheetObject *so, Sheet *sheet)
 {
 	g_return_val_if_fail (IS_SHEET_OBJECT (so), TRUE);
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
-
-	if (so->sheet == sheet)
-		return TRUE;
-
+	g_return_val_if_fail (so->sheet == NULL, TRUE);
 	g_return_val_if_fail (g_list_find (sheet->sheet_objects, so) == NULL, TRUE);
 
 	so->sheet = sheet;
@@ -366,21 +351,13 @@ sheet_object_set_sheet (SheetObject *so, Sheet *sheet)
 }
 
 /**
- * sheet_object_get_sheet :
- *
- * A small utility to help keep the implementation of SheetObjects modular.
- */
-Sheet *
-sheet_object_get_sheet (SheetObject const *so)
-{
-	g_return_val_if_fail (IS_SHEET_OBJECT (so), NULL);
-
-	return so->sheet;
-}
-
-/**
  * sheet_object_clear_sheet :
  * @so :
+ *
+ * Removes @so from it's container, unrealizes all views, disconects the
+ * associated data and unrefs the object
+ *
+ * Returns TRUE if there was a problem
  **/
 gboolean
 sheet_object_clear_sheet (SheetObject *so)
@@ -388,21 +365,30 @@ sheet_object_clear_sheet (SheetObject *so)
 	GList *ptr;
 
 	g_return_val_if_fail (IS_SHEET_OBJECT (so), TRUE);
-
-	if (!IS_SHEET (so->sheet))
-		return FALSE;
+	g_return_val_if_fail (IS_SHEET (so->sheet), TRUE);
 
 	ptr = g_list_find (so->sheet->sheet_objects, so);
 	g_return_val_if_fail (ptr != NULL, TRUE);
+
+	/* The views remove themselves from the list */
+	while (so->realized_list != NULL)
+		sc_object_destroy_view (
+			sheet_object_view_control (G_OBJECT (so->realized_list->data)),
+			so);
+	g_signal_emit (so, signals [UNREALIZED], 0);
 
 	if (SO_CLASS (so)->remove_from_sheet &&
 	    SO_CLASS (so)->remove_from_sheet (so))
 		return TRUE;
 
-	sheet_object_unrealize (so);
 	so->sheet->sheet_objects = g_list_remove_link (so->sheet->sheet_objects, ptr);
-	so->sheet = NULL;
 	g_list_free (ptr);
+
+	if (so->anchor.cell_bound.end.col == so->sheet->max_object_extent.col &&
+	    so->anchor.cell_bound.end.row == so->sheet->max_object_extent.row)
+		sheet_objects_max_extent (so->sheet);
+
+	so->sheet = NULL;
 	g_object_unref (G_OBJECT (so));
 
 	return FALSE;
@@ -414,12 +400,14 @@ cb_sheet_object_view_finalized (SheetObject *so, GObject *view)
 	so->realized_list = g_list_remove (so->realized_list, view);
 }
 
-/*
- * sheet_object_new_view
+/**
+ * sheet_object_new_view:
+ * @so :
+ * @sc :
+ * @key :
  *
- * Creates a FooCanvasItem for a SheetControlGUI and sets up the event
- * handlers.
- */
+ * Asks @so to create a view for the (@sc,@key) pair.
+ **/
 void
 sheet_object_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
@@ -555,7 +543,7 @@ cell_offset_calc_pt (Sheet const *sheet, int i, gboolean is_col,
  * @h : a ptr into which to store the default_height.
  *
  * Measurements are in pts.
- */
+ **/
 void
 sheet_object_default_size (SheetObject *so, double *w, double *h)
 {
@@ -574,7 +562,7 @@ sheet_object_default_size (SheetObject *so, double *w, double *h)
  *
  * Calculate the position of the object @so in pts from the logical position in
  * the object.
- */
+ **/
 void
 sheet_object_position_pts_get (SheetObject const *so, double *coords)
 {
@@ -613,7 +601,7 @@ sheet_object_position_pts_get (SheetObject const *so, double *coords)
  *
  * Uses the relocation info and the anchors to decide whether or not, and how
  * to relocate objects when the grid moves (eg ins/del col/row).
- */
+ **/
 void
 sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update)
 {
@@ -636,8 +624,8 @@ sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update)
 			SheetObject *so = SHEET_OBJECT (ptr->data);
 			GnmRange const *r  = &so->anchor.cell_bound;
 			if (range_contains (&dest, r->start.col, r->start.row)) {
+				/* lost_objs = g_slist_prepend (lost_objs, g_object_ref (so)); */
 				sheet_object_clear_sheet (so);
-				g_object_unref (G_OBJECT (so));
 			}
 		}
 		g_list_free (copy);
@@ -656,18 +644,21 @@ sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update)
 			/* FIXME : just moving the range is insufficent for all anchor types */
 			/* Toss any objects that would be clipped. */
 			if (range_translate (r, rinfo->col_offset, rinfo->row_offset)) {
-				g_object_unref (G_OBJECT (so));
+				/* lost_objs = g_slist_prepend (lost_objs, g_object_ref (so)); */
+				sheet_object_clear_sheet (so);
 				continue;
 			}
 			if (change_sheets) {
+				g_object_ref (so);
 				sheet_object_clear_sheet (so);
 				sheet_object_set_sheet (so, rinfo->target_sheet);
+				g_object_unref (so);
 			} else if (update)
 				sheet_object_update_bounds (so, NULL);
 		} else if (!change_sheets &&
 			   range_contains (&dest, r->start.col, r->start.row)) {
+			/* lost_objs = g_slist_prepend (lost_objs, g_object_ref (so)); */
 			sheet_object_clear_sheet (so);
-			g_object_unref (G_OBJECT (so));
 			continue;
 		}
 	}
@@ -687,7 +678,7 @@ sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update)
  * Returns a list of which the caller must free (just the list not the content).
  * Containing all objects of exactly the specified type (inheritence does not count)
  * that are completely contained by @r.
- */
+ **/
 GSList *
 sheet_objects_get (Sheet const *sheet, GnmRange const *r, GType t)
 {
@@ -709,7 +700,7 @@ sheet_objects_get (Sheet const *sheet, GnmRange const *r, GType t)
 }
 
 /**
- * sheet_object_clear :
+ * sheet_objects_clear :
  *
  * @sheet : the sheet.
  * @r     : an optional range to look in
@@ -729,15 +720,15 @@ sheet_objects_clear (Sheet const *sheet, GnmRange const *r, GType t)
 		if (t == G_TYPE_NONE || t == G_OBJECT_TYPE (obj)) {
 			SheetObject *so = SHEET_OBJECT (obj);
 			if (r == NULL || range_contained (&so->anchor.cell_bound, r)) {
+				/* lost_objs = g_slist_prepend (lost_objs, g_object_ref (so)); */
 				sheet_object_clear_sheet (so);
-				g_object_unref (G_OBJECT (so));
 			}
 		}
 	}
 }
 
 void
-sheet_object_register (void)
+sheet_objects_init (void)
 {
 	GNM_SO_LINE_TYPE;
 	GNM_SO_FILLED_TYPE;

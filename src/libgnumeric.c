@@ -121,7 +121,7 @@ gnm_common_init (gboolean fast)
 	functions_init ();
 	print_init ();
 	autofill_init ();
-	sheet_object_register ();
+	sheet_objects_init ();
 
 	/* make sure that all hlink types are registered */
 	gnm_hlink_cur_wb_get_type ();

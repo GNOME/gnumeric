@@ -1,9 +1,40 @@
+2004-09-29  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-control-gui.c (scg_set_current_object) : new. uses the
+	  handy dandy unrealized signal on a SheetObject.  With code split from
+	(scg_object_stop_editing) : here.
+	(scg_mode_edit_object) : and here.
+	* src/gnumeric-pane.c (cb_control_point_event) : so that we could use
+	  it here.
+
+2004-09-28  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-control-gui.c (scg_mode_edit_object) :  fall back to edit
+	  mode if the object is unrealized.
+
+	* src/sheet-object.c (sheet_object_clear_sheet.) : merge some of the
+	  nice features from finalize
+	(sheet_object_finalize) : use sheet_object_clear_sheet.
+	* src/sheet.c (sheet_destroy) : ditto.
+
+	* src/gnumeric-pane.c (cb_control_point_event) : Make the copy
+	  operation undo-able.
+
 2004-09-28  Morten Welinder  <terra@gnome.org>
 
 	* configure.in: Add check for pango_context_set_matrix.  We're
 	going to need that for rotated text.
 
 2004-09-28  Jody Goldberg <jody@gnome.org>
+
+	* src/commands.c (cmd_object_raise_redo) : Don't use MAXINT/MININT it
+	  causes trouble becaue -MININT is not expressable
+
+2004-09-28  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=153871
+	* src/gnm-so-filled.c (cb_filled_update_bounds) : line width counts
+	  when sizing.
 
 	* src/commands.c (cmd_object_delete) : Take an optional descriptor
 	  string.  All callers changed.

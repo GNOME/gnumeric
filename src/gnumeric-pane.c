@@ -162,7 +162,6 @@ gnm_pane_init (GnmPane *pane, SheetControlGUI *scg,
 	       gboolean col_headers, gboolean row_headers, int index)
 {
 	FooCanvasItem	 *item;
-	FooCanvasGroup *gcanvas_group;
 	Sheet *sheet;
 	GnmRange r;
 	int i;
@@ -176,14 +175,13 @@ gnm_pane_init (GnmPane *pane, SheetControlGUI *scg,
 		"popup-menu",
 		G_CALLBACK (cb_pane_popup_menu), pane);
 
-	gcanvas_group = FOO_CANVAS_GROUP (FOO_CANVAS (pane->gcanvas)->root);
-	item = foo_canvas_item_new (gcanvas_group,
+	item = foo_canvas_item_new (pane->gcanvas->grid_items,
 		item_grid_get_type (),
 		"SheetControlGUI", scg,
 		NULL);
 	pane->grid = ITEM_GRID (item);
 
-	item = foo_canvas_item_new (gcanvas_group,
+	item = foo_canvas_item_new (pane->gcanvas->grid_items,
 		item_cursor_get_type (),
 		"SheetControlGUI", scg,
 		NULL);
@@ -325,19 +323,19 @@ gnm_pane_colrow_resize_start (GnmPane *pane,
 	}
 
 	/* Position the stationary only.  Guide line is handled elsewhere. */
-	item = foo_canvas_item_new (pane->gcanvas->object_group,
-				      FOO_TYPE_CANVAS_LINE,
-				      "points", points,
-				      "fill_color", "black",
-				      "width_pixels", 1,
-				      NULL);
+	item = foo_canvas_item_new (gcanvas->action_items,
+		FOO_TYPE_CANVAS_LINE,
+		"points", points,
+		"fill_color", "black",
+		"width_pixels", 1,
+		NULL);
 	pane->colrow_resize.start = GTK_OBJECT (item);
 
-	item = foo_canvas_item_new (pane->gcanvas->object_group,
-				      FOO_TYPE_CANVAS_LINE,
-				      "fill_color", "black",
-				      "width_pixels", 1,
-				      NULL);
+	item = foo_canvas_item_new (gcanvas->action_items,
+		FOO_TYPE_CANVAS_LINE,
+		"fill_color", "black",
+		"width_pixels", 1,
+		NULL);
 	pane->colrow_resize.guide = GTK_OBJECT (item);
 }
 
@@ -379,9 +377,7 @@ gnm_pane_colrow_resize_move (GnmPane *pane,
 	else
 		points->coords [1] = points->coords [3] = resize_pos / zoom;
 
-	foo_canvas_item_set (resize_guide,
-			       "points",  points,
-			       NULL);
+	foo_canvas_item_set (resize_guide, "points",  points, NULL);
 }
 
 /****************************************************************************/
@@ -418,9 +414,7 @@ gnm_pane_rangesel_bound_set (GnmPane *pane, GnmRange const *r)
 void
 gnm_pane_rangesel_start (GnmPane *pane, GnmRange const *r)
 {
-	FooCanvas *canvas = FOO_CANVAS (pane->gcanvas);
-	FooCanvasItem *tmp;
-	FooCanvasGroup *group = FOO_CANVAS_GROUP (canvas->root);
+	FooCanvasItem *item;
 	SheetControl *sc = (SheetControl *) pane->gcanvas->simple.scg;
 
 	g_return_if_fail (pane->cursor.rangesel == NULL);
@@ -428,15 +422,15 @@ gnm_pane_rangesel_start (GnmPane *pane, GnmRange const *r)
 	/* Hide the primary cursor while the range selection cursor is visible
 	 * and we are selecting on a different sheet than the expr being edited
 	 */
-	if (sc_sheet (sc) != wb_control_cur_sheet (sc_wbc(sc)))
+	if (sc_sheet (sc) != wb_control_cur_sheet (sc_wbc (sc)))
 		item_cursor_set_visibility (pane->cursor.std, FALSE);
 
-	tmp = foo_canvas_item_new (group,
+	item = foo_canvas_item_new (pane->gcanvas->grid_items,
 		item_cursor_get_type (),
 		"SheetControlGUI", pane->gcanvas->simple.scg,
 		"style",	ITEM_CURSOR_ANTED,
 		NULL);
-	pane->cursor.rangesel = ITEM_CURSOR (tmp);
+	pane->cursor.rangesel = ITEM_CURSOR (item);
 	item_cursor_bound_set (pane->cursor.rangesel, r);
 
 	/* If we are selecting a range on a different sheet this may be NULL */
@@ -832,12 +826,10 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event, GnmPane *pane)
 			if ((event->button.state & GDK_CONTROL_MASK) != 0 &&
 			    IS_ITEM_ACETATE (ctrl_pt)) {
 				so = sheet_object_dup (so);
-				sheet_object_set_sheet (so,
-					sc_sheet (SHEET_CONTROL (scg)));
-				g_object_unref (G_OBJECT (scg->current_object));
-				scg->current_object = so;
-				foo_canvas_item_raise_to_top (
-					FOO_CANVAS_ITEM (gcanvas->object_group));
+				cmd_object_insert ((WorkbookControl *)scg_get_wbcg (scg), so,
+					sc_sheet (SHEET_CONTROL (scg)), _("Duplicate Object"));
+				scg_set_current_object (scg, so);
+				g_object_unref (so);
 			}
 
 			pane->drag_object = so;
@@ -893,7 +885,6 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event, GnmPane *pane)
 
 /**
  * new_control_point
- * @group:  The canvas group to which this control point belongs
  * @pane: #GnmPane
  * @idx:    control point index to be created
  * @x:      x coordinate of control point
@@ -916,7 +907,7 @@ new_control_point (GnmPane *pane, int idx, double x, double y)
 	GnmCanvas *gcanvas = pane->gcanvas;
 
 	item = foo_canvas_item_new (
-		gcanvas->object_group,
+		gcanvas->action_items,
 		FOO_TYPE_CANVAS_ELLIPSE,
 		"outline_color", "black",
 		"fill_color",    "white",
@@ -983,7 +974,7 @@ set_acetate_coords (GnmPane *pane, GObject *so_view,
 								  diagonal, 8, 8);
 #endif
 		FooCanvasItem *item = foo_canvas_item_new (
-			gcanvas->object_group,
+			gcanvas->action_items,
 			item_acetate_get_type (),
 			"fill_color",		NULL,
 #ifdef WITH_STIPPLE_BORDER
@@ -1145,9 +1136,6 @@ GObject *
 gnm_pane_object_register (SheetObject *so, FooCanvasItem *view,
 			  GnmPaneObjectBoundsChanged bounds_changed)
 {
-	foo_canvas_item_raise_to_top (
-		FOO_CANVAS_ITEM (GNM_CANVAS (view->canvas)->sheet_object_group));
-
 	g_signal_connect (view, "event",
 		G_CALLBACK (cb_sheet_object_canvas_event), so);
 	/* all gui views are gtkobjects */

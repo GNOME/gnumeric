@@ -557,8 +557,7 @@ filter_field_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 	GnmCanvas *gcanvas = ((GnmPane *)key)->gcanvas;
 	GtkWidget *arrow, *view_widget = gtk_button_new ();
 	GnmFilterField *field = (GnmFilterField *) so;
-	FooCanvasItem *view_item = foo_canvas_item_new (
-		gcanvas->object_group,
+	FooCanvasItem *view_item = foo_canvas_item_new (gcanvas->object_views,
 		foo_canvas_widget_get_type (),
 		"widget",	view_widget,
 		"size_pixels",	FALSE,

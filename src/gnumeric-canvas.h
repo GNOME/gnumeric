@@ -12,19 +12,20 @@
 #define GNUMERIC_CANVAS_FACTOR_Y 6000000
 
 typedef gboolean (*GnmCanvasSlideHandler) (GnmCanvas *gcanvas,
-						int col, int row,
-						gpointer user_data);
+					   int col, int row,
+					   gpointer user_data);
 
 struct _GnmCanvas {
 	GnmSimpleCanvas simple;
 
-	GnmPane *pane;
+	GnmPane *pane;	/* what pane contains this canvase */
 
 	GnmCellPos first, last_full, last_visible, first_offset;
 
-	FooCanvasGroup *anted_group;
-	FooCanvasGroup *object_group;
-	FooCanvasGroup *sheet_object_group;
+	/* In stacking order from lowest to highest */
+	FooCanvasGroup *grid_items;	/* grid & cursors */
+	FooCanvasGroup *object_views;	/* object views */
+	FooCanvasGroup *action_items;	/* drag cursors, and object ctrl pts */
 
 	/* Sliding scroll */
 	GnmCanvasSlideHandler slide_handler;

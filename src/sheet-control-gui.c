@@ -1310,7 +1310,7 @@ scg_ant (SheetControl *sc)
 
 		SCG_FOREACH_PANE (scg, pane, {
 			ItemCursor *ic = ITEM_CURSOR (foo_canvas_item_new (
-				pane->gcanvas->anted_group,
+				pane->gcanvas->grid_items,
 				item_cursor_get_type (),
 				"SheetControlGUI", scg,
 				"style",	ITEM_CURSOR_ANTED,
@@ -1646,26 +1646,60 @@ cb_scg_object_bounds_changed (SheetObject *so, SheetControlGUI *scg)
 	scg_object_update_bbox (scg, so, NULL);
 }
 
+/** scg_set_current_object :
+ * @scg #SheetControlGUI
+ * @so : #SheetObject
+ *
+ * If @so is different from the current Scg::current_object the current object
+ * is disconnected and if @so is non-NULL it is set as the object being edited.
+ * NOTE
+ * 1) This adds a reference to @so if it is not already current_object
+ * 2) This intentionally does _NOT_ change the ctrl_points, just scg::current_object
+ **/
+void
+scg_set_current_object (SheetControlGUI *scg, SheetObject *so)
+{
+	if (so == scg->current_object)
+		return;
+
+	if (scg->current_object != NULL) {
+		SheetObject *old = scg->current_object;
+		scg->current_object = NULL;
+		g_signal_handlers_disconnect_by_func (old,
+			cb_scg_object_bounds_changed, scg);
+		g_signal_handlers_disconnect_by_func (old,
+			scg_mode_edit, scg);
+
+		if (SO_CLASS (old)->set_active != NULL)
+			SCG_FOREACH_PANE (scg, pane, {
+				SO_CLASS (old)->set_active (old, 
+					sheet_object_get_view (old, pane), FALSE);
+			});
+		g_object_unref (old);
+	}
+
+	if (so != NULL) {
+		scg->current_object = g_object_ref (so);
+		g_signal_connect_object (so, "bounds-changed",
+			G_CALLBACK (cb_scg_object_bounds_changed), scg, 0);
+		g_signal_connect_object (so, "unrealized",
+			G_CALLBACK (scg_mode_edit), scg, G_CONNECT_SWAPPED);
+
+		if (SO_CLASS (so)->set_active != NULL)
+			SCG_FOREACH_PANE (scg, pane, {
+				SO_CLASS (so)->set_active (so, 
+					sheet_object_get_view (so, pane), TRUE);
+			});
+	}
+}
+
 void
 scg_object_stop_editing (SheetControlGUI *scg, SheetObject *so)
 {
-	GObject *view;
-
 	if (so == NULL || so != scg->current_object)
 		return;
-
 	SCG_FOREACH_PANE (scg, pane, gnm_pane_object_stop_editing (pane););
-
-	g_signal_handlers_disconnect_by_func(scg->current_object,
-		cb_scg_object_bounds_changed, scg);
-	g_object_unref (scg->current_object);
-	scg->current_object = NULL;
-
-	if (SO_CLASS (so)->set_active != NULL)
-		SCG_FOREACH_PANE (scg, pane, {
-			view = sheet_object_get_view (so, pane);
-			SO_CLASS (so)->set_active (so, view, FALSE);
-		});
+	scg_set_current_object (scg, NULL);
 }
 
 static gboolean
@@ -1723,8 +1757,6 @@ scg_mode_edit (SheetControl *sc)
 void
 scg_mode_edit_object (SheetControlGUI *scg, SheetObject *so)
 {
-	GObject *view;
-
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 
 	if (wb_view_is_protected (sv_wbv (sc_view ((SheetControl *)scg)), TRUE))
@@ -1732,31 +1764,17 @@ scg_mode_edit_object (SheetControlGUI *scg, SheetObject *so)
 
 	/* Add protective ref before clearing the mode, in case we are starting
 	 * to edit a newly created object */
-	g_object_ref (G_OBJECT (so));
+	g_object_ref (so);
 	if (wbcg_edit_finish (scg->wbcg, WBC_EDIT_ACCEPT, NULL) &&
 	    scg_mode_clear (scg)) {
 
-		if (scg->current_object != NULL) {
-			g_warning ("uh oh leaked sheet object ref");
-		}
-
-		g_signal_connect_object (so, "bounds-changed",
-			G_CALLBACK (cb_scg_object_bounds_changed), scg, 0);
-
-		scg->current_object = so;
-		g_object_ref (G_OBJECT (so));
-
-		if (SO_CLASS (so)->set_active != NULL)
-			SCG_FOREACH_PANE (scg, pane, {
-				view = sheet_object_get_view (so, pane);
-				SO_CLASS (so)->set_active (so, view, TRUE);
-			});
+		scg_set_current_object (scg, so);
 		scg_cursor_visible (scg, FALSE);
 		scg_object_update_bbox (scg, so, NULL);
 		scg_set_display_cursor (scg);
 		scg_unant (SHEET_CONTROL (scg));
 	}
-	g_object_unref (G_OBJECT (so));
+	g_object_unref (so);
 }
 
 /**

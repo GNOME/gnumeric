@@ -39,7 +39,7 @@ sheet_object_item_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 	FooCanvasItem *view = bonobo_client_site_new_item (
 		SHEET_OBJECT_BONOBO (so)->control_frame,
 		bonobo_ui_component_get_container (scg->wbcg->uic),
-		gcanvas->sheet_object_group);
+		gcanvas->object_views);
 
 	scg_object_register (so, view);
 	gnm_pane_object_register (so, item, &cb_item_update_bounds);

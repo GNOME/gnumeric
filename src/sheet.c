@@ -639,10 +639,11 @@ sheet_flag_format_update_range (Sheet const *sheet, GnmRange const *range)
 
 /**
  * sheet_flag_recompute_spans:
- *    flag the sheet as requiring a full span recomputation.
- *
  * @sheet :
- */
+ *
+ * Flag the sheet as requiring a full span recomputation the next time
+ * sheet_update is called.
+ **/
 void
 sheet_flag_recompute_spans (Sheet const *sheet)
 {
@@ -2757,7 +2758,7 @@ sheet_destroy (Sheet *sheet)
 		for (ptr = objs; ptr != NULL ; ptr = ptr->next) {
 			SheetObject *so = SHEET_OBJECT (ptr->data);
 			if (so != NULL)
-				g_object_unref (G_OBJECT (so));
+				sheet_object_clear_sheet (so);
 		}
 		g_list_free (objs);
 		if (sheet->sheet_objects != NULL)

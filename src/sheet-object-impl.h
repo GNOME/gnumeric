@@ -38,6 +38,7 @@ typedef struct {
 
 	/* Signals */
 	void (*bounds_changed) (SheetObject *so);
+	void (*unrealized)     (SheetObject *so);
 
 	/* Virtual methods */
 	gboolean (*remove_from_sheet) (SheetObject	*sheet_object);

@@ -24,7 +24,7 @@
 #include "gnumeric.h"
 #include "sheet-object-cell-comment.h"
 
-#include "gnumeric-simple-canvas.h"
+#include "gnumeric-canvas.h"
 #include "sheet-object-impl.h"
 #include "sheet.h"
 #include "sheet-view.h"
@@ -227,7 +227,6 @@ cell_comment_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
 	GnmCanvas *gcanvas = ((GnmPane *)key)->gcanvas;
 	FooCanvasPoints	*points;
-	FooCanvasGroup	*group;
 	FooCanvasItem	*view = NULL;
 	SheetControlGUI *scg = SHEET_CONTROL_GUI (sc);
 	GnmComment *cc = CELL_COMMENT (so);
@@ -236,10 +235,9 @@ cell_comment_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 	g_return_val_if_fail (scg != NULL, NULL);
 	g_return_val_if_fail (key != NULL, NULL);
 
-	group = FOO_CANVAS_GROUP (FOO_CANVAS (gcanvas)->root);
 	points = comment_get_points (scg, so);
-	view = foo_canvas_item_new (
-		group,		FOO_TYPE_CANVAS_POLYGON,
+	view = foo_canvas_item_new (gcanvas->grid_items,
+		FOO_TYPE_CANVAS_POLYGON,
 		"points",	points,
 		"fill_color",	"red",
 		NULL);

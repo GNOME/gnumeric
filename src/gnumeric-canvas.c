@@ -693,14 +693,13 @@ gnm_canvas_new (SheetControlGUI *scg, GnmPane *pane)
 	foo_canvas_set_scroll_region (FOO_CANVAS (gcanvas), 0, 0,
 		GNUMERIC_CANVAS_FACTOR_X, GNUMERIC_CANVAS_FACTOR_Y);
 
-
 	root_group = FOO_CANVAS_GROUP (FOO_CANVAS (gcanvas)->root);
-	gcanvas->anted_group = root_group;
-	gcanvas->object_group = root_group;
-	gcanvas->sheet_object_group =  FOO_CANVAS_GROUP (foo_canvas_item_new (
-								   root_group,
-								   FOO_TYPE_CANVAS_GROUP,
-								   NULL));
+	gcanvas->grid_items	= FOO_CANVAS_GROUP (
+		foo_canvas_item_new (root_group, FOO_TYPE_CANVAS_GROUP, NULL));
+	gcanvas->object_views	= FOO_CANVAS_GROUP (
+		foo_canvas_item_new (root_group, FOO_TYPE_CANVAS_GROUP, NULL));
+	gcanvas->action_items	= FOO_CANVAS_GROUP (
+		foo_canvas_item_new (root_group, FOO_TYPE_CANVAS_GROUP, NULL));
 	return gcanvas;
 }
 

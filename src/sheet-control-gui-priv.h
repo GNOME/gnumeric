@@ -35,7 +35,7 @@ struct _SheetControlGUI {
 
 	/* SheetObject support */
 	SheetObject	 *new_object;	/* A newly created object that has yet to be realized */
-	SheetObject	 *current_object;
+	SheetObject	 *current_object; /* Use scg_set_current_object to change */
 	SheetObjectAnchor old_anchor;
 	gboolean	  object_was_resized;
 	double		  object_coords [4];
@@ -62,16 +62,16 @@ struct _SheetControlGUI {
 		SCGUIMoveFunc	handler;
 	} delayedMovement;
 };
-
-typedef struct {
-	SheetControlClass parent_class;
-} SheetControlGUIClass;
+typedef SheetControlClass SheetControlGUIClass;
 
 /* SCG virtual methods are called directly from the GUI layer*/
 void scg_set_zoom_factor        (SheetControl *sc);
 void scg_adjust_preferences     (SheetControl *sc);
 void scg_scrollbar_config       (SheetControl const *sc);
 void scg_mode_edit		(SheetControl *sc);
+
+/* protected */
+void scg_set_current_object	(SheetControlGUI *scg, SheetObject *so);
 
 #define SCG_FOREACH_PANE(scg, pane, code)		\
   do {							\
