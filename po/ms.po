@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Gnumeric HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-05 08:44-0500\n"
+"POT-Creation-Date: 2004-03-15 21:08-0500\n"
 "PO-Revision-Date: 2003-07-23 23:51+0800\n"
 "Last-Translator: Hasbullah Bin Pit <sebol@ikhlas.com>\n"
 "Language-Team: Projek Gabai <gabai-penyumbang@lists.sourceforge.org>\n"
@@ -706,7 +706,7 @@ msgstr "Terbitan Kewangan"
 msgid "Functions related to financial derivatives"
 msgstr "Fungsi berkait dengan terbitan kewangan"
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5407
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5517
 #: plugins/mps/mps.c:549 src/xml-io.c:4136
 msgid "Reading file..."
 msgstr "Membaca fail..."
@@ -801,40 +801,40 @@ msgstr "Atribut dijangka %s::%s == '%s'."
 msgid "XML document not well formed!"
 msgstr "Dokumen XML tidak sempurna!"
 
-#: plugins/excel/ms-excel-read.c:1008 src/value.c:60
+#: plugins/excel/ms-excel-read.c:1043 src/value.c:60
 msgid "#UNKNOWN!"
 msgstr "#ENTAH!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1099 plugins/excel/ms-excel-read.c:1110
+#: plugins/excel/ms-excel-read.c:1134 plugins/excel/ms-excel-read.c:1145
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:515
 #: src/dialogs/dialog-sheet-order.c:440 src/dialogs/dialog-sheet-order.c:444
 #, c-format
 msgid "Sheet%d"
 msgstr "Helaian%d"
 
-#: plugins/excel/ms-excel-read.c:1113
+#: plugins/excel/ms-excel-read.c:1148
 #, c-format
 msgid "Macro%d"
 msgstr "Makro%d"
 
-#: plugins/excel/ms-excel-read.c:1116
+#: plugins/excel/ms-excel-read.c:1151
 #, c-format
 msgid "Chart%d"
 msgstr "Carta%d"
 
-#: plugins/excel/ms-excel-read.c:1119
+#: plugins/excel/ms-excel-read.c:1154
 #, c-format
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: plugins/excel/ms-excel-read.c:2841
+#: plugins/excel/ms-excel-read.c:2951
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Gagal menghantar nama '%s'"
 
-#: plugins/excel/ms-excel-read.c:2897
+#: plugins/excel/ms-excel-read.c:3007
 #, fuzzy, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -843,7 +843,7 @@ msgstr ""
 "Pautan DDE  tak disokong.\n"
 "Nama '%s' akan hilang.\n"
 
-#: plugins/excel/ms-excel-read.c:2903
+#: plugins/excel/ms-excel-read.c:3013
 #, fuzzy, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -852,15 +852,15 @@ msgstr ""
 "Pautan OLE  tak disokong.\n"
 "Nama '%s' akan hilang.\n"
 
-#: plugins/excel/ms-excel-read.c:4767
+#: plugins/excel/ms-excel-read.c:4877
 msgid "external references"
 msgstr "rujukan luaran"
 
-#: plugins/excel/ms-excel-read.c:4792
+#: plugins/excel/ms-excel-read.c:4902
 msgid "No password supplied"
 msgstr "Tiada katalaluan dibekalkan"
 
-#: plugins/excel/ms-excel-read.c:5640
+#: plugins/excel/ms-excel-read.c:5750
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Tak dapat menjumpai bukukerja MS Excel yang sah"
 
@@ -2812,7 +2812,7 @@ msgstr "tarikh1,tarikh2,selangmasa"
 #: plugins/fn-date/functions.c:1281 plugins/fn-date/functions.c:1285
 #: plugins/fn-date/functions.c:1293 plugins/fn-date/functions.c:1297
 #: plugins/fn-date/functions.c:1310 plugins/fn-date/functions.c:1314
-#: src/print-info.c:575
+#: src/print-info.c:572
 msgid "date"
 msgstr "tarikh"
 
@@ -2829,7 +2829,7 @@ msgid "start_date,months"
 msgstr "tarikh_mula,bulan"
 
 #: plugins/fn-date/functions.c:1245 plugins/fn-date/functions.c:1249
-#: plugins/fn-date/functions.c:1265 src/print-info.c:576
+#: plugins/fn-date/functions.c:1265 src/print-info.c:573
 msgid "time"
 msgstr "masa"
 
@@ -11501,7 +11501,7 @@ msgstr "Bold"
 msgid "Borders"
 msgstr "Sempadan"
 
-#: src/GNOME_Gnumeric.xml.h:19 src/sheet-object-widget.c:424
+#: src/GNOME_Gnumeric.xml.h:19 src/sheet-object-widget.c:439
 #: src/workbook-object-toolbar.c:155
 msgid "Button"
 msgstr "Butang"
@@ -11871,7 +11871,7 @@ msgstr ""
 msgid "Fourier Analysis"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:103 src/sheet-object-widget.c:197
+#: src/GNOME_Gnumeric.xml.h:103 src/sheet-object-widget.c:214
 #: src/workbook-object-toolbar.c:150
 msgid "Frame"
 msgstr "Bingkai"
@@ -12045,7 +12045,7 @@ msgstr "Lompat ke sel dinyatakan"
 
 #: src/GNOME_Gnumeric.xml.h:142
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:733
-#: src/sheet-object-graphic.c:1442 src/workbook-object-toolbar.c:147
+#: src/sheet-object-graphic.c:1451 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Label"
 
@@ -13147,11 +13147,11 @@ msgstr "Menaip \"%s%s\" pada %s"
 msgid "Typing \"%s%s\""
 msgstr "Menaip \"%s%s\""
 
-#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3184
+#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3185
 msgid "Delete Columns"
 msgstr "Padam Kolum"
 
-#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3302
+#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3303
 #, fuzzy
 msgid "Delete Rows"
 msgstr "Pa_dam"
@@ -13197,7 +13197,7 @@ msgid "Deleting row %s"
 msgstr "Memadam baris %s"
 
 #. Check for locked cells
-#: src/commands.c:1504 src/commands.c:1508 src/sheet.c:2798
+#: src/commands.c:1504 src/commands.c:1508 src/sheet.c:2799
 msgid "Clear"
 msgstr "Terangkan"
 
@@ -13261,10 +13261,15 @@ msgstr ""
 msgid "Setting height of row %s to default"
 msgstr ""
 
-#: src/commands.c:1935 src/commands.c:1936
+#: src/commands.c:1935
 #, c-format
 msgid "Autofitting columns %s"
 msgstr ""
+
+#: src/commands.c:1936
+#, fuzzy, c-format
+msgid "Autofitting rows %s"
+msgstr "Automuat baris %s"
 
 #: src/commands.c:1939
 #, c-format
@@ -13742,21 +13747,21 @@ msgstr ""
 msgid "Plot"
 msgstr "_Plot"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:247
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
 msgid "H"
 msgstr ""
 
 # ui/galeon.glade.h:268
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:247
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
 #, fuzzy
 msgid "Height"
 msgstr "_Tinggi..."
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:250
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:252
 msgid "W"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:250
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:252
 #, fuzzy
 msgid "Width"
 msgstr "_Dengan:"
@@ -14064,24 +14069,24 @@ msgstr "_Gaya"
 
 #. TODO : have a look at apple's themes
 #. An MS Excel-ish theme
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:382
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:400
 #: src/dialogs/dialog-sheet-order.c:957 src/dialogs/dialog-sheet-order.c:970
 msgid "Default"
 msgstr ""
 
 #. Guppi
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:437
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:455
 msgid "Guppi"
 msgstr "Guppi"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:304
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:193
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:195
 #: src/dialogs/consolidate.glade.h:12
 msgid "Labels"
 msgstr "Label"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:306
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:195
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:197
 #: src/dialogs/consolidate.glade.h:27
 msgid "Values"
 msgstr "Nilai"
@@ -14403,7 +14408,7 @@ msgstr "darjah"
 msgid "PlotPie"
 msgstr "_Plot"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:266
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:268
 #, fuzzy
 msgid "PlotRing"
 msgstr "Tiada"
@@ -14511,27 +14516,27 @@ msgstr ""
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:260
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:262
 #, fuzzy
 msgid "PlotXY"
 msgstr "_Plot"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:320
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:369
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:322
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:467
 msgid "X"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:322
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:371
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:324
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:469
 msgid "Y"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:353
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:355
 #, fuzzy
 msgid "PlotBubble"
 msgstr "Selesai"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:373
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:471
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:1
 #, fuzzy
 msgid "Bubble"
@@ -15204,8 +15209,8 @@ msgstr "_Tapis"
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:663
-#: src/format.c:2184 src/format.c:2313 src/format.c:2319 src/format.c:2395
-#: src/plugin-service.c:200 src/widgets/widget-format-selector.c:75
+#: src/format.c:2188 src/format.c:2317 src/format.c:2323 src/format.c:2399
+#: src/plugin-service.c:200 src/widgets/widget-format-selector.c:76
 msgid "General"
 msgstr "Umum"
 
@@ -15307,7 +15312,7 @@ msgid "Items"
 msgstr ""
 
 #: src/dialogs/autofilter-top10.glade.h:4
-#: src/widgets/widget-format-selector.c:81
+#: src/widgets/widget-format-selector.c:82
 msgid "Percentage"
 msgstr "Peratus"
 
@@ -15538,11 +15543,11 @@ msgid "Con_dition:"
 msgstr "_Keadaan:"
 
 #: src/dialogs/cell-format.glade.h:38 src/dialogs/dialog-stf-export.glade.h:17
-#: src/widgets/widget-format-selector.c:86
+#: src/widgets/widget-format-selector.c:87
 msgid "Custom"
 msgstr "Tersendiri"
 
-#: src/dialogs/cell-format.glade.h:39 src/widgets/widget-format-selector.c:79
+#: src/dialogs/cell-format.glade.h:39 src/widgets/widget-format-selector.c:80
 msgid "Date"
 msgstr "Tarikh"
 
@@ -15668,7 +15673,7 @@ msgstr "Atas"
 msgid "Text length"
 msgstr "Panjang teks"
 
-#: src/dialogs/cell-format.glade.h:87 src/widgets/widget-format-selector.c:80
+#: src/dialogs/cell-format.glade.h:87 src/widgets/widget-format-selector.c:81
 msgid "Time"
 msgstr "Masa"
 
@@ -16471,12 +16476,12 @@ msgid "Double"
 msgstr "Selesai"
 
 #: src/dialogs/dialog-cell-format.c:467 src/dialogs/dialog-search.c:147
-#: src/func.c:671 src/widgets/widget-format-selector.c:76
+#: src/func.c:671 src/widgets/widget-format-selector.c:77
 msgid "Number"
 msgstr "Nombor"
 
 #: src/dialogs/dialog-cell-format.c:668 src/dialogs/dialog-stf-main-page.c:381
-#: src/widgets/widget-format-selector.c:84
+#: src/widgets/widget-format-selector.c:85
 msgid "Text"
 msgstr "Teks"
 
@@ -19960,43 +19965,43 @@ msgstr "BENAR"
 msgid "FALSE"
 msgstr "PALSU"
 
-#: src/format.c:652
+#: src/format.c:656
 msgid "Black"
 msgstr "Hitam"
 
-#: src/format.c:653
+#: src/format.c:657
 msgid "Blue"
 msgstr "Biru"
 
-#: src/format.c:654
+#: src/format.c:658
 #, fuzzy
 msgid "Cyan"
 msgstr "cyan"
 
-#: src/format.c:655
+#: src/format.c:659
 msgid "Green"
 msgstr "Hijau"
 
 # ui/galeon.glade.h:176
-#: src/format.c:656
+#: src/format.c:660
 #, fuzzy
 msgid "Magenta"
 msgstr "magenta"
 
-#: src/format.c:657
+#: src/format.c:661
 msgid "Red"
 msgstr "Merah"
 
-#: src/format.c:658
+#: src/format.c:662
 msgid "White"
 msgstr "Putih"
 
-#: src/format.c:659
+#: src/format.c:663
 msgid "Yellow"
 msgstr "Kuning"
 
 #. Array of arrays ??
-#: src/format.c:2076
+#: src/format.c:2080
 msgid "ARRAY"
 msgstr ""
 
@@ -20005,693 +20010,693 @@ msgstr ""
 #. * The second column has the long names of the currencies.
 #.
 #. 2002/08/04 Updated to match iso 4217
-#: src/formats.c:389
+#: src/formats.c:391
 msgid "United Arab Emirates, Dirhams"
 msgstr "Emeriah Arab Bersatu, Dirham"
 
-#: src/formats.c:390
+#: src/formats.c:392
 msgid "Afghanistan, Afghanis"
 msgstr ""
 
-#: src/formats.c:391
+#: src/formats.c:393
 msgid "Albania, Leke"
 msgstr "Albania, Leke"
 
-#: src/formats.c:392
+#: src/formats.c:394
 msgid "Armenia, Drams"
 msgstr ""
 
-#: src/formats.c:393
+#: src/formats.c:395
 msgid "Netherlands Antilles, Guilders"
 msgstr ""
 
-#: src/formats.c:394
+#: src/formats.c:396
 msgid "Angola, Kwanza"
 msgstr ""
 
-#: src/formats.c:395
+#: src/formats.c:397
 msgid "Argentina, Pesos"
 msgstr ""
 
-#: src/formats.c:396
+#: src/formats.c:398
 msgid "Australia, Dollars"
 msgstr ""
 
-#: src/formats.c:397
+#: src/formats.c:399
 msgid "Aruba, Guilders"
 msgstr ""
 
-#: src/formats.c:398
+#: src/formats.c:400
 msgid "Azerbaijan, Manats"
 msgstr ""
 
-#: src/formats.c:399
+#: src/formats.c:401
 msgid "Bosnia and Herzegovina, Convertible Marka"
 msgstr ""
 
-#: src/formats.c:400
+#: src/formats.c:402
 msgid "Barbados, Dollars"
 msgstr ""
 
-#: src/formats.c:401
+#: src/formats.c:403
 msgid "Bangladesh, Taka"
 msgstr ""
 
-#: src/formats.c:402
+#: src/formats.c:404
 msgid "Bulgaria, Leva"
 msgstr "Bulgaria, Leva"
 
-#: src/formats.c:403
+#: src/formats.c:405
 msgid "Bahrain, Dinars"
 msgstr ""
 
-#: src/formats.c:404
+#: src/formats.c:406
 msgid "Burundi, Francs"
 msgstr ""
 
-#: src/formats.c:405
+#: src/formats.c:407
 msgid "Bermuda, Dollars"
 msgstr ""
 
-#: src/formats.c:406
+#: src/formats.c:408
 msgid "Brunei Darussalam, Dollars"
 msgstr "Brunei Darussalam, Dollar"
 
-#: src/formats.c:407
+#: src/formats.c:409
 msgid "Bolivia, Bolivianos"
 msgstr ""
 
-#: src/formats.c:408
+#: src/formats.c:410
 msgid "Brazil, Brazil Real"
 msgstr ""
 
-#: src/formats.c:409
+#: src/formats.c:411
 msgid "Bahamas, Dollars"
 msgstr ""
 
-#: src/formats.c:410
+#: src/formats.c:412
 msgid "Bhutan, Ngultrum"
 msgstr ""
 
-#: src/formats.c:411
+#: src/formats.c:413
 msgid "Botswana, Pulas"
 msgstr ""
 
-#: src/formats.c:412
+#: src/formats.c:414
 msgid "Belarus, Rubles"
 msgstr "Belarus, Ruble"
 
-#: src/formats.c:413
+#: src/formats.c:415
 msgid "Belize, Dollars"
 msgstr ""
 
-#: src/formats.c:414
+#: src/formats.c:416
 msgid "Canada, Dollars"
 msgstr ""
 
-#: src/formats.c:415
+#: src/formats.c:417
 msgid "Congo/Kinshasa, Congolese Francs"
 msgstr ""
 
-#: src/formats.c:416
+#: src/formats.c:418
 msgid "Switzerland, Francs"
 msgstr ""
 
-#: src/formats.c:417
+#: src/formats.c:419
 msgid "Chile, Pesos"
 msgstr "Chile, Peso"
 
-#: src/formats.c:418
+#: src/formats.c:420
 msgid "China, Yuan Renminbi"
 msgstr ""
 
-#: src/formats.c:419
+#: src/formats.c:421
 msgid "Colombia, Pesos"
 msgstr ""
 
-#: src/formats.c:420
+#: src/formats.c:422
 msgid "Costa Rica, Colones"
 msgstr ""
 
-#: src/formats.c:421
+#: src/formats.c:423
 msgid "Cuba, Pesos"
 msgstr ""
 
-#: src/formats.c:422
+#: src/formats.c:424
 msgid "Cape Verde, Escudos"
 msgstr ""
 
-#: src/formats.c:423
+#: src/formats.c:425
 msgid "Cyprus, Pounds"
 msgstr ""
 
-#: src/formats.c:424
+#: src/formats.c:426
 msgid "Czech Republic, Koruny"
 msgstr ""
 
-#: src/formats.c:425
+#: src/formats.c:427
 msgid "Djibouti, Francs"
 msgstr ""
 
-#: src/formats.c:426
+#: src/formats.c:428
 msgid "Denmark, Kroner"
 msgstr ""
 
-#: src/formats.c:427
+#: src/formats.c:429
 msgid "Dominican Republic, Pesos"
 msgstr ""
 
-#: src/formats.c:428
+#: src/formats.c:430
 msgid "Algeria, Algeria Dinars"
 msgstr ""
 
-#: src/formats.c:429
+#: src/formats.c:431
 msgid "Estonia, Krooni"
 msgstr ""
 
-#: src/formats.c:430
+#: src/formats.c:432
 msgid "Egypt, Pounds"
 msgstr ""
 
-#: src/formats.c:431
+#: src/formats.c:433
 msgid "Eritrea, Nakfa"
 msgstr ""
 
-#: src/formats.c:432
+#: src/formats.c:434
 msgid "Ethiopia, Birr"
 msgstr ""
 
-#: src/formats.c:433
+#: src/formats.c:435
 msgid "Euro Member Countries, Euro"
 msgstr ""
 
-#: src/formats.c:434
+#: src/formats.c:436
 msgid "Fiji, Dollars"
 msgstr ""
 
-#: src/formats.c:435
+#: src/formats.c:437
 msgid "Falkland Islands (Malvinas), Pounds"
 msgstr ""
 
-#: src/formats.c:436
+#: src/formats.c:438
 msgid "United Kingdom, Pounds"
 msgstr ""
 
-#: src/formats.c:437
+#: src/formats.c:439
 msgid "Georgia, Lari"
 msgstr ""
 
-#: src/formats.c:438
+#: src/formats.c:440
 msgid "Guernsey, Pounds"
 msgstr ""
 
-#: src/formats.c:439
+#: src/formats.c:441
 msgid "Ghana, Cedis"
 msgstr ""
 
-#: src/formats.c:440
+#: src/formats.c:442
 msgid "Gibraltar, Pounds"
 msgstr ""
 
-#: src/formats.c:441
+#: src/formats.c:443
 msgid "Gambia, Dalasi"
 msgstr ""
 
-#: src/formats.c:442
+#: src/formats.c:444
 msgid "Guinea, Francs"
 msgstr ""
 
-#: src/formats.c:443
+#: src/formats.c:445
 msgid "Guatemala, Quetzales"
 msgstr ""
 
-#: src/formats.c:444
+#: src/formats.c:446
 msgid "Guyana, Dollars"
 msgstr ""
 
-#: src/formats.c:445
+#: src/formats.c:447
 msgid "Hong Kong, Dollars"
 msgstr ""
 
-#: src/formats.c:446
+#: src/formats.c:448
 msgid "Honduras, Lempiras"
 msgstr ""
 
-#: src/formats.c:447
+#: src/formats.c:449
 msgid "Croatia, Kuna"
 msgstr "Croatia, Kuna"
 
-#: src/formats.c:448
+#: src/formats.c:450
 msgid "Haiti, Gourdes"
 msgstr ""
 
-#: src/formats.c:449
+#: src/formats.c:451
 msgid "Hungary, Forint"
 msgstr "Hungary, Forint"
 
-#: src/formats.c:450
+#: src/formats.c:452
 msgid "Indonesia, Rupiahs"
 msgstr "Indonesia, Rupiah"
 
-#: src/formats.c:451
+#: src/formats.c:453
 msgid "Israel, New Shekels"
 msgstr ""
 
-#: src/formats.c:452
+#: src/formats.c:454
 msgid "Isle of Man, Pounds"
 msgstr ""
 
-#: src/formats.c:453
+#: src/formats.c:455
 msgid "India, Rupees"
 msgstr "India, Rupee"
 
-#: src/formats.c:454
+#: src/formats.c:456
 msgid "Iraq, Dinars"
 msgstr ""
 
-#: src/formats.c:455
+#: src/formats.c:457
 msgid "Iran, Rials"
 msgstr "Iran, Rial"
 
-#: src/formats.c:456
+#: src/formats.c:458
 msgid "Iceland, Kronur"
 msgstr ""
 
-#: src/formats.c:457
+#: src/formats.c:459
 msgid "Jersey, Pounds"
 msgstr ""
 
-#: src/formats.c:458
+#: src/formats.c:460
 msgid "Jamaica, Dollars"
 msgstr ""
 
-#: src/formats.c:459
+#: src/formats.c:461
 msgid "Jordan, Dinars"
 msgstr ""
 
-#: src/formats.c:460
+#: src/formats.c:462
 msgid "Japan, Yen"
 msgstr "Japan, Yen"
 
-#: src/formats.c:461
+#: src/formats.c:463
 msgid "Kenya, Shillings"
 msgstr ""
 
-#: src/formats.c:462
+#: src/formats.c:464
 msgid "Kyrgyzstan, Soms"
 msgstr ""
 
-#: src/formats.c:463
+#: src/formats.c:465
 msgid "Cambodia, Riels"
 msgstr ""
 
-#: src/formats.c:464
+#: src/formats.c:466
 msgid "Comoros, Francs"
 msgstr ""
 
-#: src/formats.c:465
+#: src/formats.c:467
 msgid "Korea (North), Won"
 msgstr "Korea (Utara), Won"
 
-#: src/formats.c:466
+#: src/formats.c:468
 msgid "Korea (South), Won"
 msgstr "Korea (Selatan), Won"
 
-#: src/formats.c:467
+#: src/formats.c:469
 msgid "Kuwait, Dinars"
 msgstr ""
 
-#: src/formats.c:468
+#: src/formats.c:470
 msgid "Cayman Islands, Dollars"
 msgstr ""
 
-#: src/formats.c:469
+#: src/formats.c:471
 msgid "Kazakstan, Tenge"
 msgstr ""
 
-#: src/formats.c:470
+#: src/formats.c:472
 msgid "Laos, Kips"
 msgstr ""
 
-#: src/formats.c:471
+#: src/formats.c:473
 msgid "Lebanon, Pounds"
 msgstr ""
 
-#: src/formats.c:472
+#: src/formats.c:474
 msgid "Sri Lanka, Rupees"
 msgstr ""
 
-#: src/formats.c:473
+#: src/formats.c:475
 msgid "Liberia, Dollars"
 msgstr ""
 
-#: src/formats.c:474
+#: src/formats.c:476
 msgid "Lesotho, Maloti"
 msgstr ""
 
-#: src/formats.c:475
+#: src/formats.c:477
 msgid "Lithuania, Litai"
 msgstr ""
 
-#: src/formats.c:476
+#: src/formats.c:478
 msgid "Latvia, Lati"
 msgstr ""
 
-#: src/formats.c:477
+#: src/formats.c:479
 msgid "Libya, Dinars"
 msgstr ""
 
-#: src/formats.c:478
+#: src/formats.c:480
 msgid "Morocco, Dirhams"
 msgstr ""
 
-#: src/formats.c:479
+#: src/formats.c:481
 msgid "Moldova, Lei"
 msgstr ""
 
-#: src/formats.c:480
+#: src/formats.c:482
 msgid "Madagascar, Malagasy Francs"
 msgstr ""
 
-#: src/formats.c:481
+#: src/formats.c:483
 msgid "Macedonia, Denars"
 msgstr ""
 
-#: src/formats.c:482
+#: src/formats.c:484
 msgid "Myanmar (Burma), Kyats"
 msgstr ""
 
-#: src/formats.c:483
+#: src/formats.c:485
 msgid "Mongolia, Tugriks"
 msgstr ""
 
-#: src/formats.c:484
+#: src/formats.c:486
 msgid "Macau, Patacas"
 msgstr ""
 
-#: src/formats.c:485
+#: src/formats.c:487
 msgid "Mauritania, Ouguiyas"
 msgstr ""
 
-#: src/formats.c:486
+#: src/formats.c:488
 msgid "Malta, Liri"
 msgstr ""
 
-#: src/formats.c:487
+#: src/formats.c:489
 msgid "Mauritius, Rupees"
 msgstr "Mauritius, Rupee"
 
-#: src/formats.c:488
+#: src/formats.c:490
 msgid "Maldives (Maldive Islands), Rufiyaa"
 msgstr ""
 
-#: src/formats.c:489
+#: src/formats.c:491
 msgid "Malawi, Kwachas"
 msgstr ""
 
-#: src/formats.c:490
+#: src/formats.c:492
 msgid "Mexico, Pesos"
 msgstr ""
 
-#: src/formats.c:491
+#: src/formats.c:493
 msgid "Malaysia, Ringgits"
 msgstr "Malaysia, Ringgit"
 
-#: src/formats.c:492
+#: src/formats.c:494
 msgid "Mozambique, Meticais"
 msgstr ""
 
-#: src/formats.c:493
+#: src/formats.c:495
 msgid "Namibia, Dollars"
 msgstr "Namibia, Dollar"
 
-#: src/formats.c:494
+#: src/formats.c:496
 msgid "Nigeria, Nairas"
 msgstr ""
 
-#: src/formats.c:495
+#: src/formats.c:497
 msgid "Nicaragua, Gold Cordobas"
 msgstr ""
 
-#: src/formats.c:496
+#: src/formats.c:498
 msgid "Norway, Krone"
 msgstr "Norway, Krone"
 
-#: src/formats.c:497
+#: src/formats.c:499
 msgid "Nepal, Nepal Rupees"
 msgstr ""
 
-#: src/formats.c:498
+#: src/formats.c:500
 msgid "New Zealand, Dollars"
 msgstr "New Zealand, Dollar"
 
-#: src/formats.c:499
+#: src/formats.c:501
 msgid "Oman, Rials"
 msgstr "Oman, Rial"
 
-#: src/formats.c:500
+#: src/formats.c:502
 msgid "Panama, Balboa"
 msgstr ""
 
-#: src/formats.c:501
+#: src/formats.c:503
 msgid "Peru, Nuevos Soles"
 msgstr ""
 
-#: src/formats.c:502
+#: src/formats.c:504
 msgid "Papua New Guinea, Kina"
 msgstr "Papua New Guinea, Kina"
 
-#: src/formats.c:503
+#: src/formats.c:505
 msgid "Philippines, Pesos"
 msgstr "Philippines, Peso"
 
-#: src/formats.c:504
+#: src/formats.c:506
 msgid "Pakistan, Rupees"
 msgstr ""
 
-#: src/formats.c:505
+#: src/formats.c:507
 msgid "Poland, Zlotys"
 msgstr ""
 
-#: src/formats.c:506
+#: src/formats.c:508
 msgid "Paraguay, Guarani"
 msgstr ""
 
-#: src/formats.c:507
+#: src/formats.c:509
 msgid "Qatar, Rials"
 msgstr "Qatar, Rial"
 
 # ui/galeon.glade.h:272
-#: src/formats.c:508
+#: src/formats.c:510
 msgid "Romania, Lei"
 msgstr "Romania, Lei"
 
-#: src/formats.c:509
+#: src/formats.c:511
 msgid "Russia, Rubles"
 msgstr "Russia, Ruble"
 
-#: src/formats.c:510
+#: src/formats.c:512
 msgid "Rwanda, Rwanda Francs"
 msgstr ""
 
-#: src/formats.c:511
+#: src/formats.c:513
 msgid "Saudi Arabia, Riyals"
 msgstr ""
 
-#: src/formats.c:512
+#: src/formats.c:514
 msgid "Solomon Islands, Dollars"
 msgstr ""
 
-#: src/formats.c:513
+#: src/formats.c:515
 msgid "Seychelles, Rupees"
 msgstr "Seychelles, Rupee"
 
-#: src/formats.c:514
+#: src/formats.c:516
 msgid "Sudan, Dinars"
 msgstr "Sudan, Dinar"
 
-#: src/formats.c:515
+#: src/formats.c:517
 msgid "Sweden, Kronor"
 msgstr ""
 
-#: src/formats.c:516
+#: src/formats.c:518
 msgid "Singapore, Dollars"
 msgstr ""
 
-#: src/formats.c:517
+#: src/formats.c:519
 msgid "Saint Helena, Pounds"
 msgstr "Saint Helena, Pound"
 
-#: src/formats.c:518
+#: src/formats.c:520
 msgid "Slovenia, Tolars"
 msgstr "Slovenia, Tolar"
 
-#: src/formats.c:519
+#: src/formats.c:521
 msgid "Slovakia, Koruny"
 msgstr "Slovakia, Koruny"
 
-#: src/formats.c:520
+#: src/formats.c:522
 msgid "Sierra Leone, Leones"
 msgstr ""
 
-#: src/formats.c:521
+#: src/formats.c:523
 msgid "Somalia, Shillings"
 msgstr "Somalia, Shilling"
 
-#: src/formats.c:522
+#: src/formats.c:524
 msgid "Seborga, Luigini"
 msgstr ""
 
-#: src/formats.c:523
+#: src/formats.c:525
 msgid "Suriname, Guilders"
 msgstr ""
 
-#: src/formats.c:524
+#: src/formats.c:526
 msgid "Sao Tome and Principe, Dobras"
 msgstr ""
 
-#: src/formats.c:525
+#: src/formats.c:527
 msgid "El Salvador, Colones"
 msgstr ""
 
-#: src/formats.c:526
+#: src/formats.c:528
 msgid "Syria, Pounds"
 msgstr "Syria, Pound"
 
-#: src/formats.c:527
+#: src/formats.c:529
 msgid "Swaziland, Emalangeni"
 msgstr "Swaziland, Emalangeni"
 
-#: src/formats.c:528
+#: src/formats.c:530
 msgid "Thailand, Baht"
 msgstr "Thailand, Baht"
 
-#: src/formats.c:529
+#: src/formats.c:531
 msgid "Tajikistan, Rubles"
 msgstr ""
 
-#: src/formats.c:530
+#: src/formats.c:532
 msgid "Turkmenistan, Manats"
 msgstr ""
 
-#: src/formats.c:531
+#: src/formats.c:533
 msgid "Tunisia, Dinars"
 msgstr ""
 
-#: src/formats.c:532
+#: src/formats.c:534
 msgid "Tonga, Pa'anga"
 msgstr ""
 
-#: src/formats.c:533
+#: src/formats.c:535
 msgid "Turkey, Liras"
 msgstr "Turkey, Liras"
 
-#: src/formats.c:534
+#: src/formats.c:536
 msgid "Trinidad and Tobago, Dollars"
 msgstr ""
 
-#: src/formats.c:535
+#: src/formats.c:537
 msgid "Tuvalu, Tuvalu Dollars"
 msgstr ""
 
-#: src/formats.c:536
+#: src/formats.c:538
 msgid "Taiwan, New Dollars"
 msgstr ""
 
-#: src/formats.c:537
+#: src/formats.c:539
 msgid "Tanzania, Shillings"
 msgstr ""
 
-#: src/formats.c:538
+#: src/formats.c:540
 msgid "Ukraine, Hryvnia"
 msgstr "Ukraine, Hryvnia"
 
-#: src/formats.c:539
+#: src/formats.c:541
 msgid "Uganda, Shillings"
 msgstr ""
 
-#: src/formats.c:540
+#: src/formats.c:542
 msgid "United States of America, Dollars"
 msgstr ""
 
-#: src/formats.c:541
+#: src/formats.c:543
 msgid "Uruguay, Pesos"
 msgstr ""
 
-#: src/formats.c:542
+#: src/formats.c:544
 msgid "Uzbekistan, Sums"
 msgstr ""
 
-#: src/formats.c:543
+#: src/formats.c:545
 msgid "Venezuela, Bolivares"
 msgstr ""
 
-#: src/formats.c:544
+#: src/formats.c:546
 msgid "Viet Nam, Dong"
 msgstr "Viet Nam, Dong"
 
-#: src/formats.c:545
+#: src/formats.c:547
 msgid "Vanuatu, Vatu"
 msgstr ""
 
-#: src/formats.c:546
+#: src/formats.c:548
 msgid "Samoa, Tala"
 msgstr ""
 
-#: src/formats.c:547
+#: src/formats.c:549
 msgid "Communaute Financiere Africaine BEAC, Francs"
 msgstr ""
 
-#: src/formats.c:548
+#: src/formats.c:550
 msgid "Silver, Ounces"
 msgstr ""
 
-#: src/formats.c:549
+#: src/formats.c:551
 msgid "Gold, Ounces"
 msgstr ""
 
-#: src/formats.c:550
+#: src/formats.c:552
 msgid "East Caribbean Dollars"
 msgstr ""
 
-#: src/formats.c:551
+#: src/formats.c:553
 msgid "International Monetary Fund (IMF) Special Drawing Rights"
 msgstr ""
 
-#: src/formats.c:552
+#: src/formats.c:554
 msgid "Communaute Financiere Africaine BCEAO, Francs"
 msgstr ""
 
-#: src/formats.c:553
+#: src/formats.c:555
 #, fuzzy
 msgid "Palladium, Ounces"
 msgstr "Palladium Ounces"
 
-#: src/formats.c:554
+#: src/formats.c:556
 msgid "Comptoirs Francais du Pacifique Francs"
 msgstr ""
 
-#: src/formats.c:555
+#: src/formats.c:557
 msgid "Platinum, Ounces"
 msgstr "Platinum, Ounce"
 
-#: src/formats.c:556
+#: src/formats.c:558
 msgid "Yemen, Rials"
 msgstr "Yemen, Rial"
 
-#: src/formats.c:557
+#: src/formats.c:559
 msgid "Yugoslavia, New Dinars"
 msgstr ""
 
-#: src/formats.c:558
+#: src/formats.c:560
 msgid "South Africa, Rand"
 msgstr "South Africa, Rand"
 
-#: src/formats.c:559
+#: src/formats.c:561
 msgid "Zambia, Kwacha"
 msgstr "Zambia, Kwacha"
 
-#: src/formats.c:560
+#: src/formats.c:562
 msgid "Zimbabwe, Zimbabwe Dollars"
 msgstr ""
 
@@ -20924,12 +20929,12 @@ msgstr "Tak dapat mengaktifkan '%s'"
 msgid "Unable to open '%s'"
 msgstr "Tak dapat buka '%s'"
 
-#: src/item-bar.c:740
+#: src/item-bar.c:746
 #, c-format
 msgid "Width: %.2f pts (%d pixels)"
 msgstr "Lebar: %.2f ttk (%d piksel)"
 
-#: src/item-bar.c:743
+#: src/item-bar.c:749
 #, c-format
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "Tinggi: %.2f ttk (%d piksel)"
@@ -21490,28 +21495,28 @@ msgstr "&[TARIKH]"
 msgid "File Name"
 msgstr "Nama Baru"
 
-#: src/print-info.c:564
+#: src/print-info.c:561
 #, fuzzy
 msgid "Path "
 msgstr "Tepek"
 
-#: src/print-info.c:572
+#: src/print-info.c:569
 msgid "tab"
 msgstr "tab"
 
-#: src/print-info.c:573
+#: src/print-info.c:570
 msgid "page"
 msgstr "halaman"
 
-#: src/print-info.c:574
+#: src/print-info.c:571
 msgid "pages"
 msgstr "laman"
 
-#: src/print-info.c:577
+#: src/print-info.c:574
 msgid "file"
 msgstr "fail"
 
-#: src/print-info.c:578
+#: src/print-info.c:575
 msgid "path"
 msgstr ""
 
@@ -21718,16 +21723,16 @@ msgstr ""
 msgid "_Save as image"
 msgstr "Pilih satu fail imej"
 
-#: src/sheet-object-graphic.c:944 src/sheet-object-graphic.c:963
+#: src/sheet-object-graphic.c:951 src/sheet-object-graphic.c:970
 msgid "Transparent"
 msgstr "Telus"
 
-#: src/sheet-object-widget.c:1143
+#: src/sheet-object-widget.c:1140
 #, c-format
 msgid "CheckBox %d"
 msgstr ""
 
-#: src/sheet-object-widget.c:1576 src/workbook-object-toolbar.c:164
+#: src/sheet-object-widget.c:1554 src/workbook-object-toolbar.c:164
 msgid "RadioButton"
 msgstr "ButangRadio"
 
@@ -21740,23 +21745,23 @@ msgid ""
 "name.  Expect weirdness."
 msgstr ""
 
-#: src/sheet.c:1961
+#: src/sheet.c:1962
 msgid "Target region contains merged cells"
 msgstr ""
 
-#: src/sheet.c:2023
+#: src/sheet.c:2024
 msgid "cannot operate on merged cells"
 msgstr ""
 
-#: src/sheet.c:2033
+#: src/sheet.c:2034
 msgid "cannot operate on array formulae"
 msgstr ""
 
-#: src/sheet.c:3125
+#: src/sheet.c:3126
 msgid "Insert Columns"
 msgstr "Selit Kolum"
 
-#: src/sheet.c:3243
+#: src/sheet.c:3244
 msgid "Insert Rows"
 msgstr "Selit Baris"
 
@@ -21799,19 +21804,19 @@ msgstr ""
 msgid "Error while trying to write csv file"
 msgstr ""
 
-#: src/stf.c:458
+#: src/stf.c:471
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr ""
 
-#: src/stf.c:462
+#: src/stf.c:475
 msgid "Text import (configurable)"
 msgstr ""
 
-#: src/stf.c:466
+#: src/stf.c:479
 msgid "Text export (configurable)"
 msgstr ""
 
-#: src/stf.c:470
+#: src/stf.c:483
 msgid "Comma separated values (CSV)"
 msgstr ""
 
@@ -23448,31 +23453,31 @@ msgstr ""
 msgid "Bold italic"
 msgstr ""
 
-#: src/widgets/widget-format-selector.c:77
+#: src/widgets/widget-format-selector.c:78
 msgid "Currency"
 msgstr "Matawang"
 
-#: src/widgets/widget-format-selector.c:78
+#: src/widgets/widget-format-selector.c:79
 msgid "Accounting"
 msgstr "Perakaunan"
 
-#: src/widgets/widget-format-selector.c:82
+#: src/widgets/widget-format-selector.c:83
 msgid "Fraction"
 msgstr "Pecahan"
 
-#: src/widgets/widget-format-selector.c:83
+#: src/widgets/widget-format-selector.c:84
 msgid "Scientific"
 msgstr "Saintifik"
 
-#: src/widgets/widget-format-selector.c:85
+#: src/widgets/widget-format-selector.c:86
 msgid "Special"
 msgstr "Istimewa"
 
-#: src/widgets/widget-format-selector.c:955
+#: src/widgets/widget-format-selector.c:960
 msgid "Negative Number Format"
 msgstr "Format Nombor Negatif"
 
-#: src/widgets/widget-format-selector.c:986
+#: src/widgets/widget-format-selector.c:991
 msgid "Number Formats"
 msgstr "Format Nombor"
 
@@ -24541,25 +24546,25 @@ msgstr ""
 #. * This should be quite rare.  To provoke, use
 #. * gnumeric `echo -e '\377\376'`
 #.
-#: src/workbook-view.c:608 src/workbook-view.c:964
+#: src/workbook-view.c:608 src/workbook-view.c:960
 #, fuzzy
 msgid "The filename given is not valid in the current encoding."
 msgstr "Penyimpan fail default tidak ada."
 
-#: src/workbook-view.c:693 src/workbook-view.c:806
+#: src/workbook-view.c:693 src/workbook-view.c:802
 msgid "Default file saver is not available."
 msgstr "Penyimpan fail default tidak ada."
 
-#: src/workbook-view.c:765
+#: src/workbook-view.c:762
 #, fuzzy
 msgid "Failed to create temporary file for sending."
 msgstr "Tidak dapat cipta fail sementara"
 
-#: src/workbook-view.c:899
+#: src/workbook-view.c:895
 msgid "Unsupported file format."
 msgstr "Format fail tidak disokong."
 
-#: src/workbook-view.c:957
+#: src/workbook-view.c:953
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr ""

@@ -52,7 +52,7 @@ Pending Patches
 - input message				(Stored)
 - load/save of external references
 - all the merged cell singleton bugs
-- round trip links to vba functions
+- round trip links to vba functions			(DONE)
 
 - finish corba plugin
 - conditional formats : could be done if someone wanted to work on the dialog

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AC_PACKAGE_NAME AC_PACKAGE_VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-05 08:44-0500\n"
+"POT-Creation-Date: 2004-03-15 21:08-0500\n"
 "PO-Revision-Date: 2003-08-12 22:15+0900\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: GTP Korean <gnome-kr-translation@gnome.or.kr>\n"
@@ -704,7 +704,7 @@ msgstr ""
 msgid "Functions related to financial derivatives"
 msgstr ""
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5407
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5517
 #: plugins/mps/mps.c:549 src/xml-io.c:4136
 msgid "Reading file..."
 msgstr "파일을 읽는 중..."
@@ -795,62 +795,62 @@ msgstr ""
 msgid "XML document not well formed!"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:1008 src/value.c:60
+#: plugins/excel/ms-excel-read.c:1043 src/value.c:60
 msgid "#UNKNOWN!"
 msgstr "#모름!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1099 plugins/excel/ms-excel-read.c:1110
+#: plugins/excel/ms-excel-read.c:1134 plugins/excel/ms-excel-read.c:1145
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:515
 #: src/dialogs/dialog-sheet-order.c:440 src/dialogs/dialog-sheet-order.c:444
 #, c-format
 msgid "Sheet%d"
 msgstr "시트%d"
 
-#: plugins/excel/ms-excel-read.c:1113
+#: plugins/excel/ms-excel-read.c:1148
 #, c-format
 msgid "Macro%d"
 msgstr "매크로%d"
 
-#: plugins/excel/ms-excel-read.c:1116
+#: plugins/excel/ms-excel-read.c:1151
 #, c-format
 msgid "Chart%d"
 msgstr "도표%d"
 
-#: plugins/excel/ms-excel-read.c:1119
+#: plugins/excel/ms-excel-read.c:1154
 #, c-format
 msgid "Module%d"
 msgstr "모듈%d"
 
-#: plugins/excel/ms-excel-read.c:2841
+#: plugins/excel/ms-excel-read.c:2951
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:2897
+#: plugins/excel/ms-excel-read.c:3007
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
 "Name '%s' will be lost.\n"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:2903
+#: plugins/excel/ms-excel-read.c:3013
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
 "Name '%s' will be lost.\n"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:4767
+#: plugins/excel/ms-excel-read.c:4877
 msgid "external references"
 msgstr "외부 참조"
 
-#: plugins/excel/ms-excel-read.c:4792
+#: plugins/excel/ms-excel-read.c:4902
 msgid "No password supplied"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:5640
+#: plugins/excel/ms-excel-read.c:5750
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "제대로 된 MS 엑셀 워크북을 찾을 수 없음"
 
@@ -3167,7 +3167,7 @@ msgstr ""
 #: plugins/fn-date/functions.c:1281 plugins/fn-date/functions.c:1285
 #: plugins/fn-date/functions.c:1293 plugins/fn-date/functions.c:1297
 #: plugins/fn-date/functions.c:1310 plugins/fn-date/functions.c:1314
-#: src/print-info.c:575
+#: src/print-info.c:572
 msgid "date"
 msgstr "날짜"
 
@@ -3184,7 +3184,7 @@ msgid "start_date,months"
 msgstr ""
 
 #: plugins/fn-date/functions.c:1245 plugins/fn-date/functions.c:1249
-#: plugins/fn-date/functions.c:1265 src/print-info.c:576
+#: plugins/fn-date/functions.c:1265 src/print-info.c:573
 msgid "time"
 msgstr "시간"
 
@@ -12144,7 +12144,7 @@ msgstr "강조"
 msgid "Borders"
 msgstr "테두리"
 
-#: src/GNOME_Gnumeric.xml.h:19 src/sheet-object-widget.c:424
+#: src/GNOME_Gnumeric.xml.h:19 src/sheet-object-widget.c:439
 #: src/workbook-object-toolbar.c:155
 msgid "Button"
 msgstr "단추"
@@ -12516,7 +12516,7 @@ msgstr ""
 msgid "Fourier Analysis"
 msgstr "푸리에 분석"
 
-#: src/GNOME_Gnumeric.xml.h:103 src/sheet-object-widget.c:197
+#: src/GNOME_Gnumeric.xml.h:103 src/sheet-object-widget.c:214
 #: src/workbook-object-toolbar.c:150
 msgid "Frame"
 msgstr "프레임"
@@ -12686,7 +12686,7 @@ msgstr "주어진 셀로 가기"
 
 #: src/GNOME_Gnumeric.xml.h:142
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:733
-#: src/sheet-object-graphic.c:1442 src/workbook-object-toolbar.c:147
+#: src/sheet-object-graphic.c:1451 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "꼬리표"
 
@@ -13748,11 +13748,11 @@ msgstr "%3$s에서 \"%1$s%2$s\"을(를) 입력"
 msgid "Typing \"%s%s\""
 msgstr "\"%s%s\"을(를) 입력"
 
-#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3184
+#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3185
 msgid "Delete Columns"
 msgstr "열 지움"
 
-#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3302
+#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3303
 msgid "Delete Rows"
 msgstr "행 지움"
 
@@ -13797,7 +13797,7 @@ msgid "Deleting row %s"
 msgstr "행 %s 지움"
 
 #. Check for locked cells
-#: src/commands.c:1504 src/commands.c:1508 src/sheet.c:2798
+#: src/commands.c:1504 src/commands.c:1508 src/sheet.c:2799
 msgid "Clear"
 msgstr "지우기"
 
@@ -13861,10 +13861,15 @@ msgstr ""
 msgid "Setting height of row %s to default"
 msgstr ""
 
-#: src/commands.c:1935 src/commands.c:1936
+#: src/commands.c:1935
 #, c-format
 msgid "Autofitting columns %s"
 msgstr ""
+
+#: src/commands.c:1936
+#, fuzzy, c-format
+msgid "Autofitting rows %s"
+msgstr "%s 자동채움"
 
 #: src/commands.c:1939
 #, c-format
@@ -14350,19 +14355,19 @@ msgstr "Z축"
 msgid "Plot"
 msgstr "플롯 모드"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:247
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
 msgid "H"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:247
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
 msgid "Height"
 msgstr "높이"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:250
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:252
 msgid "W"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:250
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:252
 msgid "Width"
 msgstr "너비"
 
@@ -14661,25 +14666,25 @@ msgstr "모양"
 
 #. TODO : have a look at apple's themes
 #. An MS Excel-ish theme
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:382
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:400
 #: src/dialogs/dialog-sheet-order.c:957 src/dialogs/dialog-sheet-order.c:970
 msgid "Default"
 msgstr "기본값"
 
 #. Guppi
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:437
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:455
 #, fuzzy
 msgid "Guppi"
 msgstr "묶음"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:304
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:193
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:195
 #: src/dialogs/consolidate.glade.h:12
 msgid "Labels"
 msgstr "꼬리표"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:306
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:195
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:197
 #: src/dialogs/consolidate.glade.h:27
 msgid "Values"
 msgstr "값"
@@ -15002,7 +15007,7 @@ msgstr "지움(_D)"
 msgid "PlotPie"
 msgstr "플롯 모드"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:266
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:268
 #, fuzzy
 msgid "PlotRing"
 msgstr "없음"
@@ -15112,27 +15117,27 @@ msgstr ""
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:260
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:262
 #, fuzzy
 msgid "PlotXY"
 msgstr "플롯 모드"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:320
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:369
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:322
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:467
 msgid "X"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:322
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:371
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:324
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:469
 msgid "Y"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:353
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:355
 #, fuzzy
 msgid "PlotBubble"
 msgstr "청색"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:373
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:471
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:1
 #, fuzzy
 msgid "Bubble"
@@ -15810,8 +15815,8 @@ msgstr "첫 글자"
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:663
-#: src/format.c:2184 src/format.c:2313 src/format.c:2319 src/format.c:2395
-#: src/plugin-service.c:200 src/widgets/widget-format-selector.c:75
+#: src/format.c:2188 src/format.c:2317 src/format.c:2323 src/format.c:2399
+#: src/plugin-service.c:200 src/widgets/widget-format-selector.c:76
 msgid "General"
 msgstr "일반"
 
@@ -15918,7 +15923,7 @@ msgid "Items"
 msgstr ""
 
 #: src/dialogs/autofilter-top10.glade.h:4
-#: src/widgets/widget-format-selector.c:81
+#: src/widgets/widget-format-selector.c:82
 msgid "Percentage"
 msgstr "퍼센트"
 
@@ -16144,11 +16149,11 @@ msgid "Con_dition:"
 msgstr "내용(_C)"
 
 #: src/dialogs/cell-format.glade.h:38 src/dialogs/dialog-stf-export.glade.h:17
-#: src/widgets/widget-format-selector.c:86
+#: src/widgets/widget-format-selector.c:87
 msgid "Custom"
 msgstr "사용자"
 
-#: src/dialogs/cell-format.glade.h:39 src/widgets/widget-format-selector.c:79
+#: src/dialogs/cell-format.glade.h:39 src/widgets/widget-format-selector.c:80
 msgid "Date"
 msgstr "날짜"
 
@@ -16269,7 +16274,7 @@ msgstr "꼭대기(_O)"
 msgid "Text length"
 msgstr "텍스트 길이"
 
-#: src/dialogs/cell-format.glade.h:87 src/widgets/widget-format-selector.c:80
+#: src/dialogs/cell-format.glade.h:87 src/widgets/widget-format-selector.c:81
 msgid "Time"
 msgstr "시간"
 
@@ -17071,12 +17076,12 @@ msgid "Double"
 msgstr ""
 
 #: src/dialogs/dialog-cell-format.c:467 src/dialogs/dialog-search.c:147
-#: src/func.c:671 src/widgets/widget-format-selector.c:76
+#: src/func.c:671 src/widgets/widget-format-selector.c:77
 msgid "Number"
 msgstr "숫자"
 
 #: src/dialogs/dialog-cell-format.c:668 src/dialogs/dialog-stf-main-page.c:381
-#: src/widgets/widget-format-selector.c:84
+#: src/widgets/widget-format-selector.c:85
 #, fuzzy
 msgid "Text"
 msgstr "텍스트(_x)"
@@ -20711,48 +20716,48 @@ msgstr "참"
 msgid "FALSE"
 msgstr "거짓"
 
-#: src/format.c:652
+#: src/format.c:656
 #, fuzzy
 msgid "Black"
 msgstr "검정색"
 
-#: src/format.c:653
+#: src/format.c:657
 #, fuzzy
 msgid "Blue"
 msgstr "청색"
 
-#: src/format.c:654
+#: src/format.c:658
 #, fuzzy
 msgid "Cyan"
 msgstr "청록색"
 
-#: src/format.c:655
+#: src/format.c:659
 #, fuzzy
 msgid "Green"
 msgstr "녹색"
 
-#: src/format.c:656
+#: src/format.c:660
 #, fuzzy
 msgid "Magenta"
 msgstr "진홍색"
 
-#: src/format.c:657
+#: src/format.c:661
 #, fuzzy
 msgid "Red"
 msgstr "취소 복구"
 
-#: src/format.c:658
+#: src/format.c:662
 #, fuzzy
 msgid "White"
 msgstr "흰색"
 
-#: src/format.c:659
+#: src/format.c:663
 #, fuzzy
 msgid "Yellow"
 msgstr "황색"
 
 #. Array of arrays ??
-#: src/format.c:2076
+#: src/format.c:2080
 msgid "ARRAY"
 msgstr "배열"
 
@@ -20761,701 +20766,701 @@ msgstr "배열"
 #. * The second column has the long names of the currencies.
 #.
 #. 2002/08/04 Updated to match iso 4217
-#: src/formats.c:389
+#: src/formats.c:391
 msgid "United Arab Emirates, Dirhams"
 msgstr "아랍 에미리트 연합, 더히람"
 
-#: src/formats.c:390
+#: src/formats.c:392
 msgid "Afghanistan, Afghanis"
 msgstr "아프가니스탄, 아프가니"
 
-#: src/formats.c:391
+#: src/formats.c:393
 msgid "Albania, Leke"
 msgstr "알바니아, 레크"
 
-#: src/formats.c:392
+#: src/formats.c:394
 msgid "Armenia, Drams"
 msgstr "아르메니아, 드램"
 
-#: src/formats.c:393
+#: src/formats.c:395
 msgid "Netherlands Antilles, Guilders"
 msgstr "네델란드령 앤틸리스 열도, 길더"
 
-#: src/formats.c:394
+#: src/formats.c:396
 msgid "Angola, Kwanza"
 msgstr "앙골라, 콴자"
 
-#: src/formats.c:395
+#: src/formats.c:397
 msgid "Argentina, Pesos"
 msgstr "아르헨티나, 페소"
 
-#: src/formats.c:396
+#: src/formats.c:398
 msgid "Australia, Dollars"
 msgstr "오스트레일리아, 달러"
 
-#: src/formats.c:397
+#: src/formats.c:399
 msgid "Aruba, Guilders"
 msgstr "아루바, 길더"
 
-#: src/formats.c:398
+#: src/formats.c:400
 msgid "Azerbaijan, Manats"
 msgstr "아제르바이잔, 마나트"
 
-#: src/formats.c:399
+#: src/formats.c:401
 #, fuzzy
 msgid "Bosnia and Herzegovina, Convertible Marka"
 msgstr "보스니아 헤르체고비아, "
 
-#: src/formats.c:400
+#: src/formats.c:402
 msgid "Barbados, Dollars"
 msgstr "바베이도스, 달러"
 
-#: src/formats.c:401
+#: src/formats.c:403
 msgid "Bangladesh, Taka"
 msgstr "방글라데시, 타카"
 
-#: src/formats.c:402
+#: src/formats.c:404
 msgid "Bulgaria, Leva"
 msgstr "불가리아, 렛"
 
-#: src/formats.c:403
+#: src/formats.c:405
 msgid "Bahrain, Dinars"
 msgstr "바레인, 디나르"
 
-#: src/formats.c:404
+#: src/formats.c:406
 msgid "Burundi, Francs"
 msgstr "부룬디, 프랑크"
 
-#: src/formats.c:405
+#: src/formats.c:407
 msgid "Bermuda, Dollars"
 msgstr "버무다, 달러"
 
-#: src/formats.c:406
+#: src/formats.c:408
 msgid "Brunei Darussalam, Dollars"
 msgstr "브루나이 다루살람, 달러"
 
-#: src/formats.c:407
+#: src/formats.c:409
 msgid "Bolivia, Bolivianos"
 msgstr "볼리비아, 볼리비아노"
 
-#: src/formats.c:408
+#: src/formats.c:410
 msgid "Brazil, Brazil Real"
 msgstr "브라질, 브라질 레알"
 
-#: src/formats.c:409
+#: src/formats.c:411
 msgid "Bahamas, Dollars"
 msgstr "바하마, 달러"
 
-#: src/formats.c:410
+#: src/formats.c:412
 msgid "Bhutan, Ngultrum"
 msgstr "부탄, 눌트눔"
 
-#: src/formats.c:411
+#: src/formats.c:413
 msgid "Botswana, Pulas"
 msgstr "보츠와나, 풀라"
 
-#: src/formats.c:412
+#: src/formats.c:414
 msgid "Belarus, Rubles"
 msgstr "벨라루스, 루블"
 
-#: src/formats.c:413
+#: src/formats.c:415
 msgid "Belize, Dollars"
 msgstr "벨리즈, 달러"
 
-#: src/formats.c:414
+#: src/formats.c:416
 msgid "Canada, Dollars"
 msgstr "캐나다, 달러"
 
-#: src/formats.c:415
+#: src/formats.c:417
 msgid "Congo/Kinshasa, Congolese Francs"
 msgstr "콩고/킨샤사, 콩고프랑"
 
-#: src/formats.c:416
+#: src/formats.c:418
 msgid "Switzerland, Francs"
 msgstr "스위스, 프랑크"
 
-#: src/formats.c:417
+#: src/formats.c:419
 msgid "Chile, Pesos"
 msgstr "칠레, 페소"
 
-#: src/formats.c:418
+#: src/formats.c:420
 msgid "China, Yuan Renminbi"
 msgstr "중국, 위엔 인민폐"
 
-#: src/formats.c:419
+#: src/formats.c:421
 msgid "Colombia, Pesos"
 msgstr "콜로비아, 페소"
 
-#: src/formats.c:420
+#: src/formats.c:422
 msgid "Costa Rica, Colones"
 msgstr "코스타리카, 콜론"
 
-#: src/formats.c:421
+#: src/formats.c:423
 msgid "Cuba, Pesos"
 msgstr "쿠바, 페소"
 
-#: src/formats.c:422
+#: src/formats.c:424
 msgid "Cape Verde, Escudos"
 msgstr "카보 베르드, 에스쿠도"
 
-#: src/formats.c:423
+#: src/formats.c:425
 msgid "Cyprus, Pounds"
 msgstr "사이프러스, 파운드"
 
-#: src/formats.c:424
+#: src/formats.c:426
 msgid "Czech Republic, Koruny"
 msgstr "체코, 코루나"
 
-#: src/formats.c:425
+#: src/formats.c:427
 msgid "Djibouti, Francs"
 msgstr "지부티, 프랑크"
 
-#: src/formats.c:426
+#: src/formats.c:428
 msgid "Denmark, Kroner"
 msgstr "텐마크, 크로네"
 
-#: src/formats.c:427
+#: src/formats.c:429
 msgid "Dominican Republic, Pesos"
 msgstr "도미니카 공화국, 페소"
 
-#: src/formats.c:428
+#: src/formats.c:430
 msgid "Algeria, Algeria Dinars"
 msgstr "알제리, 알제리 디나르"
 
-#: src/formats.c:429
+#: src/formats.c:431
 msgid "Estonia, Krooni"
 msgstr "데스토니아, 크룬"
 
-#: src/formats.c:430
+#: src/formats.c:432
 msgid "Egypt, Pounds"
 msgstr "이집트, 파운드"
 
-#: src/formats.c:431
+#: src/formats.c:433
 msgid "Eritrea, Nakfa"
 msgstr "에리트리아, 나크파"
 
-#: src/formats.c:432
+#: src/formats.c:434
 msgid "Ethiopia, Birr"
 msgstr "에티오피아, 비르"
 
-#: src/formats.c:433
+#: src/formats.c:435
 msgid "Euro Member Countries, Euro"
 msgstr "유럽 공동체 회원국, 유로"
 
-#: src/formats.c:434
+#: src/formats.c:436
 msgid "Fiji, Dollars"
 msgstr "피지, 달러"
 
-#: src/formats.c:435
+#: src/formats.c:437
 msgid "Falkland Islands (Malvinas), Pounds"
 msgstr "포클랜드 섬(말비나스), 파운드"
 
-#: src/formats.c:436
+#: src/formats.c:438
 msgid "United Kingdom, Pounds"
 msgstr "영국, 파운드"
 
-#: src/formats.c:437
+#: src/formats.c:439
 msgid "Georgia, Lari"
 msgstr "그루지아, 라리"
 
-#: src/formats.c:438
+#: src/formats.c:440
 msgid "Guernsey, Pounds"
 msgstr "건지, 파운드"
 
-#: src/formats.c:439
+#: src/formats.c:441
 msgid "Ghana, Cedis"
 msgstr "가나, 세디"
 
-#: src/formats.c:440
+#: src/formats.c:442
 msgid "Gibraltar, Pounds"
 msgstr "지브롤터, 파운드"
 
-#: src/formats.c:441
+#: src/formats.c:443
 msgid "Gambia, Dalasi"
 msgstr "감비아, 달라시"
 
-#: src/formats.c:442
+#: src/formats.c:444
 msgid "Guinea, Francs"
 msgstr "기니, 프랑크"
 
-#: src/formats.c:443
+#: src/formats.c:445
 msgid "Guatemala, Quetzales"
 msgstr "과테말라, 케트살"
 
-#: src/formats.c:444
+#: src/formats.c:446
 msgid "Guyana, Dollars"
 msgstr "가이아나, 달러"
 
-#: src/formats.c:445
+#: src/formats.c:447
 msgid "Hong Kong, Dollars"
 msgstr "홍콩, 달러"
 
-#: src/formats.c:446
+#: src/formats.c:448
 msgid "Honduras, Lempiras"
 msgstr "온두라스, 렘피라"
 
-#: src/formats.c:447
+#: src/formats.c:449
 msgid "Croatia, Kuna"
 msgstr "크로아티아, 쿠나"
 
-#: src/formats.c:448
+#: src/formats.c:450
 #, fuzzy
 msgid "Haiti, Gourdes"
 msgstr "하이티, "
 
-#: src/formats.c:449
+#: src/formats.c:451
 msgid "Hungary, Forint"
 msgstr "헝가리, 포린"
 
-#: src/formats.c:450
+#: src/formats.c:452
 msgid "Indonesia, Rupiahs"
 msgstr "인도네시아, 루피아"
 
-#: src/formats.c:451
+#: src/formats.c:453
 msgid "Israel, New Shekels"
 msgstr "이스라엘, 뉴 쇄켈"
 
-#: src/formats.c:452
+#: src/formats.c:454
 msgid "Isle of Man, Pounds"
 msgstr "만섬, 파운드"
 
-#: src/formats.c:453
+#: src/formats.c:455
 msgid "India, Rupees"
 msgstr "인도, 루피"
 
-#: src/formats.c:454
+#: src/formats.c:456
 msgid "Iraq, Dinars"
 msgstr "이라크, 디나르"
 
-#: src/formats.c:455
+#: src/formats.c:457
 msgid "Iran, Rials"
 msgstr "이란, 리얄"
 
-#: src/formats.c:456
+#: src/formats.c:458
 msgid "Iceland, Kronur"
 msgstr "아이슬란드, 크로나"
 
-#: src/formats.c:457
+#: src/formats.c:459
 msgid "Jersey, Pounds"
 msgstr "져지, 파운드"
 
-#: src/formats.c:458
+#: src/formats.c:460
 msgid "Jamaica, Dollars"
 msgstr "자메이카, 달러"
 
-#: src/formats.c:459
+#: src/formats.c:461
 msgid "Jordan, Dinars"
 msgstr "요르단, 디나르"
 
-#: src/formats.c:460
+#: src/formats.c:462
 msgid "Japan, Yen"
 msgstr "일본, 엔"
 
-#: src/formats.c:461
+#: src/formats.c:463
 msgid "Kenya, Shillings"
 msgstr "케냐, 실링"
 
-#: src/formats.c:462
+#: src/formats.c:464
 #, fuzzy
 msgid "Kyrgyzstan, Soms"
 msgstr "키르지스탄, "
 
-#: src/formats.c:463
+#: src/formats.c:465
 msgid "Cambodia, Riels"
 msgstr "캄보디아, 리엘"
 
-#: src/formats.c:464
+#: src/formats.c:466
 msgid "Comoros, Francs"
 msgstr "코모로스, 프랑크"
 
-#: src/formats.c:465
+#: src/formats.c:467
 msgid "Korea (North), Won"
 msgstr "한국 (북한), 원"
 
-#: src/formats.c:466
+#: src/formats.c:468
 msgid "Korea (South), Won"
 msgstr "한국 (남한), 원"
 
-#: src/formats.c:467
+#: src/formats.c:469
 msgid "Kuwait, Dinars"
 msgstr "쿠웨이트, 디나르"
 
-#: src/formats.c:468
+#: src/formats.c:470
 msgid "Cayman Islands, Dollars"
 msgstr "케이만 섬, 달러"
 
-#: src/formats.c:469
+#: src/formats.c:471
 msgid "Kazakstan, Tenge"
 msgstr "카자흐스탄, 텐지"
 
-#: src/formats.c:470
+#: src/formats.c:472
 msgid "Laos, Kips"
 msgstr "라오스, 낍"
 
-#: src/formats.c:471
+#: src/formats.c:473
 msgid "Lebanon, Pounds"
 msgstr "레바논, 파운드"
 
-#: src/formats.c:472
+#: src/formats.c:474
 msgid "Sri Lanka, Rupees"
 msgstr "스리랑카, 루피"
 
-#: src/formats.c:473
+#: src/formats.c:475
 msgid "Liberia, Dollars"
 msgstr "라이베리아, 달러"
 
-#: src/formats.c:474
+#: src/formats.c:476
 msgid "Lesotho, Maloti"
 msgstr "레소토, 몰로티"
 
-#: src/formats.c:475
+#: src/formats.c:477
 msgid "Lithuania, Litai"
 msgstr "리투아니아, 리타스"
 
-#: src/formats.c:476
+#: src/formats.c:478
 msgid "Latvia, Lati"
 msgstr "라트비아, 라츠"
 
-#: src/formats.c:477
+#: src/formats.c:479
 msgid "Libya, Dinars"
 msgstr "리비아, 디나르"
 
-#: src/formats.c:478
+#: src/formats.c:480
 msgid "Morocco, Dirhams"
 msgstr "모로코, 더히람"
 
-#: src/formats.c:479
+#: src/formats.c:481
 msgid "Moldova, Lei"
 msgstr "몰도바, 레우"
 
-#: src/formats.c:480
+#: src/formats.c:482
 msgid "Madagascar, Malagasy Francs"
 msgstr "마다가스카르, 말라가시 프랑"
 
-#: src/formats.c:481
+#: src/formats.c:483
 msgid "Macedonia, Denars"
 msgstr "마케도니아, 데나르"
 
-#: src/formats.c:482
+#: src/formats.c:484
 msgid "Myanmar (Burma), Kyats"
 msgstr "미얀마 (버마), 차트"
 
-#: src/formats.c:483
+#: src/formats.c:485
 msgid "Mongolia, Tugriks"
 msgstr "몽골, 투그릭"
 
-#: src/formats.c:484
+#: src/formats.c:486
 msgid "Macau, Patacas"
 msgstr "마카오, 파타가"
 
-#: src/formats.c:485
+#: src/formats.c:487
 msgid "Mauritania, Ouguiyas"
 msgstr "모리타니, 우기야"
 
-#: src/formats.c:486
+#: src/formats.c:488
 msgid "Malta, Liri"
 msgstr "몰타, 리라"
 
-#: src/formats.c:487
+#: src/formats.c:489
 msgid "Mauritius, Rupees"
 msgstr "모리셔스, 루피"
 
-#: src/formats.c:488
+#: src/formats.c:490
 msgid "Maldives (Maldive Islands), Rufiyaa"
 msgstr "몰디브 (몰디브 섬), 루피아"
 
-#: src/formats.c:489
+#: src/formats.c:491
 msgid "Malawi, Kwachas"
 msgstr "말라위, 과쳐"
 
-#: src/formats.c:490
+#: src/formats.c:492
 msgid "Mexico, Pesos"
 msgstr "멕시코, 페소"
 
-#: src/formats.c:491
+#: src/formats.c:493
 msgid "Malaysia, Ringgits"
 msgstr "말레이시아, 링기트"
 
-#: src/formats.c:492
+#: src/formats.c:494
 #, fuzzy
 msgid "Mozambique, Meticais"
 msgstr "모잠비크, "
 
-#: src/formats.c:493
+#: src/formats.c:495
 msgid "Namibia, Dollars"
 msgstr "나미비아, 달러"
 
-#: src/formats.c:494
+#: src/formats.c:496
 msgid "Nigeria, Nairas"
 msgstr "나이지리아, 나이라"
 
-#: src/formats.c:495
+#: src/formats.c:497
 #, fuzzy
 msgid "Nicaragua, Gold Cordobas"
 msgstr "니카라과, "
 
-#: src/formats.c:496
+#: src/formats.c:498
 msgid "Norway, Krone"
 msgstr "노르웨이, 크로네"
 
-#: src/formats.c:497
+#: src/formats.c:499
 msgid "Nepal, Nepal Rupees"
 msgstr "네팔, 네팔 루피"
 
-#: src/formats.c:498
+#: src/formats.c:500
 msgid "New Zealand, Dollars"
 msgstr "뉴질랜드, 달러"
 
-#: src/formats.c:499
+#: src/formats.c:501
 msgid "Oman, Rials"
 msgstr "오만, 리얄"
 
-#: src/formats.c:500
+#: src/formats.c:502
 msgid "Panama, Balboa"
 msgstr "바나마, 발보아"
 
-#: src/formats.c:501
+#: src/formats.c:503
 msgid "Peru, Nuevos Soles"
 msgstr "페루, 누에보솔"
 
-#: src/formats.c:502
+#: src/formats.c:504
 msgid "Papua New Guinea, Kina"
 msgstr "파푸아 뉴기니, 키나"
 
-#: src/formats.c:503
+#: src/formats.c:505
 msgid "Philippines, Pesos"
 msgstr "필리핀, 페소"
 
-#: src/formats.c:504
+#: src/formats.c:506
 msgid "Pakistan, Rupees"
 msgstr "파키스탄, 루피"
 
-#: src/formats.c:505
+#: src/formats.c:507
 #, fuzzy
 msgid "Poland, Zlotys"
 msgstr "폴란드, "
 
-#: src/formats.c:506
+#: src/formats.c:508
 msgid "Paraguay, Guarani"
 msgstr "파라과이, 구아라니"
 
-#: src/formats.c:507
+#: src/formats.c:509
 msgid "Qatar, Rials"
 msgstr "카타르, 리얄"
 
-#: src/formats.c:508
+#: src/formats.c:510
 msgid "Romania, Lei"
 msgstr "루마니아, 레우"
 
-#: src/formats.c:509
+#: src/formats.c:511
 msgid "Russia, Rubles"
 msgstr "러시아, 루블"
 
-#: src/formats.c:510
+#: src/formats.c:512
 msgid "Rwanda, Rwanda Francs"
 msgstr "르완다, 르완다 프랑크"
 
-#: src/formats.c:511
+#: src/formats.c:513
 msgid "Saudi Arabia, Riyals"
 msgstr "사우디 아라비아, 리얄"
 
-#: src/formats.c:512
+#: src/formats.c:514
 msgid "Solomon Islands, Dollars"
 msgstr "솔로몬 제도, 달러"
 
-#: src/formats.c:513
+#: src/formats.c:515
 #, fuzzy
 msgid "Seychelles, Rupees"
 msgstr "세이첼스, 루피"
 
-#: src/formats.c:514
+#: src/formats.c:516
 msgid "Sudan, Dinars"
 msgstr "수단, 디나르"
 
-#: src/formats.c:515
+#: src/formats.c:517
 msgid "Sweden, Kronor"
 msgstr "스웨덴, 크로나"
 
-#: src/formats.c:516
+#: src/formats.c:518
 msgid "Singapore, Dollars"
 msgstr "싱가폴, 달러"
 
-#: src/formats.c:517
+#: src/formats.c:519
 msgid "Saint Helena, Pounds"
 msgstr "세인트 헬레나, 파운드"
 
-#: src/formats.c:518
+#: src/formats.c:520
 msgid "Slovenia, Tolars"
 msgstr "슬로베니아, 토라르"
 
-#: src/formats.c:519
+#: src/formats.c:521
 msgid "Slovakia, Koruny"
 msgstr "슬로바키아, 코루나"
 
-#: src/formats.c:520
+#: src/formats.c:522
 msgid "Sierra Leone, Leones"
 msgstr "시에라리온, 리온"
 
-#: src/formats.c:521
+#: src/formats.c:523
 msgid "Somalia, Shillings"
 msgstr "소말리아, 실링"
 
-#: src/formats.c:522
+#: src/formats.c:524
 msgid "Seborga, Luigini"
 msgstr ""
 
-#: src/formats.c:523
+#: src/formats.c:525
 msgid "Suriname, Guilders"
 msgstr "수리남, 길더"
 
-#: src/formats.c:524
+#: src/formats.c:526
 msgid "Sao Tome and Principe, Dobras"
 msgstr "상투메프린시페, 도브라"
 
-#: src/formats.c:525
+#: src/formats.c:527
 msgid "El Salvador, Colones"
 msgstr "엘살바도르, 콜론"
 
-#: src/formats.c:526
+#: src/formats.c:528
 msgid "Syria, Pounds"
 msgstr "시리아, 파운드"
 
-#: src/formats.c:527
+#: src/formats.c:529
 msgid "Swaziland, Emalangeni"
 msgstr "스와질랜드, 리랑기니"
 
-#: src/formats.c:528
+#: src/formats.c:530
 msgid "Thailand, Baht"
 msgstr "타이, 바트"
 
-#: src/formats.c:529
+#: src/formats.c:531
 msgid "Tajikistan, Rubles"
 msgstr "타지키스탄, 루블"
 
-#: src/formats.c:530
+#: src/formats.c:532
 msgid "Turkmenistan, Manats"
 msgstr "투르크메니스탄, 마나트"
 
-#: src/formats.c:531
+#: src/formats.c:533
 msgid "Tunisia, Dinars"
 msgstr "튀니지, 디나르"
 
-#: src/formats.c:532
+#: src/formats.c:534
 msgid "Tonga, Pa'anga"
 msgstr "통가, 파앙가"
 
-#: src/formats.c:533
+#: src/formats.c:535
 msgid "Turkey, Liras"
 msgstr "터키, 리라"
 
-#: src/formats.c:534
+#: src/formats.c:536
 msgid "Trinidad and Tobago, Dollars"
 msgstr "트리니나드토바고, 달러"
 
-#: src/formats.c:535
+#: src/formats.c:537
 msgid "Tuvalu, Tuvalu Dollars"
 msgstr "투발루, 투발루 달러"
 
-#: src/formats.c:536
+#: src/formats.c:538
 msgid "Taiwan, New Dollars"
 msgstr "대만, 대만 달러"
 
-#: src/formats.c:537
+#: src/formats.c:539
 msgid "Tanzania, Shillings"
 msgstr "탄자니아, 실링"
 
-#: src/formats.c:538
+#: src/formats.c:540
 msgid "Ukraine, Hryvnia"
 msgstr "우크라니아, 린비아"
 
-#: src/formats.c:539
+#: src/formats.c:541
 msgid "Uganda, Shillings"
 msgstr "우간다, 실링"
 
-#: src/formats.c:540
+#: src/formats.c:542
 msgid "United States of America, Dollars"
 msgstr "미국, 달러"
 
-#: src/formats.c:541
+#: src/formats.c:543
 msgid "Uruguay, Pesos"
 msgstr "우루과이, 페소"
 
-#: src/formats.c:542
+#: src/formats.c:544
 #, fuzzy
 msgid "Uzbekistan, Sums"
 msgstr "우즈베키스탄, "
 
-#: src/formats.c:543
+#: src/formats.c:545
 msgid "Venezuela, Bolivares"
 msgstr "베네수엘라, 볼리바"
 
-#: src/formats.c:544
+#: src/formats.c:546
 msgid "Viet Nam, Dong"
 msgstr "베트남, 동"
 
-#: src/formats.c:545
+#: src/formats.c:547
 msgid "Vanuatu, Vatu"
 msgstr "바투아누, 바투"
 
-#: src/formats.c:546
+#: src/formats.c:548
 #, fuzzy
 msgid "Samoa, Tala"
 msgstr "사모아, "
 
-#: src/formats.c:547
+#: src/formats.c:549
 msgid "Communaute Financiere Africaine BEAC, Francs"
 msgstr ""
 
-#: src/formats.c:548
+#: src/formats.c:550
 msgid "Silver, Ounces"
 msgstr "은화, 온스"
 
-#: src/formats.c:549
+#: src/formats.c:551
 msgid "Gold, Ounces"
 msgstr "금화, 온스"
 
-#: src/formats.c:550
+#: src/formats.c:552
 msgid "East Caribbean Dollars"
 msgstr "동캐리비안 달러"
 
-#: src/formats.c:551
+#: src/formats.c:553
 msgid "International Monetary Fund (IMF) Special Drawing Rights"
 msgstr "국제 통화 기금 (IMF) 특수 발행권"
 
-#: src/formats.c:552
+#: src/formats.c:554
 msgid "Communaute Financiere Africaine BCEAO, Francs"
 msgstr ""
 
-#: src/formats.c:553
+#: src/formats.c:555
 #, fuzzy
 msgid "Palladium, Ounces"
 msgstr "팔라듐 온스"
 
-#: src/formats.c:554
+#: src/formats.c:556
 msgid "Comptoirs Francais du Pacifique Francs"
 msgstr ""
 
-#: src/formats.c:555
+#: src/formats.c:557
 msgid "Platinum, Ounces"
 msgstr "백금화, 온스"
 
-#: src/formats.c:556
+#: src/formats.c:558
 msgid "Yemen, Rials"
 msgstr "예멘, 리얄"
 
-#: src/formats.c:557
+#: src/formats.c:559
 msgid "Yugoslavia, New Dinars"
 msgstr "유고슬라비아, 뉴 디나르"
 
-#: src/formats.c:558
+#: src/formats.c:560
 msgid "South Africa, Rand"
 msgstr "남아프리카 공화국, 랜드"
 
-#: src/formats.c:559
+#: src/formats.c:561
 msgid "Zambia, Kwacha"
 msgstr "잠비아, 과쳐"
 
-#: src/formats.c:560
+#: src/formats.c:562
 msgid "Zimbabwe, Zimbabwe Dollars"
 msgstr "짐바브웨, 짐바브웨 달러"
 
@@ -21702,12 +21707,12 @@ msgstr "%s 파일을 생성할 수 없습니다\n"
 msgid "Unable to open '%s'"
 msgstr "파일 '%s'를 열 수 없습니다"
 
-#: src/item-bar.c:740
+#: src/item-bar.c:746
 #, fuzzy, c-format
 msgid "Width: %.2f pts (%d pixels)"
 msgstr "너비: %.2f 포인트 (%d 픽셀)"
 
-#: src/item-bar.c:743
+#: src/item-bar.c:749
 #, fuzzy, c-format
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "높이: %.2f (%d 픽셀)"
@@ -22299,29 +22304,29 @@ msgstr "&[DATE]"
 msgid "File Name"
 msgstr "새 이름"
 
-#: src/print-info.c:564
+#: src/print-info.c:561
 #, fuzzy
 msgid "Path "
 msgstr "붙여 넣기"
 
-#: src/print-info.c:572
+#: src/print-info.c:569
 msgid "tab"
 msgstr "탭"
 
-#: src/print-info.c:573
+#: src/print-info.c:570
 msgid "page"
 msgstr "페이지"
 
-#: src/print-info.c:574
+#: src/print-info.c:571
 msgid "pages"
 msgstr "페이지"
 
-#: src/print-info.c:577
+#: src/print-info.c:574
 #, fuzzy
 msgid "file"
 msgstr "파일/"
 
-#: src/print-info.c:578
+#: src/print-info.c:575
 msgid "path"
 msgstr ""
 
@@ -22536,16 +22541,16 @@ msgstr ""
 msgid "_Save as image"
 msgstr "전체 열 선택"
 
-#: src/sheet-object-graphic.c:944 src/sheet-object-graphic.c:963
+#: src/sheet-object-graphic.c:951 src/sheet-object-graphic.c:970
 msgid "Transparent"
 msgstr "투명"
 
-#: src/sheet-object-widget.c:1143
+#: src/sheet-object-widget.c:1140
 #, fuzzy, c-format
 msgid "CheckBox %d"
 msgstr "체크상자"
 
-#: src/sheet-object-widget.c:1576 src/workbook-object-toolbar.c:164
+#: src/sheet-object-widget.c:1554 src/workbook-object-toolbar.c:164
 msgid "RadioButton"
 msgstr "라디오단추"
 
@@ -22558,23 +22563,23 @@ msgid ""
 "name.  Expect weirdness."
 msgstr ""
 
-#: src/sheet.c:1961
+#: src/sheet.c:1962
 msgid "Target region contains merged cells"
 msgstr ""
 
-#: src/sheet.c:2023
+#: src/sheet.c:2024
 msgid "cannot operate on merged cells"
 msgstr ""
 
-#: src/sheet.c:2033
+#: src/sheet.c:2034
 msgid "cannot operate on array formulae"
 msgstr ""
 
-#: src/sheet.c:3125
+#: src/sheet.c:3126
 msgid "Insert Columns"
 msgstr "열 삽입"
 
-#: src/sheet.c:3243
+#: src/sheet.c:3244
 msgid "Insert Rows"
 msgstr "행 삽입"
 
@@ -22619,21 +22624,21 @@ msgstr ""
 msgid "Error while trying to write csv file"
 msgstr "csv 파엘에 쓰는 중 에러"
 
-#: src/stf.c:458
+#: src/stf.c:471
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr ""
 
-#: src/stf.c:462
+#: src/stf.c:475
 #, fuzzy
 msgid "Text import (configurable)"
 msgstr "텍스트 파일 읽어들이기"
 
-#: src/stf.c:466
+#: src/stf.c:479
 #, fuzzy
 msgid "Text export (configurable)"
 msgstr "텍스트 파일 읽어들이기"
 
-#: src/stf.c:470
+#: src/stf.c:483
 msgid "Comma separated values (CSV)"
 msgstr ""
 
@@ -24315,36 +24320,36 @@ msgstr ""
 msgid "Bold italic"
 msgstr "굵고 기울임"
 
-#: src/widgets/widget-format-selector.c:77
+#: src/widgets/widget-format-selector.c:78
 msgid "Currency"
 msgstr "통화"
 
-#: src/widgets/widget-format-selector.c:78
+#: src/widgets/widget-format-selector.c:79
 #, fuzzy
 msgid "Accounting"
 msgstr "화폐(_A)"
 
-#: src/widgets/widget-format-selector.c:82
+#: src/widgets/widget-format-selector.c:83
 #, fuzzy
 msgid "Fraction"
 msgstr "분수(_F)"
 
-#: src/widgets/widget-format-selector.c:83
+#: src/widgets/widget-format-selector.c:84
 #, fuzzy
 msgid "Scientific"
 msgstr "과학(_S)"
 
-#: src/widgets/widget-format-selector.c:85
+#: src/widgets/widget-format-selector.c:86
 #, fuzzy
 msgid "Special"
 msgstr "특별한 기능(_P)"
 
-#: src/widgets/widget-format-selector.c:955
+#: src/widgets/widget-format-selector.c:960
 #, fuzzy
 msgid "Negative Number Format"
 msgstr "음수(_i):"
 
-#: src/widgets/widget-format-selector.c:986
+#: src/widgets/widget-format-selector.c:991
 #, fuzzy
 msgid "Number Formats"
 msgstr "형식 복사"
@@ -25423,25 +25428,25 @@ msgstr ""
 #. * This should be quite rare.  To provoke, use
 #. * gnumeric `echo -e '\377\376'`
 #.
-#: src/workbook-view.c:608 src/workbook-view.c:964
+#: src/workbook-view.c:608 src/workbook-view.c:960
 #, fuzzy
 msgid "The filename given is not valid in the current encoding."
 msgstr "찾을 범위가 적절하지 않습니다."
 
-#: src/workbook-view.c:693 src/workbook-view.c:806
+#: src/workbook-view.c:693 src/workbook-view.c:802
 msgid "Default file saver is not available."
 msgstr ""
 
-#: src/workbook-view.c:765
+#: src/workbook-view.c:762
 #, fuzzy
 msgid "Failed to create temporary file for sending."
 msgstr "%s 파일을 생성할 수 없습니다\n"
 
-#: src/workbook-view.c:899
+#: src/workbook-view.c:895
 msgid "Unsupported file format."
 msgstr "지원하지 않는 파일 형식."
 
-#: src/workbook-view.c:957
+#: src/workbook-view.c:953
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr ""

@@ -1,3 +1,7 @@
+2004-03-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.7
+
 2004-03-13  Jean Brefort  <jean.brefort@ac-dijon.fr>
 
 	* ms-chart.c: (scatter): import bubble plots options.

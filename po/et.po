@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.1.20CVS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-05 08:44-0500\n"
+"POT-Creation-Date: 2004-03-15 21:08-0500\n"
 "PO-Revision-Date: 2003-06-28 23:32+0200\n"
 "Last-Translator: Priit Laes <amd@tt.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
@@ -714,7 +714,7 @@ msgstr "Rahanduslikud tuletused"
 msgid "Functions related to financial derivatives"
 msgstr "Funktsioonid seotud rahanduslike tuletustega"
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5407
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5517
 #: plugins/mps/mps.c:549 src/xml-io.c:4136
 msgid "Reading file..."
 msgstr "Faili lugemine..."
@@ -811,40 +811,40 @@ msgstr "Ootamatu tunnus %s::%s == '%s'."
 msgid "XML document not well formed!"
 msgstr "XML dokument on halvasti moodustatud!"
 
-#: plugins/excel/ms-excel-read.c:1008 src/value.c:60
+#: plugins/excel/ms-excel-read.c:1043 src/value.c:60
 msgid "#UNKNOWN!"
 msgstr "#TUNDMATU!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1099 plugins/excel/ms-excel-read.c:1110
+#: plugins/excel/ms-excel-read.c:1134 plugins/excel/ms-excel-read.c:1145
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:515
 #: src/dialogs/dialog-sheet-order.c:440 src/dialogs/dialog-sheet-order.c:444
 #, c-format
 msgid "Sheet%d"
 msgstr "Leht%d"
 
-#: plugins/excel/ms-excel-read.c:1113
+#: plugins/excel/ms-excel-read.c:1148
 #, c-format
 msgid "Macro%d"
 msgstr "Makro%d"
 
-#: plugins/excel/ms-excel-read.c:1116
+#: plugins/excel/ms-excel-read.c:1151
 #, c-format
 msgid "Chart%d"
 msgstr "Diagramm%d"
 
-#: plugins/excel/ms-excel-read.c:1119
+#: plugins/excel/ms-excel-read.c:1154
 #, c-format
 msgid "Module%d"
 msgstr "Moodul%d"
 
-#: plugins/excel/ms-excel-read.c:2841
+#: plugins/excel/ms-excel-read.c:2951
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Viga nime '%s' analüüsimisel"
 
-#: plugins/excel/ms-excel-read.c:2897
+#: plugins/excel/ms-excel-read.c:3007
 #, fuzzy, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -853,7 +853,7 @@ msgstr ""
 "DDE lülid ei ole toetatud.\n"
 "Nimi '%s' kaotatakse.\n"
 
-#: plugins/excel/ms-excel-read.c:2903
+#: plugins/excel/ms-excel-read.c:3013
 #, fuzzy, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -862,15 +862,15 @@ msgstr ""
 "OLE lülid ei ole toetatud.\n"
 "Nimi '%s' kaotatakse.\n"
 
-#: plugins/excel/ms-excel-read.c:4767
+#: plugins/excel/ms-excel-read.c:4877
 msgid "external references"
 msgstr "välised viited"
 
-#: plugins/excel/ms-excel-read.c:4792
+#: plugins/excel/ms-excel-read.c:4902
 msgid "No password supplied"
 msgstr "Parooli pole pakutud"
 
-#: plugins/excel/ms-excel-read.c:5640
+#: plugins/excel/ms-excel-read.c:5750
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Ei suuda leida sobivat MS Exceli raamatut"
 
@@ -3480,7 +3480,7 @@ msgstr ""
 #: plugins/fn-date/functions.c:1281 plugins/fn-date/functions.c:1285
 #: plugins/fn-date/functions.c:1293 plugins/fn-date/functions.c:1297
 #: plugins/fn-date/functions.c:1310 plugins/fn-date/functions.c:1314
-#: src/print-info.c:575
+#: src/print-info.c:572
 msgid "date"
 msgstr "kuupäev"
 
@@ -3497,7 +3497,7 @@ msgid "start_date,months"
 msgstr ""
 
 #: plugins/fn-date/functions.c:1245 plugins/fn-date/functions.c:1249
-#: plugins/fn-date/functions.c:1265 src/print-info.c:576
+#: plugins/fn-date/functions.c:1265 src/print-info.c:573
 msgid "time"
 msgstr "aeg"
 
@@ -16606,7 +16606,7 @@ msgstr "Rasvane"
 msgid "Borders"
 msgstr "Piirded"
 
-#: src/GNOME_Gnumeric.xml.h:19 src/sheet-object-widget.c:424
+#: src/GNOME_Gnumeric.xml.h:19 src/sheet-object-widget.c:439
 #: src/workbook-object-toolbar.c:155
 msgid "Button"
 msgstr "Nupp"
@@ -16987,7 +16987,7 @@ msgstr "Vorminda ala lahtrid vastavalt etteantud mallile"
 msgid "Fourier Analysis"
 msgstr "Fourier' analüüs"
 
-#: src/GNOME_Gnumeric.xml.h:103 src/sheet-object-widget.c:197
+#: src/GNOME_Gnumeric.xml.h:103 src/sheet-object-widget.c:214
 #: src/workbook-object-toolbar.c:150
 msgid "Frame"
 msgstr "Raam"
@@ -17162,7 +17162,7 @@ msgstr "Hüppa määratud lahtrisse"
 
 #: src/GNOME_Gnumeric.xml.h:142
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:733
-#: src/sheet-object-graphic.c:1442 src/workbook-object-toolbar.c:147
+#: src/sheet-object-graphic.c:1451 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Pealdis"
 
@@ -18284,11 +18284,11 @@ msgstr "Kirjutan \"%s%s\" %s -sse"
 msgid "Typing \"%s%s\""
 msgstr "Kirjutan \"%s%s\""
 
-#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3184
+#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3185
 msgid "Delete Columns"
 msgstr "Kustuta veerud"
 
-#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3302
+#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3303
 msgid "Delete Rows"
 msgstr "Kustuta read"
 
@@ -18333,7 +18333,7 @@ msgid "Deleting row %s"
 msgstr "Kustutatakse rida %s"
 
 #. Check for locked cells
-#: src/commands.c:1504 src/commands.c:1508 src/sheet.c:2798
+#: src/commands.c:1504 src/commands.c:1508 src/sheet.c:2799
 msgid "Clear"
 msgstr "Puhasta"
 
@@ -18398,10 +18398,15 @@ msgstr "Veeru %s laius määratakse %d pikselit"
 msgid "Setting height of row %s to default"
 msgstr "Rea %s kõrgus määratakse %d pikselit"
 
-#: src/commands.c:1935 src/commands.c:1936
+#: src/commands.c:1935
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Veergude %s automaatsobitamine"
+
+#: src/commands.c:1936
+#, fuzzy, c-format
+msgid "Autofitting rows %s"
+msgstr "Rea %s automaatsobitamine"
 
 #: src/commands.c:1939
 #, c-format
@@ -18884,20 +18889,20 @@ msgstr ""
 msgid "Plot"
 msgstr "_Trüki"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:247
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
 msgid "H"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:247
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
 #, fuzzy
 msgid "Height"
 msgstr "_Kõrgus..."
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:250
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:252
 msgid "W"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:250
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:252
 #, fuzzy
 msgid "Width"
 msgstr "_Sellega:"
@@ -19203,26 +19208,26 @@ msgstr "_Stiil"
 
 #. TODO : have a look at apple's themes
 #. An MS Excel-ish theme
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:382
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:400
 #: src/dialogs/dialog-sheet-order.c:957 src/dialogs/dialog-sheet-order.c:970
 #, fuzzy
 msgid "Default"
 msgstr "Kustuta"
 
 #. Guppi
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:437
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:455
 #, fuzzy
 msgid "Guppi"
 msgstr "Grupeeri"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:304
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:193
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:195
 #: src/dialogs/consolidate.glade.h:12
 msgid "Labels"
 msgstr "Pealdised"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:306
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:195
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:197
 #: src/dialogs/consolidate.glade.h:27
 msgid "Values"
 msgstr "Väärtused"
@@ -19551,7 +19556,7 @@ msgstr "_Kustuta"
 msgid "PlotPie"
 msgstr "_Trüki"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:266
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:268
 #, fuzzy
 msgid "PlotRing"
 msgstr "Eimiski"
@@ -19661,27 +19666,27 @@ msgstr ""
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:260
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:262
 #, fuzzy
 msgid "PlotXY"
 msgstr "_Trüki"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:320
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:369
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:322
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:467
 msgid "X"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:322
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:371
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:324
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:469
 msgid "Y"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:353
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:355
 #, fuzzy
 msgid "PlotBubble"
 msgstr "Topelt"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:373
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:471
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:1
 #, fuzzy
 msgid "Bubble"
@@ -20361,8 +20366,8 @@ msgstr "_Esimene täht"
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:663
-#: src/format.c:2184 src/format.c:2313 src/format.c:2319 src/format.c:2395
-#: src/plugin-service.c:200 src/widgets/widget-format-selector.c:75
+#: src/format.c:2188 src/format.c:2317 src/format.c:2323 src/format.c:2399
+#: src/plugin-service.c:200 src/widgets/widget-format-selector.c:76
 msgid "General"
 msgstr "Üldine"
 
@@ -20475,7 +20480,7 @@ msgid "Items"
 msgstr "Elemendid"
 
 #: src/dialogs/autofilter-top10.glade.h:4
-#: src/widgets/widget-format-selector.c:81
+#: src/widgets/widget-format-selector.c:82
 #, fuzzy
 msgid "Percentage"
 msgstr "_Protsent"
@@ -20709,11 +20714,11 @@ msgid "Con_dition:"
 msgstr "Seisund :"
 
 #: src/dialogs/cell-format.glade.h:38 src/dialogs/dialog-stf-export.glade.h:17
-#: src/widgets/widget-format-selector.c:86
+#: src/widgets/widget-format-selector.c:87
 msgid "Custom"
 msgstr "Kohandatud"
 
-#: src/dialogs/cell-format.glade.h:39 src/widgets/widget-format-selector.c:79
+#: src/dialogs/cell-format.glade.h:39 src/widgets/widget-format-selector.c:80
 msgid "Date"
 msgstr "Kuupäev"
 
@@ -20839,7 +20844,7 @@ msgstr "Üleval"
 msgid "Text length"
 msgstr "Teksti pikkus"
 
-#: src/dialogs/cell-format.glade.h:87 src/widgets/widget-format-selector.c:80
+#: src/dialogs/cell-format.glade.h:87 src/widgets/widget-format-selector.c:81
 msgid "Time"
 msgstr "Aeg"
 
@@ -21669,12 +21674,12 @@ msgid "Double"
 msgstr "Topelt"
 
 #: src/dialogs/dialog-cell-format.c:467 src/dialogs/dialog-search.c:147
-#: src/func.c:671 src/widgets/widget-format-selector.c:76
+#: src/func.c:671 src/widgets/widget-format-selector.c:77
 msgid "Number"
 msgstr "Arv"
 
 #: src/dialogs/dialog-cell-format.c:668 src/dialogs/dialog-stf-main-page.c:381
-#: src/widgets/widget-format-selector.c:84
+#: src/widgets/widget-format-selector.c:85
 #, fuzzy
 msgid "Text"
 msgstr "Te_kst"
@@ -25371,42 +25376,42 @@ msgstr "TRUE"
 msgid "FALSE"
 msgstr "FALSE"
 
-#: src/format.c:652
+#: src/format.c:656
 msgid "Black"
 msgstr "must"
 
-#: src/format.c:653
+#: src/format.c:657
 msgid "Blue"
 msgstr "sinine"
 
-#: src/format.c:654
+#: src/format.c:658
 #, fuzzy
 msgid "Cyan"
 msgstr "tsüaan"
 
-#: src/format.c:655
+#: src/format.c:659
 msgid "Green"
 msgstr "roheline"
 
-#: src/format.c:656
+#: src/format.c:660
 #, fuzzy
 msgid "Magenta"
 msgstr "lilla"
 
-#: src/format.c:657
+#: src/format.c:661
 msgid "Red"
 msgstr "punane"
 
-#: src/format.c:658
+#: src/format.c:662
 msgid "White"
 msgstr "valge"
 
-#: src/format.c:659
+#: src/format.c:663
 msgid "Yellow"
 msgstr "kollane"
 
 #. Array of arrays ??
-#: src/format.c:2076
+#: src/format.c:2080
 msgid "ARRAY"
 msgstr "MASSIIV"
 
@@ -25415,768 +25420,768 @@ msgstr "MASSIIV"
 #. * The second column has the long names of the currencies.
 #.
 #. 2002/08/04 Updated to match iso 4217
-#: src/formats.c:389
+#: src/formats.c:391
 #, fuzzy
 msgid "United Arab Emirates, Dirhams"
 msgstr "Araabia Ühendemiraadid, dirhamid"
 
-#: src/formats.c:390
+#: src/formats.c:392
 #, fuzzy
 msgid "Afghanistan, Afghanis"
 msgstr "Afganistan, afgaanid"
 
-#: src/formats.c:391
+#: src/formats.c:393
 #, fuzzy
 msgid "Albania, Leke"
 msgstr "Albaania, lekid"
 
-#: src/formats.c:392
+#: src/formats.c:394
 #, fuzzy
 msgid "Armenia, Drams"
 msgstr "Armeenia, dramid"
 
-#: src/formats.c:393
+#: src/formats.c:395
 msgid "Netherlands Antilles, Guilders"
 msgstr "Hollandi Antillid, guldenid"
 
-#: src/formats.c:394
+#: src/formats.c:396
 #, fuzzy
 msgid "Angola, Kwanza"
 msgstr "Angola, uuskwanzad"
 
-#: src/formats.c:395
+#: src/formats.c:397
 msgid "Argentina, Pesos"
 msgstr "Argentiina, peesod"
 
-#: src/formats.c:396
+#: src/formats.c:398
 msgid "Australia, Dollars"
 msgstr "Austraalia, dollarid"
 
-#: src/formats.c:397
+#: src/formats.c:399
 msgid "Aruba, Guilders"
 msgstr "Aruba, guldenid"
 
-#: src/formats.c:398
+#: src/formats.c:400
 #, fuzzy
 msgid "Azerbaijan, Manats"
 msgstr "Aserbaidæaan, manatid"
 
-#: src/formats.c:399
+#: src/formats.c:401
 #, fuzzy
 msgid "Bosnia and Herzegovina, Convertible Marka"
 msgstr "Bosnia ja Hertsegoviina, markad"
 
-#: src/formats.c:400
+#: src/formats.c:402
 msgid "Barbados, Dollars"
 msgstr "Barbados, dollarid"
 
-#: src/formats.c:401
+#: src/formats.c:403
 #, fuzzy
 msgid "Bangladesh, Taka"
 msgstr "Bangladesh, takad"
 
-#: src/formats.c:402
+#: src/formats.c:404
 msgid "Bulgaria, Leva"
 msgstr "Bulgaaria, levid"
 
-#: src/formats.c:403
+#: src/formats.c:405
 msgid "Bahrain, Dinars"
 msgstr "Bahrein, dinaarid"
 
-#: src/formats.c:404
+#: src/formats.c:406
 msgid "Burundi, Francs"
 msgstr "Burundi, frangid"
 
-#: src/formats.c:405
+#: src/formats.c:407
 msgid "Bermuda, Dollars"
 msgstr "Bermuuda, dollarid"
 
-#: src/formats.c:406
+#: src/formats.c:408
 msgid "Brunei Darussalam, Dollars"
 msgstr "Brunei, dollarid"
 
-#: src/formats.c:407
+#: src/formats.c:409
 msgid "Bolivia, Bolivianos"
 msgstr "Boliivia, bolivianod"
 
-#: src/formats.c:408
+#: src/formats.c:410
 #, fuzzy
 msgid "Brazil, Brazil Real"
 msgstr "Brasiilia, brasiilia reaalid"
 
-#: src/formats.c:409
+#: src/formats.c:411
 msgid "Bahamas, Dollars"
 msgstr "Bahama, dollarid"
 
-#: src/formats.c:410
+#: src/formats.c:412
 msgid "Bhutan, Ngultrum"
 msgstr "Bhutan, ngultrumid"
 
-#: src/formats.c:411
+#: src/formats.c:413
 #, fuzzy
 msgid "Botswana, Pulas"
 msgstr "Botswana, pulad"
 
-#: src/formats.c:412
+#: src/formats.c:414
 msgid "Belarus, Rubles"
 msgstr "Valgevene, rublad"
 
-#: src/formats.c:413
+#: src/formats.c:415
 msgid "Belize, Dollars"
 msgstr "Belize, dollarid"
 
-#: src/formats.c:414
+#: src/formats.c:416
 msgid "Canada, Dollars"
 msgstr "Kanada, dollarid"
 
-#: src/formats.c:415
+#: src/formats.c:417
 #, fuzzy
 msgid "Congo/Kinshasa, Congolese Francs"
 msgstr "Kongo, kongo frangid"
 
-#: src/formats.c:416
+#: src/formats.c:418
 #, fuzzy
 msgid "Switzerland, Francs"
 msgstr "Sveits, frangid"
 
-#: src/formats.c:417
+#: src/formats.c:419
 #, fuzzy
 msgid "Chile, Pesos"
 msgstr "Tsiili, peesod"
 
-#: src/formats.c:418
+#: src/formats.c:420
 #, fuzzy
 msgid "China, Yuan Renminbi"
 msgstr "Hiina, hüaanid"
 
-#: src/formats.c:419
+#: src/formats.c:421
 msgid "Colombia, Pesos"
 msgstr "Kolumbia, peesod"
 
-#: src/formats.c:420
+#: src/formats.c:422
 #, fuzzy
 msgid "Costa Rica, Colones"
 msgstr "Costa Rica, kolonid"
 
-#: src/formats.c:421
+#: src/formats.c:423
 msgid "Cuba, Pesos"
 msgstr "Kuuba, peesod"
 
-#: src/formats.c:422
+#: src/formats.c:424
 msgid "Cape Verde, Escudos"
 msgstr "Roheneemesaared, eskuudod"
 
-#: src/formats.c:423
+#: src/formats.c:425
 msgid "Cyprus, Pounds"
 msgstr "Küpros, naelad"
 
-#: src/formats.c:424
+#: src/formats.c:426
 #, fuzzy
 msgid "Czech Republic, Koruny"
 msgstr "Tshehhi, kroonid"
 
-#: src/formats.c:425
+#: src/formats.c:427
 #, fuzzy
 msgid "Djibouti, Francs"
 msgstr "Djibouti, frangid"
 
-#: src/formats.c:426
+#: src/formats.c:428
 msgid "Denmark, Kroner"
 msgstr "Taani, kroonid"
 
-#: src/formats.c:427
+#: src/formats.c:429
 msgid "Dominican Republic, Pesos"
 msgstr "Dominikaani vabariik, peesod"
 
-#: src/formats.c:428
+#: src/formats.c:430
 #, fuzzy
 msgid "Algeria, Algeria Dinars"
 msgstr "Alzheeria, dinaarid"
 
-#: src/formats.c:429
+#: src/formats.c:431
 msgid "Estonia, Krooni"
 msgstr "Eesti, kroonid"
 
-#: src/formats.c:430
+#: src/formats.c:432
 msgid "Egypt, Pounds"
 msgstr "Egiptus, naelad"
 
-#: src/formats.c:431
+#: src/formats.c:433
 #, fuzzy
 msgid "Eritrea, Nakfa"
 msgstr "Eritrea, nakfad"
 
-#: src/formats.c:432
+#: src/formats.c:434
 #, fuzzy
 msgid "Ethiopia, Birr"
 msgstr "Etioopia, birrid"
 
-#: src/formats.c:433
+#: src/formats.c:435
 #, fuzzy
 msgid "Euro Member Countries, Euro"
 msgstr "Euroliidu liikmesmaad, eurod"
 
-#: src/formats.c:434
+#: src/formats.c:436
 #, fuzzy
 msgid "Fiji, Dollars"
 msgstr "Fidzi, dollarid"
 
-#: src/formats.c:435
+#: src/formats.c:437
 msgid "Falkland Islands (Malvinas), Pounds"
 msgstr "Falklandi Saared, naelad"
 
-#: src/formats.c:436
+#: src/formats.c:438
 msgid "United Kingdom, Pounds"
 msgstr "Ühendatud Kuningriik, naelad"
 
-#: src/formats.c:437
+#: src/formats.c:439
 #, fuzzy
 msgid "Georgia, Lari"
 msgstr "Gruusia, larid"
 
-#: src/formats.c:438
+#: src/formats.c:440
 #, fuzzy
 msgid "Guernsey, Pounds"
 msgstr "Guernsey, naelad"
 
-#: src/formats.c:439
+#: src/formats.c:441
 #, fuzzy
 msgid "Ghana, Cedis"
 msgstr "Ghana, cedid"
 
-#: src/formats.c:440
+#: src/formats.c:442
 msgid "Gibraltar, Pounds"
 msgstr "Gibraltar, naelad"
 
-#: src/formats.c:441
+#: src/formats.c:443
 #, fuzzy
 msgid "Gambia, Dalasi"
 msgstr "Gambia, dalasid"
 
-#: src/formats.c:442
+#: src/formats.c:444
 msgid "Guinea, Francs"
 msgstr "Guinea, frangid"
 
-#: src/formats.c:443
+#: src/formats.c:445
 #, fuzzy
 msgid "Guatemala, Quetzales"
 msgstr "Guatemala, quetzalid"
 
-#: src/formats.c:444
+#: src/formats.c:446
 #, fuzzy
 msgid "Guyana, Dollars"
 msgstr "Guyana, dollarid"
 
-#: src/formats.c:445
+#: src/formats.c:447
 msgid "Hong Kong, Dollars"
 msgstr "Hongkong, dollarid"
 
-#: src/formats.c:446
+#: src/formats.c:448
 #, fuzzy
 msgid "Honduras, Lempiras"
 msgstr "Honduras, lempirad"
 
-#: src/formats.c:447
+#: src/formats.c:449
 #, fuzzy
 msgid "Croatia, Kuna"
 msgstr "Horvaatia, kunad"
 
-#: src/formats.c:448
+#: src/formats.c:450
 #, fuzzy
 msgid "Haiti, Gourdes"
 msgstr "Haiti, gourde'id"
 
-#: src/formats.c:449
+#: src/formats.c:451
 msgid "Hungary, Forint"
 msgstr "Ungari, forindid"
 
-#: src/formats.c:450
+#: src/formats.c:452
 msgid "Indonesia, Rupiahs"
 msgstr "Indoneesia, ruupiad"
 
-#: src/formats.c:451
+#: src/formats.c:453
 #, fuzzy
 msgid "Israel, New Shekels"
 msgstr "Iisrael, uusseeklid"
 
-#: src/formats.c:452
+#: src/formats.c:454
 msgid "Isle of Man, Pounds"
 msgstr "Mani saar, naelad"
 
-#: src/formats.c:453
+#: src/formats.c:455
 msgid "India, Rupees"
 msgstr "India, ruupiad"
 
-#: src/formats.c:454
+#: src/formats.c:456
 msgid "Iraq, Dinars"
 msgstr "Iraak, dinaarid"
 
-#: src/formats.c:455
+#: src/formats.c:457
 msgid "Iran, Rials"
 msgstr "Iraan, riaalid"
 
-#: src/formats.c:456
+#: src/formats.c:458
 msgid "Iceland, Kronur"
 msgstr "Island, kroonid"
 
-#: src/formats.c:457
+#: src/formats.c:459
 msgid "Jersey, Pounds"
 msgstr "Jersey, naelad"
 
-#: src/formats.c:458
+#: src/formats.c:460
 msgid "Jamaica, Dollars"
 msgstr "Jamaica, dollarid"
 
-#: src/formats.c:459
+#: src/formats.c:461
 msgid "Jordan, Dinars"
 msgstr "Jordaania, dinaarid"
 
-#: src/formats.c:460
+#: src/formats.c:462
 msgid "Japan, Yen"
 msgstr "Jaapan, jeenid"
 
-#: src/formats.c:461
+#: src/formats.c:463
 #, fuzzy
 msgid "Kenya, Shillings"
 msgstr "Keenia, shillingid"
 
-#: src/formats.c:462
+#: src/formats.c:464
 #, fuzzy
 msgid "Kyrgyzstan, Soms"
 msgstr "Kõrgõstan, somid"
 
-#: src/formats.c:463
+#: src/formats.c:465
 #, fuzzy
 msgid "Cambodia, Riels"
 msgstr "Kambodza, rieelid"
 
-#: src/formats.c:464
+#: src/formats.c:466
 #, fuzzy
 msgid "Comoros, Francs"
 msgstr "Komoorid, frangid"
 
-#: src/formats.c:465
+#: src/formats.c:467
 msgid "Korea (North), Won"
 msgstr "Põhja Korea, wonid"
 
-#: src/formats.c:466
+#: src/formats.c:468
 msgid "Korea (South), Won"
 msgstr "Lõuna Korea, wonid"
 
-#: src/formats.c:467
+#: src/formats.c:469
 msgid "Kuwait, Dinars"
 msgstr "Kuveit, dinaarid"
 
-#: src/formats.c:468
+#: src/formats.c:470
 msgid "Cayman Islands, Dollars"
 msgstr "Kaimani Saared, dollarid"
 
-#: src/formats.c:469
+#: src/formats.c:471
 #, fuzzy
 msgid "Kazakstan, Tenge"
 msgstr "Kasahstan, tenged"
 
-#: src/formats.c:470
+#: src/formats.c:472
 #, fuzzy
 msgid "Laos, Kips"
 msgstr "Laos, kipid"
 
-#: src/formats.c:471
+#: src/formats.c:473
 msgid "Lebanon, Pounds"
 msgstr "Liibanon, naelad"
 
-#: src/formats.c:472
+#: src/formats.c:474
 msgid "Sri Lanka, Rupees"
 msgstr "Sri Lanka, ruupiad"
 
-#: src/formats.c:473
+#: src/formats.c:475
 msgid "Liberia, Dollars"
 msgstr "Libeeria, dollar"
 
-#: src/formats.c:474
+#: src/formats.c:476
 #, fuzzy
 msgid "Lesotho, Maloti"
 msgstr "Lesotho, malotid"
 
-#: src/formats.c:475
+#: src/formats.c:477
 msgid "Lithuania, Litai"
 msgstr "Leedu, litid"
 
-#: src/formats.c:476
+#: src/formats.c:478
 msgid "Latvia, Lati"
 msgstr "Läti, latid"
 
-#: src/formats.c:477
+#: src/formats.c:479
 msgid "Libya, Dinars"
 msgstr "Liibüa, dinaarid"
 
-#: src/formats.c:478
+#: src/formats.c:480
 msgid "Morocco, Dirhams"
 msgstr "Maroko, dirhamid"
 
-#: src/formats.c:479
+#: src/formats.c:481
 msgid "Moldova, Lei"
 msgstr "Moldaavia, leud"
 
-#: src/formats.c:480
+#: src/formats.c:482
 #, fuzzy
 msgid "Madagascar, Malagasy Francs"
 msgstr "Madagaskar, frangid"
 
-#: src/formats.c:481
+#: src/formats.c:483
 msgid "Macedonia, Denars"
 msgstr "Makedoonia, dinaarid"
 
-#: src/formats.c:482
+#: src/formats.c:484
 #, fuzzy
 msgid "Myanmar (Burma), Kyats"
 msgstr "Myanmar, kyatid"
 
-#: src/formats.c:483
+#: src/formats.c:485
 msgid "Mongolia, Tugriks"
 msgstr "Mongoolia, tugrikud"
 
-#: src/formats.c:484
+#: src/formats.c:486
 #, fuzzy
 msgid "Macau, Patacas"
 msgstr "Macao, patacad"
 
-#: src/formats.c:485
+#: src/formats.c:487
 #, fuzzy
 msgid "Mauritania, Ouguiyas"
 msgstr "Mauritaania, ouguiyad"
 
-#: src/formats.c:486
+#: src/formats.c:488
 msgid "Malta, Liri"
 msgstr "Malta, liirid"
 
-#: src/formats.c:487
+#: src/formats.c:489
 msgid "Mauritius, Rupees"
 msgstr "Mauritius, ruupiad"
 
-#: src/formats.c:488
+#: src/formats.c:490
 #, fuzzy
 msgid "Maldives (Maldive Islands), Rufiyaa"
 msgstr "Malediivid, rufiyaad"
 
-#: src/formats.c:489
+#: src/formats.c:491
 #, fuzzy
 msgid "Malawi, Kwachas"
 msgstr "Malawi, kwachad"
 
-#: src/formats.c:490
+#: src/formats.c:492
 msgid "Mexico, Pesos"
 msgstr "Mehhiko, peesod"
 
-#: src/formats.c:491
+#: src/formats.c:493
 #, fuzzy
 msgid "Malaysia, Ringgits"
 msgstr "Malaisia, ringgitid"
 
-#: src/formats.c:492
+#: src/formats.c:494
 #, fuzzy
 msgid "Mozambique, Meticais"
 msgstr "Mosambiik, meticalid"
 
-#: src/formats.c:493
+#: src/formats.c:495
 msgid "Namibia, Dollars"
 msgstr "Namiibia, dollarid"
 
-#: src/formats.c:494
+#: src/formats.c:496
 #, fuzzy
 msgid "Nigeria, Nairas"
 msgstr "Nigeeria, nairad"
 
-#: src/formats.c:495
+#: src/formats.c:497
 msgid "Nicaragua, Gold Cordobas"
 msgstr "Nicaragua, kuldkordobad"
 
-#: src/formats.c:496
+#: src/formats.c:498
 msgid "Norway, Krone"
 msgstr "Norra, kroonid"
 
-#: src/formats.c:497
+#: src/formats.c:499
 #, fuzzy
 msgid "Nepal, Nepal Rupees"
 msgstr "Nepaal, nepaali ruupiad"
 
-#: src/formats.c:498
+#: src/formats.c:500
 msgid "New Zealand, Dollars"
 msgstr "Uus-Meremaa, dollarid"
 
-#: src/formats.c:499
+#: src/formats.c:501
 msgid "Oman, Rials"
 msgstr "Omaan, riaalid"
 
-#: src/formats.c:500
+#: src/formats.c:502
 msgid "Panama, Balboa"
 msgstr "Panama, balboad"
 
-#: src/formats.c:501
+#: src/formats.c:503
 #, fuzzy
 msgid "Peru, Nuevos Soles"
 msgstr "Peruu, uued solid"
 
-#: src/formats.c:502
+#: src/formats.c:504
 #, fuzzy
 msgid "Papua New Guinea, Kina"
 msgstr "Paapua - Uus-Ginea, kinad"
 
-#: src/formats.c:503
+#: src/formats.c:505
 msgid "Philippines, Pesos"
 msgstr "Filipiinid, peesod"
 
-#: src/formats.c:504
+#: src/formats.c:506
 msgid "Pakistan, Rupees"
 msgstr "Pakistan, ruupiad"
 
-#: src/formats.c:505
+#: src/formats.c:507
 #, fuzzy
 msgid "Poland, Zlotys"
 msgstr "Poola, slotid"
 
-#: src/formats.c:506
+#: src/formats.c:508
 #, fuzzy
 msgid "Paraguay, Guarani"
 msgstr "Paraguai, guaranid"
 
-#: src/formats.c:507
+#: src/formats.c:509
 msgid "Qatar, Rials"
 msgstr "Katar, riaalid"
 
-#: src/formats.c:508
+#: src/formats.c:510
 msgid "Romania, Lei"
 msgstr "Rumeenia, leud"
 
-#: src/formats.c:509
+#: src/formats.c:511
 msgid "Russia, Rubles"
 msgstr "Venemaa, rublad"
 
-#: src/formats.c:510
+#: src/formats.c:512
 #, fuzzy
 msgid "Rwanda, Rwanda Francs"
 msgstr "Ruanda, ruanda frangid"
 
-#: src/formats.c:511
+#: src/formats.c:513
 msgid "Saudi Arabia, Riyals"
 msgstr "Saudi Araabia, riaalid"
 
-#: src/formats.c:512
+#: src/formats.c:514
 msgid "Solomon Islands, Dollars"
 msgstr "Saalomoni Saared, dollarid"
 
-#: src/formats.c:513
+#: src/formats.c:515
 msgid "Seychelles, Rupees"
 msgstr "Seishellid, ruupiad"
 
-#: src/formats.c:514
+#: src/formats.c:516
 msgid "Sudan, Dinars"
 msgstr "Sudaan, dinaarid"
 
-#: src/formats.c:515
+#: src/formats.c:517
 msgid "Sweden, Kronor"
 msgstr "Rootsi, kroonid"
 
-#: src/formats.c:516
+#: src/formats.c:518
 msgid "Singapore, Dollars"
 msgstr "Singapur, dollarid"
 
-#: src/formats.c:517
+#: src/formats.c:519
 msgid "Saint Helena, Pounds"
 msgstr "Saint Helena, naelad"
 
-#: src/formats.c:518
+#: src/formats.c:520
 #, fuzzy
 msgid "Slovenia, Tolars"
 msgstr "Sloveenia, tolaarid"
 
-#: src/formats.c:519
+#: src/formats.c:521
 #, fuzzy
 msgid "Slovakia, Koruny"
 msgstr "Slovakkia, kroonid"
 
-#: src/formats.c:520
+#: src/formats.c:522
 #, fuzzy
 msgid "Sierra Leone, Leones"
 msgstr "Sierra Leone, leoned"
 
-#: src/formats.c:521
+#: src/formats.c:523
 #, fuzzy
 msgid "Somalia, Shillings"
 msgstr "Somaalia, shillingid"
 
-#: src/formats.c:522
+#: src/formats.c:524
 #, fuzzy
 msgid "Seborga, Luigini"
 msgstr "Seborga, luiginid"
 
-#: src/formats.c:523
+#: src/formats.c:525
 msgid "Suriname, Guilders"
 msgstr "Suriname, guldenid"
 
-#: src/formats.c:524
+#: src/formats.c:526
 msgid "Sao Tome and Principe, Dobras"
 msgstr "Sćo Tomé ja Prķncipe, dobrad"
 
-#: src/formats.c:525
+#: src/formats.c:527
 #, fuzzy
 msgid "El Salvador, Colones"
 msgstr "El Salvador, kolonid"
 
-#: src/formats.c:526
+#: src/formats.c:528
 msgid "Syria, Pounds"
 msgstr "Süüria, naelad"
 
-#: src/formats.c:527
+#: src/formats.c:529
 #, fuzzy
 msgid "Swaziland, Emalangeni"
 msgstr "Svaasimaa, emalangenid"
 
-#: src/formats.c:528
+#: src/formats.c:530
 #, fuzzy
 msgid "Thailand, Baht"
 msgstr "Tai, bahtid"
 
-#: src/formats.c:529
+#: src/formats.c:531
 #, fuzzy
 msgid "Tajikistan, Rubles"
 msgstr "Tadzikistan, rublad"
 
-#: src/formats.c:530
+#: src/formats.c:532
 msgid "Turkmenistan, Manats"
 msgstr "Türkmenistan, manatid"
 
-#: src/formats.c:531
+#: src/formats.c:533
 msgid "Tunisia, Dinars"
 msgstr "Tuneesia, dinaarid"
 
-#: src/formats.c:532
+#: src/formats.c:534
 #, fuzzy
 msgid "Tonga, Pa'anga"
 msgstr "Tonga, pa'angad"
 
-#: src/formats.c:533
+#: src/formats.c:535
 msgid "Turkey, Liras"
 msgstr "Türgi, liirid"
 
-#: src/formats.c:534
+#: src/formats.c:536
 msgid "Trinidad and Tobago, Dollars"
 msgstr "Trinidad ja Tobago, dollarid"
 
-#: src/formats.c:535
+#: src/formats.c:537
 #, fuzzy
 msgid "Tuvalu, Tuvalu Dollars"
 msgstr "Tuvalu, Tuvalu dollarid"
 
-#: src/formats.c:536
+#: src/formats.c:538
 #, fuzzy
 msgid "Taiwan, New Dollars"
 msgstr "Taiwan, uued dollarid"
 
-#: src/formats.c:537
+#: src/formats.c:539
 #, fuzzy
 msgid "Tanzania, Shillings"
 msgstr "Tansaania, shillingid"
 
-#: src/formats.c:538
+#: src/formats.c:540
 msgid "Ukraine, Hryvnia"
 msgstr "Ukraina, grivnad"
 
-#: src/formats.c:539
+#: src/formats.c:541
 #, fuzzy
 msgid "Uganda, Shillings"
 msgstr "Uganda, shillingid"
 
-#: src/formats.c:540
+#: src/formats.c:542
 msgid "United States of America, Dollars"
 msgstr "Ameerika Ühendriigid, dollarid"
 
-#: src/formats.c:541
+#: src/formats.c:543
 msgid "Uruguay, Pesos"
 msgstr "Uruguai, peesod"
 
-#: src/formats.c:542
+#: src/formats.c:544
 #, fuzzy
 msgid "Uzbekistan, Sums"
 msgstr "Usbekistan, sumid"
 
-#: src/formats.c:543
+#: src/formats.c:545
 #, fuzzy
 msgid "Venezuela, Bolivares"
 msgstr "Venetsueela, bolivarid"
 
-#: src/formats.c:544
+#: src/formats.c:546
 #, fuzzy
 msgid "Viet Nam, Dong"
 msgstr "Vietnam, dongid"
 
-#: src/formats.c:545
+#: src/formats.c:547
 #, fuzzy
 msgid "Vanuatu, Vatu"
 msgstr "Vanuatu, vatud"
 
-#: src/formats.c:546
+#: src/formats.c:548
 #, fuzzy
 msgid "Samoa, Tala"
 msgstr "Samoa, tala"
 
-#: src/formats.c:547
+#: src/formats.c:549
 msgid "Communaute Financiere Africaine BEAC, Francs"
 msgstr ""
 
-#: src/formats.c:548
+#: src/formats.c:550
 msgid "Silver, Ounces"
 msgstr "Hõbe, untsid"
 
-#: src/formats.c:549
+#: src/formats.c:551
 msgid "Gold, Ounces"
 msgstr "Kuld, untsid"
 
-#: src/formats.c:550
+#: src/formats.c:552
 msgid "East Caribbean Dollars"
 msgstr "Ida-Kariibi dollarid"
 
-#: src/formats.c:551
+#: src/formats.c:553
 msgid "International Monetary Fund (IMF) Special Drawing Rights"
 msgstr ""
 
-#: src/formats.c:552
+#: src/formats.c:554
 msgid "Communaute Financiere Africaine BCEAO, Francs"
 msgstr ""
 
-#: src/formats.c:553
+#: src/formats.c:555
 #, fuzzy
 msgid "Palladium, Ounces"
 msgstr "pallaadium, untsid"
 
-#: src/formats.c:554
+#: src/formats.c:556
 msgid "Comptoirs Francais du Pacifique Francs"
 msgstr ""
 
-#: src/formats.c:555
+#: src/formats.c:557
 msgid "Platinum, Ounces"
 msgstr "Plaatina, untsid"
 
-#: src/formats.c:556
+#: src/formats.c:558
 msgid "Yemen, Rials"
 msgstr "Jeemen, riaalid"
 
-#: src/formats.c:557
+#: src/formats.c:559
 #, fuzzy
 msgid "Yugoslavia, New Dinars"
 msgstr "Jugoslaavia, uusdinaarid"
 
-#: src/formats.c:558
+#: src/formats.c:560
 #, fuzzy
 msgid "South Africa, Rand"
 msgstr "Lõuna-Aafrika, randid"
 
-#: src/formats.c:559
+#: src/formats.c:561
 #, fuzzy
 msgid "Zambia, Kwacha"
 msgstr "Sambia, kwachad"
 
-#: src/formats.c:560
+#: src/formats.c:562
 #, fuzzy
 msgid "Zimbabwe, Zimbabwe Dollars"
 msgstr "Zimbabwe, zimbabwe dollarid"
@@ -26450,12 +26455,12 @@ msgstr "Ei suuda luua objekti tüübiga '%s'"
 msgid "Unable to open '%s'"
 msgstr "Ei saa avada faili '%s'"
 
-#: src/item-bar.c:740
+#: src/item-bar.c:746
 #, c-format
 msgid "Width: %.2f pts (%d pixels)"
 msgstr "Laius: %.2f pts (%d pikselit)"
 
-#: src/item-bar.c:743
+#: src/item-bar.c:749
 #, c-format
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "Kõrgus: %.2f pts (%d pikselit)"
@@ -27047,29 +27052,29 @@ msgstr "&[DATE]"
 msgid "File Name"
 msgstr "Nimi"
 
-#: src/print-info.c:564
+#: src/print-info.c:561
 #, fuzzy
 msgid "Path "
 msgstr "Aseta"
 
-#: src/print-info.c:572
+#: src/print-info.c:569
 msgid "tab"
 msgstr "tab"
 
-#: src/print-info.c:573
+#: src/print-info.c:570
 msgid "page"
 msgstr "leht"
 
-#: src/print-info.c:574
+#: src/print-info.c:571
 msgid "pages"
 msgstr "lehti"
 
-#: src/print-info.c:577
+#: src/print-info.c:574
 #, fuzzy
 msgid "file"
 msgstr "fikseeritud"
 
-#: src/print-info.c:578
+#: src/print-info.c:575
 #, fuzzy
 msgid "path"
 msgstr "Tähnid"
@@ -27284,16 +27289,16 @@ msgstr ""
 msgid "_Save as image"
 msgstr "Vali kogu veerg"
 
-#: src/sheet-object-graphic.c:944 src/sheet-object-graphic.c:963
+#: src/sheet-object-graphic.c:951 src/sheet-object-graphic.c:970
 msgid "Transparent"
 msgstr "Läbipaistev"
 
-#: src/sheet-object-widget.c:1143
+#: src/sheet-object-widget.c:1140
 #, fuzzy, c-format
 msgid "CheckBox %d"
 msgstr "Kontrollkast"
 
-#: src/sheet-object-widget.c:1576 src/workbook-object-toolbar.c:164
+#: src/sheet-object-widget.c:1554 src/workbook-object-toolbar.c:164
 msgid "RadioButton"
 msgstr "Raadionupp"
 
@@ -27306,23 +27311,23 @@ msgid ""
 "name.  Expect weirdness."
 msgstr ""
 
-#: src/sheet.c:1961
+#: src/sheet.c:1962
 msgid "Target region contains merged cells"
 msgstr "Sihtmärgiks olev ala sisaldab ühendatud lahtreid"
 
-#: src/sheet.c:2023
+#: src/sheet.c:2024
 msgid "cannot operate on merged cells"
 msgstr "ei saa opereerida ühendatud lahtritega"
 
-#: src/sheet.c:2033
+#: src/sheet.c:2034
 msgid "cannot operate on array formulae"
 msgstr "ei saa opereerida massiivi valemitega"
 
-#: src/sheet.c:3125
+#: src/sheet.c:3126
 msgid "Insert Columns"
 msgstr "Lisa veerud"
 
-#: src/sheet.c:3243
+#: src/sheet.c:3244
 msgid "Insert Rows"
 msgstr "Lisa read"
 
@@ -27367,21 +27372,21 @@ msgstr "Töötlemise viga katsel tuua andmeid lehele"
 msgid "Error while trying to write csv file"
 msgstr "Viga katsel kirjutada csv faili"
 
-#: src/stf.c:458
+#: src/stf.c:471
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr ""
 
-#: src/stf.c:462
+#: src/stf.c:475
 #, fuzzy
 msgid "Text import (configurable)"
 msgstr "Tektifaili import (kohandatav)"
 
-#: src/stf.c:466
+#: src/stf.c:479
 #, fuzzy
 msgid "Text export (configurable)"
 msgstr "Tektifaili import (kohandatav)"
 
-#: src/stf.c:470
+#: src/stf.c:483
 msgid "Comma separated values (CSV)"
 msgstr ""
 
@@ -29095,37 +29100,37 @@ msgstr ""
 msgid "Bold italic"
 msgstr "Rasvane kaldkiri"
 
-#: src/widgets/widget-format-selector.c:77
+#: src/widgets/widget-format-selector.c:78
 #, fuzzy
 msgid "Currency"
 msgstr "_Raha"
 
-#: src/widgets/widget-format-selector.c:78
+#: src/widgets/widget-format-selector.c:79
 #, fuzzy
 msgid "Accounting"
 msgstr "_Bilanss"
 
-#: src/widgets/widget-format-selector.c:82
+#: src/widgets/widget-format-selector.c:83
 #, fuzzy
 msgid "Fraction"
 msgstr "_Murd"
 
-#: src/widgets/widget-format-selector.c:83
+#: src/widgets/widget-format-selector.c:84
 #, fuzzy
 msgid "Scientific"
 msgstr "_Teaduslik"
 
-#: src/widgets/widget-format-selector.c:85
+#: src/widgets/widget-format-selector.c:86
 #, fuzzy
 msgid "Special"
 msgstr "E_ri"
 
-#: src/widgets/widget-format-selector.c:955
+#: src/widgets/widget-format-selector.c:960
 #, fuzzy
 msgid "Negative Number Format"
 msgstr "Negat_iivne arv"
 
-#: src/widgets/widget-format-selector.c:986
+#: src/widgets/widget-format-selector.c:991
 #, fuzzy
 msgid "Number Formats"
 msgstr "Rakenda _arvude vorming"
@@ -30209,24 +30214,24 @@ msgstr "Tundmatu viga faili %s salvestamisel"
 #. * This should be quite rare.  To provoke, use
 #. * gnumeric `echo -e '\377\376'`
 #.
-#: src/workbook-view.c:608 src/workbook-view.c:964
+#: src/workbook-view.c:608 src/workbook-view.c:960
 msgid "The filename given is not valid in the current encoding."
 msgstr "Selline failinimi ei ole praeguses tekstikoodis lubatav."
 
-#: src/workbook-view.c:693 src/workbook-view.c:806
+#: src/workbook-view.c:693 src/workbook-view.c:802
 msgid "Default file saver is not available."
 msgstr "Vaikimisi failisalvestaja ei ole saadaval."
 
-#: src/workbook-view.c:765
+#: src/workbook-view.c:762
 #, fuzzy
 msgid "Failed to create temporary file for sending."
 msgstr "Ei suuda luua ajutist faili."
 
-#: src/workbook-view.c:899
+#: src/workbook-view.c:895
 msgid "Unsupported file format."
 msgstr "Toetamata failiformaat."
 
-#: src/workbook-view.c:957
+#: src/workbook-view.c:953
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr ""

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-05 08:44-0500\n"
+"POT-Creation-Date: 2004-03-15 21:08-0500\n"
 "PO-Revision-Date: 2003-12-20 22:32+0300\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
@@ -703,7 +703,7 @@ msgstr "Финансовые производные"
 msgid "Functions related to financial derivatives"
 msgstr "Функции относящиеся к финансовым производным"
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5407
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5517
 #: plugins/mps/mps.c:549 src/xml-io.c:4136
 msgid "Reading file..."
 msgstr "Чтение файла..."
@@ -800,40 +800,40 @@ msgstr "Неожиданный аттрибут %s::%s == \"%s\"."
 msgid "XML document not well formed!"
 msgstr "Неправильно сформированный документ XML!"
 
-#: plugins/excel/ms-excel-read.c:1008 src/value.c:60
+#: plugins/excel/ms-excel-read.c:1043 src/value.c:60
 msgid "#UNKNOWN!"
 msgstr "#НЕИЗВЕСТНОЕ!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1099 plugins/excel/ms-excel-read.c:1110
+#: plugins/excel/ms-excel-read.c:1134 plugins/excel/ms-excel-read.c:1145
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:515
 #: src/dialogs/dialog-sheet-order.c:440 src/dialogs/dialog-sheet-order.c:444
 #, c-format
 msgid "Sheet%d"
 msgstr "Лист%d"
 
-#: plugins/excel/ms-excel-read.c:1113
+#: plugins/excel/ms-excel-read.c:1148
 #, c-format
 msgid "Macro%d"
 msgstr "Макро%d"
 
-#: plugins/excel/ms-excel-read.c:1116
+#: plugins/excel/ms-excel-read.c:1151
 #, c-format
 msgid "Chart%d"
 msgstr "Диаграмма%d"
 
-#: plugins/excel/ms-excel-read.c:1119
+#: plugins/excel/ms-excel-read.c:1154
 #, c-format
 msgid "Module%d"
 msgstr "Модуль%d"
 
-#: plugins/excel/ms-excel-read.c:2841
+#: plugins/excel/ms-excel-read.c:2951
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Ошибка при распознавании имени \"%s\""
 
-#: plugins/excel/ms-excel-read.c:2897
+#: plugins/excel/ms-excel-read.c:3007
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -842,7 +842,7 @@ msgstr ""
 "Связи DDE не поддерживаются.\n"
 "Имя \"%s\" будет потеряно.\n"
 
-#: plugins/excel/ms-excel-read.c:2903
+#: plugins/excel/ms-excel-read.c:3013
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -851,15 +851,15 @@ msgstr ""
 "Связи OLE не поддерживаются.\n"
 "Имя \"%s\" будет потеряно.\n"
 
-#: plugins/excel/ms-excel-read.c:4767
+#: plugins/excel/ms-excel-read.c:4877
 msgid "external references"
 msgstr "внешняя ссылка"
 
-#: plugins/excel/ms-excel-read.c:4792
+#: plugins/excel/ms-excel-read.c:4902
 msgid "No password supplied"
 msgstr "Не предоставлен пароль"
 
-#: plugins/excel/ms-excel-read.c:5640
+#: plugins/excel/ms-excel-read.c:5750
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Невозможно найти рабочую книгу MS Excel"
 
@@ -3359,7 +3359,7 @@ msgstr "дата1, дата2, интервал"
 #: plugins/fn-date/functions.c:1281 plugins/fn-date/functions.c:1285
 #: plugins/fn-date/functions.c:1293 plugins/fn-date/functions.c:1297
 #: plugins/fn-date/functions.c:1310 plugins/fn-date/functions.c:1314
-#: src/print-info.c:575
+#: src/print-info.c:572
 msgid "date"
 msgstr "дата"
 
@@ -3376,7 +3376,7 @@ msgid "start_date,months"
 msgstr "начальная дата, месяцы"
 
 #: plugins/fn-date/functions.c:1245 plugins/fn-date/functions.c:1249
-#: plugins/fn-date/functions.c:1265 src/print-info.c:576
+#: plugins/fn-date/functions.c:1265 src/print-info.c:573
 msgid "time"
 msgstr "время"
 
@@ -15955,7 +15955,7 @@ msgstr "Полужирный"
 msgid "Borders"
 msgstr "Рамки"
 
-#: src/GNOME_Gnumeric.xml.h:19 src/sheet-object-widget.c:424
+#: src/GNOME_Gnumeric.xml.h:19 src/sheet-object-widget.c:439
 #: src/workbook-object-toolbar.c:155
 msgid "Button"
 msgstr "Кнопка"
@@ -16315,7 +16315,7 @@ msgstr "Форматировать область ячеек в соответс
 msgid "Fourier Analysis"
 msgstr "Анализ Фурье"
 
-#: src/GNOME_Gnumeric.xml.h:103 src/sheet-object-widget.c:197
+#: src/GNOME_Gnumeric.xml.h:103 src/sheet-object-widget.c:214
 #: src/workbook-object-toolbar.c:150
 msgid "Frame"
 msgstr "Кадр"
@@ -16481,7 +16481,7 @@ msgstr "Перейти к указанной ячейке"
 
 #: src/GNOME_Gnumeric.xml.h:142
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:733
-#: src/sheet-object-graphic.c:1442 src/workbook-object-toolbar.c:147
+#: src/sheet-object-graphic.c:1451 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Метка"
 
@@ -17529,11 +17529,11 @@ msgstr "Набрать \"%s%s\" в %s"
 msgid "Typing \"%s%s\""
 msgstr "Набрать \"%s%s\""
 
-#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3184
+#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3185
 msgid "Delete Columns"
 msgstr "Удалить столбцы"
 
-#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3302
+#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3303
 msgid "Delete Rows"
 msgstr "Удалить строки"
 
@@ -17578,7 +17578,7 @@ msgid "Deleting row %s"
 msgstr "Удаление строки %s"
 
 #. Check for locked cells
-#: src/commands.c:1504 src/commands.c:1508 src/sheet.c:2798
+#: src/commands.c:1504 src/commands.c:1508 src/sheet.c:2799
 msgid "Clear"
 msgstr "Очистить"
 
@@ -17642,10 +17642,15 @@ msgstr "Установить ширину столбца %s в исходную"
 msgid "Setting height of row %s to default"
 msgstr "Установить высоту строки %s в исходную"
 
-#: src/commands.c:1935 src/commands.c:1936
+#: src/commands.c:1935
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Автозаполнение столбцов %s"
+
+#: src/commands.c:1936
+#, fuzzy, c-format
+msgid "Autofitting rows %s"
+msgstr "Автозаполнение строки %s"
 
 #: src/commands.c:1939
 #, c-format
@@ -18093,19 +18098,19 @@ msgstr "Оси Z"
 msgid "Plot"
 msgstr "Начертить"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:247
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
 msgid "H"
 msgstr "В"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:247
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
 msgid "Height"
 msgstr "Высота..."
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:250
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:252
 msgid "W"
 msgstr "Ш"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:250
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:252
 msgid "Width"
 msgstr "Ширина"
 
@@ -18371,24 +18376,24 @@ msgstr "Стиль"
 
 #. TODO : have a look at apple's themes
 #. An MS Excel-ish theme
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:382
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:400
 #: src/dialogs/dialog-sheet-order.c:957 src/dialogs/dialog-sheet-order.c:970
 msgid "Default"
 msgstr "По умолчанию"
 
 #. Guppi
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:437
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:455
 msgid "Guppi"
 msgstr "Guppi"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:304
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:193
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:195
 #: src/dialogs/consolidate.glade.h:12
 msgid "Labels"
 msgstr "Метки"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:306
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:195
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:197
 #: src/dialogs/consolidate.glade.h:27
 msgid "Values"
 msgstr "Значения"
@@ -18686,7 +18691,7 @@ msgstr ""
 msgid "PlotPie"
 msgstr "Начертить"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:266
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:268
 #, fuzzy
 msgid "PlotRing"
 msgstr "Ничего"
@@ -18787,27 +18792,27 @@ msgstr "Модуль отображения кольцевой диаграмм�
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:260
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:262
 #, fuzzy
 msgid "PlotXY"
 msgstr "Начертить"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:320
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:369
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:322
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:467
 msgid "X"
 msgstr "X"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:322
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:371
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:324
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:469
 msgid "Y"
 msgstr "Y"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:353
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:355
 #, fuzzy
 msgid "PlotBubble"
 msgstr "Пузырь"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:373
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:471
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:1
 msgid "Bubble"
 msgstr "Пузырь"
@@ -19465,8 +19470,8 @@ msgstr "Первая буква"
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:663
-#: src/format.c:2184 src/format.c:2313 src/format.c:2319 src/format.c:2395
-#: src/plugin-service.c:200 src/widgets/widget-format-selector.c:75
+#: src/format.c:2188 src/format.c:2317 src/format.c:2323 src/format.c:2399
+#: src/plugin-service.c:200 src/widgets/widget-format-selector.c:76
 msgid "General"
 msgstr "Общий"
 
@@ -19566,7 +19571,7 @@ msgid "Items"
 msgstr "Элементы"
 
 #: src/dialogs/autofilter-top10.glade.h:4
-#: src/widgets/widget-format-selector.c:81
+#: src/widgets/widget-format-selector.c:82
 msgid "Percentage"
 msgstr "Проценты"
 
@@ -19772,11 +19777,11 @@ msgid "Con_dition:"
 msgstr "Условие:"
 
 #: src/dialogs/cell-format.glade.h:38 src/dialogs/dialog-stf-export.glade.h:17
-#: src/widgets/widget-format-selector.c:86
+#: src/widgets/widget-format-selector.c:87
 msgid "Custom"
 msgstr "Другой"
 
-#: src/dialogs/cell-format.glade.h:39 src/widgets/widget-format-selector.c:79
+#: src/dialogs/cell-format.glade.h:39 src/widgets/widget-format-selector.c:80
 msgid "Date"
 msgstr "Дата"
 
@@ -19893,7 +19898,7 @@ msgstr "По верху"
 msgid "Text length"
 msgstr "Длина текста"
 
-#: src/dialogs/cell-format.glade.h:87 src/widgets/widget-format-selector.c:80
+#: src/dialogs/cell-format.glade.h:87 src/widgets/widget-format-selector.c:81
 msgid "Time"
 msgstr "Время"
 
@@ -20679,12 +20684,12 @@ msgid "Double"
 msgstr "Двойной"
 
 #: src/dialogs/dialog-cell-format.c:467 src/dialogs/dialog-search.c:147
-#: src/func.c:671 src/widgets/widget-format-selector.c:76
+#: src/func.c:671 src/widgets/widget-format-selector.c:77
 msgid "Number"
 msgstr "Числовой"
 
 #: src/dialogs/dialog-cell-format.c:668 src/dialogs/dialog-stf-main-page.c:381
-#: src/widgets/widget-format-selector.c:84
+#: src/widgets/widget-format-selector.c:85
 msgid "Text"
 msgstr "Текстовый"
 
@@ -24072,40 +24077,40 @@ msgstr "ИСТИНА"
 msgid "FALSE"
 msgstr "ЛОЖЬ"
 
-#: src/format.c:652
+#: src/format.c:656
 msgid "Black"
 msgstr "Чёрный"
 
-#: src/format.c:653
+#: src/format.c:657
 msgid "Blue"
 msgstr "Синий"
 
-#: src/format.c:654
+#: src/format.c:658
 msgid "Cyan"
 msgstr "Голубой"
 
-#: src/format.c:655
+#: src/format.c:659
 msgid "Green"
 msgstr "Зеленый"
 
-#: src/format.c:656
+#: src/format.c:660
 msgid "Magenta"
 msgstr "Пурпурный"
 
-#: src/format.c:657
+#: src/format.c:661
 msgid "Red"
 msgstr "Красный"
 
-#: src/format.c:658
+#: src/format.c:662
 msgid "White"
 msgstr "Белый"
 
-#: src/format.c:659
+#: src/format.c:663
 msgid "Yellow"
 msgstr "Жёлтый"
 
 #. Array of arrays ??
-#: src/format.c:2076
+#: src/format.c:2080
 msgid "ARRAY"
 msgstr "МАССИВ"
 
@@ -24114,691 +24119,691 @@ msgstr "МАССИВ"
 #. * The second column has the long names of the currencies.
 #.
 #. 2002/08/04 Updated to match iso 4217
-#: src/formats.c:389
+#: src/formats.c:391
 msgid "United Arab Emirates, Dirhams"
 msgstr ""
 
-#: src/formats.c:390
+#: src/formats.c:392
 msgid "Afghanistan, Afghanis"
 msgstr "Афганский афгани"
 
-#: src/formats.c:391
+#: src/formats.c:393
 msgid "Albania, Leke"
 msgstr "Албанский леке"
 
-#: src/formats.c:392
+#: src/formats.c:394
 msgid "Armenia, Drams"
 msgstr "Армянская драма"
 
-#: src/formats.c:393
+#: src/formats.c:395
 msgid "Netherlands Antilles, Guilders"
 msgstr "Нидерландский гульден"
 
-#: src/formats.c:394
+#: src/formats.c:396
 msgid "Angola, Kwanza"
 msgstr "Ангольский кванза"
 
-#: src/formats.c:395
+#: src/formats.c:397
 msgid "Argentina, Pesos"
 msgstr "Аргентинский песо"
 
-#: src/formats.c:396
+#: src/formats.c:398
 msgid "Australia, Dollars"
 msgstr "Австралийский доллар"
 
-#: src/formats.c:397
+#: src/formats.c:399
 msgid "Aruba, Guilders"
 msgstr "Арубанский гульден"
 
-#: src/formats.c:398
+#: src/formats.c:400
 msgid "Azerbaijan, Manats"
 msgstr "Азербайджанский манат"
 
-#: src/formats.c:399
+#: src/formats.c:401
 msgid "Bosnia and Herzegovina, Convertible Marka"
 msgstr "Босния и Герцеговина, Переходная марка"
 
-#: src/formats.c:400
+#: src/formats.c:402
 msgid "Barbados, Dollars"
 msgstr "Барбадосский доллар"
 
-#: src/formats.c:401
+#: src/formats.c:403
 msgid "Bangladesh, Taka"
 msgstr "Бангладешский така"
 
-#: src/formats.c:402
+#: src/formats.c:404
 msgid "Bulgaria, Leva"
 msgstr "Болгарский лев"
 
-#: src/formats.c:403
+#: src/formats.c:405
 msgid "Bahrain, Dinars"
 msgstr "Бахрейнский динар"
 
-#: src/formats.c:404
+#: src/formats.c:406
 msgid "Burundi, Francs"
 msgstr "Бурундийский франк"
 
-#: src/formats.c:405
+#: src/formats.c:407
 msgid "Bermuda, Dollars"
 msgstr "Бермудский доллар"
 
-#: src/formats.c:406
+#: src/formats.c:408
 msgid "Brunei Darussalam, Dollars"
 msgstr "Брунейский доллар"
 
-#: src/formats.c:407
+#: src/formats.c:409
 msgid "Bolivia, Bolivianos"
 msgstr "Боливийский боливиано"
 
-#: src/formats.c:408
+#: src/formats.c:410
 msgid "Brazil, Brazil Real"
 msgstr "Бразильский риал"
 
-#: src/formats.c:409
+#: src/formats.c:411
 msgid "Bahamas, Dollars"
 msgstr "Багамский доллар"
 
-#: src/formats.c:410
+#: src/formats.c:412
 msgid "Bhutan, Ngultrum"
 msgstr "Бутанский нгултрум"
 
-#: src/formats.c:411
+#: src/formats.c:413
 msgid "Botswana, Pulas"
 msgstr "Ботсванская пула"
 
-#: src/formats.c:412
+#: src/formats.c:414
 msgid "Belarus, Rubles"
 msgstr "Белорусский рубль"
 
-#: src/formats.c:413
+#: src/formats.c:415
 msgid "Belize, Dollars"
 msgstr "Белизский доллар"
 
-#: src/formats.c:414
+#: src/formats.c:416
 msgid "Canada, Dollars"
 msgstr "Канадский доллар"
 
-#: src/formats.c:415
+#: src/formats.c:417
 msgid "Congo/Kinshasa, Congolese Francs"
 msgstr "Конго/Киншаса, Конголезский франк"
 
-#: src/formats.c:416
+#: src/formats.c:418
 msgid "Switzerland, Francs"
 msgstr "Щвейцарский франк"
 
-#: src/formats.c:417
+#: src/formats.c:419
 msgid "Chile, Pesos"
 msgstr "Чилийское песо"
 
-#: src/formats.c:418
+#: src/formats.c:420
 msgid "China, Yuan Renminbi"
 msgstr "Китайский юань"
 
-#: src/formats.c:419
+#: src/formats.c:421
 msgid "Colombia, Pesos"
 msgstr "Колумбийский песо"
 
-#: src/formats.c:420
+#: src/formats.c:422
 msgid "Costa Rica, Colones"
 msgstr "Коста-Риканский колон"
 
-#: src/formats.c:421
+#: src/formats.c:423
 msgid "Cuba, Pesos"
 msgstr "Кубинский песо"
 
-#: src/formats.c:422
+#: src/formats.c:424
 msgid "Cape Verde, Escudos"
 msgstr ""
 
-#: src/formats.c:423
+#: src/formats.c:425
 msgid "Cyprus, Pounds"
 msgstr "Кипрский фунт"
 
-#: src/formats.c:424
+#: src/formats.c:426
 msgid "Czech Republic, Koruny"
 msgstr "Чешская крона"
 
-#: src/formats.c:425
+#: src/formats.c:427
 msgid "Djibouti, Francs"
 msgstr "Джибутийский франк"
 
-#: src/formats.c:426
+#: src/formats.c:428
 msgid "Denmark, Kroner"
 msgstr "Датская крона"
 
-#: src/formats.c:427
+#: src/formats.c:429
 msgid "Dominican Republic, Pesos"
 msgstr "Доминиканский песо"
 
-#: src/formats.c:428
+#: src/formats.c:430
 msgid "Algeria, Algeria Dinars"
 msgstr "Алжирский динар"
 
-#: src/formats.c:429
+#: src/formats.c:431
 msgid "Estonia, Krooni"
 msgstr "Эстонская крона"
 
-#: src/formats.c:430
+#: src/formats.c:432
 msgid "Egypt, Pounds"
 msgstr "Египетский фунт"
 
-#: src/formats.c:431
+#: src/formats.c:433
 msgid "Eritrea, Nakfa"
 msgstr "Эритрейская накфа"
 
-#: src/formats.c:432
+#: src/formats.c:434
 msgid "Ethiopia, Birr"
 msgstr "Эфиопский бирр"
 
-#: src/formats.c:433
+#: src/formats.c:435
 msgid "Euro Member Countries, Euro"
 msgstr "Евро"
 
-#: src/formats.c:434
+#: src/formats.c:436
 msgid "Fiji, Dollars"
 msgstr "Фиджийский доллар"
 
-#: src/formats.c:435
+#: src/formats.c:437
 msgid "Falkland Islands (Malvinas), Pounds"
 msgstr "Фунт Фолклендских о-вов"
 
-#: src/formats.c:436
+#: src/formats.c:438
 msgid "United Kingdom, Pounds"
 msgstr "Британский фунт"
 
-#: src/formats.c:437
+#: src/formats.c:439
 msgid "Georgia, Lari"
 msgstr "Грузинское лари"
 
-#: src/formats.c:438
+#: src/formats.c:440
 msgid "Guernsey, Pounds"
 msgstr ""
 
-#: src/formats.c:439
+#: src/formats.c:441
 msgid "Ghana, Cedis"
 msgstr "Ганское седи"
 
-#: src/formats.c:440
+#: src/formats.c:442
 msgid "Gibraltar, Pounds"
 msgstr "Гибралтарский фунт"
 
-#: src/formats.c:441
+#: src/formats.c:443
 msgid "Gambia, Dalasi"
 msgstr "Гамбианское даласи"
 
-#: src/formats.c:442
+#: src/formats.c:444
 msgid "Guinea, Francs"
 msgstr "Гвинейский франк"
 
-#: src/formats.c:443
+#: src/formats.c:445
 msgid "Guatemala, Quetzales"
 msgstr "Гватемальский кветцаль"
 
-#: src/formats.c:444
+#: src/formats.c:446
 msgid "Guyana, Dollars"
 msgstr "Гвианский доллар"
 
-#: src/formats.c:445
+#: src/formats.c:447
 msgid "Hong Kong, Dollars"
 msgstr "Гонг-Конгский доллар"
 
-#: src/formats.c:446
+#: src/formats.c:448
 msgid "Honduras, Lempiras"
 msgstr "Гондурасский лемпир"
 
-#: src/formats.c:447
+#: src/formats.c:449
 msgid "Croatia, Kuna"
 msgstr "Хорватский кун"
 
-#: src/formats.c:448
+#: src/formats.c:450
 msgid "Haiti, Gourdes"
 msgstr "Гаитянский гурд"
 
-#: src/formats.c:449
+#: src/formats.c:451
 msgid "Hungary, Forint"
 msgstr "Венгерский форинт"
 
-#: src/formats.c:450
+#: src/formats.c:452
 msgid "Indonesia, Rupiahs"
 msgstr "Индонезийская рупия"
 
-#: src/formats.c:451
+#: src/formats.c:453
 msgid "Israel, New Shekels"
 msgstr "Израильский шекель"
 
-#: src/formats.c:452
+#: src/formats.c:454
 msgid "Isle of Man, Pounds"
 msgstr "Фунты острова Мэн"
 
-#: src/formats.c:453
+#: src/formats.c:455
 msgid "India, Rupees"
 msgstr "Индийская рупия"
 
-#: src/formats.c:454
+#: src/formats.c:456
 msgid "Iraq, Dinars"
 msgstr "Иракский динар"
 
-#: src/formats.c:455
+#: src/formats.c:457
 msgid "Iran, Rials"
 msgstr "Иранский риал"
 
-#: src/formats.c:456
+#: src/formats.c:458
 msgid "Iceland, Kronur"
 msgstr "Исландская крона"
 
-#: src/formats.c:457
+#: src/formats.c:459
 msgid "Jersey, Pounds"
 msgstr ""
 
-#: src/formats.c:458
+#: src/formats.c:460
 msgid "Jamaica, Dollars"
 msgstr "Доллар Ямайки"
 
-#: src/formats.c:459
+#: src/formats.c:461
 msgid "Jordan, Dinars"
 msgstr "Иорданский динар"
 
-#: src/formats.c:460
+#: src/formats.c:462
 msgid "Japan, Yen"
 msgstr "Японская йена"
 
-#: src/formats.c:461
+#: src/formats.c:463
 msgid "Kenya, Shillings"
 msgstr "Кенийский шиллинг"
 
-#: src/formats.c:462
+#: src/formats.c:464
 msgid "Kyrgyzstan, Soms"
 msgstr "Киргизский сом"
 
-#: src/formats.c:463
+#: src/formats.c:465
 msgid "Cambodia, Riels"
 msgstr "Камбоджийский риал"
 
-#: src/formats.c:464
+#: src/formats.c:466
 msgid "Comoros, Francs"
 msgstr "Коморосский франк"
 
-#: src/formats.c:465
+#: src/formats.c:467
 msgid "Korea (North), Won"
 msgstr "Северокорейский вон"
 
-#: src/formats.c:466
+#: src/formats.c:468
 msgid "Korea (South), Won"
 msgstr "Южнокорейский вон"
 
-#: src/formats.c:467
+#: src/formats.c:469
 msgid "Kuwait, Dinars"
 msgstr "Кувейтский динар"
 
-#: src/formats.c:468
+#: src/formats.c:470
 msgid "Cayman Islands, Dollars"
 msgstr "Доллар Каймановых о-вов"
 
-#: src/formats.c:469
+#: src/formats.c:471
 msgid "Kazakstan, Tenge"
 msgstr "Казахстанская таньга"
 
-#: src/formats.c:470
+#: src/formats.c:472
 msgid "Laos, Kips"
 msgstr "Лаосский кип"
 
-#: src/formats.c:471
+#: src/formats.c:473
 msgid "Lebanon, Pounds"
 msgstr "Либанезский фунт"
 
-#: src/formats.c:472
+#: src/formats.c:474
 msgid "Sri Lanka, Rupees"
 msgstr "Рупия Шри-Ланки"
 
-#: src/formats.c:473
+#: src/formats.c:475
 msgid "Liberia, Dollars"
 msgstr "Либерийский доллар"
 
-#: src/formats.c:474
+#: src/formats.c:476
 msgid "Lesotho, Maloti"
 msgstr "Лот Лесото"
 
-#: src/formats.c:475
+#: src/formats.c:477
 msgid "Lithuania, Litai"
 msgstr "Литовский лит"
 
-#: src/formats.c:476
+#: src/formats.c:478
 msgid "Latvia, Lati"
 msgstr "Латвийский лат"
 
-#: src/formats.c:477
+#: src/formats.c:479
 msgid "Libya, Dinars"
 msgstr "Ливийский динар"
 
-#: src/formats.c:478
+#: src/formats.c:480
 msgid "Morocco, Dirhams"
 msgstr "Марокканский динар"
 
-#: src/formats.c:479
+#: src/formats.c:481
 msgid "Moldova, Lei"
 msgstr "Молдавский лев"
 
-#: src/formats.c:480
+#: src/formats.c:482
 msgid "Madagascar, Malagasy Francs"
 msgstr "Малагазийский франк"
 
-#: src/formats.c:481
+#: src/formats.c:483
 msgid "Macedonia, Denars"
 msgstr "Македонский динар"
 
-#: src/formats.c:482
+#: src/formats.c:484
 msgid "Myanmar (Burma), Kyats"
 msgstr "Мианмарский куат"
 
-#: src/formats.c:483
+#: src/formats.c:485
 msgid "Mongolia, Tugriks"
 msgstr "Монгольский тугрик"
 
-#: src/formats.c:484
+#: src/formats.c:486
 msgid "Macau, Patacas"
 msgstr "Патака Макау"
 
-#: src/formats.c:485
+#: src/formats.c:487
 msgid "Mauritania, Ouguiyas"
 msgstr "Мавританская оугуия"
 
-#: src/formats.c:486
+#: src/formats.c:488
 msgid "Malta, Liri"
 msgstr "Мальтийская лира"
 
-#: src/formats.c:487
+#: src/formats.c:489
 msgid "Mauritius, Rupees"
 msgstr "Мавритская рупия"
 
-#: src/formats.c:488
+#: src/formats.c:490
 msgid "Maldives (Maldive Islands), Rufiyaa"
 msgstr "Мальдивская руфия"
 
-#: src/formats.c:489
+#: src/formats.c:491
 msgid "Malawi, Kwachas"
 msgstr "Малавийская квача"
 
-#: src/formats.c:490
+#: src/formats.c:492
 msgid "Mexico, Pesos"
 msgstr "Мексиканский песо"
 
-#: src/formats.c:491
+#: src/formats.c:493
 msgid "Malaysia, Ringgits"
 msgstr "Малазийский ринггит"
 
-#: src/formats.c:492
+#: src/formats.c:494
 msgid "Mozambique, Meticais"
 msgstr "Мозамбикский метикаи"
 
-#: src/formats.c:493
+#: src/formats.c:495
 msgid "Namibia, Dollars"
 msgstr "Намибийский доллар"
 
-#: src/formats.c:494
+#: src/formats.c:496
 msgid "Nigeria, Nairas"
 msgstr "Нигерийская наира"
 
-#: src/formats.c:495
+#: src/formats.c:497
 msgid "Nicaragua, Gold Cordobas"
 msgstr "Никарагуанская кордоба оро"
 
-#: src/formats.c:496
+#: src/formats.c:498
 msgid "Norway, Krone"
 msgstr "Норвежская крона"
 
-#: src/formats.c:497
+#: src/formats.c:499
 msgid "Nepal, Nepal Rupees"
 msgstr "Непальская рупия"
 
-#: src/formats.c:498
+#: src/formats.c:500
 msgid "New Zealand, Dollars"
 msgstr "Новозеландский доллары"
 
-#: src/formats.c:499
+#: src/formats.c:501
 msgid "Oman, Rials"
 msgstr "Оманский риал"
 
-#: src/formats.c:500
+#: src/formats.c:502
 msgid "Panama, Balboa"
 msgstr "Панамский балбоа"
 
-#: src/formats.c:501
+#: src/formats.c:503
 msgid "Peru, Nuevos Soles"
 msgstr ""
 
-#: src/formats.c:502
+#: src/formats.c:504
 msgid "Papua New Guinea, Kina"
 msgstr "Папуа Новогвинейский кина"
 
-#: src/formats.c:503
+#: src/formats.c:505
 msgid "Philippines, Pesos"
 msgstr "Филиппинский песо"
 
-#: src/formats.c:504
+#: src/formats.c:506
 msgid "Pakistan, Rupees"
 msgstr "Пакистанская рупия"
 
-#: src/formats.c:505
+#: src/formats.c:507
 msgid "Poland, Zlotys"
 msgstr "Польский злотый"
 
-#: src/formats.c:506
+#: src/formats.c:508
 msgid "Paraguay, Guarani"
 msgstr "Парагвайская гуарани"
 
-#: src/formats.c:507
+#: src/formats.c:509
 msgid "Qatar, Rials"
 msgstr "Кутарский риал"
 
-#: src/formats.c:508
+#: src/formats.c:510
 msgid "Romania, Lei"
 msgstr "Румынский лео"
 
-#: src/formats.c:509
+#: src/formats.c:511
 msgid "Russia, Rubles"
 msgstr "Российский рубль"
 
-#: src/formats.c:510
+#: src/formats.c:512
 msgid "Rwanda, Rwanda Francs"
 msgstr "Руандский франк"
 
-#: src/formats.c:511
+#: src/formats.c:513
 msgid "Saudi Arabia, Riyals"
 msgstr "Риал Саудовской Аравии"
 
-#: src/formats.c:512
+#: src/formats.c:514
 msgid "Solomon Islands, Dollars"
 msgstr "Доллар Соломоновых о-вов"
 
-#: src/formats.c:513
+#: src/formats.c:515
 msgid "Seychelles, Rupees"
 msgstr "Сейшельская рупия"
 
-#: src/formats.c:514
+#: src/formats.c:516
 msgid "Sudan, Dinars"
 msgstr "Суданский динар"
 
-#: src/formats.c:515
+#: src/formats.c:517
 msgid "Sweden, Kronor"
 msgstr "Шведская крона"
 
-#: src/formats.c:516
+#: src/formats.c:518
 msgid "Singapore, Dollars"
 msgstr "Сингапурский доллар"
 
-#: src/formats.c:517
+#: src/formats.c:519
 msgid "Saint Helena, Pounds"
 msgstr "Фунт Св.Елены"
 
-#: src/formats.c:518
+#: src/formats.c:520
 msgid "Slovenia, Tolars"
 msgstr "Словенский толар"
 
-#: src/formats.c:519
+#: src/formats.c:521
 msgid "Slovakia, Koruny"
 msgstr ""
 
-#: src/formats.c:520
+#: src/formats.c:522
 msgid "Sierra Leone, Leones"
 msgstr "Леон Сьерра-Леоне"
 
-#: src/formats.c:521
+#: src/formats.c:523
 msgid "Somalia, Shillings"
 msgstr "Сомалийский шиллинг"
 
-#: src/formats.c:522
+#: src/formats.c:524
 msgid "Seborga, Luigini"
 msgstr ""
 
-#: src/formats.c:523
+#: src/formats.c:525
 msgid "Suriname, Guilders"
 msgstr "Суринамский гульден"
 
-#: src/formats.c:524
+#: src/formats.c:526
 msgid "Sao Tome and Principe, Dobras"
 msgstr "Сао Том и Принципийский добра"
 
-#: src/formats.c:525
+#: src/formats.c:527
 msgid "El Salvador, Colones"
 msgstr "Сальвадорский колон"
 
-#: src/formats.c:526
+#: src/formats.c:528
 msgid "Syria, Pounds"
 msgstr "Сирийский фунт"
 
-#: src/formats.c:527
+#: src/formats.c:529
 msgid "Swaziland, Emalangeni"
 msgstr "Свазилендский емалангени"
 
-#: src/formats.c:528
+#: src/formats.c:530
 msgid "Thailand, Baht"
 msgstr "Тайский бахт"
 
-#: src/formats.c:529
+#: src/formats.c:531
 msgid "Tajikistan, Rubles"
 msgstr "Таджикистанский рубль"
 
-#: src/formats.c:530
+#: src/formats.c:532
 msgid "Turkmenistan, Manats"
 msgstr "Туркменский манат"
 
-#: src/formats.c:531
+#: src/formats.c:533
 msgid "Tunisia, Dinars"
 msgstr "Тунисский динар"
 
-#: src/formats.c:532
+#: src/formats.c:534
 msgid "Tonga, Pa'anga"
 msgstr "Паанга Тонги"
 
-#: src/formats.c:533
+#: src/formats.c:535
 msgid "Turkey, Liras"
 msgstr "Турецкая лира"
 
-#: src/formats.c:534
+#: src/formats.c:536
 msgid "Trinidad and Tobago, Dollars"
 msgstr "Доллар Тринидада и Тобаго"
 
-#: src/formats.c:535
+#: src/formats.c:537
 msgid "Tuvalu, Tuvalu Dollars"
 msgstr ""
 
-#: src/formats.c:536
+#: src/formats.c:538
 msgid "Taiwan, New Dollars"
 msgstr "Тайваньский новый доллар"
 
-#: src/formats.c:537
+#: src/formats.c:539
 msgid "Tanzania, Shillings"
 msgstr "Танзанский шиллинг"
 
-#: src/formats.c:538
+#: src/formats.c:540
 msgid "Ukraine, Hryvnia"
 msgstr "Украинская гривна"
 
-#: src/formats.c:539
+#: src/formats.c:541
 msgid "Uganda, Shillings"
 msgstr "Угандский шиллинг"
 
-#: src/formats.c:540
+#: src/formats.c:542
 msgid "United States of America, Dollars"
 msgstr "Доллар США"
 
-#: src/formats.c:541
+#: src/formats.c:543
 msgid "Uruguay, Pesos"
 msgstr "Уругвайский песо"
 
-#: src/formats.c:542
+#: src/formats.c:544
 msgid "Uzbekistan, Sums"
 msgstr "Узбекский сум"
 
-#: src/formats.c:543
+#: src/formats.c:545
 msgid "Venezuela, Bolivares"
 msgstr "Венесуэльский боливар"
 
-#: src/formats.c:544
+#: src/formats.c:546
 msgid "Viet Nam, Dong"
 msgstr "Вьетнамский донг"
 
-#: src/formats.c:545
+#: src/formats.c:547
 msgid "Vanuatu, Vatu"
 msgstr "Вануатский вату"
 
-#: src/formats.c:546
+#: src/formats.c:548
 msgid "Samoa, Tala"
 msgstr "Самоанский тала"
 
-#: src/formats.c:547
+#: src/formats.c:549
 msgid "Communaute Financiere Africaine BEAC, Francs"
 msgstr ""
 
-#: src/formats.c:548
+#: src/formats.c:550
 msgid "Silver, Ounces"
 msgstr "Серебряная унция"
 
-#: src/formats.c:549
+#: src/formats.c:551
 msgid "Gold, Ounces"
 msgstr "Золотая унция"
 
-#: src/formats.c:550
+#: src/formats.c:552
 msgid "East Caribbean Dollars"
 msgstr "Восточнокарибский доллар"
 
-#: src/formats.c:551
+#: src/formats.c:553
 msgid "International Monetary Fund (IMF) Special Drawing Rights"
 msgstr ""
 
-#: src/formats.c:552
+#: src/formats.c:554
 msgid "Communaute Financiere Africaine BCEAO, Francs"
 msgstr ""
 
-#: src/formats.c:553
+#: src/formats.c:555
 msgid "Palladium, Ounces"
 msgstr "Палладиевая унция"
 
-#: src/formats.c:554
+#: src/formats.c:556
 msgid "Comptoirs Francais du Pacifique Francs"
 msgstr ""
 
-#: src/formats.c:555
+#: src/formats.c:557
 msgid "Platinum, Ounces"
 msgstr "Платиновая унция"
 
-#: src/formats.c:556
+#: src/formats.c:558
 msgid "Yemen, Rials"
 msgstr "Йеменский риал"
 
-#: src/formats.c:557
+#: src/formats.c:559
 msgid "Yugoslavia, New Dinars"
 msgstr "Югославский новый динар"
 
-#: src/formats.c:558
+#: src/formats.c:560
 msgid "South Africa, Rand"
 msgstr "Южноафриканский рэнд"
 
-#: src/formats.c:559
+#: src/formats.c:561
 msgid "Zambia, Kwacha"
 msgstr "Замбийская квача"
 
-#: src/formats.c:560
+#: src/formats.c:562
 msgid "Zimbabwe, Zimbabwe Dollars"
 msgstr "Зимбабвийский доллар"
 
@@ -25070,12 +25075,12 @@ msgstr "Невозможно активировать URL \"%s\""
 msgid "Unable to open '%s'"
 msgstr "Не удалось открыть \"%s\""
 
-#: src/item-bar.c:740
+#: src/item-bar.c:746
 #, c-format
 msgid "Width: %.2f pts (%d pixels)"
 msgstr "Ширина: %.2f пт (%d точек растра)"
 
-#: src/item-bar.c:743
+#: src/item-bar.c:749
 #, c-format
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "Высота: %.2f пт (%d точек растра)"
@@ -25657,27 +25662,27 @@ msgstr "&[DATE]"
 msgid "File Name"
 msgstr "Название файла"
 
-#: src/print-info.c:564
+#: src/print-info.c:561
 msgid "Path "
 msgstr "Путь "
 
-#: src/print-info.c:572
+#: src/print-info.c:569
 msgid "tab"
 msgstr "таб"
 
-#: src/print-info.c:573
+#: src/print-info.c:570
 msgid "page"
 msgstr "страница"
 
-#: src/print-info.c:574
+#: src/print-info.c:571
 msgid "pages"
 msgstr "страницы"
 
-#: src/print-info.c:577
+#: src/print-info.c:574
 msgid "file"
 msgstr "файл"
 
-#: src/print-info.c:578
+#: src/print-info.c:575
 msgid "path"
 msgstr "путь"
 
@@ -25883,16 +25888,16 @@ msgstr "Gnumeric может сохранять графики только ка�
 msgid "_Save as image"
 msgstr "Сохранить как изображение"
 
-#: src/sheet-object-graphic.c:944 src/sheet-object-graphic.c:963
+#: src/sheet-object-graphic.c:951 src/sheet-object-graphic.c:970
 msgid "Transparent"
 msgstr "Прозрачный"
 
-#: src/sheet-object-widget.c:1143
+#: src/sheet-object-widget.c:1140
 #, c-format
 msgid "CheckBox %d"
 msgstr "Графа для отметки %d"
 
-#: src/sheet-object-widget.c:1576 src/workbook-object-toolbar.c:164
+#: src/sheet-object-widget.c:1554 src/workbook-object-toolbar.c:164
 msgid "RadioButton"
 msgstr "Радио-кнопка"
 
@@ -25905,23 +25910,23 @@ msgid ""
 "name.  Expect weirdness."
 msgstr ""
 
-#: src/sheet.c:1961
+#: src/sheet.c:1962
 msgid "Target region contains merged cells"
 msgstr "Область назначения содержит объединенные ячейки"
 
-#: src/sheet.c:2023
+#: src/sheet.c:2024
 msgid "cannot operate on merged cells"
 msgstr "невозможно действовать на объединенных ячейках"
 
-#: src/sheet.c:2033
+#: src/sheet.c:2034
 msgid "cannot operate on array formulae"
 msgstr "невозможно действовать на формулах массива"
 
-#: src/sheet.c:3125
+#: src/sheet.c:3126
 msgid "Insert Columns"
 msgstr "Вставить столбцы"
 
-#: src/sheet.c:3243
+#: src/sheet.c:3244
 msgid "Insert Rows"
 msgstr "Вставить строки"
 
@@ -25964,19 +25969,19 @@ msgstr ""
 msgid "Error while trying to write csv file"
 msgstr "Ошибка при попытке записи csv файла"
 
-#: src/stf.c:458
+#: src/stf.c:471
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr "Файл со значениями разделёнными запятыми или табуляциями (CSV/TSV)"
 
-#: src/stf.c:462
+#: src/stf.c:475
 msgid "Text import (configurable)"
 msgstr "Импорт текстового файла (настраиваемый)"
 
-#: src/stf.c:466
+#: src/stf.c:479
 msgid "Text export (configurable)"
 msgstr "Экспорт текстового файла (настраиваемый)"
 
-#: src/stf.c:470
+#: src/stf.c:483
 msgid "Comma separated values (CSV)"
 msgstr "Значения разделённые запятыми (CSV)"
 
@@ -27638,31 +27643,31 @@ msgstr ""
 msgid "Bold italic"
 msgstr "Полужирный наклонный"
 
-#: src/widgets/widget-format-selector.c:77
+#: src/widgets/widget-format-selector.c:78
 msgid "Currency"
 msgstr "Денежный"
 
-#: src/widgets/widget-format-selector.c:78
+#: src/widgets/widget-format-selector.c:79
 msgid "Accounting"
 msgstr "Бухгалтерский"
 
-#: src/widgets/widget-format-selector.c:82
+#: src/widgets/widget-format-selector.c:83
 msgid "Fraction"
 msgstr "Дробный"
 
-#: src/widgets/widget-format-selector.c:83
+#: src/widgets/widget-format-selector.c:84
 msgid "Scientific"
 msgstr "Научный"
 
-#: src/widgets/widget-format-selector.c:85
+#: src/widgets/widget-format-selector.c:86
 msgid "Special"
 msgstr "Специальный"
 
-#: src/widgets/widget-format-selector.c:955
+#: src/widgets/widget-format-selector.c:960
 msgid "Negative Number Format"
 msgstr "Формат отрицательного числа"
 
-#: src/widgets/widget-format-selector.c:986
+#: src/widgets/widget-format-selector.c:991
 msgid "Number Formats"
 msgstr "Числовые форматы"
 
@@ -28718,23 +28723,23 @@ msgstr ""
 #. * This should be quite rare.  To provoke, use
 #. * gnumeric `echo -e '\377\376'`
 #.
-#: src/workbook-view.c:608 src/workbook-view.c:964
+#: src/workbook-view.c:608 src/workbook-view.c:960
 msgid "The filename given is not valid in the current encoding."
 msgstr "Заданное имя файла не допустимо для текущей кодировки."
 
-#: src/workbook-view.c:693 src/workbook-view.c:806
+#: src/workbook-view.c:693 src/workbook-view.c:802
 msgid "Default file saver is not available."
 msgstr "Функция сохранения используемая по умолчанию не доступна."
 
-#: src/workbook-view.c:765
+#: src/workbook-view.c:762
 msgid "Failed to create temporary file for sending."
 msgstr ""
 
-#: src/workbook-view.c:899
+#: src/workbook-view.c:895
 msgid "Unsupported file format."
 msgstr "Неподдерживаемый формат файла."
 
-#: src/workbook-view.c:957
+#: src/workbook-view.c:953
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr ""

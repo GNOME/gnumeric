@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-05 08:44-0500\n"
+"POT-Creation-Date: 2004-03-15 21:08-0500\n"
 "PO-Revision-Date: 2003-05-05 18:20+0000\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
@@ -725,7 +725,7 @@ msgstr "财务相关"
 msgid "Functions related to financial derivatives"
 msgstr "与财务相关的函数"
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5407
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5517
 #: plugins/mps/mps.c:549 src/xml-io.c:4136
 msgid "Reading file..."
 msgstr "正在读取文件..."
@@ -817,41 +817,41 @@ msgstr "意外属性 %s::%s ==“%s”。"
 msgid "XML document not well formed!"
 msgstr "XML 文档格式不正式！"
 
-#: plugins/excel/ms-excel-read.c:1008 src/value.c:60
+#: plugins/excel/ms-excel-read.c:1043 src/value.c:60
 msgid "#UNKNOWN!"
 msgstr "#UNKNOWN!"
 
 # src/workbook.c:1810 src/workbook.c:1838
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1099 plugins/excel/ms-excel-read.c:1110
+#: plugins/excel/ms-excel-read.c:1134 plugins/excel/ms-excel-read.c:1145
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:515
 #: src/dialogs/dialog-sheet-order.c:440 src/dialogs/dialog-sheet-order.c:444
 #, c-format
 msgid "Sheet%d"
 msgstr "Sheet%d"
 
-#: plugins/excel/ms-excel-read.c:1113
+#: plugins/excel/ms-excel-read.c:1148
 #, c-format
 msgid "Macro%d"
 msgstr "宏%d"
 
-#: plugins/excel/ms-excel-read.c:1116
+#: plugins/excel/ms-excel-read.c:1151
 #, c-format
 msgid "Chart%d"
 msgstr "图表%d"
 
-#: plugins/excel/ms-excel-read.c:1119
+#: plugins/excel/ms-excel-read.c:1154
 #, c-format
 msgid "Module%d"
 msgstr "模块%d"
 
-#: plugins/excel/ms-excel-read.c:2841
+#: plugins/excel/ms-excel-read.c:2951
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "处理名称“%s”失败。"
 
-#: plugins/excel/ms-excel-read.c:2897
+#: plugins/excel/ms-excel-read.c:3007
 #, fuzzy, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -860,7 +860,7 @@ msgstr ""
 "DDE 链接不支持。\n"
 "名称“%s”将丢失。\n"
 
-#: plugins/excel/ms-excel-read.c:2903
+#: plugins/excel/ms-excel-read.c:3013
 #, fuzzy, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -869,15 +869,15 @@ msgstr ""
 "OLE 链接不支持。\n"
 "名称“%s”将丢失。\n"
 
-#: plugins/excel/ms-excel-read.c:4767
+#: plugins/excel/ms-excel-read.c:4877
 msgid "external references"
 msgstr "外部引用"
 
-#: plugins/excel/ms-excel-read.c:4792
+#: plugins/excel/ms-excel-read.c:4902
 msgid "No password supplied"
 msgstr "未提供密码"
 
-#: plugins/excel/ms-excel-read.c:5640
+#: plugins/excel/ms-excel-read.c:5750
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "找不到有效的 MS Excel 工作簿"
 
@@ -4151,7 +4151,7 @@ msgstr "date1,date2,Interval"
 #: plugins/fn-date/functions.c:1281 plugins/fn-date/functions.c:1285
 #: plugins/fn-date/functions.c:1293 plugins/fn-date/functions.c:1297
 #: plugins/fn-date/functions.c:1310 plugins/fn-date/functions.c:1314
-#: src/print-info.c:575
+#: src/print-info.c:572
 msgid "date"
 msgstr "date"
 
@@ -4170,7 +4170,7 @@ msgstr "start_date,months"
 
 # src/dialog-cell-format.c:69
 #: plugins/fn-date/functions.c:1245 plugins/fn-date/functions.c:1249
-#: plugins/fn-date/functions.c:1265 src/print-info.c:576
+#: plugins/fn-date/functions.c:1265 src/print-info.c:573
 msgid "time"
 msgstr "time"
 
@@ -16833,7 +16833,7 @@ msgid "Borders"
 msgstr "边框"
 
 # src/dialog-cell-format.c:370
-#: src/GNOME_Gnumeric.xml.h:19 src/sheet-object-widget.c:424
+#: src/GNOME_Gnumeric.xml.h:19 src/sheet-object-widget.c:439
 #: src/workbook-object-toolbar.c:155
 msgid "Button"
 msgstr "按钮"
@@ -17218,7 +17218,7 @@ msgid "Fourier Analysis"
 msgstr "傅立叶分析"
 
 # src/plugin-manager.c:95 src/plugin-manager.c:96
-#: src/GNOME_Gnumeric.xml.h:103 src/sheet-object-widget.c:197
+#: src/GNOME_Gnumeric.xml.h:103 src/sheet-object-widget.c:214
 #: src/workbook-object-toolbar.c:150
 msgid "Frame"
 msgstr "帧"
@@ -17399,7 +17399,7 @@ msgstr "调到指定的单元"
 
 #: src/GNOME_Gnumeric.xml.h:142
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:733
-#: src/sheet-object-graphic.c:1442 src/workbook-object-toolbar.c:147
+#: src/sheet-object-graphic.c:1451 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "标签"
 
@@ -18576,12 +18576,12 @@ msgid "Typing \"%s%s\""
 msgstr "输入 \"%s%s\""
 
 # src/dialog-delete-cells.c:36
-#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3184
+#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3185
 msgid "Delete Columns"
 msgstr "删除列"
 
 # src/dialog-delete-cells.c:35
-#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3302
+#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3303
 msgid "Delete Rows"
 msgstr "删除行"
 
@@ -18633,7 +18633,7 @@ msgstr "删除行 %s"
 
 # src/workbook.c:713
 #. Check for locked cells
-#: src/commands.c:1504 src/commands.c:1508 src/sheet.c:2798
+#: src/commands.c:1504 src/commands.c:1508 src/sheet.c:2799
 msgid "Clear"
 msgstr "清除"
 
@@ -18706,10 +18706,16 @@ msgid "Setting height of row %s to default"
 msgstr "设置行 %s 的高度为默认值"
 
 # src/dialog-delete-cells.c:36
-#: src/commands.c:1935 src/commands.c:1936
+#: src/commands.c:1935
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "自动调整列 %s"
+
+# src/dialog-delete-cells.c:35
+#: src/commands.c:1936
+#, fuzzy, c-format
+msgid "Autofitting rows %s"
+msgstr "自动调整行 %s"
 
 #: src/commands.c:1939
 #, c-format
@@ -19223,22 +19229,22 @@ msgstr ""
 msgid "Plot"
 msgstr "点"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:247
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
 msgid "H"
 msgstr ""
 
 # src/workbook.c:790
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:247
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
 #, fuzzy
 msgid "Height"
 msgstr "高度(_H)..."
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:250
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:252
 msgid "W"
 msgstr ""
 
 # src/workbook.c:784
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:250
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:252
 #, fuzzy
 msgid "Width"
 msgstr "替换为(_W)："
@@ -19566,26 +19572,26 @@ msgstr "样式"
 # src/dialog-delete-cells.c:32 src/item-grid.c:532
 #. TODO : have a look at apple's themes
 #. An MS Excel-ish theme
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:382
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:400
 #: src/dialogs/dialog-sheet-order.c:957 src/dialogs/dialog-sheet-order.c:970
 msgid "Default"
 msgstr "默认"
 
 #. Guppi
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:437
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:455
 #, fuzzy
 msgid "Guppi"
 msgstr "分组"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:304
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:193
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:195
 #: src/dialogs/consolidate.glade.h:12
 msgid "Labels"
 msgstr "标签"
 
 # src/dialog-paste-special.c:22
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:306
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:195
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:197
 #: src/dialogs/consolidate.glade.h:27
 msgid "Values"
 msgstr "数值"
@@ -19932,7 +19938,7 @@ msgstr "度数(_D)"
 msgid "PlotPie"
 msgstr "点"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:266
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:268
 #, fuzzy
 msgid "PlotRing"
 msgstr "无"
@@ -20049,29 +20055,29 @@ msgstr ""
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:260
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:262
 #, fuzzy
 msgid "PlotXY"
 msgstr "点"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:320
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:369
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:322
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:467
 msgid "X"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:322
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:371
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:324
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:469
 msgid "Y"
 msgstr ""
 
 # src/format.c:404
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:353
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:355
 #, fuzzy
 msgid "PlotBubble"
 msgstr "双线"
 
 # src/format.c:404
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:373
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:471
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:1
 #, fuzzy
 msgid "Bubble"
@@ -20808,8 +20814,8 @@ msgstr "首字母"
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:663
-#: src/format.c:2184 src/format.c:2313 src/format.c:2319 src/format.c:2395
-#: src/plugin-service.c:200 src/widgets/widget-format-selector.c:75
+#: src/format.c:2188 src/format.c:2317 src/format.c:2323 src/format.c:2399
+#: src/plugin-service.c:200 src/widgets/widget-format-selector.c:76
 msgid "General"
 msgstr "常规"
 
@@ -20917,7 +20923,7 @@ msgstr "项目"
 
 # src/dialog-cell-format.c:70
 #: src/dialogs/autofilter-top10.glade.h:4
-#: src/widgets/widget-format-selector.c:81
+#: src/widgets/widget-format-selector.c:82
 msgid "Percentage"
 msgstr "百分比"
 
@@ -21165,12 +21171,12 @@ msgstr "条件(_C)："
 
 # src/dialog-zoom.c:56
 #: src/dialogs/cell-format.glade.h:38 src/dialogs/dialog-stf-export.glade.h:17
-#: src/widgets/widget-format-selector.c:86
+#: src/widgets/widget-format-selector.c:87
 msgid "Custom"
 msgstr "自定义"
 
 # src/dialog-cell-format.c:68
-#: src/dialogs/cell-format.glade.h:39 src/widgets/widget-format-selector.c:79
+#: src/dialogs/cell-format.glade.h:39 src/widgets/widget-format-selector.c:80
 msgid "Date"
 msgstr "日期"
 
@@ -21306,7 +21312,7 @@ msgid "Text length"
 msgstr "文本长度"
 
 # src/dialog-cell-format.c:69
-#: src/dialogs/cell-format.glade.h:87 src/widgets/widget-format-selector.c:80
+#: src/dialogs/cell-format.glade.h:87 src/widgets/widget-format-selector.c:81
 msgid "Time"
 msgstr "时间"
 
@@ -22159,13 +22165,13 @@ msgstr "双线"
 
 # src/dialog-cell-format.c:915
 #: src/dialogs/dialog-cell-format.c:467 src/dialogs/dialog-search.c:147
-#: src/func.c:671 src/widgets/widget-format-selector.c:76
+#: src/func.c:671 src/widgets/widget-format-selector.c:77
 msgid "Number"
 msgstr "数字"
 
 # src/dialog-cell-format.c:73
 #: src/dialogs/dialog-cell-format.c:668 src/dialogs/dialog-stf-main-page.c:381
-#: src/widgets/widget-format-selector.c:84
+#: src/widgets/widget-format-selector.c:85
 msgid "Text"
 msgstr "文本"
 
@@ -25920,46 +25926,46 @@ msgid "FALSE"
 msgstr "FALSE"
 
 # src/format.c:403
-#: src/format.c:652
+#: src/format.c:656
 msgid "Black"
 msgstr "黑"
 
 # src/format.c:404
-#: src/format.c:653
+#: src/format.c:657
 msgid "Blue"
 msgstr "蓝"
 
 # src/format.c:405
-#: src/format.c:654
+#: src/format.c:658
 msgid "Cyan"
 msgstr "青"
 
 # src/format.c:406
-#: src/format.c:655
+#: src/format.c:659
 msgid "Green"
 msgstr "绿"
 
 # src/format.c:407
-#: src/format.c:656
+#: src/format.c:660
 msgid "Magenta"
 msgstr "洋红"
 
-#: src/format.c:657
+#: src/format.c:661
 msgid "Red"
 msgstr "红"
 
 # src/format.c:409
-#: src/format.c:658
+#: src/format.c:662
 msgid "White"
 msgstr "白"
 
 # src/format.c:410
-#: src/format.c:659
+#: src/format.c:663
 msgid "Yellow"
 msgstr "黄"
 
 #. Array of arrays ??
-#: src/format.c:2076
+#: src/format.c:2080
 msgid "ARRAY"
 msgstr "ARRAy"
 
@@ -25968,780 +25974,780 @@ msgstr "ARRAy"
 #. * The second column has the long names of the currencies.
 #.
 #. 2002/08/04 Updated to match iso 4217
-#: src/formats.c:389
+#: src/formats.c:391
 msgid "United Arab Emirates, Dirhams"
 msgstr "阿联酋迪拉姆"
 
-#: src/formats.c:390
+#: src/formats.c:392
 msgid "Afghanistan, Afghanis"
 msgstr "阿富汗尼"
 
-#: src/formats.c:391
+#: src/formats.c:393
 #, fuzzy
 msgid "Albania, Leke"
 msgstr "阿尔巴尼亚 lek"
 
-#: src/formats.c:392
+#: src/formats.c:394
 msgid "Armenia, Drams"
 msgstr "亚美尼亚特拉姆"
 
-#: src/formats.c:393
+#: src/formats.c:395
 #, fuzzy
 msgid "Netherlands Antilles, Guilders"
 msgstr "荷兰盾"
 
-#: src/formats.c:394
+#: src/formats.c:396
 #, fuzzy
 msgid "Angola, Kwanza"
 msgstr "安哥拉 新 kwanza"
 
-#: src/formats.c:395
+#: src/formats.c:397
 #, fuzzy
 msgid "Argentina, Pesos"
 msgstr "阿根廷 austral"
 
-#: src/formats.c:396
+#: src/formats.c:398
 #, fuzzy
 msgid "Australia, Dollars"
 msgstr "澳大利亚元"
 
-#: src/formats.c:397
+#: src/formats.c:399
 msgid "Aruba, Guilders"
 msgstr "阿鲁巴盾"
 
-#: src/formats.c:398
+#: src/formats.c:400
 msgid "Azerbaijan, Manats"
 msgstr ""
 
-#: src/formats.c:399
+#: src/formats.c:401
 msgid "Bosnia and Herzegovina, Convertible Marka"
 msgstr ""
 
-#: src/formats.c:400
+#: src/formats.c:402
 msgid "Barbados, Dollars"
 msgstr "巴巴多斯元"
 
-#: src/formats.c:401
+#: src/formats.c:403
 msgid "Bangladesh, Taka"
 msgstr "孟加拉塔卡"
 
-#: src/formats.c:402
+#: src/formats.c:404
 #, fuzzy
 msgid "Bulgaria, Leva"
 msgstr "保加利亚 利未"
 
-#: src/formats.c:403
+#: src/formats.c:405
 msgid "Bahrain, Dinars"
 msgstr "巴林第纳尔"
 
-#: src/formats.c:404
+#: src/formats.c:406
 msgid "Burundi, Francs"
 msgstr "布隆迪法郎"
 
-#: src/formats.c:405
+#: src/formats.c:407
 msgid "Bermuda, Dollars"
 msgstr "百慕达元"
 
-#: src/formats.c:406
+#: src/formats.c:408
 #, fuzzy
 msgid "Brunei Darussalam, Dollars"
 msgstr "汶莱 美元"
 
-#: src/formats.c:407
+#: src/formats.c:409
 msgid "Bolivia, Bolivianos"
 msgstr "玻利维亚元"
 
-#: src/formats.c:408
+#: src/formats.c:410
 #, fuzzy
 msgid "Brazil, Brazil Real"
 msgstr "巴西 cruzeiro"
 
-#: src/formats.c:409
+#: src/formats.c:411
 msgid "Bahamas, Dollars"
 msgstr "巴哈马元"
 
-#: src/formats.c:410
+#: src/formats.c:412
 #, fuzzy
 msgid "Bhutan, Ngultrum"
 msgstr "不丹 ngultrum"
 
-#: src/formats.c:411
+#: src/formats.c:413
 #, fuzzy
 msgid "Botswana, Pulas"
 msgstr "波丝瓦那 pula"
 
-#: src/formats.c:412
+#: src/formats.c:414
 #, fuzzy
 msgid "Belarus, Rubles"
 msgstr "Belarussian 卢布"
 
-#: src/formats.c:413
+#: src/formats.c:415
 #, fuzzy
 msgid "Belize, Dollars"
 msgstr "百里斯 美元"
 
-#: src/formats.c:414
+#: src/formats.c:416
 msgid "Canada, Dollars"
 msgstr "加拿大元"
 
-#: src/formats.c:415
+#: src/formats.c:417
 msgid "Congo/Kinshasa, Congolese Francs"
 msgstr ""
 
-#: src/formats.c:416
+#: src/formats.c:418
 msgid "Switzerland, Francs"
 msgstr "瑞士法郎"
 
-#: src/formats.c:417
+#: src/formats.c:419
 msgid "Chile, Pesos"
 msgstr "智利比索"
 
-#: src/formats.c:418
+#: src/formats.c:420
 msgid "China, Yuan Renminbi"
 msgstr "中国人民币"
 
-#: src/formats.c:419
+#: src/formats.c:421
 msgid "Colombia, Pesos"
 msgstr "哥伦比亚比索"
 
-#: src/formats.c:420
+#: src/formats.c:422
 #, fuzzy
 msgid "Costa Rica, Colones"
 msgstr "哥斯达黎加 colon"
 
-#: src/formats.c:421
+#: src/formats.c:423
 msgid "Cuba, Pesos"
 msgstr "古巴比索"
 
-#: src/formats.c:422
+#: src/formats.c:424
 msgid "Cape Verde, Escudos"
 msgstr "好望角埃斯库多"
 
-#: src/formats.c:423
+#: src/formats.c:425
 msgid "Cyprus, Pounds"
 msgstr "塞浦路斯镑"
 
-#: src/formats.c:424
+#: src/formats.c:426
 #, fuzzy
 msgid "Czech Republic, Koruny"
 msgstr "捷克 koruna"
 
-#: src/formats.c:425
+#: src/formats.c:427
 msgid "Djibouti, Francs"
 msgstr "吉布提法郎"
 
-#: src/formats.c:426
+#: src/formats.c:428
 msgid "Denmark, Kroner"
 msgstr "丹麦克朗"
 
-#: src/formats.c:427
+#: src/formats.c:429
 msgid "Dominican Republic, Pesos"
 msgstr "多米尼加比索"
 
-#: src/formats.c:428
+#: src/formats.c:430
 msgid "Algeria, Algeria Dinars"
 msgstr "阿尔及利亚第纳尔"
 
-#: src/formats.c:429
-msgid "Estonia, Krooni"
-msgstr ""
-
-#: src/formats.c:430
-#, fuzzy
-msgid "Egypt, Pounds"
-msgstr "埃及 英镑"
-
 #: src/formats.c:431
-msgid "Eritrea, Nakfa"
+msgid "Estonia, Krooni"
 msgstr ""
 
 #: src/formats.c:432
 #, fuzzy
-msgid "Ethiopia, Birr"
-msgstr "埃塞俄比亚 birr"
+msgid "Egypt, Pounds"
+msgstr "埃及 英镑"
 
 #: src/formats.c:433
-msgid "Euro Member Countries, Euro"
+msgid "Eritrea, Nakfa"
 msgstr ""
 
 #: src/formats.c:434
 #, fuzzy
+msgid "Ethiopia, Birr"
+msgstr "埃塞俄比亚 birr"
+
+#: src/formats.c:435
+msgid "Euro Member Countries, Euro"
+msgstr ""
+
+#: src/formats.c:436
+#, fuzzy
 msgid "Fiji, Dollars"
 msgstr "斐济 美元"
 
-#: src/formats.c:435
+#: src/formats.c:437
 #, fuzzy
 msgid "Falkland Islands (Malvinas), Pounds"
 msgstr "福克兰群岛 英镑"
 
-#: src/formats.c:436
+#: src/formats.c:438
 msgid "United Kingdom, Pounds"
 msgstr "英镑"
 
-#: src/formats.c:437
+#: src/formats.c:439
 msgid "Georgia, Lari"
 msgstr ""
 
-#: src/formats.c:438
+#: src/formats.c:440
 #, fuzzy
 msgid "Guernsey, Pounds"
 msgstr "苏丹 英镑"
 
-#: src/formats.c:439
+#: src/formats.c:441
 #, fuzzy
 msgid "Ghana, Cedis"
 msgstr "加纳 cedi"
 
-#: src/formats.c:440
+#: src/formats.c:442
 #, fuzzy
 msgid "Gibraltar, Pounds"
 msgstr "直布罗陀 英镑"
 
-#: src/formats.c:441
+#: src/formats.c:443
 #, fuzzy
 msgid "Gambia, Dalasi"
 msgstr "赞比亚 dalasi"
 
-#: src/formats.c:442
+#: src/formats.c:444
 #, fuzzy
 msgid "Guinea, Francs"
 msgstr "几内亚 法郎"
 
-#: src/formats.c:443
+#: src/formats.c:445
 #, fuzzy
 msgid "Guatemala, Quetzales"
 msgstr "瓜地马拉 quetzal"
 
-#: src/formats.c:444
+#: src/formats.c:446
 msgid "Guyana, Dollars"
 msgstr "盖亚那元"
 
-#: src/formats.c:445
+#: src/formats.c:447
 msgid "Hong Kong, Dollars"
 msgstr "港币"
 
-#: src/formats.c:446
+#: src/formats.c:448
 #, fuzzy
 msgid "Honduras, Lempiras"
 msgstr "洪都拉丝 lempira"
 
-#: src/formats.c:447
+#: src/formats.c:449
 #, fuzzy
 msgid "Croatia, Kuna"
 msgstr "克罗埃西亚 kuna"
 
-#: src/formats.c:448
+#: src/formats.c:450
 #, fuzzy
 msgid "Haiti, Gourdes"
 msgstr "海地 古德"
 
-#: src/formats.c:449
+#: src/formats.c:451
 #, fuzzy
 msgid "Hungary, Forint"
 msgstr "匈牙利 forint"
 
-#: src/formats.c:450
+#: src/formats.c:452
 #, fuzzy
 msgid "Indonesia, Rupiahs"
 msgstr "印度尼西亚 卢比"
 
-#: src/formats.c:451
+#: src/formats.c:453
 #, fuzzy
 msgid "Israel, New Shekels"
 msgstr "以色列 谢克尔"
 
-#: src/formats.c:452
+#: src/formats.c:454
 msgid "Isle of Man, Pounds"
 msgstr ""
 
-#: src/formats.c:453
+#: src/formats.c:455
 msgid "India, Rupees"
 msgstr "印度卢比"
 
-#: src/formats.c:454
+#: src/formats.c:456
 msgid "Iraq, Dinars"
 msgstr "伊拉克第纳尔"
 
-#: src/formats.c:455
+#: src/formats.c:457
 msgid "Iran, Rials"
 msgstr "伊朗里奥"
 
-#: src/formats.c:456
+#: src/formats.c:458
 #, fuzzy
 msgid "Iceland, Kronur"
 msgstr "冰岛 克朗"
 
-#: src/formats.c:457
+#: src/formats.c:459
 msgid "Jersey, Pounds"
 msgstr ""
 
-#: src/formats.c:458
+#: src/formats.c:460
 msgid "Jamaica, Dollars"
 msgstr "牙买加元"
 
-#: src/formats.c:459
+#: src/formats.c:461
 msgid "Jordan, Dinars"
 msgstr "约丹第纳尔"
 
-#: src/formats.c:460
+#: src/formats.c:462
 msgid "Japan, Yen"
 msgstr "日元"
 
-#: src/formats.c:461
+#: src/formats.c:463
 #, fuzzy
 msgid "Kenya, Shillings"
 msgstr "肯亚 先令"
 
-#: src/formats.c:462
+#: src/formats.c:464
 msgid "Kyrgyzstan, Soms"
 msgstr ""
 
-#: src/formats.c:463
+#: src/formats.c:465
 msgid "Cambodia, Riels"
 msgstr ""
 
-#: src/formats.c:464
+#: src/formats.c:466
 #, fuzzy
 msgid "Comoros, Francs"
 msgstr "科摩罗伊斯兰联邦共和国 法郎"
 
-#: src/formats.c:465
+#: src/formats.c:467
 msgid "Korea (North), Won"
 msgstr ""
 
-#: src/formats.c:466
+#: src/formats.c:468
 msgid "Korea (South), Won"
 msgstr ""
 
-#: src/formats.c:467
+#: src/formats.c:469
 msgid "Kuwait, Dinars"
 msgstr "科威特第纳尔"
 
-#: src/formats.c:468
+#: src/formats.c:470
 msgid "Cayman Islands, Dollars"
 msgstr "开曼群岛元"
 
-#: src/formats.c:469
+#: src/formats.c:471
 #, fuzzy
 msgid "Kazakstan, Tenge"
 msgstr "巴基斯坦 卢比"
 
-#: src/formats.c:470
+#: src/formats.c:472
 #, fuzzy
 msgid "Laos, Kips"
 msgstr "老挝 kip"
 
-#: src/formats.c:471
+#: src/formats.c:473
 #, fuzzy
 msgid "Lebanon, Pounds"
 msgstr "黎巴嫩 英镑"
 
-#: src/formats.c:472
+#: src/formats.c:474
 #, fuzzy
 msgid "Sri Lanka, Rupees"
 msgstr "斯里兰卡 卢比"
 
-#: src/formats.c:473
+#: src/formats.c:475
 #, fuzzy
 msgid "Liberia, Dollars"
 msgstr "利比利亚 美元"
 
-#: src/formats.c:474
+#: src/formats.c:476
 #, fuzzy
 msgid "Lesotho, Maloti"
 msgstr "赖索托 loti"
 
-#: src/formats.c:475
+#: src/formats.c:477
 msgid "Lithuania, Litai"
 msgstr ""
 
-#: src/formats.c:476
+#: src/formats.c:478
 msgid "Latvia, Lati"
 msgstr ""
 
-#: src/formats.c:477
+#: src/formats.c:479
 #, fuzzy
 msgid "Libya, Dinars"
 msgstr "利比亚 第纳尔"
 
-#: src/formats.c:478
+#: src/formats.c:480
 msgid "Morocco, Dirhams"
 msgstr "摩洛哥迪拉姆"
 
-#: src/formats.c:479
+#: src/formats.c:481
 #, fuzzy
 msgid "Moldova, Lei"
 msgstr "摩尔多瓦 leu"
 
-#: src/formats.c:480
+#: src/formats.c:482
 msgid "Madagascar, Malagasy Francs"
 msgstr "马达加斯加法郎"
 
-#: src/formats.c:481
+#: src/formats.c:483
 msgid "Macedonia, Denars"
 msgstr ""
 
-#: src/formats.c:482
+#: src/formats.c:484
 #, fuzzy
 msgid "Myanmar (Burma), Kyats"
 msgstr "Myanmar kyat"
 
-#: src/formats.c:483
+#: src/formats.c:485
 msgid "Mongolia, Tugriks"
 msgstr "蒙古图格里克"
 
-#: src/formats.c:484
+#: src/formats.c:486
 msgid "Macau, Patacas"
 msgstr "澳元"
 
-#: src/formats.c:485
+#: src/formats.c:487
 #, fuzzy
 msgid "Mauritania, Ouguiyas"
 msgstr "毛里塔尼亚 ouguiya"
 
-#: src/formats.c:486
+#: src/formats.c:488
 #, fuzzy
 msgid "Malta, Liri"
 msgstr "马尔他 里拉"
 
-#: src/formats.c:487
+#: src/formats.c:489
 #, fuzzy
 msgid "Mauritius, Rupees"
 msgstr "毛里西斯 卢比"
 
-#: src/formats.c:488
+#: src/formats.c:490
 msgid "Maldives (Maldive Islands), Rufiyaa"
 msgstr ""
 
-#: src/formats.c:489
+#: src/formats.c:491
 msgid "Malawi, Kwachas"
 msgstr "马拉维克瓦查"
 
-#: src/formats.c:490
+#: src/formats.c:492
 msgid "Mexico, Pesos"
 msgstr "墨西哥比索"
 
-#: src/formats.c:491
+#: src/formats.c:493
 msgid "Malaysia, Ringgits"
 msgstr "马来西亚林吉特"
 
-#: src/formats.c:492
+#: src/formats.c:494
 #, fuzzy
 msgid "Mozambique, Meticais"
 msgstr "莫桑比克 metical"
 
-#: src/formats.c:493
+#: src/formats.c:495
 msgid "Namibia, Dollars"
 msgstr "纳米比亚元"
 
-#: src/formats.c:494
+#: src/formats.c:496
 msgid "Nigeria, Nairas"
 msgstr "尼日利亚奈拉"
 
-#: src/formats.c:495
+#: src/formats.c:497
 #, fuzzy
 msgid "Nicaragua, Gold Cordobas"
 msgstr "尼加拉瓜 cordoba oro"
 
-#: src/formats.c:496
+#: src/formats.c:498
 msgid "Norway, Krone"
 msgstr "挪威克朗"
 
-#: src/formats.c:497
+#: src/formats.c:499
 msgid "Nepal, Nepal Rupees"
 msgstr "尼泊尔卢比"
 
-#: src/formats.c:498
+#: src/formats.c:500
 #, fuzzy
 msgid "New Zealand, Dollars"
 msgstr "新西兰元"
 
-#: src/formats.c:499
+#: src/formats.c:501
 msgid "Oman, Rials"
 msgstr "阿曼里亚尔"
 
-#: src/formats.c:500
+#: src/formats.c:502
 msgid "Panama, Balboa"
 msgstr "巴拿马巴波亚"
 
-#: src/formats.c:501
+#: src/formats.c:503
 msgid "Peru, Nuevos Soles"
 msgstr ""
 
-#: src/formats.c:502
+#: src/formats.c:504
 #, fuzzy
 msgid "Papua New Guinea, Kina"
 msgstr "巴布亚新几内亚 kina"
 
-#: src/formats.c:503
+#: src/formats.c:505
 #, fuzzy
 msgid "Philippines, Pesos"
 msgstr "菲律宾 比索"
 
-#: src/formats.c:504
+#: src/formats.c:506
 #, fuzzy
 msgid "Pakistan, Rupees"
 msgstr "巴基斯坦 卢比"
 
-#: src/formats.c:505
+#: src/formats.c:507
 msgid "Poland, Zlotys"
 msgstr ""
 
-#: src/formats.c:506
+#: src/formats.c:508
 #, fuzzy
 msgid "Paraguay, Guarani"
 msgstr "巴拉圭 guarani"
 
-#: src/formats.c:507
+#: src/formats.c:509
 #, fuzzy
 msgid "Qatar, Rials"
 msgstr "卡塔尔 里奥"
 
-#: src/formats.c:508
+#: src/formats.c:510
 #, fuzzy
 msgid "Romania, Lei"
 msgstr "罗马尼亚 leu"
 
-#: src/formats.c:509
+#: src/formats.c:511
 #, fuzzy
 msgid "Russia, Rubles"
 msgstr "Belarussian 卢布"
 
-#: src/formats.c:510
+#: src/formats.c:512
 #, fuzzy
 msgid "Rwanda, Rwanda Francs"
 msgstr "卢安达 法郎"
 
-#: src/formats.c:511
+#: src/formats.c:513
 #, fuzzy
 msgid "Saudi Arabia, Riyals"
 msgstr "沙特阿拉伯 利雅"
 
-#: src/formats.c:512
+#: src/formats.c:514
 #, fuzzy
 msgid "Solomon Islands, Dollars"
 msgstr "所罗门群岛 美元"
 
 # src/dialog-delete-cells.c:34
-#: src/formats.c:513
+#: src/formats.c:515
 #, fuzzy
 msgid "Seychelles, Rupees"
 msgstr "塞舌尔 卢比"
 
-#: src/formats.c:514
+#: src/formats.c:516
 msgid "Sudan, Dinars"
 msgstr "苏丹第纳尔"
 
-#: src/formats.c:515
+#: src/formats.c:517
 msgid "Sweden, Kronor"
 msgstr ""
 
-#: src/formats.c:516
+#: src/formats.c:518
 msgid "Singapore, Dollars"
 msgstr "新加坡元"
 
-#: src/formats.c:517
+#: src/formats.c:519
 #, fuzzy
 msgid "Saint Helena, Pounds"
 msgstr "圣海伦 英镑"
 
-#: src/formats.c:518
+#: src/formats.c:520
 #, fuzzy
 msgid "Slovenia, Tolars"
 msgstr "斯洛法克 tolar"
 
-#: src/formats.c:519
+#: src/formats.c:521
 #, fuzzy
 msgid "Slovakia, Koruny"
 msgstr "斯洛法克 tolar"
 
-#: src/formats.c:520
+#: src/formats.c:522
 #, fuzzy
 msgid "Sierra Leone, Leones"
 msgstr "狮子山 leone"
 
-#: src/formats.c:521
+#: src/formats.c:523
 #, fuzzy
 msgid "Somalia, Shillings"
 msgstr "索马里 先令"
 
-#: src/formats.c:522
+#: src/formats.c:524
 msgid "Seborga, Luigini"
 msgstr ""
 
-#: src/formats.c:523
+#: src/formats.c:525
 #, fuzzy
 msgid "Suriname, Guilders"
 msgstr "苏利南 盾"
 
-#: src/formats.c:524
+#: src/formats.c:526
 #, fuzzy
 msgid "Sao Tome and Principe, Dobras"
 msgstr "圣多美及普林西比 dobra"
 
-#: src/formats.c:525
+#: src/formats.c:527
 #, fuzzy
 msgid "El Salvador, Colones"
 msgstr "萨尔瓦多 colon"
 
-#: src/formats.c:526
+#: src/formats.c:528
 #, fuzzy
 msgid "Syria, Pounds"
 msgstr "叙利亚 英镑"
 
-#: src/formats.c:527
+#: src/formats.c:529
 #, fuzzy
 msgid "Swaziland, Emalangeni"
 msgstr "史瓦济兰 lilangeni"
 
-#: src/formats.c:528
+#: src/formats.c:530
 #, fuzzy
 msgid "Thailand, Baht"
 msgstr "泰国 baht"
 
-#: src/formats.c:529
+#: src/formats.c:531
 #, fuzzy
 msgid "Tajikistan, Rubles"
 msgstr "巴基斯坦 卢比"
 
-#: src/formats.c:530
+#: src/formats.c:532
 msgid "Turkmenistan, Manats"
 msgstr ""
 
-#: src/formats.c:531
+#: src/formats.c:533
 #, fuzzy
 msgid "Tunisia, Dinars"
 msgstr "突尼斯 第纳尔"
 
-#: src/formats.c:532
+#: src/formats.c:534
 #, fuzzy
 msgid "Tonga, Pa'anga"
 msgstr "东加 pa'anga"
 
-#: src/formats.c:533
+#: src/formats.c:535
 #, fuzzy
 msgid "Turkey, Liras"
 msgstr "土耳其 里拉"
 
-#: src/formats.c:534
+#: src/formats.c:536
 #, fuzzy
 msgid "Trinidad and Tobago, Dollars"
 msgstr "千里达共和国 美元"
 
-#: src/formats.c:535
+#: src/formats.c:537
 msgid "Tuvalu, Tuvalu Dollars"
 msgstr ""
 
-#: src/formats.c:536
+#: src/formats.c:538
 #, fuzzy
 msgid "Taiwan, New Dollars"
 msgstr "台湾新币"
 
-#: src/formats.c:537
+#: src/formats.c:539
 #, fuzzy
 msgid "Tanzania, Shillings"
 msgstr "坦桑尼亚 先令"
 
-#: src/formats.c:538
+#: src/formats.c:540
 #, fuzzy
 msgid "Ukraine, Hryvnia"
 msgstr "乌可兰 hryvnia"
 
-#: src/formats.c:539
+#: src/formats.c:541
 msgid "Uganda, Shillings"
 msgstr "乌干达先令"
 
-#: src/formats.c:540
+#: src/formats.c:542
 msgid "United States of America, Dollars"
 msgstr "美元"
 
-#: src/formats.c:541
+#: src/formats.c:543
 #, fuzzy
 msgid "Uruguay, Pesos"
 msgstr "乌拉圭 比索"
 
-#: src/formats.c:542
+#: src/formats.c:544
 msgid "Uzbekistan, Sums"
 msgstr ""
 
-#: src/formats.c:543
+#: src/formats.c:545
 #, fuzzy
 msgid "Venezuela, Bolivares"
 msgstr "委内瑞拉 bolivar"
 
-#: src/formats.c:544
+#: src/formats.c:546
 #, fuzzy
 msgid "Viet Nam, Dong"
 msgstr "越南 dong"
 
-#: src/formats.c:545
+#: src/formats.c:547
 #, fuzzy
 msgid "Vanuatu, Vatu"
 msgstr "Vanuatu vatu"
 
-#: src/formats.c:546
+#: src/formats.c:548
 #, fuzzy
 msgid "Samoa, Tala"
 msgstr "沙门群岛 tala"
 
-#: src/formats.c:547
+#: src/formats.c:549
 msgid "Communaute Financiere Africaine BEAC, Francs"
 msgstr ""
 
-#: src/formats.c:548
+#: src/formats.c:550
 msgid "Silver, Ounces"
 msgstr ""
 
-#: src/formats.c:549
+#: src/formats.c:551
 msgid "Gold, Ounces"
 msgstr ""
 
-#: src/formats.c:550
+#: src/formats.c:552
 #, fuzzy
 msgid "East Caribbean Dollars"
 msgstr "东加勒比 美元"
 
-#: src/formats.c:551
+#: src/formats.c:553
 msgid "International Monetary Fund (IMF) Special Drawing Rights"
 msgstr ""
 
-#: src/formats.c:552
+#: src/formats.c:554
 msgid "Communaute Financiere Africaine BCEAO, Francs"
 msgstr ""
 
-#: src/formats.c:553
+#: src/formats.c:555
 msgid "Palladium, Ounces"
 msgstr ""
 
-#: src/formats.c:554
+#: src/formats.c:556
 msgid "Comptoirs Francais du Pacifique Francs"
 msgstr ""
 
-#: src/formats.c:555
+#: src/formats.c:557
 msgid "Platinum, Ounces"
 msgstr ""
 
-#: src/formats.c:556
+#: src/formats.c:558
 #, fuzzy
 msgid "Yemen, Rials"
 msgstr "也门 里奥"
 
-#: src/formats.c:557
+#: src/formats.c:559
 #, fuzzy
 msgid "Yugoslavia, New Dinars"
 msgstr "新南斯拉夫 第纳尔"
 
-#: src/formats.c:558
+#: src/formats.c:560
 #, fuzzy
 msgid "South Africa, Rand"
 msgstr "南非 rand"
 
-#: src/formats.c:559
+#: src/formats.c:561
 #, fuzzy
 msgid "Zambia, Kwacha"
 msgstr "赞比亚 kwacha"
 
-#: src/formats.c:560
+#: src/formats.c:562
 msgid "Zimbabwe, Zimbabwe Dollars"
 msgstr "津巴布韦元"
 
@@ -27023,12 +27029,12 @@ msgstr ""
 msgid "Unable to open '%s'"
 msgstr "无法打开文件“%s”"
 
-#: src/item-bar.c:740
+#: src/item-bar.c:746
 #, c-format
 msgid "Width: %.2f pts (%d pixels)"
 msgstr "宽度：%.2f pts (%d 像素)"
 
-#: src/item-bar.c:743
+#: src/item-bar.c:749
 #, c-format
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "高度：%.2f pts (%d 像素)"
@@ -27640,29 +27646,29 @@ msgid "File Name"
 msgstr "新名称"
 
 # src/item-grid.c:528 src/sheet.c:2577 src/workbook.c:853
-#: src/print-info.c:564
+#: src/print-info.c:561
 #, fuzzy
 msgid "Path "
 msgstr "粘贴"
 
-#: src/print-info.c:572
+#: src/print-info.c:569
 msgid "tab"
 msgstr "定位"
 
-#: src/print-info.c:573
+#: src/print-info.c:570
 msgid "page"
 msgstr "页号"
 
-#: src/print-info.c:574
+#: src/print-info.c:571
 msgid "pages"
 msgstr "页数"
 
 # src/dialog-cell-format.c:297
-#: src/print-info.c:577
+#: src/print-info.c:574
 msgid "file"
 msgstr "文件"
 
-#: src/print-info.c:578
+#: src/print-info.c:575
 #, fuzzy
 msgid "path"
 msgstr "茅草"
@@ -27889,17 +27895,17 @@ msgstr ""
 msgid "_Save as image"
 msgstr "选中整列"
 
-#: src/sheet-object-graphic.c:944 src/sheet-object-graphic.c:963
+#: src/sheet-object-graphic.c:951 src/sheet-object-graphic.c:970
 msgid "Transparent"
 msgstr "透明"
 
-#: src/sheet-object-widget.c:1143
+#: src/sheet-object-widget.c:1140
 #, c-format
 msgid "CheckBox %d"
 msgstr "复选框 %d"
 
 # src/dialog-cell-format.c:370
-#: src/sheet-object-widget.c:1576 src/workbook-object-toolbar.c:164
+#: src/sheet-object-widget.c:1554 src/workbook-object-toolbar.c:164
 msgid "RadioButton"
 msgstr "单选钮"
 
@@ -27912,25 +27918,25 @@ msgid ""
 "name.  Expect weirdness."
 msgstr ""
 
-#: src/sheet.c:1961
+#: src/sheet.c:1962
 msgid "Target region contains merged cells"
 msgstr "目的区域包含合并的单元格"
 
-#: src/sheet.c:2023
+#: src/sheet.c:2024
 msgid "cannot operate on merged cells"
 msgstr "不能在合并的单元格上操作"
 
-#: src/sheet.c:2033
+#: src/sheet.c:2034
 msgid "cannot operate on array formulae"
 msgstr "不能在数组公式上操作"
 
 # src/dialog-insert-cells.c:37
-#: src/sheet.c:3125
+#: src/sheet.c:3126
 msgid "Insert Columns"
 msgstr "插入列"
 
 # src/workbook.c:484 src/workbook.c:500
-#: src/sheet.c:3243
+#: src/sheet.c:3244
 msgid "Insert Rows"
 msgstr "插入行"
 
@@ -27976,20 +27982,20 @@ msgstr "当试图把数据扫描进表格时出现语法错误"
 msgid "Error while trying to write csv file"
 msgstr "当试图写 csv 文件时出现错误"
 
-#: src/stf.c:458
+#: src/stf.c:471
 #, fuzzy
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr "逗号或跳格分隔的文件(CSV/TSV))"
 
-#: src/stf.c:462
+#: src/stf.c:475
 msgid "Text import (configurable)"
 msgstr "文本输入(可配置)"
 
-#: src/stf.c:466
+#: src/stf.c:479
 msgid "Text export (configurable)"
 msgstr "文本导出(可配置)"
 
-#: src/stf.c:470
+#: src/stf.c:483
 #, fuzzy
 msgid "Comma separated values (CSV)"
 msgstr "逗号或跳格分隔的文件(CSV/TSV))"
@@ -29801,40 +29807,40 @@ msgstr ""
 msgid "Bold italic"
 msgstr "粗斜体"
 
-#: src/widgets/widget-format-selector.c:77
+#: src/widgets/widget-format-selector.c:78
 #, fuzzy
 msgid "Currency"
 msgstr "货币(_C)"
 
 # src/dialog-cell-format.c:67
-#: src/widgets/widget-format-selector.c:78
+#: src/widgets/widget-format-selector.c:79
 #, fuzzy
 msgid "Accounting"
 msgstr "会计(_A)"
 
 # src/dialog-cell-format.c:71
-#: src/widgets/widget-format-selector.c:82
+#: src/widgets/widget-format-selector.c:83
 #, fuzzy
 msgid "Fraction"
 msgstr "分数(_F)"
 
 # src/dialog-cell-format.c:72
-#: src/widgets/widget-format-selector.c:83
+#: src/widgets/widget-format-selector.c:84
 #, fuzzy
 msgid "Scientific"
 msgstr "科学计数法(_S)"
 
 # src/workbook.c:774
-#: src/widgets/widget-format-selector.c:85
+#: src/widgets/widget-format-selector.c:86
 #, fuzzy
 msgid "Special"
 msgstr "特殊(_P)"
 
-#: src/widgets/widget-format-selector.c:955
+#: src/widgets/widget-format-selector.c:960
 msgid "Negative Number Format"
 msgstr "负数格式"
 
-#: src/widgets/widget-format-selector.c:986
+#: src/widgets/widget-format-selector.c:991
 msgid "Number Formats"
 msgstr "数字格式"
 
@@ -30995,26 +31001,26 @@ msgstr "保存 %s 时发生了不可解释的错误"
 #. * This should be quite rare.  To provoke, use
 #. * gnumeric `echo -e '\377\376'`
 #.
-#: src/workbook-view.c:608 src/workbook-view.c:964
+#: src/workbook-view.c:608 src/workbook-view.c:960
 #, fuzzy
 msgid "The filename given is not valid in the current encoding."
 msgstr "给出的文件名无效。"
 
-#: src/workbook-view.c:693 src/workbook-view.c:806
+#: src/workbook-view.c:693 src/workbook-view.c:802
 msgid "Default file saver is not available."
 msgstr "默认的文件保存器不可用。"
 
 # src/dump.c:29
-#: src/workbook-view.c:765
+#: src/workbook-view.c:762
 #, fuzzy
 msgid "Failed to create temporary file for sending."
 msgstr "无法建立临时文件。"
 
-#: src/workbook-view.c:899
+#: src/workbook-view.c:895
 msgid "Unsupported file format."
 msgstr "不支持的文件格式。"
 
-#: src/workbook-view.c:957
+#: src/workbook-view.c:953
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "打开 %s 时发生了未预期的错误"

@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Gnumeric 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-06 16:15+0200\n"
+"POT-Creation-Date: 2004-03-15 21:08-0500\n"
 "PO-Revision-Date: 2004-02-03 15:35+0200\n"
 "Last-Translator: Velonis Petros <velonis@freemail.gr>\n"
 "Language-Team: Greek <nls@tux.hellug.gr>\n"
@@ -729,7 +729,7 @@ msgstr "Οικονομικές"
 msgid "Functions related to financial derivatives"
 msgstr ""
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5407
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5517
 #: plugins/mps/mps.c:549 src/xml-io.c:4136
 msgid "Reading file..."
 msgstr ""
@@ -830,64 +830,64 @@ msgstr ""
 msgid "XML document not well formed!"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:1008 src/value.c:60
+#: plugins/excel/ms-excel-read.c:1043 src/value.c:60
 msgid "#UNKNOWN!"
 msgstr "#ΑΓΝΩΣΤΟ!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1099 plugins/excel/ms-excel-read.c:1110
+#: plugins/excel/ms-excel-read.c:1134 plugins/excel/ms-excel-read.c:1145
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:515
 #: src/dialogs/dialog-sheet-order.c:440 src/dialogs/dialog-sheet-order.c:444
 #, c-format
 msgid "Sheet%d"
 msgstr "Φύλλο%d"
 
-#: plugins/excel/ms-excel-read.c:1113
+#: plugins/excel/ms-excel-read.c:1148
 #, fuzzy, c-format
 msgid "Macro%d"
 msgstr "Μακροεντολή"
 
-#: plugins/excel/ms-excel-read.c:1116
+#: plugins/excel/ms-excel-read.c:1151
 #, fuzzy, c-format
 msgid "Chart%d"
 msgstr "Διάγραμμα..."
 
-#: plugins/excel/ms-excel-read.c:1119
+#: plugins/excel/ms-excel-read.c:1154
 #, c-format
 msgid "Module%d"
 msgstr "Άρθρωμα%d"
 
-#: plugins/excel/ms-excel-read.c:2841
+#: plugins/excel/ms-excel-read.c:2951
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:2897
+#: plugins/excel/ms-excel-read.c:3007
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
 "Name '%s' will be lost.\n"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:2903
+#: plugins/excel/ms-excel-read.c:3013
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
 "Name '%s' will be lost.\n"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:4767
+#: plugins/excel/ms-excel-read.c:4877
 #, fuzzy
 msgid "external references"
 msgstr "Κυκιλική αναφορά"
 
-#: plugins/excel/ms-excel-read.c:4792
+#: plugins/excel/ms-excel-read.c:4902
 #, fuzzy
 msgid "No password supplied"
 msgstr "Δεν δόθηκε κωδικός"
 
-#: plugins/excel/ms-excel-read.c:5640
+#: plugins/excel/ms-excel-read.c:5750
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Δε βρέθηκε έγκυρο βιβλίο MS Excel"
 
@@ -3280,6 +3280,11 @@ msgstr ""
 "@ΔΕΙΤΕ=NETWORKDAYS"
 
 #. Path of the current directory or folder.
+#. Absolute A1-style reference, as text, prepended with "$A:"
+#. * for Lotus 1-2-3 release 3.x compatibility. Returns the cell
+#. * reference of the top and leftmost cell visible in the
+#. * window, based on the current scrolling position.
+#.
 #: plugins/fn-date/functions.c:900 plugins/fn-eng/functions.c:100
 #: plugins/fn-info/functions.c:1276 plugins/fn-info/functions.c:1292
 msgid "Unimplemented"
@@ -3409,7 +3414,7 @@ msgstr ""
 #: plugins/fn-date/functions.c:1281 plugins/fn-date/functions.c:1285
 #: plugins/fn-date/functions.c:1293 plugins/fn-date/functions.c:1297
 #: plugins/fn-date/functions.c:1310 plugins/fn-date/functions.c:1314
-#: src/print-info.c:575
+#: src/print-info.c:572
 msgid "date"
 msgstr "ημ/νία"
 
@@ -3426,7 +3431,7 @@ msgid "start_date,months"
 msgstr ""
 
 #: plugins/fn-date/functions.c:1245 plugins/fn-date/functions.c:1249
-#: plugins/fn-date/functions.c:1265 src/print-info.c:576
+#: plugins/fn-date/functions.c:1265 src/print-info.c:573
 msgid "time"
 msgstr "ώρα"
 
@@ -15182,7 +15187,7 @@ msgstr "Έντονο"
 msgid "Borders"
 msgstr "Πλαίσια"
 
-#: src/GNOME_Gnumeric.xml.h:19 src/sheet-object-widget.c:424
+#: src/GNOME_Gnumeric.xml.h:19 src/sheet-object-widget.c:439
 #: src/workbook-object-toolbar.c:155
 msgid "Button"
 msgstr "Κουμπί"
@@ -15580,7 +15585,7 @@ msgstr ""
 msgid "Fourier Analysis"
 msgstr "Ανάλυση Fourier"
 
-#: src/GNOME_Gnumeric.xml.h:103 src/sheet-object-widget.c:197
+#: src/GNOME_Gnumeric.xml.h:103 src/sheet-object-widget.c:214
 #: src/workbook-object-toolbar.c:150
 #, fuzzy
 msgid "Frame"
@@ -15767,7 +15772,7 @@ msgstr "Μετακίνηση στο καθορισμένο κελί"
 
 #: src/GNOME_Gnumeric.xml.h:142
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:733
-#: src/sheet-object-graphic.c:1442 src/workbook-object-toolbar.c:147
+#: src/sheet-object-graphic.c:1451 src/workbook-object-toolbar.c:147
 #, fuzzy
 msgid "Label"
 msgstr "Ετικέτα"
@@ -16916,11 +16921,11 @@ msgstr "Πληκτρολόγηση \"%s%s\" στο %s"
 msgid "Typing \"%s%s\""
 msgstr "Πληκτρολόγηση"
 
-#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3184
+#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3185
 msgid "Delete Columns"
 msgstr "Διαγραφή Στηλών"
 
-#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3302
+#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3303
 msgid "Delete Rows"
 msgstr "Διαγραφή Σειρών"
 
@@ -16965,7 +16970,7 @@ msgid "Deleting row %s"
 msgstr "Διαγραφή σειράς %s"
 
 #. Check for locked cells
-#: src/commands.c:1504 src/commands.c:1508 src/sheet.c:2798
+#: src/commands.c:1504 src/commands.c:1508 src/sheet.c:2799
 msgid "Clear"
 msgstr "Διαγραφή"
 
@@ -17030,10 +17035,15 @@ msgstr "Ρύθμιση πλάτους της στήλης %s"
 msgid "Setting height of row %s to default"
 msgstr "Ρύθμιση του ύψους της σειράς %s"
 
-#: src/commands.c:1935 src/commands.c:1936
+#: src/commands.c:1935
 #, fuzzy, c-format
 msgid "Autofitting columns %s"
 msgstr "Διαγραφή στήλης %s"
+
+#: src/commands.c:1936
+#, fuzzy, c-format
+msgid "Autofitting rows %s"
+msgstr "Διαγραφή σειράς %s"
 
 #: src/commands.c:1939
 #, fuzzy, c-format
@@ -17343,6 +17353,10 @@ msgid "Text (%s) to Columns (%s)"
 msgstr "Διαγραφή στη_λών"
 
 #. Fill in the header titles.
+#.
+#. * Fill in the titles.
+#.
+#. Fill in the header titles.
 #: src/commands.c:6280 src/dialogs/solver.glade.h:24
 #: src/tools/solver/reports-write.c:195 src/tools/solver/reports-write.c:356
 #: src/tools/solver/reports-write.c:486 src/tools/solver/reports-write.c:747
@@ -17516,21 +17530,21 @@ msgstr "¶ξονας"
 msgid "Plot"
 msgstr "Ταξινόμιση"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:247
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
 #, fuzzy
 msgid "H"
 msgstr "H"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:247
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
 msgid "Height"
 msgstr "Ύψος"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:250
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:252
 #, fuzzy
 msgid "W"
 msgstr "Δ"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:250
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:252
 msgid "Width"
 msgstr "Πλάτος"
 
@@ -17824,25 +17838,25 @@ msgstr "Στύλ"
 
 #. TODO : have a look at apple's themes
 #. An MS Excel-ish theme
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:382
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:400
 #: src/dialogs/dialog-sheet-order.c:957 src/dialogs/dialog-sheet-order.c:970
 msgid "Default"
 msgstr "Εξ ορισμού"
 
 #. Guppi
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:437
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:455
 msgid "Guppi"
 msgstr "Guppi"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:304
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:193
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:195
 #: src/dialogs/consolidate.glade.h:12
 #, fuzzy
 msgid "Labels"
 msgstr "Ετικέτες"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:306
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:195
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:197
 #: src/dialogs/consolidate.glade.h:27
 msgid "Values"
 msgstr "Τιμές"
@@ -18168,7 +18182,7 @@ msgstr "βαθμοί"
 msgid "PlotPie"
 msgstr "Ταξινόμιση"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:266
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:268
 #, fuzzy
 msgid "PlotRing"
 msgstr "Αλφαριθμ."
@@ -18276,27 +18290,27 @@ msgstr ""
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:260
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:262
 #, fuzzy
 msgid "PlotXY"
 msgstr "Ταξινόμιση"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:320
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:369
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:322
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:467
 msgid "X"
 msgstr "Χ"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:322
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:371
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:324
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:469
 msgid "Y"
 msgstr "Ψ"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:353
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:355
 #, fuzzy
 msgid "PlotBubble"
 msgstr "Διπλή"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:373
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:471
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:1
 #, fuzzy
 msgid "Bubble"
@@ -18986,8 +19000,8 @@ msgstr "Πρώτο Γράμμα"
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:663
-#: src/format.c:2184 src/format.c:2313 src/format.c:2319 src/format.c:2395
-#: src/plugin-service.c:200 src/widgets/widget-format-selector.c:75
+#: src/format.c:2188 src/format.c:2317 src/format.c:2323 src/format.c:2399
+#: src/plugin-service.c:200 src/widgets/widget-format-selector.c:76
 msgid "General"
 msgstr "Γενικό"
 
@@ -19098,7 +19112,7 @@ msgid "Items"
 msgstr "Αντικείμενα"
 
 #: src/dialogs/autofilter-top10.glade.h:4
-#: src/widgets/widget-format-selector.c:81
+#: src/widgets/widget-format-selector.c:82
 msgid "Percentage"
 msgstr "Ποσοστό"
 
@@ -19326,12 +19340,12 @@ msgid "Con_dition:"
 msgstr "Περιε_χόμενα"
 
 #: src/dialogs/cell-format.glade.h:38 src/dialogs/dialog-stf-export.glade.h:17
-#: src/widgets/widget-format-selector.c:86
+#: src/widgets/widget-format-selector.c:87
 #, fuzzy
 msgid "Custom"
 msgstr "Παραμετροποιημένο"
 
-#: src/dialogs/cell-format.glade.h:39 src/widgets/widget-format-selector.c:79
+#: src/dialogs/cell-format.glade.h:39 src/widgets/widget-format-selector.c:80
 msgid "Date"
 msgstr "Ημερομηνία"
 
@@ -19453,7 +19467,7 @@ msgstr "Ε_πάνω"
 msgid "Text length"
 msgstr "Μήκος Κειμένου"
 
-#: src/dialogs/cell-format.glade.h:87 src/widgets/widget-format-selector.c:80
+#: src/dialogs/cell-format.glade.h:87 src/widgets/widget-format-selector.c:81
 msgid "Time"
 msgstr "Ώρα"
 
@@ -20299,12 +20313,12 @@ msgid "Double"
 msgstr "Διπλή"
 
 #: src/dialogs/dialog-cell-format.c:467 src/dialogs/dialog-search.c:147
-#: src/func.c:671 src/widgets/widget-format-selector.c:76
+#: src/func.c:671 src/widgets/widget-format-selector.c:77
 msgid "Number"
 msgstr "Αριθμός"
 
 #: src/dialogs/dialog-cell-format.c:668 src/dialogs/dialog-stf-main-page.c:381
-#: src/widgets/widget-format-selector.c:84
+#: src/widgets/widget-format-selector.c:85
 msgid "Text"
 msgstr "Κείμενο"
 
@@ -20494,6 +20508,12 @@ msgstr "Νέο Βιβλίο"
 
 #.
 #. * Fill in the labels of `Target Cell' section.
+#.
+#.
+#. * Fill in the labels of `Adjustable Cells' section.
+#.
+#.
+#. * Fill in the labels of `Constraints' section.
 #.
 #: src/dialogs/dialog-goto-cell.c:296 src/dialogs/dialog-search.c:398
 #: src/dialogs/tabulate.glade.h:2 src/tools/solver/reports-write.c:80
@@ -24002,40 +24022,40 @@ msgstr "ΑΛΗΘΕΣ"
 msgid "FALSE"
 msgstr "ΨΕΥΔΕΣ"
 
-#: src/format.c:652
+#: src/format.c:656
 msgid "Black"
 msgstr "Μαύρο"
 
-#: src/format.c:653
+#: src/format.c:657
 msgid "Blue"
 msgstr "Μπλε"
 
-#: src/format.c:654
+#: src/format.c:658
 msgid "Cyan"
 msgstr "Κυανό"
 
-#: src/format.c:655
+#: src/format.c:659
 msgid "Green"
 msgstr "Πράσινο"
 
-#: src/format.c:656
+#: src/format.c:660
 msgid "Magenta"
 msgstr "Μωβ"
 
-#: src/format.c:657
+#: src/format.c:661
 msgid "Red"
 msgstr "Κόκκινο"
 
-#: src/format.c:658
+#: src/format.c:662
 msgid "White"
 msgstr "Λευκό"
 
-#: src/format.c:659
+#: src/format.c:663
 msgid "Yellow"
 msgstr "Κίτρινο"
 
 #. Array of arrays ??
-#: src/format.c:2076
+#: src/format.c:2080
 msgid "ARRAY"
 msgstr "ΠΙΝΑΚΑΣ"
 
@@ -24044,755 +24064,755 @@ msgstr "ΠΙΝΑΚΑΣ"
 #. * The second column has the long names of the currencies.
 #.
 #. 2002/08/04 Updated to match iso 4217
-#: src/formats.c:389
+#: src/formats.c:391
 msgid "United Arab Emirates, Dirhams"
 msgstr ""
 
-#: src/formats.c:390
-msgid "Afghanistan, Afghanis"
-msgstr ""
-
-#: src/formats.c:391
-#, fuzzy
-msgid "Albania, Leke"
-msgstr "Λέκ Αλβανίας"
-
 #: src/formats.c:392
-msgid "Armenia, Drams"
+msgid "Afghanistan, Afghanis"
 msgstr ""
 
 #: src/formats.c:393
 #, fuzzy
-msgid "Netherlands Antilles, Guilders"
-msgstr "Ολλανδικές στερλίνες Αντίλλων"
+msgid "Albania, Leke"
+msgstr "Λέκ Αλβανίας"
 
 #: src/formats.c:394
-msgid "Angola, Kwanza"
+msgid "Armenia, Drams"
 msgstr ""
 
 #: src/formats.c:395
 #, fuzzy
+msgid "Netherlands Antilles, Guilders"
+msgstr "Ολλανδικές στερλίνες Αντίλλων"
+
+#: src/formats.c:396
+msgid "Angola, Kwanza"
+msgstr ""
+
+#: src/formats.c:397
+#, fuzzy
 msgid "Argentina, Pesos"
 msgstr "Πέσος Μεξικού"
 
-#: src/formats.c:396
+#: src/formats.c:398
 #, fuzzy
 msgid "Australia, Dollars"
 msgstr "Δολλάριο Αυστραλίας"
 
-#: src/formats.c:397
+#: src/formats.c:399
 #, fuzzy
 msgid "Aruba, Guilders"
 msgstr "Στερλίνες Αρούμπας"
 
-#: src/formats.c:398
+#: src/formats.c:400
 msgid "Azerbaijan, Manats"
 msgstr ""
 
-#: src/formats.c:399
-msgid "Bosnia and Herzegovina, Convertible Marka"
-msgstr ""
-
-#: src/formats.c:400
-#, fuzzy
-msgid "Barbados, Dollars"
-msgstr "Δολλάριο Μπαρμπέιντος"
-
 #: src/formats.c:401
-msgid "Bangladesh, Taka"
+msgid "Bosnia and Herzegovina, Convertible Marka"
 msgstr ""
 
 #: src/formats.c:402
 #, fuzzy
+msgid "Barbados, Dollars"
+msgstr "Δολλάριο Μπαρμπέιντος"
+
+#: src/formats.c:403
+msgid "Bangladesh, Taka"
+msgstr ""
+
+#: src/formats.c:404
+#, fuzzy
 msgid "Bulgaria, Leva"
 msgstr "Λέβ Βουλγαρίας"
 
-#: src/formats.c:403
+#: src/formats.c:405
 #, fuzzy
 msgid "Bahrain, Dinars"
 msgstr "Δηνάριο Μπαχρέιν"
 
-#: src/formats.c:404
+#: src/formats.c:406
 #, fuzzy
 msgid "Burundi, Francs"
 msgstr "Φράγκο Μπουρούντι"
 
-#: src/formats.c:405
+#: src/formats.c:407
 #, fuzzy
 msgid "Bermuda, Dollars"
 msgstr "Δολλάριο Βερμούδων"
 
-#: src/formats.c:406
+#: src/formats.c:408
 msgid "Brunei Darussalam, Dollars"
 msgstr ""
 
-#: src/formats.c:407
+#: src/formats.c:409
 msgid "Bolivia, Bolivianos"
 msgstr ""
 
-#: src/formats.c:408
+#: src/formats.c:410
 #, fuzzy
 msgid "Brazil, Brazil Real"
 msgstr "Ιταλική λίρα"
 
-#: src/formats.c:409
+#: src/formats.c:411
 #, fuzzy
 msgid "Bahamas, Dollars"
 msgstr "Δολλάριο Μπαχαμών"
 
-#: src/formats.c:410
+#: src/formats.c:412
 msgid "Bhutan, Ngultrum"
 msgstr ""
 
-#: src/formats.c:411
+#: src/formats.c:413
 msgid "Botswana, Pulas"
 msgstr ""
 
-#: src/formats.c:412
+#: src/formats.c:414
 #, fuzzy
 msgid "Belarus, Rubles"
 msgstr "Λέβ Βουλγαρίας"
 
-#: src/formats.c:413
+#: src/formats.c:415
 #, fuzzy
 msgid "Belize, Dollars"
 msgstr "Δολλάριο Μπελίζ"
 
-#: src/formats.c:414
+#: src/formats.c:416
 #, fuzzy
 msgid "Canada, Dollars"
 msgstr "Καναδικό δολλάριο"
 
-#: src/formats.c:415
+#: src/formats.c:417
 msgid "Congo/Kinshasa, Congolese Francs"
 msgstr ""
 
-#: src/formats.c:416
-msgid "Switzerland, Francs"
-msgstr ""
-
-#: src/formats.c:417
-#, fuzzy
-msgid "Chile, Pesos"
-msgstr "Πέσος Χιλής"
-
 #: src/formats.c:418
-msgid "China, Yuan Renminbi"
+msgid "Switzerland, Francs"
 msgstr ""
 
 #: src/formats.c:419
 #, fuzzy
-msgid "Colombia, Pesos"
-msgstr "Πέσος Κολομβίας"
+msgid "Chile, Pesos"
+msgstr "Πέσος Χιλής"
 
 #: src/formats.c:420
-msgid "Costa Rica, Colones"
+msgid "China, Yuan Renminbi"
 msgstr ""
 
 #: src/formats.c:421
 #, fuzzy
-msgid "Cuba, Pesos"
-msgstr "Πέσος Κούβας"
+msgid "Colombia, Pesos"
+msgstr "Πέσος Κολομβίας"
 
 #: src/formats.c:422
-msgid "Cape Verde, Escudos"
+msgid "Costa Rica, Colones"
 msgstr ""
 
 #: src/formats.c:423
 #, fuzzy
-msgid "Cyprus, Pounds"
-msgstr "Λίρα Κύπρου"
+msgid "Cuba, Pesos"
+msgstr "Πέσος Κούβας"
 
 #: src/formats.c:424
-msgid "Czech Republic, Koruny"
+msgid "Cape Verde, Escudos"
 msgstr ""
 
 #: src/formats.c:425
 #, fuzzy
-msgid "Djibouti, Francs"
-msgstr "Φράγκο Τζιμπούτι"
+msgid "Cyprus, Pounds"
+msgstr "Λίρα Κύπρου"
 
 #: src/formats.c:426
-msgid "Denmark, Kroner"
+msgid "Czech Republic, Koruny"
 msgstr ""
 
 #: src/formats.c:427
 #, fuzzy
+msgid "Djibouti, Francs"
+msgstr "Φράγκο Τζιμπούτι"
+
+#: src/formats.c:428
+msgid "Denmark, Kroner"
+msgstr ""
+
+#: src/formats.c:429
+#, fuzzy
 msgid "Dominican Republic, Pesos"
 msgstr "Πέσος Δομηνίκου"
 
-#: src/formats.c:428
+#: src/formats.c:430
 #, fuzzy
 msgid "Algeria, Algeria Dinars"
 msgstr "Δηνάριο Αλγερίας"
 
-#: src/formats.c:429
+#: src/formats.c:431
 msgid "Estonia, Krooni"
 msgstr ""
 
-#: src/formats.c:430
+#: src/formats.c:432
 #, fuzzy
 msgid "Egypt, Pounds"
 msgstr "Λίρα Αιγύπτου"
 
-#: src/formats.c:431
+#: src/formats.c:433
 msgid "Eritrea, Nakfa"
 msgstr ""
 
-#: src/formats.c:432
+#: src/formats.c:434
 msgid "Ethiopia, Birr"
 msgstr ""
 
-#: src/formats.c:433
+#: src/formats.c:435
 msgid "Euro Member Countries, Euro"
 msgstr ""
 
-#: src/formats.c:434
+#: src/formats.c:436
 #, fuzzy
 msgid "Fiji, Dollars"
 msgstr "Δολλάριο Φίτζι"
 
-#: src/formats.c:435
+#: src/formats.c:437
 #, fuzzy
 msgid "Falkland Islands (Malvinas), Pounds"
 msgstr "Λίρα Νήσων Φώκλαντ"
 
-#: src/formats.c:436
+#: src/formats.c:438
 msgid "United Kingdom, Pounds"
 msgstr ""
 
-#: src/formats.c:437
-msgid "Georgia, Lari"
-msgstr ""
-
-#: src/formats.c:438
-#, fuzzy
-msgid "Guernsey, Pounds"
-msgstr "Λίρα Σουδάν"
-
 #: src/formats.c:439
-msgid "Ghana, Cedis"
+msgid "Georgia, Lari"
 msgstr ""
 
 #: src/formats.c:440
 #, fuzzy
-msgid "Gibraltar, Pounds"
-msgstr "Λίρες Γιβραλτάρ"
+msgid "Guernsey, Pounds"
+msgstr "Λίρα Σουδάν"
 
 #: src/formats.c:441
-msgid "Gambia, Dalasi"
+msgid "Ghana, Cedis"
 msgstr ""
 
 #: src/formats.c:442
 #, fuzzy
-msgid "Guinea, Francs"
-msgstr "Φράγκο Γουινέας"
+msgid "Gibraltar, Pounds"
+msgstr "Λίρες Γιβραλτάρ"
 
 #: src/formats.c:443
-msgid "Guatemala, Quetzales"
+msgid "Gambia, Dalasi"
 msgstr ""
 
 #: src/formats.c:444
 #, fuzzy
+msgid "Guinea, Francs"
+msgstr "Φράγκο Γουινέας"
+
+#: src/formats.c:445
+msgid "Guatemala, Quetzales"
+msgstr ""
+
+#: src/formats.c:446
+#, fuzzy
 msgid "Guyana, Dollars"
 msgstr "Δολλάριο Γουιάνας"
 
-#: src/formats.c:445
+#: src/formats.c:447
 #, fuzzy
 msgid "Hong Kong, Dollars"
 msgstr "Δολλάριο Χόνγκ Κόνγκ"
 
-#: src/formats.c:446
+#: src/formats.c:448
 msgid "Honduras, Lempiras"
 msgstr ""
 
-#: src/formats.c:447
+#: src/formats.c:449
 msgid "Croatia, Kuna"
 msgstr ""
 
-#: src/formats.c:448
+#: src/formats.c:450
 msgid "Haiti, Gourdes"
 msgstr ""
 
-#: src/formats.c:449
+#: src/formats.c:451
 msgid "Hungary, Forint"
 msgstr ""
 
-#: src/formats.c:450
+#: src/formats.c:452
 msgid "Indonesia, Rupiahs"
 msgstr ""
 
-#: src/formats.c:451
+#: src/formats.c:453
 msgid "Israel, New Shekels"
 msgstr ""
 
-#: src/formats.c:452
+#: src/formats.c:454
 msgid "Isle of Man, Pounds"
 msgstr ""
 
-#: src/formats.c:453
+#: src/formats.c:455
 #, fuzzy
 msgid "India, Rupees"
 msgstr "Ινδικά ρούπια"
 
-#: src/formats.c:454
+#: src/formats.c:456
 #, fuzzy
 msgid "Iraq, Dinars"
 msgstr "Δηνάριο Ιράκ"
 
-#: src/formats.c:455
+#: src/formats.c:457
 #, fuzzy
 msgid "Iran, Rials"
 msgstr "Δημιουργία γραμμής"
 
-#: src/formats.c:456
+#: src/formats.c:458
 msgid "Iceland, Kronur"
 msgstr ""
 
-#: src/formats.c:457
+#: src/formats.c:459
 msgid "Jersey, Pounds"
 msgstr ""
 
-#: src/formats.c:458
+#: src/formats.c:460
 #, fuzzy
 msgid "Jamaica, Dollars"
 msgstr "Δολλάριο Τζαμάικα"
 
-#: src/formats.c:459
+#: src/formats.c:461
 #, fuzzy
 msgid "Jordan, Dinars"
 msgstr "Δηνάριο Ιορδανίας"
 
-#: src/formats.c:460
+#: src/formats.c:462
 #, fuzzy
 msgid "Japan, Yen"
 msgstr "Ιαπωνικό γιεν"
 
-#: src/formats.c:461
+#: src/formats.c:463
 #, fuzzy
 msgid "Kenya, Shillings"
 msgstr "Σελίνι Κένυας"
 
-#: src/formats.c:462
+#: src/formats.c:464
 msgid "Kyrgyzstan, Soms"
 msgstr ""
 
-#: src/formats.c:463
+#: src/formats.c:465
 msgid "Cambodia, Riels"
 msgstr ""
 
-#: src/formats.c:464
+#: src/formats.c:466
 msgid "Comoros, Francs"
 msgstr ""
 
-#: src/formats.c:465
+#: src/formats.c:467
 msgid "Korea (North), Won"
 msgstr ""
 
-#: src/formats.c:466
+#: src/formats.c:468
 msgid "Korea (South), Won"
 msgstr ""
 
-#: src/formats.c:467
+#: src/formats.c:469
 #, fuzzy
 msgid "Kuwait, Dinars"
 msgstr "Δηνάριο Κουβέιτ"
 
-#: src/formats.c:468
+#: src/formats.c:470
 #, fuzzy
 msgid "Cayman Islands, Dollars"
 msgstr "Δολλάριο Νήσων Κέυμαν"
 
-#: src/formats.c:469
+#: src/formats.c:471
 msgid "Kazakstan, Tenge"
 msgstr ""
 
-#: src/formats.c:470
-msgid "Laos, Kips"
-msgstr ""
-
-#: src/formats.c:471
-#, fuzzy
-msgid "Lebanon, Pounds"
-msgstr "Λίρα Λιβάνου"
-
 #: src/formats.c:472
-msgid "Sri Lanka, Rupees"
+msgid "Laos, Kips"
 msgstr ""
 
 #: src/formats.c:473
 #, fuzzy
-msgid "Liberia, Dollars"
-msgstr "Δολλάριο Λιβερίας"
+msgid "Lebanon, Pounds"
+msgstr "Λίρα Λιβάνου"
 
 #: src/formats.c:474
-msgid "Lesotho, Maloti"
+msgid "Sri Lanka, Rupees"
 msgstr ""
 
 #: src/formats.c:475
-msgid "Lithuania, Litai"
-msgstr ""
+#, fuzzy
+msgid "Liberia, Dollars"
+msgstr "Δολλάριο Λιβερίας"
 
 #: src/formats.c:476
-msgid "Latvia, Lati"
+msgid "Lesotho, Maloti"
 msgstr ""
 
 #: src/formats.c:477
+msgid "Lithuania, Litai"
+msgstr ""
+
+#: src/formats.c:478
+msgid "Latvia, Lati"
+msgstr ""
+
+#: src/formats.c:479
 #, fuzzy
 msgid "Libya, Dinars"
 msgstr "Δηνάριο Λιβύης"
 
-#: src/formats.c:478
+#: src/formats.c:480
 msgid "Morocco, Dirhams"
 msgstr ""
 
-#: src/formats.c:479
+#: src/formats.c:481
 msgid "Moldova, Lei"
 msgstr ""
 
-#: src/formats.c:480
+#: src/formats.c:482
 msgid "Madagascar, Malagasy Francs"
 msgstr ""
 
-#: src/formats.c:481
+#: src/formats.c:483
 msgid "Macedonia, Denars"
 msgstr ""
 
-#: src/formats.c:482
+#: src/formats.c:484
 msgid "Myanmar (Burma), Kyats"
 msgstr ""
 
-#: src/formats.c:483
+#: src/formats.c:485
 msgid "Mongolia, Tugriks"
 msgstr ""
 
-#: src/formats.c:484
+#: src/formats.c:486
 msgid "Macau, Patacas"
 msgstr ""
 
-#: src/formats.c:485
+#: src/formats.c:487
 msgid "Mauritania, Ouguiyas"
 msgstr ""
 
-#: src/formats.c:486
+#: src/formats.c:488
 #, fuzzy
 msgid "Malta, Liri"
 msgstr "Λίρα Μάλτας"
 
-#: src/formats.c:487
+#: src/formats.c:489
 msgid "Mauritius, Rupees"
 msgstr ""
 
-#: src/formats.c:488
+#: src/formats.c:490
 msgid "Maldives (Maldive Islands), Rufiyaa"
 msgstr ""
 
-#: src/formats.c:489
+#: src/formats.c:491
 msgid "Malawi, Kwachas"
 msgstr ""
 
-#: src/formats.c:490
+#: src/formats.c:492
 #, fuzzy
 msgid "Mexico, Pesos"
 msgstr "Πέσος Μεξικού"
 
-#: src/formats.c:491
+#: src/formats.c:493
 msgid "Malaysia, Ringgits"
 msgstr ""
 
-#: src/formats.c:492
+#: src/formats.c:494
 msgid "Mozambique, Meticais"
 msgstr ""
 
-#: src/formats.c:493
+#: src/formats.c:495
 #, fuzzy
 msgid "Namibia, Dollars"
 msgstr "Δολλάριο Λιβερίας"
 
-#: src/formats.c:494
+#: src/formats.c:496
 msgid "Nigeria, Nairas"
 msgstr ""
 
-#: src/formats.c:495
+#: src/formats.c:497
 msgid "Nicaragua, Gold Cordobas"
 msgstr ""
 
-#: src/formats.c:496
+#: src/formats.c:498
 msgid "Norway, Krone"
 msgstr ""
 
-#: src/formats.c:497
+#: src/formats.c:499
 msgid "Nepal, Nepal Rupees"
 msgstr ""
 
-#: src/formats.c:498
+#: src/formats.c:500
 #, fuzzy
 msgid "New Zealand, Dollars"
 msgstr "Δολλάριο Νέας Ζηλανδίας"
 
-#: src/formats.c:499
+#: src/formats.c:501
 msgid "Oman, Rials"
 msgstr ""
 
-#: src/formats.c:500
+#: src/formats.c:502
 msgid "Panama, Balboa"
 msgstr ""
 
-#: src/formats.c:501
+#: src/formats.c:503
 msgid "Peru, Nuevos Soles"
 msgstr ""
 
-#: src/formats.c:502
+#: src/formats.c:504
 msgid "Papua New Guinea, Kina"
 msgstr ""
 
-#: src/formats.c:503
+#: src/formats.c:505
 #, fuzzy
 msgid "Philippines, Pesos"
 msgstr "Πέσος Φιλιππίνων"
 
-#: src/formats.c:504
+#: src/formats.c:506
 msgid "Pakistan, Rupees"
 msgstr ""
 
-#: src/formats.c:505
+#: src/formats.c:507
 msgid "Poland, Zlotys"
 msgstr ""
 
-#: src/formats.c:506
-msgid "Paraguay, Guarani"
-msgstr ""
-
-#: src/formats.c:507
-#, fuzzy
-msgid "Qatar, Rials"
-msgstr "Απρίλιος"
-
 #: src/formats.c:508
-msgid "Romania, Lei"
+msgid "Paraguay, Guarani"
 msgstr ""
 
 #: src/formats.c:509
 #, fuzzy
+msgid "Qatar, Rials"
+msgstr "Απρίλιος"
+
+#: src/formats.c:510
+msgid "Romania, Lei"
+msgstr ""
+
+#: src/formats.c:511
+#, fuzzy
 msgid "Russia, Rubles"
 msgstr "Λέβ Βουλγαρίας"
 
-#: src/formats.c:510
+#: src/formats.c:512
 #, fuzzy
 msgid "Rwanda, Rwanda Francs"
 msgstr "Φράγκο Ρουάντας"
 
-#: src/formats.c:511
+#: src/formats.c:513
 msgid "Saudi Arabia, Riyals"
 msgstr ""
 
-#: src/formats.c:512
+#: src/formats.c:514
 #, fuzzy
 msgid "Solomon Islands, Dollars"
 msgstr "Δολλάριο Νήσων Σολομώντα"
 
-#: src/formats.c:513
+#: src/formats.c:515
 msgid "Seychelles, Rupees"
 msgstr ""
 
-#: src/formats.c:514
+#: src/formats.c:516
 msgid "Sudan, Dinars"
 msgstr ""
 
-#: src/formats.c:515
+#: src/formats.c:517
 msgid "Sweden, Kronor"
 msgstr ""
 
-#: src/formats.c:516
+#: src/formats.c:518
 #, fuzzy
 msgid "Singapore, Dollars"
 msgstr "Δολλάριο Σιγκαπούρης"
 
-#: src/formats.c:517
+#: src/formats.c:519
 msgid "Saint Helena, Pounds"
 msgstr ""
 
-#: src/formats.c:518
+#: src/formats.c:520
 msgid "Slovenia, Tolars"
 msgstr ""
 
-#: src/formats.c:519
+#: src/formats.c:521
 msgid "Slovakia, Koruny"
 msgstr ""
 
-#: src/formats.c:520
+#: src/formats.c:522
 msgid "Sierra Leone, Leones"
 msgstr ""
 
-#: src/formats.c:521
+#: src/formats.c:523
 #, fuzzy
 msgid "Somalia, Shillings"
 msgstr "Σελίνι Σομαλίας"
 
-#: src/formats.c:522
+#: src/formats.c:524
 msgid "Seborga, Luigini"
 msgstr ""
 
-#: src/formats.c:523
+#: src/formats.c:525
 msgid "Suriname, Guilders"
 msgstr ""
 
-#: src/formats.c:524
+#: src/formats.c:526
 msgid "Sao Tome and Principe, Dobras"
 msgstr ""
 
-#: src/formats.c:525
+#: src/formats.c:527
 msgid "El Salvador, Colones"
 msgstr ""
 
-#: src/formats.c:526
+#: src/formats.c:528
 #, fuzzy
 msgid "Syria, Pounds"
 msgstr "Λίρα Συρίας"
 
-#: src/formats.c:527
+#: src/formats.c:529
 msgid "Swaziland, Emalangeni"
 msgstr ""
 
-#: src/formats.c:528
+#: src/formats.c:530
 msgid "Thailand, Baht"
 msgstr ""
 
-#: src/formats.c:529
+#: src/formats.c:531
 msgid "Tajikistan, Rubles"
 msgstr ""
 
-#: src/formats.c:530
-msgid "Turkmenistan, Manats"
-msgstr ""
-
-#: src/formats.c:531
-#, fuzzy
-msgid "Tunisia, Dinars"
-msgstr "Δηνάριο Τυνησίας"
-
 #: src/formats.c:532
-msgid "Tonga, Pa'anga"
+msgid "Turkmenistan, Manats"
 msgstr ""
 
 #: src/formats.c:533
 #, fuzzy
+msgid "Tunisia, Dinars"
+msgstr "Δηνάριο Τυνησίας"
+
+#: src/formats.c:534
+msgid "Tonga, Pa'anga"
+msgstr ""
+
+#: src/formats.c:535
+#, fuzzy
 msgid "Turkey, Liras"
 msgstr "Λίρες Τουρκίας"
 
-#: src/formats.c:534
+#: src/formats.c:536
 #, fuzzy
 msgid "Trinidad and Tobago, Dollars"
 msgstr "Δολλάριο Τρινιδάδ και Τομπάγκο"
 
-#: src/formats.c:535
+#: src/formats.c:537
 msgid "Tuvalu, Tuvalu Dollars"
 msgstr ""
 
-#: src/formats.c:536
+#: src/formats.c:538
 #, fuzzy
 msgid "Taiwan, New Dollars"
 msgstr "Νέο δολλάριο Ταϊβάν"
 
-#: src/formats.c:537
+#: src/formats.c:539
 #, fuzzy
 msgid "Tanzania, Shillings"
 msgstr "Σελίνι Τανζανίας"
 
-#: src/formats.c:538
-msgid "Ukraine, Hryvnia"
-msgstr ""
-
-#: src/formats.c:539
-#, fuzzy
-msgid "Uganda, Shillings"
-msgstr "Σελίνι Ουγκάντας"
-
 #: src/formats.c:540
-msgid "United States of America, Dollars"
+msgid "Ukraine, Hryvnia"
 msgstr ""
 
 #: src/formats.c:541
 #, fuzzy
-msgid "Uruguay, Pesos"
-msgstr "Πέσος Ουρουγουάης"
+msgid "Uganda, Shillings"
+msgstr "Σελίνι Ουγκάντας"
 
 #: src/formats.c:542
-msgid "Uzbekistan, Sums"
+msgid "United States of America, Dollars"
 msgstr ""
 
 #: src/formats.c:543
-msgid "Venezuela, Bolivares"
-msgstr ""
+#, fuzzy
+msgid "Uruguay, Pesos"
+msgstr "Πέσος Ουρουγουάης"
 
 #: src/formats.c:544
-msgid "Viet Nam, Dong"
+msgid "Uzbekistan, Sums"
 msgstr ""
 
 #: src/formats.c:545
-msgid "Vanuatu, Vatu"
+msgid "Venezuela, Bolivares"
 msgstr ""
 
 #: src/formats.c:546
-msgid "Samoa, Tala"
+msgid "Viet Nam, Dong"
 msgstr ""
 
 #: src/formats.c:547
-msgid "Communaute Financiere Africaine BEAC, Francs"
+msgid "Vanuatu, Vatu"
 msgstr ""
 
 #: src/formats.c:548
-#, fuzzy
-msgid "Silver, Ounces"
-msgstr "Επιλογές Επίλυσης"
+msgid "Samoa, Tala"
+msgstr ""
 
 #: src/formats.c:549
-msgid "Gold, Ounces"
+msgid "Communaute Financiere Africaine BEAC, Francs"
 msgstr ""
 
 #: src/formats.c:550
 #, fuzzy
-msgid "East Caribbean Dollars"
-msgstr "Δολλάριο Αν. Καραϊβικής"
+msgid "Silver, Ounces"
+msgstr "Επιλογές Επίλυσης"
 
 #: src/formats.c:551
-msgid "International Monetary Fund (IMF) Special Drawing Rights"
+msgid "Gold, Ounces"
 msgstr ""
 
 #: src/formats.c:552
-msgid "Communaute Financiere Africaine BCEAO, Francs"
-msgstr ""
+#, fuzzy
+msgid "East Caribbean Dollars"
+msgstr "Δολλάριο Αν. Καραϊβικής"
 
 #: src/formats.c:553
-msgid "Palladium, Ounces"
+msgid "International Monetary Fund (IMF) Special Drawing Rights"
 msgstr ""
 
 #: src/formats.c:554
-msgid "Comptoirs Francais du Pacifique Francs"
+msgid "Communaute Financiere Africaine BCEAO, Francs"
 msgstr ""
 
 #: src/formats.c:555
-msgid "Platinum, Ounces"
+msgid "Palladium, Ounces"
 msgstr ""
 
 #: src/formats.c:556
-msgid "Yemen, Rials"
+msgid "Comptoirs Francais du Pacifique Francs"
 msgstr ""
 
 #: src/formats.c:557
+msgid "Platinum, Ounces"
+msgstr ""
+
+#: src/formats.c:558
+msgid "Yemen, Rials"
+msgstr ""
+
+#: src/formats.c:559
 #, fuzzy
 msgid "Yugoslavia, New Dinars"
 msgstr "Νέο δηνάριο Γιουγκοσλαβίας"
 
-#: src/formats.c:558
+#: src/formats.c:560
 msgid "South Africa, Rand"
 msgstr ""
 
-#: src/formats.c:559
+#: src/formats.c:561
 msgid "Zambia, Kwacha"
 msgstr ""
 
-#: src/formats.c:560
+#: src/formats.c:562
 #, fuzzy
 msgid "Zimbabwe, Zimbabwe Dollars"
 msgstr "Δολλάριο Ζιμπάμπουε"
@@ -25062,12 +25082,12 @@ msgstr "Δημιουργία αρχείου %s αδύνατη\n"
 msgid "Unable to open '%s'"
 msgstr "Αδυναμία ανοίγματος του %s"
 
-#: src/item-bar.c:740
+#: src/item-bar.c:746
 #, fuzzy, c-format
 msgid "Width: %.2f pts (%d pixels)"
 msgstr "Πλάτος: %.2f (%d pixel)"
 
-#: src/item-bar.c:743
+#: src/item-bar.c:749
 #, fuzzy, c-format
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "Ύψος: %.2f (%d pixel)"
@@ -25672,28 +25692,28 @@ msgstr "&[ΗΜ/ΝΙΑ]"
 msgid "File Name"
 msgstr "Όνομα Αρχείου"
 
-#: src/print-info.c:564
+#: src/print-info.c:561
 #, fuzzy
 msgid "Path "
 msgstr "ΔΙΑΔΡΟΜΗ"
 
-#: src/print-info.c:572
+#: src/print-info.c:569
 msgid "tab"
 msgstr "στηλοθ."
 
-#: src/print-info.c:573
+#: src/print-info.c:570
 msgid "page"
 msgstr "σελίδα"
 
-#: src/print-info.c:574
+#: src/print-info.c:571
 msgid "pages"
 msgstr "σελίδες"
 
-#: src/print-info.c:577
+#: src/print-info.c:574
 msgid "file"
 msgstr "αρχείο"
 
-#: src/print-info.c:578
+#: src/print-info.c:575
 #, fuzzy
 msgid "path"
 msgstr "ΔΙΑΔΡΟΜΗ"
@@ -25916,16 +25936,16 @@ msgstr ""
 msgid "_Save as image"
 msgstr "Αποθήκευση ως _εικόνα"
 
-#: src/sheet-object-graphic.c:944 src/sheet-object-graphic.c:963
+#: src/sheet-object-graphic.c:951 src/sheet-object-graphic.c:970
 msgid "Transparent"
 msgstr "Διάφανο"
 
-#: src/sheet-object-widget.c:1143
+#: src/sheet-object-widget.c:1140
 #, fuzzy, c-format
 msgid "CheckBox %d"
 msgstr "Checkbox"
 
-#: src/sheet-object-widget.c:1576 src/workbook-object-toolbar.c:164
+#: src/sheet-object-widget.c:1554 src/workbook-object-toolbar.c:164
 #, fuzzy
 msgid "RadioButton"
 msgstr "Κουμπί επιλογής"
@@ -25939,24 +25959,24 @@ msgid ""
 "name.  Expect weirdness."
 msgstr ""
 
-#: src/sheet.c:1961
+#: src/sheet.c:1962
 msgid "Target region contains merged cells"
 msgstr ""
 
-#: src/sheet.c:2023
+#: src/sheet.c:2024
 msgid "cannot operate on merged cells"
 msgstr ""
 
-#: src/sheet.c:2033
+#: src/sheet.c:2034
 #, fuzzy
 msgid "cannot operate on array formulae"
 msgstr "Δημιουργία αρχείου  αδύνατη\n"
 
-#: src/sheet.c:3125
+#: src/sheet.c:3126
 msgid "Insert Columns"
 msgstr "Εισαγωγή Στηλών"
 
-#: src/sheet.c:3243
+#: src/sheet.c:3244
 msgid "Insert Rows"
 msgstr "Εισαγωγή Γραμμών"
 
@@ -26001,22 +26021,22 @@ msgstr ""
 msgid "Error while trying to write csv file"
 msgstr ""
 
-#: src/stf.c:458
+#: src/stf.c:471
 #, fuzzy
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr "Άρθρωμα τιμών χωρισμένων με κόμμα (CSV)"
 
-#: src/stf.c:462
+#: src/stf.c:475
 #, fuzzy
 msgid "Text import (configurable)"
 msgstr "Μορφή αρχείου LaTeX (*.tex)"
 
-#: src/stf.c:466
+#: src/stf.c:479
 #, fuzzy
 msgid "Text export (configurable)"
 msgstr "Μορφή αρχείου LaTeX (*.tex)"
 
-#: src/stf.c:470
+#: src/stf.c:483
 #, fuzzy
 msgid "Comma separated values (CSV)"
 msgstr "Άρθρωμα τιμών χωρισμένων με κόμμα (CSV)"
@@ -26686,6 +26706,9 @@ msgstr "Ευαισ_θησία"
 #.
 #. * Fill in the labels of `Adjustable Cells' section.
 #.
+#.
+#. * Fill in the labels of `Constraints' section.
+#.
 #: src/tools/solver/reports-write.c:230 src/tools/solver/reports-write.c:276
 #, fuzzy
 msgid "Final"
@@ -26903,6 +26926,7 @@ msgid "OS"
 msgstr "ΛΣ"
 
 #. Set the `CPU Model'.
+#. Set the `CPU Mhz'.
 #: src/tools/solver/reports-write.c:676 src/tools/solver/reports-write.c:679
 #: src/tools/solver/reports-write.c:683
 msgid "Unknown"
@@ -27751,36 +27775,36 @@ msgstr ""
 msgid "Bold italic"
 msgstr "Έντονο πλάγιο"
 
-#: src/widgets/widget-format-selector.c:77
+#: src/widgets/widget-format-selector.c:78
 msgid "Currency"
 msgstr "Νόμισμα"
 
-#: src/widgets/widget-format-selector.c:78
+#: src/widgets/widget-format-selector.c:79
 #, fuzzy
 msgid "Accounting"
 msgstr "Λογιστικά"
 
-#: src/widgets/widget-format-selector.c:82
+#: src/widgets/widget-format-selector.c:83
 #, fuzzy
 msgid "Fraction"
 msgstr "Κλάσμα"
 
-#: src/widgets/widget-format-selector.c:83
+#: src/widgets/widget-format-selector.c:84
 #, fuzzy
 msgid "Scientific"
 msgstr "Επιστημονική"
 
-#: src/widgets/widget-format-selector.c:85
+#: src/widgets/widget-format-selector.c:86
 #, fuzzy
 msgid "Special"
 msgstr "Ειδικό"
 
-#: src/widgets/widget-format-selector.c:955
+#: src/widgets/widget-format-selector.c:960
 #, fuzzy
 msgid "Negative Number Format"
 msgstr "Αρνητ_ικός αριθμός:"
 
-#: src/widgets/widget-format-selector.c:986
+#: src/widgets/widget-format-selector.c:991
 #, fuzzy
 msgid "Number Formats"
 msgstr "Αντιγραφή μορφοποίησης"
@@ -28878,25 +28902,25 @@ msgstr "Ένα ανεξήγητο σφάλμα συνέβηκε κατά την 
 #. * This should be quite rare.  To provoke, use
 #. * gnumeric `echo -e '\377\376'`
 #.
-#: src/workbook-view.c:608 src/workbook-view.c:964
+#: src/workbook-view.c:608 src/workbook-view.c:960
 #, fuzzy
 msgid "The filename given is not valid in the current encoding."
 msgstr "Το όνομα αρχείου που δόθηκε δεν είναι έγκυρο."
 
-#: src/workbook-view.c:693 src/workbook-view.c:806
+#: src/workbook-view.c:693 src/workbook-view.c:802
 msgid "Default file saver is not available."
 msgstr ""
 
-#: src/workbook-view.c:765
+#: src/workbook-view.c:762
 #, fuzzy
 msgid "Failed to create temporary file for sending."
 msgstr "Δημιουργία προσωρινού αρχείου αδύνατη."
 
-#: src/workbook-view.c:899
+#: src/workbook-view.c:895
 msgid "Unsupported file format."
 msgstr "Μη υποστηριζόμενος τύπος αρχείου"
 
-#: src/workbook-view.c:957
+#: src/workbook-view.c:953
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Ένα ανεξήγητο σφάλμα συνέβηκε κατά το άνοιγμα %s"
