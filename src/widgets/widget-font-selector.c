@@ -49,6 +49,9 @@ struct _FontSelector {
 	FooCanvasItem *font_preview_grid;
 
 	GnmStyle     *mstyle;
+
+	GSList       *family_names;
+	GSList       *font_sizes;
 };
 
 typedef struct {
@@ -183,10 +186,15 @@ fs_fill_font_name_list (FontSelector *fs)
 	GSList *l;
 	GtkListStore *store;
 	GtkTreeIter iter;
+	PangoContext *context;
 
+#warning "FIXME: We need to do this when we realize the widget as we don't have a screen until then."
+	context = gtk_widget_get_pango_context (GTK_WIDGET (fs));
+
+	fs->family_names = go_fonts_list_families (context);
 	list_init (fs->font_name_list);
 	store = GTK_LIST_STORE (gtk_tree_view_get_model (fs->font_name_list));
-	for (l = go_fonts_family_names; l; l = l->next) {
+	for (l = fs->family_names; l; l = l->next) {
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (store, &iter, 0, l->data, -1);
 	}
@@ -299,25 +307,27 @@ static void
 size_changed (GtkEntry *entry, FontSelector *fs)
 {
 	int i;
-	 char const *text = gtk_entry_get_text (entry);
-	 double size = atof (text);
-	 if (size >= 1. && size < 128) {
-		 GnmStyle *change = mstyle_new ();
-		 mstyle_set_font_size (change, size);
-		 fs_modify_style (fs, change);
-	 }
-	 g_signal_handlers_block_by_func (
-	 			gtk_tree_view_get_selection (fs->font_size_list),
-				 size_selected, fs);
-	for (i = 0; go_fonts_size_pts[i] != 0; i++)
-		if (go_fonts_size_pts[i] == size) {
-			select_row (fs->font_size_list, i);
-			g_signal_handlers_unblock_by_func (
-				gtk_tree_view_get_selection (fs->font_size_list),
-				size_selected, fs);
-			return;
-		}
-	select_row (fs->font_size_list, -1);
+	char const *text = gtk_entry_get_text (entry);
+	double size = atof (text);
+	int psize = (int)(size * PANGO_SCALE + 0.5);
+	GSList *l;
+
+	if (size >= 1. && size < 128) {
+		GnmStyle *change = mstyle_new ();
+		mstyle_set_font_size (change, size);
+		fs_modify_style (fs, change);
+	}
+	g_signal_handlers_block_by_func (
+		gtk_tree_view_get_selection (fs->font_size_list),
+		size_selected, fs);
+
+	for (i = 0, l = fs->font_sizes; l; i++, l = l->next) {
+		int this_psize = GPOINTER_TO_INT (l->data);
+		if (this_psize == psize)
+			break;
+	}
+
+	select_row (fs->font_size_list, l ? i : -1);
 	g_signal_handlers_unblock_by_func (
 				gtk_tree_view_get_selection (fs->font_size_list),
 				size_selected, fs);
@@ -330,11 +340,16 @@ fs_fill_font_size_list (FontSelector *fs)
 	GtkTreeIter iter;
 	GSList *ptr;
 
+	fs->font_sizes = go_fonts_list_sizes ();
+
 	list_init (fs->font_size_list);
 	store = GTK_LIST_STORE (gtk_tree_view_get_model (fs->font_size_list));
-	for (ptr = go_fonts_size_names ; ptr != NULL ; ptr = ptr->next) {
+	for (ptr = fs->font_sizes ; ptr != NULL ; ptr = ptr->next) {
+		int psize = GPOINTER_TO_INT (ptr->data);
+		char *size_text = g_strdup_printf ("%g", psize / (double)PANGO_SCALE);
 		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter, 0, ptr->data, -1);
+		gtk_list_store_set (store, &iter, 0, size_text, -1);
+		g_free (size_text);
 	}
 	g_signal_connect (
 		G_OBJECT (gtk_tree_view_get_selection (fs->font_size_list)), "changed",
@@ -424,6 +439,17 @@ fs_destroy (GtkObject *object)
 		fs->gui = NULL;
 	}
 
+	if (fs->family_names) {
+		g_slist_foreach (fs->family_names, (GFunc)g_free, NULL);
+		g_slist_free (fs->family_names);
+		fs->family_names = NULL;
+	}
+
+	if (fs->font_sizes) {
+		g_slist_free (fs->font_sizes);
+		fs->font_sizes = NULL;
+	}
+
 	((GtkObjectClass *)fs_parent_class)->destroy (object);
 }
 
@@ -484,7 +510,7 @@ font_selector_set_name (FontSelector *fs,
 	g_return_if_fail (IS_FONT_SELECTOR (fs));
 	g_return_if_fail (font_name != NULL);
 
-	for (row = 0, l = go_fonts_family_names; l; l = l->next, row++)
+	for (row = 0, l = fs->family_names; l; l = l->next, row++)
 		if (g_ascii_strcasecmp (font_name, l->data) == 0)
 			break;
 
@@ -562,22 +588,11 @@ void
 font_selector_set_points (FontSelector *fs,
 			  double point_size)
 {
-	int i;
-
-	g_return_if_fail (IS_FONT_SELECTOR (fs));
-
-	for (i = 0; go_fonts_size_pts[i] != 0; i++)
-		if (go_fonts_size_pts[i] == point_size) {
-			select_row (fs->font_size_list, i);
-			break;
-		}
-
-	if (go_fonts_size_pts[i] == 0) {
-		char *buffer;
-		buffer = g_strdup_printf ("%g", point_size);
+	const char *old_text = gtk_entry_get_text (GTK_ENTRY (fs->font_size_entry));
+	char *buffer = g_strdup_printf ("%g", point_size);
+	if (strcmp (old_text, buffer) != 0)
 		gtk_entry_set_text (GTK_ENTRY (fs->font_size_entry), buffer);
-		g_free (buffer);
-	}
+	g_free (buffer);
 }
 
 void

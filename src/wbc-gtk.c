@@ -626,14 +626,21 @@ cb_font_name_changed (GOActionComboText *a, WBCgtk *gtk)
 static void
 wbc_gtk_init_font_name (WBCgtk *gtk)
 {
-	GSList *ptr;
+	PangoContext *context;
+	GSList *ptr, *families;
 
 	gtk->font_name = g_object_new (go_action_combo_text_get_type (),
-		"name",     "FontName",
-		NULL);
-	for (ptr = go_fonts_family_names; ptr != NULL; ptr = ptr->next)
-		if (ptr->data) 
-			go_action_combo_text_add_item (gtk->font_name, ptr->data);
+				       "name", "FontName",
+				       NULL);
+
+	context = gtk_widget_get_pango_context
+		(GTK_WIDGET (wbcg_toplevel (WORKBOOK_CONTROL_GUI (gtk))));
+	families = go_fonts_list_families (context);
+	for (ptr = families; ptr != NULL; ptr = ptr->next)
+		go_action_combo_text_add_item (gtk->font_name, ptr->data);
+	g_slist_foreach (families, (GFunc)g_free, NULL);
+	g_slist_free (families);
+
 	g_signal_connect (G_OBJECT (gtk->font_name),
 		"activate",
 		G_CALLBACK (cb_font_name_changed), gtk);
@@ -641,7 +648,7 @@ wbc_gtk_init_font_name (WBCgtk *gtk)
 	gnm_combo_box_set_title (GO_COMBO_BOX (fore_combo), _("Foreground"));
 #endif
 	gtk_action_group_add_action (gtk->font_actions,
-		GTK_ACTION (gtk->font_name));
+				     GTK_ACTION (gtk->font_name));
 }
 /****************************************************************************/
 
@@ -674,13 +681,19 @@ cb_font_size_changed (GOActionComboText *a, WBCgtk *gtk)
 static void
 wbc_gtk_init_font_size (WBCgtk *gtk)
 {
-	GSList *ptr;
+	GSList *ptr, *font_sizes;
 
 	gtk->font_size = g_object_new (go_action_combo_text_get_type (),
-		"name",     "FontSize",
-		NULL);
-	for (ptr = go_fonts_size_names; ptr != NULL ; ptr = ptr->next)
-		go_action_combo_text_add_item (gtk->font_size, ptr->data);
+				       "name", "FontSize",
+				       NULL);
+	font_sizes = go_fonts_list_sizes ();
+	for (ptr = font_sizes; ptr != NULL ; ptr = ptr->next) {
+		int psize = GPOINTER_TO_INT (ptr->data);
+		char *size_text = g_strdup_printf ("%g", psize / (double)PANGO_SCALE);
+		go_action_combo_text_add_item (gtk->font_size, size_text);
+		g_free (size_text);
+	}
+	g_slist_free (font_sizes);
 	go_action_combo_text_set_width (gtk->font_size, "888");
 	g_signal_connect (G_OBJECT (gtk->font_size),
 		"activate",
@@ -1336,7 +1349,8 @@ wbc_gtk_init (GObject *obj)
 
 	wbcg_set_toplevel (wbcg, gtk_window_new (GTK_WINDOW_TOPLEVEL));
 	g_signal_connect (wbcg->toplevel, "window_state_event",
-		G_CALLBACK (cb_wbcg_window_state_event), wbcg);
+			  G_CALLBACK (cb_wbcg_window_state_event),
+			  wbcg);
 	gtk_window_set_title (wbcg->toplevel, "Gnumeric");
 	gtk_window_set_wmclass (wbcg->toplevel, "Gnumeric", "Gnumeric");
 	gtk->menu_zone = gtk_vbox_new (TRUE, 0);
