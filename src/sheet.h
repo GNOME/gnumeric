@@ -303,6 +303,7 @@ void        sheet_hide_cursor             (Sheet *sheet);
  * Workbook
  */
 Workbook   *workbook_new                 (void);
+void        workbook_destroy             (Workbook *wb);
 Workbook   *workbook_new_with_sheets     (int sheet_count);
 
 void        workbook_save_as             (Workbook *);
