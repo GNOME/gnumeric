@@ -24,6 +24,7 @@
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-style.h>
+#include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/go-data.h>
 #include <goffice/utils/go-color.h>
@@ -354,15 +355,111 @@ gog_bubble_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 }
 
 static void
+extern gpointer gog_bubble_plot_pref (GogBubblePlot *pie, GnmCmdContext *cc);
+static gpointer
+gog_bubble_plot_editor (GogObject *item,
+		    G_GNUC_UNUSED GogDataAllocator *dalloc,
+		    GnmCmdContext *cc)
+{
+	return gog_bubble_plot_pref (GOG_BUBBLE_PLOT (item), cc);
+}
+
+enum {
+	GOG_BUBBLE_PROP_0,
+	GOG_BUBBLE_PROP_AS_AREA,
+	GOG_BUBBLE_PROP_SHOW_NEGATIVES,
+	GOG_BUBBLE_PROP_IN_3D,
+	GOG_BUBBLE_PROP_SCALE
+};
+
+static void
+gog_bubble_plot_set_property (GObject *obj, guint param_id,
+			   GValue const *value, GParamSpec *pspec)
+{
+	GogBubblePlot *bubble = GOG_BUBBLE_PLOT (obj);
+
+	switch (param_id) {
+	case GOG_BUBBLE_PROP_AS_AREA :
+		bubble->size_as_area = g_value_get_boolean (value);
+		break;
+	case GOG_BUBBLE_PROP_SHOW_NEGATIVES :
+		bubble->show_negatives = g_value_get_boolean (value);
+		break;
+	case GOG_BUBBLE_PROP_IN_3D :
+		bubble->in_3d = g_value_get_boolean (value);
+		break;
+	case GOG_BUBBLE_PROP_SCALE :
+		bubble->bubble_scale = g_value_get_float (value);
+		break;
+
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 return; /* NOTE : RETURN */
+	}
+
+	/* none of the attributes triggers a size change yet.
+	 * When we add data labels we'll need it */
+	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
+}
+
+static void
+gog_bubble_plot_get_property (GObject *obj, guint param_id,
+			  GValue *value, GParamSpec *pspec)
+{
+	GogBubblePlot *bubble = GOG_BUBBLE_PLOT (obj);
+
+	switch (param_id) {
+	case GOG_BUBBLE_PROP_AS_AREA :
+		g_value_set_boolean (value, bubble->size_as_area);
+		break;
+	case GOG_BUBBLE_PROP_SHOW_NEGATIVES :
+		g_value_set_boolean (value, bubble->show_negatives);
+		break;
+	case GOG_BUBBLE_PROP_IN_3D :
+		g_value_set_boolean (value, bubble->in_3d);
+		break;
+	case GOG_BUBBLE_PROP_SCALE :
+		g_value_set_float (value, bubble->bubble_scale);
+		break;
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
+	}
+}
+
 gog_bubble_plot_class_init (GogPlotClass *plot_klass)
 {
 	GogObjectClass *gog_klass = (GogObjectClass *) plot_klass;
-	Gog2DPlotClass *gog_2d_plot_klass = (Gog2DPlotClass*) plot_klass;
+	GObjectClass *gobject_klass = (GObjectClass *) plot_klass;
 
 	bubble_parent_klass = g_type_class_peek_parent (plot_klass);
+	gobject_klass->set_property = gog_bubble_plot_set_property;
+	gobject_klass->get_property = gog_bubble_plot_get_property;
+
+	Gog2DPlotClass *gog_2d_plot_klass = (Gog2DPlotClass*) plot_klass;
 	gog_2d_plot_klass->adjust_bounds = gog_bubble_plot_adjust_bounds;
 	gog_klass->type_name	= gog_bubble_plot_type_name;
 
+	gog_klass->editor	= gog_bubble_plot_editor;
+
+	g_object_class_install_property (gobject_klass, GOG_BUBBLE_PROP_AS_AREA,
+		g_param_spec_boolean ("size_as_area", "size_as_area",
+			"Display size as area instead of diameter",
+			TRUE,
+			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, GOG_BUBBLE_PROP_SHOW_NEGATIVES,
+		g_param_spec_boolean ("show_negatives", "show_negatives",
+			"Draw bubbles for negative values",
+			FALSE,
+			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, GOG_BUBBLE_PROP_IN_3D,
+		g_param_spec_boolean ("in_3d", "in_3d",
+			"Draw 3d bubbles",
+			FALSE,
+			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, GOG_BUBBLE_PROP_SCALE,
+		g_param_spec_float ("bubble_scale", "bubble_scale",
+			"Fraction of default radius used for display.",
+			0., 2., 1.,
+			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	{
 		static GogSeriesDimDesc dimensions[] = {
 			{ N_("X"), GOG_SERIES_SUGGESTED, FALSE,
@@ -384,10 +481,11 @@ gog_bubble_plot_adjust_bounds (Gog2DPlot *model, double *x_min, double *x_max, d
 {
 	/* Add room for bubbles*/
 	double tmp;
-	tmp = (*x_max - *x_min) / (BUBBLE_MAX_RADIUS_RATIO - 2.);
+	double factor = BUBBLE_MAX_RADIUS_RATIO / GOG_BUBBLE_PLOT (model)->bubble_scale - 2.;
+	tmp = (*x_max - *x_min) / factor;
 	*x_min -= tmp;
 	*x_max += tmp;
-	tmp = (*y_max - *y_min) / (BUBBLE_MAX_RADIUS_RATIO - 2.);
+	tmp = (*y_max - *y_min) / factor;
 	*y_min -= tmp;
 	*y_max += tmp;
 }
@@ -396,6 +494,10 @@ static void
 gog_bubble_plot_init (GogBubblePlot *bubble)
 {
 }
+	bubble->size_as_area = TRUE;
+	bubble->in_3d = FALSE;
+	bubble->show_negatives = FALSE;
+	bubble->bubble_scale = 1.0;
 
 GSF_CLASS (GogBubblePlot, gog_bubble_plot,
 	   gog_bubble_plot_class_init, gog_bubble_plot_init,
@@ -435,13 +537,15 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	Gog2DPlot const *model = GOG_2D_PLOT (view->model);
 	GogXYSeries const *series;
 	unsigned i, n, tmp;
+	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (model));
+	GogStyle *neg_style = NULL;
 	GSList *ptr;
 	double const *y_vals, *x_vals = NULL, *z_vals = NULL;
-	double x, y, z, x_min, x_max, x_off, x_scale, y_min, y_max, y_off, y_scale, zmax, rmax;
+	double x = 0., y = 0., z, x_min, x_max, x_off, x_scale, y_min, y_max, y_off, y_scale, zmax, rmax = 0.;
 	double prev_x = 0., prev_y = 0.; /* make compiler happy */
 	ArtVpath	path[3];
-	GogStyle const *style;
-	gboolean valid, prev_valid, show_marks, show_lines;
+	GogStyle *style;
+	gboolean valid, prev_valid, show_marks, show_lines, show_negatives, in_3d, size_as_area = TRUE;
 
 	if (!gog_axis_get_bounds (model->base.axis[0], &x_min, &x_max))
 		return;
@@ -479,9 +583,25 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				n = tmp;
 		}
 		if (model->base.desc.series.num_dim == 3) {
-			go_data_vector_get_minmax (GO_DATA_VECTOR (series->base.values[2].data), NULL, &zmax);
+		style = GOG_STYLED_OBJECT (series)->style;
+			double zmin;
+			go_data_vector_get_minmax (GO_DATA_VECTOR (series->base.values[2].data), &zmin, &zmax);
 			if ((! finite (zmax)) || (zmax <= 0)) continue;
-			rmax = MIN(view->residual.w, view->residual.h) / BUBBLE_MAX_RADIUS_RATIO;
+			rmax = MIN (view->residual.w, view->residual.h) / BUBBLE_MAX_RADIUS_RATIO
+						* GOG_BUBBLE_PLOT (view->model)->bubble_scale;
+			size_as_area = GOG_BUBBLE_PLOT (view->model)->size_as_area;
+			show_negatives = GOG_BUBBLE_PLOT (view->model)->show_negatives;
+			in_3d = GOG_BUBBLE_PLOT (view->model)->in_3d;
+			if (show_negatives) {
+				zmin = fabs (zmin);
+				if (zmin > zmax) zmax = zmin;
+				neg_style = gog_style_dup (GOG_STYLED_OBJECT (series)->style);
+				neg_style->fill.type = GOG_FILL_STYLE_PATTERN;
+				neg_style->fill.u.pattern.pat.pattern = GO_PATTERN_SOLID;
+				neg_style->fill.u.pattern.pat.back = RGBA_WHITE;
+			}
+			if (model->base.vary_style_by_element)
+				style = gog_style_dup (style);
 	
 			z_vals = go_data_vector_get_values (
 				GO_DATA_VECTOR (series->base.values[2].data));
@@ -494,7 +614,6 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (n <= 0)
 			continue;
 
-		style = GOG_STYLED_OBJECT (series)->style;
 		show_marks = gog_style_is_marker_visible (style);
 		show_lines = gog_style_is_line_visible (style);
 		if (!show_marks && !show_lines)
@@ -519,8 +638,19 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				y = y_off + y_scale * y;
 				if (model->base.desc.series.num_dim == 3) {
 					z = *z_vals++;
-					if (!finite (z) || z < 0) continue;
-					bubble_draw_circle (view, x, y, sqrt (z / zmax) * rmax);
+					if (!finite (z)) continue;
+					if (z < 0) {
+						if (GOG_BUBBLE_PLOT(model)->show_negatives) {
+							gog_renderer_push_style (view->renderer, neg_style);
+							bubble_draw_circle (view, x, y, ((size_as_area)? sqrt (- z / zmax): - z / zmax) * rmax);
+							gog_renderer_pop_style (view->renderer);
+						} else continue;
+					} else {
+						if (model->base.vary_style_by_element)
+							gog_theme_init_style (theme, style, GOG_OBJECT (series),
+								model->base.index_num + i - 1);
+						bubble_draw_circle (view, x, y, ((size_as_area)? sqrt (z / zmax): z / zmax) * rmax);
+					}
 				} else	if (prev_valid && show_lines) {
 					path[0].x = prev_x;
 					path[0].y = prev_y;
@@ -549,6 +679,12 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 
 		gog_renderer_pop_style (view->renderer);
 	}
+		if (GOG_IS_BUBBLE_PLOT (model)) {
+			if (model->base.vary_style_by_element)
+				g_object_unref (style);
+			if (((GogBubblePlot*)model)->show_negatives)
+				g_object_unref (neg_style);
+		}
 }
 
 static GogObject *

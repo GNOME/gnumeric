@@ -1,3 +1,14 @@
+2004-01-28  Jean Bréfort  <set EMAIL_ADDRESS environment variable>
+
+	reviewed by: <delete if not using a buddy>
+
+	* graph/plugins/plot_xy/Makefile.am:
+	* graph/plugins/plot_xy/gog-bubble-prefs.glade:
+	* graph/plugins/plot_xy/gog-bubble-prefs.c:
+	* graph/plugins/plot_xy/gog-xy.c:
+	* graph/plugins/plot_xy/gog-xy.h:
+		added support for bubble plots options
+
 2004-01-24  Jon K Hellan  <hellan@acm.org>
 
 	* gui-utils/go-dock.c (go_dock_class_init): Initialize parent_class.
