@@ -511,12 +511,14 @@ xml_read_range (xmlNodePtr tree, Range *r)
 }
 
 static void
-xml_write_range (xmlNodePtr tree, const Range *value)
+xml_write_range (xmlNodePtr tree, Range const *r)
 {
-	xml_set_value_int (tree, "startCol", value->start.col);
-	xml_set_value_int (tree, "startRow", value->start.row);
-	xml_set_value_int (tree, "endCol",   value->end.col);
-	xml_set_value_int (tree, "endRow",   value->end.row);
+	g_return_if_fail (range_is_sane (r));
+
+	xml_set_value_int (tree, "startCol", r->start.col);
+	xml_set_value_int (tree, "startRow", r->start.row);
+	xml_set_value_int (tree, "endCol",   r->end.col);
+	xml_set_value_int (tree, "endRow",   r->end.row);
 }
 
 static void

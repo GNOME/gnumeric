@@ -1,3 +1,9 @@
+2001-06-15  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_sheet_new) : Use CellPos directly.
+
+	* ms-formula-read.c (ms_excel_parse_formula) : some cleanup.
+
 2001-06-11  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-write.c (write_setup) : new routine.

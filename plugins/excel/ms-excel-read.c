@@ -811,7 +811,7 @@ biff_name_data_new (ExcelWorkbook *wb, char const *name,
 }
 
 ExprTree *
-biff_name_data_get_name (ExcelSheet *sheet, int idx)
+biff_name_data_get_name (ExcelSheet const *sheet, int idx)
 {
 	BiffNameData *bnd;
 	GPtrArray    *a;
@@ -829,7 +829,7 @@ biff_name_data_get_name (ExcelSheet *sheet, int idx)
 	}
 
 	if (bnd->type == BNDStore && bnd->v.store.data) {
-		ExprTree *tree = ms_excel_parse_formula (sheet->wb, sheet,
+		ExprTree *tree = ms_excel_parse_formula (sheet,
 							 bnd->v.store.data,
 							 0, 0, FALSE,
 							 bnd->v.store.len,
@@ -1776,20 +1776,6 @@ ms_excel_sheet_insert (ExcelSheet *sheet, int xfidx,
 	}
 }
 
-/* Shared formula support functions */
-static guint
-biff_shared_formula_hash (const BiffSharedFormulaKey *d)
-{
-	return (d->row<<16)+d->col;
-}
-
-static guint
-biff_shared_formula_equal (const BiffSharedFormulaKey *a,
-			   const BiffSharedFormulaKey *b)
-{
-	return (a->col == b->col && a->row == b->row);
-}
-
 static gboolean
 biff_shared_formula_destroy (gpointer key, BiffSharedFormula *sf,
 			     gpointer userdata)
@@ -1817,7 +1803,7 @@ ms_excel_formula_shared (BiffQuery *q, ExcelSheet *sheet, Cell *cell)
 			q->data + (is_array ? 14 : 10);
 		const guint16 data_len =
 			MS_OLE_GET_GUINT16 (q->data + (is_array ? 12 : 8));
-		ExprTree *expr = ms_excel_parse_formula (sheet->wb, sheet, data,
+		ExprTree *expr = ms_excel_parse_formula (sheet, data,
 							 array_col_first,
 							 array_row_first,
 							 !is_array, data_len,
@@ -1830,8 +1816,7 @@ ms_excel_formula_shared (BiffQuery *q, ExcelSheet *sheet, Cell *cell)
 		 *     flag the formula as shared until later.
 		 *  Use the location of the cell we are reading as the key.
 		 */
-		sf->key.col = cell->pos.col; /* array_col_first; */
-		sf->key.row = cell->pos.row; /* array_row_first; */
+		sf->key = cell->pos;
 		sf->is_array = is_array;
 		if (data_len > 0) {
 			sf->data = g_new (guint8, data_len);
@@ -1974,7 +1959,7 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 		};
 	}
 
-	expr = ms_excel_parse_formula (sheet->wb, sheet, (q->data + 22),
+	expr = ms_excel_parse_formula (sheet, (q->data + 22),
 				       col, row,
 				       FALSE, MS_OLE_GET_GUINT16 (q->data+20),
 				       &array_elem);
@@ -2066,17 +2051,14 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 }
 
 BiffSharedFormula *
-ms_excel_sheet_shared_formula (ExcelSheet *sheet, int const col, int const row)
+ms_excel_sheet_shared_formula (ExcelSheet const *sheet,
+			       CellPos const    *key)
 {
-	BiffSharedFormulaKey k;
-	k.col = col;
-	k.row = row;
-
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 5)
-		printf ("FIND SHARED : %s%d\n", col_name (col), row+1);
+		printf ("FIND SHARED : %s\n", cell_pos_name (key));
 #endif
-	return g_hash_table_lookup (sheet->shared_formulae, &k);
+	return g_hash_table_lookup (sheet->shared_formulae, key);
 }
 
 /**
@@ -2256,7 +2238,7 @@ ms_sheet_parse_expr_internal (ExcelSheet *e_sheet, guint8 const *data, int lengt
 
 	sheet = e_sheet->gnum_sheet;
 	wb = (sheet == NULL) ? e_sheet->wb->gnum_wb : NULL;
-	expr = ms_excel_parse_formula (e_sheet->wb, e_sheet, data,
+	expr = ms_excel_parse_formula (e_sheet, data,
 				       0, 0, FALSE, length, NULL);
 	tmp = expr_tree_as_string (expr, parse_pos_init (&pp, wb, sheet, 0, 0));
 	puts (tmp);
@@ -2321,8 +2303,8 @@ ms_excel_sheet_new (ExcelWorkbook *wb, char const *sheet_name)
 	res->base_char_width         = -1;
 	res->base_char_width_default = -1;
 	res->shared_formulae         =
-		g_hash_table_new ((GHashFunc)biff_shared_formula_hash,
-				  (GCompareFunc)biff_shared_formula_equal);
+		g_hash_table_new ((GHashFunc)&cellpos_hash,
+				  (GCompareFunc)&cellpos_cmp);
 
 	ms_excel_init_margins (res);
 	ms_container_init (&res->container, &vtbl, &wb->container);

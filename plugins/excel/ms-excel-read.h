@@ -35,20 +35,15 @@ typedef struct _BiffBoundsheetData
 } BiffBoundsheetData;
 
 typedef struct {
-	guint16 col;
-	guint16 row;
-} BiffSharedFormulaKey;
-
-typedef struct {
-	BiffSharedFormulaKey key;
+	CellPos key;
 	guint8 *data;
 	guint32 data_len;
 	gboolean is_array;
 } BiffSharedFormula;
 
 /* Use the upper left corner as the key to a collection of shared formulas */
-extern BiffSharedFormula *
-ms_excel_sheet_shared_formula (ExcelSheet *sheet, int const col, int const row);
+BiffSharedFormula *ms_excel_sheet_shared_formula (ExcelSheet const *sheet,
+						  CellPos const    *key);
 
 typedef struct _ExcelPalette
 {
@@ -110,24 +105,24 @@ typedef struct _ExcelWorkbook
 	Workbook            *gnum_wb;
 } ExcelWorkbook;
 
-extern ExcelSheet * ms_excel_workbook_get_sheet (ExcelWorkbook *wb, guint idx);
-extern Sheet* biff_get_externsheet_name (ExcelWorkbook *wb, guint16 idx, gboolean get_first);
-extern char* biff_get_text (guint8 const *ptr, guint32 length, guint32 *byte_length);
-extern const char* biff_get_error_text (const guint8 err);
-extern ExprTree* biff_name_data_get_name (ExcelSheet *sheet, int idx);
+ExcelSheet * ms_excel_workbook_get_sheet (ExcelWorkbook *wb, guint idx);
+Sheet* biff_get_externsheet_name (ExcelWorkbook *wb, guint16 idx, gboolean get_first);
+char* biff_get_text (guint8 const *ptr, guint32 length, guint32 *byte_length);
+char const* biff_get_error_text (guint8 err);
+ExprTree* biff_name_data_get_name (ExcelSheet const *sheet, int idx);
 
-extern MsBiffBofData * ms_biff_bof_data_new (BiffQuery * q);
-extern void ms_biff_bof_data_destroy (MsBiffBofData * data);
+MsBiffBofData * ms_biff_bof_data_new (BiffQuery * q);
+void ms_biff_bof_data_destroy (MsBiffBofData * data);
 
-extern StyleFormat *biff_format_data_lookup (ExcelWorkbook *wb, guint16 idx);
-extern StyleColor  *ms_excel_palette_get (ExcelPalette const *pal, gint idx);
+StyleFormat *biff_format_data_lookup (ExcelWorkbook *wb, guint16 idx);
+StyleColor  *ms_excel_palette_get (ExcelPalette const *pal, gint idx);
 
-extern void	    ms_excel_read_imdata (BiffQuery *q);
+void	    ms_excel_read_imdata (BiffQuery *q);
 
 /* A utility routine to handle unexpected BIFF records */
-extern void          ms_excel_unexpected_biff (BiffQuery *q,
-					       char const *state,
-					       int debug_level);
+void          ms_excel_unexpected_biff (BiffQuery *q,
+					char const *state,
+					int debug_level);
 
 void ms_excel_read_cleanup (void);
 

@@ -1,3 +1,10 @@
+2001-06-14  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-control-gui.c (scg_colrow_select) : don't
+	  discard input when selecting a range.
+
+	* src/xml-io.c (xml_write_range) : Add some safety.
+
 2001-06-13  Jody Goldberg <jgoldberg@home.com>
 
 	* src/format.c (render_number) : improve rounding and cleanup.
