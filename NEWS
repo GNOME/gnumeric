@@ -7,6 +7,8 @@ Christian Neumair:
 Jody:
 	* Edit and display rich text in cells (no persistence yet)
 	* Make the last dependency above gtk optional to enable a win32 build
+	* Major re-org of xls string import to handle rich text
+	* Improve xls import of old < xl95 variants
 
 Morten:
 	* Fix crash related to database functions (#138600).  [backported]

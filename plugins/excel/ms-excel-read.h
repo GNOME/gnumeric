@@ -42,6 +42,7 @@ typedef struct {
 	gboolean 	 freeze_panes;
 	unsigned	 active_pane;
 	GnmFilter	*filter;
+	int		 biff2_prev_xf_index;
 } ExcelReadSheet;
 
 typedef struct {
@@ -77,7 +78,7 @@ typedef struct {
 	int *green;
 	int *blue;
 	int length;
-	GnmColor **gnum_cols;
+	GnmColor **gnm_colors;
 } ExcelPalette;
 
 typedef struct {
@@ -108,7 +109,7 @@ struct _ExcelWorkbook {
 	GPtrArray	 *boundsheet_sheet_by_index;
 	GPtrArray	 *XF_cell_records;
 	GHashTable	 *font_data;
-	GHashTable	 *format_data; /* leave as a hash */
+	GHashTable	 *format_table; /* leave as a hash */
 	struct {
 		GArray	 *supbook;
 		GArray	 *externsheet;
@@ -117,14 +118,13 @@ struct _ExcelWorkbook {
 	char		**global_strings;
 	guint32		  global_string_max;
 
-	gboolean          is_gnumeric_1_0_x;
-
 	ExprTreeSharer   *expr_sharer;
 
 	Workbook            *gnum_wb;
 };
 
-char     *biff_get_text (guint8 const *ptr, guint32 length, guint32 *byte_length);
+char     *biff_get_text (guint8 const *ptr, guint32 length, guint32 *byte_length,
+			 MsBiffVersion const ver);
 GnmValue *biff_get_error (GnmEvalPos const *pos, guint8 const err);
 
 Sheet		*excel_externsheet_v7	 (MSContainer const *container, gint16 i);

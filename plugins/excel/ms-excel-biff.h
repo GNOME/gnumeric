@@ -14,12 +14,6 @@
 #include "excel.h"
 #include "ms-biff.h"
 
-/* Pass this a BiffQuery * */
-#define EX_GETROW(p)      (GSF_LE_GET_GUINT16(p->data + 0))
-#define EX_GETCOL(p)      (GSF_LE_GET_GUINT16(p->data + 2))
-#define EX_GETXF(p)       (GSF_LE_GET_GUINT16(p->data + 4))
-#define EX_GETSTRLEN(p)   (GSF_LE_GET_GUINT16(p->data + 6))
-
 #define EX_SETROW(p,d)    (GSF_LE_SET_GUINT16(p + 0, d))
 #define EX_SETCOL(p,d)    (GSF_LE_SET_GUINT16(p + 2, d))
 #define EX_SETXF(p,d)     (GSF_LE_SET_GUINT16(p + 4, d))

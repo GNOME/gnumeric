@@ -1,3 +1,27 @@
+2004-04-17  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_read_str_name) : new.
+	(excel_read_str_name) : split from here.
+	(excel_read_EXTERNNAME) : used here too.
+
+	* ms-excel-read.c (excel_read_XF_OLD) : differentiate biff2 vs biff3
+	  and biff4.
+
+2004-04-15  Jody Goldberg <jody@gnome.org>
+
+	* ms-chart.c (ms_excel_read_chart_BOF) : ignore the version in the BOF
+	  it lies.  Use the container's version.
+
+	* ms-excel-read.c (excel_read_NAME) : rework to handle unicode
+	  suffixes and to some general cleanup.
+
+2004-04-14  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_read_DEF_ROW_HEIGHT) : handle biff2
+	(excel_read_WINDOW2) : ditto.
+	(excel_read_EXTERNSHEET_v7) : be smarter about handling the buggy
+	  files from 1.0.7 that exported quoted sheet names.
+
 2004-04-12  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c : Use GO_UNIT in place of inches_to_points.

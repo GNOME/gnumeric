@@ -1398,7 +1398,7 @@ BC_R(seriestext)(XLChartHandler const *handle,
 	if (slen == 0)
 		return FALSE;
 
-	str = biff_get_text (q->data + 3, slen, NULL);
+	str = biff_get_text (q->data + 3, slen, NULL, s->container.ver);
 	d (2, fputs (str, stderr););
 
 	/* A quick heuristic */
@@ -2077,7 +2077,7 @@ ms_excel_read_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 				guint16 col = GSF_LE_GET_GUINT16 (q->data + 2);
 				guint16 xf  = GSF_LE_GET_GUINT16 (q->data + 4);
 				guint16 len = GSF_LE_GET_GUINT16 (q->data + 6);
-				char *label = biff_get_text (q->data + 8, len, NULL);
+				char *label = biff_get_text (q->data + 8, len, NULL, ver);
 				d (10, {fputs (label, stderr);
 					fprintf (stderr, "hmm, what are these values for a chart ???\n"
 						"row = %d, col = %d, xf = %d\n", row, col, xf);});
@@ -2164,8 +2164,12 @@ ms_excel_read_chart_BOF (BiffQuery *q, MSContainer *container, SheetObject *sog)
 	g_return_val_if_fail (bof != NULL, TRUE);
 	g_return_val_if_fail (bof->type == MS_BIFF_TYPE_Chart, TRUE);
 
-	if (bof->version != MS_BIFF_V_UNKNOWN)
-		res = ms_excel_read_chart (q, container, bof->version, sog);
+	/* NOTE : _Ignore_ the verison in the BOF, it lies!
+	 * XP saving as 95 will mark the book as biff7
+	 * but sheets and charts are marked as biff8, even though they are not
+	 * using unicode */
+	res = ms_excel_read_chart (q, container, container->ver, sog);
+
 	ms_biff_bof_data_destroy (bof);
 	return res;
 }

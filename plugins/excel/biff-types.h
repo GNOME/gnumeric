@@ -83,6 +83,8 @@
 #define BIFF_PANE			0x41	/* 0, NOT 10 */
 #define BIFF_CODEPAGE			0x42	/* DUPLICATE 42 */
 #define BIFF_XF_OLD			0x43	/* What is this ?, NOT 10 */
+#define BIFF_XF_INDEX			0x44	/* 0 */
+#define BIFF_FONT_COLOR			0x45	/* 0 */
 #define BIFF_PLS			0x4d	/* 0 */
 #define BIFF_DCON			0x50	/* 0, NOT 10 */
 #define BIFF_DCONREF			0x51	/* 0, NOT 10 */

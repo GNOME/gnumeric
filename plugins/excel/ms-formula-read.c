@@ -410,11 +410,6 @@ ExcelFuncDesc const excel_func_desc [] = {
 int excel_func_desc_size = G_N_ELEMENTS (excel_func_desc);
 
 static GnmExpr const *
-expr_tree_string (char const *str)
-{
-	return gnm_expr_new_constant (value_new_string (str));
-}
-static GnmExpr const *
 expr_tree_error (ExcelReadSheet const *esheet, int col, int row,
 		 char const *msg, char const *str)
 {
@@ -815,6 +810,7 @@ excel_parse_formula (MSContainer const *container,
 	GnmExprList *stack = NULL;
 	gboolean error = FALSE;
 	gboolean external = FALSE;
+	int ptg_length, ptg, ptgbase;
 
 	if (array_element != NULL)
 		*array_element = FALSE;
@@ -831,9 +827,9 @@ excel_parse_formula (MSContainer const *container,
 #endif
 
 	while (len_left > 0 && !error) {
-		int ptg_length = 0;
-		int ptg = GSF_LE_GET_GUINT8 (cur-1);
-		int ptgbase = ((ptg & 0x40) ? (ptg | 0x20): ptg) & 0x3F;
+		ptg_length = 0;
+		ptg = GSF_LE_GET_GUINT8 (cur-1);
+		ptgbase = ((ptg & 0x40) ? (ptg | 0x20): ptg) & 0x3F;
 		if (ptg > FORMULA_PTG_MAX)
 			break;
 		d (2, {
@@ -989,7 +985,7 @@ excel_parse_formula (MSContainer const *container,
 #endif
 				tr = w ? excel_parse_formula (container, esheet, fn_col, fn_row,
 					   cur+ptg_length, w, shared, NULL)
-					: expr_tree_string ("");
+					: gnm_expr_new_constant (value_new_string (""));
 				parse_list_push (&stack, tr);
 				ptg_length += w;
 			} else if (grbit & 0x04) { /* AttrChoose 'optimised' my foot. */
@@ -1098,31 +1094,27 @@ excel_parse_formula (MSContainer const *container,
 			break;
 		}
 		case FORMULA_PTG_STR: {
-			char *str = NULL;
-			int len;
-			if (ver >= MS_BIFF_V8) {
-				len = GSF_LE_GET_GUINT8 (cur);
-				if (len <= len_left) {
-					str = biff_get_text (cur+1, len, &len);
-					ptg_length = 1 + len;
-					/* biff_get_text misses the 1 byte header for empty strings */
-					if (len == 0)
-						ptg_length++;
-				}
-#if 0
-				fprintf (stderr, "v8+ PTG_STR '%s'\n", str);
-#endif
+			char *str;
+			int len = GSF_LE_GET_GUINT8 (cur);
+
+			if (len <= len_left) {
+				str = biff_get_text (cur+1, len, &len, ver);
+				ptg_length = 1 + len;
 			} else {
-				len = GSF_LE_GET_GUINT8 (cur);
-				if (len <= len_left) {
-					str = biff_get_text (cur+1, len, &len);
-					ptg_length = 1 + len;
-				}
+				str = NULL;
+
+#if 0
+				/* we can not flag this because some versions of gnumeric
+				 * produced invalid output where "" was stored as
+				 * PTG_STR with no length **/
+				g_warning ("invalid string of len %d, larger than remaining space %d",
+					   len, len_left);
+#endif
 			}
+
 			if (str != NULL) {
 				d (2, fprintf (stderr, "   -> '%s'\n", str););
-				parse_list_push_raw (&stack, value_new_string (str));
-				g_free (str);
+				parse_list_push_raw (&stack, value_new_string_nocopy (str));
 			} else {
 				d (2, fprintf (stderr, "   -> \'\'\n"););
 				parse_list_push_raw (&stack, value_new_string (""));
@@ -1279,15 +1271,12 @@ excel_parse_formula (MSContainer const *container,
 						if (ver >= MS_BIFF_V8) {
 							str = biff_get_text (array_data + 3,
 									     GSF_LE_GET_GUINT16 (array_data+1),
-									     &len);
+									     &len, ver);
 							elem_len = len + 3;
-							/* biff_get_text misses the 1 byte header for empty strings */
-							if (len == 0)
-								elem_len++;
 						} else {
 							str = biff_get_text (array_data + 2,
 									     GSF_LE_GET_GUINT8 (array_data+1),
-									     &len);
+									     &len, ver);
 							elem_len = len + 2;
 						}
 
