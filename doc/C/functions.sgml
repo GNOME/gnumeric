@@ -391,7 +391,7 @@
       <refsect1>
         <title>Description</title>
         <para>ACCRINT calculates the accrued interest for a security that pays periodic interest.  The @rate is the annual rate of the security and @par is the par value of the security. @basis is the type of day counting system you want to use:</para>
-        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If @issue date or @settlement date is not valid, ACCRINT returns #NUM! error. If @rate or @par is zero or negative, ACCRINT returns #NUM! error. If @basis &lt; 0 or @basis &gt; 4, ACCRINT returns #NUM! error. If @issue date is after @settlement date or they are the same, ACCRINT returns #NUM! error.</para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @issue date or @settlement date is not valid, ACCRINT returns #NUM! error. If @rate or @par is zero or negative, ACCRINT returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis &lt; 0 or @basis &gt; 4, ACCRINT returns #NUM! error. If @issue date is after @settlement date or they are the same, ACCRINT returns #NUM! error.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -419,7 +419,7 @@
       <refsect1>
         <title>Description</title>
         <para>ACCRINTM calculates and returns the accrued interest for a security from @issue to @maturity date.  @rate is the annual rate of the security and @par is the par value of the security. If you omit @par, ACCRINTM applies $1,000 instead.  @basis is the type of day counting system you want to use:</para>
-        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If @issue date or @maturity date is not valid, ACCRINTM returns #NUM! error. If @rate or @par is zero or negative, ACCRINTM returns #NUM! error. If @basis &lt; 0 or @basis &gt; 4, ACCRINTM returns #NUM! error. If @issue date is after @maturity date or they are the same, ACCRINTM returns #NUM! error.</para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @issue date or @maturity date is not valid, ACCRINTM returns #NUM! error. If @rate or @par is zero or negative, ACCRINTM returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis &lt; 0 or @basis &gt; 4, ACCRINTM returns #NUM! error. If @issue date is after @maturity date or they are the same, ACCRINTM returns #NUM! error.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -531,12 +531,12 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate,basis)</synopsis>
+      <synopsis>AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,basis])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Returns the depreciation for each accounting period.</para>
-
+        <para>AMORDEGRC returns the depreciation for each accounting period.@frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:</para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @frequency is other than 1, 2, or 4, AMORDEGRC returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -558,12 +558,12 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>AMORLINC(cost,purchase_date,first_period,salvage,period,rate,basis)</synopsis>
+      <synopsis>AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,basis])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Returns the depreciation for each accounting period.</para>
-
+        <para>AMORLINC returns the depreciation for each accounting period.@frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:</para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @frequency is other than 1, 2, or 4, AMORLINC returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -1859,8 +1859,8 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Returns the number of days from the beginning of the coupon period to the settlement date.</para>
-
+        <para>COUPDAYBS returns the number of days from the beginning of the coupon period to the settlement date. @frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:</para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @frequency is other than 1, 2, or 4, COUPDAYBS returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -1886,8 +1886,8 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Returns the number of days in the coupon period of the settlement date.</para>
-
+        <para>COUPDAYS returns the number of days in the coupon period of the settlement date.@frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:</para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @frequency is other than 1, 2, or 4, COUPDAYS returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -1913,8 +1913,8 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Returns the number of days from the settlement date to the next coupon date.</para>
-
+        <para>COUPDAYSNC returns the number of days from the settlement date to the next coupon date. @frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:</para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @frequency is other than 1, 2, or 4, COUPDAYSNC returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -1940,8 +1940,8 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Returns the coupon date following settlement.</para>
-
+        <para>COUPNCD returns the coupon date following settlement.@frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:</para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @frequency is other than 1, 2, or 4, COUPNCD returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -1967,8 +1967,8 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Returns the numbers of coupons to be paid between the settlement and maturity dates, rounded up.</para>
-
+        <para>COUPNUM returns the numbers of coupons to be paid between the settlement and maturity dates, rounded up.@frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:</para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @frequency is other than 1, 2, or 4, COUPNUM returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -1994,8 +1994,8 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Returns the coupon date preceeding settlement.</para>
-
+        <para>COUPPCD returns the coupon date preceeding settlement.@frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:</para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @frequency is other than 1, 2, or 4, COUPPCD returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -2079,7 +2079,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Returns the cumulative interest paid on a loan between @start_period and @end_period.</para>
+        <para>CUMIPMT returns the cumulative interest paid on a loan between @start_period and @end_period.</para>
 
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -2106,7 +2106,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Returns the cumulative principal paid on a loan between @start_period and @end_period.</para>
+        <para>CUMPRINC returns the cumulative principal paid on a loan between @start_period and @end_period.</para>
 
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -2628,7 +2628,7 @@
       <refsect1>
         <title>Description</title>
         <para>DISC calculates and returns the discount rate for a sequrity. @basis is the type of day counting system you want to use:</para>
-        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If @settlement date or @maturity date is not valid, DISC returns #NUM! error. If @basis &lt; 0 or @basis &gt; 4, DISC returns #NUM! error. If @settlement date is after @maturity date or they are the same, DISC returns #NUM! error.</para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @settlement date or @maturity date is not valid, DISC returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis &lt; 0 or @basis &gt; 4, DISC returns #NUM! error. If @settlement date is after @maturity date or they are the same, DISC returns #NUM! error.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -4985,7 +4985,7 @@
       <refsect1>
         <title>Description</title>
         <para>INTRATE calculates and returns the interest rate of a fully vested security. @investment is the prize of the security paid at @settlement date and @redemption is the amount to be received at @maturity date.  @basis is the type of day counting system you want to use:</para>
-        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If @settlement date or @maturity date is not valid, INTRATE returns #NUM! error. If @basis &lt; 0 or @basis &gt; 4, INTRATE returns #NUM! error. If @settlement date is after @maturity date or they are the same, INTRATE returns #NUM! error.</para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @settlement date or @maturity date is not valid, INTRATE returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis &lt; 0 or @basis &gt; 4, INTRATE returns #NUM! error. If @settlement date is after @maturity date or they are the same, INTRATE returns #NUM! error.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -5641,7 +5641,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>LOG computes the logarithm of @x in the given base @base.  If no @base is given LOG returns the logarithm in base 10. This function is Excel compatible.</para>
+        <para>LOG computes the logarithm of @x in the given base @base.  If no @base is given LOG returns the logarithm in base 10. @base must be &gt; 0. and can not equal 1. This function is Excel compatible.</para>
 
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -5993,7 +5993,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Returns the Macauley duration for a security with par value 100.</para>
+        <para>MDURATION returns the Macauley duration for a security with par value 100.</para>
 
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -6898,12 +6898,12 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,frequency,basis)</synopsis>
+      <synopsis>ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,frequency[,basis])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para></para>
-
+        <para>@frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:</para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @frequency is other than 1, 2, or 4, ODDFPRICE returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -6925,12 +6925,12 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,frequency,basis)</synopsis>
+      <synopsis>ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,frequency[,basis])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para></para>
-
+        <para>@frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:</para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @frequency is other than 1, 2, or 4, ODDFYIELD returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -6952,7 +6952,7 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,frequency,basis)</synopsis>
+      <synopsis>ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,frequency[,basis])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -6979,12 +6979,12 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,frequency,basis)</synopsis>
+      <synopsis>ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,frequency[,basis])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para></para>
-
+        <para>@frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:</para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @frequency is other than 1, 2, or 4, ODDLYIELD returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -7332,12 +7332,12 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>PRICE(settle,mat,rate,yield,redemption_price,frequency,basis)</synopsis>
+      <synopsis>PRICE(settle,mat,rate,yield,redemption_price,frequency[,basis])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para></para>
-
+        <para>@frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:</para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @frequency is other than 1, 2, or 4, PRICE returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -7364,7 +7364,7 @@
       <refsect1>
         <title>Description</title>
         <para>PRICEDISC calculates and returns the price per $100 face value of a security bond.  The security does not pay interest at maturity.  @discount is the rate for which the security is discounted.  @redemption is the amount to be received on @maturity date.  @basis is the type of day counting system you want to use:</para>
-        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If @settlement date or @maturity date is not valid, PRICEDISC returns #NUM! error. If @basis &lt; 0 or @basis &gt; 4, PRICEDISC returns #NUM! error. If @settlement date is after @maturity date or they are the same, PRICEDISC returns #NUM! error.</para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @settlement date or @maturity date is not valid, PRICEDISC returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis &lt; 0 or @basis &gt; 4, PRICEDISC returns #NUM! error. If @settlement date is after @maturity date or they are the same, PRICEDISC returns #NUM! error.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -7392,7 +7392,7 @@
       <refsect1>
         <title>Description</title>
         <para>PRICEMAT calculates and returns the price per $100 face value of a security.  The security pays interest at maturity. @basis is the type of day counting system you want to use:</para>
-        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If @settlement date or @maturity date is not valid, PRICEMAT returns #NUM! error. If @basis &lt; 0 or @basis &gt; 4, PRICEMAT returns #NUM! error. If @settlement date is after @maturity date or they are the same, PRICEMAT returns #NUM! error.</para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @settlement date or @maturity date is not valid, PRICEMAT returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis &lt; 0 or @basis &gt; 4, PRICEMAT returns #NUM! error. If @settlement date is after @maturity date or they are the same, PRICEMAT returns #NUM! error.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -7880,7 +7880,7 @@
       <refsect1>
         <title>Description</title>
         <para>RECEIVED calculates and returns the amount to be received at @maturity date for a security bond. @basis is the type of day counting system you want to use:</para>
-        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If @settlement date or @maturity date is not valid, RECEIVED returns #NUM! error. If @basis &lt; 0 or @basis &gt; 4, RECEIVED returns #NUM! error. If @settlement date is after @maturity date or they are the same, RECEIVED returns #NUM! error.</para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @settlement date or @maturity date is not valid, RECEIVED returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis &lt; 0 or @basis &gt; 4, RECEIVED returns #NUM! error. If @settlement date is after @maturity date or they are the same, RECEIVED returns #NUM! error.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -10114,12 +10114,12 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>YIELD(settle,mat,rate,price,redemption_price,frequency,basis)</synopsis>
+      <synopsis>YIELD(settle,mat,rate,price,redemption_price,frequency[,basis])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para></para>
-
+        <para>@frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:</para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @frequency is other than 1, 2, or 4, YIELD returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -10141,12 +10141,12 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>YIELDDISC(settlement,maturity,pr,redemption,basis)</synopsis>
+      <synopsis>YIELDDISC(settlement,maturity,pr,redemption[,basis])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para></para>
-
+        <para>@frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:</para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @frequency is other than 1, 2, or 4, YIELDDISC returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -10168,12 +10168,12 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>YIELDMAT(settlement,maturity,issue,rate,pr,basis)</synopsis>
+      <synopsis>YIELDMAT(settlement,maturity,issue,rate,pr[,basis])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para></para>
-
+        <para>@frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:</para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @frequency is other than 1, 2, or 4, YIELDMAT returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>

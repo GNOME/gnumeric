@@ -17,7 +17,7 @@ ABS(-3.14) equals 3.14.
 3  actual days/365
 4  European 30/360
 
-If @basis is omitted, US 30/360 is applied. If @issue date or @settlement date is not valid, ACCRINT returns #NUM! error. If @rate or @par is zero or negative, ACCRINT returns #NUM! error. If @basis < 0 or @basis > 4, ACCRINT returns #NUM! error. If @issue date is after @settlement date or they are the same, ACCRINT returns #NUM! error. 
+If @issue date or @settlement date is not valid, ACCRINT returns #NUM! error. If @rate or @par is zero or negative, ACCRINT returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis < 0 or @basis > 4, ACCRINT returns #NUM! error. If @issue date is after @settlement date or they are the same, ACCRINT returns #NUM! error. 
 @EXAMPLES=
 
 @SEEALSO=ACCRINTM
@@ -32,7 +32,7 @@ If @basis is omitted, US 30/360 is applied. If @issue date or @settlement date i
 3  actual days/365
 4  European 30/360
 
-If @basis is omitted, US 30/360 is applied. If @issue date or @maturity date is not valid, ACCRINTM returns #NUM! error. If @rate or @par is zero or negative, ACCRINTM returns #NUM! error. If @basis < 0 or @basis > 4, ACCRINTM returns #NUM! error. If @issue date is after @maturity date or they are the same, ACCRINTM returns #NUM! error. 
+If @issue date or @maturity date is not valid, ACCRINTM returns #NUM! error. If @rate or @par is zero or negative, ACCRINTM returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis < 0 or @basis > 4, ACCRINTM returns #NUM! error. If @issue date is after @maturity date or they are the same, ACCRINTM returns #NUM! error. 
 @EXAMPLES=
 
 @SEEALSO=ACCRINT
@@ -67,15 +67,31 @@ If @row_num or @col_num is less than one, ADDRESS returns #NUM! error.
 @SEEALSO=
 
 @FUNCTION=AMORDEGRC
-@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate,basis)
-@DESCRIPTION=Returns the depreciation for each accounting period.
+@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,basis])
+@DESCRIPTION=AMORDEGRC returns the depreciation for each accounting period.@frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:
+
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+
+If @frequency is other than 1, 2, or 4, AMORDEGRC returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned. 
 @EXAMPLES=
 
 @SEEALSO=
 
 @FUNCTION=AMORLINC
-@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate,basis)
-@DESCRIPTION=Returns the depreciation for each accounting period.
+@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,basis])
+@DESCRIPTION=AMORLINC returns the depreciation for each accounting period.@frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:
+
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+
+If @frequency is other than 1, 2, or 4, AMORLINC returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned. 
 @EXAMPLES=
 
 @SEEALSO=
@@ -558,42 +574,90 @@ COUNTIF(A1:A5,">28") equals 2.
 
 @FUNCTION=COUPDAYBS
 @SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis])
-@DESCRIPTION=Returns the number of days from the beginning of the coupon period to the settlement date.
+@DESCRIPTION=COUPDAYBS returns the number of days from the beginning of the coupon period to the settlement date. @frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:
+
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+
+If @frequency is other than 1, 2, or 4, COUPDAYBS returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned. 
 @EXAMPLES=
 
 @SEEALSO=
 
 @FUNCTION=COUPDAYS
 @SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis])
-@DESCRIPTION=Returns the number of days in the coupon period of the settlement date.
+@DESCRIPTION=COUPDAYS returns the number of days in the coupon period of the settlement date.@frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:
+
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+
+If @frequency is other than 1, 2, or 4, COUPDAYS returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned. 
 @EXAMPLES=
 
 @SEEALSO=
 
 @FUNCTION=COUPDAYSNC
 @SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis])
-@DESCRIPTION=Returns the number of days from the settlement date to the next coupon date.
+@DESCRIPTION=COUPDAYSNC returns the number of days from the settlement date to the next coupon date. @frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:
+
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+
+If @frequency is other than 1, 2, or 4, COUPDAYSNC returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned. 
 @EXAMPLES=
 
 @SEEALSO=
 
 @FUNCTION=COUPNCD
 @SYNTAX=COUPNCD(settlement,maturity,frequency[,basis])
-@DESCRIPTION=Returns the coupon date following settlement.
+@DESCRIPTION=COUPNCD returns the coupon date following settlement.@frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:
+
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+
+If @frequency is other than 1, 2, or 4, COUPNCD returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned. 
 @EXAMPLES=
 
 @SEEALSO=
 
 @FUNCTION=COUPNUM
 @SYNTAX=COUPNUM(settlement,maturity,frequency[,basis])
-@DESCRIPTION=Returns the numbers of coupons to be paid between the settlement and maturity dates, rounded up.
+@DESCRIPTION=COUPNUM returns the numbers of coupons to be paid between the settlement and maturity dates, rounded up.@frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:
+
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+
+If @frequency is other than 1, 2, or 4, COUPNUM returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned. 
 @EXAMPLES=
 
 @SEEALSO=
 
 @FUNCTION=COUPPCD
 @SYNTAX=COUPPCD(settlement,maturity,frequency[,basis])
-@DESCRIPTION=Returns the coupon date preceeding settlement.
+@DESCRIPTION=COUPPCD returns the coupon date preceeding settlement.@frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:
+
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+
+If @frequency is other than 1, 2, or 4, COUPPCD returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned. 
 @EXAMPLES=
 
 @SEEALSO=
@@ -619,14 +683,14 @@ CRITBINOM(10,0.5,0.75) equals 6.
 
 @FUNCTION=CUMIPMT
 @SYNTAX=CUMIPMT(rate,nper,pv,start_period,end_period,type)
-@DESCRIPTION=Returns the cumulative interest paid on a loan between @start_period and @end_period.
+@DESCRIPTION=CUMIPMT returns the cumulative interest paid on a loan between @start_period and @end_period.
 @EXAMPLES=
 
 @SEEALSO=
 
 @FUNCTION=CUMPRINC
 @SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)
-@DESCRIPTION=Returns the cumulative principal paid on a loan between @start_period and @end_period.
+@DESCRIPTION=CUMPRINC returns the cumulative principal paid on a loan between @start_period and @end_period.
 @EXAMPLES=
 
 @SEEALSO=
@@ -864,7 +928,7 @@ If none of the items match the conditions, DGET returns #VALUE! error. If more t
 3  actual days/365
 4  European 30/360
 
-If @basis is omitted, US 30/360 is applied. If @settlement date or @maturity date is not valid, DISC returns #NUM! error. If @basis < 0 or @basis > 4, DISC returns #NUM! error. If @settlement date is after @maturity date or they are the same, DISC returns #NUM! error. 
+If @settlement date or @maturity date is not valid, DISC returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis < 0 or @basis > 4, DISC returns #NUM! error. If @settlement date is after @maturity date or they are the same, DISC returns #NUM! error. 
 @EXAMPLES=
 
 @SEEALSO=
@@ -1738,7 +1802,7 @@ INTERCEPT(A1:A5,B1:B5) equals -20.785117212.
 3  actual days/365
 4  European 30/360
 
-If @basis is omitted, US 30/360 is applied. If @settlement date or @maturity date is not valid, INTRATE returns #NUM! error. If @basis < 0 or @basis > 4, INTRATE returns #NUM! error. If @settlement date is after @maturity date or they are the same, INTRATE returns #NUM! error. 
+If @settlement date or @maturity date is not valid, INTRATE returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis < 0 or @basis > 4, INTRATE returns #NUM! error. If @settlement date is after @maturity date or they are the same, INTRATE returns #NUM! error. 
 @EXAMPLES=
 
 If you had a bond with a settlement date of April 15, 2000, maturity date September 30, 2000, investment of $100,000, redemption value $103,525, using the actual/actual basis, the bond discount rate is:
@@ -1935,7 +1999,7 @@ LN(7) equals 1.94591.
 
 @FUNCTION=LOG
 @SYNTAX=LOG(x[,base])
-@DESCRIPTION=LOG computes the logarithm of @x in the given base @base.  If no @base is given LOG returns the logarithm in base 10. This function is Excel compatible. 
+@DESCRIPTION=LOG computes the logarithm of @x in the given base @base.  If no @base is given LOG returns the logarithm in base 10. @base must be > 0. and can not equal 1. This function is Excel compatible. 
 @EXAMPLES=
 LOG(2) equals 0.30103.
 LOG(8192,2) equals 13.
@@ -2049,7 +2113,7 @@ MDETERM(A1:D4) equals 148.
 
 @FUNCTION=MDURATION
 @SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])
-@DESCRIPTION=Returns the Macauley duration for a security with par value 100.
+@DESCRIPTION=MDURATION returns the Macauley duration for a security with par value 100.
 @EXAMPLES=
 
 @SEEALSO=
@@ -2314,29 +2378,53 @@ ODD(4.4) equals 5.
 @SEEALSO=EVEN
 
 @FUNCTION=ODDFPRICE
-@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,frequency,basis)
-@DESCRIPTION=
+@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,frequency[,basis])
+@DESCRIPTION=@frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:
+
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+
+If @frequency is other than 1, 2, or 4, ODDFPRICE returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned. 
 @EXAMPLES=
 
 @SEEALSO=
 
 @FUNCTION=ODDFYIELD
-@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,frequency,basis)
-@DESCRIPTION=
+@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,frequency[,basis])
+@DESCRIPTION=@frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:
+
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+
+If @frequency is other than 1, 2, or 4, ODDFYIELD returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned. 
 @EXAMPLES=
 
 @SEEALSO=
 
 @FUNCTION=ODDLPRICE
-@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,frequency,basis)
+@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,frequency[,basis])
 @DESCRIPTION=
 @EXAMPLES=
 
 @SEEALSO=
 
 @FUNCTION=ODDLYIELD
-@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,frequency,basis)
-@DESCRIPTION=
+@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,frequency[,basis])
+@DESCRIPTION=@frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:
+
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+
+If @frequency is other than 1, 2, or 4, ODDLYIELD returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned. 
 @EXAMPLES=
 
 @SEEALSO=
@@ -2442,8 +2530,16 @@ IPMT(per) = amount of interest for period per
 @SEEALSO=IPMT,PV,FV
 
 @FUNCTION=PRICE
-@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,frequency,basis)
-@DESCRIPTION=
+@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,frequency[,basis])
+@DESCRIPTION=@frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:
+
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+
+If @frequency is other than 1, 2, or 4, PRICE returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned. 
 @EXAMPLES=
 
 @SEEALSO=
@@ -2458,7 +2554,7 @@ IPMT(per) = amount of interest for period per
 3  actual days/365
 4  European 30/360
 
-If @basis is omitted, US 30/360 is applied. If @settlement date or @maturity date is not valid, PRICEDISC returns #NUM! error. If @basis < 0 or @basis > 4, PRICEDISC returns #NUM! error. If @settlement date is after @maturity date or they are the same, PRICEDISC returns #NUM! error. 
+If @settlement date or @maturity date is not valid, PRICEDISC returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis < 0 or @basis > 4, PRICEDISC returns #NUM! error. If @settlement date is after @maturity date or they are the same, PRICEDISC returns #NUM! error. 
 @EXAMPLES=
 
 @SEEALSO=PRICEMAT
@@ -2473,7 +2569,7 @@ If @basis is omitted, US 30/360 is applied. If @settlement date or @maturity dat
 3  actual days/365
 4  European 30/360
 
-If @basis is omitted, US 30/360 is applied. If @settlement date or @maturity date is not valid, PRICEMAT returns #NUM! error. If @basis < 0 or @basis > 4, PRICEMAT returns #NUM! error. If @settlement date is after @maturity date or they are the same, PRICEMAT returns #NUM! error. 
+If @settlement date or @maturity date is not valid, PRICEMAT returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis < 0 or @basis > 4, PRICEMAT returns #NUM! error. If @settlement date is after @maturity date or they are the same, PRICEMAT returns #NUM! error. 
 @EXAMPLES=
 
 @SEEALSO=PRICEDISC
@@ -2626,7 +2722,7 @@ RandPoisson(3).
 3  actual days/365
 4  European 30/360
 
-If @basis is omitted, US 30/360 is applied. If @settlement date or @maturity date is not valid, RECEIVED returns #NUM! error. If @basis < 0 or @basis > 4, RECEIVED returns #NUM! error. If @settlement date is after @maturity date or they are the same, RECEIVED returns #NUM! error. 
+If @settlement date or @maturity date is not valid, RECEIVED returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis < 0 or @basis > 4, RECEIVED returns #NUM! error. If @settlement date is after @maturity date or they are the same, RECEIVED returns #NUM! error. 
 @EXAMPLES=
 
 @SEEALSO=INTRATE
@@ -3340,22 +3436,46 @@ Note that Gnumeric will perform regular string to serial number conversion for y
 @SEEALSO=DAY, MONTH, TIME, NOW
 
 @FUNCTION=YIELD
-@SYNTAX=YIELD(settle,mat,rate,price,redemption_price,frequency,basis)
-@DESCRIPTION=
+@SYNTAX=YIELD(settle,mat,rate,price,redemption_price,frequency[,basis])
+@DESCRIPTION=@frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:
+
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+
+If @frequency is other than 1, 2, or 4, YIELD returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned. 
 @EXAMPLES=
 
 @SEEALSO=
 
 @FUNCTION=YIELDDISC
-@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption,basis)
-@DESCRIPTION=
+@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption[,basis])
+@DESCRIPTION=@frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:
+
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+
+If @frequency is other than 1, 2, or 4, YIELDDISC returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned. 
 @EXAMPLES=
 
 @SEEALSO=
 
 @FUNCTION=YIELDMAT
-@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr,basis)
-@DESCRIPTION=
+@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr[,basis])
+@DESCRIPTION=@frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:
+
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+
+If @frequency is other than 1, 2, or 4, YIELDMAT returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned. 
 @EXAMPLES=
 
 @SEEALSO=
