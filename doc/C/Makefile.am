@@ -288,6 +288,7 @@ figures/zoom.png
 
 docname = gnumeric
 lang = C
+omffile = gnumeric-C.omf
 sgml_ents = 					\
 	analysis-tools.sgml			\
 	authors.sgml				\

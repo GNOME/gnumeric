@@ -1,3 +1,7 @@
+2002-02-21  Jody Goldberg <jody@gnome.org>
+
+	* Makefile.am : add the omffile
+
 2002-01-30  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.0.4

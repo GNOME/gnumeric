@@ -1,5 +1,6 @@
-2002-02-20  Jody Goldberg <jody@gnome.org>
+2002-02-21  Jody Goldberg <jody@gnome.org>
 
+	* omf-install/Makefile.am : update.
 	* configure.in : add the new doc dirs for the topic.dat files.
 	* doc/Makefile.am : ditto.
 
