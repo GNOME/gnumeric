@@ -332,7 +332,7 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 		return value_new_int (rint (cellwidth / charwidth));
 	}
 
-	return value_new_error (ei->pos, gnumeric_err_VALUE);
+	return value_new_error_VALUE (ei->pos);
 }
 
 #warning implement this
@@ -1170,7 +1170,7 @@ gnumeric_expression (FunctionEvalInfo *ei, Value **args)
 		CellRef const * b = &v->v_range.cell.b;
 
 		if (a->col != b->col || a->row != b->row || a->sheet !=b->sheet)
-			return value_new_error (ei->pos, gnumeric_err_REF);
+			return value_new_error_REF (ei->pos);
 
 		cell = sheet_cell_get (eval_sheet (a->sheet, ei->pos->sheet),
 				       a->col, a->row);
@@ -1422,7 +1422,7 @@ gnumeric_error_type (FunctionEvalInfo *ei, Value **argv)
 	int retval = -1;
 	char const * mesg;
 	if (argv[0]->type != VALUE_ERROR)
-		return value_new_error (ei->pos, gnumeric_err_NA);
+		return value_new_error_NA (ei->pos);
 
 	mesg = argv[0]->v_err.mesg->str;
 	if (!strcmp (gnumeric_err_NULL, mesg))
@@ -1440,7 +1440,7 @@ gnumeric_error_type (FunctionEvalInfo *ei, Value **argv)
 	else if (!strcmp (gnumeric_err_NA, mesg))
 		retval = 7;
 	else
-		return value_new_error (ei->pos, gnumeric_err_NA);
+		return value_new_error_NA (ei->pos);
 
 	return value_new_int (retval);
 }
@@ -1464,7 +1464,7 @@ static const char *help_na = {
 static Value *
 gnumeric_na (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_error (ei->pos, gnumeric_err_NA);
+	return value_new_error_NA (ei->pos);
 }
 
 /***************************************************************************/
@@ -1733,7 +1733,7 @@ gnumeric_n (FunctionEvalInfo *ei, Value **argv)
 		return value_duplicate (argv[0]);
 
 	if (argv[0]->type != VALUE_STRING)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
 	str = value_peek_string (argv[0]);
 	v = format_match_number (str, NULL);
@@ -1788,7 +1788,7 @@ gnumeric_type (FunctionEvalInfo *ei, Value **argv)
 		break;
 	}
 	/* not reached */
-	return value_new_error (ei->pos, gnumeric_err_VALUE);
+	return value_new_error_VALUE (ei->pos);
 }
 
 /***************************************************************************/
@@ -1816,7 +1816,7 @@ gnumeric_getenv (FunctionEvalInfo *ei, Value **argv)
 	if (val)
 		return value_new_string (val);
 	else
-		return value_new_error (ei->pos, gnumeric_err_NA);
+		return value_new_error_NA (ei->pos);
 }
 
 /***************************************************************************/

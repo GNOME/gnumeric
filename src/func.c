@@ -462,7 +462,7 @@ gnm_func_add (GnmFuncGroup *fn_group,
 static Value *
 unknownFunctionHandler (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
-	return value_new_error (ei->pos, gnumeric_err_NAME);
+	return value_new_error_NAME (ei->pos);
 }
 
 GnmFunc *
@@ -821,7 +821,7 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 							  ei->pos);
 				} else if (tmp->type != VALUE_ARRAY || arg_type != 'A') {
 					free_values (args, i + 1);
-					return value_new_error (ei->pos, gnumeric_err_VALUE);
+					return value_new_error_VALUE (ei->pos);
 				}
 			}
 			continue;
@@ -844,7 +844,7 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 				    iter_height != value_area_get_height (tmp, ei->pos)) {
 					/* no need to free inter_vals, there is nothing there yet */
 					free_values (args, i + 1);
-					return value_new_error (ei->pos, gnumeric_err_VALUE);
+					return value_new_error_VALUE (ei->pos);
 				}
 			} else {
 				if (iter_count < 0) {
@@ -867,7 +867,7 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 				tmp = format_match_number (value_peek_string (tmp), NULL);
 				if (tmp == NULL) {
 					free_values (args, i + 1);
-					return value_new_error (ei->pos, gnumeric_err_VALUE);
+					return value_new_error_VALUE (ei->pos);
 				}
 				value_release (args [i]);
 				args[i] = tmp;
@@ -880,7 +880,7 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 			    tmp->type != VALUE_FLOAT &&
 			    tmp->type != VALUE_BOOLEAN) {
 				free_values (args, i+1);
-				return value_new_error (ei->pos, gnumeric_err_VALUE);
+				return value_new_error_VALUE (ei->pos);
 			}
 			break;
 
@@ -890,7 +890,7 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 				return tmp; 
 			} else if (tmp->type != VALUE_STRING) {
 				free_values (args, i+1);
-				return value_new_error (ei->pos, gnumeric_err_VALUE);
+				return value_new_error_VALUE (ei->pos);
 			}
 			break;
 
@@ -960,7 +960,7 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 				res->v_array.vals[x][y] = (i == iter_count)
 					? fn_def->fn.args.func (ei, args)
 					: ((err != NULL) ? value_duplicate (err)
-							 : value_new_error (ei->pos, gnumeric_err_VALUE));
+							 : value_new_error_VALUE (ei->pos));
 				free_values (iter_args, i);
 			}
 

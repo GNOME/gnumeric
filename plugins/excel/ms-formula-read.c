@@ -1017,8 +1017,7 @@ excel_parse_formula (MSContainer const *container,
 		break;
 
 		case FORMULA_PTG_ERR: {
-			const char *errtxt = biff_get_error_text (GSF_LE_GET_GUINT8 (cur));
-			parse_list_push_raw (&stack, value_new_error (NULL, errtxt));
+			parse_list_push_raw (&stack, biff_get_error (NULL, GSF_LE_GET_GUINT8 (cur)));
 			ptg_length = 1;
 			break;
 		}
@@ -1248,8 +1247,7 @@ excel_parse_formula (MSContainer const *container,
 						elem_len = 9;
 						break;
 					case 16:
-						elem = value_new_error (NULL,
-							biff_get_error_text (array_data [1]));
+						elem = biff_get_error (NULL, array_data [1]);
 						elem_len = 9;
 						break;
 
@@ -1311,7 +1309,7 @@ excel_parse_formula (MSContainer const *container,
 				g_warning ("EXCEL: %x (of %x) UNKNOWN name %p.",
 					   name_idx, a ? a->len : -1, container);
 				name = gnm_expr_new_constant (
-					value_new_error (NULL, gnumeric_err_REF));
+					value_new_error_REF (NULL));
 			} else
 				name = gnm_expr_new_name (nexpr, NULL, NULL);
 
@@ -1322,12 +1320,12 @@ excel_parse_formula (MSContainer const *container,
 
 		case FORMULA_PTG_REF_ERR:
 			ptg_length = (ver >= MS_BIFF_V8) ? 4 : 3;
-			parse_list_push_raw (&stack, value_new_error (NULL, gnumeric_err_REF));
+			parse_list_push_raw (&stack, value_new_error_REF (NULL));
 			break;
 
 		case FORMULA_PTG_AREA_ERR:
 			ptg_length = (ver >= MS_BIFF_V8) ? 8 : 6;
-			parse_list_push_raw (&stack, value_new_error (NULL, gnumeric_err_REF));
+			parse_list_push_raw (&stack, value_new_error_REF (NULL));
 			break;
 
 		case FORMULA_PTG_REF: case FORMULA_PTG_REFN: {
@@ -1437,7 +1435,7 @@ excel_parse_formula (MSContainer const *container,
 				g_warning ("EXCEL: %x (of %x) UNKNOWN name %p.",
 					   name_idx, a ? a->len : -1, container);
 				name = gnm_expr_new_constant (
-					value_new_error (NULL, gnumeric_err_REF));
+					value_new_error_REF (NULL));
 			} else {
 				/* See supbook_get_sheet for details */
 				if (sheet == (Sheet *)1) {
@@ -1472,7 +1470,7 @@ excel_parse_formula (MSContainer const *container,
 			}
 
 			if (excel_formula_parses_ref_sheets (container, cur, &first.sheet, &last.sheet))
-				parse_list_push_raw (&stack, value_new_error (NULL, gnumeric_err_REF));
+				parse_list_push_raw (&stack, value_new_error_REF (NULL));
 			else if (first.sheet != last.sheet)
 				parse_list_push_raw (&stack, value_new_cellrange (&first, &last, fn_col, fn_row));
 			else
@@ -1506,7 +1504,7 @@ excel_parse_formula (MSContainer const *container,
 				ptg_length = 20;
 			}
 			if (excel_formula_parses_ref_sheets (container, cur, &first.sheet, &last.sheet))
-				parse_list_push_raw (&stack, value_new_error (NULL, gnumeric_err_REF));
+				parse_list_push_raw (&stack, value_new_error_REF (NULL));
 			else
 				parse_list_push_raw (&stack, value_new_cellrange (&first, &last, fn_col, fn_row));
 			break;
@@ -1514,12 +1512,12 @@ excel_parse_formula (MSContainer const *container,
 
 		case FORMULA_PTG_REF_ERR_3D :
 			ptg_length = (ver >= MS_BIFF_V8) ? 6 : 17;
-			parse_list_push_raw (&stack, value_new_error (NULL, gnumeric_err_REF));
+			parse_list_push_raw (&stack, value_new_error_REF (NULL));
 			break;
 
 		case FORMULA_PTG_AREA_ERR_3D :
 			ptg_length = (ver >= MS_BIFF_V8) ? 10 : 20;
-			parse_list_push_raw (&stack, value_new_error (NULL, gnumeric_err_REF));
+			parse_list_push_raw (&stack, value_new_error_REF (NULL));
 			break;
 
 		default:

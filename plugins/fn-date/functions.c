@@ -118,7 +118,7 @@ gnumeric_date (FunctionEvalInfo *ei, Value **argv)
 	return make_date (value_new_int (datetime_g_to_serial (&date)));
 
  error:
-	return value_new_error (ei->pos, gnumeric_err_NUM);
+	return value_new_error_NUM (ei->pos);
 }
 
 /***************************************************************************/
@@ -146,7 +146,7 @@ gnumeric_unix2date (FunctionEvalInfo *ei, Value **argv)
 
 	/* Check for overflow.  */
 	if (gnumabs (futime - utime) >= 1.0)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	return make_date (value_new_float (datetime_timet_to_serial_raw (utime) +
 					   (futime - utime)));
@@ -179,7 +179,7 @@ gnumeric_date2unix (FunctionEvalInfo *ei, Value **argv)
 
 	/* Check for overflow.  */
 	if (gnumabs (fserial - serial) >= 1.0 || utime == (time_t)-1)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	return value_new_int (utime +
 		gnumeric_fake_round (DAY_SECONDS * (fserial - serial)));
@@ -335,7 +335,7 @@ gnumeric_datedif (FunctionEvalInfo *ei, Value **argv)
 	opt = value_peek_string (argv[2]);
 
 	if (date1 > date2) {
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 	}
 
 	if (!strcmp (opt, "d")) {
@@ -346,7 +346,7 @@ gnumeric_datedif (FunctionEvalInfo *ei, Value **argv)
 	gdate2 = datetime_serial_to_g (date2);
 
 	if (!g_date_valid (gdate1) || !g_date_valid (gdate2)) {
-		result = value_new_error (ei->pos, gnumeric_err_VALUE);
+		result = value_new_error_VALUE (ei->pos);
 	} else {
 		if (!strcmp (opt, "m")) {
 			result = value_new_int (
@@ -364,8 +364,7 @@ gnumeric_datedif (FunctionEvalInfo *ei, Value **argv)
 			result = value_new_int (
 				datedif_opt_md (gdate1, gdate2, 1));
 		} else {
-			result = value_new_error (
-				ei->pos, gnumeric_err_VALUE);
+			result = value_new_error_VALUE (ei->pos);
 		}
 	}
 
@@ -411,7 +410,7 @@ gnumeric_edate (FunctionEvalInfo *ei, Value **argv)
 
 	if (!g_date_valid (date)) {
                   datetime_g_free (date);
-                  return value_new_error (ei->pos, gnumeric_err_VALUE);
+                  return value_new_error_VALUE (ei->pos);
 	}
 
 	if (months > 0)
@@ -421,7 +420,7 @@ gnumeric_edate (FunctionEvalInfo *ei, Value **argv)
 
 	if (!g_date_valid (date)) {
                   datetime_g_free (date);
-                  return value_new_error (ei->pos, gnumeric_err_NUM);
+                  return value_new_error_NUM (ei->pos);
 	}
 
 	res = value_new_int (datetime_g_to_serial (date));
@@ -764,11 +763,11 @@ gnumeric_weekday (FunctionEvalInfo *ei, Value **argv)
 	int method = argv[1] ? value_get_as_int (argv[1]) : 1;
 
 	if (method < 1 || method > 3)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	date = datetime_value_to_g (argv[0]);
 	if (!date)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	switch (method) {
 	case 1: res = (g_date_get_weekday (date) % 7) + 1; break;
@@ -915,7 +914,7 @@ gnumeric_eomonth (FunctionEvalInfo *ei, Value **argv)
 
 	date = datetime_value_to_g (argv[0]);
 	if (date == NULL || !g_date_valid (date))
-                  return value_new_error (ei->pos, gnumeric_err_VALUE);
+                  return value_new_error_VALUE (ei->pos);
 
 	if (argv[1] != NULL)
 		months = value_get_as_int (argv[1]);
@@ -965,7 +964,7 @@ gnumeric_workday (FunctionEvalInfo *ei, Value **argv)
 
 	date = datetime_value_to_g (argv[0]);
 	if (date == NULL || !g_date_valid (date))
-                  return value_new_error (ei->pos, gnumeric_err_VALUE);
+                  return value_new_error_VALUE (ei->pos);
 	weekday = g_date_get_weekday (date);
 
 	days = value_get_as_int (argv[1]);
@@ -1068,7 +1067,7 @@ networkdays_holiday_callback (Value const *v, EvalPos const *ep,
 		return value_duplicate (v);
 	serial = datetime_value_to_serial (v);
         if (serial <= 0)
-		return value_new_error (ep, gnumeric_err_NUM);
+		return value_new_error_NUM (ep);
 
 	if (serial < close->start_serial || close->end_serial < serial)
 		return NULL;
@@ -1078,7 +1077,7 @@ networkdays_holiday_callback (Value const *v, EvalPos const *ep,
 		if (g_date_get_weekday (date) < G_DATE_SATURDAY)
 			++close->res;
 	} else
-		res = value_new_error (ep, gnumeric_err_NUM);
+		res = value_new_error_NUM (ep);
 
 	datetime_g_free (date);
 	return res;
@@ -1112,7 +1111,7 @@ gnumeric_networkdays (FunctionEvalInfo *ei, Value **argv)
 	start_serial = get_serial_weekday (start_serial, &start_offset);
 	end_serial = get_serial_weekday (end_serial, &end_offset);
 	if (start_serial < 0 || end_serial < 0)
-                  return value_new_error (ei->pos, gnumeric_err_NUM);
+                  return value_new_error_NUM (ei->pos);
 
 	res = end_serial - start_serial;
 	res -= ((res/7)*2);	/* Remove weekends */
@@ -1165,7 +1164,7 @@ gnumeric_isoweeknum (FunctionEvalInfo *ei, Value **argv)
 
 	date = datetime_value_to_g (argv[0]);
 	if (date == NULL || !g_date_valid (date))
-                  return value_new_error (ei->pos, gnumeric_err_VALUE);
+                  return value_new_error_VALUE (ei->pos);
 
 	isoweeknum = datetime_weeknum (date, WEEKNUM_METHOD_ISO);
 	res = value_new_int (isoweeknum);
@@ -1209,7 +1208,7 @@ gnumeric_isoyear (FunctionEvalInfo *ei, Value **argv)
 
 	date = datetime_value_to_g (argv[0]);
 	if (date == NULL || !g_date_valid (date))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	isoweeknum = datetime_weeknum (date, WEEKNUM_METHOD_ISO);
 	year = g_date_get_year (date);
@@ -1263,11 +1262,11 @@ gnumeric_weeknum (FunctionEvalInfo *ei, Value **argv)
 	if (!(method == WEEKNUM_METHOD_SUNDAY ||
 	      method == WEEKNUM_METHOD_MONDAY ||
 	      method == WEEKNUM_METHOD_ISO))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	date = datetime_value_to_g (argv[0]);
 	if (date == NULL || !g_date_valid (date))
-                  return value_new_error (ei->pos, gnumeric_err_VALUE);
+                  return value_new_error_VALUE (ei->pos);
 
 	weeknum = datetime_weeknum (date, method);
 	res = value_new_int (weeknum);
@@ -1294,7 +1293,7 @@ static char const *help_yearfrac = {
 static Value *
 gnumeric_yearfrac (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_error (ei->pos, gnumeric_err_VALUE);
+	return value_new_error_VALUE (ei->pos);
 }
 
 /***************************************************************************/

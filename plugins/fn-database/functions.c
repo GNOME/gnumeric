@@ -168,11 +168,11 @@ database_float_range_function (FunctionEvalInfo *ei,
 
 	fieldno = find_column_of_field (ei->pos, database, field);
 	if (fieldno < 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
 	criterias = parse_database_criteria (ei->pos, database, criteria);
 	if (criterias == NULL)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
 	sheet = eval_sheet (database->v_range.cell.a.sheet,
 			    ei->pos->sheet);
@@ -226,11 +226,11 @@ database_value_range_function (FunctionEvalInfo *ei,
 
 	fieldno = find_column_of_field (ei->pos, database, field);
 	if (fieldno < 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
 	criterias = parse_database_criteria (ei->pos, database, criteria);
 	if (criterias == NULL)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
 	sheet = eval_sheet (database->v_range.cell.a.sheet,
 			    ei->pos->sheet);
@@ -1159,7 +1159,7 @@ gnumeric_getpivotdata (FunctionEvalInfo *ei, Value **argv)
 
 	col = find_column_of_field (ei->pos, argv[0], argv[1]);
 	if (col == -1)
-		return value_new_error (ei->pos, gnumeric_err_REF);
+		return value_new_error_REF (ei->pos);
 
 	row = argv[0]->v_range.cell.b.row;
 	cell = sheet_cell_get (ei->pos->sheet, col, row);
@@ -1171,7 +1171,7 @@ gnumeric_getpivotdata (FunctionEvalInfo *ei, Value **argv)
 
 	if (cell_is_blank (cell) ||
 	    !VALUE_IS_NUMBER (cell->value))
-		return value_new_error (ei->pos, gnumeric_err_REF);
+		return value_new_error_REF (ei->pos);
 
         return value_new_float (value_get_as_float (cell->value));
 }

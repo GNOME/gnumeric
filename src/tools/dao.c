@@ -390,8 +390,7 @@ dao_set_cell_int (data_analysis_output_t *dao, int col, int row, int v)
 void
 dao_set_cell_na (data_analysis_output_t *dao, int col, int row)
 {
-	dao_set_cell_value (dao, col, row, value_new_error (NULL,
-							    gnumeric_err_NA));
+	dao_set_cell_value (dao, col, row, value_new_error_NA (NULL));
 }
 
 /**

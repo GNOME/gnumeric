@@ -232,7 +232,7 @@ gnumeric_phi (FunctionEvalInfo *ei, Value **args)
 
 	n = value_get_as_int (args [0]);
 	if (n < 1)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
 	if (walk_factorization (n, &phi, walk_for_phi))
 		return value_new_error (ei->pos, OUT_OF_BOUNDS);
@@ -270,7 +270,7 @@ gnumeric_nt_mu (FunctionEvalInfo *ei, Value **args)
 
 	n = value_get_as_int (args [0]);
 	if (n < 1)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
 	if (walk_factorization (n, &mu, walk_for_mu))
 		return value_new_error (ei->pos, OUT_OF_BOUNDS);
@@ -304,7 +304,7 @@ gnumeric_d (FunctionEvalInfo *ei, Value **args)
 
 	n = value_get_as_int (args [0]);
 	if (n < 1)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
 	if (walk_factorization (n, &d, walk_for_d))
 		return value_new_error (ei->pos, OUT_OF_BOUNDS);
@@ -338,7 +338,7 @@ gnumeric_sigma (FunctionEvalInfo *ei, Value **args)
 
 	n = value_get_as_int (args [0]);
 	if (n < 1)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
 	if (walk_factorization (n, &sigma, walk_for_sigma))
 		return value_new_error (ei->pos, OUT_OF_BOUNDS);
@@ -365,7 +365,7 @@ gnumeric_ithprime (FunctionEvalInfo *ei, Value **args)
 
 	i = value_get_as_int (args [0]);
 	if (i < 1)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
 	if (ithprime (i, &p))
 		return value_new_error (ei->pos, OUT_OF_BOUNDS);

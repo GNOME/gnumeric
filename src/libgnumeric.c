@@ -109,12 +109,12 @@ gnm_common_init (void)
 {
 	g_object_new (GNUMERIC_APPLICATION_TYPE, NULL);
 	gnm_conf_init ();
+	string_init ();
 	value_init ();
 	parse_util_init ();
 	expr_init ();
 	cell_init ();
 	dependent_types_init ();
-	string_init ();
 	rendered_value_init ();
 	style_init ();
 	gnumeric_color_init ();
@@ -167,12 +167,12 @@ gnm_shutdown (void)
 	gnumeric_color_shutdown ();
 	style_shutdown ();
 	rendered_value_shutdown ();
-	string_shutdown ();
 	dependent_types_shutdown ();
 	cell_shutdown ();
 	expr_shutdown ();
 	parse_util_shutdown ();
 	value_shutdown ();
+	string_shutdown ();
 
 	global_gnome_font_shutdown ();
 

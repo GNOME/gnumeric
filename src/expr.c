@@ -649,7 +649,7 @@ value_intersection (Value *v, EvalPos const *pos)
 		}
 	}
 
-	return value_new_error (pos, gnumeric_err_VALUE);
+	return value_new_error_VALUE (pos);
 }
 #if 0
 static Value *
@@ -717,7 +717,7 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 			if (expr->any.oper == GNM_EXPR_OP_NOT_EQUAL)
 				return value_new_bool (TRUE);
 
-			return value_new_error (pos, gnumeric_err_VALUE);
+			return value_new_error_VALUE (pos);
 		}
 
 		switch (expr->any.oper) {
@@ -783,11 +783,11 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 
 			value_release (a);
 			if (tmp == NULL)
-				return value_new_error (pos, gnumeric_err_VALUE);
+				return value_new_error_VALUE (pos);
 			a = tmp;
 		} else if (!VALUE_IS_NUMBER (a)) {
 			value_release (a);
-			return value_new_error (pos, gnumeric_err_VALUE);
+			return value_new_error_VALUE (pos);
 		}
 
 		/* 3) Error from B */
@@ -804,13 +804,13 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 			value_release (b);
 			if (tmp == NULL) {
 				value_release (a);
-				return value_new_error (pos, gnumeric_err_VALUE);
+				return value_new_error_VALUE (pos);
 			}
 			b = tmp;
 		} else if (!VALUE_IS_NUMBER (b)) {
 			value_release (a);
 			value_release (b);
-			return value_new_error (pos, gnumeric_err_VALUE);
+			return value_new_error_VALUE (pos);
 		}
 
 		if (a->type != VALUE_FLOAT && b->type != VALUE_FLOAT){
@@ -839,16 +839,16 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 
 			case GNM_EXPR_OP_DIV:
 				if (ib == 0)
-					return value_new_error (pos, gnumeric_err_DIV0);
+					return value_new_error_DIV0 (pos);
 				dres = (gnm_float)ia / (gnm_float)ib;
 				break;
 
 			case GNM_EXPR_OP_EXP:
 				if (ia == 0 && ib <= 0)
-					return value_new_error (pos, gnumeric_err_NUM);
+					return value_new_error_NUM (pos);
 				dres = powgnum ((gnm_float)ia, (gnm_float)ib);
 				if (!finitegnum (dres))
-					return value_new_error (pos, gnumeric_err_NUM);
+					return value_new_error_NUM (pos);
 				break;
 
 			default:
@@ -878,20 +878,19 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 
 			case GNM_EXPR_OP_DIV:
 				return (vb == 0.0)
-				    ? value_new_error (pos,
-						       gnumeric_err_DIV0)
-				    : value_new_float (va / vb);
+					? value_new_error_DIV0 (pos)
+					: value_new_float (va / vb);
 
 			case GNM_EXPR_OP_EXP: {
 				gnm_float res;
 				if ((va == 0 && vb <= 0) ||
 				    (va < 0 && vb != (int)vb))
-					return value_new_error (pos, gnumeric_err_NUM);
+					return value_new_error_NUM (pos);
 
 				res = powgnum (va, vb);
 				return finitegnum (res)
 					? value_new_float (res)
-					: value_new_error (pos, gnumeric_err_NUM);
+					: value_new_error_NUM (pos);
 			}
 
 			default:
@@ -915,7 +914,7 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 
 		if (!VALUE_IS_NUMBER (a)){
 			value_release (a);
-			return value_new_error (pos, gnumeric_err_VALUE);
+			return value_new_error_VALUE (pos);
 		}
 		if (expr->any.oper == GNM_EXPR_OP_UNARY_NEG) {
 			if (a->type == VALUE_INTEGER)
@@ -978,7 +977,7 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 				res = value_intersection (res, pos);
 				return (res != NULL)
 					? handle_empty (res, flags)
-					: value_new_error (pos, gnumeric_err_VALUE);
+					: value_new_error_VALUE (pos);
 			}
 			return res;
 		}
@@ -991,7 +990,7 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 	case GNM_EXPR_OP_NAME:
 		if (expr->name.name->active)
 			return handle_empty (expr_name_eval (expr->name.name, pos, flags), flags);
-		return value_new_error (pos, gnumeric_err_REF);
+		return value_new_error_REF (pos);
 
 	case GNM_EXPR_OP_CELLREF: {
 		CellRef const * const ref = &expr->cellref.ref;
@@ -1026,7 +1025,7 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 			res = value_intersection (res, pos);
 			return (res != NULL)
 				? handle_empty (res, flags)
-				: value_new_error (pos, gnumeric_err_VALUE);
+				: value_new_error_VALUE (pos);
 		}
 
 	case GNM_EXPR_OP_ARRAY: {
@@ -1070,7 +1069,7 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 			if (y >= 1 && num_y == 1)
 				y = 0;
 			if (x >= num_x || y >= num_y)
-				return value_new_error (pos, gnumeric_err_NA);
+				return value_new_error_NA (pos);
 
 			a = (Value *)value_area_get_x_y (a, x, y, &tmp_ep);
 		}
@@ -1078,13 +1077,13 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 		return handle_empty ((a != NULL) ? value_duplicate (a) : NULL, flags);
 	}
 	case GNM_EXPR_OP_SET:
-		return value_new_error (pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (pos);
 
 	case GNM_EXPR_OP_RANGE_CTOR: {
 		CellRef a, b;
 		if (gnm_expr_extract_ref (&a, expr->binary.value_a, pos, flags) ||
 		    gnm_expr_extract_ref (&b, expr->binary.value_b, pos, flags))
-			return value_new_error (pos, gnumeric_err_REF);
+			return value_new_error_REF (pos);
 
 		res = value_new_cellrange (&a, &b, pos->eval.col, pos->eval.row);
 		dependent_add_dynamic_dep (pos->dep, &res->v_range);
@@ -1092,7 +1091,7 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 			res = value_intersection (res, pos);
 			return (res != NULL)
 				? handle_empty (res, flags)
-				: value_new_error (pos, gnumeric_err_VALUE);
+				: value_new_error_VALUE (pos);
 		}
 		return res;
 	}
@@ -1101,7 +1100,7 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 		CellRef a, b;
 		if (gnm_expr_extract_ref (&a, expr->binary.value_a, pos, flags) ||
 		    gnm_expr_extract_ref (&b, expr->binary.value_b, pos, flags))
-			return value_new_error (pos, gnumeric_err_REF);
+			return value_new_error_REF (pos);
 
 		if (eval_sheet (a.sheet, pos->sheet) == eval_sheet (b.sheet, pos->sheet))
 			return value_new_cellrange (&a, &b, pos->eval.col, pos->eval.row);
@@ -1467,14 +1466,14 @@ cellrange_relocate (Value const *v, GnmExprRelocateInfo const *rinfo)
 	case CELLREF_RELOCATE_FROM_IN :  needs = 0x4;	break;
 	case CELLREF_RELOCATE_FROM_OUT : needs = 0x1;	break;
 	case CELLREF_RELOCATE_ERR : return gnm_expr_new_constant (
-		value_new_error (NULL, gnumeric_err_REF));
+		value_new_error_REF (NULL));
 	}
 	switch (cellref_relocate (&ref_b, rinfo)) {
 	case CELLREF_NO_RELOCATE :	break;
 	case CELLREF_RELOCATE_FROM_IN :  needs = 0x4;	break;
 	case CELLREF_RELOCATE_FROM_OUT : needs |= 0x2;	break;
 	case CELLREF_RELOCATE_ERR : return gnm_expr_new_constant (
-		value_new_error (NULL, gnumeric_err_REF));
+		value_new_error_REF (NULL));
 	}
 
 	if (needs != 0) {
@@ -1496,7 +1495,7 @@ cellrange_relocate (Value const *v, GnmExprRelocateInfo const *rinfo)
 						   rinfo->pos.eval.col,
 						   rinfo->pos.eval.row);
 		} else
-			res = value_new_error (NULL, gnumeric_err_REF);
+			res = value_new_error_REF (NULL);
 
 		return gnm_expr_new_constant (res);
 	}
@@ -1626,7 +1625,7 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 		if (!nexpr->active ||
 		    (rwinfo->type == GNM_EXPR_REWRITE_SHEET && rwinfo->u.sheet == nexpr->pos.sheet) ||
 		    (rwinfo->type == GNM_EXPR_REWRITE_WORKBOOK && rwinfo->u.workbook == nexpr->pos.wb))
-			return gnm_expr_new_constant (value_new_error (NULL, gnumeric_err_REF));
+			return gnm_expr_new_constant (value_new_error_REF (NULL));
 
 		if (rwinfo->type != GNM_EXPR_REWRITE_RELOCATE)
 			return NULL;
@@ -1660,7 +1659,7 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 		if (tmp != NULL) {
 			gnm_expr_unref (tmp);
 			return gnm_expr_new_constant (
-				value_new_error (NULL, gnumeric_err_REF));
+				value_new_error_REF (NULL));
 		}
 
 		return NULL;
@@ -1670,13 +1669,13 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 		switch (rwinfo->type) {
 		case GNM_EXPR_REWRITE_SHEET :
 			if (expr->cellref.ref.sheet == rwinfo->u.sheet)
-				return gnm_expr_new_constant (value_new_error (NULL, gnumeric_err_REF));
+				return gnm_expr_new_constant (value_new_error_REF (NULL));
 			return NULL;
 
 		case GNM_EXPR_REWRITE_WORKBOOK :
 			if (expr->cellref.ref.sheet != NULL &&
 			    expr->cellref.ref.sheet->workbook == rwinfo->u.workbook)
-				return gnm_expr_new_constant (value_new_error (NULL, gnumeric_err_REF));
+				return gnm_expr_new_constant (value_new_error_REF (NULL));
 			return NULL;
 
 		case GNM_EXPR_REWRITE_RELOCATE : {
@@ -1689,7 +1688,7 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 			case CELLREF_RELOCATE_FROM_OUT :
 				return gnm_expr_new_cellref (&res);
 			case CELLREF_RELOCATE_ERR :
-				return gnm_expr_new_constant (value_new_error (NULL, gnumeric_err_REF));
+				return gnm_expr_new_constant (value_new_error_REF (NULL));
 			}
 		}
 		}
@@ -1725,16 +1724,16 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 				} else
 					return NULL;
 				if (v == NULL)
-					v = value_new_error (NULL, gnumeric_err_REF);
+					v = value_new_error_REF (NULL);
 				return gnm_expr_new_constant (v);
 
 			} else if (rwinfo->type == GNM_EXPR_REWRITE_WORKBOOK) {
 				if (ref_a->sheet != NULL &&
 				    ref_a->sheet->workbook == rwinfo->u.workbook)
-					return gnm_expr_new_constant (value_new_error (NULL, gnumeric_err_REF));
+					return gnm_expr_new_constant (value_new_error_REF (NULL));
 				if (ref_b->sheet != NULL &&
 				    ref_b->sheet->workbook == rwinfo->u.workbook)
-					return gnm_expr_new_constant (value_new_error (NULL, gnumeric_err_REF));
+					return gnm_expr_new_constant (value_new_error_REF (NULL));
 				return NULL;
 			} else
 				return cellrange_relocate (v, &rwinfo->u.relocate);

@@ -43,6 +43,22 @@
 #endif
 
 
+static struct {
+	const char *C_name;
+	const char *locale_name;
+	String *locale_name_str;
+} standard_errors[8] = {
+	{ N_("#NULL!"), NULL, NULL },
+	{ N_("#DIV/0!"), NULL, NULL },
+	{ N_("#VALUE!"), NULL, NULL },
+	{ N_("#REF!"), NULL, NULL },
+	{ N_("#NAME?"), NULL, NULL },
+	{ N_("#NUM!"), NULL, NULL },
+	{ N_("#N/A"), NULL, NULL },
+	{ N_("#RECALC!"), NULL, NULL }
+};
+
+
 Value *
 value_new_empty (void)
 {
@@ -85,7 +101,7 @@ value_new_float (gnm_float f)
 		return (Value *)v;
 	} else {
 		/* FIXME: bogus ep sent here.  What to do?  */
-		return value_new_error (NULL, gnumeric_err_NUM);
+		return value_new_error_NUM (NULL);
 	}
 }
 
@@ -110,6 +126,55 @@ value_new_error_str (EvalPos const *ep, String *mesg)
 	v->mesg = string_ref (mesg);
 	return (Value *)v;
 }
+
+Value *
+value_new_error_NULL (EvalPos const *pos)
+{
+	return value_new_error_str (pos, standard_errors[GNM_ERROR_NULL].locale_name_str);
+}
+
+Value *
+value_new_error_DIV0 (EvalPos const *pos)
+{
+	return value_new_error_str (pos, standard_errors[GNM_ERROR_DIV0].locale_name_str);
+}
+
+Value *
+value_new_error_VALUE (EvalPos const *pos)
+{
+	return value_new_error_str (pos, standard_errors[GNM_ERROR_VALUE].locale_name_str);
+}
+
+Value *
+value_new_error_REF (EvalPos const *pos)
+{
+	return value_new_error_str (pos, standard_errors[GNM_ERROR_REF].locale_name_str);
+}
+
+Value *
+value_new_error_NAME (EvalPos const *pos)
+{
+	return value_new_error_str (pos, standard_errors[GNM_ERROR_NAME].locale_name_str);
+}
+
+Value *
+value_new_error_NUM (EvalPos const *pos)
+{
+	return value_new_error_str (pos, standard_errors[GNM_ERROR_NUM].locale_name_str);
+}
+
+Value *
+value_new_error_NA (EvalPos const *pos)
+{
+	return value_new_error_str (pos, standard_errors[GNM_ERROR_NA].locale_name_str);
+}
+
+Value *
+value_new_error_RECALC (EvalPos const *pos)
+{
+	return value_new_error_str (pos, standard_errors[GNM_ERROR_RECALC].locale_name_str);
+}
+
 
 /**
  * value_error_set_pos :
@@ -866,14 +931,14 @@ value_coerce_to_number (Value *v, gboolean *valid, EvalPos const *ep)
 		Value *tmp = format_match_number (value_peek_string (v), NULL);
 		value_release (v);
 		if (tmp == NULL)
-			return value_new_error (ep, gnumeric_err_VALUE);
+			return value_new_error_VALUE (ep);
 		v = tmp;
 	} else if (v->type == VALUE_ERROR)
 		return v;
 
 	if (!VALUE_IS_NUMBER (v)) {
 		value_release (v);
-		return value_new_error (ep, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ep);
 	}
 
 	*valid = TRUE;
@@ -1552,6 +1617,14 @@ const Value *value_zero = (const Value *)&the_value_zero;
 void
 value_init (void)
 {
+	size_t i;
+
+	for (i = 0; i < G_N_ELEMENTS (standard_errors); i++) {
+		standard_errors[i].locale_name = _(standard_errors[i].C_name);
+		standard_errors[i].locale_name_str =
+			string_get (standard_errors[i].locale_name);
+	}
+
 #if USE_VALUE_POOLS
 	/* ValueInt and ValueBool ought to have the same size.  */
 	value_int_pool =
@@ -1589,6 +1662,13 @@ value_init (void)
 void
 value_shutdown (void)
 {
+	size_t i;
+
+	for (i = 0; i < G_N_ELEMENTS (standard_errors); i++) {
+		string_unref (standard_errors[i].locale_name_str);
+		standard_errors[i].locale_name_str = NULL;
+	}
+
 #if USE_VALUE_POOLS
 	gnm_mem_chunk_destroy (value_int_pool, FALSE);
 	value_int_pool = NULL;

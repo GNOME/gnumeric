@@ -93,7 +93,7 @@ gnumeric_randuniform (FunctionEvalInfo *ei, Value **argv)
 	gnm_float b = value_get_as_float (argv[1]);
 
 	if (a > b)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (a  +  ( random_01 ()  *  (b - a) ) );
 }
@@ -176,7 +176,7 @@ gnumeric_randdiscrete (FunctionEvalInfo *ei, Value **argv)
 
 	if (value_range->type != VALUE_CELLRANGE ||
 	    (prob_range != NULL && prob_range->type != VALUE_CELLRANGE))
-	        return value_new_error (ei->pos, gnumeric_err_VALUE);
+	        return value_new_error_VALUE (ei->pos);
 
 	cols = value_range->v_range.cell.b.col
 		- value_range->v_range.cell.a.col + 1;
@@ -193,7 +193,7 @@ gnumeric_randdiscrete (FunctionEvalInfo *ei, Value **argv)
 		    - prob_range->v_range.cell.a.col + 1 != cols
 		    || prob_range->v_range.cell.b.row
 		    - prob_range->v_range.cell.a.row + 1 != rows)
-			return value_new_error (ei->pos, gnumeric_err_NUM);
+			return value_new_error_NUM (ei->pos);
 
 		rd.prob = collect_floats_value (prob_range, ei->pos, 0, &n,
 						&ret);
@@ -202,7 +202,7 @@ gnumeric_randdiscrete (FunctionEvalInfo *ei, Value **argv)
 		range_sum (rd.prob, n, &sum);
 		if (sum != 1) {
 			g_free (rd.prob);
-			return value_new_error (ei->pos, gnumeric_err_NUM);
+			return value_new_error_NUM (ei->pos);
 		}
 	} else
 		rd.x_ind = rd.x * cols * rows;
@@ -221,7 +221,7 @@ gnumeric_randdiscrete (FunctionEvalInfo *ei, Value **argv)
 
 	if (ret != NULL) {
 		g_free (rd.res);
-	        return value_new_error (ei->pos, gnumeric_err_VALUE);
+	        return value_new_error_VALUE (ei->pos);
 	}
 
 	return rd.res;
@@ -274,7 +274,7 @@ gnumeric_randpoisson (FunctionEvalInfo *ei, Value **argv)
 	gnm_float x = value_get_as_float (argv[0]);
 
 	if (x < 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
         return value_new_float (random_poisson (x));
 }
@@ -304,7 +304,7 @@ gnumeric_randbinom (FunctionEvalInfo *ei, Value **argv)
 	int        trials = value_get_as_int (argv[1]);
 
 	if (p < 0 || p > 1 || trials < 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
         return value_new_float (random_binomial (p, trials));
 }
@@ -338,7 +338,7 @@ gnumeric_randbetween (FunctionEvalInfo *ei, Value **argv)
 	bottom = value_get_as_int (argv[0]);
 	top    = value_get_as_int (argv[1]);
 	if (bottom > top)
-		return value_new_error (ei->pos, gnumeric_err_NUM );
+		return value_new_error_NUM (ei->pos);
 
 	r = bottom + floorgnum ((top + 1.0 - bottom) * random_01 ());
 	return value_new_int ((int)r);
@@ -370,7 +370,7 @@ gnumeric_randnegbinom (FunctionEvalInfo *ei, Value **argv)
 	int failures = value_get_as_int (argv[1]);
 
 	if (p < 0 || p > 1 || failures < 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
         return value_new_float (random_negbinom (p, failures));
 }
@@ -398,7 +398,7 @@ gnumeric_randbernoulli (FunctionEvalInfo *ei, Value **argv)
 	gnm_float p = value_get_as_float (argv[0]);
 
 	if (p < 0 || p > 1)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
         return value_new_float (random_bernoulli (p));
 }
@@ -427,7 +427,7 @@ gnumeric_randgaussian (FunctionEvalInfo *ei, Value **argv)
 	gnm_float stdev = value_get_as_float (argv[1]);
 
 	if (stdev < 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
         return value_new_float (stdev * random_normal () + mean);
 }
@@ -457,7 +457,7 @@ gnumeric_randcauchy (FunctionEvalInfo *ei, Value **argv)
 	gnm_float a = value_get_as_float (argv[0]);
 
 	if (a < 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
         return value_new_float (random_cauchy (a));
 }
@@ -610,7 +610,7 @@ gnumeric_randgamma (FunctionEvalInfo *ei, Value **argv)
 	gnm_float b = value_get_as_float (argv[1]);
 
 	if (a <= 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
         return value_new_float (random_gamma (a, b));
 }
@@ -739,7 +739,7 @@ gnumeric_randgeom (FunctionEvalInfo *ei, Value **argv)
 	gnm_float p = value_get_as_float (argv[0]);
 
 	if (p < 0 || p > 1)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
         return value_new_int (random_geometric (p));
 }
@@ -797,7 +797,7 @@ gnumeric_randlog (FunctionEvalInfo *ei, Value **argv)
 	gnm_float p = value_get_as_float (argv[0]);
 
 	if (p < 0 || p > 1)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
         return value_new_int (random_logarithmic (p));
 }
@@ -876,7 +876,7 @@ gnumeric_randgumbel (FunctionEvalInfo *ei, Value **argv)
 	int type     = (argv[2] == NULL) ? 1 : value_get_as_int (argv[2]);
 
 	if (type != 1 && type != 2)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
 	if (type == 1)
 		return value_new_float (random_gumbel1 (a, b));
@@ -914,7 +914,7 @@ gnumeric_randlevy (FunctionEvalInfo *ei, Value **argv)
 	gnm_float beta  = argv[2] == NULL ? 0 : value_get_as_float (argv[1]);
 
 	if (alpha <= 0 || alpha > 2 || beta < -1 || beta > 1)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (random_levy_skew (c, alpha, beta));
 }
@@ -1083,7 +1083,7 @@ gnumeric_simtable (FunctionEvalInfo *ei, GnmExprList *nodes)
 
 	/* See if there was any value worth using. */
 	if (p.value == NULL)
-		return value_new_error (ei->pos, gnumeric_err_NA);
+		return value_new_error_NA (ei->pos);
 
 	return p.value;
 }

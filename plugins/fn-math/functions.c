@@ -296,7 +296,7 @@ gnumeric_acos (FunctionEvalInfo *ei, Value **args)
 
 	t = value_get_as_float (args [0]);
 	if ((t < -1.0) || (t > 1.0))
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (acosgnum (t));
 }
@@ -329,7 +329,7 @@ gnumeric_acosh (FunctionEvalInfo *ei, Value **args)
 
 	t = value_get_as_float (args [0]);
 	if (t < 1.0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (acoshgnum (t));
 }
@@ -362,7 +362,7 @@ gnumeric_asin (FunctionEvalInfo *ei, Value **args)
 
 	t = value_get_as_float (args [0]);
 	if ((t < -1.0) || (t > 1.0))
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (asingnum (t));
 }
@@ -444,7 +444,7 @@ gnumeric_atanh (FunctionEvalInfo *ei, Value **args)
 
 	t = value_get_as_float (args [0]);
 	if ((t <= -1.0) || (t >= 1.0))
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (atanhgnum (value_get_as_float (args [0])));
 }
@@ -542,7 +542,7 @@ gnumeric_countif (FunctionEvalInfo *ei, Value **argv)
 
 	if ((!VALUE_IS_NUMBER (argv[1]) && argv[1]->type != VALUE_STRING)
 	    || (range->type != VALUE_CELLRANGE))
-	        return value_new_error (ei->pos, gnumeric_err_VALUE);
+	        return value_new_error_VALUE (ei->pos);
 
 	if (VALUE_IS_NUMBER (argv[1])) {
 	        items.fun = (criteria_test_fun_t) criteria_test_equal;
@@ -567,7 +567,7 @@ gnumeric_countif (FunctionEvalInfo *ei, Value **argv)
 		value_release (tmpval);
 
 	if (ret != NULL)
-	        return value_new_error (ei->pos, gnumeric_err_VALUE);
+	        return value_new_error_VALUE (ei->pos);
 
         list = items.list;
 
@@ -661,7 +661,7 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 
 	if (range->type != VALUE_CELLRANGE ||
 	    !(VALUE_IS_NUMBER (argv[1]) || argv[1]->type == VALUE_STRING))
-	        return value_new_error (ei->pos, gnumeric_err_VALUE);
+	        return value_new_error_VALUE (ei->pos);
 
 	/* If the criteria is a number test for equality else the parser
 	 * will evaluate the condition as a string
@@ -697,7 +697,7 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 		value_release (tmpval);
 
 	if (ret != NULL)
-	        return value_new_error (ei->pos, gnumeric_err_VALUE);
+	        return value_new_error_VALUE (ei->pos);
 
 	if (actual_range == NULL) {
 	        list = items.list;
@@ -760,9 +760,9 @@ static const char *help_ceiling = {
 static Value *
 gnumeric_ceiling (FunctionEvalInfo *ei, Value **argv)
 {
-        gnm_float number, s;
+	gnm_float number = value_get_as_float (argv[0]);
+        gnm_float s;
 
-	number = value_get_as_float (argv[0]);
 	if (argv[1] == NULL)
 	        s = (number >= 0) ? 1.0 : -1.0;
 	else {
@@ -770,7 +770,7 @@ gnumeric_ceiling (FunctionEvalInfo *ei, Value **argv)
 	}
 
 	if (s == 0 || number / s < 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (gnumeric_fake_ceil (number / s) * s);
 }
@@ -891,17 +891,11 @@ static const char *help_fact = {
 static Value *
 gnumeric_fact (FunctionEvalInfo *ei, Value **argv)
 {
-	gnm_float x;
-	gboolean x_is_integer;
-
-	if (!VALUE_IS_NUMBER (argv[0]))
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	x = value_get_as_float (argv[0]);
-	x_is_integer = (x == floorgnum (x));
+	gnm_float x = value_get_as_float (argv[0]);
+	gboolean x_is_integer = (x == floorgnum (x));
 
 	if (x < 0 && x_is_integer)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
 	if (x > 12 || !x_is_integer) {
 		gnm_float tmp = lgammagnum (x + 1);
@@ -990,15 +984,13 @@ static const char *help_combin = {
 static Value *
 gnumeric_combin (FunctionEvalInfo *ei, Value **argv)
 {
-	int n ,k;
-
-	n = value_get_as_int (argv[0]);
-	k = value_get_as_int (argv[1]);
+	int n = value_get_as_int (argv[0]);
+	int k = value_get_as_int (argv[1]);
 
 	if (k >= 0 && n >= k)
 		return value_new_float (combin (n ,k));
 
-	return value_new_error (ei->pos, gnumeric_err_NUM);
+	return value_new_error_NUM (ei->pos);
 }
 
 /***************************************************************************/
@@ -1034,7 +1026,7 @@ gnumeric_floor (FunctionEvalInfo *ei, Value **argv)
 	        s = value_get_as_float (argv[1]);
 
 	if (s == 0 || (number / s) < 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (gnumeric_fake_floor (number / s) * s);
 }
@@ -1086,20 +1078,14 @@ static const char *help_log = {
 static Value *
 gnumeric_log (FunctionEvalInfo *ei, Value **argv)
 {
-	gnm_float t, base;
+	gnm_float t = value_get_as_float (argv [0]);
+	gnm_float base = argv[1] ? value_get_as_float (argv[1]) : 10;
 
-	t = value_get_as_float (argv [0]);
-
-	if (argv[1] == NULL)
-	        base = 10;
-	else {
-	        base = value_get_as_float (argv[1]);
-		if (base == 1. || base <= 0.)
-			return value_new_error (ei->pos, gnumeric_err_NUM);
-	}
+	if (base == 1. || base <= 0.)
+		return value_new_error_NUM (ei->pos);
 
 	if (t <= 0.0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (loggnum (t) / loggnum (base));
 }
@@ -1125,12 +1111,10 @@ static const char *help_ln = {
 static Value *
 gnumeric_ln (FunctionEvalInfo *ei, Value **argv)
 {
-	gnm_float t;
-
-	t = value_get_as_float (argv [0]);
+	gnm_float t = value_get_as_float (argv [0]);
 
 	if (t <= 0.0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (loggnum (t));
 }
@@ -1155,18 +1139,16 @@ static const char *help_power = {
 static Value *
 gnumeric_power (FunctionEvalInfo *ei, Value **argv)
 {
-	gnm_float x, y;
-
-	x = value_get_as_float (argv [0]);
-	y = value_get_as_float (argv [1]);
+	gnm_float x = value_get_as_float (argv [0]);
+	gnm_float y = value_get_as_float (argv [1]);
 
 	if ((x > 0) || (x == 0 && y > 0) || (x < 0 && y == floorgnum (y)))
 		return value_new_float (powgnum (x, y));
 
 	if (x == 0 && y != 0)
-		return value_new_error (ei->pos, gnumeric_err_DIV0);
+		return value_new_error_DIV0 (ei->pos);
 	else
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 }
 
 /***************************************************************************/
@@ -1188,11 +1170,9 @@ static const char *help_log2 = {
 static Value *
 gnumeric_log2 (FunctionEvalInfo *ei, Value **argv)
 {
-	gnm_float t;
-
-	t = value_get_as_float (argv [0]);
+	gnm_float t = value_get_as_float (argv [0]);
 	if (t <= 0.0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (loggnum (t) / M_LN2gnum);
 }
@@ -1221,7 +1201,7 @@ gnumeric_log10 (FunctionEvalInfo *ei, Value **argv)
 
 	t = value_get_as_float (argv [0]);
 	if (t <= 0.0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (log10gnum (t));
 }
@@ -1263,7 +1243,7 @@ gnumeric_mod (FunctionEvalInfo *ei, Value **argv)
 	b = value_get_as_float (argv[1]);
 
 	if (b == 0)
-		return value_new_error (ei->pos, gnumeric_err_DIV0);
+		return value_new_error_DIV0 (ei->pos);
 
 	babs = gnumabs (b);
 	r = fmodgnum (gnumabs (a), babs);
@@ -1371,7 +1351,7 @@ gnumeric_sqrt (FunctionEvalInfo *ei, Value **argv)
 {
 	gnm_float x = value_get_as_float (argv[0]);
 	if (x < 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (sqrtgnum (x));
 }
@@ -1708,7 +1688,7 @@ gnumeric_factdouble (FunctionEvalInfo *ei, Value **argv)
 
 	number = value_get_as_int (argv[0]);
 	if (number < 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM );
+		return value_new_error_NUM (ei->pos);
 
 	for (n = number; n > 0; n -= 2)
 	        product *= n;
@@ -1744,7 +1724,7 @@ gnumeric_fib (FunctionEvalInfo *ei, Value **argv)
 
 	int n = value_get_as_int (argv[0]);
 	if (n <= 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM );
+		return value_new_error_NUM (ei->pos);
 
 	if (n < fib_count) {
 		if (!inited) {
@@ -1791,7 +1771,7 @@ gnumeric_quotient (FunctionEvalInfo *ei, Value **argv)
 	den = value_get_as_float (argv[1]);
 
 	if (den == 0)
-	        return value_new_error (ei->pos, gnumeric_err_DIV0);
+	        return value_new_error_DIV0 (ei->pos);
 	else
 	        return value_new_int ((int) (num / den));
 }
@@ -1854,7 +1834,7 @@ gnumeric_sqrtpi (FunctionEvalInfo *ei, Value **argv)
 
 	n = value_get_as_float (argv[0]);
 	if (n < 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (sqrtgnum (M_PIgnum * n));
 }
@@ -2027,7 +2007,7 @@ gnumeric_mround (FunctionEvalInfo *ei, Value **argv)
 
 	if ((number > 0 && multiple < 0)
 	    || (number < 0 && multiple > 0))
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
 	if (number < 0) {
 	        sign = -1;
@@ -2090,13 +2070,13 @@ gnumeric_roman (FunctionEvalInfo *ei, Value **argv)
 	form = argv[1] ? value_get_as_int (argv[1]) : 0;
 
 	if (n < 0 || n > 3999)
-		return value_new_error (ei->pos, gnumeric_err_VALUE );
+		return value_new_error_VALUE (ei->pos);
 
 	if (n == 0)
 		return value_new_string ("");
 
 	if (form < 0 || form > 4)
-		return value_new_error (ei->pos, gnumeric_err_NUM );
+		return value_new_error_NUM (ei->pos);
 
 	for (i = j = 0; dec > 1; dec /= 10, j += 2) {
 	        for (; n > 0; i++) {
@@ -2362,7 +2342,7 @@ gnumeric_sumx2my2 (FunctionEvalInfo *ei, Value **argv)
 			&items_x);
 
 		if (ret != NULL) {
-		        ret = value_new_error (ei->pos, gnumeric_err_VALUE);
+		        ret = value_new_error_VALUE (ei->pos);
 			goto out;
 		}
 	} else {
@@ -2382,7 +2362,7 @@ gnumeric_sumx2my2 (FunctionEvalInfo *ei, Value **argv)
 			callback_function_sumxy,
 			&items_y);
 		if (ret != NULL) {
-		        ret = value_new_error (ei->pos, gnumeric_err_VALUE);
+		        ret = value_new_error_VALUE (ei->pos);
 			goto out;
 		}
 	} else {
@@ -2392,7 +2372,7 @@ gnumeric_sumx2my2 (FunctionEvalInfo *ei, Value **argv)
 	}
 
 	if (items_x.num != items_y.num) {
-		ret = value_new_error (ei->pos, gnumeric_err_NA);
+		ret = value_new_error_NA (ei->pos);
 		goto out;
 	}
 
@@ -2475,7 +2455,7 @@ gnumeric_sumx2py2 (FunctionEvalInfo *ei, Value **argv)
 			callback_function_sumxy,
 			&items_x);
 		if (ret != NULL) {
-		        ret = value_new_error (ei->pos, gnumeric_err_VALUE);
+		        ret = value_new_error_VALUE (ei->pos);
 			goto out;
 		}
 	} else {
@@ -2495,7 +2475,7 @@ gnumeric_sumx2py2 (FunctionEvalInfo *ei, Value **argv)
 			callback_function_sumxy,
 			&items_y);
 		if (ret != NULL) {
-			ret = value_new_error (ei->pos, gnumeric_err_VALUE);
+			ret = value_new_error_VALUE (ei->pos);
 			goto out;
 		}
 	} else {
@@ -2505,7 +2485,7 @@ gnumeric_sumx2py2 (FunctionEvalInfo *ei, Value **argv)
 	}
 
 	if (items_x.num != items_y.num) {
-		ret = value_new_error (ei->pos, gnumeric_err_NA);
+		ret = value_new_error_NA (ei->pos);
 		goto out;
 	}
 
@@ -2586,7 +2566,7 @@ gnumeric_sumxmy2 (FunctionEvalInfo *ei, Value **argv)
 			callback_function_sumxy,
 			&items_x);
 		if (ret != NULL) {
-		        ret = value_new_error (ei->pos, gnumeric_err_VALUE);
+		        ret = value_new_error_VALUE (ei->pos);
 			goto out;
 		}
 	} else {
@@ -2606,7 +2586,7 @@ gnumeric_sumxmy2 (FunctionEvalInfo *ei, Value **argv)
 			callback_function_sumxy,
 			&items_y);
 		if (ret != NULL) {
-		        ret = value_new_error (ei->pos, gnumeric_err_VALUE);
+		        ret = value_new_error_VALUE (ei->pos);
 			goto out;
 		}
 	} else {
@@ -2616,7 +2596,7 @@ gnumeric_sumxmy2 (FunctionEvalInfo *ei, Value **argv)
 	}
 
 	if (items_x.num != items_y.num) {
-	        ret = value_new_error (ei->pos, gnumeric_err_NA);
+	        ret = value_new_error_NA (ei->pos);
 		goto out;
 	}
 
@@ -2799,7 +2779,7 @@ gnumeric_minverse (FunctionEvalInfo *ei, Value **argv)
 
 	/* Guarantee shape and non-zero size */
 	if (cols != rows || !rows || !cols)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	matrix = g_new (gnm_float, rows*cols);
 	inverse = g_new (gnm_float, rows*cols);
@@ -2813,7 +2793,7 @@ gnumeric_minverse (FunctionEvalInfo *ei, Value **argv)
 	if (minverse (matrix, cols, inverse)) {
 	        g_free (matrix);
 	        g_free (inverse);
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 	}
 
 	g_free (matrix);
@@ -2872,7 +2852,7 @@ gnumeric_mmult (FunctionEvalInfo *ei, Value **argv)
 
 	/* Guarantee shape and non-zero size */
 	if (cols_a != rows_b || !rows_a || !rows_b || !cols_a || !cols_b)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	res = value_new_array_non_init (cols_b, rows_a);
 
@@ -2951,7 +2931,7 @@ gnumeric_mdeterm (FunctionEvalInfo *ei, Value **argv)
 
 	/* Guarantee shape and non-zero size */
 	if (cols != rows || !rows || !cols)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	matrix = g_new (gnm_float, rows * cols);
 	for (c = 0; c < cols; c++)
@@ -3002,7 +2982,7 @@ gnumeric_sumproduct (FunctionEvalInfo *ei, GnmExprList *args)
 	int sizex = -1, sizey = -1;
 
 	if (args == NULL)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	argc = gnm_expr_list_length (args);
 	data = g_new0 (gnm_float *, argc);
@@ -3057,7 +3037,7 @@ gnumeric_sumproduct (FunctionEvalInfo *ei, GnmExprList *args)
 		 * If we found no errors in the data set and also the sizes
 		 * do not match, we will get here.
 		 */
-		result = value_new_error (ei->pos, gnumeric_err_VALUE);
+		result = value_new_error_VALUE (ei->pos);
 	} else {
 		gnm_float sum = 0;
 		int j;

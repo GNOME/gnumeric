@@ -398,8 +398,7 @@ expr_name_add (ParsePos const *pp, char const *name,
 	parse_pos_init (&nexpr->pos,
 		pp->wb, pp->sheet, pp->eval.col, pp->eval.row);
 	if (expr == NULL)
-		expr = gnm_expr_new_constant (value_new_error (NULL,
-			gnumeric_err_NAME));
+		expr = gnm_expr_new_constant (value_new_error_NAME (NULL));
 	expr_name_set_expr (nexpr, expr);
 	if (link_to_container)
 		gnm_named_expr_collection_insert (scope, nexpr);
@@ -494,7 +493,7 @@ expr_name_eval (GnmNamedExpr const *nexpr, EvalPos const *pos,
 	g_return_val_if_fail (pos, NULL);
 
 	if (!nexpr)
-		return value_new_error (pos, gnumeric_err_NAME);
+		return value_new_error_NAME (pos);
 
 	return gnm_expr_eval (nexpr->expr_tree, pos, flags);
 }

@@ -92,7 +92,7 @@ gnumeric_char (FunctionEvalInfo *ei, Value **argv)
 			g_warning ("iconv failed for CHAR(%d)", c);
 	}
 
-	return value_new_error (ei->pos, gnumeric_err_VALUE);
+	return value_new_error_VALUE (ei->pos);
 }
 
 /***************************************************************************/
@@ -123,7 +123,7 @@ gnumeric_code (FunctionEvalInfo *ei, Value **argv)
 	Value *res;
 
 	if (*us == 0)
-		value_new_error (ei->pos, gnumeric_err_VALUE);
+		value_new_error_VALUE (ei->pos);
 
 	if (*us <= 127)
 		return value_new_int (*us);
@@ -135,7 +135,7 @@ gnumeric_code (FunctionEvalInfo *ei, Value **argv)
 		res = value_new_int ((unsigned char)*str);
 	else {
 		g_warning ("iconv failed for CODE(U%x)", g_utf8_get_char (s));
-		res = value_new_error (ei->pos, gnumeric_err_VALUE);
+		res = value_new_error_VALUE (ei->pos);
 	}
 	g_free (str);
 
@@ -215,7 +215,7 @@ gnumeric_left (FunctionEvalInfo *ei, Value **argv)
 	count = argv[1] ? value_get_as_int (argv[1]) : 1;
 
 	if (count < 0)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	peek = value_peek_string (argv[0]);
 	if (count >= g_utf8_strlen (peek, -1))
@@ -275,13 +275,13 @@ gnumeric_mid (FunctionEvalInfo *ei, Value **argv)
 	len = value_get_as_int (argv[2]);
 
 	if (len < 0 || pos <= 0)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	source = value_peek_string (argv[0]);
 	slen   = g_utf8_strlen (source, -1);
 
 	if (pos > slen)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	pos--;  /* Make pos zero-based.  */
 
@@ -320,7 +320,7 @@ gnumeric_right (FunctionEvalInfo *ei, Value **argv)
 	count = argv[1] ? value_get_as_int (argv[1]) : 1;
 
 	if (count < 0)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	os   = value_peek_string (argv[0]);
 	slen = g_utf8_strlen (os, -1);
@@ -408,7 +408,7 @@ gnumeric_rept (FunctionEvalInfo *ei, Value **argv)
 
 	num = value_get_as_int (argv[1]);
 	if (num < 0)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	source = value_peek_string (argv[0]);
 	len    = strlen (source);
@@ -419,7 +419,7 @@ gnumeric_rept (FunctionEvalInfo *ei, Value **argv)
 
 	/* Check if the length would overflow.  */
 	if (num >= INT_MAX / len)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	res = g_string_sized_new (len * num);
 	for (i = 0; i < num; i++)
@@ -502,7 +502,7 @@ gnumeric_find (FunctionEvalInfo *ei, Value **argv)
 	 * and not g_utf8_strlen below
 	 */
 	if (count <= 0 || count > haystacksize) {
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 	} else {
 		const char *haystart = g_utf8_offset_to_pointer (haystack,
 								 count - 1);
@@ -515,7 +515,7 @@ gnumeric_find (FunctionEvalInfo *ei, Value **argv)
 				(g_utf8_pointer_to_offset (haystack, p) + 1);
 		else
 			/* Really?  */
-			return value_new_error (ei->pos, gnumeric_err_VALUE);
+			return value_new_error_VALUE (ei->pos);
 	}
 }
 
@@ -551,11 +551,11 @@ gnumeric_fixed (FunctionEvalInfo *ei, Value **argv)
 		gboolean err;
 		commas = !value_get_as_bool (argv[2], &err);
 		if (err)
-			return value_new_error (ei->pos, gnumeric_err_VALUE);
+			return value_new_error_VALUE (ei->pos);
 	}
 
 	if (decimals >= 127) /* else buffer overflow */
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	if (decimals <= 0) {
 		/* no decimal point : just round and pad 0's */
@@ -666,7 +666,7 @@ gnumeric_replace (FunctionEvalInfo *ei, Value **argv)
 	oldlen = g_utf8_strlen (old, -1);
 
 	if (start <= 0 || num <= 0)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 	if (start > oldlen)
 		return value_new_error (ei->pos, _ ("Arguments out of range"));
 
@@ -850,7 +850,7 @@ gnumeric_value (FunctionEvalInfo *ei, Value **argv)
 
 		if (v != NULL)
 			return v;
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 	}
 	}
 }
@@ -976,7 +976,7 @@ gnumeric_dollar (FunctionEvalInfo *ei, Value **argv)
 	sf = style_format_new_XL (format, FALSE);
 	g_free (format);
 	g_return_val_if_fail (sf != NULL,
-			      value_new_error (ei->pos, gnumeric_err_NA));
+			      value_new_error_NA (ei->pos));
 
 	/* Since decimals can be negative, round the number.  */
 	p10 = gpow10 (decimals);
@@ -1035,10 +1035,10 @@ gnumeric_search (FunctionEvalInfo *ei, Value **argv)
 
 	start--;
 	if (start < 0)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 	for (i = start, hay2 = haystack; i > 0; i--) {
 		if (*hay2 == 0)
-			return value_new_error (ei->pos, gnumeric_err_VALUE);
+			return value_new_error_VALUE (ei->pos);
 		hay2 = g_utf8_next_char (hay2);
 	}
 
@@ -1057,7 +1057,7 @@ gnumeric_search (FunctionEvalInfo *ei, Value **argv)
 	}
 
 	if (res == NULL)
-		res = value_new_error (ei->pos, gnumeric_err_VALUE);
+		res = value_new_error_VALUE (ei->pos);
 	return res;
 }
 

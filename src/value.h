@@ -94,12 +94,32 @@ typedef enum {
 	TYPE_MISMATCH
 } ValueCompare;
 
+typedef enum {
+	GNM_ERROR_NULL,
+	GNM_ERROR_DIV0,
+	GNM_ERROR_VALUE,
+	GNM_ERROR_REF,
+	GNM_ERROR_NAME,
+	GNM_ERROR_NUM,
+	GNM_ERROR_NA,
+	GNM_ERROR_RECALC,
+	GNM_ERROR_UNKNOWN
+} GnmStdError;
+
 Value       *value_new_empty            (void);
 Value       *value_new_bool             (gboolean b);
 Value       *value_new_int              (int i);
 Value       *value_new_float            (gnm_float f);
 Value       *value_new_error            (EvalPos const *pos, char const *mesg);
 Value       *value_new_error_str        (EvalPos const *pos, String *mesg);
+Value       *value_new_error_NULL       (EvalPos const *pos);
+Value       *value_new_error_DIV0       (EvalPos const *pos);
+Value       *value_new_error_VALUE      (EvalPos const *pos);
+Value       *value_new_error_REF        (EvalPos const *pos);
+Value       *value_new_error_NAME       (EvalPos const *pos);
+Value       *value_new_error_NUM        (EvalPos const *pos);
+Value       *value_new_error_NA         (EvalPos const *pos);
+Value       *value_new_error_RECALC     (EvalPos const *pos);
 Value       *value_new_string           (char const *str);
 Value       *value_new_string_nocopy    (char *str);
 Value       *value_new_string_str       (String *str);

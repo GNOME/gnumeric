@@ -1,3 +1,17 @@
+2002-12-16  Morten Welinder  <terra@diku.dk>
+
+	* src/value.c (value_init): Build table of translated error names.
+	(value_shutdown): Tear it down.
+	(value_new_error_NULL, value_new_error_DIV0,
+	value_new_error_VALUE, value_new_error_REF, value_new_error_NAME,
+	value_new_error_NUM, value_new_error_NA, value_new_error_RECALC):
+	New functions.
+	* */*.c */*/*.c: Elminate most occurrences of gnumeric_err_*.
+
+	* src/libgnumeric.c (gnm_common_init): Move string initialization
+	to before values.
+	(gnm_shutdown): Similarly.
+
 2002-12-15  Morten Welinder  <terra@diku.dk>
 
 	* src/expr.c (gnm_expr_as_gstring): New function.

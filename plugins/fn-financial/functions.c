@@ -351,13 +351,13 @@ func_coup (FunctionEvalInfo *ei, Value **argv,
 	eom        = argv[4] ? value_get_as_bool (argv[4], &err) : TRUE;
 
 	if (!maturity || !settlement || err) {
-		result = value_new_error (ei->pos, gnumeric_err_VALUE);
+		result = value_new_error_VALUE (ei->pos);
 		goto out;
 	}
 
 	if (basis < 0 || basis > BASIS_LAST || (freq == 0) || (12 % freq != 0)
 	    || g_date_compare (settlement, maturity) >= 0) {
-		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		result = value_new_error_NUM (ei->pos);
 		goto out;
 	}
 
@@ -438,7 +438,7 @@ gnumeric_accrint (FunctionEvalInfo *ei, Value **argv)
 	basis          = argv[6] ? value_get_as_int (argv[6]) : 0;
 
 	if (!maturity || !first_interest || !settlement) {
-		result = value_new_error (ei->pos, gnumeric_err_VALUE);
+		result = value_new_error_VALUE (ei->pos);
 		goto out;
 	}
 
@@ -446,7 +446,7 @@ gnumeric_accrint (FunctionEvalInfo *ei, Value **argv)
 	    || !is_valid_freq (freq)
 	    || g_date_compare (settlement, first_interest) > 0
 	    || g_date_compare (first_interest, maturity) < 0) {
-		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		result = value_new_error_NUM (ei->pos);
 		goto out;
 	}
 
@@ -454,7 +454,7 @@ gnumeric_accrint (FunctionEvalInfo *ei, Value **argv)
 	d = annual_year_basis (argv[0], basis);
 
 	if (a < 0 || d <= 0 || par <= 0 || rate <= 0) {
-		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		result = value_new_error_NUM (ei->pos);
 		goto out;
 	}
 
@@ -519,7 +519,7 @@ gnumeric_accrintm (FunctionEvalInfo *ei, Value **argv)
 
 	if (a < 0 || d <= 0 || par <= 0 || rate <= 0
 	    || !is_valid_basis (basis))
-                return value_new_error (ei->pos, gnumeric_err_NUM);
+                return value_new_error_NUM (ei->pos);
 
 	return value_new_float (par * rate * a/d);
 }
@@ -579,7 +579,7 @@ gnumeric_intrate (FunctionEvalInfo *ei, Value **argv)
 	d = annual_year_basis (argv[0], basis);
 
 	if (!is_valid_basis (basis) || a <= 0 || d <= 0 || investment == 0)
-                return value_new_error (ei->pos, gnumeric_err_NUM);
+                return value_new_error_NUM (ei->pos);
 
 	return value_new_float ((redemption - investment) / investment *
 				(d / a));
@@ -633,11 +633,11 @@ gnumeric_received (FunctionEvalInfo *ei, Value **argv)
 	d = annual_year_basis (argv[0], basis);
 
 	if (a <= 0 || d <= 0 || !is_valid_basis (basis))
-                return value_new_error (ei->pos, gnumeric_err_NUM);
+                return value_new_error_NUM (ei->pos);
 
 	n = 1.0 - (discount * a/d);
 	if (n == 0)
-	        return value_new_error (ei->pos, gnumeric_err_NUM);
+	        return value_new_error_NUM (ei->pos);
 
 	return value_new_float (investment / n);
 }
@@ -690,7 +690,7 @@ gnumeric_pricedisc (FunctionEvalInfo *ei, Value **argv)
 	d = annual_year_basis (argv[0], basis);
 
 	if (a <= 0 || d <= 0 || !is_valid_basis (basis))
-                return value_new_error (ei->pos, gnumeric_err_NUM);
+                return value_new_error_NUM (ei->pos);
 
 	return value_new_float (redemption - discount * redemption * a/d);
 }
@@ -744,11 +744,11 @@ gnumeric_pricemat (FunctionEvalInfo *ei, Value **argv)
 
 	if (a <= 0 || b <= 0 || dsm <= 0 || dim <= 0
 	    || !is_valid_basis (basis))
-                return value_new_error (ei->pos, gnumeric_err_NUM);
+                return value_new_error_NUM (ei->pos);
 
 	n = 1 + (dsm/b * yield);
 	if (n == 0)
-	        return value_new_error (ei->pos, gnumeric_err_NUM);
+	        return value_new_error_NUM (ei->pos);
 
 	return value_new_float (((100 + (dim/b * discount * 100)) /
 				 (n)) - (a/b * discount * 100));
@@ -800,7 +800,7 @@ gnumeric_disc (FunctionEvalInfo *ei, Value **argv)
 
 	if (dsm <= 0 || b <= 0 || dsm <= 0 || !is_valid_basis (basis)
 	    || redemption == 0)
-                return value_new_error (ei->pos, gnumeric_err_NUM);
+                return value_new_error_NUM (ei->pos);
 
 	return value_new_float ((redemption - par) / redemption * (b / dsm));
 }
@@ -847,7 +847,7 @@ gnumeric_effect (FunctionEvalInfo *ei, Value **argv)
 
 	/* Rate or number of periods cannot be negative */
 	if (rate < 0 || nper <= 0)
-                return value_new_error (ei->pos, gnumeric_err_NUM);
+                return value_new_error_NUM (ei->pos);
 
         return value_new_float (powgnum ((1 + rate / nper), nper) - 1);
 }
@@ -885,7 +885,7 @@ gnumeric_nominal (FunctionEvalInfo *ei, Value **argv)
 
 	/* Rate or number of periods cannot be negative */
 	if (rate < 0 || nper <= 0)
-                return value_new_error (ei->pos, gnumeric_err_NUM);
+                return value_new_error_NUM (ei->pos);
 
         return value_new_float (nper * (powgnum (1 + rate, 1.0 / nper ) - 1));
 }
@@ -920,7 +920,7 @@ gnumeric_ispmt (FunctionEvalInfo *ei, Value **argv)
 	 * valid in XL.
 	 */
 	if (per < 1 || per >= nper + 1)
-                return value_new_error (ei->pos, gnumeric_err_NUM);
+                return value_new_error_NUM (ei->pos);
 
 	tmp = -pv * rate;
 
@@ -968,7 +968,7 @@ gnumeric_db (FunctionEvalInfo *ei, Value **argv)
 
 	/* The third disjunct is a bit of a guess -- MW.  */
 	if (cost == 0 || life <= 0 || salvage / cost < 0)
-	        return value_new_error (ei->pos, gnumeric_err_NUM);
+	        return value_new_error_NUM (ei->pos);
 
 	rate  = 1 - powgnum ((salvage / cost), (1 / life));
 	rate *= 1000;
@@ -1027,7 +1027,7 @@ gnumeric_ddb (FunctionEvalInfo *ei, Value **argv)
 	factor  = argv[4] ? value_get_as_float (argv[4]) : 2;
 
 	if (life <= 0)
-	        return value_new_error (ei->pos, gnumeric_err_NUM);
+	        return value_new_error_NUM (ei->pos);
 
 	total = 0;
 	for (i = 0; i < life - 1; i++) {
@@ -1092,7 +1092,7 @@ gnumeric_sln (FunctionEvalInfo *ei, Value **argv)
 
 	/* Life of an asset cannot be negative */
 	if (life <= 0)
-	        return value_new_error (ei->pos, gnumeric_err_NUM);
+	        return value_new_error_NUM (ei->pos);
 
         return value_new_float ((cost - salvage_value) / life);
 }
@@ -1148,7 +1148,7 @@ gnumeric_syd (FunctionEvalInfo *ei, Value **argv)
 
 	/* Life of an asset cannot be negative */
 	if (life <= 0)
-	        return value_new_error (ei->pos, gnumeric_err_NUM);
+	        return value_new_error_NUM (ei->pos);
 
         return value_new_float (((cost - salvage_value) *
 				 (life - period + 1) * 2) /
@@ -1186,7 +1186,7 @@ gnumeric_dollarde (FunctionEvalInfo *ei, Value **argv)
 	fraction          = value_get_as_int (argv[1]);
 
 	if (fraction <= 0)
-                return value_new_error (ei->pos, gnumeric_err_NUM);
+                return value_new_error_NUM (ei->pos);
 
 	tmp = fraction;
 	/* Count digits in fraction */
@@ -1227,7 +1227,7 @@ gnumeric_dollarfr (FunctionEvalInfo *ei, Value **argv)
 	fraction          = value_get_as_int (argv[1]);
 
 	if (fraction <= 0)
-                return value_new_error (ei->pos, gnumeric_err_NUM);
+                return value_new_error_NUM (ei->pos);
 
 	/* Count digits in fraction */
 	tmp = fraction;
@@ -1281,7 +1281,7 @@ gnumeric_mirr (FunctionEvalInfo *ei, Value **argv)
 	}
 
 	if (npv_neg == 0 || npv_pos == 0 || rrate <= -1) {
-		result = value_new_error (ei->pos, gnumeric_err_DIV0);
+		result = value_new_error_DIV0 (ei->pos);
 		goto out;
 	}
 
@@ -1335,13 +1335,13 @@ gnumeric_tbilleq (FunctionEvalInfo *ei, Value **argv)
 	dsm = maturity - settlement;
 
 	if (settlement > maturity || discount < 0 || dsm > 365)
-                return value_new_error (ei->pos, gnumeric_err_NUM);
+                return value_new_error_NUM (ei->pos);
 
 	divisor = 360 - discount * dsm;
 	/* This test probably isn't right, but it is better that not checking
 	   at all.  --MW.  */
 	if (divisor == 0)
-		return value_new_error (ei->pos, gnumeric_err_DIV0);
+		return value_new_error_DIV0 (ei->pos);
 
 	return value_new_float ((365 * discount) / divisor);
 }
@@ -1380,7 +1380,7 @@ gnumeric_tbillprice (FunctionEvalInfo *ei, Value **argv)
 	dsm = maturity - settlement;
 
 	if (settlement > maturity || discount < 0 || dsm > 365)
-                return value_new_error (ei->pos, gnumeric_err_NUM);
+                return value_new_error_NUM (ei->pos);
 
 	res = 100 * (1.0 - (discount * dsm) / 360.0);
 
@@ -1421,7 +1421,7 @@ gnumeric_tbillyield (FunctionEvalInfo *ei, Value **argv)
 	dsm = maturity - settlement;
 
 	if (pr <= 0 || dsm <= 0 || dsm > 365)
-                return value_new_error (ei->pos, gnumeric_err_NUM);
+                return value_new_error_NUM (ei->pos);
 
 	res = (100.0 - pr) / pr * (360.0 / dsm);
 
@@ -1496,10 +1496,10 @@ gnumeric_rate (FunctionEvalInfo *ei, Value **argv)
 	rate0      = argv[5] ?  value_get_as_float (argv[5]) : 0.1;
 
 	if (udata.nper <= 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
 	if (udata.type != 0 && udata.type != 1)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 #if 0
 	printf ("Guess = %.15g\n", rate0);
@@ -1536,7 +1536,7 @@ gnumeric_rate (FunctionEvalInfo *ei, Value **argv)
 #endif
 		return value_new_float (data.root);
 	} else
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 }
 
 /***************************************************************************/
@@ -1659,7 +1659,7 @@ gnumeric_irr (FunctionEvalInfo *ei, Value **argv)
 	if (status == GOAL_SEEK_OK)
 		return value_new_float (data.root);
 	else
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 }
 
 /***************************************************************************/
@@ -1697,7 +1697,7 @@ gnumeric_pv (FunctionEvalInfo *ei, Value **argv)
 	gnm_float fvifa = calculate_fvifa (rate, nper);
 
 	if (pvif == 0)
-	        return value_new_error (ei->pos, gnumeric_err_DIV0);
+	        return value_new_error_DIV0 (ei->pos);
 
         return value_new_float ((-fv - pmt * (1.0 + rate * type) * fvifa) /
 				pvif);
@@ -1801,7 +1801,7 @@ gnumeric_xnpv (FunctionEvalInfo *ei, Value **argv)
 		goto out;
 
 	if (p_n != d_n) {
-		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		result = value_new_error_NUM (ei->pos);
 		goto out;
 	}
 
@@ -1915,7 +1915,7 @@ gnumeric_xirr (FunctionEvalInfo *ei, Value **argv)
 	if (status == GOAL_SEEK_OK)
 		result = value_new_float (data.root);
 	else
-		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		result = value_new_error_NUM (ei->pos);
 
  out:
 	g_free (p.values);
@@ -2039,7 +2039,7 @@ gnumeric_ipmt (FunctionEvalInfo *ei, Value **argv)
 	 * valid in XL.
 	 */
 	if (per < 1 || per >= nper + 1)
-                return value_new_error (ei->pos, gnumeric_err_NUM);
+                return value_new_error_NUM (ei->pos);
 	else {
 		gnm_float pmt = calculate_pmt (rate, nper, pv, fv, type);
 		gnm_float ipmt = calculate_interest_part (pv, pmt, rate, per - 1);
@@ -2089,7 +2089,7 @@ gnumeric_ppmt (FunctionEvalInfo *ei, Value **argv)
 	 * valid in XL.
 	 */
 	if (per < 1 || per >= nper + 1)
-                return value_new_error (ei->pos, gnumeric_err_NUM);
+                return value_new_error_NUM (ei->pos);
 	else {
 		gnm_float pmt = calculate_pmt (rate, nper, pv, fv, type);
 		gnm_float ipmt = calculate_interest_part (pv, pmt, rate, per - 1);
@@ -2141,12 +2141,12 @@ gnumeric_nper (FunctionEvalInfo *ei, Value **argv)
 		return value_new_float (-(fv + pv) / pmt);
 
 	if (rate <= 0.0)
-		return value_new_error (ei->pos, gnumeric_err_DIV0);
+		return value_new_error_DIV0 (ei->pos);
 
 	tmp = (pmt * (1.0 + rate * type) - fv * rate) /
 	  (pv * rate + pmt * (1.0 + rate * type));
 	if (tmp <= 0.0)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
         return value_new_float (loggnum (tmp) / loggnum (1.0 + rate));
 }
@@ -2200,7 +2200,7 @@ gnumeric_duration (FunctionEvalInfo *ei, Value **argv)
 
         if ( nBase < 0 || nBase > 4 || nSettle == NULL || nMat == NULL
 	     || (nFreq != 1 && nFreq != 2 && nFreq != 4) ) {
-		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		result = value_new_error_NUM (ei->pos);
 		goto out;
 	}
 
@@ -2246,11 +2246,11 @@ gnumeric_g_duration (FunctionEvalInfo *ei, Value **argv)
 	fv   = value_get_as_float (argv[2]);
 
 	if (rate <= 0)
-		return value_new_error (ei->pos, gnumeric_err_DIV0);
+		return value_new_error_DIV0 (ei->pos);
 	else if (fv == 0 || pv == 0)
-		return value_new_error (ei->pos, gnumeric_err_DIV0);
+		return value_new_error_DIV0 (ei->pos);
 	else if (fv / pv < 0)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
         return value_new_float (loggnum (fv / pv) / loggnum (1.0 + rate));
 
@@ -2404,7 +2404,7 @@ gnumeric_euro (FunctionEvalInfo *ei, Value **argv)
 	if (v >= 0)
 		return value_new_float (v);
 	else
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 }
 
 /***************************************************************************/
@@ -2453,7 +2453,7 @@ gnumeric_euroconvert (FunctionEvalInfo *ei, Value **argv)
 	if (c1 >= 0 && c2 >= 0)
 		return value_new_float (n * c2 / c1);
 	else
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 }
 
 /***************************************************************************/
@@ -2507,19 +2507,19 @@ gnumeric_price (FunctionEvalInfo *ei, Value **argv)
         basis      = argv[6] ? value_get_as_int (argv[6]) : 0;
 
 	if (!maturity || !settlement) {
-		result = value_new_error (ei->pos, gnumeric_err_VALUE);
+		result = value_new_error_VALUE (ei->pos);
 		goto out;
 	}
 
         if (!is_valid_basis (basis)
 	    || !is_valid_freq (freq)
             || g_date_compare (settlement, maturity) > 0) {
-		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		result = value_new_error_NUM (ei->pos);
 		goto out;
 	}
 
         if (rate < 0.0 || yield < 0.0 || redemption <= 0.0) {
-                result = value_new_error (ei->pos, gnumeric_err_NUM);
+                result = value_new_error_NUM (ei->pos);
 		goto out;
 	}
 
@@ -2596,19 +2596,19 @@ gnumeric_yield (FunctionEvalInfo *ei, Value **argv)
         udata.basis      = argv[6] ? value_get_as_int (argv[6]) : 0;
 
 	if (!udata.maturity || !udata.settlement) {
-		result = value_new_error (ei->pos, gnumeric_err_VALUE);
+		result = value_new_error_VALUE (ei->pos);
 		goto out;
 	}
 
         if (!is_valid_basis (udata.basis)
 	    || !is_valid_freq (udata.freq)
             || g_date_compare (udata.settlement, udata.maturity) > 0) {
-		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		result = value_new_error_NUM (ei->pos);
 		goto out;
 	}
 
         if (udata.rate < 0.0 || udata.par < 0.0 || udata.redemption <= 0.0) {
-		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		result = value_new_error_NUM (ei->pos);
 		goto out;
 	}
 
@@ -2657,7 +2657,7 @@ gnumeric_yield (FunctionEvalInfo *ei, Value **argv)
 		if (status == GOAL_SEEK_OK)
 			result = value_new_float (data.root);
 		else
-			result = value_new_error (ei->pos, gnumeric_err_NUM);
+			result = value_new_error_NUM (ei->pos);
 	}
 
  out:
@@ -2713,7 +2713,7 @@ gnumeric_yielddisc (FunctionEvalInfo *ei, Value **argv)
         nBase      = argv[4] ? value_get_as_int (argv[4]) : 0;
 
         if (nBase < 0 || nBase > 4 || nSettle == NULL || nMat == NULL) {
-		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		result = value_new_error_NUM (ei->pos);
 		goto out;
 	}
 
@@ -2775,7 +2775,7 @@ gnumeric_yieldmat (FunctionEvalInfo *ei, Value **argv)
 
         if (nBase < 0 || nBase > 4 || fRate < 0 || nSettle == NULL ||
 	    nMat == NULL || nIssue == NULL) {
-		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		result = value_new_error_NUM (ei->pos);
 		goto out;
 	}
 
@@ -2846,7 +2846,7 @@ gnumeric_oddfprice (FunctionEvalInfo *ei, Value **argv)
         basis        = argv[8] ? value_get_as_int (argv[8]) : 0;
 
 	if (!maturity || !first_coupon || !settlement || !issue) {
-		result = value_new_error (ei->pos, gnumeric_err_VALUE);
+		result = value_new_error_VALUE (ei->pos);
 		goto out;
 	}
 
@@ -2855,12 +2855,12 @@ gnumeric_oddfprice (FunctionEvalInfo *ei, Value **argv)
             || g_date_compare (issue, settlement) > 0
 	    || g_date_compare (settlement, first_coupon) > 0
 	    || g_date_compare (first_coupon, maturity) > 0) {
-		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		result = value_new_error_NUM (ei->pos);
 		goto out;
 	}
 
         if (rate < 0.0 || yield < 0.0 || redemption <= 0.0) {
-                result = value_new_error (ei->pos, gnumeric_err_NUM);
+                result = value_new_error_NUM (ei->pos);
 		goto out;
 	}
 
@@ -2985,7 +2985,7 @@ gnumeric_oddlprice (FunctionEvalInfo *ei, Value **argv)
         if (nBase < 0 || nBase > 4 || fRate < 0 || nSettle == NULL ||
 	    nMat == NULL || nLastCoup == NULL ||
 	    (nFreq != 1 && nFreq != 2 && nFreq != 4) ) {
-		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		result = value_new_error_NUM (ei->pos);
 		goto out;
 	}
 
@@ -3052,7 +3052,7 @@ gnumeric_oddlyield (FunctionEvalInfo *ei, Value **argv)
         if (nBase < 0 || nBase > 4 || fRate < 0 || nSettle == NULL ||
 	    nMat == NULL || nLastCoup == NULL ||
 	    (nFreq != 1 && nFreq != 2 && nFreq != 4) ) {
-		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		result = value_new_error_NUM (ei->pos);
 		goto out;
 	}
 
@@ -3115,7 +3115,7 @@ gnumeric_amordegrc (FunctionEvalInfo *ei, Value **argv)
 
         if (nBase < 0 || nBase > 4 || fRate < 0 || nDate == NULL ||
 	    nFirstPer == NULL) {
-		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		result = value_new_error_NUM (ei->pos);
 		goto out;
 	}
 
@@ -3176,7 +3176,7 @@ gnumeric_amorlinc (FunctionEvalInfo *ei, Value **argv)
 
         if (nBase < 0 || nBase > 4 || fRate < 0 || nDate == NULL ||
 	    nFirstPer == NULL) {
-		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		result = value_new_error_NUM (ei->pos);
 		goto out;
 	}
 
@@ -3499,7 +3499,7 @@ gnumeric_cumipmt (FunctionEvalInfo *ei, Value **argv)
         if ( nStartPer < 1 || nEndPer < nStartPer || fRate <= 0
 	     || nEndPer > nNumPeriods || nNumPeriods <= 0
 	     || fVal <= 0 || (nPayType != 0 && nPayType != 1) ) {
-		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		result = value_new_error_NUM (ei->pos);
 		goto out;
 	}
 
@@ -3549,7 +3549,7 @@ gnumeric_cumprinc (FunctionEvalInfo *ei, Value **argv)
         if ( nStartPer < 1 || nEndPer < nStartPer || fRate <= 0
 	     || nEndPer > nNumPeriods || nNumPeriods <= 0
 	     || fVal <= 0 || (nPayType != 0 && nPayType != 1) ) {
-		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		result = value_new_error_NUM (ei->pos);
 		goto out;
 	}
 
@@ -3609,7 +3609,7 @@ gnumeric_mduration (FunctionEvalInfo *ei, Value **argv)
 
         if ( nBase < 0 || nBase > 4 || nSettle == NULL || nMat == NULL
 	     || (nFreq != 1 && nFreq != 2 && nFreq != 4) ) {
-		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		result = value_new_error_NUM (ei->pos);
 		goto out;
 	}
 
@@ -3663,7 +3663,7 @@ gnumeric_vdb (FunctionEvalInfo *ei, Value **argv)
         if ( start_period < 0 || end_period < start_period
 	     || end_period > life || cost < 0 || salvage > cost
 	     || factor <= 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
 	return get_vdb (cost, salvage, life, start_period, end_period, factor,
 			bflag);

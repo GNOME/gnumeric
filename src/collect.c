@@ -49,7 +49,7 @@ callback_function_collect (EvalPos const *ep, Value *value, void *closure)
 		else if (cl->flags & COLLECT_ZEROONE_BOOLS)
 			x = (value->v_bool.val) ? 1. : 0.;
 		else
-			return value_new_error (ep, gnumeric_err_VALUE);
+			return value_new_error_VALUE (ep);
 		break;
 
 	case VALUE_CELLRANGE :
@@ -62,7 +62,7 @@ callback_function_collect (EvalPos const *ep, Value *value, void *closure)
 		else if (cl->flags & COLLECT_ZERO_ERRORS)
 			x = 0.;
 		else
-			return value_new_error (ep, gnumeric_err_VALUE);
+			return value_new_error_VALUE (ep);
 		break;
 
 	case VALUE_INTEGER:
@@ -74,13 +74,13 @@ callback_function_collect (EvalPos const *ep, Value *value, void *closure)
 	        if (cl->flags & COLLECT_DATES) {
 		        x = datetime_value_to_serial (value);
 			if (x == 0)
-			        return value_new_error (ep, gnumeric_err_VALUE);
+			        return value_new_error_VALUE (ep);
 		} else if (cl->flags & COLLECT_IGNORE_STRINGS)
 			goto callback_function_collect_store_info;
 		else if (cl->flags & COLLECT_ZERO_STRINGS)
 			x = 0;
 		else
-			return value_new_error (ep, gnumeric_err_VALUE);
+			return value_new_error_VALUE (ep);
 		break;
 
 	default:
@@ -453,7 +453,7 @@ callback_function_collect_strings (EvalPos const *ep, Value *value, void *closur
 		else if (cl->flags & COLLECT_ZERO_ERRORS)
 			text = g_strdup ("");
 		else
-			return value_new_error (ep, gnumeric_err_VALUE);
+			return value_new_error_VALUE (ep);
 		break;
 	default:
 		text = g_strdup_printf ("Trouble in callback_function_collect. (%d)",

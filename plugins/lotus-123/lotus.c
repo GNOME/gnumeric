@@ -312,7 +312,7 @@ lotus_wk1_read (LotusWk1Read *state)
 						record_next (r);
 						v = lotus_new_string (state, r->data + 5);
 					} else
-						v = value_new_error (NULL,  gnumeric_err_VALUE);
+						v = value_new_error_VALUE (NULL);
 				} else
 					v = value_new_float (gsf_le_get_double (r->data + 5));
 				cell = sheet_cell_fetch (state->sheet, col, row),

@@ -76,7 +76,7 @@ callback_function_and (const EvalPos *ep, Value *value, void *closure)
 
 	*result = value_get_as_bool (value, &err) && *result;
 	if (err)
-		return value_new_error (ep, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ep);
 
 	return NULL;
 }
@@ -95,7 +95,7 @@ gnumeric_and (FunctionEvalInfo *ei, GnmExprList *nodes)
 
 	/* See if there was any value worth using */
 	if (result == -1)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	return value_new_bool (result);
 }
@@ -163,7 +163,7 @@ callback_function_or (const EvalPos *ep, Value *value, void *closure)
 
 	*result = value_get_as_bool (value, &err) || *result == 1;
 	if (err)
-		return value_new_error (ep, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ep);
 
 	return NULL;
 }
@@ -182,7 +182,7 @@ gnumeric_or (FunctionEvalInfo *ei, GnmExprList *nodes)
 
 	/* See if there was any value worth using */
 	if (result == -1)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	return value_new_bool (result);
 }
@@ -220,7 +220,7 @@ callback_function_xor (const EvalPos *ep, Value *value, void *closure)
 
 	*result = value_get_as_bool (value, &err) ^ (*result == 1);
 	if (err)
-		return value_new_error (ep, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ep);
 
 	return NULL;
 }
@@ -239,7 +239,7 @@ gnumeric_xor (FunctionEvalInfo *ei, GnmExprList *nodes)
 
 	/* See if there was any value worth using */
 	if (result == -1)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	return value_new_bool (result);
 }

@@ -973,22 +973,19 @@ excel_read_EXSST (BiffQuery *q, ExcelWorkbook *ewb)
 		       GSF_LE_GET_GUINT16 (q->data), (q->length - 2) / 8););
 }
 
-char const *
-biff_get_error_text (guint8 const err)
+Value *
+biff_get_error (EvalPos const *pos, guint8 const err)
 {
-	char const *buf;
 	switch (err) {
-	case 0:  buf = gnumeric_err_NULL;  break;
-	case 7:  buf = gnumeric_err_DIV0;  break;
-	case 15: buf = gnumeric_err_VALUE; break;
-	case 23: buf = gnumeric_err_REF;   break;
-	case 29: buf = gnumeric_err_NAME;  break;
-	case 36: buf = gnumeric_err_NUM;   break;
-	case 42: buf = gnumeric_err_NA;    break;
-	default:
-		buf = _("#UNKNOWN!"); break;
+	case 0:  return value_new_error_NULL (pos);
+	case 7:  return value_new_error_DIV0 (pos);
+	case 15: return value_new_error_VALUE (pos);
+	case 23: return value_new_error_REF (pos);
+	case 29: return value_new_error_NAME (pos);
+	case 36: return value_new_error_NUM (pos);
+	case 42: return value_new_error_NA (pos);
+	default: return value_new_error (pos, _("#UNKNOWN!"));
 	}
-	return buf;
 }
 
 /**
@@ -2186,7 +2183,7 @@ excel_read_FORMULA (BiffQuery *q, ExcelSheet *esheet)
 
 		case 2: { /* Error */
 			guint8 const v = GSF_LE_GET_GUINT8 (q->data + val_offset + 2);
-			val = value_new_error (NULL, biff_get_error_text (v));
+			val = biff_get_error (NULL, v);
 			break;
 		}
 
@@ -2663,8 +2660,7 @@ excel_parse_name (ExcelWorkbook *ewb, Sheet *sheet, char *name,
 			expr_data, expr_len, FALSE, NULL);
 		if (expr == NULL) {
 			gnm_io_warning (ewb->context, _("Failure parsing name '%s'"), name);
-			expr = gnm_expr_new_constant (value_new_error (NULL,
-				gnumeric_err_REF));
+			expr = gnm_expr_new_constant (value_new_error_REF (NULL));
 		} else d (2, {
 			char *tmp;
 			ParsePos pp;
@@ -2985,8 +2981,7 @@ excel_read_XCT (BiffQuery *q, ExcelWorkbook *ewb)
 				 data += 9;
 				 break;
 
-			case 16: v = value_new_error (&ep,
-					biff_get_error_text (GSF_LE_GET_GUINT16 (data+1)));
+			case 16: v = biff_get_error (&ep, GSF_LE_GET_GUINT16 (data+1));
 				 data += 9;
 				 break;
 
@@ -4235,7 +4230,7 @@ read_DOPER (guint8 const *doper, gboolean is_equal,
 
 	*str_len = 0;
 	*op = GNM_FILTER_UNUSED;
-	switch (doper [0]) {
+	switch (doper[0]) {
 	case 0: return NULL; /* ignore */
 
 	case 2: res = biff_get_rk (doper + 2);
@@ -4245,11 +4240,10 @@ read_DOPER (guint8 const *doper, gboolean is_equal,
 	case 6: *str_len = doper[6];
 		break;
 
-	case 8: if (doper [2])
-			res = value_new_error (NULL,
-				    biff_get_error_text (doper [3]));
+	case 8: if (doper[2])
+			res = biff_get_error (NULL, doper[3]);
 		else
-			res = value_new_bool (doper [3] ? TRUE : FALSE);
+			res = value_new_bool (doper[3] ? TRUE : FALSE);
 		break;
 
 	case 0xC: *op = GNM_FILTER_OP_BLANKS;
@@ -4258,8 +4252,8 @@ read_DOPER (guint8 const *doper, gboolean is_equal,
 		return NULL;
 	};
 
-	g_return_val_if_fail (doper[1] > 0 && doper [1] <=6, NULL);
-	*op = ops [doper [1] - 1];
+	g_return_val_if_fail (doper[1] > 0 && doper[1] <=6, NULL);
+	*op = ops [doper[1] - 1];
 
 	return res;
 }
@@ -4637,9 +4631,7 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 
 			if (GSF_LE_GET_GUINT8 (q->data + 7)) {
 				EvalPos ep;
-				v = value_new_error (
-					eval_pos_init (&ep, esheet->sheet, &pos),
-					biff_get_error_text (val));
+				v = biff_get_error (eval_pos_init (&ep, esheet->sheet, &pos), val);
 			} else
 				v = value_new_bool (val);
 			excel_sheet_insert_val (esheet,

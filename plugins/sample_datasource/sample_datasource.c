@@ -203,7 +203,7 @@ atl_last (FunctionEvalInfo *ei, Value *argv[])
 	key.dep = ei->pos->dep;
 
 	g_return_val_if_fail (val != NULL,
-		value_new_error (ei->pos, gnumeric_err_NA));
+		value_new_error_NA (ei->pos));
 
 	/* If caller wants to be notified of updates */
 	if (key.node != NULL && key.dep != NULL) {
@@ -222,7 +222,7 @@ atl_last (FunctionEvalInfo *ei, Value *argv[])
 	}
 
 	if (!val->valid)
-		return value_new_error (ei->pos, gnumeric_err_NA);
+		return value_new_error_NA (ei->pos);
 	return value_new_float (val->value);
 }
 

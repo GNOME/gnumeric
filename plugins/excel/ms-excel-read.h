@@ -123,7 +123,7 @@ struct _ExcelWorkbook {
 };
 
 char       *biff_get_text (guint8 const *ptr, guint32 length, guint32 *byte_length);
-char const *biff_get_error_text (guint8 err);
+Value *biff_get_error (EvalPos const *pos, guint8 const err);
 
 Sheet		*excel_externsheet_v7	 (MSContainer const *container, gint16 i);
 ExcelExternSheetV8 const *excel_externsheet_v8 (ExcelWorkbook const *wb, gint16 i);

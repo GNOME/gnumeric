@@ -370,7 +370,7 @@ gnumeric_address (FunctionEvalInfo *ei, Value **args)
 
 	if (row < 1 || SHEET_MAX_ROWS <= row ||
 	    col < 1 || SHEET_MAX_COLS <= col)
-	        return value_new_error (ei->pos, gnumeric_err_VALUE);
+	        return value_new_error_VALUE (ei->pos);
 
 	abs_num = args[2] ? value_get_as_int (args[2]) : 1;
 
@@ -380,7 +380,7 @@ gnumeric_address (FunctionEvalInfo *ei, Value **args)
 		gboolean err;
 	        a1 = value_get_as_bool (args[3], &err);
 		if (err)
-		        return value_new_error (ei->pos, gnumeric_err_VALUE);
+		        return value_new_error_VALUE (ei->pos);
 	}
 
 	sheet_name = (args[4] != NULL)
@@ -418,7 +418,7 @@ gnumeric_address (FunctionEvalInfo *ei, Value **args)
 	default:
 	        g_free (sheet_name);
 	        g_free (buf);
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 	}
 	g_free (sheet_name);
 
@@ -451,7 +451,7 @@ gnumeric_areas (FunctionEvalInfo *ei, GnmExprList *l)
 	int argc =  gnm_expr_list_length (l);
 
 	if (argc < 1 || l->data == NULL || argc > 1)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 	expr = l->data;
 
 restart :
@@ -496,7 +496,7 @@ restart :
 
 	if (res > 0)
 		return value_new_int (res);
-	return value_new_error (ei->pos, gnumeric_err_VALUE);
+	return value_new_error_VALUE (ei->pos);
 }
 
 /***************************************************************************/
@@ -529,7 +529,7 @@ gnumeric_choose (FunctionEvalInfo *ei, GnmExprList *l)
 	argc =  gnm_expr_list_length (l);
 
 	if (argc < 1 || !l->data)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	v = gnm_expr_eval (l->data, ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 	if (!v)
@@ -537,7 +537,7 @@ gnumeric_choose (FunctionEvalInfo *ei, GnmExprList *l)
 
 	if ((v->type != VALUE_INTEGER) && (v->type != VALUE_FLOAT)) {
 		value_release (v);
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 	}
 
 	index = value_get_as_int (v);
@@ -548,7 +548,7 @@ gnumeric_choose (FunctionEvalInfo *ei, GnmExprList *l)
 			return gnm_expr_eval (l->data, ei->pos,
 					      GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
 	}
-	return value_new_error (ei->pos, gnumeric_err_VALUE);
+	return value_new_error_VALUE (ei->pos);
 }
 
 /***************************************************************************/
@@ -584,11 +584,11 @@ gnumeric_vlookup (FunctionEvalInfo *ei, Value **args)
 	col_idx = value_get_as_int (args[2]);
 
 	if (!find_type_valid (args[0]))
-		return value_new_error (ei->pos, gnumeric_err_NA);
+		return value_new_error_NA (ei->pos);
 	if (col_idx <= 0)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 	if (col_idx > value_area_get_width (args [1], ei->pos))
-		return value_new_error (ei->pos, gnumeric_err_REF);
+		return value_new_error_REF (ei->pos);
 
 	approx = (args[3] != NULL)
 		? value_get_as_checked_bool (args [3]) : TRUE;
@@ -606,7 +606,7 @@ gnumeric_vlookup (FunctionEvalInfo *ei, Value **args)
 		return value_duplicate (v);
 	}
 
-	return value_new_error (ei->pos, gnumeric_err_NA);
+	return value_new_error_NA (ei->pos);
 }
 
 /***************************************************************************/
@@ -642,11 +642,11 @@ gnumeric_hlookup (FunctionEvalInfo *ei, Value **args)
 	row_idx = value_get_as_int (args[2]);
 
 	if (!find_type_valid (args[0]))
-		return value_new_error (ei->pos, gnumeric_err_NA);
+		return value_new_error_NA (ei->pos);
 	if (row_idx <= 0)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 	if (row_idx > value_area_get_height (args [1], ei->pos))
-		return value_new_error (ei->pos, gnumeric_err_REF);
+		return value_new_error_REF (ei->pos);
 
 	approx = (args[3] != NULL)
 		? value_get_as_checked_bool (args [3]) : TRUE;
@@ -664,7 +664,7 @@ gnumeric_hlookup (FunctionEvalInfo *ei, Value **args)
 		return value_duplicate (v);
 	}
 
-	return value_new_error (ei->pos, gnumeric_err_NA);
+	return value_new_error_NA (ei->pos);
 }
 
 /***************************************************************************/
@@ -698,14 +698,14 @@ gnumeric_lookup (FunctionEvalInfo *ei, Value **args)
 	int height = value_area_get_height (args[1], ei->pos);
 
 	if (!find_type_valid (args[0]))
-		return value_new_error (ei->pos, gnumeric_err_NA);
+		return value_new_error_NA (ei->pos);
 
 	if (result) {
 		int width = value_area_get_width (result, ei->pos);
 		int height = value_area_get_height (result, ei->pos);
 
 		if (width > 1 && height > 1) {
-			return value_new_error (ei->pos, gnumeric_err_NA);
+			return value_new_error_NA (ei->pos);
 		}
 	} else {
 		result = args[1];
@@ -726,7 +726,7 @@ gnumeric_lookup (FunctionEvalInfo *ei, Value **args)
 		return value_duplicate (v);
 	}
 
-	return value_new_error (ei->pos, gnumeric_err_NA);
+	return value_new_error_NA (ei->pos);
 }
 
 /***************************************************************************/
@@ -764,11 +764,11 @@ gnumeric_match (FunctionEvalInfo *ei, Value **args)
 	int height = value_area_get_height (args[1], ei->pos);
 
 	if (!find_type_valid (args[0])) {
-		return value_new_error (ei->pos, gnumeric_err_NA);
+		return value_new_error_NA (ei->pos);
 	}
 
 	if (width > 1 && height > 1) {
-		return value_new_error (ei->pos, gnumeric_err_NA);
+		return value_new_error_NA (ei->pos);
 	}
 
 	type = value_get_as_int (args[2]);
@@ -785,7 +785,7 @@ gnumeric_match (FunctionEvalInfo *ei, Value **args)
 	        return value_new_int (index+1);
 	}
 
-	return value_new_error (ei->pos, gnumeric_err_NA);
+	return value_new_error_NA (ei->pos);
 }
 
 /***************************************************************************/
@@ -826,7 +826,7 @@ gnumeric_indirect (FunctionEvalInfo *ei, Value **args)
 		res = gnm_expr_get_range (expr);
 		gnm_expr_unref (expr);
 	}
-	return (res != NULL) ? res : value_new_error (ei->pos, gnumeric_err_REF);
+	return (res != NULL) ? res : value_new_error_REF (ei->pos);
 }
 
 /*****************************************************************************/
@@ -861,7 +861,7 @@ gnumeric_index (FunctionEvalInfo *ei, GnmExprList *l)
 	Value *v, *res;
 
 	if (l == NULL)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 	source = l->data;
 	l = l->next;
 
@@ -878,9 +878,9 @@ gnumeric_index (FunctionEvalInfo *ei, GnmExprList *l)
 	if (source->any.oper == GNM_EXPR_OP_SET) {
 		source = gnm_expr_list_nth (source->set.set, elem[2]);
 		if (elem[2] < 0 || source == NULL)
-			return value_new_error (ei->pos, gnumeric_err_REF);
+			return value_new_error_REF (ei->pos);
 	} else if (elem[2] != 0)
-		return value_new_error (ei->pos, gnumeric_err_REF);
+		return value_new_error_REF (ei->pos);
 
 	v = gnm_expr_eval (source, ei->pos, GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
 
@@ -889,7 +889,7 @@ gnumeric_index (FunctionEvalInfo *ei, GnmExprList *l)
 	    elem[0] < 0 ||
 	    elem[0] >= value_area_get_height (v, ei->pos)) {
 		value_release (v);
-		return value_new_error (ei->pos, gnumeric_err_REF);
+		return value_new_error_REF (ei->pos);
 	}
 
 	res = value_duplicate (value_area_fetch_x_y (v, elem[1], elem[0], ei->pos));
@@ -947,7 +947,7 @@ gnumeric_column (FunctionEvalInfo *ei, Value **args)
 	default: /* Nothing */ ;
 	}
 
-	return value_new_error (ei->pos, gnumeric_err_VALUE);
+	return value_new_error_VALUE (ei->pos);
 }
 
 /***************************************************************************/
@@ -1018,16 +1018,16 @@ gnumeric_offset (FunctionEvalInfo *ei, Value **args)
 	    : value_area_get_height (args [0], ei->pos);
 
 	if (width < 1 || height < 1)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 	else if (a.row < 0 || a.col < 0)
-		return value_new_error (ei->pos, gnumeric_err_REF);
+		return value_new_error_REF (ei->pos);
 	else if (a.row >= SHEET_MAX_ROWS || a.col >= SHEET_MAX_COLS)
-		return value_new_error (ei->pos, gnumeric_err_REF);
+		return value_new_error_REF (ei->pos);
 
 	b.row += width-1;
 	b.col += height-1;
 	if (b.row >= SHEET_MAX_ROWS || b.col >= SHEET_MAX_COLS)
-		return value_new_error (ei->pos, gnumeric_err_REF);
+		return value_new_error_REF (ei->pos);
 
 	return value_new_cellrange (&a, &b, ei->pos->eval.col, ei->pos->eval.row);
 }
@@ -1082,7 +1082,7 @@ gnumeric_row (FunctionEvalInfo *ei, Value **args)
 	default: /* Nothing */ ;
 	}
 
-	return value_new_error (ei->pos, gnumeric_err_VALUE);
+	return value_new_error_VALUE (ei->pos);
 }
 
 /***************************************************************************/

@@ -608,10 +608,10 @@ pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 					pln_get_str (data + 2, GSF_LE_GET_GUINT16 (data)));
 			break;
 		/* Error Cell */
-		case 4: v = value_new_error (NULL, gnumeric_err_VALUE);
+		case 4: v = value_new_error_VALUE (NULL);
 			break;
 		/* na Cell */
-		case 5: v = value_new_error (NULL, gnumeric_err_NA);
+		case 5: v = value_new_error_NA (NULL);
 			break;
 		/* format only, no data in cell */
 		case 6: break;

@@ -108,7 +108,7 @@ gnumeric_complex (FunctionEvalInfo *ei, Value **argv)
 	suffix = argv[2] ? value_peek_string (argv[2]) : "i";
 
 	if (strcmp (suffix, "i") != 0 && strcmp (suffix, "j") != 0)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	return value_new_complex (&c, *suffix);
 }
@@ -141,7 +141,7 @@ gnumeric_imaginary (FunctionEvalInfo *ei, Value **argv)
 	        return value_new_float (0.0);
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	return value_new_float (c.im);
 }
@@ -171,10 +171,10 @@ gnumeric_imabs (FunctionEvalInfo *ei, Value **argv)
 	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	if (argv[0]->type != VALUE_STRING)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	return value_new_float (complex_mod (&c));
 }
@@ -207,7 +207,7 @@ gnumeric_imreal (FunctionEvalInfo *ei, Value **argv)
 		return value_duplicate (argv[0]);
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	return value_new_float (c.re);
 }
@@ -237,10 +237,10 @@ gnumeric_imconjugate (FunctionEvalInfo *ei, Value **argv)
 	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	if (argv[0]->type != VALUE_STRING)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	complex_conj (&res, &c);
 	return value_new_complex (&res, imunit);
@@ -271,7 +271,7 @@ gnumeric_iminv (FunctionEvalInfo *ei, Value **argv)
 	char      imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	gsl_complex_inverse (&c, &res);
 	return value_new_complex (&res, imunit);
@@ -302,7 +302,7 @@ gnumeric_imneg (FunctionEvalInfo *ei, Value **argv)
 	char      imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	gsl_complex_negative (&c, &res);
 	return value_new_complex (&res, imunit);
@@ -333,7 +333,7 @@ gnumeric_imcos (FunctionEvalInfo *ei, Value **argv)
 	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	complex_cos (&res, &c);
 	return value_new_complex (&res, imunit);
@@ -364,7 +364,7 @@ gnumeric_imtan (FunctionEvalInfo *ei, Value **argv)
 	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	complex_tan (&res, &c);
 	return value_new_complex (&res, imunit);
@@ -396,7 +396,7 @@ gnumeric_imsec (FunctionEvalInfo *ei, Value **argv)
 	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	complex_cos (&res, &c);
 	gsl_complex_inverse (&res, &res);
@@ -429,7 +429,7 @@ gnumeric_imcsc (FunctionEvalInfo *ei, Value **argv)
 	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	complex_sin (&res, &c);
 	gsl_complex_inverse (&res, &res);
@@ -462,7 +462,7 @@ gnumeric_imcot (FunctionEvalInfo *ei, Value **argv)
 	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	complex_tan (&res, &c);
 	gsl_complex_inverse (&res, &res);
@@ -494,7 +494,7 @@ gnumeric_imexp (FunctionEvalInfo *ei, Value **argv)
 	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	complex_exp (&res, &c);
 	return value_new_complex (&res, imunit);
@@ -527,7 +527,7 @@ gnumeric_imargument (FunctionEvalInfo *ei, Value **argv)
 	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	return value_new_float (complex_angle (&c));
 }
@@ -562,7 +562,7 @@ gnumeric_imln (FunctionEvalInfo *ei, Value **argv)
 	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	complex_ln (&res, &c);
 	return value_new_complex (&res, imunit);
@@ -593,7 +593,7 @@ gnumeric_imlog2 (FunctionEvalInfo *ei, Value **argv)
 	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	complex_ln (&res, &c);
 	complex_scale_real (&res, 1 / M_LN2gnum);
@@ -625,7 +625,7 @@ gnumeric_imlog10 (FunctionEvalInfo *ei, Value **argv)
 	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	complex_ln (&res, &c);
 	complex_scale_real (&res, 1 / M_LN10gnum);
@@ -659,13 +659,13 @@ gnumeric_impower (FunctionEvalInfo *ei, Value **argv)
 	char imunit;
 
 	if (value_get_as_complex (argv[0], &a, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	if (value_get_as_complex (argv[1], &b, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	if (complex_real_p (&a) && a.re <= 0 && !complex_real_p (&b))
-		return value_new_error (ei->pos, gnumeric_err_DIV0);
+		return value_new_error_DIV0 (ei->pos);
 
 	complex_pow (&res, &a, &b);
 	return value_new_complex (&res, imunit);
@@ -696,13 +696,13 @@ gnumeric_imdiv (FunctionEvalInfo *ei, Value **argv)
 	char imunit;
 
 	if (value_get_as_complex (argv[0], &a, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	if (value_get_as_complex (argv[1], &b, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	if (complex_zero_p (&b))
-		return value_new_error (ei->pos, gnumeric_err_DIV0);
+		return value_new_error_DIV0 (ei->pos);
 
 	complex_div (&res, &a, &b);
 	return value_new_complex (&res, imunit);
@@ -732,7 +732,7 @@ gnumeric_imsin (FunctionEvalInfo *ei, Value **argv)
 	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	complex_sin (&res, &c);
 	return value_new_complex (&res, imunit);
@@ -764,7 +764,7 @@ gnumeric_imsinh (FunctionEvalInfo *ei, Value **argv)
 	char      imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	gsl_complex_sinh (&c, &res);
 	return value_new_complex (&res, imunit);
@@ -795,7 +795,7 @@ gnumeric_imcosh (FunctionEvalInfo *ei, Value **argv)
 	char      imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	gsl_complex_cosh (&c, &res);
 	return value_new_complex (&res, imunit);
@@ -826,7 +826,7 @@ gnumeric_imtanh (FunctionEvalInfo *ei, Value **argv)
 	char      imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	gsl_complex_tanh (&c, &res);
 	return value_new_complex (&res, imunit);
@@ -857,7 +857,7 @@ gnumeric_imsech (FunctionEvalInfo *ei, Value **argv)
 	char      imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	gsl_complex_sech (&c, &res);
 	return value_new_complex (&res, imunit);
@@ -888,7 +888,7 @@ gnumeric_imcsch (FunctionEvalInfo *ei, Value **argv)
 	char      imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	gsl_complex_csch (&c, &res);
 	return value_new_complex (&res, imunit);
@@ -919,7 +919,7 @@ gnumeric_imcoth (FunctionEvalInfo *ei, Value **argv)
 	char      imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	gsl_complex_coth (&c, &res);
 	return value_new_complex (&res, imunit);
@@ -951,7 +951,7 @@ gnumeric_imarcsin (FunctionEvalInfo *ei, Value **argv)
 	char      imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	gsl_complex_arcsin (&c, &res);
 	return value_new_complex (&res, imunit);
@@ -983,7 +983,7 @@ gnumeric_imarccos (FunctionEvalInfo *ei, Value **argv)
 	char      imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	gsl_complex_arccos (&c, &res);
 	return value_new_complex (&res, imunit);
@@ -1015,7 +1015,7 @@ gnumeric_imarctan (FunctionEvalInfo *ei, Value **argv)
 	char      imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	gsl_complex_arctan (&c, &res);
 	return value_new_complex (&res, imunit);
@@ -1046,7 +1046,7 @@ gnumeric_imarcsec (FunctionEvalInfo *ei, Value **argv)
 	char      imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	gsl_complex_arcsec (&c, &res);
 	return value_new_complex (&res, imunit);
@@ -1077,7 +1077,7 @@ gnumeric_imarccsc (FunctionEvalInfo *ei, Value **argv)
 	char      imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	gsl_complex_arccsc (&c, &res);
 	return value_new_complex (&res, imunit);
@@ -1108,7 +1108,7 @@ gnumeric_imarccot (FunctionEvalInfo *ei, Value **argv)
 	char      imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	gsl_complex_arccot (&c, &res);
 	return value_new_complex (&res, imunit);
@@ -1140,7 +1140,7 @@ gnumeric_imarcsinh (FunctionEvalInfo *ei, Value **argv)
 	char      imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	gsl_complex_arcsinh (&c, &res);
 	return value_new_complex (&res, imunit);
@@ -1172,7 +1172,7 @@ gnumeric_imarccosh (FunctionEvalInfo *ei, Value **argv)
 	char      imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	gsl_complex_arccosh (&c, &res);
 	return value_new_complex (&res, imunit);
@@ -1204,7 +1204,7 @@ gnumeric_imarctanh (FunctionEvalInfo *ei, Value **argv)
 	char      imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	gsl_complex_arctanh (&c, &res);
 	return value_new_complex (&res, imunit);
@@ -1236,7 +1236,7 @@ gnumeric_imarcsech (FunctionEvalInfo *ei, Value **argv)
 	char      imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	gsl_complex_arcsech (&c, &res);
 	return value_new_complex (&res, imunit);
@@ -1267,7 +1267,7 @@ gnumeric_imarccsch (FunctionEvalInfo *ei, Value **argv)
 	char      imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	gsl_complex_arccsch (&c, &res);
 	return value_new_complex (&res, imunit);
@@ -1299,7 +1299,7 @@ gnumeric_imarccoth (FunctionEvalInfo *ei, Value **argv)
 	char      imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	gsl_complex_arccoth (&c, &res);
 	return value_new_complex (&res, imunit);
@@ -1330,7 +1330,7 @@ gnumeric_imsqrt (FunctionEvalInfo *ei, Value **argv)
 	char imunit;
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	complex_sqrt (&res, &c);
 	return value_new_complex (&res, imunit);
@@ -1361,10 +1361,10 @@ gnumeric_imsub (FunctionEvalInfo *ei, Value **argv)
 	char imunit;
 
 	if (value_get_as_complex (argv[0], &a, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	if (value_get_as_complex (argv[1], &b, &imunit))
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	complex_sub (&res, &a, &b);
 	return value_new_complex (&res, imunit);
@@ -1408,7 +1408,7 @@ callback_function_imoper (const EvalPos *ep, Value *value, void *closure)
 
 	imptr = VALUE_IS_NUMBER (value) ? &dummy : &result->imunit;
 	if (value_get_as_complex (value, &c, imptr))
-		return value_new_error (ep, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ep);
 
 	switch (result->type) {
 	case Improduct:

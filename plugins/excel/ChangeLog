@@ -1,3 +1,9 @@
+2002-12-16  Morten Welinder  <terra@diku.dk>
+
+	* ms-excel-read.c (biff_get_error): Rename from
+	biff_get_error_text and return a full error instead.  Add evalpos
+	argument.  All callers changed.
+
 2002-12-15  Jody Goldberg <jody@gnome.org>
 
 	* ms-container.c (ms_container_finalize) : cull out unused

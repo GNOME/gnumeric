@@ -589,7 +589,7 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 
 	switch (magic) {
 	case 0x7ff0:
-		val = value_new_error (NULL, gnumeric_err_VALUE);
+		val = value_new_error_VALUE (NULL);
 		break;
 	case 0x7ff8: {
 		guint16 id, len;

@@ -62,7 +62,7 @@ tabulation_eval (Workbook *wb, int dims,
 
 	return ycell->value
 		? value_duplicate (ycell->value)
-		: value_new_error (NULL, gnumeric_err_VALUE);
+		: value_new_error_VALUE (NULL);
 }
 
 static StyleFormat const *

@@ -59,13 +59,13 @@ val_to_base (FunctionEvalInfo *ei, Value **argv, int num_argv,
 	int digit;
 
 	g_return_val_if_fail (src_base > 1 && src_base <= 36,
-			      value_new_error (ei->pos, gnumeric_err_VALUE));
+			      value_new_error_VALUE (ei->pos));
 	g_return_val_if_fail (dest_base > 1 && dest_base <= 36,
-			      value_new_error (ei->pos, gnumeric_err_VALUE));
+			      value_new_error_VALUE (ei->pos));
 
 	value = argv[0];
 	if (VALUE_IS_EMPTY (value))
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 	else if (VALUE_IS_EMPTY_OR_ERROR (value))
 		return value_duplicate (value);
 
@@ -74,7 +74,7 @@ val_to_base (FunctionEvalInfo *ei, Value **argv, int num_argv,
 
 	v = strtol (str, &err, src_base);
 	if (*err)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
 	b10 = powgnum (src_base, 10);
 	if (v >= b10 / 2) /* N's complement */
@@ -445,7 +445,7 @@ gnumeric_besseli (FunctionEvalInfo *ei, Value **argv)
 	order = value_get_as_float (argv[1]);	/* the order */
 
 	if (order < 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (bessel_i (x, order, 1.0));
 }
@@ -482,7 +482,7 @@ gnumeric_besselk (FunctionEvalInfo *ei, Value **argv)
 	order = value_get_as_float (argv[1]);	/* the order */
 
 	if (order < 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (bessel_k (x, order, 1.0));
 }
@@ -518,7 +518,7 @@ gnumeric_besselj (FunctionEvalInfo *ei, Value **argv)
 	y = value_get_as_int (argv[1]);
 
 	if (y < 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (jn (y, value_get_as_float (argv[0])));
 }
@@ -554,10 +554,10 @@ gnumeric_bessely (FunctionEvalInfo *ei, Value **argv)
 	    argv[1]->type != VALUE_INTEGER &&
 	    argv[0]->type != VALUE_FLOAT &&
 	    argv[1]->type != VALUE_FLOAT)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+		return value_new_error_VALUE (ei->pos);
 
 	if ((y = value_get_as_int (argv[1])) < 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (yngnum (y, value_get_as_float (argv[0])));
 }
@@ -720,10 +720,10 @@ convert (const eng_convert_unit_t units[],
 
 	        if (!get_constant_of_unit (units, prefixes,
 					   to_unit, &to_c, &to_prefix))
-			return value_new_error (ep, gnumeric_err_NUM);
+			return value_new_error_NUM (ep);
 
 	        if (from_c == 0 || to_prefix == 0)
-	                return value_new_error (ep, gnumeric_err_NUM);
+	                return value_new_error_NUM (ep);
 
 		*v = value_new_float (((n * from_prefix) / from_c) *
 				 to_c / to_prefix);
@@ -974,7 +974,7 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 		    ei->pos))
 	        return v;
 
-	return value_new_error (ei->pos, gnumeric_err_NUM);
+	return value_new_error_NUM (ei->pos);
 }
 
 /***************************************************************************/
