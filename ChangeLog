@@ -1,3 +1,7 @@
+2002-11-06  Jon K Hellan  <hellan@acm.org>
+
+	* configure.in: Fix gda configure switch.
+
 2002-11-05   Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/workbook-edit.c (wbcg_set_entry) : stop editing before 

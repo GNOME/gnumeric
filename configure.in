@@ -172,8 +172,8 @@ try_gda=true
 gda_msg=yes
 AC_ARG_WITH(gda,
 	[--{with,without}-gda      Compile the Gnome Database Access plugin],
-	if test "x$withval" = xyes; then
-		try_gda=true
+	if test "x$withval" != xyes; then
+		try_gda=false
 		gda_msg="Disabled by request"
 	fi
 )
