@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.66\n"
-"POT-Creation-Date: 2002-02-06 19:26+0100\n"
-"PO-Revision-Date: 2002-02-06 20:46+0100\n"
+"POT-Creation-Date: 2002-02-10 20:51+0100\n"
+"PO-Revision-Date: 2002-02-10 20:58+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -880,7 +880,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=BITLSHIFT\n"
 "@SYNTAX=BITLSHIFT(x,n)\n"
-"@DESCRIPTION=BITLSHIFT-funksjonen returnerer @x bitskiftet til venstre med @n biter.\n"
+"@DESCRIPTION=BITLSHIFT-funksjonen returnerer @x bitskiftet til venstre med "
+"@n biter.\n"
 "Hvis @n er negativ, vil effekten være den samme som høyreskift.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -899,7 +900,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=BITRSHIFT\n"
 "@SYNTAX=BITRSHIFT(x,n)\n"
-"@DESCRIPTION=BITRSHIFT-funksjonen returnerer @x bitskiftet til høyre med @n biter.\n"
+"@DESCRIPTION=BITRSHIFT-funksjonen returnerer @x bitskiftet til høyre med @n "
+"biter.\n"
 "Hvis @n er negativ vil effekten være den samme som venstreskift.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -1613,7 +1615,7 @@ msgstr "Forgrunn"
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Formater et celleområde i tråd med en forhåndsdefinert mal"
 
-#: src/GNOME_Gnumeric.xml.h:94 src/analysis-tools.c:4078
+#: src/GNOME_Gnumeric.xml.h:94 src/analysis-tools.c:4094
 #: src/dialogs/fourier-analysis.glade.h:2 src/workbook-control-gui.c:3038
 msgid "Fourier Analysis"
 msgstr "Fourier analyse"
@@ -2599,12 +2601,12 @@ msgstr "_Arbeidsbok..."
 msgid "_Zoom..."
 msgstr "_Zoom..."
 
-#: src/analysis-tools.c:195 src/analysis-tools.c:3218
+#: src/analysis-tools.c:195 src/analysis-tools.c:3234
 #, c-format
 msgid "Row %i"
 msgstr "Rad %i"
 
-#: src/analysis-tools.c:198 src/analysis-tools.c:3210
+#: src/analysis-tools.c:198 src/analysis-tools.c:3226
 #, c-format
 msgid "Column %i"
 msgstr "Kolonne %i"
@@ -2788,111 +2790,111 @@ msgid "Rank"
 msgstr "Rangering"
 
 #. We are ready to create the summary table
-#: src/analysis-tools.c:2828 src/analysis-tools.c:3008
-#: src/analysis-tools.c:3270
+#: src/analysis-tools.c:2829 src/analysis-tools.c:3024
+#: src/analysis-tools.c:3286
 msgid "Anova"
 msgstr "Anova"
 
-#: src/analysis-tools.c:2830
+#: src/analysis-tools.c:2831
 msgid "Anova: Single Factor"
 msgstr "Anova: Enkeltfaktor"
 
-#: src/analysis-tools.c:2831 src/analysis-tools.c:3273
+#: src/analysis-tools.c:2832 src/analysis-tools.c:3289
 msgid "SUMMARY"
 msgstr "SAMMENDRAG"
 
-#: src/analysis-tools.c:2832
+#: src/analysis-tools.c:2833
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Grupper/Antall/Sum/Gjennomsnitt/Varians"
 
-#: src/analysis-tools.c:2895
+#: src/analysis-tools.c:2889
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/ANOVA/Variasjonskilde/Mellom grupper/Innenfor grupper/Total"
 
-#: src/analysis-tools.c:2900 src/analysis-tools.c:3090
-#: src/analysis-tools.c:3297
+#: src/analysis-tools.c:2894 src/analysis-tools.c:3106
+#: src/analysis-tools.c:3313
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/SS/df/MS/F/P-verdi/F-kritisk"
 
-#: src/analysis-tools.c:3014
+#: src/analysis-tools.c:3030
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Anova: Tofaktor uten replisering"
 
-#: src/analysis-tools.c:3015
+#: src/analysis-tools.c:3031
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr "/SAMMENDRAG/Antall/Sum/Gjennomsnitt/Varians"
 
-#: src/analysis-tools.c:3084
+#: src/analysis-tools.c:3100
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/ANOVA/Variasjonskilde/Rader/Kolonner/Feil/Total"
 
-#: src/analysis-tools.c:3272
+#: src/analysis-tools.c:3288
 msgid "Anova: Two-Factor With Replication"
 msgstr "Anova: To-faktor med replisering"
 
-#: src/analysis-tools.c:3277 src/analysis-tools.c:3287
-#: src/analysis-tools.c:3295 src/dialogs/dialog-autoformat.c:74
+#: src/analysis-tools.c:3293 src/analysis-tools.c:3303
+#: src/analysis-tools.c:3311 src/dialogs/dialog-autoformat.c:74
 #: src/dialogs/dialog-autoformat.c:78
 msgid "Total"
 msgstr "Total"
 
-#: src/analysis-tools.c:3279
+#: src/analysis-tools.c:3295
 msgid "/Count/Sum/Average/Variance"
 msgstr "/Antall/Sum/Gjennomsnitt/Varians"
 
-#: src/analysis-tools.c:3289
+#: src/analysis-tools.c:3305
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 msgstr "/ANOVA/Variasjonskilde/Rader/Kolonner/Krysningspunkt/Innenfor"
 
-#: src/analysis-tools.c:3757
+#: src/analysis-tools.c:3773
 #, c-format
 msgid "<%s"
 msgstr "<%s"
 
-#: src/analysis-tools.c:3761
+#: src/analysis-tools.c:3777
 msgid "Too Small"
 msgstr "For liten"
 
-#: src/analysis-tools.c:3778
+#: src/analysis-tools.c:3794
 msgid "More"
 msgstr "Mer"
 
-#: src/analysis-tools.c:3786
+#: src/analysis-tools.c:3802
 #, c-format
 msgid ">%s"
 msgstr ">%s"
 
-#: src/analysis-tools.c:3790
+#: src/analysis-tools.c:3806
 msgid "Too Large"
 msgstr "For stor"
 
-#: src/analysis-tools.c:3831 src/dialogs/histogram.glade.h:7
+#: src/analysis-tools.c:3847 src/dialogs/histogram.glade.h:7
 msgid "Histogram"
 msgstr "Histogram"
 
-#: src/analysis-tools.c:3836
+#: src/analysis-tools.c:3852
 msgid "Bin"
 msgstr "Bin"
 
-#: src/analysis-tools.c:3861
+#: src/analysis-tools.c:3877
 msgid "Frequency"
 msgstr "Frekvens"
 
-#: src/analysis-tools.c:3863 src/dialogs/dialog-zoom.glade.h:2
+#: src/analysis-tools.c:3879 src/dialogs/dialog-zoom.glade.h:2
 #, no-c-format
 msgid "%"
 msgstr "%"
 
-#: src/analysis-tools.c:3866
+#: src/analysis-tools.c:3882
 #, no-c-format
 msgid "Cumulative %"
 msgstr "Kumulativ %"
 
-#: src/analysis-tools.c:4098
+#: src/analysis-tools.c:4114
 msgid "Real"
 msgstr "Heltall"
 
-#: src/analysis-tools.c:4099
+#: src/analysis-tools.c:4115
 msgid "Imaginary"
 msgstr "Imaginær"
 
@@ -6896,9 +6898,8 @@ msgid "_By"
 msgstr "_Med"
 
 #: src/dialogs/search-replace.glade.h:37
-#, fuzzy
 msgid "_Column major"
-msgstr "_Kolonne"
+msgstr "_Kolonne først"
 
 #: src/dialogs/search-replace.glade.h:38 src/dialogs/search.glade.h:25
 msgid "_Comments"
@@ -6965,9 +6966,8 @@ msgid "_Replacing"
 msgstr "E_rstatter"
 
 #: src/dialogs/search-replace.glade.h:54 src/dialogs/search.glade.h:36
-#, fuzzy
 msgid "_Row major"
-msgstr "Kolonne"
+msgstr "_Rad først"
 
 #: src/dialogs/search-replace.glade.h:55 src/dialogs/search.glade.h:37
 msgid "_Search for"
@@ -6979,7 +6979,7 @@ msgstr "_Strenger"
 
 #: src/dialogs/search.glade.h:1
 msgid "C_olumn major"
-msgstr ""
+msgstr "K_olonne først"
 
 #: src/dialogs/search.glade.h:2
 msgid "Dismiss search center"
@@ -9197,7 +9197,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=UNIX2DATE\n"
 "@SYNTAX=UNIX2DATE(unixtid)\n"
-"@DESCRIPTION=UNIX2DATE konverterer en unix tidsstreng til dato og klokkeslett i regnearket.\n"
+"@DESCRIPTION=UNIX2DATE konverterer en unix tidsstreng til dato og "
+"klokkeslett i regnearket.\n"
 "\n"
 "En unix tidsstreng er antall sekunder siden midnatt 1 januar, 1970.\n"
 "\n"
@@ -9220,7 +9221,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=DATE2UNIX\n"
 "@SYNTAX=DATE2UNIX(serienummer)\n"
-"@DESCRIPTION=DATE2UNIX konverterer et serienummer for dato og klokkeslett fra regnearket til unix-tid.\n"
+"@DESCRIPTION=DATE2UNIX konverterer et serienummer for dato og klokkeslett "
+"fra regnearket til unix-tid.\n"
 "\n"
 "Unix-tid er antall sekunder siden midnatt 1 januar 1970.\n"
 "\n"
@@ -11575,12 +11577,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=AVERAGE\n"
 "@SYNTAX=SUM(verdi1, verdi2, ...)\n"
-"@DESCRIPTION=Beregner gjennomsnittet av alle verdiene og cellene referert i "
-"argumentlisten. Dette er ekvivalent til summen av alle argumentene delt på "
-"antall argumenter. Denne funksjonen er Excel kompatibel. \n"
+"@DESCRIPTION=Beregner gjennomsnittet av alle verdiene og cellene referert i argumentlisten. Dette er ekvivalent til summen av alle argumentene delt på antall argumenter. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
-"25.9, og 40.1.  Da får vi\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, 25.9, og 40.1.  Da får vi\n"
 "AVERAGE(A1:A5) er lik 23.2.\n"
 "\n"
 "@SEEALSO=SUM, COUNT"
@@ -15322,11 +15321,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=MODE\n"
 "@SYNTAX=DEVSQ(n1, n2, ...)\n"
-"@DESCRIPTION=MODE returnerer det vanligste tallet i datasettet. Hvis datasettet har flere like vanlige tall returnerer MODE det første av dem.\n"
-"Strenger og tomme celler ignoreres. Hvis datasettet ikke inneholder duplikater returnerer MODE en #N/A-feil.\n"
+"@DESCRIPTION=MODE returnerer det vanligste tallet i datasettet. Hvis "
+"datasettet har flere like vanlige tall returnerer MODE det første av dem.\n"
+"Strenger og tomme celler ignoreres. Hvis datasettet ikke inneholder "
+"duplikater returnerer MODE en #N/A-feil.\n"
 "Denne funksjonen er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 11.4, 25.9, og 40.1. Da får vi\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 11.4, "
+"25.9, og 40.1. Da får vi\n"
 "MODE(A1:A5) er lik 11.4.\n"
 "\n"
 "@SEEALSO=AVERAGE, MEDIAN"
@@ -15633,8 +15635,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=GAMMAINV\n"
 "@SYNTAX=GAMMAINV(p,alpha,beta,kum)\n"
-"@DESCRIPTION=GAMMADIST-funksjonen returnerer gammadistribusjonen. Hvis @kum er SANN returnerer GAMMADIST den ukomplette gammafunksjonen, ellers returneres massefunksjonen for sannsynligheten.\n"
-"Hvis @x < 0 returnerer GAMMADIST en #NUM!-feil. Hvis @alpha <= 0 eller @beta <= 0, returnerer GAMMADIST en #NUM!-feil.\n"
+"@DESCRIPTION=GAMMADIST-funksjonen returnerer gammadistribusjonen. Hvis @kum "
+"er SANN returnerer GAMMADIST den ukomplette gammafunksjonen, ellers "
+"returneres massefunksjonen for sannsynligheten.\n"
+"Hvis @x < 0 returnerer GAMMADIST en #NUM!-feil. Hvis @alpha <= 0 eller @beta "
+"<= 0, returnerer GAMMADIST en #NUM!-feil.\n"
 "Denne funksjonen er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "GAMMADIST(1,2,3,0) er lik 0.07961459.\n"
@@ -16177,12 +16182,16 @@ msgstr ""
 "@FUNCTION=KURT\n"
 "@SYNTAX=KURT(n1, n2, ...)\n"
 "@DESCRIPTION=KURT returnerer upåvirket estimat av kurtosen av et datasett.\n"
-"Merk at dette kun har mening hvis den underliggende distribusjonen virkelig har et fjerde moment. Kurtosen er flyttet tre enheter slik at en normaldistribusjon vil ha kurtose null.\n"
+"Merk at dette kun har mening hvis den underliggende distribusjonen virkelig "
+"har et fjerde moment. Kurtosen er flyttet tre enheter slik at en "
+"normaldistribusjon vil ha kurtose null.\n"
 "Strenger og tomme celler ignoreres.\n"
-"Hvis færre enn fire tall oppgis, eller hvis alle er like, returnerer KURT en #DIV/0-feil.\n"
+"Hvis færre enn fire tall oppgis, eller hvis alle er like, returnerer KURT en "
+"#DIV/0-feil.\n"
 "Denne funksjonen er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3 21.3, 25.9, og 40.1. Vi får da\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3 21.3, "
+"25.9, og 40.1. Vi får da\n"
 "KURT(A1:A5) er lik 1.234546305.\n"
 "\n"
 "@SEEALSO=AVERAGE,VAR,SKEW,KURTP"
@@ -16831,7 +16840,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=QUARTILE\n"
 "@SYNTAX=QUARTILE(tabell,kvart)\n"
-"@DESCRIPTION=QUARTILE-funksjonen returnerer kvartilen for gitte datapunkter.\n"
+"@DESCRIPTION=QUARTILE-funksjonen returnerer kvartilen for gitte "
+"datapunkter.\n"
 "Hvis @kvart er lik: returnerer QUARTILE:\n"
 "0                   minste verdi i @tabell.\n"
 "1                   første kvartil\n"
@@ -16839,10 +16849,13 @@ msgstr ""
 "3                   tredje kvartil\n"
 "4                   største verdi i @tabell.\n"
 "\n"
-"Hvis @tabell er tom returnerer QUARTILE en #NUM!-feil. Hvis @kvart < 0 eller @kvart > 4 returnerer QUARTILE en #NUM!-feil. Hvis @kvart ikke er et heltall blir det avkuttet.\n"
+"Hvis @tabell er tom returnerer QUARTILE en #NUM!-feil. Hvis @kvart < 0 eller "
+"@kvart > 4 returnerer QUARTILE en #NUM!-feil. Hvis @kvart ikke er et heltall "
+"blir det avkuttet.\n"
 "Denne funksjonen er Excel-kompatibel. \n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, 25.9, og 40.1. Da får vi\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
+"25.9, og 40.1. Da får vi\n"
 "QUARTILE(A1:A5,1) er lik 17.3.\n"
 "\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL"
