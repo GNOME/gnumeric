@@ -39,6 +39,7 @@ void
 dialog_about (WorkbookControlGUI *wbcg)
 {
         GtkWidget *about, *hbox;
+	static gboolean translated = FALSE;
 
         gchar const *authors[] = {
 		N_("Miguel de Icaza, creator."),
@@ -91,11 +92,12 @@ dialog_about (WorkbookControlGUI *wbcg)
 		NULL
 	};
 
-	{
+	if (!translated) {
 		int i;
 
 		for (i = 0; authors[i] != NULL; i++)
 		    authors[i] = _(authors[i]);
+		translated = TRUE;
 	}
 	/* Ensure we only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, ABOUT_KEY))

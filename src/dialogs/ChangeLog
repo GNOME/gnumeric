@@ -1,3 +1,7 @@
+2002-11-01  Morten Welinder  <terra@diku.dk>
+
+	* dialog-about.c (dialog_about): Don't chain-translate the names.
+
 2002-11-01  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.11
