@@ -1,5 +1,9 @@
 2004-09-22  Adrian Custer <acuster@gnome.org>
 
+	* graphics-plots.xml: close the note on line 4026.
+	
+2004-09-22  Adrian Custer <acuster@gnome.org>
+
 	* gnumeric.xml: Edits for the graphics chapter. Split 'widgets'.
 	* manual-usage.xml: Edit graph chapter paragraph.
 	* quick-start.xml: Edit the graphing section - changed end to
