@@ -1,3 +1,8 @@
+2002-08-17  Jody Goldberg <jody@gnome.org>
+
+	* charset.c : Abiword pointed me at the charset table in kword which
+	  was significantly more complete than the one in wp2x.
+
 2002-08-16  Jon K Hellan  <hellan@acm.org>
 
 	* pln.c (pln_file_probe, pln_file_open): Predeclare.

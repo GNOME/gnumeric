@@ -33,11 +33,6 @@
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-gboolean pln_file_probe (GnumFileOpener const *fo, GsfInput *input,
-			 FileProbeLevel pl);
-void     pln_file_open (GnumFileOpener const *fo, IOContext *io_context,
-			WorkbookView *wb_view, GsfInput *input);
-
 static char const *formula1[] = {
 	NULL,			/* 0 */
 	"MINUS(",
@@ -156,6 +151,9 @@ typedef struct {
 static guint8 const signature[] =
     { 0xff, 'W','P','C', 0x10, 0, 0, 0, 0x9, 0xa };
 
+/* in charset.c. */
+guint8 *pln_get_str (guint8 const *ch, unsigned len);
+
 static char const *
 pln_get_func_table1 (unsigned i)
 {
@@ -270,34 +268,6 @@ pln_get_number (guint8 const * ch)
 
 	return dvalue;
 }
-
-extern unsigned char const *wp_isolatin1_chars[9][256];
-
-static guint8 *
-pln_get_str (guint8 const *ch, unsigned len)
-{
-	guint8 *start = g_strndup (ch, len);
-	guint8 *ptr = start, *res = start;
-
-	while (*res) {
-		if (32 <= *res && *res <= 126)
-			*ptr++ = *res++;
-		else if (*res == 0xC0) {
-			if (res [2] < 9) {
-				unsigned char const *utf8 = wp_isolatin1_chars [res[2]][res[1]];
-				len = strlen (utf8);
-				strcpy (ptr, utf8);
-				ptr += len;
-			}
-			res += 4;
-		} else if (*res == 0xC3 || *res == 0xC4)
-			res += 3; /* ignore */
-		else
-			res++;
-	}
-	return start;
-}
-
 
 static char *
 pln_get_addr (ParsePos const *pp, guint8 const *ch)
