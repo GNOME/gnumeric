@@ -163,13 +163,6 @@ to features that already work.
 
    + fully support R[-1]C[3] type references.
 
-* Internals
-
-   + When filling large regions (ie, select, enter data, control-enter),
-     we are taking ages.  In those cases, we could probably:
-     1. Start using speciallized allocators for Cell, ExprTree, Value.
-     2. Do async rendering of cells. eg when they are being displayed or during an idle handler.
-
 * Calculation
    + Rework 'Name' dependencies so we can re-express names.
    + Dependancies for - CELL, INDIRECT functions.
@@ -184,7 +177,6 @@ to features that already work.
 * Excel Import
 
    + Localise sheet/workbook Name import.
-   + Import names even if they arn't referenced.
 
 1.1
 ==========
@@ -199,10 +191,6 @@ under "1.0" are more important.
    + These are border that should be visible on the sheet and
      indicate where new pages start when printing. Jody has been
      doing work on this.
-
-* Global Preferences Dialog (!)
-  
-   + Needs to be adopted.
 
 * Conditional Formatting
 

@@ -291,6 +291,7 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 	/* Avoid recursion, and do not begin editing if a guru is up */
 	if (inside_editing || wbcg_edit_has_guru (wbcg))
 		return TRUE;
+	inside_editing = TRUE;
 
 	wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
 	sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
@@ -312,11 +313,10 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 			wb_view_is_protected (wbv, FALSE)
 			 ? _("Unprotect the workbook to enable editing.")
 			 : _("Unprotect the sheet to enable editing."));
+		inside_editing = FALSE;
 		g_free (pos);
 		return FALSE;
 	}
-
-	inside_editing = TRUE;
 
 	application_clipboard_unant ();
 	wb_control_edit_set_sensitive (WORKBOOK_CONTROL (wbcg), TRUE, FALSE);

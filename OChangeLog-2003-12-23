@@ -1,3 +1,9 @@
+2002-06-13  Jody Goldberg <jody@gnome.org>
+
+ 	http://bugzilla.gnome.org/show_bug.cgi?id=85181
+	* src/workbook-edit.c (wbcg_edit_start) : protect against recursion
+	  before testing for protection, we may already have a dialog up.
+
 2002-06-12  Rodrigo Moya <rodrigo@gnome-db.org>
 
 	* src/file.c:
