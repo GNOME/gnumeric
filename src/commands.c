@@ -204,6 +204,10 @@ update_after_action (Sheet *sheet)
 		sheet_set_dirty (sheet, TRUE);
 		workbook_recalc (sheet->workbook);
 		sheet_update (sheet);
+
+		WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
+			  wb_control_sheet_focus (control, sheet);
+		);
 	}
 }
 

@@ -1,3 +1,9 @@
+2001-01-22  Almer S. Tigelaar  <almer1@dds.nl>
+
+	* src/commands.c (update_after_action):
+	Make the sheet that was subject to an undo/redo operation
+	the active sheet after the operation has succeeded. Fixes #38208.
+
 2001-01-21  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* src/sheet-autofill.c (autofill_cell):
