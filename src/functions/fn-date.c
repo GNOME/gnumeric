@@ -1,8 +1,9 @@
 /*
  * fn-date.c:  Built in date functions.
  *
- * Author:
+ * Authors:
  *   Miguel de Icaza (miguel@gnu.org)
+ *   Jukka-Pekka Iivonen (iivonen@iki.fi)
  */
 #include <config.h>
 #include <gnome.h>
@@ -70,7 +71,7 @@ gnumeric_date (struct FunctionDefinition *fd, Value *argv [], char **error_strin
 
 static char *help_datevalue = {
 	N_("@FUNCTION=DATEVALUE\n"
-	   "@SYNTAX=DATEVALUE (date_str)\n"
+	   "@SYNTAX=DATEVALUE(date_str)\n"
 
 	   "@DESCRIPTION="
 	   "DATEVALUE returns the serial number of the date.  @date_str is "
@@ -101,6 +102,53 @@ gnumeric_datevalue (struct FunctionDefinition *fd,
 	}
 
 	return value_int (g_date_serial (&date));
+}
+
+static char *help_edate = {
+	N_("@FUNCTION=EDATE\n"
+	   "@SYNTAX=EDATE(serial_number,months)\n"
+
+	   "@DESCRIPTION="
+	   "EDATE returns the serial number of the date that is the "
+	   "specified number of months before or after a given date.  "
+	   "@date is the serial number of the initial date and @months "
+	   "is the number of months before (negative number) or after "
+	   "(positive number) the initial date. "
+	   "\n"
+	   "If @months is not an integer, it is truncated. "
+	   "\n"
+	   "@SEEALSO=DATE")
+};
+
+static Value *
+gnumeric_edate (struct FunctionDefinition *fd,
+		Value *argv [], char **error_string)
+{
+	int    year, month, day;
+	int    serial, months;
+	GDate* date;
+	
+	serial = value_get_as_int(argv[0]);
+	months = value_get_as_int(argv[1]);
+
+	date = g_date_new_serial (serial);
+
+	if (!g_date_valid(date)) {
+                  *error_string = _("#VALUE!");
+                  return NULL;
+	}
+
+	if (months > 0)
+	        g_date_add_months (date, months);
+	else
+	        g_date_subtract_months (date, -months);
+
+	if (!g_date_valid(date)) {
+                  *error_string = _("#NUM!");
+                  return NULL;
+	}
+		
+	return value_int (g_date_serial (date));
 }
 
 static char *help_today = {
@@ -337,6 +385,8 @@ FunctionDefinition date_functions [] = {
 	  NULL, gnumeric_datevalue  },
 	{ "day",       "f",    "serial_number",         &help_day,
 	  NULL, gnumeric_year_month_day  },
+	{ "edate",     "ff",   "serial_number,months",  &help_edate,
+	  NULL, gnumeric_edate  },
 	{ "hour",      "f",    "serial_number",         &help_hour,
 	  NULL, gnumeric_hour_min_sec },
 	{ "minute",    "f",    "serial_number",         &help_minute,
