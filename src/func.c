@@ -1147,7 +1147,7 @@ tokenized_help_new (GnmFunc const *func)
 	tok->help_copy = NULL;
 	tok->sections = NULL;
 
-	if (func->help != NULL && func->help != '\0') {
+	if (func->help != NULL && func->help [0] != '\0') {
 		char *ptr, *start;
 		gboolean seek_at = TRUE;
 		gboolean last_newline = TRUE;

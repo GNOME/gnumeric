@@ -1,3 +1,7 @@
+2002-10-13  Jon K Hellan  <hellan@acm.org>
+
+	* src/func.c (tokenized_help_new): Fix check for empty help string.
+
 2002-10-12  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-edit.c (wbcg_edit_finish) : clear the guru before
