@@ -68,6 +68,8 @@ app_text_print (const char *line, PrintFormat format, gboolean newline)
 static void
 app_interpreter_changed (GnmPyInterpreterSelector *sel)
 {
+	g_return_if_fail (app != NULL);
+
 	app->cur_interpreter = gnm_py_interpreter_selector_get_current (sel);
 	if (app->cur_interpreter != NULL) {
 		char *msg;
@@ -85,6 +87,8 @@ app_cline_entered (GnmPyCommandLine *cline)
 	const char *cmd;
 	char *msg;
 	char *stdout_str, *stderr_str;
+
+	g_return_if_fail (app != NULL);
 
 	cmd = gtk_entry_get_text (GTK_ENTRY (cline));
 	msg = g_strdup_printf (">>> %s\n", cmd);
@@ -165,8 +169,9 @@ show_python_console (WorkbookControlGUI *wbcg)
 	gtk_widget_show (sel);
 	app->cur_interpreter =
 		gnm_py_interpreter_selector_get_current (GNM_PY_INTERPRETER_SELECTOR (sel));
-	g_signal_connect (
-		sel, "interpreter_changed", G_CALLBACK (app_interpreter_changed), NULL);
+	g_signal_connect_object (
+		sel, "interpreter_changed", G_CALLBACK (app_interpreter_changed),
+		app->win, 0);
 
 	app->ui_container = bonobo_window_get_ui_container (BONOBO_WINDOW (app->win));
 	app->uic = bonobo_ui_component_new_default ();
