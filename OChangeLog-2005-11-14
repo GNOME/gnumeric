@@ -1,5 +1,11 @@
 2004-11-30  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=160046
+	* src/libgnumeric.c (gnm_pre_parse_init) : get the right pixmap and
+	  translation paths for win32.
+
+2004-11-30  Jody Goldberg <jody@gnome.org>
+
 	* src/gnumeric-simple-canvas.c (gnm_simple_canvas_x_w2c) : new.
 
 2004-11-30  Morten Welinder  <terra@gnome.org>

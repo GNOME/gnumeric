@@ -81,12 +81,12 @@ gnm_pre_parse_init (char const* gnumeric_binary)
 	dir = g_win32_get_package_installation_directory (NULL, NULL);
 	gnumeric_data_dir = g_build_filename (dir,
 		"share", "gnumeric", GNUMERIC_VERSION, NULL);
+	gnumeric_icon_dir = g_build_filename (dir,
+		"share", "pixmaps", "gnumeric", NULL);
+	gnumeric_locale_dir = g_build_filename (dir,
+		"share", "locale", NULL);
 	gnumeric_lib_dir = g_build_filename (dir,
 		"lib", "gnumeric", GNUMERIC_VERSION, NULL);
-	gnumeric_icon_dir = g_build_filename (dir,
-		"lib", "pixmaps", "gnumeric", NULL);
-	gnumeric_locale_dir = g_build_filename (dir,
-		"lib", "locale", NULL);
 }
 #endif
 
