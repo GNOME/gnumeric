@@ -218,6 +218,44 @@
 
       <listitem>
 	<para>
+	  <xref linkend="chapter-getting-involved" />: 
+              <guilabel>Getting Involved</guilabel>
+        </para>
+        <para>
+           This chapter explains how to get involved in the &gnum; project,
+           the GNOME project, or other free software projects.
+	</para>
+      </listitem>
+
+<!--
+      <listitem>
+	<para>
+	  <xref linkend="chapter-installing" />: 
+              <guilabel>Installing &gnum;</guilabel>
+        </para>
+        <para>
+           This chapter explains how to install &gnum; using previously
+           compiled and bundled files. 
+	</para>
+      </listitem>
+-->
+<!--
+      <listitem>
+	<para>
+	  <xref linkend="chapter-compiling" />: 
+              <guilabel>Compiling &gnum;</guilabel>
+        </para>
+        <para>
+           This chapter explains how to compiling the &gnum; source
+           code into a working program. The chapter explains how to
+           obtain the source code for the &gnum; program, how to
+           create a correct envirnoment for compilation, and the steps
+           involved in compilation.
+	</para>
+      </listitem>
+-->
+      <listitem>
+	<para>
 	  <xref linkend="chapter-extending" />: 
               <guilabel>Extending Gnumeric</guilabel>
         </para>
@@ -228,7 +266,34 @@
           is Free Software this is quite easy to do.
 	</para>
       </listitem>
-
+<!--
+      <listitem>
+	<para>
+	  <xref linkend="chapter-programing" />: 
+              <guilabel>Programing &gnum;</guilabel>
+        </para>
+        <para>
+           This chapter explains how to work programing the internals
+           of &gnum;. This includes explaining the different parts of
+           the code base, the tools that can be used to help and other
+           useful information.
+	</para>
+      </listitem>
+-->
+<!--
+      <listitem>
+	<para>
+	  <xref linkend="chapter-documenting" />: 
+              <guilabel>Improve this manual</guilabel>
+        </para>
+        <para>
+           This chapter explains how to help improve this manual by
+           editing the text from which the manual is build. This
+           includes explaining the GNOME Documentation Project,
+           Docbook and other relevant information.
+	</para>
+      </listitem>
+-->
       <listitem>
 	<para>
 	  <xref linkend="chapter-about" />: 

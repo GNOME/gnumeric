@@ -76,18 +76,25 @@
   <!ENTITY morehelp             SYSTEM "morehelp.xml">
 
   <!ENTITY bugs			SYSTEM "bugs.xml">
+ 
+  <!ENTITY getting-involved     SYSTEM "getting-involved.xml">
+
+  <!ENTITY installing            SYSTEM "installing.xml">
+
+  <!ENTITY compiling            SYSTEM "compiling.xml">
 
   <!ENTITY extending-overview   SYSTEM "extending-overview.xml">
   <!ENTITY extending-functions  SYSTEM "extending-functions.xml">
   <!ENTITY extending-python     SYSTEM "extending-python.xml">
   <!ENTITY extending-plugins    SYSTEM "extending-plugins.xml">
-  <!ENTITY extending-code       SYSTEM "extending-code.xml">
+
+  <!ENTITY programing           SYSTEM "programing.xml">
+
+  <!ENTITY documenting          SYSTEM "documenting.xml">
 
   <!ENTITY about-history        SYSTEM "about-history.xml">
   <!ENTITY about-authors        SYSTEM "about-authors.xml">
   <!ENTITY about-license        SYSTEM "about-license.xml">
-  <!ENTITY about-compiling      SYSTEM "about-compiling.xml">
-  <!ENTITY about-get-involved   SYSTEM "about-get-involved.xml">
   
 
   <!ENTITY function-ref	        SYSTEM "functions.xml">
@@ -497,7 +504,7 @@
   </chapter>
 
 
-
+<!-- TODO: Split into three Chapters: anal w/ stats, w/ scenarios, w/ l.p. -->
   <chapter id="chapter-advanced-analysis">
     <title>Advanced Analysis</title>
 
@@ -667,6 +674,56 @@
   </chapter>
 
 
+<!-- TODO: Write 'getting involved' chapter -->
+<!--
+  <chapter id="chapter-getting-involved">
+    <title>Getting Involved</title>
+
+    <para>
+      This chapter explains how to get involved in the &gnum; project,
+      the GNOME project, or other free software projects.
+    </para>
+
+    &getting-involved;
+
+  </chapter>
+-->
+
+
+<!-- TODO: Write 'installing' chapter -->
+<!--
+   <chapter id="chapter-installing">
+    <title>Installing &gnum;</title>
+
+    <para>
+      This chapter explains how to install &gnum; using previously
+      compiled and bundled files. 
+    </para>
+
+    &installing;
+
+  </chapter>
+-->
+
+
+<!-- TODO: Write 'compiling' chapter -->
+<!--
+   <chapter id="chapter-compiling">
+    <title>Compiling &gnum;</title>
+
+    <para>
+      This chapter explains how to compiling the &gnum; source code
+      into a working program. The chapter explains how to obtain the
+      source code for the &gnum; program, how to create a correct
+      envirnoment for compilation, and the steps involved in
+      compilation.
+    </para>
+
+    &compiling;
+
+  </chapter>
+-->
+
 
   <chapter id="chapter-extending">
     <title>Extending Gnumeric</title>
@@ -682,10 +739,45 @@
     &extending-functions;
     &extending-python;
     &extending-plugins;
-    &extending-code;
 
   </chapter>
 
+
+
+<!-- TODO: Write 'programing' chapter -->
+<!--
+   <chapter id="chapter-programing">
+    <title>Programing &gnum;</title>
+
+    <para>
+      This chapter explains how to work programing the internals of
+      &gnum;. This includes explaining the different parts of the code
+      base, the tools that can be used to help and other useful
+      information. 
+    </para>
+
+    &programing;
+
+  </chapter>
+-->
+
+
+<!-- TODO: Write 'documenting' chapter -->
+<!--
+   <chapter id="chapter-documenting">
+    <title>Improve this manual</title>
+
+    <para>
+      This chapter explains how to help improve this manual by editing
+      the text from which the manual is build. This includes
+      explaining the GNOME Documentation Project, Docbook and other
+      relevant information.
+    </para>
+
+    &documenting;
+
+  </chapter>
+-->
 
 
   <chapter id="chapter-about">
@@ -700,8 +792,6 @@
     &about-history;
     &about-authors;
     &about-license;
-    &about-compiling;
-    &about-get-involved;
 
   </chapter>
 

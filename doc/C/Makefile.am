@@ -3,8 +3,6 @@ lang = C
 locale = C
 entities =  \
      about-authors.xml \
-     about-compiling.xml \
-     about-get-involved.xml \
      about-history.xml \
      about-license.xml \
      analysis-complexNumbers.xml \
@@ -17,6 +15,7 @@ entities =  \
      appendix-glossary.xml \
      appendix-keybindings.xml \
      bugs.xml \
+     compiling.xml \
      configuration-localization.xml \
      configuration-overview.xml \
      configuration-plugins.xml \
@@ -35,6 +34,7 @@ entities =  \
      data-overview.xml \
      data-selections.xml \
      data-types.xml \
+     documenting.xml \
      extending-code.xml \
      extending-functions.xml \
      extending-overview.xml \
@@ -48,6 +48,7 @@ entities =  \
      files-ssconvert.xml \
      files-textopen.xml \
      files-textsave.xml \
+     getting-involved.xml \
      graphics-drawings.xml \
      graphics-images.xml \
      graphics-overview.xml \
@@ -58,6 +59,7 @@ entities =  \
      gui-other-elements.xml \
      gui-overview.xml \
      gui-toolbars.xml \
+     installing.xml \
      legal.xml \
      manual-usage.xml \
      morehelp.xml \

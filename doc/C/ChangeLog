@@ -1,5 +1,22 @@
 2004-10-01  Adrian Custer <acuster@gnome.org>
 
+	* NEWS Reorg then hide the sections.
+
+	* README: tweak.
+	* gnumeric.xml: Support reorg.
+	* manual-usage.xml: Add text for new chapters.
+	* getting-invovled.xml: Split new chapter from 'About...'
+	* installing.xml: Add new chapter
+	* compiling.xml: Split new chapter from 'About...'
+	* programing.xml: Split new chapter from 'Extending...'
+	* documenting.xml: Add new chapter
+	* about-get-involved.xml: Delete.
+	* about-compiling.xml: Delete.
+	* extending-code.xml: Delete.
+	* Makefile.am: support new, delete old.
+
+2004-10-01  Adrian Custer <acuster@gnome.org>
+
 	* NEWS 
 
 	* README: Tweak.

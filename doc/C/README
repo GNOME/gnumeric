@@ -3,6 +3,16 @@
 Last edited: 1 October 2004
 
 
+There are many hidden chapters that could be written.
+
+Major issues:
+------------
+Bonobo-build: haven't seen it, don't know it's status/differences.
+INDEX:
+GLOSSARY:
+
+
+
 
 TODO List:
 ---------
@@ -12,6 +22,20 @@ grep -in todo *.xml
 
 add TODO items as self contained comments begining at the start of the
 line. 
+
+
+
+
+Grep'able Comments:
+------------------
+
+<!-- TODO:        - These are things to be done.
+<!-- Note:        - These are reminders of structures of the document
+                    such as essentially parallel sections.
+<!-- TODO: Ask    - These are requests for clarification.
+<!-- TODO...Hack  - These are workarounds for the current yelp/gkthtml.
+
+
 
 
 
@@ -25,6 +49,7 @@ figures with C/figures/Makefile.am
 
 
 
+
 Formatting:
 ----------
   Please keep the formatting consistent:
@@ -32,6 +57,7 @@ Formatting:
     - indent is 2 spaces
     - text of paragraph indented from <para> tag
     - all elements indented unless the close tag fits on the same line
+
 
 
 
