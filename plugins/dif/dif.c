@@ -1,3 +1,5 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 /*
  * dif.c: read/write sheets using a CSV encoding.
  *
@@ -8,117 +10,75 @@
  *	Based on ff-csv code.
  */
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include <gnumeric.h>
 
-#include <cell.h>
-#include <sheet.h>
-#include <value.h>
-#include <io-context.h>
 #include <workbook-view.h>
 #include <workbook.h>
-#include <plugin-util.h>
-#include <module-plugin-defs.h>
+#include <sheet.h>
+#include <cell.h>
+#include <value.h>
 
+#include <goffice/app/go-plugin-impl.h>
+#include <goffice/utils/go-file.h>
 #include <gsf/gsf-input-textline.h>
 #include <gsf/gsf-output.h>
 #include <gsf/gsf-utils.h>
+#include <gsf/gsf-impl-utils.h>
+#include <glib/gi18n.h>
 #include <string.h>
 #include <stdlib.h>
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
-
 #define N_INPUT_LINES_BETWEEN_UPDATES   50
 
-void dif_file_open (GnmFileOpener const *fo, IOContext *io_context,
-                    GODoc *doc, GsfInput *input);
-void dif_file_save (GnmFileSaver const *fs, IOContext *io_context,
-                    WorkbookView const *wbv, GsfOutput *output);
-
 typedef struct {
-	IOContext *io_context;
+	GOImporter	  base;
 
-	GsfInputTextline *input;
+	GsfInputTextline *textline;
 	gint   line_no;
 	gchar *line;
 
 	Sheet *sheet;
 
 	GIConv converter;
-} DifInputContext;
-
-
-static DifInputContext *
-dif_input_context_new (IOContext *io_context, Workbook *wb, GsfInput *input)
-{
-	DifInputContext *ctxt = NULL;
-
-	ctxt = g_new (DifInputContext, 1);
-	ctxt->io_context     = io_context;
-
-	ctxt->input	     = (GsfInputTextline *) gsf_input_textline_new (input);
-
-	ctxt->line_no        = 1;
-	ctxt->line           = NULL;
-	ctxt->sheet          = workbook_sheet_add (wb, NULL, FALSE);
-	ctxt->converter      = g_iconv_open ("UTF-8", "ISO-8859-1");
-
-	io_progress_message (io_context, _("Reading file..."));
-
-	return ctxt;
-}
-
-static void
-dif_input_context_destroy (DifInputContext *ctxt)
-{
-	io_progress_unset (ctxt->io_context);
-	g_object_unref (G_OBJECT (ctxt->input)); ctxt->input = NULL;
-	gsf_iconv_close (ctxt->converter);
-	g_free (ctxt->line);
-	g_free (ctxt);
-}
+} GnmDifIn;
 
 static gboolean
-dif_get_line (DifInputContext *ctxt)
+dif_get_line (GnmDifIn *state)
 {
-	char *raw;
-
-	raw = gsf_input_textline_ascii_gets (ctxt->input);
-	if (!raw)
+	char *raw = gsf_input_textline_ascii_gets (state->textline);
+	if (NULL == raw)
 		return FALSE;
-
-	g_free (ctxt->line);
-	ctxt->line =
-		g_convert_with_iconv (raw, -1, ctxt->converter, NULL, NULL, NULL);
-
-	return ctxt->line != NULL;
+	g_free (state->line);
+	state->line = g_convert_with_iconv (raw, -1, state->converter,
+					   NULL, NULL, NULL);
+	return state->line != NULL;
 }
 
 /*
  * Raturns FALSE on EOF.
  */
 static gboolean
-dif_parse_header (DifInputContext *ctxt)
+dif_parse_header (GnmDifIn *state)
 {
 	while (1) {
 		gchar *topic, *num_line, *str_line;
 		size_t str_line_len;
 
-		if (!dif_get_line (ctxt))
+		if (!dif_get_line (state))
 			return FALSE;
-		topic = g_alloca (strlen (ctxt->line) + 1);
-		strcpy (topic, ctxt->line);
+		topic = g_alloca (strlen (state->line) + 1);
+		strcpy (topic, state->line);
 
-		if (!dif_get_line (ctxt))
+		if (!dif_get_line (state))
 			return FALSE;
-		num_line = g_alloca (strlen (ctxt->line) + 1);
-		strcpy (num_line, ctxt->line);
+		num_line = g_alloca (strlen (state->line) + 1);
+		strcpy (num_line, state->line);
 
-		if (!dif_get_line (ctxt))
+		if (!dif_get_line (state))
 			return FALSE;
-		str_line_len = strlen (ctxt->line);
+		str_line_len = strlen (state->line);
 		str_line = g_alloca (str_line_len + 1);
-		strcpy (str_line, ctxt->line);
+		strcpy (str_line, state->line);
 
 		if (strcmp (topic, "TABLE") == 0) {
 			gchar *name;
@@ -150,7 +110,7 @@ dif_parse_header (DifInputContext *ctxt)
  * Raturns FALSE on EOF.
  */
 static gboolean
-dif_parse_data (DifInputContext *ctxt)
+dif_parse_data (GnmDifIn *state)
 {
 	gboolean too_many_rows = FALSE, too_many_columns = FALSE;
 	gint row = -1, col = 0;
@@ -160,121 +120,122 @@ dif_parse_data (DifInputContext *ctxt)
 		GnmCell *cell;
 		gchar *msg;
 
-		if (!dif_get_line (ctxt))
+		if (!dif_get_line (state))
 			return FALSE;
 
-		val_type = atoi (ctxt->line);
+		val_type = atoi (state->line);
 		if (val_type == 0) {
 			gchar *comma;
 
-			(void) dif_get_line (ctxt);
+			(void) dif_get_line (state);
 			if (col > SHEET_MAX_COLS) {
 				too_many_columns = TRUE;
 				continue;
 			}
-			comma = strchr (ctxt->line, ',');
+			comma = strchr (state->line, ',');
 			if (comma != NULL) {
-				cell = sheet_cell_fetch (ctxt->sheet, col, row);
+				cell = sheet_cell_fetch (state->sheet, col, row);
 				cell_set_text (cell, comma + 1);
 				col++;
 			} else {
 				msg = g_strdup_printf (_("Syntax error at line %d. Ignoring."),
-				                       ctxt->line_no);
+				                       state->line_no);
 				g_warning (msg);
 				g_free (msg);
 			}
 		} else if (val_type == 1) {
-			if (!dif_get_line (ctxt)) {
+			if (!dif_get_line (state)) {
 				return FALSE;
 			}
 			if (col > SHEET_MAX_COLS) {
 				too_many_columns = TRUE;
 				continue;
 			}
-			cell_set_text (sheet_cell_fetch (ctxt->sheet, col, row),
-				ctxt->line);
+			cell_set_text (sheet_cell_fetch (state->sheet, col, row),
+				state->line);
 			col++;
 		} else if (val_type == -1) {
-			if (!dif_get_line (ctxt)) {
+			if (!dif_get_line (state)) {
 				return FALSE;
 			}
-			if (strcmp (ctxt->line, "BOT") == 0) {
+			if (strcmp (state->line, "BOT") == 0) {
 				col = 0;
 				row++;
 				if (row > SHEET_MAX_ROWS) {
 					too_many_rows = TRUE;
 					break;
 				}
-			} else if (strcmp (ctxt->line, "EOD") == 0) {
+			} else if (strcmp (state->line, "EOD") == 0) {
 				break;
 			} else {
 				msg = g_strdup_printf (
 				      _("Unknown data value \"%s\" at line %d. Ignoring."),
-				      ctxt->line, ctxt->line_no);
+				      state->line, state->line_no);
 				g_warning (msg);
 				g_free (msg);
 			}
 		} else {
 			msg = g_strdup_printf (
 			      _("Unknown value type %d at line %d. Ignoring."),
-			      val_type, ctxt->line_no);
+			      val_type, state->line_no);
 			g_warning (msg);
 			g_free (msg);
-			(void) dif_get_line (ctxt);
+			(void) dif_get_line (state);
 		}
 	}
 
-	if (too_many_rows) {
-		g_warning (_("DIF file has more than the maximum number of rows %d. "
-		             "Ignoring remaining rows."), SHEET_MAX_ROWS);
-	}
-	if (too_many_columns) {
-		g_warning (_("DIF file has more than the maximum number of columns %d. "
-		             "Ignoring remaining columns."), SHEET_MAX_COLS);
-	}
+	if (too_many_rows)
+		go_importer_warn (&state->base,
+			_("DIF file has more than the maximum number of rows %d. Ignoring remaining rows."),
+			SHEET_MAX_ROWS);
+	if (too_many_columns)
+		go_importer_warn (&state->base,
+			_("DIF file has more than the maximum number of columns %d. Ignoring remaining columns."),
+			SHEET_MAX_COLS);
 
 	return TRUE;
 }
 
 static void
-dif_parse_sheet (DifInputContext *ctxt)
-{
-	if (!dif_parse_header (ctxt)) {
-		gnumeric_io_error_info_set (ctxt->io_context, error_info_new_printf (
-		_("Unexpected end of file at line %d while reading header."),
-		ctxt->line_no));
-	} else if (!dif_parse_data(ctxt)) {
-		gnumeric_io_error_info_set (ctxt->io_context, error_info_new_printf (
-		_("Unexpected end of file at line %d while reading data."),
-		ctxt->line_no));
-	}
-}
-
-void
-dif_file_open (GnmFileOpener const *fo, IOContext *io_context,
-               GODoc *doc, GsfInput *input)
+gnm_dif_in_import (GOImporter *imp, GODoc *doc)
 {
 	Workbook *wb = WORKBOOK (doc);
-	DifInputContext *ctxt = dif_input_context_new (io_context, wb, input);
+	GnmDifIn *state = (GnmDifIn *)imp;
 
-	workbook_set_saveinfo (wb, FILE_FL_MANUAL_REMEMBER,
-		gnm_file_saver_for_id ("Gnumeric_dif:dif"));
-	if (ctxt != NULL) {
-		dif_parse_sheet (ctxt);
-		if (gnumeric_io_error_occurred (io_context))
-			gnumeric_io_error_push (io_context,
-				error_info_new_str (_("Error while reading DIF file.")));
-		dif_input_context_destroy (ctxt);
-	} else if (!gnumeric_io_error_occurred (io_context))
-		gnumeric_io_error_unknown (io_context);
+	state->textline	     = (GsfInputTextline *) gsf_input_textline_new (imp->input);
+	state->line_no        = 1;
+	state->line           = NULL;
+	state->sheet          = workbook_sheet_add (wb, NULL, FALSE);
+	state->converter      = g_iconv_open ("UTF-8", "ISO-8859-1");
+
+	if (!dif_parse_header (state))
+		go_importer_fail (imp, 
+			_("Unexpected end of file at line %d while reading header."),
+			state->line_no);
+	else if (!dif_parse_data(state))
+		go_importer_fail (imp, 
+			_("Unexpected end of file at line %d while reading data."),
+			state->line_no);
+	else
+		workbook_set_saveinfo (wb, FILE_FL_MANUAL_REMEMBER,
+			gnm_file_saver_for_id ("Gnumeric_dif:dif"));
+
+	g_object_unref (state->textline);
+	gsf_iconv_close (state->converter);
+	g_free (state->line);
 }
 
-/*
- * Write _current_ sheet of the workbook to a DIF format file
- */
-void
-dif_file_save (GnmFileSaver const *fs, IOContext *io_context,
-               WorkbookView const *wbv, GsfOutput *output)
+static void
+gnm_dif_in_class_init (GOImporterClass *import_class)
+{
+	import_class->ProbeContent	= NULL;
+	import_class->Import		= gnm_dif_in_import;
+}
+
+/*****************************************************************************/
+
+static void
+gnm_dif_out_export (GOExporter *exporter)
 {
 	Sheet *sheet;
 	GnmRange r;
@@ -289,36 +250,51 @@ dif_file_save (GnmFileSaver const *fs, IOContext *io_context,
 
 	r = sheet_get_extent (sheet, FALSE);
 
-	/* Write out the standard headers */
-	res  = gsf_output_puts (output, "TABLE\n" "0,1\n" "\"GNUMERIC\"\n");
-	if (res) res = gsf_output_printf (output,
-					  "VECTORS\n" "0,%d\n" "\"\"\n",
-					  r.end.row);
-	if (res) res = gsf_output_printf (output,
-					  "TUPLES\n" "0,%d\n" "\"\"\n",
-					  r.end.col);
-	if (res) res= gsf_output_puts (output, "DATA\n0,0\n" "\"\"\n");
+	/* standard header */
+	res = gsf_output_puts (exporter->output,   "TABLE\n" "0,1\n" "\"GNUMERIC\"\n") ||
+	      gsf_output_printf (exporter->output, "VECTORS\n" "0,%d\n" "\"\"\n", r.end.row) ||
+	      gsf_output_printf (exporter->output, "TUPLES\n" "0,%d\n" "\"\"\n", r.end.col) ||
+	      gsf_output_puts (exporter->output,   "DATA\n0,0\n" "\"\"\n");
 
 	/* Process all cells */
 	for (row = r.start.row; res && row <= r.end.row; row++) {
-		gsf_output_puts (output, "-1,0\n" "BOT\n");
+		gsf_output_puts (exporter->output, "-1,0\n" "BOT\n");
 		for (col = r.start.col; col <= r.end.col; col++) {
 			GnmCell *cell = sheet_cell_get (sheet, col, row);
-			if (cell_is_empty (cell)) {
-				gsf_output_puts(output, "1,0\n" "\"\"\n");
-			} else {
+			if (!cell_is_empty (cell)) {
 				gchar *str;
 
 				str = cell_get_rendered_text (cell);
-				res = gsf_output_printf (output,
-							 "1.0\n" "\"%s\"\n",
-							 str);
+				res = gsf_output_printf (exporter->output, "1.0\n" "\"%s\"\n", str);
 				g_free (str);
-			}
+			} else
+				gsf_output_puts (exporter->output, "1,0\n" "\"\"\n");
 		}
 	}
-	gsf_output_puts (output, "-1,0\n" "EOD\n");
+	gsf_output_puts (exporter->output, "-1,0\n" "EOD\n");
 
 	if (!res)
 		gnumeric_io_error_string (io_context, _("Error while saving DIF file."));
+}
+
+static void
+gnm_dif_out_class_init (GOExporterClass *export_class)
+{
+	export_class->Prepare	= NULL;
+	export_class->Export	= gnm_dif_out_export;
+}
+
+typedef GOImporterClass GnmDifInClass;
+typedef GOExporterClass GnmDifOutClass;
+typedef GOExporter	GnmDifOut;
+static GType gnm_dif_in_type, gnm_dif_out_type;
+G_MODULE_EXPORT void
+go_plugin_init (GOPlugin *plugin)
+{
+	GSF_DYNAMIC_CLASS (GnmDifIn, gnm_dif_in,
+		gnm_dif_in_class_init, NULL, GO_IMPORTER_TYPE,
+		G_TYPE_MODULE (plugin), gnm_dif_in_type);
+	GSF_DYNAMIC_CLASS (GnmDifOut, gnm_dif_in,
+		gnm_dif_out_class_init, NULL, GO_EXPORTER_TYPE,
+		G_TYPE_MODULE (plugin), gnm_dif_out_type);
 }

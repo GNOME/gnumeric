@@ -1,12 +1,9 @@
-/* vim: set sw=8: */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
  * applix-write.c : Routines to write applix version 4 spreadsheets.
  *
- * I have no docs or specs for this format that are useful.
- * This is a guess based on some sample sheets.
- *
- * Copyright (C) 2000-2002 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2000-2004 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -22,6 +19,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
+ */
+
+/*
+ * I do not have much in the way of useful docs.
+ * This is a guess based on some sample sheets with a few pointers from
+ * 	http://www.vistasource.com/products/axware/fileformats/wptchc01.html
  */
 #include <gnumeric-config.h>
 #include <gnumeric.h>
@@ -45,14 +48,17 @@
 #include "workbook.h"
 #include "error-info.h"
 
-#include <string.h>
+#include <goffice/utils/go-file.h>
+#include <goffice/app/go-plugin-impl.h>
+#include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-output.h>
+#include <string.h>
 
 typedef struct {
-	GsfOutput      *sink;
-	ErrorInfo      *parse_error;
+	GOExporter base;
+
 	Workbook const *wb;
-} ApplixWriteState;
+} GnmApplixOut;
 
 /* #define NO_DEBUG_APPLIX */
 #ifndef NO_DEBUG_APPLIX
@@ -63,40 +69,53 @@ static int debug_applix_write = 0;
 #endif
 
 static void
-applix_write_header (ApplixWriteState const *state)
+applix_write_header (GnmApplixOut const *state)
 {
-	gsf_output_printf (state->sink,
+	gsf_output_printf (state->base.output,
 			   "*BEGIN SPREADSHEETS VERSION=442/430 "
 			   "ENCODING=7BIT\n");
-	gsf_output_printf (state->sink, "Num ExtLinks: 0\n");
-	gsf_output_printf (state->sink,
+	gsf_output_printf (state->base.output, "Num ExtLinks: 0\n");
+	gsf_output_printf (state->base.output,
 			   "Spreadsheet Dump Rev 4.42 Line Length 80\n");
 #warning "FIXME: filename is fs encoded; that's not right, but neither is UTF-8."
-	gsf_output_printf (state->sink,
+	gsf_output_printf (state->base.output,
 			   "Current Doc Real Name: %s",
 			   workbook_get_uri (state->wb));
 }
 
 static void
-applix_write_colormap (ApplixWriteState *state)
+applix_write_colormap (GnmApplixOut *state)
 {
 }
 
-void
-applix_write (IOContext *io_context, Workbook const *wb, GsfOutput *sink)
+static void
+gnm_applix_out_export (GOExporter *exporter)
 {
-	ApplixWriteState	state;
-
-	/* Init the state variable */
-	state.sink        = sink;
-	state.parse_error = NULL;
-	state.wb          = wb;
+	GnmApplixOut *state = (GnmApplixOut *)exporter;
+	state->wb = (Workbook *) exporter->doc;
 
 	d (1, fprintf (stderr, "------------Start writing"););
-	applix_write_header (&state);
-	applix_write_colormap (&state);
+	applix_write_header (state);
+	applix_write_colormap (state);
 	d (1, fprintf (stderr, "------------Finish writing"););
-
+#if 0
 	if (state.parse_error != NULL)
 		gnumeric_io_error_info_set (io_context, state.parse_error);
+#endif
+}
+
+static void
+gnm_applix_out_class_init (GOExporterClass *export_class)
+{
+	export_class->Prepare	= NULL;
+	export_class->Export	= gnm_applix_out_export;
+}
+typedef GOExporterClass GnmApplixOutClass;
+static GType gnm_applix_out_type;
+void
+gnm_applix_exporter_register (GOPlugin *plugin)
+{
+	GSF_DYNAMIC_CLASS (GnmApplixOut, gnm_applix_out,
+		gnm_applix_out_class_init, NULL, GO_EXPORTER_TYPE,
+		G_TYPE_MODULE (plugin), gnm_applix_out_type);
 }

@@ -1,6 +1,3 @@
-PP_LTLIBRARIES_TARGET = plan_perfect.la
-PP_DATA_TARGET = plugin.xml
-
 INCLUDES = \
     -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
     -I$(top_srcdir)/src	-I$(top_builddir)/src	\
@@ -8,7 +5,7 @@ INCLUDES = \
 
 gnumeric_plugin_plan_perfectdir = $(gnumeric_plugindir)/plan_perfect
 xmldir = $(gnumeric_plugin_plan_perfectdir)
-gnumeric_plugin_plan_perfect_LTLIBRARIES = $(PP_LTLIBRARIES_TARGET)
+gnumeric_plugin_plan_perfect_LTLIBRARIES = plan_perfect.la
 plan_perfect_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS)
 plan_perfect_la_SOURCES = pln.c charset.c
 

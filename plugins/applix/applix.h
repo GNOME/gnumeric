@@ -1,12 +1,9 @@
-#ifndef PLUGIN_APPLIX_H
-#define PLUGIN_APPLIX_H
+#ifndef GNM_APPLIX_H
+#define GNM_APPLIX_H
 
-#include <gnumeric.h>
-#include <gsf/gsf.h>
-#include <stdio.h>
+#include <goffice/app/goffice-app.h>
 
-void     applix_read  (IOContext *io_context, Workbook *wb, GsfInput *src);
-void     applix_write (IOContext *io_context, Workbook const *wb,
-		       GsfOutput *sink);
+void gnm_applix_importer_register (GOPlugin *plugin);
+void gnm_applix_exporter_register (GOPlugin *plugin);
 
-#endif /* PLUGIN_APPLIX_H */
+#endif /* GNM_APPLIX_H */

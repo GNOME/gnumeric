@@ -1,9 +1,9 @@
-/* vim: set sw=8: */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
  * applix-read.c : Routines to read applix version 4 & 5 spreadsheets.
  *
- * Copyright (C) 2000-2002 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2000-2004 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -55,29 +55,30 @@
 #include <error-info.h>
 #include <parse-util.h>
 
+#include <goffice/utils/go-file.h>
+#include <goffice/app/go-plugin-impl.h>
+#include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-input-textline.h>
 #include <string.h>
 #include <stdlib.h>
 
 typedef struct {
-	GsfInputTextline *input;
-	ErrorInfo     *parse_error;
-	WorkbookView  *wb_view;
-	Workbook      *wb;
-	GHashTable    *exprs, *styles;
-	GPtrArray     *colors;
-	GPtrArray     *attrs;
-	GPtrArray     *font_names;
+	GOImporter	  base;
+
+	GsfInputTextline *textline;
+	WorkbookView	 *wb_view;
+	Workbook	 *wb;
+	GHashTable	 *exprs, *styles;
+	GPtrArray	 *colors, *attrs, *font_names;
+	GSList		 *sheet_order, *std_names, *real_names;
 
 	unsigned char *buffer;
 	size_t buffer_size;
 	size_t line_len;
 	int zoom;
-	GSList *sheet_order;
-	GSList *std_names, *real_names;
 
 	GnmExprConventions *exprconv;
-} ApplixReadState;
+} GnmApplixIn;
 
 /* #define NO_DEBUG_APPLIX */
 #ifndef NO_DEBUG_APPLIX
@@ -92,12 +93,14 @@ static int debug_applix_read = 0;
 /* The maximum numer of character potentially involved in a new line */
 #define MAX_END_OF_LINE_SLOP	16
 
-static int applix_parse_error (ApplixReadState *, char const *format, ...)
+static int applix_parse_error (GnmApplixIn *, char const *format, ...)
 	G_GNUC_PRINTF (2, 3);
 
 static int
-applix_parse_error (ApplixReadState *state, char const *format, ...)
+applix_parse_error (GnmApplixIn *state, char const *format, ...)
 {
+#warning FIXME : differentiate between errors and warnings
+#if 0
 	va_list args;
 	char *err;
 
@@ -111,6 +114,7 @@ applix_parse_error (ApplixReadState *state, char const *format, ...)
 
 	error_info_add_details (state->parse_error, error_info_new_str (err));
 	g_free (err);
+#endif
 
 	return -1;
 }
@@ -219,12 +223,12 @@ applix_rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *p
 }
 
 static unsigned char *
-applix_get_line (ApplixReadState *state)
+applix_get_line (GnmApplixIn *state)
 {
 	unsigned char *ptr, *end, *buf;
 	size_t len, skip = 0, offset = 0;
 
-	while (NULL != (ptr = gsf_input_textline_ascii_gets (state->input))) {
+	while (NULL != (ptr = gsf_input_textline_ascii_gets (state->textline))) {
 		len = strlen (ptr);
 
 		/* Clip at the state line length */
@@ -274,7 +278,7 @@ applix_get_line (ApplixReadState *state)
 }
 
 static gboolean
-applix_read_colormap (ApplixReadState *state)
+applix_read_colormap (GnmApplixIn *state)
 {
 	unsigned char *buffer, *pos, *iter, *end;
 	int count;
@@ -330,7 +334,7 @@ applix_read_colormap (ApplixReadState *state)
 }
 
 static gboolean
-applix_read_typefaces (ApplixReadState *state)
+applix_read_typefaces (GnmApplixIn *state)
 {
 	unsigned char *ptr;
 
@@ -344,7 +348,7 @@ applix_read_typefaces (ApplixReadState *state)
 }
 
 static GnmColor *
-applix_get_color (ApplixReadState *state, char **buf)
+applix_get_color (GnmApplixIn *state, char **buf)
 {
 	/* Skip 'FG' or 'BG' */
 	char *start = *buf+2;
@@ -372,7 +376,7 @@ applix_get_precision (char const *val)
 }
 
 static GnmStyle *
-applix_parse_style (ApplixReadState *state, unsigned char **buffer)
+applix_parse_style (GnmApplixIn *state, unsigned char **buffer)
 {
 	GnmStyle *style;
 	char *start = *buffer, *tmp = start;
@@ -782,7 +786,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 }
 
 static gboolean
-applix_read_attributes (ApplixReadState *state)
+applix_read_attributes (GnmApplixIn *state)
 {
 	int count = 0;
 	unsigned char *ptr, *tmp;
@@ -810,7 +814,7 @@ applix_read_attributes (ApplixReadState *state)
 }
 
 static Sheet *
-applix_fetch_sheet (ApplixReadState *state, char const *name)
+applix_fetch_sheet (GnmApplixIn *state, char const *name)
 {
 	Sheet *sheet = workbook_sheet_by_name (state->wb, name);
 
@@ -825,7 +829,7 @@ applix_fetch_sheet (ApplixReadState *state, char const *name)
 }
 
 static Sheet *
-applix_parse_sheet (ApplixReadState *state, unsigned char **buffer,
+applix_parse_sheet (GnmApplixIn *state, unsigned char **buffer,
 		    char const separator)
 {
 	Sheet *sheet;
@@ -845,7 +849,7 @@ applix_parse_sheet (ApplixReadState *state, unsigned char **buffer,
 }
 
 static char *
-applix_parse_cellref (ApplixReadState *state, unsigned char *buffer,
+applix_parse_cellref (GnmApplixIn *state, unsigned char *buffer,
 		      Sheet **sheet, GnmCellPos *pos,
 		      char const separator)
 {
@@ -875,7 +879,7 @@ applix_width_to_pixels (int width)
 }
 
 static int
-applix_read_current_view (ApplixReadState *state, unsigned char *buffer)
+applix_read_current_view (GnmApplixIn *state, unsigned char *buffer)
 {
 	/* What is this ? */
 	unsigned char *ptr;
@@ -886,7 +890,7 @@ applix_read_current_view (ApplixReadState *state, unsigned char *buffer)
 }
 
 static int
-applix_read_view (ApplixReadState *state, unsigned char *buffer)
+applix_read_view (GnmApplixIn *state, unsigned char *buffer)
 {
 	Sheet *sheet = NULL;
 	unsigned char *name = buffer + 19;
@@ -989,7 +993,7 @@ applix_read_view (ApplixReadState *state, unsigned char *buffer)
 }
 
 static int
-applix_read_cells (ApplixReadState *state)
+applix_read_cells (GnmApplixIn *state)
 {
 	Sheet *sheet;
 	GnmStyle *style;
@@ -1163,7 +1167,7 @@ applix_read_cells (ApplixReadState *state)
 }
 
 static int
-applix_read_row_list (ApplixReadState *state, unsigned char *ptr)
+applix_read_row_list (GnmApplixIn *state, unsigned char *ptr)
 {
 	unsigned char *tmp;
 	GnmRange	r;
@@ -1203,7 +1207,7 @@ applix_read_row_list (ApplixReadState *state, unsigned char *ptr)
 }
 
 static gboolean
-applix_read_sheet_table (ApplixReadState *state)
+applix_read_sheet_table (GnmApplixIn *state)
 {
 	unsigned char *ptr;
 	unsigned char *std_name, *real_name;
@@ -1233,7 +1237,7 @@ applix_read_sheet_table (ApplixReadState *state)
 }
 
 static gboolean
-applix_read_header_footer (ApplixReadState *state)
+applix_read_header_footer (GnmApplixIn *state)
 {
 	unsigned char *ptr;
 	while (NULL != (ptr = applix_get_line (state)))
@@ -1243,7 +1247,7 @@ applix_read_header_footer (ApplixReadState *state)
 }
 
 static gboolean
-applix_read_absolute_name (ApplixReadState *state, char *buffer)
+applix_read_absolute_name (GnmApplixIn *state, char *buffer)
 {
 	char *end;
 	GnmRangeRef ref;
@@ -1274,7 +1278,7 @@ applix_read_absolute_name (ApplixReadState *state, char *buffer)
 }
 
 static gboolean
-applix_read_relative_name (ApplixReadState *state, char *buffer)
+applix_read_relative_name (GnmApplixIn *state, char *buffer)
 {
 	int dummy;
 	char *end;
@@ -1315,7 +1319,7 @@ applix_read_relative_name (ApplixReadState *state, char *buffer)
 #define REL_NAMED_RANGE	"Relative Named Range, Name:"
 
 static int
-applix_read_impl (ApplixReadState *state)
+applix_read_impl (GnmApplixIn *state)
 {
 	Sheet *sheet;
 	GnmCellPos pos;
@@ -1511,78 +1515,100 @@ applix_conventions (void)
 	return res;
 }
 
-void
-applix_read (IOContext *io_context, Workbook *wb, GsfInput *src)
+static void
+gnm_applix_in_import (GOImporter *imp, GODoc *doc)
 {
+	GnmApplixIn *state = (GnmApplixIn *)imp;
 	int i;
 	int res;
-	ApplixReadState	state;
 	GSList *ptr, *renamed_sheets;
 
 	/* Init the state variable */
-	state.input	  = (GsfInputTextline *)gsf_input_textline_new (src);
-	state.parse_error = NULL;
-	state.wb          = wb;
-	state.wb_view     = workbook_view_new (wb);
-	state.exprs       = g_hash_table_new (&g_str_hash, &g_str_equal);
-	state.styles      = g_hash_table_new (&g_str_hash, &g_str_equal);
-	state.colors      = g_ptr_array_new ();
-	state.attrs       = g_ptr_array_new ();
-	state.font_names  = g_ptr_array_new ();
-	state.buffer      = NULL;
-	state.buffer_size = 0;
-	state.line_len    = 80;
-	state.sheet_order = NULL;
-	state.std_names   = NULL;
-	state.real_names  = NULL;
-	state.exprconv    = applix_conventions ();
+	state->textline	  = (GsfInputTextline *)gsf_input_textline_new (imp->input);
+	state->wb          = (Workbook *)doc;
+	state->wb_view     = workbook_view_new (state->wb);
+	state->exprs       = g_hash_table_new (&g_str_hash, &g_str_equal);
+	state->styles      = g_hash_table_new (&g_str_hash, &g_str_equal);
+	state->colors      = g_ptr_array_new ();
+	state->attrs       = g_ptr_array_new ();
+	state->font_names  = g_ptr_array_new ();
+	state->buffer      = NULL;
+	state->buffer_size = 0;
+	state->line_len    = 80;
+	state->sheet_order = NULL;
+	state->std_names   = NULL;
+	state->real_names  = NULL;
+	state->exprconv    = applix_conventions ();
 
 	/* Actually read the workbook */
-	res = applix_read_impl (&state);
+	res = applix_read_impl (state);
 
-	g_object_unref (G_OBJECT (state.input));
-	if (state.buffer)
-		g_free (state.buffer);
+	g_object_unref (state->textline);
+	if (state->buffer)
+		g_free (state->buffer);
 
-	state.sheet_order = g_slist_reverse (state.sheet_order);
-	workbook_sheet_reorder (state.wb, state.sheet_order);
-	g_slist_free (state.sheet_order);
+	state->sheet_order = g_slist_reverse (state->sheet_order);
+	workbook_sheet_reorder (state->wb, state->sheet_order);
+	g_slist_free (state->sheet_order);
 
 	renamed_sheets = NULL;
-	for (ptr = state.std_names; ptr != NULL ; ptr = ptr->next)
+	for (ptr = state->std_names; ptr != NULL ; ptr = ptr->next)
 		renamed_sheets = g_slist_prepend (renamed_sheets,
 			GINT_TO_POINTER (workbook_sheet_by_name 
-					 (state.wb, ptr->data)->index_in_wb));
+					 (state->wb, ptr->data)->index_in_wb));
 	renamed_sheets = g_slist_reverse (renamed_sheets);
-	workbook_sheet_rename (state.wb, renamed_sheets,
-			       state.real_names, 
-			       GO_CMD_CONTEXT (io_context));
+	workbook_sheet_rename (state->wb, renamed_sheets, state->real_names, 
+		GO_CMD_CONTEXT (imp));
 	g_slist_free (renamed_sheets);
-	g_slist_foreach (state.std_names, (GFunc)g_free, NULL);
-	g_slist_free (state.std_names);
-	g_slist_foreach (state.real_names, (GFunc)g_free, NULL);
-	g_slist_free (state.real_names);
+	g_slist_foreach (state->std_names, (GFunc)g_free, NULL);
+	g_slist_free (state->std_names);
+	g_slist_foreach (state->real_names, (GFunc)g_free, NULL);
+	g_slist_free (state->real_names);
 
 	/* Release the shared expressions and styles */
-	g_hash_table_foreach_remove (state.exprs, &cb_remove_expr, NULL);
-	g_hash_table_destroy (state.exprs);
-	g_hash_table_foreach_remove (state.styles, &cb_remove_style, NULL);
-	g_hash_table_destroy (state.styles);
+	g_hash_table_foreach_remove (state->exprs, &cb_remove_expr, NULL);
+	g_hash_table_destroy (state->exprs);
+	g_hash_table_foreach_remove (state->styles, &cb_remove_style, NULL);
+	g_hash_table_destroy (state->styles);
 
-	for (i = state.colors->len; --i >= 0 ; )
-		style_color_unref (g_ptr_array_index (state.colors, i));
-	g_ptr_array_free (state.colors, TRUE);
+	for (i = state->colors->len; --i >= 0 ; )
+		style_color_unref (g_ptr_array_index (state->colors, i));
+	g_ptr_array_free (state->colors, TRUE);
 
-	for (i = state.attrs->len; --i >= 0 ; )
-		mstyle_unref (g_ptr_array_index(state.attrs, i));
-	g_ptr_array_free (state.attrs, TRUE);
+	for (i = state->attrs->len; --i >= 0 ; )
+		mstyle_unref (g_ptr_array_index(state->attrs, i));
+	g_ptr_array_free (state->attrs, TRUE);
 
-	for (i = state.font_names->len; --i >= 0 ; )
-		g_free (g_ptr_array_index(state.font_names, i));
-	g_ptr_array_free (state.font_names, TRUE);
+	for (i = state->font_names->len; --i >= 0 ; )
+		g_free (g_ptr_array_index(state->font_names, i));
+	g_ptr_array_free (state->font_names, TRUE);
 
-	if (state.parse_error != NULL)
-		gnumeric_io_error_info_set (io_context, state.parse_error);
+	gnm_expr_conventions_free (state->exprconv);
+}
 
-	gnm_expr_conventions_free (state.exprconv);
+static gboolean
+gnm_applix_in_probe_content (GOImporter *imp)
+{
+	static guint8 const signature[] = "*BEGIN SPREADSHEETS VERSION";
+	guint8 const *header;
+
+	return !gsf_input_seek (imp->input, 0, G_SEEK_SET) &&
+		NULL != (header = gsf_input_read (imp->input, sizeof (signature)-1, NULL)) &&
+		0 == memcmp (header, signature, sizeof (signature)-1);
+}
+
+static void
+gnm_applix_in_class_init (GOImporterClass *import_class)
+{
+	import_class->ProbeContent	= gnm_applix_in_probe_content;
+	import_class->Import		= gnm_applix_in_import;
+}
+typedef GOImporterClass GnmApplixInClass;
+static GType gnm_applix_in_type;
+void
+gnm_applix_importer_register (GOPlugin *plugin)
+{
+	GSF_DYNAMIC_CLASS (GnmApplixIn, gnm_applix_in,
+		gnm_applix_in_class_init, NULL, GO_IMPORTER_TYPE,
+		G_TYPE_MODULE (plugin), gnm_applix_in_type);
 }

@@ -51,6 +51,8 @@ typedef struct {
 	GObjectClass base;
 } GOInOutClass;
 
+/*****************************************************************************/
+
 typedef struct {
 	char *short_name;		/* suitable for a combo */
 	char *long_description;
@@ -59,6 +61,18 @@ typedef struct {
 	gboolean needs_encoding;
 
 	char *type_name;
+#if 0
+	POptTable *cmd_line; ?
+
+	/* How to handle tunable flags ?
+	 *      eg font / function mapping
+	 * Do we want a gui ?
+	 * Can we save/recall settings ?
+	 */
+	GtkWidget *(*prop_page) (); ?
+	GOImportProps *(*get_properties) (); ?
+	GOImportProps *(*set_properties) (); ?
+#endif
 } GOImporterDesc;
 
 typedef struct {
@@ -71,8 +85,8 @@ typedef struct {
 	GOInOutClass	 base;
 
 	GOImporterDesc	const *desc;
-	gboolean 	(*Probe)  (GOImporter *imp);
-	void	 	(*Import) (GOImporter *imp, GODoc *doc);
+	gboolean 	(*ProbeContent)	(GOImporter *imp);
+	void	 	(*Import)	(GOImporter *imp, GODoc *doc);
 } GOImporterClass;
 
 #define GO_IMPORTER_TYPE	(go_importer_get_type ())
@@ -90,6 +104,54 @@ void		      go_importer_warn	    (GOImporter *imp, char const *type,
 void		      go_importer_fail	    (GOImporter *imp,
 					     char const *msg, ...) G_GNUC_PRINTF (2, 3);
 
+/*****************************************************************************/
+
+typedef struct {
+#if 0
+	level : {
+		    write_only (eg postscript) ,
+		    manual (goto saveas but store in history)
+		    auto (resuse file and settings next time(
+	 };
+#endif
+/* Do we really need all of these ? */
+	char *short_name;		/* suitable for a combo */
+	char *long_description;
+	GSList *suffixes;
+	GSList *mime_types;
+	gboolean needs_encoding;
+
+	char *type_name;
+} GOExporterDesc;
+
+typedef struct {
+	GOInOut	 	 base;
+
+	GODoc		*doc;
+	GsfOutput	*output;		/* These are set as construction properties */
+} GOExporter;
+typedef struct {
+	GOInOutClass	 base;
+
+	GOExporterDesc	const *desc;
+	void	 	(*Prepare) (GOExporter *exporter);
+	void	 	(*Export)  (GOExporter *exporter);
+} GOExporterClass;
+
+#define GO_EXPORTER_TYPE	(go_exporter_get_type ())
+#define GO_EXPORTER(o)		(G_TYPE_CHECK_INSTANCE_CAST((o), GO_EXPORTER_TYPE, GOExporter))
+#define IS_GO_EXPORTER(o)	(G_TYPE_CHECK_INSTANCE_TYPE((o), GO_EXPORTER_TYPE))
+
+GType go_exporter_get_type (void);
+GOExporterDesc const *go_exporter_get_desc  (GOExporter const *imp);
+gboolean	      go_exporter_can_probe (GOExporter const *imp);
+gboolean	      go_exporter_probe     (GOExporter *imp);
+void		      go_exporter_read	    (GOExporter *imp, GODoc *doc);
+
+void		      go_exporter_warn	    (GOExporter *imp, char const *type,
+					     char const *msg, ...) G_GNUC_PRINTF (3, 4);
+void		      go_exporter_fail	    (GOExporter *imp,
+					     char const *msg, ...) G_GNUC_PRINTF (2, 3);
 G_END_DECLS
 
 #endif /* GO_FILE_H */
