@@ -159,7 +159,7 @@ gnumeric_plugin_loader_python_load (GnumericPluginLoader *loader, ErrorInfo **re
 			loader_python->module_name, ".", *file_ext, NULL);
 		gchar *path = g_build_filename (
 			plugin_info_peek_dir_name (loader->plugin),
-			file_name);
+			file_name, NULL);
 		g_free (file_name);
 		if (g_file_test (path, G_FILE_TEST_EXISTS)) {
 			full_module_file_name = path;

@@ -1,3 +1,8 @@
+2002-03-09  Jon K Hellan  <hellan@acm.org>
+
+	* python-loader.c (gnumeric_plugin_loader_python_load): Add final
+	NULL to g_build_filename.
+
 2002-03-07  Jon K Hellan  <hellan@acm.org>
 
 	* python-loader.c (call_python_function_args,
