@@ -53,7 +53,7 @@ Gnumeric Spread Sheet task list
 
 * Fix the Following Functions
 
-    * GROWTH, INDEX, LINEST, LOGEST, MATCH, TREND, and VLOOKUP
+    * INDEX, MATCH, and VLOOKUP
 
 * Printing
   * Preview

@@ -940,7 +940,6 @@ goal_seek_cmd (GtkWidget *widget, Workbook *wb)
 	dialog_goal_seek (wb, sheet);
 }
 
-#if 0
 static void
 solver_cmd (GtkWidget *widget, Workbook *wb)
 {
@@ -949,7 +948,6 @@ solver_cmd (GtkWidget *widget, Workbook *wb)
 	sheet = workbook_get_current_sheet (wb);
 	dialog_solver (wb, sheet);
 }
-#endif
 
 static void
 data_analysis_cmd (GtkWidget *widget, Workbook *wb)
@@ -1182,9 +1180,7 @@ static GnomeUIInfo workbook_menu_tools [] = {
 	{ GNOME_APP_UI_ITEM, N_("_Sort..."),
 	  N_("Sort the selected cells"), sort_cells_cmd },
 	{ GNOME_APP_UI_ITEM, N_("_Goal Seek..."), NULL, goal_seek_cmd },
-#if 0
 	{ GNOME_APP_UI_ITEM, N_("_Solver..."),    NULL, solver_cmd },
-#endif
 	{ GNOME_APP_UI_ITEM, N_("_Data Analysis..."), NULL, data_analysis_cmd },
 	GNOMEUIINFO_END
 };

@@ -1,5 +1,10 @@
 #ifndef GNUMERIC_SOLVER_H
-#define GNUMERIC_SOLVER_H
+#define GNUMERIC_SOLVER_H 1
+
+#define SIMPLEX_OK        0
+#define SIMPLEX_DONE      1
+#define SIMPLEX_UNBOUNDED 2
+
 
 /* Forward references for structures.  */
 typedef struct _SolverOptions SolverOptions;

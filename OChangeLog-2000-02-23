@@ -1,3 +1,14 @@
+1999-12-30  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/solver-lp.c: Implemented Simplex algorithm.  It can
+ 	currently solve LP maximization problems of positive variables
+ 	having `<=' constraints.
+
+	* src/workbook.c: Added `Solver' tool.
+
+	* src/utils.c (parse_cell_name_list): Bug fix.  The last item on
+ 	the list was not included on the list.
+	
 1999-12-30  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/gnumeric-type-util.h (GNUMERIC_MAKE_TYPE): New macro, copied

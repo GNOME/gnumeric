@@ -13,7 +13,7 @@
 #include "ranges.h"
 #include "eval.h"
 
-static void
+void
 cell_eval_content (Cell *cell)
 {
 	Value *v;

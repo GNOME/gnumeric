@@ -33,6 +33,11 @@ Cort:
 Andrew:
 	* Many improvement for multi-dimensional linear regression.
 
+Jukka:
+	* Implemented Simplex algorithm for Solver
+	* Solver can now solve some simple LP problems (more interesting
+	  stuff is coming later).
+
 --------------------------------------------------------------------------
 
 Gnumeric 0.45

@@ -20,9 +20,9 @@
 /* Different constraint types */
 static const char *constraint_strs[] = {
         N_("<="),
-/*	N_("="),    */
+/*	N_("="),
 	N_(">="),
-/*	N_("int"),
+	N_("int"),
 	N_("bool"), */
 	NULL
 };
@@ -117,6 +117,7 @@ typedef struct {
         GSList   *constraints;
         GtkCList *clist;
         Sheet    *sheet;
+        Workbook *wb;
 } constraint_dialog_t;
 
 
@@ -169,7 +170,7 @@ dialog_solver_options (Workbook *wb, Sheet *sheet)
 	gnome_dialog_run (GNOME_DIALOG (dialog));
 
 	sheet->solver_parameters.options.assume_linear_model = 1;
-	sheet->solver_parameters.options.assume_non_negative = 0;
+	sheet->solver_parameters.options.assume_non_negative = 1;
 	sheet->solver_parameters.options.automatic_scaling = 0;
 	sheet->solver_parameters.options.show_iteration_results = 0;
 
@@ -236,6 +237,9 @@ constr_add_click (gpointer data)
 					   NULL);
 
 		gnome_dialog_close_hides (GNOME_DIALOG (dialog), TRUE);
+		gnome_dialog_set_parent (GNOME_DIALOG (dialog),
+					 GTK_WINDOW 
+					 (constraint_dialog->wb->toplevel));
 		box = gtk_hbox_new (FALSE, 0);
 
 		lhs_entry = hbox_pack_label_and_entry
@@ -264,10 +268,6 @@ add_dialog:
 	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
 	
 	if (selection == 1) {
-add_constraint(constraint_dialog, 0, 8, 2, 8, "<=");
-add_constraint(constraint_dialog, 0, 9, 2, 9, ">=");
-add_constraint(constraint_dialog, 0, 10, 2, 10, ">=");
-add_constraint(constraint_dialog, 0, 11, 2, 11, ">=");
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
 	}
@@ -335,10 +335,10 @@ dialog_solver (Workbook *wb, Sheet *sheet)
 	static GtkWidget *constr_button_box;
 	static GSList    *group_equal;
 
-	constraint_dialog_t constraint_dialog;
+	static constraint_dialog_t constraint_dialog;
 
 	const char *text, *target_entry_str;
-	int      selection, sel_equal_to;
+	int      selection, sel_equal_to, res;
 	Cell     *target_cell;
 	CellList *input_cells;
 	int      target_cell_col, target_cell_row;
@@ -355,6 +355,8 @@ dialog_solver (Workbook *wb, Sheet *sheet)
 					   _("Options..."),
 					   NULL);
 		gnome_dialog_close_hides (GNOME_DIALOG (dialog), TRUE);
+		gnome_dialog_set_parent (GNOME_DIALOG (dialog),
+					 GTK_WINDOW (wb->toplevel));
 
 		box = gtk_vbox_new (FALSE, 0);
 
@@ -411,6 +413,7 @@ dialog_solver (Workbook *wb, Sheet *sheet)
 		constraint_dialog.constraints = NULL;
 		constraint_dialog.clist = GTK_CLIST (constraint_list);
 		constraint_dialog.sheet = sheet;
+		constraint_dialog.wb = wb;
 
 		gtk_signal_connect_object (GTK_OBJECT (constr_add_button),
 					   "clicked",
@@ -515,9 +518,15 @@ main_dialog:
 
 	switch (selection) {
 	case 0:  /* Solve */
-	        if (1 || sheet->solver_parameters.options.assume_linear_model)
-		        solver_simplex(wb, sheet);
-		else
+	        if (1 ||sheet->solver_parameters.options.assume_linear_model) {
+		        res = solver_simplex(wb, sheet);
+			if (res == SIMPLEX_UNBOUNDED) {
+			        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+						 _("The problem is unbounded "
+						   "and cannot be solved"));
+				break;
+			}
+		} else
 		        ; /* NLP not implemented yet */
 		break;
 	case 2:  /* Options */
