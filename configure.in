@@ -131,7 +131,7 @@ if gnome-config --libs bonobo >& /dev/null; then
 	    *) bonobo_ok=false ;;
         esac
 else
-        ok=false
+        bonobo_ok=false
 fi
 
 if $bonobo_ok; then
