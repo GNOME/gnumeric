@@ -11,7 +11,6 @@ Release Critical
 - Changing the size of rows/cols that are not visible messes up the alignment
   of first visible row/col.
 - Changing the size of rows/cols does not reset the item cursor
-- 7326 : font color change lost on save.
 
 Long term breakage
 ------------------

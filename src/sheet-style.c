@@ -108,7 +108,7 @@ sheet_style_cache_add (Sheet *sheet, int col, int row,
 	EvalPosition  *ep;
 
 	if (STYLE_CACHE (sheet) &&
-	    g_hash_table_size (STYLE_CACHE (sheet)) > 1024)
+	    g_hash_table_size (STYLE_CACHE (sheet)) > 2048)
 		sheet_style_cache_flush (sheet);
 
 	if (!STYLE_CACHE (sheet))

@@ -25,6 +25,7 @@
 #include "print-info.h"
 #include "global-gnome-font.h"
 #include "auto-format.h"
+#include "test.h"
 
 #include "../plugins/excel/boot.h"
 #include <glade/glade.h>
@@ -39,6 +40,7 @@ int gnumeric_debugging = 0;
 int style_debugging = 0;
 int dependency_debugging = 0;
 int immediate_exit_flag = 0;
+int test_styles = 0;
 extern int ms_excel_read_debug;
 extern int ms_excel_formula_debug;
 extern int ms_excel_color_debug;
@@ -91,6 +93,9 @@ const struct poptOption gnumeric_popt_options [] = {
 	    &libole2_debug, 0,
 	  N_("Enables extra consistancy checking while reading ole files"),
 	  NULL  },
+
+	{ "test_styles", '\0', POPT_ARG_NONE, &test_styles, 0,
+	  N_("Thrash the style lookup algorithems for profiling."), NULL },
 
 	{ NULL, '\0', 0, NULL, 0 }
 };
@@ -163,6 +168,10 @@ gnumeric_main (void *closure, int argc, char *argv [])
 
 			if (new_book) {
 				opened_workbook = TRUE;
+
+				if (test_styles)
+					workbook_style_test (new_book);
+
 				gtk_widget_show (new_book->toplevel);
 			}
 

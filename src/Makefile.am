@@ -175,6 +175,8 @@ GNUMERIC_BASE_SOURCES =				\
 	summary.h				\
 	symbol.h				\
 	symbol.c				\
+	test.c					\
+	test.h					\
 	utils.c					\
 	utils.h					\
 	value.c					\

@@ -1,3 +1,18 @@
+2000-03-16  Michael Meeks  <michael@helixcode.com>
+
+	* src/test.[ch]: Create to help profiling.
+
+	* src/main.c: Add style testing.
+
+2000-03-14  Michael Meeks  <michael@helixcode.com>
+
+	* src/xml-io.c (xml_write_style): comment out the default checks on
+	style colors, We may want these back when we have sheet default colors.
+
+2000-03-13  Michael Meeks  <michael@helixcode.com>
+
+	* src/sheet-object-bonobo.c (sheet_object_bonobo_destroy): fix.
+
 2000-03-18   JP Rosevear <jpr@arcavia.com>
 
 	* src/pixmaps: Added sort-ascend.xpm, sort-descend.xpm, 

@@ -120,6 +120,6 @@ The Gnumeric feature list for gnumeric 0.42
 
    ** LaTeX, Troff
 
-   ** PDF, EPS, DVI
+   ** PDF, DVI
   
    ** CSV

@@ -1,3 +1,8 @@
+2000-03-17  Michael Meeks  <michael@helixcode.com>
+
+	* graph-vector.c (graph_vector_destroy): fix to notifier.
+	(setup_notifier): emit a nasty warning.
+
 2000-03-12  Miguel de Icaza  <miguel@helixcode.com>
 
 	* layout.c (impl_set_with_labels, impl_get_with_labels): New

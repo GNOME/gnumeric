@@ -17,7 +17,12 @@ static POA_GNOME_Gnumeric_VectorNotify__epv *vector_notify_epv;
 static void
 setup_notifier (GraphVector *v)
 {
-	if (
+	g_warning ("Miguel should test before committing");
+}
+
+static void
+destroy_notifier (GraphVector *vector)
+{
 }
 
 GraphVector *
@@ -54,17 +59,12 @@ graph_vector_new (GNOME_Gnumeric_Vector vector, GraphVectorChangeNotifyFn change
 	return gv;
 }
 
-static void
-destroy_notifier (GraphVector *vector)
-{
-}
-
 void
 graph_vector_destroy (GraphVector *vector)
 {
 	CORBA_Environment ev;
 
-	destroy_notifer (vector);
+	destroy_notifier (vector);
 	
 	CORBA_exception_init (&ev);
 	GNOME_Gnumeric_Vector_unref (vector->vector_object, &ev);

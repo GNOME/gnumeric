@@ -12,8 +12,8 @@
 #include "dialogs.h"
 #include "sheet-object-graphic.h"
 
-static SheetObject *sheet_object_graphic_parent_class;
-static SheetObjectGraphic *sheet_object_filled_parent_class;
+static SheetObjectClass        *sheet_object_graphic_parent_class;
+static SheetObjectGraphicClass *sheet_object_filled_parent_class;
 
 static void
 sheet_object_graphic_destroy (GtkObject *object)

@@ -244,11 +244,11 @@ AC_SUBST(GB_LIBS)
 dnl ******************************
 dnl GnomePrint checking
 dnl ******************************
-AC_MSG_CHECKING(for GnomePrint libraries >= 0.11)
+AC_MSG_CHECKING(for GnomePrint libraries >= 0.13)
 if gnome-config --libs print > /dev/null 2>&1; then 
     vers=`gnome-config --modversion print | sed -e "s/gnome-print-//" | \
         awk 'BEGIN { FS = "."; } { print $1 * 1000 + $2;}'`
-    if test "$vers" -ge 11; then
+    if test "$vers" -ge 13; then
         AC_MSG_RESULT(found)
     else
         AC_MSG_ERROR(You need at least GNOME print 0.11 for this version of Gnumeric)
@@ -346,6 +346,15 @@ Configuration:
 	Source code location:	${srcdir}
 	Compiler:		${CC} 
 	
+	GB Support:		${gb_msg}
 	Bonobo Support:		${bonobo_msg}
 "
-dnl	GB Support:		${gb_msg}
+if $have_bonobo; then
+	echo "
+	The Bonobo version of gnumeric is not supported,
+this code is changing extremely rapidly. For any given
+release it may not compile or depend on unreleased packages.
+
+	Please do not file bonobo related bug reports.
+"
+fi

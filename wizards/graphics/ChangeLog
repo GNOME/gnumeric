@@ -1,3 +1,8 @@
+2000-03-13  Michael Meeks  <michael@helixcode.com>
+
+	* graphic-context.c (graphic_context_auto_guess_series): fix from
+	Jon Hellan.
+
 2000-03-12  Miguel de Icaza  <miguel@helixcode.com>
 
 	* graphic-type.c (graphic_type_show_page): On page switch, set the

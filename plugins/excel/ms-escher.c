@@ -394,15 +394,16 @@ ms_escher_read_Blip (MSEscherState * state, MSEscherHeader * h)
 		guint8 const *data =
 			ms_escher_get_data (state, h->offset, h->len,
 					    header, &needs_free);
-		const char *repoid = NULL;
+		const char *reproid = NULL;
 
-		if (blip_instance == 0x6e0)
+		reproid = "embeddable:image-generic";
+/*		if (blip_instance == 0x6e0)
 			repoid = "bonobo-object:image-x-png";
-		else
-			repoid = "embeddable:image-jpeg";
+			else
+			reproid = "embeddable:image-jpeg";*/
 
 		ms_escher_blip_new (data, h->len - header,
-				    repoid, state->wb);
+				    reproid, state->wb);
 		write_file ("unknown", data, h->len - header, h->fbt - Blip_START);
 		break;
 	}
