@@ -1,3 +1,11 @@
+2000-05-19  Jon K Hellan  <hellan@acm.org>
+
+	* gtk-combo-text.c (cb_enter): To fix bug where mouseover
+	highlight would never go away, only cache selected and normal
+	states. 
+	(cb_exit): Only restore state if cached state belongs to this
+	widget. 
+
 2000-05-18  Jon K Hellan  <hellan@acm.org>
 
 	* gtk-combo-text.c (cb_list_mapped): Do nothing if no selection.

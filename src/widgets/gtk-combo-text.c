@@ -82,19 +82,26 @@ gtk_combo_text_select_item (GtkComboText *ct, int elem)
 	gtk_list_select_item (GTK_LIST(ct->list), elem);
 }
 
-/* FIXME : This is over kill.  There must be a more elegant way of handling
- * this.
+/*
+ * We can't just cache the old widget state on entry: If the pointer is
+ * dragged, we receive two enter-notify-events, and the original cached
+ * value would be overwritten with the GTK_STATE_ACTIVE we just set.
  *
- * TODO : Add autoscroll
+ * However, we know that the gtklist only uses GTK_STATE_SELECTED and
+ * GTK_STATE_NORMAL. We're OK if we only cache those two.
  */
 static gboolean
 cb_enter (GtkWidget *w, GdkEventCrossing *event,
 	  gpointer user)
 {
 	GtkComboText *ct = user;
-	ct->cached_entry = w;
-	ct->cache_mouse_state = GTK_WIDGET_STATE(w);
-	if (GTK_STATE_SELECTED != ct->cache_mouse_state)
+	GtkStateType state = GTK_WIDGET_STATE (w);
+
+	if (state == GTK_STATE_NORMAL || state == GTK_STATE_SELECTED) {
+		ct->cached_entry = w;
+		ct->cache_mouse_state = state;
+	}
+	if (state != GTK_STATE_SELECTED)
 		gtk_widget_set_state (w, GTK_STATE_ACTIVE);
 
 	return TRUE;
@@ -104,7 +111,10 @@ cb_exit (GtkWidget *w, GdkEventCrossing *event,
 	  gpointer user)
 {
 	GtkComboText *ct = user;
-	gtk_widget_set_state (w, ct->cache_mouse_state);
+
+	if (ct->cached_entry == w)
+		gtk_widget_set_state (w, ct->cache_mouse_state);
+
 	return TRUE;
 }
 
