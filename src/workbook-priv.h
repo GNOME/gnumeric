@@ -57,6 +57,8 @@ struct _Workbook {
 #else
 	GtkObject  gtk_object;
 #endif
+	/* Attribute list */
+	GList *attributes;
 
 	/* { Start view specific elements */
         GtkWidget  *toplevel; 
@@ -143,6 +145,9 @@ GtkType     workbook_get_type            (void);
 Workbook   *workbook_new                 (void);
 Workbook   *workbook_core_new            (void);
 Workbook   *workbook_new_with_sheets     (int sheet_count);
+
+void        workbook_set_attributev      (Workbook *wb, GList *list);
+GtkArg     *workbook_get_attributev      (Workbook *wb, guint *n_args);
 
 gboolean    workbook_set_filename        (Workbook *, const char *);
 Workbook   *workbook_try_read            (CommandContext *context,

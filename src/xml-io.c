@@ -47,6 +47,34 @@ typedef struct {
  * Internal stuff: xml helper functions.
  */
 
+static void
+xml_arg_set (GtkArg *arg, gchar *string)
+{
+	switch (arg->type) {
+
+		case GTK_TYPE_BOOL:
+			if (!strcmp (string, "TRUE")) 
+				GTK_VALUE_BOOL (*arg) = TRUE;
+			else
+				GTK_VALUE_BOOL (*arg) = FALSE;
+	}
+}
+
+static char *
+xml_arg_get (GtkArg *arg)
+{
+	switch (arg->type) {
+
+		case GTK_TYPE_BOOL:
+			if (GTK_VALUE_BOOL (*arg))
+				return g_strdup ("TRUE");
+			else
+				return g_strdup ("FALSE");
+	}
+
+	return NULL;
+}
+ 
 /*
  * Get a value for a node either carried as an attibute or as
  * the content of a child.
@@ -1046,6 +1074,112 @@ xml_get_print_hf (xmlNodePtr node, PrintHF *const hf)
 		if (hf->right_format)
 			g_free (hf->right_format);
 		hf->right_format = txt;
+	}
+}
+
+static xmlNodePtr
+xml_write_attributes (parse_xml_context_t *ctxt, guint n_args, GtkArg *args)
+{
+	xmlNodePtr cur;
+	gint i;
+	
+	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Attributes", NULL);
+
+	for (i=0; i < n_args; args++, i++) {
+		xmlNodePtr tmp;
+		xmlChar *tstr;
+		gchar *str;
+
+		tmp = xmlNewDocNode (ctxt->doc, ctxt->ns, "Attribute", NULL);
+
+		tstr = xmlEncodeEntitiesReentrant (ctxt->doc, args->name);
+		xmlNewChild (tmp, ctxt->ns, "name", tstr);
+		if (tstr) {
+			xmlFree (tstr);
+		}
+		
+		xmlNewChild (tmp, ctxt->ns, "type", tstr);
+		xml_set_value_int (tmp, "type", args->type);
+		
+		str = xml_arg_get (args);	
+		tstr = xmlEncodeEntitiesReentrant (ctxt->doc, str);  
+		xmlNewChild (tmp, ctxt->ns, "value", tstr);
+		if (tstr) {
+			xmlFree (tstr);
+		}
+		
+		g_free (str);
+
+		xmlAddChild (cur, tmp);
+	}
+
+	return cur;
+}
+
+static void
+xml_free_arg_list (GList *list)
+{
+	while (list) {
+		if (list->data) {
+			g_free (list->data);
+		}
+		list = list->next;
+	}
+}
+
+static void
+xml_read_attributes (parse_xml_context_t *ctxt, xmlNodePtr tree, GList **list)
+{
+	xmlNodePtr child;
+	GtkArg *arg;
+	
+	g_return_if_fail (ctxt != NULL);
+	g_return_if_fail (tree != NULL);
+	g_return_if_fail (ctxt->wb != NULL);
+	
+	child = tree->childs;
+	while (child) {
+		char *name = NULL;
+		int type = 0;
+		char *value = NULL;
+		
+		if (child->name && !strcmp (child->name, "Attribute")) {
+			xmlNodePtr bits;
+
+			bits = child->childs;
+			while (bits) {
+
+				if (!strcmp (bits->name, "name")) {
+					name = xmlNodeGetContent (bits);
+				}
+				
+				if (!strcmp (bits->name, "type")) {
+					xml_get_value_int (child,
+							   "type", &type);
+				}
+
+				if (!strcmp (bits->name, "value")) {
+					value = xmlNodeGetContent (bits);
+				}
+				bits = bits->next;
+			}
+			if (name && type && value) {
+				arg = gtk_arg_new (type);
+				arg->name = g_strdup (name);
+				xml_arg_set ( arg, value);
+				
+				*list = g_list_prepend (*list, arg);
+			}
+		}
+		if (name){
+			xmlFree (name);
+			name = NULL;
+		}
+		if (value){
+			xmlFree (value);
+			value = NULL;
+		}
+		child = child->next;
 	}
 }
 
@@ -2443,6 +2577,8 @@ xml_workbook_write (parse_xml_context_t *ctxt, Workbook *wb)
 	xmlNodePtr cur;
 	xmlNsPtr gmr;
 	xmlNodePtr child;
+	GtkArg *args;
+	guint n_args;
 	GList *sheets, *sheets0;
 	char *oldlocale;
 
@@ -2461,6 +2597,11 @@ xml_workbook_write (parse_xml_context_t *ctxt, Workbook *wb)
 	oldlocale = g_strdup (setlocale (LC_NUMERIC, NULL));
 	setlocale (LC_NUMERIC, "C");
 
+	args = workbook_get_attributev (wb, &n_args);
+	child = xml_write_attributes (ctxt, n_args, args);
+	if (child)
+		xmlAddChild (cur, child);
+		
 	child = xml_write_summary (ctxt, wb->summary_info);
 	if (child)
 		xmlAddChild (cur, child);
@@ -2543,7 +2684,8 @@ xml_workbook_read (Workbook *wb, parse_xml_context_t *ctxt, xmlNodePtr tree)
 	Sheet *sheet;
 	xmlNodePtr child, c;
 	char *oldlocale;
-
+	GList *list = NULL;
+	
 	if (strcmp (tree->name, "Workbook")){
 		fprintf (stderr,
 			 "xml_workbook_read: invalid element type %s, 'Workbook' expected`\n",
@@ -2605,6 +2747,14 @@ xml_workbook_read (Workbook *wb, parse_xml_context_t *ctxt, xmlNodePtr tree)
 		c = c->next;
 	}
 
+	child = xml_search_child (tree, "Attributes");
+	if (child) {
+		xml_read_attributes (ctxt, child, &list);
+		workbook_set_attributev (ctxt->wb, list);
+		xml_free_arg_list (list);
+		g_list_free (list);
+	}
+	
 	child = xml_search_child (tree, "UIData");
 	if (child) {
 		int tmp = 0;
@@ -2797,7 +2947,7 @@ gnumeric_xml_read_workbook (CommandContext *context, Workbook *wb,
 	xml_workbook_read (wb, &ctxt, res->root);
 	workbook_set_filename (wb, (char *) filename);
 	workbook_recalc_all (wb);
-
+	
 	xmlFreeDoc (res);
 	return 0;
 }

@@ -47,6 +47,11 @@
 
 #include "workbook-private.h"
 
+/* Persistent attribute ids */
+#define ARG_VIEW_HSCROLLBAR 1
+#define ARG_VIEW_VSCROLLBAR 2
+#define ARG_VIEW_TABS       3
+
 /* The locations within the main table in the workbook */
 #define WB_EA_LINE   0
 #define WB_EA_SHEETS 1
@@ -71,6 +76,8 @@ static gint workbook_signals [LAST_SIGNAL] = {
 	0, /* SHEET_CHANGED, CELL_CHANGED */
 };
 
+static void workbook_set_arg (GtkObject *object, GtkArg *arg, guint arg_id);
+static void workbook_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
 static void workbook_set_focus (GtkWindow *window, GtkWidget *focus, Workbook *wb);
 static int  workbook_can_close (Workbook *wb);
 
@@ -1047,7 +1054,8 @@ sort_cmd (Workbook *wb, int asc)
 	Sheet *sheet;
 	Range *sel;
 	SortClause *clause;
-
+	int numclause, i;
+	
 	g_return_if_fail (wb != NULL);
 	g_return_if_fail (wb->current_sheet != NULL);
 	
@@ -1060,15 +1068,18 @@ sort_cmd (Workbook *wb, int asc)
 		return;
 			
 	range_clip_to_finite (sel, sheet);
-		
-	clause = g_new0 (SortClause, 1);
-	clause->offset = 0;
-	clause->asc = asc;
-	clause->cs = FALSE;
-	clause->val = FALSE;
 
+	numclause = sel->end.col - sel->start.col + 1;	
+	clause = g_new0 (SortClause, numclause);
+	for (i=0; i < numclause; i++) {
+		clause[i].offset = i;
+		clause[i].asc = asc;
+		clause[i].cs = FALSE;
+		clause[i].val = FALSE;
+	}
+	
 	cmd_sort ( workbook_command_context_gui (wb),
-		   sheet, sel, clause, 1, TRUE);
+		   sheet, sel, clause, numclause, TRUE);
 }
 
 static void
@@ -2148,6 +2159,19 @@ workbook_class_init (GtkObjectClass *object_class)
 {
 	workbook_parent_class = gtk_type_class (WORKBOOK_PARENT_CLASS_TYPE);
 
+	object_class->set_arg = workbook_set_arg;
+	object_class->get_arg = workbook_get_arg;
+
+	gtk_object_add_arg_type ("Workbook::show_horizontal_scrollbar",
+				 GTK_TYPE_BOOL, GTK_ARG_READWRITE,
+				 ARG_VIEW_HSCROLLBAR);
+	gtk_object_add_arg_type ("Workbook::show_vertical_scrollbar",
+				 GTK_TYPE_BOOL, GTK_ARG_READWRITE,
+				 ARG_VIEW_VSCROLLBAR);
+	gtk_object_add_arg_type ("Workbook::show_notebook_tabs",
+				 GTK_TYPE_BOOL, GTK_ARG_READWRITE,
+				 ARG_VIEW_TABS);
+				 
 	workbook_signals [SHEET_CHANGED] =
 		gtk_signal_new (
 			"sheet_changed",
@@ -2463,6 +2487,76 @@ workbook_new (void)
 	gtk_widget_show_all (wb->priv->table);
 
 	return wb;
+}
+
+static void
+workbook_set_arg (GtkObject  *object,
+		    GtkArg     *arg,
+		    guint	arg_id)
+{
+	Workbook *wb;
+
+	wb = WORKBOOK (object);
+
+	switch (arg_id) {
+	  
+	case ARG_VIEW_HSCROLLBAR:
+		wb->show_horizontal_scrollbar = GTK_VALUE_BOOL (*arg);
+		workbook_view_pref_visibility (wb);
+	case ARG_VIEW_VSCROLLBAR:
+		wb->show_vertical_scrollbar = GTK_VALUE_BOOL (*arg);
+		workbook_view_pref_visibility (wb);
+	case ARG_VIEW_TABS:
+		wb->show_notebook_tabs = GTK_VALUE_BOOL (*arg);
+		workbook_view_pref_visibility (wb);
+	}
+}
+
+static void
+workbook_get_arg (GtkObject  *object,
+		    GtkArg     *arg,
+		    guint	arg_id)
+{
+	Workbook *wb;
+
+	wb = WORKBOOK (object);
+
+	  switch (arg_id) {
+	  
+	  case ARG_VIEW_HSCROLLBAR:
+		  GTK_VALUE_BOOL (*arg) = wb->show_horizontal_scrollbar;
+	  case ARG_VIEW_VSCROLLBAR:
+		  GTK_VALUE_BOOL (*arg) = wb->show_vertical_scrollbar;
+	  case ARG_VIEW_TABS:
+		  GTK_VALUE_BOOL (*arg) = wb->show_notebook_tabs;
+	  }
+}
+
+void
+workbook_set_attributev (Workbook *wb, GList *list)
+{
+	GtkArg *arg;
+	gint length, i;
+	
+	length = g_list_length(list);
+	for (i=0; i<length; i++) {
+		arg = (GtkArg *) (g_list_nth_data (list, i));
+		gtk_object_arg_set (GTK_OBJECT(wb), arg, NULL);
+	}
+}
+
+GtkArg *
+workbook_get_attributev (Workbook *wb, guint *n_args)
+{
+	GtkArg *args;
+	guint num;
+	
+	args = gtk_object_query_args (WORKBOOK_TYPE, NULL, &num);
+	gtk_object_getv (GTK_OBJECT(wb), num, args);
+
+	*n_args = num;
+	
+	return args;
 }
 
 /**

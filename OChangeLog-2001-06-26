@@ -1,3 +1,26 @@
+2000-03-22  JP Rosevear  <jpr@arcavia.com>
+
+	* src/xml-io.c (xml_arg_set): Set an arg value based on type and
+	contents in the xml tree.
+	(xml_arg_get): Get a string representing an arg's value.
+	(xml_write_attributes): Create the list of attributes.
+	(xml_free_arg_list): Function to free the args in a GList.
+	(xml_read_attributes): Read the attributes back in from the 
+	xml tree.
+	(xml_workbook_read): Read the workbook attributes in and set them.
+	(xml_workbook_write): Write out the workbook attributes.
+
+	* src/workbook.c (workbook_class_init): Add three args, the h & v 
+	scrollbars and the notebook tab.  Override parent set_arg and get_arg
+	functions.
+	(workbook_set_arg): New function to handle arg setting.
+	(workbook_get_arg): New function to handle getting args.
+	(workbook_set_attributev): Set a whole list of args for the object.
+	(workbook_get_attributev): Return an array of args for the workbook.
+
+	* src/workbook.c (sort_cmd): Sort all the columns in order so 
+	that ties are broken nicely (pointed out by meeks)
+
 2000-03-22  Jody Goldberg <jgoldberg@home.com>
 
 	* src/plugin.c (plugin_load) : Typo.
