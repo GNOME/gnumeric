@@ -1,3 +1,8 @@
+1999-12-10  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/functions/fn-financial.c: Added EURO function for
+ 	currency conversions.
+
 1999-12-09  Jody Goldberg <jgoldberg@home.com>
 
 	* src/eval.[ch] (cell_add_explicit_dependency) : New function.
