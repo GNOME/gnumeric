@@ -1,3 +1,8 @@
+1999-11-17  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/sheet-style.c (do_list_check_sorted): split out.
+	(list_check_sorted): make conditional on debug, slugging performance.
+
 1999-11-16  Jeff Garzik  <jgarzik@mandrakesoft.com>
 
 	* configure.in, plugins/Makefile.am, plugins/sylk:  new SYLK file import plug-in

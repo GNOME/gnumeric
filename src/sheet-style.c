@@ -126,7 +126,7 @@ sheet_style_cache_add (Sheet *sheet, int col, int row,
 }
 
 /**
- * list_check_sorted:
+ * do_list_check_sorted:
  * @list: the list of StyleRegions.
  * @as_per_sheet: which direction the stamp order should be.
  * 
@@ -136,7 +136,7 @@ sheet_style_cache_add (Sheet *sheet, int col, int row,
  * Return value: FALSE if a sort error occurs.
  **/
 static gboolean
-list_check_sorted (const GList *list, gboolean as_per_sheet)
+do_list_check_sorted (const GList *list, gboolean as_per_sheet)
 {
 	const GList *l = list;
 
@@ -165,6 +165,14 @@ list_check_sorted (const GList *list, gboolean as_per_sheet)
 			l = g_list_next (l);
 		}
 	}
+	return TRUE;
+}
+
+static inline gboolean
+list_check_sorted (const GList *list, gboolean as_per_sheet)
+{
+	if (style_debugging > 0)
+		return do_list_check_sorted (list, as_per_sheet);
 	return TRUE;
 }
 
