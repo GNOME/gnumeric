@@ -83,6 +83,7 @@
 
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-config.h>
+#include <libgnomevfs/gnome-vfs-uri.h>
 
 #include <ctype.h>
 #include <stdarg.h>
@@ -1256,10 +1257,10 @@ workbook_close_if_user_permits (WorkbookControlGUI *wbcg,
 
 		if (wb->filename)
 			msg = g_strdup_printf (
-				_("Workbook %s has unsaved changes, save them?"),
+				_("Workbook '%s' has unsaved changes :"),
 				g_basename (wb->filename));
 		else
-			msg = g_strdup (_("Workbook has unsaved changes, save them?"));
+			msg = g_strdup (_("Workbook has unsaved changes :"));
 
 		d = gtk_message_dialog_new (wbcg_toplevel (wbcg),
 					    GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -1267,9 +1268,9 @@ workbook_close_if_user_permits (WorkbookControlGUI *wbcg,
 					    GTK_BUTTONS_NONE,
 					    msg); 
 		gtk_dialog_add_buttons (GTK_DIALOG (d), 
-					GTK_STOCK_YES, GTK_RESPONSE_YES,
-					GTK_STOCK_NO, GTK_RESPONSE_NO,
-					GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					_("Don't Quit"), GTK_RESPONSE_CANCEL,
+					_("Discard"),	GTK_RESPONSE_NO,
+					GTK_STOCK_SAVE, GTK_RESPONSE_YES,
 					NULL);
 		gtk_dialog_set_default_response (GTK_DIALOG (d), GTK_RESPONSE_YES);
 		button = gnumeric_dialog_run (wbcg, GTK_DIALOG (d));
@@ -1285,8 +1286,7 @@ workbook_close_if_user_permits (WorkbookControlGUI *wbcg,
 			workbook_set_dirty (wb, FALSE);
 			break;
 
-		default:  
-                        /* CANCEL */
+		default:  /* CANCEL */
 			can_close = FALSE;
 			done      = TRUE;
 			break;
@@ -1668,10 +1668,9 @@ cb_edit_cut (GtkWidget *widget, WorkbookControlGUI *wbcg)
 
 	if (sheet_to_page_index (wbcg, wb_control_cur_sheet (wbc), &scg) >= 0) {
 		SheetControl *sc = (SheetControl *) scg;
-		if (scg->current_object != NULL) {
-			g_object_unref (G_OBJECT (scg->current_object));
-			scg->current_object = NULL;
-		}
+		/* FIXME : Add clipboard support for objects */
+		if (scg->current_object != NULL)
+			cmd_object_delete (wbc, scg->current_object);
 		scg_mode_edit (sc);
 		sheet_selection_cut (wbc, sheet);
 	}
@@ -2534,7 +2533,8 @@ cb_insert_image (GtkWidget *widget, WorkbookControlGUI *wbcg)
 			gtk_file_selection_get_filename (fsel), &fd, &file_size);
 
 		if (data != NULL) {
-			SheetObject *so = sheet_object_image_new ("", data, file_size, TRUE);
+			SheetObject *so = sheet_object_image_new ("",
+				(guint8 *)data, file_size, TRUE);
 			gnumeric_mmap_close (ioc, data, fd, file_size);
 			scg_mode_create_object (scg, so);
 			workbook_recalc (sheet->workbook);
@@ -4295,6 +4295,66 @@ show_gui (WorkbookControlGUI *wbcg)
 	return FALSE;
 }
 
+#if 0
+static void
+wbcg_drag_data_get (GtkWidget          *widget,
+		    GdkDragContext     *context,
+		    GtkSelectionData   *selection_data,
+		    guint               info,
+		    guint               time,
+		    WorkbookControl    *wbcg)
+{
+	Workbook *wb    = wb_control_workbook (wbc);
+	Sheet	 *sheet = wb_control_cur_sheet (wbc);
+	BonoboMoniker *moniker;
+	char *s;
+
+	moniker = bonobo_moniker_new ();
+	bonobo_moniker_set_server (moniker,
+		"IDL:GNOME:Gnumeric:Workbook:1.0",
+		wb->filename);
+	bonobo_moniker_append_item_name (moniker, 
+		sheet->name_quoted);
+
+	s = bonobo_moniker_get_as_string (moniker);
+	gtk_object_destroy (GTK_OBJECT (moniker));
+	gtk_selection_data_set (selection_data, selection_data->target, 8, s, strlen (s)+1);
+}
+#endif
+
+static void
+wbcg_filenames_dropped (GtkWidget *widget, GdkDragContext *context,
+			gint x, gint y,
+			GtkSelectionData *selection_data,
+			guint info, guint time,
+			WorkbookControl *wbc)
+{
+	GList *ptr, *uris = gnome_vfs_uri_list_parse (selection_data->data);
+
+	for (ptr = uris; ptr != NULL; ptr = ptr->next) {
+		GnomeVFSURI const *uri = ptr->data;
+		if (0) {
+		} else {
+			gchar *str = gnome_vfs_uri_to_string (uri, GNOME_VFS_URI_HIDE_NONE);
+			gchar *msg = g_strdup_printf (_("File \"%s\" has unknown format."), str);
+			gnumeric_error_read (COMMAND_CONTEXT (wbc), msg);
+			g_free (msg);
+		}
+#if 0
+		if (gnome_vfs_uri_is_local (uri)) {
+		if (!wb_view_open (wb_control_view (wbc), wbc, file_name, FALSE)) {
+		}
+		}
+		/* If it wasn't a workbook, see if we have a control for it */
+		SheetObject *so = sheet_object_container_new_file (
+			sc->sheet->workbook, file_name);
+		if (so != NULL)
+			scg_mode_create_object (gcanvas->simple.scg, so);
+#endif
+	}
+	gnome_vfs_uri_list_free (uris);
+}
+
 /*
  * NOTE: Keep the two strings below in sync - send_menu_item_i18n array must
  * always contain values of _label and _tip properties from XML inside
@@ -4316,6 +4376,10 @@ void
 workbook_control_gui_init (WorkbookControlGUI *wbcg,
 			   WorkbookView *optional_view, Workbook *optional_wb)
 {
+	static GtkTargetEntry const drag_types[] = {
+		{ (char *)"text/uri-list", 0, 0 }
+	};
+
 #ifdef ENABLE_BONOBO
 	BonoboUIContainer *ui_container;
 #endif
@@ -4468,16 +4532,18 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	g_signal_connect (G_OBJECT (wbcg->toplevel),
 		"realize",
 		G_CALLBACK (cb_realize), wbcg);
-#if 0
-	/* Enable toplevel as a drop target */
-	gtk_drag_dest_set (wbcg->toplevel,
+	/* Setup a test of Drag and Drop */
+	gtk_drag_dest_set (GTK_WIDGET (wbcg_toplevel (wbcg)),
 			   GTK_DEST_DEFAULT_ALL,
-			   drag_types, n_drag_types,
+		drag_types, G_N_ELEMENTS (drag_types),
 			   GDK_ACTION_COPY);
-
-	g_signal_connect (G_OBJECT (wb->toplevel),
+	g_signal_connect (G_OBJECT (wbcg_toplevel (wbcg)),
 		"drag_data_received",
-		G_CALLBACK (filenames_dropped), wb);
+		G_CALLBACK (wbcg_filenames_dropped), wbcg);
+#if 0
+	g_signal_connect (G_OBJECT (gcanvas),
+		"drag_data_get",
+		G_CALLBACK (wbcg_drag_data_get), WORBOOK_CONTROL (wbc));
 #endif
 
 	gtk_window_set_policy (wbcg->toplevel, TRUE, TRUE, FALSE);

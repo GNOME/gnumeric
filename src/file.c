@@ -29,7 +29,7 @@
 #include <errno.h>
 #include <libgnome/libgnome.h>
 #include <gal/util/e-util.h>
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 #include <bonobo/bonobo-exception.h>
 #endif
 
@@ -243,7 +243,7 @@ gnum_file_saver_save_real (GnumFileSaver const *fs, IOContext *io_context,
 	fs->save_func (fs, io_context, wbv, file_name);
 }
 
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 #define FILE_COPY_CHUNK_SIZE  0x10000
 
 static void
@@ -331,7 +331,7 @@ gnum_file_saver_class_init (GnumFileSaverClass *klass)
 	G_OBJECT_CLASS (klass)->finalize = gnum_file_saver_finalize;
 
 	klass->save = gnum_file_saver_save_real;
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 	klass->save_to_stream = gnum_file_saver_save_to_stream_real;
 #endif
 }
@@ -498,7 +498,7 @@ gnum_file_saver_save (GnumFileSaver const *fs, IOContext *io_context,
 	GNUM_FILE_SAVER_METHOD (fs, save) (fs, io_context, wbv, file_name);
 }
 
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 /**
  * gnum_file_saver_save_to_stream:
  * @fs		: GnumFileSaver object

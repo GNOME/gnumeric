@@ -495,17 +495,16 @@ else
 fi
 
 enable_bonobo=false
-bonobo_msg="temporarily disabled in gnome2 branch"
+bonobo_msg="disabled"
 AC_ARG_WITH(bonobo,
 	[--{with,without}-bonobo   Use the bonobo UI routines],
 	if test "x$withval" = xyes; then
 		enable_bonobo=true
 		bonobo_msg=yes
 		bonobo_suffix=-bonobo
-		AC_DEFINE(ENABLE_BONOBO)
+		AC_DEFINE(WITH_BONOBO)
 	fi
 )
-dnl gnumeric_bonobo_enabled=$enable_bonobo
 gnumeric_bonobo_enabled=$enable_bonobo
 AM_CONDITIONAL(WITH_BONOBO, $enable_bonobo)
 

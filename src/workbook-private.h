@@ -17,18 +17,14 @@
  * seprate Model View and controller.  It holds pieces that will be part of the
  * eventual controller objects.
  */
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 #   include <bonobo.h>
 #endif
+
 struct _WorkbookPrivate {
-#if defined(GNOME2_CONVERSION_COMPLETE) && defined(ENABLE_BONOBO)
+#ifdef WITH_BONOBO
 	/* The base object for the Workbook */
 	BonoboObject bonobo_object;
-
-	BonoboPersistFile *persist_file;
-
-	/* A list of EmbeddableGrids exported to the world */
-	GList      *workbook_views;
 #endif
 
 	gboolean during_destruction;

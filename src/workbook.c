@@ -311,11 +311,6 @@ workbook_is_pristine (Workbook const *wb)
 		return FALSE;
 
 	if (wb->names ||
-#ifdef ENABLE_BONOBO
-#ifdef GNOME2_CONVERSION_COMPLETE
-	    wb->priv->workbook_views ||
-#endif
-#endif
 	    (wb->file_format_level > FILE_FL_NEW))
 		return FALSE;
 
@@ -325,60 +320,6 @@ workbook_is_pristine (Workbook const *wb)
 
 	return pristine;
 }
-
-#ifdef ENABLE_BONOBO
-#ifdef GNOME2_CONVERSION_COMPLETE
-
-static int
-workbook_persist_file_load (BonoboPersistFile *ps, const CORBA_char *filename,
-			    CORBA_Environment *ev, void *closure)
-{
-	WorkbookView *wbv = closure;
-
-	return wb_view_open (wbv, /* FIXME */ NULL, filename, FALSE) ? 0 : -1;
-}
-
-static int
-workbook_persist_file_save (BonoboPersistFile *ps, const CORBA_char *filename,
-			    CORBA_Environment *ev, void *closure)
-{
-	WorkbookView *wbv = closure;
-	GnumFileSaver *fs;
-
-	fs = get_file_saver_by_id ("Gnumeric_XmlIO:gnum_xml");
-	return wb_view_save_as (wbv, fs, filename, NULL /* FIXME */) ? 0 : -1;
-}
-
-extern Bonobo_Unknown
-workbook_container_get_object (BonoboObject *container, CORBA_char *item_name,
-			       CORBA_boolean only_if_exists, CORBA_Environment *ev,
-			       Workbook *wb);
-static void
-workbook_bonobo_setup (Workbook *wb)
-{
-	/* FIXME : This is totaly broken.
-	 * 1) it does not belong here at the workbook level
-	 * 2) which bonobo object to use ?
-	 * 3) it should not be in this file.
-	 */
-	wb->priv->persist_file = bonobo_persist_file_new (
-		workbook_persist_file_load,
-		workbook_persist_file_save,
-		wb);
-
-	bonobo_object_add_interface (
-		BONOBO_OBJECT (wb->priv),
-		BONOBO_OBJECT (wb->priv->bonobo_container));
-	bonobo_object_add_interface (
-		BONOBO_OBJECT (wb->priv),
-		BONOBO_OBJECT (wb->priv->persist_file));
-
-	g_signal_connect (G_OBJECT (wb->priv->bonobo_container),
-		"get_object",
-		G_CALLBACK (workbook_container_get_object), wb);
-}
-#endif
-#endif
 
 static void
 workbook_init (GObject *object)
@@ -474,13 +415,6 @@ workbook_new (void)
 	wb->file_saver        = NULL;
 
 	wb->priv->during_destruction = FALSE;
-
-#ifdef ENABLE_BONOBO
-#ifdef GNOME2_CONVERSION_COMPLETE
-	wb->priv->workbook_views  = NULL;
-	wb->priv->persist_file    = NULL;
-#endif
-#endif
 	return wb;
 }
 

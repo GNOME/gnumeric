@@ -117,8 +117,15 @@ XmlParseContext *
 xml_parse_ctx_new (xmlDocPtr doc,
 		   xmlNsPtr  ns)
 {
+	/* HACK : For now we cheat.
+	 * We should always be able to read versions from 1.0.x
+	 * That means that older 1.0.x should read newer 1.0.x
+	 * the current matching code precludes that.
+	 * Old versions fail reading things from the future.
+	 * Freeze the exported version at V9 for now.
+	 */
 	return xml_parse_ctx_new_full (
-		doc, ns, GNUM_XML_LATEST, NULL, NULL, NULL);
+		doc, ns, GNUM_XML_V9, NULL, NULL, NULL);
 }
 
 void

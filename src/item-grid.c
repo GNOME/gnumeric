@@ -678,8 +678,7 @@ ig_obj_create_motion (ItemGrid *ig, gdouble new_x, gdouble new_y)
 
 		so = ig->scg->new_object;
 
-		if (so->anchor.direction != SO_DIR_UNKNOWN)
-		{
+		if (so->anchor.direction != SO_DIR_UNKNOWN) {
 			so->anchor.direction = SO_DIR_NONE_MASK;
 			if (new_x > ig->obj_create.x)
 				so->anchor.direction |= SO_DIR_RIGHT;
@@ -732,8 +731,6 @@ ig_obj_create_finish (ItemGrid *ig, GdkEventButton *event)
 		ig->obj_create.item = NULL;
 	}
 
-	/* move object from creation to edit mode */
-	scg->new_object = NULL;
 	scg_mode_edit_object (scg, so);
 
 	cmd_object_insert (WORKBOOK_CONTROL (scg_get_wbcg (scg)), so, sheet);

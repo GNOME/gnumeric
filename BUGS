@@ -30,7 +30,7 @@ Pending Patches
 Long term breakage
 ------------------
 
-- Make deletion for for multiple ranges.
+- Make deletion work for multiple ranges.
 
 - Most arg-type functions need to be somehow marked as strict.  Checking for
   errors by hand everywhere is silly.  (This is at least partially done.)

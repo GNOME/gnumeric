@@ -9,7 +9,7 @@
 
 #include <gtk/gtknotebook.h>
 #include <libgnomeui/gnome-appbar.h>
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 #include <bonobo.h>
 #endif
 
@@ -19,7 +19,7 @@ struct _WorkbookControlGUI {
 	GtkWindow *toplevel;
 	GtkNotebook *notebook;
 
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 	BonoboUIComponent *uic;
 	GtkWidget *progress_bar;
 #else

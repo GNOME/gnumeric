@@ -27,6 +27,15 @@ Jody:
 	* Fix printing.
 	* Fix object import from XL.
 	* Quicky insert image item.
+	* Tidy drag and Drop
+	* Fix dateToUnix
+	* Some touchups to bonobo build
+	* cleanup autoconf
+	* apply some pending japanese patches
+
+Jon Kåre:
+	* Enable bonobo
+	* fix hpux build
 
 Jukka:
 	* More solver improvements.

@@ -49,7 +49,9 @@
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-cursors.h>
 #include <gal/widgets/e-colors.h>
+
 #include <string.h>
+#include <math.h>
 
 static SheetControlClass *scg_parent_class;
 
@@ -1564,6 +1566,7 @@ scg_object_stop_editing (SheetControlGUI *scg, SheetObject *so)
 
 	g_object_unref (G_OBJECT (scg->current_object));
 	scg->current_object = NULL;
+
 	view = sheet_object_get_view (so, SHEET_CONTROL (scg));
 	if (SO_CLASS (so)->set_active != NULL)
 		SO_CLASS (so)->set_active (so, view, FALSE);
@@ -1627,6 +1630,10 @@ scg_mode_edit_object (SheetControlGUI *scg, SheetObject *so)
 
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 
+	/* Add protective ref before clearing the mode, in case we are starting
+	 * to edit a newly created object
+	 */
+	g_object_ref (G_OBJECT (so));
 	if (wbcg_edit_finish (scg->wbcg, TRUE) &&
 	    scg_mode_clear (scg)) {
 		view = sheet_object_get_view (so, SHEET_CONTROL (scg));
@@ -1640,6 +1647,7 @@ scg_mode_edit_object (SheetControlGUI *scg, SheetObject *so)
 		scg_object_update_bbox (scg, so, NULL);
 		scg_set_display_cursor (scg);
 	}
+	g_object_unref (G_OBJECT (so));
 }
 
 /**
@@ -1648,6 +1656,7 @@ scg_mode_edit_object (SheetControlGUI *scg, SheetObject *so)
  *
  * Takes a newly created SheetObject that has not yet been realized and
  * prepares to place it on the sheet.
+ * NOTE : Absorbs a reference to the object.
  */
 void
 scg_mode_create_object (SheetControlGUI *scg, SheetObject *so)
@@ -2031,17 +2040,17 @@ scg_object_update_bbox (SheetControlGUI *scg, SheetObject *so,
 	set_item_x_y (scg, so_view_obj, 0, l, t,
 		      E_CURSOR_SIZE_TL, TRUE);
 	set_item_x_y (scg, so_view_obj, 1, (l + r) / 2, t,
-		      E_CURSOR_SIZE_Y, (r-l) >= CTRL_PT_TOTAL_SIZE);
+		      E_CURSOR_SIZE_Y, fabs (r-l) >= CTRL_PT_TOTAL_SIZE);
 	set_item_x_y (scg, so_view_obj, 2, r, t,
 		      E_CURSOR_SIZE_TR, TRUE);
 	set_item_x_y (scg, so_view_obj, 3, l, (t + b) / 2,
-		      E_CURSOR_SIZE_X, (b-t) >= CTRL_PT_TOTAL_SIZE);
+		      E_CURSOR_SIZE_X, fabs (b-t) >= CTRL_PT_TOTAL_SIZE);
 	set_item_x_y (scg, so_view_obj, 4, r, (t + b) / 2,
-		      E_CURSOR_SIZE_X, (b-t) >= CTRL_PT_TOTAL_SIZE);
+		      E_CURSOR_SIZE_X, fabs (b-t) >= CTRL_PT_TOTAL_SIZE);
 	set_item_x_y (scg, so_view_obj, 5, l, b,
 		      E_CURSOR_SIZE_TR, TRUE);
 	set_item_x_y (scg, so_view_obj, 6, (l + r) / 2, b,
-		      E_CURSOR_SIZE_Y, (r-l) >= CTRL_PT_TOTAL_SIZE);
+		      E_CURSOR_SIZE_Y, fabs (r-l) >= CTRL_PT_TOTAL_SIZE);
 	set_item_x_y (scg, so_view_obj, 7, r, b,
 		      E_CURSOR_SIZE_TL, TRUE);
 }

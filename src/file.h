@@ -4,7 +4,7 @@
 #include <gtk/gtktypeutils.h>
 #include "io-context.h"
 #include "gnumeric.h"
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 #include <bonobo/bonobo-stream.h>
 #endif
 
@@ -99,7 +99,7 @@ typedef void (*GnumFileSaverSaveFunc) (GnumFileSaver const *fs,
                                        IOContext *io_context,
                                        WorkbookView *wbv,
                                        const gchar *file_name);
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 typedef void (*GnumFileSaverSaveToStreamFunc) (GnumFileSaver const  *fs,
 					       IOContext *io_context,
 					       WorkbookView *wbv,
@@ -120,7 +120,7 @@ FileSaveScope gnum_file_saver_get_save_scope (GnumFileSaver *fs);
 
 void         gnum_file_saver_save (GnumFileSaver const *fs, IOContext *io_context,
                                    WorkbookView *wbv, const gchar *file_name);
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 void         gnum_file_saver_save_to_stream (GnumFileSaver const *fs,
                                              IOContext *io_context,
                                              WorkbookView *wbv,

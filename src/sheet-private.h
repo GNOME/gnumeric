@@ -2,11 +2,6 @@
 #define GNUMERIC_SHEET_PRIVATE_H
 
 struct _SheetPrivate {
-#ifdef ENABLE_BONOBO
-	void            *corba_server;
-
-	GSList          *sheet_vectors;
-#endif
 	/* TODO Add span recomputation here too. */
 	struct {
 		gboolean location_changed;
@@ -34,6 +29,10 @@ struct _SheetPrivate {
 	CellPos		 reposition_objects;
 
 	guint            auto_expr_timer;
+
+#ifdef WITH_BONOBO
+	void            *corba_server;
+#endif
 };
 
 #endif /* GNUMERIC_SHEET_PRIVATE_H */

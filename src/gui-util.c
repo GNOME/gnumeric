@@ -992,7 +992,7 @@ gnumeric_toolbar_new (WorkbookControlGUI *wbcg,
 {
 	GnomeApp *app = GNOME_APP (wbcg->toplevel);
 	GtkWidget *tbar;
-	BonoboDockItemBehavior	behavior = BONOBO_DOCK_ITEM_BEH_NORMAL;
+	BonoboDockItemBehavior behavior;
 
 	g_return_val_if_fail (info != NULL, NULL);
 

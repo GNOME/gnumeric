@@ -2,7 +2,7 @@
 #define GNUMERIC_XML_IO_H
 
 #include <gdk/gdktypes.h>
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 #include <bonobo/bonobo-stream.h>
 #endif
 #include "gnumeric.h"
@@ -48,7 +48,7 @@ void gnumeric_xml_read_workbook (GnumFileOpener const *fo, IOContext *context,
                                  WorkbookView *wbv, gchar const *filename);
 void gnumeric_xml_write_workbook (GnumFileSaver const *fs, IOContext *context,
                                   WorkbookView *wbv, gchar const *filename);
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 void gnumeric_xml_write_workbook_to_stream (GnumFileSaver const *fs,
 		                            IOContext *context,
 					    WorkbookView *wbv,

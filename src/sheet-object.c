@@ -297,6 +297,8 @@ sheet_object_update_bounds (SheetObject *so, CellPos const *pos)
  * sheet_object_set_sheet :
  * @so :
  * @sheet :
+ *
+ * Adds a reference to the object.
  */
 gboolean
 sheet_object_set_sheet (SheetObject *so, Sheet *sheet)

@@ -190,7 +190,6 @@ sheet_new (Workbook *wb, char const *name)
 	sheet->priv = g_new0 (SheetPrivate, 1);
 #ifdef ENABLE_BONOBO
 	sheet->priv->corba_server = NULL;
-	sheet->priv->sheet_vectors = NULL;
 #endif
 
 	/* Init, focus, and load handle setting these if/when necessary */

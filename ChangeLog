@@ -1,3 +1,44 @@
+2002-04-12  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-private.c :  move the really broken bonobo stuff here.
+
+	* src/sheet-control-gui.c (scg_object_update_bbox) : Use fabs to
+	  handle inversion.
+	(scg_mode_edit_object) : Be a touch more anal.
+
+	* src/style.c (get_substitute_font) : add more font mappings.
+
+	* src/item-grid.c (ig_obj_create_finish) : no need to moneky with the
+	  internals of scg.  Setting the mode clears the new object.  Setting
+	  the sheet adds a ref, so there are no worries that it will go away.
+
+	* src/gnumeric-canvas.c : rip out the drag and drop support.
+	* src/workbook-control-gui.c : move it here.
+	(cb_insert_image) : silence a warning.
+	(cb_edit_cut) : at least make the object deletetion undoable.
+	(workbook_close_if_user_permits) : reorder to conform to HIG.
+
+2002-04-08  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-control-gui.c (scg_object_stop_editing) : unref the
+	  current object.
+	(scg_mode_edit_object) : ref the current object.
+
+	* src/item-grid.c (ig_obj_create_finish) : Use
+	  scg_mode_edit_object.
+	* src/gnumeric-canvas.c (gnm_canvas_key_mode_object) : Use
+	  sc_mode_edit to handle objects that are still being created.
+
+2002-04-06  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-control-gui.c (scg_object_update_bbox) : abs the dif when
+	  checking for middle ctrl points.
+
+2002-04-01  Jody Goldberg <jody@gnome.org>
+
+	* src/gui-util.c (gnumeric_toolbar_new) : minor clean up.
+	  one init is sufficient.
+
 2002-04-12  Jon K Hellan  <hellan@acm.org>
 
 	* src/GNOME_Gnumeric.xml (FilePrintSetup): Add back "print" stock icon.

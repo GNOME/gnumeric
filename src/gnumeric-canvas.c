@@ -29,7 +29,7 @@
 #include "clipboard.h"
 
 #include <libgnome/gnome-i18n.h>
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 #  include "sheet-object-container.h"
 #endif
 #include <gal/widgets/e-cursors.h>
@@ -357,15 +357,11 @@ gnm_canvas_key_mode_object (GnumericCanvas *gcanvas, GdkEventKey *event)
 	case GDK_BackSpace: /* Ick! */
 	case GDK_KP_Delete:
 	case GDK_Delete:
-		if (scg->new_object != NULL) {
-			g_object_unref (G_OBJECT (scg->new_object));
-			scg->new_object = NULL;
-			return TRUE;
-		}
 		if (scg->current_object != NULL) {
 			cmd_object_delete (sc->wbc, scg->current_object);
 			return TRUE;
 		}
+		sc_mode_edit (sc);
 		break;
 
 	case GDK_KP_Left: case GDK_Left:
@@ -462,86 +458,6 @@ gnm_canvas_focus_out (GtkWidget *widget, GdkEventFocus *event)
 	gdk_im_end ();
 #endif
 	return (*GTK_WIDGET_CLASS (gcanvas_parent_class)->focus_out_event) (widget, event);
-}
-
-static void
-gnm_canvas_drag_data_get (GtkWidget *widget,
-			      GdkDragContext *context,
-			      GtkSelectionData *selection_data,
-			      guint info,
-			      guint time)
-{
-#if 0
-	BonoboMoniker *moniker;
-	Sheet *sheet = GNUMERIC_CANVAS (widget)->simple.scg->sheet;
-	Workbook *wb = sheet->workbook;
-	char *s;
-	WorkbookControl *wbc = WORKBOOK_CONTROL (gcanvas->simple.scg->wbcg);
-
-	if (wb->filename == NULL)
-		workbook_save (wbc, wb);
-	if (wb->filename == NULL)
-		return;
-
-	moniker = bonobo_moniker_new ();
-	bonobo_moniker_set_server (
-		moniker,
-		"IDL:GNOME:Gnumeric:Workbook:1.0",
-		wb->filename);
-
-	bonobo_moniker_append_item_name (
-		moniker, "Sheet1");
-	s = bonobo_moniker_get_as_string (moniker);
-	gtk_object_destroy (GTK_OBJECT (moniker));
-
-	gtk_selection_data_set (selection_data, selection_data->target, 8, s, strlen (s)+1);
-#endif
-}
-
-/*
- * gnm_canvas_filenames_dropped :
- */
-static void
-gnm_canvas_filenames_dropped (GtkWidget        *widget,
-			      GdkDragContext   *context,
-			      gint              x,
-			      gint              y,
-			      GtkSelectionData *selection_data,
-			      guint             info,
-			      guint             time,
-			      GnumericCanvas    *gcanvas)
-{
-	GList *names, *tmp_list;
-	SheetControl *sc = (SheetControl *) gcanvas->simple.scg;
-	WorkbookControl *wbc = sc->wbc;
-
-#warning IM disabled
-#if 0
-	names = gnome_uri_list_extract_filenames ((char *)selection_data->data);
-#else
-	names = NULL;
-#endif
-
-	for (tmp_list = names; tmp_list != NULL; tmp_list = tmp_list->next) {
-		gchar *file_name = tmp_list->data;
-
-		if (!wb_view_open (wb_control_view (wbc), wbc, file_name, FALSE)) {
-#ifdef ENABLE_BONOBO
-			/* If it wasn't a workbook, see if we have a control for it */
-			SheetObject *so = sheet_object_container_new_file (
-				sc->sheet->workbook, file_name);
-			if (so != NULL)
-				scg_mode_create_object (gcanvas->simple.scg, so);
-#else
-			gchar *msg;
-
-			msg = g_strdup_printf (_("File \"%s\" has unknown format."),
-			                       file_name);
-			gnumeric_error_read (COMMAND_CONTEXT (sc->wbc), msg);
-			g_free (msg);
-#endif
-		}
-	}
 }
 
 static void
@@ -702,11 +618,6 @@ E_MAKE_TYPE (gnumeric_canvas, "GnumericCanvas", GnumericCanvas,
 GnumericCanvas *
 gnumeric_canvas_new (SheetControlGUI *scg, GnumericPane *pane)
 {
-	static GtkTargetEntry const drag_types[] = {
-		{ (char *)"text/uri-list", 0, 0 },
-	};
-	static gint const n_drag_types = sizeof (drag_types) / sizeof (drag_types [0]);
-
 	GnumericCanvas	 *gcanvas;
 	GnomeCanvasGroup *root_group;
 
@@ -722,18 +633,6 @@ gnumeric_canvas_new (SheetControlGUI *scg, GnumericPane *pane)
 	gnome_canvas_set_scroll_region (GNOME_CANVAS (gcanvas), 0, 0,
 		GNUMERIC_CANVAS_FACTOR_X, GNUMERIC_CANVAS_FACTOR_Y);
 
-	/* Setup a test of Drag and Drop */
-	g_signal_connect (G_OBJECT (gcanvas),
-		"drag_data_get",
-		G_CALLBACK (gnm_canvas_drag_data_get), NULL);
-	gtk_drag_dest_set (GTK_WIDGET (gcanvas),
-		GTK_DEST_DEFAULT_ALL,
-		drag_types, n_drag_types,
-		GDK_ACTION_COPY);
-	g_signal_connect (G_OBJECT (gcanvas),
-		"drag_data_received",
-		G_CALLBACK (gnm_canvas_filenames_dropped),
-		gcanvas);
 
 	root_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (gcanvas)->root);
 	gcanvas->anted_group = root_group;
