@@ -1,0 +1,34 @@
+
+<!-- This is doc/C/README -->
+
+Last edited: 9 July 2003
+
+Formatting:
+----------
+  Please keep the formatting consistent:
+    - no tabs
+    - indent is 2 spaces
+    - text of paragraph indented from <para> tag
+    - all elements indented unless the close tag fits on the same line
+
+File-naming:
+-----------
+  Please name files in the same chapter with the same starting element
+
+  Please name images in parrallel to the current convention.
+    - Button-
+    - Dialog-
+
+Id-naming:
+---------
+  Please use tags based on text placement in hiearchy
+    - Start of tag describes what it is sect- fig- table-
+    - Inside of tag is -chaptername-section-section...
+
+Emacs:
+-----
+  Please do not append emacs tags at the end of files
+
+
+Thanks.
+
