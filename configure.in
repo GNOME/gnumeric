@@ -60,8 +60,8 @@ _ldflags="${LDFLAGS}"
 
 AC_ARG_WITH(zlib,
 	[[  --with-zlib=DIR       use libz in DIR]],
-	[case x"$withval" in
-	 xyes|xno) ;;
+	[case $withval in
+	 yes|no) ;;
 	 *)	Z_DIR=$withval
 		CPPFLAGS="${CPPFLAGS} -I$withval/include"
 		LDFLAGS="${LDFLAGS} -L$withval/lib"
@@ -276,11 +276,13 @@ if test "$GCC" = "yes" -a "x$set_more_warnings" != "xno"; then
 fi
 AC_SUBST(WARN_CFLAGS)
 
-AC_ARG_ENABLE(ssconvert, [--disable-ssconvert		Do not build ssconvert (cmd line spreadsheet conversion tool)],
-	[ ], [enable_ssconvert=yes])
+AC_ARG_ENABLE(ssconvert,
+  [--disable-ssconvert		Do not build ssconvert (cmd line spreadsheet conversion tool)],
+  [], [enable_ssconvert=yes])
 AM_CONDITIONAL(ENABLE_SSCONVERT, test x"$enable_ssconvert" = "xyes")
-AC_ARG_ENABLE(ssindex, [--enable-ssindex		Build ssindex (spreadsheet indexer for beagle)],
-	[ ], [enable_ssindex=no])
+AC_ARG_ENABLE(ssindex,
+  [--enable-ssindex		Build ssindex (spreadsheet indexer for beagle)],
+  [], [enable_ssindex=no])
 AM_CONDITIONAL(ENABLE_SSINDEX, test x"$enable_ssindex" = "xyes")
 
 dnl ****************************
@@ -714,17 +716,26 @@ dnl **************************************************
 dnl * Check for Perl
 dnl **************************************************
 dnl
-perl_msg=no
-AC_ARG_WITH(perl, [--{with,without}-perl   Compile the Perl plugin loader])
+dnl Here is the place to choose the default:
+perl_msg="Disabled by default"
+dnl perl_msg=yes
+AC_ARG_WITH(perl, [--{with,without}-perl   Compile the Perl plugin loader],
+	[case $withval in
+	yes) perl_msg=yes;;
+	no) perl_msg="Disabled by request";;
+	esac])
 AC_ARG_VAR(PERL, [The Perl executable.])
-if test "x$with_perl" != xno; then
+if test "x$perl_msg" = xyes ; then
     AC_CHECK_PROG(PERL, perl, perl)
     if test "x$PERL" != x; then
 	AC_MSG_CHECKING([for perl ExtUtils::Embed module])
 	if $PERL -e 'eval { require ExtUtils::Embed }; if ($@) { exit(1); } else { exit(0); }'
 	then
 	    AC_MSG_RESULT($marker_ok)
-	    dnl AC_CHECK_LIB(perl, perl_construct, [], [perl_msg="missing/invalid libperl"])
+	    dnl If the third argument were empty, the default code would do
+	    dnl LIBS="-lperl $LIBS"; to avoid that, we use `:'.
+	    dnl This fixes bug #158379.
+	    dnl AC_CHECK_LIB(perl, perl_construct, :, [perl_msg="missing/invalid libperl"])
 	else
 	    AC_MSG_RESULT($marker_no)
 	    perl_msg="Missing ExtUtils::Embed"
@@ -732,8 +743,6 @@ if test "x$with_perl" != xno; then
     else
 	perl_msg="could not find perl"
     fi
-else
-    perl_msg="Disabled by default"
 fi
 
 AM_CONDITIONAL(WITH_PERL, test "x$perl_msg" = xyes)
@@ -856,8 +865,8 @@ mono_msg="disabled, still experimental"
 dnl A tricky way to comment out in m4:
 ifelse([
 AC_ARG_WITH(mono, [--{with,without}-mono     Compile the mono scripting engine])
-case x$with_mono in
-xno)	mono_msg="Disabled by request";;
+case $with_mono in
+no)	mono_msg="Disabled by request";;
 *)
     PKG_CHECK_MODULES(MONO, mono,
 	[with_mono=yes

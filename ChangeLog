@@ -1,5 +1,20 @@
 2005-01-25  Stepan Kasal  <kasal@ucw.cz>
 
+	* configure.in: work on --with-perl; this partially fixes
+		http://bugzilla.gnome.org/show_bug.cgi?id=158029
+
+	  In AC_CHECK_LIB(perl,...) change the third parameter to `:'
+	  so that it is nonempty and -lperl is not added to LIBS; this fixes
+		http://bugzilla.gnome.org/show_bug.cgi?id=158379
+
+	  A cosmetic change: Don't use `[ ]' as an empty argument of a macro,
+	  it may confuse m4; use `[]' instead.
+
+	  Another cosmetic change: the word for ``case'' doesn't need any
+	  quoting nor prefix.
+
+2005-01-25  Stepan Kasal  <kasal@ucw.cz>
+
 	* configure.in: Initialize win32=no, in case someone has the variable
 	  in the environment.
 	  Fix the help string for --enable-ssindex.
