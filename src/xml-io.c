@@ -683,7 +683,7 @@ xml_write_style (parse_xml_context_t *ctxt,
 	}
 	if (style [MSTYLE_COLOR_BACK].type) {
 		if (!style_is_default_back (style [MSTYLE_COLOR_BACK].u.color.back))
-			xml_set_color_value (cur, "Back", style [MSTYLE_COLOR_FORE].u.color.back);
+			xml_set_color_value (cur, "Back", style [MSTYLE_COLOR_BACK].u.color.back);
 	}
 	if (style [MSTYLE_FORMAT].type)
 		xml_set_value (cur, "Format", style [MSTYLE_FORMAT].u.format->format);

@@ -911,7 +911,9 @@ cell_get_horizontal_align (const Cell *cell)
 {
 	MStyleElement style[MSTYLE_ELEMENT_MAX];
 	int align = HALIGN_GENERAL;
-	
+
+	g_return_val_if_fail (cell != NULL, HALIGN_RIGHT);
+
 	sheet_style_compute (cell->sheet, cell->col->pos,
 			     cell->row->pos, style);
 
@@ -960,6 +962,7 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 	Sheet *sheet;
 	int align, left;
 	int row, pos, margin;
+	MStyleElement style[MSTYLE_ELEMENT_MAX];
 
 	g_return_if_fail (cell != NULL);
 
@@ -968,25 +971,24 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 	 * alignment modes are set to "justify", then we report only one
 	 * column is used.
 	 */
-/*
- * FIXME: work needed here.
- *
-  if (cell_is_number (cell) ||
-	    cell->style->fit_in_cell ||
-	    cell->style->valign == VALIGN_JUSTIFY ||
-	    cell->style->halign == HALIGN_JUSTIFY ||
-	    cell->style->halign == HALIGN_FILL    ||
-	    cell_contents_fit_inside_column (cell))
-*/
+
+	sheet = cell->sheet;
+	sheet_style_compute (cell->sheet, cell->col->pos,
+			     cell->row->pos, style);
+	align = cell_get_horizontal_align (cell);
+	row   = cell->row->pos;
+
 	if (cell_is_number (cell) ||
+	    (style [MSTYLE_FIT_IN_CELL].type &&
+	     style [MSTYLE_FIT_IN_CELL].u.fit_in_cell) ||
+	    (style [MSTYLE_ALIGN_V].type &&
+	     style [MSTYLE_ALIGN_V].u.align.v == VALIGN_JUSTIFY) ||
+	    align == HALIGN_JUSTIFY ||
+	    align == HALIGN_FILL ||
 	    cell_contents_fit_inside_column (cell)) {
 		*col1 = *col2 = cell->col->pos;
 		return;
 	}
-
-	sheet = cell->sheet;
-	align = cell_get_horizontal_align (cell);
-	row   = cell->row->pos;
 
 	switch (align){
 	case HALIGN_LEFT:

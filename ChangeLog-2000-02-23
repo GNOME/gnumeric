@@ -1,7 +1,9 @@
 1999-10-19  Michael Meeks  <mmeeks@gnu.org>
 
+	* src/cell.c (cell_get_horizontal_align): fiddle. (cell_get_span): Fixup.
+
 	* src/xml-io.c (xml_sheet_write): Actually attach the saved
-	style tree.
+	style tree. (xml_write_style): Fix silly bug in color writing.
 
 1999-10-19  Michael Meeks  <mmeeks@gnu.org>
 
