@@ -1,3 +1,15 @@
+2002-03-11  Jody Goldberg <jody@gnome.org>
+
+	* src/gui-util.c (color_combo_get_style_color) : changes to color combo.
+	* src/sheet-object-graphic.c (cb_fill_color_changed) : ditto.
+	* src/workbook-format-toolbar.c (cb_fore_color_changed) : ditto.
+	(cb_back_color_changed) : ditto.
+	(workbook_create_format_toolbar) : ditto.
+
+2002-03-10  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : bump gal req to pull in the colour combo changes.
+
 2002-03-10  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump

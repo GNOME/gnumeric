@@ -422,7 +422,8 @@ cb_adjustment_value_changed (GtkAdjustment *adj, DialogGraphicData *data)
 
 static void
 cb_fill_color_changed (ColorCombo *color_combo, GdkColor *color,
-		       gboolean by_user, DialogGraphicData *data)
+		       gboolean is_custom, gboolean by_user, gboolean is_default,
+		       DialogGraphicData *data)
 {
 	gnome_canvas_item_set (data->arrow, "fill_color_gdk", color, NULL);
 }
@@ -550,7 +551,7 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControlGUI *scg)
 			"value_changed",
 			G_CALLBACK (cb_adjustment_value_changed), data);
 		g_signal_connect (G_OBJECT (data->fill_color_combo),
-			"changed",
+			"color_changed",
 			G_CALLBACK (cb_fill_color_changed), data);
 	}
 

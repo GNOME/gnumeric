@@ -327,9 +327,6 @@ setup_color_pickers (ColorPicker *picker,
 	gtk_combo_box_set_title (GTK_COMBO_BOX (combo), caption);
 
 	/* Connect to the sample canvas and redraw it */
-	g_signal_connect (G_OBJECT (combo),
-		"changed",
-		preview_update, state);
 
 	picker->combo          = combo;
 	picker->preview_update = preview_update;
@@ -1256,7 +1253,9 @@ cb_font_changed (GtkWidget *widget, MStyle *mstyle, FormatState *state)
  * It is called whenever the color combo changes value.
  */
 static void
-cb_font_preview_color (ColorCombo *combo, GdkColor *c, gboolean by_user, FormatState *state)
+cb_font_preview_color (ColorCombo *combo, GdkColor *c,
+		       gboolean is_custom, gboolean by_user, gboolean is_default,
+		       FormatState *state)
 {
 	if (!state->enable_edit)
 		return;
@@ -1408,7 +1407,9 @@ draw_pattern_preview (FormatState *state)
 }
 
 static void
-cb_back_preview_color (ColorCombo *combo, GdkColor *c, gboolean by_user, FormatState *state)
+cb_back_preview_color (ColorCombo *combo, GdkColor *c,
+		       gboolean is_custom, gboolean by_user, gboolean is_default,
+		       FormatState *state)
 {
 	state->back.back_color_is_default = (c == NULL);
 
@@ -1440,7 +1441,9 @@ cb_back_preview_color (ColorCombo *combo, GdkColor *c, gboolean by_user, FormatS
 }
 
 static void
-cb_pattern_preview_color (ColorCombo *combo, GdkColor *c, gboolean by_user, FormatState *state)
+cb_pattern_preview_color (ColorCombo *combo, GdkColor *c,
+			  gboolean is_custom, gboolean by_user, gboolean is_default,
+			  FormatState *state)
 {
 	mstyle_set_color (state->back.style, MSTYLE_COLOR_PATTERN,
 			  style_color_new (c->red, c->green, c->blue));
@@ -1884,7 +1887,9 @@ cb_border_toggle (GtkToggleButton *button, BorderPicker *picker)
 }
 
 static void
-cb_border_color (ColorCombo *combo, GdkColor *c, gboolean by_user, FormatState *state)
+cb_border_color (ColorCombo *combo, GdkColor *c,
+		 gboolean is_custom, gboolean by_user, gboolean is_default,
+		 FormatState *state)
 {
 	state->border.rgba = GNOME_CANVAS_COLOR (c->red>>8, c->green>>8, c->blue>>8);
 }

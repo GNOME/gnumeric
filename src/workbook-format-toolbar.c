@@ -508,7 +508,8 @@ static BonoboUIVerb verbs [] = {
 
 static void
 cb_fore_color_changed (ColorCombo *combo, GdkColor *c,
-		       gboolean by_user, WorkbookControlGUI *wbcg)
+		       gboolean is_custom, gboolean by_user, gboolean is_default,
+		       WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
@@ -535,7 +536,8 @@ cb_fore_color_changed (ColorCombo *combo, GdkColor *c,
 
 static void
 cb_back_color_changed (ColorCombo *combo, GdkColor *c,
-		       gboolean by_user, WorkbookControlGUI *wbcg)
+		       gboolean is_custom, gboolean by_user, gboolean is_default,
+		       WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
@@ -790,7 +792,7 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 		/* Draw an outline for the default */
 		NULL, cg);
 	g_signal_connect (G_OBJECT (back_combo),
-		"changed",
+		"color_changed",
 		G_CALLBACK (cb_back_color_changed), wbcg);
 	disable_focus (back_combo, NULL);
 	gtk_combo_box_set_title (GTK_COMBO_BOX (back_combo),
@@ -800,7 +802,7 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 	WORKBOOK_FOREACH_CONTROL (wb_control_workbook (WORKBOOK_CONTROL (wbcg)), view, control,
 				  if (control != WORKBOOK_CONTROL (wbcg)) {
 					  GdkColor *color = color_combo_get_color (
-						  COLOR_COMBO (WORKBOOK_CONTROL_GUI (control)->back_color));
+						  COLOR_COMBO (WORKBOOK_CONTROL_GUI (control)->back_color), NULL);
 					  if (color) {
 						  color_combo_set_color (
 							  COLOR_COMBO (wbcg->back_color), color);
@@ -816,7 +818,7 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 		_("Automatic"), /* Draw black for the default */
 		&gs_black, cg);
 	g_signal_connect (G_OBJECT (fore_combo),
-		"changed",
+		"color_changed",
 		G_CALLBACK (cb_fore_color_changed), wbcg);
 	disable_focus (fore_combo, NULL);
 	gtk_combo_box_set_title (GTK_COMBO_BOX (fore_combo),
@@ -826,7 +828,7 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 	WORKBOOK_FOREACH_CONTROL (wb_control_workbook (WORKBOOK_CONTROL (wbcg)), view, control,
 				  if (control != WORKBOOK_CONTROL (wbcg)) {
 					  GdkColor *color = color_combo_get_color (
-						  COLOR_COMBO (WORKBOOK_CONTROL_GUI (control)->fore_color));
+						  COLOR_COMBO (WORKBOOK_CONTROL_GUI (control)->fore_color), NULL);
 					  if (color) {
 						  color_combo_set_color (
 							  COLOR_COMBO (wbcg->fore_color), color);
