@@ -22,6 +22,8 @@
 #include "number-match.h"
 #include "formats.h"
 #include "dates.h"
+#include "numbers.h"
+#include "utils.h"
 
 /*
  * Takes a list of strings (optionally include an * at the beginning

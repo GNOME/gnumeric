@@ -265,7 +265,8 @@ biff_font_data_new (BIFF_QUERY * q)
 	/*
 	 * dump (q->data, q->length) ; 
 	 */
-	printf ("Insert fount '%s' size %5.2f\n", fd->fontname, fd->height);
+	printf ("Insert font '%s' size %d pts\n",
+		fd->fontname, fd->height * 20);
 	return fd;
 }
 

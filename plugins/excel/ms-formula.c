@@ -420,7 +420,7 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 	  {
 	    int lp ;
 
-	    printf ("Search %d records\n", FORMULA_OP_DATA_LEN) ;
+	    printf ("Search %d records\n", (int)FORMULA_OP_DATA_LEN) ;
 	    for (lp=0;lp<FORMULA_OP_DATA_LEN;lp++)
 	      {
 		if (ptgbase == formula_op_data[lp].formula_ptg)

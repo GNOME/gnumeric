@@ -70,7 +70,7 @@ static void
 remove_cb (GtkWidget *button, PluginManager *pm)
 {
 	GList *selection = GTK_CLIST (pm->clist)->selection;
-	gint row = (gint) g_list_nth_data (selection, 0);
+	gint row = GPOINTER_TO_INT (g_list_nth_data (selection, 0));
 	PluginData *pd = gtk_clist_get_row_data (GTK_CLIST (pm->clist), row);
 	
 	plugin_unload (pd);

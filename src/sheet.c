@@ -934,13 +934,13 @@ sheet_update_controls (Sheet *sheet)
 		workbook_feedback_set (
 			sheet->workbook,
 			WORKBOOK_FEEDBACK_BOLD,
-			(void *) bold_first);
+			GINT_TO_POINTER(bold_first));
 
 	if (italic_common)
 		workbook_feedback_set (
 			sheet->workbook,
 			WORKBOOK_FEEDBACK_ITALIC,
-			(void *) italic_first);
+			GINT_TO_POINTER(italic_first));
 }
 
 static void
