@@ -786,8 +786,8 @@ sheet_update_only_grid (Sheet const *sheet)
                  */
                 if (sheet->selections != NULL)
 			sheet_selection_set ((Sheet *)sheet, /* cheat */
-					     sheet->edit_pos.col,
-					     sheet->edit_pos.row,
+					     sheet->edit_pos_real.col,
+					     sheet->edit_pos_real.row,
 					     sheet->cursor.base_corner.col,
 					     sheet->cursor.base_corner.row,
 					     sheet->cursor.move_corner.col,

@@ -1,5 +1,8 @@
 2001-12-19  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=67181
+	* src/sheet.c (sheet_update_only_grid) : use the real edit pos.
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=67202
 	* src/sheet-autofill.c (fill_item_new) : take the autofmt into
 	  account.
