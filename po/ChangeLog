@@ -1,5 +1,9 @@
 2002-04-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* POTFILES.in : added src/dialogs/so-checkbox.glade
+
+2002-04-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* de.po: A few updates to the German translation
 
 2002-04-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
