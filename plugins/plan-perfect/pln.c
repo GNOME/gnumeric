@@ -8,20 +8,22 @@
 
 #include <gnumeric-config.h>
 #include <gnumeric.h>
-#include "plugin.h"
-#include "numbers.h"
-#include "plugin-util.h"
-#include "module-plugin-defs.h"
-#include "error-info.h"
-#include "file.h"
-#include "sheet.h"
-#include "value.h"
-#include "cell.h"
-#include "workbook.h"
-#include "workbook-view.h"
-#include "command-context.h"
-#include "io-context.h"
-#include "parse-util.h"
+#include <plugin.h>
+#include <plugin-util.h>
+#include <module-plugin-defs.h>
+#include <io-context.h>
+#include <sheet.h>
+#include <ranges.h>
+#include <value.h>
+#include <expr.h>
+#include <cell.h>
+#include <workbook.h>
+#include <workbook-view.h>
+#include <parse-util.h>
+#include <sheet-style.h>
+#include <style.h>
+#include <mstyle.h>
+#include <gutils.h>
 
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-input.h>
@@ -31,136 +33,230 @@
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-gboolean pln_file_probe (GnumFileOpener const *fo, GsfInput *input,
-			 FileProbeLevel pl);
-void pln_file_open (GnumFileOpener const *fo, IOContext *io_context,
-                    WorkbookView *view, GsfInput *input);
-
-#define PLN_BYTE(pointer) (((int)((*(pointer)))) & 0xFF)
-#define PLN_WORD(pointer) (PLN_BYTE (pointer) | (PLN_BYTE ((pointer) + 1) << 8))
-
-static const char* formula1[] =
-{
-	"?bad1?",		/* 0 */
-	"MINUS",
-	"ABS",
-	"INT",
-	"SIGN",
-	"NOT",
-	"TRUE",
-	"FALSE",
-	"AND",
-	"OR",
-	"AVE",			/* 10 */
-	"COUNT",
-	"MIN",
-	"MAX",
-	"NA",
-	"ISNA",
-	"TIME",
-	"TODAY",
-	"FACT",
-	"ROW",
+static char const *formula1[] = {
+	NULL,			/* 0 */
+	"MINUS(",
+	"ABS(",
+	"INT(",
+	"SIGN(",
+	"NOT(",
+	"TRUE(",
+	"FALSE(",
+	"AND(",
+	"OR(",
+	"AVE(",			/* 10 */
+	"COUNT(",
+	"MIN(",
+	"MAX(",
+	"NA(",
+	"ISNA(",
+	"TIME(",
+	"TODAY(",
+	"FACT(",
+	"ROW(",
 	"COL"			/* 20 */
 };
 
 static const char* formula2[] =
 {
-	"?bad1?",		/* 0 */
-	"POWER",
-	"LN",
-	"LOG",
-	"SQRT",
-	"PI",
-	"EXP",
-	"SIN",
-	"COS",
-	"TAN",
-	"MOD",			/* 10 */
-	"ASIN",
-	"ACOS",
-	"ATAN",
-	"TERM",
-	"PV",
-	"PMT",
-	"FV",
-	"NPV",
-	"LOOKUP",
-	"INDEX",		/* 20 */
-	"ROUND",
-	"STDEV",
-	"CONCAT",
-	"MID",
-	"LENGTH",
-	"VALUE",
-	"TEXT",
-	"MDY",
-	"MONTH",
-	"DAY",			/* 30 */
-	"YEAR",
-	"DATETEXT",
-	"DATEVALUE",
-	"VAR",
-	"RANDOM",
-	"CURRENCY",
-	"ITERATION",
-	"ISVALUE",
-	"ISTEXT",
-	"REPLACE",		/* 40 */
-	"RADIANS",
-	"CELL",
-	"SUBTRACT",
-	"IRR",
-	"FIND",
-	"LEFT",
-	"RIGHT",
-	"UPPER",
-	"LOWER",
-	"PROPER",
-	"CHAR",			/* 50 */
-	"CODE",
-	"TRIM",
-	"REPEAT",
-	"BLOCK",
-	"CURSOR",
-	"DDB",
-	"SLN",
-	"SYD",
-	"RATE",			/* 60 */
-	"STATUS",
-	"FOREACH",
-	"DEGREES",
-	"HOUR",
-	"MINUTE",
-	"SECOND",
-	"HMS",
-	"TIMETEXT",
-	"TIMEVALUE",
-	"PRODUCT",		/* 70 */
-	"QUOTIENT",
-	"VARP",
-	"STDEVP",
-	"ATAN2",
-	"MATCH",
-	"MATCH2",
-	"LOOKUP2",
-	"LINK",
-	"ISERR",
-	"ISERR2",		/* 80 */
+	"?bad1?(",		/* 0 */
+	"POWER(",
+	"LN(",
+	"LOG(",
+	"SQRT(",
+	"PI(",
+	"EXP(",
+	"SIN(",
+	"COS(",
+	"TAN(",
+	"MOD(",			/* 10 */
+	"ASIN(",
+	"ACOS(",
+	"ATAN(",
+	"TERM(",
+	"PV(",
+	"PMT(",
+	"FV(",
+	"NPV(",
+	"LOOKUP(",
+	"INDEX(",		/* 20 */
+	"ROUND(",
+	"STDEV(",
+	"CONCAT(",
+	"MID(",
+	"LENGTH(",
+	"VALUE(",
+	"TEXT(",
+	"MDY(",
+	"MONTH(",
+	"DAY(",			/* 30 */
+	"YEAR(",
+	"DATETEXT(",
+	"DATEVALUE(",
+	"VAR(",
+	"RANDOM(",
+	"CURRENCY(",
+	"ITERATION(",
+	"ISVALUE(",
+	"ISTEXT(",
+	"REPLACE(",		/* 40 */
+	"RADIANS(",
+	"CELL(",
+	"SUBTRACT(",
+	"IRR(",
+	"FIND(",
+	"LEFT(",
+	"RIGHT(",
+	"UPPER(",
+	"LOWER(",
+	"PROPER(",
+	"CHAR(",			/* 50 */
+	"CODE(",
+	"TRIM(",
+	"REPEAT(",
+	"BLOCK(",
+	"CURSOR(",
+	"DDB(",
+	"SLN(",
+	"SYD(",
+	"RATE(",			/* 60 */
+	"STATUS(",
+	"FOREACH(",
+	"DEGREES(",
+	"HOUR(",
+	"MINUTE(",
+	"SECOND(",
+	"HMS(",
+	"TIMETEXT(",
+	"TIMEVALUE(",
+	"PRODUCT(",		/* 70 */
+	"QUOTIENT(",
+	"VARP(",
+	"STDEVP(",
+	"ATAN2(",
+	"MATCH(",
+	"MATCH2(",
+	"LOOKUP2(",
+	"LINK(",
+	"ISERR(",
+	"ISERR2(",		/* 80 */
 	"CHOOSE"
 };
 
+typedef struct {
+	Sheet *sheet;
+	GHashTable *styles;
+} PlanPerfectImport;
+
+static guint8 const signature[] =
+    { 0xff, 'W','P','C', 0x10, 0, 0, 0, 0x9, 0xa };
+
+static char const *
+pln_get_func_table1 (unsigned i)
+{
+	g_return_val_if_fail (0 < i && i < G_N_ELEMENTS (formula1), "ERROR");
+	return formula1 [i];
+}
+static char const *
+pln_get_func_table2 (unsigned i)
+{
+	g_return_val_if_fail (0 < i && i < G_N_ELEMENTS (formula2), "ERROR");
+	return formula2 [i];
+}
+		
+gboolean
+pln_file_probe (GnumFileOpener const *fo, GsfInput *input,
+		FileProbeLevel pl)
+{
+	/*
+	 * a plan-perfect header
+	 *	0	= -1
+	 *	1-3	= "WPC"
+	 *	4-7	= 16 (double word)
+	 *	8	= 9 (plan perfect file)
+	 *	9	= 10 (worksheet file)
+	 *	10	= major version number
+	 *	11	= minor version number
+	 *	12-13	= encryption key
+	 *	14-15	= unused
+	 */
+	char const *header = NULL;
+	if (!gsf_input_seek (input, 0, GSF_SEEK_SET))
+		header = gsf_input_read (input, sizeof (signature), NULL);
+	return header != NULL &&
+		memcmp (header, signature, sizeof (signature)) == 0;
+}
+
+static MStyle *
+pln_get_style (PlanPerfectImport *state, guint8 const* data, gboolean is_cell)
+{
+	guint16 attr, fmt, font;
+	guint32 key;
+	MStyle *res;
+
+	attr = GSF_LE_GET_GUINT16 (data);
+	fmt  = GSF_LE_GET_GUINT16 (data+2);
+	font = GSF_LE_GET_GUINT16 (data+4);
+
+	/* Check for use of sheet defaults */
+	if (is_cell) {
+		MStyle *def = sheet_style_default (state->sheet);
+		if ((attr & 0x0700) == 0x0400) {
+			attr &= 0xf8ff;
+			switch (mstyle_get_align_h (def)) {
+			default :
+			case HALIGN_GENERAL:break;
+			case HALIGN_LEFT:	attr |= 0x0100; break;
+			case HALIGN_RIGHT:	attr |= 0x0200; break;
+			case HALIGN_CENTER_ACROSS_SELECTION :
+			case HALIGN_CENTER:	attr |= 0x0300; break;
+			}
+		}
+		if ((attr & 0x8000)) {
+			gboolean is_locked = mstyle_get_content_locked (def);
+			attr = (attr & 0x3fff) | (is_locked ? 0x4000 : 0);
+		}
+		mstyle_unref (def);
+	}
+
+	/* bit bash a key containing all relevant info */
+	key = fmt << 16;
+	key |= font & 0xf800;
+	key |= (attr >> 4) & 0x07ff; /* drop type, hide 0, and top lock bit */
+
+	res = g_hash_table_lookup (state->styles, GINT_TO_POINTER (key));
+	if (res == NULL) {
+		static StyleHAlignFlags const haligns[] = {
+			HALIGN_GENERAL, HALIGN_LEFT, HALIGN_RIGHT, HALIGN_CENTER
+		};
+		res = mstyle_new_default ();
+		mstyle_set_font_italic (res, (attr & 0x0010) ? TRUE : FALSE);
+		mstyle_set_content_hidden (res, (attr & 0x0020) ? TRUE : FALSE);
+		mstyle_set_font_uline (res,
+			(attr & 0x1000) ?  UNDERLINE_DOUBLE :
+			((attr & 0x0040) ?  UNDERLINE_SINGLE : UNDERLINE_NONE));
+		mstyle_set_font_bold (res, (attr & 0x0080) ? TRUE : FALSE);
+		mstyle_set_align_h (res, haligns [(attr & 0x300) >> 8]);
+
+		g_hash_table_insert (state->styles, GINT_TO_POINTER (key), res);
+#warning generate formats
+	}
+
+	mstyle_ref (res);
+	return res;
+}
+
 static gnum_float
-pln_get_number (const char* ch)
+pln_get_number (guint8 const * ch)
 {
 	int exp;
 	gnum_float dvalue, scale = 256.0;
 	int i;
 
 	dvalue = 0.0;
-	exp = PLN_BYTE (ch);
+	exp = *ch;
 	for (i = 1; i <= 7; i++) {
-		dvalue += PLN_BYTE (ch + i) / scale;
+		dvalue += ch[i] / scale;
 		scale *= 256;
 	}
 	if (exp & 128)
@@ -170,532 +266,228 @@ pln_get_number (const char* ch)
 	return dvalue;
 }
 
+extern unsigned char const *wp_isolatin1_chars[9][256];
+
+static guint8 *
+pln_get_str (guint8 const *ch, unsigned len)
+{
+	guint8 *start = g_strndup (ch, len);
+	guint8 *ptr = start, *res = start;
+
+	while (*res) {
+		if (32 <= *res && *res <= 126)
+			*ptr++ = *res++;
+		else if (*res == 0xC0) {
+			if (res [2] < 9) {
+				unsigned char const *utf8 = wp_isolatin1_chars [res[2]][res[1]];
+				len = strlen (utf8);
+				strcpy (ptr, utf8);
+				ptr += len;
+			}
+			res += 4;
+		} else if (*res == 0xC3 || *res == 0xC4)
+			res += 3; /* ignore */
+		else
+			res++;
+	}
+	return start;
+}
+
 
 static char *
-pln_get_row_name(int row0, int col0, int row1, int col1)
+pln_get_addr (ParsePos const *pp, guint8 const *ch)
 {
-	static char workingname[8];	/* You better make a copy of this */
-	int workptr;
-	int row2;
-	gboolean absolute;
+	guint16 r = GSF_LE_GET_GUINT16 (ch);
+	guint16 c = GSF_LE_GET_GUINT16 (ch+2);
+	CellRef ref;
 
-	workptr = 0;
+	ref.sheet = NULL;
+	ref.col_relative = ref.row_relative = FALSE;
+	ref.col = (c & 0x3fff);
+	ref.row = (r & 0x3fff);
 
-	switch (row1 & 0xc000)
-	{
-	case 0x0000:
-		/*
-		 * Positive Relative row number
-		 */
-		absolute = FALSE;
-		row2 = row0 + (row1 & 0x3fff);
+	switch (c & 0xc000) {
+	case 0xc000:	ref.col = *((gint16 *)&c);
+	case 0x0000:	ref.col_relative = TRUE;
 		break;
-
-	case 0x8000:
-		/*
-		 * Absolute row number
-		 */
-		absolute = TRUE;
-		row2 = (row1 & 0x3fff);
+	default :
 		break;
-
-	case 0xc000:
-		/*
-		 * Negitive Relative row number
-		 */
-		absolute = FALSE;
-		row2 = row0 - (0x4000 - (row1 & 0x3fff));
+	}
+	switch (r & 0xc000) {
+	case 0xc000:	ref.row = *((gint16 *)&r);
+	case 0x0000:	ref.row_relative = TRUE;
 		break;
-
-	default:
-		/*
-		 * Undefined
-		 */
-		absolute = FALSE;
-		row2 = (row1 & 0x3fff);
+	default :
 		break;
-
 	}
 
-	/*
-	 * Now try to generate a good name
-	 */
-	if (absolute)
-	{
-		sprintf(workingname + workptr, "$%d", row2 + 1);
-	}
-	else
-	{
-		sprintf(workingname + workptr, "%d", row2 + 1);
-	}
-
-	return workingname;
+	return cellref_name (&ref, pp, TRUE);
 }
 
 static char *
-pln_get_col_name(int row0, int col0, int row1, int col1)
+pln_convert_expr (ParsePos const *pp, guint8 const *ch)
 {
-	static char workingname[8];	/* You better make a copy of this */
-	int workptr;
-	int col2;
-	gboolean absolute;
+	GString *expr = g_string_new ("");
+	guint8 *str, *escaped;
+	guint8 const *end;
+	int i, len, code;
 
-	workptr = 0;
+	/* Expressions are stored INFIX so it is easier to just generate text */
 
-	switch (col1 & 0xc000)
-	{
-	case 0x0000:
-		/*
-		 * Positive Relative row number
-		 */
-		absolute = FALSE;
-		col2 = col0 + (col1 & 0x3fff);
-		break;
+	i = GSF_LE_GET_GUINT16 (ch); ch += 2;
+	for (end = ch + i ; ch < end ; ) {
+		code = *ch++;
+		switch (code) {
+		case  1: g_string_append_c (expr, '+');	break;
+		case  5:	 /* Unary minus */
+		case  2: g_string_append_c (expr, '-');	break;
+		case  3: g_string_append_c (expr, '*');	break;
+		case  4: g_string_append_c (expr, '/');	break;
+		case  6: g_string_append_c (expr, '%');	break;
+		case  7: g_string_append   (expr, "SUM("); break;
+		case 11: g_string_append_c (expr, '^'); break;
 
-	case 0x8000:
-		/*
-		 * Absolute row number
-		 */
-		absolute = TRUE;
-		col2 = (col1 & 0x3fff);
-		break;
-
-	case 0xc000:
-		/*
-		 * Negitive Relative row number
-		 */
-		absolute = FALSE;
-		col2 = col0 - (0x4000 - (col1 & 0x3fff));
-		break;
-
-	default:
-		/*
-		 * Undefined
-		 */
-		absolute = FALSE;
-		col2 = (col1 & 0x3fff);
-		break;
-
-	}
-
-	/*
-	 * Now try to generate a good name
-	 */
-	if (absolute)
-	{
-		workingname[workptr++] = '$';
-	}
-
-	if (col2 > 26)
-	{
-		workingname[workptr++] = 'A' + col2 / 26;
-	}
-
-	workingname[workptr++] = 'A' + col2 % 26;
-	workingname[workptr] = '\0';
-
-	return workingname;
-}
-
-static char *
-pln_parse_formula(const char* ch, int row, int col)
-{
-	char *result1, *result2;
-	int flength;
-	int fptr;
-	int fcode;
-	char *svalue, *svalue1;
-	int xlength;
-	int row1, col1;
-	int i;
-
-	/* FIXME : Why no generate an expression directly ?? */
-	result1 = g_strdup("=");
-
-	flength = PLN_WORD(ch);
-	fptr = 0;
-
-#if 0
-	g_warning("PLN: Formula length %d", flength);
-	printf("FBlock: ");
-	for (i = 0; i < flength; i++)
-	{
-		printf("%2x ", PLN_BYTE(ch + 2 + fptr + i));
-	}
-	printf("\n");
-#endif
-
-	while (fptr < flength)
-	{
-		fcode = PLN_BYTE(ch + 2 + fptr);
-		switch(fcode)
-		{
-		case 1:		/* Add/concat */
-			result2 = g_strconcat(result1, "+", 0);
-			g_free(result1); result1 = result2;
-			fptr++;
+		case 9:	/* Text constant */
+			len = *ch;
+			str = pln_get_str (ch + 1, len);
+			escaped = gnumeric_strescape (str);
+			g_free (str);
+			g_string_append_c (expr, '\"');
+			g_string_append (expr, escaped);
+			g_string_append_c (expr, '\"');
+			g_free (escaped);
+			ch += len + 1;
 			break;
 
-		case 2:		/* Subtraction */
-			result2 = g_strconcat(result1, "-", 0);
-			g_free(result1); result1 = result2;
-			fptr++;
+		case 10: /* Named block */
+			len = *ch;
+			g_string_append_len (expr, ch + 1, len);
+			ch += len + 1;
 			break;
 
-		case 3:		/* Multiplication */
-			result2 = g_strconcat(result1, "*", 0);
-			g_free(result1); result1 = result2;
-			fptr++;
+		case 12: g_string_append (expr, pln_get_func_table1 (*ch++));
 			break;
-
-		case 4:		/* Division */
-			result2 = g_strconcat(result1, "/", 0);
-			g_free(result1); result1 = result2;
-			fptr++;
+		case 13: g_string_append (expr, pln_get_func_table2 (*ch++));
 			break;
-
-		case 5:		/* Unary minus */
-			result2 = g_strconcat(result1, "-", 0);
-			g_free(result1); result1 = result2;
-			fptr++;
+		case 14: /* Special '+' which sums contiguous cells */
+			g_string_append   (expr, "?+?");
 			break;
-
-		case 6:		/* Percent */
-			result2 = g_strconcat(result1, "%", 0);
-			g_free(result1); result1 = result2;
-			fptr++;
-			break;
-
-		case 7:		/* SUM */
-			result2 = g_strconcat(result1, "SUM(", 0);
-			g_free(result1); result1 = result2;
-			fptr++;
-			break;
-
-		case 9:		/* Text constant */
-			xlength = PLN_BYTE(ch + 2 + fptr + 1);
-			svalue = g_strndup(ch + 2 + fptr + 3, xlength);
-			result2 = g_strconcat(result1, svalue, 0);
-			g_free(result1); result1 = result2;
-			g_free(svalue);
-			fptr += xlength + 1;
-			break;
-
-		case 10:	/* Named block */
-			xlength = PLN_BYTE(ch + 2 + fptr + 1);
-			svalue = g_strndup(ch + 2 + fptr + 3, xlength);
-			result2 = g_strconcat(result1, svalue, 0);
-			g_free(result1); result1 = result2;
-			g_free(svalue);
-			fptr += xlength + 1;
-			break;
-
-		case 11:	/* Exponent */
-			result2 = g_strconcat(result1, "^", 0);
-			g_free(result1); result1 = result2;
-			fptr++;
-			break;
-
-		case 12:	/* Formula function (1st block) */
-			if (PLN_BYTE(ch + 2 + fptr + 1) < 21)
-			{
-				result2 = g_strconcat(result1,
-					formula1[PLN_BYTE(ch + 2 + fptr + 1)],
-					"(", 0);
-				g_free(result1); result1 = result2;
-			}
-			else
-			{
-				result2 = g_strconcat(result1, "??FB1(", 0);
-				g_free(result1); result1 = result2;
-			}
-			fptr += 2;
-			break;
-
-		case 13:	/* Formula function (2nd block) */
-			if (PLN_BYTE(ch + 2 + fptr + 1) < 82)
-			{
-				result2 = g_strconcat(result1,
-					formula2[PLN_BYTE(ch + 2 + fptr + 1)],
-					"(", 0);
-				g_free(result1); result1 = result2;
-			}
-			else
-			{
-				result2 = g_strconcat(result1, "??FB2(", 0);
-				g_free(result1); result1 = result2;
-			}
-			fptr += 2;
-			break;
-
-		case 14:	/* Special '+' which sums contiguous cells */
-			result2 = g_strconcat(result1, "?+?", 0);
-			g_free(result1); result1 = result2;
-			fptr++;
-			break;
-
-		case 15:	/* Modulo */
-			result2 = g_strconcat(result1, "%", 0);
-			g_free(result1); result1 = result2;
-			printf("%s", " % ");
-			fptr++;
-			break;
-
-		case 16:	/* Not */
-			result2 = g_strconcat(result1, "!", 0);
-			g_free(result1); result1 = result2;
-			fptr++;
-			break;
-
-		case 17:	/* And */
-			result2 = g_strconcat(result1, "&", 0);
-			g_free(result1); result1 = result2;
-			fptr++;
-			break;
-
-		case 18:	/* Or */
-			result2 = g_strconcat(result1, "|", 0);
-			g_free(result1); result1 = result2;
-			fptr++;
-			break;
-
-		case 19:	/* xor */
-			result2 = g_strconcat(result1, "^^", 0);
-			g_free(result1); result1 = result2;
-			fptr++;
-			break;
-
-		case 20:	/* IF function */
-			result2 = g_strconcat(result1, "IF (", 0);
-			g_free(result1); result1 = result2;
-			fptr++;
-			break;
+		case 15: g_string_append   (expr, "_MOD_"); break;
+		case 16: g_string_append   (expr, "_NOT_"); break;
+		case 17: g_string_append   (expr, "_AND_"); break;
+		case 18: g_string_append   (expr, "_OR_"); break;
+		case 19: g_string_append   (expr, "_XOR_"); break;
+		case 20: g_string_append   (expr, "IF("); break;
 
 		case 21:	/* Compare function */
-			switch(PLN_BYTE(ch + 2 + fptr + 1))
-			{
-			case 1:
-				result2 = g_strconcat(result1, "==", 0);
-				g_free(result1); result1 = result2;
-				break;
-			case 2:
-				result2 = g_strconcat(result1, "<>", 0);
-				g_free(result1); result1 = result2;
-				break;
-			case 3:
-				result2 = g_strconcat(result1, ">", 0);
-				g_free(result1); result1 = result2;
-				break;
-			case 4:
-				result2 = g_strconcat(result1, ">=", 0);
-				g_free(result1); result1 = result2;
-				break;
-			case 5:
-				result2 = g_strconcat(result1, "<", 0);
-				g_free(result1); result1 = result2;
-				break;
-			case 6:
-				result2 = g_strconcat(result1, "<=", 0);
-				g_free(result1); result1 = result2;
-				break;
+			switch (*ch) {
+			case 1: g_string_append   (expr, "="); break;
+			case 2: g_string_append   (expr, "<>"); break;
+			case 3: g_string_append   (expr, ">"); break;
+			case 4: g_string_append   (expr, ">="); break;
+			case 5: g_string_append   (expr, "<"); break;
+			case 6: g_string_append   (expr, "<="); break;
 			default:
-				printf(" ?ErRoR? ");
-				break;
+				g_warning ("unknown comparative operator %u", *ch);
 			}
-			fptr += 2;
+			ch++;
 			break;
 
-		case 22:	/* Comma */
-			result2 = g_strconcat(result1, ",", 0);
-			g_free(result1); result1 = result2;
-			fptr++;
-			break;
+		case 22: g_string_append_c (expr, ',');	break;
+		case 23: g_string_append_c (expr, '(');	break;
+		case 24: g_string_append_c (expr, ')');	break;
 
-		case 23:	/* Left Paren */
-			result2 = g_strconcat(result1, "(", 0);
-			g_free(result1); result1 = result2;
-			fptr++;
-			break;
-
-		case 24:	/* Right paren */
-			result2 = g_strconcat(result1, ")", 0);
-			g_free(result1); result1 = result2;
-			fptr++;
-			break;
-
-		case 25:	/* Spaces */
-			for (i = 0; i < PLN_BYTE(ch + 2 + fptr + 1); i++)
-			{
-				result2 = g_strconcat(result1, " ", 0);
-				g_free(result1); result1 = result2;
-			}
-			fptr += 2;
+		case 25: for (i = *ch++; i-- > 0 ; ) /* Spaces */
+				g_string_append_c (expr, ' ');
 			break;
 
 		case 26:	/* Special formula error code */
-			result2 = g_strconcat(result1, "??ERROR??", 0);
-			g_free(result1); result1 = result2;
-			fptr++;
+			g_string_append (expr, "??ERROR??");
 			break;
 
 		case 27:	/* Cell reference */
-			row1 = PLN_WORD(ch + 2 + fptr + 1);
-			col1 = PLN_WORD(ch + 2 + fptr + 3);
-			svalue = pln_get_row_name(row, col, row1, col1);
-			svalue1 = pln_get_col_name(row, col, row1, col1);
-			result2 = g_strconcat(result1, svalue1, svalue, 0);
-			g_free(result1); result1 = result2;
-			fptr += 5;
+			str = pln_get_addr  (pp, ch);
+			g_string_append (expr, str);
+			g_free (str);
+			ch += 4;
 			break;
 
 		case 28:	/* Block reference */
-			row1 = PLN_WORD(ch + 2 + fptr + 1);
-			col1 = PLN_WORD(ch + 2 + fptr + 3);
-			svalue = pln_get_row_name(row, col, row1, col1);
-			svalue1 = pln_get_col_name(row, col, row1, col1);
-			result2 = g_strconcat(result1, svalue1, svalue, ":", 0);
-			g_free(result1); result1 = result2;
-
-			row1 = PLN_WORD(ch + 2 + fptr + 5);
-			col1 = PLN_WORD(ch + 2 + fptr + 7);
-			svalue = pln_get_row_name(row, col, row1, col1);
-			svalue1 = pln_get_col_name(row, col, row1, col1);
-			result2 = g_strconcat(result1, svalue1, svalue, 0);
-			g_free(result1); result1 = result2;
-
-			fptr += 9;
+			str = pln_get_addr  (pp, ch);
+			g_string_append   (expr, str);
+			g_free (str);
+			g_string_append_c (expr, ':');
+			str = pln_get_addr  (pp, ch+4);
+			g_string_append   (expr, str);
+			g_free (str);
+			ch += 8;
 			break;
 
-		case 29:
-			result2 = g_strconcat(result1, "!=", 0);
-			g_free(result1); result1 = result2;
-			fptr++;
+		case 29: g_string_append (expr, "<>1"); /* ?? is this right ?? */
 			break;
 
 		case 30:	/* Floating point constant */
-			xlength = PLN_BYTE(ch + 2 + fptr + 9);
-#if 1
-			svalue = g_strndup(ch + 2 + fptr + 10, xlength);
-#else
-			dvalue = pln_get_number(ch + 2 + fptr + 1);
-			svalue = g_strdup_printf("%f", dvalue);
-#endif
-			result2 = g_strconcat(result1, svalue, 0);
-			g_free(result1); result1 = result2;
-
-			fptr += 10 + xlength;
-			g_free(svalue);
+			len = ch [8];  /* they store the ascii ?? will we be screwed by locale ? */
+			g_string_append_len (expr, ch+9, len);
+			ch += 2 + len;
 			break;
 
 		case 31:	/* Reference to passed arguement in user defined function */
-			result2 = g_strconcat(result1, "?31?", 0);
-			g_free(result1); result1 = result2;
-			fptr += 2;
+			g_string_append (expr, "_unknown31_");
+			ch++; /* ignore arg number */
 			break;
 
 		case 32:	/* User function */
-			result2 = g_strconcat(result1, "?32?", 0);
-			g_free(result1); result1 = result2;
-			xlength = PLN_BYTE(ch + 2 + fptr + 1);
-			fptr += 2 + xlength;
+			g_string_append (expr, "_unknown32_");
+			len = *ch;
+			ch += len + 1;
 			break;
 
 		case 33:	/* Temporary variable (#:=) */
-			result2 = g_strconcat(result1, "?33?", 0);
-			g_free(result1); result1 = result2;
-			xlength = PLN_BYTE(ch + 2 + fptr + 2);
-			fptr += 3 + xlength;
+			len = ch [1];
+			g_string_append (expr, "_unknown33_");
+			g_string_append_len (expr, ch+2, len);
+			ch += 2 + len;
 			break;
 
 		case 34:	/* Temporary variable (#) */
-			result2 = g_strconcat(result1, "?34?", 0);
-			g_free(result1); result1 = result2;
-			xlength = PLN_BYTE(ch + 2 + fptr + 2);
-			fptr += 3 + xlength;
+			len = ch [1];
+			g_string_append (expr, "_unknown34_");
+			g_string_append_len (expr, ch+2, len);
+			ch += 2 + len;
 			break;
 
-		case 35:	/* 0.0 */
-			result2 = g_strconcat(result1, "0.0", 0);
-			g_free(result1); result1 = result2;
-			fptr++;
+		case 35: g_string_append (expr, "0.");
 			break;
 
-		case 36:
-			result2 = g_strconcat(result1, "{", 0);
-			g_free(result1); result1 = result2;
-			fptr++;
-			break;
-
-		case 37:
-			result2 = g_strconcat(result1, "}", 0);
-			g_free(result1); result1 = result2;
-			printf(" ?%d? ", fcode);
-			fptr++;
-			break;
-
-		case 38:		/* Factorial */
-			result2 = g_strconcat(result1, "!", 0);
-			g_free(result1); result1 = result2;
-			fptr++;
-			break;
-
-		case 39:		/* Lookup operator */
-			result2 = g_strconcat(result1, "<", 0);
-			g_free(result1); result1 = result2;
-			fptr++;
-			break;
-
-		case 40:		/* Lookup operator */
-			result2 = g_strconcat(result1, ">", 0);
-			g_free(result1); result1 = result2;
-			printf(" ?%d? ", fcode);
-			fptr++;
-			break;
+		case 36: g_string_append_c (expr, '{'); break;
+		case 37: g_string_append_c (expr, ')'); break;
+		case 38: g_string_append (expr, "FACTORIAL");  break;
+		case 39: g_string_append (expr, "LOOKUP<");  break;
+		case 40: g_string_append (expr, "LOOKUP>");  break;
 
 		case 41:		/* Attribute on */
-			result2 = g_strconcat(result1, "?41?", 0);
-			g_free(result1); result1 = result2;
-			fptr += 2;
-			break;
-
 		case 42:		/* Attribute off */
-			result2 = g_strconcat(result1, "?42?", 0);
-			g_free(result1); result1 = result2;
-			fptr += 2;
+			 ch++; /* ignore */
 			break;
 
 		case 43:	/* Total attributes for formula */
-			result2 = g_strconcat(result1, "?43?", 0);
-			g_free(result1); result1 = result2;
-			fptr += 3;
+			ch += 2;
 			break;
 
-		case 44:	/* Conditional attribute */
-			result2 = g_strconcat(result1, "?44?", 0);
-			g_free(result1); result1 = result2;
-			fptr++;
-			break;
-
-		case 45:	/* Assumed multiply - nop display */
-			result2 = g_strconcat(result1, "*", 0);
-			g_free(result1); result1 = result2;
-			fptr++;
-			break;
+		case 44:	/* Conditional attribute */ break;
+		case 45:	/* Assumed multiply - nop display */ break;
 
 		case 46:	/* Date format */
-			result2 = g_strconcat(result1, "?46?", 0);
-			g_free(result1); result1 = result2;
-			fptr += 2;
+			ch++;
 			break;
 
 		default:
-g_warning("PLN: Undefined formula code %d", fcode);
-			fptr++;
-			break;
+			g_warning("PLN: Undefined formula code %d", code);
 		}
 	}
 
-	return result1;
+	return g_string_free (expr, FALSE);
 }
 
 /* Font width should really be calculated, but it's too hard right now */
@@ -707,18 +499,24 @@ pln_calc_font_width (guint16 cwidth, gboolean permit_default)
 }
 
 static ErrorInfo *
-pln_parse_sheet (GsfInput *input, Sheet *sheet)
+pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 {
-	unsigned max_col = SHEET_MAX_COLS;
-	unsigned max_row = SHEET_MAX_ROWS;
-	unsigned i, rcode, rlength;
-	Cell *cell = NULL;
-	gnum_float dvalue;
-	Value	*val;
+	int max_col = SHEET_MAX_COLS;
+	int max_row = SHEET_MAX_ROWS;
+	int i, rcode, rlength;
 	guint8 const *data;
+	Cell    *cell;
+	Value   *v;
+	GnmExpr const *expr;
+	MStyle  *style;
+	ParsePos pp;
+	Range    r;
+
+	range_init (&r, 0,0,0, SHEET_MAX_ROWS);
+	parse_pos_init (&pp, NULL, state->sheet, 0, 0);
 
 	data = gsf_input_read (input, 6, NULL);
-	if (data == NULL || PLN_WORD (data + 2) != 0)
+	if (data == NULL || GSF_LE_GET_GUINT16 (data + 2) != 0)
 		return error_info_new_str (_("PLN : Spreadsheet is password encrypted"));
 
 	/* Process the record based sections
@@ -732,8 +530,6 @@ pln_parse_sheet (GsfInput *input, Sheet *sheet)
 
 		rcode   = GSF_LE_GET_GUINT16 (data);
 		rlength = GSF_LE_GET_GUINT16 (data + 2);
-
-		printf ("Record %x Len %x\n", rcode, rlength);
 
 		data = gsf_input_read (input, rlength, NULL);
 		if (data == NULL)
@@ -762,88 +558,109 @@ pln_parse_sheet (GsfInput *input, Sheet *sheet)
 				if (i <= max_col) {
 					double const width = pln_calc_font_width (
 						GSF_LE_GET_GUINT16 (data + 4), TRUE);
-					sheet_col_set_size_pts (sheet, i, width, FALSE);
+					sheet_col_set_size_pts (state->sheet, i, width, FALSE);
+					r.start.col = r.end.col = i;
+					sheet_style_apply_range (state->sheet, &r,
+						pln_get_style (state, data, FALSE));
 				}
 			break;
 
 		default:
-			g_warning("PLN : Record handling code for code %d not yet written", rcode);
+			/* g_warning("PLN : Record handling code for code %d not yet written", rcode); */
 		}
 	} while (rcode != 25);
 
 	/* process the CELL information */
 	while (NULL != (data = gsf_input_read (input, 20, NULL))) {
-		unsigned row  = GSF_LE_GET_GUINT16 (data + 0);
-		unsigned col  = GSF_LE_GET_GUINT16 (data + 2);
 		unsigned type = GSF_LE_GET_GUINT16 (data + 12);
 		unsigned length = GSF_LE_GET_GUINT16 (data + 18);
 
+		pp.eval.row = GSF_LE_GET_GUINT16 (data + 0);
+		pp.eval.col = GSF_LE_GET_GUINT16 (data + 2);
 		/* Special value indicating end of sheet */
-		if (row == 0xFFFF)
+		if (pp.eval.row == 0xFFFF)
 			return NULL;
 
-		if (row > max_row)
+		if (pp.eval.row > max_row)
 			return error_info_new_printf (
 				_("Ignoring data that claims to be in row %u which is > max row %u"),
-				row, max_row);
-		if (col > max_col)
+				pp.eval.row, max_row);
+		if (pp.eval.col > max_col)
 			return error_info_new_printf (
 				_("Ignoring data that claims to be in column %u which is > max column %u"),
-				col, max_col);
+				pp.eval.col, max_col);
 
-		printf ("%s type=%x extralen=%x\n", cell_coord_name (col, row), type, length);
+		v = NULL;
+		expr = NULL;
+		if ((type & 0x7) != 0) {
+			style = pln_get_style (state, data, TRUE);
+			if (style != NULL)
+				sheet_style_set_pos (state->sheet, pp.eval.col, pp.eval.row, style);
+			if ((type & 0x7) != 6)
+				cell = sheet_cell_fetch (state->sheet, pp.eval.col, pp.eval.row);
+		} else {
+			cell = NULL;
+			style = NULL;
+		}
 
-		switch (type & 7) {
-		case 0:		/* Empty Cell */
-		case 6:		/* format only, no data in cell */
+		switch (type & 0x7) {
+		/* Empty Cell */
+		case 0:
+			if (length != 0) {
+				g_warning ("an empty unformated cell has an expression ?");
+			} else
+				continue;
+
+		/* Floating Point */
+		case 1: v = value_new_float (pln_get_number (data + 4));
 			break;
-
-		case 1:		/* Floating Point */
-			dvalue = pln_get_number (data + 4);
-			cell = sheet_cell_fetch (sheet, col, row);
-			cell_set_value (cell, value_new_float (dvalue));
+		/* Short Text */
+		case 2:
+			v = value_new_string_nocopy (
+				pln_get_str (data + 5, data[4]));
 			break;
-
-		case 2:		/* Short Text */
-			cell = sheet_cell_fetch (sheet, col, row);
-			if (cell != NULL) {
-				val = value_new_string_nocopy (
-					g_strndup (data + 5, PLN_BYTE (data + 4)));
-				cell_set_value (cell, val);
-			}
+		/* Long Text */
+		case 3: data = gsf_input_read (input, GSF_LE_GET_GUINT16 (data+4), NULL);
+			if (data != NULL)
+				v = value_new_string_nocopy (
+					pln_get_str (data + 2, GSF_LE_GET_GUINT16 (data)));
 			break;
-
-		case 3:		/* Long Text */
-			data = gsf_input_read (input, PLN_WORD (data+4), NULL);
-			if (data != NULL) {
-				cell = sheet_cell_fetch (sheet, col, row);
-				if (cell != NULL) {
-					val = value_new_string_nocopy (
-						g_strndup (data + 2, PLN_WORD (data)));
-					cell_set_value (cell, val);
-				}
-			}
+		/* Error Cell */
+		case 4: v = value_new_error (NULL, gnumeric_err_VALUE);
 			break;
-
-		case 4:		/* Error Cell */
-			cell_set_value (sheet_cell_fetch (sheet, col, row),
-					value_new_error (NULL, gnumeric_err_VALUE));
+		/* na Cell */
+		case 5: v = value_new_error (NULL, gnumeric_err_NA);
 			break;
-
-		case 5:		/* na Cell */
-			cell_set_value (sheet_cell_fetch (sheet, col, row),
-					value_new_error (NULL, gnumeric_err_NA));
-			break;
+		/* format only, no data in cell */
+		case 6: break;
 		}
 
 		if (length != 0) {
 			data = gsf_input_read (input, length, NULL);
 			if (cell != NULL && data != NULL) {
-				char *expr = pln_parse_formula (data, row, col);
-				cell_set_text (cell, expr);
-				g_free (expr);
+				char *expr_txt = pln_convert_expr (&pp, data);
+
+				if (expr_txt != NULL) {
+					expr = gnm_expr_parse_str (expr_txt, &pp,
+						GNM_EXPR_PARSE_DEFAULT, NULL);
+					if (expr == NULL) {
+						if (v != NULL)
+							value_release (v);
+						v = value_new_string_nocopy (expr_txt);
+					} else
+						g_free (expr_txt);
+				}
 			}
 		}
+
+		if (expr != NULL) {
+			if (v != NULL)
+				cell_set_expr_and_value (cell, expr, v, TRUE);
+			else
+				cell_set_expr (cell, expr);
+			gnm_expr_unref (expr);
+		} else if (v != NULL)
+			cell_set_value (cell, v);
 	}
 
 	return NULL;
@@ -857,6 +674,7 @@ pln_file_open (GnumFileOpener const *fo, IOContext *io_context,
 	char  *name;
 	Sheet *sheet;
 	ErrorInfo *error;
+	PlanPerfectImport state;
 
 	if (!pln_file_probe (NULL, input, FILE_PROBE_CONTENT_FULL)) {
 		gnumeric_io_error_info_set (io_context,
@@ -871,35 +689,14 @@ pln_file_open (GnumFileOpener const *fo, IOContext *io_context,
 	workbook_sheet_attach (wb, sheet, NULL);
 	sheet_flag_recompute_spans (sheet);
 
-	error = pln_parse_sheet (input, sheet);
+	state.sheet  = sheet;
+	state.styles = g_hash_table_new_full (
+		g_direct_hash, g_direct_equal,
+		NULL, (GDestroyNotify) mstyle_unref);
+	error = pln_parse_sheet (input, &state);
+	g_hash_table_destroy (state.styles);
 	if (error != NULL) {
 		workbook_sheet_detach (wb, sheet);
 		gnumeric_io_error_info_set (io_context, error);
 	}
-}
-
-static guint8 const signature[] =
-    { 0xff, 'W','P','C', 0x10, 0, 0, 0, 0x9, 0xa };
-
-gboolean
-pln_file_probe (GnumFileOpener const *fo, GsfInput *input,
-		FileProbeLevel pl)
-{
-	/*
-	 * a plan-perfect header
-	 *	0	= -1
-	 *	1-3	= "WPC"
-	 *	4-7	= 16 (double word)
-	 *	8	= 9 (plan perfect file)
-	 *	9	= 10 (worksheet file)
-	 *	10	= major version number
-	 *	11	= minor version number
-	 *	12-13	= encryption key
-	 *	14-15	= unused
-	 */
-	char const *header = NULL;
-	if (!gsf_input_seek (input, 0, GSF_SEEK_SET))
-		header = gsf_input_read (input, sizeof (signature), NULL);
-	return header != NULL &&
-	    memcmp (header, signature, sizeof (signature)) == 0;
 }
