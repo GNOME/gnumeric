@@ -1,3 +1,10 @@
+2004-09-16  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* graph/gog-error-bar.c (gog_error_bar_get_min_max): get values from
+	outside of loop.
+	(gog_error_bar_get_bounds): add assertions. Use
+	go_data_vector_get_value.
+
 2004-09-15  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=152499
