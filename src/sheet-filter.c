@@ -767,7 +767,8 @@ gnm_filter_set_condition (GnmFilter *filter, unsigned i,
 			for (r = filter->r.start.row; ++r <= filter->r.end.row ; ) {
 				ColRowInfo *ri = sheet_row_get (filter->dep.sheet, r);
 				if (ri != NULL)
-					colrow_set_visibility (sheet, FALSE, TRUE, r, r);
+					colrow_set_visibility (filter->dep.sheet,
+							       FALSE, TRUE, r, r);
 			}
 			for (i = 0 ; i < filter->fields->len ; i++)
 				filter_field_apply (g_ptr_array_index (filter->fields, i));
