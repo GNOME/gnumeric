@@ -1,5 +1,13 @@
 2002-10-24  Morten Welinder  <terra@diku.dk>
 
+	* src/xml-io.c (xml_cell_set_array_expr): Create place-holders for
+	unknown functions (that were presumably known when we saved the
+	file in question).
+	(xml_read_cell): Ditto.
+	(xml_read_cell_copy): Ditto.
+	(xml_read_names): Ditto.
+	(xml_read_style): Ditto.
+
 	* src/expr-name.c (gnm_named_expr_collection_check): Compare in a
 	different order so putify doesn't misunderstand gcc's smart code.
 
