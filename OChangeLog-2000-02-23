@@ -7,6 +7,7 @@
 	(fmt_dialog_impl) : Ditto.
 	(dialog_cell_format) : Init selection_mask looking at all selected
 	  ranges to see if any are more than 1 cell wide or tall.
+	(border_event) : Extend the event map to handle the new shapes.
 
 1999-11-13  JP Rosevear  <jpr@arcavia.com>
 

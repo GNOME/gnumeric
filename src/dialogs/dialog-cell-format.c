@@ -248,7 +248,6 @@ cb_auto_color_selected (GtkObject *obj, ColorPicker *state)
 	 *                  We should calculate them on the fly rather than hard coding
 	 *                  in the initialization.
 	 */
-
 	if ((state->is_auto = gtk_toggle_button_get_active (state->autob))) {
 		/* The auto radio was clicked.  Reset the color in the picker */
 		gnome_color_picker_set_i16 (state->picker,
@@ -664,7 +663,6 @@ fmt_dialog_enable_widgets (FormatState *state, int page)
 				break;
 
 			case 11:
-				/* TODO Allow for REAL custom formats */
 				start = 0; end = 8;
 				break;
 
@@ -685,6 +683,10 @@ fmt_dialog_enable_widgets (FormatState *state, int page)
 
 			/* If this is the custom page and the format has
 			 * not been found append it */
+			/* TODO We should add the list of other custom formats created.
+			 *      It should be easy.  All that is needed is a way to differentiate
+			 *      the std formats and the custom formats in the StyleFormat hash.
+			 */
 			if  (page == 11 && select == -1)
 				gtk_entry_set_text (GTK_ENTRY (state->format.widget[F_ENTRY]),
 						    (gchar *)state->format.spec);
@@ -1469,13 +1471,21 @@ border_format_has_changed (FormatState *state, BorderPicker *edge)
 }
 
 /*
- * Map canvas x.y coords to a border type */
+ * Map canvas x.y coords to a border type
+ * Handle all of the various permutations of lines
+ */
 static gboolean
 border_event (GtkWidget *widget, GdkEventButton *event, FormatState *state)
 {
 	double x = event->x;
 	double y = event->y;
-	StyleBorderLocation	which;
+	BorderPicker		*edge;
+
+	/* Crap!  This variable is always initialized.
+	 * However, the compiler is confused and thinks it is not
+	 * so we are forced to pick a random irrelevant value.
+	 */
+	StyleBorderLocation	 which = STYLE_BORDER_LEFT;
 
 	if (event->button != 1)
 		return FALSE;
@@ -1496,15 +1506,46 @@ border_event (GtkWidget *widget, GdkEventButton *event, FormatState *state)
 	else if (y <= T+5.)	which = STYLE_BORDER_TOP;
 	else if (y >= B-5.)	which = STYLE_BORDER_BOTTOM;
 	else if (x >= R-5.)	which = STYLE_BORDER_RIGHT;
-	else if (state->selection_mask > 1) {
+	else switch (state->selection_mask) {
+	case 1 :
+		if ((x < V) == (y < H))
+			which = STYLE_BORDER_REV_DIAG;
+		else
+			which = STYLE_BORDER_DIAG;
+		break;
+	case 2 :
+		if (H-5. < y  && y < H+5.)
+			which = STYLE_BORDER_HORIZ;
+		else {
+			/* Map everything back to the top */
+			if (y > H) y -= H-10.;
 
-	    /* FIXME : 2 more diagonal cases, and only do vertical or horizontal if permitted */
+			if ((x < V) == (y < H/2.))
+				which = STYLE_BORDER_REV_DIAG;
+			else
+				which = STYLE_BORDER_DIAG;
+		}
+		break;
+	case 4 :
+		if (V-5. < x  && x < V+5.)
+			which = STYLE_BORDER_VERT;
+		else {
+			/* Map everything back to the left */
+			if (x > V) x -= V-10.;
+
+			if ((x < V/2.) == (y < H))
+				which = STYLE_BORDER_REV_DIAG;
+			else
+				which = STYLE_BORDER_DIAG;
+		}
+		break;
+	case 8 :
 		if (V-5. < x  && x < V+5.)
 			which = STYLE_BORDER_VERT;
 		else if (H-5. < y  && y < H+5.)
 			which = STYLE_BORDER_HORIZ;
 		else {
-			/* Map everything back to the 1sr quadrant */
+			/* Map everything back to the 1st quadrant */
 			if (x > V) x -= V-10.;
 			if (y > H) y -= H-10.;
 
@@ -1513,20 +1554,17 @@ border_event (GtkWidget *widget, GdkEventButton *event, FormatState *state)
 			else
 				which = STYLE_BORDER_DIAG;
 		}
-	} else
-	{
-		if ((x < V) == (y < H))
-			which = STYLE_BORDER_REV_DIAG;
-		else
-			which = STYLE_BORDER_DIAG;
+		break;
+
+	default :
+		g_assert_not_reached ();
 	}
 
-	{
-		BorderPicker *edge = &state->border.edge[which];
-		if (!border_format_has_changed (state, edge) ||
-		    !edge->is_selected)
-			gtk_toggle_button_set_active (edge->button, !edge->is_selected);
-	}
+	edge = &state->border.edge[which];
+	if (!border_format_has_changed (state, edge) || !edge->is_selected)
+		gtk_toggle_button_set_active (edge->button,
+					      !edge->is_selected);
+
 	return TRUE;
 }
 
@@ -1608,7 +1646,6 @@ draw_border_preview (FormatState *state)
 			if (line_info[i].states & state->selection_mask) {
 				BorderPicker const * p =
 				    & state->border.edge[line_info[i].location];
-				puts ("bob");
 				state->border.lines[i] =
 					gnome_canvas_item_new (group,
 							       gnumeric_dashed_canvas_line_get_type (),
