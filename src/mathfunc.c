@@ -4457,10 +4457,7 @@ int
 gcd (int a, int b)
 {
 	while (b != 0) {
-		int r;
-
-		r = a - (a / b) * b;	/* r = remainder from
-					 * dividing a by b	*/
+		int r = a % b;
 		a = b;
 		b = r;
 	}
@@ -4472,24 +4469,42 @@ gnum_float
 combin (int n, int k)
 {
 	if (n >= 15) {
-		gnum_float res;
-
-		res = expgnum (lgamma (n + 1) - lgamma (k + 1) - lgamma (n - k + 1));
-		return floor (res + 0.5);  /* Round, just in case.  */
+		return floorgnum (0.5 + expgnum (lgamma (n + 1) - lgamma (k + 1) - lgamma (n - k + 1)));
 	} else {
-		gnum_float res;
+		return fact (n) / fact (k) / fact (n - k);
+	}
+}
 
-		res = fact (n) / fact (k) / fact (n - k);
-		return res;
+gnum_float
+permut (int n, int k)
+{
+	if (n >= 15) {
+		return floorgnum (0.5 + expgnum (lgamma (n + 1) - lgamma (n - k + 1)));
+	} else {
+		return fact (n) / fact (n - k);
 	}
 }
 
 gnum_float
 fact (int n)
 {
-	if (n == 0)
-		return 1;
-	return (n * fact (n - 1));
+	static gnum_float table[100];
+	static gboolean init = FALSE;
+
+	if (n < 0)
+		return ML_NAN;
+
+	if (n < (int)G_N_ELEMENTS (table)) {
+		if (!init) {
+			int i;
+			table[0] = 1;
+			for (i = 1; i < (int)G_N_ELEMENTS (table); i++)
+				table[i] = table[i - 1] * i;
+			init = TRUE;
+		}
+		return table[n];
+	} else
+		return floorgnum (0.5 + expgnum (lgamma (n + 1)));
 }
 
 /*

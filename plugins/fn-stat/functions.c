@@ -1807,7 +1807,7 @@ gnumeric_permut (FunctionEvalInfo *ei, Value **argv)
 	k = value_get_as_int (argv[1]);
 
 	if (0 <= k && k <= n)
-		return value_new_float (fact (n) / fact (n - k));
+		return value_new_float (permut (n, k));
 	else
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 }

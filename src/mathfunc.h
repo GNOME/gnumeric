@@ -127,6 +127,7 @@ gnum_float     gpow10 (int n);
 gnum_float     gpow2  (int n);
 int            gcd    (int a, int b);
 gnum_float     combin (int n, int k);
+gnum_float     permut (int n, int k);
 gnum_float     fact   (int n);
 
 /* ------------------------------------------------------------------------- */

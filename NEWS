@@ -34,6 +34,7 @@ Morten:
 	* Improve the Applix importer.
 	* Update mathfunc.c to R 1.5.1.
 	* Improve precision of HYPGEOMDIST and NEGBINOMDIST.
+	* Fix PERMUT crash.
 
 Jon Kåre:
 	* Use GsfInput in the Python plugin loader
