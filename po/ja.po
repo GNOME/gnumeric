@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.66\n"
-"POT-Creation-Date: 2001-06-28 18:21-0400\n"
+"POT-Creation-Date: 2001-06-30 18:11+0900\n"
 "PO-Revision-Date: 2001-02-18 19:38-0500\n"
 "Last-Translator: Yukihiro Nakai <nakai@gnome.gr.jp>\n"
 "Language-Team: Japanese <translation@gnome.gr.jp>\n"
@@ -468,6 +468,15 @@ msgstr "処理できないPython例外: %s"
 msgid "Python module name not given."
 msgstr "Pythonモジュール名が指定されていません。"
 
+#: plugins/python-loader/python-loader.c:155
+msgid "Module \"%s\" doesn't exist."
+msgstr "モジュールには\"%s\"が含まれていません。"
+
+#: plugins/python-loader/python-loader.c:180
+#, c-format
+msgid "Execution of module \"%s\" failed."
+msgstr "モジュール\"%s\"の実行に失敗しました。"
+
 #: plugins/python-loader/python-loader.c:212 src/plugin-loader-module.c:190
 msgid "Loader"
 msgstr "ローダ"
@@ -505,29 +514,29 @@ msgstr "ファイルには\"%s\"辞書が含まれていません。"
 msgid "Object \"%s\" is not a dictionary."
 msgstr "オブジェクト\"%s\"は辞書ではありません。"
 
-#: plugins/python-loader/py-gnumeric.c:270
-#: plugins/python-loader/py-gnumeric.c:310 src/gnumeric-util.c:278
+#: plugins/python-loader/py-gnumeric.c:274
+#: plugins/python-loader/py-gnumeric.c:314 src/gnumeric-util.c:278
 #: src/gnumeric-util.c:313
 msgid "Unknown error"
 msgstr "不明なエラー"
 
-#: plugins/python-loader/py-gnumeric.c:276
-#: plugins/python-loader/py-gnumeric.c:318
+#: plugins/python-loader/py-gnumeric.c:280
+#: plugins/python-loader/py-gnumeric.c:322
 #, c-format
 msgid "Python exception (%s: %s)"
 msgstr "Python例外 (%s: %s)"
 
-#: plugins/python-loader/py-gnumeric.c:280
-#: plugins/python-loader/py-gnumeric.c:322
+#: plugins/python-loader/py-gnumeric.c:284
+#: plugins/python-loader/py-gnumeric.c:326
 #, c-format
 msgid "Python exception (%s)"
 msgstr "Python例外 (%s)"
 
-#: plugins/python-loader/py-gnumeric.c:453
+#: plugins/python-loader/py-gnumeric.c:457
 msgid "Python list is not an array"
 msgstr "Pythonリストは配列ではありません"
 
-#: plugins/python-loader/py-gnumeric.c:460
+#: plugins/python-loader/py-gnumeric.c:464
 #, c-format
 msgid "Unsupported Python type: %s"
 msgstr "サポートされていないPythonの型です: %s"
@@ -1092,10 +1101,12 @@ msgid "Setting current time in %s"
 msgstr "現在の時間を %s に設定"
 
 #: src/commands.c:1841
+#, c-format
 msgid "Autofitting column %s"
 msgstr "列%sに自動フィットを実行しています"
 
 #: src/commands.c:1842
+#, c-format
 msgid "Autofitting row %s"
 msgstr "行%sに自動フィットを実行しています"
 
@@ -1110,6 +1121,7 @@ msgid "Setting height of row %s to %d pixels"
 msgstr "行%sの高さを%dピクセルに設定"
 
 #: src/commands.c:1852 src/commands.c:1853
+#, c-format
 msgid "Autofitting columns %s"
 msgstr "列%sに自動フィットを実行しています"
 
@@ -1248,6 +1260,7 @@ msgid "Setting default width of columns to %.2fpts"
 msgstr "デフォルトの列の幅を%.2fポイントに設定"
 
 #: src/commands.c:3759
+#, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "行のデフォルト高さを%.2fポイントに設定"
 
@@ -2523,7 +2536,8 @@ msgstr "Vladimir Vuksan, 金融関数。"
 msgid "Morten Welinder, Gnumeric hacker."
 msgstr "Morten Welinder, Gnumeric ハッカー。"
 
-#: src/dialogs/dialog-about.c:75 src/functions/fn-sheet.c:137
+#: gnumeric.desktop.in.h:1 src/dialogs/dialog-about.c:75
+#: src/functions/fn-sheet.c:137
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
@@ -3346,8 +3360,8 @@ msgid ""
 "restarting Gnumeric?"
 msgstr ""
 "プラグインはまだ使用中なので無効にはできません。\n"
-"Gnumericを再起動したときに有効にならないように、無効にマークをつけて"
-"おきますか?"
+"Gnumericを再起動したときに有効にならないように、無効にマークをつけておきます"
+"か?"
 
 #: src/dialogs/dialog-plugin-manager.c:310
 msgid "Errors while activating plugins"
@@ -4335,7 +4349,7 @@ msgstr "変更ごとに問い合わせる"
 
 #: src/dialogs/search-replace.glade.h:3
 msgid "Attempt to preserve case of text when replacing"
-msgstr ""
+msgstr "置換のときにテキストの大文字小文字を維持しようとします"
 
 #: src/dialogs/search-replace.glade.h:4
 msgid "By"
@@ -4387,7 +4401,7 @@ msgstr "失敗"
 
 #: src/dialogs/search-replace.glade.h:16
 msgid "Fail without any changes actually being done to any cell"
-msgstr "どのセルにも実際に変更しないまま失敗"
+msgstr "どのセルも実際には変更しないまま失敗"
 
 #: src/dialogs/search-replace.glade.h:17
 msgid "Ignore case"
@@ -4399,15 +4413,15 @@ msgstr "場所"
 
 #: src/dialogs/search-replace.glade.h:19
 msgid "Make error expression"
-msgstr ""
+msgstr "エラーの説明をする"
 
 #: src/dialogs/search-replace.glade.h:20
 msgid "Make string value"
-msgstr ""
+msgstr "文字列値を作る"
 
 #: src/dialogs/search-replace.glade.h:21
 msgid "Match whole words only"
-msgstr ""
+msgstr "全一致のみ"
 
 #: src/dialogs/search-replace.glade.h:22
 msgid "Miscellanea"
@@ -4415,31 +4429,31 @@ msgstr "その他"
 
 #: src/dialogs/search-replace.glade.h:24
 msgid "Other values"
-msgstr ""
+msgstr "他の値"
 
 #: src/dialogs/search-replace.glade.h:25
 msgid "Perform changes within cell comments"
-msgstr "セルのコメントに変更を実行する"
+msgstr "コメントがあるセルを変更します"
 
 #: src/dialogs/search-replace.glade.h:26
 msgid "Perform changes within expressions"
-msgstr ""
+msgstr "数式があるセルを変更します"
 
 #: src/dialogs/search-replace.glade.h:27
 msgid "Perform changes within non-string values"
-msgstr ""
+msgstr "非文字列値のセルを変更します"
 
 #: src/dialogs/search-replace.glade.h:28
 msgid "Perform changes within string values"
-msgstr ""
+msgstr "文字列値のセルを変更します"
 
 #: src/dialogs/search-replace.glade.h:29
 msgid "Perform no more replacements"
-msgstr ""
+msgstr "これ以上置換をしない"
 
 #: src/dialogs/search-replace.glade.h:30
 msgid "Perform this replacement"
-msgstr ""
+msgstr "置換を繰り返す"
 
 #: src/dialogs/search-replace.glade.h:31
 msgid "Plain text"
@@ -4447,7 +4461,7 @@ msgstr "プレーンテキスト"
 
 #: src/dialogs/search-replace.glade.h:32
 msgid "Preserve case"
-msgstr ""
+msgstr "大文字小文字を維持する"
 
 #: src/dialogs/search-replace.glade.h:33
 msgid "Query"
@@ -4495,7 +4509,7 @@ msgstr "指定した範囲でのみ探索と置換をする"
 
 #: src/dialogs/search-replace.glade.h:46
 msgid "Search for"
-msgstr "探索 for"
+msgstr "探索する文字列"
 
 #: src/dialogs/search-replace.glade.h:47
 msgid "Skip cells that that would result in errors"
@@ -4511,15 +4525,15 @@ msgstr "探索テキストは正規表現です"
 
 #: src/dialogs/search-replace.glade.h:50
 msgid "The search text is taken literal"
-msgstr ""
+msgstr "探索テキストは普通の文字列です"
 
 #: src/dialogs/search-replace.glade.h:51
 msgid "Turn unparseable entries into string values"
-msgstr ""
+msgstr "パースできないエントリを文字列値に変更します"
 
 #: src/dialogs/search-replace.glade.h:52
 msgid "When set, do not distinguish between upper and lower case letters"
-msgstr ""
+msgstr "これをセットすると、大文字小文字を区別しません"
 
 #: src/dialogs/sheet-order.glade.h:1
 msgid "Close this dialog"
@@ -4611,7 +4625,7 @@ msgstr "ソルバパラメータ"
 
 #: src/dialogs/solver.glade.h:12
 msgid "Solver Result"
-msgstr ""
+msgstr "ソルバの結果"
 
 #: src/dialogs/solver.glade.h:13
 msgid "Subject to the Constraints:"
@@ -4695,7 +4709,7 @@ msgstr "題名"
 
 #: src/dialogs/validate.glade.h:1
 msgid "A blank cell will be seen as valid"
-msgstr ""
+msgstr "ブランクセルは正しいようです"
 
 #: src/dialogs/validate.glade.h:2
 msgid "Ac_tion :"
@@ -6364,6 +6378,12 @@ msgid ""
 "\n"
 "@SEEALSO=DCOUNT"
 msgstr ""
+"\n"
+"DCOUNTA(A1:C7, \"Salary\", A9:A11)は3になります。\n"
+"DCOUNTA(A1:C7, \"Salary\", A9:B11)は2になります。\n"
+"DCOUNTA(A1:C7, \"Name\", A9:B11)は2になります。\n"
+"\n"
+"@SEEALSO=DCOUNT"
 
 #: src/functions/fn-database.c:691
 msgid ""
@@ -13797,7 +13817,7 @@ msgstr ""
 #. same error message.
 #: src/functions/fn-string.c:395
 msgid "Out of memory"
-msgstr ""
+msgstr "メモリが足りません"
 
 #: src/functions/fn-string.c:411
 msgid ""
@@ -14100,7 +14120,7 @@ msgid "_Move"
 msgstr "移動(_M)"
 
 #: src/GNOME_Gnumeric.xml.h:225 src/item-cursor.c:929
-#: src/sheet-control-gui.c:1038
+#: src/sheet-control-gui.c:1040
 msgid "_Copy"
 msgstr "コピー(_C)"
 
@@ -14360,10 +14380,12 @@ msgid "We depend on plugin with id=\"%s\" which is not available."
 msgstr "ID=\"%s\"のプラグインに依存していますが有効にはできません。"
 
 #: src/plugin.c:1040
+#, c-format
 msgid "Error while activating plugin service #%d."
 msgstr "プラグインサービス#%dを有効にしているときにエラーが発生しました。"
 
 #: src/plugin.c:1080
+#, c-format
 msgid "Error while deactivating plugin service #%d."
 msgstr "プラグインサービス#%dを無効にしているときにエラーが発生しました。"
 
@@ -14415,6 +14437,7 @@ msgstr "モジュールファイル\"%s\"を開けません: %s"
 #: src/plugin-loader-module.c:128 src/plugin-loader-module.c:331
 #: src/plugin-loader-module.c:432 src/plugin-loader-module.c:503
 #: src/plugin-loader-module.c:592
+#, c-format
 msgid "Module file \"%s\" has invalid format."
 msgstr "モジュールファイル\"%s\"のフォーマットが正しくありません。"
 
@@ -14458,10 +14481,12 @@ msgid "File doesn't contain \"plugin_can_deactivate_general\" function."
 msgstr "ファイルには\"plugin_can_deactivate_general\"関数が含まれていません。"
 
 #: src/plugin-loader-module.c:597
+#, c-format
 msgid "File doesn't contain \"%s\" array."
 msgstr "ファイルには\"%s\"配列が含まれていません。"
 
 #: src/plugin-loader-module.c:684
+#, c-format
 msgid "Module doesn't contain \"%s\" function."
 msgstr "モジュールには\"%s\"関数が含まれていません。"
 
@@ -14603,6 +14628,7 @@ msgid "Cut"
 msgstr "カット"
 
 #: src/sheet-control-gui.c:504
+#, c-format
 msgid "Row: %s"
 msgstr "行: %s"
 
@@ -14611,15 +14637,15 @@ msgstr "行: %s"
 msgid "Column: %s"
 msgstr "列: %s"
 
-#: src/GNOME_Gnumeric.xml.h:54 src/sheet-control-gui.c:1036
+#: src/GNOME_Gnumeric.xml.h:54 src/sheet-control-gui.c:1038
 msgid "Cu_t"
 msgstr "カット(_T)"
 
-#: src/GNOME_Gnumeric.xml.h:249 src/sheet-control-gui.c:1040
+#: src/GNOME_Gnumeric.xml.h:249 src/sheet-control-gui.c:1042
 msgid "_Paste"
 msgstr "貼付け(_P)"
 
-#: src/sheet-control-gui.c:1042
+#: src/sheet-control-gui.c:1044
 msgid "Paste _Special"
 msgstr "特別貼り付け(_S)"
 
@@ -14630,58 +14656,58 @@ msgstr "特別貼り付け(_S)"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1054
+#: src/sheet-control-gui.c:1056
 msgid "_Insert..."
 msgstr "挿入(_I)..."
 
-#: src/GNOME_Gnumeric.xml.h:229 src/sheet-control-gui.c:1056
+#: src/GNOME_Gnumeric.xml.h:229 src/sheet-control-gui.c:1058
 #: src/workbook-control-gui.c:2261
 msgid "_Delete..."
 msgstr "削除(_D)..."
 
-#: src/sheet-control-gui.c:1058
+#: src/sheet-control-gui.c:1060
 msgid "_Insert Column(s)"
 msgstr "列を挿入(_I)"
 
-#: src/sheet-control-gui.c:1060
+#: src/sheet-control-gui.c:1062
 msgid "_Delete Column(s)"
 msgstr "列を削除(_D)"
 
-#: src/sheet-control-gui.c:1062
+#: src/sheet-control-gui.c:1064
 msgid "_Insert Row(s)"
 msgstr "行を挿入(_I)"
 
-#: src/sheet-control-gui.c:1064
+#: src/sheet-control-gui.c:1066
 msgid "_Delete Row(s)"
 msgstr "行を削除(_D)"
 
-#: src/sheet-control-gui.c:1067
+#: src/sheet-control-gui.c:1069
 msgid "Clear Co_ntents"
 msgstr "内容を消去(_N)"
 
-#: src/sheet-control-gui.c:1073
+#: src/sheet-control-gui.c:1075
 msgid "_Format Cells..."
 msgstr "セルの書式設定(_F)..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1077
+#: src/sheet-control-gui.c:1079
 msgid "Column _Width..."
 msgstr "列の幅(_W)..."
 
-#: src/GNOME_Gnumeric.xml.h:240 src/sheet-control-gui.c:1079
-#: src/sheet-control-gui.c:1087 src/workbook-control-gui.c:2372
+#: src/GNOME_Gnumeric.xml.h:240 src/sheet-control-gui.c:1081
+#: src/sheet-control-gui.c:1089 src/workbook-control-gui.c:2372
 #: src/workbook-control-gui.c:2391
 msgid "_Hide"
 msgstr "隠す(_H)"
 
-#: src/GNOME_Gnumeric.xml.h:267 src/sheet-control-gui.c:1081
-#: src/sheet-control-gui.c:1089 src/workbook-control-gui.c:2375
+#: src/GNOME_Gnumeric.xml.h:267 src/sheet-control-gui.c:1083
+#: src/sheet-control-gui.c:1091 src/workbook-control-gui.c:2375
 #: src/workbook-control-gui.c:2394
 msgid "_Unhide"
 msgstr "出す(_U)"
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1085
+#: src/sheet-control-gui.c:1087
 msgid "_Row Height..."
 msgstr "行の高さ(_R)..."
 
@@ -14811,11 +14837,11 @@ msgstr ""
 
 #: src/solver-lp.c:1039
 msgid "Sensitivity Report"
-msgstr ""
+msgstr "詳細レポート"
 
 #: src/solver-lp.c:1040
 msgid "Gnumeric Solver Sensitivity Report"
-msgstr ""
+msgstr "Gnumericソルバ詳細レポート"
 
 #: src/solver-lp.c:1042 src/solver-lp.c:1088
 msgid "Final"
@@ -14867,6 +14893,7 @@ msgid "R.H. Side"
 msgstr "R.H. Side"
 
 #: src/stf-parse.c:31
+#, c-format
 msgid "Too many rows in data to parse: %d"
 msgstr "パースする行数が多すぎます: %d"
 
@@ -15302,7 +15329,7 @@ msgstr "内部エラーです"
 
 #: src/workbook-view.c:650
 msgid "Default file saver is not available."
-msgstr ""
+msgstr "デフォルトのファイルセーバは使用できません。"
 
 #: src/workbook-view.c:738
 msgid "No sheets in workbook."
@@ -15633,7 +15660,7 @@ msgstr "フリーズ(_F)..."
 
 #: src/workbook-control-gui.c:2296
 msgid "Freeze the top left of the sheet"
-msgstr ""
+msgstr "左上のシートをフリーズします"
 
 #: src/GNOME_Gnumeric.xml.h:135 src/workbook-control-gui.c:2299
 msgid "New _Shared"
@@ -15922,7 +15949,7 @@ msgstr "詳細を表示しない(_H)"
 
 #: src/GNOME_Gnumeric.xml.h:35 src/workbook-control-gui.c:2501
 msgid "Collapse an outline group"
-msgstr ""
+msgstr "アウトライングループの折りたたみ"
 
 #: src/GNOME_Gnumeric.xml.h:259 src/workbook-control-gui.c:2503
 msgid "_Show Detail"
@@ -15930,7 +15957,7 @@ msgstr "詳細を表示する(_S)"
 
 #: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:2504
 msgid "Uncollapse an outline group"
-msgstr ""
+msgstr "アウトライングループの展開"
 
 #: src/workbook-control-gui.c:2506
 msgid "_Group..."
@@ -16536,5 +16563,6 @@ msgstr "グループ解除(_U)"
 msgid "_View"
 msgstr "表示(_V)"
 
-#~ msgid "The GNOME Spreadsheet"
-#~ msgstr "表計算プログラム"
+#: gnumeric.desktop.in.h:2
+msgid "The GNOME Spreadsheet"
+msgstr "表計算プログラム"
