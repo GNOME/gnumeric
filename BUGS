@@ -11,7 +11,6 @@ Release Critical
     http://bugzilla.gnome.org/show_bug.cgi?id=123567    [1.0 file]
     http://bugzilla.gnome.org/show_bug.cgi?id=123342	[gda borkage]
     http://bugzilla.gnome.org/show_bug.cgi?id=123325    [countif]
-    http://bugzilla.gnome.org/show_bug.cgi?id=121240    [dollar]
     http://bugzilla.gnome.org/show_bug.cgi?id=122085    [vlookup]
     - static float and string GODataScalar support
     - xls import for chart text
