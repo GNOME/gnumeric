@@ -35,6 +35,7 @@
 #include <preview-grid.h>
 #include <format-template.h>
 #include <file-autoft.h>
+#include <command-context.h>
 #include <workbook-control.h>
 #include <workbook.h>
 #include <commands.h>
@@ -215,16 +216,14 @@ templates_load (AutoFormatInfo *info)
 
 	g_assert (info != NULL);
 
-	if (info->category_groups == NULL) {
+	if (info->category_groups == NULL)
 		return FALSE;
-	}
 
-	info->templates = category_group_get_templates_list (info->current_category_group,
-							     WORKBOOK_CONTROL (info->wbcg));
-	for (l = info->templates; l != NULL; l = l->next) {
+	info->templates = category_group_get_templates_list (
+		info->current_category_group, COMMAND_CONTEXT (info->wbcg));
+	for (l = info->templates; l != NULL; l = l->next)
 		format_template_set_size ((FormatTemplate *) l->data, 0, 0,
-					  PREVIEW_COLS - 1, PREVIEW_ROWS - 1);
-	}
+			PREVIEW_COLS - 1, PREVIEW_ROWS - 1);
 	n_templates = g_slist_length (info->templates);
 
 	/*

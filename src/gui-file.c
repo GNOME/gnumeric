@@ -224,10 +224,10 @@ do_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view,
 	success = check_multiple_sheet_support_if_needed (fs, wbcg, wb_view);
 	if (!success) {
 		g_free (filename);
-		return (FALSE);
+		return FALSE;
 	}
 
-	success = wb_view_save_as (wb_view, WORKBOOK_CONTROL (wbcg), fs, filename);
+	success = wb_view_save_as (wb_view, fs, filename, COMMAND_CONTEXT (wbcg));
 	g_free (filename);
 	return success;
 }
@@ -340,12 +340,12 @@ gui_file_save (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	wb_view_preferred_size (wb_view,
 	                        GTK_WIDGET (wbcg->notebook)->allocation.width,
 	                        GTK_WIDGET (wbcg->notebook)->allocation.height);
+
 	wb = wb_view_workbook (wb_view);
-	if (wb->file_format_level < FILE_FL_AUTO) {
+	if (wb->file_format_level < FILE_FL_AUTO)
 		return gui_file_save_as (wbcg, wb_view);
-	} else {
-		return wb_view_save (wb_view, WORKBOOK_CONTROL (wbcg));
-	}
+	else
+		return wb_view_save (wb_view, COMMAND_CONTEXT (wbcg));
 }
 
 #ifdef ENABLE_BONOBO
@@ -432,7 +432,7 @@ gui_file_save_to_stream (BonoboStream *stream, WorkbookControlGUI *wbcg,
 		return;
 	}
 
-	io_context = gnumeric_io_context_new (WORKBOOK_CONTROL (wbcg));
+	io_context = gnumeric_io_context_new (COMMAND_CONTEXT (wbcg));
 	gnum_file_saver_save_to_stream (fs, io_context, wb_view, stream, ev);
 	gtk_object_destroy (GTK_OBJECT (io_context));
 }

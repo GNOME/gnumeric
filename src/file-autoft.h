@@ -9,12 +9,14 @@ gchar                       *gnumeric_usr_autoformat_dir (void);
 GList                       *gnumeric_extra_autoformat_dirs (void);
 
 void                         category_free (FormatTemplateCategory *category);
-GSList                      *category_get_templates_list (FormatTemplateCategory *category, WorkbookControl *wbc);
+GSList                      *category_get_templates_list (FormatTemplateCategory *category,
+							  CommandContext *context);
 
 void                         category_list_free (GList *categories);
 
 void                         category_group_free (FormatTemplateCategoryGroup *category_group);
-GSList                      *category_group_get_templates_list (FormatTemplateCategoryGroup *category_group, WorkbookControl *wbc);
+GSList                      *category_group_get_templates_list (FormatTemplateCategoryGroup *category_group,
+								CommandContext *context);
 
 GList                       *category_group_list_get (void);
 FormatTemplateCategoryGroup *category_group_list_find_category_by_name (GList *category_groups,

@@ -3,10 +3,10 @@
 
 #include "format-template.h"
 
-int        gnumeric_xml_write_format_template    (WorkbookControl *context, FormatTemplate *ft,
+int        gnumeric_xml_write_format_template    (CommandContext *context, FormatTemplate *ft,
 						  const char *filename);
 
-int        gnumeric_xml_read_format_template     (WorkbookControl *context, FormatTemplate *ft,
+int        gnumeric_xml_read_format_template     (CommandContext *context, FormatTemplate *ft,
 						  const char *filename);
 
 FormatTemplateCategory *gnumeric_xml_read_format_template_category (const char *dir_name);

@@ -489,14 +489,14 @@ format_template_member_set_style (TemplateMember *member, MStyle *mstyle)
 
 /**
  * format_template_new:
- * @context: a WorkbookControl
+ * @context: a command context
  *
  * Create a new 'empty' FormatTemplate
  *
  * Return value: the new FormatTemplate
  **/
 FormatTemplate *
-format_template_new (WorkbookControl *context)
+format_template_new (CommandContext *context)
 {
 	FormatTemplate *ft;
 
@@ -612,7 +612,7 @@ format_template_clone (FormatTemplate *ft)
 
 /**
  * format_template_new_from_file:
- * @context: a WorkbookControl
+ * @context:
  * @filename: The filename to load from
  *
  * Create a new FormatTemplate and load a template file
@@ -621,7 +621,7 @@ format_template_clone (FormatTemplate *ft)
  * Return value: a new FormatTemplate (or NULL on error)
  **/
 FormatTemplate *
-format_template_new_from_file (WorkbookControl *context, const char *filename)
+format_template_new_from_file (CommandContext *context, const char *filename)
 {
 	FormatTemplate *ft;
 
@@ -885,9 +885,8 @@ format_template_range_check (FormatTemplate *ft, Range const *r, gboolean displa
 			g_warning ("Internal error while verifying ranges! (this should not happen!)");
 		}
 
-		if (errmsg) {
-			gnumeric_error_system (COMMAND_CONTEXT (ft->context), errmsg);
-		}
+		if (errmsg)
+			gnumeric_error_system (ft->context, errmsg);
 
 		g_free (errmsg);
 

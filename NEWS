@@ -11,6 +11,7 @@ Jody:
 	* Fix regression in 1.0.3 setting properties for checkbox.
 	* xml-sax support for v10 of gnumeric's format.
 	* Consistently list Column actions before Row actions.
+	* Crash importing 3d references to external workbooks.
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=69400
 	* Slow sort dialog startup.
@@ -20,6 +21,9 @@ Jody:
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=69795
 	* Dont put non ascii characters in the translated source.
+
+	http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=131561
+	* Don't confuse the calling context with the view to save.
 
 Jon Kåre:
 	* Improve scrolling alignment of formula guru.

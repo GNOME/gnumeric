@@ -52,7 +52,7 @@ typedef struct {
 struct _IOContext {
 	GtkObject parent;
 
-	WorkbookControl *impl;
+	CommandContext *impl;
 	ErrorInfo *error_info;
 	gboolean error_occurred;
 

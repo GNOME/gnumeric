@@ -1,3 +1,34 @@
+2002-01-30  Jody Goldberg <jody@gnome.org>
+
+	* src/dialogs/dialog-autoformat.c (templates_load) : changes to
+	  category_group_get_templates_list.
+
+	* src/xml-io-autoft.c (gnumeric_xml_write_format_template) : take a
+	  context not a control to clarify things.
+	(gnumeric_xml_read_format_template) : ditto.
+
+	* src/workbook.c (workbook_persist_file_save) : changes to
+	  wb_view_save_as.
+
+	* src/io-context.c (io_context_destroy) : impl is a command context now.
+	(gnumeric_io_context_new) : weaken requirements so that all we need is
+	  a command context.  Not strictly necessary, but makes it less likely
+	  that people will get confused.
+
+	* src/workbook-view.c (wb_view_save_as) : Take a command context not a
+	  workbook control to avoid confusing what we are saving.
+	(wb_view_save) : ditto.
+	(wb_view_selection_desc) : Implement using an explicit control.
+	(wb_view_open_custom) : add a missing precondition.
+	* src/gui-file.c (do_save_as) : changes to wb_view_save_as.
+	(gui_file_save_to_stream) :  changes to gnumeric_io_context_new.
+
+	* src/file-autoft.c (category_get_templates_list) : take a command
+	context, not a workbookcontrol.
+	(category_group_get_templates_list) : ditto.
+	* src/format-template.c (format_template_new) : ditto.
+	(format_template_new_from_file) : ditto.
+
 2002-01-28  Jody Goldberg <jody@gnome.org>
 
 	* src/style.c (style_font_new_simple) : __FUNCTION__ is non portable.
