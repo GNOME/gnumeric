@@ -26,7 +26,10 @@ static void
 wbcc_progress_message_set (CommandContext *cc, gchar const *msg) {}
 
 static WorkbookControl *
-wbcc_control_new (WorkbookControl *wbc, WorkbookView *wbv, Workbook *wb)
+wbcc_control_new (G_GNUC_UNUSED WorkbookControl *wbc,
+		  WorkbookView *wbv,
+		  Workbook *wb,
+		  G_GNUC_UNUSED void *extra)
 {
 	return workbook_control_component_new (wbv, wb);
 }

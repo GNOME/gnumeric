@@ -52,7 +52,8 @@ void wb_control_ ## func arglist				\
 #define WBC_VIRTUAL(func, arglist, call) WBC_VIRTUAL_FULL(func, func, arglist, call)
 
 WorkbookControl *
-wb_control_wrapper_new (WorkbookControl *wbc, WorkbookView *wbv, Workbook *wb)
+wb_control_wrapper_new (WorkbookControl *wbc, WorkbookView *wbv, Workbook *wb,
+			void *extra)
 {
 	WorkbookControlClass *wbc_class;
 
@@ -60,7 +61,7 @@ wb_control_wrapper_new (WorkbookControl *wbc, WorkbookView *wbv, Workbook *wb)
 
 	wbc_class = WBC_CLASS (wbc);
 	if (wbc_class != NULL && wbc_class->control_new != NULL)
-		return wbc_class->control_new (wbc, wbv, wb);
+		return wbc_class->control_new (wbc, wbv, wb, extra);
 	return NULL;
 }
 

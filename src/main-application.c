@@ -196,7 +196,7 @@ main (int argc, char *argv [])
 				WorkbookControlGUI *wbcg;
 
 				wbcg = WORKBOOK_CONTROL_GUI
-					(workbook_control_gui_new (wbv, NULL));
+					(workbook_control_gui_new (wbv, NULL, NULL));
   				opened_workbook = TRUE;
 				icg_set_transient_for (IO_CONTEXT_GTK (ioc),
 						       wbcg_toplevel (wbcg));
@@ -216,7 +216,7 @@ main (int argc, char *argv [])
 			gint n_of_sheets = gnm_app_prefs->initial_sheet_number;
 
 			workbook_control_gui_new
-				(NULL, workbook_new_with_sheets (n_of_sheets));
+				(NULL, workbook_new_with_sheets (n_of_sheets), NULL);
 			/* cheesy attempt to keep the ui from freezing during load */
 			handle_paint_events ();
 		}

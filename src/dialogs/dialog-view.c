@@ -58,8 +58,6 @@ cb_view_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	gboolean shared;
 	GdkScreen *screen = NULL;
 	GSList *buttons = gtk_radio_button_get_group (state->location_elsewhere);
-	WorkbookControl *new_wbc;
-	WorkbookControlGUI *new_wbcg;
 
 	shared = gnumeric_glade_group_value (state->gui, shared_group) == 0;
 
@@ -77,6 +75,11 @@ cb_view_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 		GdkDisplay *display;
 		if (!name)
 			return;  /* Just ignore */
+
+		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
+				 _("Connecting to a different display has been disabled "
+				   "due to bugs in GTK+."));
+		return;
 
 		display = gdk_display_open (name);
 		if (!display) {		
@@ -97,14 +100,11 @@ cb_view_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 
 	gtk_widget_destroy (state->dialog);
 
-	new_wbc = wb_control_wrapper_new
+	(void) wb_control_wrapper_new
 		(wbc,
 		 shared ? wb_control_view (wbc) : NULL,
-		 wb_control_workbook (wbc));
-	new_wbcg = WORKBOOK_CONTROL_GUI (new_wbc);
-
-	if (screen)
-		gtk_window_set_screen (wbcg_toplevel (new_wbcg), screen);
+		 wb_control_workbook (wbc),
+		 screen);
 }
 
 static void

@@ -14,10 +14,8 @@ typedef struct _CustomXmlUI CustomXmlUI;
 
 GType            workbook_control_gui_get_type  (void);
 WorkbookControl *workbook_control_gui_new       (WorkbookView *optional_view,
-						 Workbook *optional_wb);
-void		 workbook_control_gui_init      (WorkbookControlGUI *wbcg,
-						 WorkbookView *optional_view,
-						 Workbook *optional_wb);
+						 Workbook *optional_wb,
+						 GdkScreen *optional_screen);
 
 int      wbcg_sheet_to_page_index (WorkbookControlGUI *wbcg, Sheet *sheet,
 				   SheetControlGUI **res);

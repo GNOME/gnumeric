@@ -20,7 +20,8 @@ typedef struct {
 	CommandContextClass   context_class;
 
 	/* Create a new control of the same form */
-	WorkbookControl *(*control_new) (WorkbookControl *wbc, WorkbookView *wbv, Workbook *wb);
+	WorkbookControl *(*control_new) (WorkbookControl *wbc, WorkbookView *wbv, Workbook *wb,
+					 void *extra);
 	void (*init_state) (WorkbookControl *wbc);
 
 	/* Actions on the workbook UI */

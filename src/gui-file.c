@@ -114,7 +114,7 @@ gui_file_read (WorkbookControlGUI *wbcg, char const *file_name,
 			workbook_control_set_view (WORKBOOK_CONTROL (wbcg), wbv, NULL);
 			workbook_control_init_state (WORKBOOK_CONTROL (wbcg));
 		} else
-			(void) wb_control_wrapper_new (WORKBOOK_CONTROL (wbcg), wbv, NULL);
+			(void) wb_control_wrapper_new (WORKBOOK_CONTROL (wbcg), wbv, NULL, NULL);
 
 		return TRUE;
 	}

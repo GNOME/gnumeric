@@ -318,9 +318,13 @@ wbcg_autosave_set (WorkbookControlGUI *wbcg, int minutes, gboolean prompt)
 /****************************************************************************/
 
 static WorkbookControl *
-wbcg_control_new (WorkbookControl *wbc, WorkbookView *wbv, Workbook *wb)
+wbcg_control_new (G_GNUC_UNUSED WorkbookControl *wbc,
+		  WorkbookView *wbv,
+		  Workbook *wb,
+		  void *extra)
 {
-	return workbook_control_gui_new (wbv, wb);
+	return workbook_control_gui_new (wbv, wb,
+					 extra ? GDK_SCREEN (extra) : NULL);
 }
 
 static void
@@ -1693,8 +1697,10 @@ wbcg_close_control (WorkbookControlGUI *wbcg)
 static void
 cb_file_new (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	(void) workbook_control_gui_new (NULL,
-		workbook_new_with_sheets (gnm_app_prefs->initial_sheet_number));
+	Workbook *wb = workbook_new_with_sheets
+		(gnm_app_prefs->initial_sheet_number);
+	
+	(void) workbook_control_gui_new (NULL, wb, NULL);
 }
 
 static void
@@ -5017,9 +5023,11 @@ custom_uic_destroy (gpointer data)
 }
 #endif
 
-void
+static void
 workbook_control_gui_init (WorkbookControlGUI *wbcg,
-			   WorkbookView *optional_view, Workbook *optional_wb)
+			   WorkbookView *optional_view,
+			   Workbook *optional_wb,
+			   GdkScreen *optional_screen)
 {
 	static GtkTargetEntry const drag_types[] = {
 		{ (char *) "text/uri-list", 0, TARGET_URI_LIST },
@@ -5037,6 +5045,10 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	tmp  = gnome_app_new ("Gnumeric", "Gnumeric");
 #endif
 	wbcg->toplevel = GTK_WINDOW (tmp);
+
+	if (optional_screen)
+		gtk_window_set_screen (wbcg->toplevel, optional_screen);
+
 	wbcg->table    = gtk_table_new (0, 0, 0);
 	wbcg->notebook = NULL;
 	wbcg->updating_ui = FALSE;
@@ -5446,14 +5458,16 @@ GSF_CLASS (WorkbookControlGUI, workbook_control_gui,
 #endif
 
 WorkbookControl *
-workbook_control_gui_new (WorkbookView *optional_view, Workbook *wb)
+workbook_control_gui_new (WorkbookView *optional_view,
+			  Workbook *optional_wb,
+			  GdkScreen *optional_screen)
 {
 	WorkbookControlGUI *wbcg;
 	WorkbookControl    *wbc;
 
 	wbcg = g_object_new (workbook_control_gui_get_type (), NULL);
 	wbc = WORKBOOK_CONTROL (wbcg);
-	workbook_control_gui_init (wbcg, optional_view, wb);
+	workbook_control_gui_init (wbcg, optional_view, optional_wb, optional_screen);
 
 	workbook_control_init_state (wbc);
 

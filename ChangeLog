@@ -1,3 +1,21 @@
+2003-05-22  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-control-gui.c (workbook_control_gui_new): Extra
+	argument here is a GdkScreen pointer.  Supply that to
+	workbook_control_gui_init.  All callers changed.
+
+	* src/workbook-control-priv.h (WorkbookControlClass): Add extra
+	parameter to control_new method.
+
+	* src/workbook-control.c (wb_control_wrapper_new): Add "extra"
+	argument here also and supply it to control_new.  All callers
+	changed.
+
+	* src/workbook-control-gui.c (workbook_control_gui_init): Make
+	static.  Take extra GdkScreen parameter and set the new screen
+	asap before we go creating pango contexts and gcs relating to the
+	default screen.  All callers changed.
+
 2003-05-22  Jody Goldberg <jody@gnome.org>
 
 	* src/expr.c (cellrange_relocate) : fix logic inversion introduced
