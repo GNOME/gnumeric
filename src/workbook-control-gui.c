@@ -4057,7 +4057,9 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("DataValidate", cb_data_validate),
 	BONOBO_UI_UNSAFE_VERB ("DataTextToColumns", cb_data_text_to_columns),
 	BONOBO_UI_UNSAFE_VERB ("DataConsolidate", cb_data_consolidate),
+#if 0
 	BONOBO_UI_UNSAFE_VERB ("DataImportText", cb_data_import_text),
+#endif
 
 	BONOBO_UI_UNSAFE_VERB ("DataOutlineHideDetail", cb_data_hide_detail),
 	BONOBO_UI_UNSAFE_VERB ("DataOutlineShowDetail", cb_data_show_detail),
