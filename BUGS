@@ -5,8 +5,6 @@ and longer term bugs.
 Release Critical
 ----------------
 - Changing a name that is in use causes a crash.
-- pasting a copy uses the size of the current selection
-  to decide what to fill.  This breaks undo.
 
 Long term breakage
 ------------------
@@ -25,10 +23,6 @@ Long term breakage
 - auto-fill does not have undo support.
 - The implication of mixed mode references ($B$2:C3)
   is large.  All accesses to a RangeRef need to be normalized. (1/2 done)
-
-- Copy with destination larger than source does not duplicate the styles.
-- Copy should only replicate when the target region size is an integer multiple
-  of the source region.
 
 - border style double_line does not handle all of the different intersection cases.
 
