@@ -1,3 +1,7 @@
+2004-10-15  Yukihiro Nakai  <nakai@gnome.gr.jp>
+
+	* dialog-about.c (cb_about_animate): Gettextize contributors name.
+
 2004-10-13  Morten Welinder  <terra@gnome.org>
 
 	* dialog-about.c (dialog_about): Add timeout at low priority so it
