@@ -709,8 +709,7 @@ gnumeric_text (FunctionEvalInfo *ei, Value **args)
 		char *str = format_value (format,
 					  (tmp != NULL) ? tmp : arg,
 					  NULL, -1);
-		res = value_new_string (str);
-		g_free (str);
+		res = value_new_string_nocopy (str);
 	} else
 		res = value_new_error (ei->pos, _("Type mismatch"));
 

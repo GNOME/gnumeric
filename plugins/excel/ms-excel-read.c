@@ -2175,8 +2175,7 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *esheet)
 					v = g_strdup ("");
 			}
 			if (v) {
-				val = value_new_string (v);
-				g_free (v);
+				val = value_new_string_nocopy (v);
 			} else {
 				EvalPos ep;
 				val = value_new_error (eval_pos_init_cell (&ep, cell),

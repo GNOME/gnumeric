@@ -377,7 +377,6 @@ gnumeric_address (FunctionEvalInfo *ei, Value **args)
 {
         int   row, col, abs_num, a1;
 	gchar *text, *buf;
-	Value *v;
 
 	row = value_get_as_int (args[0]);
 	col = value_get_as_int (args[1]);
@@ -442,11 +441,9 @@ gnumeric_address (FunctionEvalInfo *ei, Value **args)
 	        g_free (buf);
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 	}
-	v = value_new_string (buf);
 	g_free (text);
-	g_free (buf);
 
-	return v;
+	return value_new_string_nocopy (buf);
 }
 
 /***************************************************************************/

@@ -1,5 +1,7 @@
 2002-08-30  Morten Welinder  <terra@diku.dk>
 
+	* src/collect.c (string_range_function): Don't copy string.
+
 	* src/expr.c (expr_eval_real): Speed up concat operator a bit.
 
 2002-08-29  Morten Welinder  <terra@diku.dk>

@@ -67,13 +67,9 @@ value_new_complex (const complex_t *c, char imunit)
 	if (complex_real_p (c))
 		return value_new_float (c->re);
 	else {
-		char *s, f[5 + 4 * sizeof (int) + strlen (GNUM_FORMAT_g)];
-		Value *res;
+		char f[5 + 4 * sizeof (int) + strlen (GNUM_FORMAT_g)];
 		sprintf (f, "%%.%d" GNUM_FORMAT_g, GNUM_DIG);
-		s = complex_to_string (c, f, f, imunit);
-		res = value_new_string (s);
-		g_free (s);
-		return res;
+		return value_new_string_nocopy (complex_to_string (c, f, f, imunit));
 	}
 }
 

@@ -1227,9 +1227,7 @@ gnumeric_expression (FunctionEvalInfo *ei, Value **args)
 			char * expr_string =
 			    gnm_expr_as_string (cell->base.expression,
 				parse_pos_init_cell (&pos, cell));
-			Value * res = value_new_string (expr_string);
-			g_free (expr_string);
-			return res;
+			return value_new_string_nocopy (expr_string);
 		}
 	}
 
@@ -1340,9 +1338,7 @@ gnumeric_info (FunctionEvalInfo *ei, Value **argv)
 			char *tmp = g_strdup_printf (_("%s version %s"),
 						     unamedata.sysname,
 						     unamedata.release);
-			Value *res = value_new_string (tmp);
-			g_free (tmp);
-			return res;
+			return value_new_string_nocopy (tmp);
 		}
 	} else if (!g_strcasecmp (info_type, "recalc")) {
 		/* Current recalculation mode; returns "Automatic" or "Manual".  */

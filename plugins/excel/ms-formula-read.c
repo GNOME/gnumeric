@@ -1160,13 +1160,12 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 						}
 
 						if (str) {
-							elem = value_new_string (str);
 #ifndef NO_DEBUG_EXCEL
 							if (ms_excel_formula_debug > 5) {
 								printf ("\tString '%s'\n", str);
 							}
 #endif
-							g_free (str);
+							elem = value_new_string_nocopy (str);
 						} else
 							elem = value_new_string ("");
 						break;
