@@ -106,7 +106,7 @@ msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-06-25 19:48-0400\n"
-"PO-Revision-Date: 2003-05-16 18:05+0200\n"
+"PO-Revision-Date: 2003-07-07 04:35+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: nl <vertaling@nl.linux.org>\n"
 "MIME-Version: 1.0\n"
@@ -179,7 +179,7 @@ msgid "Provides a CORBA scripting interface"
 msgstr "Levert een CORBA script interface"
 
 #: plugins/derivatives/options.c:142
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=CUM_BIV_NORM_DIST\n"
 "@SYNTAX=CUM_BIV_NORM_DIST(a,b,rho)\n"
@@ -188,7 +188,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=CUM_BIV_NORM_DIST\n"
 "@SYNTAX=CUM_BIV_NORM_DIST(a;b;rho)\n"
-"@DESCRIPTION=CUM_BIV_NORM_DIST berekent de cumulatieve bivariaatnormale "
+"@DESCRIPTION=CUM_BIV_NORM_DIST berekent de cumulatieve bivariantnormale "
 "distributie met parameters a, b en rho"
 
 #: plugins/derivatives/options.c:194
@@ -216,9 +216,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=OPT_BS\n"
 "@SYNTAX=OPT_BS(prijs;koers;volatiliteit;resterende_looptijd;rente)\n"
-"@DESCRIPTION=Gebruikt het Black-Scholes model voor de berekening van de "
-"waarde van een Europese call optie met een uitoefenprijs: @prijs op activa "
-"met een koers: @koers.\n"
+"@DESCRIPTION=OPT_BS gebruikt het Black-Scholes model voor de berekening van "
+"de waarde van een Europese optie met een call_put_keuze. @call_put_keuze \n"
+"\n"
+"\n"
+"\n"
+"met een uitoefenprijs: @prijs op activa met een koers: @koers.\n"
 "\n"
 "@volatiliteit is de jaarlijkse volatiliteit (beweeglijkheid van de "
 "onderliggende waarde), in percentage, van de activa voor de resterende "
@@ -1017,13 +1020,14 @@ msgstr ""
 "vanwege tekenset-problemen."
 
 #: plugins/excel/ms-excel-write.c:3751
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95.It only supports %"
 "d rows, and this workbook has %d"
 msgstr ""
-"Een deel van de inhoud zal verloren gaan bij het opslaan in Excel95-formaat. "
-"Dit formaat ondersteunt slechts %d rijen, en dit werkboek heeft er %d"
+"Een deel van de inhoud zal verloren gaan bij het opslaan als MS Excel (tm) "
+"95 bestand. Excel (tm) ondersteunt slechts %d rijen, en dit werkboek heeft "
+"er %d"
 
 #: plugins/excel/ms-excel-write.c:3758
 #, fuzzy, c-format
@@ -1466,7 +1470,6 @@ msgstr ""
 "@SEEALSO=IMLN"
 
 #: plugins/fn-complex/functions.c:506
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARGUMENT\n"
 "@SYNTAX=IMARGUMENT(inumber)\n"
@@ -4421,7 +4424,6 @@ msgstr ""
 "@SEEALSO=ISOWEEKNUM"
 
 #: plugins/fn-date/functions.c:1225
-#, fuzzy
 msgid ""
 "@FUNCTION=YEARFRAC\n"
 "@SYNTAX=YEARFRAC (start_date, end_date, basis)\n"
@@ -4450,9 +4452,8 @@ msgid "date_str"
 msgstr "datum"
 
 #: plugins/fn-date/functions.c:1254
-#, fuzzy
 msgid "date1,date2,interval"
-msgstr "datum1;datum2;Interval"
+msgstr "datum1;datum2;interval"
 
 #. TODO UNIMPLEMENTED and UNTESTED seems new to XL 2k
 #: plugins/fn-date/functions.c:1258 plugins/fn-date/functions.c:1282
@@ -4468,9 +4469,8 @@ msgid "date1,date2,method"
 msgstr "datum1;datum2;methode"
 
 #: plugins/fn-date/functions.c:1266
-#, fuzzy
 msgid "date,months"
-msgstr "begindatum;maanden"
+msgstr "datum;maanden"
 
 #: plugins/fn-date/functions.c:1270
 msgid "start_date,months"
@@ -6397,7 +6397,6 @@ msgstr ""
 "@SEEALSO=PV,FV"
 
 #: plugins/fn-financial/functions.c:1512
-#, fuzzy
 msgid ""
 "@FUNCTION=IRR\n"
 "@SYNTAX=IRR(values[,guess])\n"
@@ -6421,13 +6420,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=IRR\n"
 "@SYNTAX=IRR(waarden[;schatting])\n"
-"@DESCRIPTION=IRR (ned. IR) berekent en geeft de interne rentabiliteit van "
-"een investering. Deze functie is nauw verwant aan de netto huidige waarde "
+"@DESCRIPTION=IRR (ned. IR) berekent de interne rentabiliteit van een "
+"investering. Deze functie is nauw verwant aan de netto huidige waarde "
 "(NPV=net present value). De interne rentabliliteit die met IRR wordt "
-"berekent is het rentepercentage van een serie cashflows met een netto "
+"berekend is het rentepercentage van een serie cashflows met een netto "
 "huidige waarde van nul.\n"
 "\n"
-"@waarden is een array die de serie cashflows bevat gegenereerd door de "
+"@waarden bevat de serie cashflows die gegenereerd worden door de "
 "investering. De betalingen moeten op geregelde tijden plaatsvinden. De "
 "optionele @schatting is de beginwaarde die bij de berekening van IRR wordt "
 "gebruikt. U hoeft deze niet te geven, het wordt hier alleen gegeven voor de "
@@ -8117,7 +8116,6 @@ msgstr ""
 "@SEEALSO=DB"
 
 #: plugins/fn-financial/plugin.xml.in.h:1
-#, fuzzy
 msgid "Finance"
 msgstr "Financieel"
 
@@ -9092,7 +9090,6 @@ msgid "Functions for manipulating truth values"
 msgstr "Functies voor het manipuleren van waarheids-waarden"
 
 #: plugins/fn-logical/plugin.xml.in.h:2
-#, fuzzy
 msgid "Logic"
 msgstr "Logica"
 
@@ -9662,10 +9659,10 @@ msgstr "index;waarde;"
 msgid "ref"
 msgstr "verw"
 
+# afkorting?
 #: plugins/fn-lookup/functions.c:1236
-#, fuzzy
 msgid "colname"
-msgstr "Een naam"
+msgstr "kolnaam"
 
 #: plugins/fn-lookup/functions.c:1242 plugins/fn-lookup/functions.c:1272
 msgid "val,range,col_idx,approx,as_index"
@@ -11908,7 +11905,6 @@ msgstr ""
 "@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:350
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p,failures)\n"
@@ -11926,10 +11922,10 @@ msgstr ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p;mislukkingen)\n"
 "@DESCRIPTION=RANDNEGBINOM geeft een willekeurig getal volgens een negatief "
-"Binomiale distributie. \n"
+"binomiale distributie. \n"
 "\n"
 "* Als @p < 0 of @p > 1, geeft RANDNEGBINOM een #GETAL! foutmelding.\n"
-"* Als @mislukkingen < 0 geeft RANDNEGBINOM een #GETAL! foutmelding.\n"
+"* Als @mislukkingen < 1 geeft RANDNEGBINOM een #GETAL! foutmelding.\n"
 "\n"
 "@EXAMPLES=\n"
 "RANDNEGBINOM(0,5;2)\n"
@@ -17779,14 +17775,12 @@ msgid "Maximum Length of Recently Used Functions List"
 msgstr "Maximumlengte van de lijst met recentelijk gebruikte functies."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:17
-#, fuzzy
 msgid "Page Footer"
-msgstr "Pagina volgorde"
+msgstr "Paginavoet"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:18
-#, fuzzy
 msgid "Page Header"
-msgstr "Pagina volgorde"
+msgstr "Paginakop"
 
 # printerconfiguratie?
 #: schemas/gnumeric-dialogs.schemas.in.h:19
@@ -18006,9 +18000,8 @@ msgid "Prefer CLIPBOARD over PRIMARY selection"
 msgstr "bij selecteren CLIPBOARD prefereren boven PRIMARY"
 
 #: schemas/gnumeric-general.schemas.in.h:22
-#, fuzzy
 msgid "Sans"
-msgstr "Rangen"
+msgstr "Sans"
 
 #: schemas/gnumeric-general.schemas.in.h:23
 msgid "Screen resolution in the horizontal direction."
@@ -18056,7 +18049,6 @@ msgid "Sort is Case-Sensitive"
 msgstr "Sorteren is hoofdlettergevoelig"
 
 #: schemas/gnumeric-general.schemas.in.h:31
-#, fuzzy
 msgid "Sorting Preserves Formats"
 msgstr "Sorteren behoudt opmaak"
 
@@ -18383,9 +18375,8 @@ msgid "Close the current file"
 msgstr "Sluit het huidige bestand"
 
 #: src/GNOME_Gnumeric.xml.h:38 src/workbook-control-gui.c:3522
-#, fuzzy
 msgid "Co_mment..."
-msgstr "Op_merkingen"
+msgstr "Op_merking..."
 
 #: src/GNOME_Gnumeric.xml.h:39 src/dialogs/print.glade.h:7
 #: src/workbook-control-gui.c:3416
@@ -20264,14 +20255,13 @@ msgid "Page Setup For All Sheets"
 msgstr "Paginainstellingen voor alle werkbladen"
 
 #: src/commands.c:5502
-#, fuzzy
 msgid "has a circular reference"
-msgstr "'%s' bevat een kringverwijzing"
+msgstr "bevat een kringverwijzing"
 
 #: src/commands.c:5525
 #, c-format
 msgid "Define Name %s"
-msgstr "Definieer Naam %s"
+msgstr "Naam %s definiëren"
 
 #: src/commands.c:5528
 #, c-format
@@ -20280,7 +20270,7 @@ msgstr "Naam %s bijwerken"
 
 #: src/commands.c:5593
 msgid "Add scenario"
-msgstr "scenario toevoegen"
+msgstr "Scenario toevoegen"
 
 #: src/commands.c:5669
 msgid "Scenario Show"
@@ -20296,20 +20286,18 @@ msgid "Plot"
 msgstr "Tekenen"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:112
-#, fuzzy
 msgid "Legend"
-msgstr "Verzenden"
+msgstr "Legenda"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:115
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
 #: src/cut-n-paste-code/goffice/graph/gog-legend.c:130
-#, fuzzy
 msgid "Title"
-msgstr "Titel:"
+msgstr "Titel"
 
 #: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:246
 msgid "H"
-msgstr ""
+msgstr "H"
 
 #: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:246
 msgid "Height"
@@ -20317,7 +20305,7 @@ msgstr "Hoogte"
 
 #: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
 msgid "W"
-msgstr ""
+msgstr "B"
 
 #: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
 msgid "Width"
@@ -20383,6 +20371,7 @@ msgstr "_Toevoegen"
 msgid "_Bottom"
 msgstr "_Onder"
 
+# verminderen
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:5
 #, fuzzy
 msgid "_Decrease"
@@ -20393,6 +20382,7 @@ msgstr "Verlagen"
 msgid "_Delete"
 msgstr "_Verwijderen"
 
+# vergroten vermeerderen
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:7
 #, fuzzy
 msgid "_Increase"
@@ -20409,9 +20399,8 @@ msgid "_Top"
 msgstr "_Boven"
 
 #: src/cut-n-paste-code/goffice/graph/gog-label.c:111
-#, fuzzy
 msgid "_Text:"
-msgstr "Tekst"
+msgstr "_Tekst:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:52
 #, fuzzy
@@ -20428,15 +20417,15 @@ msgid "Chart Theme"
 msgstr "Kaart%d"
 
 #: src/cut-n-paste-code/goffice/graph/gog-plot.c:160
-#, fuzzy
 msgid "Series"
-msgstr "Series..."
+msgstr "Series"
 
+# Data
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:142
 #: src/dialogs/dialog-stf.glade.h:19
 #, fuzzy
 msgid "Data"
-msgstr "_Gegevens"
+msgstr "Gegevens"
 
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:145
 #: src/dialogs/pivottable.glade.h:4
@@ -20482,19 +20471,20 @@ msgstr "Gevuld Object configureren"
 msgid "Fill _Color:"
 msgstr "_Kleur:"
 
+# Kleurverloop
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:6
 #, fuzzy
 msgid "Gradient"
 msgstr "Afdrukken"
 
+# Kleurverloop
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:7
 msgid "Gradient:"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:8
-#, fuzzy
 msgid "Image"
-msgstr "_Afbeelding..."
+msgstr "Afbeelding"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
 #, fuzzy
@@ -20508,9 +20498,8 @@ msgid "None"
 msgstr "Geen"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:11
-#, fuzzy
 msgid "Not available..."
-msgstr "< Niet beschikbaar >"
+msgstr "Niet beschikbaar..."
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:12
 #: src/dialogs/so-fill.glade.h:4
@@ -20592,9 +20581,8 @@ msgstr "Standaard"
 
 #. guppi theme
 #: src/cut-n-paste-code/goffice/graph/gog-theme.c:260
-#, fuzzy
 msgid "Guppi"
-msgstr "Groeperen"
+msgstr "Guppi"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:2
@@ -20817,9 +20805,8 @@ msgid "Multi-Pie"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:6
-#, fuzzy
 msgid "Multi-pie-bars"
-msgstr "Meerdere fouten\n"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:7
 msgid "Percentage of each contributor in 3D pie."
@@ -20842,9 +20829,8 @@ msgid "Pie"
 msgstr "Taart"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:12
-#, fuzzy
 msgid "Ring"
-msgstr "Bereik"
+msgstr "Ring"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:13
 msgid "Split Pie"
@@ -20858,11 +20844,11 @@ msgstr "Standaard interpreteerder"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:2
 #, fuzzy
 msgid "Pie Charts"
-msgstr "Kaart%d"
+msgstr "Taartdiagrammen"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:3
 msgid "Pie charts"
-msgstr ""
+msgstr "Taartdiagrammen"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:4
 msgid "Pie plotting engine"
@@ -21126,9 +21112,8 @@ msgstr "Groepering:"
 #: src/dialogs/histogram.glade.h:13 src/dialogs/moving-averages.glade.h:10
 #: src/dialogs/random-generation.glade.h:7 src/dialogs/rank.glade.h:6
 #: src/dialogs/regression.glade.h:8 src/dialogs/sampling.glade.h:9
-#, fuzzy
 msgid "O_ptions"
-msgstr "Opties"
+msgstr "O_pties"
 
 #: src/dialogs/anova-one.glade.h:9 src/dialogs/anova-two.glade.h:10
 #: src/dialogs/correlation.glade.h:6 src/dialogs/covariance.glade.h:6
@@ -21153,9 +21138,8 @@ msgid "Retain Output Range Formatting"
 msgstr "Uitvoerbereik-opmaak Behouden"
 
 #: src/dialogs/anova-one.glade.h:11 src/dialogs/anova-two.glade.h:12
-#, fuzzy
 msgid "_Alpha = "
-msgstr "_Alpha:"
+msgstr "_Alpha = "
 
 #: src/dialogs/anova-one.glade.h:12 src/dialogs/correlation.glade.h:8
 #: src/dialogs/covariance.glade.h:8 src/dialogs/descriptive-stats.glade.h:18
@@ -21172,9 +21156,8 @@ msgstr "_Gebieden"
 #: src/dialogs/mean-tests.glade.h:20 src/dialogs/moving-averages.glade.h:15
 #: src/dialogs/rank.glade.h:13 src/dialogs/regression.glade.h:15
 #: src/dialogs/sampling.glade.h:19
-#, fuzzy
 msgid "_Input"
-msgstr "Invoer"
+msgstr "_Invoer"
 
 #: src/dialogs/anova-one.glade.h:15 src/dialogs/anova-two.glade.h:14
 #: src/dialogs/correlation.glade.h:11 src/dialogs/covariance.glade.h:11
@@ -21206,23 +21189,22 @@ msgstr "_Labels"
 #: src/dialogs/mean-tests.glade.h:23 src/dialogs/moving-averages.glade.h:18
 #: src/dialogs/random-generation.glade.h:14 src/dialogs/rank.glade.h:17
 #: src/dialogs/regression.glade.h:18 src/dialogs/sampling.glade.h:22
-#, fuzzy
 msgid "_Output"
-msgstr "Uitvoer"
+msgstr "_Uitvoer"
 
 #: src/dialogs/anova-two.glade.h:3 src/dialogs/descriptive-stats.glade.h:4
 #: src/dialogs/random-generation.glade.h:2 src/dialogs/sampling.glade.h:2
 msgid "1"
 msgstr "1"
 
+# kleine letters?
 #: src/dialogs/anova-two.glade.h:4
 msgid "ANOVA - Two-Factor"
 msgstr "ANOVA - Twee-Factor"
 
 #: src/dialogs/anova-two.glade.h:8
-#, fuzzy
 msgid "Number of Rows _Per Sample:"
-msgstr "Aantal Steekproeven:"
+msgstr "Aantal rijen _per steekproef:"
 
 #: src/dialogs/autocorrect.glade.h:2
 msgid "Auto Correct"
@@ -21401,9 +21383,8 @@ msgid "Autoformat"
 msgstr "Automatische opmaak"
 
 #: src/dialogs/autoformat.glade.h:10
-#, fuzzy
 msgid "C_ategory:"
-msgstr "Categorie:"
+msgstr "C_ategorie:"
 
 #: src/dialogs/autoformat.glade.h:11
 msgid "Category:"
@@ -21458,13 +21439,12 @@ msgid "Auto Save"
 msgstr "Automatisch Opslaan"
 
 #: src/dialogs/autosave.glade.h:3
-#, fuzzy
 msgid "_Automatically save every"
-msgstr "Sla _Automatisch Alles Op"
+msgstr "_Automatisch opslaan elke"
 
 #: src/dialogs/autosave.glade.h:4
 msgid "_Prompt Before Saving"
-msgstr "Bevestig Voor O_pslaan"
+msgstr "_Bevestiging vragen voor opslaan"
 
 #: src/dialogs/autosave.glade.h:5
 msgid "_minutes"
@@ -21472,7 +21452,7 @@ msgstr "_minuten"
 
 #: src/dialogs/cell-comment.glade.h:1
 msgid "Cell Comment"
-msgstr "Cel Opmerking"
+msgstr "Cel-opmerking"
 
 #: src/dialogs/cell-format.glade.h:3
 #, no-c-format
@@ -22075,9 +22055,8 @@ msgid "Shift cells _up"
 msgstr "Cellen naar boven verplaatsen"
 
 #: src/dialogs/descriptive-stats.glade.h:1
-#, fuzzy
 msgid "(1 - alpha) = "
-msgstr "(1 - alpha):"
+msgstr "(1 - alpha) = "
 
 #: src/dialogs/descriptive-stats.glade.h:3
 msgid ".95"
@@ -22094,15 +22073,15 @@ msgstr "Beschrijvende Statistieken"
 
 #: src/dialogs/descriptive-stats.glade.h:10
 msgid "K = "
-msgstr ""
+msgstr "K = "
 
 #: src/dialogs/descriptive-stats.glade.h:11
 msgid "Kth Largest"
-msgstr "K Grootste"
+msgstr "K-grootste"
 
 #: src/dialogs/descriptive-stats.glade.h:12
 msgid "Kth Smallest"
-msgstr "K Kleinste"
+msgstr "K-kleinste"
 
 #: src/dialogs/descriptive-stats.glade.h:17
 msgid "S_ummary Statistics"
@@ -22114,7 +22093,7 @@ msgstr "Miguel de Icaza, bedenker."
 
 #: src/dialogs/dialog-about.c:46
 msgid "Jody Goldberg, maintainer."
-msgstr "Jody Goldberg, beheerder.."
+msgstr "Jody Goldberg, beheerder."
 
 #: src/dialogs/dialog-about.c:47
 msgid "Sean Atkinson, functions and X-Base importing."
@@ -22126,7 +22105,7 @@ msgstr "Michel Berkelaar, Simplex algoritme voor Oplosser (LP Solve)."
 
 #: src/dialogs/dialog-about.c:49
 msgid "Grandma Chema Celorio, Tester and sheet copy."
-msgstr "Grootmoeder Chema Celorio, Tester en werkblad kopieen"
+msgstr "Grootmoeder Chema Celorio, Tester en werkblad kopieëren."
 
 #: src/dialogs/dialog-about.c:50
 msgid "Frank Chiulli, OLE support."
@@ -22167,16 +22146,14 @@ msgstr "John Gotts, rpm pakketten."
 #. xgettext:
 #. * The funny character between "G" and "l" here is a \"u.
 #: src/dialogs/dialog-about.c:64
-#, fuzzy
 msgid "Andreas J. Gülzow, Gnumeric hacker."
-msgstr "Andreas J. Guelzow, Gnumeric hacker."
+msgstr "Andreas J. Gülzow, Gnumeric hacker."
 
 #. xgettext:
 #. * The funny character between "K" and "r" here is 'aring'.
 #: src/dialogs/dialog-about.c:67
-#, fuzzy
 msgid "Jon Kåre Hellan, Gnumeric hacker."
-msgstr "Jon Kre Hellan, Gnumeric hacker."
+msgstr "Jon Kåre Hellan, Gnumeric hacker."
 
 #: src/dialogs/dialog-about.c:68
 msgid "Ross Ihaka, special functions."
@@ -22494,9 +22471,8 @@ msgid "Feb"
 msgstr "Feb"
 
 #: src/dialogs/dialog-autoformat.c:70
-#, fuzzy
 msgid "Mar"
-msgstr "*Mar"
+msgstr "Mar"
 
 #: src/dialogs/dialog-autoformat.c:70 src/dialogs/dialog-autoformat.c:74
 #: src/tools/analysis-tools.c:3359 src/tools/analysis-tools.c:3369
@@ -22903,9 +22879,8 @@ msgid "Formats"
 msgstr "Opmaak"
 
 #: src/dialogs/dialog-paste-special.c:49
-#, fuzzy
 msgid "Add"
-msgstr "Optellen "
+msgstr "Optellen"
 
 #: src/dialogs/dialog-paste-special.c:50
 msgid "Subtract"
@@ -23745,7 +23720,6 @@ msgid "Unix (linefeed)"
 msgstr "Unix (nieuwe  regel)"
 
 #: src/dialogs/dialog-stf-export.glade.h:37
-#, fuzzy
 msgid "Unknown characters:"
 msgstr "Onbekende tekens:"
 
@@ -23867,9 +23841,8 @@ msgstr ""
 "bijvoorbeeld een puntkomma."
 
 #: src/dialogs/dialog-stf.glade.h:22
-#, fuzzy
 msgid "Encoding:"
-msgstr "Binding"
+msgstr "Tekenset:"
 
 #: src/dialogs/dialog-stf.glade.h:23
 msgid "End"
@@ -23877,7 +23850,7 @@ msgstr "Einde"
 
 #: src/dialogs/dialog-stf.glade.h:24
 msgid "F_inish"
-msgstr ""
+msgstr "_Voltooien"
 
 #: src/dialogs/dialog-stf.glade.h:25
 #, fuzzy
@@ -23885,9 +23858,8 @@ msgid "Fixed"
 msgstr "Bestand/"
 
 #: src/dialogs/dialog-stf.glade.h:26
-#, fuzzy
 msgid "Format"
-msgstr "_Opmaak"
+msgstr "Opmaak"
 
 #: src/dialogs/dialog-stf.glade.h:27
 msgid "Fr_om line:"
@@ -23899,16 +23871,15 @@ msgstr "Streepje (-)"
 
 #: src/dialogs/dialog-stf.glade.h:29
 msgid "Line breaks:"
-msgstr ""
+msgstr "Regelafbreking:"
 
 #: src/dialogs/dialog-stf.glade.h:30
 msgid "Lines to import"
 msgstr "Regels om te importeren"
 
 #: src/dialogs/dialog-stf.glade.h:31
-#, fuzzy
 msgid "Main"
-msgstr "Min"
+msgstr "Hoofd"
 
 #: src/dialogs/dialog-stf.glade.h:33
 msgid "Number of lines to import"
@@ -24002,10 +23973,11 @@ msgstr "Ta_b"
 msgid "Te_xt indicator: "
 msgstr "Te_kst indicator: "
 
+# tekstaanwijzer
 #: src/dialogs/dialog-stf.glade.h:54
 #, fuzzy
 msgid "Text indicator"
-msgstr "Te_kst indicator: "
+msgstr "Tekstindicator"
 
 #: src/dialogs/dialog-stf.glade.h:55
 msgid "The carriage return character (ASCII code 13) breaks lines"
@@ -24048,7 +24020,7 @@ msgstr "Vaste bree_dte"
 
 #: src/dialogs/dialog-stf.glade.h:65
 msgid "_Macintosh (CR)"
-msgstr ""
+msgstr "_Macintosh (CR)"
 
 #: src/dialogs/dialog-stf.glade.h:67
 msgid "_Separated"
@@ -24127,19 +24099,18 @@ msgid "Display \"%s\" could not be opened."
 msgstr ""
 
 #: src/dialogs/dialog-view.c:164
-#, fuzzy
 msgid "This screen"
-msgstr "Discreet"
+msgstr "Dit scherm"
 
 #: src/dialogs/dialog-view.c:165
 #, c-format
 msgid "Screen %d [This screen]"
-msgstr ""
+msgstr "Scherm %d [Dit scherm]"
 
 #: src/dialogs/dialog-view.c:166
-#, fuzzy, c-format
+#, c-format
 msgid "Screen %d"
-msgstr "Blad%d"
+msgstr "Scherm %d"
 
 #: src/dialogs/dialog-zoom.glade.h:4
 #, no-c-format
@@ -24219,7 +24190,7 @@ msgstr "D_ag"
 
 #: src/dialogs/fill-series.glade.h:5
 msgid "Date unit"
-msgstr "Datum eenheid"
+msgstr "Datum-eenheid"
 
 #: src/dialogs/fill-series.glade.h:6
 #, fuzzy
@@ -24268,14 +24239,12 @@ msgid "Size:"
 msgstr "Grootte:"
 
 #: src/dialogs/format-selector.glade.h:2
-#, fuzzy
 msgid "<b>Preview</b>"
-msgstr "Voorbeeld"
+msgstr "<b>Voorbeeld</b>"
 
 #: src/dialogs/format-selector.glade.h:3
-#, fuzzy
 msgid "Ca_tegories:"
-msgstr "Categorie:"
+msgstr "Ca_tegorieën:"
 
 #: src/dialogs/format-selector.glade.h:4
 msgid "Deci_mal places:"
@@ -24302,27 +24271,24 @@ msgid "Display numeric values with a fixed number of decimals."
 msgstr ""
 
 #: src/dialogs/format-selector.glade.h:10
-#, fuzzy
 msgid "Display times of day."
-msgstr "_Outlines weergeven"
+msgstr ""
 
 #: src/dialogs/format-selector.glade.h:11
 msgid "Display values as closest fractional approximation."
 msgstr ""
 
 #: src/dialogs/format-selector.glade.h:12
-#, fuzzy
 msgid "Display values as percentages."
-msgstr "Geeft de waarde weer op dezelfde wijze als deze is ingetypt"
+msgstr "Waardes weergevan als percentages."
 
 #: src/dialogs/format-selector.glade.h:13
 msgid "Display values with power-of-ten scaling."
-msgstr ""
+msgstr "Waardes weergeven in machten van tien."
 
 #: src/dialogs/format-selector.glade.h:14
-#, fuzzy
 msgid "Format c_ode:"
-msgstr "_Formaat:"
+msgstr ""
 
 #: src/dialogs/format-selector.glade.h:15
 #, fuzzy
@@ -24335,7 +24301,7 @@ msgstr "S_ymbool:"
 
 #: src/dialogs/format-selector.glade.h:17
 msgid "Select an appropriate format automatically."
-msgstr ""
+msgstr "Autamatisch een geschikte opmaak kiezen."
 
 #: src/dialogs/format-selector.glade.h:18
 msgid "Specify an XL-style format directly"
@@ -24460,19 +24426,16 @@ msgstr "Ma_x:"
 
 #: src/dialogs/histogram.glade.h:11 src/dialogs/mean-tests.glade.h:8
 #: src/dialogs/moving-averages.glade.h:8 src/dialogs/sampling.glade.h:7
-#, fuzzy
 msgid "New _Sheet"
-msgstr "Nieuw Blad"
+msgstr "Nieuw _blad"
 
 #: src/dialogs/histogram.glade.h:12 src/dialogs/mean-tests.glade.h:9
 #: src/dialogs/moving-averages.glade.h:9 src/dialogs/sampling.glade.h:8
-#, fuzzy
 msgid "New _Workbook"
-msgstr "Nieuwe Werkmap"
+msgstr "Nieuwe _werkmap"
 
 #: src/dialogs/histogram.glade.h:14 src/dialogs/moving-averages.glade.h:11
 #: src/dialogs/sampling.glade.h:10
-#, fuzzy
 msgid "Output _Range:"
 msgstr "_Uitvoerbereik:"
 
@@ -24501,6 +24464,7 @@ msgid "_Bins"
 msgstr "Bins"
 
 #: src/dialogs/histogram.glade.h:21
+#, fuzzy
 msgid "_Calculated Bins"
 msgstr "Berekende Bins"
 
@@ -24519,9 +24483,8 @@ msgid "_N:"
 msgstr "_N:"
 
 #: src/dialogs/histogram.glade.h:28
-#, fuzzy
 msgid "_Percentages"
-msgstr "_Percentage"
+msgstr "_Percentages"
 
 #: src/dialogs/histogram.glade.h:29
 #, fuzzy
@@ -24592,38 +24555,35 @@ msgstr "Verondersteld Gemiddeld Verschil:"
 
 #: src/dialogs/mean-tests.glade.h:10
 msgid "Population Variances are:"
-msgstr "Populatie varianties zijn:"
+msgstr "Populatievarianties zijn:"
 
 #: src/dialogs/mean-tests.glade.h:13
 msgid "Testing the Difference of 2 Means"
 msgstr "Bezig met testen van 2 gemiddelden"
 
 #: src/dialogs/mean-tests.glade.h:14
-#, fuzzy
 msgid "Variable _1 Population Variance:"
-msgstr "Variabele 1 Pop. Variantie:"
+msgstr "Variabele _1 Populatievariantie:"
 
 #: src/dialogs/mean-tests.glade.h:15 src/dialogs/variance-tests.glade.h:12
 msgid "Variable _1 Range:"
-msgstr "Variabele _1 Bereik:"
+msgstr "Variabele _1 bereik:"
 
 #: src/dialogs/mean-tests.glade.h:16
-#, fuzzy
 msgid "Variable _2 Population Variance:"
-msgstr "Variabele 2 Pop. Variantie:"
+msgstr "Variabele _2 Populatievariantie:"
 
 #: src/dialogs/mean-tests.glade.h:17 src/dialogs/variance-tests.glade.h:13
 msgid "Variable _2 Range:"
-msgstr "Variabele _2 Bereik:"
+msgstr "Variabele _2 bereik:"
 
 #: src/dialogs/mean-tests.glade.h:18
 msgid "Variables are:"
 msgstr "Variabelen zijn:"
 
 #: src/dialogs/mean-tests.glade.h:19
-#, fuzzy
 msgid "_Alpha ="
-msgstr "_Alpha:"
+msgstr "_Alpha ="
 
 #: src/dialogs/mean-tests.glade.h:21
 msgid "_Known"
@@ -24634,33 +24594,28 @@ msgid "_Paired"
 msgstr "_Gekoppeld"
 
 #: src/dialogs/mean-tests.glade.h:26
-#, fuzzy
 msgid "_Population Variances are:"
-msgstr "Populatie varianties zijn:"
+msgstr "_Populatievarianties zijn:"
 
 #: src/dialogs/mean-tests.glade.h:27
-#, fuzzy
 msgid "_Populations"
-msgstr "_Opties"
+msgstr "_Populaties"
 
 #: src/dialogs/mean-tests.glade.h:28
-#, fuzzy
 msgid "_Test"
-msgstr "z-Test"
+msgstr "_Test"
 
 #: src/dialogs/mean-tests.glade.h:29
 msgid "_Unequal"
 msgstr "_Ongelijk"
 
 #: src/dialogs/mean-tests.glade.h:30
-#, fuzzy
 msgid "_Unknown"
-msgstr "Onbekend"
+msgstr "_Onbekend"
 
 #: src/dialogs/mean-tests.glade.h:31
-#, fuzzy
 msgid "_Unpaired"
-msgstr "_Niet Gekoppeld"
+msgstr "_Niet gekoppeld"
 
 #: src/dialogs/merge.glade.h:1
 #, fuzzy
@@ -24672,9 +24627,8 @@ msgid "Merge..."
 msgstr "Samenvoegen..."
 
 #: src/dialogs/merge.glade.h:3
-#, fuzzy
 msgid "_Merge"
-msgstr "Samenvoegen"
+msgstr "_Samenvoegen"
 
 #: src/dialogs/moving-averages.glade.h:2
 msgid "3"
@@ -24774,12 +24728,10 @@ msgid "Do _not activate this plugin next time I start Gnumeric"
 msgstr "Deze plugin _niet activeren als ik Gnumeric de volgende keer opstart"
 
 #: src/dialogs/plugin-manager.glade.h:5
-#, fuzzy
 msgid "Plugin Details"
 msgstr "Plugindetails"
 
 #: src/dialogs/plugin-manager.glade.h:6
-#, fuzzy
 msgid "Plugin List"
 msgstr "Plugin-lijst"
 
@@ -24802,6 +24754,7 @@ msgstr ""
 "volgende keer als Gnumeric wordt opgestart, niet meer geactiveerd worden "
 "(tenzij deze benodigd is door een andere plugin)."
 
+# allemaal inschakelen? 
 #: src/dialogs/plugin-manager.glade.h:10
 #, fuzzy
 msgid "_Activate All"
@@ -24814,7 +24767,7 @@ msgstr "Alles _Deactiveren"
 
 #: src/dialogs/preferences.glade.h:1
 msgid "Gnumeric Preferences"
-msgstr "Gnumeric Voorkeuren"
+msgstr "Gnumeric voorkeuren"
 
 #: src/dialogs/print.glade.h:2
 #, no-c-format
@@ -24826,9 +24779,8 @@ msgid "Apply _to:"
 msgstr "_Toepassen op:"
 
 #: src/dialogs/print.glade.h:5
-#, fuzzy
 msgid "Apply to _all sheets of this workbook."
-msgstr "Toepassen op _alle werkbladen."
+msgstr "Toepassen op _alle werkbladen van dit werkboek."
 
 #: src/dialogs/print.glade.h:6
 msgid "Center on page"
@@ -24963,17 +24915,16 @@ msgid "_Distribution:"
 msgstr "_Distributie:"
 
 #: src/dialogs/random-generation.glade.h:16
-#, fuzzy
 msgid "_Random Numbers"
-msgstr "Willekeurige Getallen"
+msgstr "_Willekeurige getallen"
 
 #: src/dialogs/rank.glade.h:2
 msgid "Average _Rank"
-msgstr "Gemiddelde _Rang"
+msgstr "Gemiddelde _rang"
 
 #: src/dialogs/rank.glade.h:7
 msgid "Rank and Percentile"
-msgstr "Rang en Percentiel"
+msgstr "Rang en percentiel"
 
 #: src/dialogs/rank.glade.h:10
 msgid "Ties:"
@@ -24981,7 +24932,7 @@ msgstr "Bindingen:"
 
 #: src/dialogs/rank.glade.h:20
 msgid "_Top Rank"
-msgstr "_Hoogste Rang"
+msgstr "_Hoogste rang"
 
 #: src/dialogs/regression.glade.h:2
 msgid "0.95"
@@ -24998,26 +24949,27 @@ msgstr "Regressie"
 
 #: src/dialogs/regression.glade.h:14
 msgid "_Force Intercept To Be Zero"
-msgstr "_Forceer Snijpunt Nul te Zijn."
+msgstr "Snijpunt _forceren op nul"
 
 #: src/dialogs/row-height.glade.h:1
 msgid "Row Height"
-msgstr "Rij Hoogte"
+msgstr "Rijhoogte"
 
 #: src/dialogs/row-height.glade.h:2
-#, fuzzy
 msgid "_Row height (pt.):"
-msgstr "_Rij hoogte (pts):"
+msgstr "_Rijhoogte (pt.):"
 
 #: src/dialogs/sampling.glade.h:6
 msgid "N_umber of Samples:"
-msgstr "Aantal Steekproeven:"
+msgstr "_Aantal steekproeven:"
 
 #: src/dialogs/sampling.glade.h:11
 msgid "Per_iod:"
 msgstr "Per_iode:"
 
+# steekproef uitvoeren, wordt uitgevoerd
 #: src/dialogs/sampling.glade.h:14
+#, fuzzy
 msgid "Sampling"
 msgstr "Steekproeven"
 
@@ -25069,14 +25021,12 @@ msgid "Scenario Manager"
 msgstr "Plugin Beheerder"
 
 #: src/dialogs/scenario-manager.glade.h:8 src/dialogs/solver.glade.h:23
-#, fuzzy
 msgid "Scenarios:"
-msgstr "Scheidingstekens"
+msgstr "Scenarios:"
 
 #: src/dialogs/scenario-manager.glade.h:9
-#, fuzzy
 msgid "Show"
-msgstr "Tonen:"
+msgstr "Tonen"
 
 #: src/dialogs/scenario-manager.glade.h:10
 #, fuzzy
@@ -25108,6 +25058,7 @@ msgid "Attempt to preserve case of text when replacing"
 msgstr "Probeer hoofd/kleine letters te behouden bij het vervangen."
 
 #: src/dialogs/search-replace.glade.h:8
+#, fuzzy
 msgid "Create =ERROR(\"...\")"
 msgstr "produceer een  =ERROR(\"...\")"
 
@@ -25124,6 +25075,7 @@ msgid "Fail without any changes actually being done to any cell"
 msgstr "Stop, zonder iets te vervangen"
 
 #: src/dialogs/search-replace.glade.h:12
+#, fuzzy
 msgid "Ma_ke string value"
 msgstr "_Produceer een string"
 
@@ -25164,6 +25116,7 @@ msgid "Scope"
 msgstr "Bereik"
 
 #: src/dialogs/search-replace.glade.h:23
+#, fuzzy
 msgid "Search"
 msgstr "Zoek"
 
@@ -25505,9 +25458,8 @@ msgid "Arrow Width:"
 msgstr "Pijlbreedte:"
 
 #: src/dialogs/so-arrow.glade.h:4
-#, fuzzy
 msgid "Arrow/Line Properties"
-msgstr "Kader-eigenschappen"
+msgstr "Lijn/Pijl-eigenschappen"
 
 #: src/dialogs/so-arrow.glade.h:6
 msgid "Distance from tip of arrowhead to the center point"
@@ -25529,9 +25481,8 @@ msgid "Line Width:"
 msgstr "Lijnbreedte:"
 
 #: src/dialogs/so-checkbox.glade.h:2
-#, fuzzy
 msgid "Checkbox Properties"
-msgstr "Kader-eigenschappen"
+msgstr ""
 
 #: src/dialogs/so-checkbox.glade.h:3 src/dialogs/so-frame.glade.h:3
 msgid "Label:"
@@ -25542,6 +25493,7 @@ msgstr "Label:"
 msgid "Link to:"
 msgstr "Linkdoel"
 
+# vulkleur/opvulkleur
 #: src/dialogs/so-fill.glade.h:3
 #, fuzzy
 msgid "F_ill Color:"
@@ -25551,6 +25503,7 @@ msgstr "_Kleur:"
 msgid "Frame Properties"
 msgstr "Kader-eigenschappen"
 
+# verhogen
 #: src/dialogs/so-scrollbar.glade.h:1
 #, fuzzy
 msgid "Increment:"
@@ -25569,9 +25522,8 @@ msgid "Page:"
 msgstr "Pagina:"
 
 #: src/dialogs/so-scrollbar.glade.h:6
-#, fuzzy
 msgid "Scrollbar Properties"
-msgstr "Kader-eigenschappen"
+msgstr "Schuifbalk-eigenschappen"
 
 #: src/dialogs/solver.glade.h:2
 msgid "<="
@@ -25842,6 +25794,7 @@ msgstr "_Alpha:"
 msgid "Create New View"
 msgstr "Een lijst object maken"
 
+# ergens anders
 #: src/dialogs/view.glade.h:3
 msgid "Elsewhere"
 msgstr ""
@@ -26744,9 +26697,8 @@ msgid "Communaute Financiere Africaine BCEAO, Francs"
 msgstr "Communaute Financiere Africaine BCEAO, Francs"
 
 #: src/formats.c:535
-#, fuzzy
 msgid "Palladium, Ounces"
-msgstr "Palladium Ons"
+msgstr "Palladium, Ons"
 
 #: src/formats.c:536
 msgid "Comptoirs Francais du Pacifique Francs"
@@ -26846,7 +26798,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=GNUMERIC_VERSION\n"
 "@SYNTAX=GNUMERIC_VERSION()\n"
-"@DESCRIPTION=geeft de versie van gnumeric als een string.\n"
+"@DESCRIPTION=GNUMERIC_VERSION geeft de versie van gnumeric als een "
+"tekenreeks.\n"
 "@EXAMPLES=\n"
 "GNUMERIC_VERSION()\n"
 "\n"
@@ -26855,19 +26808,20 @@ msgstr ""
 #: src/func.c:107
 #, c-format
 msgid "Cannot create file %s\n"
-msgstr "Kan bestand %s niet maken\n"
+msgstr "Kan bestand %s niet aanmaken\n"
 
 #: src/func.c:295
 msgid "Function implementation not available."
-msgstr "Functie implementatie niet beschikbaar."
+msgstr "Functieimplementatie niet beschikbaar."
 
 #: src/func.c:505
 msgid "Unknown Function"
 msgstr "Onbekende functie"
 
 #: src/func.c:679
+#, fuzzy
 msgid "Boolean"
-msgstr "Bools"
+msgstr "Booleaan"
 
 #: src/func.c:681
 msgid "Cell Range"
@@ -26922,9 +26876,8 @@ msgid "Format as alternative Number"
 msgstr "Formateer als alternatief Getal"
 
 #: src/gui-clipboard.c:114
-#, fuzzy
 msgid "clipboard"
-msgstr "Klembord"
+msgstr "klembord"
 
 #: src/gui-clipboard.c:122
 msgid "Parse error while trying to parse data into cellregion"
@@ -26935,19 +26888,18 @@ msgid "Automatically detected"
 msgstr "Automatisch gedetecteerd"
 
 #: src/gui-file.c:175
-#, fuzzy
 msgid "Character _encoding:"
-msgstr "Tekenset:"
+msgstr "Teken_set:"
 
 #. Pack it into file selector
 #: src/gui-file.c:178 src/workbook-control-gui.c:3187
 msgid "Load file"
-msgstr "Bestanden openen"
+msgstr "Bestand laden"
 
+# bestandtype?
 #: src/gui-file.c:185
-#, fuzzy
 msgid "File _type:"
-msgstr "Bestand:"
+msgstr "Bestands_type:"
 
 #: src/gui-file.c:249
 #, c-format
@@ -27920,9 +27872,10 @@ msgstr ""
 msgid "Error while trying to parse data into sheet"
 msgstr "Fout tijdens het verwerken van data naar blad"
 
+# beter: heeft niet de opgegeven tekenset?
 #: src/stf.c:352
 msgid "That file is not in the given encoding."
-msgstr ""
+msgstr "Dat bestand staat niet in de opgegeven tekenset."
 
 #: src/stf.c:369
 msgid "Parse error while trying to parse data into sheet"
@@ -27935,15 +27888,15 @@ msgstr "Fout tijdens het schrijven csv bestand"
 # CHECK misschien is dit te lang
 #: src/stf.c:427
 msgid "Comma or tab separated files (CSV/TSV)"
-msgstr "Bestanden met kolommen gescheiden door kommas of tabs (CSV/TSV)"
+msgstr "Bestanden met kolommen gescheiden door komma of tab (CSV/TSV)"
 
 #: src/stf.c:431
 msgid "Text import (configurable)"
-msgstr "Tekst invoer (instelbaar)"
+msgstr "Tekst-import (instelbaar)"
 
 #: src/stf.c:435
 msgid "Text export (configurable)"
-msgstr "Tekst uitvoer (instelbaar)"
+msgstr "Tekst-export (instelbaar)"
 
 #: src/tools/analysis-tools.c:216 src/tools/analysis-tools.c:3303
 #, c-format
@@ -28019,13 +27972,13 @@ msgid "Descriptive Statistics (%s)"
 msgstr "Beschrijvende Statistieken (%s)"
 
 #: src/tools/analysis-tools.c:1251
-#, fuzzy
 msgid "The requested sample size is too large for a periodic sample."
 msgstr ""
 "De gevraagde steekproefgrootte is te groot voor een periodieke steekproef."
 
+# steekproef nemen
 #: src/tools/analysis-tools.c:1298
-#, c-format
+#, fuzzy, c-format
 msgid "Sampling (%s)"
 msgstr "Steekproeven (%s)"
 
@@ -28446,15 +28399,13 @@ msgid "Result Cells:"
 msgstr "Resultaat cel"
 
 #: src/tools/scenarios.c:695 src/tools/scenarios.c:731
-#, fuzzy
 msgid "Scenario Summary"
-msgstr "Scenario tonen"
+msgstr "Scenario-overzicht"
 
 #. Titles.
 #: src/tools/scenarios.c:698
-#, fuzzy
 msgid "Current Values"
-msgstr "Huidige Waarde:"
+msgstr "Huidige waardes"
 
 #: src/tools/scenarios.c:699
 #, fuzzy
@@ -28569,7 +28520,6 @@ msgid "Not Binding"
 msgstr "Geen Binding"
 
 #: src/tools/solver/reports-write.c:180 src/tools/solver/reports-write.c:890
-#, fuzzy
 msgid "Assume that all variables are integers."
 msgstr "Aannemen dat alle variabelen gehele getallen zijn."
 
@@ -28677,12 +28627,11 @@ msgstr "Hogere"
 
 #: src/tools/solver/reports-write.c:505 src/tools/solver/reports-write.c:747
 msgid "Performance Report"
-msgstr "Prestatierappirt"
+msgstr "Prestatie-rapport"
 
 #: src/tools/solver/reports-write.c:520
-#, fuzzy
 msgid "Number of Iterations"
-msgstr "Aantl Iteraties"
+msgstr "Aantal iteraties"
 
 #: src/tools/solver/reports-write.c:526
 msgid "Minimization"
@@ -28990,11 +28939,12 @@ msgstr "#N/B"
 msgid "#RECALC!"
 msgstr "#HERBEREKEN!"
 
+# aangepaste?
 #. This is the default custom color
 #: src/widgets/color-palette.c:375
 #, fuzzy
 msgid "custom"
-msgstr "Aangepast"
+msgstr "aangepast"
 
 #. "Custom" color - we'll pop up a GnomeColorPicker
 #: src/widgets/color-palette.c:417
@@ -29008,34 +28958,32 @@ msgid "Choose Custom Color"
 msgstr "Kies bladen om te exporteren"
 
 #: src/widgets/color-palette.c:558
-#, fuzzy
 msgid "black"
-msgstr "Speelruimte"
+msgstr "zwart"
 
 #: src/widgets/color-palette.c:559
 msgid "light brown"
-msgstr ""
+msgstr "lichtbruin"
 
 #: src/widgets/color-palette.c:560
 msgid "brown gold"
-msgstr ""
+msgstr "goudbruin"
 
 #: src/widgets/color-palette.c:561
 msgid "dark green #2"
-msgstr ""
+msgstr "donkergroen #2"
 
 #: src/widgets/color-palette.c:562
-#, fuzzy
 msgid "navy"
-msgstr "Maandag"
+msgstr "marineblauw"
 
 #: src/widgets/color-palette.c:563 src/widgets/color-palette.c:619
 msgid "dark blue"
-msgstr ""
+msgstr "donkerblauw"
 
 #: src/widgets/color-palette.c:564
 msgid "purple #2"
-msgstr ""
+msgstr "paars #2"
 
 #: src/widgets/color-palette.c:565
 msgid "very dark gray"
@@ -29043,21 +28991,19 @@ msgstr ""
 
 #: src/widgets/color-palette.c:568 src/widgets/color-palette.c:624
 msgid "dark red"
-msgstr ""
+msgstr "donkerrood"
 
 #: src/widgets/color-palette.c:569
-#, fuzzy
 msgid "red-orange"
-msgstr "bereik"
+msgstr "rood-oranje"
 
 #: src/widgets/color-palette.c:570
-#, fuzzy
 msgid "gold"
-msgstr "Vet"
+msgstr "goud"
 
 #: src/widgets/color-palette.c:571
 msgid "dark green"
-msgstr ""
+msgstr "donkergroen"
 
 #: src/widgets/color-palette.c:572 src/widgets/color-palette.c:625
 #, fuzzy
@@ -29065,28 +29011,24 @@ msgid "dull blue"
 msgstr "Celwaarde"
 
 #: src/widgets/color-palette.c:573 src/widgets/color-palette.c:626
-#, fuzzy
 msgid "blue"
-msgstr "Blauw"
+msgstr "blauw"
 
 #: src/widgets/color-palette.c:574
 msgid "dull purple"
 msgstr ""
 
 #: src/widgets/color-palette.c:575
-#, fuzzy
 msgid "dark gray"
-msgstr "reeks"
+msgstr "donkergrijs"
 
 #: src/widgets/color-palette.c:578
-#, fuzzy
 msgid "red"
-msgstr "Rood"
+msgstr "rood"
 
 #: src/widgets/color-palette.c:579
-#, fuzzy
 msgid "orange"
-msgstr "bereik"
+msgstr "orange"
 
 #: src/widgets/color-palette.c:580
 #, fuzzy
@@ -29103,111 +29045,99 @@ msgstr ""
 
 #: src/widgets/color-palette.c:583
 msgid "sky blue #2"
-msgstr ""
+msgstr "hemelsblauw #2"
 
 #: src/widgets/color-palette.c:584 src/widgets/color-palette.c:623
 msgid "purple"
-msgstr ""
+msgstr "paars"
 
 #: src/widgets/color-palette.c:585
-#, fuzzy
 msgid "gray"
-msgstr "reeks"
+msgstr "grijs"
 
 #: src/widgets/color-palette.c:588 src/widgets/color-palette.c:620
-#, fuzzy
 msgid "magenta"
-msgstr "Magenta"
+msgstr "magenta"
 
 #: src/widgets/color-palette.c:589
 msgid "bright orange"
-msgstr ""
+msgstr "heloranje"
 
 #: src/widgets/color-palette.c:590 src/widgets/color-palette.c:621
-#, fuzzy
 msgid "yellow"
-msgstr "Geel"
+msgstr "geel"
 
 #: src/widgets/color-palette.c:591
-#, fuzzy
 msgid "green"
-msgstr "Groen"
+msgstr "groen"
 
 #: src/widgets/color-palette.c:592 src/widgets/color-palette.c:622
-#, fuzzy
 msgid "cyan"
-msgstr "Cyaan"
+msgstr "cyaan"
 
 #: src/widgets/color-palette.c:593
 msgid "bright blue"
-msgstr ""
+msgstr "helblauw"
 
 #: src/widgets/color-palette.c:594 src/widgets/color-palette.c:611
 msgid "red purple"
-msgstr ""
+msgstr "rood-paars"
 
 #: src/widgets/color-palette.c:595
 msgid "light gray"
-msgstr ""
+msgstr "lichtgrijs"
 
 #: src/widgets/color-palette.c:598 src/widgets/color-palette.c:615
-#, fuzzy
 msgid "pink"
-msgstr "Hyperlink"
+msgstr "roze"
 
 #: src/widgets/color-palette.c:599
-#, fuzzy
 msgid "light orange"
-msgstr "Rechts uitlijnen"
+msgstr "lichtoranje"
 
 #: src/widgets/color-palette.c:600 src/widgets/color-palette.c:612
 msgid "light yellow"
-msgstr ""
+msgstr "lichtgeel"
 
 #: src/widgets/color-palette.c:601
-#, fuzzy
 msgid "light green"
-msgstr "Rechts uitlijnen"
+msgstr "lichtgroen"
 
 #: src/widgets/color-palette.c:602
-#, fuzzy
 msgid "light cyan"
-msgstr "Rechts uitlijnen"
+msgstr ""
 
 #: src/widgets/color-palette.c:603 src/widgets/color-palette.c:613
 msgid "light blue"
-msgstr ""
+msgstr "lichtblauw"
 
 #: src/widgets/color-palette.c:604 src/widgets/color-palette.c:617
 msgid "light purple"
-msgstr ""
+msgstr "lichtpaars"
 
 #: src/widgets/color-palette.c:605
-#, fuzzy
 msgid "white"
-msgstr "Wit"
+msgstr "wit"
 
 #: src/widgets/color-palette.c:610
 msgid "purplish blue"
-msgstr ""
+msgstr "paars-blauw"
 
 #: src/widgets/color-palette.c:614
 msgid "dark purple"
-msgstr ""
+msgstr "donkerpaars"
 
 #: src/widgets/color-palette.c:616
-#, fuzzy
 msgid "sky blue"
-msgstr "Op Waarde"
+msgstr "hemelsblauw"
 
 #: src/widgets/gnumeric-expr-entry.c:1239
 msgid "Expecting a single range"
 msgstr "Verwachtte een enkel bereik"
 
 #: src/widgets/gnumeric-optionmenu.c:199
-#, fuzzy
 msgid "Menu"
-msgstr "Gemiddelde"
+msgstr "Menu"
 
 #: src/widgets/gnumeric-optionmenu.c:200
 msgid "The menu of options"
@@ -29431,9 +29361,8 @@ msgid "Ukrainian (MacUkrainian)"
 msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:148
-#, fuzzy
 msgid "English (ASCII)"
-msgstr "Engels (US-ASCII)"
+msgstr "Engels (ASCII)"
 
 #: src/widgets/widget-charmap-selector.c:149
 msgid "Farsi (MacFarsi)"
@@ -29541,22 +29470,18 @@ msgid "Thai (TIS-620)"
 msgstr "Thais (TIS-620)"
 
 #: src/widgets/widget-charmap-selector.c:175
-#, fuzzy
 msgid "Turkish (IBM-857)"
 msgstr "Turks (IBM-857)"
 
 #: src/widgets/widget-charmap-selector.c:176
-#, fuzzy
 msgid "Turkish (ISO-8859-9)"
 msgstr "Turks (ISO-8859-9)"
 
 #: src/widgets/widget-charmap-selector.c:177
-#, fuzzy
 msgid "Turkish (MacTurkish)"
 msgstr "Turks (MacTurkish)"
 
 #: src/widgets/widget-charmap-selector.c:178
-#, fuzzy
 msgid "Turkish (Windows-1254)"
 msgstr "Turks (Windows-1254)"
 
@@ -29585,9 +29510,8 @@ msgid "Unicode (UTF-32LE)"
 msgstr "Unicode (UTF-32LE)"
 
 #: src/widgets/widget-charmap-selector.c:185
-#, fuzzy
 msgid "User Defined"
-msgstr "Onderstrepen gebruiken"
+msgstr ""
 
 # trema?
 #: src/widgets/widget-charmap-selector.c:186
@@ -29607,7 +29531,6 @@ msgid "Vietnamese (Windows-1258)"
 msgstr "Vietnamees (Windows-1258)"
 
 #: src/widgets/widget-charmap-selector.c:190
-#, fuzzy
 msgid "Visual Hebrew (ISO-8859-8)"
 msgstr "Visueel Hebreews (ISO-8859-8)"
 
@@ -29632,14 +29555,12 @@ msgid "Western (Windows-1252)"
 msgstr "Westers (Windows-1252)"
 
 #: src/widgets/widget-charmap-selector.c:413
-#, fuzzy
 msgid "Locale: "
-msgstr "Logica"
+msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:452
-#, fuzzy
 msgid "Conversion Direction"
-msgstr "Pearson-correlatie"
+msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:453
 #, fuzzy
@@ -29661,19 +29582,16 @@ msgid "Accounting"
 msgstr "Financieel"
 
 #: src/widgets/widget-format-selector.c:66
-#, fuzzy
 msgid "Fraction"
 msgstr "Breuk"
 
 #: src/widgets/widget-format-selector.c:67
-#, fuzzy
 msgid "Scientific"
-msgstr "Weten_schappelijk"
+msgstr "Wetenschappelijk"
 
 #: src/widgets/widget-format-selector.c:69
-#, fuzzy
 msgid "Special"
-msgstr "_Speciaal"
+msgstr "Speciaal"
 
 #: src/widgets/widget-format-selector.c:908
 msgid "Negative Number Format"
@@ -29695,11 +29613,11 @@ msgstr "Centraal Europees"
 
 #: src/widgets/widget-locale-selector.c:66
 msgid "North America"
-msgstr ""
+msgstr "Noord-Amerika"
 
 #: src/widgets/widget-locale-selector.c:67
 msgid "South & Central America"
-msgstr ""
+msgstr "Zuid & Centraal-Amerika"
 
 #: src/widgets/widget-locale-selector.c:68
 #, fuzzy
@@ -29707,14 +29625,12 @@ msgid "Asia"
 msgstr "sigma"
 
 #: src/widgets/widget-locale-selector.c:69
-#, fuzzy
 msgid "Africa"
-msgstr "Arabisch"
+msgstr "Afrika"
 
 #: src/widgets/widget-locale-selector.c:70
-#, fuzzy
 msgid "Australia"
-msgstr "Australië, Dollar"
+msgstr "Australië"
 
 #.
 #. * The format here is "Country/Language (locale)" or just
@@ -29726,7 +29642,7 @@ msgstr "Australië, Dollar"
 #.
 #: src/widgets/widget-locale-selector.c:102
 msgid "United States/English (C)"
-msgstr ""
+msgstr "Verenigde staten/Engels (C)"
 
 #: src/widgets/widget-locale-selector.c:103
 #, fuzzy
@@ -29753,38 +29669,35 @@ msgstr ""
 
 #: src/widgets/widget-locale-selector.c:108
 msgid "Egypt (ar_EG)"
-msgstr ""
+msgstr "Egypte (ar_EG)"
 
 #: src/widgets/widget-locale-selector.c:109
 msgid "India/Arabic (ar_IN)"
-msgstr ""
+msgstr "India/Arabisch (ar_IN)"
 
 #: src/widgets/widget-locale-selector.c:110
 msgid "Iraq (ar_IQ)"
-msgstr ""
+msgstr "Iraq (ar_IQ)"
 
 #: src/widgets/widget-locale-selector.c:111
-#, fuzzy
 msgid "Jordan (ar_JO)"
-msgstr "Jordanië, Dinar"
+msgstr "Jordanië (ar_JO)"
 
 #: src/widgets/widget-locale-selector.c:112
-#, fuzzy
 msgid "Kuwait (ar_KW)"
-msgstr "Koeweit, Dinar"
+msgstr "Koeweit (ar_KW)"
 
 #: src/widgets/widget-locale-selector.c:113
 msgid "Lebanon (ar_LB)"
-msgstr ""
+msgstr "Libanon (ar_LB)"
 
 #: src/widgets/widget-locale-selector.c:114
-#, fuzzy
 msgid "Libya (ar_LY)"
-msgstr "Libië, Dinar"
+msgstr "Libië (ar_LY)"
 
 #: src/widgets/widget-locale-selector.c:115
 msgid "Morocco (ar_MA)"
-msgstr ""
+msgstr "Marokko (ar_MA)"
 
 #: src/widgets/widget-locale-selector.c:116
 msgid "Oman (ar_OM)"
@@ -29800,27 +29713,24 @@ msgid "Saudi Arabia (ar_SA)"
 msgstr "Saudi-Arabië, Riyal"
 
 #: src/widgets/widget-locale-selector.c:119
-#, fuzzy
 msgid "Sudan (ar_SD)"
-msgstr "Soedan, Dinar"
+msgstr "Soedan (ar_SD)"
 
 #: src/widgets/widget-locale-selector.c:120
 msgid "Syria (ar_SY)"
-msgstr ""
+msgstr "Syrië (ar_SY)"
 
 #: src/widgets/widget-locale-selector.c:121
-#, fuzzy
 msgid "Tunisia (ar_TN)"
-msgstr "Tunesië, Dinar"
+msgstr "Tunesië (ar_TN)"
 
 #: src/widgets/widget-locale-selector.c:122
 msgid "Yemen (ar_YE)"
-msgstr ""
+msgstr "Yemen (ar_YE)"
 
 #: src/widgets/widget-locale-selector.c:123
-#, fuzzy
 msgid "Azerbaijan (az_AZ)"
-msgstr "Azerbeijan, Manats"
+msgstr "Azerbeijan (az_AZ)"
 
 #: src/widgets/widget-locale-selector.c:124
 #, fuzzy
@@ -29833,26 +29743,24 @@ msgid "Bulgaria (bg_BG)"
 msgstr "Bulgarije, Lev"
 
 #: src/widgets/widget-locale-selector.c:126
-#, fuzzy
 msgid "Bangladesh (bn_BD)"
-msgstr "Bangladesh, Taka"
+msgstr "Bangladesh (bn_BD)"
 
 #: src/widgets/widget-locale-selector.c:127
 msgid "India/Bengali (bn_IN)"
-msgstr ""
+msgstr "India/Bengaals (bn_IN)"
 
 #: src/widgets/widget-locale-selector.c:128
 msgid "France/Breton (br_FR)"
-msgstr ""
+msgstr "Frankrijk/Bretons (br_FR)"
 
 #: src/widgets/widget-locale-selector.c:129
-#, fuzzy
 msgid "Bosnia and Herzegowina (bs_BA)"
-msgstr "Bosnië-Herzegovina, converteerbare Marka"
+msgstr "Bosnië-Herzegovina (bs_BA)"
 
 #: src/widgets/widget-locale-selector.c:130
 msgid "Spain/Catalan (ca_ES)"
-msgstr ""
+msgstr "Spanje/Catalaans (ca_ES)"
 
 #: src/widgets/widget-locale-selector.c:131
 #, fuzzy
@@ -29864,186 +29772,168 @@ msgid "Great Britain/Welsh (cy_GB)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:133
-#, fuzzy
 msgid "Denmark (da_DK)"
-msgstr "Denemarken, Kroon"
+msgstr "Denemarken (da_DK)"
 
 #: src/widgets/widget-locale-selector.c:134
 msgid "Austria (de_AT)"
-msgstr ""
+msgstr "Oostenrijk (de_AT)"
 
 #: src/widgets/widget-locale-selector.c:135
 msgid "Belgium/German (de_BE)"
-msgstr ""
+msgstr "België/Duits (de_BE)"
 
 #: src/widgets/widget-locale-selector.c:136
-#, fuzzy
 msgid "Switzerland/German (de_CH)"
-msgstr "Zwitserland, Frank"
+msgstr "Zwitserland/Duits (de_CH)"
 
 #: src/widgets/widget-locale-selector.c:137
 msgid "Germany (de_DE)"
-msgstr ""
+msgstr "Duitsland (de_DE)"
 
 #: src/widgets/widget-locale-selector.c:138
 msgid "Luxembourg/German (de_LU)"
-msgstr ""
+msgstr "Luxemburg/Duits (de_LU)"
 
 #: src/widgets/widget-locale-selector.c:139
 msgid "Greece (el_GR)"
-msgstr ""
+msgstr "Griekenland (el_GR)"
 
 #: src/widgets/widget-locale-selector.c:140
 msgid "Australia (en_AU)"
-msgstr ""
+msgstr "Australië (en_AU)"
 
 #: src/widgets/widget-locale-selector.c:141
 msgid "Botswana (en_BW)"
-msgstr ""
+msgstr "Botswana (en_BW)"
 
 #: src/widgets/widget-locale-selector.c:142
 msgid "Canada/English (en_CA)"
-msgstr ""
+msgstr "Canada/Engels (en_CA)"
 
 #: src/widgets/widget-locale-selector.c:143
 msgid "Great Britain (en_GB)"
-msgstr ""
+msgstr "Groot-Brittanië (en_GB)"
 
 #: src/widgets/widget-locale-selector.c:144
 msgid "Hong Kong/English (en_HK)"
-msgstr ""
+msgstr "Hong Kong/Engels (en_HK)"
 
 #: src/widgets/widget-locale-selector.c:145
 msgid "Ireland (en_IE)"
-msgstr ""
+msgstr "Ierland (en_IE)"
 
 #: src/widgets/widget-locale-selector.c:146
-#, fuzzy
 msgid "India/English (en_IN)"
-msgstr "Engels (US-ASCII)"
+msgstr "India/Engels (en_IN)"
 
 #: src/widgets/widget-locale-selector.c:147
-#, fuzzy
 msgid "New Zealand (en_NZ)"
-msgstr "Nieuw Zeeland, Dollars"
+msgstr "Nieuw Zeeland (en_NZ)"
 
 #: src/widgets/widget-locale-selector.c:148
-#, fuzzy
 msgid "Philippines (en_PH)"
-msgstr "Philippijnen, Peso"
+msgstr "Philippijnen (en_PH)"
 
 #: src/widgets/widget-locale-selector.c:149
 msgid "Singapore/English (en_SG)"
-msgstr ""
+msgstr "Singapore/Engels (en_SG)"
 
 #: src/widgets/widget-locale-selector.c:150
 msgid "United States/English (en_US)"
-msgstr ""
+msgstr "Verenigde staten/Engels (en_US)"
 
 #: src/widgets/widget-locale-selector.c:151
-#, fuzzy
 msgid "South Africa/English (en_ZA)"
-msgstr "Zuid Afrika, Rand"
+msgstr "Zuid Afrika/Engels (en_ZA)"
 
 #: src/widgets/widget-locale-selector.c:152
 msgid "Zimbabwe (en_ZW)"
-msgstr ""
+msgstr "Zimbabwe (en_ZW)"
 
 #: src/widgets/widget-locale-selector.c:153
 msgid "Esperanto (eo_EO)"
-msgstr ""
+msgstr "Esperanto (eo_EO)"
 
 #: src/widgets/widget-locale-selector.c:154
-#, fuzzy
 msgid "Argentina (es_AR)"
-msgstr "Argentinië, Peso"
+msgstr "Argentinië (es_AR)"
 
 #: src/widgets/widget-locale-selector.c:155
 msgid "Bolivia (es_BO)"
-msgstr ""
+msgstr "Bolivia (es_BO)"
 
 #: src/widgets/widget-locale-selector.c:156
-#, fuzzy
 msgid "Chile (es_CL)"
-msgstr "Chili, Peso"
+msgstr "Chili (es_CL)"
 
 #: src/widgets/widget-locale-selector.c:157
-#, fuzzy
 msgid "Colombia (es_CO)"
-msgstr "Colombia, Peso"
+msgstr "Colombia (es_CO)"
 
 #: src/widgets/widget-locale-selector.c:158
-#, fuzzy
 msgid "Costa Rica (es_CR)"
-msgstr "Costa Ricaanse, Colon"
+msgstr "Costa Rica (es_CR)"
 
 #: src/widgets/widget-locale-selector.c:159
-#, fuzzy
 msgid "Dominican Republic (es_DO)"
-msgstr "Dominicaanse Republiek, Peso"
+msgstr "Dominicaanse Republiek (es_DO)"
 
 #: src/widgets/widget-locale-selector.c:160
 msgid "Ecuador (es_EC)"
-msgstr ""
+msgstr "Ecuador (es_EC)"
 
 #: src/widgets/widget-locale-selector.c:161
-#, fuzzy
 msgid "Spain (es_ES)"
-msgstr "Steekproeven (%s)"
+msgstr "Spanje (es_ES)"
 
 #: src/widgets/widget-locale-selector.c:162
-#, fuzzy
 msgid "Guatemala (es_GT)"
-msgstr "Guatemala, Quetzal"
+msgstr "Guatemala (es_GT)"
 
 #: src/widgets/widget-locale-selector.c:163
-#, fuzzy
 msgid "Honduras (es_HN)"
-msgstr "Honduras, Lempira"
+msgstr "Honduras (es_HN)"
 
 #: src/widgets/widget-locale-selector.c:164
-#, fuzzy
 msgid "Mexico (es_MX)"
-msgstr "Mexico, Peso"
+msgstr "Mexico (es_MX)"
 
 #: src/widgets/widget-locale-selector.c:165
 msgid "Nicaragua (es_NI)"
-msgstr ""
+msgstr "Nicaragua (es_NI)"
 
 #: src/widgets/widget-locale-selector.c:166
 msgid "Panama (es_PA)"
-msgstr ""
+msgstr "Panama (es_PA)"
 
 #: src/widgets/widget-locale-selector.c:167
 msgid "Peru (es_PE)"
-msgstr ""
+msgstr "Peru (es_PE)"
 
 #: src/widgets/widget-locale-selector.c:168
 msgid "Puerto Rico (es_PR)"
-msgstr ""
+msgstr "Puerto Rico (es_PR)"
 
 #: src/widgets/widget-locale-selector.c:169
 msgid "Paraguay (es_PY)"
-msgstr ""
+msgstr "Paraguay (es_PY)"
 
 #: src/widgets/widget-locale-selector.c:170
-#, fuzzy
 msgid "El Salvador (es_SV)"
-msgstr "El Salvador, Colone"
+msgstr "El Salvador (es_SV)"
 
 #: src/widgets/widget-locale-selector.c:171
 msgid "United States/Spanish (es_US)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:172
-#, fuzzy
 msgid "Uruguay (es_UY)"
-msgstr "Uruguay, Peso"
+msgstr "Uruguay (es_UY)"
 
 #: src/widgets/widget-locale-selector.c:173
-#, fuzzy
 msgid "Venezuela (es_VE)"
-msgstr "Venezuela, Bolivar"
+msgstr "Venezuela (es_VE)"
 
 #: src/widgets/widget-locale-selector.c:174
 msgid "Estonia (et_EE)"
@@ -30055,11 +29945,11 @@ msgstr ""
 
 #: src/widgets/widget-locale-selector.c:176
 msgid "Iran (fa_IR)"
-msgstr ""
+msgstr "Iran (fa_IR)"
 
 #: src/widgets/widget-locale-selector.c:177
 msgid "Finland/Finnish (fi_FI)"
-msgstr ""
+msgstr "Finland/Fins (fi_FI)"
 
 #: src/widgets/widget-locale-selector.c:178
 msgid "Faroe Islands (fo_FO)"
@@ -30067,20 +29957,19 @@ msgstr ""
 
 #: src/widgets/widget-locale-selector.c:179
 msgid "Belgium/French (fr_BE)"
-msgstr ""
+msgstr "België/Frans (fr_BE)"
 
 #: src/widgets/widget-locale-selector.c:180
 msgid "Canada/French (fr_CA)"
-msgstr ""
+msgstr "Canada/Frans (fr_CA)"
 
 #: src/widgets/widget-locale-selector.c:181
-#, fuzzy
 msgid "Switzerland/French (fr_CH)"
-msgstr "Zwitserland, Frank"
+msgstr "Zwitserland/Frans (fr_CH)"
 
 #: src/widgets/widget-locale-selector.c:182
 msgid "France (fr_FR)"
-msgstr ""
+msgstr "Frankrijk (fr_FR)"
 
 #: src/widgets/widget-locale-selector.c:183
 msgid "Ireland/Gaelic (ga_IE)"
@@ -30457,9 +30346,8 @@ msgid "If you close without saving, changes will be discarded."
 msgstr ""
 
 #: src/workbook-control-gui.c:1743
-#, fuzzy
 msgid "Discard all"
-msgstr "Alles Verwerpen"
+msgstr "Alles verwerpen"
 
 #: src/workbook-control-gui.c:1745 src/workbook-control-gui.c:1754
 #: src/workbook-control-gui.c:1762
@@ -30467,19 +30355,16 @@ msgid "Discard"
 msgstr "Verwerpen"
 
 #: src/workbook-control-gui.c:1747
-#, fuzzy
 msgid "Save all"
-msgstr "Alles Opslaan"
+msgstr "Alles opslaan"
 
 #: src/workbook-control-gui.c:1749 src/workbook-control-gui.c:1756
-#, fuzzy
 msgid "Don't quit"
-msgstr "Afsluiten Annuleren"
+msgstr "Niet afsluiten"
 
 #: src/workbook-control-gui.c:1764
-#, fuzzy
 msgid "Don't close"
-msgstr "Niet Sluiten"
+msgstr "Niet sluiten"
 
 #: src/workbook-control-gui.c:2304
 #, c-format
@@ -30511,11 +30396,11 @@ msgstr "Opmerking in cel %s!%s"
 #.
 #: src/workbook-control-gui.c:2572
 msgid "Insert rows"
-msgstr "Rijen Invoegen"
+msgstr "Rijen invoegen"
 
 #: src/workbook-control-gui.c:2592
 msgid "Insert columns"
-msgstr "Kolommen Invoegen"
+msgstr "Kolommen invoegen"
 
 #: src/workbook-control-gui.c:2983
 msgid "Add Filter"
@@ -30531,11 +30416,11 @@ msgstr "Heeft meer dan 1 rij nodig"
 
 #: src/workbook-control-gui.c:3045 src/workbook-control-gui.c:3064
 msgid "Show Detail"
-msgstr "Details Weergeven"
+msgstr "Details weergeven"
 
 #: src/workbook-control-gui.c:3045 src/workbook-control-gui.c:3064
 msgid "Hide Detail"
-msgstr "Details Verbergen"
+msgstr "Details verbergen"
 
 #: src/workbook-control-gui.c:3052
 msgid "can only be performed on an existing group"
@@ -30606,10 +30491,12 @@ msgid "Create a pivot table."
 msgstr "Een draaitabel maken"
 
 #: src/workbook-control-gui.c:4044
+#, fuzzy
 msgid "Undo the operation"
 msgstr "Maakt de ingreep ongedaan"
 
 #: src/workbook-control-gui.c:4047
+#, fuzzy
 msgid "Redo the operation"
 msgstr "Herhaal de ingreep"
 
@@ -30618,6 +30505,7 @@ msgstr "Herhaal de ingreep"
 msgid "File \"%s\" has unknown format."
 msgstr "Bestand \"%s\" heeft een onbekend formaat."
 
+# versturen
 #: src/workbook-control-gui.c:5181
 msgid "Send"
 msgstr "Verzenden"
@@ -30637,9 +30525,8 @@ msgid "_Discard"
 msgstr "Verwerpen"
 
 #: src/workbook-control-gui.c:5427 src/workbook-control-gui.c:5438
-#, fuzzy
 msgid "_Accept"
-msgstr "Accepteer"
+msgstr "_Accepteren"
 
 #: src/workbook-control.c:229
 msgid "Define Name"
