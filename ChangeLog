@@ -1,3 +1,10 @@
+2004-11-08  Morten Welinder  <terra@gnome.org>
+
+	* configure.in (perl_msg): Disable buggy perl_construct check.
+
+	* src/expr.h: Delete trailing comma in enum.
+	* src/func.h: Ditto.
+
 2004-11-07  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* configure.in: Call the "make" command for PY_EXTRA_LIBS with "-s".

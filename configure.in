@@ -715,7 +715,7 @@ if test "x$with_perl" != xno; then
 	if $PERL -e 'eval { require ExtUtils::Embed }; if ($@) { exit(1); } else { exit(0); }'
 	then
 	    AC_MSG_RESULT($marker_ok)
-	    AC_CHECK_LIB(perl, perl_construct, [], [perl_msg="missing/invalid libperl"])
+	    dnl AC_CHECK_LIB(perl, perl_construct, [], [perl_msg="missing/invalid libperl"])
 	else
 	    AC_MSG_RESULT($marker_no)
 	    perl_msg="Missing ExtUtils::Embed"
