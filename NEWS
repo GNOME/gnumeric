@@ -58,6 +58,7 @@ Morten:
 	* Start getting rid of use of deprecated features.
 	* Multihead support.
 	* Fix crash for analysis tools on initial failure.
+	* Speed up stf import.
 
 --------------------------------------------------------------------------
 
