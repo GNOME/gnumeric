@@ -24,59 +24,40 @@ range_count (const gnm_float *xs, int n, gnm_float *res)
 
 
 /* Arithmetic sum.  */
-/* We are using the double pass algorithm 2.3.1 described in */
-/* Thisted: Elements of Statistical Computing                */
-/* Note: mathematically sum_2 should be zero, except that it */
-/* contains some of the numerical errors from the first pass */
 int
 range_sum (const gnm_float *xs, int n, gnm_float *res)
 {
-    /* http://bugzilla.gnome.org/show_bug.cgi?id=131588 */
+	/* http://bugzilla.gnome.org/show_bug.cgi?id=131588 */
 #ifdef HAVE_LONG_DOUBLE
-	long double sum_1 = 0., sum_2 = 0., xbar = 0.;
+	long double sum = 0;
 #else
-	gnm_float   sum_1 = 0., sum_2 = 0., xbar = 0.;
+	gnm_float sum = 0;
 #endif
 	int i;
 
-	if (n == 0) {
-		*res = 0.0;
-		return 0;
-	}
+	for (i = 0; i < n; i++)
+		sum += xs[i];
 
-	for (i = 0; i < n; i++)
-		sum_1 += xs[i];
-	xbar = sum_1 / n;
-	for (i = 0; i < n; i++)
-		sum_2 += (xs[i] - xbar);
-	*res = sum_1 + sum_2;
+	*res = sum;
 	return 0;
 }
 
 /* Arithmetic sum of squares.  */
-/* See the explanation for the Arithmetic sum above.*/
 int
 range_sumsq (const gnm_float *xs, int n, gnm_float *res)
 {
-    /* http://bugzilla.gnome.org/show_bug.cgi?id=131588 */
+	/* http://bugzilla.gnome.org/show_bug.cgi?id=131588 */
 #ifdef HAVE_LONG_DOUBLE
-	long double sum_1 = 0., sum_2 = 0., xbar = 0.;
+	long double sum = 0;
 #else
-	gnm_float   sum_1 = 0., sum_2 = 0., xbar = 0.;
+	gnm_float sum = 0;
 #endif
 	int i;
 
-	if (n == 0) {
-		*res = 0.0;
-		return 0;
-	}
+	for (i = 0; i < n; i++)
+		sum += xs[i] * xs[i];
 
-	for (i = 0; i < n; i++)
-		sum_1 += xs[i] * xs[i];
-	xbar = sum_1 / n;
-	for (i = 0; i < n; i++)
-		sum_1 += ((xs[i] * xs[i]) - xbar);
-	*res = sum_1 + sum_2;
+	*res = sum;
 	return 0;
 }
 

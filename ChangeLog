@@ -1,3 +1,9 @@
+2005-01-05  Morten Welinder  <terra@gnome.org>
+
+	* src/rangefunc.c (range_sum): Just sum.  Don't try to be overly
+	smart.
+	(range_sumsq): Ditto.
+
 2005-01-05  Jody Goldberg <jody@gnome.org>
 
 	* src/gnumeric-pane.c (cb_sheet_object_widget_canvas_event) : handle
