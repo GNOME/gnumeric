@@ -208,6 +208,5 @@ GSList *find_rows_that_match        (Sheet *sheet, int first_col,
 				     int first_row, int last_col, int last_row,
 				     GSList *criterias, gboolean unique_only);
 
-int  solver_simplex                 (Workbook *wb, Sheet *sheet);
 
 #endif /* GNUMERIC_FUNC_H */

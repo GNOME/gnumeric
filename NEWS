@@ -4,7 +4,8 @@ Jukka:
 	* Added `>=' and `=' constraint support for the Solver tool.
 	  Solver should be quite usable now for LP problems that are
 	  assumed to be non-negative.
-	* Implemented `Answer Reports' for Solver tool.
+	* Implemented `Answer Reports' and `Sensitivity Reports' for
+	  Solver tool.
 	* Major GUI improvementes for Solver
 	* Added `Advanced Filter' tool.
 	* Added the following distributions for the random number

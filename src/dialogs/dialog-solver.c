@@ -462,9 +462,9 @@ dialog_results (Workbook *wb, int res,
 
 	switch (res){
 	case SIMPLEX_DONE:
-	        answer_s = TRUE;
+	        answer_s = sensitivity_s = TRUE;
 	        label_txt = "Solver found an optimal solution. All "
-		  "constraints and \noptimality conditions are satisfied.";
+		  "constraints and \noptimality conditions are satisfied.\n";
 		break;
 	case SIMPLEX_UNBOUNDED:
 		label_txt = "The Target Cell value does not converge.\n";
@@ -726,21 +726,25 @@ main_dialog:
 	sheet->solver_parameters.constraints = constraint_dialog->constraints;
 
 	if (selection == 0) {
+	        float_t *init_table, *final_table;
 	        ov = save_original_values (input_cells);
 	        if (sheet->solver_parameters.options.assume_linear_model) {
-		        res = solver_simplex(wb, sheet);
+		        res = solver_simplex(wb, sheet, &init_table,
+					     &final_table);
 			gtk_widget_hide (dialog);
 			answer = sensitivity = limits = FALSE;
-			solver_solution = dialog_results (wb, res, 
+			solver_solution = dialog_results (wb, res,
 							  &answer,
 							  &sensitivity,
 							  &limits);
 			solver_lp_reports (wb, sheet, ov, ov_target,
+					   init_table, final_table,
 					   answer, sensitivity, limits);
 			if (! solver_solution)
 			        restore_original_values (input_cells, ov);
-		} else
-		        ; /* NLP not implemented yet */
+		} else {
+		        printf("NLP not implemented yet!\n");
+		}
 	}
 
 	text = gtk_entry_get_text (GTK_ENTRY (target_entry));

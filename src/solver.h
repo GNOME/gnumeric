@@ -46,8 +46,12 @@ struct _SolverParameters {
         SolverOptions      options;
 };
 
+int  solver_simplex (Workbook *wb, Sheet *sheet, float_t **init_table,
+		     float_t **final_table);
+
 void solver_lp_reports (Workbook *wb, Sheet *sheet, GSList *ov,
-			float_t ov_target,
+			float_t ov_target, float_t *init_tbl,
+			float_t *final_tbl,
 			gboolean answer, gboolean sensitivity, 
 			gboolean limits);
 

@@ -135,6 +135,19 @@ simplex_step_one(Sheet *sheet, int target_col, int target_row,
 	return table;
 }
 
+/* STEP 2a: Convert negative RHS's to positive.
+ */
+static void
+simplex_step_bvs(float_t *table, int tbl_cols, int tbl_rows)
+{
+        int i, n;
+
+	for (i=1; i<tbl_rows; i++)
+	        if (table[i*tbl_cols + 1] < 0)
+		        for (n=1; n<tbl_cols; n++)
+			        table[i*tbl_cols + n] *= -1;
+}
+
 /* STEP 2: Find the pivot column.  Most positive rule is applied.
  */
 static int
@@ -220,7 +233,21 @@ display_table(float_t *table, int cols, int rows)
 	printf("\n");
 }
 
-int solver_simplex (Workbook *wb, Sheet *sheet)
+static float_t *
+simplex_copy_table (float_t *table, int cols, int rows)
+{
+        float_t *tbl;
+        int     i;
+
+	tbl = g_new (float_t, cols*rows);
+	for (i=0; i<cols*rows; i++)
+	        tbl[i] = table[i];
+
+	return tbl;
+}
+
+int solver_simplex (Workbook *wb, Sheet *sheet, float_t **init_tbl,
+		    float_t **final_tbl)
 {
         int i, n;
 	SolverParameters *param = &sheet->solver_parameters;
@@ -244,8 +271,11 @@ int solver_simplex (Workbook *wb, Sheet *sheet)
 	if (table == NULL)
 	        return SIMPLEX_UNBOUNDED;
 
+	*init_tbl = simplex_copy_table (table, tbl_cols, tbl_rows);
+
 	for (;;) {
 	        display_table (table, tbl_cols, tbl_rows);
+		simplex_step_bvs(table, tbl_cols, tbl_rows);
 	        col = simplex_step_two(table, tbl_cols, &status);
 
 		if (status == SIMPLEX_DONE)
@@ -291,6 +321,8 @@ int solver_simplex (Workbook *wb, Sheet *sheet)
 		cell_eval_content(cell);
 		constraints = constraints->next;
 	}
+
+	*final_tbl = table;
 
         return SIMPLEX_DONE;
 }
@@ -354,7 +386,7 @@ solver_answer_report (Workbook *wb, Sheet *sheet, GSList *ov,
 	int  row;
 
 	dao.type = NewSheetOutput;
-        prepare_output (wb, &dao, "Answer");
+        prepare_output (wb, &dao, "Answer Report");
 	set_cell (&dao, 0, 0, "Gnumeric Solver Answer Report");
 	if (param->problem_type == SolverMaximize)
 	        set_cell (&dao, 0, 1, "Target Cell (Maximize)");
@@ -472,8 +504,115 @@ solver_answer_report (Workbook *wb, Sheet *sheet, GSList *ov,
 }
 
 static void
-solver_sensitivity_report (Workbook *wb)
+solver_sensitivity_report (Workbook *wb, Sheet *sheet, float_t *init_tbl,
+			   float_t *final_tbl)
 {
+        data_analysis_output_t dao;
+	SolverParameters       *param = &sheet->solver_parameters;
+	GSList                 *constraints;
+        CellList               *cell_list = param->input_cells;
+
+	Cell *cell;
+	char *str, buf[256];
+	int  row=0, i;
+
+	dao.type = NewSheetOutput;
+        prepare_output (wb, &dao, "Sensitivity Report");
+	set_cell (&dao, 0, row++, "Gnumeric Solver Sensitivity Report");
+	set_cell (&dao, 0, row++, "Adjustable Cells");
+	set_cell (&dao, 2, row, "Final");
+	set_cell (&dao, 3, row, "Reduced");
+	set_cell (&dao, 4, row, "Objective");
+	set_cell (&dao, 5, row, "Allowable");
+	set_cell (&dao, 6, row++, "Allowable");
+	set_cell (&dao, 0, row, "Cell");
+	set_cell (&dao, 1, row, "Name");
+	set_cell (&dao, 2, row, "Value");
+	set_cell (&dao, 3, row, "Cost");
+	set_cell (&dao, 4, row, "Coefficient");
+	set_cell (&dao, 5, row, "Increase");
+	set_cell (&dao, 6, row++, "Decrease");
+
+	i = 2;
+	while (cell_list != NULL) {
+	        cell = (Cell *) cell_list->data;
+
+		/* Set `Cell' column */
+		set_cell (&dao, 0, row, (char *) cell_name(cell->col->pos,
+							   cell->row->pos));
+
+		/* Set `Name' column */
+		set_cell (&dao, 1, row, find_name (sheet, cell->col->pos,
+						   cell->row->pos));
+
+		/* Set `Final Value' column */
+		cell = sheet_cell_fetch (sheet, cell->col->pos,
+					 cell->row->pos);
+		str = value_get_as_string (cell->value);
+		set_cell (&dao, 2, row, str);
+		g_free (str);
+
+		/* Set `Reduced Cost' column */
+		sprintf(buf, "%f", final_tbl[i]);
+		set_cell (&dao, 3, row, buf);
+
+		/* Set `Objective Coefficient' column */
+		sprintf(buf, "%f", init_tbl[i]);
+		set_cell (&dao, 4, row, buf);
+
+		/* Go to next row */
+	        cell_list = cell_list->next;
+		row++;
+		i++;
+	}
+
+	set_cell (&dao, 0, row++, "Constraints");
+	set_cell (&dao, 2, row, "Final");
+	set_cell (&dao, 3, row, "Shadow");
+	set_cell (&dao, 4, row, "Constraint");
+	set_cell (&dao, 5, row, "Allowable");
+	set_cell (&dao, 6, row++, "Allowable");
+	set_cell (&dao, 0, row, "Cell");
+	set_cell (&dao, 1, row, "Name");
+	set_cell (&dao, 2, row, "Value");
+	set_cell (&dao, 3, row, "Price");
+	set_cell (&dao, 4, row, "R.H. Side");
+	set_cell (&dao, 5, row, "Increase");
+	set_cell (&dao, 6, row++, "Decrease");
+	
+	constraints = param->constraints;
+	while (constraints != NULL) {
+	        SolverConstraint *c = (SolverConstraint *) constraints->data;
+
+		/* Set `Cell' column */
+		set_cell (&dao, 0, row,
+			  (char *) cell_name (c->lhs_col, c->lhs_row));
+
+		/* Set `Name' column */
+		set_cell (&dao, 1, row, find_name (sheet, c->lhs_col,
+						   c->lhs_row));
+
+		/* Set `Final Value' column */
+		cell = sheet_cell_fetch (sheet, c->lhs_col, c->lhs_row);
+		str = value_get_as_string (cell->value);
+		set_cell (&dao, 2, row, str);
+		g_free (str);
+
+		/* Set `Shadow Prize' column */
+		sprintf(buf, "%f", -final_tbl[i]);
+		set_cell (&dao, 3, row, buf);
+
+		/* Set `R.H. Side Value' column */
+		cell = sheet_cell_fetch (sheet, c->rhs_col, c->rhs_row);
+		str = value_get_as_string (cell->value);
+		set_cell (&dao, 4, row, str);
+		g_free (str);
+
+		/* Go to next row */
+		++row;
+		++i;
+		constraints = constraints->next;
+	}
 }
 
 static void
@@ -483,12 +622,13 @@ solver_limits_report (Workbook *wb)
 
 void
 solver_lp_reports (Workbook *wb, Sheet *sheet, GSList *ov, float_t ov_target,
+		   float_t *init_table, float_t *final_table,
 		   gboolean answer, gboolean sensitivity, gboolean limits)
 {
         if (answer)
 	        solver_answer_report (wb, sheet, ov, ov_target);
 	if (sensitivity)
-	        solver_sensitivity_report (wb);
+	        solver_sensitivity_report (wb, sheet, init_table, final_table);
 	if (limits)
 	        solver_limits_report (wb);
 }
