@@ -1,3 +1,11 @@
+2004-05-03  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=140671
+	* src/commands.c (cmd_paste_cut_undo) : we don't know the SheetView
+	  associated with the origin sheet.
+
+	* src/selection.c (sv_selection_set) : add some safety
+
 2004-04-27  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control-gui.c (wbcg_menu_state_update) :  

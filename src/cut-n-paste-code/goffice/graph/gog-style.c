@@ -1054,7 +1054,7 @@ gog_style_assign (GogStyle *dst, GogStyle const *src)
 }
 
 /**
- * gog_style_merge :
+ * gog_style_apply_theme :
  * @dst : #GogStyle
  * @src :  #GogStyle
  *
@@ -1062,18 +1062,13 @@ gog_style_assign (GogStyle *dst, GogStyle const *src)
  * assigned (is_auto)
  **/
 void
-gog_style_merge	(GogStyle *dst, GogStyle const *src)
+gog_style_apply_theme (GogStyle *dst, GogStyle const *src)
 {
 	if (src == dst)
 		return;
 
 	g_return_if_fail (GOG_STYLE (src) != NULL);
 	g_return_if_fail (GOG_STYLE (dst) != NULL);
-
-	if (src->font.font != NULL)
-		go_font_ref (src->font.font);
-	if (dst->font.font != NULL)
-		go_font_unref (dst->font.font);
 
 	if (dst->outline.auto_color)
 		dst->outline.color = src->outline.color;
@@ -1106,7 +1101,15 @@ gog_style_merge	(GogStyle *dst, GogStyle const *src)
 		go_marker_set_fill_color (dst->marker.mark,
 			go_marker_get_fill_color (src->marker.mark));
 
-	dst->font    = src->font; /* FIXME: No way to tell if this is auto */
+#if 0
+	/* Fonts are not themed until we have some sort of auto mechanism
+	 * stronger than 'auto_size' */
+	if (src->font.font != NULL)
+		go_font_ref (src->font.font);
+	if (dst->font.font != NULL)
+		go_font_unref (dst->font.font);
+	dst->font = src->font;
+#endif
 }
 
 static void

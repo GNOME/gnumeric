@@ -4072,7 +4072,7 @@ sheet_adjust_outline_dir (Sheet *sheet, gboolean is_cols)
  * @sheet :
  * @wbv   :
  *
- * Find the sheetview corresponding to the supplied @wbv.
+ * Find the SheetView corresponding to the supplied @wbv.
  */
 SheetView *
 sheet_get_view (Sheet const *sheet, WorkbookView const *wbv)

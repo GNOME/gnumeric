@@ -190,7 +190,7 @@ gog_theme_init_style (GogTheme *theme, GogStyle *style,
 	/* no theme entry for this type */
 	g_return_if_fail (elem != NULL);
 
-	gog_style_merge (style, elem->style);
+	gog_style_apply_theme (style, elem->style);
 	if (ind >= 0 && elem->map)
 		(elem->map) (style, ind);
 }

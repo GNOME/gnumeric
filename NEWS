@@ -10,6 +10,10 @@ Gnumeric 1.2.12
 	* xls export rows even if they only have visible formating
 	* Ensure we apply styles before rendering autofill content
 	* Backport a huge performance improvement when scrolling images
+	http://bugzilla.gnome.org/show_bug.cgi?id=136363
+	* Fix font handling in chart labels and titles
+	http://bugzilla.gnome.org/show_bug.cgi?id=140671
+	* Fix crash when undoing a cut from a different workbook
 
 --------------------------------------------------------------------------
 Gnumeric 1.2.11

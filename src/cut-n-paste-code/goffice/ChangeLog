@@ -1,3 +1,9 @@
+2004-05-03  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=136363
+	* graph/gog-style.c (gog_style_apply_theme) : Do not theme the fonts
+	  it over rides the user selection because there is no 'auto' flag.
+
 2004-04-19  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=127411
