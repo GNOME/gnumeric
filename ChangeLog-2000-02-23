@@ -1,3 +1,17 @@
+1999-02-16  Michael Meeks  <sca20@cam.ac.uk>
+
+	* plugins/excel/ms-excel.c: Fixed many bugs in my
+	understanding of hash table functions.
+	Added rudimentary NAME stuff.
+	made error lookup global.
+	Fixed up Header / Footer functionality.
+	(ms_excel_sheet_new, ms_excel_sheet_insert,
+	ms_excel_read_sheet): Added 'blank' field to excel_sheets,
+
+	* plugins/excel/ms-formula.c: Added puzzling
+	PTG_NAME stuff, this is really wierd.
+	PTG_ERR added.
+	
 1999-02-16  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/workbook.c (change_auto_expr_menu): OOps I got too excited
@@ -14,7 +28,7 @@
 	(workbook_do_destroy): Free the toolbar.
 	(workbook_feedback_set): Use the per-workbook toolbar here.
 
-1999-02-19  Michael Meeks  <sca20@cam.ac.uk>
+1999-02-14  Michael Meeks  <sca20@cam.ac.uk>
 
 	* plugins/excel/ms-formula.c: Inserted a whole scad
 	of math functions into translation table.

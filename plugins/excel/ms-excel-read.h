@@ -25,6 +25,7 @@ typedef struct _BIFF_BOUNDSHEET_DATA
 typedef struct _MS_EXCEL_SHEET
 {
 	int index ;
+	int blank ;
 	Sheet *gnum_sheet ;
 	struct _MS_EXCEL_WORKBOOK *wb ;
 	eBiff_version ver ;
@@ -83,4 +84,5 @@ typedef struct _MS_EXCEL_WORKBOOK
 
 extern char* biff_get_externsheet_name (MS_EXCEL_WORKBOOK *wb, guint16 idx, gboolean get_first) ;
 extern char* biff_get_text (BYTE *ptr, int length) ;
+extern char* biff_get_error_text (guint8 err) ;
 #endif

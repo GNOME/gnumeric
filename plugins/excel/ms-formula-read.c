@@ -56,39 +56,55 @@ FORMULA_OP_DATA formula_op_data[] = {
  **/
 FORMULA_FUNC_DATA formula_func_data[] =
 {
+  { 0x02, "ISNA (", 0, ")", 1, 0 },
+  { 0x03, "ISERROR (", 0, ")", 1, 0 },
   { 0x04, "SUM (", 0,  ")", -1, 0 },
   { 0x05, "AVERAGE (", 0,  ")", -1, 0 },
   { 0x06, "MIN (", 0,  ")", -1, 0 },
   { 0x07, "MAX (", 0,  ")", -1, 0 },
-  { 0x24, "AND (", 0,  ")", -1, 0 },
-  { 0x25, "OR (",  0,  ")", -1, 0 },
-  { 0x63, "ACOS (", 0, ")", 1, 0 },
-  { 0xe9, "ACOSH (", 0, ")", 1, 0 },
-  { 0x62, "ASIN (", 0, ")", 1, 0 },
-  { 0xe8, "ASINH (", 0, ")", 1, 0 },
-  { 0x12, "ATAN (", 0, ")", 1, 0 },
-  { 0x61, "ATAN2 (", 0, ")", 2, 0 },
-  { 0xea, "ATANH (", 0, ")", 1, 0 },
-  { 0x120, "CEILING (", 0, ")", 2, 0 },
+  { 0x0f, "SIN (", 0, ")", 1, 0 },
   { 0x10, "COS (", 0, ")", 1, 0 },
-  { 0xe6, "COSH (", 0, ")", 1, 0 },
+  { 0x11, "TAN (", 0, ")", 1, 0 },
+  { 0x12, "ATAN (", 0, ")", 1, 0 },
+  { 0x14, "SQRT (", 0, ")", 1, 0 },
   { 0x15, "EXP (", 0, ")", 1, 0 },
   { 0x16, "LN (", 0, ")", 1, 0 },
-  { 0x6d, "LOG (", 0, ")", 1, 0 },
   { 0x17, "LOG10 (", 0, ")", 1, 0 },
-  { 0x156, "RADIANS (", 0, ")", 1, 0 },
-  { 0x3f, "RAND (", 0, ")", 0, 0 },
   { 0x1a, "SIGN (", 0, ")", 1, 0 },
-  { 0xf, "SIN (", 0, ")", 1, 0 },
-  { 0xe5, "SINH (", 0, ")", 1, 0 },
-  { 0x14, "SQRT (", 0, ")", 1, 0 },
-  { 0x11, "TAN (", 0, ")", 1, 0 },
-  { 0xe7, "TANH (", 0, ")", 1, 0 },
-  { 0xc5, "TRUNC (", 0, ")", 1, 0 },
+  { 0x24, "AND (", 0,  ")", -1, 0 },
+  { 0x25, "OR (",  0,  ")", -1, 0 },
+  { 0x26, "NOT (",  0,  ")", 1, 0 },
   { 0x27, "MOD (", 0, ")", 2, 0 },
+  { 0x3f, "RAND (", 0, ")", 0, 0 },
+  { 0x56, "TYPE (", 0, ")", 1, 0 },
+  { 0x61, "ATAN2 (", 0, ")", 2, 0 },
+  { 0x62, "ASIN (", 0, ")", 1, 0 },
+  { 0x63, "ACOS (", 0, ")", 1, 0 },
   { 0x65, "HLOOKUP (", 0, ")", -1, 0 },
   { 0x66, "VLOOKUP (", 0, ")", -1, 0 },
-  { 0x71, "UPPER (",   0, ")", 1, 0 }
+  { 0x69, "ISREF (", 0, ")", 1, 0 },
+  { 0x6d, "LOG (", 0, ")", 1, 0 },
+  { 0x71, "UPPER (",   0, ")", 1, 0 },
+  { 0x7d, "CELL (",   0, ")", 2, 0 },
+  { 0x7e, "ISERR (", 0, ")", 1, 0 },
+  { 0x7f, "ISTEXT (", 0, ")", 1, 0 },
+  { 0x80, "ISNUMBER (", 0, ")", 1, 0 },
+  { 0x81, "ISBLANK (", 0, ")", 1, 0 },
+  { 0x83, "N (", 0, ")", 1, 0 },
+  { 0xc5, "TRUNC (", 0, ")", 1, 0 },
+  { 0xc6, "ISLOGICAL (", 0, ")", 1, 0 },
+  { 0xbe, "ISNONTEXT (", 0, ")", 1, 0 },
+  { 0xe5, "SINH (", 0, ")", 1, 0 },
+  { 0xe6, "COSH (", 0, ")", 1, 0 },
+  { 0xe7, "TANH (", 0, ")", 1, 0 },
+  { 0xe8, "ASINH (", 0, ")", 1, 0 },
+  { 0xe9, "ACOSH (", 0, ")", 1, 0 },
+  { 0xea, "ATANH (", 0, ")", 1, 0 },
+  { 0xf4, "INFO (", 0, ")", 1, 0 },
+  { 0x105, "ERROR.TYPE (", 0, ")", 1, 0 },
+  { 0x120, "CEILING (", 0, ")", 2, 0 },
+  { 0x156, "RADIANS (", 0, ")", 1, 0 },
+  { 0x15b, "COUNTBLANK (", 0, ")", 1, 0 }
 };
 #define FORMULA_FUNC_DATA_LEN (sizeof(formula_func_data)/sizeof(FORMULA_FUNC_DATA))
 
@@ -98,18 +114,18 @@ FORMULA_FUNC_DATA formula_func_data[] =
  **/
 static CellRef *getRefV7(MS_EXCEL_SHEET *sheet, BYTE col, WORD gbitrw, int curcol, int currow)
 {
-  CellRef *cr = (CellRef *)g_malloc(sizeof(CellRef)) ;
-  cr->col          = col ;
-  cr->row          = (gbitrw & 0x3fff) ;
-  cr->row_relative = (gbitrw & 0x8000)==0x8000 ;
-  cr->col_relative = (gbitrw & 0x4000)==0x4000 ;
-  if (cr->row_relative)
-    cr->row-= currow ;
-  if (cr->col_relative)
-    cr->col-= curcol ;
-  cr->sheet = sheet->gnum_sheet ;
-  /*  printf ("7Out : %d, %d  at %d, %d\n", cr->col, cr->row, curcol, currow) ; */
-  return cr ;
+	CellRef *cr = (CellRef *)g_malloc(sizeof(CellRef)) ;
+	cr->col          = col ;
+	cr->row          = (gbitrw & 0x3fff) ;
+	cr->row_relative = (gbitrw & 0x8000)==0x8000 ;
+	cr->col_relative = (gbitrw & 0x4000)==0x4000 ;
+	if (cr->row_relative)
+		cr->row-= currow ;
+	if (cr->col_relative)
+		cr->col-= curcol ;
+	cr->sheet = sheet->gnum_sheet ;
+	/*  printf ("7Out : %d, %d  at %d, %d\n", cr->col, cr->row, curcol, currow) ; */
+	return cr ;
 }
 /**
  *  A useful routine for extracting data from a common
@@ -117,99 +133,85 @@ static CellRef *getRefV7(MS_EXCEL_SHEET *sheet, BYTE col, WORD gbitrw, int curco
  **/
 static CellRef *getRefV8(MS_EXCEL_SHEET *sheet, WORD row, WORD gbitcl, int curcol, int currow)
 {
-  CellRef *cr = (CellRef *)g_malloc(sizeof(CellRef)) ;
-  cr->row          = row ;
-  cr->col          = (gbitcl & 0x3fff) ;
-  cr->row_relative = (gbitcl & 0x8000)==0x8000 ;
-  cr->col_relative = (gbitcl & 0x4000)==0x4000 ;
-  if (cr->row_relative)
-    cr->row-= currow ;
-  if (cr->col_relative)
-    cr->col-= curcol ;
-  cr->sheet = sheet->gnum_sheet ;
-  /*  printf ("8Out : %d, %d  at %d, %d\n", cr->col, cr->row, curcol, currow) ; */
-  return cr ;
+	CellRef *cr = (CellRef *)g_malloc(sizeof(CellRef)) ;
+	cr->row          = row ;
+	cr->col          = (gbitcl & 0x3fff) ;
+	cr->row_relative = (gbitcl & 0x8000)==0x8000 ;
+	cr->col_relative = (gbitcl & 0x4000)==0x4000 ;
+	if (cr->row_relative)
+		cr->row-= currow ;
+	if (cr->col_relative)
+		cr->col-= curcol ;
+	cr->sheet = sheet->gnum_sheet ;
+	/*  printf ("8Out : %d, %d  at %d, %d\n", cr->col, cr->row, curcol, currow) ; */
+	return cr ;
 }
 
 typedef struct _PARSE_DATA
 {
-  char *name ;
-  int  precedence ;
+	char *name ;
+	int  precedence ;
 } PARSE_DATA ;
 
 static PARSE_DATA *parse_data_new (char *buffer, int precedence)
 {
-  PARSE_DATA *ans = (PARSE_DATA *)g_malloc(sizeof(PARSE_DATA)) ;
-  ans->name = buffer ;
-  ans->precedence = precedence ;
-  return ans ;
+	PARSE_DATA *ans = (PARSE_DATA *)g_malloc(sizeof(PARSE_DATA)) ;
+	ans->name = buffer ;
+	ans->precedence = precedence ;
+	return ans ;
 }
 
 static void parse_data_free (PARSE_DATA *ptr)
 {
-  if (ptr->name)
-    g_free (ptr->name) ;
-  g_free (ptr) ;
+	if (ptr->name)
+		g_free (ptr->name) ;
+	g_free (ptr) ;
 }
 
 typedef struct _PARSE_LIST
 {
-  GList *data ;
-  int   length ;
+	GList *data ;
+	int   length ;
 } PARSE_LIST ;
 
 static PARSE_LIST *parse_list_new ()
 {
-  PARSE_LIST *ans = (PARSE_LIST *)g_malloc (sizeof(PARSE_LIST)) ;
-  ans->data   = 0 ;
-  ans->length = 0 ;
-  return ans ;
+	PARSE_LIST *ans = (PARSE_LIST *)g_malloc (sizeof(PARSE_LIST)) ;
+	ans->data   = 0 ;
+	ans->length = 0 ;
+	return ans ;
 }
 
 static void parse_list_push (PARSE_LIST *list, PARSE_DATA *pd)
 {
-  /*  printf ("Pushing '%s'\n", pd->name) ; */
-  list->data = g_list_append (list->data, pd) ;
-  list->length++ ;
+	/*  printf ("Pushing '%s'\n", pd->name) ; */
+	list->data = g_list_append (list->data, pd) ;
+	list->length++ ;
 }
 
 static void parse_list_push_raw (PARSE_LIST *list, char *buffer, int precedence)
 {
-  parse_list_push(list, parse_data_new (buffer, precedence)) ;
+	parse_list_push(list, parse_data_new (buffer, precedence)) ;
 }
 
 static PARSE_DATA *parse_list_pop (PARSE_LIST *list)
 {
-  GList *tmp ;
-  PARSE_DATA *ans ;
-  tmp   = g_list_last (list->data) ;
-  if (tmp == 0)
-    printf ("Warning not enough arguments on stack\n") ;
-  list->data = g_list_remove_link (list->data, tmp) ;
-  ans  = tmp->data ;
-  g_list_free (tmp) ;
-  list->length-- ;
-  return ans ;
+	GList *tmp ;
+	PARSE_DATA *ans ;
+	tmp   = g_list_last (list->data) ;
+	if (tmp == 0)
+		return parse_data_new (g_strdup ("WrongArgs"), NO_PRECEDENCE) ;
+	list->data = g_list_remove_link (list->data, tmp) ;
+	ans  = tmp->data ;
+	g_list_free (tmp) ;
+	list->length-- ;
+	return ans ;
 }
 
 static void parse_list_free (PARSE_LIST *list)
 {
-  while (list->data)
-    parse_data_free (parse_list_pop(list)) ;
-}
-
-static PARSE_DATA *parse_list_pop_front (PARSE_LIST *list)
-{
-  PARSE_DATA *ans ;
-  GList *tmp ;
-  tmp   = g_list_first (list->data) ;
-  if (tmp == 0)
-    printf ("Warning not enough arguments on stack\n") ;
-  list->data = g_list_remove_link (list->data, tmp) ;
-  ans  = tmp->data ;
-  g_list_free (tmp) ;
-  list->length-- ;
-  return ans ;
+	while (list->data)
+		parse_data_free (parse_list_pop(list)) ;
 }
 
 /**
@@ -544,8 +546,19 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 
 			if (!make_function (stack, iftab, numargs)) error = 1 ;
 			ptg_length = 3 ;
+			break ;
 		}
-		break ;
+		case FORMULA_PTG_NAME:
+		{
+			guint16 name_idx ; /* 1 based */
+			if (sheet->ver == eBiffV8)
+				name_idx = BIFF_GETWORD(cur+2) ;
+			else
+				name_idx = BIFF_GETWORD(cur) ;
+			printf ("FIXME: Ptg Name: %d\n", name_idx) ;
+			dump(q->data, q->length) ;
+			parse_list_push_raw (stack, g_strdup("Unknown name"), NO_PRECEDENCE) ;
+		}
 		case FORMULA_PTG_EXP: /* FIXME: the formula is the same as another record ... we need a cell_get_funtion call ! */
 		{
 			cell = sheet_cell_fetch (sheet->gnum_sheet, fn_col, fn_row) ;
@@ -581,6 +594,14 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 				printf ("Unknown PTG Attr 0x%x 0x%x\n", grbit, w) ;
 		break ;
 		}
+		case FORMULA_PTG_ERR:
+		{
+			parse_list_push_raw (stack,
+					     g_strdup(biff_get_error_text(BIFF_GETBYTE(cur))),
+					     NO_PRECEDENCE) ;
+			ptg_length = 1 ;
+			break ;
+		}
 		case FORMULA_PTG_INT:
 		{
 			char buf[8]; /* max. "65535" */
@@ -606,14 +627,14 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 			break ;
 		}
 		case FORMULA_PTG_STR:
-		{ /* FIXME: Len should only be a byte but seems to be a word ! */
+		{
 			char *str ;
-			printf ("PTG_STR\n") ;
-			dump (q->data, q->length) ;
+/*			printf ("PTG_STR\n") ;
+			dump (q->data, q->length) ;*/
 			str = biff_get_text (cur+2, BIFF_GETBYTE(cur)) ;
 			parse_list_push_raw (stack, str, NO_PRECEDENCE) ;
-			printf ("Found string '%s'\n", str) ; 
-			ptg_length = 1 + BIFF_GETBYTE(cur) ;
+/*			printf ("Found string '%s'\n", str) ;  */
+			ptg_length = 2 + BIFF_GETBYTE(cur) ;
 			break ;
 		}
 		default:

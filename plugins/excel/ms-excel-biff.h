@@ -93,4 +93,5 @@ extern void free_ms_biff_bof_data (BIFF_BOF_DATA *data) ;
 #define BIFF_DV                        0x1be
 #define BIFF_BOOLERR                   0x205
 #define BIFF_STRING                    0x207
+#define BIFF_NAME                      0x218
 #endif

@@ -36,6 +36,29 @@ static MS_EXCEL_SHEET *ms_excel_sheet_new (MS_EXCEL_WORKBOOK * wb, char *name) ;
 static void ms_excel_workbook_attach (MS_EXCEL_WORKBOOK * wb, MS_EXCEL_SHEET * ans) ;
 
 /**
+ * Generic 16 bit int index pointer functions.
+ **/
+static guint
+biff_guint16_hash (const guint16 *d)
+{ return *d ; }
+static guint
+biff_guint32_hash (const guint32 *d)
+{ return *d ; }
+
+static gint
+biff_guint16_equal (const guint16 *a, const guint16 *b)
+{
+	if (*a==*b) return 1 ;
+	return 0 ;
+}
+static gint
+biff_guint32_equal (const guint32 *a, const guint32 *b)
+{
+	if (*a==*b) return 1 ;
+	return 0 ;
+}
+
+/**
  *  This function takes a length argument as Biff V7 has a byte length
  * ( seemingly ).
  *  FIXME: see S59D47.HTM for full description
@@ -106,6 +129,25 @@ biff_get_global_string(MS_EXCEL_SHEET *sheet, int number)
 		return "Too Weird";
 	
 	return wb->global_strings[number] ;
+}
+
+char *
+biff_get_error_text (guint8 err)
+{
+	char *buf ;
+	switch (err)
+	{
+	case 0:  buf = "#NULL!" ;  break ;
+	case 7:  buf = "#DIV/0!" ; break ;
+	case 15: buf = "#VALUE!" ; break ;
+	case 23: buf = "#REF!" ;   break ;
+	case 29: buf = "#NAME?" ;  break ;
+	case 36: buf = "#NUM!" ;   break ;
+	case 42: buf = "#N/A" ;    break ;
+	default:
+		buf = "#UNKNOWN!" ;
+	}
+	return buf ;
 }
 
 /**
@@ -284,25 +326,6 @@ biff_boundsheet_data_destroy (gpointer key, BIFF_BOUNDSHEET_DATA *d, gpointer us
 	return 1 ;
 }
 
-static guint
-biff_boundsheet_data_stream_hash (const guint32 *d)
-{
-        return *d ;
-}
-
-static guint
-biff_boundsheet_data_index_hash (const guint16 *d)
-{
-        return *d ;
-}
-
-static gint
-biff_boundsheet_data_compare (const BIFF_BOUNDSHEET_DATA *a, const BIFF_BOUNDSHEET_DATA *b)
-{
-	if (a->index==b->index) return 1 ;
-	return 0 ;
-}
-
 /**
  * NB. 'fount' is the correct, and original _English_
  **/
@@ -370,19 +393,6 @@ biff_font_data_destroy (gpointer key, BIFF_FONT_DATA *d, gpointer userdata)
 	g_free (d->fontname) ;
 	g_free (d) ;
 	return 1 ;
-}
-
-static guint
-biff_font_data_hash (const guint16 *d)
-{
-        return *d ;
-}
-
-static gint
-biff_font_data_compare (const BIFF_FONT_DATA *a, const BIFF_FONT_DATA *b)
-{
-	if (a->index==b->index) return 1 ;
-	return 0 ;
 }
 
 static MS_EXCEL_PALETTE *
@@ -845,25 +855,13 @@ biff_xf_data_destroy (gpointer key, BIFF_XF_DATA *d, gpointer userdata)
 	return 1 ;
 }
 
-static guint
-biff_xf_data_hash (const guint16 *d)
-{
-        return *d ;
-}
-
-static gint
-biff_xf_data_compare (const BIFF_XF_DATA *a, const BIFF_XF_DATA *b)
-{
-	if (a->index==b->index) return 1 ;
-	return 0 ;
-}
-
 static MS_EXCEL_SHEET *
 ms_excel_sheet_new (MS_EXCEL_WORKBOOK * wb, char *name)
 {
 	MS_EXCEL_SHEET *ans = (MS_EXCEL_SHEET *) g_malloc (sizeof (MS_EXCEL_SHEET));
 
 	ans->gnum_sheet = sheet_new (wb->gnum_wb, name);
+	ans->blank = 1 ;
 	ans->wb = wb;
 	ans->array_formulae = 0;
 	return ans;
@@ -881,6 +879,7 @@ ms_excel_sheet_insert (MS_EXCEL_SHEET * sheet, int xfidx, int col, int row, char
 	Cell *cell = sheet_cell_fetch (sheet->gnum_sheet, col, row);
 
 	/* NB. cell_set_text _certainly_ strdups *text */
+	sheet->blank = 0 ;
 	cell_set_text (cell, text);
 	ms_excel_set_cell_xf (sheet, cell, xfidx);
 }
@@ -915,17 +914,17 @@ ms_excel_workbook_new ()
 	ans->extern_sheets = NULL ;
 	ans->gnum_wb = NULL;
 	/* Boundsheet data hashed twice */
-	ans->boundsheet_data_by_stream = g_hash_table_new ((GHashFunc)biff_boundsheet_data_stream_hash,
-							   (GCompareFunc)biff_boundsheet_data_compare) ;
-	ans->boundsheet_data_by_index = g_hash_table_new ((GHashFunc)biff_boundsheet_data_index_hash,
-							  (GCompareFunc)biff_boundsheet_data_compare) ;
-	ans->font_data = g_hash_table_new ((GHashFunc)biff_font_data_hash,
-					   (GCompareFunc)biff_font_data_compare) ;
+	ans->boundsheet_data_by_stream = g_hash_table_new ((GHashFunc)biff_guint32_hash,
+							   (GCompareFunc)biff_guint32_equal) ;
+	ans->boundsheet_data_by_index = g_hash_table_new ((GHashFunc)biff_guint16_hash,
+							  (GCompareFunc)biff_guint16_equal) ;
+	ans->font_data = g_hash_table_new ((GHashFunc)biff_guint16_hash,
+					   (GCompareFunc)biff_guint16_equal) ;
 	ans->excel_sheets = NULL;
-	ans->XF_style_records = g_hash_table_new ((GHashFunc)biff_xf_data_hash,
-						  (GCompareFunc)biff_xf_data_compare) ;
-	ans->XF_cell_records = g_hash_table_new ((GHashFunc)biff_xf_data_hash,
-						 (GCompareFunc)biff_xf_data_compare) ;
+	ans->XF_style_records = g_hash_table_new ((GHashFunc)biff_guint16_hash,
+						  (GCompareFunc)biff_guint16_equal) ;
+	ans->XF_cell_records = g_hash_table_new ((GHashFunc)biff_guint16_hash,
+						 (GCompareFunc)biff_guint16_equal) ;
 	ans->palette = NULL;
 	ans->global_strings = NULL;
 	ans->global_string_max = 0;
@@ -1074,16 +1073,28 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 			}
 		}
 		break;
- 	case BIFF_HEADER: /* FIXME : S59D94 Microsoft failed to document this correctly  */
- 		printf ("Header\n");
+ 	case BIFF_HEADER: /* FIXME : S59D94 */
+	{
+		char *str ;
 		if (q->length)
-			dump (q->data+1, BIFF_GETBYTE(q->data+0));
+		{
+			printf ("Header '%s'\n", (str=biff_get_text (q->data+1,
+								     BIFF_GETBYTE(q->data)))) ;
+			g_free(str) ;
+		}
  		break;
- 	case BIFF_FOOTER: /* FIXME : S59D8D Microsoft failed to document this correctly  */
- 		printf ("Footer\n");
+	}
+ 	case BIFF_FOOTER: /* FIXME : S59D8D */
+	{
+		char *str ;
 		if (q->length)
-			dump (q->data+1, BIFF_GETBYTE(q->data+0));
+		{
+			printf ("Footer '%s'\n", (str=biff_get_text (q->data+1,
+								     BIFF_GETBYTE(q->data)))) ;
+			g_free(str) ;
+		}
  		break;
+	}
 	case BIFF_RSTRING:
 	{
 		char *txt ;
@@ -1104,6 +1115,7 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 									 * FIXME GETDOUBLE is not endian independant 
 									 */
 			dump (q->data, q->length);
+/*			snprintf (buf, 64, "NUM %f", num); */
 			snprintf (buf, 64, "%f", num);
 			ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), buf);
 			break;
@@ -1121,18 +1133,17 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 			} type;
 
 			number = BIFF_GETLONG (q->data + 6);
-			printf ("RK number : 0x%x, length 0x%x\n", q->opcode, q->length);
 			type = (number & 0x3);
+			printf ("RK number : 0x%x, length 0x%x\n", q->opcode, q->length);
 			printf ("position [%d,%d] = %x ( type %d )\n", EX_GETCOL (q), EX_GETROW (q), number, type);
+			dump (q->data, q->length);
 			switch (type){
 			case eIEEE:
-				dump (q->data, q->length);
 				tmp[0] = 0;
 				tmp[1] = number & 0xfffffffc;
 				answer = BIFF_GETDOUBLE (((BYTE *) tmp));
 				break;
 			case eIEEEx10:
-				dump (q->data, q->length);
 				tmp[0] = 0;
 				tmp[1] = number & 0xfffffffc;
 				answer = BIFF_GETDOUBLE (((BYTE *) tmp));
@@ -1148,6 +1159,7 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 				printf ("You don't exist go away\n");
 				answer = 0;
 			}
+/*			sprintf (buf, "RK %d %f", type, answer);*/
 			sprintf (buf, "%f", answer);
 			ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), buf);
 		}
@@ -1167,11 +1179,12 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		 * printf ("Row %d formatting\n", EX_GETROW(q)); 
 		 */
 		break;
-	case BIFF_FORMULA:	/*
-				 * FIXME: S59D8F.HTM 
-				 */
 	case BIFF_ARRAY:	/*
 				 * FIXME: S59D57.HTM 
+				 */
+		printf ("Array Formula\n") ;
+	case BIFF_FORMULA:	/*
+				 * FIXME: S59D8F.HTM 
 				 */
 		/*
 		 * case BIFF_NAME FIXME: S59DA9.HTM 
@@ -1196,6 +1209,58 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 	default:
 		switch (q->opcode)
 		{
+		case BIFF_NAME: /* FIXME: S59DA9.HTM */
+		{
+			guint16 flags = BIFF_GETWORD(q->data) ;
+			guint16 fn_grp_idx ;
+			guint8  kb_shortcut = BIFF_GETBYTE(q->data+2);
+			guint8  name_len = BIFF_GETBYTE(q->data+3) ;
+			guint16 name_def_len  = BIFF_GETWORD(q->data+4) ;
+			guint8* name_def_data = q->data+14+name_def_len ;
+			guint16 sheet_idx = BIFF_GETWORD(q->data+6) ;
+			guint16 ixals = BIFF_GETWORD(q->data+8) ; /* dup */
+			guint8  menu_txt_len = BIFF_GETBYTE(q->data+10) ;
+			guint8  descr_txt_len = BIFF_GETBYTE(q->data+11) ;
+			guint8  help_txt_len = BIFF_GETBYTE(q->data+12) ;
+			guint8  status_txt_len = BIFF_GETBYTE(q->data+13) ;
+			char *name, *menu_txt, *descr_txt, *help_txt, *status_txt ;
+			guint8 *ptr ;
+
+			g_assert (ixals==sheet_idx) ;
+			ptr = q->data + 14 ;
+			name = biff_get_text (ptr, name_len) ;
+			ptr+= name_len + name_def_len ;
+			menu_txt = biff_get_text (ptr, menu_txt_len) ;
+			ptr+= menu_txt_len ;
+			descr_txt = biff_get_text (ptr, descr_txt_len) ;
+			ptr+= descr_txt_len ;
+			help_txt = biff_get_text (ptr, help_txt_len) ;
+			ptr+= help_txt_len ;
+			status_txt = biff_get_text (ptr, status_txt_len) ;
+
+			printf ("Name record : '%s', '%s', '%s', '%s', '%s'\n", name, menu_txt, descr_txt,
+				help_txt, status_txt) ;
+			dump (name_def_data, name_def_len) ;
+
+			/* Unpack flags */
+			fn_grp_idx = (flags&0xfc0)>>6 ;
+			if ((flags&0x0001) != 0)
+				printf (" Hidden") ;
+			if ((flags&0x0002) != 0)
+				printf (" Function") ;
+			if ((flags&0x0004) != 0)
+				printf (" VB-Proc") ;
+			if ((flags&0x0008) != 0)
+				printf (" Proc") ;
+			if ((flags&0x0010) != 0)
+				printf (" CalcExp") ;
+			if ((flags&0x0020) != 0)
+				printf (" BuiltIn") ;
+			if ((flags&0x1000) != 0)
+				printf (" BinData") ;
+			printf ("\n") ;
+			break ;
+		}
 		case BIFF_STRING: /* FIXME: S59DE9.HTM */
 		{
 			char *txt ;
@@ -1206,22 +1271,9 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		case BIFF_BOOLERR: /* S59D5F.HTM */
 		{
 			if (BIFF_GETBYTE(q->data + 7)) /* Error */
-			{
-				char *buf ;
-				switch (BIFF_GETBYTE(q->data + 6))
-				{
-					case 0:  buf = "#NULL!" ;  break ;
-					case 7:  buf = "#DIV/0!" ; break ;
-					case 15: buf = "#VALUE!" ; break ;
-					case 23: buf = "#REF!" ;   break ;
-					case 29: buf = "#NAME?" ;  break ;
-					case 36: buf = "#NUM!" ;   break ;
-					case 42: buf = "#N/A" ;    break ;
-				default:
-					buf = "#UNKNOWN!" ;
-				}
-				ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), buf) ;
-			}
+				ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q)
+						       , EX_GETROW (q), 
+						       biff_get_error_text (BIFF_GETBYTE(q->data + 6))) ;
 			else /* Boolean */
 			{
 				if (BIFF_GETBYTE(q->data + 6))
@@ -1248,7 +1300,7 @@ ms_excel_read_sheet (MS_EXCEL_SHEET *sheet, BIFF_QUERY * q, MS_EXCEL_WORKBOOK * 
 	while (ms_biff_query_next (q)){
 		switch (q->ls_op){
 		case BIFF_EOF:
-			if (q->streamPos == blankSheetPos)
+			if (q->streamPos == blankSheetPos || sheet->blank)
 			{
 				printf ("Blank sheet\n");
 				ms_excel_workbook_detach (sheet->wb, sheet) ;
