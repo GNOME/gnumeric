@@ -1,0 +1,444 @@
+<sect1>
+  <title>The Worksheet</title>
+  
+  <para>After opening up gnumeric, your presented with a view of a
+    worksheet. This is where the majority of the work on the spreadsheet
+    is done, and provides access to all the various sub dialogs of gnumeric.</para>
+  
+  <para>The worksheet view is split into several main areas. The menu bar, the 
+    buton bar, the entry area, the main cell area, and the info area. See 
+   <xref linkend="worksheet-all-1.jpg"> </para>
+  
+  
+  <figure id="worksheet-all-1.jpg">
+    <title>A example of the entire worksheet.</title>
+    <screenshot>
+      <graphic fileref="images/worksheet-all-1.jpg"></graphic>
+    </screenshot>
+  </figure>
+  
+  <sect2>
+    <title>The Menu bar</title>
+    
+    <para>The default location of the menu bar is the top of the application window.
+      It provides a quick and organized access to some of the more common
+      operations available.</para>
+    
+    <sect3>
+      
+      <!-- IF someone knows a more approriate way to document menu
+      options, let me know. This seems a bit excessive, and the output
+      from db2html is kind of lame  -->
+      
+      <title><guimenu><accel>F</accel>ile</guimenu></title>
+      <variablelist>
+	<varlistentry>
+	  <term><guimenuitem><accel>N</accel>ew</guimenuitem></term>
+	  <listitem><para>Create a new worksheet</para></listitem>
+	</varlistentry>
+	
+	<varlistentry>
+	  <term><guimenuitem><accel>O</accel>pen</guimenuitem></term>
+	  <listitem><para>Open an existing worksheet</para></listitem>
+	</varlistentry>
+	
+	<varlistentry>
+	  <term><guimenuitem><accel>S</accel>ave</guimenuitem></term>
+	  <listitem><para>Save the current worksheet</para></listitem>
+	</varlistentry>
+	
+	<varlistentry>
+	  <term><guimenuitem>S<accel>a</accel>ve as..</guimenuitem></term>
+	  <listitem><para>Save a file with a new name.</para></listitem>
+	</varlistentry>
+	
+	<varlistentry>
+	  <term><guimenuitem><accel>P</accel>lugins</guimenuitem></term>
+	  <listitem><para>Open the plugins dialog. For loading, saving of plugins.</para></listitem>
+	</varlistentry>
+	
+	<varlistentry>
+	  <term><guimenuitem><accel>C</accel>lose</guimenuitem></term>
+	  <listitem><para>Close the current worksheet.</para></listitem>
+	</varlistentry>
+	
+	<varlistentry>
+	  <term><guimenuitem><accel>Q</accel>uit</guimenuitem></term>
+	  <listitem><para>Close the open worksheets and quit Gnumeric</para></listitem>
+	</varlistentry>
+	
+      </variablelist>  
+
+      
+    </sect3> 
+    
+    <sect3>
+      <title><guimenu><accel>E</accel>dit</guimenu></title>
+      <variablelist>
+	
+	<varlistentry>
+	  <term><guimenuitem><accel>C</accel>ut</guimenuitem></term>
+	  <listitem><para>Remove the content in the currently selected cells and save it.</para></listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term><guimenuitem>C<accel>o</accel>py</guimenuitem></term>
+	  <listitem><para>Make a copy of the curent selection to be pasted later.</para></listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guimenuitem><accel>P</accel>aste</guimenuitem></term>
+	  <listitem><para>Paste whatever is in the cut buffer at the cursor.</para></listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guimenuitem>P<accel>a</accel>ste Special</guimenuitem></term>
+	  <listitem><para>Paste from the cut buffer, but with more options as to what to paste.
+	      Useful for pasting just format, or just values, etc.</para></listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guimenuitem><accel>S</accel>elect All</guimenuitem></term>
+	  <listitem><para>Select every cell in the worksheet.</para></listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guisubmenu>Clear -></guisubmenu></term>
+	  <listitem>
+	    <para>
+	      <variablelist>
+		<varlistentry>
+		  <term><guimenuitem><accel>A</accel>ll</guimenuitem></term>
+		  <listitem><para>Clear every cell.</para></listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term><guimenuitem><accel>F</accel>ormats</guimenuitem></term>
+		  <listitem><para>Clear the format from selected cells.</para></listitem>
+		</varlistentry>
+	      </variablelist>
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guimenuitem><accel>G</accel>oto Cell</guimenuitem></term>
+	  <listitem><para>Let the user specify a cell to "jump" to.</para></listitem>
+	</varlistentry>
+      </variablelist>
+    </sect3>
+    
+    <sect3>
+      <title><guimenu><accel>V</accel>iew</guimenu></title>
+      <variablelist>
+	<varlistentry><term><guimenuitem><accel>Z</accel>oom</guimenuitem></term>
+	  <listitem><para>Zoom in. To show a area of the spreadsheet in more detail.</para></listitem>
+	</varlistentry>
+      </variablelist>
+    </sect3>
+    
+ <sect3>
+      <title><guimenu><accel>I</accel>nsert</guimenu></title>
+      <variablelist>
+	<varlistentry><term><guimenuitem><accel>C</accel>ells</guimenuitem></term>
+	  <listitem><para>Insert a new cell.</para></listitem>
+	</varlistentry>
+	<varlistentry><term><guimenuitem><accel>R</accel>ows</guimenuitem></term>
+	  <listitem><para>Insert a Row of cells.</para></listitem>
+	</varlistentry>
+	<varlistentry><term><guimenuitem>C<accel>o</accel>lumns</guimenuitem></term>
+	  <listitem><para>Insert a Column of cells.</para></listitem>
+	</varlistentry>
+      </variablelist>
+    </sect3>
+    
+    <sect3>
+      <title><guimenu>F<accel>o</accel>rmat</guimenu></title>
+      <variablelist>
+	<varlistentry><term><guimenuitem><accel>C</accel>ells</guimenuitem></term>
+	  <listitem><para>Open the cell format dialog. Used to change formatting, color, etc</para></listitem>
+	</varlistentry>
+      </variablelist>
+    </sect3>
+    
+    <sect3>
+      <title><guimenu><accel>H</accel>elp</guimenu></title>
+      <variablelist>
+	<varlistentry><term><guimenuitem>Cells</guimenuitem></term>
+	  <listitem><para>View the online help for Gnumeric</para></listitem>
+	</varlistentry>
+      </variablelist>
+    </sect3>
+  </sect2>
+  <!-- end of menubar description -->
+
+  <sect2>
+    <title>The Button Bar</title>
+
+    <para>The Button bar contains many icons represenative of some the more common
+      operarations a user may need to use. It is intended to provide fast access to these
+      tools.</para>
+
+    <variablelist>
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/stock_new.gif"></inlinegraphic>
+	    New File.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Create a New file</para>
+	</listitem>
+      </varlistentry>
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/stock_open.gif"></inlinegraphic>
+	    Open
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Open an existing file.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/stock_save.gif"></inlinegraphic>
+	    Save
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Save the current worksheet to disk.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/stock_cut.gif"></inlinegraphic>
+	    Cut
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Copy the cells in the current selection to the cut buffer and delete them.</para>
+	</listitem>
+      </varlistentry>
+
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/stock_copy.gif"></inlinegraphic>
+	    Copy
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Copy the cells in the current selection to the cut buffer.</para>
+	</listitem>
+      </varlistentry>
+
+      
+ <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/stock_paste.gif"></inlinegraphic>
+	    Paste
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Paste the contents of the cut buffer into the active cell.</para>
+	</listitem>
+      </varlistentry>
+
+      
+ <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/align-left.gif"></inlinegraphic>
+	    Left justify..
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Justify the contents of the cell to the left of the cell.</para>
+	</listitem>
+      </varlistentry>
+<varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/align-center.gif"></inlinegraphic>
+	    Center
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Center the content of the cells.</para>
+	</listitem>
+      </varlistentry>
+
+      
+ <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/align-right.gif"></inlinegraphic>
+	    Right Justify
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Justify the content of the cells to the right side of the cells</para>
+	</listitem>
+      </varlistentry>
+
+ <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/bold.gif"></inlinegraphic>
+	    Bold
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Change the style of the current cell to be bold, or unbold it if it is already bold.</para>
+	</listitem>
+      </varlistentry>
+
+
+ <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/italic.gif"></inlinegraphic>
+	    Italic
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Change the style of the current cell to be italized.</para>
+	</listitem>
+      </varlistentry>
+
+<varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/line.gif"></inlinegraphic>
+	    Line
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Draw a line on the worksheet.</para>
+	</listitem>
+      </varlistentry>
+
+<varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/arrow.gif"></inlinegraphic>
+	    Arrow
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Draw a line with a arrow at one end. A pointer.</para>
+	</listitem>
+      </varlistentry>
+
+<varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/rect.gif"></inlinegraphic>
+	    Box
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Draw a box onto the worksheet.</para>
+	</listitem>
+      </varlistentry>
+
+<varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/oval.gif"></inlinegraphic>
+	    Ellipse
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Draw an ellipse or a circle on the worksheet.</para>
+	</listitem>
+      </varlistentry>
+
+
+
+
+
+
+
+
+    </variablelist>
+    
+    </sect2>
+  <!-- end of button bar docs -->
+
+  <sect2>
+    <title>The Cell area</title>
+    
+    <para>Most of the work done on a spreadsheet is done to the main Cell area, the large
+      grid like part of the worksheet. This is where all the formulas and data are entered,
+      and is the center of activity for the spreadsheet.</para>
+
+    <para>The sheet is bordered by a column label and a row label. Columns are labeled
+      alphabetically and are labeled horizontally across the top of the sheet. See <xref
+	linkend="worksheet-cols-1">. Rows are
+	labeled vertially along size the left side of the sheet and are sorted numerically.
+	See <xref linkend="worksheet-rows-1"></para>
+
+    <figure id="worksheet-cols-1">
+      <title>The column labels at the top of the worksheet.</title>
+      <screenshot>
+	<graphic fileref="images/worksheet-cols-1.jpg"></graphic>
+      </screenshot>
+    </figure>
+    
+    <figure id="worksheet-rows-1">
+      <title>The row labels at the left side of the worksheet.</title>
+      <screenshot>
+	<graphic fileref="images/worksheet-rows-1.jpg"></graphic>
+      </screenshot>
+    </figure>
+
+
+    </sect2>
+
+  <sect2>
+    <title>The Info Area</title>
+
+    <para>The section at the very bottom of the worksheet view is the info area. It contains
+      information about the currently selected cells, and also provides access to buttons
+      for zooming in and out. This is also where the sheet indicator lives.</para>
+
+    <figure id="worksheet-info-1">
+      <title>The info area.</title>
+      <screenshot>
+	<graphic fileref="images/worksheet-info-1.jpg"></graphic>
+      </screenshot>
+    </figure>
+
+    <para>To the left side is the sheet indicator. In workbooks where there are more
+      than one sheet, this indicates how many sheets are there, and also allows the user to 
+      move to another sheet by clicking the proper tag. This is not implemented yet. </para>
+
+    <para>The <guibutton>Zoom in</guibutton> (<xref linkend="worksheet-zoomin-1">) and
+	<guibutton>Zoom out</guibutton> (<xref linkend="worksheet-zoomout-1">) buttons are also in the info area.
+      Pressing <guibutton>Zoom in</guibutton> enlarges the spreadsheet and shows a more detailed 
+      view of the sheet. <guibutton>Zoom out</guibutton> shows a wider area of the spreadsheet
+      with less detail. The view of the sheet can also be changed by using the <guimenu>View</guimenu>
+      menu and the <guimenuitem>Zoom</guimenuitem> option. </para>
+    
+    <figure id="worksheet-zoomin-1">
+      <title>The Zoom in button.</title>
+      <screenshot>
+	<graphic fileref="images/worksheet-zoomin-1.jpg"></graphic>
+      </screenshot>
+    </figure>
+
+    <figure id="worksheet-zoomout-1">
+      <title>The Zoom out button</title>
+      <screenshot>
+	<graphic fileref="images/worksheet-zoomout-1.jpg"></graphic>
+      </screenshot>
+    </figure>
+    
+
+</sect1>
+
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->                         

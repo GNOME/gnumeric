@@ -1,3 +1,8 @@
+1998-09-28  Adrian Likins <adrian@gimp.org>
+
+	* doc/gnumeric.sgml, autofil.sgml, worksheet.sgml: More docs.
+	* docs/images/worksheet*.jpg: jpg's for the new worksheet docs.
+
 1998-09-28  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/format.c (append_day, append_month): Skip the -now included-
