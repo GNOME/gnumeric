@@ -500,7 +500,7 @@ canvas_update (PrinterSetupState *state)
 	preview_page_create (state);
 	set_vertical_bounds (state);
 	
-	unit_txt = gnome_print_config_get (state->pi->print_config, GNOME_PRINT_KEY_PREF_UNIT);
+	unit_txt = gnome_print_config_get (state->pi->print_config, GNOME_PRINT_KEY_PREFERED_UNIT);
 	if (unit_txt) {
 		gnome_print_unit_selector_set_unit (GNOME_PRINT_UNIT_SELECTOR 
 						    (state->unit_selector), 
@@ -655,7 +655,7 @@ cb_unit_selector_changed (GnomePrintUnitSelector *sel, PrinterSetupState *state)
 
 	unit = gnome_print_unit_selector_get_unit (sel);
 	if (unit) {
-		gnome_print_config_set (state->pi->print_config, GNOME_PRINT_KEY_PREF_UNIT, 
+		gnome_print_config_set (state->pi->print_config, GNOME_PRINT_KEY_PREFERED_UNIT, 
 					unit->abbr);
 		un = unit_selector_gnome_print_unit_to_gnm (unit);
 		spin_button_adapt_to_unit (state->margins.header.spin, un);
