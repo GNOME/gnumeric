@@ -4,7 +4,6 @@
 
 /**
  * TODO:
- * Arrays   - Use Python arrays
  * Booleans - Do we need a distinguished data type so that Gnumeric can
  *            recognize that Python is returning a boolean? If so, we can
  *            define a Python boolean class.
@@ -28,6 +27,9 @@
 #define GNUMERIC_DEFS_MODULE "gnumeric_defs"
 #define CELL_REF_CLASS   "CellRef"
 #define CELL_RANGE_CLASS "CellRange"
+
+static PyObject *value_to_python (Value *v);
+static Value *value_from_python (PyObject *o);
 
 /* This is standard idiom for defining exceptions in extension modules. */
 static PyObject *GnumericError;
@@ -96,26 +98,24 @@ cleanup:
  * cell_ref_to_python
  * @v   value union
  *
- * Converts a cell reference to Python. Returns python object.
+ * Converts a cell reference to Python. Returns owned reference to python
+ * object.
  */
 static PyObject *
 cell_ref_to_python (CellRef *cell)
 {
-	PyObject *mod, *klass = NULL, *ret = NULL;
+	PyObject *mod, *klass, *ret;
 
-	mod = PyImport_ImportModule(GNUMERIC_DEFS_MODULE);
-	if (PyErr_Occurred ())
-		goto cleanup;
+	if ((mod = PyImport_ImportModule(GNUMERIC_DEFS_MODULE)) == NULL)
+		return NULL;
 
-	klass  = PyObject_GetAttrString(mod, CELL_REF_CLASS);
-	if (PyErr_Occurred ())
-		goto cleanup;
+	if ((klass  = PyObject_GetAttrString(mod, CELL_REF_CLASS)) == NULL)
+		return NULL;
 
 	ret = PyObject_CallFunction (klass, "iiii", cell->col, cell->row,
 				     cell->col_relative, cell->row_relative
 				     /*, sheet */);
-cleanup:
-	Py_XDECREF (klass);
+	Py_DECREF (klass);
 	return ret;
 }
 
@@ -123,28 +123,24 @@ cleanup:
  * range_to_python
  * @v   value union
  *
- * Converts a cell range to Python. Returns python object.
- */
+ * Converts a cell range to Python. Returns owned reference to python object. */
 static PyObject *
 range_to_python (Value *v)
 {
 	PyObject *mod, *klass = NULL, *ret = NULL;
 
-	mod = PyImport_ImportModule (GNUMERIC_DEFS_MODULE);
-	if (PyErr_Occurred ())
-		goto cleanup;
+	if ((mod = PyImport_ImportModule (GNUMERIC_DEFS_MODULE)) == NULL)
+		return NULL;
 
-	klass  = PyObject_GetAttrString (mod, CELL_RANGE_CLASS);
-	if (PyErr_Occurred ())
-		goto cleanup;
+	if ((klass  = PyObject_GetAttrString (mod, CELL_RANGE_CLASS)) == NULL)
+		return NULL;
 
 	ret = PyObject_CallFunction
 		(klass, "O&O&",
 		 cell_ref_to_python, &v->v.cell_range.cell_a,
 		 cell_ref_to_python, &v->v.cell_range.cell_b);
 
-cleanup:
-	Py_XDECREF (klass);
+	Py_DECREF (klass);
 	return ret;
 }
 
@@ -152,25 +148,87 @@ cleanup:
  * boolean_to_python
  * @v   value union
  *
- * Converts a boolean to Python. Returns python object.
+ * Converts a boolean to Python. Returns owned reference to python object.
  * NOTE: This implementation converts to Python	integer, so it will not
  * be possible to convert back to Gnumeric boolean.
  */
 static PyObject *
 boolean_to_python (Value *v)
 {
-	PyObject * o;
+	return PyInt_FromLong (v->v.v_bool);
+}
 
-	o = PyInt_FromLong (v->v.v_bool);
+/**
+ * row_to_python
+ * @v   value union
+ * @i   column index
+ *
+ * Converts an array row to Python.
+ * Returns owned reference to python object.
+ */
+static PyObject *
+row_to_python (Value *v, int j)
+{
+	PyObject * list = NULL, *o = NULL;
+	int cols, i;
+	
+	cols = v->v.array.x;
+	list = PyList_New (cols);
+	if (list == NULL)
+		return NULL;
+	
+	for (i = 0; i < cols; i++) {
+		o = value_to_python (v->v.array.vals[i][j]);
+		if (o == NULL) {
+			Py_DECREF(list);
+			return NULL;
+		}
+		PyList_SetItem (list, i, o);
+	}
+	
+	return list;
+}
 
-	return o;
+/**
+ * array_to_python
+ * @v   value union
+ *
+ * Converts an array to Python. Returns owned reference to python object.
+ *
+ * User visible array notation in Gnumeric: Row n, col m is [n][m]
+ * In C, the same elt is v->v.array.vals[m][n]
+ * For scripting, I think it's best to do it the way the user sees it,
+ * i.e. opposite from C.
+ */
+static PyObject *
+array_to_python (Value *v)
+{
+	PyObject * list = NULL, *row = NULL;
+	int rows, j;
+
+	rows = v->v.array.y;
+	list = PyList_New (rows);
+	if (list == NULL)
+		return NULL;
+	
+	for (j = 0; j < rows; j++) {
+		row = row_to_python (v, j);
+		if (row == NULL) {
+			Py_DECREF(list);
+			return NULL;
+		}
+		PyList_SetItem (list, j, row);
+	}
+	
+	return list;
 }
 
 /**
  * value_to_python
  * @v   value union
  *
- * Converts a Gnumeric value to Python. Returns python object.
+ * Converts a Gnumeric value to Python. Returns owned reference to python
+ * object.
  *
  * VALUE_ERROR is not handled here. It is not possible to receive VALUE_ERROR
  * as a parameter to a function.  But a C function may return VALUE_ERROR. In
@@ -200,14 +258,40 @@ value_to_python (Value *v)
 	case VALUE_BOOLEAN:	/* Sort of implemented */
 		o = boolean_to_python (v);
 		break;
-		/* The following aren't implemented yet */
 	case VALUE_ARRAY:
-	case VALUE_ERROR:
+		o = array_to_python (v);
+		break;
+	case VALUE_ERROR: /* See comment */
 	default:
 		o = NULL;
 		break;
 	}
 	return o;
+}
+
+/**
+ * range_check
+ * @o    Python object
+ *
+ * Returns TRUE if object is a Python cell range and FALSE otherwise
+ * I don't believe this is 100% kosher, but should work in practice. A 100 %
+ * solution seems to require that the cell range and cell ref classes are
+ * defined in C.
+ */
+static int
+range_check (PyObject *o)
+{
+	PyObject *klass;
+	gchar *s;
+	
+	if (!PyObject_HasAttrString (o, "__class__"))
+		return FALSE;
+	
+	klass = PyObject_GetAttrString  (o, "__class__");
+	s = PyString_AsString (PyObject_Str(klass));
+	Py_XDECREF (klass);
+	return (s != NULL &&
+		strcmp (s, (GNUMERIC_DEFS_MODULE "." CELL_RANGE_CLASS)) == 0);
 }
 
 /**
@@ -226,21 +310,26 @@ cell_ref_from_python (PyObject *o, CellRef *c)
 	PyObject *column = NULL, *row = NULL;
 	PyObject *col_relative = NULL, *row_relative = NULL/*, *sheet = NULL */;
 
-	column       = PyObject_GetAttrString (o, "column");
-	if (PyErr_Occurred () || !PyInt_Check (column))
+	column = PyObject_GetAttrString (o, "column");
+	if (!column || !PyInt_Check (column))
 		goto cleanup;
-	row          = PyObject_GetAttrString (o, "row");
-	if (PyErr_Occurred () || !PyInt_Check (row))
+
+	row = PyObject_GetAttrString (o, "row");
+	if (!row || !PyInt_Check (row))
 		goto cleanup;
+
 	col_relative = PyObject_GetAttrString (o, "col_relative");
-	if (PyErr_Occurred () || !PyInt_Check (col_relative))
+	if (!col_relative || !PyInt_Check (col_relative))
 		goto cleanup;
+
 	row_relative = PyObject_GetAttrString (o, "row_relative");
-	if (PyErr_Occurred () || !PyInt_Check (row_relative))
+	if (!row_relative || !PyInt_Check (row_relative))
 		goto cleanup;
+
 	/* sheet        = PyObject_GetAttrString (o, "sheet"); */
-	/* if (PyErr_Occurred () || !PyString_Check (sheet) */
+	/* if (!sheet || !PyString_Check (sheet) */
 	/*         goto cleanup; */
+
 	c->col = (int) PyInt_AsLong (column);
 	c->row = (int) PyInt_AsLong (row);
 	c->col_relative = (unsigned char) PyInt_AsLong (col_relative);
@@ -261,101 +350,163 @@ cleanup:
 /**
  * range_from_python
  * @o    Python object
- * @v    Value union
  *
  * Converts a Python cell range to Gnumeric. Returns TRUE on success and
  * FALSE on failure.
  * Conforms to calling conventions for converter functions for
  * PyArg_ParseTuple. 
  */
-static int
-range_from_python (PyObject *o, Value *v)
+static Value *
+range_from_python (PyObject *o)
 {
-	int ret = FALSE;
 	PyObject *range = NULL;
+	CellRef a, b;
+	Value *ret = NULL;
 
-	memset (v, 0, sizeof (*v));
-	v->type  = VALUE_CELLRANGE;
+	if ((range = PyObject_GetAttrString  (o, "range")) == NULL)
+		return NULL;
 
-	range = PyObject_GetAttrString  (o, "range");
-	if (PyErr_Occurred ())
-		goto cleanup;
-	/* Slightly abusing PyArg_ParseTuple */
 	if (!PyArg_ParseTuple (range, "O&O&",
-			       cell_ref_from_python, &v->v.cell_range.cell_a,
-			       cell_ref_from_python, &v->v.cell_range.cell_b))
+			       cell_ref_from_python, &a,
+			       cell_ref_from_python, &b))
 		goto cleanup;
-	ret = TRUE;
+	ret = value_new_cellrange (&a, &b);
 	
 cleanup:
-	Py_XDECREF (range);
+	Py_DECREF (range);
 
 	return ret;
+}
+
+/**
+ * array_check
+ * @o    Python object
+ *
+ * Returns TRUE if object is a list of lists and FALSE otherwise
+ */
+static int
+array_check (PyObject *o)
+{
+	PyObject *item;
+	
+	if (!PyList_Check (o))
+		return FALSE;
+	else if (PyList_Size == 0)
+		return FALSE;
+	else if ((item = PyList_GetItem (o, 0)) == NULL)
+		return FALSE;
+	else if (!PyList_Check (item))
+		return FALSE;
+	else
+		return TRUE;
+}
+
+/**
+ * row_from_python
+ * @o     python list
+ * @col   column
+ * @array array
+ *
+ * Converts a Python list object to array row. Returns 0 on success, -1
+ * on failure.
+ *
+ * Row n, col m is [n][m].  */
+static int
+row_from_python (PyObject *o, int col, Value *array)
+{
+	PyObject *item;
+	int i;
+	int cols = array->v.array.x;
+	
+	for (i = 0; i < cols; i++) {
+		if ((item = PyList_GetItem (o, i)) == NULL)
+			return -1;
+		array->v.array.vals[i][col] = value_from_python (item);
+	}
+	return 0;
+}
+
+/**
+ * array_from_python
+ * @o   python sequence
+ *
+ * Converts a Python sequence object to array. Returns Gnumeric value on
+ * success, NULL on failure.
+ *
+ * Row n, col m is [n][m].
+ */
+static Value *
+array_from_python (PyObject *o)
+{
+	Value *v = NULL, *array = NULL;
+	PyObject *row = NULL;
+	int rows, cols, j;
+       
+	rows = PyList_Size (o);
+
+	for (j = 0; j < rows; j++) {
+		if ((row = PyList_GetItem (o, j)) == NULL)
+			goto cleanup;
+		if (!PyList_Check (row)) {
+			PyErr_SetString (PyExc_TypeError, "Sequence expected");
+			goto cleanup;
+		}
+		cols = PyList_Size (row);
+		if (j == 0) {
+			array = value_new_array (cols, rows);
+		} else if (cols != v->v.array.x) {
+			PyErr_SetString (PyExc_TypeError,
+					 "Rectangular array expected");
+			goto cleanup;
+		}
+		if ((row_from_python (row, j, array)) != 0) 
+			goto cleanup;
+	}
+	v = array;
+
+cleanup:
+	if (array && array != v)
+		value_release (array);
+	return v;
 }
 
 /**
  * value_from_python
  * @o   Python object
  *
- * Converts a Python object to a Gnumeric value. Returns Gnumeric value.
+ * Converts a Python object to a Gnumeric value. Returns Gnumeric value, or
+ * NULL on failure.
  */
 static Value *
 value_from_python (PyObject *o)
 {
-	Value *v = g_new (Value, 1);
-	Value *ret = NULL;
+	Value *v = NULL;
 
-	if (!v)
-		return NULL;
-
-	if (PyErr_Occurred ()) {
-		goto cleanup;
-	} else if (o == Py_None) {
-		v->type = VALUE_EMPTY;
+	if (o == Py_None) {
+		v = value_new_empty ();
 	} else if (PyInt_Check (o)){
-		v->type = VALUE_INTEGER;
-		v->v.v_int = (int_t) PyInt_AsLong (o);
-		ret = v;
+		v = value_new_int ((int_t) PyInt_AsLong (o));
 	} else if (PyFloat_Check (o)) {
-		v->type = VALUE_FLOAT;
-		v->v.v_float = (float_t) PyFloat_AsDouble (o);
-		ret = v;
+		v = value_new_float ((float_t) PyFloat_AsDouble (o));
 	} else if (PyString_Check (o)) {
-		v->type = VALUE_STRING;
-		v->v.str = string_get (PyString_AsString (o));
-		ret = v;
-	} else if (PyObject_HasAttrString (o, "__class__")) {
-		PyObject *klass = PyObject_GetAttrString  (o, "__class__");
-		gchar *s;
-		
-		if (PyErr_Occurred ())
-			goto cleanup;
-
-		s = PyString_AsString (PyObject_Str(klass));
-		Py_XDECREF (klass);
-
- 		if (s && strcmp (s,
-				 GNUMERIC_DEFS_MODULE "." CELL_RANGE_CLASS)
-		    == 0) {
-			if (range_from_python (o, v) != FALSE)
-				ret = v;
-		}
+		v = value_new_string (PyString_AsString (o));
+	} else if (array_check (o)) {
+		v = array_from_python (o);
+	} else if (range_check (o)) {
+		v = range_from_python (o);
+	} else {
+		v = value_new_error (NULL, _("Unknown Python type"));
 	}
 
-cleanup:
-	if (PyErr_Occurred ()) {
+	if (!v) {
 		char *exc_string = exception_to_string ();
-		v->type = VALUE_ERROR;
-		v->v.error.mesg = string_get (exc_string);
+		v = value_new_error (NULL, exc_string);
 		g_free (exc_string);
 		PyErr_Print ();	/* Traceback to stderr for now */
 		PyErr_Clear ();
-	} else if (!ret) {
-		v->type = VALUE_ERROR;
-		v->v.error.mesg	= string_get (_("Unknown Python type"));
 	}
 
-	return ret;
+	return v;
 }
 
 typedef struct {
@@ -424,8 +575,8 @@ marshal_func (FunctionEvalInfo *ei, Value *argv [])
  * @m        Dummy
  * @py_args  Argument tuple
  *
- * Apply a gnumeric function to the arguments in py_args. Returns result as a
- * Python object.
+ * Apply a gnumeric function to the arguments in py_args. Returns result as
+ * owned reference to a Python object.
  *
  * Signature when called from Python:
  *      gnumeric.apply (string function_name, sequence arguments)
@@ -435,8 +586,8 @@ apply (PyObject *m, PyObject *py_args)
 {
 	PyObject *seq = NULL, *item = NULL, *retval = NULL;
 	char *funcname;
-	int i, num_args;
-	Value **values;
+	int i, num_args = 0;
+	Value **values = NULL;
 	Value *v = NULL;
 
 	if (!PyArg_ParseTuple (py_args, "sO", &funcname, &seq))
@@ -450,7 +601,7 @@ apply (PyObject *m, PyObject *py_args)
 	}
 
 	num_args = PySequence_Length (seq);
-	values = g_new(Value*, num_args);
+	values = g_new0(Value*, num_args);
 	for (i = 0; i < num_args; ++i)
 	{
 		item = PySequence_GetItem (seq, i);
@@ -471,6 +622,10 @@ apply (PyObject *m, PyObject *py_args)
 	
 cleanup:
 	Py_XDECREF (item);
+	for (i = 0; i < num_args; ++i)
+		if (values[i])
+			value_release (values[i]);
+	
 	/* We do not own a reference to seq, so don't decrement it. */
 	return retval;
 }

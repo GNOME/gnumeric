@@ -1,3 +1,19 @@
+2000-03-01  Jon K Hellan  <hellan@acm.org>
+
+	* python.c (cell_ref_to_python, range_to_python,
+	cell_ref_from_python): Simplify error handling.
+	(boolean_to_python): Simplify
+	(row_to_python): New function. Converts an array row to
+	Python.
+	(array_to_python): New function. Converts an array to Python.
+	(value_to_python): Handle array.
+	(range_check): Factored out of value_from_python.
+	(range_from_python): Restructure to use value_new_cellrange
+	(array_check): New function. Check if object is array. 
+	(value_from_python): Restructure to use the value_new_xxx
+	constructors.
+	(apply): Release values when no longer needed.
+
 2000-02-29  Jon K Hellan  <hellan@acm.org>
 
 	* python.c: Great renaming:
@@ -11,7 +27,7 @@
 	convert_python_to_value        -> value_from_python
 	gnumeric_apply                 -> apply
 	gnumeric_register_function     -> register_function
-	
+
 2000-02-28  Jon K Hellan  <hellan@acm.org>
 
 	* python.c: GnumericError: Define

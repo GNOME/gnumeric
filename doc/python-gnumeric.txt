@@ -124,11 +124,9 @@ VALUE_STRING     <=>    Python string
 VALUE_CELLRANGE  <=>    Python CellRange class
 VALUE_EMPTY      <=>    Python None
 VALUE_BOOLEAN     =>    Python integer
-
-These two types are not yet implemented:
-
 VALUE_ERROR      <=>    Python Exception class (not yet done)
-VALUE_ARRAY      <=>    Python list
+VALUE_ARRAY      <=>    Python list of lists. array[y][x] denotes row
+                        y, column x of the array.
 
 CellRange objects are a tuple of two CellRef objects. The CellRef
 class has the following attributes:

@@ -1,3 +1,7 @@
+2000-03-01  Jon K Hellan  <hellan@acm.org>
+
+	* doc/python-gnumeric.txt: Clarified mapping of arrays.
+
 2000-02-29  Jody Goldberg <jgoldberg@home.com>
 
 	* src/cell-print.c : Sync with logic in item-bar::draw to add borders
