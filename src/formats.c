@@ -341,6 +341,7 @@ currency_date_format_init (void)
 	}
 
 	if (first_time) {
+#if 0
 		int i;
 
 		for (i = 0; cell_formats[i] != NULL ; ++i) {
@@ -361,6 +362,7 @@ currency_date_format_init (void)
 				style_format_unref (sf);
 			}
 		}
+#endif
 
 		first_time = FALSE;
 	}
