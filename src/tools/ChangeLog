@@ -1,3 +1,8 @@
+2004-07-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.c (analysis_tools_write_label_ftest): new
+	(analysis_tool_ftest_engine_run): rewritten
+
 2004-07-20  Jody Goldberg <jody@gnome.org>
 
 	* solver/solver.c (solver_run) : More win32 portability

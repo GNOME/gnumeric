@@ -1699,7 +1699,7 @@ dialog_ftest_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 		"changed",
 		G_CALLBACK (ftest_update_sensitivity_cb), state);
 
-	gnm_dao_set_put (GNM_DAO (state->base.gdao), FALSE, FALSE);
+	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
 	ftest_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, FALSE);
 
