@@ -28,9 +28,8 @@ msgid "Microsoft(R) Excel file format"
 msgstr "Formato de archivo Microsoft® Excel"
 
 #: plugins/excel/boot.c:117
-#, fuzzy
 msgid "Excel(R) 97 file format"
-msgstr "Formato de archivo Excel® 98"
+msgstr "Formato de archivo Excel® 97"
 
 #: plugins/excel/boot.c:118
 msgid "Excel(R) 95 file format"
@@ -162,13 +161,12 @@ msgid "Gnumeric"
 msgstr "Gnumeric"
 
 #: src/about.c:55
-#, fuzzy
 msgid ""
 "The GNOME spreadsheet.\n"
 "http://www.gnome.org/gnumeric/"
 msgstr ""
 "La hoja de cálculo de GNOME\n"
-"http://www.gnome.org/gnumeric\n"
+"http://www.gnome.org/gnumeric/\n"
 "Traducción al castellano por Pablo Saratxaga <srtxg@chanae.alphanet.ch>\n"
 "Si Vd. encuentra errores o inconsistencias en la traducción, o si desea "
 "simplemente hacer alguna sugerencia para mejorarla no dude en escribirme. El "
@@ -630,9 +628,8 @@ msgid "Can not create file %s\n"
 msgstr "Imposible crear el archivo %s\n"
 
 #: src/expr.c:133
-#, fuzzy
 msgid "Internal Error"
-msgstr "Error de sintaxis"
+msgstr "Error interno"
 
 #: src/expr.c:258
 msgid "Syntax error"
@@ -647,9 +644,8 @@ msgid "Impossible!"
 msgstr "¡Imposible!"
 
 #: src/expr.c:936
-#, fuzzy
 msgid "Internal error"
-msgstr "Error de sintaxis"
+msgstr "Error interno"
 
 #: src/expr.c:1029 src/expr.c:1304 src/expr.c:1485 src/fn-misc.c:189
 #: src/fn-string.c:55 src/fn-string.c:77 src/fn-string.c:98
@@ -672,9 +668,8 @@ msgid "Type error"
 msgstr "Tipo erróneo"
 
 #: src/expr.c:1278
-#, fuzzy
 msgid "Internal type error"
-msgstr "Tipo erróneo"
+msgstr "Error de tipo interno"
 
 #: src/expr.c:1469
 msgid "Reference to newborn cell"
@@ -685,14 +680,12 @@ msgid "Unknown evaluation error"
 msgstr "Error al evaluar"
 
 #: src/expr.c:1838
-#, fuzzy
 msgid "#Reference to deleted cell!"
-msgstr "Referencia hacia una celda recién creada"
+msgstr "#¡Referencia a una celda borrada!"
 
 #: src/expr.c:1863
-#, fuzzy
 msgid "#Reference to deleted range!"
-msgstr "Referencia hacia una celda recién creada"
+msgstr "#¡Referencia a un rango de celdas borradas!"
 
 #: src/file.c:244
 msgid "File format:"
@@ -703,7 +696,6 @@ msgid "Save workbook as"
 msgstr "Guardar la hoja de trabajo como"
 
 #: src/file.c:327
-#, fuzzy
 msgid "Sorry, there are no file savers loaded, I cannot save"
 msgstr ""
 "Disculpe, pero no hay ningún 'file saver' cargado; no sé como guardar a un "
@@ -714,7 +706,6 @@ msgid "Load file"
 msgstr "Cargar un archivo"
 
 #: src/fn-date.c:59
-#, fuzzy
 msgid ""
 "@FUNCTION=DATE\n"
 "@SYNTAX=DATE (year,month,day)\n"
@@ -726,7 +717,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=DATE\n"
 "@SYNTAX=DATE (año,mes,día)\n"
-"@DESCRIPTION=Calcula la cantidad de días desde el 1º de enerei de 1900 (es "
+"@DESCRIPTION=Calcula la cantidad de días desde el 1º de enero de 1900 (es "
 "decir el número de serie de la fecha), para el año, més, y día "
 "especificados.\n"
 "El día puede ser negativo (para contar hacia atrás) y es relativo al mes "
@@ -757,7 +748,6 @@ msgstr ""
 "@SEEALSO=DATE"
 
 #: src/fn-date.c:131
-#, fuzzy
 msgid ""
 "@FUNCTION=EDATE\n"
 "@SYNTAX=EDATE(serial_number,months)\n"
@@ -818,7 +808,6 @@ msgstr ""
 "@SEEALSO=TODAY, NOW"
 
 #: src/fn-date.c:232
-#, fuzzy
 msgid ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (hours,minutes,seconds)\n"
@@ -827,11 +816,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (horas,minutos,segundos)\n"
-"@DESCRIPTION=Devuelve una fracción representando la hora\n"
+"@DESCRIPTION=Devuelve una fracción representando la hora.\n"
 "@SEEALSO=HOUR"
 
 #: src/fn-date.c:257
-#, fuzzy
 msgid ""
 "@FUNCTION=TIMEVALUE\n"
 "@SYNTAX=TIMEVALUE (timetext)\n"
@@ -839,13 +827,13 @@ msgid ""
 "between 0 and 1.\n"
 "@SEEALSO=HOUR"
 msgstr ""
-"@FUNCTION=TIME\n"
-"@SYNTAX=TIME (horas,minutos,segundos)\n"
-"@DESCRIPTION=Devuelve una fracción representando la hora\n"
+"@FUNCTION=TIMEVALUE\n"
+"@SYNTAX=TIMEVALUE (texto_hora)\n"
+"@DESCRIPTION=Devuelve una fracción representando la hora del día, un "
+"número entre 0 y 1.\n"
 "@SEEALSO=HOUR"
 
 #: src/fn-date.c:276
-#, fuzzy
 msgid ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (serial_number)\n"
@@ -864,7 +852,6 @@ msgstr ""
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 
 #: src/fn-date.c:301
-#, fuzzy
 msgid ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (serial_number)\n"
@@ -882,7 +869,6 @@ msgstr ""
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 
 #: src/fn-date.c:326
-#, fuzzy
 msgid ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (serial_number)\n"
@@ -900,7 +886,6 @@ msgstr ""
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
 
 #: src/fn-date.c:351
-#, fuzzy
 msgid ""
 "@FUNCTION=YEAR\n"
 "@SYNTAX=YEAR (serial_number)\n"
@@ -917,7 +902,6 @@ msgstr ""
 "@SEEALSO=DAY, MONTH, TIME, NOW"
 
 #: src/fn-date.c:376
-#, fuzzy
 msgid ""
 "@FUNCTION=MONTH\n"
 "@SYNTAX=MONTH (serial_number)\n"
@@ -934,7 +918,6 @@ msgstr ""
 "@SEEALSO=DAY, TIME, NOW, YEAR"
 
 #: src/fn-date.c:401
-#, fuzzy
 msgid ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (serial_number)\n"
@@ -951,7 +934,6 @@ msgstr ""
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
 #: src/fn-date.c:426
-#, fuzzy
 msgid ""
 "@FUNCTION=WEEKDAY\n"
 "@SYNTAX=WEEKDAY (serial_number)\n"
@@ -960,9 +942,9 @@ msgid ""
 "for you, so you can enter a date as a string.\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 msgstr ""
-"@FUNCTION=DAY\n"
-"@SYNTAX=DAY (número_de_serie)\n"
-"@DESCRIPTION=Convierte el número de serie a un día del mes.\n"
+"@FUNCTION=WEEKDAY\n"
+"@SYNTAX=WEEKDAY (número_de_serie)\n"
+"@DESCRIPTION=Convierte el número de serie al día de la semana correspondiente.\n"
 "Note que Gnumeric hará la conversión de una cadena de texto a un número de "
 "serie; por lo tanto puede entrar la fecha como una cadena de texto.\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
@@ -1005,7 +987,6 @@ msgstr ""
 "@SEEALSO="
 
 #: src/fn-math.c:182
-#, fuzzy
 msgid ""
 "@FUNCTION=GCD\n"
 "@SYNTAX=GCD(number1,number2,...)\n"
@@ -1378,7 +1359,6 @@ msgstr ""
 "@SEEALSO="
 
 #: src/fn-math.c:854
-#, fuzzy
 msgid ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x,significance)\n"
@@ -1388,14 +1368,14 @@ msgid ""
 "@SEEALSO=CEIL, ABS, INT"
 msgstr ""
 "@FUNCTION=FLOOR\n"
-"@SYNTAX=FLOOR(x)\n"
-"@DESCRIPTION=La función FLOOR redondea x al valor entero inferior.\n"
+"@SYNTAX=FLOOR(x,significancia)\n"
+"@DESCRIPTION=La función FLOOR redondea x al múltiple de @significancia"
+" inferior. Por omisión @significancia tiene el valor 1.\n"
 "Efectuar esta función sobre una cadena de texto o sobre una celda vacía "
 "simplemente no hace nada.\n"
 "@SEEALSO=CEIL, ABS, INT"
 
 #: src/fn-math.c:884
-#, fuzzy
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(b1, b2, ...)\n"
@@ -1409,7 +1389,7 @@ msgstr ""
 "@SYNTAX=INT(b1, b2, ...)\n"
 "@DESCRIPTION=La función INT redondea b1 hacia el valor entero más próximo. "
 "Donde 'más próximo' significa más próximo de cero. Equivalente a FLOOR(b1) "
-"si b1 > 0 y a CEIL(b1) si b1 < 0. \n"
+"si b1 >= 0 y a CEIL(b1) si b1 < 0. \n"
 "Efectuar esta función sobre una cadena de texto o sobre una celda vacía "
 "simplemente no hace nada.\n"
 "@SEEALSO=FLOOR, CEIL, ABS"
@@ -1441,7 +1421,6 @@ msgstr ""
 "@SEEALSO=EXP, LOG2, LOG10"
 
 #: src/fn-math.c:963
-#, fuzzy
 msgid ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
@@ -1454,7 +1433,6 @@ msgstr ""
 "@DESCRIPTION=Devuelve el valor de x a la potencia y.\n"
 "Efectuar esta función sobre una cadena de texto o sobre una celda vacía "
 "devuelve un error.\n"
-"\n"
 "@SEEALSO=EXP"
 
 #: src/fn-math.c:990
