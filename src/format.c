@@ -880,6 +880,27 @@ find_decimal_char (char const *str)
 	return NULL;
 }
 
+/* An helper function which modify the number of decimals displayed
+ * and recreate the format string by calling the good function */
+static char *
+reformat_decimals(FormatCharacteristics *fc,
+		  void (*format_function) (GString *res, FormatCharacteristics const * fmt),
+		  int step)
+{
+	GString *res;
+
+	/* Be sure that the number of decimals displayed will remain correct */
+	if ((fc->num_decimals+step > 30) || (fc->num_decimals+step <0))
+		return NULL;
+	fc->num_decimals += step;
+
+	/* Regenerate the format with the good function */
+	res = g_string_new ("");
+	(*format_function) (res, fc);
+
+	return g_string_free (res, FALSE);
+}
+
 /*
  * This routine scans the format_string for a decimal dot,
  * and if it finds it, it removes the first zero after it to
@@ -894,6 +915,33 @@ format_remove_decimal (StyleFormat const *fmt)
 	char *ret, *p;
 	char const *tmp;
 	char const *format_string = fmt->format;
+	FormatFamily ff;
+	FormatCharacteristics fc;
+
+	/* First try to classify the format so we can regenerate it */
+	ff = cell_format_classify (fmt, &fc);
+
+	switch (ff) {	
+	case FMT_NUMBER:
+	case FMT_CURRENCY:
+		return reformat_decimals (&fc, &style_format_number, -1);
+	case FMT_ACCOUNT:
+		return reformat_decimals (&fc, &style_format_account, -1);
+	case FMT_PERCENT:
+		return reformat_decimals (&fc, &style_format_percent, -1);
+	case FMT_SCIENCE:
+		return reformat_decimals (&fc, &style_format_science, -1);
+	case FMT_DATE:
+	case FMT_TIME:
+	case FMT_FRACTION:
+	case FMT_TEXT:
+	case FMT_SPECIAL:
+		/* Nothing to remove for these formats ! */
+		return NULL;
+	}
+
+	/* Use the old code for more special formats to try to add a
+	   decimal */
 
 	/*
 	 * Consider General format as 0. with several optional decimal places.
@@ -940,6 +988,33 @@ format_add_decimal (StyleFormat const *fmt)
 	char const *post = NULL;
 	char *res;
 	char const *format_string = fmt->format;
+	FormatFamily ff;
+	FormatCharacteristics fc;
+
+	/* First try to classify the format so we can regenerate it */
+	ff = cell_format_classify(fmt, &fc);
+
+	switch (ff) {	
+	case FMT_NUMBER:
+	case FMT_CURRENCY:
+		return reformat_decimals (&fc, &style_format_number, 1);
+	case FMT_ACCOUNT:
+		return reformat_decimals (&fc, &style_format_account, 1);
+	case FMT_PERCENT:
+		return reformat_decimals (&fc, &style_format_percent, 1);
+	case FMT_SCIENCE:
+		return reformat_decimals (&fc, &style_format_science, 1);
+	case FMT_DATE:
+	case FMT_TIME:
+	case FMT_FRACTION:
+	case FMT_TEXT:
+	case FMT_SPECIAL:
+		/* Nothing to add for these formats ! */
+		return NULL;
+	}
+
+	/* Use the old code for more special formats to try to add a
+	   decimal */	
 
 	if (strcmp (format_string, "General") == 0) {
 		format_string = "0";
@@ -1661,11 +1736,10 @@ translate_format_color (GString *res, char const *ptr, gboolean translate_to_en)
 	if (end == NULL)
 		return NULL;
 
-	color = lookup_color_by_name (ptr, end, translate_to_en);
+	color = lookup_color_by_name (ptr+1, end, translate_to_en);
 	if (color != NULL) {
 		g_string_append (res, translate_to_en
-				 ? _(color->name)
-				 : color->name);
+			? color->name : _(color->name));
 		g_string_append_c (res, ']');
 		return end;
 	}
@@ -1698,16 +1772,15 @@ style_format_delocalize (char const *descriptor_string)
 				char *tmp = translate_format_color (res, ptr, TRUE);
 				if (tmp != NULL)
 					ptr = tmp;
-			} else if (*ptr == '\\' && ptr[1] != '\0') {
-				switch (*++ptr) {
-				case '.'  : g_string_append_c (res, decimal);
-					    break;
-				case ','  : g_string_append_c (res, thousands_sep);
-					    break;
-				default   : g_string_append_c (res, *ptr);
-				};
-			} else
+			} else {
+				if (*ptr == '\\' && ptr[1] != '\0') {
+					ptr++;
+					/* Ignore '\' if we probably added it */
+					if (*ptr != decimal && *ptr != thousands_sep)
+						g_string_append_c (res, '\\');
+				}
 				g_string_append_c (res, *ptr);
+			}
 		}
 		return g_string_free (res, FALSE);
 	} else

@@ -539,11 +539,8 @@ filter_field_arrow_format (GnmFilterField *field, GtkWidget *arrow)
 	gtk_arrow_set (GTK_ARROW (arrow),
 		field->cond != NULL ? GTK_ARROW_RIGHT : GTK_ARROW_DOWN,
 		GTK_SHADOW_IN);
-#warning FIXME why does gtk_widget_set_style (arrow, NULL); not restore default
-	if (field->cond != NULL)
-		gtk_widget_modify_fg (arrow, GTK_STATE_NORMAL, &gs_yellow);
-	else
-		gtk_widget_set_style (arrow, NULL);
+	gtk_widget_modify_fg (arrow, GTK_STATE_NORMAL,
+		field->cond != NULL ? &gs_yellow : &gs_black);
 }
 
 static GObject *
@@ -1173,6 +1170,7 @@ sheet_filter_insdel_colrow (Sheet *sheet, gboolean is_cols, gboolean is_insert,
 		}
 
 		if (filter == NULL) {
+			filter = ptr->data; /* we used it as a flag */
 			gnm_filter_remove (filter);
 			/* the objects are already gone */
 			g_ptr_array_set_size (filter->fields, 0);

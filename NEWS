@@ -5,6 +5,7 @@ Jody:
 	* Find a few undocumented corners of XL's format.
 	* Fix XL97 export of validation and filters for simple sheets.
 	* Ins/Del Col/Row now does the right thing with filters.
+	* Misc screwups with autofilters
 
 Jon Kåre:
 	* Open DB connections read only

@@ -519,9 +519,10 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 	if (regexec (&re_number_currency, fmt, MATCH_SIZE, match, 0) == 0) {
 
 		/* match[3] and match[7] contain the Currency symbol */
-		if (match[3].rm_eo == -1 && match[7].rm_eo == -1)
+		if (match[3].rm_eo == -1 && match[7].rm_eo == -1) {
 			result = FMT_NUMBER;
-		else {
+			info->currency_symbol_index = 0;
+		} else {
 			result = FMT_CURRENCY;
 			if (match[7].rm_eo == -1)
 				cur = find_currency (ptr + match[3].rm_so,
@@ -723,7 +724,7 @@ style_format_number (GString *res, FormatCharacteristics const *fmt)
 	int symbol = fmt->currency_symbol_index;
 
 	/* Currency */
-	if ((symbol != -1) && (currency_symbols[symbol].precedes)) {
+	if ((symbol != 0) && (currency_symbols[symbol].precedes)) {
 		
 		g_string_append (res, currency_symbols[symbol].symbol);
 		if (currency_symbols[symbol].has_space)
@@ -743,7 +744,7 @@ style_format_number (GString *res, FormatCharacteristics const *fmt)
 	}
 
 	/* Currency */
-	if ((symbol != -1) && !(currency_symbols[symbol].precedes)) {
+	if ((symbol != 0) && !(currency_symbols[symbol].precedes)) {
 
 		if (currency_symbols[symbol].has_space)
 			g_string_append_c (res, ' ');

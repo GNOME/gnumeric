@@ -1,3 +1,10 @@
+2002-12-28  Jody Goldberg <jody@gnome.org>
+
+	* src/format.c (style_format_delocalize) : tweak.
+
+	* src/sheet-filter.c (filter_field_arrow_format) : be less polite to
+	  styles, but at least it will work in the vast majority of cases.
+
 2002-12-27  Morten Welinder  <terra@diku.dk>
 
 	* src/parse-util.c (cellpos_parse): Change calling convention.
