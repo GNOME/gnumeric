@@ -79,7 +79,7 @@ sheet_object_destroy (GtkObject *object)
 	g_list_free (so->realized_list);
 	sheet->objects = g_list_remove (sheet->objects, so);
 	sheet->modified = TRUE;
-	gnome_canvas_points_free (so->points);
+	gnome_canvas_points_free (so->bbox_points);
 
 	(*sheet_object_parent_class->destroy)(object);
 }
@@ -124,7 +124,7 @@ sheet_object_construct (SheetObject *sheet_object, Sheet *sheet)
 	g_return_if_fail (IS_SHEET (sheet));
 
 	sheet_object->sheet = sheet;
-	
+	sheet_object->bbox_points = gnome_canvas_points_new (2);
 }
 
 /*
@@ -246,8 +246,14 @@ create_object (Sheet *sheet, gdouble to_x, gdouble to_y)
 {
 	SheetObject *o = NULL;
 	ObjectCoords *oc;
+	double x1, x2, y1, y2;
 
 	oc = sheet->coords->data;
+
+	x1 = MIN (oc->x, to_x);
+	x2 = MAX (oc->x, to_x);
+	y1 = MIN (oc->y, to_y);
+	y2 = MAX (oc->y, to_y);
 	
 	switch (sheet->mode){
 	case SHEET_MODE_CREATE_LINE:
@@ -267,13 +273,6 @@ create_object (Sheet *sheet, gdouble to_x, gdouble to_y)
 		break;
 		
 	case SHEET_MODE_CREATE_BOX: {
-		double x1, x2, y1, y2;
-
-		x1 = MIN (oc->x, to_x);
-		x2 = MAX (oc->x, to_x);
-		y1 = MIN (oc->y, to_y);
-		y2 = MAX (oc->y, to_y);
-		
 		o = sheet_object_create_filled (
 			sheet, SHEET_OBJECT_RECTANGLE,
 			x1, y1, x2, y2,
@@ -282,20 +281,20 @@ create_object (Sheet *sheet, gdouble to_x, gdouble to_y)
 	}
 
 	case SHEET_MODE_CREATE_OVAL: {
-		double x1, x2, y1, y2;
-
-		x1 = MIN (oc->x, to_x);
-		x2 = MAX (oc->x, to_x);
-		y1 = MIN (oc->y, to_y);
-		y2 = MAX (oc->y, to_y);
-		
 		o = sheet_object_create_filled (
 			sheet, SHEET_OBJECT_ELLIPSE,
 			x1, y1, x2, y2,
 			NULL, "black", 1);
 		break;
 	}
-	
+
+	case SHEET_MODE_CREATE_GRAPHIC:
+#ifdef ENABLE_BONOBO
+		o = sheet_object_graphic_new (
+			sheet, x1, y1, x2, y2);
+		break;
+#endif
+		
 	case SHEET_MODE_SHEET:
 	case SHEET_MODE_OBJECT_SELECTED:
 		g_assert_not_reached ();
@@ -360,7 +359,10 @@ sheet_button_press (GnumericSheet *gsheet, GdkEventButton *event, Sheet *sheet)
 {
 	ObjectCoords *oc;
 
-	g_assert (sheet->current_object == NULL);
+	if (sheet->current_object){
+		sheet_object_stop_editing (sheet->current_object);
+		sheet->current_object = NULL;
+	}
 	
 	/* Do not propagate this event further */
 	gtk_signal_emit_stop_by_name (GTK_OBJECT (gsheet), "button_press_event");
@@ -420,6 +422,9 @@ sheet_finish_object_creation (Sheet *sheet, SheetObject *o)
 			GTK_SIGNAL_FUNC (sheet_motion_notify), sheet);
 
 	}
+
+	if (SO_CLASS (o)->creation_finished)
+		SO_CLASS (o)->creation_finished (o);
 }
 
 /*
@@ -457,20 +462,21 @@ sheet_set_mode_type (Sheet *sheet, SheetModeType mode)
 		return;
 	}
 
-	sheet_show_cursor (sheet);
-	if (sheet->current_object){
-		sheet_object_stop_editing (sheet->current_object);
-		sheet->current_object = NULL;
-	}
-
-	if (mode == SHEET_MODE_SHEET)
+	if (mode == SHEET_MODE_SHEET){
+		sheet_show_cursor (sheet);
+		if (sheet->current_object){
+			sheet_object_stop_editing (sheet->current_object);
+			sheet->current_object = NULL;
+		}
 		return;
+	}
 
 	switch (sheet->mode){
 	case SHEET_MODE_CREATE_LINE:
 	case SHEET_MODE_CREATE_ARROW:
 	case SHEET_MODE_CREATE_OVAL:
-	case SHEET_MODE_CREATE_BOX:		
+	case SHEET_MODE_CREATE_BOX:
+	case SHEET_MODE_CREATE_GRAPHIC:
 		for (l = sheet->sheet_views; l; l = l->next){
 			SheetView *sheet_view = l->data;
 			GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
@@ -480,7 +486,7 @@ sheet_set_mode_type (Sheet *sheet, SheetModeType mode)
 					    GTK_SIGNAL_FUNC (sheet_button_press), sheet);
 		}
 		break;
-		
+
 	default:
 		g_assert_not_reached ();
 	}
@@ -588,7 +594,7 @@ control_point_handle_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject 
 		break;
 
 	case GDK_MOTION_NOTIFY: {
-		double *coords = object->points->coords;
+		double *coords = object->bbox_points->coords;
 		int change = 0;
 		
 		if (!object->dragging)
@@ -743,10 +749,10 @@ object_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject *object)
 		gnome_canvas_item_ungrab (item, event->button.time);
 
 		sheet_object_unrealize (object->sheet, object);
-		object->points->coords [0] += total_x;
-		object->points->coords [1] += total_y;
-		object->points->coords [2] += total_x;
-		object->points->coords [3] += total_y;
+		object->bbox_points->coords [0] += total_x;
+		object->bbox_points->coords [1] += total_y;
+		object->bbox_points->coords [2] += total_x;
+		object->bbox_points->coords [3] += total_y;
 		sheet_object_realize (object->sheet, object);
 		
 		sheet_object_make_current (object->sheet, object);
@@ -823,7 +829,7 @@ static void
 sheet_object_start_editing (SheetObject *object)
 {
 	Sheet *sheet = object->sheet;
-	double *points = object->points->coords;
+	double *points = object->bbox_points->coords;
 	GList *l;
 	
 	for (l = sheet->sheet_views; l; l = l->next){

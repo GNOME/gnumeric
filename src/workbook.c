@@ -173,6 +173,15 @@ italic_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
+create_graphic_cmd (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet;
+
+	sheet = workbook_get_current_sheet (wb);
+	sheet_set_mode_type (sheet, SHEET_MODE_CREATE_GRAPHIC);
+}
+
+static void
 create_line_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet;
@@ -918,6 +927,11 @@ static GnomeUIInfo workbook_toolbar [] = {
 	
 	GNOMEUIINFO_SEPARATOR,
 
+#ifdef ENABLE_BONOBO
+	GNOMEUIINFO_ITEM_DATA (
+		N_("Graphic"), N_("Creates a graphic in the spreadsheet"),
+		create_graphic_cmd, NULL, graphic_xpm),
+#endif
 	GNOMEUIINFO_ITEM_DATA (
 		N_("Line"), N_("Creates a line object"),
 		create_line_cmd, NULL, line_xpm),

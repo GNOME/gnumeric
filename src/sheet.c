@@ -2208,23 +2208,6 @@ sheet_destroy_columns_and_rows (Sheet *sheet)
 	sheet->rows_info = NULL;
 }
 
-#ifdef ENABLE_BONOBO
-static void
-sheet_destroy_objects (Sheet *sheet)
-{
-	GListClientSite *l;
-	
-	/*
-	 * Kill any Bonobo links
-	 */
-	for (l = sheet->client_site_list; l; l = g_list_next (l)){
-		GnomeClientSite *client_site = l->data;
-
-		gtk_object_unref (GTK_OBJECT (client_site));
-	}
-}
-#endif
-
 /**
  * sheet_destroy:
  * @sheet: the sheet to destroy
@@ -2243,10 +2226,7 @@ sheet_destroy (Sheet *sheet)
 	g_return_if_fail (IS_SHEET (sheet)); 
 	g_return_if_fail (sheet->workbook == NULL);
 
-#ifdef ENABLE_BONOBO
-	sheet_destroy_objects (sheet);
-#endif
-	
+	g_warning ("Reminder: need to destroy SheetObjects");
 	sheet_selections_free (sheet);
 	g_free (sheet->name);
 	

@@ -1138,7 +1138,7 @@ writeXmlObject (parseXmlContextPtr ctxt, SheetObject *object)
 	if (cur == NULL)
 		return NULL;
 	
-	xmlSetGnomeCanvasPoints (cur, "Points", object->points);
+	xmlSetGnomeCanvasPoints (cur, "Points", object->bbox_points);
 	xmlSetIntValue (cur, "Width", sog->width);
 	xmlSetStringValue (cur, "Color", sog->color);
 

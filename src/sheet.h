@@ -90,16 +90,21 @@ typedef struct {
 } SheetSelection;
 
 typedef enum {
+	/* Normal editing mode of the Sheet */
 	SHEET_MODE_SHEET,
+
+	/* Drawing object creation */
 	SHEET_MODE_CREATE_LINE,
 	SHEET_MODE_CREATE_BOX,
 	SHEET_MODE_CREATE_OVAL,
 	SHEET_MODE_CREATE_ARROW,
+
+	/* Selection for the region for a Graphics object */
+	SHEET_MODE_CREATE_GRAPHIC,
+
+	/* Object is selected */
 	SHEET_MODE_OBJECT_SELECTED,
 } SheetModeType;
-
-/* A list of GnomeClientSites */
-typedef GList GListClientSite;
 
 typedef struct {
 	int         signature;
@@ -154,10 +159,6 @@ typedef struct {
 
         /* Solver parameters */
         SolverParameters solver_parameters;
-
-#ifdef ENABLE_BONOBO
-	GListClientSite *client_site_list;
-#endif
 } Sheet;
 
 #define SHEET_SIGNATURE 0x12349876

@@ -603,7 +603,10 @@ cell_set_text_simple (Cell *cell, char *text)
 			case 'E': case 'e': case '+': case ':': case '.': case ',':
 				if (*p == 'e' || *p == 'E') {
 					seen_exp = TRUE;
-					if (*(p+1)=='-') p++; /* Lookahead */
+
+					/* Lookahead */
+					if (*(p+1) == '-')
+						p++; 
 				}
 				
 				if (*p == ',' || *p == '.')

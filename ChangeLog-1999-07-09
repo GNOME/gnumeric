@@ -1,3 +1,34 @@
+1999-04-14  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet.c (sheet_destroy): No longer destroys the Bonobo
+	objects here. 
+
+	* src/sheet.h (Sheet): No longer keeps track of the ClientSites
+	here. 
+	
+	* src/sheet-object.c (sheet_finish_object_creation): Invoke new
+	class method to signal finalization of object creation.
+
+	* src/sheet-object-container.c, src/sheet-object-container.h: New
+	files that implement the Bonobo ClientSites
+	(SheetObjectContainers).
+	
+	* src/Makefile.am (gnumeric_bonobo_SOURCES): Sources for Bonobo
+	compilation. 
+
+	* src/sheet-object.c (sheet_object_construct): Create the bounding
+	box points here.  
+	(sheet_set_mode_type): Fix from my previous reorganization:  Only
+	stop editing mode if the mode is SHEET_MODE_SHEET.
+	(sheet_button_press): Strategy change: now we accept
+	sheet->current_object and we stop editing here the object.
+
+	* src/sheet-object.h: points has been renamed to bbox_points.  
+	
+	* src/sheet-object-graphic.c (sheet_object_filled_realize):
+	Simplified this routine.  Also, we now update the bounding box
+	here.
+
 1999-04-15  Michael Meeks  <michael@mejm2.dow.cam.ac.uk>
 
 	* src/fn-lookup.c: Silly bug in types fixed.

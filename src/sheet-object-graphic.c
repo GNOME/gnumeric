@@ -12,7 +12,6 @@
 #include "gnumeric-sheet.h"
 #include "dialogs.h"
 #include "sheet-object-graphic.h"
-#include "cursors.h"
 
 static SheetObject *sheet_object_graphic_parent_class;
 static SheetObjectGraphic *sheet_object_filled_parent_class;
@@ -40,7 +39,7 @@ sheet_object_graphic_realize (SheetObject *so, SheetView *sheet_view)
 		item = gnome_canvas_item_new (
 			sheet_view->object_group,
 			gnome_canvas_line_get_type (),
-			"points",        so->points,
+			"points",        so->bbox_points,
 			"fill_color",    sog->color->str,
 			"width_pixels",  sog->width,
 			NULL);
@@ -50,7 +49,7 @@ sheet_object_graphic_realize (SheetObject *so, SheetView *sheet_view)
 		item = gnome_canvas_item_new (
 			sheet_view->object_group,
 			gnome_canvas_line_get_type (),
-			"points",        so->points,
+			"points",        so->bbox_points,
 			"fill_color",    sog->color->str,
 			"width_pixels",  sog->width,
 			"arrow_shape_a", 8.0,
@@ -73,13 +72,13 @@ sheet_object_graphic_update (SheetObject *sheet_object, gdouble to_x, gdouble to
 	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (sheet_object);
 	GList *l;
 	
-	sheet_object->points->coords [2] = (gdouble) to_x;
-	sheet_object->points->coords [3] = (gdouble) to_y;
+	sheet_object->bbox_points->coords [2] = (gdouble) to_x;
+	sheet_object->bbox_points->coords [3] = (gdouble) to_y;
 
 	for (l = sheet_object->realized_list; l; l = l->next){
 		GnomeCanvasItem *item = l->data;
 
-		gnome_canvas_item_set (item, "points", sheet_object->points, NULL);
+		gnome_canvas_item_set (item, "points", sheet_object->bbox_points, NULL);
 	}
 }
 
@@ -87,10 +86,13 @@ static void
 sheet_object_graphic_class_init (GtkObjectClass *object_class)
 {
 	SheetObjectClass *sheet_object_class = SHEET_OBJECT_CLASS (object_class);
+
 	sheet_object_graphic_parent_class = gtk_type_class (sheet_object_get_type ());
 
+	/* Object class method overrides */
 	object_class->destroy = sheet_object_graphic_destroy;
-	
+
+	/* SheetObject class method overrides */
 	sheet_object_class->realize = sheet_object_graphic_realize;
 	sheet_object_class->update = sheet_object_graphic_update;
 }
@@ -141,11 +143,10 @@ sheet_object_create_line (Sheet *sheet, int is_arrow,
 	sheet_object_construct (so, sheet);
 
 	sog->type = is_arrow ? SHEET_OBJECT_ARROW : SHEET_OBJECT_LINE;
-	so->points = gnome_canvas_points_new (2);
-	so->points->coords [0] = (gdouble) x1;
-	so->points->coords [1] = (gdouble) y1;
-	so->points->coords [2] = (gdouble) x2;
-	so->points->coords [3] = (gdouble) y2;
+	so->bbox_points->coords [0] = (gdouble) x1;
+	so->bbox_points->coords [1] = (gdouble) y1;
+	so->bbox_points->coords [2] = (gdouble) x2;
+	so->bbox_points->coords [3] = (gdouble) y2;
 	sog->color = string_get (color);
 	sog->width = w;
 	
@@ -171,49 +172,39 @@ sheet_object_filled_realize (SheetObject *so, SheetView *sheet_view)
 	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (so);
 	SheetObjectFilled  *sof = SHEET_OBJECT_FILLED (so);
 	GnomeCanvasItem *item = NULL;
-
+	double *c;
+	GtkType type;
+	
 	g_return_val_if_fail (so != NULL, NULL);
 	g_return_val_if_fail (sheet_view != NULL, NULL);
 
 	switch (sog->type){
-	case SHEET_OBJECT_RECTANGLE: {
-		double *c = so->points->coords;
-
-		item = gnome_canvas_item_new (
-			sheet_view->object_group,
-			gnome_canvas_rect_get_type (),
-			"x1",            MIN (c [0], c [2]),
-			"y1",            MIN (c [1], c [3]),
-			"x2",            MAX (c [0], c [2]),
-			"y2",            MAX (c [1], c [3]),
-			"fill_color",    sof->fill_color ?
-			sof->fill_color->str : NULL,
-			"outline_color", sog->color->str,
-			"width_pixels",  sog->width,
-			NULL);
+	case SHEET_OBJECT_RECTANGLE:
+		type = gnome_canvas_rect_get_type ();
 		break;
-	}
 
-	case SHEET_OBJECT_ELLIPSE: {
-		double *c = so->points->coords;
-		
-		item = gnome_canvas_item_new (
-			sheet_view->object_group,
-			gnome_canvas_ellipse_get_type (),
-			"x1",            MIN (c [0], c [2]),
-			"y1",            MIN (c [1], c [3]),
-			"x2",            MAX (c [0], c [2]),
-			"y2",            MAX (c [1], c [3]),
-			"fill_color",    sof->fill_color ? sof->fill_color->str : NULL,
-			"outline_color", sog->color->str,
-			"width_pixels",  sog->width,
-			NULL);
+	case SHEET_OBJECT_ELLIPSE:
+		type = gnome_canvas_ellipse_get_type ();
 		break;
-	}
 
 	default:
+		type = 0;
 		g_assert_not_reached ();
 	}
+
+	c = so->bbox_points->coords;	
+
+	item = gnome_canvas_item_new (
+		sheet_view->object_group,
+		type,
+		"x1",            c [0] = MIN (c [0], c [2]),
+		"y1",            c [1] = MIN (c [1], c [3]),
+		"x2",            c [2] = MAX (c [0], c [2]),
+		"y2",            c [3] = MAX (c [1], c [3]),
+		"fill_color",    sof->fill_color ? sof->fill_color->str : NULL,
+		"outline_color", sog->color->str,
+		"width_pixels",  sog->width,
+		NULL);
 
 	return item;
 }
@@ -224,10 +215,10 @@ sheet_object_filled_update (SheetObject *sheet_object, gdouble to_x, gdouble to_
 	double x1, x2, y1, y2;
 	GList *l;
 	
-	x1 = MIN (sheet_object->points->coords [0], to_x);
-	x2 = MAX (sheet_object->points->coords [0], to_x);
-	y1 = MIN (sheet_object->points->coords [1], to_y);
-	y2 = MAX (sheet_object->points->coords [1], to_y);
+	x1 = MIN (sheet_object->bbox_points->coords [0], to_x);
+	x2 = MAX (sheet_object->bbox_points->coords [0], to_x);
+	y1 = MIN (sheet_object->bbox_points->coords [1], to_y);
+	y2 = MAX (sheet_object->bbox_points->coords [1], to_y);
 
 	for (l = sheet_object->realized_list; l; l = l->next){
 		GnomeCanvasItem *item = l->data;
@@ -277,11 +268,10 @@ sheet_object_create_filled (Sheet *sheet, int type,
 	sog = SHEET_OBJECT_GRAPHIC (so);
 	
 	sog->type = type;
-	so->points = gnome_canvas_points_new (2);
-	so->points->coords [0] = x1;
-	so->points->coords [1] = y1;
-	so->points->coords [2] = x2;
-	so->points->coords [3] = y2;
+	so->bbox_points->coords [0] = x1;
+	so->bbox_points->coords [1] = y1;
+	so->bbox_points->coords [2] = x2;
+	so->bbox_points->coords [3] = y2;
 	sog->width = w;
 	sof->pattern = 0;
 

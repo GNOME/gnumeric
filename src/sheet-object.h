@@ -18,7 +18,7 @@ typedef struct {
 	int        dragging;
 
 	/* Bounding box */
-	GnomeCanvasPoints *points;
+	GnomeCanvasPoints *bbox_points;
 } SheetObject;
 
 typedef struct {
@@ -27,6 +27,7 @@ typedef struct {
 	/* Virtual methods */
 	GnomeCanvasItem *(*realize) (SheetObject *sheet_object, SheetView *sheet_view);
 	void             (*update)  (SheetObject *sheet_object, gdouble x, gdouble y);
+	void   (*creation_finished) (SheetObject *sheet_object);
 } SheetObjectClass;
 
 GtkType sheet_object_get_type  (void);
@@ -58,12 +59,12 @@ void             sheet_object_make_current   (Sheet *sheet,
 void             sheet_object_register       (Sheet *sheet,
 					      SheetObject *object);
 
-SheetObject *sheet_object_create_line        (Sheet *sheet,   int is_arrow,
+SheetObject     *sheet_object_create_line    (Sheet *sheet,   int is_arrow,
 					      double x1,      double y1,
 					      double x2,      double y2,
 					      char    *color, int width);
 
-SheetObject *sheet_object_create_filled      (Sheet *sheet, int type,
+SheetObject     *sheet_object_create_filled  (Sheet *sheet, int type,
 					      double x1, double y1,
 					      double x2, double y2,
 					      char *fill_color, char *outline_color,
