@@ -151,6 +151,8 @@ GNUMERIC_BASE_SOURCES =				\
 	print-cell.h				\
 	print-info.c				\
 	print-info.h				\
+	rangefunc.c				\
+	rangefunc.h				\
 	ranges.c				\
 	ranges.h				\
 	regression.c				\

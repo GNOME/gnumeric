@@ -38,36 +38,6 @@ double gnumeric_fake_ceil (double x);
 double gnumeric_fake_round (double x);
 double gnumeric_fake_trunc (double x);
 
-int range_sum (const gnum_float *xs, int n, gnum_float *res);
-int range_product (const gnum_float *xs, int n, gnum_float *res);
-int range_multinomial (const gnum_float *xs, int n, gnum_float *res);
-
-int range_sumsq (const gnum_float *xs, int n, gnum_float *res);
-int range_avedev (const gnum_float *xs, int n, gnum_float *res);
-
-int range_average (const gnum_float *xs, int n, gnum_float *res);
-int range_harmonic_mean (const gnum_float *xs, int n, gnum_float *res);
-int range_geometric_mean (const gnum_float *xs, int n, gnum_float *res);
-
-int range_min (const gnum_float *xs, int n, gnum_float *res);
-int range_max (const gnum_float *xs, int n, gnum_float *res);
-
-int range_devsq (const gnum_float *xs, int n, gnum_float *res);
-int range_var_pop (const gnum_float *xs, int n, gnum_float *res);
-int range_var_est (const gnum_float *xs, int n, gnum_float *res);
-int range_stddev_pop (const gnum_float *xs, int n, gnum_float *res);
-int range_stddev_est (const gnum_float *xs, int n, gnum_float *res);
-int range_skew_pop (const gnum_float *xs, int n, gnum_float *res);
-int range_skew_est (const gnum_float *xs, int n, gnum_float *res);
-int range_kurtosis_m3_pop (const gnum_float *xs, int n, gnum_float *res);
-int range_kurtosis_m3_est (const gnum_float *xs, int n, gnum_float *res);
-
-int range_covar (const gnum_float *xs, const gnum_float *ys, int n, gnum_float *res);
-int range_correl_pop (const gnum_float *xs, const gnum_float *ys, int n, gnum_float *res);
-int range_correl_est (const gnum_float *xs, const gnum_float *ys, int n, gnum_float *res);
-int range_rsq_pop (const gnum_float *xs, const gnum_float *ys, int n, gnum_float *res);
-int range_rsq_est (const gnum_float *xs, const gnum_float *ys, int n, gnum_float *res);
-
 /* ------------------------------------------------------------------------- */
 
 double bessel_i (double x, double alpha, double expo);
@@ -137,15 +107,15 @@ double random_normal      (void);
 
 /* Matrix functions. */
 gnum_float mdeterm (gnum_float *A, int dim);
-int     minverse(gnum_float *A, int dim, gnum_float *res);
-void    mmult   (gnum_float *A, gnum_float *B, int cols_a, int rows_a, int cols_b,
-		 gnum_float *product);
+int     minverse (gnum_float *A, int dim, gnum_float *res);
+void    mmult (gnum_float *A, gnum_float *B, int cols_a, int rows_a, int cols_b,
+	       gnum_float *product);
 
 /* ------------------------------------------------------------------------- */
 
 /* Misc. */
 gnum_float     gpow10 (int n);
-int         gcd    (int a, int b);
+int            gcd    (int a, int b);
 gnum_float     combin (int n, int k);
 gnum_float     fact   (int n);
 

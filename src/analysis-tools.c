@@ -2,8 +2,8 @@
  * analysis-tools.c:
  *
  * Authors:
- *  Jukka-Pekka Iivonen <iivonen@iki.fi>
- *  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+ *   Jukka-Pekka Iivonen <iivonen@iki.fi>
+ *   Andreas J. Guelzow  <aguelzow@taliesin.ca>
  *
  * (C) Copyright 2000 by Jukka-Pekka Iivonen <iivonen@iki.fi>
  *
@@ -15,6 +15,7 @@
 #include <string.h>
 #include <math.h>
 #include "mathfunc.h"
+#include "rangefunc.h"
 #include "numbers.h"
 #include "gnumeric.h"
 #include "gnumeric-util.h"
@@ -591,52 +592,6 @@ set_italic (data_analysis_output_t *dao, int col1, int row1,
 	sheet_style_apply_range (dao->sheet, &range, mstyle);
 }
 
-/* This function exists also in fn-stat.c */
-/* One copy ought to suffice.             */
-
-static void
-cb_range_mode (gpointer key, gpointer value, gpointer user_data)
-{
-	g_free (value);
-}
-static int
-range_mode (const gnum_float *xs, int n, gnum_float *res)
-{
-	GHashTable *h;
-	int i;
-	gnum_float mode = 0;
-	int dups = 0;
-
-	if (n <= 1) return 1;
-
-	h = g_hash_table_new ((GHashFunc)float_hash,
-			      (GCompareFunc)float_equal);
-	for (i = 0; i < n; i++) {
-		int *pdups = g_hash_table_lookup (h, &xs[i]);
-
-		if (pdups)
-			(*pdups)++;
-		else {
-			pdups = g_new (int, 1);
-			*pdups = 1;
-			g_hash_table_insert (h, (gpointer)(&xs[i]), pdups);
-		}
-
-		if (*pdups > dups) {
-			dups = *pdups;
-			mode = xs[i];
-		}
-	}
-	g_hash_table_foreach (h, cb_range_mode, NULL);
-	g_hash_table_destroy (h);
-
-	if (dups <= 1)
-		return 1;
-
-	*res = mode;
-	return 0;
-}
-
 static int
 get_labels_n_data (Sheet *sheet, GPtrArray  *labels, GPtrArray  *data,
 		  Range *range, int columns_flag,
@@ -755,7 +710,7 @@ correlation_tool (WorkbookControl *wbc, Sheet *sheet,
 					set_cell (dao, col + 1, row + 1, NULL);
 				} else {
 					the_col = g_ptr_array_index (data, col);
-					the_row = g_ptr_array_index (data,row);
+					the_row = g_ptr_array_index (data, row);
 
 					error =  range_correl_pop
 						((gnum_float *)(the_col->data),
@@ -830,7 +785,7 @@ covariance_tool (WorkbookControl *wbc, Sheet *sheet,
 					set_cell (dao, col + 1, row + 1, NULL);
 				} else {
 					the_col = g_ptr_array_index (data, col);
-					the_row = g_ptr_array_index (data,row);
+					the_row = g_ptr_array_index (data, row);
 
 					error =  range_covar
 						((gnum_float *)(the_col->data),
@@ -867,28 +822,6 @@ covariance_tool (WorkbookControl *wbc, Sheet *sheet,
  * sheet, in a new workbook, or simply into an existing sheet.
  *
  **/
-
-/*  FIXME:  */
-/*  The same function range_excel_median is also defined in fn-stat.c. */
-/*  These functions should probably be moved to math-func.c rather than */
-/*  having them in two spots. */
-
-static int
-range_excel_median (const gnum_float *xs, int n, gnum_float *res)
-{
-	if (n > 0) {
-		/* OK, so we ignore the constness here.  Tough.  */
-		qsort ((gnum_float *) xs, n, sizeof (xs[0]),
-		       (void *) &float_compare);
-		if (n & 1)
-			*res = xs[n / 2];
-		else
-			*res = (xs[n / 2 - 1] + xs[n / 2]) / 2;
-		return 0;
-	} else
-		return 1;
-}
-
 
 
 static void
@@ -953,7 +886,7 @@ summary_statistics (WorkbookControl *wbc, GPtrArray *data, GPtrArray* labels,
 		}
 
 		/* Median */
-		error = range_excel_median (the_data, the_col_len, &x);
+		error = range_median_inter (the_data, the_col_len, &x);
 		if (error == 0) {
 			set_cell_float (dao, col + 1, 3, x);
 		} else {
@@ -962,7 +895,7 @@ summary_statistics (WorkbookControl *wbc, GPtrArray *data, GPtrArray* labels,
 
 		/* Mode */
 
-		error = range_mode((gnum_float *)(the_col->data), the_col->len, &x);
+		error = range_mode (the_data, the_col_len, &x);
 		if (error == 0) {
 			set_cell_float (dao, col + 1, 4, x);
 		} else {

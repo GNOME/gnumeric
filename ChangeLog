@@ -1,3 +1,8 @@
+2001-07-27  Morten Welinder  <terra@diku.dk>
+
+	* src/rangefunc.c, src/rangefunc.h: new files, contents taken from
+ 	mathfunc.c among other places.
+
 2001-07-27   Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/analysis-tools.c (correlation_tool) Rewrite to use standard
