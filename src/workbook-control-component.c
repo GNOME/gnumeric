@@ -15,6 +15,8 @@
 
 static char *
 wbcc_get_password (CommandContext *cc, char const* msg) { return NULL; }
+static void
+wbcc_set_sensitive (CommandContext *wbc, gboolean sensitive) {}
 
 static void
 wbcc_progress_set (CommandContext *cc, gfloat val) {}
@@ -96,9 +98,6 @@ wbcc_edit_selection_descr_set (WorkbookControl *wbc, char const *text) {}
 static void
 wbcc_edit_set_sensitive (WorkbookControl *wbc,
 			 gboolean ok_cancel_flag, gboolean func_guru_flag) {}
-
-static void
-wbcc_set_sensitive (WorkbookControl *wbc, gboolean sensitive) {}
 
 static void
 wbcc_auto_expr_value (WorkbookControl *wbc) {}

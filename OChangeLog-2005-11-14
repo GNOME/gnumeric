@@ -1,5 +1,7 @@
 2002-08-14  Jody Goldberg <jody@gnome.org>
 
+	* src/workbook-control-component.c (wbcc_set_sensitive) : fix warning.
+
 	* src/rendered-value.c (rendered_value_calc_size_ext) : some utf8
 	  cleanliness.  Should probably use pango layout directly ?
 
