@@ -7,4 +7,5 @@ INCLUDES = -I$(top_srcdir) 					\
 	    $(GNUMERIC_CFLAGS)
 
 #libgoffice_utils_a_SOURCES = \
-#	go-units.h
+#	go-units.h	\
+#	go-color.h

@@ -1,1 +1,1 @@
-SUBDIRS = graph
+SUBDIRS = graph utils

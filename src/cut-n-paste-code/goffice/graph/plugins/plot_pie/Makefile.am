@@ -3,7 +3,6 @@ INCLUDES = \
     -I$(top_srcdir)/src	-I$(top_builddir)/src	\
     -I$(top_srcdir)	-I$(top_builddir)	\
     -I$(top_srcdir)/src/cut-n-paste-code		\
-    -I$(top_srcdir)/src/cut-n-paste-code/foocanvas	\
     $(GNUMERIC_CFLAGS)
 
 goffice_graph_piedir = $(gnumeric_plugindir)/plot_pie
@@ -15,8 +14,7 @@ pie_la_LDFLAGS = -module -avoid-version
 pie_la_SOURCES = \
 	gog-plot-pie.c		\
 	gog-plot-pie.h		\
-	gog-plot-pie-pref.c	\
-	gog-canvas-plot-pie.c
+	gog-plot-pie-pref.c
 
 xml_in_files = plugin.xml.in plot-types.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml) gog-plot-pie-pref.glade

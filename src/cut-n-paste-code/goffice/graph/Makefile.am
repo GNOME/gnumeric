@@ -1,4 +1,4 @@
-SUBDIRS = #plugins tests
+SUBDIRS = plugins # tests
 
 noinst_LIBRARIES = libgoffice-graph.a
 
