@@ -14,7 +14,8 @@ sheet_init_dummy_stuff (Sheet *sheet)
 	c.pixels     = 0;
 	c.margin_a   = 0;
 	c.margin_b   = 0;
-
+	c.selected   = 0;
+	
 	sheet->default_col_style = c;
 
 	/* Initialize some of the columns */
@@ -34,6 +35,7 @@ sheet_init_dummy_stuff (Sheet *sheet)
 	sheet->default_row_style.pixels   = 0;
 	sheet->default_row_style.margin_a = 0;
 	sheet->default_row_style.margin_b = 0;
+	sheet->default_row_style.selected = 0;
 
 	for (y = 0; y < 6; y += 2){
 		rp = g_new0 (ColRowInfo, 1);
@@ -41,6 +43,7 @@ sheet_init_dummy_stuff (Sheet *sheet)
 		*rp = sheet->default_row_style;
 		rp->pos = y;
 		rp->units = (20 * (y + 1));
+		rp->selected = 1;
 		sheet->rows_info = g_list_append (sheet->rows_info, rp);
 	}
 }

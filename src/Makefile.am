@@ -25,6 +25,7 @@ gnumeric_SOURCES =		\
 	main.c			\
 	sheet.c			\
 	sheet.h			\
+	style.c			\
 	style.h			\
 	workbook.c
 

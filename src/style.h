@@ -10,6 +10,7 @@ typedef struct {
 typedef struct {
 	int      ref_count;
 	char     *font_name;
+	int      units;
 	GdkFont  *font;
 } StyleFont;
 
@@ -76,5 +77,30 @@ typedef struct {
 	unsigned int valign:4;
 	unsigned int orientation:4;
 } Style;
+
+void           style_init (void);
+Style         *style_new (void);
+
+StyleFormat   *style_format_new       (char *name);
+void           style_format_ref       (StyleFormat *sf);
+void           style_format_unref     (StyleFormat *sf);
+				      
+StyleFont     *style_font_new         (char *font_name, int units);
+void           style_font_ref         (StyleFont *sf);
+void           style_font_unref       (StyleFont *sf);
+
+StyleBorder   *style_border_new_plain (void);
+void           style_border_ref       (StyleBorder *sb);
+void           style_border_unref     (StyleBorder *sb);
+StyleBorder   *style_border_new       (StyleBorderType left,
+				       StyleBorderType right,
+				       StyleBorderType top,
+				       StyleBorderType bottom,
+				       GdkColor *left_color,
+				       GdkColor *right_color,
+				       GdkColor *top_color,
+				       GdkColor *bottom_color);
+
+
 
 #endif /* GNUMERIC_STYLE_H */

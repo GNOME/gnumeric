@@ -7,7 +7,7 @@
 
 /* The signals we emit */
 enum {
-	ITEM_BAR_TEST,
+	ITEM_BAR_COLUMN_CLICKED,
 	ITEM_BAR_LAST_SIGNAL
 };
 static guint item_bar_signals [ITEM_BAR_LAST_SIGNAL] = { 0 };
@@ -104,16 +104,26 @@ get_col_name (int n)
 }
 
 static void
-bar_draw_cell (ItemBar *item_bar, GdkDrawable *drawable, char *str, int x1, int y1, int x2, int y2)
+bar_draw_cell (ItemBar *item_bar, GdkDrawable *drawable, ColRowInfo *info, char *str, int x1, int y1, int x2, int y2)
 {
 	GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (item_bar)->canvas);
 	GdkFont *font = canvas->style->font;
-	int len, texth;
-	
+	GdkGC *gc;
+	int len, texth, shadow;
+
 	len = gdk_string_width (font, str);
 	texth = gdk_string_height (font, str);
 
-	gtk_draw_shadow (canvas->style, drawable, GTK_STATE_NORMAL, GTK_SHADOW_OUT, 
+	if (info->selected){
+		shadow = GTK_SHADOW_IN;
+		gc = canvas->style->dark_gc [GTK_STATE_NORMAL];
+	} else {
+		shadow = GTK_SHADOW_OUT;
+		gc = canvas->style->bg_gc [GTK_STATE_ACTIVE];
+	}
+
+	gdk_draw_rectangle (drawable, gc, TRUE, x1 + 1, y1 + 1, x2-x1-2, y2-y1-2);
+	gtk_draw_shadow (canvas->style, drawable, GTK_STATE_NORMAL, shadow, 
 			 x1, y1, x2-x1, y2-y1);
 	gdk_draw_string (drawable, font, item_bar->gc, x1 + ((x2 - x1)-len)/2,
 			 y2 - font->descent,
@@ -145,7 +155,7 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 			pixels = ri->pixels;
 			if (total+pixels >= y){
 				str = get_row_name (element);
-				bar_draw_cell (item_bar, drawable, str,
+				bar_draw_cell (item_bar, drawable, ri, str,
 						  -x, 1 + total - y,
 						  item->canvas->width - x,
 						  1 + total + pixels - y);
@@ -155,7 +165,7 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 			pixels = ci->pixels;
 			if (total+pixels >= x){
 				str = get_col_name (element);
-				bar_draw_cell (item_bar, drawable, str, 
+				bar_draw_cell (item_bar, drawable, ci, str, 
 						  1 + total - x, -y,
 						  1 + total + pixels - x,
 						  item->canvas->height - y);
@@ -185,7 +195,7 @@ static int
 is_pointer_on_division (ItemBar *item_bar, int pos)
 {
 	ColRowInfo *cri;
-	int i, total, pixels;
+	int i, total;
 	
 	total = 0;
 	
@@ -234,6 +244,13 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *event)
 		else
 			pos = event->motion.x;
 		set_cursor (item_bar, pos);
+		break;
+
+	case GDK_BUTTON_PRESS:
+		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL)
+			pos = event->button.y;
+		else
+			pos = event->button.x;
 		break;
 	default:
 		return FALSE;

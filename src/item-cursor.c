@@ -86,7 +86,7 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 	int cursor_width, cursor_height;
 	GdkPoint points [40];
 	int draw_external, draw_internal, draw_handle, draw_center;
-	int remove;
+	int premove;
 	
 	item_cursor_get_pixel_coords (item_cursor, &xd, &yd,
 				      &cursor_width, &cursor_height);
@@ -117,20 +117,20 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 	};
 
 	if (draw_handle)
-		remove = 5;
+		premove = 5;
 	else
-		remove = 0;
+		premove = 0;
 
 	if (draw_external){
 		points [0].x = dx + cursor_width + 1;
-		points [0].y = dy + cursor_height + 1 - remove;
+		points [0].y = dy + cursor_height + 1 - premove;
 		points [1].x = points [0].x;
 		points [1].y = dy - 1;
 		points [2].x = dx - 1;
 		points [2].y = dy - 1;
 		points [3].x = dx - 1;
 		points [3].y = dy + cursor_height + 1;
-		points [4].x = dx + cursor_width + 1 - remove;
+		points [4].x = dx + cursor_width + 1 - premove;
 		points [4].y = points [3].y;
 		gdk_draw_lines (drawable, item_cursor->gc, points, 5);
 	}

@@ -37,6 +37,8 @@ typedef struct {
 	int        margin_a;  		/* in pixels: top/left margin */
 	int        margin_b; 		/* in pixels: bottom/right margin */
 	int        pixels;		/* we compute this from the above parameters */
+
+	unsigned   int selected:1;	/* is this selected? */
 } ColRowInfo;
 
 typedef struct {
