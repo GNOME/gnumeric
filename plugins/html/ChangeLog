@@ -1,5 +1,9 @@
 2001-08-17  Morten Welinder <terra@diku.dk>
 
+	* html.c (html_get_string): Eliminate bogus use of strstr.
+
+2001-08-17  Morten Welinder <terra@diku.dk>
+
 	* html.c (html_fprintf): Use fputc.  Don't do anything special for
  	single quote.
 	(html32_file_save): Add type to STYLE element.

@@ -349,6 +349,13 @@ html40_file_save (GnumFileSaver const *fs, IOContext *io_context,
 	fclose (fp);
 }
 
+static int
+has_prefix (const char *txt, const char *prefix)
+{
+	return strncmp (txt, prefix, strlen (prefix)) == 0;
+}
+
+
 #define HTML_BOLD	1
 #define HTML_ITALIC	2
 #define HTML_RIGHT	4
@@ -364,40 +371,40 @@ html_get_string (char const *s, int *flags, char const **last)
 	char const *p;
 	char *q;
 
-	buf[0] = buf[LINESIZE-1] = '\0';
+	buf[0] = buf[LINESIZE - 1] = '\0';
 	if (!s)
 		return NULL;
 	q = buf;
 	p = s;
 	while (*p) {
 		if (*p == '<') {
-			if (!strncasecmp (p+1, "/td>", 4)) {
+			if (!strncasecmp (p + 1, "/td>", 4)) {
 				p += 5;
 				break;
 			}
-			if (p [2] == '>') {
-				if (tolower ((unsigned char)p[1]) == 'i')
+			if (p[2] == '>') {
+				if (p[1] == 'i' || p[1] == 'I')
 					*flags |= HTML_ITALIC;
-				else if (tolower ((unsigned char)p[1]) == 'b')
+				else if (p[1] == 'b' || p[1] == 'B')
 					*flags |= HTML_BOLD;
 			}
 			p = strchr (p, '>');
 			if (p == NULL)
 				break;
 		} else if (*p == '&') {
-			if (strstr (p, "&lt;")) {
+			if (has_prefix (p, "&lt;")) {
 				*q++ = '<';
 				p += 3;
-			} else if (strstr (p, "&gt;")) {
+			} else if (has_prefix (p, "&gt;")) {
 				*q++ = '>';
 				p += 3;
-			} else if (strstr (p, "&amp;")) {
+			} else if (has_prefix (p, "&amp;")) {
 				*q++ = '&';
 				p += 4;
-			} else if (strstr (p, "&apos;")) {
+			} else if (has_prefix (p, "&apos;")) {
 				*q++ = '\'';
 				p += 5;
-			} else if (strstr (p, "&quot;")) {
+			} else if (has_prefix (p, "&quot;")) {
 				*q++ = '\"';
 				p += 5;
 			} else {
@@ -426,7 +433,7 @@ findtag (char const *buf, char const *tag)
 
 	--buf;
 	do {
-		buf = strchr (buf+1, '<');
+		buf = strchr (buf + 1, '<');
 	} while (buf != NULL && strncasecmp (buf, tag, n));
 	return buf;
 }
@@ -471,16 +478,16 @@ quick_hack :
 		if (NULL != (p = findtag (ptr, "<TABLE"))) {
 			sheet = workbook_sheet_add (wb, NULL, FALSE);
 			row = -1;
-			ptr = strchr (p+6, '>');
+			ptr = strchr (p + 6, '>');
 			goto quick_hack;
 		} else if (NULL != (p = findtag (ptr, "</TABLE>"))) {
 			sheet = NULL;
-			ptr = strchr (p+7, '>');
+			ptr = strchr (p + 7, '>');
 			goto quick_hack;
 		} else if (NULL != (p = findtag (ptr, "<TR"))) {
 			row++;
 			col = 0;
-			ptr = strchr (p+3, '>');
+			ptr = strchr (p + 3, '>');
 			goto quick_hack;
 		} else if (NULL != (p = findtag (ptr, "<TD"))) {
 			/* process table data .. */
@@ -493,7 +500,7 @@ quick_hack :
 						p++;
 						break;
 					}
-					if ((*p == ' ') && (*(p+1) != '>')) {
+					if (*p == ' ' && p[1] != '>') {
 						p++;
 						if (strncasecmp (p, "align=", 6) == 0) {
 							p += 6;
