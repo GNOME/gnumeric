@@ -44,6 +44,7 @@
 #include <gtk/gtkcheckbutton.h>
 #include <gtk/gtktreeselection.h>
 #include <gtk/gtkcellrendererpixbuf.h>
+#include <gtk/gtkliststore.h>
 
 #include <string.h>
 
