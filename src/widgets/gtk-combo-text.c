@@ -6,20 +6,12 @@
 
 static GtkObjectClass *gtk_combo_text_parent_class;
 
-static gboolean
-elements_free (gpointer	key, gpointer value, gpointer user_data)
-{
-	g_free (key);
-	return TRUE;
-}
-
 static void
 gtk_combo_text_destroy (GtkObject *object)
 {
 	GtkComboText *ct = GTK_COMBO_TEXT (object);
 
 	if (ct->elements != NULL) {
-		g_hash_table_foreach_remove (ct->elements, &elements_free, NULL);
 		g_hash_table_destroy (ct->elements);
 		ct->elements = NULL;
 	}
@@ -38,7 +30,6 @@ static void
 gtk_combo_text_init (GtkComboText *object)
 {
 }
-
 
 GtkType
 gtk_combo_text_get_type (void)
@@ -127,10 +118,8 @@ gtk_combo_text_add_item (GtkComboText *ct,
 	listitem = gtk_list_item_new_with_label (item);
 	gtk_widget_show (listitem);
 
-#if 0
 	gtk_object_set_data_full (GTK_OBJECT (listitem), "value",
 				  value_copy, g_free);
-#endif
 	gtk_signal_connect (GTK_OBJECT (listitem), "select",
 			    GTK_SIGNAL_FUNC (list_select_cb),
 			    (gpointer) ct);
