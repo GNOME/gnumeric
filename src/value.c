@@ -502,20 +502,20 @@ value_get_as_string (Value const *v)
 
 		for (y = 0; y < v->v_array.y; y++){
 			for (x = 0; x < v->v_array.x; x++){
-				Value const *v = v->v_array.vals [x][y];
+				Value const *val = v->v_array.vals [x][y];
 
-				g_return_val_if_fail (v->type == VALUE_STRING ||
-						      v->type == VALUE_FLOAT ||
-						      v->type == VALUE_INTEGER,
+				g_return_val_if_fail (val->type == VALUE_STRING ||
+						      val->type == VALUE_FLOAT ||
+						      val->type == VALUE_INTEGER,
 						      "Duff Array contents");
 				if (x)
 					g_string_append_c (str, row_sep);
-				if (v->type == VALUE_STRING)
+				if (val->type == VALUE_STRING)
 					g_string_sprintfa (str, "\"%s\"",
-							   v->v_str.val->str);
+							   val->v_str.val->str);
 				else
 					g_string_sprintfa (str, "%g",
-							   value_get_as_float (v));
+							   value_get_as_float (val));
 			}
 			if (y < v->v_array.y-1)
 				g_string_append_c (str, col_sep);

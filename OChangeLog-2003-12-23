@@ -1,3 +1,7 @@
+2001-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* src/value.c (value_get_as_string) : fix long standing var alias.
+
 2001-10-29  Morten Welinder  <terra@diku.dk>
 
 	* src/eval.c (add_range_dep): Fix for large ranges.
