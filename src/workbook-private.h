@@ -106,6 +106,7 @@ struct _WorkbookPrivate {
 	GtkWidget  *menu_item_redo;
 	GtkWidget  *menu_item_paste_special;
 #endif
+	gboolean    updating_toolbar;
 };
 
 WorkbookPrivate *workbook_private_new (void);

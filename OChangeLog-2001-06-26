@@ -1,5 +1,21 @@
 2000-10-10  Jody Goldberg <jgoldberg@home.com>
 
+	* src/workbook-private.c (workbook_private_init) : Init the
+	  updating_toolbar flag.
+
+	* src/workbook-format-toolbar.c (set_selection_halign) : Use the
+	  updating toolbar flag so that the bonobo version (which does not
+	  disable the callbacks) works correctly.
+	(change_selection_font) : Ditto.
+	(workbook_format_toolbutton_update) : Remove the hackish static and use a real flag.
+
+	* src/gnumeric.xml : Update for the new bonobo.
+
+	* configure.in (AM_INIT_AUTOMAKE) : follow new protocol and bump
+	  version immediately after release rather than before.
+
+2000-10-10  Jody Goldberg <jgoldberg@home.com>
+
         * Release 0.57
 
 2000-10-10  Jody Goldberg <jgoldberg@home.com>

@@ -4,79 +4,79 @@
 		<submenu name="File" _label="_File">
         
 			<menuitem name="FileNew" verb="" _label="_New"
-			_descr="Create a new spreadsheet"
+			_tip="Create a new spreadsheet"
 			pixtype="stock" pixname="Menu_New"/>
         
 			<menuitem name="FileOpen" verb="" _label="_Open..."
-			_descr="Open a file"
+			_tip="Open a file"
 			pixtype="stock" pixname="Menu_Open" accel="F3"/>
 	
 			<menuitem name="FileImport" verb="" _label="_Import..."
-			_descr="Imports a file"
+			_tip="Imports a file"
 			pixtype="stock" pixname="Menu_Open"/>
 
 			<menuitem name="FileSave" verb="" _label="_Save"
-			_descr="Save the current file" pixtype="stock" pixname="Menu_Save"
+			_tip="Save the current file" pixtype="stock" pixname="Menu_Save"
 			accel="*Control*s"/>
 	
 			<menuitem name="FileSaveAs" verb="" _label="Save _As..."
-			_descr="Save the current file with a different name"
+			_tip="Save the current file with a different name"
 			pixtype="stock" pixname="Menu_Save As"/>
 			<menuitem/>
 
 			<menuitem name="FilePrintSetup" verb=""
 			_label="Print S_etup..."
-			_descr="Setup the page settings for your current printer"
+			_tip="Setup the page settings for your current printer"
 			pixtype="stock" pixname="Menu_Print"/>
 	
 			<menuitem name="FilePrint" verb="" _label="_Print"
-			_descr="Print the current file" pixtype="stock"
+			_tip="Print the current file" pixtype="stock"
 			pixname="Menu_Print"/>
 	
 			<menuitem name="FilePrintPreview" verb="" _label="Print Pre_view"
-			_descr="Print the current file" pixtype="stock"
+			_tip="Print the current file" pixtype="stock"
 			pixname="Gnumeric_PrintPreview"/>
 
 			<menuitem/>
 
 			<menuitem name="FileSummary" verb="" _label="Su_mmary..."
-			_descr="Summary information"/>
+			_tip="Summary information"/>
 	
 			<placeholder name="FileHistory" delimit="both"/>
 
 			<menuitem name="FileClose" verb="" _label="_Close"
-			_descr="Close the current file" pixtype="stock" pixname="Menu_Close"
+			_tip="Close the current file" pixtype="stock" pixname="Menu_Close"
 			accel="*Control*w"/>
 	
-			<menuitem name="FileExit" verb="" _label="E_xit" _descr="Exit the program"
+			<menuitem name="FileExit" verb="" _label="E_xit" _tip="Exit the program"
 			pixtype="stock" pixname="Menu_Exit" accel="*Control*q"/>
 
 		</submenu>
 
 		<submenu name="Edit" _label="_Edit">
 
-			<menuitem name="Undo" verb="EditUndo" _label="_Undo" _descr="Undo the last action"
+			<menuitem name="Undo" verb="EditUndo" _label="_Undo" _tip="Undo the last action"
 			pixtype="stock" pixname="Menu_Undo" accel="*Control*z"/>
 	
-			<menuitem name="Redo" verb="EditRedo" _label="_Redo" _descr="Redo the undone action"
+			<menuitem name="Redo" verb="EditRedo" _label="_Redo" _tip="Redo the undone action"
 			pixtype="stock" pixname="Menu_Redo" accel="*Control*r"/>
 
 			<menuitem/>
 	
-			<menuitem name="EditCut" verb="" _label="C_ut" _descr="Cut the selection"
+			<menuitem name="EditCut" verb="" _label="C_ut" _tip="Cut the selection"
 			pixtype="stock" pixname="Menu_Cut" accel="*Control*x"/>
 	
 			<menuitem name="EditCopy" verb="" _label="_Copy"
-			_descr="Copy the selection" pixtype="stock" pixname="Menu_Copy"
+			_tip="Copy the selection" pixtype="stock" pixname="Menu_Copy"
 			accel="*Control*c"/>
 	
 			<menuitem name="EditPaste" verb="" _label="_Paste"
-			_descr="Paste the clipboard" pixtype="stock" pixname="Menu_Paste"
+			_tip="Paste the clipboard" pixtype="stock" pixname="Menu_Paste"
 			accel="*Control*v"/>
 	
 			<menuitem name="EditPasteSpecial" verb=""
 			_label="_Paste special..."
-			_descr="Paste with optional filters and transformations"
+			_tip="Paste with optional filters and transformations"
 			pixtype="stock" pixname="Menu_Paste"/>
 
 			<menuitem/>
@@ -85,31 +85,31 @@
 
 				<menuitem name="EditClearAll" verb=""
 				_label="_All"
-				_descr="Clear the selected cells' formats, comments, and contents"/>
+				_tip="Clear the selected cells' formats, comments, and contents"/>
 				
 				<menuitem name="EditClearFormats" verb=""
 				_label="_Formats"
-				_descr="Clear the selected cells' formats"/>
+				_tip="Clear the selected cells' formats"/>
 
 				<menuitem name="EditClearComments" verb=""
 				_label="Co_mments"
-				_descr="Clear the selected cells' comments"/>
+				_tip="Clear the selected cells' comments"/>
 
 				<menuitem name="EditClearContent" verb=""
 				_label="_Content"
-				_descr="Clear the selected cells' contents"/>
+				_tip="Clear the selected cells' contents"/>
 
 			</submenu>
 
 			<menuitem name="EditClear" verb="" _label="C_lear"
-			_descr="Clear the selection"/>
+			_tip="Clear the selection"/>
 
 			<menuitem name="EditDelete" verb="" _label="_Delete..."
-			_descr="Remove selected cells, shifting others into their place"/>
+			_tip="Remove selected cells, shifting others into their place"/>
 
 			<menuitem name="EditDeleteSheet" verb=""
 			_label="De_lete Sheet"
-			_descr="Irrevocably remove an entire sheet"/>
+			_tip="Irrevocably remove an entire sheet"/>
 
 			<menuitem/>
 
@@ -117,33 +117,33 @@
 
 				<menuitem name="EditSelectAll" verb=""
 				_label="Select _All" accel="*Control*a"
-				_descr="Select all cells in the spreadsheet"/>
+				_tip="Select all cells in the spreadsheet"/>
 
 				<menuitem name="EditSelectRow" verb=""
 				_label="Select _Row" accel="*Shift* "
-				_descr="Select an entire row"/>
+				_tip="Select an entire row"/>
 
 				<menuitem name="EditSelectColumn" verb=""
 				_label="Select _Column" accel="*Control* "
-				_descr="Select an entire column"/>
+				_tip="Select an entire column"/>
 
 				<menuitem name="EditSelectArray" verb=""
 				_label="Select Arra_y" accel="*Control*/"
-				_descr="Select an array of cells"/>
+				_tip="Select an array of cells"/>
 
 				<menuitem name="EditSelectDepends" verb=""
 				_label="Select _Depends"
-				_descr="Select all the cells that depend on the current edit cell"/>
+				_tip="Select all the cells that depend on the current edit cell"/>
 
 			</submenu>
 
 			<menuitem name="EditGoto" verb=""
 			_label="_Goto cell..."
-			_descr="Jump to a specified cell"/>
+			_tip="Jump to a specified cell"/>
 
 			<menuitem name="EditRecalc" verb=""
 			_label="_Recalculate"
-			_descr="Recalculate the spreadsheet" accel="F9"/>
+			_tip="Recalculate the spreadsheet" accel="F9"/>
 
 			<placeholder name="ops"/>
 
@@ -152,26 +152,26 @@
 		<submenu name="View" _label="_View">
 
 			<menuitem name="ViewZoom" verb="" _label="_Zoom..."
-			_descr="Zoom the spreadsheet in or out"/>
+			_tip="Zoom the spreadsheet in or out"/>
 
 		</submenu>
 
 		<submenu name="Insert" _label="_Insert">
 
 			<menuitem name="InsertSheet" verb=""
-			_label="_Sheet" _descr="Insert a new spreadsheet"/>
+			_label="_Sheet" _tip="Insert a new spreadsheet"/>
 
 			<menuitem name="InsertRows" verb=""
-			_label="_Rows" _descr="Insert new rows"/>
+			_label="_Rows" _tip="Insert new rows"/>
 
 			<menuitem name="InsertColumns" verb=""
-			_label="_Columns" _descr="Insert new columns"/>
+			_label="_Columns" _tip="Insert new columns"/>
 
 			<menuitem name="InsertCells" verb=""
-			_label="_Cells" _descr="Insert new cells"/>
+			_label="_Cells" _tip="Insert new cells"/>
 
 			<menuitem name="InsertObject" verb=""
-			_label="_Object" _descr="Inserts a Bonobo object"/>
+			_label="_Object" _tip="Inserts a Bonobo object"/>
 
 			<menuitem/>
 
@@ -184,18 +184,18 @@
 
 			<menuitem name="InsertComment" verb=""
 			_label="_Add / modify comment..."
-			_descr="Edit the selected cell's comment"/>
+			_tip="Edit the selected cell's comment"/>
 
 			<submenu name="Special" _label="S_pecial">
 
 				<menuitem name="Date" verb="InsertCurrentDate"
 				_label="Current _date"
-				_descr="Insert the current date into the selected cell(s)"
+				_tip="Insert the current date into the selected cell(s)"
 				accel="*Control*;"/>
 
 				<menuitem name="Time" verb="InsertCurrentTime"
 				_label="Current _time"
-				_descr="Insert the current time into the selected cell(s)"
+				_tip="Insert the current time into the selected cell(s)"
 				accel="*Control*:"/>
 
 			</submenu>
@@ -207,90 +207,90 @@
 
 			<menuitem name="FormatCells" verb=""
 			_label="_Cells..."
-			_descr="Modify the formatting of the selected cells"
+			_tip="Modify the formatting of the selected cells"
 			accel="*Control*1"/>
 
 			<submenu _label="C_olumn">
 				<menuitem name="AutoFit" verb="ColumnAutoSize"
 				_label="_Auto fit selection"
-				_descr="Ensure columns are just wide enough to display content" />
+				_tip="Ensure columns are just wide enough to display content" />
 
 				<menuitem name="Size" verb="ColumnSize"
 				_label="_Width..."
-				_descr="Change width of the selected columns" />
+				_tip="Change width of the selected columns" />
 
 				<menuitem name="Hide" verb="ColumnHide"
 				_label="_Hide"
-				_descr="Hide the selected columns" />
+				_tip="Hide the selected columns" />
 
 				<menuitem name="Unhide" verb="ColumnUnhide"
 				_label="_Unhide"
-				_descr="Make any hidden columns in the selection visible" />
+				_tip="Make any hidden columns in the selection visible" />
 
 				<menuitem name="Default" verb="ColumnDefaultSize"
 				_label="_Standard Width"
-				_descr="Change the default column width" />
+				_tip="Change the default column width" />
 			</submenu>
 
 			<submenu _label="_Row">
 				<menuitem name="AutoFit" verb="RowAutoSize"
 				_label="_Auto fit selection"
-				_descr="Ensure rows are just tall enough to display content" />
+				_tip="Ensure rows are just tall enough to display content" />
 
 				<menuitem name="Size" verb="RowSize"
 				_label="_Height..."
-				_descr="Change height of the selected rows" />
+				_tip="Change height of the selected rows" />
 
 				<menuitem name="Hide" verb="RowHide"
 				_label="_Hide"
-				_descr="Hide the selected rows" />
+				_tip="Hide the selected rows" />
 
 				<menuitem name="Unhide" verb="RowUnhide"
 				_label="_Unhide"
-				_descr="Make any hidden rows in the selection visible" />
+				_tip="Make any hidden rows in the selection visible" />
 
 				<menuitem name="Default" verb="RowDefaultSize"
 				_label="_Standard Height"
-				_descr="Change the default row height" />
+				_tip="Change the default row height" />
 			</submenu>
 
 			<submenu _label="_Sheet">
 				<menuitem name="SheetChangeName" verb=""
 				_label="_Change Name"
-				_descr="Edit the name of the current sheet" />
+				_tip="Edit the name of the current sheet" />
 
 				<menuitem name="SheetReorder" verb=""
 				_label="Re-_Order Sheets"
-				_descr="Change the order the sheets are displayed" />
+				_tip="Change the order the sheets are displayed" />
 
 				<menuitem name="SheetDisplayFormulas" verb="" type="toggle"
 				_label="Display _Formulas"
-				_descr="Display the value of a formula or the formula itself" />
+				_tip="Display the value of a formula or the formula itself" />
 
 				<menuitem name="SheetHideZeros" verb="" type="toggle"
 				_label="Hide _Zeros"
-				_descr="Toggle whether or not to display zeros as blanks" />
+				_tip="Toggle whether or not to display zeros as blanks" />
 
 				<menuitem name="SheetHideGridlines" verb="" type="toggle"
 				_label="Hide _Gridlines"
-				_descr="Toggle whether or not to display gridlines" />
+				_tip="Toggle whether or not to display gridlines" />
 
 				<menuitem name="SheetHideColHeader" verb="" type="toggle"
 				_label="Hide _Column Headers"
-				_descr="Toggle whether or not to display column headers" />
+				_tip="Toggle whether or not to display column headers" />
 
 				<menuitem name="SheetHideRowHeader" verb="" type="toggle"
 				_label="Hide _Row Headers"
-				_descr="Toggle whether or not to display row headers" />
+				_tip="Toggle whether or not to display row headers" />
 			</submenu>
 
 			<menuitem name="FormatAuto" verb=""
 			_label="_Autoformat..."
-			_descr="Format a region of cells according to a pre-defined template"/>
+			_tip="Format a region of cells according to a pre-defined template"/>
 
 			<menuitem name="FormatWorkbook" verb=""
 			_label="_Workbook..."
-			_descr="Modify the workbook attributes"/>
+			_tip="Modify the workbook attributes"/>
 
 		</submenu>
 
@@ -298,43 +298,43 @@
 
 			<menuitem name="ToolsPlugins" verb=""
 			_label="_Plug-ins..."
-			_descr="Manage available plugin modules"/>
+			_tip="Manage available plugin modules"/>
 
 			<menuitem/>
 
 			<menuitem name="ToolsAutoCorrect" verb=""
 			_label="Auto _Correct..."
-			_descr="Automatically perform simple spell checking"/>
+			_tip="Automatically perform simple spell checking"/>
 
 			<menuitem name="ToolsAutoSave" verb=""
 			_label="_Auto Save..."
-			_descr="Automatically save the current document at regular intervals"/>
+			_tip="Automatically save the current document at regular intervals"/>
 
 			<menuitem/>
 
 			<menuitem name="ToolsGoalSeek" verb=""
 			_label="_Goal Seek..."
-			_descr="Iteratively recalculate to find a target value"/>
+			_tip="Iteratively recalculate to find a target value"/>
 
 			<menuitem name="ToolsSolver" verb=""
 			_label="_Solver..."
-			_descr="Iteratively recalculate with constraints to approach a target value"/>
+			_tip="Iteratively recalculate with constraints to approach a target value"/>
 
 			<menuitem/>
 
 			<menuitem name="ToolsDataAnalysis" verb=""
 			_label="_Data Analysis..."
-			_descr="Statistical methods"/>
+			_tip="Statistical methods"/>
 
 		</submenu>
 
 		<submenu name="Data" _label="_Data">
 
 			<menuitem name="DataSort" verb=""
-			_label="_Sort..." _descr="Sort the selected cells"/>
+			_label="_Sort..." _tip="Sort the selected cells"/>
 
 			<menuitem name="DataFilter" verb=""
-			_label="_Filter..." _descr="Filter data with given criteria"/>
+			_label="_Filter..." _tip="Filter data with given criteria"/>
 
 		</submenu>
 
@@ -342,7 +342,7 @@
 	
 			<placeholder name="BuiltMenuItems"/>
 
-			<menuitem name="HelpAbout" verb="" _label="_About..." _descr="About this application"
+			<menuitem name="HelpAbout" verb="" _label="_About..." _tip="About this application"
 			pixtype="stock" pixname="Menu_About"/>
 
 		</submenu>
@@ -351,67 +351,67 @@
 
 	<dockitem name="StandardToolbar" homogeneous="0"  band_num="1" look="icons" relief="none">
 
-		<toolitem type="std" name="New" pixtype="stock" pixname="New"
-		 _label="New" _descr="Create a new workbook"
+		<toolitem name="New" pixtype="stock" pixname="New"
+		 _label="New" _tip="Create a new workbook"
 		 verb="FileNew"/>
-		<toolitem type="std" name="Open" pixtype="stock" pixname="Open"
-		 _label="Open" _descr="Open an existing workbook"
+		<toolitem name="Open" pixtype="stock" pixname="Open"
+		 _label="Open" _tip="Open an existing workbook"
 		 verb="FileOpen"/>
-		<toolitem type="std" name="Save" pixtype="stock" pixname="Save"
-		 _label="Save" _descr="Save the current workbook"
+		<toolitem name="Save" pixtype="stock" pixname="Save"
+		 _label="Save" _tip="Save the current workbook"
 		 verb="FileSave"/>
 
-		<toolitem type="separator"/>
+		<separator/>
 
-		<toolitem type="std" name="Print" pixtype="stock" pixname="Print"
-		 _label="Print" _descr="Print the workbook"
+		<toolitem name="Print" pixtype="stock" pixname="Print"
+		 _label="Print" _tip="Print the workbook"
 		 verb="FilePrint"/>
-		<toolitem type="std" name="PrintPreview" pixtype="stock" pixname="Gnumeric_PrintPreview"
-		 _label="Print Preview" _descr="Print preview"
+		<toolitem name="PrintPreview" pixtype="stock" pixname="Gnumeric_PrintPreview"
+		 _label="Print Preview" _tip="Print preview"
 		 verb="FilePrintPreview"/>
 
-		<toolitem type="separator"/>
+		<separator/>
 
-		<toolitem type="std" name="Cut" pixtype="stock" pixname="Cut"
-		 _label="Cut" _descr="Mark the current selection for movement"
+		<toolitem name="Cut" pixtype="stock" pixname="Cut"
+		 _label="Cut" _tip="Mark the current selection for movement"
 		 verb="EditCut"/>
-		<toolitem type="std" name="Copy" pixtype="stock" pixname="Copy"
-		 _label="Copy" _descr="Copy the current selection to the clipboard"
+		<toolitem name="Copy" pixtype="stock" pixname="Copy"
+		 _label="Copy" _tip="Copy the current selection to the clipboard"
 		 verb="EditCopy"/>
-		<toolitem type="std" name="Paste" pixtype="stock" pixname="Paste"
-		 _label="Paste" _descr="Paste the contents of the clipboard or cut buffer"
+		<toolitem name="Paste" pixtype="stock" pixname="Paste"
+		 _label="Paste" _tip="Paste the contents of the clipboard or cut buffer"
 		 verb="EditPaste"/>
 
-		<toolitem type="separator"/>
+		<separator/>
 
 		<control name="EditUndo"/>
 		<control name="EditRedo"/>
 
-		<toolitem type="separator"/>
+		<separator/>
 
-		<toolitem type="std" name="Sum" pixtype="stock" pixname="Gnumeric_AutoSum"
-		 _label="Sum" _descr="Sum into the current cell"
+		<toolitem name="Sum" pixtype="stock" pixname="Gnumeric_AutoSum"
+		 _label="Sum" _tip="Sum into the current cell"
 		 verb="AutoSum"/>
-		<toolitem type="std" name="FunctionGuru" pixtype="stock" pixname="Gnumeric_FormulaGuru"
-		 _label="Function Guru" _descr="Edit a formula in the current cell"
+		<toolitem name="FunctionGuru" pixtype="stock" pixname="Gnumeric_FormulaGuru"
+		 _label="Function Guru" _tip="Edit a formula in the current cell"
 		 verb="FunctionGuru"/>
-		<toolitem type="std" name="SortAscending" pixtype="stock" pixname="Gnumeric_SortAscending"
-		 _label="Sort Ascending" _descr="Sort the selected region in ascending order based on the first column selected"
+		<toolitem name="SortAscending" pixtype="stock" pixname="Gnumeric_SortAscending"
+		 _label="Sort Ascending" _tip="Sort the selected region in ascending order based on the first column selected"
 		 verb="SortAscending"/>
-		<toolitem type="std" name="SortDescending" pixtype="stock" pixname="Gnumeric_SortDescending"
-		 _label="Sort Descending" _descr="Sort the selected region in descending order based on the first column selected"
+		<toolitem name="SortDescending" pixtype="stock" pixname="Gnumeric_SortDescending"
+		 _label="Sort Descending" _tip="Sort the selected region in descending order based on the first column selected"
 		 verb="SortDescending"/>
 
-		<toolitem type="separator"/>
+		<separator/>
 
-		<toolitem type="std" name="GraphGuru" pixtype="stock" pixname="Gnumeric_GraphGuru"
-		 _label="Graph Guru" _descr="Invoke the graph guru to create a graph"
+		<toolitem name="GraphGuru" pixtype="stock" pixname="Gnumeric_GraphGuru"
+		 _label="Graph Guru" _tip="Invoke the graph guru to create a graph"
 		 verb="GraphGuru"/>
-		<toolitem type="std" name="InsertComponent" pixtype="stock" pixname="Gnumeric_InsertComponent"
-		 _label="Insert Component" _descr="Insert an object into the spreadsheet"
+		<toolitem name="InsertComponent" pixtype="stock" pixname="Gnumeric_InsertComponent"
+		 _label="Insert Component" _tip="Insert an object into the spreadsheet"
 		 verb="InsertComponent"/>
-		<toolitem type="std" name="InsertShapedComponent" pixtype="stock" pixname="Gnumeric_InsertShapedComponent"
-		 _label="Insert Shaped Component" _descr="Insert a shaped component into the spreadsheet"
+		<toolitem name="InsertShapedComponent" pixtype="stock" pixname="Gnumeric_InsertShapedComponent"
+		 _label="Insert Shaped Component" _tip="Insert a shaped component into the spreadsheet"
 		 verb="InsertShapedComponent"/>
 
 		<control name="SheetZoom"/>
@@ -423,49 +423,49 @@
 		<control name="FontSize"/>
 
 		<toolitem type="toggle" name="FontBold" pixtype="stock" pixname="Bold"
-		 _label="Bold" _descr="Make font bold"
+		 _label="Bold" _tip="Make font bold"
 		 _accel="*Control*b"
 		 verb="FontBold"/>
-		<toolitem type="std" name="FontItalic" pixtype="stock" pixname="Italic"
-		 _label="Italicize" _descr="Makes font italic"
+		<toolitem name="FontItalic" pixtype="stock" pixname="Italic"
+		 _label="Italicize" _tip="Makes font italic"
 		 _accel="*Control*i"
 		 verb="FontItalic"/>
-		<toolitem type="std" name="FontUnderline" pixtype="stock" pixname="Underline"
-		 _label="Underline" _descr="Underlines the text"
+		<toolitem name="FontUnderline" pixtype="stock" pixname="Underline"
+		 _label="Underline" _tip="Underlines the text"
 		 _accel="*Control*u"
 		 verb="FontUnderline"/>
 
-		<toolitem type="separator"/>
+		<separator/>
 
 		<toolitem type="toggle" name="Left" pixtype="stock" pixname="Left"
-		 _label="Left" _descr="Left justifies the contents of each cell"
+		 _label="Left" _tip="Left justifies the contents of each cell"
 		 verb="AlignLeft"/>
 		<toolitem type="toggle" name="Center" pixtype="stock" pixname="Center"
-		 _label="Center" _descr="Centers the text in each selection"
+		 _label="Center" _tip="Centers the text in each selection"
 		 verb="AlignCenter"/>
 		<toolitem type="toggle" name="Right" pixtype="stock" pixname="Right"
-		 _label="Right" _descr="Right justifies the contents of each cell"
+		 _label="Right" _tip="Right justifies the contents of each cell"
 		 verb="AlignRight"/>
 
-		<toolitem type="separator"/>
+		<separator/>
 
-		<toolitem type="std" name="Money" pixtype="stock" pixname="Gnumeric_FormatAsMoney"
-		 _label="Money" _descr="Format the selected cells as money"
+		<toolitem name="Money" pixtype="stock" pixname="Gnumeric_FormatAsMoney"
+		 _label="Money" _tip="Format the selected cells as money"
 		 verb="FormatAsMoney"/>
-		<toolitem type="std" name="Percent" pixtype="stock" pixname="Gnumeric_FormatAsPercent"
-		 _label="Percent" _descr="Format the selected cells as percentages"
+		<toolitem name="Percent" pixtype="stock" pixname="Gnumeric_FormatAsPercent"
+		 _label="Percent" _tip="Format the selected cells as percentages"
 		 verb="FormatAsPercent"/>
-		<toolitem type="std" name="Thousands" pixtype="stock" pixname="Gnumeric_FormatThousandSeperator"
-		 _label="Right" _descr="Includes a thousands seperator in the selected cells"
+		<toolitem name="Thousands" pixtype="stock" pixname="Gnumeric_FormatThousandSeperator"
+		 _label="Right" _tip="Includes a thousands seperator in the selected cells"
 		 verb="FormatWithThousands"/>
-		<toolitem type="std" name="IncreasePrecision" pixtype="stock" pixname="Gnumeric_FormatAddPrecision"
-		 _label="Increase Precision" _descr="Increase the preceision of the selected cells"
+		<toolitem name="IncreasePrecision" pixtype="stock" pixname="Gnumeric_FormatAddPrecision"
+		 _label="Increase Precision" _tip="Increase the preceision of the selected cells"
 		 verb="FormatIncreasePrecision"/>
-		<toolitem type="std" name="DecreasePrecision" pixtype="stock" pixname="Gnumeric_FormatRemovePrecision"
+		<toolitem name="DecreasePrecision" pixtype="stock" pixname="Gnumeric_FormatRemovePrecision"
 		 _label="Decrease Precision" descr="Decrease the preceision of the selected cells"
 		 verb="FormatDecreasePrecision"/>
 
-		<toolitem type="separator"/>
+		<separator/>
 
 		<control name="BorderSelector"/>
 		<control name="BackgroundColor"/>
@@ -474,29 +474,29 @@
 	</dockitem>
 
 	<dockitem name="ObjectToolbar" band_num="3" homogeneous="0" look="icons" relief="none">
-		<toolitem type="std" name="Label" pixtype="stock" pixname="Gnumeric_Label"
-		 _label="Label" _descr="Create a label" verb="CreateLabel"/>
-		<toolitem type="std" name="Frame" pixtype="stock" pixname="Gnumeric_Frame"
-		 _label="Frame" _descr="Create a frame" verb="CreateFrame"/>
-		<toolitem type="std" name="Frame" pixtype="stock" pixname="Gnumeric_Button"
-		 _label="Button" _descr="Create a button" verb="CreateButton"/>
-		<toolitem type="std" name="Frame" pixtype="stock" pixname="Gnumeric_Checkbutton"
-		 _label="Checkbox" _descr="Create a checkbox" verb="CreateCheckbox"/>
-		<toolitem type="std" name="Frame" pixtype="stock" pixname="Gnumeric_Radiobutton"
-		 _label="Radio Button" _descr="Create a radio button" verb="CreateRadiobutton"/>
-		<toolitem type="std" name="List" pixtype="stock" pixname="Gnumeric_List"
-		 _label="List" _descr="Create a list" verb="CreateList"/>
-		<toolitem type="std" name="Combo" pixtype="stock" pixname="Gnumeric_Combo"
-		 _label="Combo Box" _descr="Create a combo box" verb="CreateCombobox"/>
+		<toolitem name="Label" pixtype="stock" pixname="Gnumeric_Label"
+		 _label="Label" _tip="Create a label" verb="CreateLabel"/>
+		<toolitem name="Frame" pixtype="stock" pixname="Gnumeric_Frame"
+		 _label="Frame" _tip="Create a frame" verb="CreateFrame"/>
+		<toolitem name="Frame" pixtype="stock" pixname="Gnumeric_Button"
+		 _label="Button" _tip="Create a button" verb="CreateButton"/>
+		<toolitem name="Frame" pixtype="stock" pixname="Gnumeric_Checkbutton"
+		 _label="Checkbox" _tip="Create a checkbox" verb="CreateCheckbox"/>
+		<toolitem name="Frame" pixtype="stock" pixname="Gnumeric_Radiobutton"
+		 _label="Radio Button" _tip="Create a radio button" verb="CreateRadiobutton"/>
+		<toolitem name="List" pixtype="stock" pixname="Gnumeric_List"
+		 _label="List" _tip="Create a list" verb="CreateList"/>
+		<toolitem name="Combo" pixtype="stock" pixname="Gnumeric_Combo"
+		 _label="Combo Box" _tip="Create a combo box" verb="CreateCombobox"/>
 
-		<toolitem type="std" name="Line" pixtype="stock" pixname="Gnumeric_Line"
-		 _label="Line" _descr="Create a line" verb="CreateLine"/>
-		<toolitem type="std" name="Arrow" pixtype="stock" pixname="Gnumeric_Arrow"
-		 _label="Arrow" _descr="Create a frame" verb="CreateArrow"/>
-		<toolitem type="std" name="Rectangle" pixtype="stock" pixname="Gnumeric_Rectangle"
-		 _label="Rectangle" _descr="Draw a rectangle" verb="CreateRectangle"/>
-		<toolitem type="std" name="Oval" pixtype="stock" pixname="Gnumeric_Oval"
-		 _label="Oval" _descr="Draw an oval" verb="CreateEllipse"/>
+		<toolitem name="Line" pixtype="stock" pixname="Gnumeric_Line"
+		 _label="Line" _tip="Create a line" verb="CreateLine"/>
+		<toolitem name="Arrow" pixtype="stock" pixname="Gnumeric_Arrow"
+		 _label="Arrow" _tip="Create a frame" verb="CreateArrow"/>
+		<toolitem name="Rectangle" pixtype="stock" pixname="Gnumeric_Rectangle"
+		 _label="Rectangle" _tip="Draw a rectangle" verb="CreateRectangle"/>
+		<toolitem name="Oval" pixtype="stock" pixname="Gnumeric_Oval"
+		 _label="Oval" _tip="Draw an oval" verb="CreateEllipse"/>
 	</dockitem>
 
 	<status>

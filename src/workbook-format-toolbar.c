@@ -44,6 +44,13 @@ set_selection_halign (Workbook *wb, StyleHAlignFlags align)
 	MStyle *mstyle;
 	Sheet  *sheet;
 
+	/* If the user did not initiate this action ignore it.
+	 * This happens whenever the ui updates and the current cell makes a
+	 * change to the toolbar indicators.
+	 */
+	if (wb->priv->updating_toolbar)
+		return;
+
 	sheet = wb->current_sheet;
 	application_clipboard_unant ();
 
@@ -88,6 +95,13 @@ change_selection_font (Workbook *wb,
 {
 	MStyle *new_style, *current_style;
 	Sheet  *sheet;
+
+	/* If the user did not initiate this action ignore it.
+	 * This happens whenever the ui updates and the current cell makes a
+	 * change to the toolbar indicators.
+	 */
+	if (wb->priv->updating_toolbar)
+		return;
 
 	application_clipboard_unant ();
 	sheet  = wb->current_sheet;
@@ -753,13 +767,12 @@ static void
 workbook_format_toolbutton_update (Workbook const *wb, char const * const path,
 				   gboolean state)
 {
-	static gboolean hack = FALSE;
-	if (hack)
-	    return;
-	hack = TRUE;
+	g_return_if_fail (!wb->priv->updating_toolbar);
+
+	wb->priv->updating_toolbar = TRUE;
 	bonobo_ui_component_set_prop (BONOBO_UI_COMPONENT (wb->priv->uih),
 				      path, "state", state ? "1" : "0", NULL);
-	hack = FALSE;
+	wb->priv->updating_toolbar = FALSE;
 }
 
 static void

@@ -45,6 +45,8 @@ workbook_private_init (GtkObject *object)
 {
 	WorkbookPrivate *wbp;
 	wbp = WORKBOOK_PRIVATE (object);
+
+	wbp->updating_toolbar = FALSE;
 }
 
 static void
