@@ -1,2 +1,2 @@
 ?package(gnumeric):needs=X11 section=Apps/Math\
-  title="gnumeric" command="/usr/X11R6/bin/gnumeric"
+  title="gnumeric" command="/usr/bin/gnumeric"
