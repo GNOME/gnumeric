@@ -205,34 +205,50 @@ undo_global_range_name (Sheet *sheet, Range const * const range)
  */
 
 static gboolean 
-cmd_cell_range_is_locked_effective (Sheet *sheet, 
-				    int start_col, int cols, 
-				    int start_row, int rows,
+cmd_cell_range_is_locked_effective (Sheet *sheet, Range *range,
 				    WorkbookControl *wbc, char const *cmd_name)
 {
 	int i, j;
 	WorkbookView *wbv = wb_control_view (wbc);
 
 	if (wbv->is_protected || sheet->is_protected)
-		for (i = start_row + rows; i-- > start_row;)
-			for (j = start_col + cols; j-- > start_col;)
+		for (i = range->start.row; i <= range->end.row; i++)
+			for (j = range->start.col; j <= range->end.col; j++)
 				if (mstyle_get_content_locked (sheet_style_get (sheet, j, i))) {
-					Range range;
 					char *text;
-					range_init (&range, start_col, start_row, 
-						    start_col + cols - 1,
-						    start_row + rows - 1);
 					text = g_strdup_printf (wbv->is_protected  ? 
 				 _("%s is locked. Unprotect the workbook to enable editing.") : 
 				 _("%s is locked. Unprotect the sheet to enable editing."), 
 								undo_global_range_name (
-									sheet, &range));
+									sheet, range));
 					gnumeric_error_invalid (COMMAND_CONTEXT (wbc), cmd_name,
 								text);
 					g_free (text);
 					return TRUE;
 				}
 	return FALSE;
+}
+
+/**
+ * checks whetehr the cells are effectively locked
+ *
+ * static gboolean cmd_dao_is_locked_effective
+ *
+ *
+ * Do not use this function unless the sheet is part of the 
+ * workbook with the given wbcg (otherwise the results may be strange) 
+ *
+ */
+
+static gboolean 
+cmd_dao_is_locked_effective (data_analysis_output_t  *dao,
+			     WorkbookControl *wbc, char const *cmd_name)
+{
+	Range range;
+	range_init (&range, dao->start_col, dao->start_row,
+		    dao->start_col +  dao->cols - 1,  dao->start_row +  dao->rows - 1);
+	return (dao->type != NewWorkbookOutput && 
+		cmd_cell_range_is_locked_effective (dao->sheet, &range, wbc, cmd_name));
 }
 
 /**
@@ -252,12 +268,7 @@ cmd_selection_is_locked_effective (Sheet *sheet, GSList *selection,
 {
 	for (; selection; selection = selection->next) {
 		Range *range = (Range *)selection->data;
-		if (cmd_cell_range_is_locked_effective (sheet, 
-							range->start.col, 
-							range->end.col - range->start.col + 1, 
-							range->start.row, 
-							range->end.row - range->start.row + 1,
-							wbc, cmd_name))
+		if (cmd_cell_range_is_locked_effective (sheet, range, wbc, cmd_name))
 			return TRUE;
 	}
 	return FALSE;
@@ -1149,9 +1160,7 @@ cmd_ins_del_colrow_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	/* Check for locks */
 	if (!me->is_insert && cmd_cell_range_is_locked_effective
-	    (me->sheet, r.start.col, r.end.col - r.start.col + 1,
-	     r.start.row, r.end.row - r.start.row + 1, 
-	     wbc, (me->is_cols) ? _("Delete Columns") :  _("Delete Rows")))
+	    (me->sheet, &r, wbc, (me->is_cols) ? _("Delete Columns") :  _("Delete Rows")))
 		return TRUE;
 	
 	me->saved_states = colrow_get_states (me->sheet, me->is_cols, first, last);
@@ -1920,6 +1929,11 @@ cmd_sort_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	CmdSort *me = CMD_SORT (cmd);
 
 	g_return_val_if_fail (me != NULL, TRUE);
+
+	/* Check for locks */
+	if (cmd_cell_range_is_locked_effective
+	    (me->data->sheet, me->data->range, wbc, _("Sorting")))
+		return TRUE;
 
 	if (!me->perm) {
 		me->perm = sort_contents (wbc, me->data);
@@ -4639,11 +4653,7 @@ cmd_analysis_tool_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	if (me->engine (me->dao, me->specs, TOOL_ENGINE_PREPARE_OUTPUT_RANGE, NULL)
 	    || me->engine (me->dao, me->specs, TOOL_ENGINE_UPDATE_DESCRIPTOR, 
 			   &me->parent.cmd_descriptor)
-	    || (me->dao->type != NewWorkbookOutput &&
-		cmd_cell_range_is_locked_effective (me->dao->sheet, 
-						    me->dao->start_col, me->dao->cols, 
-						    me->dao->start_row, me->dao->rows,
-						    wbc, me->parent.cmd_descriptor))
+	    || cmd_dao_is_locked_effective (me->dao, wbc, me->parent.cmd_descriptor)
 	    || me->engine (me->dao, me->specs, TOOL_ENGINE_LAST_VALIDITY_CHECK, &continuity))
 		return TRUE;
 

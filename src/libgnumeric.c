@@ -11,6 +11,7 @@
 #include "gnumeric.h"
 #include "libgnumeric.h"
 
+#include "application.h"
 #include "stf.h"
 #include "plugin.h"
 #include "format.h"
@@ -70,6 +71,8 @@ gboolean initial_workbook_open_complete = FALSE;
 
 char *x_geometry;
 
+static GnumericApplication *app;
+
 
 /* Actions common to application and component init
    - to do before arg parsing */
@@ -112,12 +115,13 @@ gnumeric_check_for_components (void)
  */
 void
 gnm_common_init (void)
-{	
+{
 #ifdef USE_WM_ICONS
 	gnome_window_icon_set_default_from_file (GNOME_ICONDIR"/gnome-gnumeric.png");
 #endif
 
-	application_init ();
+	app = g_object_new (GNUMERIC_APPLICATION_TYPE, NULL);
+	g_print ("refcount: %i\n", G_OBJECT(app)->ref_count);
 	value_init ();
 	expr_init ();
 	cell_init ();
@@ -190,4 +194,6 @@ gnm_shutdown (void)
 
 	gnome_config_drop_all ();
 	application_release_gconf_client ();
+	
+	g_object_unref (app);
 }

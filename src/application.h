@@ -3,8 +3,17 @@
 
 #include "gnumeric.h"
 #include <gconf/gconf-client.h>
+#include <glib-object.h>
 
-void         application_init			(void);
+#define GNUMERIC_APPLICATION_TYPE (gnumeric_application_get_type ())
+#define GNUMERIC_APPLICATION(o) (G_TYPE_CHECK_INSTANCE_CAST((o), GNUMERIC_APPLICATION_TYPE, GnumericApplication))
+#define GNUMERIC_APPLICATION_CLASS(k) (G_TYPE_CHECK_CLASS_CAST((k), GNUMERIC_APPLICATION__TYPE, GnumericApplicationClass))
+#define IS_GNUMERIC_APPLICATION(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNUMERIC_APPLICATION_TYPE))
+#define IS_GNUMERIC_APPLICATION_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE((k), GNUMERIC_APPLICATION_TYPE))
+
+typedef struct _GnumericApplication GnumericApplication;
+
+GType	     gnumeric_application_get_type (void);
 
 void         application_release_gconf_client   (void);
 GConfClient *application_get_gconf_client       (void);
@@ -44,7 +53,6 @@ void 	     application_history_write_config 	(void);
 
 
 double	     application_display_dpi_get (gboolean horizontal);
-void 	     application_display_dpi_set (gboolean horizontal, double);
 double	     application_dpi_to_pixels (void);
 
 gboolean     application_use_auto_complete    (void);

@@ -1,3 +1,22 @@
+2002-06-19  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/application.h : gobjectify
+	* src/application.c : gobjectify; replace app. with app-> throughout
+	(application_init) : deleted
+	(gnumeric_application_init) : new
+	(gnumeric_application_class_init) : new
+	(application_display_dpi_set) : deleted
+	(application_use_auto_complete) : use gconf
+	(application_live_scrolling) : ditto
+	(application_auto_expr_recalc_lag) : ditto
+	(gnumeric_application_setup_icons) : new
+	(gnumeric_application_finalize) : finalize
+	* src/libgnumeric.c (gnm_common_init) : use new application object
+	(gnm_shutdown) : ditto
+	* src/commands.c (cmd_cell_range_is_locked_effective) : use range type
+	(cmd_dao_is_locked_effective) : new
+	(cmd_sort_redo) : check for locks
+
 2002-06-19  Morten Welinder  <terra@diku.dk>
 
 	* src/mathfunc.c: Update to R 1.5.1.
