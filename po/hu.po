@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
-"POT-Creation-Date: 1999-03-08 22:13-0600\n"
+"POT-Creation-Date: 1999-03-12 18:34-0600\n"
 "PO-Revision-Date: 1998-08-01 13:46+0202\n"
 "Last-Translator: Németh Péter <qgenpete@gold.uni-miskolc.hu>\n"
 "Language-Team: Németh Péter <qgenpete@gold.uni-miskolc.hu>\n"
@@ -18,7 +18,7 @@ msgstr ""
 msgid "Argument must be a Guile expression"
 msgstr ""
 
-#: plugins/guile/plugin.c:241 src/expr.c:489 src/fn-math.c:1158
+#: plugins/guile/plugin.c:241 src/expr.c:489 src/fn-math.c:1177
 #: src/fn-sheet.c:38 src/fn-sheet.c:83
 msgid "Invalid number of arguments"
 msgstr "Az argumentumok száma nem megfelelõ"
@@ -153,11 +153,19 @@ msgstr ""
 msgid "Vincent Renardias, CSV support"
 msgstr ""
 
-#: src/about.c:49
+#: src/about.c:35
+msgid "Vladimir Vuksan, financial functions"
+msgstr ""
+
+#: src/about.c:36
+msgid "Takashi Matsuda, simple text plugin"
+msgstr ""
+
+#: src/about.c:51
 msgid "Gnumeric"
 msgstr ""
 
-#: src/about.c:52
+#: src/about.c:54
 msgid ""
 "The GNOME spreadsheet.\n"
 "http://www.gnome.org/gnumeric"
@@ -630,7 +638,7 @@ msgstr "Szintaktikai hiba"
 msgid "Missing quote"
 msgstr ""
 
-#: src/expr.c:509 src/expr.c:514 src/expr.c:793 src/expr.c:961
+#: src/expr.c:509 src/expr.c:514 src/expr.c:793 src/expr.c:964
 #: src/fn-misc.c:35
 msgid "Type mismatch"
 msgstr ""
@@ -643,7 +651,11 @@ msgstr ""
 msgid "Division by zero"
 msgstr "Osztás nullával"
 
-#: src/expr.c:976
+#: src/expr.c:944
+msgid "Reference to newborn cell"
+msgstr ""
+
+#: src/expr.c:979
 msgid "Unknown evaluation error"
 msgstr ""
 
@@ -878,7 +890,7 @@ msgid ""
 "@SEEALSO=OR, NOT"
 msgstr ""
 
-#: src/fn-math.c:189 src/fn-math.c:943
+#: src/fn-math.c:189 src/fn-math.c:962
 msgid "#VALUE"
 msgstr "#ÉRTÉK!"
 
@@ -1176,6 +1188,21 @@ msgstr "log: nincs értelmezve"
 #: src/fn-math.c:690
 #, fuzzy
 msgid ""
+"@FUNCTION=POWER\n"
+"@SYNTAX=POWER(x,y)\n"
+"@DESCRIPTION=Returns the value of x raised to the power y\n"
+"Performing this function on a string or empty cell returns an error. \n"
+"@SEEALSO=EXP"
+msgstr ""
+"@FUNCTION=LOG\n"
+"@SYNTAX=LOG(szám)\n"
+"@DESCRIPTION=Egy szám természetes alapú logaritmusát számítja ki.\n"
+"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk.\n"
+"@SEEALSO=EXP, LOG2, LOG10"
+
+#: src/fn-math.c:709
+#, fuzzy
+msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
 "@DESCRIPTION=Computes the base-2 logarithm  of x. \n"
@@ -1187,11 +1214,11 @@ msgstr ""
 "A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk.\n"
 "@SEEALSO=EXP, LOG10, LOG"
 
-#: src/fn-math.c:708
+#: src/fn-math.c:727
 msgid "log2: domain error"
 msgstr "log2: nincs értelmezve"
 
-#: src/fn-math.c:715
+#: src/fn-math.c:734
 #, fuzzy
 msgid ""
 "@FUNCTION=LOG10\n"
@@ -1205,11 +1232,11 @@ msgstr ""
 "A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk.\n"
 "@SEEALSO=EXP, LOG2, LOG"
 
-#: src/fn-math.c:734
+#: src/fn-math.c:753
 msgid "log10: domain error"
 msgstr "log10: nincs értelmezve"
 
-#: src/fn-math.c:741
+#: src/fn-math.c:760
 msgid ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1, b2, ...)\n"
@@ -1220,7 +1247,7 @@ msgid ""
 "@SEEALSO=MAX,ABS"
 msgstr ""
 
-#: src/fn-math.c:755
+#: src/fn-math.c:774
 msgid ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
@@ -1231,7 +1258,7 @@ msgid ""
 "@SEEALSO=MIN,ABS"
 msgstr ""
 
-#: src/fn-math.c:860
+#: src/fn-math.c:879
 msgid ""
 "@FUNCTION=NOT\n"
 "@SYNTAX=NOT(number)\n"
@@ -1241,7 +1268,7 @@ msgid ""
 "@SEEALSO=AND, OR"
 msgstr ""
 
-#: src/fn-math.c:881
+#: src/fn-math.c:900
 msgid ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1, b2, ...)\n"
@@ -1255,7 +1282,7 @@ msgid ""
 "@SEEALSO=AND, NOT"
 msgstr ""
 
-#: src/fn-math.c:950
+#: src/fn-math.c:969
 #, fuzzy
 msgid ""
 "@FUNCTION=RADIANS\n"
@@ -1271,7 +1298,7 @@ msgstr ""
 "függvénynek csak egy argumentuma lehet.\n"
 "@SEEALSO=PI,DEGREES"
 
-#: src/fn-math.c:971
+#: src/fn-math.c:990
 #, fuzzy
 msgid ""
 "@FUNCTION=SIN\n"
@@ -1289,7 +1316,7 @@ msgstr ""
 "függvénynek csak egy argumentuma lehet.\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: src/fn-math.c:991
+#: src/fn-math.c:1010
 #, fuzzy
 msgid ""
 "@FUNCTION=SINH\n"
@@ -1307,7 +1334,7 @@ msgstr ""
 "függvénynek csak egy argumentuma lehet.\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
-#: src/fn-math.c:1012
+#: src/fn-math.c:1031
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -1316,7 +1343,7 @@ msgid ""
 "@SEEALSO=AVERAGE, COUNT"
 msgstr ""
 
-#: src/fn-math.c:1079
+#: src/fn-math.c:1098
 #, fuzzy
 msgid ""
 "@FUNCTION=TAN\n"
@@ -1334,7 +1361,7 @@ msgstr ""
 "függvénynek csak egy argumentuma lehet.\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
-#: src/fn-math.c:1099
+#: src/fn-math.c:1118
 #, fuzzy
 msgid ""
 "@FUNCTION=TANH\n"
@@ -1352,7 +1379,7 @@ msgstr ""
 "függvénynek csak egy argumentuma lehet.\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
-#: src/fn-math.c:1119
+#: src/fn-math.c:1138
 #, fuzzy
 msgid ""
 "@FUNCTION=PI\n"
@@ -1369,7 +1396,7 @@ msgstr ""
 "függvénynek nem lehet argumentuma.\n"
 "@SEEALSO="
 
-#: src/fn-math.c:1138
+#: src/fn-math.c:1157
 #, fuzzy
 msgid ""
 "@FUNCTION=TRUNC\n"
@@ -1873,7 +1900,7 @@ msgstr "Jobbra tolás és áthelyezés"
 msgid "Cut"
 msgstr "Kivágás"
 
-#: src/item-grid.c:528 src/sheet.c:2509 src/workbook.c:842
+#: src/item-grid.c:528 src/sheet.c:2535 src/workbook.c:842
 msgid "Paste"
 msgstr "Beillesztés"
 

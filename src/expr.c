@@ -1016,7 +1016,7 @@ bigger_prec (Operation parent, Operation this)
 	parent_level = evaluate_level (parent);
 	this_level   = evaluate_level (this);
 
-	return parent_level > this_level;
+	return parent_level >= this_level;
 }
 
 /*

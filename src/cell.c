@@ -879,18 +879,12 @@ void
 cell_set_format (Cell *cell, char *format)
 {
 	g_return_if_fail (cell != NULL);
-	g_return_if_fail (format != NULL);
-	g_return_if_fail (cell->value);
 	
-	if (strcmp (format, cell->style->format->format) == 0)
-		return;
-
-	cell_modified (cell);
+	cell_set_format_simple (cell, format);
 	
-	/* Change the format */
-	style_format_unref (cell->style->format);
-	cell->style->format = style_format_new (format);
-	cell->flags |= CELL_FORMAT_SET;
+	/* re-render the cell text */
+	cell_render_value (cell);
+	cell_queue_redraw (cell);
 }
 
 void

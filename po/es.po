@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.12\n"
-"POT-Creation-Date: 1999-03-08 22:13-0600\n"
+"POT-Creation-Date: 1999-03-12 18:34-0600\n"
 "PO-Revision-Date: 1998-11-25 18:01:18+0100\n"
 "Last-Translator: Pablo Saratxaga <srtxg@chanae.alphanet.ch>\n"
 "Language-Team: \n"
@@ -23,7 +23,7 @@ msgstr "Formato de archivo Microsoft® Excel"
 msgid "Argument must be a Guile expression"
 msgstr ""
 
-#: plugins/guile/plugin.c:241 src/expr.c:489 src/fn-math.c:1158
+#: plugins/guile/plugin.c:241 src/expr.c:489 src/fn-math.c:1177
 #: src/fn-sheet.c:38 src/fn-sheet.c:83
 msgid "Invalid number of arguments"
 msgstr "Número de argumentos inválido"
@@ -178,11 +178,19 @@ msgstr "Mark Probst, soporte Guile."
 msgid "Vincent Renardias, CSV support"
 msgstr "Vincent Renardias, soporte CSV."
 
-#: src/about.c:49
+#: src/about.c:35
+msgid "Vladimir Vuksan, financial functions"
+msgstr ""
+
+#: src/about.c:36
+msgid "Takashi Matsuda, simple text plugin"
+msgstr ""
+
+#: src/about.c:51
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
-#: src/about.c:52
+#: src/about.c:54
 msgid ""
 "The GNOME spreadsheet.\n"
 "http://www.gnome.org/gnumeric"
@@ -653,7 +661,7 @@ msgstr "Error de sintaxis"
 msgid "Missing quote"
 msgstr "Falta una comilla"
 
-#: src/expr.c:509 src/expr.c:514 src/expr.c:793 src/expr.c:961
+#: src/expr.c:509 src/expr.c:514 src/expr.c:793 src/expr.c:964
 #: src/fn-misc.c:35
 msgid "Type mismatch"
 msgstr "Tipo erroneo"
@@ -666,7 +674,11 @@ msgstr "Tipo erróneo"
 msgid "Division by zero"
 msgstr "División entre cero"
 
-#: src/expr.c:976
+#: src/expr.c:944
+msgid "Reference to newborn cell"
+msgstr ""
+
+#: src/expr.c:979
 msgid "Unknown evaluation error"
 msgstr "Error al evaluar"
 
@@ -974,7 +986,7 @@ msgstr ""
 "ignoradas. Si ningún valor lógico es dado devuelve el error '#VALOR!'. \n"
 "@SEEALSO=OR"
 
-#: src/fn-math.c:189 src/fn-math.c:943
+#: src/fn-math.c:189 src/fn-math.c:962
 msgid "#VALUE"
 msgstr "#VALOR"
 
@@ -1286,6 +1298,23 @@ msgid "log: domain error"
 msgstr "log: error de dominio"
 
 #: src/fn-math.c:690
+#, fuzzy
+msgid ""
+"@FUNCTION=POWER\n"
+"@SYNTAX=POWER(x,y)\n"
+"@DESCRIPTION=Returns the value of x raised to the power y\n"
+"Performing this function on a string or empty cell returns an error. \n"
+"@SEEALSO=EXP"
+msgstr ""
+"@FUNCTION=FACT\n"
+"@SYNTAX=FACT(x)\n"
+"@DESCRIPTION=Calcula la factorial de x, es decir x!\n"
+"Efectuar esta función sobre una cadena de texto o sobre una celda vacía "
+"devuelve un error.\n"
+"\n"
+"@SEEALSO="
+
+#: src/fn-math.c:709
 msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
@@ -1300,11 +1329,11 @@ msgstr ""
 "devuelve un error. \n"
 "@SEEALSO=EXP, LOG10, LOG"
 
-#: src/fn-math.c:708
+#: src/fn-math.c:727
 msgid "log2: domain error"
 msgstr "log2: error de dominio"
 
-#: src/fn-math.c:715
+#: src/fn-math.c:734
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
@@ -1319,11 +1348,11 @@ msgstr ""
 "devuelve un error. \n"
 "@SEEALSO=EXP, LOG2, LOG"
 
-#: src/fn-math.c:734
+#: src/fn-math.c:753
 msgid "log10: domain error"
 msgstr "log10: error de dominio"
 
-#: src/fn-math.c:741
+#: src/fn-math.c:760
 msgid ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1, b2, ...)\n"
@@ -1342,7 +1371,7 @@ msgstr ""
 "simplemente no hace nada.\n"
 "@SEEALSO=MAX,ABS"
 
-#: src/fn-math.c:755
+#: src/fn-math.c:774
 msgid ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
@@ -1361,7 +1390,7 @@ msgstr ""
 "simplemente no hace nada.\n"
 "@SEEALSO=MIN,ABS"
 
-#: src/fn-math.c:860
+#: src/fn-math.c:879
 msgid ""
 "@FUNCTION=NOT\n"
 "@SYNTAX=NOT(number)\n"
@@ -1371,7 +1400,7 @@ msgid ""
 "@SEEALSO=AND, OR"
 msgstr ""
 
-#: src/fn-math.c:881
+#: src/fn-math.c:900
 #, fuzzy
 msgid ""
 "@FUNCTION=OR\n"
@@ -1396,7 +1425,7 @@ msgstr ""
 "ignoradas. Si ningún valor lógico es dado devuelve el error '#VALOR!'. \n"
 "@SEEALSO=AND"
 
-#: src/fn-math.c:950
+#: src/fn-math.c:969
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -1412,7 +1441,7 @@ msgstr ""
 "simplemente no hace nada.\n"
 "@SEEALSO=PI,DEGREES"
 
-#: src/fn-math.c:971
+#: src/fn-math.c:990
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -1429,7 +1458,7 @@ msgstr ""
 "simplemente no hace nada. Esta función solo admite un argumento.\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: src/fn-math.c:991
+#: src/fn-math.c:1010
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -1447,7 +1476,7 @@ msgstr ""
 "simplemente no hace nada. Esta función solo admite un argumento.\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
-#: src/fn-math.c:1012
+#: src/fn-math.c:1031
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -1461,7 +1490,7 @@ msgstr ""
 "la lista de argumentos. \n"
 "@SEEALSO=AVERAGE, COUNT"
 
-#: src/fn-math.c:1079
+#: src/fn-math.c:1098
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -1478,7 +1507,7 @@ msgstr ""
 "simplemente no hace nada. Esta función solo admite un argumento.\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
-#: src/fn-math.c:1099
+#: src/fn-math.c:1118
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -1496,7 +1525,7 @@ msgstr ""
 "simplemente no hace nada. Esta función solo admite un argumento.\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
-#: src/fn-math.c:1119
+#: src/fn-math.c:1138
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -1510,7 +1539,7 @@ msgstr ""
 "Esta función no accepta argumentos.\n"
 "@SEEALSO="
 
-#: src/fn-math.c:1138
+#: src/fn-math.c:1157
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -2035,7 +2064,7 @@ msgstr "Desplaza las celdas hacia la derecha y mueve"
 msgid "Cut"
 msgstr "Cortar"
 
-#: src/item-grid.c:528 src/sheet.c:2509 src/workbook.c:842
+#: src/item-grid.c:528 src/sheet.c:2535 src/workbook.c:842
 msgid "Paste"
 msgstr "Pegar"
 

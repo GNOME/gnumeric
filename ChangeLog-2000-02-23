@@ -1,3 +1,8 @@
+1999-03-14  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/expr.c (bigger_prec): When decoding left-to-right apply
+	parentheses if the two priorities are equal.
+
 1999-03-13  Richard Hult <rhult@hem2.passagen.se>
 
 	* src/xml-io.c (xmlGetGnomeCanvasPoints): test against the value

@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 1999-03-08 22:13-0600\n"
+"POT-Creation-Date: 1999-03-12 18:34-0600\n"
 "Content-Type: text/plain; charset=iso8859-2\n"
 "Date: 1998-09-30 00:38:13-0500\n"
 "From: Petr Vyyhnalek <petr.vyhnalek@email.cz>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Argument must be a Guile expression"
 msgstr ""
 
-#: plugins/guile/plugin.c:241 src/expr.c:489 src/fn-math.c:1158
+#: plugins/guile/plugin.c:241 src/expr.c:489 src/fn-math.c:1177
 #: src/fn-sheet.c:38 src/fn-sheet.c:83
 msgid "Invalid number of arguments"
 msgstr "©patný poèet argumentu"
@@ -158,11 +158,19 @@ msgstr ""
 msgid "Vincent Renardias, CSV support"
 msgstr ""
 
-#: src/about.c:49
+#: src/about.c:35
+msgid "Vladimir Vuksan, financial functions"
+msgstr ""
+
+#: src/about.c:36
+msgid "Takashi Matsuda, simple text plugin"
+msgstr ""
+
+#: src/about.c:51
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
-#: src/about.c:52
+#: src/about.c:54
 msgid ""
 "The GNOME spreadsheet.\n"
 "http://www.gnome.org/gnumeric"
@@ -631,7 +639,7 @@ msgstr "Chyba syntaxe"
 msgid "Missing quote"
 msgstr "Chybí uvozovky"
 
-#: src/expr.c:509 src/expr.c:514 src/expr.c:793 src/expr.c:961
+#: src/expr.c:509 src/expr.c:514 src/expr.c:793 src/expr.c:964
 #: src/fn-misc.c:35
 msgid "Type mismatch"
 msgstr ""
@@ -644,7 +652,11 @@ msgstr "©patný typ"
 msgid "Division by zero"
 msgstr "Dìlení nulou"
 
-#: src/expr.c:976
+#: src/expr.c:944
+msgid "Reference to newborn cell"
+msgstr ""
+
+#: src/expr.c:979
 msgid "Unknown evaluation error"
 msgstr "Neznámá chyba pøi výpoètu"
 
@@ -846,7 +858,7 @@ msgid ""
 "@SEEALSO=OR, NOT"
 msgstr ""
 
-#: src/fn-math.c:189 src/fn-math.c:943
+#: src/fn-math.c:189 src/fn-math.c:962
 msgid "#VALUE"
 msgstr ""
 
@@ -1041,6 +1053,15 @@ msgstr ""
 
 #: src/fn-math.c:690
 msgid ""
+"@FUNCTION=POWER\n"
+"@SYNTAX=POWER(x,y)\n"
+"@DESCRIPTION=Returns the value of x raised to the power y\n"
+"Performing this function on a string or empty cell returns an error. \n"
+"@SEEALSO=EXP"
+msgstr ""
+
+#: src/fn-math.c:709
+msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
 "@DESCRIPTION=Computes the base-2 logarithm  of x. \n"
@@ -1048,11 +1069,11 @@ msgid ""
 "@SEEALSO=EXP, LOG10, LOG"
 msgstr ""
 
-#: src/fn-math.c:708
+#: src/fn-math.c:727
 msgid "log2: domain error"
 msgstr ""
 
-#: src/fn-math.c:715
+#: src/fn-math.c:734
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
@@ -1061,11 +1082,11 @@ msgid ""
 "@SEEALSO=EXP, LOG2, LOG"
 msgstr ""
 
-#: src/fn-math.c:734
+#: src/fn-math.c:753
 msgid "log10: domain error"
 msgstr ""
 
-#: src/fn-math.c:741
+#: src/fn-math.c:760
 msgid ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1, b2, ...)\n"
@@ -1076,7 +1097,7 @@ msgid ""
 "@SEEALSO=MAX,ABS"
 msgstr ""
 
-#: src/fn-math.c:755
+#: src/fn-math.c:774
 msgid ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
@@ -1087,7 +1108,7 @@ msgid ""
 "@SEEALSO=MIN,ABS"
 msgstr ""
 
-#: src/fn-math.c:860
+#: src/fn-math.c:879
 msgid ""
 "@FUNCTION=NOT\n"
 "@SYNTAX=NOT(number)\n"
@@ -1097,7 +1118,7 @@ msgid ""
 "@SEEALSO=AND, OR"
 msgstr ""
 
-#: src/fn-math.c:881
+#: src/fn-math.c:900
 msgid ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1, b2, ...)\n"
@@ -1111,7 +1132,7 @@ msgid ""
 "@SEEALSO=AND, NOT"
 msgstr ""
 
-#: src/fn-math.c:950
+#: src/fn-math.c:969
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -1120,7 +1141,7 @@ msgid ""
 "@SEEALSO=PI,DEGREES"
 msgstr ""
 
-#: src/fn-math.c:971
+#: src/fn-math.c:990
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -1131,7 +1152,7 @@ msgid ""
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr ""
 
-#: src/fn-math.c:991
+#: src/fn-math.c:1010
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -1142,7 +1163,7 @@ msgid ""
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 msgstr ""
 
-#: src/fn-math.c:1012
+#: src/fn-math.c:1031
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -1151,7 +1172,7 @@ msgid ""
 "@SEEALSO=AVERAGE, COUNT"
 msgstr ""
 
-#: src/fn-math.c:1079
+#: src/fn-math.c:1098
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -1162,7 +1183,7 @@ msgid ""
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:1099
+#: src/fn-math.c:1118
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -1173,7 +1194,7 @@ msgid ""
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:1119
+#: src/fn-math.c:1138
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -1182,7 +1203,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-math.c:1138
+#: src/fn-math.c:1157
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -1634,7 +1655,7 @@ msgstr "Posuò buòky doprava a pøesuò"
 msgid "Cut"
 msgstr "Vyjmout"
 
-#: src/item-grid.c:528 src/sheet.c:2509 src/workbook.c:842
+#: src/item-grid.c:528 src/sheet.c:2535 src/workbook.c:842
 msgid "Paste"
 msgstr "Vlo¾it"
 
