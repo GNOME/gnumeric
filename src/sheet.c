@@ -2690,4 +2690,3 @@ sheet_cursor_set (Sheet *sheet, int start_col, int start_row, int end_col, int e
 	}
 }
 
-

@@ -51,7 +51,7 @@ int_get_from_range (char *start, char *end, int_t *t)
 	} else {
 		p = g_malloc (size + 1);
 
-		strcpy (p, start);
+		strncpy (p, start, size);
 		p [size] = 0;
 	}
 #ifdef GNUMERIC_USE_GMP

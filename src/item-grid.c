@@ -165,21 +165,18 @@ typedef struct {
  * Draw a cell.  It gets pixel level coordinates
  */
 static void
-item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
+item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell,
 		     int x1, int y1, ColRowInfo *ci, ColRowInfo *ri, int col, int row)
 {
 	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (item_grid)->canvas;
 	GdkGC       *gc     = item_grid->gc;
 	Sheet       *sheet  = item_grid->sheet;
-	Cell        *cell;
 	int         cell_is_selected;
 	int         width = ci->pixels;
 	int         height = ri->pixels;
 	
 	cell_is_selected = sheet_selection_is_cell_selected (sheet, col, row);
 		
-	cell = sheet_cell_get (sheet, col, row);
-
 #if 0
 	/* Debugging code for testing the stipples */
 	gdk_gc_set_stipple (gc, GNUMERIC_SHEET (canvas)->patterns [col % 8]);
@@ -237,6 +234,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 	ItemGrid *item_grid = ITEM_GRID (item);
 	Sheet *sheet = item_grid->sheet;
 	GdkGC *grid_gc = item_grid->grid_gc;
+	Cell  *cell;
 	int end_x, end_y;
 	int paint_col, paint_row, max_paint_col, max_paint_row;
 	int col, row;
@@ -304,26 +302,26 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 		paint_col, paint_row, max_paint_col, max_paint_row);
 #endif
 	
-	col = paint_col;
-	for (x_paint = -diff_x; x_paint < end_x; col++){
-		ColRowInfo *ci;
-
-		ci = sheet_col_get_info (sheet, col);
-
-		row = paint_row;
-		for (y_paint = -diff_y; y_paint < end_y; row++){
-			ColRowInfo *ri;
-
-			ri = sheet_row_get_info (sheet, row);
-			item_grid_draw_cell (drawable, item_grid,
+	row = paint_row;
+	for (y_paint = -diff_y; y_paint < end_y; row++){
+		ColRowInfo *ri;
+		
+		ri = sheet_row_get_info (sheet, row);
+		col = paint_col;
+		for (x_paint = -diff_x; x_paint < end_x; col++){
+			ColRowInfo *ci;
+			
+			ci = sheet_col_get_info (sheet, col);
+			
+			cell = sheet_cell_get (sheet, col, row);
+			item_grid_draw_cell (drawable, item_grid, cell,
 					     x_paint, y_paint,
 					     ci,
 					     ri, 
 					     col, row);
-			y_paint += ri->pixels;
+			x_paint += ci->pixels;
 		}
-
-		x_paint += ci->pixels;
+		y_paint += ri->pixels;
 	}
 	
 #undef DEBUG_EXPOSES
