@@ -54,9 +54,10 @@ Jukka:
 	* New random distribution functions (mostly integrated from the 
 	  GNU Scientific Library with some minor modifications):
 	  RANDBETA(), RANDCAUCHY(), RANDCHISQ(), RANDFDIST(), RANDGAMMA(),
-	  RANDGAUSSIAN(), RANDGEOM(), RANDHYPERG(), RANDLAPLACE(), RANDLOG(),
-	  RANDLOGISTIC(), RANDLOGNORM(), RANDPARETO(), RANDRAYLEIGH(),
-	  RANDTDIST(), RANDUNIFORM(), and RANDWEIBULL().
+	  RANDGAUSSIAN(), RANDGEOM(), RANDGUMBEL(), RANDHYPERG(),
+	  RANDLAPLACE(), RANDLEVY(), RANDLOG(), RANDLOGISTIC(), RANDLOGNORM(),
+	  RANDPARETO(), RANDRAYLEIGH(), RANDTDIST(), RANDUNIFORM(), and
+	  RANDWEIBULL().
 
 Morten:
 	* Improve the Applix importer.

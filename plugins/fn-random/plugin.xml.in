@@ -23,8 +23,10 @@
 				<function name="randgamma"/>
 				<function name="randgaussian"/>
 				<function name="randgeom"/>
+				<function name="randgumbel"/>
 				<function name="randhyperg"/>
 				<function name="randlaplace"/>
+				<function name="randlevy"/>
 				<function name="randlog"/>
 				<function name="randlogistic"/>
 				<function name="randlognorm"/>

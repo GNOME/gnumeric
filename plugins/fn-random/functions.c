@@ -681,6 +681,76 @@ gnumeric_randtdist (FunctionEvalInfo *ei, Value **argv)
         return value_new_float (random_tdist (nu));
 }
 
+/***************************************************************************/
+
+static const char *help_randgumbel = {
+        N_("@FUNCTION=RANDGUMBEL\n"
+           "@SYNTAX=RANDGUMBEL(a,b[,type])\n"
+
+           "@DESCRIPTION="
+           "RANDGUMBEL returns a Type I or Type II Gumbel-distributed "
+	   "random number. @type is either 1 or 2 and specifies the type of "
+	   "the distribution (Type I or Type II). "
+           "\n"
+	   "If @type is either 1 or 2, RANDGUMBEL returns #NUM! error. "
+	   "If @type is omitted, Type I is assumed. "
+           "\n"
+           "@EXAMPLES=\n"
+           "RANDGUMBEL(0.5,1,2).\n"
+           "\n"
+           "@SEEALSO=RAND")
+};
+
+static Value *
+gnumeric_randgumbel (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float a = value_get_as_float (argv[0]);
+	gnum_float b = value_get_as_float (argv[1]);
+	int type     = (argv[2] == NULL) ? 1 : value_get_as_int (argv[2]);
+
+	if (type != 1 && type != 2)
+		return value_new_error (ei->pos, gnumeric_err_NUM);
+
+	if (type == 1)
+		return value_new_float (random_gumbel1 (a, b));
+	else
+		return value_new_float (random_gumbel2 (a, b));
+}
+
+/***************************************************************************/
+
+static const char *help_randlevy = {
+        N_("@FUNCTION=RANDLEVY\n"
+           "@SYNTAX=RANDLEVY(c,alpha[,beta])\n"
+
+           "@DESCRIPTION="
+           "RANDLEVY returns a Levy-distributed random number. If @beta is "
+	   "ommitted, it is assumed to be 0.\n"
+	   "For alpha = 1, beta=0, we get the Lorentz distribution. "
+	   "For alpha = 2, beta=0, we get the Gaussian distribution. "
+           "\n"
+	   "If @alpha <= 0 or @alpha > 2, RANDLEVY returns #NUM! error. "
+	   "If @beta < -1 or @beta > 1, RANDLEVY returns #NUM! error. "
+           "\n"
+           "@EXAMPLES=\n"
+           "RANDLEVY(0.5,0.1,1).\n"
+           "\n"
+           "@SEEALSO=RAND")
+};
+
+static Value *
+gnumeric_randlevy (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float c     = value_get_as_float (argv[0]);
+	gnum_float alpha = value_get_as_float (argv[1]);
+	gnum_float beta  = argv[2] == NULL ? 0 : value_get_as_float (argv[1]);
+
+	if (alpha <= 0 || alpha > 2 || beta < -1 || beta > 1)
+		return value_new_error (ei->pos, gnumeric_err_NUM);
+
+	return value_new_float (random_levy_skew (c, alpha, beta));
+}
+
 
 /***************************************************************************/
 
@@ -707,10 +777,14 @@ const ModulePluginFunctionInfo random_functions[] = {
 	  gnumeric_randgamma, NULL, NULL, NULL },
         { "randgeom", "f", N_("p"),    &help_randgeom,
 	  gnumeric_randgeom, NULL, NULL, NULL },
+        { "randgumbel", "ff|f", N_("a,b[,type]"),    &help_randgumbel,
+	  gnumeric_randgumbel, NULL, NULL, NULL },
         { "randhyperg", "fff", N_("n1,n2,t"),    &help_randhyperg,
 	  gnumeric_randhyperg, NULL, NULL, NULL },
         { "randlaplace", "f", N_("a"), &help_randlaplace,
 	  gnumeric_randlaplace, NULL, NULL, NULL },
+        { "randlevy", "ff|f", N_("c,alpha[,beta]"), &help_randlevy,
+	  gnumeric_randlevy, NULL, NULL, NULL },
         { "randlog", "f", N_("p"), &help_randlog,
 	  gnumeric_randlog, NULL, NULL, NULL },
         { "randlogistic", "f", N_("a"), &help_randlogistic,
