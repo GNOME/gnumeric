@@ -1,6 +1,5 @@
 INCLUDES = 						\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
-	-DGNUMERIC_VERSION=\""$(VERSION)"\"		\
         -DGNUMERIC_GLADEDIR=\""$(gladedir)"\"           \
 	-DGNUMERIC_ICONDIR=\""$(iconsdir)"\"		\
 	-I$(includedir)				 	\
@@ -57,6 +56,8 @@ sample_LDADD =			\
 
 
 gnorbadir = $(sysconfdir)/CORBA/servers
+oafdir = $(datadir)/oaf
 gnorba_DATA = graph.gnorba
+oaf_DATA = graph.oafinfo
 
-EXTRA_DIST = graph.gnorba
+EXTRA_DIST = graph.gnorba graph.oafinfo.in

@@ -28,13 +28,15 @@ member.
        The DependencyRange structure defines a range reference. This essential
 lists the Cells ( not neccessarily in this sheet ), that depend on the range
 specified. Hence to find the cells that depend on a cell you have just altered
-you must search all the range structures in the range_hash for that sheet.
+you must search all the range structures in the range_hash for that sheet. This
+is very important; to re-phrase dependancies are stored in an Area -> list of
+depending cells fashion.
 
        The DependencySingle structure mapping stores the degenerate case of
 a DependencyRange. Essentialy it stores the cells that depend on a unit range.
 This allows for extremely fast linear time hashed lookup. This contrasts with
 the Range hash, all of which has to be traversed per dependency calculation.
-NB. the DependencySingle has has to use CellPos' since there is no garentee that
+NB. the DependencySingle has to use CellPos' since there is no garentee that
 a cell will exist at a given position in the sheet that is depended on.
 
 1.2    The generation gap
@@ -71,7 +73,9 @@ the dependencies of this cell are queued on the workbook's eval_queue.
 Value (value.h) we can prune a huge chunk off the dependency tree by not
 bothering notifying dependencies of a change ( since there hasn't been one ).
 Hence cell_eval_content returns a gboolean indicating whether the cell's
-value has changed.  (11/Apr/2000 JEG ??  It does not seem to. )
+value has changed.  (Ok, so this feature was dropped before the code went
+live, since a few other changes were needed to support it, but there is room
+for performance improvement here ).
 
 
 3.     Dependencies the bottleneck
@@ -80,7 +84,7 @@ value has changed.  (11/Apr/2000 JEG ??  It does not seem to. )
 needs to be recomputed, it is clearly advantagous to spend time culling the
 dependency tree as intelligently as possible. Furthermore since for each cell
 that changes it is neccessary to determine its dependencies the lookup of
-a cells dependencies needs to be fast.
+a cell's dependencies needs to be fast.
 
 3.1    Why two methods
 
@@ -97,6 +101,11 @@ dependencies and range dependencies. This way for the common =A1 case, we don't
 add an entry in the range_hash, we simply add an entry in the simple_hash.
 Hence for the cell_get_dependencies we have one less entry in the range hash to
 iterate over, which saves N iterations of search_cell_deps.
+
+	Another common case is having a lot of formulae sharing the same range
+in the sheet as a dependency ( eg. cutting and pasting = SUM($A$1:$A$100) ). In
+this case there is a single depedency range entry with many cells listed as its
+dependancies.
 
 3.2    Inter-sheet dependencies
 

@@ -8,7 +8,11 @@
  */
 #include <config.h>
 #include <gnome.h>
-#include <libgnorba/gnorba.h>
+#if USING_OAF
+#	include <liboaf/liboaf.h>
+#else
+#	include <libgnorba/gnorba.h>
+#endif
 #include <bonobo.h>
 #include "sheet.h"
 #include "main.h"
@@ -18,21 +22,36 @@
 void
 gnumeric_arg_parse (int argc, char *argv [])
 {
+#if !USING_OAF
 	CORBA_Environment ev;
+#endif
+	CORBA_ORB         orb;
 
-	CORBA_exception_init (&ev);
+	ctx = NULL;
+
+#if USING_OAF
+	gnome_init_with_popt_table ("container", VERSION,
+				    argc, argv,
+				    oaf_popt_options, 0, NULL);
 	
+	orb = oaf_init (argc, argv);
+#else
+	CORBA_exception_init (&ev);
+
 	gnome_CORBA_init_with_popt_table (
 		"gnumeric", VERSION, &argc, argv,
 		gnumeric_popt_options, 0, &ctx, GNORBA_INIT_SERVER_FUNC, &ev);
 
-	if (bonobo_init (gnome_CORBA_ORB (), NULL, NULL) == FALSE){
-		g_error ("Failure starting up Bonobo");
-	}
+	CORBA_exception_free (&ev);
 
-	if (!WorkbookFactory_init ()){
+	orb = gnome_CORBA_ORB ();
+#endif
+
+	if (bonobo_init (orb, NULL, NULL) == FALSE)
+		g_error ("Failure starting up Bonobo");
+
+	if (!WorkbookFactory_init ())
 		g_warning (_("Could not initialize the Gnumeric Workbook factory"));
-	}
 
 	EmbeddableGridFactory_init ();
 }

@@ -231,15 +231,16 @@ SheetObject *
 sheet_object_container_new_from_goadid (Sheet *sheet,
 					double x1, double y1,
 					double x2, double y2,
-					const char *goadid)
+					const char *obj_id)
 {
 	BonoboObjectClient *object_server;
 	SheetObjectContainer *c;
 	
 	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (obj_id != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
-	object_server = bonobo_object_activate_with_goad_id (NULL, goadid, 0, NULL);
+	object_server = bonobo_object_activate (obj_id, 0);
 	if (!object_server)
 		return NULL;
 

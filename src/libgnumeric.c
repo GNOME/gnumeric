@@ -172,7 +172,11 @@ gnumeric_main (void *closure, int argc, char *argv [])
 		exit (0);
 	}
 
-	startup_files = poptGetArgs (ctx);
+	if (ctx)
+		startup_files = poptGetArgs (ctx);
+	else
+		startup_files = NULL;
+
 	if (startup_files)
 		for (i = 0; startup_files [i]; i++) {
 			Workbook *new_book = workbook_read (context,
@@ -187,7 +191,8 @@ gnumeric_main (void *closure, int argc, char *argv [])
 			while (gtk_events_pending ()) /* Show something coherent */
 				gtk_main_iteration ();
 		}
-	poptFreeContext (ctx);
+	if (ctx)
+		poptFreeContext (ctx);
 
 	if (!opened_workbook) {
 		new_book = workbook_new_with_sheets (1);

@@ -190,6 +190,21 @@ if $try_bonobo; then
 		bonobo_msg=yes
 		bonobo_suffix=-bonobo
 	        gnumeric_executable=gnumeric-bonobo
+
+		dnl Check if Bonobo is OAFized
+
+		AC_MSG_CHECKING(if Bonobo uses OAF)
+		if ( gnome-config --libs bonobo | grep oaf ) > /dev/null 2>&1 ; then
+			using_oaf="yes"
+			AC_DEFINE(USING_OAF)
+		else
+			using_oaf="no"
+		fi
+
+		AC_MSG_RESULT("$using_oaf")
+
+		AM_CONDITIONAL(USING_OAF, test x"using_oaf" = "xyes")
+
 	else
 		AC_MSG_RESULT(not found)
 	fi
@@ -354,6 +369,7 @@ src/widgets/Makefile
 src/functions/Makefile
 src/portability.h
 graph/Makefile
+graph/graph.oafinfo
 wizards/Makefile
 wizards/graphics/Makefile
 doc/Makefile
@@ -398,6 +414,7 @@ Configuration:
 	
 	GB Support:		${gb_msg}
 	Bonobo Support:		${bonobo_msg}
+	Oaf Support:		${using_oaf}
 "
 if $have_bonobo; then
 	echo "

@@ -29,7 +29,7 @@ get_graphics_component (void)
 {
 	BonoboObjectClient *object_server;
 
-	object_server = bonobo_object_activate_with_goad_id (NULL, GRAPH_GOADID, 0, NULL);
+	object_server = bonobo_object_activate (GRAPH_GOADID, 0);
 
 	return object_server;
 }

@@ -1,9 +1,11 @@
 /*
  * eval.c:  Cell recomputation routines.
  *
+ * Please do not commit to this module, send a patch to Michael.
+ *
  * Authors:
- *  Miguel de Icaza (miguel@gnu.org)
  *  Michael Meeks   (mmeeks@gnu.org)
+ *  Miguel de Icaza (miguel@gnu.org)
  */
 
 #include <config.h>
@@ -165,7 +167,8 @@ invalidate_refs (DependencyRange *deprange, Sheet *invalid_sheet)
 					 eval_pos_cell (&pos, cell),
 					 &info);
 
-		/* We are told this cell depends on this region
+		/*
+		 * We are told this cell depends on this region
 		 * If this is null then we did not depend on it
 		 * and something is hosed.
 		 */

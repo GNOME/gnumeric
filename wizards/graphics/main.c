@@ -168,7 +168,7 @@ graphics_wizard (Workbook *wb)
 
 	gc = graphic_context_new (wb, gui);
 
-	if (!gc){
+	if (!gc) {
 		gnumeric_notice (
 			wb, GNOME_MESSAGE_BOX_ERROR,
 			_("Unable to launch the graphics service"));
@@ -206,7 +206,7 @@ graphics_wizard (Workbook *wb)
 #warning super hack
 		gtk_object_destroy (gc->dialog_toplevel);
 
-		for (l = gc->data_range_list; l; l = l->next){
+		for (l = gc->data_range_list; l; l = l->next) {
 			DataRange *r = l->data;
 
 			sheet_vector_attach (r->vector, gc->workbook->current_sheet);

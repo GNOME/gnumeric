@@ -1,3 +1,39 @@
+2000-05-01  Michael Meeks  <michael@helixcode.com>
+
+	* configure.in: Handle oafinfo.in
+
+	* src/sheet-object.c (sheet_set_mode_type_full): oafize.
+
+	* src/sheet-object-container.c (sheet_object_container_new_from_goadid): 
+	ditto.
+
+	* src/sheet.c (sheet_insert_object): always launch via.
+	bonobo_object_activate regardless of monikers.
+
+	* idl/Gnumeric.idl: add a comment telling people to look elsewhere if
+	they want to write bonobo components.
+
+	* src/workbook.c (insert_object_cmd): update for oaf.
+
+	* src/main.c (gnumeric_main): Check for NULL ctx, on corba failure.
+
+	* src/corba-args.c (gnumeric_arg_parse): NULL ctx.
+
+	* src/corba-workbook-factory.c (_WorkbookFactory_init): update to
+	use od_server_register.
+	(WorkbookFactory_create_object): use Bonobo_stringlist not GNOME_stringlist,
+	when was this last compiled ...
+
+	* src/corba-args.c (gnumeric_arg_parse): update for OAF.
+
+	* acconfig.h: USING_OAF
+
+	* configure.in: ditto.
+
+2000-05-01  Michael Meeks  <michael@helixcode.com>
+
+	* HACKING: make it more explicit.
+
 2000-05-01  Morten Welinder  <terra@diku.dk>
 
 	* src/main.c (has_gnumeric_been_compiled_with_guile_support): Fix

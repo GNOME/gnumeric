@@ -1,14 +1,23 @@
 /*
  * corba-workbook-factory.c: CORBA Workbook factory.
  *
+ * If you are looking for a good example of Bonobo use, this is not it.
+ * please see bonobo/samples/ for a better starting point.
+ *
  * Author:
  *   Miguel de Icaza (miguel@gnu.org)
  */
 
 #include <config.h>
-#include <libgnorba/gnome-factory.h>
-#include <libgnorba/gnorba.h>
 #include <gnome.h>
+#if USING_OAF
+#	include <liboaf/liboaf.h>
+#else
+#	include <libgnorba/gnorba.h>
+#endif
+#include <bonobo.h>
+#include <bonobo/bonobo-object-directory.h>
+
 #include "sheet.h"
 #include "gnumeric.h"
 #include "workbook.h"
@@ -70,10 +79,10 @@ WorkbookFactory_manufactures (PortableServer_Servant servant,
 }
 
 static CORBA_Object
-WorkbookFactory_create_object (PortableServer_Servant servant,
-			       const CORBA_char *goad_id,
-			       const GNOME_stringlist *params,
-			       CORBA_Environment *ev)
+WorkbookFactory_create_object (PortableServer_Servant   servant,
+			       const CORBA_char        *goad_id,
+			       const Bonobo_stringlist *params,
+			       CORBA_Environment       *ev)
 {
 	Workbook *workbook;
 
@@ -129,14 +138,21 @@ static gboolean
 _WorkbookFactory_init (CORBA_Environment *ev)
 {
 	PortableServer_POAManager poa_manager;
-	int v;
+	CORBA_ORB orb;
+	int       v;
+
+#if USING_OAF
+	orb = oaf_orb_get ();
+#else
+	orb = gnome_CORBA_ORB ();
+#endif
 
 	/*
 	 * Get the POA and create the server
 	 */
 	gnumeric_poa = (PortableServer_POA)
 		CORBA_ORB_resolve_initial_references (
-		gnome_CORBA_ORB (), "RootPOA", ev);
+		orb, "RootPOA", ev);
 
 	if (ev->_major != CORBA_NO_EXCEPTION)
 		return FALSE;
@@ -163,11 +179,11 @@ _WorkbookFactory_init (CORBA_Environment *ev)
 	 * that is floating around.
 	 */
 
-	v = goad_server_register (CORBA_OBJECT_NIL, gnumeric_workbook_factory,
-				  "IDL:GNOME:Gnumeric:WorkbookFactory:1.0", "object", ev);
+	v = od_server_register (gnumeric_workbook_factory,
+				"IDL:GNOME:Gnumeric:WorkbookFactory:1.0");
 
-	v = goad_server_register (CORBA_OBJECT_NIL, gnumeric_workbook_factory,
-				  "GOADID:GNOME:Gnumeric:WorkbookFactory:1.0", "object", ev);
+	v = od_server_register (gnumeric_workbook_factory,
+				"GOADID:GNOME:Gnumeric:WorkbookFactory:1.0");
 	if (v == 0)
 		return TRUE;
 

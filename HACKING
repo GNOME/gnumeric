@@ -87,7 +87,22 @@ modular chunks (as detailed by Linus).
         - Fast code that is difficult to maintain has no place in
 	  Gnumeric and will be dropped.
 
-	- Follow the Gnumeric commenting style.  
+	- Follow the Gnumeric commenting style, which is not the Gtk
+	  style;
+		/*
+		 * ie. use this for
+		 * multi-line comments
+		 */
+
+	- Do not overuse const; there is a great danger that const
+	  will be overused and whilst this makes the code more robust
+ 	  against idiot hackers, idiot hackers should not be committing.
+	  Furthermore const TypeName is strongly preferred to the synonym
+	  TypeName const.
+
+		ie. TypeName const * const non_array;	should be:
+
+		    const TypeName *non_array;          good.
 
 	- Your code should compile without warnings.
 

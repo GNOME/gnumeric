@@ -2528,25 +2528,22 @@ sheet_lookup_by_name (Workbook *wb, const char *name)
 }
 
 void
-sheet_insert_object (Sheet *sheet, char *goadid)
+sheet_insert_object (Sheet *sheet, char *obj_id)
 {
 #ifdef ENABLE_BONOBO
 	BonoboClientSite *client_site;
 	BonoboObjectClient *object_server;
 
 	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (obj_id != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (goadid != NULL);
 
-	if (strncmp (goadid, "moniker_url:", 12) == 0)
-		object_server = bonobo_object_activate (goadid, 0);
-	else
-		object_server = bonobo_object_activate_with_goad_id (NULL, goadid, 0, NULL);
+	object_server = bonobo_object_activate (obj_id, 0);
 	
-	if (!object_server){
+	if (!object_server) {
 		char *msg;
 
-		msg = g_strdup_printf (_("I was not able to activate object %s"), goadid);
+		msg = g_strdup_printf (_("I was not able to activate object %s"), obj_id);
 
 		gnumeric_notice (sheet->workbook, GNOME_MESSAGE_BOX_ERROR, msg);
 		g_free (msg);

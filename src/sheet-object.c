@@ -756,7 +756,7 @@ sheet_set_mode_type_full (Sheet *sheet, SheetModeType mode, void *mode_data)
 #ifdef ENABLE_BONOBO
 	{
 		char *required_interfaces [2];
-		char *goad_id;
+		char *obj_id;
 
 		if (sheet->mode == SHEET_MODE_CREATE_CANVAS_ITEM)
 			required_interfaces [0] = "IDL:Bonobo/Canvas/Item:1.0";
@@ -764,12 +764,18 @@ sheet_set_mode_type_full (Sheet *sheet, SheetModeType mode, void *mode_data)
 			required_interfaces [0] = "IDL:Bonobo/Embeddable:1.0";
 		required_interfaces [1] = NULL;
 
-		goad_id = gnome_bonobo_select_goad_id (_("Select an object"), required_interfaces); 
-		if (goad_id == NULL){
+#if USING_OAF
+		obj_id = gnome_bonobo_select_oaf_id (
+			_("Select an object to add"), required_interfaces);
+#else
+		obj_id = gnome_bonobo_select_goad_id (
+			_("Select an object to add"), required_interfaces);
+#endif
+		if (obj_id == NULL) {
 			sheet_set_mode_type (sheet, SHEET_MODE_SHEET);
 			return;
 		}
-		sheet->mode_data = g_strdup (goad_id);
+		sheet->mode_data = g_strdup (obj_id);
 
 		sheet_object_bind_button_events (sheet);
 		break;

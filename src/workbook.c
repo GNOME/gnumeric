@@ -1051,11 +1051,18 @@ static void
 insert_object_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
-	char *goadid;
+	char  *obj_id;
 
-	goadid = gnome_bonobo_select_goad_id (_("Select an object"), NULL);
-	if (goadid != NULL)
-		sheet_insert_object (sheet, goadid);
+#if USING_OAF
+	obj_id = gnome_bonobo_select_oaf_id (
+		_("Select an object to add"), NULL);
+#else
+	obj_id = gnome_bonobo_select_goad_id (
+		_("Select an object to add"), NULL);
+#endif
+
+	if (obj_id != NULL)
+		sheet_insert_object (sheet, obj_id);
 }
 #endif
 

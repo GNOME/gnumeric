@@ -5,8 +5,13 @@
  *
  * (C) 1999, 2000 Helix Code, Inc.
  */
+#include "config.h"
 #include <gnome.h>
-#include <libgnorba/gnorba.h>
+#if USING_OAF
+#	include <liboaf/liboaf.h>
+#else
+#	include <libgnorba/gnorba.h>
+#endif
 #include <bonobo.h>
 #include "idl/Graph.h"
 #include "vector.h"
@@ -245,17 +250,37 @@ create_test (BonoboUIHandler *uih)
 	BonoboViewFrame *view_frame;
 	BonoboContainer *container;
 	int i;
+#if USING_OAF
+	CORBA_Environment ev;
+#endif
 	
 	container = bonobo_container_new ();
 	client_site = bonobo_client_site_new (container);
 	
+#if USING_OAF
+	{
+		CORBA_Object o;
+		CORBA_exception_init (&ev);
+		/* FIXME: what a mighty hack */
+		o = oaf_activate ("description == 'Graph component'",
+				  NULL, 0, NULL, &ev);
+		CORBA_exception_free (&ev);
+		if (!o)
+			object = NULL;
+		else
+			object = bonobo_object_client_from_corba ((Bonobo_Unknown)o);
+	}
+#else
 	object = bonobo_object_activate ("GOADID:embeddable:Graph:Layout", 0);
-	if (!object){
+#endif
+	if (!object) {
 		printf ("Can not activate object\n");
 		exit (1);
 	}
 	
-	layout = bonobo_object_query_interface (BONOBO_OBJECT (object), "IDL:GNOME/Graph/Layout:1.0");
+	layout = bonobo_object_query_interface (
+		BONOBO_OBJECT (object), "IDL:GNOME/Graph/Layout:1.0");
+
 	if (layout == CORBA_OBJECT_NIL)
 		g_error ("interface Layout not supported");
 
@@ -289,15 +314,26 @@ int
 main (int argc, char *argv [])
 {
 	BonoboUIHandler *uih;
-	GtkWidget *graph_widget, *toplevel;
+	GtkWidget       *graph_widget;
+	GtkWidget       *toplevel;
+	CORBA_ORB        orb;
 	
 	CORBA_exception_init (&ev);
+
+#if USING_OAF
+	gnome_init_with_popt_table ("container", VERSION,
+				    argc, argv,
+				    oaf_popt_options, 0, NULL);
+	orb = oaf_init (argc, argv);
+#else
 	gnome_CORBA_init ("Sample tester", "1.0", &argc, argv, 0, &ev);
+	orb = gnome_CORBA_ORB ();
+#endif
 
 	/*
 	 * Initialize Bonobo
 	 */
-	bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL);
+	bonobo_init (orb, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL);
 
 	/*
 	 * Start accepting CORBA requests
@@ -312,7 +348,6 @@ main (int argc, char *argv [])
 	graph_widget = create_test (uih);
 	gnome_app_set_contents (GNOME_APP (toplevel), graph_widget);
 	gtk_widget_show (graph_widget);
-
 
 	/*
 	 * Process user requests

@@ -1,3 +1,17 @@
+2000-05-01  Michael Meeks  <michael@helixcode.com>
+
+	* sample.c (create_test): Update object_activate.
+
+	* Makefile.am: handle the oaf.
+
+	* graph.oafinfo.in: add.
+
+	* sample.c (main): oafize.
+
+	* Makefile.am (-DGNUMERIC_GLADEDIR): kill.
+
+	* main.c (init_server_factory): update for oaf.
+
 2000-04-06  Jody Goldberg <jgoldberg@home.com>
 
 	* graph.c (graph_compute_scatter_dimensions) : Minor patch to avoid
