@@ -31,7 +31,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 #include "cell.h"
 #include "sheet.h"
 #include "value.h"
@@ -202,9 +201,9 @@ mps_parse_name (MpsInputContext *ctxt)
 		        return FALSE;
 
 		if (strncmp (ctxt->line, "NAME", 4) == 0
-		    && isspace ((unsigned char)(ctxt->line[4]))) {
+		    && g_ascii_isspace ((ctxt->line[4]))) {
 		        line = ctxt->line + 5;
-			while (isspace ((unsigned char) *line))
+			while (g_ascii_isspace (*line))
 			        line++;
 
 			ctxt->name = g_strdup (ctxt->line);
@@ -224,7 +223,7 @@ mps_add_row (MpsInputContext *ctxt, MpsRowType type, gchar *txt)
         MpsRow *row;
 	int    len;
 
-        while (isspace ((unsigned char) *txt))
+        while (g_ascii_isspace (*txt))
 	          txt++;
 
 	row = g_new (MpsRow, 1);
