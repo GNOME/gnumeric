@@ -1,3 +1,15 @@
+2001-02-17  Almer S. Tigelaar  <almer1@dds.nl>
+
+	* src/commands.c 
+	(cmd_hide_colrow_correct_selection) : Make sure the
+	hidden cols/rows are not selected. Selecting adjacent cols/rows
+	instead. Fixes #38179.
+	(cmd_hide_colrow_undo) : Call cmd_hide_colrow_correct_selectio here.
+	(cmd_hide_colrow_redo) : And here.
+	
+	* src/colrow.h, src/colrow.c (colrow_find_adjacent_visible) : 
+	New, Find the next visible col/row in the sheet.
+
 2001-02-17  Jody Goldberg <jgoldberg@home.com>
 
 	* src/style-border.c (style_borders_row_draw) : Don't draw the

@@ -504,6 +504,43 @@ colrow_set_visibility_list (Sheet *sheet, gboolean const is_cols,
 }
 
 /**
+ * colrow_find_adjacent_visible:
+ * @sheet: Sheet to search on.
+ * @is_col: If true find next column else find next row.
+ * @index: The col/row index to start at.
+ *  
+ * Return value: The index of the next visible col/row or -1 if
+ *               there are no more visible cols/rows left.
+ **/
+int
+colrow_find_adjacent_visible (Sheet *sheet, gboolean const is_col, int const index)
+{
+	gboolean forward = TRUE;
+	int const max    = is_col ? SHEET_MAX_COLS : SHEET_MAX_ROWS;
+	int i            = index; /* To avoid trouble at edges */
+
+	do {
+		ColRowInfo * const cri = is_col
+			? sheet_col_fetch (sheet, i)
+			: sheet_row_fetch (sheet, i);
+			
+		if (cri->visible)
+			return i;
+
+		if (forward) {
+			if (++i >= max) {
+				i       = index;
+				forward = FALSE;
+			}
+		} else
+			i--;
+
+	} while (i > 0);
+
+	return -1;
+}
+
+/**
  * colrow_set_visibility:
  * @sheet	: the sheet
  * @is_cols	: Are we dealing with rows or columns.

@@ -1741,6 +1741,33 @@ typedef struct
 
 GNUMERIC_MAKE_COMMAND (CmdHideColRow, cmd_hide_colrow);
 
+static void
+cmd_hide_colrow_correct_selection (GnumericCommand *cmd)
+{
+	CmdHideColRow *me = CMD_HIDE_COLROW (cmd);
+	int x, y, index;
+	
+	/*
+	 * Make sure the selection/cursor is set to a visible row/col
+	 */
+	index = colrow_find_adjacent_visible (me->sheet, me->is_cols, me->is_cols
+					      ? me->sheet->edit_pos.col : me->sheet->edit_pos.row);
+
+	x = me->is_cols ? me->sheet->edit_pos.row : index;
+	y = me->is_cols ? index : me->sheet->edit_pos.col;
+					
+	sheet_selection_reset (me->sheet);
+
+	if (index != -1) {
+		if (me->is_cols)
+			sheet_selection_add_range (me->sheet, y, x, y, 0,
+						   y, SHEET_MAX_ROWS - 1);
+		else
+			sheet_selection_add_range (me->sheet, y, x, 0, x,
+						   SHEET_MAX_COLS - 1, x);
+	}
+}
+
 static gboolean
 cmd_hide_colrow_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
@@ -1750,6 +1777,9 @@ cmd_hide_colrow_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	colrow_set_visibility_list (me->sheet, me->is_cols,
 				    !me->visible, me->elements);
+
+	if (me->visible == TRUE)
+		cmd_hide_colrow_correct_selection (cmd);
 
 	return FALSE;
 }
@@ -1763,6 +1793,9 @@ cmd_hide_colrow_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	colrow_set_visibility_list (me->sheet, me->is_cols,
 				    me->visible, me->elements);
+
+	if (me->visible != TRUE)
+		cmd_hide_colrow_correct_selection (cmd);
 
 	return FALSE;
 }
