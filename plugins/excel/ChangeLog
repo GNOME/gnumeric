@@ -1,3 +1,16 @@
+2001-08-29  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-chart.c (excel_chart_series_new) : init the xml node.
+	(excel_chart_series_write_xml) : new.
+	(BC_R(store_chartgroup_type)) : new utility.
+	(BC_R(bar)) : convert to xml.
+	(BC_R(line)): convert to xml.
+	(BC_R(pie)) : convert to xml.
+	(BC_R(scatter)) : convert to xml.
+	(BC_R(chartformat)) : store the general chart group details.
+	(BC_R(end)) : store the series specs associated with this chartgroup.
+	(ms_excel_chart) : tweaks for xml.
+
 2001-08-28  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-obj.c (ms_read_OBJ) : pass graphs into their parser.

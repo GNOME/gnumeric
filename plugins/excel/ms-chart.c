@@ -24,6 +24,7 @@
 
 #include <gnumeric-graph.h>
 #include <xml-io.h>
+#include <gal/util/e-xml-utils.h>
 #include <gnome-xml/tree.h>
 #include <stdio.h>
 
@@ -65,9 +66,14 @@ typedef struct
 	ExcelWorkbook	*wb;
 	GnmGraph	*graph;
 
-	xmlDocPtr   	 xml_doc;
-	xmlNsPtr	 xml_ns;
+	struct {
+		xmlDocPtr   	 doc;
+		xmlNsPtr	 ns;
+		xmlNodePtr  	 plots;
+		xmlNodePtr  	 currentChartGroup;
+	} xml;
 
+	int plot_counter;
 	ExcelChartSeries *currentSeries;
 	GPtrArray	 *series;
 } ExcelChartReadState;
@@ -104,6 +110,7 @@ excel_chart_series_new (void)
 	series = g_new (ExcelChartSeries, 1);
 
 	series->chart_group = -1;
+	series->xml = NULL;
 	for (i = MS_VECTOR_PURPOSE_MAX; i-- > 0 ; ) {
 		series->vector [i].remote_ID = -1;
 		series->vector [i].type = GNM_VECTOR_AUTO; /* may be reset later */
@@ -119,6 +126,25 @@ static void
 excel_chart_series_delete (ExcelChartSeries *series)
 {
 	g_free (series);
+}
+
+
+static void
+excel_chart_series_write_xml (ExcelChartSeries *series,
+			      ExcelChartReadState *s, xmlNodePtr data)
+{
+	unsigned i;
+	xmlNodePtr v;
+
+	g_return_if_fail (series->xml == NULL);
+
+	series->xml = xmlNewChild (data, s->xml.ns, "Series", NULL);
+	for (i = 0 ; i < MS_VECTOR_PURPOSE_MAX; i++ )
+		if (series->vector [i].remote_ID >= 0) {
+			v = xmlNewChild (series->xml, s->xml.ns,
+				ms_vector_purpose_type_name [i], NULL);
+			xml_node_set_int (v, "ID", series->vector [i].remote_ID);
+		}
 }
 
 static int
@@ -142,6 +168,21 @@ BC_R(color)(guint8 const *data, char *type)
 #endif
 
 	return style_color_new ((r<<8)|r, (g<<8)|g, (b<<8)|b);
+}
+
+static xmlNodePtr
+BC_R(store_chartgroup_type)(ExcelChartReadState *s, char const *t)
+{
+	xmlNodePtr fmt;
+
+	g_return_val_if_fail (s->xml.currentChartGroup != NULL, NULL);
+
+	fmt = e_xml_get_child_by_name (s->xml.currentChartGroup, "Type");
+
+	g_return_val_if_fail (fmt == NULL, NULL);
+
+	fmt = xmlNewChild (s->xml.currentChartGroup, s->xml.ns, "Type", NULL);
+	return xmlNewChild (fmt, s->xml.ns, t, NULL);
 }
 
 /****************************************************************************/
@@ -578,35 +619,28 @@ static gboolean
 BC_R(bar)(ExcelChartHandler const *handle,
 	  ExcelChartReadState *s, BiffQuery *q)
 {
-	/* percent of bar width */
-	guint16 const space_between_bar = MS_OLE_GET_GUINT16(q->data);
-	guint16 const space_between_categories = MS_OLE_GET_GUINT16(q->data+2);
+	guint16 const flags = MS_OLE_GET_GUINT16 (q->data+4);
 
-	guint16 const flags = MS_OLE_GET_GUINT16(q->data+4);
+	xmlNodePtr fmt = BC_R(store_chartgroup_type)(s, "Bar");
 
-	gboolean const horizontal_bar = (flags&0x01) ? TRUE : FALSE;
-	gboolean const stacked = (flags&0x02) ? TRUE : FALSE;
-	gboolean const as_percentage = (flags&0x04) ? TRUE : FALSE;
+	g_return_val_if_fail (fmt != NULL, TRUE);
 
-	printf ( (horizontal_bar) ? "Horizontal " : "Vertical ");
-	if (as_percentage)
-		/* TODO : test theory that percentage implies stacked */
-		printf ("Stacked Percentage. (%d should be TRUE)\n", stacked);
-	else if (stacked)
-		printf ("Stacked Percentage values\n");
-	else
-		printf ("Overlayed values\n");
+	e_xml_set_bool_prop_by_name (fmt, "horizontal", 
+				     (flags & 0x01) ? TRUE : FALSE);
 
-	printf ("Space between bars = %d %% of width\n",
-		space_between_bar);
-	printf ("Space between categories = %d %% of width\n",
-		space_between_categories);
-	if (s->container.ver >= MS_BIFF_V8)
-	{
-		gboolean const has_shadow = (flags & 0x04) ? TRUE : FALSE;
-		if (has_shadow)
-			puts ("in 3D");
-	}
+	if (flags & 0x04)
+		e_xml_set_bool_prop_by_name (fmt, "as_percentage", TRUE);
+	else if (flags & 0x02)
+		e_xml_set_bool_prop_by_name (fmt, "stacked", TRUE);
+
+	if (s->container.ver >= MS_BIFF_V8 && (flags & 0x08))
+		e_xml_set_bool_prop_by_name (fmt, "in_3d", TRUE);
+
+	xml_node_set_int (fmt, "percentage_space_between_items",
+			  MS_OLE_GET_GUINT16 (q->data));
+	xml_node_set_int (fmt, "percentage_space_between_groups",
+			  MS_OLE_GET_GUINT16 (q->data+2));
+
 	return FALSE;
 }
 
@@ -736,9 +770,26 @@ BC_R(chartformat)(ExcelChartHandler const *handle,
 	guint16 const z_order = MS_OLE_GET_GUINT16 (q->data+18);
 	gboolean const vary_color = (flags&0x01) ? TRUE : FALSE;
 
-	printf ("Z value = %uh\n", z_order);
-	if (vary_color)
-		printf ("Vary color of every data point\n");
+	/* always update the counter to keep the index in line with the chart
+	 * group specifier for series
+	 */
+	s->plot_counter++;
+
+	g_return_val_if_fail (s->xml.currentChartGroup == NULL, TRUE);
+
+	s->xml.currentChartGroup =
+		xmlNewChild (s->xml.plots, s->xml.ns, "Plot", NULL);
+	xml_node_set_int (s->xml.currentChartGroup, "index", s->plot_counter);
+	xml_node_set_int (s->xml.currentChartGroup, "stacking_position", z_order);
+
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_chart_debug > 0) {
+		printf ("Z value = %uh\n", z_order);
+		if (vary_color)
+			printf ("Vary color of every data point\n");
+	}
+#endif
+
 	return FALSE;
 }
 
@@ -1097,6 +1148,20 @@ static gboolean
 BC_R(line)(ExcelChartHandler const *handle,
 	   ExcelChartReadState *s, BiffQuery *q)
 {
+	guint16 const flags = MS_OLE_GET_GUINT16 (q->data);
+
+	xmlNodePtr fmt = BC_R(store_chartgroup_type)(s, "Line");
+
+	g_return_val_if_fail (fmt != NULL, TRUE);
+
+	if (flags & 0x02)
+		e_xml_set_bool_prop_by_name (fmt, "as_percentage", TRUE);
+	else if (flags & 0x01)
+		e_xml_set_bool_prop_by_name (fmt, "stacked", TRUE);
+
+	if (s->container.ver >= MS_BIFF_V8 && (flags & 0x04))
+		e_xml_set_bool_prop_by_name (fmt, "in_3d", TRUE);
+
 	return FALSE;
 }
 
@@ -1320,6 +1385,23 @@ static gboolean
 BC_R(pie)(ExcelChartHandler const *handle,
 	  ExcelChartReadState *s, BiffQuery *q)
 {
+	xmlNodePtr fmt = BC_R(store_chartgroup_type)(s, "Pie");
+
+	g_return_val_if_fail (fmt != NULL, TRUE);
+
+	xml_node_set_int (fmt, "degrees_of_first_pie", 
+			  MS_OLE_GET_GUINT16 (q->data));
+	xml_node_set_int (fmt, "hole_percentage_of_diameter", 
+			  MS_OLE_GET_GUINT16 (q->data+2));
+	if (s->container.ver >= MS_BIFF_V8) {
+		guint16 const flags = MS_OLE_GET_GUINT16 (q->data+4);
+
+		if (flags & 0x1)
+			e_xml_set_bool_prop_by_name (fmt, "in_3d", TRUE);
+		if (flags & 0x2)
+			e_xml_set_bool_prop_by_name (fmt, "leader_lines", TRUE);
+	}
+
 	return FALSE;
 }
 
@@ -1467,6 +1549,32 @@ static gboolean
 BC_R(scatter)(ExcelChartHandler const *handle,
 	      ExcelChartReadState *s, BiffQuery *q)
 {
+	xmlNodePtr fmt = BC_R(store_chartgroup_type)(s, "Scatter");
+
+	g_return_val_if_fail (fmt != NULL, TRUE);
+
+	if (s->container.ver >= MS_BIFF_V8) {
+		guint16 const flags = MS_OLE_GET_GUINT16 (q->data+4);
+
+		/* Has bubbles */
+		if (flags & 0x01) {
+			guint16 const size_type = MS_OLE_GET_GUINT16 (q->data+2);
+			e_xml_set_bool_prop_by_name (fmt, "has_bubbles", TRUE);
+			if (flags & 0x02)
+				e_xml_set_bool_prop_by_name (fmt, "show_negatives", TRUE);
+			if (flags & 0x04)
+				e_xml_set_bool_prop_by_name (fmt, "in_3d", TRUE);
+
+			xml_node_set_int (fmt, "percentage_largest_tochart",
+					  MS_OLE_GET_GUINT16 (q->data));
+			e_xml_set_bool_prop_by_name (fmt,
+						     (size_type == 2)
+						     ? "bubble_sized_as_width"
+						     : "bubble_sized_as_area",
+						     TRUE);
+		}
+	}
+
 	return FALSE;
 }
 
@@ -1562,7 +1670,7 @@ BC_R(series)(ExcelChartHandler const *handle,
 {
 	ExcelChartSeries *series;
 
-	g_return_val_if_fail (s->xml_doc != NULL, TRUE);
+	g_return_val_if_fail (s->xml.doc != NULL, TRUE);
 	g_return_val_if_fail (s->currentSeries == NULL, TRUE);
 
 	series = excel_chart_series_new ();
@@ -1954,6 +2062,26 @@ BC_R(end)(ExcelChartHandler const *handle,
 		s->currentSeries = NULL;
 		break;
 
+	case BIFF_CHART_chartformat : {
+		unsigned i;
+		xmlNodePtr data;
+		ExcelChartSeries *series;
+
+		g_return_val_if_fail (s->xml.currentChartGroup != NULL, FALSE);
+
+		data = xmlNewChild (s->xml.currentChartGroup, s->xml.ns, "Data", NULL);
+		for (i = 0 ; i < s->series->len; i++ ) {
+			series = g_ptr_array_index (s->series, i);
+
+			if (series->chart_group != s->plot_counter)
+				continue;
+			excel_chart_series_write_xml (series, s, data);
+		}
+
+		s->xml.currentChartGroup = NULL;
+		break;
+	}
+
 	default :
 		break;
 	};
@@ -2127,8 +2255,7 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver, GtkObje
 	int const num_handler = sizeof(chart_biff_handler) /
 		sizeof(ExcelChartHandler *);
 
-	int i, j;
-	xmlNodePtr tmp;
+	int i;
 	gboolean done = FALSE;
 	ExcelChartReadState state;
 
@@ -2145,12 +2272,15 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver, GtkObje
 	state.parent	    = container;
 	state.currentSeries = NULL;
 	state.series	    = g_ptr_array_new ();
-	state.xml_doc       = xmlNewDoc ("1.0");
-	state.xml_doc->xmlRootNode =
-		xmlNewDocNode (state.xml_doc, NULL, "Graph", NULL);
-	state.xml_ns        = xmlNewNs (state.xml_doc->xmlRootNode,
+	state.plot_counter  = -1;
+	state.xml.doc       = xmlNewDoc ("1.0");
+	state.xml.doc->xmlRootNode =
+		xmlNewDocNode (state.xml.doc, NULL, "Graph", NULL);
+	state.xml.ns        = xmlNewNs (state.xml.doc->xmlRootNode,
 		"http://www.gnumeric.org/graph_v1", "graph");
-
+	state.xml.plots = xmlNewChild (state.xml.doc->xmlRootNode,
+				       state.xml.ns, "Plots", NULL);
+	state.xml.currentChartGroup = NULL;
 
 	/* All chart handling is debug for now, so just
 	 * lobotomize it here if user isnt interested.
@@ -2282,27 +2412,12 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver, GtkObje
 		state.prev_opcode = q->opcode;
 	}
 
-	tmp = xmlNewChild (state.xml_doc->xmlRootNode,
-			   state.xml_ns, "Data", NULL);
-	for (i = state.series->len; i-- > 0 ; ) {
-		ExcelChartSeries *series = g_ptr_array_index (state.series, i);
-		xmlNodePtr s = xmlNewChild (tmp, state.xml_ns, "Series", NULL);
-		xml_node_set_int (s, "ChartGroup", series->chart_group);
-
-		for (j = MS_VECTOR_PURPOSE_MAX; j-- > 0 ; )
-			if (series->vector [j].remote_ID >= 0) {
-				xmlNodePtr v = xmlNewChild (s, state.xml_ns,
-							    ms_vector_purpose_type_name [j], NULL);
-				xml_node_set_int (v, "ID", series->vector [j].remote_ID);
-			}
-	}
-
 #ifdef ENABLE_BONOBO
-	gnm_graph_import_specification (state.graph, state.xml_doc);
+	gnm_graph_import_specification (state.graph, state.xml.doc);
 #endif
 
 	/* Cleanup */
-	xmlFreeDoc (state.xml_doc);
+	xmlFreeDoc (state.xml.doc);
 	for (i = state.series->len; i-- > 0 ; ) {
 		ExcelChartSeries *series = g_ptr_array_index (state.series, i);
 		if (series != NULL)
