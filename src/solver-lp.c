@@ -21,7 +21,7 @@
 
 /************************************************************************
  *
- * S I M P L E X
+ * S I M P L E X   Algorithm
  *
  *
  */
@@ -31,27 +31,38 @@
  */
 static float_t *
 simplex_step_one(Sheet *sheet, int target_col, int target_row,
-		 CellList *inputs, int *n_vars, 
-		 GSList *constraints, int *n_constraints, gboolean max_flag)
+		 CellList *inputs, GSList *constraints, int *table_cols,
+		 int *table_rows, gboolean max_flag)
 {
         SolverConstraint *c;
         CellList *input_list = inputs;
 	GSList   *current;
         Cell     *cell, *target, *lhs, *rhs;
 	float_t  init_value, value, *table;
-        int      n, i, step;
+        int      n, i, n_neq_c, n_eq_c, size, n_vars;
 
 	for (n = 0; inputs != NULL; inputs = inputs->next)
 		n++;
-	*n_vars = n;
-	*n_constraints = g_slist_length(constraints);
-	if (n < 1 || *n_constraints < 1)
+
+	n_neq_c = n_eq_c = 0;
+	for (current = constraints; current != NULL; current = current->next) {
+	        c = (SolverConstraint *) current->data;
+		if (strcmp(c->type, "=") == 0)
+		         ++n_eq_c;
+		else
+		         ++n_neq_c;
+	}
+
+	n_vars = n;
+	if (n_vars < 1 || n_neq_c + n_eq_c < 1)
 	        return NULL;
 
-	step = n + *n_constraints + 2;
+	size = *table_cols = 2 + n + n_neq_c;
+	*table_rows = 1 + n_neq_c + n_eq_c;
+	size *= *table_rows;
 
-	table = g_new(float_t, (*n_constraints + 1) * step);
-	for (i=0; i<(*n_constraints + 1)*step; i++)
+	table = g_new(float_t, size);
+	for (i=0; i<size; i++)
 	        table[i] = 0;
 
 	inputs = input_list;
@@ -70,7 +81,8 @@ simplex_step_one(Sheet *sheet, int target_col, int target_row,
 			lhs = sheet_cell_fetch(sheet, c->lhs->col->pos,
 					       c->lhs->row->pos);
 			cell_eval_content(lhs);
-			table[i + n*step] = -value_get_as_float(lhs->value);
+			table[i + n**table_cols] =
+			        -value_get_as_float(lhs->value);
 			current = current->next;
 			++n;
 		}
@@ -85,7 +97,8 @@ simplex_step_one(Sheet *sheet, int target_col, int target_row,
 			lhs = sheet_cell_fetch(sheet, c->lhs->col->pos,
 					       c->lhs->row->pos);
 			cell_eval_content(lhs);
-			table[i + n*step] += value_get_as_float(lhs->value);
+			table[i + n * *table_cols] +=
+			        value_get_as_float(lhs->value);
 			current = current->next;
 			++n;
 		}
@@ -100,22 +113,25 @@ simplex_step_one(Sheet *sheet, int target_col, int target_row,
 	}
 
 	n = 1;
+	i = 1;
 	while (constraints != NULL) {
 	        c = (SolverConstraint *) constraints->data;
-	        table[n*step] = n-1 + *n_vars;
+	        table[i * *table_cols] = i-1 + n_vars;
 		rhs = sheet_cell_fetch(sheet, c->rhs->col->pos,
 				       c->rhs->row->pos);
-		if (strcmp(c->type, "<=") == 0)
-		        table[1 + n*step] = value_get_as_float(rhs->value);
-		else if (strcmp(c->type, ">=") == 0)
-		        table[1 + n*step] = -value_get_as_float(rhs->value);
-
-	        table[1 + *n_vars + n + n*step] = 1;
+		table[1 + i * *table_cols] = value_get_as_float(rhs->value);
+		if (strcmp(c->type, "<=") == 0) {
+		        table[1 + n_vars + n + i* *table_cols] = 1;
+			++n;
+		} else if (strcmp(c->type, ">=") == 0) {
+		        table[1 + n_vars + n + i* *table_cols] = -1;
+			++n;
+		}
 	        printf ("%-30s (col=%d, row=%d  %s  col=%d, row=%d\n",
 		       c->str, c->lhs->col->pos, c->lhs->row->pos,
 		       c->type, c->rhs->col->pos, c->rhs->row->pos);
 		constraints = constraints->next;
-		++n;
+		i++;
 	}
 
 	return table;
@@ -124,13 +140,13 @@ simplex_step_one(Sheet *sheet, int target_col, int target_row,
 /* STEP 2: Find the pivot column.  Most positive rule is applied.
  */
 static int
-simplex_step_two(float_t *table, int n_vars, int *status)
+simplex_step_two(float_t *table, int tbl_cols, int *status)
 {
         float_t max = 0;
 	int     i, ind = -1;
 
 	table += 2;
-	for (i=0; i<n_vars; i++)
+	for (i=0; i<tbl_cols-2; i++)
 	        if (table[i] > max) {
 		        max = table[i];
 			ind = i;
@@ -145,26 +161,26 @@ simplex_step_two(float_t *table, int n_vars, int *status)
 /* STEP 3: Find the pivot row.
  */
 static int
-simplex_step_three(float_t *table, int col, int n_vars, int n_rows,
+simplex_step_three(float_t *table, int col, int tbl_cols, int tbl_rows,
 		   int *status)
 {
-        float_t min, test;
-	int     i, step, min_i;
+        float_t a, min, test;
+	int     i, min_i=-1;
 
-	step = n_rows + n_vars + 2;
-	table += step;
-	min = table[1] / table[2+col];
-	min_i = 0;
-
-	for (i=1; i<n_rows; i++) {
-	        test = table[1 + i*step] / table[2 + col + i*step];
-		if (test < min) {
-		        min = test;
-			min_i = i;
+	table += tbl_cols;
+	for (i=0; i<tbl_rows-1; i++) {
+	        a = table[2 + col + i*tbl_cols];
+		if (a > 0) {
+		        test = table[1 + i*tbl_cols] / a;
+			if (min_i == -1 || test < min) {
+			        min = test;
+				min_i = i;
+			}
 		}
+		
 	}
 
-	if (min < 0)
+	if (min_i == -1 || min < 0)
 	        *status = SIMPLEX_UNBOUNDED;
 
 	return min_i;
@@ -173,25 +189,37 @@ simplex_step_three(float_t *table, int col, int n_vars, int n_rows,
 /* STEP 4: Perform pivot operations.
  */
 static void
-simplex_step_four(float_t *table, int col, int row, int n_vars, int n_rows)
+simplex_step_four(float_t *table, int col, int row, int tbl_cols, int tbl_rows)
 {
         float_t pivot, *pivot_row, c;
-	int     i, j, step;
+	int     i, j;
 
-	step = n_rows + n_vars + 2;
-	pivot = table[2 + col + (row+1)*step];
-	pivot_row = &table[1 + (row+1)*step];
-	table[(row+1)*step] = col;
+	pivot = table[2 + col + (row+1)*tbl_cols];
+	pivot_row = &table[1 + (row+1)*tbl_cols];
+	table[(row+1)*tbl_cols] = col;
 
-	for (i=0; i<n_vars+n_rows+1; i++)
+	for (i=0; i<tbl_cols-1; i++)
 	        pivot_row[i] /= pivot;
 
-	for (i=0; i<n_rows+1; i++)
+	for (i=0; i<tbl_rows; i++)
 	        if (i != row+1) {
-		        c = table[2 + col + i*step];
-			for (j=0; j<n_vars+n_rows+1; j++)
-			        table[j + 1 + i*step] -= pivot_row[j] * c;
+		        c = table[2 + col + i*tbl_cols];
+			for (j=0; j<tbl_cols-1; j++)
+			        table[j + 1 + i*tbl_cols] -= pivot_row[j] * c;
 		}
+}
+
+static void
+display_table(float_t *table, int cols, int rows)
+{
+        int i, n;
+
+	for (i=0; i<rows; i++) {
+	        for (n=0; n<cols; n++)
+		        printf("%5.1f ", table[n+i*cols]);
+		printf("\n");
+	}
+	printf("\n");
 }
 
 int solver_simplex (Workbook *wb, Sheet *sheet)
@@ -202,10 +230,8 @@ int solver_simplex (Workbook *wb, Sheet *sheet)
 	GSList   *constraints = param->constraints;
 	Cell     *cell;
 
-	float_t *table;
-	int     col, row, status, step;
-	int     n_vars;
-	int     n_constraints;
+	float_t  *table;
+	int      col, row, status, tbl_rows, tbl_cols;
 	gboolean max_flag;
 
 	max_flag = param->problem_type == SolverMaximize;
@@ -214,37 +240,42 @@ int solver_simplex (Workbook *wb, Sheet *sheet)
 	table = simplex_step_one(sheet, 
 				 param->target_cell->col->pos,
 				 param->target_cell->row->pos,
-				 cell_list, &n_vars,
-				 constraints, &n_constraints, max_flag);
+				 cell_list, constraints, 
+				 &tbl_cols, &tbl_rows, max_flag);
 
 	if (table == NULL)
 	        return SIMPLEX_UNBOUNDED;
 
-	step = n_vars + n_constraints + 2;
 	for (;;) {
-	        col = simplex_step_two(table, n_vars, &status);
+	        display_table (table, tbl_cols, tbl_rows);
+	        col = simplex_step_two(table, tbl_cols, &status);
+
 		if (status == SIMPLEX_DONE)
 		        break;
-		row = simplex_step_three(table, col, n_vars,
-					 n_constraints, &status);
+		row = simplex_step_three(table, col, tbl_cols, tbl_rows,
+					 &status);
+
 		if (status == SIMPLEX_UNBOUNDED)
 		        break;
-		simplex_step_four(table, col, row, n_vars, n_constraints);
+		simplex_step_four(table, col, row, tbl_cols, tbl_rows);
 	}
 
 	if (status != SIMPLEX_DONE)
 	        return status;
 
-	for (i=1; i<n_constraints+1; i++) {
+	for (i=1; i<tbl_rows; i++) {
 	        Cell *c;
 	        cell_list = param->input_cells;
 		c = (Cell *) cell_list->data;
-	        for (n=0; n < (int) table[i*step]; n++) {
+	        for (n=0; n < (int) table[i*tbl_cols]; n++) {
 			cell_list = cell_list->next;
+			if (cell_list == NULL)
+			        goto skip;
 		        c = (Cell *) cell_list->data;
 		}
 		cell = sheet_cell_fetch(sheet, c->col->pos, c->row->pos);
-		cell_set_value (cell, value_new_float (table[1+i*step]));
+		cell_set_value (cell, value_new_float (table[1+i*tbl_cols]));
+	skip:
 	}
 	cell = sheet_cell_fetch(sheet, param->target_cell->col->pos, 
 				param->target_cell->row->pos);

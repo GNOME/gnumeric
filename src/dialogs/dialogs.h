@@ -95,6 +95,7 @@ void   	 dialog_solver          (Workbook  *wb, Sheet *sheet);
 void   	 dialog_printer_setup   (Workbook  *wb, Sheet *sheet);
 void   	 dialog_summary_update  (Workbook  *wb, SummaryInfo *sin);
 void     dialog_autocorrect     (Workbook  *wb);
+void   	 dialog_advanced_filter (Workbook  *wb);
 void   	 dialog_autosave        (Workbook  *wb);
 gint     dialog_autosave_callback (gpointer *data);
 void     dialog_data_analysis   (Workbook *wb, Sheet *sheet);

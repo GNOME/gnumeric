@@ -1639,7 +1639,7 @@ int random_tool (Workbook *wb, Sheet *sheet, int vars, int count,
 {
 	char       buf[256];
 	int        i, n, j;
-	float_t    range, p;
+	float_t    range, p, tmp;
 	float_t    *prob, *cumul_p;
 	Value      **values, *v;
 	Cell       *cell;
@@ -1750,6 +1750,17 @@ int random_tool (Workbook *wb, Sheet *sheet, int vars, int count,
 			}
 		}
 		break;
+	case PoissonDistribution:
+	        for (i=0; i<vars; i++) {
+		        for (n=0; n<count; n++) {
+			        tmp = random_01();
+			        sprintf (buf, "%f", 
+					 floor (exp (param->poisson.lambda *
+						     exp(tmp-1)) + 0.5));
+				set_cell (dao, i, n, buf);
+			}
+		}
+	        break;
 	default:
 	        printf ("Not implemented yet.\n");
 		break;

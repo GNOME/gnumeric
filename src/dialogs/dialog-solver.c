@@ -21,9 +21,9 @@
 /* Different constraint types */
 static const char *constraint_strs[] = {
         N_("<="),
-/*	N_(">="),
+	N_(">="),
 	N_("="),
-	N_("int"),
+/*	N_("int"),
 	N_("bool"), */
 	NULL
 };
@@ -131,7 +131,7 @@ dialog_solver_options (Workbook *wb, Sheet *sheet)
 
 	/* Run the dialog */
 	gtk_window_set_modal (GTK_WINDOW (dia), TRUE);
-	gnumeric_dialog_run (wb, GNOME_DIALOG (dia));
+	v = gnumeric_dialog_run (wb, GNOME_DIALOG (dia));
 
 	if (v == 1) {
 	        sheet->solver_parameters.options.assume_linear_model = old_lm;

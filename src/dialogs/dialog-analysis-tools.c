@@ -109,6 +109,7 @@ static tool_list_t tools[] = {
 static const char *distribution_strs[] = {
         N_("Discrete"),
         N_("Normal"),
+     /*	N_("Poisson"), */
         N_("Bernoulli"),
         N_("Uniform"),
         NULL
@@ -194,7 +195,7 @@ static check_button_t standard_errors_button[] = {
 
 static int selected_row;
 
-static int
+int
 parse_range (char *text, int *start_col, int *start_row,
 	     int *end_col, int *end_row)
 {
@@ -1357,6 +1358,9 @@ distribution_callback (GtkWidget *widget, random_tool_callback_t *p)
 	case DiscreteDistribution:
 	        gtk_widget_hide (p->discrete_box);
 		break;
+	case PoissonDistribution:
+	        gtk_widget_hide (p->poisson_box);
+		break;
 	default:
 	        break;
 	}
@@ -1375,6 +1379,9 @@ distribution_callback (GtkWidget *widget, random_tool_callback_t *p)
 	} else if (strcmp(text, _("Discrete")) == 0) {
 	        distribution = DiscreteDistribution;
 		gtk_widget_show (p->discrete_box);
+	} else if (strcmp(text, _("Poisson")) == 0) {
+	        distribution = PoissonDistribution;
+		gtk_widget_show (p->poisson_box);
 	}
 }
 
@@ -1479,11 +1486,15 @@ dialog_random_tool (Workbook *wb, Sheet *sheet)
 				  callback_data.bernoulli_box);
 
 		gtk_container_add(GTK_CONTAINER(param_box),
+				  callback_data.poisson_box);
+
+		gtk_container_add(GTK_CONTAINER(param_box),
 				  callback_data.uniform_box);
 		gtk_container_add(GTK_CONTAINER(param_box),
 				  callback_data.normal_box);
 
 		gtk_widget_show_all (dialog);
+		gtk_widget_hide (callback_data.poisson_box);
 		gtk_widget_hide (callback_data.uniform_box);
 		gtk_widget_hide (callback_data.normal_box);
 		gtk_widget_hide (callback_data.bernoulli_box);
@@ -1494,21 +1505,31 @@ dialog_random_tool (Workbook *wb, Sheet *sheet)
 		        gtk_widget_hide (callback_data.uniform_box);
 			gtk_widget_hide (callback_data.normal_box);
 			gtk_widget_hide (callback_data.bernoulli_box);
+			gtk_widget_hide (callback_data.poisson_box);
 			break;
 		case NormalDistribution:
 		        gtk_widget_hide (callback_data.discrete_box);
 			gtk_widget_hide (callback_data.uniform_box);
 			gtk_widget_hide (callback_data.bernoulli_box);
+			gtk_widget_hide (callback_data.poisson_box);
 			break;
 		case BernoulliDistribution:
 		        gtk_widget_hide (callback_data.discrete_box);
 			gtk_widget_hide (callback_data.uniform_box);
 			gtk_widget_hide (callback_data.normal_box);
+			gtk_widget_hide (callback_data.poisson_box);
 			break;
 		case UniformDistribution:
 		        gtk_widget_hide (callback_data.discrete_box);
 			gtk_widget_hide (callback_data.normal_box);
 			gtk_widget_hide (callback_data.bernoulli_box);
+			gtk_widget_hide (callback_data.poisson_box);
+			break;
+		case PoissonDistribution:
+		        gtk_widget_hide (callback_data.discrete_box);
+			gtk_widget_hide (callback_data.normal_box);
+			gtk_widget_hide (callback_data.bernoulli_box);
+			gtk_widget_hide (callback_data.uniform_box);
 			break;
 		default:
 		        break;
@@ -1551,6 +1572,10 @@ random_dialog_loop:
 	        distribution = BernoulliDistribution;
 		text = gtk_entry_get_text (GTK_ENTRY (bernoulli_p_entry));
 		param.bernoulli.p = atof(text);
+	} else if (strcmp(text, _("Poisson")) == 0) {
+	        distribution = PoissonDistribution;
+		text = gtk_entry_get_text (GTK_ENTRY (poisson_lambda_entry));
+		param.poisson.lambda = atof(text);
 	} else if (strcmp(text, _("Discrete")) == 0) {
 	        distribution = DiscreteDistribution;
 		text = gtk_entry_get_text (GTK_ENTRY (discrete_range_entry));

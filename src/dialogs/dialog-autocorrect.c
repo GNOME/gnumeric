@@ -373,9 +373,7 @@ dialog_autocorrect (Workbook *wb)
 	GtkWidget *first_letter;
 	GtkWidget *names_of_days;
 	GtkWidget *caps_lock;
-#if 0
 	GtkWidget *replace;
-#endif
 	GtkWidget *entry;
 	autocorrect_t p;
 
@@ -443,22 +441,25 @@ dialog_autocorrect (Workbook *wb)
 	gtk_signal_connect (GTK_OBJECT (caps_lock), "toggled",
 			    GTK_SIGNAL_FUNC (caps_lock_toggled), wb);
 
-#if 0
 	replace = glade_xml_get_widget (gui, "checkbutton5");
+	gtk_widget_set_sensitive (replace, FALSE);
+	
 	if (autocorrect_replace)
 	        gtk_toggle_button_set_active ((GtkToggleButton *)
 					      replace,
 					      autocorrect_replace);
 	gtk_signal_connect (GTK_OBJECT (replace), "toggled",
 			    GTK_SIGNAL_FUNC (replace_toggled), wb);
-#endif
+
 	/* Make <Ret> in entry fields invoke default */
 	entry = glade_xml_get_widget (gui, "entry1");
+	gtk_widget_set_sensitive (entry, FALSE);
 	gnome_dialog_editable_enters (GNOME_DIALOG (dia),
 				      GTK_EDITABLE (entry));
 	entry = glade_xml_get_widget (gui, "entry2");
 	gnome_dialog_editable_enters (GNOME_DIALOG (dia),
 				      GTK_EDITABLE (entry));
+	gtk_widget_set_sensitive (entry, FALSE);
 
 	v = gnumeric_dialog_run (wb, GNOME_DIALOG (dia));
 

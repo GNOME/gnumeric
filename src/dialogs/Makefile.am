@@ -16,6 +16,7 @@ INCLUDES = 						\
 noinst_LIBRARIES = libdialogs.a
 
 libdialogs_a_SOURCES =				\
+	dialog-advanced-filter.c		\
 	dialog-analysis-tools.c			\
 	dialog-autocorrect.c			\
 	dialog-autosave.c			\
@@ -45,6 +46,7 @@ libdialogs_a_SOURCES =				\
 
 gladedir   = $(datadir)/gnumeric/glade
 glade_DATA = 				\
+	advanced-filter.glade		\
 	analysis-tools.glade		\
 	autocorrect.glade		\
 	autocorrect-exceptions.glade	\

@@ -1,3 +1,20 @@
+2000-01-26  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/solver-lp.c: Implemented the `>=' and `=' constraints.
+  	Solver should be quite usable now for LP problems assumed to be
+ 	non-negative.
+
+	* src/dialogs/dialog-solver.c: Related changes.
+
+	* src/dialogs/advanced-filter.glade,
+ 	src/dialogs/dialog-advanced-filter.c: New files added.  Not done
+ 	yet.
+	
+2000-01-25  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/dialogs/dialog-autocorrect.c (dialog_autocorrect): Made the
+ 	unimplemented replace option unsensitive.
+	
 2000-01-25  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/workbook.[ch]: Made workbook_is_dirty() public.
