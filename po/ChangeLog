@@ -1,3 +1,7 @@
+2001-02-10  Leandro su Nerone  <leandro@firenze.linux.it>
+
+	* it.po: updated italian translation (very thanks to my father).
+
 2001-02-10  Karl Eichwalder  <ke@suse.de>
 
 	* de.po: Update.
@@ -14,6 +18,7 @@
 
 	* sk.po: Updated Slovak translation.
 
+>>>>>>> 1.309
 2001-02-07  Karl Eichwalder  <ke@suse.de>
 
 	* de.po: Start to resolve some fuzzies.
@@ -1104,7 +1109,7 @@
 
 	* no.po: Updated Norwegian translation.
 	
-1999-10-17  Martin Norb粃k  <norpan@bigfoot.com>
+1999-10-17  Martin Norb粃k  <norpan@bigfoot.com>
 
 	* sv.po: Updated translation again.
 
@@ -1189,7 +1194,7 @@
 
 	* Updated fr.po:
 	avant:	896 translated messages, 60 fuzzy translations, 42 untranslated messages.
-	apr蓴:  958 translated messages, 13 fuzzy translations, 27 untranslated messages.
+	apr蓴:  958 translated messages, 13 fuzzy translations, 27 untranslated messages.
 
 1999-09-06  Kjartan Maraas  <kmaraas@online.no>
 
