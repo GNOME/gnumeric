@@ -4,9 +4,9 @@
 # 2000-2001 Stanislav Visnovsky
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 0.64\n"
+"Project-Id-Version: gnumeric 0.65\n"
 "POT-Creation-Date: 2001-03-17 00:52-0500\n"
-"PO-Revision-Date: 2001-03-02 17:21CET\n"
+"PO-Revision-Date: 2001-04-30 11:38CET\n"
 "Last-Translator: Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>\n"
 "Language-Team: Slovak <sk-i18n@rak.isternet.sk>\n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,7 @@ msgstr ""
 "<bobo@bobo.bspc.sk>\n"
 "Date: 1999-04-30 12:12:02+0000\n"
 "From: Bobo Rajec,BSP Consulting,+42 7 5330 017,, <bobo@bobo.bspc.sk>\n"
-"X-Generator: KBabel 0.8\n"
+"X-Generator: KBabel 0.9beta\n"
 
 #: plugins/dif/dif.c:284
 msgid "DIF : Failed to load sheet"
@@ -423,45 +423,43 @@ msgstr "Nespracovaná výnimka Python: %s"
 
 #: plugins/python-loader/python-loader.c:111
 msgid "Python module name not given."
-msgstr ""
+msgstr "Meno Python modulu nezadané."
 
 #: plugins/python-loader/python-loader.c:211
-#, fuzzy
 msgid "Loader"
-msgstr "Okraje"
+msgstr "Loader"
 
 #: plugins/python-loader/python-loader.c:214
 msgid "Python module name"
-msgstr ""
+msgstr "Meno Python modulu"
 
 #: plugins/python-loader/python-loader.c:314
-#, fuzzy
 msgid "Some name"
-msgstr "Meno listu"
+msgstr "Niektoré meno"
 
 #: plugins/python-loader/python-loader.c:375
 #: plugins/python-loader/python-loader.c:459
 #: plugins/python-loader/python-loader.c:659
 #, c-format
 msgid "Python file \"%s\" has invalid format."
-msgstr ""
+msgstr "Python súbor \"%s\" má neplatný formát."
 
 #: plugins/python-loader/python-loader.c:380
 #: plugins/python-loader/python-loader.c:386
 #: plugins/python-loader/python-loader.c:464
 #, c-format
 msgid "File doesn't contain \"%s\" function."
-msgstr ""
+msgstr "Súbor neobsahuje funkciu \"%s\"."
 
 #: plugins/python-loader/python-loader.c:664
 #, c-format
 msgid "File doesn't contain \"%s\" dictionary."
-msgstr ""
+msgstr "Súbor neobsahuje prieèinok \"%s\"."
 
 #: plugins/python-loader/python-loader.c:669
 #, c-format
 msgid "Object \"%s\" is not a dictionary."
-msgstr ""
+msgstr "Objekt \"%s\" nie je slovník."
 
 #: plugins/python-loader/py-gnumeric.c:270
 #: plugins/python-loader/py-gnumeric.c:310 src/gnumeric-util.c:190
@@ -471,24 +469,24 @@ msgstr "Neznáma chyba"
 
 #: plugins/python-loader/py-gnumeric.c:276
 #: plugins/python-loader/py-gnumeric.c:318
-#, fuzzy, c-format
+#, c-format
 msgid "Python exception (%s: %s)"
-msgstr "Python výnimka"
+msgstr "Python výnimka (%s: %s)"
 
 #: plugins/python-loader/py-gnumeric.c:280
 #: plugins/python-loader/py-gnumeric.c:322
-#, fuzzy, c-format
+#, c-format
 msgid "Python exception (%s)"
-msgstr "Python výnimka"
+msgstr "Python výnimka (%s)"
 
 #: plugins/python-loader/py-gnumeric.c:453
 msgid "Python list is not an array"
-msgstr ""
+msgstr "Zoznam Python nie je pole"
 
 #: plugins/python-loader/py-gnumeric.c:460
-#, fuzzy, c-format
+#, c-format
 msgid "Unsupported Python type: %s"
-msgstr "Nepodporovaný typ loadera \"%s\"."
+msgstr "Nepodporovaný Python typ: \"%s\""
 
 #: plugins/sc/sc.c:386
 msgid "Error parsing line"
@@ -822,8 +820,7 @@ msgstr "/df/SS/MS/F/Významnos» F"
 
 #: src/analysis-tools.c:1992
 msgid "/Coefficients/Standard Error/t Stat/P-value/Lower 95%/Upper 95%"
-msgstr ""
-"/Koeficienty/Smerodajná chyba/t ¹tatistika/P-hodnota/Dolných 95%/Horných 95%"
+msgstr "/Koeficienty/Smerodajná chyba/t ¹tatistika/P-hodnota/Dolných 95%/Horných 95%"
 
 #: src/analysis-tools.c:2185
 msgid "Moving Averages"
@@ -2618,8 +2615,7 @@ msgstr ""
 "premenných a skúste to znovu."
 
 #: src/dialogs/dialog-analysis-tools.c:2105
-msgid ""
-"There must be an equal number of entries for each variable in the regression."
+msgid "There must be an equal number of entries for each variable in the regression."
 msgstr "Pre ka¾dú premennú regresie musí by» rovnaký poèet polo¾iek."
 
 #: src/dialogs/dialog-analysis-tools.c:2333
@@ -2641,8 +2637,7 @@ msgstr "Zadaný rozsah tried obsahuje neèíselné dáta."
 
 #: src/dialogs/dialog-analysis-tools.c:2915
 msgid "Each sample should contain the same number of rows (`Rows per sample:')"
-msgstr ""
-"Ka¾dý výber by mal obsahova» rovnaký poèet riadkov ('Riadkov na výber:')"
+msgstr "Ka¾dý výber by mal obsahova» rovnaký poèet riadkov ('Riadkov na výber:')"
 
 #: src/dialogs/dialog-analysis-tools.c:2925
 msgid ""
@@ -3059,6 +3054,9 @@ msgid ""
 "Do you want to mark it for deactivation such that it will be inactive after "
 "restarting Gnumeric?"
 msgstr ""
+"Modul nie je mo¾né deaktivova», preto¾e sa pou¾íva.\n"
+"Chcete ho oznaèi» na deaktiváciu, tak¾e pri re¹tarte Gnumericu "
+"nebude znovu aktivovaný?"
 
 #: src/dialogs/dialog-plugin-manager.c:339
 msgid "Errors while activating plugins"
@@ -3071,17 +3069,17 @@ msgstr "Chyby poèas deaktivácie modulov"
 #: src/dialogs/dialog-plugin-manager.c:498
 #, c-format
 msgid "%s [in memory, marked for deactivation]"
-msgstr ""
+msgstr "%s [v pamäti, oznaèený na deaktiváciu]"
 
 #: src/dialogs/dialog-plugin-manager.c:501
 #, c-format
 msgid "%s [in memory]"
-msgstr ""
+msgstr "%s [v pamäti]"
 
 #: src/dialogs/dialog-plugin-manager.c:504
 #, c-format
 msgid "%s [marked for deactivation]"
-msgstr ""
+msgstr "%s [oznaèený na deaktiváciu]"
 
 #: src/dialogs/dialog-plugin-manager.c:641
 msgid "Plugin list"
@@ -3328,8 +3326,7 @@ msgstr "Dáta (z %s)"
 msgid ""
 "Actual processing will start at this line, any previous lines will be "
 "ignored."
-msgstr ""
-"Spracovanie zaène na tomto riadku, v¹etky predchádzajúce budú ignorované."
+msgstr "Spracovanie zaène na tomto riadku, v¹etky predchádzajúce budú ignorované."
 
 #: src/dialogs/dialog-stf.glade.h:4
 msgid "Add a new column"
@@ -3411,8 +3408,7 @@ msgstr "Definova» ¹írku ka¾dého ståpca ruène."
 msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon."
-msgstr ""
-"Ka¾dý ståpec v texte je oddelený oddeµovacím znakom, napr. bodkoèiarkou."
+msgstr "Ka¾dý ståpec v texte je oddelený oddeµovacím znakom, napr. bodkoèiarkou."
 
 #: src/dialogs/dialog-stf.glade.h:23
 msgid "End"
@@ -3517,10 +3513,8 @@ msgid "See two successive separators as one."
 msgstr "Dva za sebou idúce oddeµovaèe chápa» ako jeden."
 
 #: src/dialogs/dialog-stf.glade.h:48
-msgid ""
-"See two successive text indicators as one that does not terminate the cell."
-msgstr ""
-"Dva za sebou idúce oznaèovaèe textu chápa» ako jeden, ktorý nekonèí bunku."
+msgid "See two successive text indicators as one that does not terminate the cell."
+msgstr "Dva za sebou idúce oznaèovaèe textu chápa» ako jeden, ktorý nekonèí bunku."
 
 #: src/dialogs/dialog-stf.glade.h:49
 msgid ""
@@ -4400,14 +4394,12 @@ msgid "Any Value"
 msgstr "¥ubovoµná hodnota"
 
 #: src/dialogs/validate.glade.h:2
-#, fuzzy
 msgid "Apply these _changes to other cells with the same settings"
-msgstr "Pou¾i» tieto zmeny na ostatné bunky s rovnakým nastavením"
+msgstr "Pou¾i» tieto _zmeny na ostatné bunky s rovnakým nastavením"
 
 #: src/dialogs/validate.glade.h:3
-#, fuzzy
 msgid "Clear All"
-msgstr "_Vyèisti» v¹etko"
+msgstr "Vyèisti» v¹etko"
 
 #: src/dialogs/validate.glade.h:5
 msgid "Date"
@@ -4418,9 +4410,8 @@ msgid "Decimal"
 msgstr "Desatinné"
 
 #: src/dialogs/validate.glade.h:7
-#, fuzzy
 msgid "Gnumeric: Input Validation"
-msgstr "Gnumeric: Autoformát"
+msgstr "Gnumeric: Overenie vstupu"
 
 #: src/dialogs/validate.glade.h:8
 msgid "Ignore blank"
@@ -4431,9 +4422,8 @@ msgid "Information"
 msgstr "Informácie"
 
 #: src/dialogs/validate.glade.h:10
-#, fuzzy
 msgid "Input _Message :"
-msgstr "Vstupná _správa"
+msgstr "Vstupná _správa:"
 
 #: src/dialogs/validate.glade.h:11 src/gnumeric.xml.h:116
 #: src/workbook-object-toolbar.c:144
@@ -4441,7 +4431,6 @@ msgid "List"
 msgstr "Zoznam"
 
 #: src/dialogs/validate.glade.h:12
-#, fuzzy
 msgid "St_yle :"
 msgstr "©_týl:"
 
@@ -4470,21 +4459,18 @@ msgid "Whole numbers"
 msgstr "Celé èísla"
 
 #: src/dialogs/validate.glade.h:19
-#, fuzzy
 msgid "_Allow :"
 msgstr "_Povoli»:"
 
 #: src/dialogs/validate.glade.h:20
-#, fuzzy
 msgid "_Condition :"
-msgstr "Dvojbodka (_:)"
+msgstr "_Podmienka:"
 
 #: src/dialogs/validate.glade.h:21
 msgid "_Error Alert"
 msgstr "Upozornenie na _chyby"
 
 #: src/dialogs/validate.glade.h:22
-#, fuzzy
 msgid "_Error message :"
 msgstr "_Chybová správa:"
 
@@ -6048,6 +6034,13 @@ msgid ""
 "\n"
 "@SEEALSO=DCOUNT"
 msgstr ""
+"\n"
+"DAVERAGE(A1:C7, \"Plat\", A9:A11) sa rovná 42296.3333.\n"
+"DAVERAGE(A1:C7, \"Vek\", A9:A11) sa rovná 39.\n"
+"DAVERAGE(A1:C7, \"Plat\", A9:B11) sa rovná 40782.5.\n"
+"DAVERAGE(A1:C7, \"Vek\", A9:B11) sa rovná 36.\n"
+"\n"
+"@SEEALSO=DCOUNT"
 
 #: src/functions/fn-database.c:560
 msgid ""
@@ -6070,6 +6063,12 @@ msgid ""
 "\n"
 "@SEEALSO=DAVERAGE"
 msgstr ""
+"\n"
+"DCOUNT(A1:C7, \"Plat\", A9:A11) sa rovná 3.\n"
+"DCOUNT(A1:C7, \"Plat\", A9:B11) sa rovná 2.\n"
+"DCOUNT(A1:C7, \"Meno\", A9:B11) sa rovná 0.\n"
+"\n"
+"@SEEALSO=DAVERAGE"
 
 #: src/functions/fn-database.c:621
 msgid ""
@@ -6092,6 +6091,12 @@ msgid ""
 "\n"
 "@SEEALSO=DCOUNT"
 msgstr ""
+"\n"
+"DCOUNTA(A1:C7, \"Plat\", A9:A11) sa rovná 3.\n"
+"DCOUNTA(A1:C7, \"Plat\", A9:B11) sa rovná 2.\n"
+"DCOUNTA(A1:C7, \"Meno\", A9:B11) sa rovná 2.\n"
+"\n"
+"@SEEALSO=DCOUNT"
 
 #: src/functions/fn-database.c:679
 msgid ""
@@ -6115,6 +6120,13 @@ msgid ""
 "more than one items match the conditions, DGET returns #NUM! error. \n"
 "@SEEALSO=DCOUNT"
 msgstr ""
+"\n"
+"DGET(A1:C7, \"Plat\", A9:A10) sa rovná 34323.\n"
+"DGET(A1:C7, \"Meno\", A9:A10) sa rovná \"Clark\".\n"
+"\n"
+"Ak ¾iadna polo¾ka neodpovedá podmienke, DGET vráti chybu #VALUE!. Ak "
+"viac ako jedna polo¾ka odpovedá podmienke, DGET vráti chybu #NUM!. \n"
+"@SEEALSO=DCOUNT"
 
 #: src/functions/fn-database.c:747
 msgid ""
@@ -6137,6 +6149,12 @@ msgid ""
 "\n"
 "@SEEALSO=DMIN"
 msgstr ""
+"\n"
+"DMAX(A1:C7, \"Plat\", A9:A11) sa rovná 47242.\n"
+"DMAX(A1:C7, \"Vek\", A9:A11) sa rovná 45.\n"
+"DMAX(A1:C7, \"Vek\", A9:B11) sa rovná 43.\n"
+"\n"
+"@SEEALSO=DMIN"
 
 #: src/functions/fn-database.c:818
 msgid ""
@@ -6158,6 +6176,11 @@ msgid ""
 "\n"
 "@SEEALSO=DMAX"
 msgstr ""
+"\n"
+"DMIN(A1:C7, \"Plat\", A9:B11) sa rovná 34323.\n"
+"DMIN(A1:C7, \"Vek\", A9:B11) sa rovná 29.\n"
+"\n"
+"@SEEALSO=DMAX"
 
 #: src/functions/fn-database.c:888
 msgid ""
@@ -6178,6 +6201,10 @@ msgid ""
 "\n"
 "@SEEALSO=DSUM"
 msgstr ""
+"\n"
+"DPRODUCT(A1:C7, \"Vek\", A9:B11) sa rovná 1247.\n"
+"\n"
+"@SEEALSO=DSUM"
 
 #: src/functions/fn-database.c:955
 msgid ""
@@ -6201,6 +6228,11 @@ msgid ""
 "\n"
 "@SEEALSO=DSTDEVP"
 msgstr ""
+"\n"
+"DSTDEV(A1:C7, \"Vek\", A9:B11) sa rovná 9.89949.\n"
+"DSTDEV(A1:C7, \"Plat\", A9:B11) sa rovná 9135.112506.\n"
+"\n"
+"@SEEALSO=DSTDEVP"
 
 #: src/functions/fn-database.c:1021
 msgid ""
@@ -6223,6 +6255,11 @@ msgid ""
 "\n"
 "@SEEALSO=DSTDEV"
 msgstr ""
+"\n"
+"DSTDEVP(A1:C7, \"Vek\", A9:B11) sa rovná 7.\n"
+"DSTDEVP(A1:C7, \"Plat\", A9:B11) sa rovná 6459.5.\n"
+"\n"
+"@SEEALSO=DSTDEV"
 
 #: src/functions/fn-database.c:1089
 msgid ""
@@ -6244,6 +6281,11 @@ msgid ""
 "\n"
 "@SEEALSO=DPRODUCT"
 msgstr ""
+"\n"
+"DSUM(A1:C7, \"Vek\", A9:B11) sa rovná 72.\n"
+"DSUM(A1:C7, \"Plat\", A9:B11) sa rovná 81565.\n"
+"\n"
+"@SEEALSO=DPRODUCT"
 
 #: src/functions/fn-database.c:1156
 msgid ""
@@ -6266,6 +6308,11 @@ msgid ""
 "\n"
 "@SEEALSO=DVARP"
 msgstr ""
+"\n"
+"DVAR(A1:C7, \"Vek\", A9:B11) sa rovná 98.\n"
+"DVAR(A1:C7, \"Plat\", A9:B11) sa rovná 83450280.5.\n"
+"\n"
+"@SEEALSO=DVARP"
 
 #: src/functions/fn-database.c:1224
 msgid ""
@@ -6288,6 +6335,11 @@ msgid ""
 "\n"
 "@SEEALSO=DVAR"
 msgstr ""
+"\n"
+"DVARP(A1:C7, \"Vek\", A9:B11) sa rovná 49.\n"
+"DVARP(A1:C7, \"Plat\", A9:B11) sa rovná 41725140.25.\n"
+"\n"
+"@SEEALSO=DVAR"
 
 #: src/functions/fn-database.c:1293
 msgid ""
@@ -15058,8 +15110,7 @@ msgstr "Povoli» niektoré odlaïovacie správy poèas naèítavania funkcií Excelu"
 
 #: src/main.c:118
 msgid "Enables debugging mesgs while reading excel colors & patterns"
-msgstr ""
-"Povoli» niektoré odlaïovacie správy poèas naèítavania farieb a vzoriek Excelu"
+msgstr "Povoli» niektoré odlaïovacie správy poèas naèítavania farieb a vzoriek Excelu"
 
 #: src/main.c:122
 msgid "Enables debugging mesgs while reading excel objects"
@@ -15402,14 +15453,14 @@ msgid "Cut"
 msgstr "Vystrihnú»"
 
 #: src/sheet-control-gui.c:464
-#, fuzzy, c-format
+#, c-format
 msgid "Row: %d"
-msgstr "Riadok %d"
+msgstr "Riadok: %d"
 
 #: src/sheet-control-gui.c:479
-#, fuzzy, c-format
+#, c-format
 msgid "Column: %s"
-msgstr "Ståpec %d"
+msgstr "Ståpec: %s"
 
 #: src/gnumeric.xml.h:51 src/sheet-control-gui.c:989
 msgid "Cu_t"
@@ -15747,13 +15798,11 @@ msgid "You entered an invalid row height value.  It must be bigger than 0"
 msgstr "Zadali ste neplatnú vý¹ku riadku. Musí by» väè¹ia ako 0"
 
 #: src/workbook-cmd-format.c:208
-msgid ""
-"You entered an invalid default column width value.  It must be bigger than 0"
+msgid "You entered an invalid default column width value.  It must be bigger than 0"
 msgstr "Zadali ste neplatnú ¹tandardnú ¹írku ståpca. Musí by» väè¹ia ako 0"
 
 #: src/workbook-cmd-format.c:236
-msgid ""
-"You entered an invalid default row height value.  It must be bigger than 0"
+msgid "You entered an invalid default row height value.  It must be bigger than 0"
 msgstr "Zadali ste neplatnú ¹tandardnú vý¹ku riadku. Musí by» väè¹ia ako 0"
 
 #: src/workbook-format-toolbar.c:85
@@ -16375,13 +16424,12 @@ msgid "Zoom the spreadsheet in or out"
 msgstr "Zmení zväè¹enie/zmen¹enie pohµadu"
 
 #: src/workbook-control-gui.c:2072
-#, fuzzy
 msgid "_Freeze..."
-msgstr "_Zmaza»..."
+msgstr "_Zmrazi»..."
 
 #: src/workbook-control-gui.c:2073
 msgid "Freeze the top left of the sheet"
-msgstr ""
+msgstr "Zmrazí µavý horný roh listu"
 
 #: src/gnumeric.xml.h:130 src/workbook-control-gui.c:2076
 msgid "New _Shared"
@@ -16654,8 +16702,7 @@ msgstr "_Rie¹iteµ..."
 
 #: src/gnumeric.xml.h:110 src/workbook-control-gui.c:2261
 msgid "Iteratively recalculate with constraints to approach a target value"
-msgstr ""
-"Opakovane prepoèítava s obmedzeniami, a¾ kým nedosiahne cieµovú hodnotu"
+msgstr "Opakovane prepoèítava s obmedzeniami, a¾ kým nedosiahne cieµovú hodnotu"
 
 #: src/gnumeric.xml.h:214 src/workbook-control-gui.c:2266
 msgid "_Data Analysis..."
@@ -16682,14 +16729,12 @@ msgid "Filter data with given criteria"
 msgstr "Filtruje dáta podµa daného kritéria"
 
 #: src/workbook-control-gui.c:2282
-#, fuzzy
 msgid "_Validate..."
-msgstr "_©írka..."
+msgstr "_Overi»..."
 
 #: src/workbook-control-gui.c:2283
-#, fuzzy
 msgid "Validate input with preset criteria"
-msgstr "Kritériá validácie"
+msgstr "Overí vstup podµa prednastavených kritérií"
 
 #: src/gnumeric.xml.h:71 src/workbook-control-gui.c:2301
 msgid "F_ormat"
@@ -17197,8 +17242,3 @@ msgstr "_Ulo¾i»"
 msgid "_View"
 msgstr "_Zobrazi»"
 
-#~ msgid "Data Validation"
-#~ msgstr "Validácia dát"
-
-#~ msgid "_Title:"
-#~ msgstr "_Titulok:"
