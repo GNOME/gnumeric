@@ -1,3 +1,7 @@
+2003-06-26  Jody Goldberg <jody@gnome.org>
+
+	* dialog-printer-setup.c (unit_editor_configure) : silence the warning.
+
 2003-06-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* tabulate.glade: fixed button order
