@@ -454,7 +454,7 @@ ms_biff_bof_data_new (BiffQuery *q)
 			{
 #ifndef NO_DEBUG_EXCEL
 				if (ms_excel_read_debug > 2) {
-					printf ("Complicated BIFF version %d\n",
+					printf ("Complicated BIFF version 0x%x\n",
 						MS_OLE_GET_GUINT16 (q->data));
 					ms_ole_dump (q->data, q->length);
 				}
@@ -584,6 +584,16 @@ biff_boundsheet_data_new (ExcelWorkbook *wb, BiffQuery *q, MsBiffVersion ver)
 		int slen = MS_OLE_GET_GUINT8 (q->data + 6);
 
 		ans->name = biff_get_text (q->data + 7, slen, NULL);
+	}
+
+	/* TODO : find some documentation on this.
+	 * It appears that if the name is null it defaults to Sheet%d ?
+	 * However, we have only one test case and no docs.
+	 */
+	if (ans->name == NULL) {
+		ans->name = g_strdup_printf (_("Sheet%d"),
+			g_hash_table_size (wb->boundsheet_data_by_index));
+		
 	}
 
 	/*

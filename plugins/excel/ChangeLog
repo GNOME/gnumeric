@@ -1,3 +1,9 @@
+2000-06-18  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (biff_boundsheet_data_new) : Guess at some
+	  undocumented behavior.  It appears that when a sheet has a NULL
+	  name it is actually 'Sheet#'.
+
 2000-06-15  Jon K Hellan  <hellan@acm.org>
 
 	* ms-excel-write.c (write_db_cell): No longer use uninitialized
