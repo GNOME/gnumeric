@@ -1,3 +1,20 @@
+gnumeric (1.2.8-4) unstable; urgency=medium
+
+  * [po/ChangeLog, po/ga.po, po/pt_BR.po] Updated translations from CVS.
+  * [plugins/excel/*] Excel import/export fixes from CVS (at upstream's
+    recommendation).
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon, 22 Mar 2004 08:00:47 +0100
+
+gnumeric (1.2.8-3) unstable; urgency=medium
+
+  * [po/ChangeLog, po/cs.po, po/es.po, po/hr.po, po/nl.po, po/pt_BR.po,
+    po/sv.po] Updated translations from CVS.
+  * [src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade]
+    Typo fix from CVS.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 21 Mar 2004 11:15:41 +0100
+
 gnumeric (1.2.8-2) unstable; urgency=medium
 
   * [debian/control] Traded in gnumeric-doc Conflicts: gnumeric (<<
