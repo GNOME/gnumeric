@@ -16,19 +16,19 @@
 #define DAY_SECONDS (3600*24)
 
 static char *help_date = {
-	N_("<function>DATE</function>"
-	   "<syntax>DATE (year,month,day)</syntax>n"
+	N_("@FUNCTION=DATE"
+	   "@SYNTAX=DATE (year,month,day)n"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   "Computes the number of days since the 1st of jannuary of 1900"
-	   "(the date serial number) for the given year, month and day.<p>"
+	   "(the date serial number) for the given year, month and day.\n"
 
 	   "The day might be negative (to count backwards) and it is relative"
 	   "to the previous month"
-	   "<p>"
+	   "\n"
 	   
-	   "</description>"
-	   "<seealso>TODAY, NOW</seealso>")
+	   ""
+	   "@SEEALSO=TODAY, NOW")
 };
 
 static Value *
@@ -57,16 +57,16 @@ gnumeric_date (struct FunctionDefinition *fd, Value *argv [], char **error_strin
 }
 
 static char *help_today = {
-	N_("<function>TODAY</function>"
-	   "<syntax>TODAY ()</syntax>n"
+	N_("@FUNCTION=TODAY"
+	   "@SYNTAX=TODAY ()n"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   "Returns the serial number for today (the number of days"
 	   "trasncurred since the 1st of Jannuary of 1990"
-	   "<p>"
+	   "\n"
 	   
-	   "</description>"
-	   "<seealso>TODAY, NOW</seealso>")
+	   ""
+	   "@SEEALSO=TODAY, NOW")
 };
 
 static Value *
@@ -83,24 +83,24 @@ gnumeric_today (FunctionDefinition *fd, Value *argv [], char **error_string)
 }
 
 static char *help_now = {
-	N_("<function>NOW</function>"
-	   "<syntax>NOW ()</syntax>n"
+	N_("@FUNCTION=NOW"
+	   "@SYNTAX=NOW ()n"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   "Returns the serial number for the date and time at the time"
-	   "it is evaluated.<p>"
+	   "it is evaluated.\n"
 	   ""
 	   "Serial Numbers in Gnumeric are represented as follows:"
 	   "The integral part is the number of days since the 1st of "
 	   "Jannuary of 1900.  The decimal part represent the fraction "
-	   "of the day and is mapped into hour, minutes and seconds<p>"
+	   "of the day and is mapped into hour, minutes and seconds\n"
 	   ""
 	   "For example: .0 represents the beginning of the day, and 0.5 "
 	   "represents noon"
-	   "<p>"
+	   "\n"
 	   
-	   "</description>"
-	   "<seealso>TODAY, NOW</seealso>")
+	   ""
+	   "@SEEALSO=TODAY, NOW")
 };
 
 static Value *
@@ -120,15 +120,15 @@ gnumeric_now (FunctionDefinition *fd, Value *argv [], char **error_string)
 }
 
 static char *help_time = {
-	N_("<function>TIME</function>"
-	   "<syntax>TIME (hours,minutes,seconds)</syntax>n"
+	N_("@FUNCTION=TIME"
+	   "@SYNTAX=TIME (hours,minutes,seconds)n"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   "Returns a fraction representing the hour"
-	   "<p>"
+	   "\n"
 	   
-	   "</description>"
-	   "<seealso>HOUR</seealso>")
+	   ""
+	   "@SEEALSO=HOUR")
 };
 
 static Value *
@@ -148,48 +148,48 @@ gnumeric_time (FunctionDefinition *fd, Value *argv [], char **error_string)
 }
 
 static char *help_hour = {
-	N_("<function>HOUR</function>"
-	   "<syntax>HOUR (serial_number)</syntax>n"
+	N_("@FUNCTION=HOUR"
+	   "@SYNTAX=HOUR (serial_number)n"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   "Converts a serial number to an hour.  The hour is returned as "
 	   "an integer in the range 0 (12:00 A.M.) to 23 (11:00 P.M.)"
-	   "<p>"
+	   "\n"
 	   "Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
 	   "string"
-	   "</description>"
-	   "<seealso>MINUTE, NOW, TIME, SECOND</seealso>")
+	   ""
+	   "@SEEALSO=MINUTE, NOW, TIME, SECOND")
 };
 
 static char *help_minute = {
-	N_("<function>MINUTE</function>"
-	   "<syntax>MINUTE (serial_number)</syntax>n"
+	N_("@FUNCTION=MINUTE"
+	   "@SYNTAX=MINUTE (serial_number)n"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   "Converts a serial number to a minute.  The minute is returned as "
 	   "an integer in the range 0 to 59"
-	   "<p>"
+	   "\n"
 	   "Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
 	   "string"
-	   "</description>"
-	   "<seealso>HOUR, NOW, TIME, SECOND</seealso>")
+	   ""
+	   "@SEEALSO=HOUR, NOW, TIME, SECOND")
 };
 
 static char *help_second = {
-	N_("<function>SECOND</function>"
-	   "<syntax>SECOND (serial_number)</syntax>n"
+	N_("@FUNCTION=SECOND"
+	   "@SYNTAX=SECOND (serial_number)n"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   "Converts a serial number to a second.  The second is returned as "
 	   "an integer in the range 0 to 59"
-	   "<p>"
+	   "\n"
 	   "Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
 	   "string"
-	   "</description>"
-	   "<seealso>HOUR, MINUTE, NOW, TIME</seealso>")
+	   ""
+	   "@SEEALSO=HOUR, MINUTE, NOW, TIME")
 };
 
 /*
@@ -216,45 +216,45 @@ gnumeric_hour_min_sec (FunctionDefinition *fd, Value *argv [], char **error_stri
 }
 
 static char *help_year = {
-	N_("<function>YEAR</function>"
-	   "<syntax>YEAR (serial_number)</syntax>n"
+	N_("@FUNCTION=YEAR"
+	   "@SYNTAX=YEAR (serial_number)n"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   "Converts a serial number to a year."
-	   "<p>"
+	   "\n"
 	   "Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
 	   "string"
-	   "</description>"
-	   "<seealso>DAY, MONTH, TIME, NOW</seealso>")
+	   ""
+	   "@SEEALSO=DAY, MONTH, TIME, NOW")
 };
 
 static char *help_month = {
-	N_("<function>MONTH</function>"
-	   "<syntax>MONTH (serial_number)</syntax>n"
+	N_("@FUNCTION=MONTH"
+	   "@SYNTAX=MONTH (serial_number)n"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   "Converts a serial number to a month."
-	   "<p>"
+	   "\n"
 	   "Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
 	   "string"
-	   "</description>"
-	   "<seealso>DAY, TIME, NOW, YEAR</seealso>")
+	   ""
+	   "@SEEALSO=DAY, TIME, NOW, YEAR")
 };
 
 static char *help_day = {
-	N_("<function>DAY</function>"
-	   "<syntax>DARY (serial_number)</syntax>n"
+	N_("@FUNCTION=DAY"
+	   "@SYNTAX=DARY (serial_number)n"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   "Converts a serial number to a day."
-	   "<p>"
+	   "\n"
 	   "Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
 	   "string"
-	   "</description>"
-	   "<seealso>MONTH, TIME, NOW, YEAR</seealso>")
+	   ""
+	   "@SEEALSO=MONTH, TIME, NOW, YEAR")
 };
 
 static Value *

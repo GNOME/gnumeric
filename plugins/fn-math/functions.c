@@ -134,11 +134,6 @@ static char *help_atan2 = {
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."  
 	   "\n"
-	   
-	   ""
-	   ""
-	   ""
-	   ""
 	   "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS")
 };
 
@@ -157,10 +152,6 @@ static char *help_atanh = {
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
 	   "\n"
-	   
-	   ""
-	   ""
-	   ""
 	   ""
 	   "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS")
 };
@@ -178,11 +169,7 @@ static char *help_atan = {
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
 	   "\n"
-	   
-	   ""
-	   ""
-	   ""
-	   ""
+
 	   "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS")
 };
 
@@ -198,11 +185,6 @@ static char *help_asinh = {
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
 	   "\n"
-	   
-	   ""
-	   ""
-	   ""
-	   ""
 	   "@SEEALSO=ASIN, SIN, COS, DEGREES, RADIANS")
 };
 
@@ -216,15 +198,9 @@ static char *help_asin = {
 	   "the value whose sine is b1.  If b1 falls outside  the  range "
 	   "-1 to 1, ASIN fails and returns the error 'asin - domain error'   "
 	   "\n"
-
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
 	   "\n"
-	   
-	   ""
-	   ""
-	   ""
-	   ""
 	   "@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS")
 };
 
@@ -239,15 +215,9 @@ static char *help_acosh = {
 	   "b1.   If  b1  is less than 1.0, acosh() returns the error     "
 	   " 'acosh - domain error'"
 	   "\n"
-
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
 	   "\n"
-	   
-	   ""
-	   ""
-	   ""
-	   ""
 	   "@SEEALSO=ACOS, DEGREES, RADIANS ")
 };
 
@@ -261,18 +231,23 @@ static char *help_acos = {
 	   " range -1 to 1, ACOS fails and returns the error 'acos - domain error'. "
 	   " The value it returns is in radians. "
 	   "\n"
-
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
 	   "\n"
-	   
-	   ""
-	   ""
-	   ""
-	   ""
 	   "@SEEALSO=COS, SIN, DEGREES, RADIANS")
 };
 
+static char *help_average = {
+	N_("@FUNCTION=AVERAGE"
+	   "@SYNTAX=AVERAGE(value1, value2,...)"
+
+	   "@DESCRIPTION="
+	   "Computes the average of all the values and cells referenced in the "
+	   "argument list.  This is equivalent to the sum of the arguments divided "
+	   "by the count of the arguments."
+	   ""
+	   "@SEEALSO=SUM, COUNT")
+};
 
 static char *help_tanh = {
 	N_("@FUNCTION=TANH"
@@ -282,15 +257,9 @@ static char *help_tanh = {
 	   " The TANH function returns the hyperbolic tangent of b1, "
 	   " which is defined mathematically as sinh(b1) / cosh(b1). "
 	   "\n"
-
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
 	   "\n"
-	   
-	   ""
-	   ""
-	   ""
-	   ""
 	   "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS")
 };
 
@@ -302,15 +271,9 @@ static char *help_tan = {
 	   "The TAN function  returns the tangent of b1, where b1 is "
 	   "given in radians. "
 	   "\n"
-
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
 	   "\n"
-	   
-	   ""
-	   ""
-	   ""
-	   ""
 	   "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS")
 };
 
@@ -324,15 +287,9 @@ static char *help_sinh = {
 	   "which is defined mathematically as (exp(b1) - exp(-b1)) / 2. "
 	   " b1 is in radians. "
 	   "\n"
-
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
 	   "\n"
-	   
-	   ""
-	   ""
-	   ""
-	   ""
 	   "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP")
 };
 
@@ -345,16 +302,9 @@ static char *help_cosh = {
 	   " which is defined mathematically as (exp(b1) + exp(-b1)) / 2.   "
 	   " b1 is in radians. "
 	   "\n"
-
-
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
 	   "\n"
-	   
-	   ""
-	   ""
-	   ""
-	   ""
 	   "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP")
 };
 
@@ -367,15 +317,9 @@ static char *help_sin = {
 	   "The SIN function returns the sine of b1, where b1 is given "
            " in radians. "
 	   "\n"
-
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
 	   "\n"
-	   
-	   ""
-	   ""
-	   ""
-	   ""
 	   "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES")
 };
 
@@ -387,15 +331,9 @@ static char *help_cos = {
 	   "The  COS  function  returns  the cosine of b1, where b1 is "
            "given in radians.  "
 	   "\n"
-
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
 	   "\n"
-	   
-	   ""
-	   ""
-	   ""
-	   ""
 	   "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES")
 };
 
@@ -411,15 +349,9 @@ static char *help_int = {
 	   "Eqilivent to FLOOR(b1) for b1 >0, amd CEIL(b1) "
 	   "for b1 < 0. " 
 	   "\n"
-
 	   "Performing this function on a string or empty cell simply does nothing."
 	   ""
 	   "\n"
-	   
-	   ""
-	   ""
-	   ""
-	   ""
 	   "@SEEALSO=FLOOR, CEIL, ABS")
 };
 
@@ -430,15 +362,8 @@ static char *help_count = {
 	   "@DESCRIPTION="
 	   "Returns the total number of arguments passed."
 	   "\n"
-
 	   "Performing this function on a string or empty cell simply does nothing."
-	   ""
 	   "\n"
-	   
-	   ""
-	   ""
-	   ""
-	   ""
 	   "@SEEALSO=AVERAGE")
 };
 
@@ -450,15 +375,9 @@ static char *help_fact = {
 	   "@DESCRIPTION="
 	   "Computes the factorial of b1. ie, b1!"
 	   "\n"
-
 	   "Performing this function on a string or empty cell returns an error"
-	   ""
 	   "\n"
-	   
 	   "`Factorials were someone's attempt to make math *look* exciting. ` --Steven Wright "
-	   ""
-	   ""
-	   ""
 	   "@SEEALSO=")
 };
 
@@ -471,15 +390,8 @@ static char *help_exp = {
 	   "Computes the value of e(the base of natural logarithmns) raised "
 	   "to the power of b1. "
 	   "\n"
-
 	   "Performing this function on a string or empty cell returns an error."
-	   ""
 	   "\n"
-	   
-	   ""
-	   ""
-	   ""
-	   ""
 	   "@SEEALSO=LOG, LOG2, LOG10")
 };
 
@@ -490,15 +402,8 @@ static char *help_log = {
 	   "@DESCRIPTION="
 	   "Computes the natural logarithm  of b1. "
 	   "\n"
-
 	   "Performing this function on a string or empty cell returns an error. "
-	   ""
 	   "\n"
-	   
-	   ""
-	   ""
-	   ""
-	   ""
 	   "@SEEALSO=EXP, LOG2, LOG10")
 };
 
@@ -511,13 +416,7 @@ static char *help_log10 = {
 	   "\n"
 
 	   "Performing this function on a string or empty cell returns an error. "
-	   ""
 	   "\n"
-	   
-	   ""
-	   ""
-	   ""
-	   ""
 	   "@SEEALSO=EXP, LOG2, LOG")
 };
 
@@ -528,15 +427,8 @@ static char *help_log2 = {
 	   "@DESCRIPTION="
 	   "Computes the base-2 logarithm  of b1. "
 	   "\n"
-
 	   "Performing this function on a string or empty cell returns an error. "
-	   ""
 	   "\n"
-	   
-	   ""
-	   ""
-	   ""
-	   ""
 	   "@SEEALSO=EXP, LOG10, LOG")
 };
 
@@ -550,15 +442,8 @@ static char *help_min = {
 	   "that has the smallest value. With negative numbers considered "
 	   "smaller than positive numbers."
 	   "\n"
-
 	   "Performing this function on a string or empty cell simply does nothing."
-	   ""
 	   "\n"
-	   
-	   ""
-	   ""
-	   ""
-	   ""
 	   "@SEEALSO=MAX,ABS")
 };
 
@@ -571,16 +456,27 @@ static char *help_max = {
 	   "that has the largest value. With negative numbers considered "
 	   "smaller than positive numbers."
 	   "\n"
-
 	   "Performing this function on a string or empty cell simply does nothing."
-	   ""
 	   "\n"
-	   
-	   ""
-	   ""
-	   ""
-	   ""
 	   "@SEEALSO=MIN,ABS")
+};
+
+
+static char *help_or = {
+	N_("@FUNCTION=OR"
+	   "@SYNTAX=OR(b1, b2, ...)"
+
+	   "@DESCRIPTION="
+	   "Implements the logical OR function: the result is TRUE if any of the"
+	   "values evaluated to TRUE.\n"
+	   "b1, trough bN are expressions that should evaluate to TRUE or FALSE."
+	   "If an integer or floating point value is provided zero is considered"
+	   "FALSE and anything else is TRUE.\n"
+	   "If the values contain strings or empty cells those values are "
+	   "ignored.  If no logical values are provided, then the error '#VALUE!'"
+	   "is returned.\n"
+
+	   "@SEEALSO=AND")
 };
 
 
@@ -594,13 +490,8 @@ static char *help_radians = {
 	   "\n"
 
 	   "Performing this function on a string or empty cell simply does nothing. "
-	   ""
 	   "\n"
 	   
-	   ""
-	   ""
-	   ""
-	   ""
 	   "@SEEALSO=PI,DEGREES")
 };
 
@@ -614,13 +505,8 @@ static char *help_degrees = {
 	   "\n"
 
 	   "Performing this function on a string or empty cell simply does nothing. "
-	   ""
 	   "\n"
 	   
-	   ""
-	   ""
-	   ""
-	   ""
 	   "@SEEALSO=RADIANS, PI")
 };
 
@@ -633,8 +519,6 @@ static char *help_sum = {
 	   "argument list. " 
 	   "\n"
 
-
-	   ""
 	   "@SEEALSO=AVERAGE, COUNT")
 };
 
@@ -650,12 +534,7 @@ static char *help_bin2dec = {
 
 	   "Performing this function on a string or empty cell simply does nothing."
 	   "\n"
-	   
-	   ""
-	   ""
-	   ""
-	   ""
-	   "@SEEALSO=")
+	   "@SEEALSO=DEC2BIN")
 };
 
 
@@ -670,11 +549,6 @@ static char *help_pi = {
 	   "Performing this function on a string or empty cell"
 	   "returns an error. This function is called with no arguments."
 	   "\n"
-	   
-	   ""
-	   ""
-	   ""
-	   ""
 	   "@SEEALSO=")
 };
 
@@ -689,8 +563,6 @@ static char *help_floor = {
 
 	   "Performing this function on a string or empty cell simply does nothing."
 	   "\n"
-	   
-	   ""
 	   "@SEEALSO=CEIL, ABS, INT")
 };
 
@@ -701,11 +573,8 @@ static char *help_ceil = {
 	   "@DESCRIPTION=The CEIL function rounds b1 up to the next nearest"
 	   "integer."
 	   "\n"
-
 	   "Performing this function on a string or empty cell simply does nothing."
 	   "\n"
-	   
-	   ""
 	   "@SEEALSO=ABS, FLOOR, INT")
 };
 
@@ -715,12 +584,10 @@ static char *help_abs = {
 
 	   "@DESCRIPTION=Implements the Absolute Value function:  the result is "
 	   "to drop the negative sign (if present).  This can be done for "
-	   "integers and floating point numbers.\n"
-
+	   "integers and floating point numbers."
+	   "\n"
 	   "Performing this function on a string or empty cell simply does nothing."
 	   "\n"
-	   
-	   ""
 	   "@SEEALSO=CEIL, FLOOR")
 };
 
@@ -835,18 +702,6 @@ gnumeric_atan2 (struct FunctionDefinition *i, Value *argv [], char **error_strin
 	
 	return v;
 }
-
-static char *help_average = {
-	N_("@FUNCTION=AVERAGE"
-	   "@SYNTAX=AVERAGE(value1, value2,...)"
-
-	   "@DESCRIPTION="
-	   "Computes the average of all the values and cells referenced in the "
-	   "argument list.  This is equivalent to the sum of the arguments divided "
-	   "by the count of the arguments."
-	   ""
-	   "@SEEALSO=SUM, COUNT")
-};
 
 static Value *
 gnumeric_average (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
@@ -1214,24 +1069,6 @@ gnumeric_max (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, c
 					  eval_col, eval_row, error_string);
 	return 	closure.result;
 }
-
-static char *help_or = {
-	N_("@FUNCTION=OR"
-	   "@SYNTAX=OR(b1, b2, ...)"
-
-	   "@DESCRIPTION="
-	   "Implements the logical OR function: the result is TRUE if any of the"
-	   "values evaluated to TRUE.\n"
-	   "b1, trough bN are expressions that should evaluate to TRUE or FALSE."
-	   "If an integer or floating point value is provided zero is considered"
-	   "FALSE and anything else is TRUE.\n"
-	   "If the values contain strings or empty cells those values are "
-	   "ignored.  If no logical values are provided, then the error '#VALUE!'"
-	   "is returned."
-	   ""
-	   "@SEEALSO=AND")
-};
-
 
 static int
 callback_function_or (Sheet *sheet, Value *value, char **error_string, void *closure)
