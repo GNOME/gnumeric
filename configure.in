@@ -218,16 +218,20 @@ AM_CONDITIONAL(BONOBO, $have_bonobo)
 dnl **************************************************
 dnl * Config defaults (Must be after bonobo)
 dnl **************************************************
-gnumeric_prefix="$prefix"
-gnumeric_exec_prefix="$exec_prefix"
+
+dnl FIXME : This has several ugly bits.
+dnl We should be using datadir rather than ${prefix}/share
+dnl The same holds for libdir.
+gnumeric_prefix="${prefix}"
+gnumeric_exec_prefix="${exec_prefix}"
+test "x${gnumeric_prefix}" = xNONE && gnumeric_prefix=${ac_default_prefix}
+test "x${gnumeric_exec_prefix}" = xNONE && gnumeric_exec_prefix=${gnumeric_prefix}
+
 gnumeric_version="${VERSION}${bonobo_suffix}"
-gnumeric_datadir="${datadir}/gnumeric/${gnumeric_version}/"
-gnumeric_libdir="${libdir}/gnumeric/${gnumeric_version}/"
+gnumeric_datadir="${gnumeric_prefix}/share/gnumeric/${gnumeric_version}/"
+gnumeric_libdir="${gnumeric_exec_prefix}/lib/gnumeric/${gnumeric_version}/"
 gnumeric_plugindir="${gnumeric_libdir}plugins/"
 gnumeric_gladedir="${gnumeric_datadir}glade/"
-
-test "x$gnumeric_prefix" = xNONE && gnumeric_prefix=$ac_default_prefix
-test "x$gnumeric_exec_prefix" = xNONE && gnumeric_exec_prefix=$gnumeric_prefix
 
 dnl Export to config.h
 AC_DEFINE_UNQUOTED(GNUMERIC_VERSION, "$gnumeric_version")
@@ -405,7 +409,7 @@ plugins/gda/Makefile
 intl/Makefile
 po/Makefile.in
 macros/Makefile
-gnumeric-config
+gnumericConf.sh
 gnumeric.desktop
 stamp.h
 ],[sed -e "/POTFILES =/r po/POTFILES" po/Makefile.in > po/Makefile])
