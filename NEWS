@@ -23,6 +23,7 @@ J.H.M. Dassen (Ray):
 Morten:
 	* Fix crash with weird history items.  [#157682]
 	* Fix print preview leak.  [#158566]
+	* Fix stf import crash.  [#159009]
 
 --------------------------------------------------------------------------
 Gnumeric 1.3.93

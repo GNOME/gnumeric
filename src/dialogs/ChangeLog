@@ -1,3 +1,8 @@
+2004-11-23  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf-format-page.c (format_page_update_preview): Remove
+	extra style_format_unref.
+
 2004-11-14  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* dialog-about.c (dialog_about): handle dash_type property.
