@@ -41,6 +41,24 @@
 #include "plugin-util.h"
 #include "module-plugin-defs.h"
 
+#define STANDARD_CRITERIA_DESCRIPTION \
+	   "@criteria is the range of cells which contains the specified " \
+	   "conditions.  The first row of a @criteria should contain the " \
+	   "labels of the fields for which the criterias are for.  Cells " \
+	   "below the labels specify conditions, for example, ``>3'' or " \
+	   "``<9''.  Equality condition can be given simply by specifing a " \
+	   "value, e.g. ``3'' or ``John''. \n"\
+	   "Each row in @criteria specifies a separate condition. "\
+           "If a row in "\
+	   "@database matches a row in @criteria, then that row is counted. "\
+	   "Technically speaking, this a boolean OR operation between the "\
+	   "rows in @criteria.\n"\
+	   "If @criteria specifies more than one column, then each of the "\
+	   "conditions in the specified columns must be true for the row in "\
+	   "@database to match. Technically speaking, this is a boolean AND "\
+	   "operation between the columns in @criteria.\n"
+
+
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 /***************************************************************************/
@@ -277,19 +295,7 @@ static char const *help_daverage = {
 	   "Field can also be the label of a column.  For example, ``Age'' " \
 	   "refers to the column with the label ``Age'' in @database range. " \
 	   "\n\n" \
-	   "@criteria is the range of cells which contains the specified " \
-	   "conditions.  The first row of a @criteria should contain the " \
-	   "labels of the fields for which the criterias are for.  Cells " \
-	   "below the labels specify conditions, for example, ``>3'' or " \
-	   "``<9''.  Equality condition can be given simply by specifing a " \
-	   "value, e.g. ``3'' or ``John''.  Each row in @criteria specifies " \
-	   "a separate condition, i.e. if a row in @database matches with " \
-	   "one of the rows in @criteria then that row is counted in " \
-	   "(technically speaking boolean OR between the rows in " \
-	   "@criteria).  If @criteria specifies more than one columns then " \
-	   "each of the conditions in these columns should be true that " \
-	   "the row in @database matches (again technically speaking " \
-	   "boolean AND between the columns in each row in @criteria). " \
+	   STANDARD_CRITERIA_DESCRIPTION
            "\n" \
 	   "@EXAMPLES=\n" \
 	   "Let us assume that the range A1:C7 contain the following " \
@@ -349,19 +355,7 @@ static char const *help_dcount = {
 	   "Field can also be the label of a column.  For example, ``Age'' " \
 	   "refers to the column with the label ``Age'' in @database range. " \
 	   "\n\n" \
-	   "@criteria is the range of cells which contains the specified " \
-	   "conditions.  The first row of a @criteria should contain the " \
-	   "labels of the fields for which the criterias are for.  Cells " \
-	   "below the labels specify conditions, for example, ``>3'' or " \
-	   "``<9''.  Equality condition can be given simply by specifing a " \
-	   "value, e.g. ``3'' or ``John''.  Each row in @criteria specifies " \
-	   "a separate condition, i.e. if a row in @database matches with " \
-	   "one of the rows in @criteria then that row is counted in " \
-	   "(technically speaking boolean OR between the rows in " \
-	   "@criteria).  If @criteria specifies more than one columns then " \
-	   "each of the conditions in these columns should be true that " \
-	   "the row in @database matches (again technically speaking " \
-	   "boolean AND between the columns in each row in @criteria). " \
+	   STANDARD_CRITERIA_DESCRIPTION
            "\n" \
 	   "@EXAMPLES=\n" \
 	   "Let us assume that the range A1:C7 contain the following " \
@@ -420,19 +414,7 @@ static char const *help_dcounta = {
 	   "Field can also be the label of a column.  For example, ``Age'' " \
 	   "refers to the column with the label ``Age'' in @database range. " \
 	   "\n\n" \
-	   "@criteria is the range of cells which contains the specified " \
-	   "conditions.  The first row of a @criteria should contain the " \
-	   "labels of the fields for which the criterias are for.  Cells " \
-	   "below the labels specify conditions, for example, ``>3'' or " \
-	   "``<9''.  Equality condition can be given simply by specifing a " \
-	   "value, e.g. ``3'' or ``John''.  Each row in @criteria specifies " \
-	   "a separate condition, i.e. if a row in @database matches with " \
-	   "one of the rows in @criteria then that row is counted in " \
-	   "(technically speaking boolean OR between the rows in " \
-	   "@criteria).  If @criteria specifies more than one columns then " \
-	   "each of the conditions in these columns should be true that " \
-	   "the row in @database matches (again technically speaking " \
-	   "boolean AND between the columns in each row in @criteria). " \
+	   STANDARD_CRITERIA_DESCRIPTION
            "\n" \
 	   "@EXAMPLES=\n" \
 	   "Let us assume that the range A1:C7 contain the following " \
@@ -489,19 +471,7 @@ static char const *help_dget = {
 	   "Field can also be the label of a column.  For example, ``Age'' " \
 	   "refers to the column with the label ``Age'' in @database range. " \
 	   "\n\n" \
-	   "@criteria is the range of cells which contains the specified " \
-	   "conditions.  The first row of a @criteria should contain the " \
-	   "labels of the fields for which the criterias are for.  Cells " \
-	   "below the labels specify conditions, for example, ``>3'' or " \
-	   "``<9''.  Equality condition can be given simply by specifing a " \
-	   "value, e.g. ``3'' or ``John''.  Each row in @criteria specifies " \
-	   "a separate condition, i.e. if a row in @database matches with " \
-	   "one of the rows in @criteria then that row is counted in " \
-	   "(technically speaking boolean OR between the rows in " \
-	   "@criteria).  If @criteria specifies more than one columns then " \
-	   "each of the conditions in these columns should be true that " \
-	   "the row in @database matches (again technically speaking " \
-	   "boolean AND between the columns in each row in @criteria). " \
+	   STANDARD_CRITERIA_DESCRIPTION
            "\n" \
 	   "@EXAMPLES=\n" \
 	   "Let us assume that the range A1:C7 contain the following " \
@@ -570,19 +540,7 @@ static char const *help_dmax = {
 	   "Field can also be the label of a column.  For example, ``Age'' " \
 	   "refers to the column with the label ``Age'' in @database range. " \
 	   "\n\n" \
-	   "@criteria is the range of cells which contains the specified " \
-	   "conditions.  The first row of a @criteria should contain the " \
-	   "labels of the fields for which the criterias are for.  Cells " \
-	   "below the labels specify conditions, for example, ``>3'' or " \
-	   "``<9''.  Equality condition can be given simply by specifing a " \
-	   "value, e.g. ``3'' or ``John''.  Each row in @criteria specifies " \
-	   "a separate condition, i.e. if a row in @database matches with " \
-	   "one of the rows in @criteria then that row is counted in " \
-	   "(technically speaking boolean OR between the rows in " \
-	   "@criteria).  If @criteria specifies more than one columns then " \
-	   "each of the conditions in these columns should be true that " \
-	   "the row in @database matches (again technically speaking " \
-	   "boolean AND between the columns in each row in @criteria). " \
+	   STANDARD_CRITERIA_DESCRIPTION
            "\n" \
 	   "@EXAMPLES=\n" \
 	   "Let us assume that the range A1:C7 contain the following " \
@@ -643,19 +601,7 @@ static char const *help_dmin = {
 	   "Field can also be the label of a column.  For example, ``Age'' " \
 	   "refers to the column with the label ``Age'' in @database range. " \
 	   "\n\n" \
-	   "@criteria is the range of cells which contains the specified " \
-	   "conditions.  The first row of a @criteria should contain the " \
-	   "labels of the fields for which the criterias are for.  Cells " \
-	   "below the labels specify conditions, for example, ``>3'' or " \
-	   "``<9''.  Equality condition can be given simply by specifing a " \
-	   "value, e.g. ``3'' or ``John''.  Each row in @criteria specifies " \
-	   "a separate condition, i.e. if a row in @database matches with " \
-	   "one of the rows in @criteria then that row is counted in " \
-	   "(technically speaking boolean OR between the rows in " \
-	   "@criteria).  If @criteria specifies more than one columns then " \
-	   "each of the conditions in these columns should be true that " \
-	   "the row in @database matches (again technically speaking " \
-	   "boolean AND between the columns in each row in @criteria). " \
+	   STANDARD_CRITERIA_DESCRIPTION
            "\n" \
 	   "@EXAMPLES=\n" \
 	   "Let us assume that the range A1:C7 contain the following " \
@@ -713,19 +659,7 @@ static char const *help_dproduct = {
 	   "Field can also be the label of a column.  For example, ``Age'' " \
 	   "refers to the column with the label ``Age'' in @database range. " \
 	   "\n\n" \
-	   "@criteria is the range of cells which contains the specified " \
-	   "conditions.  The first row of a @criteria should contain the " \
-	   "labels of the fields for which the criterias are for.  Cells " \
-	   "below the labels specify conditions, for example, ``>3'' or " \
-	   "``<9''.  Equality condition can be given simply by specifing a " \
-	   "value, e.g. ``3'' or ``John''.  Each row in @criteria specifies " \
-	   "a separate condition, i.e. if a row in @database matches with " \
-	   "one of the rows in @criteria then that row is counted in " \
-	   "(technically speaking boolean OR between the rows in " \
-	   "@criteria).  If @criteria specifies more than one columns then " \
-	   "each of the conditions in these columns should be true that " \
-	   "the row in @database matches (again technically speaking " \
-	   "boolean AND between the columns in each row in @criteria). " \
+	   STANDARD_CRITERIA_DESCRIPTION
            "\n" \
 	   "@EXAMPLES=\n" \
 	   "Let us assume that the range A1:C7 contain the following " \
@@ -784,19 +718,7 @@ static char const *help_dstdev = {
 	   "Field can also be the label of a column.  For example, ``Age'' " \
 	   "refers to the column with the label ``Age'' in @database range. " \
 	   "\n\n" \
-	   "@criteria is the range of cells which contains the specified " \
-	   "conditions.  The first row of a @criteria should contain the " \
-	   "labels of the fields for which the criterias are for.  Cells " \
-	   "below the labels specify conditions, for example, ``>3'' or " \
-	   "``<9''.  Equality condition can be given simply by specifing a " \
-	   "value, e.g. ``3'' or ``John''.  Each row in @criteria specifies " \
-	   "a separate condition, i.e. if a row in @database matches with " \
-	   "one of the rows in @criteria then that row is counted in " \
-	   "(technically speaking boolean OR between the rows in " \
-	   "@criteria).  If @criteria specifies more than one columns then " \
-	   "each of the conditions in these columns should be true that " \
-	   "the row in @database matches (again technically speaking " \
-	   "boolean AND between the columns in each row in @criteria). " \
+	   STANDARD_CRITERIA_DESCRIPTION
            "\n" \
 	   "@EXAMPLES=\n" \
 	   "Let us assume that the range A1:C7 contain the following " \
@@ -855,19 +777,7 @@ static char const *help_dstdevp = {
 	   "Field can also be the label of a column.  For example, ``Age'' " \
 	   "refers to the column with the label ``Age'' in @database range. " \
 	   "\n\n" \
-	   "@criteria is the range of cells which contains the specified " \
-	   "conditions.  The first row of a @criteria should contain the " \
-	   "labels of the fields for which the criterias are for.  Cells " \
-	   "below the labels specify conditions, for example, ``>3'' or " \
-	   "``<9''.  Equality condition can be given simply by specifing a " \
-	   "value, e.g. ``3'' or ``John''.  Each row in @criteria specifies " \
-	   "a separate condition, i.e. if a row in @database matches with " \
-	   "one of the rows in @criteria then that row is counted in " \
-	   "(technically speaking boolean OR between the rows in " \
-	   "@criteria).  If @criteria specifies more than one columns then " \
-	   "each of the conditions in these columns should be true that " \
-	   "the row in @database matches (again technically speaking " \
-	   "boolean AND between the columns in each row in @criteria). " \
+	   STANDARD_CRITERIA_DESCRIPTION
            "\n" \
 	   "@EXAMPLES=\n" \
 	   "Let us assume that the range A1:C7 contain the following " \
@@ -925,19 +835,7 @@ static char const *help_dsum = {
 	   "Field can also be the label of a column.  For example, ``Age'' " \
 	   "refers to the column with the label ``Age'' in @database range. " \
 	   "\n\n" \
-	   "@criteria is the range of cells which contains the specified " \
-	   "conditions.  The first row of a @criteria should contain the " \
-	   "labels of the fields for which the criterias are for.  Cells " \
-	   "below the labels specify conditions, for example, ``>3'' or " \
-	   "``<9''.  Equality condition can be given simply by specifing a " \
-	   "value, e.g. ``3'' or ``John''.  Each row in @criteria specifies " \
-	   "a separate condition, i.e. if a row in @database matches with " \
-	   "one of the rows in @criteria then that row is counted in " \
-	   "(technically speaking boolean OR between the rows in " \
-	   "@criteria).  If @criteria specifies more than one columns then " \
-	   "each of the conditions in these columns should be true that " \
-	   "the row in @database matches (again technically speaking " \
-	   "boolean AND between the columns in each row in @criteria). " \
+	   STANDARD_CRITERIA_DESCRIPTION
            "\n" \
 	   "@EXAMPLES=\n" \
 	   "Let us assume that the range A1:C7 contain the following " \
@@ -997,19 +895,7 @@ static char const *help_dvar = {
 	   "Field can also be the label of a column.  For example, ``Age'' " \
 	   "refers to the column with the label ``Age'' in @database range. " \
 	   "\n\n" \
-	   "@criteria is the range of cells which contains the specified " \
-	   "conditions.  The first row of a @criteria should contain the " \
-	   "labels of the fields for which the criterias are for.  Cells " \
-	   "below the labels specify conditions, for example, ``>3'' or " \
-	   "``<9''.  Equality condition can be given simply by specifing a " \
-	   "value, e.g. ``3'' or ``John''.  Each row in @criteria specifies " \
-	   "a separate condition, i.e. if a row in @database matches with " \
-	   "one of the rows in @criteria then that row is counted in " \
-	   "(technically speaking boolean OR between the rows in " \
-	   "@criteria).  If @criteria specifies more than one columns then " \
-	   "each of the conditions in these columns should be true that " \
-	   "the row in @database matches (again technically speaking " \
-	   "boolean AND between the columns in each row in @criteria). " \
+	   STANDARD_CRITERIA_DESCRIPTION
            "\n" \
 	   "@EXAMPLES=\n" \
 	   "Let us assume that the range A1:C7 contain the following " \
@@ -1068,19 +954,7 @@ static char const *help_dvarp = {
 	   "Field can also be the label of a column.  For example, ``Age'' " \
 	   "refers to the column with the label ``Age'' in @database range. " \
 	   "\n\n" \
-	   "@criteria is the range of cells which contains the specified " \
-	   "conditions.  The first row of a @criteria should contain the " \
-	   "labels of the fields for which the criterias are for.  Cells " \
-	   "below the labels specify conditions, for example, ``>3'' or " \
-	   "``<9''.  Equality condition can be given simply by specifing a " \
-	   "value, e.g. ``3'' or ``John''.  Each row in @criteria specifies " \
-	   "a separate condition, i.e. if a row in @database matches with " \
-	   "one of the rows in @criteria then that row is counted in " \
-	   "(technically speaking boolean OR between the rows in " \
-	   "@criteria).  If @criteria specifies more than one columns then " \
-	   "each of the conditions in these columns should be true that " \
-	   "the row in @database matches (again technically speaking " \
-	   "boolean AND between the columns in each row in @criteria). " \
+	   STANDARD_CRITERIA_DESCRIPTION
            "\n" \
 	   "@EXAMPLES=\n" \
 	   "Let us assume that the range A1:C7 contain the following " \
