@@ -1,3 +1,15 @@
+2000-06-01  Kenneth Christiansen <kenneth@gnu.org>
+
+        * po/desk.pl, po/update.pl: Two new scripts for helping 
+        translation/i18n maintainance of Gnumeric
+
+        * po/README.tools: Added readme file, which explains the
+        use of the newly checked in po tools.
+
+	* NEWS: Added notice about this
+
+        Please go read.
+
 2000-05-31  Jody Goldberg <jgoldberg@home.com>
 
 	* configure.in : Improve naming for libxml messages.

@@ -1,3 +1,13 @@
+2000-06-01  Kenneth Christiansen <kenneth@gnu.org>
+
+        * desk.pl, update.pl: Two new scripts for helping
+	translation/i18n maintainance of Gnumeric
+
+	* README.tools: Added readme file, which explains the
+	use of the newly checked in po tools.
+
+	Please go read.
+
 2000-05-31  Karl Eichwalder  <ke@suse.de>
 
 	* de.po: Update.
