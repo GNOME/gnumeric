@@ -80,6 +80,22 @@ sub copy_subsystem {
 
 	print DST;
     }
+
+    {
+	my %seen = ();
+	foreach (@sources) { $seen{$_} = 1; }
+
+	my @headers = ();
+	foreach (<$srcdir/*.h>) {
+	    next if $seen{$_};
+	    push @headers, substr ($_, length ($srcdir) + 1);
+	}
+
+	if (@headers) {
+	    print DST "\nnoinst_HEADERS =\n\t", join (" \\\n\t", @headers), "\n";
+	}
+    }
+
     close (*SRC);
     close (*DST);
     &update_file ("$dstdir/Makefile.am");
