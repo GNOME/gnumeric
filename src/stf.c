@@ -321,8 +321,6 @@ stf_text_to_columns (WorkbookControl *wbc, CommandContext *cc)
 		stf_dialog_result_free (dialogresult);
 }
 
-#define STF_PROBE_SIZE 16384
-
 /**
  * stf_read_workbook_auto_csvtab
  * @fo       : file opener
