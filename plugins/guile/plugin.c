@@ -20,12 +20,6 @@
  */
 static EvalPosition *eval_pos = NULL;
 
-static int
-scm_num2int (SCM num)
-{
-	return (int)scm_num2long(num, (char*)SCM_ARG1, "scm_num2int"); /* may I use scm_num2long? */
-}
-
 static SCM
 scm_symbolfrom0str (char *name)
 {
@@ -61,8 +55,8 @@ scm_to_cell_ref (SCM scm)
 	    && SCM_NIMP(SCM_CDR(scm)) && SCM_CONSP(SCM_CDR(scm))
 	    && SCM_NFALSEP(scm_number_p(SCM_CADR(scm))) && SCM_NFALSEP(scm_number_p(SCM_CDDR(scm))))
 	{
-		cell.col = (int)scm_num2int(SCM_CADR(scm));
-		cell.row = (int)scm_num2int(SCM_CDDR(scm));
+		cell.col = gh_scm2int(SCM_CADR(scm));
+		cell.row = gh_scm2int(SCM_CDDR(scm));
 	}
 	else
 		;		/* FIXME: should report error */

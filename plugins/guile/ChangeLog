@@ -1,3 +1,8 @@
+2000-01-06  Ariel Rios  <ariel@arcavia.com>
+
+	* plugin.c (scm_to_cell_ref): Replaced calls to scm_num2int with gh_scm2int.
+	  (scm_num2int) Removed.
+
 2000-01-05  Ariel Rios  <ariel@arcavia.com>
 
 	* plugin.c (value_to_scm): Correctly handle the VALUE_BOOLEAN case.
