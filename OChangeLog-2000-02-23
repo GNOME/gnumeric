@@ -1,3 +1,10 @@
+1999-12-14  Cort Dougan  <cort@ppc.kernel.org>
+
+	* src/corba-sheet.c (Sheet_range_set_font, Sheet_range_set_foreground),
+	(Sheet_range_set_pattern, Sheet_range_set_background, Sheet_range_set_alignment):
+	implement.
+	(Sheet_corba_class_init): fill epv.
+
 1999-12-14  Joe Sakosky <josak@ibm.net>
 
 	* src/file.c: privatized FileOpener FileSaver.

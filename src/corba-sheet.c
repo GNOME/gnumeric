@@ -989,6 +989,131 @@ Sheet_range_set_format (PortableServer_Servant servant,
 	range_list_destroy (ranges);
 }
 
+static void
+Sheet_range_set_font (PortableServer_Servant servant,
+		      const CORBA_char *range,
+		      const CORBA_char *font,
+		      CORBA_short points,
+		      CORBA_Environment *ev)
+{
+	Sheet *sheet = sheet_from_servant (servant);
+	GSList *ranges;
+	MStyle *mstyle;
+
+	verify_range (sheet, range, &ranges);
+
+	cell_freeze_redraws ();
+
+	mstyle = mstyle_new ();
+	mstyle_set_font_name (mstyle, font);
+	mstyle_set_font_size (mstyle, points);
+	ranges_set_style (sheet, ranges, mstyle);
+
+	cell_thaw_redraws ();
+	
+	range_list_destroy (ranges);
+}
+
+static void
+Sheet_range_set_foreground (PortableServer_Servant servant,
+			    const CORBA_char *range,
+			    const CORBA_char *color,
+			    CORBA_Environment *ev)
+{
+	Sheet   *sheet = sheet_from_servant (servant);
+	GSList  *ranges;
+	MStyle  *mstyle;
+	GdkColor c;
+
+	verify_range (sheet, range, &ranges);
+	
+	gdk_color_parse (color, &c);
+	cell_freeze_redraws ();
+
+	mstyle = mstyle_new ();
+	mstyle_set_color (mstyle, MSTYLE_COLOR_FORE,
+			  style_color_new (c.red, c.green, c.blue));
+	ranges_set_style (sheet, ranges, mstyle);
+
+	cell_thaw_redraws ();
+	
+	range_list_destroy (ranges);
+}
+
+static void
+Sheet_range_set_background (PortableServer_Servant servant,
+			    const CORBA_char *range,
+			    const CORBA_char *color,
+			    CORBA_Environment *ev)
+{
+	Sheet   *sheet = sheet_from_servant (servant);
+	GSList  *ranges;
+	MStyle  *mstyle;
+	GdkColor c;
+
+	verify_range (sheet, range, &ranges);
+	
+	gdk_color_parse (color, &c);
+	cell_freeze_redraws ();
+
+	mstyle = mstyle_new ();
+	mstyle_set_color (mstyle, MSTYLE_COLOR_BACK,
+			  style_color_new (c.red, c.green, c.blue));
+	ranges_set_style (sheet, ranges, mstyle);
+
+	cell_thaw_redraws ();
+	
+	range_list_destroy (ranges);
+}
+
+static void
+Sheet_range_set_pattern (PortableServer_Servant servant,
+			 const CORBA_char      *range,
+			 CORBA_long             pattern,
+			 CORBA_Environment     *ev)
+{
+	Sheet   *sheet = sheet_from_servant (servant);
+	GSList  *ranges;
+	MStyle  *mstyle;
+
+	verify_range (sheet, range, &ranges);
+	
+	cell_freeze_redraws ();
+
+	mstyle = mstyle_new ();
+	mstyle_set_pattern (mstyle, pattern);
+	ranges_set_style (sheet, ranges, mstyle);
+
+	cell_thaw_redraws ();
+	
+	range_list_destroy (ranges);
+}
+
+static void
+Sheet_range_set_alignment (PortableServer_Servant servant,
+			   const CORBA_char      *range,
+			   CORBA_long             halign,
+			   CORBA_long             valign,
+			   CORBA_boolean          auto_return,
+			   CORBA_Environment     *ev)
+{
+	Sheet   *sheet = sheet_from_servant (servant);
+	GSList  *ranges;
+	MStyle  *mstyle;
+
+	verify_range (sheet, range, &ranges);
+	
+	mstyle = mstyle_new ();
+	mstyle_set_align_h (mstyle, halign);
+	mstyle_set_align_v (mstyle, valign);
+	mstyle_set_fit_in_cell (mstyle, (gboolean) auto_return);
+	ranges_set_style (sheet, ranges, mstyle);
+
+	cell_thaw_redraws ();
+	
+	range_list_destroy (ranges);
+}
+
 static CORBA_long
 Sheet_max_cols_used (PortableServer_Servant servant, CORBA_Environment *ev)
 {
@@ -1095,10 +1220,15 @@ Sheet_corba_class_init (void)
 	/*
 	 * Region based routines
 	 */
-	gnome_gnumeric_sheet_epv.range_get_values = Sheet_range_get_values;
-	gnome_gnumeric_sheet_epv.range_set_text = Sheet_range_set_text;
+	gnome_gnumeric_sheet_epv.range_get_values  = Sheet_range_get_values;
+	gnome_gnumeric_sheet_epv.range_set_text    = Sheet_range_set_text;
 	gnome_gnumeric_sheet_epv.range_set_formula = Sheet_range_set_formula;
-	gnome_gnumeric_sheet_epv.range_set_format = Sheet_range_set_format;
+	gnome_gnumeric_sheet_epv.range_set_format  = Sheet_range_set_format;
+	gnome_gnumeric_sheet_epv.range_set_font    = Sheet_range_set_font;
+	gnome_gnumeric_sheet_epv.range_set_foreground = Sheet_range_set_foreground;
+	gnome_gnumeric_sheet_epv.range_set_background = Sheet_range_set_background;
+	gnome_gnumeric_sheet_epv.range_set_pattern    = Sheet_range_set_pattern;
+	gnome_gnumeric_sheet_epv.range_set_alignment  = Sheet_range_set_alignment;
 
 	gnome_gnumeric_sheet_epv.set_dirty = Sheet_set_dirty;
 
