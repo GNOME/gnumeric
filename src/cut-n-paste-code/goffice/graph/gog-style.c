@@ -148,19 +148,18 @@ init_solid_page (GogObject *gobj, GladeXML *gui, GogStyle *style)
 	gnome_color_picker_set_use_alpha (COLOR_COMBO (w)->palette->picker, TRUE);
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (glade_xml_get_widget (gui, "fill_label")), w);
-	switch (style->fill.type)
-	{
-		case GOG_FILL_STYLE_SOLID:
-			color_combo_set_gocolor (w, style->fill.u.solid.color);
-			break;
-		case GOG_FILL_STYLE_PATTERN:
-			color_combo_set_gocolor (w, style->fill.u.pattern.back);
-			break;
-		case GOG_FILL_STYLE_GRADIENT:
-			color_combo_set_gocolor (w, style->fill.u.gradient.start);
-			break;
-		default:
-			color_combo_set_gocolor (w, RGB_WHITE);
+	switch (style->fill.type) {
+	case GOG_FILL_STYLE_SOLID:
+		color_combo_set_gocolor (w, style->fill.u.solid.color);
+		break;
+	case GOG_FILL_STYLE_PATTERN:
+		color_combo_set_gocolor (w, style->fill.u.pattern.back);
+		break;
+	case GOG_FILL_STYLE_GRADIENT:
+		color_combo_set_gocolor (w, style->fill.u.gradient.start);
+		break;
+	default:
+		color_combo_set_gocolor (w, RGB_WHITE);
 	}
 	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 0, 1, 0, 0, 0, 0);
 	g_signal_connect (G_OBJECT (w),
@@ -180,8 +179,7 @@ cb_gradient_type_changed (GtkWidget *cc,
 
 	g_return_if_fail (style != NULL);
 
-	style->fill.u.gradient.type = gtk_option_menu_get_history (
-																GTK_OPTION_MENU (cc));
+	style->fill.u.gradient.type = gtk_option_menu_get_history (GTK_OPTION_MENU (cc));
 	g_object_set (G_OBJECT (gobj), "style", style, NULL);
 }
 
@@ -199,19 +197,18 @@ init_gradient_page (GogObject *gobj, GladeXML *gui, GogStyle *style)
 	gnome_color_picker_set_use_alpha (COLOR_COMBO (w)->palette->picker, TRUE);
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (glade_xml_get_widget (gui, "start_label")), w);
-	switch (style->fill.type)
-	{
-		case GOG_FILL_STYLE_SOLID:
-			color_combo_set_gocolor (w, style->fill.u.solid.color);
-			break;
-		case GOG_FILL_STYLE_PATTERN:
-			color_combo_set_gocolor (w, style->fill.u.pattern.back);
-			break;
-		case GOG_FILL_STYLE_GRADIENT:
-			color_combo_set_gocolor (w, style->fill.u.gradient.start);
-			break;
-		default:
-			color_combo_set_gocolor (w, RGB_WHITE);
+	switch (style->fill.type) {
+	case GOG_FILL_STYLE_SOLID:
+		color_combo_set_gocolor (w, style->fill.u.solid.color);
+		break;
+	case GOG_FILL_STYLE_PATTERN:
+		color_combo_set_gocolor (w, style->fill.u.pattern.back);
+		break;
+	case GOG_FILL_STYLE_GRADIENT:
+		color_combo_set_gocolor (w, style->fill.u.gradient.start);
+		break;
+	default:
+		color_combo_set_gocolor (w, RGB_WHITE);
 	}
 	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 0, 1, 0, 0, 0, 0);
 	g_signal_connect (G_OBJECT (w),
@@ -223,19 +220,18 @@ init_gradient_page (GogObject *gobj, GladeXML *gui, GogStyle *style)
 	gnome_color_picker_set_use_alpha (COLOR_COMBO (w)->palette->picker, TRUE);
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (glade_xml_get_widget (gui, "end_label")), w);
-	switch (style->fill.type)
-	{
-		case GOG_FILL_STYLE_SOLID:
-			color_combo_set_gocolor (w, style->fill.u.solid.color);
-			break;
-		case GOG_FILL_STYLE_PATTERN:
-			color_combo_set_gocolor (w, style->fill.u.pattern.fore);
-			break;
-		case GOG_FILL_STYLE_GRADIENT:
-			color_combo_set_gocolor (w, style->fill.u.gradient.end);
-			break;
-		default:
-			color_combo_set_gocolor (w, RGB_BLACK);
+	switch (style->fill.type) {
+	case GOG_FILL_STYLE_SOLID:
+		color_combo_set_gocolor (w, style->fill.u.solid.color);
+		break;
+	case GOG_FILL_STYLE_PATTERN:
+		color_combo_set_gocolor (w, style->fill.u.pattern.fore);
+		break;
+	case GOG_FILL_STYLE_GRADIENT:
+		color_combo_set_gocolor (w, style->fill.u.gradient.end);
+		break;
+	default:
+		color_combo_set_gocolor (w, RGB_BLACK);
 	}
 	color_combo_set_gocolor (w, style->fill.u.gradient.end);
 	gtk_table_attach (GTK_TABLE (table), w, 3, 4, 0, 1, 0, 0, 0, 0);
@@ -259,7 +255,6 @@ cb_type_changed (GtkWidget *cc,
 		       GogObject *gobj)
 {
 	GtkNotebook* notebook;
-	GtkOptionMenu* menu;
 	gint page;
 	GladeXML *gui;
 	GtkWidget *w, *table;
@@ -272,45 +267,42 @@ cb_type_changed (GtkWidget *cc,
 	gui = (GladeXML*) g_object_get_data (G_OBJECT (cc), "state");
 	notebook = GTK_NOTEBOOK (glade_xml_get_widget (gui, "notebook"));
 	page = gtk_option_menu_get_history(GTK_OPTION_MENU (cc));
-	switch (page)
-	{
-		case 0:
-			style->fill.type = GOG_FILL_STYLE_NONE;
-			break;
-		case 1:
-			table = glade_xml_get_widget (gui, "fill_table");
+	switch (page) {
+	case 0:
+		style->fill.type = GOG_FILL_STYLE_NONE;
+		break;
+	case 1:
+		table = glade_xml_get_widget (gui, "fill_table");
+		w = (GtkWidget*) g_object_get_data (G_OBJECT (table), "color");
+		if (! w) {
+			init_solid_page (gobj, gui, style);
 			w = (GtkWidget*) g_object_get_data (G_OBJECT (table), "color");
-			if (! w)
-			{
-				init_solid_page (gobj, gui, style);
-				w = (GtkWidget*) g_object_get_data (G_OBJECT (table), "color");
-			}
-			style->fill.type = GOG_FILL_STYLE_SOLID;
-			style->fill.u.solid.color = color_combo_get_gocolor (w);
-			style->fill.u.solid.is_auto = FALSE;
-			break;
-		case 2:
-			table = glade_xml_get_widget (gui, "gradient_table");
+		}
+		style->fill.type = GOG_FILL_STYLE_SOLID;
+		style->fill.u.solid.color = color_combo_get_gocolor (w);
+		style->fill.u.solid.is_auto = FALSE;
+		break;
+	case 2:
+		table = glade_xml_get_widget (gui, "gradient_table");
+		w = (GtkWidget*) g_object_get_data (G_OBJECT (table), "start");
+		if (! w)
+		{
+			init_gradient_page (gobj, gui, style);
 			w = (GtkWidget*) g_object_get_data (G_OBJECT (table), "start");
-			if (! w)
-			{
-				init_gradient_page (gobj, gui, style);
-				w = (GtkWidget*) g_object_get_data (G_OBJECT (table), "start");
-			}
-			style->fill.type = GOG_FILL_STYLE_GRADIENT;
-			style->fill.u.gradient.start = color_combo_get_gocolor (w);
-			w = GTK_WIDGET (g_object_get_data (G_OBJECT (table), "end"));
-			style->fill.u.gradient.end = color_combo_get_gocolor (w);
-			w = glade_xml_get_widget (gui, "gradient_type");
-			style->fill.u.gradient.type = gtk_option_menu_get_history (
-																		GTK_OPTION_MENU (w));
-			break;
-		case 3:
-			style->fill.type = GOG_FILL_STYLE_PATTERN;
-			break;
-		case 4:
-			style->fill.type = GOG_FILL_STYLE_IMAGE;
-			break;
+		}
+		style->fill.type = GOG_FILL_STYLE_GRADIENT;
+		style->fill.u.gradient.start = color_combo_get_gocolor (w);
+		w = GTK_WIDGET (g_object_get_data (G_OBJECT (table), "end"));
+		style->fill.u.gradient.end = color_combo_get_gocolor (w);
+		w = glade_xml_get_widget (gui, "gradient_type");
+		style->fill.u.gradient.type = gtk_option_menu_get_history (GTK_OPTION_MENU (w));
+		break;
+	case 3:
+		style->fill.type = GOG_FILL_STYLE_PATTERN;
+		break;
+	case 4:
+		style->fill.type = GOG_FILL_STYLE_IMAGE;
+		break;
 	}
 	gtk_notebook_set_current_page (notebook, page);
 	g_object_set (G_OBJECT (gobj), "style", style, NULL);
@@ -354,7 +346,7 @@ GtkWidget *
 gog_style_editor (GogObject *gobj, CommandContext *cc, guint32 enable)
 {
 	GogStyle *style = NULL;
-	GtkWidget *table, *table1, *w, *notebook, *menu;
+	GtkWidget *table, *w, *notebook, *menu;
 	GladeXML *gui;
 
 	g_object_get (G_OBJECT (gobj), "style", &style, NULL);
@@ -396,28 +388,28 @@ gog_style_editor (GogObject *gobj, CommandContext *cc, guint32 enable)
 		"color_changed",
 		G_CALLBACK (cb_outline_color_changed), gobj);
 
-	if (enable & GOG_STYLE_FILL)
-	{
-		switch (style->fill.type)
-		{
-			case GOG_FILL_STYLE_NONE:
-				gtk_option_menu_set_history (GTK_OPTION_MENU (menu), 0);
-				gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), 0);
-				break;
-			case GOG_FILL_STYLE_SOLID:
-				init_solid_page (gobj, gui, style);
-				gtk_option_menu_set_history (GTK_OPTION_MENU (menu), 1);
-				gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), 1);
-				break;
-			case GOG_FILL_STYLE_GRADIENT:
-				init_gradient_page (gobj, gui, style);
-				gtk_option_menu_set_history (GTK_OPTION_MENU (menu), 2);
-				gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), 2);
-				break;
+	if (enable & GOG_STYLE_FILL) {
+		switch (style->fill.type) {
+		case GOG_FILL_STYLE_NONE:
+			gtk_option_menu_set_history (GTK_OPTION_MENU (menu), 0);
+			gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), 0);
+			break;
+		case GOG_FILL_STYLE_SOLID:
+			init_solid_page (gobj, gui, style);
+			gtk_option_menu_set_history (GTK_OPTION_MENU (menu), 1);
+			gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), 1);
+			break;
+		case GOG_FILL_STYLE_GRADIENT:
+			init_gradient_page (gobj, gui, style);
+			gtk_option_menu_set_history (GTK_OPTION_MENU (menu), 2);
+			gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), 2);
+			break;
+		case GOG_FILL_STYLE_PATTERN:
+		case GOG_FILL_STYLE_IMAGE:
+		default :
+			break;
 		}
-	}
-	else
-	{
+	} else {
 		gtk_option_menu_set_history (GTK_OPTION_MENU (menu), 0);
 		gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), 0);
 		gtk_widget_set_sensitive (menu, FALSE);

@@ -323,16 +323,17 @@ cb_selection_changed (GraphGuruTypeSelector *typesel)
 }
 
 static void
-cb_typesel_sample_plot_resize (G_GNUC_UNUSED GtkWidget *canvas,
+cb_typesel_sample_plot_resize (FooCanvas *canvas,
 			       GtkAllocation *alloc, GraphGuruTypeSelector *typesel)
 {
+	double zoom = 1. / canvas->pixels_per_unit;
 	/* Use 96dpi and 50% zoom */
 	if (typesel->sample_graph_item != NULL)
 		foo_canvas_item_set (typesel->sample_graph_item,
-			"w", (double)alloc->width,
-			"h", (double)alloc->height,
-			"logical_width_pts",  (72. * 2 * (double)alloc->width) / 96.,
-			"logical_height_pts", (72. * 2 * (double)alloc->height) / 96.,
+			"w", (double)alloc->width * zoom,
+			"h", (double)alloc->height * zoom,
+			"logical_width_pts",  (72. * zoom * (double)alloc->width) / 96.,
+			"logical_height_pts", (72. * zoom * (double)alloc->height) / 96.,
 			NULL);
 }
 
@@ -900,15 +901,16 @@ cb_canvas_select_item (FooCanvas *canvas, GdkEventButton *event,
 }
 
 static void
-cb_sample_plot_resize (G_GNUC_UNUSED GtkWidget *canvas,
+cb_sample_plot_resize (FooCanvas *canvas,
 		       GtkAllocation *alloc, GraphGuruState *s)
 {
-	/* Use 96dpi and 50% zoom */
+	/* Use 96dpi and zoom */
+	double zoom = 1. / canvas->pixels_per_unit;
 	foo_canvas_item_set (s->sample_graph_item,
-		"w", (double)alloc->width,
-		"h", (double)alloc->height,
-		"logical_width_pts",  (72. * 2 * (double)alloc->width) / 96.,
-		"logical_height_pts", (72. * 2 * (double)alloc->height) / 96.,
+		"w", (double)alloc->width * zoom,
+		"h", (double)alloc->height * zoom,
+		"logical_width_pts",  (72. * zoom * (double)alloc->width) / 96.,
+		"logical_height_pts", (72. * zoom * (double)alloc->height) / 96.,
 		NULL);
 }
 
@@ -930,11 +932,12 @@ graph_guru_init_format_page (GraphGuruState *s)
 
 	/* Load up the sample view and make it fill the entire canvas */
 	w = glade_xml_get_widget (s->gui, "sample_canvas");
+	foo_canvas_set_pixels_per_unit (FOO_CANVAS (w), .5); /* 50% zoom */
 	s->sample_graph_item = foo_canvas_item_new (
 		foo_canvas_root (FOO_CANVAS (w)), GOG_CONTROL_FOOCANVAS_TYPE,
 		"model", s->graph,
 		NULL);
-	cb_sample_plot_resize (w, &w->allocation, s);
+	cb_sample_plot_resize (FOO_CANVAS (w), &w->allocation, s);
 	g_signal_connect (G_OBJECT (w),
 		"size_allocate",
 		G_CALLBACK (cb_sample_plot_resize), s);
@@ -1082,6 +1085,7 @@ graph_guru_type_selector_new (GraphGuruState *s)
 
 	/* Setup an canvas to display the sample image & the sample plot. */
 	typesel->canvas = foo_canvas_new ();
+	foo_canvas_set_pixels_per_unit (FOO_CANVAS (typesel->canvas), .5); /* 50% zoom */
 	g_signal_connect (G_OBJECT (typesel->canvas),
 		"realize",
 		G_CALLBACK (cb_canvas_realized), typesel);

@@ -1,3 +1,34 @@
+2003-06-02  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-legend.c (cb_render_elements) : quick and dirty draw the
+	  text.  Still lots of work needed to measure things properly and do a
+	  more dynamic layout.
+
+	* graph/gog-guru.c (cb_typesel_sample_plot_resize) : use the canvas zoom
+	(cb_sample_plot_resize) : ditto.
+	(graph_guru_init_format_page) : ditto.
+	(graph_guru_type_selector_new) : ditto.
+
+	* graph/gog-renderer-pixbuf.c (make_layout) : new.
+	(gog_renderer_pixbuf_draw_text) : new. simple handler no rotation yet.
+	(gog_renderer_pixbuf_measure_text) : new.
+	(gog_art_renderer_new) : new utility.
+	(gog_renderer_pixbuf_draw_polygon) : used here.
+
+	* graph/gog-control-foocanvas.c (gog_control_foocanvas_draw) : another
+	  speed up by using regions rather tha nthe bounding rect of the expose.
+	  Thanks to AlexL for pointing out that this will help us when
+	  multiple exposes are compressed into 1 event and we do better to
+	  clip against the distinct sub regions, than the bounding box of all
+	  of them.
+	(gog_control_foocanvas_update) : make life easier and pass the zoom to
+	  the renderer.
+
+2003-06-02  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-style.c : minor warning suppression and format style
+	  tidying.
+
 2003-06-01  Jean Brefort <jean.brefort@ac-dijon.fr>
 	* graph/gog-style.h : new gradient styles,
 		fill type accessible only if GOG_STYLE_FILL is used

@@ -32,17 +32,22 @@
 
 GType gog_renderer_get_type            (void); 
 
-void   gog_renderer_request_update (GogRenderer *r);
-void   gog_renderer_begin_drawing  (GogRenderer *r);
-void   gog_renderer_end_drawing    (GogRenderer *r);
+void  gog_renderer_request_update (GogRenderer *r);
+void  gog_renderer_begin_drawing  (GogRenderer *r);
+void  gog_renderer_end_drawing    (GogRenderer *r);
 
-void   gog_renderer_push_style     (GogRenderer *r, GogStyle *style);
-void   gog_renderer_pop_style      (GogRenderer *r);
+void  gog_renderer_push_style     (GogRenderer *r, GogStyle *style);
+void  gog_renderer_pop_style      (GogRenderer *r);
 
-void   gog_renderer_draw_path      (GogRenderer *r, ArtVpath *path);
-void   gog_renderer_draw_polygon   (GogRenderer *r, ArtVpath *path,
-				    gboolean narrow);
-void   gog_renderer_draw_rectangle (GogRenderer *r, GogViewAllocation const *rect);
+void  gog_renderer_draw_path      (GogRenderer *r, ArtVpath *path);
+void  gog_renderer_draw_polygon   (GogRenderer *r, ArtVpath *path,
+				   gboolean narrow);
+void  gog_renderer_draw_rectangle (GogRenderer *r, GogViewAllocation const *rect);
+
+void  gog_renderer_draw_text	  (GogRenderer *rend, ArtPoint *pos,
+				   char const *text, GogViewRequisition *size);
+void  gog_renderer_measure_text	  (GogRenderer *rend,
+				   char const *text, GogViewRequisition *size);
 
 /* measurement */
 double gog_renderer_outline_size   (GogRenderer *r, GogStyle *s);

@@ -25,11 +25,16 @@
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-view.h>
 #include <goffice/utils/go-color.h>
+#include <goffice/utils/go-units.h>
 
 #include <libart_lgpl/art_render_gradient.h>
 #include <libart_lgpl/art_render_svp.h>
+#include <libart_lgpl/art_render_mask.h>
+#include <pango/pangoft2.h>
 #include "art_rgba_svp.h"
 #include <gsf/gsf-impl-utils.h>
+
+#include <math.h>
 
 struct _GogRendererPixbuf {
 	GogRenderer base;
@@ -38,6 +43,8 @@ struct _GogRendererPixbuf {
 	GdkPixbuf *buffer;
 	guchar    *pixels; /* from pixbuf */
 	int	   rowstride;
+
+	PangoContext *pango_context;
 };
 
 typedef struct {
@@ -104,6 +111,15 @@ go_color_to_artpix (ArtPixMaxDepth *res, GOColor rgba)
 	res[3] = ART_PIX_MAX_FROM_8 (a);
 }
 
+static ArtRender *
+gog_art_renderer_new (GogRendererPixbuf *prend)
+{
+	return art_render_new (0, 0, prend->w, prend->h,
+		prend->pixels, prend->rowstride,
+		gdk_pixbuf_get_n_channels (prend->buffer) - 1,
+		8, ART_ALPHA_SEPARATE, NULL);
+}
+
 static void
 gog_renderer_pixbuf_draw_polygon (GogRenderer *renderer, ArtVpath *path, gboolean narrow)
 {
@@ -146,33 +162,29 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *renderer, ArtVpath *path, gboolea
 		case GOG_FILL_STYLE_GRADIENT:
 			art_vpath_bbox_drect (path, &bbox);
 
-			render = art_render_new (0, 0, prend->w, prend->h,
-				prend->pixels, prend->rowstride,
-				gdk_pixbuf_get_n_channels (prend->buffer) - 1,
-				8, ART_ALPHA_SEPARATE, NULL);
+			render = gog_art_renderer_new (prend);
 			art_render_svp (render, fill);
-			switch (style->fill.u.gradient.type)
-			{
-				case GOG_GRADIENT_N_TO_S:
-					gradient. a = 0.;
-					gradient. b = 1. / (bbox.y1 - bbox.y0 + 1.);
-					gradient. c = 0.;
-					break;
-				case GOG_GRADIENT_W_TO_E:
-					gradient. a = 1. / (bbox.x1 - bbox.x0 + 1.);
-					gradient. b = 0.;
-					gradient. c = 0.;
-					break;
-				case GOG_GRADIENT_NW_TO_SE:
-					gradient. a = .5 / (bbox.x1 - bbox.x0 + 1.);
-					gradient. b = .5 / (bbox.y1 - bbox.y0 + 1.);
-					gradient. c = 0.;
-					break;
-				case GOG_GRADIENT_NE_TO_SW:
-					gradient. a = .5 / (bbox.x1 - bbox.x0 + 1.);
-					gradient. b = -.5 / (bbox.y1 - bbox.y0 + 1.);
-					gradient. c = .5;
-					break;
+			switch (style->fill.u.gradient.type) {
+			case GOG_GRADIENT_N_TO_S:
+				gradient. a = 0.;
+				gradient. b = 1. / (bbox.y1 - bbox.y0 + 1.);
+				gradient. c = 0.;
+				break;
+			case GOG_GRADIENT_W_TO_E:
+				gradient. a = 1. / (bbox.x1 - bbox.x0 + 1.);
+				gradient. b = 0.;
+				gradient. c = 0.;
+				break;
+			case GOG_GRADIENT_NW_TO_SE:
+				gradient. a = .5 / (bbox.x1 - bbox.x0 + 1.);
+				gradient. b = .5 / (bbox.y1 - bbox.y0 + 1.);
+				gradient. c = 0.;
+				break;
+			case GOG_GRADIENT_NE_TO_SW:
+				gradient. a = .5 / (bbox.x1 - bbox.x0 + 1.);
+				gradient. b = -.5 / (bbox.y1 - bbox.y0 + 1.);
+				gradient. c = .5;
+				break;
 			}
 			gradient.spread = ART_GRADIENT_REPEAT;
 			gradient.n_stops = G_N_ELEMENTS (stops);
@@ -217,16 +229,89 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *renderer, ArtVpath *path, gboolea
 	}
 }
 
+static PangoLayout *
+make_layout (GogRendererPixbuf *prend, char const *text)
+{
+	PangoLayout *layout = pango_layout_new (prend->pango_context);
+	PangoAttribute *attr_zoom;
+	PangoAttrList  *attrs = NULL;
+
+	/* Assemble our layout. */
+	pango_layout_set_font_description (layout,
+		pango_context_get_font_description (prend->pango_context));
+	pango_layout_set_text (layout, text, -1);
+	attr_zoom = pango_attr_scale_new (prend->base.zoom);
+	attr_zoom->start_index = 0;
+	attr_zoom->end_index = -1;
+	attrs = pango_attr_list_new ();
+	pango_attr_list_insert (attrs, attr_zoom);
+	pango_layout_set_attributes (layout, attrs);
+	pango_attr_list_unref (attrs);
+
+	return layout;
+}
+
+static void
+gog_renderer_pixbuf_draw_text (GogRenderer *rend, ArtPoint *pos,
+			       char const *text, GogViewRequisition *size)
+{
+	FT_Bitmap ft_bitmap;
+	ArtRender *render;
+	ArtPixMaxDepth color[4];
+	GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (rend);
+	PangoRectangle rect;
+	PangoLayout   *layout = make_layout (prend, text);
+
+	pango_layout_get_pixel_extents (layout, &rect, NULL);
+	if (rect.width == 0 || rect.height == 0)
+		return;
+	ft_bitmap.rows         = rect.height;
+	ft_bitmap.width        = rect.width;
+	ft_bitmap.pitch        = (rect.width+3) & ~3;
+	ft_bitmap.buffer       = g_malloc0 (ft_bitmap.rows * ft_bitmap.pitch);
+	ft_bitmap.num_grays    = 256;
+	ft_bitmap.pixel_mode   = ft_pixel_mode_grays;
+	ft_bitmap.palette_mode = 0;
+	ft_bitmap.palette      = NULL;
+	pango_ft2_render_layout (&ft_bitmap, layout, -rect.x, -rect.y);
+	g_object_unref (layout);
+
+	render = gog_art_renderer_new (prend);
+	go_color_to_artpix (color, RGBA_BLACK);
+	art_render_image_solid (render, color);
+	art_render_mask (render,
+		pos->x + rect.x, pos->y,
+		pos->x + rect.x + rect.width,
+		pos->y + rect.height,
+		ft_bitmap.buffer, ft_bitmap.pitch);
+	art_render_invoke (render);
+}
+
+static void
+gog_renderer_pixbuf_measure_text (GogRenderer *rend,
+				  char const *text, GogViewRequisition *size)
+{
+	PangoRectangle  rect;
+	PangoLayout    *layout = make_layout ((GogRendererPixbuf *)rend, text);
+	pango_layout_get_pixel_extents (layout, &rect, NULL);
+	g_object_unref (layout);
+
+	size->w = rect.width;
+	size->h = rect.height;
+}
+
 static void
 gog_renderer_pixbuf_class_init (GogRendererClass *rend_klass)
 {
 	GObjectClass *gobject_klass   = (GObjectClass *) rend_klass;
 
 	parent_klass = g_type_class_peek_parent (rend_klass);
-	gobject_klass->finalize	    = gog_renderer_pixbuf_finalize;
-	rend_klass->begin_drawing	= gog_renderer_pixbuf_begin_drawing;
-	rend_klass->draw_path	= gog_renderer_pixbuf_draw_path;
-	rend_klass->draw_polygon	= gog_renderer_pixbuf_draw_polygon;
+	gobject_klass->finalize	  = gog_renderer_pixbuf_finalize;
+	rend_klass->begin_drawing = gog_renderer_pixbuf_begin_drawing;
+	rend_klass->draw_path	  = gog_renderer_pixbuf_draw_path;
+	rend_klass->draw_polygon  = gog_renderer_pixbuf_draw_polygon;
+	rend_klass->draw_text	  = gog_renderer_pixbuf_draw_text;
+	rend_klass->measure_text  = gog_renderer_pixbuf_measure_text;
 }
 
 static void
@@ -248,6 +333,54 @@ gog_renderer_pixbuf_get (GogRendererPixbuf *prend)
 	return prend->buffer;
 }
 
+#if 0 /* An initial non-working attempt to use different dpi to render
+	 different zooms */
+
+/* fontmaps are reasonably expensive use a cache to share them */
+static GHashTable *fontmap_cache = NULL; /* PangoFT2FontMap hashed by y_dpi */
+static gboolean
+cb_remove_entry (gpointer key, PangoFT2FontMap *value, PangoFT2FontMap *target)
+{
+	return value == target;
+}
+static void
+cb_map_is_gone (gpointer data, GObject *where_the_object_was)
+{
+	g_warning ("fontmap %p is gone",where_the_object_was);
+	g_hash_table_foreach_steal (fontmap_cache,
+		(GHRFunc) cb_remove_entry, where_the_object_was);
+}
+static void
+cb_weak_unref (GObject *fontmap)
+{
+	g_object_weak_unref (fontmap, cb_map_is_gone, NULL);
+}
+static PangoFT2FontMap *
+fontmap_from_cache (double x_dpi, double y_dpi)
+{
+	PangoFT2FontMap *fontmap = NULL;
+	int key_dpi = floor (y_dpi + .5);
+	gpointer key = GUINT_TO_POINTER (key_dpi);
+
+	if (fontmap_cache != NULL)
+		fontmap = g_hash_table_lookup (fontmap_cache, key);
+	else
+		fontmap_cache = g_hash_table_new_full (g_direct_hash, g_direct_equal,
+			NULL, (GDestroyNotify) cb_weak_unref);
+
+	if (fontmap == NULL) {
+		fontmap = PANGO_FT2_FONT_MAP (pango_ft2_font_map_new ());
+		pango_ft2_font_map_set_resolution (fontmap, x_dpi, y_dpi);
+		g_object_weak_ref (G_OBJECT (fontmap), cb_map_is_gone, NULL);
+		g_hash_table_insert (fontmap_cache, key, fontmap);
+	} else
+		g_object_ref (fontmap);
+
+	g_warning ("fontmap %d = %p", key_dpi, fontmap);
+	return fontmap;
+}
+#endif
+
 /**
  * gog_renderer_update :
  * @renderer :
@@ -257,7 +390,7 @@ gog_renderer_pixbuf_get (GogRendererPixbuf *prend)
  * Returns TRUE if the size actually changed.
  **/
 gboolean
-gog_renderer_pixbuf_update (GogRendererPixbuf *prend, int w, int h)
+gog_renderer_pixbuf_update (GogRendererPixbuf *prend, int w, int h, double zoom)
 {
 	gboolean redraw = TRUE;
 	GogView *view;
@@ -271,11 +404,30 @@ gog_renderer_pixbuf_update (GogRendererPixbuf *prend, int w, int h)
 	allocation.w = w;
 	allocation.h = h;
 	if (prend->w != w || prend->h != h) {
+		double dpi_x, dpi_y;
+
 		prend->w = w;
 		prend->h = h;
 		prend->base.scale_x = w / prend->base.logical_width_pts;
 		prend->base.scale_y = h / prend->base.logical_height_pts;
 		prend->base.scale = MIN (prend->base.scale_x, prend->base.scale_y);
+		prend->base.zoom  = zoom;
+		dpi_x = gog_renderer_pt2r_x (&prend->base, GO_IN_TO_PT (1.))
+			/ zoom;
+		dpi_y = gog_renderer_pt2r_y (&prend->base, GO_IN_TO_PT (1.))
+			/ zoom;
+
+		if (prend->buffer != NULL) {
+			g_object_unref (prend->buffer);
+			prend->buffer = NULL;
+		}
+		if (prend->pango_context != NULL) {
+			g_object_unref (prend->pango_context);
+			prend->pango_context = NULL;
+		}
+
+		prend->pango_context = pango_ft2_font_map_create_context (
+			PANGO_FT2_FONT_MAP (pango_ft2_font_map_for_display ()));
 
 		/* make sure we dont try to queue an update while updating */
 		prend->base.needs_update = TRUE;
@@ -283,10 +435,6 @@ gog_renderer_pixbuf_update (GogRendererPixbuf *prend, int w, int h)
 		/* scale just changed need to recalculate sizes */
 		gog_renderer_invalidate_size_requests (&prend->base);
 		gog_view_size_allocate (view, &allocation);
-		if (prend->buffer != NULL) {
-			g_object_unref (prend->buffer);
-			prend->buffer = NULL;
-		}
 	} else if (w != view->allocation.w || h != view->allocation.h)
 		gog_view_size_allocate (view, &allocation);
 	else

@@ -167,6 +167,7 @@ typedef struct {
 	GogView const *view;
 	GogViewAllocation swatch;
 	double step;
+	double base_line;
 } render_closure;
 
 static void
@@ -175,6 +176,7 @@ cb_render_elements (unsigned i, GogStyle const *base_style, char const *name,
 {
 	GogViewAllocation swatch = data->swatch;
 	GogStyle *style;
+	ArtPoint pos;
 	
 	if (!gog_style_has_marker (style)) {
 		style = gog_style_dup (base_style);
@@ -186,6 +188,11 @@ cb_render_elements (unsigned i, GogStyle const *base_style, char const *name,
 	swatch.y += i * data->step;
 	gog_renderer_push_style (data->view->renderer, style);
 	gog_renderer_draw_rectangle (data->view->renderer, &swatch);
+
+	pos.x = swatch.x + data->step;
+	pos.y = swatch.y;
+	gog_renderer_draw_text (data->view->renderer, &pos, name, NULL);
+
 	gog_renderer_pop_style (data->view->renderer);
 
 	if (style != base_style)
@@ -207,11 +214,12 @@ gog_legend_view_render (GogView *view, GogViewAllocation const *bbox)
 	gog_renderer_pop_style (view->renderer);
 
 	closure.view = view;
-	closure.swatch.x = view->allocation.x + outline;
-	closure.swatch.y = view->allocation.y + outline + pad / 2.;
-	closure.swatch.w = gog_renderer_pt2r_x (view->renderer, legend->swatch_size_pts);
-	closure.swatch.h = gog_renderer_pt2r_y (view->renderer, legend->swatch_size_pts);
-	closure.step = closure.swatch.h + pad;
+	closure.swatch.x  = view->allocation.x + outline;
+	closure.swatch.y  = view->allocation.y + outline + pad / 2.;
+	closure.swatch.w  = gog_renderer_pt2r_x (view->renderer, legend->swatch_size_pts);
+	closure.swatch.h  = gog_renderer_pt2r_y (view->renderer, legend->swatch_size_pts);
+	closure.step      = closure.swatch.h + pad;
+	closure.base_line = pad / 2.; /* bottom of the swatch */
 	gog_chart_foreach_elem (GOG_CHART (view->model->parent),
 		(GogEnumFunc) cb_render_elements, &closure);
 

@@ -35,6 +35,7 @@ struct _GogRenderer {
 	double	  logical_width_pts;
 	double	  logical_height_pts;
 	float	  scale, scale_x, scale_y;
+	float	  zoom;
 
 	gboolean  needs_update;
 
@@ -54,6 +55,10 @@ typedef struct {
 
 	void (*draw_path)      (GogRenderer *renderer, ArtVpath *path);
 	void (*draw_polygon)   (GogRenderer *renderer, ArtVpath *path, gboolean narrow);
+	void (*draw_text)      (GogRenderer *rend, ArtPoint *pos,
+				char const *text, GogViewRequisition *size);
+	void (*measure_text)   (GogRenderer *rend,
+				char const *text, GogViewRequisition *size);
 
 	/* Signals */
 	void (*request_update) (GogRenderer *renderer);

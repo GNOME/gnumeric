@@ -152,13 +152,17 @@ gog_control_foocanvas_draw (FooCanvasItem *item, GdkDrawable *drawable,
 	GogControlFooCanvas *ctrl = GOG_CONTROL_FOOCANVAS (item);
 	GdkPixbuf *buffer = gog_renderer_pixbuf_get (ctrl->renderer);
 	GdkRectangle display_rect, draw_rect;
+	GdkRegion *draw_region;
 
 	display_rect.x = item->x1;
 	display_rect.y = item->y1;
 	display_rect.width  = item->x2 - item->x1;
 	display_rect.height = item->y2 - item->y1;
 
-	if (gdk_rectangle_intersect (&display_rect, &ev->area, &draw_rect))
+	draw_region = gdk_region_rectangle (&display_rect);
+	gdk_region_intersect (draw_region, ev->region);
+	if (!gdk_region_empty (draw_region)) {
+		gdk_region_get_clipbox (draw_region, &draw_rect);
 		gdk_draw_pixbuf (drawable, NULL, buffer,
 			/* pixbuf 0, 0 is at pix_rect.x, pix_rect.y */
 			     draw_rect.x - display_rect.x,
@@ -168,6 +172,8 @@ gog_control_foocanvas_draw (FooCanvasItem *item, GdkDrawable *drawable,
 			     draw_rect.width,
 			     draw_rect.height,
 			     GDK_RGB_DITHER_NORMAL, 0, 0);
+	}
+	gdk_region_destroy (draw_region);
 
 	/* we are a canvas group, there could be some children */
 	if (FOO_CANVAS_ITEM_CLASS (parent_klass)->draw)
@@ -188,7 +194,8 @@ gog_control_foocanvas_update (FooCanvasItem *item,
 	foo_canvas_w2c (item->canvas, ctrl->base.xpos, ctrl->base.ypos, &x1, &y1);
 	foo_canvas_w2c (item->canvas, ctrl->base.xpos + ctrl->new_w, ctrl->base.ypos + ctrl->new_h, &x2, &y2);
 
-	redraw = gog_renderer_pixbuf_update (ctrl->renderer, x2-x1, y2-y1) ||
+	redraw = gog_renderer_pixbuf_update (ctrl->renderer, x2-x1, y2-y1,
+					     item->canvas->pixels_per_unit) ||
 		 item->x1 != x1 || item->y1 != y1 ||
 		 item->x2 != x2 || item->y2 != y2;
 

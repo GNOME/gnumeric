@@ -36,6 +36,8 @@ Jody:
 	* Nice redraw speedup for images and charts.
 	* Fix undo bug for moving merged regions (yummy).
 	* Support Move with cells flag for sheet object.
+	* Text in charts.
+	* Fix lots of chema's bug reports.
 
 Morten:
 	* New function COLUMNNUMBER.

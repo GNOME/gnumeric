@@ -34,7 +34,8 @@ enum {
 	RENDERER_PROP_MODEL,
 	RENDERER_PROP_VIEW,
 	RENDERER_PROP_LOGICAL_WIDTH_PTS,
-	RENDERER_PROP_LOGICAL_HEIGHT_PTS
+	RENDERER_PROP_LOGICAL_HEIGHT_PTS,
+	RENDERER_PROP_ZOOM
 };
 enum {
 	RENDERER_SIGNAL_REQUEST_UPDATE,
@@ -73,7 +74,6 @@ gog_renderer_set_property (GObject *obj, guint param_id,
 			   GValue const *value, GParamSpec *pspec)
 {
 	GogRenderer *rend = GOG_RENDERER (obj);
-	double tmp;
 
 	switch (param_id) {
 	case RENDERER_PROP_MODEL:
@@ -87,18 +87,15 @@ gog_renderer_set_property (GObject *obj, guint param_id,
 		gog_renderer_request_update (rend);
 		break;
 	case RENDERER_PROP_LOGICAL_WIDTH_PTS:
-		tmp = g_value_get_double (value);
-		if (tmp == rend->logical_width_pts)
-			return;
-		rend->logical_width_pts = tmp;
-		g_warning ("logical w = %g", tmp);
+		rend->logical_width_pts = g_value_get_double (value);
 		break;
 
 	case RENDERER_PROP_LOGICAL_HEIGHT_PTS:
-		tmp = g_value_get_double (value);
-		if (tmp == rend->logical_height_pts)
-			return;
-		rend->logical_height_pts = tmp;
+		rend->logical_height_pts = g_value_get_double (value);
+		break;
+
+	case RENDERER_PROP_ZOOM:
+		rend->zoom = g_value_get_double (value);
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -110,7 +107,7 @@ static void
 gog_renderer_get_property (GObject *obj, guint param_id,
 			   GValue *value, GParamSpec *pspec)
 {
-	GogRenderer *rend = GOG_RENDERER (obj);
+	GogRenderer const *rend = GOG_RENDERER (obj);
 
 	switch (param_id) {
 	case RENDERER_PROP_MODEL:
@@ -124,6 +121,9 @@ gog_renderer_get_property (GObject *obj, guint param_id,
 		break;
 	case RENDERER_PROP_LOGICAL_HEIGHT_PTS:
 		g_value_set_double (value, rend->logical_height_pts);
+		break;
+	case RENDERER_PROP_ZOOM:
+		g_value_set_double (value, rend->zoom);
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -210,6 +210,13 @@ gog_renderer_pop_style (GogRenderer *rend)
 		klass->pop_style (rend);
 }
 
+/**
+ * gog_renderer_draw_polygon :
+ * @rend : #GogRenderer
+ * @path  : #ArtVpath
+ *
+ * Draws @path using the outline elements of the current style.
+ **/
 void
 gog_renderer_draw_path (GogRenderer *rend, ArtVpath *path)
 {
@@ -221,6 +228,15 @@ gog_renderer_draw_path (GogRenderer *rend, ArtVpath *path)
 	(klass->draw_path) (rend, path);
 }
 
+/**
+ * gog_renderer_draw_polygon :
+ * @rend : #GogRenderer
+ * @path  : #ArtVpath
+ * @narrow : if TRUE skip any outline the current style specifies.
+ *
+ * Draws @path and fills it with the fill elements of the current style.
+ * If @narrow is false it alos outlines it using the outline elements.
+ **/
 void
 gog_renderer_draw_polygon (GogRenderer *rend, ArtVpath *path, gboolean narrow)
 {
@@ -230,6 +246,46 @@ gog_renderer_draw_polygon (GogRenderer *rend, ArtVpath *path, gboolean narrow)
 	g_return_if_fail (rend->cur_style != NULL);
 
 	(klass->draw_polygon) (rend, path, narrow);
+}
+
+/**
+ * gog_renderer_draw_text :
+ * @rend : #GogRenderer
+ * @pos  : #ArtPoint
+ * @text : the string to draw
+ * @size : an optionally NULL #GogViewRequisition to store the size of
+ *         @text we just drew.
+ **/
+void
+gog_renderer_draw_text (GogRenderer *rend, ArtPoint *pos,
+			char const *text, GogViewRequisition *size)
+{
+	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
+
+	g_return_if_fail (klass != NULL);
+	g_return_if_fail (rend->cur_style != NULL);
+	g_return_if_fail (text != NULL);
+
+	(klass->draw_text) (rend, pos, text, size);
+}
+
+/**
+ * gog_renderer_measure_text :
+ * @rend : #GogRenderer
+ * @text : the string to draw
+ * @size : #GogViewRequisition to store the size of @text.
+ **/
+void
+gog_renderer_measure_text (GogRenderer *rend,
+			   char const *text, GogViewRequisition *size)
+{
+	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
+
+	g_return_if_fail (klass != NULL);
+	g_return_if_fail (rend->cur_style != NULL);
+	g_return_if_fail (text != NULL);
+
+	(klass->measure_text) (rend, text, size);
 }
 
 static void

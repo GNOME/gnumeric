@@ -416,6 +416,7 @@ Misc stuff that should be fixed
     : Add keyboard controls for the control points
     : Add object control for resize to disable invalid sizes.
     : Add 'is_printable' flag and import
+    : Add 'move_with_cells' flag					(DONE)
     : Add ability to fix aspect ratio of drag resize
     : Honour rubber_band_directly during resize too
     : research the other xl object flags.

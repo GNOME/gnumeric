@@ -35,7 +35,7 @@ typedef struct _GogRendererPixbuf GogRendererPixbuf;
 
 GType      gog_renderer_pixbuf_get_type (void);
 GdkPixbuf *gog_renderer_pixbuf_get    (GogRendererPixbuf *prend);
-gboolean   gog_renderer_pixbuf_update (GogRendererPixbuf *prend, int w, int h);
+gboolean   gog_renderer_pixbuf_update (GogRendererPixbuf *prend, int w, int h, double zoom);
 
 G_END_DECLS
 
