@@ -2058,8 +2058,8 @@ xml_read_solver (Sheet *sheet, parse_xml_context_t *ctxt, xmlNodePtr tree,
 
 	xml_get_value_int (tree, "ProblemType", (int *) &param->problem_type);
 	s = xml_get_value_string (tree, "Inputs");
-	param->input_entry_str = g_new (char, strlen (s->str) + 1);
-	strcpy (param->input_entry_str, s->str);
+	g_free (param->input_entry_str);
+	param->input_entry_str = g_strdup (s->str);
 	string_unref (s);
 
 	child = xml_search_child (tree, "Constr");
