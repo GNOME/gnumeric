@@ -1441,10 +1441,10 @@ do_setup_page_info (PrinterSetupState *state)
 
 	gtk_table_attach (
 		GTK_TABLE (order_table), state->icon_rd,
-		1, 2, 0, 2, GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 0, 0);
+		1, 2, 0, 2, GTK_FILL, GTK_FILL, 0, 0);
 	gtk_table_attach (
 		GTK_TABLE (order_table), state->icon_dr,
-		1, 2, 0, 2, GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 0, 0);
+		1, 2, 0, 2, GTK_FILL, GTK_FILL, 0, 0);
 
 	g_signal_connect (G_OBJECT (order_rd), "toggled", G_CALLBACK (display_order_icon), state);
 
