@@ -236,6 +236,7 @@ open_cb (GtkMenuItem *item, SheetObjectBonobo *sheet_object)
 
 static void
 sheet_object_bonobo_populate_menu (SheetObject *sheet_object,
+				   GnomeCanvasItem *obj_view,
 				   GtkMenu     *menu)
 {
 	GtkWidget *item = gtk_menu_item_new_with_label (_("Open"));
@@ -246,7 +247,8 @@ sheet_object_bonobo_populate_menu (SheetObject *sheet_object,
 	gtk_menu_append (menu, item);
 
 	if (sheet_object_bonobo_parent_class->populate_menu)
-		sheet_object_bonobo_parent_class->populate_menu (sheet_object, menu);
+		sheet_object_bonobo_parent_class->
+			populate_menu (sheet_object, obj_view, menu);
 }
 
 static void

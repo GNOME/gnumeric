@@ -51,14 +51,19 @@ typedef struct {
 
 	/* Virtual methods */
 	GnomeCanvasItem *(*new_view) (SheetObject *sheet_object,
-				      SheetView   *sheet_view);
-	void        (*update_bounds) (SheetObject *sheet_object);
+				      SheetView   *s_view);
 	void        (*populate_menu) (SheetObject *sheet_object,
+				      GnomeCanvasItem *obj_view,
 				      GtkMenu     *menu);
+	void	      (*user_config) (SheetObject *sheet_object,
+				      SheetView   *s_view);
+	void        (*update_bounds) (SheetObject *sheet_object);
 	void                (*print) (SheetObject *so, SheetObjectPrintInfo *pi);
-	void	      (*user_config) (SheetObject *);
 	void           (*set_active) (SheetObject *so, gboolean val);
 } SheetObjectClass;
+
+#define	SHEET_OBJ_VIEW_SHEET_VIEW_KEY	"SheetView"
+#define	SHEET_OBJ_VIEW_OBJECT_KEY	"SheetObject"
 
 GtkType sheet_object_get_type      (void);
 void    sheet_object_construct     (SheetObject *sheet_object, Sheet *sheet);

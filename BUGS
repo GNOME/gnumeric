@@ -5,16 +5,13 @@ and longer term bugs.
 Release Critical
 ----------------
 
-- SheetObjects are broken (tentative patch from almer)
 - po build is broken (flog kanikus)
 - bisection bug (jpr)
+- Look into ability to identify versions of gnumeric xml that are newer than we
+  are.  As DV about name spaces.
 
 Long term breakage
 ------------------
-
-- We need a better error message when the file format is not understood.
-  This happens when old gnumerics read new files, so getting this fix
-  out there will take some time.
 
 - Entering "=1e11111" yields "Syntax Error", not "overflow".
 

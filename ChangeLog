@@ -1,4 +1,23 @@
 2000-11-10  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-object.c (sheet_object_new_view) : Store the SheetObject
+	  and SheetView as object_data.
+	(cb_sheet_object_configure) : Pass the SheetView to configuration
+	  routines.
+	(sheet_object_populate_menu) : Pass the CanvasItem it has the useful
+	  property of having the associated view and sheet object as user data.
+	  This makes it handy for use in callbacks.
+	(display_object_menu) : signature change.
+	(control_point_handle_event) : changes to display_menu_object.
+	(sheet_object_canvas_event) : Ditto.
+
+	* src/sheet-object-widget.c (sheet_widget_checkbox_user_config) :
+	  signature change.  This should get things working again.
+
+	* src/sheet-object-bonobo.c (sheet_object_bonobo_populate_menu) :
+	  signature change.
+
+2000-11-10  Jody Goldberg <jgoldberg@home.com>
       Patch from Juan Pablo Mendoza <pablo_juan@yahoo.com>
 
       * sheet-view.c (sheet_view_comment_create_marke): Memory leak.

@@ -123,7 +123,7 @@ sheet_object_widget_new_view (SheetObject *so, SheetView *sheet_view)
 }
 
 /*
- * This implemenationt moves the widget rather than
+ * This implemenation moves the widget rather than
  * destroying/updating/creating the views
  */
 static void
@@ -532,7 +532,7 @@ cb_checkbox_config_clicked (GnomeDialog *dialog, gint button_number,
 }
 
 static void
-sheet_widget_checkbox_user_config (SheetObject *so)
+sheet_widget_checkbox_user_config (SheetObject *so, SheetView *sheet_view)
 {
 	CheckboxConfigState *state;
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
@@ -541,7 +541,7 @@ sheet_widget_checkbox_user_config (SheetObject *so)
 
 	state = g_new (CheckboxConfigState, 1);
 	state->swc = swc;
-	state->wbcg = /* FIXME */ NULL;
+	state->wbcg = sheet_view->wbcg;
 	state->dialog = gnome_dialog_new (_("Checkbox Configure"),
 					  GNOME_STOCK_BUTTON_OK, 
 					  GNOME_STOCK_BUTTON_CANCEL, 

@@ -29,11 +29,14 @@
 
 static GtkObjectClass *sheet_object_parent_class;
 
-static void sheet_object_stop_editing    (SheetObject *so);
-static void sheet_object_populate_menu   (SheetObject *so, GtkMenu *menu);
-static int  control_point_handle_event   (GnomeCanvasItem *item,
-					  GdkEvent *event, SheetObject *so);
-static void update_bbox 		 (SheetObject *so);
+static void sheet_object_stop_editing  (SheetObject *so);
+static void sheet_object_populate_menu (SheetObject *so,
+				        GnomeCanvasItem *obj_view,
+				        GtkMenu *menu);
+static int  control_point_handle_event (GnomeCanvasItem *item,
+				        GdkEvent *event,
+				        SheetObject *so);
+static void update_bbox 	       (SheetObject *so);
 
 static void
 sheet_object_destroy (GtkObject *object)
@@ -206,6 +209,12 @@ sheet_object_new_view (SheetObject *so, SheetView *sheet_view)
 		g_warning ("Unable to create a view for this object\n");
 		return NULL;
 	}
+
+	/* Store some useful information */
+	gtk_object_set_data (GTK_OBJECT (item), 
+			     SHEET_OBJ_VIEW_OBJECT_KEY, so);
+	gtk_object_set_data (GTK_OBJECT (item), 
+			     SHEET_OBJ_VIEW_SHEET_VIEW_KEY, sheet_view);
 
 	gtk_signal_connect (GTK_OBJECT (item), "event",
 			    GTK_SIGNAL_FUNC (sheet_object_canvas_event), so);
@@ -739,11 +748,19 @@ sheet_object_remove_cb (GtkWidget *widget, SheetObject *so)
 }
 
 static void
-cb_sheet_object_configure (GtkWidget *widget, SheetObject *so)
+cb_sheet_object_configure (GtkWidget *widget, GnomeCanvasItem *obj_view)
 {
-	g_return_if_fail (so != NULL);
+	SheetView *sheet_view;
+	SheetObject *so;
 
-	SO_CLASS(so)->user_config (so);
+	g_return_if_fail (obj_view != NULL);
+
+	so = gtk_object_get_data (GTK_OBJECT (obj_view),
+				  SHEET_OBJ_VIEW_OBJECT_KEY);
+	sheet_view = gtk_object_get_data (GTK_OBJECT (obj_view),
+					  SHEET_OBJ_VIEW_SHEET_VIEW_KEY);
+
+	SO_CLASS(so)->user_config (so, sheet_view);
 }
 
 /**
@@ -754,7 +771,9 @@ cb_sheet_object_configure (GtkWidget *widget, SheetObject *so)
  * Add standard items to the object's popup menu.
  **/
 static void
-sheet_object_populate_menu (SheetObject *so, GtkMenu *menu)
+sheet_object_populate_menu (SheetObject *so,
+			    GnomeCanvasItem *obj_view,
+			    GtkMenu *menu)
 {
 	GtkWidget *item = gnome_stock_menu_item (GNOME_STOCK_MENU_CLOSE,
 						 _("Delete"));
@@ -767,7 +786,7 @@ sheet_object_populate_menu (SheetObject *so, GtkMenu *menu)
 		item = gnome_stock_menu_item (GNOME_STOCK_MENU_PROP,
 					      _("Configure"));
 		gtk_signal_connect (GTK_OBJECT (item), "activate",
-				    GTK_SIGNAL_FUNC (cb_sheet_object_configure), so);
+				    GTK_SIGNAL_FUNC (cb_sheet_object_configure), obj_view);
 		gtk_menu_append (menu, item);
 	}
 }
@@ -778,13 +797,14 @@ menu_unrealize_cb (GtkMenu *menu, SheetObject *so)
 }
 
 static void
-display_object_menu (SheetObject *so, GdkEvent *event)
+display_object_menu (SheetObject *so, GnomeCanvasItem *item,
+		     GdkEvent *event)
 {
 	GtkMenu *menu;
 
 	sheet_mode_edit_object (so);
 	menu = GTK_MENU (gtk_menu_new ());
-	SO_CLASS (so)->populate_menu (so, menu);
+	SO_CLASS (so)->populate_menu (so, item, menu);
 	gtk_signal_connect (GTK_OBJECT (menu), "unrealize",
 			    GTK_SIGNAL_FUNC (menu_unrealize_cb), so);
 
@@ -835,7 +855,7 @@ control_point_handle_event (GnomeCanvasItem *item, GdkEvent *event,
 			break;
 
 		case 3:
-			display_object_menu (so, event);
+			display_object_menu (so, item, event);
 			break;
 
 		default:
@@ -960,7 +980,7 @@ sheet_object_canvas_event (GnomeCanvasItem *item, GdkEvent *event,
 			event_total_y = 0;
 			break;
 		case 3:
-			display_object_menu (so, event);
+			display_object_menu (so, item, event);
 			break;
 
 		default:
