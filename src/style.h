@@ -3,7 +3,14 @@
 #define GNUMERIC_STYLE_H
 
 typedef struct {
+        char     *format;
+        char     restriction_type;
+        int      restriction_value;
+} StyleFormatEntry;
+
+typedef struct {
 	int      ref_count;
+        GList    *format_list;  /* Of type StyleFormatEntry. */
 	char     *format;
 } StyleFormat;
 

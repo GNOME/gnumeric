@@ -1,3 +1,13 @@
+1998-08-20  Chris Lahey  <clahey@umich.edu>
+
+	* src/style.h: Added StyleFormatEntry and changed StyleFormat.
+
+	* src/format.c: Added multi-field formatting.  format_text now
+	takes a StyleFormatEntry.
+	
+	(check_valid): Returns true if the given StyleFormatEntry is
+	applicable to the given value.
+
 1998-08-19  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/format.c (format_value): The new entry point for formating

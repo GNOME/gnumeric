@@ -24,6 +24,7 @@
 #include <math.h>
 #include "gnumeric.h"
 #include "format.h"
+#include <glib.h>
 
 static int append_year( GString *string, gchar *format, struct tm *time_split );
 static int append_month( GString *string, gchar *format, struct tm *time_split );
@@ -32,6 +33,7 @@ static int append_day( GString *string, gchar *format, struct tm *time_split );
 static int append_minute( GString *string, gchar *format, struct tm *time_split );
 static int append_second( GString *string, gchar *format, struct tm *time_split );
 static int append_half( GString *string, gchar *format, struct tm *time_split );
+static void style_entry_free( StyleFormatEntry *entry );
 
 
 /*
@@ -281,27 +283,105 @@ typedef struct
   int hasnumbers;
 } format_info;
 
+/* This routine should always return, it cant fail, in the worst
+ * case it should just downgrade to stupid formatting
+ */
 void
 format_compile (StyleFormat *format)
 {
-	/* This routine should always return, it cant fail, in the worst
-	 * case it should just downgrade to stupid formatting
-	 */
+  GString *string = g_string_new( "" );
+  int i;
+  int which = 0;
+  int length = strlen( format->format );
+  StyleFormatEntry standard_entries[4];
+  StyleFormatEntry *temp;
+
+  g_list_free( format->format_list );
+  format->format_list = 0;
+
+  /* g_string_maybe_expand( string, length ); */
+  
+  for ( i = 0; i < length; i++ )
+    {
+      switch( format->format[i] )
+	{
+	case ';':
+	  if ( which < 4 )
+	    {
+	      standard_entries[which].format = g_malloc0( string->len + 1 );
+	      strncpy( standard_entries[which].format, string->str, string->len );
+	      standard_entries[which].format[string->len] = 0;
+	      standard_entries[which].restriction_type = '*';
+	      which++;
+	    }
+	  string = g_string_truncate( string, 0 );
+	  break;
+	default:
+	  string = g_string_append_c( string, format->format[i] );
+	  break;
+	}
+    }
+  if ( which < 4 )
+    {
+      standard_entries[which].format = g_malloc0( string->len + 1 );
+      strncpy( standard_entries[which].format, string->str, string->len );
+      standard_entries[which].format[string->len] = 0;
+      standard_entries[which].restriction_type = '*';
+      which++;
+    }
+  
+  /* Set up restriction types. */
+  standard_entries[1].restriction_type = '<';
+  standard_entries[1].restriction_value = 0;
+  switch( which )
+    {
+    case 4:
+      standard_entries[3].restriction_type = '@';
+      /* Fall through. */
+    case 3:
+      standard_entries[2].restriction_type = '=';
+      standard_entries[2].restriction_value = 0;
+      standard_entries[0].restriction_type = '>';
+      standard_entries[0].restriction_value = 0;
+      break;
+    case 2:
+      standard_entries[0].restriction_type = '.';  /* . >= */
+      standard_entries[0].restriction_value = 0;
+      break;
+    }
+  for( i = 0; i < which; i++ )
+    {
+      temp = g_new( StyleFormatEntry, 1 );
+      *temp = standard_entries[i];
+      format->format_list = g_list_append( format->format_list, temp );
+    }
+  g_string_free( string, TRUE );
+}
+
+static void
+style_entry_free( StyleFormatEntry *entry )
+{
+  g_free( entry->format );
+  g_free( entry );
 }
 
 void
 format_destroy (StyleFormat *format)
 {
-	/* This routine is invoked when the last user of the
-	 * format is gone (ie, refcount has reached zero) just
-	 * before the StyleFormat structure is actually released.
-	 *
-	 * resources allocated in format_compile should be disposed here
-	 */
+  /* This routine is invoked when the last user of the
+   * format is gone (ie, refcount has reached zero) just
+   * before the StyleFormat structure is actually released.
+   *
+   * resources allocated in format_compile should be disposed here
+   */
+
+  g_list_foreach( format->format_list, style_entry_free, NULL );
+  g_list_free( format->format_list );
+  format->format_list = NULL;  
 }
 
 static gchar *
-format_number(gdouble number, StyleFormat *style_format, char **color_name )
+format_number(gdouble number, StyleFormatEntry *style_format_entry, char **color_name )
 {
   gint left_req = 0, right_req = 0;
   gint left_spaces = 0, right_spaces = 0;
@@ -311,7 +391,7 @@ format_number(gdouble number, StyleFormat *style_format, char **color_name )
   gboolean negative = FALSE;
   GString *string = g_string_new( "" );
   GString *number_string = g_string_new( "" );
-  gchar *format = style_format->format;
+  gchar *format = style_format_entry->format;
   gint length = strlen(format);
   gchar *returnvalue;
   gint zero_count;
@@ -325,7 +405,7 @@ format_number(gdouble number, StyleFormat *style_format, char **color_name )
   struct tm *time_split;
 
   if (color_name)
-	  *color_name = NULL;
+    *color_name = NULL;
   
   date = number;
   date -= 25569.0;
@@ -564,31 +644,100 @@ format_number(gdouble number, StyleFormat *style_format, char **color_name )
   return returnvalue;
 }
 
+gboolean
+check_valid (StyleFormatEntry *entry, Value *value)
+{
+  switch (value->type)
+    {
+    case VALUE_STRING:
+      return entry->restriction_type == '@';
+    case VALUE_FLOAT:
+      switch( entry->restriction_type )
+	{
+	case '*': 
+	  return TRUE;
+	case '<':
+	  return value->v.v_float < entry->restriction_value;
+	case '>':
+	  return value->v.v_float > entry->restriction_value;
+	case '=':
+	  return value->v.v_float == entry->restriction_value;
+	case ',':
+	  return value->v.v_float <= entry->restriction_value;
+	case '.':
+	  return value->v.v_float >= entry->restriction_value;
+	case '+':
+	  return value->v.v_float != entry->restriction_value;
+	default:
+	  return FALSE;
+	}
+    case VALUE_INTEGER:
+      switch( entry->restriction_type )
+	{
+	case '*': 
+	  return TRUE;
+	case '<':
+	  return value->v.v_int < entry->restriction_value;
+	case '>':
+	  return value->v.v_int > entry->restriction_value;
+	case '=':
+	  return value->v.v_int == entry->restriction_value;
+	case ',':
+	  return value->v.v_int <= entry->restriction_value;
+	case '.':
+	  return value->v.v_int >= entry->restriction_value;
+	case '+':
+	  return value->v.v_int != entry->restriction_value;
+	default:
+	  return FALSE;
+	}      
+    default:
+      return FALSE;
+    }
+}
+
 gchar *
 format_value (StyleFormat *format, Value *value, char **color_name)
 {
-	char *v = NULL;
-	
-	switch (value->type){
-	case VALUE_FLOAT:
-		v = format_number (value->v.v_float, format, color_name);
-		break;
+  char *v = NULL;
+  StyleFormatEntry entry;
 
-	case VALUE_INTEGER:
-		v = format_number (value->v.v_int, format, color_name);
-		break;
-		
-	case VALUE_STRING:
-		return g_strdup (value->v.str->str);
+  GList *list = format->format_list;
+  
+  /* get format */
+  for ( ; list; list = g_list_next( list ) )
+    {
+      if ( check_valid( list->data, value ) )
+	break;
+    }
+  
+  if( list )
+    {
+      entry = *(StyleFormatEntry *) (list->data);
+    }
+  else
+    entry.format = format->format;
 
-	default:
-		return g_strdup ("Internal error");
-	}
-	
-	/* Format error, return a default value */
-	if (v == NULL)
-		return value_string (value);
-
-	return v;
+  switch (value->type){
+  case VALUE_FLOAT:
+    v = format_number (value->v.v_float, &entry, color_name);
+    break;
+    
+  case VALUE_INTEGER:
+    v = format_number (value->v.v_int, &entry, color_name);
+    break;
+    
+  case VALUE_STRING:
+    return g_strdup (value->v.str->str);
+    
+  default:
+    return g_strdup ("Internal error");
+  }
+  
+  /* Format error, return a default value */
+  if (v == NULL)
+    return value_string (value);
+  
+  return v;
 }
 
