@@ -3224,7 +3224,7 @@ xml_workbook_write (XmlParseContext *ctxt)
 	xmlNodePtr cur;
 	xmlNodePtr child;
 	GList *sheets, *sheets0;
-	char *old_num_locale, *old_monetary_locale, *old_msg_locale;
+	char *old_num_locale, *old_monetary_locale;
 	Workbook *wb = wb_view_workbook (ctxt->wb_view);
 
 	/*
@@ -3251,8 +3251,6 @@ xml_workbook_write (XmlParseContext *ctxt)
 	gnumeric_setlocale (LC_NUMERIC, "C");
 	old_monetary_locale = g_strdup (gnumeric_setlocale (LC_MONETARY, NULL));
 	gnumeric_setlocale (LC_MONETARY, "C");
-	old_msg_locale = g_strdup (textdomain (NULL));
-	textdomain ("C");
 
 	child = xml_write_wbv_attributes (ctxt);
 	if (child)
@@ -3305,10 +3303,8 @@ xml_workbook_write (XmlParseContext *ctxt)
 	xml_node_set_int (child, "SelectedTab", wb_view_cur_sheet (ctxt->wb_view)->index_in_wb);
 	xmlAddChild (cur, child);
 
-	textdomain (old_msg_locale);
 	gnumeric_setlocale (LC_MONETARY, old_monetary_locale);
 	g_free (old_monetary_locale);
-	g_free (old_msg_locale);
 	gnumeric_setlocale (LC_NUMERIC, old_num_locale);
 	g_free (old_num_locale);
 
@@ -3396,7 +3392,7 @@ xml_workbook_read (IOContext *context,
 {
 	Sheet *sheet;
 	xmlNodePtr child, c;
-	char *old_num_locale, *old_monetary_locale, *old_msg_locale;
+	char *old_num_locale, *old_monetary_locale;
 	Workbook *wb = wb_view_workbook (ctxt->wb_view);
 
 	if (strcmp (tree->name, "Workbook")){
@@ -3411,8 +3407,6 @@ xml_workbook_read (IOContext *context,
 	gnumeric_setlocale (LC_NUMERIC, "C");
 	old_monetary_locale = g_strdup (gnumeric_setlocale (LC_MONETARY, NULL));
 	gnumeric_setlocale (LC_MONETARY, "C");
-	old_msg_locale = g_strdup (textdomain (NULL));
-	textdomain ("C");
 
 	child = e_xml_get_child_by_name (tree, CC2XML ("Summary"));
 	if (child)
@@ -3479,10 +3473,8 @@ xml_workbook_read (IOContext *context,
 				workbook_sheet_by_index (ctxt->wb, sheet_index));
 	}
 
-	textdomain (old_msg_locale);
 	gnumeric_setlocale (LC_MONETARY, old_monetary_locale);
 	g_free (old_monetary_locale);
-	g_free (old_msg_locale);
 	gnumeric_setlocale (LC_NUMERIC, old_num_locale);
 	g_free (old_num_locale);
 

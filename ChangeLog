@@ -1,3 +1,8 @@
+2002-12-26  Morten Welinder  <terra@diku.dk>
+
+	* src/xml-io.c (xml_workbook_read): Don't call textdomain.
+	(xml_workbook_write): Ditto.
+
 2002-12-24  Jody Goldberg <jody@gnome.org>
 
 	* schemas/plot-types.xml.in : fix some typos, and some consistency
