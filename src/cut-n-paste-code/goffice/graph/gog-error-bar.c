@@ -41,6 +41,8 @@
 #include <glade/glade-xml.h>
 #include <glib/gi18n.h>
 
+#define CC2XML(s) ((const xmlChar *)(s))
+
 typedef GObjectClass GogErrorBarClass;
 static GObjectClass *error_bar_parent_klass;
 
@@ -129,7 +131,7 @@ cb_type_changed (GtkWidget *w, GogErrorBarEditor *editor)
 		gtk_widget_hide (glade_xml_get_widget (gui, "minus_label"));
 		gtk_widget_hide (glade_xml_get_widget (gui, "values_label"));
 	} else {
-		GtkWidget *al, *table = glade_xml_get_widget (gui, "gog_error_bar_prefs");
+		GtkWidget *table = glade_xml_get_widget (gui, "gog_error_bar_prefs");
 		if (!editor->bar) {
 			editor->bar = g_object_new (GOG_ERROR_BAR_TYPE, NULL);
 			editor->bar->style->line.color = editor->color;
@@ -171,7 +173,6 @@ gog_error_bar_prefs (GogSeries *series,
 	GladeXML *gui;
 	GtkWidget *w;
 	GOComboPixmaps *cpx;
-	char* buf;
 	GtkTable *table;
 	GogDataset *set;
 	GdkPixbuf *pixbuf;
@@ -331,7 +332,7 @@ gog_error_bar_persist_dom_load (GogPersistDOM *gpd, xmlNode *node)
 	GogErrorBar *bar = GOG_ERROR_BAR (gpd);
 
 	gchar* str;
-	str = xmlGetProp (node, (const xmlChar*) "error_type");
+	str = xmlGetProp (node, CC2XML ("error_type"));
 	if (str) {
 		if (!strcmp (str, "absolute"))
 			bar->type = GOG_ERROR_BAR_TYPE_ABSOLUTE;
@@ -341,7 +342,7 @@ gog_error_bar_persist_dom_load (GogPersistDOM *gpd, xmlNode *node)
 			bar->type = GOG_ERROR_BAR_TYPE_PERCENT;
 		xmlFree (str);
 	}
-	str = xmlGetProp (node, (const xmlChar*) "display");
+	str = xmlGetProp (node, CC2XML ("display"));
 	if (str) {
 		if (!strcmp (str, "none"))
 			bar->display = GOG_ERROR_BAR_DISPLAY_NONE;
@@ -351,17 +352,17 @@ gog_error_bar_persist_dom_load (GogPersistDOM *gpd, xmlNode *node)
 			bar->display = GOG_ERROR_BAR_DISPLAY_NEGATIVE;
 		xmlFree (str);
 	}
-	str = xmlGetProp (node, (const xmlChar*) "width");
+	str = xmlGetProp (node, CC2XML ("width"));
 	if (str) {
 		bar->width = g_strtod (str, NULL);
 		xmlFree (str);
 	}
-	str = xmlGetProp (node, (const xmlChar*) "line_width");
+	str = xmlGetProp (node, CC2XML ("line_width"));
 	if (str) {
 		bar->style->line.width = g_strtod (str, NULL);
 		xmlFree (str);
 	}
-	str = xmlGetProp (node, (const xmlChar*) "color");
+	str = xmlGetProp (node, CC2XML ("color"));
 	if (str != NULL) {
 		bar->style->line.color = go_color_from_str (str);
 		xmlFree (str);
@@ -374,48 +375,60 @@ static void
 gog_error_bar_persist_dom_save (GogPersistDOM *gpd, xmlNode *parent)
 {
 	GogErrorBar *bar = GOG_ERROR_BAR (gpd);
-	gchar *str;
 
-	xmlSetProp (parent, (xmlChar const *) "type", "GogErrorBar");
-	switch (bar->type) {
-	case GOG_ERROR_BAR_TYPE_ABSOLUTE:
-		str = (gchar*) "absolute";
-		break;
-	case GOG_ERROR_BAR_TYPE_RELATIVE:
-		str = (gchar*) "relative";
-		break;
-	case GOG_ERROR_BAR_TYPE_PERCENT:
-		str = (gchar*) "percent";
-		break;
-	}
-	xmlSetProp (parent, (xmlChar const *) "error_type", str);
-	if (bar->display != GOG_ERROR_BAR_DISPLAY_BOTH) {
-		switch (bar->display) {
-		case GOG_ERROR_BAR_DISPLAY_NONE:
-			str = (gchar*) "none";
+	{
+		const char *str = NULL;
+		xmlSetProp (parent, CC2XML ("type"), CC2XML ("GogErrorBar"));
+		switch (bar->type) {
+		case GOG_ERROR_BAR_TYPE_ABSOLUTE:
+			str = "absolute";
 			break;
-		case GOG_ERROR_BAR_DISPLAY_POSITIVE:
-			str = (gchar*) "positive";
+		case GOG_ERROR_BAR_TYPE_RELATIVE:
+			str = "relative";
 			break;
-		case GOG_ERROR_BAR_DISPLAY_NEGATIVE:
-			str = (gchar*) "negative";
+		case GOG_ERROR_BAR_TYPE_PERCENT:
+			str = "percent";
+			break;
+		default:
 			break;
 		}
-		xmlSetProp (parent, (xmlChar const *) "display", str);
+		if (str)
+			xmlSetProp (parent, CC2XML ("error_type"), CC2XML (str));
 	}
+
+	{
+		const char *str = NULL;
+		switch (bar->display) {
+		case GOG_ERROR_BAR_DISPLAY_NONE:
+			str = "none";
+			break;
+		case GOG_ERROR_BAR_DISPLAY_POSITIVE:
+			str = "positive";
+			break;
+		case GOG_ERROR_BAR_DISPLAY_NEGATIVE:
+			str = "negative";
+			break;
+		default:
+			break;
+		}
+		if (str)
+			xmlSetProp (parent, CC2XML ("display"), CC2XML (str));
+	}
+
 	if (bar->width != 5.) {
-		str = g_strdup_printf ("%f",  bar->width);
-		xmlSetProp (parent, (xmlChar const *) "width", str);
+		char *str = g_strdup_printf ("%f",  bar->width);
+		xmlSetProp (parent, CC2XML ("width"), CC2XML (str));
 		g_free (str);
 	}
+
 	if (bar->style->line.width != 1.) {
-		str = g_strdup_printf ("%f",  bar->style->line.width);
-		xmlSetProp (parent, (xmlChar const *) "line_width", str);
+		char *str = g_strdup_printf ("%f",  bar->style->line.width);
+		xmlSetProp (parent, CC2XML ("line_width"), CC2XML (str));
 		g_free (str);
 	}
 	if (bar->style->line.color != RGBA_BLACK) {
-		str = go_color_as_str (bar->style->line.color);
-		xmlSetProp (parent, (xmlChar const *) "color", str);
+		char *str = go_color_as_str (bar->style->line.color);
+		xmlSetProp (parent, CC2XML ("color"), CC2XML (str));
 		g_free (str);
 	}
 }
@@ -487,6 +500,8 @@ gog_error_bar_get_bounds (GogErrorBar const *bar, int index, double *min, double
 	case GOG_ERROR_BAR_TYPE_PERCENT:
 		*min *= fabs (value) / 100;
 		*max *= fabs (value) / 100;
+		break;
+	default:
 		break;
 	}
 	*max += value;
