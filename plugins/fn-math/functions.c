@@ -746,7 +746,7 @@ gnumeric_fact (struct FunctionDefinition *id,
 	       Value *argv [], char **error_string)
 {
 	Value *res;
-	float i;
+	float_t i;
 
 	switch (argv [0]->type){
 	case VALUE_FLOAT:

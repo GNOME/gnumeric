@@ -1,5 +1,11 @@
 1999-06-08  Morten Welinder  <terra@diku.dk>
 
+	* src/xml-io.c (xmlGetDoubleValue): Improve precision.
+	(xmlGetCoordinate): Ditto.
+	(xmlGetGnomeCanvasPoints): Ditto.
+
+	* src/fn-math.c (gnumeric_fact): s/float/float_t/
+
 	* src/fn-date.c: Fix types of most functions.  (We really need a
  	way of saying "scalar".)
 	(get_serial_date): New helper function.

@@ -150,18 +150,13 @@ xmlGetDoubleValue (xmlNodePtr node, const char *name, double *val)
 {
 	int res;
 	char *ret;
-	float f;
 
 	ret = xmlGetValue (node, name);
 	if (ret == NULL) return(0);
-	res = sscanf (ret, "%f", &f);
+	res = sscanf (ret, "%lf", val);
 	free(ret);
 	
-	if (res == 1) {
-	        *val = f;
-		return 1;
-	}
-	return 0;
+	return (res == 1);
 }
 
 #if 0
@@ -174,19 +169,13 @@ xmlGetCoordinate (xmlNodePtr node, const char *name,
 {
 	int res;
 	char *ret;
-	float X, Y;
 
 	ret = xmlGetValue (node, name);
 	if (ret == NULL) return(0);
-	res = sscanf (ret, "(%f %f)", &X, &Y);
+	res = sscanf (ret, "(%lf %lf)", x, y);
 	free(ret);
 	
-	if (res == 2) {
-		*x = X;
-		*y = Y;
-		return 1;
-	}
-	return 0;
+	return (res == 2);
 }
 #endif
 
@@ -224,7 +213,7 @@ xmlGetGnomeCanvasPoints (xmlNodePtr node, const char *name)
 	int res;
 	const char *ptr;
 	int index = 0, i;
-	float coord[20];	/* TODO: must be dynamic !!!! */
+	double coord[20];	/* TODO: must be dynamic !!!! */
 
 	val = xmlGetValue (node, name);
 	if (val == NULL) return(NULL);
@@ -234,7 +223,7 @@ xmlGetGnomeCanvasPoints (xmlNodePtr node, const char *name)
 			ptr++;
 		if (*ptr == 0)
 			break;
-		res = sscanf (ptr, "(%f %f)", &coord[index], &coord[index + 1]);
+		res = sscanf (ptr, "(%lf %lf)", &coord[index], &coord[index + 1]);
 		if (res != 2)
 			break;
 		index += 2;
