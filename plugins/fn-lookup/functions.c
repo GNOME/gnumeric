@@ -883,14 +883,17 @@ gnumeric_offset (FunctionEvalInfo *ei, Value **args)
 	CellRef a;
 	CellRef b;
 	int width, height;
+	int row_offset, col_offset;
 
 	g_return_val_if_fail (args [0]->type == VALUE_CELLRANGE, NULL);
 
 	cell_ref_make_abs (&a, &args[0]->v.cell_range.cell_a, ei->pos);
 	cell_ref_make_abs (&b, &args[0]->v.cell_range.cell_b, ei->pos);
 
-	a.row += value_get_as_int (args[1]);
-	a.col += value_get_as_int (args[2]);
+	row_offset = value_get_as_int (args[1]);
+	col_offset = value_get_as_int (args[2]);
+	a.row += row_offset; b.row += row_offset;
+	a.col += col_offset; b.col += col_offset;
 
 	width = (args[3] != NULL)
 	    ? value_get_as_int (args[3])
@@ -902,6 +905,8 @@ gnumeric_offset (FunctionEvalInfo *ei, Value **args)
 	if (width < 1 || height < 1)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 	else if (a.row < 0 || a.col < 0)
+		return value_new_error (ei->pos, gnumeric_err_REF);
+	else if (a.row >= SHEET_MAX_ROWS || a.col >= SHEET_MAX_COLS)
 		return value_new_error (ei->pos, gnumeric_err_REF);
 
 	/* Special case of a single cell */

@@ -1,5 +1,8 @@
 2000-04-27  Jody Goldberg <jgoldberg@home.com>
 
+	* src/functions/fn-lookup.c (gnumeric_offset) : Bug 9372.
+	  Both corners get offset.
+
 	* src/workbook-format-toolbar.c (modify_cell_region) : Do redraws
 	  respans, and redimensions here.
 
