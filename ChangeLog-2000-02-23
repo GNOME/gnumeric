@@ -1,3 +1,9 @@
+1999-03-03  Michael Meeks  <michael@imaginator.com>
+
+	* plugins/excel/ms-formula.c (parse_data_new): Trap null pointers
+	on entry, ( coming from biff_get_text ).
+	(ms_excel_parse_formula): Removed nasty static buffers.
+	
 1999-02-23  Bruno Unna  <bruno@iac.com.mx>
 
 	* src/dialog-cell-format.c (create_background_radio): Activated
