@@ -1,3 +1,7 @@
+2001-04-15  Ole Laursen  <olau@hardworking.dk>
+
+	* da.po: Updated Danish translation.
+
 2001-04-14  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* pl.po: Updated Polish translation.
@@ -23,7 +27,7 @@
 2001-03-27  Fatih Demir <kabalak@gtranslator.org>
 
 	* tr.po: Committed updated Turkish translation
-		by Nilgün.
+		by Nilg|n.
 
 2000-03-18  Christophe Merlet  <redfox@eikonex.org>
 
@@ -73,7 +77,7 @@
 
 2001-02-21  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokmål) translation.
+	* no.po: Updated Norwegian (bokmel) translation.
 
 2001-02-21  Jody Goldberg <jgoldberg@home.com>
 
@@ -134,7 +138,7 @@
 
 2001-02-12  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokmål) translation.
+	* no.po: Updated Norwegian (bokmel) translation.
 
 2001-02-12  Valek Filippov  <frob@df.ru>
 
@@ -1266,7 +1270,7 @@
 
 	* no.po: Updated Norwegian translation.
 	
-1999-10-17  Martin Norb$Bdc(Bk  <norpan@bigfoot.com>
+1999-10-17  Martin Norb$(Bdc(Bk  <norpan@bigfoot.com>
 
 	* sv.po: Updated translation again.
 
@@ -1351,7 +1355,7 @@
 
 	* Updated fr.po:
 	avant:	896 translated messages, 60 fuzzy translations, 42 untranslated messages.
-	apr$Bhs(B:  958 translated messages, 13 fuzzy translations, 27 untranslated messages.
+	apr$(Bhs(B:  958 translated messages, 13 fuzzy translations, 27 untranslated messages.
 
 1999-09-06  Kjartan Maraas  <kmaraas@online.no>
 
