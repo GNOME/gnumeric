@@ -1,3 +1,10 @@
+2001-06-23  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/item-cursor.c (item_cursor_do_drop): Always clear
+	the status text.
+
+	* src/GNOME_Gnumeric.xml: Add missing outline menu items.
+
 2001-06-22  Morten Welinder  <terra@diku.dk>
 
 	* src/goal-seek.c (update_data): Prefer absolute lowest y-value in

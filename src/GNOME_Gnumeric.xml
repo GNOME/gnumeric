@@ -484,6 +484,12 @@
 		    _label="_Ungroup"
 		    _tip="Remove an outline group"/>
 
+	        <separator/>
+
+		<menuitem name="SheetDisplayOutlines" verb=""/>
+		<menuitem name="SheetOutlineBelow"    verb=""/>
+		<menuitem name="SheetOutlineRight"    verb=""/>
+
 	    </submenu>
 	</submenu>
 

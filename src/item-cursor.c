@@ -968,6 +968,7 @@ item_cursor_do_drop (ItemCursor *ic, GdkEventButton *event)
 	Sheet const *sheet = ((SheetControl *) ic->scg)->sheet;
 	Range const *target = selection_first_range (sheet, NULL, NULL);
 
+	wb_control_gui_set_status_text (ic->scg->wbcg, "");
 	if (range_equal (target, &ic->pos)) {
 		gtk_object_destroy (GTK_OBJECT (ic));
 		return;
@@ -979,7 +980,6 @@ item_cursor_do_drop (ItemCursor *ic, GdkEventButton *event)
 		item_cursor_do_action (ic, (event->state & GDK_CONTROL_MASK)
 				       ? ACTION_COPY_CELLS : ACTION_MOVE_CELLS,
 				       event->time);
-	wb_control_gui_set_status_text (ic->scg->wbcg, "");
 }
 
 static void
