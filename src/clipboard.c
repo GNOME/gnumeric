@@ -131,9 +131,9 @@ clipboard_paste_region (CommandContext *context,
 		repeat_vertical = dst_rows/src_rows;
 		if (repeat_vertical * src_rows != dst_rows) {
 			char *msg = g_strdup_printf (
-				_("destination does not have an even multiple of source columns (%d vs %d)\n\n"
+				_("destination does not have an even multiple of source rows (%d vs %d)\n\n"
 				  "Try selecting a single cell or an area of the same shape and size."),
-				dst_cols, src_cols);
+				dst_rows, src_rows);
 			gnumeric_error_invalid (context, _("Unable to paste"), msg);
 			g_free (msg);
 			return;
@@ -163,7 +163,7 @@ clipboard_paste_region (CommandContext *context,
 				    tmp);
 	}
 
-	while (repeat_horizontal-- > 0)
+	for (tmp = repeat_vertical; repeat_horizontal-- > 0 ; repeat_vertical = tmp)
 		while (repeat_vertical-- > 0) {
 			int const left = repeat_horizontal * src_cols + pt->range.start.col;
 			int const top = repeat_vertical * src_rows + pt->range.start.row;

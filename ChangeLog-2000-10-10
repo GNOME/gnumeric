@@ -1,5 +1,9 @@
 2000-05-26  Jody Goldberg <jgoldberg@home.com>
 
+	* src/clipboard.c (clipboard_paste_region) : Fix typo, and thinko.
+
+2000-05-26  Jody Goldberg <jgoldberg@home.com>
+
 	* src/selection.c (selection_is_simple) : Use a command context.
 	(sheet_selection_paste) : Delete.
 
