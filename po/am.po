@@ -5183,7 +5183,7 @@ msgstr ""
 
 #: plugins/fn-info/plugin.xml.in.h:2
 msgid "Information"
-msgstr "&መረጃ"
+msgstr "መረጃ"
 
 #: plugins/fn-info/plugin.xml.in.h:3
 msgid "Information Functions"
