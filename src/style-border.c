@@ -105,9 +105,13 @@ border_fetch (StyleBorderType const	 line_type,
 	MStyleBorder *border;
 	MStyleBorder key;
 
+	g_return_val_if_fail (line_type >= BORDER_NONE, 0);
+	g_return_val_if_fail (line_type < BORDER_MAX, 0);
+
 	if (line_type == BORDER_NONE)
 		return NULL;
 
+	g_return_val_if_fail (color != NULL, NULL);
 	key.line_type = line_type;
 	key.color = color;
 
@@ -161,10 +165,14 @@ border_set_gc_dash (GdkGC *gc, StyleBorderType const line_type)
 
 	if (style_border_data[i].pattern != NULL)
 		style = GDK_LINE_DOUBLE_DASH;
+
+	/* FIXME FIXME FIXME :
+	 * We will want to Adjust the join styles eventually to get
+	 * corners to render nicely */
 	gdk_gc_set_line_attributes (gc,
 				    style_border_data[i].width,
 				    style,
-				    GDK_CAP_ROUND, GDK_JOIN_MITER);
+				    GDK_CAP_BUTT, GDK_JOIN_MITER);
 
 	if (style_border_data[i].pattern != NULL) {
 		struct LineDotPattern const * const pat =

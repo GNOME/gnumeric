@@ -11,10 +11,10 @@ Jukka:
 
 Jody:
 	* Complete transition of cut/paste to cell movement code.
-	* 1st pass at borders & patterns (only in empty cells for now)
+	* 1st pass at borders & patterns
 	* Improve edit popup.
 	* Rework cell format dialog.
-	* Some support for inter book references.
+	* Some support for inter book references (no dependancies yet)
 
 Daniel:
 	* Excel Name export.

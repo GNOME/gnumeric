@@ -13,6 +13,7 @@
 #include "format.h"
 #include "color.h"
 #include "utils.h"
+#include "pattern.h"
 
 static void
 draw_overflow (GdkDrawable *drawable, GdkGC *gc, GdkFont *font, int x1, int y1, int text_base, int width, int height)
@@ -120,6 +121,8 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc,
 	StyleFont    *style_font;
 	GdkColor     *col;
 	GdkRectangle  rect;
+	GnumericSheet *gsheet;
+	GnomeCanvas *canvas;
 	
 	int start_col, end_col;
 	int width, height;
@@ -128,6 +131,10 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc,
 	int halign;
 	int do_multi_line;
 	char *text;
+
+	gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
+	g_return_val_if_fail (GNUMERIC_IS_SHEET (gsheet), 1);
+	canvas = GNOME_CANVAS (gsheet);
 
 	style_font = sheet_get_style_font (cell->sheet, mstyle);
 	font = style_font_gdk_font (style_font);
@@ -169,14 +176,6 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc,
 		text = "FATAL ERROR";
 	} 
 	
-	/*
-	 * To draw the background of the cell, we need to
-	 * change the gc's drawing color before calling the
-	 * gdk_draw_rectangle function
-	 */
-	col = &mstyle_get_color (mstyle, MSTYLE_COLOR_BACK)->color;
-	gdk_gc_set_foreground (gc, col);
-
 	if (do_multi_line) {
 		GList *lines, *l;
 		int cell_pixel_height = ROW_INTERNAL_HEIGHT (cell->row);
@@ -187,13 +186,17 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc,
 
 		rect.x = x1 + 1;
 		rect.y = y1 + 1;
-		rect.height = cell->row->pixels - 1;
 		rect.width = cell->col->pixels  - 1;
+		rect.height = cell->row->pixels - 1;
+		/* Set the clip rectangle */
 		gdk_gc_set_clip_rectangle (gc, &rect);
 		
-		gdk_draw_rectangle (drawable, gc, TRUE,
-                                    rect.x, rect.y, rect.width, rect.height);
+		if (gnumeric_background_set_gc (mstyle, gc, canvas))
+			gdk_draw_rectangle (drawable, gc, TRUE,
+					    rect.x, rect.y, rect.width, rect.height);
 
+		/* And now reset the previous foreground color */
+		gdk_gc_set_fill (gc, GDK_SOLID);
 		if (cell->render_color)
 			gdk_gc_set_foreground (gc, &cell->render_color->color);
 		else {
@@ -292,18 +295,12 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc,
 		/* Set the clip rectangle */
 		gdk_gc_set_clip_rectangle (gc, &rect);
 
-		/*
-		 * To draw the background of the cell, we need to change the
-		 * gc's drawing color before calling the gdk_draw_rectangle function
-		 */
-		col = &mstyle_get_color (mstyle, MSTYLE_COLOR_BACK)->color;
-		gdk_gc_set_foreground (gc, col);
-		gdk_draw_rectangle (drawable, gc, TRUE,
-                                    rect.x, rect.y, rect.width, rect.height);
+		if (gnumeric_background_set_gc (mstyle, gc, canvas))
+			gdk_draw_rectangle (drawable, gc, TRUE,
+					    rect.x, rect.y, rect.width, rect.height);
 
-		/*
-		 * And now reset the previous foreground color
-		 */
+		/* And now reset the previous foreground color */
+		gdk_gc_set_fill (gc, GDK_SOLID);
 		if (cell->render_color)
 			gdk_gc_set_foreground (gc, &cell->render_color->color);
 		else {

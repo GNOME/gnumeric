@@ -259,7 +259,7 @@ item_grid_draw_border (GdkDrawable *drawable, MStyle *mstyle,
 	if (mstyle_is_element_set (mstyle, MSTYLE_BORDER_REV_DIAGONAL))
 		border_draw (drawable,
 			     mstyle_get_border (mstyle, MSTYLE_BORDER_REV_DIAGONAL),
-			     x+w, y+h, x, y);
+			     x, y+h, x+w, y);
 }
 
 /*
@@ -317,39 +317,13 @@ item_grid_paint_empty_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 	
 	mstyle = sheet_style_compute (item_grid->sheet, col, row);
 
-	/*
-	 * Draw the background if the PATTERN is non 0
-	 * Draw a stipple too if the pattern is > 1
-	 */
-	if (mstyle_is_element_set (mstyle, MSTYLE_PATTERN)) {
-		int const pattern = mstyle_get_pattern (mstyle);
-		if (pattern > 0) {
-			StyleColor *back_col =
-				mstyle_get_color (mstyle, MSTYLE_COLOR_BACK);
-			g_return_if_fail (back_col != NULL);
+	if (gnumeric_background_set_gc (mstyle, gc, item_grid->canvas_item.canvas))
+		/* Ignore margins. Fill the entire cell (including the right
+		 * hand divider) */
+		gdk_draw_rectangle (drawable, gc, TRUE,
+				    x, y, ci->pixels+1, ri->pixels+1);
 
-			if (pattern > 1) {
-				StyleColor *pat_col =
-					mstyle_get_color (mstyle, MSTYLE_COLOR_PATTERN);
-				g_return_if_fail (pat_col != NULL);
-
-				gdk_gc_set_fill (gc, GDK_OPAQUE_STIPPLED);
-				gdk_gc_set_foreground (gc, &pat_col->color);
-				gdk_gc_set_background (gc, &back_col->color);
-				gdk_gc_set_stipple (gc, gnumeric_pattern_get_stipple (pattern));
-				gnome_canvas_set_stipple_origin (item_grid->canvas_item.canvas, gc);
-			} else {
-				gdk_gc_set_fill (gc, GDK_SOLID);
-				gdk_gc_set_foreground (gc, &back_col->color);
-			}
-
-			/* Ignore margins. Fill the entire cell */
-			gdk_draw_rectangle (drawable, gc, TRUE,
-					    x, y, ci->pixels+1, ri->pixels+1);
-		}
-	}
-
-	item_grid_draw_border (drawable, mstyle, x, y, ci->pixels+1, ri->pixels+1, FALSE);
+	item_grid_draw_border (drawable, mstyle, x, y, ci->pixels, ri->pixels, FALSE);
 
 	mstyle_unref (mstyle);
 }

@@ -459,9 +459,10 @@ mstyle_new_default (void)
 				style_color_new (0, 0, 0));
 	mstyle_set_color       (mstyle, MSTYLE_COLOR_BACK,
 				style_color_new (0xffff, 0xffff, 0xffff));
+	mstyle_set_color       (mstyle, MSTYLE_COLOR_PATTERN,
+				style_color_new (0, 0, 0));
 
 	default_mstyle = mstyle;
-	/* Do not set the pattern color */
 
 	return mstyle;
 }

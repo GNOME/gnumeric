@@ -1,3 +1,22 @@
+1999-11-05  Jody Goldberg <jgoldberg@home.com>
+
+	* src/pattern.c (gnumeric_background_set_gc) : Move the pattern &
+	  background GC setup logic from item_grid_paint_empty_cell here.
+
+	* src/item-grid.c (item_grid_paint_empty_cell) :
+	  Use gnumeric_background_set_gc.
+
+	* src/cell-draw.c (cell_draw) : Ditto.
+
+	* src/border.c (border_set_gc_dash) : Adjust cap format.
+
+	* src/item-grid.c (item_grid_paint_empty_cell) : Split background and
+	  pattern GC setup in a new function.
+
+	* src/pattern.c (gnumeric_background_set_gc) : New function.
+
+	* src/cell-draw.c (cell_draw) : Use gnumeric_background_set_gc.
+
 1999-11-05  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/border.c (border_fetch): re-do orientation.

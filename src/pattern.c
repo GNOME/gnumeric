@@ -73,3 +73,41 @@ gnumeric_pattern_get_stipple (gint const index)
 
 	return patterns [index-1];
 }
+
+gboolean
+gnumeric_background_set_gc (MStyle *mstyle, GdkGC *gc,
+			    GnomeCanvas *canvas)
+{
+	int pattern;
+
+	/*
+	 * Draw the background if the PATTERN is non 0
+	 * Draw a stipple too if the pattern is > 1
+	 */
+	if (!mstyle_is_element_set (mstyle, MSTYLE_PATTERN))
+		return FALSE;
+	pattern = mstyle_get_pattern (mstyle);
+	if (pattern > 0) {
+		StyleColor *back_col =
+			mstyle_get_color (mstyle, MSTYLE_COLOR_BACK);
+		g_return_val_if_fail (back_col != NULL, FALSE);
+
+		if (pattern > 1) {
+			StyleColor *pat_col =
+				mstyle_get_color (mstyle, MSTYLE_COLOR_PATTERN);
+			g_return_val_if_fail (pat_col != NULL, FALSE);
+
+			gdk_gc_set_fill (gc, GDK_OPAQUE_STIPPLED);
+			gdk_gc_set_foreground (gc, &pat_col->color);
+			gdk_gc_set_background (gc, &back_col->color);
+			gdk_gc_set_stipple (gc, gnumeric_pattern_get_stipple (pattern));
+			gnome_canvas_set_stipple_origin (canvas, gc);
+		} else {
+			gdk_gc_set_fill (gc, GDK_SOLID);
+			gdk_gc_set_foreground (gc, &back_col->color);
+		}
+		return TRUE;
+	}
+	return FALSE;
+}
+

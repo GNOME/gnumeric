@@ -1,3 +1,15 @@
+1999-11-05  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_palette_get) : Split the contrast logic
+	  into a new function
+	(black_or_white_contrast) : The new function.
+	(ms_excel_get_style_from_xf) : Add a hand coded table to decide what
+	  colours to contrast with which while importing.
+	(biff_xf_data_new) : Fix diagonal border import.
+	(ms_excel_workbook_detach) : Do not multiply delete a sheet.
+
+	* ms-chart.c : Adjust to changes in ms_excel_palette_get.
+
 1999-11-05  Michael Meeks  <mmeeks@gnu.org>
 
 	* ms-excel-read.c (ms_excel_get_style_from_xf): update.

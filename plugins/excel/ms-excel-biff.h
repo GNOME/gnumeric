@@ -40,10 +40,6 @@ typedef enum _eBiff_format { eBiffFMS=0, eBiffFLotus=1 } eBiff_format ;
 typedef enum _eBiff_eastern { eBiffEContext=0, eBiffEleftToRight=1,
 			      eBiffErightToLeft=2 } eBiff_eastern ;
 
-typedef enum _eBiff_border_orientation { eBiffBONone=0,
-                                         eBiffBODiagDown=1,
-					 eBiffBODiagUp=2,
-					 eBiffBODiagBoth=3 } eBiff_border_orientation ;
 typedef enum _eBiffFontUnderline
 {
   eBiffFUNone=1, eBiffFUSingle=2, eBiffFUDouble=3,

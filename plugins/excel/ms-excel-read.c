@@ -49,8 +49,7 @@ static void        ms_excel_workbook_attach (ExcelWorkbook *wb,
 #define STYLE_DIAGONAL		(MSTYLE_BORDER_DIAGONAL     - MSTYLE_BORDER_TOP)
 #define STYLE_REV_DIAGONAL	(MSTYLE_BORDER_REV_DIAGONAL - MSTYLE_BORDER_TOP)
 
-/* TODO : enable diagonal */
-#define STYLE_ORIENT_MAX 4
+#define STYLE_ORIENT_MAX 6
 
 void
 ms_excel_unexpected_biff (BiffQuery *q, char const *const state)
@@ -710,7 +709,7 @@ ms_excel_default_palette ()
 		int entries = EXCEL_DEF_PAL_LEN;
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_color_debug > 3) {
-			printf ("Creating default pallete\n");
+			printf ("Creating default palette\n");
 		}
 #endif
 		pal = (ExcelPalette *) g_malloc (sizeof (ExcelPalette));
@@ -770,10 +769,48 @@ ms_excel_palette_new (BiffQuery *q)
 	return pal;
 }
 
-StyleColor *
-ms_excel_palette_get (ExcelPalette *pal, guint idx, StyleColor *contrast)
+static StyleColor *
+black_or_white_contrast (StyleColor const * contrast)
 {
-	g_assert (NULL != pal);
+	/* FIXME FIXME FIXME : This is a BIG guess */
+	/* Is the contrast colour closer to black or white based
+	 * on this VERY loose metric.
+	 */
+	unsigned const guess =
+	    contrast->color.red +
+	    contrast->color.green +
+	    contrast->color.blue;
+
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_color_debug > 1) {
+		printf ("Contrast 0x%x 0x%x 0x%x : 0x%x\n",
+			contrast->color.red,
+			contrast->color.green,
+			contrast->color.blue,
+			guess);
+	}
+#endif
+	/* guess the minimum hacked pseudo-luminosity */
+	if (guess < (0x20000)) {
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_color_debug > 1)
+			puts("Contrast is White");
+#endif
+		return style_color_new (0xffff, 0xffff, 0xffff);
+	}
+
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_color_debug > 1)
+		puts("Contrast is Black");
+#endif
+	return style_color_new (0, 0, 0);
+}
+
+StyleColor *
+ms_excel_palette_get (ExcelPalette const *pal, gint idx)
+{
+	/* return black on failure */
+	g_return_val_if_fail (NULL != pal, style_color_new (0, 0, 0));
 
 	/* NOTE : not documented but seems close
 	 * If you find a normative reference please forward it.
@@ -781,8 +818,7 @@ ms_excel_palette_get (ExcelPalette *pal, guint idx, StyleColor *contrast)
 	 * The color index field seems to use
 	 *	8-63 = Palette index 0-55
 	 *
-	 *	0, 64, 127 = contrast ??
-	 *	65 = White ??
+	 *	0, 64, 65, 127 = auto ??
 	 */
 
 #ifndef NO_DEBUG_EXCEL
@@ -790,70 +826,35 @@ ms_excel_palette_get (ExcelPalette *pal, guint idx, StyleColor *contrast)
 		printf ("Color Index %d\n", idx);
 	}
 #endif
-	if (idx == 0 || idx == 64 || idx == 127) {
-		/* These seem to be some sort of automatic contract colors */
-		if (contrast) {
-			/* FIXME FIXME FIXME : This is a BIG guess */
-			/* Is the contrast colour closer to black or white based
-			 * on this VERY loose metric.
-			 */
-			unsigned const guess =
-			    contrast->color.red +
-			    contrast->color.green +
-			    contrast->color.blue;
 
-#ifndef NO_DEBUG_EXCEL
-			if (ms_excel_color_debug > 1) {
-				printf ("Contrast 0x%x 0x%x 0x%x : 0x%x\n",
-					contrast->color.red,
-					contrast->color.green,
-					contrast->color.blue,
-					guess);
-			}
-#endif
-			/* guess the minimum hacked pseudo-luminosity */
-			if (guess < (0x20000)) {
-#ifndef NO_DEBUG_EXCEL
-				if (ms_excel_color_debug > 1) {
-					puts("White");
-				}
-#endif
-				return style_color_new (0xffff, 0xffff, 0xffff);
-			}
-		}
-#ifndef NO_DEBUG_EXCEL
-		else if (ms_excel_color_debug > 1) {
-			puts("No contrast default to Black");
-		}
-#endif
+	/* Black ? */
+	if (idx == 0)
 		return style_color_new (0, 0, 0);
-	} else if (idx == 65) {
-		/* FIXME FIXME FIXME */
-		/* These seem to be some sort of automatic contract colors */
+	/* White ? */
+	if (idx == 1)
 		return style_color_new (0xffff, 0xffff, 0xffff);
-	}
 
 	idx -= 8;
-	if (idx < pal->length && idx >= 0) {
-		if (pal->gnum_cols[idx] == NULL) {
-			gushort r, g, b;
-			/* scale 8 bit/color ->  16 bit/color by cloning */
-			r = (pal->red[idx] << 8) | pal->red[idx];
-			g = (pal->green[idx] << 8) | pal->green[idx];
-			b = (pal->blue[idx] << 8) | pal->blue[idx];
+	g_return_val_if_fail (0 <= idx && idx <= pal->length, NULL);
+
+	if (pal->gnum_cols[idx] == NULL) {
+		gushort r, g, b;
+		/* scale 8 bit/color ->  16 bit/color by cloning */
+		r = (pal->red[idx] << 8) | pal->red[idx];
+		g = (pal->green[idx] << 8) | pal->green[idx];
+		b = (pal->blue[idx] << 8) | pal->blue[idx];
 #ifndef NO_DEBUG_EXCEL
-			if (ms_excel_color_debug > 1) {
-				printf ("New color in slot %d : RGB= %x,%x,%x\n",
-					idx, r, g, b);
-			}
-#endif
-			pal->gnum_cols[idx] = style_color_new (r, g, b);
-			g_return_val_if_fail (pal->gnum_cols[idx], NULL);
+		if (ms_excel_color_debug > 1) {
+			printf ("New color in slot %d : RGB= %x,%x,%x\n",
+				idx, r, g, b);
 		}
-		style_color_ref (pal->gnum_cols[idx]);
-		return pal->gnum_cols[idx];
+#endif
+		pal->gnum_cols[idx] = style_color_new (r, g, b);
+		g_return_val_if_fail (pal->gnum_cols[idx], NULL);
 	}
-	return NULL;
+
+	style_color_ref (pal->gnum_cols[idx]);
+	return pal->gnum_cols[idx];
 }
 
 static void
@@ -887,8 +888,6 @@ typedef struct _BiffXFData {
 	eBiff_eastern eastern;
 	guint8 border_color[STYLE_ORIENT_MAX];
 	StyleBorderType border_type[STYLE_ORIENT_MAX];
-	eBiff_border_orientation border_orientation;
-	StyleBorderType border_linestyle;
 	guint8 fill_pattern_idx;
 	guint8 pat_foregnd_col;
 	guint8 pat_backgnd_col;
@@ -913,24 +912,7 @@ ms_excel_get_font (ExcelSheet *sheet, guint16 font_idx)
 	return fd;
 }
 
-static StyleColor *
-ms_excel_get_stylefont (ExcelSheet *sheet, BiffXFData const *xf,
-			MStyle *mstyle)
-{
-	BiffFontData const * fd = ms_excel_get_font (sheet, xf->font_idx);
-
-	if (fd == NULL)
-		return NULL;
-
-	mstyle_set_font_name   (mstyle, fd->fontname);
-	mstyle_set_font_size   (mstyle, fd->height / 20.0);
-	mstyle_set_font_bold   (mstyle, fd->boldness >= 0x2bc);
-	mstyle_set_font_italic (mstyle, fd->italic);
-
-	return ms_excel_palette_get (sheet->wb->palette, fd->color_idx, NULL);
-}
-
-static BiffXFData *
+static BiffXFData const *
 ms_excel_get_xf (ExcelSheet *sheet, int const xfidx)
 {
 	BiffXFData *xf;
@@ -983,72 +965,161 @@ style_optimize (ExcelSheet *sheet, int col, int row)
 static MStyle *
 ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 {
-	BiffXFData *xf = ms_excel_get_xf (sheet, xfidx);
-	StyleColor *fore, *back, *basefore;
-	int back_index;
+	BiffXFData const *xf = ms_excel_get_xf (sheet, xfidx);
+	BiffFontData const *fd;
+	StyleColor	*pattern_color, *back_color, *font_color;
+	int		 pattern_index,  back_index,  font_index;
 	MStyle *mstyle;
+	int i;
 
 	g_return_val_if_fail (xf != NULL, NULL);
 
+	/* If we've already done the conversion use the cached style */
 	if (xf->mstyle != NULL) {
 		mstyle_ref (xf->mstyle);
 		return xf->mstyle;
 	}
 
+	/* Create a new style and fill it in */
 	mstyle = mstyle_new ();
+
+	/* Format */
+	if (xf->style_format)
+		mstyle_set_format (mstyle, xf->style_format->format);
+
+	/* Alignment */
 	mstyle_set_align_v     (mstyle, xf->valign);
 	mstyle_set_align_h     (mstyle, xf->halign);
 	mstyle_set_fit_in_cell (mstyle, xf->wrap);
 
-	basefore = ms_excel_get_stylefont (sheet, xf, mstyle);
-	if (sheet->wb->palette) {
-		int i;
- 		for (i = 0; i < STYLE_ORIENT_MAX; i++) {
-			MStyleBorder *border;
-			border = border_fetch (xf->border_type [i],
-					       ms_excel_palette_get (sheet->wb->palette,
-								     xf->border_color[i],
-								     NULL),
-					       border_get_orientation (
-						       MSTYLE_BORDER_TOP + i));
-			if (border)
-				mstyle_set_border (mstyle, MSTYLE_BORDER_TOP + i, border);
+	/* Font */
+	fd = ms_excel_get_font (sheet, xf->font_idx);
+	if (fd != NULL) {
+		mstyle_set_font_name   (mstyle, fd->fontname);
+		mstyle_set_font_size   (mstyle, fd->height / 20.0);
+		mstyle_set_font_bold   (mstyle, fd->boldness >= 0x2bc);
+		mstyle_set_font_italic (mstyle, fd->italic);
+		font_index = fd->color_idx;
+	} else
+		font_index = 127; /* Default to Auto */
+
+	/* Background */
+	mstyle_set_pattern (mstyle, xf->fill_pattern_idx);
+
+	/* Solid patterns seem to reverse the meaning */
+	if (xf->fill_pattern_idx == 1) {
+		pattern_index	= xf->pat_backgnd_col;
+		back_index	= xf->pat_foregnd_col;
+	} else {
+		pattern_index	= xf->pat_foregnd_col;
+		back_index	= xf->pat_backgnd_col;
+	}
+
+	/* ICK : FIXME
+	 * There must be a cleaner way of doing this
+	 */
+
+	/* Lets guess the state table for setting auto colours */
+	if (font_index == 127)
+	{
+		/* The font is auto.  Lets look for info elsewhere */
+		if (back_index == 64 || back_index == 65)
+		{
+			/* Everything is auto default to black text/pattern on white */
+			if (pattern_index == 64 || pattern_index == 65)
+			{
+				back_color = style_color_new (0xffff, 0xffff, 0xffff);
+				font_color = pattern_color = style_color_new (0, 0, 0);
+			} else
+			{
+				pattern_color =
+					ms_excel_palette_get (sheet->wb->palette,
+							      pattern_index);
+
+				/* Contrast back to pattern, and font to back */
+				back_color = black_or_white_contrast (pattern_color);
+				font_color = black_or_white_contrast (back_color);
+			}
+		} else
+		{
+			back_color = ms_excel_palette_get (sheet->wb->palette,
+							   back_index);
+
+			/* Contrast font to back */
+			font_color = black_or_white_contrast (back_color);
+
+			/* Pattern is auto contrast it to back */
+			if (pattern_index == 64 || pattern_index == 65)
+				pattern_color = font_color;
+			else
+				pattern_color =
+					ms_excel_palette_get (sheet->wb->palette,
+							      pattern_index);
+		}
+	} else
+	{
+		/* Use the font as a baseline */
+		font_color = ms_excel_palette_get (sheet->wb->palette,
+						   font_index);
+
+		if (back_index == 64 || back_index == 65)
+		{
+			/* contrast back to font and pattern to back */
+			if (pattern_index == 64 || pattern_index == 65)
+			{
+				/* Contrast back to font, and pattern to back */
+				back_color = black_or_white_contrast (font_color);
+				pattern_color = black_or_white_contrast (back_color);
+			} else
+			{
+				pattern_color =
+					ms_excel_palette_get (sheet->wb->palette,
+							      pattern_index);
+
+				/* Contrast back to pattern */
+				back_color = black_or_white_contrast (pattern_color);
+			}
+		} else
+		{
+			back_color = ms_excel_palette_get (sheet->wb->palette,
+							   back_index);
+
+			/* Pattern is auto contrast it to back */
+			if (pattern_index == 64 || pattern_index == 65)
+				pattern_color = black_or_white_contrast (back_color);
+			else
+				pattern_color =
+					ms_excel_palette_get (sheet->wb->palette,
+							      pattern_index);
 		}
 	}
 
-	if (xf->style_format)
-		mstyle_set_format (mstyle, xf->style_format->format);
-
-	if (!basefore) {
-		fore = ms_excel_palette_get (sheet->wb->palette,
-					     xf->pat_foregnd_col, NULL);
-		back_index = xf->pat_backgnd_col;
-	} else {
-		fore = basefore;
-		back_index = xf->pat_foregnd_col;
-	}
-
-	/* Use contrasting colour for background if the fill pattern is
-	 * 0 (transparent)
-	 */
-	if (xf->fill_pattern_idx == 0)
-		back_index = 0;
-	back = ms_excel_palette_get (sheet->wb->palette, back_index, fore);
-
-	/* Set the pattern if it is not solid */
-	if (xf->fill_pattern_idx != 0)
-		mstyle_set_pattern (mstyle, xf->fill_pattern_idx);
-
-	g_return_val_if_fail (back && fore, NULL);
+	g_return_val_if_fail (back_color && pattern_color && font_color, NULL);
 
 	/*
 	 * This is riddled with leaking StyleColor references !
 	 */
-	mstyle_set_color (mstyle, MSTYLE_COLOR_FORE, fore);
-	mstyle_set_color (mstyle, MSTYLE_COLOR_BACK, back);
+	mstyle_set_color (mstyle, MSTYLE_COLOR_FORE, font_color);
+	mstyle_set_color (mstyle, MSTYLE_COLOR_BACK, back_color);
+	mstyle_set_color (mstyle, MSTYLE_COLOR_PATTERN, pattern_color);
 
-	/* Set the cache */
-	xf->mstyle = mstyle;
+	/* Borders */
+	for (i = 0; i < STYLE_ORIENT_MAX; i++) {
+		int const color_index = xf->border_color[i];
+		/* Handle auto colours */
+		StyleColor *color = (color_index == 64 || color_index == 127)
+			? black_or_white_contrast (back_color)
+			: ms_excel_palette_get (sheet->wb->palette,
+						color_index);
+		MStyleBorder *border =
+			border_fetch (xf->border_type [i], color,
+				      MSTYLE_BORDER_TOP + i);
+		if (border)
+			mstyle_set_border (mstyle, MSTYLE_BORDER_TOP + i, border);
+	}
+
+	/* Set the cache (const_cast) */
+	((BiffXFData *)xf)->mstyle = mstyle;
 	mstyle_ref (mstyle);
 
 	return mstyle;
@@ -1058,7 +1129,7 @@ static void
 ms_excel_set_xf (ExcelSheet *sheet, int col, int row, guint16 xfidx)
 {
 	Range   range;
-	MStyle * mstyle = ms_excel_get_style_from_xf (sheet, xfidx);
+	MStyle *mstyle = ms_excel_get_style_from_xf (sheet, xfidx);
 	if (mstyle == NULL)
 		return;
 
@@ -1074,8 +1145,7 @@ static void
 ms_excel_set_xf_segment (ExcelSheet *sheet, int start_col, int end_col, int row, guint16 xfidx)
 {
 	Range   range;
-	MStyle * mstyle = ms_excel_get_style_from_xf (sheet,
-						      xfidx);
+	MStyle *mstyle = ms_excel_get_style_from_xf (sheet, xfidx);
 	if (mstyle == NULL)
 		return;
 
@@ -1265,6 +1335,7 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
 	if (ver == eBiffV8) {	/*
 				 * Very different
 				 */
+		int has_diagonals, diagonal_style;
 		data = MS_OLE_GET_GUINT16 (q->data + 10);
 		subdata = data;
 		xf->border_type[STYLE_LEFT] = biff_xf_map_border (subdata & 0xf);
@@ -1282,20 +1353,7 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
 		subdata = subdata >> 7;
 		xf->border_color[STYLE_RIGHT] = (subdata & 0x7f);
 		subdata = (data & 0xc000) >> 14;
-		switch (subdata) {
-		case 0:
-			xf->border_orientation = eBiffBONone;
-			break;
-		case 1:
-			xf->border_orientation = eBiffBODiagDown;
-			break;
-		case 2:
-			xf->border_orientation = eBiffBODiagUp;
-			break;
-		case 3:
-			xf->border_orientation = eBiffBODiagBoth;
-			break;
-		}
+		has_diagonals = subdata & 0x3;
 
 		data = MS_OLE_GET_GUINT32 (q->data + 14);
 		subdata = data;
@@ -1303,7 +1361,19 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
 		subdata = subdata >> 7;
 		xf->border_color[STYLE_BOTTOM] = (subdata & 0x7f);
 		subdata = subdata >> 7;
-		xf->border_linestyle = biff_xf_map_border ((data & 0x01e00000) >> 21);
+
+		/* Assign the colors whether we have a border or not.  We will
+		 * handle that later */
+		xf->border_color[STYLE_DIAGONAL] =
+		xf->border_color[STYLE_REV_DIAGONAL] = (subdata & 0x7f);
+
+		/* Ok.  Now use the flag from above to assign borders */
+		diagonal_style = biff_xf_map_border (((data & 0x01e00000) >> 21) & 0xf);
+		xf->border_type[STYLE_DIAGONAL] = (has_diagonals & 0x1)
+			?  diagonal_style : BORDER_NONE;
+		xf->border_type[STYLE_REV_DIAGONAL] = (has_diagonals & 0x2)
+			?  diagonal_style : BORDER_NONE;
+
 		xf->fill_pattern_idx =
 			excel_map_pattern_index_from_excel ((data>>26) & 0x3f);
 
@@ -1338,6 +1408,7 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
 		xf->border_type[STYLE_LEFT] = biff_xf_map_border (subdata & 0x07);
 		subdata = subdata >> 3;
 		xf->border_type[STYLE_RIGHT] = biff_xf_map_border (subdata & 0x07);
+
 		subdata = subdata >> 3;
 		xf->border_color[STYLE_TOP] = subdata;
 
@@ -1346,6 +1417,12 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
 		xf->border_color[STYLE_LEFT] = (subdata & 0x7f);
 		subdata = subdata >> 7;
 		xf->border_color[STYLE_RIGHT] = (subdata & 0x7f);
+
+		/* Init the diagonals which were not availabile in Biff7 */
+		xf->border_type[STYLE_DIAGONAL] =
+			xf->border_type[STYLE_REV_DIAGONAL] = 0;
+		xf->border_color[STYLE_DIAGONAL] =
+			xf->border_color[STYLE_REV_DIAGONAL] = 127;
 	}
 
 	/* Init the cache */
@@ -1814,6 +1891,8 @@ ms_excel_workbook_detach (ExcelWorkbook *wb, ExcelSheet *ans)
 	if (ans->gnum_sheet) {
 		if (!workbook_detach_sheet (wb->gnum_wb, ans->gnum_sheet, FALSE))
 			return FALSE;
+		/* Detaching the sheet deletes it */
+		ans->gnum_sheet = NULL;
 	}
 	for (idx = 0; idx < wb->excel_sheets->len; idx++)
 		if (g_ptr_array_index (wb->excel_sheets, idx) == ans) {

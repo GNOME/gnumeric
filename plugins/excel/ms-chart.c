@@ -293,8 +293,8 @@ BC_R(areaformat)(ExcelChartHandler const *handle,
 
 		/* TODO : Ignore result for now,
 		 * Which to use, fore and back, or these ? */
-		ms_excel_palette_get (s->wb->palette, fore_index, NULL);
-		ms_excel_palette_get (s->wb->palette, back_index, NULL);
+		ms_excel_palette_get (s->wb->palette, fore_index);
+		ms_excel_palette_get (s->wb->palette, back_index);
 	}
 	return FALSE;
 }
@@ -1052,7 +1052,7 @@ BC_R(lineformat)(ExcelChartHandler const *handle,
 		guint16 const color_index = MS_OLE_GET_GUINT16 (q->data+10);
 
 		/* Ignore result for now */
-		ms_excel_palette_get (s->wb->palette, color_index, NULL);
+		ms_excel_palette_get (s->wb->palette, color_index);
 	}
 	return FALSE;
 }
@@ -1119,12 +1119,10 @@ BC_R(markerformat)(ExcelChartHandler const *handle,
 		 */
 		StyleColor const * marker_border =
 		    ms_excel_palette_get (s->wb->palette, 
-					  MS_OLE_GET_GUINT16 (q->data+12),
-					  NULL);
+					  MS_OLE_GET_GUINT16 (q->data+12));
 		StyleColor const * marker_fill =
 		    ms_excel_palette_get (s->wb->palette, 
-					  MS_OLE_GET_GUINT16 (q->data+14),
-					  NULL);
+					  MS_OLE_GET_GUINT16 (q->data+14));
 		guint32 const marker_size = MS_OLE_GET_GUINT32 (q->data+16);
 
 		printf ("Marker is %u, with border %x and interior %x\n",
