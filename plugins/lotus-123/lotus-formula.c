@@ -77,7 +77,7 @@ func_struct_t functions[] = {
 	{ 0, 0x33, "FALSE", NORMAL, 0 },
 	{ 0, 0x34, "TRUE", NORMAL, 0 },
 	{ 0, 0x35, "RAND", NORMAL, 0 },
-	{ 0, 0x36, "DATE", NORMAL, 0 },
+	{ 3, 0x36, "DATE", NORMAL, 0 },
 	{ 0, 0x37, "TODAY", NORMAL, 0 },
 	{ 0, 0x38, "PMT", NORMAL, 0 },
 	{ 0, 0x39, "PV", NORMAL, 0 },
@@ -348,7 +348,7 @@ lotus_parse_formula (Sheet *sheet, guint32 col, guint32 row,
 			break;
 		case LOTUS_FORMULA_INTEGER:
 		{
-			gint16 num = GINT16_FROM_LE (*(gint16 *)data + i + 1);
+			gint16 num = GINT16_FROM_LE (*(gint16 *)(data + i + 1));
 			v = value_new_int (num);
 			parse_list_push_raw (&stack, v);
 			i += 3;
