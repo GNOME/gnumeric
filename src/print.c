@@ -634,8 +634,6 @@ sheet_print (Sheet *sheet, gboolean preview,
 		}
 	}
 
-	gnome_print_context_close (pj->print_context);
-	
 	if (preview)
 		print_preview_print_done (pj->preview);
 	else {

@@ -1,5 +1,14 @@
 1999-09-12  Michael Meeks  <michael@nuclecu.unam.mx>
 
+	* src/print-preview.c (preview_destroyed, print_preview_new): Attach signal
+	to the workbook and warn.
+
+	* src/print.c (sheet_print): Remove redundant print_context_close_file.
+
+	* src/embeddable-grid.c (grid_view_new): NULL a pointer.
+
+1999-09-12  Michael Meeks  <mmeeks@gnu.org>
+
 	* src/embeddable-grid.c (grid_view_activate): Hack to cope with new
 	private Bonobo plug, just emit a warning.
 	(grid_view_new): similarly hacked.

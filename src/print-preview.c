@@ -309,7 +309,8 @@ create_preview_canvas (PrintPreview *pp)
 static void
 preview_destroyed (void *unused, PrintPreview *pp)
 {
-	gtk_signal_disconnect (GTK_OBJECT (pp->sheet), pp->destroy_id);
+	g_warning ("FIXME: destroy callback needs to be for sheet destruction");
+	gtk_signal_disconnect (GTK_OBJECT (pp->sheet->workbook), pp->destroy_id);
 	gtk_object_unref (GTK_OBJECT (pp->preview));
 	gtk_object_unref (GTK_OBJECT (pp->metafile));
 	g_free (pp->toolbar);
@@ -539,8 +540,9 @@ print_preview_new (Sheet *sheet)
 	create_toplevel (pp);
 	create_preview_canvas (pp);
 
+	g_warning ("FIXME: destroy callback needs to be for sheet destruction");
 	pp->destroy_id = gtk_signal_connect (
-		GTK_OBJECT (pp->sheet), "destroy",
+		GTK_OBJECT (pp->sheet->workbook), "destroy",
 		GTK_SIGNAL_FUNC (sheet_destroyed), pp);
 
 	{

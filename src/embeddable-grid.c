@@ -314,7 +314,7 @@ grid_view_activate (GridView *grid_view)
 GnomeView *
 grid_view_new (EmbeddableGrid *eg)
 {
-	GridView *grid_view;
+	GridView *grid_view = NULL;
 	GNOME_View corba_grid_view;
 	
 	grid_view = gtk_type_new (GRID_VIEW_TYPE);
