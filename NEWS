@@ -26,6 +26,7 @@ Jon Kåre:
 Morten:
 	* Support End+Home key sequence.
 	* Tidy up gradients for charting engine.
+	* Handle -hh:mm.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.20

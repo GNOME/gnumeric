@@ -901,23 +901,26 @@ compute_value (char const *s, const regmatch_t *mp,
 
 		case MATCH_CUMMULATIVE_HOURS:
 			hours_are_cummulative = TRUE;
+			if (str[0] == '-') is_neg = TRUE;
 		case MATCH_HOUR:
 			hours_set = TRUE;
-			hours = atoi (str);
+			hours = abs (atoi (str));
 			break;
 
 		case MATCH_CUMMULATIVE_MINUTES:
 			minutes_are_cummulative = TRUE;
+			if (str[0] == '-') is_neg = TRUE;
 		case MATCH_MINUTE:
 			minutes_set = TRUE;
-			minutes = atoi (str);
+			minutes = abs (atoi (str));
 			break;
 
 		case MATCH_CUMMULATIVE_SECONDS :
 			seconds_are_cummulative = TRUE;
+			if (str[0] == '-') is_neg = TRUE;
 		case MATCH_SECOND:
 			seconds_set = TRUE;
-			seconds = atoi (str);
+			seconds = abs (atoi (str));
 			break;
 
 		case MATCH_PERCENT:
@@ -1069,6 +1072,8 @@ compute_value (char const *s, const regmatch_t *mp,
 		return value_new_int (number);
 
 	number += (hours * 3600 + minutes * 60 + seconds) / (3600*24.0);
+	if (is_neg) number = -number;
+
 	return value_new_float (number);
 }
 

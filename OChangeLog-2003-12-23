@@ -1,3 +1,7 @@
+2003-09-03  Morten Welinder  <terra@gnome.org>
+
+	* src/number-match.c (compute_value): Handle negative hh:mm.
+
 2003-09-02  Jody Goldberg <jody@gnome.org>
 
 	* src/func.c (function_call_with_list) : always pass something to
