@@ -28,7 +28,7 @@ plugins/oleo/plugin.xml.in
 plugins/perl/plugin.xml.in
 plugins/plan-perfect/pln.c
 plugins/plan-perfect/plugin.xml.in
-plugins/psiconv/psiconv-read.in
+plugins/psiconv/psiconv-read.c
 plugins/psiconv/plugin.xml.in
 plugins/py-func/plugin.xml.in
 plugins/python-loader/plugin.xml.in
