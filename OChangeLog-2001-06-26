@@ -1,3 +1,10 @@
+2000-03-24  Tuomas Kuosmanen  <tigert@gimp.org>
+
+	* src/pixmaps/sort-ascending.xpm 
+	* src/pixmaps/sort-descending.xpm: New versions of the sort icons,
+	we dont sort by numeric value so we dont want to use 123 in the icon
+	either. Instead we use A..Z and Z..A.
+
 2000-03-23  Jody Goldberg <jgoldberg@home.com>
 
 	* src/cell.c (cell_set_text_simple) : Do NOT set the entered text
