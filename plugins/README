@@ -15,9 +15,7 @@ When you add or delete files, don't forget...
 File-format plugins
 --------------------
 
-For a good skeleton, grab a copy of the applix plugin.  (The Excel plugin is
-the most sophisticated, but it is currently statically linked into Gnumeric.
-It will probably become a regular plugin at some point.)
+For a good skeleton, grab a copy of the applix plugin.
 
 
 
