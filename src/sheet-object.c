@@ -15,6 +15,7 @@
 #include "sheet-object-impl.h"
 #include "workbook-edit.h"
 #include "sheet.h"
+#include "sheet-private.h"
 #include "expr.h"
 #include "ranges.h"
 #include "xml-io.h"
@@ -118,6 +119,9 @@ sheet_object_destroy (GtkObject *object)
 			so->sheet->modified = TRUE;
 		}
 
+		if (so->cell_bound.end.col == so->sheet->max_object_extent.col &&
+		    so->cell_bound.end.row == so->sheet->max_object_extent.row)
+			sheet_objects_max_extent (so->sheet);
 		so->sheet = NULL;
 	}
 	(*sheet_object_parent_class->destroy)(object);
@@ -210,6 +214,34 @@ sheet_object_position (SheetObject *so, CellPos const *pos)
 		GtkObject *view = GTK_OBJECT (l->data);
 		SO_CLASS (so)->update_bounds (so, view,
 			sheet_object_view_control (view));
+	}
+}
+
+/**
+ * sheet_objects_max_extent :
+ * @sheet :
+ *
+ * Utility routine to calculate the maximum extent of objects in this sheet.
+ */
+static void
+sheet_objects_max_extent (Sheet *sheet)
+{
+	CellPos max_pos = { 0, 0 };
+	GList *ptr;
+
+	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next ) {
+		SheetObject *so = SHEET_OBJECT (ptr->data);
+
+		if (max_pos.col < so->cell_bound.end.col)
+			max_pos.col = so->cell_bound.end.col;
+		if (max_pos.row < so->cell_bound.end.row)
+			max_pos.row = so->cell_bound.end.row;
+	}
+
+	if (sheet->max_object_extent.col != max_pos.col ||
+	    sheet->max_object_extent.row != max_pos.row) {
+		sheet->max_object_extent = max_pos;
+		sheet_scrollbar_config (sheet);
 	}
 }
 
@@ -441,8 +473,13 @@ sheet_object_range_set (SheetObject *so, Range const *r,
 
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 
-	if (r != NULL)
+	if (r != NULL) {
 		so->cell_bound = *r;
+		if (so->sheet)
+			sheet_objects_max_extent (so->sheet);
+
+	}
+
 	if (offsets != NULL)
 		for (i = 4; i-- > 0 ; )
 			so->offset [i] = offsets [i];
@@ -609,7 +646,7 @@ sheet_relocate_objects (ExprRelocateInfo const *rinfo)
 		if (range_contains (&rinfo->origin,
 				    so->cell_bound.start.col,
 				    so->cell_bound.start.row)) {
-			/* FIXME : just movingthe range is insufficent for all anchor types */
+			/* FIXME : just moving the range is insufficent for all anchor types */
 			/* Toss any objects that would be clipped. */
 			if (range_translate (&so->cell_bound, rinfo->col_offset, rinfo->row_offset)) {
 				gtk_object_destroy (GTK_OBJECT (so));
@@ -618,8 +655,9 @@ sheet_relocate_objects (ExprRelocateInfo const *rinfo)
 			if (change_sheets) {
 				sheet_object_clear_sheet (so);
 				sheet_object_set_sheet (so, rinfo->target_sheet);
-			} else
+			} else {
 				sheet_object_position (so, NULL);
+			}
 		} else if (!change_sheets &&
 			   range_contains (&dest,
 					   so->cell_bound.start.col,
@@ -628,6 +666,10 @@ sheet_relocate_objects (ExprRelocateInfo const *rinfo)
 			continue;
 		}
 	}
+
+	sheet_objects_max_extent (rinfo->origin_sheet);
+	if (change_sheets)
+		sheet_objects_max_extent (rinfo->target_sheet);
 }
 
 /**

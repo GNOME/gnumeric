@@ -1,5 +1,11 @@
 2001-02-03  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet-object.c (sheet_objects_max_extent) : new routine.
+	(sheet_object_destroy) : regen extent if necessary.
+
+	* src/sheet-control-gui.c (scg_scrollbar_config) : Honour the object
+	  max extent flag.
+
 	* src/gui-file.c (gui_file_import) : A successful import must have at
 	  least 1 sheet.
 

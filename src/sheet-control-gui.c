@@ -294,20 +294,32 @@ scg_scrollbar_config (SheetControlGUI const *scg)
 	Sheet         *sheet = scg->sheet;
 	int const last_col = gsheet->col.last_full;
 	int const last_row = gsheet->row.last_full;
+	int max_col = last_col;
+	int max_row = last_row;
 
-	va->upper = MAX (MAX (last_row,
-			      scg->sheet->rows.max_used),
-			 MAX (sheet->cursor.move_corner.row,
-			      sheet->cursor.base_corner.row));
+	if (max_row < sheet->rows.max_used)
+		max_row = sheet->rows.max_used;
+	if (max_row < sheet->max_object_extent.row)
+		max_row = sheet->max_object_extent.row;
+	if (max_row < sheet->cursor.base_corner.row)
+		max_row = sheet->cursor.base_corner.row;
+	if (max_row < sheet->cursor.move_corner.row)
+		max_row = sheet->cursor.move_corner.row;
+	va->upper = max_row;
 	va->page_size = last_row - gsheet->row.first;
 	va->value = gsheet->row.first;
 	va->step_increment = va->page_increment =
 	    va->page_size / 2;
 
-	ha->upper = MAX (MAX (last_col,
-			      scg->sheet->cols.max_used),
-			 MAX (sheet->cursor.move_corner.col,
-			      sheet->cursor.base_corner.col));
+	if (max_col < sheet->cols.max_used)
+		max_col = sheet->cols.max_used;
+	if (max_col < sheet->max_object_extent.col)
+		max_col = sheet->max_object_extent.col;
+	if (max_col < sheet->cursor.base_corner.col)
+		max_col = sheet->cursor.base_corner.col;
+	if (max_col < sheet->cursor.move_corner.col)
+		max_col = sheet->cursor.move_corner.col;
+	ha->upper = max_col;
 	ha->page_size = last_col - gsheet->col.first;
 	ha->value = gsheet->col.first;
 	ha->step_increment = ha->page_increment =

@@ -45,6 +45,7 @@ struct _Sheet {
 	double      last_zoom_factor_used;
 
 	GList       *sheet_objects;	/* List of objects in this sheet */
+	CellPos	     max_object_extent;
 
 	gboolean    pristine;
 	gboolean    modified;
@@ -197,6 +198,7 @@ void        sheet_flag_format_update_range(Sheet const *sheet, Range const *rang
 void        sheet_flag_selection_change   (Sheet const *sheet);
 void	    sheet_update_only_grid	  (Sheet const *sheet);
 void        sheet_update                  (Sheet const *sheet);
+void	    sheet_scrollbar_config	  (Sheet const *sheet);
 
 void        sheet_mark_clean              (Sheet *sheet);
 void        sheet_set_dirty               (Sheet *sheet, gboolean is_dirty);

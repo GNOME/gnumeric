@@ -144,6 +144,7 @@ sheet_new (Workbook *wb, const char *name)
 	sheet_style_init (sheet);
 
 	sheet->sheet_objects = NULL;
+	sheet->max_object_extent.col = sheet->max_object_extent.row = 0;
 
 	sheet->last_zoom_factor_used = 1.0;
 	sheet->cols.max_used = -1;
@@ -731,8 +732,7 @@ sheet_update_only_grid (Sheet const *sheet)
 	}
 
 	if (p->resize_scrollbar) {
-		SHEET_FOREACH_CONTROL (sheet, control,
-				       scg_scrollbar_config (control););
+		sheet_scrollbar_config (sheet);
 		p->resize_scrollbar = FALSE;
 	}
 }
@@ -3569,6 +3569,13 @@ sheet_stop_cell_selection (Sheet *sheet, gboolean clear_string)
 	g_return_if_fail (IS_SHEET (sheet));
 	SHEET_FOREACH_CONTROL (sheet, control,
 		scg_stop_cell_selection (control, clear_string););
+}
+
+void
+sheet_scrollbar_config (Sheet const *sheet)
+{
+	SHEET_FOREACH_CONTROL (sheet, control,
+			       scg_scrollbar_config (control););
 }
 
 typedef struct
