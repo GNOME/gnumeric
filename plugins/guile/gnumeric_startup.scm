@@ -8,6 +8,16 @@
 ;(display "Guile plug-in initializing\n")
 (load "functions.scm")
 
+;; Error handling
+;; This function is from gnucash, but simplified
+(define (gnm:error->string tag args)
+  (define (write-error port)
+    (false-if-exception
+     (apply display-error (fluid-ref the-last-stack) port args))
+    (force-output port))
+    (false-if-exception
+     (call-with-output-string write-error)))
+
 ; cell-refs
 (define (make-cell-ref col row)
   (if (and (number? col) (number? row))

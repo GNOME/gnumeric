@@ -27,6 +27,8 @@
 #include <assert.h>
 #include <stdio.h>
 #include <libguile.h>
+/* Deprecated, but we want gh_scm2newstr */
+#include <guile/gh.h>
 #include <gnome.h>
 
 #include "plugin.h"
@@ -52,95 +54,101 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
  */
 static EvalPos const *eval_pos = NULL;
 
-
-static Value*
-func_scm_apply (FunctionEvalInfo *ei, GList *expr_node_list)
-{
-	int i;
-	Value *value;
-	char *symbol;
-	SCM args = SCM_EOL,
-		function,
-		result;
-
-	if (g_list_length(expr_node_list) < 1)
-		return value_new_error (ei->pos, _("Invalid number of arguments"));
-
-	/* Retrieve the function name,  This can be empty, but not a non scalar */
-	value = expr_eval (expr_node_list->data, ei->pos, EVAL_PERMIT_EMPTY);
-	if (value == NULL)
-		return value_new_error (ei->pos, _("First argument to SCM must be a Guile expression"));
-
-	symbol = value_get_as_string (value);
-	if (symbol == NULL)
-		/* FIXME : This looks like a leak (JEG 4/4/00) */
-		return value_new_error (ei->pos, _("First argument to SCM must be a Guile expression"));
-
-	function = scm_c_eval_string (symbol);
-	if (SCM_UNBNDP(function))
-		return value_new_error (ei->pos, _("Undefined scheme function"));
-
-	value_release(value);
-
-	for (i = g_list_length(expr_node_list) - 1; i >= 1; --i)
-	{
-		CellRef eval_cell;
-
-		eval_cell.col = ei->pos->eval.col;
-		eval_cell.row = ei->pos->eval.row;
-		eval_cell.col_relative = 0;
-		eval_cell.row_relative = 0;
-		eval_cell.sheet = NULL;
-
-		/* Evaluate each argument, non scalar is ok, but empty is not */
-		value = expr_eval (g_list_nth(expr_node_list, i)->data,
-				   ei->pos,
-				   EVAL_PERMIT_NON_SCALAR);
-		if (value == NULL)
-			return value_new_error (ei->pos, _("Could not evaluate argument"));
-
-		args = scm_cons(value_to_scm(value, eval_cell), args);
-		value_release(value);
-	}
-
-	result = scm_apply(function, args, SCM_EOL);
-
-	return scm_to_value(result);
-}
-
 static SCM
 scm_gnumeric_funcall (SCM funcname, SCM arglist)
 {
 	int i, num_args;
-	Value **values;
+	Value **argvals;
+	Value *retval;
+	SCM retsmob;
 	CellRef cell_ref = { 0, 0, 0, 0 };
 
 	SCM_ASSERT (SCM_NIMP (funcname) && SCM_STRINGP (funcname), funcname, SCM_ARG1, "gnumeric-funcall");
 	SCM_ASSERT (SCM_NFALSEP (scm_list_p (arglist)), arglist, SCM_ARG2, "gnumeric-funcall");
 
 	num_args = scm_ilength (arglist);
-	values = g_new (Value *, num_args);
+	argvals = g_new (Value *, num_args);
 	for (i = 0; i < num_args; ++i) {
-		values[i] = scm_to_value (SCM_CAR (arglist));
+		argvals[i] = scm_to_value (SCM_CAR (arglist));
 		arglist = SCM_CDR (arglist);
 	}
 
-	return value_to_scm (function_call_with_values (eval_pos,
-							SCM_CHARS (funcname),
-							num_args,
-							values),
-			     cell_ref);
+	retval = function_call_with_values (eval_pos, SCM_CHARS (funcname),
+					    num_args,argvals);
+	retsmob = value_to_scm (retval, cell_ref);
+	value_release (retval);
+	return retsmob;
+}
+
+typedef struct {
+	SCM function;
+	SCM args;
+} GnmGuileCallRec;
+
+/* This gets called from scm_internal_stack_catch when calling scm_apply. */
+static SCM
+gnm_guile_helper (void *data)
+{
+	GnmGuileCallRec *ggcr = (GnmGuileCallRec *) data;
+	return scm_apply_0 (ggcr->function, ggcr->args);
+}
+
+/*
+ * This gets called if scm_apply throws an error.
+ *
+ * We use gh_scm2newstr to convert from Guile string to Scheme string. The
+ * GH interface is deprecated, but doing it in scm takes more code. We'll
+ * convert later if we have to.
+ */
+static SCM
+gnm_guile_catcher (void *data, SCM tag, SCM throw_args)
+{
+	const char *header = _("Guile error");
+	SCM smob;
+	SCM func;
+	SCM res;
+	char *guilestr = NULL;
+	char *msg;
+	char buf[256];
+	Value *v;
+	int len;
+
+	func = scm_c_eval_string ("gnm:error->string");
+	if (scm_procedure_p (func)) {
+		res = scm_apply (func, tag,
+				 scm_cons (throw_args, scm_listofnull));
+		if (scm_string_p (res))
+			guilestr = gh_scm2newstr (res, NULL);
+	}
+	
+	if (guilestr != NULL) {
+		snprintf (buf, sizeof buf, "%s: %s", header, guilestr);
+		free (guilestr);
+		msg = buf;
+	} else {
+		msg = (char *) header;
+	}
+
+	v = value_new_error (NULL, msg);
+	smob = make_new_smob (v);
+	value_release (v);
+	return smob;
 }
 
 static Value*
 func_marshal_func (FunctionEvalInfo *ei, Value *argv[])
 {
-	FunctionDefinition const *fndef = ei->func_def;
+	FunctionDefinition const *fndef;
 	SCM args = SCM_EOL, result, function;
 	CellRef dummy = { 0, 0, 0, 0 };
 	EvalPos const *old_eval_pos;
+	GnmGuileCallRec ggcr;
 	int i, min, max;
 
+	g_return_val_if_fail (ei != NULL, NULL);
+	g_return_val_if_fail (ei->func_def != NULL, NULL);
+
+	fndef = ei->func_def;
 	function_def_count_args (fndef, &min, &max);
 
 	function = (SCM) function_def_get_user_data (fndef);
@@ -150,7 +158,11 @@ func_marshal_func (FunctionEvalInfo *ei, Value *argv[])
 
 	old_eval_pos = eval_pos;
 	eval_pos     = ei->pos;
-	result       = scm_apply (function, args, SCM_EOL);
+	ggcr.function = function;
+	ggcr.args     = args;
+	result        = scm_internal_stack_catch (SCM_BOOL_T,
+						  gnm_guile_helper, &ggcr,
+						  gnm_guile_catcher, NULL);
 	eval_pos     = old_eval_pos;
 
 	return scm_to_value (result);
@@ -161,7 +173,7 @@ scm_register_function (SCM scm_name, SCM scm_args, SCM scm_help, SCM scm_categor
 {
 	FunctionDefinition *fndef;
 	FunctionCategory   *cat;
-	char              **help;
+	char const         **help;
 
 
 	SCM_ASSERT (SCM_NIMP (scm_name) && SCM_STRINGP (scm_name), scm_name, SCM_ARG1, "scm_register_function");
@@ -173,7 +185,7 @@ scm_register_function (SCM scm_name, SCM scm_args, SCM scm_help, SCM scm_categor
 
 	scm_permanent_object (scm_function);
 
-	help  = g_new (char *, 1);
+	help  = g_new (char const *, 1);
 	*help = g_strdup (SCM_CHARS (scm_help));
 	cat   = function_get_category (SCM_CHARS (scm_category));
 	fndef = function_add_args (cat, g_strdup (SCM_CHARS (scm_name)),
@@ -211,8 +223,6 @@ plugin_init_general (ErrorInfo **ret_error)
 	eval_pos = NULL;
 
 	cat = function_get_category ("Guile");
-
-	function_add_nodes (cat, "scm_apply", 0, "symbol", NULL, func_scm_apply);
 
 	init_value_type ();
 

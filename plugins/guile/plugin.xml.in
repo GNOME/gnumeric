@@ -5,7 +5,7 @@
 		<_description>This plugin enables Guile(scheme) support in Gnumeric</_description>
 	</information>
 	<loader type="g_module">
-		<attribute name="module_file" value="guile.la:dlname"/>
+		<attribute name="module_file" value="guile.la"/>
 	</loader>
 	<services>
 		<service type="general"></service>

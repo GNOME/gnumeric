@@ -27,6 +27,7 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <stdlib.h>
+#include <libgnome/gnome-i18n.h>
 
 #include "smob-value.h"
 #include "value.h"
@@ -40,30 +41,34 @@ typedef struct _SCM_Value
 	SCM update_func;
 } SCM_Value;
 
+/**
+ * The Value in the smob has to be a clone of v, since the original may be
+ * released in C-land, and there is no way to tell the Guile garbage
+ * collector.
+ */
 SCM
 make_new_smob (Value *v)
 {
 	SCM_Value *value;
 
 	value = (SCM_Value *) scm_must_malloc (sizeof (SCM_Value), "value");
-	value->v = v;
+	value->v = value_duplicate (v);
 	value->update_func = SCM_BOOL_F;
 
 	SCM_RETURN_NEWSMOB (value_tag, value);
 }
 
+/**
+ * We also have to clone the value in the smob before returning it to
+ * C-land, since the returned value may be released. There may be leaks, but
+ * freing memory twice is worse.
+ */
 Value *
 get_value_from_smob (SCM value_smob)
 {
-	Value *value;
 	SCM_Value *v = (SCM_Value *) SCM_CDR (value_smob);
 
-	value = g_new (Value, 1);
-
-	value = v->v;
-
-	return value;
-
+	return value_duplicate (v->v);
 }
 
 int
@@ -78,8 +83,6 @@ make_value (SCM scm)
 	Value *v;
 	SCM_Value *value;
 
-	v = g_new (Value, 1);
-
 	/*
 	  FIXME:
 	  Add support for array, null values, etc
@@ -88,16 +91,15 @@ make_value (SCM scm)
 	if (SCM_NIMP (scm) && SCM_STRINGP (scm))
 		v = value_new_string (SCM_CHARS (scm));
 
-	if ((SCM_NFALSEP (scm_number_p(scm))))
+	else if ((SCM_NFALSEP (scm_number_p(scm))))
 		v = value_new_float ((gnum_float) scm_num2dbl(scm, 0));
 
-	/*
-	  if (gh_boolean_p (scm))
-		v = value_new_bool ((gboolean) gh_scm2bool (scm));
-	*/
-
-	if (SCM_BOOLP (scm))
+	else if (SCM_BOOLP (scm))
 		v = value_new_bool ((gboolean) scm_i_scm2bool (scm));
+	
+	else
+		v = value_new_error (NULL,
+				     _("Unable to convert value from Guile"));
 	
 	value = (SCM_Value *) scm_must_malloc (sizeof (SCM_Value), "value");
 	value->v = v;
@@ -155,13 +157,10 @@ scm_value_new_bool (SCM scm)
 	Value *v;
 	SCM_Value *value;
 
-	v = g_new (Value, 1);
-	/*
-	if (gh_boolean_p (scm))
-		v = value_new_bool ((gboolean) gh_scm2bool (scm));
-	*/
 	if (SCM_BOOLP (scm))
 		v = value_new_bool ((gboolean) scm_i_scm2bool (scm));
+	else
+		v = value_new_error (NULL, _("Not a Guile boolean"));
 
 	value = (SCM_Value *) scm_must_malloc (sizeof (SCM_Value), "value");
 	value->v = v;
@@ -176,11 +175,10 @@ scm_value_new_float (SCM scm)
 	Value *v;
 	SCM_Value *value;
 
-	v = g_new (Value, 1);
-
-
 	if ((SCM_NFALSEP (scm_number_p(scm))))
 		v = value_new_float ((gnum_float) scm_num2dbl(scm, 0));
+	else
+		v = value_new_error (NULL, _("Not a Guile number"));
 
 	value = (SCM_Value *) scm_must_malloc (sizeof (SCM_Value), "value");
 	value->v = v;
@@ -195,10 +193,11 @@ scm_value_new_string (SCM scm)
 	Value *v;
 	SCM_Value *value;
 
-	v = g_new (Value, 1);
-
 	if (SCM_NIMP (scm) && SCM_STRINGP (scm))
 		v = value_new_string (SCM_CHARS (scm));
+	else
+		v = value_new_error (NULL, _("Not a Guile string"));
+
 
 	value = (SCM_Value *) scm_must_malloc (sizeof (SCM_Value), "value");
 	value->v = v;
@@ -277,7 +276,7 @@ void
 init_value_type ()
 {
 
-	value_tag = scm_make_smob_type ("value", sizeof (SCM_Value));
+	value_tag = scm_make_smob_type ((char *) "value", sizeof (SCM_Value));
 	scm_set_smob_mark (value_tag, mark_value);
 	scm_set_smob_free (value_tag, free_value);
 	scm_set_smob_print (value_tag, print_value);
