@@ -27,6 +27,10 @@
 	* src/auto-format.c : tidy up includes.
 
 2002-11-06   Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/stf.c (stf_init) : text export is lossy too. (78356)
+	
+2002-11-06   Andreas J. Guelzow  <aguelzow@taliesin.ca>
 	
 	http://bugzilla.gnome.org/show_bug.cgi?id=78356
 	* src/workbook-view.c (wb_view_save_as) : don't mark the
