@@ -27,6 +27,7 @@
 #include <gal/util/e-xml-utils.h>
 #include <gnome-xml/tree.h>
 #include <stdio.h>
+#include <math.h>
 
 /* #define NO_DEBUG_EXCEL */
 
@@ -1070,52 +1071,51 @@ BC_W(ifmt)(ExcelChartHandler const *handle,
 
 /****************************************************************************/
 
-typedef enum
-{
-	MS_LEGEND_LOCATION_BOTTOM	= 0,
-	MS_LEGEND_LOCATION_CORNER	= 1,
-	MS_LEGEND_LOCATION_TOP		= 2,
-	MS_LEGEND_LOCATION_LEFT		= 3,
-	MS_LEGEND_LOCATION_RIGHT	= 4,
-	MS_LEGEND_LOCATION_invalid1	= 5,
-	MS_LEGEND_LOCATION_invalid2	= 6,
-	MS_LEGEND_LOCATION_NOT_DOCKED	= 7,
-	MS_LEGEND_LOCATION_MAX		= 8
-} MS_LEGEND_LOCATION;
-static char const *const ms_legend_location[] =
-{
-	"bottom", "corner", "top", "left", "right",
-	"IMPOSSIBLE1", "IMPOSSIBLE2", "Not docked"
-};
-
 static gboolean
 BC_R(legend)(ExcelChartHandler const *handle,
 	     ExcelChartReadState *s, BiffQuery *q)
 {
+#if 0
 	/* Measured in 1/4000ths of the chart width */
 	guint32 const x_pos = MS_OLE_GET_GUINT32  (q->data);
 	guint32 const y_pos = MS_OLE_GET_GUINT32  (q->data+4);
 	guint32 const width = MS_OLE_GET_GUINT32  (q->data+8);
 	guint32 const height = MS_OLE_GET_GUINT32 (q->data+12);
-	guint8 const tmp = MS_OLE_GET_GUINT8     (q->data+16);
-#if 0
 	guint8 const spacing = MS_OLE_GET_GUINT8  (q->data+17);
 	guint16 const flags = MS_OLE_GET_GUINT16  (q->data+18);
 #endif
+	guint16 const position = MS_OLE_GET_GUINT8 (q->data+16);
+	char const *position_txt = "right";
+	xmlNode *legend;
 
-	MS_LEGEND_LOCATION location;
-	g_return_val_if_fail (tmp < MS_LEGEND_LOCATION_MAX &&
-			      tmp != MS_LEGEND_LOCATION_invalid1 &&
-			      tmp != MS_LEGEND_LOCATION_invalid2, TRUE);
+	printf ("position = %d\n", position);
+	switch (position) {
+	case 0: position_txt = "bottom"; break;
+	case 1: break; /* What is corner ? */
+	case 2: position_txt = "top";	break;
+	case 3: break; /* right */
+	case 4: position_txt = "left";	break;
+	case 7: break; /* treat floating legends as being on right */
+	default :
+		g_warning ("Unknown legend position (%d), assuming right.",
+			   position);
+	};
 
-	/* TODO  : What is pupose of this flag ?? */
-	location = tmp;
-	printf ("Legend is @ %s.\n", ms_legend_location[location]);
+	legend = e_xml_get_child_by_name (s->xml.doc->xmlRootNode, "Legend");
 
+	g_return_val_if_fail (legend == NULL, TRUE);
+
+	legend = xmlNewChild (s->xml.doc->xmlRootNode, s->xml.ns,
+			      "Legend", NULL);
+	legend = xmlNewChild (legend, s->xml.ns, "Position", position_txt);
+
+#if 0
 	printf ("Legend @ %f,%f, X=%f, Y=%f\n",
 		x_pos/4000., y_pos/4000., width/4000., height/4000.);
 
 	/* FIXME : Parse the flags too */
+#endif
+
 	return FALSE;
 }
 
@@ -1386,11 +1386,15 @@ BC_R(pie)(ExcelChartHandler const *handle,
 	  ExcelChartReadState *s, BiffQuery *q)
 {
 	xmlNodePtr fmt = BC_R(store_chartgroup_type)(s, "Pie");
+	double radians;
 
 	g_return_val_if_fail (fmt != NULL, TRUE);
 
-	xml_node_set_int (fmt, "degrees_of_first_pie", 
-			  MS_OLE_GET_GUINT16 (q->data));
+	/* XL counts 0 at a different position */
+	radians = MS_OLE_GET_GUINT16 (q->data);
+	radians = (radians * 2. * M_PI / 360 - M_PI / 2.);
+	xml_node_set_double (fmt, "radians_of_first_pie", radians, -1); 
+
 	xml_node_set_int (fmt, "hole_percentage_of_diameter", 
 			  MS_OLE_GET_GUINT16 (q->data+2));
 	if (s->container.ver >= MS_BIFF_V8) {
@@ -1560,8 +1564,8 @@ BC_R(scatter)(ExcelChartHandler const *handle,
 		if (flags & 0x01) {
 			guint16 const size_type = MS_OLE_GET_GUINT16 (q->data+2);
 			e_xml_set_bool_prop_by_name (fmt, "has_bubbles", TRUE);
-			if (flags & 0x02)
-				e_xml_set_bool_prop_by_name (fmt, "show_negatives", TRUE);
+			if (!(flags & 0x02))
+				e_xml_set_bool_prop_by_name (fmt, "hide_negatives", TRUE);
 			if (flags & 0x04)
 				e_xml_set_bool_prop_by_name (fmt, "in_3d", TRUE);
 

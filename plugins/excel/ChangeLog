@@ -1,4 +1,11 @@
+2001-09-08  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-chart.c (legend) : xml-ize and fix transposition of right & left.
+	(pie) : Guppi uses radians and has 0 in a different place.
+
 2001-09-04  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-obj.c (ms_read_OBJ) : Use ms_destroy_OBJ.
 
 	* ms-chart.c (ms_excel_chart) : don't import the spec if we did not
 	  create the graph.

@@ -5,7 +5,7 @@
  *    Jody Goldberg (jgoldberg@home.com)
  *    Michael Meeks (mmeeks@gnu.org)
  *
- * (C) 1998, 1999, 2000 Jody Goldberg, Michael Meeks
+ * (C) 1998-2001 Jody Goldberg, Michael Meeks
  **/
 
 #include <config.h>
@@ -42,9 +42,9 @@ void
 ms_destroy_OBJ (MSObj *obj)
 {
 	if (obj) {
-		/* TODO : Fill in the blank */
 		if (obj->gnum_obj) {
 			gtk_object_unref (obj->gnum_obj);
+			obj->gnum_obj = NULL;
 		}
 		g_free (obj);
 	}
@@ -456,7 +456,7 @@ ms_read_OBJ (BiffQuery *q, MSContainer *container)
 		if (ms_excel_object_debug > 0)
 			printf ("}; /* OBJ error 1 */\n");
 #endif
-		g_free (obj);
+		ms_destroy_OBJ (obj);
 		return NULL;
 	}
 
@@ -475,15 +475,14 @@ ms_read_OBJ (BiffQuery *q, MSContainer *container)
 
 	obj->gnum_obj = (*container->vtbl->create_obj) (container, obj);
 	if (obj->gnum_obj == NULL) {
-		g_free (obj);
+		ms_destroy_OBJ (obj);
 		return NULL;
 	}
 
 	/* Chart, There should be a BOF next */
 	if (obj->excel_type == 0x5) {
 		if (ms_excel_read_chart (q, container, obj->gnum_obj)) {
-			gtk_object_unref (GTK_OBJECT (obj->gnum_obj));
-			g_free (obj);
+			ms_destroy_OBJ (obj);
 			return NULL;
 		}
 	}
