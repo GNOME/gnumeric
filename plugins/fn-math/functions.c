@@ -861,7 +861,7 @@ static char *help_int = {
 	   "@DESCRIPTION="
 	   "The INT function round b1 now to the nearest int. "
 	   "Where 'nearest' implies being closer to zero. "
-	   "Equivalent to FLOOR(b1) for b1 >0, amd CEIL(b1) "
+	   "Equivalent to FLOOR(b1) for b1 >= 0, amd CEIL(b1) "
 	   "for b1 < 0. "
 	   "\n"
 	   "Performing this function on a string or empty cell simply does nothing."
@@ -875,6 +875,8 @@ gnumeric_int (struct FunctionDefinition *i,
 	      Value *argv [], char **error_string)
 {
 	float_t t;
+
+	/* FIXME: What about strings and empty cells?  */
 
 	t = value_get_as_float (argv [0]);
 
@@ -944,9 +946,9 @@ static char *help_power = {
 	   "@SYNTAX=POWER(x,y)\n"
 
 	   "@DESCRIPTION="
-	   "Returns the value of x raised to the power y"
+	   "Returns the value of x raised to the power y."
 	   "\n"
-	   "Performing this function on a string or empty cell returns an error. "
+	   "Performing this function on a string or empty cell returns an error."
 	   "\n"
 	   "@SEEALSO=EXP")
 };
@@ -955,8 +957,17 @@ static Value *
 gnumeric_power (struct FunctionDefinition *i,
 		Value *argv [], char **error_string)
 {
-	return value_new_float (pow(value_get_as_float (argv [0]),
-				value_get_as_float (argv [1]))) ;
+	float_t x, y;
+
+	x = value_get_as_float (argv [0]);
+	y = value_get_as_float (argv [1]);
+
+	if ((x > 0) || (x == 0 && y > 0) || (x < 0 && y == floor (y)))
+		return value_new_float (pow (x, y));
+
+	/* FIXME: What is supposed to happen for x=y=0?  */
+	*error_string = _("#VALUE!");
+	return NULL;
 }
 
 static char *help_log2 = {
@@ -1101,7 +1112,7 @@ static char *help_sin = {
 
 	   "@DESCRIPTION="
 	   "The SIN function returns the sine of x, where x is given "
-           " in radians. "
+           " in radians."
 	   "\n"
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
@@ -1121,9 +1132,8 @@ static char *help_sinh = {
 	   "@SYNTAX=SINH(x)\n"
 
 	   "@DESCRIPTION="
-	   "The SINH  function  returns  the  hyperbolic sine of x, "
-	   "which is defined mathematically as (exp(x) - exp(-x)) / 2. "
-	   " x is in radians. "
+	   "The SINH function returns the hyperbolic sine of @x, "
+	   "which is defined mathematically as (exp(x) - exp(-x)) / 2."
 	   "\n"
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
@@ -1143,7 +1153,7 @@ static char *help_sqrt = {
 	   "@SYNTAX=SQRT(x)\n"
 
 	   "@DESCRIPTION="
-	   "The SQRT  function  returns  the  square root of x, "
+	   "The SQRT function returns the square root of @x."
 	   "\n"
 	   "If x is negative returns #NUM!."
 	   "This function only takes one argument."
@@ -1460,8 +1470,8 @@ static char *help_tan = {
 	   "@SYNTAX=TAN(x)\n"
 
 	   "@DESCRIPTION="
-	   "The TAN function  returns the tangent of x, where x is "
-	   "given in radians. "
+	   "The TAN function  returns the tangent of @x, where @x is "
+	   "given in radians."
 	   "\n"
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
@@ -1521,9 +1531,9 @@ static char *help_trunc = {
 	N_("@FUNCTION=TRUNC\n"
 	   "@SYNTAX=TRUNC(number[,digits])\n"
 
-	   "@DESCRIPTION=The TRUNC function returns the value of number "
-	   "truncated to the number of digits specified.  If digits is omited "
-	   "then digits defaults to zero."
+	   "@DESCRIPTION=The TRUNC function returns the value of @number "
+	   "truncated to the number of digits specified.  If @digits is omited "
+	   "then @digits defaults to zero."
 	   "\n"
 
 	   "\n"

@@ -1,3 +1,13 @@
+1999-05-28  Morten Welinder  <terra@diku.dk>
+
+	* src/file.c (workbook_read): Temporarily switch to "C" locale
+ 	when loading and saving.  I am not sure this is the right thing to
+ 	do, but until someone finds a better way, it will work fine.
+	(workbook_save_as): Ditto.
+	(workbook_save): Ditto.
+
+	* src/fn-math.c (gnumeric_power): Fix domain.
+
 1999-05-27  Morten Welinder  <terra@diku.dk>
 
 	* src/expr.c (value_get_as_string): Improve precision -- this
