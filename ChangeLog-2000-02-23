@@ -1,5 +1,14 @@
 2000-01-18  Morten Welinder  <terra@diku.dk>
 
+	* src/expr.c (eval_expr_empty): New function.
+
+	* src/func.c (function_iterate_argument_values): New new
+ 	eval_expr_empty and ignore empty values.
+
+	* src/collect.c (callback_function_collect): Handle NULL value.
+
+2000-01-18  Morten Welinder  <terra@diku.dk>
+
 	* src/parser.y (exp -> + exp): treat as 0+exp.  Remove duplicate
  	production.
 

@@ -1042,6 +1042,20 @@ eval_expr (EvalPosition const * const pos, ExprTree const *tree)
 	return res;
 }
 
+Value *
+eval_expr_empty (EvalPosition const * const pos, ExprTree const * const tree)
+{
+	Value * res = eval_expr_real (pos, tree);
+
+	if (res && res->type == VALUE_EMPTY) {
+		value_release (res);
+		res = NULL;
+	}
+
+	return res;
+}
+
+
 int
 cell_ref_get_abs_col (CellRef const * const ref, EvalPosition const * const pos)
 {

@@ -139,21 +139,15 @@ function_iterate_argument_values (const EvalPosition      *ep,
 		ExprTree const * tree = (ExprTree const *) expr_node_list->data;
 		Value *val;
 
-		val = eval_expr (ep, tree);
+		val = eval_expr_empty (ep, tree);
 
-		if (strict) {
-			if (value_is_empty_cell (val)) {
-				/* A strict function with a blank/missing arg. */
-				if (val)
-					value_release (val);
+		if (val == NULL)
+			continue;
 
-				/* TODO : Say which argument is empty to improve error messages */
-				return value_new_error (ep, _("Missing argument"));
-			} else if (val->type == VALUE_ERROR) {
-				/* A strict function with an error */
-				/* FIXME : Make the new position of the error here */
-				return val;
-			}
+		if (strict && val->type == VALUE_ERROR) {
+			/* A strict function with an error */
+			/* FIXME : Make the new position of the error here */
+			return val;
 		}
 
 		result = function_iterate_do_value (ep, callback, callback_closure,

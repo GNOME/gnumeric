@@ -26,6 +26,9 @@ callback_function_collect (const EvalPosition *ep, Value *value, void *closure)
 	float_t x;
 	collect_floats_t *cl = (collect_floats_t *)closure;
 
+	if (!value)
+		return NULL;
+
 	switch (value->type) {
 	case VALUE_EMPTY:
 		return NULL;
