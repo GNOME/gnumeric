@@ -2,7 +2,7 @@
  * fn-stat.c:  Built in statistical functions and functions registration
  *
  * Authors:
- *  Jukka-Pekka Iivonen <iivonen@iki.fi>
+ *  Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
  *  Michael Meeks <michael@imaginator.com>
  *  Morten Welinder <terra@diku.dk>
  */
@@ -292,6 +292,9 @@ static char *help_rank = {
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
+	   "RANK(17.3A1:A5) equals 4.\n"
 	   "\n"
 	   "@SEEALSO=PERCENTRANK")
 };
@@ -382,6 +385,9 @@ static char *help_trimmean = {
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
+	   "TRIMMEAN(A1:A5,0.2) equals 23.2.\n"
 	   "\n"
 	   "@SEEALSO=AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE")
 };
@@ -711,6 +717,9 @@ static char *help_mode = {
 	   "This function is Excel compatible. "
            "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "11.4, 17.3, 11.4, 25.9, and 40.1.  Then\n"
+	   "MODE(A1:A5) equals 11.4.\n"
 	   "\n"
            "@SEEALSO=AVERAGE,MEDIAN")
 };
@@ -999,7 +1008,7 @@ static char *help_skew = {
 	   "@DESCRIPTION="
 	   "SKEW returns an unbiased estimate for skewness of a distribution."
 	   "\n"
-	   "Note, that this is only meaningful is the underlying "
+	   "Note, that this is only meaningful if the underlying "
 	   "distribution really has a third moment.  The skewness of a "
 	   "symmetric (e.g., normal) distribution is zero."
            "\n"
@@ -3449,7 +3458,8 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 
 		if (type != 2) {
 		        gnum_float c = (var1 / n1) / (var1 / n1 + var2 / n2);
-			dof = 1.0 / ((c * c) / (n1 - 1) + ((1 - c) * (1 - c)) / (n2 - 1));
+			dof = 1.0 / ((c * c) / (n1 - 1) + ((1 - c) * (1 - c)) /
+				     (n2 - 1));
 		} else
 		        dof = n1 + n2 - 2;
 
@@ -4460,7 +4470,8 @@ void
 stat_functions_init (void)
 {
 	FunctionDefinition *def;
-	FunctionCategory *cat = function_get_category_with_translation ("Statistics", _("Statistics"));
+	FunctionCategory *cat = function_get_category_with_translation
+	  ("Statistics", _("Statistics"));
 
         def = function_add_nodes (cat, "avedev",    0,      "",
 				  &help_avedev, gnumeric_avedev);

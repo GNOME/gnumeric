@@ -26,13 +26,19 @@ static char *help_date = {
 	   "@SYNTAX=DATE (year,month,day)\n"
 
 	   "@DESCRIPTION="
-	   "Computes the number of days since the 1st of january of 1900"
+	   "DATE returns the number of days since the 1st of january of 1900"
 	   "(the date serial number) for the given year, month and day.\n"
 
 	   "The @day might be negative (to count backwards) and it is relative "
-	   "to the previous @month.  The @years should be at least 1900."
+	   "to the previous @month.  The @years should be at least 1900.  If "
+	   "@years <= 30, it is assumed to be 2000 + @years.  If 30 < "
+	   "@years < 100, it is assumed to be 1900 + @years. "
+	   "\n"
+	   "If the given date is not valid, DATE returns #VALUE! error. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "DATE(2001, 3, 30) returns ``Mar 30, 2001''.\n "
 	   "\n"
 	   "@SEEALSO=TODAY, NOW")
 };
@@ -55,7 +61,7 @@ gnumeric_date (FunctionEvalInfo *ei, Value **argv)
 		year += 1900;
 
         if (!g_date_valid_dmy (1, month, year))
-		return value_new_error (ei->pos, _("Invalid month or year"));
+	        return value_new_error (ei->pos, gnumeric_err_VALUE);
 
         g_date_clear(&date, 1);
 
@@ -82,10 +88,11 @@ static char *help_datevalue = {
 
 	   "@DESCRIPTION="
 	   "DATEVALUE returns the serial number of the date.  @date_str is "
-	   "the string that contains the date.  For example, "
-	   "DATEVALUE(\"1/1/1999\") equals to 36160. "
+	   "the string that contains the date. "
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "DATEVALUE(\"1/1/1999\") equals to 36160. "
 	   "\n"
 	   "@SEEALSO=DATE")
 };
@@ -117,8 +124,11 @@ static char *help_datedif = {
 	   "dates, not including the difference in months.\n"
 	   "\"yd\" will return the number of full days between the two "
 	   "dates, not including the difference in years.\n"
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "DATEDIF(DATE(2000,4,30),DATE(2003,8,4),\"d\") equals 1191.\n"
+	   "DATEDIF(DATE(2000,4,30),DATE(2003,8,4),\"y\") equals 3.\n"
 	   "\n"
 	   "@SEEALSO=DATE")
 };
@@ -153,14 +163,16 @@ datedif_opt_yd (GDate *gdate1, GDate *gdate2, int excel_compat)
 		/* this is clearly wrong, but it's what Excel does. */
 		/* ( i use 2004 here since it is clearly a leap year.) */
 		new_year1 = 2004 + (g_date_year (gdate1) & 0x3);
-		new_year2 = new_year1 + (g_date_year (gdate2) - g_date_year (gdate1));
+		new_year2 = new_year1 + (g_date_year (gdate2) - 
+					 g_date_year (gdate1));
 		g_date_set_year (gdate1, new_year1);
 		g_date_set_year (gdate2, new_year2);
 
 		{
 			static gboolean need_warning = TRUE;
 			if (need_warning) {
-				g_warning("datedif is known to differ from Excel for some values.");
+				g_warning("datedif is known to differ from Excel "
+					  "for some values.");
 				need_warning = FALSE;
 			}
 		}
@@ -190,7 +202,8 @@ datedif_opt_md (GDate *gdate1, GDate *gdate2, int excel_compat)
 		/* this is clearly wrong, but it's what Excel does. */
 		/* ( i use 2004 here since it is clearly a leap year.) */
 		new_year1 = 2004 + (g_date_year (gdate1) & 0x3);
-		new_year2 = new_year1 + (g_date_year (gdate2) - g_date_year (gdate1));
+		new_year2 = new_year1 + (g_date_year (gdate2) -
+					 g_date_year (gdate1));
 		g_date_set_year (gdate1, new_year1);
 		g_date_set_year (gdate2, new_year2);
 
@@ -271,10 +284,12 @@ static char *help_edate = {
 	   "@date is the serial number of the initial date and @months "
 	   "is the number of months before (negative number) or after "
 	   "(positive number) the initial date."
+	   "This function is Excel compatible. "
 	   "\n"
 	   "If @months is not an integer, it is truncated."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "EDATE(DATE(2001,12,30),2) equals Feb 28, 2002.\n"
 	   "\n"
 	   "@SEEALSO=DATE")
 };
@@ -315,15 +330,17 @@ gnumeric_edate (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_today = {
 	N_("@FUNCTION=TODAY\n"
-	   "@SYNTAX=TODAY ()\n"
+	   "@SYNTAX=TODAY()\n"
 
 	   "@DESCRIPTION="
-	   "Returns the serial number for today (the number of days "
+	   "TODAY returns the serial number for today (the number of days "
 	   "elapsed since the 1st of January of 1900)."
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "TODAY() returns Nov 6, 2001 on that particular day.\n "
 	   "\n"
-	   "@SEEALSO=TODAY, NOW")
+	   "@SEEALSO=NOW")
 };
 
 static Value *
@@ -339,7 +356,7 @@ static char *help_now = {
 	   "@SYNTAX=NOW ()\n"
 
 	   "@DESCRIPTION="
-	   "Returns the serial number for the date and time at the time "
+	   "NOW returns the serial number for the date and time at the time "
 	   "it is evaluated.\n"
 	   ""
 	   "Serial Numbers in Gnumeric are represented as follows:"
@@ -349,10 +366,12 @@ static char *help_now = {
 	   ""
 	   "For example: .0 represents the beginning of the day, and 0.5 "
 	   "represents noon."
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "NOW().\n"
 	   "\n"
-	   "@SEEALSO=TODAY, NOW")
+	   "@SEEALSO=TODAY")
 };
 
 static Value *
@@ -368,9 +387,11 @@ static char *help_time = {
 	   "@SYNTAX=TIME (hours,minutes,seconds)\n"
 
 	   "@DESCRIPTION="
-	   "Returns a fraction representing the time of day."
+	   "TIME returns a fraction representing the time of day."
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "TIME(3, 5, 23) equals 3:05AM.\n"
 	   "\n"
 	   "@SEEALSO=HOUR")
 };
@@ -395,12 +416,15 @@ static char *help_timevalue = {
 	   "@SYNTAX=TIMEVALUE (timetext)\n"
 
 	   "@DESCRIPTION="
-	   "Returns a fraction representing the time of day, a number "
+	   "TIMEVALUE returns a fraction representing the time of day, a number "
 	   "between 0 and 1."
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "TIMEVALUE(\"3:05\") equals 0.128472.\n" 
+	   "TIMEVALUE(\"2:24:53 PM\") equals 0.600613.\n"
 	   "\n"
-	   "@SEEALSO=HOUR")
+	   "@SEEALSO=HOUR,MINUTE")
 };
 
 static Value *
@@ -421,14 +445,16 @@ static char *help_hour = {
 	   "@SYNTAX=HOUR (serial_number)\n"
 
 	   "@DESCRIPTION="
-	   "Converts a serial number to an hour.  The hour is returned as "
+	   "HOUR converts a serial number to an hour.  The hour is returned as "
 	   "an integer in the range 0 (12:00 A.M.) to 23 (11:00 P.M.)."
 	   "\n"
 	   "Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
 	   "string.\n"
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "HOUR(0.128472) equals 3.\n"
 	   "\n"
 	   "@SEEALSO=MINUTE, NOW, TIME, SECOND")
 };
@@ -448,14 +474,16 @@ static char *help_minute = {
 	   "@SYNTAX=MINUTE (serial_number)\n"
 
 	   "@DESCRIPTION="
-	   "Converts a serial number to a minute.  The minute is returned as "
-	   "an integer in the range 0 to 59."
+	   "MINUTE converts a serial number to a minute.  The minute is returned "
+	   "as an integer in the range 0 to 59."
 	   "\n"
 	   "Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
 	   "string."
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "MINUTE(0.128472) equals 5.\n"
 	   "\n"
 	   "@SEEALSO=HOUR, NOW, TIME, SECOND")
 };
@@ -476,14 +504,16 @@ static char *help_second = {
 	   "@SYNTAX=SECOND (serial_number)\n"
 
 	   "@DESCRIPTION="
-	   "Converts a serial number to a second.  The second is returned as "
-	   "an integer in the range 0 to 59."
+	   "SECOND converts a serial number to a second.  The second is returned "
+	   "as an integer in the range 0 to 59."
 	   "\n"
 	   "Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
 	   "string."
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "SECOND(0.600613) equals 53.\n"
 	   "\n"
 	   "@SEEALSO=HOUR, MINUTE, NOW, TIME")
 };
@@ -504,13 +534,15 @@ static char *help_year = {
 	   "@SYNTAX=YEAR (serial_number)\n"
 
 	   "@DESCRIPTION="
-	   "Converts a serial number to a year."
+	   "YEAR converts a serial number to a year."
 	   "\n"
 	   "Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
 	   "string."
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "YEAR(DATE(2003, 4, 30)) equals 2003.\n"
 	   "\n"
 	   "@SEEALSO=DAY, MONTH, TIME, NOW")
 };
@@ -539,13 +571,15 @@ static char *help_month = {
 	   "@SYNTAX=MONTH (serial_number)\n"
 
 	   "@DESCRIPTION="
-	   "Converts a serial number to a month."
+	   "MONTH converts a serial number to a month."
 	   "\n"
 	   "Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
 	   "string."
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "MONTH(DATE(2003, 4, 30)) equals 4.\n"
 	   "\n"
 	   "@SEEALSO=DAY, TIME, NOW, YEAR")
 };
@@ -574,14 +608,15 @@ static char *help_day = {
 	   "@SYNTAX=DAY (serial_number)\n"
 
 	   "@DESCRIPTION="
-	   "Converts a serial number to a day of month."
+	   "DAY converts a serial number to a day of month."
 	   "\n"
 	   "Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
 	   "string."
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "day (\"10/24/1968\") equals 24.\n"
+	   "DAY(\"10/24/1968\") equals 24.\n"
 	   "\n"
 	   "@SEEALSO=MONTH, TIME, NOW, YEAR")
 };
@@ -610,7 +645,7 @@ static char *help_weekday = {
 	   "@SYNTAX=WEEKDAY (serial_number)\n"
 
 	   "@DESCRIPTION="
-	   "Converts a serial number to a weekday.\n"
+	   "WEEKDAY converts a serial number to a weekday.\n"
 	   "\n"
 	   "This function returns an integer in the range 0-6, where "
 	   "Saturday is 0, Sunday is 1, etc.\n"
@@ -618,6 +653,7 @@ static char *help_weekday = {
 	   "Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
 	   "string."
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "WEEKDAY(\"10/24/1968\") equals 5 (Thursday).\n"
@@ -649,7 +685,7 @@ static char *help_days360 = {
 	   "@SYNTAX=DAYS360 (date1,date2,method)\n"
 
 	   "@DESCRIPTION="
-	   "Returns the number of days from @date1 to @date2 following a "
+	   "DAYS360 returns the number of days from @date1 to @date2 following a "
 	   "360-day calendar in which all months are assumed to have 30 days."
 	   "\n"
 	   "If @method is true, the European method will be used.  In this "
@@ -661,8 +697,10 @@ static char *help_days360 = {
 	   "Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
 	   "string."
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "DAYS360(DATE(2003, 2, 3), DATE(2007, 4, 2)) equals 1499.\n"
 	   "\n"
 	   "@SEEALSO=MONTH, TIME, NOW, YEAR")
 };
@@ -750,10 +788,11 @@ static char *help_eomonth = {
 	   "@SYNTAX=EOMONTH (start_date,months)\n"
 
 	   "@DESCRIPTION="
-	   "Returns the last day of the month which is @months "
+	   "EOMONTH returns the last day of the month which is @months "
 	   "from the @start_date."
 	   "\n"
 	   "Returns #NUM! if start_date or months are invalid."
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "If A1 contains 12/21/00 then EOMONTH(A1,0)=12/31/00, "
@@ -799,13 +838,15 @@ static char *help_workday = {
 	   "@SYNTAX=WORKDAY (start_date,days,holidays)\n"
 
 	   "@DESCRIPTION="
-	   "Returns the day which is @days working days "
+	   "WORKDAY returns the day which is @days working days "
 	   "from the @start_date.  Weekends and holidays optionally "
 	   "supplied in @holidays are respected."
 	   "\n"
 	   "Returns #NUM! if @start_date or @days are invalid."
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "WORKDAY(DATE(2001,1,5),DATE(2001,2,15)) equals 88609.\n"
 	   "\n"
 	   "@SEEALSO=NETWORKDAYS")
 };
@@ -868,12 +909,14 @@ static char * help_networkdays = {
 	   "@SYNTAX=NETWORKDAYS (start_date,end_date,holidays)\n"
 
 	   "@DESCRIPTION="
-	   "Returns the number of non-weekend non-holidays between @start_date "
-	   "and @end_date.  Holidays optionally supplied in @holidays."
+	   "NETWORKDAYS returns the number of non-weekend non-holidays between "
+	   "@start_date and @end_date.  Holidays optionally supplied in @holidays."
 	   "\n"
 	   "Returns #NUM if start_date or end_date are invalid"
+	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "NETWORKDAYS(DATE(2001,1,2),DATE(2001,2,15)) equals 33.\n"
 	   "\n"
 	   "@SEEALSO=WORKDAY")
 };

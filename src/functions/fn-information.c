@@ -79,13 +79,26 @@ get_value_class (FunctionEvalInfo *ei, ExprTree *expr)
 
 static char *help_cell = {
 	N_("@FUNCTION=CELL\n"
-	   "@SYNTAX=CELL(ref)\n"
+	   "@SYNTAX=CELL(type,ref)\n"
 
 	   "@DESCRIPTION="
 	   "CELL returns information about the formatting, location, or "
 	   "contents of a cell. "
 	   "\n"
+	   "@type specifies the type of information you want to obtain:\n "
+	   "     address       Returns the given cell reference as text.\n"
+	   "     col           Returns the number of the column in @ref.\n"
+	   "     contents      Returns the contents of the cell in @ref.\n"
+	   "     format        Returns the code of the format of the cell.\n"
+	   "     parentheses   Returns 1 if @ref contains a negative value\n"
+	   "                   and it's format displays it with parentheses.\n"
+	   "     row           Returns the number of the row in @ref.\n"
+	   "     width         Returns the column width.\n"
+	   "\n"
+           "This function is Excel compatible. "
+	   "\n"
 	   "@EXAMPLES=\n"
+	   "CEll(\"format\",A1) returns the code of the format of the cell A1.\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -178,10 +191,13 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 	} else if (!g_strcasecmp (info_type, "col")) {
 		return value_new_int (ref.col + 1);
 	} else if (!g_strcasecmp (info_type, "color")) {
-		FormatCharacteristics info = retrieve_format_info (ei->pos->sheet, ref.col, ref.row);
+		FormatCharacteristics info = retrieve_format_info (ei->pos->sheet,
+								   ref.col,
+								   ref.row);
 
 		/* 0x01 = first bit (1) indicating negative colors */
-		return (info.negative_fmt & 0x01) ? value_new_int (1) : value_new_int (0);
+		return (info.negative_fmt & 0x01) ? value_new_int (1) :
+			value_new_int (0);
 	} else if (!g_strcasecmp (info_type, "contents")) {
 		Cell *cell = sheet_cell_get (ei->pos->sheet, ref.col, ref.row);
 		
@@ -196,16 +212,21 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 		else
 			return value_new_string (name);
 	} else if (!g_strcasecmp (info_type, "format")) {
-		MStyle *mstyle = sheet_style_get (ei->pos->sheet, ref.col, ref.row);
+		MStyle *mstyle = sheet_style_get (ei->pos->sheet, ref.col,
+						  ref.row);
 		
 		return translate_cell_format (mstyle_get_format (mstyle));
 	} else if (!g_strcasecmp (info_type, "parentheses")) {
-		FormatCharacteristics info = retrieve_format_info (ei->pos->sheet, ref.col, ref.row);
+		FormatCharacteristics info = retrieve_format_info (ei->pos->sheet,
+								   ref.col,
+								   ref.row);
 
 		/* 0x02 = second bit (2) indicating parentheses */
-		return (info.negative_fmt & 0x02) ? value_new_int (1) : value_new_int (0);
+		return (info.negative_fmt & 0x02) ? value_new_int (1) :
+			value_new_int (0);
 	} else if (!g_strcasecmp (info_type, "prefix")) {
-		MStyle *mstyle = sheet_style_get (ei->pos->sheet, ref.col, ref.row);
+		MStyle *mstyle = sheet_style_get (ei->pos->sheet, ref.col,
+						  ref.row);
 		Cell *cell = sheet_cell_get (ei->pos->sheet, ref.col, ref.row);
 		
 		if (cell && cell->value && cell->value->type == VALUE_STRING) {
@@ -220,7 +241,8 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 		}
 		return value_new_string ("");
 	} else if (!g_strcasecmp (info_type, "protect")) {
-		MStyle const *mstyle = sheet_style_get (ei->pos->sheet, ref.col, ref.row);
+		MStyle const *mstyle = sheet_style_get (ei->pos->sheet, ref.col,
+							ref.row);
 		return value_new_int (mstyle_get_content_locked (mstyle) ? 1 : 0);
 	} else if (!g_strcasecmp (info_type, "row")) {
 		return value_new_int (ref.row + 1);
@@ -305,6 +327,7 @@ static char *help_countblank = {
 	   "This function is Excel compatible. "
            "\n"
 	   "@EXAMPLES=\n"
+	   "COUNTBLANK(A1:A20) returns the number of blank cell in A1:A20.\n"
 	   "\n"
            "@SEEALSO=COUNT")
 };
@@ -336,13 +359,26 @@ gnumeric_countblank (FunctionEvalInfo *ei, Value **args)
 
 static char *help_info = {
 	N_("@FUNCTION=INFO\n"
-	   "@SYNTAX=INFO()\n"
+	   "@SYNTAX=INFO(type)\n"
 
 	   "@DESCRIPTION="
 	   "INFO returns information about the current operating environment. "
-	   "This function is Excel compatible. "
+	   "\n"
+	   "@type is the type of information you want to obtain:\n"
+	   "    memavail        Returns the amount of memory available (bytes).\n"
+	   "    memused         Returns the amount of memory used (bytes).\n"
+	   "    numfile         Returns the number of active worksheets.\n"
+	   "    osversion       Returns the operating system version.\n"
+	   "    recalc          Returns the recalculation mode (automatic).\n"
+	   "    release         Returns the version of Gnumeric as text.\n"
+	   "    system          Returns the name of the environment.\n"
+	   "    totmem          Returns the amount of total memory available.\n"
+	   "\n"
+	   "This function is Excel compatible, except that types directory "
+	   "and origin are not implemented. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "INFO(\"system\") returns \"Linux\" on a Linux system.\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -421,6 +457,7 @@ static char *help_iserror = {
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "ISERROR(NA()) equals TRUE.\n"
 	   "\n"
 	   "@SEEALSO=ERROR")
 };
@@ -475,8 +512,9 @@ static char *help_isna = {
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "ISNA(NA()) equals TRUE.\n"
 	   "\n"
-	   "@SEEALSO=")
+	   "@SEEALSO=NA")
 };
 
 /*
@@ -509,8 +547,9 @@ static char *help_iserr = {
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "ISERR(NA()) return FALSE.\n"
 	   "\n"
-	   "@SEEALSO=")
+	   "@SEEALSO=ISERROR")
 };
 
 static Value *
@@ -598,8 +637,8 @@ static char *help_na = {
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=")
+	   "NA() equals #N/A error.\n"
+	   "@SEEALSO=ISNA")
 };
 
 static Value *
@@ -615,9 +654,10 @@ static char *help_error = {
 	   "@SYNTAX=ERROR(text)\n"
 
 	   "@DESCRIPTION="
-	   "ERROR return the specified error\n"
+	   "ERROR return the specified error.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "ERROR(\"#OWN ERROR\").\n"
 	   "\n"
 	   "@SEEALSO=ISERROR")
 };
@@ -639,6 +679,7 @@ static char *help_isblank = {
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "ISBLANK(A1).\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -687,6 +728,7 @@ static char *help_iseven = {
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "ISEVEN(4) equals TRUE.\n"
 	   "\n"
 	   "@SEEALSO=ISODD")
 };
@@ -708,6 +750,7 @@ static char *help_islogical = {
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "ISLOGICAL(A1).\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -737,6 +780,7 @@ static char *help_isnontext = {
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "ISNONTEXT(\"text\") equals FALSE.\n"
 	   "\n"
 	   "@SEEALSO=ISTEXT")
 };
@@ -763,6 +807,7 @@ static char *help_isnumber = {
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "ISNUMBER(\"text\") equals FALSE.\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -789,6 +834,7 @@ static char *help_isodd = {
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "ISODD(3) equals TRUE.\n"
 	   "\n"
 	   "@SEEALSO=ISEVEN")
 };
@@ -810,6 +856,7 @@ static char *help_isref = {
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "ISREF(A1) equals TRUE.\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -841,6 +888,7 @@ static char *help_istext = {
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "ISTEXT(\"text\") equals TRUE.\n"
 	   "\n"
 	   "@SEEALSO=ISNONTEXT")
 };
@@ -868,6 +916,7 @@ static char *help_n = {
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "N(\"42\") equals 42.\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -905,6 +954,8 @@ static char *help_type = {
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "TYPE(3) equals 1.\n"
+	   "TYPE(\"text\") equals 2.\n"
 	   "\n"
 	   "@SEEALSO=")
 };

@@ -1,3 +1,7 @@
+2001-11-06  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* fn-*.c: Added examples and improved the documentation.
+
 2001-11-05  Jody Goldberg <jgoldberg@home,com>
 
 	* Release 0.75

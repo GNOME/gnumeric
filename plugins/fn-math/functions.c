@@ -956,7 +956,7 @@ static char *help_int = {
 	   "@SYNTAX=INT(a)\n"
 
 	   "@DESCRIPTION="
-	   "The INT function returns the largest integer that is not "
+	   "INT function returns the largest integer that is not "
 	   "bigger than its argument. "
 	   "This function is Excel compatible. "
 	   "\n"
@@ -1657,7 +1657,7 @@ static char *help_tanh = {
 	   "@SYNTAX=TANH(x)\n"
 
 	   "@DESCRIPTION="
-	   "The TANH function returns the hyperbolic tangent of @x, "
+	   "TANH function returns the hyperbolic tangent of @x, "
 	   "which is defined mathematically as sinh(@x) / cosh(@x). "
 	   "This function is Excel compatible. "
 	   "\n"
@@ -3268,7 +3268,8 @@ gnumeric_sumproduct (FunctionEvalInfo *ei, GList *args)
 		int thissizex, thissizey, x, y;
 		ExprTree const *expr = l->data;
 		Value    *val = expr_eval (expr, ei->pos,
-					   EVAL_PERMIT_NON_SCALAR | EVAL_PERMIT_EMPTY);
+					   EVAL_PERMIT_NON_SCALAR |
+					   EVAL_PERMIT_EMPTY);
 
 		thissizex = value_area_get_width (ei->pos, val);
 		thissizey = value_area_get_height (ei->pos, val);
@@ -3283,7 +3284,8 @@ gnumeric_sumproduct (FunctionEvalInfo *ei, GList *args)
 		for (y = 0; y < thissizey; y++) {
 			for (x = 0; x < thissizex; x++) {
 				/* FIXME: efficiency worries?  */
-				const Value *v = value_area_fetch_x_y (ei->pos, val, x, y);
+				const Value *v = value_area_fetch_x_y (ei->pos,
+								       val, x, y);
 				if (v->type == VALUE_ERROR) {
 					/*
 					 * We carefully tranverse the argument
@@ -3342,7 +3344,8 @@ void
 math_functions_init (void)
 {
 	FunctionDefinition *def;
-	FunctionCategory *cat = function_get_category_with_translation ("Maths / Trig.", _("Maths / Trig."));
+	FunctionCategory *cat = function_get_category_with_translation
+	  ("Maths / Trig.", _("Maths / Trig."));
 
 	def = function_add_args  (cat, "abs",     "f",
 				  "number",    &help_abs,      gnumeric_abs);

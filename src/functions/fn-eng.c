@@ -19,28 +19,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#if 0
-/* help template */
-static char *help_ = {
-	N_("@FUNCTION=NAME\n"
-	   "@SYNTAX=(b1, b2, ...)\n"
-
-	   "@DESCRIPTION"
-	   ""
-	   "\n"
-
-	   ""
-	   ""
-	   "\n"
-
-	   ""
-	   ""
-	   ""
-	   ""
-	   "@SEEALSO=")
-};
-
-#endif
 
 /**
  * FIXME: In the long term this needs optimising.
@@ -288,7 +266,7 @@ static char *help_oct2bin = {
 	   "@SYNTAX=OCT2BIN(number[,places])\n"
 
 	   "@DESCRIPTION="
-	   "The OCT2BIN function converts an octal number to a binary "
+	   "OCT2BIN function converts an octal number to a binary "
 	   "number.  @places is an optional field, specifying to zero pad "
 	   "to that number of spaces. "
 	   "This function is Excel compatible. "
@@ -314,7 +292,7 @@ static char *help_oct2hex = {
 	   "@SYNTAX=OCT2HEX(number[,places])\n"
 
 	   "@DESCRIPTION="
-	   "The OCT2HEX function converts an octal number to a hexadecimal "
+	   "OCT2HEX function converts an octal number to a hexadecimal "
 	   "number.  @places is an optional field, specifying to zero pad "
 	   "to that number of spaces. "
 	   "This function is Excel compatible. "
@@ -340,7 +318,7 @@ static char *help_hex2bin = {
 	   "@SYNTAX=HEX2BIN(number[,places])\n"
 
 	   "@DESCRIPTION="
-	   "The HEX2BIN function converts a hexadecimal number to a binary "
+	   "HEX2BIN function converts a hexadecimal number to a binary "
 	   "number.  @places is an optional field, specifying to zero pad "
 	   "to that number of spaces."
 	   "\n"
@@ -366,7 +344,7 @@ static char *help_hex2oct = {
 	   "@SYNTAX=HEX2OCT(number[,places])\n"
 
 	   "@DESCRIPTION="
-	   "The HEX2OCT function converts a hexadecimal number to an octal "
+	   "HEX2OCT function converts a hexadecimal number to an octal "
 	   "number.  @places is an optional field, specifying to zero pad "
 	   "to that number of spaces."
 	   "\n"
@@ -392,7 +370,7 @@ static char *help_hex2dec = {
 	   "@SYNTAX=HEX2DEC(x)\n"
 
 	   "@DESCRIPTION="
-	   "The HEX2DEC function converts a hexadecimal number "
+	   "HEX2DEC function converts a hexadecimal number "
 	   "to its decimal equivalent. "
 	   "This function is Excel compatible. "
 	   "\n"
@@ -1677,7 +1655,7 @@ static char *help_erfc = {
 	   "@SYNTAX=ERFC(x)\n"
 
 	   "@DESCRIPTION="
-	   "The ERFC function returns the complementary "
+	   "ERFC function returns the complementary "
 	   "error function, defined as 1 - erf(x). "
 	   "erfc(x) is calculated more accurately than 1 - erf(x) for "
 	   "arguments larger than about 0.5."
@@ -1707,7 +1685,7 @@ static char *help_delta = {
 	   "@SYNTAX=DELTA(x[,y])\n"
 
 	   "@DESCRIPTION="
-	   "The DELTA function tests for numerical equivalence of two "
+	   "DELTA function tests for numerical equivalence of two "
 	   "arguments returning 1 in case of equality.  "
 	   "@y is optional, and defaults to 0."
 	   "\n"

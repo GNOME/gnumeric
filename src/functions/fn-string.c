@@ -55,6 +55,7 @@ static char *help_code = {
 
 	   "@DESCRIPTION="
 	   "CODE returns the ASCII number for the character @char."
+           "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "CODE(\"A\") equals 65.\n"
@@ -77,6 +78,7 @@ static char *help_exact = {
 	   "@DESCRIPTION="
 	   "EXACT returns true if @string1 is exactly equal to @string2 "
 	   "(this routine is case sensitive)."
+           "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "EXACT(\"key\",\"key\") equals TRUE.\n"
@@ -100,6 +102,7 @@ static char *help_len = {
 
 	   "@DESCRIPTION="
 	   "LEN returns the length in characters of the string @string."
+           "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "len(\"Helsinki\") equals 8.\n"
@@ -122,6 +125,7 @@ static char *help_left = {
 	   "@DESCRIPTION="
 	   "LEFT returns the leftmost @num_chars characters or the left "
 	   "character if @num_chars is not specified."
+           "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "LEFT(\"Directory\",3) equals \"Dir\".\n"
@@ -156,6 +160,7 @@ static char *help_lower = {
 
 	   "@DESCRIPTION="
 	   "LOWER returns a lower-case version of the string in @text."
+           "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "LOWER(\"J. F. Kennedy\") equals \"j. f. kennedy\".\n"
@@ -186,6 +191,7 @@ static char *help_mid = {
 	   "@DESCRIPTION="
 	   "MID returns a substring from @string starting at @position for "
 	   "@length characters."
+           "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "MID(\"testing\",2,3) equals \"est\".\n"
@@ -230,6 +236,7 @@ static char *help_right = {
 	   "@DESCRIPTION="
 	   "RIGHT returns the rightmost @num_chars characters or the right "
 	   "character if @num_chars is not specified."
+           "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "RIGHT(\"end\") equals \"d\".\n"
@@ -267,6 +274,7 @@ static char *help_upper = {
 
 	   "@DESCRIPTION="
 	   "UPPER returns a upper-case version of the string in @text."
+           "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "UPPER(\"canceled\") equals \"CANCELED\".\n"
@@ -295,6 +303,7 @@ static char *help_concatenate = {
 	   "@SYNTAX=CONCATENATE(string1[,string2...])\n"
 	   "@DESCRIPTION="
 	   "CONCATENATE returns up appended strings."
+           "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "CONCATENATE(\"aa\",\"bb\") equals \"aabb\".\n"
@@ -313,7 +322,8 @@ gnumeric_concatenate (FunctionEvalInfo *ei, GList *l)
 					_("Invalid number of arguments"));
 
 	s = g_string_new ("");
-	while (l != NULL && (v = expr_eval (l->data, ei->pos, EVAL_STRICT)) != NULL) {
+	while (l != NULL 
+	       && (v = expr_eval (l->data, ei->pos, EVAL_STRICT)) != NULL) {
 		if (VALUE_IS_EMPTY_OR_ERROR (v))
 			goto error;
 		g_string_append (s, value_peek_string (v));
@@ -335,6 +345,7 @@ static char *help_rept = {
 	   "@SYNTAX=REPT(string,num)\n"
 	   "@DESCRIPTION="
 	   "REPT returns @num repetitions of @string."
+           "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "REPT(\".\",3) equals \"...\".\n"
@@ -389,6 +400,7 @@ static char *help_clean = {
 	   "@SYNTAX=CLEAN(string)\n"
 	   "@DESCRIPTION="
 	   "CLEAN removes any non-printable characters from @string."
+           "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "CLEAN(\"one\"\\&char(7)) equals \"one\".\n"
@@ -422,6 +434,7 @@ static char *help_find = {
 	   "FIND returns position of @string1 in @string2 (case-sensitive), "
 	   "searching only from character @start onwards (assuming 1 if "
 	   "omitted)."
+           "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "FIND(\"ac\",\"Jack\") equals 2.\n"
@@ -463,6 +476,7 @@ static char *help_fixed = {
 	   "FIXED returns @num as a formatted string with @decimals numbers "
 	   "after the decimal point, omitting commas if requested by "
 	   "@no_commas."
+           "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "FIXED(1234.567,2) equals \"1,234.57\".\n"
@@ -566,6 +580,7 @@ static char *help_proper = {
 
 	   "@DESCRIPTION="
 	   "PROPER returns @string with initial of each word capitalised."
+           "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "PROPER(\"j. f. kennedy\") equals \"J. F. Kennedy\".\n"
@@ -611,6 +626,7 @@ static char *help_replace = {
 	   "@DESCRIPTION="
 	   "REPLACE returns @old with @new replacing @num characters from "
 	   "@start."
+           "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "REPLACE(\"testing\",2,3,\"*****\") equals \"t*****ing\".\n"
@@ -660,6 +676,7 @@ static char *help_t = {
 	   "@DESCRIPTION="
 	   "T returns @value if and only if it is text, otherwise a blank "
 	   "string.\n"
+           "This function is Excel compatible. "
 	   "@EXAMPLES=\n"
 	   "T(\"text\") equals \"text\".\n"
 	   "T(64) returns an empty cell.\n"
@@ -683,6 +700,7 @@ static char *help_text = {
 	   "@SYNTAX=TEXT(value,format_text)\n"
 	   "@DESCRIPTION="
 	   "TEXT returns @value as a string with the specified format."
+           "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "TEXT(3.223,\"$0.00\") equals \"$3.22\".\n"
@@ -730,6 +748,7 @@ static char *help_trim = {
 	   "@SYNTAX=TRIM(text)\n"
 	   "@DESCRIPTION="
 	   "TRIM returns @text with only single spaces between words."
+           "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "TRIM(\"  a bbb  cc\") equals \"a bbb cc\".\n"
@@ -775,6 +794,7 @@ static char *help_value = {
 	   "@SYNTAX=VALUE(text)\n"
 	   "@DESCRIPTION="
 	   "VALUE returns numeric value of @text."
+           "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "VALUE(\"$1,000\") equals 1000.\n"
@@ -819,6 +839,7 @@ static char *help_substitute = {
 	   "SUBSTITUTE replaces @old with @new in @text.  Substitutions "
 	   "are only applied to instance @num of @old in @text, otherwise "
 	   "every one is changed."
+           "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "SUBSTITUTE(\"testing\",\"test\",\"wait\") equals \"waiting\".\n"
@@ -932,6 +953,7 @@ static char *help_dollar = {
 	   "@SYNTAX=DOLLAR(num[,decimals])\n"
 	   "@DESCRIPTION="
 	   "DOLLAR returns @num formatted as currency."
+           "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "DOLLAR(12345) equals \"$12,345.00\".\n"
@@ -1015,6 +1037,7 @@ static char *help_search = {
 	   "If @text is not found, SEARCH returns #VALUE! error. "
 	   "If @start_num is less than one or it is greater than the length "
 	   "of @within, SEARCH returns #VALUE! error. "
+           "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "SEARCH(\"c\",\"Cancel\") equals 1.\n"

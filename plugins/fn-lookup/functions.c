@@ -337,6 +337,9 @@ static char *help_address = {
 	   "error. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "ADDRESS(5,4) equals \"$D$5\".\n"
+	   "ADDRESS(5,4,4) equals \"D5\".\n"
+	   "ADDRESS(5,4,3,FALSE) equals \"R[5]C4\".\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -430,6 +433,7 @@ static char *help_choose = {
 	   "If @index < 1 or @index > number of values: returns #VAL!."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "CHOOSE(3,\"Apple\",\"Orange\",\"Grape\",\"Perry\") equals \"Grape\".\n"
 	   "\n"
 	   "@SEEALSO=IF")
 };
@@ -597,7 +601,7 @@ static char *help_lookup = {
 	   "@SYNTAX=LOOKUP(value,vector1,vector2)\n"
 
 	   "@DESCRIPTION="
-	   "The LOOKUP function finds the row index of 'value' in @vector1 "
+	   "LOOKUP function finds the row index of 'value' in @vector1 "
 	   "and returns the contents of value2 at that row index. "
 	   "If the area is longer than it is wide then the sense of the "
 	   "search is rotated. Alternatively a single array can be used."
@@ -664,7 +668,7 @@ static char *help_match = {
 	   "@SYNTAX=MATCH(seek,vector[,type])\n"
 
 	   "@DESCRIPTION="
-	   "The MATCH function finds the row index of @seek in @vector "
+	   "MATCH function finds the row index of @seek in @vector "
 	   "and returns it. "
 	   "If the area is longer than it is wide then the sense of the "
 	   "search is rotated. Alternatively a single array can be used."
@@ -732,6 +736,8 @@ static char *help_indirect = {
 	   "If @ref_text is not a valid reference returns #REF! "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "If A1 contains 3.14 and A2 contains A1, then\n"
+	   "INDIRECT(A2) equals 3.14.\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -783,7 +789,7 @@ static char *help_index = {
 	   "@SYNTAX=INDEX(reference,[row, col, area])\n"
 
 	   "@DESCRIPTION="
-	   "The INDEX function returns a reference to the cell at a offset "
+	   "INDEX function returns a reference to the cell at a offset "
 	   "into the reference specified by row, col."
 	   "\n"
 	   "If things go wrong returns #REF! "
@@ -829,13 +835,14 @@ static char *help_column = {
 	   "@SYNTAX=COLUMN([reference])\n"
 
 	   "@DESCRIPTION="
-	   "The COLUMN function returns an array of the column numbers "
+	   "COLUMN function returns an array of the column numbers "
 	   "taking a default argument of the containing cell position."
 	   "\n"
 	   "If @reference is neither an array nor a reference nor a range "
 	   "returns #VALUE!."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "COLUMN() in E1 equals 5.\n"
 	   "\n"
 	   "@SEEALSO=COLUMNS,ROW,ROWS")
 };
@@ -881,13 +888,14 @@ static char *help_columns = {
 	   "@SYNTAX=COLUMNS(reference)\n"
 
 	   "@DESCRIPTION="
-	   "The COLUMNS function returns the number of columns in area or "
+	   "COLUMNS function returns the number of columns in area or "
 	   "array reference."
 	   "\n"
 	   "If @reference is neither an array nor a reference nor a range "
 	   "returns #VALUE!."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "COLUMNS(H2:J3) equals 3.\n"
 	   "\n"
 	   "@SEEALSO=COLUMN,ROW,ROWS")
 };
@@ -906,7 +914,7 @@ static char *help_offset = {
 	   "@SYNTAX=OFFSET(range,row,col,height,width)\n"
 
 	   "@DESCRIPTION="
-	   "The OFFSET function returns a cell range. "
+	   "OFFSET function returns a cell range. "
 	   "The cell range starts at offset (@col,@row) from @range, "
 	   "and is of height @height and width @width."
 	   "\n"
@@ -969,13 +977,14 @@ static char *help_row = {
 	   "@SYNTAX=ROW([reference])\n"
 
 	   "@DESCRIPTION="
-	   "The ROW function returns an array of the row numbers taking "
+	   "ROW function returns an array of the row numbers taking "
 	   "a default argument of the containing cell position."
 	   "\n"
 	   "If @reference is neither an array nor a reference nor a range "
 	   "returns #VALUE!."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "ROW() in G13 equals 13.\n"
 	   "\n"
 	   "@SEEALSO=COLUMN,COLUMNS,ROWS")
 };
@@ -1021,13 +1030,14 @@ static char *help_rows = {
 	   "@SYNTAX=ROWS(reference)\n"
 
 	   "@DESCRIPTION="
-	   "The ROWS function returns the number of rows in area or array "
+	   "ROWS function returns the number of rows in area or array "
 	   "reference."
 	   "\n"
 	   "If @reference is neither an array nor a reference nor a range "
 	   "returns #VALUE!."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "ROWS(H7:I13) equals 7.\n"
 	   "\n"
 	   "@SEEALSO=COLUMN,ROW,ROWS")
 };
@@ -1046,11 +1056,12 @@ static char *help_hyperlink = {
 	   "@SYNTAX=HYPERLINK(link_location, optional_label)\n"
 
 	   "@DESCRIPTION="
-	   "The HYPERLINK function currently returns its 2nd argument, "
+	   "HYPERLINK function currently returns its 2nd argument, "
 	   "or if that is omitted the 1st argument."
 	   "\n"
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "HYPERLINK(\"www.gnome.org\",\"GNOME\").\n"
 	   "\n"
 	   "@SEEALSO=")
 };

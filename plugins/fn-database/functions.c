@@ -462,9 +462,9 @@ filter_row:
 	   "The first row of a database contains labels for each column. " \
 	   "\n" \
 	   "@field specifies which column is used in the function.  If " \
-	   "@field is an integer, i.e. 2, the second column is used. Field " \
-	   "can also be the label of a column.  For example, ``Age'' refers " \
-	   "to the column with the label ``Age'' in @database range. " \
+	   "@field is an integer, for example. 2, the second column is used. " \
+	   "Field can also be the label of a column.  For example, ``Age'' " \
+	   "refers to the column with the label ``Age'' in @database range. " \
 	   "\n" \
 	   "@criteria is the range of cells which contains the specified " \
 	   "conditions.  The first row of a @criteria should contain the " \

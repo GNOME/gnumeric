@@ -20,11 +20,13 @@ static char *help_selection = {
 	   "@SYNTAX=SELECTION(permit_intersection)\n"
 
 	   "@DESCRIPTION="
-	   "The SELECTION function returns a list with the values in the current selection. "
-	   "This is usually used to implement on-the-fly computation of values. "
+	   "SELECTION function returns a list with the values in the current "
+	   "selection.  This is usually used to implement on-the-fly computation "
+	   "of values.\n"
 	   "If @permit_intersection is TRUE the user specifed selection "
-	   "ranges are returned, EVEN IF THEY OVERLAP.  If @permit_intersection is FALSE "
-	   "a distict set of regions is returned, however, there may be more of them than "
+	   "ranges are returned, EVEN IF THEY OVERLAP.  "
+	   "If @permit_intersection is FALSE a distict set of regions is "
+	   "returned, however, there may be more of them than "
 	   "the user initially specified."
 
 	   "\n"
@@ -100,10 +102,11 @@ static char *help_gnumeric_version = {
 	   "@SYNTAX=GNUMERIC_VERSION()\n"
 
 	   "@DESCRIPTION="
-	   "Return the version of gnumeric as a string."
+	   "GNUMERIC_VERSION return the version of gnumeric as a string."
 
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "GNUMERIC_VERSION().\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -122,8 +125,9 @@ gnumeric_version (FunctionEvalInfo *ei, Value *argv [])
  * The case of the function names being registered must be consistent
  * with the auto expressions in src/workbook.c
  *
- * There are some locales (notably tr_TR) do NOT had 'i' as the lower case of 'I'.  Note that we should
- * also not use TRUE/FALSE or any other translatable string.
+ * There are some locales (notably tr_TR) do NOT had 'i' as the lower case
+ * of 'I'.  Note that we should also not use TRUE/FALSE or any other
+ * translatable string.
  *
  * WARNING * WARNING * WARNING
  */
@@ -131,8 +135,10 @@ void sheet_functions_init (void);
 void
 sheet_functions_init (void)
 {
-	FunctionCategory *cat0 = function_get_category_with_translation ("Sheet", _("Sheet"));
-	FunctionCategory *cat1 = function_get_category_with_translation ("Gnumeric", _("Gnumeric"));
+	FunctionCategory *cat0 = function_get_category_with_translation 
+	  ("Sheet", _("Sheet"));
+	FunctionCategory *cat1 = function_get_category_with_translation 
+	  ("Gnumeric", _("Gnumeric"));
 
 	function_add_args (cat0, "selection", "b",  "permit_intersection",
 			   &help_selection, gnumeric_selection);
