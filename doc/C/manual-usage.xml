@@ -211,12 +211,13 @@
       <listitem>
 	<para>
 	  <xref linkend="chapter-bugs" />: 
-              <guilabel>Reporting a Problem with the Program</guilabel>
+              <guilabel>Reporting a Problem</guilabel>
         </para>
         <para>
-          This chapter explains how to tell the
-      <application>Gnumeric</application> project about a problem with
-      the program so that it can be fixed.
+           This chapter explains how to report a problem with
+           <application>Gnumeric</application> so that the problem can
+           be fixed. The same procedure can be used to file a report
+           requesting an enhancement or a new feature.
 	</para>
       </listitem>
 
