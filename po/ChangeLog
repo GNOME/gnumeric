@@ -1,3 +1,9 @@
+1998-09-02	Vincent Renardias  <vincent@waw.com>
+
+	* Added missing files to POTFILES.in
+	* updated gnumeric.pot
+	* updated fr.po
+
 1998-07-25  Nuno Ferreira  <nmrf@rnl.ist.utl.pt>
 
 	* pt.po: Added Portuguese translation.

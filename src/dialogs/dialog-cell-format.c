@@ -34,7 +34,7 @@ static Cell *first_cell;
 
 /* The various formats */
 static char *cell_format_numbers [] = {
-	"General",
+	N_("General"),
 	"0",
 	"0.00",
 	"#,##0",
@@ -472,7 +472,7 @@ create_align_page (GtkWidget *prop_win, CellList *cells)
 	w = make_radio_selection (prop_win, _("Horizontal"), horizontal_aligns, &hradio_list, w);
 	gtk_table_attach (t, w, 0, 1, 0, 2, 0, GTK_FILL, 4, 0);
 
-	auto_return = gtk_check_button_new_with_label ("Auto return");
+	auto_return = gtk_check_button_new_with_label (_("Auto return"));
 	gtk_table_attach (t, auto_return, 0, 3, 2, 3, 0, 0, 0, 0);
 	
 	/* Check if all cells have the same properties */

@@ -990,7 +990,7 @@ static Sheet *readXmlSheet(parseXmlContextPtr ctxt, xmlNodePtr tree) {
 	ret = sheet_new(ctxt->wb, (char *) val);
     } else {
 	fprintf(stderr, "readXmlSheet: Sheet has no name\n");
-	ret = sheet_new(ctxt->wb, "NoName");
+	ret = sheet_new(ctxt->wb, _("NoName"));
     }
 
     if (ret == NULL) return(NULL);
