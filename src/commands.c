@@ -2716,7 +2716,6 @@ typedef struct {
 static void
 cmd_search_replace_update_after_action (CmdSearchReplace *me)
 {
-	SearchReplace *sr = me->sr;
 	GList *tmp;
 	Sheet *last_sheet = NULL;
 

@@ -316,7 +316,7 @@ parse_string_as_value_or_name (ExprTree *str)
 }
 
 static int
-gnumeric_parse_error()
+gnumeric_parse_error (void)
 {
 	/* TODO : Get rid of ParseErr and replace it with something richer. */
 	parser_error = PARSE_ERR_SYNTAX;
@@ -324,7 +324,7 @@ gnumeric_parse_error()
 }
 
 /* Make byacc happier */
-int yyparse(void);
+int yyparse (void);
 
 %}
 
@@ -394,21 +394,23 @@ exp:	  CONSTANT 	{ $$ = $1; }
 	}
 
 	| STRING '(' arg_list ')' {
-		char *name = $1->constant.value->v_str.val->str;
+		const char *name = $1->constant.value->v_str.val->str;
 		FunctionDefinition *f = func_lookup_by_name (name,
 			parser_pos->wb);
 
-		/* THINK TODO : Do we want to make this workbook local ?? */
+		/* THINK TODO: Do we want to make this workbook-local??  */
 		if (f == NULL && parser_create_place_holder_for_unknown_func)
 			f = function_add_placeholder (name, "");
 
 		unregister_allocation ($3);
 		unregister_allocation ($1); expr_tree_unref ($1);
 
-		if (f == NULL)
-			return gnumeric_parse_error();
-
-		$$ = register_expr_allocation (expr_tree_new_funcall (f, $3));
+		if (f == NULL) {
+			free_expr_list ($3);
+			YYERROR;
+		} else {
+			$$ = register_expr_allocation (expr_tree_new_funcall (f, $3));
+		}
 	}
 	| sheetref string_opt_quote {
 		NamedExpression *expr_name;
@@ -419,7 +421,7 @@ exp:	  CONSTANT 	{ $$ = $1; }
 		expr_name = expr_name_lookup (&pos, name);
 		unregister_allocation ($2); expr_tree_unref ($2);
 		if (expr_name == NULL)
-			return gnumeric_parse_error();
+			return gnumeric_parse_error ();
 	        $$ = register_expr_allocation (expr_tree_new_name (expr_name));
 	}
 	;
@@ -432,7 +434,7 @@ sheetref: string_opt_quote SHEET_SEP {
 		Sheet *sheet = sheet_lookup_by_name (parser_pos->wb, $1->constant.value->v_str.val->str);
 		unregister_allocation ($1); expr_tree_unref ($1);
 		if (sheet == NULL)
-			return gnumeric_parse_error();
+			return gnumeric_parse_error ();
 	        $$ = sheet;
 	}
 
@@ -441,7 +443,7 @@ sheetref: string_opt_quote SHEET_SEP {
 		 * The replace ment should include more detail as to what the error
 		 * was,  and where in the expr string to highlight.
 		 *
-		 * e.g. for =1+Shhet!A1+2
+		 * e.g. for =1+Sheet!A1+2
 		 *  We should return "Unknow Sheet 'Sheet'" and the indicies 3:7
 		 *  to mark the offending region.
 		 */
@@ -455,7 +457,7 @@ sheetref: string_opt_quote SHEET_SEP {
 		unregister_allocation ($4); expr_tree_unref ($4);
 		unregister_allocation ($2); expr_tree_unref ($2);
 		if (sheet == NULL)
-			return gnumeric_parse_error();
+			return gnumeric_parse_error ();
 	        $$ = sheet;
         }
 	;
@@ -539,7 +541,7 @@ array_row: array_exp {
 			$$ = g_list_prepend ($3, $1);
 			register_expr_list_allocation ($$);
 		} else
-			return gnumeric_parse_error();
+			return gnumeric_parse_error ();
 	}
 	| array_exp '\\' array_row {
 		if (parser_array_col_separator == '\\') {
@@ -548,7 +550,7 @@ array_row: array_exp {
 			$$ = g_list_prepend ($3, $1);
 			register_expr_list_allocation ($$);
 		} else
-			return gnumeric_parse_error();
+			return gnumeric_parse_error ();
 	}
         | { $$ = NULL; }
 	;
@@ -580,7 +582,7 @@ array_cols: array_row {
  * must all be handled by the parser not the lexer.
  */
 static int
-parse_ref_or_string (char *string)
+parse_ref_or_string (const char *string)
 {
 	CellRef   ref;
 	Value *v = NULL;
@@ -699,7 +701,7 @@ yylex (void)
                         parser_expr++;
                 }
                 if (!*parser_expr)
-			return gnumeric_parse_error();
+			return gnumeric_parse_error ();
 
 		s = string = (char *) alloca (1 + parser_expr - p);
 		while (p != parser_expr){
@@ -708,7 +710,6 @@ yylex (void)
 				*s++ = *p++;
 			} else
 				*s++ = *p++;
-
 		}
 		*s = 0;
 		parser_expr++;
@@ -726,7 +727,7 @@ yylex (void)
 
 		while (isalnum ((unsigned char)*parser_expr) || *parser_expr == '_' ||
 		       *parser_expr == '$' ||
-		       (parser_use_excel_reference_conventions  && *parser_expr == '.'))
+		       (parser_use_excel_reference_conventions && *parser_expr == '.'))
 			parser_expr++;
 
 		len = parser_expr - start;
@@ -823,7 +824,9 @@ gnumeric_expr_parser (const char *expr, const ParsePos *pp,
 			}
 		}
 	} else {
+#if 0
 		fprintf (stderr, "Unable to parse '%s'\n", expr);
+#endif
 		deallocate_all ();
 		if (desired_format && *desired_format) {
 			style_format_unref (*desired_format);

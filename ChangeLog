@@ -1,3 +1,13 @@
+2001-01-25  Morten Welinder  <terra@diku.dk>
+
+	* src/commands.c (cmd_search_replace_update_after_action): Delete
+ 	unused variable.
+
+	* src/parser.y (parse_ref_or_string): Constify.
+	(gnumeric_parse_error): Fix prototype.
+	(STRING '(' arg_list ')'): plug leak and use proper error
+ 	reporting method.
+
 2001-01-25  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* plugins/applix/boot.c plugins/dif/dif.c plugins/excel/boot.c
