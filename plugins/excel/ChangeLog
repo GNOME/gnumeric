@@ -1,3 +1,8 @@
+2002-11-04  Nick Lamb <njl98r@ecs.soton.ac.uk>
+
+	* biff-types.h: Add BIFF_INTEGER
+	* ms-excel-read.c: More non-OLE Excel file support.
+
 2002-11-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* ms-obj.h: Added declaration of ms_obj_new .
@@ -49,7 +54,7 @@
 	* ms-excel-read.c (excel_read_EXTERNSHEET_v7) : kludge around screw up
 	  in opencalc exporter.
 
-2002-10-10  Nick Lamb <njl98r@ecs.soton.ac.uk>
+2002-10-27  Nick Lamb <njl98r@ecs.soton.ac.uk>
 
 	* ms-excel-read.c: Factor out some code into new functions, more
 	  support for non-OLE Excel files, especially formulae.

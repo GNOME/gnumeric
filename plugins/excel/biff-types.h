@@ -23,6 +23,7 @@
 
 #define BIFF_DIMENSIONS			0x00	/* 2, NOT 1,10 */
 #define BIFF_BLANK			0x01	/* 2, NOT 10 */
+#define BIFF_INTEGER			0x02	/* 0 */
 #define BIFF_NUMBER			0x03	/* 2, NOT 1,10 */
 #define BIFF_LABEL			0x04	/* 2 */
 #define BIFF_BOOLERR			0x05	/* 2, NOT 10 */

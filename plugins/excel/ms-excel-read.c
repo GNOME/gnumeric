@@ -1029,54 +1029,58 @@ excel_read_BOUNDSHEET (BiffQuery *q, ExcelWorkbook *ewb, MsBiffVersion ver)
 	BiffBoundsheetData *ans;
 	char const *default_name = "Unknown%d";
 
-	/* Testing seems to indicate that Biff5 is compatibile with Biff7 here. */
-	if (ver != MS_BIFF_V5 && ver != MS_BIFF_V7 && ver != MS_BIFF_V8) {
-		fprintf (stderr,"Unknown BIFF Boundsheet spec. Assuming same as Biff7 FIXME\n");
-		ver = MS_BIFF_V7;
-	}
-
 	ans = g_new (BiffBoundsheetData, 1);
-	ans->streamStartPos = GSF_LE_GET_GUINT32 (q->non_decrypted_data);
 
-	g_return_if_fail (ans->streamStartPos == GSF_LE_GET_GUINT32 (q->non_decrypted_data));
-
-	switch (GSF_LE_GET_GUINT8 (q->data + 4)) {
-	case 0: ans->type = MS_BIFF_TYPE_Worksheet;
+	if (ver <= MS_BIFF_V4) {
+		ans->streamStartPos = 0; /* Excel 4 doesn't tell us */
+		ans->type = MS_BIFF_TYPE_Worksheet;
 		default_name = _("Sheet%d");
-		break;
-	case 1: ans->type = MS_BIFF_TYPE_Macrosheet;
-		default_name = _("Macro%d");
-		break;
-	case 2: ans->type = MS_BIFF_TYPE_Chart;
-		default_name = _("Chart%d");
-		break;
-	case 6: ans->type = MS_BIFF_TYPE_VBModule;
-		default_name = _("Module%d");
-		break;
-	default:
-		fprintf (stderr,"Unknown boundsheet type: %d\n", GSF_LE_GET_GUINT8 (q->data + 4));
-		ans->type = MS_BIFF_TYPE_Unknown;
-	}
-	switch ((GSF_LE_GET_GUINT8 (q->data + 5)) & 0x3) {
-	case 0: ans->hidden = MS_BIFF_H_VISIBLE;
-		break;
-	case 1: ans->hidden = MS_BIFF_H_HIDDEN;
-		break;
-	case 2: ans->hidden = MS_BIFF_H_VERY_HIDDEN;
-		break;
-	default:
-		fprintf (stderr,"Unknown sheet hiddenness %d\n", (GSF_LE_GET_GUINT8 (q->data + 4)) & 0x3);
 		ans->hidden = MS_BIFF_H_VISIBLE;
-	}
+		ans->name = biff_get_text (q->data + 1,
+			GSF_LE_GET_GUINT8 (q->data), NULL);
+	} else {
+		if (ver > MS_BIFF_V8)
+			fprintf (stderr,"Unknown BIFF Boundsheet spec. Assuming same as Biff7 FIXME\n");
+		ans->streamStartPos = GSF_LE_GET_GUINT32 (q->non_decrypted_data);
+	
+		switch (GSF_LE_GET_GUINT8 (q->data + 4)) {
+		case 0: ans->type = MS_BIFF_TYPE_Worksheet;
+			default_name = _("Sheet%d");
+			break;
+		case 1: ans->type = MS_BIFF_TYPE_Macrosheet;
+			default_name = _("Macro%d");
+			break;
+		case 2: ans->type = MS_BIFF_TYPE_Chart;
+			default_name = _("Chart%d");
+			break;
+		case 6: ans->type = MS_BIFF_TYPE_VBModule;
+			default_name = _("Module%d");
+			break;
+		default:
+			fprintf (stderr,"Unknown boundsheet type: %d\n", GSF_LE_GET_GUINT8 (q->data + 4));
+			ans->type = MS_BIFF_TYPE_Unknown;
+		}
+		switch ((GSF_LE_GET_GUINT8 (q->data + 5)) & 0x3) {
+		case 0: ans->hidden = MS_BIFF_H_VISIBLE;
+			break;
+		case 1: ans->hidden = MS_BIFF_H_HIDDEN;
+			break;
+		case 2: ans->hidden = MS_BIFF_H_VERY_HIDDEN;
+			break;
+		default:
+			fprintf (stderr,"Unknown sheet hiddenness %d\n", (GSF_LE_GET_GUINT8 (q->data + 4)) & 0x3);
+			ans->hidden = MS_BIFF_H_VISIBLE;
+		}
 
-	/* TODO: find some documentation on this.
-	 * Sample data and OpenCalc imply that the docs are incorrect.  It
-	 * seems like the name lenght is 1 byte.  Loading sample sheets in
-	 * other locales universally seem to treat the first byte as a length
-	 * and the second as the unicode flag header.
-	 */
-	ans->name = biff_get_text (q->data + 7,
-		GSF_LE_GET_GUINT8 (q->data + 6), NULL);
+		/* TODO: find some documentation on this.
+	 	* Sample data and OpenCalc imply that the docs are incorrect.  It
+	 	* seems like the name length is 1 byte.  Loading sample sheets in
+	 	* other locales universally seem to treat the first byte as a length
+	 	* and the second as the unicode flag header.
+	 	*/
+		ans->name = biff_get_text (q->data + 7,
+			GSF_LE_GET_GUINT8 (q->data + 6), NULL);
+	}
 
 	/* TODO: find some documentation on this.
 	 * It appears that if the name is null it defaults to Sheet%d?
@@ -1144,52 +1148,69 @@ excel_read_FONT (BiffQuery *q, ExcelWorkbook *ewb)
 	data = GSF_LE_GET_GUINT16 (q->data + 2);
 	fd->italic     = (data & 0x2) == 0x2;
 	fd->struck_out = (data & 0x8) == 0x8;
-	fd->color_idx  = GSF_LE_GET_GUINT16 (q->data + 4);
-	fd->color_idx &= 0x7f; /* Undocumented but a good idea */
-	fd->boldness   = GSF_LE_GET_GUINT16 (q->data + 6);
-	data = GSF_LE_GET_GUINT16 (q->data + 8);
-	switch (data) {
-	case 0:
+	if (ewb->container.ver <= MS_BIFF_V2) /* Guess */ {
+		fd->color_idx = 0x7f;
+		fd->boldness = 0;
 		fd->script = MS_BIFF_F_S_NONE;
-		break;
-	case 1:
-		fd->script = MS_BIFF_F_S_SUPER;
-		break;
-	case 2:
-		fd->script = MS_BIFF_F_S_SUB;
-		break;
-	default:
-		fprintf (stderr,"Unknown script %d\n", data);
-		break;
-	}
-
-	data1 = GSF_LE_GET_GUINT8 (q->data + 10);
-	switch (data1) {
-	case 0:
 		fd->underline = MS_BIFF_F_U_NONE;
-		break;
-	case 1:
-		fd->underline = MS_BIFF_F_U_SINGLE;
-		break;
-	case 2:
-		fd->underline = MS_BIFF_F_U_DOUBLE;
-		break;
-	case 0x21:
-		fd->underline = MS_BIFF_F_U_SINGLE_ACC;
-		break;
-	case 0x22:
-		fd->underline = MS_BIFF_F_U_DOUBLE_ACC;
-		break;
-	}
-	fd->fontname = biff_get_text (q->data + 15,
+		fd->fontname = biff_get_text (q->data + 5,
+				      GSF_LE_GET_GUINT8 (q->data + 4), NULL);
+	} else if (ewb->container.ver <= MS_BIFF_V4) /* Guess */ {
+		fd->color_idx  = GSF_LE_GET_GUINT16 (q->data + 4);
+		fd->color_idx &= 0x7f; /* Undocumented but a good idea */
+		fd->boldness = 0;
+		fd->script = MS_BIFF_F_S_NONE;
+		fd->underline = MS_BIFF_F_U_NONE;
+		fd->fontname = biff_get_text (q->data + 7,
+				      GSF_LE_GET_GUINT8 (q->data + 6), NULL);
+	} else {
+		fd->color_idx  = GSF_LE_GET_GUINT16 (q->data + 4);
+		fd->color_idx &= 0x7f; /* Undocumented but a good idea */
+		fd->boldness   = GSF_LE_GET_GUINT16 (q->data + 6);
+		data = GSF_LE_GET_GUINT16 (q->data + 8);
+		switch (data) {
+		case 0:
+			fd->script = MS_BIFF_F_S_NONE;
+			break;
+		case 1:
+			fd->script = MS_BIFF_F_S_SUPER;
+			break;
+		case 2:
+			fd->script = MS_BIFF_F_S_SUB;
+			break;
+		default:
+			fprintf (stderr,"Unknown script %d\n", data);
+			break;
+		}
+	
+		data1 = GSF_LE_GET_GUINT8 (q->data + 10);
+		switch (data1) {
+		case 0:
+			fd->underline = MS_BIFF_F_U_NONE;
+			break;
+		case 1:
+			fd->underline = MS_BIFF_F_U_SINGLE;
+			break;
+		case 2:
+			fd->underline = MS_BIFF_F_U_DOUBLE;
+			break;
+		case 0x21:
+			fd->underline = MS_BIFF_F_U_SINGLE_ACC;
+			break;
+		case 0x22:
+			fd->underline = MS_BIFF_F_U_DOUBLE_ACC;
+			break;
+		}
+		fd->fontname = biff_get_text (q->data + 15,
 				      GSF_LE_GET_GUINT8 (q->data + 14), NULL);
+	}
 
 	d (1, fprintf (stderr,"Insert font '%s' size %d pts color %d\n",
 		      fd->fontname, fd->height / 20, fd->color_idx););
 	d (3, fprintf (stderr,"Font color = 0x%x\n", fd->color_idx););
 
         fd->index = g_hash_table_size (ewb->font_data);
-	if (fd->index >= 4) /* Wierd: for backwards compatibility */
+	if (fd->index >= 4) /* Weird: for backwards compatibility */
 		fd->index++;
 	g_hash_table_insert (ewb->font_data, &fd->index, fd);
 }
@@ -2075,7 +2096,7 @@ excel_read_FORMULA (BiffQuery *q, ExcelSheet *esheet)
 	guint16 const row      = EX_GETROW (q);
 	guint16 const options  = GSF_LE_GET_GUINT16 (q->data + 14);
 	guint16 expr_length;
-	guint offset;
+	guint offset, val_offset;
 	GnmExpr const *expr;
 	Cell	 *cell;
 	Value	 *val = NULL;
@@ -2094,13 +2115,13 @@ excel_read_FORMULA (BiffQuery *q, ExcelSheet *esheet)
 	 */
 	if (esheet->container.ver >= MS_BIFF_V5) {
 		expr_length = GSF_LE_GET_GUINT16 (q->data + 20);
-		offset = 22;
+		offset = 22; val_offset = 6;
 	} else if (esheet->container.ver >= MS_BIFF_V3) {
 		expr_length = GSF_LE_GET_GUINT16 (q->data + 16);
-		offset = 18;
+		offset = 18; val_offset = 6;
 	} else {
 		expr_length = GSF_LE_GET_GUINT8 (q->data + 16);
-		offset = 17;
+		offset = 17; val_offset = 7;
 	}
 
 	if (q->length < offset) {
@@ -2124,23 +2145,23 @@ excel_read_FORMULA (BiffQuery *q, ExcelSheet *esheet)
 	 * record
 	 */
 	if (GSF_LE_GET_GUINT16 (q->data + 12) != 0xffff) {
-		double const num = gsf_le_get_double (q->data + 6);
+		double const num = gsf_le_get_double (q->data + val_offset);
 		val = value_new_float (num);
 	} else {
-		guint8 const val_type = GSF_LE_GET_GUINT8 (q->data + 6);
+		guint8 const val_type = GSF_LE_GET_GUINT8 (q->data + val_offset);
 		switch (val_type) {
 		case 0: /* String */
 			is_string = TRUE;
 			break;
 
 		case 1: { /* Boolean */
-			guint8 v = GSF_LE_GET_GUINT8 (q->data + 8);
+			guint8 v = GSF_LE_GET_GUINT8 (q->data + val_offset + 2);
 			val = value_new_bool (v ? TRUE : FALSE);
 			break;
 		}
 
 		case 2: { /* Error */
-			guint8 const v = GSF_LE_GET_GUINT8 (q->data + 8);
+			guint8 const v = GSF_LE_GET_GUINT8 (q->data + val_offset + 2);
 			char const *err_str = biff_get_error_text (v);
 			val = value_new_error (NULL, err_str);
 			break;
@@ -3586,6 +3607,11 @@ excel_read_WINDOW2 (BiffQuery *q, ExcelSheet *esheet, WorkbookView *wb_view)
 {
 	SheetView *sv = sheet_get_view (esheet->sheet, esheet->container.ewb->wbv);
 
+	if (esheet->container.ver == MS_BIFF_V2) {
+		g_warning("TODO: Decipher Biff2 WINDOW2");
+		gsf_mem_dump (q->data, q->length);
+		return;
+	}
 	if (q->length >= 10) {
 		guint16 const options    = GSF_LE_GET_GUINT16 (q->data + 0);
 		/* coords are 0 based */
@@ -4441,10 +4467,22 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 			break;
 		}
 
+		case BIFF_INTEGER: { /* Extinct in modern Excel */
+			Value *v = value_new_int (GSF_LE_GET_GUINT16 (q->data + 7));
+			excel_sheet_insert_val (esheet, EX_GETXF (q), EX_GETCOL (q),
+						   EX_GETROW (q), v);
+			break;
+		}
+
 		case BIFF_NUMBER: { /* S59DAC.HTM */
-			Value *v = value_new_float (gsf_le_get_double (q->data + 6));
+			Value *v;
+			if (esheet->container.ver == MS_BIFF_V2) {
+				v = value_new_float (gsf_le_get_double (q->data + 7));
+			} else {
+				v = value_new_float (gsf_le_get_double (q->data + 6));
+			}
 			d (2, fprintf (stderr,"Read number %g\n",
-				      gsf_le_get_double (q->data + 6)););
+				      value_get_as_float (v)););
 
 			excel_sheet_insert_val (esheet, EX_GETXF (q), EX_GETCOL (q),
 						   EX_GETROW (q), v);
@@ -4453,8 +4491,12 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 
 		case BIFF_LABEL: { /* See: S59D9D.HTM */
 			char *label;
-			excel_sheet_insert (esheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q),
-				(label = biff_get_text (q->data + 8, EX_GETSTRLEN (q), NULL)));
+			if (esheet->container.ver == MS_BIFF_V2) {
+				label = biff_get_text (q->data + 8, GSF_LE_GET_GUINT8 (q->data + 7), NULL);
+			} else {
+				label = biff_get_text (q->data + 8, EX_GETSTRLEN (q), NULL);
+			}
+			excel_sheet_insert (esheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), label);
 			g_free (label);
 			break;
 		}
@@ -4687,6 +4729,7 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 
 		/* Found in worksheet only in XLS <= BIFF 4 */
 		case BIFF_XF_OLD:	excel_workbook_add_XF (ewb);	break;
+		case BIFF_NAME:		excel_read_NAME (q, ewb);	break;
 		case BIFF_FONT:		excel_read_FONT (q, ewb);	break;
 		case BIFF_FORMAT:	excel_read_FORMAT (q, ewb);	break;
 		case BIFF_1904:		excel_read_1904 (q, ewb);	break;
@@ -4870,7 +4913,7 @@ excel_read_BOF (BiffQuery	 *q,
 		BiffBoundsheetData *bsh =
 			g_hash_table_lookup (ewb->boundsheet_data_by_stream,
 					     &q->streamPos);
-		if (bsh) {
+		if (bsh  || ver->version == MS_BIFF_V4) {
 			ExcelSheet *esheet = excel_workbook_get_sheet (ewb, *current_sheet);
 			esheet->container.ver = ver->version;
 			excel_read_sheet (q, ewb, wb_view, esheet);
@@ -4902,6 +4945,11 @@ excel_read_BOF (BiffQuery	 *q,
 		    ;
 		if (q->opcode != BIFF_EOF)
 			g_warning ("EXCEL: file format error.  Missing BIFF_EOF");
+	} else if (ver->type == MS_BIFF_TYPE_Workspace) {
+		/* Multiple sheets, XLW format from Excel 4.0 */
+		ewb = excel_workbook_new (ver->version, context, wb_view);
+		ewb->gnum_wb = wb_view_workbook (wb_view);
+		excel_workbook_add_XF (ewb);
 	} else
 		fprintf (stderr,"Unknown BOF (%x)\n", ver->type);
 
