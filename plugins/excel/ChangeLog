@@ -1,3 +1,9 @@
+1999-03-07  Michael Meeks  <michael@imaginator.com>
+
+	* ms-excel.c: Changed to use cell_set_text_simple to save
+	many redundant re-draws: big speedup.
+	hacked up a set_row_height call
+
 1999-03-05  Michael Meeks <michael@imaginator.com>
 
 	* ms-ole.c: Variously made debug conditional on OLE_DEBUG

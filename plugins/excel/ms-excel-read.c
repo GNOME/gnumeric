@@ -1031,10 +1031,10 @@ ms_excel_sheet_insert (MS_EXCEL_SHEET * sheet, int xfidx, int col, int row, char
 	if (text)
 	{
 		sheet->blank = 0 ;
-		cell_set_text (cell, text);
+		cell_set_text_simple (cell, text);
 	}
 	else
-		cell_set_text (cell, "") ;
+		cell_set_text_simple (cell, "") ;
 	ms_excel_set_cell_xf (sheet, cell, xfidx);
 }
 
@@ -1325,6 +1325,10 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 			ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), buf);
 			break;
 		}
+	case BIFF_COLINFO: /* FIXME: See: S59D67.HTM */
+	{
+		break ;
+	}
 	case BIFF_RK:		/*
 				 * FIXME: S59DDA.HTM - test IEEE stuff on other endian platforms 
 				 */
@@ -1369,13 +1373,14 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		g_free (label) ;
 		break;
 	}
-	case BIFF_ROW:		/*
-				 * FIXME 
-				 */
-		/*
-		 * printf ("Row %d formatting\n", EX_GETROW(q)); 
-		 */
+	case BIFF_ROW: /* FIXME: See: S59DDB.HTM */
+	{
+		guint16 height = BIFF_GETWORD(q->data+6) ;
+		printf ("Row %d formatting 0x%x\n", BIFF_GETWORD(q->data), height); 
+		if ((height&0x8000) == 0) /* Fudge Factor */
+			sheet_row_set_height (sheet->gnum_sheet, BIFF_GETWORD(q->data), BIFF_GETWORD(q->data+6)/10, TRUE) ;
 		break;
+	}
 	case BIFF_ARRAY:	/*
 				 * FIXME: S59D57.HTM 
 				 */

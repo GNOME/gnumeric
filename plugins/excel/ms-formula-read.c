@@ -749,7 +749,7 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 				cell = sheet_cell_fetch (sheet->gnum_sheet, EX_GETCOL(q), EX_GETROW(q)) ;
 				/* FIXME: this _should_ be a set_formula with the formula, and a
 				   set_text_simple with the current value */
-				cell_set_text (cell, ans) ;
+				cell_set_text_simple (cell, ans) ;
 				ms_excel_set_cell_xf (sheet, cell, EX_GETXF(q)) ;
 			}
 		g_free (ans) ;
